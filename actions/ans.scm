@@ -5,936 +5,758 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;Abstract Note System for Denemo;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;Abstract Note System for Denemo Version 3;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;by Nils Gey;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; It makes it easy to calculate with notation while keeping in mind that
+; ANS makes it easy to calculate with notation while keeping in mind that
 ; there are basic note ("The White Keys") as well as sharp or flat notes
-; and finally enharmonic notes (gisis) .
-; Each note is represented by a number on base35 which points to an
+; and finally enharmonic notes (gisis) and all have to respect the key-
+; signature or they are considered "alterated".
+; Each note is represented by a number on which points to an
 ; absolute notename in Lilypond syntax This is especially desinged to 
 ; make diatonic shifting, real transpostion and other modifications more
 ; easy for script-authors. 
 ; System by Nils Gey 2010 (thanks to Till Hartmann for table generation)
 
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;Converter from Decimal to Base35;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;by Nils Gey;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;(ANS::basex->dec "num-string" radix) and (ANS::dec->basex num radix);;
-;;;;;;;;;;;;;;;;;;;;;;;;;Various Math Functions;;;;;;;;;;;;;;;;;;;;;;;;;
-; Important: All these work with strings because there is no native
-; number base35 (or even base7 or base5) system in Scheme.
-
-; Converts a single char to a number. Either its real number equivalent
-; or according to the table from A=10 to Z=35. There is no check if you
-; insert a "2" into binary or something else out of range. 
-(define (ANS::char->number ichar) 
-	(if (string->number (string ichar)) ; funny construction. first test if the current ichar can be converted to a number which means its actually the char/string version of a number 0-9 , so it can be converted for real. 
-		(string->number (string ichar))
-		(cond ; if not cond through the ichar if its A-Z or invalid. 
-			((eq? ichar #\a) 10)
-			((eq? ichar #\b) 11)
-			((eq? ichar #\c) 12)
-			((eq? ichar #\d) 13)
-			((eq? ichar #\e) 14)
-			((eq? ichar #\f) 15)
-			((eq? ichar #\g) 16)
-			((eq? ichar #\h) 17)
-			((eq? ichar #\i) 18)
-			((eq? ichar #\j) 19)
-			((eq? ichar #\k) 20)
-			((eq? ichar #\l) 21)
-			((eq? ichar #\m) 22)
-			((eq? ichar #\n) 23)
-			((eq? ichar #\o) 24)
-			((eq? ichar #\p) 25)
-			((eq? ichar #\q) 26)
-			((eq? ichar #\r) 27)
-			((eq? ichar #\s) 28)
-			((eq? ichar #\t) 29)
-			((eq? ichar #\u) 30)
-			((eq? ichar #\v) 31)
-			((eq? ichar #\w) 32)
-			((eq? ichar #\x) 33)
-			((eq? ichar #\y) 34)
-			((eq? ichar #\z) 35)
-			(else "Error: Radix not supported or wrong input")
-		)		 
-	) 
-)
-
-;(basex->dec) converts any number with radix up to 35 to decimal with the following algorhythm. It takes the digits from left to right and iterates with *8 (for octal) +nextdigit
-(define (ANS::basex->dec istring radix) ; needs a string-number and a real number as radix
-	;oct243 -> dec
-	;0 * 8 = 0
-	;+ 2  =  2
-	;
-	;2 * 8 = 16
-	;16 + 4 = 20
-	;
-	;20 * 8 = 160
-	;160 + 3 = 163
-
- (define length 0)
- (define (*x+d returnn nextdigit)  ; helper function to do the math: first multiply the current sum with baseX then add the next digit.
-	(+ nextdigit (* returnn radix)))
- 
- (cond 
- 	((equal? istring "+inf.0") +inf.0) ; special numbers +inf.0 and -inf.0
-	((equal? istring "-inf.0") -inf.0)
-	(else (begin
-		(set! length (- (string-length istring) 1)) ; because string-ref (see below) counts from 0 we need counter to count from 0, too. but string-length counts from 1 so we need to reduce length to match the counter.
-		(let loop ((counter 0) (returnn 0))
-			(if (> counter length)
-				returnn 
-				(loop 
-					(+ counter 1) 
- 					(*x+d returnn (ANS::char->number (char-downcase (string-ref istring counter)))) ; get the digits from left to right with a counter and string-ref which returns a char, make sure the char is downcase.
-		)))))))
-
-;; ANS::remainder is a remainder variant that outputs a string instead of number and can also handle A-Z as numbers for radix > 10, which means if you do 32 / 11 it will return remainder A
-(define (ANS::remainder number radix)
-	(case (remainder number radix) ; if the radix is > 10 (and < 35)  we need to convert the returned string into a letter from A to Z.
-			((0) "0")
-			((1) "1")
-			((2) "2")
-			((3) "3")
-			((4) "4")
-			((5) "5")
-			((6) "6")
-			((7) "7")	
-			((8) "8")
-			((9) "9")
-			((10) "a")
-			((11) "b")
-			((12) "c")
-			((13) "d")
-			((14) "e")			
-			((15) "f")
-			((16) "g")
-			((17) "h")
-			((18) "i")
-			((19) "j")
-			((20) "k")
-			((21) "l")
-			((22) "m")
-			((23) "n")
-			((24) "o")
-			((25) "p")
-			((26) "q")
-			((27) "r")
-			((28) "s")
-			((29) "t")
-			((30) "u")
-			((31) "v")
-			((32) "w")
-			((33) "x")
-			((34) "y")
-			((35) "z")
-			(else #f)
-			;(else "tamrof tupni dab ro detroppus ton xidar :rorre") ; only 0-9 and A-Z. The error message is reversed because it will get reversed later, too.
-	)		
-)
-
-(define (ANS::dec->basex inumber radix) ; Wants a real number and the radix as number.
-	; This algorythm is used. dec358 -> base11: 
-	; 358 / 11 = 32 rest 6 
-	; 32 / 11 = 2 rest 10->A
-	; 2 / 11 = 0 rest 2
-	; => 2A6
-
-	(cond 
- 	((equal? inumber +inf.0) "+inf.0") ; special numbers +inf.0 and -inf.0
-	((equal? inumber -inf.0) "-inf.0")
-	(else (begin
-	(let loop ((returnstring "") (worknumber inumber))
-		
-		(if (= (quotient worknumber radix) 0)
-			(string-reverse (string-append returnstring (ANS::remainder worknumber radix))) ; if 0 the goal is reached, just add the final missing remainder and reverse the string-order as return-value (see algorhythm above)
-			(loop 
-				(string-append returnstring (ANS::remainder worknumber radix)) ; parameter 1
-				(quotient worknumber radix)	; parameter 2
-			)))))))
-
-; For calculations convert all base 35 to decimal first and before returning return them back to base35.
-(define (ANS::to35 n) ;n is a number base10
-	(ANS::dec->basex n 35))
-
-(define (ANS::to10 n) ; n is a string which represents a number base35
-	(ANS::basex->dec n 35))
-
-(define (ANS::math op nums) ;wants a list of strings
-	(ANS::to35 (apply op (map ANS::to10 nums))))
-
-
-(define (ANS::compare op one two) ;wants two strings
-  (op (ANS::to10 one) (ANS::to10 two)))
-
-(define (ANS::+ . nums )  (ANS::math + nums))
-(define (ANS::- . nums )  (ANS::math - nums))
-(define (ANS::* . nums )  (ANS::math * nums))
-(define (ANS::/ . nums )  (ANS::math / nums))
-(define (ANS::> one two)  (ANS::compare > one two))
-(define (ANS::< one two)  (ANS::compare < one two))
-(define (ANS::>= one two)  (ANS::compare >= one two))
-(define (ANS::<= one two)  (ANS::compare <= one two))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;Beginning of Abstract Note System;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;Beginning of Abstract Note System Version 3;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;by Nils Gey;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;020 - A tone humans cannot hear anymore.
-;420 - "Middle" c'
-;620 - Soprano-Singers high C
-;820 - Goes beyond the range of a modern piano
+;0 - A tone humans cannot hear anymore.
+;1420 - "Middle" c'
+;2130 - Soprano-Singers high C
+;3150 - Goes beyond the range of a modern piano
 ;+inf.0 - A rest
 
+;<10 is reserved for microtones, in the future.
 ;+10 One accidental up jumps over to the next note after cisis 
 ;+50 One diatonic step, preserve accidentals
-;+100 One Octave
+;+350 One Octave
 
-(define ANS::NoteTable (make-hash-table 316))
-
-(hashq-set! ANS::NoteTable (string->symbol "00") "ceses,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "10") "ces,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "20") "c,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "30") "cis,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "40") "cisis,,,")
-(hashq-set! ANS::NoteTable (string->symbol "50") "deses,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "60") "des,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "70") "d,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "80") "dis,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "90") "disis,,,")
-(hashq-set! ANS::NoteTable (string->symbol "a0") "eeses,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "b0") "ees,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "c0") "e,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "d0") "eis,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "e0") "eisis,,,")
-(hashq-set! ANS::NoteTable (string->symbol "f0") "feses,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "g0") "fes,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "h0") "f,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "i0") "fis,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "j0") "fisis,,,")
-(hashq-set! ANS::NoteTable (string->symbol "k0") "geses,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "l0") "ges,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "m0") "g,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "n0") "gis,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "o0") "gisis,,,")
-(hashq-set! ANS::NoteTable (string->symbol "p0") "aeses,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "q0") "aes,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "r0") "a,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "s0") "ais,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "t0") "aisis,,,")
-(hashq-set! ANS::NoteTable (string->symbol "u0") "beses,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "v0") "bes,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "w0") "b,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "x0") "bis,,,")
-	(hashq-set! ANS::NoteTable (string->symbol "y0") "bisis,,,")
-
-
-(hashq-set! ANS::NoteTable (string->symbol "100") "ceses,,")
-	(hashq-set! ANS::NoteTable (string->symbol "110") "ces,,")
-	(hashq-set! ANS::NoteTable (string->symbol "120") "c,,")
-	(hashq-set! ANS::NoteTable (string->symbol "130") "cis,,")
-	(hashq-set! ANS::NoteTable (string->symbol "140") "cisis,,")
-(hashq-set! ANS::NoteTable (string->symbol "150") "deses,,")
-	(hashq-set! ANS::NoteTable (string->symbol "160") "des,,")
-	(hashq-set! ANS::NoteTable (string->symbol "170") "d,,")
-	(hashq-set! ANS::NoteTable (string->symbol "180") "dis,,")
-	(hashq-set! ANS::NoteTable (string->symbol "190") "disis,,")
-(hashq-set! ANS::NoteTable (string->symbol "1a0") "eeses,,")
-	(hashq-set! ANS::NoteTable (string->symbol "1b0") "ees,,")
-	(hashq-set! ANS::NoteTable (string->symbol "1c0") "e,,")
-	(hashq-set! ANS::NoteTable (string->symbol "1d0") "eis,,")
-	(hashq-set! ANS::NoteTable (string->symbol "1e0") "eisis,,")
-(hashq-set! ANS::NoteTable (string->symbol "1f0") "feses,,")
-	(hashq-set! ANS::NoteTable (string->symbol "1g0") "fes,,")
-	(hashq-set! ANS::NoteTable (string->symbol "1h0") "f,,")
-	(hashq-set! ANS::NoteTable (string->symbol "1i0") "fis,,")
-	(hashq-set! ANS::NoteTable (string->symbol "1j0") "fisis,,")
-(hashq-set! ANS::NoteTable (string->symbol "1k0") "geses,,")
-	(hashq-set! ANS::NoteTable (string->symbol "1l0") "ges,,")
-	(hashq-set! ANS::NoteTable (string->symbol "1m0") "g,,")
-	(hashq-set! ANS::NoteTable (string->symbol "1n0") "gis,,")
-	(hashq-set! ANS::NoteTable (string->symbol "1o0") "gisis,,")
-(hashq-set! ANS::NoteTable (string->symbol "1p0") "aeses,,")
-	(hashq-set! ANS::NoteTable (string->symbol "1q0") "aes,,")
-	(hashq-set! ANS::NoteTable (string->symbol "1r0") "a,,")
-	(hashq-set! ANS::NoteTable (string->symbol "1s0") "ais,,")
-	(hashq-set! ANS::NoteTable (string->symbol "1t0") "aisis,,")
-(hashq-set! ANS::NoteTable (string->symbol "1u0") "beses,,")
-	(hashq-set! ANS::NoteTable (string->symbol "1v0") "bes,,")
-	(hashq-set! ANS::NoteTable (string->symbol "1w0") "b,,")
-	(hashq-set! ANS::NoteTable (string->symbol "1x0") "bis,,")
-	(hashq-set! ANS::NoteTable (string->symbol "1y0") "bisis,,")
-	
-(hashq-set! ANS::NoteTable (string->symbol "200") "ceses,")
-	(hashq-set! ANS::NoteTable (string->symbol "210") "ces,")
-	(hashq-set! ANS::NoteTable (string->symbol "220") "c,")
-	(hashq-set! ANS::NoteTable (string->symbol "230") "cis,")
-	(hashq-set! ANS::NoteTable (string->symbol "240") "cisis,")
-(hashq-set! ANS::NoteTable (string->symbol "250") "deses,")
-	(hashq-set! ANS::NoteTable (string->symbol "260") "des,")
-	(hashq-set! ANS::NoteTable (string->symbol "270") "d,")
-	(hashq-set! ANS::NoteTable (string->symbol "280") "dis,")
-	(hashq-set! ANS::NoteTable (string->symbol "290") "disis,")
-(hashq-set! ANS::NoteTable (string->symbol "2a0") "eeses,")
-	(hashq-set! ANS::NoteTable (string->symbol "2b0") "ees,")
-	(hashq-set! ANS::NoteTable (string->symbol "2c0") "e,")
-	(hashq-set! ANS::NoteTable (string->symbol "2d0") "eis,")
-	(hashq-set! ANS::NoteTable (string->symbol "2e0") "eisis,")
-(hashq-set! ANS::NoteTable (string->symbol "2f0") "feses,")
-	(hashq-set! ANS::NoteTable (string->symbol "2g0") "fes,")
-	(hashq-set! ANS::NoteTable (string->symbol "2h0") "f,")
-	(hashq-set! ANS::NoteTable (string->symbol "2i0") "fis,")
-	(hashq-set! ANS::NoteTable (string->symbol "2j0") "fisis,")
-(hashq-set! ANS::NoteTable (string->symbol "2k0") "geses,")
-	(hashq-set! ANS::NoteTable (string->symbol "2l0") "ges,")
-	(hashq-set! ANS::NoteTable (string->symbol "2m0") "g,")
-	(hashq-set! ANS::NoteTable (string->symbol "2n0") "gis,")
-	(hashq-set! ANS::NoteTable (string->symbol "2o0") "gisis,")
-(hashq-set! ANS::NoteTable (string->symbol "2p0") "aeses,")
-	(hashq-set! ANS::NoteTable (string->symbol "2q0") "aes,")
-	(hashq-set! ANS::NoteTable (string->symbol "2r0") "a,")
-	(hashq-set! ANS::NoteTable (string->symbol "2s0") "ais,")
-	(hashq-set! ANS::NoteTable (string->symbol "2t0") "aisis,")
-(hashq-set! ANS::NoteTable (string->symbol "2u0") "beses,")
-	(hashq-set! ANS::NoteTable (string->symbol "2v0") "bes,")
-	(hashq-set! ANS::NoteTable (string->symbol "2w0") "b,")
-	(hashq-set! ANS::NoteTable (string->symbol "2x0") "bis,")
-	(hashq-set! ANS::NoteTable (string->symbol "2y0") "bisis,")
-
-(hashq-set! ANS::NoteTable (string->symbol "300") "ceses")
-	(hashq-set! ANS::NoteTable (string->symbol "310") "ces")
-	(hashq-set! ANS::NoteTable (string->symbol "320") "c")
-	(hashq-set! ANS::NoteTable (string->symbol "330") "cis")
-	(hashq-set! ANS::NoteTable (string->symbol "340") "cisis")
-(hashq-set! ANS::NoteTable (string->symbol "350") "deses")
-	(hashq-set! ANS::NoteTable (string->symbol "360") "des")
-	(hashq-set! ANS::NoteTable (string->symbol "370") "d")
-	(hashq-set! ANS::NoteTable (string->symbol "380") "dis")
-	(hashq-set! ANS::NoteTable (string->symbol "390") "disis")
-(hashq-set! ANS::NoteTable (string->symbol "3a0") "eeses")
-	(hashq-set! ANS::NoteTable (string->symbol "3b0") "ees")
-	(hashq-set! ANS::NoteTable (string->symbol "3c0") "e")
-	(hashq-set! ANS::NoteTable (string->symbol "3d0") "eis")
-	(hashq-set! ANS::NoteTable (string->symbol "3e0") "eisis")
-(hashq-set! ANS::NoteTable (string->symbol "3f0") "feses")
-	(hashq-set! ANS::NoteTable (string->symbol "3g0") "fes")
-	(hashq-set! ANS::NoteTable (string->symbol "3h0") "f")
-	(hashq-set! ANS::NoteTable (string->symbol "3i0") "fis")
-	(hashq-set! ANS::NoteTable (string->symbol "3j0") "fisis")
-(hashq-set! ANS::NoteTable (string->symbol "3k0") "geses")
-	(hashq-set! ANS::NoteTable (string->symbol "3l0") "ges")
-	(hashq-set! ANS::NoteTable (string->symbol "3m0") "g")
-	(hashq-set! ANS::NoteTable (string->symbol "3n0") "gis")
-	(hashq-set! ANS::NoteTable (string->symbol "3o0") "gisis")
-(hashq-set! ANS::NoteTable (string->symbol "3p0") "aeses")
-	(hashq-set! ANS::NoteTable (string->symbol "3q0") "aes")
-	(hashq-set! ANS::NoteTable (string->symbol "3r0") "a")
-	(hashq-set! ANS::NoteTable (string->symbol "3s0") "ais")
-	(hashq-set! ANS::NoteTable (string->symbol "3t0") "aisis")
-(hashq-set! ANS::NoteTable (string->symbol "3u0") "beses")
-	(hashq-set! ANS::NoteTable (string->symbol "3v0") "bes")
-	(hashq-set! ANS::NoteTable (string->symbol "3w0") "b")
-	(hashq-set! ANS::NoteTable (string->symbol "3x0") "bis")
-	(hashq-set! ANS::NoteTable (string->symbol "3y0") "bisis")
-	
-(hashq-set! ANS::NoteTable (string->symbol "400") "ceses'")
-	(hashq-set! ANS::NoteTable (string->symbol "410") "ces'")
-	(hashq-set! ANS::NoteTable (string->symbol "420") "c'")
-	(hashq-set! ANS::NoteTable (string->symbol "430") "cis'")
-	(hashq-set! ANS::NoteTable (string->symbol "440") "cisis'")
-(hashq-set! ANS::NoteTable (string->symbol "450") "deses'")
-	(hashq-set! ANS::NoteTable (string->symbol "460") "des'")
-	(hashq-set! ANS::NoteTable (string->symbol "470") "d'")
-	(hashq-set! ANS::NoteTable (string->symbol "480") "dis'")
-	(hashq-set! ANS::NoteTable (string->symbol "490") "disis'")
-(hashq-set! ANS::NoteTable (string->symbol "4a0") "eeses'")
-	(hashq-set! ANS::NoteTable (string->symbol "4b0") "ees'")
-	(hashq-set! ANS::NoteTable (string->symbol "4c0") "e'")
-	(hashq-set! ANS::NoteTable (string->symbol "4d0") "eis'")
-	(hashq-set! ANS::NoteTable (string->symbol "4e0") "eisis'")
-(hashq-set! ANS::NoteTable (string->symbol "4f0") "feses'")
-	(hashq-set! ANS::NoteTable (string->symbol "4g0") "fes'")
-	(hashq-set! ANS::NoteTable (string->symbol "4h0") "f'")
-	(hashq-set! ANS::NoteTable (string->symbol "4i0") "fis'")
-	(hashq-set! ANS::NoteTable (string->symbol "4j0") "fisis'")
-(hashq-set! ANS::NoteTable (string->symbol "4k0") "geses'")
-	(hashq-set! ANS::NoteTable (string->symbol "4l0") "ges'")
-	(hashq-set! ANS::NoteTable (string->symbol "4m0") "g'")
-	(hashq-set! ANS::NoteTable (string->symbol "4n0") "gis'")
-	(hashq-set! ANS::NoteTable (string->symbol "4o0") "gisis'")
-(hashq-set! ANS::NoteTable (string->symbol "4p0") "aeses'")
-	(hashq-set! ANS::NoteTable (string->symbol "4q0") "aes'")
-	(hashq-set! ANS::NoteTable (string->symbol "4r0") "a'")
-	(hashq-set! ANS::NoteTable (string->symbol "4s0") "ais'")
-	(hashq-set! ANS::NoteTable (string->symbol "4t0") "aisis'")
-(hashq-set! ANS::NoteTable (string->symbol "4u0") "beses'")
-	(hashq-set! ANS::NoteTable (string->symbol "4v0") "bes'")
-	(hashq-set! ANS::NoteTable (string->symbol "4w0") "b'")
-	(hashq-set! ANS::NoteTable (string->symbol "4x0") "bis'")
-	(hashq-set! ANS::NoteTable (string->symbol "4y0") "bisis'")
-	
-(hashq-set! ANS::NoteTable (string->symbol "500") "ceses''")
-	(hashq-set! ANS::NoteTable (string->symbol "510") "ces''")
-	(hashq-set! ANS::NoteTable (string->symbol "520") "c''")
-	(hashq-set! ANS::NoteTable (string->symbol "530") "cis''")
-	(hashq-set! ANS::NoteTable (string->symbol "540") "cisis''")
-(hashq-set! ANS::NoteTable (string->symbol "550") "deses''")
-	(hashq-set! ANS::NoteTable (string->symbol "560") "des''")
-	(hashq-set! ANS::NoteTable (string->symbol "570") "d''")
-	(hashq-set! ANS::NoteTable (string->symbol "580") "dis''")
-	(hashq-set! ANS::NoteTable (string->symbol "590") "disis''")
-(hashq-set! ANS::NoteTable (string->symbol "5a0") "eeses''")
-	(hashq-set! ANS::NoteTable (string->symbol "5b0") "ees''")
-	(hashq-set! ANS::NoteTable (string->symbol "5c0") "e''")
-	(hashq-set! ANS::NoteTable (string->symbol "5d0") "eis''")
-	(hashq-set! ANS::NoteTable (string->symbol "5e0") "eisis''")
-(hashq-set! ANS::NoteTable (string->symbol "5f0") "feses''")
-	(hashq-set! ANS::NoteTable (string->symbol "5g0") "fes''")
-	(hashq-set! ANS::NoteTable (string->symbol "5h0") "f''")
-	(hashq-set! ANS::NoteTable (string->symbol "5i0") "fis''")
-	(hashq-set! ANS::NoteTable (string->symbol "5j0") "fisis''")
-(hashq-set! ANS::NoteTable (string->symbol "5k0") "geses''")
-	(hashq-set! ANS::NoteTable (string->symbol "5l0") "ges''")
-	(hashq-set! ANS::NoteTable (string->symbol "5m0") "g''")
-	(hashq-set! ANS::NoteTable (string->symbol "5n0") "gis''")
-	(hashq-set! ANS::NoteTable (string->symbol "5o0") "gisis''")
-(hashq-set! ANS::NoteTable (string->symbol "5p0") "aeses''")
-	(hashq-set! ANS::NoteTable (string->symbol "5q0") "aes''")
-	(hashq-set! ANS::NoteTable (string->symbol "5r0") "a''")
-	(hashq-set! ANS::NoteTable (string->symbol "5s0") "ais''")
-	(hashq-set! ANS::NoteTable (string->symbol "5t0") "aisis''")
-(hashq-set! ANS::NoteTable (string->symbol "5u0") "beses''")
-	(hashq-set! ANS::NoteTable (string->symbol "5v0") "bes''")
-	(hashq-set! ANS::NoteTable (string->symbol "5w0") "b''")
-	(hashq-set! ANS::NoteTable (string->symbol "5x0") "bis''")
-	(hashq-set! ANS::NoteTable (string->symbol "5y0") "bisis''")	
-	
-(hashq-set! ANS::NoteTable (string->symbol "600") "ceses'''")
-	(hashq-set! ANS::NoteTable (string->symbol "610") "ces'''")
-	(hashq-set! ANS::NoteTable (string->symbol "620") "c'''")
-	(hashq-set! ANS::NoteTable (string->symbol "630") "cis'''")
-	(hashq-set! ANS::NoteTable (string->symbol "640") "cisis'''")
-(hashq-set! ANS::NoteTable (string->symbol "650") "deses'''")
-	(hashq-set! ANS::NoteTable (string->symbol "660") "des'''")
-	(hashq-set! ANS::NoteTable (string->symbol "670") "d'''")
-	(hashq-set! ANS::NoteTable (string->symbol "680") "dis'''")
-	(hashq-set! ANS::NoteTable (string->symbol "690") "disis'''")
-(hashq-set! ANS::NoteTable (string->symbol "6a0") "eeses'''")
-	(hashq-set! ANS::NoteTable (string->symbol "6b0") "ees'''")
-	(hashq-set! ANS::NoteTable (string->symbol "6c0") "e'''")
-	(hashq-set! ANS::NoteTable (string->symbol "6d0") "eis'''")
-	(hashq-set! ANS::NoteTable (string->symbol "6e0") "eisis'''")
-(hashq-set! ANS::NoteTable (string->symbol "6f0") "feses'''")
-	(hashq-set! ANS::NoteTable (string->symbol "6g0") "fes'''")
-	(hashq-set! ANS::NoteTable (string->symbol "6h0") "f'''")
-	(hashq-set! ANS::NoteTable (string->symbol "6i0") "fis'''")
-	(hashq-set! ANS::NoteTable (string->symbol "6j0") "fisis'''")
-(hashq-set! ANS::NoteTable (string->symbol "6k0") "geses'''")
-	(hashq-set! ANS::NoteTable (string->symbol "6l0") "ges'''")
-	(hashq-set! ANS::NoteTable (string->symbol "6m0") "g'''")
-	(hashq-set! ANS::NoteTable (string->symbol "6n0") "gis'''")
-	(hashq-set! ANS::NoteTable (string->symbol "6o0") "gisis'''")
-(hashq-set! ANS::NoteTable (string->symbol "6p0") "aeses'''")
-	(hashq-set! ANS::NoteTable (string->symbol "6q0") "aes'''")
-	(hashq-set! ANS::NoteTable (string->symbol "6r0") "a'''")
-	(hashq-set! ANS::NoteTable (string->symbol "6s0") "ais'''")
-	(hashq-set! ANS::NoteTable (string->symbol "6t0") "aisis'''")
-(hashq-set! ANS::NoteTable (string->symbol "6u0") "beses'''")
-	(hashq-set! ANS::NoteTable (string->symbol "6v0") "bes'''")
-	(hashq-set! ANS::NoteTable (string->symbol "6w0") "b'''")
-	(hashq-set! ANS::NoteTable (string->symbol "6x0") "bis'''")
-	(hashq-set! ANS::NoteTable (string->symbol "6y0") "bisis'''")	
-
-(hashq-set! ANS::NoteTable (string->symbol "700") "ceses''''")
-	(hashq-set! ANS::NoteTable (string->symbol "710") "ces''''")
-	(hashq-set! ANS::NoteTable (string->symbol "720") "c''''")
-	(hashq-set! ANS::NoteTable (string->symbol "730") "cis''''")
-	(hashq-set! ANS::NoteTable (string->symbol "740") "cisis''''")
-(hashq-set! ANS::NoteTable (string->symbol "750") "deses''''")
-	(hashq-set! ANS::NoteTable (string->symbol "760") "des''''")
-	(hashq-set! ANS::NoteTable (string->symbol "770") "d''''")
-	(hashq-set! ANS::NoteTable (string->symbol "780") "dis''''")
-	(hashq-set! ANS::NoteTable (string->symbol "790") "disis''''")
-(hashq-set! ANS::NoteTable (string->symbol "7a0") "eeses''''")
-	(hashq-set! ANS::NoteTable (string->symbol "7b0") "ees''''")
-	(hashq-set! ANS::NoteTable (string->symbol "7c0") "e''''")
-	(hashq-set! ANS::NoteTable (string->symbol "7d0") "eis''''")
-	(hashq-set! ANS::NoteTable (string->symbol "7e0") "eisis''''")
-(hashq-set! ANS::NoteTable (string->symbol "7f0") "feses''''")
-	(hashq-set! ANS::NoteTable (string->symbol "7g0") "fes''''")
-	(hashq-set! ANS::NoteTable (string->symbol "7h0") "f''''")
-	(hashq-set! ANS::NoteTable (string->symbol "7i0") "fis''''")
-	(hashq-set! ANS::NoteTable (string->symbol "7j0") "fisis''''")
-(hashq-set! ANS::NoteTable (string->symbol "7k0") "geses''''")
-	(hashq-set! ANS::NoteTable (string->symbol "7l0") "ges''''")
-	(hashq-set! ANS::NoteTable (string->symbol "7m0") "g''''")
-	(hashq-set! ANS::NoteTable (string->symbol "7n0") "gis''''")
-	(hashq-set! ANS::NoteTable (string->symbol "7o0") "gisis''''")
-(hashq-set! ANS::NoteTable (string->symbol "7p0") "aeses''''")
-	(hashq-set! ANS::NoteTable (string->symbol "7q0") "aes''''")
-	(hashq-set! ANS::NoteTable (string->symbol "7r0") "a''''")
-	(hashq-set! ANS::NoteTable (string->symbol "7s0") "ais''''")
-	(hashq-set! ANS::NoteTable (string->symbol "7t0") "aisis''''")
-(hashq-set! ANS::NoteTable (string->symbol "7u0") "beses''''")
-	(hashq-set! ANS::NoteTable (string->symbol "7v0") "bes''''")
-	(hashq-set! ANS::NoteTable (string->symbol "7w0") "b''''")
-	(hashq-set! ANS::NoteTable (string->symbol "7x0") "bis''''")
-	(hashq-set! ANS::NoteTable (string->symbol "7y0") "bisis''''")	
-	
-(hashq-set! ANS::NoteTable (string->symbol "800") "ceses'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "810") "ces'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "820") "c'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "830") "cis'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "840") "cisis'''''")
-(hashq-set! ANS::NoteTable (string->symbol "850") "deses'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "860") "des'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "870") "d'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "880") "dis'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "890") "disis'''''")
-(hashq-set! ANS::NoteTable (string->symbol "8a0") "eeses'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "8b0") "ees'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "8c0") "e'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "8d0") "eis'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "8e0") "eisis'''''")
-(hashq-set! ANS::NoteTable (string->symbol "8f0") "feses'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "8g0") "fes'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "8h0") "f'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "8i0") "fis'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "8j0") "fisis'''''")
-(hashq-set! ANS::NoteTable (string->symbol "8k0") "geses'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "8l0") "ges'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "8m0") "g'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "8n0") "gis'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "8o0") "gisis'''''")
-(hashq-set! ANS::NoteTable (string->symbol "8p0") "aeses'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "8q0") "aes'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "8r0") "a'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "8s0") "ais'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "8t0") "aisis'''''")
-(hashq-set! ANS::NoteTable (string->symbol "8u0") "beses'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "8v0") "bes'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "8w0") "b'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "8x0") "bis'''''")
-	(hashq-set! ANS::NoteTable (string->symbol "8y0") "bisis'''''")
-(hashq-set! ANS::NoteTable (string->symbol "+inf.0") "r")
+(define ANS::NoteTable (make-hash-table 317))
+(hashq-set! ANS::NoteTable 00 'ceses,,,)
+(hashq-set! ANS::NoteTable 10 'ces,,,)
+(hashq-set! ANS::NoteTable 20 'c,,,)
+(hashq-set! ANS::NoteTable 30 'cis,,,)
+(hashq-set! ANS::NoteTable 40 'cisis,,,)
+(hashq-set! ANS::NoteTable 50 'deses,,,)
+(hashq-set! ANS::NoteTable 60 'des,,,)
+(hashq-set! ANS::NoteTable 70 'd,,,)
+(hashq-set! ANS::NoteTable 80 'dis,,,)
+(hashq-set! ANS::NoteTable 90 'disis,,,)
+(hashq-set! ANS::NoteTable 100 'eeses,,,)
+(hashq-set! ANS::NoteTable 110 'ees,,,)
+(hashq-set! ANS::NoteTable 120 'e,,,)
+(hashq-set! ANS::NoteTable 130 'eis,,,)
+(hashq-set! ANS::NoteTable 140 'eisis,,,)
+(hashq-set! ANS::NoteTable 150 'feses,,,)
+(hashq-set! ANS::NoteTable 160 'fes,,,)
+(hashq-set! ANS::NoteTable 170 'f,,,)
+(hashq-set! ANS::NoteTable 180 'fis,,,)
+(hashq-set! ANS::NoteTable 190 'fisis,,,)
+(hashq-set! ANS::NoteTable 200 'geses,,,)
+(hashq-set! ANS::NoteTable 210 'ges,,,)
+(hashq-set! ANS::NoteTable 220 'g,,,)
+(hashq-set! ANS::NoteTable 230 'gis,,,)
+(hashq-set! ANS::NoteTable 240 'gisis,,,)
+(hashq-set! ANS::NoteTable 250 'aeses,,,)
+(hashq-set! ANS::NoteTable 260 'aes,,,)
+(hashq-set! ANS::NoteTable 270 'a,,,)
+(hashq-set! ANS::NoteTable 280 'ais,,,)
+(hashq-set! ANS::NoteTable 290 'aisis,,,)
+(hashq-set! ANS::NoteTable 300 'beses,,,)
+(hashq-set! ANS::NoteTable 310 'bes,,,)
+(hashq-set! ANS::NoteTable 320 'b,,,)
+(hashq-set! ANS::NoteTable 330 'bis,,,)
+(hashq-set! ANS::NoteTable 340 'bisis,,,)
+(hashq-set! ANS::NoteTable 350 'ceses,,)
+(hashq-set! ANS::NoteTable 360 'ces,,)
+(hashq-set! ANS::NoteTable 370 'c,,)
+(hashq-set! ANS::NoteTable 380 'cis,,)
+(hashq-set! ANS::NoteTable 390 'cisis,,)
+(hashq-set! ANS::NoteTable 400 'deses,,)
+(hashq-set! ANS::NoteTable 410 'des,,)
+(hashq-set! ANS::NoteTable 420 'd,,)
+(hashq-set! ANS::NoteTable 430 'dis,,)
+(hashq-set! ANS::NoteTable 440 'disis,,)
+(hashq-set! ANS::NoteTable 450 'eeses,,)
+(hashq-set! ANS::NoteTable 460 'ees,,)
+(hashq-set! ANS::NoteTable 470 'e,,)
+(hashq-set! ANS::NoteTable 480 'eis,,)
+(hashq-set! ANS::NoteTable 490 'eisis,,)
+(hashq-set! ANS::NoteTable 500 'feses,,)
+(hashq-set! ANS::NoteTable 510 'fes,,)
+(hashq-set! ANS::NoteTable 520 'f,,)
+(hashq-set! ANS::NoteTable 530 'fis,,)
+(hashq-set! ANS::NoteTable 540 'fisis,,)
+(hashq-set! ANS::NoteTable 550 'geses,,)
+(hashq-set! ANS::NoteTable 560 'ges,,)
+(hashq-set! ANS::NoteTable 570 'g,,)
+(hashq-set! ANS::NoteTable 580 'gis,,)
+(hashq-set! ANS::NoteTable 590 'gisis,,)
+(hashq-set! ANS::NoteTable 600 'aeses,,)
+(hashq-set! ANS::NoteTable 610 'aes,,)
+(hashq-set! ANS::NoteTable 620 'a,,)
+(hashq-set! ANS::NoteTable 630 'ais,,)
+(hashq-set! ANS::NoteTable 640 'aisis,,)
+(hashq-set! ANS::NoteTable 650 'beses,,)
+(hashq-set! ANS::NoteTable 660 'bes,,)
+(hashq-set! ANS::NoteTable 670 'b,,)
+(hashq-set! ANS::NoteTable 680 'bis,,)
+(hashq-set! ANS::NoteTable 690 'bisis,,)
+(hashq-set! ANS::NoteTable 700 'ceses,)
+(hashq-set! ANS::NoteTable 710 'ces,)
+(hashq-set! ANS::NoteTable 720 'c,)
+(hashq-set! ANS::NoteTable 730 'cis,)
+(hashq-set! ANS::NoteTable 740 'cisis,)
+(hashq-set! ANS::NoteTable 750 'deses,)
+(hashq-set! ANS::NoteTable 760 'des,)
+(hashq-set! ANS::NoteTable 770 'd,)
+(hashq-set! ANS::NoteTable 780 'dis,)
+(hashq-set! ANS::NoteTable 790 'disis,)
+(hashq-set! ANS::NoteTable 800 'eeses,)
+(hashq-set! ANS::NoteTable 810 'ees,)
+(hashq-set! ANS::NoteTable 820 'e,)
+(hashq-set! ANS::NoteTable 830 'eis,)
+(hashq-set! ANS::NoteTable 840 'eisis,)
+(hashq-set! ANS::NoteTable 850 'feses,)
+(hashq-set! ANS::NoteTable 860 'fes,)
+(hashq-set! ANS::NoteTable 870 'f,)
+(hashq-set! ANS::NoteTable 880 'fis,)
+(hashq-set! ANS::NoteTable 890 'fisis,)
+(hashq-set! ANS::NoteTable 900 'geses,)
+(hashq-set! ANS::NoteTable 910 'ges,)
+(hashq-set! ANS::NoteTable 920 'g,)
+(hashq-set! ANS::NoteTable 930 'gis,)
+(hashq-set! ANS::NoteTable 940 'gisis,)
+(hashq-set! ANS::NoteTable 950 'aeses,)
+(hashq-set! ANS::NoteTable 960 'aes,)
+(hashq-set! ANS::NoteTable 970 'a,)
+(hashq-set! ANS::NoteTable 980 'ais,)
+(hashq-set! ANS::NoteTable 990 'aisis,)
+(hashq-set! ANS::NoteTable 1000 'beses,)
+(hashq-set! ANS::NoteTable 1010 'bes,)
+(hashq-set! ANS::NoteTable 1020 'b,)
+(hashq-set! ANS::NoteTable 1030 'bis,)
+(hashq-set! ANS::NoteTable 1040 'bisis,)
+(hashq-set! ANS::NoteTable 1050 'ceses)
+(hashq-set! ANS::NoteTable 1060 'ces)
+(hashq-set! ANS::NoteTable 1070 'c)
+(hashq-set! ANS::NoteTable 1080 'cis)
+(hashq-set! ANS::NoteTable 1090 'cisis)
+(hashq-set! ANS::NoteTable 1100 'deses)
+(hashq-set! ANS::NoteTable 1110 'des)
+(hashq-set! ANS::NoteTable 1120 'd)
+(hashq-set! ANS::NoteTable 1130 'dis)
+(hashq-set! ANS::NoteTable 1140 'disis)
+(hashq-set! ANS::NoteTable 1150 'eeses)
+(hashq-set! ANS::NoteTable 1160 'ees)
+(hashq-set! ANS::NoteTable 1170 'e)
+(hashq-set! ANS::NoteTable 1180 'eis)
+(hashq-set! ANS::NoteTable 1190 'eisis)
+(hashq-set! ANS::NoteTable 1200 'feses)
+(hashq-set! ANS::NoteTable 1210 'fes)
+(hashq-set! ANS::NoteTable 1220 'f)
+(hashq-set! ANS::NoteTable 1230 'fis)
+(hashq-set! ANS::NoteTable 1240 'fisis)
+(hashq-set! ANS::NoteTable 1250 'geses)
+(hashq-set! ANS::NoteTable 1260 'ges)
+(hashq-set! ANS::NoteTable 1270 'g)
+(hashq-set! ANS::NoteTable 1280 'gis)
+(hashq-set! ANS::NoteTable 1290 'gisis)
+(hashq-set! ANS::NoteTable 1300 'aeses)
+(hashq-set! ANS::NoteTable 1310 'aes)
+(hashq-set! ANS::NoteTable 1320 'a)
+(hashq-set! ANS::NoteTable 1330 'ais)
+(hashq-set! ANS::NoteTable 1340 'aisis)
+(hashq-set! ANS::NoteTable 1350 'beses)
+(hashq-set! ANS::NoteTable 1360 'bes)
+(hashq-set! ANS::NoteTable 1370 'b)
+(hashq-set! ANS::NoteTable 1380 'bis)
+(hashq-set! ANS::NoteTable 1390 'bisis)
+(hashq-set! ANS::NoteTable 1400 'ceses')
+(hashq-set! ANS::NoteTable 1410 'ces')
+(hashq-set! ANS::NoteTable 1420 'c')
+(hashq-set! ANS::NoteTable 1430 'cis')
+(hashq-set! ANS::NoteTable 1440 'cisis')
+(hashq-set! ANS::NoteTable 1450 'deses')
+(hashq-set! ANS::NoteTable 1460 'des')
+(hashq-set! ANS::NoteTable 1470 'd')
+(hashq-set! ANS::NoteTable 1480 'dis')
+(hashq-set! ANS::NoteTable 1490 'disis')
+(hashq-set! ANS::NoteTable 1500 'eeses')
+(hashq-set! ANS::NoteTable 1510 'ees')
+(hashq-set! ANS::NoteTable 1520 'e')
+(hashq-set! ANS::NoteTable 1530 'eis')
+(hashq-set! ANS::NoteTable 1540 'eisis')
+(hashq-set! ANS::NoteTable 1550 'feses')
+(hashq-set! ANS::NoteTable 1560 'fes')
+(hashq-set! ANS::NoteTable 1570 'f')
+(hashq-set! ANS::NoteTable 1580 'fis')
+(hashq-set! ANS::NoteTable 1590 'fisis')
+(hashq-set! ANS::NoteTable 1600 'geses')
+(hashq-set! ANS::NoteTable 1610 'ges')
+(hashq-set! ANS::NoteTable 1620 'g')
+(hashq-set! ANS::NoteTable 1630 'gis')
+(hashq-set! ANS::NoteTable 1640 'gisis')
+(hashq-set! ANS::NoteTable 1650 'aeses')
+(hashq-set! ANS::NoteTable 1660 'aes')
+(hashq-set! ANS::NoteTable 1670 'a')
+(hashq-set! ANS::NoteTable 1680 'ais')
+(hashq-set! ANS::NoteTable 1690 'aisis')
+(hashq-set! ANS::NoteTable 1700 'beses')
+(hashq-set! ANS::NoteTable 1710 'bes')
+(hashq-set! ANS::NoteTable 1720 'b')
+(hashq-set! ANS::NoteTable 1730 'bis')
+(hashq-set! ANS::NoteTable 1740 'bisis')
+(hashq-set! ANS::NoteTable 1750 'ceses'')
+(hashq-set! ANS::NoteTable 1760 'ces'')
+(hashq-set! ANS::NoteTable 1770 'c'')
+(hashq-set! ANS::NoteTable 1780 'cis'')
+(hashq-set! ANS::NoteTable 1790 'cisis'')
+(hashq-set! ANS::NoteTable 1800 'deses'')
+(hashq-set! ANS::NoteTable 1810 'des'')
+(hashq-set! ANS::NoteTable 1820 'd'')
+(hashq-set! ANS::NoteTable 1830 'dis'')
+(hashq-set! ANS::NoteTable 1840 'disis'')
+(hashq-set! ANS::NoteTable 1850 'eeses'')
+(hashq-set! ANS::NoteTable 1860 'ees'')
+(hashq-set! ANS::NoteTable 1870 'e'')
+(hashq-set! ANS::NoteTable 1880 'eis'')
+(hashq-set! ANS::NoteTable 1890 'eisis'')
+(hashq-set! ANS::NoteTable 1900 'feses'')
+(hashq-set! ANS::NoteTable 1910 'fes'')
+(hashq-set! ANS::NoteTable 1920 'f'')
+(hashq-set! ANS::NoteTable 1930 'fis'')
+(hashq-set! ANS::NoteTable 1940 'fisis'')
+(hashq-set! ANS::NoteTable 1950 'geses'')
+(hashq-set! ANS::NoteTable 1960 'ges'')
+(hashq-set! ANS::NoteTable 1970 'g'')
+(hashq-set! ANS::NoteTable 1980 'gis'')
+(hashq-set! ANS::NoteTable 1990 'gisis'')
+(hashq-set! ANS::NoteTable 2000 'aeses'')
+(hashq-set! ANS::NoteTable 2010 'aes'')
+(hashq-set! ANS::NoteTable 2020 'a'')
+(hashq-set! ANS::NoteTable 2030 'ais'')
+(hashq-set! ANS::NoteTable 2040 'aisis'')
+(hashq-set! ANS::NoteTable 2050 'beses'')
+(hashq-set! ANS::NoteTable 2060 'bes'')
+(hashq-set! ANS::NoteTable 2070 'b'')
+(hashq-set! ANS::NoteTable 2080 'bis'')
+(hashq-set! ANS::NoteTable 2090 'bisis'')
+(hashq-set! ANS::NoteTable 2100 ')
+(hashq-set! ANS::NoteTable 2110 'ceses''')
+(hashq-set! ANS::NoteTable 2120 'ces''')
+(hashq-set! ANS::NoteTable 2130 'c''')
+(hashq-set! ANS::NoteTable 2140 'cis''')
+(hashq-set! ANS::NoteTable 2150 'cisis''')
+(hashq-set! ANS::NoteTable 2160 'deses''')
+(hashq-set! ANS::NoteTable 2170 'des''')
+(hashq-set! ANS::NoteTable 2180 'd''')
+(hashq-set! ANS::NoteTable 2190 'dis''')
+(hashq-set! ANS::NoteTable 2200 'disis''')
+(hashq-set! ANS::NoteTable 2210 'eeses''')
+(hashq-set! ANS::NoteTable 2220 'ees''')
+(hashq-set! ANS::NoteTable 2230 'e''')
+(hashq-set! ANS::NoteTable 2240 'eis''')
+(hashq-set! ANS::NoteTable 2250 'eisis''')
+(hashq-set! ANS::NoteTable 2260 'feses''')
+(hashq-set! ANS::NoteTable 2270 'fes''')
+(hashq-set! ANS::NoteTable 2280 'f''')
+(hashq-set! ANS::NoteTable 2290 'fis''')
+(hashq-set! ANS::NoteTable 2300 'fisis''')
+(hashq-set! ANS::NoteTable 2310 'geses''')
+(hashq-set! ANS::NoteTable 2320 'ges''')
+(hashq-set! ANS::NoteTable 2330 'g''')
+(hashq-set! ANS::NoteTable 2340 'gis''')
+(hashq-set! ANS::NoteTable 2350 'gisis''')
+(hashq-set! ANS::NoteTable 2360 'aeses''')
+(hashq-set! ANS::NoteTable 2370 'aes''')
+(hashq-set! ANS::NoteTable 2380 'a''')
+(hashq-set! ANS::NoteTable 2390 'ais''')
+(hashq-set! ANS::NoteTable 2400 'aisis''')
+(hashq-set! ANS::NoteTable 2410 'beses''')
+(hashq-set! ANS::NoteTable 2420 'bes''')
+(hashq-set! ANS::NoteTable 2430 'b''')
+(hashq-set! ANS::NoteTable 2440 'bis''')
+(hashq-set! ANS::NoteTable 2450 'bisis''')
+(hashq-set! ANS::NoteTable 2460 'ceses'''')
+(hashq-set! ANS::NoteTable 2470 'ces'''')
+(hashq-set! ANS::NoteTable 2480 'c'''')
+(hashq-set! ANS::NoteTable 2490 'cis'''')
+(hashq-set! ANS::NoteTable 2500 'cisis'''')
+(hashq-set! ANS::NoteTable 2510 'deses'''')
+(hashq-set! ANS::NoteTable 2520 'des'''')
+(hashq-set! ANS::NoteTable 2530 'd'''')
+(hashq-set! ANS::NoteTable 2540 'dis'''')
+(hashq-set! ANS::NoteTable 2550 'disis'''')
+(hashq-set! ANS::NoteTable 2560 'eeses'''')
+(hashq-set! ANS::NoteTable 2570 'ees'''')
+(hashq-set! ANS::NoteTable 2580 'e'''')
+(hashq-set! ANS::NoteTable 2590 'eis'''')
+(hashq-set! ANS::NoteTable 2600 'eisis'''')
+(hashq-set! ANS::NoteTable 2610 'feses'''')
+(hashq-set! ANS::NoteTable 2620 'fes'''')
+(hashq-set! ANS::NoteTable 2630 'f'''')
+(hashq-set! ANS::NoteTable 2640 'fis'''')
+(hashq-set! ANS::NoteTable 2650 'fisis'''')
+(hashq-set! ANS::NoteTable 2660 'geses'''')
+(hashq-set! ANS::NoteTable 2670 'ges'''')
+(hashq-set! ANS::NoteTable 2680 'g'''')
+(hashq-set! ANS::NoteTable 2690 'gis'''')
+(hashq-set! ANS::NoteTable 2700 'gisis'''')
+(hashq-set! ANS::NoteTable 2710 'aeses'''')
+(hashq-set! ANS::NoteTable 2720 'aes'''')
+(hashq-set! ANS::NoteTable 2730 'a'''')
+(hashq-set! ANS::NoteTable 2740 'ais'''')
+(hashq-set! ANS::NoteTable 2750 'aisis'''')
+(hashq-set! ANS::NoteTable 2760 'beses'''')
+(hashq-set! ANS::NoteTable 2770 'bes'''')
+(hashq-set! ANS::NoteTable 2780 'b'''')
+(hashq-set! ANS::NoteTable 2790 'bis'''')
+(hashq-set! ANS::NoteTable 2800 'bisis'''')
+(hashq-set! ANS::NoteTable 2810 'ceses''''')
+(hashq-set! ANS::NoteTable 2820 'ces''''')
+(hashq-set! ANS::NoteTable 2830 'c''''')
+(hashq-set! ANS::NoteTable 2840 'cis''''')
+(hashq-set! ANS::NoteTable 2850 'cisis''''')
+(hashq-set! ANS::NoteTable 2860 'deses''''')
+(hashq-set! ANS::NoteTable 2870 'des''''')
+(hashq-set! ANS::NoteTable 2880 'd''''')
+(hashq-set! ANS::NoteTable 2890 'dis''''')
+(hashq-set! ANS::NoteTable 2900 'disis''''')
+(hashq-set! ANS::NoteTable 2910 'eeses''''')
+(hashq-set! ANS::NoteTable 2920 'ees''''')
+(hashq-set! ANS::NoteTable 2930 'e''''')
+(hashq-set! ANS::NoteTable 2940 'eis''''')
+(hashq-set! ANS::NoteTable 2950 'eisis''''')
+(hashq-set! ANS::NoteTable 2960 'feses''''')
+(hashq-set! ANS::NoteTable 2970 'fes''''')
+(hashq-set! ANS::NoteTable 2980 'f''''')
+(hashq-set! ANS::NoteTable 2990 'fis''''')
+(hashq-set! ANS::NoteTable 3000 'fisis''''')
+(hashq-set! ANS::NoteTable 3010 'geses''''')
+(hashq-set! ANS::NoteTable 3020 'ges''''')
+(hashq-set! ANS::NoteTable 3030 'g''''')
+(hashq-set! ANS::NoteTable 3040 'gis''''')
+(hashq-set! ANS::NoteTable 3050 'gisis''''')
+(hashq-set! ANS::NoteTable 3060 'aeses''''')
+(hashq-set! ANS::NoteTable 3070 'aes''''')
+(hashq-set! ANS::NoteTable 3080 'a''''')
+(hashq-set! ANS::NoteTable 3090 'ais''''')
+(hashq-set! ANS::NoteTable 3100 'aisis''''')
+(hashq-set! ANS::NoteTable 3110 'beses''''')
+(hashq-set! ANS::NoteTable 3120 'bes''''')
+(hashq-set! ANS::NoteTable 3130 'b''''')
+(hashq-set! ANS::NoteTable 3140 'bis''''')
+(hashq-set! ANS::NoteTable 3150 'bisis''''')
+(hashq-set! ANS::NoteTable +inf.00 'r)
 
 ;;;; Reverse Assignments
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define ANS::NoteTableR (make-hash-table 316))
-(hashq-set! ANS::NoteTableR 'ceses,,, "00")
-	(hashq-set! ANS::NoteTableR 'ces,,, "10")
-	(hashq-set! ANS::NoteTableR 'c,,, "20")
-	(hashq-set! ANS::NoteTableR 'cis,,, "30")
-	(hashq-set! ANS::NoteTableR 'cisis,,, "40")
-(hashq-set! ANS::NoteTableR 'deses,,, "50")
-	(hashq-set! ANS::NoteTableR 'des,,, "60")
-	(hashq-set! ANS::NoteTableR 'd,,, "70")
-	(hashq-set! ANS::NoteTableR 'dis,,, "80")
-	(hashq-set! ANS::NoteTableR 'disis,,, "90")
-(hashq-set! ANS::NoteTableR 'eeses,,, "a0")
-	(hashq-set! ANS::NoteTableR 'ees,,, "b0")
-	(hashq-set! ANS::NoteTableR 'e,,, "c0")
-	(hashq-set! ANS::NoteTableR 'eis,,, "d0")
-	(hashq-set! ANS::NoteTableR 'eisis,,, "e0")
-(hashq-set! ANS::NoteTableR 'feses,,, "f0")
-	(hashq-set! ANS::NoteTableR 'fes,,, "g0")
-	(hashq-set! ANS::NoteTableR 'f,,, "h0")
-	(hashq-set! ANS::NoteTableR 'fis,,, "i0")
-	(hashq-set! ANS::NoteTableR 'fisis,,, "j0")
-(hashq-set! ANS::NoteTableR 'geses,,, "k0")
-	(hashq-set! ANS::NoteTableR 'ges,,, "l0")
-	(hashq-set! ANS::NoteTableR 'g,,, "m0")
-	(hashq-set! ANS::NoteTableR 'gis,,, "n0")
-	(hashq-set! ANS::NoteTableR 'gisis,,, "o0")
-(hashq-set! ANS::NoteTableR 'aeses,,, "p0")
-	(hashq-set! ANS::NoteTableR 'aes,,, "q0")
-	(hashq-set! ANS::NoteTableR 'a,,, "r0")
-	(hashq-set! ANS::NoteTableR 'ais,,, "s0")
-	(hashq-set! ANS::NoteTableR 'aisis,,, "t0")
-(hashq-set! ANS::NoteTableR 'beses,,, "u0")
-	(hashq-set! ANS::NoteTableR 'bes,,, "v0")
-	(hashq-set! ANS::NoteTableR 'b,,, "w0")
-	(hashq-set! ANS::NoteTableR 'bis,,, "x0")
-	(hashq-set! ANS::NoteTableR 'bisis,,, "y0")
+(define ANS::NoteTableR (make-hash-table 317))
+(hashq-set! ANS::NoteTableR 'ceses,,, 00)
+(hashq-set! ANS::NoteTableR 'ces,,, 10)
+(hashq-set! ANS::NoteTableR 'c,,, 20)
+(hashq-set! ANS::NoteTableR 'cis,,, 30)
+(hashq-set! ANS::NoteTableR 'cisis,,, 40)
+(hashq-set! ANS::NoteTableR 'deses,,, 50)
+(hashq-set! ANS::NoteTableR 'des,,, 60)
+(hashq-set! ANS::NoteTableR 'd,,, 70)
+(hashq-set! ANS::NoteTableR 'dis,,, 80)
+(hashq-set! ANS::NoteTableR 'disis,,, 90)
+(hashq-set! ANS::NoteTableR 'eeses,,, 100)
+(hashq-set! ANS::NoteTableR 'ees,,, 110)
+(hashq-set! ANS::NoteTableR 'e,,, 120)
+(hashq-set! ANS::NoteTableR 'eis,,, 130)
+(hashq-set! ANS::NoteTableR 'eisis,,, 140)
+(hashq-set! ANS::NoteTableR 'feses,,, 150)
+(hashq-set! ANS::NoteTableR 'fes,,, 160)
+(hashq-set! ANS::NoteTableR 'f,,, 170)
+(hashq-set! ANS::NoteTableR 'fis,,, 180)
+(hashq-set! ANS::NoteTableR 'fisis,,, 190)
+(hashq-set! ANS::NoteTableR 'geses,,, 200)
+(hashq-set! ANS::NoteTableR 'ges,,, 210)
+(hashq-set! ANS::NoteTableR 'g,,, 220)
+(hashq-set! ANS::NoteTableR 'gis,,, 230)
+(hashq-set! ANS::NoteTableR 'gisis,,, 240)
+(hashq-set! ANS::NoteTableR 'aeses,,, 250)
+(hashq-set! ANS::NoteTableR 'aes,,, 260)
+(hashq-set! ANS::NoteTableR 'a,,, 270)
+(hashq-set! ANS::NoteTableR 'ais,,, 280)
+(hashq-set! ANS::NoteTableR 'aisis,,, 290)
+(hashq-set! ANS::NoteTableR 'beses,,, 300)
+(hashq-set! ANS::NoteTableR 'bes,,, 310)
+(hashq-set! ANS::NoteTableR 'b,,, 320)
+(hashq-set! ANS::NoteTableR 'bis,,, 330)
+(hashq-set! ANS::NoteTableR 'bisis,,, 340)
+(hashq-set! ANS::NoteTableR 'ceses,, 350)
+(hashq-set! ANS::NoteTableR 'ces,, 360)
+(hashq-set! ANS::NoteTableR 'c,, 370)
+(hashq-set! ANS::NoteTableR 'cis,, 380)
+(hashq-set! ANS::NoteTableR 'cisis,, 390)
+(hashq-set! ANS::NoteTableR 'deses,, 400)
+(hashq-set! ANS::NoteTableR 'des,, 410)
+(hashq-set! ANS::NoteTableR 'd,, 420)
+(hashq-set! ANS::NoteTableR 'dis,, 430)
+(hashq-set! ANS::NoteTableR 'disis,, 440)
+(hashq-set! ANS::NoteTableR 'eeses,, 450)
+(hashq-set! ANS::NoteTableR 'ees,, 460)
+(hashq-set! ANS::NoteTableR 'e,, 470)
+(hashq-set! ANS::NoteTableR 'eis,, 480)
+(hashq-set! ANS::NoteTableR 'eisis,, 490)
+(hashq-set! ANS::NoteTableR 'feses,, 500)
+(hashq-set! ANS::NoteTableR 'fes,, 510)
+(hashq-set! ANS::NoteTableR 'f,, 520)
+(hashq-set! ANS::NoteTableR 'fis,, 530)
+(hashq-set! ANS::NoteTableR 'fisis,, 540)
+(hashq-set! ANS::NoteTableR 'geses,, 550)
+(hashq-set! ANS::NoteTableR 'ges,, 560)
+(hashq-set! ANS::NoteTableR 'g,, 570)
+(hashq-set! ANS::NoteTableR 'gis,, 580)
+(hashq-set! ANS::NoteTableR 'gisis,, 590)
+(hashq-set! ANS::NoteTableR 'aeses,, 600)
+(hashq-set! ANS::NoteTableR 'aes,, 610)
+(hashq-set! ANS::NoteTableR 'a,, 620)
+(hashq-set! ANS::NoteTableR 'ais,, 630)
+(hashq-set! ANS::NoteTableR 'aisis,, 640)
+(hashq-set! ANS::NoteTableR 'beses,, 650)
+(hashq-set! ANS::NoteTableR 'bes,, 660)
+(hashq-set! ANS::NoteTableR 'b,, 670)
+(hashq-set! ANS::NoteTableR 'bis,, 680)
+(hashq-set! ANS::NoteTableR 'bisis,, 690)
+(hashq-set! ANS::NoteTableR 'ceses, 700)
+(hashq-set! ANS::NoteTableR 'ces, 710)
+(hashq-set! ANS::NoteTableR 'c, 720)
+(hashq-set! ANS::NoteTableR 'cis, 730)
+(hashq-set! ANS::NoteTableR 'cisis, 740)
+(hashq-set! ANS::NoteTableR 'deses, 750)
+(hashq-set! ANS::NoteTableR 'des, 760)
+(hashq-set! ANS::NoteTableR 'd, 770)
+(hashq-set! ANS::NoteTableR 'dis, 780)
+(hashq-set! ANS::NoteTableR 'disis, 790)
+(hashq-set! ANS::NoteTableR 'eeses, 800)
+(hashq-set! ANS::NoteTableR 'ees, 810)
+(hashq-set! ANS::NoteTableR 'e, 820)
+(hashq-set! ANS::NoteTableR 'eis, 830)
+(hashq-set! ANS::NoteTableR 'eisis, 840)
+(hashq-set! ANS::NoteTableR 'feses, 850)
+(hashq-set! ANS::NoteTableR 'fes, 860)
+(hashq-set! ANS::NoteTableR 'f, 870)
+(hashq-set! ANS::NoteTableR 'fis, 880)
+(hashq-set! ANS::NoteTableR 'fisis, 890)
+(hashq-set! ANS::NoteTableR 'geses, 900)
+(hashq-set! ANS::NoteTableR 'ges, 910)
+(hashq-set! ANS::NoteTableR 'g, 920)
+(hashq-set! ANS::NoteTableR 'gis, 930)
+(hashq-set! ANS::NoteTableR 'gisis, 940)
+(hashq-set! ANS::NoteTableR 'aeses, 950)
+(hashq-set! ANS::NoteTableR 'aes, 960)
+(hashq-set! ANS::NoteTableR 'a, 970)
+(hashq-set! ANS::NoteTableR 'ais, 980)
+(hashq-set! ANS::NoteTableR 'aisis, 990)
+(hashq-set! ANS::NoteTableR 'beses, 1000)
+(hashq-set! ANS::NoteTableR 'bes, 1010)
+(hashq-set! ANS::NoteTableR 'b, 1020)
+(hashq-set! ANS::NoteTableR 'bis, 1030)
+(hashq-set! ANS::NoteTableR 'bisis, 1040)
+(hashq-set! ANS::NoteTableR 'ceses 1050)
+(hashq-set! ANS::NoteTableR 'ces 1060)
+(hashq-set! ANS::NoteTableR 'c 1070)
+(hashq-set! ANS::NoteTableR 'cis 1080)
+(hashq-set! ANS::NoteTableR 'cisis 1090)
+(hashq-set! ANS::NoteTableR 'deses 1100)
+(hashq-set! ANS::NoteTableR 'des 1110)
+(hashq-set! ANS::NoteTableR 'd 1120)
+(hashq-set! ANS::NoteTableR 'dis 1130)
+(hashq-set! ANS::NoteTableR 'disis 1140)
+(hashq-set! ANS::NoteTableR 'eeses 1150)
+(hashq-set! ANS::NoteTableR 'ees 1160)
+(hashq-set! ANS::NoteTableR 'e 1170)
+(hashq-set! ANS::NoteTableR 'eis 1180)
+(hashq-set! ANS::NoteTableR 'eisis 1190)
+(hashq-set! ANS::NoteTableR 'feses 1200)
+(hashq-set! ANS::NoteTableR 'fes 1210)
+(hashq-set! ANS::NoteTableR 'f 1220)
+(hashq-set! ANS::NoteTableR 'fis 1230)
+(hashq-set! ANS::NoteTableR 'fisis 1240)
+(hashq-set! ANS::NoteTableR 'geses 1250)
+(hashq-set! ANS::NoteTableR 'ges 1260)
+(hashq-set! ANS::NoteTableR 'g 1270)
+(hashq-set! ANS::NoteTableR 'gis 1280)
+(hashq-set! ANS::NoteTableR 'gisis 1290)
+(hashq-set! ANS::NoteTableR 'aeses 1300)
+(hashq-set! ANS::NoteTableR 'aes 1310)
+(hashq-set! ANS::NoteTableR 'a 1320)
+(hashq-set! ANS::NoteTableR 'ais 1330)
+(hashq-set! ANS::NoteTableR 'aisis 1340)
+(hashq-set! ANS::NoteTableR 'beses 1350)
+(hashq-set! ANS::NoteTableR 'bes 1360)
+(hashq-set! ANS::NoteTableR 'b 1370)
+(hashq-set! ANS::NoteTableR 'bis 1380)
+(hashq-set! ANS::NoteTableR 'bisis 1390)
+(hashq-set! ANS::NoteTableR 'ceses' 1400)
+(hashq-set! ANS::NoteTableR 'ces' 1410)
+(hashq-set! ANS::NoteTableR 'c' 1420)
+(hashq-set! ANS::NoteTableR 'cis' 1430)
+(hashq-set! ANS::NoteTableR 'cisis' 1440)
+(hashq-set! ANS::NoteTableR 'deses' 1450)
+(hashq-set! ANS::NoteTableR 'des' 1460)
+(hashq-set! ANS::NoteTableR 'd' 1470)
+(hashq-set! ANS::NoteTableR 'dis' 1480)
+(hashq-set! ANS::NoteTableR 'disis' 1490)
+(hashq-set! ANS::NoteTableR 'eeses' 1500)
+(hashq-set! ANS::NoteTableR 'ees' 1510)
+(hashq-set! ANS::NoteTableR 'e' 1520)
+(hashq-set! ANS::NoteTableR 'eis' 1530)
+(hashq-set! ANS::NoteTableR 'eisis' 1540)
+(hashq-set! ANS::NoteTableR 'feses' 1550)
+(hashq-set! ANS::NoteTableR 'fes' 1560)
+(hashq-set! ANS::NoteTableR 'f' 1570)
+(hashq-set! ANS::NoteTableR 'fis' 1580)
+(hashq-set! ANS::NoteTableR 'fisis' 1590)
+(hashq-set! ANS::NoteTableR 'geses' 1600)
+(hashq-set! ANS::NoteTableR 'ges' 1610)
+(hashq-set! ANS::NoteTableR 'g' 1620)
+(hashq-set! ANS::NoteTableR 'gis' 1630)
+(hashq-set! ANS::NoteTableR 'gisis' 1640)
+(hashq-set! ANS::NoteTableR 'aeses' 1650)
+(hashq-set! ANS::NoteTableR 'aes' 1660)
+(hashq-set! ANS::NoteTableR 'a' 1670)
+(hashq-set! ANS::NoteTableR 'ais' 1680)
+(hashq-set! ANS::NoteTableR 'aisis' 1690)
+(hashq-set! ANS::NoteTableR 'beses' 1700)
+(hashq-set! ANS::NoteTableR 'bes' 1710)
+(hashq-set! ANS::NoteTableR 'b' 1720)
+(hashq-set! ANS::NoteTableR 'bis' 1730)
+(hashq-set! ANS::NoteTableR 'bisis' 1740)
+(hashq-set! ANS::NoteTableR 'ceses'' 1750)
+(hashq-set! ANS::NoteTableR 'ces'' 1760)
+(hashq-set! ANS::NoteTableR 'c'' 1770)
+(hashq-set! ANS::NoteTableR 'cis'' 1780)
+(hashq-set! ANS::NoteTableR 'cisis'' 1790)
+(hashq-set! ANS::NoteTableR 'deses'' 1800)
+(hashq-set! ANS::NoteTableR 'des'' 1810)
+(hashq-set! ANS::NoteTableR 'd'' 1820)
+(hashq-set! ANS::NoteTableR 'dis'' 1830)
+(hashq-set! ANS::NoteTableR 'disis'' 1840)
+(hashq-set! ANS::NoteTableR 'eeses'' 1850)
+(hashq-set! ANS::NoteTableR 'ees'' 1860)
+(hashq-set! ANS::NoteTableR 'e'' 1870)
+(hashq-set! ANS::NoteTableR 'eis'' 1880)
+(hashq-set! ANS::NoteTableR 'eisis'' 1890)
+(hashq-set! ANS::NoteTableR 'feses'' 1900)
+(hashq-set! ANS::NoteTableR 'fes'' 1910)
+(hashq-set! ANS::NoteTableR 'f'' 1920)
+(hashq-set! ANS::NoteTableR 'fis'' 1930)
+(hashq-set! ANS::NoteTableR 'fisis'' 1940)
+(hashq-set! ANS::NoteTableR 'geses'' 1950)
+(hashq-set! ANS::NoteTableR 'ges'' 1960)
+(hashq-set! ANS::NoteTableR 'g'' 1970)
+(hashq-set! ANS::NoteTableR 'gis'' 1980)
+(hashq-set! ANS::NoteTableR 'gisis'' 1990)
+(hashq-set! ANS::NoteTableR 'aeses'' 2000)
+(hashq-set! ANS::NoteTableR 'aes'' 2010)
+(hashq-set! ANS::NoteTableR 'a'' 2020)
+(hashq-set! ANS::NoteTableR 'ais'' 2030)
+(hashq-set! ANS::NoteTableR 'aisis'' 2040)
+(hashq-set! ANS::NoteTableR 'beses'' 2050)
+(hashq-set! ANS::NoteTableR 'bes'' 2060)
+(hashq-set! ANS::NoteTableR 'b'' 2070)
+(hashq-set! ANS::NoteTableR 'bis'' 2080)
+(hashq-set! ANS::NoteTableR 'bisis'' 2090)
+(hashq-set! ANS::NoteTableR ' 2100)
+(hashq-set! ANS::NoteTableR 'ceses''' 2110)
+(hashq-set! ANS::NoteTableR 'ces''' 2120)
+(hashq-set! ANS::NoteTableR 'c''' 2130)
+(hashq-set! ANS::NoteTableR 'cis''' 2140)
+(hashq-set! ANS::NoteTableR 'cisis''' 2150)
+(hashq-set! ANS::NoteTableR 'deses''' 2160)
+(hashq-set! ANS::NoteTableR 'des''' 2170)
+(hashq-set! ANS::NoteTableR 'd''' 2180)
+(hashq-set! ANS::NoteTableR 'dis''' 2190)
+(hashq-set! ANS::NoteTableR 'disis''' 2200)
+(hashq-set! ANS::NoteTableR 'eeses''' 2210)
+(hashq-set! ANS::NoteTableR 'ees''' 2220)
+(hashq-set! ANS::NoteTableR 'e''' 2230)
+(hashq-set! ANS::NoteTableR 'eis''' 2240)
+(hashq-set! ANS::NoteTableR 'eisis''' 2250)
+(hashq-set! ANS::NoteTableR 'feses''' 2260)
+(hashq-set! ANS::NoteTableR 'fes''' 2270)
+(hashq-set! ANS::NoteTableR 'f''' 2280)
+(hashq-set! ANS::NoteTableR 'fis''' 2290)
+(hashq-set! ANS::NoteTableR 'fisis''' 2300)
+(hashq-set! ANS::NoteTableR 'geses''' 2310)
+(hashq-set! ANS::NoteTableR 'ges''' 2320)
+(hashq-set! ANS::NoteTableR 'g''' 2330)
+(hashq-set! ANS::NoteTableR 'gis''' 2340)
+(hashq-set! ANS::NoteTableR 'gisis''' 2350)
+(hashq-set! ANS::NoteTableR 'aeses''' 2360)
+(hashq-set! ANS::NoteTableR 'aes''' 2370)
+(hashq-set! ANS::NoteTableR 'a''' 2380)
+(hashq-set! ANS::NoteTableR 'ais''' 2390)
+(hashq-set! ANS::NoteTableR 'aisis''' 2400)
+(hashq-set! ANS::NoteTableR 'beses''' 2410)
+(hashq-set! ANS::NoteTableR 'bes''' 2420)
+(hashq-set! ANS::NoteTableR 'b''' 2430)
+(hashq-set! ANS::NoteTableR 'bis''' 2440)
+(hashq-set! ANS::NoteTableR 'bisis''' 2450)
+(hashq-set! ANS::NoteTableR 'ceses'''' 2460)
+(hashq-set! ANS::NoteTableR 'ces'''' 2470)
+(hashq-set! ANS::NoteTableR 'c'''' 2480)
+(hashq-set! ANS::NoteTableR 'cis'''' 2490)
+(hashq-set! ANS::NoteTableR 'cisis'''' 2500)
+(hashq-set! ANS::NoteTableR 'deses'''' 2510)
+(hashq-set! ANS::NoteTableR 'des'''' 2520)
+(hashq-set! ANS::NoteTableR 'd'''' 2530)
+(hashq-set! ANS::NoteTableR 'dis'''' 2540)
+(hashq-set! ANS::NoteTableR 'disis'''' 2550)
+(hashq-set! ANS::NoteTableR 'eeses'''' 2560)
+(hashq-set! ANS::NoteTableR 'ees'''' 2570)
+(hashq-set! ANS::NoteTableR 'e'''' 2580)
+(hashq-set! ANS::NoteTableR 'eis'''' 2590)
+(hashq-set! ANS::NoteTableR 'eisis'''' 2600)
+(hashq-set! ANS::NoteTableR 'feses'''' 2610)
+(hashq-set! ANS::NoteTableR 'fes'''' 2620)
+(hashq-set! ANS::NoteTableR 'f'''' 2630)
+(hashq-set! ANS::NoteTableR 'fis'''' 2640)
+(hashq-set! ANS::NoteTableR 'fisis'''' 2650)
+(hashq-set! ANS::NoteTableR 'geses'''' 2660)
+(hashq-set! ANS::NoteTableR 'ges'''' 2670)
+(hashq-set! ANS::NoteTableR 'g'''' 2680)
+(hashq-set! ANS::NoteTableR 'gis'''' 2690)
+(hashq-set! ANS::NoteTableR 'gisis'''' 2700)
+(hashq-set! ANS::NoteTableR 'aeses'''' 2710)
+(hashq-set! ANS::NoteTableR 'aes'''' 2720)
+(hashq-set! ANS::NoteTableR 'a'''' 2730)
+(hashq-set! ANS::NoteTableR 'ais'''' 2740)
+(hashq-set! ANS::NoteTableR 'aisis'''' 2750)
+(hashq-set! ANS::NoteTableR 'beses'''' 2760)
+(hashq-set! ANS::NoteTableR 'bes'''' 2770)
+(hashq-set! ANS::NoteTableR 'b'''' 2780)
+(hashq-set! ANS::NoteTableR 'bis'''' 2790)
+(hashq-set! ANS::NoteTableR 'bisis'''' 2800)
+(hashq-set! ANS::NoteTableR 'ceses''''' 2810)
+(hashq-set! ANS::NoteTableR 'ces''''' 2820)
+(hashq-set! ANS::NoteTableR 'c''''' 2830)
+(hashq-set! ANS::NoteTableR 'cis''''' 2840)
+(hashq-set! ANS::NoteTableR 'cisis''''' 2850)
+(hashq-set! ANS::NoteTableR 'deses''''' 2860)
+(hashq-set! ANS::NoteTableR 'des''''' 2870)
+(hashq-set! ANS::NoteTableR 'd''''' 2880)
+(hashq-set! ANS::NoteTableR 'dis''''' 2890)
+(hashq-set! ANS::NoteTableR 'disis''''' 2900)
+(hashq-set! ANS::NoteTableR 'eeses''''' 2910)
+(hashq-set! ANS::NoteTableR 'ees''''' 2920)
+(hashq-set! ANS::NoteTableR 'e''''' 2930)
+(hashq-set! ANS::NoteTableR 'eis''''' 2940)
+(hashq-set! ANS::NoteTableR 'eisis''''' 2950)
+(hashq-set! ANS::NoteTableR 'feses''''' 2960)
+(hashq-set! ANS::NoteTableR 'fes''''' 2970)
+(hashq-set! ANS::NoteTableR 'f''''' 2980)
+(hashq-set! ANS::NoteTableR 'fis''''' 2990)
+(hashq-set! ANS::NoteTableR 'fisis''''' 3000)
+(hashq-set! ANS::NoteTableR 'geses''''' 3010)
+(hashq-set! ANS::NoteTableR 'ges''''' 3020)
+(hashq-set! ANS::NoteTableR 'g''''' 3030)
+(hashq-set! ANS::NoteTableR 'gis''''' 3040)
+(hashq-set! ANS::NoteTableR 'gisis''''' 3050)
+(hashq-set! ANS::NoteTableR 'aeses''''' 3060)
+(hashq-set! ANS::NoteTableR 'aes''''' 3070)
+(hashq-set! ANS::NoteTableR 'a''''' 3080)
+(hashq-set! ANS::NoteTableR 'ais''''' 3090)
+(hashq-set! ANS::NoteTableR 'aisis''''' 3100)
+(hashq-set! ANS::NoteTableR 'beses''''' 3110)
+(hashq-set! ANS::NoteTableR 'bes''''' 3120)
+(hashq-set! ANS::NoteTableR 'b''''' 3130)
+(hashq-set! ANS::NoteTableR 'bis''''' 3140)
+(hashq-set! ANS::NoteTableR 'bisis''''' 3150)
+(hashq-set! ANS::NoteTableR 'r +inf.)
 
-
-(hashq-set! ANS::NoteTableR 'ceses,, "100")
-	(hashq-set! ANS::NoteTableR 'ces,, "110")
-	(hashq-set! ANS::NoteTableR 'c,, "120")
-	(hashq-set! ANS::NoteTableR 'cis,, "130")
-	(hashq-set! ANS::NoteTableR 'cisis,, "140")
-(hashq-set! ANS::NoteTableR 'deses,, "150")
-	(hashq-set! ANS::NoteTableR 'des,, "160")
-	(hashq-set! ANS::NoteTableR 'd,, "170")
-	(hashq-set! ANS::NoteTableR 'dis,, "180")
-	(hashq-set! ANS::NoteTableR 'disis,, "190")
-(hashq-set! ANS::NoteTableR 'eeses,, "1a0")
-	(hashq-set! ANS::NoteTableR 'ees,, "1b0")
-	(hashq-set! ANS::NoteTableR 'e,, "1c0")
-	(hashq-set! ANS::NoteTableR 'eis,, "1d0")
-	(hashq-set! ANS::NoteTableR 'eisis,, "1e0")
-(hashq-set! ANS::NoteTableR 'feses,, "1f0")
-	(hashq-set! ANS::NoteTableR 'fes,, "1g0")
-	(hashq-set! ANS::NoteTableR 'f,, "1h0")
-	(hashq-set! ANS::NoteTableR 'fis,, "1i0")
-	(hashq-set! ANS::NoteTableR 'fisis,, "1j0")
-(hashq-set! ANS::NoteTableR 'geses,, "1k0")
-	(hashq-set! ANS::NoteTableR 'ges,, "1l0")
-	(hashq-set! ANS::NoteTableR 'g,, "1m0")
-	(hashq-set! ANS::NoteTableR 'gis,, "1n0")
-	(hashq-set! ANS::NoteTableR 'gisis,, "1o0")
-(hashq-set! ANS::NoteTableR 'aeses,, "1p0")
-	(hashq-set! ANS::NoteTableR 'aes,, "1q0")
-	(hashq-set! ANS::NoteTableR 'a,, "1r0")
-	(hashq-set! ANS::NoteTableR 'ais,, "1s0")
-	(hashq-set! ANS::NoteTableR 'aisis,, "1t0")
-(hashq-set! ANS::NoteTableR 'beses,, "1u0")
-	(hashq-set! ANS::NoteTableR 'bes,, "1v0")
-	(hashq-set! ANS::NoteTableR 'b,, "1w0")
-	(hashq-set! ANS::NoteTableR 'bis,, "1x0")
-	(hashq-set! ANS::NoteTableR 'bisis,, "1y0")
-	
-(hashq-set! ANS::NoteTableR 'ceses, "200")
-	(hashq-set! ANS::NoteTableR 'ces, "210")
-	(hashq-set! ANS::NoteTableR 'c, "220")
-	(hashq-set! ANS::NoteTableR 'cis, "230")
-	(hashq-set! ANS::NoteTableR 'cisis, "240")
-(hashq-set! ANS::NoteTableR 'deses, "250")
-	(hashq-set! ANS::NoteTableR 'des, "260")
-	(hashq-set! ANS::NoteTableR 'd, "270")
-	(hashq-set! ANS::NoteTableR 'dis, "280")
-	(hashq-set! ANS::NoteTableR 'disis, "290")
-(hashq-set! ANS::NoteTableR 'eeses, "2a0")
-	(hashq-set! ANS::NoteTableR 'ees, "2b0")
-	(hashq-set! ANS::NoteTableR 'e, "2c0")
-	(hashq-set! ANS::NoteTableR 'eis, "2d0")
-	(hashq-set! ANS::NoteTableR 'eisis, "2e0")
-(hashq-set! ANS::NoteTableR 'feses, "2f0")
-	(hashq-set! ANS::NoteTableR 'fes, "2g0")
-	(hashq-set! ANS::NoteTableR 'f, "2h0")
-	(hashq-set! ANS::NoteTableR 'fis, "2i0")
-	(hashq-set! ANS::NoteTableR 'fisis, "2j0")
-(hashq-set! ANS::NoteTableR 'geses, "2k0")
-	(hashq-set! ANS::NoteTableR 'ges, "2l0")
-	(hashq-set! ANS::NoteTableR 'g, "2m0")
-	(hashq-set! ANS::NoteTableR 'gis, "2n0")
-	(hashq-set! ANS::NoteTableR 'gisis, "2o0")
-(hashq-set! ANS::NoteTableR 'aeses, "2p0")
-	(hashq-set! ANS::NoteTableR 'aes, "2q0")
-	(hashq-set! ANS::NoteTableR 'a, "2r0")
-	(hashq-set! ANS::NoteTableR 'ais, "2s0")
-	(hashq-set! ANS::NoteTableR 'aisis, "2t0")
-(hashq-set! ANS::NoteTableR 'beses, "2u0")
-	(hashq-set! ANS::NoteTableR 'bes, "2v0")
-	(hashq-set! ANS::NoteTableR 'b, "2w0")
-	(hashq-set! ANS::NoteTableR 'bis, "2x0")
-	(hashq-set! ANS::NoteTableR 'bisis, "2y0")
-
-(hashq-set! ANS::NoteTableR 'ceses "300")
-	(hashq-set! ANS::NoteTableR 'ces "310")
-	(hashq-set! ANS::NoteTableR 'c "320")
-	(hashq-set! ANS::NoteTableR 'cis "330")
-	(hashq-set! ANS::NoteTableR 'cisis "340")
-(hashq-set! ANS::NoteTableR 'deses "350")
-	(hashq-set! ANS::NoteTableR 'des "360")
-	(hashq-set! ANS::NoteTableR 'd "370")
-	(hashq-set! ANS::NoteTableR 'dis "380")
-	(hashq-set! ANS::NoteTableR 'disis "390")
-(hashq-set! ANS::NoteTableR 'eeses "3a0")
-	(hashq-set! ANS::NoteTableR 'ees "3b0")
-	(hashq-set! ANS::NoteTableR 'e "3c0")
-	(hashq-set! ANS::NoteTableR 'eis "3d0")
-	(hashq-set! ANS::NoteTableR 'eisis "3e0")
-(hashq-set! ANS::NoteTableR 'feses "3f0")
-	(hashq-set! ANS::NoteTableR 'fes "3g0")
-	(hashq-set! ANS::NoteTableR 'f "3h0")
-	(hashq-set! ANS::NoteTableR 'fis "3i0")
-	(hashq-set! ANS::NoteTableR 'fisis "3j0")
-(hashq-set! ANS::NoteTableR 'geses "3k0")
-	(hashq-set! ANS::NoteTableR 'ges "3l0")
-	(hashq-set! ANS::NoteTableR 'g "3m0")
-	(hashq-set! ANS::NoteTableR 'gis "3n0")
-	(hashq-set! ANS::NoteTableR 'gisis "3o0")
-(hashq-set! ANS::NoteTableR 'aeses "3p0")
-	(hashq-set! ANS::NoteTableR 'aes "3q0")
-	(hashq-set! ANS::NoteTableR 'a "3r0")
-	(hashq-set! ANS::NoteTableR 'ais "3s0")
-	(hashq-set! ANS::NoteTableR 'aisis "3t0")
-(hashq-set! ANS::NoteTableR 'beses "3u0")
-	(hashq-set! ANS::NoteTableR 'bes "3v0")
-	(hashq-set! ANS::NoteTableR 'b "3w0")
-	(hashq-set! ANS::NoteTableR 'bis "3x0")
-	(hashq-set! ANS::NoteTableR 'bisis "3y0")
-	
-(hashq-set! ANS::NoteTableR 'ceses' "400")
-	(hashq-set! ANS::NoteTableR 'ces' "410")
-	(hashq-set! ANS::NoteTableR 'c' "420")
-	(hashq-set! ANS::NoteTableR 'cis' "430")
-	(hashq-set! ANS::NoteTableR 'cisis' "440")
-(hashq-set! ANS::NoteTableR 'deses' "450")
-	(hashq-set! ANS::NoteTableR 'des' "460")
-	(hashq-set! ANS::NoteTableR 'd' "470")
-	(hashq-set! ANS::NoteTableR 'dis' "480")
-	(hashq-set! ANS::NoteTableR 'disis' "490")
-(hashq-set! ANS::NoteTableR 'eeses' "4a0")
-	(hashq-set! ANS::NoteTableR 'ees' "4b0")
-	(hashq-set! ANS::NoteTableR 'e' "4c0")
-	(hashq-set! ANS::NoteTableR 'eis' "4d0")
-	(hashq-set! ANS::NoteTableR 'eisis' "4e0")
-(hashq-set! ANS::NoteTableR 'feses' "4f0")
-	(hashq-set! ANS::NoteTableR 'fes' "4g0")
-	(hashq-set! ANS::NoteTableR 'f' "4h0")
-	(hashq-set! ANS::NoteTableR 'fis' "4i0")
-	(hashq-set! ANS::NoteTableR 'fisis' "4j0")
-(hashq-set! ANS::NoteTableR 'geses' "4k0")
-	(hashq-set! ANS::NoteTableR 'ges' "4l0")
-	(hashq-set! ANS::NoteTableR 'g' "4m0")
-	(hashq-set! ANS::NoteTableR 'gis' "4n0")
-	(hashq-set! ANS::NoteTableR 'gisis' "4o0")
-(hashq-set! ANS::NoteTableR 'aeses' "4p0")
-	(hashq-set! ANS::NoteTableR 'aes' "4q0")
-	(hashq-set! ANS::NoteTableR 'a' "4r0")
-	(hashq-set! ANS::NoteTableR 'ais' "4s0")
-	(hashq-set! ANS::NoteTableR 'aisis' "4t0")
-(hashq-set! ANS::NoteTableR 'beses' "4u0")
-	(hashq-set! ANS::NoteTableR 'bes' "4v0")
-	(hashq-set! ANS::NoteTableR 'b' "4w0")
-	(hashq-set! ANS::NoteTableR 'bis' "4x0")
-	(hashq-set! ANS::NoteTableR 'bisis' "4y0")
-	
-(hashq-set! ANS::NoteTableR 'ceses'' "500")
-	(hashq-set! ANS::NoteTableR 'ces'' "510")
-	(hashq-set! ANS::NoteTableR 'c'' "520")
-	(hashq-set! ANS::NoteTableR 'cis'' "530")
-	(hashq-set! ANS::NoteTableR 'cisis'' "540")
-(hashq-set! ANS::NoteTableR 'deses'' "550")
-	(hashq-set! ANS::NoteTableR 'des'' "560")
-	(hashq-set! ANS::NoteTableR 'd'' "570")
-	(hashq-set! ANS::NoteTableR 'dis'' "580")
-	(hashq-set! ANS::NoteTableR 'disis'' "590")
-(hashq-set! ANS::NoteTableR 'eeses'' "5a0")
-	(hashq-set! ANS::NoteTableR 'ees'' "5b0")
-	(hashq-set! ANS::NoteTableR 'e'' "5c0")
-	(hashq-set! ANS::NoteTableR 'eis'' "5d0")
-	(hashq-set! ANS::NoteTableR 'eisis'' "5e0")
-(hashq-set! ANS::NoteTableR 'feses'' "5f0")
-	(hashq-set! ANS::NoteTableR 'fes'' "5g0")
-	(hashq-set! ANS::NoteTableR 'f'' "5h0")
-	(hashq-set! ANS::NoteTableR 'fis'' "5i0")
-	(hashq-set! ANS::NoteTableR 'fisis'' "5j0")
-(hashq-set! ANS::NoteTableR 'geses'' "5k0")
-	(hashq-set! ANS::NoteTableR 'ges'' "5l0")
-	(hashq-set! ANS::NoteTableR 'g'' "5m0")
-	(hashq-set! ANS::NoteTableR 'gis'' "5n0")
-	(hashq-set! ANS::NoteTableR 'gisis'' "5o0")
-(hashq-set! ANS::NoteTableR 'aeses'' "5p0")
-	(hashq-set! ANS::NoteTableR 'aes'' "5q0")
-	(hashq-set! ANS::NoteTableR 'a'' "5r0")
-	(hashq-set! ANS::NoteTableR 'ais'' "5s0")
-	(hashq-set! ANS::NoteTableR 'aisis'' "5t0")
-(hashq-set! ANS::NoteTableR 'beses'' "5u0")
-	(hashq-set! ANS::NoteTableR 'bes'' "5v0")
-	(hashq-set! ANS::NoteTableR 'b'' "5w0")
-	(hashq-set! ANS::NoteTableR 'bis'' "5x0")
-	(hashq-set! ANS::NoteTableR 'bisis'' "5y0")	
-	
-(hashq-set! ANS::NoteTableR 'ceses''' "600")
-	(hashq-set! ANS::NoteTableR 'ces''' "610")
-	(hashq-set! ANS::NoteTableR 'c''' "620")
-	(hashq-set! ANS::NoteTableR 'cis''' "630")
-	(hashq-set! ANS::NoteTableR 'cisis''' "640")
-(hashq-set! ANS::NoteTableR 'deses''' "650")
-	(hashq-set! ANS::NoteTableR 'des''' "660")
-	(hashq-set! ANS::NoteTableR 'd''' "670")
-	(hashq-set! ANS::NoteTableR 'dis''' "680")
-	(hashq-set! ANS::NoteTableR 'disis''' "690")
-(hashq-set! ANS::NoteTableR 'eeses''' "6a0")
-	(hashq-set! ANS::NoteTableR 'ees''' "6b0")
-	(hashq-set! ANS::NoteTableR 'e''' "6c0")
-	(hashq-set! ANS::NoteTableR 'eis''' "6d0")
-	(hashq-set! ANS::NoteTableR 'eisis''' "6e0")
-(hashq-set! ANS::NoteTableR 'feses''' "6f0")
-	(hashq-set! ANS::NoteTableR 'fes''' "6g0")
-	(hashq-set! ANS::NoteTableR 'f''' "6h0")
-	(hashq-set! ANS::NoteTableR 'fis''' "6i0")
-	(hashq-set! ANS::NoteTableR 'fisis''' "6j0")
-(hashq-set! ANS::NoteTableR 'geses''' "6k0")
-	(hashq-set! ANS::NoteTableR 'ges''' "6l0")
-	(hashq-set! ANS::NoteTableR 'g''' "6m0")
-	(hashq-set! ANS::NoteTableR 'gis''' "6n0")
-	(hashq-set! ANS::NoteTableR 'gisis''' "6o0")
-(hashq-set! ANS::NoteTableR 'aeses''' "6p0")
-	(hashq-set! ANS::NoteTableR 'aes''' "6q0")
-	(hashq-set! ANS::NoteTableR 'a''' "6r0")
-	(hashq-set! ANS::NoteTableR 'ais''' "6s0")
-	(hashq-set! ANS::NoteTableR 'aisis''' "6t0")
-(hashq-set! ANS::NoteTableR 'beses''' "6u0")
-	(hashq-set! ANS::NoteTableR 'bes''' "6v0")
-	(hashq-set! ANS::NoteTableR 'b''' "6w0")
-	(hashq-set! ANS::NoteTableR 'bis''' "6x0")
-	(hashq-set! ANS::NoteTableR 'bisis''' "6y0")	
-
-(hashq-set! ANS::NoteTableR 'ceses'''' "700")
-	(hashq-set! ANS::NoteTableR 'ces'''' "710")
-	(hashq-set! ANS::NoteTableR 'c'''' "720")
-	(hashq-set! ANS::NoteTableR 'cis'''' "730")
-	(hashq-set! ANS::NoteTableR 'cisis'''' "740")
-(hashq-set! ANS::NoteTableR 'deses'''' "750")
-	(hashq-set! ANS::NoteTableR 'des'''' "760")
-	(hashq-set! ANS::NoteTableR 'd'''' "770")
-	(hashq-set! ANS::NoteTableR 'dis'''' "780")
-	(hashq-set! ANS::NoteTableR 'disis'''' "790")
-(hashq-set! ANS::NoteTableR 'eeses'''' "7a0")
-	(hashq-set! ANS::NoteTableR 'ees'''' "7b0")
-	(hashq-set! ANS::NoteTableR 'e'''' "7c0")
-	(hashq-set! ANS::NoteTableR 'eis'''' "7d0")
-	(hashq-set! ANS::NoteTableR 'eisis'''' "7e0")
-(hashq-set! ANS::NoteTableR 'feses'''' "7f0")
-	(hashq-set! ANS::NoteTableR 'fes'''' "7g0")
-	(hashq-set! ANS::NoteTableR 'f'''' "7h0")
-	(hashq-set! ANS::NoteTableR 'fis'''' "7i0")
-	(hashq-set! ANS::NoteTableR 'fisis'''' "7j0")
-(hashq-set! ANS::NoteTableR 'geses'''' "7k0")
-	(hashq-set! ANS::NoteTableR 'ges'''' "7l0")
-	(hashq-set! ANS::NoteTableR 'g'''' "7m0")
-	(hashq-set! ANS::NoteTableR 'gis'''' "7n0")
-	(hashq-set! ANS::NoteTableR 'gisis'''' "7o0")
-(hashq-set! ANS::NoteTableR 'aeses'''' "7p0")
-	(hashq-set! ANS::NoteTableR 'aes'''' "7q0")
-	(hashq-set! ANS::NoteTableR 'a'''' "7r0")
-	(hashq-set! ANS::NoteTableR 'ais'''' "7s0")
-	(hashq-set! ANS::NoteTableR 'aisis'''' "7t0")
-(hashq-set! ANS::NoteTableR 'beses'''' "7u0")
-	(hashq-set! ANS::NoteTableR 'bes'''' "7v0")
-	(hashq-set! ANS::NoteTableR 'b'''' "7w0")
-	(hashq-set! ANS::NoteTableR 'bis'''' "7x0")
-	(hashq-set! ANS::NoteTableR 'bisis'''' "7y0")	
-	
-(hashq-set! ANS::NoteTableR 'ceses''''' "800")
-	(hashq-set! ANS::NoteTableR 'ces''''' "810")
-	(hashq-set! ANS::NoteTableR 'c''''' "820")
-	(hashq-set! ANS::NoteTableR 'cis''''' "830")
-	(hashq-set! ANS::NoteTableR 'cisis''''' "840")
-(hashq-set! ANS::NoteTableR 'deses''''' "850")
-	(hashq-set! ANS::NoteTableR 'des''''' "860")
-	(hashq-set! ANS::NoteTableR 'd''''' "870")
-	(hashq-set! ANS::NoteTableR 'dis''''' "880")
-	(hashq-set! ANS::NoteTableR 'disis''''' "890")
-(hashq-set! ANS::NoteTableR 'eeses''''' "8a0")
-	(hashq-set! ANS::NoteTableR 'ees''''' "8b0")
-	(hashq-set! ANS::NoteTableR 'e''''' "8c0")
-	(hashq-set! ANS::NoteTableR 'eis''''' "8d0")
-	(hashq-set! ANS::NoteTableR 'eisis''''' "8e0")
-(hashq-set! ANS::NoteTableR 'feses''''' "8f0")
-	(hashq-set! ANS::NoteTableR 'fes''''' "8g0")
-	(hashq-set! ANS::NoteTableR 'f''''' "8h0")
-	(hashq-set! ANS::NoteTableR 'fis''''' "8i0")
-	(hashq-set! ANS::NoteTableR 'fisis''''' "8j0")
-(hashq-set! ANS::NoteTableR 'geses''''' "8k0")
-	(hashq-set! ANS::NoteTableR 'ges''''' "8l0")
-	(hashq-set! ANS::NoteTableR 'g''''' "8m0")
-	(hashq-set! ANS::NoteTableR 'gis''''' "8n0")
-	(hashq-set! ANS::NoteTableR 'gisis''''' "8o0")
-(hashq-set! ANS::NoteTableR 'aeses''''' "8p0")
-	(hashq-set! ANS::NoteTableR 'aes''''' "8q0")
-	(hashq-set! ANS::NoteTableR 'a''''' "8r0")
-	(hashq-set! ANS::NoteTableR 'ais''''' "8s0")
-	(hashq-set! ANS::NoteTableR 'aisis''''' "8t0")
-(hashq-set! ANS::NoteTableR 'beses''''' "8u0")
-	(hashq-set! ANS::NoteTableR 'bes''''' "8v0")
-	(hashq-set! ANS::NoteTableR 'b''''' "8w0")
-	(hashq-set! ANS::NoteTableR 'bis''''' "8x0")
-	(hashq-set! ANS::NoteTableR 'bisis''''' "8y0")
-(hashq-set! ANS::NoteTableR 'r "+inf.0")
 
 ;;;; The pillar of filth
 ;;;; To calculate real and correct intervals you need the pillar of fifth with 35 steps for each realistic notename (and 4 unrealistic ones)
 ;;;;;;;;;;;;;;;;;;;;;;;;
 ; First the index where a notename/ANS value can be found in the pillar, which is actually a list.
+; Strange pattern. it starts with 150 then for all bb its -150, +200. The transition to single b its only -140, then -150 +200 again! 140 must be the b/f change.
 (define ANS::PillarOfFifthIndex (make-hash-table))
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "f") 0) ;feses
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "0") 1) ;ceses
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "k") 2) ;geses	
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "5") 3) ;deses
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "p") 4) ;aeses
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "a") 5) ;eeses
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "u") 6) ;beses 
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "g") 7) ;fes
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "1") 8) ;ces
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "l") 9) ;ges
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "6") 10) ;des
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "q") 11) ;aes
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "b") 12) ;ees
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "v") 13) ;bes
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "h") 14) ;f
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "2") 15) ;c
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "m") 16) ;g
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "7") 17) ;d
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "r") 18) ;a
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "c") 19) ;e
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "w") 20) ;b
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "i") 21) ;fis
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "3") 22) ;cis
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "n") 23) ;gis
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "8") 24) ;dis
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "s") 25) ;ais
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "d") 26) ;eis
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "x") 27) ;bis
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "j") 28) ;fisis
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "4") 29) ;cisis
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "o") 30) ;gisis
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "9") 31) ;disis
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "t") 32) ;aisis
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "e") 33) ;eisis	
-	(hashq-set! ANS::PillarOfFifthIndex (string->symbol "y") 34) ;bisis
+	(hashq-set! ANS::PillarOfFifthIndex 150 0) ;feses
+	(hashq-set! ANS::PillarOfFifthIndex 0 1) ;ceses
+	(hashq-set! ANS::PillarOfFifthIndex 200 2) ;geses	
+	(hashq-set! ANS::PillarOfFifthIndex 50  3) ;deses
+	(hashq-set! ANS::PillarOfFifthIndex 250 4) ;aeses
+	(hashq-set! ANS::PillarOfFifthIndex 100 5) ;eeses
+	(hashq-set! ANS::PillarOfFifthIndex 300 6) ;beses 
+	(hashq-set! ANS::PillarOfFifthIndex 160 7) ;fes
+	(hashq-set! ANS::PillarOfFifthIndex 10 8) ;ces
+	(hashq-set! ANS::PillarOfFifthIndex 210 9) ;ges
+	(hashq-set! ANS::PillarOfFifthIndex 60 10) ;des
+	(hashq-set! ANS::PillarOfFifthIndex 260 11) ;aes
+	(hashq-set! ANS::PillarOfFifthIndex 110 12) ;ees
+	(hashq-set! ANS::PillarOfFifthIndex 310 13) ;bes
+	(hashq-set! ANS::PillarOfFifthIndex 170 14) ;f
+	(hashq-set! ANS::PillarOfFifthIndex 20 15) ;c
+	(hashq-set! ANS::PillarOfFifthIndex 220 16) ;g
+	(hashq-set! ANS::PillarOfFifthIndex 70 17) ;d
+	(hashq-set! ANS::PillarOfFifthIndex 270 18) ;a
+	(hashq-set! ANS::PillarOfFifthIndex 120 19) ;e
+	(hashq-set! ANS::PillarOfFifthIndex 320 20) ;b
+	(hashq-set! ANS::PillarOfFifthIndex 180 21) ;fis
+	(hashq-set! ANS::PillarOfFifthIndex 30 22) ;cis
+	(hashq-set! ANS::PillarOfFifthIndex 230 23) ;gis
+	(hashq-set! ANS::PillarOfFifthIndex 80 24) ;dis
+	(hashq-set! ANS::PillarOfFifthIndex 280 25) ;ais
+	(hashq-set! ANS::PillarOfFifthIndex 130 26) ;eis
+	(hashq-set! ANS::PillarOfFifthIndex 330 27) ;bis
+	(hashq-set! ANS::PillarOfFifthIndex 190 28) ;fisis
+	(hashq-set! ANS::PillarOfFifthIndex 40 29) ;cisis
+	(hashq-set! ANS::PillarOfFifthIndex 240 30) ;gisis
+	(hashq-set! ANS::PillarOfFifthIndex 90 31) ;disis
+	(hashq-set! ANS::PillarOfFifthIndex 290 32) ;aisis
+	(hashq-set! ANS::PillarOfFifthIndex 140 33) ;eisis	
+	(hashq-set! ANS::PillarOfFifthIndex 340 34) ;bisis
 
 
 ;The list is the actual pillar of fifth. Stepping left and right can be done by calculating a list-ref index value.	
 (define ANS::PillarOfFifth 
  (list 
-	"f" ;feses	0
-	"0" ;ceses	1
-	"k" ;geses	2
-	"5" ;deses	3
-	"p" ;aeses	4
-	"a" ;eeses	5
-	"u" ;beses 	6
-	"g" ;fes	7
-	"1" ;ces	8
-	"l" ;ges	9
-	"6" ;des	10
-	"q" ;aes	11
-	"b" ;ees	12
-	"v" ;bes	13
-	"h" ;f		14
-	"2" ;c		15
-	"m" ;g		16
-	"7" ;d		17
-	"r" ;a		19
-	"c" ;e		20
-	"w" ;b		21
-	"i" ;fis	22
-	"3" ;cis	23
-	"n" ;gis	24
-	"8" ;dis	25
-	"s" ;ais	26
-	"d" ;eis	27
-	"x" ;bis	28
-	"j" ;fisis	29
-	"4" ;cisis	30
-	"o" ;gisis	31
-	"9" ;disis	32
-	"t" ;aisis	33
-	"e" ;eisis	34
-	"y" ;bisis	35
+	150 ;feses	0
+	0 ;ceses	1
+	200 ;geses	2
+	50 ;deses	3
+	250 ;aeses	4
+	100 ;eeses	5
+	300 ;beses 	6
+	160 ;fes	7
+	10 ;ces		8
+	210 ;ges	9
+	60 ;des		10
+	260 ;aes	11
+	110 ;ees	12
+	310 ;bes	13
+	170 ;f		14
+	20 ;c		15
+	220 ;g		16
+	70 ;d		17
+	270 ;a		19
+	120 ;e		20
+	320 ;b		21
+	180 ;fis	22
+	30 ;cis		23
+	230 ;gis	24
+	80 ;dis		25
+	280 ;ais	26
+	130 ;eis	27
+	330 ;bis	28
+	190 ;fisis	29
+	40 ;cisis	30
+	240 ;gisis	31
+	90 ;disis	32
+	290 ;aisis	33
+	140 ;eisis	34
+	340 ;bisis	35
  )
 )
 
@@ -965,158 +787,141 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;Functions;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-
-
 ;Checks if a string is a lilypond note compatible with (d-ChangeChordNotes)
 ;(define (ANS::IsLily?)
 ;	
 ;)
 
-(define (ANS::Ly2Ans lilynote) ;wants string, returns string
-	(hashq-ref ANS::NoteTableR (string->symbol lilynote))
-)
+(define (ANS::Ly2Ans lilynote) ;wants symbol, returns number
+	(hashq-ref ANS::NoteTableR lilynote))
 
-(define (ANS::Ans2Ly ansNote) ;wants string, returns strings.
-	(hashq-ref ANS::NoteTable (string->symbol ansNote))	
-)
+(define (ANS::Ans2Ly ansNote) ;wants number, returns symbol
+	(hashq-ref ANS::NoteTable ansNote))
 
 ; The main function to get notes from Denemo
 ; Opposite is ANS::ChangeChordNotes
-; For singles and chords and rests. Returns a list of ANS string-numbers as chord.
+; For singles and chords and rests. Returns a list of ANS-numbers as chord.
 (define (ANS::GetChordNotes)
 	(if (Note?)
 		(map ANS::Ly2Ans (string-tokenize (d-GetNotes)))
 		(if (Rest?) ; not a note
-			(list "+inf.0")
+			(list +inf.0)
 			#f)))
 
-; Extract the note from an ANS-string, without any octave or the tailing zero. Return as string.
-(define (ANS::GetNote ansNote) 
-		(string-drop-right 
-			(string-take-right ansNote 2 )  1  )			
-)
-
-;Extract the octave as three digit base35 number/string. 
-(define (ANS::GetOctave ansNote) 
-	(if (= 2 (string-length ansNote))
-		"0" ; its the first octave which has no digit
-		(string-append 
-			(string-drop-right (string-take-right ansNote 3 )  2  )
-		    "00" )	; add two tailing 00 to make it an octave value
-	)
-)
-
 ; Change chord/note to another chord/note
+; The main function to get ANS back to Denemo via (d-ChangeChordNotes)
 ; Opposite is ANS::GetChordNotes
-; Wants a string or list of ANS note-strings 
+; Wants a ANS-number or list of ANS numbers.
 (define (ANS::ChangeChordNotes ansNotes)
 	(define newList '())
-	(if (list? ansNotes)
+	(if (list? ansNotes) ; check if it was a single note, in this case make a list.
 		#t
 		(set! ansNotes (list ansNotes)))
 	(set! newList (map ANS::Ans2Ly ansNotes))
-	(d-ChangeChordNotes (string-join newList))
-)
+	(d-ChangeChordNotes (string-join newList))) ; d-ChangeChordNotes wants a long string of notes with space between.
+
 
 ;Insert A note/chord on Denemos cursor position 
-; wants a string or  a list of ANS note-strings as chord.
+; wants a single or a list of ANS numbers (chord).
 ; Optional duration and number of dots. returns #t or #f
 (define* (ANS::InsertNotes ansNotes #:optional (dots #f) (duration #f) )
 	;TODO: Check if these are valid notes.
-	(d-InsertA) ; TODO: This is a hack. 
+	(d-InsertA) ; TODO: This is a hack. There is no way to directly insert notes with lilypond syntax
 	(d-MoveCursorLeft)
 	(ANS::ChangeChordNotes ansNotes)
 	(if duration  ;If user gave duration parameter. Does not test if the duration is a valid number
-			(eval-string (string-append "(d-Change" (number->string duration) ")"))) ; FIXME eval string should be gone
+			(eval-string (string-append "(d-Change" (number->string duration) ")"))) ; TODO: eval string should be gone. And it does not support breve and longa!
 	(if (and dots (not (= dots 0))) ;If the user gave 0 as durations ignore that as well
 			(let loop ((count 0)) 
 				(d-AddDot)
 				(if (< count (- dots 1))
 				(loop (+ 1 count)))))
-	(d-MoveCursorRight)
-)
+	(d-MoveCursorRight))
+
+
+; Extract the note from an ANS-number, without any octave but with the tailing zero. Return as number.
+; This means we double-use the lowest octave as abstract version.
+; Dividing through the octave, 350, results in the number of the octave and the note as remainder.
+(define (ANS::GetNote ansNote) 
+		(remainder ansNote 350))
+
+;Extract the octave as integer, where c,,, is in the 0 octave. 
+(define (ANS::GetOctave ansNote) 
+	(quotient ansNote))
 
 ; Return the natural, "white key" version of an ansNote.
 (define (ANS::GetWhiteKey ansNote) 
-	(define decNote (/ (ANS::to10 ansNote)  35))
- 
-	(ANS::to35 
-	(+ (* (quotient decNote 5) 175) 70 )
-	)
-)
+	; /50 without rest to get a multiplier that will...
+ 	; *50 return the "...eses" version which is a multiple of 50. 
+ 	; +20 from "...eses" to plain.
+ 	(+ 20 (* 50 (quotient ansNote 50))))
 
 ;Alteration adds a sharp, flat or nothing to a ans-note. Returns an ANS
-;number-string note. Wants an ans number-string and a procedure that
+;number. Wants an ans number-string and a procedure that
 ;will return either 0, 1 or -1. 
 (define (ANS::Alteration ansNote caserator)
 	(case caserator
 	  ((0)		ansNote) ; natural, no change
-	  ((1)		(ANS::+ ansNote  "10")) ;sharp
-	  ((-1)		(ANS::- ansNote  "10")) ;flat
-	  (else   #f ) ; someone might introduce some insane feature in the future where you can add doublecrosses or similar to a keysig. Or maybe there is even a real usage for micotonals like turkish maqam.
-	 )
-)
+	  ((1)		(+ ansNote  10)) ;sharp
+	  ((-1)		(- ansNote  10)) ;flat
+	  (else   #f))) ; someone might introduce some insane feature in the future where you can add doublecrosses or similar to a keysig. Or maybe there is even a real usage for micotonals like turkish maqam.
+	 
 
 
-;IntervalCalc wants an ANS note as root and an interval like "m2", "M6" or "p5" returns an ANS value as string.
+;IntervalCalc wants an ANS note as root and an interval like "m2", "M6" or "p5" returns an ANS value.
+;Op is needed to calc up or down. 1 is up, -1 is down.
 (define (ANS::IntervalCalcPrototype op ansNote interval)
- (let (	(targ (ANS::IntervalGetSteps interval)) 
-		(root (hashq-ref ANS::PillarOfFifthIndex (string->symbol (ANS::GetNote ansNote)) ))		
-	  )
-	(list-ref ANS::PillarOfFifth (+ root (* op targ)))	
-  )
-)
+ (define targ (ANS::IntervalGetSteps interval))
+ (define root (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote ansNote)))
+ (list-ref ANS::PillarOfFifth (+ root (* op targ)))))  
 
+
+;Since IntervalCalcPrototype just returns a note name without octave we must check if the new note with the old octave is really above the old, if not shift it.
 (define (ANS::IntervalCalcUp ansNote interval)
 	(define result	(ANS::IntervalCalcPrototype 1 ansNote interval))
-	(define octave (ANS::GetOctave ansNote))	
-	(if (ANS::>= result (ANS::GetNote ansNote)) ; test if the calulated interval, just one digit until now, will be in the same octave which means its note-value itself is higher or equal (in case of p1) compared to the root. Or it seems to be lower, in this case we need to add an octave because we really want it higher :)
-		 (ANS::+ octave (ANS::* result "10")) ;its still in the same octave, just recalculate
-		 (ANS::+ octave "100" (ANS::* result "10")) ;+100 to go one octave up
-	)
-)
+	(define octave (* 350 (ANS::GetOctave ansNote))) ; gets us an octave counter. * 350 to make it addable.
+	(if (>= result (ANS::GetNote ansNote)) ; test if the calulated interval, just one digit until now, will be in the same octave which means its note-value itself is higher or equal (in case of p1) compared to the root. Or it seems to be lower, in this case we need to add an octave because we really want it higher
+		 (+ octave result) ;its still in the same octave, just recalculate
+		 (+ octave 350 result))) ;+350 to go one octave up
+
 
 (define (ANS::IntervalCalcDown ansNote interval)
 	(define result (ANS::IntervalCalcPrototype -1 ansNote interval))
-	(define octave (ANS::GetOctave ansNote))	
+	(define octave (* 350 (ANS::GetOctave ansNote)))	
 	(if (ANS::<= result (ANS::GetNote ansNote)) 
-		 (ANS::+ octave (ANS::* result "10")) ;its still in the same octave, just recalculate
-		 (ANS::- (ANS::+ octave (ANS::* result "10")) "100") ;-100 to go one octave down		 
-	)
-)
+		 (+ octave result) 
+		 (+ octave -350 result))) ;-350 to go one octave down
 
-(define (ANS::CalculateRealOctaveUp ansNote) ; Works with one string
-	(ANS::+ ansNote "100")
-)
+(define (ANS::CalculateRealOctaveUp ansNote) 
+	(+ ansNote 350))
 
-(define (ANS::CalculateRealOctaveDown ansNote) ; Works with one string
-	(ANS::- ansNote "100")
-)
+(define (ANS::CalculateRealOctaveDown ansNote) 
+	(- ansNote 350))
 
 
 ;GetDiatonic. Looks ups the prevailing keysignature and returns the correct diatonic value for a given note.
+; PrevailingKeysig is either -1 (flat), 0 (natural) or 1 (sharp)
 (define (ANS::GetDiatonic ansNote)
 	(define keysiglist (string-tokenize (d-GetPrevailingKeysig))) ; A list of strings! We need numbers, later
 	(define whitekey (ANS::GetWhiteKey ansNote))
 	(define getkeysigfor "0")
 	
-	(set! getkeysigfor  	; the octaveless pitch of the white key triggers sending the connected keysig modicator (0, 1, -1)
-	   (cond 
-		((string=? "2" (ANS::GetNote whitekey)) (list-ref keysiglist 0 ))
-		((string=? "7" (ANS::GetNote whitekey)) (list-ref keysiglist 1))
-		((string=? "c" (ANS::GetNote whitekey)) (list-ref keysiglist 2))
-		((string=? "h" (ANS::GetNote whitekey)) (list-ref keysiglist 3))
-		((string=? "m" (ANS::GetNote whitekey)) (list-ref keysiglist 4))
-		((string=? "r" (ANS::GetNote whitekey)) (list-ref keysiglist 5))
-		((string=? "w" (ANS::GetNote whitekey)) (list-ref keysiglist 6))
-	     )	
-	  ) 
-       (ANS::Alteration whitekey (string->number getkeysigfor))  ; keysiglist-members are strings so we need to convert first
-)
+	(set! getkeysigfor 	; Is used by the new note to sharpen 1, flatten -1, or stay natural 0. 
+	   (cond		  	; each list-ref position for keysiglist is one diatonic note position from c to b.
+		((= 20 (ANS::GetNote whitekey)) (list-ref keysiglist 0)) ; Test which note the white-key version is and send the corresponding sharp/flat/natural modificator to ANS::Alteration later.
+		((= 70 (ANS::GetNote whitekey)) (list-ref keysiglist 1)) ; Only one can be true because we test one note alone.
+		((= 120 (ANS::GetNote whitekey)) (list-ref keysiglist 2))
+		((= 170 (ANS::GetNote whitekey)) (list-ref keysiglist 3))
+		((= 220 (ANS::GetNote whitekey)) (list-ref keysiglist 4))
+		((= 270 (ANS::GetNote whitekey)) (list-ref keysiglist 5))
+		((= 320 (ANS::GetNote whitekey)) (list-ref keysiglist 6))
+	     )) 
+       (ANS::Alteration whitekey (string->number getkeysigfor)))  ; keysiglist-members are strings so we need to convert first
 
-(define (ANS::CalculateDiatonicStepUp ansNote) (ANS::GetDiatonic (ANS::+ ansNote "50")))
-(define (ANS::CalculateDiatonicStepDown ansNote ) (ANS::GetDiatonic (ANS::- ansNote "50")))
+
+; Wrapper functions to make Diatonic Steps easier.
+(define (ANS::CalculateDiatonicStepUp ansNote) (ANS::GetDiatonic (+ ansNote 50))) ; feed the Keysig-reference with the target note (+50), not the origin one.
+(define (ANS::CalculateDiatonicStepDown ansNote) (ANS::GetDiatonic (- ansNote 50)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Analaysis;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1127,16 +932,15 @@
 (define	(ANS::GetIntervall ansNoteOne ansNoteTwo)
 	(define higher ansNoteOne)
 	(define lower ansNoteTwo)
-	(if (ANS::<= ansNoteOne ansNoteTwo) ; bring the notes in right order. We want to calculate from top to bottom.
+	(if (<= ansNoteOne ansNoteTwo) ; bring the notes in right order. We want to calculate from top to bottom.
 		(begin 	(set! lower ansNoteOne)
 				(set! higher ansNoteTwo)))		
 
-	;Extract the tone, without octave, convert it to a symbol and feed it to the hash to get the notes position in the pillar of 5th.
-	
+	;Extract the tone, without octave and feed it to the hash to get the notes position in the pillar of 5th.
 	(cons
-		(- (hashq-ref ANS::PillarOfFifthIndex (string->symbol (ANS::GetNote higher))) (hashq-ref ANS::PillarOfFifthIndex (string->symbol (ANS::GetNote lower))))
-		(cons lower higher))
-)
+		(- (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote higher)) (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote lower)))
+		(cons lower higher)))
+
 
 ;GetIntervall for lists. 
 ;Converts a list of pairs(lower note and higher ANS note) to a list of interval numbers (ans syntax. steps in the pillar of 5th)
@@ -1166,38 +970,34 @@
 ; Generates a random note within a given range. The range includes both values.
 (define (ANS::random from to)
 	(let (
-		  (from (ANS::to10 (ANS::/ from "10"))) ;drop microtones, just use the chromatic/enharmonic material
-		  (to (ANS::to10 (ANS::/ to "10")))
-		  (rand "0")
+		  (from (/ from 10)) ;drop microtones, just use the chromatic/enharmonic material
+		  (to (/ to 10))
+		  (rand 0)
 		 )
 	(set! to (+ 1 (- to from))) ; (- to from ) means only use the relative range, not absolute values . +1 to include the last, given value. 
 	(set! rand  (+ from (random to)) ) ; get a random value in the range and then shift the relative range to start from "from"
-	(set! rand (ANS::to35 rand)) ; convert back to base35
-	(ANS::* rand "10") ; convert to three-digit value again and return	
-	)
-)
-
+	(* rand 10))) ; convert to octave scale again and return	
 
 ;Random note generator, respects the keysignature. Insert an optional range, default is all 56 diatonic notes.
-(define* (ANS::RandomDiatonic #:optional (from "0") (to "8y0"))
+(define* (ANS::RandomDiatonic #:optional (from 0) (to 3150))
 	(ANS::GetDiatonic (ANS::random from to))	
 )
 
 ;Random note generator, one of each possible chromatic notes or optional range. Same probability for natural, flat or sharp.
-(define* (ANS::RandomChromatic #:optional (from "0") (to "8y0"))
+(define* (ANS::RandomChromatic #:optional (from 0) (to 3150"))
 	(define rand (- (random 3) 1))	; -1, 0 or 1
 	(ANS::Alteration (ANS::RandomDiatonic from to) rand) 
 )  
 
 
-;Takes a list of notes, shuffles the members and inserts them as new notes.
+;Takes a list of notes, shuffle the members and inserts them as new notes.
 (define (ANS::InsertListRandomly ansList)
 	(define shuffledlist (Merge-shuffle-list ansList))
 	(for-each ANS::InsertNotes shuffledlist)
 )
 
 ;Takes a list of notes and randomly pick one to insert. The member
-;remains in the list but the function returns a new list without the
+;remains in the original list but the function returns a new list without the
 ;inserted value. 
 (define (ANS::InsertMemberRandomly ansList)
 	(define rnd (random (length ansList) ))
@@ -1210,4 +1010,4 @@
 )
 
 ;; Example to enter random triads. Uses nearly the complete featureset of ANS as of today. Creating random notes in a range, making it diatonic and then calculate intervals to add up and down and finally placing all as real Denemo notation, as chord at once.
-;(define zz (ANS::RandomDiatonic "420" "520" ))     (ANS::InsertNotes  (list zz (ANS::IntervalCalcUp zz 'p5) (ANS::GetDiatonic (ANS::IntervalCalcUp zz 'M3)) ) )
+;(define zz (ANS::RandomDiatonic 420 520 ))     (ANS::InsertNotes  (list zz (ANS::IntervalCalcUp zz 'p5) (ANS::GetDiatonic (ANS::IntervalCalcUp zz 'M3)) ) )
