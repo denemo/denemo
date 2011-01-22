@@ -4889,6 +4889,21 @@ singleton_callback (GtkToolButton *toolbutton, RhythmPattern *r) {
 #undef g
 #undef MODE
 }
+
+static void set_tempo (void) {
+  gdouble tempo = Denemo.gui->si->master_tempo;
+  if(tempo<0.001 || (tempo>0.999 && tempo<1.001))
+    return;
+  stop_midi_playback(NULL, NULL);
+  Denemo.gui->si->tempo *= tempo;
+  Denemo.gui->si->start_time /= tempo;
+  Denemo.gui->si->end_time /= tempo;
+
+  Denemo.gui->si->master_tempo = 1.0;
+  score_status (Denemo.gui, TRUE);
+  exportmidi(NULL, Denemo.gui->si, 0, 0);
+}
+
 static void pb_first (GtkWidget *button) {
   call_out_to_guile("(DenemoFirst)");
 }
@@ -4906,6 +4921,7 @@ static void pb_stop (GtkWidget *button) {
 
 }
 static void pb_play (GtkWidget *button) {
+  set_tempo();
   call_out_to_guile("(DenemoPlay)");
 }
 static void pb_pause (GtkWidget *button) {
@@ -5044,12 +5060,6 @@ static void pb_midi_convert (GtkWidget *button) {
 }
 
 
-static void pb_set_tempo (GtkWidget *button) {
-  stop_midi_playback(NULL, NULL);
-  Denemo.gui->si->tempo *= Denemo.gui->si->master_tempo;
-  Denemo.gui->si->master_tempo = 1.0;
-  score_status (Denemo.gui, TRUE);
-}
 
 
 /**
@@ -7841,7 +7851,7 @@ get_data_dir (),
       g_signal_connect(GTK_OBJECT(master_tempo_adj), "value_changed", GTK_SIGNAL_FUNC(pb_tempo), NULL);
       gtk_box_pack_start (GTK_BOX (hbox), hscale, TRUE, TRUE, 0);
 
-      create_playbutton(hbox, "Set Tempo", pb_set_tempo, NULL);
+      //create_playbutton(hbox, "Set Tempo", pb_set_tempo, NULL);
 
       /* Volume */
       label = gtk_label_new (_("Volume"));
