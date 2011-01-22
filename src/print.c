@@ -44,8 +44,10 @@ typedef struct lilyversion
 
 #define GPID_NONE (-1)
 static GPid printviewpid = GPID_NONE;
-static gint printpreview_errors=-1;
+static GPid previewerpid = GPID_NONE;
+static GPid get_lily_version_pid = GPID_NONE;
 static GPid printpid = GPID_NONE;
+static gint printpreview_errors=-1;
 static gint output=-1;
 static gint errors=-1;
 static   GError *lily_err = NULL;
@@ -158,12 +160,11 @@ get_lily_version_string (void)
   "-v",
   NULL
   };
-
   g_spawn_async_with_pipes (NULL,            /* dir */
   arguments, NULL,       /* env */
   G_SPAWN_SEARCH_PATH | G_SPAWN_DO_NOT_REAP_CHILD, NULL, /* child setup func */
   NULL,          /* user data */
-  NULL,	/*pid*/
+  &get_lily_version_pid,	/*pid*/
   NULL, 	/*standard_input*/
   &standard_output,	/*standard output*/
   NULL,	/*standard error*/
@@ -359,12 +360,16 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
     }
   }
   else {
-    g_spawn_async (locatedotdenemo (),		/* dir */
-		   arguments, NULL,	/* env */
+    g_spawn_async_with_pipes (locatedotdenemo (),		/* dir */
+		   arguments, 
+		   NULL,	/* env */
 		   G_SPAWN_SEARCH_PATH, /* search in path for executable */
 		   NULL,	/* child setup func */
 		   NULL,		/* user data */		
-		   NULL, /* FIXME &pid see g_spawn_close_pid(&pid) */
+		   &previewerpid, /* FIXME &pid see g_spawn_close_pid(&pid) */
+		   NULL,
+		   NULL,
+		   NULL,
 		   &err);
   }
   if (err != NULL) {
@@ -392,7 +397,11 @@ open_pdfviewer(GPid pid, gint status, gchar *filename){
 }
 
 void
-run_lilypond(gchar **arguments, DenemoGUI *gui){
+run_lilypond(gchar **arguments) {
+  DenemoGUI *gui = Denemo.gui;
+  g_spawn_close_pid (get_lily_version_pid);
+  get_lily_version_pid = GPID_NONE;
+
   if(printpid!=GPID_NONE) {
     if(confirm("Already doing a print", "Kill that one off and re-start?")) {
       if(printviewpid!=GPID_NONE) //It could have died while the user was making up their mind...
@@ -410,18 +419,20 @@ run_lilypond(gchar **arguments, DenemoGUI *gui){
     g_error_free(lily_err);
     lily_err = NULL;
   }
-
+  
   g_spawn_async_with_pipes (locatedotdenemo (),		/* dir */
-		arguments, NULL,	/* env */
-		G_SPAWN_SEARCH_PATH  | G_SPAWN_DO_NOT_REAP_CHILD, NULL,	/* child setup func */
+		arguments,
+		NULL,		/* env */
+		G_SPAWN_SEARCH_PATH  | G_SPAWN_DO_NOT_REAP_CHILD,
+		NULL,		/* child setup func */
 		NULL,		/* user data */
 		&printpid,
 	        NULL,
 		NULL,		/* stdout */
 #ifdef G_OS_WIN32
-			    NULL,
+		NULL,
 #else
-		&errors,		/* stderr */
+		&errors,	/* stderr */
 #endif
 		&lily_err);
   if(lily_err) {
@@ -457,7 +468,7 @@ print (DenemoGUI * gui, gboolean part_only, gboolean all_movements)
     NULL
   };
 
-  run_lilypond(arguments, gui);
+  run_lilypond(arguments);
   gui->lilysync = G_MAXUINT;// in certain cases this may not be needed
   g_free(lilyfile);
 }
@@ -629,11 +640,13 @@ draw_page (GtkPrintOperation *operation,
 }
 
 void rm_temp_files(gchar *file,gpointer unused) {
+  printf("\nremoving file %s\n",file);
   g_remove(file);
   g_free(file);
 }
 
 void printpng_finished(GPid pid, gint status, GList *filelist) {
+  g_debug("printpng_finished\n");
   g_list_foreach(filelist, rm_temp_files, NULL);
   g_list_free(filelist);
   g_spawn_close_pid (printpid);
@@ -649,6 +662,10 @@ void printpdf_finished(GPid pid, gint status, GList *filelist) {
   infodialog("Your pdf file has now been created");
 }
 
+void prepare_preview(GPid pid, gint status, GList *filelist) {
+  open_pngviewer(pid, status, (gchar *) get_printfile_pathbasename());
+  printpng_finished(pid, status, (GList *) filelist);
+}
 
 /**
  * Does all the export pdf work.
@@ -659,7 +676,7 @@ void printpdf_finished(GPid pid, gint status, GList *filelist) {
  *  @param gui pointer to the DenemoGUI structure
  */
 static void
-export_png (gchar * filename, DenemoGUI * gui)
+export_png (gchar * filename, gboolean show_preview, DenemoGUI * gui)
 {
   gchar *basename;
   gchar *lilyfile;  
@@ -736,13 +753,14 @@ export_png (gchar * filename, DenemoGUI * gui)
 #endif
  
   /* generate the png file */
-  run_lilypond(arguments, gui);
-  if(printpid!=GPID_NONE) {
-    g_child_watch_add (printpid, (GChildWatchFunc)printpng_finished, (GList *)filelist);
-    while(printpid!=GPID_NONE) {
-      gtk_main_iteration_do(FALSE);
-    }
+  run_lilypond(arguments);
+  if (show_preview){
+    g_child_watch_add (printpid, (GChildWatchFunc)prepare_preview  /*  GChildWatchFunc function */, 
+	(gchar *) filelist);
   }
+  else   
+    g_child_watch_add (printpid, (GChildWatchFunc)printpng_finished, (GList *)filelist);
+  
   g_free (basename);
 }
 
@@ -780,8 +798,7 @@ export_png_action (GtkAction *action, gpointer param)
 	      (filename, GTK_WINDOW (Denemo.window), -1))
 	    {
 	      gtk_widget_destroy (file_selection);
-	      gui->lilycontrol.excerpt = FALSE; 
-	      export_png (filename, gui);
+	      export_png (filename, FALSE, gui);
 	      close = TRUE;
 	    }
 	  g_free (filename);
@@ -831,7 +848,7 @@ export_pdf (gchar * filename, DenemoGUI * gui)
     NULL
   };
   /* generate the pdf file */
-  run_lilypond(arguments, gui);
+  run_lilypond(arguments);
 
   if(printpid!=GPID_NONE) {
     g_child_watch_add (printpid, (GChildWatchFunc)printpdf_finished, filelist);
@@ -1134,8 +1151,10 @@ void refresh_print_view (gboolean preview_only) {
   changecount = Denemo.gui->changecount;// keep track so we know it update is needed
 
   g_spawn_async_with_pipes (locatedotdenemo (),		/* dir */
-		 arguments, NULL,	/* env */
-		 G_SPAWN_SEARCH_PATH | G_SPAWN_DO_NOT_REAP_CHILD, NULL,	/* child setup func */
+		 arguments, 
+		 NULL,	/* env */
+		 G_SPAWN_SEARCH_PATH | G_SPAWN_DO_NOT_REAP_CHILD, 
+		 NULL,	/* child setup func */
 		 NULL,		/* user data */
 		 &printviewpid,
 		 NULL,
@@ -1200,7 +1219,7 @@ printexcerptpreview_cb (GtkAction *action, gpointer param) {
     printrangedialog(gui);  //Launch a dialog to get selection
   if(gui->si->firstmeasuremarked){
     gui->lilycontrol.excerpt = TRUE;
-    export_png((gchar *) get_printfile_pathbasename(), gui); 
+    export_png((gchar *) get_printfile_pathbasename(), TRUE, gui); 
   }
 }
 
