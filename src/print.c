@@ -170,7 +170,7 @@ get_lily_version_string (void)
   NULL,	/*standard error*/
   &error);
   if(error==NULL) {
-    read(standard_output, buf, sizeof(buf));
+    gint numbytes = read(standard_output, buf, sizeof(buf));
     return regex_parse_version_number(buf);
   } else {
     g_warning ("%s", error->message);
@@ -647,7 +647,7 @@ void rm_temp_files(gchar *file,gpointer unused) {
 
 void printpng_finished(GPid pid, gint status, GList *filelist) {
   g_debug("printpng_finished\n");
-  g_list_foreach(filelist, rm_temp_files, NULL);
+  g_list_foreach(filelist, (GFunc)rm_temp_files, NULL);
   g_list_free(filelist);
   g_spawn_close_pid (printpid);
   printpid = GPID_NONE;
@@ -655,7 +655,7 @@ void printpng_finished(GPid pid, gint status, GList *filelist) {
 }
 
 void printpdf_finished(GPid pid, gint status, GList *filelist) {
-  g_list_foreach(filelist, rm_temp_files, NULL);
+  g_list_foreach(filelist, (GFunc)rm_temp_files, NULL);
   g_list_free(filelist);
   g_spawn_close_pid (printpid);
   printpid = GPID_NONE;
