@@ -139,7 +139,7 @@ void show_figured_bass  (GtkAction *action, gpointer param) {
  *
  */
 void
-figure_insert (GtkAction *action, gpointer param)
+figure_insert (GtkAction *action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
   gchar *string;
@@ -147,9 +147,9 @@ figure_insert (GtkAction *action, gpointer param)
   DenemoScore *si = gui->si;
   static struct callbackdata cbdata;
 
-  if(!action && param)
+  if(!action && param && param->string)
     {
-    GString *values = ((DenemoScriptParam *)param)->string;
+    GString *values = param->string;
     gchar *str;
 #define SET_STRING(a, b)     if( (str = g_strstr_len(values->str+i,strlen(values->str+i), a))) {\
       b = g_strdup(str+strlen(a)+1);\

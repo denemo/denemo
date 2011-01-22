@@ -2067,7 +2067,7 @@ gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW(gui->textview),
 static void
 output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname)
 {
-  call_out_to_guile("(InitializeTypesetting)");
+
   GString *definitions = g_string_new("");
   GString *staffdefinitions = g_string_new("");
 
@@ -2117,6 +2117,10 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
     g_list_free(gui->anchors);
     gui->anchors = NULL;
   }
+
+  call_out_to_guile("(InitializeTypesetting)");
+
+
   /* divide up the buffer for the various parts of the lily file */
   GtkTextIter iter;
 
@@ -2134,21 +2138,13 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
   gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, START));
   gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\n", -1, "bold", NULL);
  
-  //gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, MUSIC));
-
-  //  if(gui->custom_prolog && gui->custom_prolog->len ) 
-  //    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, gui->custom_prolog->str, -1, "bold", NULL);
-  // else 
+  
     {//no custom prolog
     GString *header = g_string_new("");
     outputHeader (header, gui);
     gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, header->str, -1,  INEDITABLE, NULL);
     g_string_free(header, TRUE);
 
-
-
-    //!!!!!!!!! here put the fields paper size, fontsize, printallheaders(excerpt) etc, while leaving the custom prolog
-    // containing the fixed stuff. for example:
     gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "#(set-default-paper-size \"", -1, INEDITABLE, NULL, NULL);
     insert_editable(&gui->lilycontrol.papersize, gui->lilycontrol.papersize->str, &iter, NULL, gui);
     gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\"\n", -1, INEDITABLE, NULL, NULL);
@@ -2160,14 +2156,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
     insert_editable(&gui->lilycontrol.staffsize, gui->lilycontrol.staffsize->str, &iter, NULL, gui);
     gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, ")\n", -1, INEDITABLE, NULL, NULL);
 
-#if 0
-    //The tagline field has to appear in a header block at the top of the file, else it is ignored    
-    if(((DenemoScore*)gui->movements->data)->headerinfo.tagline->len) {
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\n\\header{\n" TAB"tagline = \"", -1, INEDITABLE, NULL, NULL);
-      insert_editable(& ((DenemoScore*)gui->movements->data)->headerinfo.tagline,  ((DenemoScore*)gui->movements->data)->headerinfo.tagline->str, &iter, NULL, gui);
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\"}\n", -1, INEDITABLE, NULL, NULL); 
-    }
-#endif
+
     {
       gchar *header_string = get_postfix(gui->scoreheader.directives);
       if(header_string) {
