@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>TinyStaff</after>
+        <action>TinyStaffAllMovements</action>
+        <scheme>;;;TinyStaffAllMovements
+(let ((staffnum (d-GetUserInput"Miniaturize a staff in all movements" "Give staff number:" "1")))
+(if staffnum
+    (if (string? staffnum)
+	(ForAllMovements (string-append "(d-GoToPosition #f " staffnum " 1 1)(d-TinyStaff)")))))
+</scheme>
+        <label>Tiny Staff in All Movements</label>
+        <tooltip>Gets a staff number 1 ... n from user and makes that staff tiny in all movements.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
