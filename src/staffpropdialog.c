@@ -69,7 +69,7 @@ static gchar *instruments[] = {
   "contrabass",
   "tremolo strings",
   "pizzicato strings",
-  "orchestral strings",
+  "orchestral harp",
   "timpani",
   "string ensemble 1",
   "string ensemble 2",
