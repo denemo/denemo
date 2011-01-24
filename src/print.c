@@ -675,7 +675,7 @@ void prepare_preview(GPid pid, gint status, GList *filelist) {
  *	@param filename filename to save score to
  *  @param gui pointer to the DenemoGUI structure
  */
-static void
+void
 export_png (gchar * filename, gboolean show_preview, DenemoGUI * gui)
 {
   gchar *basename;
@@ -821,7 +821,7 @@ export_png_action (GtkAction *action, gpointer param)
  *	@param filename filename to save score to
  *  @param gui pointer to the DenemoGUI structure
  */
-static void
+void
 export_pdf (gchar * filename, DenemoGUI * gui)
 {
   gchar *basename;

@@ -49,6 +49,7 @@ typedef enum
 { DENEMO_FORMAT = 0,
   DNM_FORMAT,
   MUDELA_FORMAT,
+  PDF_FORMAT,
   PNG_FORMAT,
   ABC_FORMAT,
   MIDI_FORMAT,
@@ -66,31 +67,35 @@ struct FileFormatData
   gchar *filename_mask;
   gchar *description;
   gchar *filename_extension;
+  gboolean async; /* TRUE if uses async */
 };
 
 static struct FileFormatData supported_import_file_formats[] = {
-  {"*.denemo", N_("Denemo XML format (*.denemo)"), ".denemo"},
-  {"*.dnm", N_("Denemo XML format (*.dnm)"), ".dnm"},
-  {"*.ly", N_("Lilypond (*.ly)"), ".ly"},
-  {"*.mid", N_("Midi (*.mid)"), ".mid"},
-  {"*.midi", N_("Midi (*.midi)"), ".midi"},
-  {"*.mxml", N_("Music XML (*.mxml)"), ".mxml"}
+  {"*.denemo", N_("Denemo XML format (*.denemo)"), ".denemo", 0},
+  {"*.dnm", N_("Denemo XML format (*.dnm)"), ".dnm", 0},
+  {"*.ly", N_("Lilypond (*.ly)"), ".ly", 0},
+  {"*.mid", N_("Midi (*.mid)"), ".mid", 0},
+  {"*.midi", N_("Midi (*.midi)"), ".midi", 0},
+  {"*.mxml", N_("Music XML (*.mxml)"), ".mxml", 0}
 };
 
 
 static struct FileFormatData supported_export_file_formats[] = {
-  {"*.denemo", N_("Denemo XML format (*.denemo)"), ".denemo"},
-  {"*.dnm", N_("Denemo XML format (*.dnm)"), ".dnm"},
-  {"*.ly", N_("Lilypond (*.ly)"), ".ly"},
-  {"*.abc", N_("ABC (*.abc)"), ".abc"},
-  {"*.mid", N_("Midi (*.mid)"), ".mid"},
-  {"*.sco", N_("CSound Score File (*.sco)"), ".sco"}
+  {"*.denemo", N_("Denemo XML format (*.denemo)"), ".denemo", 0},
+  {"*.dnm", N_("Denemo XML format (*.dnm)"), ".dnm", 0},
+  {"*.ly", N_("Lilypond (*.ly)"), ".ly", 0},
+  {"*.pdf", N_("PDF (*.pdf)"), ".pdf", 1},
+  {"*.png", N_("PNG Image format (*.png)"), ".png", 1},
+  {"*.abc", N_("ABC (*.abc)"), ".abc", 0},
+  {"*.mid", N_("Midi (*.mid)"), ".mid", 0},
+  {"*.sco", N_("CSound Score File (*.sco)"), ".sco", 0}
 };
 
 /* Some macros just to shorten lines */
 #define FORMAT_MASK(i) supported_export_file_formats[i].filename_mask
 #define FORMAT_DESCRIPTION(i) supported_export_file_formats[i].description
 #define FORMAT_EXTENSION(i) supported_export_file_formats[i].filename_extension
+#define FORMAT_ASYNC(i) supported_export_file_formats[i].async
 
 #define COLUMN_NAME (0)
 #define COLUMN_ID (1)
@@ -388,6 +393,18 @@ static void save_in_format(gint format_id, DenemoGUI * gui, gchar *filename) {
 	exportlilypond (file, gui, TRUE);
 	break;
       };
+    case PDF_FORMAT:
+      {
+	gui->si->markstaffnum = 0;
+        export_pdf (file, gui);
+        break;
+      };
+    case PNG_FORMAT:
+      {
+	gui->si->markstaffnum = 0;
+	export_png (file, FALSE, gui);
+        break;
+      };
     case ABC_FORMAT:
       {
 	exportabc (file, gui, 0, 0);
@@ -426,9 +443,7 @@ filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, DenemoSa
   gchar *file = NULL;
   gchar *basename = NULL;
   file = create_filename(file_name, &format_id);
-#ifdef DEBUG
-  g_print("Saving to file %s", file);
-#endif
+  g_debug("Saving to file %s\n", file);
   if(!template) {
     update_file_selection_path(file);
     set_gui_filename (gui, file);
@@ -437,8 +452,11 @@ filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, DenemoSa
 
   if (basename[0] != '.') // avoids empty filename
     {
-      save_in_format(format_id, gui, file);
-      
+      if (FORMAT_ASYNC(format_id))
+        save_in_format(format_id, gui, file_name);
+      else
+        save_in_format(format_id, gui, file);
+ 
       /*export parts as lilypond files*/
       if(Denemo.prefs.saveparts)
 	export_lilypond_parts(file,gui);
