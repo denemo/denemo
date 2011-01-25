@@ -773,7 +773,8 @@
 	(define proc-del (string-append "d-DirectiveDelete-" type))
 	(if ((eval-string proc-get) tag)
 		((eval-string proc-del) tag)
-		((eval-string proc-put) tag content)))
+		((eval-string proc-put) tag content))
+	(d-SetSaved #f))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
