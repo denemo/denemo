@@ -1185,6 +1185,8 @@ printpart_cb (GtkAction *action, gpointer param) {
     print(gui, TRUE, TRUE);
   else
    print(gui, TRUE, FALSE); 
+  g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, 
+	(gchar *) get_printfile_pathbasename());
 }
 
 void
