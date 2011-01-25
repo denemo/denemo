@@ -33,6 +33,9 @@
                      (disp-in (cdr arg))))))) 
 		     (disp-in args)
 		     (newline))))
+		     
+(define DBLQ "\"")
+(define LFEED "\n")
 
 
 ;;; GetUniquePairs is a function that takes a list and combines each value with any other, but without duplicates and in order.
