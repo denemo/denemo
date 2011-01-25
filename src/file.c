@@ -45,17 +45,6 @@ file_open (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *fil
 
 
 
-typedef enum
-{ DENEMO_FORMAT = 0,
-  DNM_FORMAT,
-  MUDELA_FORMAT,
-  PDF_FORMAT,
-  PNG_FORMAT,
-  ABC_FORMAT,
-  MIDI_FORMAT,
-  CSOUND_FORMAT
-}
-FileFormatNames;
 
 /* Keep this up to date ! */
 
@@ -453,7 +442,7 @@ filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, DenemoSa
   if (basename[0] != '.') // avoids empty filename
     {
       if (FORMAT_ASYNC(format_id))
-        save_in_format(format_id, gui, file_name);
+        save_in_format(format_id, gui, (gchar *) file_name);
       else
         save_in_format(format_id, gui, file);
  
@@ -838,6 +827,73 @@ file_save (GtkWidget * widget, DenemoGUI * gui)
   
   denemo_warning (gui, guess_file_format (gui->filename->str));
   score_status(gui, FALSE);
+}
+
+/**
+ * Create file saveas dialog to enable user to export the current file to
+ *
+ *
+ */
+void
+file_export (DenemoGUI * gui, FileFormatNames type)
+{
+  GtkWidget *file_selection;
+  GtkWidget *label;
+  GtkWidget *hbox;
+  gchar *description = g_strconcat(_("Export As "), FORMAT_DESCRIPTION(type), NULL);
+  file_selection = gtk_file_chooser_dialog_new (description,
+						GTK_WINDOW (Denemo.window),
+						GTK_FILE_CHOOSER_ACTION_SAVE,
+						GTK_STOCK_CANCEL,
+						GTK_RESPONSE_REJECT,
+						GTK_STOCK_SAVE,
+						GTK_RESPONSE_ACCEPT, NULL);
+
+
+  /*set default folder for saving */
+  set_current_folder(file_selection, gui, SAVE_NORMAL);
+
+  /* assign title */ 
+  { gchar * title = get_scoretitle();
+  if (title)
+    { 
+      gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (file_selection), title);
+    }
+  }
+  
+  gtk_dialog_set_default_response (GTK_DIALOG (file_selection),
+				   GTK_RESPONSE_ACCEPT);
+  gtk_widget_show_all (file_selection);
+  gboolean close = FALSE;
+  do
+    {
+      if (gtk_dialog_run (GTK_DIALOG (file_selection)) == GTK_RESPONSE_ACCEPT)
+	{
+	  gint format_id = type;
+	  gchar *file_name
+	    =
+	    gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_selection));
+
+	  if (replace_existing_file_dialog
+	      (file_name, GTK_WINDOW (Denemo.window), format_id))
+	    {
+	      filesel_save (gui, file_name, format_id, FALSE);
+	      close = TRUE;
+	      //the lilypond can now be out of sync
+	      gui->lilysync = G_MAXUINT;//FIXME move these two lines into a function, they force refresh of lily text
+	      refresh_lily_cb(NULL, gui);
+	    }
+	  g_free (file_name);
+	}
+      else
+	{
+	  close = TRUE;
+	}
+    }
+  while (!close);
+
+  gtk_widget_destroy (file_selection);
+  g_free(description);
 }
 
 /**

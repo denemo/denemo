@@ -5,8 +5,21 @@
  * (c) 2000, 2001, Adam Tee
  * (c) 2000, 2001, University of Leeds
  */
+#ifndef FILE_H
+#define FILE_H
 
 
+typedef enum
+{ DENEMO_FORMAT = 0,
+  DNM_FORMAT,
+  MUDELA_FORMAT,
+  PDF_FORMAT,
+  PNG_FORMAT,
+  ABC_FORMAT,
+  MIDI_FORMAT,
+  CSOUND_FORMAT
+}
+FileFormatNames;
 
 gboolean confirmbox (DenemoGUI *gui);
 
@@ -83,3 +96,5 @@ updatescoreinfo (DenemoGUI *gui);
  * @return TRUE if the file does not exists or the user want it to be overwritten
  */
 gboolean replace_existing_file_dialog(const gchar* filename, GtkWindow* parent_window, gint format_id);
+
+#endif /*FILE_H*/
