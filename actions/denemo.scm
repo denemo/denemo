@@ -766,11 +766,19 @@
 (define (CreateButton tag label)
   (d-DirectivePut-score-override tag DENEMO_OVERRIDE_GRAPHIC)
   (d-DirectivePut-score-display tag label))
+  
+(define (ToggleDirective type field tag content) ; four strings
+	(define proc-put (string-append "d-DirectivePut-" type "-" field))
+	(define proc-get (string-append "d-DirectiveGet-" type "-" field))
+	(define proc-del (string-append "d-DirectiveDelete-" type))
+	(if ((eval-string proc-get) tag)
+		((eval-string proc-del) tag)
+		((eval-string proc-put) tag content)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;; String Escaper
-;;;;;;;;; Escapes Strings.
+;;;;;;;;; Escapes Strings
 ;;; from brlewis http://srfi.schemers.org/srfi-13/mail-archive/msg00025.html
 
 (define (string-escaper esc)
