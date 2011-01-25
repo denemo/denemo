@@ -2673,14 +2673,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Tempo Indications</menupath>
         <label>Allegro Assai</label>
         <tooltip>Gives Allegro Assai tempo indication</tooltip>
-      </row>
-      <row>
-        <action>Ambitus</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Score</menupath>
-        <label>Ambitus Off/On</label>
-        <tooltip>Prints the ambitus before each staff of the score.</tooltip>
-      </row>
+      </row>      
       <row>
         <action>RecreateTimebase</action>
         <scheme></scheme>
