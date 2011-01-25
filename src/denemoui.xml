@@ -18,12 +18,17 @@
 		<separator/>
       <menuitem action="Save"/>
       <menuitem action="SaveAs"/>
-      <menuitem action="SaveCopy"/>
+      <!-- <menuitem action="SaveCopy"/> -->
       <menuitem action="SaveParts"/>
 		<!-- <menuitem action="SaveSelection"/> -->
       <menuitem action="SaveTemplate"/>
+      <menu action="Export"> 
+	<menuitem action="ExportMUDELA"/> 
       	<menuitem action="ExportPDF"/> 
-      <menuitem action="ExportPNG"/> 
+        <menuitem action="ExportPNG"/> 
+	<menuitem action="ExportMIDI"/> 
+	<menuitem action="ExportCSOUND"/> 
+      </menu>
       <separator/>
       <menuitem action="ConfigureScore"/> 
       <separator/> 
