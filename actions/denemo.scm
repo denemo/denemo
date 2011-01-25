@@ -33,6 +33,9 @@
                      (disp-in (cdr arg))))))) 
 		     (disp-in args)
 		     (newline))))
+		     
+(define DBLQ "\"")
+(define LFEED "\n")
 
 
 ;;; GetUniquePairs is a function that takes a list and combines each value with any other, but without duplicates and in order.
@@ -763,11 +766,20 @@
 (define (CreateButton tag label)
   (d-DirectivePut-score-override tag DENEMO_OVERRIDE_GRAPHIC)
   (d-DirectivePut-score-display tag label))
+  
+(define (ToggleDirective type field tag content) ; four strings
+	(define proc-put (string-append "d-DirectivePut-" type "-" field))
+	(define proc-get (string-append "d-DirectiveGet-" type "-" field))
+	(define proc-del (string-append "d-DirectiveDelete-" type))
+	(if ((eval-string proc-get) tag)
+		((eval-string proc-del) tag)
+		((eval-string proc-put) tag content))
+	(d-SetSaved #f))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;; String Escaper
-;;;;;;;;; Escapes Strings.
+;;;;;;;;; Escapes Strings
 ;;; from brlewis http://srfi.schemers.org/srfi-13/mail-archive/msg00025.html
 
 (define (string-escaper esc)
