@@ -800,13 +800,7 @@ export_pdf (gchar * filename, DenemoGUI * gui)
   /* generate the pdf file */
   run_lilypond(arguments);
 
-  if(printpid!=GPID_NONE) {
-    g_child_watch_add (printpid, (GChildWatchFunc)printpdf_finished, filelist);
-    while(printpid!=GPID_NONE) {
-      gtk_main_iteration_do(FALSE);
-    }
-  }
-  
+  g_child_watch_add (printpid, (GChildWatchFunc)printpdf_finished, filelist);
   g_free (basename);
 }
 
