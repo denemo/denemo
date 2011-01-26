@@ -9,5 +9,5 @@
      ((equal? choice  cue-Advanced)
       (d-DirectiveTextEdit-staff "StaffSize"))
      ((equal? choice  cue-Delete)
-      (d-DirectiveDelete-staff "StaffSize")))))
+      (d-SmallerStaff)))))
 (d-RefreshDisplay)
