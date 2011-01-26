@@ -129,10 +129,21 @@ void hide_figured_bass  (GtkAction *action, gpointer param) {
   DenemoStaff* thestaff = (DenemoStaff*)gui->si->currentstaff->data;
    thestaff->hasfigures=FALSE;
 }
+/* turn on figured bass if any figures are present */
 void show_figured_bass  (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   DenemoStaff* thestaff = (DenemoStaff*)gui->si->currentstaff->data;
-   thestaff->hasfigures=TRUE;
+  measurenode *curmeasure;
+  for(curmeasure = thestaff->measures;curmeasure;curmeasure=curmeasure->next) {
+      objnode *curobj;
+      for(curobj = curmeasure->data;curobj;curobj=curobj->next) {    
+	DenemoObject *curObj=(DenemoObject*)curobj->data;
+	if (curObj && curObj->type == CHORD) {
+	  GString *s= ((chord *) curObj->object)->figure;
+	  if(s) thestaff->hasfigures=TRUE;
+	}
+      }
+    }
 }
 /**
  * Creates figured bass entry dialog
