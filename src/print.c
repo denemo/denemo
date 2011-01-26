@@ -405,6 +405,7 @@ open_pdfviewer(GPid pid, gint status, gchar *filename){
 static void
 run_lilypond(gchar **arguments) {
   DenemoGUI *gui = Denemo.gui;
+  progressbar("Running Lilypond");
   g_spawn_close_pid (get_lily_version_pid);
   get_lily_version_pid = GPID_NONE;
 

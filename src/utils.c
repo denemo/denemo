@@ -110,6 +110,81 @@ infodialog (gchar * msg)
   gtk_widget_show_all(dialog);
 }
 
+/* data stucture to contain Progressbar 
+ * data
+ */
+typedef struct _ProgressData {
+  GtkWidget *window;
+  GtkWidget *pbar;
+  int timer;
+} ProgressData;
+
+/* Clean up allocated memory */
+static void destroy_progress(ProgressData *pdata)
+{
+  pdata->timer = 0;
+  pdata->window = NULL;
+  g_free (pdata);
+}
+/* Update the value of the progress bar so that we get
+ * some movement */
+static gboolean progress_timeout(gpointer data)
+{
+  ProgressData *pdata = (ProgressData *) data;
+  gdouble new_val;
+
+  /* Calculate the value of the progress bar using the
+   * value range set in the adjustment object */
+
+  new_val = gtk_progress_bar_get_fraction (GTK_PROGRESS_BAR (pdata->pbar)) + 0.01;
+  
+  if (new_val >= 1.0){
+    gtk_widget_destroy (pdata->window);
+    destroy_progress(pdata);
+    return FALSE;
+  }
+
+  /* Set the new value */
+  gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (pdata->pbar), new_val);
+
+  return TRUE;
+}
+
+/**
+ * Displays progress bar
+ * window should close upon completion
+ * @param msg message to display
+ * @return none
+ */
+void
+progressbar (gchar *msg)
+{
+  ProgressData *pdata;
+  GtkWidget *vbox;
+
+  /* Allocate memory for the data that is passed to the callbacks */
+  pdata = g_malloc (sizeof (ProgressData));
+
+  pdata->window = gtk_window_new (GTK_WINDOW_POPUP); 
+  //gtk_window_set_title (GTK_WINDOW (pdata->window), _("Progress")); 
+ 
+  vbox = gtk_vbox_new (FALSE, 5);
+  gtk_container_add (GTK_CONTAINER (pdata->window), vbox);
+  gtk_widget_show (vbox);
+
+  pdata->pbar = gtk_progress_bar_new();
+  gtk_container_add (GTK_CONTAINER (vbox), pdata->pbar);
+  gtk_widget_show(pdata->pbar);
+  
+  /* set text incide progress bar */
+  gtk_progress_bar_set_text (GTK_PROGRESS_BAR (pdata->pbar), msg);
+
+  pdata->timer = g_timeout_add (100, progress_timeout, pdata);  
+  gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (pdata->pbar), 0.5 );	
+		   
+  gtk_window_set_keep_above(GTK_WINDOW (pdata->window), TRUE);
+  gtk_widget_show(pdata->window);
+}
 
 /**
  *  Draws the given bitmap mask on to the pixmap using the given 

@@ -124,7 +124,8 @@ warningdialog(gchar *msg);
 void
 infodialog(gchar *msg);
 
-
+void
+progressbar(gchar *msg);
 
 void 
 headerfields(GtkWidget *dialog, GtkListStore *list_store, 
