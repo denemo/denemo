@@ -318,8 +318,13 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
   g_spawn_close_pid (printpid);
   printpid = GPID_NONE;
   //normal_cursor();
-  printf("\nOpening filename = %s\n",filename);
+  printf("\nOpening filename = %s for %d\n",filename, status);
   process_lilypond_errors(filename); 
+
+  if(status) {
+    warningdialog("LilyPond engraver failed - See highlighting in LilyPond window (open the LilyPond window and right click to print)");
+  } else {
+
 
   if (is_png)
 	printfile = g_strconcat (filename, ".png", NULL);
@@ -383,6 +388,7 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
     err = NULL;
   }
   g_free(printfile);
+}
 }
 
 
