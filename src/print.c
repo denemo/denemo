@@ -396,7 +396,7 @@ open_pdfviewer(GPid pid, gint status, gchar *filename){
      open_viewer(pid, status, filename, FALSE);
 }
 
-void
+static void
 run_lilypond(gchar **arguments) {
   DenemoGUI *gui = Denemo.gui;
   g_spawn_close_pid (get_lily_version_pid);
@@ -645,6 +645,7 @@ void rm_temp_files(gchar *file,gpointer unused) {
   g_free(file);
 }
 
+static
 void printpng_finished(GPid pid, gint status, GList *filelist) {
   g_debug("printpng_finished\n");
   g_list_foreach(filelist, (GFunc)rm_temp_files, NULL);
@@ -654,14 +655,18 @@ void printpng_finished(GPid pid, gint status, GList *filelist) {
   infodialog("Your png file has now been created");
 }
 
+static
 void printpdf_finished(GPid pid, gint status, GList *filelist) {
-  g_list_foreach(filelist, (GFunc)rm_temp_files, NULL);
-  g_list_free(filelist);
+  if(filelist) {
+    g_list_foreach(filelist, (GFunc)rm_temp_files, NULL);
+    g_list_free(filelist);
+  }
   g_spawn_close_pid (printpid);
   printpid = GPID_NONE;
   infodialog("Your pdf file has now been created");
 }
 
+static
 void prepare_preview(GPid pid, gint status, GList *filelist) {
   open_pngviewer(pid, status, (gchar *) get_printfile_pathbasename());
   printpng_finished(pid, status, (GList *) filelist);
@@ -848,6 +853,7 @@ export_pdf (gchar * filename, DenemoGUI * gui)
     NULL
   };
   /* generate the pdf file */
+
   run_lilypond(arguments);
 
   if(printpid!=GPID_NONE) {
@@ -860,6 +866,16 @@ export_pdf (gchar * filename, DenemoGUI * gui)
   g_free (basename);
 }
 
+void
+print_and_view(gchar **arguments) {
+  run_lilypond(arguments);
+  if(printpid!=GPID_NONE) {
+    g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer, (gchar *) get_printfile_pathbasename());
+    while(printpid!=GPID_NONE) {
+      gtk_main_iteration_do(FALSE);
+    }
+  }
+}
 
 /**
  * Export pdf callback prompts for filename

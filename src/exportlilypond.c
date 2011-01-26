@@ -1967,7 +1967,7 @@ static void print_lily_cb (GtkWidget *item, DenemoGUI *gui){
       lilyfile,
       NULL
     };
-    run_lilypond(arguments, gui);
+    print_and_view(arguments);
   }
 }
 
