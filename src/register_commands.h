@@ -238,8 +238,11 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertMo
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertMovementAfter"), "InsertMovementAfter", "Insert Movement After", "Insert a new movement after the current one", insert_movement_after);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "NewMovement"), "NewMovement", "New Movement", "Create a new movement, usign any default template", append_new_movement);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "SaveParts"), "SaveParts", "Save Parts", "Save Parts: each staff becomes a file in lilypond format", file_savepartswrapper);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "ExportMUDELA"), "ExportMUDELA", "Export Lilypond", "Export the score as a lilypond file", export_mudela_action);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ExportPDF"), "ExportPDF", "Export PDF", "Export the score as a PDF document file", export_pdf_action);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ExportPNG"), "ExportPNG", "Export PNG", "Export the score as a PNG image file", export_png_action);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "ExportMIDI"), "ExportMIDI", "Export MIDI", "Export the score as a MIDI file", export_midi_action);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "ExportCSOUND"), "ExportCSOUND", "Export Csound", "Export the score as a Csound Score file", export_csound_action);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ConfigureScore"), "ConfigureScore", "Score Wizard", "Start up a wizard to create a new score. This allows you to set various properties of the score", scorewizard);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintPreview"), "PrintPreview", "Print Preview", "Displays the final finished score in your pdf viewer", printpreview_cb);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintSelection"), "PrintSelection", "Print Selection", "Displays selected music from score in your pdf viewer", printselection_cb);

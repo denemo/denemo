@@ -45,16 +45,6 @@ file_open (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *fil
 
 
 
-typedef enum
-{ DENEMO_FORMAT = 0,
-  DNM_FORMAT,
-  MUDELA_FORMAT,
-  PNG_FORMAT,
-  ABC_FORMAT,
-  MIDI_FORMAT,
-  CSOUND_FORMAT
-}
-FileFormatNames;
 
 /* Keep this up to date ! */
 
@@ -66,31 +56,35 @@ struct FileFormatData
   gchar *filename_mask;
   gchar *description;
   gchar *filename_extension;
+  gboolean async; /* TRUE if uses async */
 };
 
 static struct FileFormatData supported_import_file_formats[] = {
-  {"*.denemo", N_("Denemo XML format (*.denemo)"), ".denemo"},
-  {"*.dnm", N_("Denemo XML format (*.dnm)"), ".dnm"},
-  {"*.ly", N_("Lilypond (*.ly)"), ".ly"},
-  {"*.mid", N_("Midi (*.mid)"), ".mid"},
-  {"*.midi", N_("Midi (*.midi)"), ".midi"},
-  {"*.mxml", N_("Music XML (*.mxml)"), ".mxml"}
+  {"*.denemo", N_("Denemo XML format (*.denemo)"), ".denemo", 0},
+  {"*.dnm", N_("Denemo XML format (*.dnm)"), ".dnm", 0},
+  {"*.ly", N_("Lilypond (*.ly)"), ".ly", 0},
+  {"*.mid", N_("Midi (*.mid)"), ".mid", 0},
+  {"*.midi", N_("Midi (*.midi)"), ".midi", 0},
+  {"*.mxml", N_("Music XML (*.mxml)"), ".mxml", 0}
 };
 
 
 static struct FileFormatData supported_export_file_formats[] = {
-  {"*.denemo", N_("Denemo XML format (*.denemo)"), ".denemo"},
-  {"*.dnm", N_("Denemo XML format (*.dnm)"), ".dnm"},
-  {"*.ly", N_("Lilypond (*.ly)"), ".ly"},
-  {"*.abc", N_("ABC (*.abc)"), ".abc"},
-  {"*.mid", N_("Midi (*.mid)"), ".mid"},
-  {"*.sco", N_("CSound Score File (*.sco)"), ".sco"}
+  {"*.denemo", N_("Denemo XML format (*.denemo)"), ".denemo", 0},
+  {"*.dnm", N_("Denemo XML format (*.dnm)"), ".dnm", 0},
+  {"*.ly", N_("Lilypond (*.ly)"), ".ly", 0},
+  {"*.pdf", N_("PDF (*.pdf)"), ".pdf", 1},
+  {"*.png", N_("PNG Image format (*.png)"), ".png", 1},
+  {"*.abc", N_("ABC (*.abc)"), ".abc", 0},
+  {"*.mid", N_("Midi (*.mid)"), ".mid", 0},
+  {"*.sco", N_("CSound Score File (*.sco)"), ".sco", 0}
 };
 
 /* Some macros just to shorten lines */
 #define FORMAT_MASK(i) supported_export_file_formats[i].filename_mask
 #define FORMAT_DESCRIPTION(i) supported_export_file_formats[i].description
 #define FORMAT_EXTENSION(i) supported_export_file_formats[i].filename_extension
+#define FORMAT_ASYNC(i) supported_export_file_formats[i].async
 
 #define COLUMN_NAME (0)
 #define COLUMN_ID (1)
@@ -388,6 +382,18 @@ static void save_in_format(gint format_id, DenemoGUI * gui, gchar *filename) {
 	exportlilypond (file, gui, TRUE);
 	break;
       };
+    case PDF_FORMAT:
+      {
+	gui->si->markstaffnum = 0;
+        export_pdf (file, gui);
+        break;
+      };
+    case PNG_FORMAT:
+      {
+	gui->si->markstaffnum = 0;
+	export_png (file, FALSE, gui);
+        break;
+      };
     case ABC_FORMAT:
       {
 	exportabc (file, gui, 0, 0);
@@ -426,9 +432,7 @@ filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, DenemoSa
   gchar *file = NULL;
   gchar *basename = NULL;
   file = create_filename(file_name, &format_id);
-#ifdef DEBUG
-  g_print("Saving to file %s", file);
-#endif
+  g_debug("Saving to file %s\n", file);
   if(!template) {
     update_file_selection_path(file);
     set_gui_filename (gui, file);
@@ -437,8 +441,11 @@ filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, DenemoSa
 
   if (basename[0] != '.') // avoids empty filename
     {
-      save_in_format(format_id, gui, file);
-      
+      if (FORMAT_ASYNC(format_id))
+        save_in_format(format_id, gui, (gchar *) file_name);
+      else
+        save_in_format(format_id, gui, file);
+ 
       /*export parts as lilypond files*/
       if(Denemo.prefs.saveparts)
 	export_lilypond_parts(file,gui);
@@ -820,6 +827,73 @@ file_save (GtkWidget * widget, DenemoGUI * gui)
   
   denemo_warning (gui, guess_file_format (gui->filename->str));
   score_status(gui, FALSE);
+}
+
+/**
+ * Create file saveas dialog to enable user to export the current file to
+ *
+ *
+ */
+void
+file_export (DenemoGUI * gui, FileFormatNames type)
+{
+  GtkWidget *file_selection;
+  GtkWidget *label;
+  GtkWidget *hbox;
+  gchar *description = g_strconcat(_("Export As "), FORMAT_DESCRIPTION(type), NULL);
+  file_selection = gtk_file_chooser_dialog_new (description,
+						GTK_WINDOW (Denemo.window),
+						GTK_FILE_CHOOSER_ACTION_SAVE,
+						GTK_STOCK_CANCEL,
+						GTK_RESPONSE_REJECT,
+						GTK_STOCK_SAVE,
+						GTK_RESPONSE_ACCEPT, NULL);
+
+
+  /*set default folder for saving */
+  set_current_folder(file_selection, gui, SAVE_NORMAL);
+
+  /* assign title */ 
+  { gchar * title = get_scoretitle();
+  if (title)
+    { 
+      gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (file_selection), title);
+    }
+  }
+  
+  gtk_dialog_set_default_response (GTK_DIALOG (file_selection),
+				   GTK_RESPONSE_ACCEPT);
+  gtk_widget_show_all (file_selection);
+  gboolean close = FALSE;
+  do
+    {
+      if (gtk_dialog_run (GTK_DIALOG (file_selection)) == GTK_RESPONSE_ACCEPT)
+	{
+	  gint format_id = type;
+	  gchar *file_name
+	    =
+	    gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_selection));
+
+	  if (replace_existing_file_dialog
+	      (file_name, GTK_WINDOW (Denemo.window), format_id))
+	    {
+	      filesel_save (gui, file_name, format_id, FALSE);
+	      close = TRUE;
+	      //the lilypond can now be out of sync
+	      gui->lilysync = G_MAXUINT;//FIXME move these two lines into a function, they force refresh of lily text
+	      refresh_lily_cb(NULL, gui);
+	    }
+	  g_free (file_name);
+	}
+      else
+	{
+	  close = TRUE;
+	}
+    }
+  while (!close);
+
+  gtk_widget_destroy (file_selection);
+  g_free(description);
 }
 
 /**

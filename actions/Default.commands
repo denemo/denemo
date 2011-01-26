@@ -2677,9 +2677,9 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>Ambitus</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score</menupath>
-        <label>Ambitus Off/On</label>
-        <tooltip>Prints the ambitus before each staff of the score.</tooltip>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>(Print) Ambitus on/off</label>
+        <tooltip>Toggle the ambitus engraver for this staff on or off</tooltip>
       </row>
       <row>
         <action>RecreateTimebase</action>

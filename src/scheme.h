@@ -959,6 +959,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "NewMovement")), "scm", (g
 SCM scheme_SaveParts(SCM optional);
 install_scm_function ("d-SaveParts", scheme_SaveParts);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "SaveParts")), "scm", (gpointer)1);
+/*ExportMUDELA export_mudela_action*/
+SCM scheme_ExportMUDELA(SCM optional);
+install_scm_function ("d-ExportMUDELA", scheme_ExportMUDELA);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ExportMUDELA")), "scm", (gpointer)1);
 /*ExportPDF export_pdf_action*/
 SCM scheme_ExportPDF(SCM optional);
 install_scm_function ("d-ExportPDF", scheme_ExportPDF);
@@ -967,6 +971,14 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ExportPDF")), "scm", (gpo
 SCM scheme_ExportPNG(SCM optional);
 install_scm_function ("d-ExportPNG", scheme_ExportPNG);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ExportPNG")), "scm", (gpointer)1);
+/*ExportMIDI export_midi_action*/
+SCM scheme_ExportMIDI(SCM optional);
+install_scm_function ("d-ExportMIDI", scheme_ExportMIDI);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ExportMIDI")), "scm", (gpointer)1);
+/*ExportCSOUND export_csound_action*/
+SCM scheme_ExportCSOUND(SCM optional);
+install_scm_function ("d-ExportCSOUND", scheme_ExportCSOUND);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ExportCSOUND")), "scm", (gpointer)1);
 /*ConfigureScore scorewizard*/
 SCM scheme_ConfigureScore(SCM optional);
 install_scm_function ("d-ConfigureScore", scheme_ConfigureScore);

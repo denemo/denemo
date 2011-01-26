@@ -680,7 +680,7 @@ void prepare_preview(GPid pid, gint status, GList *filelist) {
  *	@param filename filename to save score to
  *  @param gui pointer to the DenemoGUI structure
  */
-static void
+void
 export_png (gchar * filename, gboolean show_preview, DenemoGUI * gui)
 {
   gchar *basename;
@@ -759,63 +759,13 @@ export_png (gchar * filename, gboolean show_preview, DenemoGUI * gui)
  
   /* generate the png file */
   run_lilypond(arguments);
-  if (show_preview){
+  if (show_preview)
     g_child_watch_add (printpid, (GChildWatchFunc)prepare_preview  /*  GChildWatchFunc function */, 
 	(gchar *) filelist);
-  }
   else   
     g_child_watch_add (printpid, (GChildWatchFunc)printpng_finished, (GList *)filelist);
   
   g_free (basename);
-}
-
-
-/**
- * Export pdf callback prompts for filename
- *
- */
-
-void
-export_png_action (GtkAction *action, gpointer param)
-{
-  DenemoGUI *gui = Denemo.gui;
-  GtkWidget *file_selection;
-
-  file_selection = gtk_file_chooser_dialog_new (_("Export PNG"),
-						GTK_WINDOW (Denemo.window),
-						GTK_FILE_CHOOSER_ACTION_SAVE,
-						GTK_STOCK_CANCEL,
-						GTK_RESPONSE_REJECT,
-						GTK_STOCK_SAVE,
-						GTK_RESPONSE_ACCEPT, NULL);
-
-  gtk_widget_show_all (file_selection);
-  gboolean close = FALSE;
-  do
-    {
-
-      if (gtk_dialog_run (GTK_DIALOG (file_selection)) == GTK_RESPONSE_ACCEPT)
-	{
-	  gchar *filename =
-	    gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_selection));
-
-	  if (replace_existing_file_dialog
-	      (filename, GTK_WINDOW (Denemo.window), -1))
-	    {
-	      gtk_widget_destroy (file_selection);
-	      export_png (filename, FALSE, gui);
-	      close = TRUE;
-	    }
-	  g_free (filename);
-	}
-      else
-	{
-	  gtk_widget_destroy (file_selection);
-	  close = TRUE;
-	}
-
-    }
-  while (!close);
 }
 
 /**
@@ -826,7 +776,7 @@ export_png_action (GtkAction *action, gpointer param)
  *	@param filename filename to save score to
  *  @param gui pointer to the DenemoGUI structure
  */
-static void
+void
 export_pdf (gchar * filename, DenemoGUI * gui)
 {
   gchar *basename;
@@ -856,15 +806,10 @@ export_pdf (gchar * filename, DenemoGUI * gui)
 
   run_lilypond(arguments);
 
-  if(printpid!=GPID_NONE) {
-    g_child_watch_add (printpid, (GChildWatchFunc)printpdf_finished, filelist);
-    while(printpid!=GPID_NONE) {
-      gtk_main_iteration_do(FALSE);
-    }
-  }
-  
+  g_child_watch_add (printpid, (GChildWatchFunc)printpdf_finished, filelist);
   g_free (basename);
 }
+
 
 void
 print_and_view(gchar **arguments) {
@@ -878,56 +823,70 @@ print_and_view(gchar **arguments) {
 }
 
 /**
+ * Export mudela callback prompts for filename
+ *
+ */
+void
+export_mudela_action (GtkAction *action, gpointer param)
+{
+  DenemoGUI *gui = Denemo.gui;
+  file_export(gui, MUDELA_FORMAT);
+}
+
+/**
  * Export pdf callback prompts for filename
  *
  */
-
 void
 export_pdf_action (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  GtkWidget *file_selection;
-
-  file_selection = gtk_file_chooser_dialog_new (_("Export PDF"),
-						GTK_WINDOW (Denemo.window),
-						GTK_FILE_CHOOSER_ACTION_SAVE,
-						GTK_STOCK_CANCEL,
-						GTK_RESPONSE_REJECT,
-						GTK_STOCK_SAVE,
-						GTK_RESPONSE_ACCEPT, NULL);
-
-  gtk_widget_show_all (file_selection);
-  gboolean close = FALSE;
-  do
-    {
-
-      if (gtk_dialog_run (GTK_DIALOG (file_selection)) == GTK_RESPONSE_ACCEPT)
-	{
-	  gchar *filename =
-	    gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_selection));
-
-	  if (replace_existing_file_dialog
-	      (filename, GTK_WINDOW (Denemo.window), -1))
-	    {
-	      gtk_widget_destroy (file_selection);
-	      gui->lilycontrol.excerpt = FALSE;
-	      export_pdf (filename, gui);
-	      close = TRUE;
-	    }
-	  g_free (filename);
-	}
-      else
-	{
-	  gtk_widget_destroy (file_selection);
-	  close = TRUE;
-	}
-
-    }
-  while (!close);
+  file_export(gui, PDF_FORMAT);
 }
 
+/**
+ * Export pdf callback prompts for filename
+ *
+ */
+void
+export_png_action (GtkAction *action, gpointer param)
+{
+  DenemoGUI *gui = Denemo.gui;
+  file_export(gui, PNG_FORMAT);
+}
 
+/**
+ * Export ABC callback prompts for filename
+ *
+ */
+void
+export_ABC_action (GtkAction *action, gpointer param)
+{
+  DenemoGUI *gui = Denemo.gui;
+  file_export(gui, ABC_FORMAT);
+}
 
+/**
+ * Export MIDI callback prompts for filename
+ *
+ */
+void
+export_midi_action (GtkAction *action, gpointer param)
+{
+  DenemoGUI *gui = Denemo.gui;
+  file_export(gui, MIDI_FORMAT);
+}
+
+/**
+ * Export pdf callback prompts for filename
+ *
+ */
+void
+export_csound_action (GtkAction *action, gpointer param)
+{
+  DenemoGUI *gui = Denemo.gui;
+  file_export(gui, CSOUND_FORMAT);
+}
 
 // Displaying Print Preview
 static changecount = -1;//changecount when last refreshed

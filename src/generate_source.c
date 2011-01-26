@@ -378,8 +378,11 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Insert a new movement after the current one", N_("InsertMovementAfter"), "insert_movement_after", N_("Insert Movement After")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Create a new movement, usign any default template", N_("NewMovement"), "append_new_movement", N_("New Movement")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Save Parts: each staff becomes a file in lilypond format", N_("SaveParts"), "file_savepartswrapper", N_("Save Parts")}, 
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Export the score as a lilypond file", N_("ExportMUDELA"), "export_mudela_action", N_("Export Lilypond")},
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Export the score as a PDF document file", N_("ExportPDF"), "export_pdf_action", N_("Export PDF")},
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Export the score as a PNG image file", N_("ExportPNG"), "export_png_action", N_("Export PNG")},
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Export the score as a MIDI file", N_("ExportMIDI"), "export_midi_action", N_("Export MIDI")},
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Export the score as a Csound Score file", N_("ExportCSOUND"), "export_csound_action", N_("Export Csound")},
 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PROPERTIES", "Start up a wizard to create a new score. This allows you to set various properties of the score", N_("ConfigureScore"), "scorewizard", N_("Score Wizard")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT_PREVIEW", "Displays the final finished score in your pdf viewer", N_("PrintPreview"), "printpreview_cb", N_("Print Preview")}, 
@@ -504,6 +507,7 @@ struct name_and_function denemo_commands[] = {
 
  
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Open previously used files", N_("OpenRecent"), NULL, N_("Open Recent")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Export File", N_("Export"), NULL, N_("Export As")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Toggle between current mode and edit mode", N_("ToggleEdit"), "toggle_edit_mode", N_("Toggle Edit Mode")},
   {CMD_CATEGORY_DIRECT, NULL, "Toggle between note entry and rest entry", N_("ToggleRest"),  "toggle_rest_mode", N_("Toggle Rest Mode")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Toggle audible feedback on/off", N_("ToggleRhythm"),  "toggle_rhythm_mode", N_("Toggle Audible Feedback")}, 
