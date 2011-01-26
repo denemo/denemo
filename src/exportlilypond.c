@@ -994,6 +994,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		prevnumdots = numdots;
 		for (j = 0; j < numdots; j++)
 		  g_string_append_printf (ret, ".");
+		outputret;
 	      }
 
 	    {GList *g = pchord->directives;
