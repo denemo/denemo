@@ -1292,7 +1292,7 @@ eles use tag
 static void
 set_directive_graphic_label(DenemoDirective *directive) {
   gchar *value;
-  if(directive->display && directive->display->len>1)
+  if(directive->display && directive->display->len>0)
     value = g_strdup_printf("%s", directive->display->str);
   else
     value = g_strdup(directive->tag->str);

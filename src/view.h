@@ -63,7 +63,6 @@ void	  highlight_rest(DenemoGUI *gui, gint dur);
 
 gboolean loadGraphicItem(gchar *name, DenemoGraphic **pgraphic);
 
-void denemo_scheme_init(gchar *initscheme);
 
 void activate_action(gchar *path);
 
@@ -87,7 +86,7 @@ void
 execute_init_scripts(gchar *menupath);
 
 void
-load_local_scheme_init(void);
+denemo_scheme_init(void);
 
 void 
 execute_scheme(GtkAction *action, DenemoScriptParam *param);

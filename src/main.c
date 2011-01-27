@@ -506,31 +506,7 @@ main (int argc, char *argv[])
 
   register_stock_items ();
 
-#define choice1 "Simple\nQuick start users: use this until you have read the manual\n"
-#define choice2 "Arranger\nExperienced Users: transcribing music, playing music in, transposing etc"
-#define choice3 "Composer\nExperienced Users: entering and modifying music, working with selections WASD use etc"
-#define choice4 "Classic\nOld Denemo pc-keyboard interface."
-#define choice5 "LilyPond\nExperienced Users with LilyPond knowledge"
-#define choice6 "AllCommands\nUsers wanting to see the complete command set. No pre-defined shortcuts"
-  Denemo.prefs.profile = g_string_new("Default");
-  if(uses_default_commandset()) {
-    // infodialog("Nearly every menu item can be right-clicked, for help, setting keyboard shortcuts and more"); this  should always appear on top of the main window, but it is unresponsive to dismissal at first.
-    // get_option returns a pointer into the string passed in
-    gchar *choice = get_option(choice1"\0"choice2"\0"choice3"\0"choice4"\0"choice5"\0"choice6"\0", strlen(choice1)+1+strlen(choice2)+1+strlen(choice3)+1+strlen(choice4)+1+strlen(choice5)+1+strlen(choice6)+1);
-    if(choice==NULL)
-      choice = choice1;
-    if(strcmp(choice, choice1)) {
-      choice = g_strdup(choice);
-      gchar *c;
-      for(c=choice;*c;c++)
-	if(*c=='\n')
-	  *c='\0';
-      
-      // choice =  g_build_filename(get_data_dir(), "actions", choice, NULL);
-      //g_print("Choice is %s length %d\n", choice, strlen(choice));
-      g_string_assign(Denemo.prefs.profile, choice);
-    }
-  }
+
   //g_print("Calling scm boot guile with %d and %p\n", argc, argv);
   scm_boot_guile (argc, argv, inner_main, NULL);
   
@@ -556,7 +532,7 @@ gchar * process_command_line(int argc, char**argv) {
   GDir *dir=NULL;
   gchar *filename;
   GError *error = NULL;
-  gchar *initschemefile=NULL,  *commandsetfile=NULL;
+  gchar *commandsetfile=NULL;
   /* parse command line and display help messages */
   gchar *helptext  = g_strconcat (_("\nGNU Denemo version "), VERSION, ".\n\n",
                                  _("\
@@ -603,11 +579,11 @@ Report bugs to bug-denemo@gnu.org\n"), NULL) ;
         }
       else if (opts == 's')
         {
-	  initschemefile = g_build_filename(get_data_dir(), "actions",  optarg, NULL);
+	  Denemo.schemeinit = g_build_filename(get_data_dir(), "actions",  optarg, NULL);
         }
       else if (opts == 'i')
         {
-          initschemefile = g_strdup(optarg);
+          Denemo.schemeinit = g_strdup(optarg);
         }
 
       else if (opts == 'c')
@@ -632,110 +608,12 @@ Report bugs to bug-denemo@gnu.org\n"), NULL) ;
 
   g_free (helptext);
 
-  Denemo.gui->si->undo_guard++;
-  denemo_scheme_init(initschemefile);
-  Denemo.gui->si->undo_guard--;
-#ifdef _HAVE_JACK_
-if (Denemo.prefs.midi_audio_output == Jack)
-  init_jack();
-#endif
-  /* audio initialization */
-  //ext_init (); 
-  /* external players (midi...) */
-#ifdef _HAVE_FLUIDSYNTH_
-if (Denemo.prefs.midi_audio_output == Fluidsynth)
-  fluidsynth_init(); 
-#endif
-#ifdef _HAVE_PORTAUDIO_
-if (Denemo.prefs.midi_audio_output == Portaudio){
-  /* Immediate Playback */
-  if(Denemo.prefs.immediateplayback) {
-    if( midi_init ()  )  {           /* Opens Denemo.prefs.sequencer, if this is set to an empty
-				 string then the open fails and direct audio out is used for 
-				immediate playback */
-      //g_print("Initializing audio out\n");
-      init_audio_out();
-    }
-  }
-}
-#endif    
-
-
 
   /* Set up the signal handler */
   signal (SIGSEGV, denemo_signal_handler);
 #ifdef HAVE_SIGCHLD
   signal (SIGCHLD, sigchld_handler);
 #endif
-
-
-  if(locatedotdenemo ()) {
-    dir = g_dir_open (locatedotdenemo (), 0, &error);
-    if (error)
-      {
-	g_print ("Cannot read .denemo directory %s\n", error->message);
-	g_error_free (error);
-      }
-  }
-#if 0
-  while (dir && (filename = (gchar *) g_dir_read_name (dir)) != NULL)
-    {
-      if (0 == strcmp ("crashrecovery.denemo", filename))
-        {
-          GtkWidget *dialog = 
-            gtk_dialog_new_with_buttons (NULL,
-                                         NULL,
-                                         GTK_DIALOG_DESTROY_WITH_PARENT,
-                                         GTK_STOCK_YES,
-                                         GTK_RESPONSE_ACCEPT,
-                                         GTK_STOCK_SAVE_AS,
-                                         GTK_RESPONSE_CANCEL,
-                                         GTK_STOCK_DELETE,
-                                         GTK_RESPONSE_REJECT,
-                                         NULL);
-          GtkWidget *label =
-            gtk_label_new
-            ("\nDenemo crashed, The open file has been recovered\n"
-             "do you want to continue editing your work?\n");
-          gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox),
-                             label);
-          gtk_widget_show_all (dialog);
-          gint result = gtk_dialog_run (GTK_DIALOG (dialog));
-          g_debug ("Dialog result is %d\n", result);
-          gchar *name = g_build_filename(locatedotdenemo (),
-                                         filename, NULL);
-          switch (result)
-            {
-            case GTK_RESPONSE_ACCEPT:
-              openfile (name, FALSE);
-              g_remove (name);
-              break;
-            case GTK_RESPONSE_CANCEL:
-              Denemo.window = NULL;
-              result = importXML (name, Denemo.gui, REPLACE_SCORE);
-              if (result != -1)
-                file_saveas (Denemo.gui, FALSE);
-              else
-                g_print ("Cannot open %s\n", name);
-              //g_free (gui);
-              g_remove (name);
-              break;
-            case GTK_RESPONSE_REJECT:
-              g_print ("Removing %s\n", name);
-              g_remove (name);
-              //g_free(name);
-              break;
-            }
-          gtk_widget_destroy (dialog);
-        }
-    }
-#endif
-
-  if (dir)
-    g_dir_close (dir);
-  init_keymap();
-  
-  load_default_keymap_file();
 
 
     if (optind < argc)
