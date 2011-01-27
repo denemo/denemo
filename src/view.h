@@ -63,7 +63,6 @@ void	  highlight_rest(DenemoGUI *gui, gint dur);
 
 gboolean loadGraphicItem(gchar *name, DenemoGraphic **pgraphic);
 
-void denemo_scheme_init(gchar *initscheme);
 
 void activate_action(gchar *path);
 

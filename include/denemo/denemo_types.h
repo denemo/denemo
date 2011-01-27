@@ -940,6 +940,7 @@ struct cs_callback
  */
 struct DenemoRoot
 {
+  gchar *schemeinit;/* filename for scheme code to run on startup */
   /* Fields used fairly directly for drawing */
   GtkWidget *page;
   GtkWidget *scorearea;

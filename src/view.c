@@ -3443,8 +3443,9 @@ static void define_scheme_constants(void) {
 }
 
 
-void denemo_scheme_init(gchar *initscheme){
-  Denemo.gui->si->undo_guard++;
+static void denemo_scheme_init(void){
+  gchar *initscheme = Denemo.schemeinit;
+  // Denemo.gui->si->undo_guard++;
   define_scheme_constants();
   if(initscheme) {
 
@@ -3453,7 +3454,7 @@ void denemo_scheme_init(gchar *initscheme){
     else
       g_warning("Cannot find your scheme initialization file %s", initscheme);
   }
-  Denemo.gui->si->undo_guard--;
+  // Denemo.gui->si->undo_guard--;
 }
 
 /*
@@ -3560,115 +3561,20 @@ void load_initdotdenemo(void) {
    g_free(init_file);
 }  
 
+/* 
+ * create and populate the keymap - a register of all the Denemo commands with their shortcuts
+ */
+static void init_keymap(void)
+{
+  if(Denemo.map)
+    free_keymap(Denemo.map);
+  Denemo.map = allocate_keymap ();
+  GtkActionGroup *action_group = Denemo.action_group;
+#include "register_commands.h"
+} 
 
+static void create_scheme_identfiers(void) {
 
-/* Called from main for scheme initialization reasons.
-   calls back to finish command line processing
-*/
-void inner_main(void*closure, int argc, char **argv){
-  //g_print("Got inner main with  %d and %p\n", argc, argv);
-  
-  gint i;
-  GError *error = NULL;
-  
-  rsvg_init();
-  //create window system
-  create_window();
-
-  
-  Denemo.prefs.cursor_highlight = TRUE;
-
-  /* create the first tab */
-  newtab (NULL, NULL);
-  {gchar *profile_this_time=NULL;//profile that user has chosen for this run of denemo
-    if(uses_default_commandset())
-      profile_this_time = g_strdup(Denemo.prefs.profile->str);
-
-    /* Initialize preferences */
-    initprefs();
-    
-    //Do not setup the user's base profile until they have saved their own command set, so that user's can try out the different command sets => ignore what was saved as a preference last run
-    if(profile_this_time)
-      Denemo.prefs.profile = g_string_new(profile_this_time);
-  }
-
- if(!Denemo.prefs.modal)
-   Denemo.prefs.mode = INPUTEDIT|INPUTRHYTHM;
-  readHistory();
-  populate_opened_recent ();
-  //  g_print("init prefs run");
-  if(Denemo.prefs.autoupdate)
-    fetchcommands(NULL, NULL);
-  gchar *initial_file = process_command_line(argc, argv);
-  //  gtk_widget_hide (Denemo.InsertModeMenu);
-  //  gtk_widget_hide (Denemo.EditModeMenu);
-  //  gtk_widget_hide (Denemo.ClassicModeMenu);
-  //  gtk_widget_hide (Denemo.ModelessMenu);
-
-  //insert mode on startup - should be a pref FIXME
-  //FIXME same code in switch page
-
-
-  //g_print("Mode values %x %x %x our test %x\n", Denemo.prefs.mode, Denemo.prefs.mode & ~MODE_MASK, Denemo.prefs.mode & ~ENTRY_TYPE_MASK, INPUTRHYTHM);
-  switch (Denemo.prefs.mode & ~MODE_MASK) {
-  case INPUTINSERT:
-    activate_action( "/MainMenu/ModeMenu/InsertMode");
-    break;
-  case INPUTEDIT:
-    activate_action( "/MainMenu/ModeMenu/EditMode");
-    break;
-  case INPUTCLASSIC:
-    activate_action( "/MainMenu/ModeMenu/ClassicMode");
-    break;
-  case 0:
-    activate_action( "/MainMenu/ModeMenu/Modeless");
-    break;
-  default:
-    activate_action( "/MainMenu/ModeMenu/Modeless");
-    break;
-  }
-
-  switch(Denemo.prefs.mode & ~ENTRY_TYPE_MASK ) {
-    case INPUTNORMAL:
-      activate_action( "/MainMenu/ModeMenu/Note");
-      break;
-    case INPUTBLANK:
-      activate_action( "/MainMenu/ModeMenu/Blank");
-      break;
-    case INPUTREST:
-      activate_action( "/MainMenu/ModeMenu/Rest");
-      break;
-
-    default:
-      break;
-  }
-  switch(Denemo.prefs.mode & ~ENTRY_FEEDBACK_MASK ) {
-
-    case INPUTRHYTHM:
-      //g_print("Activating rhythm Mode\n");
-      activate_action( "/MainMenu/ModeMenu/Rhythm");
-      break;
-
-    default:
-      break;
-  }
-
-  if (Denemo.prefs.startmidiin)
-    activate_action("/MainMenu/InputMenu/JackMidi");
-  show_preferred_view();
-  if(Denemo.prefs.cursor_highlight) {
-    Denemo.prefs.cursor_highlight = FALSE;scheme_highlight_cursor(SCM_BOOL_T);
-    //g_print("Cursor highlight is %d\n",Denemo.prefs.cursor_highlight);
-  }
-  gtk_key_snooper_install( (GtkKeySnoopFunc)dnm_key_snooper, NULL);
-  Denemo.accelerator_status = FALSE;
-
-
-
-  /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
-  for(i=0;i<G_N_ELEMENTS(activatable_commands);i++) {
-    install_scm_function (g_strdup_printf(DENEMO_SCHEME_PREFIX"%s", activatable_commands[i].str), (gpointer)activatable_commands[i].p);
-  }
   /* test with
      (d-EditMode)
      (d-2)
@@ -4526,6 +4432,186 @@ INSTALL_SCM_FUNCTION ("Undo normally undoes all the actions performed by a scrip
 
 
   INSTALL_SCM_FUNCTION ("Takes a string putting it on the status bar listing active filters",DENEMO_SCHEME_PREFIX"InputFilterNames", scheme_input_filter_names);
+
+  }
+
+
+
+
+
+/* Called from main for scheme initialization reasons.
+   calls back to finish command line processing
+*/
+void inner_main(void*closure, int argc, char **argv){
+  //g_print("Got inner main with  %d and %p\n", argc, argv);
+  
+  gint i;
+  GError *error = NULL;
+  
+  rsvg_init();
+
+
+  denemo_scheme_init();
+  gchar *initial_file = process_command_line(argc, argv);
+ 
+
+  //create window system
+  create_window();
+
+  create_scheme_identfiers();
+  Denemo.prefs.cursor_highlight = TRUE;
+
+  /* create the first tab */
+  newtab (NULL, NULL);
+  {gchar *profile_this_time=NULL;//profile that user has chosen for this run of denemo
+    Denemo.prefs.profile = g_string_new("Default");
+    if(uses_default_commandset())
+      profile_this_time = g_strdup(Denemo.prefs.profile->str);
+
+    /* Initialize preferences */
+    initprefs();
+    
+    //Do not setup the user's base profile until they have saved their own command set, so that user's can try out the different command sets => ignore what was saved as a preference last run
+    if(profile_this_time)
+      Denemo.prefs.profile = g_string_new(profile_this_time);
+  }
+
+
+ if(!Denemo.prefs.modal)
+   Denemo.prefs.mode = INPUTEDIT|INPUTRHYTHM;
+  readHistory();
+  populate_opened_recent ();
+  //  g_print("init prefs run");
+  if(Denemo.prefs.autoupdate)
+    fetchcommands(NULL, NULL);
+
+
+#define choice1 "Simple\nQuick start users: use this until you have read the manual\n"
+#define choice2 "Arranger\nExperienced Users: transcribing music, playing music in, transposing etc"
+#define choice3 "Composer\nExperienced Users: entering and modifying music, working with selections WASD use etc"
+#define choice4 "Classic\nOld Denemo pc-keyboard interface."
+#define choice5 "LilyPond\nExperienced Users with LilyPond knowledge"
+#define choice6 "AllCommands\nUsers wanting to see the complete command set. No pre-defined shortcuts"
+ 
+  if(uses_default_commandset()) {
+    // infodialog("Nearly every menu item can be right-clicked, for help, setting keyboard shortcuts and more"); this  should always appear on top of the main window, but it is unresponsive to dismissal at first.
+    // get_option returns a pointer into the string passed in
+    gchar *choice = get_option(choice1"\0"choice2"\0"choice3"\0"choice4"\0"choice5"\0"choice6"\0", strlen(choice1)+1+strlen(choice2)+1+strlen(choice3)+1+strlen(choice4)+1+strlen(choice5)+1+strlen(choice6)+1);
+    if(choice==NULL)
+      choice = choice1;
+    if(strcmp(choice, choice1)) {
+      choice = g_strdup(choice);
+      gchar *c;
+      for(c=choice;*c;c++)
+	if(*c=='\n')
+	  *c='\0';
+      
+      // choice =  g_build_filename(get_data_dir(), "actions", choice, NULL);
+      //g_print("Choice is %s length %d\n", choice, strlen(choice));
+      g_string_assign(Denemo.prefs.profile, choice);
+    }
+  }
+
+
+
+  Denemo.gui->si->undo_guard++;
+  //denemo_scheme_init(initschemefile);
+  Denemo.gui->si->undo_guard--;
+#ifdef _HAVE_JACK_
+if (Denemo.prefs.midi_audio_output == Jack)
+  init_jack();
+#endif
+  /* audio initialization */
+  //ext_init (); 
+  /* external players (midi...) */
+#ifdef _HAVE_FLUIDSYNTH_
+if (Denemo.prefs.midi_audio_output == Fluidsynth)
+  fluidsynth_init(); 
+#endif
+#ifdef _HAVE_PORTAUDIO_
+if (Denemo.prefs.midi_audio_output == Portaudio){
+  /* Immediate Playback */
+  if(Denemo.prefs.immediateplayback) {
+    if( midi_init ()  )  {           /* Opens Denemo.prefs.sequencer, if this is set to an empty
+				 string then the open fails and direct audio out is used for 
+				immediate playback */
+      //g_print("Initializing audio out\n");
+      init_audio_out();
+    }
+  }
+}
+#endif    
+
+    
+  /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
+  for(i=0;i<G_N_ELEMENTS(activatable_commands);i++) {
+    install_scm_function (g_strdup_printf(DENEMO_SCHEME_PREFIX"%s", activatable_commands[i].str), (gpointer)activatable_commands[i].p);
+  }
+
+  init_keymap();
+  
+  load_default_keymap_file();
+
+
+  switch (Denemo.prefs.mode & ~MODE_MASK) {
+  case INPUTINSERT:
+    activate_action( "/MainMenu/ModeMenu/InsertMode");
+    break;
+  case INPUTEDIT:
+    activate_action( "/MainMenu/ModeMenu/EditMode");
+    break;
+  case INPUTCLASSIC:
+    activate_action( "/MainMenu/ModeMenu/ClassicMode");
+    break;
+  case 0:
+    activate_action( "/MainMenu/ModeMenu/Modeless");
+    break;
+  default:
+    activate_action( "/MainMenu/ModeMenu/Modeless");
+    break;
+  }
+
+  switch(Denemo.prefs.mode & ~ENTRY_TYPE_MASK ) {
+    case INPUTNORMAL:
+      activate_action( "/MainMenu/ModeMenu/Note");
+      break;
+    case INPUTBLANK:
+      activate_action( "/MainMenu/ModeMenu/Blank");
+      break;
+    case INPUTREST:
+      activate_action( "/MainMenu/ModeMenu/Rest");
+      break;
+
+    default:
+      break;
+  }
+  switch(Denemo.prefs.mode & ~ENTRY_FEEDBACK_MASK ) {
+
+    case INPUTRHYTHM:
+      //g_print("Activating rhythm Mode\n");
+      activate_action( "/MainMenu/ModeMenu/Rhythm");
+      break;
+
+    default:
+      break;
+  }
+
+  if (Denemo.prefs.startmidiin)
+    activate_action("/MainMenu/InputMenu/JackMidi");
+  show_preferred_view();
+  if(Denemo.prefs.cursor_highlight) {
+    Denemo.prefs.cursor_highlight = FALSE;scheme_highlight_cursor(SCM_BOOL_T);
+    //g_print("Cursor highlight is %d\n",Denemo.prefs.cursor_highlight);
+  }
+  gtk_key_snooper_install( (GtkKeySnoopFunc)dnm_key_snooper, NULL);
+  Denemo.accelerator_status = FALSE;
+ 
+
+
+
+
+
+
  load_scheme_init();
  if(!initial_file){   
    load_initdotdenemo();
@@ -7445,18 +7531,6 @@ static gint dnm_key_snooper(GtkWidget *grab_widget, GdkEventKey *event)
     //else we let the event be processed by other functions
     return FALSE;
 }
-
-/* 
- * create and populate the keymap - a register of all the Denemo commands with their shortcuts
- */
-void init_keymap(void)
-{
-  if(Denemo.map)
-    free_keymap(Denemo.map);
-  Denemo.map = allocate_keymap ();
-  GtkActionGroup *action_group = Denemo.action_group;
-#include "register_commands.h"
-} 
 
 
 static void
