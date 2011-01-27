@@ -14,3 +14,11 @@
 (d-SetDirectiveTagActionScript  "ButtonSharpen" "(d-Sharpen)")
 (CreateButton  "ButtonFlatten" "b")
 (d-SetDirectiveTagActionScript  "ButtonFlatten" "(d-Flatten)")
+(CreateButton  "ButtonFlatten" "b")
+(d-SetDirectiveTagActionScript  "ButtonFlatten" "(d-Flatten)")
+
+(CreateButton  "ButtonExtendSlur" "(")
+(d-SetDirectiveTagActionScript  "ButtonExtendSlur" "(d-ExtendSlur)")
+
+(CreateButton  "ButtonReduceSlur" ")")
+(d-SetDirectiveTagActionScript  "ButtonReduceSlur" "(d-ReduceSlur)")
