@@ -3441,12 +3441,20 @@ static void define_scheme_constants(void) {
 #undef DEF_SCHEME_STR
 #undef DEF_SCHEME_CONST
 }
+/*
+  load denemo.scm from user's .denemo 
+*/
+static void load_local_scheme_init(void)  {
+  gchar *filename = g_build_filename(locatedotdenemo(), "actions", "denemo.scm", NULL);
+  if(g_file_test(filename, G_FILE_TEST_EXISTS))
+    eval_file_with_catch(filename);//scm_c_primitive_load(filename);
+  g_free(filename);
+}
 
-
-static void denemo_scheme_init(void){
+void denemo_scheme_init(void){
   gchar *initscheme = Denemo.schemeinit;
-  // Denemo.gui->si->undo_guard++;
-  define_scheme_constants();
+  Denemo.gui->si->undo_guard++;
+ 
   if(initscheme) {
 
     if(g_file_test(initscheme, G_FILE_TEST_EXISTS))
@@ -3454,7 +3462,8 @@ static void denemo_scheme_init(void){
     else
       g_warning("Cannot find your scheme initialization file %s", initscheme);
   }
-  // Denemo.gui->si->undo_guard--;
+  load_local_scheme_init();
+  Denemo.gui->si->undo_guard--;
 }
 
 /*
@@ -3469,17 +3478,9 @@ void append_to_local_scheme_init(gchar *scheme)  {
   g_free(filename);
 }
 
+
 /*
-  load denemo.scm from user's .denemo 
-*/
-void load_local_scheme_init(void)  {
-  gchar *filename = g_build_filename(locatedotdenemo(), "actions", "denemo.scm", NULL);
-  if(g_file_test(filename, G_FILE_TEST_EXISTS))
-    eval_file_with_catch(filename);//scm_c_primitive_load(filename);
-  g_free(filename);
-}
-/*
-  load denemo.scm from system,and then, if present from user's .denemo 
+  load denemo.scm from system,
 
 */
 static void load_scheme_init(void)  {
@@ -3499,7 +3500,7 @@ static void load_scheme_init(void)  {
     g_free(name);
     g_free(filename);
   }
-  load_local_scheme_init();
+
   Denemo.gui->si->undo_guard--;
 }
 
@@ -4451,18 +4452,20 @@ void inner_main(void*closure, int argc, char **argv){
   rsvg_init();
 
 
-  denemo_scheme_init();
+  
   gchar *initial_file = process_command_line(argc, argv);
- 
 
   //create window system
   create_window();
 
   create_scheme_identfiers();
+
   Denemo.prefs.cursor_highlight = TRUE;
 
   /* create the first tab */
   newtab (NULL, NULL);
+
+
   {gchar *profile_this_time=NULL;//profile that user has chosen for this run of denemo
     Denemo.prefs.profile = g_string_new("Default");
     if(uses_default_commandset())
@@ -4514,9 +4517,9 @@ void inner_main(void*closure, int argc, char **argv){
 
 
 
-  Denemo.gui->si->undo_guard++;
+  //Denemo.gui->si->undo_guard++;
   //denemo_scheme_init(initschemefile);
-  Denemo.gui->si->undo_guard--;
+  //Denemo.gui->si->undo_guard--;
 #ifdef _HAVE_JACK_
 if (Denemo.prefs.midi_audio_output == Jack)
   init_jack();
@@ -4610,9 +4613,10 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
 
 
 
-
+ define_scheme_constants();
 
  load_scheme_init();
+
  if(!initial_file){   
    load_initdotdenemo();
 
@@ -4660,6 +4664,9 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
      gtk_widget_destroy (dialog);
    }
  }
+
+ denemo_scheme_init();
+
 /* Now launch into the main gtk event loop and we're all set */
  gtk_main();
 }
