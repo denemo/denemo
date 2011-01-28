@@ -11,46 +11,45 @@
 (let ()
 (define rand_tag (string-append "delete-" (number-&gt;string (+ 1000 (random 999)))))
 (define (PutDeleteTag pair)
- (define type (string-&gt;symbol (d-GetType)))
- (case type
- 	((CHORD) (d-DirectivePut-chord-display (car pair) (cdr pair) ))
- 	((TUPCLOSE) (d-DirectivePut-tuplet-display (car pair) (cdr pair)))
- 	((TUPOPEN)  (d-DirectivePut-tuplet-display (car pair) (cdr pair)))
- 	((LILYDIRECTIVE) (d-DirectivePut-standalone-display (d-DirectiveGetTag-standalone) (cdr pair)))
- 	((CLEF) (d-DirectivePut-clef-display (car pair) (cdr pair) ))	
- 	((TIMESIG) (d-DirectivePut-timesig-display (car pair) (cdr pair) ))
- 	((KEYSIG) (d-DirectivePut-keysig-display (car pair) (cdr pair) ))
- 	((STEMDIRECTIVE) #f)
- 	(else #f)
- ))
+	(define type (string-&gt;symbol (d-GetType)))
+	(case type
+	 	((CHORD) (d-DirectivePut-chord-display (car pair) (cdr pair) ))
+	 	((TUPCLOSE) (d-DirectivePut-tuplet-display (car pair) (cdr pair)))
+	 	((TUPOPEN)  (d-DirectivePut-tuplet-display (car pair) (cdr pair)))
+	 	((LILYDIRECTIVE) (d-DirectivePut-standalone-display (d-DirectiveGetTag-standalone) (cdr pair)))
+	 	((CLEF) (d-DirectivePut-clef-display (car pair) (cdr pair) ))	
+	 	((TIMESIG) (d-DirectivePut-timesig-display (car pair) (cdr pair) ))
+	 	((KEYSIG) (d-DirectivePut-keysig-display (car pair) (cdr pair) ))
+	 	((STEMDIRECTIVE) (d-DirectivePut-stemdirective-display (car pair) (cdr pair)))
+	 	(else #f)))
+ 
 (define (DeleteTag?)
- (define type (string-&gt;symbol (d-GetType)))
- (case type
- 	((CHORD) (d-DirectiveGet-chord-display rand_tag)) 
- 	((TUPCLOSE) (d-DirectiveGet-tuplet-display rand_tag))
- 	((TUPOPEN)  (d-DirectiveGet-tuplet-display rand_tag))
- 	((LILYDIRECTIVE) (d-DirectiveGet-standalone-display (d-DirectiveGetTag-standalone)))
- 	((CLEF) (d-DirectiveGet-clef-display rand_tag))	
- 	((TIMESIG) (d-DirectiveGet-timesig-display rand_tag))
- 	((KEYSIG) (d-DirectiveGet-keysig-display rand_tag))
- 	((STEMDIRECTIVE) #f)	
- 	(else #f)
- )) 
+	(define type (string-&gt;symbol (d-GetType)))
+	(if (equal? rand_tag (case type
+	 	((CHORD) (d-DirectiveGet-chord-display rand_tag)) 
+	 	((TUPCLOSE) (d-DirectiveGet-tuplet-display rand_tag))
+	 	((TUPOPEN)  (d-DirectiveGet-tuplet-display rand_tag))
+	 	((LILYDIRECTIVE) (d-DirectiveGet-standalone-display (d-DirectiveGetTag-standalone)))
+	 	((CLEF) (d-DirectiveGet-clef-display rand_tag))	
+	 	((TIMESIG) (d-DirectiveGet-timesig-display rand_tag))
+	 	((KEYSIG) (d-DirectiveGet-keysig-display rand_tag))
+	 	((STEMDIRECTIVE) (d-DirectiveGet-stemdirective-display rand_tag))	
+	 	(else #f)))	
+	#t	;delete tag
+	#f ))    ;no delete tag
 
 ;Begin placing the delete tags
 (PutDeleteTag (cons rand_tag rand_tag))
 (let loop ()
 	(if (NextSelectedObjectAllStaffs)
-	 		(begin (PutDeleteTag (cons rand_tag rand_tag)) (loop))
-	 )
-)
-;Return a last time to the selection start. Deleting begins here.
-(d-GoToSelectionStart)
+	 		(begin (PutDeleteTag (cons rand_tag rand_tag)) (loop))))
 
+;Return a last time to the selection start. Deleting begins after.
+(d-GoToSelectionStart)
 (let deleteLoop ()
 	(if (DeleteTag?)
-		(begin (d-DeleteObject) (deleteLoop)) ; Current object is tagged, delete, next please.
-		(if (FindNextObjectAllStaffs DeleteTag?) 
+		(begin (d-DeleteObject) (deleteLoop)) ; Current object is tagged, delete, next please. 
+		(if (FindNextObjectAllStaffs DeleteTag?)  
 			(begin (d-DeleteObject) (deleteLoop))
 			#f))) ; no tagged item found, final end.
 ))
