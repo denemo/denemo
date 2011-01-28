@@ -1653,6 +1653,23 @@ if(scm_is_string(msg)){
  return msg;
 }
 
+SCM scheme_progressbar(SCM msg) {
+  gchar *title;
+  if(scm_is_string(msg)){
+    title = scm_to_locale_string(msg);//scm_dynwind_free (title)
+    progressbar(title);
+    msg = SCM_BOOL(TRUE);
+  }
+  else 
+   msg = SCM_BOOL(FALSE);
+  
+  return msg;
+}
+
+SCM scheme_progressbar_stop(void) {
+  progressbar_stop();
+  return SCM_BOOL(TRUE);
+}
 
 SCM scheme_get_char(void) {
 
@@ -3717,6 +3734,8 @@ static void create_scheme_identfiers(void) {
 
   INSTALL_SCM_FUNCTION ("Takes a message as a string. Pops up the message for the user to take note of as a warning",DENEMO_SCHEME_PREFIX"WarningDialog", scheme_warningdialog);
   INSTALL_SCM_FUNCTION ("Takes a message as a string. Pops up the message for the user to take note of as a informative message",DENEMO_SCHEME_PREFIX"InfoDialog", scheme_infodialog);
+  INSTALL_SCM_FUNCTION ("Takes a message as a string. Pops up the message inside of a pulsing progressbar",DENEMO_SCHEME_PREFIX"ProgressBar", scheme_progressbar);
+  INSTALL_SCM_FUNCTION ("If running, Stops the ProgressBar.",DENEMO_SCHEME_PREFIX"ProgressBarStop", scheme_progressbar_stop);
   INSTALL_SCM_FUNCTION ("Intercepts the next keypress and returns a string containing the character. Returns #f if keyboard interception was not possible.",DENEMO_SCHEME_PREFIX"GetChar", scheme_get_char);
   INSTALL_SCM_FUNCTION ("Intercepts the next keypress and returns a string containing the name of the keypress (the shortcut name). Returns #f if keyboard interception was not possible.",DENEMO_SCHEME_PREFIX"GetKeypress", scheme_get_keypress);
   INSTALL_SCM_FUNCTION ("Returns the last keypress that successfully invoked a command ",DENEMO_SCHEME_PREFIX"GetCommandKeypress", scheme_get_command_keypress);
