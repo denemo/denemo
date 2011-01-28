@@ -52,6 +52,8 @@ static gint output=-1;
 static gint errors=-1;
 static   GError *lily_err = NULL;
 
+static
+void print_finished(GPid pid, gint status, GList *filelist);
 
 /*** 
  * make sure lilypond is in the path defined in the preferences
@@ -315,6 +317,7 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
   GError *err = NULL;
   gchar *printfile;
   gchar **arguments;
+  progressbar_stop();
   g_spawn_close_pid (printpid);
   printpid = GPID_NONE;
   //normal_cursor();
@@ -653,12 +656,20 @@ void rm_temp_files(gchar *file,gpointer unused) {
 }
 
 static
+void print_finished(GPid pid, gint status, GList *filelist) {
+  open_pdfviewer (pid,status, (gchar *) get_printfile_pathbasename());
+  g_debug("print finished\n");
+  progressbar_stop();
+}
+
+static
 void printpng_finished(GPid pid, gint status, GList *filelist) {
   g_debug("printpng_finished\n");
   g_list_foreach(filelist, (GFunc)rm_temp_files, NULL);
   g_list_free(filelist);
   g_spawn_close_pid (printpid);
   printpid = GPID_NONE;
+  progressbar_stop();
   infodialog("Your png file has now been created");
 }
 
@@ -670,6 +681,7 @@ void printpdf_finished(GPid pid, gint status, GList *filelist) {
   }
   g_spawn_close_pid (printpid);
   printpid = GPID_NONE;
+  progressbar_stop();
   infodialog("Your pdf file has now been created");
 }
 
@@ -1181,8 +1193,7 @@ printpreview_cb (GtkAction *action, gpointer param) {
     print(gui, FALSE, TRUE);
   else
     print(gui, FALSE, FALSE);
-  g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, 
-	(gchar *) get_printfile_pathbasename());
+  g_child_watch_add (printpid, (GChildWatchFunc)print_finished, NULL);
 }
 
 void

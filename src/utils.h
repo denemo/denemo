@@ -126,6 +126,8 @@ infodialog(gchar *msg);
 
 void
 progressbar(gchar *msg);
+void
+progressbar_stop(void);
 
 void 
 headerfields(GtkWidget *dialog, GtkListStore *list_store, 

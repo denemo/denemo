@@ -126,6 +126,8 @@ static void destroy_progress(ProgressData *pdata)
   pdata->window = NULL;
   g_free (pdata);
 }
+
+static volatile gboolean progressing = TRUE;
 /* Update the value of the progress bar so that we get
  * some movement */
 static gboolean progress_timeout(gpointer data)
@@ -135,7 +137,7 @@ static gboolean progress_timeout(gpointer data)
 
   /* Calculate the value of the progress bar using the
    * value range set in the adjustment object */
-
+#if 0
   new_val = gtk_progress_bar_get_fraction (GTK_PROGRESS_BAR (pdata->pbar)) + 0.01;
   
   if (new_val >= 1.0){
@@ -146,6 +148,14 @@ static gboolean progress_timeout(gpointer data)
 
   /* Set the new value */
   gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (pdata->pbar), new_val);
+#endif
+  if (progressing)
+    gtk_progress_bar_pulse (GTK_PROGRESS_BAR (pdata->pbar));
+  else {
+    gtk_widget_destroy (pdata->window);
+    destroy_progress(pdata);
+    return FALSE;
+  }
 
   return TRUE;
 }
@@ -161,12 +171,17 @@ progressbar (gchar *msg)
 {
   ProgressData *pdata;
   GtkWidget *vbox;
-
+  
+  /* If this is false the progress bar will stop */
+  progressing = TRUE;
   /* Allocate memory for the data that is passed to the callbacks */
   pdata = g_malloc (sizeof (ProgressData));
 
-  pdata->window = gtk_window_new (GTK_WINDOW_POPUP); 
-  //gtk_window_set_title (GTK_WINDOW (pdata->window), _("Progress")); 
+  /* Replace GTK_WINDOW_TOPLEVEL with GTK_WINDOW_POPUP
+   * to have it witout window decoration. 
+   */
+  pdata->window = gtk_window_new (GTK_WINDOW_TOPLEVEL); 
+  gtk_window_set_title (GTK_WINDOW (pdata->window), _("Progress")); 
  
   vbox = gtk_vbox_new (FALSE, 5);
   gtk_container_add (GTK_CONTAINER (pdata->window), vbox);
@@ -176,16 +191,19 @@ progressbar (gchar *msg)
   gtk_container_add (GTK_CONTAINER (vbox), pdata->pbar);
   gtk_widget_show(pdata->pbar);
   
-  /* set text incide progress bar */
+  /* set text inside progress bar */
   gtk_progress_bar_set_text (GTK_PROGRESS_BAR (pdata->pbar), msg);
-
+ 
   pdata->timer = g_timeout_add (100, progress_timeout, pdata);  
-  gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (pdata->pbar), 0.5 );	
 		   
   gtk_window_set_keep_above(GTK_WINDOW (pdata->window), TRUE);
   gtk_widget_show(pdata->window);
 }
 
+void
+progressbar_stop(){
+  progressing = FALSE;
+}
 /**
  *  Draws the given bitmap mask on to the pixmap using the given 
  *  grahpics context.
