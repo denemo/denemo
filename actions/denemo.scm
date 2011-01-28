@@ -707,6 +707,14 @@
 (define (d-DirectiveGetTag-movementcontrol)
   (d-DirectiveGetForTag-movementcontrol ""))
 
+(define* (d-Directive-header?  #:optional (tag #f))
+  (if (equal? tag #f)
+      (string? (d-DirectiveGetForTag-header ""))
+      (equal? tag (d-DirectiveGetForTag-header tag))))
+(define (d-DirectiveGetTag-header)
+  (d-DirectiveGetForTag-header ""))
+
+
 
 (define* (d-Directive-paper?  #:optional (tag #f))
   (if (equal? tag #f)

@@ -5,17 +5,19 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after/>
         <action>MovementPageBreak</action>
         <scheme>;;; MovementPageBreak
+(if (d-Directive-header? "MovementPageBreak")
+    (d-DirectiveDelete-header "MovementPageBreak")
+    (begin
 (d-DirectivePut-header-postfix "MovementPageBreak" "breakbefore = ##t\n")
 (d-DirectivePut-header-display "MovementPageBreak" "(Page Break)")
-(d-DirectivePut-header-override "MovementPageBreak" DENEMO_OVERRIDE_GRAPHIC)
+(d-DirectivePut-header-override "MovementPageBreak" (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_TAGEDIT))))
 (d-RefreshDisplay)
 
 </scheme>
-        <label/>
-        <tooltip/>
+        <label>Page Break Before</label>
+        <tooltip>Prints this movement starting on a new page</tooltip>
       </row>
     </map>
   </merge>

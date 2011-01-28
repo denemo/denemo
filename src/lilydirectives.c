@@ -1209,8 +1209,8 @@ and allow advanced edit if right button.
 static gboolean
 text_edit_directive_by_fn(DenemoDirective *directive, gpointer fn);
 static void
-button_callback  (GtkWidget *w, GdkEventButton *event, DenemoDirective *directive) {
-  gboolean left = (event->button != 3);                  
+button_callback  (GtkWidget *widget, GdkEventButton *event, DenemoDirective *directive) {
+  gboolean left = event!=NULL && (event->button != 3);                  
   if(directive->override&DENEMO_OVERRIDE_EDITOR)
     {
       GtkWidget *texteditor = (GtkWidget*)g_object_get_data(G_OBJECT(directive->widget), DENEMO_TEXTEDITOR_TAG);
@@ -1241,11 +1241,11 @@ button_callback  (GtkWidget *w, GdkEventButton *event, DenemoDirective *directiv
 	GtkAction *action;
 	if(left && (directive->override&DENEMO_OVERRIDE_TAGEDIT) &&((action = lookup_action_from_name((gchar *)directive->tag->str))!=NULL))
 	  gtk_action_activate(action); else {
-	  gpointer fn = g_object_get_data(G_OBJECT(w), "fn");
+	  gpointer fn = (widget!=NULL)? g_object_get_data(G_OBJECT(widget), "fn"):NULL;
 	  if(fn) {
 	    gboolean delete = !text_edit_directive_by_fn(directive, fn);
 	    if(delete) {
-	      GList **directives = (GList**)g_object_get_data(G_OBJECT(w), "directives-pointer");
+	      GList **directives = (GList**)g_object_get_data(G_OBJECT(widget), "directives-pointer");
 	      if(directives)
 	        delete_directive(directives, directive->tag->str);
 	      else
