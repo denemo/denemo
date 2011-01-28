@@ -1232,6 +1232,14 @@
         <action>MoveToMovementBeginning</action>
         <bind>Ctrl+Home</bind>
       </row>
+      <row>
+        <action>MoveToMovementEnd</action>
+        <bind>Ctrl+End</bind>
+      </row>
+      <row>
+        <action>SelectColumn</action>
+        <bind>Ctrl+d</bind>
+      </row>      
     </map>
   </merge>
 </Denemo>

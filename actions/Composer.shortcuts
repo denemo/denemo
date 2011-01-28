@@ -116,7 +116,9 @@
       <row>
         <action>UnsetMark</action>
         <bind>space</bind>
-      </row>    
+      </row>
+
+         
     
 <!-- Cursor Keys and their Selection variants -->
       <row>
@@ -206,6 +208,10 @@
         <bind>Ctrl+Page_Down</bind>
         <bind>Page_Down</bind>
       </row>
+      <row>
+        <action>SelectColumn</action>
+        <bind>Ctrl+d</bind>
+      </row>
       
      <!-- Voice Navigation -->
       
@@ -260,6 +266,10 @@
       <row>
         <action>MoveToMovementBeginning</action>
         <bind>Ctrl+Home</bind>
+      </row>
+      <row>
+        <action>MoveToMovementEnd</action>
+        <bind>Ctrl+End</bind>
       </row>
 	
 	<!-- Movement Ctrls 
