@@ -629,7 +629,7 @@
     (if (boolean? title)
 	(set! title (scheme-escape (d-GetUserInput (string-append type " " fieldname)
 				    (string-append "Give a name for the " fieldname " of the " type) current))))
-    (d-DirectivePut-header-override tag DENEMO_OVERRIDE_GRAPHIC)
+    (d-DirectivePut-header-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
     (d-DirectivePut-header-display tag (string-append type " " fieldname ": " (html-escape title)))
     
     (d-DirectivePut-header-postfix tag (string-append field " = \"" title "\"\n"))))
@@ -650,7 +650,7 @@
 	    (set! current (match:substring thematch 1)))))
   (set! title (scheme-escape (d-GetUserInput (string-append "Score " field) 
 			      (string-append "Give a name for the " field " of the whole score") current)))
-  (d-DirectivePut-scoreheader-override tag DENEMO_OVERRIDE_GRAPHIC)
+  (d-DirectivePut-scoreheader-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
   (d-DirectivePut-scoreheader-display tag (string-append field ": " title))
   (d-DirectivePut-scoreheader-postfix tag (string-append field " = \"" title "\"\n"))))
 

@@ -1227,7 +1227,7 @@ button_callback  (GtkWidget *w, GdkEventButton *event, DenemoDirective *directiv
       stage_undo(Denemo.gui->si, ACTION_STAGE_START);
     }
     else {
-      if(left)
+      if(left  && (directive->override&DENEMO_OVERRIDE_TAGEDIT))
 	script = get_editscript_filename(directive->tag->str);
       else
 	script = NULL;
@@ -1239,7 +1239,7 @@ button_callback  (GtkWidget *w, GdkEventButton *event, DenemoDirective *directiv
 
 	*/
 	GtkAction *action;
-	if(left && ((action = lookup_action_from_name((gchar *)directive->tag->str))!=NULL))
+	if(left && (directive->override&DENEMO_OVERRIDE_TAGEDIT) &&((action = lookup_action_from_name((gchar *)directive->tag->str))!=NULL))
 	  gtk_action_activate(action); else {
 	  gpointer fn = g_object_get_data(G_OBJECT(w), "fn");
 	  if(fn) {
