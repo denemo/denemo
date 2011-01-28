@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <Denemo>
-  <commands>
+  <merge>
     <title>A Denemo Command Set</title>
     <author>AT, JRR, RTS</author>
     <map>
@@ -1219,9 +1219,29 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
         <tooltip>Save Parts: each staff becomes a file in lilypond format</tooltip>
       </row>
       <row>
+        <action>ExportMUDELA</action>
+        <label>Export Lilypond</label>
+        <tooltip>Export the score as a lilypond file</tooltip>
+      </row>
+      <row>
         <action>ExportPDF</action>
         <label>Export PDF</label>
         <tooltip>Export the score as a PDF document file</tooltip>
+      </row>
+      <row>
+        <action>ExportPNG</action>
+        <label>Export PNG</label>
+        <tooltip>Export the score as a PNG image file</tooltip>
+      </row>
+      <row>
+        <action>ExportMIDI</action>
+        <label>Export MIDI</label>
+        <tooltip>Export the score as a MIDI file</tooltip>
+      </row>
+      <row>
+        <action>ExportCSOUND</action>
+        <label>Export Csound</label>
+        <tooltip>Export the score as a Csound Score file</tooltip>
       </row>
       <row>
         <action>ConfigureScore</action>
@@ -4285,6 +4305,21 @@ for second and subsequent systems</tooltip>
         <label>Tiny Staff in All Movements</label>
         <tooltip>Gets a staff number 1 ... n from user and makes that staff tiny in all movements.</tooltip>
       </row>
+      <row>
+        <action>SelectColumn</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Select</menupath>
+        <label>Select Column</label>
+        <tooltip>Selects the whole column</tooltip>
+      </row>
+      <row>
+        <action>MoveToMovementEnd</action>
+        <after>MoveToMovementBeginning</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
+        <label>Move To Movement End</label>
+        <tooltip>Move the cursor to last measure, last staff without altering the selection.</tooltip>
+      </row>
     </map>
-  </commands>
+  </merge>
 </Denemo>
