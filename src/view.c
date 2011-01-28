@@ -4469,15 +4469,15 @@ void inner_main(void*closure, int argc, char **argv){
 
   {gchar *profile_this_time=NULL;//profile that user has chosen for this run of denemo
     Denemo.prefs.profile = g_string_new("Default");
-    if(uses_default_commandset())
-      profile_this_time = g_strdup(Denemo.prefs.profile->str);
+    //  if(uses_default_commandset())
+    //  profile_this_time = g_strdup(Denemo.prefs.profile->str);
 
     /* Initialize preferences */
     initprefs();
     
     //Do not setup the user's base profile until they have saved their own command set, so that user's can try out the different command sets => ignore what was saved as a preference last run
-    if(profile_this_time)
-      Denemo.prefs.profile = g_string_new(profile_this_time);
+    // if(profile_this_time)
+    //  Denemo.prefs.profile = g_string_new(profile_this_time);
   }
 
 
@@ -4489,30 +4489,39 @@ void inner_main(void*closure, int argc, char **argv){
   if(Denemo.prefs.autoupdate)
     fetchcommands(NULL, NULL);
 
-
+  gchar *save_default_keymap_file_on_entry = FALSE;
 #define choice1 "Simple\nQuick start users: use this until you have read the manual\n"
 #define choice2 "Arranger\nExperienced Users: transcribing music, playing music in, transposing etc"
 #define choice3 "Composer\nExperienced Users: entering and modifying music, working with selections WASD use etc"
 #define choice4 "Classic\nOld Denemo pc-keyboard interface."
 #define choice5 "LilyPond\nExperienced Users with LilyPond knowledge"
 #define choice6 "AllCommands\nUsers wanting to see the complete command set. No pre-defined shortcuts"
+
  
   if(uses_default_commandset()) {
-    // infodialog("Nearly every menu item can be right-clicked, for help, setting keyboard shortcuts and more"); this  should always appear on top of the main window, but it is unresponsive to dismissal at first.
-    // get_option returns a pointer into the string passed in
-    gchar *choice = get_option(choice1"\0"choice2"\0"choice3"\0"choice4"\0"choice5"\0"choice6"\0", strlen(choice1)+1+strlen(choice2)+1+strlen(choice3)+1+strlen(choice4)+1+strlen(choice5)+1+strlen(choice6)+1);
+    gchar *initialpref = Denemo.prefs.profile?Denemo.prefs.profile->str:NULL;
+    gchar * never_again = NULL;
+    if(initialpref) never_again = g_strdup_printf( "Use %s and do not show these choices again", initialpref);
+    
+    GString *choicestr = g_string_new("");
+    gchar *thechoices = choice1"\0"choice2"\0"choice3"\0"choice4"\0"choice5"\0"choice6"\0";
+    g_string_insert_len(choicestr, -1, thechoices, strlen(choice1)+1+strlen(choice2)+1+strlen(choice3)+1+strlen(choice4)+1+strlen(choice5)+1+strlen(choice6)+1);
+    if(never_again)
+      g_string_insert_len(choicestr, -1, never_again, strlen(never_again)+1);
+    gchar *choice = get_option(choicestr->str, choicestr->len);
     if(choice==NULL)
       choice = choice1;
     if(strcmp(choice, choice1)) {
-      choice = g_strdup(choice);
-      gchar *c;
-      for(c=choice;*c;c++)
-	if(*c=='\n')
-	  *c='\0';
-      
-      // choice =  g_build_filename(get_data_dir(), "actions", choice, NULL);
-      //g_print("Choice is %s length %d\n", choice, strlen(choice));
-      g_string_assign(Denemo.prefs.profile, choice);
+      if(never_again && !strcmp(choice, never_again))
+	save_default_keymap_file_on_entry = TRUE;
+      else {
+	choice = g_strdup(choice);
+	gchar *c;
+	for(c=choice;*c;c++)
+	  if(*c=='\n')
+	    *c='\0';
+	g_string_assign(Denemo.prefs.profile, choice);
+      }
     }
   }
 
@@ -4553,9 +4562,11 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
   }
 
   init_keymap();
-  
+
   load_default_keymap_file();
 
+  if(save_default_keymap_file_on_entry)
+    save_default_keymap_file();
 
   switch (Denemo.prefs.mode & ~MODE_MASK) {
   case INPUTINSERT:
