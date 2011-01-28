@@ -7,19 +7,9 @@
       <row>
         <after>SmallerStaff</after>
         <action>TinyStaff</action>
-        <scheme>;;;;;;;;;;;;;;;;TinyStaff
-(if (d-DirectiveGetForTag-staff "StaffSize")
-	(begin
- 	(d-DirectiveDelete-staff "StaffSize"))
-        (begin
-  		(d-DirectivePut-staff-prefix "StaffSize" "\\new Staff \\with {\n
+        <scheme>(ToggleDirective "staff" "prefix" "StaffSize" "\\new Staff \\with {\n
      		   fontSize = #-7\n
-     		   \\override StaffSymbol #'staff-space = #(magstep -7)\n}\n &lt;&lt; {")
-	(d-DirectivePut-staff-override "StaffSize" (logior DENEMO_OVERRIDE_LILYPOND DENEMO_OVERRIDE_GRAPHIC))
-	(d-DirectivePut-staff-display "StaffSize" "Smaller Staff")))
-(d-RefreshDisplay)
-
-</scheme>
+     		   \\override StaffSymbol #'staff-space = #(magstep -7)\n}\n &lt;&lt; {" DENEMO_OVERRIDE_LILYPOND)</scheme>
         <label>Tiny Staff</label>
         <tooltip>Prints current staff in a tiny font.</tooltip>
       </row>

@@ -85,7 +85,7 @@
 )
 
 
-;;;;;;;;;; Prototype to insert Lilypond Directives. Wants a pair with car Tag and cdr lilypond: (cons "BreathMark" "\\breathe")
+;;;;;;;;;; Prototype to insert Lilypond Standalone Directives. Wants a pair with car Tag and cdr lilypond: (cons "BreathMark" "\\breathe")
 (define* (StandAloneDirectiveProto pair #:optional (step? #t) (graphic #f))
 	(d-Directive-standalone (car pair))
 	(d-DirectivePut-standalone-postfix (car pair) (cdr pair))
@@ -629,7 +629,7 @@
     (if (boolean? title)
 	(set! title (scheme-escape (d-GetUserInput (string-append type " " fieldname)
 				    (string-append "Give a name for the " fieldname " of the " type) current))))
-    (d-DirectivePut-header-override tag DENEMO_OVERRIDE_GRAPHIC)
+    (d-DirectivePut-header-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
     (d-DirectivePut-header-display tag (string-append type " " fieldname ": " (html-escape title)))
     
     (d-DirectivePut-header-postfix tag (string-append field " = \"" title "\"\n"))))
@@ -650,7 +650,7 @@
 	    (set! current (match:substring thematch 1)))))
   (set! title (scheme-escape (d-GetUserInput (string-append "Score " field) 
 			      (string-append "Give a name for the " field " of the whole score") current)))
-  (d-DirectivePut-scoreheader-override tag DENEMO_OVERRIDE_GRAPHIC)
+  (d-DirectivePut-scoreheader-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
   (d-DirectivePut-scoreheader-display tag (string-append field ": " title))
   (d-DirectivePut-scoreheader-postfix tag (string-append field " = \"" title "\"\n"))))
 
@@ -770,7 +770,7 @@
 ; ToggleDirective is a script to help you by creating and deleting Denemo-Directives with the same command.
 ;; return value is #t if directive was created or #f if it was deleted. This can be used as hook for further scripting.
 ;; example (ToggleDirective "staff" "prefix" "Ambitus" "\\with { \\consists \"Ambitus_engraver\" }")
-(define (ToggleDirective type field tag content) ; four strings
+(define (ToggleDirective type field tag content . overrides) ; four strings and a arbitrary number of tags (numbers) for overrides.
 	(define proc-put (string-append "d-DirectivePut-" type "-" field))
 	(define proc-get (string-append "d-DirectiveGet-" type "-" field))
 	(define proc-del (string-append "d-DirectiveDelete-" type))
@@ -781,7 +781,9 @@
 		(begin	((eval-string proc-del) tag)
 				#f)
 		(begin 	((eval-string proc-put) tag content)
-				((eval-string proc-ovr) tag DENEMO_OVERRIDE_GRAPHIC)
+				(if (member DENEMO_OVERRIDE_GRAPHIC overrides) ; enforce graphic to make sure staff-icons work.
+					((eval-string proc-ovr) tag (apply logior overrides))
+					((eval-string proc-ovr) tag (apply logior (append (list DENEMO_OVERRIDE_GRAPHIC) overrides))))
 				((eval-string proc-dis) tag tag)
 				#t)))
 	

@@ -234,6 +234,9 @@ LOOKUP(GROUP_END_STRING,DENEMO_GROUP_END)
     }
 }
 
+#define UPDATE_OVERRIDE(directive)		\
+  if(version_number<4)\
+    directive->override |= DENEMO_OVERRIDE_TAGEDIT;
 
 
 #define DO_DIREC(field) if (ELEM_NAME_EQ (childElem, #field))\
@@ -269,6 +272,8 @@ parseDirective (xmlNodePtr parentElem, xmlNsPtr ns,
       /* FIXME,handle not loaded */
     }      
   }
+  UPDATE_OVERRIDE(directive);
+ 
 }
 
 static gint
@@ -296,6 +301,8 @@ parseWidgetDirective (xmlNodePtr parentElem, xmlNsPtr ns, gpointer fn, DenemoDir
   }
   if(directive->tag==NULL)
     directive->tag = g_string_new("<Unknown Tag>");
+
+  UPDATE_OVERRIDE(directive);
   widget_for_directive(directive, fn);
   return TRUE;
 }
@@ -1537,7 +1544,7 @@ parseLilyDir (xmlNodePtr LilyDirectiveElem, xmlNsPtr ns, DenemoScore *si)
 #define GET_INT_FIELD(x)\
   gchar *x = (gchar *) xmlGetProp (LilyDirectiveElem, (xmlChar *) #x);\
   if(x)\
-    ((lilydirective*)curobj->object)->x = atoi(x);\
+    thedirective->x = atoi(x);\
   g_free(x);
 
   GET_INT_FIELD(x);
@@ -1547,6 +1554,7 @@ parseLilyDir (xmlNodePtr LilyDirectiveElem, xmlNsPtr ns, DenemoScore *si)
   GET_INT_FIELD(gx);
   GET_INT_FIELD(gy);
   GET_INT_FIELD(override);
+  UPDATE_OVERRIDE(thedirective);
   GET_INT_FIELD(minpixels);
   // curobj->minpixelsalloted = thedirective->minpixels?thedirective->minpixels:16;//FIXME setpixelmin
   setpixelmin(curobj);
