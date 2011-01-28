@@ -106,7 +106,7 @@ infodialog (gchar * msg)
   g_signal_connect_swapped (dialog, "response",
 			    G_CALLBACK (gtk_widget_destroy),
 			    dialog);
-  gtk_window_set_keep_above(dialog, TRUE);
+  gtk_window_set_keep_above(GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all(dialog);
 }
 

@@ -256,13 +256,11 @@ static instproperties * lookup_instrument_properties(gchar *name, wizarddata *wd
               instr->clef = (gint *) ((InstrumentConfig *)inst->data)->sclef;
               instr->transposition = (gint *) ((InstrumentConfig *)inst->data)->transposition;
 	      instr->numstaffs = ((InstrumentConfig *)inst->data)->numstaffs;
-#ifdef DEBUG
-	      g_print("instrument name inst->data)->name->str = %s\n", ((InstrumentConfig *)inst->data)->name->str);
-              g_print("number of staves for instrument = %i\n", (gint) ((InstrumentConfig *)inst->data)->numstaffs);
-	      g_print("instrument staff inst->data)->sclef = %i\n", instr->clef);
-	      g_print("transposition = %i\n", (gint) instr->transposition);
-#endif
-	       break;
+	      g_debug("instrument name inst->data)->name->str = %s\n", ((InstrumentConfig *)inst->data)->name->str);
+              g_debug("number of staves for instrument = %i\n", (gint) ((InstrumentConfig *)inst->data)->numstaffs);
+	      g_debug("instrument staff inst->data)->sclef = %i\n", (gint) instr->clef);
+	      g_debug("transposition = %i\n", (gint) instr->transposition);
+	      break;
             }
           inst = g_list_next(inst);
         }

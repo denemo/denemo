@@ -696,7 +696,9 @@ void prepare_preview(GPid pid, gint status, GList *filelist) {
  * calls exportmudela and then  
  * runs lilypond to a create a filename.pdf
  *
- *	@param filename filename to save score to
+ *  @param filename filename to save score to
+ *  @param show_preview TRUE if you want to launch 
+ *         previewer after creating png
  *  @param gui pointer to the DenemoGUI structure
  */
 void

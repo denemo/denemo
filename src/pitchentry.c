@@ -1103,9 +1103,9 @@ GtkWidget *get_enharmonic_frame(void) {
 			FALSE, TRUE, 0);
     gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/SharpenEnharmonicSet"), button);
   }
-  GtkContainer *cont = gtk_widget_get_parent(frame);
+  GtkWidget *cont = gtk_widget_get_parent(frame);
   if(cont)
-    gtk_container_remove(cont, frame);
+    gtk_container_remove(GTK_CONTAINER(cont), frame);
   return frame;
 }
 
@@ -1139,9 +1139,9 @@ GtkWidget *get_temperament_combo(void) {
 
 
   }
-  GtkContainer *cont = gtk_widget_get_parent(combobox);
+  GtkWidget *cont = gtk_widget_get_parent(combobox);
   if(cont)
-    gtk_container_remove(cont, combobox);
+    gtk_container_remove(GTK_CONTAINER(cont), combobox);
   return combobox;
 }
 
