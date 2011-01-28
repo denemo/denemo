@@ -7,10 +7,12 @@
       <row>
         <after>UnsetMark</after>
         <action>SelectStaff</action>
-        <scheme>(d-UnsetMark)
+        <scheme>(d-PushPosition)
+(d-UnsetMark)
 (d-GoToBeginning)
 (d-SetMark)
-(d-GoToEnd)</scheme>
+(d-GoToEnd)
+(d-PopPosition)</scheme>
         <label>Select Staff</label>
         <tooltip>Selects the whole staff</tooltip>
       </row>

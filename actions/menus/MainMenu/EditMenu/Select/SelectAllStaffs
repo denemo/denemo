@@ -7,16 +7,14 @@
       <row>
         <after>SelectStaff</after>
         <action>SelectAllStaffs</action>
-        <scheme>(let firststaff ()
-(if (d-StaffUp)	 
-	(firststaff)))
+        <scheme>(d-PushPosition)
+(d-MoveToMovementBeginning)
 (d-UnsetMark)
-(d-GoToBeginning)
-(d-SetMark)
 (let laststaff ()
 (if (d-StaffDown)	 
 	(laststaff)))
-(d-GoToEnd)</scheme>
+(d-GoToEnd)
+(d-PopPosition)</scheme>
         <label>Select All Staffs</label>
         <tooltip>Selects the whole movement / All staffs</tooltip>
       </row>
