@@ -4487,7 +4487,7 @@ void inner_main(void*closure, int argc, char **argv){
 
 
   {gchar *profile_this_time=NULL;//profile that user has chosen for this run of denemo
-    Denemo.prefs.profile = g_string_new("Default");
+    Denemo.prefs.profile = g_string_new("Simple");
     //  if(uses_default_commandset())
     //  profile_this_time = g_strdup(Denemo.prefs.profile->str);
 
@@ -4530,7 +4530,7 @@ void inner_main(void*closure, int argc, char **argv){
     gchar *choice = get_option(choicestr->str, choicestr->len);
     if(choice==NULL)
       choice = choice1;
-    if(strcmp(choice, choice1)) {
+     {
       if(never_again && !strcmp(choice, never_again))
 	save_default_keymap_file_on_entry = TRUE;
       else {
