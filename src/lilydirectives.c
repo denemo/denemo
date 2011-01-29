@@ -21,9 +21,6 @@
 #include "utils.h"
 #include "prefops.h"
 #include "view.h"
-static void edit_directive_callback(GtkWidget *w, gpointer what);
-
-
 
 static DenemoDirective *get_movementcontrol_directive(gchar *tag);
 static DenemoDirective *get_score_directive(gchar *tag);
@@ -1714,8 +1711,9 @@ standalone_directive_put_graphic(gchar *tag, gchar *value) {
 gboolean \
 standalone_directive_put_##field(gchar *tag, gchar *value) {\
   DenemoDirective *directive = get_standalone_directive(tag);\
-  if(directive && directive->field)\
-    g_string_assign(directive->field, value);\
+  if(directive && directive->field){\
+    store_for_undo_change (Denemo.gui->si, Denemo.gui->si->currentobject->data);\
+    g_string_assign(directive->field, value);}				\
   else if(directive)\
     directive->field = g_string_new(value);\
   else {\
@@ -1743,8 +1741,9 @@ STANDALONE_PUT_STR_FIELD_FUNC(midibytes);
 gboolean \
 standalone_directive_put_##field(gchar *tag, gint value) {\
   DenemoDirective *directive = get_standalone_directive(tag);\
-  if(directive)\
-    directive->field = value;\
+  if(directive){\
+    store_for_undo_change (Denemo.gui->si, Denemo.gui->si->currentobject->data);\
+    directive->field = value;}\
   else {\
         DenemoObject *obj = lily_directive_new (" ");\
         directive = (DenemoDirective*)obj->object;\
@@ -1772,6 +1771,7 @@ standalone_directive_put_minpixels(gchar *tag, gint value) {
   if(directive){
     directive->minpixels = value;//This field is not actually useful for standalone directives.
     DenemoObject *obj = findobj();
+    store_for_undo_change (Denemo.gui->si, obj);
     obj->minpixelsalloted = value;
   }
   else {
