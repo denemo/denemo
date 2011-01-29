@@ -22,3 +22,5 @@
 
 (CreateButton  "ButtonReduceSlur" ")")
 (d-SetDirectiveTagActionScript  "ButtonReduceSlur" "(d-ReduceSlur)")
+
+(SetHeaderField "title" "Untitled")
