@@ -901,11 +901,15 @@
 ; This means we double-use the lowest octave as abstract version.
 ; Dividing through the octave, 350, results in the number of the octave and the note as remainder.
 (define (ANS::GetNote ansNote) 
-		(remainder ansNote 350))
+	(if (= ansNote +inf.0)
+		+inf.0
+		(remainder ansNote 350)))
 
 ;Extract the octave as integer, where c,,, is in the 0 octave. 
 (define (ANS::GetOctave ansNote) 
-	(quotient ansNote 350))
+	(if (= ansNote +inf.0)
+		+inf.0
+		(quotient ansNote 350)))
 
 ; Return the natural, "white key" version of an ansNote.
 (define (ANS::GetWhiteKey ansNote) 
