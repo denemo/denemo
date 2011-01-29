@@ -1239,7 +1239,31 @@
       <row>
         <action>SelectColumn</action>
         <bind>Ctrl+d</bind>
-      </row>      
+      </row>
+      <row>
+		<action>VoicesDoublestroke</action>      
+		<bind>Alt+v</bind>
+	  </row>
+	  <row>
+        <action>VoicePresetAutomatic</action>
+		<hidden>true</hidden>
+      </row>
+      <row>
+        <action>VoicePreset1</action>
+		<hidden>true</hidden>
+      </row>
+      <row>
+        <action>VoicePreset2</action>
+		<hidden>true</hidden>
+      </row>
+      <row>
+        <action>VoicePreset3</action>
+		<hidden>true</hidden>
+      </row>
+      <row>
+        <action>VoicePreset4</action>
+		<hidden>true</hidden>
+      </row>
     </map>
   </merge>
 </Denemo>

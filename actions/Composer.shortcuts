@@ -225,11 +225,15 @@
       </row>
       <row>
         <action>MoveToVoiceUp</action>
-      </row>
-      
+      </row>      
       <row>
         <action>MoveToVoiceDown</action>
       </row>
+      <row>
+		<action>VoicesDoublestroke</action>      
+		<bind>Alt+v</bind>
+	  </row>
+      
       
  
 	<!-- Jumps (Home, End etc. )-->
@@ -776,7 +780,27 @@
      <row>
 		<action>Anacrusis</action>
 		<hidden>true</hidden>
-     </row>	
+     </row>
+     <row>
+        <action>VoicePresetAutomatic</action>
+		<hidden>true</hidden>
+      </row>
+      <row>
+        <action>VoicePreset1</action>
+		<hidden>true</hidden>
+      </row>
+      <row>
+        <action>VoicePreset2</action>
+		<hidden>true</hidden>
+      </row>
+      <row>
+        <action>VoicePreset3</action>
+		<hidden>true</hidden>
+      </row>
+      <row>
+        <action>VoicePreset4</action>
+		<hidden>true</hidden>
+      </row>	
     </map>
   </merge>
 </Denemo>
