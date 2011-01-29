@@ -3480,6 +3480,16 @@ void denemo_scheme_init(void){
     else
       g_warning("Cannot find your scheme initialization file %s", initscheme);
   }
+  //else ?????
+  if(Denemo.prefs.profile->len){
+    gchar *name = g_strconcat(Denemo.prefs.profile->str, ".scm", NULL);
+    gchar *filename = g_build_filename(get_data_dir (), "actions", name, NULL);
+    if(g_file_test(filename, G_FILE_TEST_EXISTS))
+      eval_file_with_catch(filename);
+    g_free(name);
+    g_free(filename);
+  }
+
   load_local_scheme_init();
   Denemo.gui->si->undo_guard--;
 }
@@ -3510,14 +3520,6 @@ static void load_scheme_init(void)  {
   else
     g_warning("Cannot find Denemo's scheme initialization file denemo.scm");
   g_free(filename);
-  if(Denemo.prefs.profile->len){
-    gchar *name = g_strconcat(Denemo.prefs.profile->str, ".scm", NULL);
-    gchar *filename = g_build_filename(get_data_dir (), "actions", name, NULL);
-    if(g_file_test(filename, G_FILE_TEST_EXISTS))
-      eval_file_with_catch(filename);
-    g_free(name);
-    g_free(filename);
-  }
 
   Denemo.gui->si->undo_guard--;
 }
@@ -3568,17 +3570,23 @@ void  show_preferred_view(void) {
 }
 
 
-/* load system wide template file init.denemo and then any local version */
+/* load local init.denemo or failing that system wide template file init.denemo*/
 void load_initdotdenemo(void) { 
    gchar *init_file;
-   init_file = g_build_filename(get_data_dir (), "actions", "init.denemo", NULL);
-   if (open_for_real (init_file, Denemo.gui, TRUE, REPLACE_SCORE) == -1)
-     g_warning("Denemo initialization file %s not found", init_file);
+
    init_file = g_build_filename(locatedotdenemo (), "actions", "init.denemo", NULL);
-   (void)open_for_real (init_file, Denemo.gui, TRUE, REPLACE_SCORE);
+   if(g_file_test(init_file, G_FILE_TEST_EXISTS)) {
+     if(open_for_real (init_file, Denemo.gui, TRUE, REPLACE_SCORE))
+       g_warning("Could not open %s\n", init_file);
+   } else {
+     g_free(init_file);
+     init_file = g_build_filename(get_data_dir (), "actions", "init.denemo", NULL);
+     if (open_for_real (init_file, Denemo.gui, TRUE, REPLACE_SCORE) == -1)
+       g_warning("Denemo initialization file %s not found", init_file);
+     g_free(init_file);
+   }
    deleteSchemeText();
-   g_free(init_file);
-}  
+} 
 
 /* 
  * create and populate the keymap - a register of all the Denemo commands with their shortcuts
@@ -4696,7 +4704,7 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
    }
  }
 
- denemo_scheme_init();
+ //denemo_scheme_init(); this is done when opening init.denemo
 
 /* Now launch into the main gtk event loop and we're all set */
  gtk_main();
