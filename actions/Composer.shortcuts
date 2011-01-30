@@ -410,6 +410,7 @@
       <row>
         <action>RemoveDot</action>
         <bind>Alt+period</bind>
+        <bind>Alt+Decimal</bind>
       </row>
       
       <row>
@@ -446,6 +447,7 @@
 	<row>
         <action>AddDotSelectionSwitcher</action>
         <bind>period</bind>
+        <bind>Decimal</bind>        
     </row>
     <row>
         <action>StaccatoSelectionSwitcher</action>
