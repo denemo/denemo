@@ -245,10 +245,10 @@ return)
 	abstractionmovement))	
 
 
-;SearchForDirectIntervalProgression wants an abstract movement followed by any number of interval-symbols like 'p5 or 'm3
+;SearchForConsecutiveIntervalProgression wants an abstract movement followed by any number of interval-symbols like 'p5 or 'm3
 ;Returns a list of positions where forbidden intervals live.
-;Example: (SearchForDirectIntervalProgression movement 'p5 'p1)
-(define (SearchForDirectIntervalProgression abstractmovement . forbiddenintervals)
+;Example: (SearchForConsecutiveIntervalProgression movement 'p5 'p1)
+(define (SearchForConsecutiveIntervalProgression abstractmovement . forbiddenintervals)
   (define now #f) ;prepare
   (define next #f) ;prepare
   (define returnlist (list #f))
@@ -267,13 +267,29 @@ return)
  
   (let search ((positioncounter 0))
     (set! now  (ANS::CreateIntervalsFromPairs (GetUniquePairs (extractPitchesFromVerticalPosition (getVerticalPosition positioncounter)))))	
-    (set! next  (ANS::CreateIntervalsFromPairs (GetUniquePairs (extractPitchesFromVerticalPosition (getVerticalPosition (1+ positioncounter))))))
-     (if (ANS::Forbidden? now next forbiddenintervals) ; Quinten und Primen
-	(append! returnlist (list (extractPosition (getVerticalPosition positioncounter)))))	
+    (set! next  (ANS::CreateIntervalsFromPairs (GetUniquePairs (extractPitchesFromVerticalPosition (getVerticalPosition (1+ positioncounter))))))   
+     
+     ;Check for various Consecutive Interval Progressions and return each position with a tag of which type as (cons tag (list position))
+     (cond 
+	((ANS::ConsecutiveOpen? now next forbiddenintervals)
+		(append! returnlist (list (cons 'consecutive_open (list (extractPosition (getVerticalPosition positioncounter)))))))
+	
+	((ANS::ConsecutiveAnti? now next forbiddenintervals)
+		(append! returnlist (list (cons 'consecutive_anti (list (extractPosition (getVerticalPosition positioncounter)))))))
+
+	((ANS::ConsecutiveCrossed? now next forbiddenintervals)		
+		(append! returnlist (list (cons 'consecutive_crossed (list (extractPosition (getVerticalPosition positioncounter)))))))
+     
+    ((ANS::ConsecutiveHidden? now next forbiddenintervals)		
+		(append! returnlist (list (cons 'consecutive_hidden (list (extractPosition (getVerticalPosition positioncounter)))))))
+		
+	((ANS::ConsecutiveHiddenCrossed? now next forbiddenintervals)		
+		(append! returnlist (list (cons 'consecutive_hidden_crossed (list (extractPosition (getVerticalPosition positioncounter)))))))	
+     )    
 
     (if (= positioncounter maxcounter) 
    	 (list-tail returnlist 1)  ; The End.  get rid of the initial #f for the final return value
-   	 (search (1+ positioncounter)))  ; Run again 
+   	 (search (1+ positioncounter)))  ; Run again with next position.
      ))
 
 
