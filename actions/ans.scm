@@ -758,8 +758,8 @@
 )
 
 ; A table to translate the human readable "m2" for minor second into steps of fifth left or right in the pillar.
-; TODO: Augmented and Diminished intervals, octave and >octave. For octaves it will return the same note again, so that must be passt to the calcUp and downFunctions. Maybe don't even do octaves here.
-; TODO: this function only should be for < octave. Octave is more easy to do with CalcUp/Down followed by octave up/down
+; Without octave transpositions.
+; TODO: Replace with real hashtable, not cond. Just a performance tweak.
 (define (ANS::IntervalGetSteps target)
 	(cond
 		((or (eq? target 'p1) (eq? target 'P1)) 0)			
@@ -774,9 +774,70 @@
 		((eq? target 'M6) 3)		
 		((eq? target 'm7) -2)	
 		((eq? target 'M7) 5)		
-		(else #f)
-	)		
-)
+		;Augmentend, Diminished
+		((or (eq? target 'a1) (eq? target 'A1)) 7)		
+		((or (eq? target 'd1) (eq? target 'D1)) -7)		
+		((or (eq? target 'a2) (eq? target 'A2)) 9)		
+		((or (eq? target 'd2) (eq? target 'D2)) -12)	
+		((or (eq? target 'a3) (eq? target 'A3))  11)		
+		((or (eq? target 'd3) (eq? target 'D3))  -10)	
+		((or (eq? target 'a4) (eq? target 'A4))  6)		
+		((or (eq? target 'd4) (eq? target 'D4))  -8)	
+		((or (eq? target 'a5) (eq? target 'A5))  8)		
+		((or (eq? target 'd5) (eq? target 'D5))  -6)
+		((or (eq? target 'a6) (eq? target 'A6))  10)		
+		((or (eq? target 'd6) (eq? target 'D6))  -11)	
+		((or (eq? target 'a7) (eq? target 'A7))  12)		
+		((or (eq? target 'd7) (eq? target 'D7))  -9)
+		;Double Augmented, Double Diminished
+		((or (eq? target 'aa1) (eq? target 'AA1)) 14)		
+		((or (eq? target 'dd1) (eq? target 'DD1)) -14)		
+		((or (eq? target 'aa2) (eq? target 'AA2)) 16)		
+		((or (eq? target 'dd2) (eq? target 'DD2)) -19)			
+		((or (eq? target 'aa3) (eq? target 'AA3))  18)		
+		((or (eq? target 'dd3) (eq? target 'DD3))  -17)					
+		((or (eq? target 'aa4) (eq? target 'AA4))  13)		
+		((or (eq? target 'dd4) (eq? target 'DD4))  -15)			
+		((or (eq? target 'aa5) (eq? target 'AA5))  15)		
+		((or (eq? target 'dd5) (eq? target 'DD5))  -13)
+		((or (eq? target 'aa6) (eq? target 'AA6))  17)		
+		((or (eq? target 'dd6) (eq? target 'DD6))  -18)		
+		((or (eq? target 'aa7) (eq? target 'AA7))  19)		
+		((or (eq? target 'dd7) (eq? target 'DD7))  -16)
+		;Triple Augmented, Triple Diminished
+		((or (eq? target 'aaa1) (eq? target 'AAA1)) 21)		
+		((or (eq? target 'ddd1) (eq? target 'DDD1)) -21)		
+		((or (eq? target 'aaa2) (eq? target 'AAA2)) 23)		
+		((or (eq? target 'ddd2) (eq? target 'DDD2)) -26)			
+		((or (eq? target 'aaa3) (eq? target 'AAA3))  25)		
+		((or (eq? target 'ddd3) (eq? target 'DDD3))  -24)					
+		((or (eq? target 'aaa4) (eq? target 'AAA4))  20)		
+		((or (eq? target 'ddd4) (eq? target 'DDD4))  -22)			
+		((or (eq? target 'aaa5) (eq? target 'AAA5))  22)		
+		((or (eq? target 'ddd5) (eq? target 'DDD5))  -20)
+		((or (eq? target 'aaa6) (eq? target 'AAA6))  24)		
+		((or (eq? target 'ddd6) (eq? target 'DDD6))  -25)		
+		((or (eq? target 'aaa7) (eq? target 'AAA7))  26)		
+		((or (eq? target 'ddd7) (eq? target 'DDD7))  -23)
+		;Quadruple Augmented, Quadruple Diminished		
+		((or (eq? target 'aaaa1) (eq? target 'AAAA1)) 28)		
+		((or (eq? target 'dddd1) (eq? target 'DDDD1)) -28)		
+		((or (eq? target 'aaaa2) (eq? target 'AAAA2)) 30)		
+		((or (eq? target 'dddd2) (eq? target 'DDDD2)) -33)			
+		((or (eq? target 'aaaa3) (eq? target 'AAAA3))  32)		
+		((or (eq? target 'dddd3) (eq? target 'DDDD3))  -31)					
+		((or (eq? target 'aaaa4) (eq? target 'AAAA4))  27)		
+		((or (eq? target 'dddd4) (eq? target 'DDDD4))  -29)			
+		((or (eq? target 'aaaa5) (eq? target 'AAAA5))  29)		
+		((or (eq? target 'dddd5) (eq? target 'DDDD5))  -27)
+		((or (eq? target 'aaaa6) (eq? target 'AAAA6))  31)		
+		((or (eq? target 'dddd6) (eq? target 'DDDD6))  -32)		
+		((or (eq? target 'aaaa7) (eq? target 'AAAA7))  33)		
+		((or (eq? target 'dddd7) (eq? target 'DDDD7))  -30)		
+		;Quintuple Augmented, Quintuple Diminished. Only feses to bisis, the Final Frontier.	
+		((or (eq? target 'aaaaa4) (eq? target 'AAAAA4))  34)		
+		((or (eq? target 'ddddd5) (eq? target 'DDDDD5))  -34)
+		(else #f)))
 
 
 
@@ -840,11 +901,15 @@
 ; This means we double-use the lowest octave as abstract version.
 ; Dividing through the octave, 350, results in the number of the octave and the note as remainder.
 (define (ANS::GetNote ansNote) 
-		(remainder ansNote 350))
+	(if (= ansNote +inf.0)
+		+inf.0
+		(remainder ansNote 350)))
 
 ;Extract the octave as integer, where c,,, is in the 0 octave. 
 (define (ANS::GetOctave ansNote) 
-	(quotient ansNote 350))
+	(if (= ansNote +inf.0)
+		+inf.0
+		(quotient ansNote 350)))
 
 ; Return the natural, "white key" version of an ansNote.
 (define (ANS::GetWhiteKey ansNote) 
@@ -935,7 +1000,7 @@
 	;Extract the tone, without octave and feed it to the hash to get the notes position in the pillar of 5th.
 	(cons
 		(- (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote higher)) (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote lower)))
-		(cons lower higher)))
+		(cons ansNoteTwo ansNoteOne))) ; do NOT return the ordered invervals. Return as they came in.
 
 
 ;GetIntervall for lists. 
@@ -950,12 +1015,74 @@
 ;; Lists should be the same length (means the same amount of intervals, which is the case when both lists are generated from chords with the same number of notes)
 ;; Repetitions and Octave shifts return as #f. (not (equal?...)) tests for repeats, ANS::GetNote equalizes octaves
 ;; Expects pair in pair: (intervall (lower . higher)) from ANS::GetIntervall
-(define (ANS::Forbidden? list1 list2 forbidden)
+;; The main difference between this functions is the checking with < >.
+;; This is a schema of the two intervals:
+;;	g a
+;;	c d
+;;	(cdr (cdr one))	(cdr (cdr two))
+;;	(car (cdr one)) (car (cdr two))
+
+(define (ANS::ConsecutiveOpen? list1 list2 forbidden)
      (define (test? one two) 
-		(and (equal? (car one) (car two)) (not (equal? (ANS::GetNote (car (cdr one))) (ANS::GetNote (car (cdr two))) )) (if (member (car one) forbidden) #t #f)))
-      (if (member #t (map test? list1 list2))
+		(and 	(equal? (car one) (car two)) ; same interval?
+				(if (member (car one) forbidden) #t #f) ; interval forbidden?
+				(not (equal? (ANS::GetNote (car (cdr one))) (ANS::GetNote (car (cdr two))))) ; not the same notes, a direct repetition.
+				(or ;if both first notes are higher or lower as both seconds, but higher/lower does not change.
+					(and	(> (car (cdr one)) (car (cdr two)))
+							(> (cdr (cdr one)) (cdr (cdr two))))
+					(and	(< (car (cdr one)) (car (cdr two)))
+							(< (cdr (cdr one)) (cdr (cdr two)))))))				
+     (if (member #t (map test? list1 list2))
 		  #t
 		  #f))
+		 
+
+(define (ANS::ConsecutiveCrossed? list1 list2 forbidden)
+     (define (test? one two) 
+		(and 	(equal? (car one) (car two)) ; same interval?
+				(if (member (car one) forbidden) #t #f) ; interval forbidden?
+				(not (equal? (ANS::GetNote (car (cdr one))) (ANS::GetNote (car (cdr two))))) ; not the same notes, a direct repetition.
+				(or 
+					(and	(> (car (cdr one)) (car (cdr two)))
+							(< (cdr (cdr one)) (cdr (cdr two)))
+							(> (car (cdr one)) (cdr (cdr one)))
+							(< (car (cdr two)) (cdr (cdr two))))
+					(and	(< (car (cdr one)) (car (cdr two)))
+							(> (cdr (cdr one)) (cdr (cdr two)))
+							(< (car (cdr one)) (cdr (cdr one)))
+							(> (car (cdr two)) (cdr (cdr two)))))))				
+     (if (member #t (map test? list1 list2))
+		  #t
+		  #f))
+
+		 
+(define (ANS::ConsecutiveAnti? list1 list2 forbidden)
+     (define (test? one two) 
+		(and 	(equal? (car one) (car two)) ; same interval?
+				(if (member (car one) forbidden) #t #f) ; interval forbidden?
+				(not (equal? (ANS::GetNote (car (cdr one))) (ANS::GetNote (car (cdr two))))) ; not the same notes, a direct repetition.
+				(or 
+					(and	(> (car (cdr one)) (car (cdr two)))
+							(< (cdr (cdr one)) (cdr (cdr two)))
+							(< (car (cdr one)) (cdr (cdr one)))
+							(< (car (cdr two)) (cdr (cdr two))))
+					(and	(< (car (cdr one)) (car (cdr two)))
+							(> (cdr (cdr one)) (cdr (cdr two)))
+							(< (car (cdr one)) (cdr (cdr one)))
+							(< (car (cdr two)) (cdr (cdr two)))))))
+     (if (member #t (map test? list1 list2))
+		  #t
+		  #f))	
+
+;;ANS::ConsecutiveAntiCrossed is covered by Crossed. 
+
+(define (ANS::ConsecutiveHidden? list1 list2 forbidden)
+	#f
+)
+
+(define (ANS::ConsecutiveIndirect? list1 list2 forbidden) ; this is a paradox name. Indirect intervals are not consecutive by definition!
+	#f
+)
        
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

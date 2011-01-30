@@ -151,7 +151,7 @@ return)
 ; prepare variables-
 (define (ansrest? musobject) 
 	(and
-	(equal? (list "+inf.0") (musobj.pitch musobject))
+	(equal? (list +inf.0) (musobj.pitch musobject))
 	(not (inf? (musobj.start musobject))) 		
 	))	
 							
@@ -162,7 +162,7 @@ return)
 ; Two sub-procs
 (define (insertRestBeforeFalse musobject)
  (if (not musobject) ; if the object is a #f fill in a infinity rest before/to the current position
-  	(insert-deep movement staffcounter positioncounter (make-musobj 'pitch (list "+inf.0") 'movement #f 'staff #f 'measure #f 'horizontal #f 'start +inf.0 'end #f 'duration #f 'time #f)))	
+  	(insert-deep movement staffcounter positioncounter (make-musobj 'pitch (list +inf.0) 'movement #f 'staff #f 'measure #f 'horizontal #f 'start +inf.0 'end #f 'duration #f 'time #f)))	
 	(set!musobj.pitch (list-ref (list-ref movement staffcounter) positioncounter) (musobj.pitch (list-ref (list-ref movement staffcounter) (- positioncounter 1))))
   	(set! staffcounter (+ staffcounter 1))) ; the next for-each iteration needs another staff
   	 
@@ -219,7 +219,7 @@ return)
 	(define movement #f)
 	(set! OffsetTickList (CreateOffsetTickListMovement))
 	(set! movement (createFinalList))	
-	(apply list-equalizer! (make-musobj 'pitch (list "+inf.0") 'movement #f 'staff #f 'measure #f 'horizontal #f 'start +inf.0 'end #f 'duration #f 'time #f) movement)
+	(apply list-equalizer! (make-musobj 'pitch (list +inf.0) 'movement #f 'staff #f 'measure #f 'horizontal #f 'start +inf.0 'end #f 'duration #f 'time #f) movement)
 	(map (lambda (lst) (append! lst (list #f))) movement)
 	(fill-with-redundancy! movement)
 	movement
