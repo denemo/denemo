@@ -510,9 +510,10 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
   /*  paint the measure number at the preceding barline 
        */
 
-
+  if(cr) {
     g_string_sprintf (mstring, "%d", itp->measurenum);
     drawnormaltext_cr (cr, mstring->str, x - SPACE_FOR_BARLINE, y - 12);
+  }
 
 
   // draw the cursor and set the side effects up if this didn't happen when drawing the currentobject
