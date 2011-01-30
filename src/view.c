@@ -4366,6 +4366,11 @@ INSTALL_EDIT(movementcontrol);
 
   INSTALL_SCM_FUNCTION ("Returns an integer value, a set of bitfields representing the keyboard state, e.g. GDK_SHIFT_MASK etc",DENEMO_SCHEME_PREFIX"GetKeyboardState", scheme_get_keyboard_state);
 
+  // INSTALL_SCM_FUNCTION ("Returns the time of the next event on the recorded MIDI track or #f if none", DENEMO_SCHEME_PREFIX"GetNextMidi", scheme_get_next_midi);
+  // INSTALL_SCM_FUNCTION ("Rewinds the recorded MIDI track returns #f if no MIDI track recorded", DENEMO_SCHEME_PREFIX"RewindMidi", scheme_rewind_midi);
+  // INSTALL_SCM_FUNCTION ("Returns #t if current event on the recorded MIDI track is a Note ON event,  #f if not or no MIDI track recorded", DENEMO_SCHEME_PREFIX"MidiOn?", scheme_midi_on);
+
+
   INSTALL_SCM_FUNCTION ("Intercepts a MIDI event and returns it as a 4 byte number",DENEMO_SCHEME_PREFIX"GetMidi", scheme_get_midi);
 
   INSTALL_SCM_FUNCTION ("Takes one bool parameter - MIDI events will be captured/not captured depending on the value passed in, returns previous value.",DENEMO_SCHEME_PREFIX"SetMidiCapture", scheme_set_midi_capture);
