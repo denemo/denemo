@@ -244,6 +244,18 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
   cairo_save(cr);
   cairo_set_line_width( cr, 1.0 );
 
+
+
+ if (thechord.slur_begin_p)
+   draw_slur_start(cr, xx, y);
+
+ if (thechord.slur_end_p)
+   draw_slur_end(cr, xx, y);
+
+
+
+
+
   if(is_grace) {
     note *thenote = (note *) thechord.notes->data;
     cairo_translate( cr, xx, y+thenote->y);

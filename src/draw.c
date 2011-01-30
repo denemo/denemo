@@ -508,12 +508,11 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
     }
 
   /*  paint the measure number at the preceding barline 
-      - do not do measure 1 as it clashes with the name (and is not needed) */
+       */
 
-  if(cr) if(itp->measurenum>1) {
+
     g_string_sprintf (mstring, "%d", itp->measurenum);
     drawnormaltext_cr (cr, mstring->str, x - SPACE_FOR_BARLINE, y - 12);
-  }
 
 
   // draw the cursor and set the side effects up if this didn't happen when drawing the currentobject
@@ -725,7 +724,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
     gint staffname_offset = (thestaff->voicenumber == 1) ? 24 :
       (thestaff->voicenumber == 2
        || thestaff->voicenumber == 3) ? 12 : 0;
-    drawnormaltext_cr( cr, thestaff->denemo_name->str, KEY_MARGIN, y - staffname_offset+10 );
+    drawnormaltext_cr( cr, thestaff->denemo_name->str, 0/*KEY_MARGIN*/, y - staffname_offset+10 );
   } else {
  cairo_save(cr);
    gint staffname_offset = (thestaff->voicenumber == 1) ? 24 :
