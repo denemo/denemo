@@ -1026,22 +1026,27 @@
      (define (test? one two) 
 		(and 	(equal? (car one) (car two)) ; same interval?
 				(if (member (car one) forbidden) #t #f) ; interval forbidden?
-				(not (equal? (ANS::GetNote (car (cdr one))) (ANS::GetNote (car (cdr two))))) ; not the same notes, a direct repetition.
+				(not (equal? (ANS::GetNote (car (cdr one))) (ANS::GetNote (car (cdr two))))) ; not the same notes, no direct repetition.
 				(or ;if both first notes are higher or lower as both seconds, but higher/lower does not change.
 					(and	(> (car (cdr one)) (car (cdr two)))
-							(> (cdr (cdr one)) (cdr (cdr two))))
+							(> (cdr (cdr one)) (cdr (cdr two)))
+							(< (car (cdr one)) (cdr (cdr one)))  ;lower voice has the lower pitch 
+							(< (car (cdr two)) (cdr (cdr two)))) ;lower voice has the lower pitch 
 					(and	(< (car (cdr one)) (car (cdr two)))
-							(< (cdr (cdr one)) (cdr (cdr two)))))))				
+							(< (cdr (cdr one)) (cdr (cdr two)))
+							(< (car (cdr one)) (cdr (cdr one)))
+							(< (car (cdr two)) (cdr (cdr two)))))))				
      (if (member #t (map test? list1 list2))
 		  #t
 		  #f))
 		 
 
 (define (ANS::ConsecutiveCrossed? list1 list2 forbidden)
+;cover inverted crossed also. Not the second interval but the firs is crossed. 
      (define (test? one two) 
 		(and 	(equal? (car one) (car two)) ; same interval?
 				(if (member (car one) forbidden) #t #f) ; interval forbidden?
-				(not (equal? (ANS::GetNote (car (cdr one))) (ANS::GetNote (car (cdr two))))) ; not the same notes, a direct repetition.
+				(not (equal? (ANS::GetNote (car (cdr one))) (ANS::GetNote (car (cdr two))))) ; not the same notes, no direct repetition.
 				(or 
 					(and	(> (car (cdr one)) (car (cdr two)))
 							(< (cdr (cdr one)) (cdr (cdr two)))
@@ -1050,7 +1055,23 @@
 					(and	(< (car (cdr one)) (car (cdr two)))
 							(> (cdr (cdr one)) (cdr (cdr two)))
 							(< (car (cdr one)) (cdr (cdr one)))
-							(> (car (cdr two)) (cdr (cdr two)))))))				
+							(> (car (cdr two)) (cdr (cdr two))))
+					(and	(< (car (cdr one)) (car (cdr two)))
+							(< (cdr (cdr one)) (cdr (cdr two)))
+							(< (car (cdr one)) (cdr (cdr one)))
+							(> (car (cdr two)) (cdr (cdr two))))
+					(and	(< (car (cdr one)) (car (cdr two)))
+							(< (cdr (cdr one)) (cdr (cdr two)))
+							(> (car (cdr one)) (cdr (cdr one)))
+							(< (car (cdr two)) (cdr (cdr two))))		
+					(and	(> (car (cdr one)) (car (cdr two)))
+							(> (cdr (cdr one)) (cdr (cdr two)))
+							(< (car (cdr one)) (cdr (cdr one)))
+							(> (car (cdr two)) (cdr (cdr two))))
+					(and	(> (car (cdr one)) (car (cdr two)))
+							(> (cdr (cdr one)) (cdr (cdr two)))
+							(> (car (cdr one)) (cdr (cdr one)))
+							(< (car (cdr two)) (cdr (cdr two)))))))				
      (if (member #t (map test? list1 list2))
 		  #t
 		  #f))
@@ -1060,7 +1081,7 @@
      (define (test? one two) 
 		(and 	(equal? (car one) (car two)) ; same interval?
 				(if (member (car one) forbidden) #t #f) ; interval forbidden?
-				(not (equal? (ANS::GetNote (car (cdr one))) (ANS::GetNote (car (cdr two))))) ; not the same notes, a direct repetition.
+				(not (equal? (ANS::GetNote (car (cdr one))) (ANS::GetNote (car (cdr two))))) ; not the same notes, no direct repetition.
 				(or 
 					(and	(> (car (cdr one)) (car (cdr two)))
 							(< (cdr (cdr one)) (cdr (cdr two)))
@@ -1074,13 +1095,66 @@
 		  #t
 		  #f))	
 
-;;ANS::ConsecutiveAntiCrossed is covered by Crossed. 
+;;ANS::ConsecutiveAntiCrossed is covered by Crossed because AntiCrossed means just further octave spread.
 
+;TODO: Sometimes it is important if one of the voices does a step or if both voices jump. Test for that, too.
 (define (ANS::ConsecutiveHidden? list1 list2 forbidden)
-	#f
-)
+     (define (test? one two) 
+		(and 	(if (member (car two) forbidden) #t #f) ; is the seoncd an forbidden interval?
+				(if (member (car one) forbidden) #f #t) ; but the first is not a forbidden one?
+				;comparision to open variants: Hidden progression cannot have a direct repetition by definition of the two line above.
+				(or 
+					(and	(< (car (cdr one)) (car (cdr two))) 
+							(< (cdr (cdr one)) (cdr (cdr two)))
+							(< (car (cdr one)) (cdr (cdr one)))
+							(< (car (cdr two)) (cdr (cdr two))))
+					(and	(> (car (cdr one)) (car (cdr two)))
+							(> (cdr (cdr one)) (cdr (cdr two)))
+							(< (car (cdr one)) (cdr (cdr one)))
+							(< (car (cdr two)) (cdr (cdr two)))))))				
+     (if (member #t (map test? list1 list2))
+		  #t
+		  #f))
 
-(define (ANS::ConsecutiveIndirect? list1 list2 forbidden) ; this is a paradox name. Indirect intervals are not consecutive by definition!
+(define (ANS::ConsecutiveHiddenCrossed? list1 list2 forbidden)
+;cover inverted crossed also. Not the second interval but the firs is crossed. 
+     (define (test? one two) 
+		(and 	(if (member (car two) forbidden) #t #f) ; is the seoncd an forbidden interval?
+				(if (member (car one) forbidden) #f #t) ; but the first is not a forbidden one?
+				;comparision to open variants: Hidden progression cannot have a direct repetition by definition of the two line above.				
+				(or 
+					(and	(> (car (cdr one)) (car (cdr two)))
+							(< (cdr (cdr one)) (cdr (cdr two)))
+							(> (car (cdr one)) (cdr (cdr one)))
+							(< (car (cdr two)) (cdr (cdr two))))
+					(and	(< (car (cdr one)) (car (cdr two)))
+							(> (cdr (cdr one)) (cdr (cdr two)))
+							(< (car (cdr one)) (cdr (cdr one)))
+							(> (car (cdr two)) (cdr (cdr two))))
+					(and	(< (car (cdr one)) (car (cdr two)))
+							(< (cdr (cdr one)) (cdr (cdr two)))
+							(< (car (cdr one)) (cdr (cdr one)))
+							(> (car (cdr two)) (cdr (cdr two))))
+					(and	(< (car (cdr one)) (car (cdr two)))
+							(< (cdr (cdr one)) (cdr (cdr two)))
+							(> (car (cdr one)) (cdr (cdr one)))
+							(< (car (cdr two)) (cdr (cdr two))))		
+					(and	(> (car (cdr one)) (car (cdr two)))
+							(> (cdr (cdr one)) (cdr (cdr two)))
+							(< (car (cdr one)) (cdr (cdr one)))
+							(> (car (cdr two)) (cdr (cdr two))))
+					(and	(> (car (cdr one)) (car (cdr two)))
+							(> (cdr (cdr one)) (cdr (cdr two)))
+							(> (car (cdr one)) (cdr (cdr one)))
+							(< (car (cdr two)) (cdr (cdr two)))))))					
+     (if (member #t (map test? list1 list2))
+		  #t
+		  #f))
+		  
+		  
+; There is no Anti-Hidden or Anti-Crossed-Hidden. These become valid intervalprogressions!
+		 
+(define (ANS::ConsecutiveIndirect? list1 list2 forbidden) ; TODO: this is a paradox name. Indirect intervals are not consecutive by definition! It should probably need a complete new type of IntervalFinder, not only a special test.
 	#f
 )
        
