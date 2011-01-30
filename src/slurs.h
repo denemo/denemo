@@ -20,3 +20,7 @@ pop_slur_stack (GSList *slur_stack);
 void
 draw_slur (cairo_t *cr, GSList **slur_stack,
 	   gint x2, gint y);
+void
+draw_slur_start (cairo_t * cr, gint x, gint y);
+void
+draw_slur_end (cairo_t * cr, gint x, gint y);
