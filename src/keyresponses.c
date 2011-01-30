@@ -109,7 +109,7 @@ gchar* perform_command(const gchar *command_name, GdkEventKey *event) {
 }
 
 //return the value of perform_command if executed or "" if keypress is part of a two-key shortcut, or NULL toherwise
-gchar *  process_key_event(GdkEventKey * event, gboolean perform_command()) {
+gchar *  process_key_event(GdkEventKey * event, gchar* perform_command()) {
   DenemoGUI *gui = Denemo.gui;
   keymap *the_keymap = Denemo.map;
   // g_print("\n********\nCaps Lock %x?\n\n********\nShifted %x?\n", event->state&GDK_LOCK_MASK,	  event->state&GDK_SHIFT_MASK	  );
@@ -146,7 +146,7 @@ gchar *  process_key_event(GdkEventKey * event, gboolean perform_command()) {
 
     /*  we create a store for the prefix char and look to see if it is populated when a keystroke is received. If it is populated, we try for the two-key combination, {???else we try for the single key, and if that fails populate the store. OR if it fails clear store}. If the two-key combination works we clear the store. If the two-key combination fails we try for the single key, if that succeeds we clear the store if it fails we set the store to the unresolved keystroke.  */
 
-  gboolean ret = NULL;
+  gchar * ret = NULL;
   if(prefix_store->len) {
     gchar *name = dnm_accelerator_name(event->keyval, event->state);
     //g_print("second key %s\n", name);

@@ -238,6 +238,6 @@ void setkeysigaflatmin(DenemoGUI *gui);
 
 void append_measure_score(DenemoGUI *gui);
 
-
+gchar *  process_key_event(GdkEventKey * event, gchar* perform_command());
 
 #endif //KEYRESPONSES_H
