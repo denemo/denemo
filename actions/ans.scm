@@ -1000,7 +1000,7 @@
 	;Extract the tone, without octave and feed it to the hash to get the notes position in the pillar of 5th.
 	(cons
 		(- (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote higher)) (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote lower)))
-		(cons lower higher)))
+		(cons ansNoteTwo ansNoteOne))) ; do NOT return the ordered invervals. Return as they came in.
 
 
 ;GetIntervall for lists. 
@@ -1015,12 +1015,74 @@
 ;; Lists should be the same length (means the same amount of intervals, which is the case when both lists are generated from chords with the same number of notes)
 ;; Repetitions and Octave shifts return as #f. (not (equal?...)) tests for repeats, ANS::GetNote equalizes octaves
 ;; Expects pair in pair: (intervall (lower . higher)) from ANS::GetIntervall
-(define (ANS::Forbidden? list1 list2 forbidden)
+;; The main difference between this functions is the checking with < >.
+;; This is a schema of the two intervals:
+;;	g a
+;;	c d
+;;	(cdr (cdr one))	(cdr (cdr two))
+;;	(car (cdr one)) (car (cdr two))
+
+(define (ANS::ConsecutiveOpen? list1 list2 forbidden)
      (define (test? one two) 
-		(and (equal? (car one) (car two)) (not (equal? (ANS::GetNote (car (cdr one))) (ANS::GetNote (car (cdr two))) )) (if (member (car one) forbidden) #t #f)))
-      (if (member #t (map test? list1 list2))
+		(and 	(equal? (car one) (car two)) ; same interval?
+				(if (member (car one) forbidden) #t #f) ; interval forbidden?
+				(not (equal? (ANS::GetNote (car (cdr one))) (ANS::GetNote (car (cdr two))))) ; not the same notes, a direct repetition.
+				(or ;if both first notes are higher or lower as both seconds, but higher/lower does not change.
+					(and	(> (car (cdr one)) (car (cdr two)))
+							(> (cdr (cdr one)) (cdr (cdr two))))
+					(and	(< (car (cdr one)) (car (cdr two)))
+							(< (cdr (cdr one)) (cdr (cdr two)))))))				
+     (if (member #t (map test? list1 list2))
 		  #t
 		  #f))
+		 
+
+(define (ANS::ConsecutiveCrossed? list1 list2 forbidden)
+     (define (test? one two) 
+		(and 	(equal? (car one) (car two)) ; same interval?
+				(if (member (car one) forbidden) #t #f) ; interval forbidden?
+				(not (equal? (ANS::GetNote (car (cdr one))) (ANS::GetNote (car (cdr two))))) ; not the same notes, a direct repetition.
+				(or 
+					(and	(> (car (cdr one)) (car (cdr two)))
+							(< (cdr (cdr one)) (cdr (cdr two)))
+							(> (car (cdr one)) (cdr (cdr one)))
+							(< (car (cdr two)) (cdr (cdr two))))
+					(and	(< (car (cdr one)) (car (cdr two)))
+							(> (cdr (cdr one)) (cdr (cdr two)))
+							(< (car (cdr one)) (cdr (cdr one)))
+							(> (car (cdr two)) (cdr (cdr two)))))))				
+     (if (member #t (map test? list1 list2))
+		  #t
+		  #f))
+
+		 
+(define (ANS::ConsecutiveAnti? list1 list2 forbidden)
+     (define (test? one two) 
+		(and 	(equal? (car one) (car two)) ; same interval?
+				(if (member (car one) forbidden) #t #f) ; interval forbidden?
+				(not (equal? (ANS::GetNote (car (cdr one))) (ANS::GetNote (car (cdr two))))) ; not the same notes, a direct repetition.
+				(or 
+					(and	(> (car (cdr one)) (car (cdr two)))
+							(< (cdr (cdr one)) (cdr (cdr two)))
+							(< (car (cdr one)) (cdr (cdr one)))
+							(< (car (cdr two)) (cdr (cdr two))))
+					(and	(< (car (cdr one)) (car (cdr two)))
+							(> (cdr (cdr one)) (cdr (cdr two)))
+							(< (car (cdr one)) (cdr (cdr one)))
+							(< (car (cdr two)) (cdr (cdr two)))))))
+     (if (member #t (map test? list1 list2))
+		  #t
+		  #f))	
+
+;;ANS::ConsecutiveAntiCrossed is covered by Crossed. 
+
+(define (ANS::ConsecutiveHidden? list1 list2 forbidden)
+	#f
+)
+
+(define (ANS::ConsecutiveIndirect? list1 list2 forbidden) ; this is a paradox name. Indirect intervals are not consecutive by definition!
+	#f
+)
        
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
