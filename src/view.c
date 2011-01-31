@@ -5085,19 +5085,6 @@ singleton_callback (GtkToolButton *toolbutton, RhythmPattern *r) {
 #undef MODE
 }
 
-static void set_tempo (void) {
-  gdouble tempo = Denemo.gui->si->master_tempo;
-  if(tempo<0.001 || (tempo>0.999 && tempo<1.001))
-    return;
-  stop_midi_playback(NULL, NULL);
-  Denemo.gui->si->tempo *= tempo;
-  Denemo.gui->si->start_time /= tempo;
-  Denemo.gui->si->end_time /= tempo;
-
-  Denemo.gui->si->master_tempo = 1.0;
-  score_status (Denemo.gui, TRUE);
-  exportmidi(NULL, Denemo.gui->si, 0, 0);
-}
 
 static void pb_first (GtkWidget *button) {
   call_out_to_guile("(DenemoFirst)");
@@ -5113,10 +5100,8 @@ static void pb_rewind (GtkWidget *button) {
 }
 static void pb_stop (GtkWidget *button) {
   call_out_to_guile("(DenemoStop)");
-  set_tempo();
 }
 static void pb_play (GtkWidget *button) {
-  set_tempo();
   call_out_to_guile("(DenemoPlay)");
 }
 static void pb_pause (GtkWidget *button) {

@@ -13,6 +13,7 @@
 #include "smf.h"
 #include "device_manager.h"
 #include "moveviewport.h"
+#include "playback.h"
 #define NOTE_OFF                0x80
 #define NOTE_ON                 0x90
 #define SYS_EXCLUSIVE_MESSAGE1  0xF0
@@ -234,6 +235,7 @@ send_midi_event(jack_nframes_t nframes, gint client_number){
 static gboolean finish_play(gchar *callback) {
   if(callback && *callback)
     call_out_to_guile (callback);
+  set_tempo();
   return FALSE;
 }
 

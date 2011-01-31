@@ -6,6 +6,7 @@
 #include "smf.h"
 #include "fluid.h"
 #include "moveviewport.h"
+#include "playback.h"
 
 #define MAX_NUMBER_OF_TRACKS    128
 #define NOTE_OFF                0x80
@@ -310,6 +311,7 @@ static gboolean finish_play(gchar *callback) {
     safely_track_remove_from_smf(Denemo.gui->si->recorded_midi_track);
     finish_recording();
   }
+  set_tempo();
   return FALSE;
 }
 

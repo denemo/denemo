@@ -53,6 +53,19 @@ get_midi_audio_pointer(gchar *audio_device)
 #endif
 }
 
+void set_tempo (void) {
+  gdouble tempo = Denemo.gui->si->master_tempo;
+  if(tempo<0.001 || (tempo>0.999 && tempo<1.001))
+    return;
+  Denemo.gui->si->tempo *= tempo;
+  Denemo.gui->si->start_time /= tempo;
+  Denemo.gui->si->end_time /= tempo;
+
+  Denemo.gui->si->master_tempo = 1.0;
+  score_status (Denemo.gui, TRUE);
+  exportmidi(NULL, Denemo.gui->si, 0, 0);
+}
+
 
 /* start playing the current movement as MIDI
  * the name ext_... is anachronistic, Fluidsynth or Jack are normally used.
@@ -60,6 +73,7 @@ get_midi_audio_pointer(gchar *audio_device)
 void
 ext_midi_playback (GtkAction * action, DenemoScriptParam *param) {
   GET_1PARAM(action, param, callback);
+  set_tempo();
   if (Denemo.prefs.midi_audio_output == Jack)
     jack_midi_play(callback);
   else if (Denemo.prefs.midi_audio_output == Fluidsynth)
