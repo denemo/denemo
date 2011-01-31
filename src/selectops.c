@@ -1350,11 +1350,12 @@ static void	action_chunk(DenemoGUI * gui, DenemoUndoData **pchunk) {
 	  break;
 	case ACTION_SNAPSHOT:
 	  {
-	   
+
 	    DenemoScore *si = (DenemoScore*)chunk->object;
 	    gint initial_guard = gui->si->undo_guard;
 	    gint initial_changecount = gui->si->changecount;
 	    gboolean initial_redo_invalid = gui->si->redo_invalid;
+	    gpointer initial_smf = gui->si->smf;
 	    // replace gui->si in gui->movements with si
 	    GList *find = g_list_find(gui->movements, gui->si);
 	    if(find) {
@@ -1476,36 +1477,17 @@ static void	action_chunk(DenemoGUI * gui, DenemoUndoData **pchunk) {
 		widget_for_layout_directive(directive);
 	      }
 	    }
+	    gui->si->smf = initial_smf;
+	    gui->si->smfsync = -1;//force recalculation of midi
 	    gui->si->redo_invalid = initial_redo_invalid;
 	    gui->si->undo_guard = initial_guard;//we keep all the guards we had on entry which will be removed when
 	    gui->si->changecount = initial_changecount;
 	    position_for_chunk(gui, chunk);//FIXME check return val
-	  if(!gui->si->currentmeasure) {
-	    g_warning("positioning after snapshot Bug in selectops.c");
-	    movetoend(NULL, NULL);
-	  }
-
-
-
-
-	  gui->si->currentstaffnum = 1+g_list_position(gui->si->thescore, gui->si->currentstaff);
-#if 0
-	  setcurrents(si);
-  	  beamsandstemdirswholestaff ((DenemoStaff *) si->currentstaff->data);
-	  showwhichaccidentalswholestaff ((DenemoStaff *) si->currentstaff->
-					  data);
-	  find_xes_in_all_measures (si);
-	  find_leftmost_allcontexts (si);
-  
-	  set_rightmeasurenum (gui->si);
-	  set_bottom_staff (gui);
-	  set_width_to_work_with(gui);
-
-	  displayhelper (gui);//???FIXME
-
-#endif
-
-
+	    if(!gui->si->currentmeasure) {
+	      g_warning("positioning after snapshot Bug in selectops.c");
+	      movetoend(NULL, NULL);
+	    }	    
+	    gui->si->currentstaffnum = 1+g_list_position(gui->si->thescore, gui->si->currentstaff);	    
 	    }
 	    else {
 	      g_critical("Movement does not exist in list of movements");
@@ -1566,7 +1548,7 @@ undo (DenemoGUI * gui)
 
   DenemoUndoData *chunk = (DenemoUndoData *) g_queue_pop_head (gui->si->undodata);
   if (chunk)
-    {
+    {      
       gui->si->undo_guard++;
       //g_print("undo %d\n", chunk->action);
       if(position_for_chunk(gui, chunk)) {
