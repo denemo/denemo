@@ -1528,8 +1528,7 @@
 
 ; Guile returns a value with .0, which should be exact but internally it's inexact. So we need this little back and forth conversion hack.
 (define (duration::inexact->exact return)
-  (inexact->exact (string->number (number->string return)))
-)
+  (inexact->exact (string->number (number->string return))))
 
 ;Some functions, like Upbeat, know only a single tick-value. They need to guess the baseNote.
 (define (duration::GuessBaseNoteInTicks ticks)
@@ -1547,54 +1546,45 @@
  	 ( (and (>= ticks 3072) (< ticks 6144))  3072 ) ; breve 2*1
  	 ( (and (>= ticks 6144) (< ticks 12288))  6144) ; longa 4*1
  	 ( (and (>= ticks 12288) (< ticks 24576))  12288 )  ; maxima 8*1
-	(else #f)
-))
+	(else #f)))
 
 ; Calculate a new Duration in Ticks with a basic note value and a number of augmentation-dots
 (define (duration::CalculateTicksWithDots baseTicks numberOfDots)
 	; x = basic note value
 	; n = number of dots
 	; 2x - x/2^n 
-	(-  (* 2 baseTicks) (/ baseTicks (expt 2 numberOfDots)))
-)
+	(-  (* 2 baseTicks) (/ baseTicks (expt 2 numberOfDots))))
 
 ; Calculate how many dots a tick value has. Needs base duration, too.
 (define (duration::CalculateDotsFromTicks ticks base)
 ; x = base , y = ticks. result is the number of dots
 ; log(x/(2*x-y))  / log(2)
  (define return (/  (log (/ base (- (* base 2) ticks)))   (log 2) ))
- (duration::inexact->exact return)
-)
+ (duration::inexact->exact return))
 
 ; Get Number of Dots from a Lilypond string like "2.". Its so basic it will work on Denemo notes, too.
 (define (duration::GetNumberOfDotsInLilypond input)
- (length (cdr (string-split input #\.)))
-)
+ (length (cdr (string-split input #\.))))
 
 ; For the sake of completenes. Denemo and Lilypond dot-syntax is just the same, only the number itself is different.
 (define (duration::GetNumberOfDotsInDenemo input)
-	(duration::GetNumberOfDotsInLilypond input)
-)
+	(duration::GetNumberOfDotsInLilypond input))
 
 (define (duration::denemo->lilypond number)
 	(define return (expt 2 number))
-	return
-)
+	return)
 
 (define (duration::lilypond->denemo number)
 	(define return (/ (log number) (log 2))	)
-	 (duration::inexact->exact return)
-)
+	 (duration::inexact->exact return))
 
 (define (duration::denemo->ticks number) ; increases with negative integers
 	(define return (* (expt 2 (- 8 number)) 6))
-	return
-)
+	return)
 
 (define (duration::lilypond->ticks number) ; increases with 0.5, 0.25 etc.
 	(define return (* (expt 2 (- 8 (/ (log number) (log 2)))) 6))
-	 (duration::inexact->exact return)
-)
+	 (duration::inexact->exact return))
 
 ; Ticks->Denemo wants a number but returns a string because of dots
 (define* (duration::ticks->denemo number #:optional (basenumber number))
@@ -1602,8 +1592,7 @@
 ;n = -(log(y/3)-9*log(2))/log(2) 
  (define return (- (/ (- (log (/ basenumber 3)) (* 9 (log 2))) (log 2))))
  (set! return (duration::inexact->exact return))
- (string-append (number->string return) (string-concatenate (make-list numberOfDots "."))) 
-)
+ (string-append (number->string return) (string-concatenate (make-list numberOfDots "."))))
 
 ;Ticks->Lilypond wants a number but returns a string because of dots
 (define* (duration::ticks->lilypond number #:optional (basenumber number))
@@ -1611,24 +1600,20 @@
  (define numberOfDots  (duration::CalculateDotsFromTicks number basenumber))
  (define return  (expt 2 (- (/ (- (log (/ basenumber 3)) (* 9 (log 2))) (log 2)))))
  (set! return (duration::inexact->exact return))
- (string-append (number->string return) (string-concatenate (make-list numberOfDots "."))) 
-)
-;;;;;;;;;; End of duration-conversion
+ (string-append (number->string return) (string-concatenate (make-list numberOfDots "."))))
 
+;;;;;;;;;; End of duration-conversion
 
 ;;;;;;;; Applied duration scripts
 (define (duration::GetNumberOfDotsInTicks) ; Fails for tuplets
-	 (duration::CalculateDotsFromTicks (d-GetDurationInTicks) (duration::GetBaseDurationInTicks))
-)
+	 (duration::CalculateDotsFromTicks (d-GetDurationInTicks) (duration::GetBaseDurationInTicks)))
 	   
 
 (define (duration::GetBaseDurationInTicks)
 	(define ticks (d-GetBaseDurationInTicks))
 	(if ticks
 		(abs ticks)
-		#f)
-)
-	   
+		#f))	   
 
 (define (duration::GetSelectionDurationInTicks) 
   (d-PushPosition)
@@ -1637,13 +1622,9 @@
 		(set! ticks (+ ticks (d-GetDurationInTicks)))
 		(if (d-NextSelectedObject)
 			(loop ticks)
-			(begin  (d-PopPosition) ticks)
-		)
-	)
-	#f ; no selection
-    )
-
-)
+			(begin  (d-PopPosition) ticks)))
+	#f)) ; no selection
+    
 
 (define* (duration::ChangeNoteDurationInTicks ticks #:optional (dots 0))
 ; First change the base-duration. The d-Change commands also delete any dots.
@@ -1660,10 +1641,7 @@
    ((24)	(d-Change6)) ; 1/64
    ((12)	(d-Change7)) ; 1/128
    ((6)		(d-Change8)) ; 1/256
-   (else   #f )
- ))
- 
- 
+   (else   #f ))) 
 ; Second step: add dots
   ; d-ChangeN work on appending position, but Breve and Longa not. But d-AddDot works on appending, too. So we must rule Appending out, else it will add dots without changing the duration for breve and longa.
   (if (and (Music?) (integer? ticks) (integer? dots) (changeBase ticks)) ; <-- the action changeBase itself needs to be a test, too. 
@@ -1673,9 +1651,16 @@
 	(begin
 	   (d-AddDot)  
 	   (loop (+ i 1)))))
-  #f)
-)
+  #f))
 
+
+;; Meter related functions
+(define (duration::GetNumerator) (string->number (car (string-split  (GetPrevailingTimeSig) #\/))))
+(define (duration::GetDenominator) (string->number (cadr (string-split  (GetPrevailingTimeSig) #\/))))
+(define (duration::GetDenominatorInTicks) (* 1536 (/ 1 (duration::GetDenominator))))
+(define (duration::GetWholeMeasureInTicks) (* 1536 (GetPrevailingTimeSig #t)))
+(define (duration::GetMetricalPosition) (1+ (/ (d-GetStartTick) (duration::GetDenominatorInTicks))))
+(define (duration::MetricalMain? position) (integer? position))
 
 
 ;;;;;;;;;;;;;;
