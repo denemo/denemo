@@ -2576,7 +2576,6 @@ SCM scheme_get_recorded_midi_on_tick(void) {
     if(track->smf==NULL) if( Denemo.gui->si->smf) {
 	 smf_add_track( Denemo.gui->si->smf, track);
 	 smf_rewind( Denemo.gui->si->smf);
-
       }
 #define MIDI_NOTEOFF		0x80
 #define MIDI_NOTEON		0x90
@@ -2587,6 +2586,28 @@ SCM scheme_get_recorded_midi_on_tick(void) {
 	return scm_int2num(event->time_pulses);
       case MIDI_NOTEOFF:
 	return scm_int2num(-event->time_pulses);
+      default: 
+	return SCM_BOOL_F;
+      }
+  }
+  return SCM_BOOL_F;
+}
+static
+SCM scheme_get_recorded_midi_note(void) {
+  smf_track_t *track = Denemo.gui->si->recorded_midi_track;
+  if(track) {
+    if(track->smf==NULL) if( Denemo.gui->si->smf) {
+	 smf_add_track( Denemo.gui->si->smf, track);
+	 smf_rewind( Denemo.gui->si->smf);
+      }
+    smf_event_t *event;
+    if(track->next_event_number>0)
+      event = g_ptr_array_index(track->events_array, track->next_event_number - 1);
+    if(event)
+      switch ( event->midi_buffer[0] & 0xF0) {
+      case MIDI_NOTEON: 
+      case MIDI_NOTEOFF:
+	return scm_int2num(event->midi_buffer[1]);
       default: 
 	return SCM_BOOL_F;
       }
@@ -4402,7 +4423,9 @@ INSTALL_EDIT(movementcontrol);
 
   INSTALL_SCM_FUNCTION ("Returns an integer value, a set of bitfields representing the keyboard state, e.g. GDK_SHIFT_MASK etc",DENEMO_SCHEME_PREFIX"GetKeyboardState", scheme_get_keyboard_state);
 
-  INSTALL_SCM_FUNCTION ("Returns the ticks of the next event on the recorded MIDI track -ve if it is a NOTEOFF or #f if none", DENEMO_SCHEME_PREFIX"GetRecordedMidiOnTick", scheme_get_recorded_midi_on_tick);
+  INSTALL_SCM_FUNCTION ("Returns the ticks of the next event on the recorded MIDI track -ve if it is a NOTEOFF or #f if none. Advances to the next note.", DENEMO_SCHEME_PREFIX"GetRecordedMidiOnTick", scheme_get_recorded_midi_on_tick);
+
+  INSTALL_SCM_FUNCTION ("Returns the ticks of the next event on the recorded MIDI track -ve if it is a NOTEOFF or #f if none", DENEMO_SCHEME_PREFIX"GetRecordedMidiNote", scheme_get_recorded_midi_note);
 
   INSTALL_SCM_FUNCTION ("Rewinds the recorded MIDI track returns #f if no MIDI track recorded", DENEMO_SCHEME_PREFIX"RewindRecordedMidi", scheme_rewind_recorded_midi);
 
