@@ -1082,7 +1082,25 @@
 
 
 ;;;;;;;;;;;;;;;;;
-(define (MeasureEmpty?) (equal? "None" (d-GetType)))
+(define (MeasureEmpty?) (None?))
+
+(define  (ColumnEmpty?)
+(define return #f)
+(define measure (d-GetMeasure)) ; to make shure we stay in the same column all the time.
+(d-PushPosition)
+(if (not (MoveToColumnStart))
+  #f ; if we have unequal staff length in staff 1 stop immediatly, 
+  (let loop ()		
+	(if (and (None?) (equal? measure (d-GetMeasure)))
+		(begin
+			(set! return #t)
+			(if (d-MoveToStaffDown)
+				(loop)))		
+		(set! return #f))))
+(d-PopPosition)
+return)
+
+
 
 ;;;;;;;;;;;;;;;;;;
 (define* (GetPrevailingTimeSig #:optional (numberorstring #f) ) 
@@ -1384,6 +1402,12 @@
 	(d-MoveToBeginning) 
   )
 )
+
+;;; Go to the first staff, same measure. Handle crossing unequal staff length.
+(define (MoveToColumnStart)
+	(define measure (d-GetMeasure)) ; to make shure we stay in the same column all the time.
+	(RepeatUntilFail d-MoveToStaffUp)
+	(d-GoToPosition #f #f measure #f))
 
 ;;;;;;;;;;;;;;;;;;;; Paste by Nils Gey // 2010
 ; Multistaff-Pasting always adds the complete part AFTER the current measure. It will never paste into an existing measure, not even in empty ones. 
