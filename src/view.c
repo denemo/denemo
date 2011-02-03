@@ -5177,7 +5177,7 @@ static void track_delete(smf_track_t *track) {
     return;
   if(track->smf==NULL ) {
     smf_t *smf = smf_new();
-    smf_add_track(smf, Denemo.gui->si->recorded_midi_track);
+    smf_add_track(smf, track);
     smf_delete(smf);
   } else
     smf_track_delete(track);
