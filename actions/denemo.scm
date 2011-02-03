@@ -37,6 +37,14 @@
 (define DBLQ "\"")
 (define LFEED "\n")
 
+;Repeat a command until it returns #f
+;Warning: Functions that do not return #f create infinity loops!
+(define (RepeatUntilFail proc)
+	(let loop ()
+		(if (proc)
+			(loop)
+			#t)))
+
 
 ;;; GetUniquePairs is a function that takes a list and combines each value with any other, but without duplicates and in order.
 ;;; (a b c d) -> ab ac ad, bc bd, cd
