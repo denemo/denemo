@@ -150,14 +150,22 @@ delete_movement(GtkAction *action, gpointer param) {
 }
 
 /* go to the movement voice measure staff and object numbers (starting from 1)
- movementnum<=0 means current movement */
+ movementnum<=0 means current movement
+possible_gui is really a flag interactive or not
+*/
 gboolean
-goto_movement_staff_obj (DenemoGUI * gui, gint movementnum, gint staffnum, gint measurenum, gint objnum)
+goto_movement_staff_obj (DenemoGUI * possible_gui, gint movementnum, gint staffnum, gint measurenum, gint objnum)
 {
+  DenemoGUI *gui;
+  if(possible_gui==NULL)
+    gui = Denemo.gui;
+  else
+    gui = possible_gui;
   if(movementnum>0) {
     GList *this = g_list_nth(gui->movements, movementnum-1);  
     if(this==NULL){
-      warningdialog(_("No such movement"));
+      if(possible_gui)
+	warningdialog(_("No such movement"));
       return FALSE;
     }
     gtk_widget_hide(gui->si->buttonbox);
@@ -168,7 +176,8 @@ goto_movement_staff_obj (DenemoGUI * gui, gint movementnum, gint staffnum, gint 
 
   if(!moveto_currentstaffnum (gui, staffnum))
     {
-      warningdialog(_("No such voice"));
+      if(possible_gui)
+	warningdialog(_("No such voice"));
       return FALSE;
     }
   if(!moveto_currentmeasurenum(gui, measurenum))
@@ -216,7 +225,7 @@ void PopPosition (GtkAction * action, DenemoScriptParam *param) {
     param->status = FALSE;
     return;
   }
-  param->status = goto_movement_staff_obj(Denemo.gui, pos->movement, pos->staff, pos->measure, pos->object);
+  param->status = goto_movement_staff_obj(NULL, pos->movement, pos->staff, pos->measure, pos->object);
   if(param->status)
     {
       Denemo.gui->si->cursor_appending = pos->appending;
@@ -236,7 +245,7 @@ void PopPushPosition (GtkAction * action, DenemoScriptParam *param) {
     param = &dummy;
   if(pos) {
     push_position();
-    param->status = goto_movement_staff_obj(Denemo.gui, pos->movement, pos->staff, pos->measure, pos->object);
+    param->status = goto_movement_staff_obj(NULL, pos->movement, pos->staff, pos->measure, pos->object);
   if(param->status)
     {
       Denemo.gui->si->cursor_appending = pos->appending;

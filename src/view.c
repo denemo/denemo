@@ -1122,9 +1122,9 @@ SCM scheme_goto_position (SCM movement, SCM staff, SCM measure, SCM object) {
     objectnum = 1 + Denemo.gui->si->cursor_x;
   
   // 1 is ambiguous, either empty measure or object 1
-  gboolean result = goto_movement_staff_obj (Denemo.gui, movementnum, staffnum, measurenum, objectnum);
+  gboolean result = goto_movement_staff_obj (NULL, movementnum, staffnum, measurenum, objectnum);
   if(Denemo.gui->si->currentmeasure->data==NULL && objectnum==1)
-    return SCM_BOOL(goto_movement_staff_obj (Denemo.gui, movementnum, staffnum, measurenum, 0));
+    return SCM_BOOL(goto_movement_staff_obj (NULL, movementnum, staffnum, measurenum, 0));
   gint numobjs = (Denemo.gui->si->currentmeasure->data)?g_list_length(Denemo.gui->si->currentmeasure->data):0;
   if(objectnum==1+numobjs)
     Denemo.gui->si->cursor_appending = TRUE;
