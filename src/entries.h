@@ -240,7 +240,7 @@
 {"OpenNewWindow", GTK_STOCK_OPEN, N_("Open In New"), NULL,N_("Open a file containing a music score for editing in a separate working area (tab"),G_CALLBACK (openinnew)},
 {"Save", GTK_STOCK_SAVE, N_("Save"), NULL,N_("Save the score"),G_CALLBACK (file_savewrapper)},
 {"SaveAs", GTK_STOCK_SAVE_AS, N_("Save As"), NULL,N_("Save the score under a new name"),G_CALLBACK (file_saveaswrapper)},
-{"SaveCopy", GTK_STOCK_SAVE_AS, N_("Export/Create Copy"), NULL,N_("Save a copy of the score or Export to a different format"),G_CALLBACK (file_copy_save)},
+{"SaveCopy", GTK_STOCK_SAVE_AS, N_("Create Copy"), NULL,N_("Save a copy of the score"),G_CALLBACK (file_copy_save)},
 {"OpenTemplate", GTK_STOCK_OPEN, N_("Open Template"), NULL,N_("Start a new score from a built-in template file"),G_CALLBACK (system_template_open_with_check)},
 {"OpenExample", GTK_STOCK_OPEN, N_("Open Example"), NULL,N_("Start a new score from a built-in example"),G_CALLBACK (system_example_open_with_check)},
 {"OpenMyTemplate", GTK_STOCK_OPEN, N_("Open Custom Template"), NULL,N_("Start a new score from one of your own template files"),G_CALLBACK (local_template_open_with_check)},
