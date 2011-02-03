@@ -368,7 +368,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Open a file containing a music score for editing in a separate working area (tab", N_("OpenNewWindow"), "openinnew", N_("Open In New")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE", "Save the score", N_("Save"), "file_savewrapper", N_("Save")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Save the score under a new name", N_("SaveAs"), "file_saveaswrapper", N_("Save As")}, 
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Save a copy of the score or Export to a different format", N_("SaveCopy"), "file_copy_save", N_("Export/Create Copy")}, 
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Save a copy of the score", N_("SaveCopy"), "file_copy_save", N_("Create Copy")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Start a new score from a built-in template file", N_("OpenTemplate"), "system_template_open_with_check", N_("Open Template")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Start a new score from a built-in example", N_("OpenExample"), "system_example_open_with_check", N_("Open Example")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Start a new score from one of your own template files", N_("OpenMyTemplate"), "local_template_open_with_check", N_("Open Custom Template")}, 

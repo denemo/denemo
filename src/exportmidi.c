@@ -1946,11 +1946,19 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
       smf_track_remove_from_smf(Denemo.gui->si->recorded_midi_track);
   }
   /* we are done */
-
-
-  free_midi_data(si);
-  si->smf = smf;
-
+  {gboolean midi_track = FALSE;
+    if(Denemo.gui->si->recorded_midi_track) {
+      if(si->smf && (((smf_track_t*)Denemo.gui->si->recorded_midi_track)->smf==si->smf)) {
+	smf_track_remove_from_smf(Denemo.gui->si->recorded_midi_track);
+	midi_track = TRUE;
+      }
+    }
+    free_midi_data(si);  
+    si->smf = smf;
+    if(midi_track)
+      smf_add_track(smf, Denemo.gui->si->recorded_midi_track);
+  }
+  
   si->smfsync = si->changecount;
 
 
