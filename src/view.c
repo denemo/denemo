@@ -2572,11 +2572,7 @@ SCM scheme_get_keyboard_state(void) {
 static
 SCM scheme_get_recorded_midi_on_tick(void) {
   smf_track_t *track = Denemo.gui->si->recorded_midi_track;
-  if(track) {
-    if(track->smf==NULL) if( Denemo.gui->si->smf) {
-	 smf_add_track( Denemo.gui->si->smf, track);
-	 smf_rewind( Denemo.gui->si->smf);
-      }
+  if(track) { 
 #define MIDI_NOTEOFF		0x80
 #define MIDI_NOTEON		0x90
     smf_event_t *event = smf_track_get_next_event(track);
@@ -2596,12 +2592,8 @@ static
 SCM scheme_get_recorded_midi_note(void) {
   smf_track_t *track = Denemo.gui->si->recorded_midi_track;
   if(track) {
-    if(track->smf==NULL) if( Denemo.gui->si->smf) {
-	 smf_add_track( Denemo.gui->si->smf, track);
-	 smf_rewind( Denemo.gui->si->smf);
-      }
-    smf_event_t *event;
-    if(track->next_event_number>0)
+    smf_event_t *event = NULL;
+    if(track->next_event_number>0 && (track->next_event_number<=track->events_array->len))
       event = g_ptr_array_index(track->events_array, track->next_event_number - 1);
     if(event)
       switch ( event->midi_buffer[0] & 0xF0) {
@@ -2618,11 +2610,18 @@ SCM scheme_get_recorded_midi_note(void) {
 static
 SCM scheme_rewind_recorded_midi(void) {
   smf_track_t *track = Denemo.gui->si->recorded_midi_track;
-  if(track &&track->smf!=NULL) {
+  if(track) {
+    if(track->smf==NULL) {
+      if( Denemo.gui->si->smf) {
+	 smf_add_track( Denemo.gui->si->smf, track);
+	 smf_rewind( Denemo.gui->si->smf);
+      } else
+	return SCM_BOOL_F;
+    }
     smf_rewind(track->smf);
     return SCM_BOOL_T;
-  } else
-    return SCM_BOOL_F;
+  }
+  return SCM_BOOL_F;
 }
 
 
@@ -2656,8 +2655,19 @@ SCM scheme_put_rest (SCM optional_duration) {
   return SCM_BOOL_T;
 }
 
+static SCM scheme_get_note_for_midi_key (SCM scm) {
+  gint notenum = 0, offset, enshift, octave;      
+  if(scm_is_integer(scm))
+      notenum = scm_num2int(scm, 0, 0);
+  if(notenum>0 && notenum<256) {
+    notenum2enharmonic (notenum, &offset, &enshift, &octave);
+    gchar *name =  mid_c_offsettolily (offset+7*octave, enshift);
+      return scm_from_locale_string(name);
+  } 
+  return SCM_BOOL_F;
+}
 //Simulates a midi event, with no capture by any calling scheme script
-SCM scheme_put_midi (SCM scm) {
+static SCM scheme_put_midi (SCM scm) {
   gchar buf[3];
   gint midi = scm_num2int(scm, 0, 0);
 
@@ -4425,6 +4435,10 @@ INSTALL_EDIT(movementcontrol);
 
   INSTALL_SCM_FUNCTION ("Returns the ticks of the next event on the recorded MIDI track -ve if it is a NOTEOFF or #f if none. Advances to the next note.", DENEMO_SCHEME_PREFIX"GetRecordedMidiOnTick", scheme_get_recorded_midi_on_tick);
 
+  INSTALL_SCM_FUNCTION ("Returns the LilyPond representation of the passed MIDI key number, using the current enharmonic set.", DENEMO_SCHEME_PREFIX"GetNoteForMidiKey", scheme_get_note_for_midi_key);
+
+
+
   INSTALL_SCM_FUNCTION ("Returns the ticks of the next event on the recorded MIDI track -ve if it is a NOTEOFF or #f if none", DENEMO_SCHEME_PREFIX"GetRecordedMidiNote", scheme_get_recorded_midi_note);
 
   INSTALL_SCM_FUNCTION ("Rewinds the recorded MIDI track returns #f if no MIDI track recorded", DENEMO_SCHEME_PREFIX"RewindRecordedMidi", scheme_rewind_recorded_midi);
@@ -5210,32 +5224,9 @@ static void pb_midi_delete (GtkWidget *button) {
 }
 
 static void pb_midi_convert (GtkWidget *button) {
-#if 0
-  if(Denemo.gui->si->recorded_midi_track){
-    DenemoGUI *gui = Denemo.gui;
-    DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
-    gint tracknumber = g_list_index(gui->si->thescore, gui->si->currentstaff);
-    g_print("Tracknumber %d\n", tracknumber);
-    if(gui->si->smf) {
-      //add_events_from_track needs to be written. It should add all the events in the one track to the other
-      add_events_from_track(smf_get_track_by_number(gui->si->smf, tracknumber), Denemo.gui->si->recorded_midi_track);
-      process_track(smf_get_track_by_number(gui->si->smf, tracknumber));
-    }
-  }
-#else
-  if(Denemo.gui->si->recorded_midi_track) {
-    gchar *file = g_build_filename(locatedotdenemo (), "denemomidi.mid", NULL);
-    exportmidi (file, Denemo.gui->si, 0, 0);
-    newview(NULL, NULL);
-    scorearea_configure_event(Denemo.scorearea, NULL);
-    //extern gint smallestgrain; 
-    // smallestgrain = atoi(string_dialog_entry(Denemo.gui, "Quantization Control", "Give granularity", "48"));
-    //need to check it is a multiple of what?????
-    // smallestgrain = (smallestgrain/48)*48;
-    //smallestgrain = (smallestgrain>0)?smallestgrain:48;
-    importMidi(file, Denemo.gui);
-  }
-#endif
+
+  call_out_to_guile("(DenemoConvert)");
+
   g_print("Finished midi convert\n");
 }
 

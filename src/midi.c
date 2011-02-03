@@ -227,6 +227,7 @@ typedef struct enharmonic
 {
   gint mid_c_offset;
   gint enshift;
+  gint octave;
 }enharmonic;
 
 
@@ -257,7 +258,7 @@ gint midientry(gint notenum) {
   // if(notenum < 0) 
   //  return TRUE;
   enharmonic enote;
-  notenum2enharmonic (notenum, &enote.mid_c_offset, &enote.enshift);
+  notenum2enharmonic (notenum, &enote.mid_c_offset, &enote.enshift, &enote.octave);
   if( !(Denemo.keyboard_state&GDK_SHIFT_MASK)) {
     if (Denemo.prefs.midi_audio_output == Portaudio)
       playpitch(midi2hz(notenum), 0.3, 0.5, 0);

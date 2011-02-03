@@ -451,11 +451,11 @@ if (Denemo.prefs.midi_audio_output == Fluidsynth)
 
 //Computes the mid_c_offset and enshift for the MIDI notenum passed in
 void
-notenum2enharmonic (gint notenum, gint *poffset, gint *penshift) {
+notenum2enharmonic (gint notenum, gint *poffset, gint *penshift, gint *poctave) {
 
   *penshift = notenum % 12;  
   temperament *t = PR_temperament;
-  
+  *poctave =  notenum/12 - 5;
   *poffset = t->notepitches[*penshift].spec.step;
   *penshift =  t->notepitches[*penshift].spec.alteration;
   return;

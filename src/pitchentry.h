@@ -42,5 +42,6 @@ gchar *get_sharpest(void);
 gchar *get_flattest(void);
 gchar *get_temperament_name(void);
 void set_enharmonic_position(gint position);
+void notenum2enharmonic (gint notenum, gint *poffset, gint *penshift, gint *poctave);
 gchar *get_cents_string(void);
 #endif //PITCHENTRY_H
