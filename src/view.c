@@ -1102,10 +1102,11 @@ static SCM scheme_input_filter_names(SCM filtername) {
 }
 
 SCM scheme_goto_position (SCM movement, SCM staff, SCM measure, SCM object) {
-  gint  movementnum=0, staffnum, measurenum, objectnum;
+  gint  movementnum, staffnum, measurenum, objectnum;
   if(scm_is_integer(movement))
     movementnum = scm_to_int(movement);
-
+  else
+     movementnum = g_list_index(Denemo.gui->movements, Denemo.gui->si)+1;
   if(scm_is_integer(staff))
     staffnum = scm_to_int(staff);
   else
@@ -1120,7 +1121,7 @@ SCM scheme_goto_position (SCM movement, SCM staff, SCM measure, SCM object) {
     objectnum = scm_to_int(object);
   else
     objectnum = 1 + Denemo.gui->si->cursor_x;
-  
+  #if 0
   // 1 is ambiguous, either empty measure or object 1
   gboolean result = goto_movement_staff_obj (NULL, movementnum, staffnum, measurenum, objectnum);
   if(Denemo.gui->si->currentmeasure->data==NULL && objectnum==1)
@@ -1132,6 +1133,21 @@ SCM scheme_goto_position (SCM movement, SCM staff, SCM measure, SCM object) {
   if(objectnum>1+numobjs)
     return SCM_BOOL_F;
   return SCM_BOOL (result);
+#endif
+  gint origmvt  = g_list_index(Denemo.gui->movements, Denemo.gui->si)+1,
+    origstaff = Denemo.gui->si->currentstaffnum,
+    origmeas = Denemo.gui->si->currentmeasurenum,
+    origpos = 1 + Denemo.gui->si->cursor_x ;
+  gboolean result = goto_movement_staff_obj (NULL, movementnum, staffnum, measurenum, objectnum);
+  if((movementnum == g_list_index(Denemo.gui->movements, Denemo.gui->si)+1) &&
+     (staffnum ==  Denemo.gui->si->currentstaffnum) &&
+     (measurenum ==  Denemo.gui->si->currentmeasurenum) &&
+     (objectnum == 1 + Denemo.gui->si->cursor_x))
+    return SCM_BOOL_T;
+  else
+    goto_movement_staff_obj (NULL,origmvt, origstaff, origmeas, origpos);
+     
+  return SCM_BOOL_F;
 }
 
 SCM scheme_shift_cursor (SCM value) {
