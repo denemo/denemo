@@ -40,14 +40,6 @@
 ;Linefeed constant to avoid backslashing		     
 (define LFEED "\n")
 
-;Repeat a command until it returns #f
-;Warning: Functions that do not return #f create infinity loops!
-(define (RepeatUntilFail proc)
-	(let loop ()
-		(if (proc)
-			(loop)
-			#t)))
-			
 ;repeat executes a proc n times
 (define (Repeat proc n)
 	(let loop ((counter 0))
@@ -56,6 +48,24 @@
 			(begin
 				(proc)
 				(loop (1+ counter))))))
+
+;Repeat a command until it returns #f
+;Warning: Functions that do not return #f create infinity loops!
+(define (RepeatUntilFail proc)
+	(let loop ()
+		(if (proc)
+			(loop)
+			#t)))
+			
+;Repeat a function until another (a test) returns #f. The return value of proc does NOT matter
+;;Warning: From all Repeat functions this one has the highest probability to be stuck in a loop forever. Always use tests that MUST return #t in the end. Do NOT use the Denemo tests like (None?) or (Music?) for example, they know nothing about a staffs end.
+(define (RepeatProcUntilTest proc test)
+	(RepeatUntilFail 		
+		(lambda () 
+			(if (test)
+				#f ; test true, let RepeatUntilFail fail.
+				(begin (proc) #t))))) ; this is a dumb script. It will try to execute proc again even if proc itself returned #f. 		
+
 
 ;;; GetUniquePairs is a function that takes a list and combines each value with any other, but without duplicates and in order.
 ;;; (a b c d) -> ab ac ad, bc bd, cd
