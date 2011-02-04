@@ -195,9 +195,10 @@ goto_movement_staff_obj (DenemoGUI * possible_gui, gint movementnum, gint staffn
   }
   // g_print("objnum %d\n",objnum);
   if(objnum>0) {
-    gui->si->cursor_x+=objnum;
+    gui->si->cursor_x++;// objnum;
     if(!gui->si->currentobject)
       return FALSE;
+    gui->si->cursor_appending = TRUE;
   }
   write_status(gui);
   //g_print("%s and %d\n", gui->si->currentobject?"Obj":"noObj", gui->si->cursor_x);
