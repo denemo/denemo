@@ -895,6 +895,18 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "New")), "scm", (gpointer)
 SCM scheme_Open(SCM optional);
 install_scm_function ("d-Open", scheme_Open);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "Open")), "scm", (gpointer)1);
+/*ImportLilypond file_import_lilypond_with_check*/
+SCM scheme_ImportLilypond(SCM optional);
+install_scm_function ("d-ImportLilypond", scheme_ImportLilypond);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ImportLilypond")), "scm", (gpointer)1);
+/*ImportMidi file_import_midi_with_check*/
+SCM scheme_ImportMidi(SCM optional);
+install_scm_function ("d-ImportMidi", scheme_ImportMidi);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ImportMidi")), "scm", (gpointer)1);
+/*ImportMusicXml file_import_musicxml_with_check*/
+SCM scheme_ImportMusicXml(SCM optional);
+install_scm_function ("d-ImportMusicXml", scheme_ImportMusicXml);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ImportMusicXml")), "scm", (gpointer)1);
 /*AddStaffs file_add_staffs*/
 SCM scheme_AddStaffs(SCM optional);
 install_scm_function ("d-AddStaffs", scheme_AddStaffs);

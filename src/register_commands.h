@@ -222,6 +222,9 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "SharpenE
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "FlattenEnharmonicSet"), "FlattenEnharmonicSet", "Shift Accidentals Flatwise", "Shifts the set of accidentals one step flatter", set_flatter);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "New"), "New", "New File", "Start a new musical score", file_newwrapper);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Open"), "Open", "Open", "Open a file containing a music score for editing", file_open_with_check);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "ImportLilypond"), "ImportLilypond", "Import Lilypond", "Import a Lilypond file", file_import_lilypond_with_check);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "ImportMidi"), "ImportMidi", "Import Midi", "Import a Midi file", file_import_midi_with_check);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "ImportMusicXml"), "ImportMusicXml", "Import MusicXml", "Import a MusicXml file", file_import_musicxml_with_check);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "AddStaffs"), "AddStaffs", "Add Staffs", "Add staffs from a Denemo file", file_add_staffs);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "AddMovements"), "AddMovements", "Add Movement", "Add movements from a Denemo file", file_add_movements);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "MovementProps"), "MovementProps", "Change Properties", "Change properties of this movement", movement_props_dialog);

@@ -4,6 +4,11 @@
     <menu action="FileMenu">
       <menuitem action="New"/>
       <menuitem action="Open"/>
+        <menu action="Import">
+	  <menuitem action="ImportLilypond"/>
+	  <menuitem action="ImportMidi"/>
+          <menuitem action="ImportMusicXml"/>
+        </menu>
       <menuitem action="AddStaffs"/>
       <menuitem action="AddMovements"/>
 

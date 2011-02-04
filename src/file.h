@@ -28,6 +28,12 @@ file_savepartswrapper(GtkAction *action, gpointer param);
 
 void
 file_open_with_check (GtkAction *action, DenemoScriptParam * param);
+void
+file_import_lilypond_with_check (GtkAction *action, DenemoScriptParam * param);
+void
+file_import_midi_with_check (GtkAction *action, DenemoScriptParam * param);
+void
+file_import_musicxml_with_check (GtkAction *action, DenemoScriptParam * param);
 
 void
 file_add_staffs (GtkAction *action, DenemoScriptParam * param);

@@ -362,6 +362,9 @@ struct name_and_function denemo_commands[] = {
 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_NEW", "Start a new musical score", N_("New"), "file_newwrapper", N_("New File")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Open a file containing a music score for editing", N_("Open"), "file_open_with_check", N_("Open")}, 
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Import a Lilypond file", N_("ImportLilypond"), "file_import_lilypond_with_check", N_("Import Lilypond")}, 
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Import a Midi file", N_("ImportMidi"), "file_import_midi_with_check", N_("Import Midi")}, 
+ {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Import a MusicXml file", N_("ImportMusicXml"), "file_import_musicxml_with_check", N_("Import MusicXml")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Add staffs from a Denemo file", N_("AddStaffs"), "file_add_staffs", N_("Add Staffs")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Add movements from a Denemo file", N_("AddMovements"), "file_add_movements", N_("Add Movement")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PROPERTIES", "Change properties of this movement", N_("MovementProps"), "movement_props_dialog", N_("Change Properties")}, 
@@ -506,7 +509,8 @@ struct name_and_function denemo_commands[] = {
 
 
  
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Open previously used files", N_("OpenRecent"), NULL, N_("Open Recent")}, 
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Open previously used files", N_("OpenRecent"), NULL, N_("Open Recent")},
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Import supported file formats", N_("Import"), NULL, N_("Import File")},
   {CMD_CATEGORY_DIRECT, NULL, "Export File", N_("Export"), NULL, N_("Export As")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Toggle between current mode and edit mode", N_("ToggleEdit"), "toggle_edit_mode", N_("Toggle Edit Mode")},
   {CMD_CATEGORY_DIRECT, NULL, "Toggle between note entry and rest entry", N_("ToggleRest"),  "toggle_rest_mode", N_("Toggle Rest Mode")}, 
