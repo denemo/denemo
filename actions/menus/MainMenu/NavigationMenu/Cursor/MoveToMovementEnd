@@ -8,10 +8,9 @@
         <after>MoveToMovementBeginning</after>
         <action>MoveToMovementEnd</action>
         <scheme>(let loop ()
-	(if (d-MoveToStaffDown)
-		(loop)
-		#t))			
-(d-MoveToEnd)</scheme>
+(RepeatUntilFail d-MoveToStaffDown)			
+(d-MoveToEnd)
+		</scheme>
         <label>Move To Movement End</label>
         <tooltip>Move the cursor to last measure, last staff without altering the selection.</tooltip>
       </row>

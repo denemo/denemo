@@ -20,10 +20,11 @@
 (define DenemoKeypressActivatedCommand #f);;;is true while a keyboard shortcut is invoking a script, unless the script has set it to #f
 
 
-;;;;;; Helper functions for scripters
+;Blank clears the console output. Don't use in released scripts, only for debugging.
 (define (Blank)
 	(system "clear"))
 
+;disp is an advanced display. Just give anything you want to print, it appends strings automatically and does a line break in the end. Don't use in released scripts, only for debugging.
 (define disp (lambda args
    (letrec ((disp-in (lambda (arg) 
               (if (null? arg) 
@@ -33,39 +34,11 @@
                      (disp-in (cdr arg))))))) 
 		     (disp-in args)
 		     (newline))))
-		     
+
+;Doublequote constant to avoid backslashing		     
 (define DBLQ "\"")
+;Linefeed constant to avoid backslashing		     
 (define LFEED "\n")
-
-;Repeat a command until it returns #f
-;Warning: Functions that do not return #f create infinity loops!
-(define (RepeatUntilFail proc)
-	(let loop ()
-		(if (proc)
-			(loop)
-			#t)))
-
-
-;;; GetUniquePairs is a function that takes a list and combines each value with any other, but without duplicates and in order.
-;;; (a b c d) -> ab ac ad, bc bd, cd
-(define (GetUniquePairs listy)
- (define returnList (list #f)) ; we need a non-empty list to append! to
- (define maxsteps (- (length listy) 1))
- (define (subMap memberA counter)
-	(define subList '())
-	(define (appendPair memberB)
-		(append subList (cons memberA memberB)))
-	(map appendPair (list-tail listy (+ 1 counter)))
- );subMap 
-
- (let loop ((counter 0))
-  (if (= counter maxsteps)
-	(list-tail returnList 1) ; get rid of the initial #f for the final return value
-	(begin (append! returnList (subMap (list-ref listy counter) counter))   (loop (+ counter 1)))
-  )
- )
-); GetUniquePairs
-
 
 ;repeat executes a proc n times
 (define (Repeat proc n)
@@ -76,10 +49,43 @@
 				(proc)
 				(loop (1+ counter))))))
 
-;;;;;;;;;;;Get Lilypond Objects as strings. Currently just manual converting for single cases.
+;Repeat a command until it returns #f
+;Warning: Functions that do not return #f create infinity loops!
+(define (RepeatUntilFail proc)
+	(let loop ()
+		(if (proc)
+			(loop)
+			#t)))
+			
+;Repeat a function until another (a test) returns #f. The return value of proc does NOT matter
+;;Warning: From all Repeat functions this one has the highest probability to be stuck in a loop forever. Always use tests that MUST return #t in the end. Do NOT use the Denemo tests like (None?) or (Music?) for example, they know nothing about a staffs end.
+(define (RepeatProcUntilTest proc test)
+	(RepeatUntilFail 		
+		(lambda () 
+			(if (test)
+				#f ; test true, let RepeatUntilFail fail.
+				(begin (proc) #t))))) ; this is a dumb script. It will try to execute proc again even if proc itself returned #f. 		
+
+
+;;; GetUniquePairs is a function that takes a list and combines each value with any other, but without duplicates and in order.
+;;; (a b c d) -> ab ac ad, bc bd, cd
+(define (GetUniquePairs listy)
+	 (define returnList (list #f)) ; we need a non-empty list to append! to
+	 (define maxsteps (- (length listy) 1))
+	 (define (subMap memberA counter)
+		(define subList '())
+		(define (appendPair memberB)
+			(append subList (cons memberA memberB)))
+		(map appendPair (list-tail listy (+ 1 counter))));subMap 
+
+	 (let loop ((counter 0))
+	  (if (= counter maxsteps)
+		(list-tail returnList 1) ; get rid of the initial #f for the final return value
+		(begin (append! returnList (subMap (list-ref listy counter) counter))   (loop (+ counter 1)))))); GetUniquePairs
+
+;Get Lilypond Objects as strings. Currently just manual converting for single cases.
 (define (GetContextAsLilypond) ; You will likely need (GetTypeAsLilypond) also. TODO: Create a real function!
-"Staff"
-)
+"Staff")
 
 (define (GetTypeAsLilypond)   ; You will likely need (GetContextAsLilypond) also. TODO: Replace with real information, derived from Lilypond
 (define type (string->symbol (d-GetType)))
@@ -88,12 +94,10 @@
 		((CHORD) "NoteHead") ; Rests will be detected as CHORD but it will not work
 		((KEYSIG) "KeySignature")
 		((CLEF) "Clef")
-		(else #f) 
-	)
-)
+		(else #f)))
 
 
-;;;;;;;;;; Prototype to insert Lilypond Standalone Directives. Wants a pair with car Tag and cdr lilypond: (cons "BreathMark" "\\breathe")
+; Prototype to insert Lilypond Standalone Directives. Wants a pair with car Tag and cdr lilypond: (cons "BreathMark" "\\breathe")
 (define* (StandAloneDirectiveProto pair #:optional (step? #t) (graphic #f))
 	(d-Directive-standalone (car pair))
 	(d-DirectivePut-standalone-postfix (car pair) (cdr pair))
@@ -101,17 +105,14 @@
 	(if graphic ;If the user specified a graphic use this, else greate a display text
 		(begin (d-DirectivePut-standalone-graphic (car pair) graphic)
 			   (d-DirectivePut-standalone-override (car pair) DENEMO_OVERRIDE_GRAPHIC))
-		(d-DirectivePut-standalone-display (car pair) (car pair))
-	)
+		(d-DirectivePut-standalone-display (car pair) (car pair)))
 	(if step?
-		(d-MoveCursorRight)
-	)
-	(d-RefreshDisplay)
-)
+		(d-MoveCursorRight))
+	(d-RefreshDisplay))
 
 
-;;;;;;;;;; create documentation for a command - this version just prints out basic info
-;;;;;;;;;;;;;DocumentCommand
+; create documentation for a command - this version just prints out basic info
+;;DocumentCommand
 (define (DocumentCommand name)
   (let ((help (d-GetHelp name)))
     (if (boolean? help)
@@ -123,37 +124,32 @@
 		(set! help "No help")
 		))))
     (format #t "~%~%Command ~A~%Tooltip ~A~%Label ~A~%Menu Path ~A~%" name help (d-GetLabel name) (d-GetMenuPath name))))
-;;;;;;;;;;;;;;; 
 
-;;;;;;;;;;;;Replace a part of a string
 
+;Replace a part of a string
 (define (Replace-nth list n elem)
   (cond 
     ((null? list) ())
     ((eq? n 0) (cons elem (cdr list)))
     (#t (cons(car list) (replace-nth (cdr list) (- n 1) elem)))))
 
-
-;;;;;;;;;;;;;; Get highest and lowest note as lilypond syntax. Works on Chords and Single Notes.
-;;;;;;;;;;;;;; GetNotes returns a string of lily-notes from low to high. Make a list out of them and refer to the first (0) element or last (length -1) one.
-;;;;;;;;;;;;;; Returns #f if not a chord
-
+; Get highest and lowest note as lilypond syntax. Works on Chords and Single Notes.
+;; GetNotes returns a string of lily-notes from low to high. Make a list out of them and refer to the first (0) element or last (length -1) one.
+;; Returns #f if not a chord
 (define (GetLowestNote)
-(if (Note?)
- (list-ref (string-tokenize(d-GetNotes)) 0 )
- #f
- ))
+	(if (Note?)
+	 (list-ref (string-tokenize(d-GetNotes)) 0 )
+	 #f))
 
 (define (GetHighestNote)
-(if (Note?)
- (list-ref (reverse (string-tokenize(d-GetNotes))) 0)
- #f
- ))
+	(if (Note?)
+	 (list-ref (reverse (string-tokenize(d-GetNotes))) 0)
+	 #f))
 
 ;Next Selected Object for all Staffs by Nils Gey Feb/2010
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;Moves the cursor to the right. If there is no selection, If that returns #f it will move down one staff and rewind to the start of the selection in this staff..
-;FIXME: After the last selected Item the cursor will move down one staff even outside the selection and will stay there. But a script with SingleAndSelectionSwitcher will NOT be applied to this outside-object and the user will not see this because the cursor is returned to the starting position afterwards.
+;TODO: After the last selected Item the cursor will move down one staff even outside the selection and will stay there. But a script with SingleAndSelectionSwitcher will NOT be applied to this outside-object and the user will not see this because the cursor is returned to the starting position afterwards.
 
 (define (NextSelectedObjectAllStaffs)
 	(if  (not (d-NextSelectedObject)) 
@@ -161,9 +157,8 @@
 		 (selection::MoveToStaffBeginning) ; there is a selection a staff down, loop to the beginning
 		#f ; there is no staff down or the selection is single staff.
 		)
-	  #t ;NextSelecetedObject was succesful
-	)
-)
+	  #t)) ;NextSelecetedObject was succesful
+	
 
 
 (define (selection::MoveToStaffBeginning)
@@ -180,8 +175,8 @@
 				(begin  (d-PopPosition) #f ))))  ; if end of staff and no selection return to initial position and return #f
 	)
 	(begin  (d-PopPosition) #f )   ; no selection at all. 
-	) ; fi GoToSelectionStart
-)
+	)) ; fi GoToSelectionStart
+
 
 
 ;Find the next object that returns #t from the given test function. Don't write the function in parentheses, just give the name (except you give a function that returns a name :))
@@ -198,8 +193,8 @@
 					(loopy))) ; first object of lower staff is not a member, start search again.
 			#f) ; no staff left, final end.
 	); if end
-	);loopy end
-)
+	));loopy end
+
 
 
 ;SingleAndSelectionSwitcher by Nils Gey Jan/2010
@@ -209,29 +204,26 @@
 ;The applied script itself has to take care if the command can be applied to each potential item. If you want only notes/chords/rests you have to make sure the script does not abort on other objects. Its the same as giving proper return values for a single item, just return #f if a command is not possible for an item. While a single item just returns an error if you don't do it correctly, but does no harm otherwise, a script applied to a selection will stop on that item and leaves you on half on the way.
 ;Return values are the return values the script itself gives.
 ;The third, optional, parameter can prevent an object from be processed. By default this parameter is #t so the command will be will be applied to any object in the selection and let the command itself decide what to do (or just do nothing). By giving the third optional argument you can specify additional conditions, for example with GetType. In general: Insert test conditions here, if #t the current object will be processed, otherwise it will be skipped.
-
 ;Example: (SingleAndSelectionSwitcher  "(d-ChangeDurationByFactorTwo *)" "(d-ChangeDurationByFactorTwo *)")
 
 (define* (SingleAndSelectionSwitcher commandsingle #:optional (commandselection commandsingle) (onlyFor "#t")) ; Amazingly commandsingle is already defined on spot so that it can be used again in the same line to define commandselection 
-(d-PushPosition)
-(if (and DenemoPref_applytoselection (d-GoToSelectionStart))
-(begin
-	(if (eval-string onlyFor)
-		(eval-string  commandselection))
-	(let loop ()
-	(if (NextSelectedObjectAllStaffs)
-	 	(if (eval-string onlyFor)
-	 		(begin (eval-string  commandselection) (loop))
-	 		(loop) ; don't process this object, next please.
-	 	)
-	))
-	(d-GoToSelectionStart)
-	(d-PopPosition)
-	)
-(begin	
-	(eval-string commandsingle)	)
-))
-;; End of SingleAndSelectionSwitcher
+	(d-PushPosition)
+	(if (and DenemoPref_applytoselection (d-GoToSelectionStart))
+	(begin
+		(if (eval-string onlyFor)
+			(eval-string  commandselection))
+		(let loop ()
+		(if (NextSelectedObjectAllStaffs)
+			(if (eval-string onlyFor)
+				(begin (eval-string  commandselection) (loop))
+				(loop) ; don't process this object, next please.
+			)
+		))
+		(d-GoToSelectionStart)
+		(d-PopPosition)
+		)
+	(begin	
+		(eval-string commandsingle)))) ; End of SingleAndSelectionSwitcher
 
 
 ;;; A set of simple tests / questions for score objects. 
@@ -251,8 +243,7 @@
 		#t
 		#f
 	)
-  #f ; no note
-))
+  #f)) ; no note
 
 (define (Singlenote?) 
   (if (Note?)
@@ -260,8 +251,7 @@
 		#f
 		#t
 	)
-  #f ; no note
-))
+  #f)) ; no note
 	
 (define (Directive?) 
   (if (string=? (d-GetType) "LILYDIRECTIVE") #t #f))
@@ -297,14 +287,13 @@
 					    (if (Music?)
 			                	 #t
 			                	 (NextChordInSelection))
-					    #f
-					    )))
+					    #f)))
 (define FirstChordInSelection (lambda () (if (d-GoToMark)
 						  (if (Music?)
 			                	 #t)
 						  #f)))
 				    
-
+;;;Deprecated!
 (define ApplyToSelection (lambda (command positioning_command)
 			   (begin
 			     (if (eval-string positioning_command)
@@ -313,6 +302,7 @@
 				   (eval-string  command)
 				   (d-PopPosition)
 				   (ApplyToSelection command "(d-NextSelectedObject)"))))))
+				   
 (define (PrevDirectiveOfTag tag)
   (let loop ()
     (if (d-PrevStandaloneDirective)
@@ -331,9 +321,9 @@
        #f)))
 
 (define (d-DirectiveDelete-standalone Tag)
-(if (equal? (d-DirectiveGetTag-standalone) Tag)
-(begin (d-DeleteObject) #t)
-#f))
+	(if (equal? (d-DirectiveGetTag-standalone) Tag)
+	(begin (d-DeleteObject) #t)
+	#f))
 
 (define stop "\0")
 (define cue-Advanced "Advanced")
@@ -370,74 +360,73 @@
 
 (define* (Doublestroke gui-version #:optional (first "#f") (second "#f") (third "#f") (fourth "#f") (fifth "#f") (sixth "#f") (seventh "#f") (eighth "#f") (ninth "#f") (tenth "#f"))
 
-; Create a fallback-GUI which just lists all commands as radio-buttons. Used for the [space] variant.
-(define (doublestroke::fallbackgui)
-	(define doublestroke::result #f)
-	
-	(define (bo action) ; BuildOption
-	    (if (pair? action)
-			;User gave pairs for better documentation. Build the option 
-			(string-append (car action) stop) 
-			;User gave just strings or #f, build the option from this string		
-			(if (or (not (string=? action "#f" )) (not action) )
-				(string-append action stop) 
-				""))
-	);bo end 
+	; Create a fallback-GUI which just lists all commands as radio-buttons. Used for the [space] variant.
+	(define (doublestroke::fallbackgui)
+		(define doublestroke::result #f)
 		
-	(if (not gui-version) ;just a small performance-tweak
-		(begin
-			(set! doublestroke::result (d-GetOption  (string-append (bo first)  (bo second)  (bo third)  (bo fourth)  (bo fifth)  (bo sixth)  (bo seventh)  (bo eighth)  (bo ninth)  (bo tenth)) ))
-			(if doublestroke::result (eval-string doublestroke::result)))))
+		(define (bo action) ; BuildOption
+			(if (pair? action)
+				;User gave pairs for better documentation. Build the option 
+				(string-append (car action) stop) 
+				;User gave just strings or #f, build the option from this string		
+				(if (or (not (string=? action "#f" )) (not action) )
+					(string-append action stop) 
+					"")));bo end 
+			
+		(if (not gui-version) ;just a small performance-tweak
+			(begin
+				(set! doublestroke::result (d-GetOption  (string-append (bo first)  (bo second)  (bo third)  (bo fourth)  (bo fifth)  (bo sixth)  (bo seventh)  (bo eighth)  (bo ninth)  (bo tenth)) ))
+				(if doublestroke::result (eval-string doublestroke::result)))))
 
-; Eval the command with testing if it's a pair or just a string
-(define (doublestroke::evalcommand parameter)
-	(if (pair? parameter)
-		(eval-string (car parameter))
-		(eval-string parameter)))
-		
-;Rebind a wrapper key, check if pair or string
-(define (doublestroke::bind command parameter)
-   (if (pair? parameter)
-		(set-cdr! command (car parameter))
-		(set-cdr! command parameter)))
+	; Eval the command with testing if it's a pair or just a string
+	(define (doublestroke::evalcommand parameter)
+		(if (pair? parameter)
+			(eval-string (car parameter))
+			(eval-string parameter)))
+			
+	;Rebind a wrapper key, check if pair or string
+	(define (doublestroke::bind command parameter)
+	   (if (pair? parameter)
+			(set-cdr! command (car parameter))
+			(set-cdr! command parameter)))
 
-		
-; Short command to invoke the gui which tests if the author specified his own first.
-(define (doublestroke::invokegui)
-	(if gui-version (eval-string gui-version)
-			 	 (doublestroke::fallbackgui)))			 	 		
+			
+	; Short command to invoke the gui which tests if the author specified his own first.
+	(define (doublestroke::invokegui)
+		(if gui-version (eval-string gui-version)
+					 (doublestroke::fallbackgui)))			 	 		
 
-; The real action. Wait for a keypress and decide what do with it afterwards, Space triggers the GUI, Return locks-in the commands and makes them permanent keybindings.
-(if DenemoKeypressActivatedCommand
-	(begin 
-	(case (string->symbol (d-GetCommand))
-		((d-OpOne)  (doublestroke::evalcommand first))
-		((d-OpTwo)  (doublestroke::evalcommand second))
-		((d-OpThree)  (doublestroke::evalcommand third))
-		((d-OpFour)  (doublestroke::evalcommand fourth))
-		((d-OpFive)  (doublestroke::evalcommand fifth))
-		((d-OpSix)  (doublestroke::evalcommand sixth))
-		((d-OpSeven)  (doublestroke::evalcommand seventh))
-		((d-OpEight)  (doublestroke::evalcommand eighth))
-		((d-OpNine)  (doublestroke::evalcommand ninth))
-		((d-OpZero)  (doublestroke::evalcommand tenth))
-		((d-UnsetMark)  (doublestroke::invokegui))
-		((d-AddNoteToChord) (begin
-				(doublestroke::bind wrap:Op1 first)
-				(doublestroke::bind wrap:Op2 second)
-				(doublestroke::bind wrap:Op3 third)
-				(doublestroke::bind wrap:Op4 fourth)
-				(doublestroke::bind wrap:Op5 fifth)
-				(doublestroke::bind wrap:Op6 sixth)
-				(doublestroke::bind wrap:Op7 seventh)
-				(doublestroke::bind wrap:Op8 eighth)
-				(doublestroke::bind wrap:Op9 ninth)
-				(doublestroke::bind wrap:Op0 tenth)
-				))
-		(else #f))
-	  (set! DenemoKeypressActivatedCommand #f))
-	  
-	 (doublestroke::invokegui) )) ; if not DenemoKeypressActivated
+	; The real action. Wait for a keypress and decide what do with it afterwards, Space triggers the GUI, Return locks-in the commands and makes them permanent keybindings.
+	(if DenemoKeypressActivatedCommand
+		(begin 
+		(case (string->symbol (d-GetCommand))
+			((d-OpOne)  (doublestroke::evalcommand first))
+			((d-OpTwo)  (doublestroke::evalcommand second))
+			((d-OpThree)  (doublestroke::evalcommand third))
+			((d-OpFour)  (doublestroke::evalcommand fourth))
+			((d-OpFive)  (doublestroke::evalcommand fifth))
+			((d-OpSix)  (doublestroke::evalcommand sixth))
+			((d-OpSeven)  (doublestroke::evalcommand seventh))
+			((d-OpEight)  (doublestroke::evalcommand eighth))
+			((d-OpNine)  (doublestroke::evalcommand ninth))
+			((d-OpZero)  (doublestroke::evalcommand tenth))
+			((d-UnsetMark)  (doublestroke::invokegui))
+			((d-AddNoteToChord) (begin
+					(doublestroke::bind wrap:Op1 first)
+					(doublestroke::bind wrap:Op2 second)
+					(doublestroke::bind wrap:Op3 third)
+					(doublestroke::bind wrap:Op4 fourth)
+					(doublestroke::bind wrap:Op5 fifth)
+					(doublestroke::bind wrap:Op6 sixth)
+					(doublestroke::bind wrap:Op7 seventh)
+					(doublestroke::bind wrap:Op8 eighth)
+					(doublestroke::bind wrap:Op9 ninth)
+					(doublestroke::bind wrap:Op0 tenth)
+					))
+			(else #f))
+		  (set! DenemoKeypressActivatedCommand #f))
+		  
+		 (doublestroke::invokegui) )) ; if not DenemoKeypressActivated
 
 	; Example, where key 6 to 9 are not defined. The WarningDialog shows if you press [space] or invoke the command through the menu. 
 	; (Doublestroke "(d-WarningDialog \"After invoking the command, what you already have done right now, press a number key to specify number to print to the console or any other key to abort.\n\")" 
@@ -723,7 +712,6 @@
   (d-DirectiveGetForTag-header ""))
 
 
-
 (define* (d-Directive-paper?  #:optional (tag #f))
   (if (equal? tag #f)
       (string? (d-DirectiveGetForTag-paper ""))
@@ -802,10 +790,7 @@
 					((eval-string proc-ovr) tag (apply logior (append (list DENEMO_OVERRIDE_GRAPHIC) overrides))))
 				((eval-string proc-dis) tag tag)
 				#t)))
-	
-	  
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+		  
 
 ;;;;;;;;; String Escaper
 ;;;;;;;;; Escapes Strings
@@ -883,7 +868,8 @@
 (define scheme-escape (string-escaper '((#\\ . "\\\\")
 					(#\" . "\\\""))))
 
-(define latex-escape (string-escaper '((#\\ . "\\\\")
+
+#! (define latex-escape (string-escaper '((#\\ . "\\\\")
 				       (#\~ . "\\~")
 				       (#\# . "\\#")
 				       (#\$ . "\\$")
@@ -892,7 +878,8 @@
 				       (#\& . "\\&")
 				       (#\{ . "\\{")
 				       (#\} . "\\}")
-				       (#\_ . "\\_"))))
+				       (#\_ . "\\_")))) !#
+
 
 ;;;;;;;;;; Parse strings for json values
 (define (ParseJson target key)
@@ -915,153 +902,136 @@
 ;;;; Currently its only used to create/overwrite a page with a new script.
 ;;;; It uses the User-Rights System so its very secure. Vandalism in only possible in the same degree as allowed on the website itself.
 ;;;; All API access is done via (d-HTTP). The C function behind it sends HTTP-POST data to the given Server/Website and returns the HTTP-header and MediaWiki Data. 
-;;;;
 ;;;; The basic steps are 1)Login with Username/PW given in Denemos Preferences and 2)Create a HTTP-Cookie .
 ;;;; After that allowed Manipulation is possible. Currently we create request an Edit-Token and create a new Page.
-;;;; 
 
 (define (d-UploadRoutine list)
-  (define command (list-ref list 0))
-  (define name (list-ref list 1))
-  (define script (list-ref list 2))
-  (define initscript (list-ref list 3))
-  (define menupath (list-ref list 4))
-  (define label (list-ref list 5))
-  (define tooltip (list-ref list 6))
-  (define after (list-ref list 7))
+	  (define command (list-ref list 0))
+	  (define name (list-ref list 1))
+	  (define script (list-ref list 2))
+	  (define initscript (list-ref list 3))
+	  (define menupath (list-ref list 4))
+	  (define label (list-ref list 5))
+	  (define tooltip (list-ref list 6))
+	  (define after (list-ref list 7))
 
-  ;Some constants. Change these only if the Website moves.
-  (define HTTPHostname "www.denemo.org") ; don't use http:// . No tailing /
-  (define HTTPSite "/api.php")   
-	
-	; Prepare Login. Use this only once in (CookieString) because all tokens change on any new login.
-	(define (LogMeIn) 
-			(d-HTTP ;Parameters are hostname, site, cookies/header and POST-body
-			HTTPHostname
-			HTTPSite
-			"" ; Cookie entrypoint. No Cookie for now.
-			(string-append "format=json&action=login&lgname=" (scheme-escape(d-GetUserName)) "&lgpassword=" (scheme-escape(d-GetPassword)) ))
-	)
-
-	; Actually logs you in and prepares a HTTP-Cookie you have to use in all other Media-Wiki Actions as third (d-HTTP) parameter.
-	(define (CookieString) 
-		(define LogMeInReturn (LogMeIn))
+	  ;Some constants. Change these only if the Website moves.
+	  (define HTTPHostname "www.denemo.org") ; don't use http:// . No tailing /
+	  (define HTTPSite "/api.php")   
 		
-			; Raise Error. Sorry, I don't know how to make Blocks and if/else does only allow one statement.
-			(define	(RaiseError)
-			  (begin
-			    (d-WarningDialog "Login Error - Please check your username and password in Edit->prefs->misc")
-				(display "\nLogin Error - Please check your username and password in Denemos Preferences")
-				;return CookieError
-				(string-append "CookieError"))		
-			)
-			
-			; Test if hostname is ok
-			(if (string-ci=? LogMeInReturn "ERROR")
-			(display "\nConnection Error - Server unavailable")
-			
-				;If Server is ok check Login-Data:
-				(if  (string-ci=? (ParseJson LogMeInReturn "result") "Success")
-						
-				; If login is good go ahead and build the cookie string						
-				(string-append 
-				"Cookie: "(ParseJson LogMeInReturn "cookieprefix")"UserName=" (ParseJson LogMeInReturn "lgusername")
-				"; "(ParseJson LogMeInReturn "cookieprefix")"UserID=" (ParseJson LogMeInReturn "lguserid") 
-				"; "(ParseJson LogMeInReturn "cookieprefix")"Token=" (ParseJson LogMeInReturn "lgtoken")
-				"; "(ParseJson LogMeInReturn "cookieprefix")"_session=" (ParseJson LogMeInReturn "sessionid") 
-				"\n")
-				
-				;else
-				(RaiseError)
+		; Prepare Login. Use this only once in (CookieString) because all tokens change on any new login.
+		(define (LogMeIn) 
+				(d-HTTP ;Parameters are hostname, site, cookies/header and POST-body
+				HTTPHostname
+				HTTPSite
+				"" ; Cookie entrypoint. No Cookie for now.
+				(string-append "format=json&action=login&lgname=" (scheme-escape(d-GetUserName)) "&lgpassword=" (scheme-escape(d-GetPassword)))))
 
+		; Actually logs you in and prepares a HTTP-Cookie you have to use in all other Media-Wiki Actions as third (d-HTTP) parameter.
+		(define (CookieString) 
+			(define LogMeInReturn (LogMeIn))
+			
+				; Raise Error. Sorry, I don't know how to make Blocks and if/else does only allow one statement.
+				(define	(RaiseError)
+				  (begin
+					(d-WarningDialog "Login Error - Please check your username and password in Edit->prefs->misc")
+					(display "\nLogin Error - Please check your username and password in Denemos Preferences")
+					;return CookieError
+					(string-append "CookieError"))		
 				)
-			)	
-	)	
+				
+				; Test if hostname is ok
+				(if (string-ci=? LogMeInReturn "ERROR")
+				(display "\nConnection Error - Server unavailable")
+				
+					;If Server is ok check Login-Data:
+					(if  (string-ci=? (ParseJson LogMeInReturn "result") "Success")
+							
+					; If login is good go ahead and build the cookie string						
+					(string-append 
+					"Cookie: "(ParseJson LogMeInReturn "cookieprefix")"UserName=" (ParseJson LogMeInReturn "lgusername")
+					"; "(ParseJson LogMeInReturn "cookieprefix")"UserID=" (ParseJson LogMeInReturn "lguserid") 
+					"; "(ParseJson LogMeInReturn "cookieprefix")"Token=" (ParseJson LogMeInReturn "lgtoken")
+					"; "(ParseJson LogMeInReturn "cookieprefix")"_session=" (ParseJson LogMeInReturn "sessionid") 
+					"\n")					
+					;else
+					(RaiseError))))	
 
-	; Prepare request Edit-Token.
-	; First send d-HTTP, then parse the token, then modify it to the right format.
-	(define (GetEditToken name CookieStringReturn)
-		(define (ReceiveRawToken)
-			(d-HTTP 
-			HTTPHostname
-			HTTPSite
-			CookieStringReturn
-			(string-append "format=json&action=query&prop=info|revisions&intoken=edit&titles="name))
-		)	
-		
-		;json gives you +\\ @ Tokens end, but you need only +\ which is %2B%5C in url-endcoded format. 
-		(string-append (string-trim-both (string-trim-both (ParseJson (ReceiveRawToken) "edittoken" ) #\\) #\+) "%2B%5C")
-	)	
-	
-	;This will overwrite the page named like the parameter "name". If it is not existend it will be created.
-	;Any OverwritePage call has to be made in (d-UploadRoutine)'s body.
-	(define (OverwritePage CookieStringReturn)
-		
-		(define (GetLicenseAndBuildString)
-			;(define license (d-GetUserInput "License" "Please choose a license for your script. For example GPL or LGPL" "GPL")) ; This is gone. Scripts have to be GPL, too.
-			(define (SiteString) ; Any whitespace will be send, too.
-(string-append 
-"{{Script
-|Name = " name "
-|Author =  " (scheme-escape(d-GetUserName)) "  
-|Label = " label  "
-|License =  GPL 
-|Explanation = " tooltip "
-|SubLabel = " menupath "
-|Version = " DENEMO_VERSION "
-}}
-=== Script ===			
-<syntaxhighlight lang=\"scheme\">
-" script "
-</syntaxhighlight>
-			
-=== Initscript === 
-<syntaxhighlight lang=\"scheme\">
-" initscript "
-</syntaxhighlight>
-			
-=== After === 
-<syntaxhighlight lang=\"scheme\">
-" after "
-</syntaxhighlight>
-")
-			)
-			
-			;Send the data to let the API generate a new site!		
-			(d-HTTP
+		; Prepare request Edit-Token.
+		; First send d-HTTP, then parse the token, then modify it to the right format.
+		(define (GetEditToken name CookieStringReturn)
+			(define (ReceiveRawToken)
+				(d-HTTP 
 				HTTPHostname
 				HTTPSite
 				CookieStringReturn
-				(string-append "action=edit&title=" name "&format=json&summary=" tooltip "&text=" (SiteString) "&token=" (GetEditToken name CookieStringReturn))
-			)	
+				(string-append "format=json&action=query&prop=info|revisions&intoken=edit&titles="name)))	
 			
-			;Show script in browser
-			(d-Help (string-append "http://" HTTPHostname "/index.php/" name))				
-	
-		); End of GetLicenseAndBuildString
-	
-	
-	;check if Login/Building the Cookie was correct
-	(if (string-ci=? CookieStringReturn "CookieError")
-		(display "\nAn error occured while performing the task. Thats why the result of your Upload-Command is: ")
-		(GetLicenseAndBuildString)
-	)	
-	
+			;json gives you +\\ @ Tokens end, but you need only +\ which is %2B%5C in url-endcoded format. 
+			(string-append (string-trim-both (string-trim-both (ParseJson (ReceiveRawToken) "edittoken" ) #\\) #\+) "%2B%5C"))	
+		
+		;This will overwrite the page named like the parameter "name". If it is not existend it will be created.
+		;Any OverwritePage call has to be made in (d-UploadRoutine)'s body.
+		(define (OverwritePage CookieStringReturn)
+			
+			(define (GetLicenseAndBuildString)
+				;(define license (d-GetUserInput "License" "Please choose a license for your script. For example GPL or LGPL" "GPL")) ; This is gone. Scripts have to be GPL, too.
+				(define (SiteString) ; Any whitespace will be send, too.
+	(string-append 
+	"{{Script
+	|Name = " name "
+	|Author =  " (scheme-escape(d-GetUserName)) "  
+	|Label = " label  "
+	|License =  GPL 
+	|Explanation = " tooltip "
+	|SubLabel = " menupath "
+	|Version = " DENEMO_VERSION "
+	}}
+	=== Script ===			
+	<syntaxhighlight lang=\"scheme\">
+	" script "
+	</syntaxhighlight>
+				
+	=== Initscript === 
+	<syntaxhighlight lang=\"scheme\">
+	" initscript "
+	</syntaxhighlight>
+				
+	=== After === 
+	<syntaxhighlight lang=\"scheme\">
+	" after "
+	</syntaxhighlight>
+	"))
+				
+				;Send the data to let the API generate a new site!		
+				(d-HTTP
+					HTTPHostname
+					HTTPSite
+					CookieStringReturn
+					(string-append "action=edit&title=" name "&format=json&summary=" tooltip "&text=" (SiteString) "&token=" (GetEditToken name CookieStringReturn)))	
+				
+				;Show script in browser
+				(d-Help (string-append "http://" HTTPHostname "/index.php/" name))				
+		
+			); End of GetLicenseAndBuildString
+		
+		
+		;check if Login/Building the Cookie was correct
+		(if (string-ci=? CookieStringReturn "CookieError")
+			(display "\nAn error occured while performing the task. Thats why the result of your Upload-Command is: ")
+			(GetLicenseAndBuildString))
+		);;;; End of OverwritePage 
+		
+		;;;; The real action happens here.	This is the only place where (CookieString) is called so we have only one Login at all.
+		(display (OverwritePage (CookieString))) ;show and execute
 
-
-	);;;; End of OverwritePage 
-	
-	;;;; The real action happens here.	This is the only place where (CookieString) is called so we have only one Login at all.
-	(display (OverwritePage (CookieString) )) ;show and execute
-
-) ; End Of (d-UploadRoutine)
+	) ; End Of (d-UploadRoutine)
 
 
 ;;; play a note a mid-volume 80
 (define (PlayNote pitch duration)
-  (d-OutputMidiBytes (string-append "0x9$ " pitch " 80"))
- (d-OneShotTimer duration (string-append "(d-OutputMidiBytes " "\"" "0x8$ " pitch " 0" "\"" ")" )) 
-  )
+ (d-OutputMidiBytes (string-append "0x9$ " pitch " 80"))
+ (d-OneShotTimer duration (string-append "(d-OutputMidiBytes " "\"" "0x8$ " pitch " 0" "\"" ")" )))
 
 ;;;;;;;;;;;;;; Refresh Procedures.
 ;;;;;;;;;;;;;; Naming convention D-<tag> is the refresh proc for tag
@@ -1081,46 +1051,38 @@
 	(d-DirectivePut-standalone-postfix "Anacrusis" (string-append "\\partial 128*" (number->string duration) " " ))))))
 
 
-;;;;;;;;;;;;;;;;;
 (define (MeasureEmpty?) (None?))
 
 (define  (ColumnEmpty?)
-(define return #f)
-(define measure (d-GetMeasure)) ; to make shure we stay in the same column all the time.
-(d-PushPosition)
-(if (not (MoveToColumnStart))
-  #f ; if we have unequal staff length in staff 1 stop immediatly, 
-  (let loop ()		
-	(if (and (None?) (equal? measure (d-GetMeasure)))
-		(begin
-			(set! return #t)
-			(if (d-MoveToStaffDown)
-				(loop)))		
-		(set! return #f))))
-(d-PopPosition)
-return)
+	(define return #f)
+	(define measure (d-GetMeasure)) ; to make shure we stay in the same column all the time.
+	(d-PushPosition)
+	(if (not (MoveToColumnStart))
+	  #f ; if we have unequal staff length in staff 1 stop immediatly, 
+	  (let loop ()		
+		(if (and (None?) (equal? measure (d-GetMeasure)))
+			(begin
+				(set! return #t)
+				(if (d-MoveToStaffDown)
+					(loop)))		
+			(set! return #f))))
+	(d-PopPosition)
+	return)
 
-
-
-;;;;;;;;;;;;;;;;;;
 (define* (GetPrevailingTimeSig #:optional (numberorstring #f) ) 
 	(if numberorstring
 		(string->number (d-InsertTimeSig "query=timesigname"))
-		(d-InsertTimeSig "query=timesigname")
-	))
+		(d-InsertTimeSig "query=timesigname")))
 
-
-
-;;;;;;;Get Measure Filling Status
+;Get Measure Filling Status in Ticks
 (define (GetMeasureTicks)
-(let script ((return 0))
-(d-PushPosition)
-(GoToMeasureEnd)
-(set! return (d-GetEndTick))
+	(let script ((return 0))
+	(d-PushPosition)
+	(GoToMeasureEnd)
+	(set! return (d-GetEndTick))
 
-  (d-PopPosition)
-  return
-))
+	  (d-PopPosition)
+	  return))
 
 (define (MeasureFillStatus)
 (define MaxTicks (* 1536 (GetPrevailingTimeSig #t) )) ; How many ticks are in a 100% filled measure?
@@ -1130,9 +1092,8 @@ return)
  	((< ActualTicks MaxTicks) #f) ; underful
  	((= MaxTicks ActualTicks) 1)  ; 100% filled
  	((< MaxTicks ActualTicks) 2) ; >100% filled
-	(else  (display "strange!")) ; ?
- 	)
-)
+	(else  (display "strange!")))) ; ?
+ 	
 
 
 (define (EmptyMeasure?)
@@ -1154,34 +1115,21 @@ return)
 (define (MeasureComplete?) (or (FullDurationMeasure?) 
 			       (d-Directive-standalone? "Anacrusis")
 			       (d-Directive-standalone? "ShortMeasure")))
-
-(define (Paste::MeasureBreakInClipboard?)
-(let searchformeasurebreak ((counter 1))  ;start at the second position to avoid leading measurebreaks, which do not count. 
-		(case (d-GetClipObjType 0 counter) 
-		  ((#f) #f ) ; No object left
-		  ((8) #t) ; Measurebreak found
-		  (else (searchformeasurebreak (+ 1 counter)))
-   		)))
-   		
    		
 ;;;;;;;;;;;;;;;;;
 (define (DenemoFirst)
   (begin
     (display "DenemoFirst")))
 
-
-;;;;;;;;;;;;
 (define (DenemoGoBack)
   (begin
     (d-AdjustPlaybackStart -1.0)
     (d-RefreshDisplay)))
 
-
 (define (DenemoPrevious)
   (begin
     (d-AdjustPlaybackEnd -1.0)
     (d-RefreshDisplay)))
-
 
 (define (DenemoRewind)
   (begin
@@ -1205,13 +1153,10 @@ return)
     (d-AdjustPlaybackEnd 1.0)
     (d-RefreshDisplay)))
 
-
 (define (DenemoNext)
   (begin
     (d-AdjustPlaybackStart 1.0)
     (d-RefreshDisplay)))
-
-
 
 (define (DenemoForward)
   (begin
@@ -1221,14 +1166,12 @@ return)
   (begin
     (display "DenemoLast")))
 
-
 (define Playback::Loop #f)
 (define (DenemoLoop)
   (begin
     (display "DenemoLoop")
     (set! Playback::Loop #t)
-    (d-Play "(if Playback::Loop (DenemoLoop))")
-))
+    (d-Play "(if Playback::Loop (DenemoLoop))")))
 
 (define DenemoTempo::Value 1.0)
 (define (DenemoTempo)
@@ -1385,23 +1328,18 @@ return)
 	(set! lily "print-all-headers"))
      (d-DirectivePut-paper-postfix "PrintAllHeaders" (string-append lily " = ##t\n"))))
 
-
-
 ;;;; GoToMeasureEnd: Move right until "appending" or "none" which is the Measure End
 (define (GoToMeasureEnd)
   (let loop ()
     (if  (or (None?) (Appending?))
 	#t
-	(begin (d-MoveCursorRight) (loop))))	
-)
+	(begin (d-MoveCursorRight) (loop)))))
 
 ;;;; GoToMeasureBeginning
 (define (GoToMeasureBeginning)
   (if (d-MoveToMeasureLeft)
 	(d-MoveToMeasureRight)  
-	(d-MoveToBeginning) 
-  )
-)
+	(d-MoveToBeginning)))
 
 ;;; Go to the first staff, same measure. Handle crossing unequal staff length.
 (define (MoveToColumnStart)
@@ -1412,152 +1350,146 @@ return)
 ;;;;;;;;;;;;;;;;;;;; Paste by Nils Gey // 2010
 ; Multistaff-Pasting always adds the complete part AFTER the current measure. It will never paste into an existing measure, not even in empty ones. 
 ; Singlestaff-Pasting happens at the cursor position. If there are still notes in the current measure, after the cursor position, those will be shoved to the right and placed after the pasted section, no matter if the result produce underful or overful measures. No other measure gets modified other than the current one. Singlestaff-Pasting will fill any empty measure on its way, until a non-empty one is encountered. For snippet pasting (< one full measure) it will automatically create new measures if needed. 
+(define (Paste::MeasureBreakInClipboard?)
+(let searchformeasurebreak ((counter 1))  ;start at the second position to avoid leading measurebreaks, which do not count. 
+		(case (d-GetClipObjType 0 counter) 
+		  ((#f) #f ) ; No object left
+		  ((8) #t) ; Measurebreak found
+		  (else (searchformeasurebreak (+ 1 counter))))))
+
 (define (DenemoPaste)
-(let pasteblock ((paste::break? (Paste::MeasureBreakInClipboard?)))
+	(let pasteblock ((paste::break? (Paste::MeasureBreakInClipboard?)))
 
-(d-UnsetMark)
-(d-PushPosition) 
+	(d-UnsetMark)
+	(d-PushPosition) 
 
-;Multi staff selection is only possible for complete measures, not for parts. But In this case the first thing that needs to happen before beginning pasting to a new staff (including the first one) is to create an empty measure.
+	;Multi staff selection is only possible for complete measures, not for parts. But In this case the first thing that needs to happen before beginning pasting to a new staff (including the first one) is to create an empty measure.
 
-(if (d-GetClipObjType 1 0)
-	(d-InsertMeasureAfter) ; Multistaff
-)
-
- ; Add an initial empty measure if pasting single-staff multi-measure and the current measure is already full
-
-(if (and paste::break? (Appending?)  (d-GetClipObjType 0 0) (not (d-GetClipObjType 1 0)) (MeasureFillStatus)   )
-        (if (d-MoveToMeasureRight) ; End of Staff?
-			(if (MeasureEmpty?) 
-				#t
-				(d-InsertMeasureBefore) ) 
-			(d-InsertMeasureAfter)))
-
-
-; If a user wants to paste a multi-measure section between two objects the remaining objects (after the cursor -> until the next barline) need to put in an extra measure. d-SplitMeasure takes care of that.
-; The conditions that need to met are quite a few:
-	(if (and 
-	(d-GetClipObjType 0 0) ; Check if there is a clipboard at all. 
-	(not (d-GetClipObjType 1 0)) ; Only for single-staff
-	(not (or (None?) (Appending?))) ; Check if its the right position to split. There must be notes left in the measure. GetType returns "none" if its an empty measure  or "Appending" if there are no objects left until the next measure.
-       paste::break?  ; If there is no measurebreak there is no need to split
-	) 
-		(d-SplitMeasure)
-		#f)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;; Main Loop ;;;;;; 
-;;;;;;;;;;;;;;;;;;;;;;;
-
- (let loopy ((staff 0) (count 0))
-  ;Pasty is the default command which just inserts the clipboard-object and increases the object-counter, but does not touch the staff-counter
-  (define (pasty)
-  	(d-PutClipObj staff count)
-  	(set! count (+ 1 count))
-  	(loopy staff count))
-
- ; Nextplease increases the object-counter without pasting anything.
-  (define (nextplease)
-	(set! count (+ 1 count))
-  	(loopy staff count))
- 
- ;Nextstaff inserts a new measure only in this new staff! It is not possible to add a measure in all staffs because its possible to copy&paste only 2 out of n staffs. In such cases it would lead to empty measure in other staffs. Afterwards reset the object-counter to zero and increase the staff-counter to start a new pasting round.
-;First go to the initial cursor position, then move staff down.
- (define (nextstaff)
-   (if (= staff 0)  
-          (d-PopPushPosition) ; remember the  end-position of the cursor only for the first staff to return there after paste
- 	  (d-PopPosition)
-    )
-
-   (if (d-MoveToStaffDown) 
-	(begin	(d-InsertMeasureAfter)
-			(d-PushPosition) 
-			(set! count 0)
-			(set! staff (+ 1 staff))
-		  	(loopy staff count))
-  	(begin  (d-PopPosition) (d-MoveCursorRight) (display "Paste: Not possible to go a staff down, pasting whats possible.\n") #f) ; Warn about not enough staffs to paste in and place the cursor after the pasted section (duplicate of case -1)
-    )
-  )
-  
- (define (measurebreak)
-    (if (d-GetClipObjType 1 0) ;Multistaff?
-	(begin (d-InsertMeasureAfter) (nextplease))  ;Yes it is, just go on and paste
-      
-        (if  (and (not (d-GetClipObjType 1 0)) (= 8 (d-GetClipObjType 0 0)) (= 0 count)) ; User might have copied a leading measurebreak by accident. Ignore this. Else go on and try to detect empty measures or add measures.
-		(nextplease)
-		(if (d-MoveToMeasureRight) ; End of Staff?
-			(if (MeasureEmpty?) (nextplease) (begin (d-InsertMeasureBefore) (nextplease))) ;
-			(begin (d-InsertMeasureAfter) (nextplease))))
-)) 
-
-; In the end move cusor to the initial staff, after the pasted part to allow direct pasting and editing again.
- (define (endthis)
- 	(if (> staff 0) 
-		(begin (d-PopPosition) (d-PopPosition) ))
-	
-	;This was needed at some type, after an (unrelated?) upgrade of the script it was not needed anymore.  Better keep it in...
-	;(if (d-GetClipObjType 0 0) (d-MoveCursorRight)) ; Only move cursor right if there was a clipboard to paste.
-	(d-RefreshDisplay)
-	#t
- )
-  
-  
-; For clipboards smaller than one full measure Denemo will automatically add a barline before an object if needed 
-;;; The inline (or ...) is for the case that a non-note is at the start or end of clipboard. If its at the start the measure is allowed to break if pasting to a full measure. If its not the first item (e.g. the last) the measure is not allowed to break before. But not if the first one is the only one!
-
- 
- (if (and  
-	(d-GetClipObjType staff count) ; valid paste?
-	(not (and ; Only breaks for more than one object in the clipboard
-	 	  (not (d-GetClipObjType staff 1))
-	 	  (= count 0)
- 	))    
- 	(or (= 0 (d-GetClipObjType staff count))   ; Only break before notes except its the first item in list
- 	      (= count 0)
- 	) 	 		       
- 	(Appending?)
- 	(not paste::break?) 
- 	(MeasureFillStatus)) ; if conditions end
- 	
-            (if (d-MoveToMeasureRight) ; End of Staff?
-			(if (MeasureEmpty?) 
-				#t
-				(d-InsertMeasureBefore) ) 
-			(d-InsertMeasureAfter))
+	(if (d-GetClipObjType 1 0)
+		(d-InsertMeasureAfter) ; Multistaff
 	)
-  
-; The real action: Get the type of clipboard-object and decide what to do. In most cases it will be just pasting but someties special behaviour is needed. Because pasting a staffbreak does not actually moves the cursor to the new staff so this has to be done manually.
+
+	 ; Add an initial empty measure if pasting single-staff multi-measure and the current measure is already full
+
+	(if (and paste::break? (Appending?)  (d-GetClipObjType 0 0) (not (d-GetClipObjType 1 0)) (MeasureFillStatus)   )
+			(if (d-MoveToMeasureRight) ; End of Staff?
+				(if (MeasureEmpty?) 
+					#t
+					(d-InsertMeasureBefore) ) 
+				(d-InsertMeasureAfter)))
+
+
+	; If a user wants to paste a multi-measure section between two objects the remaining objects (after the cursor -> until the next barline) need to put in an extra measure. d-SplitMeasure takes care of that.
+	; The conditions that need to met are quite a few:
+		(if (and 
+		(d-GetClipObjType 0 0) ; Check if there is a clipboard at all. 
+		(not (d-GetClipObjType 1 0)) ; Only for single-staff
+		(not (or (None?) (Appending?))) ; Check if its the right position to split. There must be notes left in the measure. GetType returns "none" if its an empty measure  or "Appending" if there are no objects left until the next measure.
+		   paste::break?  ; If there is no measurebreak there is no need to split
+		) 
+			(d-SplitMeasure)
+			#f)
+
+
+	;;;;;;;;;;;;;;;;;;;;;;;
+	;;;;;; Main Loop ;;;;;; 
+	;;;;;;;;;;;;;;;;;;;;;;;
+
+	 (let loopy ((staff 0) (count 0))
+	  ;Pasty is the default command which just inserts the clipboard-object and increases the object-counter, but does not touch the staff-counter
+	  (define (pasty)
+		(d-PutClipObj staff count)
+		(set! count (+ 1 count))
+		(loopy staff count))
+
+	 ; Nextplease increases the object-counter without pasting anything.
+	  (define (nextplease)
+		(set! count (+ 1 count))
+		(loopy staff count))
+	 
+	 ;Nextstaff inserts a new measure only in this new staff! It is not possible to add a measure in all staffs because its possible to copy&paste only 2 out of n staffs. In such cases it would lead to empty measure in other staffs. Afterwards reset the object-counter to zero and increase the staff-counter to start a new pasting round.
+	;First go to the initial cursor position, then move staff down.
+	 (define (nextstaff)
+	   (if (= staff 0)  
+			  (d-PopPushPosition) ; remember the  end-position of the cursor only for the first staff to return there after paste
+		  (d-PopPosition))
+
+	   (if (d-MoveToStaffDown) 
+		(begin	(d-InsertMeasureAfter)
+				(d-PushPosition) 
+				(set! count 0)
+				(set! staff (+ 1 staff))
+				(loopy staff count))
+		(begin  (d-PopPosition) (d-MoveCursorRight) (display "Paste: Not possible to go a staff down, pasting what's possible.\n") #f))) ; Warn about not enough staffs to paste in and place the cursor after the pasted section (duplicate of case -1)
+		
+	  
+	 (define (measurebreak)
+		(if (d-GetClipObjType 1 0) ;Multistaff?
+		(begin (d-InsertMeasureAfter) (nextplease))  ;Yes it is, just go on and paste
+		  
+			(if  (and (not (d-GetClipObjType 1 0)) (= 8 (d-GetClipObjType 0 0)) (= 0 count)) ; User might have copied a leading measurebreak by accident. Ignore this. Else go on and try to detect empty measures or add measures.
+			(nextplease)
+			(if (d-MoveToMeasureRight) ; End of Staff?
+				(if (MeasureEmpty?) (nextplease) (begin (d-InsertMeasureBefore) (nextplease))) ;
+				(begin (d-InsertMeasureAfter) (nextplease)))))) 
+
+	; In the end move cusor to the initial staff, after the pasted part to allow direct pasting and editing again.
+	 (define (endthis)
+		(if (> staff 0) 
+			(begin (d-PopPosition) (d-PopPosition) ))
+		
+		;This was needed at some time, after an (unrelated?) upgrade of the script it was not needed anymore.  Better keep it in...
+		;(if (d-GetClipObjType 0 0) (d-MoveCursorRight)) ; Only move cursor right if there was a clipboard to paste.
+		(d-RefreshDisplay)
+		#t)
+	  
+	  
+	; For clipboards smaller than one full measure Denemo will automatically add a barline before an object if needed 
+	;;; The inline (or ...) is for the case that a non-note is at the start or end of clipboard. If its at the start the measure is allowed to break if pasting to a full measure. If its not the first item (e.g. the last) the measure is not allowed to break before. But not if the first one is the only one!
+	 
+	 (if (and  
+		(d-GetClipObjType staff count) ; valid paste?
+		(not (and ; Only breaks for more than one object in the clipboard
+			  (not (d-GetClipObjType staff 1))
+			  (= count 0)))    
+		(or (= 0 (d-GetClipObjType staff count))   ; Only break before notes except its the first item in list
+			  (= count 0)) 	 		       
+		(Appending?)
+		(not paste::break?) 
+		(MeasureFillStatus)) ; if and conditions end
+		
+				(if (d-MoveToMeasureRight) ; End of Staff?
+				(if (MeasureEmpty?) 
+					#t
+					(d-InsertMeasureBefore) ) 
+				(d-InsertMeasureAfter)))
+	  
+	; The real action: Get the type of clipboard-object and decide what to do. In most cases it will be just pasting but someties special behaviour is needed. Because pasting a staffbreak does not actually moves the cursor to the new staff so this has to be done manually.
+	(case (d-GetClipObjType staff count) 
+		((#f) (endthis) ) ; No object left. Means "no clipboard", too.
+		((-1) (display "No object")); should not happen anymore
+		((0) (pasty)) ; note, rest, gracenote, chord
+		((1) (pasty)) ;tuplet open
+		((2) (pasty)) ;tuplet close
+		((3) (pasty)) ; Clef
+		((4) (pasty)) ;Timesignature
+		((5) (pasty)) ;Keysignature
+		((6) (display "barline"))
+		((7) (pasty))	;stem directive
+		((8) (measurebreak) ) ; Measurebreak
+		((9) (nextstaff) ) ; staffbreak 
+		((10) (display "dynamic"))	
+		((11) (display "grace start")) ;deprecated
+		((12) (display "grace end")) ;deprecated
+		((13) (display "lyric")) ;deprecated
+		((14) (display "figure")) 
+		((15) (pasty)) ; Lilypond-Directive
+		((16) (display "fakechord"))				
+		((17) (display "partial"))
+		(else (begin (display "Error! Object to paste unknown\n") #f)))	   
+	 ))) ;;; Paste End
  
- (case (d-GetClipObjType staff count) 
-	((#f) (endthis) ) ; No object left. Means "no clipboard", too.
-	((-1) (display "No object")); should not happen anymore
-	((0) (pasty)) ; note, rest, gracenote, chord
-	((1) (pasty)) ;tuplet open
-	((2) (pasty)) ;tuplet close
-	((3) (pasty)) ; Clef
-	((4) (pasty)) ;Timesignature
-	((5) (pasty)) ;Keysignature
-	((6) (display "barline"))
-	((7) (pasty))	;stem directive
-	((8) (measurebreak) ) ; Measurebreak
-	((9) (nextstaff) ) ; staffbreak 
-	((10) (display "dynamic"))	
-	((11) (display "grace start")) ;deprecated
-	((12) (display "grace end")) ;deprecated
-	((13) (display "lyric")) ;deprecated
-	((14) (display "figure")) 
-	((15) (pasty)) ; Lilypond-Directive
-	((16) (display "fakechord"))				
-	((17) (display "partial"))
-	(else (begin (display "Error! Object to paste unknown\n") #f))
-   )
- ) 
- ))
- 
- ;;;;;;;;;;;;;;;;;;;;;;;; Paste End
- 
- ;;;; Shuffling Sequences
+;;;; Shuffling Sequences
 ;;; http://mumble.net/~campbell/scheme/shuffle.scm
 ;;; This code is written by Taylor R. Campbell and placed in the Public
 ;;; Domain.  All warranties are disclaimed.
@@ -1919,6 +1851,8 @@ return)
 ; Create a music-object that holds various information. This is the smallest, single object 
 (defstruct musobj pitch movement staff measure metricalp horizontal start duration end time)
 
+; Actually create the music-object. In this process various information are collected.
+;;(define testob (CreateMusObj))  (set!musobj.duration testob 256)  (display (musobj.start testob))
 (define (CreateMusObj) 
 	(make-musobj 'pitch (ANS::GetChordNotes)
 				 'movement (d-GetMovement)
@@ -1929,12 +1863,8 @@ return)
 				 'start (d-GetStartTick)
 				 'duration (d-GetDurationInTicks)
 				 'end (d-GetEndTick)
-				 'time (d-GetOnsetTime)				 
-							))					
-;Examples:
-;(define testob (CreateMusObj))							
-;(set!musobj.duration testob 256)
-;(display (musobj.start testob))
+				 'time (d-GetOnsetTime)))					
+
 
 (define (DefaultInitializePrint) (display "starting to print"))
 (define (DefaultFinalizePrint) (display "finished print"))
