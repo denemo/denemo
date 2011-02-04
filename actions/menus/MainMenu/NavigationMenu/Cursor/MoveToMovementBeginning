@@ -8,10 +8,8 @@
         <after>MoveToBeginning</after>
         <action>MoveToMovementBeginning</action>
         <scheme>;d-MoveToMovementBeginning
-(let loop ()
-	(if (d-MoveToStaffUp)
-		(loop)
-		(d-MoveToBeginning)))</scheme>
+			(d-GoToPosition #f 1 1 1)
+		</scheme>
         <label>Move To Movement Beginning</label>
         <tooltip>Moves the cursor to the beginning of the movement without altering the selection</tooltip>
       </row>
