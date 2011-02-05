@@ -1859,6 +1859,8 @@ dnm_deleteobject (DenemoScore * si)
 	  break;
 	case TIMESIG:
 	  delete_object_helper (si);
+#if 0
+	  //do not do this, as this is a primitive and should only delete one object
 	  /* For time signature changes remove from all other staffs 
 	   * if in the conventional, first, position */
 	  for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
@@ -1874,6 +1876,7 @@ dnm_deleteobject (DenemoScore * si)
 		}
 	      }
 	    }
+#endif
 	  reset_cursor_stats (si);
 	  find_xes_in_all_measures (si);
 	  break;
