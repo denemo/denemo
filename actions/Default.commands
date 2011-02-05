@@ -16,7 +16,6 @@
       </cursors>
       <row>
         <action>CursorLeft</action>
-        <hidden>true</hidden>
         <label>Cursor Left</label>
         <tooltip>Moves the cursor one object left, altering the selection if any</tooltip>
       </row>
@@ -37,7 +36,6 @@
       </row>
       <row>
         <action>CursorRight</action>
-        <hidden>true</hidden>
         <label>Cursor Right</label>
         <tooltip>Moves the cursor one object right, altering the selection if any</tooltip>
       </row>
