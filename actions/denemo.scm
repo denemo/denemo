@@ -338,25 +338,26 @@
 ;(define cue- "")
 
 
-;;;;;;;;;;;;;;;;hardcode default number keys to Insert Note in Composer Mode
-	(define wrap:Op0 (cons "(d-Insert0)" "(d-Insert0)" ))
-	(define wrap:Op1 (cons "(d-Insert1)" "(d-Insert1)" ))
-	(define wrap:Op2 (cons "(d-Insert2)" "(d-Insert2)" ))
-	(define wrap:Op3 (cons "(d-Insert3)" "(d-Insert3)" ))
-	(define wrap:Op4 (cons "(d-Insert4)" "(d-Insert4)" ))
-	(define wrap:Op5 (cons "(d-Insert5)" "(d-Insert5)" ))
-	(define wrap:Op6 (cons "(d-Insert6)" "(d-Insert6)" ))
-	(define wrap:Op7 (cons "(d-Insert7)" "(d-Insert7)" ))
-	(define wrap:Op8 (cons "(d-InsertBreve)" "(d-InsertBreve)"))
-	(define wrap:Op9 (cons "(d-InsertLonga)" "(d-InsertLonga)"))
+;Composer Mode hardcoded default number keys to "Insert Note"
+;;car is the default value, cdr is the current one. Various scripts alter the cdr to temporarily change the number keys.
+(define wrap:Op0 (cons "(d-Insert0)" "(d-Insert0)" ))
+(define wrap:Op1 (cons "(d-Insert1)" "(d-Insert1)" ))
+(define wrap:Op2 (cons "(d-Insert2)" "(d-Insert2)" ))
+(define wrap:Op3 (cons "(d-Insert3)" "(d-Insert3)" ))
+(define wrap:Op4 (cons "(d-Insert4)" "(d-Insert4)" ))
+(define wrap:Op5 (cons "(d-Insert5)" "(d-Insert5)" ))
+(define wrap:Op6 (cons "(d-Insert6)" "(d-Insert6)" ))
+(define wrap:Op7 (cons "(d-Insert7)" "(d-Insert7)" ))
+(define wrap:Op8 (cons "(d-InsertBreve)" "(d-InsertBreve)"))
+(define wrap:Op9 (cons "(d-InsertLonga)" "(d-InsertLonga)"))
 
 	
 
 ;;;;;;;;;;;;;;;; Double-Stroke for sequencing keypresses. By Nils Gey June 2010
 ;One parameter for the GUI-version or help window. This is the version that appears if someone clicks on the menu version.
-;Ten optional parameters given as strings which can be only MENU commands: complete scheme syntax with (d-), but as string "" and with escaped \" in them. They return #f if not defined
+;Ten optional parameters given as stringed scheme syntax with (d-), but as string "" and with escaped \" in them. They return #f if not defined
 ;gui-version can be any command to aid the user. Most likely it will be a tooltip or better a GUI with radio buttons with all commands (if (not #f) ...) and help texts and maybe additional parameters.
-;This script is ready to get paris as parameter. car is the command as string, cdr is a pretty name. However this is not compatible with d-GetOption, we need a better GUI for this.
+;This script is ready to get pairs as parameter. car is the command as string, cdr is a pretty name. However this is not compatible with d-GetOption, we need a better GUI for this.
 
 (define* (Doublestroke gui-version #:optional (first "#f") (second "#f") (third "#f") (fourth "#f") (fifth "#f") (sixth "#f") (seventh "#f") (eighth "#f") (ninth "#f") (tenth "#f"))
 

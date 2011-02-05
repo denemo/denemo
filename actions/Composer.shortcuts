@@ -508,7 +508,11 @@
       <row>
         <action>ExecuteScheme</action>
         <bind>F4</bind>        
-      </row>      
+      </row>
+      <row>
+        <action>LoadSelectDurationComposerNumberkeys</action>
+        <bind>Shft+F3</bind>        
+      </row>
 
 <!-- Function-Keys F5 - F8 Playback -->
       <row>
