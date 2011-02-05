@@ -503,6 +503,28 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
     get_placement_from_coordinates (&pi, event->x, event->y, gui->lefts[line_num],gui->rights[line_num],gui->scales[line_num]);
   change_staff(gui->si, pi.staff_number, pi.the_staff);
 
+
+
+
+  if (pi.the_measure != NULL){ /*don't place cursor in a place that is not there*/
+    //gui->si->currentstaffnum = pi.staff_number;
+    //gui->si->currentstaff = pi.the_staff;
+    gui->si->currentmeasurenum = pi.measure_number;
+    gui->si->currentmeasure = pi.the_measure;
+    gui->si->currentobject = pi.the_obj;
+    gui->si->cursor_x = pi.cursor_x;
+    gui->si->cursor_appending
+      =
+      (gui->si->cursor_x ==
+       (gint) (g_list_length ((objnode *) gui->si->currentmeasure->data)));
+    set_cursor_y_from_click (gui, event->y);
+    if(pi.nextmeasure)
+      movetomeasureright(NULL); 
+    write_status(gui);
+  }
+
+
+
   if(event->x<LEFT_MARGIN) {
     gint offset = (gint)get_click_height(gui, event->y);
     if(offset<STAFF_HEIGHT/2) {
@@ -526,26 +548,6 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
     }
   }
 
-
-  if (pi.the_measure != NULL){ /*don't place cursor in a place that is not there*/
-    //gui->si->currentstaffnum = pi.staff_number;
-    //gui->si->currentstaff = pi.the_staff;
-    gui->si->currentmeasurenum = pi.measure_number;
-    gui->si->currentmeasure = pi.the_measure;
-    gui->si->currentobject = pi.the_obj;
-    gui->si->cursor_x = pi.cursor_x;
-    gui->si->cursor_appending
-      =
-      (gui->si->cursor_x ==
-       (gint) (g_list_length ((objnode *) gui->si->currentmeasure->data)));
-    set_cursor_y_from_click (gui, event->y);
-    if(pi.nextmeasure)
-      movetomeasureright(NULL); //!!!!!!!!!!! measureleft - are these extending the selection??????
-
-    write_status(gui);
-
-
-  }
 
 
   if(left) {
