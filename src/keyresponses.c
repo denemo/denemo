@@ -73,6 +73,44 @@ static guint lock_mask(gint keyval) {
 
 }
 
+static guint klock_mask(gint keyval) {
+
+  if((keyval==GDK_Shift_L)||
+     (keyval==GDK_Shift_R))
+    return GDK_SHIFT_MASK;
+  
+  if((keyval==GDK_Control_L)||
+     (keyval==GDK_Control_R))
+    return GDK_CONTROL_MASK;
+
+
+  if(keyval==GDK_Alt_L)
+    return GDK_MOD1_MASK;
+
+
+     /*penguin/windows */
+  if((keyval==GDK_Super_L)||
+     (keyval==GDK_Super_R))
+    return GDK_MOD4_MASK;
+
+  if(keyval==GDK_Alt_R || GDK_ISO_Level3_Shift )
+    return GDK_MOD5_MASK;
+
+  return 0;
+
+}
+
+static guint llock_mask(gint keyval) {
+  if(keyval==GDK_Caps_Lock)
+    return GDK_LOCK_MASK;
+  
+
+  if(keyval==GDK_Num_Lock)
+    return GDK_MOD2_MASK;
+
+  return 0;
+
+}
 
 
 /**
@@ -83,13 +121,14 @@ static guint lock_mask(gint keyval) {
 gint
 scorearea_keyrelease_event (GtkWidget * widget, GdkEventKey * event)
 {
-  Denemo.keyboard_state ^= (0xf & lock_mask(event->keyval));
-  // g_print("release %x state %x\n", Denemo.keyboard_state, event->state);
+  Denemo.keyboard_state ^= (0xf & klock_mask(event->keyval));
+  //g_print("release %x state %x\n", Denemo.keyboard_state, event->state);
   // set_cursor_for(keyrelease_modify(event->state), event->keyval);
   gint state;
   if((event->keyval==GDK_Caps_Lock) || (event->keyval==GDK_Num_Lock))
     return TRUE;
   state = (lock_mask(event->keyval)^event->state);
+
   set_cursor_for(state);
   return TRUE;
 }
@@ -202,8 +241,12 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
   DenemoGUI *gui = Denemo.gui;
   keymap *the_keymap = Denemo.map;
 
-  Denemo.keyboard_state |= (0xf & lock_mask(event->keyval));
-  //g_print("press %x state %x\n", Denemo.keyboard_state, event->state);
+  Denemo.keyboard_state |= (0xf & klock_mask(event->keyval));
+  Denemo.keyboard_state ^= llock_mask(event->keyval);
+
+  //  g_print("press Denemo %x state %x klock %x\n", Denemo.keyboard_state, event->state, klock_mask(event->keyval));
+
+  // g_print("State eored %x\n", (lock_mask(event->keyval)^event->state));
   if(divert_key_event && !isModifier(event) && divert_key_id==Denemo.gui->id) {
     dnm_clean_event (event);
     *divert_key_event = event;

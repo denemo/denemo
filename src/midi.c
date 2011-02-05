@@ -246,7 +246,7 @@ void record_midi(gchar *buf, gdouble time) {
 
 /*  insert the passed note into the score/edit the score following the mode */
 gint midientry(gint notenum) {
-  
+#define CHECKING_MASK (GDK_CONTROL_MASK|GDK_MOD2_MASK)  
   DenemoGUI *gui = Denemo.gui;
   if(gui==NULL)
     return TRUE;
@@ -258,8 +258,9 @@ gint midientry(gint notenum) {
   // if(notenum < 0) 
   //  return TRUE;
   enharmonic enote;
+  //g_print("Keyboard state %x, mask %x %x %x\n", Denemo.keyboard_state, CHECKING_MASK, GDK_CONTROL_MASK, GDK_MOD2_MASK);
   notenum2enharmonic (notenum, &enote.mid_c_offset, &enote.enshift, &enote.octave);
-  if( !(Denemo.keyboard_state&GDK_SHIFT_MASK)) {
+  if( !(Denemo.keyboard_state&CHECKING_MASK)) {
     if (Denemo.prefs.midi_audio_output == Portaudio)
       playpitch(midi2hz(notenum), 0.3, 0.5, 0);
     if (Denemo.prefs.midi_audio_output == Jack)
@@ -287,7 +288,7 @@ gint midientry(gint notenum) {
 
 
 	    //g_print("check %d %d %d %d %d\n", a->mid_c_offset, a->enshift, b, c, d);
-	    if( (Denemo.keyboard_state&GDK_SHIFT_MASK) && thechord->notes) {
+	    if( (Denemo.keyboard_state&CHECKING_MASK) && thechord->notes) {
 	      //later - find note nearest cursor and
 	      note *thenote = (note*)thechord->notes->data;
 	      check_midi_note(thenote, enote.mid_c_offset + 7 *( notenum/12 - 5), enote.enshift, notenum/12 - 5);
@@ -316,7 +317,7 @@ gint midientry(gint notenum) {
 	enter_midi_note_in_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
     } else
     enter_midi_note_in_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
-  if( !(Denemo.keyboard_state&GDK_SHIFT_MASK)) {
+  if( !(Denemo.keyboard_state&CHECKING_MASK)) {
     stage_undo(gui->si, ACTION_STAGE_START);
   }
   return TRUE;
