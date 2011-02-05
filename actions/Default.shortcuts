@@ -15,7 +15,7 @@
         </cursor-binding>
       </cursors>
       <row>
-        <action>CursorLeft</action>
+        <action>SelectLeft</action>
         <hidden>true</hidden>
         <bind>Shft+Left</bind>
       </row>
@@ -32,7 +32,7 @@
         <bind>Up</bind>
       </row>
       <row>
-        <action>CursorRight</action>
+        <action>SelectRight</action>
         <hidden>true</hidden>
         <bind>Shft+Right</bind>
       </row>

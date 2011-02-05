@@ -16,6 +16,7 @@
       </cursors>
       <row>
         <action>CursorLeft</action>
+        <hidden>true</hidden>
         <label>Cursor Left</label>
         <tooltip>Moves the cursor one object left, altering the selection if any</tooltip>
       </row>
@@ -36,6 +37,7 @@
       </row>
       <row>
         <action>CursorRight</action>
+        <hidden>true</hidden>
         <label>Cursor Right</label>
         <tooltip>Moves the cursor one object right, altering the selection if any</tooltip>
       </row>
@@ -4357,6 +4359,21 @@ for second and subsequent systems</tooltip>
         <label>Change to 'Select Duration' number-keys in Composer Mode</label>
         <tooltip>Change the number keys to select the prevailing duration in composer mode.</tooltip>
       </row>
+      <row>
+        <action>SelectRight</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Select</menupath>
+        <label>Select Right</label>
+        <tooltip>Create a selection, move the cursor right.</tooltip>
+      </row>
+      <row>
+        <action>SelectLeft</action>
+        <after>SelectRight</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Select</menupath>
+        <label>Select Left</label>
+        <tooltip>Create a selection, move cursor left.</tooltip>
+      </row>      
     </map>
   </merge>
 </Denemo>
