@@ -7,6 +7,7 @@
 (load "ans.scm") ; Abstract Note System for pitch calculations
 (load "notationmagick.scm") ; Insert and modify, mostly randomized, music. Depends on ans.scm
 (load "abstractionmovement.scm") ; Create an abstract form of the music in Scheme for further analysing. Depends on ans.scm 
+(load "commandlist.scm") ; Provide scrolling up and down through a list of commands. An extended toggle through multiple states.
 
 ;Needed to see if lyimport / mxml import is called from inside or outside Denemo
 (define Denemo #t)
