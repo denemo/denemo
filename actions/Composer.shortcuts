@@ -141,13 +141,13 @@
       </row>
      
       <row>
-        <action>CursorLeft</action>
+        <action>SelectLeft</action>
         <hidden>true</hidden>
         <bind>Shft+Left</bind> 
       </row>
       	       
       <row>
-        <action>CursorRight</action>
+        <action>SelectRight</action>
         <hidden>true</hidden>
         <bind>Shft+Right</bind>
       </row>      
@@ -508,7 +508,11 @@
       <row>
         <action>ExecuteScheme</action>
         <bind>F4</bind>        
-      </row>      
+      </row>
+      <row>
+        <action>LoadSelectDurationComposerNumberkeys</action>
+        <bind>Shft+F3</bind>        
+      </row>
 
 <!-- Function-Keys F5 - F8 Playback -->
       <row>

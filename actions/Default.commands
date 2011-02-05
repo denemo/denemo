@@ -1139,6 +1139,21 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
         <tooltip>Open a file containing a music score for editing</tooltip>
       </row>
       <row>
+        <action>ImportLilypond</action>
+        <label>Import Lilypond</label>
+        <tooltip>Import a Lilypond file</tooltip>
+      </row>
+      <row>
+        <action>ImportMidi</action>
+        <label>Import Midi</label>
+        <tooltip>Import a Midi file</tooltip>
+      </row>
+      <row>
+        <action>ImportMusicXml</action>
+        <label>Import MusicXml</label>
+        <tooltip>Import a MusicXml file</tooltip>
+      </row>
+      <row>
         <action>AddStaffs</action>
         <label>Add Staffs</label>
         <tooltip>Add staffs from a Denemo file</tooltip>
@@ -1170,8 +1185,8 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
       </row>
       <row>
         <action>SaveCopy</action>
-        <label>Export/Create Copy</label>
-        <tooltip>Save a copy of the score or Export to a different format</tooltip>
+        <label>Create Copy</label>
+        <tooltip>Save a copy of the score</tooltip>
       </row>
       <row>
         <action>OpenTemplate</action>
@@ -4335,6 +4350,28 @@ for second and subsequent systems</tooltip>
         <label>Congruentia</label>
         <tooltip>Print congruentia / canon symbol</tooltip>
       </row>
+      <row>
+        <action>LoadSelectDurationComposerNumberkeys</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/MoreMenu</menupath>
+        <label>Change to 'Select Duration' number-keys in Composer Mode</label>
+        <tooltip>Change the number keys to select the prevailing duration in composer mode.</tooltip>
+      </row>
+      <row>
+        <action>SelectRight</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Select</menupath>
+        <label>Select Right</label>
+        <tooltip>Create a selection, move the cursor right.</tooltip>
+      </row>
+      <row>
+        <action>SelectLeft</action>
+        <after>SelectRight</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Select</menupath>
+        <label>Select Left</label>
+        <tooltip>Create a selection, move cursor left.</tooltip>
+      </row>      
     </map>
   </merge>
 </Denemo>
