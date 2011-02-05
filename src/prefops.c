@@ -184,6 +184,7 @@ initprefs ()
   ret->zoom = 100;
   ret->system_height = 100;
   ret->applytoselection = TRUE;
+  ret->quickshortcuts = TRUE;
   
   /* Read values from systemwide preferences file */
 
@@ -471,6 +472,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READBOOLXMLENTRY(persistence) 
       READBOOLXMLENTRY(cursor_highlight) 
       READBOOLXMLENTRY(applytoselection) 
+      READBOOLXMLENTRY(quickshortcuts) 
       READBOOLXMLENTRY(startmidiin) 
       READINTXMLENTRY(mode) 
   
@@ -825,6 +827,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEBOOLXMLENTRY(persistence)
   WRITEBOOLXMLENTRY(cursor_highlight)
   WRITEBOOLXMLENTRY(applytoselection)
+  WRITEBOOLXMLENTRY(quickshortcuts)
   WRITEBOOLXMLENTRY(startmidiin)
   WRITEINTXMLENTRY(mode)
   WRITEBOOLXMLENTRY(strictshortcuts)

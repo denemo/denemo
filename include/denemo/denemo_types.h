@@ -377,6 +377,7 @@ typedef struct DenemoPrefs
 				are being entered */
   gboolean startmidiin; /**< try to start midi in on startup */
   gboolean applytoselection; /**< apply commands to selection */
+  gboolean quickshortcuts;/**< TRUE if pressing a key while hovering over a menu item sets a shortcut */
   gboolean overlays; /*< whether overlays or insert should be used with pitch entry */
   gboolean continuous; /*< whether pitch entry overlays should cross barlines */
   gboolean lilyentrystyle;  
@@ -981,7 +982,6 @@ struct DenemoRoot
   GtkWidget *InsertModeMenu;/**< Menu to give the note editing facilities in Insert mode */
   GtkWidget *EditModeMenu;/**< Menu to give the note editing facilities in Edit mode */
   GtkWidget *ModelessMenu;/**< Menu to give the note editing facilities when used without modes */
-  gboolean QuickShortcutEdits;/**< TRUE if pressing a key while hovering over a menu item sets a shortcut */
   GList *continuations;
   struct RhythmPattern *singleton_rhythms[256]; /**< rhythm patterns for the EntryToolbar */
   gboolean ScriptRecording;/**< TRUE when menuitems presses are being recorded as scheme script*/

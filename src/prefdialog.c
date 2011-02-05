@@ -33,6 +33,7 @@ struct callbackdata
   GtkWidget *persistence;
   GtkWidget *startmidiin;
   GtkWidget *applytoselection;
+  GtkWidget *quickshortcuts;
   GtkWidget *saveparts;
   GtkWidget *autosave;
   GtkWidget *toolbar;
@@ -187,6 +188,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNBOOLEAN(cursor_highlight)
   ASSIGNBOOLEAN(startmidiin)
   ASSIGNBOOLEAN(applytoselection)
+  ASSIGNBOOLEAN(quickshortcuts)
   ASSIGNBOOLEAN(autosave)
   ASSIGNINT(autosave_timeout)
   ASSIGNBOOLEAN(articulation_palette)
@@ -413,7 +415,10 @@ preferences_change (GtkAction *action, gpointer param)
   NEWPAGE("Command Behavior");
   TEXTENTRY("Profile", profile)
   //  TEXTENTRY("Strict", strictshortcuts)
-  BOOLEANENTRY("Apply commands to selection if present", applytoselection);  
+  BOOLEANENTRY("Apply commands to selection if present", applytoselection); 
+  BOOLEANENTRY("Allow Quick Setting of Shortcuts", quickshortcuts); 
+
+ 
   BOOLEANENTRY("Strict Shortcuts", strictshortcuts);
 
   /*

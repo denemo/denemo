@@ -250,6 +250,8 @@ void execute_scheme(GtkAction *action, DenemoScriptParam *param) {
 #define ToggleScoreTitles_STRING  "ToggleScoreTitles"
 #define QuickEdits_STRING  "QuickEdits"
 #define RecordScript_STRING  "RecordScript"
+
+
 #define ReadOnly_STRING  "ReadOnly"
 
 
@@ -3613,6 +3615,9 @@ void  show_preferred_view(void) {
     activate_action("/MainMenu/ViewMenu/"TogglePlaybackControls_STRING);
   if (!Denemo.prefs.midi_in_controls)
     activate_action("/MainMenu/ViewMenu/"ToggleMidiInControls_STRING);
+
+  if (!Denemo.prefs.quickshortcuts)
+    activate_action("/MainMenu/EditMenu/Preferences/Keybindings/"QuickEdits_STRING);
 
   if (!Denemo.prefs.toolbar)
     activate_action("/MainMenu/ViewMenu/"ToggleToolbar_STRING);
@@ -7256,7 +7261,7 @@ toggle_entry_toolbar (GtkAction * action, gpointer param) {
 static void
 toggle_quick_edits (GtkAction * action, gpointer param)
 {
-  Denemo.QuickShortcutEdits = !Denemo.QuickShortcutEdits;
+  Denemo.prefs.quickshortcuts = !Denemo.prefs.quickshortcuts;
 }
 
 
@@ -7472,7 +7477,7 @@ GtkToggleActionEntry toggle_menu_entries[] = {
 
 
   {QuickEdits_STRING, NULL, N_("Allow Quick Shortcut Edits"), NULL, "Enable editing keybindings by pressing a key while hovering over the menu item",
-   G_CALLBACK (toggle_quick_edits), FALSE},
+   G_CALLBACK (toggle_quick_edits), TRUE},
   {RecordScript_STRING, NULL, N_("Record Scheme Script"), NULL, "Start recording menu clicks into the Scheme script text window",
    G_CALLBACK (toggle_record_script), FALSE},
  
@@ -7626,7 +7631,7 @@ static gint dnm_key_snooper(GtkWidget *grab_widget, GdkEventKey *event)
     if (event->type == GDK_KEY_RELEASE)
         return FALSE;
     //if the grab_widget is a menu, the event could be a quick edit
-    if (Denemo.QuickShortcutEdits && GTK_IS_MENU (grab_widget)) {
+    if (Denemo.prefs.quickshortcuts && GTK_IS_MENU (grab_widget)) {
         return keymap_accel_quick_edit_snooper(grab_widget, event);
     }
     //else we let the event be processed by other functions
