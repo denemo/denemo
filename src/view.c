@@ -4596,22 +4596,12 @@ void inner_main(void*closure, int argc, char **argv){
   newtab (NULL, NULL);
 
 
-  {gchar *profile_this_time=NULL;//profile that user has chosen for this run of denemo
-    Denemo.prefs.profile = g_string_new("Simple");
-    //  if(uses_default_commandset())
-    //  profile_this_time = g_strdup(Denemo.prefs.profile->str);
-
-    /* Initialize preferences */
-    initprefs();
-    
-    //Do not setup the user's base profile until they have saved their own command set, so that user's can try out the different command sets => ignore what was saved as a preference last run
-    // if(profile_this_time)
-    //  Denemo.prefs.profile = g_string_new(profile_this_time);
-  }
-
-
- if(!Denemo.prefs.modal)
-   Denemo.prefs.mode = INPUTEDIT|INPUTRHYTHM;
+  Denemo.prefs.profile = g_string_new("Simple");
+  /* Initialize preferences */
+  initprefs();
+  /*ignore setting of mode unless user has explicitly asked for modal use */
+  if(!Denemo.prefs.modal)
+    Denemo.prefs.mode = INPUTEDIT|INPUTRHYTHM|INPUTNORMAL;//FIXME must correspond with default in prefops.c
   readHistory();
   populate_opened_recent ();
   //  g_print("init prefs run");
@@ -4739,7 +4729,7 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
     default:
       break;
   }
-
+  Denemo.gui->mode = Denemo.prefs.mode;
   if (Denemo.prefs.startmidiin)
     activate_action("/MainMenu/InputMenu/JackMidi");
   show_preferred_view();
@@ -8343,7 +8333,7 @@ newtab (GtkAction *action, gpointer param) {
 
   if (Denemo.prefs.articulation_palette)
     toggle_articulation_palette (NULL, NULL);
-  Denemo.gui->mode = INPUTINSERT | INPUTNORMAL;
+  //Denemo.gui->mode = Denemo.prefs.mode;
 
   // this stops the keyboard input from getting to  scorearea_keypress_event if done after attaching the signal, why?
   gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);//if this is not done Gdk-CRITICAL **: gdk_draw_drawable: assertion `GDK_IS_DRAWABLE (drawable)' failed message results. Presumably because we have failed to block the (expose_event) drawing while we set up the new page. FIXME.

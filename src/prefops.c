@@ -81,7 +81,7 @@ initprefs ()
 
   /* Reasonable default values */
 
-  ret->mode = INPUTEDIT|INPUTRHYTHM;
+  ret->mode = INPUTEDIT|INPUTRHYTHM|INPUTNORMAL;
 
 
   ret->csoundcommand = g_string_new ("csound -dm6");
