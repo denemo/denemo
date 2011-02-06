@@ -201,7 +201,7 @@ void
 insert_rhythm_pattern(DenemoGUI *gui);
 void
 toggle_tie (GtkAction *action, gpointer param);
-
+gint get_prevailing_duration(void);
 void
 dnm_inserttuplet (DenemoGUI * gui, tuplet_type type);
 #endif /*COMMANDFUNCSH */

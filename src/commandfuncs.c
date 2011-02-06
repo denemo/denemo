@@ -1004,6 +1004,33 @@ void insert_note_following_pattern(DenemoGUI *gui)  {
 #undef g
 }
 
+/* get duration of next element in current rhythm pattern  */
+
+gint get_prevailing_duration(void)  {
+  DenemoGUI *gui = Denemo.gui;
+  gint duration=0;
+  if((gui->mode&(INPUTEDIT|INPUTINSERT)) && gui->rstep) {
+    GList *start = (gui->rstep);
+    if(gui->currhythm && gui->cstep)
+      {
+	GList *objs;
+	for(objs = gui->cstep; objs; objs=objs->next) {
+	  if((((DenemoObject*)objs->data)->type == CHORD)) {
+	    duration = ((chord*)((DenemoObject*)objs->data)->object)->baseduration;
+	    break;
+	  }	 
+	}
+      }
+    else {
+      for(duration=0;duration<7;duration++)
+	if((Denemo.gui->prevailing_rhythm == Denemo.singleton_rhythms['0'+duration]) ||
+	   (Denemo.gui->prevailing_rhythm == Denemo.singleton_rhythms['r'+duration]))
+	  break;
+    }
+  }
+  return duration;
+}
+
 
 /**
  * shiftcursor: FIXME change the name of this function!

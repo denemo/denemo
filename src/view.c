@@ -1513,6 +1513,9 @@ SCM scheme_get_prevailing_clef(SCM optional) {
 }
 
 
+SCM scheme_get_prevailing_duration(SCM optional) {
+  return scm_int2num(get_prevailing_duration());
+}
 
 SCM scheme_get_prevailing_keysig(SCM optional) {
  GString *str = g_string_new(" ");
@@ -3777,6 +3780,7 @@ static void create_scheme_identfiers(void) {
 
   INSTALL_SCM_FUNCTION ("Returns the prevailing keysignature at the cursor",DENEMO_SCHEME_PREFIX"GetPrevailingKeysig", scheme_get_prevailing_keysig);
   INSTALL_SCM_FUNCTION ("Returns the prevailing clef at the cursor. Note that non-builtin clefs like drum are not handled yet.",DENEMO_SCHEME_PREFIX"GetPrevailingClef", scheme_get_prevailing_clef);
+  INSTALL_SCM_FUNCTION ("Returns the prevailing duration, ie duration which will be used for the next inserted note.",DENEMO_SCHEME_PREFIX"GetPrevailingDuration", scheme_get_prevailing_duration);
  
  //more work needed, see above INSTALL_SCM_FUNCTION ("Sets the prevailing keysignature at the cursor to the string of 7 steps passed. Each step can be -1, 0 or 1",DENEMO_SCHEME_PREFIX"SetPrevailingKeysig", scheme_set_prevailing_keysig);
 
