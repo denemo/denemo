@@ -285,7 +285,7 @@ static GtkWidget * create_editor_window(void) {
   w = gtk_entry_new();
   GtkWidget* entry = w;
   //gtk_entry_set_activates_default (w,TRUE);
-  gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), w, TRUE, TRUE, 0);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox,FALSE, TRUE, 0); 
   g_signal_connect(G_OBJECT(button), "clicked",  G_CALLBACK(executeCLI), entry);
   g_signal_connect (G_OBJECT (entry), "key-press-event",
