@@ -3,7 +3,7 @@
 ; Only notes, chords and rests are saved currently. Duration is ignored. The start-tick value is used to check if notes need repetition.
 ; Uses ANS (Abstract Note System, defined in actions/ans.scm) 
 ; Uses musobj (A structure for musical objects, defined in actions/denemo.scm)
-; Currently all functions are wrapped in a single big program. This way they do not pollute the global namespace, but they are called each tick an Abstraction-Movement gets created, which is only needed after a score-change.
+; Currently all functions are wrapped in a single big program. This way they do not pollute the global namespace, but they are called each time an Abstraction-Movement gets created, which is only needed after a score-change.
 
 ; Functions in this file. 
 ;;(CreateListStaffTicksInMeasures)
@@ -162,7 +162,7 @@ return)
 ; Two sub-procs
 (define (insertRestBeforeFalse musobject)
  (if (not musobject) ; if the object is a #f fill in a infinity rest before/to the current position
-  	(insert-deep movement staffcounter positioncounter (make-musobj 'pitch (list +inf.0) 'movement #f 'staff #f 'measure #f 'horizontal #f 'start +inf.0 'end #f 'duration #f 'time #f)))	
+  	(insert-deep movement staffcounter positioncounter (make-musobj 'pitch (list +inf.0) 'movement #f 'staff #f 'measure #f 'horizontal #f 'metricalp #f 'start +inf.0 'end #f 'duration #f 'time #f)))	
 	(set!musobj.pitch (list-ref (list-ref movement staffcounter) positioncounter) (musobj.pitch (list-ref (list-ref movement staffcounter) (- positioncounter 1))))
   	(set! staffcounter (+ staffcounter 1))) ; the next for-each iteration needs another staff
   	 
@@ -185,6 +185,7 @@ return)
 					(set!musobj.staff (list-ref listy positioncounter) (musobj.staff (list-ref listy (- positioncounter 1))))
 					(set!musobj.measure (list-ref listy positioncounter) (musobj.measure (list-ref listy (- positioncounter 1))))
 					(set!musobj.horizontal (list-ref listy positioncounter) (musobj.horizontal (list-ref listy (- positioncounter 1))))
+					(set!musobj.metricalp (list-ref listy positioncounter) (musobj.metricalp (list-ref listy (- positioncounter 1))))
 					(set!musobj.start (list-ref listy  positioncounter) minimum))
 			); if end
 			
@@ -219,11 +220,11 @@ return)
 	(define movement #f)
 	(set! OffsetTickList (CreateOffsetTickListMovement))
 	(set! movement (createFinalList))	
-	(apply list-equalizer! (make-musobj 'pitch (list +inf.0) 'movement #f 'staff #f 'measure #f 'horizontal #f 'start +inf.0 'end #f 'duration #f 'time #f) movement)
+	(apply list-equalizer! (make-musobj 'pitch (list +inf.0) 'movement #f 'staff #f 'measure #f 'horizontal #f 'metricalp #f 'start +inf.0 'end #f 'duration #f 'time #f) movement)
 	(map (lambda (lst) (append! lst (list #f))) movement)
 	(fill-with-redundancy! movement)
-	movement
-)
+	movement)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;Functions that use the abstractionmovement;;
@@ -244,10 +245,42 @@ return)
 			 staff))
 	abstractionmovement))	
 
+;Search for Simultanious Intervals wants an abstract movement followed by any number of interval-symbols like 'p5 or 'm3
+;;Returns a list of positions where forbidden intervals live.
+;;TODO: One mode to find all and one, more important, to find only intervals in relation to the lowest (sounding?) note.
+;;TODO: One mode to look only on metric important positions. For this the ans intervalpair (interval (lower . higher)) must be upgraded to use the complete musobj. in lower and higher. this will also solve the problems of correct location spotting.
+(define (SearchForSimultaneousInterval abstractmovement . forbiddenintervals)
+  (define now #f) ;prepare
+  (define returnlist (list #f))
+  (define (getVerticalPosition positioncounter)
+	(map (lambda (lst) (list-ref lst positioncounter)) abstractmovement))
+  (define (extractPitchesFromVerticalPosition musobj-list)
+	(map (lambda (object) (list-ref (musobj.pitch object) 0)) musobj-list))
+  (define (extractPosition musobj-list)
+	(define object (list-ref musobj-list 0))
+	;just take staff 0, they have the same position anyway. Return the whole position.
+	(list (musobj.movement object)  (musobj.staff object)  (musobj.measure object)  (musobj.horizontal object)))
+  (define maxcounter (- (length (list-ref abstractmovement 0)) 2)) ; just take staff 0, they all have the same length. -2 because the counter goes from 0 (-1) and the last item is #f.
+;Body
+  (set! forbiddenintervals (map ANS::IntervalGetSteps forbiddenintervals))
+  (let search ((positioncounter 0))
+    (set! now  (ANS::CreateIntervalsFromPairs (GetUniquePairs (extractPitchesFromVerticalPosition (getVerticalPosition positioncounter)))))	
+	(if (ANS::IntervalMember? now forbiddenintervals) ; the core function
+		(append! returnlist (list (cons 'simultanious (list (extractPosition (getVerticalPosition positioncounter)))))))
+    (if (= positioncounter maxcounter) 
+   	 (list-tail returnlist 1)  ; The End.  get rid of the initial #f for the final return value
+   	 (search (1+ positioncounter)))))  ; Run again with next position.
+
+
+
+;Seach for successive interval in one voice alone!
+;SearchForSuccessiveIntervalProgression 
+
+
 
 ;SearchForConsecutiveIntervalProgression wants an abstract movement followed by any number of interval-symbols like 'p5 or 'm3
-;Returns a list of positions where forbidden intervals live.
-;Example: (SearchForConsecutiveIntervalProgression movement 'p5 'p1)
+;Returns a list of positions where forbidden interval progressions live.
+;Example: (SearchForConsecutiveIntervalProgression (CreateAbstractionMovement) 'p5 'p1)
 (define (SearchForConsecutiveIntervalProgression abstractmovement . forbiddenintervals)
   (define now #f) ;prepare
   (define next #f) ;prepare
@@ -263,8 +296,7 @@ return)
   (define maxcounter (- (length (list-ref abstractmovement 0)) 3)) ; just take staff 0, they all have the same length. -3 because the counter goes from 0 (-1) and the last item is #f so we want to stop when on the last real pair (-2)
 ;Body
 ;(for-each (lambda (staff)  (disp (length staff) " " staff)(newline)) abstractmovement) ; display all  
-    (set! forbiddenintervals (map ANS::IntervalGetSteps forbiddenintervals))
- 
+  (set! forbiddenintervals (map ANS::IntervalGetSteps forbiddenintervals))
   (let search ((positioncounter 0))
     (set! now  (ANS::CreateIntervalsFromPairs (GetUniquePairs (extractPitchesFromVerticalPosition (getVerticalPosition positioncounter)))))	
     (set! next  (ANS::CreateIntervalsFromPairs (GetUniquePairs (extractPitchesFromVerticalPosition (getVerticalPosition (1+ positioncounter))))))   
@@ -285,12 +317,12 @@ return)
 		
 	((ANS::ConsecutiveHiddenCrossed? now next forbiddenintervals)		
 		(append! returnlist (list (cons 'consecutive_hidden_crossed (list (extractPosition (getVerticalPosition positioncounter)))))))	
-     )    
+     );cond    
 
     (if (= positioncounter maxcounter) 
    	 (list-tail returnlist 1)  ; The End.  get rid of the initial #f for the final return value
-   	 (search (1+ positioncounter)))  ; Run again with next position.
-     ))
+   	 (search (1+ positioncounter)))     ))  ; Run again with next position.
+
 
 
 
