@@ -1128,10 +1128,6 @@ file_saveas (DenemoGUI * gui, DenemoSaveType  template)
   GtkWidget *label;
   GtkWidget *combobox;
   GtkWidget *hbox;
-  GtkListStore *list_store;
-  GtkTreeIter iter;
-  GtkCellRenderer *renderer;
-
 
   file_selection = gtk_file_chooser_dialog_new (_("Save As"),
 						GTK_WINDOW (Denemo.window),
@@ -1153,56 +1149,20 @@ file_saveas (DenemoGUI * gui, DenemoSaveType  template)
       gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (file_selection), title);
     }
   }
-
-  hbox = gtk_hbox_new (FALSE, 8);
-  label = gtk_label_new (_("Format:"));
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
-
-  list_store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_INT);
-  combobox = gtk_combo_box_new_with_model (GTK_TREE_MODEL (list_store));
-  renderer = gtk_cell_renderer_text_new ();
-  gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combobox), renderer, TRUE);
-  gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (combobox),
-				 renderer, "text", COLUMN_NAME);
-  gtk_box_pack_start (GTK_BOX (hbox), combobox, TRUE, TRUE, 0);
-
-      int i;
-      for (i = 0; i < (int) G_N_ELEMENTS (supported_export_file_formats); i++)
-	{
-	  gtk_list_store_append (list_store, &iter);
-	  gtk_list_store_set (list_store, &iter,
-			      COLUMN_NAME,
-			      _(supported_export_file_formats[i].description),
-			      COLUMN_ID, i, -1);
-	  if(template==SAVE_NORMAL)
-	    break;//only save normal in default format
-	}
-
-  gtk_tree_model_get_iter_first (GTK_TREE_MODEL (list_store), &iter);
-  gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combobox), &iter);
-  gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (file_selection), hbox);
-  gtk_dialog_set_default_response (GTK_DIALOG (file_selection),
-				   GTK_RESPONSE_ACCEPT);
   gtk_widget_show_all (file_selection);
   gboolean close = FALSE;
   do
     {
       if (gtk_dialog_run (GTK_DIALOG (file_selection)) == GTK_RESPONSE_ACCEPT)
 	{
-	  gint format_id = -1;
 	  gchar *file_name
 	    =
 	    gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_selection));
 
-          gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combobox), &iter);
-          gtk_tree_model_get (GTK_TREE_MODEL (list_store), &iter,
-                                  COLUMN_ID, &format_id, -1);
-
-
 	  if (replace_existing_file_dialog
-	      (file_name, GTK_WINDOW (Denemo.window), format_id))
+	      (file_name, GTK_WINDOW (Denemo.window), DENEMO_FORMAT))
 	    {
-	      filesel_save (gui, file_name, format_id, template);
+	      filesel_save (gui, file_name, DENEMO_FORMAT, template);
 	      close = TRUE;
 	      //the lilypond can now be out of sync
 	      gui->lilysync = G_MAXUINT;//FIXME move these two lines into a function, they force refresh of lily text
