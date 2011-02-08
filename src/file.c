@@ -439,7 +439,7 @@ filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, DenemoSa
   gchar *basename = NULL;
   file = create_filename(file_name, &format_id);
   g_debug("Saving to file %s\n", file);
-  if(!template) {
+  if(!template && format_id==DENEMO_FORMAT) {
     update_file_selection_path(file);
     set_gui_filename (gui, file);
   }
@@ -460,8 +460,8 @@ filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, DenemoSa
     }
   g_free(basename);
   g_free(file);
-  if(template==SAVE_NORMAL)
-    denemo_warning (gui, format_id);
+  //if(template==SAVE_NORMAL)
+  //denemo_warning (gui, format_id);
 }
 
 /* set local_template_path up */
@@ -1045,7 +1045,7 @@ file_save (GtkWidget * widget, DenemoGUI * gui)
    if(Denemo.prefs.saveparts)
 	export_lilypond_parts(gui->filename->str,gui);
   
-  denemo_warning (gui, guess_file_format (gui->filename->str));
+   //denemo_warning (gui, guess_file_format (gui->filename->str));
   score_status(gui, FALSE);
 }
 
