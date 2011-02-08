@@ -755,21 +755,10 @@ file_open (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *fil
 						GTK_RESPONSE_ACCEPT, NULL);
   /* Open the last visited directory, if any. */
   set_current_folder(file_selection, gui, template);
-
-
-  for (i = 0; i < (gint) G_N_ELEMENTS (supported_import_file_formats); i++)
-    {
-      filter = gtk_file_filter_new ();
-      gtk_file_filter_set_name (filter,
-				_(supported_import_file_formats[i].description));
-      gtk_file_filter_add_pattern (filter,
-				   supported_import_file_formats[i].
-				   filename_mask);
-      gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (file_selection), filter);
-    }
+  
   filter = gtk_file_filter_new ();
-  gtk_file_filter_set_name (filter, _("All files"));
-  gtk_file_filter_add_pattern (filter, "*");
+  gtk_file_filter_set_name (filter, FORMAT_DESCRIPTION(DENEMO_FORMAT));
+  gtk_file_filter_add_pattern (filter, FORMAT_EXTENSION(DENEMO_FORMAT));
   gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (file_selection), filter);
   gtk_dialog_set_default_response (GTK_DIALOG (file_selection),
 				   GTK_RESPONSE_ACCEPT);
