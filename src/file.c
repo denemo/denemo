@@ -758,7 +758,7 @@ file_open (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *fil
   
   filter = gtk_file_filter_new ();
   gtk_file_filter_set_name (filter, FORMAT_DESCRIPTION(DENEMO_FORMAT));
-  gtk_file_filter_add_pattern (filter, FORMAT_EXTENSION(DENEMO_FORMAT));
+  gtk_file_filter_add_pattern (filter, FORMAT_MASK(DENEMO_FORMAT));
   gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (file_selection), filter);
   gtk_dialog_set_default_response (GTK_DIALOG (file_selection),
 				   GTK_RESPONSE_ACCEPT);
@@ -1117,6 +1117,7 @@ file_saveas (DenemoGUI * gui, DenemoSaveType  template)
   GtkWidget *label;
   GtkWidget *combobox;
   GtkWidget *hbox;
+  GtkFileFilter *filter;
 
   file_selection = gtk_file_chooser_dialog_new (_("Save As"),
 						GTK_WINDOW (Denemo.window),
@@ -1132,42 +1133,35 @@ file_saveas (DenemoGUI * gui, DenemoSaveType  template)
 
 
   /* assign title */ 
-  {gchar * title = get_scoretitle();
+  gchar *title = get_scoretitle();
   if (title)
     { 
       gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (file_selection), title);
     }
-  }
+  
+  filter = gtk_file_filter_new ();
+  gtk_file_filter_set_name (filter, FORMAT_DESCRIPTION(DENEMO_FORMAT));
+  gtk_file_filter_add_pattern (filter, FORMAT_MASK(DENEMO_FORMAT));
+  gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (file_selection), filter);
+  gtk_dialog_set_default_response (GTK_DIALOG (file_selection),
+				   GTK_RESPONSE_ACCEPT);
+ 
   gtk_widget_show_all (file_selection);
-  gboolean close = FALSE;
-  do
+  if (gtk_dialog_run (GTK_DIALOG (file_selection)) == GTK_RESPONSE_ACCEPT)
     {
-      if (gtk_dialog_run (GTK_DIALOG (file_selection)) == GTK_RESPONSE_ACCEPT)
-	{
-	  gchar *file_name
-	    =
-	    gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_selection));
-
-	  if (replace_existing_file_dialog
-	      (file_name, GTK_WINDOW (Denemo.window), DENEMO_FORMAT))
-	    {
-	      filesel_save (gui, file_name, DENEMO_FORMAT, template);
-	      close = TRUE;
-	      //the lilypond can now be out of sync
-	      gui->lilysync = G_MAXUINT;//FIXME move these two lines into a function, they force refresh of lily text
-	      refresh_lily_cb(NULL, gui);
-	    }
+      gchar *file_name =
+	gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_selection));
+      if (replace_existing_file_dialog
+          (file_name, GTK_WINDOW (Denemo.window), DENEMO_FORMAT)){
+	filesel_save (gui, file_name, DENEMO_FORMAT, template);
+	//the lilypond can now be out of sync
+	gui->lilysync = G_MAXUINT;//FIXME move these two lines into a function, they force refresh of lily text
+	refresh_lily_cb(NULL, gui);
+      }
 	  g_free (file_name);
-	}
-      else
-	{
-	  close = TRUE;
-	}
     }
-  while (!close);
 
   gtk_widget_destroy (file_selection);
-
 }
 
 /**
