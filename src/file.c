@@ -1442,3 +1442,69 @@ void paste_clipboard(GtkAction * action, gpointer param) {
   gtk_clipboard_request_text (clipboard, (GtkClipboardTextReceivedFunc) selection_received, NULL);
 
 }
+
+/**
+ * Export mudela callback prompts for filename
+ *
+ */
+void
+export_mudela_action (GtkAction *action, gpointer param)
+{
+  DenemoGUI *gui = Denemo.gui;
+  file_export(gui, MUDELA_FORMAT);
+}
+
+/**
+ * Export pdf callback prompts for filename
+ *
+ */
+void
+export_pdf_action (GtkAction *action, gpointer param)
+{
+  DenemoGUI *gui = Denemo.gui;
+  file_export(gui, PDF_FORMAT);
+}
+
+/**
+ * Export pdf callback prompts for filename
+ *
+ */
+void
+export_png_action (GtkAction *action, gpointer param)
+{
+  DenemoGUI *gui = Denemo.gui;
+  file_export(gui, PNG_FORMAT);
+}
+
+/**
+ * Export ABC callback prompts for filename
+ *
+ */
+void
+export_ABC_action (GtkAction *action, gpointer param)
+{
+  DenemoGUI *gui = Denemo.gui;
+  file_export(gui, ABC_FORMAT);
+}
+
+/**
+ * Export MIDI callback prompts for filename
+ *
+ */
+void
+export_midi_action (GtkAction *action, gpointer param)
+{
+  DenemoGUI *gui = Denemo.gui;
+  file_export(gui, MIDI_FORMAT);
+}
+
+/**
+ * Export pdf callback prompts for filename
+ *
+ */
+void
+export_csound_action (GtkAction *action, gpointer param)
+{
+  DenemoGUI *gui = Denemo.gui;
+  file_export(gui, CSOUND_FORMAT);
+}
