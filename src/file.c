@@ -1049,6 +1049,7 @@ file_export (DenemoGUI * gui, FileFormatNames type)
   GtkWidget *file_selection;
   GtkWidget *label;
   GtkWidget *hbox;
+  gint format_id = type;
   gchar *description = g_strconcat(_("Export As "), FORMAT_DESCRIPTION(type), NULL);
   file_selection = gtk_file_chooser_dialog_new (description,
 						GTK_WINDOW (Denemo.window),
@@ -1073,34 +1074,19 @@ file_export (DenemoGUI * gui, FileFormatNames type)
   gtk_dialog_set_default_response (GTK_DIALOG (file_selection),
 				   GTK_RESPONSE_ACCEPT);
   gtk_widget_show_all (file_selection);
-  gboolean close = FALSE;
-  do
+  if (gtk_dialog_run (GTK_DIALOG (file_selection)) == GTK_RESPONSE_ACCEPT)
     {
-      if (gtk_dialog_run (GTK_DIALOG (file_selection)) == GTK_RESPONSE_ACCEPT)
-	{
-	  gint format_id = type;
-	  gchar *file_name
-	    =
-	    gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_selection));
-
-	  if (replace_existing_file_dialog
-	      (file_name, GTK_WINDOW (Denemo.window), format_id))
-	    {
-	      filesel_save (gui, file_name, format_id, FALSE);
-	      close = TRUE;
-	      //the lilypond can now be out of sync
-	      gui->lilysync = G_MAXUINT;//FIXME move these two lines into a function, they force refresh of lily text
-	      refresh_lily_cb(NULL, gui);
-	    }
-	  g_free (file_name);
-	}
-      else
-	{
-	  close = TRUE;
-	}
+      gchar *file_name =
+	gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_selection));
+      if (replace_existing_file_dialog
+          (file_name, GTK_WINDOW (Denemo.window), format_id)){
+        filesel_save (gui, file_name, format_id, FALSE);
+        //the lilypond can now be out of sync
+        gui->lilysync = G_MAXUINT;//FIXME move these two lines into a function, they force refresh of lily text
+        refresh_lily_cb(NULL, gui);
+      }
+      g_free (file_name);
     }
-  while (!close);
-
   gtk_widget_destroy (file_selection);
   g_free(description);
 }
