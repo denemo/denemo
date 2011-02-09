@@ -1049,6 +1049,7 @@ file_export (DenemoGUI * gui, FileFormatNames type)
   GtkWidget *file_selection;
   GtkWidget *label;
   GtkWidget *hbox;
+  GtkFileFilter *filter;
   gint format_id = type;
   gchar *description = g_strconcat(_("Export As "), FORMAT_DESCRIPTION(type), NULL);
   file_selection = gtk_file_chooser_dialog_new (description,
@@ -1070,7 +1071,11 @@ file_export (DenemoGUI * gui, FileFormatNames type)
       gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (file_selection), title);
     }
   }
-  
+
+  filter = gtk_file_filter_new (); 
+  gtk_file_filter_set_name (filter, FORMAT_DESCRIPTION(format_id));
+  gtk_file_filter_add_pattern (filter, FORMAT_MASK(format_id));
+  gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (file_selection), filter);
   gtk_dialog_set_default_response (GTK_DIALOG (file_selection),
 				   GTK_RESPONSE_ACCEPT);
   gtk_widget_show_all (file_selection);
