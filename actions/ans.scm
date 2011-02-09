@@ -1010,11 +1010,23 @@
 		(ANS::GetIntervall (car pair) (cdr pair)))
 	(map GetIntv listy))
 
+;ANS::IntervalMember? checks if a forbidden interval is in the given list
+;;Wants a list of ans intervals, returns #t or #f
+;; Expects pair in pair as list member: (intervall (lower . higher)) from ANS::GetIntervall
+(define (ANS::IntervalMember? listy forbidden)
+	(define (test? one)
+		(if (member (car one) forbidden) #t #f))
+	
+	(if (member #t (map test? listy))
+		#t
+		#f))
+
+
 ; forbidden compares two list (of intervals. ANS syntax) and checks if a sequence of intervals is the same and if this sequcence is forbidden
 ;; Used to detect often forbidden parallels of 5th or 8th or 1th etc. 
 ;; Lists should be the same length (means the same amount of intervals, which is the case when both lists are generated from chords with the same number of notes)
 ;; Repetitions and Octave shifts return as #f. (not (equal?...)) tests for repeats, ANS::GetNote equalizes octaves
-;; Expects pair in pair: (intervall (lower . higher)) from ANS::GetIntervall
+;; Expects pair in pair as list member: (intervall (lower . higher)) from ANS::GetIntervall
 ;; The main difference between this functions is the checking with < >.
 ;; This is a schema of the two intervals:
 ;;	g a
