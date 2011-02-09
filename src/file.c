@@ -758,6 +758,7 @@ file_open (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *fil
   filter = gtk_file_filter_new ();
   gtk_file_filter_set_name (filter, FORMAT_DESCRIPTION(DENEMO_FORMAT));
   gtk_file_filter_add_pattern (filter, FORMAT_MASK(DENEMO_FORMAT));
+  gtk_file_filter_add_pattern (filter, "*.DENEMO");
   gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (file_selection), filter);
   gtk_dialog_set_default_response (GTK_DIALOG (file_selection),
 				   GTK_RESPONSE_ACCEPT);
@@ -807,6 +808,7 @@ file_import_lilypond (DenemoGUI * gui, DenemoSaveType template, ImportType type,
   filter = gtk_file_filter_new ();
   gtk_file_filter_set_name (filter, _("Lilypond (*.ly)"));
   gtk_file_filter_add_pattern (filter, "*.ly");
+  gtk_file_filter_add_pattern (filter, "*.LY");
   gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (file_selection), filter);
   gtk_dialog_set_default_response (GTK_DIALOG (file_selection),
 				   GTK_RESPONSE_ACCEPT);
@@ -858,7 +860,7 @@ file_import_midi (DenemoGUI * gui, DenemoSaveType template, ImportType type, gch
   gtk_file_filter_add_pattern (filter, "*.mid");
   gtk_file_filter_add_pattern (filter, "*.midi");
   gtk_file_filter_add_pattern (filter, "*.MID");
-  gtk_file_filter_add_pattern (filter, "*.mid");
+  gtk_file_filter_add_pattern (filter, "*.MIDI");
   gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (file_selection), filter);
   gtk_dialog_set_default_response (GTK_DIALOG (file_selection),
 				   GTK_RESPONSE_ACCEPT);
@@ -908,6 +910,7 @@ file_import_musicxml (DenemoGUI * gui, DenemoSaveType template, ImportType type,
   filter = gtk_file_filter_new ();
   gtk_file_filter_set_name (filter, _("Music XML (*.mxml)"));
   gtk_file_filter_add_pattern (filter, "*.mxml");
+  gtk_file_filter_add_pattern (filter, "*.MXML");
   gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (file_selection), filter);
   gtk_dialog_set_default_response (GTK_DIALOG (file_selection),
 				   GTK_RESPONSE_ACCEPT);
