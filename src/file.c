@@ -288,8 +288,7 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
       gtk_widget_queue_draw (Denemo.scorearea);
       gtk_signal_emit_by_name (GTK_OBJECT (Denemo.hadjustment), "changed");
       gtk_signal_emit_by_name (GTK_OBJECT (Denemo.vadjustment), "changed");
-      gui->lilysync = G_MAXUINT;//FIXME move these two lines into a function, they force refresh of lily text
-      refresh_lily_cb(NULL, gui);
+      force_lily_refresh(gui);
     }
   g_signal_handlers_unblock_by_func(G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_expose_event), NULL);
   gui->si->undo_guard=1;
@@ -1086,9 +1085,7 @@ file_export (DenemoGUI * gui, FileFormatNames type)
       if (replace_existing_file_dialog
           (file_name, GTK_WINDOW (Denemo.window), format_id)){
         filesel_save (gui, file_name, format_id, FALSE);
-        //the lilypond can now be out of sync
-        gui->lilysync = G_MAXUINT;//FIXME move these two lines into a function, they force refresh of lily text
-        refresh_lily_cb(NULL, gui);
+        force_lily_refresh(gui);
       }
       g_free (file_name);
     }
@@ -1145,9 +1142,7 @@ file_saveas (DenemoGUI * gui, DenemoSaveType  template)
       if (replace_existing_file_dialog
           (file_name, GTK_WINDOW (Denemo.window), DENEMO_FORMAT)){
 	filesel_save (gui, file_name, DENEMO_FORMAT, template);
-	//the lilypond can now be out of sync
-	gui->lilysync = G_MAXUINT;//FIXME move these two lines into a function, they force refresh of lily text
-	refresh_lily_cb(NULL, gui);
+        force_lily_refresh(gui);	
       }
 	  g_free (file_name);
     }
@@ -1223,8 +1218,7 @@ deletescore (GtkWidget * widget, DenemoGUI * gui)
   gtk_widget_queue_draw (Denemo.scorearea);
   gtk_signal_emit_by_name (GTK_OBJECT (Denemo.hadjustment), "changed");
   gtk_signal_emit_by_name (GTK_OBJECT (Denemo.vadjustment), "changed");
-  gui->lilysync = G_MAXUINT;
-  refresh_lily_cb(NULL, gui);
+  force_lily_refresh(gui);  
 }
 
 void

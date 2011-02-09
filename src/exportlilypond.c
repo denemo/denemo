@@ -1932,6 +1932,10 @@ void refresh_lily_cb (GtkAction *action, DenemoGUI *gui) {
     output_score_to_buffer (gui, TRUE, NULL);
 }
 
+void force_lily_refresh(DenemoGUI *gui) {
+  gui->lilysync = G_MAXUINT;
+  refresh_lily_cb(NULL, gui);
+}
 
 void delete_lily_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
