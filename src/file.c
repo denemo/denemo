@@ -1371,15 +1371,27 @@ void paste_clipboard(GtkAction * action, gpointer param) {
 
 }
 
+#define EXPORT_INTERFACE(format_id) \
+  GET_1PARAM(action, param, filename); \
+  DenemoGUI *gui = Denemo.gui; \
+  if (filename==NULL) \
+    file_export(gui, format_id); \
+  else \
+    if (replace_existing_file_dialog \
+       (filename, GTK_WINDOW (Denemo.window), format_id)){ \
+      filesel_save (gui, filename, format_id, SAVE_COPY); \
+      force_lily_refresh(gui); \
+    }  
+
+
 /**
  * Export mudela callback prompts for filename
  *
  */
 void
-export_mudela_action (GtkAction *action, gpointer param)
+export_mudela_action (GtkAction *action, DenemoScriptParam *param)
 {
-  DenemoGUI *gui = Denemo.gui;
-  file_export(gui, MUDELA_FORMAT);
+  EXPORT_INTERFACE(MUDELA_FORMAT)
 }
 
 /**
@@ -1387,10 +1399,9 @@ export_mudela_action (GtkAction *action, gpointer param)
  *
  */
 void
-export_pdf_action (GtkAction *action, gpointer param)
+export_pdf_action (GtkAction *action, DenemoScriptParam *param)
 {
-  DenemoGUI *gui = Denemo.gui;
-  file_export(gui, PDF_FORMAT);
+  EXPORT_INTERFACE(PDF_FORMAT)
 }
 
 /**
@@ -1398,10 +1409,9 @@ export_pdf_action (GtkAction *action, gpointer param)
  *
  */
 void
-export_png_action (GtkAction *action, gpointer param)
+export_png_action (GtkAction *action, DenemoScriptParam *param)
 {
-  DenemoGUI *gui = Denemo.gui;
-  file_export(gui, PNG_FORMAT);
+  EXPORT_INTERFACE(PNG_FORMAT)
 }
 
 /**
@@ -1409,10 +1419,9 @@ export_png_action (GtkAction *action, gpointer param)
  *
  */
 void
-export_ABC_action (GtkAction *action, gpointer param)
+export_ABC_action (GtkAction *action, DenemoScriptParam *param)
 {
-  DenemoGUI *gui = Denemo.gui;
-  file_export(gui, ABC_FORMAT);
+  EXPORT_INTERFACE(ABC_FORMAT)
 }
 
 /**
@@ -1420,10 +1429,9 @@ export_ABC_action (GtkAction *action, gpointer param)
  *
  */
 void
-export_midi_action (GtkAction *action, gpointer param)
+export_midi_action (GtkAction *action, DenemoScriptParam *param)
 {
-  DenemoGUI *gui = Denemo.gui;
-  file_export(gui, MIDI_FORMAT);
+  EXPORT_INTERFACE(MIDI_FORMAT)
 }
 
 /**
@@ -1431,8 +1439,8 @@ export_midi_action (GtkAction *action, gpointer param)
  *
  */
 void
-export_csound_action (GtkAction *action, gpointer param)
+export_csound_action (GtkAction *action, DenemoScriptParam *param)
 {
-  DenemoGUI *gui = Denemo.gui;
-  file_export(gui, CSOUND_FORMAT);
+  EXPORT_INTERFACE(CSOUND_FORMAT)
 }
+
