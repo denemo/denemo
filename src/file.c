@@ -338,27 +338,16 @@ denemo_warning (DenemoGUI * gui, gint format_id)
 }
 
 /*
-	If the filename already has a denemo file name extension use
-	it regardless of the value of format_id, otherwise add the 
-	file name extension 
+	If the filename format already has the correct extension use
+	it. otherwise add the file name extension 
 */
 static gchar * 
-create_filename (const gchar * file_name, gint *format_id)
+create_filename (const gchar * file_name, gint format_id)
 {
-  gint i;
-
-  if (*format_id < 0)
-        return (g_strdup (file_name));
-
-  for (i = 0; i < (gint) G_N_ELEMENTS (supported_export_file_formats); i++)
-    {
-  	if (g_pattern_match_simple (FORMAT_MASK (i), file_name))
-    	{
-	     *format_id = i;
-     	     return (g_strdup (file_name));
-    	}
-    }
-  return (g_strconcat (file_name, FORMAT_EXTENSION (*format_id), NULL));
+  if (g_pattern_match_simple (FORMAT_MASK (format_id), file_name))
+    return (g_strdup (file_name));
+  else 
+    return (g_strconcat (file_name, FORMAT_EXTENSION (format_id), NULL));
 }
 
 /* Save gui in the file in format format_id to the file filename (or gui->filename
@@ -436,10 +425,7 @@ filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, DenemoSa
   // Append file extension if needed
   gchar *file = NULL;
   gchar *basename = NULL;
-  // This only necessary because create_filename changes format id
-  // if passed a different extension
-  gint id = format_id;
-  file = create_filename(file_name, &id);
+  file = create_filename(file_name, format_id);
   g_debug("Saving to file %s\n", file);
   if(!template && format_id==DENEMO_FORMAT) {
     update_file_selection_path(file);
@@ -1289,7 +1275,7 @@ replace_existing_file_dialog (const gchar * filename,
 			      GtkWindow * parent_window, gint format_id)
 {
 
-  gchar *file = create_filename (filename, &format_id);
+  gchar *file = create_filename (filename, format_id);
   if (!g_file_test (file, G_FILE_TEST_EXISTS))
     {
       g_free (file);
