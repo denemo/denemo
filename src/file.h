@@ -86,9 +86,6 @@ void export_png (gchar *filename, gboolean show_preview, DenemoGUI * gui);
 void
 paste_clipboard(GtkAction * action, gpointer param);
 
-void
-reload_lily_file (GtkWidget * widget, gpointer data);
-
 gint
 lyinput (gchar *filename, DenemoGUI *gui);
 
@@ -96,14 +93,7 @@ void
 deletescore (GtkWidget * widget, DenemoGUI *gui);
 
 void
-dnm_deletescore (GtkWidget * widget, DenemoGUI *gui);
-
-
-
-void
 updatescoreinfo (DenemoGUI *gui);
-
-
 
 /**
  * @return TRUE if the file does not exists or the user want it to be overwritten

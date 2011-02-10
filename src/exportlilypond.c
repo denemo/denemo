@@ -1952,29 +1952,6 @@ void delete_lily_cb (GtkAction *action, gpointer param) {
 
   gtk_text_buffer_delete(gui->textbuffer, &start, &end);
 }
-static void print_lily_cb (GtkWidget *item, DenemoGUI *gui){
-  gchar *filename = get_printfile_pathbasename();
-  gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
-  FILE *fp = fopen(lilyfile, "w");
-  if(fp){
-    GtkTextIter startiter, enditer;
-    gtk_text_buffer_get_start_iter (gui->textbuffer, &startiter);
-    gtk_text_buffer_get_end_iter (gui->textbuffer, &enditer);
-    gchar *lily = gtk_text_buffer_get_text (gui->textbuffer, &startiter, &enditer, FALSE);
-    fprintf(fp, "%s", lily);
-    fclose(fp);
-    /* create arguments to pass to lilypond to create a pdf for printing */
-    gchar *arguments[] = {
-      Denemo.prefs.lilypath->str,
-      "--pdf",
-      "-o",
-      filename,
-      lilyfile,
-      NULL
-    };
-    print_and_view(arguments);
-  }
-}
 
 /* create a new custom scoreblock from the text of the one passed in lilystart */
 void custom_lily_cb (GtkAction *action, gpointer param) {

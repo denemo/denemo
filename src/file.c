@@ -994,49 +994,12 @@ file_save (GtkWidget * widget, DenemoGUI * gui)
     file_saveas (gui, FALSE);
   else
     save_in_format(guess_file_format (gui->filename->str), gui, NULL);
-#if 0
-    switch (guess_file_format (gui->filename->str))
-      {
-      case DENEMO_FORMAT:
-      case DNM_FORMAT:
-	{
-	  exportXML (gui->filename->str, gui, 0, 0);
-	  break;
-	};
-      case MUDELA_FORMAT:
-	{
-	  gui->lilycontrol.excerpt = TRUE;
-	  exportlilypond (gui->filename->str, gui, TRUE);
-	  break;
-	};
-      case ABC_FORMAT:
-	{
-	  exportabc (gui->filename->str, gui, 0, 0);
-	  break;
-	};
-      case MIDI_FORMAT:
-	{
-	  exportmidi (gui->filename->str, si, 0, 0);
-	  break;
-	};
-      case CSOUND_FORMAT:
-	{
-	  exportcsound (gui->filename->str, si, 0, 0);
-	  break;
-	};
-
-      default:
-	{
-	  exportXML (gui->filename->str, gui, 0, 0);
-	  break;
-	};
-      };
-#endif
-   /*Save parts as lilypond files*/   
-   if(Denemo.prefs.saveparts)
-	export_lilypond_parts(gui->filename->str,gui);
   
-   //denemo_warning (gui, guess_file_format (gui->filename->str));
+  /*Save parts as lilypond files*/   
+  if(Denemo.prefs.saveparts)
+    export_lilypond_parts(gui->filename->str,gui);
+  
+  //denemo_warning (gui, guess_file_format (gui->filename->str));
   score_status(gui, FALSE);
 }
 
@@ -1067,12 +1030,12 @@ file_export (DenemoGUI * gui, FileFormatNames type)
   set_current_folder(file_selection, gui, SAVE_NORMAL);
 
   /* assign title */ 
-  { gchar * title = get_scoretitle();
+  gchar * title = get_scoretitle();
   if (title)
     { 
       gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (file_selection), title);
     }
-  }
+  
 
   filter = gtk_file_filter_new (); 
   gtk_file_filter_set_name (filter, FORMAT_DESCRIPTION(format_id));
@@ -1224,12 +1187,6 @@ deletescore (GtkWidget * widget, DenemoGUI * gui)
   force_lily_refresh(gui);  
 }
 
-void
-dnm_deletescore (GtkWidget * widget, DenemoGUI * gui){
-  deletescore (widget, gui);
-}
-
-
 /**
  * Try to suggest the format of a given file, from file name extension. A
  * more powerful function could be written to guess the format from the
@@ -1257,18 +1214,6 @@ guess_file_format (gchar * file_name)
   else
     return (--name_iterator);
 };
-
-
-
-/**
- * Reloads a lilypond file specified by the .denemo/reloadfile.ly
- * only used when lilypond mode is active
- */
-void
-reload_lily_file (GtkWidget * button, gpointer data)
-{
-  // delete me
-}
 
 /**
  * Creates dialog to say that the chosen filename already exists

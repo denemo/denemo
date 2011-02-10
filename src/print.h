@@ -13,14 +13,12 @@ void
 printexcerptpreview_cb(GtkAction *action, gpointer param);
 void
 printpart_cb(GtkAction *action, gpointer param);
-gchar *
-get_printfile_pathbasename(void);
-void viewer(DenemoGUI *gui);
-void install_printpreview(DenemoGUI *gui, GtkWidget *vbox);
+void 
+install_printpreview(DenemoGUI *gui, GtkWidget *vbox);
 void
 refresh_print_view(gboolean interactive);
 gchar *
 get_lily_version_string (void);
-void
-print_and_view (gchar **arguments);
+void 
+print_lily_cb (GtkWidget *item, DenemoGUI *gui);
 #endif /*PRINT_H*/	
