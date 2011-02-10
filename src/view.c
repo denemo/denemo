@@ -7372,7 +7372,7 @@ toggle_console_view (GtkAction *action, gpointer param)
 void
 toggle_score_view (GtkAction *action, gpointer param)
 {
-  GtkWidget *w = gtk_widget_get_parent(gtk_widget_get_parent(Denemo.scorearea));
+  GtkWidget *w = gtk_widget_get_parent(Denemo.scorearea);
   if((!action) || GTK_WIDGET_VISIBLE(w))
     gtk_widget_hide(w);
   else {
