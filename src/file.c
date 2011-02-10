@@ -436,7 +436,10 @@ filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, DenemoSa
   // Append file extension if needed
   gchar *file = NULL;
   gchar *basename = NULL;
-  file = create_filename(file_name, &format_id);
+  // This only necessary because create_filename changes format id
+  // if passed a different extension
+  gint id = format_id;
+  file = create_filename(file_name, &id);
   g_debug("Saving to file %s\n", file);
   if(!template && format_id==DENEMO_FORMAT) {
     update_file_selection_path(file);
@@ -935,10 +938,16 @@ file_import_musicxml (DenemoGUI * gui, DenemoSaveType template, ImportType type,
  * saved.
  */
 void
-file_saveaswrapper (GtkAction * action, gpointer param)
+file_saveaswrapper (GtkAction * action, DenemoScriptParam *param)
 {
+  GET_1PARAM(action, param, filename);
   DenemoGUI *gui = Denemo.gui;
-  file_saveas (gui, FALSE);
+  if(filename==NULL) {
+    file_saveas (gui, FALSE);
+  } else {
+      filesel_save (gui, filename, DENEMO_FORMAT, FALSE);
+      force_lily_refresh(gui);
+    }
 }
 
 /**
