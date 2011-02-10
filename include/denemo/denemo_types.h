@@ -843,10 +843,7 @@ typedef struct DenemoGUI
   gint rights[DENEMO_MAX_SYSTEMS];/**< an array to hold the rightmeasurenum of each system in the last-drawn score, used for determining the mouse position on the music */
   gint scales[DENEMO_MAX_SYSTEMS];/**< an array to hold the percent horizontal scaling of each system in the last-drawn score, used for determining the mouse position on the music */
 
-  GtkWidget *printarea;/**< area holding a print preview */
-  GtkWidget *printvscrollbar;/**< scrollbar widget for printarea */
-  GtkWidget *printhscrollbar;/**< scrollbar widget for printarea */
-  GdkPixbuf *pixbuf;/**< print preview pixbuf */
+
   GtkWidget *buttonboxes;/**< box for boxes showing directives */
   GtkWidget *buttonbox;/**< box for buttons accessing DenemoDirectives attached to the whole score */
 
@@ -953,6 +950,11 @@ struct DenemoRoot
   GtkWidget *vscrollbar;
   GtkObject *hadjustment;
   GtkWidget *hscrollbar;
+
+  GtkWidget *printarea;/**< area holding a print preview */
+  GtkWidget *printvscrollbar;/**< scrollbar widget for printarea */
+  GtkWidget *printhscrollbar;/**< scrollbar widget for printarea */
+  GdkPixbuf *pixbuf;/**< print preview pixbuf */
   /* window state */
   gint width;
   gint height;
