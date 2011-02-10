@@ -56,7 +56,7 @@ void
 file_savewrapper (GtkAction *action, gpointer param);
 
 void
-file_saveaswrapper (GtkAction *action, gpointer param);
+file_saveaswrapper (GtkAction *action, DenemoScriptParam *param);
 
 void
 file_newwrapper (GtkAction *action, gpointer param);
