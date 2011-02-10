@@ -506,6 +506,11 @@ toggle_print_view (GtkAction *action, gpointer param);
 static void
 toggle_scoretitles (GtkAction *action, gpointer param);
 
+
+gint hide_printarea_on_delete(void) {
+  activate_action("/MainMenu/ViewMenu/"TogglePrintView_STRING);
+  return TRUE;
+}
 static void
 toggle_page_view(void) {
   
@@ -597,7 +602,7 @@ void toggle_to_drawing_area(gboolean show) {
   TOG2("/MainMenu", mainmenu);
 
   TOG3(gtk_widget_get_parent(Denemo.console), console_view, "/MainMenu/ViewMenu/"ToggleConsoleView_STRING);
-  TOG3(gtk_widget_get_parent(gtk_widget_get_parent(Denemo.gui->printarea)), print_view, "/MainMenu/ViewMenu/"TogglePrintView_STRING);
+  TOG3(gtk_widget_get_parent(gtk_widget_get_parent(Denemo.printarea)), print_view, "/MainMenu/ViewMenu/"TogglePrintView_STRING);
   TOG3(Denemo.gui->buttonboxes, scoretitles, "/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
   TOG3(Denemo.playback_control, playback_control, "/MainMenu/ViewMenu/"TogglePlaybackControls_STRING);
   TOG3(Denemo.midi_in_control, midi_in_control, "/MainMenu/ViewMenu/"ToggleMidiInControls_STRING);
@@ -1780,8 +1785,8 @@ static void get_drag_offset(GtkWidget *dialog, gint response_id, GtkLabel *label
   if(response_id < 0)
     gtk_main_quit();
   gint offsetx, offsety;
-  offsetx =  (intptr_t)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsetx");
-  offsety =  (intptr_t)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsety");
+  offsetx =  (intptr_t)g_object_get_data(G_OBJECT(Denemo.printarea), "offsetx");
+  offsety =  (intptr_t)g_object_get_data(G_OBJECT(Denemo.printarea), "offsety");
   gchar *text = g_strdup_printf("Offset now %d %d. Drag again in the print window to change\nOr click OK to apply the position shift", offsetx, offsety);
   gtk_label_set_text(label, text);
   g_free(text);
@@ -1792,7 +1797,7 @@ static void get_drag_pad(GtkWidget *dialog, gint response_id, GtkLabel *label) {
   if(response_id < 0)
     gtk_main_quit();
   gint padding;
-  padding =  (intptr_t)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "padding");
+  padding =  (intptr_t)g_object_get_data(G_OBJECT(Denemo.printarea), "padding");
   gchar *text = g_strdup_printf("Padding now %d. Drag again in the print window to change\nOr click OK to apply the padding to the graphical object belonging to the directive", padding);
   gtk_label_set_text(label, text);
   g_free(text);
@@ -1804,14 +1809,14 @@ static void get_drag_pad(GtkWidget *dialog, gint response_id, GtkLabel *label) {
  or #f if no printarea or user cancels*/
 SCM scheme_get_offset(void) {
   SCM x, y, ret;
-  if(Denemo.gui->printarea==NULL)
+  if(Denemo.printarea==NULL)
     return SCM_BOOL(FALSE);
-  if(g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offset-dialog")){
+  if(g_object_get_data(G_OBJECT(Denemo.printarea), "offset-dialog")){
     warningdialog("Already in a padding dialog");
     return SCM_BOOL_F;
   }
-  gint offsetx = (intptr_t)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsetx");
-  gint offsety = (intptr_t)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsety");
+  gint offsetx = (intptr_t)g_object_get_data(G_OBJECT(Denemo.printarea), "offsetx");
+  gint offsety = (intptr_t)g_object_get_data(G_OBJECT(Denemo.printarea), "offsety");
 
 
   GtkWidget *dialog = gtk_dialog_new_with_buttons ("Select Offset in Print Window",
@@ -1820,7 +1825,7 @@ SCM scheme_get_offset(void) {
                                         GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
                                         GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
                                         NULL);
-  g_object_set_data(G_OBJECT(Denemo.gui->printarea), "offset-dialog", (gpointer)dialog);
+  g_object_set_data(G_OBJECT(Denemo.printarea), "offset-dialog", (gpointer)dialog);
   GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox,
 		      TRUE, TRUE, 0);
@@ -1835,10 +1840,10 @@ SCM scheme_get_offset(void) {
   g_signal_connect(dialog, "response", G_CALLBACK(get_drag_offset), label);
   gtk_widget_show_all(dialog);
   gtk_main();
-  offsetx = (intptr_t) g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsetx");
-  offsety = (intptr_t) g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsety");
+  offsetx = (intptr_t) g_object_get_data(G_OBJECT(Denemo.printarea), "offsetx");
+  offsety = (intptr_t) g_object_get_data(G_OBJECT(Denemo.printarea), "offsety");
   val =  (intptr_t)g_object_get_data(G_OBJECT(dialog), "offset-response");
-  g_object_set_data(G_OBJECT(Denemo.gui->printarea), "offset-dialog", NULL);
+  g_object_set_data(G_OBJECT(Denemo.printarea), "offset-dialog", NULL);
   gtk_widget_destroy(dialog);
   if(val == GTK_RESPONSE_ACCEPT) {
     x= scm_makfrom0str (g_strdup_printf("%.1f", offsetx/10.0));
@@ -1851,9 +1856,9 @@ SCM scheme_get_offset(void) {
 
 /* return a string representing the relative font size the user wishes to use*/
 SCM scheme_get_relative_font_size(void) {
-  if(Denemo.gui->printarea==NULL)
+  if(Denemo.printarea==NULL)
     return SCM_BOOL(FALSE);
-  gchar *value = g_object_get_data(G_OBJECT(Denemo.gui->printarea), "font-size");
+  gchar *value = g_object_get_data(G_OBJECT(Denemo.printarea), "font-size");
   if(value)
     g_free(value);
   value = string_dialog_entry (Denemo.gui, "Font Size", "Give a value (+/-) to adjust font size by", "0");
@@ -1861,7 +1866,7 @@ SCM scheme_get_relative_font_size(void) {
     value = g_strdup("0");
   gchar *clean = g_strdup_printf("%d", atoi(value));
   g_free(value);
-  g_object_set_data(G_OBJECT(Denemo.gui->printarea), "font-size", (gpointer)clean);
+  g_object_set_data(G_OBJECT(Denemo.printarea), "font-size", (gpointer)clean);
   return scm_from_locale_stringn (clean, strlen(clean));
 }
 void get_clipboard(GtkAction * action, DenemoScriptParam *param);
@@ -1888,14 +1893,14 @@ SCM scheme_get_text_selection (void) {
  or #f if no printarea or user cancels*/
 SCM scheme_get_padding(void) {
   SCM pad, ret;
-  if(Denemo.gui->printarea==NULL)
+  if(Denemo.printarea==NULL)
     return SCM_BOOL(FALSE);
-  if(g_object_get_data(G_OBJECT(Denemo.gui->printarea), "pad-dialog")){
+  if(g_object_get_data(G_OBJECT(Denemo.printarea), "pad-dialog")){
     warningdialog("Already in a padding dialog");
     return SCM_BOOL_F;
   }
      
-  gint padding = (intptr_t)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "padding");
+  gint padding = (intptr_t)g_object_get_data(G_OBJECT(Denemo.printarea), "padding");
 
   GtkWidget *dialog = gtk_dialog_new_with_buttons ("Select Padding in Print Window",
                                         GTK_WINDOW (Denemo.window),
@@ -1903,7 +1908,7 @@ SCM scheme_get_padding(void) {
                                         GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
                                         GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
                                         NULL);
-  g_object_set_data(G_OBJECT(Denemo.gui->printarea), "pad-dialog", (gpointer)dialog);
+  g_object_set_data(G_OBJECT(Denemo.printarea), "pad-dialog", (gpointer)dialog);
   GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox,
 		      TRUE, TRUE, 0);
@@ -1918,9 +1923,9 @@ SCM scheme_get_padding(void) {
   g_signal_connect(dialog, "response", G_CALLBACK(get_drag_pad), label);
   gtk_widget_show_all(dialog);
   gtk_main();
-  padding = (intptr_t) g_object_get_data(G_OBJECT(Denemo.gui->printarea), "padding");
+  padding = (intptr_t) g_object_get_data(G_OBJECT(Denemo.printarea), "padding");
   val =  (intptr_t)g_object_get_data(G_OBJECT(dialog), "pad-response");
-  g_object_set_data(G_OBJECT(Denemo.gui->printarea), "pad-dialog", NULL);
+  g_object_set_data(G_OBJECT(Denemo.printarea), "pad-dialog", NULL);
   gtk_widget_destroy(dialog);
   if(val == GTK_RESPONSE_ACCEPT) {
     ret = scm_makfrom0str (g_strdup_printf("%d", padding/10));
@@ -7299,12 +7304,12 @@ toggle_action_menu (GtkAction * action, gpointer param)
 static void
 toggle_print_view (GtkAction *action, gpointer param)
 {
-  GtkWidget *w = gtk_widget_get_parent(gtk_widget_get_parent(Denemo.gui->printarea));
+  GtkWidget *w =  gtk_widget_get_toplevel(Denemo.printarea);
   if((!action) || GTK_WIDGET_VISIBLE(w))
     gtk_widget_hide(w);
   else {
     gtk_widget_show(w);
-    if(((gint)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "printviewupdate"))<Denemo.gui->changecount)
+    if(((gint)g_object_get_data(G_OBJECT(Denemo.printarea), "printviewupdate"))<Denemo.gui->changecount)
       refresh_print_view(TRUE);
   }
   return;
@@ -7372,7 +7377,7 @@ toggle_console_view (GtkAction *action, gpointer param)
 void
 toggle_score_view (GtkAction *action, gpointer param)
 {
-  GtkWidget *w = gtk_widget_get_parent(Denemo.scorearea);
+  GtkWidget *w = gtk_widget_get_parent(gtk_widget_get_parent(Denemo.scorearea));
   if((!action) || GTK_WIDGET_VISIBLE(w))
     gtk_widget_hide(w);
   else {
@@ -8101,8 +8106,11 @@ get_data_dir (),
 
  {
   Denemo.scorearea = gtk_drawing_area_new ();
+  GtkWidget *scorearea_topbox = gtk_vbox_new(FALSE, 1);
+  gtk_box_pack_start (GTK_BOX (main_vbox), scorearea_topbox, TRUE, TRUE,
+		      0);
   GtkWidget *score_and_scroll_hbox = gtk_hbox_new (FALSE, 1);
-  gtk_box_pack_start (GTK_BOX (main_vbox), score_and_scroll_hbox, TRUE, TRUE,
+  gtk_box_pack_start (GTK_BOX (scorearea_topbox), score_and_scroll_hbox, TRUE, TRUE,
 		      0);
   gtk_widget_show (score_and_scroll_hbox);
 
@@ -8150,8 +8158,8 @@ get_data_dir (),
   gtk_signal_connect (GTK_OBJECT (Denemo.hadjustment), "value_changed",
 		      GTK_SIGNAL_FUNC (horizontal_scroll), NULL);
   Denemo.hscrollbar = gtk_hscrollbar_new (GTK_ADJUSTMENT (Denemo.hadjustment));
-  gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.hscrollbar, FALSE, TRUE, 0);
-  gtk_widget_show (Denemo.hscrollbar);
+  gtk_box_pack_start (GTK_BOX (scorearea_topbox), Denemo.hscrollbar, FALSE, TRUE, 0);
+  gtk_widget_show_all (scorearea_topbox);
   }
 
 
@@ -8293,7 +8301,7 @@ newtab (GtkAction *action, gpointer param) {
 #endif
 
 
-  install_printpreview(gui, top_vbox);
+  install_printpreview(gui, main_vbox);
  
   //FIXME populate_opened_recent (gui);
 

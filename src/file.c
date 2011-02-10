@@ -276,8 +276,8 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
 	  score_status(gui, TRUE);
       } else
 	g_string_assign (gui->filename, "");
-      if(gui->printarea) 
-	g_object_set_data(G_OBJECT(gui->printarea), "printviewupdate", (gpointer)G_MAXUINT);
+      if(Denemo.printarea) 
+	g_object_set_data(G_OBJECT(Denemo.printarea), "printviewupdate", (gpointer)G_MAXUINT);
       if(!xml)
 	updatescoreinfo (gui);
       set_rightmeasurenum (gui->si);
@@ -1185,8 +1185,8 @@ file_newwrapper (GtkAction * action, gpointer param)
     }
   //open_user_default_template(REPLACE_SCORE);
   load_initdotdenemo();
-  if(gui->printarea) 
-    g_object_set_data(G_OBJECT(gui->printarea), "printviewupdate", (gpointer)G_MAXUINT);
+  if(Denemo.printarea) 
+    g_object_set_data(G_OBJECT(Denemo.printarea), "printviewupdate", (gpointer)G_MAXUINT);
 }
 
 /* open_user_default_template
