@@ -89,7 +89,8 @@
       (ExtraOffset "TextScript" "standalone"))
      ((equal? choice "Set Padding")
       (SetPadding "TextScript" "standalone"))))))
-(if (boolean? replace) (
+    ;  (disp "we have replace as " replace "\n")
+(if (boolean? replace) (begin
 ;read in the text:
 (set! TempoChoice (d-GetOption (string-append "Presto" stop "Vivace" stop "Allegro" stop 
 	"Moderato" stop "Andante" stop "Adagio" stop "Largo" stop  "Lento" stop "Tempo Adjust (ritardando, etc.)" stop 
