@@ -35,9 +35,10 @@
 			(vector-set! MidiNoteStarts note tick)
 			(loop note tick)
 		)))))
-	  (begin         ;;;;;; finished processing the notes
+	  (begin         ;;;;;; finished generating Notes as a list of lists each with one note struct in it
 	    (if (&gt; (length Notes) 0)
 		(let ()
+;;;;;;; we have at least one note in the Notes list, define to procs to create a denemo chord and add a note to it
 		    (define (add-note note)
 		      (if (note? note)
 			  (begin
@@ -55,13 +56,13 @@
 				;(format #t "Create note ~a ~a\n"  (d-GetNoteForMidiKey name)   (duration::ticks-&gt;denemo base))
 				(eval-string (string-append  "(d-Insert" (duration::ticks-&gt;denemo base)")"))
 				(d-PutNoteName (d-GetNoteForMidiKey name)))))))
+;;;;;;;;;;;;;; end of defining procs
 		    
-	    
+;;; notes has been set up by pre-pending so it is backwards...	    
 		    (set! Notes (reverse Notes))
      
                     ;;;;;; take the Notes and seek out bass notes, remove them and form chords, insert chords in staff above
-		    (let loop ()
-
+		    (let () ;;;no loop here we drive it via the loopforbasskey
                       ;;;;;;;;;;; overlap decides if two notes should be a chord	 
 		      (define (overlap n1 n2)
 			(if (list? n1)
@@ -72,18 +73,10 @@
 					;(format #t "Number of notes ~a\n" index)
 
                       ;;;;;;;Step through notes in current (bass) staff, placing chords in (empty) staff above
-		      (d-PushPosition)
-		      (if (None?)
-			  (begin
-			    (d-WarningDialog "Place cursor on first Bass note/rest/tuplet marker used in recording")
-			    (d-PopPosition))
-			  (if (and (d-MoveToStaffUp) (None?))
-			      (begin
-				(d-PopPosition) ;;;back to bass staff, there is an empty staff for chords above
+		    
 				(let loopforbasskey ()
 
-
-
+;;;;;;;;;;;;; copy non-notes to the empty staff above and stop with the cursor on the first bass note
 				(let loop ()
                                   ;;;;first copy anything that are not a bass note to the staff above
 				  (if (or (Rest?) (Tupletmarker?))
@@ -93,16 +86,19 @@
 					(if (and (not (Note?)) (d-NextObject))
 					    (loop)))))
 
-
-				(if (Note?)  ;;;;;;;;;; find the bass note in the MIDI recording
+;;;;;;;;;;;;; cursor is on the first/next bass note (if any)
+				(if (Note?)  
 				    (let  ((bass-key (d-GetNoteAsMidi)) (bass-duration (d-GetDurationInTicks))) ;;;midi number and duration of current note
-				      ;; now loop through notes looking for the same MIDI key number, which must be at start of recording, ie before ticks move on too much... for-each or map 
+				      ;; now loop through the Notes list looking for a note the same MIDI key number, which should be before ticks move on too much... once found, consecutive notes are taken to make a chord or chords for the bass note, an
 				      (define notes-belonging '());the notes belonging to the bass note
 				      (define bass-note #f);a bass note (list) selected from Notes
-				      
+
+;;;;;;;;;;;;;;;;;; three procs: make-chords takes a list which has each note in a separate list and puts all the (consecutive) ones that overlap into a single list, that is it turns a sequence of list-of-note into a list-of-notes which represents a chord. It returns the list.
+		      
 				      (define (make-chords notes)
 (disp "make-chords with " notes "\n")
 					(let loop ((index 0))
+					  (disp "Now looping with index " index "and notes " notes "\n")
 					  (let ((note1 (list-ref notes index))
 						(note2 #f))
 					    (if (&gt; (length notes) (+ 1 index))
@@ -111,6 +107,7 @@
 						  (if (overlap note1 (car note2))
 						      (begin
 							(list-set! notes index (cons (car note2) note1))
+	(disp "notes is" notes "\nwe will delete " note2 "\n") ;;at this point note2 is in the chord and in the list
 							(set! notes (delq note2 notes)) ;;so we loop with same index
 							(disp "notes has become" notes "\n")
 							)
@@ -118,12 +115,12 @@
 						  (loop index)))))
 						  (disp "and so we return " notes "\n")
 					notes)	
-
+;;;;;;; insert-chord takes a list of note structs and puts a chord in the staff above with those notes.		
 				      (define (insert-chord chord duration)
 						(insert-note (note.name (car chord)) duration)
 							(for-each  add-note (cdr chord)))
 
-					;;;note bass-duration ignored at present.
+;;;;;;; insert-chords takes a list of lists of note structs and the duration of the denemo bass note they have been assigned to. It inserts a chord for each of the lists assigning durations to fit the bass note.		
 				      (define (insert-chords notes bass-duration)
 (disp "insert-chords called with " notes "\n")				   
 					(let ((chords (make-chords notes)))
@@ -142,30 +139,36 @@
 							(loop (+ index 1)))	     
 						(begin
 						  (if (= (length chords) 1)
-						     (insert-note (note.name (car (list-ref chords 0))) (note.duration (car (list-ref chords 0))))
+						     (insert-chord (list-ref chords 0) bass-duration)
 						     (d-WarningDialog "We have no chord")))))))
-				      
-				      
+;;;;;;;;;;;;;;;;;;;;;;;;; now the actual processing to loop through Notes finding an equivalent to bass-key and processing the notes belong. These are removed from Notes and then the outer loop to move on in the bass staff is taken.				      
+
+;;; first loop through Notes from the start (previous chords have been deleted) and seek the bass-note				      
 					(let loopgetbassnote ((index 0))
 (disp "now index " index "bass-key " bass-key "\n")
 					  (if (&gt; (length Notes) index)
 						 (if (= bass-key (note.name (car (list-ref Notes index))))
 						     (begin
-
+						       (disp "started " index " with " Notes "\n")
 						       (set! bass-note (list-ref Notes index))
-						       (delq bass-note Notes))
+						       (set! Notes (delq bass-note Notes))
+						       (disp "removed " bass-note "from Notes\n")
+						       (disp "now " Notes "\n")
+						       )
 						     (loopgetbassnote (+ index 1)))))
-					
-					(if bass-note
-					    (begin    ;;; get the notes for this bass note
+                                           ;;;; if bass-note then that note should have been removed from Notes, next get chord notes
+                                        (set! notes-belonging '())
+					(if bass-note					    
 					      (let loop ((index 0))
-						    (define next-note (list-ref Notes index))
-						    (disp "next note is " next-note "\n")
+						(if (&gt; (length Notes) index)
+						    (let ( (next-note (list-ref Notes index)))
+						    (disp "next note is " next-note "\n should not be" (eq? next-note bass-note) "otherwise bass note is still there at " index "\n")
 						    (if (overlap bass-note (car next-note))
 							(begin
 							  (set! notes-belonging (cons*  next-note notes-belonging))
-							  (delq next-note Notes)
-							  (loop (+ index 1)))))
+							  (set! Notes (delq next-note Notes))
+							  (loop index)))))))
+;;;;;;;;;;;;;;;;;;; finished creating notes-belonging, all these notes are now removed from Notes
 					      
 					     
 					      (if (&gt; (length notes-belonging) 0)
@@ -178,25 +181,24 @@
 (disp "insert-chords finished\n")
 						    (d-PopPosition)
                                                     (if (d-NextObject)
-						    (loopforbasskey)
+							(loopforbasskey)
 						    (d-WarningDialog "finished bass staff")))
 						  
 						  (begin
 						  (d-WarningDialog "found no notes for a bass-note")
-						  (disp "Bass note with no accompanying chord" bass-note))))))) ;;;if there is a note in the bass clef
+						  (disp "Bass note with no accompanying chord" bass-note))));;;if there is a note in the bass clef
 
 
 
-					    (d-WarningDialog "No more bass notes")))
-			      (begin
-				(d-WarningDialog "You must have an empty staff above"))))))
+					    (d-WarningDialog "No more bass notes")))))
+
 		(begin
 		  (d-WarningDialog "The Notes list is empty"))))))
 				    
 	
 		(format #t "No notes found in recording\n")))
 
-
+(DenemoConvertFromBass)
 ;;;;;;;;;;;;;;;;;;;;;;;;</scheme>
         <label>Convert MIDI chords over Bass</label>
         <tooltip>Takes a MIDI recording over a bass line and inserts the chords by matching the bass notes. Each chord must include the bass note.</tooltip>
