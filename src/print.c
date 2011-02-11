@@ -1206,7 +1206,9 @@ printarea_configure_event (GtkWidget * widget, GdkEventConfigure * event)
 {
   DenemoGUI *gui = Denemo.gui;
   if(Denemo.pixbuf==NULL)
-    return FALSE;
+      refresh_print_view(TRUE);
+  if(Denemo.pixbuf==NULL)
+    return TRUE;
   gint width, height;
   gdk_drawable_get_size (Denemo.printarea->window, &width, &height);
   GtkAdjustment * vadjust = gtk_range_get_adjustment(GTK_RANGE(Denemo.printvscrollbar));
@@ -1221,6 +1223,7 @@ printarea_configure_event (GtkWidget * widget, GdkEventConfigure * event)
 
   gtk_adjustment_changed(vadjust);
   gtk_adjustment_changed(hadjust);
+
   return TRUE;
 }
 
@@ -1378,6 +1381,8 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
     width = pointx-markx;
     height = pointy-marky;
     GtkIconFactory *icon_factory = gtk_icon_factory_new ();
+    if(marky+adjust_y<0 || (marky+adjust_y + height > gdk_pixbuf_get_height(Denemo.pixbuf)))
+      return TRUE;
     GdkPixbuf *sub_pixbuf = gdk_pixbuf_new_subpixbuf (Denemo.pixbuf, markx+adjust_x, marky+adjust_y, width, height);
 
     GdkPixbuf *alphapixbuf = gdk_pixbuf_add_alpha (sub_pixbuf, TRUE, 255, 255, 255);
@@ -1414,6 +1419,7 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
 #if 1
   top_vbox = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title(top_vbox, "Denemo Print View");
   g_signal_connect (G_OBJECT (top_vbox), "delete-event",
 		    G_CALLBACK (hide_printarea_on_delete), NULL);
   gtk_container_add (GTK_CONTAINER (top_vbox), main_vbox);
