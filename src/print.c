@@ -1029,7 +1029,7 @@ void refresh_print_view (gboolean preview_only) {
   g_remove (path);
   gui->si->markstaffnum=0;//remove selection, as exportlilypond respects it - FIXME??
   exportlilypond (lilyfile, gui,  TRUE);
-  convert_ly(lilyfile);
+  // gives an error ??? convert_ly(lilyfile);
 
   gchar *printfile = g_strconcat (filename, "_", NULL);
   gchar *resolution = "-dresolution=180";
