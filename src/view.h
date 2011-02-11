@@ -116,4 +116,5 @@ void ToggleReduceToDrawingArea (GtkAction * action, DenemoScriptParam *param);
 gchar *get_midi_control_command(guchar type, guchar value);
 gchar *get_midi_pitch_bend_command(gint value);
 void load_initdotdenemo(void);
+gint hide_printarea_on_delete(void);
 #endif

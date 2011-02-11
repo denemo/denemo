@@ -1,4 +1,4 @@
-/* print.c
+/* Print.c
  * 
  * printing support for GNU Denemo
  * outputs to a pdf or png file
@@ -919,32 +919,32 @@ printall(void) {
 
 static void draw_print(DenemoGUI *gui) {
   gint x, y;
-  GtkAdjustment * adjust = gtk_range_get_adjustment(GTK_RANGE(gui->printhscrollbar));
+  GtkAdjustment * adjust = gtk_range_get_adjustment(GTK_RANGE(Denemo.printhscrollbar));
   x = (gint)adjust->value;
-  adjust = gtk_range_get_adjustment(GTK_RANGE(gui->printvscrollbar));
+  adjust = gtk_range_get_adjustment(GTK_RANGE(Denemo.printvscrollbar));
   y = (gint)adjust->value;
 
   gint width, height;
-  width = gdk_pixbuf_get_width( GDK_PIXBUF(gui->pixbuf)) - x;
-  height = gdk_pixbuf_get_height( GDK_PIXBUF(gui->pixbuf)) - y;
+  width = gdk_pixbuf_get_width( GDK_PIXBUF(Denemo.pixbuf)) - x;
+  height = gdk_pixbuf_get_height( GDK_PIXBUF(Denemo.pixbuf)) - y;
 
-  gdk_draw_pixbuf(gui->printarea->window, NULL, GDK_PIXBUF(gui->pixbuf),
+  gdk_draw_pixbuf(Denemo.printarea->window, NULL, GDK_PIXBUF(Denemo.pixbuf),
 		  x,y,0,0,/* x, y in pixbuf, x,y in window */
 		  width,  height, GDK_RGB_DITHER_NONE,0,0);
   if(selecting)
     {gint w = ABS(markx-curx);
     gint h = ABS(marky-cury);
-    gdk_draw_rectangle (Denemo.gui->printarea->window,
+    gdk_draw_rectangle (Denemo.printarea->window,
 			gcs_bluegc(), FALSE,markx, marky, w, h);
     }
   if(offsetting)
     {
       gint w = pointx-markx;
       gint h = pointy-marky;
-      gdk_draw_rectangle (Denemo.gui->printarea->window,
+      gdk_draw_rectangle (Denemo.printarea->window,
 			gcs_graygc(), TRUE, markx, marky, w, h);
 
-      gdk_draw_pixbuf(gui->printarea->window, NULL, GDK_PIXBUF(gui->pixbuf),
+      gdk_draw_pixbuf(Denemo.printarea->window, NULL, GDK_PIXBUF(Denemo.pixbuf),
 		  markx+x, marky+y, curx, cury,/* x, y in pixbuf, x,y in window */
 		w,  h, GDK_RGB_DITHER_NONE,0,0);
 
@@ -956,9 +956,9 @@ static void draw_print(DenemoGUI *gui) {
       gint w = pointx-markx;
       gint h = pointy-marky;
 
-      gdk_draw_rectangle (Denemo.gui->printarea->window,
+      gdk_draw_rectangle (Denemo.printarea->window,
 			gcs_graygc(), TRUE, markx-pad/2, marky-pad/2, w+pad, h+pad);
-      gdk_draw_pixbuf(gui->printarea->window, NULL, GDK_PIXBUF(gui->pixbuf),
+      gdk_draw_pixbuf(Denemo.printarea->window, NULL, GDK_PIXBUF(Denemo.pixbuf),
 		      markx+x, marky+y, markx, marky,/* x, y in pixbuf, x,y in window */
 		w,  h, GDK_RGB_DITHER_NONE,0,0);
 
@@ -970,10 +970,10 @@ static void draw_print(DenemoGUI *gui) {
 static GdkCursor *busycursor;
 static GdkCursor *arrowcursor;
 static void busy_cursor(void) {
- gdk_window_set_cursor(Denemo.gui->printarea->window, busycursor);
+ gdk_window_set_cursor(Denemo.printarea->window, busycursor);
 }
 static void normal_cursor(void) {
- gdk_window_set_cursor(Denemo.gui->printarea->window, arrowcursor);
+ gdk_window_set_cursor(Denemo.printarea->window, arrowcursor);
 }
 
 static void
@@ -1002,24 +1002,24 @@ printview_finished(GPid pid, gint status, gboolean preview_only) {
   process_printpreview_errors();
   gchar *filename = get_printfile_pathbasename();
   gchar *path = g_strconcat (filename, "_.png", NULL);
-  if(gui->pixbuf)
-    g_object_unref(gui->pixbuf);
-  gui->pixbuf = gdk_pixbuf_new_from_file (path, &error);
+  if(Denemo.pixbuf)
+    g_object_unref(Denemo.pixbuf);
+  Denemo.pixbuf = gdk_pixbuf_new_from_file (path, &error);
  if(error != NULL)
    {
      g_warning (_("Could not load the print preview:\n%s\n"),
                  error->message);
      g_error_free (error);
      error = NULL;
-     gui->pixbuf = NULL;
+     Denemo.pixbuf = NULL;
    } else {
      gboolean ret;
      //FIXME the parameters here are placed by trial and error - the docs indicate &ret should come at the end
      //but an error message results.
-     g_signal_emit_by_name(gui->printarea, "configure_event", NULL, &ret, NULL);
+     g_signal_emit_by_name(Denemo.printarea, "configure_event", NULL, &ret, NULL);
    }
- g_object_set_data(G_OBJECT(Denemo.gui->printarea), "printviewupdate", (gpointer) changecount);
- gtk_widget_queue_draw (gui->printarea);
+ g_object_set_data(G_OBJECT(Denemo.printarea), "printviewupdate", (gpointer) changecount);
+ gtk_widget_queue_draw (Denemo.printarea);
  
  if(!preview_only)
    printall();
@@ -1029,7 +1029,7 @@ void refresh_print_view (gboolean preview_only) {
   DenemoGUI *gui = Denemo.gui;
   GError *error = NULL;
   //g_print("preview only %d\n", preview_only);
-  if((changecount == Denemo.gui->changecount) && ((gint)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "printviewupdate")==Denemo.gui->changecount)) {
+  if((changecount == Denemo.gui->changecount) && ((gint)g_object_get_data(G_OBJECT(Denemo.printarea), "printviewupdate")==Denemo.gui->changecount)) {
     if(confirm ("No changes since last update", "Cancel refresh of print view?"))
       return;
   }
@@ -1052,7 +1052,7 @@ void refresh_print_view (gboolean preview_only) {
   g_remove (path);
   gui->si->markstaffnum=0;//remove selection, as exportlilypond respects it - FIXME??
   exportlilypond (lilyfile, gui,  TRUE);
-  convert_ly(lilyfile);
+  // gives an error ??? convert_ly(lilyfile);
 
   gchar *printfile = g_strconcat (filename, "_", NULL);
   gchar *resolution = "-dresolution=180";
@@ -1184,8 +1184,8 @@ printall_cb (GtkAction *action, gpointer param) {
   gchar *str = g_strdup_printf("Direct printing is experimental - use print preview otherwise after setting pdf viewer in prefs (currently %s).", Denemo.prefs.pdfviewer->str);
   warningdialog(str);
   g_free(str);
-  //g_print("changecount %d %d %d \n", changecount, Denemo.gui->changecount, (gint)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "printviewupdate"));
-  if((changecount == Denemo.gui->changecount) && ((gint)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "printviewupdate")==Denemo.gui->changecount)) 
+  //g_print("changecount %d %d %d \n", changecount, Denemo.gui->changecount, (gint)g_object_get_data(G_OBJECT(Denemo.printarea), "printviewupdate"));
+  if((changecount == Denemo.gui->changecount) && ((gint)g_object_get_data(G_OBJECT(Denemo.printarea), "printviewupdate")==Denemo.gui->changecount)) 
     printall();
   else
     refresh_print_view(FALSE);//calls printall when lilypond has finished.
@@ -1228,22 +1228,25 @@ gint
 printarea_configure_event (GtkWidget * widget, GdkEventConfigure * event)
 {
   DenemoGUI *gui = Denemo.gui;
-  if(gui->pixbuf==NULL)
-    return FALSE;
+  if(Denemo.pixbuf==NULL)
+      refresh_print_view(TRUE);
+  if(Denemo.pixbuf==NULL)
+    return TRUE;
   gint width, height;
-  gdk_drawable_get_size (gui->printarea->window, &width, &height);
-  GtkAdjustment * vadjust = gtk_range_get_adjustment(GTK_RANGE(gui->printvscrollbar));
+  gdk_drawable_get_size (Denemo.printarea->window, &width, &height);
+  GtkAdjustment * vadjust = gtk_range_get_adjustment(GTK_RANGE(Denemo.printvscrollbar));
   vadjust->lower = vadjust->value = 0.0;
-  vadjust->upper = (gdouble)gdk_pixbuf_get_height(gui->pixbuf);
+  vadjust->upper = (gdouble)gdk_pixbuf_get_height(Denemo.pixbuf);
   vadjust->page_size =  (gdouble)height;
   
-  GtkAdjustment * hadjust = gtk_range_get_adjustment(GTK_RANGE(gui->printhscrollbar));
+  GtkAdjustment * hadjust = gtk_range_get_adjustment(GTK_RANGE(Denemo.printhscrollbar));
   hadjust->lower = hadjust->value = 0.0;
-  hadjust->upper = (gdouble)gdk_pixbuf_get_width(gui->pixbuf);
+  hadjust->upper = (gdouble)gdk_pixbuf_get_width(Denemo.pixbuf);
   hadjust->page_size =  (gdouble)width;
 
   gtk_adjustment_changed(vadjust);
   gtk_adjustment_changed(hadjust);
+
   return TRUE;
 }
 
@@ -1257,7 +1260,7 @@ printvertical_scroll (GtkAdjustment * adjust)
   DenemoGUI *gui = Denemo.gui;
   // g_print("vertical %d to %d\n", (int)adjust->value, (int)(adjust->value+adjust->page_size));
   adjust_y=(int)adjust->value;
-  gtk_widget_queue_draw (gui->printarea);
+  gtk_widget_queue_draw (Denemo.printarea);
 }
 
 static void
@@ -1266,14 +1269,14 @@ printhorizontal_scroll (GtkAdjustment * adjust)
   DenemoGUI *gui = Denemo.gui;
   // g_print("horizontal %d to %d\n", (int)adjust->value, (int)(adjust->value+adjust->page_size));
   adjust_x=(int)adjust->value;
-gtk_widget_queue_draw (gui->printarea);
+gtk_widget_queue_draw (Denemo.printarea);
 }
 
 static gint
 printarea_expose_event (GtkWidget * widget, GdkEventExpose * event)
 {
   DenemoGUI *gui = Denemo.gui;
-  if(gui->pixbuf==NULL)
+  if(Denemo.pixbuf==NULL)
     return TRUE;
   draw_print(gui);
   return TRUE;
@@ -1288,12 +1291,12 @@ printarea_expose_event (GtkWidget * widget, GdkEventExpose * event)
 gint
 printarea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 {
-  if(Denemo.gui->pixbuf==NULL)
+  if(Denemo.pixbuf==NULL)
     return TRUE;
   if(padding || offsetting || selecting) {
     curx = (int)event->x;
     cury = (int)event->y;
-    gtk_widget_queue_draw (Denemo.gui->printarea);
+    gtk_widget_queue_draw (Denemo.printarea);
   }
 
   return TRUE;
@@ -1328,7 +1331,7 @@ gint
 printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 {
   gboolean left = (event->button != 3);
-  if((!left) || (Denemo.gui->pixbuf==NULL)) {
+  if((!left) || (Denemo.pixbuf==NULL)) {
     popup_print_preview_menu();
     return TRUE;
   }
@@ -1337,9 +1340,9 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
     offsetx = curx - markx;
     offsety = cury - marky;  
 
-    GtkWidget *thedialog = g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offset-dialog");
-    g_object_set_data(G_OBJECT(Denemo.gui->printarea), "offsetx", (gpointer)offsetx);
-    g_object_set_data(G_OBJECT(Denemo.gui->printarea), "offsety", (gpointer)offsety);
+    GtkWidget *thedialog = g_object_get_data(G_OBJECT(Denemo.printarea), "offset-dialog");
+    g_object_set_data(G_OBJECT(Denemo.printarea), "offsetx", (gpointer)offsetx);
+    g_object_set_data(G_OBJECT(Denemo.printarea), "offsety", (gpointer)offsety);
     if(thedialog){
       gtk_dialog_response(GTK_DIALOG(thedialog), 1/*DRAGGED*/);
     } else { 
@@ -1354,8 +1357,8 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
   if(padding) {
     gint pad = ABS(curx - markx); 
 
-    GtkWidget *thedialog = g_object_get_data(G_OBJECT(Denemo.gui->printarea), "pad-dialog");
-    g_object_set_data(G_OBJECT(Denemo.gui->printarea), "padding", (gpointer)pad);
+    GtkWidget *thedialog = g_object_get_data(G_OBJECT(Denemo.printarea), "pad-dialog");
+    g_object_set_data(G_OBJECT(Denemo.printarea), "padding", (gpointer)pad);
     if(thedialog){
       gtk_dialog_response(GTK_DIALOG(thedialog), 1/*DRAGGED*/);
     } else { 
@@ -1373,7 +1376,7 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
   //    return TRUE;
   //  } else 
      selecting = TRUE;
-  if(Denemo.gui->pixbuf==NULL)
+  if(Denemo.pixbuf==NULL)
     return TRUE;
   pointx = markx=event->x;
   pointy = marky=event->y;
@@ -1390,7 +1393,7 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
   if(!left) {
         return TRUE;
   }
-  if(Denemo.gui->pixbuf==NULL)
+  if(Denemo.pixbuf==NULL)
     return TRUE;
   if(selecting) {
     pointx=event->x;
@@ -1401,7 +1404,9 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
     width = pointx-markx;
     height = pointy-marky;
     GtkIconFactory *icon_factory = gtk_icon_factory_new ();
-    GdkPixbuf *sub_pixbuf = gdk_pixbuf_new_subpixbuf (Denemo.gui->pixbuf, markx+adjust_x, marky+adjust_y, width, height);
+    if(marky+adjust_y<0 || (marky+adjust_y + height > gdk_pixbuf_get_height(Denemo.pixbuf)))
+      return TRUE;
+    GdkPixbuf *sub_pixbuf = gdk_pixbuf_new_subpixbuf (Denemo.pixbuf, markx+adjust_x, marky+adjust_y, width, height);
 
     GdkPixbuf *alphapixbuf = gdk_pixbuf_add_alpha (sub_pixbuf, TRUE, 255, 255, 255);
     GdkPixbuf *scaledpixbuf = gdk_pixbuf_scale_simple(alphapixbuf, width, height,GDK_INTERP_BILINEAR);
@@ -1428,41 +1433,56 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 }
 
 void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){ 
+  if(Denemo.printarea)
+    return;
   busycursor = gdk_cursor_new(GDK_WATCH);
   arrowcursor = gdk_cursor_new(GDK_RIGHT_PTR);//FIXME what is the system cursor called??
 
+
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
+#if 1
+  top_vbox = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title(top_vbox, "Denemo Print View");
+  gtk_widget_set_size_request(GTK_WIDGET(top_vbox), 1200, 600);
+  g_signal_connect (G_OBJECT (top_vbox), "delete-event",
+		    G_CALLBACK (hide_printarea_on_delete), NULL);
+  gtk_container_add (GTK_CONTAINER (top_vbox), main_vbox);
+ 
+ 
+#else
   gtk_box_pack_start (GTK_BOX (top_vbox), main_vbox, TRUE, TRUE,
 		      0);
+
+#endif
   GtkWidget *score_and_scroll_hbox = gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (main_vbox), score_and_scroll_hbox, TRUE, TRUE,
 		      0);
-  gui->printarea = gtk_drawing_area_new ();
-  gtk_box_pack_start (GTK_BOX (score_and_scroll_hbox), gui->printarea, TRUE,
+  Denemo.printarea = gtk_drawing_area_new ();
+  gtk_box_pack_start (GTK_BOX (score_and_scroll_hbox), Denemo.printarea, TRUE,
 		      TRUE, 0);
   GtkAdjustment *printvadjustment =  GTK_ADJUSTMENT (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
   g_signal_connect (G_OBJECT (printvadjustment), "value_changed",
 		      G_CALLBACK (printvertical_scroll), gui);
-  gui->printvscrollbar = gtk_vscrollbar_new (GTK_ADJUSTMENT (printvadjustment));
-  gtk_box_pack_start (GTK_BOX (score_and_scroll_hbox), gui->printvscrollbar, FALSE,
+  Denemo.printvscrollbar = gtk_vscrollbar_new (GTK_ADJUSTMENT (printvadjustment));
+  gtk_box_pack_start (GTK_BOX (score_and_scroll_hbox), Denemo.printvscrollbar, FALSE,
 		      TRUE, 0);
   GtkAdjustment *printhadjustment =  GTK_ADJUSTMENT (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
   g_signal_connect (G_OBJECT (printhadjustment), "value_changed",
 		      G_CALLBACK (printhorizontal_scroll), gui);
-  gui->printhscrollbar = gtk_hscrollbar_new (GTK_ADJUSTMENT (printhadjustment));
-  gtk_box_pack_start (GTK_BOX (main_vbox), gui->printhscrollbar, FALSE, TRUE, 0);
+  Denemo.printhscrollbar = gtk_hscrollbar_new (GTK_ADJUSTMENT (printhadjustment));
+  gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.printhscrollbar, FALSE, TRUE, 0);
 
-  g_signal_connect (G_OBJECT (gui->printarea), "configure_event",
+  g_signal_connect (G_OBJECT (Denemo.printarea), "configure_event",
 		      G_CALLBACK (printarea_configure_event), gui);
-  g_signal_connect (G_OBJECT (gui->printarea), "expose_event",
+  g_signal_connect (G_OBJECT (Denemo.printarea), "expose_event",
 		      G_CALLBACK (printarea_expose_event), gui);
-  g_signal_connect (G_OBJECT (gui->printarea), "button_release_event",
+  g_signal_connect (G_OBJECT (Denemo.printarea), "button_release_event",
 		      G_CALLBACK (printarea_button_release), gui);
-  g_signal_connect (G_OBJECT (gui->printarea), "motion_notify_event",
+  g_signal_connect (G_OBJECT (Denemo.printarea), "motion_notify_event",
 		      G_CALLBACK (printarea_motion_notify), gui);
-  g_signal_connect (G_OBJECT (gui->printarea), "button_press_event",
+  g_signal_connect (G_OBJECT (Denemo.printarea), "button_press_event",
 		      G_CALLBACK (printarea_button_press), gui);
-  gtk_widget_add_events (gui->printarea, (GDK_EXPOSURE_MASK
+  gtk_widget_add_events (Denemo.printarea, (GDK_EXPOSURE_MASK
 					  | GDK_POINTER_MOTION_MASK
 					  /* | GDK_LEAVE_NOTIFY_MASK */
 					  | GDK_BUTTON_PRESS_MASK
@@ -1470,7 +1490,7 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
 
 
   gtk_widget_show_all(main_vbox);
-  gtk_widget_hide(main_vbox);
+  gtk_widget_hide(top_vbox);
 }
 
 

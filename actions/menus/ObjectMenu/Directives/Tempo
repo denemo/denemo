@@ -71,9 +71,26 @@
 );define GetBPM
 
 ;see if there's already one there:
-(if (Directive?)
-	(if (equal? (d-DirectiveGetTag-standalone) "TempoMark" ) (set! replace #t ))
-)
+(if (d-Directive-standalone?  "TempoMark")
+(let ((choice #f))
+  (begin
+    (set! replace 'edit)
+    (set! choice (d-GetOption  (string-append "Change"stop"Delete" stop "Offset the Position" stop "Set Padding" stop cue-Advanced stop)))
+    (cond
+     ((boolean? choice)
+      (d-WarningDialog "Operation cancelled"))
+      ((equal? choice "Change")
+      	(set! replace #t ))
+     ((equal? choice  cue-Advanced)
+      (d-DirectiveTextEdit-standalone "TempoMark"))
+     ((equal? choice "Delete")
+      (d-DirectiveDelete-standalone "TempoMark"))
+     ((equal? choice "Offset the Position")
+      (ExtraOffset "TextScript" "standalone"))
+     ((equal? choice "Set Padding")
+      (SetPadding "TextScript" "standalone"))))))
+    ;  (disp "we have replace as " replace "\n")
+(if (boolean? replace) (begin
 ;read in the text:
 (set! TempoChoice (d-GetOption (string-append "Presto" stop "Vivace" stop "Allegro" stop 
 	"Moderato" stop "Andante" stop "Adagio" stop "Largo" stop  "Lento" stop "Tempo Adjust (ritardando, etc.)" stop 
@@ -173,7 +190,10 @@
 		(d-MoveCursorRight)
 	)
 )
-)</scheme>
+)
+))
+
+</scheme>
         <label>Tempo</label>
         <tooltip>Insert tempi and/or metronome marks, printed or not</tooltip>
       </row>
