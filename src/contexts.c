@@ -107,17 +107,17 @@ gpointer get_prevailing_context(DenemoObjType type) {
   switch(type) {
   case CLEF:
     obj = find_context_of_object(Denemo.gui->si, CLEF);
-    if(obj==NULL) obj = &curstaff->clef;
+    if(obj==NULL) obj = (DenemoObject *) &curstaff->clef;
     else obj = obj->object;
     break;
   case KEYSIG:
     obj = find_context_of_object(Denemo.gui->si, KEYSIG);
-    if(obj==NULL) obj = &curstaff->keysig;
+    if(obj==NULL) obj = (DenemoObject *) &curstaff->keysig;
 else obj = obj->object;
     break;
   case TIMESIG:
     obj = find_context_of_object(Denemo.gui->si, TIMESIG);
-    if(obj==NULL) obj = &curstaff->timesig;
+    if(obj==NULL) obj = (DenemoObject *) &curstaff->timesig;
 else obj = obj->object;
     break;
   default:

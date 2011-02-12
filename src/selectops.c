@@ -584,10 +584,10 @@ pastefrombuffer (void)
        curstaff? curstaff = si->currentstaff:0, curbuffernode = curbuffernode->next)
     {
 
-      g_debug ("Current staff %x, Current Staff Next %x,"
+      /*g_debug ("Current staff %x, Current Staff Next %x,"
 	       " CurBuf %x, CurBuf Next %x\n",
 	       curstaff, curstaff->next, curbuffernode, curbuffernode->next);
-
+      */
       //gint prevailing_clef = find_prevailing_clef(si);
 
       curmeasure = g_list_nth (firstmeasurenode (curstaff),
@@ -1207,7 +1207,7 @@ gboolean take_snapshot(void) {
 
 static print_queue(gchar *msg, GQueue *q) {
   GList*g;
-  g_print(msg);
+  g_debug("%s",msg);
   for(g=q->head;g;g=g->next) {
     DenemoUndoData *chunk = g->data;
     switch(chunk->action) {

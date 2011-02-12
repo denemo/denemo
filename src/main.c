@@ -415,9 +415,7 @@ void
 debug_handler (const gchar *log_domain, GLogLevelFlags log_level,
                const gchar *message, gpointer user_data)
 {
-#ifdef DEBUG
-  g_print (message);
-#endif
+  //g_debug ("%s",message);
 }
 
 
@@ -438,7 +436,8 @@ main (int argc, char *argv[])
 //#endif
   
    /* set the default handler for debug messages */
-  g_log_set_handler (NULL, G_LOG_LEVEL_DEBUG, debug_handler, NULL);
+  //FIXME this does not work
+  //g_log_set_handler (NULL, G_LOG_LEVEL_DEBUG, debug_handler, NULL);
 
 
   /* initialization of directory relocatability */

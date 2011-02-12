@@ -269,7 +269,7 @@ free_directive_data(DenemoDirective *directive) {
     }
     if(directive->widget && G_IS_OBJECT(directive->widget)) {
       //g_print("We should destroy the widget now ");
-      GtkWidget *texteditor =  (GtkWidget*)g_object_get_data(directive->widget, DENEMO_TEXTEDITOR_TAG);
+      GtkWidget *texteditor =  (GtkWidget*)g_object_get_data(G_OBJECT(directive->widget), DENEMO_TEXTEDITOR_TAG);
       if(texteditor)
 	gtk_widget_destroy(texteditor);//FIXME we may need to destroy its parents
       gtk_widget_destroy((GtkWidget *)directive->widget);

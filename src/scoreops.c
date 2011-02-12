@@ -434,7 +434,7 @@ GList *extract_verses(GList *verses){
   GList *g;
   for(g=verses;g;g=g->next) {
     GtkTextView *srcVerse = g->data;
-    ret = g_list_append(ret, get_text_from_view(srcVerse));
+    ret = g_list_append(ret, get_text_from_view(GTK_WIDGET(srcVerse)));
   }
   return ret;
 }

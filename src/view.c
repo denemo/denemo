@@ -2658,8 +2658,7 @@ SCM scheme_get_midi(void) {
  gboolean success = intercept_midi_event(&midi);
  if(!success)
    midi = 0;/* scripts should detect this impossible value and take action */
- gchar *buf = &midi;
- *buf &=0xF0;//do not return channel info
+ midi &=0xF0;//do not return channel info
  SCM scm = scm_int2num (midi);
  return  scm;
 }
@@ -4613,7 +4612,7 @@ void inner_main(void*closure, int argc, char **argv){
   if(Denemo.prefs.autoupdate)
     fetchcommands(NULL, NULL);
 
-  gchar *save_default_keymap_file_on_entry = FALSE;
+  gboolean save_default_keymap_file_on_entry = FALSE;
 #define choice1 "Simple\nQuick start users: use this until you have read the manual\n"
 #define choice2 "Arranger\nExperienced Users: transcribing music, playing music in, transposing etc"
 #define choice3 "Composer\nExperienced Users: entering and modifying music, working with selections WASD use etc"
@@ -4876,7 +4875,7 @@ close_gui ()
   DenemoGUI *oldgui = Denemo.gui;
   //gtk_widget_destroy (Denemo.page);  //note switch_page from g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
   gint index = g_list_index(Denemo.guis, oldgui);
-  gtk_notebook_remove_page(Denemo.notebook, index);
+  gtk_notebook_remove_page(GTK_NOTEBOOK(Denemo.notebook), index);
   g_print("Removed %d\n", index);
   Denemo.guis = g_list_remove (Denemo.guis, oldgui);//FIXME ?? or in the destroy callback??
   g_free (oldgui);

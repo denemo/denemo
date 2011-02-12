@@ -1899,8 +1899,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		}
  		if(debug){
 		  printf("\nmeasure is empty = %d", measure_is_empty);
-		  printf("\nticks_at_bar(%d) + measurewidth(%d)!= "
-				  "ticks_read(%d)\n",
+		  printf("\nticks_at_bar %ld  + measurewidth %d != ticks_read %ld\n",
 				  ticks_at_bar, measurewidth, ticks_read);
 		  printf("\ninternal ticks = %d\n", internaltoticks(0));
 		}

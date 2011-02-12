@@ -203,7 +203,7 @@ void fluid_playpitch(int key, int duration, int channel, int volume)
   if (synth){
     //g_print("Emitting key %d\n", key);
     fluid_synth_noteon(synth, channel, key, (volume?volume:127)*Denemo.gui->si->master_volume);
-    g_timeout_add(duration, noteoff_callback, (gpointer)( (channel<<8) + key)); 
+    g_timeout_add(duration,(GSourceFunc) noteoff_callback, (gpointer)( (channel<<8) + key)); 
   }
 }
 
@@ -473,8 +473,8 @@ void fluid_midi_play(gchar *callback)
 
   smf_rewind(Denemo.gui->si->smf);
   last_draw_time = 0.0;
-  g_idle_add(fluidsynth_play_smf_event, callback_string->str);
-  smf_seek_to_seconds(gui->si->smf, pause_time>0.0? pause_time:gui->si->start_time);
+  g_idle_add((GSourceFunc)fluidsynth_play_smf_event, callback_string->str);
+  gint error = smf_seek_to_seconds(gui->si->smf, pause_time>0.0? pause_time:gui->si->start_time);
 
 }
 
@@ -553,7 +553,7 @@ static void load_midi_buf(gint type, gint key, gint vel) {
 }
 
 //Under Interrupt
-static void handle_midi_in(void* data, fluid_midi_event_t* event)
+static handle_midi_event_func_t handle_midi_in(void* data, fluid_midi_event_t* event)
 {
   int type = 
     fluid_midi_event_get_type(event);
@@ -624,6 +624,7 @@ static void handle_midi_in(void* data, fluid_midi_event_t* event)
   default:
     g_warning("not handled type %x\n", type);
   }
+  return 0;
 }
 
 
@@ -640,7 +641,8 @@ fluid_start_midi_in(void)
   success = fluid_settings_setstr(settings, "midi.driver", "alsa_seq");
 #endif
   //g_print("success %d\n", success);
-  midi_in = new_fluid_midi_driver(settings, handle_midi_in, NULL);
+  midi_in = new_fluid_midi_driver(settings, 
+    (handle_midi_event_func_t) handle_midi_in, NULL);
 
 
   //g_print("midi in on %p\n", midi_in);

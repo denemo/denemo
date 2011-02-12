@@ -139,10 +139,10 @@ staffremovemeasures (staffnode * curstaff, guint pos)
   firstmeasure = firstmeasurenode (curstaff);
   delmeasure = g_list_nth (firstmeasure, pos);
   if(delmeasure) {
-#ifdef DEBUG
-    g_print ("Firstmeasure %x\t DelMeasure %x \t Position\n",
-	     firstmeasure, delmeasure, pos);
-#endif
+     
+    //  g_debug ("Firstmeasure %x\t DelMeasure %x \t Position\n",
+    //	     firstmeasure, delmeasure, pos);
+
     
     freeobjlist (delmeasure->data, NULL);
     ((DenemoStaff *) curstaff->data)->measures =

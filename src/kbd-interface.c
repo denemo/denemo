@@ -368,13 +368,13 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
 		    (GtkAttachOptions) (0), 0, 0);
 
   addbutton = gtk_button_new_from_stock (GTK_STOCK_ADD);
-  gtk_button_set_label(addbutton, "Add One Key Shortcut");
+  gtk_button_set_label(GTK_BUTTON(addbutton), "Add One Key Shortcut");
   gtk_box_pack_end (GTK_BOX (vbox), addbutton, FALSE, TRUE, 0);
 
 
 
   add2button = gtk_button_new_from_stock (GTK_STOCK_ADD);
-  gtk_button_set_label(add2button, "Add Two Key Shortcut");
+  gtk_button_set_label(GTK_BUTTON(add2button), "Add Two Key Shortcut");
   gtk_box_pack_end (GTK_BOX (vbox), add2button, FALSE, TRUE, 0);
 
 

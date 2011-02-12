@@ -529,20 +529,20 @@ DenemoObject *get_obj_for_start_time(smf_t *smf, gdouble time) {
   if(time<0.0)
       time=0.0;
   static smf_event_t *event;
-  static gint smfsync;
-  static last_si = NULL;
+  static guint smfsync;
+  static DenemoScore *last_si = NULL;
   static gdouble last_time=-1.0;
   if( fabs(time-last_time)>0.001 || (last_si!=Denemo.gui->si) || (smfsync!=Denemo.gui->si->smfsync)) {
     smf_event_t *initial = smf_peek_next_event(smf);
 
     gdouble total = smf_get_length_seconds(smf);
     time = (time>total?total:time);
-    smf_seek_to_seconds(smf, time);
+    gint error = smf_seek_to_seconds(smf, time);
     do {
       event = smf_get_next_event(smf);
     } while(event && (!(event->midi_buffer[0] & MIDI_NOTEON) || !event->user_pointer));
     if(initial)
-      smf_seek_to_event(smf, initial);
+      error = smf_seek_to_event(smf, initial);
     last_si = Denemo.gui->si;
     smfsync = Denemo.gui->si->smfsync;
     last_time = time;
@@ -556,20 +556,20 @@ DenemoObject *get_obj_for_end_time(smf_t *smf, gdouble time) {
   if(time<0.0)
       time=0.0;
   static smf_event_t *event = NULL;
-  static gint smfsync;
-  static last_si = NULL;
+  static guint smfsync;
+  static DenemoScore * last_si = NULL;
   static gdouble last_time=-1.0;
   if( fabs(time-last_time)>0.001 || (last_si!=Denemo.gui->si) || (smfsync!=Denemo.gui->si->smfsync)) {
     smf_event_t *initial = smf_peek_next_event(smf);
 
     gdouble total = smf_get_length_seconds(smf);
     time = (time>total?total:time);
-    smf_seek_to_seconds(smf, time);
+    gint error = smf_seek_to_seconds(smf, time);
     do {
       event = smf_get_next_event(smf);
     } while(event && (!(event->midi_buffer[0] & MIDI_NOTEOFF) || !event->user_pointer));
     if(initial)
-      smf_seek_to_event(smf, initial);
+      error = smf_seek_to_event(smf, initial);
     last_si = Denemo.gui->si;
     smfsync = Denemo.gui->si->smfsync;
     last_time = time;

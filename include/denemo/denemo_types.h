@@ -409,7 +409,7 @@ typedef struct DenemoPrefs
   gint maxhistory;/**< how long a history of used files to retain */
   GString *browser; /**< Default browser string */
   
-  gchar *midi_audio_output; /**< How the user wants to deal with audio/midi output */
+  const gchar *midi_audio_output; /**< How the user wants to deal with audio/midi output */
   GString *csoundcommand; /**< command used to execute csound */
   GString *csoundorcfile; /**< Path to .orc file used for csound playback */
   gboolean rtcs; /**< Real time csound */

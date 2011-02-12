@@ -76,7 +76,7 @@ gchar * process_http(int sockfd, char *host, char *page, gchar *other, char *pos
 			       "%s", page, host, other, strlen(poststr), poststr);
 
 	//g_print("about to write %s\n", out->str);
-	write(sockfd, out->str, out->len);
+	gint error = write(sockfd, out->str, out->len);
 	g_string_free(out, TRUE);
 
 	while ((n = read(sockfd, recvline, MAXLINE)) > 0) {
