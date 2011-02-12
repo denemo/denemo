@@ -1903,3 +1903,24 @@
       (if (d-NextMovement)
 	  (loop))))
   (d-PopPosition))
+  
+;Aliases for Breve and Longa to use with Denemo numbers for durations.
+(define (d-3072) (d-Breve))
+(define (d-6411) (d-Longa))
+(define (d--3072) (d-Breve))
+(define (d--6411) (d-Longa))
+(define (d-Insert3072) (d-InsertBreve))
+(define (d-Insert6411) (d-InsertLonga))
+(define (d-Insert-3072) (d-InsertBreve))
+(define (d-Insert-6411) (d-InsertLonga))
+(define (d-Set3072) (d-SetBreve))
+(define (d-Set6411) (d-SetLonga))
+(define (d-Set-3072) (d-SetBreve))
+(define (d-Set-6411) (d-SetLonga))
+(define (d-Change3072) (d-ChangeBreve))
+(define (d-Change6411) (d-ChangeLonga))
+(define (d-Change-3072) (d-ChangeBreve))
+(define (d-Change-6411) (d-ChangeLonga))
+
+;Insert a no-pitch note of the prevailing duration.
+(define (d-Enter) (eval-string (string-append "(d-" (number->string (abs (d-GetPrevailingDuration))) ")" )))
