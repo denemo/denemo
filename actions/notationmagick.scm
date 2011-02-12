@@ -10,12 +10,14 @@
 ;; Ask for a new NOTATIONSTRING with an input-window, remember the value and return it as list of symbols for ANS
 (define (NotationMagick::AskNewNotationstring)
 	(define new (d-GetUserInput "Enter Lilypond notes" "Please insert a list of lilypond notes, separated by Space." NotationMagick::NOTATIONSTRING))
-	(set! NotationMagick::NOTATIONSTRING new)
+	(if new
+		(set! NotationMagick::NOTATIONSTRING new))
 	(map string->symbol (string-tokenize NotationMagick::NOTATIONSTRING)))
 
 (define (NotationMagick::AskNewAsciistring)
 	(define new (d-GetUserInput "Enter ASCII chars" "Please insert any kind and number of ASCII chars " NotationMagick::ASCIISTRING))
-	(set! NotationMagick::ASCIISTRING new)
+	(if new
+		(set! NotationMagick::ASCIISTRING new))
 	NotationMagick::ASCIISTRING)
 
 
