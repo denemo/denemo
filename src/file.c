@@ -630,7 +630,7 @@ file_import_lilypond_with_check (GtkAction * action, DenemoScriptParam * param)
   DenemoGUI *gui = Denemo.gui;
   if (!gui->notsaved ||  (gui->notsaved && (confirmbox (gui))))
     {
-      param->status = !file_import_lilypond (gui, FALSE, REPLACE_SCORE, filename);
+      param->status = !file_import_lilypond (gui, FALSE, ADD_MOVEMENTS, filename);
     }
 }
 
@@ -652,7 +652,7 @@ file_import_midi_with_check (GtkAction * action, DenemoScriptParam * param)
   DenemoGUI *gui = Denemo.gui;
   if (!gui->notsaved ||  (gui->notsaved && (confirmbox (gui))))
     {
-      param->status = !file_import_midi (gui, FALSE, REPLACE_SCORE, filename);
+      param->status = !file_import_midi (gui, FALSE, ADD_MOVEMENTS, filename);
     }
 }
 
@@ -674,7 +674,7 @@ file_import_musicxml_with_check (GtkAction * action, DenemoScriptParam * param)
   DenemoGUI *gui = Denemo.gui;
   if (!gui->notsaved ||  (gui->notsaved && (confirmbox (gui))))
     {
-      param->status = !file_import_musicxml (gui, FALSE, REPLACE_SCORE, filename);
+      param->status = !file_import_musicxml (gui, FALSE, ADD_MOVEMENTS, filename);
     }
 }
 
