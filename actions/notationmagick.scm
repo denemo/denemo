@@ -2,8 +2,21 @@
 ;; By Nils Gey 2010
 ;; Needs loaded ans.scm
 
-;; A global var, used by several NotationMagick functions to remember the last value used 
+;; Global vars, used by several NotationMagick functions to remember the last value used 
 (define NotationMagick::NOTATIONSTRING "c' e' g'") 
+(define NotationMagick::ASCIISTRING "bach") 
+
+
+;; Ask for a new NOTATIONSTRING with an input-window, remember the value and return it as list of symbols for ANS
+(define (NotationMagick::AskNewNotationstring)
+	(define new (d-GetUserInput "Enter Lilypond notes" "Please insert a list of lilypond notes, separated by Space." NotationMagick::NOTATIONSTRING))
+	(set! NotationMagick::NOTATIONSTRING new)
+	(map string->symbol (string-tokenize NotationMagick::NOTATIONSTRING)))
+
+(define (NotationMagick::AskNewAsciistring)
+	(define new (d-GetUserInput "Enter ASCII chars" "Please insert any kind and number of ASCII chars " NotationMagick::ASCIISTRING))
+	(set! NotationMagick::ASCIISTRING new)
+	NotationMagick::ASCIISTRING)
 
 
 ; Lilypond wrappers for ANS functions
@@ -25,11 +38,6 @@
 (define (NotationMagick::InsertMemberRandomlyLy lylist)
 	(ANS::InsertMemberRandomly (map ANS::Ly2Ans lylist)))
 
-;; Ask for a new NOTATIONSTRING with an input-window, remember the value and return it as list of symbols for ANS
-(define (NotationMagick::AskNewNotationstring)
-(define new (d-GetUserInput "Enter Lilypond notes" "Please insert a list of lilypond notes, separated by Space." NotationMagick::NOTATIONSTRING))
-(set! NotationMagick::NOTATIONSTRING new)
-(map string->symbol (string-tokenize NotationMagick::NOTATIONSTRING)))
 
 ;; Insert a random note which is in a reasonable range according to the prevailing clef. Up to one step above/under the first Ledger line. 
 ;; First the prototype, then one derived version for chromatic, one for diatonic. 
