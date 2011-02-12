@@ -5,7 +5,7 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>InsertStringAsBinaryRhythm</action>
+        <action>NotationMagick-InsertStringAsBinaryRhythm</action>
         <scheme>(let ((return (NotationMagick::AskNewAsciistring)))
 	(if return
 		(NotationMagick::PutBinaryStringList (NotationMagick::String-&gt;CharsAsBinary return))

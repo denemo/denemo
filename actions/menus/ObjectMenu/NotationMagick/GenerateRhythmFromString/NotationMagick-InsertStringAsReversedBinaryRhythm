@@ -5,8 +5,8 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after>InsertReversedStringAsBinaryRhythm</after>
-        <action>InsertStringAsReversedBinaryRhythm</action>
+        <after>NotationMagick-InsertReversedStringAsBinaryRhythm</after>
+        <action>NotationMagick-InsertStringAsReversedBinaryRhythm</action>
         <scheme>(let ((return (NotationMagick::AskNewAsciistring)))
 	(if return
 		(NotationMagick::PutBinaryStringList (NotationMagick::ReverseStringsInList (NotationMagick::String-&gt;CharsAsBinary return)))
