@@ -89,7 +89,7 @@ You can reverse the ascii/binary digits to get more variation in the measure beg
 	(map (lambda (x) (NotationMagick::Char->binary x 8)) (string->list stringy)))
 
 ;Digit->binary is basically (number->string n 2) which fills with leading zeros to 4 digits.
-(define (NotationMagick::NotationMagick::Digit->binary numbery)
+(define (NotationMagick::Digit->binary numbery)
 	(define numberstring (number->string numbery 2))
 	(NotationMagick::LeadingZerosFiller numberstring 4))
 
@@ -98,10 +98,9 @@ You can reverse the ascii/binary digits to get more variation in the measure beg
 
 ;This is of limited use because you can't access all 4-digit variations. 10-15 (decimal) are out of range.
 ;If you want those create your own list of numbers and use
-;TODO: Keep an initial 0 for a scheme number. Guile built-in? (number->string)
 (define (NotationMagick::Number->DigitsAsBinary numbery)
 	; this is really awkward
-	(define digitstringlist (map (lambda (x) (make-string 1 x)) (string->list (number->string numbery))))
+	(define digitstringlist (map (lambda (x) (make-string 1 x)) (string->list  (number->string numbery))))
 	(set! digitstringlist (map string->number digitstringlist))
 	(map NotationMagick::Digit->binary digitstringlist))
 
