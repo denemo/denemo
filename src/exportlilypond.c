@@ -750,7 +750,8 @@ return g_string_free(ret, FALSE);
 
 /* insert editable prefix string from passed directives, updating duration and open brace count */
 
-static void directives_insert_prefix_editable(GList *directives, gint *popen_braces, gint *pprevduration, GtkTextIter *iter, gchar* invisibility, gboolean override) {
+static void 
+directives_insert_prefix_editable (GList *directives, gint *popen_braces, gint *pprevduration, GtkTextIter *iter, gchar* invisibility, gboolean override) {
   DenemoGUI *gui = Denemo.gui;
   GList *g = directives;
   for(;g;g=g->next) {
@@ -764,6 +765,22 @@ static void directives_insert_prefix_editable(GList *directives, gint *popen_bra
     }
   }
 }
+
+static void
+directives_insert_postfix_editable (GList *directives, gint *popen_braces, gint *pprevduration, GtkTextIter *iter, gchar *invisibility, gboolean override) {
+  DenemoGUI *gui = Denemo.gui;
+  GList *g = directives;
+  for(;g;g=g->next) {
+    DenemoDirective *directive = (DenemoDirective *)g->data;
+    if(directive->postfix && directive->postfix->len) {
+      *pprevduration = -1;
+      *popen_braces += brace_count(directive->postfix->str);
+      insert_editable(&directive->postfix, directive->postfix->str, iter, invisibility, gui);
+    }
+  }
+}
+
+
 
 
 
@@ -873,7 +890,9 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		  for (j = 0; j < numdots; j++)
 		    g_string_append_printf (ret, ".");
 		}
+	      
 	      outputret;
+	      directives_insert_postfix_editable(pchord->directives, &open_braces, &prevduration, iter, invisibility, FALSE);
 	    } 
 	  else /* there are notes */
 	    {
@@ -997,16 +1016,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		outputret;
 	      }
 
-	    {GList *g = pchord->directives;
-	      for(;g;g=g->next) {
-		DenemoDirective *directive = (DenemoDirective *)g->data;
-		if(directive->postfix && directive->postfix->len) {
-		  prevduration = -1;
-		  open_braces += brace_count(directive->postfix->str);
-		  insert_editable(&directive->postfix, directive->postfix->str, iter, invisibility, gui);
-		}
-	      }
-	    }
+	    directives_insert_postfix_editable(pchord->directives, &open_braces, &prevduration, iter, invisibility, FALSE);
 
 	    if (pchord->dynamics && (pchord->notes->next==NULL))
 	      {

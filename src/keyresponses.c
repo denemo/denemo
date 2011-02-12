@@ -212,7 +212,7 @@ gchar *  process_key_event(GdkEventKey * event, gchar* perform_command()) {
       GList *g;
       GString *continuations = g_string_new("");
       for(g=Denemo.continuations;g;g=g->next) 
-	g_string_append_printf(continuations, "%s%s", ((GString *) g->data)->str, ", or ");
+	g_string_append_printf(continuations, "%s%s", (gchar *) g->data, ", or ");
       g_string_printf(prefix_store, "Prefix Key %s, waiting for key %stype Esc to abort", name, continuations->str);
       g_string_free(continuations, TRUE);
       gtk_statusbar_pop(GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id);

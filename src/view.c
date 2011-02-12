@@ -2658,7 +2658,9 @@ SCM scheme_get_midi(void) {
  gboolean success = intercept_midi_event(&midi);
  if(!success)
    midi = 0;/* scripts should detect this impossible value and take action */
- midi &=0xF0;//do not return channel info
+ gchar *buf = (gchar*)&midi;
+ *buf &=0xF0;//do not return channel info
+
  SCM scm = scm_int2num (midi);
  return  scm;
 }

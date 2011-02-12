@@ -40,7 +40,7 @@ draw_figure (cairo_t *cr,
 	}
 
     }
-  g_debug ("%s\n", text);
+  //g_debug ("%s\n", text);
 
   drawnormaltext_cr( cr, text, xx, y + STAFF_HEIGHT + 10 );
 }
