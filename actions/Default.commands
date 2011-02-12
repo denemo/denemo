@@ -4371,6 +4371,37 @@ for second and subsequent systems</tooltip>
         <menupath>/MainMenu/EditMenu/Select</menupath>
         <label>Select Left</label>
         <tooltip>Create a selection, move cursor left.</tooltip>
+      </row>
+      <row>
+        <action>InsertStringAsBinaryRhythm</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotationMagick/GenerateRhythmFromString</menupath>
+        <label>Insert string as binary rhythm</label>
+        <tooltip>Give a string to generate a rhythm out of its ascii chars in binary encoding</tooltip>
+      </row>
+      <row>
+        <action>InsertReversedStringAsBinaryRhythm</action>
+        <after>InsertStringAsBinaryRhythm</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotationMagick/GenerateRhythmFromString</menupath>
+        <label>Insert reversed string as binary rhythm</label>
+        <tooltip>Give a string to generate a rhythm out of its ascii chars in binary encoding. The string gets reversed before converting.</tooltip>
+      </row>
+      <row>
+        <action>InsertStringAsReversedBinaryRhythm</action>
+        <after>InsertReversedStringAsBinaryRhythm</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotationMagick/GenerateRhythmFromString</menupath>
+        <label>Insert string as reversed binary rhythm</label>
+        <tooltip>Give a string to generate a rhythm out of its ascii chars in binary encoding. The rhythm for each letter gets reversed before inserting.</tooltip>
+      </row>
+      <row>
+        <action>InsertReversedStringAsReversedBinaryRhythm</action>
+        <after>InsertStringAsReversedBinaryRhythm</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotationMagick/GenerateRhythmFromString</menupath>
+        <label>Insert reversed string as reversed binary rhythm</label>
+        <tooltip>Give a string to generate a rhythm out of its ascii chars in binary encoding. The string gets reversed before converting. The rhythm for each letter gets reversed before inserting.</tooltip>
       </row>      
     </map>
   </merge>

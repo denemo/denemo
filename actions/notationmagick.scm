@@ -11,14 +11,14 @@
 (define (NotationMagick::AskNewNotationstring)
 	(define new (d-GetUserInput "Enter Lilypond notes" "Please insert a list of lilypond notes, separated by Space." NotationMagick::NOTATIONSTRING))
 	(if new
-		(set! NotationMagick::NOTATIONSTRING new))
-	(map string->symbol (string-tokenize NotationMagick::NOTATIONSTRING)))
+		(begin (set! NotationMagick::NOTATIONSTRING new) (map string->symbol (string-tokenize NotationMagick::NOTATIONSTRING)))
+		#f))
 
 (define (NotationMagick::AskNewAsciistring)
 	(define new (d-GetUserInput "Enter ASCII chars" "Please insert any kind and number of ASCII chars " NotationMagick::ASCIISTRING))
 	(if new
-		(set! NotationMagick::ASCIISTRING new))
-	NotationMagick::ASCIISTRING)
+		(begin (set! NotationMagick::ASCIISTRING new) NotationMagick::ASCIISTRING)
+		#f))
 
 
 ; Lilypond wrappers for ANS functions
