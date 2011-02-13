@@ -6,8 +6,12 @@
     <map>
       <row>
         <action>NotationMagick-InsertPoolShuffled</action>
-        <scheme>;;; Part of NotationMagick 
-				(NotationMagick::InsertListRandomlyLy (NotationMagick::AskNewNotationstring))</scheme>
+		<scheme>;;; Part of NotationMagick 
+				(let ((return (NotationMagick::AskNewNotationstring)))
+					(if return
+						 (NotationMagick::InsertListRandomlyLy return)
+						#f))
+		</scheme>
         <label>Insert shuffled pool</label>
         <tooltip>Inserts all notes, shuffled, from a user-specified pool of notes in Lilypond syntax</tooltip>
       </row>
