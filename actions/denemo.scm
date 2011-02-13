@@ -61,14 +61,14 @@
 			(loop)
 			#t)))
 			
-;Repeat a function until another (a test) returns #f. The return value of proc does NOT matter
-;;Warning: From all Repeat functions this one has the highest probability to be stuck in a loop forever. Always use tests that MUST return #t in the end. Do NOT use the Denemo tests like (None?) or (Music?) for example, they know nothing about a staffs end.
-(define (RepeatProcUntilTest proc test)
+;Repeat a function while another (a test) returns #t. The return value of proc does NOT matter
+;;Warning: From all Repeat functions this one has the highest probability to be stuck in a loop forever. Always use tests that MUST return #f in the end. Do NOT use the Denemo tests like (None?) or (Music?) for example, they know nothing about a staffs end.
+(define (RepeatProcWhileTest proc test)
 	(RepeatUntilFail 		
 		(lambda () 
 			(if (test)
-				#f ; test true, let RepeatUntilFail fail.
-				(begin (proc) #t))))) ; this is a dumb script. It will try to execute proc again even if proc itself returned #f. 		
+				(begin (proc) #t); this is a dumb script. It will try to execute proc again even if proc itself returned #f. 	
+				#f )))) ; test failed, let RepeatUntilFail fail.		
 
 
 ;;; GetUniquePairs is a function that takes a list and combines each value with any other, but without duplicates and in order.
@@ -209,6 +209,8 @@
 ;Return values are the return values the script itself gives.
 ;The third, optional, parameter can prevent an object from be processed. By default this parameter is #t so the command will be will be applied to any object in the selection and let the command itself decide what to do (or just do nothing). By giving the third optional argument you can specify additional conditions, for example with GetType. In general: Insert test conditions here, if #t the current object will be processed, otherwise it will be skipped.
 ;Example: (SingleAndSelectionSwitcher  "(d-ChangeDurationByFactorTwo *)" "(d-ChangeDurationByFactorTwo *)")
+;TODO: Get rid of eval.
+;TODO: Why is there a GoToSelectionStart AND PopPosition?
 
 (define* (SingleAndSelectionSwitcher commandsingle #:optional (commandselection commandsingle) (onlyFor "#t")) ; Amazingly commandsingle is already defined on spot so that it can be used again in the same line to define commandselection 
 	(d-PushPosition)
