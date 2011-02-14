@@ -888,7 +888,7 @@
 	(d-MoveCursorLeft)
 	(ANS::ChangeChordNotes ansNotes)
 	(if duration  ;If user gave duration parameter. Does not test if the duration is a valid number
-			(eval-string (string-append "(d-Change" (number->string duration) ")"))) ; TODO: eval string should be gone. And it does not support breve and longa!
+			(eval-string (string-append "(d-Change" (number->string duration) ")"))) 
 	(if (and dots (not (= dots 0))) ;If the user gave 0 as durations ignore that as well
 			(let loop ((count 0)) 
 				(d-AddDot)
@@ -917,6 +917,49 @@
  	; *50 return the "...eses" version which is a multiple of 50. 
  	; +20 from "...eses" to plain.
  	(+ 20 (* 50 (quotient ansNote 50))))
+
+;without enharmonic or chromatic versions. This functions simply is concerned about how it "sounds".
+;Returns the half-tone step distance from C. 
+(define (ANS::GetHalfToneDistanceFromC ansNote)
+		(if (= ansNote +inf.0)
+			+inf.0
+			(case (remainder ansNote 350)
+				((00) 10) ; ceses,,, -> bes
+				((10) 11) ; ces,,, -> b
+				((20) 0) ; c,,, 
+				((30) 1) ; cis,,,
+				((40) 2) ; cisis,,, -> d ...
+				((50) 0) ; deses,,,
+				((60) 1) ; des,,,
+				((70) 2) ; d,,,
+				((80) 3) ; dis,,,
+				((90) 4) ; disis,,,
+				((100) 2) ; eeses,,,
+				((110) 3) ; ees,,,
+				((120) 4) ; e,,,
+				((130) 5) ; eis,,,
+				((140) 6) ; eisis,,,
+				((150) 3) ; feses,,,
+				((160) 4) ; fes,,,
+				((170) 5) ; f,,,
+				((180) 6) ; fis,,,
+				((190) 7) ; fisis,,,
+				((200) 5) ; geses,,,
+				((210) 6) ; ges,,,
+				((220) 7) ; g,,,
+				((230) 8) ; gis,,,
+				((240) 9) ; gisis,,,
+				((250) 7) ; aeses,,,
+				((260) 8) ; aes,,,
+				((270) 9) ; a,,,
+				((280) 10) ; ais,,,
+				((290) 11) ; aisis,,,
+				((300) 9) ; beses,,,
+				((310) 10) ; bes,,,
+				((320) 11) ; b,,,
+				((330) 0) ; bis,,,
+				((340) 1) ; bisis,,,
+				(else #f))))
 
 ;Alteration adds a sharp, flat or nothing to a ans-note. Returns an ANS
 ;number. Wants an ans number and a procedure that will return either 0, 1 or -1. 
@@ -988,9 +1031,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Analaysis;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;Convert two ANS notes to one ANS interval
+;Convert two ANS notes to one ANS interval, ignores octaves.
+;TODO: Give out the octave between.
 ;Return pair in pair: (intervall (lower . higher))
-(define	(ANS::GetIntervall ansNoteOne ansNoteTwo)
+;Yes, I made a typo in Intervall. 
+(define (ANS::GetIntervall ansNoteOne ansNoteTwo)
 	(define higher ansNoteOne)
 	(define lower ansNoteTwo)
 	(if (<= ansNoteOne ansNoteTwo) ; bring the notes in right order. We want to calculate from top to bottom.
@@ -1000,15 +1045,101 @@
 	;Extract the tone, without octave and feed it to the hash to get the notes position in the pillar of 5th.
 	(cons
 		(- (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote higher)) (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote lower)))
-		(cons ansNoteTwo ansNoteOne))) ; do NOT return the ordered invervals. Return as they came in.
+		(cons ansNoteTwo ansNoteOne))) ; do NOT return the ordered or simplified invervals. Return as they came in.
 
 
 ;GetIntervall for lists. 
 ;Converts a list of pairs(lower note and higher ANS note) to a list of interval numbers (ans syntax. steps in the pillar of 5th)
-(define (ANS::CreateIntervalsFromPairs listy) ;Wants a list of pairs.
+;Wants a list of pairs
+(define (ANS::CreateIntervalsFromPairs listy)
 	(define (GetIntv pair)
 		(ANS::GetIntervall (car pair) (cdr pair)))
 	(map GetIntv listy))
+	
+; Wants a number from ANS::GetIntervall 
+; Returns a number which represents the simplest "sounding" interval.
+; For example: c - gis becomes c -as and therefore a minor sixth.  All Tritoni are represented as augmented 4th.
+; There has to be made a decision if the "higher" interval is sounding lower like diminished 1 or double diminished 2. Is C - Ces M7 or m2? For Denemo all intervals are from bottom to top so ces is M7.
+; Augmented Prime and Diminished Octave have to build an Octave; so do have Augmented Octave and Diminished Prime.
+; With the normal system a double diminished second has to be treated as Major Seventh! Or not? Its confusing.
+(define (ANS::Interval->Sound interval)	
+	(case interval
+		((0) 0) ;P1			
+		((-5) -5) ;m2			
+		((2) 2) ;M2			
+		((-3) -3) ;m3
+		((4) 4) ;M3	
+		((-1) -1) ;P4	
+		((6) 6) ;T		
+		((1) 1) ;P5
+		((-4) -4) ;m6			
+		((3) 3) ;M6		
+		((-2) -2) ;m7	
+		((5) 5) ;M7		
+		;Augmentend, Diminished
+		((7) -5) ;A1		
+		((-7) 5) ;D1 ; ALERT
+		((9) -3) ;A2
+		((-12) 0) ;D2
+		((11) -1) ;A3
+		((-10) 2) ;D3
+		((6) 6) ;A4
+		((-8) 4) ;D4
+		((8) -4) ;A5		
+		((-6) 6) ;D5
+		((10) -2) ;A6	
+		((-11) 1) ;D6	
+		((12) 0) ;A7		
+		((-9) 3) ;D7
+		#! ;Double Augmented, Double Diminished
+		((14) ) ;AA1		
+		((-14) ) ;DD1		
+		((16) ) ;AA2		
+		((-19) ) ;DD2			
+		((18) ) ;AA3		
+		((-17) ) ;DD3					
+		((13) ) ;AA4		
+		((-15) ) ;DD4			
+		((15) ) ;AA5		
+		((-13) ) ;DD5
+		((17) ) ;AA6		
+		((-18) ) ;DD6		
+		((19) ) ;AA7		
+		((-16) ) ;DD7
+		;Triple Augmented, Triple Diminished
+		((21) ) ;AAA1		
+		((-21) ) ;DDD1		
+		((23) ) ;AAA2		
+		((-26) ) ;DDD2			
+		((25) ) ;AAA3		
+		((-24) ) ;DDD3					
+		((20) ) ;AAA4		
+		((-22) ) ;DDD4			
+		((22) ) ;AAA5		
+		((-20) ) ;DDD5
+		((24) ) ;AAA6		
+		((-25) ) ;DDD6		
+		((26) ) ;AAA7		
+		((-23) ) ;DDD7
+		;Quadruple Augmented, Quadruple Diminished		
+		((28) ) ;AAAA1		
+		((-28) ) ;DDDD1		
+		((30) ) ;AAAA2		
+		((-33) ) ;DDDD2			
+		((32) ) ;AAAA3		
+		((-31) ) ;DDDD3					
+		((27) ) ;AAAA4		
+		((-29) ) ;DDDD4			
+		((29) ) ;AAAA5		
+		((-27) ) ;DDDD5
+		((31) ) ;AAAA6		
+		((-32) ) ;DDDD6		
+		((33) ) ;AAAA7		
+		((-30) ) ;DDDD7		
+		;Quintuple Augmented, Quintuple Diminished. Only feses to bisis, the Final Frontier.	
+		((34) ) ;AAAAA4		
+		((-34) ) ;DDDDD5 !#
+		(else #f)))
 
 ;ANS::IntervalMember? checks if a forbidden interval is in the given list
 ;;Wants a list of ans intervals, returns #t or #f

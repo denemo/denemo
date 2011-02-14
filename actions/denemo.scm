@@ -61,14 +61,14 @@
 			(loop)
 			#t)))
 			
-;Repeat a function until another (a test) returns #f. The return value of proc does NOT matter
-;;Warning: From all Repeat functions this one has the highest probability to be stuck in a loop forever. Always use tests that MUST return #t in the end. Do NOT use the Denemo tests like (None?) or (Music?) for example, they know nothing about a staffs end.
-(define (RepeatProcUntilTest proc test)
+;Repeat a function while another (a test) returns #t. The return value of proc does NOT matter
+;;Warning: From all Repeat functions this one has the highest probability to be stuck in a loop forever. Always use tests that MUST return #f in the end. Do NOT use the Denemo tests like (None?) or (Music?) for example, they know nothing about a staffs end.
+(define (RepeatProcWhileTest proc test)
 	(RepeatUntilFail 		
 		(lambda () 
 			(if (test)
-				#f ; test true, let RepeatUntilFail fail.
-				(begin (proc) #t))))) ; this is a dumb script. It will try to execute proc again even if proc itself returned #f. 		
+				(begin (proc) #t); this is a dumb script. It will try to execute proc again even if proc itself returned #f. 	
+				#f )))) ; test failed, let RepeatUntilFail fail.		
 
 
 ;;; GetUniquePairs is a function that takes a list and combines each value with any other, but without duplicates and in order.
@@ -150,36 +150,33 @@
 	 (list-ref (reverse (string-tokenize(d-GetNotes))) 0)
 	 #f))
 
-;Next Selected Object for all Staffs by Nils Gey Feb/2010
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;Moves the cursor to the right. If there is no selection, If that returns #f it will move down one staff and rewind to the start of the selection in this staff..
-;TODO: After the last selected Item the cursor will move down one staff even outside the selection and will stay there. But a script with SingleAndSelectionSwitcher will NOT be applied to this outside-object and the user will not see this because the cursor is returned to the starting position afterwards.
 
+;Next object in selection for all staffs
 (define (NextSelectedObjectAllStaffs)
-	(if  (not (d-NextSelectedObject)) 
-	  (if  (and (d-MoveToStaffDown) (d-IsInSelection))
-		 (selection::MoveToStaffBeginning) ; there is a selection a staff down, loop to the beginning
-		#f ; there is no staff down or the selection is single staff.
-		)
-	  #t)) ;NextSelecetedObject was succesful
+	(define remember 1)
+	(if (and (d-MarkStatus) (d-IsInSelection))
+		(if (d-NextSelectedObject)
+		  #t ; found one. End
+		  (begin (set! remember (d-GetHorizontalPosition)) ; check one staff down and if there is a selection.
+		  	(if (d-MoveToStaffDown) 
+		  		(if (selection::MoveToStaffBeginning) 
+				  	#t ; found a selection in the lower staff
+				  	(begin (d-GoToPosition #f (- (d-GetStaff) 1) #f remember) #f)) ; reset cursor to the last known selection position
+				  #f))) ; no staff below
+	  #f)); no selection or cursor not in selection
 	
 
 
 (define (selection::MoveToStaffBeginning)
-(d-PushPosition)
- (if (d-GoToSelectionStart) ; Test if there is a selection at all
-	(begin
-		(d-PopPosition); return to the initial position to go to the correct staff
-		(d-PushPosition); save it again in case that there is no selection in this staff.
-		(d-MoveToBeginning)
-		(let loop ()  ; Real work begins here. Loop through until you found it or end of staff.
-		  (if (d-IsInSelection) 
-		  	#t ; found the first note
-			(if (d-NextObject) (loop) ; prevent endless loop if reaching the end of a staff without selection present
-				(begin  (d-PopPosition) #f ))))  ; if end of staff and no selection return to initial position and return #f
-	)
-	(begin  (d-PopPosition) #f )   ; no selection at all. 
-	)) ; fi GoToSelectionStart
+	(define rememberStaff (d-GetStaff))
+	(define rememberPosition (GetPosition))
+	(if (d-GoToSelectionStart)
+		(begin 
+			(d-GoToPosition #f rememberStaff #f #f)
+			(if (d-IsInSelection)
+				#t
+				(begin (apply d-GoToPosition rememberPosition) #f)))
+		#f)) ; no selection at all. 
 
 
 
@@ -209,6 +206,8 @@
 ;Return values are the return values the script itself gives.
 ;The third, optional, parameter can prevent an object from be processed. By default this parameter is #t so the command will be will be applied to any object in the selection and let the command itself decide what to do (or just do nothing). By giving the third optional argument you can specify additional conditions, for example with GetType. In general: Insert test conditions here, if #t the current object will be processed, otherwise it will be skipped.
 ;Example: (SingleAndSelectionSwitcher  "(d-ChangeDurationByFactorTwo *)" "(d-ChangeDurationByFactorTwo *)")
+;TODO: Get rid of eval.
+;TODO: Why is there a GoToSelectionStart AND PopPosition?
 
 (define* (SingleAndSelectionSwitcher commandsingle #:optional (commandselection commandsingle) (onlyFor "#t")) ; Amazingly commandsingle is already defined on spot so that it can be used again in the same line to define commandselection 
 	(d-PushPosition)
@@ -229,9 +228,25 @@
 	(begin	
 		(eval-string commandsingle)))) ; End of SingleAndSelectionSwitcher
 
+; MapToSelection is like schemes (map) mixed with ApplyToSelection. Use a proc on all selection items and gather all proc return values in a list.
+(define* (MapToSelection proc #:optional (onlyFor (lambda () #t)))
+	(define return (list #f))	; prepare return list
+	(define (gather)
+		(if (onlyFor) ; test the current item
+			(append! return (list (proc))) ; execute the proc and append its return value as listmember to the returnlist
+			#f))
+	(if (and DenemoPref_applytoselection (d-MarkStatus)) ; only if preferences allow it and if there is a selection at all
+		(begin 
+			(d-PushPosition)
+			(d-GoToSelectionStart)
+			(gather) ; start one without testing. We already know we have a selection and RepeatProcWhileTest tests first.
+			(RepeatProcWhileTest gather NextSelectedObjectAllStaffs) ; Use the proc/gather function on all items in the selection
+			(d-PopPosition)
+			(list-tail return 1))			
+		#f))
 
-;;; A set of simple tests / questions for score objects. 
 
+; A set of simple tests / questions for score objects. 
 (define (Music?) 
   (if (string=? (d-GetType) "CHORD") #t #f))
 	
@@ -283,7 +298,7 @@
 	
 (define (Appending?)
  (if (string=? (d-GetType) "Appending") #t #f))	 
- 
+  
 ;;;;; End set of questions
 		  
 
@@ -1927,3 +1942,6 @@
 
 ;Insert a no-pitch note of the prevailing duration.
 (define (d-Enter) (eval-string (string-append "(d-" (number->string (abs (d-GetPrevailingDuration))) ")" )))
+
+(define (GetPosition)
+	(list (d-GetMovement) (d-GetStaff) (d-GetMeasure)(d-GetHorizontalPosition)))
