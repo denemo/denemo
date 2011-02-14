@@ -1923,3 +1923,6 @@
 
 ;Insert a no-pitch note of the prevailing duration.
 (define (d-Enter) (eval-string (string-append "(d-" (number->string (abs (d-GetPrevailingDuration))) ")" )))
+
+(define (GetPosition)
+	(list (d-GetMovement) (d-GetStaff) (d-GetMeasure)(d-GetHorizontalPosition)))
