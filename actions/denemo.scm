@@ -168,20 +168,17 @@
 
 
 (define (selection::MoveToStaffBeginning)
-(d-PushPosition)
- (if (d-GoToSelectionStart) ; Test if there is a selection at all
+ (if (d-MarkStatus) 	
 	(begin
-		(d-PopPosition); return to the initial position to go to the correct staff
 		(d-PushPosition); save it again in case that there is no selection in this staff.
 		(d-MoveToBeginning)
 		(let loop ()  ; Real work begins here. Loop through until you found it or end of staff.
 		  (if (d-IsInSelection) 
-		  	#t ; found the first note
-			(if (d-NextObject) (loop) ; prevent endless loop if reaching the end of a staff without selection present
-				(begin  (d-PopPosition) #f ))))  ; if end of staff and no selection return to initial position and return #f
-	)
-	(begin  (d-PopPosition) #f )   ; no selection at all. 
-	)) ; fi GoToSelectionStart
+		  	#t ; found a selection. stop.
+			(if (d-NextObject)
+				(loop) ; prevent endless loop if reaching the end of a staff without selection present
+				(begin  (d-PopPosition) #f )))) ) ; if end of staff and no selection return to initial position and return #f
+	#f)) ; no selection at all. 
 
 
 
