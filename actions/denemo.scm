@@ -150,18 +150,20 @@
 	 (list-ref (reverse (string-tokenize(d-GetNotes))) 0)
 	 #f))
 
-;Next Selected Object for all Staffs by Nils Gey Feb/2010
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;Moves the cursor to the right. If there is no selection, If that returns #f it will move down one staff and rewind to the start of the selection in this staff..
-;TODO: After the last selected Item the cursor will move down one staff even outside the selection and will stay there. But a script with SingleAndSelectionSwitcher will NOT be applied to this outside-object and the user will not see this because the cursor is returned to the starting position afterwards.
 
+;Next object in selection for all staffs
 (define (NextSelectedObjectAllStaffs)
-	(if  (not (d-NextSelectedObject)) 
-	  (if  (and (d-MoveToStaffDown) (d-IsInSelection))
-		 (selection::MoveToStaffBeginning) ; there is a selection a staff down, loop to the beginning
-		#f ; there is no staff down or the selection is single staff.
-		)
-	  #t)) ;NextSelecetedObject was succesful
+	(define remember 1)
+	(if (and (d-MarkStatus) (d-IsInSelection))
+		(if (d-NextSelectedObject)
+		  #t ; found one. End
+		  (begin (set! remember (d-GetHorizontalPosition)) ; check one staff down and if there is a selection.
+		  	(if (d-MoveToStaffDown) 
+		  		(if (selection::MoveToStaffBeginning) 
+				  	#t ; found a selection in the lower staff
+				  	(begin (d-GoToPosition #f (- (d-GetStaff) 1) #f remember) #f)) ; reset cursor to the last known selection position
+				  #f))) ; no staff below
+	  #f)); no selection or cursor not in selection
 	
 
 
