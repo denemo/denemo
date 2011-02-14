@@ -169,11 +169,14 @@
 
 (define (selection::MoveToStaffBeginning)
 	(define rememberStaff (d-GetStaff))
-	 (if (d-GoToSelectionStart)
+	(define rememberPosition (GetPosition))
+	(if (d-GoToSelectionStart)
 		(begin 
 			(d-GoToPosition #f rememberStaff #f #f)
-			#t)
-		#f)) ; no selection at all.  
+			(if (d-IsInSelection)
+				#t
+				(begin (apply d-GoToPosition rememberPosition) #f)))
+		#f)) ; no selection at all. 
 
 
 
