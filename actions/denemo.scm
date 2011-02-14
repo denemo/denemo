@@ -228,9 +228,25 @@
 	(begin	
 		(eval-string commandsingle)))) ; End of SingleAndSelectionSwitcher
 
+; MapToSelection is like schemes (map) mixed with ApplyToSelection. Use a proc on all selection items and gather all proc return values in a list.
+(define* (MapToSelection proc #:optional (onlyFor (lambda () #t)))
+	(define return (list #f))	; prepare return list
+	(define (gather)
+		(if (onlyFor) ; test the current item
+			(append! return (list (proc))) ; execute the proc and append its return value as listmember to the returnlist
+			#f))
+	(if (and DenemoPref_applytoselection (d-MarkStatus)) ; only if preferences allow it and if there is a selection at all
+		(begin 
+			(d-PushPosition)
+			(d-GoToSelectionStart)
+			(gather) ; start one without testing. We already know we have a selection and RepeatProcWhileTest tests first.
+			(RepeatProcWhileTest gather NextSelectedObjectAllStaffs) ; Use the proc/gather function on all items in the selection
+			(d-PopPosition)
+			(list-tail return 1))			
+		#f))
 
-;;; A set of simple tests / questions for score objects. 
 
+; A set of simple tests / questions for score objects. 
 (define (Music?) 
   (if (string=? (d-GetType) "CHORD") #t #f))
 	
