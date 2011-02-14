@@ -64,7 +64,7 @@ void	  highlight_rest(DenemoGUI *gui, gint dur);
 gboolean loadGraphicItem(gchar *name, DenemoGraphic **pgraphic);
 
 
-void activate_action(gchar *path);
+GtkAction *activate_action(gchar *path);
 
 GError *execute_script_file(gchar *filename);
 

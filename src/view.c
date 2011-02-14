@@ -484,6 +484,15 @@ static SCM scheme_load_command(SCM command) {
   g_free(filename);
   return SCM_BOOL(ret);
 }
+
+static SCM scheme_activate_menu_item(SCM menupath) {
+  if(scm_is_string(menupath)) {
+    gchar *item = scm_to_locale_string(menupath);
+    if(item)
+      return SCM_BOOL(activate_action(item));
+  }
+  return SCM_BOOL_F;
+}
 static void
 toggle_toolbar (GtkAction * action, gpointer param);
 static void
@@ -3725,6 +3734,10 @@ static void create_scheme_identfiers(void) {
 			/* install the scheme functions for calling extra Denemo functions created for the scripting interface */
   INSTALL_SCM_FUNCTION1 ("Takes a command name. called by a script if it requires initialization the initialization script is expected to be in init.scm in the menupath of the command passed in.", DENEMO_SCHEME_PREFIX"InitializeScript", scheme_initialize_script);
   INSTALL_SCM_FUNCTION1 (" pass in a path (from below menus) to a command script. Loads the command from .denemo or system if it can be found. It is used at startup in .denemo files like ReadingNoteNames.denemo which executes (d-LoadCommand \"MainMenu/Educational/ReadingNoteNames\") to ensure that the command it needs is in the command set.", DENEMO_SCHEME_PREFIX"LoadCommand", scheme_load_command);
+
+  INSTALL_SCM_FUNCTION1 ("Takes a string, a menu path (from below menus). It executes the command for that menu item. Returns #f for no menu item.", DENEMO_SCHEME_PREFIX"ActivateMenuItem", scheme_activate_menu_item);
+
+
   INSTALL_SCM_FUNCTION ("Returns the directory holding the user's preferences",DENEMO_SCHEME_PREFIX"LocateDotDenemo", scheme_locate_dotdenemo);
   INSTALL_SCM_FUNCTION ("Returns the name of the type of object at the cursor",DENEMO_SCHEME_PREFIX"GetType",  scheme_get_type);
 
@@ -6945,13 +6958,14 @@ gint val = gtk_radio_action_get_current_value (current);
 }
 
 
-void activate_action(gchar *path) {
+GtkAction *activate_action(gchar *path) {
    GtkAction *a;
    a = gtk_ui_manager_get_action (Denemo.ui_manager, path);
    if(a)
    gtk_action_activate(a);
    else 
-     g_warning("Internal error, denemogui.xml out of step with literal %s in %s\n", path, __FILE__);
+     g_warning("No command at %s - should this be in denemoui.xml?\n", path);
+   return a;
  }
 
 /**
