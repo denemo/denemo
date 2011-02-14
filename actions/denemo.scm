@@ -283,6 +283,9 @@
 (define (Appending?)
  (if (string=? (d-GetType) "Appending") #t #f))	 
  
+(define (Selection?)
+	(and DenemoPref_applytoselection (d-MarkStatus)))
+  
 ;;;;; End set of questions
 		  
 
