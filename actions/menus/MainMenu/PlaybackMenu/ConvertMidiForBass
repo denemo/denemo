@@ -36,7 +36,7 @@
 			(looprecordednotes note tick))
 		      (format #t "An off with no On\n")))
 		(begin
-		  (set! Notes (cons (list (make-note 'name note 'start tick 'duration #f)) Notes))
+		  (set! Notes (cons (list (make-note 'name note 'start tick 'duration 384)) Notes))
 		  (looprecordednotes note tick))))
 	  (begin         ;;;;;; finished generating Notes as a list of lists each with one note struct in it
 	    (if (&gt; (length Notes) 0)
@@ -50,7 +50,7 @@
 		    
 		    (define (insert-note name dur)
 		      (let ((base (duration::GuessBaseNoteInTicks dur)))
-			(disp "Note " name " has " dur " interpreted as " dur "\n")
+			(disp "Note " name " has duration " dur " interpreted as " base "\n")
 			(if base
 			    (begin
 			      (if (&gt; (- dur base) (- (* 2 base) dur))
@@ -63,7 +63,7 @@
 		    
 ;;; notes has been set up by pre-pending so it is backwards...	    
 		    (set! Notes (reverse Notes))
-     (disp "Notes are " Notes "\n")
+     
                     ;;;;;; take the Notes and seek out bass notes, remove them and form chords, insert chords in staff above
 		    (let () ;;;no loop here we drive it via the loopforbasskey
                       ;;;;;;;;;;; overlap decides if two notes should be a chord	 
@@ -120,11 +120,12 @@
 							(for-each  add-note (cdr chord)))
 
 				      (define (make-tied)
-					(disp "We should go up and apply a tie here FIXME!!\n"))
+					(d-PrevNote)
+					(d-ToggleTie)
+					(d-NextNote))
 
 
-						  
-	;;;;;;;;push back the chord as a set of notes with the given start and duration
+;;;;;;;;push back the chord as a set of notes with the given start and duration
 				      (define (push-back chord thestart theduration)
 					(let ((names '()))
 					  (set! names (map note.name chord))
@@ -137,9 +138,6 @@
 										     'duration theduration)) Notes))
 						  (disp "Notes after " Notes "\n")
 						  (loop (+ index 1)))))))
-				      					  
-						  
-						  
 				      
                                        ;;;;;;; insert-chords takes a list of lists of note structs and the duration of the denemo bass note they have been assigned to. It inserts a chord for each of the lists assigning durations to fit the bass note.If enough of the last chord duration remains a the chord is returned with start and duration modified to suit		
 				      (define (insert-chords notes bass-duration)
@@ -165,19 +163,22 @@
 						      (let ((chord (list-ref chords index)) (n2 #f))
 							
 							;(disp "the remaining duration is " remaining " for chord " chord" \n")
+							(if (&gt; remaining 0)
+							    (begin 
 							(insert-chord chord remaining)
 							(set! n2 (car chord))
 							(if (&gt; (/ (- (note.duration n2) remaining)
 								  (note.duration n2)) 0.2)
 							    (begin
 							      (make-tied)
-							      (push-back chord (+ (note.start n2)  remaining) (- (note.duration n2) remaining)))))
+							      (push-back chord (+ (note.start n2)  remaining) (- (note.duration n2) remaining)))))))
 						      
 						      (begin
 							(d-WarningDialog "We have no chord"))))))))
 				      
-			      
-			 (define (contains bass-note n2)
+				    
+				      
+				      (define (contains bass-note n2)
 					(let (
 					      (bass-note.end (+ (note.start bass-note) (note.duration bass-note)))
 					      (n2.end (+ (note.start n2) (note.duration n2))))
@@ -187,7 +188,7 @@
 					    #f)
 					   ((&gt; bass-note.end n2.end)
 					    #t)
-					   ((&lt; (/ (- n2.end  bass-note.end) (note.duration n2)) 0.75)
+					   ((&gt; (/ (- n2.end  bass-note.end) (note.duration n2)) 0.75)
 					    #t)
 					   (else #f))
 						
@@ -197,14 +198,11 @@
 					    #f)
 					   ((&gt; bass-note.end n2.end)
 					    #t)
-					   ((&lt; (/ (- n2.end  bass-note.end) (note.duration n2)) 0.75)
+					   ((&gt; (/ (- n2.end  bass-note.end) (note.duration n2)) 0.75)
 					    #t)
-					   (else #f))))	
-				
-						      
-		
-
-
+					   (else #f))))
+				      
+				      
 				      
 ;;;;;;;;;;;;;;;;;;;;;;;;; now the actual processing to loop through Notes finding an equivalent to bass-key and processing the notes belong. These are removed from Notes and then the outer loop to move on in the bass staff is taken.				      
 				      
@@ -231,27 +229,24 @@
 							(set! Notes (delq next-note Notes))
 							(loop index)))))))
 ;;;;;;;;;;;;;;;;;;; finished creating notes-belonging, all these notes are now removed from Notes
-				      notes belong needs reversing, but reverse swaps only the first note of each chord!!!
-				      
+				     
+				      (d-PushPosition)
+				      (d-StaffUp)
+				      (GoToMeasureEnd)				      
 				      (if (&gt; (length notes-belonging) 0)
 					  (begin
-					    (d-PushPosition)
-					    (d-StaffUp)
-					    (GoToMeasureEnd)
+					   
 					;(disp "notes-belonging looks like this: " notes-belonging "\n")
 					    (insert-chords notes-belonging bass-duration)
 					;(disp "insert-chords finished\n")
-					    (d-PopPosition)
-					    (if (d-NextObject)
-						(loopforbasskey)
-						(d-WarningDialog "finished bass staff")))
-					  
+					)
+				      
 					  (begin
-					    (d-WarningDialog "found no notes for a bass-note")
-					    (disp "Bass note with no accompanying chord" bass-note))));;;if there is a note in the bass clef
-				    
-				    
-				    
+					    (eval-string (string-append  "(d-Insert"  (duration::ticks-&gt;denemo bass-duration)")(d-MoveCursorLeft)(d-StagedDelete)"))))
+				      (d-PopPosition)
+				      (if (d-NextObject)
+					  (loopforbasskey)
+					  (d-WarningDialog "Good! finished all notes bass staff")));;;if there is a note in the bass clef
 				    (d-WarningDialog "No more bass notes")))))
 		
 		(begin
