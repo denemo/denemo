@@ -7,127 +7,20 @@
       <row>
         <after>ToggleImmediatePlayback</after>
         <action>ConvertMidiForBass</action>
-        <scheme>;;;;;;;; DenemoConvert
-
-(define (DenemoConvert)
-(define MidiNoteStarts (make-vector 256 #f))
-
-(defstruct note name start duration)
+        <scheme>(defstruct note name start duration)
 (define Notes '())
 
-(if (d-RewindRecordedMidi)
-    (let loop ((note #f)(tick 0))
-      (set! note (d-GetRecordedMidiNote))
-      (if note
-	  (begin
-	    (set! tick (d-GetRecordedMidiOnTick))
-	    (if (&lt; tick 0)
-		(let ((on (vector-ref MidiNoteStarts note)))
-		  (if on
-		      (begin 
-			(set! Notes (cons (list (make-note 'name note 'start on 'duration (- (- tick) on))) Notes))
-			(vector-set! MidiNoteStarts note #f)	
-			(loop note tick))
-		      (format #t "An off with no On\n")))
-		(let ((on (vector-ref MidiNoteStarts note)))
-		  (if on
-		      (format #t "An on when already on\n")
-		      (begin
-			(vector-set! MidiNoteStarts note tick)
-			(loop note tick)
-		)))))
-	  (begin         ;;;;;; finished processing the notes
-	    (if (&gt; (length Notes) 0)
-		(let ()
-		    (define (add-note note)
-		      (if (Note? note)
-			  (begin
-			  (eval-string (string-append "(d-InsertNoteInChord \"" (d-GetNoteForMidiKey (note.name note)) "\")")))
-			  (format #t "\tNo note to add note ~a ~a to\n" (note.name note) (note.duration note))))
-		    
-		    (define (insert-note name dur)
-		      (let ((base (duration::GuessBaseNoteInTicks dur)))
-(format #t "have ~a ~a \n" base dur)
-			(if base
-			    (begin
-			      (if (&gt; (- dur base) (- (* 2 base) dur))
-				  (set! base (* base 2)))
-			      (begin 
-				;(format #t "Create note ~a ~a\n"  (d-GetNoteForMidiKey name)   (duration::ticks-&gt;denemo base))
-				(eval-string (string-append  "(d-Insert" (duration::ticks-&gt;denemo base)")"))
-				(d-PutNoteName (d-GetNoteForMidiKey name)))))))
-		    
-	    
-		    (set! Notes (reverse Notes))
-     
-;;;;;; change the list of Notes into a list of chords
-		    (let loop ((index 0))
+(define (find-note key)
+					;searches forward from index through Notes looking for a note with pitch key returns the index where this is found or #f
+  (let loop ((current-index 0))
+    (if (&lt; current-index (length Notes))
+	    (let ((current (car (list-ref Notes current-index))))
+	      (if (not (eq? (note.name current) key))
+		  (loop (+ current-index 1))
+		  current-index))
+	#f)))
 
-;;;;;;;;;;; overlap decides if two notes should be a chord	 
-		      (define (overlap n1 n2)
-			(if (list? n1)
-			    (set! n1 (car n1)))
-			(&lt; (abs (- (note.start n1) (note.start n2))) 50))
-;;;;;;;;;;;;;;;;;; end of overlap
-		      
-					;(format #t "Number of notes ~a\n" index)	      
-		      (let ((note1 (list-ref Notes index))
-			    (note2 #f))
-			(if (&gt; (length Notes) (+ 1 index))
-			    (begin
-			      (set! note2 (list-ref Notes (+ 1 index)))
-			      (if (overlap note1 (car note2))
-				  (begin
-				    (list-set! Notes index (cons (car note2) note1))
-				    (set! Notes (delq note2 Notes)))
-				  (begin
-					;(list-set! Notes index (list note1))
-				    (set! index (+ index 1))))
-			      (loop index))))) ;;;;;;; end of changing Notes to list of chords
-
-
-;;;loop through the chords, getting a good duration value, the duration from one to the next and inserting
-		    (let loop ((index 0))
-		      (if (&gt; (length Notes) (+ 1 index))
-			  (let ((chord1 (list-ref Notes index))
-				(chord2 #f)
-				(duration #f))
-			    (if (&gt; (length Notes) (+ 1 index))
-			     (begin
-			      (set! chord2 (list-ref Notes (+ 1 index)))
-			      (set! duration (- (note.start (car chord2)) (note.start (car chord1))))
-			      (format #t "With duration ~a\n" duration)
-			      (insert-note (note.name (car chord1)) duration)
-			       (for-each  add-note (cdr chord1))
-			       (set! index (+ index 1))
-			       (loop index))
-			     (insert-note (note.name (car chord1)) (note.duration (car chord1)))))))
-	    
-		    (format #t "End of processing\n"))))));;;;;if rewind succeeded
-		(format #t "No notes found in recording\n")))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;
-
-;;;;;;;;
-(if (d-RewindRecordedMidi)
-    (let loop ((note #f)(tick 0))
-      (set! note (d-GetRecordedMidiNote))
-      (if note
-	  (begin
-	    (set! tick (d-GetRecordedMidiOnTick))
-	    (if tick
-	      (begin
-		(format #t "I have a note ~a ~a at ~a ticks\n" note (if (&lt; tick 0) "Off" "On") tick)
-		(loop note tick)
-		))))))
-;;;;;;;;
-;;;;;;;; DenemoConvertFromBass
-
-(define (DenemoConvertFromBass)
-(define MidiNoteStarts (make-vector 256 #f))
-(defstruct note name start duration)
-(define Notes '())
+	  
 
 (if (d-RewindRecordedMidi)
     (let looprecordednotes ((note #f)(tick 0))
@@ -136,20 +29,15 @@
 	  (begin
 	    (set! tick (d-GetRecordedMidiOnTick))
 	    (if (&lt; tick 0)
-		(let ((on (vector-ref MidiNoteStarts note)))
-		  (if on
-		      (begin 
-			(set! Notes (cons (list (make-note 'name note 'start on 'duration (- (- tick) on))) Notes))
-			(vector-set! MidiNoteStarts note #f)	
+		(let ((note-index (find-note note)))
+		  (if note-index
+		      (let ((thenote (car (list-ref Notes note-index))))							
+			(set!note.duration thenote  (- (- tick) (note.start thenote)))			
 			(looprecordednotes note tick))
 		      (format #t "An off with no On\n")))
-		(let ((on (vector-ref MidiNoteStarts note)))
-		  (if on
-		      (format #t "An on when already on\n")
-		      (begin
-			(vector-set! MidiNoteStarts note tick)
-			(looprecordednotes note tick)
-		)))))
+		(begin
+		  (set! Notes (cons (list (make-note 'name note 'start tick 'duration #f)) Notes))
+		  (looprecordednotes note tick))))
 	  (begin         ;;;;;; finished generating Notes as a list of lists each with one note struct in it
 	    (if (&gt; (length Notes) 0)
 		(let ()
@@ -162,7 +50,7 @@
 		    
 		    (define (insert-note name dur)
 		      (let ((base (duration::GuessBaseNoteInTicks dur)))
-			(format #t "have ~a ~a \n" base dur)
+			(disp "Note " name " has " dur " interpreted as " dur "\n")
 			(if base
 			    (begin
 			      (if (&gt; (- dur base) (- (* 2 base) dur))
@@ -175,7 +63,7 @@
 		    
 ;;; notes has been set up by pre-pending so it is backwards...	    
 		    (set! Notes (reverse Notes))
-     
+     (disp "Notes are " Notes "\n")
                     ;;;;;; take the Notes and seek out bass notes, remove them and form chords, insert chords in staff above
 		    (let () ;;;no loop here we drive it via the loopforbasskey
                       ;;;;;;;;;;; overlap decides if two notes should be a chord	 
@@ -208,7 +96,7 @@
 				      (define notes-belonging '());the notes belonging to the bass note
 				      (define bass-note #f);a bass note (list) selected from Notes
 
-;;;;;;;;;;;;;;;;;; three procs: make-chords takes a list which has each note in a separate list and puts all the (consecutive) ones that overlap into a single list, that is it turns a sequence of list-of-note into a list-of-notes which represents a chord. It returns the list.
+;;;;;;;;;;;;;;;;;; these procs: make-chords takes a list which has each note in a separate list and puts all the (consecutive) ones that overlap into a single list, that is it turns a sequence of list-of-note into a list-of-notes which represents a chord. It returns the list.
 		      
 				      (define (make-chords notes)
 					(let loop ((index 0))
@@ -231,102 +119,146 @@
 						(insert-note (note.name (car chord)) duration)
 							(for-each  add-note (cdr chord)))
 
-                                       ;;;;;;; insert-chords takes a list of lists of note structs and the duration of the denemo bass note they have been assigned to. It inserts a chord for each of the lists assigning durations to fit the bass note.		
-	(define (insert-chords notes bass-duration)
-                                        ;(disp "insert-chords called with " notes "\n")				   
+				      (define (make-tied)
+					(disp "We should go up and apply a tie here FIXME!!\n"))
+
+
+						  
+	;;;;;;;;push back the chord as a set of notes with the given start and duration
+				      (define (push-back chord thestart theduration)
+					(let ((names '()))
+					  (set! names (map note.name chord))
+					  (let loop ((index 0))
+					    (if (&gt; (length names) index)
+						(begin
+						  (disp "Notes before " Notes "\n")
+						  (set! Notes (cons (list (make-note 'name (list-ref names index)
+										     'start thestart
+										     'duration theduration)) Notes))
+						  (disp "Notes after " Notes "\n")
+						  (loop (+ index 1)))))))
+				      					  
+						  
+						  
+				      
+                                       ;;;;;;; insert-chords takes a list of lists of note structs and the duration of the denemo bass note they have been assigned to. It inserts a chord for each of the lists assigning durations to fit the bass note.If enough of the last chord duration remains a the chord is returned with start and duration modified to suit		
+				      (define (insert-chords notes bass-duration)
+                                        ;(disp "insert-chords called with " notes "\n")	
+					
 					(let ((chords (make-chords notes)) (remaining bass-duration))
 				    ;;;loop through the chords, getting a good duration value, the duration from one to the next and inserting
+					  
 					  (let loop ((index 0))
 					    (if (&gt; (length chords) (+ 1 index))
 						(let ((chord1 (list-ref chords index))
 						      (chord2 #f)
 						      (duration #f))
-						 
-							(set! chord2 (list-ref chords (+ 1 index)));;move this into the init
-							(set! duration (- (note.start (car chord1)) (note.start (car chord2))))
-							(set! remaining (- remaining duration))
-							(format #t "With duration ~a\n" duration)
-							(insert-chord chord1 duration)
-							(loop (+ index 1)))	     
+						  
+						  (set! chord2 (list-ref chords (+ 1 index)));;move this into the init
+						  (set! duration (- (note.start (car chord1)) (note.start (car chord2))))
+						  (set! remaining (- remaining duration))
+						  (disp "Insert chord " chord1 " With duration " duration "\n")
+						  (insert-chord chord1 duration)
+						  (loop (+ index 1)))	     
 						(begin
 						  (if (= (length chords) (+ 1 index))
-						      (begin
+						      (let ((chord (list-ref chords index)) (n2 #f))
 							
-							(insert-chord (list-ref chords 0) remaining))
-						     (d-WarningDialog "We have no chord")))))))
+							;(disp "the remaining duration is " remaining " for chord " chord" \n")
+							(insert-chord chord remaining)
+							(set! n2 (car chord))
+							(if (&gt; (/ (- (note.duration n2) remaining)
+								  (note.duration n2)) 0.2)
+							    (begin
+							      (make-tied)
+							      (push-back chord (+ (note.start n2)  remaining) (- (note.duration n2) remaining)))))
+						      
+						      (begin
+							(d-WarningDialog "We have no chord"))))))))
+				      
+			      
+			 (define (contains bass-note n2)
+					(let (
+					      (bass-note.end (+ (note.start bass-note) (note.duration bass-note)))
+					      (n2.end (+ (note.start n2) (note.duration n2))))
+					  (disp "contains " bass-note "and " n2 " giving "
+					 (cond
+					   ((&gt; (note.start n2) bass-note.end)
+					    #f)
+					   ((&gt; bass-note.end n2.end)
+					    #t)
+					   ((&lt; (/ (- n2.end  bass-note.end) (note.duration n2)) 0.75)
+					    #t)
+					   (else #f))
+						
+						"\n")
+					  (cond
+					   ((&gt; (note.start n2) bass-note.end)
+					    #f)
+					   ((&gt; bass-note.end n2.end)
+					    #t)
+					   ((&lt; (/ (- n2.end  bass-note.end) (note.duration n2)) 0.75)
+					    #t)
+					   (else #f))))	
+				
+						      
+		
 
 
- (define (contains n1 n2)
-(let (
-      (n1.end (+ (note.start n1) (note.duration n1)))
-      (n2.end (+ (note.start n2) (note.duration n2))))
-     
-
-   (disp "I test "	
-	  (&lt; (/ (- n2.end n1.end) (note.duration n2)) 0.5)
-	 " instead " 
-	(&lt; (abs (- (note.start n1) (note.start n2))) 50) "\n" )
-   (&lt; (/ (- n2.end n1.end) (note.duration n2)) 0.5)))
-
-
-
-
+				      
 ;;;;;;;;;;;;;;;;;;;;;;;;; now the actual processing to loop through Notes finding an equivalent to bass-key and processing the notes belong. These are removed from Notes and then the outer loop to move on in the bass staff is taken.				      
-
+				      
 ;;; first loop through Notes from the start (previous chords have been deleted) and seek the bass-note				      
-					(let loopgetbassnote ((index 0))
-;(disp "now index " index "bass-key " bass-key "\n")
-					  (if (&gt; (length Notes) index)
-						 (if (= bass-key (note.name (car (list-ref Notes index))))
-						     (begin
-						       (set! bass-note (list-ref Notes index))
-						       (set! Notes (delq bass-note Notes))
-						       )
-						     (loopgetbassnote (+ index 1)))))
+				      (let loopgetbassnote ((index 0))
+					;(disp "now index " index "bass-key " bass-key "\n")
+					(if (&gt; (length Notes) index)
+					    (if (= bass-key (note.name (car (list-ref Notes index))))
+						(begin
+						  (set! bass-note (list-ref Notes index))
+						  (set! Notes (delq bass-note Notes))
+						  )
+						(loopgetbassnote (+ index 1)))))
                                            ;;;; if bass-note then that note should have been removed from Notes, next get chord notes
-                                        (set! notes-belonging '())
-					(if bass-note					    
-					      (let loop ((index 0))
-						(if (&gt; (length Notes) index)
-						    (let ( (next-note (list-ref Notes index)))
-						    (if (contains (car bass-note) (car next-note))
-							(begin
-							  (set! notes-belonging (cons*  next-note notes-belonging))
-							  (set! Notes (delq next-note Notes))
-							  (loop index)))))))
+				      (set! notes-belonging '())
+				      (if bass-note					    
+					  (let loop ((index 0))
+					    (if (&gt; (length Notes) index)
+						(let ( (next-note (list-ref Notes index)))
+						  (if (contains (car bass-note) (car next-note))
+						      (begin
+							(set! notes-belonging (cons*  next-note notes-belonging))
+							;(append! notes-belonging next-note)
+							(set! Notes (delq next-note Notes))
+							(loop index)))))))
 ;;;;;;;;;;;;;;;;;;; finished creating notes-belonging, all these notes are now removed from Notes
-					      
-					     
-					      (if (&gt; (length notes-belonging) 0)
-						  (begin
-						    (d-PushPosition)
-						    (d-StaffUp)
-						    (GoToMeasureEnd)
-;(disp "notes-belonging looks like this: " notes-belonging "\n")
-						    (insert-chords notes-belonging bass-duration)
-;(disp "insert-chords finished\n")
-						    (d-PopPosition)
-                                                    (if (d-NextObject)
-							(loopforbasskey)
-						    (d-WarningDialog "finished bass staff")))
-						  
-						  (begin
-						  (d-WarningDialog "found no notes for a bass-note")
-						  (disp "Bass note with no accompanying chord" bass-note))));;;if there is a note in the bass clef
-
-
-
-					    (d-WarningDialog "No more bass notes")))))
-
+				      notes belong needs reversing, but reverse swaps only the first note of each chord!!!
+				      
+				      (if (&gt; (length notes-belonging) 0)
+					  (begin
+					    (d-PushPosition)
+					    (d-StaffUp)
+					    (GoToMeasureEnd)
+					;(disp "notes-belonging looks like this: " notes-belonging "\n")
+					    (insert-chords notes-belonging bass-duration)
+					;(disp "insert-chords finished\n")
+					    (d-PopPosition)
+					    (if (d-NextObject)
+						(loopforbasskey)
+						(d-WarningDialog "finished bass staff")))
+					  
+					  (begin
+					    (d-WarningDialog "found no notes for a bass-note")
+					    (disp "Bass note with no accompanying chord" bass-note))));;;if there is a note in the bass clef
+				    
+				    
+				    
+				    (d-WarningDialog "No more bass notes")))))
+		
 		(begin
 		  (d-WarningDialog "The Notes list is empty"))))))
-				    
-	
-		(format #t "No notes found in recording\n")))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;
-(DenemoConvertFromBass)</scheme>
+    
+    
+    (format #t "No notes found in recording\n"))</scheme>
         <label>Convert MIDI chords over Bass</label>
         <tooltip>Takes a MIDI recording over a bass line and inserts the chords by matching the bass notes. Each chord must include the bass note.</tooltip>
       </row>
