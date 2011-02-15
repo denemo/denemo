@@ -967,7 +967,9 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
       get_obj_for_start_time(gui->si->smf, gui->si->end_time - 0.001);
     //g_print("Start time %p %f end time %p %f\n", itp.startobj, si->start_time, itp.endobj, si->end_time);
   }
-  cairo_t *cr = widget?gdk_cairo_create( Denemo.pixmap ): NULL;
+  static cairo_t *cr;
+  if(cr) cairo_destroy(cr);
+  cr = widget?gdk_cairo_create( Denemo.pixmap ): NULL;
 
   if(cr) cairo_scale( cr, gui->si->zoom, gui->si->zoom );
   if(cr) cairo_translate( cr, 0.5, 0.5 );
