@@ -50,7 +50,7 @@
 		    
 		    (define (insert-note name dur)
 		      (let ((base (duration::GuessBaseNoteInTicks dur)))
-			(disp "Note " name " has duration " dur " interpreted as " base "\n")
+			;(disp "Note " name " has duration " dur " interpreted as " base "\n")
 			(if base
 			    (begin
 			      (if (&gt; (- dur base) (- (* 2 base) dur))
@@ -66,10 +66,12 @@
      
                     ;;;;;; take the Notes and seek out bass notes, remove them and form chords, insert chords in staff above
 		    (let () ;;;no loop here we drive it via the loopforbasskey
-                      ;;;;;;;;;;; overlap decides if two notes should be a chord	 
+
+
+                      ;;;;;;;;;;; overlap decides if two notes should be a chord
+		      ;;;;;;;;;;; the criterion is simply if they start close together
 		      (define (overlap n1 n2)
-			(if (list? n1)
-			    (set! n1 (car n1)))
+			
 			(&lt; (abs (- (note.start n1) (note.start n2))) 50))
                       ;;;;;;;;;;;;;;;;;; end of overlap
 		      
@@ -105,7 +107,7 @@
 					    (if (&gt; (length notes) (+ 1 index))
 						(begin
 						  (set! note2 (list-ref notes (+ 1 index)))
-						  (if (overlap note1 (car note2))
+						  (if (overlap (car note1) (car note2))
 						      (begin
 							(list-set! notes index (cons (car note2) note1))
 							(set! notes (delq note2 notes)) ;;so we loop with same index
@@ -116,10 +118,12 @@
 					notes)	
 ;;;;;;; insert-chord takes a list of note structs and puts a chord in the staff above with those notes.		
 				      (define (insert-chord chord duration)
+				      (disp "making a chord " duration "\n")
 						(insert-note (note.name (car chord)) duration)
 							(for-each  add-note (cdr chord)))
 
 				      (define (make-tied)
+				      (disp "tying ...\n")
 					(d-PrevNote)
 					(d-ToggleTie)
 					(d-NextNote))
@@ -132,11 +136,11 @@
 					  (let loop ((index 0))
 					    (if (&gt; (length names) index)
 						(begin
-						  (disp "Notes before " Notes "\n")
+						  ;(disp "Notes before " Notes "\n")
 						  (set! Notes (cons (list (make-note 'name (list-ref names index)
 										     'start thestart
 										     'duration theduration)) Notes))
-						  (disp "Notes after " Notes "\n")
+						  ;(disp "Notes after " Notes "\n")
 						  (loop (+ index 1)))))))
 				      
                                        ;;;;;;; insert-chords takes a list of lists of note structs and the duration of the denemo bass note they have been assigned to. It inserts a chord for each of the lists assigning durations to fit the bass note.If enough of the last chord duration remains a the chord is returned with start and duration modified to suit		
@@ -155,6 +159,12 @@
 						  (set! chord2 (list-ref chords (+ 1 index)));;move this into the init
 						  (set! duration (- (note.start (car chord1)) (note.start (car chord2))))
 						  (set! remaining (- remaining duration))
+						    (if (&lt; remaining 50)
+						      (begin
+							(set! duration (+ duration remaining))
+							(set! remaining 0)))
+							      
+
 						  (disp "Insert chord " chord1 " With duration " duration "\n")
 						  (insert-chord chord1 duration)
 						  (loop (+ index 1)))	     
@@ -162,7 +172,7 @@
 						  (if (= (length chords) (+ 1 index))
 						      (let ((chord (list-ref chords index)) (n2 #f))
 							
-							;(disp "the remaining duration is " remaining " for chord " chord" \n")
+							(disp "the remaining duration is " remaining " for chord " chord" \n")
 							(if (&gt; remaining 0)
 							    (begin 
 							(insert-chord chord remaining)
@@ -177,22 +187,14 @@
 							(d-WarningDialog "We have no chord"))))))))
 				      
 				    
-				      
+				      ;;;;;  procedure "contains" decides if a note n2 belongs to a bass-note, at least in part
+				      ;;;;;  if n2 starts after the bass-note ends then #f
+				      ;;;;;  else if n2 ends before the bass-note ends then #t
+				      ;;;;;  else if overlap of n2 with bass-note is fair proportion of n2 #t  more that one fifth, 0.2, say
+				      ;;;;;  else #f
 				      (define (contains bass-note n2)
-					(let (
-					      (bass-note.end (+ (note.start bass-note) (note.duration bass-note)))
-					      (n2.end (+ (note.start n2) (note.duration n2))))
-					  (disp "contains " bass-note "and " n2 " giving "
-					 (cond
-					   ((&gt; (note.start n2) bass-note.end)
-					    #f)
-					   ((&gt; bass-note.end n2.end)
-					    #t)
-					   ((&gt; (/ (- n2.end  bass-note.end) (note.duration n2)) 0.75)
-					    #t)
-					   (else #f))
-						
-						"\n")
+					(let ((bass-note.end (+ (note.start bass-note) (note.duration bass-note)))
+					      (n2.end (+ (note.start n2) (note.duration n2))))					 
 					  (cond
 					   ((&gt; (note.start n2) bass-note.end)
 					    #f)
@@ -216,7 +218,7 @@
 						  (set! Notes (delq bass-note Notes))
 						  )
 						(loopgetbassnote (+ index 1)))))
-                                           ;;;; if bass-note then that note should have been removed from Notes, next get chord notes
+                                           ;;;; if bass-note then that note will have been removed from Notes, next get chord notes
 				      (set! notes-belonging '())
 				      (if bass-note					    
 					  (let loop ((index 0))
@@ -234,19 +236,19 @@
 				      (d-StaffUp)
 				      (GoToMeasureEnd)				      
 				      (if (&gt; (length notes-belonging) 0)
-					  (begin
-					   
+					  (begin					   
 					;(disp "notes-belonging looks like this: " notes-belonging "\n")
 					    (insert-chords notes-belonging bass-duration)
 					;(disp "insert-chords finished\n")
 					)
 				      
 					  (begin
-					    (eval-string (string-append  "(d-Insert"  (duration::ticks-&gt;denemo bass-duration)")(d-MoveCursorLeft)(d-StagedDelete)"))))
+					    (eval-string (string-append  "(d-Insert"  (duration::ticks-&gt;denemo bass-duration)")(d-MoveCursorLeft)(d-StagedDelete)"))
+					    (disp "Bass note with no accompanying chord" bass-note "sent "  (string-append  "(d-Insert"  (duration::ticks-&gt;denemo bass-duration)")(d-StagedDelete)") "\n" )))
 				      (d-PopPosition)
 				      (if (d-NextObject)
 					  (loopforbasskey)
-					  (d-WarningDialog "Good! finished all notes bass staff")));;;if there is a note in the bass clef
+					  (d-WarningDialog "finished bass staff")));;;if there is a note in the bass clef
 				    (d-WarningDialog "No more bass notes")))))
 		
 		(begin
