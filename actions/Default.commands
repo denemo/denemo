@@ -4402,7 +4402,30 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotationMagick/GenerateRhythmFromString</menupath>
         <label>Insert reversed string as reversed binary rhythm</label>
         <tooltip>Give a string to generate a rhythm out of its ascii chars in binary encoding. The string gets reversed before converting. The rhythm for each letter gets reversed before inserting.</tooltip>
-      </row>      
+      </row>
+      <row>
+        <action>Off</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/ViewMenu</menupath>
+        <label>Off</label>
+        <tooltip>Off</tooltip>
+      </row>
+      <row>
+        <action>SelectMeasure</action>
+        <after>SelectColumn</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Select</menupath>
+        <label>Select Measure</label>
+        <tooltip>Create a selection for the entire current measure</tooltip>
+      </row>
+      <row>
+        <action>MoveToPreviousEmptyMeasure</action>
+        <after>GoToEmptyMeasure</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/NavigationMenu/Seek</menupath>
+        <label>Move To Previous Empty Measure</label>
+        <tooltip>Move the cursor left until it finds an empty measure or the staffs beginning</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
