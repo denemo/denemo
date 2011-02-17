@@ -163,8 +163,6 @@
 				  	(begin (apply d-GoToPosition lastposition ) #f)) ; reset cursor to the last known selection position and end.
 				  #f)) ; no staff below
 	  #f)); no selection or cursor not in selection
-	
-
 
 (define (selection::MoveToStaffBeginning)
 	(define rememberStaff (d-GetStaff))
@@ -176,8 +174,6 @@
 				#t
 				(begin (apply d-GoToPosition rememberPosition) #f)))
 		#f)) ; no selection at all. 
-
-
 
 ;Find the next object that returns #t from the given test function. Don't write the function in parentheses, just give the name (except you give a function that returns a name :))
 (define (FindNextObjectAllStaffs test?) 
@@ -196,7 +192,6 @@
 	));loopy end
 
 
-
 ;SingleAndSelectionSwitcher by Nils Gey Jan/2010
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;Automatically applies a script to a whole selection. You can give different commands or command blocks with (begin) for single items or whole selections. You can enter a complete scheme script with (),  arguments and everything you would want to run standalone. Don't forget to escape chars like  \" . You can even use a complete (begin ) block.
@@ -210,22 +205,20 @@
 
 (define* (SingleAndSelectionSwitcher commandsingle #:optional (commandselection commandsingle) (onlyFor "#t")) ; Amazingly commandsingle is already defined on spot so that it can be used again in the same line to define commandselection 
 	(d-PushPosition)
-	(if (and DenemoPref_applytoselection (d-GoToSelectionStart))
-	(begin
-		(if (eval-string onlyFor)
-			(eval-string  commandselection))
-		(let loop ()
-		(if (NextSelectedObjectAllStaffs)
+	(if (and DenemoPref_applytoselection (d-MarkStatus))
+		(begin
+			(d-GoToSelectionStart)
 			(if (eval-string onlyFor)
-				(begin (eval-string  commandselection) (loop))
-				(loop) ; don't process this object, next please.
-			)
-		))
-		(d-GoToSelectionStart)
-		(d-PopPosition)
-		)
-	(begin	
-		(eval-string commandsingle)))) ; End of SingleAndSelectionSwitcher
+				(eval-string  commandselection))
+			(let loop ()
+			(if (NextSelectedObjectAllStaffs)
+				(if (eval-string onlyFor)
+					(begin (eval-string  commandselection) (loop))
+					(loop)))) ; don't process this object, next please.		
+			(d-GoToSelectionStart)
+			(d-PopPosition))
+		(begin	
+			(eval-string commandsingle)))) ; End of SingleAndSelectionSwitcher
 
 ; MapToSelection is like schemes (map) mixed with ApplyToSelection. Use a proc on all selection items and gather all proc return values in a list. You can give an optional test, only items which return #t are processed.
 (define* (MapToSelection proc #:optional (onlyFor (lambda () #t)))
