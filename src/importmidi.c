@@ -692,8 +692,6 @@ ConvertNoteType2ticks(gint ppqn, notetype *gnotetype){
 gint
 importMidi (gchar *filename, DenemoGUI *gui)
 {
-  call_out_to_guile("(d-NewWindow)");
-
   smf_t *smf;
   gint ret = 0;	// (-1 on failure)
 
