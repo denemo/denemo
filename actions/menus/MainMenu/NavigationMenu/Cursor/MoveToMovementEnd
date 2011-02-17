@@ -7,8 +7,7 @@
       <row>
         <after>MoveToMovementBeginning</after>
         <action>MoveToMovementEnd</action>
-        <scheme>(let loop ()
-(RepeatUntilFail d-MoveToStaffDown)			
+        <scheme>(RepeatUntilFail d-MoveToStaffDown)			
 (d-MoveToEnd)
 		</scheme>
         <label>Move To Movement End</label>
