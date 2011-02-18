@@ -62,11 +62,6 @@ typedef enum
 }
 FileFormatNames;
 
-/* Keep this up to date ! */
-
-#define FIRST_FORMAT_NAME DENEMO_FORMAT
-#define LAST_FORMAT_NAME MUSICXML_FORMAT
-
 struct FileFormatData
 {
   gchar *filename_mask;
@@ -102,7 +97,6 @@ static gchar supported_musicxml_file_extension[][6] = {
   "*.mxml", "*.MXML" 
 };
 
-
 /* Some macros just to shorten lines */
 #define FORMAT_MASK(i) supported_file_formats[i].filename_mask
 #define FORMAT_DESCRIPTION(i) supported_file_formats[i].description
@@ -125,11 +119,6 @@ static gchar *system_template_path = NULL;
 static gchar *system_example_path = NULL;
 static gchar *local_template_path = NULL;
 static gchar *default_template_path = NULL;
-
-/* Prototypes for non-exported functions */
-static gint guess_file_format (gchar * file_name);
-
-
 
 /**
  * Display a message box asking the user to confirm that unsaved 
@@ -852,13 +841,12 @@ file_save (GtkWidget * widget, DenemoGUI * gui)
     /* No filename's been given or is opened from template */
     file_saveas (gui, FALSE);
   else
-    save_in_format(guess_file_format (gui->filename->str), gui, NULL);
+    save_in_format(DENEMO_FORMAT, gui, NULL);
   
   /*Save parts as lilypond files*/   
   if(Denemo.prefs.saveparts)
     export_lilypond_parts(gui->filename->str,gui);
   
-  //denemo_warning (gui, guess_file_format (gui->filename->str));
   score_status(gui, FALSE);
 }
 
@@ -1045,34 +1033,6 @@ deletescore (GtkWidget * widget, DenemoGUI * gui)
   gtk_signal_emit_by_name (GTK_OBJECT (Denemo.vadjustment), "changed");
   force_lily_refresh(gui);  
 }
-
-/**
- * Try to suggest the format of a given file, from file name extension. A
- * more powerful function could be written to guess the format from the
- * file contents 
- */
-gint
-guess_file_format (gchar * file_name)
-{
-  gint name_iterator;
-  gboolean format_match;
-
-  name_iterator = FIRST_FORMAT_NAME;
-  format_match = FALSE;
-
-  while (!format_match && name_iterator <= LAST_FORMAT_NAME)
-    {
-      format_match = g_pattern_match_simple (FORMAT_MASK (name_iterator++),
-                                             file_name);
-    };
-
-  /* In case no match could be found, we just give a 'default' format.
-   * Chances are that all formats will be wrong, however ;-) */
-  if (!format_match)
-    return (DENEMO_FORMAT);
-  else
-    return (--name_iterator);
-};
 
 /**
  * Creates dialog to say that the chosen filename already exists
