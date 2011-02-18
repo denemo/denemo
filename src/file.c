@@ -635,18 +635,21 @@ file_import_musicxml_with_check (GtkAction * action, DenemoScriptParam * param)
   IMPORT(musicxml)
 }
 
+#define ADD(insertion_strategy)\
+  DenemoGUI *gui = Denemo.gui;\
+  GET_1PARAM(action, param, filename);\
+  if(filename==NULL && !confirm_insertstaff_custom_scoreblock(gui))\
+    return;\
+  param->status = !file_open(gui, FALSE, insertion_strategy, filename);\
+  score_status(gui, TRUE);\
+
 /**
  * Wrapper function for opening a file to add movements to the current score
  * 
  */
 void
 file_add_movements(GtkAction * action,  DenemoScriptParam * param){
-  DenemoGUI *gui = Denemo.gui;
-  GET_1PARAM(action, param, filename);
-  if(filename==NULL && !confirm_insertstaff_custom_scoreblock(gui))
-    return;
-  param->status = !file_open(gui, FALSE, ADD_MOVEMENTS, filename);
-  score_status(gui, TRUE);
+  ADD(ADD_MOVEMENTS)
 }
 /**
  * Wrapper function for opening a file to add staffs to the current movement
@@ -654,12 +657,7 @@ file_add_movements(GtkAction * action,  DenemoScriptParam * param){
  */
 void
 file_add_staffs(GtkAction * action,  DenemoScriptParam * param){
-  GET_1PARAM(action, param, filename);
-  DenemoGUI *gui = Denemo.gui;
-  if(filename==NULL && !confirm_insertstaff_custom_scoreblock(gui))
-    return;
-   param->status = !file_open(gui, FALSE, ADD_STAFFS, filename);
-  score_status(gui, TRUE);
+  ADD(ADD_STAFFS)
 }
 
 static void  set_current_folder(GtkWidget *file_selection, DenemoGUI *gui, DenemoSaveType template) {
