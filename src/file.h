@@ -48,9 +48,6 @@ file_saveaswrapper (GtkAction *action, DenemoScriptParam *param);
 void
 file_newwrapper (GtkAction *action, gpointer param);
 
-gint
-open_for_real (gchar *filename, DenemoGUI *gui, DenemoSaveType as_template, ImportType type);
-
 void
 file_save (GtkWidget * widget, DenemoGUI *gui);
 

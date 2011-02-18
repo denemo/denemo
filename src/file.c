@@ -203,7 +203,7 @@ lyinput(gchar *filename, DenemoGUI *gui) {
  *filename must be full path
  * @return 0 for success non zero for failure
  */
-gint
+static gint
 open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, ImportType type)
 {
   g_signal_handlers_block_by_func(G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_expose_event), NULL);
