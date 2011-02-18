@@ -375,7 +375,7 @@ setsdir (objnode * starter, objnode * ender, gint beamgroup_sum,
   gboolean is_stemup = TRUE;
   gint stemoffset;
   gint stemy;
-#ifdef DEBUG
+#if 0
   {static gint count = 0;
   count++;
   g_print("Call %d ++++++++++++++++++++++++++++++++\n\

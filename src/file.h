@@ -51,8 +51,6 @@ file_newwrapper (GtkAction *action, gpointer param);
 gint
 open_for_real (gchar *filename, DenemoGUI *gui, DenemoSaveType as_template, ImportType type);
 
-
-
 void
 file_save (GtkWidget * widget, DenemoGUI *gui);
 
@@ -70,17 +68,10 @@ void export_midi_action (GtkAction *action, DenemoScriptParam *param);
 void export_csound_action (GtkAction *action, DenemoScriptParam *param);
 void export_pdf (gchar *filename, DenemoGUI * gui);
 void export_png (gchar *filename, gboolean show_preview, DenemoGUI * gui);
-void
-paste_clipboard(GtkAction * action, gpointer param);
+void paste_clipboard(GtkAction * action, gpointer param);
 
 gint
 lyinput (gchar *filename, DenemoGUI *gui);
-
-void
-deletescore (GtkWidget * widget, DenemoGUI *gui);
-
-void
-updatescoreinfo (DenemoGUI *gui);
 
 /**
  * @return TRUE if the file does not exists or the user want it to be overwritten

@@ -103,16 +103,6 @@ static gchar supported_musicxml_file_extension[][6] = {
 #define FORMAT_EXTENSION(i) supported_file_formats[i].filename_extension
 #define FORMAT_ASYNC(i) supported_file_formats[i].async
 
-#define COLUMN_NAME (0)
-#define COLUMN_ID (1)
-
-struct callbackdata
-{
-  struct scoreinfo *si;
-  GtkWidget *fs;
-  GtkWidget *comboentry;
-};
-
 /* directory last used for saving */
 static gchar *file_selection_path = NULL;
 static gchar *system_template_path = NULL;
@@ -132,46 +122,6 @@ confirmbox (DenemoGUI * gui) {
   ret = confirm (primary,  _("Discard changes?"));
   g_free(primary);
   return ret;
-}
-
-
-
-
-/**
- * Recalculates the stored information about a movement
- * either gui->si or if that does exist yet, gui->movements->data, the first movement.(FIXME)
- *
- * @param gui pointer to the gui structure
- */
-void
-updatescoreinfo (DenemoGUI * gui)
-{
-  staffnode *curstaff;
-  DenemoScore *si;
-  GList *g = gui->movements;
-  if(g)
-    si = g->data;
-  else
-    si = gui->si;
-  do {
-  for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
-    {
-      beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
-      showwhichaccidentalswholestaff ((DenemoStaff *) curstaff->data);
-    }
-  find_xes_in_all_measures (si);
-  find_leftmost_allcontexts (si);
-
-  si->currentstaff = si->thescore;
-  si->currentmeasure = firstmeasurenode (si->currentstaff);
-  si->currentobject = firstobjnode (si->currentmeasure);
-  if (!si->currentobject)
-    si->cursor_appending = TRUE;
-  else
-    si->cursor_appending = FALSE;
-  si->leftmeasurenum = si->currentstaffnum = si->currentmeasurenum = 1;
-  } while(g && (g=g->next) && (si=g->data));
-  score_status(gui, FALSE);
 }
 
 /**
@@ -219,13 +169,15 @@ set_gui_filename (DenemoGUI * gui, gchar * filename)
 }
 
 
-static void      update_file_selection_path (gchar *file) {
+static void 
+update_file_selection_path (gchar *file) {
   if(file_selection_path)
     g_free(file_selection_path);
   file_selection_path = g_path_get_dirname(file);
 }
 
-gint lyinput(gchar *filename, DenemoGUI *gui) {
+gint 
+lyinput(gchar *filename, DenemoGUI *gui) {
   gchar *path = g_path_get_dirname(filename);
   gchar *base = g_path_get_basename(filename);
 #ifdef G_OS_WIN32
@@ -339,8 +291,6 @@ denemo_warning (DenemoGUI * gui, gint format_id)
 	}
       gtk_widget_destroy (dialog);
     }
-
-
 }
 
 /*
@@ -360,17 +310,24 @@ create_filename (const gchar * file_name, gint format_id)
    if filename is NULL)
    If there is a scheme script, offers to save that with the file.
  */
-static void save_in_format(gint format_id, DenemoGUI * gui, gchar *filename) {
+static void 
+save_in_format(gint format_id, DenemoGUI * gui, gchar *filename) {
   gchar *file = filename? filename:gui->filename->str;
   switch (format_id)
     {
     case DENEMO_FORMAT:
     case DNM_FORMAT:
       {
-	// HERE examine Denemo.Script and if present ask it it should be saved with the file, if not delete the script.
+	/* HERE examine Denemo.Script and 
+         * if present ask it it should be 
+         * saved with the file, if not 
+         * delete the script.
+	 */
 	    
 	if(getNumCharsSchemeText())
-	  if(!confirm("You have a Script defined", "Use this script every time this file is opened?")) {
+	  if(!confirm("You have a Script defined", 
+		      "Use this script every time this file is opened?")) 
+	  {
 	    deleteSchemeText();
 	  }										 
 	exportXML (file, gui, 0, 0);
@@ -412,7 +369,6 @@ static void save_in_format(gint format_id, DenemoGUI * gui, gchar *filename) {
     default:
       break;
     };
-	
 }
 
 /**
@@ -454,8 +410,6 @@ filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, DenemoSa
     }
   g_free(basename);
   g_free(file);
-  //if(template==SAVE_NORMAL)
-  //denemo_warning (gui, format_id);
 }
 
 /* set local_template_path up */
@@ -467,7 +421,7 @@ init_local_path(void) {
 	warningdialog("Could not create .denemo/templates for you personal templates");
 	g_free(local_template_path);
 	local_template_path = NULL;
-	}
+      }
 }
 
 typedef enum {
@@ -521,9 +475,6 @@ template_open (DenemoGUI * gui, TemplateType local, gchar *filename)
   }
   return ret;
 }
-
-
-
 
 /*
  * Open system template file callback function 
@@ -811,10 +762,6 @@ file_copy_save (GtkAction * action, gpointer param)
   file_saveas (gui, SAVE_COPY);
 }
 
-
-
-
-
 /**
  * Wrapper function for saving an existing file
  *
@@ -1001,35 +948,6 @@ open_user_default_template(ImportType type) {
   }
   g_free(filename);
   return ret;
-}
-
-/**
- * Delete the movements of the given score and create a new one
- * with one movement and empty music data, no title
- * This is the action for the d-New command
- */
-void
-deletescore (GtkWidget * widget, DenemoGUI * gui)
-{
-  free_movements(gui);
-  score_status(gui, FALSE);
-  if(gui->filename) {
-    g_string_free(gui->filename, TRUE);
-    g_string_free(gui->autosavename, TRUE);
-    gui->filename = NULL;
-    set_title_bar (gui);
-  }
-
-  point_to_new_movement(gui);
-  gui->movements = g_list_append(gui->movements, gui->si);
-  set_width_to_work_with(gui);
-  set_rightmeasurenum (gui->si);
-  update_hscrollbar (gui);
-  update_vscrollbar (gui);
-  gtk_widget_queue_draw (Denemo.scorearea);
-  gtk_signal_emit_by_name (GTK_OBJECT (Denemo.hadjustment), "changed");
-  gtk_signal_emit_by_name (GTK_OBJECT (Denemo.vadjustment), "changed");
-  force_lily_refresh(gui);  
 }
 
 /**

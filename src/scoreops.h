@@ -14,6 +14,8 @@ void point_to_new_movement/*new_score*/(DenemoGUI * gui);
 void init_score (DenemoScore *si, DenemoGUI * gui);
 DenemoScore * clone_movement(DenemoScore *si);
 void free_score (DenemoGUI *gui);
+void deletescore (GtkWidget * widget, DenemoGUI *gui);
+void updatescoreinfo (DenemoGUI *gui);
 void next_movement (GtkAction *action, DenemoScriptParam *param);
 void prev_movement (GtkAction *action, DenemoScriptParam *param);
 void append_new_movement(GtkAction *action, gpointer param);

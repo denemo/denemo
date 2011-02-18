@@ -583,3 +583,72 @@ DenemoScore * clone_movement(DenemoScore *si) {
 
   return newscore;
 }
+
+
+
+
+/**
+ * Recalculates the stored information about a movement
+ * either gui->si or if that does exist yet, gui->movements->data, the first movement.(FIXME)
+ *
+ * @param gui pointer to the gui structure
+ */
+void
+updatescoreinfo (DenemoGUI * gui)
+{
+  staffnode *curstaff;
+  DenemoScore *si;
+  GList *g = gui->movements;
+  if(g)
+    si = g->data;
+  else
+    si = gui->si;
+  do {
+  for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
+    {
+      beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
+      showwhichaccidentalswholestaff ((DenemoStaff *) curstaff->data);
+    }
+  find_xes_in_all_measures (si);
+  find_leftmost_allcontexts (si);
+
+  si->currentstaff = si->thescore;
+  si->currentmeasure = firstmeasurenode (si->currentstaff);
+  si->currentobject = firstobjnode (si->currentmeasure);
+  if (!si->currentobject)
+    si->cursor_appending = TRUE;
+  else
+    si->cursor_appending = FALSE;
+  si->leftmeasurenum = si->currentstaffnum = si->currentmeasurenum = 1;
+  } while(g && (g=g->next) && (si=g->data));
+  score_status(gui, FALSE);
+}
+
+/**
+ * Delete the movements of the given score and create a new one
+ * with one movement and empty music data, no title
+ * This is the action for the d-New command
+ */
+void
+deletescore (GtkWidget * widget, DenemoGUI * gui)
+{
+  free_movements(gui);
+  score_status(gui, FALSE);
+  if(gui->filename) {
+    g_string_free(gui->filename, TRUE);
+    g_string_free(gui->autosavename, TRUE);
+    gui->filename = NULL;
+    set_title_bar (gui);
+  }
+
+  point_to_new_movement(gui);
+  gui->movements = g_list_append(gui->movements, gui->si);
+  set_width_to_work_with(gui);
+  set_rightmeasurenum (gui->si);
+  update_hscrollbar (gui);
+  update_vscrollbar (gui);
+  gtk_widget_queue_draw (Denemo.scorearea);
+  gtk_signal_emit_by_name (GTK_OBJECT (Denemo.hadjustment), "changed");
+  gtk_signal_emit_by_name (GTK_OBJECT (Denemo.vadjustment), "changed");
+  force_lily_refresh(gui);  
+}
