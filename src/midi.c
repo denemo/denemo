@@ -210,11 +210,14 @@ void safely_track_remove_from_smf(smf_track_t *track) {
    smf_track_remove_from_smf(track);
 }
 /**
- * enter_midi_note_in_score
- * @mid_c_offset enters the midi note steps above/below mid-c
+ * action_note_into_score
+  enters ( or (if mode==INPUTEDIT and appending) edits the note at the cursor)
+ * the parameters specify which note
+ * @mid_c_offset
  * @enshift enharmonic adjustment -1 is one flat etc.. 
+ * @octave
  */
-static void enter_midi_note_in_score (DenemoGUI *gui, gint mid_c_offset, gint enshift, gint octave) {
+static void action_note_into_score (DenemoGUI *gui, gint mid_c_offset, gint enshift, gint octave) {
   gui->last_source = INPUTMIDI;
   gui->si->cursor_y = gui->si->staffletter_y = mid_c_offset;
   gui->si->cursor_y += 7*octave; 
@@ -301,7 +304,7 @@ gint midientry(gint notenum) {
 
 	    }
 	    else
-	      enter_midi_note_in_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
+	      action_note_into_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
 	    if(Denemo.gui->si->cursor_appending)
 	      break;
 	  } while(next_editable_note() && is_tied);
@@ -314,9 +317,9 @@ gint midientry(gint notenum) {
 	  else if(beep) signal_measure_end(), beep=FALSE;
 	}
       } else
-	enter_midi_note_in_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
+	action_note_into_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
     } else
-    enter_midi_note_in_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
+    action_note_into_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
   if( !(Denemo.keyboard_state&CHECKING_MASK)) {
     stage_undo(gui->si, ACTION_STAGE_START);
   }

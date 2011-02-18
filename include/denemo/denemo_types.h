@@ -566,6 +566,8 @@ typedef enum MidiDestination {
   MIDITOSCORE = 0,
   MIDITHRU = (1<<1),
   MIDIRECORD = (1<<2),
+  MIDIPLAYALONG = (1<<5),
+
 } MidiDestination;
 
 typedef enum DenemoViewType {

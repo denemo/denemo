@@ -117,4 +117,7 @@ gchar *get_midi_control_command(guchar type, guchar value);
 gchar *get_midi_pitch_bend_command(gint value);
 void load_initdotdenemo(void);
 gint hide_printarea_on_delete(void);
+gboolean to_next_object(gboolean within_measure, gboolean stopping_at_blank_measure);
+gboolean to_prev_object(gboolean within_measure, gboolean stopping_at_blank_measure);
+
 #endif

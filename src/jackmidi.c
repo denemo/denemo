@@ -258,7 +258,7 @@ static gboolean jackmidi_play_smf_event(gchar *callback)
     si->playingnow = NULL;
     playing_piece = FALSE;
     pause_time = -1.0;
-    toggle_playbutton();
+    toggle_playbutton();    
     return  finish_play(callback);
   }
   else 
@@ -701,6 +701,8 @@ void jack_midi_play(gchar *callback)
   if(playing_piece) {
     // pause
     toggle_playbutton();
+    if (jack_transport)
+		jack_transport_stop(MD[0].jack_client);
     playing_piece = FALSE;
     (void)finish_play(callback);
     return;

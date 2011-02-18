@@ -48,6 +48,7 @@
 static GtkWidget *playbutton;
 static GtkWidget *recordbutton;
 static GtkWidget *midithrubutton;
+static GtkWidget *midiplayalongbutton;
 static GtkWidget *deletebutton;
 static GtkWidget *convertbutton;
 
@@ -3197,11 +3198,11 @@ static gboolean to_object_direction(gboolean within_measure, gboolean right, gbo
   return FALSE;
 }
 
-static gboolean to_next_object(gboolean within_measure, gboolean stopping) {
+gboolean to_next_object(gboolean within_measure, gboolean stopping) {
  
   return to_object_direction(within_measure, TRUE, stopping);  
 }
-static gboolean to_prev_object(gboolean within_measure, gboolean stopping) {
+gboolean to_prev_object(gboolean within_measure, gboolean stopping) {
  
   return to_object_direction(within_measure, FALSE, stopping);  
 }
@@ -5232,6 +5233,14 @@ static void pb_midi_thru (GtkWidget *button) {
    gtk_button_set_label (GTK_BUTTON(button), _("MIDI In -> Recorder"));
  else
    gtk_button_set_label (GTK_BUTTON(button), _("MIDI In -> Score"));
+}
+
+static void pb_playalong (GtkWidget *button) {
+ Denemo.gui->midi_destination ^= MIDIPLAYALONG;
+ if(Denemo.gui->midi_destination & MIDIPLAYALONG)
+   gtk_button_set_label (GTK_BUTTON(button), _("Play Along"));
+ else
+   gtk_button_set_label (GTK_BUTTON(button), _("Normal Playback"));
 }
 
 static void pb_record (GtkWidget *button) {
@@ -8080,6 +8089,9 @@ get_data_dir (),
       hbox = gtk_hbox_new(FALSE, 1);
       gtk_box_pack_start (GTK_BOX (inner1), hbox, TRUE, TRUE, 0);
       midithrubutton = create_playbutton(hbox, _("MIDI in -> Score"), pb_midi_thru, NULL);
+      
+      midiplayalongbutton = create_playbutton(hbox, _("Normal Playback"), pb_playalong, NULL);
+
       deletebutton = create_playbutton(hbox, "Delete", pb_midi_delete, NULL);
       convertbutton = create_playbutton(hbox, "Convert", pb_midi_convert, NULL);
       gtk_widget_show_all (Denemo.midi_in_control);

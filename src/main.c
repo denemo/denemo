@@ -437,7 +437,7 @@ main (int argc, char *argv[])
   
    /* set the default handler for debug messages */
   //FIXME this does not work
-  //g_log_set_handler (NULL, G_LOG_LEVEL_DEBUG, debug_handler, NULL);
+  g_log_set_handler (NULL, G_LOG_LEVEL_DEBUG, debug_handler, NULL);
 
 
   /* initialization of directory relocatability */
