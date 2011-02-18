@@ -319,6 +319,74 @@ static gboolean finish_play(gchar *callback) {
 
 static gdouble last_draw_time;
 static gdouble pause_time = -1.0;
+static  gdouble playalong_time = 0.0;
+
+
+static gdouble GET_TIME (void) {
+  DenemoScore *si = Denemo.gui->si;
+  gdouble thetime = get_time();
+  if((Denemo.gui->midi_destination & MIDIPLAYALONG) && (thetime > si->start_player + playalong_time))
+    return playalong_time;
+  return thetime - si->start_player;
+}
+
+//test if the midi event in buf is a note-on for the current note
+//if so set a time delta so that a call to GET_TIME() will return get_time()- lost_time
+//unless this time is greater than the start time of the next note when GET_TIME() will stick
+//advance cursor to next note
+static void advance_clock(gchar *buf) {
+  if(Denemo.gui->si->currentobject) {
+    DenemoObject *obj = Denemo.gui->si->currentobject->data;
+    while(obj->type==CHORD || to_next_object(FALSE, FALSE)) {
+      if(Denemo.gui->si->currentobject){
+	obj  = Denemo.gui->si->currentobject->data;
+	if(obj->type==CHORD) break;
+      } else break;
+      if(!to_next_object(FALSE, FALSE))
+	 break;
+    }    
+    if(Denemo.gui->si->currentobject && obj->type==CHORD) {
+      chord *thechord = obj->object;
+      if(thechord->notes) {
+	note *thenote = thechord->notes->data;
+	if( ((buf[0]&SYS_EXCLUSIVE_MESSAGE1)==NOTE_ON) && buf[2] && buf[1] == (dia_to_midinote (thenote->mid_c_offset) + thenote->enshift)) {
+	  playalong_time = obj->latest_time; 
+	  while(1) {
+	    gboolean next = to_next_object(FALSE, FALSE);
+	    if(next && Denemo.gui->si->currentobject) {
+	      DenemoObject *obj = Denemo.gui->si->currentobject->data;	      
+	      if(obj->type==CHORD) {
+		chord *thechord = obj->object;
+		if(thechord->notes)
+		  break;
+	      }
+	    } else {	      
+	      playalong_time = Denemo.gui->si->end_time + 1.0;//???FIXME how to make it stop?, 1.0 should ensure we get to the end? 
+	      break;
+	    }
+	  }
+	}
+      }
+    }
+  }
+}
+static void initialize_clock(void) {
+  if(Denemo.gui->si->currentobject ) {
+    DenemoObject *obj = Denemo.gui->si->currentobject->data;
+    if(obj->type==CHORD) {
+      chord *thechord = obj->object;
+      if(thechord->notes) {
+	note *thenote = thechord->notes->data;      
+	gboolean thetime = get_time();
+	//Denemo.gui->si->start_player =  thetime - obj->earliest_time;
+	playalong_time = obj->latest_time; 
+      }
+    }
+  }
+}
+
+
+
 static gboolean fluidsynth_play_smf_event(gchar *callback)
 {
   DenemoScore *si = Denemo.gui->si;
@@ -348,7 +416,7 @@ static gboolean fluidsynth_play_smf_event(gchar *callback)
   // g_print("rightmost %f event %f\n", si->rightmost_time, event->time_seconds);
   if(si->rightmost_time>0.0 && event->time_seconds>si->rightmost_time)
     page_viewport(), si->rightmost_time=-1;
-  gdouble thetime = get_time() - si->start_player;
+  gdouble thetime = GET_TIME();//get_time() - si->start_player;
   pause_time = thetime;
   //g_print("thetime %f\n", thetime);
   thetime -= si->tempo_change_time - si->start_player;
@@ -439,6 +507,7 @@ void fluid_midi_play(gchar *callback)
   }
   if(gui->si->recorded_midi_track)
     safely_add_track(gui->si->smf, gui->si->recorded_midi_track);
+ 
   static GString *callback_string;
 
   if(callback_string==NULL)
@@ -464,15 +533,17 @@ void fluid_midi_play(gchar *callback)
   if(gui->si->start_time<0.0)
     gui->si->start_time = 0.0;
   if( (pause_time>0.0) && (pause_time<gui->si->end_time))
-    gui->si->start_player = get_time() - pause_time;
+    gui->si->start_player = get_time() - pause_time;//FIXME ??
   else
-    pause_time = -1.0, gui->si->start_player = get_time() - gui->si->start_time;
+    pause_time = -1.0, gui->si->start_player = get_time() - gui->si->start_time;//FIXME ??
   playing_piece = TRUE;
   toggle_playbutton();
   gui->si->tempo_change_time = gui->si->start_player;
 
   smf_rewind(Denemo.gui->si->smf);
   last_draw_time = 0.0;
+  if(Denemo.gui->midi_destination & MIDIPLAYALONG)
+    initialize_clock();
   g_idle_add((GSourceFunc)fluidsynth_play_smf_event, callback_string->str);
   gint error = smf_seek_to_seconds(gui->si->smf, pause_time>0.0? pause_time:gui->si->start_time);
 
@@ -515,9 +586,13 @@ fluid_rhythm_feedback(gint duration, gboolean rest, gboolean dot) {
 }
 
 
+
+
 static fluid_midi_driver_t* midi_in;
 
 static void handle_midi_event(gchar *buf) {
+  if(Denemo.gui->midi_destination & MIDIPLAYALONG)
+    advance_clock(buf);
   if(Denemo.gui->midi_destination & MIDIRECORD)
     record_midi(buf,  get_time() - Denemo.gui->si->start_player);
   if(Denemo.gui->midi_destination & MIDITHRU)
@@ -567,41 +642,19 @@ static handle_midi_event_func_t handle_midi_in(void* data, fluid_midi_event_t* e
     {
       int key = fluid_midi_event_get_key(event);
       int velocity = fluid_midi_event_get_velocity(event);
-#if 0
-      midi_in_buf[0] = type;
-      midi_in_buf[1] = key;
-      midi_in_buf[2] = velocity;
-      if(type==NOTE_ON && velocity==0) {//Zero velocity NOTEON is used as NOTEOFF by some MIDI controllers
-	midi_in_buf[0]=NOTE_OFF;
-	midi_in_buf[2]=127;
-      }
-      midi_in_buf[0] |= ((DenemoStaff *)Denemo.gui->si->currentstaff->data)->midi_channel;
-      //g_print("key is %d\n", key);
-      //handle_midi_event(midi_in_buf);
-      midi_in_ready = TRUE;
-#else
       if(type==NOTE_ON && velocity==0) {//Zero velocity NOTEON is used as NOTEOFF by some MIDI controllers
 	type=NOTE_OFF;
 	velocity=127;
       }
       type  |= ((DenemoStaff *)Denemo.gui->si->currentstaff->data)->midi_channel;
       load_midi_buf(type, key, velocity);
-#endif
-
     }
     break;
   case PITCH_BEND:
   
     {
       short key = fluid_midi_event_get_pitch(event);
-#if 0
-      midi_in_buf[0] = type;
-      midi_in_buf[1] = key>>7;
-      midi_in_buf[2] = key&0x7F;
-      midi_in_ready = TRUE;
-#else
       load_midi_buf(type, key>>7, key&0x7F);
-#endif
     }
     break;
 
@@ -610,15 +663,7 @@ static handle_midi_event_func_t handle_midi_in(void* data, fluid_midi_event_t* e
   case 0xF3: 
     {
       int key = fluid_midi_event_get_key(event);
-#if 0
-      midi_in_buf[0] = type;
-      midi_in_buf[1] = key;
-      //handle_midi_event(midi_in_buf);
-      midi_in_ready = TRUE;
-#else
       load_midi_buf(type, key, 0);
-
-#endif
     }
     break;
   default:
