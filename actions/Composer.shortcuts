@@ -175,14 +175,12 @@
       
       <row>
         <action>JumpUpOctave</action>   
-        <bind>Ctrl+Up</bind>
-        <bind>Ctrl+Shft+Up</bind>
+        <bind>Ctrl+Up</bind>        
       </row>
       
       <row>
         <action>JumpDownOctave</action>
-        <bind>Ctrl+Down</bind>
-        <bind>Ctrl+Shft+Down</bind>
+        <bind>Ctrl+Down</bind>        
       </row>      
       
 	<!-- Staff Navigation -->
@@ -242,6 +240,11 @@
         <action>GoToMeasure</action>
       </row>
       <row>
+		<action>SelectMeasure</action>
+		<bind>Ctrl+Shft+Up</bind>
+		<bind>Ctrl+Shft+Down</bind>
+      </row>
+      <row>
         <action>GoToBeginning</action>
         <hidden>true</hidden>
         <bind>Shft+Home</bind>
@@ -262,6 +265,10 @@
       <row>
         <action>GoToEmptyMeasure</action>
 		<bind>Alt+End</bind>
+      </row>
+      <row>
+		<action>MoveToPreviousEmptyMeasure</action>
+		<bind>Alt+Home</bind>
       </row>
       <row>
 		<action>SelectionToEmptyMeasure</action>

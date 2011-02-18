@@ -153,19 +153,16 @@
 
 ;Next object in selection for all staffs
 (define (NextSelectedObjectAllStaffs)
-	(define remember 1)
+	(define lastposition (GetPosition))
 	(if (and (d-MarkStatus) (d-IsInSelection))
 		(if (d-NextSelectedObject)
 		  #t ; found one. End
-		  (begin (set! remember (d-GetHorizontalPosition)) ; check one staff down and if there is a selection.
-		  	(if (d-MoveToStaffDown) 
+		   (if (d-MoveToStaffDown) ; no selected item left in the current staff. check one down.
 		  		(if (selection::MoveToStaffBeginning) 
 				  	#t ; found a selection in the lower staff
-				  	(begin (d-GoToPosition #f (- (d-GetStaff) 1) #f remember) #f)) ; reset cursor to the last known selection position
-				  #f))) ; no staff below
+				  	(begin (apply d-GoToPosition lastposition ) #f)) ; reset cursor to the last known selection position and end.
+				  #f)) ; no staff below
 	  #f)); no selection or cursor not in selection
-	
-
 
 (define (selection::MoveToStaffBeginning)
 	(define rememberStaff (d-GetStaff))
@@ -177,8 +174,6 @@
 				#t
 				(begin (apply d-GoToPosition rememberPosition) #f)))
 		#f)) ; no selection at all. 
-
-
 
 ;Find the next object that returns #t from the given test function. Don't write the function in parentheses, just give the name (except you give a function that returns a name :))
 (define (FindNextObjectAllStaffs test?) 
@@ -197,7 +192,6 @@
 	));loopy end
 
 
-
 ;SingleAndSelectionSwitcher by Nils Gey Jan/2010
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;Automatically applies a script to a whole selection. You can give different commands or command blocks with (begin) for single items or whole selections. You can enter a complete scheme script with (),  arguments and everything you would want to run standalone. Don't forget to escape chars like  \" . You can even use a complete (begin ) block.
@@ -211,24 +205,22 @@
 
 (define* (SingleAndSelectionSwitcher commandsingle #:optional (commandselection commandsingle) (onlyFor "#t")) ; Amazingly commandsingle is already defined on spot so that it can be used again in the same line to define commandselection 
 	(d-PushPosition)
-	(if (and DenemoPref_applytoselection (d-GoToSelectionStart))
-	(begin
-		(if (eval-string onlyFor)
-			(eval-string  commandselection))
-		(let loop ()
-		(if (NextSelectedObjectAllStaffs)
+	(if (and DenemoPref_applytoselection (d-MarkStatus))
+		(begin
+			(d-GoToSelectionStart)
 			(if (eval-string onlyFor)
-				(begin (eval-string  commandselection) (loop))
-				(loop) ; don't process this object, next please.
-			)
-		))
-		(d-GoToSelectionStart)
-		(d-PopPosition)
-		)
-	(begin	
-		(eval-string commandsingle)))) ; End of SingleAndSelectionSwitcher
+				(eval-string  commandselection))
+			(let loop ()
+			(if (NextSelectedObjectAllStaffs)
+				(if (eval-string onlyFor)
+					(begin (eval-string  commandselection) (loop))
+					(loop)))) ; don't process this object, next please.		
+			(d-GoToSelectionStart)
+			(d-PopPosition))
+		(begin	
+			(eval-string commandsingle)))) ; End of SingleAndSelectionSwitcher
 
-; MapToSelection is like schemes (map) mixed with ApplyToSelection. Use a proc on all selection items and gather all proc return values in a list.
+; MapToSelection is like schemes (map) mixed with ApplyToSelection. Use a proc on all selection items and gather all proc return values in a list. You can give an optional test, only items which return #t are processed.
 (define* (MapToSelection proc #:optional (onlyFor (lambda () #t)))
 	(define return (list #f))	; prepare return list
 	(define (gather)
@@ -239,10 +231,27 @@
 		(begin 
 			(d-PushPosition)
 			(d-GoToSelectionStart)
-			(gather) ; start one without testing. We already know we have a selection and RepeatProcWhileTest tests first.
+			(gather) ; start one without selection testing. We already know we have a selection and RepeatProcWhileTest tests first which results in ignoring the first selected item.
 			(RepeatProcWhileTest gather NextSelectedObjectAllStaffs) ; Use the proc/gather function on all items in the selection
 			(d-PopPosition)
 			(list-tail return 1))			
+		#f))
+
+;ForEachToSelection applies the command to each item in the selection. The return value is unspecified. Faster than MapToSelection.
+(define* (ForEachToSelection proc #:optional (onlyFor (lambda () #t)))
+	(define (apply)
+		(if (onlyFor) ; test the current item
+			(proc)			
+			#f))
+	(if (and DenemoPref_applytoselection (d-MarkStatus)) ; only if preferences allow it and if there is a selection at all
+		(begin 
+			(d-PushPosition)
+			(d-GoToSelectionStart)
+			(apply) ; start one without selection testing. We already know we have a selection and RepeatProcWhileTest tests first which results in ignoring the first selected item.
+			(RepeatProcWhileTest apply NextSelectedObjectAllStaffs) ; Use the proc/gather function on all items in the selection
+			(d-PopPosition)
+			(if #f #f) ; return unspecified.
+			)			
 		#f))
 
 
