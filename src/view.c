@@ -4803,7 +4803,6 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
        case GTK_RESPONSE_ACCEPT:
 	 open_for_real (crash_file,  Denemo.gui, TRUE, REPLACE_SCORE);
 	 score_status(Denemo.gui, TRUE);
-	 //openfile (name, FALSE);
 	 g_remove (crash_file);
 	 break;
        case GTK_RESPONSE_CANCEL:
