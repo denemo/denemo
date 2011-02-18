@@ -596,66 +596,37 @@ file_open_with_check (GtkAction * action, DenemoScriptParam * param)
   DenemoGUI *gui = Denemo.gui;
   if (!gui->notsaved ||  (gui->notsaved && (confirmbox (gui))))
     {
-      //deletescore (NULL, gui);
       param->status = !file_open (gui, FALSE, REPLACE_SCORE, filename);
     }
 }
 
-/**
- * Wrapper function for importing a lilypond file, 
- * if no param checks to see if current score has changed and prompts user to save 
- * otherwise opens the file
- */
+#define IMPORT(import_type) \
+  GET_1PARAM(action, param, filename); \
+  if(query){ \
+    param->status = (Denemo.gui->filename!=NULL) && Denemo.gui->filename->len; \
+    if(param->status) \
+      g_string_assign(param->string, Denemo.gui->filename->str); \
+    return; \
+  } \
+  DenemoGUI *gui = Denemo.gui; \
+  param->status = !file_import_##import_type (gui, FALSE, REPLACE_SCORE, filename); 
+
 void
 file_import_lilypond_with_check (GtkAction * action, DenemoScriptParam * param)
 {
-  GET_1PARAM(action, param, filename);
-  if(query){
-    param->status = (Denemo.gui->filename!=NULL) && Denemo.gui->filename->len;
-    if(param->status)
-      g_string_assign(param->string, Denemo.gui->filename->str);
-    return;
-  }
-  DenemoGUI *gui = Denemo.gui;
-  param->status = !file_import_lilypond (gui, FALSE, REPLACE_SCORE, filename);
+  IMPORT(lilypond)
 }
 
-/**
- * Wrapper function for importing a midi file,
- * if no param checks to see if current score has changed and prompts user to save 
- * otherwise opens the file
- */
 void
 file_import_midi_with_check (GtkAction * action, DenemoScriptParam * param)
 {
-  GET_1PARAM(action, param, filename);
-  if(query){
-    param->status = (Denemo.gui->filename!=NULL) && Denemo.gui->filename->len;
-    if(param->status)
-      g_string_assign(param->string, Denemo.gui->filename->str);
-    return;
-  }
-  DenemoGUI *gui = Denemo.gui;
-  param->status = !file_import_midi (gui, FALSE, REPLACE_SCORE, filename);
+  IMPORT(midi)
 }
 
-/**
- * Wrapper function for importing a midi file,
- * if no param checks to see if current score has changed and prompts user to save 
- * otherwise opens the file
- */
 void
 file_import_musicxml_with_check (GtkAction * action, DenemoScriptParam * param)
 {
-  GET_1PARAM(action, param, filename);
-  if(query){
-    param->status = (Denemo.gui->filename!=NULL) && Denemo.gui->filename->len;
-    if(param->status)
-      g_string_assign(param->string, Denemo.gui->filename->str);
-    return;
-  }
-  DenemoGUI *gui = Denemo.gui;
-  param->status = !file_import_musicxml (gui, FALSE, REPLACE_SCORE, filename);
+  IMPORT(musicxml)
 }
 
 /**
@@ -722,8 +693,6 @@ file_open (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *fil
 
   GtkWidget *file_selection;
   GtkFileFilter *filter;
-
-  int i;
 
   file_selection = gtk_file_chooser_dialog_new (_("Open"),
 						GTK_WINDOW (Denemo.window),
@@ -803,7 +772,7 @@ file_import_lilypond (DenemoGUI * gui, DenemoSaveType template, ImportType type,
       g_free (name);
     }
   gtk_widget_destroy (file_selection);
-  return 0;
+  return ret;
 }
 
 /**
@@ -820,8 +789,6 @@ file_import_midi (DenemoGUI * gui, DenemoSaveType template, ImportType type, gch
 
   GtkWidget *file_selection;
   GtkFileFilter *filter;
-
-  int i;
 
   file_selection = gtk_file_chooser_dialog_new (_("Import Midi"),
 						GTK_WINDOW (Denemo.window),
@@ -872,8 +839,6 @@ file_import_musicxml (DenemoGUI * gui, DenemoSaveType template, ImportType type,
 
   GtkWidget *file_selection;
   GtkFileFilter *filter;
-
-  int i;
 
   file_selection = gtk_file_chooser_dialog_new (_("Import MusicXML"),
 						GTK_WINDOW (Denemo.window),
