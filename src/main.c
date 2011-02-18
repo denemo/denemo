@@ -489,6 +489,8 @@ main (int argc, char *argv[])
   add_font_directory(fontpath);
   fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "denemo.ttf", NULL);
   add_font_directory(fontpath);
+#else
+  add_font_directory (DATAROOTDIR "/fonts");
 #endif
   GError *error = NULL;
   /* gtk initialization */
