@@ -1442,7 +1442,7 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
 #if 1
   top_vbox = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title(top_vbox, "Denemo Print View");
+  gtk_window_set_title(GTK_WINDOW(top_vbox), "Denemo Print View");
   gtk_widget_set_size_request(GTK_WIDGET(top_vbox), 1200, 600);
   g_signal_connect (G_OBJECT (top_vbox), "delete-event",
 		    G_CALLBACK (hide_printarea_on_delete), NULL);
