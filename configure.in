@@ -184,13 +184,9 @@ AC_SUBST(pkgdatadir)
 AC_SUBST(PACKAGE_DATA_DIR)
  
 dnl
-dnl Force sysconfdir=/etc if no --sysconfdir=xxx passed
+dnl Append the package name to sysconfdir.
 dnl
-if test $sysconfdir = $\{prefix\}/etc; then
-  sysconfdir=/etc/${PACKAGE}
-else 
-  sysconfdir=$sysconfdir/${PACKAGE}    
-fi
+sysconfdir=$sysconfdir/${PACKAGE}
 AC_SUBST(sysconfdir)
 
 dnl Set PACKAGE_SOURCE_DIR in config.h.
