@@ -959,32 +959,20 @@ gboolean
 replace_existing_file_dialog (const gchar * filename,
 			      GtkWindow * parent_window, gint format_id)
 {
-
+  gboolean ret;
   gchar *file = create_filename (filename, format_id);
   if (!g_file_test (file, G_FILE_TEST_EXISTS))
     {
       g_free (file);
       return TRUE;
     }
-
-  GtkWidget *dialog = gtk_message_dialog_new (parent_window,
-					      (GtkDialogFlags)
-					      (GTK_DIALOG_MODAL |
-					       GTK_DIALOG_DESTROY_WITH_PARENT),
-					      GTK_MESSAGE_QUESTION,
-					      GTK_BUTTONS_YES_NO,
-					      _
-					      ("A file with the name %s already exists."),
-					      file);
-
-  gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
-					    _("Do you want to replace it?"));
-  gtk_widget_show_all (dialog);
-  gboolean r = (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES);
-  gtk_widget_destroy (dialog);
+  
+  gchar *primary = g_strdup_printf(_("A file with the name %s already exists"), file);
+  ret = confirm (primary,  _("Do you want to replace it?"));
+  
   g_free (file);
-  //g_print ("Yes dialog is %d\n", r);
-  return r;
+  g_free (primary);
+  return ret;
 }
 
 
