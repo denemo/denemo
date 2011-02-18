@@ -617,10 +617,7 @@ file_import_lilypond_with_check (GtkAction * action, DenemoScriptParam * param)
     return;
   }
   DenemoGUI *gui = Denemo.gui;
-  if (!gui->notsaved ||  (gui->notsaved && (confirmbox (gui))))
-    {
-      param->status = !file_import_lilypond (gui, FALSE, ADD_MOVEMENTS, filename);
-    }
+  param->status = !file_import_lilypond (gui, FALSE, REPLACE_SCORE, filename);
 }
 
 /**
@@ -639,10 +636,7 @@ file_import_midi_with_check (GtkAction * action, DenemoScriptParam * param)
     return;
   }
   DenemoGUI *gui = Denemo.gui;
-  if (!gui->notsaved ||  (gui->notsaved && (confirmbox (gui))))
-    {
-      param->status = !file_import_midi (gui, FALSE, ADD_MOVEMENTS, filename);
-    }
+  param->status = !file_import_midi (gui, FALSE, REPLACE_SCORE, filename);
 }
 
 /**
@@ -661,10 +655,7 @@ file_import_musicxml_with_check (GtkAction * action, DenemoScriptParam * param)
     return;
   }
   DenemoGUI *gui = Denemo.gui;
-  if (!gui->notsaved ||  (gui->notsaved && (confirmbox (gui))))
-    {
-      param->status = !file_import_musicxml (gui, FALSE, ADD_MOVEMENTS, filename);
-    }
+  param->status = !file_import_musicxml (gui, FALSE, REPLACE_SCORE, filename);
 }
 
 /**
@@ -782,8 +773,6 @@ file_import_lilypond (DenemoGUI * gui, DenemoSaveType template, ImportType type,
   GtkWidget *file_selection;
   GtkFileFilter *filter;
 
-  int i;
-
   file_selection = gtk_file_chooser_dialog_new (_("Import Lilypond"),
 						GTK_WINDOW (Denemo.window),
 						GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -814,7 +803,7 @@ file_import_lilypond (DenemoGUI * gui, DenemoSaveType template, ImportType type,
       g_free (name);
     }
   gtk_widget_destroy (file_selection);
-  return ret;
+  return 0;
 }
 
 /**
