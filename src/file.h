@@ -8,19 +8,6 @@
 #ifndef FILE_H
 #define FILE_H
 
-
-typedef enum
-{ DENEMO_FORMAT = 0,
-  DNM_FORMAT,
-  MUDELA_FORMAT,
-  PDF_FORMAT,
-  PNG_FORMAT,
-  ABC_FORMAT,
-  MIDI_FORMAT,
-  CSOUND_FORMAT
-}
-FileFormatNames;
-
 gboolean confirmbox (DenemoGUI *gui);
 
 void 
