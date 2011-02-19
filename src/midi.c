@@ -247,9 +247,9 @@ void record_midi(gchar *buf, gdouble time) {
   }
 }
 
-/*  insert the passed note into the score/edit the score following the mode */
-gint midientry(gint notenum) {
-#define CHECKING_MASK (GDK_CONTROL_MASK|GDK_MOD2_MASK)  
+/*  take an action for the passed note. Enter/edit/check the score following the mode and keyboard state. */
+static gint midiaction(gint notenum) {
+#define CHECKING_MASK (GDK_CONTROL_MASK)  
   DenemoGUI *gui = Denemo.gui;
   if(gui==NULL)
     return TRUE;
@@ -272,7 +272,7 @@ gint midientry(gint notenum) {
       fluid_playpitch(notenum, 300 /*duration*/,  curstaffstruct->midi_channel, 0);
     stage_undo(gui->si, ACTION_STAGE_END);//undo is a queue so this is the end :)
   }
-  if(gui->mode & INPUTEDIT)
+  if((gui->mode & INPUTEDIT) || (Denemo.keyboard_state&CHECKING_MASK))
     {
       static gboolean beep = FALSE;
       gboolean is_tied = FALSE;
@@ -284,11 +284,8 @@ gint midientry(gint notenum) {
 	    curObj = Denemo.gui->si->currentobject->data;
 	    chord *thechord = (chord *)  curObj->object;
 	    is_tied = thechord->is_tied;
-
 	    
 #define check_midi_note(a,b,c,d) ((a->mid_c_offset==b)&&(a->enshift==c))?playnote(a,curstaffstruct->midi_channel):gdk_beep();
-
-
 
 	    //g_print("check %d %d %d %d %d\n", a->mid_c_offset, a->enshift, b, c, d);
 	    if( (Denemo.keyboard_state&CHECKING_MASK) && thechord->notes) {
@@ -301,7 +298,6 @@ gint midientry(gint notenum) {
 		gdk_beep();
 		break;//do not move on to next note
 	      }
-
 	    }
 	    else
 	      action_note_into_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
@@ -374,7 +370,7 @@ void process_midi_event(gchar *buf) {
     }
   } else {
     if(command==MIDI_NOTEON)
-      midientry(notenumber);
+      midiaction(notenumber);
     else if(command==MIDI_CTL_CHANGE) {
       gchar *command_name = get_midi_control_command(notenumber, velocity);
       if(command_name)
