@@ -815,59 +815,59 @@ file_save (GtkWidget * widget, DenemoGUI * gui)
   score_status(gui, FALSE);
 }
 
+#define FILE_DIALOG2(description)\
+  GtkWidget *file_selection;\
+  GtkWidget *label;\
+  GtkWidget *hbox;\
+  GtkFileFilter *filter;\
+  file_selection = gtk_file_chooser_dialog_new (description,\
+						GTK_WINDOW (Denemo.window),\
+						GTK_FILE_CHOOSER_ACTION_SAVE,\
+						GTK_STOCK_CANCEL,\
+						GTK_RESPONSE_REJECT,\
+						GTK_STOCK_SAVE,\
+						GTK_RESPONSE_ACCEPT, NULL);\
+  /*set default folder for saving */\
+  set_current_folder(file_selection, gui, SAVE_NORMAL);\
+  \
+  /* assign title */ \
+  gchar *title = get_scoretitle();\
+  if (title)\
+    { \
+      gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (file_selection), title);\
+    } \
+  \
+  filter = gtk_file_filter_new ();\
+  gtk_file_filter_set_name (filter, FORMAT_DESCRIPTION(format_id));\
+  gtk_file_filter_add_pattern (filter, FORMAT_MASK(format_id));\
+  gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (file_selection), filter);\
+  gtk_dialog_set_default_response (GTK_DIALOG (file_selection),\
+				   GTK_RESPONSE_ACCEPT);\
+  gtk_widget_show_all (file_selection);\
+  if (gtk_dialog_run (GTK_DIALOG (file_selection)) == GTK_RESPONSE_ACCEPT)\
+    {\
+      gchar *file_name =\
+	gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_selection));\
+      if (replace_existing_file_dialog\
+          (file_name, GTK_WINDOW (Denemo.window), format_id)){\
+        filesel_save (gui, file_name, format_id, FALSE);\
+        force_lily_refresh(gui);\
+      }\
+      g_free (file_name);\
+    }\
+  gtk_widget_destroy (file_selection);
+
+
 /**
  * Create file saveas dialog to enable user to export the current file to
  *
  *
  */
 void
-file_export (DenemoGUI * gui, FileFormatNames type)
+file_export (DenemoGUI * gui, FileFormatNames format_id)
 {
-  GtkWidget *file_selection;
-  GtkWidget *label;
-  GtkWidget *hbox;
-  GtkFileFilter *filter;
-  gint format_id = type;
-  gchar *description = g_strconcat(_("Export As "), FORMAT_DESCRIPTION(type), NULL);
-  file_selection = gtk_file_chooser_dialog_new (description,
-						GTK_WINDOW (Denemo.window),
-						GTK_FILE_CHOOSER_ACTION_SAVE,
-						GTK_STOCK_CANCEL,
-						GTK_RESPONSE_REJECT,
-						GTK_STOCK_SAVE,
-						GTK_RESPONSE_ACCEPT, NULL);
-
-
-  /*set default folder for saving */
-  set_current_folder(file_selection, gui, SAVE_NORMAL);
-
-  /* assign title */ 
-  gchar * title = get_scoretitle();
-  if (title)
-    { 
-      gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (file_selection), title);
-    }
-  
-
-  filter = gtk_file_filter_new (); 
-  gtk_file_filter_set_name (filter, FORMAT_DESCRIPTION(format_id));
-  gtk_file_filter_add_pattern (filter, FORMAT_MASK(format_id));
-  gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (file_selection), filter);
-  gtk_dialog_set_default_response (GTK_DIALOG (file_selection),
-				   GTK_RESPONSE_ACCEPT);
-  gtk_widget_show_all (file_selection);
-  if (gtk_dialog_run (GTK_DIALOG (file_selection)) == GTK_RESPONSE_ACCEPT)
-    {
-      gchar *file_name =
-	gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_selection));
-      if (replace_existing_file_dialog
-          (file_name, GTK_WINDOW (Denemo.window), format_id)){
-        filesel_save (gui, file_name, format_id, FALSE);
-        force_lily_refresh(gui);
-      }
-      g_free (file_name);
-    }
-  gtk_widget_destroy (file_selection);
+  gchar *description = g_strconcat(_("Export As "), FORMAT_DESCRIPTION(format_id), NULL);
+  FILE_DIALOG2(description)
   g_free(description);
 }
 
@@ -879,53 +879,8 @@ file_export (DenemoGUI * gui, FileFormatNames type)
 void
 file_saveas (DenemoGUI * gui, DenemoSaveType  template)
 {
-  GtkWidget *file_selection;
-  GtkWidget *label;
-  GtkWidget *combobox;
-  GtkWidget *hbox;
-  GtkFileFilter *filter;
-
-  file_selection = gtk_file_chooser_dialog_new (_("Save As"),
-						GTK_WINDOW (Denemo.window),
-						GTK_FILE_CHOOSER_ACTION_SAVE,
-						GTK_STOCK_CANCEL,
-						GTK_RESPONSE_REJECT,
-						GTK_STOCK_SAVE,
-						GTK_RESPONSE_ACCEPT, NULL);
-
-
-  /*set default folder for saving */
-  set_current_folder(file_selection, gui, template);
-
-
-  /* assign title */ 
-  gchar *title = get_scoretitle();
-  if (title)
-    { 
-      gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (file_selection), title);
-    }
-  
-  filter = gtk_file_filter_new ();
-  gtk_file_filter_set_name (filter, FORMAT_DESCRIPTION(DENEMO_FORMAT));
-  gtk_file_filter_add_pattern (filter, FORMAT_MASK(DENEMO_FORMAT));
-  gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (file_selection), filter);
-  gtk_dialog_set_default_response (GTK_DIALOG (file_selection),
-				   GTK_RESPONSE_ACCEPT);
- 
-  gtk_widget_show_all (file_selection);
-  if (gtk_dialog_run (GTK_DIALOG (file_selection)) == GTK_RESPONSE_ACCEPT)
-    {
-      gchar *file_name =
-	gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_selection));
-      if (replace_existing_file_dialog
-          (file_name, GTK_WINDOW (Denemo.window), DENEMO_FORMAT)){
-	filesel_save (gui, file_name, DENEMO_FORMAT, template);
-        force_lily_refresh(gui);	
-      }
-	  g_free (file_name);
-    }
-
-  gtk_widget_destroy (file_selection);
+  gint format_id = DENEMO_FORMAT;
+  FILE_DIALOG2(_("Save As"))
 }
 
 /**
@@ -1030,7 +985,8 @@ file_savepartswrapper (GtkAction * action, gpointer param)
 }
 
 
-static void selection_received (GtkClipboard *clipboard, const gchar *text, gpointer data) {
+static void 
+selection_received (GtkClipboard *clipboard, const gchar *text, gpointer data) {
   if(!text) {
     warningdialog("No selection text available");
     return;
@@ -1070,7 +1026,8 @@ static void selection_received (GtkClipboard *clipboard, const gchar *text, gpoi
   }
 }
 
-void paste_clipboard(GtkAction * action, gpointer param) {
+void
+paste_clipboard(GtkAction * action, gpointer param) {
   if(Denemo.gui != g_list_last(Denemo.guis)->data) {
     warningdialog("Can only paste LilyPond text into the last tab, sorry");
     return;
