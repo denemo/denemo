@@ -3677,25 +3677,6 @@ void  show_preferred_view(void) {
     toggle_toolbar(NULL, NULL);
 }
 
-
-/* load local init.denemo or failing that system wide template file init.denemo*/
-void load_initdotdenemo(void) { 
-   gchar *init_file;
-
-   init_file = g_build_filename(locatedotdenemo (), "actions", "init.denemo", NULL);
-   if(g_file_test(init_file, G_FILE_TEST_EXISTS)) {
-     if(open_for_real (init_file, Denemo.gui, TRUE, REPLACE_SCORE))
-       g_warning("Could not open %s\n", init_file);
-   } else {
-     g_free(init_file);
-     init_file = g_build_filename(get_data_dir (), "actions", "init.denemo", NULL);
-     if (open_for_real (init_file, Denemo.gui, TRUE, REPLACE_SCORE) == -1)
-       g_warning("Denemo initialization file %s not found", init_file);
-     g_free(init_file);
-   }
-   deleteSchemeText();
-} 
-
 /* 
  * create and populate the keymap - a register of all the Denemo commands with their shortcuts
  */
@@ -4804,7 +4785,6 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
        case GTK_RESPONSE_ACCEPT:
 	 open_for_real (crash_file,  Denemo.gui, TRUE, REPLACE_SCORE);
 	 score_status(Denemo.gui, TRUE);
-	 //openfile (name, FALSE);
 	 g_remove (crash_file);
 	 break;
        case GTK_RESPONSE_CANCEL:
@@ -7559,27 +7539,6 @@ struct cbdata
   DenemoGUI *gui;
   gchar *filename;
 };
-
-/**
- * Callback for the history menu
- * opens the selected file
- */
-static void
-openrecent (GtkWidget * widget, gchar *filename)
-{
-  DenemoGUI *gui = Denemo.gui;
-  if (!gui->notsaved || (gui->notsaved && confirmbox (gui)))
-    {
-      // deletescore(NULL, gui);
-      if(open_for_real (filename, gui, FALSE, FALSE))
-	{
-	  gchar *warning = g_strdup_printf("Load of recently used file %s failed", filename);
-	  warningdialog(warning);
-	  g_free(warning);
-	}
-    }
-}
-
  
 /**
  * Add history entry to the History menu, create a menu item for it

@@ -21,4 +21,8 @@ gchar *
 get_lily_version_string (void);
 void 
 print_lily_cb (GtkWidget *item, DenemoGUI *gui);
+void
+export_pdf (gchar *filename, DenemoGUI * gui);
+void
+export_png (gchar *filename, gboolean show_preview, DenemoGUI * gui);
 #endif /*PRINT_H*/	

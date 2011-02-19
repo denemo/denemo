@@ -512,19 +512,6 @@ main (int argc, char *argv[])
   return 0;
 }
 
-
-static int
-openfile (gchar * name, gboolean template)
-{
-  GList *tmp = g_list_nth (Denemo.guis, 0);
-
-  DenemoGUI *gui = (DenemoGUI *) tmp->data;
-  gint result = open_for_real (name, gui, template, REPLACE_SCORE);
-  //gui->si->readonly = FALSE;
-  //si->readonly = TRUE;
-  return result;
-}
-
 gchar * process_command_line(int argc, char**argv) {
 
   gint opts;

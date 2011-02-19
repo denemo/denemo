@@ -34,8 +34,10 @@ open_user_default_template(ImportType type);
 void
 system_template_open_with_check (GtkAction *action, DenemoScriptParam * param);
 void
-system_example_open_with_check (GtkAction *action, DenemoScriptParam * param);
+load_initdotdenemo(void);
 
+void
+system_example_open_with_check (GtkAction *action, DenemoScriptParam * param);
 void
 local_template_open_with_check (GtkAction *action, DenemoScriptParam * param);
 
@@ -47,9 +49,6 @@ file_saveaswrapper (GtkAction *action, DenemoScriptParam *param);
 
 void
 file_newwrapper (GtkAction *action, gpointer param);
-
-gint
-open_for_real (gchar *filename, DenemoGUI *gui, DenemoSaveType as_template, ImportType type);
 
 void
 file_save (GtkWidget * widget, DenemoGUI *gui);
@@ -66,9 +65,9 @@ void export_pdf_action (GtkAction *action, DenemoScriptParam *param);
 void export_png_action (GtkAction *action, DenemoScriptParam *param);
 void export_midi_action (GtkAction *action, DenemoScriptParam *param);
 void export_csound_action (GtkAction *action, DenemoScriptParam *param);
-void export_pdf (gchar *filename, DenemoGUI * gui);
-void export_png (gchar *filename, gboolean show_preview, DenemoGUI * gui);
 void paste_clipboard(GtkAction * action, gpointer param);
+void openrecent (GtkWidget * widget, gchar *filename);
+gint open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, ImportType type);
 
 gint
 lyinput (gchar *filename, DenemoGUI *gui);
