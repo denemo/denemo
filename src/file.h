@@ -71,10 +71,4 @@ gint open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, 
 
 gint
 lyinput (gchar *filename, DenemoGUI *gui);
-
-/**
- * @return TRUE if the file does not exists or the user want it to be overwritten
- */
-gboolean replace_existing_file_dialog(const gchar* filename, GtkWindow* parent_window, gint format_id);
-
 #endif /*FILE_H*/

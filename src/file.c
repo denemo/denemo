@@ -48,6 +48,8 @@ static gint
 file_import_midi (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *filename);
 static gint
 file_import_musicxml (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *filename);
+static gboolean
+replace_existing_file_dialog (const gchar * filename, GtkWindow * parent_window, gint format_id);
 
 typedef enum
 { DENEMO_FORMAT = 0,
@@ -631,7 +633,8 @@ file_add_staffs(GtkAction * action,  DenemoScriptParam * param){
   ADD(ADD_STAFFS)
 }
 
-static void  set_current_folder(GtkWidget *file_selection, DenemoGUI *gui, DenemoSaveType template) {
+static void
+set_current_folder(GtkWidget *file_selection, DenemoGUI *gui, DenemoSaveType template) {
   gchar *path, *fallback;
   if(template==SAVE_TEMPLATE) {
     fallback = path = default_template_path;
@@ -926,7 +929,8 @@ open_user_default_template(ImportType type) {
 }
 
 /* load local init.denemo or failing that system wide template file init.denemo*/
-void load_initdotdenemo(void) { 
+void
+load_initdotdenemo(void) {
    gchar *init_file;
 
    init_file = g_build_filename(locatedotdenemo (), "actions", "init.denemo", NULL);
@@ -948,7 +952,7 @@ void load_initdotdenemo(void) {
  * and do you want to overwrite it.
  *
  */
-gboolean
+static gboolean
 replace_existing_file_dialog (const gchar * filename,
 			      GtkWindow * parent_window, gint format_id)
 {
