@@ -589,26 +589,26 @@ fluid_rhythm_feedback(gint duration, gboolean rest, gboolean dot) {
 
 
 static fluid_midi_driver_t* midi_in;
-#define ENTERING_MASK (GDK_CONTROL_MASK|GDK_MOD1_MASK) 
+#define ENTERING_MASK (GDK_MOD1_MASK) //Alt
 #define EDITING_MASK (GDK_SHIFT_MASK)  
 static void handle_midi_event(gchar *buf) {
+  //g_print("%x : %x %x %x %x\n", Denemo.keyboard_state, GDK_CONTROL_MASK, GDK_SHIFT_MASK, GDK_MOD1_MASK, GDK_LOCK_MASK);
   if(Denemo.gui->midi_destination & MIDIPLAYALONG)
     advance_clock(buf);
-  if(Denemo.gui->midi_destination & MIDIRECORD)
+
+  if(Denemo.gui->midi_destination & MIDIRECORD) {
     record_midi(buf,  get_time() - Denemo.gui->si->start_player);
-  if((Denemo.gui->midi_destination & MIDITHRU) &&
-     !(Denemo.keyboard_state&ENTERING_MASK) &&
-      !(Denemo.keyboard_state&EDITING_MASK))
     fluid_output_midi_event(buf);
-  else {
-    int mode = Denemo.gui->mode;
-    if((Denemo.gui->midi_destination & MIDITHRU) &&
-       (Denemo.keyboard_state&EDITING_MASK))
-      Denemo.gui->mode |= INPUTEDIT;
-    process_midi_event(buf);
-    if((Denemo.gui->midi_destination & MIDITHRU) &&
-       (Denemo.keyboard_state&EDITING_MASK))
-      Denemo.gui->mode = mode;
+  } else {
+    if((Denemo.keyboard_state==(GDK_SHIFT_MASK|GDK_LOCK_MASK)) ||
+       Denemo.keyboard_state==(GDK_CONTROL_MASK) ||
+       Denemo.keyboard_state==(GDK_CONTROL_MASK|GDK_LOCK_MASK) ||
+       (Denemo.keyboard_state==0))
+      process_midi_event(buf);
+    else
+      if(Denemo.keyboard_state==(GDK_SHIFT_MASK) ||
+	 Denemo.keyboard_state==(GDK_LOCK_MASK))
+	fluid_output_midi_event(buf);
   }
 }
 

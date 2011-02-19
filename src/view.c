@@ -47,7 +47,7 @@
 
 static GtkWidget *playbutton;
 static GtkWidget *recordbutton;
-static GtkWidget *midithrubutton;
+static GtkWidget *midi_in_status;
 static GtkWidget *midiplayalongbutton;
 static GtkWidget *deletebutton;
 static GtkWidget *convertbutton;
@@ -2719,7 +2719,8 @@ static SCM scheme_put_midi (SCM scm) {
 #if 0
   pitchentry(Denemo.gui);// this ensures any note is acted on before returning
 #else
-  midientry();//check for more midi in, and action it if available
+  // This call is clearly wrong midientry();//check for more midi in, and action it if available
+  //To check for midi entry would require a call to midi_in_timer_callback().
 #endif
   } else
     process_midi_event(buf);
@@ -5197,43 +5198,51 @@ static void track_delete(smf_track_t *track) {
   } else
     smf_track_delete(track);
 }
-
+void set_midi_in_status() {
+  if(midi_in_status) {
+    gchar *text=NULL;
+    if(Denemo.gui->midi_destination & MIDIRECORD)
+      text = _("<span foreground=\"red\">""Recording""</span>");
+    else if((Denemo.keyboard_state&~GDK_LOCK_MASK)==(GDK_CONTROL_MASK))
+      text = _("Checking Pitches");
+    else if((Denemo.keyboard_state==(GDK_SHIFT_MASK))||(Denemo.keyboard_state==(GDK_LOCK_MASK)))
+      text = _("Listening to Pitches");
+    else text = _("Appending/Editing Pitches");
+    gtk_label_set_markup(GTK_LABEL(midi_in_status), text);
+  }
+}
 void finish_recording(void) {
   if((Denemo.gui->midi_destination & MIDIRECORD)) {
     Denemo.gui->midi_destination ^= MIDIRECORD;
     g_print("Showing");
     gtk_widget_show(deletebutton);
     gtk_widget_show(convertbutton);
+    set_midi_in_status();
   }
 }
 
-static void pb_midi_thru (GtkWidget *button) {
- Denemo.gui->midi_destination ^= MIDITHRU;
- if(Denemo.gui->midi_destination & MIDITHRU)
-   gtk_button_set_label (GTK_BUTTON(button), _("MIDI In -> Recorder"));
- else
-   gtk_button_set_label (GTK_BUTTON(button), _("MIDI In -> Score"));
-}
+
 
 static void pb_playalong (GtkWidget *button) {
  Denemo.gui->midi_destination ^= MIDIPLAYALONG;
  if(Denemo.gui->midi_destination & MIDIPLAYALONG)
-   gtk_button_set_label (GTK_BUTTON(button), _("Play Along"));
+   gtk_button_set_label (GTK_BUTTON(button), _("Switch to Normal Playback"));
  else
-   gtk_button_set_label (GTK_BUTTON(button), _("Normal Playback"));
+   gtk_button_set_label (GTK_BUTTON(button), _("Switch to Play Along Playback"));
 }
 
 static void pb_record (GtkWidget *button) {
  if( Denemo.gui->si->recorded_midi_track && !confirm("MIDI Recording", "Delete last recording?")) {
     return;
   }
- if(!(Denemo.gui->midi_destination & MIDITHRU))
-   pb_midi_thru(midithrubutton);
+ // if(!(Denemo.gui->midi_destination & MIDITHRU))
+ //  pb_midi_thru(midithrubutton);
  Denemo.gui->midi_destination |= MIDIRECORD;
  track_delete(Denemo.gui->si->recorded_midi_track);
  Denemo.gui->si->recorded_midi_track = smf_track_new();
  gtk_widget_hide(deletebutton);
  gtk_widget_hide(convertbutton);
+ set_midi_in_status();
  pb_play(playbutton);
  return;
 }
@@ -8036,10 +8045,15 @@ get_data_dir (),
     frame= (GtkFrame *)gtk_frame_new(_("Midi In Control"));
     gtk_frame_set_shadow_type((GtkFrame *)frame, GTK_SHADOW_IN);
     gtk_container_add (GTK_CONTAINER (Denemo.midi_in_control), GTK_WIDGET(frame));
+
+
+
     inner1 = gtk_vbox_new(FALSE, 1);
     gtk_container_add (GTK_CONTAINER (frame), inner1);
-    inner = gtk_hbox_new(FALSE, 1);
-    gtk_box_pack_start (GTK_BOX (inner1), inner, FALSE, TRUE, 0);
+    //inner = gtk_hbox_new(FALSE, 1);
+    //gtk_box_pack_start (GTK_BOX (inner1), inner, FALSE, TRUE, 0);
+    
+
     GtkWidget *enharmonic_control = get_enharmonic_frame();
     if(!gtk_widget_get_parent(enharmonic_control))
       gtk_container_add (GTK_CONTAINER (inner1), enharmonic_control);
@@ -8047,9 +8061,11 @@ get_data_dir (),
     {GtkWidget *hbox;
       hbox = gtk_hbox_new(FALSE, 1);
       gtk_box_pack_start (GTK_BOX (inner1), hbox, TRUE, TRUE, 0);
-      midithrubutton = create_playbutton(hbox, _("MIDI in -> Score"), pb_midi_thru, NULL);
-      
-      midiplayalongbutton = create_playbutton(hbox, _("Normal Playback"), pb_playalong, NULL);
+      midi_in_status = gtk_label_new(_("Appending/Editing Pitches"));
+      gtk_label_set_use_markup (GTK_LABEL (midi_in_status), TRUE);
+      gtk_box_pack_start (GTK_BOX(hbox), midi_in_status, FALSE, TRUE, 0);
+     
+      midiplayalongbutton = create_playbutton(hbox, _("Switch to Play Along Playback"), pb_playalong, NULL);
 
       deletebutton = create_playbutton(hbox, "Delete", pb_midi_delete, NULL);
       convertbutton = create_playbutton(hbox, "Convert", pb_midi_convert, NULL);
@@ -8058,6 +8074,10 @@ get_data_dir (),
       gtk_widget_hide(deletebutton);
       gtk_widget_hide(convertbutton);
       }
+
+
+
+
   }
 
 
