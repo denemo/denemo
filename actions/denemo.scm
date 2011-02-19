@@ -44,6 +44,14 @@
 ;Linefeed constant to avoid backslashing		     
 (define LFEED "\n")
 
+; A function that returns #f for cases where commands work with chunks of code. this prevents the spamming of (lambda () #f) for a function that returns #f.
+(define (False) 
+	#f)
+	
+; A function that returns #t. See (False)
+(define (True) 
+	#t)
+
 ;repeat executes a proc n times
 (define (Repeat proc n)
 	(let loop ((counter 0))
@@ -379,7 +387,6 @@
 (define wrap:Op8 (cons "(d-InsertBreve)" "(d-InsertBreve)"))
 (define wrap:Op9 (cons "(d-InsertLonga)" "(d-InsertLonga)"))
 
-	
 
 ;;;;;;;;;;;;;;;; Double-Stroke for sequencing keypresses. By Nils Gey June 2010
 ;One parameter for the GUI-version or help window. This is the version that appears if someone clicks on the menu version.
