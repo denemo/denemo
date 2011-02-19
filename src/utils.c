@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <string.h> /*for SIGTERM */
+#include <fontconfig/fontconfig.h>
 #include <gtk/gtk.h>
 #include "accwidths.h"
 #include <denemo/denemo.h>
@@ -29,7 +30,7 @@ void add_font_directory(gchar *fontpath) {
 #ifdef G_OS_WIN32
   AddFontResource(fontpath);
 #else
-  ;
+  FcConfigAppFontAddDir(NULL, fontpath);
 #endif
 }
 
