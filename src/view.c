@@ -3676,25 +3676,6 @@ void  show_preferred_view(void) {
     toggle_toolbar(NULL, NULL);
 }
 
-
-/* load local init.denemo or failing that system wide template file init.denemo*/
-void load_initdotdenemo(void) { 
-   gchar *init_file;
-
-   init_file = g_build_filename(locatedotdenemo (), "actions", "init.denemo", NULL);
-   if(g_file_test(init_file, G_FILE_TEST_EXISTS)) {
-     if(open_for_real (init_file, Denemo.gui, TRUE, REPLACE_SCORE))
-       g_warning("Could not open %s\n", init_file);
-   } else {
-     g_free(init_file);
-     init_file = g_build_filename(get_data_dir (), "actions", "init.denemo", NULL);
-     if (open_for_real (init_file, Denemo.gui, TRUE, REPLACE_SCORE) == -1)
-       g_warning("Denemo initialization file %s not found", init_file);
-     g_free(init_file);
-   }
-   deleteSchemeText();
-} 
-
 /* 
  * create and populate the keymap - a register of all the Denemo commands with their shortcuts
  */
