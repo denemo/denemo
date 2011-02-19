@@ -66,6 +66,8 @@ void export_csound_action (GtkAction *action, DenemoScriptParam *param);
 void export_pdf (gchar *filename, DenemoGUI * gui);
 void export_png (gchar *filename, gboolean show_preview, DenemoGUI * gui);
 void paste_clipboard(GtkAction * action, gpointer param);
+void openrecent (GtkWidget * widget, gchar *filename);
+gint open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, ImportType type);
 
 gint
 lyinput (gchar *filename, DenemoGUI *gui);

@@ -7549,27 +7549,6 @@ struct cbdata
   DenemoGUI *gui;
   gchar *filename;
 };
-
-/**
- * Callback for the history menu
- * opens the selected file
- */
-static void
-openrecent (GtkWidget * widget, gchar *filename)
-{
-  DenemoGUI *gui = Denemo.gui;
-  if (!gui->notsaved || (gui->notsaved && confirmbox (gui)))
-    {
-      // deletescore(NULL, gui);
-      if(open_for_real (filename, gui, FALSE, FALSE))
-	{
-	  gchar *warning = g_strdup_printf("Load of recently used file %s failed", filename);
-	  warningdialog(warning);
-	  g_free(warning);
-	}
-    }
-}
-
  
 /**
  * Add history entry to the History menu, create a menu item for it

@@ -48,6 +48,8 @@ static gint
 file_import_midi (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *filename);
 static gint
 file_import_musicxml (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *filename);
+gint
+open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, ImportType type);
 
 typedef enum
 { DENEMO_FORMAT = 0,
@@ -140,6 +142,26 @@ history_compare (gconstpointer a, gconstpointer b)
 
 
 /**
+ * Callback for the history menu
+ * opens the selected file
+ */
+void
+openrecent (GtkWidget * widget, gchar *filename)
+{
+  DenemoGUI *gui = Denemo.gui;
+  if (!gui->notsaved || (gui->notsaved && confirmbox (gui)))
+    {
+      // deletescore(NULL, gui);
+      if(open_for_real (filename, gui, FALSE, FALSE))
+	{
+	  gchar *warning = g_strdup_printf("Load of recently used file %s failed", filename);
+	  warningdialog(warning);
+	  g_free(warning);
+	}
+    }
+}
+
+/**
  * Sets the filename for storing the passed in gui.
  * decorates the title bar with it and adds it to the history
  */
@@ -203,7 +225,7 @@ lyinput(gchar *filename, DenemoGUI *gui) {
  *filename must be full path
  * @return 0 for success non zero for failure
  */
-static gint
+gint
 open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, ImportType type)
 {
   g_signal_handlers_block_by_func(G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_expose_event), NULL);
