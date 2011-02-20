@@ -311,7 +311,15 @@
       <row>
         <action>Upbeat</action>
         <bind>u</bind>        
-      </row> 
+      </row>
+      <row>
+        <action>ChooseBarline</action>
+        <bind>Alt+b</bind>
+      </row>
+      <row>
+		<action>ChooseTimeSignature</action> 		        
+		<bind>Alt+t</bind>
+       </row>
           
 	<!-- Seek 
       <row>
@@ -705,7 +713,7 @@
 		<hidden>true</hidden>
 		<action>InsertTiedNoteDuration</action>
       </row>
-	<!-- Hide Fingerings because there is a double-stroke command to use them. -->
+	<!-- Hide because there is a double-stroke command to use them. -->
        <row>
         <action>Finger0</action>
         <hidden>true</hidden>        
@@ -756,7 +764,47 @@
 		<action>EndSecondTimeBar</action>
 		<hidden>true</hidden>
      </row>
-     
+     <row>
+		<action>DoubleBarline</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>RepeatStart</action>
+		<hidden>true</hidden>
+     </row>     
+      <row>
+		<action>RepeatEnd</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>RepeatEndStart</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>OpenFirstTimeBar</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>OpenSecondTimeBar</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>EndVolta</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>ClosingBarline</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>HalfBarline</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>ForceBarline</action>
+		<hidden>true</hidden>
+     </row>         
+          
      <!-- Hide redundant commands -->
      <row>
 		<action>DeleteBefore</action>
