@@ -1108,23 +1108,18 @@ draw_score (cairo_t *cr, DenemoGUI * gui)
     
     si->rightmost_time = itp.rightmosttime;
     
-     if(cr && (system_num>2) && Denemo.gui->si->playingnow && (si->playhead>leftmost) && itp.measurenum <= g_list_length (((DenemoStaff*)curstaff->data)->measures)/*(itp.measurenum > (si->rightmeasurenum+1))*/) {
+     if((system_num>2) && Denemo.gui->si->playingnow && (si->playhead>leftmost) && itp.measurenum <= g_list_length (((DenemoStaff*)curstaff->data)->measures)/*(itp.measurenum > (si->rightmeasurenum+1))*/) {
       //put the next line of music at the top with a break marker
       itp.left = &gui->lefts[0];
       itp.right = &gui->rights[0];     
       itp.scale = &gui->scales[0];     
-
+      if(cr) {
 	cairo_save(cr);
-	if(0)   {
-	  //clear the previously drawn version FIXME? do not draw in first place, will that be faster?
-	  cairo_set_source_rgb( cr, 1.0, 1.0, 1.0 );
-	  cairo_rectangle (cr, 0, y - (si->staffspace / 2) - ((DenemoStaff*)curstaff->data)->space_above, Denemo.scorearea->allocation.width/Denemo.gui->si->zoom, STAFF_HEIGHT+((DenemoStaff*)curstaff->data)->space_above + ((DenemoStaff*)curstaff->data)->space_below  + (si->staffspace));
-	  cairo_fill(cr);
-      }
 	cairo_set_source_rgb( cr, 0.0, 0.0, 1.0 );//Strong Blue Line to break pages
 	cairo_rectangle (cr, 0, line_height-10, Denemo.scorearea->allocation.width/Denemo.gui->si->zoom, 10);
 	cairo_fill(cr);
 	cairo_restore(cr);
+      }
      
       itp.line_end = FALSE;//to force print of timesig
       if(itp.measurenum > (si->rightmeasurenum+1))
@@ -1141,12 +1136,15 @@ draw_score (cairo_t *cr, DenemoGUI * gui)
       // g_print("drawing %d\n", flip_count);
       if(flip_count>0 && flip_count<MAX_FLIP_STAGES)
 	flip = flip_count/(gdouble)MAX_FLIP_STAGES;
-      cairo_translate( cr, Denemo.scorearea->allocation.width*(1-flip)*0.5/Denemo.gui->si->zoom, 0.0);	
-      cairo_scale( cr, flip, 1.0);
+      if(cr) {
+	cairo_translate( cr, Denemo.scorearea->allocation.width*(1-flip)*0.5/Denemo.gui->si->zoom, 0.0);	
+	cairo_scale( cr, flip, 1.0);
+     
       if(draw_staff (flip_count>0?cr:NULL, curstaff, y, gui, &itp))
 	repeat = TRUE; 
       cairo_scale( cr, 1/flip, 1.0);
       cairo_translate( cr, -Denemo.scorearea->allocation.width*(1-flip)*0.5/Denemo.gui->si->zoom, 0.0);
+      }
       //draw_break_marker();
      } else {
         if(flip_count!=-1)
@@ -1199,8 +1197,8 @@ DenemoGUI *gui = Denemo.gui;
  }
 
   /* Layout the score. */
-  while(draw_score (NULL, gui) && !Denemo.gui->si->playingnow)
-  {/*nothing*/}
+ while(draw_score (NULL, gui) && !Denemo.gui->si->playingnow)
+   {/*nothing*/}
 
   /* Setup a cairo context for rendering and clip to the exposed region. */
   cr = gdk_cairo_create (event->window);
