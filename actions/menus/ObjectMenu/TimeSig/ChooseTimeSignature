@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ChooseTimeSignature</action>
+        <scheme>(Doublestroke #f
+"(d-InsertTimeSig \"4/4\")" ; 1
+"(d-InsertTimeSig \"2/4\")" ; 2
+"(d-InsertTimeSig \"3/4\")" ; 3 
+"(d-InsertTimeSig \"12/8\")" ; 4
+"(d-InsertTimeSig \"5/4\")" ; 5
+"(d-InsertTimeSig \"6/8\")" ; 6
+"(d-InsertTimeSig \"7/8\")" ; 7
+"(d-InsertTimeSig \"8/4\")" ; 8
+"(d-InsertTimeSig \"9/8\")" ; 9
+"(d-InsertTimeSig \"4/2\")" ; 0
+)
+</scheme>
+        <label>Choose Typical Timesignature</label>
+        <tooltip>Choose from a set of typical time signatures</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
