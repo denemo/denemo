@@ -44,6 +44,14 @@
 ;Linefeed constant to avoid backslashing		     
 (define LFEED "\n")
 
+; A function that returns #f for cases where commands work with chunks of code. this prevents the spamming of (lambda () #f) for a function that returns #f.
+(define (False) 
+	#f)
+	
+; A function that returns #t. See (False)
+(define (True) 
+	#t)
+
 ;repeat executes a proc n times
 (define (Repeat proc n)
 	(let loop ((counter 0))
@@ -221,7 +229,7 @@
 			(eval-string commandsingle)))) ; End of SingleAndSelectionSwitcher
 
 ; MapToSelection is like schemes (map) mixed with ApplyToSelection. Use a proc on all selection items and gather all proc return values in a list. You can give an optional test, only items which return #t are processed.
-(define* (MapToSelection proc #:optional (onlyFor (lambda () #t)))
+(define* (MapToSelection proc #:optional (onlyFor True))
 	(define return (list #f))	; prepare return list
 	(define (gather)
 		(if (onlyFor) ; test the current item
@@ -379,7 +387,6 @@
 (define wrap:Op8 (cons "(d-InsertBreve)" "(d-InsertBreve)"))
 (define wrap:Op9 (cons "(d-InsertLonga)" "(d-InsertLonga)"))
 
-	
 
 ;;;;;;;;;;;;;;;; Double-Stroke for sequencing keypresses. By Nils Gey June 2010
 ;One parameter for the GUI-version or help window. This is the version that appears if someone clicks on the menu version.
@@ -388,11 +395,9 @@
 ;This script is ready to get pairs as parameter. car is the command as string, cdr is a pretty name. However this is not compatible with d-GetOption, we need a better GUI for this.
 
 (define* (Doublestroke gui-version #:optional (first "#f") (second "#f") (third "#f") (fourth "#f") (fifth "#f") (sixth "#f") (seventh "#f") (eighth "#f") (ninth "#f") (tenth "#f"))
-
 	; Create a fallback-GUI which just lists all commands as radio-buttons. Used for the [space] variant.
 	(define (doublestroke::fallbackgui)
-		(define doublestroke::result #f)
-		
+		(define doublestroke::result #f)		
 		(define (bo action) ; BuildOption
 			(if (pair? action)
 				;User gave pairs for better documentation. Build the option 
@@ -400,8 +405,7 @@
 				;User gave just strings or #f, build the option from this string		
 				(if (or (not (string=? action "#f" )) (not action) )
 					(string-append action stop) 
-					"")));bo end 
-			
+					""))); BuildOption end 			
 		(if (not gui-version) ;just a small performance-tweak
 			(begin
 				(set! doublestroke::result (d-GetOption  (string-append (bo first)  (bo second)  (bo third)  (bo fourth)  (bo fifth)  (bo sixth)  (bo seventh)  (bo eighth)  (bo ninth)  (bo tenth)) ))

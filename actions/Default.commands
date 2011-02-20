@@ -4426,6 +4426,20 @@ for second and subsequent systems</tooltip>
         <label>Move To Previous Empty Measure</label>
         <tooltip>Move the cursor left until it finds an empty measure or the staffs beginning</tooltip>
       </row>
+      <row>
+        <action>ChooseBarline</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu/</menupath>
+        <label>Choose Barline</label>
+        <tooltip>Choose a barline </tooltip>
+      </row>
+      <row>
+        <action>ChooseTimeSignature</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/TimeSig</menupath>
+        <label>Choose Typical Timesignature</label>
+        <tooltip>Choose from a set of typical time signatures</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
