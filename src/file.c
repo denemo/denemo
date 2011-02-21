@@ -81,19 +81,19 @@ static struct FileFormatData supported_file_formats[] = {
   {"*.sco", N_("CSound Score File (*.sco)"), ".sco", 0}
 };
 
-static gchar supported_denemo_file_extension[][8] = {
+static gchar* supported_denemo_file_extension[] = {
   "*.denemo", "*.DENEMO" 
 };
-static gchar supported_dnm_file_extension[][5] = {
+static gchar *supported_dnm_file_extension[] = {
   "*.dnm", "*.DNM" 
 };
-static gchar supported_lilypond_file_extension[][4] = {
+static gchar *supported_lilypond_file_extension[] = {
   "*.ly", "*.LY" 
 };
-static gchar supported_midi_file_extension[][6] = {
+static gchar *supported_midi_file_extension[] = {
   "*.midi", "*.mid", "*.MIDI", "*.MID" 
 };
-static gchar supported_musicxml_file_extension[][6] = {
+static gchar *supported_musicxml_file_extension[] = {
   "*.mxml", "*.MXML" 
 };
 
@@ -678,7 +678,7 @@ static void  set_current_folder(GtkWidget *file_selection, DenemoGUI *gui, Denem
   gtk_file_filter_set_name (filter, FORMAT_DESCRIPTION(save_type));\
   \
   for (i = 0; i < (gint) G_N_ELEMENTS (supported_##format##_file_extension); i++)\
-    gtk_file_filter_add_pattern (filter, supported_##format##_file_extension[i]);\
+    gtk_file_filter_add_pattern (filter, supported_##format##_file_extension[i]); \
   gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (file_selection), filter);\
   gtk_dialog_set_default_response (GTK_DIALOG (file_selection),\
 				   GTK_RESPONSE_ACCEPT);\
