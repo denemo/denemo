@@ -46,6 +46,10 @@ PKG_CHECK_MODULES(RSVG, librsvg-2.0 >= 2.0)
 CFLAGS="$CFLAGS $RSVG_CFLAGS"
 LIBS="$LIBS $RSVG_LIBS"
 
+PKG_CHECK_MODULES(FONTCONFIG, fontconfig >= 2.2.0)
+CFLAGS="$CFLAGS $FONTCONFIG_CFLAGS"
+LIBS="$LIBS $FONTCONFIG_LIBS"
+
 AC_ARG_ENABLE(
   jack,
   AC_HELP_STRING([--enable-jack], [use JACK @<:@default=no@:>@]),
@@ -184,13 +188,9 @@ AC_SUBST(pkgdatadir)
 AC_SUBST(PACKAGE_DATA_DIR)
  
 dnl
-dnl Force sysconfdir=/etc if no --sysconfdir=xxx passed
+dnl Append the package name to sysconfdir.
 dnl
-if test $sysconfdir = $\{prefix\}/etc; then
-  sysconfdir=/etc/${PACKAGE}
-else 
-  sysconfdir=$sysconfdir/${PACKAGE}    
-fi
+sysconfdir=$sysconfdir/${PACKAGE}
 AC_SUBST(sysconfdir)
 
 dnl Set PACKAGE_SOURCE_DIR in config.h.
