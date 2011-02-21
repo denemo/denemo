@@ -5,7 +5,9 @@
 (use-modules (ice-9 optargs))
 ;Denemo subsystems and extra functions in additional files. 
 (define (LoadDenemo file)
-	 (load (string-append DENEMO_ACTIONS_DIR file)))
+	 (load file))
+	 ;(load (string-append DENEMO_ACTIONS_DIR file)))
+	 
 	 
 (LoadDenemo "ans.scm") ; Abstract Note System for pitch calculations
 (LoadDenemo "notationmagick.scm") ; Insert and modify, mostly randomized, music. Depends on ans.scm
@@ -1604,7 +1606,7 @@
 
 (define (lyimport::load-file pathname filename)
   (d-NewWindow)
-  (load (string-append DENEMO_ACTIONS_DIR "lyimport.scm"))
+  (LoadDenemo"lyimport.scm")
   (set! lyimport::pathname pathname) 
   (set! lyimport::filename filename)
   (eval-string (lyimport::import))
