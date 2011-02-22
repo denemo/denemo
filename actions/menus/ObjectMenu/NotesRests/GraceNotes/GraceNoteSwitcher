@@ -6,8 +6,8 @@
     <map>
       <row>
         <action>GraceNoteSwitcher</action>
-        <scheme>(SingleAndSelectionSwitcher "(d-ToggleGrace)" "(d-ToggleGrace)" )
-(d-RefreshDisplay)</scheme>
+        <scheme>(SingleAndSelectionSwitcher d-ToggleGrace)
+		</scheme>
         <label>Grace Note (On/Off)</label>
         <tooltip>Transforms the current selected notes into grace notes.</tooltip>
       </row>

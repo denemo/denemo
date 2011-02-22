@@ -7,8 +7,8 @@
       <row>
         <after>ToggleStaccato</after>
         <action>StaccatoSelectionSwitcher</action>
-        <scheme>(SingleAndSelectionSwitcher  "(d-ToggleStaccato)" " (d-ToggleStaccato)")
-(d-RefreshDisplay)</scheme>
+        <scheme>(SingleAndSelectionSwitcher d-ToggleStaccato)
+		</scheme>
         <label>Staccato (On/Off)</label>
         <tooltip>Adds the staccato dot or removes it</tooltip>
       </row>
