@@ -420,10 +420,8 @@
        <bind>Alt+plus</bind>
        <bind>Alt+Add</bind>
       </row>
-  
-
       <row>
-        <action>RemoveDot</action>
+        <action>RemoveDotSelectionSwitcher</action>
         <bind>Alt+period</bind>
         <bind>Alt+Decimal</bind>
       </row>
@@ -806,6 +804,14 @@
      </row>         
           
      <!-- Hide redundant commands -->
+     <row>
+	  <action>AddDot</action>
+      <hidden>true</hidden>
+     </row>
+     <row>
+	  <action>RemoveDot</action>
+      <hidden>true</hidden>
+     </row>     
      <row>
 		<action>DeleteBefore</action>
 		<hidden>true</hidden>
