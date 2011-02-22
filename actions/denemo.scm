@@ -175,14 +175,14 @@
 	  #f)); no selection or cursor not in selection
 
 (define (selection::MoveToStaffBeginning)
-	(define rememberStaff (d-GetStaff))
+	(define staffPosition (d-GetStaff))
 	(define rememberPosition (GetPosition))
 	(if (d-GoToSelectionStart)
 		(begin 
-			(d-GoToPosition #f rememberStaff #f #f)
+			(d-GoToPosition #f staffPosition #f 1)
 			(if (d-IsInSelection)
 				#t
-				(begin (apply d-GoToPosition rememberPosition) #f)))
+				(begin (apply d-GoToPosition rememberPosition) #f))) ; something went wrong. 
 		#f)) ; no selection at all. 
 
 ;Find the next object that returns #t from the given test function. Don't write the function in parentheses, just give the name (except you give a function that returns a name :))
@@ -209,26 +209,16 @@
 ;The applied script itself has to take care if the command can be applied to each potential item. If you want only notes/chords/rests you have to make sure the script does not abort on other objects. Its the same as giving proper return values for a single item, just return #f if a command is not possible for an item. While a single item just returns an error if you don't do it correctly, but does no harm otherwise, a script applied to a selection will stop on that item and leaves you on half on the way.
 ;Return values are the return values the script itself gives.
 ;The third, optional, parameter can prevent an object from be processed. By default this parameter is #t so the command will be will be applied to any object in the selection and let the command itself decide what to do (or just do nothing). By giving the third optional argument you can specify additional conditions, for example with GetType. In general: Insert test conditions here, if #t the current object will be processed, otherwise it will be skipped.
-;Example: (SingleAndSelectionSwitcher  "(d-ChangeDurationByFactorTwo *)" "(d-ChangeDurationByFactorTwo *)")
-;TODO: Get rid of eval.
-;TODO: Why is there a GoToSelectionStart AND PopPosition?
+;Example: (SingleAndSelectionSwitcher d-AddDot d-ToggleStaccato) ; this is nonsense, but valid. It will add a dot for single notes or toggle staccato for the whole selection.
 
-(define* (SingleAndSelectionSwitcher commandsingle #:optional (commandselection commandsingle) (onlyFor "#t")) ; Amazingly commandsingle is already defined on spot so that it can be used again in the same line to define commandselection 
-	(d-PushPosition)
+(define* (SingleAndSelectionSwitcher commandsingle #:optional (commandselection commandsingle) (onlyFor True)) ; Amazingly commandsingle is already defined on spot so that it can be used again in the same line to define commandselection 
+	(if (string? commandsingle) ; support for old scripts. They passed the complete string of scheme as parameter
+		(set! commandsingle (eval-string (string-append "(lambda () " commandsingle " )"))))
+	(if (string? commandselection)
+		(set! commandselection (eval-string (string-append "(lambda () " commandselection " )"))))		
 	(if (and DenemoPref_applytoselection (d-MarkStatus))
-		(begin
-			(d-GoToSelectionStart)
-			(if (eval-string onlyFor)
-				(eval-string  commandselection))
-			(let loop ()
-			(if (NextSelectedObjectAllStaffs)
-				(if (eval-string onlyFor)
-					(begin (eval-string  commandselection) (loop))
-					(loop)))) ; don't process this object, next please.		
-			(d-GoToSelectionStart)
-			(d-PopPosition))
-		(begin	
-			(eval-string commandsingle)))) ; End of SingleAndSelectionSwitcher
+		(ForEachToSelection commandselection onlyFor)
+		(commandsingle)))
 
 ; MapToSelection is like schemes (map) mixed with ApplyToSelection. Use a proc on all selection items and gather all proc return values in a list. You can give an optional test, only items which return #t are processed.
 (define* (MapToSelection proc #:optional (onlyFor True))
@@ -248,7 +238,7 @@
 		#f))
 
 ;ForEachToSelection applies the command to each item in the selection. The return value is unspecified. Faster than MapToSelection.
-(define* (ForEachToSelection proc #:optional (onlyFor (lambda () #t)))
+(define* (ForEachToSelection proc #:optional (onlyFor True))
 	(define (apply)
 		(if (onlyFor) ; test the current item
 			(proc)			
