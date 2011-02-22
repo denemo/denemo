@@ -6,8 +6,8 @@
     <map>
       <row>
         <action>AddDotSelectionSwitcher</action>
-        <scheme>(SingleAndSelectionSwitcher  "(d-AddDot)" " (d-AddDot)")
-(d-RefreshDisplay)</scheme>
+        <scheme>(SingleAndSelectionSwitcher d-AddDot)
+		</scheme>
         <label>Add Dot</label>
         <tooltip>Adds dots</tooltip>
       </row>
