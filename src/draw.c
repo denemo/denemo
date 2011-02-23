@@ -43,13 +43,9 @@ static gint old_playhead_index=0;
 static gint new_playhead_index=0;
 static gboolean playhead_flip = TRUE;
 
-typedef enum PlayheadStatus {PLAYHEAD_INITIAL=0, 
-			     PLAYHEAD_DAMAGED=1, 
-			     PLAYHEAD_CONTINUE} PlayheadStatus;
-static PlayheadStatus playhead_status;
-static layout_needed = TRUE;
+
+static layout_needed = TRUE; //Set FALSE when further call to draw_score(NULL) is not needed.
 void initialize_playhead(void) {
-  playhead_status = PLAYHEAD_INITIAL;
   new_playhead_index = 0;
   old_playhead_index = 0;
 }
