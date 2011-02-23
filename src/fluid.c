@@ -320,6 +320,7 @@ static gboolean finish_play(gchar *callback) {
 static gdouble last_draw_time;
 static gdouble pause_time = -1.0;
 static  gdouble playalong_time = 0.0;
+static  gdouble early_time = 0.0;
 
 
 static gdouble GET_TIME (void) {
@@ -350,7 +351,10 @@ static void advance_clock(gchar *buf) {
       if(thechord->notes) {
 	note *thenote = thechord->notes->data;
 	if( ((buf[0]&SYS_EXCLUSIVE_MESSAGE1)==NOTE_ON) && buf[2] && buf[1] == (dia_to_midinote (thenote->mid_c_offset) + thenote->enshift)) {
-	  playalong_time = obj->latest_time; 
+	  playalong_time = obj->latest_time;
+	  gdouble thetime = get_time();
+	  Denemo.gui->si->start_player = thetime -  obj->earliest_time;
+	  
 	  while(1) {
 	    gboolean next = to_next_object(FALSE, FALSE);
 	    if(next && Denemo.gui->si->currentobject) {
