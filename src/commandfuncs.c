@@ -619,7 +619,7 @@ gostaffup (DenemoScriptParam *param, gboolean extend_selection)
 	calcmarkboundaries (gui->si);
       show_lyrics();
       find_leftmost_allcontexts (si);
-      gtk_widget_draw (Denemo.scorearea, NULL);//KLUDGE FIXME gets cursorclef set I think it just needs si->cursorclef = si->curmeasureclef (? after beamandstemdirhelper(si)??)
+      scorearea_expose_event(NULL, NULL);
       move_viewport_up (gui);
       return param->status = TRUE;
     } else
@@ -722,7 +722,8 @@ gostaffdown (DenemoScriptParam *param, gboolean extend_selection)
 	calcmarkboundaries (gui->si);
       show_lyrics();
       find_leftmost_allcontexts (si);
-      gtk_widget_draw (Denemo.scorearea, NULL);//KLUDGE FIXME gets cursorclef set
+      
+      scorearea_expose_event(NULL, NULL);
       move_viewport_down (gui);
       return param->status = TRUE;
     } else
