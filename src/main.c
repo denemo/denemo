@@ -536,9 +536,9 @@ Options:\n\
   -i pathtofile         process scheme commands in pathtofile on startup\n\
   -s filename           process scheme commands from system file\n\
   -v,--version          print version number and exit\n\n\n\
-Report bugs to bug-denemo@gnu.org\n"), NULL) ;
+Report bugs to http://www.denemo.org\n"), NULL) ;
 
-  gchar *copytext = _("(c) 1999-2005, 2009 Matthew Hiller, Adam Tee, and others\n\n\n"
+  gchar *copytext = _("(c) 1999-2005, 2009 Matthew Hiller, Adam Tee, and others, 2010-2011 Richard Shann, Jeremiah Benham, Nils Gey and others.\n\n\n"
 "This program is provided with absolutely NO WARRANTY; see\n"
 "the file COPYING for details.\n\n"
 "This software may be redistributed and modified under the\n"
@@ -592,7 +592,7 @@ Report bugs to bug-denemo@gnu.org\n"), NULL) ;
         }
     }
 
-  g_print (_("\nGNU Denemo, a gtk+ frontend for GNU Lilypond\n"));
+  g_print (_("\nGNU Denemo, a free and open music notation editor\n"));
   g_print ("%s", copytext);
 
   g_free (helptext);
