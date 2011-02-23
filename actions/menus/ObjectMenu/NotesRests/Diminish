@@ -6,11 +6,10 @@
     <map>
       <row>
         <action>Diminish</action>
-        <scheme>(SingleAndSelectionSwitcher  "
+        <scheme>(SingleAndSelectionSwitcher  (lambda ()
 (if (duration::GetBaseDurationInTicks)
- (duration::ChangeNoteDurationInTicks (/ (duration::GetBaseDurationInTicks) 2) (d-GetDots))
-)" )
-(d-RefreshDisplay)</scheme>
+ (duration::ChangeNoteDurationInTicks (/ (duration::GetBaseDurationInTicks) 2) (d-GetDots)))))
+	</scheme>
         <label>Diminish</label>
         <tooltip>Diminishs the note/chord/rest. Quarter Note becomes Eight Note. </tooltip>
       </row>

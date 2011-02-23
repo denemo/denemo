@@ -7,8 +7,8 @@
       <row>
         <action>ShiftRealOctaveDown</action>
         <scheme>;defined in init.scm
-(SingleAndSelectionSwitcher "(ShiftRealOctaveDown)")
-(d-RefreshDisplay)</scheme>
+(SingleAndSelectionSwitcher ShiftRealOctaveDown)
+		</scheme>
         <label>Shift Octave Down</label>
         <tooltip>Shifts current notes/selection down one octave while preserving accidental status. This means real transposition</tooltip>
       </row>

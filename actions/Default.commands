@@ -4440,6 +4440,13 @@ for second and subsequent systems</tooltip>
         <label>Choose Typical Timesignature</label>
         <tooltip>Choose from a set of typical time signatures</tooltip>
       </row>
+      <row>
+        <action>RemoveDotSelectionSwitcher</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
+        <label>Remove Dot</label>
+        <tooltip>Remove one dot for each note in the selection or single note</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

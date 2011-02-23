@@ -32,7 +32,7 @@
 ))
 
 (if (defined? 'DrumHash)
-  (SingleAndSelectionSwitcher "(ConvertDrumGm2UserSingleNote)"  "(ConvertDrumGm2UserSingleNote)")
+  (SingleAndSelectionSwitcher ConvertDrumGm2UserSingleNote)
   (begin (display "No DrumHash was loaded. Please copy and use the template that comes with Denemo. Abort.\n")#f)
 )
 (d-RefreshDisplay)

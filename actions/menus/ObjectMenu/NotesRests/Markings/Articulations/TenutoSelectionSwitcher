@@ -7,8 +7,8 @@
       <row>
         <after>ToggleTenuto</after>
         <action>TenutoSelectionSwitcher</action>
-        <scheme>(SingleAndSelectionSwitcher  "(d-ToggleTenuto)" " (d-ToggleTenuto)")
-(d-RefreshDisplay)</scheme>
+        <scheme>(SingleAndSelectionSwitcher d-ToggleTenuto )
+		</scheme>
         <label>Tenuto (On/Off)</label>
         <tooltip>Toggles the Tenuto Line _ On/Off</tooltip>
       </row>
