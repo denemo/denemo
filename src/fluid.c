@@ -432,8 +432,8 @@ static gboolean fluidsynth_play_smf_event(gchar *callback)
 	event->time_seconds - last_draw_time>Denemo.prefs.display_refresh) {
        //       g_print("drawing because %f %f\n", event->time_seconds, last_draw_time);
        last_draw_time = event->time_seconds;
-       
-       gtk_widget_queue_draw (Denemo.scorearea);
+       //gtk_widget_queue_draw (Denemo.scorearea);
+       region_playhead();//FIXME - need this to decide if the playhead has moved not just assume it has.!!!!
      }
     gint chan = (event->midi_buffer[0] & 0x0f);
     //g_print("message %x %x\n", event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1, PROGRAM_CHANGE);
@@ -544,7 +544,9 @@ void fluid_midi_play(gchar *callback)
   last_draw_time = 0.0;
   if(Denemo.gui->midi_destination & MIDIPLAYALONG)
     initialize_clock();
+  initialize_playhead();
   g_idle_add((GSourceFunc)fluidsynth_play_smf_event, callback_string->str);
+  //!!!!!!! is this good ????? can I set a priority????  g_timeout_add(5, (GSourceFunc)fluidsynth_play_smf_event, callback_string->str);
   gint error = smf_seek_to_seconds(gui->si->smf, pause_time>0.0? pause_time:gui->si->start_time);
 
 }
