@@ -32,16 +32,74 @@
 #define EXCL_WIDTH 3
 #define EXCL_HEIGHT 13
 
-#if 0
-static GdkGC *  bluegc;
-static GdkGC *  redgc;
-static GdkGC *  graygc;
-static GdkGC *  slategraygc;
-static GdkGC *  lightbluegc;
-static GdkGC *  blackgc;
-static GdkGC *greengc = NULL;
-#endif
+static gboolean
+draw_score (cairo_t *cr);
 GdkPixbuf *StaffPixbuf, *StaffPixbufSmall;
+#define MAX_PLAYHEADS (100)
+static GdkRectangle old_playhead_damage[MAX_PLAYHEADS];
+static GdkRectangle new_playhead_damage[MAX_PLAYHEADS];
+
+static gint old_playhead_index=0;
+static gint new_playhead_index=0;
+static gboolean playhead_flip = TRUE;
+
+typedef enum PlayheadStatus {PLAYHEAD_INITIAL=0, 
+			     PLAYHEAD_DAMAGED=1, 
+			     PLAYHEAD_CONTINUE} PlayheadStatus;
+static PlayheadStatus playhead_status;
+static layout_needed = TRUE;
+void initialize_playhead(void) {
+  playhead_status = PLAYHEAD_INITIAL;
+  new_playhead_index = 0;
+  old_playhead_index = 0;
+}
+
+static void add_playhead_damage(gint x, gint y, gint w, gint h) {
+  if(playhead_flip) {
+  new_playhead_damage[new_playhead_index].x = x;
+  new_playhead_damage[new_playhead_index].y = y;
+  new_playhead_damage[new_playhead_index].width = w;
+  new_playhead_damage[new_playhead_index].height = h;
+  new_playhead_index++;
+  new_playhead_index = new_playhead_index%MAX_PLAYHEADS;
+  //g_print("@");
+  } else {
+  old_playhead_damage[old_playhead_index].x = x;
+  old_playhead_damage[old_playhead_index].y = y;
+  old_playhead_damage[old_playhead_index].width = w;
+  old_playhead_damage[old_playhead_index].height = h;
+  old_playhead_index++;
+  old_playhead_index = old_playhead_index%MAX_PLAYHEADS;
+  //g_print("-");
+  } 
+
+}
+void region_playhead(void) {
+  gint i;
+ 
+  draw_score (NULL);
+  layout_needed = FALSE;
+  {
+    for(i=0;i< old_playhead_index; i++)
+      {
+	//g_print("*");
+	gdk_window_invalidate_rect (Denemo.scorearea->window, old_playhead_damage+i, FALSE); }
+    for(i=0;i< new_playhead_index; i++)
+      {
+	//g_print("~");
+	gdk_window_invalidate_rect (Denemo.scorearea->window, new_playhead_damage+i, FALSE); }   
+    if(playhead_flip) {
+      old_playhead_index = 0;
+    }
+    else {
+      new_playhead_index = 0;
+    }
+    playhead_flip = !playhead_flip;
+    
+  }
+  
+  // g_print("\n");
+}
 
 static void      
 create_tool_pixbuf(void) {
@@ -170,7 +228,7 @@ static gint
 draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 	     DenemoGUI * gui, struct infotopass *itp)
 {
-
+  //g_print("draw obj %p\n", cr);
 
   static gboolean init=FALSE;
   static GdkColor white, black, blue, green, yellow;
@@ -204,14 +262,18 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
   //g_print("%x %f %f %f\n", Denemo.gui->si->playingnow, Denemo.gui->si->playhead,  mudelaitem->earliest_time, mudelaitem->latest_time );
   
   // draw playhead as green background
-  if(cr) if( Denemo.gui->si->playingnow && (Denemo.gui->si->playhead > mudelaitem->earliest_time) && (Denemo.gui->si->playhead < mudelaitem->latest_time)) {
-    cairo_save(cr);
-    cairo_set_source_rgb( cr, 0.5, 1.0, 0.5 );
-    cairo_rectangle (cr, x+mudelaitem->x, y, 20, 80 );
-    cairo_fill(cr);
-    cairo_restore(cr);
-  }
-
+   if( Denemo.gui->si->playingnow && (Denemo.gui->si->playhead > mudelaitem->earliest_time-0.0001) && (Denemo.gui->si->playhead < mudelaitem->latest_time+0.0001)) {
+     if(cr) {
+       cairo_save(cr);
+       cairo_set_source_rgb( cr, 0.5, 1.0, 0.5 );
+       cairo_rectangle (cr, x+mudelaitem->x, y, 20, 80 );
+       cairo_fill(cr);
+       cairo_restore(cr);
+     } else {     
+       add_playhead_damage((x+mudelaitem->x)*Denemo.gui->si->zoom*100.0/(*itp->scale), y*Denemo.gui->si->zoom, 20*Denemo.gui->si->zoom*100.0/(*itp->scale), 80*Denemo.gui->si->zoom);   
+     }
+   }
+   
 
 
 
@@ -924,13 +986,14 @@ static gboolean schedule_draw(gint *flip_count) {
  * returns whether the height of the drawing area was sufficient to draw everything
  */
 static gboolean
-draw_score (cairo_t *cr, DenemoGUI * gui)
-{
+draw_score (cairo_t *cr)
+{//g_print("draw_score %p\n", cr);
   staffnode *curstaff;
   gint y=0;
   struct infotopass itp;
   gboolean repeat = FALSE;
   gdouble leftmost = 10000000.0;
+  DenemoGUI *gui = Denemo.gui;
   DenemoScore *si = gui->si;
   gint line_height = Denemo.scorearea->allocation.height*gui->si->system_height/gui->si->zoom;
   static gint flip_count;//passed to a timer to indicate which stage of animation of page turn should be used when re-drawing, -1 means not animating 0+ are the stages
@@ -1186,23 +1249,31 @@ scorearea_expose_event (GtkWidget * widget, GdkEventExpose * event)
 {
 DenemoGUI *gui = Denemo.gui;
  cairo_t *cr;
-
+ //g_print("expose\n");
  if((!Denemo.gui->si)||(!Denemo.gui->si->currentmeasure)){
    g_warning("Cannot draw!\n");
    return TRUE;
  }
  if(widget==NULL) {
-   draw_score (NULL, gui);
+   draw_score (NULL);
    return TRUE;
  }
 
   /* Layout the score. */
- while(draw_score (NULL, gui) && !Denemo.gui->si->playingnow)
-   {/*nothing*/}
+ //if(!Denemo.gui->si->playingnow)
+ if(layout_needed)
+   draw_score (NULL);
+ layout_needed = TRUE;
+ // while(draw_score (NULL, gui) && !Denemo.gui->si->playingnow)
+ //   {/*nothing*/}
 
   /* Setup a cairo context for rendering and clip to the exposed region. */
   cr = gdk_cairo_create (event->window);
+
+ 
   gdk_cairo_region (cr, event->region);
+  
+  //region_playhead(cr); //!!!!!!! but not both!!!!!!
   cairo_clip (cr);
 
   /* Clear with an appropriate background color. */
@@ -1220,7 +1291,7 @@ DenemoGUI *gui = Denemo.gui;
   cairo_paint (cr);
 
   /* Draw the score. */
-  draw_score (cr, gui);
+  draw_score (cr);
   cairo_destroy (cr);
 
   return TRUE;
