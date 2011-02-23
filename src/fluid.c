@@ -351,9 +351,13 @@ static void advance_clock(gchar *buf) {
       if(thechord->notes) {
 	note *thenote = thechord->notes->data;
 	if( ((buf[0]&SYS_EXCLUSIVE_MESSAGE1)==NOTE_ON) && buf[2] && buf[1] == (dia_to_midinote (thenote->mid_c_offset) + thenote->enshift)) {
-	  playalong_time = obj->latest_time;
 	  gdouble thetime = get_time();
 	  Denemo.gui->si->start_player = thetime -  obj->earliest_time;
+	  
+	  if(thechord->is_tied && to_next_note()) {
+	    obj = Denemo.gui->si->currentobject->data;	   
+	  } 
+	  playalong_time = obj->latest_time;
 	  
 	  while(1) {
 	    gboolean next = to_next_object(FALSE, FALSE);
