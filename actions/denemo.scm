@@ -1891,17 +1891,17 @@
 				 'time (d-GetOnsetTime)))					
 
 
-(define (DefaultInitializePrint) (display "starting to print"))
-(define (DefaultFinalizePrint) (display "finished print"))
+(define (DefaultInitializePrint) (display "\nstarting to print\n"))
+(define (DefaultFinalizePrint) (display "\nfinished print\n"))
 
-(define (DefaultInitializePlayback) (display "starting to playback"))
-(define (DefaultFinalizePlayback) (display "finished playback"))
+(define (DefaultInitializePlayback) (display "\nstarting to playback\n"))
+(define (DefaultFinalizePlayback) (display "\nfinished playback\n"))
 
-(define (DefaultInitializeMidiGeneration) (display "starting to generate MIDI"))
-(define (DefaultFinalizeMidiGeneration) (display "finished MIDI generation"))
+(define (DefaultInitializeMidiGeneration) (display "\nstarting to generate MIDI\n"))
+(define (DefaultFinalizeMidiGeneration) (display "\nfinished MIDI generation\n"))
 
-(define (DefaultInitializeTypesetting) (display "starting to generate LilyPond"))
-(define (DefaultFinalizeTypesetting) (display "finished generating LilyPond"))
+(define (DefaultInitializeTypesetting) (display "\nstarting to generate LilyPond\n"))
+(define (DefaultFinalizeTypesetting) (display "\nfinished generating LilyPond\n"))
 
 
 (define (InitializePrint) (DefaultInitializePrint))
