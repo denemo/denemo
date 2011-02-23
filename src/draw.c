@@ -48,6 +48,7 @@ static layout_needed = TRUE; //Set FALSE when further call to draw_score(NULL) i
 void initialize_playhead(void) {
   new_playhead_index = 0;
   old_playhead_index = 0;
+  layout_needed = TRUE;
 }
 
 static void add_playhead_damage(gint x, gint y, gint w, gint h) {

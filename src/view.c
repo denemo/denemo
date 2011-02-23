@@ -3199,11 +3199,11 @@ static gboolean to_object_direction(gboolean within_measure, gboolean right, gbo
   return FALSE;
 }
 
-gboolean to_next_object(gboolean within_measure, gboolean stopping) {
+static gboolean to_next_object(gboolean within_measure, gboolean stopping) {
  
   return to_object_direction(within_measure, TRUE, stopping);  
 }
-gboolean to_prev_object(gboolean within_measure, gboolean stopping) {
+static gboolean to_prev_object(gboolean within_measure, gboolean stopping) {
  
   return to_object_direction(within_measure, FALSE, stopping);  
 }
@@ -3374,9 +3374,6 @@ static gboolean to_note_direction(gboolean right, gboolean stopping) {
     return to_note_direction (right, stopping);
 }
 
-gboolean to_next_note() {
-  return to_note_direction(TRUE, FALSE);
-}
 
 SCM scheme_next_note (SCM optional) {
   return SCM_BOOL(to_note_direction(TRUE, FALSE));
