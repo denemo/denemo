@@ -1950,3 +1950,11 @@
 
 (define (GetPosition)
 	(list (d-GetMovement) (d-GetStaff) (d-GetMeasure)(d-GetHorizontalPosition)))
+
+;Radiobox is a Radio-Box list where you have a pretty name and a data type.
+;;Wants pairs, car is a string to show as radio-option, cdr is a return value and can be any data type, for example a function.
+(define (RadioBoxMenu . parameters)
+	(define answer #f)
+	(define radiostring (string-join (map (lambda (x) (car x)) parameters) stop)) 
+	(set! answer (d-GetOption radiostring))
+	(cdr	(list-ref  parameters (list-index (lambda (x) (equal?  answer (car x))) parameters))))
