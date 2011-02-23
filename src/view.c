@@ -3374,6 +3374,9 @@ static gboolean to_note_direction(gboolean right, gboolean stopping) {
     return to_note_direction (right, stopping);
 }
 
+gboolean to_next_note() {
+  return to_note_direction(TRUE, FALSE);
+}
 
 SCM scheme_next_note (SCM optional) {
   return SCM_BOOL(to_note_direction(TRUE, FALSE));

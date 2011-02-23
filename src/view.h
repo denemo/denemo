@@ -118,5 +118,6 @@ gchar *get_midi_pitch_bend_command(gint value);
 gint hide_printarea_on_delete(void);
 gboolean to_next_object(gboolean within_measure, gboolean stopping_at_blank_measure);
 gboolean to_prev_object(gboolean within_measure, gboolean stopping_at_blank_measure);
-void set_midi_in_status();
+gboolean to_next_note(void);
+void set_midi_in_status(void);
 #endif
