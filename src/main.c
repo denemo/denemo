@@ -549,7 +549,8 @@ Report bugs to bug-denemo@gnu.org\n"), NULL) ;
 #ifdef HAVE_GETOPT_H
   static struct option long_options[] = {
     {"help", no_argument, NULL, 'h'},
-    {"version", no_argument, NULL, 'v'}
+    {"version", no_argument, NULL, 'v'},
+    {NULL, NULL, NULL}
   };
 #endif
 
