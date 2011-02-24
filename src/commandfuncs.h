@@ -78,7 +78,10 @@ gboolean
 movetovoicedown (DenemoScriptParam *param);
 
 gboolean 
-cursor_to_next_note(void);
+cursor_to_next_note(DenemoScriptParam *param);
+
+gboolean 
+cursor_to_next_chord(DenemoScriptParam *param);
 
 gboolean
 cursorleft (DenemoScriptParam *param);
