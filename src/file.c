@@ -277,44 +277,6 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
   return result;
 }
 
-/**
- * denemo_warning prompts the user to save the work in the denemo  
- * format if not done so.
- * @param si pointer to the denemo score object
- * @param format_id the numeric id of the files format
- * @return none
- */
-
-static void
-denemo_warning (DenemoGUI * gui, gint format_id)
-{
-  DenemoScore *si = gui->si;
-
-  if (format_id != DENEMO_FORMAT && format_id != DNM_FORMAT)
-    {
-      GtkWidget *dialog;
-      dialog = gtk_message_dialog_new (NULL,
-				       GTK_DIALOG_DESTROY_WITH_PARENT,
-				       GTK_MESSAGE_WARNING,
-				       GTK_BUTTONS_YES_NO,
-				       "You have made changes to your document that was not saved as denemo file."
-				       " I advise you save your work now as a denemo file to easily continue work later. Save as denemo?");
-      gtk_dialog_set_default_response (GTK_DIALOG (dialog),
-				       GTK_RESPONSE_ACCEPT);
-      if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES)
-	{
-
-	  gchar **file = g_strsplit (gui->filename->str, ".", 0);
-
-	  file[0] = g_strconcat (file[0], ".denemo", NULL);
-	  g_print ("file %s\n", file[0]);
-	  exportXML (file[0], gui, 0, 0);
-	  g_strfreev (file);
-	}
-      gtk_widget_destroy (dialog);
-    }
-}
-
 /*
 	If the filename format already has the correct extension use
 	it. otherwise add the file name extension 
