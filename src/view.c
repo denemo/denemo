@@ -5201,8 +5201,13 @@ static void track_delete(smf_track_t *track) {
 void set_midi_in_status() {
   if(midi_in_status) {
     gchar *text=NULL;
-    if(Denemo.gui->midi_destination & MIDIRECORD)
-      text = _("<span foreground=\"red\">""Recording""</span>");
+    if((Denemo.gui->midi_destination & MIDIRECORD) &&
+       (Denemo.gui->midi_destination & MIDIPLAYALONG))
+      text = _("<span foreground=\"blue\">""Recording + Play Along""</span>");
+    else if(Denemo.gui->midi_destination & MIDIRECORD)
+      text = _("<span foreground=\"yellow\">""Recording""</span>");
+    else if(Denemo.gui->midi_destination & MIDIPLAYALONG)
+      text = _("<span foreground=\"red\">""Play Along""</span>");
     else if((Denemo.keyboard_state&~GDK_LOCK_MASK)==(GDK_CONTROL_MASK))
       text = _("Checking Pitches");
     else if((Denemo.keyboard_state==(GDK_SHIFT_MASK))||(Denemo.keyboard_state==(GDK_LOCK_MASK)))
@@ -5229,6 +5234,7 @@ static void pb_playalong (GtkWidget *button) {
    gtk_button_set_label (GTK_BUTTON(button), _("Switch to Normal Playback"));
  else
    gtk_button_set_label (GTK_BUTTON(button), _("Switch to Play Along Playback"));
+ set_midi_in_status();
 }
 
 static void pb_record (GtkWidget *button) {
