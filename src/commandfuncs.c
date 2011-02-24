@@ -900,6 +900,20 @@ movecursorleft (DenemoScriptParam *param)
 return  move_left(param, FALSE);
 }
 
+gboolean cursor_to_next_note(void) {
+  while(movecursorright(NULL) && Denemo.gui->si->currentobject) {
+    if(Denemo.gui->si->cursor_appending) {
+      gboolean success = cursor_to_next_note();
+      gtk_widget_queue_draw(Denemo.scorearea);
+    }
+     DenemoObject *obj = Denemo.gui->si->currentobject->data;
+     if(obj->type==CHORD) {
+       chord *thechord = obj->object;
+       if(thechord->notes)
+	 break;
+     }
+  }
+}
 
 /**
  * Move the cursor up one diatonic step 

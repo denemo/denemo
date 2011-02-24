@@ -320,6 +320,7 @@ static gboolean finish_play(gchar *callback) {
 static gdouble last_draw_time;
 static gdouble pause_time = -1.0;
 static  gdouble playalong_time = 0.0;
+static  gdouble early_time = 0.0;
 
 
 static gdouble GET_TIME (void) {
@@ -337,39 +338,33 @@ static gdouble GET_TIME (void) {
 static void advance_clock(gchar *buf) {
   if(Denemo.gui->si->currentobject) {
     DenemoObject *obj = Denemo.gui->si->currentobject->data;
-    while(obj->type==CHORD || to_next_object(FALSE, FALSE)) {
-      if(Denemo.gui->si->currentobject){
-	obj  = Denemo.gui->si->currentobject->data;
-	if(obj->type==CHORD) break;
-      } else break;
-      if(!to_next_object(FALSE, FALSE))
-	 break;
-    }    
+    if(obj->type!=CHORD) 
+      if(cursor_to_next_note()) 
+	obj = Denemo.gui->si->currentobject->data;
+    
     if(Denemo.gui->si->currentobject && obj->type==CHORD) {
       chord *thechord = obj->object;
       if(thechord->notes) {
 	note *thenote = thechord->notes->data;
 	if( ((buf[0]&SYS_EXCLUSIVE_MESSAGE1)==NOTE_ON) && buf[2] && buf[1] == (dia_to_midinote (thenote->mid_c_offset) + thenote->enshift)) {
-	  playalong_time = obj->latest_time; 
-	  while(1) {
-	    gboolean next = to_next_object(FALSE, FALSE);
-	    if(next && Denemo.gui->si->currentobject) {
-	      DenemoObject *obj = Denemo.gui->si->currentobject->data;	      
-	      if(obj->type==CHORD) {
-		chord *thechord = obj->object;
-		if(thechord->notes)
-		  break;
-	      }
-	    } else {	      
-	      playalong_time = Denemo.gui->si->end_time + 1.0;//???FIXME how to make it stop?, 1.0 should ensure we get to the end? 
-	      break;
-	    }
-	  }
+	  gdouble thetime = get_time();
+	  Denemo.gui->si->start_player = thetime -  obj->earliest_time;
+	  
+	  if(thechord->is_tied && cursor_to_next_note()) {
+	    obj = Denemo.gui->si->currentobject->data;	   
+	  } 
+	  playalong_time = obj->latest_time;
+	  
+	  if(!cursor_to_next_note())	   	      
+	    playalong_time = Denemo.gui->si->end_time + 1.0;	     
 	}
       }
-    }
-  }
+    } else
+      g_warning("Not on a chord");
+  } else
+    g_warning("Not on an object");
 }
+
 static void initialize_clock(void) {
   if(Denemo.gui->si->currentobject ) {
     DenemoObject *obj = Denemo.gui->si->currentobject->data;

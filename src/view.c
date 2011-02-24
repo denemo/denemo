@@ -3199,11 +3199,11 @@ static gboolean to_object_direction(gboolean within_measure, gboolean right, gbo
   return FALSE;
 }
 
-gboolean to_next_object(gboolean within_measure, gboolean stopping) {
+static gboolean to_next_object(gboolean within_measure, gboolean stopping) {
  
   return to_object_direction(within_measure, TRUE, stopping);  
 }
-gboolean to_prev_object(gboolean within_measure, gboolean stopping) {
+static gboolean to_prev_object(gboolean within_measure, gboolean stopping) {
  
   return to_object_direction(within_measure, FALSE, stopping);  
 }
