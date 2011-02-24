@@ -48,6 +48,8 @@ static gint
 file_import_midi (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *filename);
 static gint
 file_import_musicxml (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *filename);
+static gboolean
+replace_existing_file_dialog (const gchar * filename, GtkWindow * parent_window, gint format_id);
 
 typedef enum
 { DENEMO_FORMAT = 0,
@@ -275,44 +277,6 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
   return result;
 }
 
-/**
- * denemo_warning prompts the user to save the work in the denemo  
- * format if not done so.
- * @param si pointer to the denemo score object
- * @param format_id the numeric id of the files format
- * @return none
- */
-
-static void
-denemo_warning (DenemoGUI * gui, gint format_id)
-{
-  DenemoScore *si = gui->si;
-
-  if (format_id != DENEMO_FORMAT && format_id != DNM_FORMAT)
-    {
-      GtkWidget *dialog;
-      dialog = gtk_message_dialog_new (NULL,
-				       GTK_DIALOG_DESTROY_WITH_PARENT,
-				       GTK_MESSAGE_WARNING,
-				       GTK_BUTTONS_YES_NO,
-				       "You have made changes to your document that was not saved as denemo file."
-				       " I advise you save your work now as a denemo file to easily continue work later. Save as denemo?");
-      gtk_dialog_set_default_response (GTK_DIALOG (dialog),
-				       GTK_RESPONSE_ACCEPT);
-      if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES)
-	{
-
-	  gchar **file = g_strsplit (gui->filename->str, ".", 0);
-
-	  file[0] = g_strconcat (file[0], ".denemo", NULL);
-	  g_print ("file %s\n", file[0]);
-	  exportXML (file[0], gui, 0, 0);
-	  g_strfreev (file);
-	}
-      gtk_widget_destroy (dialog);
-    }
-}
-
 /*
 	If the filename format already has the correct extension use
 	it. otherwise add the file name extension 
@@ -496,63 +460,45 @@ template_open (DenemoGUI * gui, TemplateType local, gchar *filename)
   return ret;
 }
 
+#define OPEN_WITH_CHECK(dir) \
+GET_1PARAM(action, param, filename); \
+  DenemoGUI *gui = Denemo.gui; \
+  if (gui->notsaved) \
+    { \
+      if (filename==NULL && confirmbox (gui)) \
+	{ \
+	  param->status = !template_open (gui, dir, filename); \
+	} \
+    } \
+  else \
+    { \
+      param->status = !template_open (gui, dir, filename); \
+    } 
+
 /*
  * Open system template file callback function 
  */
 void
-system_template_open_with_check (GtkAction * action, DenemoScriptParam * param) {
-  GET_1PARAM(action, param, filename);
-  DenemoGUI *gui = Denemo.gui;
-  if (gui->notsaved)
-    {
-      if (filename==NULL && confirmbox (gui))
-	{
-	  param->status = !template_open (gui, SYSTEM, filename);
-	}
-    }
-  else
-    {
-      param->status = !template_open (gui, SYSTEM, filename);
-    }
+system_template_open_with_check (GtkAction * action, DenemoScriptParam * param)
+{
+  OPEN_WITH_CHECK(SYSTEM)  
 }
 
 /*
  * Open system template file callback function 
  */
 void
-system_example_open_with_check (GtkAction * action, DenemoScriptParam * param) {
-  GET_1PARAM(action, param, filename);
-  DenemoGUI *gui = Denemo.gui;
-  if (gui->notsaved)
-    {
-      if (confirmbox (gui))
-	{
-	  param->status = !template_open (gui, EXAMPLE, filename);
-	}
-    }
-  else
-    {
-      param->status = !template_open (gui, EXAMPLE, filename);
-    }
+system_example_open_with_check (GtkAction * action, DenemoScriptParam * param)
+{
+  OPEN_WITH_CHECK(EXAMPLE)  
 }
 /*
  * Open local template file callback function 
  */
 void
-local_template_open_with_check (GtkAction * action, DenemoScriptParam * param) {
-  GET_1PARAM(action, param, filename);
-  DenemoGUI *gui = Denemo.gui;
-  if (gui->notsaved)
-    {
-      if (filename==NULL && confirmbox (gui))
-	{
-	  param->status = !template_open (gui, LOCAL, filename);
-	}
-    }
-  else
-    {
-      param->status = !template_open (gui, LOCAL, filename);
-    }
+local_template_open_with_check (GtkAction * action, DenemoScriptParam * param)
+{
+  OPEN_WITH_CHECK(LOCAL)
 }
 
 /**
@@ -631,7 +577,8 @@ file_add_staffs(GtkAction * action,  DenemoScriptParam * param){
   ADD(ADD_STAFFS)
 }
 
-static void  set_current_folder(GtkWidget *file_selection, DenemoGUI *gui, DenemoSaveType template) {
+static void
+set_current_folder(GtkWidget *file_selection, DenemoGUI *gui, DenemoSaveType template) {
   gchar *path, *fallback;
   if(template==SAVE_TEMPLATE) {
     fallback = path = default_template_path;
@@ -926,7 +873,8 @@ open_user_default_template(ImportType type) {
 }
 
 /* load local init.denemo or failing that system wide template file init.denemo*/
-void load_initdotdenemo(void) { 
+void
+load_initdotdenemo(void) {
    gchar *init_file;
 
    init_file = g_build_filename(locatedotdenemo (), "actions", "init.denemo", NULL);
@@ -948,7 +896,7 @@ void load_initdotdenemo(void) {
  * and do you want to overwrite it.
  *
  */
-gboolean
+static gboolean
 replace_existing_file_dialog (const gchar * filename,
 			      GtkWindow * parent_window, gint format_id)
 {
