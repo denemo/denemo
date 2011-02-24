@@ -339,7 +339,7 @@ static void advance_clock(gchar *buf) {
   if(Denemo.gui->si->currentobject) {
     DenemoObject *obj = Denemo.gui->si->currentobject->data;
     if(obj->type!=CHORD) 
-      if(cursor_to_next_note()) 
+      if(cursor_to_next_chord()) 
 	obj = Denemo.gui->si->currentobject->data;
     
     if(Denemo.gui->si->currentobject && obj->type==CHORD) {
@@ -353,12 +353,36 @@ static void advance_clock(gchar *buf) {
 	  if(thechord->is_tied && cursor_to_next_note()) {
 	    obj = Denemo.gui->si->currentobject->data;	   
 	  } 
-	  playalong_time = obj->latest_time;
-	  
-	  if(!cursor_to_next_note())	   	      
-	    playalong_time = Denemo.gui->si->end_time + 1.0;	     
+	  //playalong_time = obj->latest_time;
+	  //IF THE NEXT OBJ IS A REST ADVANCE OVER IT/THEM
+	  do {
+	  if(!cursor_to_next_note())	//if(!cursor_to_next_chord())	   	      
+	    {
+	      playalong_time = Denemo.gui->si->end_time + 1.0;
+	      break;
+	    }
+	  else {
+	    obj = Denemo.gui->si->currentobject->data;
+	    thechord = obj->object;
+	    playalong_time = obj->earliest_time;
+	  }
+	  } 
+	  while(!thechord->notes);
+	    
 	}
+      } 
+#if 0
+else {
+	gdouble thetime = get_time();
+	Denemo.gui->si->start_player = thetime -  obj->earliest_time;
+	playalong_time = obj->latest_time;
+	if(!cursor_to_next_chord())	   	      
+	  playalong_time = Denemo.gui->si->end_time + 1.0;
       }
+#endif	
+
+
+
     } else
       g_warning("Not on a chord");
   } else

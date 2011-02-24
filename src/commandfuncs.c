@@ -900,6 +900,7 @@ movecursorleft (DenemoScriptParam *param)
 return  move_left(param, FALSE);
 }
 
+//next chord that is not a rest
 gboolean cursor_to_next_note(void) {
   while(movecursorright(NULL) && Denemo.gui->si->currentobject) {
     if(Denemo.gui->si->cursor_appending) {
@@ -910,6 +911,19 @@ gboolean cursor_to_next_note(void) {
      if(obj->type==CHORD) {
        chord *thechord = obj->object;
        if(thechord->notes)
+	 break;
+     }
+  }
+}
+// next chord, ie single or multinote chord or rest
+gboolean cursor_to_next_chord(void) {
+  while(movecursorright(NULL) && Denemo.gui->si->currentobject) {
+    if(Denemo.gui->si->cursor_appending) {
+      gboolean success = cursor_to_next_note();
+      gtk_widget_queue_draw(Denemo.scorearea);
+    }
+     DenemoObject *obj = Denemo.gui->si->currentobject->data;
+     if(obj->type==CHORD) {      
 	 break;
      }
   }
