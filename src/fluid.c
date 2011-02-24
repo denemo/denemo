@@ -337,9 +337,11 @@ static gdouble GET_TIME (void) {
 //advance cursor to next note
 static void advance_clock(gchar *buf) {
   if(Denemo.gui->si->currentobject) {
+    DenemoScriptParam aparam;
+    DenemoScriptParam *param = &aparam;
     DenemoObject *obj = Denemo.gui->si->currentobject->data;
     if(obj->type!=CHORD) 
-      if(cursor_to_next_chord()) 
+      if(cursor_to_next_chord(param)) 
 	obj = Denemo.gui->si->currentobject->data;
     
     if(Denemo.gui->si->currentobject && obj->type==CHORD) {
@@ -350,39 +352,26 @@ static void advance_clock(gchar *buf) {
 	  gdouble thetime = get_time();
 	  Denemo.gui->si->start_player = thetime -  obj->earliest_time;
 	  
-	  if(thechord->is_tied && cursor_to_next_note()) {
+	  if(thechord->is_tied && cursor_to_next_note(param)) {
 	    obj = Denemo.gui->si->currentobject->data;	   
-	  } 
+	  }
 	  //playalong_time = obj->latest_time;
 	  //IF THE NEXT OBJ IS A REST ADVANCE OVER IT/THEM
 	  do {
-	  if(!cursor_to_next_note())	//if(!cursor_to_next_chord())	   	      
-	    {
-	      playalong_time = Denemo.gui->si->end_time + 1.0;
-	      break;
+	    if(!cursor_to_next_note(param))	//if(!cursor_to_next_chord())	   	      
+	      {
+		playalong_time = Denemo.gui->si->end_time + 1.0;
+		break;
+	      }
+	    else {
+	      obj = Denemo.gui->si->currentobject->data;
+	      thechord = obj->object;
+	      playalong_time = obj->earliest_time;
 	    }
-	  else {
-	    obj = Denemo.gui->si->currentobject->data;
-	    thechord = obj->object;
-	    playalong_time = obj->earliest_time;
-	  }
 	  } 
-	  while(!thechord->notes);
-	    
+	  while(!thechord->notes);	    
 	}
-      } 
-#if 0
-else {
-	gdouble thetime = get_time();
-	Denemo.gui->si->start_player = thetime -  obj->earliest_time;
-	playalong_time = obj->latest_time;
-	if(!cursor_to_next_chord())	   	      
-	  playalong_time = Denemo.gui->si->end_time + 1.0;
       }
-#endif	
-
-
-
     } else
       g_warning("Not on a chord");
   } else
@@ -614,11 +603,13 @@ static fluid_midi_driver_t* midi_in;
 #define EDITING_MASK (GDK_SHIFT_MASK)  
 static void handle_midi_event(gchar *buf) {
   //g_print("%x : %x %x %x %x\n", Denemo.keyboard_state, GDK_CONTROL_MASK, GDK_SHIFT_MASK, GDK_MOD1_MASK, GDK_LOCK_MASK);
-  if(Denemo.gui->midi_destination & MIDIPLAYALONG)
-    advance_clock(buf);
 
-  if(Denemo.gui->midi_destination & MIDIRECORD) {
-    record_midi(buf,  get_time() - Denemo.gui->si->start_player);
+  if( (Denemo.gui->midi_destination & MIDIRECORD) ||
+      (Denemo.gui->midi_destination & MIDIPLAYALONG)) {
+    if(Denemo.gui->midi_destination & MIDIRECORD)
+      record_midi(buf,  get_time() - Denemo.gui->si->start_player);
+    if(Denemo.gui->midi_destination & MIDIPLAYALONG)
+      advance_clock(buf);
     fluid_output_midi_event(buf);
   } else {
     if((Denemo.keyboard_state==(GDK_SHIFT_MASK|GDK_LOCK_MASK)) ||
