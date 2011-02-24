@@ -460,63 +460,45 @@ template_open (DenemoGUI * gui, TemplateType local, gchar *filename)
   return ret;
 }
 
+#define OPEN_WITH_CHECK(dir) \
+GET_1PARAM(action, param, filename); \
+  DenemoGUI *gui = Denemo.gui; \
+  if (gui->notsaved) \
+    { \
+      if (filename==NULL && confirmbox (gui)) \
+	{ \
+	  param->status = !template_open (gui, dir, filename); \
+	} \
+    } \
+  else \
+    { \
+      param->status = !template_open (gui, dir, filename); \
+    } 
+
 /*
  * Open system template file callback function 
  */
 void
-system_template_open_with_check (GtkAction * action, DenemoScriptParam * param) {
-  GET_1PARAM(action, param, filename);
-  DenemoGUI *gui = Denemo.gui;
-  if (gui->notsaved)
-    {
-      if (filename==NULL && confirmbox (gui))
-	{
-	  param->status = !template_open (gui, SYSTEM, filename);
-	}
-    }
-  else
-    {
-      param->status = !template_open (gui, SYSTEM, filename);
-    }
+system_template_open_with_check (GtkAction * action, DenemoScriptParam * param)
+{
+  OPEN_WITH_CHECK(SYSTEM)  
 }
 
 /*
  * Open system template file callback function 
  */
 void
-system_example_open_with_check (GtkAction * action, DenemoScriptParam * param) {
-  GET_1PARAM(action, param, filename);
-  DenemoGUI *gui = Denemo.gui;
-  if (gui->notsaved)
-    {
-      if (confirmbox (gui))
-	{
-	  param->status = !template_open (gui, EXAMPLE, filename);
-	}
-    }
-  else
-    {
-      param->status = !template_open (gui, EXAMPLE, filename);
-    }
+system_example_open_with_check (GtkAction * action, DenemoScriptParam * param)
+{
+  OPEN_WITH_CHECK(EXAMPLE)  
 }
 /*
  * Open local template file callback function 
  */
 void
-local_template_open_with_check (GtkAction * action, DenemoScriptParam * param) {
-  GET_1PARAM(action, param, filename);
-  DenemoGUI *gui = Denemo.gui;
-  if (gui->notsaved)
-    {
-      if (filename==NULL && confirmbox (gui))
-	{
-	  param->status = !template_open (gui, LOCAL, filename);
-	}
-    }
-  else
-    {
-      param->status = !template_open (gui, LOCAL, filename);
-    }
+local_template_open_with_check (GtkAction * action, DenemoScriptParam * param)
+{
+  OPEN_WITH_CHECK(LOCAL)
 }
 
 /**
