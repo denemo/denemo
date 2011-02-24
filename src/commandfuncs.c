@@ -362,7 +362,8 @@ gomeasureleft (DenemoScriptParam *param, gboolean extend_selection)
   if (gui->si->currentmeasure->prev)
     {
       gui->si->currentmeasurenum--;
-      isoffleftside (gui);
+      if(param==&dummy) //interactive
+	isoffleftside (gui);
       param->status = TRUE;
     }
   setcurrents (gui->si);
@@ -396,7 +397,8 @@ gomeasureright (DenemoScriptParam *param, gboolean extend_selection)
   if (gui->si->currentmeasure->next)
     {
       gui->si->currentmeasurenum++;
-      isoffrightside (gui);
+      if(param==&dummy) //interactive
+	isoffrightside (gui);
       setcurrents (gui->si);
       param->status = TRUE;
       if(extend_selection)
@@ -787,7 +789,8 @@ move_left (DenemoScriptParam *param, gboolean extend_selection)
 	  si->cursor_appending = TRUE;
 	  si->currentmeasure = si->currentmeasure->prev;
 	  si->currentmeasurenum--;
-	  isoffleftside (gui);
+	  if(param==&dummy) //interactive
+	    isoffleftside (gui);
 	  si->currentobject =
 	    g_list_last ((objnode *) si->currentmeasure->data);
 	  /* The preceding statement will set currentobject to
@@ -841,7 +844,8 @@ move_right (DenemoScriptParam *param, gboolean extend_selection)
       /* Go to the next measure */
       si->currentmeasure = si->currentmeasure->next;
       si->currentmeasurenum++;
-      isoffrightside (gui);
+      if(param==&dummy) //interactive
+	isoffrightside (gui);
       si->currentobject = (objnode *) si->currentmeasure->data;
       si->cursor_x = 0;
       if (si->currentobject)
@@ -901,10 +905,10 @@ return  move_left(param, FALSE);
 }
 
 //next chord that is not a rest
-gboolean cursor_to_next_note(void) {
-  while(movecursorright(NULL) && Denemo.gui->si->currentobject) {
+gboolean cursor_to_next_note(DenemoScriptParam *param) {
+  while(movecursorright(param) && Denemo.gui->si->currentobject) {
     if(Denemo.gui->si->cursor_appending) {
-      gboolean success = cursor_to_next_note();
+      gboolean success = cursor_to_next_note(param);
       gtk_widget_queue_draw(Denemo.scorearea);
     }
      DenemoObject *obj = Denemo.gui->si->currentobject->data;
@@ -916,10 +920,10 @@ gboolean cursor_to_next_note(void) {
   }
 }
 // next chord, ie single or multinote chord or rest
-gboolean cursor_to_next_chord(void) {
-  while(movecursorright(NULL) && Denemo.gui->si->currentobject) {
+gboolean cursor_to_next_chord(DenemoScriptParam *param) {
+  while(movecursorright(param) && Denemo.gui->si->currentobject) {
     if(Denemo.gui->si->cursor_appending) {
-      gboolean success = cursor_to_next_note();
+      gboolean success = cursor_to_next_chord(param);
       gtk_widget_queue_draw(Denemo.scorearea);
     }
      DenemoObject *obj = Denemo.gui->si->currentobject->data;
