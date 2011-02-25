@@ -458,6 +458,10 @@
 		<bind>Alt+f</bind>
 	</row> 
 	<row>
+		<action>StringNum</action>
+		<bind>Alt+n</bind>
+	</row> 
+	<row>
         <action>AddDotSelectionSwitcher</action>
         <bind>period</bind>
         <bind>Decimal</bind>        
