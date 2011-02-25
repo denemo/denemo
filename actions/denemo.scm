@@ -770,6 +770,7 @@
   
 ;Wrapper to attach any lilypond directive anywhere.
 ;;Wants four strings and an arbitrary number of tags (numbers) for overrides.
+;;the tag parameter can be a single string or a pair. A single string is both the tag and display, a pair is (cons "tag" "display") 
 (define (AttachDirective type field tag content . overrides)
 	(define proc-put (string-append "d-DirectivePut-" type "-" field))
 	;(define proc-get (string-append "d-DirectiveGet-" type "-" field))
@@ -781,7 +782,9 @@
 	(if (member DENEMO_OVERRIDE_GRAPHIC overrides) ; enforce graphic to make sure staff-icons work.
 		((eval-string proc-ovr) tag (apply logior overrides))
 		((eval-string proc-ovr) tag (apply logior (append (list DENEMO_OVERRIDE_GRAPHIC) overrides))))
-	((eval-string proc-dis) tag tag)
+	(if (pair? tag)
+		((eval-string proc-dis) (car tag) (cdr tag))
+		((eval-string proc-dis) tag tag))
 	#t)
 	
 ; ToggleDirective is a script to help you by creating and deleting Denemo-Directives with the same command.
