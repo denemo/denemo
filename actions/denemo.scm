@@ -393,8 +393,12 @@
 	(define (doublestroke::invokegui)
 		(if gui-version
 			 (gui-version)
-			 ((apply RadioBoxMenu (delete (cons "" False) (list first second third fourth fifth sixth seventh eighth ninth tenth)))))) ; Create a fallback-GUI which just lists all commands as radio-buttons. Used for the [space] variant. RadioBoxMenu returns a function  which is then executed.
-
+			 (begin FallBack ; create a gui from the given parameters, test for cancel-button #f
+				(set! gui-version (apply RadioBoxMenu (delete (cons "" False) (list first second third fourth fifth sixth seventh eighth ninth tenth)))) 
+				(if gui-version 
+					(gui-version) ; execute the returned command
+					#f)))) ; cancel-button, abort the process
+				
 	; The real action. Wait for a keypress and decide what do with it afterwards, UnsetMark triggers the GUI, AddNoteToChord locks-in the commands and makes them permanent keybindings.
 	(if DenemoKeypressActivatedCommand
 		(begin 
