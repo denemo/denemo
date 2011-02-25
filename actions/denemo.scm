@@ -1925,4 +1925,6 @@
 	(define answer #f)
 	(define radiostring (string-join (map (lambda (x) (car x)) parameters) stop)) 
 	(set! answer (d-GetOption radiostring))
-	(cdr	(list-ref  parameters (list-index (lambda (x) (equal?  answer (car x))) parameters))))
+	(if answer
+		(cdr	(list-ref  parameters (list-index (lambda (x) (equal?  answer (car x))) parameters)))
+		#f))
