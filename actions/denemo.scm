@@ -382,81 +382,49 @@
 
 ;;;;;;;;;;;;;;;; Double-Stroke for sequencing keypresses. By Nils Gey June 2010
 ;One parameter for the GUI-version or help window. This is the version that appears if someone clicks on the menu version.
-;Ten optional parameters given as stringed scheme syntax with (d-), but as string "" and with escaped \" in them. They return #f if not defined
+;Ten optional parameters, each a pair with car = Pretty String for fallback-gui, cdr = scheme-command. Give (cons "" False) to skip over one slot.
 ;gui-version can be any command to aid the user. Most likely it will be a tooltip or better a GUI with radio buttons with all commands (if (not #f) ...) and help texts and maybe additional parameters.
-;This script is ready to get pairs as parameter. car is the command as string, cdr is a pretty name. However this is not compatible with d-GetOption, we need a better GUI for this.
-
-(define* (Doublestroke gui-version #:optional (first "#f") (second "#f") (third "#f") (fourth "#f") (fifth "#f") (sixth "#f") (seventh "#f") (eighth "#f") (ninth "#f") (tenth "#f"))
-	; Create a fallback-GUI which just lists all commands as radio-buttons. Used for the [space] variant.
-	(define (doublestroke::fallbackgui)
-		(define doublestroke::result #f)		
-		(define (bo action) ; BuildOption
-			(if (pair? action)
-				;User gave pairs for better documentation. Build the option 
-				(string-append (car action) stop) 
-				;User gave just strings or #f, build the option from this string		
-				(if (or (not (string=? action "#f" )) (not action) )
-					(string-append action stop) 
-					""))); BuildOption end 			
-		(if (not gui-version) ;just a small performance-tweak
-			(begin
-				(set! doublestroke::result (d-GetOption  (string-append (bo first)  (bo second)  (bo third)  (bo fourth)  (bo fifth)  (bo sixth)  (bo seventh)  (bo eighth)  (bo ninth)  (bo tenth)) ))
-				(if doublestroke::result (eval-string doublestroke::result)))))
-
-	; Eval the command with testing if it's a pair or just a string
-	(define (doublestroke::evalcommand parameter)
-		(if (pair? parameter)
-			(eval-string (car parameter))
-			(eval-string parameter)))
-			
+(define* (Doublestroke gui-version #:optional (first (cons "" False)) (second (cons "" False)) (third (cons "" False)) (fourth (cons "" False)) (fifth (cons "" False)) (sixth (cons "" False)) (seventh (cons "" False)) (eighth (cons "" False)) (ninth (cons "" False)) (tenth (cons "" False)))
 	;Rebind a wrapper key, check if pair or string
-	(define (doublestroke::bind command parameter)
-	   (if (pair? parameter)
-			(set-cdr! command (car parameter))
-			(set-cdr! command parameter)))
-
+	(define (Bind command parameter)
+		(set-cdr! command (cdr parameter)))
 			
 	; Short command to invoke the gui which tests if the author specified his own first.
 	(define (doublestroke::invokegui)
-		(if gui-version (eval-string gui-version)
-					 (doublestroke::fallbackgui)))			 	 		
+		(if gui-version
+			 (gui-version)
+			 ((apply RadioBoxMenu (delete (cons "" False) (list first second third fourth fifth sixth seventh eighth ninth tenth)))))) ; Create a fallback-GUI which just lists all commands as radio-buttons. Used for the [space] variant. RadioBoxMenu returns a function  which is then executed.
 
-	; The real action. Wait for a keypress and decide what do with it afterwards, Space triggers the GUI, Return locks-in the commands and makes them permanent keybindings.
+	; The real action. Wait for a keypress and decide what do with it afterwards, UnsetMark triggers the GUI, AddNoteToChord locks-in the commands and makes them permanent keybindings.
 	(if DenemoKeypressActivatedCommand
 		(begin 
 		(case (string->symbol (d-GetCommand))
-			((d-OpOne)  (doublestroke::evalcommand first))
-			((d-OpTwo)  (doublestroke::evalcommand second))
-			((d-OpThree)  (doublestroke::evalcommand third))
-			((d-OpFour)  (doublestroke::evalcommand fourth))
-			((d-OpFive)  (doublestroke::evalcommand fifth))
-			((d-OpSix)  (doublestroke::evalcommand sixth))
-			((d-OpSeven)  (doublestroke::evalcommand seventh))
-			((d-OpEight)  (doublestroke::evalcommand eighth))
-			((d-OpNine)  (doublestroke::evalcommand ninth))
-			((d-OpZero)  (doublestroke::evalcommand tenth))
+			((d-OpOne)  ((cdr first)))
+			((d-OpTwo) ((cdr second)))
+			((d-OpThree)  ((cdr third)))
+			((d-OpFour)  ((cdr fourth)))
+			((d-OpFive)  ((cdr fifth)))
+			((d-OpSix)  ((cdr sixth)))
+			((d-OpSeven)  ((cdr seventh)))
+			((d-OpEight)  ((cdr eighth)))
+			((d-OpNine)  ((cdr ninth)))
+			((d-OpZero)  ((cdr tenth)))
 			((d-UnsetMark)  (doublestroke::invokegui))
 			((d-AddNoteToChord) (begin
-					(doublestroke::bind wrap:Op1 first)
-					(doublestroke::bind wrap:Op2 second)
-					(doublestroke::bind wrap:Op3 third)
-					(doublestroke::bind wrap:Op4 fourth)
-					(doublestroke::bind wrap:Op5 fifth)
-					(doublestroke::bind wrap:Op6 sixth)
-					(doublestroke::bind wrap:Op7 seventh)
-					(doublestroke::bind wrap:Op8 eighth)
-					(doublestroke::bind wrap:Op9 ninth)
+					(Bind wrap:Op1 first)
+					(Bind wrap:Op2 second)
+					(Bind wrap:Op3 third)
+					(Bind wrap:Op4 fourth)
+					(Bind wrap:Op5 fifth)
+					(Bind wrap:Op6 sixth)
+					(Bind wrap:Op7 seventh)
+					(Bind wrap:Op8 eighth)
+					(Bind wrap:Op9 ninth)
 					(doublestroke::bind wrap:Op0 tenth)
 					))
 			(else #f))
-		  (set! DenemoKeypressActivatedCommand #f))
-		  
-		 (doublestroke::invokegui) )) ; if not DenemoKeypressActivated
-
-	; Example, where key 6 to 9 are not defined. The WarningDialog shows if you press [space] or invoke the command through the menu. 
-	; (Doublestroke "(d-WarningDialog \"After invoking the command, what you already have done right now, press a number key to specify number to print to the console or any other key to abort.\n\")" 
-	; "(d-Finger1)"  "(d-Finger2)" "(d-Finger3)"  "(d-Finger4)"  "(d-Finger5)" "#f" "#f" "#f" "#f" "(d-Finger0)")
-	
+		  (set! DenemoKeypressActivatedCommand #f))		  
+		 (doublestroke::invokegui))) ; if not DenemoKeypressActivated
 
 ;;;;;;;;;;;;;;;;; ExtraOffset
 ;;; the parameter "what" is the LilyPond grob that is being tweaked - it may not be the tag of the DenemoDirective that is being edited
