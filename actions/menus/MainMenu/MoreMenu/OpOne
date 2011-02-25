@@ -6,7 +6,7 @@
     <map>
       <row>
         <action>OpOne</action>
-        <scheme>(eval-string (cdr wrap:Op1))</scheme>
+        <scheme>((cdr wrap:Op1))</scheme>
         <label>OpOne</label>
         <tooltip>Wrapper/Dummy for Keypress</tooltip>
       </row>
