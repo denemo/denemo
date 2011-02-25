@@ -777,14 +777,16 @@
 	;(define proc-del (string-append "d-DirectiveDelete-" type))
 	(define proc-dis (string-append "d-DirectivePut-" type "-display"))
 	(define proc-ovr (string-append "d-DirectivePut-" type "-override"))
+	(define dis #f)
+	(if (pair? tag)
+		(begin (set! dis (cdr tag)) (set! tag (car tag)))
+		(set! dis tag))
 	(d-SetSaved #f)
 	((eval-string proc-put) tag content)
 	(if (member DENEMO_OVERRIDE_GRAPHIC overrides) ; enforce graphic to make sure staff-icons work.
 		((eval-string proc-ovr) tag (apply logior overrides))
 		((eval-string proc-ovr) tag (apply logior (append (list DENEMO_OVERRIDE_GRAPHIC) overrides))))
-	(if (pair? tag)
-		((eval-string proc-dis) (car tag) (cdr tag))
-		((eval-string proc-dis) tag tag))
+	((eval-string proc-dis) tag dis)
 	#t)
 	
 ; ToggleDirective is a script to help you by creating and deleting Denemo-Directives with the same command.
