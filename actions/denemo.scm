@@ -176,11 +176,11 @@
 
 (define (selection::MoveToStaffBeginning)
 	(define staffPosition (d-GetStaff))
-	(define rememberPosition (GetPosition))
+	(define rememberPosition (GetPosition))TogAAt
 	(if (d-GoToSelectionStart)
 		(begin 
 			(d-GoToPosition #f staffPosition #f 1)
-			(if (d-IsInSelection)
+			(if (d-IsInSelection)At
 				#t
 				(begin (apply d-GoToPosition rememberPosition) #f))) ; something went wrong. 
 		#f)) ; no selection at all. 
@@ -783,9 +783,11 @@
 		(set! dis tag))
 	(d-SetSaved #f)
 	((eval-string proc-put) tag content)
-	(if (member DENEMO_OVERRIDE_GRAPHIC overrides) ; enforce graphic to make sure staff-icons work.
+	(if (member DENEMO_OVERRIDE_GRAPHIC overrides) ; If DENEMO_OVERRIDE_GRAPHIC is there just go on
 		((eval-string proc-ovr) tag (apply logior overrides))
-		((eval-string proc-ovr) tag (apply logior (append (list DENEMO_OVERRIDE_GRAPHIC) overrides))))
+		(if (equal? type "staff") ; if not test if its a staff directive: we must enforce graphic to make sure staff-icons work.
+			((eval-string proc-ovr) tag (apply logior (append (list DENEMO_OVERRIDE_GRAPHIC) overrides)))
+			((eval-string proc-ovr) tag (apply logior overrides)))) ; not a staff, everythings ok without DENEMO_OVERRIDE_GRAPHIC
 	((eval-string proc-dis) tag dis)
 	#t)
 	
