@@ -383,11 +383,12 @@
 ;;;;;;;;;;;;;;;; Double-Stroke for sequencing keypresses. By Nils Gey June 2010
 ;One parameter for the GUI-version or help window. This is the version that appears if someone clicks on the menu version.
 ;Ten optional parameters, each a pair with car = Pretty String for fallback-gui, cdr = scheme-command. Give (cons "" False) to skip over one slot.
-;gui-version can be any command to aid the user. Most likely it will be a tooltip or better a GUI with radio buttons with all commands (if (not #f) ...) and help texts and maybe additional parameters.
+;gui-version can be #f to generate a gui, or any command to be executed from the menu or if the gui/help is invoked.
 (define* (Doublestroke gui-version #:optional (first (cons "" False)) (second (cons "" False)) (third (cons "" False)) (fourth (cons "" False)) (fifth (cons "" False)) (sixth (cons "" False)) (seventh (cons "" False)) (eighth (cons "" False)) (ninth (cons "" False)) (tenth (cons "" False)))
 	;Rebind a wrapper key, check if pair or string
 	(define (Bind command parameter)
-		(set-cdr! command (cdr parameter)))
+		(if (equal? parameter (cons "" False))
+		(set-cdr! command (cdr parameter))))
 			
 	; Short command to invoke the gui which tests if the author specified his own first.
 	(define (doublestroke::invokegui)
