@@ -387,8 +387,7 @@
 (define* (Doublestroke gui-version #:optional (first (cons "" False)) (second (cons "" False)) (third (cons "" False)) (fourth (cons "" False)) (fifth (cons "" False)) (sixth (cons "" False)) (seventh (cons "" False)) (eighth (cons "" False)) (ninth (cons "" False)) (tenth (cons "" False)))
 	;Rebind a wrapper key, check if pair or string
 	(define (Bind command parameter)
-		(if (equal? parameter (cons "" False))
-		(set-cdr! command (cdr parameter))))
+		(set-cdr! command (cdr parameter)))
 			
 	; Short command to invoke the gui which tests if the author specified his own first.
 	(define (doublestroke::invokegui)
@@ -421,7 +420,7 @@
 					(Bind wrap:Op7 seventh)
 					(Bind wrap:Op8 eighth)
 					(Bind wrap:Op9 ninth)
-					(doublestroke::bind wrap:Op0 tenth)
+					(Bind wrap:Op0 tenth)
 					))
 			(else #f))
 		  (set! DenemoKeypressActivatedCommand #f))		  
