@@ -7,7 +7,9 @@
       <row>
         <after>ToggleImmediatePlayback</after>
         <action>ConvertMidiForBass</action>
-        <scheme>(defstruct note name start duration)
+        <scheme>
+(d-PushPosition)
+(defstruct note name start duration)
 (define Notes '())
 
 (define (find-note key)
@@ -19,9 +21,7 @@
 		  (loop (+ current-index 1))
 		  current-index))
 	#f)))
-
-	  
-
+	
 (if (d-RewindRecordedMidi)
     (let looprecordednotes ((note #f)(tick 0))
       (set! note (d-GetRecordedMidiNote))
@@ -33,12 +33,18 @@
 		  (if note-index
 		      (let ((thenote (car (list-ref Notes note-index))))							
 			(set!note.duration thenote  (- (- tick) (note.start thenote)))			
-			(looprecordednotes note tick))
-		      (format #t "An off with no On\n")))
-		(begin
+			(looprecordednotes note tick))			
+		       (let ((firstnotestart (note.start (car (list-ref Notes 0)))))	
+		       ;;; no note-on for this note-off, put one at the start
+		       	(disp "no on for " note " \nUsing " (- (- tick) firstnotestart) "\n")
+		      (set! Notes (cons (list (make-note 'name note 'start firstnotestart 'duration (- (- tick) firstnotestart)  )) Notes))		       
+		      	(looprecordednotes note tick))
+		      ))
+		(begin   ;;; a note onset, put it in the list Notes.
 		  (set! Notes (cons (list (make-note 'name note 'start tick 'duration 384)) Notes))
 		  (looprecordednotes note tick))))
 	  (begin         ;;;;;; finished generating Notes as a list of lists each with one note struct in it
+	  (disp Notes)
 	    (if (&gt; (length Notes) 0)
 		(let ()
 ;;;;;;; we have at least one note in the Notes list, define to procs to create a denemo chord and add a note to it
@@ -149,7 +155,7 @@
 					
 					(let ((chords (make-chords notes)) (remaining bass-duration))
 				    ;;;loop through the chords, getting a good duration value, the duration from one to the next and inserting
-					  
+					  (disp "We have chords " chords "\n")
 					  (let loop ((index 0))
 					    (if (&gt; (length chords) (+ 1 index))
 						(let ((chord1 (list-ref chords index))
@@ -157,7 +163,7 @@
 						      (duration #f))
 						  
 						  (set! chord2 (list-ref chords (+ 1 index)));;move this into the init
-						  (set! duration (- (note.start (car chord1)) (note.start (car chord2))))
+						  (set! duration (- (note.start (car chord2)) (note.start (car chord1))))
 						  (set! remaining (- remaining duration))
 						    (if (&lt; remaining 50)
 						      (begin
@@ -236,8 +242,9 @@
 				      (d-StaffUp)
 				      (GoToMeasureEnd)				      
 				      (if (&gt; (length notes-belonging) 0)
-					  (begin					   
-					;(disp "notes-belonging looks like this: " notes-belonging "\n")
+					  (begin	
+					  (set! notes-belonging (reverse notes-belonging))
+					(disp "notes-belonging looks like this: " notes-belonging "\n")
 					    (insert-chords notes-belonging bass-duration)
 					;(disp "insert-chords finished\n")
 					)
@@ -255,7 +262,9 @@
 		  (d-WarningDialog "The Notes list is empty"))))))
     
     
-    (format #t "No notes found in recording\n"))</scheme>
+    (format #t "No notes found in recording\n"))
+    (d-PopPosition)
+    </scheme>
         <label>Convert MIDI chords over Bass</label>
         <tooltip>Takes a MIDI recording over a bass line and inserts the chords by matching the bass notes. Each chord must include the bass note.</tooltip>
       </row>
