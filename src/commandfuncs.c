@@ -362,7 +362,7 @@ gomeasureleft (DenemoScriptParam *param, gboolean extend_selection)
   if (gui->si->currentmeasure->prev)
     {
       gui->si->currentmeasurenum--;
-      if(param==&dummy) //interactive
+      if(!gui->si->playingnow) //during playback cursor moves should not affect viewport
 	isoffleftside (gui);
       param->status = TRUE;
     }
@@ -397,7 +397,7 @@ gomeasureright (DenemoScriptParam *param, gboolean extend_selection)
   if (gui->si->currentmeasure->next)
     {
       gui->si->currentmeasurenum++;
-      if(param==&dummy) //interactive
+       if(!gui->si->playingnow) //during playback cursor moves should not affect viewport
 	isoffrightside (gui);
       setcurrents (gui->si);
       param->status = TRUE;
@@ -789,7 +789,7 @@ move_left (DenemoScriptParam *param, gboolean extend_selection)
 	  si->cursor_appending = TRUE;
 	  si->currentmeasure = si->currentmeasure->prev;
 	  si->currentmeasurenum--;
-	  if(param==&dummy) //interactive
+	  if(!si->playingnow) //during playback cursor moves should not affect viewport
 	    isoffleftside (gui);
 	  si->currentobject =
 	    g_list_last ((objnode *) si->currentmeasure->data);
@@ -844,7 +844,7 @@ move_right (DenemoScriptParam *param, gboolean extend_selection)
       /* Go to the next measure */
       si->currentmeasure = si->currentmeasure->next;
       si->currentmeasurenum++;
-      if(param==&dummy) //interactive
+      if(!si->playingnow) //during playback cursor moves should not affect viewport
 	isoffrightside (gui);
       si->currentobject = (objnode *) si->currentmeasure->data;
       si->cursor_x = 0;
@@ -906,31 +906,41 @@ return  move_left(param, FALSE);
 
 //next chord that is not a rest
 gboolean cursor_to_next_note(DenemoScriptParam *param) {
+  gboolean success = FALSE;
   while(movecursorright(param) && Denemo.gui->si->currentobject) {
     if(Denemo.gui->si->cursor_appending) {
-      gboolean success = cursor_to_next_note(param);
+      (void)cursor_to_next_note(param);
       gtk_widget_queue_draw(Denemo.scorearea);
     }
-     DenemoObject *obj = Denemo.gui->si->currentobject->data;
-     if(obj->type==CHORD) {
-       chord *thechord = obj->object;
-       if(thechord->notes)
-	 break;
-     }
+    if(Denemo.gui->si->currentobject) {
+      DenemoObject *obj = Denemo.gui->si->currentobject->data;
+      if(obj->type==CHORD) {
+	chord *thechord = obj->object;
+	if(thechord->notes) {
+	  success = TRUE;
+	  break;
+	}
+      }
+    }
   }
 }
 // next chord, ie single or multinote chord or rest
 gboolean cursor_to_next_chord(DenemoScriptParam *param) {
+  gboolean success = FALSE;
   while(movecursorright(param) && Denemo.gui->si->currentobject) {
     if(Denemo.gui->si->cursor_appending) {
-      gboolean success = cursor_to_next_chord(param);
+      (void) cursor_to_next_chord(param);
       gtk_widget_queue_draw(Denemo.scorearea);
     }
-     DenemoObject *obj = Denemo.gui->si->currentobject->data;
-     if(obj->type==CHORD) {      
-	 break;
-     }
+    if(Denemo.gui->si->currentobject) {
+      DenemoObject *obj = Denemo.gui->si->currentobject->data;
+      if(obj->type==CHORD) {  
+	success = TRUE;
+	break;
+      }
+    }
   }
+  return success;
 }
 
 /**
