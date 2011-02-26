@@ -160,8 +160,7 @@ typedef struct chord
 		      figures in lilypond format. */
   GList *tone_node; /**< which tone this note was extracted from */
   gboolean is_fakechord; /**< This is the actual value of the fake chord if is_fakechord */
-  gpointer fakechord; /**< This is the actual value of the fake chord if is_fakechord */
-  gpointer fakechord_extension; /**< This is the extension to the fake chord. It may be a 7, sus4, 9, 11, 13 etc... */
+  gpointer fakechord; /**< This is the actual fake chord string if is_fakechord */
   
   GList *directives;/**< list of DenemoDirective to apply to the chord */
 

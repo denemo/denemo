@@ -987,15 +987,10 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		    	
   			   GString *temp = g_string_new("");
 		           temp = g_string_append(temp, ((GString *) (thechord)->fakechord)->str);
-			   if ((thechord)->fakechord_extension != NULL)
-			   	temp = g_string_append(temp, ((GString *) (thechord)->fakechord_extension)->str);
 			   
-
 		      parentElem = xmlNewChild (objElem, ns, (xmlChar *) "fakechord",
 						(xmlChar *) ((GString *) temp)->str);
-
-  
-		      }
+  		    }
 
 
 		  /* Output all the decorations. */
