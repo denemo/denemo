@@ -4447,6 +4447,14 @@ for second and subsequent systems</tooltip>
         <label>Remove Dot</label>
         <tooltip>Remove one dot for each note in the selection or single note</tooltip>
       </row>
+      <row>
+        <action>ConvertMidiForBass</action>
+        <after>ToggleImmediatePlayback</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/PlaybackMenu</menupath>
+        <label>Convert MIDI chords over Bass</label>
+        <tooltip>Takes a MIDI recording over a bass line and inserts the chords by matching the bass notes. Each chord must include the bass note.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
