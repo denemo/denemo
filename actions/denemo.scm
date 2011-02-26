@@ -797,12 +797,15 @@
 (define (ToggleDirective type field tag content . overrides) ; four strings and an arbitrary number of tags (numbers) for overrides.
 	(define proc-get (string-append "d-DirectiveGet-" type "-" field))
 	(define proc-del (string-append "d-DirectiveDelete-" type))
+	(define dis #f)
+	(if (pair? tag)
+		(begin (set! dis (cdr tag)) (set! tag (car tag)))
+		(set! dis tag))		
 	(if ((eval-string proc-get) tag)
 		(begin	((eval-string proc-del) tag)
 				(d-SetSaved #f)
 				#f)
-		(apply (lambda (x) (AttachDirective type field tag content x)) overrides)))
-		  
+		(apply (lambda (x) (AttachDirective type field (cons tag dis) content x)) overrides))) 
 
 ;;;;;;;;; String Escaper
 ;;;;;;;;; Escapes Strings
