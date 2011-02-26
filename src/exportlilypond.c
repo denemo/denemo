@@ -553,10 +553,6 @@ output_fakechord (DenemoScore * si, GString *fakechord, chord * pchord)
  		         *) ((chord *) pchord->fakechord))->str));
   }
 
-
-  
-		      
-
   str = strchr (fig_str->str, *(char *) FAKECHORD_SEP); 
   if (str != NULL)
     {

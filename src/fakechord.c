@@ -112,12 +112,12 @@ separate_fakechord_elements (gchar *fakechord, DenemoObject *curObj)
   if (curObj && curObj->type == CHORD) {
     ((chord *) curObj->object)->is_fakechord = TRUE;
     ((chord *) curObj->object)->fakechord = base;
-    if (has_extension)
-      ((chord *) curObj->object)->fakechord_extension = extension;
-    else {
+    //if (has_extension)
+    //((chord *) curObj->object)->fakechord_extension = extension;
+    //else {
       g_string_free(extension, TRUE);
-      ((chord *) curObj->object)->fakechord_extension = NULL;
-    }
+      //((chord *) curObj->object)->fakechord_extension = NULL;
+      //}
   }
   
 }

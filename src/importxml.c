@@ -745,13 +745,10 @@ parseFakechord (xmlNodePtr fakechordElem, DenemoObject * curobj)
 						  fakechordElem->xmlChildrenNode,
 						  1);
   if(fakechord) {
-    ((chord *) curobj->object)->is_fakechord = TRUE; 
-    separate_fakechord_elements (fakechord, curobj); 
+    ((chord *) curobj->object)->is_fakechord = TRUE;
+    ((chord *) curobj->object)->fakechord = g_string_new (fakechord);   
   }
-  //((chord *) curobj->object)->fakechord = g_string_new (fakechord);
-
   g_free (fakechord);
-
 }
 
 
