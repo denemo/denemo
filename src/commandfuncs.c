@@ -923,6 +923,7 @@ gboolean cursor_to_next_note(DenemoScriptParam *param) {
       }
     }
   }
+  return success;
 }
 // next chord, ie single or multinote chord or rest
 gboolean cursor_to_next_chord(DenemoScriptParam *param) {
