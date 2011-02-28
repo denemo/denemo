@@ -7,7 +7,8 @@
       <row>
         <after>ToggleImmediatePlayback</after>
         <action>ConvertMidiForBass</action>
-        <scheme>(d-PushPosition)
+        <scheme>
+(d-PushPosition)
 (defstruct note name start duration)
 (define Notes '())
 
@@ -91,25 +92,16 @@
 
  	 ( (= ticks 12288)  "(d-Maxima)")  ; maxima 8*1
  	 ( (= ticks 18432)  "(d-Maxima)(d-AddDot)")  ; maxima 8*1.
-
-	(else "(display \"trouble\")"))) 
-
-
+(else  (disp "got ticks " ticks "\n")  "(d-Insert3)(d-ToggleGrace)"))) 
+	
 
 
 
 
-		    (define (insert-note name dur)
-		      (let ((base (duration::GuessBaseNoteInTicks dur)))
-			(disp "Note " name " has duration " dur " interpreted as " base "\n")
-			(if base
-			    (begin
-			      (if (&gt; (- dur base) (- (* 2 base) dur))
-				  (set! base (* base 2)))
-			      (begin 
-				;(format #t "Create note ~a ~a\n"  (d-GetNoteForMidiKey name)   (duration::ticks-&gt;denemo base))
-				(eval-string (string-append  (get-durationInsert dur)"\n"))
-				(d-PutNoteName (d-GetNoteForMidiKey name)))))))
+
+(define (insert-note name dur)
+  (eval-string (string-append  (get-durationInsert dur)"\n"))
+  (d-PutNoteName (d-GetNoteForMidiKey name)))
 ;;;;;;;;;;;;;; end of defining procs
 		    
 ;;; notes has been set up by pre-pending so it is backwards...	    
@@ -195,19 +187,27 @@
 						  (loop (+ index 1)))))))
 
 ;;;;;;;;;;; suggest duration returns a number of ticks that should be used when dur ticks are found in a bass note of bass-dur
-				      (define (suggest-duration dur bass-dur)
-					(let ((fraction (/ dur bass-dur)))
-					  (disp "suggesting for fraction " fraction "from " dur " out of " bass-dur"\n")
-					  (cond 
-					   ( (&lt; (abs (- fraction 1)) 0.1) bass-dur)
-					   (  (&lt; (abs (- fraction 0.5)) 0.1) (/ bass-dur 2))
-					   (  (&lt; (abs (- fraction 0.25)) 0.05) (/ bass-dur 4))
-					   (  (&lt; (abs (- fraction 0.75)) 0.1) (/ bass-dur (/ 4 3)))
-					   (else bass-dur)
-					   )
-					))
+	  (define (suggest-duration dur bass-dur)
+					(let ((fraction (/ dur bass-dur)) (thelist #f))
+					  ;(disp "suggesting for fraction " fraction "\n")
+					  (set! thelist (list 
+							 (cons (abs (- fraction 1)) bass-dur)
+							 (cons (abs (- fraction 0.5))   (/ bass-dur 2))
+							 (cons(abs (- fraction (/ 1 3)))  (/ bass-dur 3))
+							 (cons (abs (- fraction 0.25))   (/ bass-dur 4))
+							 (cons (abs (- fraction 0.75))  (/ bass-dur (/ 4 3)))))
+					  (let loop ()
+					    (if (&gt; (length thelist) 1)
+						(let ((poss1 (list-ref thelist 0)) (poss2 (list-ref thelist 1)))
+;(disp "poss 1 " poss1 "and poss2 " poss2 "\n")
+						  (if (&lt; (car poss1) (car poss2))
+						      (set! thelist (delq poss2 thelist))
+						      (set! thelist (delq poss1 thelist)))
+						  (loop))
+						(cdr (list-ref thelist 0))))))
 				      
-                                       ;;;;;;; insert-chords takes a list of lists of note structs and the duration of the denemo bass note they have been assigned to. It inserts a chord for each of the lists assigning durations to fit the bass note.If enough of the last chord duration remains a the chord is returned with start and duration modified to suit		
+                                       ;;;;;;; insert-chords takes a list of lists of note structs and the duration of the denemo bass note they have been assigned to. It inserts a chord for each of the lists assigning durations to fit the bass note.If enough of the last chord duration remains a tie is issued on the chord and then the chord is pushed back onto the global Notes list with start and duration modified to suit, so that it will be suspended over the next bass note		
+
 				      (define (insert-chords notes bass-duration)
                                         ;(disp "insert-chords called with " notes "\n")	
 					
@@ -223,12 +223,11 @@
 						  (set! chord2 (list-ref chords (+ 1 index)));;move this into the init
 						  (set! duration (- (note.start (car chord2)) (note.start (car chord1))))
 						  (set! duration (suggest-duration duration bass-duration))
-						  (disp "suggested " duration "\n")
 						  (set! remaining (- remaining duration))
-						    (if (&lt; remaining 50)
-						      (begin
-							(set! duration (+ duration remaining))
-							(set! remaining 0)))
+						   ;;  (if (&lt; remaining 50)
+;; 						      (begin
+;; 							(set! duration (+ duration remaining))
+;; 							(set! remaining 0)))
 							      
 
 						  ;(disp "Insert chord " chord1 " With duration " duration "\n")
@@ -236,22 +235,25 @@
 						  (loop (+ index 1)))	     
 						(begin
 						  (if (= (length chords) (+ 1 index))
-						      (let ((chord (list-ref chords index)) (n2 #f))
+						      (let ((chord (list-ref chords index)) (duration #f))
 							
 							;(disp "the remaining duration is " remaining " for chord " chord" \n")
-							(if (&gt; remaining 0)
+							(if (positive? remaining)
 							    (begin 
-							(insert-chord chord remaining)
-							(set! n2 (car chord))
-							(if (&gt; (/ (- (note.duration n2) remaining)
-								  (note.duration n2)) 0.2)
-							    (begin
-							      (make-tied)
-							      (push-back chord (+ (note.start n2)  remaining) (- (note.duration n2) remaining)))))))
+							      (set! duration (suggest-duration remaining bass-duration))
+							      (set! remaining (- remaining duration))
+							      (insert-chord chord duration)
+							      (disp "if remaining is still too much push back " remaining "\n")
+							      (if (positive? remaining)
+								  (let ((n2 (car chord)))
+								    (if (&gt; (/ (- (note.duration n2) remaining)
+									      (note.duration n2)) 0.2)
+									(begin
+									  (make-tied)
+									  (push-back chord (+ (note.start n2)  remaining) (- (note.duration n2) remaining)))))))))
 						      
 						      (begin
 							(d-WarningDialog "We have no chord"))))))))
-				      
 				    
 				      ;;;;;  procedure "contains" decides if a note n2 belongs to a bass-note, at least in part
 				      ;;;;;  if n2 starts after the bass-note ends then #f
@@ -309,9 +311,10 @@
 					;(disp "insert-chords finished\n")
 					)
 				      
-					  (begin
-					    (eval-string (string-append  "(d-Insert"  (duration::ticks-&gt;denemo bass-duration)")(d-MoveCursorLeft)(d-StagedDelete)"))
-					    (disp "Bass note with no accompanying chord" bass-note "sent "  (string-append  "(d-Insert"  (duration::ticks-&gt;denemo bass-duration)")(d-StagedDelete)") "\n" )))
+					  (begin					   
+					    (eval-string (string-append  (get-durationInsert bass-duration) "(d-MoveCursorLeft)(d-StagedDelete)"))
+					    
+))
 				      (d-PopPosition)
 				      (if (d-NextObject)
 					  (loopforbasskey)
