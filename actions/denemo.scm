@@ -176,7 +176,7 @@
 
 (define (selection::MoveToStaffBeginning)
 	(define staffPosition (d-GetStaff))
-	(define rememberPosition (GetPosition))TogAAt
+	(define rememberPosition (GetPosition))
 	(if (d-GoToSelectionStart)
 		(begin 
 			(d-GoToPosition #f staffPosition #f 1)
