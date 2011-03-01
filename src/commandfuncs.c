@@ -2127,9 +2127,11 @@ toend (GtkAction *action, gpointer param)
  * @return none
 */
 void
-movetostart (GtkAction *action, gpointer param)
+movetostart (GtkAction *action, DenemoScriptParam* param)
 {
   gotohome(param, FALSE);
+  if(param)
+    param->status = TRUE;
 }
 
 /**
@@ -2139,9 +2141,11 @@ movetostart (GtkAction *action, gpointer param)
  * @return none
 */
 void
-movetoend (GtkAction *action, gpointer param)
+movetoend (GtkAction *action, DenemoScriptParam* param)
 {
   gotoend(param, FALSE);
+  if(param)
+    param->status = TRUE;
 }
 
 
