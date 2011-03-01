@@ -176,11 +176,11 @@
 
 (define (selection::MoveToStaffBeginning)
 	(define staffPosition (d-GetStaff))
-	(define rememberPosition (GetPosition))TogAAt
+	(define rememberPosition (GetPosition))
 	(if (d-GoToSelectionStart)
 		(begin 
 			(d-GoToPosition #f staffPosition #f 1)
-			(if (d-IsInSelection)At
+			(if (d-IsInSelection)
 				#t
 				(begin (apply d-GoToPosition rememberPosition) #f))) ; something went wrong. 
 		#f)) ; no selection at all. 
