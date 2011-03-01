@@ -321,7 +321,6 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
   g_spawn_close_pid (printpid);
   printpid = GPID_NONE;
   //normal_cursor();
-  printf("\nOpening filename = %s for %d\n",filename, status);
   process_lilypond_errors(filename); 
 
   if(status) {
@@ -359,6 +358,7 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
 
     arguments = pdf;  
   }
+  printf("\nOpening filename = %s for %d\n",printfile, status);
   if((!is_png && (Denemo.prefs.pdfviewer->len==0))||
      (is_png && (Denemo.prefs.imageviewer->len==0))) {
     gboolean ok =  run_file_association(printfile);
