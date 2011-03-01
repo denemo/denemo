@@ -881,6 +881,7 @@ typedef struct DenemoGUI
   GList *anchors;/**< anchors in the LilyPond text at points where that can be edited */
 
   GString *filename;/**< the filename to save to */
+  GString *tabname;/**< the name of windows tab */
   GString *autosavename;/**< the filename to autosave to, full path */
 
   gint undo_level;/**< level of script nesting 0 = staging point for undo to return to */

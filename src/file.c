@@ -162,14 +162,23 @@ openrecent (GtkWidget * widget, gchar *filename)
 }
 
 /**
+ * Decorate the window with the tile
+ */
+static void
+set_gui_tabname (DenemoGUI * gui, gchar * filename)
+{
+  g_string_assign (gui->tabname, filename);
+  set_title_bar (gui);
+}
+/**
  * Sets the filename for storing the passed in gui.
- * decorates the title bar with it and adds it to the history
+ * and adds it to the history
  */
 static void
 set_gui_filename (DenemoGUI * gui, gchar * filename)
 {
   g_string_assign (gui->filename, filename);
-  set_title_bar (gui);
+  set_gui_tabname (gui, filename);
   
   if (!g_queue_find_custom
       (Denemo.prefs.history, gui->filename->str, &history_compare))
@@ -189,7 +198,6 @@ set_gui_filename (DenemoGUI * gui, gchar * filename)
       g_queue_push_tail (Denemo.prefs.history, g_strdup(gui->filename->str));
     }
 }
-
 
 static void 
 update_file_selection_path (gchar *file) {
@@ -250,8 +258,13 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
     {
       if(!template) {// not a template
 	update_file_selection_path (filename);
-	if(type==REPLACE_SCORE)
-	  set_gui_filename (gui, filename);
+	if(type==REPLACE_SCORE){
+	  if (xml)
+	    set_gui_filename (gui, filename);
+	  else {
+            set_gui_tabname (gui, g_path_get_basename (filename));
+	  }
+	}
 	if(type==ADD_STAFFS || type==ADD_MOVEMENTS)
 	  score_status(gui, TRUE);
       } else
@@ -456,6 +469,7 @@ template_open (DenemoGUI * gui, TemplateType local, gchar *filename)
     ret = file_open (gui, TRUE, REPLACE_SCORE, filepath);
     g_free(filepath);
     gui->filename = g_string_new("");
+    gui->tabname = g_string_new("");
   }
   return ret;
 }

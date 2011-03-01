@@ -958,11 +958,11 @@ gchar * music_font(gchar *str) {
 
 void  set_title_bar(DenemoGUI *gui) {
   gchar *title;
-  if(gui->filename && gui->filename->len)
-    title = gui->filename->str;
+  if(gui->tabname && gui->tabname->len)
+    title = gui->tabname->str;
   else
     title = "(Untitled)";
-  title = g_strdup_printf("Denemo - %s%c", title, gui->notsaved?'*':' ');
+  title = g_strdup_printf("%s%c", title, gui->notsaved?'*':' ');
   gtk_window_set_title (GTK_WINDOW (Denemo.window), title); 
   gchar *base = g_path_get_basename (title);
   gint index = g_list_index(Denemo.guis, gui);

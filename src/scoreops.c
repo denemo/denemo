@@ -395,6 +395,8 @@ init_score (DenemoScore * si, DenemoGUI *gui)
     gui->autosavename = g_string_new (dir);
     gui->autosavename = g_string_append (gui->autosavename, "/autosave.denemo");
   }
+  if(gui->tabname==NULL)
+    gui->tabname = g_string_new ("");
   si->curlilynode = 0;	 /* the node of the lily parse tree on display in 
 			    textwindow */
   si->lily_file = 0;   /* root of lily file parse, see lilyparser.y etc  */
