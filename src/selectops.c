@@ -122,6 +122,9 @@ free_clipboard(GList *clipboard) {
   }
 }
 
+gint get_staffs_in_clipboard(void) {
+  return staffsinbuffer;
+}
 void
 insert_clipboard(GList *clipboard) {
   if(clipboard) {
