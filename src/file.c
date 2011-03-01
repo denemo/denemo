@@ -625,7 +625,7 @@ set_current_folder(GtkWidget *file_selection, DenemoGUI *gui, DenemoSaveType tem
   GtkFileFilter *filter;\
   gint i;\
   \
-  file_selection = gtk_file_chooser_dialog_new (_("message"),\
+  file_selection = gtk_file_chooser_dialog_new (_(message),\
 						GTK_WINDOW (Denemo.window),\
 						GTK_FILE_CHOOSER_ACTION_OPEN,\
 						GTK_STOCK_CANCEL,\
@@ -677,7 +677,7 @@ file_open (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *fil
 static gint
 file_import_lilypond (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *filename)
 {
-  FILE_DIALOG("Open", lilypond, MUDELA_FORMAT)  
+  FILE_DIALOG("Import Lilypond", lilypond, MUDELA_FORMAT)  
 }
 
 /**
@@ -688,7 +688,7 @@ file_import_lilypond (DenemoGUI * gui, DenemoSaveType template, ImportType type,
 static gint
 file_import_midi (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *filename)
 {
-  FILE_DIALOG("Open", midi, MIDI_FORMAT) 
+  FILE_DIALOG("Import Midi", midi, MIDI_FORMAT) 
 }
 
 /**
@@ -699,7 +699,7 @@ file_import_midi (DenemoGUI * gui, DenemoSaveType template, ImportType type, gch
 static gint
 file_import_musicxml (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *filename)
 {
-  FILE_DIALOG("Open", musicxml, MUSICXML_FORMAT)
+  FILE_DIALOG("Import MusicXML", musicxml, MUSICXML_FORMAT)
 }
 
 /**
