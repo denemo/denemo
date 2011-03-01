@@ -3,7 +3,15 @@
   <menubar name="MainMenu">
     <menu action="FileMenu">
       <menuitem action="New"/>
-      <menuitem action="Open"/>
+      <menu action="OpenSubdir">
+        <menuitem action="Open"/>
+        <menuitem action="OpenTemplate"/>
+        <menuitem action="OpenExample"/>
+        <menuitem action="OpenMyTemplate"/>
+        <menu action="OpenRecent">
+           <menuitem action="Stub"/>
+	</menu>
+      </menu>
         <menu action="Import">
 	  <menuitem action="ImportLilypond"/>
 	  <menuitem action="ImportMidi"/>
@@ -11,22 +19,17 @@
         </menu>
       <menuitem action="AddStaffs"/>
       <menuitem action="AddMovements"/>
-
-	<menu action="OpenRecent">
-           <menuitem action="Stub"/>
-	</menu>
-      <menuitem action="OpenTemplate"/>
-      <menuitem action="OpenExample"/>
-      <menuitem action="OpenMyTemplate"/>
       <menuitem action="NewWindow"/>
       <menuitem action="OpenNewWindow"/>
 		<separator/>
-      <menuitem action="Save"/>
-      <menuitem action="SaveAs"/>
-      <menuitem action="SaveCopy"/> 
-      <menuitem action="SaveParts"/>
-		<!-- <menuitem action="SaveSelection"/> -->
-      <menuitem action="SaveTemplate"/>
+      <menu action="SaveSubdir">
+        <menuitem action="Save"/>
+        <menuitem action="SaveAs"/>
+        <menuitem action="SaveCopy"/> 
+        <menuitem action="SaveParts"/>
+        <!-- <menuitem action="SaveSelection"/> -->
+        <menuitem action="SaveTemplate"/>
+      </menu>
       <menu action="Export"> 
 	<menuitem action="ExportMUDELA"/> 
       	<menuitem action="ExportPDF"/> 
@@ -37,11 +40,13 @@
       <separator/>
       <menuitem action="ConfigureScore"/> 
       <separator/> 
-      <menuitem action="Print"/>
-      <menuitem action="PrintPreview"/>
-      <menuitem action="PrintExcerptPreview"/>
-      <menuitem action="PrintPart"/>
-      <menuitem action="PrintSelection"/>
+      <menu action="PrintSubdir">
+        <menuitem action="Print"/>
+        <menuitem action="PrintPreview"/>
+        <menuitem action="PrintExcerptPreview"/>
+        <menuitem action="PrintPart"/>
+        <menuitem action="PrintSelection"/>
+      </menu>
       <separator/>
       <menuitem action="Close"/>
       <menuitem action="Quit"/>
