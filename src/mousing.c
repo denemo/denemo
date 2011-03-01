@@ -425,11 +425,14 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
   }
 
     if (lh_down || (selecting && gui->si->markstaffnum)){
-      struct placement_info pi; 
+      struct placement_info pi;
+      pi.the_staff=NULL; 
       if (event->y < 0)
 	get_placement_from_coordinates (&pi, event->x, 0, gui->lefts[line_num],gui->rights[line_num],gui->scales[line_num]);
       else
 	get_placement_from_coordinates (&pi, event->x, event->y, gui->lefts[line_num],gui->rights[line_num],gui->scales[line_num]);
+      if(pi.the_staff==NULL)
+	return TRUE;//could not place the cursor
       if (pi.the_measure != NULL){ /*don't place cursor in a place that is not there*/
 	change_staff(gui->si, pi.staff_number, pi.the_staff);
 	gui->si->currentmeasurenum = pi.measure_number;
@@ -482,7 +485,6 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   transform_coords(&event->x, &event->y);
   //g_print("after %f %f\n", event->x, event->y);
 
-  struct placement_info pi;
   gboolean left = (event->button != 3);
   gtk_widget_grab_focus(widget);
   gint key = gui->si->maxkeywidth;
@@ -496,11 +498,14 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   if(gui->lefts[line_num] == 0)
     return TRUE;//On an empty system at the bottom where there is not enough room to draw another staff.
 
-
+  struct placement_info pi;
+  pi.the_staff=NULL;
   if (event->y < 0)
     get_placement_from_coordinates (&pi, event->x, 0, gui->lefts[line_num],gui->rights[line_num],gui->scales[line_num]);
   else
     get_placement_from_coordinates (&pi, event->x, event->y, gui->lefts[line_num],gui->rights[line_num],gui->scales[line_num]);
+  if(pi.the_staff==NULL)
+    return TRUE;//could not place the cursor
   change_staff(gui->si, pi.staff_number, pi.the_staff);
 
 
