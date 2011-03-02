@@ -1123,7 +1123,7 @@
        (= 1 (MeasureFillStatus))))
 
 (define (OverfullMeasure?)
-  (= 2 (MeasureFillStatus)))
+  (eq 2 (MeasureFillStatus)))
   ;;(and (not (EmptyMeasure?)) 
  ;; (> (d-GetEndTick) (* 1536 (GetPrevailingTimeSig #t)))))
 
