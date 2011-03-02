@@ -182,7 +182,8 @@ goto_movement_staff_obj (DenemoGUI * possible_gui, gint movementnum, gint staffn
     }
   if(!moveto_currentmeasurenum(gui, measurenum))
   {
-    warningdialog(_("No such measure"));
+    if(possible_gui)
+      warningdialog(_("No such measure"));
     return FALSE;
   }
   //cursor_x is zero and we are on the first, if any, object
