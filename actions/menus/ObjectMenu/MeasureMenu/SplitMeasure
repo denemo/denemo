@@ -26,8 +26,7 @@
 		(d-MoveToMeasureRight)))
 	(d-UnsetMark)
 	(RepeatUntilFail (lambda () (set! count (1+ count)) (d-PutClipObj 0 count)))
-	(GoToMeasureBeginning)
-	(d-ClearClipboard)	
+	(GoToMeasureBeginning)	
 	(d-PopClipboard))</scheme>
         <label>Split Measure at Cursor</label>
         <tooltip>Split the current measure into two at the cursor.</tooltip>
