@@ -3,7 +3,7 @@
   <menubar name="MainMenu">
     <menu action="FileMenu">
       <menuitem action="New"/>
-      <menu action="OpenSubdir">
+      <menu action="OpenMenu">
         <menuitem action="Open"/>
         <menuitem action="OpenTemplate"/>
         <menuitem action="OpenExample"/>
@@ -22,7 +22,7 @@
       <menuitem action="NewWindow"/>
       <menuitem action="OpenNewWindow"/>
 		<separator/>
-      <menu action="SaveSubdir">
+      <menu action="SaveMenu">
         <menuitem action="Save"/>
         <menuitem action="SaveAs"/>
         <menuitem action="SaveCopy"/> 
@@ -40,7 +40,7 @@
       <separator/>
       <menuitem action="ConfigureScore"/> 
       <separator/> 
-      <menu action="PrintSubdir">
+      <menu action="PrintMenu">
         <menuitem action="Print"/>
         <menuitem action="PrintPreview"/>
         <menuitem action="PrintExcerptPreview"/>
