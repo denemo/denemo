@@ -7565,7 +7565,7 @@ addhistorymenuitem (gchar *filename)
     return;
   GtkWidget *item =
     gtk_ui_manager_get_widget (Denemo.ui_manager,
-			       "/MainMenu/FileMenu/OpenRecent/Stub");
+			       "/MainMenu/FileMenu/OpenMenu/OpenRecent/Stub");
   GtkWidget *menu = gtk_widget_get_parent (GTK_WIDGET (item));
   
   item = gtk_menu_item_new_with_label (filename);
