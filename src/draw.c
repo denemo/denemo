@@ -247,8 +247,8 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
   DenemoObject *mudelaitem = (DenemoObject *) curobj->data;
 
 
-  //this is the selection being given a blue background I guess
-  //FIXME too much save and restore for trifling reasons...
+  //this is the selection being given a blue background
+  //FIXME NO! save and restore are *fast*. too much save and restore for trifling reasons...
   if(cr) if(/* Denemo.gui->si->playingnow==NULL && show selection during playback*/ itp->mark) {
     cairo_save(cr);
     cairo_set_source_rgb( cr, 0.5, 0.5, 1.0 );
@@ -644,14 +644,15 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
   } // for each object
   if(cr) {
     cairo_save(cr);
+    //marking the barline if within selection
     if(si->markstaffnum && 
-       (curmeasure->data==NULL) &&
+/*        (curmeasure->data==NULL) && */
        (si->firststaffmarked <= itp->staffnum) &&
        (si->laststaffmarked >= itp->staffnum) &&
        (si->firstmeasuremarked <= itp->measurenum) &&
-       (si->lastmeasuremarked >= itp->measurenum))
+       (si->lastmeasuremarked > itp->measurenum))
       {
-	cairo_set_source_rgb( cr, 0, 0, 1 );
+	cairo_set_source_rgb( cr, 0.5, 0.5, 1.0 );
 	cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y, 20, STAFF_HEIGHT+1); 
 	cairo_fill(cr);
       }
