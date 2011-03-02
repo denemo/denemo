@@ -5213,7 +5213,7 @@ void set_midi_in_status() {
        (Denemo.gui->midi_destination & MIDIPLAYALONG))
       text = _("<span foreground=\"blue\">""Recording + Play Along""</span>");
     else if(Denemo.gui->midi_destination & MIDIRECORD)
-      text = _("<span foreground=\"yellow\">""Recording""</span>");
+      text = _("<span foreground=\"red\">""Recording""</span>");
     else if(Denemo.gui->midi_destination & MIDIPLAYALONG)
       text = _("<span foreground=\"red\">""Play Along""</span>");
     else if((Denemo.keyboard_state&~GDK_LOCK_MASK)==(GDK_CONTROL_MASK))
