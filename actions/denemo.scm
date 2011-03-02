@@ -1155,9 +1155,11 @@
     (set! Playback::Loop #f)
     (d-Stop)))
 
+(define (DefaultDenemoPlay)
+   (d-Play "(display \"Here endeth a scripted playback\")"))
+
 (define (DenemoPlay)
-  (begin
-    (d-Play "(display \"Here endeth a scripted playback\")")))
+  (DefaultDenemoPlay))
 
 (define (DenemoPause)
   (begin
