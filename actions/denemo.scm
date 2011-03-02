@@ -1362,147 +1362,100 @@
 	(RepeatUntilFail d-MoveToStaffUp)
 	(d-GoToPosition #f #f measure #f))
 
-;;;;;;;;;;;;;;;;;;;; Paste by Nils Gey // 2010
-; Multistaff-Pasting always adds the complete part AFTER the current measure. It will never paste into an existing measure, not even in empty ones. 
-; Singlestaff-Pasting happens at the cursor position. If there are still notes in the current measure, after the cursor position, those will be shoved to the right and placed after the pasted section, no matter if the result produce underful or overful measures. No other measure gets modified other than the current one. Singlestaff-Pasting will fill any empty measure on its way, until a non-empty one is encountered. For snippet pasting (< one full measure) it will automatically create new measures if needed. 
-(define (Paste::MeasureBreakInClipboard?)
-(let searchformeasurebreak ((counter 1))  ;start at the second position to avoid leading measurebreaks, which do not count. 
-		(case (d-GetClipObjType 0 counter) 
-		  ((#f) #f ) ; No object left
-		  ((8) #t) ; Measurebreak found
-		  (else (searchformeasurebreak (+ 1 counter))))))
-
+; Paste by Nils Gey, 2011
+;; Multistaff-Pasting always adds the complete part AFTER the current measure or fills any complete set of empty measures
+;; Singlestaff-Pasting happens at the cursor position and will just paste whats in the clipboard
 (define (DenemoPaste)
-	(let pasteblock ((paste::break? (Paste::MeasureBreakInClipboard?)))
-
+  (define (Paste)
+	(define paste:multistaff? (d-GetClipObjType 1 0))
+	(define paste:howmanystaffs
+		(let loop ((n 0))
+		(if (d-GetClipObjType (1+ n) 0)
+		(loop (1+ n))
+		(1+ n))))
+	(define position:startmeasure (d-GetMeasure))
+	(define position:startstaff (d-GetStaff))
+	(define staff 0)
+	(define count -1)		
+	(define staffcountlist (list 0)) ; used for multistaff			
+	(define (1+count!)
+		(set! count (1+ count)))
+	(define (1+staff!)
+		(set! staff (1+ staff)))
+	(define (MeasuresToPasteToEmpty?)
+		(define position:measure (d-GetMeasure))	
+		(not (any not (map (lambda (x) (ProbePosition None? #f (+ position:startstaff x) (1+ position:measure) 1)) staffcountlist))))
+	(define (SplitMeasure!)
+		(if paste:multistaff?
+			(let ()
+				(define position:measure (d-GetMeasure))			
+				(define position:current (GetPosition))
+				(for-each (lambda (x) 
+					(if (d-GoToPosition #f (+ position:startstaff x) (1+ position:measure) 1)
+						(d-SplitMeasure) 
+						(begin 
+							(d-GoToPosition #f (+ position:startstaff x) 1 1) 
+							(d-MoveToEnd) (d-SplitMeasure)))) ; for staff ends
+					 staffcountlist)
+				(disp "Return to: " position:current) (apply d-GoToPosition position:current)
+				(d-MoveToMeasureRight)) ; all needed empty measures got created			
+			(d-SplitMeasure))) ; singlestaff is simple split.
+	(define (MeasureBreak!)
+		(disp "Measurebreak! Staff: " staff)
+		(if  (or (> staff 0) (MeasuresToPasteToEmpty?)) ; only the first staff needs to check if the next measure is empty or not. In Multistaff the first paste-round created all necessary empty measures for all other staffs so its just straight-forward pasting of objects.
+			(d-MoveToMeasureRight)
+			(SplitMeasure!)))
+	(define (paste! staff count)
+		(disp "Pasting object " staff ":" count)	 	
+		(case (d-GetClipObjType staff count)
+			;In order of occurence, to boost performance.
+			((0) (d-PutClipObj staff count))	;note, rest, gracenote, chord
+			((8) (MeasureBreak!) ) ; Measurebreak
+			((15) (d-PutClipObj staff count))	;lilypond-directive
+			((1) (d-PutClipObj staff count))	;tuplet open
+			((2) (d-PutClipObj staff count))	;tuplet close
+			((5) (d-PutClipObj staff count))	;keysignature
+			((4) (d-PutClipObj staff count))	;timesignature
+			((3) (d-PutClipObj staff count))	;clef						
+			((7) (d-PutClipObj staff count))	;stem-directive
+			((9) #f) ; staffbreak 			
+			((#f) #f) ; No object left. Means "no clipboard", too.
+			(else (begin (display "Error! Object to paste unknown or unsupported\n") #f))))
+			
+	;body
 	(d-UnsetMark)
-	(d-PushPosition) 
-
-	;Multi staff selection is only possible for complete measures, not for parts. But In this case the first thing that needs to happen before beginning pasting to a new staff (including the first one) is to create an empty measure.
-
-	(if (d-GetClipObjType 1 0)
-		(d-InsertMeasureAfter) ; Multistaff
-	)
-
-	 ; Add an initial empty measure if pasting single-staff multi-measure and the current measure is already full
-
-	(if (and paste::break? (Appending?)  (d-GetClipObjType 0 0) (not (d-GetClipObjType 1 0)) (MeasureFillStatus)   )
-			(if (d-MoveToMeasureRight) ; End of Staff?
-				(if (MeasureEmpty?) 
-					#t
-					(d-InsertMeasureBefore) ) 
-				(d-InsertMeasureAfter)))
-
-
-	; If a user wants to paste a multi-measure section between two objects the remaining objects (after the cursor -> until the next barline) need to put in an extra measure. d-SplitMeasure takes care of that.
-	; The conditions that need to met are quite a few:
-		(if (and 
-		(d-GetClipObjType 0 0) ; Check if there is a clipboard at all. 
-		(not (d-GetClipObjType 1 0)) ; Only for single-staff
-		(not (or (None?) (Appending?))) ; Check if its the right position to split. There must be notes left in the measure. GetType returns "none" if its an empty measure  or "Appending" if there are no objects left until the next measure.
-		   paste::break?  ; If there is no measurebreak there is no need to split
-		) 
-			(d-SplitMeasure)
-			#f)
-
-
-	;;;;;;;;;;;;;;;;;;;;;;;
-	;;;;;; Main Loop ;;;;;; 
-	;;;;;;;;;;;;;;;;;;;;;;;
-
-	 (let loopy ((staff 0) (count 0))
-	  ;Pasty is the default command which just inserts the clipboard-object and increases the object-counter, but does not touch the staff-counter
-	  (define (pasty)
-		(d-PutClipObj staff count)
-		(set! count (+ 1 count))
-		(loopy staff count))
-
-	 ; Nextplease increases the object-counter without pasting anything.
-	  (define (nextplease)
-		(set! count (+ 1 count))
-		(loopy staff count))
-	 
-	 ;Nextstaff inserts a new measure only in this new staff! It is not possible to add a measure in all staffs because its possible to copy&paste only 2 out of n staffs. In such cases it would lead to empty measure in other staffs. Afterwards reset the object-counter to zero and increase the staff-counter to start a new pasting round.
-	;First go to the initial cursor position, then move staff down.
-	 (define (nextstaff)
-	   (if (= staff 0)  
-			  (d-PopPushPosition) ; remember the  end-position of the cursor only for the first staff to return there after paste
-		  (d-PopPosition))
-
-	   (if (d-MoveToStaffDown) 
-		(begin	(d-InsertMeasureAfter)
-				(d-PushPosition) 
-				(set! count 0)
-				(set! staff (+ 1 staff))
-				(loopy staff count))
-		(begin  (d-PopPosition) (d-MoveCursorRight) (display "Paste: Not possible to go a staff down, pasting what's possible.\n") #f))) ; Warn about not enough staffs to paste in and place the cursor after the pasted section (duplicate of case -1)
-		
-	  
-	 (define (measurebreak)
-		(if (d-GetClipObjType 1 0) ;Multistaff?
-		(begin (d-InsertMeasureAfter) (nextplease))  ;Yes it is, just go on and paste
-		  
-			(if  (and (not (d-GetClipObjType 1 0)) (= 8 (d-GetClipObjType 0 0)) (= 0 count)) ; User might have copied a leading measurebreak by accident. Ignore this. Else go on and try to detect empty measures or add measures.
-			(nextplease)
-			(if (d-MoveToMeasureRight) ; End of Staff?
-				(if (MeasureEmpty?) (nextplease) (begin (d-InsertMeasureBefore) (nextplease))) ;
-				(begin (d-InsertMeasureAfter) (nextplease)))))) 
-
-	; In the end move cusor to the initial staff, after the pasted part to allow direct pasting and editing again.
-	 (define (endthis)
-		(if (> staff 0) 
-			(begin (d-PopPosition) (d-PopPosition) ))
-		
-		;This was needed at some time, after an (unrelated?) upgrade of the script it was not needed anymore.  Better keep it in...
-		;(if (d-GetClipObjType 0 0) (d-MoveCursorRight)) ; Only move cursor right if there was a clipboard to paste.
-		(d-RefreshDisplay)
-		#t)
-	  
-	  
-	; For clipboards smaller than one full measure Denemo will automatically add a barline before an object if needed 
-	;;; The inline (or ...) is for the case that a non-note is at the start or end of clipboard. If its at the start the measure is allowed to break if pasting to a full measure. If its not the first item (e.g. the last) the measure is not allowed to break before. But not if the first one is the only one!
-	 
-	 (if (and  
-		(d-GetClipObjType staff count) ; valid paste?
-		(not (and ; Only breaks for more than one object in the clipboard
-			  (not (d-GetClipObjType staff 1))
-			  (= count 0)))    
-		(or (= 0 (d-GetClipObjType staff count))   ; Only break before notes except its the first item in list
-			  (= count 0)) 	 		       
-		(Appending?)
-		(not paste::break?) 
-		(MeasureFillStatus)) ; if and conditions end
-		
-				(if (d-MoveToMeasureRight) ; End of Staff?
-				(if (MeasureEmpty?) 
-					#t
-					(d-InsertMeasureBefore) ) 
-				(d-InsertMeasureAfter)))
-	  
-	; The real action: Get the type of clipboard-object and decide what to do. In most cases it will be just pasting but someties special behaviour is needed. Because pasting a staffbreak does not actually moves the cursor to the new staff so this has to be done manually.
-	(case (d-GetClipObjType staff count) 
-		((#f) (endthis) ) ; No object left. Means "no clipboard", too.
-		((-1) (display "No object")); should not happen anymore
-		((0) (pasty)) ; note, rest, gracenote, chord
-		((1) (pasty)) ;tuplet open
-		((2) (pasty)) ;tuplet close
-		((3) (pasty)) ; Clef
-		((4) (pasty)) ;Timesignature
-		((5) (pasty)) ;Keysignature
-		((6) (display "barline"))
-		((7) (pasty))	;stem directive
-		((8) (measurebreak) ) ; Measurebreak
-		((9) (nextstaff) ) ; staffbreak 
-		((10) (display "dynamic"))	
-		((11) (display "grace start")) ;deprecated
-		((12) (display "grace end")) ;deprecated
-		((13) (display "lyric")) ;deprecated
-		((14) (display "figure")) 
-		((15) (pasty)) ; Lilypond-Directive
-		((16) (display "fakechord"))				
-		((17) (display "partial"))
-		(else (begin (display "Error! Object to paste unknown\n") #f)))	   
-	 ))) ;;; Paste End
+	(set! staffcountlist (iota paste:howmanystaffs))	
+	(if paste:multistaff? ; check if the staff-length of all participating staffs is equal. If not append measures.
+		(let ()
+		(define position:current (1+ position:startmeasure))
+		(d-PushPosition)
+		(for-each (lambda (x) 
+		 	(if (d-GoToPosition #f (+ position:startstaff x) position:current 1)
+		 		#t
+		 		(begin ; fill in measures up to nr. position:startmeasure
+		 			(d-GoToPosition #f (+ position:startstaff x) 1 1)
+		 			(d-MoveToEnd)
+		 			(Repeat d-AppendMeasure (- position:current (d-GetMeasure)))))) staffcountlist) 
+		(d-PopPosition)))	
+	(if paste:multistaff?  ; check if the current measure in all needed staffs is empty. If not create an empty measure to start.
+		(if (any not (map (lambda (x) (ProbePosition None? #f (+ position:startstaff x) position:startmeasure 1)) staffcountlist))
+			(MeasureBreak!)
+			(set! position:startmeasure (1- position:startmeasure)))) 
+	;Do the first staff. It will stop on staffbreak or end of the clipboard.	
+	(RepeatUntilFail (lambda () (1+count!) (paste! staff count)))
+	(if paste:multistaff? 
+		(let ()
+			(define position:return (GetPosition))			
+			(Repeat  ; repeat single-staff pasting for each staff > 0.	
+				(lambda ()					
+					(1+staff!)
+					(set! count -1)
+					(if (d-GoToPosition #f (+ staff position:startstaff) (1+ position:startmeasure) 1) ; if a staff down, go there. else abort.
+						(RepeatUntilFail (lambda () (1+count!) (paste! staff count)))							
+						"No staff left to paste to. But the beginning of the clipboard was pasted, which is probably what you wanted."))
+				paste:howmanystaffs)
+			(apply d-GoToPosition position:return))))	
+  (if (d-GetClipObjType 0 0) (Paste)))
  
 ;;;; Shuffling Sequences
 ;;; http://mumble.net/~campbell/scheme/shuffle.scm
