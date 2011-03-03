@@ -49,6 +49,7 @@ static GtkWidget *playbutton;
 static GtkWidget *recordbutton;
 static GtkWidget *midi_in_status;
 static GtkWidget *midiplayalongbutton;
+static GtkWidget *midiconductbutton;
 static GtkWidget *deletebutton;
 static GtkWidget *convertbutton;
 
@@ -56,6 +57,8 @@ static GtkAdjustment *master_vol_adj;
 static GtkAdjustment *master_tempo_adj;
 static 
 void pb_playalong (GtkWidget *button);
+static 
+void pb_conduct (GtkWidget *button);
 static void 
 pb_record (GtkWidget *button);
 static
@@ -2780,12 +2783,16 @@ static SCM scheme_play_midikey(SCM scm) {
  return SCM_BOOL(TRUE);
 }
 
-static scheme_toggle_playalong(void) {
+static SCM scheme_toggle_playalong(void) {
   pb_playalong (midiplayalongbutton);
   return SCM_BOOL_T;
 }
+static  SCM scheme_toggle_conduct(void) {
+  pb_conduct (midiconductbutton);
+  return SCM_BOOL_T;
+}
 
-static scheme_midi_record(void) {
+static  SCM scheme_midi_record(void) {
   pb_record (recordbutton);
   return SCM_BOOL_T;
 }
@@ -5248,6 +5255,13 @@ void finish_recording(void) {
     gtk_widget_show(convertbutton);
     set_midi_in_status();
   }
+}
+static void pb_conduct (GtkWidget *button) {
+ Denemo.gui->midi_destination ^= MIDICONDUCT;
+ if(Denemo.gui->midi_destination & MIDICONDUCT)
+   gtk_button_set_label (GTK_BUTTON(button), _("Mouse Conductor ON"));
+ else
+   gtk_button_set_label (GTK_BUTTON(button), _("Mouse Conductor OFF")); 
 }
 
 
@@ -8021,6 +8035,7 @@ get_data_dir (),
  
     create_playbutton(inner,"Loop", pb_loop, NULL);
     
+    midiconductbutton = create_playbutton(inner,"Conductor", pb_conduct, NULL);
    
     create_playbutton(inner,
 #ifdef _HAVE_JACK_

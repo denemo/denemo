@@ -459,8 +459,8 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
       }
     }
 
-  if(Denemo.gui->midi_destination & MIDIPLAYALONG) {
-    advance_time();
+  if(Denemo.gui->midi_destination & MIDICONDUCT) {
+    advance_time(0.01);
     return TRUE;
   }
   return TRUE;

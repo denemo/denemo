@@ -567,6 +567,7 @@ typedef enum MidiDestination {
   MIDITHRU = (1<<1),
   MIDIRECORD = (1<<2),
   MIDIPLAYALONG = (1<<5),
+  MIDICONDUCT = (1<<6),
 
 } MidiDestination;
 
