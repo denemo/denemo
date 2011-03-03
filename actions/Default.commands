@@ -4471,6 +4471,14 @@ for second and subsequent systems</tooltip>
         <label>Record and Convert</label>
         <tooltip>Starts playing the score and recording from MIDI in, When finished it converts the recording to notation.</tooltip>
       </row>
+      <row>
+        <action>CreateIntro</action>
+        <after>MovementPageBreak</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <label>Create Intro</label>
+        <tooltip>Creates a new staff with a bar for nothing (an intro of the right number of beats)</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

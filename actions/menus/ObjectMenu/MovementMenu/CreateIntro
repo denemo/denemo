@@ -9,18 +9,31 @@
         <action>CreateIntro</action>
         <scheme>;;;;;;;;;;CreateIntro
 (let ( (position (GetPosition)) (timesig (d-InitialTimeSig "query=timesigname")) (numerator #f)(denominator #f))
+(define firstmeasure #t)
+(if (d-MoveToStaffUp)
+    (begin
+      (if (equal? "Intro" (d-StaffProperties "query=denemo_name"))
+	  (begin
+	    (set! firstmeasure #f)
+	    (if  (equal? "y" (d-GetUserInput"Old Intro Staff Exists" "Remove the old staff?" "y"))	   
+		 (d-DeleteStaff)		 
+		 (d-MoveToStaffDown)))
+	  (d-MoveToStaffDown))))
+
 (d-AddBefore)
+(d-StaffProperties "denemo_name=Intro")
 (d-GoToBeginning)
-(d-InsertMeasure)
+(if firstmeasure
+    (d-InsertMeasure))
 (set! numerator (car (string-split   timesig #\/)))
 (set! denominator (cadr (string-split  timesig #\/)))
 (let loop ((count (string-&gt;number numerator)))
       (if (positive? count)
 	  (begin
-	    (eval-string (string-append "(d-Insert" (number-&gt;string (duration::lilypond-&gt;denemo (string-&gt;number denominator))) ")"))
+	    (eval-string (string-append "(d-" (number-&gt;string (duration::lilypond-&gt;denemo (string-&gt;number denominator))) ")"))
 	    (loop (- count 1)))))
 (d-MoveToStaffDown)
-(d-GoToPosition #f #f (list-ref position 3) (list-ref position 4))))</scheme>
+(d-GoToPosition #f #f (+ 1 (list-ref position 2)) (list-ref position 3)))</scheme>
         <label>Create Intro</label>
         <tooltip>Creates a new staff with a bar for nothing (an intro of the right number of beats)</tooltip>
       </row>
