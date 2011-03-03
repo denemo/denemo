@@ -2235,7 +2235,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>Preview4Bars</action>
         <scheme></scheme>
-        <menupath>/MainMenu/FileMenu</menupath>
+        <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
         <label>Preview Four Measures</label>
         <tooltip>Print preview of current bar and the next three.</tooltip>
       </row>
@@ -3635,7 +3635,7 @@ for second and subsequent systems</tooltip>
         <action>OpenMyDefaultTemplate</action>
         <after>OpenMyTemplate</after>
         <scheme></scheme>
-        <menupath>/MainMenu/FileMenu</menupath>
+        <menupath>/MainMenu/FileMenu/OpenMenu</menupath>
         <label>Open Default Template</label>
         <tooltip>Opens the template Default.denemo in the user's custom template folder.</tooltip>
       </row>
@@ -4308,7 +4308,7 @@ for second and subsequent systems</tooltip>
         <action>PrintAccompanistsScore</action>
         <after>PrintSelection</after>
         <scheme></scheme>
-        <menupath>/MainMenu/FileMenu</menupath>
+        <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
         <label>Print Accompanist's Score</label>
         <tooltip>Prints out the score with the topmost staff in tiny size and puts page breaks before each movement.</tooltip>
       </row>

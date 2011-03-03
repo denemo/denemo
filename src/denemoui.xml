@@ -3,25 +3,25 @@
   <menubar name="MainMenu">
     <menu action="FileMenu">
       <menuitem action="New"/>
-      <menu action="OpenMenu">
+      <menuitem action="NewWindow"/>
+    <menu action="OpenMenu">
         <menuitem action="Open"/>
         <menuitem action="OpenTemplate"/>
         <menuitem action="OpenExample"/>
         <menuitem action="OpenMyTemplate"/>
-        <menu action="OpenRecent">
-           <menuitem action="Stub"/>
-	</menu>
+        <menuitem action="AddStaffs"/>
+        <menuitem action="AddMovements"/>
+        <menuitem action="OpenNewWindow"/>
+      <menu action="OpenRecent">
+        <menuitem action="Stub"/>
       </menu>
-        <menu action="Import">
-	  <menuitem action="ImportLilypond"/>
-	  <menuitem action="ImportMidi"/>
-          <menuitem action="ImportMusicXml"/>
-        </menu>
-      <menuitem action="AddStaffs"/>
-      <menuitem action="AddMovements"/>
-      <menuitem action="NewWindow"/>
-      <menuitem action="OpenNewWindow"/>
-		<separator/>
+    </menu>
+      <menu action="Import">
+	<menuitem action="ImportLilypond"/>
+	<menuitem action="ImportMidi"/>
+        <menuitem action="ImportMusicXml"/>
+      </menu>
+      <separator/>
       <menu action="SaveMenu">
         <menuitem action="Save"/>
         <menuitem action="SaveAs"/>
