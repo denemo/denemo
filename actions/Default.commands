@@ -3732,11 +3732,11 @@ for second and subsequent systems</tooltip>
         <tooltip>Does absolutely nothing. Use to "blank" a shortcut.</tooltip>
       </row>
       <row>
-        <action>DeleteBarline</action>
+        <action>MergeWithNextMeasure</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Directives/Barlines</menupath>
-        <label>Merge with Previous Measure</label>
-        <tooltip>Joins two measures together. Always start with cursor on barline to be deleted. Does not work in all cases!</tooltip>
+        <menupath>/ObjectMenu/MeasureMenu/MergeWithNextMeasure</menupath>
+        <label>Merge with Next Measure</label>
+        <tooltip>Joins two measures together.</tooltip>
       </row>
       <row>
         <action>ReBar</action>

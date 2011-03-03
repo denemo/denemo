@@ -1143,14 +1143,6 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>DeleteBarline</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>SplitMeasure</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
         <action>ForceBarline</action>
         <hidden>true</hidden>
       </row>
