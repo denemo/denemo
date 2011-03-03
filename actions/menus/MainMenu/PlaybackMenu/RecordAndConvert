@@ -8,6 +8,7 @@
         <after>MouseOrMidiDrivenPlayback</after>
         <action>RecordAndConvert</action>
         <scheme>;;;RecordAndConvert
+(d-CreateIntro)
 (define (DenemoPlay)
 
   (d-Play "

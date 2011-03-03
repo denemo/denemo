@@ -7,9 +7,11 @@
       <row>
         <after>MovementPageBreak</after>
         <action>CreateIntro</action>
-        <scheme>;;;;;;;;;;CreateIntro
+        <scheme>
+;;;;;;;;;;CreateIntro
 (let ( (position (GetPosition)) (timesig (d-InitialTimeSig "query=timesigname")) (numerator #f)(denominator #f))
 (define firstmeasure #t)
+(define measurenum (list-ref position 2))
 (if (d-MoveToStaffUp)
     (begin
       (if (equal? "Intro" (d-StaffProperties "query=denemo_name"))
@@ -21,10 +23,13 @@
 	  (d-MoveToStaffDown))))
 
 (d-AddBefore)
+ (d-InitialClef "Treble")
 (d-StaffProperties "denemo_name=Intro")
-(d-GoToBeginning)
+(d-GoToBeginning)	
 (if firstmeasure
-    (d-InsertMeasure))
+	(begin	
+		(set! firstmeasure (+ 1 firstmeasure))
+	    (d-InsertMeasure)))
 (set! numerator (car (string-split   timesig #\/)))
 (set! denominator (cadr (string-split  timesig #\/)))
 (let loop ((count (string-&gt;number numerator)))
@@ -33,7 +38,7 @@
 	    (eval-string (string-append "(d-" (number-&gt;string (duration::lilypond-&gt;denemo (string-&gt;number denominator))) ")"))
 	    (loop (- count 1)))))
 (d-MoveToStaffDown)
-(d-GoToPosition #f #f (+ 1 (list-ref position 2)) (list-ref position 3)))</scheme>
+(d-GoToPosition #f #f  measurenum (list-ref position 3)))</scheme>
         <label>Create Intro</label>
         <tooltip>Creates a new staff with a bar for nothing (an intro of the right number of beats)</tooltip>
       </row>
