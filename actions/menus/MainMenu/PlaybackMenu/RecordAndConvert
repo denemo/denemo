@@ -21,6 +21,7 @@
  	 (d-ConvertMidiForBass))
   (define (DenemoPlay) (DefaultDenemoPlay))
   )"))
+  (d-CreateIntro)
   (d-PushPosition)
   (d-MidiRecord)
 </scheme>

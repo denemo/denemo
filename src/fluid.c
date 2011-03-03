@@ -326,7 +326,7 @@ static  gdouble early_time = 0.0;
 static gdouble GET_TIME (void) {
   DenemoScore *si = Denemo.gui->si;
   gdouble thetime = get_time();
-  if((Denemo.gui->midi_destination & MIDIPLAYALONG) && (thetime > si->start_player + playalong_time))
+  if((Denemo.gui->midi_destination & (MIDIPLAYALONG|MIDICONDUCT)) && (thetime > si->start_player + playalong_time))
     return playalong_time;
   return thetime - si->start_player;
 }
@@ -378,8 +378,8 @@ static void advance_clock(gchar *buf) {
     g_warning("Not on an object");
 }
 
-void advance_time(void) {
-  playalong_time += 0.01;
+void advance_time(gdouble seconds) {
+  playalong_time += seconds;
 }
 static void initialize_clock(void) {
   if(Denemo.gui->si->currentobject ) {
@@ -553,7 +553,7 @@ void fluid_midi_play(gchar *callback)
 
   smf_rewind(Denemo.gui->si->smf);
   last_draw_time = 0.0;
-  if(Denemo.gui->midi_destination & MIDIPLAYALONG)
+  if(Denemo.gui->midi_destination & (MIDIPLAYALONG|MIDICONDUCT))
     initialize_clock();
   initialize_playhead();
   g_idle_add((GSourceFunc)fluidsynth_play_smf_event, callback_string->str);
@@ -608,10 +608,10 @@ static void handle_midi_event(gchar *buf) {
   //g_print("%x : %x %x %x %x\n", Denemo.keyboard_state, GDK_CONTROL_MASK, GDK_SHIFT_MASK, GDK_MOD1_MASK, GDK_LOCK_MASK);
 
   if( (Denemo.gui->midi_destination & MIDIRECORD) ||
-      (Denemo.gui->midi_destination & MIDIPLAYALONG)) {
+      (Denemo.gui->midi_destination & (MIDIPLAYALONG|MIDICONDUCT))) {
     if(Denemo.gui->midi_destination & MIDIRECORD)
       record_midi(buf,  get_time() - Denemo.gui->si->start_player);
-    if(Denemo.gui->midi_destination & MIDIPLAYALONG)
+    if(Denemo.gui->midi_destination & (MIDIPLAYALONG))
       advance_clock(buf);
     fluid_output_midi_event(buf);
   } else {

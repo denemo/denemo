@@ -3732,11 +3732,11 @@ for second and subsequent systems</tooltip>
         <tooltip>Does absolutely nothing. Use to "blank" a shortcut.</tooltip>
       </row>
       <row>
-        <action>DeleteBarline</action>
+        <action>MergeWithNextMeasure</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Directives/Barlines</menupath>
-        <label>Merge with Previous Measure</label>
-        <tooltip>Joins two measures together. Always start with cursor on barline to be deleted. Does not work in all cases!</tooltip>
+        <menupath>/ObjectMenu/MeasureMenu/</menupath>
+        <label>Merge with Next Measure</label>
+        <tooltip>Joins two measures together.</tooltip>
       </row>
       <row>
         <action>ReBar</action>
@@ -4470,6 +4470,14 @@ for second and subsequent systems</tooltip>
         <menupath>/MainMenu/PlaybackMenu</menupath>
         <label>Record and Convert</label>
         <tooltip>Starts playing the score and recording from MIDI in, When finished it converts the recording to notation.</tooltip>
+      </row>
+      <row>
+        <action>CreateIntro</action>
+        <after>MovementPageBreak</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <label>Create Intro</label>
+        <tooltip>Creates a new staff with a bar for nothing (an intro of the right number of beats)</tooltip>
       </row>
     </map>
   </merge>
