@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>MovementPageBreak</after>
+        <action>CreateIntro</action>
+        <scheme>;;;;;;;;;;CreateIntro
+(let ( (position (GetPosition)) (timesig (d-InitialTimeSig "query=timesigname")) (numerator #f)(denominator #f))
+(d-AddBefore)
+(d-GoToBeginning)
+(d-InsertMeasure)
+(set! numerator (car (string-split   timesig #\/)))
+(set! denominator (cadr (string-split  timesig #\/)))
+(let loop ((count (string-&gt;number numerator)))
+      (if (positive? count)
+	  (begin
+	    (eval-string (string-append "(d-Insert" (number-&gt;string (duration::lilypond-&gt;denemo (string-&gt;number denominator))) ")"))
+	    (loop (- count 1)))))
+(d-MoveToStaffDown)
+(d-GoToPosition #f #f (list-ref position 3) (list-ref position 4))))</scheme>
+        <label>Create Intro</label>
+        <tooltip>Creates a new staff with a bar for nothing (an intro of the right number of beats)</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
