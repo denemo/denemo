@@ -4455,6 +4455,22 @@ for second and subsequent systems</tooltip>
         <label>Convert MIDI chords over Bass</label>
         <tooltip>Takes a MIDI recording over a bass line and inserts the chords by matching the bass notes. Each chord must include the bass note.</tooltip>
       </row>
+      <row>
+        <action>MouseOrMidiDrivenPlayback</action>
+        <after>Stop</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/PlaybackMenu</menupath>
+        <label>Play Along Playback (Off/On)</label>
+        <tooltip>Turns off play along playback: when this is on the playback does not advance past the cursor unless you play along the correct note via Midi In, or move the mouse over the music to drive the score along.</tooltip>
+      </row>
+      <row>
+        <action>RecordAndConvert</action>
+        <after>MouseOrMidiDrivenPlayback</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/PlaybackMenu</menupath>
+        <label>Record and Convert</label>
+        <tooltip>Starts playing the score and recording from MIDI in, When finished it converts the recording to notation.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

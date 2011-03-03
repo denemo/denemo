@@ -58,7 +58,7 @@ return)
 	(d-MoveToMovementBeginning)
 	(let loop ()
 		(append! return (list (ListStaffTicksInMeasures->StaffOffsetTickList (CreateListStaffTicksInMeasures))))
-		(if (and (d-MoveToStaffDown) (not (d-MoveToBeginning))) ; TODO!!! MoveToBeginning is wrong and returns #f
+		(if (and (d-MoveToStaffDown) (d-MoveToBeginning))
 			(loop)))
 	(d-PopPosition)
 	return)

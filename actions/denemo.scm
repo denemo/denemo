@@ -1155,9 +1155,11 @@
     (set! Playback::Loop #f)
     (d-Stop)))
 
+(define (DefaultDenemoPlay)
+   (d-Play "(display \"Here endeth a scripted playback\")"))
+
 (define (DenemoPlay)
-  (begin
-    (d-Play "(display \"Here endeth a scripted playback\")")))
+  (DefaultDenemoPlay))
 
 (define (DenemoPause)
   (begin
@@ -1397,16 +1399,14 @@
 							(d-GoToPosition #f (+ position:startstaff x) 1 1) 
 							(d-MoveToEnd) (d-SplitMeasure)))) ; for staff ends
 					 staffcountlist)
-				(disp "Return to: " position:current) (apply d-GoToPosition position:current)
+				(apply d-GoToPosition position:current)
 				(d-MoveToMeasureRight)) ; all needed empty measures got created			
 			(d-SplitMeasure))) ; singlestaff is simple split.
 	(define (MeasureBreak!)
-		(disp "Measurebreak! Staff: " staff)
 		(if  (or (> staff 0) (MeasuresToPasteToEmpty?)) ; only the first staff needs to check if the next measure is empty or not. In Multistaff the first paste-round created all necessary empty measures for all other staffs so its just straight-forward pasting of objects.
 			(d-MoveToMeasureRight)
 			(SplitMeasure!)))
-	(define (paste! staff count)
-		(disp "Pasting object " staff ":" count)	 	
+	(define (paste! staff count)		
 		(case (d-GetClipObjType staff count)
 			;In order of occurence, to boost performance.
 			((0) (d-PutClipObj staff count))	;note, rest, gracenote, chord

@@ -12,4 +12,5 @@ void fluid_midi_stop(void);
 void fluid_midi_panic(void);
 gint fluid_kill_timer(void);
 void fluid_rhythm_feedback(gint duration, gboolean rest, gboolean dot);
+void advance_time();
 #endif // FLUID_H

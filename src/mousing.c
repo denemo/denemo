@@ -14,7 +14,7 @@
 #include "lyric.h"
 #include "moveviewport.h"
 #include "mousing.h"
-
+#include "fluid.h"
 
 static gboolean lh_down;
 
@@ -382,6 +382,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     return FALSE;
   if(Denemo.scorearea==NULL)
     return FALSE;
+
   gint line_height = Denemo.scorearea->allocation.height*gui->si->system_height;
   if (event->y < 0)
     event->y = 0.0;
@@ -457,6 +458,11 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 	gtk_widget_queue_draw (Denemo.scorearea);
       }
     }
+
+  if(Denemo.gui->midi_destination & MIDIPLAYALONG) {
+    advance_time();
+    return TRUE;
+  }
   return TRUE;
 }
 

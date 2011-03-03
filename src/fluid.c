@@ -378,6 +378,9 @@ static void advance_clock(gchar *buf) {
     g_warning("Not on an object");
 }
 
+void advance_time(void) {
+  playalong_time += 0.01;
+}
 static void initialize_clock(void) {
   if(Denemo.gui->si->currentobject ) {
     DenemoObject *obj = Denemo.gui->si->currentobject->data;
@@ -743,5 +746,6 @@ void fluid_midi_panic(void){}
 int fluid_kill_timer(void){}
 int fluid_stop_midi_in(void){}
 int fluid_start_midi_in(void){}
+void advance_time(void) {}
 #endif 
 

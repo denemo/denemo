@@ -54,7 +54,10 @@ static GtkWidget *convertbutton;
 
 static GtkAdjustment *master_vol_adj;
 static GtkAdjustment *master_tempo_adj;
-
+static 
+void pb_playalong (GtkWidget *button);
+static void 
+pb_record (GtkWidget *button);
 static
 void select_rhythm_pattern(RhythmPattern *r);
 static 
@@ -2777,7 +2780,15 @@ static SCM scheme_play_midikey(SCM scm) {
  return SCM_BOOL(TRUE);
 }
 
+static scheme_toggle_playalong(void) {
+  pb_playalong (midiplayalongbutton);
+  return SCM_BOOL_T;
+}
 
+static scheme_midi_record(void) {
+  pb_record (recordbutton);
+  return SCM_BOOL_T;
+}
 
 typedef struct cb_scheme_and_id { gchar *scheme_code; gint id;} cb_scheme_and_id;
 
@@ -4481,6 +4492,11 @@ INSTALL_EDIT(movementcontrol);
   INSTALL_SCM_FUNCTION ("Intercepts a MIDI event and returns it as a 4 byte number",DENEMO_SCHEME_PREFIX"GetMidi", scheme_get_midi);
 
   INSTALL_SCM_FUNCTION ("Takes one bool parameter - MIDI events will be captured/not captured depending on the value passed in, returns previous value.",DENEMO_SCHEME_PREFIX"SetMidiCapture", scheme_set_midi_capture);
+  
+
+INSTALL_SCM_FUNCTION ("Switches to playalong playback. When playing or recording playback will not advance beyond the cursor position unless then mouse is moved or the next note is played in via MIDI in.",DENEMO_SCHEME_PREFIX"TogglePlayAlong", scheme_toggle_playalong);
+
+INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. The recording will play back with future play until deleted. The recording is not saved with the score - convert to notation first,",DENEMO_SCHEME_PREFIX"MidiRecord", scheme_midi_record);
 
 
   install_scm_function1 (DENEMO_SCHEME_PREFIX"PutMidi", scheme_put_midi);
@@ -5213,7 +5229,7 @@ void set_midi_in_status() {
        (Denemo.gui->midi_destination & MIDIPLAYALONG))
       text = _("<span foreground=\"blue\">""Recording + Play Along""</span>");
     else if(Denemo.gui->midi_destination & MIDIRECORD)
-      text = _("<span foreground=\"yellow\">""Recording""</span>");
+      text = _("<span foreground=\"red\">""Recording""</span>");
     else if(Denemo.gui->midi_destination & MIDIPLAYALONG)
       text = _("<span foreground=\"red\">""Play Along""</span>");
     else if((Denemo.keyboard_state&~GDK_LOCK_MASK)==(GDK_CONTROL_MASK))
