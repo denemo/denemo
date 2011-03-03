@@ -1264,6 +1264,10 @@
         <action>VoicePreset4</action>
 		<hidden>true</hidden>
       </row>
+      <row>
+        <action>SaveAccels</action>
+		<hidden>true</hidden>
+      </row>
     </map>
   </merge>
 </Denemo>
