@@ -5,7 +5,7 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>JoinWithNextMeasure</action>
+        <action>MergeWithNextMeasure</action>
         <scheme>(let ()
 	(define position (d-GetHorizontalPosition))
 	(define measure (d-GetMeasure))
@@ -24,8 +24,8 @@
 		(RepeatUntilFail (lambda () (set! count (1+ count)) (d-PutClipObj 0 count))) ; paste
 		(d-GoToPosition #f #f measure position)
 		(d-PopClipboard))))</scheme>
-        <label>Merge with Previous Measure</label>
-        <tooltip>Joins two measures together. Always start with cursor on barline to be deleted. Does not work in all cases!</tooltip>
+        <label>Merge with Next Measure</label>
+        <tooltip>Joins two measures together.</tooltip>
       </row>
     </map>
   </merge>
