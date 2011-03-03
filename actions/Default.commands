@@ -2460,21 +2460,21 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>RepeatStart</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
         <label>Repeat Start Barline</label>
         <tooltip>Insert a barline indicating the start of a repeated section.</tooltip>
       </row>
       <row>
         <action>RepeatEnd</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
         <label>Repeat End Barline</label>
         <tooltip>Insert a barline indicating the end of a repeated section.</tooltip>
       </row>
       <row>
         <action>RepeatEndStart</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
         <label>Repeat End-Start</label>
         <tooltip>Inserts a barline ending one repeated section and starting another</tooltip>
       </row>
@@ -2509,7 +2509,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>DoubleBarline</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
         <label>Double Bar</label>
         <tooltip>Insert a double barline at cursor position.</tooltip>
       </row>
@@ -2691,7 +2691,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>ClosingBarline</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
         <label>Closing Barline</label>
         <tooltip>Inserts a closing barline (a double bar with last one thicker).</tooltip>
       </row>
@@ -2752,7 +2752,7 @@ for second and subsequent systems</tooltip>
         <action>LineBreak</action>
         <after>Anacrusis</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/Directives</menupath>
         <label>Line Break</label>
         <tooltip>(Print) Start a new line (i.e. system) at this measure.</tooltip>
       </row>
@@ -2760,7 +2760,7 @@ for second and subsequent systems</tooltip>
         <action>PageBreak</action>
         <after>LineBreak</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/Directives</menupath>
         <label>Page Break</label>
         <tooltip>(Print) Forces a new page at this barline.</tooltip>
       </row>
@@ -3658,7 +3658,7 @@ for second and subsequent systems</tooltip>
         <action>OpenFirstTimeBar</action>
         <after>ClosingBarline</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/Directives</menupath>
         <label>Start a First Time Bar</label>
         <tooltip>(Print) start a first time bar, must be followed by EndVolta.</tooltip>
       </row>
@@ -3666,7 +3666,7 @@ for second and subsequent systems</tooltip>
         <action>OpenSecondTimeBar</action>
         <after>OpenFirstTimeBar</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/Directives</menupath>
         <label>Start a Second Time Bar</label>
         <tooltip>(Print) start a second time bar, must be followed by EndVolta</tooltip>
       </row>
@@ -3674,7 +3674,7 @@ for second and subsequent systems</tooltip>
         <action>EndVolta</action>
         <after>OpenSecondTimeBar</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/Directives</menupath>
         <label>End 1st/2nd time bar</label>
         <tooltip>Ends a volta, that is a n'th time bar</tooltip>
       </row>
@@ -3734,14 +3734,14 @@ for second and subsequent systems</tooltip>
       <row>
         <action>DeleteBarline</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
         <label>Merge with Previous Measure</label>
         <tooltip>Joins two measures together. Always start with cursor on barline to be deleted. Does not work in all cases!</tooltip>
       </row>
       <row>
         <action>ReBar</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
         <label>Adjust the Measure Lengths</label>
         <tooltip>Removes gaps in duration of measures, redistributes the notes according to the time signature.</tooltip>
       </row>
@@ -3756,7 +3756,7 @@ for second and subsequent systems</tooltip>
         <action>ForceBarline</action>
         <after>Anacrusis</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
         <label>Insert Barline</label>
         <tooltip>Insert barline at cursor, Denemo's measure count is unaffected.</tooltip>
       </row>
@@ -3986,7 +3986,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>SetBarNumber</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/Directives</menupath>
         <label>(Print) Set bar number</label>
         <tooltip>Enter a number to change the lilypond bar number. The printout will continue to count up from there.</tooltip>
       </row>
@@ -4030,7 +4030,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>StopStaff</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <menupath>/ObjectMenu/Directives/Staff</menupath>
         <label>(Print) Stop drawing staff</label>
         <tooltip>Stop drawing the staff and barlines in Lilypond. Notes are still drawn.</tooltip>
       </row>
@@ -4038,14 +4038,14 @@ for second and subsequent systems</tooltip>
         <action>StartStaff</action>
         <after>StopStaff</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <menupath>/ObjectMenu/Directives/Staff</menupath>
         <label>(Print) Start drawing staff (again)</label>
         <tooltip>Reverts the "Stop Drawing Staff" command</tooltip>
       </row>
       <row>
         <action>HideNotes</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <menupath>/ObjectMenu/Directives/Staff</menupath>
         <label>(Print) Stop drawing notes</label>
         <tooltip>Stops the Lilypond engraving of notes</tooltip>
       </row>
@@ -4053,7 +4053,7 @@ for second and subsequent systems</tooltip>
         <action>UnHideNotes</action>
         <after>HideNotes</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <menupath>/ObjectMenu/Directives/Staff</menupath>
         <label>(Print) Start drawing notes (again)</label>
         <tooltip>Reverts the "Stop drawing notes" command</tooltip>
       </row>
@@ -4188,7 +4188,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>FreeFermata</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/Directives</menupath>
         <label>(Print) Standalone Fermata (for barlines)</label>
         <tooltip>Adds a standalone fermata which has no playback effect. Can be used to place a Fermata on a barline.</tooltip>
       </row>
@@ -4239,7 +4239,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>HalfBarline</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
         <label>Half Barline</label>
         <tooltip>Insert a barline with only half of its original size</tooltip>
       </row>
@@ -4429,7 +4429,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>ChooseBarline</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu/</menupath>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
         <label>Choose Barline</label>
         <tooltip>Choose a barline </tooltip>
       </row>
