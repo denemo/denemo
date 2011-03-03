@@ -293,7 +293,7 @@
       
     <!-- Measures -->
       <row>
-        <action>DeleteBarline</action>
+        <action>MergeWithNextMeasure</action>
         <bind>Shft+Tab</bind>
       </row>
       <row>
