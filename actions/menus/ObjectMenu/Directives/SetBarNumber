@@ -19,7 +19,7 @@
 	#f  ; cancel
 	)
 )</scheme>
-        <label>(Print) Set bar number</label>
+        <label>(Print) Set Bar Number</label>
         <tooltip>Enter a number to change the lilypond bar number. The printout will continue to count up from there.</tooltip>
       </row>
     </map>

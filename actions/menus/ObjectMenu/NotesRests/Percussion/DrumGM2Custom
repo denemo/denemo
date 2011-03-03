@@ -170,7 +170,7 @@
 (DrumGM2Custom)
 (d-NextNote)
 (d-RefreshDisplay)</scheme>
-        <label>Drum GM2 Custom </label>
+        <label>Drum GM2 Custom</label>
         <tooltip>Convert General Midi drum-staffs to user-notation drum-staffs. Please edit the script to enter your own values.</tooltip>
       </row>
     </map>

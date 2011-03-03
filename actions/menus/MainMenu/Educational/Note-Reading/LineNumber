@@ -98,7 +98,7 @@
 )
 
 (LineNumber::LineNumbers LineNumber::Scale) </scheme>
-        <label>Identify line number</label>
+        <label>Identify Line Number</label>
         <tooltip>Identify the line number in which the note is displayed</tooltip>
       </row>
     </map>

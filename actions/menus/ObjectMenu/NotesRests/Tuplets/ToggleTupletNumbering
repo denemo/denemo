@@ -31,7 +31,7 @@
 ;;  (d-MoveCursorRight)
   (d-RefreshDisplay))
 </scheme>
-        <label>Tuplet Numbering on/off</label>
+        <label>Tuplet Numbering On/Off</label>
         <tooltip>Control whether tuplet numbers will be printed over tuplets.</tooltip>
       </row>
     </map>

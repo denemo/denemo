@@ -29,7 +29,7 @@
 ))
 
 (d-Close)</scheme>
-        <label>Reload the "Drum GM to User" map</label>
+        <label>Reload the "Drum GM to User" Map</label>
         <tooltip>Reloads the drum map which is needed for DrumGm2User</tooltip>
       </row>
     </map>

@@ -12,7 +12,7 @@
 						 (NotationMagick::InsertMemberRandomlyLy return)
 						#f))
 		</scheme>
-        <label>Note from pool</label>
+        <label>Note from Pool</label>
         <tooltip>Inserts one note from a user-specified pool of notes in Lilypond syntax</tooltip>
       </row>
     </map>

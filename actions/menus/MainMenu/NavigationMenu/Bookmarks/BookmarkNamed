@@ -25,7 +25,7 @@
 	  ))
 	(d-RefreshDisplay))
 </scheme>
-        <label>Add named Bookmark</label>
+        <label>Add Named Bookmark</label>
         <tooltip>Adds a Denemo bookmark combined with a custom Lilypond Rehearsal Mark</tooltip>
       </row>
     </map>

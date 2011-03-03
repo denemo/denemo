@@ -54,7 +54,7 @@
 			#f))) ; no tagged item found, final end.
 ))
 (d-PopPosition)</scheme>
-        <label>Delete selected objects</label>
+        <label>Delete Selected Objects</label>
         <tooltip>Delete all selected objects and leave empty measures behind</tooltip>
       </row>
     </map>

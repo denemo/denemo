@@ -11,7 +11,7 @@
 	(if return
 		 (NotationMagick::PutBinaryStringList (reverse (NotationMagick::String-&gt;CharsAsBinary return)))
 		#f))</scheme>
-        <label>Insert reversed string as binary rhythm</label>
+        <label>Insert Reversed String as Binary Rhythm</label>
         <tooltip>Give a string to generate a rhythm out of its ascii chars in binary encoding. The string gets reversed before converting.</tooltip>
       </row>
     </map>

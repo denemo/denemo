@@ -9,7 +9,7 @@
         <scheme>  (d-DirectivePut-score-postfix "DeactivateTimeSigStencil"  "\\override Score.TimeSignature #'stencil = ##f
   ")
 </scheme>
-        <label>(Print) Don't engrave Time Signatures</label>
+        <label>(Print) Don't Engrave Time Signatures</label>
         <tooltip>Deactivates the stencil for Time Signatures for the whole score, which prevents them from getting drawn and taking space. But the logic is still active.</tooltip>
       </row>
     </map>

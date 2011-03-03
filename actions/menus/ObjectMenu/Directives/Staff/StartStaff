@@ -8,7 +8,7 @@
         <after>StopStaff</after>
         <action>StartStaff</action>
         <scheme>(StandAloneDirectiveProto (cons "StartStaff" "\\startStaff" ))</scheme>
-        <label>(Print) Start drawing staff (again)</label>
+        <label>(Print) Start Drawing Staff (Again)</label>
         <tooltip>Reverts the "Stop Drawing Staff" command</tooltip>
       </row>
     </map>

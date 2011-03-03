@@ -18,7 +18,7 @@
    	(set-cdr! wrap:Op8 (car wrap:Op8))
    	(set-cdr! wrap:Op9 (car wrap:Op9))
         </scheme>
-        <label>Load default composer number keys</label>
+        <label>Load Default Composer Number Keys</label>
         <tooltip>Loads the default composer numberkeys (Notes and Rests)</tooltip>
       </row>
     </map>

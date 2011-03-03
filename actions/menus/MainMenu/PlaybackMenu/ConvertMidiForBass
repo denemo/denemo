@@ -396,7 +396,7 @@
 	  (fixMeasures)))
 (fixMeasures)
 (d-PopPosition))</scheme>
-        <label>Convert MIDI chords over Bass</label>
+        <label>Convert MIDI Chords Over Bass</label>
         <tooltip>Takes a MIDI recording over a bass line and inserts the chords by matching the bass notes. Each chord must include the bass note.</tooltip>
       </row>
     </map>

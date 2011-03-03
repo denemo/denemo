@@ -175,7 +175,7 @@
 (d-SetDirectiveTagActionScript "LineOrSpace::SetInput" "(LineOrSpace::Input_Select)")
 
 </scheme>
-        <label>Line and space recognition</label>
+        <label>Line and Space Recognition</label>
         <tooltip>%tests your ability to recognize the difference between line and space</tooltip>
       </row>
     </map>

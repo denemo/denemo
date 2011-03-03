@@ -251,7 +251,7 @@
       </row>
       <row>
         <action>InsertBlankTwoHundredFiftySixthNote</action>
-        <label>Insert  Two Hundred and Fifty Sixth Note Skip</label>
+        <label>Insert Two Hundred and Fifty Sixth Note Skip</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
@@ -341,13 +341,13 @@
       </row>
       <row>
         <action>AddNoteToChord</action>
-        <label>Add note</label>
+        <label>Add Note</label>
         <tooltip>Add a note to the current chord
 The cursor position determines which note to add</tooltip>
       </row>
       <row>
         <action>RemoveNoteFromChord</action>
-        <label>Remove note</label>
+        <label>Remove Note</label>
         <tooltip>Remove a note from the current chord</tooltip>
       </row>
       <row>
@@ -382,7 +382,7 @@ The cursor position determines which note to add</tooltip>
       </row>
       <row>
         <action>InsertTiedNote</action>
-        <label>Tied note</label>
+        <label>Tied Note</label>
         <tooltip>Inserts a duplicate of the current note, tied</tooltip>
       </row>
       <row>
@@ -993,7 +993,7 @@ the end point of the selection is unaltered</tooltip>
       </row>
       <row>
         <action>ToggleTrill</action>
-        <label>Trill  (Off/On</label>
+        <label>Trill (Off/On</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
@@ -1008,7 +1008,7 @@ the end point of the selection is unaltered</tooltip>
       </row>
       <row>
         <action>ToggleStaccatissimo</action>
-        <label>Staccatissimo  (Off/On)</label>
+        <label>Staccatissimo (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
@@ -1018,7 +1018,7 @@ the end point of the selection is unaltered</tooltip>
       </row>
       <row>
         <action>ToggleFlageolet</action>
-        <label>Flageolet  (Off/On)</label>
+        <label>Flageolet (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
@@ -1033,7 +1033,7 @@ the end point of the selection is unaltered</tooltip>
       </row>
       <row>
         <action>TogglePrallPrall</action>
-        <label>Prall Prall  (Off/On)</label>
+        <label>Prall Prall (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
@@ -1043,27 +1043,27 @@ the end point of the selection is unaltered</tooltip>
       </row>
       <row>
         <action>ToggleReverseTurn</action>
-        <label>Reverse Turn  (Off/On)</label>
+        <label>Reverse Turn (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleSegno</action>
-        <label>Segno  (Off/On)</label>
+        <label>Segno (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleSforzato</action>
-        <label>Sforzato  (Off/On)</label>
+        <label>Sforzato (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleStopped</action>
-        <label>Stopped  (Off/On)</label>
+        <label>Stopped (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleThumb</action>
-        <label>Thumb  (Off/On)</label>
+        <label>Thumb (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
@@ -1083,7 +1083,7 @@ the end point of the selection is unaltered</tooltip>
       </row>
       <row>
         <action>ToggleGrace</action>
-        <label>Grace Note Off/On</label>
+        <label>Grace Note (Off/On)</label>
         <tooltip>Makes the note at the cursor a grace note, if it is one, makes it normal</tooltip>
       </row>
       <row>
@@ -2349,7 +2349,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <action>D.C.AlFine</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks</menupath>
-        <label>D. C. al fine</label>
+        <label>D.C. al fine</label>
         <tooltip>Puts a da capo in the score. Position is adjusted via the numbers in the script.</tooltip>
       </row>
       <row>
@@ -2664,7 +2664,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <action>ToggleTupletNumbering</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
-        <label>Tuplet Numbering on/off</label>
+        <label>Tuplet Numbering (On/Off)</label>
         <tooltip>Control whether tuplet numbers will be printed over tuplets.</tooltip>
       </row>
       <row>
@@ -2713,7 +2713,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <action>Ambitus</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/StaffMenu</menupath>
-        <label>(Print) Ambitus on/off</label>
+        <label>(Print) Ambitus (On/Off)</label>
         <tooltip>Toggle the ambitus engraver for this staff on or off</tooltip>
       </row>
       <row>
@@ -2837,7 +2837,7 @@ for second and subsequent systems</tooltip>
         <after>ToggleTupletNumbering</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
-        <label>Toggle Triplet Entry Off/On</label>
+        <label>Toggle Triplet Entry (Off/On)</label>
         <tooltip>Inserts a start triplet or end tuple alternately.</tooltip>
       </row>
       <row>
@@ -2867,7 +2867,7 @@ for second and subsequent systems</tooltip>
         <action>DrumGM2Custom</action>
         <scheme></scheme>
         <menupath>/MainMenu/EditMenu/MIDI</menupath>
-        <label>Drum GM2 Custom </label>
+        <label>Drum GM2 Custom</label>
         <tooltip>Convert General Midi drum-staffs to user-notation drum-staffs. Please edit the script to enter your own values.</tooltip>
       </row>
       <row>
@@ -2934,14 +2934,14 @@ for second and subsequent systems</tooltip>
         <action>BookmarkNamed</action>
         <scheme></scheme>
         <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
-        <label>Add named Bookmark</label>
+        <label>Add Named Bookmark</label>
         <tooltip>Adds a Denemo bookmark combined with a custom Lilypond Rehearsal Mark</tooltip>
       </row>
       <row>
         <action>BookmarkNonPrinting</action>
         <scheme></scheme>
         <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
-        <label>Add non-printing Bookmark</label>
+        <label>Add Non-Printing Bookmark</label>
         <tooltip>Adds a custom Denemo bookmark without Lilypond output.</tooltip>
       </row>
       <row>
@@ -3133,7 +3133,7 @@ for second and subsequent systems</tooltip>
         <action>BarNumbers</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/StaffMenu/Numbering</menupath>
-        <label>Bar Numbers On/Off</label>
+        <label>Bar Numbers (On/Off)</label>
         <tooltip>Turns bar numbering on/off in print out.</tooltip>
       </row>
       <row>
@@ -3161,14 +3161,14 @@ for second and subsequent systems</tooltip>
         <action>CursorToLowestNote</action>
         <scheme></scheme>
         <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
-        <label>Cursor to lowest note</label>
+        <label>Cursor to Lowest Note</label>
         <tooltip>Moves the cursor to the lowest note on current horizontal position (in a chord or on a single note)</tooltip>
       </row>
       <row>
         <action>CursorToHighestNote</action>
         <scheme></scheme>
         <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
-        <label>Cursor to highest note</label>
+        <label>Cursor to Highest Note</label>
         <tooltip>Moves the cursor to the highest note on current horizontal position (in a chord or on a single note)</tooltip>
       </row>
       <row>
@@ -3255,7 +3255,7 @@ for second and subsequent systems</tooltip>
         <after>ChangeHoldPedal</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/MIDI</menupath>
-        <label>65 Portamento On/Off</label>
+        <label>65 Portamento (On/Off)</label>
         <tooltip>Slides between 2 notes. Can be adjusted with 5 - Portamento Time</tooltip>
       </row>
       <row>
@@ -3263,7 +3263,7 @@ for second and subsequent systems</tooltip>
         <after>ChangePortamento</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/MIDI</menupath>
-        <label>66 Sustenuto Pedal On/Off (Middle Grand Piano Pedal)</label>
+        <label>66 Sustenuto Pedal (On/Off) (Middle Grand Piano Pedal)</label>
         <tooltip>Middle Grand Piano Pedal. All Notes currently active (without a note off) will not have a note-off until Sustenuto Off.</tooltip>
       </row>
       <row>
@@ -3271,7 +3271,7 @@ for second and subsequent systems</tooltip>
         <after>ChangeSustenutoPedal</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/MIDI</menupath>
-        <label>67 Soft Pedal On/Off (Left Piano Pedal)</label>
+        <label>67 Soft Pedal (On/Off) (Left Piano Pedal)</label>
         <tooltip>Left Piano Pedal. Lowers the volume of any notes played.</tooltip>
       </row>
       <row>
@@ -3279,7 +3279,7 @@ for second and subsequent systems</tooltip>
         <after>ChangeSoftPedal</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/MIDI</menupath>
-        <label>68 Legato Pedal On/Off</label>
+        <label>68 Legato Pedal (On/Off)</label>
         <tooltip>Skips the attack portion of the VCA's envelope. For phrasing like wind or brass or guitar hammer-on.</tooltip>
       </row>
       <row>
@@ -3287,7 +3287,7 @@ for second and subsequent systems</tooltip>
         <after>ChangeLegatoPedal</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/MIDI</menupath>
-        <label>69 Hold Pedal #2 On/Off</label>
+        <label>69 Hold Pedal #2 (On/Off)</label>
         <tooltip>Longer release time but notes will fade out eventually.</tooltip>
       </row>
       <row>
@@ -3365,7 +3365,7 @@ for second and subsequent systems</tooltip>
         <action>LineOrSpace</action>
         <scheme></scheme>
         <menupath>/MainMenu/Educational/Note-Reading</menupath>
-        <label>Line and space recognition</label>
+        <label>Line and Space Recognition</label>
         <tooltip>%tests your ability to recognize the difference between line and space</tooltip>
       </row>
       <row>
@@ -3539,7 +3539,7 @@ for second and subsequent systems</tooltip>
         <after>LineOrSpace</after>
         <scheme></scheme>
         <menupath>/MainMenu/Educational/Note-Reading</menupath>
-        <label>Identify line number</label>
+        <label>Identify Line Number</label>
         <tooltip>Identify the line number in which the note is displayed</tooltip>
       </row>
       <row>
@@ -3547,7 +3547,7 @@ for second and subsequent systems</tooltip>
         <after>LineNumber</after>
         <scheme></scheme>
         <menupath>/MainMenu/Educational/Note-Reading</menupath>
-        <label>Identify space number</label>
+        <label>Identify Space Number</label>
         <tooltip>Identify the space number in which the note is display on</tooltip>
       </row>
       <row>
@@ -3584,7 +3584,7 @@ for second and subsequent systems</tooltip>
         <action>ToggleCursorHighlight</action>
         <scheme></scheme>
         <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
-        <label>Cursor Highlighting Off/On</label>
+        <label>Cursor Highlighting (Off/On)</label>
         <tooltip>Shows up the position of the cursor more clearly (off/on)</tooltip>
       </row>
       <row>
@@ -3675,7 +3675,7 @@ for second and subsequent systems</tooltip>
         <after>OpenSecondTimeBar</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives</menupath>
-        <label>End 1st/2nd time bar</label>
+        <label>End 1st/2nd Time Bar</label>
         <tooltip>Ends a volta, that is a n'th time bar</tooltip>
       </row>
       <row>
@@ -3924,7 +3924,7 @@ for second and subsequent systems</tooltip>
         <action>SelectionToEmptyMeasure</action>
         <scheme></scheme>
         <menupath>/MainMenu/EditMenu/Select</menupath>
-        <label>Selection to next empty measure</label>
+        <label>Selection to Next Empty Measure</label>
         <tooltip>Creates a selection to the next empty measure in the current staff</tooltip>
       </row>
       <row>
@@ -3952,28 +3952,28 @@ for second and subsequent systems</tooltip>
         <action>NotationMagick-InsertNoteFromPool</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotationMagick/SingleRandomNote</menupath>
-        <label>Note from pool</label>
+        <label>Note from Pool</label>
         <tooltip>Inserts one note from a user-specified pool of notes in Lilypond syntax</tooltip>
       </row>
       <row>
         <action>NotationMagick-InsertPoolShuffled</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotationMagick</menupath>
-        <label>Insert shuffled pool</label>
+        <label>Insert Shuffled Pool</label>
         <tooltip>Inserts all notes, shuffled, from a user-specified pool of notes in Lilypond syntax</tooltip>
       </row>
       <row>
         <action>NotationMagick-RandomWithinClefRangeChromatic</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotationMagick/SingleRandomNote</menupath>
-        <label>Chromatic within clef range</label>
+        <label>Chromatic within Clef Range</label>
         <tooltip>Insert a random note within clef range. Full chromatic spectrum.</tooltip>
       </row>
       <row>
         <action>NotationMagick-RandomWithinClefRangeDiatonic</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotationMagick/SingleRandomNote</menupath>
-        <label>Diatonic within clef range</label>
+        <label>Diatonic within Clef Range</label>
         <tooltip>Insert a random note within clef range, only diatonic notes according to current keysignature.</tooltip>
       </row>
       <row>
@@ -3987,7 +3987,7 @@ for second and subsequent systems</tooltip>
         <action>SetBarNumber</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives</menupath>
-        <label>(Print) Set bar number</label>
+        <label>(Print) Set Bar Number</label>
         <tooltip>Enter a number to change the lilypond bar number. The printout will continue to count up from there.</tooltip>
       </row>
       <row>
@@ -4010,7 +4010,7 @@ for second and subsequent systems</tooltip>
         <action>Hide</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives</menupath>
-        <label>(Print) Hide object</label>
+        <label>(Print) Hide Object</label>
         <tooltip>Hides the object at cursor position with a lilypond directive. Currently only Notes and the three Signatures. No rests!</tooltip>
       </row>
       <row>
@@ -4024,14 +4024,14 @@ for second and subsequent systems</tooltip>
         <action>DeactivateTimeSignatureStencil</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Score</menupath>
-        <label>(Print) Don't engrave Time Signatures</label>
+        <label>(Print) Don't Engrave Time Signatures</label>
         <tooltip>Deactivates the stencil for Time Signatures for the whole score, which prevents them from getting drawn and taking space. But the logic is still active.</tooltip>
       </row>
       <row>
         <action>StopStaff</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/Staff</menupath>
-        <label>(Print) Stop drawing staff</label>
+        <label>(Print) Stop Drawing Staff</label>
         <tooltip>Stop drawing the staff and barlines in Lilypond. Notes are still drawn.</tooltip>
       </row>
       <row>
@@ -4039,14 +4039,14 @@ for second and subsequent systems</tooltip>
         <after>StopStaff</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/Staff</menupath>
-        <label>(Print) Start drawing staff (again)</label>
+        <label>(Print) Start Drawing Staff (Again)</label>
         <tooltip>Reverts the "Stop Drawing Staff" command</tooltip>
       </row>
       <row>
         <action>HideNotes</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/Staff</menupath>
-        <label>(Print) Stop drawing notes</label>
+        <label>(Print) Stop Drawing Notes</label>
         <tooltip>Stops the Lilypond engraving of notes</tooltip>
       </row>
       <row>
@@ -4054,7 +4054,7 @@ for second and subsequent systems</tooltip>
         <after>HideNotes</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/Staff</menupath>
-        <label>(Print) Start drawing notes (again)</label>
+        <label>(Print) Start Drawing Notes (Again)</label>
         <tooltip>Reverts the "Stop drawing notes" command</tooltip>
       </row>
       <row>
@@ -4189,7 +4189,7 @@ for second and subsequent systems</tooltip>
         <action>FreeFermata</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives</menupath>
-        <label>(Print) Standalone Fermata (for barlines)</label>
+        <label>(Print) Standalone Fermata (for Barlines)</label>
         <tooltip>Adds a standalone fermata which has no playback effect. Can be used to place a Fermata on a barline.</tooltip>
       </row>
       <row>
@@ -4233,7 +4233,7 @@ for second and subsequent systems</tooltip>
         <action>DeleteSelectionLeaveEmpty</action>
         <scheme></scheme>
         <menupath>/MainMenu/EditMenu/Select</menupath>
-        <label>Delete selected objects</label>
+        <label>Delete Selected Objects</label>
         <tooltip>Delete all selected objects and leave empty measures behind</tooltip>
       </row>
       <row>
@@ -4354,7 +4354,7 @@ for second and subsequent systems</tooltip>
         <action>LoadSelectDurationComposerNumberkeys</action>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
-        <label>Change to 'Select Duration' number-keys in Composer Mode</label>
+        <label>Change to 'Select Duration' Number Keys in Composer Mode</label>
         <tooltip>Change the number keys to select the prevailing duration in composer mode.</tooltip>
       </row>
       <row>
@@ -4376,7 +4376,7 @@ for second and subsequent systems</tooltip>
         <action>NotationMagick-InsertStringAsBinaryRhythm</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotationMagick/GenerateRhythmFromString</menupath>
-        <label>Insert string as binary rhythm</label>
+        <label>Insert String as Binary Rhythm</label>
         <tooltip>Give a string to generate a rhythm out of its ascii chars in binary encoding</tooltip>
       </row>
       <row>
@@ -4384,7 +4384,7 @@ for second and subsequent systems</tooltip>
         <after>NotationMagick-InsertStringAsBinaryRhythm</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotationMagick/GenerateRhythmFromString</menupath>
-        <label>Insert reversed string as binary rhythm</label>
+        <label>Insert Reversed String as Binary Rhythm</label>
         <tooltip>Give a string to generate a rhythm out of its ascii chars in binary encoding. The string gets reversed before converting.</tooltip>
       </row>
       <row>
@@ -4392,7 +4392,7 @@ for second and subsequent systems</tooltip>
         <after>NotationMagick-InsertReversedStringAsBinaryRhythm</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotationMagick/GenerateRhythmFromString</menupath>
-        <label>Insert string as reversed binary rhythm</label>
+        <label>Insert String as Reversed Binary Rhythm</label>
         <tooltip>Give a string to generate a rhythm out of its ascii chars in binary encoding. The rhythm for each letter gets reversed before inserting.</tooltip>
       </row>
       <row>
@@ -4400,7 +4400,7 @@ for second and subsequent systems</tooltip>
         <after>NotationMagick-InsertStringAsReversedBinaryRhythm</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotationMagick/GenerateRhythmFromString</menupath>
-        <label>Insert reversed string as reversed binary rhythm</label>
+        <label>Insert Reversed String as Reversed Binary Rhythm</label>
         <tooltip>Give a string to generate a rhythm out of its ascii chars in binary encoding. The string gets reversed before converting. The rhythm for each letter gets reversed before inserting.</tooltip>
       </row>
       <row>
@@ -4437,7 +4437,7 @@ for second and subsequent systems</tooltip>
         <action>ChooseTimeSignature</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/TimeSig</menupath>
-        <label>Choose Typical Timesignature</label>
+        <label>Choose Typical Time Signature</label>
         <tooltip>Choose from a set of typical time signatures</tooltip>
       </row>
       <row>
@@ -4452,7 +4452,7 @@ for second and subsequent systems</tooltip>
         <after>ToggleImmediatePlayback</after>
         <scheme></scheme>
         <menupath>/MainMenu/PlaybackMenu</menupath>
-        <label>Convert MIDI chords over Bass</label>
+        <label>Convert MIDI Chords Over Bass</label>
         <tooltip>Takes a MIDI recording over a bass line and inserts the chords by matching the bass notes. Each chord must include the bass note.</tooltip>
       </row>
       <row>

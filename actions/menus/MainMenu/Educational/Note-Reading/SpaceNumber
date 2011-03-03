@@ -98,7 +98,7 @@
 )
 
 (SpaceNumber::SpaceNumbers SpaceNumber::Scale) </scheme>
-        <label>Identify space number</label>
+        <label>Identify Space Number</label>
         <tooltip>Identify the space number in which the note is display on</tooltip>
       </row>
     </map>

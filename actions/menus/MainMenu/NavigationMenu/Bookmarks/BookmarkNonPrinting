@@ -23,7 +23,7 @@
 (d-RefreshDisplay))
 
 </scheme>
-        <label>Add non-printing Bookmark</label>
+        <label>Add Non-Printing Bookmark</label>
         <tooltip>Adds a custom Denemo bookmark without Lilypond output.</tooltip>
       </row>
     </map>

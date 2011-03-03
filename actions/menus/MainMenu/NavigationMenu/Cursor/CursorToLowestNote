@@ -7,7 +7,7 @@
       <row>
         <action>CursorToLowestNote</action>
         <scheme>(d-CursorToNote (GetLowestNote))</scheme>
-        <label>Cursor to lowest note</label>
+        <label>Cursor to Lowest Note</label>
         <tooltip>Moves the cursor to the lowest note on current horizontal position (in a chord or on a single note)</tooltip>
       </row>
     </map>

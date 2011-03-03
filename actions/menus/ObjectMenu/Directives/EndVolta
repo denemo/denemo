@@ -19,7 +19,7 @@
 (d-MoveCursorRight)
 (d-RefreshDisplay)
  </scheme>
-        <label>End 1st/2nd time bar</label>
+        <label>End 1st/2nd Time Bar</label>
         <tooltip>Ends a volta, that is a n'th time bar</tooltip>
       </row>
     </map>

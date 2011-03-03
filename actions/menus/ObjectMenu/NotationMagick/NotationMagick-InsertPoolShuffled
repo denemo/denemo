@@ -12,7 +12,7 @@
 						 (NotationMagick::InsertListRandomlyLy return)
 						#f))
 		</scheme>
-        <label>Insert shuffled pool</label>
+        <label>Insert Shuffled Pool</label>
         <tooltip>Inserts all notes, shuffled, from a user-specified pool of notes in Lilypond syntax</tooltip>
       </row>
     </map>

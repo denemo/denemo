@@ -8,7 +8,7 @@
         <action>NotationMagick-RandomWithinClefRangeChromatic</action>
         <scheme>;Part of NotationMagick
 (NotationMagick::RandomWithinClefRangeChromatic)</scheme>
-        <label>Chromatic within clef range</label>
+        <label>Chromatic within Clef Range</label>
        <tooltip>Insert a random note within clef range. Full chromatic spectrum.</tooltip>
       </row>
     </map>

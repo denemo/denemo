@@ -7,7 +7,7 @@
       <row>
         <action>Ambitus</action>
         <scheme>(ToggleDirective "staff" "prefix" "Ambitus" "\\with { \\consists \"Ambitus_engraver\" }")</scheme>
-        <label>(Print) Ambitus on/off</label>
+        <label>(Print) Ambitus On/Off</label>
         <tooltip>Toggle the ambitus engraver for this staff on or off</tooltip>
       </row>
     </map>
