@@ -17,9 +17,9 @@
       </menu>
     </menu>
       <menu action="Import">
-	<menuitem action="ImportLilypond"/>
+	<!-- <menuitem action="ImportLilypond"/>
 	<menuitem action="ImportMidi"/>
-        <menuitem action="ImportMusicXml"/>
+        <menuitem action="ImportMusicXml"/> -->
       </menu>
       <separator/>
       <menu action="SaveMenu">

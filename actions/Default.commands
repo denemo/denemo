@@ -251,7 +251,7 @@
       </row>
       <row>
         <action>InsertBlankTwoHundredFiftySixthNote</action>
-        <label>Insert Two Hundred and Fifty Sixth Note Skip</label>
+        <label>Insert  Two Hundred and Fifty Sixth Note Skip</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
@@ -341,13 +341,13 @@
       </row>
       <row>
         <action>AddNoteToChord</action>
-        <label>Add Note</label>
+        <label>Add note</label>
         <tooltip>Add a note to the current chord
 The cursor position determines which note to add</tooltip>
       </row>
       <row>
         <action>RemoveNoteFromChord</action>
-        <label>Remove Note</label>
+        <label>Remove note</label>
         <tooltip>Remove a note from the current chord</tooltip>
       </row>
       <row>
@@ -382,7 +382,7 @@ The cursor position determines which note to add</tooltip>
       </row>
       <row>
         <action>InsertTiedNote</action>
-        <label>Tied Note</label>
+        <label>Tied note</label>
         <tooltip>Inserts a duplicate of the current note, tied</tooltip>
       </row>
       <row>
@@ -993,7 +993,7 @@ the end point of the selection is unaltered</tooltip>
       </row>
       <row>
         <action>ToggleTrill</action>
-        <label>Trill (Off/On</label>
+        <label>Trill  (Off/On</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
@@ -1008,7 +1008,7 @@ the end point of the selection is unaltered</tooltip>
       </row>
       <row>
         <action>ToggleStaccatissimo</action>
-        <label>Staccatissimo (Off/On)</label>
+        <label>Staccatissimo  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
@@ -1018,7 +1018,7 @@ the end point of the selection is unaltered</tooltip>
       </row>
       <row>
         <action>ToggleFlageolet</action>
-        <label>Flageolet (Off/On)</label>
+        <label>Flageolet  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
@@ -1033,7 +1033,7 @@ the end point of the selection is unaltered</tooltip>
       </row>
       <row>
         <action>TogglePrallPrall</action>
-        <label>Prall Prall (Off/On)</label>
+        <label>Prall Prall  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
@@ -1043,27 +1043,27 @@ the end point of the selection is unaltered</tooltip>
       </row>
       <row>
         <action>ToggleReverseTurn</action>
-        <label>Reverse Turn (Off/On)</label>
+        <label>Reverse Turn  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleSegno</action>
-        <label>Segno (Off/On)</label>
+        <label>Segno  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleSforzato</action>
-        <label>Sforzato (Off/On)</label>
+        <label>Sforzato  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleStopped</action>
-        <label>Stopped (Off/On)</label>
+        <label>Stopped  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleThumb</action>
-        <label>Thumb (Off/On)</label>
+        <label>Thumb  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
@@ -1083,7 +1083,7 @@ the end point of the selection is unaltered</tooltip>
       </row>
       <row>
         <action>ToggleGrace</action>
-        <label>Grace Note (Off/On)</label>
+        <label>Grace Note Off/On</label>
         <tooltip>Makes the note at the cursor a grace note, if it is one, makes it normal</tooltip>
       </row>
       <row>
@@ -4478,6 +4478,30 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/MovementMenu</menupath>
         <label>Create Intro</label>
         <tooltip>Creates a new staff with a bar for nothing (an intro of the right number of beats)</tooltip>
+      </row>
+      <row>
+        <action>Import-Lilypond</action>
+        <after>Import-Midi</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/FileMenu/Import</menupath>
+        <label>Import Lilypond</label>
+        <tooltip>Try to Import a Lilypond File</tooltip>
+      </row>
+      <row>
+        <action>Import-Midi</action>
+        <after>ImportMusicXml</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/FileMenu/Import</menupath>
+        <label>Import Midi</label>
+        <tooltip>Try to Imports a Midi File</tooltip>
+      </row>
+      <row>
+        <action>Import-MusicXml</action>
+        <after>Import-Lilypond</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/FileMenu/Import</menupath>
+        <label>Import MusicXml</label>
+        <tooltip>Try to Import a MusicXml file</tooltip>
       </row>
     </map>
   </merge>
