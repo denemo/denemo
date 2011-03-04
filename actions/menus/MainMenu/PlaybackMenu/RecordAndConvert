@@ -19,8 +19,10 @@
   
   (if (equal? response \"y\")
  	 (d-ConvertMidiForBass))
+  
+  )
   (define (DenemoPlay) (DefaultDenemoPlay))
-  )"))
+  "))
   (d-CreateIntro)
   (d-PushPosition)
   (d-MidiRecord)
