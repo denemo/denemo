@@ -88,6 +88,7 @@ warningdialog (gchar * msg)
 				   GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE, "%s", msg);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
   gtk_dialog_run (GTK_DIALOG (dialog));
+  gtk_window_set_keep_above(GTK_WINDOW (dialog), TRUE);
   gtk_widget_destroy (dialog);
 }
 
@@ -1257,7 +1258,8 @@ string_dialog_entry_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *direction
         gtk_widget_grab_focus (entry);
   	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-	gtk_widget_show_all (dialog);
+	gtk_window_set_keep_above(GTK_WINDOW (dialog), TRUE);
+        gtk_widget_show_all (dialog);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT){ 
 		entry_string = (gchar *) gtk_entry_get_text (GTK_ENTRY (entry));
@@ -1307,6 +1309,7 @@ gchar * get_option(gchar *str, gint length) {
     g_signal_connect(G_OBJECT(widget), "toggled", G_CALLBACK(option_choice), &response);
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
   }
+  gtk_window_set_keep_above(GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all (dialog);
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_REJECT){ 
     response = NULL;
