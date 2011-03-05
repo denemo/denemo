@@ -4402,14 +4402,7 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotationMagick/GenerateRhythmFromString</menupath>
         <label>Insert Reversed String as Reversed Binary Rhythm</label>
         <tooltip>Give a string to generate a rhythm out of its ascii chars in binary encoding. The string gets reversed before converting. The rhythm for each letter gets reversed before inserting.</tooltip>
-      </row>
-      <row>
-        <action>Off</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/ViewMenu</menupath>
-        <label>Off</label>
-        <tooltip>Off</tooltip>
-      </row>
+      </row>      
       <row>
         <action>SelectMeasure</action>
         <after>SelectColumn</after>
