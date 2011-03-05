@@ -278,8 +278,9 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	  if(directive->override&DENEMO_OVERRIDE_GRAPHIC)
 	    gx=directive->gx, gy=directive->gy, override_notehead = directive->graphic;//will be used to draw all the notes/the rest
 	  else
-	    drawbitmapinverse_cr (cr, directive->graphic,
-				  xx+directive->gx, y+directive->gy);
+	    drawbitmapinverse_cr (cr, directive->graphic, 
+				  xx+directive->gx-directive->graphic->width/2, 
+				  (thechord.is_stemup? (thechord.lowesty+directive->gy):(thechord.highesty-directive->gy))  - directive->graphic->height/2 );
 	}
 	if(directive->display) {
 	  drawnormaltext_cr (cr, directive->display->str, xx+directive->tx, y+STAFF_HEIGHT+40+count+directive->ty );
