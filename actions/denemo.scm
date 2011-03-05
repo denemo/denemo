@@ -1538,8 +1538,7 @@
 
 
 (define (lyimport::load-file pathname filename)
-  (d-NewWindow)
-  (LoadDenemo"lyimport.scm")
+  (LoadDenemo "lyimport.scm")
   (set! lyimport::pathname pathname) 
   (set! lyimport::filename filename)
   (eval-string (lyimport::import))
