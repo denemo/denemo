@@ -58,6 +58,8 @@
 	(string-append "(d-InitialClef \"" theclef "\")")
 	(string-append "(d-InsertClef \"" theclef "\")")))
   
+   (define (do-tie cdr)
+	"(d-ToggleTie)")	
   
   (define (do-time thetime)
     (if lyimport::notes        
@@ -361,6 +363,7 @@
 						  )))
 
 
+	   ((eqv? (car current_object) 'x_TIE) (begin  (do-tie (cdr current_object))))
 	   ((eqv? (car current_object) 'x_CLEF) (begin  (do-clef (cdr current_object))))
 	   ((eqv? (car current_object) 'x_TIME) (begin (do-time (cdr current_object))))
 	   ((eqv? (car current_object) 'x_KEY) (begin (do-key  (cadr current_object) (cddr current_object))))
