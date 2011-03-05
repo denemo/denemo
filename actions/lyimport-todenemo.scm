@@ -23,11 +23,7 @@
 
 
   (define (notename2 note)
-    ;(string (char-upcase (string-ref (list-ref note 1) 0))))
- ; (list-ref note 1)
-    ;(format #t "the note2 ~a~%"  note)
-    (string-append (car note) (octave (cdr note)))
-    )
+    (string-append (car note) (octave (cdr note))))    
 
   (define (notename note)
     ;(format #t "the note ~a~%"  (cadr note))

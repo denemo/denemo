@@ -1538,7 +1538,7 @@
 
 
 (define (lyimport::load-file pathname filename)
-  (LoadDenemo "lyimport.scm")
+  (load (string-append DENEMO_ACTIONS_DIR "lyimport.scm"))
   (set! lyimport::pathname pathname) 
   (set! lyimport::filename filename)
   (eval-string (lyimport::import))
