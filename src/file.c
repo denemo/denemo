@@ -72,7 +72,7 @@ struct FileFormatData
   gboolean async; /* TRUE if uses async */
 };
 
-static struct FileFormatData supported_file_formats[] = {
+static struct FileFormatData supported_file_formats[] = {/* WARNING this array has to match the FileFormatNames enum above which is used to index it!!!!!!!!!"*/
   {"*.denemo", N_("Denemo XML format (*.denemo)"), ".denemo", 0},
   {"*.dnm", N_("Denemo XML format (*.dnm)"), ".dnm", 0},
   {"*.ly", N_("Lilypond (*.ly)"), ".ly", 0},
@@ -80,7 +80,8 @@ static struct FileFormatData supported_file_formats[] = {
   {"*.png", N_("PNG Image format (*.png)"), ".png", 1},
   {"*.abc", N_("ABC (*.abc)"), ".abc", 0},
   {"*.mid", N_("Midi (*.mid)"), ".mid", 0},
-  {"*.sco", N_("CSound Score File (*.sco)"), ".sco", 0}
+  {"*.sco", N_("CSound Score File (*.sco)"), ".sco", 0},
+  {"*.mxml", N_("MusicXML file (*.mxml)"), ".mxml", 0}
 };
 
 static gchar* supported_denemo_file_extension[] = {
