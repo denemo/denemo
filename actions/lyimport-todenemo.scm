@@ -54,7 +54,7 @@
 	(string-append "(d-InitialClef \"" theclef "\")")
 	(string-append "(d-InsertClef \"" theclef "\")")))
   
-   (define (do-tie cdr)
+   (define (do-tie cdr)	
 	"(d-ToggleTie)")	
   
   (define (do-time thetime)
