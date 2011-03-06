@@ -805,7 +805,7 @@
 		(begin	((eval-string proc-del) tag)
 				(d-SetSaved #f)
 				#f)
-		(apply (lambda (x) (AttachDirective type field (cons tag dis) content x)) overrides))) 
+	(apply AttachDirective type field (cons tag dis) content overrides)))
 
 ;;;;;;;;; String Escaper
 ;;;;;;;;; Escapes Strings
