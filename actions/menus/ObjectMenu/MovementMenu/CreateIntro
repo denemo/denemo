@@ -7,8 +7,7 @@
       <row>
         <after>MovementPageBreak</after>
         <action>CreateIntro</action>
-        <scheme>
-;;;;;;;;;;CreateIntro
+        <scheme>;;;;;;;;;;CreateIntro
 (let ( (position (GetPosition)) (timesig (d-InitialTimeSig "query=timesigname")) (numerator #f)(denominator #f))
 (define firstmeasure #t)
 (define measurenum (list-ref position 2))
@@ -28,7 +27,7 @@
 (d-GoToBeginning)	
 (if firstmeasure
 	(begin	
-		(set! firstmeasure (+ 1 firstmeasure))
+		(set! measurenum (+ 1 measurenum))
 	    (d-InsertMeasure)))
 (set! numerator (car (string-split   timesig #\/)))
 (set! denominator (cadr (string-split  timesig #\/)))
