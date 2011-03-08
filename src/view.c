@@ -4502,6 +4502,7 @@ INSTALL_EDIT(movementcontrol);
   
 
 INSTALL_SCM_FUNCTION ("Switches to playalong playback. When playing or recording playback will not advance beyond the cursor position unless then mouse is moved or the next note is played in via MIDI in.",DENEMO_SCHEME_PREFIX"TogglePlayAlong", scheme_toggle_playalong);
+INSTALL_SCM_FUNCTION ("Switches to mouse conducting playback. Playback will not advance beyond the cursor position unless then mouse is moved in the drawing area.",DENEMO_SCHEME_PREFIX"ToggleConduct", scheme_toggle_conduct);
 
 INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. The recording will play back with future play until deleted. The recording is not saved with the score - convert to notation first,",DENEMO_SCHEME_PREFIX"MidiRecord", scheme_midi_record);
 
