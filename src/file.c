@@ -200,6 +200,13 @@ set_gui_filename (DenemoGUI * gui, gchar * filename)
     }
 }
 
+static gchar *
+strip_path_and_extension (gchar *filename) {
+  gchar *name;
+  name = g_path_get_basename (filename);
+  return strtok(name, ".");
+} 
+
 static void 
 update_file_selection_path (gchar *file) {
   if(file_selection_path)
@@ -263,7 +270,7 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
 	  if (xml)
 	    set_gui_filename (gui, filename);
 	  else {
-            set_gui_tabname (gui, g_path_get_basename (filename));
+            set_gui_tabname (gui, strip_path_and_extension (filename));
 	  }
 	}
 	if(type==ADD_STAFFS || type==ADD_MOVEMENTS)
