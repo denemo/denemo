@@ -1105,23 +1105,42 @@ static SCM scheme_get_menu_path(SCM command) {
 static SCM scheme_input_filter_names(SCM filtername) {
     int length;
     char *name=NULL;
+    
   //FIXME scm_dynwind_begin (0); etc
    if(scm_is_string(filtername)){
      name = scm_to_locale_string(filtername);
      if(name) {
-       if(Denemo.input_filters)
-	 g_string_assign(Denemo.input_filters, name);
-       else
-	 Denemo.input_filters = g_string_new(name);
+       
+       g_string_printf(Denemo.input_filters, "MIDI Input: %s", name);
+       gtk_widget_show(Denemo.input_source);
        write_input_status();
-       return SCM_BOOL(TRUE);
+       return SCM_BOOL_T;
      }
-   }  else
-    return SCM_BOOL_F;
-   if(Denemo.input_filters)
-     g_string_free(Denemo.input_filters, TRUE);
-   Denemo.input_filters = NULL;
-   return  SCM_BOOL(FALSE);
+   }  else {
+     gtk_widget_hide(Denemo.input_source);
+     return SCM_BOOL_F;
+   }
+}
+
+/* write a status label on bottom right of window*/
+static SCM scheme_write_status(SCM filtername) {
+    int length;
+    char *name=NULL;
+    
+  //FIXME scm_dynwind_begin (0); etc
+   if(scm_is_string(filtername)){
+     name = scm_to_locale_string(filtername);
+     if(name) {
+       
+       g_string_assign(Denemo.input_filters, name);
+       gtk_widget_show(Denemo.input_source);
+       write_input_status();
+       return SCM_BOOL_T;
+     }
+   }  else {
+     gtk_widget_hide(Denemo.input_source);
+     return SCM_BOOL_F;
+   }
 }
 
 SCM scheme_goto_position (SCM movement, SCM staff, SCM measure, SCM object) {
@@ -4596,7 +4615,9 @@ INSTALL_SCM_FUNCTION ("Undo normally undoes all the actions performed by a scrip
 
 
 
-  INSTALL_SCM_FUNCTION ("Takes a string putting it on the status bar listing active filters",DENEMO_SCHEME_PREFIX"InputFilterNames", scheme_input_filter_names);
+  INSTALL_SCM_FUNCTION ("Takes a string putting it on the scheme-controlled status bar as a list of active filters",DENEMO_SCHEME_PREFIX"InputFilterNames", scheme_input_filter_names);
+
+  INSTALL_SCM_FUNCTION ("Takes a string putting the scheme controlled status bar; with no argument it hides this  status bar",DENEMO_SCHEME_PREFIX"WriteStatus", scheme_write_status);
 
   }
 
@@ -8226,8 +8247,9 @@ get_data_dir (),
     gtk_statusbar_get_context_id (GTK_STATUSBAR (Denemo.statusbar), "Denemo");
   gtk_statusbar_push (GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id,
 		      "Denemo");
-  Denemo.input_source = gtk_label_new("No external input");
-  Denemo.input_filters = NULL;
+  Denemo.input_source = gtk_label_new("");
+  gtk_widget_show(Denemo.input_source);
+  Denemo.input_filters = g_string_new("");
   gtk_box_pack_end (GTK_BOX (hbox), Denemo.input_source, TRUE, TRUE, 5);
   gtk_widget_show (hbox);
 

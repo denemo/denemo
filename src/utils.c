@@ -1149,27 +1149,7 @@ void write_status(DenemoGUI *gui) {
 void
 write_input_status(void) {
   DenemoGUI *gui = Denemo.gui;
-  GString *text;
-  switch (gui->input_source) { 
-  case INPUTKEYBOARD:
-    gtk_widget_hide(Denemo.input_source);
-    return;
-  case INPUTAUDIO:
-    text = g_string_new("Audio Input: ");
-    break;
-  case INPUTMIDI:
-    text = g_string_new("MIDI Input: ");
-    break;
-  default: g_warning("Unknown input source");
-    break;
-  }
-  if(Denemo.input_filters)
-    g_string_append(text, Denemo.input_filters->str);
-  else
-    g_string_append(text, "No filtering");
-  gtk_label_set_text(GTK_LABEL(Denemo.input_source), text->str);
-  gtk_widget_show(Denemo.input_source);
-  g_string_free(text, TRUE);
+  gtk_label_set_text(GTK_LABEL(Denemo.input_source),  Denemo.input_filters->str);  
 }
 
 /**
