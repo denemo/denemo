@@ -4402,7 +4402,7 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotationMagick/GenerateRhythmFromString</menupath>
         <label>Insert Reversed String as Reversed Binary Rhythm</label>
         <tooltip>Give a string to generate a rhythm out of its ascii chars in binary encoding. The string gets reversed before converting. The rhythm for each letter gets reversed before inserting.</tooltip>
-      </row>      
+      </row>
       <row>
         <action>SelectMeasure</action>
         <after>SelectColumn</after>
@@ -4495,6 +4495,77 @@ for second and subsequent systems</tooltip>
         <menupath>/MainMenu/FileMenu/Import</menupath>
         <label>Import MusicXml</label>
         <tooltip>Try to Import a MusicXml file</tooltip>
+      </row>
+      <row>
+        <action>GroupStaffStart</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Contexts</menupath>
+        <label>GroupStaff Start</label>
+        <tooltip>Start grouping single staves together in order to form multi-stave systems. In the StaffGroup context, the group is started with a bracket and bar lines are drawn through all the staves.</tooltip>
+      </row>
+      <row>
+        <action>GroupStaffEnd</action>
+        <after>GroupStaffStart</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Contexts</menupath>
+        <label>GroupStaff End</label>
+        <tooltip>Stop GroupStaff multi-stave system.</tooltip>
+      </row>
+      <row>
+        <action>PianoStaffStart</action>
+        <after>GroupStaffEnd</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Contexts</menupath>
+        <label>PianoStaff Start</label>
+        <tooltip>Start grouping single staves together in order to form multi-stave systems. The PianoStaff is identical to a GrandStaff, except that it supports printing the instrument name directly.</tooltip>
+      </row>
+      <row>
+        <action>PianoStaffEnd</action>
+        <after>PianoStaffStart</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Contexts</menupath>
+        <label>PianoStaff End</label>
+        <tooltip>Stop PianoStaff multi-stave system.</tooltip>
+      </row>
+      <row>
+        <action>ChoirStaffStart</action>
+        <after>PianoStaffEnd</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Contexts</menupath>
+        <label>ChoirStaff Start</label>
+        <tooltip>Start grouping single staves together in order to form multi-stave systems. In a ChoirStaff, the group starts with a bracket, but bar lines are not connected. </tooltip>
+      </row>
+      <row>
+        <action>ChoirStaffEnd</action>
+        <after>ChoirStaffStart</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Contexts</menupath>
+        <label>ChoirStaff End</label>
+        <tooltip>Stop ChoirStaff multi-stave system.</tooltip>
+      </row>
+      <row>
+        <action>GrandStaffStart</action>
+        <after>ChoirStaffEnd</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Contexts</menupath>
+        <label>GrandStaff Start</label>
+        <tooltip>Start grouping single staves together in order to form multi-stave systems. In a GrandStaff, the group begins with a brace, and bar lines are connected between the staves.</tooltip>
+      </row>
+      <row>
+        <action>GrandStaffEnd</action>
+        <after>GrandStaffStart</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Contexts</menupath>
+        <label>GrandStaff End</label>
+        <tooltip>Stop GrandStaff multi-stave system.</tooltip>
+      </row>
+      <row>
+        <action>DeleteStaffContexts</action>
+        <after>GrandStaffEnd</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Contexts</menupath>
+        <label>Delete all staff contexts</label>
+        <tooltip>Clear the staff from all contexts</tooltip>
       </row>
     </map>
   </merge>
