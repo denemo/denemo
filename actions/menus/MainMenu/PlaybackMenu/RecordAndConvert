@@ -26,7 +26,8 @@
   "))
   (d-CreateIntro)
   (d-PushPosition)
-  (d-TogglePlayAlong)
+  (if (not (d-TogglePlayAlong))
+  	 (d-TogglePlayAlong))	
   (d-MidiRecord)
 </scheme>
         <label>Record and Convert</label>
