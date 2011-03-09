@@ -201,7 +201,7 @@ add_staff_context(DenemoContext c) {
 staff_directive_put_override("ContextPianoStaff", DENEMO_OVERRIDE_AFFIX);
     break;
   case DENEMO_GROUP_START:
-    staff_directive_put_prefix("ContextGroupStaff", " \\new GroupStaff <<\n");
+    staff_directive_put_prefix("ContextGroupStaff", " \\new StaffGroup <<\n");
 staff_directive_put_override("ContextGroupStaff", DENEMO_OVERRIDE_AFFIX);
     break;
   case DENEMO_CHOIR_START:
