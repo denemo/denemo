@@ -1,8 +1,9 @@
-/* importxml.cpp
+/* importxml.c
  * Import Denemo's "native" XML file format into a Denemo score structure
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 2001-2005 Eric Galluzzo, Adam Tee
+ * 2009, 2010, 2011 Richard Shann
  */
 
 #include "chordops.h"
@@ -190,37 +191,54 @@ getXMLChild (xmlNodePtr parentElem, gchar * childElemName, xmlNsPtr childNs)
  * Convert textual context to a denemo context
  *
  */
-static DenemoContext
-lookupContext (gchar * string)
+static void
+add_staff_context(DenemoContext c) {
+  if(c==DENEMO_NONE)
+    return;
+  switch (c) {
+  case DENEMO_PIANO_START:
+    staff_directive_put_prefix("ContextPianoStaff", " \\new PianoStaff <<\n");
+staff_directive_put_override("ContextPianoStaff", DENEMO_OVERRIDE_AFFIX);
+    break;
+  case DENEMO_GROUP_START:
+    staff_directive_put_prefix("ContextGroupStaff", " \\new GroupStaff <<\n");
+staff_directive_put_override("ContextGroupStaff", DENEMO_OVERRIDE_AFFIX);
+    break;
+  case DENEMO_CHOIR_START:
+    staff_directive_put_prefix("ContextChoirStaff", " \\new ChoirStaff <<\n");
+staff_directive_put_override("ContextChoirStaff", DENEMO_OVERRIDE_AFFIX);
+    break;
+  case DENEMO_PIANO_END:
+    staff_directive_put_postfix("ContextPianoStaff", ">>\n");
+staff_directive_put_override("ContextPianoStaff", DENEMO_OVERRIDE_AFFIX);
+    break;
+  case DENEMO_GROUP_END:
+    staff_directive_put_postfix("ContextGroupStaff", ">>\n");
+staff_directive_put_override("ContextGroupStaff", DENEMO_OVERRIDE_AFFIX);
+    break;
+  case DENEMO_CHOIR_END:
+    staff_directive_put_postfix("ContextChoirStaff", ">>\n");
+staff_directive_put_override("ContextChoirStaff", DENEMO_OVERRIDE_AFFIX);
+    break;
+  default: g_warning("Unexpected context value\n");
+  }
+ 
+  
+}
+static void
+addContext (gchar * string)
 {
   if(string == NULL)
-    return 0;
+    return;
   static gboolean pianostaff=FALSE, groupstaff=FALSE, choirstaff=FALSE;
-  if (!strcmp (string, "PianoStaff"))//for backwards compatibility only
-    {
-      pianostaff = !pianostaff;
-      if(pianostaff)
-	return DENEMO_PIANO_START;
-      else
-	return DENEMO_PIANO_END;
-    }
-  else if (!strcmp (string, "ChoirStaff"))//for backwards compatibility only
-    {
-      choirstaff = !choirstaff;
-      if(choirstaff)
-	return DENEMO_CHOIR_START;
-      else
-	return DENEMO_CHOIR_END;
-    }
-  else if (!strcmp (string, "GroupStaff"))//for backwards compatibility only
-    {
-      groupstaff = !groupstaff;
-      if(groupstaff)
-	return DENEMO_GROUP_START;
-      else
-	return DENEMO_GROUP_END;
-    }
-#define LOOKUP(A,B)  else if (!strcmp (string, A)) {return B;}
+  if (
+      (!strcmp (string, "PianoStaff")) || 
+      (!strcmp (string, "ChoirStaff")) ||
+      (!strcmp (string, "GroupStaff"))) {
+    g_warning("Old context specs found - no longer supported. You will have to reset the Staff contexts\n");
+    return;
+  }
+#define LOOKUP(A,B)  if (!strcmp (string, A)) {add_staff_context(B); return;}
 LOOKUP(PIANO_START_STRING,DENEMO_PIANO_START)
 LOOKUP(PIANO_END_STRING,DENEMO_PIANO_END)
 LOOKUP(CHOIR_START_STRING,DENEMO_CHOIR_START)
@@ -228,10 +246,7 @@ LOOKUP(CHOIR_END_STRING,DENEMO_CHOIR_END)
 LOOKUP(GROUP_START_STRING,DENEMO_GROUP_START)
 LOOKUP(GROUP_END_STRING,DENEMO_GROUP_END)
 #undef LOOKUP
-  else
-    {
-      return DENEMO_NONE;
-    }
+
 }
 
 #define UPDATE_OVERRIDE(directive)		\
@@ -2156,7 +2171,7 @@ parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoScore * si)
 	    gchar *temp = NULL;
 	    temp = (gchar *) xmlNodeListGetString
 	      (childElem->doc, childElem->xmlChildrenNode, 1);
-	    curStaff->context |= lookupContext (temp);
+	    addContext (temp);
 	    g_free (temp);
 	  }
 
