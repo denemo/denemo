@@ -202,9 +202,12 @@ set_gui_filename (DenemoGUI * gui, gchar * filename)
 
 static gchar *
 strip_path_and_extension (gchar *filename) {
+  gchar *basename;
   gchar *name;
-  name = g_path_get_basename (filename);
-  return strtok(name, ".");
+  basename = g_path_get_basename (filename);
+  name = strtok(basename, ".");
+  //g_free(basename);
+  return name;
 } 
 
 static void 
@@ -270,7 +273,9 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
 	  if (xml)
 	    set_gui_filename (gui, filename);
 	  else {
-            set_gui_tabname (gui, strip_path_and_extension (filename));
+	    gchar *sname = strip_path_and_extension (filename);
+            set_gui_tabname (gui, sname);
+	    g_free(sname);
 	  }
 	}
 	if(type==ADD_STAFFS || type==ADD_MOVEMENTS)
