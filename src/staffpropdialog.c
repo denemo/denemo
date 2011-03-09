@@ -472,13 +472,13 @@ staff_properties_change (void)
 
   
   /*print appearance tab */
-  NEWPAGE("Printout Appearance");
+  // NEWPAGE("Printout Appearance");
 
   
-  GString *s = context_string(staffstruct->context);
-  g_print("\ncontext string = %s\n",s->str);
-  COMBOBOXENTRY("Context:", context, context_list, s);
-  g_string_free(s, TRUE); 
+  //GString *s = context_string(staffstruct->context);
+  // g_print("\ncontext string = %s\n",s->str);
+  //  COMBOBOXENTRY("Context:", context, context_list, s);
+  // g_string_free(s, TRUE); 
  
   /* MIDI tab */
   NEWPAGE("MIDI");
