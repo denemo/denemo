@@ -2785,16 +2785,16 @@ static SCM scheme_play_midikey(SCM scm) {
 
 static SCM scheme_toggle_playalong(void) {
   pb_playalong (midiplayalongbutton);
-  return SCM_BOOL_T;
+  return SCM_BOOL(Denemo.gui->midi_destination | MIDIPLAYALONG);
 }
 static  SCM scheme_toggle_conduct(void) {
   pb_conduct (midiconductbutton);
-  return SCM_BOOL_T;
+  return  SCM_BOOL(Denemo.gui->midi_destination | MIDICONDUCT);
 }
 
 static  SCM scheme_midi_record(void) {
   pb_record (recordbutton);
-  return SCM_BOOL_T;
+  return SCM_BOOL(Denemo.gui->midi_destination | MIDIRECORD);
 }
 
 typedef struct cb_scheme_and_id { gchar *scheme_code; gint id;} cb_scheme_and_id;
