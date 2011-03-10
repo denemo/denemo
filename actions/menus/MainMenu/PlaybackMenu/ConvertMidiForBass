@@ -7,7 +7,7 @@
       <row>
         <after>ToggleImmediatePlayback</after>
         <action>ConvertMidiForBass</action>
-        <scheme>;;;;;;;;;DenemoConvertFromBass
+        <scheme>;;;;;;;;;DenemoConvertForBass
 (let ()
 (d-PushPosition)
 (defstruct note name start duration)
@@ -209,7 +209,7 @@
 					  (set! thelist (list 
 							 (cons (abs (- fraction 1)) bass-dur)
 							 (cons (abs (- fraction 0.5))   (/ bass-dur 2))
-							 (cons(abs (- fraction (/ 1 3)))  (/ bass-dur 3))
+							; (cons(abs (- fraction (/ 1 3)))  (/ bass-dur 3))
 							 (cons (abs (- fraction 0.25))   (/ bass-dur 4))
 							 (cons (abs (- fraction 0.75))  (/ bass-dur (/ 4 3)))))
 					  (let loop ()
@@ -265,7 +265,16 @@
 									      (note.duration n2)) 0.2)
 									(begin
 									  (make-tied)
-									  (push-back chord (+ (note.start n2)  remaining) (- (note.duration n2) remaining)))))))))
+									  (push-back chord (+ (note.start n2)  remaining) (- (note.duration n2) remaining)))))  )  )
+		
+		(begin ;;;remaining is negative emit a grace
+	 (insert-chord chord 0))
+
+		
+									  
+									  )
+									  
+									  )
 						      
 						      (begin
 							(d-WarningDialog "We have no chord"))))))))
