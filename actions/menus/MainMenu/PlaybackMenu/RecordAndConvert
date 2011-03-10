@@ -21,10 +21,13 @@
  	 (d-ConvertMidiForBass))
   
   )
+  (d-TogglePlayAlong)
   (define (DenemoPlay) (DefaultDenemoPlay))
   "))
   (d-CreateIntro)
   (d-PushPosition)
+  (if (not (d-TogglePlayAlong))
+  	 (d-TogglePlayAlong))	
   (d-MidiRecord)
 </scheme>
         <label>Record and Convert</label>

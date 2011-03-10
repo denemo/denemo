@@ -706,76 +706,63 @@ brace_count(gchar *str) {
   }
   return ret;
 }
-/* returns a newly allocated string of lilypond output from  the postfix fields of a list of directives */
-static gchar *get_postfix(GList *g) {
-  if(g==NULL)
-    return g_strdup("");
-  GString *ret = g_string_new("");
-  for(;g;g=g->next) {
-    DenemoDirective *d = g->data;
-    if(!((d->override & DENEMO_OVERRIDE_HIDDEN))){
-      if(d->postfix && d->postfix->len) {
-	if(d->override & DENEMO_OVERRIDE_LILYPOND)
-	  g_string_prepend(ret, d->postfix->str);
-	else
-	  g_string_append(ret, d->postfix->str);
-      }
-    }
-  }
-return g_string_free(ret, FALSE);
-}
-/* returns a newly allocated string of lilypond output from the prefix fields of a list of directives */
-static gchar *get_prefix(GList *g) {
-  if(g==NULL)
-    return g_strdup("");
-  GString *ret = g_string_new("");
-  for(;g;g=g->next) {
-    DenemoDirective *d = g->data;
-    if(!((d->override & DENEMO_OVERRIDE_HIDDEN))){
-      if(d->prefix && d->prefix->len) {
-	if(d->override & DENEMO_OVERRIDE_LILYPOND)
-	  g_string_prepend(ret, d->prefix->str);
-	else
-	  g_string_append(ret, d->prefix->str);
-      }
-    }
-  }
-return g_string_free(ret, FALSE);
+
+
+#define GET_OVERRIDDEN_AFFIX(field)\
+static gchar *get_overridden_##field(GList *g, gboolean override) {\
+  if(g==NULL)\
+    return g_strdup("");\
+  GString *ret = g_string_new("");\
+  for(;g;g=g->next) {\
+    DenemoDirective *d = g->data;\
+    if(override == ((d->override&DENEMO_OVERRIDE_AFFIX)==0))\
+      continue;					\
+    if(!((d->override & DENEMO_OVERRIDE_HIDDEN))){\
+      if(d->field && d->field->len) {\
+	if(d->override & DENEMO_OVERRIDE_LILYPOND)\
+	  g_string_prepend(ret, d->field->str);\
+	else\
+	  g_string_append(ret, d->field->str);\
+      }\
+    }\
+  }\
+return g_string_free(ret, FALSE);\
 }
 
-
-/* insert editable prefix string from passed directives, updating duration and open brace count */
-
-static void 
-directives_insert_prefix_editable (GList *directives, gint *popen_braces, gint *pprevduration, GtkTextIter *iter, gchar* invisibility, gboolean override) {
-  DenemoGUI *gui = Denemo.gui;
-  GList *g = directives;
-  for(;g;g=g->next) {
-    DenemoDirective *directive = (DenemoDirective *)g->data;
-    if(override == ((directive->override&DENEMO_OVERRIDE_AFFIX)==0))
-      continue;
-    if(directive->prefix && directive->prefix->len) {
-      *pprevduration = -1;
-      *popen_braces += brace_count(directive->prefix->str); 
-      insert_editable(&directive->prefix, directive->prefix->str, iter, invisibility, gui);
-    }
-  }
+#define GET_AFFIX(field)\
+ static gchar *get_##field(GList *g) {\
+  return get_overridden_##field(g, FALSE);\
 }
 
-static void
-directives_insert_postfix_editable (GList *directives, gint *popen_braces, gint *pprevduration, GtkTextIter *iter, gchar *invisibility, gboolean override) {
-  DenemoGUI *gui = Denemo.gui;
-  GList *g = directives;
-  for(;g;g=g->next) {
-    DenemoDirective *directive = (DenemoDirective *)g->data;
-    if(directive->postfix && directive->postfix->len) {
-      *pprevduration = -1;
-      *popen_braces += brace_count(directive->postfix->str);
-      insert_editable(&directive->postfix, directive->postfix->str, iter, invisibility, gui);
-    }
-  }
+GET_OVERRIDDEN_AFFIX(prefix);
+GET_OVERRIDDEN_AFFIX(postfix);
+
+GET_AFFIX(prefix);
+GET_AFFIX(postfix);
+
+
+/* insert editable prefix string from passed directives, updating duration and open brace count
+ omit or include those with AFFIX override set */
+
+
+#define DIRECTIVES_INSERT_EDITABLE_AFFIX(field) static void \
+directives_insert_##field##_editable (GList *directives, gint *popen_braces, gint *pprevduration, GtkTextIter *iter, gchar* invisibility, gboolean override) {\
+  DenemoGUI *gui = Denemo.gui;\
+  GList *g = directives;\
+  for(;g;g=g->next) {\
+    DenemoDirective *directive = (DenemoDirective *)g->data;\
+    if(override == ((directive->override&DENEMO_OVERRIDE_AFFIX)==0))\
+      continue;\
+    if(directive->field && directive->field->len) {\
+      if(pprevduration) *pprevduration = -1;		    \
+      if(popen_braces) *popen_braces += brace_count(directive->field->str); \
+      insert_editable(&directive->field, directive->field->str, iter, invisibility, gui);\
+    }\
+  }\
 }
 
+DIRECTIVES_INSERT_EDITABLE_AFFIX(prefix);
+DIRECTIVES_INSERT_EDITABLE_AFFIX(postfix);
 
 
 
@@ -851,7 +838,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	
 	
 	/* prefix is before duration unless AFFIX override is set */
-	directives_insert_prefix_editable(pchord->directives, &open_braces, &prevduration, iter, invisibility, TRUE);
+	directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, invisibility, TRUE);
 	
 	if(!get_lily_override (pchord->directives)) { //skip all LilyPond output for this chord
 	  if (!pchord->notes)
@@ -862,7 +849,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		  g_string_append_printf (ret, "r");
 		  /* Duplicated code follows. I ought to fix that */
 		  outputret;
-		  directives_insert_prefix_editable(pchord->directives, &open_braces, &prevduration, iter, invisibility, FALSE);
+		  directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, invisibility, FALSE);
 		  if (duration != prevduration || numdots != prevnumdots || duration<0)
 		    {
 		      /* only in this case do we explicitly note the duration */
@@ -878,7 +865,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		{	/* non printing rest */
 		  g_string_append_printf (ret, "\\skip ");
 		  outputret;
-		  directives_insert_prefix_editable(pchord->directives, &open_braces, &prevduration, iter, invisibility, FALSE);
+		  directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, invisibility, FALSE);
 		  if(duration>0)
 		    g_string_append_printf (ret, "%d", duration);
 		  prevduration = -1;
@@ -888,7 +875,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		}
 	      
 	      outputret;
-	      directives_insert_postfix_editable(pchord->directives, &open_braces, &prevduration, iter, invisibility, FALSE);
+	      directives_insert_postfix_editable (pchord->directives, &open_braces, &prevduration, iter, invisibility, FALSE);
 	    } 
 	  else /* there are notes */
 	    {
@@ -1002,7 +989,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	      {
 		/* only in this case do we explicitly note the duration */
 		outputret;
-		directives_insert_prefix_editable(pchord->directives, &open_braces, &prevduration, iter, invisibility, FALSE);
+		directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, invisibility, FALSE);
 		  if(duration>0)
 		    g_string_append_printf (ret, "%d", duration);
 		prevduration = duration;
@@ -1012,7 +999,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		outputret;
 	      }
 
-	    directives_insert_postfix_editable(pchord->directives, &open_braces, &prevduration, iter, invisibility, FALSE);
+	    directives_insert_postfix_editable (pchord->directives, &open_braces, &prevduration, iter, invisibility, FALSE);
 
 	    if (pchord->dynamics && (pchord->notes->next==NULL))
 	      {
@@ -2263,6 +2250,10 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	  GString *thestr = g_string_new("");
 	  gchar *staff_prolog_insert =  get_prefix(curstaffstruct->staff_directives);
 	  gchar *staff_epilog_insert =  get_postfix(curstaffstruct->staff_directives);
+	  gchar *staff_alt_prolog =  get_overridden_prefix(curstaffstruct->staff_directives, TRUE);
+	  gchar *staff_alt_epilog =  get_overridden_postfix(curstaffstruct->staff_directives, TRUE);
+
+
 	  if(partname==NULL) {//when printing just one part, do not start/stop contexts
 	    gchar *staff_group_prolog_insert = "";//these are just to mark a place where a further directive type could be used to control staff groups
 	    gchar *staff_group_epilog_insert = "";
@@ -2277,10 +2268,10 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	  }
 	  if(curstaffstruct->voicenumber == 1) {
 	    if(!staff_override)
-	      g_string_append_printf(staffdefinitions, "%s%s = \\new Staff %s << %s{\n",movement_name->str, staff_name->str, staff_prolog_insert, staff_epilog_insert);
+	      g_string_append_printf(staffdefinitions, "%s%s = \\new Staff %s << %s{\n", movement_name->str, staff_name->str, staff_prolog_insert, staff_epilog_insert);
 	    else
 	      g_string_append_printf(staffdefinitions, "%s%s = %s%s",movement_name->str, staff_name->str, staff_prolog_insert, staff_epilog_insert);
-	    g_string_append_printf(thestr, "\\%s%s\n", movement_name->str, staff_name->str);
+	    g_string_append_printf(thestr, "%s\\%s%s\n", staff_alt_prolog, movement_name->str, staff_name->str);
 	  }
 	  else
 	    g_string_append_printf(staffdefinitions, "%s", "\\new Voice {\n");
@@ -2290,11 +2281,11 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	  if (curstaffstruct->no_of_lines != 5)
 	    g_string_append_printf(staffdefinitions, TAB "\\override Staff.StaffSymbol  #'line-count = #%d\n",
 				   curstaffstruct->no_of_lines);
-	  const gchar *endofblock;
+	  gchar *endofblock;
 	  if(curstaff->next && ((DenemoStaff *) curstaff->next->data)->voicenumber == 2)
-	    endofblock = "";
+	    endofblock = g_strdup("");
 	  else
-	    endofblock = ">>";
+	    endofblock = g_strdup(">>");
 	  
 	  if (curstaffstruct->voicenumber != 2)
 	    {
@@ -2327,9 +2318,11 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	  else if (curstaffstruct->voicenumber == 2)
 	    g_string_append_printf(staffdefinitions, "%s"TAB TAB"\\%s%s\n"TAB TAB"}\n"TAB TAB"%s\n", thestr->str, movement_name->str, voice_name->str, endofblock);
 
-
-
+	  g_free(endofblock);
+	  
 	  if(partname==NULL) {
+	    g_string_append_printf(scoreblock, "%s", staff_alt_epilog);
+
 	    if(curstaffstruct->context & DENEMO_PIANO_END)
 	      g_string_append_printf(scoreblock, "%s", ">>\n\n");
 	    if(curstaffstruct->context & DENEMO_CHOIR_END)

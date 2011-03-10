@@ -5,15 +5,16 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after>InsertLilyDirective</after>
         <action>InsertStandaloneDirective</action>
-        <scheme>(let script ((answer (d-GetUserInput "Insert Lilypond" "Give Lilypond text to insert" "")))
+        <scheme>(let ()
+(define current (d-DirectiveGet-standalone-postfix (d-DirectiveGetTag-standalone)))
+(let script ((answer (d-GetUserInput "Insert Lilypond" "Give Lilypond text to insert" (if current current ""))))
 	(if (and answer (not (string=? answer "")))
-		(StandAloneDirectiveProto (cons answer answer))		
-		#f
-))
-
-</scheme>
+		(begin
+			(if current 
+				(d-DirectiveDelete-standalone (d-DirectiveGetTag-standalone)))
+			(StandAloneDirectiveProto (cons answer answer)))
+		#f)))</scheme>
         <label>Insert Lilypond</label>
         <tooltip>Insert or edit a directive in the LilyPond music typesetting language. This can be used for extra spacing, transposing or almost anything. See LilyPond documentation for ideas.</tooltip>
       </row>
