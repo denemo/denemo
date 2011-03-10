@@ -405,11 +405,11 @@
 		(define (build parameter numberstring)
 			(if (equal? (car parameter) "")
 				""
-				(string-append "[" numberstring "]" (car parameter) " ")))
+				(string-append "[" numberstring "]" (car parameter) "  ")))
 		(set! helpstring (string-append 
 			(if lockin?
-				"[Esc] Reset keys "
-				"[Space] Show GUI [Enter] Lock keys in ")			
+				"[Esc]Reset keys  "
+				"[Space]Show GUI  [Enter]Lock keys in  ")			
 			(build first "1")
 			(build second "2")
 			(build third "3")
@@ -420,7 +420,7 @@
 			(build eighth "8")
 			(build ninth "9")
 			(build tenth "0")
-			"Other: Abort"))
+			(if lockin? "" "[Other]Abort")))
 		(Help::Push (cons 'doublestroke helpstring)))
 				
 	; The real action. Wait for a keypress and decide what do with it afterwards, UnsetMark triggers the GUI, AddNoteToChord locks-in the commands and makes them permanent keybindings.
@@ -428,17 +428,17 @@
 	  (begin
 		(doublestroke::showhelp #f) 
 		(case (string->symbol (d-GetCommand))
-			((d-OpOne)  ((cdr first)))
-			((d-OpTwo) ((cdr second)))
-			((d-OpThree)  ((cdr third)))
-			((d-OpFour)  ((cdr fourth)))
-			((d-OpFive)  ((cdr fifth)))
-			((d-OpSix)  ((cdr sixth)))
-			((d-OpSeven)  ((cdr seventh)))
-			((d-OpEight)  ((cdr eighth)))
-			((d-OpNine)  ((cdr ninth)))
-			((d-OpZero)  ((cdr tenth)))
-			((d-UnsetMark)  (doublestroke::invokegui))
+			((d-OpOne)  (begin ((cdr first)) (Help::Pop))) ; Execute command then remove help-text and show the one before it.
+			((d-OpTwo) (begin ((cdr second))(Help::Pop)))
+			((d-OpThree)  (begin ((cdr third))(Help::Pop)))
+			((d-OpFour)  (begin ((cdr fourth))(Help::Pop)))
+			((d-OpFive)  (begin ((cdr fifth))(Help::Pop)))
+			((d-OpSix)  (begin ((cdr sixth))(Help::Pop)))
+			((d-OpSeven)  (begin ((cdr seventh))(Help::Pop)))
+			((d-OpEight)  (begin ((cdr eighth))(Help::Pop)))
+			((d-OpNine)  (begin ((cdr ninth))(Help::Pop)))
+			((d-OpZero)  (begin ((cdr tenth))(Help::Pop)))
+			((d-UnsetMark)  (begin  (doublestroke::invokegui)(Help::Pop)))
 			((d-AddNoteToChord) (begin
 					(doublestroke::showhelp #t) 					
 					(Bind wrap:Op1 first)
@@ -452,8 +452,7 @@
 					(Bind wrap:Op9 ninth)
 					(Bind wrap:Op0 tenth)
 					))
-			(else #f))
-		  (Help::Pop) ; Remove the help-text and show the one before it.
+			(else (begin (Help::Pop) #f)))		  
 		  (set! DenemoKeypressActivatedCommand #f))		  
 		 (doublestroke::invokegui))) ; if not DenemoKeypressActivated
 
