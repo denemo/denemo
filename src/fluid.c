@@ -388,7 +388,7 @@ static void initialize_clock(void) {
       chord *thechord = obj->object;
       if(thechord->notes) {
 	note *thenote = thechord->notes->data;      
-	gboolean thetime = get_time();
+	//gboolean thetime = get_time();
 	//Denemo.gui->si->start_player =  thetime - obj->earliest_time;
 	playalong_time = obj->latest_time; 
       }
@@ -543,23 +543,29 @@ void fluid_midi_play(gchar *callback)
     gui->si->start_time =  0.0;
   if(gui->si->start_time<0.0)
     gui->si->start_time = 0.0;
-  if( (pause_time>0.0) && (pause_time<gui->si->end_time))
-    gui->si->start_player = get_time() - pause_time;//FIXME ??
-  else
-    pause_time = -1.0, gui->si->start_player = get_time() - gui->si->start_time;//FIXME ??
+
+
+
   playing_piece = TRUE;
   toggle_playbutton();
-  gui->si->tempo_change_time = gui->si->start_player;
-
   smf_rewind(Denemo.gui->si->smf);
   last_draw_time = 0.0;
   if(Denemo.gui->midi_destination & (MIDIPLAYALONG|MIDICONDUCT))
     initialize_clock();
   initialize_playhead();
-  g_idle_add((GSourceFunc)fluidsynth_play_smf_event, callback_string->str);
-  //!!!!!!! is this good ????? can I set a priority????  g_timeout_add(5, (GSourceFunc)fluidsynth_play_smf_event, callback_string->str);
+
   gint error = smf_seek_to_seconds(gui->si->smf, pause_time>0.0? pause_time:gui->si->start_time);
 
+  if( (pause_time>0.0) && (pause_time<gui->si->end_time))
+    gui->si->start_player = get_time() - pause_time;//FIXME ??
+  else
+    pause_time = -1.0, gui->si->start_player = get_time() - gui->si->start_time;//FIXME ??
+  gui->si->tempo_change_time = gui->si->start_player;
+
+  g_idle_add((GSourceFunc)fluidsynth_play_smf_event, callback_string->str);
+  
+  
+  // g_timeout_add_full (G_PRIORITY_HIGH, 15,(GSourceFunc)fluidsynth_play_smf_event, callback_string->str, NULL);                                             
 }
 
 void
