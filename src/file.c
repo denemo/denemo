@@ -203,11 +203,9 @@ set_gui_filename (DenemoGUI * gui, gchar * filename)
 static gchar *
 strip_path_and_extension (gchar *filename) {
   gchar *basename;
-  gchar *name;
   basename = g_path_get_basename (filename);
-  name = strtok(basename, ".");
-  //g_free(basename);
-  return name;
+  (void)strtok(basename, ".");
+  return basename;
 } 
 
 static void 
