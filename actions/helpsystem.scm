@@ -1,13 +1,18 @@
 (use-modules (ice-9 q))
 
+(define Help::queue (make-q))
+
 (define (Q-remove! q obj) 
 	(set-car! q (filter (lambda (x) (not (equal? (car x) obj))) (car q)))
 	(sync-q! q))
 
 (define (Help::RemoveTag tag)
-	(Q-remove! Help::queue tag))
+	(Q-remove! Help::queue tag)
+	(Help::UpdateWriteStatus))
 
-(define Help::queue (make-q))
+(define (Help::ClearQueue)
+	(set! Help::queue (make-q))
+	(Help::UpdateWriteStatus))
 
 ;Help::UpdateWriteStatus is the only function that accesses the StatusBar.
 (define (Help::UpdateWriteStatus)
