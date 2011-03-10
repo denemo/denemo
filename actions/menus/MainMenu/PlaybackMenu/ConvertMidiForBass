@@ -45,7 +45,7 @@
 		  (set! Notes (cons (list (make-note 'name note 'start tick 'duration 384)) Notes))
 		  (looprecordednotes note tick))))
 	  (begin         ;;;;;; finished generating Notes as a list of lists each with one note struct in it
-	  (disp Notes)
+	;  (disp Notes)
 	    (if (&gt; (length Notes) 0)
 		(let ()
 ;;;;;;; we have at least one note in the Notes list, define to procs to create a denemo chord and add a note to it
@@ -108,7 +108,7 @@
 		    
 ;;; notes has been set up by pre-pending so it is backwards...	    
 		    (set! Notes (reverse Notes))
-     
+     (disp "The set of notes recorded was " Notes "\n")
                     ;;;;;; take the Notes and seek out bass notes, remove them and form chords, insert chords in staff above
 		    (let () ;;;no loop here we drive it via the loopforbasskey
 
@@ -277,6 +277,7 @@
 				      ;;;;;  else if overlap of n2 with bass-note is fair proportion of n2 #t  more that one fifth, 0.2, say
 				      ;;;;;  else #f
 				      (define (contains bass-note n2)
+				      (disp "contains " bass-note " and " n2 "\n")
 					(let ((bass-note.end (+ (note.start bass-note) (note.duration bass-note)))
 					      (n2.end (+ (note.start n2) (note.duration n2))))					 
 					  (cond
@@ -285,16 +286,17 @@
 					   ((&gt; bass-note.end n2.end)
 					    #t)
 					   ((&gt; (/ (- n2.end  bass-note.end) (note.duration n2)) 0.75)
-					    #t)
-					   (else #f))))
+					    #f)
+					   (else #t))))
 				      
 				      
 				      
 ;;;;;;;;;;;;;;;;;;;;;;;;; now the actual processing to loop through Notes finding an equivalent to bass-key and processing the notes belong. These are removed from Notes and then the outer loop to move on in the bass staff is taken.				      
 				      
-;;; first loop through Notes from the start (previous chords have been deleted) and seek the bass-note				      
+;;; first loop through Notes from the start (previous chords have been deleted) and seek the bass-note				       (disp "The notes recorded were:\n" Notes "\n")
 				      (let loopgetbassnote ((index 0))
 					;(disp "now index " index "bass-key " bass-key "\n")
+						(set! bass-note #f)	
 					(if (&gt; (length Notes) index)
 					    (if (= bass-key (note.name (car (list-ref Notes index))))
 						(begin
@@ -303,6 +305,7 @@
 						  )
 						(loopgetbassnote (+ index 1)))))
                                            ;;;; if bass-note then that note will have been removed from Notes, next get chord notes
+                                           (disp "We have bass-note " bass-note "\n")
 				      (set! notes-belonging '())
 				      (if bass-note					    
 					  (let loop ((index 0))
@@ -322,7 +325,7 @@
 				      (if (&gt; (length notes-belonging) 0)
 					  (begin	
 					  (set! notes-belonging (reverse notes-belonging))
-					;(disp "notes-belonging looks like this: " notes-belonging "\n")
+					(disp "notes-belonging looks like this: " notes-belonging "for bass dur " bass-duration "\n")
 					    (insert-chords notes-belonging bass-duration)
 					;(disp "insert-chords finished\n")
 					)
