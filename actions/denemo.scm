@@ -1,18 +1,19 @@
 (use-modules (srfi srfi-1)) ; List library
 (use-modules (srfi srfi-8)) ; Returning and Accepting Multiple Values
 (use-modules (srfi srfi-13)) ; String library
-(use-modules (ice-9 regex))
-(use-modules (ice-9 optargs))
+(use-modules (ice-9 regex)) ; regular expressions
+(use-modules (ice-9 optargs)) ; optional (define* ) arguments
+(use-modules (ice-9 q)) ; queue module
 ;Denemo subsystems and extra functions in additional files. 
 (define (LoadDenemo file)
 	 (load file))
-	 ;(load (string-append DENEMO_ACTIONS_DIR file)))
-	 
+	 ;(load (string-append DENEMO_ACTIONS_DIR file)))	 
 	 
 (LoadDenemo "ans.scm") ; Abstract Note System for pitch calculations
 (LoadDenemo "notationmagick.scm") ; Insert and modify, mostly randomized, music. Depends on ans.scm
 (LoadDenemo "abstractionmovement.scm") ; Create an abstract form of the music in Scheme for further analysing. Depends on ans.scm 
 (LoadDenemo "commandlist.scm") ; Provide scrolling up and down through a list of commands. An extended toggle through multiple states.
+(LoadDenemo "helpsystem.scm") ; An online help system to display text in the second status bar
 
 ;Needed to see if lyimport / mxml import is called from inside or outside Denemo
 (define Denemo #t)
@@ -397,11 +398,35 @@
 				(set! gui-version (apply RadioBoxMenu (delete (cons "" False) (list first second third fourth fifth sixth seventh eighth ninth tenth)))) 
 				(if gui-version 
 					(gui-version) ; execute the returned command
-					#f)))) ; cancel-button, abort the process
+					#f)))) ; cancel-button, abort the process					
+	
+	(define (doublestroke::showhelp lockin?)
+		(define helpstring "")
+		(define (build parameter numberstring)
+			(if (equal? (car parameter) "")
+				""
+				(string-append "[" numberstring "]" (car parameter) " ")))
+		(set! helpstring (string-append 
+			(if lockin?
+				"[Esc] Reset keys "
+				"[Space] Show GUI [Enter] Lock keys in ")			
+			(build first "1")
+			(build second "2")
+			(build third "3")
+			(build fourth "4")
+			(build fifth "5")
+			(build sixth "6")
+			(build seventh "7")
+			(build eighth "8")
+			(build ninth "9")
+			(build tenth "0")
+			"Other: Abort"))
+		(Help::Push (cons 'doublestroke helpstring)))
 				
 	; The real action. Wait for a keypress and decide what do with it afterwards, UnsetMark triggers the GUI, AddNoteToChord locks-in the commands and makes them permanent keybindings.
 	(if DenemoKeypressActivatedCommand
-		(begin 
+	  (begin
+		(doublestroke::showhelp #f) 
 		(case (string->symbol (d-GetCommand))
 			((d-OpOne)  ((cdr first)))
 			((d-OpTwo) ((cdr second)))
@@ -415,6 +440,7 @@
 			((d-OpZero)  ((cdr tenth)))
 			((d-UnsetMark)  (doublestroke::invokegui))
 			((d-AddNoteToChord) (begin
+					(doublestroke::showhelp #t) 					
 					(Bind wrap:Op1 first)
 					(Bind wrap:Op2 second)
 					(Bind wrap:Op3 third)
@@ -427,6 +453,7 @@
 					(Bind wrap:Op0 tenth)
 					))
 			(else #f))
+		  (Help::Pop) ; Remove the help-text and show the one before it.
 		  (set! DenemoKeypressActivatedCommand #f))		  
 		 (doublestroke::invokegui))) ; if not DenemoKeypressActivated
 

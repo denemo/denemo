@@ -17,6 +17,7 @@
    	(set-cdr! wrap:Op7 (car wrap:Op7))
    	(set-cdr! wrap:Op8 (car wrap:Op8))
    	(set-cdr! wrap:Op9 (car wrap:Op9))
+   	(Help::RemoveTag 'doublestroke)
         </scheme>
         <label>Load Default Composer Number Keys</label>
         <tooltip>Loads the default composer numberkeys (Notes and Rests)</tooltip>
