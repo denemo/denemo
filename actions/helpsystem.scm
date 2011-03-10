@@ -28,3 +28,7 @@
 (define (Help::Pop)
 	(q-pop! Help::queue)
 	(Help::UpdateWriteStatus))
+
+(define (Help::TimedNotice string)
+	(Help::Push (cons 'timednotice string))
+	(d-OneShotTimer 2500 "(Help::Pop)"))
