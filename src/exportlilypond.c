@@ -2315,9 +2315,28 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 		g_string_append_printf(staffdefinitions, TAB TAB" \\context FiguredBass \\with {implicitBassFigures = #'(0) } \\%s%sBassFiguresLine\n", movement_name->str, voice_name->str);
 	      g_string_append_printf(staffdefinitions, TAB TAB"%s\n", endofblock);
 	    }
-	  else if (curstaffstruct->voicenumber == 2)
-	    g_string_append_printf(staffdefinitions, "%s"TAB TAB"\\%s%s\n"TAB TAB"}\n"TAB TAB"%s\n", thestr->str, movement_name->str, voice_name->str, endofblock);
+	  else if (curstaffstruct->voicenumber == 2) {      
+	    g_string_append_printf(staffdefinitions, "%s"TAB TAB"\\%s%s\n"TAB TAB"\n"TAB TAB"\n", thestr->str, movement_name->str, voice_name->str);
 
+	      if (curstaffstruct->verses)
+		{
+		  GList *g;
+		  gint versenum;
+		  for(g=curstaffstruct->verses, versenum=1;g;g=g->next, versenum++) {
+		    GString *versename = g_string_new("");
+		    GString *temp = g_string_new("");
+		    g_string_printf(temp, "Verse%d", versenum);
+		    set_lily_name(temp, versename);
+		    g_string_append_printf(staffdefinitions, 
+				TAB TAB" \\addlyrics { \\%s%sLyrics%s }\n", 
+				movement_name->str, voice_name->str, versename->str);
+		    g_string_free(versename, TRUE);
+		    g_string_free(temp, TRUE);
+		    
+		  }
+		  g_string_append_printf(staffdefinitions,"}%s", endofblock);
+	      }
+	  }
 	  g_free(endofblock);
 	  
 	  if(partname==NULL) {
