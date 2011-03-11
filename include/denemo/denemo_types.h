@@ -465,7 +465,7 @@ typedef struct DenemoDirective
      1) these values cannot be changed without bumping the denemo file format version
      2) if they are to be available to scheme scripts (normal) you must insert the code in view.c*/
 #define DENEMO_OVERRIDE_LILYPOND (1<<0)
-#define DENEMO_OVERRIDE_UNUSED (1<<1)
+#define DENEMO_ALT_OVERRIDE (1<<1)
 #define DENEMO_OVERRIDE_GRAPHIC (1<<2)
 #define DENEMO_OVERRIDE_EDITOR (1<<3)
 #define DENEMO_OVERRIDE_AFFIX (1<<4)
