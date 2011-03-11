@@ -15,7 +15,7 @@
 (d-InsertMeasureBefore)
 (d-Insert0)
 (d-DirectivePut-chord-graphic "Longa" "noteheads_sM2neomensural")
-	(d-DirectivePut-chord-override "Note" DENEMO_OVERRIDE_GRAPHIC)
+	(d-DirectivePut-chord-override "Note" (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_ALT_OVERRIDE))
 	(d-DirectivePut-chord-prefix "Note" "\\longa ")
 	(d-DirectivePut-chord-prefix "NoteHead" "\\neohead ")
 	(d-DirectivePut-chord-override "NoteHead" DENEMO_OVERRIDE_AFFIX)		
