@@ -134,7 +134,7 @@ draw_notehead (cairo_t *cr,
     else
       xx -= headwidths[noteheadtype];
   }
-  //OVERRIDE_GRAPHIC just affects the head, everything else -  accidentals dots stems beams ...are controlled by baseduration
+  //OVERRIDE_GRAPHIC on the note directive just affects the head, everything else -  accidentals dots stems beams ...are controlled by chord/chord-directives. Even the notehead is set by the chord directives if override_notehead is set
   if(!(get_override(thenote->directives)&DENEMO_OVERRIDE_GRAPHIC)) {
     if(override_notehead) {
       //g_print("drawing a chord override graphic at %d %d\n",  xx+gx-override_notehead->width/2,  y+height+gy-override_notehead->height/2);
@@ -269,18 +269,39 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
     else
       cairo_set_source_rgb( cr, 180.0/255, 160.0/255, 32.0/255 );// yellow for non printing
   }
-
+  gboolean override_chord_graphic = FALSE;
   { GList *g = thechord.directives;
       gint count = 0;
       for(;g;g=g->next) {
 	DenemoDirective *directive = (DenemoDirective *)g->data;
+	
 	if(directive->graphic) {
-	  if(directive->override&DENEMO_OVERRIDE_GRAPHIC)
-	    gx=directive->gx, gy=directive->gy, override_notehead = directive->graphic;//will be used to draw all the notes/the rest
-	  else
-	    drawbitmapinverse_cr (cr, directive->graphic, 
-				  xx+directive->gx-directive->graphic->width/2, 
-				  (thechord.is_stemup? (thechord.lowesty+directive->gy):(thechord.highesty-directive->gy))  - directive->graphic->height/2 );
+	  
+	  if((directive->override&DENEMO_OVERRIDE_GRAPHIC))
+	    override_chord_graphic = TRUE;
+
+	  if( (directive->override&DENEMO_OVERRIDE_GRAPHIC) ) {
+	    if(directive->override&DENEMO_ALT_OVERRIDE) {
+	      gx=directive->gx;
+	      gy=directive->gy;
+	      override_notehead = directive->graphic;//will be used to draw all the notes/the rest
+	    } else {
+	      drawbitmapinverse_cr (cr, directive->graphic, 
+				    xx+directive->gx-directive->graphic->width/2, 
+				    y + STAFF_HEIGHT+40+directive->gy  - directive->graphic->height/2);	      
+	    }
+	  } else { //this directive's graphic does not override entire chord (other ones may)
+	    if(directive->override&DENEMO_ALT_OVERRIDE) {
+	      drawbitmapinverse_cr (cr, directive->graphic, 
+				    xx+directive->gx-directive->graphic->width/2, 
+				    (thechord.is_stemup? (y + STAFF_HEIGHT+40+directive->gy):(y - 40 -directive->gy))  - directive->graphic->height/2 );
+	      
+	    } else {
+	      drawbitmapinverse_cr (cr, directive->graphic, 
+				    xx+directive->gx-directive->graphic->width/2, 
+				    y + STAFF_HEIGHT+40+count+directive->gy  - directive->graphic->height/2);	      
+	    }
+	  }
 	}
 	if(directive->display) {
 	  drawnormaltext_cr (cr, directive->display->str, xx+directive->tx, y+STAFF_HEIGHT+40+count+directive->ty );
@@ -288,20 +309,24 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	}
       } //for each chord directive
   }//block displaying chord directives
-  if (!thechord.notes/* a rest */) {
-    draw_rest (cr, MAX(duration, 0), thechord.numdots, xx, y, override_notehead, gx, gy);
-  }  else {
-    /* Draw the noteheads and accidentals */
-    for (curnode = thechord.notes; curnode; curnode = curnode->next){
-      note *thenote = (note *)curnode->data;
-      draw_notehead (cr, thenote, duration,
-		     thechord.numdots, xx, y, accs, thechord.is_stemup, mudelaitem->isinvisible, override_notehead, gx, gy); 
+  if( (!override_chord_graphic) || (override_chord_graphic && override_notehead)) {
+    if (!thechord.notes/* a rest */) {
+      draw_rest (cr, MAX(duration, 0), thechord.numdots, xx, y, override_notehead, gx, gy);
+    }  else {
+      /* Draw the noteheads and accidentals */
+      for (curnode = thechord.notes; curnode; curnode = curnode->next){
+	note *thenote = (note *)curnode->data;
+	draw_notehead (cr, thenote, duration,
+		       thechord.numdots, xx, y, accs, thechord.is_stemup, mudelaitem->isinvisible, override_notehead, gx, gy); 
+      }
     }
   }
-  /* Now the stem and beams. This is complicated. */
-  if (thechord.notes/* not a rest */) {
-    if (thechord.is_stemup)
-      {
+  
+      /* Now the stem and beams. This is complicated. */
+      if (thechord.notes/* not a rest */) {
+	if (thechord.is_stemup)
+	  {
+if(!override_chord_graphic) {
 	if (mudelaitem->isstart_beamgroup && mudelaitem->isend_beamgroup)
 	  {
 	    if (duration >= 3)
@@ -376,7 +401,7 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	  cairo_line_to( cr, xx + headwidths[noteheadtype], thechord.lowesty + y - 2 );
 	  cairo_stroke( cr );
 	}
-	
+ } //if graphic not overrriden	
 	
 	/* Now draw the tie, if appropriate */
 	if (thechord.is_tied)
@@ -393,7 +418,11 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	  }
       }			/* End stemup stuff */
     else
-      {			/* chord is stemdown */
+      {
+
+if(!override_chord_graphic) {
+
+			/* chord is stemdown */
 	if (mudelaitem->isstart_beamgroup && mudelaitem->isend_beamgroup)
 	  {
 	    if (duration >= 3)
@@ -466,6 +495,7 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	  cairo_line_to( cr, xx, thechord.stemy + y );
 	  cairo_stroke( cr );
 	}
+ }
 	/* Now draw the tie, if appropriate */
 	if (thechord.is_tied)
 	  {
