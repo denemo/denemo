@@ -421,7 +421,9 @@
 			(build ninth "9")
 			(build tenth "0")
 			(if lockin? "" "[Other]Abort")))
-		(Help::Push (cons 'doublestroke helpstring)))
+		(if lockin?
+			(Help::Push (cons 'doublestroke helpstring))
+			(Help::Push (cons 'doublestroketemp helpstring))))
 				
 	; The real action. Wait for a keypress and decide what do with it afterwards, UnsetMark triggers the GUI, AddNoteToChord locks-in the commands and makes them permanent keybindings.
 	(if DenemoKeypressActivatedCommand

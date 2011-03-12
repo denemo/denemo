@@ -10,12 +10,12 @@
 
 (let ((command #f) (duration #f) (dur #f))
 (set! command (lambda ()
-		 (d-WarningDialog "To use this function correctly you need to press a keyboard shortcut for a duration command\nThe duration will be used to divide the note at the cursor when printed.")))
+		 (Help::TimedNotice "To use this function correctly you need to press a keyboard shortcut for a duration command\nThe duration will be used to divide the note at the cursor when printed.")))
 (if (d-Directive-chord? "Tremolo")
 	(d-DirectiveDelete-chord "Tremolo")
 	(begin 
 		(if (not DenemoKeypressActivatedCommand)
- 			(d-WarningDialog "Dismiss this help box and then press a shortcut key 3-7 for the duration into which the note at the cursor is to be divided"))
+ 			(Help::Push (cons 'doublestroke "Dismiss this help box and then press a shortcut key 3-7 for the duration into which the note at the cursor is to be divided")))
    	  (set! duration (d-GetCommand))
           (set! dur #f)
    	  (cond

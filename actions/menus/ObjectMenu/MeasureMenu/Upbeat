@@ -13,8 +13,8 @@
   (define EndTick #f)
   ;Upbeat is only for underful measures
   (define (warning)
-   (d-WarningDialog "Upbeat can only be used in underful, non-empty measures")
-   #f )
+   (Help::TimedNotice "Upbeat can only be used in an underful, non-empty measures")   
+   #f)
  
  ; Create Upbeat-Directive Subprogram
  (define (createUpbeat)

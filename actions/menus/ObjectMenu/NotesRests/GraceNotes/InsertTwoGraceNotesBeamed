@@ -9,7 +9,7 @@
         <action>InsertTwoGraceNotesBeamed</action>
         <scheme> ;;;;;;;;;;;TwoGraceInsert with beaming into the score
  (if (not DenemoKeypressActivatedCommand)
- 	(d-WarningDialog "Press a duration key to get two, beamed, grace notes"))
+ 	(Help::Push (cons 'doublestroketemp "Press a duration key to get two, beamed, grace notes")))
 
 (let ()
 (define command #f)
@@ -31,8 +31,9 @@
 		(d-StartBeam)
 		(command)
 		(d-ToggleGrace)
-		(d-EndBeam))
-  	(d-WarningDialog "To use this function correctly you need to give a duration.\nThis will insert two grace notes, beamed together if needed, with the given duration")))
+		(d-EndBeam)
+		(Help::Pop))
+  	(Help::TimedNotice "To use this function correctly you need to give a duration.\nThis will insert two grace notes, beamed together if needed, with the given duration")))
 </scheme>
         <label>Insert Two</label>
         <tooltip>Inserts two grace notes at the cursor beaming them together. Follow with a duration key.</tooltip>

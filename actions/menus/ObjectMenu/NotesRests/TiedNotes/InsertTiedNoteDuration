@@ -8,10 +8,10 @@
         <action>InsertTiedNoteDuration</action>
         <scheme> ;;;;;;;;;;;TiedNoteDuration  Insert tuplet into the score
  (if (not DenemoKeypressActivatedCommand)
- 	(d-WarningDialog "Press a duration key to insert a tied note"))
+ 	(Help::Push (cons 'doublestroketemp "Press a duration key to insert a tied note"))
  	(display "going on")
 (let ()
-(define (command) (d-WarningDialog "To use this function correctly you need to give a duration.\nThis will insert a tied note of equal duration"))
+(define (command) (Help::TimedNotice "To use this function correctly you need to give a duration.\nThis will insert a tied note of equal duration"))
 (define duration (d-GetCommand))
 (cond
  ((equal? duration "d-0") (set! command d-Change0))
@@ -37,7 +37,8 @@
  ((equal? duration "d-6") (set! command d-Insert6))
  ((equal? duration "d-7") (set! command d-Insert7)))
 (command)
-(d-DeletePreviousObject))
+(d-DeletePreviousObject)
+(Help::Pop))
 
 </scheme>
         <label>Attach Tied Note</label>
