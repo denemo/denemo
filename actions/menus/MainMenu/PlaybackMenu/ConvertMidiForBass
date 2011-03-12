@@ -236,6 +236,13 @@
 						      (duration #f))
 						  
 						  (set! chord2 (list-ref chords (+ 1 index)));;move this into the init
+						  ;;;if chord1 hangs on into chord2 shorten it
+						    (if (contains (car chord1) (car chord2))
+			  (set!note.duration (car chord1) (- (note.start (car chord2)) (note.start (car chord1)))))
+		      
+						  
+						  
+						  
 						  (set! duration (- (note.start (car chord2)) (note.start (car chord1))))
 						  (set! duration (suggest-duration duration bass-duration))
 						  (set! remaining (- remaining duration))
@@ -406,7 +413,7 @@
 	  (fixMeasure))	   	   
       (if (d-MoveToMeasureRight)
 	  (fixMeasures)))
-(fixMeasures)
+;(fixMeasures) loops infinitely?
 (d-PopPosition))</scheme>
         <label>Convert MIDI Chords Over Bass</label>
         <tooltip>Takes a MIDI recording over a bass line and inserts the chords by matching the bass notes. Each chord must include the bass note.</tooltip>
