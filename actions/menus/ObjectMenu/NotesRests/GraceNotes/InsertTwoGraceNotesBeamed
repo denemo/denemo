@@ -33,7 +33,7 @@
 		(d-ToggleGrace)
 		(d-EndBeam)
 		(Help::Pop))
-  	(Help::TimedNotice "To use this function correctly you need to give a duration.\nThis will insert two grace notes, beamed together if needed, with the given duration")))
+  	(begin (Help::Pop) (Help::TimedNotice "To use this function correctly you need to give a duration.\nThis will insert two grace notes, beamed together if needed, with the given duration"))))
 </scheme>
         <label>Insert Two</label>
         <tooltip>Inserts two grace notes at the cursor beaming them together. Follow with a duration key.</tooltip>
