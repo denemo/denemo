@@ -329,7 +329,7 @@ static gint midiaction(gint notenum) {
 	    }
 	    if(Denemo.gui->si->cursor_appending)
 	      break;
-	  } while(!(Denemo.keyboard_state&ADDING_MASK) && next_editable_note() && is_tied);
+	  } while((!(Denemo.keyboard_state&ADDING_MASK)) && next_editable_note() && is_tied);
 	} else 
 	  gdk_beep();
 	if(gui->mode & INPUTRHYTHM) {
@@ -351,6 +351,7 @@ static gint midiaction(gint notenum) {
   if( !(Denemo.keyboard_state&CHECKING_MASK)) {
     stage_undo(gui->si, ACTION_STAGE_START);
   }
+  gtk_widget_queue_draw (Denemo.scorearea);//just for advancing the cursor.
   return TRUE;
 }
 
