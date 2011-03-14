@@ -481,7 +481,7 @@ preferences_change (GtkAction *action, gpointer param)
     gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
     label = gtk_label_new ("");	
     gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
-    gtk_label_set_markup(GTK_LABEL (label), _("<span background=\"red\">Warning: changes only have effect after quitting and re-starting Denemo</span>"));
+    gtk_label_set_markup(GTK_LABEL (label), _("<span background=\"#FFA0A0\">Warning: changes only have effect after quitting and re-starting Denemo</span>"));
     gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
   }
