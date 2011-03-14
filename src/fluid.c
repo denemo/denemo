@@ -608,7 +608,7 @@ fluid_rhythm_feedback(gint duration, gboolean rest, gboolean dot) {
 
 
 static fluid_midi_driver_t* midi_in;
-#define ENTERING_MASK (GDK_MOD1_MASK) //Alt
+//#define ENTERING_MASK (GDK_MOD1_MASK) //Alt
 #define EDITING_MASK (GDK_SHIFT_MASK)  
 static void handle_midi_event(gchar *buf) {
   //g_print("%x : %x %x %x %x\n", Denemo.keyboard_state, GDK_CONTROL_MASK, GDK_SHIFT_MASK, GDK_MOD1_MASK, GDK_LOCK_MASK);
@@ -623,6 +623,8 @@ static void handle_midi_event(gchar *buf) {
   } else {
     if((Denemo.keyboard_state==(GDK_SHIFT_MASK|GDK_LOCK_MASK)) ||
        Denemo.keyboard_state==(GDK_CONTROL_MASK) ||
+       Denemo.keyboard_state==(ADDING_MASK) ||
+       Denemo.keyboard_state==((ADDING_MASK)|(CHORD_MASK)) ||
        Denemo.keyboard_state==(GDK_CONTROL_MASK|GDK_LOCK_MASK) ||
        (Denemo.keyboard_state==0))
       process_midi_event(buf);
@@ -666,10 +668,14 @@ static handle_midi_event_func_t handle_midi_in(void* data, fluid_midi_event_t* e
     fluid_midi_event_get_type(event);
   //g_print("event type: %x\n", type);
   switch(type) {
+
+
+
+  case CONTROL_CHANGE:
   case NOTE_ON:
   case NOTE_OFF:
   case KEY_PRESSURE:
-  case CONTROL_CHANGE:
+  
   case 0xF2:    
     {
       int key = fluid_midi_event_get_key(event);
@@ -678,6 +684,15 @@ static handle_midi_event_func_t handle_midi_in(void* data, fluid_midi_event_t* e
 	type=NOTE_OFF;
 	velocity=127;
       }
+#if 0
+      if (type == CONTROL_CHANGE && (key == 0x40)){
+	if (velocity == 0x7F)
+	  //PEDAL DOWN
+	  Denemo.keyboard_state |= ADDING_MASK;
+	else
+	  Denemo.keyboard_state &= ~(CHORD_MASK|ADDING_MASK);
+      }
+#endif  
       type  |= ((DenemoStaff *)Denemo.gui->si->currentstaff->data)->midi_channel;
       load_midi_buf(type, key, velocity);
     }

@@ -5277,6 +5277,12 @@ void set_midi_in_status() {
       text = _("Checking Pitches");
     else if((Denemo.keyboard_state==(GDK_SHIFT_MASK))||(Denemo.keyboard_state==(GDK_LOCK_MASK)))
       text = _("Listening to Pitches");
+
+    else if((Denemo.keyboard_state&CHORD_MASK))
+      text = _("Adding to a Chord");
+    else if((Denemo.keyboard_state&ADDING_MASK))
+      text = _("Starting a Chord");
+
     else text = _("Appending/Editing Pitches");
     gtk_label_set_markup(GTK_LABEL(midi_in_status), text);
   }

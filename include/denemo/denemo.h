@@ -37,6 +37,9 @@ extern "C" {
 /* This unit of memory size is used all over the place.  */
 #define SEVENGINTS (sizeof (gint) * 7)
 
+#define CHECKING_MASK (GDK_CONTROL_MASK) 
+#define ADDING_MASK (GDK_MOD1_MASK)  //Alt
+#define CHORD_MASK (1<<25)  //Not used by GDK
 
 
 #define g_malloc(a) g_malloc0(a) /* for extensible debuggable code */

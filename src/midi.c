@@ -225,7 +225,15 @@ static void action_note_into_score (DenemoGUI *gui, gint mid_c_offset, gint ensh
   setenshift(gui->si, enshift);
   displayhelper (gui);
 }
-
+static void add_note_to_chord (DenemoGUI *gui, gint mid_c_offset, gint enshift, gint octave) {
+  gui->last_source = INPUTMIDI;
+  gui->si->cursor_y = gui->si->staffletter_y = mid_c_offset;
+  gui->si->cursor_y += 7*octave; 
+  insert_chordnote(gui);
+  // shiftcursor(gui, mid_c_offset);
+  setenshift(gui->si, enshift);
+  displayhelper (gui);
+}
 typedef struct enharmonic
 {
   gint mid_c_offset;
@@ -247,9 +255,24 @@ void record_midi(gchar *buf, gdouble time) {
   }
 }
 
+static void 	      
+do_one_note(DenemoGUI *gui, gint mid_c_offset, gint enshift, gint notenum) {
+  
+  if((Denemo.keyboard_state&ADDING_MASK) && (Denemo.keyboard_state&CHORD_MASK)) {
+    
+    add_note_to_chord(gui, mid_c_offset, enshift, notenum);
+  }
+  else {
+    action_note_into_score(gui, mid_c_offset, enshift, notenum);
+    if(Denemo.keyboard_state&ADDING_MASK)
+      Denemo.keyboard_state |= CHORD_MASK;
+    set_midi_in_status();
+  }
+}
+
 /*  take an action for the passed note. Enter/edit/check the score following the mode and keyboard state. */
 static gint midiaction(gint notenum) {
-#define CHECKING_MASK (GDK_CONTROL_MASK)  
+
   DenemoGUI *gui = Denemo.gui;
   if(gui==NULL)
     return TRUE;
@@ -299,11 +322,14 @@ static gint midiaction(gint notenum) {
 		break;//do not move on to next note
 	      }
 	    }
-	    else
-	      action_note_into_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
+	    else {
+
+	      do_one_note(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
+		
+	    }
 	    if(Denemo.gui->si->cursor_appending)
 	      break;
-	  } while(next_editable_note() && is_tied);
+	  } while(!(Denemo.keyboard_state&ADDING_MASK) && next_editable_note() && is_tied);
 	} else 
 	  gdk_beep();
 	if(gui->mode & INPUTRHYTHM) {
@@ -312,10 +338,16 @@ static gint midiaction(gint notenum) {
 	    beep=TRUE;
 	  else if(beep) signal_measure_end(), beep=FALSE;
 	}
-      } else
-	action_note_into_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
-    } else
-    action_note_into_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
+      } else {// no current object
+	//	if((Denemo.keyboard_state&ADDING_MASK))
+	// add_note_to_chord(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
+	  //else
+	  //action_note_into_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
+	  do_one_note(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
+      }
+    } else {// not INPUTEDIT    
+      action_note_into_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
+  }
   if( !(Denemo.keyboard_state&CHECKING_MASK)) {
     stage_undo(gui->si, ACTION_STAGE_START);
   }
@@ -364,6 +396,19 @@ void process_midi_event(gchar *buf) {
     buf[2]=128;//FIXME 127
   }
 #endif  
+   if (command==MIDI_CTL_CHANGE && (notenumber == 0x40)){
+	if (velocity == 0x7F)
+	  //PEDAL DOWN
+	  Denemo.keyboard_state |= ADDING_MASK;
+	else {
+	  Denemo.keyboard_state &= ~(CHORD_MASK|ADDING_MASK);
+	  next_editable_note();
+	}
+	set_midi_in_status();
+	displayhelper(Denemo.gui);
+      }
+
+
   if(midi_capture_on) {
     if(command!=MIDI_NOTEOFF) {
       gdk_beep();
