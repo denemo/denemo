@@ -175,7 +175,7 @@ playnote (note * tone, /*GList * chord, */int channel)
   key += ((note *) tone)->enshift;
   //voice = g_list_index ((GList *) chord, tone);
 
-  play_midikey(key, 0.3, 0.5/*Denemo.prefs.pcmvolume*/, channel);
+  play_midikey(key, 0.3, 1.0/*Denemo.prefs.pcmvolume*/, channel);
 
 }
 
