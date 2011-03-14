@@ -15,7 +15,7 @@
 	(d-DirectiveDelete-chord "Tremolo")
 	(begin 
 		(if (not DenemoKeypressActivatedCommand)
- 			(Help::Push (cons 'doublestroke "Dismiss this help box and then press a shortcut key 3-7 for the duration into which the note at the cursor is to be divided")))
+ 			(Help::Push (cons 'doublestroketemp "Press a shortcut key 3-7 for the duration into which the note at the cursor is to be divided")))
    	  (set! duration (d-GetCommand))
           (set! dur #f)
    	  (cond
@@ -30,6 +30,7 @@
           		(d-DirectivePut-chord-display "Tremolo" "trem")
    			(d-DirectivePut-chord-postfix "Tremolo" dur))
 	 	 (command))
+	 	 (Help::Pop)
 (d-RefreshDisplay))))
  
 </scheme>
