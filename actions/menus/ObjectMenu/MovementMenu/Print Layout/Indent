@@ -20,6 +20,7 @@
   (set! amount (d-GetUserInput "Choose indent of first system" "Give amount as decimal" current))
   (display amount)
   (d-DirectivePut-layout-postfix "MovementIndent" (string-append "indent = " amount "\n")))
+(d-SetSaved #f)
 (d-RefreshDisplay)
 ;;;;;;;;;;;;;;;;;;;
 </scheme>

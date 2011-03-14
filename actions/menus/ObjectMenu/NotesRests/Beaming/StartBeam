@@ -11,6 +11,7 @@
 (d-DirectivePut-chord-postfix "Beam" "[")
 (d-DirectivePut-chord-display "Beam"  "[")
 (d-RefreshDisplay)
+(d-SetSaved #f)
 </scheme>
         <label>Start Beam</label>
         <tooltip>Instructs the LilyPond engraver to start a beam here. (Print effect only)</tooltip>
