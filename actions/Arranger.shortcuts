@@ -15,10 +15,6 @@
         </cursor-binding>
       </cursors>
       <row>
-        <action>SelectLeft</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
         <action>MoveCursorLeft</action>
         <bind>Left</bind>
       </row>
@@ -29,10 +25,6 @@
       <row>
         <action>CursorUp</action>
         <bind>Up</bind>
-      </row>
-      <row>
-        <action>SelectRight</action>
-        <hidden>true</hidden>
       </row>
       <row>
         <action>MoveCursorRight</action>
@@ -92,31 +84,31 @@
       </row>
       <row>
         <action>A</action>
-        <bind>a,a</bind>
+        <bind>a</bind>
       </row>
       <row>
         <action>B</action>
-        <bind>b,b</bind>
+        <bind>b</bind>
       </row>
       <row>
         <action>C</action>
-        <bind>c,c</bind>
+        <bind>c</bind>
       </row>
       <row>
         <action>D</action>
-        <bind>d,d</bind>
+        <bind>d</bind>
       </row>
       <row>
         <action>E</action>
-        <bind>e,e</bind>
+        <bind>e</bind>
       </row>
       <row>
         <action>F</action>
-        <bind>f,f</bind>
+        <bind>f</bind>
       </row>
       <row>
         <action>G</action>
-        <bind>g,g</bind>
+        <bind>g</bind>
       </row>
       <row>
         <action>OctaveUp</action>
@@ -224,11 +216,11 @@
       </row>
       <row>
         <action>ToggleFermata</action>
-        <bind>a,f</bind>
+        <bind>A,f</bind>
       </row>
       <row>
         <action>ToggleStaccato</action>
-        <bind>a,period</bind>
+        <bind>A,period</bind>
       </row>
       <row>
         <action>ToggleTenuto</action>
@@ -240,7 +232,7 @@
       </row>
       <row>
         <action>ToggleStaccatissimo</action>
-        <bind>a,apostrophe</bind>
+        <bind>A,apostrophe</bind>
       </row>
       <row>
         <action>ToggleArpeggio</action>
@@ -319,14 +311,6 @@
         <bind>Ctrl+v</bind>
       </row>
       <row>
-        <action>MoveToVoiceUp</action>
-        <bind>Page_Up</bind>
-      </row>
-      <row>
-        <action>MoveToVoiceDown</action>
-        <bind>Page_Down</bind>
-      </row>
-      <row>
         <action>StaffProperties</action>
         <bind>Alt+Return</bind>
       </row>
@@ -360,11 +344,11 @@
       </row>
       <row>
         <action>NextMovement</action>
-        <bind>Shft+Right</bind>
+        <bind>Page_Down</bind>
       </row>
       <row>
         <action>PreviousMovement</action>
-        <bind>Shft+Left</bind>
+        <bind>Page_Up</bind>
       </row>
       <row>
         <action>Play</action>
@@ -380,7 +364,7 @@
       </row>
       <row>
         <action>InsertA</action>
-        <bind>A</bind>
+        <bind>A,A</bind>
       </row>
       <row>
         <action>AddA</action>
@@ -388,7 +372,7 @@
       </row>
       <row>
         <action>InsertB</action>
-        <bind>B</bind>
+        <bind>B,B</bind>
       </row>
       <row>
         <action>AddB</action>
@@ -396,7 +380,7 @@
       </row>
       <row>
         <action>InsertC</action>
-        <bind>C</bind>
+        <bind>C,C</bind>
       </row>
       <row>
         <action>AddC</action>
@@ -404,7 +388,7 @@
       </row>
       <row>
         <action>InsertD</action>
-        <bind>D</bind>
+        <bind>D,D</bind>
       </row>
       <row>
         <action>AddD</action>
@@ -412,7 +396,7 @@
       </row>
       <row>
         <action>InsertE</action>
-        <bind>E</bind>
+        <bind>E,E</bind>
       </row>
       <row>
         <action>AddE</action>
@@ -420,7 +404,7 @@
       </row>
       <row>
         <action>InsertF</action>
-        <bind>F</bind>
+        <bind>F,F</bind>
       </row>
       <row>
         <action>AddF</action>
@@ -428,7 +412,7 @@
       </row>
       <row>
         <action>InsertG</action>
-        <bind>G</bind>
+        <bind>G,G</bind>
       </row>
       <row>
         <action>AddG</action>
@@ -508,15 +492,15 @@
       </row>
       <row>
         <action>RepeatStart</action>
-        <bind>b,s</bind>
+        <bind>B,s</bind>
       </row>
       <row>
         <action>RepeatEnd</action>
-        <bind>b,e</bind>
+        <bind>B,e</bind>
       </row>
       <row>
         <action>RepeatEndStart</action>
-        <bind>b,2</bind>
+        <bind>B,2</bind>
       </row>
       <row>
         <action>DoubleBarline</action>
@@ -661,6 +645,14 @@
       <row>
         <action>Upbeat</action>
         <bind>u</bind>
+      </row>
+      <row>
+        <action>SelectRight</action>
+        <bind>Shft+Right</bind>
+      </row>
+      <row>
+        <action>SelectLeft</action>
+        <bind>Shft+Left</bind>
       </row>
     </map>
   </merge>
