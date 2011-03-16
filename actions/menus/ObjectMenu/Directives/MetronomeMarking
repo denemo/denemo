@@ -34,8 +34,8 @@
 )
 (d-WarningDialog "Incorrect syntax.")
 ))</scheme>       
-        <label>Insert Metronome Marking</label>
-        <tooltip>Adds a metronome marking at the cursor position. Give the duration in LilyPond syntax.</tooltip>
+        <label>Metronome Marking</label>
+        <tooltip>Prints a metronome. Adjusts playback tempo to this value.</tooltip>
       </row>
     </map>
   </merge>
