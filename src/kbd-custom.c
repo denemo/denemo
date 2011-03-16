@@ -1656,16 +1656,16 @@ load_system_keymap_dialog (GtkWidget * widget)
 
 
 /*
- * load_keymap_files: load a keymap file systemwide followed by localrc if it exists
+ * load_keymap_files: load a  localrc if it exists or systemwide keymap
 
  */
 static void
 load_keymap_files (gchar *localrc, gchar *systemwide) {
 
- if (load_xml_keymap (systemwide, TRUE) == -1)
-   g_warning("Could not load command set file %s, next %s", systemwide, localrc);
- if(localrc)
-   load_xml_keymap (localrc, TRUE);
+ if(localrc &&
+    (0==load_xml_keymap (localrc, TRUE)))
+   return;
+ load_xml_keymap (systemwide, TRUE);
  return;
 
 }
