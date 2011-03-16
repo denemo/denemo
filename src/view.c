@@ -1975,18 +1975,21 @@ SCM scheme_get_padding(void) {
    the user cancels
 */
 SCM scheme_get_option(SCM options) {
-  SCM scm;
   gchar *response;
   size_t length;
   gchar *str=NULL;
   if(scm_is_string(options)){
-    str = scm_to_locale_stringn(options, &length);
+    gchar *str_unterm = scm_to_locale_stringn(options, &length);
+    str = g_malloc0(length+1);
+    memcpy(str, str_unterm, length);
     response = get_option(str, length);
+    g_free(str);
+    //FIXM memory leak str (DYNWIND)
   }
   if(response)
-    scm = scm_from_locale_stringn (response, strlen(response));
-  else scm = SCM_BOOL(FALSE);
-  return  scm;
+    return scm_from_locale_stringn (response, strlen(response));
+  else 
+    return SCM_BOOL_F;
 }
 
 
