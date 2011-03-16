@@ -15,11 +15,6 @@
         </cursor-binding>
       </cursors>
       <row>
-        <action>SelectLeft</action>
-        <hidden>true</hidden>
-        <bind>Shft+Left</bind>
-      </row>
-      <row>
         <action>MoveCursorLeft</action>
         <bind>Left</bind>
       </row>
@@ -30,11 +25,6 @@
       <row>
         <action>CursorUp</action>
         <bind>Up</bind>
-      </row>
-      <row>
-        <action>SelectRight</action>
-        <hidden>true</hidden>
-        <bind>Shft+Right</bind>
       </row>
       <row>
         <action>MoveCursorRight</action>
@@ -201,7 +191,7 @@
       <row>
         <action>Sharpen</action>
         <bind>Add</bind>
-	<bind>plus</bind>
+        <bind>plus</bind>
         <bind>Shft+equal</bind>
         <bind>equal</bind>
       </row>
@@ -332,7 +322,7 @@
       <row>
         <action>ExecuteScheme</action>
         <hidden>true</hidden>
-      </row>     
+      </row>
       <row>
         <action>New</action>
         <bind>Ctrl+n</bind>
@@ -435,6 +425,14 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>SaveAccels</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>SwapStaffs</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>SplitVoices</action>
         <hidden>true</hidden>
       </row>
@@ -516,14 +514,6 @@
       </row>
       <row>
         <action>HideFiguredBass</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>InsertDynamic</action>
-        <bind>Ctrl+d</bind>
-      </row>
-      <row>
-        <action>InsertStandaloneDirective</action>
         <hidden>true</hidden>
       </row>
       <row>
@@ -824,10 +814,14 @@
       </row>
       <row>
         <action>Anacrusis</action>
-        <bind>u</bind>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>ApplyToSelection</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>SmallerStaff</action>
         <hidden>true</hidden>
       </row>
       <row>
@@ -959,6 +953,14 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>WholeMeasureRest</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MultiMeasureRests</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>OpenRepeat</action>
         <hidden>true</hidden>
       </row>
@@ -979,7 +981,7 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>SetImmediatePlayback</action>
+        <action>HideLilyPond</action>
         <hidden>true</hidden>
       </row>
       <row>
@@ -1015,7 +1017,11 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>DesignateVoice</action>
+        <action>BarNumbers</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MidiTempo</action>
         <hidden>true</hidden>
       </row>
       <row>
@@ -1024,6 +1030,62 @@
       </row>
       <row>
         <action>CursorToHighestNote</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangeChannel</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangeProgram</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangeVolume</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangeGeneric</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangeModwheel</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangeBalance</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangePan</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangeExpression</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangeHoldPedal</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangePortamento</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangeSustenutoPedal</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangeSoftPedal</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangeLegatoPedal</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangeHold2Pedal</action>
         <hidden>true</hidden>
       </row>
       <row>
@@ -1143,6 +1205,10 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>ReBar</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>ForceBarline</action>
         <hidden>true</hidden>
       </row>
@@ -1207,6 +1273,118 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>SetBarNumber</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>SetTuningStaff</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>SetTuningAllStaffs</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>Hide</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>BreathMark</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>DeactivateTimeSignatureStencil</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>StopStaff</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>StartStaff</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>HideNotes</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>UnHideNotes</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>SwitchMensuralBarlines</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>InsertBreve</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangeBreve</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>InsertLonga</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangeLonga</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>InsertBreveRest</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>InsertLongaRest</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>Breve</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>Longa</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>SetBreve</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ScoreProlog</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>Upbeat</action>
+        <bind>u</bind>
+      </row>
+      <row>
+        <action>SetLonga</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>SetInitialVolumeToZero</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>TinyStaff</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>TabStaff</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>FreeFermata</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>SetPitchBendActions</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>ZoomIn</action>
         <bind>Ctrl+plus</bind>
         <bind>Ctrl+Add</bind>
@@ -1221,44 +1399,146 @@
         <bind>Ctrl+0</bind>
       </row>
       <row>
+        <action>AccompanistsScore</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>HalfBarline</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>MoveToMovementBeginning</action>
         <bind>Ctrl+Home</bind>
       </row>
       <row>
-        <action>MoveToMovementEnd</action>
-        <bind>Ctrl+End</bind>
+        <action>InsertStandaloneDirective</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>VoicePresetAutomatic</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>VoicePreset1</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>VoicePreset2</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>VoicePreset3</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>VoicePreset4</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>TinyStaffAllMovements</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>SelectColumn</action>
         <bind>Ctrl+d</bind>
       </row>
       <row>
-		<action>VoicesDoublestroke</action>      
-		<bind>Alt+v</bind>
-	  </row>
-	  <row>
-        <action>VoicePresetAutomatic</action>
-		<hidden>true</hidden>
+        <action>MoveToMovementEnd</action>
+        <bind>Ctrl+End</bind>
       </row>
       <row>
-        <action>VoicePreset1</action>
-		<hidden>true</hidden>
+        <action>VoicesDoublestroke</action>
+        <hidden>true</hidden>
       </row>
       <row>
-        <action>VoicePreset2</action>
-		<hidden>true</hidden>
+        <action>Congruentia</action>
+        <hidden>true</hidden>
       </row>
       <row>
-        <action>VoicePreset3</action>
-		<hidden>true</hidden>
+        <action>LoadSelectDurationComposerNumberkeys</action>
+        <hidden>true</hidden>
       </row>
       <row>
-        <action>VoicePreset4</action>
-		<hidden>true</hidden>
+        <action>SelectRight</action>
+        <hidden>true</hidden>
+        <bind>Shft+Right</bind>
       </row>
       <row>
-        <action>SaveAccels</action>
-		<hidden>true</hidden>
+        <action>SelectLeft</action>
+        <hidden>true</hidden>
+        <bind>Shft+Left</bind>
+      </row>
+      <row>
+        <action>NotationMagick-InsertStringAsBinaryRhythm</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>NotationMagick-InsertReversedStringAsBinaryRhythm</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>NotationMagick-InsertStringAsReversedBinaryRhythm</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>NotationMagick-InsertReversedStringAsReversedBinaryRhythm</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MoveToPreviousEmptyMeasure</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChooseBarline</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ConvertMidiForBass</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>RecordAndConvert</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>CreateIntro</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>GroupStaffStart</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>GroupStaffEnd</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>PianoStaffStart</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>PianoStaffEnd</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChoirStaffStart</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChoirStaffEnd</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>GrandStaffStart</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>GrandStaffEnd</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>DeleteStaffContexts</action>
+        <hidden>true</hidden>
       </row>
     </map>
   </merge>

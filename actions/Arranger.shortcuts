@@ -53,10 +53,14 @@
       <row>
         <action>StaffUp</action>
         <hidden>true</hidden>
+        <bind>Shft+Page_Up</bind>
+        <bind>Ctrl+Shft+Page_Up</bind>
       </row>
       <row>
         <action>StaffDown</action>
         <hidden>true</hidden>
+        <bind>Ctrl+Shft+Page_Down</bind>
+        <bind>Shft+Page_Down</bind>
       </row>
       <row>
         <action>MoveToStaffUp</action>
@@ -69,10 +73,12 @@
       <row>
         <action>MeasureLeft</action>
         <hidden>true</hidden>
+        <bind>Ctrl+Shft+Left</bind>
       </row>
       <row>
         <action>MeasureRight</action>
         <hidden>true</hidden>
+        <bind>Ctrl+Shft+Right</bind>
       </row>
       <row>
         <action>MoveToMeasureLeft</action>
@@ -156,6 +162,8 @@
       </row>
       <row>
         <action>Sharpen</action>
+        <bind>plus</bind>
+        <bind>equal</bind>
         <bind>Add</bind>
         <bind>Shft+equal</bind>
       </row>
@@ -185,6 +193,10 @@
       <row>
         <action>AddMeasure</action>
         <bind>n</bind>
+      </row>
+      <row>
+        <action>InsertMeasureBefore</action>
+        <bind>m</bind>
       </row>
       <row>
         <action>DeleteMeasure</action>
@@ -220,14 +232,16 @@
       </row>
       <row>
         <action>ToggleStaccato</action>
+        <bind>;</bind>
         <bind>A,period</bind>
       </row>
       <row>
         <action>ToggleTenuto</action>
-        <bind>a,minus</bind>
+        <bind>A,minus</bind>
       </row>
       <row>
         <action>ToggleTrill</action>
+        <bind>Backslash</bind>
         <bind>backslash</bind>
       </row>
       <row>
@@ -252,6 +266,7 @@
       </row>
       <row>
         <action>NextRhythm</action>
+        <bind>Return</bind>
         <bind>Shft+space</bind>
       </row>
       <row>
@@ -328,10 +343,12 @@
       </row>
       <row>
         <action>GoToBeginning</action>
+        <bind>Shft+Home</bind>
         <bind>home</bind>
       </row>
       <row>
         <action>GoToEnd</action>
+        <bind>Shft+End</bind>
         <bind>end</bind>
       </row>
       <row>
@@ -360,6 +377,7 @@
       </row>
       <row>
         <action>Help</action>
+        <bind>F1</bind>
         <bind>f1</bind>
       </row>
       <row>
@@ -475,6 +493,14 @@
         <bind>Shft+6</bind>
       </row>
       <row>
+        <action>Change7</action>
+        <bind>Ctrl+7</bind>
+      </row>
+      <row>
+        <action>Change8</action>
+        <bind>Ctrl+8</bind>
+      </row>
+      <row>
         <action>MoveNoteToCursor</action>
         <bind>MveL-Shift</bind>
       </row>
@@ -504,7 +530,7 @@
       </row>
       <row>
         <action>DoubleBarline</action>
-        <bind>b,d</bind>
+        <bind>B,d</bind>
       </row>
       <row>
         <action>TmbalesStyle</action>
@@ -531,8 +557,28 @@
         <bind>Tab</bind>
       </row>
       <row>
+        <action>NextBookmark</action>
+        <bind>F12</bind>
+      </row>
+      <row>
+        <action>PrevBookmark</action>
+        <bind>F11</bind>
+      </row>
+      <row>
         <action>RehearsalMark</action>
         <bind>F9</bind>
+      </row>
+      <row>
+        <action>BookmarkNamed</action>
+        <bind>Shft+F9</bind>
+      </row>
+      <row>
+        <action>BookmarkNonPrinting</action>
+        <bind>Alt+Shft+F9</bind>
+      </row>
+      <row>
+        <action>SearchBookmark</action>
+        <bind>F10</bind>
       </row>
       <row>
         <action>InsertWholeMeasureRest</action>
@@ -636,7 +682,7 @@
       </row>
       <row>
         <action>InsertTwoGraceNotesBeamed</action>
-        <bind>g,2</bind>
+        <bind>G,2</bind>
       </row>
       <row>
         <action>NotationMagick-TwelveToneRow</action>
@@ -645,6 +691,32 @@
       <row>
         <action>Upbeat</action>
         <bind>u</bind>
+      </row>
+      <row>
+        <action>ZoomIn</action>
+        <bind>Ctrl+plus</bind>
+        <bind>Ctrl+Add</bind>
+      </row>
+      <row>
+        <action>ZoomOut</action>
+        <bind>Ctrl+minus</bind>
+        <bind>Ctrl+Subtract</bind>
+      </row>
+      <row>
+        <action>ZoomReset</action>
+        <bind>Ctrl+0</bind>
+      </row>
+      <row>
+        <action>MoveToMovementBeginning</action>
+        <bind>Ctrl+Home</bind>
+      </row>
+      <row>
+        <action>MoveToMovementEnd</action>
+        <bind>Ctrl+End</bind>
+      </row>
+      <row>
+        <action>VoicesDoublestroke</action>
+        <bind>Alt+v</bind>
       </row>
       <row>
         <action>SelectRight</action>
