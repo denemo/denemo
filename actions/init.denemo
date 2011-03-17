@@ -19,14 +19,9 @@
   </paper-directives>
   <lilycontrol>
     <papersize>a4</papersize>
-    <fontsize>20</fontsize>
+    <fontsize>18</fontsize>
     <orientation>1</orientation>
-    <score-directives>
-      <directive>
-        <tag>MensuralNoteHeads</tag>
-        <prefix>neohead = \once \override Voice.NoteHead #'style = #'neomensural
-        </prefix>
-      </directive>
+    <score-directives>      
     </score-directives>
   </lilycontrol>
   <movement-number>1</movement-number>
