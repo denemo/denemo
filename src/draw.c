@@ -95,7 +95,7 @@ void region_playhead(void) {
     
   }
   
-  g_print("o");//Hah! this is needed to allow the re-draw to take place
+  //g_print("o");Hah! this is needed to allow the re-draw to take place
 }
 
 static void      
