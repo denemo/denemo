@@ -425,7 +425,7 @@ void process_midi_event(gchar *buf) {
 	execute_callback_from_name(Denemo.map, command_name);
 
     } else if(command==MIDI_PITCH_BEND) {
-      gchar *command_name = get_midi_pitch_bend_command((notenumber<<7) + velocity);
+      gchar *command_name = get_midi_pitch_bend_command((notenumber<<8) + velocity);
       if(command_name)
       //FIXME what sort of free? g_free(command_name);
 	execute_callback_from_name(Denemo.map, command_name);

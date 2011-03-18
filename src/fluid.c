@@ -701,7 +701,7 @@ static handle_midi_event_func_t handle_midi_in(void* data, fluid_midi_event_t* e
   
     {
       short key = fluid_midi_event_get_pitch(event);
-      load_midi_buf(type, key>>7, key&0x7F);
+      load_midi_buf(type, key>>8, key&0x7F);
     }
     break;
 
