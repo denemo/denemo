@@ -207,35 +207,10 @@ struct callbackdata
   GtkWidget *volume;
   GtkWidget *mute_volume;
  
-  GtkWidget *context;
+  
 
 };
 
-/**
- * Convert Context string to denemocontext 
- * 
- * @param string the context string
- * @return denemocontext of the string or -1 if not passed string is not set to a context
- */
-static gint
-setcontext (const gchar * string)
-{
-  if (!strcmp (NONE_STRING, string))
-    return DENEMO_NONE;
-  if (!strcmp (PIANO_START_STRING, string))
-    return DENEMO_PIANO_START;
-  if (!strcmp (PIANO_END_STRING, string))
-    return DENEMO_PIANO_END;
-  if (!strcmp (CHOIR_START_STRING, string))
-    return DENEMO_CHOIR_START;
-  if (!strcmp (CHOIR_END_STRING, string))
-    return DENEMO_CHOIR_END;
-  if (!strcmp (GROUP_START_STRING, string))
-    return DENEMO_GROUP_START;
-  if (!strcmp (GROUP_END_STRING, string))
-    return DENEMO_GROUP_END;
-  return -1;
-}
 
 /**
  * Set the staffs properties 
@@ -307,17 +282,6 @@ set_properties (struct callbackdata *cbdata)
     ASSIGNNUMBER_1(midi_prognum);
     ASSIGNNUMBER_1(midi_channel);
   }
-  g_print("chan prog %d %d\n", staffstruct->midi_channel, staffstruct->midi_prognum); 
-  /* staff context */
-  DenemoContext old = staffstruct->context;
-  staffstruct->context =
-    setcontext (gtk_entry_get_text (GTK_ENTRY (cbdata->context)));
-  if(staffstruct->context==-1)
-    staffstruct->context=old;
-  else
-    if(staffstruct->context != DENEMO_NONE)
-      staffstruct->context |= old;//Allow more than one context to start/end, reset using DENEMO_NONE (0)
-  
 
 #ifdef DEBUG
   g_printf("Staff Transposition %d\n", staffstruct->transposition);
