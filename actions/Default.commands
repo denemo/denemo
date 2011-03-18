@@ -3734,7 +3734,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>MergeWithNextMeasure</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu/</menupath>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
         <label>Merge with Next Measure</label>
         <tooltip>Joins two measures together.</tooltip>
       </row>
@@ -4566,6 +4566,109 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/StaffMenu/Contexts</menupath>
         <label>Delete all staff contexts</label>
         <tooltip>Clear the staff from all contexts</tooltip>
+      </row>
+      <row>
+        <action>MovementNoteheadsDefault</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
+        <label>Default</label>
+        <tooltip>Default note head style for the current movement.</tooltip>
+      </row>
+      <row>
+        <action>MovementNoteheadsBaroque</action>
+        <after>MovementNoteheadsDefault</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
+        <label>Baroque</label>
+        <tooltip>Baroque note head style for the current movement.</tooltip>
+      </row>
+      <row>
+        <action>MovementNoteheadsNeomensural</action>
+        <after>MovementNoteheadsBaroque</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
+        <label>Neomensural</label>
+        <tooltip>Neomensural note head style for the current movement.</tooltip>
+      </row>
+      <row>
+        <action>MovementNoteheadsMensural</action>
+        <after>MovementNoteheadsNeomensural</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
+        <label>Mensural</label>
+        <tooltip>Mensural note head style for the current movement.</tooltip>
+      </row>
+      <row>
+        <action>MovementNoteheadsPetrucci</action>
+        <after>MovementNoteheadsMensural</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
+        <label>Petrucci</label>
+        <tooltip>Petrucci note head style for the current movement.</tooltip>
+      </row>
+      <row>
+        <action>MovementNoteheadsHarmonic</action>
+        <after>MovementNoteheadsPetrucci</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
+        <label>Harmonic</label>
+        <tooltip>Harmonic note head style for the current movement.</tooltip>
+      </row>
+      <row>
+        <action>MovementNoteheadsHarmonic-black</action>
+        <after>MovementNoteheadsHarmonic</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
+        <label>Harmonic-black</label>
+        <tooltip>Harmonic-black note head style for the current movement.</tooltip>
+      </row>
+      <row>
+        <action>MovementNoteheadsHarmonic-mixed</action>
+        <after>MovementNoteheadsHarmonic-black</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
+        <label>Harmonic-black</label>
+        <tooltip>Harmonic-black note head style for the current movement.</tooltip>
+      </row>
+      <row>
+        <action>MovementNoteheadsDiamond</action>
+        <after>MovementNoteheadsHarmonic-mixed</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
+        <label>Diamond</label>
+        <tooltip>Diamond note head style for the current movement.</tooltip>
+      </row>
+      <row>
+        <action>MovementNoteheadsCross</action>
+        <after>MovementNoteheadsDiamond</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
+        <label>Cross</label>
+        <tooltip>Cross note head style for the current movement.</tooltip>
+      </row>
+      <row>
+        <action>MovementNoteheadsXcircle</action>
+        <after>MovementNoteheadsCross</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
+        <label>Xcircle</label>
+        <tooltip>Xcircle note head style for the current movement.</tooltip>
+      </row>
+      <row>
+        <action>MovementNoteheadsSlash</action>
+        <after>MovementNoteheadsXcircle</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
+        <label>Slash</label>
+        <tooltip>Slash note head style for the current movement.</tooltip>
+      </row>
+      <row>
+        <action>MovementNoteheadsDelete</action>
+        <after>MovementNoteheadsSlash</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
+        <label>Delete Movement Notehead Settings</label>
+        <tooltip>Delete note head style of this movement. Reset to whatever Score or Lilypond has set as default.</tooltip>
       </row>
     </map>
   </merge>
