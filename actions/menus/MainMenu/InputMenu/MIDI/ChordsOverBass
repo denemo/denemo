@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>CheckPitches</after>
+        <action>ChordsOverBass</action>
+        <scheme>;;;;ChordsOverBass (pure filter version)
+(define Pitchbend::commandUp "(disp \"disabled\n\")")
+(define Pitchbend::commandDown "(disp \"disabled\n\")")
+
+(let ()
+  (define (noteOn? midi)
+    (= #x90 (bit-extract midi 0 8)))
+  (define (noteOff? midi)
+    (= #x80 (bit-extract midi 0 8)))
+  (define (pedalDown? midi)
+    (and (= #xB0 (bit-extract midi 0 8))  (= (bit-extract midi 8 16) #x40) (=  (bit-extract midi 16 24) #x7F)))
+  
+  (define (pedalUp? midi)
+    (and (= #xB0 (bit-extract midi 0 8))  (= (bit-extract midi 8 16) #x40) (=  (bit-extract midi 16 24) #x0)))
+  
+  (define (GetChords bass-key)
+    (define continuing #f)
+    (let loop ()
+      (let* ((midi (d-GetMidi))
+	     (velocity (bit-extract midi 16 24))
+	     (note (bit-extract midi 8 16))
+	     (command (bit-extract midi 0 8)))  
+	(let ()
+	  (disp "waiting for the release of " bass-key "\n")
+	  (cond
+	   ((noteOn? midi) (if continuing 
+			       (begin
+			       (disp "cont... " (d-GetNoteForMidiKey note) "\n")
+				 (eval-string (string-append "(d-InsertNoteInChord \"" (d-GetNoteForMidiKey note) "\")")))
+			       (begin
+			        (disp "start... " (d-GetNoteForMidiKey note) "\n")
+				 (eval-string (string-append "(d-PutNoteName \"" (d-GetNoteForMidiKey note) "\")"))
+				 (set! continuing #t)))
+	    (PlayNote (number-&gt;string note) 400)
+	    (loop))
+	   ((noteOff? midi) (if (= note bass-key)
+				#t
+				(loop)))
+	   (else (loop)))))))
+  
+  (if (not (None?))
+      (let loop  ((bass-key (d-GetNoteAsMidi)))
+(define continuing #t)
+	(d-PushPosition)
+	(d-SetMark)
+	(d-Copy)
+	(if (zero? bass-key)
+	    (begin
+	      (d-MoveToStaffUp)
+	      (GoToMeasureEnd)
+	      (d-Paste))     
+	    (let listening ()
+	      (let* ((midi (d-GetMidi))
+		     (velocity (bit-extract midi 16 24))
+		     (note (bit-extract midi 8 16))
+		     (command (bit-extract midi 0 8)))  
+		
+		  (cond ((and (= command #x90) (= note bass-key))
+			 (begin
+			   (d-MoveToStaffUp)
+			   (GoToMeasureEnd)
+			   (d-Paste)
+					;(d-PrevObject)
+					;(d-SetNonprinting)
+			   (d-RefreshDisplay)
+					;(disp "Chord mode is " (d-MidiInChordMode #t)  "\n")	
+			   (GetChords bass-key)
+			   ))
+			((and  (= command #xE0) (&gt; note 32))
+			 (disp "Finishing by abort")
+			 (d-PopPosition)
+			 (d-MoveToStaffUp)
+			 (GoToMeasureEnd)
+			 (eval-string (string-append "(d-" (d-GetCommandFromUser) ")"))
+			 (set! continuing #f))
+
+		      (else
+			(disp "Ignoring " command " " note " " velocity " waiting for " bass-key "\n")
+			(listening)))
+
+
+)))
+	(if continuing
+	    (begin 
+	      (d-PopPosition)
+	      (if (d-NextObject)
+		  (loop (d-GetNoteAsMidi))))))
+  (disp "Finished ChordsOverBass")))
+
+(define Pitchbend::commandUp "(d-CursorRight)")
+(define Pitchbend::commandDown "(d-CursorLeft)")</scheme>
+        <label>Create Chords Over Bass Line</label>
+        <tooltip>Place the cursor on a bass note and invoke this command. It creates a staff above and for each note in the bass staff, as you play it, it switches to the treble staff and allows you to enter a chord (arpeggiate slightly). Use the Pitch Bend wheel to stop/start the process.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
