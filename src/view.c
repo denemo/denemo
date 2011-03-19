@@ -3180,6 +3180,7 @@ static gboolean to_object_direction(gboolean within_measure, gboolean right, gbo
     return FALSE;
   GList *start_obj = Denemo.gui->si->currentobject;
   GList *start_measure = Denemo.gui->si->currentmeasure;
+  gboolean was_appending = Denemo.gui->si->cursor_appending;
   if(start_obj && Denemo.gui->si->cursor_appending)
     movecursorleft(NULL);
   if(start_obj==NULL){
@@ -3217,6 +3218,8 @@ static gboolean to_object_direction(gboolean within_measure, gboolean right, gbo
 	movecursorright(NULL);
 	return TRUE;
       }
+      if(was_appending)
+      	movecursorright(NULL);
       return FALSE;
     }
     //left
@@ -3236,6 +3239,8 @@ static gboolean to_object_direction(gboolean within_measure, gboolean right, gbo
 	  return to_object_direction(within_measure, right, stopping);
       return TRUE;
     }
+   if(was_appending)
+      movecursorright(NULL);
     return FALSE;
   }
   //left
@@ -3400,6 +3405,18 @@ static gboolean to_chord_direction (gboolean right, gboolean stopping) {
       to_chord_direction (right, stopping);
 }
 
+static gboolean to_chord_direction_in_measure (gboolean right) {
+  gboolean ret = to_object_direction(TRUE, right, TRUE);
+  if(!ret)
+    return ret;
+  if(Denemo.gui->si->currentobject && Denemo.gui->si->currentobject->data &&
+    ((DenemoObject*) Denemo.gui->si->currentobject->data)->type == CHORD)
+    return TRUE;
+  else
+    return 
+      to_chord_direction_in_measure (right);
+}
+
 
 
 
@@ -3411,6 +3428,13 @@ SCM scheme_next_chord (SCM optional) {
 
 SCM scheme_prev_chord (SCM optional) {
   return SCM_BOOL(to_chord_direction(FALSE, FALSE));
+}
+SCM scheme_next_chord_in_measure (SCM optional) {
+  return SCM_BOOL(to_chord_direction_in_measure(TRUE));
+}
+
+SCM scheme_prev_chord_in_measure (SCM optional) {
+  return SCM_BOOL(to_chord_direction_in_measure(FALSE));
 }
 
 
@@ -3870,6 +3894,11 @@ static void create_scheme_identfiers(void) {
   INSTALL_SCM_FUNCTION ("Moves the cursor to the previous object in the selection. Returns #t if the cursor moved",DENEMO_SCHEME_PREFIX"PrevSelectedObject", scheme_prev_selected_object);
   INSTALL_SCM_FUNCTION ("Moves the cursor the the next object of type CHORD in the current staff. Returns #f if the cursor did not move",DENEMO_SCHEME_PREFIX"NextChord", scheme_next_chord);
   INSTALL_SCM_FUNCTION ("Moves the cursor the the previous object of type CHORD in the current staff. Returns #f if the cursor did not move",DENEMO_SCHEME_PREFIX"PrevChord", scheme_prev_chord);
+
+  INSTALL_SCM_FUNCTION ("Moves the cursor the the next object of type CHORD in the current measure. Returns #f if the cursor did not move",DENEMO_SCHEME_PREFIX"NextChordInMeasure", scheme_next_chord_in_measure);
+  INSTALL_SCM_FUNCTION ("Moves the cursor the the previous object of type CHORD in the current measure. Returns #f if the cursor did not move",DENEMO_SCHEME_PREFIX"PrevChordInMeasure", scheme_prev_chord_in_measure);
+
+
   INSTALL_SCM_FUNCTION ("Moves the cursor the next object of type CHORD which is not a rest in the current staff. Returns #f if the cursor did not move",DENEMO_SCHEME_PREFIX"NextNote", scheme_next_note);
   INSTALL_SCM_FUNCTION ("Moves the cursor the previous object of type CHORD which is not a rest in the current staff. Returns #f if the cursor did not move",DENEMO_SCHEME_PREFIX"PrevNote", scheme_prev_note);
   INSTALL_SCM_FUNCTION ("Creates a music Snippet comprising the object at the cursor Returns #f if not possible, otherwise an identifier for that snippet",DENEMO_SCHEME_PREFIX"CreateSnippetFromObject", scheme_create_snippet_from_object);
