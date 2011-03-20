@@ -388,7 +388,7 @@ find_xes_in_measure (DenemoScore * si, gint measurenum,
 	  //g_print("*******Max advance ticks %d\n", max_advance_ticks);
 	  allocate_xes (block_start_obj_nodes, cur_obj_nodes, num_staffs,
 			max_advance_ticks, &base_x, &base_tick,
-			shortest_chord_duration, shortest_chord_pixels,
+			shortest_chord_duration?shortest_chord_duration:1                  , shortest_chord_pixels,
 			whole_note_width, non_chords);
 
 	  /* And do setup work for the next block */
