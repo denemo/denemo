@@ -2323,28 +2323,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <menupath>/ObjectMenu/Score</menupath>
         <label>(Print) Transpose Octave Up</label>
         <tooltip>Instructs the LilyPond Engraver to transpose this score one octave up.</tooltip>
-      </row>
-      <row>
-        <action>SetTransposeIntervalFromSelection</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/EditMenu/Transpose</menupath>
-        <label>Set Transpose Interval</label>
-        <tooltip>Sets the interval for a transpose operation from the first two notes of the current selection.</tooltip>
-      </row>
-      <row>
-        <action>TransposeNote</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/EditMenu/Transpose</menupath>
-        <label>Transpose Note</label>
-        <tooltip>Transposes the note at the cursor by the amount set by other commands.</tooltip>
-      </row>
-      <row>
-        <action>TransposeSelection</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/EditMenu/Transpose</menupath>
-        <label>Transpose Selection</label>
-        <tooltip>Opens a dialog to get an interval, then transposes by that interval.</tooltip>
-      </row>
+      </row>   
       <row>
         <action>D.C.AlFine</action>
         <scheme></scheme>
@@ -2771,14 +2750,6 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/Score</menupath>
         <label>(Print) Transposed</label>
         <tooltip>Prints the score transposed by the interval selected by SetTransposeIntervalFromSelection</tooltip>
-      </row>
-      <row>
-        <action>SetTransposeIntervalFromNote</action>
-        <after>SetTransposeIntervalFromSelection</after>
-        <scheme></scheme>
-        <menupath>/MainMenu/EditMenu/Transpose</menupath>
-        <label>Set Transpose Interval from Note</label>
-        <tooltip>Sets the current note as the note that c should transpose to.</tooltip>
       </row>
       <row>
         <action>MezzoForte</action>
