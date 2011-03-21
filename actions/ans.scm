@@ -1001,7 +1001,18 @@
 
 (define (ANS::CalculateRealOctaveDown ansNote) 
 	(- ansNote 350))
+	
+(define (ANS::CalculateWholeRealStepUp ansNote) 
+	(ANS::IntervalCalcUp ansNote 'M2))
+	
+(define (ANS::CalculateWholeRealStepDown ansNote) 
+	(ANS::IntervalCalcDown ansNote 'M2))
 
+(define (ANS::CalculateHalfeRealStepUp ansNote) 
+	(ANS::IntervalCalcUp ansNote 'm2))	
+	
+(define (ANS::CalculateHalfeRealStepDown ansNote) 
+	(ANS::IntervalCalcDown ansNote 'm2))
 
 ;GetDiatonic. Looks ups the prevailing keysignature and returns the correct diatonic value for a given note.
 ; PrevailingKeysig is either -1 (flat), 0 (natural) or 1 (sharp)
