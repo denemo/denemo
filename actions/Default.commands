@@ -3553,17 +3553,17 @@ for second and subsequent systems</tooltip>
       <row>
         <action>ShiftUp</action>
         <scheme></scheme>
-        <menupath>/MainMenu/EditMenu/Shift</menupath>
-        <label>Shift Up</label>
-        <tooltip>Shifts the selected Notes and Chords up a diatonic step</tooltip>
+        <menupath>/ObjectMenu/NotesRests/Transpose(Destructive)</menupath>
+        <label>Tonal step up</label>
+        <tooltip>Transpose/shift the cursor note or selection one step up, stay in the keysignature.</tooltip>
       </row>
       <row>
         <action>ShiftDown</action>
         <after>ShiftUp</after>
         <scheme></scheme>
-        <menupath>/MainMenu/EditMenu/Shift</menupath>
-        <label>Shift Down</label>
-        <tooltip>Shifts the selected Notes and Chords down a diatonic step</tooltip>
+        <menupath>/ObjectMenu/NotesRests/Transpose(Destructive)</menupath>
+        <label>Tonal step down</label>
+        <tooltip>Transpose/shift the cursor note or selection one step down, stay in the keysignature.</tooltip>
       </row>
       <row>
         <action>CloseReopenRepeat</action>
@@ -3930,15 +3930,15 @@ for second and subsequent systems</tooltip>
       <row>
         <action>ShiftRealOctaveUp</action>
         <scheme></scheme>
-        <menupath>/MainMenu/EditMenu/Shift</menupath>
-        <label>Shift Octave Up</label>
+        <menupath>/ObjectMenu/NotesRests/Transpose(Destructive)</menupath>
+        <label>Octave Up</label>
         <tooltip>Shifts current notes/selection up one octave while preserving accidental status. This means real transposition</tooltip>
       </row>
       <row>
         <action>ShiftRealOctaveDown</action>
         <scheme></scheme>
-        <menupath>/MainMenu/EditMenu/Shift</menupath>
-        <label>Shift Octave Down</label>
+        <menupath>/ObjectMenu/NotesRests/Transpose(Destructive)</menupath>
+        <label>Octave Down</label>
         <tooltip>Shifts current notes/selection down one octave while preserving accidental status. This means real transposition</tooltip>
       </row>
       <row>
@@ -4669,6 +4669,37 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
         <label>Delete Movement Notehead Settings</label>
         <tooltip>Delete note head style of this movement. Reset to whatever Score or Lilypond has set as default.</tooltip>
+      </row>
+      <row>
+        <action>ShiftRealWholeUp</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Transpose(Destructive)</menupath>
+        <label>Whole tone up</label>
+        <tooltip>Transpose/shift the cursor note or selection one whole tone up</tooltip>
+      </row>
+      <row>
+        <action>ShiftRealWholeDown</action>
+        <after>ShiftRealWholeUp</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Transpose(Destructive)</menupath>
+        <label>Whole tone down</label>
+        <tooltip>Transpose/shift the cursor note or selection one whole tone down</tooltip>
+      </row>
+      <row>
+        <action>ShiftRealHalfUp</action>
+        <after>ShiftRealWholeDown</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Transpose(Destructive)</menupath>
+        <label>Half tone up</label>
+        <tooltip>Transpose/shift the cursor note or selection one half tone up</tooltip>
+      </row>
+      <row>
+        <action>ShiftRealHalfDown</action>
+        <after>ShiftRealHalfUp</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Transpose(Destructive)</menupath>
+        <label>Half tone down</label>
+        <tooltip>Transpose/shift the cursor note or selection one half tone down</tooltip>
       </row>
     </map>
   </merge>
