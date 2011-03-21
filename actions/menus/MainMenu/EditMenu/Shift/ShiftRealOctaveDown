@@ -6,9 +6,10 @@
     <map>
       <row>
         <action>ShiftRealOctaveDown</action>
-        <scheme>;defined in init.scm
-(SingleAndSelectionSwitcher ShiftRealOctaveDown)
-		</scheme>
+        <scheme>;in reality this is not shift but transpose. But there are too many functions with the name transpose already...
+(SingleAndSelectionSwitcher (lambda () 
+	(ShiftProto ANS::CalculateRealOctaveDown)))
+</scheme>
         <label>Shift Octave Down</label>
         <tooltip>Shifts current notes/selection down one octave while preserving accidental status. This means real transposition</tooltip>
       </row>

@@ -1952,3 +1952,10 @@
 	(Probe test d-NextNote))
 (define (ProbePreviousNote test)
 	(Probe test d-PreviousNote))
+	
+;Protofunction for all transpose and shift related commands
+;; Get all notes on cursor position and create a list with new values which then exchanges the current notes on cursor position
+(define (ShiftProto method)
+	(if (Note?) 
+		(ANS::ChangeChordNotes (map method (ANS::GetChordNotes)))
+		#f)) ; not a note/chord	
