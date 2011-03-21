@@ -7,17 +7,16 @@
       <row>
         <after>AddMeasure</after>
         <action>AddDuplicateMeasure</action>
-        <scheme>;;;AddDuplicateMeasure
-(d-PushClipboard)
-(while (d-PrevObjectInMeasure)
-       #t)
- (d-SetMark)
-(while (d-NextObjectInMeasure)
-       #t)
-(d-SetPoint)
+        <scheme>(d-PushClipboard)
+(d-SelectMeasure)
 (d-Copy)
-(d-UnsetMark)
-(d-InsertMeasureAfter)
+(if (d-MoveToMeasureRight)
+	(if (None?)
+		#t ; Empty measure
+		(d-InsertMeasure)) ; create empty measure
+	(begin ; End of staff
+		(d-AppendMeasure)
+		(d-MoveToMeasureRight)))
 (d-Paste)
 (d-PopClipboard)</scheme>
         <label>Insert Duplicate Measure After</label>
