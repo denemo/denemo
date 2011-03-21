@@ -1674,15 +1674,10 @@
 		(abs ticks)
 		#f))	   
 
-(define (duration::GetSelectionDurationInTicks) 
-  (d-PushPosition)
-  (if (d-GoToSelectionStart)
-	(let loop ((ticks 0))
-		(set! ticks (+ ticks (d-GetDurationInTicks)))
-		(if (d-NextSelectedObject)
-			(loop ticks)
-			(begin  (d-PopPosition) ticks)))
-	#f)) ; no selection
+(define (duration::GetSelectionDurationInTicks)
+	(if (d-MarkStatus)
+		(apply + (MapToSelection d-GetDurationInTicks Music?))
+		#f))
     
 
 (define* (duration::ChangeNoteDurationInTicks ticks #:optional (dots 0))
