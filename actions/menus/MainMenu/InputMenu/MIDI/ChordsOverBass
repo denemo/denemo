@@ -21,9 +21,64 @@
   
   (define (pedalUp? midi)
     (and (= #xB0 (bit-extract midi 0 8))  (= (bit-extract midi 8 16) #x40) (=  (bit-extract midi 16 24) #x0)))
-  
+ (define (pause) (d-GetUserInput "Pausing..." "Press any key" " "))
+(define (tie-in dur numdots)
+  	(let ((denemodur  (number-&gt;string (duration::lilypond-&gt;denemo (string-&gt;number dur)))))
+	 ; (pause)
+	  (d-SetMark)
+	  (d-Copy)
+	  (d-ToggleTie)
+	  (d-NextChord)
+	  (d-Paste)
+	  (d-DeleteObject)
+	  (d-MoveCursorLeft)
+	  (eval-string (string-append "(d-Change" denemodur ")" (if (&gt; numdots 0) "(d-AddDot)" "")))
+	 ; (pause)
+	  ))
+
+  (define (continue-chord)    
+    (define dur (car (string-split (d-GetNoteDuration)  #\.)))
+    (define numdots (d-GetDots))
+    (define prevdur #f)
+    (define prevdots #f)
+    ;;move onto the previous chord
+    (if (not (d-PrevChordInMeasure))
+	(begin
+	  (d-PrevChord)
+	  (tie-in dur numdots)
+	  )
+	(begin
+	  (set! prevdur (car (string-split (d-GetNoteDuration) #\.)))
+	  (set! prevdots (d-GetDots))
+	  (cond
+	   ((Rest?)
+	    (disp "doing the rest case\n")
+	    (continue-chord)
+	    (d-NextChord)
+	    (continue-chord)
+(d-PrevChord)
+;(pause)
+)
+	   ((equal? prevdur dur)
+	    (disp "doubling previous note" dur "\n")
+	    
+	    (d-Augment)
+	    (if (d-NextChord)
+		(d-DeleteObject))
+	    )
+	   (else 
+	    (disp "doing else case\n")
+
+	    (tie-in dur numdots)
+
+		 )))))
+
+      
   (define (GetChords bass-key)
+    (define chord-created #f)
+    (define suspension #f)
     (define continuing #f)
+    (d-MoveCursorLeft)
     (let loop ()
       (let* ((midi (d-GetMidi))
 	     (velocity (bit-extract midi 16 24))
@@ -32,7 +87,9 @@
 	(let ()
 	  (disp "waiting for the release of " bass-key "\n")
 	  (cond
-	   ((noteOn? midi) (if continuing 
+	   ((noteOn? midi)
+	    (set! chord-created #t)
+	    (if continuing 
 			       (begin
 			       (disp "cont... " (d-GetNoteForMidiKey note) "\n")
 				 (eval-string (string-append "(d-InsertNoteInChord \"" (d-GetNoteForMidiKey note) "\")")))
@@ -42,14 +99,26 @@
 				 (set! continuing #t)))
 	    (PlayNote (number-&gt;string note) 400)
 	    (loop))
-	   ((noteOff? midi) (if (= note bass-key)
-				#t
-				(loop)))
+	   ((noteOff? midi) 
+	    (disp "A note off with chord-created=" chord-created "and suspension=" suspension "\n")
+	    (if (= note bass-key)				
+				  (if chord-created
+				      #t
+				      (if suspension
+					  (continue-chord);;carry the previous chord on
+					  (begin (disp "rest\n") (d-StagedDelete)));;;turn into a rest
+				  )				  
+				(begin 
+(disp "A suspension\n")
+				  (set! suspension #t)
+				(loop))))
+            ;;;here put pedal down condition - creating a new chord over the same note.
 	   (else (loop)))))))
   
   (if (not (None?))
       (let loop  ((bass-key (d-GetNoteAsMidi)))
-(define continuing #t)
+	(define continuing #t)
+(d-DirectivePut-chord-graphic "ChordsOverBass" "CheckMark")
 	(d-PushPosition)
 	(d-SetMark)
 	(d-Copy)
@@ -77,24 +146,29 @@
 			   ))
 			((and  (= command #xE0) (&gt; note 32))
 			 (disp "Finishing by abort")
+(d-DirectiveDelete-chord "ChordsOverBass")
 			 (d-PopPosition)
 			 (d-MoveToStaffUp)
 			 (GoToMeasureEnd)
+			 ;(d-RefreshDisplay)
+			 ;;;prevent the pitchbend commands running on by waiting for the user to continue on the keyboard before re-instating the normal pitch bend action.
 			 (eval-string (string-append "(d-" (d-GetCommandFromUser) ")"))
 			 (set! continuing #f))
 
 		      (else
 			(disp "Ignoring " command " " note " " velocity " waiting for " bass-key "\n")
-			(listening)))
-
-
-)))
+			(listening))))))
 	(if continuing
 	    (begin 
+	  ;  (pause)
+(d-DirectiveDelete-chord "ChordsOverBass")
 	      (d-PopPosition)
+	      (d-DirectiveDelete-chord "ChordsOverBass")
+	      
 	      (if (d-NextObject)
 		  (loop (d-GetNoteAsMidi))))))
   (disp "Finished ChordsOverBass")))
+
 
 (define Pitchbend::commandUp "(d-CursorRight)")
 (define Pitchbend::commandDown "(d-CursorLeft)")</scheme>
