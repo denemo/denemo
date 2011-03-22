@@ -1002,6 +1002,18 @@
 	(if (<= result (ANS::GetNote ansNote)) 
 		 (+ octave result) 
 		 (+ octave -350 result))) ;-350 to go one octave down
+	 
+(define (ANS::AddIntervalAsChordnoteFromLowestUp interval)
+	(if (Note?)
+		(ANS::ChangeChordNotes 
+			(append (ANS::GetChordNotes) (list (ANS::IntervalCalcUp (ANS::Ly2Ans (string->symbol (GetLowestNote))) interval))))
+		#f))
+		
+(define (ANS::AddIntervalAsChordnoteFromHighestDown interval)
+	(if (Note?)
+		(ANS::ChangeChordNotes 
+			(append (ANS::GetChordNotes) (list (ANS::IntervalCalcDown (ANS::Ly2Ans (string->symbol (GetHighestNote))) interval))))
+		#f))
 
 (define (ANS::CalculateRealOctaveUp ansNote) 
 	(+ ansNote 350))

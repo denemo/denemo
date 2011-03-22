@@ -4680,6 +4680,228 @@ for second and subsequent systems</tooltip>
         <label>Join music objects</label>
         <tooltip>Joins all notes, chords and rests in the selection and inserts a new, longer note instead. May create tied notes. Uses the cursor position as pitch.</tooltip>
       </row>
+      <row>
+        <action>ShiftRealDialogUp</action>
+        <after>ShiftRealHalfDown</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
+        <label>Arbitrary transpose up</label>
+        <tooltip>Transpose/shift the cursor note or selection an arbitrary number of tones up. User can specify interval through a dialog.</tooltip>
+      </row>
+      <row>
+        <action>ShiftRealDialogDown</action>
+        <after>ShiftRealDialogUp</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
+        <label>Arbitrary transpose down</label>
+        <tooltip>Transpose/shift the cursor note or selection an arbitrary number of tones down. User can specify interval through a dialog.</tooltip>
+      </row>
+      <row>
+        <action>AddLowestUpPerfect1</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/AddAboveBase</menupath>
+        <label>Add Perfect 1st above base</label>
+        <tooltip>Add a perfect prime as chordnote relative to the lowest note upwards.</tooltip>
+      </row>
+      <row>
+        <action>AddLowestUpMajor2</action>
+        <after>AddLowestUpPerfect1</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/AddAboveBase</menupath>
+        <label>Add Major 2nd above base</label>
+        <tooltip>Add a major second as chordnote relative to the lowest note upwards.</tooltip>
+      </row>
+      <row>
+        <action>AddLowestUpMinor2</action>
+        <after>AddLowestUpMajor2</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/AddAboveBase</menupath>
+        <label>Add Minor 2nd above base</label>
+        <tooltip>Add a minor second as chordnote relative to the lowest note upwards.</tooltip>
+      </row>
+      <row>
+        <action>AddLowestUpMajor3</action>
+        <after>AddLowestUpMinor2</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/AddAboveBase</menupath>
+        <label>Add Major 3rd above base</label>
+        <tooltip>Add a major third as chordnote relative to the lowest note upwards.</tooltip>
+      </row>
+      <row>
+        <action>AddLowestUpMinor3</action>
+        <after>AddLowestUpMajor3</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/AddAboveBase</menupath>
+        <label>Add Minor 3rd above base </label>
+        <tooltip>Add a minor third as chordnote relative to the lowest note upwards.</tooltip>
+      </row>
+      <row>
+        <action>AddLowestUpPerfect4</action>
+        <after>AddLowestUpMinor3</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/AddAboveBase</menupath>
+        <label>Add Perfect 4th above base</label>
+        <tooltip>Add a perfect fourth as chordnote relative to the lowest note upwards.</tooltip>
+      </row>
+      <row>
+        <action>AddLowestUpAugmented4</action>
+        <after>AddLowestUpPerfect4</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/AddAboveBase</menupath>
+        <label>Add Augmented 4th above base </label>
+        <tooltip>Add a tritone/augmented fourth as chordnote relative to the lowest note upwards.</tooltip>
+      </row>
+      <row>
+        <action>AddLowestUpDiminished5</action>
+        <after>AddLowestUpAugmented4</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/AddAboveBase</menupath>
+        <label>Add Diminished 5th above base</label>
+        <tooltip>Add a diminished fifth as chordnote relative to the lowest note upwards.</tooltip>
+      </row>
+      <row>
+        <action>AddLowestUpPerfect5</action>
+        <after>AddLowestUpDiminished5</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/AddAboveBase</menupath>
+        <label>Add Perfect 5th above base</label>
+        <tooltip>Add a perfect fifth as chordnote relative to the lowest note upwards.</tooltip>
+      </row>
+      <row>
+        <action>AddLowestUpMajor6</action>
+        <after>AddLowestUpPerfect5</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/AddAboveBase</menupath>
+        <label>Add Major 6th above base</label>
+        <tooltip>Add a major sixth as chordnote relative to the lowest note upwards.</tooltip>
+      </row>
+      <row>
+        <action>AddLowestUpMinor6</action>
+        <after>AddLowestUpMajor6</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/AddAboveBase</menupath>
+        <label>Add Minor 6th above base</label>
+        <tooltip>Add a minor sixth as chordnote relative to the lowest note upwards.</tooltip>
+      </row>
+      <row>
+        <action>AddLowestUpMajor7</action>
+        <after>AddLowestUpMinor6</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/AddAboveBase</menupath>
+        <label>Add Major 7th above base</label>
+        <tooltip>Add a major seventh as chordnote relative to the lowest note upwards.</tooltip>
+      </row>
+      <row>
+        <action>AddLowestUpMinor7</action>
+        <after>AddLowestUpMajor7</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/AddAboveBase</menupath>
+        <label>Add Minor 7th above base</label>
+        <tooltip>Add a minor seventh as chordnote relative to the lowest note upwards.</tooltip>
+      </row>
+      <row>
+        <action>AddHighestDownPerfect1</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/AddBelowTop</menupath>
+        <label>Add Perfect 1st below top</label>
+        <tooltip>Add a perfect prime as chordnote relative to the highest note downwards.</tooltip>
+      </row>
+      <row>
+        <action>AddHighestDownMajor2</action>
+        <after>AddHighestDownPerfect1</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/AddBelowTop</menupath>
+        <label>Add Major 2nd below top</label>
+        <tooltip>Add a major second as chordnote relative to the highest note downwards.</tooltip>
+      </row>
+      <row>
+        <action>AddHighestDownMinor2</action>
+        <after>AddHighestDownMajor2</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/AddBelowTop</menupath>
+        <label>Add Minor 2nd below top</label>
+        <tooltip>Add a minor second as chordnote relative to the highest note downwards.</tooltip>
+      </row>
+      <row>
+        <action>AddHighestDownMajor3</action>
+        <after>AddHighestDownMinor2</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/AddBelowTop</menupath>
+        <label>Add Major 3rd below top</label>
+        <tooltip>Add a major third as chordnote relative to the highest note downwards.</tooltip>
+      </row>
+      <row>
+        <action>AddHighestDownMinor3</action>
+        <after>AddHighestDownMajor3</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/AddBelowTop</menupath>
+        <label>Add Minor 3rd below top</label>
+        <tooltip>Add a minor third as chordnote relative to the highest note downwards.</tooltip>
+      </row>
+      <row>
+        <action>AddHighestDownPerfect4</action>
+        <after>AddHighestDownMinor3</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/AddBelowTop</menupath>
+        <label>Add Perfect 4th below top</label>
+        <tooltip>Add a perfect fourth as chordnote relative to the highest note downwards.</tooltip>
+      </row>
+      <row>
+        <action>AddHighestDownAugmented4</action>
+        <after>AddHighestDownPerfect4</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/AddBelowTop</menupath>
+        <label>Add Augmented 4th below top</label>
+        <tooltip>Add a augmented fourth as chordnote relative to the highest note downwards.</tooltip>
+      </row>
+      <row>
+        <action>AddHighestDownDiminished5</action>
+        <after>AddHighestDownAugmented4</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/AddBelowTop</menupath>
+        <label>Add Diminished 5th below top</label>
+        <tooltip>Add a tritone/diminished fifth as chordnote relative to the highest note downwards.</tooltip>
+      </row>
+      <row>
+        <action>AddHighestDownPerfect5</action>
+        <after>AddHighestDownDiminished5</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/AddBelowTop</menupath>
+        <label>Add Perfect 5th below top</label>
+        <tooltip>Add a perfect fifth as chordnote relative to the highest note downwards.</tooltip>
+      </row>
+      <row>
+        <action>AddHighestDownMajor6</action>
+        <after>AddHighestDownPerfect5</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/AddBelowTop</menupath>
+        <label>Add Major 6th below top</label>
+        <tooltip>Add a major sixth as chordnote relative to the highest note downwards.</tooltip>
+      </row>
+      <row>
+        <action>AddHighestDownMinor6</action>
+        <after>AddHighestDownMajor6</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/AddBelowTop</menupath>
+        <label>Add Minor 6th below top</label>
+        <tooltip>Add a minor sixth as chordnote relative to the highest note downwards.</tooltip>
+      </row>
+      <row>
+        <action>AddHighestDownMajor7</action>
+        <after>AddHighestDownMinor6</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/AddBelowTop</menupath>
+        <label>Add Major 7th below top</label>
+        <tooltip>Add a major seventh as chordnote relative to the highest note downwards.</tooltip>
+      </row>
+      <row>
+        <action>AddHighestDownMinor7</action>
+        <after>AddHighestDownMajor7</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/AddBelowTop</menupath>
+        <label>Add Minor 7th below top</label>
+        <tooltip>Add a minor seventh as chordnote relative to the highest note downwards.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
