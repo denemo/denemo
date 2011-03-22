@@ -1661,6 +1661,19 @@
  (set! return (duration::inexact->exact return))
  (string-append (number->string return) (string-concatenate (make-list numberOfDots "."))))
 
+;SplitTicksToBaseDurations wants a single tick value as number and splits it to the lowest count of base durations
+;;Returns a list of base durations
+;;TODO: if the last step is no BaseDuration return it anyway and an additional #f to signal the problem. Most likely someone tried to involve an incomplete tuplet.
+;;TODO: Basic version. Duration will be correct but maybe ugly.
+(define (duration::SplitTicksToBaseDurations ticks)
+(let loop ((number ticks) (returnlist (list #f)))
+	(define basedur (duration::GuessBaseNoteInTicks number))	
+	(if basedur
+		(loop (- number basedur) (append returnlist (list basedur)))
+		(if (= number 0)
+			(list-tail returnlist 1)
+			(list-tail (append returnlist (list number #f)) 1)))))			 
+
 ;;;;;;;;;; End of duration-conversion
 
 ;;;;;;;; Applied duration scripts
@@ -1707,6 +1720,15 @@
 	   (loop (+ i 1)))))
   #f))
 
+(define (duration::InsertBaseDurationList basedurlist ansNotes)
+	(define itemnumber (length basedurlist))
+	(let loop ((counter 0))
+		(if (and (> counter 0) (= (list-ref basedurlist counter) (/ (list-ref basedurlist (1- counter)) 2)))  ; current duration is half of previous one = current is a dot. First position excluded.
+			(begin (d-MoveCursorLeft) (d-AddDot) (d-MoveCursorRight))
+			(begin (ANS::InsertNotes ansNotes) (d-MoveCursorLeft) (duration::ChangeNoteDurationInTicks (list-ref basedurlist counter)) (d-ToggleTie)  (d-MoveCursorRight)))		
+		(if (>= counter (1- itemnumber))
+			(begin (d-MoveCursorLeft) (d-ToggleTie) (d-MoveCursorRight) #t) ; last item was already inserted. Undo the last tie. The End.
+			(begin (loop (1+ counter))))))	
 
 ;; Meter related functions
 (define (duration::GetNumerator) (string->number (car (string-split  (GetPrevailingTimeSig) #\/))))
