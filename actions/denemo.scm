@@ -1954,3 +1954,15 @@
 	(if (Note?) 
 		(ANS::ChangeChordNotes (map method (ANS::GetChordNotes)))
 		#f)) ; not a note/chord	
+
+;Give the name of the Lilypond note on the current vertical cursor position.
+;;It doesn't matter if an object is present or not.
+(define (GetCursorNoteAsLilypond)
+	(define midioctave (+ -4 (quotient (d-GetCursorNoteAsMidi) 12)))
+	(define basenote (d-GetCursorNote))
+	(define octavemod "")
+	(set! octavemod 
+		(if (negative? midioctave)
+			(make-string (abs midioctave)  #\,)	
+			(make-string midioctave  #\')))	
+	(string-append basenote octavemod))
