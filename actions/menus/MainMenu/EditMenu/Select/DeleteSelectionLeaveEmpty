@@ -6,9 +6,9 @@
     <map>
       <row>
         <action>DeleteSelectionLeaveEmpty</action>
-        <scheme>(d-PushPosition)
-(if (d-GoToSelectionStart)
+        <scheme>(if (d-GoToSelectionStart)
 (let ()
+(define currentposition (GetPosition))
 (define rand_tag (string-append "delete-" (number-&gt;string (+ 1000 (random 999)))))
 (define (PutDeleteTag pair)
 	(define type (string-&gt;symbol (d-GetType)))
@@ -51,9 +51,10 @@
 		(begin (d-DeleteObject) (deleteLoop)) ; Current object is tagged, delete, next please. 
 		(if (FindNextObjectAllStaffs DeleteTag?)  
 			(begin (d-DeleteObject) (deleteLoop))
-			#f))) ; no tagged item found, final end.
-))
-(d-PopPosition)</scheme>
+			(begin (apply d-GoToPosition currentposition) #f)))))) ; no tagged item found, return to the selection start position, final end.
+
+
+</scheme>
         <label>Delete Selected Objects</label>
         <tooltip>Delete all selected objects and leave empty measures behind</tooltip>
       </row>
