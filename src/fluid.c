@@ -563,7 +563,7 @@ void fluid_midi_play(gchar *callback)
   gui->si->tempo_change_time = gui->si->start_player;
 
   g_idle_add((GSourceFunc)fluidsynth_play_smf_event, callback_string->str);
-  
+  //this is never turned off????
   
   // g_timeout_add_full (G_PRIORITY_HIGH, 15,(GSourceFunc)fluidsynth_play_smf_event, callback_string->str, NULL);                                             
 }
@@ -638,17 +638,24 @@ static void handle_midi_event(gchar *buf) {
 
 #define MAX_MIDI (10)
 static gchar midi_in_buf[MAX_MIDI][3]; 
-static volatile gboolean midi_in_count = 0;
+static volatile gint midi_in_count = 0;
+static gint midi_in_feed = 0;
 static midi_in_timer_id = 0;
 static gboolean midi_in_timer_callback(void) {
-  if(midi_in_count) {
-    gint i;
-    for(i=0;i<midi_in_count;i++)
-      handle_midi_event(midi_in_buf[i+1]);
+
+  if(midi_in_count>midi_in_feed) {
+    gint theone;
+    midi_in_feed++;
+    theone = midi_in_feed;
+    if(midi_in_count==midi_in_feed)
+      midi_in_count=midi_in_feed=0;
+    handle_midi_event(midi_in_buf[theone]);
   }
-  midi_in_count = 0;//if an event has arrived during the last note entry we will lose it here - it is not critical, if it were we would have to turn off interrupts while working on the counter...
+  if(midi_in_count==midi_in_feed)
+    midi_in_count=midi_in_feed=0;
   return TRUE;//timer keeps going
 }
+
 
 //Under Interrupt
 static void load_midi_buf(gint type, gint key, gint vel) {
@@ -739,7 +746,10 @@ fluid_start_midi_in(void)
 
   //g_print("midi in on %p\n", midi_in);
   if(midi_in) {
-    midi_in_timer_id = g_timeout_add (20, (GSourceFunc) midi_in_timer_callback, NULL);
+      midi_in_timer_id = g_timeout_add (20, (GSourceFunc) midi_in_timer_callback, NULL);
+      //midi_in_timer_id = g_idle_add_full(G_PRIORITY_DEFAULT_IDLE-10, (GSourceFunc)midi_in_timer_callback, NULL, NULL);
+
+
     return 0;
   }
   else
