@@ -1988,3 +1988,19 @@
 			(make-string (abs midioctave)  #\,)	
 			(make-string midioctave  #\')))	
 	(string-append basenote octavemod))
+
+
+;Remember the users choice of an interval in this global var
+(define GlobalRememberInterval "p5")
+
+;A user dialog to ask for an interval. 
+;;User has two different options: insert an interval like m2 or p5 directly or give two notes.
+;;Return value is a number for the ANS pillar of 5th.
+(define (AskForInterval)
+	(define interval (d-GetUserInput "Please enter a transpose interval" "Please enter a transpose interval or two notes in Lilypond syntax.\n\nExample: m2 minor second, M2 major second, p5 fifth, T tritone.\nOr:  c' e' for a major third.\nFor a complete list please read the manual." GlobalRememberInterval))
+	(set! GlobalRememberInterval interval)
+	(if (ANS::IntervalGetSteps (string->symbol interval))
+		(ANS::IntervalGetSteps (string->symbol interval))
+		(let ()
+			(define listy (map (lambda (x) (ANS::Ly2Ans (string->symbol x))) (string-tokenize interval)))
+			(car (apply ANS::GetIntervall listy)))))

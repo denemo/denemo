@@ -976,9 +976,13 @@
 
 
 ;IntervalCalc wants an ANS note as root and an interval like "m2", "M6" or "p5" returns an ANS value.
+;;You can give a number like IntervalGetSteps directly instead.
 ;Op is needed to calc up or down. 1 is up, -1 is down.
 (define (ANS::IntervalCalcPrototype op ansNote interval)
- (define targ (ANS::IntervalGetSteps interval))
+ (define targ 
+	(if (number? interval)
+		interval
+		(ANS::IntervalGetSteps interval)))
  (define root (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote ansNote)))
  (list-ref ANS::PillarOfFifth (+ root (* op targ))))  
 
