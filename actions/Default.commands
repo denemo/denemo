@@ -2323,7 +2323,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <menupath>/ObjectMenu/Score</menupath>
         <label>(Print) Transpose Octave Up</label>
         <tooltip>Instructs the LilyPond Engraver to transpose this score one octave up.</tooltip>
-      </row>   
+      </row>
       <row>
         <action>D.C.AlFine</action>
         <scheme></scheme>
@@ -4671,6 +4671,14 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotesRests/Transpose(Destructive)</menupath>
         <label>Half tone down</label>
         <tooltip>Transpose/shift the cursor note or selection one half tone down</tooltip>
+      </row>
+      <row>
+        <action>JoinChords</action>
+        <after>SplitChord</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests</menupath>
+        <label>Join music objects</label>
+        <tooltip>Joins all notes, chords and rests in the selection and inserts a new, longer note instead. May create tied notes. Uses the cursor position as pitch.</tooltip>
       </row>
     </map>
   </merge>
