@@ -591,7 +591,7 @@ calculatebeamsandstemdirs (objnode * theobjs, gint * pclef, gint * time1,
 
 
 
-#define ACCS_TOO_CLOSE 5
+#define ACCS_TOO_CLOSE 10
 /**
  * This function offsets accidentals that are near to each
  * other on the same chord.  
@@ -607,6 +607,9 @@ set_accidental_positions (DenemoObject * the_chord)
   gint i;
   chord chordval = *(chord *) the_chord->object;
   gint baseduration = chordval.baseduration;
+  if(g_list_length(chordval.notes)>ACCS_TOO_CLOSE)
+    return;
+
   baseduration = MAX(baseduration, 0);
   gint additional_space
     = ((!chordval.is_stemup && chordval.is_reversealigned)
