@@ -4680,6 +4680,22 @@ for second and subsequent systems</tooltip>
         <label>Join music objects</label>
         <tooltip>Joins all notes, chords and rests in the selection and inserts a new, longer note instead. May create tied notes. Uses the cursor position as pitch.</tooltip>
       </row>
+      <row>
+        <action>ShiftRealDialogUp</action>
+        <after>ShiftRealHalfDown</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
+        <label>Arbitrary transpose up</label>
+        <tooltip>Transpose/shift the cursor note or selection an arbitrary number of tones up. User can specify interval through a dialog.</tooltip>
+      </row>
+      <row>
+        <action>ShiftRealDialogDown</action>
+        <after>ShiftRealDialogUp</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
+        <label>Arbitrary transpose down</label>
+        <tooltip>Transpose/shift the cursor note or selection an arbitrary number of tones down. User can specify interval through a dialog.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
