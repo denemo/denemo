@@ -884,8 +884,11 @@
 ; Optional duration and number of dots. Denemo Syntax. returns #t or #f. 
 (define* (ANS::InsertNotes ansNotes #:optional (dots #f) (duration #f) )
 	;TODO: Check if these are valid notes.
-	(d-InsertA) ; TODO: This is a hack. There is no way to directly insert notes with lilypond syntax
-	(d-MoveCursorLeft)
+	(define cursorposition (GetCursorNoteAsLilypond)) ; this belongs to the hack down here.
+	(begin hack ; TODO: This is a hack. There is no way to directly insert notes with lilypond syntax and let the cursor stay on the same position
+		(d-InsertA) 
+		(d-CursorToNote cursorposition)
+		(d-MoveCursorLeft))
 	(ANS::ChangeChordNotes ansNotes)
 	(if duration  ;If user gave duration parameter. Does not test if the duration is a valid number
 			(eval-string (string-append "(d-Change" (number->string duration) ")"))) 
