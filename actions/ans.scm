@@ -1012,7 +1012,7 @@
 (define (ANS::AddIntervalAsChordnoteFromHighestDown interval)
 	(if (Note?)
 		(ANS::ChangeChordNotes 
-			(append (ANS::GetChordNotes) (list (ANS::IntervalCalcDown (ANS::Ly2Ans (string->symbol (GetLowestNote))) interval))))
+			(append (ANS::GetChordNotes) (list (ANS::IntervalCalcDown (ANS::Ly2Ans (string->symbol (GeHighestNote))) interval))))
 		#f))
 
 (define (ANS::CalculateRealOctaveUp ansNote) 
