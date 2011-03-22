@@ -740,55 +740,55 @@
       </row>
       <row>
         <action>AddHighestDownPerfect1</action>
-		<bind>Ctrl+Alt+1</bind>
+		<bind>Alt+Ctrl+1</bind>
       </row>
       <row>
         <action>AddHighestDownMajor2</action>
-		<bind>Ctrl+Alt+2</bind>
+		<bind>Alt+Ctrl+2</bind>
       </row>
       <row>
         <action>AddHighestDownMinor2</action>
-		<bind>Ctrl+Alt+Shft+2</bind>
+		<bind>Alt+Ctrl+Shft+2</bind>
       </row>
       <row>
         <action>AddHighestDownMajor3</action>
-		<bind>Ctrl+Alt+3</bind>
+		<bind>Alt+Ctrl+3</bind>
       </row>
       <row>
         <action>AddHighestDownMinor3</action>
-		<bind>Ctrl+Alt+Shft+3</bind>
+		<bind>Alt+Ctrl+Shft+3</bind>
       </row>
       <row>
         <action>AddHighestDownPerfect4</action>
-		<bind>Ctrl+Alt+4</bind>
+		<bind>Alt+Ctrl+4</bind>
       </row>
       <row>
         <action>AddHighestDownAugmented4</action>
-		<bind>Ctrl+Alt+Shft+4</bind>
+		<bind>Alt+Ctrl+Shft+4</bind>
       </row>
       <row>
         <action>AddHighestDownDiminished5</action>
-		<bind>Ctrl+Alt+Shft+5</bind>
+		<bind>Alt+Ctrl+Shft+5</bind>
       </row>
       <row>
         <action>AddHighestDownPerfect5</action>
-		<bind>Ctrl+Alt+5</bind>
+		<bind>Alt+Ctrl+5</bind>
       </row>
       <row>
         <action>AddHighestDownMajor6</action>
-		<bind>Ctrl+Alt+6</bind>
+		<bind>Alt+Ctrl+6</bind>
       </row>
       <row>
         <action>AddHighestDownMinor6</action>
-		<bind>Ctrl+Alt+Shft+6</bind>
+		<bind>Alt+Ctrl+Shft+6</bind>
       </row>
       <row>
         <action>AddHighestDownMajor7</action>
-		<bind>Ctrl+Alt+7</bind>
+		<bind>Alt+Ctrl+7</bind>
       </row>
       <row>
         <action>AddHighestDownMinor7</action>
-		<bind>Ctrl+Alt+Shft+7</bind>
+		<bind>Alt+Ctrl+Shft+7</bind>
       </row>
              
     <!-- Hidden Commands -->
