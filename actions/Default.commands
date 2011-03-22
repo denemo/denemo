@@ -3524,7 +3524,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>ShiftUp</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Transpose(Destructive)</menupath>
+        <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
         <label>Tonal step up</label>
         <tooltip>Transpose/shift the cursor note or selection one step up, stay in the keysignature.</tooltip>
       </row>
@@ -3532,7 +3532,7 @@ for second and subsequent systems</tooltip>
         <action>ShiftDown</action>
         <after>ShiftUp</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Transpose(Destructive)</menupath>
+        <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
         <label>Tonal step down</label>
         <tooltip>Transpose/shift the cursor note or selection one step down, stay in the keysignature.</tooltip>
       </row>
@@ -3901,14 +3901,14 @@ for second and subsequent systems</tooltip>
       <row>
         <action>ShiftRealOctaveUp</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Transpose(Destructive)</menupath>
+        <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
         <label>Octave Up</label>
         <tooltip>Shifts current notes/selection up one octave while preserving accidental status. This means real transposition</tooltip>
       </row>
       <row>
         <action>ShiftRealOctaveDown</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Transpose(Destructive)</menupath>
+        <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
         <label>Octave Down</label>
         <tooltip>Shifts current notes/selection down one octave while preserving accidental status. This means real transposition</tooltip>
       </row>
@@ -4644,7 +4644,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>ShiftRealWholeUp</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Transpose(Destructive)</menupath>
+        <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
         <label>Whole tone up</label>
         <tooltip>Transpose/shift the cursor note or selection one whole tone up</tooltip>
       </row>
@@ -4652,7 +4652,7 @@ for second and subsequent systems</tooltip>
         <action>ShiftRealWholeDown</action>
         <after>ShiftRealWholeUp</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Transpose(Destructive)</menupath>
+        <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
         <label>Whole tone down</label>
         <tooltip>Transpose/shift the cursor note or selection one whole tone down</tooltip>
       </row>
@@ -4660,7 +4660,7 @@ for second and subsequent systems</tooltip>
         <action>ShiftRealHalfUp</action>
         <after>ShiftRealWholeDown</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Transpose(Destructive)</menupath>
+        <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
         <label>Half tone up</label>
         <tooltip>Transpose/shift the cursor note or selection one half tone up</tooltip>
       </row>
@@ -4668,7 +4668,7 @@ for second and subsequent systems</tooltip>
         <action>ShiftRealHalfDown</action>
         <after>ShiftRealHalfUp</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Transpose(Destructive)</menupath>
+        <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
         <label>Half tone down</label>
         <tooltip>Transpose/shift the cursor note or selection one half tone down</tooltip>
       </row>
