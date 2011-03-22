@@ -438,7 +438,10 @@
 		<action>SplitChord</action>
 		<bind>Alt+s</bind>
       </row>
-      
+      <row>
+		<action>JoinChords</action>
+		<bind>j</bind>
+      </row>      
       <row>
         <action>GraceNoteSwitcher</action>
         <bind>g</bind>
