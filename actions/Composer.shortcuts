@@ -720,7 +720,7 @@
       </row>
       <row>
         <action>AddLowestUpPerfect5</action>
-		<bind>Ctrl+6</bind>
+		<bind>Ctrl+5</bind>
       </row>
       <row>
         <action>AddLowestUpMajor6</action>
@@ -728,15 +728,15 @@
       </row>
       <row>
         <action>AddLowestUpMinor6</action>
-		<bind>Ctrl+Shft+7</bind>
+		<bind>Ctrl+Shft+6</bind>
       </row>
       <row>
         <action>AddLowestUpMajor7</action>
-		<bind>Ctrl+</bind>
+		<bind>Ctrl+7</bind>
       </row>
       <row>
         <action>AddLowestUpMinor7</action>
-		<bind>Ctrl+Shft+8</bind>
+		<bind>Ctrl+Shft+7</bind>
       </row>
       <row>
         <action>AddHighestDownPerfect1</action>
@@ -772,7 +772,7 @@
       </row>
       <row>
         <action>AddHighestDownPerfect5</action>
-		<bind>Ctrl+Alt+6</bind>
+		<bind>Ctrl+Alt+5</bind>
       </row>
       <row>
         <action>AddHighestDownMajor6</action>
@@ -780,15 +780,15 @@
       </row>
       <row>
         <action>AddHighestDownMinor6</action>
-		<bind>Ctrl+Alt+Shft+7</bind>
+		<bind>Ctrl+Alt+Shft+6</bind>
       </row>
       <row>
         <action>AddHighestDownMajor7</action>
-		<bind>Ctrl+Alt+</bind>
+		<bind>Ctrl+Alt+7</bind>
       </row>
       <row>
         <action>AddHighestDownMinor7</action>
-		<bind>Ctrl+Alt+Shft+8</bind>
+		<bind>Ctrl+Alt+Shft+7</bind>
       </row>
              
     <!-- Hidden Commands -->
