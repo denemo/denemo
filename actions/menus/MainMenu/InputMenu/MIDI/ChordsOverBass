@@ -22,6 +22,9 @@
   (define (pedalUp? midi)
     (and (= #xB0 (bit-extract midi 0 8))  (= (bit-extract midi 8 16) #x40) (=  (bit-extract midi 16 24) #x0)))
  (define (pause) (d-GetUserInput "Pausing..." "Press any key" " "))
+
+
+;;;enter and exit with cursor on note to be tied
 (define (tie-in dur numdots)
   	(let ((denemodur  (number-&gt;string (duration::lilypond-&gt;denemo (string-&gt;number dur)))))
 	 ; (pause)
@@ -31,54 +34,45 @@
 	  (d-NextChord)
 	  (d-Paste)
 	  (d-DeleteObject)
-	  (d-MoveCursorLeft)
+	  (d-PrevChord)
 	  (eval-string (string-append "(d-Change" denemodur ")" (if (&gt; numdots 0) "(d-AddDot)" "")))
 	 ; (pause)
 	  ))
 
-  (define (continue-chord)    
-    (define dur (car (string-split (d-GetNoteDuration)  #\.)))
-    (define numdots (d-GetDots))
-    (define prevdur #f)
-    (define prevdots #f)
-    ;;move onto the previous chord
-    (if (not (d-PrevChordInMeasure))
+;;;;seek back to the chord started but not finished (ie before the rests)
+(define (find-suspended-chord)
+  (let loop ()
+    (disp "looping")
+    (if (and (d-PrevChord) (Rest?))
+	(loop))))
+
+;;;start with cursor on the rest to be turned into a chord, end back at the same rest or rather the chord that has replaced it
+(define (continue-chord)    
+  (find-suspended-chord)
+  (let loop ()
+    (define denemodur #f)
+    (define numdots 0)
+    (d-SetMark)
+    (d-Copy)
+    (d-ToggleTie)
+    (d-NextChord)
+    (set! denemodur (number-&gt;string (duration::lilypond-&gt;denemo (string-&gt;number (car (string-split (d-GetNoteDuration)  #\.))))))
+    (set! numdots (d-GetDots))
+    (d-Paste)
+    (d-DeleteObject)
+    (if (not (Appending?))
+	(d-PrevChord))
+    (eval-string (string-append "(d-Change" denemodur ")" (if (&gt; numdots 0) "(d-AddDot)" "")))
+    (if (d-NextChord)
 	(begin
 	  (d-PrevChord)
-	  (tie-in dur numdots)
-	  )
-	(begin
-	  (set! prevdur (car (string-split (d-GetNoteDuration) #\.)))
-	  (set! prevdots (d-GetDots))
-	  (cond
-	   ((Rest?)
-	    (disp "doing the rest case\n")
-	    (continue-chord)
-	    (d-NextChord)
-	    (continue-chord)
-(d-PrevChord)
-;(pause)
-)
-	   ((equal? prevdur dur)
-	    (disp "doubling previous note" dur "\n")
-	    
-	    (d-Augment)
-	    (if (d-NextChord)
-		(d-DeleteObject))
-	    )
-	   (else 
-	    (disp "doing else case\n")
-
-	    (tie-in dur numdots)
-
-		 )))))
-
+	  (loop)))))
+  
       
   (define (GetChords bass-key)
     (define chord-created #f)
     (define suspension #f)
     (define continuing #f)
-    (d-MoveCursorLeft)
     (let loop ()
       (let* ((midi (d-GetMidi))
 	     (velocity (bit-extract midi 16 24))
@@ -95,7 +89,7 @@
 				 (eval-string (string-append "(d-InsertNoteInChord \"" (d-GetNoteForMidiKey note) "\")")))
 			       (begin
 			        (disp "start... " (d-GetNoteForMidiKey note) "\n")
-				 (eval-string (string-append "(d-PutNoteName \"" (d-GetNoteForMidiKey note) "\")"))
+				 (eval-string (string-append "(d-InsertNoteInChord \"" (d-GetNoteForMidiKey note) "\")"))
 				 (set! continuing #t)))
 	    (PlayNote (number-&gt;string note) 400)
 	    (loop))
@@ -106,7 +100,7 @@
 				      #t
 				      (if suspension
 					  (continue-chord);;carry the previous chord on
-					  (begin (disp "rest\n") (d-StagedDelete)));;;turn into a rest
+					  (begin (d-DirectivePut-chord-display  "ChordsOverBass" "Suspension")(disp "rest\n")));;;leave as a rest
 				  )				  
 				(begin 
 (disp "A suspension\n")
@@ -138,10 +132,8 @@
 			   (d-MoveToStaffUp)
 			   (GoToMeasureEnd)
 			   (d-Paste)
-					;(d-PrevObject)
-					;(d-SetNonprinting)
-			   (d-RefreshDisplay)
-					;(disp "Chord mode is " (d-MidiInChordMode #t)  "\n")	
+			   (d-MoveCursorLeft)
+			   (d-StagedDelete)			   
 			   (GetChords bass-key)
 			   ))
 			((and  (= command #xE0) (&gt; note 32))
@@ -171,9 +163,10 @@
 
 
 (define Pitchbend::commandUp "(d-CursorRight)")
-(define Pitchbend::commandDown "(d-CursorLeft)")</scheme>
+(define Pitchbend::commandDown "(d-CursorLeft)")
+</scheme>
         <label>Create Chords Over Bass Line</label>
-        <tooltip>Place the cursor on a bass note and invoke this command. It creates a staff above and for each note in the bass staff, as you play it, it switches to the treble staff and allows you to enter a chord (arpeggiate slightly). Use the Pitch Bend wheel to stop/start the process.</tooltip>
+        <tooltip>Place the cursor on a bass note and invoke this command. It creates a treble staff above and for each note in the bass staff, as you play it, it switches to the treble staff and allows you to enter a chord. Use the Pitch Bend wheel to stop/start the process. Hold a chord while moving to the next bass note to extend the chord over more than one bass note.</tooltip>
       </row>
     </map>
   </merge>
