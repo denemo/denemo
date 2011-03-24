@@ -3105,6 +3105,14 @@ static SCM scheme_is_grace (SCM optional) {
     return SCM_BOOL_F;
   return SCM_BOOL_T;
 }
+static SCM scheme_is_tied (SCM optional) {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoObject *curObj;
+  chord *thechord;
+  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD)  || !(thechord = (chord *)  curObj->object) || !(thechord->is_tied))
+    return SCM_BOOL_F;
+  return SCM_BOOL_T;
+}
 
 
 static SCM scheme_is_slur_start (SCM optional) {
@@ -3825,6 +3833,7 @@ static void create_scheme_identfiers(void) {
   INSTALL_SCM_FUNCTION ("Sets the Non Printing attribute of a chord (or note/rest) at the cursor. For a rest this makes a non printing rest, for a note it makes it ia pure rhythm (which will not print, but can be assigned pitch, e.g. via a MIDI keyboard. Pass in #f to unset the attribute",DENEMO_SCHEME_PREFIX"SetNonprinting",  scheme_set_nonprinting);
 
   INSTALL_SCM_FUNCTION ("Returns #t if there is a grace note/chord at cursor, else #f",DENEMO_SCHEME_PREFIX"IsGrace",  scheme_is_grace);
+  INSTALL_SCM_FUNCTION ("Returns #t if there is a tied note/chord at cursor, else #f",DENEMO_SCHEME_PREFIX"IsTied",  scheme_is_tied);
 
   INSTALL_SCM_FUNCTION ("Returns #t if there is a chord with slur starting at cursor, else #f",DENEMO_SCHEME_PREFIX"IsSlurStart",  scheme_is_slur_start);
 
