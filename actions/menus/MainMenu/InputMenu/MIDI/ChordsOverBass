@@ -23,21 +23,37 @@
     (and (= #xB0 (bit-extract midi 0 8))  (= (bit-extract midi 8 16) #x40) (=  (bit-extract midi 16 24) #x0)))
  (define (pause) (d-GetUserInput "Pausing..." "Press any key" " "))
 
+;;;start on a tied note. Amalgamate the note(s) tied to with the main note
+(define (amalgamate-ties)
+  (define this-dur  (string-&gt;number(car (string-split (d-GetNoteDuration) #\.))))
+  (define this-dots (d-GetDots))
+  (define continuing #t)
 
-;;;enter and exit with cursor on note to be tied
-(define (tie-in dur numdots)
-  	(let ((denemodur  (number-&gt;string (duration::lilypond-&gt;denemo (string-&gt;number dur)))))
-	 ; (pause)
-	  (d-SetMark)
-	  (d-Copy)
-	  (d-ToggleTie)
-	  (d-NextChord)
-	  (d-Paste)
-	  (d-DeleteObject)
-	  (d-PrevChord)
-	  (eval-string (string-append "(d-Change" denemodur ")" (if (&gt; numdots 0) "(d-AddDot)" "")))
-	 ; (pause)
-	  ))
+  (if (d-NextChordInMeasure)
+      (let ((next-dur (string-&gt;number (car (string-split (d-GetNoteDuration) #\.))))
+	    (next-dots (d-GetDots)))
+	(cond ((and (= this-dur next-dur) (= this-dots next-dots))
+	       (d-DeletePreviousObject)
+	       (d-Augment))
+
+	      ((and (= 1 this-dots) (= 0 next-dots) (= (/  next-dur 2) this-dur))
+	       (d-DeletePreviousObject)
+	       (d-RemoveDot)
+	       (d-Augment)
+	       (d-Augment))
+
+	      ((and (= (/  next-dur 2) this-dur) (= 0 this-dots) (= 0 next-dots))
+	       (d-DeletePreviousObject)	       
+	       (d-Augment)
+	       (d-AddDot))
+	      (else (disp "else case\n"))))
+      (if (not (d-NextChord))
+	  (set! continuing #f)))
+  (if (and continuing (d-IsTied))
+      (amalgamate-ties)))
+		    
+
+
 
 ;;;;seek back to the chord started but not finished (ie before the rests)
 (define (find-suspended-chord)
@@ -47,8 +63,10 @@
 	(loop))))
 
 ;;;start with cursor on the rest to be turned into a chord, end back at the same rest or rather the chord that has replaced it
-(define (continue-chord)    
+(define (continue-chord)
+  (define position #f)
   (find-suspended-chord)
+  (set! position (GetPosition))
   (let loop ()
     (define denemodur #f)
     (define numdots 0)
@@ -66,7 +84,9 @@
     (if (d-NextChord)
 	(begin
 	  (d-PrevChord)
-	  (loop)))))
+	  (loop))))
+  (apply d-GoToPosition position)
+  (amalgamate-ties))
   
       
   (define (GetChords bass-key)
