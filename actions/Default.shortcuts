@@ -312,10 +312,6 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>NextRhythm</action>
-        <bind>Return</bind>
-      </row>
-      <row>
         <action>AppendMeasureAllStaffs</action>
         <hidden>true</hidden>
       </row>
@@ -677,63 +673,91 @@
         <bind>Alt+g</bind>
       </row>
       <row>
-        <action>0</action>
-        <bind>0</bind>
-      </row>
-      <row>
         <action>Change0</action>
         <bind>Shft+0</bind>
       </row>
       <row>
-        <action>1</action>
-        <bind>1</bind>
+        <action>Insert0</action>
+        <bind>0</bind>
+      </row>
+      <row>
+        <action>Set0</action>
+        <bind>Ctrl+0</bind>
       </row>
       <row>
         <action>Change1</action>
         <bind>Shft+1</bind>
       </row>
       <row>
-        <action>2</action>
-        <bind>2</bind>
+        <action>Insert1</action>
+        <bind>1</bind>
+      </row>
+      <row>
+        <action>Set1</action>
+        <bind>Ctrl+1</bind>
       </row>
       <row>
         <action>Change2</action>
         <bind>Shft+2</bind>
       </row>
       <row>
-        <action>3</action>
-        <bind>3</bind>
+        <action>Insert2</action>
+        <bind>2</bind>
+      </row>
+      <row>
+        <action>Set2</action>
+        <bind>Ctrl+2</bind>
       </row>
       <row>
         <action>Change3</action>
         <bind>Shft+3</bind>
       </row>
       <row>
-        <action>4</action>
-        <bind>4</bind>
+        <action>Insert3</action>
+        <bind>3</bind>
+      </row>
+      <row>
+        <action>Set3</action>
+        <bind>Ctrl+3</bind>
       </row>
       <row>
         <action>Change4</action>
         <bind>Shft+4</bind>
       </row>
       <row>
-        <action>5</action>
-        <bind>5</bind>
+        <action>Insert4</action>
+        <bind>4</bind>
+      </row>
+      <row>
+        <action>Set4</action>
+        <bind>Ctrl+4</bind>
       </row>
       <row>
         <action>Change5</action>
         <bind>Shft+5</bind>
       </row>
       <row>
-        <action>6</action>
-        <bind>6</bind>
+        <action>Insert5</action>
+        <bind>5</bind>
+      </row>
+      <row>
+        <action>Set5</action>
+        <bind>Ctrl+5</bind>
       </row>
       <row>
         <action>Change6</action>
         <bind>Shft+6</bind>
       </row>
       <row>
-        <action>Change7</action>
+        <action>Insert6</action>
+        <bind>6</bind>
+      </row>
+      <row>
+        <action>Set6</action>
+        <bind>Ctrl+6</bind>
+      </row>
+      <row>
+        <action>Set7</action>
         <bind>Ctrl+7</bind>
       </row>
       <row>
@@ -790,18 +814,6 @@
       </row>
       <row>
         <action>TransposeOctaveUp</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>SetTransposeIntervalFromSelection</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>TransposeNote</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>TransposeSelection</action>
         <hidden>true</hidden>
       </row>
       <row>
@@ -870,10 +882,6 @@
       </row>
       <row>
         <action>HideEmptyStaffs</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>SetTransposeIntervalFromNote</action>
         <hidden>true</hidden>
       </row>
       <row>
@@ -1393,10 +1401,6 @@
         <action>ZoomOut</action>
         <bind>Ctrl+minus</bind>
         <bind>Ctrl+Subtract</bind>
-      </row>
-      <row>
-        <action>ZoomReset</action>
-        <bind>Ctrl+0</bind>
       </row>
       <row>
         <action>AccompanistsScore</action>

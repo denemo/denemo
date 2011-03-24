@@ -4131,15 +4131,7 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/StaffMenu/Playback</menupath>
         <label>Mute</label>
         <tooltip>Mutes playback on this staff by placing a volume=zero directive at the start.</tooltip>
-      </row>
-      <row>
-        <action>Tutorial</action>
-        <after>IRC</after>
-        <scheme></scheme>
-        <menupath>/MainMenu/HelpMenu</menupath>
-        <label>Tutorial</label>
-        <tooltip>Steps through the basic commands</tooltip>
-      </row>
+      </row>      
       <row>
         <action>TinyStaff</action>
         <after>SmallerStaff</after>

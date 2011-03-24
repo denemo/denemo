@@ -4717,9 +4717,9 @@ void inner_main(void*closure, int argc, char **argv){
     fetchcommands(NULL, NULL);
 
   gboolean save_default_keymap_file_on_entry = FALSE;
-#define choice1 "Simple\nQuick start users: use this until you have read the manual\n"
-#define choice2 "Arranger\nExperienced Users: transcribing music, playing music in, transposing etc"
-#define choice3 "Composer\nExperienced Users: entering and modifying music, working with selections WASD use etc"
+#define choice1 "Simple\nMouse or PC keyboard: use this until you have read the manual\n"
+#define choice2 "Arranger\nMIDI keyboard mainly: transcribing music, playing music in, transposing etc"
+#define choice3 "Composer\nMIDI or PC keyboard: entering and modifying music, working with selections WASD use etc"
 #define choice4 "Classic\nOld Denemo pc-keyboard interface."
 #define choice5 "LilyPond\nExperienced Users with LilyPond knowledge"
 #define choice6 "AllCommands\nUsers wanting to see the complete command set. No pre-defined shortcuts"

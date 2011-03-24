@@ -36,7 +36,7 @@
 						(if (string-contains "abcdefg" thechar)
 							(begin
 							(eval-string (string-append "(d-" (string-upcase thechar) ")"))
-							(d-InfoDialog "Tutorial: Once more you can continue entering notes of that duration\nYou can also edit notes or their durations using the same keys.\nDismiss this box and Press the key 'x' to finish.")
+							(d-InfoDialog "Tutorial: Once more you can continue entering notes of that duration\nYou can also edit notes or their durations using the same keys. Use the shift key to switch between editing and inserting.\nDismiss this box and Press the key 'x' to finish.")
 					(set! thechar (d-GetChar))	
 				
 					)))))
