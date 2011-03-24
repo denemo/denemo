@@ -4902,6 +4902,14 @@ for second and subsequent systems</tooltip>
         <label>Add Minor 7th below top</label>
         <tooltip>Add a minor seventh as chordnote relative to the highest note downwards.</tooltip>
       </row>
+      <row>
+        <action>ChordsOverBass</action>
+        <after>CheckPitches</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/InputMenu/MIDI</menupath>
+        <label>Create Chords Over Bass Line</label>
+        <tooltip>Place the cursor on a bass note and invoke this command. It creates a treble staff above and for each note in the bass staff, as you play it, it switches to the treble staff and allows you to enter a chord. Use the Pitch Bend wheel to stop/start the process. Hold a chord while moving to the next bass note to extend the chord over more than one bass note.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

@@ -266,7 +266,6 @@
       </row>
       <row>
         <action>NextRhythm</action>
-        <bind>Return</bind>
         <bind>Shft+space</bind>
       </row>
       <row>
@@ -725,6 +724,10 @@
       <row>
         <action>SelectLeft</action>
         <bind>Shft+Left</bind>
+      </row>
+      <row>
+        <action>ChordsOverBass</action>
+        <bind>Return</bind>
       </row>
     </map>
   </merge>
