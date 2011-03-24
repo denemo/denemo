@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>InsertOneNote</action>
+        <scheme>(eval-string (string-append "(d-Insert" (number-&gt;string (d-GetPrevailingDuration)) ")"))</scheme>
+        <label>Insert Note</label>
+        <tooltip>Inserts a note in the prevailing duration.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

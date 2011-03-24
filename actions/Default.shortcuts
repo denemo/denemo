@@ -1540,6 +1540,10 @@
         <action>DeleteStaffContexts</action>
         <hidden>true</hidden>
       </row>
+      <row>
+        <action>InsertOneNote</action>
+        <bind>Return</bind>
+      </row>
     </map>
   </merge>
 </Denemo>

@@ -4910,6 +4910,13 @@ for second and subsequent systems</tooltip>
         <label>Create Chords Over Bass Line</label>
         <tooltip>Place the cursor on a bass note and invoke this command. It creates a treble staff above and for each note in the bass staff, as you play it, it switches to the treble staff and allows you to enter a chord. Use the Pitch Bend wheel to stop/start the process. Hold a chord while moving to the next bass note to extend the chord over more than one bass note.</tooltip>
       </row>
+      <row>
+        <action>InsertOneNote</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/InsertNote/InsertDuration</menupath>
+        <label>Insert Note</label>
+        <tooltip>Inserts a note in the prevailing duration.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
