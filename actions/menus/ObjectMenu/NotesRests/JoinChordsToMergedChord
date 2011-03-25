@@ -12,7 +12,7 @@
 		(define basedurationlist (duration::SplitTicksToBaseDurations (duration::GetSelectionDurationInTicks)))
 		(define newchord (concatenate (MapToSelection ANS::GetChordNotes Note?)))
 		(d-DeleteSelectionLeaveEmpty)
-		(duration::InsertBaseDurationList basedurationlist newchord)))	
+		(duration::InsertBaseDurationList basedurationlist  (delete-duplicates newchord))))	
 
 </scheme>
         <label>Join music objects to new chord</label>
