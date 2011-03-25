@@ -2025,6 +2025,14 @@
 	(MapToSelection gather)		
 	#f))
 	
+(define (ProcessSchemeCopyBufferMusObj musobjproc copybuffer)
+	;modify the current musobj and then return the complete, altered, object for the map-list.
+	(map (lambda (current) 
+		(if (musobj? current) 
+			(begin (musobjproc current) current) ; if museobj use the proc
+			current)) ; if not just return the original object
+		 copybuffer))
+	
 ;Paste a list created by (SchemeCopy)
 (define (SchemePaste listy)
   (define (insert x)
