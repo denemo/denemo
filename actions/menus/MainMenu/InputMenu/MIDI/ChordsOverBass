@@ -133,9 +133,9 @@
 		   (d-MoveCursorLeft)
 		   (d-MoveCursorLeft)
 		   (d-MoveCursorLeft)
-		   (d-ToggleTie)
+		   (d-Augment)
 		   (d-MoveCursorRight)
-		   (d-MoveCursorRight)
+		   (d-DeleteObject)
 		   (while (not (Rest?)) (d-StagedDelete));on a whole chord: we remove notes all down to the Rest
 		   (loop))
 		  (else
