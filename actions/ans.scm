@@ -882,7 +882,7 @@
 ;Insert A note/chord on Denemos cursor position 
 ; wants a single or a list of ANS numbers (chord).
 ; Optional duration and number of dots. Tick Syntax. returns #t or #f. 
-(define* (ANS::InsertNotes ansNotes #:optional (ticks #f) (dots #f) )
+(define* (ANS::InsertNotes ansNotes #:optional (ticks #f) (dots 0) )
 	;TODO: Check if these are valid notes.
 	(define cursorposition (GetCursorNoteAsLilypond)) ; this belongs to the hack down here.
 	(begin hack ; TODO: This is a hack. There is no way to directly insert notes with lilypond syntax and let the cursor stay on the same position
@@ -890,7 +890,7 @@
 		(d-CursorToNote cursorposition)
 		(d-MoveCursorLeft))
 	(ANS::ChangeChordNotes ansNotes)
-	(if duration
+	(if ticks
 		(duration::ChangeNoteDurationInTicks ticks dots))	
 	(d-MoveCursorRight))
 
