@@ -874,11 +874,12 @@
 	(define newList '())
 	(if (list? ansNotes) ; check if it was a single note, in this case make a list.
 		#t
-		(set! ansNotes (list ansNotes)))
-	(set! newList (map (lambda (value) (symbol->string (ANS::Ans2Ly value))) ansNotes))
+		(set! ansNotes (list ansNotes)))	
 	(if (every inf? ansNotes)
 		(ChangeToRest)
-		(d-ChangeChordNotes (string-join newList)))) ; d-ChangeChordNotes wants a long string of notes with space between.
+		(begin
+			(set! newList (map (lambda (value) (symbol->string (ANS::Ans2Ly value))) (delete +inf.0 ansNotes))) ; first remove all rests, then prepare a string.
+			(d-ChangeChordNotes (string-join newList))))) ; d-ChangeChordNotes wants a long string of notes with space between.
 
 
 ;Insert A note/chord on Denemos cursor position 
