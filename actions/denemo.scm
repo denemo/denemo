@@ -2005,3 +2005,9 @@
 		(let ()
 			(define listy (map (lambda (x) (ANS::Ly2Ans (string->symbol x))) (string-tokenize interval)))
 			(car (apply ANS::GetIntervall listy)))))
+
+(define (ChangeToRest)
+;TODO: (d-RemoveNoteFromChord) always returns #f so we have to use (d-GetNotes) as test until this gets fixed
+	(if (Music?)
+		(RepeatProcWhileTest d-RemoveNoteFromChord d-GetNotes)
+		#f))
