@@ -142,3 +142,21 @@ You can reverse the ascii/binary digits to get more variation in the measure beg
 (d-AddAfter)
 (NotationMagick::PutBinaryStringList (reverse (NotationMagick::ReverseStringsInList (NotationMagick::String->CharsAsBinary "bach")))) ; hcab, each ascii is reverted
 !#
+
+
+;Modify selections of notes. Reversing, Mirror and others.
+;;;;;
+
+;Modify a selection with a given proc
+;;Example to reverse the selection: (NotationMagick::ModifySelectedObjects reverse)
+;;Uses SchemeCopy and SchemePaste inside. Any sophisticated edit-proc has to deal with musobj functions
+(define (NotationMagick::ModifySelectedObjects proc)
+  (if (d-MarkStatus)
+  	(let ()
+		(define position (GetPosition))
+		(define listy (SchemeCopy))
+		(d-DeleteSelectionLeaveEmpty)
+		(SchemePaste (proc listy))
+		(apply d-GoToPosition position)
+		#t)
+	#f)) ; no selection

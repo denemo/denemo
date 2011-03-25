@@ -1676,7 +1676,7 @@
 
 ;;;;;;;;;; End of duration-conversion
 
-;;;;;;;; Applied duration scripts
+;; Applied duration scripts
 (define (duration::GetNumberOfDotsInTicks) ; Fails for tuplets
 	 (duration::CalculateDotsFromTicks (d-GetDurationInTicks) (duration::GetBaseDurationInTicks)))
 	   
@@ -1861,7 +1861,7 @@
                       (eqv? (vector-ref x 0) ',s))))))))))
                       
 ; Create a music-object that holds various information. This is the smallest, single object 
-(defstruct musobj pitch movement staff measure metricalp horizontal start duration end time)
+(defstruct musobj pitch movement staff measure metricalp horizontal start duration baseduration dots)
 
 ; Actually create the music-object. In this process various information are collected.
 ;;(define testob (CreateMusObj))  (set!musobj.duration testob 256)  (display (musobj.start testob))
@@ -1874,8 +1874,9 @@
 				 'metricalp (duration::GetMetricalPosition)
 				 'start (d-GetStartTick)
 				 'duration (d-GetDurationInTicks)
-				 'end (d-GetEndTick)
-				 'time (d-GetOnsetTime)))					
+				 'baseduration (d-GetBaseDurationInTicks)
+				 'dots (d-GetDots)				 
+				 ))					
 
 
 (define (DefaultInitializePrint) (display "\nstarting to print\n"))
@@ -2004,3 +2005,30 @@
 		(let ()
 			(define listy (map (lambda (x) (ANS::Ly2Ans (string->symbol x))) (string-tokenize interval)))
 			(car (apply ANS::GetIntervall listy)))))
+
+(define (ChangeToRest)
+;TODO: (d-RemoveNoteFromChord) always returns #f so we have to use (d-GetNotes) as test until this gets fixed
+	(if (Music?)
+		(RepeatProcWhileTest d-RemoveNoteFromChord d-GetNotes)
+		#f))
+		
+; A copy variant in Scheme
+;; Save the selection in a scheme variable
+;; Music? are musobj (CreateMusObj)
+;;TODO: SchemeCopy and Paste are very limited and need improvement.
+(define (SchemeCopy)
+  (define (gather)
+  	(cond 
+  	((Music?) (CreateMusObj))  	 	
+	))
+  (if (d-MarkStatus)
+	(MapToSelection gather)		
+	#f))
+	
+;Paste a list created by (SchemeCopy)
+(define (SchemePaste listy)
+  (define (insert x)
+  	(cond
+  	((musobj? x)  (ANS::InsertNotes (musobj.pitch x) (musobj.baseduration x) (musobj.dots x)))
+  	))
+  	(for-each (lambda (x) (insert x)) listy))

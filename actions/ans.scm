@@ -874,15 +874,18 @@
 	(define newList '())
 	(if (list? ansNotes) ; check if it was a single note, in this case make a list.
 		#t
-		(set! ansNotes (list ansNotes)))
-	(set! newList (map (lambda (value) (symbol->string (ANS::Ans2Ly value))) ansNotes))
-	(d-ChangeChordNotes (string-join newList))) ; d-ChangeChordNotes wants a long string of notes with space between.
+		(set! ansNotes (list ansNotes)))	
+	(if (every inf? ansNotes)
+		(ChangeToRest)
+		(begin
+			(set! newList (map (lambda (value) (symbol->string (ANS::Ans2Ly value))) (delete +inf.0 ansNotes))) ; first remove all rests, then prepare a string.
+			(d-ChangeChordNotes (string-join newList))))) ; d-ChangeChordNotes wants a long string of notes with space between.
 
 
 ;Insert A note/chord on Denemos cursor position 
 ; wants a single or a list of ANS numbers (chord).
-; Optional duration and number of dots. Denemo Syntax. returns #t or #f. 
-(define* (ANS::InsertNotes ansNotes #:optional (dots #f) (duration #f) )
+; Optional duration and number of dots. Tick Syntax. returns #t or #f. 
+(define* (ANS::InsertNotes ansNotes #:optional (ticks #f) (dots 0) )
 	;TODO: Check if these are valid notes.
 	(define cursorposition (GetCursorNoteAsLilypond)) ; this belongs to the hack down here.
 	(begin hack ; TODO: This is a hack. There is no way to directly insert notes with lilypond syntax and let the cursor stay on the same position
@@ -890,13 +893,8 @@
 		(d-CursorToNote cursorposition)
 		(d-MoveCursorLeft))
 	(ANS::ChangeChordNotes ansNotes)
-	(if duration  ;If user gave duration parameter. Does not test if the duration is a valid number
-			(eval-string (string-append "(d-Change" (number->string duration) ")"))) 
-	(if (and dots (not (= dots 0))) ;If the user gave 0 as durations ignore that as well
-			(let loop ((count 0)) 
-				(d-AddDot)
-				(if (< count (- dots 1))
-				(loop (+ 1 count)))))
+	(if ticks
+		(duration::ChangeNoteDurationInTicks ticks dots))	
 	(d-MoveCursorRight))
 
 

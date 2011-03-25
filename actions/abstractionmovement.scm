@@ -241,7 +241,7 @@ return)
 		(for-each (lambda (object)
 			(if (not object)
 				(d-MoveToStaffDown)  ; move one down for the next iteration
-				(ANS::InsertNotes (musobj.pitch object) 0 2)))
+				(ANS::InsertNotes (musobj.pitch object) 0 384)))
 			 staff))
 	abstractionmovement))	
 
