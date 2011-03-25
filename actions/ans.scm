@@ -876,7 +876,9 @@
 		#t
 		(set! ansNotes (list ansNotes)))
 	(set! newList (map (lambda (value) (symbol->string (ANS::Ans2Ly value))) ansNotes))
-	(d-ChangeChordNotes (string-join newList))) ; d-ChangeChordNotes wants a long string of notes with space between.
+	(if (every inf? ansNotes)
+		(ChangeToRest)
+		(d-ChangeChordNotes (string-join newList)))) ; d-ChangeChordNotes wants a long string of notes with space between.
 
 
 ;Insert A note/chord on Denemos cursor position 
