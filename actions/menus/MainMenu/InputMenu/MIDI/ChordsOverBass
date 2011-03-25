@@ -144,11 +144,12 @@
 		   (while (not (Rest?)) (d-StagedDelete))
 		   (loop))))
 	   (else (loop)))))))
-  
+  (define bass-position (GetPosition))
   (if (not (None?))
       (let loop  ((bass-key (d-GetNoteAsMidi)))
 	(define continuing #t)
-(d-DirectivePut-chord-graphic "ChordsOverBass" "CheckMark")
+	
+	(d-DirectivePut-chord-graphic "ChordsOverBass" "CheckMark")
 	(d-PushPosition)
 	(d-SetMark)
 	(d-Copy)
@@ -162,40 +163,43 @@
 		     (velocity (bit-extract midi 16 24))
 		     (note (bit-extract midi 8 16))
 		     (command (bit-extract midi 0 8)))  
-		
-		  (cond ((and (= command #x90) (= note bass-key))
-			 (begin
-			   (d-MoveToStaffUp)
-			   (GoToMeasureEnd)
-			   (d-Paste)
-			   (d-MoveCursorLeft)
-			   (d-StagedDelete)			   
-			   (GetChords bass-key)
-			   ))
-			((and  (= command #xE0) (&gt; note 32))
-			 (disp "Finishing by abort")
-(d-DirectiveDelete-chord "ChordsOverBass")
-			 (d-PopPosition)
+		(apply d-GoToPosition bass-position)
+		(cond ((and (= command #x90) (= note bass-key))
+		       (begin
 			 (d-MoveToStaffUp)
 			 (GoToMeasureEnd)
-			 ;(d-RefreshDisplay)
+			 (d-Paste)
+			 (d-MoveCursorLeft)
+			 (d-StagedDelete)			   
+			 (GetChords bass-key)
+			 ))
+		      ((and  (= command #xE0) (&gt; note 32))
+		       (disp "Finishing by abort")
+		       (d-DirectiveDelete-chord "ChordsOverBass")
+		       (d-PopPosition)
+		       (d-MoveToStaffUp)
+		       (GoToMeasureEnd)
+					;(d-RefreshDisplay)
 			 ;;;prevent the pitchbend commands running on by waiting for the user to continue on the keyboard before re-instating the normal pitch bend action.
-			 (eval-string (string-append "(d-" (d-GetCommandFromUser) ")"))
-			 (set! continuing #f))
-
+		       (eval-string (string-append "(d-" (d-GetCommandFromUser) ")"))
+		       (set! continuing #f))
+		      
 		      (else
-			(disp "Ignoring " command " " note " " velocity " waiting for " bass-key "\n")
-			(listening))))))
+		       (disp "Ignoring " command " " note " " velocity " waiting for " bass-key "\n")
+		       (listening))))))
 	(if continuing
 	    (begin 
-	  ;  (pause)
-(d-DirectiveDelete-chord "ChordsOverBass")
+					;  (pause)
+	      (d-DirectiveDelete-chord "ChordsOverBass")
 	      (d-PopPosition)
 	      (d-DirectiveDelete-chord "ChordsOverBass")
 	      
 	      (if (d-NextObject)
-		  (loop (d-GetNoteAsMidi))))))
-  (disp "Finished ChordsOverBass")))
+		  (begin
+		    (set! bass-position (GetPosition))
+		    
+		    (loop (d-GetNoteAsMidi)))))))
+      (disp "Finished ChordsOverBass")))
 
 
 (define Pitchbend::commandUp "(d-CursorRight)")
