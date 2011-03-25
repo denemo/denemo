@@ -2011,3 +2011,24 @@
 	(if (Music?)
 		(RepeatProcWhileTest d-RemoveNoteFromChord d-GetNotes)
 		#f))
+		
+; A copy variant in Scheme
+;; Save the selection in a scheme variable
+;; Music? are musobj (CreateMusObj)
+;;TODO: SchemeCopy and Paste are very limited and need improvement.
+(define (SchemeCopy)
+  (define (gather)
+  	(cond 
+  	((Music?) (CreateMusObj))  	 	
+	))
+  (if (d-MarkStatus)
+	(MapToSelection gather)		
+	#f))
+	
+;Paste a list created by (SchemeCopy)
+(define (SchemePaste listy)
+  (define (insert x)
+  	(cond
+  	((musobj? x)  (ANS::InsertNotes (musobj.pitch x) (musobj.baseduration x) (musobj.dots x)))
+  	))
+  	(for-each (lambda (x) (insert x)) listy))
