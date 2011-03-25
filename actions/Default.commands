@@ -4924,6 +4924,14 @@ for second and subsequent systems</tooltip>
         <label>Reverse Selected Objects</label>
         <tooltip>Revert selected objects</tooltip>
       </row>
+      <row>
+        <action>NotationMagick-MirrorSelectedObjects</action>
+        <after>NotationMagick-ReverseSelectedObjects</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotationMagick</menupath>
+        <label>Mirror Selected Objects (Axis=Cursor)</label>
+        <tooltip>Mirror the selected notes. Axis is the cursor position.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

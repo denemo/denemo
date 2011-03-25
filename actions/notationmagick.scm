@@ -160,3 +160,10 @@ You can reverse the ascii/binary digits to get more variation in the measure beg
 		(apply d-GoToPosition position)
 		#t)
 	#f)) ; no selection
+	
+(define (NotationMagick::MirrorSelection axis)
+  (NotationMagick::ModifySelectedObjects (lambda (copybuffer)
+	(ProcessSchemeCopyBufferMusObj (lambda (current)
+		(set!musobj.pitch current 
+			;The function to change a single ANS object which is a list/chordmembers
+			(map (lambda (note) (+ note (* 2 (- line note)))) (musobj.pitch current)))) copybuffer))))
