@@ -64,6 +64,8 @@ append_movement(GtkAction *action, gpointer param,  gboolean populate) {
   DenemoGUI *gui = Denemo.gui;
   DenemoScore *source_movement = gui->si;
   GList *g;
+  if(gui->si->lyricsbox)
+    gtk_widget_hide(gui->si->lyricsbox);
   point_to_empty_movement(gui);
   for(g=source_movement->thescore;g;g=g->next) {
     DenemoStaff *source_staff = g->data;
