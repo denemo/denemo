@@ -526,6 +526,9 @@ gboolean insert_clip_obj(gint m, gint n) {
   insert_object(clonedobj);
   octave_up_key(Denemo.gui);//FIXME up and down to fix clef change bug !!!!!!!!
   octave_down_key(Denemo.gui);//FIXME up and down to fix clef change bug !!!!!!!!
+  showwhichaccidentals ((objnode *) si->currentmeasure->data,
+			    si->curmeasurekey, si->curmeasureaccs);
+
   return TRUE;
 }
 /**
