@@ -1676,7 +1676,7 @@
 
 ;;;;;;;;;; End of duration-conversion
 
-;;;;;;;; Applied duration scripts
+;; Applied duration scripts
 (define (duration::GetNumberOfDotsInTicks) ; Fails for tuplets
 	 (duration::CalculateDotsFromTicks (d-GetDurationInTicks) (duration::GetBaseDurationInTicks)))
 	   
@@ -1861,7 +1861,7 @@
                       (eqv? (vector-ref x 0) ',s))))))))))
                       
 ; Create a music-object that holds various information. This is the smallest, single object 
-(defstruct musobj pitch movement staff measure metricalp horizontal start duration end time)
+(defstruct musobj pitch movement staff measure metricalp horizontal start duration baseduration dots)
 
 ; Actually create the music-object. In this process various information are collected.
 ;;(define testob (CreateMusObj))  (set!musobj.duration testob 256)  (display (musobj.start testob))
@@ -1874,8 +1874,9 @@
 				 'metricalp (duration::GetMetricalPosition)
 				 'start (d-GetStartTick)
 				 'duration (d-GetDurationInTicks)
-				 'end (d-GetEndTick)
-				 'time (d-GetOnsetTime)))					
+				 'baseduration (d-GetBaseDurationInTicks)
+				 'dots (d-GetDots)				 
+				 ))					
 
 
 (define (DefaultInitializePrint) (display "\nstarting to print\n"))
