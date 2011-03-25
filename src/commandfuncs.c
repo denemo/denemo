@@ -1613,6 +1613,7 @@ void
 insertmeasureafter (DenemoGUI *gui)
 {
   DenemoScore *si = Denemo.gui->si;
+  take_snapshot();
   si->currentmeasure = addmeasures (si, si->currentmeasurenum++, 1, 0);
   si->cursor_x = 0;
   si->cursor_appending = TRUE;
@@ -1631,6 +1632,7 @@ void
 addmeasureafter (DenemoGUI *gui)
 {
   DenemoScore *si = Denemo.gui->si;
+  take_snapshot();
   si->currentmeasure = addmeasures (si, si->currentmeasurenum++, 1, 1);
   si->cursor_x = 0;
   si->cursor_appending = TRUE;
@@ -1777,6 +1779,7 @@ void deletemeasure(DenemoGUI * gui)
 void deletemeasureallstaffs(DenemoGUI * gui)
 {
   DenemoScore *si=gui->si;
+  //take_snapshot(); this does not prevent the multiple undo steps needed
   si->currentmeasure =
     removemeasures (si, si->currentmeasurenum - 1, 1, TRUE);
   setcurrents (si);
