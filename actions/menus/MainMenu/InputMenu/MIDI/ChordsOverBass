@@ -99,22 +99,22 @@
 	     (note (bit-extract midi 8 16))
 	     (command (bit-extract midi 0 8)))  
 	(let ()
-	  (disp "waiting for the release of " bass-key "\n")
+	  ;(disp "waiting for the release of " bass-key "\n")
 	  (cond
 	   ((noteOn? midi)
 	    (set! chord-created #t)
 	    (if continuing 
 			       (begin
-			       (disp "cont... " (d-GetNoteForMidiKey note) "\n")
+			       ;(disp "cont... " (d-GetNoteForMidiKey note) "\n")
 				 (eval-string (string-append "(d-InsertNoteInChord \"" (d-GetNoteForMidiKey note) "\")")))
 			       (begin
-			        (disp "start... " (d-GetNoteForMidiKey note) "\n")
+			        ;(disp "start... " (d-GetNoteForMidiKey note) "\n")
 				 (eval-string (string-append "(d-InsertNoteInChord \"" (d-GetNoteForMidiKey note) "\")"))
 				 (set! continuing #t)))
 	    (PlayNote (number-&gt;string note) 400)
 	    (loop))
 	   ((noteOff? midi) 
-	    (disp "A note off with chord-created=" chord-created "and suspension=" suspension "\n")
+	    ;;;(disp "A note off with chord-created=" chord-created "and suspension=" suspension "\n")
 	    (if (= note bass-key)				
 				  (if chord-created
 				      #t
@@ -123,10 +123,26 @@
 					  (begin (d-DirectivePut-chord-display  "ChordsOverBass" "Suspension")(disp "rest\n")));;;leave as a rest
 				  )				  
 				(begin 
-(disp "A suspension\n")
+				  ;;;(disp "A suspension\n")
 				  (set! suspension #t)
 				(loop))))
             ;;;here put pedal down condition - creating a new chord over the same note.
+	   ((pedalDown? midi)
+	    (cond ((&gt; (d-GetDots) 0)
+		   (SplitChord 3)
+		   (d-MoveCursorLeft)
+		   (d-MoveCursorLeft)
+		   (d-MoveCursorLeft)
+		   (d-ToggleTie)
+		   (d-MoveCursorRight)
+		   (d-MoveCursorRight)
+		   (while (not (Rest?)) (d-StagedDelete));on a whole chord: we remove notes all down to the Rest
+		   (loop))
+		  (else
+		   (SplitChord 2)
+		   (d-MoveCursorLeft)
+		   (while (not (Rest?)) (d-StagedDelete))
+		   (loop))))
 	   (else (loop)))))))
   
   (if (not (None?))
