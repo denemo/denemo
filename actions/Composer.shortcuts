@@ -440,8 +440,12 @@
       </row>
       <row>
 		<action>JoinChords</action>
+		<bind>J</bind>
+      </row>
+      <row>
+		<action>JoinChordsToMergedChord</action>
 		<bind>j</bind>
-      </row>      
+      </row>            
       <row>
         <action>GraceNoteSwitcher</action>
         <bind>g</bind>

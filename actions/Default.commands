@@ -4131,7 +4131,7 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/StaffMenu/Playback</menupath>
         <label>Mute</label>
         <tooltip>Mutes playback on this staff by placing a volume=zero directive at the start.</tooltip>
-      </row>      
+      </row>
       <row>
         <action>TinyStaff</action>
         <after>SmallerStaff</after>
@@ -4908,6 +4908,14 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotesRests/InsertNote/InsertDuration</menupath>
         <label>Insert Note</label>
         <tooltip>Inserts a note in the prevailing duration.</tooltip>
+      </row>
+      <row>
+        <action>JoinChordsToMergedChord</action>
+        <after>JoinChords</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests</menupath>
+        <label>Join music objects to new chord</label>
+        <tooltip>Joins all notes, chords and rests in the selection and inserts a all selected notes as chord. May create tied notes.</tooltip>
       </row>
     </map>
   </merge>
