@@ -8,6 +8,7 @@
         <after>CheckPitches</after>
         <action>ChordsOverBass</action>
         <scheme>;;;;ChordsOverBass (pure filter version)
+
 (define Pitchbend::commandUp "(disp \"disabled\n\")")
 (define Pitchbend::commandDown "(disp \"disabled\n\")")
 
@@ -128,20 +129,31 @@
 				(loop))))
             ;;;here put pedal down condition - creating a new chord over the same note.
 	   ((pedalDown? midi)
-	    (cond ((&gt; (d-GetDots) 0)
-		   (SplitChord 3)
+	    (cond 
+	     ((Rest?)
+	      (d-Diminish)
+	      (d-SetMark)
+	      (d-Copy)
+	      (d-DirectiveDelete-chord "ChordsOverBass")
+	      (d-Paste)
+	      (loop))
+
+
+
+	     ((&gt; (d-GetDots) 0)
+		   (d-SplitChord 3)
 		   (d-MoveCursorLeft)
 		   (d-MoveCursorLeft)
 		   (d-MoveCursorLeft)
 		   (d-Augment)
 		   (d-MoveCursorRight)
 		   (d-DeleteObject)
-		   (while (not (Rest?)) (d-StagedDelete));on a whole chord: we remove notes all down to the Rest
+		   (ChangeToRest);on a whole chord: we remove notes all down to the Rest
 		   (loop))
 		  (else
-		   (SplitChord 2)
+		   (d-SplitChord 2)
 		   (d-MoveCursorLeft)
-		   (while (not (Rest?)) (d-StagedDelete))
+		   (ChangeToRest)
 		   (loop))))
 	   (else (loop)))))))
   (define bass-position (GetPosition))
