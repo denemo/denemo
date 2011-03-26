@@ -654,7 +654,7 @@ static SCM scheme_hide_menus(SCM hide) {
 
 
 /* when a script calls a command which is itself a script it comes through here */
-static SCM scheme_script_callback(SCM script) {
+static SCM scheme_script_callback(SCM script, SCM params) {
     int length;
     char *name=NULL;
   //FIXME scm_dynwind_begin (0); etc
@@ -663,6 +663,9 @@ static SCM scheme_script_callback(SCM script) {
      if(name) {
        GtkAction *action = lookup_action_from_name (name);
        if(action){
+	 gchar *paramvar = g_strdup_printf("%s::params", name);
+	 scm_c_define(paramvar, params);
+	 g_free(paramvar);
 	 gchar *text = g_object_get_data(G_OBJECT(action), "scheme");
 	 if(text && *text)
 	   return SCM_BOOL(!call_out_to_guile(text));
@@ -673,10 +676,10 @@ static SCM scheme_script_callback(SCM script) {
 return  SCM_BOOL(FALSE);
 }
 void create_scheme_function_for_script(gchar *name) {
-  gchar *proc = g_strdup_printf("(d-%s)", name);
-  gchar *value = g_strdup_printf("(d-ScriptCallback \"%s\")", name);
-  gchar *def = g_strdup_printf("(define %s %s)\n", proc, value);
-  // g_print("Defining %s\n", def);
+  gchar *proc = g_strdup_printf("(d-%s #:optional params)", name);
+  gchar *value = g_strdup_printf("(d-ScriptCallback \"%s\" params)", name);
+  gchar *def = g_strdup_printf("(define* %s %s)", proc, value);
+  //g_print("Defining %s\n", def);
   call_out_to_guile(def);
   g_free(def);
   // define_scheme_literal_variable(proc, value, "A scheme procedure to call the script of that name");
@@ -4787,7 +4790,8 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
   for(i=0;i<G_N_ELEMENTS(activatable_commands);i++) {
     install_scm_function (g_strdup_printf(DENEMO_SCHEME_PREFIX"%s", activatable_commands[i].str), (gpointer)activatable_commands[i].p);
   }
-
+  //ensure (use-modules (ice-9 optargs)) is loaded first #:optional params
+  call_out_to_guile("(use-modules (ice-9 optargs))");
   init_keymap();
 
   load_default_keymap_file();
