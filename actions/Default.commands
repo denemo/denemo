@@ -4932,6 +4932,30 @@ for second and subsequent systems</tooltip>
         <label>Mirror Selected Objects (Axis=Cursor)</label>
         <tooltip>Mirror the selected notes. Axis is the cursor position.</tooltip>
       </row>
+      <row>
+        <action>NotationMagick-ShuffleSelectedObjects</action>
+        <after>NotationMagick-MirrorSelectedObjects</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotationMagick</menupath>
+        <label>Shuffle Selected Objects</label>
+        <tooltip>Shuffle the selected objects</tooltip>
+      </row>
+      <row>
+        <action>NotationMagick-SortSelectionAscending</action>
+        <after>NotationMagick-ShuffleSelectedObjects</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotationMagick</menupath>
+        <label>Sort Selection (Ascending)</label>
+        <tooltip>Sort all notes in the selection, ascending order.</tooltip>
+      </row>
+      <row>
+        <action>NotationMagick-SortSelectionDescending</action>
+        <after>NotationMagick-SortSelectionAscending</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotationMagick</menupath>
+        <label>Sort Selection (Descending)</label>
+        <tooltip>Sort all notes in the selection, descending order.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
