@@ -1878,7 +1878,11 @@ parseEditInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoScore * si)
 	    si->page_height = getXMLIntChild (childElem);
 	    if(si->page_height < 0) si->page_height = 0;
 	  }
-
+	else if (ELEM_NAME_EQ (childElem, "measure-width"))
+	  {
+	    si->measurewidth = getXMLIntChild (childElem);
+	    if(si->measurewidth < 10) si->measurewidth = DENEMO_INITIAL_MEASURE_WIDTH;
+	  }
 
       }
   }

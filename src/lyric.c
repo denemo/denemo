@@ -57,6 +57,8 @@ GtkWidget * add_verse_to_staff(DenemoScore *si, DenemoStaff *staff) {
     if(si->lyricsbox==NULL)
       install_lyrics_preview(si, gtk_widget_get_parent(gtk_widget_get_parent(Denemo.scorearea)));//FIXME we need a proper way of getting to the top vbox, that will not break when scorearea is moved in the widget hierarchy.
     gtk_box_pack_start(GTK_BOX(si->lyricsbox), notebook, TRUE, TRUE, 0);
+    if(si->measurewidth==DENEMO_INITIAL_MEASURE_WIDTH)
+      si->measurewidth = DENEMO_INITIAL_MEASURE_WIDTH*3;
   } else {
     GtkWidget *w = staff->verses->data;
     notebook = gtk_widget_get_parent(w);

@@ -14,8 +14,6 @@
 #include "selectops.h"
 #include "objops.h"
 #include "lyric.h"
-#define INITIAL_WHOLEWIDTH 160
-#define INITIAL_STAFFHEIGHT 100
 
 static remove_all_staffs(DenemoScore * si);
 
@@ -356,9 +354,9 @@ init_score (DenemoScore * si, DenemoGUI *gui)
   si->readonly = 0;
   si->leftmeasurenum = si->rightmeasurenum = 1;
   si->top_staff = si->bottom_staff = 1;
-  si->measurewidth = INITIAL_WHOLEWIDTH;
+  si->measurewidth = DENEMO_INITIAL_MEASURE_WIDTH;
   si->measurewidths = NULL;
-  si->staffspace = INITIAL_STAFFHEIGHT;
+  si->staffspace = DENEMO_INITIAL_STAFF_HEIGHT;
   si->thescore = NULL;
   si->currentstaffnum = 1;
   si->currentmeasurenum = 1;

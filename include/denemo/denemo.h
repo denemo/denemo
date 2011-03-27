@@ -41,6 +41,9 @@ extern "C" {
 #define ADDING_MASK (GDK_MOD1_MASK)  //Alt
 #define CHORD_MASK (1<<25)  //Not used by GDK
 
+#define DENEMO_INITIAL_MEASURE_WIDTH 160
+#define DENEMO_INITIAL_STAFF_HEIGHT 100
+
 
 #define g_malloc(a) g_malloc0(a) /* for extensible debuggable code */
 #if 0

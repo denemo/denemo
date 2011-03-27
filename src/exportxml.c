@@ -702,8 +702,9 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   if(si->page_height)
     newXMLIntChild (parentElem, ns, (xmlChar *) "page-height",
 		    si->page_height);
-
-
+  if(si->measurewidth!=DENEMO_INITIAL_MEASURE_WIDTH)
+    newXMLIntChild (parentElem, ns, (xmlChar *) "measure-width",
+		    si->measurewidth);
 
   if(si->header.directives) {
     newDirectivesElem(mvmntElem, ns, si->header.directives, "header-directives");
