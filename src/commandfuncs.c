@@ -2040,6 +2040,7 @@ toggle_tie (GtkAction *action, gpointer param)
 
 
       ((chord *) curmudelaobj->object)->is_tied ^= 1;
+      gtk_widget_queue_draw (Denemo.scorearea);
     }
 }
 
