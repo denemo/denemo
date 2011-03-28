@@ -524,8 +524,14 @@ gboolean insert_clip_obj(gint m, gint n) {
   DenemoObject *curobj = (DenemoObject*)curbufferobj->data; 
   clonedobj = dnm_clone_object (curobj);
   insert_object(clonedobj);
+#if 0
   octave_up_key(Denemo.gui);//FIXME up and down to fix clef change bug !!!!!!!!
   octave_down_key(Denemo.gui);//FIXME up and down to fix clef change bug !!!!!!!!
+#endif
+  //reset_cursor_stats (si);
+  fixnoteheights ((DenemoStaff *) si->currentstaff->data);
+  beamsandstemdirswholestaff ((DenemoStaff *) si->currentstaff->data);
+  find_xes_in_all_measures (si);
   showwhichaccidentals ((objnode *) si->currentmeasure->data,
 			    si->curmeasurekey, si->curmeasureaccs);
 
