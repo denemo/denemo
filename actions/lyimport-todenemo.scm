@@ -55,8 +55,14 @@
 	(string-append "(d-InsertClef \"" theclef "\")")))
   
    (define (do-tie cdr)	
-	"(d-ToggleTie)")	
-  
+	"(d-ToggleTie)") ; this only works because the command works in an appending position on the left note and we can be sure there is none in front of us during importing.
+	
+	(define (do-bracket-open cdr)	
+		"(d-StartBeam)") ; this only works because the command works in an appending position on the left note and we can be sure there is none in front of us during importing.		
+	
+	(define (do-bracket-close cdr)	
+		"(d-EndBeam)") ; this only works because the command works in an appending position on the left note and we can be sure there is none in front of us during importing.
+		  
   (define (do-time thetime)
     (if lyimport::notes        
 	(string-append "(d-InitialTimeSig \"" thetime "\")")
@@ -358,8 +364,9 @@
 						  (string-append (do-duration (list-ref (cadr current_object) 5)) " "  (string-join (map create-note (list (cadr current_object)))) " "  (do-dots (list-ref (cadr current_object) 5)) postfix)
 						  )))
 
-
 	   ((eqv? (car current_object) 'x_TIE) (begin  (do-tie (cdr current_object))))
+	   ((eqv? (car current_object) 'x_BRACKET_OPEN) (begin  (do-bracket-open (cdr current_object))))
+	   ((eqv? (car current_object) 'x_BRACKET_CLOSE) (begin  (do-bracket-close (cdr current_object))))
 	   ((eqv? (car current_object) 'x_CLEF) (begin  (do-clef (cdr current_object))))
 	   ((eqv? (car current_object) 'x_TIME) (begin (do-time (cdr current_object))))
 	   ((eqv? (car current_object) 'x_KEY) (begin (do-key  (cadr current_object) (cddr current_object))))

@@ -97,12 +97,13 @@ R							(lyimport::mtoken 'MULTI_MEASURE_REST yytext)
 ^							(lyimport::mtoken 'CARET yytext)
 _							(lyimport::mtoken 'UNDERSCORE yytext)
 -							(lyimport::mtoken 'HYPHEN yytext)
-~							(lyimport::mtoken 'E_TILDE yytext) ; This may be the wrong place. But the lexer did not detect E_TILDE with the block \\. below
-
+~							(lyimport::mtoken 'TILDE yytext) ; This may be the wrong place. But the lexer did not detect E_TILDE with the block \\. below
+\[							(lyimport::mtoken 'BRACKET_OPEN yytext) ; This is a custom lexer rule. In Lilypond these are used directly as strings in the parser.
+\]							(lyimport::mtoken 'BRACKET_CLOSE yytext) ; This is a custom lexer rule. In Lilypond these are used directly as strings in the parser.
 
 						
 
-\\.							(case (string->char yytext)
+\\.							(case (string-ref yytext 0) ; not sure for what this is. maybe scheme escaped parts in lilypond?
 								((#\>) (lyimport::mtoken 'E_ANGLE_CLOSE yytext))
 								((#\<) (lyimport::mtoken 'E_ANGLE_OPEN yytext))
 								((#\!) (lyimport::mtoken 'E_EXCLAMATION yytext))

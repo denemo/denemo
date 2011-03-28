@@ -242,7 +242,7 @@ FERMATA
 ;;;;;;; Nils tokens for Denemo
 WHITESPACE { } ERROR VERSION
 
-SUP_QUOTE SUB_QUOTE PLUS EQUAL 
+SUP_QUOTE SUB_QUOTE PLUS EQUAL BRACKET_OPEN BRACKET_CLOSE TILDE
 
 DIGIT STAR 
 DOT 
@@ -646,8 +646,8 @@ HYPHEN
  (command_element
 	(command_event) : $1
 	(SKIP duration_length) : (string-append $1 $2)    ;	$$ = MAKE_SYNTAX ("skip-music", @$, $2);
-	(E_BRACKET_OPEN) : (lyimport::error "E_BRACKET_OPEN") ;	Music *m = MY_MAKE_MUSIC ("LigatureEvent", @$); m->set_property ("span-direction", scm_from_int (START)); 	$$ = m->unprotect();
-	(E_BRACKET_CLOSE) : (lyimport::error "E_BRACKET_CLOSE") ; Music *m = MY_MAKE_MUSIC ("LigatureEvent", @$); m->set_property ("span-direction", scm_from_int (STOP));	$$ = m->unprotect ();
+	(BRACKET_OPEN) : (cons 'x_BRACKET_OPEN $1) ;	Music *m = MY_MAKE_MUSIC ("LigatureEvent", @$); m->set_property ("span-direction", scm_from_int (START)); 	$$ = m->unprotect();
+	(BRACKET_CLOSE) : (cons 'x_BRACKET_CLOSE $1) ; Music *m = MY_MAKE_MUSIC ("LigatureEvent", @$); m->set_property ("span-direction", scm_from_int (STOP));	$$ = m->unprotect ();
 	(E_BACKSLASH) : (lyimport::error "E_BACKSLASH") ; $$ = MAKE_SYNTAX ("voice-separator", @$, SCM_UNDEFINED);
 	(PIPE)		: (cons 'x_BARLINE $1) ; look in parser.yy 
 	(PARTIAL duration_length): (cons 'x_PARTIAL (cons (list-ref $2 0) (list-ref $2 1))) ; we get a list here: (duration numberofdots) Moment m = - unsmob_duration ($2)->get_length (); 		$$ = MAKE_SYNTAX ("property-operation", @$, SCM_BOOL_F, ly_symbol2scm ("Timing"), ly_symbol2scm ("PropertySet"), ly_symbol2scm ("measurePosition"), m.smobbed_copy ()); 	$$ = MAKE_SYNTAX ("context-specification", @$, ly_symbol2scm ("Score"), SCM_BOOL_F, $$, SCM_EOL, SCM_BOOL_F);
@@ -656,7 +656,7 @@ HYPHEN
  )
 
 (command_event
-	(E_TILDE) : (cons 'x_TIE $1) ; $$ = MY_MAKE_MUSIC ("PesOrFlexaEvent", @$)->unprotect ();
+	(TILDE) : (cons 'x_TIE $1) ; $$ = MY_MAKE_MUSIC ("PesOrFlexaEvent", @$)->unprotect ();
 	(MARK DEFAULT) : (begin (cons 'x_LILYPOND "\\mark \\default")); 	  {
 						;Music *m = MY_MAKE_MUSIC ("MarkEvent", @$);
 						;$$ = m->unprotect ();
