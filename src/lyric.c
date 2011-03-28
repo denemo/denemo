@@ -203,3 +203,36 @@ DenemoScore *si = gui->si;
        gtk_widget_hide(gtk_widget_get_parent(((DenemoStaff *)current->data)->verses->data));
  }
 }
+
+gchar *get_lyrics_for_current_verse(DenemoStaff *thestaff) {
+  if(thestaff->currentverse && thestaff->currentverse->data)
+    return get_text_from_view(thestaff->currentverse->data);
+  else
+    return  NULL;
+}
+
+gboolean append_lyrics_for_current_verse(DenemoStaff *thestaff, gchar *text) {
+  if(thestaff->currentverse && thestaff->currentverse->data) {
+    GtkTextIter iter;
+    GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (thestaff->currentverse->data);
+    gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(textbuffer), &iter);  
+    gtk_text_buffer_insert (textbuffer, &iter, text, -1);    
+    return TRUE;
+  }
+  else
+    return FALSE;
+}
+gboolean put_lyrics_for_current_verse(DenemoStaff *thestaff, gchar *text) {
+  if(thestaff->currentverse && thestaff->currentverse->data) {
+    GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (thestaff->currentverse->data);
+    GtkTextIter startiter, enditer; 
+    gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(textbuffer), &startiter);
+    gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(textbuffer), &enditer);
+    gtk_text_buffer_delete (textbuffer, &startiter, &enditer);   
+    gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(textbuffer), &enditer);  
+    gtk_text_buffer_insert (textbuffer, &enditer, text, -1);    
+    return TRUE;
+  }
+  else
+    return FALSE;
+}

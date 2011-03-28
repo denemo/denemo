@@ -1102,7 +1102,35 @@ static SCM scheme_get_menu_path(SCM command) {
   return scm_makfrom0str (menupath);
 }
 
-
+static SCM scheme_get_verse(void) {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoStaff *staff = (DenemoStaff *) gui->si->currentstaff->data;
+  gchar *text = get_lyrics_for_current_verse(staff);
+  if(text) {
+    SCM scm = scm_makfrom0str (text);
+    //wrong!! g_free(text);
+    return scm;
+  }
+  return SCM_BOOL_F; 
+}
+static SCM scheme_put_verse(SCM verse) {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoStaff *staff = (DenemoStaff *) gui->si->currentstaff->data;
+  if(scm_is_string(verse)) {
+    gchar *text = scm_to_locale_string(verse);
+    return SCM_BOOL(put_lyrics_for_current_verse(staff, text));
+  }
+  return SCM_BOOL_F; 
+}
+static SCM scheme_append_to_verse(SCM verse) {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoStaff *staff = (DenemoStaff *) gui->si->currentstaff->data;
+  if(scm_is_string(verse)) {
+    gchar *text = scm_to_locale_string(verse);
+    return SCM_BOOL(append_lyrics_for_current_verse(staff, text));
+  }
+  return SCM_BOOL_F; 
+}
 
 /* write MIDI/Audio filter status */
 static SCM scheme_input_filter_names(SCM filtername) {
@@ -2605,16 +2633,6 @@ SCM scheme_put_text_clipboard(SCM optional) {
 }
 
 
-static
-SCM scheme_get_lyric(void) {
-  SCM scm;
-  DenemoObject *curObj;
-  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || (((chord *) curObj->object)->lyric==NULL))
-    scm = SCM_BOOL(FALSE);
-  else
-    scm = scm_makfrom0str(((chord *) curObj->object)->lyric->str);
- return  scm;
-}
 
 static
 SCM scheme_get_username(void) {
@@ -4554,7 +4572,6 @@ INSTALL_EDIT(movementcontrol);
 
   /* test with (display (d-DirectiveGet-note-display "LHfinger")) after attaching a LH finger directive */
   install_scm_function1 (DENEMO_SCHEME_PREFIX"PutTextClipboard", scheme_put_text_clipboard);
-  INSTALL_SCM_FUNCTION ("Returns the lyric for the note at the cursor",DENEMO_SCHEME_PREFIX"GetLyric", scheme_get_lyric);
 
   INSTALL_SCM_FUNCTION ("Asks the user for a user name which is returned",DENEMO_SCHEME_PREFIX"GetUserName", scheme_get_username);
   INSTALL_SCM_FUNCTION ("Asks the user for a password which is returned",DENEMO_SCHEME_PREFIX"GetPassword", scheme_get_password);
@@ -4657,6 +4674,10 @@ INSTALL_SCM_FUNCTION ("Undo normally undoes all the actions performed by a scrip
 
 
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the menu path to that command or #f if none",DENEMO_SCHEME_PREFIX"GetMenuPath", scheme_get_menu_path);
+
+  INSTALL_SCM_FUNCTION ("Gets the current verse of the current staff or #f if none",DENEMO_SCHEME_PREFIX"GetVerse", scheme_get_verse);
+  INSTALL_SCM_FUNCTION ("Puts the passed string as the current verse of the current staff",DENEMO_SCHEME_PREFIX"PutVerse", scheme_put_verse);
+  INSTALL_SCM_FUNCTION ("Appends the passed string to the current verse of the current staff",DENEMO_SCHEME_PREFIX"AppendToVerse", scheme_append_to_verse);
 
 
   INSTALL_SCM_FUNCTION ("Takes a command name and returns and id for it or #f if no command of that name exists",DENEMO_SCHEME_PREFIX"GetId", scheme_get_id);

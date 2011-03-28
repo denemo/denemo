@@ -19,4 +19,6 @@ void hide_lyrics(void);
 void show_lyrics(void);
 gboolean lyric_change(GtkTextBuffer *buffer);
 void select_lyrics(void);
+gchar *get_lyrics_for_current_verse(DenemoStaff *thestaff);
+gboolean put_lyrics_for_current_verse(DenemoStaff *staff, gchar *text);
 #endif
