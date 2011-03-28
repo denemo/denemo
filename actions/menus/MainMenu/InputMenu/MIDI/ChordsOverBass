@@ -175,6 +175,7 @@
 		     (velocity (bit-extract midi 16 24))
 		     (note (bit-extract midi 8 16))
 		     (command (bit-extract midi 0 8)))  
+		     	(d-PlayMidiKey midi)
 		(apply d-GoToPosition bass-position)
 		(cond ((and (= command #x90) (= note bass-key))
 		       (begin
