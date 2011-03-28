@@ -93,7 +93,12 @@
 		(d-MoveCursorRight)		
 	")) ; string-append end
  
-   
+   (define (do-set current_object)
+	(disp "Set found: " current_object)
+	(case (string->symbol (car current_object))
+		((Staff.instrumentName) (string-append "(AttachDirective \"staff\" \"postfix\" \"InstrumentName\"  \"\\\\set Staff.instrumentName = \\\""(cdr current_object)"\\\"\" DENEMO_OVERRIDE_GRAPHIC)")) ; what a string madness...
+		((Staff.shortInstrumentName) (string-append "(AttachDirective \"staff\" \"postfix\" \"ShortInstrumentName\"  \"\\\\set Staff.shortInstrumentName = \\\""(cdr current_object)"\\\"\" DENEMO_OVERRIDE_GRAPHIC)")) ; what a string madness...
+   ))
  
  
   
@@ -371,7 +376,12 @@
 	   ((eqv? (car current_object) 'x_TIME) (begin (do-time (cdr current_object))))
 	   ((eqv? (car current_object) 'x_KEY) (begin (do-key  (cadr current_object) (cddr current_object))))
 	   ((eqv? (car current_object) 'x_PARTIAL) (begin (do-partial (cdr current_object))))				
-
+	   ;((eqv? (car current_object) 'x_OVERRIDE) (begin  (do-tie (cdr current_object))))
+   	   ;((eqv? (car current_object) 'x_REVERT) (begin  (do-tie (cdr current_object))))
+   	   ((eqv? (car current_object) 'x_SET) (begin  (do-set (cdr current_object))))	
+   	   ;((eqv? (car current_object) 'x_UNSET) (begin  (do-tie (cdr current_object))))	
+	   
+	   
 	   ((eqv? (car current_object) 'x_REALCHORD) (let () 
 ;(format #t "hoping to process the chord for ~a~%" (caadr current_object))
    ;postfix section

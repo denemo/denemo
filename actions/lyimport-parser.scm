@@ -547,15 +547,15 @@ HYPHEN
 ;; context_mod:
 ;; context_prop_spec:
  (context_prop_spec
-	(simple_string) : "FIXME"
-	(simple_string DOT simple_string) : "FIXME"
+	(simple_string) : $1
+	(simple_string DOT simple_string) : (string-append $1 "." $3) 
  )
 
  (simple_music_property_def
-	;(OVERRIDE context_prop_spec property_path EQUAL scalar) : (cons 'x_OVERRIDE "FIXME")
-	(REVERT context_prop_spec embedded_scm) :  (cons 'x_REVERT "FIXME")
-	(SET context_prop_spec EQUAL scalar) :  (cons 'x_SET "FIXME")
-	(UNSET context_prop_spec) :  (cons 'x_UNSET "FIXME")
+	;(OVERRIDE context_prop_spec property_path EQUAL scalar) : (lyimport::error "x_OVERRIDE"); (cons 'x_OVERRIDE (cons (cons $2 $3) $5))
+	(REVERT context_prop_spec embedded_scm) : (lyimport::error "x_REVERT"); (cons 'x_REVERT (cons $2 $3))
+	(SET context_prop_spec EQUAL scalar) :  (cons 'x_SET (cons $2 $4))
+	(UNSET context_prop_spec) :  (lyimport::error "x_UNSET"); (cons 'x_UNSET $2)
 )
 
 (music_property_def
