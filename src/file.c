@@ -822,7 +822,7 @@ file_save (GtkWidget * widget, DenemoGUI * gui)
 	gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_selection));\
       if (replace_existing_file_dialog\
           (file_name, GTK_WINDOW (Denemo.window), format_id)){\
-        filesel_save (gui, file_name, format_id, FALSE);\
+        filesel_save (gui, file_name, format_id, template);\
         force_lily_refresh(gui);\
       }\
       g_free (file_name);\
@@ -839,6 +839,7 @@ void
 file_export (DenemoGUI * gui, FileFormatNames format_id)
 {
   gchar *description = g_strconcat(_("Export As "), FORMAT_DESCRIPTION(format_id), NULL);
+  DenemoSaveType  template = FALSE;
   FILE_DIALOG2(description)
   g_free(description);
 }
