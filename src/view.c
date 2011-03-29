@@ -657,6 +657,7 @@ static SCM scheme_hide_menus(SCM hide) {
 static SCM scheme_script_callback(SCM script, SCM params) {
     int length;
     char *name=NULL;
+    SCM ret = SCM_BOOL_F;
   //FIXME scm_dynwind_begin (0); etc
    if(scm_is_string(script)){
      name = scm_to_locale_string(script);
@@ -665,20 +666,23 @@ static SCM scheme_script_callback(SCM script, SCM params) {
        if(action){
 	 gchar *paramvar = g_strdup_printf("%s::params", name);
 	 scm_c_define(paramvar, params);
-	 g_free(paramvar);
+	 
 	 gchar *text = g_object_get_data(G_OBJECT(action), "scheme");
 	 if(text && *text)
-	   return SCM_BOOL(!call_out_to_guile(text));
-	 return SCM_BOOL(activate_script(action, NULL));
+	   ret= SCM_BOOL(!call_out_to_guile(text));
+	 ret= SCM_BOOL(activate_script(action, NULL));
+	 scm_c_define(paramvar, SCM_BOOL_F);
+	 g_free(paramvar);
        }
      }
    }
-return  SCM_BOOL(FALSE);
+return  ret;
 }
 void create_scheme_function_for_script(gchar *name) {
   gchar *proc = g_strdup_printf("(d-%s #:optional params)", name);
   gchar *value = g_strdup_printf("(d-ScriptCallback \"%s\" params)", name);
-  gchar *def = g_strdup_printf("(define* %s %s)", proc, value);
+  gchar *def = g_strdup_printf("(define %s::params #f) (define* %s %s)", name, proc, value);
+  
   //g_print("Defining %s\n", def);
   call_out_to_guile(def);
   g_free(def);
