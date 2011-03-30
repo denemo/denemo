@@ -12,7 +12,7 @@
 (define Pitchbend::commandUp "(disp \"disabled\n\")")
 (define Pitchbend::commandDown "(disp \"disabled\n\")")
 
-(let ()
+(let  ((ons '())(suspension #f))
   (define (noteOn? midi)
     (= #x90 (bit-extract midi 0 8)))
   (define (noteOff? midi)
@@ -89,74 +89,78 @@
   (apply d-GoToPosition position)
   (amalgamate-ties))
   
+(define (add-note note)
+  (set! suspension #t)
+  (eval-string (string-append "(d-InsertNoteInChord \"" (d-GetNoteForMidiKey note) "\")"))	
+	  (PlayNote (number-&gt;string note) 400))
       
   (define (GetChords bass-key)
     (define chord-created #f)
-    (define suspension #f)
-    (define continuing #f)
+    (if suspension
+	(continue-chord)
+	(for-each add-note ons))
     (let loop ()
       (let* ((midi (d-GetMidi))
 	     (velocity (bit-extract midi 16 24))
 	     (note (bit-extract midi 8 16))
 	     (command (bit-extract midi 0 8)))  
-	(let ()
-	  ;(disp "waiting for the release of " bass-key "\n")
-	  (cond
-	   ((noteOn? midi)
-	    (set! chord-created #t)
-	    (if continuing 
-			       (begin
-			       ;(disp "cont... " (d-GetNoteForMidiKey note) "\n")
-				 (eval-string (string-append "(d-InsertNoteInChord \"" (d-GetNoteForMidiKey note) "\")")))
-			       (begin
-			        ;(disp "start... " (d-GetNoteForMidiKey note) "\n")
-				 (eval-string (string-append "(d-InsertNoteInChord \"" (d-GetNoteForMidiKey note) "\")"))
-				 (set! continuing #t)))
-	    (PlayNote (number-&gt;string note) 400)
-	    (loop))
-	   ((noteOff? midi) 
-	    ;;;(disp "A note off with chord-created=" chord-created "and suspension=" suspension "\n")
-	    (if (= note bass-key)				
-				  (if chord-created
-				      #t
-				      (if suspension
-					  (continue-chord);;carry the previous chord on
-					  (begin (d-DirectivePut-chord-display  "ChordsOverBass" "Suspension")(disp "rest\n")));;;leave as a rest
-				  )				  
-				(begin 
-				  ;;;(disp "A suspension\n")
-				  (set! suspension #t)
-				(loop))))
-            ;;;here put pedal down condition - creating a new chord over the same note.
-	   ((pedalDown? midi)
-	    (cond 
-	     ((Rest?)
-	      (d-Diminish)
-	      (d-SetMark)
-	      (d-Copy)
-	      (d-DirectiveDelete-chord "ChordsOverBass")
-	      (d-Paste)
-	      (loop))
+					;(disp "waiting for the release of " bass-key "\n")
+	(cond
+	 ((noteOn? midi)
+	  (set! ons (cons note ons));; use (null? ons) to test if empty
+	  (set! chord-created #t)	   
+	  (add-note note)
+	  (loop))
+	 
+	 ((noteOff? midi) 
+	   (disp "A note off with chord-created=" chord-created "and suspension=" suspension "\n")
+	  (if (= note bass-key)				
+	      (begin
+;; 		(if (not chord-created)
+;; 		    (if suspension
+;; 			(continue-chord);;carry the previous chord on			  
+;; 			))
+(cond ((and (Rest?) (null? ons))
+       (continue-chord))
+      (else
+       (disp "the else case\n" ons " and rest =" (Rest?) "\n"))));;;finished getting chords for this bass note
+	      (begin
+		(set! ons (delq note ons))
+		(if (null? ons)
+		    (begin
+		      (set! suspension #f)
+		      (set! chord-created #f)
+				            ;;; creating a new chord over the same note.	 
+		      (cond 
+		       ((Rest?)
+			(d-Diminish)
+			(d-SetMark)
+			(d-Copy)
+			(d-DirectiveDelete-chord "ChordsOverBass")
+			(d-Paste)
+			(loop))
+		       ((&gt; (d-GetDots) 0)
+			(d-SplitChord 3)
+			(d-MoveCursorLeft)
+			(d-MoveCursorLeft)
+			(d-MoveCursorLeft)
+			(d-Augment)
+			(d-MoveCursorRight)
+			(d-DeleteObject)
+			(ChangeToRest);on a whole chord: we remove notes all down to the Rest
+			(loop))
+		       (else
+			(d-SplitChord 2)
+			(d-MoveCursorLeft)
+			(ChangeToRest)
+			(loop))))
+		    (loop)))))
+	  
+	  (else (loop))))))
 
 
 
-	     ((&gt; (d-GetDots) 0)
-		   (d-SplitChord 3)
-		   (d-MoveCursorLeft)
-		   (d-MoveCursorLeft)
-		   (d-MoveCursorLeft)
-		   (d-Augment)
-		   (d-MoveCursorRight)
-		   (d-DeleteObject)
-		   (ChangeToRest);on a whole chord: we remove notes all down to the Rest
-		   (loop))
-		  (else
-		   (d-SplitChord 2)
-		   (d-MoveCursorLeft)
-		   (ChangeToRest)
-		   (loop))))
-	   (else (loop)))))))
-  (define bass-position (GetPosition))
+(define bass-position (GetPosition))
   (if (not (None?))
       (let loop  ((bass-key (d-GetNoteAsMidi)))
 	(define continuing #t)
@@ -175,17 +179,24 @@
 		     (velocity (bit-extract midi 16 24))
 		     (note (bit-extract midi 8 16))
 		     (command (bit-extract midi 0 8)))  
-		     	(d-PlayMidiKey midi)
+	
 		(apply d-GoToPosition bass-position)
-		(cond ((and (= command #x90) (= note bass-key))
-		       (begin
+		(cond ((and (= command #x90) (= note bass-key))		       
+			 (d-PlayMidiKey midi)
 			 (d-MoveToStaffUp)
 			 (GoToMeasureEnd)
 			 (d-Paste)
 			 (d-MoveCursorLeft)
 			 (d-StagedDelete)			   
 			 (GetChords bass-key)
-			 ))
+			 )
+
+		      ((= command #x90)
+		       (d-PlayMidiKey midi)
+		       (set! ons (cons note ons))
+		       (listening)		       
+		       )
+
 		      ((and  (= command #xE0) (&gt; note 32))
 		       (disp "Finishing by abort")
 		       (d-DirectiveDelete-chord "ChordsOverBass")
@@ -196,8 +207,16 @@
 			 ;;;prevent the pitchbend commands running on by waiting for the user to continue on the keyboard before re-instating the normal pitch bend action.
 		       (eval-string (string-append "(d-" (d-GetCommandFromUser) ")"))
 		       (set! continuing #f))
-		      
+
+		      ((= command #x80)
+		       (set! ons (delq note ons))
+		       (if (null? ons)
+			   (set! suspension #f))
+		       (listening);;;;;;;is this right now...		       
+		       )
+
 		      (else
+		       (d-PlayMidiKey #xF06001)
 		       (disp "Ignoring " command " " note " " velocity " waiting for " bass-key "\n")
 		       (listening))))))
 	(if continuing
