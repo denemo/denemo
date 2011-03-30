@@ -426,21 +426,22 @@ static gint lilypond_to_enshift(gchar *enshift_name) {
 }
 
 /*
-  execute init scripts in system and local directories for menupath
+  execute init script local dir for menupath or fallback on system dir
 */
 static SCM scheme_execute_init(gchar *menupath) {
-  gchar *filename = g_build_filename(get_data_dir(), "actions", "menus", menupath, INIT_SCM, NULL);
+  gchar *filename = g_build_filename(locatedotdenemo(), "actions", "menus", menupath, INIT_SCM, NULL);
   if(g_file_test(filename, G_FILE_TEST_EXISTS)) { 
     g_print("About to load from %s\n", filename);
     eval_file_with_catch(filename);//ret = scm_c_primitive_load(filename);
+  } else {
+    g_free(filename);
+    filename = g_build_filename(get_data_dir(), "actions", "menus", menupath, INIT_SCM, NULL);
+    if(g_file_test(filename, G_FILE_TEST_EXISTS)) { 
+      g_print("About to load from %s\n", filename);
+      eval_file_with_catch(filename);//ret = scm_c_primitive_load(filename);
+    }
+    g_free(filename);
   }
-  g_free(filename);
-  filename = g_build_filename(locatedotdenemo(), "actions", "menus", menupath, INIT_SCM, NULL);
-  if(g_file_test(filename, G_FILE_TEST_EXISTS)) { 
-    g_print("About to load from %s\n", filename);
-    eval_file_with_catch(filename);//ret = scm_c_primitive_load(filename);
-  }
-  g_free(filename);
   return SCM_BOOL(TRUE);
 }
 
@@ -670,7 +671,8 @@ static SCM scheme_script_callback(SCM script, SCM params) {
 	 gchar *text = g_object_get_data(G_OBJECT(action), "scheme");
 	 if(text && *text)
 	   ret= SCM_BOOL(!call_out_to_guile(text));
-	 ret= SCM_BOOL(activate_script(action, NULL));
+	 else
+	   ret= SCM_BOOL(activate_script(action, NULL));
 	 scm_c_define(paramvar, SCM_BOOL_F);
 	 g_free(paramvar);
        }
