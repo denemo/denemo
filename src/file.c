@@ -122,7 +122,7 @@ gboolean
 confirmbox (DenemoGUI * gui) {
   gboolean ret;
   gchar *primary = g_strdup_printf(_("The score %s has unsaved changes"), gui->filename->len?gui->filename->str:"(Untitled)");
-  ret = confirm (primary,  _("Discard changes?"));
+  ret = confirmSave (gui, primary,  _("Save changes?"));
   g_free(primary);
   return ret;
 }
