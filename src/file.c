@@ -309,36 +309,42 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
   gboolean xml = FALSE;
   result = 1;//FAILURE
 #define EXISTS(extension) (strcmp (filename + strlen (filename) - strlen(extension), extension) == 0)
-  if(g_file_test(filename, G_FILE_TEST_EXISTS)) {
-    if(EXISTS(".denemo"))
-      xml=TRUE, result = importXML (filename, gui, type);
-    else if(EXISTS(".dnm"))
-      xml=TRUE, result = importXML (filename, gui, type);
-    else if(EXISTS(".ly"))
-      result = lyinput (filename, gui);
-    else if(EXISTS(".mxml"))
-      result = mxmlinput (filename, gui);
-    else if(EXISTS(".mid") || EXISTS(".midi"))
-      result = importMidi (filename, gui);
+  if(g_file_test(filename, G_FILE_TEST_EXISTS)) 
+    {
+      if(EXISTS(".denemo"))
+        xml=TRUE, result = importXML (filename, gui, type);
+      else if(EXISTS(".dnm"))
+        xml=TRUE, result = importXML (filename, gui, type);
+      else if(EXISTS(".ly"))
+        result = lyinput (filename, gui);
+      else if(EXISTS(".mxml"))
+        result = mxmlinput (filename, gui);
+      else if(EXISTS(".mid") || EXISTS(".midi"))
+        result = importMidi (filename, gui);
 #undef EXISTS
-  }
+    }
+  //printf("\nResult == %d type == %d template == %d xml == %d\n",result,type,template,(int)xml);
   if (result == 0)
     {
-      if(!template) {// not a template
-	update_file_selection_path (filename);
-	if(type==REPLACE_SCORE){
-	  if (xml)
-	    set_gui_filename (gui, filename);
-	  else {
-	    gchar *sname = strip_path_and_extension (filename);
-            set_gui_tabname (gui, sname);
-	    g_free(sname);
-	  }
-	}
-	if(type==ADD_STAFFS || type==ADD_MOVEMENTS)
-	  score_status(gui, TRUE);
-      } else
-	g_string_assign (gui->filename, "");
+      if(!template) 
+	{// not a template
+	  update_file_selection_path (filename);
+	  if(type==REPLACE_SCORE)
+	    {
+	      if (xml)
+	        set_gui_filename (gui, filename);
+	      else 
+	        {
+		  gchar *sname = strip_path_and_extension (filename);
+		  set_gui_tabname (gui, sname);
+		  g_free(sname);
+	        }
+	    }
+
+	  if(type==ADD_STAFFS || type==ADD_MOVEMENTS)
+	    score_status(gui, TRUE);
+        } else 
+	  g_string_assign (gui->filename, "");
       if(Denemo.printarea) 
 	g_object_set_data(G_OBJECT(Denemo.printarea), "printviewupdate", (gpointer)G_MAXUINT);
       if(!xml)
