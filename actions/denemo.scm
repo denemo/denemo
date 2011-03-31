@@ -2040,3 +2040,29 @@
   	((musobj? x)  (ANS::InsertNotes (musobj.pitch x) (musobj.baseduration x) (musobj.dots x)))
   	))
   	(for-each (lambda (x) (insert x)) listy))
+  	
+;ActionChooser is a meta function to provide a simple way to react to all types of Denemo items in the score.
+(define (ActionChooser chord tupclose tupopen lilydirective clef timesig keysig stemdirective)
+	(define type (string->symbol (d-GetType)))
+	(case type
+	 	((CHORD) (chord))
+	 	((TUPCLOSE) (tupclose))
+	 	((TUPOPEN)  (tupopen))
+	 	((LILYDIRECTIVE) (lilydirective))
+	 	((CLEF) (clef))	
+	 	((TIMESIG) (timesig))
+	 	((KEYSIG) (keysig))
+	 	((STEMDIRECTIVE) (stemdirective))
+	 	(else #f)))
+
+			#! (define (ActionChooserExample)
+				  (ActionChooser 
+					(lambda () (disp "Chord"))
+					(lambda () (disp "tupclose"))
+					(lambda () (disp "Tupopen"))
+					(lambda () (disp "lily"))
+					(lambda () (disp "clef"))
+					(lambda () (disp "time"))
+					(lambda () (disp "key"))
+					(lambda () (disp "stem")))) 
+				(MapToSelection ActionChooserExample)!#
