@@ -1251,7 +1251,7 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
       DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
       playnotes (Denemo.prefs.immediateplayback, (chord *) mudela_obj_new->object,  curstaffstruct->midi_channel);
     } else {
-      Denemo.gui->last_source = INPUTKEYBOARD;
+      //Denemo.gui->last_source = INPUTKEYBOARD;
     }
   }
 }
@@ -1382,7 +1382,7 @@ notechange (DenemoScore * si, gboolean remove)
 	playnotes (Denemo.prefs.immediateplayback,
 	 (chord *) curmudelaobj->object, curstaffstruct->midi_channel);
       } else {
-      Denemo.gui->last_source = INPUTKEYBOARD;
+	// Denemo.gui->last_source = INPUTKEYBOARD;
     }
     }
   return ret;
@@ -1471,7 +1471,7 @@ incrementenshift (DenemoGUI * gui, gint direction)
 	playnotes (Denemo.prefs.immediateplayback,
 		   (chord *) curmudelaobj->object, curstaffstruct->midi_channel);
       } else {
-	Denemo.gui->last_source = INPUTKEYBOARD;
+	//	Denemo.gui->last_source = INPUTKEYBOARD;
       }
 
       score_status(gui, TRUE);
