@@ -6,7 +6,7 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	drawnotes.c drawselection.c drawstemdir.c drawtimesig.c drawtuplets.c \
 	drawlyric.c dynamic.c drawfigure.c exportabc.c exportlilypond.c \
 	exportxml.c file.c gcs.c \
-	headerdialog.c hairpin.c \
+	hairpin.c \
 	help.c importxml.c importmusicxml.c importmidi.c kbd-custom.c kbd-interface.c \
 	keyresponses.c keysigdialog.c figure.c 	main.c \
 	measureops.c midi.c moveviewport.c mousing.c barline.c 	view.c http.c \
