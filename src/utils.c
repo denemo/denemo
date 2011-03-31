@@ -1178,63 +1178,6 @@ confirm (gchar *primary, gchar *secondary)
   return r;
 }
 
-/**
- * A clone of above written confirm function, specifically written for save.
- * Display a message box asking primary & secondary messages
- */
-gboolean
-confirmSave (DenemoGUI *gui, gchar *primary, gchar *secondary)
-{
-  GtkWidget *dialog;
-  gboolean r = 0;
-
-  dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window),
-				   (GtkDialogFlags)
-				   (GTK_DIALOG_MODAL |
-				    GTK_DIALOG_DESTROY_WITH_PARENT),
-				   GTK_MESSAGE_QUESTION,
-				   GTK_BUTTONS_NONE,
-				   "%s", primary);
-
-  GtkWidget *save = gtk_dialog_add_button( (GtkDialog*)dialog, 
-                                          GTK_STOCK_SAVE_AS,
-                                          GTK_RESPONSE_YES);
-
-  GtkWidget *cancel = gtk_dialog_add_button( (GtkDialog*)dialog, 
-                                          GTK_STOCK_CANCEL,
-                                          GTK_RESPONSE_CANCEL);
-
-  GtkWidget *d_save = gtk_dialog_add_button( (GtkDialog*)dialog, 
-                                          "Close without Saving",
-                                          GTK_RESPONSE_NO);
-
-  gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog), "%s",
-					    secondary);
-  gtk_widget_show_all (dialog);
-  gint response = gtk_dialog_run (GTK_DIALOG (dialog));
-
-  if(response == GTK_RESPONSE_YES)
-  {
-	gtk_widget_destroy (dialog);
-	file_saveas (gui, SAVE_NORMAL);
-	if(gui->notsaved)
-	  r = 0;
-	else
-	  r = 1;
-  }
-  else if(response == GTK_RESPONSE_NO)
-  {
-	gtk_widget_destroy (dialog);
-	r = 1;
-  }
-  else
-  {
-	gtk_widget_destroy (dialog);
-	r = 0;
-  }
-  return r;
-}
-
 /* free a GString and the string it holds, and set the pointer to it to NULL */
 void nullify_gstring (GString **s) {
   if(*s)
