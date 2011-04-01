@@ -7,263 +7,268 @@
       <row>
         <after>CheckPitches</after>
         <action>ChordsOverBass</action>
-        <scheme>;;;;ChordsOverBass
+        <scheme>;;;;ChordsOverBass (pure filter version)
 (if (not (defined? 'ChordsOverBass::active))
     (define ChordsOverBass::active #f))
 
 (if ChordsOverBass::active
-    (begin
+    (begin ;;;;Filter is already running stop it
       (disp "Turning off\n")
       (set! ChordsOverBass::active #f)
       (d-PutMidi 0)
       (d-SetBackground #xFFFFFF)
       )
-(begin
-(define Pitchbend::commandUp "(disp \"disabled\n\")")
-(define Pitchbend::commandDown "(disp \"disabled\n\")")
-
-(let  ((ons '())(suspension #f))
-  (define (noteOn? midi)
-    (= #x90 (bit-extract midi 0 8)))
-  (define (noteOff? midi)
-    (= #x80 (bit-extract midi 0 8)))
-  (define (pedalDown? midi)
-    (and (= #xB0 (bit-extract midi 0 8))  (= (bit-extract midi 8 16) #x40) (=  (bit-extract midi 16 24) #x7F)))
-  
-  (define (pedalUp? midi)
-    (and (= #xB0 (bit-extract midi 0 8))  (= (bit-extract midi 8 16) #x40) (=  (bit-extract midi 16 24) #x0)))
- (define (pause) (d-GetUserInput "Pausing..." "Press any key" " "))
-
+    (begin ;;;;Filter is not already running so run it
+      (set! Pitchbend::commandUp "(disp \"disabled\n\")")
+      (set! Pitchbend::commandDown "(disp \"disabled\n\")")
+      
+      (let  ((ons '())(suspension #f))
+	(define (noteOn? midi)
+	  (= #x90 (bit-extract midi 0 8)))
+	(define (noteOff? midi)
+	  (= #x80 (bit-extract midi 0 8)))
+	(define (pedalDown? midi)
+	  (and (= #xB0 (bit-extract midi 0 8))  (= (bit-extract midi 8 16) #x40) (=  (bit-extract midi 16 24) #x7F)))
+	
+	(define (pedalUp? midi)
+	  (and (= #xB0 (bit-extract midi 0 8))  (= (bit-extract midi 8 16) #x40) (=  (bit-extract midi 16 24) #x0)))
+	(define (pause) (d-GetUserInput "Pausing..." "Press any key" " "))
+	
 ;;;start on a tied note. Amalgamate the note(s) tied to with the main note
-(define (amalgamate-ties)
-  (define this-dur  (string-&gt;number(car (string-split (d-GetNoteDuration) #\.))))
-  (define this-dots (d-GetDots))
-  (define continuing #t)
-
-  (if (d-NextChordInMeasure)
-      (let ((next-dur (string-&gt;number (car (string-split (d-GetNoteDuration) #\.))))
-	    (next-dots (d-GetDots)))
-	(cond ((and (= this-dur next-dur) (= this-dots next-dots))
-	       (d-DeletePreviousObject)
-	       (d-Augment))
-
-	      ((and (= 1 this-dots) (= 0 next-dots) (= (/  next-dur 2) this-dur))
-	       (d-DeletePreviousObject)
-	       (d-RemoveDot)
-	       (d-Augment)
-	       (d-Augment))
-
-	      ((and (= (/  next-dur 2) this-dur) (= 0 this-dots) (= 0 next-dots))
-	       (d-DeletePreviousObject)	       
-	       (d-Augment)
-	       (d-AddDot))
-	      (else (disp "else case\n"))))
-      (if (not (d-NextChord))
-	  (set! continuing #f)))
-  (if (and continuing (d-IsTied))
-      (amalgamate-ties)))
-		    
-
-
-
+	(define (amalgamate-ties)
+	  (define this-dur  (string-&gt;number(car (string-split (d-GetNoteDuration) #\.))))
+	  (define this-dots (d-GetDots))
+	  (define continuing #t)
+	  
+	  (if (d-NextChordInMeasure)
+	      (let ((next-dur (string-&gt;number (car (string-split (d-GetNoteDuration) #\.))))
+		    (next-dots (d-GetDots)))
+		(cond ((and (= this-dur next-dur) (= this-dots next-dots))
+		       (d-DeletePreviousObject)
+		       (d-Augment))
+		      
+		      ((and (= 1 this-dots) (= 0 next-dots) (= (/  next-dur 2) this-dur))
+		       (d-DeletePreviousObject)
+		       (d-RemoveDot)
+		       (d-Augment)
+		       (d-Augment))
+		      
+		      ((and (= (/  next-dur 2) this-dur) (= 0 this-dots) (= 0 next-dots))
+		       (d-DeletePreviousObject)	       
+		       (d-Augment)
+		       (d-AddDot))
+		      (else (disp "else case\n"))))
+	      (if (not (d-NextChord))
+		  (set! continuing #f)))
+	  (if (and continuing (d-IsTied))
+	      (amalgamate-ties)))
+	
+	
+	
+	
 ;;;;seek back to the chord started but not finished (ie before the rests)
-(define (find-suspended-chord)
-  (let loop ()
-    (disp "looping")
-    (if (and (d-PrevChord) (Rest?))
-	(loop))))
-
+	(define (find-suspended-chord)
+	  (let loop ()
+	    (disp "looping")
+	    (if (and (d-PrevChord) (Rest?))
+		(loop))))
+	
 ;;;start with cursor on the rest to be turned into a chord, end back at the same rest or rather the chord that has replaced it
-(define (continue-chord)
-  (define position #f)
-  (find-suspended-chord)
-  (set! position (GetPosition))
-  (let loop ()
-    (define denemodur #f)
-    (define numdots 0)
-    (d-SetMark)
-    (d-Copy)
-    (d-ToggleTie)
-    (d-NextChord)
-    (set! denemodur (number-&gt;string (duration::lilypond-&gt;denemo (string-&gt;number (car (string-split (d-GetNoteDuration)  #\.))))))
-    (set! numdots (d-GetDots))
-    (d-Paste)
-    (d-DeleteObject)
-    (if (not (Appending?))
-	(d-PrevChord))
-    (eval-string (string-append "(d-Change" denemodur ")" (if (&gt; numdots 0) "(d-AddDot)" "")))
-    (if (d-NextChord)
-	(begin
-	  (d-PrevChord)
-	  (loop))))
-  (apply d-GoToPosition position)
-  (amalgamate-ties))
-  
-(define (add-note note)
-  (set! suspension #t)
-  (eval-string (string-append "(d-InsertNoteInChord \"" (d-GetNoteForMidiKey note) "\")"))	
+	(define (continue-chord)
+	  (define position #f)
+	  (find-suspended-chord)
+	  (set! position (GetPosition))
+	  (let loop ()
+	    (define denemodur #f)
+	    (define numdots 0)
+	    (d-SetMark)
+	    (d-Copy)
+	    (d-ToggleTie)
+	    (d-NextChord)
+	    (set! denemodur (number-&gt;string (duration::lilypond-&gt;denemo (string-&gt;number (car (string-split (d-GetNoteDuration)  #\.))))))
+	    (set! numdots (d-GetDots))
+	    (d-Paste)
+	    (d-DeleteObject)
+	    (if (not (Appending?))
+		(d-PrevChord))
+	    (eval-string (string-append "(d-Change" denemodur ")" (if (&gt; numdots 0) "(d-AddDot)" "")))
+	    (if (d-NextChord)
+		(begin
+		  (d-PrevChord)
+		  (loop))))
+	  (apply d-GoToPosition position)
+	  (amalgamate-ties))
+	
+	(define (add-note note)
+	  (set! suspension #t)
+	  (eval-string (string-append "(d-InsertNoteInChord \"" (d-GetNoteForMidiKey note) "\")"))	
 	  (PlayNote (number-&gt;string note) 400))
-      
-  (define (GetChords bass-key)
-    (define chord-created #f)
-    (if suspension
-	(continue-chord)
-	(for-each add-note ons))
-    (let loop ()
-      (let* ((midi (d-GetMidi))
-	     (velocity (bit-extract midi 16 24))
-	     (note (bit-extract midi 8 16))
-	     (command (bit-extract midi 0 8)))  
-					;(disp "waiting for the release of " bass-key "\n")
-	(cond
-	 ((noteOn? midi)
-	  (set! ons (cons note ons));; use (null? ons) to test if empty
-	  (set! chord-created #t)	   
-	  (add-note note)
-	  (loop))
-	 
-	 ((noteOff? midi) 
-	   (disp "A note off with chord-created=" chord-created "and suspension=" suspension "\n")
-	  (if (= note bass-key)				
-	      (begin
-		(cond ((and (Rest?) (null? ons))
-		       (continue-chord))
-		      (else
-		       (disp "the else case\n" ons " and rest =" (Rest?) "\n"))));;;finished getting chords for this bass note
-	      (begin
-		(set! ons (delq note ons))
-		(if (null? ons)
-		    (begin
-		      (set! suspension #f)
-		      (set! chord-created #f)
-				            ;;; creating a new chord over the same note.	 
-		      (cond 
-		       ((Rest?)
-			(d-Diminish)
-			(d-SetMark)
-			(d-Copy)
-			(d-DirectiveDelete-chord "ChordsOverBass")
-			(d-Paste)
-			(loop))
-		       ((&gt; (d-GetDots) 0)
-			(d-SplitChord 3)
-			(d-MoveCursorLeft)
-			(d-MoveCursorLeft)
-			(d-MoveCursorLeft)
-			(d-Augment)
-			(d-MoveCursorRight)
-			(d-DeleteObject)
-			(ChangeToRest);on a whole chord: we remove notes all down to the Rest
-			(loop))
-		       (else
-			(d-SplitChord 2)
-			(d-MoveCursorLeft)
-			(ChangeToRest)
-			(loop))))
-		    (loop)))))
-	 ((or (zero? midi) (and  (= command #xE0) (&gt; note 32)))
-	  (d-SetBackground #xFFFFFF)
-	  (disp "Abandoning getting chord\n"))
-	 (else (loop)))))) ;;; end of GetChords
-
-(define (createChordStaff)
-  (d-AddBefore)
-  (d-InitialClef "Treble")
-  (d-StaffProperties "denemo_name=Chords"))
-
- (define bass-position #f)
-;;;;;;;; actual code
-(if (and (d-MoveToStaffUp) (equal? "Chords" (d-StaffProperties "query=denemo_name")))
-    (d-MoveToStaffDown)
-    (begin
-      (if  (equal? "Chords" (d-StaffProperties "query=denemo_name"))
-	   (begin
-	     (d-MoveToStaffDown))
-	   (begin
-	     (d-MoveToStaffDown)
-	     (createChordStaff)
-	     (d-MoveToStaffDown)))))
- (set! bass-position (GetPosition))  
-
-(d-SetBackground #xB0E0B0)
-(if (not (None?))
-    (let loop  ((bass-key (d-GetNoteAsMidi)))
-      (define continuing #t)
-      
-      (d-DirectivePut-chord-graphic "ChordsOverBass" "CheckMark")
-      (d-PushPosition)
-      (d-SetMark)
-      (d-Copy)
-      (if (zero? bass-key)
-	  (begin
-	    (d-MoveToStaffUp)
-	    (GoToMeasureEnd)
-	    (d-Paste))     
-	  (let listening ()
+	
+	(define (GetChords bass-key)
+	  (define chord-created #f)
+	  (if suspension
+	      (continue-chord)
+	      (for-each add-note ons))
+	  (let loop ()
 	    (let* ((midi (d-GetMidi))
 		   (velocity (bit-extract midi 16 24))
 		   (note (bit-extract midi 8 16))
 		   (command (bit-extract midi 0 8)))  
+					;(disp "waiting for the release of " bass-key "\n")
+	      (cond
+	       ((noteOn? midi)
+		(set! ons (cons note ons));; use (null? ons) to test if empty
+		(set! chord-created #t)	   
+		(add-note note)
+		(loop))
+	       
+	       ((noteOff? midi) 
+		;(disp "A note off with chord-created=" chord-created "and suspension=" suspension "\n")
+		(if (= note bass-key)				
+		    (begin
+		      (cond ((and (Rest?) (null? ons))
+			     (continue-chord))
+			    (else
+			     #t;(disp "the else case\n" ons " and rest =" (Rest?) "\n")
+			     )));;;finished getting chords for this bass note
+		    (begin
+		      (set! ons (delq note ons))
+		      (if (null? ons)
+			  (begin
+			    (set! suspension #f)
+			    (set! chord-created #f)
+				            ;;; creating a new chord over the same note.	 
+			    (cond 
+			     ((Rest?)
+			      (d-Diminish)
+			      (d-SetMark)
+			      (d-Copy)
+			      (d-DirectiveDelete-chord "ChordsOverBass")
+			      (d-Paste)
+			      (loop))
+			     ((&gt; (d-GetDots) 0)
+			      (d-SplitChord 3)
+			      (d-MoveCursorLeft)
+			      (d-MoveCursorLeft)
+			      (d-MoveCursorLeft)
+			      (d-Augment)
+			      (d-MoveCursorRight)
+			      (d-DeleteObject)
+			      (ChangeToRest);on a whole chord: we remove notes all down to the Rest
+			      (loop))
+			     (else
+			      (d-SplitChord 2)
+			      (d-MoveCursorLeft)
+			      (ChangeToRest)
+			      (loop))))
+			  (loop)))))
+	       ((or (zero? midi) (and  (= command #xE0) (&gt; note 32)))
+		(d-SetBackground #xFFFFFF)
+		(disp "Abandoning getting chord\n"))
+	       (else (loop)))))) ;;; end of GetChords
+	
+	(define (createChordStaff)
+	  (d-AddBefore)
+	  (d-InitialClef "Treble")
+	  (d-StaffProperties "denemo_name=Chords"))
+	(define continuing #t)
+;;;;;;;; actual code
+	(set! ChordsOverBass::active #t)
+	
+	(if  (equal? "Chords" (d-StaffProperties "query=denemo_name"))
+	     (set! continuing (d-MoveToStaffDown)))
+	
+	
+	(if (and continuing (d-MoveToStaffUp) (equal? "Chords" (d-StaffProperties "query=denemo_name")))
+	    (d-MoveToStaffDown)
+	    (begin
+	      (if  (equal? "Chords" (d-StaffProperties "query=denemo_name"))
+		   (begin
+		     (d-MoveToStaffDown))
+		   (begin
+		     (d-MoveToStaffDown)
+		     (createChordStaff)
+		     (d-MoveToStaffDown)))))
+	(if continuing
+	    (let ((bass-position (GetPosition)))  
 	      
-	      (apply d-GoToPosition bass-position)
-	      (cond ((and (= command #x90) (= note bass-key))		       
-		     (d-PlayMidiKey midi)
-		     (d-MoveToStaffUp)
-		     (GoToMeasureEnd)
-		     (d-Paste)
-		     (d-MoveCursorLeft)
-		     (if (d-IsTied)
-			 (d-ToggleTie))
-		     (d-StagedDelete)			   
-		     (GetChords bass-key)
-		     )
+	      (d-SetBackground #xB0E0B0)
+	      (if (not (None?))
+		  (let loop  ((bass-key (d-GetNoteAsMidi)))
 		    
-		    ((= command #x90)
-		     (d-PlayMidiKey midi)
-		     (set! ons (cons note ons))
-		     (listening)		       
-		     )
 		    
-		    ((or (zero? midi) (and  (= command #xE0) (&gt; note 32)))
-		     (disp "Finishing by abort")
-		     (d-SetBackground #xFFFFFF)
-		     (d-DirectiveDelete-chord "ChordsOverBass")
-		     (d-PopPosition)
-		     (d-MoveToStaffUp)
-		     (GoToMeasureEnd)
-					;(d-RefreshDisplay)
-			 ;;;prevent the pitchbend commands running on by waiting for the user to continue on the keyboard before re-instating the normal pitch bend action.
-		     (eval-string (string-append "(d-" (d-GetCommandFromUser) ")"))
-		     (set! continuing #f))
-		    
-		    ((= command #x80)
-		     (set! ons (delq note ons))
-		     (if (null? ons)
-			 (set! suspension #f))
-		     (listening);;;;;;;is this right now...		       
-		     )
-		    
-		    (else
-		     (d-PlayMidiKey #xF06001)
-		     (disp "Ignoring " command " " note " " velocity " waiting for " bass-key "\n")
-		     (listening))))))
-      (if continuing
-	  (begin 
+		    (d-DirectivePut-chord-graphic "ChordsOverBass" "CheckMark")
+		    (d-PushPosition)
+		    (d-SetMark)
+		    (d-Copy)
+		    (if (zero? bass-key)
+			(begin
+			  (d-MoveToStaffUp)
+			  (GoToMeasureEnd)
+			  (d-Paste))     
+			(let listening ()
+			  (let* ((midi (d-GetMidi))
+				 (velocity (bit-extract midi 16 24))
+				 (note (bit-extract midi 8 16))
+				 (command (bit-extract midi 0 8)))  
+			    
+			    (apply d-GoToPosition bass-position)
+			    (cond ((and (= command #x90) (= note bass-key))		       
+				   (d-PlayMidiKey midi)
+				   (d-MoveToStaffUp)
+				   (GoToMeasureEnd)
+				   (d-Paste)
+				   (d-MoveCursorLeft)
+				   (if (d-IsTied)
+				       (d-ToggleTie))
+				   (d-StagedDelete)			   
+				   (GetChords bass-key)
+				   )
+				  
+				  ((= command #x90)
+				   (d-PlayMidiKey midi)
+				   (set! ons (cons note ons))
+				   (listening)		       
+				   )
+				  
+				  ((or (zero? midi) (and  (= command #xE0) (&gt; note 32)))
+				   (disp "Finishing by abort")
+				   (d-SetBackground #xFFFFFF)
+				   (d-DirectiveDelete-chord "ChordsOverBass")
+				   (d-PopPosition)
+				   (d-MoveToStaffUp)
+				   (GoToMeasureEnd)
+				   (d-InfoDialog "Chords over Bass\nQuitting ...")				
+					; (eval-string (string-append "(d-" (d-GetCommandFromUser) ")"))
+				   (set! continuing #f))
+				  
+				  ((= command #x80)
+				   (set! ons (delq note ons))
+				   (if (null? ons)
+				       (set! suspension #f))
+				   (listening);;;;;;;is this right now...		       
+				   )
+				  
+				  (else
+				   (d-PlayMidiKey #xF06001)
+				   (disp "Ignoring " command " " note " " velocity " waiting for " bass-key "\n")
+				   (listening))))))
+		    (if continuing
+			(begin 
 					;  (pause)
-	    (d-DirectiveDelete-chord "ChordsOverBass")
-	    (d-PopPosition)
-	    (d-DirectiveDelete-chord "ChordsOverBass")
-	    
-	    (if (d-NextObject)
-		(begin
-		  (set! bass-position (GetPosition))		  
-		  (loop (d-GetNoteAsMidi)))))))
-    (disp "Finished ChordsOverBass")))
-
-(d-SetBackground #xFFFFFF)
-(define Pitchbend::commandUp "(d-CursorRight)")
-(define Pitchbend::commandDown "(d-CursorLeft)")))
-</scheme>
+			  (d-DirectiveDelete-chord "ChordsOverBass")
+			  (d-PopPosition)
+			  (d-DirectiveDelete-chord "ChordsOverBass")
+			  
+			  (if (d-NextObject)
+			      (begin
+				(set! bass-position (GetPosition))		  
+				(loop (d-GetNoteAsMidi)))))))
+		  (disp "Finished ChordsOverBass"))))
+	(set! ChordsOverBass::active #f)
+	(d-SetBackground #xFFFFFF)
+	(set! Pitchbend::commandUp "(d-CursorRight)")
+	(set! Pitchbend::commandDown "(d-CursorLeft)"))))</scheme>
         <label>Create Chords Over Bass Line</label>
         <tooltip>Place the cursor on a bass note and invoke this command. It creates a treble staff above and for each note in the bass staff, as you play it, it switches to the treble staff and allows you to enter a chord. Use the Pitch Bend wheel to stop/start the process. Hold a chord while moving to the next bass note to extend the chord over more than one bass note.</tooltip>
       </row>
