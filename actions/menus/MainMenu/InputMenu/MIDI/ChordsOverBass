@@ -7,8 +7,18 @@
       <row>
         <after>CheckPitches</after>
         <action>ChordsOverBass</action>
-        <scheme>;;;;ChordsOverBass (pure filter version)
+        <scheme>;;;;ChordsOverBass
+(if (not (defined? 'ChordsOverBass::active))
+    (define ChordsOverBass::active #f))
 
+(if ChordsOverBass::active
+    (begin
+      (disp "Turning off\n")
+      (set! ChordsOverBass::active #f)
+      (d-PutMidi 0)
+      (d-SetBackground #xFFFFFF)
+      )
+(begin
 (define Pitchbend::commandUp "(disp \"disabled\n\")")
 (define Pitchbend::commandDown "(disp \"disabled\n\")")
 
@@ -150,16 +160,19 @@
 			(d-MoveCursorLeft)
 			(ChangeToRest)
 			(loop))))
-		    (loop)))))	  
-	  (else (loop)))))) ;;; end of GetChords
+		    (loop)))))
+	 ((or (zero? midi) (and  (= command #xE0) (&gt; note 32)))
+	  (d-SetBackground #xFFFFFF)
+	  (disp "Abandoning getting chord\n"))
+	 (else (loop)))))) ;;; end of GetChords
 
 (define (createChordStaff)
   (d-AddBefore)
   (d-InitialClef "Treble")
   (d-StaffProperties "denemo_name=Chords"))
 
-
-(define bass-position (GetPosition))
+ (define bass-position #f)
+;;;;;;;; actual code
 (if (and (d-MoveToStaffUp) (equal? "Chords" (d-StaffProperties "query=denemo_name")))
     (d-MoveToStaffDown)
     (begin
@@ -167,11 +180,12 @@
 	   (begin
 	     (d-MoveToStaffDown))
 	   (begin
+	     (d-MoveToStaffDown)
 	     (createChordStaff)
 	     (d-MoveToStaffDown)))))
-    
-;;;;;;;; actual code
+ (set! bass-position (GetPosition))  
 
+(d-SetBackground #xB0E0B0)
 (if (not (None?))
     (let loop  ((bass-key (d-GetNoteAsMidi)))
       (define continuing #t)
@@ -210,8 +224,9 @@
 		     (listening)		       
 		     )
 		    
-		    ((and  (= command #xE0) (&gt; note 32))
+		    ((or (zero? midi) (and  (= command #xE0) (&gt; note 32)))
 		     (disp "Finishing by abort")
+		     (d-SetBackground #xFFFFFF)
 		     (d-DirectiveDelete-chord "ChordsOverBass")
 		     (d-PopPosition)
 		     (d-MoveToStaffUp)
@@ -241,14 +256,13 @@
 	    
 	    (if (d-NextObject)
 		(begin
-		  (set! bass-position (GetPosition))
-		  
+		  (set! bass-position (GetPosition))		  
 		  (loop (d-GetNoteAsMidi)))))))
     (disp "Finished ChordsOverBass")))
 
-
+(d-SetBackground #xFFFFFF)
 (define Pitchbend::commandUp "(d-CursorRight)")
-(define Pitchbend::commandDown "(d-CursorLeft)")
+(define Pitchbend::commandDown "(d-CursorLeft)")))
 </scheme>
         <label>Create Chords Over Bass Line</label>
         <tooltip>Place the cursor on a bass note and invoke this command. It creates a treble staff above and for each note in the bass staff, as you play it, it switches to the treble staff and allows you to enter a chord. Use the Pitch Bend wheel to stop/start the process. Hold a chord while moving to the next bass note to extend the chord over more than one bass note.</tooltip>
