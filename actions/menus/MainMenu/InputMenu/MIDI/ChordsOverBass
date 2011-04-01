@@ -190,17 +190,15 @@
 		     (createChordStaff)
 		     (d-MoveToStaffDown)))))
 	(if continuing
-	    (let ((bass-position (GetPosition)))  
-	      
+	    (let ((bass-position (GetPosition)))  	      
 	      (d-SetBackground #xB0E0B0)
 	      (if (not (None?))
-		  (let loop  ((bass-key (d-GetNoteAsMidi)))
-		    
-		    
-		    (d-DirectivePut-chord-graphic "ChordsOverBass" "CheckMark")
+		  (let loop  ((bass-key (d-GetNoteAsMidi)))		    		    
+		  
 		    (d-PushPosition)
 		    (d-SetMark)
-		    (d-Copy)
+		    (d-Copy) 
+		     (d-DirectivePut-chord-graphic "ChordsOverBass" "CheckMark")
 		    (if (zero? bass-key)
 			(begin
 			  (d-MoveToStaffUp)
@@ -210,10 +208,10 @@
 			  (let* ((midi (d-GetMidi))
 				 (velocity (bit-extract midi 16 24))
 				 (note (bit-extract midi 8 16))
-				 (command (bit-extract midi 0 8)))  
-			    
+				 (command (bit-extract midi 0 8)))  			    
 			    (apply d-GoToPosition bass-position)
-			    (cond ((and (= command #x90) (= note bass-key))		       
+			    (cond ((and (= command #x90) (= note bass-key))
+				   (d-DirectiveDelete-chord "ChordsOverBass")		       
 				   (d-PlayMidiKey midi)
 				   (d-MoveToStaffUp)
 				   (GoToMeasureEnd)
@@ -256,9 +254,9 @@
 		    (if continuing
 			(begin 
 					;  (pause)
-			  (d-DirectiveDelete-chord "ChordsOverBass")
+			 ; (d-DirectiveDelete-chord "ChordsOverBass")
 			  (d-PopPosition)
-			  (d-DirectiveDelete-chord "ChordsOverBass")
+			  ;(d-DirectiveDelete-chord "ChordsOverBass")
 			  
 			  (if (d-NextObject)
 			      (begin
