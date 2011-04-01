@@ -3103,7 +3103,15 @@ static SCM scheme_set_tuplet (SCM ratio) {
  ((tupopen*)curObj->object)->denominator = 1;
  return  SCM_BOOL_F;
 }
-
+static SCM scheme_set_background (SCM color) {
+  if(scm_is_integer(color)) {
+   gint value = scm_num2int(color, 0, 0);
+   Denemo.color = value;
+   gtk_widget_queue_draw (Denemo.scorearea);
+   return SCM_BOOL_T;
+  }
+  return SCM_BOOL_F;
+}
 
 
 static SCM scheme_get_nonprinting (SCM optional) {
@@ -3844,6 +3852,8 @@ static void create_scheme_identfiers(void) {
 
   INSTALL_SCM_FUNCTION ("Returns a string numerator/denominator for a tuplet open object or #f if cursor not on a tuplet open",DENEMO_SCHEME_PREFIX"GetTuplet",  scheme_get_tuplet);
   INSTALL_SCM_FUNCTION ("Set passed string as numerator/denominator for a tuplet open at cursor",DENEMO_SCHEME_PREFIX"SetTuplet",  scheme_set_tuplet);
+
+  INSTALL_SCM_FUNCTION ("Set passed 24 bit number as RGB color of background.",DENEMO_SCHEME_PREFIX"SetBackground",  scheme_set_background);
 
   INSTALL_SCM_FUNCTION2 ("Takes a staff number m and a object number n. Returns the type of object at the (m, n)th position on the Denemo Clipboard or #f if none.", DENEMO_SCHEME_PREFIX"GetClipObjType",  scheme_get_clip_obj_type);
   INSTALL_SCM_FUNCTION1 ("Takes a staff number m, Returns the number of objects in the mth staff on the Denemo Clipboard or #f if none.", DENEMO_SCHEME_PREFIX"GetClipObjects",  scheme_get_clip_objects);
@@ -7990,9 +8000,7 @@ create_window(void) {
 
   gtk_window_set_resizable (GTK_WINDOW (Denemo.window), TRUE);
 
-  //create_scheme_window();
-
-
+  Denemo.color = 0xFFFFFF;//white background RGB values
 
 
 
