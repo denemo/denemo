@@ -387,8 +387,8 @@ void process_midi_event(gchar *buf) {
     // this is only good for one endianness - FIXME
     *divert_midi_event = 0;//clear 4th byte
     memcpy(divert_midi_event, buf, 3);//midi events are up to three bytes long
-    gtk_main_quit();
-    return;// not reached
+    gtk_main_quit();    
+    return;//this *is* reached
   }
 #if 0
   //already done upstream

@@ -258,7 +258,7 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
     *divert_key_event = event;
     //g_object_ref(event); FIXME do we need to keep it around?
     gtk_main_quit();
-    return TRUE;//not reached
+    return TRUE;//*is* reached main loop exits to the caller of the loop when it next gains control
   }
 
   (void)process_key_event(event, perform_command);
