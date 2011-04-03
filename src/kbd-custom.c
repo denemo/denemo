@@ -1502,8 +1502,13 @@ gboolean
 execute_callback_from_name(keymap *the_keymap, const gchar* command_name)
 {
   gboolean res = TRUE;
+  gchar* text=NULL;
   GtkAction *action = action_of_name(the_keymap, (gchar *)command_name);
-  gtk_action_activate(action);
+  text = (gchar *)g_object_get_data(G_OBJECT(action), "scheme");
+  if(text && *text)
+    call_out_to_guile(text);
+  else
+    gtk_action_activate(action);
   return res;
 }
 
