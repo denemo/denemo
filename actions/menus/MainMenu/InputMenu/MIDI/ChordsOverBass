@@ -126,7 +126,7 @@
 		;(disp "A note off with chord-created=" chord-created "and suspension=" suspension "\n")
 		(if (= note bass-key)				
 		    (begin
-		      (cond ((and (Rest?) (null? ons))
+		      (cond ((and (Rest?) (null? ons) suspension)
 			     (continue-chord))
 			    (else
 			     #t;(disp "the else case\n" ons " and rest =" (Rest?) "\n")
@@ -171,15 +171,18 @@
 	  (d-AddBefore)
 	  (d-InitialClef "Treble")
 	  (d-StaffProperties "denemo_name=Chords"))
-	(define continuing #t)
+
+
+
+
 ;;;;;;;; actual code
 	(set! ChordsOverBass::active #t)
 	
 	(if  (equal? "Chords" (d-StaffProperties "query=denemo_name"))
-	     (set! continuing (d-MoveToStaffDown)))
+	     (set! ChordsOverBass::active (d-MoveToStaffDown)))
 	
 	
-	(if (and continuing (d-MoveToStaffUp) (equal? "Chords" (d-StaffProperties "query=denemo_name")))
+	(if (and ChordsOverBass::active (d-MoveToStaffUp) (equal? "Chords" (d-StaffProperties "query=denemo_name")))
 	    (d-MoveToStaffDown)
 	    (begin
 	      (if  (equal? "Chords" (d-StaffProperties "query=denemo_name"))
@@ -189,7 +192,7 @@
 		     (d-MoveToStaffDown)
 		     (createChordStaff)
 		     (d-MoveToStaffDown)))))
-	(if continuing
+	(if ChordsOverBass::active
 	    (let ((bass-position (GetPosition)))  	      
 	      (d-SetBackground #xB0E0B0)
 	      (if (not (None?))
@@ -238,7 +241,7 @@
 				   (GoToMeasureEnd)
 				   (d-InfoDialog "Chords over Bass\nQuitting ...")				
 					; (eval-string (string-append "(d-" (d-GetCommandFromUser) ")"))
-				   (set! continuing #f))
+				   (set! ChordsOverBass::active #f))
 				  
 				  ((= command #x80)
 				   (set! ons (delq note ons))
@@ -251,7 +254,7 @@
 				   (d-PlayMidiKey #xF06001)
 				   (disp "Ignoring " command " " note " " velocity " waiting for " bass-key "\n")
 				   (listening))))))
-		    (if continuing
+		    (if ChordsOverBass::active
 			(begin 
 					;  (pause)
 			 ; (d-DirectiveDelete-chord "ChordsOverBass")
