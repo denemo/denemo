@@ -63,9 +63,6 @@
 	  (if (and continuing (d-IsTied))
 	      (amalgamate-ties)))
 	
-	
-	
-	
 ;;;;seek back to the chord started but not finished (ie before the rests)
 	(define (find-suspended-chord)
 	  (let loop ()
@@ -106,11 +103,13 @@
 	
 	(define (GetChords bass-key)
 	  (define chord-created #f)
+	  (define triggerPedal #f)
 	  (if suspension
 	      (continue-chord)
 	      (for-each add-note ons))
 	  (let loop ()
-	    (let* ((midi (d-GetMidi))
+	    (let* (
+		   (midi (d-GetMidi))
 		   (velocity (bit-extract midi 16 24))
 		   (note (bit-extract midi 8 16))
 		   (command (bit-extract midi 0 8)))  
@@ -126,7 +125,7 @@
 		;(disp "A note off with chord-created=" chord-created "and suspension=" suspension "\n")
 		(if (= note bass-key)				
 		    (begin
-		      (cond ((and (Rest?) (null? ons) suspension)
+		      (cond ((and (Rest?) (null? ons) (not triggerPedal))
 			     (continue-chord))
 			    (else
 			     #t;(disp "the else case\n" ons " and rest =" (Rest?) "\n")
@@ -143,9 +142,9 @@
 			      (d-Diminish)
 			      (d-SetMark)
 			      (d-Copy)
-			      (d-DirectiveDelete-chord "ChordsOverBass")
+			     ;(d-DirectiveDelete-chord "ChordsOverBass")
 			      (d-Paste)
-			      (loop))
+			      )
 			     ((&gt; (d-GetDots) 0)
 			      (d-SplitChord 3)
 			      (d-MoveCursorLeft)
@@ -155,16 +154,26 @@
 			      (d-MoveCursorRight)
 			      (d-DeleteObject)
 			      (ChangeToRest);on a whole chord: we remove notes all down to the Rest
-			      (loop))
+			      )
 			     (else
 			      (d-SplitChord 2)
 			      (d-MoveCursorLeft)
 			      (ChangeToRest)
-			      (loop))))
+			      ))
+(loop)
+)
 			  (loop)))))
 	       ((or (zero? midi) (and  (= command #xE0) (&gt; note 32)))
 		(d-SetBackground #xFFFFFF)
 		(disp "Abandoning getting chord\n"))
+	       
+	      ;;  ((pedalDown? midi)
+;; 		(set! triggerPedal 'down)
+;; 		(loop))
+	       ((pedalUp? midi)			    
+		    (set! triggerPedal #t)
+		(loop))
+	       
 	       (else (loop)))))) ;;; end of GetChords
 	
 	(define (createChordStaff)
@@ -172,8 +181,17 @@
 	  (d-InitialClef "Treble")
 	  (d-StaffProperties "denemo_name=Chords"))
 
+	(define (deleteToEnd)
+	  (d-SetMark)
+	  (d-GoToEnd)
+	  (d-Cut))
 
-
+	(define (checkForContent)
+	  (if (not (None?))
+	      (if  (equal? "y" (d-GetUserInput"Non Empty Chords staff" "Remove the previous transcription from this measure on?" "y"))
+		   (deleteToEnd)
+		   (set! ChordsOverBass::active #f)))
+	  (d-MoveToStaffDown))
 
 ;;;;;;;; actual code
 	(set! ChordsOverBass::active #t)
@@ -183,11 +201,10 @@
 	
 	
 	(if (and ChordsOverBass::active (d-MoveToStaffUp) (equal? "Chords" (d-StaffProperties "query=denemo_name")))
-	    (d-MoveToStaffDown)
+	    (checkForContent)
 	    (begin
 	      (if  (equal? "Chords" (d-StaffProperties "query=denemo_name"))
-		   (begin
-		     (d-MoveToStaffDown))
+		   (checkForContent)		     
 		   (begin
 		     (d-MoveToStaffDown)
 		     (createChordStaff)
@@ -239,7 +256,7 @@
 				   (d-PopPosition)
 				   (d-MoveToStaffUp)
 				   (GoToMeasureEnd)
-				   (d-InfoDialog "Chords over Bass\nQuitting ...")				
+				   ;(d-InfoDialog "Chords over Bass\nQuitting ...")				
 					; (eval-string (string-append "(d-" (d-GetCommandFromUser) ")"))
 				   (set! ChordsOverBass::active #f))
 				  
@@ -249,7 +266,12 @@
 				       (set! suspension #f))
 				   (listening);;;;;;;is this right now...		       
 				   )
-				  
+;; 				  ((pedalUp? midi)
+;; 				   (set! notPedal #t)
+;; 				   (listening))
+;; 				  ((pedalDown? midi)
+;; 				   (set! notPedal #f)
+;; 				   (listening))
 				  (else
 				   (d-PlayMidiKey #xF06001)
 				   (disp "Ignoring " command " " note " " velocity " waiting for " bass-key "\n")
