@@ -323,15 +323,13 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
   //normal_cursor();
   process_lilypond_errors(filename); 
 #ifndef G_OS_WIN32
-#if 0
   //status check seems to fail on windows, and errors are not highlighted for windows.
   if(status) {
     warningdialog("LilyPond engraver failed - See highlighting in LilyPond window (open the LilyPond window and right click to print)");
-    return;
-  } 
+  } else
 #endif
-#endif
- 
+ {
+
   if (is_png)
 	printfile = g_strconcat (filename, ".png", NULL);
   else
@@ -395,6 +393,7 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
     err = NULL;
   }
   g_free(printfile);
+  }
 }
 
 
