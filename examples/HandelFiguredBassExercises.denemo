@@ -36,7 +36,7 @@
       </directive>
     </score-directives>
   </lilycontrol>
-  <movement-number>1</movement-number>
+  <movement-number>9</movement-number>
   <movement>
     <edit-info>
       <staffno>2</staffno>
@@ -2948,12 +2948,13 @@
   <movement>
     <edit-info>
       <staffno>2</staffno>
-      <measureno>1</measureno>
+      <measureno>4</measureno>
       <cursorposition>-1</cursorposition>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
       <page-system-height>100</page-system-height>
+      <measure-width>320</measure-width>
     </edit-info>
     <header-directives>
       <directive>
@@ -3467,6 +3468,7 @@
           <measure>
             <chord show="true" id="id692">
               <duration base="half"/>
+              <figure>3  |  _-</figure>
               <notes>
                 <note id="id693">
                   <middle-c-offset>-7</middle-c-offset>
@@ -3475,6 +3477,7 @@
             </chord>
             <chord show="true" id="id694">
               <duration base="half"/>
+              <figure>3  |  _-</figure>
               <notes>
                 <note id="id695">
                   <middle-c-offset>-3</middle-c-offset>
@@ -3485,6 +3488,7 @@
           <measure>
             <chord show="true" id="id696">
               <duration base="half"/>
+              <figure>_+  |  3</figure>
               <notes>
                 <note id="id697">
                   <middle-c-offset>-6</middle-c-offset>
@@ -3493,6 +3497,7 @@
             </chord>
             <chord show="true" id="id698">
               <duration base="half"/>
+              <figure>_+  |  3</figure>
               <notes>
                 <note id="id699">
                   <middle-c-offset>-2</middle-c-offset>
@@ -3503,6 +3508,7 @@
           <measure>
             <chord show="true" id="id700">
               <duration base="quarter"/>
+              <figure>_</figure>
               <notes>
                 <note id="id701">
                   <middle-c-offset>-4</middle-c-offset>
@@ -3511,6 +3517,7 @@
             </chord>
             <chord show="true" id="id702">
               <duration base="quarter"/>
+              <figure>_</figure>
               <notes>
                 <note id="id703">
                   <middle-c-offset>-6</middle-c-offset>
@@ -3519,6 +3526,7 @@
             </chord>
             <chord show="true" id="id704">
               <duration base="quarter"/>
+              <figure>_+</figure>
               <notes>
                 <note id="id705">
                   <middle-c-offset>-5</middle-c-offset>
@@ -3527,6 +3535,7 @@
             </chord>
             <chord show="true" id="id706">
               <duration base="quarter"/>
+              <figure>_</figure>
               <notes>
                 <note id="id707">
                   <middle-c-offset>-9</middle-c-offset>
@@ -3537,6 +3546,7 @@
           <measure>
             <chord show="true" id="id708">
               <duration base="half"/>
+              <figure>_+</figure>
               <notes>
                 <note id="id709">
                   <middle-c-offset>-5</middle-c-offset>
@@ -3545,6 +3555,7 @@
             </chord>
             <chord show="true" id="id710">
               <duration base="half"/>
+              <figure>3  |  _+</figure>
               <notes>
                 <note id="id711">
                   <middle-c-offset>-9</middle-c-offset>
@@ -3555,6 +3566,7 @@
           <measure>
             <chord show="true" id="id712">
               <duration base="half"/>
+              <figure>3  |  _+</figure>
               <notes>
                 <note id="id713">
                   <middle-c-offset>-6</middle-c-offset>
@@ -3563,6 +3575,7 @@
             </chord>
             <chord show="true" id="id714">
               <duration base="half"/>
+              <figure>_-  |  3</figure>
               <notes>
                 <note id="id715">
                   <middle-c-offset>-10</middle-c-offset>
@@ -3573,6 +3586,7 @@
           <measure>
             <chord show="true" id="id716">
               <duration base="half"/>
+              <figure>_-  |  3</figure>
               <notes>
                 <note id="id717">
                   <middle-c-offset>-7</middle-c-offset>
@@ -3647,8 +3661,8 @@
   <movement>
     <edit-info>
       <staffno>2</staffno>
-      <measureno>1</measureno>
-      <cursorposition>-1</cursorposition>
+      <measureno>3</measureno>
+      <cursorposition>3</cursorposition>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
@@ -4112,6 +4126,7 @@
           <measure>
             <chord show="true" id="id830">
               <duration base="eighth"/>
+              <figure>_</figure>
               <notes>
                 <note id="id831">
                   <middle-c-offset>-10</middle-c-offset>
@@ -4120,6 +4135,7 @@
             </chord>
             <chord show="true" id="id832">
               <duration base="eighth"/>
+              <figure>_</figure>
               <notes>
                 <note id="id833">
                   <middle-c-offset>-3</middle-c-offset>
@@ -4128,6 +4144,7 @@
             </chord>
             <chord show="true" id="id834">
               <duration base="eighth"/>
+              <figure>6</figure>
               <notes>
                 <note id="id835">
                   <middle-c-offset>-4</middle-c-offset>
@@ -4137,6 +4154,7 @@
             </chord>
             <chord show="true" id="id836">
               <duration base="eighth"/>
+              <figure>_</figure>
               <notes>
                 <note id="id837">
                   <middle-c-offset>-6</middle-c-offset>
@@ -4145,6 +4163,7 @@
             </chord>
             <chord show="true" id="id838">
               <duration base="eighth"/>
+              <figure>6</figure>
               <notes>
                 <note id="id839">
                   <middle-c-offset>-5</middle-c-offset>
@@ -4153,6 +4172,7 @@
             </chord>
             <chord show="true" id="id840">
               <duration base="eighth"/>
+              <figure>6</figure>
               <notes>
                 <note id="id841">
                   <middle-c-offset>-4</middle-c-offset>
@@ -4162,6 +4182,7 @@
             </chord>
             <chord show="true" id="id842">
               <duration base="eighth"/>
+              <figure>_</figure>
               <notes>
                 <note id="id843">
                   <middle-c-offset>-3</middle-c-offset>
@@ -4170,6 +4191,7 @@
             </chord>
             <chord show="true" id="id844">
               <duration base="eighth"/>
+              <figure>6</figure>
               <notes>
                 <note id="id845">
                   <middle-c-offset>-8</middle-c-offset>
@@ -4180,6 +4202,7 @@
           <measure>
             <chord show="true" id="id846">
               <duration base="eighth"/>
+              <figure>6</figure>
               <notes>
                 <note id="id847">
                   <middle-c-offset>-7</middle-c-offset>
@@ -4188,6 +4211,7 @@
             </chord>
             <chord show="true" id="id848">
               <duration base="eighth"/>
+              <figure>6</figure>
               <notes>
                 <note id="id849">
                   <middle-c-offset>-6</middle-c-offset>
@@ -4196,6 +4220,7 @@
             </chord>
             <chord show="true" id="id850">
               <duration base="eighth"/>
+              <figure>6</figure>
               <notes>
                 <note id="id851">
                   <middle-c-offset>-5</middle-c-offset>
@@ -4204,6 +4229,7 @@
             </chord>
             <chord show="true" id="id852">
               <duration base="eighth"/>
+              <figure>6</figure>
               <notes>
                 <note id="id853">
                   <middle-c-offset>-4</middle-c-offset>
@@ -4213,6 +4239,7 @@
             </chord>
             <chord show="true" id="id854">
               <duration base="eighth"/>
+              <figure>_</figure>
               <notes>
                 <note id="id855">
                   <middle-c-offset>-3</middle-c-offset>
@@ -4221,6 +4248,7 @@
             </chord>
             <chord show="true" id="id856">
               <duration base="eighth"/>
+              <figure>_</figure>
               <notes>
                 <note id="id857">
                   <middle-c-offset>-4</middle-c-offset>
@@ -4230,6 +4258,7 @@
             </chord>
             <chord show="true" id="id858">
               <duration base="eighth"/>
+              <figure>6</figure>
               <notes>
                 <note id="id859">
                   <middle-c-offset>-3</middle-c-offset>
@@ -4238,6 +4267,7 @@
             </chord>
             <chord show="true" id="id860">
               <duration base="eighth"/>
+              <figure>_</figure>
               <notes>
                 <note id="id861">
                   <middle-c-offset>-5</middle-c-offset>
@@ -4248,6 +4278,7 @@
           <measure>
             <chord show="true" id="id862">
               <duration base="eighth"/>
+              <figure>_+</figure>
               <notes>
                 <note id="id863">
                   <middle-c-offset>-2</middle-c-offset>
@@ -4256,6 +4287,7 @@
             </chord>
             <chord show="true" id="id864">
               <duration base="eighth"/>
+              <figure>6</figure>
               <notes>
                 <note id="id865">
                   <middle-c-offset>-4</middle-c-offset>
@@ -4265,6 +4297,7 @@
             </chord>
             <chord show="true" id="id866">
               <duration base="eighth"/>
+              <figure>_</figure>
               <notes>
                 <note id="id867">
                   <middle-c-offset>-3</middle-c-offset>
@@ -4273,6 +4306,7 @@
             </chord>
             <chord show="true" id="id868">
               <duration base="eighth"/>
+              <figure>_+</figure>
               <notes>
                 <note id="id869">
                   <middle-c-offset>-2</middle-c-offset>
@@ -4281,6 +4315,7 @@
             </chord>
             <chord show="true" id="id870">
               <duration base="eighth"/>
+              <figure>_</figure>
               <notes>
                 <note id="id871">
                   <middle-c-offset>-6</middle-c-offset>
@@ -4289,6 +4324,7 @@
             </chord>
             <chord show="true" id="id872">
               <duration base="eighth"/>
+              <figure>_</figure>
               <notes>
                 <note id="id873">
                   <middle-c-offset>1</middle-c-offset>
@@ -4297,6 +4333,7 @@
             </chord>
             <chord show="true" id="id874">
               <duration base="eighth"/>
+              <figure>6</figure>
               <notes>
                 <note id="id875">
                   <middle-c-offset>-1</middle-c-offset>
@@ -4305,6 +4342,7 @@
             </chord>
             <chord show="true" id="id876">
               <duration base="eighth"/>
+              <figure>6</figure>
               <notes>
                 <note id="id877">
                   <middle-c-offset>-2</middle-c-offset>
@@ -4315,6 +4353,7 @@
           <measure>
             <chord show="true" id="id878">
               <duration base="eighth"/>
+              <figure>6</figure>
               <notes>
                 <note id="id879">
                   <middle-c-offset>-3</middle-c-offset>
@@ -4323,6 +4362,7 @@
             </chord>
             <chord show="true" id="id880">
               <duration base="eighth"/>
+              <figure>6</figure>
               <notes>
                 <note id="id881">
                   <middle-c-offset>-4</middle-c-offset>
@@ -4396,8 +4436,8 @@
   <movement>
     <edit-info>
       <staffno>2</staffno>
-      <measureno>1</measureno>
-      <cursorposition>-1</cursorposition>
+      <measureno>2</measureno>
+      <cursorposition>0</cursorposition>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
@@ -4828,6 +4868,7 @@
           <measure>
             <chord show="true" id="id984">
               <duration base="quarter"/>
+              <figure>_</figure>
               <notes>
                 <note id="id985">
                   <middle-c-offset>-5</middle-c-offset>
@@ -5151,12 +5192,13 @@
   <movement>
     <edit-info>
       <staffno>2</staffno>
-      <measureno>1</measureno>
+      <measureno>5</measureno>
       <cursorposition>-1</cursorposition>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
       <page-system-height>100</page-system-height>
+      <measure-width>320</measure-width>
     </edit-info>
     <header-directives>
       <directive>
