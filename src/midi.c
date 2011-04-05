@@ -277,6 +277,7 @@ static gint midiaction(gint notenum) {
   if(gui==NULL)
     return TRUE;
   if(gui->si==NULL)
+
     return TRUE;
   //gint notenum;
   DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
@@ -314,8 +315,8 @@ static gint midiaction(gint notenum) {
 	    if( (Denemo.keyboard_state&CHECKING_MASK) && thechord->notes) {
 	      //later - find note nearest cursor and
 	      note *thenote = (note*)thechord->notes->data;
-	      check_midi_note(thenote, enote.mid_c_offset + 7 *( notenum/12 - 5), enote.enshift, notenum/12 - 5);
-	      if((!curObj->isinvisible)&&(thenote->mid_c_offset== (enote.mid_c_offset + 7 *( notenum/12 - 5)))&&(thenote->enshift==enote.enshift))
+	      check_midi_note(thenote, enote.mid_c_offset + 7 *(enote.octave), enote.enshift, enote.octave);
+	      if((!curObj->isinvisible)&&(thenote->mid_c_offset== (enote.mid_c_offset + 7 *( enote.octave)))&&(thenote->enshift==enote.enshift))
 		playnote(thenote,curstaffstruct->midi_channel);
 	      else {
 		gdk_beep();
@@ -324,7 +325,7 @@ static gint midiaction(gint notenum) {
 	    }
 	    else {
 
-	      do_one_note(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
+	      do_one_note(gui, enote.mid_c_offset, enote.enshift, enote.octave);
 		
 	    }
 	    if(Denemo.gui->si->cursor_appending)
@@ -343,10 +344,10 @@ static gint midiaction(gint notenum) {
 	// add_note_to_chord(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
 	  //else
 	  //action_note_into_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
-	  do_one_note(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
+	  do_one_note(gui, enote.mid_c_offset, enote.enshift, enote.octave);
       }
     } else {// not INPUTEDIT    
-      action_note_into_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
+      action_note_into_score(gui, enote.mid_c_offset, enote.enshift, enote.octave);
   }
   if( !(Denemo.keyboard_state&CHECKING_MASK)) {
     stage_undo(gui->si, ACTION_STAGE_START);

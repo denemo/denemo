@@ -455,9 +455,11 @@ notenum2enharmonic (gint notenum, gint *poffset, gint *penshift, gint *poctave) 
 
   *penshift = notenum % 12;  
   temperament *t = PR_temperament;
-  *poctave =  notenum/12 - 5;
+  *poctave =  (notenum)/12 - 5;
   *poffset = t->notepitches[*penshift].spec.step;
   *penshift =  t->notepitches[*penshift].spec.alteration;
+  if((notenum % 12)==0 && *penshift==1) *poctave = *poctave - 1 ;
+  if((notenum % 12)==11 && *penshift==-1) *poctave = *poctave + 1 ;
   return;
 }
 
