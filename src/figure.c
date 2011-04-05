@@ -1,4 +1,4 @@
-/* figure.cpp
+/* figure.c
  *
  * Functions for the manipulations of figured basses
  *
@@ -43,6 +43,8 @@ insertfigure (gboolean filter, gpointer data)
   GString *current_figure;
   gchar filter_sep = filter?'/':'|';
   gchar filter_spc = filter?'*':' ';
+  if(si->measurewidth==DENEMO_INITIAL_MEASURE_WIDTH)
+    si->measurewidth = DENEMO_INITIAL_MEASURE_WIDTH*2;
 
   if (si->currentobject != NULL) {
     DenemoObject *curObj = (DenemoObject *) si->currentobject ?
