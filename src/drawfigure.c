@@ -68,7 +68,7 @@ draw_figure (cairo_t *cr,
 	
 	if(*str=='|') {	 
 	  ystep = 0;
-	  xstep += 14 + (accs?10:0);
+	  xstep += 25 + (accs?10:0);
 	  accs = FALSE;
 	} else
 	  if(*(orig + (str-text) + strlen(str))==' ' || *(orig + (str-text) + strlen(str))==0 ) {

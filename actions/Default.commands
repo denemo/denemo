@@ -2284,7 +2284,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>CheckPitches</action>
         <scheme></scheme>
-        <menupath>/MainMenu/InputMenu/MIDI</menupath>
+        <menupath>/MainMenu/Educational/MIDI</menupath>
         <label>Check Note Pitches</label>
         <tooltip>Compares note from MIDI with current note, if equal in pitch, advances to next note, else beeps.</tooltip>
       </row>
@@ -4955,6 +4955,13 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotationMagick</menupath>
         <label>Sort Selection (Descending)</label>
         <tooltip>Sort all notes in the selection, descending order.</tooltip>
+      </row>
+      <row>
+        <action>FiguredBassExercises</action>       
+        <scheme></scheme>
+        <menupath>/MainMenu/Educational/MIDI</menupath>
+        <label>Handel's Figured Bass Exercises</label>
+        <tooltip>Allows you to play in chords to Handel's continuo practice material</tooltip>
       </row>
     </map>
   </merge>
