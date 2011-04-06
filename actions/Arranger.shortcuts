@@ -750,7 +750,7 @@
         <bind>Shft+Left</bind>
       </row>
       <row>
-        <action>InsertOneNote</action>
+        <action>ChordsOverBass</action>
         <bind>Return</bind>
       </row>
     </map>

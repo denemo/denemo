@@ -643,6 +643,10 @@ deletescore (GtkWidget * widget, DenemoGUI * gui)
     gui->filename = NULL;
     set_title_bar (gui);
   }
+  if(gui->tabname){
+    g_string_free(gui->tabname, TRUE);
+    gui->tabname = NULL;
+  }
 
   point_to_new_movement(gui);
   gui->movements = g_list_append(gui->movements, gui->si);

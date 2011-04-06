@@ -113,6 +113,65 @@ static gchar *system_example_path = NULL;
 static gchar *local_template_path = NULL;
 static gchar *default_template_path = NULL;
 
+
+/**
+ * Display a message box asking the user whether to save unsaved changes
+ * or close without saving
+ */
+static gboolean
+confirm_save (DenemoGUI *gui, gchar *primary, gchar *secondary)
+{
+  GtkWidget *dialog;
+  gboolean r = FALSE;
+
+  dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window),
+				   (GtkDialogFlags)
+				   (GTK_DIALOG_MODAL |
+				    GTK_DIALOG_DESTROY_WITH_PARENT),
+				   GTK_MESSAGE_QUESTION,
+				   GTK_BUTTONS_NONE,
+				   "%s", primary);
+  GtkWidget *d_save = gtk_dialog_add_button( (GtkDialog*)dialog, 
+                                          "Close without Saving",
+                                          GTK_RESPONSE_NO);
+	
+  GtkWidget *cancel = gtk_dialog_add_button( (GtkDialog*)dialog, 
+                                          GTK_STOCK_CANCEL,
+                                          GTK_RESPONSE_CANCEL);
+	
+  GtkWidget *save = gtk_dialog_add_button( (GtkDialog*)dialog, 
+                                          GTK_STOCK_SAVE_AS,
+                                          GTK_RESPONSE_YES);
+	
+  gtk_dialog_set_default_response( (GtkDialog*)dialog, GTK_RESPONSE_YES);
+	
+  gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog), "%s",
+					    secondary);
+  gtk_widget_show_all (dialog);
+  gint response = gtk_dialog_run (GTK_DIALOG (dialog));
+
+  if(response == GTK_RESPONSE_YES)
+  {
+	gtk_widget_destroy (dialog);
+	file_saveas (gui, SAVE_NORMAL);
+	if(gui->notsaved)
+	  r = FALSE;
+	else
+	  r = TRUE;
+  }
+  else if(response == GTK_RESPONSE_NO)
+  {
+	gtk_widget_destroy (dialog);
+	r = TRUE;
+  }
+  else
+  {
+	gtk_widget_destroy (dialog);
+	r = FALSE;
+  }
+  return r;
+}
+
 /**
  * Display a message box asking the user to confirm that unsaved 
  * changes will be lost
@@ -122,7 +181,7 @@ gboolean
 confirmbox (DenemoGUI * gui) {
   gboolean ret;
   gchar *primary = g_strdup_printf(_("The score %s has unsaved changes"), gui->filename->len?gui->filename->str:"(Untitled)");
-  ret = confirmSave (gui, primary,  _("Save changes?"));
+  ret = confirm_save (gui, primary,  _("Save changes?"));
   g_free(primary);
   return ret;
 }
@@ -250,36 +309,42 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
   gboolean xml = FALSE;
   result = 1;//FAILURE
 #define EXISTS(extension) (strcmp (filename + strlen (filename) - strlen(extension), extension) == 0)
-  if(g_file_test(filename, G_FILE_TEST_EXISTS)) {
-    if(EXISTS(".denemo"))
-      xml=TRUE, result = importXML (filename, gui, type);
-    else if(EXISTS(".dnm"))
-      xml=TRUE, result = importXML (filename, gui, type);
-    else if(EXISTS(".ly"))
-      result = lyinput (filename, gui);
-    else if(EXISTS(".mxml"))
-      result = mxmlinput (filename, gui);
-    else if(EXISTS(".mid") || EXISTS(".midi"))
-      result = importMidi (filename, gui);
+  if(g_file_test(filename, G_FILE_TEST_EXISTS)) 
+    {
+      if(EXISTS(".denemo"))
+        xml=TRUE, result = importXML (filename, gui, type);
+      else if(EXISTS(".dnm"))
+        xml=TRUE, result = importXML (filename, gui, type);
+      else if(EXISTS(".ly"))
+        result = lyinput (filename, gui);
+      else if(EXISTS(".mxml"))
+        result = mxmlinput (filename, gui);
+      else if(EXISTS(".mid") || EXISTS(".midi"))
+        result = importMidi (filename, gui);
 #undef EXISTS
-  }
+    }
+  //printf("\nResult == %d type == %d template == %d xml == %d\n",result,type,template,(int)xml);
   if (result == 0)
     {
-      if(!template) {// not a template
-	update_file_selection_path (filename);
-	if(type==REPLACE_SCORE){
-	  if (xml)
-	    set_gui_filename (gui, filename);
-	  else {
-	    gchar *sname = strip_path_and_extension (filename);
-            set_gui_tabname (gui, sname);
-	    g_free(sname);
-	  }
-	}
-	if(type==ADD_STAFFS || type==ADD_MOVEMENTS)
-	  score_status(gui, TRUE);
-      } else
-	g_string_assign (gui->filename, "");
+      if(!template) 
+	{// not a template
+	  update_file_selection_path (filename);
+	  if(type==REPLACE_SCORE)
+	    {
+	      if (xml)
+	        set_gui_filename (gui, filename);
+	      else 
+	        {
+		  gchar *sname = strip_path_and_extension (filename);
+		  set_gui_tabname (gui, sname);
+		  g_free(sname);
+	        }
+	    }
+
+	  if(type==ADD_STAFFS || type==ADD_MOVEMENTS)
+	    score_status(gui, TRUE);
+        } else 
+	  g_string_assign (gui->filename, "");
       if(Denemo.printarea) 
 	g_object_set_data(G_OBJECT(Denemo.printarea), "printviewupdate", (gpointer)G_MAXUINT);
       if(!xml)

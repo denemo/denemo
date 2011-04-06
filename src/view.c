@@ -2715,7 +2715,17 @@ SCM scheme_rewind_recorded_midi(void) {
   return SCM_BOOL_F;
 }
 
-
+static SCM scheme_get_note_for_midi_key (SCM scm) {
+  gint notenum = 0, offset, enshift, octave;      
+  if(scm_is_integer(scm))
+      notenum = scm_num2int(scm, 0, 0);
+  if(notenum>0 && notenum<256) {
+    notenum2enharmonic (notenum, &offset, &enshift, &octave);
+    gchar *name =  mid_c_offsettolily (offset+7*octave, enshift);
+      return scm_from_locale_string(name);
+  } 
+  return SCM_BOOL_F;
+}
 
 static
 SCM scheme_get_midi(void) {
@@ -2731,36 +2741,8 @@ SCM scheme_get_midi(void) {
  SCM scm = scm_int2num (midi);
  return  scm;
 }
-SCM scheme_put_rest (SCM optional_duration) {
-  gint duration;
-  if(scm_integer_p(optional_duration)) {
-    duration = scm_num2int(optional_duration, 0, 0);
-  } else {
-    for(duration=0;duration<7;duration++)
-      if(Denemo.gui->prevailing_rhythm == Denemo.singleton_rhythms['r'+duration])
-	break;
-    g_print("using duration %d\n", duration);
-  }
-  if( (duration<0) || (duration>7))
-    return SCM_BOOL_F;
 
-  dnm_insertchord (Denemo.gui, duration, 0, TRUE);
-  displayhelper(Denemo.gui);//without this a call to d-AddVoice causes a crash as the chord length info has not been updated
-  return SCM_BOOL_T;
-}
-
-static SCM scheme_get_note_for_midi_key (SCM scm) {
-  gint notenum = 0, offset, enshift, octave;      
-  if(scm_is_integer(scm))
-      notenum = scm_num2int(scm, 0, 0);
-  if(notenum>0 && notenum<256) {
-    notenum2enharmonic (notenum, &offset, &enshift, &octave);
-    gchar *name =  mid_c_offsettolily (offset+7*octave, enshift);
-      return scm_from_locale_string(name);
-  } 
-  return SCM_BOOL_F;
-}
-//Simulates a midi event, with no capture by any calling scheme script
+//Simulates a midi event, with no capture by any calling scheme script unless midi==0
 static SCM scheme_put_midi (SCM scm) {
   gchar buf[3];
   gint midi = scm_num2int(scm, 0, 0);
@@ -2770,15 +2752,9 @@ static SCM scheme_put_midi (SCM scm) {
   buf[2] = (midi>>16)&0xFF;
   //g_print("got %x\nbreaks as %x %x %x\n", midi&0xFFFFFF, buf[0], buf[1], buf[2]);
   if(midi) {
-  gboolean capture = set_midi_capture(FALSE);//Turn off any capturing
-  process_midi_event(buf);
-  set_midi_capture(capture);//Restore any capturing that might be on
-#if 0
-  pitchentry(Denemo.gui);// this ensures any note is acted on before returning
-#else
-  // This call is clearly wrong midientry();//check for more midi in, and action it if available
-  //To check for midi entry would require a call to midi_in_timer_callback().
-#endif
+    gboolean capture = set_midi_capture(FALSE);//Turn off any capturing
+    process_midi_event(buf);
+    set_midi_capture(capture);//Restore any capturing that might be on
   } else
     process_midi_event(buf);
  return SCM_BOOL(TRUE);
@@ -2807,14 +2783,11 @@ SCM scheme_output_midi_bytes (SCM input) {
     if(*next==0)
          break;
   }
-
   numbytes = i;
   unsigned char *buffer = (unsigned char*) g_malloc0(numbytes);
   for(i=0, next=bytes;i<numbytes;i++, next++)
-    buffer[i] = (unsigned char) strtol(next, &next, 0);
-			    
-  g_free(bytes); 
-   
+    buffer[i] = (unsigned char) strtol(next, &next, 0);			    
+  g_free(bytes);    
   g_debug("\nbuffer[0] = %d buffer[1] = %d buffer[2] = %d\n", buffer[0], buffer[1], buffer[2]);
   if (Denemo.prefs.midi_audio_output == Jack)
     jack_output_midi_event(buffer, 0, 0);
@@ -2834,6 +2807,23 @@ static SCM scheme_play_midikey(SCM scm) {
  return SCM_BOOL(TRUE);
 }
 
+SCM scheme_put_rest (SCM optional_duration) {
+  gint duration;
+  if(scm_integer_p(optional_duration)) {
+    duration = scm_num2int(optional_duration, 0, 0);
+  } else {
+    for(duration=0;duration<7;duration++)
+      if(Denemo.gui->prevailing_rhythm == Denemo.singleton_rhythms['r'+duration])
+	break;
+    g_print("using duration %d\n", duration);
+  }
+  if( (duration<0) || (duration>7))
+    return SCM_BOOL_F;
+
+  dnm_insertchord (Denemo.gui, duration, 0, TRUE);
+  displayhelper(Denemo.gui);//without this a call to d-AddVoice causes a crash as the chord length info has not been updated
+  return SCM_BOOL_T;
+}
 static SCM scheme_toggle_playalong(void) {
   pb_playalong (midiplayalongbutton);
   return SCM_BOOL(Denemo.gui->midi_destination | MIDIPLAYALONG);
@@ -3103,7 +3093,15 @@ static SCM scheme_set_tuplet (SCM ratio) {
  ((tupopen*)curObj->object)->denominator = 1;
  return  SCM_BOOL_F;
 }
-
+static SCM scheme_set_background (SCM color) {
+  if(scm_is_integer(color)) {
+   gint value = scm_num2int(color, 0, 0);
+   Denemo.color = value;
+   gtk_widget_queue_draw (Denemo.scorearea);
+   return SCM_BOOL_T;
+  }
+  return SCM_BOOL_F;
+}
 
 
 static SCM scheme_get_nonprinting (SCM optional) {
@@ -3844,6 +3842,8 @@ static void create_scheme_identfiers(void) {
 
   INSTALL_SCM_FUNCTION ("Returns a string numerator/denominator for a tuplet open object or #f if cursor not on a tuplet open",DENEMO_SCHEME_PREFIX"GetTuplet",  scheme_get_tuplet);
   INSTALL_SCM_FUNCTION ("Set passed string as numerator/denominator for a tuplet open at cursor",DENEMO_SCHEME_PREFIX"SetTuplet",  scheme_set_tuplet);
+
+  INSTALL_SCM_FUNCTION ("Set passed 24 bit number as RGB color of background.",DENEMO_SCHEME_PREFIX"SetBackground",  scheme_set_background);
 
   INSTALL_SCM_FUNCTION2 ("Takes a staff number m and a object number n. Returns the type of object at the (m, n)th position on the Denemo Clipboard or #f if none.", DENEMO_SCHEME_PREFIX"GetClipObjType",  scheme_get_clip_obj_type);
   INSTALL_SCM_FUNCTION1 ("Takes a staff number m, Returns the number of objects in the mth staff on the Denemo Clipboard or #f if none.", DENEMO_SCHEME_PREFIX"GetClipObjects",  scheme_get_clip_objects);
@@ -7990,9 +7990,7 @@ create_window(void) {
 
   gtk_window_set_resizable (GTK_WINDOW (Denemo.window), TRUE);
 
-  //create_scheme_window();
-
-
+  Denemo.color = 0xFFFFFF;//white background RGB values
 
 
 

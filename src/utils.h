@@ -149,8 +149,6 @@ void score_status(DenemoGUI *gui, gboolean change);
 void      write_status(DenemoGUI *gui);
 gboolean
 confirm (gchar *primary, gchar *secondary);
-gboolean
-confirmSave (DenemoGUI *gui, gchar *primary, gchar *secondary);
 void 
 nullify_gstring (GString **s);
 

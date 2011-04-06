@@ -330,7 +330,6 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
 #endif
  {
 
-
   if (is_png)
 	printfile = g_strconcat (filename, ".png", NULL);
   else
@@ -394,7 +393,7 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
     err = NULL;
   }
   g_free(printfile);
-}
+  }
 }
 
 

@@ -1282,9 +1282,11 @@ DenemoGUI *gui = Denemo.gui;
     gdk_color_parse ("lightblue", &col);
     gdk_cairo_set_source_color (cr, &col);
   } else if (GTK_WIDGET_IS_SENSITIVE (Denemo.scorearea)) {
-    cairo_set_source_rgb (cr, 1,1,1);
+    //cairo_set_source_rgb (cr, 1,1,1);
+    cairo_set_source_rgb (cr, ((0xFF0000&Denemo.color)>>16)/255.0, ((0xFF00&Denemo.color)>>8)/255.0, ((0xFF&Denemo.color))/255.0);
   } else {
     gdk_cairo_set_source_color (cr, widget->style->bg);
+   
   }
   cairo_paint (cr);
 
