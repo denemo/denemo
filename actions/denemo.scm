@@ -2017,10 +2017,32 @@
 ;; Music? are musobj (CreateMusObj)
 ;;TODO: SchemeCopy and Paste are very limited and need improvement.
 (define (SchemeCopy)
+  ;If on an end-tuplet marker it gives you the startvalue
+  (define (GetTupletFromEndTuplet)
+		(let ()
+		(define return #f)
+			(if (equal? (d-GetType) "TUPCLOSE")
+			(begin
+				(d-PushPosition)
+				(let loop ()
+				(if (d-MoveCursorLeft)
+					(if (equal? (d-GetType) "TUPOPEN")
+						(set! return (d-GetTuplet))
+						(loop))
+					#f)) ; staff beginning		
+				(d-PopPosition)))
+				return))  
+  ;Mainfunction to gather data.
   (define (gather)
-  	(cond 
-  	((Music?) (CreateMusObj))  	 	
-	))
+  	(ActionChooser 
+		(lambda () (CreateMusObj)) ;chords, notes, rests
+		(lambda () (cons 'TUPCLOSE (GetTupletFromEndTuplet))) ; tuplet close
+		(lambda () (cons 'TUPOPEN (d-GetTuplet))) ; tuplet open
+		(lambda () (disp "lily")) ; lilypond directive
+		(lambda () (disp "clef")) ; clefs
+		(lambda () (disp "time")) ; timesignatures
+		(lambda () (disp "key")) ; keysignatures
+		(lambda () (disp "stem")))) ; stem directives /voice presets		
   (if (d-MarkStatus)
 	(MapToSelection gather)		
 	#f))
@@ -2038,11 +2060,15 @@
   (define (insert x)
   	(cond
   	((musobj? x)  (ANS::InsertNotes (musobj.pitch x) (musobj.baseduration x) (musobj.dots x)))
+  	((equal? (car x) 'TUPCLOSE) (d-EndTuplet))
+  	((equal? (car x) 'TUPOPEN) (begin (d-StartTriplet) (d-SetTuplet (cdr x))))
+  	
   	))
   	(for-each (lambda (x) (insert x)) listy))
+
   	
 ;ActionChooser is a meta function to provide a simple way to react to all types of Denemo items in the score.
-(define (ActionChooser chord tupclose tupopen lilydirective clef timesig keysig stemdirective)
+(define (ActionChooser chord tupclose tupopen lilydirective clef timesig keysig stemdirective)	
 	(define type (string->symbol (d-GetType)))
 	(case type
 	 	((CHORD) (chord))
@@ -2057,12 +2083,12 @@
 
 			#! (define (ActionChooserExample)
 				  (ActionChooser 
-					(lambda () (disp "Chord"))
-					(lambda () (disp "tupclose"))
-					(lambda () (disp "Tupopen"))
-					(lambda () (disp "lily"))
-					(lambda () (disp "clef"))
-					(lambda () (disp "time"))
-					(lambda () (disp "key"))
-					(lambda () (disp "stem")))) 
+					(lambda () (disp "Chord")) ;chords, notes, rests
+					(lambda () (disp "tupclose")) ; tuplet close
+					(lambda () (disp "Tupopen")) ; tuplet open
+					(lambda () (disp "lily")) ; lilypond directive
+					(lambda () (disp "clef")) ; clefs
+					(lambda () (disp "time")) ; timesignatures
+					(lambda () (disp "key")) ; keysignatures
+					(lambda () (disp "stem")))) ; stem directives /voice presets
 				(MapToSelection ActionChooserExample)!#
