@@ -173,8 +173,8 @@ You can reverse the ascii/binary digits to get more variation in the measure beg
 	(map (lambda (current) 
 			(if (not (musobj? current))
 				(cond 
-			  	((equal? (car current) 'TUPCLOSE) (begin (d-StartTriplet) (d-SetTuplet (cdr x))))
-			  	((equal? (car current) 'TUPOPEN) (d-EndTuplet)) ; Switch tuplet end and start
+			  	((equal? (car current) 'TUPCLOSE) (set-car! current 'TUPOPEN))
+			  	((equal? (car current) 'TUPOPEN) (set-car! current 'TUPCLOSE)) ; Switch tuplet end and start
 			  	))
 			current) ; if not just return the original object
 		 copybuffer))
