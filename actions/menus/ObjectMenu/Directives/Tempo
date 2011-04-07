@@ -10,11 +10,11 @@
 (let (
 		(TempoChoice #f) (replace #f) (input "")  (AboveBelow? "^")
 		(MidiBPM 60) (ShowBPM? #f)(ValidBPM? #f) (BPMString "") (Go? #t)
-		(LilyString #f) (TempoAdjust #f)(DisplayString "") (InQuotes "") (OldLily (not (d-CheckLilyVersion "2.12.0")))
+		(LilyString #f) (TempoAdjust #f)(DisplayString "") (InQuotes "")(duration "4") (bpm 60)  (OldLily  (not (d-CheckLilyVersion "2.12.0")))
 	)
 
-(define (GetBPM)  	;sets MidiBPM, ValidBPM?, BPMString
-	(let ((dotted #f) (duration "4") (bpm 60) (MetronomeMarkVisible #f)(defaultBPM "60") (len 1))
+(define (GetBPM BaseBeat )  	;sets MidiBPM, ValidBPM?, BPMString
+	(let ((dotted #f)  (MetronomeMarkVisible #f)(defaultBPM "60") (len 1))
 		(set! defaultBPM  
 			(cond 
 				( (equal? TempoChoice "Presto" ) "168" )
@@ -28,172 +28,226 @@
 				(else "60" )
 			)
 		)
-		(set! input (d-GetUserInput "Metronome Marking" "Give unit beat duration (e.g., 4. for dotted-quarter) \n or enter n for none:" "4" ))
-		(if (or (equal? input "n" ) (equal? #f input))
+		(if (equal? "" BaseBeat)  (set! BaseBeat (d-GetUserInput "Metronome Marking" "Give unit beat duration (e.g., 4. for dotted-quarter) \n or enter n for none:" "4" )))
+		
+		(if (or (equal? BaseBeat "n" ) (equal? #f BaseBeat))
 			(begin
 				(set! ValidBPM? #f)	;if user doesn't want to use BPM.
-				(if (not input) (set! Go? #f))
+				(if (not BaseBeat) (set! Go? #f))
 			)
 			(begin 				; if user wants to use bpm...
-				(set! len (string-length input) ) 
-				(set! dotted (equal? "." (substring input (- len 1) len ))  ) ;see if a dot at end
+				(set! len (string-length BaseBeat) ) 
+				(set! dotted (equal? "." (substring BaseBeat (- len 1) len ))  ) ;see if a dot at end
 				(if dotted
-					(set! duration (substring input 0 (- len 1)))  ;if there's a dot, cut it off from input to get base duration.
-					(set! duration input)  
+					(set! duration (substring BaseBeat 0 (- len 1)))  ;if there's a dot, cut it off from BaseBeat to get base duration.
+					(set! duration BaseBeat)  
 				)
 				(if replace (set! defaultBPM (d-DirectiveGet-standalone-midibytes "TempoMark" ))) ;use old BPM if there. Bug: Only good for 4=...   
 				
-				(set! bpm (d-GetUserInput "Metronome Marking"  "Give number of these beats per minute:" defaultBPM ) )
-				(if (not bpm) (set! Go? #f))
+				(set! bpm (d-GetUserInput "Metronome Marking"  (string-append "Give number of these " BaseBeat " beats per minute:") defaultBPM ) )
+				
 				
 				(set! ValidBPM?   (not (equal? (and (string-&gt;number duration) (string-&gt;number bpm) ) #f)))  ;don't go unless both are numbers.
-				;don't go unless base duration is ValidBPM? lilypond: (could go higher if wanted):
+				;don't go unless base duration is valid lilypond: (could go higher if wanted):
 				(set! ValidBPM? (and ValidBPM? (or   (equal? duration "1")(equal? duration "2")(equal? duration "4")(equal? duration "8")
 					(equal? duration "16")) ) )
-				(if (and Go? (equal? ValidBPM? #t))
+				(if (and bpm  (equal? ValidBPM? #t))
 					(begin
 						(if dotted (set! MidiBPM (number-&gt;string (floor (* (/ (string-&gt;number bpm) (string-&gt;number duration)) 6 ) ) ) ) 
 							(set! MidiBPM (number-&gt;string (floor (* (/ (string-&gt;number bpm) (string-&gt;number duration) ) 4))  ) )
 						);want * 3/2 for dotted,*4 since midi uses quarters and divide by duration,     
-						(set! ShowBPM? (d-GetOption (string-append "BPM Printed" stop "BPM Not Printed" stop)))
+						(if (not ShowBPM? ) (set! ShowBPM?  (d-GetOption (string-append "BPM Printed" stop "BPM Not Printed" stop))))
+						
 						(if (not ShowBPM?) (set! Go? #f))
-						(set! ShowBPM? (equal? ShowBPM? "BPM Printed")) 
+						(set! ShowBPM? (equal? ShowBPM? "BPM Printed"))
 
-						(set! BPMString (string-append  input "=" bpm ))
+						(set! BPMString (string-append  BaseBeat "=" bpm ))
 
 					) ;begin
 					(d-WarningDialog "Incorrect BPM syntax.")
 				)
 			)
-
 		)
 	);let
 );define GetBPM
 
-;see if there's already one there:
-(if (d-Directive-standalone?  "TempoMark")
-(let ((choice #f))
-  (begin
-    (set! replace 'edit)
-    (set! choice (d-GetOption  (string-append "Change"stop"Delete" stop "Offset the Position" stop "Set Padding" stop cue-Advanced stop)))
-    (cond
-     ((boolean? choice)
-      (d-WarningDialog "Operation cancelled"))
-      ((equal? choice "Change")
-      	(set! replace #t ))
-     ((equal? choice  cue-Advanced)
-      (d-DirectiveTextEdit-standalone "TempoMark"))
-     ((equal? choice "Delete")
-      (d-DirectiveDelete-standalone "TempoMark"))
-     ((equal? choice "Offset the Position")
-      (ExtraOffset "TextScript" "standalone"))
-     ((equal? choice "Set Padding")
-      (SetPadding "TextScript" "standalone"))))))
-    ;  (disp "we have replace as " replace "\n")
-(if (boolean? replace) (begin
-;read in the text:
-(set! TempoChoice (d-GetOption (string-append "Presto" stop "Vivace" stop "Allegro" stop 
-	"Moderato" stop "Andante" stop "Adagio" stop "Largo" stop  "Lento" stop "Tempo Adjust (ritardando, etc.)" stop 
-	"Custom tempo (e.g., Allegro assai)" stop "No Tempo Text-Metronome Only" stop)))
-(if (not TempoChoice) (set! Go? #f))
-
-(if (equal? TempoChoice "No Tempo Text-Metronome Only") (set! TempoChoice #f ) )
-(if (equal? TempoChoice "Custom tempo (e.g., Allegro assai)") 	;read input if user wants custom.
-	(begin 
-		(set! InQuotes "\"")
-		(set! TempoChoice (d-GetUserInput "Tempo setting" "Enter tempo text:" "Allegro assai" ) )
-		(if (not TempoChoice) (set! Go? #f))
-	)
-)
-(if (equal? TempoChoice  "Tempo Adjust (ritardando, etc.)") 	;for custom italic tempo adjustments
-	(begin
-		(set! TempoAdjust #t)
-		(set! InQuotes "\"")
-		(set! TempoChoice (d-GetUserInput "Tempo adjust" "Enter text:" "rit." ))
-		(if (not TempoChoice) (set! Go? #f))
-		(if Go? (set! AboveBelow? (d-GetOption (string-append "Neutral" stop "Above" stop  "Below" stop ))))
-		(if (not AboveBelow?) (set! Go? #f))
-		(set! AboveBelow? 
-			(cond
-				((equal? AboveBelow? "Above") "^" )
-				((equal? AboveBelow? "Below") "_" )
-				(else "-")
-			)
-		)
-	)
-)
-(if (equal? TempoChoice "") (set! TempoChoice #f))
-
-;TempoChoice should now have the desired text to be shown, or #f is nothing is to be shown.
-;TempoAdjust = #t if italics should be used.
-
-(if Go? (GetBPM))	;find out what bpm the user wants and whether to print it(but not if user cancelled)
-
-; now set DisplayString-what denemo shows.
-
-(if ShowBPM?  
-	(begin   ;if we print the BPM:
-		(if TempoChoice 			
-			(set! DisplayString (string-append TempoChoice "(" BPMString ")" ))
-			(set! DisplayString BPMString)
-
-		)
-	)
-	;if NOT showing BPM...
-	(if ValidBPM? 
-		(set! DisplayString (string-append (if TempoChoice TempoChoice "") "[" BPMString "]" )) 
-		(set! DisplayString TempoChoice)
-	)
-)
-
-;now need to set LilyString...
-(if TempoChoice (set! TempoChoice (string-append InQuotes TempoChoice InQuotes) )) ;if more than 1 word, may need quotes.
-
-(if TempoAdjust 
-	(begin
-		(if TempoChoice (set! LilyString (string-append "s8*0" AboveBelow? "\\markup { \\italic "  TempoChoice "} " )))
-		(if ValidBPM? (set! LilyString (string-append LilyString "\\tempo " BPMString " ")))		
-	) ;if TempoAdjust=#t.
-	(begin	;when TempoAdjust = #f...
-		(if ShowBPM?
-			(if OldLily
-				(set! LilyString  
-					(string-append (if TempoChoice (string-append "s8*0" AboveBelow? "\\markup \\bold { " TempoChoice " } " ))
-						"\\tempo "  BPMString " ")
-				)
-				(set! LilyString (string-append "\\tempo " (if TempoChoice (string-append TempoChoice " ") "") BPMString " "))
-			)
-			;if we're NOT showing BPM...
-			(if OldLily
-				(set! LilyString (if TempoChoice (string-append " s8*0" AboveBelow? "\\markup \\bold { " TempoChoice " } " )))
-				(if TempoChoice (set! LilyString (string-append "\\tempo " TempoChoice " ")))
-			)
-		)
-	)
-)
-
-;now make the directive...
-(if Go?
-	(begin
-		(if (not replace) (d-DirectivePut-standalone "TempoMark" ) )
-		(if LilyString (d-DirectivePut-standalone-postfix "TempoMark" LilyString ) )
-		(d-DirectivePut-standalone-display  "TempoMark" DisplayString)
-		(d-DirectivePut-standalone-minpixels "TempoMark" 10 )
-		(d-DirectivePut-standalone-ty "TempoMark" 85 ) ;;try -40 instead of 85 for above-the-staff
+(define (BeatChange)
+	(let ((i 0)(Beat1 #f) (Beat2 #f) (LilyString #f) (DisplayString #f) (Input #f) (NewBPM 100) )
+		(set! Input (d-GetUserInput "Beat Change" 
+			(string-append "Enter beat change as [beat1]=[beat2] with the beats in Lilypond syntax,"
+			"\ni.e. 4 for quarter, 4. for dotted quarter, etc."
+			"\nPlace immediately after a barline to center the beat change  over the barline.")
+		 "4=4."))
+		 
+		;remove spaces from Input!!!
+		
+		(set! DisplayString Input)
+		(set! i (string-index Input #\=))
+		(set! Beat1 (substring Input 0 i))
+		(set! Beat2 (substring Input (+ 1 i)))
+		;now we want to get the bpm change.  This could be done automatically by a smart script that learned the current BPM and modified it appropriately.
+		(set! ShowBPM? "BPM Not Printed")
+		(GetBPM Beat2)			
+		
+		(set! LilyString (string-append "\\mark \\markup \\tiny { \\general-align #Y #DOWN \\note #\"" Beat1 "\" #UP = \\general-align #Y #DOWN \\note #\"" Beat2 "\" #UP } "))
+		
+		;this is optional: uncomment to put the lilypond bpm change in the score, but invisible:
+		;(set! LilyString (string-append  LilyString  "\\once \\override Score.MetronomeMark #'transparent = ##t \\tempo " BPMString ))
+		
+		(d-DirectivePut-standalone "BeatChange")
+		(d-DirectivePut-standalone-postfix "BeatChange" LilyString)
+		(d-DirectivePut-standalone-display "BeatChange" DisplayString)
+		(d-DirectivePut-standalone-minpixels "BeatChange" 15)
 		(if (equal? ValidBPM? #t)
 			(begin 
-				(d-DirectivePut-standalone-override "TempoMark" (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_TEMPO DENEMO_OVERRIDE_STEP))
-				(d-DirectivePut-standalone-midibytes "TempoMark" MidiBPM)
+				(d-DirectivePut-standalone-override "BeatChange" (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_TEMPO DENEMO_OVERRIDE_STEP))
+				(d-DirectivePut-standalone-midibytes "BeatChange" MidiBPM)
 			)
 		)
 		(d-RefreshDisplay)
-		(d-MoveCursorRight)
+	)
+)	;BeatChange
+
+;Tempo script begins here.
+
+;see if there's already one there:
+(if (d-Directive-standalone?  "TempoMark")
+	;if we want to REPLACE an existing directive...
+	(let ((choice #f))		
+		(set! replace 'edit)
+		(set! choice (d-GetOption  (string-append "Change"stop"Delete" stop "Offset the Position" stop "Set Padding" stop cue-Advanced stop)))
+		(cond
+			;((boolean? choice)
+			;	(d-WarningDialog "Operation cancelled"))
+			((equal? choice "Change")
+				(set! replace #t ))
+			((equal? choice  cue-Advanced)
+				(d-DirectiveTextEdit-standalone "TempoMark"))
+			((equal? choice "Delete")
+				(d-DirectiveDelete-standalone "TempoMark"))
+			((equal? choice "Offset the Position")
+				(ExtraOffset "TextScript" "standalone"))
+			((equal? choice "Set Padding")
+				(SetPadding "TextScript" "standalone"))
+		)
 	)
 )
-)
-))
 
-</scheme>
+(if (boolean? replace)	;as long as we're not just editing an existing directive, we continue from here.
+	(begin	
+		;get tempo text from user:
+		(set! TempoChoice (d-GetOption (string-append "Presto" stop "Vivace" stop "Allegro" stop 
+			"Moderato" stop "Andante" stop "Adagio" stop "Largo" stop  "Lento" stop "Tempo Adjust (ritardando, etc.)" stop 
+			"Custom tempo (e.g., Allegro assai)" stop "Beat Change (e.g., 4=4.)" stop "No Tempo Text-Metronome Only" stop)))
+		(if (not TempoChoice) (set! Go? #f))
+
+		(if (equal? TempoChoice "No Tempo Text-Metronome Only") (set! TempoChoice #f ) )
+		(if (equal? TempoChoice "Custom tempo (e.g., Allegro assai)") 	;read input if user wants custom:
+			(begin 
+				(set! InQuotes "\"")
+				(set! TempoChoice (d-GetUserInput "Tempo setting" "Enter tempo text:" "Allegro assai" ) )
+				(if (not TempoChoice) (set! Go? #f))
+			)
+		)
+		(if (equal? TempoChoice  "Tempo Adjust (ritardando, etc.)") 	;for custom italic tempo adjustments
+			(begin
+				(set! TempoAdjust #t)
+				(set! InQuotes "\"")
+				(set! TempoChoice (d-GetUserInput "Tempo adjust" "Enter text:" "rit." ))
+				(if (not TempoChoice) (set! Go? #f))
+				(if Go? (set! AboveBelow? (d-GetOption (string-append "Neutral" stop "Above" stop  "Below" stop ))))
+				(if (not AboveBelow?) (set! Go? #f))
+				(set! AboveBelow? 
+					(cond
+						((equal? AboveBelow? "Above") "^" )
+						((equal? AboveBelow? "Below") "_" )
+						(else "-")
+					)
+				)
+			)
+		)
+		(if (equal? TempoChoice "Beat Change (e.g., 4=4.)" ) 
+			(begin
+				(set! Go? #f)
+				(BeatChange)
+			)
+		)
+		(if (equal? TempoChoice "") (set! TempoChoice #f))
+		
+		;TempoChoice should now have the desired text to be shown, or #f is nothing is to be shown.
+		;TempoAdjust = #t if italics should be used.
+		
+		(if Go? (GetBPM "" ))	;find out what bpm the user wants and whether to print it(but not if user cancelled)
+		
+		; now set DisplayString-what denemo shows.
+		
+		(if ShowBPM?  
+			(begin   ;if we print the BPM:
+				(if TempoChoice 			
+					(set! DisplayString (string-append TempoChoice "(" BPMString ")" ))
+					(set! DisplayString BPMString)
+		
+				)
+			)
+			;if NOT showing BPM...
+			(if ValidBPM? 
+				(set! DisplayString (string-append (if TempoChoice TempoChoice "") "[" BPMString "]" )) 
+				(set! DisplayString TempoChoice)
+			)
+		)
+		
+		;now need to set LilyString...
+		(if TempoChoice (set! TempoChoice (string-append InQuotes TempoChoice InQuotes) )) ;if more than 1 word, may need quotes.
+		
+		(if TempoAdjust 
+			(begin		;if we want to REPLACE an existing tempo directive...
+				(if TempoChoice (set! LilyString (string-append "s8*0" AboveBelow? "\\markup { \\italic "  TempoChoice "} " )))
+				(if ValidBPM? (set! LilyString (string-append LilyString "\\tempo " BPMString " ")))		
+			) 	;if TempoAdjust=#t.
+			(begin		;when TempoAdjust = #f...
+				(if ShowBPM?
+					(if OldLily
+						;if using OldLily syntax....
+						(if TempoChoice
+							(set! LilyString  
+								(string-append  "s8*0" AboveBelow? "\\markup \\bold { " TempoChoice " (\\smaller \\general-align #Y #DOWN"
+								" \\note #\"" duration  "\" #.75 = " bpm  ")} \\once \\override Score.MetronomeMark #'transparent = ##t \\tempo "  BPMString " ")
+							)
+							(set! LilyString  (string-append "\\tempo "  BPMString " "))
+						)			
+						
+						;if we're NOT using OldLily syntax:
+						(set! LilyString (string-append "\\tempo " (if TempoChoice (string-append TempoChoice " ") "") BPMString " "))
+					)
+					;if we're NOT showing BPM...
+					(if OldLily
+						(set! LilyString (if TempoChoice (string-append " s8*0" AboveBelow? "\\markup \\bold { " TempoChoice " } " )))
+						(if TempoChoice (set! LilyString (string-append "\\tempo " TempoChoice " ")))
+					)
+				)
+			)
+		)
+		
+		;now make the directive...
+		(if Go?
+			(begin
+				(if (not replace) (d-DirectivePut-standalone "TempoMark" ) )
+				(if LilyString (d-DirectivePut-standalone-postfix "TempoMark" LilyString ) )
+				(d-DirectivePut-standalone-display  "TempoMark" DisplayString)
+				(d-DirectivePut-standalone-minpixels "TempoMark" 10 )
+				(d-DirectivePut-standalone-ty "TempoMark" 85 ) ;;try -40 instead of 85 for above-the-staff
+				(if (equal? ValidBPM? #t)
+					(begin 
+						(d-DirectivePut-standalone-override "TempoMark" (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_TEMPO DENEMO_OVERRIDE_STEP))
+						(d-DirectivePut-standalone-midibytes "TempoMark" MidiBPM)
+					)
+				)
+				(d-RefreshDisplay)
+				(d-MoveCursorRight)
+			)
+		)
+	)
+))</scheme>
         <label>Tempo</label>
         <tooltip>Insert tempi and/or metronome marks, printed or not</tooltip>
       </row>
