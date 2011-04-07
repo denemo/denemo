@@ -219,6 +219,7 @@
 		    (d-SetMark)
 		    (d-Copy) 
 		     (d-DirectivePut-chord-graphic "ChordsOverBass" "CheckMark")
+		     (d-DirectivePut-chord-gy "ChordsOverBass" -120)
 		    (if (zero? bass-key)
 			(begin
 			  (d-MoveToStaffUp)
