@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>StaffAlias</after>
+        <action>ChangeStaff</action>
+        <scheme>;Change staff-by DRW
+(let (   (Choices  "")(Dummy "") (Name #f ))
+
+( define (GetNames) 
+	(begin
+		(set! Dummy  (d-DirectiveGet-staff-display  "StaffAlias"))
+		(if Dummy (set! Choices (string-append Choices Dummy stop)))
+		(if (d-MoveToStaffDown) (GetNames))
+	)
+)
+
+(d-PushPosition)
+(while (d-MoveToStaffUp))
+(GetNames)
+(d-PopPosition)
+
+(if  (equal? Choices "")
+	(d-InfoDialog "None of the staffs have aliases yet.\nUse Designate Alias to give an alias to the staff\nyou wish to change to, then run this command again.")
+	(set! Name (d-GetOption Choices ))
+)
+(if Name 
+	(begin
+		(d-DirectivePut-standalone-postfix "StaffChange" (string-append "\\change Staff=" Name ))
+		(d-MoveCursorLeft)
+		(d-DirectivePut-standalone-display "StaffChange" Name)		
+	)
+)
+(d-RefreshDisplay)
+);let</scheme>
+        <label>Change Staff</label>
+        <tooltip>Changes the voice from one staff to another.\nUse designate alias to set the name of the staff you want\nto change to.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
