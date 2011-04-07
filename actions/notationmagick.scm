@@ -167,3 +167,14 @@ You can reverse the ascii/binary digits to get more variation in the measure beg
 		(set!musobj.pitch current 
 			;The function to change a single ANS object which is a list/chordmembers
 			(map (lambda (note) (+ note (* 2 (- axis note)))) (musobj.pitch current)))) copybuffer))))
+			
+(define (NotationMagick::ReverseCopyBuffer copybuffer)
+	(set! copybuffer (reverse copybuffer)) ; reverse the entire list first. 
+	(map (lambda (current) 
+			(if (not (musobj? current))
+				(cond 
+			  	((equal? (car current) 'TUPCLOSE) (begin (d-StartTriplet) (d-SetTuplet (cdr x))))
+			  	((equal? (car current) 'TUPOPEN) (d-EndTuplet)) ; Switch tuplet end and start
+			  	))
+			current) ; if not just return the original object
+		 copybuffer))
