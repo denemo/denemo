@@ -1305,6 +1305,19 @@ printarea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 }
 
 
+static gint
+printarea_scroll_event (GtkWidget *widget, GdkEventScroll *event) {
+  switch(event->direction) {
+ case GDK_SCROLL_UP:
+   g_print("Zoom not implemented\n");
+   break;
+ case GDK_SCROLL_DOWN:
+   g_print("Zoom not implemented\n");
+   break;
+  }
+  return FALSE;
+}
+
 static void normalize(void){
   if(pointx<markx) {
     gint temp=pointx;
@@ -1484,6 +1497,10 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
 		      G_CALLBACK (printarea_motion_notify), gui);
   g_signal_connect (G_OBJECT (Denemo.printarea), "button_press_event",
 		      G_CALLBACK (printarea_button_press), gui);
+
+  g_signal_connect (G_OBJECT (Denemo.printarea), "scroll_event",
+		    G_CALLBACK (printarea_scroll_event), NULL);
+
   gtk_widget_add_events (Denemo.printarea, (GDK_EXPOSURE_MASK
 					  | GDK_POINTER_MOTION_MASK
 					  /* | GDK_LEAVE_NOTIFY_MASK */
