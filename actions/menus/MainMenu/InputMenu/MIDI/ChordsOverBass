@@ -22,7 +22,7 @@
       (set! Pitchbend::commandUp "(disp \"disabled\n\")")
       (set! Pitchbend::commandDown "(disp \"disabled\n\")")
       
-      (let  ((ons '())(suspension #f))
+      (let  ((ons '())(suspension #f)  (chord-position #f) (pedal #f))
 	(define (noteOn? midi)
 	  (= #x90 (bit-extract midi 0 8)))
 	(define (noteOff? midi)
@@ -104,6 +104,7 @@
 	(define (GetChords bass-key)
 	  (define chord-created #f)
 	  (define triggerPedal #f)
+	  (set! chord-position (GetPosition))
 	  (if suspension
 	      (continue-chord)
 	      (for-each add-note ons))
@@ -136,6 +137,9 @@
 			  (begin
 			    (set! suspension #f)
 			    (set! chord-created #f)
+			    (if (and pedal chord-position)
+				(d-ToggleTie))
+
 				            ;;; creating a new chord over the same note.	 
 			    (cond 
 			     ((Rest?)
@@ -160,39 +164,42 @@
 			      (d-MoveCursorLeft)
 			      (ChangeToRest)
 			      ))
-(loop)
-)
+			    (loop))
 			  (loop)))))
 	       ((or (zero? midi) (and  (= command #xE0) (&gt; note 32)))
 		(d-SetBackground #xFFFFFF)
 		(disp "Abandoning getting chord\n"))
-	       
-	      ;;  ((pedalDown? midi)
-;; 		(set! triggerPedal 'down)
-;; 		(loop))
-	       ((pedalUp? midi)			    
-		    (set! triggerPedal #t)
+	       ((pedalUp? midi)
+		(set! triggerPedal #t)
+		(set! pedal #f)
 		(loop))
+	       ((pedalDown? midi)
+		(set! pedal #t)
+		(loop))	      
 	       
-	       (else (loop)))))) ;;; end of GetChords
+	       (else (loop)))))
+	  (if (d-IsTied)
+	      (d-ToggleTie))     
+	       
+	  (set! chord-position (GetPosition))) ;;; end of GetChords
 	
 	(define (createChordStaff)
 	  (d-AddBefore)
 	  (d-InitialClef "Treble")
 	  (d-StaffProperties "denemo_name=Chords"))
-
+	
 	(define (deleteToEnd)
 	  (d-SetMark)
 	  (d-GoToEnd)
 	  (d-Cut))
-
+	
 	(define (checkForContent)
 	  (if (not (None?))
 	      (if  (equal? "y" (d-GetUserInput"Non Empty Chords staff" "Remove the previous transcription from this measure on?" "y"))
 		   (deleteToEnd)
 		   (set! ChordsOverBass::active #f)))
 	  (d-MoveToStaffDown))
-
+	
 ;;;;;;;; actual code
 	(set! ChordsOverBass::active #t)
 	
@@ -214,11 +221,11 @@
 	      (d-SetBackground #xB0E0B0)
 	      (if (not (None?))
 		  (let loop  ((bass-key (d-GetNoteAsMidi)))		    		    
-		  
+		    
 		    (d-PushPosition)
 		    (d-SetMark)
 		    (d-Copy) 
-		     (d-DirectivePut-chord-graphic "ChordsOverBass" "CheckMark")
+		    (d-DirectivePut-chord-graphic "ChordsOverBass" "CheckMark")
 		     (d-DirectivePut-chord-gy "ChordsOverBass" -120)
 		    (if (zero? bass-key)
 			(begin
@@ -232,6 +239,11 @@
 				 (command (bit-extract midi 0 8)))  			    
 			    (apply d-GoToPosition bass-position)
 			    (cond ((and (= command #x90) (= note bass-key))
+				  ; (if (and pedal chord-position)
+				       ;(begin
+					; (apply d-GoToPosition chord-position)
+					; (d-ToggleTie)
+					; (apply d-GoToPosition bass-position)))
 				   (d-DirectiveDelete-chord "ChordsOverBass")		       
 				   (d-PlayMidiKey midi)
 				   (d-MoveToStaffUp)
@@ -265,14 +277,14 @@
 				   (set! ons (delq note ons))
 				   (if (null? ons)
 				       (set! suspension #f))
-				   (listening);;;;;;;is this right now...		       
+				   (listening)		       
 				   )
-;; 				  ((pedalUp? midi)
-;; 				   (set! notPedal #t)
-;; 				   (listening))
-;; 				  ((pedalDown? midi)
-;; 				   (set! notPedal #f)
-;; 				   (listening))
+				  ((pedalUp? midi)
+				   (set! pedal #f)
+				   (listening))
+ 				  ((pedalDown? midi)
+				   (set! pedal #t)
+ 				   (listening))
 				  (else
 				   (d-PlayMidiKey #xF06001)
 				   (disp "Ignoring " command " " note " " velocity " waiting for " bass-key "\n")
@@ -292,7 +304,8 @@
 	(set! ChordsOverBass::active #f)
 	(d-SetBackground #xFFFFFF)
 	(set! Pitchbend::commandUp "(d-CursorRight)")
-	(set! Pitchbend::commandDown "(d-CursorLeft)"))))</scheme>
+	(set! Pitchbend::commandDown "(d-CursorLeft)"))))
+</scheme>
         <label>Create Chords Over Bass Line</label>
         <tooltip>Place the cursor on a bass note and invoke this command. It creates a treble staff above and for each note in the bass staff, as you play it, it switches to the treble staff and allows you to enter a chord. Use the Pitch Bend wheel to stop/start the process. Hold a chord while moving to the next bass note to extend the chord over more than one bass note.</tooltip>
       </row>
