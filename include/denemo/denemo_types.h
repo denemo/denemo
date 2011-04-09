@@ -385,7 +385,7 @@ typedef struct DenemoPrefs
   gint mode; /**< mode to start in */
   gboolean modal;/**< whether mode-switching menu is desired */
   gboolean persistence;/**< whether Denemo should re-use settings over sessions */
-  gint zoom; /**< percent zoom  1-100 */
+  gint zoom; /**< percent zoom of score area display  1-100 */
   gint system_height; /**< percent of display height per system  1-100 */
   gboolean cursor_highlight; /** Should the cursor be highlighted */
   
@@ -734,6 +734,7 @@ typedef struct DenemoScore
   gdouble rightmost_time; /**< MIDI time of rightmost visible object */
 
   gdouble zoom;/**< zoom setting for this movement */
+  gdouble preview_zoom; /**< zoom  of print preview pane */
   gdouble system_height;/**< fraction of scorearea height allotted to one system (line) in this movement of the score, the same for all lines */
   //Settings for the views on this movement
 

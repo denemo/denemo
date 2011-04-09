@@ -366,6 +366,7 @@ init_score (DenemoScore * si, DenemoGUI *gui)
   si->staffletter_y = 0;
   si->cursor_appending = TRUE;
   si->zoom = Denemo.prefs.zoom>0?Denemo.prefs.zoom/100.0:1.0;
+  si->preview_zoom = 1.0;
   si->system_height = Denemo.prefs.system_height>0?Denemo.prefs.system_height/100.0:1.0;
 
   si->cursoroffend = FALSE;

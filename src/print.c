@@ -919,7 +919,7 @@ printall(void) {
 }
 
 
-static void draw_print(DenemoGUI *gui) {
+static void draw_print(cairo_t *cr) {
   gint x, y;
   GtkAdjustment * adjust = gtk_range_get_adjustment(GTK_RANGE(Denemo.printhscrollbar));
   x = (gint)adjust->value;
@@ -927,12 +927,19 @@ static void draw_print(DenemoGUI *gui) {
   y = (gint)adjust->value;
 
   gint width, height;
-  width = gdk_pixbuf_get_width( GDK_PIXBUF(Denemo.pixbuf)) - x;
-  height = gdk_pixbuf_get_height( GDK_PIXBUF(Denemo.pixbuf)) - y;
+  width = gdk_pixbuf_get_width( GDK_PIXBUF(Denemo.pixbuf));
+  height = gdk_pixbuf_get_height( GDK_PIXBUF(Denemo.pixbuf));
 
-  gdk_draw_pixbuf(Denemo.printarea->window, NULL, GDK_PIXBUF(Denemo.pixbuf),
-		  x,y,0,0,/* x, y in pixbuf, x,y in window */
-		  width,  height, GDK_RGB_DITHER_NONE,0,0);
+/*   gdk_draw_pixbuf(Denemo.printarea->window, NULL, GDK_PIXBUF(Denemo.pixbuf), */
+/* 		  x,y,0,0,/\* x, y in pixbuf, x,y in window *\/ */
+/* 		  width,  height, GDK_RGB_DITHER_NONE,0,0); */
+  cairo_scale( cr, Denemo.gui->si->preview_zoom, Denemo.gui->si->preview_zoom );
+  cairo_translate( cr, 0.5, 0.5 );
+  gdk_cairo_set_source_pixbuf( cr, GDK_PIXBUF(Denemo.pixbuf), -x, -y);
+  cairo_rectangle( cr,-x,-y, width, height );
+  cairo_fill( cr );
+
+
   if(selecting)
     {gint w = ABS(markx-curx);
     gint h = ABS(marky-cury);
@@ -1226,8 +1233,8 @@ popup_print_preview_menu(void) {
   return TRUE;
 }
 
-gint
-printarea_configure_event (GtkWidget * widget, GdkEventConfigure * event)
+static gint
+printarea_configure_event (void)
 {
   DenemoGUI *gui = Denemo.gui;
   if(Denemo.pixbuf==NULL)
@@ -1277,10 +1284,14 @@ gtk_widget_queue_draw (Denemo.printarea);
 static gint
 printarea_expose_event (GtkWidget * widget, GdkEventExpose * event)
 {
-  DenemoGUI *gui = Denemo.gui;
   if(Denemo.pixbuf==NULL)
     return TRUE;
-  draw_print(gui);
+  cairo_t *cr = gdk_cairo_create (event->window);
+  gdk_cairo_region (cr, event->region);
+  cairo_clip (cr);
+  
+  draw_print(cr);
+  cairo_destroy (cr);
   return TRUE;
 }
 
@@ -1308,11 +1319,29 @@ printarea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 static gint
 printarea_scroll_event (GtkWidget *widget, GdkEventScroll *event) {
   switch(event->direction) {
- case GDK_SCROLL_UP:
-   g_print("Zoom not implemented\n");
-   break;
- case GDK_SCROLL_DOWN:
-   g_print("Zoom not implemented\n");
+  case GDK_SCROLL_UP:
+    if(event->state&GDK_CONTROL_MASK) {
+      Denemo.gui->si->preview_zoom *= 1.1;
+      gtk_widget_queue_draw(Denemo.printarea);
+    } else {
+      GtkAdjustment *vadj = gtk_range_get_adjustment(GTK_RANGE(Denemo.printvscrollbar));
+      gtk_adjustment_set_value(vadj,
+			       10.0 + vadj->value);
+
+    }
+    break;
+  case GDK_SCROLL_DOWN:
+    if(event->state&GDK_CONTROL_MASK) {
+      Denemo.gui->si->preview_zoom /= 1.1;
+      if(Denemo.gui->si->preview_zoom <0.01)
+	Denemo.gui->si->preview_zoom = 0.01;
+      gtk_widget_queue_draw(Denemo.printarea);
+    } else {
+      GtkAdjustment *vadj = gtk_range_get_adjustment(GTK_RANGE(Denemo.printvscrollbar));
+      gtk_adjustment_set_value(vadj,
+			       -10.0 + vadj->value);
+
+    }
    break;
   }
   return FALSE;
@@ -1488,15 +1517,15 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
   gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.printhscrollbar, FALSE, TRUE, 0);
 
   g_signal_connect (G_OBJECT (Denemo.printarea), "configure_event",
-		      G_CALLBACK (printarea_configure_event), gui);
+		      G_CALLBACK (printarea_configure_event), NULL);
   g_signal_connect (G_OBJECT (Denemo.printarea), "expose_event",
-		      G_CALLBACK (printarea_expose_event), gui);
+		      G_CALLBACK (printarea_expose_event), NULL);
   g_signal_connect (G_OBJECT (Denemo.printarea), "button_release_event",
-		      G_CALLBACK (printarea_button_release), gui);
+		      G_CALLBACK (printarea_button_release), NULL);
   g_signal_connect (G_OBJECT (Denemo.printarea), "motion_notify_event",
-		      G_CALLBACK (printarea_motion_notify), gui);
+		      G_CALLBACK (printarea_motion_notify), NULL);
   g_signal_connect (G_OBJECT (Denemo.printarea), "button_press_event",
-		      G_CALLBACK (printarea_button_press), gui);
+		      G_CALLBACK (printarea_button_press), NULL);
 
   g_signal_connect (G_OBJECT (Denemo.printarea), "scroll_event",
 		    G_CALLBACK (printarea_scroll_event), NULL);
