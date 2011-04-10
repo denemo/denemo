@@ -1878,6 +1878,10 @@
 				 'dots (d-GetDots)				 
 				 ))					
 
+(define (CreateMusObjCursorNote)
+		(define return (CreateMusObj))
+		(set!musobj.pitch return (list (ANS::Ly2Ans (string->symbol (d-GetNote)))))
+		return)
 
 (define (DefaultInitializePrint) (display "\nstarting to print\n"))
 (define (DefaultFinalizePrint) (display "\nfinished print\n"))
