@@ -669,8 +669,11 @@ static SCM scheme_script_callback(SCM script, SCM params) {
 	 scm_c_define(paramvar, params);
 	 
 	 gchar *text = g_object_get_data(G_OBJECT(action), "scheme");
-	 if(text && *text)
+	 if(text && *text) {
+	   stage_undo(Denemo.gui->si, ACTION_STAGE_END);//undo is a queue so this is the end :)
 	   ret= SCM_BOOL(!call_out_to_guile(text));
+	   stage_undo(Denemo.gui->si, ACTION_STAGE_START);
+	 }
 	 else
 	   ret= SCM_BOOL(activate_script(action, NULL));
 	 scm_c_define(paramvar, SCM_BOOL_F);
