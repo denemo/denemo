@@ -1321,7 +1321,10 @@ printarea_scroll_event (GtkWidget *widget, GdkEventScroll *event) {
   switch(event->direction) {
   case GDK_SCROLL_UP:
     if(event->state&GDK_CONTROL_MASK) {
-      Denemo.gui->si->preview_zoom *= 1.1;
+      if(event->state&GDK_SHIFT_MASK)
+	Denemo.gui->si->preview_zoom *= 1.01;
+      else
+	Denemo.gui->si->preview_zoom *= 1.1;
       gtk_widget_queue_draw(Denemo.printarea);
     } else {
       GtkAdjustment *vadj = gtk_range_get_adjustment(GTK_RANGE(Denemo.printvscrollbar));
@@ -1332,7 +1335,10 @@ printarea_scroll_event (GtkWidget *widget, GdkEventScroll *event) {
     break;
   case GDK_SCROLL_DOWN:
     if(event->state&GDK_CONTROL_MASK) {
-      Denemo.gui->si->preview_zoom /= 1.1;
+      if(event->state&GDK_SHIFT_MASK)
+	Denemo.gui->si->preview_zoom /= 1.01;
+      else
+	Denemo.gui->si->preview_zoom /= 1.1;
       if(Denemo.gui->si->preview_zoom <0.01)
 	Denemo.gui->si->preview_zoom = 0.01;
       gtk_widget_queue_draw(Denemo.printarea);
@@ -1487,7 +1493,7 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
 #if 1
   top_vbox = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title(GTK_WINDOW(top_vbox), "Denemo Print View");
-  gtk_widget_set_size_request(GTK_WIDGET(top_vbox), 1200, 600);
+  gtk_widget_set_size_request(GTK_WIDGET(top_vbox), 600, 750);
   g_signal_connect (G_OBJECT (top_vbox), "delete-event",
 		    G_CALLBACK (hide_printarea_on_delete), NULL);
   gtk_container_add (GTK_CONTAINER (top_vbox), main_vbox);
