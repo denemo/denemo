@@ -16,24 +16,25 @@
  Note, you must distinguish enharmonic differences (e.g. D-sharp from E-flat), check that the set of accidentals showing in the MIDI-in controls suits the piece you are working on. Press shift-sharpwise or flatwise as needed.
  You can hold down the chord while going on to the next bass note so as to carry the chord over.
 You can use the sustain pedal to tie the chord you are entering with the chord for the next bass note by putting the pedal down on the chord you want to tie and releasing it after going on to the next bass note.
-You can use Pedal Up to cut a chord shorter than the bass note - use Pedal Up then release the bass note.
+Putting pedal down before the bass note will tie the last chord to the one you enter next.
  You can click Start a second time to stop, and you can re-start from any bar you like.
  You can edit, playback etc while working, but don't remove or add staffs. You can also use the pitch bend wheel to stop entering chords.
   " 
   ))
   
-(d-OpenExample "HandelFiguredBassExercises.denemo")
-
-(let loop () (if (d-PreviousMovement) (loop)))
-(CreateButton "Help" "&lt;span font_desc=\"22\"&gt;Help&lt;/span&gt;")
-(d-SetDirectiveTagActionScript "Help" "(FiguredBassExercises::help)")
-(CreateButton "Start" "&lt;span font_desc=\"22\"&gt;Start/Stop&lt;/span&gt;")
-(d-SetDirectiveTagActionScript "Start" "(d-ChordsOverBass)")
+(if (d-OpenExample "HandelFiguredBassExercises.denemo")
+	(begin
+	(let loop () (if (d-PreviousMovement) (loop)))
+	(CreateButton "Help" "&lt;span font_desc=\"22\"&gt;Help&lt;/span&gt;")
+	(d-SetDirectiveTagActionScript "Help" "(FiguredBassExercises::help)")
+	(CreateButton "Start" "&lt;span font_desc=\"22\"&gt;Start/Stop&lt;/span&gt;")
+	(d-SetDirectiveTagActionScript "Start" "(d-ChordsOverBass)")
   
-(CreateButton "Next" "&lt;span font_desc=\"22\"&gt;Next Exercise&lt;/span&gt;")
-(d-SetDirectiveTagActionScript "Next" "(if (not (d-NextMovement)) (d-InfoDialog \"This is the last one\"))")
-(CreateButton "Prev" "&lt;span font_desc=\"22\"&gt;Previous Exercise&lt;/span&gt;")
-(d-SetDirectiveTagActionScript "Prev" "(if (not (d-PreviousMovement)) (d-InfoDialog \"This is the first one\"))")
+	(CreateButton "Next" "&lt;span font_desc=\"22\"&gt;Next Exercise&lt;/span&gt;")
+	(d-SetDirectiveTagActionScript "Next" "(if (not (d-NextMovement)) (d-InfoDialog \"This is the last one\"))")
+	(CreateButton "Prev" "&lt;span font_desc=\"22\"&gt;Previous Exercise&lt;/span&gt;")
+	(d-SetDirectiveTagActionScript "Prev" "(if (not (d-PreviousMovement)) (d-InfoDialog \"This is the first one\"))"))
+		(d-WarningDialog "You have unsaved work"))
 </scheme>
         <label>Handel's Figured Bass Exercises</label>
         <tooltip>Allows you to play in chords to Handel's continuo practice material</tooltip>
