@@ -126,21 +126,20 @@
 		;(disp "A note off with chord-created=" chord-created "and suspension=" suspension "\n")
 		(if (= note bass-key)				
 		    (begin
-		      (cond ((and (Rest?) (null? ons) (not triggerPedal))
+		      (cond ((null? ons)
 			     (continue-chord))
 			    (else
 			     #t;(disp "the else case\n" ons " and rest =" (Rest?) "\n")
 			     )));;;finished getting chords for this bass note
-		    (begin
+		    (begin ;;; a note-off which is not the bass note
 		      (set! ons (delq note ons))
 		      (if (null? ons)
 			  (begin
 			    (set! suspension #f)
 			    (set! chord-created #f)
+				            ;;; creating a new chord over the same note.
 			    (if (and pedal chord-position)
 				(d-ToggleTie))
-
-				            ;;; creating a new chord over the same note.	 
 			    (cond 
 			     ((Rest?)
 			      (d-Diminish)
@@ -171,6 +170,9 @@
 		(disp "Abandoning getting chord\n"))
 	       ((pedalUp? midi)
 		(set! triggerPedal #t)
+		(if (d-IsTied)
+		    (d-ToggleTie))
+
 		(set! pedal #f)
 		(loop))
 	       ((pedalDown? midi)
@@ -179,8 +181,7 @@
 	       
 	       (else (loop)))))
 	  (if (d-IsTied)
-	      (d-ToggleTie))     
-	       
+	      (d-ToggleTie))
 	  (set! chord-position (GetPosition))) ;;; end of GetChords
 	
 	(define (createChordStaff)
@@ -239,11 +240,11 @@
 				 (command (bit-extract midi 0 8)))  			    
 			    (apply d-GoToPosition bass-position)
 			    (cond ((and (= command #x90) (= note bass-key))
-				  ; (if (and pedal chord-position)
-				       ;(begin
-					; (apply d-GoToPosition chord-position)
-					; (d-ToggleTie)
-					; (apply d-GoToPosition bass-position)))
+				   (if (and pedal chord-position)
+				       (begin
+					 (apply d-GoToPosition chord-position)
+					 (d-ToggleTie)
+					 (apply d-GoToPosition bass-position)))
 				   (d-DirectiveDelete-chord "ChordsOverBass")		       
 				   (d-PlayMidiKey midi)
 				   (d-MoveToStaffUp)
@@ -280,6 +281,11 @@
 				   (listening)		       
 				   )
 				  ((pedalUp? midi)
+				   (if chord-position
+				       (begin
+					 (apply d-GoToPosition chord-position)
+					 (if (d-IsTied) (d-ToggleTie))
+					 (apply d-GoToPosition bass-position)))
 				   (set! pedal #f)
 				   (listening))
  				  ((pedalDown? midi)
