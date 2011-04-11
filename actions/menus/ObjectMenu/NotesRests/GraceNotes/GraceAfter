@@ -23,7 +23,6 @@
 	)
       (begin;;;make current note a grace note without the \grace output
        (d-ToggleGrace)
-      (display "whoops")
        (d-DirectivePut-chord-postfix "AfterGrace" (string-append (d-GetNote) (d-GetNoteDuration)))
        (d-DirectivePut-chord-override "AfterGrace" DENEMO_OVERRIDE_LILYPOND)
 
