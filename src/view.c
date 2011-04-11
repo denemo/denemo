@@ -3456,17 +3456,24 @@ static gboolean to_chord_direction_in_measure (gboolean right) {
 }
 
 
-
-
-
-
 SCM scheme_next_chord (SCM optional) {
-  return SCM_BOOL(to_chord_direction(TRUE, FALSE));
+  DenemoPosition pos;
+  get_position(Denemo.gui->si, &pos);
+  gboolean ret = to_chord_direction(TRUE, FALSE);
+  if(!ret) 
+    goto_movement_staff_obj(NULL, -1, pos.staff, pos.measure, pos.object);
+  return SCM_BOOL(ret);
+}
+SCM scheme_prev_chord (SCM optional) {
+  DenemoPosition pos;
+  get_position(Denemo.gui->si, &pos);
+  gboolean ret = to_chord_direction(FALSE, FALSE);
+  if(!ret) 
+    goto_movement_staff_obj(NULL, -1, pos.staff, pos.measure, pos.object);
+  return SCM_BOOL(ret);
 }
 
-SCM scheme_prev_chord (SCM optional) {
-  return SCM_BOOL(to_chord_direction(FALSE, FALSE));
-}
+
 SCM scheme_next_chord_in_measure (SCM optional) {
   return SCM_BOOL(to_chord_direction_in_measure(TRUE));
 }
