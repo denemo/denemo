@@ -1878,6 +1878,14 @@
 				 'dots (d-GetDots)				 
 				 ))					
 
+(define (CreateMusObjCursorNote)		
+		(define note(GetNoteUnderCursorAsLilypond))
+		(define return (CreateMusObj))
+		(if note
+			(begin	(set!musobj.pitch return (list (ANS::Ly2Ans (string->symbol note))))
+			return)
+			#f))
+		
 
 (define (DefaultInitializePrint) (display "\nstarting to print\n"))
 (define (DefaultFinalizePrint) (display "\nfinished print\n"))
@@ -1989,6 +1997,17 @@
 			(make-string (abs midioctave)  #\,)	
 			(make-string midioctave  #\')))	
 	(string-append basenote octavemod))
+	
+(define (GetNoteUnderCursorAsLilypond)
+	(if (Note?)
+		(let ()
+			(define current (GetCursorNoteAsLilypond))
+			(if (any (lambda (x) (equal? x current)) (string-tokenize (d-GetNotes)))
+			 current
+			 #f))
+		 #f))
+ 
+
 
 
 ;Remember the users choice of an interval in this global var
