@@ -321,15 +321,7 @@
 	<menuitem action="AttachLilyToChord"/>
       </menu>
       
-      <menu action="Markings">
-	<menu action="Dynamics">
-	  <menuitem action="InsertDynamic"/>
-	  <menuitem action="ToggleStartCrescendo"/>
-	  <menuitem action="ToggleEndCrescendo"/>
-	  <menuitem action="ToggleStartDiminuendo"/>
-	  <menuitem action="ToggleEndDiminuendo"/>
-	</menu>
-	
+      <menu action="Markings">	
 	<menu action="Slurs">
 	  <menuitem action="ToggleBeginSlur"/>
 	  <menuitem action="ToggleEndSlur"/>
@@ -360,15 +352,6 @@
 	  <menuitem action="ToggleFermata"/>
         </menu>
 	
-	<menu action="ChordSymbols">
-	  <menuitem action="EditChords"/>
-	</menu>
-	<menu action="FiguredBass">
-	  <menuitem action="EditFiguredBass"/>
-	  <menuitem action="DeleteFiguredBass"/>
-	  <menuitem action="HideFiguredBass"/>
-	  <menuitem action="ShowFiguredBass"/>
-	</menu>
       </menu>
     </menu>
 
@@ -518,6 +501,14 @@
       </menu>
       
       <menu action="Markings">
+	<menu action="Dynamics">
+	  <menuitem action="InsertDynamic"/>
+	  <menuitem action="ToggleStartCrescendo"/>
+	  <menuitem action="ToggleEndCrescendo"/>
+	  <menuitem action="ToggleStartDiminuendo"/>
+	  <menuitem action="ToggleEndDiminuendo"/>
+	</menu>
+
 	<menu action="Articulations">
 	  <menuitem action="ToggleStaccato"/>
 	  <menuitem action="ToggleStaccatissimo"/>
@@ -548,6 +539,16 @@
 	  <menuitem action="ToggleThumb"/>
 	  <menuitem action="ToggleOpen"/>	  
 	</menu>
+	<menu action="FiguredBass">
+	  <menuitem action="EditFiguredBass"/>
+	  <menuitem action="DeleteFiguredBass"/>
+	  <menuitem action="HideFiguredBass"/>
+	  <menuitem action="ShowFiguredBass"/>
+	</menu>
+	<menu action="ChordSymbols">
+	  <menuitem action="EditChords"/>
+	</menu>
+
       </menu>
       <menu action="Directives">
 	<menuitem action="AttachLilyToNote"/>
