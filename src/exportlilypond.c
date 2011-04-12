@@ -2333,9 +2333,9 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 		    g_string_free(versename, TRUE);
 		    g_string_free(temp, TRUE);
 		    
-		  }
-		  g_string_append_printf(staffdefinitions,"}%s", endofblock);
+		  }		  
 	      }
+	      g_string_append_printf(staffdefinitions,"}%s", endofblock);
 	  }
 	  g_free(endofblock);
 	  
