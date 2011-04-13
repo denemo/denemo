@@ -21,8 +21,6 @@
     <papersize>a4</papersize>
     <fontsize>18</fontsize>
     <orientation>1</orientation>
-    <score-directives>      
-    </score-directives>
   </lilycontrol>
   <movement-number>1</movement-number>
   <movement>
