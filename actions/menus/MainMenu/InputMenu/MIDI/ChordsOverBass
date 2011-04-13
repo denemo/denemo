@@ -310,7 +310,109 @@
 	(set! ChordsOverBass::active #f)
 	(d-SetBackground #xFFFFFF)
 	(set! Pitchbend::commandUp "(d-CursorRight)")
-	(set! Pitchbend::commandDown "(d-CursorLeft)"))))
+	(set! Pitchbend::commandDown "(d-CursorLeft)"))
+;;;CreateParts
+(d-MoveToStaffUp)
+(if (d-GetUserInput "Chordal Accompaniment" "Mark consecutive fifths?" "y")
+(let ()
+(define (mark-positions pos)
+(set! pos (cadr pos))
+(list-set! pos 0 #f)
+(disp "position " pos "\n")
+(apply d-GoToPosition pos)
+(d-DirectivePut-chord-graphic "Consecutives" "CrossSign")
+)
+
+
+(define (delete-lowest-notes)
+  ;delete lowest note of each chord
+  (d-MoveToBeginning)
+  (let loop () 
+    (if (d-NextChord) 
+	(begin 
+	  (if (d-CursorToNote (d-GetNote)) (d-StagedDelete))
+	  (loop)))))
+
+(define (delete-upper-notes)
+  (d-MoveToBeginning)
+  (let loop ((continue #f))
+    (if (d-NextChord)
+	(begin 
+	  (if (d-CursorToNote (d-GetNote 2))
+	      (begin 
+		(d-RemoveNoteFromChord)
+		(set! continue #t)
+		(loop continue))
+	      (loop continue)))
+	(if continue
+	    (begin
+	      (d-MoveToBeginning)
+	      (loop  #f))))))
+
+(define (pause) (disp "Pausing..." "Press any key" " "))
+
+
+(d-MoveToBeginning)
+(d-GoToEnd)
+(d-Copy)
+(d-AddAfter)
+(d-Paste)
+(d-MoveToBeginning)
+(d-VoicePreset1)
+(d-MoveCursorLeft)
+(delete-lowest-notes);;delete part 3
+(delete-lowest-notes);;delete part 2
+
+(d-AddAfter)
+(d-Paste)
+(pause)
+(d-MoveToBeginning)
+(d-VoicePreset2)
+(d-MoveCursorLeft)
+(delete-lowest-notes);;delete part 3
+(delete-upper-notes);;delete part 1 (and anything extra)
+
+(d-AddAfter)
+(d-Paste)
+(pause)
+(d-MoveToBeginning)
+(d-VoicePreset3)
+(d-MoveCursorLeft)
+(delete-upper-notes);;delete parts 2 and 1 (and anything extra)
+
+(d-MoveToStaffUp)
+(d-MoveToStaffUp)
+
+(pause)
+(d-MoveToBeginning)
+(d-PushPosition);remember which movement we were in
+(disp "Pusing the right movement " (GetPosition) "?\n")
+(d-SetMark)
+(d-MoveToStaffDown)
+(d-MoveToStaffDown)
+(d-MoveToStaffDown)
+(d-MoveToEnd)
+(d-SetPoint)
+(pause)
+(d-Copy)
+(d-NewWindow)
+(d-AddAfter)
+(d-AddAfter)
+(d-AddAfter)
+(d-MoveToMovementBeginning)
+(d-Paste)
+(pause)
+(let ((consecutives  (SearchForConsecutiveIntervalProgression (CreateAbstractionMovement) 'p5)))
+  (d-SetSaved #t)
+  (d-Close)
+  (d-PopPosition); return to the same movement
+(disp "Popped to the right movement?" (GetPosition) "?\n")
+  (d-MoveToMovementBeginning)
+  (d-DeleteAfter)
+  (d-DeleteStaff)
+  (d-DeleteStaff)
+  (d-MoveToMovementBeginning)
+  (for-each mark-positions consecutives))))))
 </scheme>
         <label>Create Chords Over Bass Line</label>
         <tooltip>Place the cursor on a bass note and invoke this command. It creates a treble staff above and for each note in the bass staff, as you play it, it switches to the treble staff and allows you to enter a chord. Use the Pitch Bend wheel to stop/start the process. Hold a chord while moving to the next bass note to extend the chord over more than one bass note.</tooltip>
