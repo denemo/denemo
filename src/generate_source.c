@@ -478,11 +478,11 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Inserts specialized barline at the cursor position. Mostly not working", N_("InsertBarline"), "insert_barline", N_("Insert Barline")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Getting around the score", N_("NavigationMenu"), NULL, "Navigation", N_("Navigation Menu")},
   {CMD_CATEGORY_DIRECT, NULL, "Opens a dialog for going to a numbered measure", N_("GoToMeasure"), "tomeasurenum", "Go to Measure", N_("Go To Measure")}, 
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_GOTO_FIRST", "Cursor to start of staff/voice, extending selection if any", N_("GoToBeginning"), "tohome","Go to Beginning", N_("Go To Beginning")}, 
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_GOTO_LAST",  "Cursor to end of staff/voice, extending selection if any", N_("GoToEnd"), "toend",  "Go to End", N_("Go to End")},
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_GOTO_FIRST", "Cursor to start of staff/voice, extending selection if any", N_("GoToBeginning"), "tohome","Go to Beginning", N_("Mark to Staff/Voice Beginning")}, 
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_GOTO_LAST",  "Cursor to end of staff/voice, extending selection if any", N_("GoToEnd"), "toend",  "Go to End", N_("Mark to Staff/Voice End")},
 
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_GOTO_FIRST", "Cursor to start of staff/voice, without extending selection if any" , N_("MoveToBeginning"), "movetostart","Move to Beginning", N_("Move to Beginning")}, 
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_GOTO_LAST", "Cursor to end of staff/voice, without extending selection if any", N_("MoveToEnd"), "movetoend",  "Move to End", N_("Move to End")},
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_GOTO_FIRST", "Cursor to start of staff/voice, without extending selection if any" , N_("MoveToBeginning"), "movetostart","Move to Staff/Voice Beginning", N_("Move to Staff/Voice Beginning")}, 
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_GOTO_LAST", "Cursor to end of staff/voice, without extending selection if any", N_("MoveToEnd"), "movetoend",  "Move to Staff/Voice End", N_("Move to Staff/Voice End")},
 
 
 

@@ -314,8 +314,8 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBa
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "GoToMeasure"), "GoToMeasure", "Go to Measure", "Opens a dialog for going to a numbered measure", tomeasurenum);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "GoToBeginning"), "GoToBeginning", "Go to Beginning", "Cursor to start of staff/voice, extending selection if any", tohome);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "GoToEnd"), "GoToEnd", "Go to End", "Cursor to end of staff/voice, extending selection if any", toend);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "MoveToBeginning"), "MoveToBeginning", "Move to Beginning", "Cursor to start of staff/voice, without extending selection if any", movetostart);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "MoveToEnd"), "MoveToEnd", "Move to End", "Cursor to end of staff/voice, without extending selection if any", movetoend);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "MoveToBeginning"), "MoveToBeginning", "Move to Staff/Voice Beginning", "Cursor to start of staff/voice, without extending selection if any", movetostart);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "MoveToEnd"), "MoveToEnd", "Move to Staff/Voice End", "Cursor to end of staff/voice, without extending selection if any", movetoend);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "NextMovement"), "NextMovement", "Next Movement", "Go to the next movement", next_movement);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PreviousMovement"), "PreviousMovement", "Previous Movement", "Go to the previous movement", prev_movement);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "DeleteMovement"), "DeleteMovement", "Delete Movement", "Delete the current movement", delete_movement);
