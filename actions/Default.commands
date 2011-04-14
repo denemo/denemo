@@ -4963,6 +4963,14 @@ for second and subsequent systems</tooltip>
         <label>Handel's Figured Bass Exercises</label>
         <tooltip>Allows you to play in chords to Handel's continuo practice material</tooltip>
       </row>
+      <row>
+        <action>CreateParts</action>
+        <after>CreateIntro</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <label>Create Parts</label>
+        <tooltip>Create three parts from the current staff.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
