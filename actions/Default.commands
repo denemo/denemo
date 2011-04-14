@@ -1601,12 +1601,12 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
       </row>
       <row>
         <action>MoveToBeginning</action>
-        <label>Move to Beginning</label>
+        <label>Move to Staff/Voice Beginning</label>
         <tooltip>Cursor to start of staff/voice, without extending selection if any</tooltip>
       </row>
       <row>
         <action>MoveToEnd</action>
-        <label>Move to End</label>
+        <label>Move to Staff/Voice End</label>
         <tooltip>Cursor to end of staff/voice, without extending selection if any</tooltip>
       </row>
       <row>
@@ -4957,7 +4957,7 @@ for second and subsequent systems</tooltip>
         <tooltip>Sort all notes in the selection, descending order.</tooltip>
       </row>
       <row>
-        <action>FiguredBassExercises</action>       
+        <action>FiguredBassExercises</action>
         <scheme></scheme>
         <menupath>/MainMenu/Educational/MIDI</menupath>
         <label>Handel's Figured Bass Exercises</label>
