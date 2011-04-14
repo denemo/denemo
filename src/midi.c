@@ -331,8 +331,12 @@ static gint midiaction(gint notenum) {
 	    if(Denemo.gui->si->cursor_appending)
 	      break;
 	  } while((!(Denemo.keyboard_state&ADDING_MASK)) && next_editable_note() && is_tied);
-	} else 
-	  gdk_beep();
+	} else {
+	  if(gui->si->cursor_appending)
+	    do_one_note(gui, enote.mid_c_offset, enote.enshift, enote.octave);
+	  else
+	    gdk_beep();
+	}
 	if(gui->mode & INPUTRHYTHM) {
 	  //g_print("measure was %d now %d with appending %d\n", measure, gui->si->currentmeasurenum, gui->si->cursor_appending);
 	  if(!beep && (measure != gui->si->currentmeasurenum) && !gui->si->cursor_appending)
