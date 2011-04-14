@@ -4971,6 +4971,14 @@ for second and subsequent systems</tooltip>
         <label>Create Parts</label>
         <tooltip>Create three parts from the current staff.</tooltip>
       </row>
+      <row>
+        <action>SimplifyTies</action>
+        <after>TransposeStaffPrint</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Simplify Ties</label>
+        <tooltip>Converts tied notes to longer notes and removes spurious ties.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
