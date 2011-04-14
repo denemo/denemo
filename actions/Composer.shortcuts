@@ -497,6 +497,10 @@
         <action>ToggleEndSlur</action>
         <bind>m</bind>
     </row>      
+    <row>
+        <action>InsertStandaloneDirective</action>
+        <bind>l</bind>
+    </row>      
     
     
       
