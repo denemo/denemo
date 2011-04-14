@@ -6575,44 +6575,46 @@ loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm) {
     g_error_free(error);
     error = NULL;
     gchar *filename = g_strconcat(name, ".svg", NULL);
-
-    gfloat thescale=0.04, offx=500.0, offy=500.0;
-
-    g_print("Scale %f and offset (%f, %f) are chosen to match the set of .svgs extracted from the emmenthaler font\n", thescale, offx, offy);
-    RsvgHandle *handle = rsvg_handle_new_from_file(filename, &error);
-    g_free(filename);
-    if(handle==NULL) {
-      if(error)
-	g_warning("Could not open %s error %s\n", basename, error->message);
-      else
-	g_warning("Opening %s, Bug in librsvg:rsvg handle null but no error message", basename);
+    if(g_file_test(filename,  G_FILE_TEST_EXISTS)) { 
+      gfloat thescale=0.04, offx=500.0, offy=500.0;
+      
+      g_print("Scale %f and offset (%f, %f) are chosen to match the set of .svgs extracted from the emmenthaler font\n", thescale, offx, offy);
+      RsvgHandle *handle = rsvg_handle_new_from_file(filename, &error);
+      g_free(filename);
+      if(handle==NULL) {
+	if(error)
+	  g_warning("Could not open %s error %s\n", basename, error->message);
+	else
+	  g_warning("Opening %s, Bug in librsvg:rsvg handle null but no error message", basename);
+	return FALSE;
+      }
+      RsvgDimensionData thesize;
+      rsvg_handle_get_dimensions(handle, &thesize); 
+      
+      g_print("size %d x %d", thesize.width, thesize.height);
+      
+      cairo_surface_t *surface =   (cairo_surface_t *)cairo_svg_surface_create_for_stream (NULL, NULL, (gdouble)thesize.width,  (gdouble)thesize.height); 
+      cairo_t *cr = cairo_create(surface);
+      cairo_translate(cr, offx, offy);
+      cairo_scale(cr, thescale, -thescale);
+      g_print("scaled %f %f %f\n", thescale, offx, offy);
+      
+      rsvg_handle_render_cairo(handle, cr);
+      rsvg_handle_close(handle, NULL);
+      g_object_unref(handle);
+      cairo_pattern_t *pattern = cairo_pattern_create_for_surface (surface);
+      cairo_pattern_reference(pattern); 
+      cairo_destroy(cr);
+      DenemoGraphic *graphic = g_malloc(sizeof(DenemoGraphic));
+      graphic->type = DENEMO_PATTERN;
+      graphic->width = thesize.width;
+      graphic->height = thesize.height;
+      graphic->graphic = pattern;
+      bitmap_table_insert(basename, graphic);
+      *xbm = graphic;
+      return TRUE;
+    } else
       return FALSE;
-    }
-    RsvgDimensionData thesize;
-    rsvg_handle_get_dimensions(handle, &thesize); 
-    
-    g_print("size %d x %d", thesize.width, thesize.height);
-
-    cairo_surface_t *surface =   (cairo_surface_t *)cairo_svg_surface_create_for_stream (NULL, NULL, (gdouble)thesize.width,  (gdouble)thesize.height); 
-    cairo_t *cr = cairo_create(surface);
-    cairo_translate(cr, offx, offy);
-    cairo_scale(cr, thescale, -thescale);
-    g_print("scaled %f %f %f\n", thescale, offx, offy);
-
-    rsvg_handle_render_cairo(handle, cr);
-    rsvg_handle_close(handle, NULL);
-    g_object_unref(handle);
-    cairo_pattern_t *pattern = cairo_pattern_create_for_surface (surface);
-    cairo_pattern_reference(pattern); 
-    cairo_destroy(cr);
-    DenemoGraphic *graphic = g_malloc(sizeof(DenemoGraphic));
-    graphic->type = DENEMO_PATTERN;
-    graphic->width = thesize.width;
-    graphic->height = thesize.height;
-    graphic->graphic = pattern;
-    bitmap_table_insert(basename, graphic);
-    *xbm = graphic;
-    return TRUE;
   }
   DenemoGraphic *graphic = g_malloc(sizeof(DenemoGraphic));
   graphic->type = DENEMO_BITMAP;
