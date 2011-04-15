@@ -4967,7 +4967,7 @@ for second and subsequent systems</tooltip>
         <action>CreateParts</action>
         <after>CreateIntro</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
         <label>Create Parts</label>
         <tooltip>Create three parts from the current staff.</tooltip>
       </row>
