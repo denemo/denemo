@@ -750,7 +750,7 @@
         <bind>Shft+Left</bind>
       </row>
       <row>
-        <action>ChordsOverBass</action>
+        <action>CreateParts</action>
         <bind>Return</bind>
       </row>
     </map>

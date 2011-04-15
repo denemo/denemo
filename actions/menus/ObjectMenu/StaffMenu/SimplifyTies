@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>TransposeStaffPrint</after>
+        <action>SimplifyTies</action>
+        <scheme>;;;;SimplifyTies
+(let ()
+	(define (amalgamate-ties)
+	  (define this-dur  (string-&gt;number(car (string-split (d-GetNoteDuration) #\.))))
+	  (define this-dots (d-GetDots))
+	  (define continuing #t)
+	  
+	  (if (d-NextChordInMeasure)
+	      (let ((next-dur (string-&gt;number (car (string-split (d-GetNoteDuration) #\.))))
+		    (next-dots (d-GetDots)))
+		(cond ((and (= this-dur next-dur) (= this-dots next-dots))
+		       (d-DeletePreviousObject)
+		       (d-Augment))
+		      
+		      ((and (= 1 this-dots) (= 0 next-dots) (= (/  next-dur 2) this-dur))
+		       (d-DeletePreviousObject)
+		       (d-RemoveDot)
+		       (d-Augment)
+		       (d-Augment))
+		      
+		      ((and (= (/  next-dur 2) this-dur) (= 0 this-dots) (= 0 next-dots))
+		       (d-DeletePreviousObject)	       
+		       (d-Augment)
+		       (d-AddDot))
+		      (else (disp "else case\n"))))
+	      (if (not (d-NextChord))
+		  (set! continuing #f)))
+	  (if (and continuing (d-IsTied))
+	      (amalgamate-ties)))
+	(let loop ()
+	  (if (d-IsTied)
+	      (let ((this-note (d-GetNote)))
+		(if (d-NextChord)
+		    (if (equal? this-note (d-GetNote))
+			(begin
+		;;;note we should also test if this is in turn tied and recurse over this...
+			  (d-PrevNote))
+			(begin
+			  (d-PrevNote)
+			  (d-ToggleTie))))
+		(if (d-IsTied)
+		    (amalgamate-ties))))
+	  (if (d-NextChord)
+	      (loop))))
+</scheme>
+        <label>Simplify Ties</label>
+        <tooltip>Converts tied notes to longer notes and removes spurious ties.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
