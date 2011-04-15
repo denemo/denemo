@@ -9,6 +9,7 @@
         <action>CreateParts</action>
         <scheme>;;;CreateParts
 (let ()
+
 (define (delete-lowest-notes)
   ;delete lowest note of each chord
   (d-MoveToBeginning)
@@ -64,6 +65,11 @@
 (d-VoicePreset3)
 (d-MoveCursorLeft)
 (delete-upper-notes);;delete parts 2 and 1 (and anything extra)
+(d-SimplifyTies)
+(d-MoveToStaffUp)
+(d-SimplifyTies)
+(d-MoveToStaffUp)
+(d-SimplifyTies)
 )
 </scheme>
         <label>Create Parts</label>
