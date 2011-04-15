@@ -27,6 +27,14 @@
         <bind>Up</bind>
       </row>
       <row>
+        <action>CursorLeft</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>CursorRight</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>MoveCursorRight</action>
         <bind>Right</bind>
       </row>
@@ -1815,6 +1823,10 @@
       <row>
         <action>FiguredBassExercises</action>
         <hidden>true</hidden>
+      </row>
+      <row>
+        <action>DeleteSelectionLeaveEmpty</action>
+		<hidden>true</hidden>
       </row>
     </map>
   </merge>

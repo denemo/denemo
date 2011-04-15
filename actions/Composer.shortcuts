@@ -497,6 +497,10 @@
         <action>ToggleEndSlur</action>
         <bind>m</bind>
     </row>      
+    <row>
+        <action>InsertStandaloneDirective</action>
+        <bind>l</bind>
+    </row>      
     
     
       
@@ -529,6 +533,10 @@
         <action>Help</action>
         <bind>F1</bind>
       </row> -->
+      <row>
+        <action>EditObject</action>
+        <bind>F2</bind>        
+      </row>
       <row>
         <action>ExecuteScheme</action>
         <bind>F4</bind>        
@@ -919,7 +927,7 @@
 		<hidden>true</hidden>
      </row>         
           
-     <!-- Hide redundant commands -->
+     <!-- Hide redundant, scripters or outdated commands-->
      <row>
 	  <action>AddDot</action>
       <hidden>true</hidden>
@@ -987,7 +995,63 @@
       <row>
         <action>SaveAccels</action>
 		<hidden>true</hidden>
+      </row>
+      <row>
+        <action>SetMark</action>
+		<hidden>true</hidden>
+      </row>
+      <row>
+        <action>SetPoint</action>
+		<hidden>true</hidden>
+      </row>
+      <row>
+        <action>SwapPointAndMark</action>
+		<hidden>true</hidden>
+      </row>
+      <row>
+        <action>CursorLeft</action>
+		<hidden>true</hidden>
+      </row>
+      <row>
+        <action>CursorRight</action>
+		<hidden>true</hidden>
+      </row>
+      <row>
+        <action>PushPosition</action>
+		<hidden>true</hidden>
+      </row>
+      <row>
+        <action>PopPosition</action>
+		<hidden>true</hidden>
+      </row>
+      <row>
+        <action>PopPushPosition</action>
+		<hidden>true</hidden>
       </row>	
+      <row>
+        <action>DeleteSelectionLeaveEmpty</action>
+		<hidden>true</hidden>
+      </row>
+      <row>
+        <action>TmbalesStyle</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>DrumGM2Custom</action>
+        <hidden>true</hidden>
+      </row> 
+     <row>
+        <action>ClearOverlay</action>
+        <hidden>true</hidden>
+      </row>   
+      <row>
+        <action>ReloadDrumHash</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ConvertDrum2GmSingleSelection</action>
+        <hidden>true</hidden>
+      </row>
     </map>
   </merge>
 </Denemo>
