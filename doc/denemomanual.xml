@@ -323,9 +323,15 @@ See the links from the features list "To-do List" on the website.
       </listitem>
     </itemizedlist>
 </para>
-     <para>For more serious use of Denemo, for transcribing hundreds of measures of music, for example, you should explore other key shortcut schemes. These are offered when you start Denemo, until you decide to save one of them as your default scheme. The Arranger scheme uses two-key bindings such as "b,s" for start repeat barline and "b,e" for end repeat barline. For shortcuts like these to work the notenames are denoted by a double keypress, e.g. "b,b" for the note b. This works because the Arranger scheme is mainly for use with MIDI keyboard for inserting notes. Composer shortcuts is another scheme concentrating on rapid entry from the pc-keyboard. The LilyPond shortcuts scheme will be familiar to those who know the LilyPond music typesetting language, as well as including commands which generate easier-to-read LilyPond output.
+     <para>For more serious use of Denemo, for transcribing hundreds of measures of music, for example, you should explore other key shortcut schemes. These are offered when you start Denemo, until you decide to save one of them as your default scheme. The Arranger scheme uses two-key bindings such as "B,s" for start repeat barline and "B,e" for end repeat barline. The Arranger scheme is mainly for use with MIDI keyboard for inserting notes. Composer shortcuts is another scheme concentrating on rapid entry from the pc-keyboard. The LilyPond shortcuts scheme will be familiar to those who know the LilyPond music typesetting language, as well as including commands which generate easier-to-read LilyPond output.
  </para>
  </sect2>
+ <sect2>
+<title>Some Common Uses of MIDI in</title>
+<para>The MIDI keyboard too can be customized to perform different actions. Usually, playing notes adds or edits the score (like hitting note names at the pc-keyboard). With the sustain pedal pressed chords are generated (the Alt key can be used for this too). By holding down the Control key a score can be checked by playing the notes - the cursor only advances if the right note is played, and the Shift key can be held down to route the MIDI keyboard straight to the synth (e.g. to check a phrase before playing it in). The Pitch Bend controller can be used to set the range of sharps and flats to be used, and the modulation controller can be used to mark sections of the music.
+</para>
+ </sect2>
+
     <para>Denemo is used via the computer keyboard, MIDI controller or playing in via a musical instrument. Quite a few mouse operations are also included by default. Clicking on the score will select items, and the status bar at the bottom will describe the item clicked. Right-clicking on items in the score allows you to edit any special attributes, (called Directives, see <xref linkend="DenemoDirectives" />), that they may have. Clicking on the initial clef, key or timesignature lets you edit these, clicking to the right or left of the measures visible moves you forwards and backwards in the score.  Selections can be made by dragging with the mouse from one note to another. And right-clicking any menu item gets help and the opportunity to set a shortcuts for the menu item. Furthermore, scripts are available in the menu system that give the mouse further uses.</para>
  </sect1>
   <sect1>
@@ -769,7 +775,7 @@ Update Commands from the Internet allows you to get the latest versions of comma
       <title>Playback</title>
 
       <para>Use the Playback menu to start playback of your score. Denemo lets
-      you hear your score, using an external MIDI player, or Csound.</para>
+      you hear your score, using an internal synthesizer.</para>
 
       <informaltable>
         <tgroup cols="2">
@@ -793,13 +799,7 @@ Update Commands from the Internet allows you to get the latest versions of comma
               <entry>Stops the playback</entry>
             </row>
 
-            <row>
-              <entry>Play Using Csound</entry>
-
-              <entry>Play this score (Csound) using .orc file specified in
-              <guisubmenu>Playback Properties</guisubmenu>.</entry>
-            </row>
-
+            
          
           </tbody>
         </tgroup>
@@ -1134,10 +1134,15 @@ Update Commands from the Internet allows you to get the latest versions of comma
               <entry>Loop</entry>
               <entry>Runs DenemoLoop script.</entry>
             </row>
+	    <row>
+              <entry>Conductor</entry>
+              <entry>When you press Play the music advances past the cursor only while the mouse is moving.</entry>
+            </row>
+
 
 	    <row>
               <entry>Reset</entry>
-              <entry>Internal Synth only. Performs a reset on the synth.</entry>
+              <entry>Internal Synth only. Performs a reset on the synth. Also resets the start/end play positions to whole piece (the visual display shows just a red bar at the start)</entry>
             </row>
 	    <row>
               <entry>Panic</entry>
@@ -1218,6 +1223,17 @@ Update Commands from the Internet allows you to get the latest versions of comma
            <row>
 		<entry>Convert</entry>
               <entry>Converts your MIDI recording to Notation. Not yet at all practical!</entry>
+            </row>
+	   
+           <row>
+		<entry>MIDI status</entry>
+              <entry>Tells you how MIDI in will be treated. Press Control/Shift/Alt keys to modify</entry>
+            </row>
+	   
+	      
+          <row>
+		<entry>Switch to Play Along Playback</entry>
+              <entry>With this set, when you press Play the music will not advance past the cursor until you play the note. (Mute the current staff to prevent double sounding of notes)</entry>
             </row>
 	   
 	      
