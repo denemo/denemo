@@ -491,6 +491,7 @@ main (int argc, char *argv[])
   add_font_directory(fontpath);
 #else
   add_font_directory (DATAROOTDIR "/fonts");
+  g_print("the macro PKGDATADIR = %s, data dir is set to %s\n",  PKGDATADIR, get_data_dir());
 #endif
   GError *error = NULL;
   /* gtk initialization */
