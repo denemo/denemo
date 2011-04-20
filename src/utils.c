@@ -904,9 +904,7 @@ get_data_dir ()
        datadir = g_build_filename (g_path_get_dirname(bindir), "..", "share", "denemo", NULL);
        g_print("OSX set data dir to %s\n", datadir);
       }
-
 #else
-
     datadir = gbr_find_pkg_data_dir (PKGDATADIR, PKGNAME);
 #endif
 #endif /* not G_OS_WIN32 */
@@ -925,7 +923,22 @@ get_conf_dir ()
   confdir = g_build_filename (rootdir, "etc", "denemo", NULL);
   g_free (rootdir);
 #else /* not G_OS_WIN32 */
+#ifdef __APPLE__
+     
+      {char path[1024];
+       guint size = sizeof(path);
+       _NSGetExecutablePath(path, &size);
+       gchar * bindir = (gchar*)g_malloc(size);
+       if (_NSGetExecutablePath(bindir, &size) == 0)
+	 g_print("using bin path %s\n", bindir);
+       else
+	 g_critical("Cannot get bin dir\n");
+       confdir = g_build_filename (g_path_get_dirname(bindir), "..", "etc", "denemo", NULL);
+       g_print("OSX set conf dir to %s\n", confdir);
+      }
+#else
   confdir = gbr_find_etc_dir(SYSCONFDIR);
+#endif
 #endif /* not G_OS_WIN32 */
   }
   return confdir;
@@ -942,6 +955,20 @@ get_locale_dir ()
     localedir = g_build_filename (rootdir, "share", "locale", NULL);
     g_free (rootdir);
 #else /* not G_OS_WIN32 */
+#ifdef __APPLE__
+     
+      {char path[1024];
+       guint size = sizeof(path);
+       _NSGetExecutablePath(path, &size);
+       gchar * bindir = (gchar*)g_malloc(size);
+       if (_NSGetExecutablePath(bindir, &size) == 0)
+	 g_print("using bin path %s\n", bindir);
+       else
+	 g_critical("Cannot get bin dir\n");
+       confdir = g_build_filename (g_path_get_dirname(bindir), "..", "share", "locale", NULL);
+       g_print("OSX set locale dir to %s\n", confdir);
+      }
+#else
 # ifndef ENABLE_BINRELOC
     /* it seems to be the standard way (no binreloc)
      * to set the path of translations this way:
@@ -955,6 +982,7 @@ get_locale_dir ()
      */
     localedir = gbr_find_locale_dir (LOCALEDIR);
 # endif /* ENABLE_BINRELOC */
+#endif
 #endif /* not G_OS_WIN32 */
   }
   return localedir;
