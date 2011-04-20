@@ -905,9 +905,10 @@ get_data_dir ()
        g_print("OSX set data dir to %s\n", datadir);
       }
 
-#endif
+#else
 
     datadir = gbr_find_pkg_data_dir (PKGDATADIR, PKGNAME);
+#endif
 #endif /* not G_OS_WIN32 */
   }
   return datadir;
