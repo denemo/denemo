@@ -490,8 +490,71 @@ main (int argc, char *argv[])
   fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "denemo.ttf", NULL);
   add_font_directory(fontpath);
 #else
-  add_font_directory (DATAROOTDIR "/fonts");
 
+
+#ifdef __APPLE__
+  //FIXME if this works, remove the duplication with windows case
+ {char apath[1024];
+       guint size = sizeof(apath);
+       _NSGetExecutablePath(apath, &size);
+       gchar * bindir = (gchar*)g_malloc(size);
+       if (_NSGetExecutablePath(bindir, &size) == 0)
+	 g_print("using bin path %s\n", bindir);
+       else
+	 g_critical("Cannot get bin dir\n");
+       gchar *prefix = g_build_filename (g_path_get_dirname(bindir), "..", NULL);      
+       gchar *guile = g_build_filename (prefix, "share", "guile", NULL);
+  gchar *guile_1_8 = g_build_filename (guile, "1.8", NULL);
+  gchar *lilypond_current_scm = g_build_filename (prefix, "share", "lilypond", "current", "scm", NULL);
+  if (g_file_test (guile, G_FILE_TEST_EXISTS))
+    {
+      gchar *guile_path = g_strconcat (guile, ";", guile_1_8, ";", lilypond_current_scm, NULL);
+      g_setenv ("GUILE_LOAD_PATH", guile_path, TRUE);//FIXME TRUE means we overwrite any installed version of lilyponds scm, FALSE risks not putting denemos scm in the path...
+      g_print ("Setting GUILE_LOAD_PATH=%s\n", guile_path);
+    }
+  else
+    warningdialog ("You may need to set GUILE_LOAD_PATH to the directory where you have ice9 installed\n");
+  g_setenv ("PANGO_PREFIX", prefix, TRUE);
+  g_setenv ("PANGO_MODULE_VERSION", "1.6.0", TRUE);
+  g_setenv ("PANGO_SO_EXTENSION", ".dll", TRUE);
+  g_print ("Setting PANGO_PREFIX=%s\n", prefix);
+
+  g_setenv ("GTK_MODULE_VERSION", "2.10.0", TRUE);
+  g_setenv ("GTK_SO_EXTENSION", ".dll", TRUE);
+  g_setenv ("GTK_PREFIX", prefix, TRUE);
+  g_print ("Setting GTK_PREFIX=%s\n", prefix);
+
+  gchar *fc_path = g_build_filename (prefix, "etc","fonts", NULL);
+  g_setenv ("FONTCONFIG_PATH", fc_path, TRUE);
+  g_print ("Setting FONTCONFIG_PATH=%s\n", fc_path);
+  gchar *fc_file = g_build_filename (fc_path, "fonts.conf", NULL);
+  g_setenv ("FONTCONFIG_FILE", fc_file, TRUE);
+  g_print ("Setting FONTCONFIG_FILE=%s\n", fc_file);
+
+
+  gchar *program_files =  g_getenv("PROGRAMFILES");
+  gchar *path = g_getenv ("PATH");
+  gchar *lilypond_path = g_build_filename(prefix, "bin", NULL);
+  gchar *lib_path = g_build_filename(prefix, "lib", NULL);
+  path = g_strconcat (path,";", lilypond_path, ";", lib_path, NULL);
+
+  g_setenv ("PATH", path, TRUE);
+  g_print("PATH set to %s\n", path);
+  gchar *lilypond_data_path = g_build_filename (prefix, "share", "lilypond", "current", NULL);
+  g_setenv ("LILYPOND_DATA_PATH", lilypond_data_path, FALSE);
+  g_print("LILYPOND_DATA_PATH will be %s if not already set", lilypond_data_path);
+  gchar *fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "fetta.ttf", NULL);
+  g_setenv ("LILYPOND_VERBOSE", "1", FALSE);
+  add_font_directory(fontpath);
+  fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "denemo.ttf", NULL);
+  add_font_directory(fontpath);
+
+
+      }
+
+#else
+  add_font_directory (DATAROOTDIR "/fonts");
+#endif
 #ifdef ENABLE_BINRELOC
   g_print("\n\n!!!!!!!!!!!!!!!!!\n\nBinreloc is %s\n\n the macro PKGDATADIR = %s, data dir is set to %s\n",  " Enabled", PKGDATADIR, get_data_dir());
 #else
