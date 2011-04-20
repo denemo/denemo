@@ -508,7 +508,7 @@ main (int argc, char *argv[])
   gchar *lilypond_current_scm = g_build_filename (prefix, "share", "lilypond", "current", "scm", NULL);
   if (g_file_test (guile, G_FILE_TEST_EXISTS))
     {
-      gchar *guile_path = g_strconcat (guile, ";", guile_1_8, ";", lilypond_current_scm, NULL);
+      gchar *guile_path = g_strconcat (guile, ":", guile_1_8, ":", lilypond_current_scm, NULL);
       g_setenv ("GUILE_LOAD_PATH", guile_path, TRUE);//FIXME TRUE means we overwrite any installed version of lilyponds scm, FALSE risks not putting denemos scm in the path...
       g_print ("Setting GUILE_LOAD_PATH=%s\n", guile_path);
     }
@@ -537,7 +537,7 @@ main (int argc, char *argv[])
   gchar *path = g_getenv ("PATH");
   gchar *lilypond_path = g_build_filename(prefix, "bin", NULL);
   gchar *lib_path = g_build_filename(prefix, "lib", NULL);
-  path = g_strconcat (path,";", lilypond_path, ";", lib_path, NULL);
+  path = g_strconcat (path,":", lilypond_path, ":", lib_path, NULL);
 
   g_setenv ("PATH", path, TRUE);
   g_print("PATH set to %s\n", path);
