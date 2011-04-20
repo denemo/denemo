@@ -514,16 +514,17 @@ main (int argc, char *argv[])
     }
   else
     warningdialog ("You may need to set GUILE_LOAD_PATH to the directory where you have ice9 installed\n");
+#if 0
   g_setenv ("PANGO_PREFIX", prefix, TRUE);
   g_setenv ("PANGO_MODULE_VERSION", "1.6.0", TRUE);
-  g_setenv ("PANGO_SO_EXTENSION", ".dll", TRUE);
+  g_setenv ("PANGO_SO_EXTENSION", ".dylib", TRUE);
   g_print ("Setting PANGO_PREFIX=%s\n", prefix);
 
   g_setenv ("GTK_MODULE_VERSION", "2.10.0", TRUE);
-  g_setenv ("GTK_SO_EXTENSION", ".dll", TRUE);
+  g_setenv ("GTK_SO_EXTENSION", ".dylib", TRUE);
   g_setenv ("GTK_PREFIX", prefix, TRUE);
   g_print ("Setting GTK_PREFIX=%s\n", prefix);
-
+#endif
   gchar *fc_path = g_build_filename (prefix, "etc","fonts", NULL);
   g_setenv ("FONTCONFIG_PATH", fc_path, TRUE);
   g_print ("Setting FONTCONFIG_PATH=%s\n", fc_path);
