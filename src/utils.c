@@ -901,7 +901,7 @@ get_data_dir ()
 	 g_print("using bin path %s\n", bindir);
        else
 	 g_critical("Cannot get bin dir\n");
-       datadir = g_build_filename (bindir, "..", "share", "denemo", NULL);
+       datadir = g_build_filename (g_path_get_dirname(bindir), "..", "share", "denemo", NULL);
        g_print("OSX set data dir to %s\n", datadir);
       }
 
