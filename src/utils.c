@@ -965,8 +965,8 @@ get_locale_dir ()
 	 g_print("using bin path %s\n", bindir);
        else
 	 g_critical("Cannot get bin dir\n");
-       confdir = g_build_filename (g_path_get_dirname(bindir), "..", "share", "locale", NULL);
-       g_print("OSX set locale dir to %s\n", confdir);
+       localedir = g_build_filename (g_path_get_dirname(bindir), "..", "share", "locale", NULL);
+       g_print("OSX set locale dir to %s\n", localedir);
       }
 #else
 # ifndef ENABLE_BINRELOC
