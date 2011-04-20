@@ -25,6 +25,9 @@
 #endif
 #include "pitchentry.h"
 
+#ifdef __APPLE__
+#include <mach-o/dyld.h>
+#endif
 
 void add_font_directory(gchar *fontpath) {
 #ifdef G_OS_WIN32
@@ -887,6 +890,23 @@ get_data_dir ()
     g_print ("datadir=%s\n", datadir);
     g_free (rootdir);
 #else /* not G_OS_WIN32 */
+
+#ifdef __APPLE__
+     
+      {char path[1024];
+       guint size = sizeof(path);
+       _NSGetExecutablePath(path, &size);
+       gchar * bindir = (gchar*)g_malloc(size);
+       if (_NSGetExecutablePath(bindir, &size) == 0)
+	 g_print("using bin path %s\n", bindir);
+       else
+	 g_critical("Cannot get bin dir\n");
+       datadir = g_build_filename (bindir, "..", "share", "denemo", NULL);
+       g_print("OSX set data dir to %s\n", datadir);
+      }
+
+#endif
+
     datadir = gbr_find_pkg_data_dir (PKGDATADIR, PKGNAME);
 #endif /* not G_OS_WIN32 */
   }
