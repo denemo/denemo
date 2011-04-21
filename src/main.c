@@ -521,9 +521,9 @@ main (int argc, char *argv[])
   g_setenv ("PANGO_MODULE_VERSION", "1.6.0", TRUE);
   g_setenv ("PANGO_SO_EXTENSION", ".dylib", TRUE);
   g_print ("Setting PANGO_PREFIX=%s\n", prefix);
-#if 0
+#if 1
   g_setenv ("GTK_MODULE_VERSION", "2.10.0", TRUE);
-  g_setenv ("GTK_SO_EXTENSION", ".dylib", TRUE);
+  g_setenv ("GTK_SO_EXTENSION", ".so", TRUE);
   g_setenv ("GTK_PREFIX", prefix, TRUE);
   g_print ("Setting GTK_PREFIX=%s\n", prefix);
 #endif
@@ -553,8 +553,11 @@ main (int argc, char *argv[])
   add_font_directory(fontpath);
 
 
-      }
+ add_font_directory (DATAROOTDIR "/fonts");
+ add_font_directory(g_build_filename (prefix, "share", "fonts", "truetype","denemo", NULL));
+ g_print("|n\nAdded %s to fonts search\n\n", DATAROOTDIR "/fonts");
 
+      }
 #else
   add_font_directory (DATAROOTDIR "/fonts");
 #endif
