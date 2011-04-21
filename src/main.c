@@ -555,7 +555,8 @@ main (int argc, char *argv[])
 
  add_font_directory (DATAROOTDIR "/fonts");
  add_font_directory(g_build_filename (prefix, "share", "fonts", "truetype","denemo", NULL));
- g_print("|n\nAdded %s to fonts search\n\n", DATAROOTDIR "/fonts");
+ add_font_directory(g_build_filename (prefix, "share", "fonts", NULL));
+ g_print("\n\nAdded %s to fonts search\n\n",  g_build_filename (prefix, "share", "fonts", NULL));
 
       }
 #else
