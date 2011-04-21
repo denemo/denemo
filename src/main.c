@@ -527,6 +527,8 @@ main (int argc, char *argv[])
   g_setenv ("GTK_PREFIX", prefix, TRUE);
   g_print ("Setting GTK_PREFIX=%s\n", prefix);
 #endif
+  g_setenv ("GDK_PIXBUF_MODULE_FILE", g_build_filename (prefix, "etc", "gtk-2.0", "gdk-pixbuf.loaders", NULL), TRUE);
+  g_print("Set GDK_PIXBUF_MODULE_FILE to %s\n", g_build_filename (prefix, "etc", "gtk-2.0", "gdk-pixbuf.loaders", NULL));
   gchar *fc_path = g_build_filename (prefix, "etc","fonts", NULL);
   g_setenv ("FONTCONFIG_PATH", fc_path, TRUE);
   g_print ("Setting FONTCONFIG_PATH=%s\n", fc_path);
