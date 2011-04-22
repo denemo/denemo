@@ -313,15 +313,20 @@
 	(set! Pitchbend::commandDown "(d-CursorLeft)"))
 ;;;CreateParts
 (d-MoveToStaffUp)
-(if (d-GetUserInput "Chordal Accompaniment" "Mark consecutive fifths?" "y")
+(if (and (not (d-MoveToMeasureRight)) (d-GetUserInput "Chordal Accompaniment" "Mark consecutive 5ths and 8va?" "y"))
 (let ()
 (define (mark-positions pos)
-(set! pos (cadr pos))
-(list-set! pos 0 #f)
-(disp "position " pos "\n")
-(apply d-GoToPosition pos)
-(d-DirectivePut-chord-graphic "Consecutives" "CrossSign")
-)
+  (define type (car pos))
+  (set! pos (cadr pos))
+  (list-set! pos 0 #f)
+  (apply d-GoToPosition pos)
+  (d-DirectivePut-chord-graphic "Consecutives" "CrossSign")
+  (cond ((equal? type  'consecutive_open)
+	 (d-DirectivePut-chord-display  "Consecutives" "|| Open"))
+	((equal? type  'consecutive_hidden)
+	 (d-DirectivePut-chord-display  "Consecutives" "|| Hidden"))
+	(else
+	 (d-DirectivePut-chord-display  "Consecutives" "|| Unc"))))
 
 
 (define (delete-lowest-notes)
@@ -349,7 +354,7 @@
 	      (d-MoveToBeginning)
 	      (loop  #f))))))
 
-(define (pause) (disp "Pausing..." "Press any key" " "))
+(define (pause) (d-GetUserInput "Pausing..." "Press any key" " "))
 
 
 (d-MoveToBeginning)
@@ -365,7 +370,7 @@
 
 (d-AddAfter)
 (d-Paste)
-(pause)
+
 (d-MoveToBeginning)
 (d-VoicePreset2)
 (d-MoveCursorLeft)
@@ -374,7 +379,7 @@
 
 (d-AddAfter)
 (d-Paste)
-(pause)
+
 (d-MoveToBeginning)
 (d-VoicePreset3)
 (d-MoveCursorLeft)
@@ -383,7 +388,7 @@
 (d-MoveToStaffUp)
 (d-MoveToStaffUp)
 
-(pause)
+
 (d-MoveToBeginning)
 (d-PushPosition);remember which movement we were in
 (disp "Pusing the right movement " (GetPosition) "?\n")
@@ -393,7 +398,7 @@
 (d-MoveToStaffDown)
 (d-MoveToEnd)
 (d-SetPoint)
-(pause)
+
 (d-Copy)
 (d-NewWindow)
 (d-AddAfter)
@@ -401,12 +406,17 @@
 (d-AddAfter)
 (d-MoveToMovementBeginning)
 (d-Paste)
-(pause)
-(let ((consecutives  (SearchForConsecutiveIntervalProgression (CreateAbstractionMovement) 'p5)))
+;(pause)
+(let ((movement(CreateAbstractionMovement)) (consecutives '()))
+;(disp "starting \n" movement "and " consecutives "\n")
+  (set! consecutives  (SearchForConsecutiveIntervalProgression movement 'p1 'p5))
+;(disp "consecs 5 " consecutives " \n")
+;  (set! consecutives (append (SearchForConsecutiveIntervalProgression movement 'p1) consecutives))
+;(disp "consecs octave " consecutives " \n")
   (d-SetSaved #t)
   (d-Close)
   (d-PopPosition); return to the same movement
-(disp "Popped to the right movement?" (GetPosition) "?\n")
+;(disp "Popped to the right movement?" (GetPosition) "?\n")
   (d-MoveToMovementBeginning)
   (d-DeleteAfter)
   (d-DeleteStaff)
