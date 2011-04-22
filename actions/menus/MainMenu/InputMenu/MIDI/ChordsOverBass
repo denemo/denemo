@@ -63,6 +63,30 @@
 	  (if (and continuing (d-IsTied))
 	      (amalgamate-ties)))
 	
+;;starts on a rest, amalgamates with previous object if it is another rest
+	(define (amalgamate-rests)
+	  (define this-dur  (string-&gt;number(car (string-split (d-GetNoteDuration) #\.))))
+	  (define this-dots (d-GetDots))
+	  
+	  (if (d-PrevChordInMeasure)
+	      (if (Rest?)
+		  (let ((prev-dur (string-&gt;number(car (string-split (d-GetNoteDuration) #\.))))
+		    (prev-dots (d-GetDots)))
+		    (cond
+		     ((and (= this-dur prev-dur) (= this-dots prev-dots))		       
+		      (d-Augment)
+		      (d-NextChordInMeasure)
+		      (d-DeleteObject))
+		      ((and (= (/  this-dur 2) prev-dur) (= 0 this-dots) (= 0 prev-dots))
+		       (d-Augment)
+		       (d-AddDot)
+		       (d-NextChordInMeasure)
+		       (d-DeleteObject))
+		      (else
+		       (disp "Case not handled -did not join rests")
+		       (d-NextChordInMeasure))))
+		  (d-NextChordInMeasure))))
+		      
 ;;;;seek back to the chord started but not finished (ie before the rests)
 	(define (find-suspended-chord)
 	  (let loop ()
@@ -230,6 +254,14 @@
 		     (d-DirectivePut-chord-gy "ChordsOverBass" -120)
 		    (if (zero? bass-key)
 			(begin
+
+;;;; if it is a rest we are copying we need to remove the tick, and set chord-position #f since we cannot tie over it
+;;;; we could also flag the situation to allow the pedal to put the chord on the whole beat including this rest.
+			  (if (Rest?)
+			      (begin
+				(d-DirectiveDelete-chord "ChordsOverBass")	
+				(set! chord-position #f)
+				))
 			  (d-MoveToStaffUp)
 			  (GoToMeasureEnd)
 			  (d-Paste))     
@@ -245,6 +277,9 @@
 					 (apply d-GoToPosition chord-position)
 					 (d-ToggleTie)
 					 (apply d-GoToPosition bass-position)))
+
+
+
 				   (d-DirectiveDelete-chord "ChordsOverBass")		       
 				   (d-PlayMidiKey midi)
 				   (d-MoveToStaffUp)
@@ -253,7 +288,12 @@
 				   (d-MoveCursorLeft)
 				   (if (d-IsTied)
 				       (d-ToggleTie))
-				   (d-StagedDelete)			   
+				   (d-StagedDelete)
+
+				   (if (and pedal (not chord-position))
+				       (amalgamate-rests))
+
+			   
 				   (GetChords bass-key)
 				   )
 				  
@@ -313,7 +353,7 @@
 	(set! Pitchbend::commandDown "(d-CursorLeft)"))
 ;;;CreateParts
 (d-MoveToStaffUp)
-(if (and (not (d-MoveToMeasureRight)) (d-GetUserInput "Chordal Accompaniment" "Mark consecutive 5ths and 8va?" "y"))
+(if (and (not (d-MoveToMeasureRight)) (d-GetUserInput "Chordal Accompaniment" "Mark consecutive 5ta and 8va?" "y"))
 (let ()
 (define (mark-positions pos)
   (define type (car pos))
@@ -422,8 +462,7 @@
   (d-DeleteStaff)
   (d-DeleteStaff)
   (d-MoveToMovementBeginning)
-  (for-each mark-positions consecutives))))))
-</scheme>
+  (for-each mark-positions consecutives))))))</scheme>
         <label>Create Chords Over Bass Line</label>
         <tooltip>Place the cursor on a bass note and invoke this command. It creates a treble staff above and for each note in the bass staff, as you play it, it switches to the treble staff and allows you to enter a chord. Use the Pitch Bend wheel to stop/start the process. Hold a chord while moving to the next bass note to extend the chord over more than one bass note.</tooltip>
       </row>
