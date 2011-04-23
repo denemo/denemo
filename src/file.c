@@ -237,26 +237,25 @@ set_gui_tabname (DenemoGUI * gui, gchar * filename)
 static void
 set_gui_filename (DenemoGUI * gui, gchar * filename)
 {
+  GList *link=NULL;
   g_string_assign (gui->filename, filename);
   set_gui_tabname (gui, filename);
   
-  if (!g_queue_find_custom
-      (Denemo.prefs.history, gui->filename->str, &history_compare))
+  if ((link = g_queue_find_custom
+       (Denemo.prefs.history, gui->filename->str, &history_compare)))
+    g_queue_remove(Denemo.prefs.history, link->data);
+  
+  g_debug("max history now %d\n", Denemo.prefs.maxhistory);
+  if (g_queue_get_length (Denemo.prefs.history) > Denemo.prefs.maxhistory)
     {
-#ifdef DEBUG
-      g_print ("%s not in history list\n", gui->filename->str);
-#endif
-      g_print("max history now %d\n", Denemo.prefs.maxhistory);
-      if (g_queue_get_length (Denemo.prefs.history) > Denemo.prefs.maxhistory)
-	{
-	  gpointer data = g_queue_pop_head (Denemo.prefs.history);
-	  g_print("losing one history\n");
-	  if (data)
-	    g_free (data);
-	}
-      addhistorymenuitem (filename);
-      g_queue_push_tail (Denemo.prefs.history, g_strdup(gui->filename->str));
+      gpointer data = g_queue_pop_head (Denemo.prefs.history);
+      g_print("losing one history\n");
+      if (data)
+	g_free (data);
     }
+  if(link) /* not a new one */
+    addhistorymenuitem (filename);
+  g_queue_push_tail (Denemo.prefs.history, g_strdup(gui->filename->str));  
 }
 
 static gchar *
