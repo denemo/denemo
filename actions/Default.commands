@@ -4979,6 +4979,14 @@ for second and subsequent systems</tooltip>
         <label>Simplify Ties</label>
         <tooltip>Converts tied notes to longer notes and removes spurious ties.</tooltip>
       </row>
+      <row>
+        <action>PasteReplaceSelection</action>
+        <after>Paste</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <label>Paste and Replace Selection</label>
+        <tooltip>Paste the clipboard. Replace any selected objects. This paste-version also creates new barlines instead of strictly using the copied ones.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
