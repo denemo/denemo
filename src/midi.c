@@ -288,12 +288,14 @@ static gint midiaction(gint notenum) {
   //g_print("Keyboard state %x, mask %x %x %x\n", Denemo.keyboard_state, CHECKING_MASK, GDK_CONTROL_MASK, GDK_MOD2_MASK);
   notenum2enharmonic (notenum, &enote.mid_c_offset, &enote.enshift, &enote.octave);
   if( !(Denemo.keyboard_state&CHECKING_MASK)) {
-    if (Denemo.prefs.midi_audio_output == Portaudio)
-      playpitch(midi2hz(notenum), 0.3, 0.5, 0);
-    if (Denemo.prefs.midi_audio_output == Jack)
-      jack_playpitch(notenum, 300 /*duration*/);
-    else if (Denemo.prefs.midi_audio_output == Fluidsynth)
-      fluid_playpitch(notenum, 300 /*duration*/,  curstaffstruct->midi_channel, 0);
+    if(Denemo.prefs.immediateplayback) {
+      if (Denemo.prefs.midi_audio_output == Portaudio)
+	playpitch(midi2hz(notenum), 0.3, 0.5, 0);
+      if (Denemo.prefs.midi_audio_output == Jack)
+	jack_playpitch(notenum, 300 /*duration*/);
+      else if (Denemo.prefs.midi_audio_output == Fluidsynth)
+	fluid_playpitch(notenum, 300 /*duration*/,  curstaffstruct->midi_channel, 0);
+    }
     stage_undo(gui->si, ACTION_STAGE_END);//undo is a queue so this is the end :)
   }
   if((gui->mode & INPUTEDIT) || (Denemo.keyboard_state&CHECKING_MASK))
