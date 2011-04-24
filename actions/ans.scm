@@ -753,7 +753,7 @@
 	90 ;disis	32
 	290 ;aisis	33
 	140 ;eisis	34
-	340 ;bisis	35
+	340 ;bisis	35	
  )
 )
 
@@ -762,6 +762,7 @@
 ; TODO: Replace with real hashtable, not cond. Just a performance tweak.
 (define (ANS::IntervalGetSteps target)
 	(cond
+		((eq? target 'r) +inf.0) ; rests
 		((or (eq? target 'p1) (eq? target 'P1)) 0)			
 		((eq? target 'm2) -5)			
 		((eq? target 'M2) 2)			
@@ -1063,6 +1064,7 @@
 ;TODO: Give out the octave between.
 ;Return pair in pair: (intervall (lower . higher))
 ;Yes, I made a typo in Intervall. 
+;If rests are part of the chords the return value will be +inf.0 as interval step number (like 1 stands for fifth)
 (define (ANS::GetIntervall ansNoteOne ansNoteTwo)
 	(define higher ansNoteOne)
 	(define lower ansNoteTwo)
@@ -1072,7 +1074,9 @@
 
 	;Extract the tone, without octave and feed it to the hash to get the notes position in the pillar of 5th.
 	(cons
-		(- (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote higher)) (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote lower)))
+		(if (or (equal? higher +inf.0) (equal? lower +inf.0)) ; with rests?
+			+inf.0
+			(- (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote higher)) (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote lower)))) ; no rest. Return interval step.	
 		(cons ansNoteOne ansNoteTwo))) ; do NOT return the ordered or simplified invervals. Return as they came in.
 
 
@@ -1092,6 +1096,7 @@
 ; With the normal system a double diminished second has to be treated as Major Seventh! Or not? Its confusing.
 (define (ANS::Interval->Sound interval)	
 	(case interval
+		((+inf.0) +inf.0) ; rests
 		((0) 0) ;P1			
 		((-5) -5) ;m2			
 		((2) 2) ;M2			
@@ -1119,7 +1124,7 @@
 		((-11) 1) ;D6	
 		((12) 0) ;A7		
 		((-9) 3) ;D7
-		#! ;Double Augmented, Double Diminished
+		#! ;Double Augmented, Double Diminished  TODO: commented out. why?
 		((14) ) ;AA1		
 		((-14) ) ;DD1		
 		((16) ) ;AA2		
