@@ -13,7 +13,7 @@
         <menuitem action="AddMovements"/>
         <menuitem action="OpenNewWindow"/>
       <menu action="OpenRecent">
-        <menuitem action="Stub"/>
+        <menuitem action="Browse"/>
       </menu>
     </menu>
       <menu action="Import">

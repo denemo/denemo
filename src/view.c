@@ -7081,7 +7081,7 @@ static void dummy(void) {
  */
 GtkActionEntry menu_entries[] = {
 #include "entries.h"
-  {"Stub",  NULL, N_(" "), NULL, N_("Does nothing"), G_CALLBACK (dummy)}
+  {"Browse",  NULL, N_("Browse"), NULL,  N_("Opens a dialog for a new file"), G_CALLBACK (file_open_with_check)}
 
   };
 
@@ -7715,7 +7715,7 @@ addhistorymenuitem (gchar *filename)
     return;
   GtkWidget *item =
     gtk_ui_manager_get_widget (Denemo.ui_manager,
-			       "/MainMenu/FileMenu/OpenMenu/OpenRecent/Stub");
+			       "/MainMenu/FileMenu/OpenMenu/OpenRecent/Browse");
   GtkWidget *menu = gtk_widget_get_parent (GTK_WIDGET (item));
   
   item = gtk_menu_item_new_with_label (filename);
