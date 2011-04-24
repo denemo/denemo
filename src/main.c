@@ -564,10 +564,12 @@ main (int argc, char *argv[])
 #else
   add_font_directory (DATAROOTDIR "/fonts");
 #endif
+
+
 #ifdef ENABLE_BINRELOC
-  g_print("\n\n!!!!!!!!!!!!!!!!!\n\nBinreloc is %s\n\n the macro PKGDATADIR = %s, data dir is set to %s\n",  " Enabled", PKGDATADIR, get_data_dir());
+  g_debug("\n\n!!!!!!!!!!!!!!!!!\n\nBinreloc is %s\n\n the macro PKGDATADIR = %s, data dir is set to %s\n",  " Enabled", PKGDATADIR, get_data_dir());
 #else
- g_print("\n\n!!!!!!!!!!!!!!!!!\n\nBinreloc is %s\n\n the macro PKGDATADIR = %s, data dir is set to %s\n",  " Disabled", PKGDATADIR, get_data_dir());
+ g_debug("\n\n!!!!!!!!!!!!!!!!!\n\nBinreloc is %s\n\n the macro PKGDATADIR = %s, data dir is set to %s\n",  " Disabled", PKGDATADIR, get_data_dir());
 #endif
 
 
