@@ -1828,6 +1828,10 @@
         <action>DeleteSelectionLeaveEmpty</action>
 		<hidden>true</hidden>
       </row>
+      <row>
+		<action>PasteReplaceSelection</action>   
+		<hidden>true</hidden>
+      </row>
     </map>
   </merge>
 </Denemo>

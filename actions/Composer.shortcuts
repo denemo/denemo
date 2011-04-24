@@ -104,7 +104,11 @@
       <row>
         <action>Paste</action>
         <bind>Ctrl+v</bind>
-      </row>   
+      </row>
+      <row>
+		<action>PasteReplaceSelection</action>   
+		<bind>Ctrl+V</bind>
+      </row>
       <row>
         <action>SelectStaff</action>
         <bind>Ctrl+a</bind>
