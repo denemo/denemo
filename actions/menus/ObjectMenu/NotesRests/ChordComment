@@ -8,10 +8,14 @@
         <after>ParenthesizeNote</after>
         <action>ChordComment</action>
         <scheme>;;; ChordComment
-(d-DirectivePut-chord-override "ChordComment" DENEMO_OVERRIDE_EDITOR)
-(d-DirectivePut-chord-display "ChordComment" "comment")
-(d-RefreshDisplay)
-</scheme>
+(let ()
+(define current (d-DirectiveGet-chord-display "ChordComment"))
+(let script ((answer (d-GetUserInput "Insert Comment" "Comment this chord" (if current current ""))))
+	(if (and answer (not (string=? answer "")))
+		(begin
+			(d-DirectivePut-chord-override "ChordComment" DENEMO_OVERRIDE_EDITOR)
+			(d-DirectivePut-chord-display "ChordComment" answer))
+		#f)))</scheme>
         <label>Comment</label>
         <tooltip>Attach a textual comment to the chord at the cursor</tooltip>
       </row>
