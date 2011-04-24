@@ -1865,8 +1865,22 @@
 
 ; Actually create the music-object. In this process various information are collected.
 ;;(define testob (CreateMusObj))  (set!musobj.duration testob 256)  (display (musobj.start testob))
-(define (CreateMusObj) 
-	(make-musobj 'pitch (ANS::GetChordNotes)
+(define (CreateMusObj)
+  (if (MeasureEmpty?)
+	; Measure emtpy, create whole measure rest musobj
+	(make-musobj 'pitch (list +inf.0)
+				 'movement (d-GetMovement)
+				 'staff (d-GetStaff)
+				 'measure (d-GetMeasure)
+				 'horizontal (d-GetHorizontalPosition)
+				 'metricalp 1
+				 'start 0
+				 'duration (duration::GetWholeMeasureInTicks)
+				 'baseduration (duration::GetWholeMeasureInTicks)
+				 'dots #f		 
+				 )	
+	; Measure not emtpy
+	(make-musobj 'pitch (ANS::GetChordNotes) 
 				 'movement (d-GetMovement)
 				 'staff (d-GetStaff)
 				 'measure (d-GetMeasure)
@@ -1876,7 +1890,7 @@
 				 'duration (d-GetDurationInTicks)
 				 'baseduration (d-GetBaseDurationInTicks)
 				 'dots (d-GetDots)				 
-				 ))					
+				 )))					
 
 (define (CreateMusObjCursorNote)		
 		(define note(GetNoteUnderCursorAsLilypond))
