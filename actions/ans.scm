@@ -1073,7 +1073,7 @@
 	;Extract the tone, without octave and feed it to the hash to get the notes position in the pillar of 5th.
 	(cons
 		(- (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote higher)) (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote lower)))
-		(cons ansNoteTwo ansNoteOne))) ; do NOT return the ordered or simplified invervals. Return as they came in.
+		(cons ansNoteOne ansNoteTwo))) ; do NOT return the ordered or simplified invervals. Return as they came in.
 
 
 ;GetIntervall for lists. 
