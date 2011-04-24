@@ -31,7 +31,7 @@
 (set! return
 	(let loop ((listy (list #f)) )
 		(if (EmptyMeasure?)
-			(append! listy (list (* 1536 (GetPrevailingTimeSig #t))))
+			(append! listy (list (duration::GetWholeMeasureInTicks)))
 			(append! listy (list (GetMeasureTicks))))
 		(if (d-MoveToMeasureRight)
 			(loop listy)
@@ -125,17 +125,16 @@ return)
 (define (createFinalList)
     (define (staffLoop)  ;; Subproc to gather the information for one staff and return a list.
     (define stafflist (list #f))
-    (if (Music?) ; if the first object is already a music item start right now. This prevents also a crash if the staff starts with a directive or else.
+     (if (or (Music?) (MeasureEmpty?)) ; if the first object is already a music item start right now. This prevents also a crash if the staff starts with a directive or else.
 	  (append! stafflist (list (Abstraction::CreateMusObj))))
 	  (let loop ()
-	  	(if (d-NextChord)
+	  	(if (d-MoveCursorRight)
 			(begin
-				(append! stafflist (list (Abstraction::CreateMusObj)))
-				(loop))
-	  	 (list-tail stafflist 1) ; Return list minus initial #f
-	  	)
-	  ); subloop end
-     );staffLoop end
+			(if (or (Music?) (MeasureEmpty?))
+				(append! stafflist (list (Abstraction::CreateMusObj))))
+				(loop))			 
+			 (list-tail stafflist 1)))) ; Return list minus initial #f	  	
+	 
 
 ;;; Body
   (d-MoveToMovementBeginning)

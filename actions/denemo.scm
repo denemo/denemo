@@ -1877,7 +1877,7 @@
 				 'start 0
 				 'duration (duration::GetWholeMeasureInTicks)
 				 'baseduration (duration::GetWholeMeasureInTicks)
-				 'dots #f		 
+				 'dots 0		 
 				 )	
 	; Measure not emtpy
 	(make-musobj 'pitch (ANS::GetChordNotes) 
