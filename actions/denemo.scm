@@ -1395,7 +1395,7 @@
 ; Paste by Nils Gey, 2011
 ;; Multistaff-Pasting always adds the complete part AFTER the current measure or fills any complete set of empty measures
 ;; Singlestaff-Pasting happens at the cursor position and will just paste whats in the clipboard
-(define (DenemoPaste)
+(define* (DenemoPaste #:optional (autocreatebarlines #f))
   (define (Paste)
 	(define paste:multistaff? (d-GetClipObjType 1 0))
 	(define paste:howmanystaffs
@@ -1429,15 +1429,23 @@
 					 staffcountlist)
 				(apply d-GoToPosition position:current)
 				(d-MoveToMeasureRight)) ; all needed empty measures got created			
-			(d-SplitMeasure))) ; singlestaff is simple split.
+			(d-SplitMeasure))) ; singlestaff is simple split.	
+	(define (Put!) 
+		(if (and autocreatebarlines (not paste:multistaff?) (not (UnderfullMeasure?)) (Appending?)) ; in a single-staff with AutoCreateBarlines #t Put! will create Barlines if the current measure is full, not MeasureBreak!
+			(if (d-MoveToMeasureRight)
+						#t
+						(SplitMeasure!)))
+		(d-PutClipObj staff count)) ; nothing special here. Just paste.				
 	(define (MeasureBreak!)
-		(if  (or (> staff 0) (MeasuresToPasteToEmpty?)) ; only the first staff needs to check if the next measure is empty or not. In Multistaff the first paste-round created all necessary empty measures for all other staffs so its just straight-forward pasting of objects.
-			(d-MoveToMeasureRight)
-			(SplitMeasure!)))
+		(if (and autocreatebarlines (not paste:multistaff?))
+			#t ; no barline should be created by paste. Let Denemo decide if a measure is full or not.
+			(if  (or (> staff 0) (MeasuresToPasteToEmpty?)) ; only the first staff needs to check if the next measure is empty or not. In Multistaff the first paste-round created all necessary empty measures for all other staffs so its just straight-forward pasting of objects.
+				(d-MoveToMeasureRight)
+				(SplitMeasure!))))
 	(define (paste! staff count)		
 		(case (d-GetClipObjType staff count)
 			;In order of occurence, to boost performance.
-			((0) (d-PutClipObj staff count))	;note, rest, gracenote, chord
+			((0) (Put!))	;note, rest, gracenote, chord
 			((8) (MeasureBreak!) ) ; Measurebreak
 			((15) (d-PutClipObj staff count))	;lilypond-directive
 			((1) (d-PutClipObj staff count))	;tuplet open
