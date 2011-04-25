@@ -519,7 +519,7 @@ main (int argc, char *argv[])
   g_setenv ("PANGO_RC_FILE", rc_path, TRUE);
   g_setenv ("PANGO_PREFIX", prefix, TRUE);
   g_setenv ("PANGO_MODULE_VERSION", "1.6.0", TRUE);
-  g_setenv ("PANGO_SO_EXTENSION", ".dylib", TRUE);
+  g_setenv ("PANGO_SO_EXTENSION", ".so", TRUE);
   g_print ("Setting PANGO_PREFIX=%s\n", prefix);
 #if 1
   g_setenv ("GTK_MODULE_VERSION", "2.10.0", TRUE);
