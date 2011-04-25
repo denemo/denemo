@@ -461,6 +461,27 @@
 		<action>ToggleTie</action>
 		<bind>t</bind>
 	</row>
+	    <row>
+        <action>ToggleBeginSlur</action>
+        <bind>b</bind>
+    </row>
+    <row>
+        <action>SlurTwo</action>
+        <bind>n</bind>
+    </row>
+     <row>
+        <action>ToggleEndSlur</action>
+        <bind>m</bind>
+    </row>
+    <row>
+        <action>ToggleBeginPhrasingSlur</action>      
+        <bind>B</bind>
+    </row>      
+     <row>
+        <action>ToggleEndPhrasingSlur</action>
+        <bind>M</bind>
+    </row>  
+	
       
  <!-- Embellishments and Markings -->
  
@@ -488,19 +509,7 @@
     <row>
         <action>EditChords</action>
         <bind>c</bind>
-    </row>
-    <row>
-        <action>ToggleBeginSlur</action>
-        <bind>b</bind>
-    </row>
-    <row>
-        <action>SlurTwo</action>
-        <bind>n</bind>
-    </row>
-     <row>
-        <action>ToggleEndSlur</action>
-        <bind>m</bind>
-    </row>      
+    </row>  
     <row>
         <action>InsertStandaloneDirective</action>
         <bind>l</bind>

@@ -4987,6 +4987,22 @@ for second and subsequent systems</tooltip>
         <label>Paste and Replace Selection</label>
         <tooltip>Paste the clipboard. Replace any selected objects. This paste-version also creates new barlines instead of strictly using the copied ones.</tooltip>
       </row>
+      <row>
+        <action>ToggleBeginPhrasingSlur</action>
+        <after>ReduceSlur</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
+        <label>Begin Phrasing Slur</label>
+        <tooltip>Begin a phrasing slur on the current note. You can have normal slurs (partially) inside a phrasing slur.</tooltip>
+      </row>
+      <row>
+        <action>ToggleEndPhrasingSlur</action>
+        <after>ToggleBeginPhrasingSlur</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
+        <label>End Phrasing Slur</label>
+        <tooltip>End a phrasing slur on the current note.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

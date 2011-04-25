@@ -1832,6 +1832,14 @@
 		<action>PasteReplaceSelection</action>   
 		<hidden>true</hidden>
       </row>
+      <row>
+        <action>ToggleBeginPhrasingSlur</action>      
+        <hidden>true</hidden>
+    </row>      
+     <row>
+        <action>ToggleEndPhrasingSlur</action>
+        <hidden>true</hidden>
+    </row>
     </map>
   </merge>
 </Denemo>
