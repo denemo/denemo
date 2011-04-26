@@ -7,7 +7,7 @@
       <row>
         <action>MovementPageBreak</action>
         <scheme>;;; MovementPageBreak
-(if (d-Directive-header? "MovementPageBreak")
+(if (and (not MovementPageBreak::params) (d-Directive-header? "MovementPageBreak"))
     (d-DirectiveDelete-header "MovementPageBreak")
     (begin
 (d-DirectivePut-header-postfix "MovementPageBreak" "breakbefore = ##t\n")

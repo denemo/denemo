@@ -8,11 +8,19 @@
         <after>PrintSelection</after>
         <action>PrintAccompanistsScore</action>
         <scheme>;;;PrintAccompanistsScore
-(let ((saved (d-GetSaved)))
-(ForAllMovements "(d-GoToPosition #f 1 1 1)(d-MovementPageBreak)(d-TinyStaff)")
-(d-PrintPreview)
-(ForAllMovements "(d-GoToPosition #f 1 1 1)(d-TinyStaff)")
-(d-SetSaved saved))
+(let ((saved (d-GetSaved)) (response (d-GetUserInput "Print Accompanist's Score" "How many staffs to make small?" "1")))
+  (if response
+      (let ((staffs ""))
+	(set! response (string-&gt;number response))
+	(let loop ((number 1))
+	  (set! staffs (string-append staffs "(d-GoToPosition #f " (number-&gt;string number) " 1 1) (d-TinyStaff)"))
+	  (if (&lt; number response)
+	      (loop (+ 1 number))))	
+	(ForAllMovements staffs)
+	(ForAllMovements "(d-MovementPageBreak #t)")
+	(d-PrintPreview)
+	(ForAllMovements staffs)
+	(d-SetSaved saved))))
 </scheme>
         <label>Print Accompanist's Score</label>
         <tooltip>Prints out the score with the topmost staff in tiny size and puts page breaks before each movement.</tooltip>
