@@ -1840,6 +1840,26 @@
         <action>ToggleEndPhrasingSlur</action>
         <hidden>true</hidden>
     </row>
+    <row>
+        <action>ChangePrintDuration2</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangePrintDuration1</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangePrintDuration0</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangePrintDurationBreve</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangePrintDurationLonga</action>
+        <hidden>true</hidden>
+      </row>
     </map>
   </merge>
 </Denemo>
