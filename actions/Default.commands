@@ -5003,6 +5003,45 @@ for second and subsequent systems</tooltip>
         <label>End Phrasing Slur</label>
         <tooltip>End a phrasing slur on the current note.</tooltip>
       </row>
+      <row>
+        <action>ChangePrintDuration2</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/ChangePrintDuration</menupath>
+        <label>Change Chordmember to Quarter </label>
+        <tooltip>Change one chord member to appear like a quarter-note duration without changing the original logic like measure calculation or the duration of newly added chord members.</tooltip>
+      </row>
+      <row>
+        <action>ChangePrintDuration1</action>
+        <after>ChangePrintDuration2</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/ChangePrintDuration</menupath>
+        <label>Change chord-member to half note</label>
+        <tooltip>Change one chord member to appear like a half-note duration without changing the original logic like measure calculation or the duration of newly added chord members.</tooltip>
+      </row>
+      <row>
+        <action>ChangePrintDuration0</action>
+        <after>ChangePrintDuration1</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/ChangePrintDuration</menupath>
+        <label>Change chord-member to whole note</label>
+        <tooltip>Change one chord member to appear like a whole-note duration without changing the original logic like measure calculation or the duration of newly added chord members.</tooltip>
+      </row>
+      <row>
+        <action>ChangePrintDurationBreve</action>
+        <after>ChangePrintDuration0</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/ChangePrintDuration</menupath>
+        <label>Change chord-member to breve</label>
+        <tooltip>Change one chord member to appear like a breve duration without changing the original logic like measure calculation or the duration of newly added chord members.</tooltip>
+      </row>
+      <row>
+        <action>ChangePrintDurationLonga</action>
+        <after>ChangePrintDurationBreve</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/ChangePrintDuration</menupath>
+        <label>Change chord-member to longa</label>
+        <tooltip>Change one chord member to appear like a longa duration without changing the original logic like measure calculation or the duration of newly added chord members.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
