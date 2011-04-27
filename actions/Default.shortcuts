@@ -1601,7 +1601,7 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>DeleteStaffContexts</action>
+        <action>DeleteStaffGroupings</action>
         <hidden>true</hidden>
       </row>
       <row>

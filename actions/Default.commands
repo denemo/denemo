@@ -4462,7 +4462,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>GroupStaffStart</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu/Contexts</menupath>
+        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
         <label>GroupStaff Start</label>
         <tooltip>Start grouping single staves together in order to form multi-stave systems. In the StaffGroup context, the group is started with a bracket and bar lines are drawn through all the staves.</tooltip>
       </row>
@@ -4470,7 +4470,7 @@ for second and subsequent systems</tooltip>
         <action>GroupStaffEnd</action>
         <after>GroupStaffStart</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu/Contexts</menupath>
+        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
         <label>GroupStaff End</label>
         <tooltip>Stop GroupStaff multi-stave system.</tooltip>
       </row>
@@ -4478,7 +4478,7 @@ for second and subsequent systems</tooltip>
         <action>PianoStaffStart</action>
         <after>GroupStaffEnd</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu/Contexts</menupath>
+        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
         <label>PianoStaff Start</label>
         <tooltip>Start grouping single staves together in order to form multi-stave systems. The PianoStaff is identical to a GrandStaff, except that it supports printing the instrument name directly.</tooltip>
       </row>
@@ -4486,7 +4486,7 @@ for second and subsequent systems</tooltip>
         <action>PianoStaffEnd</action>
         <after>PianoStaffStart</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu/Contexts</menupath>
+        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
         <label>PianoStaff End</label>
         <tooltip>Stop PianoStaff multi-stave system.</tooltip>
       </row>
@@ -4494,7 +4494,7 @@ for second and subsequent systems</tooltip>
         <action>ChoirStaffStart</action>
         <after>PianoStaffEnd</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu/Contexts</menupath>
+        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
         <label>ChoirStaff Start</label>
         <tooltip>Start grouping single staves together in order to form multi-stave systems. In a ChoirStaff, the group starts with a bracket, but bar lines are not connected. </tooltip>
       </row>
@@ -4502,7 +4502,7 @@ for second and subsequent systems</tooltip>
         <action>ChoirStaffEnd</action>
         <after>ChoirStaffStart</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu/Contexts</menupath>
+        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
         <label>ChoirStaff End</label>
         <tooltip>Stop ChoirStaff multi-stave system.</tooltip>
       </row>
@@ -4510,7 +4510,7 @@ for second and subsequent systems</tooltip>
         <action>GrandStaffStart</action>
         <after>ChoirStaffEnd</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu/Contexts</menupath>
+        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
         <label>GrandStaff Start</label>
         <tooltip>Start grouping single staves together in order to form multi-stave systems. In a GrandStaff, the group begins with a brace, and bar lines are connected between the staves.</tooltip>
       </row>
@@ -4518,17 +4518,17 @@ for second and subsequent systems</tooltip>
         <action>GrandStaffEnd</action>
         <after>GrandStaffStart</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu/Contexts</menupath>
+        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
         <label>GrandStaff End</label>
         <tooltip>Stop GrandStaff multi-stave system.</tooltip>
       </row>
       <row>
-        <action>DeleteStaffContexts</action>
+        <action>DeleteStaffGroupings</action>
         <after>GrandStaffEnd</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu/Contexts</menupath>
+        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
         <label>Delete all staff contexts</label>
-        <tooltip>Clear the staff from all contexts</tooltip>
+        <tooltip>Clear the staff from all groupings</tooltip>
       </row>
       <row>
         <action>MovementNoteheadsDefault</action>
