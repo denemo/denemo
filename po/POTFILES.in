@@ -26,7 +26,6 @@ src/fakechord.c
 src/figure.c
 src/file.c
 # src/frogparser.c # is it a generated parser?
-src/headerdialog.c
 src/help.c
 src/kbd-custom.c
 src/kbd-interface.c
