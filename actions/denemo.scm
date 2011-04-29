@@ -325,6 +325,14 @@
 	
 (define (Appending?)
  (if (string=? (d-GetType) "Appending") #t #f))	 
+
+(define (MeasureEnd?)
+	(or (Appending?) (MeasureEmpty?)))
+
+(define (MeasureBeginning?)
+	(= 1 (d-GetHorizontalPosition)))
+
+
   
 ;;;;; End set of questions
 		  
