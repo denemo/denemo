@@ -75,14 +75,6 @@
         <bind>Shft+Page_Down</bind>
       </row>
       <row>
-        <action>MoveToStaffUp</action>
-        <bind>Page_Up</bind>
-      </row>
-      <row>
-        <action>MoveToStaffDown</action>
-        <bind>Page_Down</bind>
-      </row>
-      <row>
         <action>MeasureLeft</action>
         <hidden>true</hidden>
         <bind>Ctrl+Shft+Left</bind>
@@ -1858,6 +1850,22 @@
       </row>
       <row>
         <action>ChangePrintDurationLonga</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>JumpToStaffUp</action>
+        <bind>Ctrl+Up</bind>
+      </row>
+      <row>
+        <action>JumpToStaffDown</action>
+        <bind>Ctrl+Down</bind>
+      </row>
+       <row>
+        <action>MoveToStaffUp</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MoveToStaffDown</action>
         <hidden>true</hidden>
       </row>
     </map>

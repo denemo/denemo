@@ -201,12 +201,12 @@
         <bind>Shft+Page_Down</bind>
       </row>
       <row>
-        <action>MoveToStaffUp</action>
+        <action>JumpToStaffUp</action>
         <bind>Ctrl+Page_Up</bind>
         <bind>Page_Up</bind>
       </row>
       <row>
-        <action>MoveToStaffDown</action>
+        <action>JumpToStaffDown</action>
         <bind>Ctrl+Page_Down</bind>
         <bind>Page_Down</bind>
       </row>
@@ -1063,6 +1063,14 @@
       </row>
       <row>
         <action>ConvertDrum2GmSingleSelection</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MoveToStaffUp</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MoveToStaffDown</action>
         <hidden>true</hidden>
       </row>
     </map>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>JumpToStaffUp</action>
+        <scheme>(if (d-GoToPosition #f (1- (d-GetStaff)) #f (floor (duration::GetMetricalPosition)))
+		#t
+		(d-MoveToStaffUp))</scheme>
+        <label>Move to Staff Up</label>
+          <tooltip>Move the cursor one staff up. Try to remain on horizontal position.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
