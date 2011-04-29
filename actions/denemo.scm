@@ -1805,7 +1805,10 @@
 (define (duration::GetDenominator) (string->number (cadr (string-split  (GetPrevailingTimeSig) #\/))))
 (define (duration::GetDenominatorInTicks) (* 1536 (/ 1 (duration::GetDenominator))))
 (define (duration::GetWholeMeasureInTicks) (* 1536 (GetPrevailingTimeSig #t)))
-(define (duration::GetMetricalPosition) (1+ (/ (d-GetStartTick) (duration::GetDenominatorInTicks))))
+(define (duration::GetMetricalPosition)
+	(if (MeasureEmpty?)
+		1
+		(1+ (/ (d-GetStartTick) (duration::GetDenominatorInTicks)))))
 (define (duration::MetricalMain? position) (integer? position))
 
 
