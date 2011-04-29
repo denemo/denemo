@@ -2268,13 +2268,13 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	  }
 	  if(curstaffstruct->voicenumber == 1) {
 	    if(!staff_override)
-	      g_string_append_printf(staffdefinitions, "%s%s = \\new Staff %s << %s{\n", movement_name->str, staff_name->str, staff_prolog_insert, staff_epilog_insert);
+	      g_string_append_printf(staffdefinitions, "%s%s = \\new Staff = \"%s\" %s << %s{\n", movement_name->str, staff_name->str,  curstaffstruct->denemo_name->str,         staff_prolog_insert, staff_epilog_insert);
 	    else
 	      g_string_append_printf(staffdefinitions, "%s%s = %s%s",movement_name->str, staff_name->str, staff_prolog_insert, staff_epilog_insert);
 	    g_string_append_printf(thestr, "%s\\%s%s\n", staff_alt_prolog, movement_name->str, staff_name->str);
 	  }
 	  else
-	    g_string_append_printf(staffdefinitions, "%s", "\\new Voice {\n");
+	    g_string_append_printf(staffdefinitions, "%s", "\\new Voice = \"%s\" {\n", curstaffstruct->denemo_name->str);
 	  g_free(staff_prolog_insert);
 	  g_free(staff_epilog_insert);
 
