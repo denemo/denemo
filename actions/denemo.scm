@@ -219,6 +219,24 @@
 					(d-MoveCursorRight)
 					(loop))))))
 
+(define  (FindPrevObjectAllColumns test?)
+	(define (step)
+		(if (not (MeasureBeginning?))
+			(d-MoveCursorLeft)
+			(if (d-GoToPosition #f (1- (d-GetStaff)) #f 1) ; try to go a staff up
+				(GoToMeasureEnd)
+				(if (and (MoveToColumnEnd) (d-GoToPosition #f #f (1- (d-GetMeasure)) 1)) ; no staff above.  try to go to the previous column					
+					(GoToMeasureEnd)
+					#f)))) ; no previous column
+	;;Body	
+	(step)
+	(let loop ()	
+		(if (test?)
+			#t
+			(if (step)
+				(loop)
+				(begin (d-MoveToMovementBeginning) #f))))); Beginning of Movement, end of search
+
 
 ;SingleAndSelectionSwitcher by Nils Gey Jan/2010
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
