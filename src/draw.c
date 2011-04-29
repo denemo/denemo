@@ -751,7 +751,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
       thestaff->leftmost_timesig->time1;
     itp->time2 =
       thestaff->leftmost_timesig->time2;
-    if(cr) draw_timesig (cr, x, y, itp->time1, itp->time2);
+    if(cr) if(si->leftmeasurenum==1)   draw_timesig (cr, x, y, itp->time1, itp->time2);
     x += SPACE_FOR_TIME;
 
   } else {
