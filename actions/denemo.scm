@@ -203,10 +203,10 @@
 	));loopy end
 
 (define  (FindNextObjectAllColumns test?)
-	(if (not (or (Appending?) (MeasureEmpty?)))
+	(if (not (MeasureEnd?))
 		(d-MoveCursorRight))
 	(let loop ()
-		(if (or (Appending?) (MeasureEmpty?))
+		(if (MeasureEnd?)
 			(if (d-GoToPosition #f (1+ (d-GetStaff)) #f 1) ; try to go a staff down
 				(loop) ; there is a staff down. Loop again
 				(begin ; there is no staff down. 
