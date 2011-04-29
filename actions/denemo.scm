@@ -438,8 +438,21 @@
 		(if gui-version
 			 (gui-version)
 			 (begin FallBack ; create a gui from the given parameters, test for cancel-button #f
-				(set! gui-version (apply RadioBoxMenu (delete (cons "" False) (list first second third fourth fifth sixth seventh eighth ninth tenth)))) 
-				(if gui-version 
+				(set! gui-version (apply RadioBoxMenu (delete (cons "" False) 
+					(list first second third fourth fifth sixth seventh eighth ninth tenth (cons "Lock in" 
+					(lambda ()
+						(doublestroke::showhelp #t) 					
+						(Bind wrap:Op1 first)
+						(Bind wrap:Op2 second)
+						(Bind wrap:Op3 third)
+						(Bind wrap:Op4 fourth)
+						(Bind wrap:Op5 fifth)
+						(Bind wrap:Op6 sixth)
+						(Bind wrap:Op7 seventh)
+						(Bind wrap:Op8 eighth)
+						(Bind wrap:Op9 ninth)
+						(Bind wrap:Op0 tenth)))))))
+				 (if gui-version 
 					(gui-version) ; execute the returned command
 					#f)))) ; cancel-button, abort the process					
 	
@@ -485,6 +498,7 @@
 			((d-OpZero)  (begin ((cdr tenth))(Help::Pop)))
 			((d-UnsetMark)  (begin  (doublestroke::invokegui)(Help::Pop)))
 			((d-AddNoteToChord) (begin
+					(Help::RemoveTag 'doublestroketemp) ; Remove help message from temp system.
 					(doublestroke::showhelp #t) 					
 					(Bind wrap:Op1 first)
 					(Bind wrap:Op2 second)
