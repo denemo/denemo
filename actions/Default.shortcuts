@@ -1853,21 +1853,13 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>JumpToStaffUp</action>
+        <action>MoveToStaffUp</action>
         <bind>Ctrl+Up</bind>
       </row>
       <row>
-        <action>JumpToStaffDown</action>
-        <bind>Ctrl+Down</bind>
-      </row>
-       <row>
-        <action>MoveToStaffUp</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
         <action>MoveToStaffDown</action>
-        <hidden>true</hidden>
-      </row>
+        <bind>Ctrl+Down</bind>
+      </row>     
     </map>
   </merge>
 </Denemo>

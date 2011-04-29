@@ -5041,22 +5041,7 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/ChordMenu/ChangePrintDuration</menupath>
         <label>Change chord-member to longa</label>
         <tooltip>Change one chord member to appear like a longa duration without changing the original logic like measure calculation or the duration of newly added chord members.</tooltip>
-      </row>
-      <row>
-        <action>JumpToStaffUp</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
-        <label>Move to Staff Up</label>
-        <tooltip>Move the cursor one staff up. Try to remain on the metrical position.</tooltip>
-      </row>
-      <row>
-        <action>JumpToStaffDown</action>
-        <after>JumpToStaffUp</after>
-        <scheme></scheme>
-        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
-        <label>Move to Staff Down</label>
-        <tooltip>Move the cursor one staff down. Try to remain on the metrical position.</tooltip>
-      </row>      
+      </row>    
     </map>
   </merge>
 </Denemo>
