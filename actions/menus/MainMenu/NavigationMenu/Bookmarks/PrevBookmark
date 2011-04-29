@@ -6,14 +6,7 @@
     <map>
       <row>
         <action>PrevBookmark</action>
-        <scheme>;;;PrevBookMarkR by Nils Gey RTS
-(if (d-DirectiveGet-standalone-display "RehearsalMark")
-(d-MoveCursorLeft) )
-;;; FIXME this fails if bookmark is at end of measure
-(let gotoBookmark ()
- (if  (and (not (d-DirectiveGet-standalone-display "RehearsalMark")) (d-PrevObject)  )
-	(gotoBookmark)))
-(d-RefreshDisplay)</scheme>
+        <scheme>(FindPrevObjectAllColumns (lambda () (d-DirectiveGet-standalone-display "RehearsalMark")))</scheme>
         <label>Prev Bookmark</label>
         <tooltip>Seach backward for bookmarks in the current staff.</tooltip>
       </row>

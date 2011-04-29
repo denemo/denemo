@@ -6,14 +6,7 @@
     <map>
       <row>
         <action>NextBookmark</action>
-        <scheme>;;;NextBookMarkR by Nils Gey
-(if (d-DirectiveGet-standalone-display "RehearsalMark")
-(d-MoveCursorRight) 
-)
-(let gotoBookmark ()
- (if  (and (not (d-DirectiveGet-standalone-display "RehearsalMark")) (d-MoveCursorRight) )
-	(gotoBookmark))
-)</scheme>
+        <scheme>(FindNextObjectAllColumns (lambda () (d-DirectiveGet-standalone-display "RehearsalMark")))</scheme>
         <label>Next Bookmark</label>
         <tooltip>Seach forward for bookmarks in the current staff.</tooltip>
       </row>

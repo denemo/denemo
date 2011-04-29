@@ -6,25 +6,22 @@
     <map>
       <row>
         <action>SearchBookmark</action>
-        <scheme>;;;SearchBookMark
-;;;Find RehearsalMark by Nils Gey, RTS avoid global
-(let ((user-input #f))
-(set! user-input (string-downcase (d-GetUserInput "Find Bookmark" "What are you after? Case insensitive" "X")))
-(if user-input   ;in case the user pressed Escape do nothing
- (begin
-  (let searchRehearsalMarkWithStringReturn((EndOfStaffSwitch #f))
-  (if (d-MoveCursorRight)
-	(if (and (string? (d-DirectiveGet-standalone-display "RehearsalMark" user-input)) (string-ci=? (d-DirectiveGet-standalone-display "RehearsalMark" user-input) user-input))
-	 #t
-	 (searchRehearsalMarkWithStringReturn EndOfStaffSwitch)
-	)
-
-  ;CursorRight #f:
-   (if EndOfStaffSwitch
-    #f
-    (begin (d-MoveToBeginning)(searchRehearsalMarkWithStringReturn #t))
-))))))
-</scheme>
+        <scheme>(let ((user-input (d-GetUserInput "Find Bookmark" "What are you after? Case insensitive" "X")))
+	(define start (GetPosition))
+	(define (test?) 
+		(FindNextObjectAllColumns (lambda () 
+				(and (string? (d-DirectiveGet-standalone-display "RehearsalMark"))  ;Condition 1
+				(string-ci=? (d-DirectiveGet-standalone-display "RehearsalMark") user-input))))) ; Condition 2
+	;;Body
+	(if user-input   ;in case the user pressed Escape do nothing
+		(if (test?)
+			#t ; Object found
+			(begin  ; no object found from startpoint to end, return to movement beginning, search again.
+				(d-MoveToMovementBeginning)
+				(if (test?)
+					#t ; Object found
+					(begin (apply d-GoToPosition start) #f)))) ; no object even in the second round. Go to start position.
+		#f)) ; user abort</scheme>
         <label>Search Bookmark</label>
         <tooltip>Searches for a named Bookmark in the current staff.</tooltip>
       </row>
