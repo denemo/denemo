@@ -1407,6 +1407,11 @@
 	(define measure (d-GetMeasure)) ; to make shure we stay in the same column all the time.
 	(RepeatUntilFail d-MoveToStaffUp)
 	(d-GoToPosition #f #f measure #f))
+	
+(define (MoveToColumnEnd)
+	(define measure (d-GetMeasure)) ; to make shure we stay in the same column all the time.
+	(RepeatUntilFail d-MoveToStaffDown)
+	(d-GoToPosition #f #f measure #f))
 
 ; Paste by Nils Gey, 2011
 ;; Multistaff-Pasting always adds the complete part AFTER the current measure or fills any complete set of empty measures
