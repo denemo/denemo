@@ -202,6 +202,22 @@
 	); if end
 	));loopy end
 
+(define  (FindNextObjectAllColumns test?)
+	(d-MoveCursorRight)
+	(let loop ()
+		(if (or (Appending?) (MeasureEmpty?))
+			(if (d-GoToPosition #f (1+ (d-GetStaff)) #f 1) ; try to go a staff down
+				(loop) ; there is a staff down. Loop again
+				(begin ; there is no staff down. 
+					(if (d-GoToPosition #f 1 (1+ (d-GetMeasure)) 1) ; try to go to the next column
+						(loop) ; there is a next column. Loop again
+						#f))) ; there is none, end of the movement. End of the script
+			(if (test?) 
+				#t ; object found. stop				
+				(begin 
+					(d-MoveCursorRight)
+					(loop))))))
+
 
 ;SingleAndSelectionSwitcher by Nils Gey Jan/2010
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
