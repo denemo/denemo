@@ -34,7 +34,7 @@
 
 static gboolean
 draw_score (cairo_t *cr);
-GdkPixbuf *StaffPixbuf, *StaffPixbufSmall;
+GdkPixbuf *StaffPixbuf, *StaffPixbufSmall, *StaffGoBack, *StaffGoForward;
 #define MAX_PLAYHEADS (100)
 static GdkRectangle old_playhead_damage[MAX_PLAYHEADS];
 static GdkRectangle new_playhead_damage[MAX_PLAYHEADS];
@@ -103,6 +103,8 @@ create_tool_pixbuf(void) {
   GtkWidget *widget = gtk_button_new();
   StaffPixbuf = gtk_widget_render_icon (widget, GTK_STOCK_PROPERTIES, GTK_ICON_SIZE_BUTTON, "denemo");
   StaffPixbufSmall = gtk_widget_render_icon (widget, GTK_STOCK_PROPERTIES, GTK_ICON_SIZE_MENU, "denemo");
+  StaffGoBack = gtk_widget_render_icon (widget, GTK_STOCK_GO_BACK, GTK_ICON_SIZE_BUTTON, "denemo");
+  StaffGoForward = gtk_widget_render_icon (widget, GTK_STOCK_GO_FORWARD, GTK_ICON_SIZE_BUTTON, "denemo");
 }
 
 
@@ -150,6 +152,7 @@ struct infotopass
   gint objnum;
   gint measurenum;//would need measurenum_adj to allow control of numbering after pickup etc...
   gint staffnum;
+  gboolean end;//if we have drawn the last measure
   gint top_y;
   gint last_gap;//horizontal gap from last object
   gint markx1, markx2;
@@ -681,7 +684,10 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
 	x += 3;
 	cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y-0.5, 4, STAFF_HEIGHT+1);
 	cairo_fill(cr);
+	itp->end = TRUE;
       }	
+    else 
+      itp->end = FALSE;
     cairo_restore(cr);
   } //if cr
 
@@ -751,17 +757,28 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
       thestaff->leftmost_timesig->time1;
     itp->time2 =
       thestaff->leftmost_timesig->time2;
-    if(cr) if(si->leftmeasurenum==1)   draw_timesig (cr, x, y, itp->time1, itp->time2);
+    if(cr) {
+      if(si->leftmeasurenum==1)  
+	draw_timesig (cr, x, y, itp->time1, itp->time2);
+      else {
+	guint width = gdk_pixbuf_get_width( GDK_PIXBUF(StaffGoBack));
+	guint height = gdk_pixbuf_get_height( GDK_PIXBUF(StaffGoBack));
+	cairo_save( cr );
+	gdk_cairo_set_source_pixbuf( cr, GDK_PIXBUF(StaffGoBack), x,y );
+	cairo_rectangle( cr,x,y, width, height );
+	cairo_fill( cr );
+	cairo_restore( cr );
+      }
+    }
     x += SPACE_FOR_TIME;
-
   } else {
     if(cr) draw_clef (cr, LEFT_MARGIN, y, itp->clef);
     if(cr) draw_key (cr, x, y,
-	      itp->key, 0, itp->clef->type, TRUE);
+		     itp->key, 0, itp->clef->type, TRUE);
     x += si->maxkeywidth;
     x += SPACE_FOR_TIME;// to allow the same margin ??
   }
-
+  
   *itp->left = itp->measurenum>gui->si->rightmeasurenum?gui->si->rightmeasurenum:itp->measurenum; 
   memcpy (itp->keyaccs, thestaff->leftmost_keysig->accs, SEVENGINTS);
 
@@ -878,15 +895,27 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 	  cairo_rectangle (cr, x - SPACE_FOR_BARLINE, y - STAFF_HEIGHT - prev->space_below - thestaff->space_above, 2, 2*STAFF_HEIGHT + prev->space_below + thestaff->space_above);
 	  cairo_fill(cr);	 
 	}
-      if(cr) if(curstaff->next)
-	{
-	  DenemoStaff *next = (DenemoStaff *)(curstaff->next->data);
-	  //cairo_save(cr);
-	  cairo_set_source_rgb( cr, 0, 0, 0);
-	  cairo_rectangle (cr, x - SPACE_FOR_BARLINE, y, 2, 2*STAFF_HEIGHT + next->space_above + thestaff->space_below);
-	  cairo_fill(cr);	 
-	}
+  if(cr) if(curstaff->next)
+	   {
+	     DenemoStaff *next = (DenemoStaff *)(curstaff->next->data);
+	     //cairo_save(cr);
+	     cairo_set_source_rgb( cr, 0, 0, 0);
+	     cairo_rectangle (cr, x - SPACE_FOR_BARLINE, y, 2, 2*STAFF_HEIGHT + next->space_above + thestaff->space_below);
+	     cairo_fill(cr);	 
+	   }
   /* end of draw lines connecting the staves in this system at the left and right hand ends */
+  if(cr)if(itp->line_end)if(itp->measurenum>si->rightmeasurenum)if(!itp->end)
+	   {
+	     guint width = gdk_pixbuf_get_width( GDK_PIXBUF(StaffGoForward));
+	     guint height = gdk_pixbuf_get_height( GDK_PIXBUF(StaffGoForward));
+	     cairo_save( cr );
+	     gdk_cairo_set_source_pixbuf( cr, GDK_PIXBUF(StaffGoForward), x,y );
+	     cairo_rectangle( cr,x,y, width, height );
+	     cairo_fill( cr );
+	     cairo_restore( cr );
+	   }
+
+
 
   if(cr) cairo_restore(cr);
   // if(itp->highy > title_highy)
