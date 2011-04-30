@@ -198,8 +198,10 @@ get_placement_from_coordinates (struct placement_info *pi,
       pi->measure_number++;
     }
   //g_print("got to measure %d\n", pi->measure_number);
-  pi->nextmeasure = (x_to_explain > GPOINTER_TO_INT (mwidthiterator->data)
-		     && pi->measure_number >= rightmeasurenum);
+  pi->nextmeasure = (
+		     (si->system_height>0.5 || x_to_explain > GPOINTER_TO_INT (mwidthiterator->data))
+		      && 
+pi->measure_number >= rightmeasurenum);
     
   pi->the_staff = g_list_nth (si->thescore, pi->staff_number - 1);
   pi->the_measure
