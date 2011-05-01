@@ -2018,16 +2018,15 @@ SCM scheme_get_padding(void) {
    the user cancels
 */
 SCM scheme_get_option(SCM options) {
-  gchar *response;
+  gchar *response = NULL;
   size_t length;
   gchar *str=NULL;
   if(scm_is_string(options)){
-    gchar *str_unterm = scm_to_locale_stringn(options, &length);
-    str = g_malloc0(length+1);
-    memcpy(str, str_unterm, length);
-    response = get_option(str, length);
-    g_free(str);
-    //FIXM memory leak str (DYNWIND)
+    gchar *str_unterm = scm_to_locale_stringn(options, &length);    
+    response = get_option(str_unterm, length);//returns NULL or a pointer to a location in str_unterm
+    if(response)
+      response = g_strdup(response);   
+    //FIXM memory leak str_unterm, response (DYNWIND)
   }
   if(response)
     return scm_from_locale_stringn (response, strlen(response));

@@ -1304,9 +1304,10 @@ string_dialog_entry_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *direction
 }
 
 static gboolean
-option_choice(GtkWidget *widget, DenemoDirective **response) {
+option_choice(GtkWidget *widget, gchar **response) {
   if( gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
     *response = g_object_get_data(G_OBJECT(widget), "choice");
+  //do not respond to the toggling off of other radio buttons
   return TRUE;
 }
 
@@ -1330,7 +1331,7 @@ gchar * get_option(gchar *str, gint length) {
   for(opt = str;(opt-str)<length;opt += strlen(opt)+1) {
     if(opt==str) {
       widget = widget1 = gtk_radio_button_new_with_label(NULL, opt);
-      response = opt;
+      response = str;//this is the first radio button, we set response to be the input string ie first option, in case the user makes no choice, in which case the callback option_choice is not called.
     } else {
       widget = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON (widget1), opt);
     }	
@@ -1343,6 +1344,7 @@ gchar * get_option(gchar *str, gint length) {
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_REJECT){ 
     response = NULL;
   }
+  g_debug("Returning contents of response is %s\n", response);
   gtk_widget_destroy(dialog);
   return response;
 }
