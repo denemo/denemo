@@ -1149,8 +1149,7 @@ static SCM scheme_input_filter_names(SCM filtername) {
   //FIXME scm_dynwind_begin (0); etc
    if(scm_is_string(filtername)){
      name = scm_to_locale_string(filtername);
-     if(name) {
-       
+     if(name) {       
        g_string_printf(Denemo.input_filters, "MIDI Input: %s", name);
        gtk_widget_show(Denemo.input_source);
        write_input_status();
@@ -1158,8 +1157,8 @@ static SCM scheme_input_filter_names(SCM filtername) {
      }
    }  else {
      gtk_widget_hide(Denemo.input_source);
-     return SCM_BOOL_F;
    }
+   return SCM_BOOL_F;
 }
 
 /* write a status label on bottom right of window*/
@@ -1179,8 +1178,8 @@ static SCM scheme_write_status(SCM filtername) {
      }
    }  else {
      gtk_widget_hide(Denemo.input_source);
-     return SCM_BOOL_F;
-   }
+  }
+   return SCM_BOOL_F;
 }
 
 SCM scheme_goto_position (SCM movement, SCM staff, SCM measure, SCM object) {
