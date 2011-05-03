@@ -1,3 +1,8 @@
+#define scm_dynwind_free(a)
+#define scm_dynwind_begin(a)
+#define scm_dynwind_end(a)
+
+
 /* view.c
  * Functions to create a top level Denemo window
  *
