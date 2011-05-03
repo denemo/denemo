@@ -1272,7 +1272,6 @@ static SCM scheme_input_filter_names(SCM filtername) {
    if(scm_is_string(filtername)){
       SCM2LSTRING(name, filtername);
      if(name) {
-       
        g_string_printf(Denemo.input_filters, "MIDI Input: %s", name);
        gtk_widget_show(Denemo.input_source);
        write_input_status();
