@@ -1280,9 +1280,9 @@ static SCM scheme_input_filter_names(SCM filtername) {
      }
    }  else {
      gtk_widget_hide(Denemo.input_source);
+   }
      scm_dynwind_end();
      return SCM_BOOL_F;
-   }
 }
 
 /* write a status label on bottom right of window*/
@@ -1303,9 +1303,9 @@ static SCM scheme_write_status(SCM filtername) {
      }
    }  else {
      gtk_widget_hide(Denemo.input_source);
+   }
      scm_dynwind_end();
      return SCM_BOOL_F;
-   }
 }
 
 SCM scheme_goto_position (SCM movement, SCM staff, SCM measure, SCM object) {
