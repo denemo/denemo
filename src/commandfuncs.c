@@ -1454,7 +1454,7 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
   if ((mode & INPUTNORMAL) && (rest != TRUE))
     addtone (mudela_obj_new, si->cursor_y, si->cursoraccs[si->staffletter_y],
 	     si->cursorclef);
-  if ((mode & INPUTBLANK) || (gui->mode & INPUTBLANK) || (!rest &&(gui->mode&(INPUTRHYTHM))))
+  if ((mode & INPUTBLANK) || (gui->mode & INPUTBLANK) || (!rest && (Denemo.gui->input_source==INPUTMIDI) && (gui->mode&(INPUTRHYTHM))))
     mudela_obj_new->isinvisible = TRUE;
 
   /* Insert the new note into the score.  Note that while we may have
