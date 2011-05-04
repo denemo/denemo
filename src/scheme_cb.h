@@ -4197,23 +4197,6 @@ export_midi_action (NULL, &param);
          if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
-SCM scheme_ExportCSOUND (SCM optional) {
-gboolean query=FALSE;
-DenemoScriptParam param;
-GString *gstr=NULL;
-int length;
-   char *str=NULL;
-if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
-gstr = g_string_new_len(str, length);
-if(!strncmp("query",str,5)) query = TRUE;          }
-         param.string = gstr;
-         param.status = FALSE;
-         
-export_csound_action (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
-return SCM_BOOL(param.status);
-}
 SCM scheme_ConfigureScore (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
@@ -5486,23 +5469,6 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 stop_midi_playback (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
-return SCM_BOOL(param.status);
-}
-SCM scheme_PlayCSound (SCM optional) {
-gboolean query=FALSE;
-DenemoScriptParam param;
-GString *gstr=NULL;
-int length;
-   char *str=NULL;
-if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
-gstr = g_string_new_len(str, length);
-if(!strncmp("query",str,5)) query = TRUE;          }
-         param.string = gstr;
-         param.status = FALSE;
-         
-csoundplayback (NULL, &param);
          if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }

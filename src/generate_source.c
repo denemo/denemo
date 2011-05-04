@@ -387,7 +387,6 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Export the score as a PDF document file", N_("ExportPDF"), "export_pdf_action", N_("Export PDF")},
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Export the score as a PNG image file", N_("ExportPNG"), "export_png_action", N_("Export PNG")},
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Export the score as a MIDI file", N_("ExportMIDI"), "export_midi_action", N_("Export MIDI")},
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Export the score as a Csound Score file", N_("ExportCSOUND"), "export_csound_action", N_("Export Csound")},
 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PROPERTIES", "Start up a wizard to create a new score. This allows you to set various properties of the score", N_("ConfigureScore"), "scorewizard", N_("Score Wizard")}, 
    {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT", "Displays the final finished score", N_("PrintMenu"), NULL, N_("Print")}, 
@@ -496,8 +495,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_MEDIA_STOP", "Stop", N_("Stop"), "stop_midi_playback", N_("Stop")}, 
 
 
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_MEDIA_PLAY", "Play using CSound...", N_("PlayCSound"), "csoundplayback", N_("Csound Playback")}, 
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_PROPERTIES", "Allows you to specify properties used in playing back (midi and csound", N_("PlaybackProperties"), "playback_properties_change", "Playback Properties", N_("Playback Properties")}, 
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_PROPERTIES", "Allows you to specify properties used in playing back (midi)", N_("PlaybackProperties"), "playback_properties_change", "Playback Properties", N_("Playback Properties")}, 
 
   {CMD_CATEGORY_DIRECT, NULL, "Opens a browser on the user manual", N_("Help"), "browse_manual", N_("Browse Manual")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Gives the version number etc of this program", N_("About"), "about", N_("About")}, 

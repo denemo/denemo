@@ -33,8 +33,6 @@
 #include "graceops.h"
 #include "kbd-custom.h"
 #include "keyboard.h"
-#include "csoundplayback.h"
-#include "exportlilypond.h"
 #include "exportmidi.h"
 #include "midi.h"
 #include "jackmidi.h"

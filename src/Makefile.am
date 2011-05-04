@@ -16,16 +16,15 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	device_manager.c device_manager.h \
 	playback.c drawfakechord.c fakechord.c \
 	playbackprops.c prefdialog.c prefops.c	processstaffname.c \
-	csoundplayback.c lyric.c scoreops.c scoreprops.c \
+	lyric.c scoreops.c scoreprops.c \
 	selectops.c staffops.c \
 	staffpropdialog.c drawbarline.c slurs.c \
 	timedialog.c tomeasuredialog.c \
 	tupletops.c utils.c graceops.c runsilent.c drawgrace.c	print.c \
-	exportcsound.c  \
 	accwidths.h \
 	articulations.h calculatepositions.h changenotehead.h \
 	 chordops.h commandfuncs.h \
-	csoundplayback.h contexts.h  dynamic.h dialogs.h draw.h \
+	contexts.h  dynamic.h dialogs.h draw.h \
 	drawingprims.h \
 	exportabc.h exportlilypond.h  exportxml.h file.h \
 	gcs.h \
@@ -39,7 +38,6 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	selectops.h staffops.h slurs.h texteditors.h texteditors.c twoints.h  tupletops.h utils.h \
 	exportxml.h \
 	xmldefs.h exportmidi.h instrumentname.h  print.h \
-	exportcsound.h \
 	lyric.h playback.h runsilent.h binreloc.c  binreloc.h \
 	bookmarks.c bookmarks.h scorewizard.c \
 	external.h scorewizard.h fakechord.h \

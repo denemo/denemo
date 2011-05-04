@@ -10,15 +10,11 @@
 #include <string.h>
 #include <denemo/denemo.h>
 #include "utils.h"
-#include "csoundplayback.h"
 #include "prefops.h"
 
 struct callbackdata
 {
   GtkWidget *tempo;
-  GtkWidget *csoundcommand;
-  GtkWidget *csoundorcfile;
-  GtkWidget *rtcs;
   GtkWidget *checkplayback;
 };
 
@@ -39,13 +35,8 @@ set_preferences (struct callbackdata *cbdata)
     prefs->field =\
     gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(cbdata->field));
 
-ASSIGNTEXT(csoundcommand)  
-
 Denemo.gui->si->tempo =
         gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (cbdata->tempo));
-
-ASSIGNTEXT(csoundorcfile)	
-ASSIGNBOOLEAN(rtcs)
 
   writeXMLPrefs (prefs);
 }
@@ -64,7 +55,6 @@ playback_properties_change (GtkAction *action, gpointer param)
 
 
   static struct callbackdata cbdata;
-  static struct cs_callback csdata;	/* for csound file selection */
 
   dialog = gtk_dialog_new_with_buttons (_("Playback properties"), NULL,
 					(GtkDialogFlags) 
@@ -118,21 +108,7 @@ playback_properties_change (GtkAction *action, gpointer param)
 
   NEWPAGE("Playback")
   INTENTRY_LIMITS("Tempo", tempo, 10, 250);
-  
-  NEWPAGE("Csound")
-  TEXTENTRY("CSound Command", csoundcommand)
-  TEXTENTRY("Orchestra Filename", csoundorcfile) 
-  
-  hbox = gtk_hbox_new (FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
-  button = gtk_button_new_with_label (_("Choose File"));
-  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-  gtk_signal_connect (GTK_OBJECT (button), "clicked",
-	GTK_SIGNAL_FUNC (chooseorcfile), &csdata);
-  gtk_widget_show (button);
-
-  BOOLEANENTRY("Playback after render",rtcs)
-	
+   
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
  
   gtk_widget_show_all(dialog);

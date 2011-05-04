@@ -2,7 +2,7 @@
  * external.c
  * 
  * functions that deals with external commmands
- * such as csound, play, playmidi, lpr...
+ * such as play, playmidi, lpr...
  *
  * this is part of the GNU Denemo, 
  * Copyright (c) 2000-2006 Adam Tee

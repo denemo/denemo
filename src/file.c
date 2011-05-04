@@ -24,7 +24,6 @@
 #include "exportmidi.h"
 #include "importxml.h"
 #include "importmusicxml.h"
-#include "exportcsound.h"
 #include "importmidi.h"
 
 #include "prefops.h"
@@ -431,11 +430,6 @@ save_in_format(gint format_id, DenemoGUI * gui, gchar *filename) {
     case MIDI_FORMAT:
       {
 	exportmidi (file, gui->si, 0, 0);
-	break;
-      };
-    case CSOUND_FORMAT:
-      {
-	exportcsound (file, gui->si, 0, 0);
 	break;
       };
     default:
@@ -1138,14 +1132,3 @@ export_midi_action (GtkAction *action, DenemoScriptParam *param)
 {
   EXPORT_INTERFACE(MIDI_FORMAT)
 }
-
-/**
- * Export pdf callback prompts for filename
- *
- */
-void
-export_csound_action (GtkAction *action, DenemoScriptParam *param)
-{
-  EXPORT_INTERFACE(CSOUND_FORMAT)
-}
-

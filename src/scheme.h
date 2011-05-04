@@ -987,10 +987,6 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ExportPNG")), "scm", (gpo
 SCM scheme_ExportMIDI(SCM optional);
 install_scm_function ("d-ExportMIDI", scheme_ExportMIDI);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ExportMIDI")), "scm", (gpointer)1);
-/*ExportCSOUND export_csound_action*/
-SCM scheme_ExportCSOUND(SCM optional);
-install_scm_function ("d-ExportCSOUND", scheme_ExportCSOUND);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ExportCSOUND")), "scm", (gpointer)1);
 /*ConfigureScore scorewizard*/
 SCM scheme_ConfigureScore(SCM optional);
 install_scm_function ("d-ConfigureScore", scheme_ConfigureScore);
@@ -1291,10 +1287,6 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "Play")), "scm", (gpointer
 SCM scheme_Stop(SCM optional);
 install_scm_function ("d-Stop", scheme_Stop);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "Stop")), "scm", (gpointer)1);
-/*PlayCSound csoundplayback*/
-SCM scheme_PlayCSound(SCM optional);
-install_scm_function ("d-PlayCSound", scheme_PlayCSound);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "PlayCSound")), "scm", (gpointer)1);
 /*PlaybackProperties playback_properties_change*/
 SCM scheme_PlaybackProperties(SCM optional);
 install_scm_function ("d-PlaybackProperties", scheme_PlaybackProperties);
