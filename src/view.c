@@ -1,6 +1,6 @@
-#define scm_dynwind_free(a)
-#define scm_dynwind_begin(a)
-#define scm_dynwind_end(a)
+//#define scm_dynwind_free(a)
+//#define scm_dynwind_begin(a)
+//#define scm_dynwind_end(a)
 
 
 /* view.c
@@ -394,8 +394,9 @@ static SCM scheme_http(SCM hname, SCM page, SCM other, SCM poststr) {
  }  
 
  if(name&&thepage&&post&&oth){
+   gchar *ret = post_denemodotorg(name, thepage, oth, post);
    scm_dynwind_end();
-   return scm_from_locale_string(post_denemodotorg(name, thepage, oth, post));
+   return scm_take_locale_string(ret);
  }
  else {
   scm_dynwind_end();
@@ -525,8 +526,9 @@ static SCM scheme_activate_menu_item(SCM menupath) {
     gchar *item;
     SCM2LSTRING(item, menupath);
     if(item) {
+      gboolean ret = activate_action(item);
       scm_dynwind_end();
-      return SCM_BOOL(activate_action(item));
+      return SCM_BOOL(ret);
     }
   }
   scm_dynwind_end();
@@ -1249,8 +1251,9 @@ static SCM scheme_put_verse(SCM verse) {
   if(scm_is_string(verse)) {
     gchar *text;
     SCM2LSTRING(text, verse);
+    gboolean ret = put_lyrics_for_current_verse(staff, text);
     scm_dynwind_end();
-    return SCM_BOOL(put_lyrics_for_current_verse(staff, text));
+    return SCM_BOOL(ret);
   }
   scm_dynwind_end();
   return SCM_BOOL_F; 
@@ -1263,7 +1266,7 @@ static SCM scheme_append_to_verse(SCM verse) {
     gchar *text;
     SCM2LSTRING(text, verse);
     scm_dynwind_end();
-    return SCM_BOOL(append_lyrics_for_current_verse(staff, text));
+CM2LSTRING
   }
   return SCM_BOOL_F; 
 }
@@ -2178,7 +2181,8 @@ SCM scheme_get_option(SCM options) {
   }
   if(response){
     scm_dynwind_end();
-    return scm_from_locale_stringn (response, strlen(response));
+    return scm_take_locale_stringn(response, strlen(response));
+    //return scm_from_locale_stringn (response, strlen(response));
   }
   else {
     scm_dynwind_end();
@@ -2219,7 +2223,7 @@ SCM scheme_set_action_script_for_tag(SCM tag, SCM script) {
   gchar *val = (gchar*)what##_directive_get_tag (tagname);\
   if(val){\
     scm_dynwind_end();\
-    return scm_from_locale_stringn (val, strlen(val));\
+    return scm_take_locale_stringn (val, strlen(val));;\
   }\
   scm_dynwind_end();\
   return SCM_BOOL(FALSE);\
@@ -2252,8 +2256,9 @@ GET_TAG_FN_DEF(movementcontrol);
   gchar *tagname;\
   SCM2LSTRING(tagname, tag);\
   extern gboolean text_edit_##what##_directive (gchar *tagname);\
+  gboolean ret = text_edit_##what##_directive (tagname);\
   scm_dynwind_end();\
-  return SCM_BOOL( text_edit_##what##_directive (tagname));\
+  return SCM_BOOL(ret);\
 }
 #define DELETE_FN_DEF(what)\
  static SCM scheme_delete_##what##_directive(SCM tag) {\
@@ -2265,8 +2270,9 @@ GET_TAG_FN_DEF(movementcontrol);
   gchar *tagname;\
   SCM2LSTRING(tagname, tag);\
   extern gboolean delete_##what##_directive (gchar *tagname);\
+  gboolean ret = delete_##what##_directive (tagname);\
   scm_dynwind_end();\
-  return SCM_BOOL( delete_##what##_directive (tagname));\
+  return SCM_BOOL(ret);\
 }
 #define EDIT_DELETE_FN_DEF(what)\
 EDIT_FN_DEF(what)\
@@ -2309,8 +2315,9 @@ static SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
   gchar *valuename;\
   SCM2LSTRING(valuename, value);\
   extern gboolean what##_directive_put_##field (gchar *tagname, gchar *valuename);\
+  gboolean ret = what##_directive_put_##field (tagname, valuename);\
   scm_dynwind_end();\
-  return SCM_BOOL(what##_directive_put_##field (tagname, valuename));\
+  return SCM_BOOL(ret);\
 }
 
 
@@ -2396,8 +2403,9 @@ static SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
   SCM2LSTRING(tagname, tag);\
   gint valuename = scm_num2int(value, 0, 0);\
   extern  gboolean  what##_directive_put_##field (gchar *tag, gint value);\
+  gboolean ret = what##_directive_put_##field (tagname, valuename);\
   scm_dynwind_end();\
-  return SCM_BOOL(what##_directive_put_##field (tagname, valuename));\
+  return SCM_BOOL(ret);\
 }
 #define INT_GETFUNC_DEF(what, field)\
 static SCM scheme_##what##_directive_get_##field(SCM tag) {\
@@ -2409,8 +2417,9 @@ static SCM scheme_##what##_directive_get_##field(SCM tag) {\
   gchar *tagname;\
   SCM2LSTRING(tagname, tag);\
   extern gint what##_directive_get_##field (gchar *tag);\
+  gint ret = what##_directive_get_##field (tagname);\
   scm_dynwind_end();\
-  return scm_int2num(what##_directive_get_##field (tagname));\
+  return scm_int2num(ret);\
 }
 
 
@@ -2425,8 +2434,9 @@ static SCM scheme_##what##_directive_put_graphic(SCM tag, SCM value) {\
   SCM2LSTRING(tagname, tag);\
   gchar *valuename;\
   SCM2LSTRING(valuename, value);\
+  gboolean ret = what##_directive_put_graphic (tagname, valuename);\
   scm_dynwind_end();\
-  return SCM_BOOL(what##_directive_put_graphic (tagname, valuename));\
+  return SCM_BOOL(ret);\
 }
 
 PUTGRAPHICFUNC_DEF(note);
