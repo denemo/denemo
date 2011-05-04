@@ -268,10 +268,10 @@ do_one_note(gint mid_c_offset, gint enshift, gint notenum) {
     //if it is a non-printing note back up to the first non-printing note.
     if(Denemo.gui->si->currentobject){
       DenemoObject *curobj = Denemo.gui->si->currentobject->data;
-      while(curobj && (curobj->type==CHORD) && curobj->isinvisible){
+      while(curobj && (curobj->type==CHORD) && ((((chord*)curobj->object)->notes==NULL) || curobj->isinvisible)){
 	if(cursor_to_prev_object(FALSE, TRUE)) {	  
 	  curobj = Denemo.gui->si->currentobject?Denemo.gui->si->currentobject->data:NULL;
-	  if(!(curobj && (curobj->type==CHORD) && curobj->isinvisible)) {
+	  if(!(curobj && (curobj->type==CHORD) && ((((chord*)curobj->object)->notes==NULL) || curobj->isinvisible))) {
 	    curobj=NULL;//to force going forwards
 	    break;
 	  }
@@ -283,6 +283,13 @@ do_one_note(gint mid_c_offset, gint enshift, gint notenum) {
       }
       if( (Denemo.gui->si->currentobject==NULL) ||  curobj != Denemo.gui->si->currentobject->data)
 	cursor_to_next_object(FALSE, TRUE);
+
+      if(Denemo.gui->si->currentobject)
+      while( (curobj=Denemo.gui->si->currentobject->data) && (curobj->type==CHORD) && (((chord*)curobj->object)->notes==NULL)) {	
+	if(!cursor_to_next_object(FALSE, TRUE))
+	  break;
+      }
+	
     }
     action_note_into_score(mid_c_offset, enshift, notenum);
     if(Denemo.keyboard_state&ADDING_MASK)

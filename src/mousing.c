@@ -497,11 +497,6 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   gtk_widget_grab_focus(widget);
   gint key = gui->si->maxkeywidth;
   gint cmajor = key?0:5;//allow some area for keysig in C-major
-  if(left && (gui->si->leftmeasurenum>1) && (event->x<KEY_MARGIN+SPACE_FOR_TIME+key)  && (event->x>LEFT_MARGIN)){
-    set_currentmeasurenum (gui, gui->si->leftmeasurenum-1);
-    gtk_widget_queue_draw (Denemo.scorearea);
-    return TRUE;
-  } 
 
   if(gui->lefts[line_num] == 0)
     return TRUE;//On an empty system at the bottom where there is not enough room to draw another staff.
@@ -516,7 +511,19 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
     return TRUE;//could not place the cursor
   change_staff(gui->si, pi.staff_number, pi.the_staff);
 
-
+  
+  if(left && (gui->si->leftmeasurenum>1) && (event->x<KEY_MARGIN+SPACE_FOR_TIME+key)  && (event->x>LEFT_MARGIN)){
+    moveto_currentmeasurenum(gui, gui->si->leftmeasurenum-1); 
+    write_status(gui);
+    gtk_widget_queue_draw (Denemo.scorearea);
+    return TRUE;
+  } 
+  else
+    if(pi.nextmeasure) {
+      moveto_currentmeasurenum(gui, gui->si->rightmeasurenum+1);
+      write_status(gui);
+     
+    }
 
 
   if (pi.the_measure != NULL){ /*don't place cursor in a place that is not there*/
@@ -531,8 +538,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
       (gui->si->cursor_x ==
        (gint) (g_list_length ((objnode *) gui->si->currentmeasure->data)));
     set_cursor_y_from_click (gui, event->y);
-    if(pi.nextmeasure)
-      movetomeasureright(NULL); 
+
     write_status(gui);
   }
 
