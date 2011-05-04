@@ -526,7 +526,7 @@ static SCM scheme_activate_menu_item(SCM menupath) {
     gchar *item;
     SCM2LSTRING(item, menupath);
     if(item) {
-      gboolean ret = activate_action(item);
+      gboolean ret = activate_action(item) ? TRUE:FALSE;
       scm_dynwind_end();
       return SCM_BOOL(ret);
     }
@@ -1265,8 +1265,9 @@ static SCM scheme_append_to_verse(SCM verse) {
   if(scm_is_string(verse)) {
     gchar *text;
     SCM2LSTRING(text, verse);
+    gboolean ret = append_lyrics_for_current_verse(staff, text);
     scm_dynwind_end();
-CM2LSTRING
+    return SCM_BOOL(ret);
   }
   return SCM_BOOL_F; 
 }
