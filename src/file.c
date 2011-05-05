@@ -685,6 +685,38 @@ set_current_folder(GtkWidget *file_selection, DenemoGUI *gui, DenemoSaveType tem
     } 
 }
 
+gchar *
+file_dialog(gchar *message, gboolean type, gchar *location){
+  GtkWidget *file_selection;
+  GtkFileFilter *filter;
+  gchar *filename;
+  file_selection = gtk_file_chooser_dialog_new (message,
+						GTK_WINDOW (Denemo.window),
+						type?
+						  GTK_FILE_CHOOSER_ACTION_OPEN:
+						  GTK_FILE_CHOOSER_ACTION_SAVE,
+						GTK_STOCK_CANCEL,
+						GTK_RESPONSE_REJECT,
+						type?
+						  GTK_STOCK_OPEN:
+						  GTK_STOCK_SAVE,
+						GTK_RESPONSE_ACCEPT, NULL);
+
+  if (location) 
+    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_selection),
+					   location);
+  gtk_dialog_set_default_response (GTK_DIALOG (file_selection),
+				   GTK_RESPONSE_ACCEPT);
+  gtk_widget_show_all (file_selection);
+  if (gtk_dialog_run (GTK_DIALOG (file_selection)) == GTK_RESPONSE_ACCEPT)
+    filename =
+	gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_selection));
+  else
+    filename = NULL;
+  gtk_widget_destroy (file_selection);\
+  return filename;
+}
+
 #define FILE_OPEN_DIALOG(message, format, save_type) \
   gboolean ret = -1;\
   if(filename && !g_file_test(filename, G_FILE_TEST_IS_DIR))\

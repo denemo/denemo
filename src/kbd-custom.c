@@ -28,7 +28,7 @@
 #include "utils.h"
 #include "playback.h"
 #include "keyboard.h"
-
+#include "file.h"
 
 #define DENEMO_TWO_KEY_SEPARATOR ","
 #if GTK_MINOR_VERSION < 10
@@ -1586,12 +1586,11 @@ locatekeymapdir ()
  *FIXME note that non xml file support has been commented out
  */
 void
-load_keymap_from_dialog (GtkWidget * widget, GtkWidget *filesel)
+load_keymap_from_dialog (gchar *filename)
 {
-  gchar *name = (gchar *)
-    gtk_file_selection_get_filename (GTK_FILE_SELECTION (filesel));
-  if(g_file_test (name, G_FILE_TEST_EXISTS))
-     load_keymap_files(NULL, name);
+  if(g_file_test (filename, G_FILE_TEST_EXISTS))
+     load_keymap_files(NULL, filename);
+  g_free(filename);
   Denemo.accelerator_status = TRUE;
 }
 
@@ -1608,30 +1607,8 @@ static 	void show_type(GtkWidget *widget, gchar *message) {
 void
 load_keymap_dialog_location (GtkWidget * widget, gchar *location)
 {
-  GtkWidget *filesel;
-  filesel = gtk_file_selection_new (_("Load Command Set"));
-#if 0
-  GtkFileSelection *test = filesel;
-  show_type(test->selection_text, "dir list type is GtkTreeView selection_text  GtkLabel selection_entry is GtkEntry");
-#endif
-
-  gtk_file_selection_set_filename (GTK_FILE_SELECTION (filesel), location);
-  gtk_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (filesel)->ok_button),
-		      "clicked", GTK_SIGNAL_FUNC (load_keymap_from_dialog),
-		      (gpointer)filesel);
-  gtk_signal_connect_object (GTK_OBJECT
-			     (GTK_FILE_SELECTION (filesel)->ok_button),
-			     "clicked", GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (filesel));
-  gtk_signal_connect_object (GTK_OBJECT
-			     (GTK_FILE_SELECTION (filesel)->cancel_button),
-			     "clicked", GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (filesel));
-
-
-  gtk_window_set_modal (GTK_WINDOW (filesel), TRUE);
-  gtk_window_set_position (GTK_WINDOW (filesel), GTK_WIN_POS_MOUSE);
-  gtk_widget_show (filesel);
+  gchar *filename = file_dialog("Load Command Set", TRUE, location);
+  if (filename) load_keymap_from_dialog(filename);
 }
 
 void
@@ -1730,19 +1707,17 @@ static GScannerConfig scanner_config_template = {
  *
  */
 void
-save_keymap_from_dialog (GtkWidget * widget, GtkWidget * filesel)
+save_keymap_from_dialog (gchar *filename)
 {
 
-gchar *name = (gchar *)
-		   gtk_file_selection_get_filename (GTK_FILE_SELECTION
-						    (filesel));
- gchar *extendedname = substitute_extension(name, "commands");
+ gchar *extendedname = substitute_extension(filename, "commands");
  save_xml_keymap (extendedname);//no longer save keybindings here
  
- gchar *filename = substitute_extension(extendedname, "shortcuts");
- save_xml_keybindings(filename);
- g_free(filename);
+ gchar *fname = substitute_extension(extendedname, "shortcuts");
+ save_xml_keybindings(fname);
+ g_free(fname);
  g_free(extendedname);
+ g_free(filename);
 }
 
 /**
@@ -1752,28 +1727,11 @@ gchar *name = (gchar *)
 void
 save_keymap_dialog (GtkWidget * widget)
 {
-  GtkWidget *filesel;
-  static gchar *keymapdir = NULL;
-
-
-  if (!keymapdir)
-    keymapdir = g_strdup_printf("%s%c", locatekeymapdir(),G_DIR_SEPARATOR);
-  filesel = gtk_file_selection_new (_("Save Command Set"));
-  gtk_file_selection_set_filename (GTK_FILE_SELECTION (filesel), keymapdir);
-  gtk_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (filesel)->ok_button),
-		      "clicked", GTK_SIGNAL_FUNC (save_keymap_from_dialog),
-		      (gpointer)filesel);
-  gtk_signal_connect_object (GTK_OBJECT
-			     (GTK_FILE_SELECTION (filesel)->ok_button),
-			     "clicked", GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (filesel));
-  gtk_signal_connect_object (GTK_OBJECT
-			     (GTK_FILE_SELECTION (filesel)->cancel_button),
-			     "clicked", GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (filesel));
-  gtk_window_set_modal (GTK_WINDOW (filesel), TRUE);
-  gtk_window_set_position (GTK_WINDOW (filesel), GTK_WIN_POS_MOUSE);
-  gtk_widget_show (filesel);
+  gchar *keymapdir = NULL;
+  keymapdir = g_build_filename(locatekeymapdir(), NULL);
+  gchar *filename = file_dialog("Save Command Set", FALSE, keymapdir);
+  if (filename) save_keymap_from_dialog(filename);
+  g_free(keymapdir);
 }
 
 /**

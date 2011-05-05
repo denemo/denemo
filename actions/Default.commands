@@ -1254,11 +1254,6 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
         <tooltip>Export the score as a MIDI file</tooltip>
       </row>
       <row>
-        <action>ExportCSOUND</action>
-        <label>Export Csound</label>
-        <tooltip>Export the score as a Csound Score file</tooltip>
-      </row>
-      <row>
         <action>ConfigureScore</action>
         <label>Score Wizard</label>
         <tooltip>Start up a wizard to create a new score. This allows you to set various properties of the score</tooltip>
@@ -1635,14 +1630,9 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
         <tooltip>Stop</tooltip>
       </row>
       <row>
-        <action>PlayCSound</action>
-        <label>Csound Playback</label>
-        <tooltip>Play using CSound...</tooltip>
-      </row>
-      <row>
         <action>PlaybackProperties</action>
         <label>Playback Properties</label>
-        <tooltip>Allows you to specify properties used in playing back (midi and csound</tooltip>
+        <tooltip>Allows you to specify properties used in playing back (midi)</tooltip>
       </row>
       <row>
         <action>Help</action>
@@ -5041,7 +5031,7 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/ChordMenu/ChangePrintDuration</menupath>
         <label>Change chord-member to longa</label>
         <tooltip>Change one chord member to appear like a longa duration without changing the original logic like measure calculation or the duration of newly added chord members.</tooltip>
-      </row>    
+      </row>
     </map>
   </merge>
 </Denemo>

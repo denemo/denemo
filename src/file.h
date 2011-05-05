@@ -68,6 +68,9 @@ void paste_clipboard(GtkAction * action, gpointer param);
 void openrecent (GtkWidget * widget, gchar *filename);
 gint open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, ImportType type);
 
+gchar *
+file_dialog(gchar *message, gboolean type, gchar *location);
+
 gint
 lyinput (gchar *filename, DenemoGUI *gui);
 #endif /*FILE_H*/

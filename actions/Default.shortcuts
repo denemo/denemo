@@ -613,10 +613,6 @@
         <bind>F6</bind>
       </row>
       <row>
-        <action>PlayCSound</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
         <action>Help</action>
         <bind>F1</bind>
       </row>
@@ -1602,10 +1598,6 @@
       </row>
       <row>
         <action>GrandStaffEnd</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>DeleteStaffContexts</action>
         <hidden>true</hidden>
       </row>
       <row>
