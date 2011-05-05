@@ -7258,8 +7258,10 @@ gint val = gtk_radio_action_get_current_value (current);
    g_warning("Bad Value\n");
    break;
  }
- if(fail)
+ if(fail) {
+   gui->input_source = INPUTKEYBOARD;
    gtk_radio_action_set_current_value(current, INPUTKEYBOARD);
+ }
    else
      write_input_status();
 }
