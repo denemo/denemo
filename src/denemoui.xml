@@ -35,7 +35,6 @@
       	<menuitem action="ExportPDF"/> 
         <menuitem action="ExportPNG"/> 
 	<menuitem action="ExportMIDI"/> 
-	<menuitem action="ExportCSOUND"/> 
       </menu>
       <separator/>
       <menuitem action="ConfigureScore"/> 
