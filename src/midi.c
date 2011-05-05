@@ -217,7 +217,8 @@ void safely_track_remove_from_smf(smf_track_t *track) {
  * @enshift enharmonic adjustment -1 is one flat etc.. 
  * @octave
  */
-static void action_note_into_score (DenemoGUI *gui, gint mid_c_offset, gint enshift, gint octave) {
+static void action_note_into_score (gint mid_c_offset, gint enshift, gint octave) {
+  DenemoGUI *gui = Denemo.gui;
   gui->last_source = INPUTMIDI;
   gui->si->cursor_y = gui->si->staffletter_y = mid_c_offset;
   gui->si->cursor_y += 7*octave; 
@@ -225,7 +226,8 @@ static void action_note_into_score (DenemoGUI *gui, gint mid_c_offset, gint ensh
   setenshift(gui->si, enshift);
   displayhelper (gui);
 }
-static void add_note_to_chord (DenemoGUI *gui, gint mid_c_offset, gint enshift, gint octave) {
+static void add_note_to_chord (gint mid_c_offset, gint enshift, gint octave) {
+  DenemoGUI *gui = Denemo.gui;
   gui->last_source = INPUTMIDI;
   gui->si->cursor_y = gui->si->staffletter_y = mid_c_offset;
   gui->si->cursor_y += 7*octave; 
@@ -256,14 +258,40 @@ void record_midi(gchar *buf, gdouble time) {
 }
 
 static void 	      
-do_one_note(DenemoGUI *gui, gint mid_c_offset, gint enshift, gint notenum) {
-  
+do_one_note(gint mid_c_offset, gint enshift, gint notenum) {
+  DenemoGUI *gui = Denemo.gui;
   if((Denemo.keyboard_state&ADDING_MASK) && (Denemo.keyboard_state&CHORD_MASK)) {
     
-    add_note_to_chord(gui, mid_c_offset, enshift, notenum);
+    add_note_to_chord(mid_c_offset, enshift, notenum);
   }
   else {
-    action_note_into_score(gui, mid_c_offset, enshift, notenum);
+    //if it is a non-printing note back up to the first non-printing note.
+    if(Denemo.gui->si->currentobject){
+      DenemoObject *curobj = Denemo.gui->si->currentobject->data;
+      while(curobj && (curobj->type==CHORD) && ((((chord*)curobj->object)->notes==NULL) || curobj->isinvisible)){
+	if(cursor_to_prev_object(FALSE, TRUE)) {	  
+	  curobj = Denemo.gui->si->currentobject?Denemo.gui->si->currentobject->data:NULL;
+	  if(!(curobj && (curobj->type==CHORD) && ((((chord*)curobj->object)->notes==NULL) || curobj->isinvisible))) {
+	    curobj=NULL;//to force going forwards
+	    break;
+	  }
+	}
+	else {
+	  curobj = Denemo.gui->si->currentobject?Denemo.gui->si->currentobject->data:NULL;
+	  break;
+	}
+      }
+      if( (Denemo.gui->si->currentobject==NULL) ||  curobj != Denemo.gui->si->currentobject->data)
+	cursor_to_next_object(FALSE, TRUE);
+
+      if(Denemo.gui->si->currentobject)
+      while( (curobj=Denemo.gui->si->currentobject->data) && (curobj->type==CHORD) && (((chord*)curobj->object)->notes==NULL)) {	
+	if(!cursor_to_next_object(FALSE, TRUE))
+	  break;
+      }
+	
+    }
+    action_note_into_score(mid_c_offset, enshift, notenum);
     if(Denemo.keyboard_state&ADDING_MASK)
       Denemo.keyboard_state |= CHORD_MASK;
     set_midi_in_status();
@@ -327,7 +355,7 @@ static gint midiaction(gint notenum) {
 	    }
 	    else {
 
-	      do_one_note(gui, enote.mid_c_offset, enote.enshift, enote.octave);
+	      do_one_note(enote.mid_c_offset, enote.enshift, enote.octave);
 		
 	    }
 	    if(Denemo.gui->si->cursor_appending)
@@ -335,7 +363,7 @@ static gint midiaction(gint notenum) {
 	  } while((!(Denemo.keyboard_state&ADDING_MASK)) && next_editable_note() && is_tied);
 	} else {
 	  if(gui->si->cursor_appending)
-	    do_one_note(gui, enote.mid_c_offset, enote.enshift, enote.octave);
+	    do_one_note(enote.mid_c_offset, enote.enshift, enote.octave);
 	  else
 	    gdk_beep();
 	}
@@ -346,14 +374,10 @@ static gint midiaction(gint notenum) {
 	  else if(beep) signal_measure_end(), beep=FALSE;
 	}
       } else {// no current object
-	//	if((Denemo.keyboard_state&ADDING_MASK))
-	// add_note_to_chord(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
-	  //else
-	  //action_note_into_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
-	  do_one_note(gui, enote.mid_c_offset, enote.enshift, enote.octave);
+	  do_one_note(enote.mid_c_offset, enote.enshift, enote.octave);
       }
     } else {// not INPUTEDIT    
-      action_note_into_score(gui, enote.mid_c_offset, enote.enshift, enote.octave);
+      action_note_into_score(enote.mid_c_offset, enote.enshift, enote.octave);
   }
   if( !(Denemo.keyboard_state&CHECKING_MASK)) {
     stage_undo(gui->si, ACTION_STAGE_START);

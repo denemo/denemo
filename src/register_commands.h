@@ -245,7 +245,6 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "ExportMU
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ExportPDF"), "ExportPDF", "Export PDF", "Export the score as a PDF document file", export_pdf_action);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ExportPNG"), "ExportPNG", "Export PNG", "Export the score as a PNG image file", export_png_action);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ExportMIDI"), "ExportMIDI", "Export MIDI", "Export the score as a MIDI file", export_midi_action);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "ExportCSOUND"), "ExportCSOUND", "Export Csound", "Export the score as a Csound Score file", export_csound_action);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ConfigureScore"), "ConfigureScore", "Score Wizard", "Start up a wizard to create a new score. This allows you to set various properties of the score", scorewizard);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintPreview"), "PrintPreview", "Print Preview", "Displays the final finished score in your pdf viewer", printpreview_cb);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintSelection"), "PrintSelection", "Print Selection", "Displays selected music from score in your pdf viewer", printselection_cb);
@@ -321,8 +320,7 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "Previous
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "DeleteMovement"), "DeleteMovement", "Delete Movement", "Delete the current movement", delete_movement);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Play"), "Play", "Play", "Play", ext_midi_playback);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Stop"), "Stop", "Stop", "Stop", stop_midi_playback);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "PlayCSound"), "PlayCSound", "Csound Playback", "Play using CSound...", csoundplayback);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "PlaybackProperties"), "PlaybackProperties", "Playback Properties", "Allows you to specify properties used in playing back (midi and csound", playback_properties_change);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "PlaybackProperties"), "PlaybackProperties", "Playback Properties", "Allows you to specify properties used in playing back (midi)", playback_properties_change);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Help"), "Help", "Browse Manual", "Opens a browser on the user manual", browse_manual);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "About"), "About", "About", "Gives the version number etc of this program", about);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "MoreCommands"), "MoreCommands", "More Commands", "Allows choosing standard extra commands/menu items", morecommands);

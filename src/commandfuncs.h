@@ -77,11 +77,7 @@ movetovoiceup (DenemoScriptParam *param);
 gboolean
 movetovoicedown (DenemoScriptParam *param);
 
-gboolean 
-cursor_to_next_note(DenemoScriptParam *param);
 
-gboolean 
-cursor_to_next_chord(DenemoScriptParam *param);
 
 gboolean
 cursorleft (DenemoScriptParam *param);
@@ -94,6 +90,31 @@ movecursorleft (DenemoScriptParam *param);
 
 gboolean
 movecursorright (DenemoScriptParam *param);
+
+gboolean 
+cursor_to_next_object(gboolean within_measure, gboolean stopping_at_empty);
+gboolean 
+cursor_to_prev_object(gboolean within_measure, gboolean stopping_at_empty);
+gboolean 
+cursor_to_next_selected_object(void);
+gboolean 
+cursor_to_prev_selected_object(void);
+gboolean 
+cursor_to_next_standalone_directive(void);
+gboolean 
+cursor_to_prev_standalone_directive(void);
+gboolean 
+cursor_to_next_chord(void);
+gboolean 
+cursor_to_prev_chord(void);
+gboolean 
+cursor_to_next_chord_in_measure(void);
+gboolean 
+cursor_to_prev_chord_in_measure(void);
+gboolean 
+cursor_to_next_note(void);
+gboolean 
+cursor_to_prev_note(void);
 
 void
 cursorup (DenemoScriptParam *param);

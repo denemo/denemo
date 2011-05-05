@@ -261,7 +261,7 @@ typedef struct
   gint no_of_lines; /**< Number of lines on the staff */
   gint transposition; /**< Determines if the notes are to be played back at pitch or not */
 
-  gint volume;	/**< Volume used for midi/csound playback */
+  gint volume;	/**< Volume used for midi playback */
   gboolean mute_volume; /**< mute Volume of voices playback */
   /* Back to Hiller stuff */
   //  GString *staff_name;
@@ -370,9 +370,7 @@ typedef struct DenemoPrefs
   GString *profile; /**< Which set of commands and shortcuts to load, and which initialization of scheme to run */
   GString *lilypath; /**< This is the executable or full path to the lilypond executable */
   GString *midiplayer; /**< This is the external midifile player */ 
-  GString *audioplayer; /**< This is used for playing audio files created from csound or other */
-  gboolean playbackoutput; /**< This is a switch to turn on playing the csound output 
-			     wav file after rendering or not */
+  GString *audioplayer; /**< This is used for playing audio files*/
   gboolean immediateplayback; /**< This options sends audio directly to synth as notes 
 				are being entered */
   gboolean startmidiin; /**< try to start midi in on startup */
@@ -410,9 +408,6 @@ typedef struct DenemoPrefs
   GString *browser; /**< Default browser string */
   
   const gchar *midi_audio_output; /**< How the user wants to deal with audio/midi output */
-  GString *csoundcommand; /**< command used to execute csound */
-  GString *csoundorcfile; /**< Path to .orc file used for csound playback */
-  gboolean rtcs; /**< Real time csound */
   GString *sequencer;  /**< path to sequencer device */
   GString *midi_in;  /**< path to midi_in device */
   gboolean jacktransport; /**< toggle on and off jack transport */
@@ -938,7 +933,6 @@ struct cs_callback
 	
 };
 
-//static gchar* ext_pidfiles[] = {"midiplayer.pid", "csoundplayer.pid", NULL};
 
 /** 
  * The (singleton) root object for the program

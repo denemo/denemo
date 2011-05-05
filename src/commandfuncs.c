@@ -904,6 +904,8 @@ movecursorleft (DenemoScriptParam *param)
 return  move_left(param, FALSE);
 }
 
+#if 0
+
 //next chord that is not a rest
 gboolean cursor_to_next_note(DenemoScriptParam *param) {
   gboolean success = FALSE;
@@ -925,6 +927,7 @@ gboolean cursor_to_next_note(DenemoScriptParam *param) {
   }
   return success;
 }
+
 // next chord, ie single or multinote chord or rest
 gboolean cursor_to_next_chord(DenemoScriptParam *param) {
   gboolean success = FALSE;
@@ -942,6 +945,234 @@ gboolean cursor_to_next_chord(DenemoScriptParam *param) {
     }
   }
   return success;
+}
+#endif
+
+
+// moves the cursor in the direction indicated, observing within_measure and if stopping stopping at empty measures
+
+static gboolean to_object_direction(gboolean within_measure, gboolean right, gboolean stopping) {
+  DenemoGUI *gui = Denemo.gui;
+  if(!Denemo.gui || !(Denemo.gui->si))
+    return FALSE;
+  GList *start_obj = Denemo.gui->si->currentobject;
+  GList *start_measure = Denemo.gui->si->currentmeasure;
+  gboolean was_appending = Denemo.gui->si->cursor_appending;
+  if(start_obj && Denemo.gui->si->cursor_appending)
+    movecursorleft(NULL);
+  if(start_obj==NULL){
+    if(within_measure)
+      return FALSE;
+    // start object is NULL, not restricted to current measure
+    if(right) {
+      if(start_measure->next) {
+	movetomeasureright(NULL);
+	if(Denemo.gui->si->currentobject)
+	  return TRUE;
+	else
+	  if(stopping) return FALSE;
+	  else
+	    return to_object_direction(within_measure, right, stopping);
+      } else
+	return FALSE;
+    }
+    // going left, start object is NULL, not restricted to current measure, going previous
+    if(start_measure->prev) {
+      movecursorleft(NULL);
+      if(Denemo.gui->si->currentobject==NULL) 
+	if(stopping) return FALSE;
+	else
+	  return to_object_direction(within_measure, right, stopping);
+      movecursorleft(NULL);
+      return TRUE;
+    }
+    return FALSE;
+  }
+  //start object is not NULL
+  if(within_measure){
+    if(right) {
+      if(start_obj->next) {
+	movecursorright(NULL);
+	return TRUE;
+      }
+      if(was_appending)
+      	movecursorright(NULL);
+      return FALSE;
+    }
+    //left
+    if(start_obj->prev==NULL)
+      return FALSE;
+  }
+  //not restricted to this measure
+  if(right) {
+    if(start_obj->next) {
+      movecursorright(NULL);
+      return TRUE;}
+    if(start_measure->next) {
+      movetomeasureright(NULL);
+      if(Denemo.gui->si->currentobject==NULL)
+	if(stopping) return FALSE;
+	else
+	  return to_object_direction(within_measure, right, stopping);
+      return TRUE;
+    }
+   if(was_appending)
+      movecursorright(NULL);
+    return FALSE;
+  }
+  //left
+  if(start_obj->prev) {
+    movecursorleft(NULL);
+    return TRUE;
+  }
+  if(start_measure->prev) {
+    movecursorleft(NULL);
+    if(Denemo.gui->si->currentobject==NULL)
+      if(stopping) return FALSE;
+      else
+	return to_object_direction(within_measure, right, stopping);
+    movecursorleft(NULL);
+    return TRUE;
+  }
+  return FALSE;
+}
+
+static gboolean to_standalone_directive_direction (gboolean right) {
+  gboolean ret = to_object_direction(FALSE, right, FALSE);
+  if(!ret)
+    return ret;
+  if(Denemo.gui->si->currentobject && Denemo.gui->si->currentobject->data &&
+    ((DenemoObject*) Denemo.gui->si->currentobject->data)->type == LILYDIRECTIVE)
+    return TRUE;
+  else
+    return 
+      to_standalone_directive_direction (right);
+}
+
+/* moves currentobject to object in the selection in the direction indicated by right.
+   Steps over barlines (i.e. cursor_appending).
+ returns TRUE if currentobject is different after than before the call
+*/
+static gboolean to_selected_object_direction (gboolean right) {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoObject *curObj;
+  chord *thechord;
+  note *thenote;
+  if(!Denemo.gui || !(Denemo.gui->si))
+    return FALSE;
+  // save_selection(Denemo.gui->si);
+  gboolean success = to_object_direction(FALSE, right, FALSE);
+  if(!success)
+    success = to_object_direction(FALSE, right, FALSE);
+  // restore_selection(Denemo.gui->si);
+  //g_print("success %d\n", success);
+  if((success) && in_selection(Denemo.gui->si))
+    return TRUE;
+ if(success)
+   to_object_direction(FALSE, !right, FALSE);
+  return FALSE;  
+}
+
+static gboolean to_chord_direction (gboolean right, gboolean stopping) {
+  gboolean ret = to_object_direction(FALSE, right, stopping);
+  if(!ret)
+    return ret;
+  if(Denemo.gui->si->currentobject && Denemo.gui->si->currentobject->data &&
+    ((DenemoObject*) Denemo.gui->si->currentobject->data)->type == CHORD)
+    return TRUE;
+  else
+    return 
+      to_chord_direction (right, stopping);
+}
+
+static gboolean to_chord_direction_in_measure (gboolean right) {
+  gboolean ret = to_object_direction(TRUE, right, TRUE);
+  if(!ret)
+    return ret;
+  if(Denemo.gui->si->currentobject && Denemo.gui->si->currentobject->data &&
+    ((DenemoObject*) Denemo.gui->si->currentobject->data)->type == CHORD)
+    return TRUE;
+  else
+    return 
+      to_chord_direction_in_measure (right);
+}
+
+ // there is a significant problem with the concept of next note in a chord of several notes. We have no way of iterating over the notes of a chord
+  // since the notes may be altered during the iteration and Denemo does not define a "currentnote"
+//This next note is next chord that is not a rest in the given direction.
+static gboolean to_note_direction(gboolean right, gboolean stopping) {
+  gboolean ret = to_chord_direction(right, stopping);
+ if(!ret)
+    return ret;
+ if(Denemo.gui->si->currentobject && Denemo.gui->si->currentobject->data &&
+    ((DenemoObject*) Denemo.gui->si->currentobject->data)->type == CHORD && 
+    ((((chord *)(((DenemoObject*) Denemo.gui->si->currentobject->data)->object))->notes))
+    && (!Denemo.gui->si->cursor_appending))
+   return TRUE;
+  else
+    return to_note_direction (right, stopping);
+}
+
+/******** advances the cursor to the next note,  stopping
+ at empty measures. The cursor is left after last note if no more notes */
+gboolean next_editable_note(void) {
+  gboolean  ret = to_note_direction(TRUE, TRUE);
+  if((!ret) && Denemo.gui->si->currentobject==NULL) {
+    to_note_direction(FALSE, TRUE);
+  }
+  if(!ret)
+    movecursorright(NULL);
+  return ret;
+}
+
+
+gboolean cursor_to_next_object(gboolean within_measure, gboolean stopping) {
+ 
+  return to_object_direction(within_measure, TRUE, stopping);  
+}
+gboolean cursor_to_prev_object(gboolean within_measure, gboolean stopping) {
+ 
+  return to_object_direction(within_measure, FALSE, stopping);  
+}
+
+
+gboolean cursor_to_next_selected_object(void) {
+  return to_selected_object_direction(TRUE);
+}
+
+gboolean cursor_to_prev_selected_object(void) {
+  return to_selected_object_direction(FALSE);
+}
+
+gboolean cursor_to_next_standalone_directive(void) {
+  return to_standalone_directive_direction(TRUE);
+}
+
+gboolean cursor_to_prev_standalone_directive(void) {
+  return to_standalone_directive_direction(FALSE);
+}
+
+gboolean cursor_to_next_chord(void) {
+  return to_chord_direction(TRUE, FALSE);
+}
+
+gboolean cursor_to_prev_chord(void) {
+  return to_chord_direction(FALSE, FALSE);
+}
+
+gboolean cursor_to_next_chord_in_measure(void) {
+  return to_chord_direction_in_measure(TRUE);
+}
+
+gboolean cursor_to_prev_chord_in_measure(void) {
+  return to_chord_direction_in_measure(FALSE);
+}
+gboolean cursor_to_next_note(void) {
+  return to_note_direction(TRUE, FALSE);
+}
+
+gboolean cursor_to_prev_note(void) {
+  return to_note_direction(FALSE, FALSE);
 }
 
 /**
@@ -1223,7 +1454,7 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
   if ((mode & INPUTNORMAL) && (rest != TRUE))
     addtone (mudela_obj_new, si->cursor_y, si->cursoraccs[si->staffletter_y],
 	     si->cursorclef);
-  if ((mode & INPUTBLANK) || (gui->mode & INPUTBLANK) || (!rest &&(gui->mode&(INPUTRHYTHM))))
+  if ((mode & INPUTBLANK) || (gui->mode & INPUTBLANK) || (!rest && (Denemo.gui->input_source==INPUTMIDI) && (gui->mode&(INPUTRHYTHM))))
     mudela_obj_new->isinvisible = TRUE;
 
   /* Insert the new note into the score.  Note that while we may have

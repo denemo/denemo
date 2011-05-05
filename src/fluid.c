@@ -337,11 +337,9 @@ static gdouble GET_TIME (void) {
 //advance cursor to next note
 static void advance_clock(gchar *buf) {
   if(Denemo.gui->si->currentobject) {
-    DenemoScriptParam aparam;
-    DenemoScriptParam *param = &aparam;
     DenemoObject *obj = Denemo.gui->si->currentobject->data;
     if(obj->type!=CHORD) 
-      if(cursor_to_next_chord(param)) 
+      if(cursor_to_next_chord()) 
 	obj = Denemo.gui->si->currentobject->data;
     
     if(Denemo.gui->si->currentobject && obj->type==CHORD) {
@@ -352,13 +350,13 @@ static void advance_clock(gchar *buf) {
 	  gdouble thetime = get_time();
 	  Denemo.gui->si->start_player = thetime -  obj->earliest_time;
 	  
-	  if(thechord->is_tied && cursor_to_next_note(param)) {
+	  if(thechord->is_tied && cursor_to_next_note()) {
 	    obj = Denemo.gui->si->currentobject->data;	   
 	  }
 	  //playalong_time = obj->latest_time;
 	  //IF THE NEXT OBJ IS A REST ADVANCE OVER IT/THEM
 	  do {
-	    if(!cursor_to_next_note(param))	//if(!cursor_to_next_chord())	   	      
+	    if(!cursor_to_next_note())	//if(!cursor_to_next_chord())	   	      
 	      {
 		playalong_time = Denemo.gui->si->end_time + 1.0;
 		break;

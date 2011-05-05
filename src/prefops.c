@@ -83,10 +83,6 @@ initprefs ()
 
   ret->mode = INPUTEDIT|INPUTRHYTHM|INPUTNORMAL;
 
-
-  ret->csoundcommand = g_string_new ("csound -dm6");
-
-  ret->csoundorcfile = g_string_new ("");
   const gchar *name = g_get_user_name();
   ret->username = g_string_new (name?name:"DenemoUser");
   ret->password = g_string_new ("");
@@ -162,8 +158,6 @@ initprefs ()
 #endif
 #endif
   ret->saveparts = FALSE;
-  ret->rtcs = TRUE;
-  ret->playbackoutput = FALSE;
   ret->lilyentrystyle = FALSE;
   ret->createclones = FALSE;
   ret->autosave = TRUE;
@@ -448,10 +442,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	      xmlFree (tmp);
 	    }
 	}
-      READXMLENTRY(csoundcommand)
-      READXMLENTRY(csoundorcfile)
 	
-      READBOOLXMLENTRY(rtcs)
       READBOOLXMLENTRY(autosave)
       
       READXMLENTRY(pdfviewer)
@@ -770,8 +761,6 @@ writeXMLPrefs (DenemoPrefs * prefs)
 
   WRITEXMLENTRY(midiplayer)
   WRITEXMLENTRY(audioplayer)
-  WRITEXMLENTRY(csoundcommand)
-  WRITEXMLENTRY(csoundorcfile)  
   WRITEXMLENTRY(pdfviewer)
   WRITEXMLENTRY(imageviewer)
   WRITEXMLENTRY(profile)
@@ -838,7 +827,6 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEBOOLXMLENTRY(continuous)
   WRITEBOOLXMLENTRY(jacktransport)
   WRITEBOOLXMLENTRY(jacktransport_start_stopped)
-  WRITEINTXMLENTRY(rtcs)
     WRITEBOOLXMLENTRY(toolbar)
   WRITEBOOLXMLENTRY(notation_palette)
     WRITEBOOLXMLENTRY(midi_in_controls)

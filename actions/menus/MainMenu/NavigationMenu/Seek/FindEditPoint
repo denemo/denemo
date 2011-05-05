@@ -12,7 +12,8 @@
   (define current (d-PrevNote))
   (if (and current (d-GetNonprinting))
       (loop)))
-(d-NextNote)
+ (if (not (d-GetNonprinting))
+(d-NextNote))
 (d-RefreshDisplay)
 ;;;;;;;;;;;;;;;;;
 

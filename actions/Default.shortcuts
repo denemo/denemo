@@ -15,6 +15,10 @@
         </cursor-binding>
       </cursors>
       <row>
+        <action>CursorLeft</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>MoveCursorLeft</action>
         <bind>Left</bind>
       </row>
@@ -25,10 +29,6 @@
       <row>
         <action>CursorUp</action>
         <bind>Up</bind>
-      </row>
-      <row>
-        <action>CursorLeft</action>
-        <hidden>true</hidden>
       </row>
       <row>
         <action>CursorRight</action>
@@ -73,6 +73,14 @@
         <hidden>true</hidden>
         <bind>Ctrl+Shft+Page_Down</bind>
         <bind>Shft+Page_Down</bind>
+      </row>
+      <row>
+        <action>MoveToStaffUp</action>
+        <bind>Page_Up</bind>
+      </row>
+      <row>
+        <action>MoveToStaffDown</action>
+        <bind>Page_Down</bind>
       </row>
       <row>
         <action>MeasureLeft</action>
@@ -673,84 +681,84 @@
         <bind>Alt+g</bind>
       </row>
       <row>
-        <action>Change0</action>
-        <bind>Shft+0</bind>
+        <action>0</action>
+        <bind>0</bind>
       </row>
       <row>
-        <action>Insert0</action>
-        <bind>0</bind>
+        <action>Change0</action>
+        <bind>Shft+0</bind>
       </row>
       <row>
         <action>Set0</action>
         <bind>Ctrl+0</bind>
       </row>
       <row>
-        <action>Change1</action>
-        <bind>Shft+1</bind>
+        <action>1</action>
+        <bind>1</bind>
       </row>
       <row>
-        <action>Insert1</action>
-        <bind>1</bind>
+        <action>Change1</action>
+        <bind>Shft+1</bind>
       </row>
       <row>
         <action>Set1</action>
         <bind>Ctrl+1</bind>
       </row>
       <row>
-        <action>Change2</action>
-        <bind>Shft+2</bind>
+        <action>2</action>
+        <bind>2</bind>
       </row>
       <row>
-        <action>Insert2</action>
-        <bind>2</bind>
+        <action>Change2</action>
+        <bind>Shft+2</bind>
       </row>
       <row>
         <action>Set2</action>
         <bind>Ctrl+2</bind>
       </row>
       <row>
-        <action>Change3</action>
-        <bind>Shft+3</bind>
+        <action>3</action>
+        <bind>3</bind>
       </row>
       <row>
-        <action>Insert3</action>
-        <bind>3</bind>
+        <action>Change3</action>
+        <bind>Shft+3</bind>
       </row>
       <row>
         <action>Set3</action>
         <bind>Ctrl+3</bind>
       </row>
       <row>
-        <action>Change4</action>
-        <bind>Shft+4</bind>
+        <action>4</action>
+        <bind>4</bind>
       </row>
       <row>
-        <action>Insert4</action>
-        <bind>4</bind>
+        <action>Change4</action>
+        <bind>Shft+4</bind>
       </row>
       <row>
         <action>Set4</action>
         <bind>Ctrl+4</bind>
       </row>
       <row>
-        <action>Change5</action>
-        <bind>Shft+5</bind>
+        <action>5</action>
+        <bind>5</bind>
       </row>
       <row>
-        <action>Insert5</action>
-        <bind>5</bind>
+        <action>Change5</action>
+        <bind>Shft+5</bind>
       </row>
       <row>
         <action>Set5</action>
         <bind>Ctrl+5</bind>
       </row>
       <row>
-        <action>Change6</action>
-        <bind>Shft+6</bind>
+        <action>6</action>
+        <bind>6</bind>
       </row>
       <row>
-        <action>Insert6</action>
-        <bind>6</bind>
+        <action>Change6</action>
+        <bind>Shft+6</bind>
       </row>
       <row>
         <action>Set6</action>
@@ -1459,6 +1467,10 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>DeleteSelectionLeaveEmpty</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>HalfBarline</action>
         <hidden>true</hidden>
       </row>
@@ -1593,7 +1605,7 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>DeleteStaffGroupings</action>
+        <action>DeleteStaffContexts</action>
         <hidden>true</hidden>
       </row>
       <row>
@@ -1817,49 +1829,13 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>DeleteSelectionLeaveEmpty</action>
-		<hidden>true</hidden>
-      </row>
-      <row>
-		<action>PasteReplaceSelection</action>   
-		<hidden>true</hidden>
-      </row>
-      <row>
-        <action>ToggleBeginPhrasingSlur</action>      
-        <hidden>true</hidden>
-    </row>      
-     <row>
-        <action>ToggleEndPhrasingSlur</action>
-        <hidden>true</hidden>
-    </row>
-    <row>
-        <action>ChangePrintDuration2</action>
+        <action>CreateParts</action>
         <hidden>true</hidden>
       </row>
       <row>
-        <action>ChangePrintDuration1</action>
+        <action>SimplifyTies</action>
         <hidden>true</hidden>
       </row>
-      <row>
-        <action>ChangePrintDuration0</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>ChangePrintDurationBreve</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>ChangePrintDurationLonga</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>MoveToStaffUp</action>
-        <bind>Ctrl+Up</bind>
-      </row>
-      <row>
-        <action>MoveToStaffDown</action>
-        <bind>Ctrl+Down</bind>
-      </row>     
     </map>
   </merge>
 </Denemo>

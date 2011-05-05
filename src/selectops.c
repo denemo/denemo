@@ -1141,7 +1141,8 @@ void store_for_undo_measure_insert(DenemoScore *si, gint staffnum, gint measuren
     }
 }
 
-static free_chunk(DenemoUndoData *chunk) {
+static void 
+free_chunk(DenemoUndoData *chunk) {
 g_print("free %d\n", chunk->action);
   switch (chunk->action) {
   case ACTION_STAGE_START:
@@ -1217,7 +1218,8 @@ gboolean take_snapshot(void) {
     return FALSE;
 }
 
-static print_queue(gchar *msg, GQueue *q) {
+static void 
+print_queue(gchar *msg, GQueue *q) {
   GList*g;
   g_debug("%s",msg);
   for(g=q->head;g;g=g->next) {
@@ -1539,7 +1541,8 @@ warn_no_more_undo(DenemoGUI *gui)
 
 
 
-static free_queue( GQueue *queue) {
+static void 
+free_queue( GQueue *queue) {
   DenemoUndoData *chunk;
   //g_print("before redo queue %p is %d empty\n", queue, g_queue_is_empty(queue));
   while((chunk = (DenemoUndoData *) g_queue_pop_head (queue)))
