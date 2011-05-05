@@ -328,7 +328,7 @@ See the links from the features list "To-do List" on the website.
  </sect2>
  <sect2>
 <title>Some Common Uses of MIDI in</title>
-<para>The MIDI keyboard too can be customized to perform different actions. Usually, playing notes adds or edits the score (like hitting note names at the pc-keyboard). With the sustain pedal pressed chords are generated (the Alt key can be used for this too). By holding down the Control key a score can be checked by playing the notes - the cursor only advances if the right note is played, and the Shift key can be held down to route the MIDI keyboard straight to the synth (e.g. to check a phrase before playing it in). The Pitch Bend controller can be used to set the range of sharps and flats to be used, and the modulation controller can be used to mark sections of the music.
+<para>The MIDI keyboard too can be customized to perform different actions. Usually, playing notes adds or edits the score (like hitting note names at the pc-keyboard). With the sustain pedal pressed chords are generated (the Alt key can be used for this too). By holding down the Control key a score can be checked by playing the notes - the cursor only advances if the right note is played, and the Shift key can be held down to route the MIDI keyboard straight to the synth (e.g. to check a phrase before playing it in). The Pitch Bend controller can be used to set the range of sharps and flats to be used, and the modulation controller can be used to mark sections of the music. With the MIDI controller set as Input source (Input menu) the duration keys create pure durations (notes colored yellow/brown) - you can enter as much of the rhythm as you wish, and then play the notes on top.
 </para>
  </sect2>
 
@@ -1380,16 +1380,63 @@ Update Commands from the Internet allows you to get the latest versions of comma
 </para>
 
   </sect1>
+
+  <sect1>
+      <title>A Survey of the Input Methods</title>
+    <sect2>
+
+
+      <subtitle>Introduction</subtitle>
+      <para>
+      Denemo allows you to explore all the actions (insert/delete/edit/navigate...) using the menus. So, for example, inserting notes can be found under Notes/Rests while inserting a Staff comes under Staffs/Voices.
+<note> When you have found the action you need you can right click on the menu item to get an explanation of the action and to view/set a key press- a keyboard shortcut - to activate the action. If you are setting a lot of keyboard shortcuts for menu items you can check the Edit->Keyboard Setup->Allow Quick Shortcut Edits button, whereupon you can set the keyboard shortcut just by pressing the desired key while the menu item is selected. In addition you can customize the mouse actions to initiate commands, and set the cursor that will show while certain mouse conditions apply.
+</note>
+      </para>
+      <para>Denemo offers several ways of entering music: typing at the keyboard, playing in via a MIDI keyboard (controller), playing in acoustically using a microphone or choosing items from the menu system. </para>
+      <para>Using the menus for everything would be very slow, but next to each menu item is the keypress that you can use instead. If there is no keypress shown, and you want to use that item often, then right click on the menu item and you can set a key combination for that menu action. Right clicking is also useful for getting a description of what the menu action is. </para>
+      <para> Typing at the keyboard can be very fast, if you forget which keypress you need you can consult the menu system to find out. This method is good for touch typists.
+      </para>
+
+      <para role="persom">For entering a lot of already written-out music, playing the music in via a MIDI keyboard or microphone can offer the fastest and most musical method. </para>
+      <para>One way to do this is enter the music as pure rhythms, ignoring the note names. The durations show as yellow/brown notes. Each duration sounds its own pitch and length as you enter the durations. As you start each measure the bell will sound so that you can keep your eyes on the score you are copying without needing to look up and check that you haven't miss-typed. If you are a reading musician you will find that you tap in the rhythm rhythmically which helps to keep your place in the piece you are entering. </para>
+      <para>Once you have entered the rhythms for one or two measures you play the notes via MIDI - they automatically fill in the rhythm for you. When you play notes in via MIDI they give their pitches to the rhythm you have notated. By this means you can enter a piece of music in the time taken to play it twice - once to give the rhythm and once to give the pitches. If the piece modulates strongly you may need to shift the set of accidentals used to match the score. If entering pitches via a mic you need to navigate to the start point, but this isn't needed for MIDI in.
+</para>
+
+      
+      <para>The oldest Denemo keymaps are no longer supported. (see <xref linkend="customizingDenemo" />). (Input via
+      MIDI keyboard and Mic in is now available). Denemo shortcuts also work on Numeric Keypad.</para>
+ </sect2>
+ </sect1>
   <sect1>
     <title>Playing Notes into Denemo - MIDI</title>
 
 <para>
-    Denemo can take pitches directly from MID input. Select Input->Midi Input. The control window allows you to choose the enharmonic range. Under Mode->MIDI are various "MIDI filters" that allow you to control how the MIDI input is used: with none active the behaviour is as if you had entered the notes using the pc-keyboard (except that octave, accidental and note name are all entered in one go). You can also use Advance on Edit to put the pitches onto pre-entered rhythms, or Check Pitches (where you play through the piece and a warning is issued if you hit a wrong note).
+    Denemo can take pitches directly from MID input. Select Input->Midi Input. The control panel allows you to choose the enharmonic range. Under Input->MIDI are various "MIDI filters" that allow you to control how the MIDI input is used: with none active the behavior is as if you had entered the notes using the pc-keyboard, but with the following advantages 
+ <itemizedlist>
+   <listitem>
+     The octave, accidental and note name are all entered in one press of the MIDI key. 
+   </listitem>
+   the cursor automatically advances so you can continue to play in
+   <listitem>
+     The duration keys enter the yellow/brown duration-only notes, when you play a MIDI key the cursor automatically moves to the first of these.
+   </listitem>
+   <listitem>
+     Holding down the Alt key (or sustain pedal) lets you enter chords.
+   </listitem>
+   <listitem>
+     Holding down the Ctrl key lets you check the pitches of a piece already entered. The cursor only advances if the note played is the one at the cursor.
+   </listitem>
+   <listitem>
+     Holding down the Shift key lets you listen to the MIDI keyboard without affecting the score.
+   </listitem>
+ </itemizedlist>
 </para>
 <para>
-   These MIDI filters are scheme scripts, so they can be tailored to do whatever you wish. One example is a filter that enables you to enter Figured Bass figures by playing the notes corresponding to the figures while holding down the bass note. Chords could be entered using similar code.
+   The MIDI filters are scheme scripts, so they can be tailored to do whatever you wish. One example is a filter that enables you to enter Figured Bass figures by playing the notes corresponding to the figures while holding down the bass note. 
+Another is the "AngryDelete" filter. With this filter on notes are entered normally with the cursor advancing automatically, but if you make a mistake and press the wrong note just hit the next one much louder and it will make the correction for you! MIDI filters are found under Input-&gt;MIDI
 </para>
   </sect1>
+
   <sect1>
     <title>Playing Notes into Denemo - Audio (Souncard Mic Input)</title>
 
@@ -1409,39 +1456,12 @@ Music is entered into the measure which holds the cursor. If you are overlaying 
  <para>Most of the other settings would require study of the Aubio documentation to understand, but the one marked threshold may be useful to make the detection less sensitive to ambient noises if using a microphone with an acoustic instrument.</para>
 <para> The best set-up is to plug the headphones-out socket of an electronic keyboard into the mic input, and choose a piano setting on the electronic keyboard.</para>
 <para> If you don't have any musical instrument that you can plug directly into the mic in, then you can use an acoustic instrument with a microphone, in which case move your microphone closer or further from your instrument to get reliable detection. Too close and you get double detections, too far and you get missed ones. To check for good detection open a piece of music, set Overlay mode and put the cursor in the first measure and play the piece in – the notes should all turn blue if you have perfect detection. It is worth while getting perfect detection – more than one or two miss-detects per piece of music and you may want to use the Insert rather than the Overlay method.</para>
-  </sect1>
-
-  <sect1>
-      <title>A Survey of the Input Methods</title>
-    <sect2>
-
-
-      <subtitle>Introduction</subtitle>
-      <para>
-      Denemo allows you to explore all the actions (insert/delete/edit/navigate...) using the menus. So, for example, inserting notes can be found under Notes/Rests while inserting a Staff comes under Staffs/Voices.
-<note> When you have found the action you need you can right click on the menu item to get an explanation of the action and to view/set a key press- a keyboard shortcut - to activate the action. If you are setting a lot of keyboard shortcuts for menu items you can check the Edit->Keyboard Setup->Allow Quick Shortcut Edits button, whereupon you can set the keyboard shortcut just by pressing the desired key while the menu item is selected. In addition you can customize the mouse actions to initiate commands, and set the cursor that will show while certain mouse conditions apply.
-</note>
-      </para>
-      <para>Denemo offers several ways of entering music: typing at the keyboard, playing in via a MIDI keyboard (controller), playing in acoustically using a microphone or choosing items from the menu system. </para>
-      <para>Using the menus for everything would be very slow, but next to each menu item is the keypress that you can use instead. If there is no keypress shown, and you want to use that item often, then right click on the menu item and you can set a key combination for that menu action. Right clicking is also useful for getting a description of what the menu action is. </para>
-      <para> Typing at the keyboard can be very fast, if you forget which keypress you need you can consult the menu system to find out. This method is good for touch typists.
-      </para>
-
-      <para role="persom">For entering a lot of already written-out music, playing the music in via a MIDI keyboard or microphone can offer the fastest and most musical method. </para>
-      <para>One way to do this is enter the music as pure rhythms, ignoring the note names. The durations show as brown notes. Each duration sounds its own pitch and length as you enter the durations. As you start each measure the bell will sound so that you can keep your eyes on the score you are copying without needing to look up and check that you haven't miss-typed. If you are a reading musician you will find that you tap in the rhythm rhythmically which helps to keep your place in the piece you are entering. </para>
-      <para>Once you have entered the rhythms you choose an external source from the Input menu, placing the cursor in the first measure, play the notes via MIDI or a microphone plugged into the mic input of your soundcard. When you play notes in via MIDI they give their pitches to the rhythm you have notated. By this means you can enter a piece of music in the time taken to play it twice - once to give the rhythm and once to give the pitches. If the piece modulates strongly you may need to shift the set of accidentals used to match the score.
-</para>
  <para>
 The Audio Input button introduces a special entry mode where the pitches you play in will overlay the rhythm, appearing as blue notes. You can delete any wrong pitches using the usual delete keys, without deleting the rhythm. In fact if you have an "interloper" (an extra spurious note) you can delete it and the other pitches will all move along to their correct places.</para>
-
-
-
       <para>Another method of playing music in acoustically doesn't involve entering the rhythm separately. For this select Input->Audio and then choose Insert instead of Overlays on the Pitch Recognition Panel that pops up. With Insert the sounded notes are entered as in the prevailing rhythm. The same applies if you have MIDI, only you just need to select Insert mode to enter the notes in that case. So by choosing a rhythm (e.g. half-note, quarter-note, or a custom rhythm pattern) and playing in the pitches you can enter the music into a blank score.</para>
-      <para> For MIDI input there are special modes (MIDI filters), such the "AngryDelete" filter. With this filter on notes are entered normally until, but if you make a mistake and press the wrong note just hit the next one much louder and it will make the correction for you! MIDI filters are found under Input-&gt;MIDI</para>
-      <para>The oldest Denemo keymaps are no longer supported. (see <xref linkend="customizingDenemo" />). (Input via
-      MIDI keyboard and Mic in is now available). Denemo shortcuts also work on Numeric Keypad.</para>
-
-      <sect3 id="scoresetup">
+  </sect1>
+ 
+      <sect1 id="scoresetup">
         <title>Score Setup</title>
 
 	<para>Denemo provides different ways to set up scores: <itemizedlist>
@@ -1546,8 +1566,7 @@ The Audio Input button introduces a special entry mode where the pitches you pla
             </step>
           </procedure>
         </sect4>
- </sect3>
- </sect2>
+ 
   </sect1>
 
     <sect1 id="customizingDenemo">
