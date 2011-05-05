@@ -691,7 +691,7 @@ set_current_folder(GtkWidget *file_selection, DenemoGUI *gui, DenemoSaveType tem
     } 
 }
 
-#define FILE_DIALOG(message, format, save_type) \
+#define FILE_OPEN_DIALOG(message, format, save_type) \
   gboolean ret = -1;\
   if(filename && !g_file_test(filename, G_FILE_TEST_IS_DIR))\
     return (open_for_real(filename, gui, template, type));\
@@ -741,7 +741,7 @@ set_current_folder(GtkWidget *file_selection, DenemoGUI *gui, DenemoSaveType tem
 static gint
 file_open (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *filename)
 {
-  FILE_DIALOG("Open", denemo, DENEMO_FORMAT)
+  FILE_OPEN_DIALOG("Open", denemo, DENEMO_FORMAT)
 }
 
 /**
@@ -752,7 +752,7 @@ file_open (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *fil
 static gint
 file_import_lilypond (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *filename)
 {
-  FILE_DIALOG("Import Lilypond", lilypond, MUDELA_FORMAT)  
+  FILE_OPEN_DIALOG("Import Lilypond", lilypond, MUDELA_FORMAT)  
 }
 
 /**
@@ -763,7 +763,7 @@ file_import_lilypond (DenemoGUI * gui, DenemoSaveType template, ImportType type,
 static gint
 file_import_midi (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *filename)
 {
-  FILE_DIALOG("Import Midi", midi, MIDI_FORMAT) 
+  FILE_OPEN_DIALOG("Import Midi", midi, MIDI_FORMAT) 
 }
 
 /**
@@ -774,7 +774,7 @@ file_import_midi (DenemoGUI * gui, DenemoSaveType template, ImportType type, gch
 static gint
 file_import_musicxml (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *filename)
 {
-  FILE_DIALOG("Import MusicXML", musicxml, MUSICXML_FORMAT)
+  FILE_OPEN_DIALOG("Import MusicXML", musicxml, MUSICXML_FORMAT)
 }
 
 /**
@@ -851,7 +851,7 @@ file_save (GtkWidget * widget, DenemoGUI * gui)
   score_status(gui, FALSE);
 }
 
-#define FILE_DIALOG2(description)\
+#define FILE_SAVE_DIALOG(description)\
   GtkWidget *file_selection;\
   GtkWidget *label;\
   GtkWidget *hbox;\
@@ -904,7 +904,7 @@ file_export (DenemoGUI * gui, FileFormatNames format_id)
 {
   gchar *description = g_strconcat(_("Export As "), FORMAT_DESCRIPTION(format_id), NULL);
   DenemoSaveType  template = FALSE;
-  FILE_DIALOG2(description)
+  FILE_SAVE_DIALOG(description)
   g_free(description);
 }
 
@@ -917,7 +917,7 @@ void
 file_saveas (DenemoGUI * gui, DenemoSaveType  template)
 {
   gint format_id = DENEMO_FORMAT;
-  FILE_DIALOG2(_("Save As"))
+  FILE_SAVE_DIALOG(_("Save As"))
 }
 
 /**
