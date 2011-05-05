@@ -493,10 +493,6 @@
         <bind>Alt+Return</bind>
       </row>
       <row>
-        <action>InitialClef</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
         <action>InsertClef</action>
         <hidden>true</hidden>
       </row>
