@@ -1582,6 +1582,10 @@ undo (DenemoGUI * gui)
       if(gui->undo_level>0)
 	undo(gui);
       score_status(gui, TRUE);
+      if(gui->si->currentmeasurenum > g_list_length(gui->si->measurewidths)) {
+	g_warning("Undo failed to set current measurenum %d out of %d\n", gui->si->currentmeasurenum, g_list_length(gui->si->measurewidths));
+	gui->si->currentmeasurenum = g_list_length(gui->si->measurewidths);
+      }		      
       //print_queue("Undo, queue: ", gui->si->undodata);
     } else
     warn_no_more_undo(gui);
