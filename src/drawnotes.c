@@ -562,7 +562,7 @@ draw_articulations (cairo_t * cr,
    */
   for (tmp = thechord.ornamentlist; tmp; tmp = tmp->next)
     {
-#ifdef DEBUG
+#if 0
       g_print ("ornament %d\n", *(enum ornament *) (tmp->data));
 #endif
       if (*(enum ornament *) tmp->data == (enum ornament) STACCATO)

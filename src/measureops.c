@@ -456,7 +456,7 @@ calculatebeamsandstemdirs (objnode * theobjs, gint * pclef, gint * time1,
   gint next_stem_directive = *stem_directive;
   gboolean isbeambreak;
 
-#ifdef DEBUG
+#if 0
   {static gint count = 0;
   count++;
   gint stem = *stem_directive;
