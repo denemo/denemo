@@ -122,8 +122,11 @@ gint
 scorearea_keyrelease_event (GtkWidget * widget, GdkEventKey * event)
 {
   Denemo.keyboard_state ^= (0xf & klock_mask(event->keyval));
-  if((event->keyval==GDK_Alt_L)||(event->keyval==GDK_Alt_R))
+  if((event->keyval==GDK_Alt_L)||(event->keyval==GDK_Alt_R)) {
+    if((Denemo.keyboard_state&CHORD_MASK))//At least one note has been entered in a chord
+      next_editable_note();
     Denemo.keyboard_state &= ~CHORD_MASK;
+  }
   set_midi_in_status();
   // g_print("release %x state %x\n", Denemo.keyboard_state, event->state);
   // set_cursor_for(keyrelease_modify(event->state), event->keyval);
