@@ -1884,11 +1884,9 @@
 		  (d-OutputMidiBytes (string-append "0xf0 0x7f 0x7f 0x08 0x08   0x03 0x7f 0x7f " C Db D Eb E F Gb G Ab A Bb Cb " 0xf7"))))
 
    
-	 (eval-string (string-append "(d-SetEnharmonicPosition " (number->string  thestep) ")"))
+	 (d-SetEnharmonicPosition thestep)
          #f)
         )
-
-
       (else #f)))
 
 
