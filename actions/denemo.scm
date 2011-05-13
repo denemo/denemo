@@ -97,6 +97,15 @@
 	  (if (= counter maxsteps)
 		(list-tail returnList 1) ; get rid of the initial #f for the final return value
 		(begin (append! returnList (subMap (list-ref listy counter) counter))   (loop (+ counter 1)))))); GetUniquePairs
+		
+; GetUniquePairsFilterLowest is a GetUniquePairs variant that sorts the list ascending and returns only those items which begin with the lowest value. In musical terms only pitches with the bass-note.
+;;; (a b c d) -> ab ac ad			
+(define (GetUniquePairsFilterLowest listy)
+	(define lowest (apply min listy))
+	(define returnList (GetUniquePairs (sort-list listy <))) ; sort the list ascending, so the lowest note/bass-note is the first. TODO: If this leads to confusion in other scripts simply remove but comment in the alternativ (filter) version below
+	(filter (lambda (x) (if (equal? (car x) lowest) #t #f)) returnList) ; return only those pairs which has lowest value as car
+	;(filter (lambda (x) (if (or (equal? (car x) lowest) (equal? (cdr x) lowest)) #t #f))  returnList) ; return only those pairs which has the lowest value as car or cdr.
+	)
 
 ;Get Lilypond Objects as strings. Currently just manual converting for single cases.
 (define (GetContextAsLilypond) ; You will likely need (GetTypeAsLilypond) also. TODO: Create a real function!
