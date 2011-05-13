@@ -2,7 +2,6 @@
 #define scm_dynwind_begin(a)
 #define scm_dynwind_end(a)
 
-
 /* view.c
  * Functions to create a top level Denemo window
  *
@@ -160,8 +159,8 @@ standard_handler (gchar *data SCM_UNUSED, SCM tag, SCM throw_args SCM_UNUSED)
   scm_newline (scm_current_output_port ());
   scm_newline (scm_current_output_port ());
   scm_eval_status = -1;
-  g_warning ("Undo will be affected\n");
-  stage_undo(Denemo.gui->si, ACTION_SCRIPT_ERROR);
+  // g_warning ("Undo will be affected\n");
+  //stage_undo(Denemo.gui->si, ACTION_SCRIPT_ERROR); We don't need this as control will return to activate_script() which will terminate the undo properly, with anything the script has done on the undo stack.
   return SCM_BOOL_F;
 }
 

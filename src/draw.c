@@ -318,7 +318,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
     case CHORD:
       { chord *thechord = ((chord *) mudelaitem->object);
 
-	if(cr) draw_chord ( cr, curobj, x + mudelaitem->x, y,
+	draw_chord ( cr, curobj, x + mudelaitem->x, y,
 		     GPOINTER_TO_INT (itp->mwidthiterator->data),
 		     itp->curaccs, itp->mark);
 	if((thechord->highesty) < itp->highy)

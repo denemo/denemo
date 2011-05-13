@@ -16,6 +16,7 @@
     (let 
 	((Figures 0) (AddFigure 0) (GetFigures 0) (loop 0))
 	 (begin
+	  (d-SetBackground #xB0E0B0)
 	   (set! AddFigure (lambda (note bassnote)
 			     (begin
 			       (set! Figures (cons  (d-BassFigure bassnote note) Figures)))))
@@ -115,6 +116,7 @@
     	   (set! ToggleFiguredBassMode::Active #f)
     	   (d-PutMidi 0);;; to swallow up the last d-GetMidi??
     	   (d-SetMidiCapture #f)	
+    	   (d-SetBackground #xFFFFFF)
 	   </scheme>
         <label>Figured Bass Filter On</label>
         <tooltip>Start filtering MIDI events, First note is bass, hold this down while entering notes for figures. Pedal changes harmony on same bass.</tooltip>

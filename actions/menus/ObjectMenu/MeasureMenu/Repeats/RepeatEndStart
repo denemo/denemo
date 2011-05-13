@@ -10,7 +10,7 @@
 (d-DirectivePut-standalone-minpixels "RepeatEndStart" 50)
 (d-MoveCursorLeft)
 (d-DirectivePut-standalone-postfix "RepeatEndStart" " \\bar \":|:\"")
-(d-DirectivePut-standalone-gx  "RepeatEndStart"  45)
+(d-DirectivePut-standalone-gx  "RepeatEndStart"  10)
 (d-DirectivePut-standalone-gy  "RepeatEndStart"  -2)
 (d-DirectivePut-standalone-graphic "RepeatEndStart" "RepeatEndStart")
 (d-MoveCursorRight)
