@@ -246,8 +246,8 @@ return)
 
 ;Search for Simultanious Intervals wants an abstract movement followed by any number of interval-symbols like 'p5 or 'm3
 ;;Returns a list of positions where forbidden intervals live.
-;;TODO: One mode to find all and one, more important, to find only intervals in relation to the lowest (sounding?) note.
 ;;TODO: One mode to look only on metric important positions. For this the ans intervalpair (interval (lower . higher)) must be upgraded to use the complete musobj. in lower and higher. this will also solve the problems of correct location spotting.
+;;TODO: Better functions. Write a parent function for this and SearchForSimultaneousIntervalFromBase. 
 (define (SearchForSimultaneousInterval abstractmovement . forbiddenintervals)
   (define now #f) ;prepare
   (define returnlist (list #f))
@@ -264,6 +264,32 @@ return)
   (set! forbiddenintervals (map ANS::IntervalGetSteps forbiddenintervals))
   (let search ((positioncounter 0))
     (set! now  (ANS::CreateIntervalsFromPairs (GetUniquePairs (extractPitchesFromVerticalPosition (getVerticalPosition positioncounter)))))	
+	(if (ANS::IntervalMember? now forbiddenintervals) ; the core function
+		(append! returnlist (list (cons 'simultanious (list (extractPosition (getVerticalPosition positioncounter)))))))
+    (if (= positioncounter maxcounter) 
+   	 (list-tail returnlist 1)  ; The End.  get rid of the initial #f for the final return value
+   	 (search (1+ positioncounter)))))  ; Run again with next position.
+   	 
+;SearchForSimultaneousIntervalFromBase wants an abstract movement followed by any number of interval-symbols like 'p5 or 'm3
+;;Returns a list of positions where forbidden intervals live but only looks for pairs with the base/lowest note involved.
+;;TODO: One mode to look only on metric important positions. For this the ans intervalpair (interval (lower . higher)) must be upgraded to use the complete musobj. in lower and higher. this will also solve the problems of correct location spotting.
+;;TODO: Better functions. Write a parent function for this and SearchForSimultaneousIntervalFromBase. 
+(define (SearchForSimultaneousIntervalFromBase abstractmovement . forbiddenintervals)
+  (define now #f) ;prepare
+  (define returnlist (list #f))
+  (define (getVerticalPosition positioncounter)
+	(map (lambda (lst) (list-ref lst positioncounter)) abstractmovement))
+  (define (extractPitchesFromVerticalPosition musobj-list)
+	(map (lambda (object) (list-ref (musobj.pitch object) 0)) musobj-list))
+  (define (extractPosition musobj-list)
+	(define object (list-ref musobj-list 0))
+	;just take staff 0, they have the same position anyway. Return the whole position.
+	(list (musobj.movement object)  (musobj.staff object)  (musobj.measure object)  (musobj.horizontal object)))
+  (define maxcounter (- (length (list-ref abstractmovement 0)) 2)) ; just take staff 0, they all have the same length. -2 because the counter goes from 0 (-1) and the last item is #f.
+;Body
+  (set! forbiddenintervals (map ANS::IntervalGetSteps forbiddenintervals))
+  (let search ((positioncounter 0))
+    (set! now  (ANS::CreateIntervalsFromPairs (GetUniquePairsFilterLowest (extractPitchesFromVerticalPosition (getVerticalPosition positioncounter)))))	
 	(if (ANS::IntervalMember? now forbiddenintervals) ; the core function
 		(append! returnlist (list (cons 'simultanious (list (extractPosition (getVerticalPosition positioncounter)))))))
     (if (= positioncounter maxcounter) 

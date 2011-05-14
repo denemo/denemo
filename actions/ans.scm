@@ -1077,7 +1077,7 @@
 		(if (or (equal? higher +inf.0) (equal? lower +inf.0)) ; with rests?
 			+inf.0
 			(- (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote higher)) (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote lower)))) ; no rest. Return interval step.	
-		(cons ansNoteOne ansNoteTwo))) ; do NOT return the ordered or simplified invervals. Return as they came in.
+		(cons lower higher))) ; TODO: this may be a critical return value. At one time this did NOT return the ordered or simplified invervals but as they came in. I can't remember which function may need this, but it surely breaks all other tests with intervals.
 
 
 ;GetIntervall for lists. 
