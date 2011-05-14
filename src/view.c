@@ -361,14 +361,6 @@ scm_c_define_gsubr (name, 4, 0, 0, callback);
 
 #undef DEV_CODE
 
-#define SCM2LSTRING(ret, arg)\
-  ret = scm_to_locale_string(arg);\
-  scm_dynwind_free(ret);
-
-#define SCM2LSTRINGN(ret, arga, argb)\
-  ret = scm_to_locale_stringn(arga, argb);\
-  scm_dynwind_free(ret);
-
 static SCM scheme_http(SCM hname, SCM page, SCM other, SCM poststr) {
   gchar *name=NULL, *thepage=NULL, *oth=NULL, *post=NULL;
   
@@ -708,6 +700,7 @@ void create_scheme_function_for_script(gchar *name) {
   //g_print("Defining %s\n", def);
   call_out_to_guile(def);
   g_free(def);
+  g_free(proc);
   // define_scheme_literal_variable(proc, value, "A scheme procedure to call the script of that name");
 }
 
@@ -1692,6 +1685,7 @@ SCM scheme_cursor_to_note (SCM lilyname) {
    gui->si->cursor_y = mid_c_offset;
    gui->si->staffletter_y = offsettonumber (gui->si->cursor_y);
    displayhelper (gui);
+   g_free(notename);
    return  SCM_BOOL(TRUE);
  }
  else {
@@ -1773,6 +1767,10 @@ SCM scheme_get_user_input(SCM label, SCM prompt, SCM init) {
  
  gchar * ret = string_dialog_entry_with_widget (Denemo.gui, title, instruction, initial_value, NULL);
  SCM scm = scm_makfrom0str (ret);
+ if (title) g_free(title);
+ if (instruction) g_free(instruction);
+ if (initial_value) g_free(initial_value);
+ if (ret) g_free(ret);
  return scm;
 }
 
@@ -3015,6 +3013,7 @@ static SCM scheme_put_note_name (SCM optional) {
      modify_note(thechord, mid_c_offset, enshift,  find_prevailing_clef(Denemo.gui->si));
      //thenote->mid_c_offset = interpret_lilypond_notename(str);
      displayhelper(Denemo.gui);
+     free(str);
    return SCM_BOOL(TRUE);
   }
  }
@@ -3075,7 +3074,6 @@ static SCM scheme_insert_note_in_chord (SCM lily) {
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD)) 
    return SCM_BOOL(FALSE);
  
- //FIXME scm_dynwind_begin (0); etc
  char *str=NULL;
  if(scm_is_string(lily)){
    str = scm_to_locale_string(lily);
@@ -3087,6 +3085,7 @@ static SCM scheme_insert_note_in_chord (SCM lily) {
    addtone(curObj, mid_c_offset, enshift,  find_prevailing_clef(Denemo.gui->si));
    score_status(gui, TRUE);
    displayhelper(Denemo.gui);
+   free(str);
    return SCM_BOOL_T;
  }
  return SCM_BOOL(FALSE);
@@ -3544,6 +3543,14 @@ static void define_scheme_constants(void) {
 ""
 #endif
 );
+  gchar *filename = g_build_filename(get_data_dir(), "actions", NULL);
+  gchar *actions_dir = g_strdup_printf("%s%c", filename, G_DIR_SEPARATOR);
+  g_free(filename);
+
+  filename = g_build_filename(locatedotdenemo(), "actions", NULL);
+  gchar *local_actions_dir = g_strdup_printf("%s%c", filename, G_DIR_SEPARATOR);
+  g_free(filename);
+
   g_print("Version %s", denemo_version);
 
 #define DEF_SCHEME_STR(which, what, tooltip)\
@@ -3587,8 +3594,8 @@ static void define_scheme_constants(void) {
   DEF_SCHEME_CONST("VERSION_MICRO", micro);
 
   DEF_SCHEME_STR("DENEMO_VERSION", denemo_version, "Holds the denemo version major.minor.micro");
-  DEF_SCHEME_STR("DENEMO_ACTIONS_DIR", g_strdup_printf("%s%c", g_build_filename(get_data_dir(), "actions", NULL), G_DIR_SEPARATOR), "Holds location of system-wide Denemo actions directory");
-  DEF_SCHEME_STR("DENEMO_LOCAL_ACTIONS_DIR", g_strdup_printf("%s%c", g_build_filename(locatedotdenemo(), "actions", NULL), G_DIR_SEPARATOR), "Holds location of Denemo actions directory beneath your home directory");
+  DEF_SCHEME_STR("DENEMO_ACTIONS_DIR", actions_dir, "Holds location of system-wide Denemo actions directory");
+  DEF_SCHEME_STR("DENEMO_LOCAL_ACTIONS_DIR", local_actions_dir, "Holds location of Denemo actions directory beneath your home directory");
   {
     gint i;
     for(i=0;i<G_N_ELEMENTS(DenemoObjTypeNames);i++) 
@@ -3598,6 +3605,9 @@ static void define_scheme_constants(void) {
 
 #undef DEF_SCHEME_STR
 #undef DEF_SCHEME_CONST
+  g_free(denemo_version);
+  g_free(actions_dir);
+  g_free(local_actions_dir);
 }
 /*
   load denemo.scm from user's .denemo 
@@ -5818,6 +5828,8 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
 
       }      
     }
+  if(pattern) 
+    g_free(pattern);
 }
 
 
