@@ -8367,6 +8367,8 @@ get_data_dir (),
 		      G_CALLBACK (scorearea_motion_notify), NULL);
   g_signal_connect (G_OBJECT (Denemo.scorearea), "leave-notify-event",
 			       G_CALLBACK (scorearea_leave_event), NULL);
+  g_signal_connect (G_OBJECT (Denemo.scorearea), "enter-notify-event",
+			       G_CALLBACK (scorearea_enter_event), NULL);
   gtk_signal_connect (GTK_OBJECT (Denemo.scorearea), "scroll_event",
 		      (GtkSignalFunc) scorearea_scroll_event, NULL);
   //g_signal_handlers_block_by_func(Denemo.scorearea, G_CALLBACK (scorearea_motion_notify), NULL);
@@ -8382,6 +8384,7 @@ get_data_dir (),
   gtk_widget_add_events/*gtk_widget_set_events*/ (Denemo.scorearea, (GDK_EXPOSURE_MASK
 					  | GDK_POINTER_MOTION_MASK
 					  | GDK_LEAVE_NOTIFY_MASK
+                      | GDK_ENTER_NOTIFY_MASK
 					  | GDK_BUTTON_PRESS_MASK
 					  | GDK_BUTTON_RELEASE_MASK));
 

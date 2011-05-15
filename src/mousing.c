@@ -372,6 +372,32 @@ scorearea_leave_event(GtkWidget *widget, GdkEventCrossing *event) {
    return FALSE;//allow other handlers (specifically the pitch entry one)
 }
 
+gint 
+scorearea_enter_event(GtkWidget *widget, GdkEventCrossing *event) {
+g_print("start the enter with ks = %x and state %x\n", Denemo.keyboard_state, event->state);
+	if(event->state&GDK_CONTROL_MASK) 
+	Denemo.keyboard_state |= GDK_CONTROL_MASK;
+	 else
+	Denemo.keyboard_state &= ~GDK_CONTROL_MASK;
+
+	if(event->state&GDK_SHIFT_MASK) 
+	Denemo.keyboard_state |= GDK_SHIFT_MASK;
+	 else
+	Denemo.keyboard_state &= ~GDK_SHIFT_MASK;
+#if 0
+//perhaps it would be better to clear Denemo.keyboard_state on focus out event???
+	if(event->state&GDK_MOD1_MASK) 
+	Denemo.keyboard_state |= GDK_MOD1_MASK;
+	 else
+	Denemo.keyboard_state &= ~(CHORD_MASK|GDK_MOD1_MASK);
+#endif
+
+	
+	g_print("end the enter with ks %x (values  %x %x)\n", event->state, ~GDK_CONTROL_MASK, Denemo.keyboard_state & (~GDK_CONTROL_MASK) );
+	set_midi_in_status();
+   return FALSE;//allow other handlers 
+}
+
 /**
  * Mouse motion callback 
  *
