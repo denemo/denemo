@@ -732,6 +732,7 @@ fluid_start_midi_in(void)
   int success = Denemo.prefs.fluidsynth_midi_driver->len?fluid_settings_setstr(settings, "midi.driver", Denemo.prefs.fluidsynth_midi_driver->str):0;
 #ifdef OSS_DRIVER
   success = fluid_settings_setstr(settings, "midi.driver", "oss");
+  success = fluid_settings_setstr(settings, "midi.oss.device", "/dev/midi1"); 
 #endif
   
 #ifdef ALSA_DRIVER
