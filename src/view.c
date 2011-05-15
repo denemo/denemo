@@ -42,6 +42,7 @@
 #include "prefops.h"
 #define INIT_SCM "init.scm"
 
+#include "denemo-paths.h"
 
 static GtkWidget *playbutton;
 static GtkWidget *recordbutton;
@@ -4648,6 +4649,27 @@ void inner_main(void*closure, int argc, char **argv){
   gint i;
   GError *error = NULL;
   
+  /* initialize guile core */
+  {
+      SCM   load_path;
+      char *user_path;
+
+      /* we assume a normal guile with %load-path always be present */
+      load_path = scm_c_lookup("%load-path");
+
+      scm_variable_set_x(load_path, 
+                         scm_cons(scm_from_locale_string(DENEMO_LOAD_PATH), 
+                                    scm_variable_ref(load_path)));
+      
+      /* consider user-specified path extension */
+      user_path = getenv("DENEMO_LOAD_PATH");
+      if (user_path) {
+          scm_variable_set_x(load_path, 
+                             scm_cons(scm_from_locale_string(user_path),
+                                      scm_variable_ref(load_path)));
+      }
+  }
+
   rsvg_init();
 
 

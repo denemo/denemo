@@ -198,6 +198,12 @@ packagesrcdir=`cd $srcdir && pwd`
 AC_DEFINE_UNQUOTED(
   PACKAGE_SOURCE_DIR, "${packagesrcdir}", [set package source dir])
 
+dnl path magic for denemo guile modules
+denemo_load_path=${PACKAGE_DATA_DIR}/modules
+denemo_bin_path=${libdir}/${PACKAGE}/modules
+AC_SUBST(denemo_load_path)
+AC_SUBST(denemo_bin_path)
+
 dnl Gettext stuff
 
 AC_SUBST(CFLAGS)
