@@ -374,7 +374,7 @@ scorearea_leave_event(GtkWidget *widget, GdkEventCrossing *event) {
 
 gint 
 scorearea_enter_event(GtkWidget *widget, GdkEventCrossing *event) {
-g_print("start the enter with ks = %x and state %x\n", Denemo.keyboard_state, event->state);
+//g_print("start the enter with ks = %x and state %x\n", Denemo.keyboard_state, event->state);
 	if(event->state&GDK_CONTROL_MASK) 
 	Denemo.keyboard_state |= GDK_CONTROL_MASK;
 	 else
@@ -391,9 +391,7 @@ g_print("start the enter with ks = %x and state %x\n", Denemo.keyboard_state, ev
 	 else
 	Denemo.keyboard_state &= ~(CHORD_MASK|GDK_MOD1_MASK);
 #endif
-
-	
-	g_print("end the enter with ks %x (values  %x %x)\n", event->state, ~GDK_CONTROL_MASK, Denemo.keyboard_state & (~GDK_CONTROL_MASK) );
+//	g_print("end the enter with ks %x (values  %x %x)\n", event->state, ~GDK_CONTROL_MASK, Denemo.keyboard_state & (~GDK_CONTROL_MASK) );
 	set_midi_in_status();
    return FALSE;//allow other handlers 
 }
