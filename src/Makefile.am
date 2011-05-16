@@ -72,4 +72,4 @@ pathconfig.h:  $(top_builddir)/config.status
 
 noinst_HEADERS = parseinstruments.h keyboard.h
 
-DISTCLEANFILES: denemo-path.h
+DISTCLEANFILES: pathconfig.h
