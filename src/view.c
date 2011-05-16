@@ -42,7 +42,7 @@
 #include "prefops.h"
 #define INIT_SCM "init.scm"
 
-#include "denemo-paths.h"
+#include "pathconfig.h"
 
 static GtkWidget *playbutton;
 static GtkWidget *recordbutton;
