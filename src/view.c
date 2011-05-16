@@ -42,7 +42,7 @@
 #include "prefops.h"
 #define INIT_SCM "init.scm"
 
-#include "pathconfig.h"
+//#include "pathconfig.h"
 
 static GtkWidget *playbutton;
 static GtkWidget *recordbutton;
@@ -4648,7 +4648,8 @@ void inner_main(void*closure, int argc, char **argv){
   
   gint i;
   GError *error = NULL;
-  
+ #if 0
+ //disabled pending appearance of pathconfig.h 
   /* initialize guile core */
   {
       SCM   load_path;
@@ -4669,6 +4670,7 @@ void inner_main(void*closure, int argc, char **argv){
                                       scm_variable_ref(load_path)));
       }
   }
+#endif
 
   rsvg_init();
 
