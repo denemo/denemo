@@ -42,6 +42,7 @@
 #include "prefops.h"
 #define INIT_SCM "init.scm"
 
+//#include "pathconfig.h"
 
 static GtkWidget *playbutton;
 static GtkWidget *recordbutton;
@@ -4738,7 +4739,30 @@ void inner_main(void*closure, int argc, char **argv){
   
   gint i;
   GError *error = NULL;
-  
+ #if 0
+ //disabled pending appearance of pathconfig.h 
+  /* initialize guile core */
+  {
+      SCM   load_path;
+      char *user_path;
+
+      /* we assume a normal guile with %load-path always be present */
+      load_path = scm_c_lookup("%load-path");
+
+      scm_variable_set_x(load_path, 
+                         scm_cons(scm_from_locale_string(DENEMO_LOAD_PATH), 
+                                    scm_variable_ref(load_path)));
+      
+      /* consider user-specified path extension */
+      user_path = getenv("DENEMO_LOAD_PATH");
+      if (user_path) {
+          scm_variable_set_x(load_path, 
+                             scm_cons(scm_from_locale_string(user_path),
+                                      scm_variable_ref(load_path)));
+      }
+  }
+#endif
+
   rsvg_init();
 
 
@@ -8307,6 +8331,8 @@ get_data_dir (),
 		      G_CALLBACK (scorearea_motion_notify), NULL);
   g_signal_connect (G_OBJECT (Denemo.scorearea), "leave-notify-event",
 			       G_CALLBACK (scorearea_leave_event), NULL);
+  g_signal_connect (G_OBJECT (Denemo.scorearea), "enter-notify-event",
+			       G_CALLBACK (scorearea_enter_event), NULL);
   gtk_signal_connect (GTK_OBJECT (Denemo.scorearea), "scroll_event",
 		      (GtkSignalFunc) scorearea_scroll_event, NULL);
   //g_signal_handlers_block_by_func(Denemo.scorearea, G_CALLBACK (scorearea_motion_notify), NULL);
@@ -8322,6 +8348,7 @@ get_data_dir (),
   gtk_widget_add_events/*gtk_widget_set_events*/ (Denemo.scorearea, (GDK_EXPOSURE_MASK
 					  | GDK_POINTER_MOTION_MASK
 					  | GDK_LEAVE_NOTIFY_MASK
+                      | GDK_ENTER_NOTIFY_MASK
 					  | GDK_BUTTON_PRESS_MASK
 					  | GDK_BUTTON_RELEASE_MASK));
 

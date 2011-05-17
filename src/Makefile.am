@@ -45,7 +45,8 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	pitchentry.c pitchrecog.c audiocapture.c pitchentry.h audio.h \
 	drawlilydir.c lilydirectives.h lilydirectives.c keysigdialog.h \
 	callbacks.h entries.h \
-	scheme_cb.h scheme.h register_commands.h 
+	scheme_cb.h scheme.h register_commands.h \
+	pathconfig.h
 
 localedir = $(datadir)/locale
 INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
@@ -61,9 +62,14 @@ INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
 denemo_LDADD = $(INTLLIBS) ../libsmf/libsmf.a 
 AM_CPPFLAGS = $(BINRELOC_CFLAGS)
 
+pathconfig.h:  $(top_builddir)/config.status
+	-@rm pathconfig.tmp 
+	@echo "Generating pathconfig.h..."
+	@echo '#define DENEMO_LOAD_PATH "@denemo_load_path@"' >pathconfig.tmp
+	@echo '#define DENEMO_BIN_PATH  "@denemo_bin_path@"' >>pathconfig.tmp
+	@mv pathconfig.tmp $@	
 
 
- 
+noinst_HEADERS = parseinstruments.h keyboard.h
 
-
-noinst_HEADERS = parseinstruments.h keyboard.h 
+DISTCLEANFILES: pathconfig.h
