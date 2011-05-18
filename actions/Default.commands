@@ -361,6 +361,16 @@ The cursor position determines which note to add</tooltip>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
+        <action>PendingSharpen</action>
+        <label>Sharpen Next Note</label>
+        <tooltip>Increases the sharpness of the next entered note. The status bar shows the current state.</tooltip>
+      </row>
+      <row>
+        <action>PendingFlatten</action>
+        <label>Flatten Next Note</label>
+        <tooltip>Increases the flatness of the next entered note. The status bar shows the current state.</tooltip>
+      </row>
+      <row>
         <action>StemUp</action>
         <label>StemUp</label>
         <tooltip>Alters a StemNeutral object to stem up.</tooltip>
