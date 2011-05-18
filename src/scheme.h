@@ -275,6 +275,14 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "Sharpen")), "scm", (gpoin
 SCM scheme_Flatten(SCM optional);
 install_scm_function ("d-Flatten", scheme_Flatten);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "Flatten")), "scm", (gpointer)1);
+/*PendingSharpen pending_sharpen*/
+SCM scheme_PendingSharpen(SCM optional);
+install_scm_function ("d-PendingSharpen", scheme_PendingSharpen);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "PendingSharpen")), "scm", (gpointer)1);
+/*PendingFlatten pending_flatten*/
+SCM scheme_PendingFlatten(SCM optional);
+install_scm_function ("d-PendingFlatten", scheme_PendingFlatten);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "PendingFlatten")), "scm", (gpointer)1);
 /*StemUp stem_up*/
 SCM scheme_StemUp(SCM optional);
 install_scm_function ("d-StemUp", scheme_StemUp);

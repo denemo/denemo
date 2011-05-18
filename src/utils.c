@@ -1025,7 +1025,16 @@ void  set_title_bar(DenemoGUI *gui) {
   g_free(title);
   g_free(base);
 }
-
+static const gchar* enshift_string(gint enshift) {
+switch(enshift) {
+    case -2: return "bb";
+    case -1: return "b";
+    case 0: return " ";
+    case 1: return "#";
+    case 2: return "##";
+    default: return "Error";
+}
+}
 /* set the status of the current musical score - its change count and
    title bar and status bars.
    DenemoGUI *gui the musical score.
@@ -1174,7 +1183,7 @@ void write_status(DenemoGUI *gui) {
   GString  *status = g_string_new(_("Movement"));
 
   gint index = g_list_index(gui->movements, gui->si);
-  g_string_printf(status, " %d: %s: ", index+1, selection);
+  g_string_printf(status, "%s %d: %s: ", enshift_string(gui->si->pending_enshift), index+1, selection);
   if(gui->si->smf && (gui->si->smfsync == gui->si->changecount) && Denemo.prefs.playback_controls)
     g_string_append_printf(status, "%d min %.2f sec %.2f %.2f", minutes, seconds, early, late);
   else
