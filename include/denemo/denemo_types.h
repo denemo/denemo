@@ -772,7 +772,7 @@ typedef struct DenemoScore
    * if the cursor advances to the next measure from the next "insert chord"
    * operation */
   gint curmeasure_stem_directive;
-
+  gint pending_enshift;/**< accidental to be used for next inserted note, cleared on note insert */
 
 
   /* Is there a figured bass present, is so this relates the bass
