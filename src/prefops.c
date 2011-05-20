@@ -560,6 +560,7 @@ parseHistory (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 
 	      g_queue_push_tail (prefs->history, g_strdup(file));
 	      g_free (tmp);
+	      g_free (file);
 	    }
 	}
 

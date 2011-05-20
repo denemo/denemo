@@ -900,6 +900,7 @@ parseMenu(xmlNodePtr rootElem, gchar *path, DenemoGUI *gui ) {
 	    g_object_set_data(G_OBJECT(widget), "menupath", g_strdup(path));
 	  }
        }
+       g_free (name);
       }
     }
   return 0;

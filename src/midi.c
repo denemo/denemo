@@ -276,12 +276,15 @@ do_one_note(gint mid_c_offset, gint enshift, gint notenum) {
       else
 	non_printing_note = TRUE;
     }
-    if(non_printing_note) {
-      if(!curobj->isinvisible)
-	cursor_to_next_note();
-      pop_position();
-    } else 
-      PopPosition(NULL, NULL);    
+    if(Denemo.gui->si->currentobject) {
+        curobj=Denemo.gui->si->currentobject->data;
+        if(non_printing_note) {
+        if(!curobj->isinvisible)
+            cursor_to_next_note();
+        pop_position();
+        } else 
+        PopPosition(NULL, NULL);
+    }   
     action_note_into_score(mid_c_offset, enshift, notenum);
     if(Denemo.keyboard_state&ADDING_MASK)
       Denemo.keyboard_state |= CHORD_MASK;
@@ -442,17 +445,16 @@ void process_midi_event(gchar *buf) {
       midiaction(notenumber);
     else if(command==MIDI_CTL_CHANGE) {
       gchar *command_name = get_midi_control_command(notenumber, velocity);
-      if(command_name)
-      //FIXME what sort of free? g_free(command_name);
-	execute_callback_from_name(Denemo.map, command_name);
-
+      if(command_name) {  
+        execute_callback_from_name(Denemo.map, command_name);
+        g_free(command_name);
+      }
     } else if(command==MIDI_PITCH_BEND) {
       gchar *command_name = get_midi_pitch_bend_command((notenumber<<8) + velocity);
-      if(command_name)
-      //FIXME what sort of free? g_free(command_name);
-	execute_callback_from_name(Denemo.map, command_name);
-
-      ;//the same
+      if(command_name) {
+        execute_callback_from_name(Denemo.map, command_name);
+      g_free(command_name);
+      }
     }
   }
 }

@@ -341,8 +341,11 @@
           <menuitem action="OctaveDown"/>
 	  <menuitem action="Sharpen"/>
 	  <menuitem action="Flatten"/>
+
         </menu>
       <menu action="InsertNote">
+	<menuitem action="PendingSharpen"/>
+	<menuitem action="PendingFlatten"/>
 	<menuitem action="InsertA"/>
 	<menuitem action="InsertB"/>
 	<menuitem action="InsertC"/>

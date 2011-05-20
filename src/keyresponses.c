@@ -857,6 +857,21 @@ flatten_key (DenemoGUI * gui)
     incrementenshift (gui, -1);
 }
 void
+pending_sharpen (DenemoGUI * gui)
+{
+  Denemo.gui->si->pending_enshift++;
+  if(Denemo.gui->si->pending_enshift>2)
+    Denemo.gui->si->pending_enshift = 2;
+}
+void
+pending_flatten (DenemoGUI * gui)
+{
+  Denemo.gui->si->pending_enshift--;
+  if(Denemo.gui->si->pending_enshift<-2)
+    Denemo.gui->si->pending_enshift = -2;
+}
+
+void
 stem_down (DenemoGUI * gui)
 {
   flatten_key(gui);

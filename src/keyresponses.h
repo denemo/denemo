@@ -89,6 +89,8 @@ void sharpen_key (DenemoGUI *gui);
 void stem_up (DenemoGUI *gui);
 void stem_down (DenemoGUI *gui);
 void flatten_key (DenemoGUI *gui);
+void pending_flatten (DenemoGUI *gui);
+void pending_sharpen (DenemoGUI *gui);
 void tie_notes_key (DenemoGUI *gui);
 void add_dot_key (DenemoGUI *gui);
 void remove_dot_key (DenemoGUI *gui);

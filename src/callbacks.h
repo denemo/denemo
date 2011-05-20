@@ -396,6 +396,20 @@ flatten_key (gui);
 displayhelper (gui);
   score_status(gui, TRUE);
 }
+/*PendingSharpen pending_sharpen*/
+static void pending_sharpen_cb (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+pending_sharpen (gui);
+displayhelper (gui);
+  score_status(gui, TRUE);
+}
+/*PendingFlatten pending_flatten*/
+static void pending_flatten_cb (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+pending_flatten (gui);
+displayhelper (gui);
+  score_status(gui, TRUE);
+}
 /*StemUp stem_up*/
 static void stem_up_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;

@@ -856,26 +856,22 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 	  draw_measure (cr, itp->curmeasure, x, y, gui, itp);
 	  x += GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE;
 	}
-#if 0
-      if(itp->line_end && itp->curmeasure->next)
-	*itp->scale = (int)(100*x/(Denemo.scorearea->allocation.width/gui->si->zoom));
-      if( (Denemo.gui->view!=DENEMO_PAGE_VIEW) && *itp->scale < 100)
-	*itp->scale = 100;
-#else
-      if(Denemo.gui->view==DENEMO_PAGE_VIEW)
-	  *itp->scale = (int)(100*x/(Denemo.scorearea->allocation.width/gui->si->zoom));
-      else
-	*itp->scale = 100;
-#endif
 
-      itp->curmeasure = itp->curmeasure->next;
-      itp->mwidthiterator = itp->mwidthiterator->next;
+    if((Denemo.gui->view!=DENEMO_PAGE_VIEW && itp->line_end && itp->measurenum > si->rightmeasurenum)
+	||(Denemo.gui->view==DENEMO_PAGE_VIEW && itp->line_end && itp->curmeasure->next))
+		*itp->scale = (int)(100*x/(Denemo.scorearea->allocation.width/gui->si->zoom));	
+    else
+     
+		*itp->scale = 100;
 
-      itp->measurenum++;
-      //g_print("line_end is %d, while itp->measurenum=%d and si->rightmeasurenum=%d\n",  itp->line_end, itp->measurenum, si->rightmeasurenum);
-      if(!itp->line_end) {
-	if(-itp->highy>itp->in_highy && -itp->highy<MAXEXTRASPACE){
-	  thestaff->space_above = -itp->highy;
+    itp->curmeasure = itp->curmeasure->next;
+    itp->mwidthiterator = itp->mwidthiterator->next;
+
+    itp->measurenum++;
+    //g_print("line_end is %d, while itp->measurenum=%d and si->rightmeasurenum=%d\n",  itp->line_end, itp->measurenum, si->rightmeasurenum);
+    if(!itp->line_end) {
+		if(-itp->highy>itp->in_highy && -itp->highy<MAXEXTRASPACE) {
+		thestaff->space_above = -itp->highy;
 	  repeat = TRUE;
 	}
 	if(itp->lowy>itp->in_lowy && itp->lowy<MAXEXTRASPACE){
