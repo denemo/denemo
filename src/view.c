@@ -3599,26 +3599,30 @@ SCM scheme_locate_dotdenemo (SCM optional) {
   SCM scm = scm_makfrom0str (dotdenemo);
   return scm;
 }
-
-char *get_midi_control_command(guchar type, guchar value) {
+//returns newly allocated string. FIXME use proper scm_xxx calls not strings
+gchar *get_midi_control_command(guchar type, guchar value) {
   gchar *command = g_strdup_printf("(MIDI-shortcut::controller %d %d)", type, value);
   SCM scm = scm_c_eval_string(command);
   g_free(command);
   if(scm_is_string(scm)) {
-    char *ctrl;
-    ctrl = scm_to_locale_string(scm);
-    return ctrl;
+    char *ctrl = scm_to_locale_string(scm);
+    command = g_strdup(ctrl);
+    free(ctrl);
+    return command;
   }
   return NULL;
 }
-char *get_midi_pitch_bend_command(gint value) {
+//returns newly allocated string. FIXME use proper scm_xxx calls not strings
+gchar *get_midi_pitch_bend_command(gint value) {
   gchar *command = g_strdup_printf("(MIDI-shortcut::pitchbend %d)", value);
   SCM scm = scm_c_eval_string(command);
   g_free(command);
   if(scm_is_string(scm)) {
     char *pbend;
     pbend = scm_to_locale_string(scm);
-    return pbend;
+    command = g_strdup(pbend);
+    free(pbend);
+    return command;
   }
   return NULL;
 }
