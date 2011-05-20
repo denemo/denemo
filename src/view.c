@@ -1832,9 +1832,13 @@ SCM scheme_get_user_input(SCM label, SCM prompt, SCM init) {
  
  gchar * ret = string_dialog_entry_with_widget (Denemo.gui, title, instruction, initial_value, NULL);
  SCM scm = scm_makfrom0str (ret);
- if (title) free(title);
- if (instruction) free(instruction);
- if (initial_value) free(initial_value);
+
+ //FIXME mixed types of string, memory leaks
+ //if (title) free(title); only good for the scm_to... string not the fixed one
+ //if (instruction) free(instruction);
+ //if (initial_value) free(initial_value);
+
+ 
  if (ret) g_free(ret);
  return scm;
 }
@@ -2146,7 +2150,7 @@ SCM scheme_get_option(SCM options) {
   }
   if(response){
     SCM ret = scm_take_locale_stringn(response, strlen(response));
-    g_free(response);
+    g_free(response);//FIXME the g_strdup above is not needed?
     return ret;
     //return scm_from_locale_stringn (response, strlen(response));
   }
@@ -2165,7 +2169,9 @@ SCM scheme_set_action_script_for_tag(SCM tag, SCM script) {
     if(scm_is_string(script)){
       char *the_script;
       the_script = scm_to_locale_string(script);
-      set_action_script_for_tag(the_tag, the_script);
+      gchar *stored_script = g_strdup(the_script);
+      free(the_script);
+      set_action_script_for_tag(the_tag, stored_script);
       if(the_tag)
         free(the_tag);
       return SCM_BOOL(TRUE);
@@ -2184,7 +2190,7 @@ SCM scheme_set_action_script_for_tag(SCM tag, SCM script) {
     tagname = scm_to_locale_string(tag);\
   } \
   extern gchar *what##_directive_get_tag (gchar *tagname);\
-  gchar *val = (gchar*)what##_directive_get_tag (tagname);\
+  gchar *val = (gchar*)what##_directive_get_tag ((gchar*)tagname);\
   if(val){\
     SCM ret = scm_from_locale_stringn (val, strlen(val));\
     if(tagname) free(tagname);\
@@ -2256,7 +2262,7 @@ static SCM scheme_##what##_directive_get_##field(SCM tag) {\
   char *tagname;\
   tagname = scm_to_locale_string(tag);\
   extern gchar* what##_directive_get_##field(gchar *tagname);\
-  gchar *value = (gchar*)what##_directive_get_##field(tagname);\
+  gchar *value = (gchar*)what##_directive_get_##field((gchar*)tagname);\
   if(tagname) free(tagname);\
   if(value){\
     return scm_makfrom0str(value);\
@@ -2272,7 +2278,7 @@ static SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
   char *valuename;\
   valuename = scm_to_locale_string(value);\
   extern gboolean what##_directive_put_##field (gchar *tagname, gchar *valuename);\
-  gboolean ret = what##_directive_put_##field (tagname, valuename);\
+  gboolean ret = what##_directive_put_##field ((gchar*)tagname, (gchar*)valuename);\
   if(tagname) free(tagname);\
   if(valuename) free(valuename);\
   return SCM_BOOL(ret);\
@@ -2359,7 +2365,7 @@ static SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
   tagname = scm_to_locale_string(tag);\
   gint valuename = scm_num2int(value, 0, 0);\
   extern  gboolean  what##_directive_put_##field (gchar *tag, gint value);\
-  gboolean ret = what##_directive_put_##field (tagname, valuename);\
+  gboolean ret = what##_directive_put_##field ((gchar*)tagname, valuename);\
   if(tagname) free(tagname);\
   return SCM_BOOL(ret);\
 }
@@ -2371,7 +2377,7 @@ static SCM scheme_##what##_directive_get_##field(SCM tag) {\
   char *tagname;\
   tagname = scm_to_locale_string(tag);\
   extern gint what##_directive_get_##field (gchar *tag);\
-  gint ret = what##_directive_get_##field (tagname);\
+  gint ret = what##_directive_get_##field ((gchar*)tagname);\
   if(tagname) free(tagname);\
   return scm_int2num(ret);\
 }
@@ -2386,7 +2392,7 @@ static SCM scheme_##what##_directive_put_graphic(SCM tag, SCM value) {\
   tagname = scm_to_locale_string(tag);\
   char *valuename;\
   valuename = scm_to_locale_string(value);\
-  gboolean ret = what##_directive_put_graphic (tagname, valuename);\
+  gboolean ret = what##_directive_put_graphic ((gchar*)tagname, (gchar*)valuename);\
   if(tagname) free(tagname);\
   if(valuename) free(valuename);\
   return SCM_BOOL(ret);\
@@ -3011,7 +3017,7 @@ static  SCM scheme_midi_record(void) {
   return SCM_BOOL(Denemo.gui->midi_destination | MIDIRECORD);
 }
 
-typedef struct cb_scheme_and_id { gchar *scheme_code; gint id;} cb_scheme_and_id;
+typedef struct cb_scheme_and_id { char *scheme_code; gint id;} cb_scheme_and_id;
 
 static gboolean scheme_callback_one_shot_timer(cb_scheme_and_id *scheme){
     char *scheme_code = scheme->scheme_code;
@@ -3063,7 +3069,7 @@ static SCM scheme_kill_timer(SCM id) {
   if(scheme) {
     g_source_remove_by_user_data(scheme);//FIXME this timer leaks the memory of the scheme code and id
     //g_print("Freeing %s\n", scheme->scheme_code);
-    g_free(scheme->scheme_code);
+    free(scheme->scheme_code);
     g_free(scheme);
     return SCM_BOOL_T;
   }
