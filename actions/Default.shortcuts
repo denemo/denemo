@@ -199,13 +199,19 @@
       <row>
         <action>Sharpen</action>
         <bind>Add</bind>
-        <bind>plus</bind>
         <bind>Shft+equal</bind>
-        <bind>equal</bind>
       </row>
       <row>
         <action>Flatten</action>
         <bind>Subtract</bind>
+       <bind>Shft+minus</bind>
+      </row>
+      <row>
+        <action>PendingSharpen</action>
+        <bind>equal</bind>
+      </row>
+      <row>
+        <action>PendingFlatten</action>
         <bind>minus</bind>
       </row>
       <row>

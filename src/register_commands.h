@@ -67,6 +67,8 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "AddNoteT
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "RemoveNoteFromChord"), "RemoveNoteFromChord", "Remove note", "Remove a note from the current chord", remove_tone_key);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Sharpen"), "Sharpen", "Sharpen", "No Tooltip yet", sharpen_key);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Flatten"), "Flatten", "Flatten", "No Tooltip yet", flatten_key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "PendingSharpen"), "PendingSharpen", "Sharpen Next Note", "Increases the sharpness of the next entered note. The status bar shows the current state.", pending_sharpen);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "PendingFlatten"), "PendingFlatten", "Flatten Next Note", "Increases the flatness of the next entered note. The status bar shows the current state.", pending_flatten);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "StemUp"), "StemUp", "StemUp", "Alters a StemNeutral object to stem up.", stem_up);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "StemDown"), "StemDown", "StemDown", "Alters a StemNeutral object to stem down.", stem_down);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "AddDot"), "AddDot", "Add Dot", "No Tooltip yet", add_dot_key);

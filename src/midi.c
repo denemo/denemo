@@ -441,17 +441,17 @@ void process_midi_event(gchar *buf) {
     if(command==MIDI_NOTEON)
       midiaction(notenumber);
     else if(command==MIDI_CTL_CHANGE) {
-      gchar *command_name = get_midi_control_command(notenumber, velocity);
-      if(command_name)
-      //FIXME what sort of free? g_free(command_name);
+      char *command_name = get_midi_control_command(notenumber, velocity);
+      if(command_name){
 	execute_callback_from_name(Denemo.map, command_name);
-
+        free(command_name);
+      }
     } else if(command==MIDI_PITCH_BEND) {
-      gchar *command_name = get_midi_pitch_bend_command((notenumber<<8) + velocity);
-      if(command_name)
-      //FIXME what sort of free? g_free(command_name);
+      char *command_name = get_midi_pitch_bend_command((notenumber<<8) + velocity);
+      if(command_name){
 	execute_callback_from_name(Denemo.map, command_name);
-
+  	free(command_name);
+      }	
       ;//the same
     }
   }

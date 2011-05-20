@@ -162,6 +162,8 @@ struct name_and_function denemo_commands[] = {
 
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("Sharpen"), "sharpen_key", "Sharpen", N_("Sharpen Note")},
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("Flatten"), "flatten_key", "Flatten", N_("Flatten Note")},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Increases the sharpness of the next entered note. The status bar shows the current state.",	N_("PendingSharpen"), "pending_sharpen", "Sharpen Next Note", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Increases the flatness of the next entered note. The status bar shows the current state.",	N_("PendingFlatten"), "pending_flatten", "Flatten Next Note", NULL},
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "Alters a StemNeutral object to stem up.",	N_("StemUp"), "stem_up", "StemUp", N_("Stem Up")},
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "Alters a StemNeutral object to stem down.",	N_("StemDown"), "stem_down", "StemDown", N_("Stem Down")},
 

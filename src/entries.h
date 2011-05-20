@@ -68,6 +68,8 @@
 {"RemoveNoteFromChord", NULL, N_("Remove note"), NULL,N_("Remove a note from the current chord"),G_CALLBACK (remove_tone_key_cb)},
 {"Sharpen", NULL, N_("Sharpen"), NULL,N_("No Tooltip yet"),G_CALLBACK (sharpen_key_cb)},
 {"Flatten", NULL, N_("Flatten"), NULL,N_("No Tooltip yet"),G_CALLBACK (flatten_key_cb)},
+{"PendingSharpen", NULL, N_("Sharpen Next Note"), NULL,N_("Increases the sharpness of the next entered note. The status bar shows the current state."),G_CALLBACK (pending_sharpen_cb)},
+{"PendingFlatten", NULL, N_("Flatten Next Note"), NULL,N_("Increases the flatness of the next entered note. The status bar shows the current state."),G_CALLBACK (pending_flatten_cb)},
 {"StemUp", NULL, N_("StemUp"), NULL,N_("Alters a StemNeutral object to stem up."),G_CALLBACK (stem_up_cb)},
 {"StemDown", NULL, N_("StemDown"), NULL,N_("Alters a StemNeutral object to stem down."),G_CALLBACK (stem_down_cb)},
 {"AddDot", NULL, N_("Add Dot"), NULL,N_("No Tooltip yet"),G_CALLBACK (add_dot_key_cb)},

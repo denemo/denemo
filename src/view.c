@@ -363,7 +363,7 @@ scm_c_define_gsubr (name, 4, 0, 0, callback);
 #undef DEV_CODE
 
 static SCM scheme_http(SCM hname, SCM page, SCM other, SCM poststr) {
-  gchar *name=NULL, *thepage=NULL, *oth=NULL, *post=NULL;
+  char *name=NULL, *thepage=NULL, *oth=NULL, *post=NULL;
   
  if(scm_is_string(hname)){
    name = scm_to_locale_string(hname);
@@ -382,10 +382,18 @@ static SCM scheme_http(SCM hname, SCM page, SCM other, SCM poststr) {
    gchar *ret = post_denemodotorg(name, thepage, oth, post);
    SCM scm = scm_take_locale_string(ret);
    //g_free(ret); ???
+   free(name);
+   free(thepage);
+   free(oth);
+   free(post);
    return scm;
  }
  else {
-  return SCM_BOOL(FALSE);
+   free(name);
+   free(thepage);
+   free(oth);
+   free(post);
+   return SCM_BOOL(FALSE);
  }
 }
 
@@ -462,7 +470,7 @@ void execute_init_scripts(gchar *menupath) {
 static SCM scheme_initialize_script(SCM action_name) {
   SCM ret;
   gint length;
-  gchar *name;
+  char *name;
   name = scm_to_locale_string(action_name);
   GtkAction *action = lookup_action_from_name(name);
   if(!action){
@@ -471,6 +479,7 @@ static SCM scheme_initialize_script(SCM action_name) {
   }
   gchar *menupath = g_object_get_data(G_OBJECT(action), "menupath");
   ret = scheme_execute_init(menupath);
+  if(name) free(name);
   return ret;
 }
 
@@ -483,7 +492,7 @@ static SCM scheme_initialize_script(SCM action_name) {
  */
 static SCM scheme_load_command(SCM command) {
   gboolean ret;
-  gchar *name;
+  char *name;
   name = scm_to_locale_string(command); 
   gchar *filename = g_build_filename(locatedotdenemo(), "actions", "menus", name, NULL);
   ret = load_xml_keymap(filename, FALSE);
@@ -497,16 +506,18 @@ static SCM scheme_load_command(SCM command) {
     filename = g_build_filename(get_data_dir(), "actions", name, NULL);
     ret = load_xml_keymap(filename, FALSE);
   }
-  g_free(filename);
+  if(name) free(name);
+  if (filename) g_free(filename);
   return SCM_BOOL(ret);
 }
 
 static SCM scheme_activate_menu_item(SCM menupath) {
   if(scm_is_string(menupath)) {
-    gchar *item;
+    char *item;
     item = scm_to_locale_string(menupath);
     if(item) {
       gboolean ret = activate_action(item) ? TRUE:FALSE;
+      free(item);
       return SCM_BOOL(ret);
     }
   }
@@ -689,6 +700,7 @@ static SCM scheme_script_callback(SCM script, SCM params) {
 	 scm_c_define(paramvar, SCM_BOOL_F);
 	 g_free(paramvar);
        }
+       if(name) free(name);
      }
    }
 return  ret;
@@ -700,8 +712,10 @@ void create_scheme_function_for_script(gchar *name) {
   
   //g_print("Defining %s\n", def);
   call_out_to_guile(def);
-  g_free(def);
   g_free(proc);
+  g_free(value);
+  g_free(def);
+ 
   // define_scheme_literal_variable(proc, value, "A scheme procedure to call the script of that name");
 }
 
@@ -722,36 +736,43 @@ static SCM scheme_debug_object (SCM optional) {
 
 
 static SCM scheme_load_keybindings (SCM name) {
-  gchar * filename;
+  char * filename;
   if(scm_is_string(name)) {
     filename = scm_to_locale_string(name);
     if(load_xml_keybindings (filename) == 0){
+      free(filename);
       return SCM_BOOL_T; 
     }
     gchar *name = g_build_filename (locatedotdenemo (), "actions", filename, NULL);
     if(load_xml_keybindings (name) == 0){
+      free(filename);
+      //g_free(name); CHECKME
       return SCM_BOOL_T;
     }
     g_free(name);
     name = g_build_filename (locatedotdenemo (), "download", "actions", filename, NULL);
     if(load_xml_keybindings (name) == 0){
+      //g_free(name); CHECKME
       return SCM_BOOL_T;
     }
     g_free(name);
     name = g_build_filename (get_data_dir (), "actions", filename, NULL);
     if(load_xml_keybindings (name) == 0){
+      //g_free(name); CHECKME
       return SCM_BOOL_T;
     }
     g_free(name);
   }
+  //if (name) g_free(name); CHECKME
   return SCM_BOOL_F;
 }
 
 static SCM scheme_save_keybindings (SCM name) {
-  gchar * filename;
+  char * filename;
   if(scm_is_string(name)) {
     filename = scm_to_locale_string(name);    
     if(save_xml_keybindings (filename) == 0){
+      if(filename) free(filename);
       return SCM_BOOL_T;
     }
   }
@@ -765,11 +786,13 @@ static SCM scheme_clear_keybindings (SCM optional) {
 
 
 static SCM scheme_load_commandset (SCM name) {
-  gchar * filename;
+  char * filename;
   if(scm_is_string(name)) {
     filename = scm_to_locale_string(name);    
-    if(load_xml_keymap (filename, FALSE) == 0)
+    if(load_xml_keymap (filename, FALSE) == 0){
+      if(filename) free(filename);
       return SCM_BOOL_T;
+    }
   }
   return SCM_BOOL_F;
 }
@@ -845,14 +868,15 @@ static SCM scheme_zoom (SCM factor) {
   if(scm_is_real(factor))
     Denemo.gui->si->zoom = scm_to_double(factor);
   else if(scm_is_string(factor)) {
-    gchar *name;
+    char *name;
     name = scm_to_locale_string(factor); 
-    if(name)
+    if(name){
       Denemo.gui->si->zoom = atof(name);
+      free(name);
+    }
   } else {
     return scm_double2num(Denemo.gui->si->zoom);
-  }
-     
+  }   
   scorearea_configure_event(Denemo.scorearea, NULL);
   if(Denemo.gui->si->zoom > 0.01){
     return  scm_int2num(Denemo.gui->si->zoom);
@@ -870,10 +894,12 @@ static SCM scheme_master_tempo (SCM factor) {
   if(scm_is_real(factor))
     si->master_tempo = scm_to_double(factor);
   else if(scm_is_string(factor)) {
-    gchar *name;
+    char *name;
     name = scm_to_locale_string(factor);
-    if(name)
+    if(name){
      si->master_tempo = atof(name);
+     free(name);
+    }
   } else {
       return scm_double2num(si->master_tempo);
     }
@@ -889,10 +915,12 @@ static SCM scheme_movement_tempo (SCM bpm) {
   if(scm_is_real(bpm))
     si->tempo = scm_to_int(bpm);
   if(scm_is_string(bpm)) {
-    gchar *name;
+    char *name;
     name = scm_to_locale_string(bpm);
-    if(name)
+    if(name){
      si->tempo = atof(name);
+     free(name);
+    }
   }
 
   if(si->tempo < 1)
@@ -905,10 +933,12 @@ static SCM scheme_master_volume (SCM factor) {
   if(scm_is_real(factor))
     si->master_volume = scm_to_double(factor);
   if(scm_is_string(factor)) {
-    gchar *name;
+    char *name;
     name = scm_to_locale_string(factor);
-    if(name)
+    if(name){
      si->master_volume = atof(name);
+     free(name); 
+    }
   }
   if(si->master_volume < 0.0)
     si->master_volume =  1.0;
@@ -983,27 +1013,35 @@ static SCM scheme_set_playback_interval (SCM start, SCM end) {
     return SCM_BOOL_T;
   }
   if(scm_is_string(start) && scm_is_string(end) ) {
-    gchar *name;
+    char *name;
     name = scm_to_locale_string(start);  
-    if(name)
+    if(name){
      Denemo.gui->si->start_time = atof(name);
+     free(name);
+    }
     name = scm_to_locale_string(end);
-    if(name)
+    if(name){
       Denemo.gui->si->end_time = atof(name);
+      free(name);
+    }
     return SCM_BOOL_T;
   }
   if(scm_is_string(start)){
-    gchar *name;
+    char *name;
     name = scm_to_locale_string(start);
-    if(name)
+    if(name){
       Denemo.gui->si->start_time = atof(name);
+      free(name);
+    }
     return SCM_BOOL_T;
   }
   if(scm_is_string(end) ) {
-    gchar *name;
+    char *name;
     name = scm_to_locale_string(end);
-    if(name)
+    if(name){
       Denemo.gui->si->end_time = atof(name);
+      free(name);
+    }
     return SCM_BOOL_T;
   }
   return SCM_BOOL_F;
@@ -1033,14 +1071,15 @@ static SCM scheme_adjust_playback_end(SCM adj) {
 
 
 static SCM scheme_get_help(SCM command) {
-  gchar *name;
+  char *name;
   if(scm_is_string(command))
     name = scm_to_locale_string(command);
   if(name==NULL){
     return SCM_BOOL_F;
   }
   gint idx = lookup_command_from_name(Denemo.map, name);
-
+  if(name)
+    free(name);
   if(idx<0) {
 #if 0
     SCM help = scm_c_eval_string(g_strconcat("Help-d-", name));
@@ -1058,7 +1097,7 @@ static SCM scheme_get_lily_version(SCM optional) {
 }
 
 static SCM scheme_check_lily_version(SCM check_version) {
-  gchar *version;
+  char *version;
  if(scm_is_string(check_version)){
    version = scm_to_locale_string(check_version);
  } 
@@ -1066,6 +1105,8 @@ static SCM scheme_check_lily_version(SCM check_version) {
    return  SCM_BOOL_F;
  }
   gint result = check_lily_version (version);
+  if(version)
+    free(version);
   if(result>0){
     return SCM_BOOL_T;
   }
@@ -1075,11 +1116,13 @@ static SCM scheme_check_lily_version(SCM check_version) {
 }
 
 static SCM scheme_get_id(SCM command) {
-  gchar *name;
+  char *name;
   if(scm_is_string(command)) {
     gint id;
     name = scm_to_locale_string(command);
     id = lookup_command_from_name(Denemo.map, name);
+    if (name)
+      free(name);
     if(id!=-1){
       return scm_int2num (id);
     }
@@ -1087,14 +1130,13 @@ static SCM scheme_get_id(SCM command) {
   return SCM_BOOL_F;
 }
 static SCM scheme_add_keybinding (SCM command, SCM binding) {
-  gchar * shortcut;
-  
+  char * shortcut;
+  char * name;
   gint id;
   gint old_id = -1;
   if(scm_is_string(binding)) {
     shortcut = scm_to_locale_string(binding);
     if(scm_is_string(command)) {
-      gchar *name;
       name = scm_to_locale_string(command);
       old_id = add_keybinding_for_name(name, shortcut);
     } else if(scm_integer_p(command)) {
@@ -1102,6 +1144,10 @@ static SCM scheme_add_keybinding (SCM command, SCM binding) {
       if(id>=0)
 	old_id = add_keybinding_for_command(id, shortcut);	
     }
+    if(shortcut)
+      free(shortcut);
+    if(name)
+      free(name);
   }
   if(old_id>=0){
     return scm_int2num(old_id);
@@ -1112,7 +1158,7 @@ static SCM scheme_add_keybinding (SCM command, SCM binding) {
 }
 
 static SCM scheme_get_label(SCM command) {
-  gchar *name;
+  char *name;
   if(scm_is_string(command)){
     name = scm_to_locale_string(command);
   }
@@ -1123,6 +1169,8 @@ static SCM scheme_get_label(SCM command) {
     return SCM_BOOL_F;
   }
   gint idx = lookup_command_from_name(Denemo.map, name);
+  if (name)
+    free(name);
   if(idx<0) {
     return SCM_BOOL_F;
   }
@@ -1130,7 +1178,7 @@ static SCM scheme_get_label(SCM command) {
 }
 
 static SCM scheme_get_menu_path(SCM command) {
-  gchar *name;
+  char *name;
   if(scm_is_string(command)){
     name = scm_to_locale_string(command);
   }
@@ -1141,6 +1189,8 @@ static SCM scheme_get_menu_path(SCM command) {
     return SCM_BOOL_F;
   }
   gint idx = lookup_command_from_name(Denemo.map, name);
+  if(name)
+    free(name);
   if(idx<0) {
     return SCM_BOOL_F;
   }
@@ -1169,9 +1219,11 @@ static SCM scheme_put_verse(SCM verse) {
   DenemoGUI *gui = Denemo.gui;
   DenemoStaff *staff = (DenemoStaff *) gui->si->currentstaff->data;
   if(scm_is_string(verse)) {
-    gchar *text;
+    char *text;
     text = scm_to_locale_string(verse);
     gboolean ret = put_lyrics_for_current_verse(staff, text);
+    if(text)
+      free(text);
     return SCM_BOOL(ret);
   }
   return SCM_BOOL_F; 
@@ -1180,9 +1232,11 @@ static SCM scheme_append_to_verse(SCM verse) {
   DenemoGUI *gui = Denemo.gui;
   DenemoStaff *staff = (DenemoStaff *) gui->si->currentstaff->data;
   if(scm_is_string(verse)) {
-    gchar *text;
+    char *text;
     text = scm_to_locale_string(verse);
     gboolean ret = append_lyrics_for_current_verse(staff, text);
+    if(text) 
+      free(text);
     return SCM_BOOL(ret);
   }
   return SCM_BOOL_F; 
@@ -1199,6 +1253,7 @@ static SCM scheme_input_filter_names(SCM filtername) {
        g_string_printf(Denemo.input_filters, "MIDI Input: %s", name);
        gtk_widget_show(Denemo.input_source);
        write_input_status();
+       free(name);
        return SCM_BOOL_T;
      }
    }  else {
@@ -1219,6 +1274,7 @@ static SCM scheme_write_status(SCM filtername) {
        g_string_assign(Denemo.input_filters, name);
        gtk_widget_show(Denemo.input_source);
        write_input_status();
+       free(name);
        return SCM_BOOL_T;
      }
    }  else {
@@ -1317,9 +1373,11 @@ static SCM scheme_get_cursor_note (SCM optional) {
 static SCM scheme_set_prefs (SCM xml) {
   DenemoGUI *gui = Denemo.gui;
   if(scm_is_string(xml)){
-    gchar *xmlprefs;
+    char *xmlprefs;
     xmlprefs = scm_to_locale_string(xml);
     gint fail = readxmlprefsString(xmlprefs);
+    if(xmlprefs) 
+      free(xmlprefs);
     return SCM_BOOL(!fail);     
   }
   return SCM_BOOL(FALSE);
@@ -1328,9 +1386,11 @@ static SCM scheme_set_prefs (SCM xml) {
 SCM scheme_attach_quit_callback (SCM callback) {
   DenemoGUI *gui = Denemo.gui;
   if(scm_is_string(callback)){
-    gchar *scheme;
+    char *scheme;
     scheme = scm_to_locale_string(callback);    
     gui->callbacks = g_list_prepend(gui->callbacks, scheme);
+    if(scheme)
+      free(scheme);
   }
   return SCM_BOOL(TRUE);
 }
@@ -1656,7 +1716,7 @@ SCM scheme_get_prevailing_keysig(SCM optional) {
 
 SCM scheme_set_prevailing_keysig(SCM keyaccs) {
   //keysigs have a field called "number" which determines how it is drawn, setting like this does not get a keysig drawn, nor does it affect lilypond output
-  gchar *accs=NULL;
+  char *accs=NULL;
   if(scm_is_string(keyaccs)){
     accs = scm_to_locale_string(keyaccs);
   }
@@ -1667,6 +1727,8 @@ SCM scheme_set_prevailing_keysig(SCM keyaccs) {
   sscanf(accs, "%d%d%d%d%d%d%d", keysig->accs+0,keysig->accs+1,keysig->accs+2,keysig->accs+3,keysig->accs+4,keysig->accs+5,keysig->accs+6);
   showwhichaccidentalswholestaff ((DenemoStaff *) Denemo.gui->si->currentstaff->
 				  data);
+  if(accs)
+    free(accs);
   displayhelper (Denemo.gui);//score_status(Denemo.gui, TRUE);
   return SCM_BOOL_T;
 }
@@ -1676,7 +1738,7 @@ SCM scheme_cursor_to_note (SCM lilyname) {
  DenemoGUI *gui = Denemo.gui;
  gint mid_c_offset;
  gint enshift;
- gchar *notename;
+ char *notename;
  gint dclef;
 
  if(scm_is_string(lilyname)){
@@ -1686,7 +1748,7 @@ SCM scheme_cursor_to_note (SCM lilyname) {
    gui->si->cursor_y = mid_c_offset;
    gui->si->staffletter_y = offsettonumber (gui->si->cursor_y);
    displayhelper (gui);
-   g_free(notename);
+   if(notename) free(notename);
    return  SCM_BOOL(TRUE);
  }
  else {
@@ -1699,7 +1761,7 @@ SCM scheme_change_chord_notes (SCM lilynotes) {
  DenemoObject *curObj;
  chord *thechord;
  note *thenote;
- gchar *notename;
+ char *notename;
  gchar *chordnote;
  gint mid_c_offset;
  gint enshift;
@@ -1723,7 +1785,7 @@ SCM scheme_change_chord_notes (SCM lilynotes) {
 	}
 	/* add changed tones */
 	dclef =  find_prevailing_clef(Denemo.gui->si);
-	notename = scm_to_locale_string(lilynotes);        
+	notename = scm_to_locale_string(lilynotes);
 	chordnote = strtok(notename, " ");
 	while (chordnote){
 	  interpret_lilypond_notename(chordnote, &mid_c_offset, &enshift);
@@ -1741,6 +1803,8 @@ SCM scheme_change_chord_notes (SCM lilynotes) {
 	}
 	score_status(gui, TRUE);
 	displayhelper (gui);
+        if(notename)
+          free(notename);
 	return  SCM_BOOL(TRUE);
    }  
  } 
@@ -1749,7 +1813,7 @@ SCM scheme_change_chord_notes (SCM lilynotes) {
 }
 
 SCM scheme_get_user_input(SCM label, SCM prompt, SCM init) {
-  gchar *title, *instruction, *initial_value;
+  char *title, *instruction, *initial_value;
   gint length;
 
  if(scm_is_string(label)){
@@ -1768,16 +1832,16 @@ SCM scheme_get_user_input(SCM label, SCM prompt, SCM init) {
  
  gchar * ret = string_dialog_entry_with_widget (Denemo.gui, title, instruction, initial_value, NULL);
  SCM scm = scm_makfrom0str (ret);
- if (title) g_free(title);
- if (instruction) g_free(instruction);
- if (initial_value) g_free(initial_value);
+ if (title) free(title);
+ if (instruction) free(instruction);
+ if (initial_value) free(initial_value);
  if (ret) g_free(ret);
  return scm;
 }
 
 
 SCM scheme_warningdialog(SCM msg) {
-  gchar *title;
+  char *title;
   gint length;
   if(scm_is_string(msg)){
     title = scm_to_locale_string(msg); 
@@ -1785,11 +1849,13 @@ SCM scheme_warningdialog(SCM msg) {
   else title = "Script generated warning";//FIXME mixed types of string, memory leaks
  
  warningdialog (title);
+ if(title)
+   free(title);
  return msg;
 }
 
 SCM scheme_infodialog(SCM msg) {
-  gchar *title;
+  char *title;
   gint length;
 if(scm_is_string(msg)){
   title = scm_to_locale_string(msg);
@@ -1800,11 +1866,13 @@ if(scm_is_string(msg)){
    msg = SCM_BOOL(FALSE);
  }
  infodialog (title);
+ if(title) 
+   free(title);
  return msg;
 }
 
 SCM scheme_progressbar(SCM msg) {
-  gchar *title;
+  char *title;
   if(scm_is_string(msg)){
     title = scm_to_locale_string(msg);   
     progressbar(title);
@@ -1812,6 +1880,8 @@ SCM scheme_progressbar(SCM msg) {
   }
   else 
    msg = SCM_BOOL(FALSE);
+  if(title)
+    free(title);
   return msg;
 }
 
@@ -2065,17 +2135,19 @@ SCM scheme_get_padding(void) {
 SCM scheme_get_option(SCM options) {
   gchar *response = NULL;
   size_t length;
-  gchar *str=NULL;
+  //gchar *str=NULL;
   if(scm_is_string(options)){
-    gchar *str_unterm;    
+    char *str_unterm;    
     str_unterm = scm_to_locale_stringn(options, &length);
     response = get_option(str_unterm, length);//returns NULL or a pointer to a location in str_unterm
     if(response)
       response = g_strdup(response);   
-    //FIXM memory leak str_unterm, response (DYNWIND)
+    if (str_unterm) free(str_unterm);
   }
   if(response){
-    return scm_take_locale_stringn(response, strlen(response));
+    SCM ret = scm_take_locale_stringn(response, strlen(response));
+    g_free(response);
+    return ret;
     //return scm_from_locale_stringn (response, strlen(response));
   }
   else {
@@ -2088,21 +2160,24 @@ SCM scheme_get_option(SCM options) {
 /* store the script to be invoked as an action for a directive tagged with tag */
 SCM scheme_set_action_script_for_tag(SCM tag, SCM script) {
   if(scm_is_string(tag)){
-    gchar *the_tag; 
+    char *the_tag; 
     the_tag = scm_to_locale_string(tag);    
     if(scm_is_string(script)){
-      gchar *the_script;
+      char *the_script;
       the_script = scm_to_locale_string(script);
       set_action_script_for_tag(the_tag, the_script);
+      if(the_tag)
+        free(the_tag);
       return SCM_BOOL(TRUE);
     }
+    if(the_tag) free(the_tag);
   }
   return SCM_BOOL(FALSE);
 }
 
 #define GET_TAG_FN_DEF(what)\
  static SCM scheme_##what##_directive_get_tag(SCM tag) {\
-  gchar *tagname;\
+  char *tagname;\
   if(!scm_is_string(tag))\
      tagname = NULL;\
   else { \
@@ -2112,8 +2187,10 @@ SCM scheme_set_action_script_for_tag(SCM tag, SCM script) {
   gchar *val = (gchar*)what##_directive_get_tag (tagname);\
   if(val){\
     SCM ret = scm_from_locale_stringn (val, strlen(val));\
+    if(tagname) free(tagname);\
     return ret;\
   }\
+  if(tagname) free(tagname);\
   return SCM_BOOL(FALSE);\
 }
 GET_TAG_FN_DEF(standalone);
@@ -2139,10 +2216,11 @@ GET_TAG_FN_DEF(movementcontrol);
   if(!scm_is_string(tag)){\
     return SCM_BOOL(FALSE);\
   }\
-  gchar *tagname;\
+  char *tagname;\
   tagname = scm_to_locale_string(tag);\
   extern gboolean text_edit_##what##_directive (gchar *tagname);\
   gboolean ret = text_edit_##what##_directive (tagname);\
+  if(tagname) g_free(tagname);\
   return SCM_BOOL(ret);\
 }
 #define DELETE_FN_DEF(what)\
@@ -2150,10 +2228,11 @@ GET_TAG_FN_DEF(movementcontrol);
   if(!scm_is_string(tag)){\
     return SCM_BOOL(FALSE);\
   }\
-  gchar *tagname;\
+  char *tagname;\
   tagname = scm_to_locale_string(tag);\
   extern gboolean delete_##what##_directive (gchar *tagname);\
   gboolean ret = delete_##what##_directive (tagname);\
+  if(tagname) free(tagname);\
   return SCM_BOOL(ret);\
 }
 #define EDIT_DELETE_FN_DEF(what)\
@@ -2174,10 +2253,11 @@ static SCM scheme_##what##_directive_get_##field(SCM tag) {\
   if(!scm_is_string(tag)){\
     return SCM_BOOL(FALSE);\
   }\
-  gchar *tagname;\
+  char *tagname;\
   tagname = scm_to_locale_string(tag);\
   extern gchar* what##_directive_get_##field(gchar *tagname);\
   gchar *value = (gchar*)what##_directive_get_##field(tagname);\
+  if(tagname) free(tagname);\
   if(value){\
     return scm_makfrom0str(value);\
   }\
@@ -2187,12 +2267,14 @@ static SCM scheme_##what##_directive_get_##field(SCM tag) {\
 static SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
   if((!scm_is_string(tag))||(!scm_is_string(value)))\
      return SCM_BOOL(FALSE);\
-  gchar *tagname;\
+  char *tagname;\
   tagname = scm_to_locale_string(tag);\
-  gchar *valuename;\
+  char *valuename;\
   valuename = scm_to_locale_string(value);\
   extern gboolean what##_directive_put_##field (gchar *tagname, gchar *valuename);\
   gboolean ret = what##_directive_put_##field (tagname, valuename);\
+  if(tagname) free(tagname);\
+  if(valuename) free(valuename);\
   return SCM_BOOL(ret);\
 }
 
@@ -2273,11 +2355,12 @@ static SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
   if((!scm_is_string(tag))||(!scm_integer_p(value))){\
     return SCM_BOOL(FALSE);\
   }\
-  gchar *tagname;\
+  char *tagname;\
   tagname = scm_to_locale_string(tag);\
   gint valuename = scm_num2int(value, 0, 0);\
   extern  gboolean  what##_directive_put_##field (gchar *tag, gint value);\
   gboolean ret = what##_directive_put_##field (tagname, valuename);\
+  if(tagname) free(tagname);\
   return SCM_BOOL(ret);\
 }
 #define INT_GETFUNC_DEF(what, field)\
@@ -2285,10 +2368,11 @@ static SCM scheme_##what##_directive_get_##field(SCM tag) {\
   if(!scm_is_string(tag)){\
     return SCM_BOOL(FALSE);\
   }\
-  gchar *tagname;\
+  char *tagname;\
   tagname = scm_to_locale_string(tag);\
   extern gint what##_directive_get_##field (gchar *tag);\
   gint ret = what##_directive_get_##field (tagname);\
+  if(tagname) free(tagname);\
   return scm_int2num(ret);\
 }
 
@@ -2298,11 +2382,13 @@ static SCM scheme_##what##_directive_put_graphic(SCM tag, SCM value) {\
   if((!scm_is_string(tag))||(!scm_is_string(value))){\
     return SCM_BOOL(FALSE);\
   }\
-  gchar *tagname;\
+  char *tagname;\
   tagname = scm_to_locale_string(tag);\
-  gchar *valuename;\
+  char *valuename;\
   valuename = scm_to_locale_string(value);\
   gboolean ret = what##_directive_put_graphic (tagname, valuename);\
+  if(tagname) free(tagname);\
+  if(valuename) free(valuename);\
   return SCM_BOOL(ret);\
 }
 
@@ -2716,6 +2802,7 @@ SCM scheme_put_text_clipboard(SCM optional) {
     str = scm_to_locale_stringn(optional, &length);
     GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
     gtk_clipboard_set_text (clipboard, str, length);
+    if(str) free(str);
     return SCM_BOOL(TRUE);
   }
   return SCM_BOOL(FALSE);
@@ -2858,7 +2945,7 @@ SCM scheme_output_midi_bytes (SCM input) {
   channel = get_midi_channel();
   volume = curstaffstruct->volume;
   DevicePort *DP = (DevicePort *) device_manager_get_DevicePort(curstaffstruct->device_port->str);
-  gchar *string_input;
+  char *string_input;
   string_input = scm_to_locale_string(input);
   gchar *bytes = substitute_midi_values(string_input, channel, volume);
 
@@ -2878,6 +2965,7 @@ SCM scheme_output_midi_bytes (SCM input) {
     jack_output_midi_event(buffer, 0, 0);
   else if (Denemo.prefs.midi_audio_output == Fluidsynth)
     fluid_output_midi_event(buffer);
+  if(string_input) free(string_input);
   return  SCM_BOOL(TRUE);
 }
 
@@ -2932,7 +3020,7 @@ static gboolean scheme_callback_one_shot_timer(cb_scheme_and_id *scheme){
     else
      g_warning("Timer missed for gui %d\n", scheme->id);
     g_free(scheme);
-    g_free(scheme_code);
+    free(scheme_code);
     return FALSE; 
 }
 
@@ -2966,6 +3054,7 @@ static SCM scheme_timer(SCM duration_amount, SCM callback) {
   scheme->scheme_code = scheme_code;
   scheme->id = Denemo.gui->id;
   g_timeout_add(duration, (GSourceFunc)scheme_callback_timer, (gpointer) scheme);
+  if(scheme_code) free(scheme_code);
   return scm_int2num((gint)scheme);
 }
 
@@ -2989,7 +3078,7 @@ static SCM scheme_bass_figure(SCM bass, SCM harmony) {
   gint harmonynum = scm_num2int(harmony, 0, 0);
   gchar *interval = determine_interval(bassnum, harmonynum);
   SCM ret= scm_makfrom0str(interval);
-  g_free(interval);
+  if(interval) g_free(interval);
   return ret;
 }
 
@@ -3014,7 +3103,7 @@ static SCM scheme_put_note_name (SCM optional) {
      modify_note(thechord, mid_c_offset, enshift,  find_prevailing_clef(Denemo.gui->si));
      //thenote->mid_c_offset = interpret_lilypond_notename(str);
      displayhelper(Denemo.gui);
-     free(str);
+     if(str) free(str);
    return SCM_BOOL(TRUE);
   }
  }
@@ -3055,6 +3144,7 @@ static SCM scheme_set_accidental (SCM optional) {
    //			   si->cursortime2); causes a crash, si is not passed correctly, why???
    //thenote->mid_c_offset = interpret_lilypond_notename(str);
    displayhelper(Denemo.gui);
+   if(str) free(str);
    return SCM_BOOL(TRUE);
  }
 }
@@ -3086,7 +3176,7 @@ static SCM scheme_insert_note_in_chord (SCM lily) {
    addtone(curObj, mid_c_offset, enshift,  find_prevailing_clef(Denemo.gui->si));
    score_status(gui, TRUE);
    displayhelper(Denemo.gui);
-   free(str);
+   if(str) free(str);
    return SCM_BOOL_T;
  }
  return SCM_BOOL(FALSE);
@@ -3170,10 +3260,11 @@ static SCM scheme_set_tuplet (SCM ratio) {
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=TUPOPEN)){
    return SCM_BOOL_F;
  }
- gchar *theratio;
+ char *theratio;
  theratio = scm_to_locale_string(ratio);
  sscanf(theratio, "%d/%d", &((tupopen*)curObj->object)->numerator, &((tupopen*)curObj->object)->denominator);
  g_print("Set %d/%d\n", (((tupopen*)curObj->object)->numerator), (((tupopen*)curObj->object)->denominator));
+ if(theratio) free(theratio);
    if(((tupopen*)curObj->object)->denominator){
      return  SCM_BOOL_T;
    }
@@ -3289,6 +3380,7 @@ SCM scheme_diatonic_shift (SCM optional) {
      modify_note(thechord, thenote->mid_c_offset+shift, gui->si->curmeasureaccs[offsettonumber(thenote->mid_c_offset+shift)],  find_prevailing_clef(Denemo.gui->si));
      //thenote->mid_c_offset = interpret_lilypond_notename(str);
      displayhelper(Denemo.gui);
+     if(str) free(str);
    }
  }
  return SCM_BOOL(FALSE);  
@@ -3439,7 +3531,7 @@ static void   update_scheme_snippet_ids(void) {
 
 static SCM scheme_create_snippet_from_object (SCM name) {
   if(scm_is_string(name)){
-     gchar *str;
+     char *str;
      str = scm_to_locale_string(name);
   if(Denemo.gui->si->currentobject) {
     DenemoObject*clonedobj = dnm_clone_object( Denemo.gui->si->currentobject->data);
@@ -3454,8 +3546,10 @@ static SCM scheme_create_snippet_from_object (SCM name) {
     r->rsteps->prev=r->rsteps->next = r->rsteps;//make list circular
     SCM ret = scm_int2num( insert_pattern_in_toolbar(r));
     update_scheme_snippet_ids();
+    if(str) free(str);
     return ret;
   }
+  if(str) free(str);
   }
   return SCM_BOOL_F;  
 }
@@ -3506,23 +3600,23 @@ SCM scheme_locate_dotdenemo (SCM optional) {
   return scm;
 }
 
-gchar *get_midi_control_command(guchar type, guchar value) {
+char *get_midi_control_command(guchar type, guchar value) {
   gchar *command = g_strdup_printf("(MIDI-shortcut::controller %d %d)", type, value);
   SCM scm = scm_c_eval_string(command);
   g_free(command);
   if(scm_is_string(scm)) {
-    gchar *ctrl;
+    char *ctrl;
     ctrl = scm_to_locale_string(scm);
     return ctrl;
   }
   return NULL;
 }
-gchar *get_midi_pitch_bend_command(gint value) {
+char *get_midi_pitch_bend_command(gint value) {
   gchar *command = g_strdup_printf("(MIDI-shortcut::pitchbend %d)", value);
   SCM scm = scm_c_eval_string(command);
   g_free(command);
   if(scm_is_string(scm)) {
-    gchar *pbend;
+    char *pbend;
     pbend = scm_to_locale_string(scm);
     return pbend;
   }
@@ -3546,11 +3640,11 @@ static void define_scheme_constants(void) {
 );
   gchar *filename = g_build_filename(get_data_dir(), "actions", NULL);
   gchar *actions_dir = g_strdup_printf("%s%c", filename, G_DIR_SEPARATOR);
-  g_free(filename);
+  if(filename) g_free(filename);
 
   filename = g_build_filename(locatedotdenemo(), "actions", NULL);
   gchar *local_actions_dir = g_strdup_printf("%s%c", filename, G_DIR_SEPARATOR);
-  g_free(filename);
+  if(filename) g_free(filename);
 
   g_print("Version %s", denemo_version);
 
@@ -3617,7 +3711,7 @@ static void load_local_scheme_init(void)  {
   gchar *filename = g_build_filename(locatedotdenemo(), "actions", "denemo.scm", NULL);
   if(g_file_test(filename, G_FILE_TEST_EXISTS))
     eval_file_with_catch(filename);//scm_c_primitive_load(filename);
-  g_free(filename);
+  if(filename) g_free(filename);
 }
 
 void denemo_scheme_init(void){
