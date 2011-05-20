@@ -253,6 +253,8 @@ void modify_note(chord *thechord, gint mid_c_offset, gint enshift, gint dclef) {
 
 static note *new_note(gint mid_c_offset, gint enshift, gint dclef) {
   note *newnote;
+  if(enshift>2) enshift = 2;
+  if(enshift<-2) enshift = -2;
   newnote = (note *) g_malloc0 (sizeof (note));
   newnote->mid_c_offset = mid_c_offset;
   newnote->enshift = enshift;
@@ -270,7 +272,8 @@ static note *new_note(gint mid_c_offset, gint enshift, gint dclef) {
 note *
 addtone (DenemoObject * thechord, gint mid_c_offset, gint enshift, gint dclef)
 {
-  note *newnote  = new_note(mid_c_offset, enshift, dclef);
+  note *newnote  = new_note(mid_c_offset, Denemo.gui->si->pending_enshift+enshift, dclef);
+  Denemo.gui->si->pending_enshift = 0;
   ((chord *) thechord->object)->notes =
     g_list_insert_sorted (((chord *) thechord->object)->notes, newnote,
 			  insertcomparefunc);
