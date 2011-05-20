@@ -2135,7 +2135,9 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
     {
       gchar *header_string = get_postfix(gui->scoreheader.directives);
       if(header_string) {
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\n\\header{\n", -1, INEDITABLE, NULL, NULL);
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\n\\header{\ntagline = \\markup {", -1, INEDITABLE, NULL, NULL);
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, gui->filename->str, -1, INEDITABLE, NULL, NULL);
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, " on \\simple #(strftime \"%x\" (localtime (current-time)))}\n", -1, INEDITABLE, NULL, NULL);
       gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, header_string, -1, INEDITABLE, NULL, NULL);   
       gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "}\n", -1, INEDITABLE, NULL, NULL);   
       g_free(header_string);
