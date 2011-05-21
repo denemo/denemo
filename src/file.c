@@ -96,7 +96,7 @@ static gchar *supported_midi_file_extension[] = {
   "*.midi", "*.mid", "*.MIDI", "*.MID" 
 };
 static gchar *supported_musicxml_file_extension[] = {
-  "*.mxml", "*.MXML" 
+  "*.mxml", "*.MXML", "*.xml"
 };
 
 /* Some macros just to shorten lines */
