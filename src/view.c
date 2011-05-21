@@ -380,8 +380,8 @@ static SCM scheme_http(SCM hname, SCM page, SCM other, SCM poststr) {
 
  if(name&&thepage&&post&&oth){
    gchar *ret = post_denemodotorg(name, thepage, oth, post);
-   SCM scm = scm_take_locale_string(ret);
-   //g_free(ret); ???
+   SCM scm = scm_from_locale_string(ret);
+   g_free(ret);
    free(name);
    free(thepage);
    free(oth);
