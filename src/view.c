@@ -2144,12 +2144,14 @@ SCM scheme_get_option(SCM options) {
     char *str_unterm;    
     str_unterm = scm_to_locale_stringn(options, &length);
     response = get_option(str_unterm, length);//returns NULL or a pointer to a location in str_unterm
+    //g_print("Got %p holding %s\n", response, response);
     if(response)
       response = g_strdup(response);   
     if (str_unterm) free(str_unterm);
   }
   if(response){
-    SCM ret = scm_take_locale_stringn(response, strlen(response));
+    SCM ret = scm_from_locale_stringn(response, strlen(response));
+    //g_print("Freeing %p holding %s\n", response, response);
     g_free(response);//FIXME the g_strdup above is not needed?
     return ret;
     //return scm_from_locale_stringn (response, strlen(response));
