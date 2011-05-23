@@ -519,7 +519,7 @@ printrangedialog(DenemoGUI * gui){
   gtk_spin_button_new_with_range (1.0, (gdouble) max_measure, 1.0);
   gtk_box_pack_start (GTK_BOX (hbox), from_measure, TRUE, TRUE, 0);
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (from_measure),
-			     (gdouble) gui->si->firstmeasuremarked);
+			     (gdouble) gui->si->selection.firstmeasuremarked);
 
   label = gtk_label_new (_("to"));
   gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
@@ -529,7 +529,7 @@ printrangedialog(DenemoGUI * gui){
   gtk_box_pack_start (GTK_BOX (hbox), to_measure, TRUE, TRUE, 0);
   //  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), to_measure, TRUE, TRUE, 0);
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (to_measure),
-			     (gdouble) gui->si->lastmeasuremarked);
+			     (gdouble) gui->si->selection.lastmeasuremarked);
 
   gtk_widget_show (hbox);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
@@ -538,19 +538,19 @@ printrangedialog(DenemoGUI * gui){
 
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
-      gui->si->firstmeasuremarked =
+      gui->si->selection.firstmeasuremarked =
 	gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (from_measure));
-      gui->si->lastmeasuremarked =
+      gui->si->selection.lastmeasuremarked =
 	gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (to_measure));
       //gtk_widget_destroy (dialog);
     }
   else 
     {
-      gui->si->firstmeasuremarked = gui->si->lastmeasuremarked = 0;
+      gui->si->selection.firstmeasuremarked = gui->si->selection.lastmeasuremarked = 0;
     }
-  if(gui->si->firstmeasuremarked) {
-    gui->si->markstaffnum = gui->si->firststaffmarked = 1;
-    gui->si->laststaffmarked = g_list_length(gui->si->thescore);
+  if(gui->si->selection.firstmeasuremarked) {
+    gui->si->markstaffnum = gui->si->selection.firststaffmarked = 1;
+    gui->si->selection.laststaffmarked = g_list_length(gui->si->thescore);
   }
   
   gtk_widget_destroy (dialog);
@@ -1180,7 +1180,7 @@ printexcerptpreview_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   if(!gui->si->markstaffnum) //If no selection has been made 
     printrangedialog(gui);  //Launch a dialog to get selection
-  if(gui->si->firstmeasuremarked){
+  if(gui->si->selection.firstmeasuremarked){
     gui->lilycontrol.excerpt = TRUE;
     export_png((gchar *) get_printfile_pathbasename(), TRUE, gui); 
   }

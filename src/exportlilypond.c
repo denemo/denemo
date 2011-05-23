@@ -1627,8 +1627,8 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
       g_string_assign(str,"");
       gint firstobj=1, lastobj= G_MAXINT;
       if(start && gui->si->markstaffnum) {//markstaffnum==0 means not set
-	firstobj = 1+MIN( gui->si->firstobjmarked, gui->si->lastobjmarked);
-	lastobj =  1+MAX( gui->si->firstobjmarked, gui->si->lastobjmarked);
+	firstobj = 1+MIN( gui->si->selection.firstobjmarked, gui->si->selection.lastobjmarked);
+	lastobj =  1+MAX( gui->si->selection.firstobjmarked, gui->si->selection.lastobjmarked);
       }
       //g_print("First last, %d %d %d\n", firstobj, lastobj, start);
       for (objnum=1, curobjnode = (objnode *) curmeasure->data;/* curobjnode NULL checked at end */;
@@ -2249,10 +2249,10 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	g_string_free(name, TRUE);
 	gint start = 0, end = 0;
 	if(gui->si->markstaffnum) {
-	  if(!(voice_count>=gui->si->firststaffmarked && voice_count<=gui->si->laststaffmarked))
+	  if(!(voice_count>=gui->si->selection.firststaffmarked && voice_count<=gui->si->selection.laststaffmarked))
 	    visible_part=-1;
-	  start = gui->si->firstmeasuremarked;
-	  end = gui->si->lastmeasuremarked;
+	  start = gui->si->selection.firstmeasuremarked;
+	  end = gui->si->selection.lastmeasuremarked;
 	} else {
 	  if(partname &&strcmp(curstaffstruct->lily_name->str, partname))
 	    visible_part=-1;

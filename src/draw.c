@@ -499,14 +499,14 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
   itp->last_gap = extra;
   /* Now quite possibly update the mark */
 
-  if (si->firststaffmarked == itp->staffnum
-      && si->firstmeasuremarked == itp->measurenum
-      && si->firstobjmarked == itp->objnum)
+  if (si->selection.firststaffmarked == itp->staffnum
+      && si->selection.firstmeasuremarked == itp->measurenum
+      && si->selection.firstobjmarked == itp->objnum)
     itp->markx1 = x + mudelaitem->x - EXTRAFORSELECTRECT;
 
-  if (si->laststaffmarked == itp->staffnum
-      && si->lastmeasuremarked == itp->measurenum
-      && si->lastobjmarked == itp->objnum)
+  if (si->selection.laststaffmarked == itp->staffnum
+      && si->selection.lastmeasuremarked == itp->measurenum
+      && si->selection.lastobjmarked == itp->objnum)
     itp->markx2 = x + mudelaitem->x + mudelaitem->minpixelsalloted
       + EXTRAFORSELECTRECT;
 
@@ -581,19 +581,19 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
   curobj = (objnode *) curmeasure->data;
   /* These default values for the markx'es may be necessary down
    * the road */
-  if (si->firststaffmarked == itp->staffnum
-      && si->firstmeasuremarked == itp->measurenum)
+  if (si->selection.firststaffmarked == itp->staffnum
+      && si->selection.firstmeasuremarked == itp->measurenum)
     {
       if (!curobj)
 	itp->markx1 = x - EXTRAFORSELECTRECT;
       else
 	itp->markx1 = x + GPOINTER_TO_INT (itp->mwidthiterator->data);
     }
-  if (si->laststaffmarked == itp->staffnum
-      && si->lastmeasuremarked == itp->measurenum)
+  if (si->selection.laststaffmarked == itp->staffnum
+      && si->selection.lastmeasuremarked == itp->measurenum)
     {
       if (!curobj
-	  || (si->lastobjmarked >=
+	  || (si->selection.lastobjmarked >=
 	      (gint) (g_list_length ((objnode *) curobj))))
 	itp->markx2 =
 	  x + GPOINTER_TO_INT (itp->mwidthiterator->data) +
@@ -605,26 +605,26 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
 
 
   gboolean not_marked = (!si->markstaffnum) ||
-    (si->firststaffmarked >itp->staffnum) || 
-    (si->laststaffmarked < itp->staffnum) ||
-    (si->firstmeasuremarked > itp->measurenum) ||
-    (si->lastmeasuremarked < itp->measurenum);
+    (si->selection.firststaffmarked >itp->staffnum) || 
+    (si->selection.laststaffmarked < itp->staffnum) ||
+    (si->selection.firstmeasuremarked > itp->measurenum) ||
+    (si->selection.lastmeasuremarked < itp->measurenum);
 
   gboolean definitely_marked = (!not_marked) &&
-    (si->firstmeasuremarked < itp->measurenum) &&
-    (si->lastmeasuremarked > itp->measurenum);
-  gboolean in_firstmeas = (si->firstmeasuremarked == itp->measurenum);
-  gboolean in_lastmeas = (si->lastmeasuremarked == itp->measurenum);
+    (si->selection.firstmeasuremarked < itp->measurenum) &&
+    (si->selection.lastmeasuremarked > itp->measurenum);
+  gboolean in_firstmeas = (si->selection.firstmeasuremarked == itp->measurenum);
+  gboolean in_lastmeas = (si->selection.lastmeasuremarked == itp->measurenum);
   /* Draw each mudelaitem */
   for (itp->objnum = 0; curobj; curobj = curobj->next, itp->objnum++) {
     itp->mark =  (definitely_marked) || 
       ((!not_marked) && ((in_firstmeas && !in_lastmeas &&
-			 (si->firstobjmarked <= itp->objnum)) ||
+			 (si->selection.firstobjmarked <= itp->objnum)) ||
 		       (in_lastmeas && !in_firstmeas &&
-		        (si->lastobjmarked >= itp->objnum)) ||
+		        (si->selection.lastobjmarked >= itp->objnum)) ||
 			 (in_lastmeas && in_firstmeas && 
-			  (si->firstobjmarked <= itp->objnum) && 
-			  (si->lastobjmarked >= itp->objnum)))
+			  (si->selection.firstobjmarked <= itp->objnum) && 
+			  (si->selection.lastobjmarked >= itp->objnum)))
        );
 
 
@@ -650,10 +650,10 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
     //marking the barline if within selection
     if(si->markstaffnum && 
 /*        (curmeasure->data==NULL) && */
-       (si->firststaffmarked <= itp->staffnum) &&
-       (si->laststaffmarked >= itp->staffnum) &&
-       (si->firstmeasuremarked <= itp->measurenum) &&
-       (si->lastmeasuremarked > itp->measurenum))
+       (si->selection.firststaffmarked <= itp->staffnum) &&
+       (si->selection.laststaffmarked >= itp->staffnum) &&
+       (si->selection.firstmeasuremarked <= itp->measurenum) &&
+       (si->selection.lastmeasuremarked > itp->measurenum))
       {
 	cairo_set_source_rgb( cr, 0.5, 0.5, 1.0 );
 	cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y, 20, STAFF_HEIGHT+1); 
