@@ -1823,26 +1823,23 @@ SCM scheme_get_user_input(SCM label, SCM prompt, SCM init) {
  if(scm_is_string(label)){
    title = scm_to_locale_string(label);  
  }
- else title = "Input Required";
+ else title = strdup("Input Required");
  if(scm_is_string(prompt)){
    instruction = scm_to_locale_string(prompt);  
  }
- else instruction = "Give input: ";
+ else instruction = strdup("Give input: ");
 
  if(scm_is_string(init)){
    initial_value = scm_to_locale_string(init);   
  }
- else initial_value = " ";//FIXME mixed types of string, memory leaks
+ else initial_value = strdup(" ");
  
  gchar * ret = string_dialog_entry_with_widget (Denemo.gui, title, instruction, initial_value, NULL);
  SCM scm = scm_makfrom0str (ret);
 
- //FIXME mixed types of string, memory leaks
- //if (title) free(title); only good for the scm_to... string not the fixed one
- //if (instruction) free(instruction);
- //if (initial_value) free(initial_value);
-
- 
+ if (title) free(title);
+ if (instruction) free(instruction);
+ if (initial_value) free(initial_value);
  if (ret) g_free(ret);
  return scm;
 }
