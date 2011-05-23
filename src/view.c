@@ -5743,22 +5743,22 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
   if(!singleton) {
     staffnode *curstaff;
     measurenode *curmeasure;
-    gint i = si->firststaffmarked;
+    gint i = si->selection.firststaffmarked;
     attach_clipboard(r);
     curstaff = g_list_nth (si->thescore, i - 1);
-    if(curstaff && i <= si->laststaffmarked) {
+    if(curstaff && i <= si->selection.laststaffmarked) {
       int j,k;
       objnode *curobj;
       /* Measure loop.  */
-      for (j = si->firstmeasuremarked, k = si->firstobjmarked,
+      for (j = si->selection.firstmeasuremarked, k = si->selection.firstobjmarked,
 	     curmeasure = g_list_nth (firstmeasurenode (curstaff), j - 1);
-	   curmeasure && j <= si->lastmeasuremarked;
+	   curmeasure && j <= si->selection.lastmeasuremarked;
 	   curmeasure = curmeasure->next, j++)
 	{
 	  for (curobj = g_list_nth ((objnode *) curmeasure->data, k);
 	       /* cursor_x is 0-indexed */
-	       curobj && (j < si->lastmeasuremarked
-			  || k <= si->lastobjmarked);
+	       curobj && (j < si->selection.lastmeasuremarked
+			  || k <= si->selection.lastobjmarked);
 	       curobj = curobj->next, k++)
 	    {
 	      gpointer fn;

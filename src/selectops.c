@@ -150,7 +150,7 @@ saveselection (DenemoScore * si)
 
   clearbuffer ();
 
-  staffsinbuffer = si->laststaffmarked - si->firststaffmarked + 1;
+  staffsinbuffer = si->selection.laststaffmarked - si->selection.firststaffmarked + 1;
 
   copytobuffer (si);
   si->savebuffer = copybuffer;
@@ -187,26 +187,26 @@ copytobuffer (DenemoScore * si)
 
   clearbuffer ();
 
-  staffsinbuffer = si->laststaffmarked - si->firststaffmarked + 1;
+  staffsinbuffer = si->selection.laststaffmarked - si->selection.firststaffmarked + 1;
   g_debug ("No staffs in copybuffer %d\n", staffsinbuffer);
   /* Staff loop.  */
-  for (i = si->firststaffmarked, curstaff = g_list_nth (si->thescore, i - 1);
-       curstaff && i <= si->laststaffmarked; curstaff = curstaff->next, i++)
+  for (i = si->selection.firststaffmarked, curstaff = g_list_nth (si->thescore, i - 1);
+       curstaff && i <= si->selection.laststaffmarked; curstaff = curstaff->next, i++)
     {
       if (((DenemoStaff *) curstaff->data)->is_parasite)
 	continue;
       /* Initialize first ->data for copybuffer to NULL.  */
       theobjs = NULL;
       /* Measure loop.  */
-      for (j = si->firstmeasuremarked, k = si->firstobjmarked,
+      for (j = si->selection.firstmeasuremarked, k = si->selection.firstobjmarked,
 	   curmeasure = g_list_nth (firstmeasurenode (curstaff), j - 1);
-	   curmeasure && j <= si->lastmeasuremarked;
+	   curmeasure && j <= si->selection.lastmeasuremarked;
 	   curmeasure = curmeasure->next, j++)
 	{
 	  for (curobj = g_list_nth ((objnode *) curmeasure->data, k);
 	       /* cursor_x is 0-indexed */
-	       curobj && (j < si->lastmeasuremarked
-			  || k <= si->lastobjmarked);
+	       curobj && (j < si->selection.lastmeasuremarked
+			  || k <= si->selection.lastobjmarked);
 	       curobj = curobj->next, k++)
 	    {
 	      clonedobject = dnm_clone_object ((DenemoObject *) curobj->data);
@@ -214,22 +214,22 @@ copytobuffer (DenemoScore * si)
 	    }			/* End object loop */
 	  g_debug ("cloned objects on staff \n");
 	  
-	  if (j < si->lastmeasuremarked || k < si->lastobjmarked)
+	  if (j < si->selection.lastmeasuremarked || k < si->selection.lastobjmarked)
 	    {
-	      if(!((j==si->lastmeasuremarked))) {
+	      if(!((j==si->selection.lastmeasuremarked))) {
 		g_debug ("Insert measurebreak obj in copybuffer");
 		/* ???outdated comment??? That is, there's another measure, the cursor is in appending
 		   position, or the selection spans multiple staffs, in which 
 		   case another measure boundary should be added.  */
 		theobjs = g_list_append (theobjs, newmeasurebreakobject ());
-		if (i == si->firststaffmarked)
+		if (i == si->selection.firststaffmarked)
 		  measurebreaksinbuffer++;
 	      }
 	    }
 	  k = 0;		/* Set it for next run through object loop */
 	  
 	}			/* End measure loop */
-      if ((staffsinbuffer > 1) && (i < si->laststaffmarked))
+      if ((staffsinbuffer > 1) && (i < si->selection.laststaffmarked))
 	{
 	  theobjs = g_list_append (theobjs, newstaffbreakobject ());
 	  g_debug ("Inserting Staffbreak object in copybuffer");
@@ -260,8 +260,8 @@ cuttobuffer (DenemoScore * si, gboolean copyfirst)
   if(copyfirst)
     copytobuffer (si);
   gint staffs_removed_measures = 0;// a count of removed measures in the case where multiple staffs are involved
-  gint lmeasurebreaksinbuffer = si->lastmeasuremarked - si->firstmeasuremarked;
-  gint lstaffsinbuffer = si->laststaffmarked - si->firststaffmarked + 1;
+  gint lmeasurebreaksinbuffer = si->selection.lastmeasuremarked - si->selection.firstmeasuremarked;
+  gint lstaffsinbuffer = si->selection.laststaffmarked - si->selection.firststaffmarked + 1;
   if(copyfirst) {
     if(!( lmeasurebreaksinbuffer == measurebreaksinbuffer))
       g_warning("logic of copy to buffer seems wrong about measure breaks");
@@ -271,17 +271,17 @@ cuttobuffer (DenemoScore * si, gboolean copyfirst)
   if (lstaffsinbuffer == 1)
     {
       /* Just a single staff is a special case, again.  */
-      jcounter = si->firstmeasuremarked; //currently clearing stuff from the firstmeasuremarked
+      jcounter = si->selection.firstmeasuremarked; //currently clearing stuff from the firstmeasuremarked
       curmeasure = g_list_nth (firstmeasurenode (si->currentstaff), jcounter - 1);
 
       /* Clear the relevant part of the first measure selected */
       if (lmeasurebreaksinbuffer)
 	max = G_MAXINT;
       else
-	max = si->lastobjmarked;
-      for (i = si->firstobjmarked;
+	max = si->selection.lastobjmarked;
+      for (i = si->selection.firstobjmarked;
 	   ((tempobj = g_list_nth ((objnode *) curmeasure->data,
-				   si->firstobjmarked)) && i <= max); i++)
+				   si->selection.firstobjmarked)) && i <= max); i++)
 	{
 	  curmeasure->data =
 	    g_list_remove_link ((objnode *) curmeasure->data, tempobj);
@@ -303,16 +303,16 @@ cuttobuffer (DenemoScore * si, gboolean copyfirst)
 	    }
 	}
       else
-	for (; curmeasure && jcounter < si->lastmeasuremarked;
+	for (; curmeasure && jcounter < si->selection.lastmeasuremarked;
 	     curmeasure = curmeasure->next, jcounter++)
 	  {
 	    freeobjlist (curmeasure->data, NULL);
 	    curmeasure->data = NULL;
 	  }
       /* Now clear the relevant part of the last measure selected */
-      if (curmeasure && (jcounter <= si->lastmeasuremarked))
+      if (curmeasure && (jcounter <= si->selection.lastmeasuremarked))
 	{
-	  for (i = 0; curmeasure->data && i <= si->lastobjmarked; i++)
+	  for (i = 0; curmeasure->data && i <= si->selection.lastobjmarked; i++)
 	    {
 	      tempobj = (objnode *) curmeasure->data;
 	      curmeasure->data =
@@ -344,14 +344,14 @@ cuttobuffer (DenemoScore * si, gboolean copyfirst)
 	  if (lmeasurebreaksinbuffer > 0)
 	    {
 	      
-	      removemeasures (si, si->firstmeasuremarked - 1,
+	      removemeasures (si, si->selection.firstmeasuremarked - 1,
 			    lmeasurebreaksinbuffer+1, TRUE);
 	      staffs_removed_measures = lmeasurebreaksinbuffer;
 	    }
 	  else
 	    for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
 	      {
-		curmeasure = g_list_nth (firstmeasurenode (curstaff),  si->firstmeasuremarked-1);
+		curmeasure = g_list_nth (firstmeasurenode (curstaff),  si->selection.firstmeasuremarked-1);
 		freeobjlist (curmeasure->data, NULL);
 		curmeasure->data = NULL;
 		
@@ -362,18 +362,18 @@ cuttobuffer (DenemoScore * si, gboolean copyfirst)
       else
 	{
 	  /* Staff loop */
-	  for (i = si->firststaffmarked,
+	  for (i = si->selection.firststaffmarked,
 	       curstaff = g_list_nth (si->thescore, i - 1);
-	       curstaff && i <= si->laststaffmarked;
+	       curstaff && i <= si->selection.laststaffmarked;
 	       curstaff = curstaff->next, i++)
 	    {
 	      if (((DenemoStaff *) curstaff->data)->is_parasite)
 		continue;
 	      /* Measure loop */
-	      for (jcounter = si->firstmeasuremarked,
+	      for (jcounter = si->selection.firstmeasuremarked,
 		   curmeasure = g_list_nth (firstmeasurenode (curstaff),
 					    jcounter - 1);
-		   curmeasure && jcounter <= si->lastmeasuremarked;
+		   curmeasure && jcounter <= si->selection.lastmeasuremarked;
 		   curmeasure = curmeasure->next, jcounter++)
 		{
 		  freeobjlist (curmeasure->data, NULL);
@@ -384,13 +384,13 @@ cuttobuffer (DenemoScore * si, gboolean copyfirst)
 	    }
 	}
     }
-  si->firststaffmarked = si->markstaffnum = 0;//only the latter is needed, but there was some confusion at one time...
+  si->selection.firststaffmarked = si->markstaffnum = 0;//only the latter is needed, but there was some confusion at one time...
   /* And set some currents. This would probably be better to split off
    * into a more-generalized version of setcurrents or something;
    * what's here is more-or-less copied from dnm_deleteobject in
    * commandfuncs */
 
-  si->currentmeasurenum = si->firstmeasuremarked - (staffs_removed_measures?1:0);
+  si->currentmeasurenum = si->selection.firstmeasuremarked - (staffs_removed_measures?1:0);
 
   if(si->currentmeasurenum<1) {
     si->currentmeasurenum = 1;
@@ -406,7 +406,7 @@ cuttobuffer (DenemoScore * si, gboolean copyfirst)
 
 
 
-  si->cursor_x = si->firstobjmarked;
+  si->cursor_x = si->selection.firstobjmarked;
   if (si->cursor_x <
       (gint) (g_list_length ((objnode *) si->currentmeasure->data)))
     {
@@ -684,11 +684,11 @@ DenemoObject *get_mark_object(void){
   DenemoScore *si = gui->si;
   if(!si->markstaffnum)
     return NULL;
-  staffnode *curstaff = g_list_nth (si->thescore, si->firststaffmarked - 1);
+  staffnode *curstaff = g_list_nth (si->thescore, si->selection.firststaffmarked - 1);
   DenemoStaff *firststaff =  (DenemoStaff *) curstaff->data;
-  measurenode *firstmeasure = g_list_nth (firststaff->measures,  si->firstmeasuremarked - 1);
-  objnode *firstobj = g_list_nth (firstmeasure->data, si->firstobjmarked);
-  //g_print("First %d\n",  si->firstobjmarked);
+  measurenode *firstmeasure = g_list_nth (firststaff->measures,  si->selection.firstmeasuremarked - 1);
+  objnode *firstobj = g_list_nth (firstmeasure->data, si->selection.firstobjmarked);
+  //g_print("First %d\n",  si->selection.firstobjmarked);
   return firstobj? ((DenemoObject *)firstobj->data):NULL;
 }
 DenemoObject *get_point_object(void){
@@ -696,10 +696,10 @@ DenemoObject *get_point_object(void){
   DenemoScore *si = gui->si;
   if(!si->markstaffnum)
     return NULL;
-  staffnode *curstaff = g_list_nth (si->thescore, si->laststaffmarked - 1);
+  staffnode *curstaff = g_list_nth (si->thescore, si->selection.laststaffmarked - 1);
   DenemoStaff *laststaff =  (DenemoStaff *) curstaff->data;
-  measurenode *lastmeasure = g_list_nth (laststaff->measures,  si->lastmeasuremarked - 1);
-  objnode *lastobj = g_list_nth (lastmeasure->data, si->lastobjmarked);
+  measurenode *lastmeasure = g_list_nth (laststaff->measures,  si->selection.lastmeasuremarked - 1);
+  objnode *lastobj = g_list_nth (lastmeasure->data, si->selection.lastobjmarked);
   return lastobj? ((DenemoObject *)lastobj->data):NULL;
 }
 
@@ -726,8 +726,8 @@ mark_boundaries_helper (DenemoScore * si, gint mark_staff,
 {
   if (mark_staff)
     {
-      si->firststaffmarked = MIN (mark_staff, point_staff);
-      si->laststaffmarked = MAX (mark_staff, point_staff);
+      si->selection.firststaffmarked = MIN (mark_staff, point_staff);
+      si->selection.laststaffmarked = MAX (mark_staff, point_staff);
 
       switch (type)
 	{
@@ -737,40 +737,40 @@ mark_boundaries_helper (DenemoScore * si, gint mark_staff,
 	case NORMAL_SELECT:
 	case WHOLE_MEASURES:
 	  /* I was thinking of handling these with a fallthrough, but
-	     the commonality in setting si->firstmeasuremarked and
-	     si->lastmeasuremarked caused it not to work out cleanly.  */
-	  si->firstmeasuremarked = MIN (mark_measure, point_measure);
-	  si->lastmeasuremarked = MAX (mark_measure, point_measure);
+	     the commonality in setting si->selection.firstmeasuremarked and
+	     si->selection.lastmeasuremarked caused it not to work out cleanly.  */
+	  si->selection.firstmeasuremarked = MIN (mark_measure, point_measure);
+	  si->selection.lastmeasuremarked = MAX (mark_measure, point_measure);
 	  if (type == NORMAL_SELECT
-	        && si->firststaffmarked == si->laststaffmarked )
+	        && si->selection.firststaffmarked == si->selection.laststaffmarked )
 	    {
 	      if (mark_measure < point_measure)
 		{
-		  si->firstobjmarked = mark_object;
-		  si->lastobjmarked = point_object;
+		  si->selection.firstobjmarked = mark_object;
+		  si->selection.lastobjmarked = point_object;
 		}
 	      else if (mark_measure > point_measure)
 		{
-		  si->firstobjmarked = point_object;
-		  si->lastobjmarked = mark_object;
+		  si->selection.firstobjmarked = point_object;
+		  si->selection.lastobjmarked = mark_object;
 		}
 	      else
 		{		/* Same measure */
-		  si->firstobjmarked = MIN (mark_object, point_object);
-		  si->lastobjmarked = MAX (mark_object, point_object);
+		  si->selection.firstobjmarked = MIN (mark_object, point_object);
+		  si->selection.lastobjmarked = MAX (mark_object, point_object);
 		}
 	    }
 	  else
 	    {
-	      si->firstobjmarked = 0;
-	      si->lastobjmarked = G_MAXINT;
+	      si->selection.firstobjmarked = 0;
+	      si->selection.lastobjmarked = G_MAXINT;
 	    }
 	  break;
 	case WHOLE_STAFFS:
-	  si->firstmeasuremarked = 1;
-	  si->lastmeasuremarked = g_list_length (si->measurewidths);
-	  si->firstobjmarked = 0;
-	  si->lastobjmarked = G_MAXINT;
+	  si->selection.firstmeasuremarked = 1;
+	  si->selection.lastmeasuremarked = g_list_length (si->measurewidths);
+	  si->selection.firstobjmarked = 0;
+	  si->selection.lastobjmarked = G_MAXINT;
 	}
     }
 }
@@ -832,28 +832,28 @@ unset_mark (DenemoGUI * gui)
 
 gboolean in_selection(DenemoScore *si) {
   if(si->markstaffnum) {
-    if(si->currentstaffnum >= si->firststaffmarked &&
-       si->currentstaffnum <= si->laststaffmarked) {
-      if(si->currentmeasurenum == si->firstmeasuremarked) {
-	if (si->currentmeasurenum == si->lastmeasuremarked) {
-	  if((si->cursor_x >= si->firstobjmarked) &&
-	     (si->cursor_x <= si->lastobjmarked))
+    if(si->currentstaffnum >= si->selection.firststaffmarked &&
+       si->currentstaffnum <= si->selection.laststaffmarked) {
+      if(si->currentmeasurenum == si->selection.firstmeasuremarked) {
+	if (si->currentmeasurenum == si->selection.lastmeasuremarked) {
+	  if((si->cursor_x >= si->selection.firstobjmarked) &&
+	     (si->cursor_x <= si->selection.lastobjmarked))
 	    return TRUE;
 	  else return FALSE;
 	}
-	if (si->currentmeasurenum < si->lastmeasuremarked){
-	  if(si->cursor_x >= si->firstobjmarked)
+	if (si->currentmeasurenum < si->selection.lastmeasuremarked){
+	  if(si->cursor_x >= si->selection.firstobjmarked)
 	    return TRUE;
 	  return FALSE;
 	}
       }
-      if(si->currentmeasurenum > si->firstmeasuremarked) {
-	if (si->currentmeasurenum == si->lastmeasuremarked) {
-	  if((si->cursor_x <= si->lastobjmarked))
+      if(si->currentmeasurenum > si->selection.firstmeasuremarked) {
+	if (si->currentmeasurenum == si->selection.lastmeasuremarked) {
+	  if((si->cursor_x <= si->selection.lastobjmarked))
 	    return TRUE;
 	  else return FALSE;
 	}
-	if (si->currentmeasurenum < si->lastmeasuremarked)
+	if (si->currentmeasurenum < si->selection.lastmeasuremarked)
 	  return TRUE;
       }
     }
@@ -870,20 +870,20 @@ static      gint firstmeasure;
 static      gint lastmeasure;
 
 void save_selection(DenemoScore *si) {
-  firststaff = si->firststaffmarked;
-  laststaff = si->laststaffmarked;
-  firstobj = si->firstobjmarked;
-  lastobj = si->lastobjmarked;
-  firstmeasure =si->firstmeasuremarked;
-  lastmeasure =si->lastmeasuremarked;
+  firststaff = si->selection.firststaffmarked;
+  laststaff = si->selection.laststaffmarked;
+  firstobj = si->selection.firstobjmarked;
+  lastobj = si->selection.lastobjmarked;
+  firstmeasure =si->selection.firstmeasuremarked;
+  lastmeasure =si->selection.lastmeasuremarked;
 }
 void restore_selection(DenemoScore *si) {
-  si->firststaffmarked = firststaff;
-  si->laststaffmarked = laststaff;
-  si->firstobjmarked  = firstobj;
-  si->lastobjmarked = lastobj;
-  si->firstmeasuremarked = firstmeasure;
-  si->lastmeasuremarked = lastmeasure;
+  si->selection.firststaffmarked = firststaff;
+  si->selection.laststaffmarked = laststaff;
+  si->selection.firstobjmarked  = firstobj;
+  si->selection.lastobjmarked = lastobj;
+  si->selection.firstmeasuremarked = firstmeasure;
+  si->selection.lastmeasuremarked = lastmeasure;
 }
 
 
@@ -929,10 +929,10 @@ goto_selection_start (GtkAction *action, DenemoScriptParam *param)
   if(!action)
     ((DenemoScriptParam *)param)->status = si->markstaffnum;
   if(si->markstaffnum){
-    gint first = si->firstobjmarked;
+    gint first = si->selection.firstobjmarked;
     save_selection(si);
-    set_currentmeasurenum (Denemo.gui, si->firstmeasuremarked);
-    set_currentstaffnum (Denemo.gui,si->firststaffmarked);
+    set_currentmeasurenum (Denemo.gui, si->selection.firstmeasuremarked);
+    set_currentstaffnum (Denemo.gui,si->selection.firststaffmarked);
     while(si->cursor_x < first)
       cursorright(param);
     restore_selection(si);

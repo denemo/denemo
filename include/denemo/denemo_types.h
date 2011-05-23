@@ -77,6 +77,19 @@ typedef struct DenemoGraphic
 DenemoGraphic;
 
 
+typedef struct DenemoSelection
+{
+    gint firststaffmarked;
+    gint laststaffmarked;
+    gint firstmeasuremarked;
+    gint lastmeasuremarked;
+    gint firstobjmarked;
+    gint lastobjmarked;
+}
+DenemoSelection;
+
+
+
 /* The idea here is to make everything recursive.  The dominant
    paradigm is a linked list.  Handy that there's such a nice
    precooked implementation of them in glib, eh?  Note, however, that
@@ -783,12 +796,7 @@ typedef struct DenemoScore
   gint markstaffnum;
   gint markmeasurenum;
   gint markcursor_x;
-  gint firststaffmarked;
-  gint laststaffmarked;
-  gint firstmeasuremarked;
-  gint lastmeasuremarked;
-  gint firstobjmarked;
-  gint lastobjmarked;
+  DenemoSelection selection;
 
 
   movementcontrol movementcontrol;/*< Directives for control of the whole movement */
