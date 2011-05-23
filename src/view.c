@@ -1344,6 +1344,12 @@ SCM scheme_shift_cursor (SCM value) {
 
 }
 
+static SCM scheme_mid_c_offsettoname(gint offset) { 
+ gchar *notename = g_strdup_printf("%c", mid_c_offsettoname (offset));
+ SCM scm = scm_makfrom0str (notename);
+ g_free(notename);
+ return scm;
+}
 
 static SCM scheme_get_horizontal_position(void) {
 return  scm_int2num(1 + Denemo.gui->si->cursor_x);
@@ -1366,8 +1372,7 @@ static SCM scheme_get_measure(void) {
 
 static SCM scheme_get_cursor_note (SCM optional) {
  DenemoGUI *gui = Denemo.gui;
- SCM scm = scm_makfrom0str (g_strdup_printf("%c", mid_c_offsettoname (gui->si->cursor_y)));//FIXME a dedicated function avoiding memory leak.
-   return scm;
+ return scheme_mid_c_offsettoname(gui->si->cursor_y);
 }
 
 static SCM scheme_set_prefs (SCM xml) {
@@ -1437,8 +1442,7 @@ SCM scheme_get_note_name (SCM optional) {
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
    return SCM_BOOL(FALSE);
  else {
-   SCM scm = scm_makfrom0str (g_strdup_printf("%c",  mid_c_offsettoname (thenote->mid_c_offset)));//FIXME a dedicated function avoiding memory leak.
-   return scm;
+   return scheme_mid_c_offsettoname(thenote->mid_c_offset);
  }
    
 }
