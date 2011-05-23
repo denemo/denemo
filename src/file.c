@@ -419,7 +419,7 @@ save_in_format(gint format_id, DenemoGUI * gui, gchar *filename) {
     case PNG_FORMAT:
       {
 	gui->si->markstaffnum = 0;
-	export_png (file, FALSE, gui);
+	export_png (file, (GChildWatchFunc)printpng_finished, gui);
         break;
       };
     case ABC_FORMAT:

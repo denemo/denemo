@@ -664,7 +664,7 @@ void print_finished(GPid pid, gint status, GList *filelist) {
   progressbar_stop();
 }
 
-static
+
 void printpng_finished(GPid pid, gint status, GList *filelist) {
   g_debug("printpng_finished\n");
   g_list_foreach(filelist, (GFunc)rm_temp_files, NULL);
@@ -704,7 +704,7 @@ void prepare_preview(GPid pid, gint status, GList *filelist) {
  *  @param gui pointer to the DenemoGUI structure
  */
 void
-export_png (gchar * filename, gboolean show_preview, DenemoGUI * gui)
+export_png (gchar * filename, GChildWatchFunc finish, DenemoGUI * gui)
 {
   gchar *basename;
   gchar *lilyfile;  
@@ -782,12 +782,10 @@ export_png (gchar * filename, gboolean show_preview, DenemoGUI * gui)
  
   /* generate the png file */
   run_lilypond(arguments);
-  if (show_preview)
-    g_child_watch_add (printpid, (GChildWatchFunc)prepare_preview  /*  GChildWatchFunc function */, 
+ 
+    g_child_watch_add (printpid, (GChildWatchFunc)finish  /*  GChildWatchFunc function */, 
 	(gchar *) filelist);
-  else   
-    g_child_watch_add (printpid, (GChildWatchFunc)printpng_finished, (GList *)filelist);
-  
+ 
   g_free (basename);
 }
 
@@ -1182,7 +1180,7 @@ printexcerptpreview_cb (GtkAction *action, gpointer param) {
     printrangedialog(gui);  //Launch a dialog to get selection
   if(gui->si->selection.firstmeasuremarked){
     gui->lilycontrol.excerpt = TRUE;
-    export_png((gchar *) get_printfile_pathbasename(), TRUE, gui); 
+    export_png((gchar *) get_printfile_pathbasename(), prepare_preview, gui); 
   }
 }
 
