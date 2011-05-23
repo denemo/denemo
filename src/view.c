@@ -5058,7 +5058,7 @@ static gboolean
 close_gui ()
 {
   stop_midi_playback (NULL, NULL);// if you do not do this, there is a timer moving the score on which will hang
-  activate_action("/MainMenu/InputMenu/KeyboardOnly");
+ //FIXME why was this here??? activate_action("/MainMenu/InputMenu/KeyboardOnly");
   if(Denemo.autosaveid) {
     if(g_list_length(Denemo.guis)>1)
       g_print("Auto save being turned off");
