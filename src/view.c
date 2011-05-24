@@ -1851,7 +1851,7 @@ SCM scheme_warningdialog(SCM msg) {
   if(scm_is_string(msg)){
     title = scm_to_locale_string(msg); 
   }
-  else title = "Script generated warning";//FIXME mixed types of string, memory leaks
+  else title = strdup("Script generated warning");
  
  warningdialog (title);
  if(title)
@@ -1867,7 +1867,7 @@ if(scm_is_string(msg)){
   msg = SCM_BOOL(TRUE);
   }
  else {
-   title = "Script error, wrong parameter type to d-InfoDialog";//FIXME mixed types of string, memory leaks
+   title = strdup("Script error, wrong parameter type to d-InfoDialog");
    msg = SCM_BOOL(FALSE);
  }
  infodialog (title);
@@ -2044,8 +2044,12 @@ SCM scheme_get_offset(void) {
   g_object_set_data(G_OBJECT(Denemo.printarea), "offset-dialog", NULL);
   gtk_widget_destroy(dialog);
   if(val == GTK_RESPONSE_ACCEPT) {
-    x= scm_makfrom0str (g_strdup_printf("%.1f", offsetx/10.0));//FIXME
-    y= scm_makfrom0str (g_strdup_printf("%.1f", -offsety/10.0));//FIXME
+    gchar *offsetx_str = g_strdup_printf("%.1f", offsetx/10.0);
+    gchar *offsety_str = g_strdup_printf("%.1f", -offsety/10.0);  
+    x= scm_makfrom0str (offsetx_str);
+    y= scm_makfrom0str (offsety_str);
+    g_free(offsetx_str);
+    g_free(offsety_str);
     ret = scm_cons(x, y);
   } else
     ret = SCM_BOOL(FALSE);//FIXME add a RESET button for which return TRUE to reset the overall offset to zero.
@@ -2126,7 +2130,9 @@ SCM scheme_get_padding(void) {
   g_object_set_data(G_OBJECT(Denemo.printarea), "pad-dialog", NULL);
   gtk_widget_destroy(dialog);
   if(val == GTK_RESPONSE_ACCEPT) {
-    ret = scm_makfrom0str (g_strdup_printf("%d", padding/10));//FIXME
+    gchar *pad = g_strdup_printf("%d", padding/10);
+    ret = scm_makfrom0str (pad);
+    g_free(pad);
   } else
     ret = SCM_BOOL(FALSE);
   return ret;
@@ -4820,7 +4826,7 @@ void inner_main(void*closure, int argc, char **argv){
   if(uses_default_commandset()) {
     gchar *initialpref = Denemo.prefs.profile?Denemo.prefs.profile->str:NULL;
     gchar * never_again = NULL;
-    if(initialpref) never_again = g_strdup_printf( "Use %s and do not show these choices again", initialpref);//FIXME
+    if(initialpref) never_again = g_strdup_printf( "Use %s and do not show these choices again", initialpref);
     
     GString *choicestr = g_string_new("");
     gchar *thechoices = choice1"\0"choice2"\0"choice3"\0"choice4"\0"choice5"\0"choice6"\0";
@@ -4834,7 +4840,7 @@ void inner_main(void*closure, int argc, char **argv){
       if(never_again && !strcmp(choice, never_again))
 	save_default_keymap_file_on_entry = TRUE;
       else {
-	choice = g_strdup(choice);//FIXME
+	choice = g_strdup(choice);
 	gchar *c;
 	for(c=choice;*c;c++)
 	  if(*c=='\n')
@@ -4842,6 +4848,8 @@ void inner_main(void*closure, int argc, char **argv){
 	g_string_assign(Denemo.prefs.profile, choice);
       }
     }
+    g_free(never_again);
+    g_free(choice);
   }
 
 
@@ -5164,7 +5172,9 @@ fetchcommands (GtkAction *action, gpointer param)
   location = g_build_filename(locatedotdenemo(), "download", "actions", NULL);
   gboolean err = g_mkdir_with_parents(location, 0770);
   if(err) {
-    warningdialog(g_strdup_printf("Could not make folder %s for the downloaded commands", location));//FIXME
+    gchar *message = g_strdup_printf("Could not make folder %s for the downloaded commands", location);
+    warningdialog(message);
+    g_free(message);
     return;
   }
 
@@ -6191,7 +6201,7 @@ static void insertScript(GtkWidget *widget, gchar *insertion_point) {
       submenu = string_dialog_entry (gui, "Create a new menu item", "Give a label for the Sub-Menu", "Sub Menu Label");
       if(submenu) {
 	subst_illegals(submenu);
-	myposition = g_strdup_printf("%s/%s", myposition, submenu);//FIXME leak
+	myposition = g_strdup_printf("%s/%s", myposition, submenu);
       }
     }
   
@@ -6212,6 +6222,7 @@ static void insertScript(GtkWidget *widget, gchar *insertion_point) {
       save_accels ();								    
   } else
     warningdialog("Operation cancelled");
+  g_free(myposition);
   return;
 }
 
@@ -8138,8 +8149,9 @@ get_data_dir (),
     {
       g_message ("building menu failed: %s", error->message);
       g_error_free (error);
-      gchar *message = g_strdup_printf("The denemoui.xml %s file could not be used - exiting", data_file);//FIXME
+      gchar *message = g_strdup_printf("The denemoui.xml %s file could not be used - exiting", data_file);
       warningdialog(message);
+      g_free(message);
       exit (EXIT_FAILURE);
     }
   g_free (data_file);
