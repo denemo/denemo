@@ -412,6 +412,7 @@ typedef struct DenemoPrefs
 
   gboolean visible_directive_buttons; /**< This option makes the hbox containing score/movement directives visible */
 
+  gboolean enable_thumbnails;
   gboolean disable_undo; /**< Do not collect undo information */
   gboolean saveparts; /**< Automatically save parts*/
   gboolean autosave; /**< Auto save data */
