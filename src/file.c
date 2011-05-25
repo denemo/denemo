@@ -1164,11 +1164,3 @@ export_midi_action (GtkAction *action, DenemoScriptParam *param)
 {
   EXPORT_INTERFACE(MIDI_FORMAT)
 }
-/***
- *  Create a thumbnail for Denemo.gui if needed
- */
-void
-create_thumbnail(void) {
-g_print("Not implemented thumbnail for: %s\n", Denemo.gui->filename->str); 
-
-}

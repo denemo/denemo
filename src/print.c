@@ -417,7 +417,7 @@ run_lilypond(gchar **arguments) {
   if(printpid!=GPID_NONE) {
     if(confirm("Already doing a print", "Kill that one off and re-start?")) {
       if(printviewpid!=GPID_NONE) //It could have died while the user was making up their mind...
-	 kill_process(printpid);
+      kill_process(printpid);
       printpid = GPID_NONE;
     }
     else {
@@ -699,8 +699,7 @@ void prepare_preview(GPid pid, gint status, GList *filelist) {
  * runs lilypond to a create a filename.pdf
  *
  *  @param filename filename to save score to
- *  @param show_preview TRUE if you want to launch 
- *         previewer after creating png
+ *  @param finish callback after creating png or if NULL, wait for finish before returning.
  *  @param gui pointer to the DenemoGUI structure
  */
 void
@@ -737,6 +736,7 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoGUI * gui)
   filelist = g_list_append(filelist, countfile);
 
   /* generate the lilypond file */
+  gui->lilysync = G_MAXUINT;
   exportlilypond (lilyfile, gui, TRUE);
   /* create arguments needed to pass to lilypond to create a png */
 #if GLIB_MINOR_VERSION >= 14
@@ -781,11 +781,21 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoGUI * gui)
 #endif
  
   /* generate the png file */
-  run_lilypond(arguments);
- 
-    g_child_watch_add (printpid, (GChildWatchFunc)finish  /*  GChildWatchFunc function */, 
-	(gchar *) filelist);
- 
+  if(finish) {
+    run_lilypond(arguments);
+    g_child_watch_add (printpid, (GChildWatchFunc)finish, (gchar *) filelist);
+  } else {
+    GError *err; 
+    g_spawn_sync (locatedotdenemo (),		/* dir */
+		arguments, NULL,	/* env */
+		G_SPAWN_SEARCH_PATH, NULL,	/* child setup func */
+		NULL,		/* user data */
+		NULL,		/* stdout */
+		NULL,		/* stderr */
+		NULL, &err);
+    g_list_foreach(filelist, (GFunc)rm_temp_files, NULL);
+    g_list_free(filelist);
+  }
   g_free (basename);
 }
 
@@ -1180,7 +1190,45 @@ printexcerptpreview_cb (GtkAction *action, gpointer param) {
     printrangedialog(gui);  //Launch a dialog to get selection
   if(gui->si->selection.firstmeasuremarked){
     gui->lilycontrol.excerpt = TRUE;
-    export_png((gchar *) get_printfile_pathbasename(), prepare_preview, gui); 
+    export_png((gchar *) get_printfile_pathbasename(), (GChildWatchFunc)prepare_preview, gui); 
+  }
+}
+
+/***
+ *  Create a thumbnail for Denemo.gui if needed
+ */
+void
+create_thumbnail(void) {
+  if(Denemo.gui->filename->len) {
+    GError *err = NULL;
+      gchar * printname = g_build_filename (locatedotdenemo (), "denemothumb", NULL);
+//set selection to thumbnailselection
+    Denemo.gui->lilycontrol.excerpt = TRUE;
+    export_png(printname, NULL, Denemo.gui);
+    gchar *printpng = g_strconcat(printname, ".png", NULL);
+    GdkPixbuf *pb = gdk_pixbuf_new_from_file_at_scale   (printpng, 256, -1, TRUE, &err);
+    //FIXME if pb->height>256 scale it down...
+    if(pb) {
+            gchar *basethumbname = g_compute_checksum_for_string (G_CHECKSUM_MD5, Denemo.gui->filename->str, -1);
+            gchar *thumbname = g_strconcat(basethumbname, ".png", NULL);
+            g_free(basethumbname);
+            gchar *uri = g_strdup_printf("Thumb::URI\0file:///%s", thumbname);
+            static gchar *thumbnails = NULL;
+            if(!thumbnails) {
+              thumbnails = g_build_filename (g_get_home_dir(), ".thumbnails", "large", NULL);
+              g_mkdir_with_parents(thumbnails, 0777);
+            }
+
+            gchar * thumbpath = g_build_filename(thumbnails, thumbname, NULL);
+        //gchar *mt = g_strdup_printf("%d", mtime);
+            if(!gdk_pixbuf_save (pb, thumbpath, "png"/*type*/, &err, "tEXt", uri/*, Thumb::MTime", mt */, NULL))
+              g_print(err->message);
+            g_free(uri);
+        //g_free(mt);
+            g_free(thumbname);
+            g_free(thumbpath);
+    }
+    g_free(printname);  
   }
 }
 
