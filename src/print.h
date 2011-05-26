@@ -24,5 +24,7 @@ print_lily_cb (GtkWidget *item, DenemoGUI *gui);
 void
 export_pdf (gchar *filename, DenemoGUI * gui);
 void
-export_png (gchar *filename, gboolean show_preview, DenemoGUI * gui);
+export_png (gchar *filename, GChildWatchFunc finish, DenemoGUI * gui);
+void
+printpng_finished(GPid pid, gint status, GList *filelist);
 #endif /*PRINT_H*/	

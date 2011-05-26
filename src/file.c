@@ -419,7 +419,7 @@ save_in_format(gint format_id, DenemoGUI * gui, gchar *filename) {
     case PNG_FORMAT:
       {
 	gui->si->markstaffnum = 0;
-	export_png (file, FALSE, gui);
+	export_png (file, (GChildWatchFunc)printpng_finished, gui);
         break;
       };
     case ABC_FORMAT:
@@ -1163,4 +1163,12 @@ void
 export_midi_action (GtkAction *action, DenemoScriptParam *param)
 {
   EXPORT_INTERFACE(MIDI_FORMAT)
+}
+/***
+ *  Create a thumbnail for Denemo.gui if needed
+ */
+void
+create_thumbnail(void) {
+g_print("Not implemented thumbnail for: %s\n", Denemo.gui->filename->str); 
+
 }
