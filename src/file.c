@@ -78,9 +78,9 @@ static struct FileFormatData supported_file_formats[] = {/* WARNING this array h
   {"*.pdf", N_("PDF (*.pdf)"), ".pdf", 1},
   {"*.png", N_("PNG Image format (*.png)"), ".png", 1},
   {"*.abc", N_("ABC (*.abc)"), ".abc", 0},
-  {"*.mid", N_("Midi (*.mid)"), ".mid", 0},
+  {"*.mid", N_("Midi (*.mid, *.midi)"), ".mid", 0},
   {"*.sco", N_("CSound Score File (*.sco)"), ".sco", 0},
-  {"*.mxml", N_("MusicXML file (*.mxml)"), ".mxml", 0}
+  {"*.mxml", N_("MusicXML file (*.mxml, *.xml)"), ".mxml", 0}
 };
 
 static gchar* supported_denemo_file_extension[] = {
@@ -96,7 +96,7 @@ static gchar *supported_midi_file_extension[] = {
   "*.midi", "*.mid", "*.MIDI", "*.MID" 
 };
 static gchar *supported_musicxml_file_extension[] = {
-  "*.mxml", "*.MXML" 
+  "*.mxml", "*.MXML", "*.xml"
 };
 
 /* Some macros just to shorten lines */
