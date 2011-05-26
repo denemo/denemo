@@ -416,8 +416,8 @@ run_lilypond(gchar **arguments) {
 
   if(printpid!=GPID_NONE) {
     if(confirm("Already doing a print", "Kill that one off and re-start?")) {
-      if(printviewpid!=GPID_NONE) //It could have died while the user was making up their mind...
-      kill_process(printpid);
+      if(printpid!=GPID_NONE) //It could have died while the user was making up their mind...
+        kill_process(printpid);
       printpid = GPID_NONE;
     }
     else {
@@ -715,7 +715,7 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoGUI * gui)
   gchar **arguments;
   GList *filelist=NULL;
   
-  /* get the intended rosolution of the png */
+  /* get the intended resolution of the png */
   gchar *resolution = g_strdup_printf("-dresolution=%d",(int) Denemo.prefs.resolution);
  
   /* create temp file names */
@@ -737,7 +737,7 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoGUI * gui)
 
   /* generate the lilypond file */
   gui->lilysync = G_MAXUINT;
-  exportlilypond (lilyfile, gui, TRUE);
+  exportlilypond (lilyfile, gui, finish == (GChildWatchFunc)printpng_finished?TRUE:FALSE);
   /* create arguments needed to pass to lilypond to create a png */
 #if GLIB_MINOR_VERSION >= 14
   gchar *png_arguments1[] = {
@@ -1194,17 +1194,19 @@ printexcerptpreview_cb (GtkAction *action, gpointer param) {
   }
 }
 
-/***
- *  Create a thumbnail for Denemo.gui if needed
- */
-void
-create_thumbnail(void) {
-  if(Denemo.gui->filename->len) {
-    GError *err = NULL;
-      gchar * printname = g_build_filename (locatedotdenemo (), "denemothumb", NULL);
-//set selection to thumbnailselection
-    Denemo.gui->lilycontrol.excerpt = TRUE;
-    export_png(printname, NULL, Denemo.gui);
+static gchar *get_thumb_printname(void) {
+return g_build_filename (locatedotdenemo (), "denemothumb", NULL);
+}
+/*call back to finish thumbnail processing. */
+static
+void thumb_finished(GPid pid, gint status, GList *filelist) {
+  GError *err = NULL;
+  if(filelist) {
+   g_list_foreach(filelist, (GFunc)rm_temp_files, NULL);
+   g_list_free(filelist);
+   g_spawn_close_pid (pid); 
+  }
+  gchar *printname = get_thumb_printname();
     gchar *printpng = g_strconcat(printname, ".png", NULL);
     GdkPixbuf *pb = gdk_pixbuf_new_from_file_at_scale   (printpng, 256, -1, TRUE, &err);
     //FIXME if pb->height>256 scale it down...
@@ -1213,21 +1215,64 @@ create_thumbnail(void) {
             gchar *thumbname = g_strconcat(basethumbname, ".png", NULL);
             g_free(basethumbname);
             gchar *uri = g_strdup_printf("Thumb::URI\0file:///%s", thumbname);
-            static gchar *thumbnails = NULL;
-            if(!thumbnails) {
-              thumbnails = g_build_filename (g_get_home_dir(), ".thumbnails", "large", NULL);
-              g_mkdir_with_parents(thumbnails, 0777);
+            static gchar *thumbnailsdir = NULL;
+            if(!thumbnailsdir) {
+              thumbnailsdir = g_build_filename (g_get_home_dir(), ".thumbnails", "large", NULL);
+              g_mkdir_with_parents(thumbnailsdir, 0700);
             }
 
-            gchar * thumbpath = g_build_filename(thumbnails, thumbname, NULL);
-        //gchar *mt = g_strdup_printf("%d", mtime);
-            if(!gdk_pixbuf_save (pb, thumbpath, "png"/*type*/, &err, "tEXt", uri/*, Thumb::MTime", mt */, NULL))
+            gchar * thumbpath = g_build_filename(thumbnailsdir, thumbname, NULL);
+        //gchar *mt = g_strdup_printf("Thumb::MTime\0%d", mtime);
+            if(!gdk_pixbuf_save (pb, thumbpath, "png"/*type*/, &err, "tEXt", uri/*, "tEXt", mt */, NULL))
               g_print(err->message);
             g_free(uri);
         //g_free(mt);
             g_free(thumbname);
             g_free(thumbpath);
     }
+    g_free(printname);
+    printpid=GPID_NONE;
+    //g_print("Set printpid = %d\n", printpid);
+  }
+
+/***
+ *  Create a thumbnail for Denemo.gui if needed
+ */
+void
+create_thumbnail(gboolean async) {
+  if(Denemo.gui->filename->len) {
+    
+    Denemo.gui->si = Denemo.gui->movements->data;//Thumbnail is from first movement
+//set selection to thumbnailselection, if not set, to the selection, if not set to first three measures of staff 1
+    if(Denemo.gui->thumbnail.firststaffmarked) 
+      memcpy(&Denemo.gui->si->selection, &Denemo.gui->thumbnail, sizeof(DenemoSelection));
+    else
+      if(Denemo.gui->si->selection.firststaffmarked)
+        memcpy(&Denemo.gui->thumbnail, &Denemo.gui->si->selection, sizeof(DenemoSelection));
+        else {
+          Denemo.gui->thumbnail.firststaffmarked = 1;
+          Denemo.gui->thumbnail.laststaffmarked = 1;
+          Denemo.gui->thumbnail.firstmeasuremarked = 1;
+          Denemo.gui->thumbnail.lastmeasuremarked = 3;
+          Denemo.gui->thumbnail.firstobjmarked = 0;
+          Denemo.gui->thumbnail.lastobjmarked = 100;//or find out how many there are
+          memcpy(&Denemo.gui->si->selection, &Denemo.gui->thumbnail, sizeof(DenemoSelection));
+        }
+    Denemo.gui->si->markstaffnum = Denemo.gui->si->selection.firststaffmarked;
+    gchar * printname = get_thumb_printname();
+    Denemo.gui->lilycontrol.excerpt = TRUE;
+
+    if(async)
+       return;//export_png(printname, (GChildWatchFunc)thumb_finished, Denemo.gui);
+    else {
+        export_png(printname, (GChildWatchFunc)thumb_finished, Denemo.gui);
+        gtk_widget_hide(Denemo.window);
+        //g_print("Note printpid is %d\n", printpid);
+        while(printpid!=GPID_NONE) {
+          gtk_main_iteration_do(FALSE);
+      }
+    }
+
     g_free(printname);  
   }
 }

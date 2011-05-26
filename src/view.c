@@ -5060,7 +5060,7 @@ close_gui ()
   stop_midi_playback (NULL, NULL);// if you do not do this, there is a timer moving the score on which will hang
  //FIXME why was this here??? activate_action("/MainMenu/InputMenu/KeyboardOnly");
  if(Denemo.prefs.enable_thumbnails)
-  create_thumbnail(); 
+  create_thumbnail(g_list_length(Denemo.guis)>1); 
   if(Denemo.autosaveid) {
     if(g_list_length(Denemo.guis)>1)
       g_print("Auto save being turned off");
