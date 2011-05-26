@@ -889,6 +889,7 @@ typedef struct DenemoGUI
   GString *filename;/**< the filename to save to */
   GString *tabname;/**< the name of windows tab */
   GString *autosavename;/**< the filename to autosave to, full path */
+  DenemoSelection thumbnail; /**< the selection from which to create a thumbnail on exit */
 
   gint undo_level;/**< level of script nesting 0 = staging point for undo to return to */
   gboolean notsaved;/**< edited since last save */

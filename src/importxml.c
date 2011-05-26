@@ -1734,6 +1734,35 @@ parseGraceStart (xmlNodePtr graceStartElem, xmlNsPtr ns, DenemoScore * si)
   return result;
 }
 
+/**
+ * Parse the given <thumbnail> into the thumbnail  DenemoSelection.
+ * @param thumbElem the XML node to process
+ * @param ns the Denemo XML namespaces
+ * @param selection the DenemoSelection to populate 
+ * 
+ * @return 
+ */
+static void
+parseThumbElem (xmlNodePtr thumbElem, xmlNsPtr ns, DenemoSelection *selection)
+{
+   xmlNodePtr childElem;
+  FOREACH_CHILD_ELEM (childElem, thumbElem)
+  {
+     if (ELEM_NAME_EQ (childElem, "first-staff"))
+	selection->firststaffmarked = getXMLIntChild (childElem);
+	else      if (ELEM_NAME_EQ (childElem, "last-staff"))
+	selection->laststaffmarked = getXMLIntChild (childElem);
+	else if (ELEM_NAME_EQ (childElem, "first-measure"))
+	selection->firstmeasuremarked = getXMLIntChild (childElem);
+	else      if (ELEM_NAME_EQ (childElem, "last-measure"))
+	selection->lastmeasuremarked = getXMLIntChild (childElem);
+	else if (ELEM_NAME_EQ (childElem, "first-obj"))
+	selection->firstobjmarked = getXMLIntChild (childElem);
+	else      if (ELEM_NAME_EQ (childElem, "last-obj"))
+	selection->lastobjmarked = getXMLIntChild (childElem);
+  }	
+}
+
 
 /**
  * Parse the given <setup-info> element into the given score.
@@ -3000,6 +3029,9 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
 	  } else
 	    if (ELEM_NAME_EQ (childElem, "lilycontrol")){
 	      parseSetupInfo(childElem, ns, gui);
+	    } else
+	      if (ELEM_NAME_EQ (childElem, "thumbnail")){
+	      parseThumbElem (childElem, ns, &gui->thumbnail);
 	    } else
 	      if (ELEM_NAME_EQ (childElem, "scoreheader-directives")){
 		gui->scoreheader.directives = parseWidgetDirectives(childElem, ns, (gpointer)scoreheader_directive_put_graphic, NULL, NULL);
