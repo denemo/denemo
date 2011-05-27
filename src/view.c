@@ -819,6 +819,15 @@ static SCM scheme_delete_selection(SCM optional) {
   return SCM_BOOL_T;
 }
 
+static SCM scheme_set_thumbnail_selection(SCM optional) {
+  if ((!Denemo.gui->si) || (!Denemo.gui->si->markstaffnum))
+    return SCM_BOOL_F;
+  if(Denemo.gui->si==Denemo.gui->movements->data) {
+    memcpy(&Denemo.gui->thumbnail, &Denemo.gui->si->selection, sizeof(DenemoSelection));
+    return SCM_BOOL_T;
+  }
+  return SCM_BOOL_F;
+}
 
 static SCM scheme_take_snapshot (SCM optional) {   
   return SCM_BOOL(take_snapshot());
@@ -4711,6 +4720,8 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
   INSTALL_SCM_FUNCTION ("Pops the Denemo clipboard (cut/copy buffer) from a stack created by d-PushClipboard. Returs #f if nothing on stack, else #t.", DENEMO_SCHEME_PREFIX"PopClipboard", scheme_pop_clipboard);
 
   INSTALL_SCM_FUNCTION ("Deletes all objects in the selection Returns #f if no selection else #t.", DENEMO_SCHEME_PREFIX"DeleteSelection", scheme_delete_selection);
+
+  INSTALL_SCM_FUNCTION ("Sets the selection to be used for a thumbnail. Returns #f if no selection or selection not in first movement else #t.", DENEMO_SCHEME_PREFIX"SetThumbnailSelection", scheme_set_thumbnail_selection);
 
   INSTALL_SCM_FUNCTION ("Snapshots the current movement putting it in the undo queue returns #f if no snapshot was taken because of a guard", DENEMO_SCHEME_PREFIX"TakeSnapshot", scheme_take_snapshot);
 
