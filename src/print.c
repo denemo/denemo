@@ -432,6 +432,7 @@ run_lilypond(gchar **arguments) {
     lily_err = NULL;
   }
   
+  gboolean lilypond_launch_success =
   g_spawn_async_with_pipes (locatedotdenemo (),		/* dir */
 		arguments,
 		NULL,		/* env */
@@ -448,10 +449,13 @@ run_lilypond(gchar **arguments) {
 #endif
 		&lily_err);
   if(lily_err) {
-    g_warning("Error launching lilypond message is %s\n", lily_err->message);
+    g_warning("Error launching lilypond! Message is %s\n", lily_err->message);
     g_error_free(lily_err);
     lily_err = NULL;
-  } 
+  }
+  if(!lilypond_launch_success) {
+    warningdialog("Error executing lilypond. Perhaps Lilypond is not installed");
+  }
 }
 
 /*  Print function 
