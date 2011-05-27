@@ -1214,7 +1214,7 @@ void thumb_finished(GPid pid, gint status, GList *filelist) {
             gchar *basethumbname = g_compute_checksum_for_string (G_CHECKSUM_MD5, Denemo.gui->filename->str, -1);
             gchar *thumbname = g_strconcat(basethumbname, ".png", NULL);
             g_free(basethumbname);
-            gchar *uri = g_strdup_printf("Thumb::URI\0file:///%s", thumbname);
+            gchar *uri = g_strdup_printf("file:///%s", thumbname);
             static gchar *thumbnailsdir = NULL;
             if(!thumbnailsdir) {
               thumbnailsdir = g_build_filename (g_get_home_dir(), ".thumbnails", "large", NULL);
@@ -1223,7 +1223,7 @@ void thumb_finished(GPid pid, gint status, GList *filelist) {
 
             gchar * thumbpath = g_build_filename(thumbnailsdir, thumbname, NULL);
         //gchar *mt = g_strdup_printf("Thumb::MTime\0%d", mtime);
-            if(!gdk_pixbuf_save (pb, thumbpath, "png"/*type*/, &err, "tEXt", uri/*, "tEXt", mt */, NULL))
+            if(!gdk_pixbuf_save (pb, thumbpath, "png"/*type*/, &err, "tEXt::Thumb::URI", uri/*, "tEXt", mt */, NULL))
               g_print(err->message);
             g_free(uri);
         //g_free(mt);
