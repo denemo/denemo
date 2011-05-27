@@ -407,8 +407,9 @@ open_pdfviewer(GPid pid, gint status, gchar *filename){
      open_viewer(pid, status, filename, FALSE);
 }
 
-static void
+static gint 
 run_lilypond(gchar **arguments) {
+  gint error = 0;
   DenemoGUI *gui = Denemo.gui;
   progressbar("Running Lilypond");
   g_spawn_close_pid (get_lily_version_pid);
@@ -422,7 +423,8 @@ run_lilypond(gchar **arguments) {
     }
     else {
       warningdialog ("Cancelled");
-      return;
+      error = -1;
+      return error;
     }
   }
   if(lily_err) {
@@ -452,10 +454,16 @@ run_lilypond(gchar **arguments) {
     g_warning("Error launching lilypond! Message is %s\n", lily_err->message);
     g_error_free(lily_err);
     lily_err = NULL;
+    error = -1;
   }
   if(!lilypond_launch_success) {
     warningdialog("Error executing lilypond. Perhaps Lilypond is not installed");
+    error = -1;
   }
+  if(error)
+    progressbar_stop();
+   
+  return error;
 }
 
 /*  Print function 
