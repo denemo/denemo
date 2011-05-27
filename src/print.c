@@ -738,6 +738,7 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoGUI * gui)
   texfile = g_strconcat (filename, "-systems.tex", NULL);
   texifile = g_strconcat (filename, "-systems.texi", NULL);
   countfile = g_strconcat (filename, "-systems.count", NULL);
+  g_free (basename);
  
   /* create a list of files that need to be deleted */ 
   filelist = g_list_append(filelist, lilyfile);
@@ -794,8 +795,9 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoGUI * gui)
  
   /* generate the png file */
   if(finish) {
-    run_lilypond(arguments);
-    g_child_watch_add (printpid, (GChildWatchFunc)finish, (gchar *) filelist);
+    gint error = run_lilypond(arguments);
+    if(!error)
+      g_child_watch_add (printpid, (GChildWatchFunc)finish, (gchar *) filelist);
   } else {
     GError *err; 
     g_spawn_sync (locatedotdenemo (),		/* dir */
@@ -808,7 +810,6 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoGUI * gui)
     g_list_foreach(filelist, (GFunc)rm_temp_files, NULL);
     g_list_free(filelist);
   }
-  g_free (basename);
 }
 
 /**
@@ -834,6 +835,8 @@ export_pdf (gchar * filename, DenemoGUI * gui)
   /* create list of files that will need to be deleted */
   filelist = g_list_append(filelist, lilyfile);
   filelist = g_list_append(filelist, psfile);
+  g_free (basename);
+
   /* generate the lilypond file */
   exportlilypond (lilyfile, gui, TRUE);
   /* create arguments to pass to lilypond to create a pdf */
@@ -847,10 +850,14 @@ export_pdf (gchar * filename, DenemoGUI * gui)
   };
   /* generate the pdf file */
 
-  run_lilypond(arguments);
+  gint error = run_lilypond(arguments);
+  if(error){
+    g_spawn_close_pid (printpid);
+    printpid = GPID_NONE;
+    return;
+  }
 
   g_child_watch_add (printpid, (GChildWatchFunc)printpdf_finished, filelist);
-  g_free (basename);
 }
 
 static void
