@@ -1229,7 +1229,7 @@ void thumb_finished(GPid pid, gint status, GList *filelist) {
   gchar *printname = get_thumb_printname();
     gchar *printpng = g_strconcat(printname, ".png", NULL);
     GdkPixbuf *pb = gdk_pixbuf_new_from_file_at_scale   (printpng, 128, -1, TRUE, &err);
-    //FIXME if pb->height>256 scale it down...
+    //FIXME if pb->height>128 scale it down...
     if(pb) {
       gchar *uri = g_strdup_printf("file://%s", Denemo.gui->filename->str);
             gchar *basethumbname = g_compute_checksum_for_string (G_CHECKSUM_MD5, uri, -1);
@@ -1267,7 +1267,7 @@ void thumb_finished(GPid pid, gint status, GList *filelist) {
 void
 create_thumbnail(gboolean async) {
   if(Denemo.gui->filename->len) {
-    
+    DenemoScore *saved = Denemo.gui->si;
     Denemo.gui->si = Denemo.gui->movements->data;//Thumbnail is from first movement
 //set selection to thumbnailselection, if not set, to the selection, if not set to first three measures of staff 1
     if(Denemo.gui->thumbnail.firststaffmarked) 
@@ -1298,8 +1298,8 @@ create_thumbnail(gboolean async) {
           gtk_main_iteration_do(FALSE);
       }
     }
-
-    g_free(printname);  
+    g_free(printname);
+    Denemo.gui->si = saved;
   }
 }
 
