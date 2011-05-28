@@ -412,7 +412,7 @@ static gint
 run_lilypond(gchar **arguments) {
   gint error = 0;
   DenemoGUI *gui = Denemo.gui;
-  progressbar("Running Lilypond");
+  progressbar("Denemo Typesetting");
   g_spawn_close_pid (get_lily_version_pid);
   get_lily_version_pid = GPID_NONE;
 
@@ -467,13 +467,12 @@ run_lilypond(gchar **arguments) {
   return error;
 }
 
-/*  Print function 
+/*  create pdf of current score, optionally restricted to voices/staffs whose name match the current one. 
  *  Save file in lilypond format
  *  Fork and run lilypond
- *  TODO Add in lpr command
  */
 static void
-print (DenemoGUI * gui, gboolean part_only, gboolean all_movements)
+create_pdf (DenemoGUI * gui, gboolean part_only, gboolean all_movements)
 {
   gchar *filename = get_printfile_pathbasename();
   gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
@@ -664,9 +663,11 @@ draw_page (GtkPrintOperation *operation,
     g_print("returning from drawing page %d\n", page_nr+1);
 }
 
-void rm_temp_files(gchar *file,gpointer unused) {
-  printf("\nremoving file %s\n",file);
-  g_remove(file);
+static
+void rm_temp_files(gchar *file, gpointer free_only) {
+  //g_print("\n%s Deleting temp file %s\n",free_only?"Not":"", file);
+  if(!free_only)
+    g_remove(file);
   g_free(file);
 }
 
@@ -680,7 +681,7 @@ void print_finished(GPid pid, gint status, GList *filelist) {
 
 void printpng_finished(GPid pid, gint status, GList *filelist) {
   g_debug("printpng_finished\n");
-  g_list_foreach(filelist, (GFunc)rm_temp_files, NULL);
+  g_list_foreach(filelist, (GFunc)rm_temp_files, FALSE);
   g_list_free(filelist);
   g_spawn_close_pid (printpid);
   printpid = GPID_NONE;
@@ -691,7 +692,7 @@ void printpng_finished(GPid pid, gint status, GList *filelist) {
 static
 void printpdf_finished(GPid pid, gint status, GList *filelist) {
   if(filelist) {
-    g_list_foreach(filelist, (GFunc)rm_temp_files, NULL);
+    g_list_foreach(filelist, (GFunc)rm_temp_files, FALSE);
     g_list_free(filelist);
   }
   g_spawn_close_pid (printpid);
@@ -808,7 +809,7 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoGUI * gui)
 		NULL,		/* stdout */
 		NULL,		/* stderr */
 		NULL, &err);
-    g_list_foreach(filelist, (GFunc)rm_temp_files, NULL);
+    g_list_foreach(filelist, (GFunc)rm_temp_files, FALSE);
     g_list_free(filelist);
   }
 }
@@ -1172,9 +1173,9 @@ printpart_cb (GtkAction *action, gpointer param) {
     }
   if((gui->movements && g_list_length(gui->movements)>1) && 
      (confirm("This piece has several movements", "Print this part from all of them?")))
-    print(gui, TRUE, TRUE);
+    create_pdf(gui, TRUE, TRUE);
   else
-   print(gui, TRUE, FALSE); 
+   create_pdf(gui, TRUE, FALSE); 
   g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, 
 	(gchar *) get_printfile_pathbasename());
 }
@@ -1186,9 +1187,9 @@ printpreview_cb (GtkAction *action, gpointer param) {
   gui->lilycontrol.excerpt = FALSE;
   if((gui->movements && g_list_length(gui->movements)>1) && 
      (confirm("This piece has several movements", "Print all of them?")))
-    print(gui, FALSE, TRUE);
+    create_pdf(gui, FALSE, TRUE);
   else
-    print(gui, FALSE, FALSE);
+    create_pdf(gui, FALSE, FALSE);
   g_child_watch_add (printpid, (GChildWatchFunc)print_finished, NULL);
 }
 
@@ -1196,7 +1197,7 @@ void
 printselection_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   if(gui->si->markstaffnum)
-    print(gui, FALSE, FALSE);
+    create_pdf(gui, FALSE, FALSE);
   else
     warningdialog(_("No selection to print"));
   g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, 
@@ -1222,15 +1223,17 @@ static
 void thumb_finished(GPid pid, gint status, GList *filelist) {
   GError *err = NULL;
   if(filelist) {
-   g_list_foreach(filelist, (GFunc)rm_temp_files, NULL);
-   g_list_free(filelist);
-   g_spawn_close_pid (pid); 
+  g_list_foreach(filelist, (GFunc)rm_temp_files, (gpointer)TRUE); //these temp files are always the same, so better not to waste time deleting them
+  g_list_free(filelist);
+  g_spawn_close_pid (pid); 
   }
   gchar *printname = get_thumb_printname();
     gchar *printpng = g_strconcat(printname, ".png", NULL);
-    GdkPixbuf *pb = gdk_pixbuf_new_from_file_at_scale   (printpng, 128, -1, TRUE, &err);
-    //FIXME if pb->height>128 scale it down...
-    if(pb) {
+    GdkPixbuf *pbN = gdk_pixbuf_new_from_file_at_scale   (printpng, 128, -1, TRUE, &err);
+    GdkPixbuf *pbL = gdk_pixbuf_new_from_file_at_scale   (printpng, 256, -1, TRUE, &err);
+    
+    //FIXME if pb->height>128 or 256 scale it down...
+    if(pbN && pbL) {
       gchar *uri = g_strdup_printf("file://%s", Denemo.gui->filename->str);
             gchar *basethumbname = g_compute_checksum_for_string (G_CHECKSUM_MD5, uri, -1);
             gchar *thumbname = g_strconcat(basethumbname, ".png", NULL);
@@ -1241,33 +1244,50 @@ void thumb_finished(GPid pid, gint status, GList *filelist) {
             unsigned mtime = thebuf.st_mtime;
             g_print("the mt is %u\n", mtime);
             
-            static gchar *thumbnailsdir = NULL;
-            if(!thumbnailsdir) {
-              thumbnailsdir = g_build_filename (g_get_home_dir(), ".thumbnails", "normal", NULL);
-              g_mkdir_with_parents(thumbnailsdir, 0700);
+            static gchar *thumbnailsdirN = NULL;
+            static gchar *thumbnailsdirL = NULL;
+
+            if(!thumbnailsdirN) {
+              thumbnailsdirN = g_build_filename (g_get_home_dir(), ".thumbnails", "normal", NULL);
+              g_mkdir_with_parents(thumbnailsdirN, 0700);
+            }
+            if(!thumbnailsdirL) {
+              thumbnailsdirL = g_build_filename (g_get_home_dir(), ".thumbnails", "large", NULL);
+              g_mkdir_with_parents(thumbnailsdirL, 0700);
             }
 
-            gchar * thumbpath = g_build_filename(thumbnailsdir, thumbname, NULL);
-        gchar *mt = g_strdup_printf("%u", mtime);
-            if(!gdk_pixbuf_save (pb, thumbpath, "png"/*type*/, &err, "tEXt::Thumb::URI", uri, "tEXt::Thumb::MTime", mt , NULL))
+            gchar * thumbpathN = g_build_filename(thumbnailsdirN, thumbname, NULL);
+            gchar * thumbpathL = g_build_filename(thumbnailsdirL, thumbname, NULL);
+
+            gchar *mt = g_strdup_printf("%u", mtime);
+            if(!gdk_pixbuf_save (pbN, thumbpathN, "png"/*type*/, &err, "tEXt::Thumb::URI", uri, "tEXt::Thumb::MTime", mt , NULL))
               g_print(err->message);
+            err = NULL;
+            if(!gdk_pixbuf_save (pbL, thumbpathL, "png"/*type*/, &err, "tEXt::Thumb::URI", uri, "tEXt::Thumb::MTime", mt , NULL))
+              g_print(err->message);
+
+              //FIXME do the pbN L need freeing???
             g_free(uri);
-        //g_free(mt);
+            g_free(mt);
             g_free(thumbname);
-            g_free(thumbpath);
+            g_free(thumbpathN);
+            g_free(thumbpathL);
     }
     g_free(printname);
     printpid=GPID_NONE;
+    progressbar_stop();
     //g_print("Set printpid = %d\n", printpid);
   }
 
 /***
  *  Create a thumbnail for Denemo.gui if needed
  */
-void
-create_thumbnail(gboolean async) {
+gboolean
+create_thumbnail(gboolean closing) {
+  if(printpid!=GPID_NONE)
+    return FALSE;
   if(Denemo.gui->filename->len) {
-    DenemoScore *saved = Denemo.gui->si;
+    gint saved = g_list_index(Denemo.gui->movements, Denemo.gui->si);
     Denemo.gui->si = Denemo.gui->movements->data;//Thumbnail is from first movement
 //set selection to thumbnailselection, if not set, to the selection, if not set to first three measures of staff 1
     if(Denemo.gui->thumbnail.firststaffmarked) 
@@ -1288,19 +1308,23 @@ create_thumbnail(gboolean async) {
     gchar * printname = get_thumb_printname();
     Denemo.gui->lilycontrol.excerpt = TRUE;
 
-    if(async)
-       return;//export_png(printname, (GChildWatchFunc)thumb_finished, Denemo.gui);
-    else {
+    if(closing){
         export_png(printname, (GChildWatchFunc)thumb_finished, Denemo.gui);
         gtk_widget_hide(Denemo.window);
         //g_print("Note printpid is %d\n", printpid);
         while(printpid!=GPID_NONE) {
           gtk_main_iteration_do(FALSE);
-      }
+        }
+    } else {
+      export_png(printname, (GChildWatchFunc)thumb_finished, Denemo.gui);
     }
+    
     g_free(printname);
-    Denemo.gui->si = saved;
+    Denemo.gui->si = g_list_nth_data(Denemo.gui->movements, saved);
+    if(Denemo.gui->si==NULL)
+      Denemo.gui->si = Denemo.gui->movements->data;
   }
+  return TRUE;
 }
 
 /* callback to print whole of score */
