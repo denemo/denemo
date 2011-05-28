@@ -829,6 +829,13 @@ static SCM scheme_set_thumbnail_selection(SCM optional) {
   return SCM_BOOL_F;
 }
 
+
+static SCM scheme_create_thumbnail(SCM optional) {
+ gboolean ret = create_thumbnail(FALSE);
+  return SCM_BOOL(ret);
+}
+
+
 static SCM scheme_take_snapshot (SCM optional) {   
   return SCM_BOOL(take_snapshot());
 }
@@ -4723,6 +4730,8 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
 
   INSTALL_SCM_FUNCTION ("Sets the selection to be used for a thumbnail. Returns #f if no selection or selection not in first movement else #t.", DENEMO_SCHEME_PREFIX"SetThumbnailSelection", scheme_set_thumbnail_selection);
 
+  INSTALL_SCM_FUNCTION ("creates a thumbnail for the current score.", DENEMO_SCHEME_PREFIX"CreateThumbnail", scheme_create_thumbnail);
+
   INSTALL_SCM_FUNCTION ("Snapshots the current movement putting it in the undo queue returns #f if no snapshot was taken because of a guard", DENEMO_SCHEME_PREFIX"TakeSnapshot", scheme_take_snapshot);
 
   INSTALL_SCM_FUNCTION ("Stop collecting undo information. Call DecreaseGuard when finished. Returns #f if already guarded, #t if this call is stopping the undo collection", DENEMO_SCHEME_PREFIX"IncreaseGuard", scheme_increase_guard);
@@ -5079,7 +5088,7 @@ close_gui ()
   stop_midi_playback (NULL, NULL);// if you do not do this, there is a timer moving the score on which will hang
  //FIXME why was this here??? activate_action("/MainMenu/InputMenu/KeyboardOnly");
  if(Denemo.prefs.enable_thumbnails)
-  create_thumbnail(g_list_length(Denemo.guis)>1); 
+  create_thumbnail(g_list_length(Denemo.guis)==1); 
   if(Denemo.autosaveid) {
     if(g_list_length(Denemo.guis)>1)
       g_print("Auto save being turned off");
