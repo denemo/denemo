@@ -1218,6 +1218,16 @@ printexcerptpreview_cb (GtkAction *action, gpointer param) {
 static gchar *get_thumb_printname(void) {
 return g_build_filename (locatedotdenemo (), "denemothumb", NULL);
 }
+static gchar *
+  get_thumbname (gchar *uri) {
+  gchar *basethumbname = g_compute_checksum_for_string (G_CHECKSUM_MD5, uri, -1);
+  gchar *thumbname = g_strconcat(basethumbname, ".png", NULL);
+  g_free(basethumbname);
+  return thumbname;
+}
+static gchar *thumbnailsdirN = NULL;
+static gchar *thumbnailsdirL = NULL;
+  
 /*call back to finish thumbnail processing. */
 static
 void thumb_finished(GPid pid, gint status, GList *filelist) {
@@ -1235,30 +1245,19 @@ void thumb_finished(GPid pid, gint status, GList *filelist) {
     //FIXME if pb->height>128 or 256 scale it down...
     if(pbN && pbL) {
       gchar *uri = g_strdup_printf("file://%s", Denemo.gui->filename->str);
-            gchar *basethumbname = g_compute_checksum_for_string (G_CHECKSUM_MD5, uri, -1);
-            gchar *thumbname = g_strconcat(basethumbname, ".png", NULL);
-            g_free(basethumbname);
-            
+      gchar *thumbname = get_thumbname (uri);
+
+      
             struct stat thebuf;
             gint status =  g_stat(Denemo.gui->filename->str, &thebuf);
             unsigned mtime = thebuf.st_mtime;
             g_print("the mt is %u\n", mtime);
             
-            static gchar *thumbnailsdirN = NULL;
-            static gchar *thumbnailsdirL = NULL;
-
-            if(!thumbnailsdirN) {
-              thumbnailsdirN = g_build_filename (g_get_home_dir(), ".thumbnails", "normal", NULL);
-              g_mkdir_with_parents(thumbnailsdirN, 0700);
-            }
-            if(!thumbnailsdirL) {
-              thumbnailsdirL = g_build_filename (g_get_home_dir(), ".thumbnails", "large", NULL);
-              g_mkdir_with_parents(thumbnailsdirL, 0700);
-            }
+ 
 
             gchar * thumbpathN = g_build_filename(thumbnailsdirN, thumbname, NULL);
             gchar * thumbpathL = g_build_filename(thumbnailsdirL, thumbname, NULL);
-
+           
             gchar *mt = g_strdup_printf("%u", mtime);
             if(!gdk_pixbuf_save (pbN, thumbpathN, "png"/*type*/, &err, "tEXt::Thumb::URI", uri, "tEXt::Thumb::MTime", mt , NULL))
               g_print(err->message);
@@ -1287,6 +1286,24 @@ create_thumbnail(gboolean closing) {
   if(printpid!=GPID_NONE)
     return FALSE;
   if(Denemo.gui->filename->len) {
+    if(!thumbnailsdirN) {
+      thumbnailsdirN = g_build_filename (g_get_home_dir(), ".thumbnails", "normal", NULL);
+      g_mkdir_with_parents(thumbnailsdirN, 0700);
+    }
+  if(!thumbnailsdirL) {
+    thumbnailsdirL = g_build_filename (g_get_home_dir(), ".thumbnails", "large", NULL);
+    g_mkdir_with_parents(thumbnailsdirL, 0700);
+    }
+//check if thumbnail is newer than file
+  struct stat thebuf;
+  gint status =  g_stat(Denemo.gui->filename->str, &thebuf);
+  unsigned mtime = thebuf.st_mtime;
+  gchar *uri = g_strdup_printf("file://%s", Denemo.gui->filename->str);
+  gchar *thumbname = get_thumbname (uri);
+  gchar * thumbpathN = g_build_filename(thumbnailsdirN, thumbname, NULL);
+  status =  g_stat(thumbpathN, &thebuf);
+  unsigned mtime_thumb = thebuf.st_mtime;
+  if(mtime_thumb<mtime) {
     gint saved = g_list_index(Denemo.gui->movements, Denemo.gui->si);
     Denemo.gui->si = Denemo.gui->movements->data;//Thumbnail is from first movement
 //set selection to thumbnailselection, if not set, to the selection, if not set to first three measures of staff 1
@@ -1323,6 +1340,7 @@ create_thumbnail(gboolean closing) {
     Denemo.gui->si = g_list_nth_data(Denemo.gui->movements, saved);
     if(Denemo.gui->si==NULL)
       Denemo.gui->si = Denemo.gui->movements->data;
+  }
   }
   return TRUE;
 }
