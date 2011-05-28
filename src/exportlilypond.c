@@ -1628,7 +1628,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
       gint firstobj=1, lastobj= G_MAXINT;
       if(start && gui->si->markstaffnum) {//markstaffnum==0 means not set
 	firstobj = 1+MIN( gui->si->selection.firstobjmarked, gui->si->selection.lastobjmarked);
-	lastobj =  1+MAX( gui->si->selection.firstobjmarked, gui->si->selection.lastobjmarked);
+	lastobj =  MAX( gui->si->selection.firstobjmarked, gui->si->selection.lastobjmarked);
       }
       //g_print("First last, %d %d %d\n", firstobj, lastobj, start);
       for (objnum=1, curobjnode = (objnode *) curmeasure->data;/* curobjnode NULL checked at end */;
