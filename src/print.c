@@ -1291,6 +1291,7 @@ gchar * large_thumbnail_name(gchar *filepath) {
  */
 gboolean
 create_thumbnail(gboolean closing) {
+  g_print("Not using temp dir %s yet\n", make_temp_dir());
   if(printpid!=GPID_NONE)
     return FALSE;
   if(Denemo.gui->filename->len) {
