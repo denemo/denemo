@@ -29,4 +29,6 @@ void
 printpng_finished(GPid pid, gint status, GList *filelist);
 gboolean
 create_thumbnail(gboolean closing);
+gchar *
+large_thumbnail_name(gchar *filepath);
 #endif /*PRINT_H*/	

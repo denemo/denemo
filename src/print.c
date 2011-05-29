@@ -1278,6 +1278,14 @@ void thumb_finished(GPid pid, gint status, GList *filelist) {
     //g_print("Set printpid = %d\n", printpid);
   }
 
+// large_thumbnail_name takes a full path name to a .denemo file and returns the full path to the large thumbnail of that .denemo file. Caller must g_free the returned string
+gchar * large_thumbnail_name(gchar *filepath) {
+  gchar *temp = g_strdup_printf("file://%s", filepath);
+  gchar *ret = get_thumbname(temp);
+  g_free(temp);
+  return ret;
+  }
+
 /***
  *  Create a thumbnail for Denemo.gui if needed
  */
