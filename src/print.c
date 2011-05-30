@@ -1216,7 +1216,7 @@ printexcerptpreview_cb (GtkAction *action, gpointer param) {
 }
 
 static gchar *get_thumb_directory(void) {
-  return g_build_filename (g_get_home_dir(), ".thumbnails", "normal", NULL);
+  return g_build_filename (g_get_home_dir(), ".thumbnails", "large", NULL);
 }
 
 static gchar *get_thumb_printname(void) {
