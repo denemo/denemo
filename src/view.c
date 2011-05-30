@@ -3750,16 +3750,19 @@ static void load_local_scheme_init(void)  {
 }
 
 void denemo_scheme_init(void){
-  gchar *initscheme = Denemo.schemeinit;
+  gchar *initscheme = Denemo.scheme_file;
   Denemo.gui->si->undo_guard++;
  
   if(initscheme) {
-
     if(g_file_test(initscheme, G_FILE_TEST_EXISTS))
       eval_file_with_catch(initscheme);//scm_c_primitive_load(initscheme);
     else
       g_warning("Cannot find your scheme initialization file %s", initscheme);
   }
+
+  initscheme = Denemo.scheme_commands;
+  if(initscheme)
+   call_out_to_guile(initscheme);
   //else ?????
   if(Denemo.prefs.profile->len){
     gchar *name = g_strconcat(Denemo.prefs.profile->str, ".scm", NULL);

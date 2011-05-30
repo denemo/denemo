@@ -39,9 +39,7 @@ readxmlprefsFile (gchar * filename);
  *
  * .denemo/ is used for holding configuration files, templates, and so on.
  *
- * I suspect that this may have some Windows portability issues,
- * but I'm not sure on this. 
- *
+ * On windows the home directory is the one containing the My Documents folder.
  */
 
 const gchar *
@@ -64,6 +62,15 @@ locatedotdenemo ()
   return dotdenemo;
 }
 
+/* return a path to a temporary directory to be used for print intermediate files */
+const gchar *
+locateprintdir (void)
+{
+  static gchar *printdir = NULL;
+  if (!printdir)
+    printdir = make_temp_dir();
+  return printdir;
+}
 
 /**
  * Initialise user preferences to reasonable defaults 

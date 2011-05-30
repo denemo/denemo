@@ -198,7 +198,7 @@ check_lily_version (gchar *version)
 */
    
 static gchar *get_printfile_pathbasename(void) {
-  return g_build_filename ( locatedotdenemo (), "denemoprint", NULL);
+  return g_build_filename ( locateprintdir (), "denemoprint", NULL);
 }       
 /* truncate epoint after 20 lines replacing the last three chars in that case with dots */
 static void truncate_lines(gchar *epoint) {
@@ -240,7 +240,7 @@ void convert_ly(gchar *lilyfile){
     NULL
   };
 #endif
-  g_spawn_sync (locatedotdenemo (),		/* dir */
+  g_spawn_sync (locateprintdir (),		/* dir */
 		conv_argv, NULL,	/* env */
 		G_SPAWN_SEARCH_PATH, NULL,	/* child setup func */
 		NULL,		/* user data */
@@ -371,7 +371,7 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
     }
   }
   else {
-    g_spawn_async_with_pipes (locatedotdenemo (),		/* dir */
+    g_spawn_async_with_pipes (locateprintdir (),		/* dir */
 		   arguments, 
 		   NULL,	/* env */
 		   G_SPAWN_SEARCH_PATH, /* search in path for executable */
@@ -436,7 +436,7 @@ run_lilypond(gchar **arguments) {
   }
   
   gboolean lilypond_launch_success =
-  g_spawn_async_with_pipes (locatedotdenemo (),		/* dir */
+  g_spawn_async_with_pipes (locateprintdir (),		/* dir */
 		arguments,
 		NULL,		/* env */
 		G_SPAWN_SEARCH_PATH  | G_SPAWN_DO_NOT_REAP_CHILD,
@@ -802,7 +802,7 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoGUI * gui)
       g_child_watch_add (printpid, (GChildWatchFunc)finish, (gchar *) filelist);
   } else {
     GError *err; 
-    g_spawn_sync (locatedotdenemo (),		/* dir */
+    g_spawn_sync (locateprintdir (),		/* dir */
 		arguments, NULL,	/* env */
 		G_SPAWN_SEARCH_PATH, NULL,	/* child setup func */
 		NULL,		/* user data */
@@ -1141,7 +1141,7 @@ void refresh_print_view (gboolean preview_only) {
   busy_cursor();
   changecount = Denemo.gui->changecount;// keep track so we know it update is needed
 
-  g_spawn_async_with_pipes (locatedotdenemo (),		/* dir */
+  g_spawn_async_with_pipes (locateprintdir (),		/* dir */
 		 arguments, 
 		 NULL,	/* env */
 		 G_SPAWN_SEARCH_PATH | G_SPAWN_DO_NOT_REAP_CHILD, 
@@ -1216,7 +1216,7 @@ printexcerptpreview_cb (GtkAction *action, gpointer param) {
 }
 
 static gchar *get_thumb_printname(void) {
-return g_build_filename (locatedotdenemo (), "denemothumb", NULL);
+return g_build_filename (locateprintdir (), "denemothumb", NULL);
 }
 static gchar *
   get_thumbname (gchar *uri) {
