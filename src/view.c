@@ -3760,10 +3760,7 @@ void denemo_scheme_init(void){
       g_warning("Cannot find your scheme initialization file %s", initscheme);
   }
 
-  initscheme = Denemo.scheme_commands;
-  if(initscheme)
-   call_out_to_guile(initscheme);
-  //else ?????
+
   if(Denemo.prefs.profile->len){
     gchar *name = g_strconcat(Denemo.prefs.profile->str, ".scm", NULL);
     gchar *filename = g_build_filename(get_data_dir (), "actions", name, NULL);
@@ -4875,11 +4872,6 @@ void inner_main(void*closure, int argc, char **argv){
     g_free(choice);
   }
 
-
-
-  //Denemo.gui->si->undo_guard++;
-  //denemo_scheme_init(initschemefile);
-  //Denemo.gui->si->undo_guard--;
 #ifdef _HAVE_JACK_
 if (Denemo.prefs.midi_audio_output == Jack)
   init_jack();
@@ -5027,8 +5019,10 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
    }
  }
 
- //denemo_scheme_init(); this is done when opening init.denemo
-
+ 
+  if(Denemo.scheme_commands)
+   call_out_to_guile(Denemo.scheme_commands);
+  //else ?????
 /* Now launch into the main gtk event loop and we're all set */
  gtk_main();
 }
@@ -8442,10 +8436,10 @@ get_data_dir (),
 
   create_scheme_window();
 
-
-  gtk_widget_show(Denemo.window);
+  if(1)
+    gtk_widget_show(Denemo.window);
   /* Now that the window is shown, initialize the gcs */
-  gcs_init (Denemo.window->window);
+ // gcs_init (Denemo.window->window);
 
   data_file = g_build_filename (
 #ifndef USE_LOCAL_DENEMOUI
