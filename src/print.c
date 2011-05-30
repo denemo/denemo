@@ -1215,6 +1215,10 @@ printexcerptpreview_cb (GtkAction *action, gpointer param) {
   }
 }
 
+static gchar *get_thumb_directory(void) {
+  return g_build_filename (g_get_home_dir(), ".thumbnails", "normal", NULL);
+}
+
 static gchar *get_thumb_printname(void) {
 return g_build_filename (locateprintdir (), "denemothumb", NULL);
 }
@@ -1283,8 +1287,8 @@ gchar * large_thumbnail_name(gchar *filepath) {
   gchar *temp = g_strdup_printf("file://%s", filepath);
   gchar *ret = get_thumbname(temp);
   g_free(temp);
-  return ret;
-  }
+  return g_build_filename(get_thumb_directory(), ret, NULL);
+}
 
 /***
  *  Create a thumbnail for Denemo.gui if needed
