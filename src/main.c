@@ -615,8 +615,8 @@ Options:\n\
   -h,--help             print this help and exit\n\
   -c file               use commandset found in system file\n\
   -k file               use commandset found in local file (in ~/.denemo)\n\
-  -i pathtofile         process scheme commands in pathtofile on startup\n\
-  -s filename           process scheme commands from system file\n\
+  -i pathtofile         process scheme commands in pathtofile on file open\n\
+  -s filename           process scheme commands from system file on file open\n\
   -a scheme             process the scheme on startup\n\
   -v,--version          print version number and exit\n\n\n\
 Report bugs to http://www.denemo.org\n"), NULL) ;
