@@ -1310,6 +1310,7 @@ create_thumbnail(gboolean closing) {
   gchar *uri = g_strdup_printf("file://%s", Denemo.gui->filename->str);
   gchar *thumbname = get_thumbname (uri);
   gchar * thumbpathN = g_build_filename(thumbnailsdirN, thumbname, NULL);
+  thebuf.st_mtime = 0;
   status =  g_stat(thumbpathN, &thebuf);
   unsigned mtime_thumb = thebuf.st_mtime;
   if(mtime_thumb<mtime) {
@@ -1342,7 +1343,8 @@ create_thumbnail(gboolean closing) {
           gtk_main_iteration_do(FALSE);
         }
     } else {
-      export_png(printname, (GChildWatchFunc)thumb_finished, Denemo.gui);
+      export_png(printname, NULL, Denemo.gui);
+      thumb_finished (printpid, 0, NULL);
     }
     
     g_free(printname);
