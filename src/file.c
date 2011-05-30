@@ -731,13 +731,15 @@ update_preview_cb(GtkFileChooser *file_chooser, gpointer data){
   thumb_filename = large_thumbnail_name(selection_filename); 
   pixbuf = gdk_pixbuf_new_from_file_at_size(thumb_filename, 128,128, NULL);
   have_preview = (pixbuf !=NULL);
+  
+  printf("\n# %s for %s thumbnail = %s\n",have_preview? "We have a thumbnail generated":
+				     "We have not yet generated a thumbnail",
+ 				     selection_filename,
+				     thumb_filename);
+  
   g_free(selection_filename);
   g_free(thumb_filename);
 
-  printf("\n# %s for %s#\n",have_preview? "We have a thumbnail generated":
-				     "We have not yet generated a thumbnail",
- 				     Denemo.gui->filename->str);
-  
   gtk_image_set_from_pixbuf (GTK_IMAGE (preview), pixbuf);
   if(pixbuf)
     gdk_pixbuf_unref(pixbuf);
