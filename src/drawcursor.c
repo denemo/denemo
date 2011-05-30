@@ -25,32 +25,10 @@ draw_cursor (cairo_t *cr, DenemoScore * si,
   if(!cr) return;
   gint height = calculateheight (si->cursor_y, dclef);
 
-  static GdkGC *blackgc = NULL;
-  static GdkGC *graygc;
-  static GdkGC *greengc;
-  static GdkGC *redgc;
-  static GdkGC *bluegc;
-  static GdkGC *purplegc;
-  GdkGC *paintgc;
-  //xx -=5;
-  if (!blackgc)
-    {
-      blackgc = gcs_blackgc ();
-      graygc = gcs_graygc ();
-      greengc = gcs_greengc ();
-      redgc = gcs_redgc ();
-      bluegc = gcs_bluegc ();
-      purplegc = gcs_purplegc ();
-    }
-
-  paintgc = (mode & INPUTREST) ? graygc :
-    (mode & INPUTBLANK) ? bluegc : si->cursoroffend ? redgc : greengc;
-
-  if(si->cursor_appending)
-    paintgc = si->cursoroffend ? redgc :bluegc;
 
   cairo_save( cr );
-  setcairocolor( cr, paintgc );
+//  setcairocolor( cr, paintgc );
+  cairo_set_source_rgb(cr, 255*(si->cursoroffend), (!si->cursoroffend)*(!si->cursor_appending)*255, (!si->cursoroffend)*(si->cursor_appending)*255);
   if(si->cursor_appending)
     cairo_rectangle( cr, xx-(si->cursoroffend?CURSOR_WIDTH:0), height + y - CURSOR_HEIGHT, 2*CURSOR_WIDTH, 2*CURSOR_HEIGHT );
   else
@@ -70,12 +48,12 @@ draw_cursor (cairo_t *cr, DenemoScore * si,
     on = !on;
     // g_print("on is %d %d\n", on,  Denemo.prefs.cursor_highlight);
     if( (!Denemo.prefs.cursor_highlight) || (on && Denemo.prefs.cursor_highlight)) {
-      setcairocolor( cr, bluegc );
+      cairo_set_source_rgb(cr, 0, 0, 255);
       cairo_set_line_width (cr, 4);
       cairo_move_to( cr, xx+insert_pos, y + 4);
       cairo_rel_line_to( cr, 0, STAFF_HEIGHT - 8);
       cairo_stroke( cr );
-      setcairocolor( cr, paintgc );
+      //setcairocolor( cr, paintgc );
       
       if (Denemo.gui->view == DENEMO_PAGE_VIEW)  {
 	cairo_set_line_width (cr, 6.0/si->zoom);
