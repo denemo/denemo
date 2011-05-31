@@ -39,9 +39,7 @@ readxmlprefsFile (gchar * filename);
  *
  * .denemo/ is used for holding configuration files, templates, and so on.
  *
- * I suspect that this may have some Windows portability issues,
- * but I'm not sure on this. 
- *
+ * On windows the home directory is the one containing the My Documents folder.
  */
 
 const gchar *
@@ -64,6 +62,15 @@ locatedotdenemo ()
   return dotdenemo;
 }
 
+/* return a path to a temporary directory to be used for print intermediate files */
+const gchar *
+locateprintdir (void)
+{
+  static gchar *printdir = NULL;
+  if (!printdir)
+    printdir = make_temp_dir();
+  return printdir;
+}
 
 /**
  * Initialise user preferences to reasonable defaults 
@@ -160,6 +167,7 @@ initprefs ()
   ret->saveparts = FALSE;
   ret->lilyentrystyle = FALSE;
   ret->createclones = FALSE;
+  ret->enable_thumbnails = FALSE;
   ret->autosave = TRUE;
   ret->autosave_timeout = 5;
   ret->maxhistory = 20;
@@ -472,6 +480,8 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READDOUBLEXMLENTRY(display_refresh)
       READINTXMLENTRY(animation_steps)
       READBOOLXMLENTRY(overlays)
+      READBOOLXMLENTRY(enable_thumbnails)
+      
       READBOOLXMLENTRY(continuous)
       READBOOLXMLENTRY(jacktransport)
       READBOOLXMLENTRY(jacktransport_start_stopped)
@@ -825,13 +835,14 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEDOUBLEXMLENTRY(display_refresh)
   WRITEINTXMLENTRY(animation_steps)
   WRITEBOOLXMLENTRY(overlays)
+  WRITEBOOLXMLENTRY(enable_thumbnails)
   WRITEBOOLXMLENTRY(continuous)
   WRITEBOOLXMLENTRY(jacktransport)
   WRITEBOOLXMLENTRY(jacktransport_start_stopped)
-    WRITEBOOLXMLENTRY(toolbar)
+  WRITEBOOLXMLENTRY(toolbar)
   WRITEBOOLXMLENTRY(notation_palette)
-    WRITEBOOLXMLENTRY(midi_in_controls)
-    WRITEBOOLXMLENTRY(playback_controls)
+  WRITEBOOLXMLENTRY(midi_in_controls)
+  WRITEBOOLXMLENTRY(playback_controls)
   WRITEBOOLXMLENTRY(articulation_palette)
   WRITEBOOLXMLENTRY(console_pane)
   WRITEBOOLXMLENTRY(lyrics_pane)

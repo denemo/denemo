@@ -1,4 +1,4 @@
-/* utils.cpp
+/* utils.c
  * Functions useful across the different modules of
  * drawing and non-drawing code.
  *
@@ -41,6 +41,28 @@ void add_font_directory(gchar *fontpath) {
 gboolean CoInitializeExCalled = FALSE;
 #endif
 
+// Create a unique temporary directory starting
+gchar *
+make_temp_dir(void) {
+  gchar *ret = NULL;
+#ifdef G_OS_WIN32
+  gchar buf[1024] = "C:\\TMP\\\0";
+  gint length = 1024;
+  (void) GetTempPath(length, buf);
+  gint integer = g_rand_int(g_rand_new());
+  ret = g_strdup_printf("%sDenemo%d", buf, integer);
+  
+  gint fail = g_mkdir_with_parents(ret, 0700);
+  if(fail)
+    g_print("Could not create temp dir %s\n", ret);
+  else
+    g_print("Created temp dir %s\n", ret);
+#else
+  ret = g_strdup("/tmp/DenemoXXXXXX");
+  mkdtemp((char *)ret);
+#endif
+return ret;
+}
 gboolean run_file_association(gchar *filename) {
 #ifdef G_OS_WIN32
   gint value = 0;

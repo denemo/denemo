@@ -372,8 +372,24 @@ output_figured_bass (DenemoScore * si, GString *figures, chord * pchord, gint ti
     fig_str =
       g_string_new (((GString
 		      *) ((chord *) pchord->figure))->str);
+    gchar *figstr = fig_str->str;
+//handle direct insert into the figured bass staff
 
-  if(*fig_str->str == '~') {
+  if(*figstr == '$') {
+	figstr++;
+    str = strchr (figstr, '$');
+    if(str) {
+	    *str = 0;
+    g_string_append (figures, figstr);
+    *str = '$';
+    figstr = str+1;
+    }	
+  }
+
+
+
+
+  if(*figstr == '~') {
     if(!continuation) {
       figures = g_string_append (figures, " \\set useBassFigureExtenders = ##t ");
       continuation = TRUE;
@@ -387,7 +403,7 @@ output_figured_bass (DenemoScore * si, GString *figures, chord * pchord, gint ti
 
   /* multiple figures are separated by a FIGURES_SEP char,
      output these at subdivisions of the duration */
-  str = strchr (fig_str->str, *(char *) FIGURES_SEP);
+  str = strchr (figstr, *(char *) FIGURES_SEP);
   if (str != NULL)
     {
       /* we have more than one group of figures to be output
@@ -402,11 +418,11 @@ output_figured_bass (DenemoScore * si, GString *figures, chord * pchord, gint ti
     {
     default:
     case 1:
-        if(*fig_str->str != '~') {
+        if(*figstr != '~') {
 	if(continuation)
 	  continuation_finishing = TRUE;
-	figures = g_string_append (figures, fig_str->str);
-	g_string_assign(last_figure, fig_str->str);
+	figures = g_string_append (figures, figstr);
+	g_string_assign(last_figure, figstr);
       }
       figures = g_string_append (figures, ">");
       APPEND_DUR (figures, duration, numdots);
@@ -429,7 +445,7 @@ output_figured_bass (DenemoScore * si, GString *figures, chord * pchord, gint ti
 	  {
 	    first_duration = second_duration = duration * 2;
 	  }
-	str = strtok (fig_str->str, FIGURES_SEP);
+	str = strtok (figstr, FIGURES_SEP);
 	figures = g_string_append (figures, str);
 	figures = g_string_append (figures, ">");
 	APPEND_DUR (figures, first_duration, 0);
@@ -458,7 +474,7 @@ output_figured_bass (DenemoScore * si, GString *figures, chord * pchord, gint ti
 	    first_duration = duration * 2;
 	    second_duration = third_duration = duration * 4;
 	  }
-	str = strtok (fig_str->str, FIGURES_SEP);
+	str = strtok (figstr, FIGURES_SEP);
 	figures = g_string_append (figures, str);
 	figures = g_string_append (figures, ">");
 	APPEND_DUR (figures, first_duration, 0);
@@ -494,7 +510,7 @@ output_figured_bass (DenemoScore * si, GString *figures, chord * pchord, gint ti
 	    first_duration =
 	      second_duration = third_duration = fourth_duration = duration * 4;
 	  }
-	str = strtok (fig_str->str, FIGURES_SEP);
+	str = strtok (figstr, FIGURES_SEP);
 	figures = g_string_append (figures, str);
 	figures = g_string_append (figures, ">");
 	APPEND_DUR (figures, first_duration, 0);
@@ -1611,8 +1627,8 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
       g_string_assign(str,"");
       gint firstobj=1, lastobj= G_MAXINT;
       if(start && gui->si->markstaffnum) {//markstaffnum==0 means not set
-	firstobj = 1+MIN( gui->si->firstobjmarked, gui->si->lastobjmarked);
-	lastobj =  1+MAX( gui->si->firstobjmarked, gui->si->lastobjmarked);
+	firstobj = 1+MIN( gui->si->selection.firstobjmarked, gui->si->selection.lastobjmarked);
+	lastobj =  MAX( gui->si->selection.firstobjmarked, gui->si->selection.lastobjmarked);
       }
       //g_print("First last, %d %d %d\n", firstobj, lastobj, start);
       for (objnum=1, curobjnode = (objnode *) curmeasure->data;/* curobjnode NULL checked at end */;
@@ -2135,7 +2151,9 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
     {
       gchar *header_string = get_postfix(gui->scoreheader.directives);
       if(header_string) {
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\n\\header{\n", -1, INEDITABLE, NULL, NULL);
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\n\\header{\ntagline = \\markup {", -1, INEDITABLE, NULL, NULL);
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, gui->filename->str, -1, INEDITABLE, NULL, NULL);
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, " on \\simple #(strftime \"%x\" (localtime (current-time)))}\n", -1, INEDITABLE, NULL, NULL);
       gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, header_string, -1, INEDITABLE, NULL, NULL);   
       gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "}\n", -1, INEDITABLE, NULL, NULL);   
       g_free(header_string);
@@ -2231,10 +2249,10 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	g_string_free(name, TRUE);
 	gint start = 0, end = 0;
 	if(gui->si->markstaffnum) {
-	  if(!(voice_count>=gui->si->firststaffmarked && voice_count<=gui->si->laststaffmarked))
+	  if(!(voice_count>=gui->si->selection.firststaffmarked && voice_count<=gui->si->selection.laststaffmarked))
 	    visible_part=-1;
-	  start = gui->si->firstmeasuremarked;
-	  end = gui->si->lastmeasuremarked;
+	  start = gui->si->selection.firstmeasuremarked;
+	  end = gui->si->selection.lastmeasuremarked;
 	} else {
 	  if(partname &&strcmp(curstaffstruct->lily_name->str, partname))
 	    visible_part=-1;
@@ -2312,7 +2330,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	      }
 
 	      if (curstaffstruct->hasfigures)
-		g_string_append_printf(staffdefinitions, TAB TAB" \\context FiguredBass \\with {implicitBassFigures = #'(0) } \\%s%sBassFiguresLine\n", movement_name->str, voice_name->str);
+		g_string_append_printf(staffdefinitions, TAB TAB" \\context Staff = \"%s\" \\with {implicitBassFigures = #'(0) } \\%s%sBassFiguresLine\n",  curstaffstruct->denemo_name->str,  movement_name->str, voice_name->str);
 	      g_string_append_printf(staffdefinitions, TAB TAB"%s\n", endofblock);
 	    }
 	  else if (curstaffstruct->voicenumber == 2) {      

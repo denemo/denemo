@@ -86,6 +86,7 @@ struct callbackdata
   GtkWidget *strictshortcuts;
   GtkWidget *resolution;
   GtkWidget *overlays;
+  GtkWidget *enable_thumbnails;
   GtkWidget *continuous;
 };
 
@@ -172,6 +173,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNTEXT(temperament)
   ASSIGNBOOLEAN(strictshortcuts)
   ASSIGNBOOLEAN(overlays)
+  ASSIGNBOOLEAN(enable_thumbnails)
   ASSIGNBOOLEAN(continuous)
   ASSIGNINT(resolution)
   ASSIGNINT(maxhistory)
@@ -446,7 +448,7 @@ preferences_change (GtkAction *action, gpointer param)
   INTENTRY_LIMITS(_("Page Turn Steps"), animation_steps, 1, 200);
 
   INTENTRY_LIMITS(_("Excerpt Resolution"), resolution, 72, 600);
-
+  BOOLEANENTRY("Enable Thumbnails", enable_thumbnails);
   INTENTRY(_("Max recent files"), maxhistory)
   TEXTENTRY("User Name", username)
   PASSWORDENTRY("Password for Denemo.org", password)

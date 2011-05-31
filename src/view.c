@@ -380,8 +380,8 @@ static SCM scheme_http(SCM hname, SCM page, SCM other, SCM poststr) {
 
  if(name&&thepage&&post&&oth){
    gchar *ret = post_denemodotorg(name, thepage, oth, post);
-   SCM scm = scm_take_locale_string(ret);
-   //g_free(ret); ???
+   SCM scm = scm_from_locale_string(ret);
+   g_free(ret);
    free(name);
    free(thepage);
    free(oth);
@@ -817,6 +817,22 @@ static SCM scheme_delete_selection(SCM optional) {
     return SCM_BOOL_F;
   delete_selection();
   return SCM_BOOL_T;
+}
+
+static SCM scheme_set_thumbnail_selection(SCM optional) {
+  if ((!Denemo.gui->si) || (!Denemo.gui->si->markstaffnum))
+    return SCM_BOOL_F;
+  if(Denemo.gui->si==Denemo.gui->movements->data) {
+    memcpy(&Denemo.gui->thumbnail, &Denemo.gui->si->selection, sizeof(DenemoSelection));
+    return SCM_BOOL_T;
+  }
+  return SCM_BOOL_F;
+}
+
+
+static SCM scheme_create_thumbnail(SCM optional) {
+ gboolean ret = create_thumbnail(FALSE);
+  return SCM_BOOL(ret);
 }
 
 
@@ -1344,6 +1360,12 @@ SCM scheme_shift_cursor (SCM value) {
 
 }
 
+static SCM scheme_mid_c_offsettoname(gint offset) { 
+ gchar *notename = g_strdup_printf("%c", mid_c_offsettoname (offset));
+ SCM scm = scm_makfrom0str (notename);
+ g_free(notename);
+ return scm;
+}
 
 static SCM scheme_get_horizontal_position(void) {
 return  scm_int2num(1 + Denemo.gui->si->cursor_x);
@@ -1366,8 +1388,7 @@ static SCM scheme_get_measure(void) {
 
 static SCM scheme_get_cursor_note (SCM optional) {
  DenemoGUI *gui = Denemo.gui;
- SCM scm = scm_makfrom0str (g_strdup_printf("%c", mid_c_offsettoname (gui->si->cursor_y)));//FIXME a dedicated function avoiding memory leak.
-   return scm;
+ return scheme_mid_c_offsettoname(gui->si->cursor_y);
 }
 
 static SCM scheme_set_prefs (SCM xml) {
@@ -1437,8 +1458,7 @@ SCM scheme_get_note_name (SCM optional) {
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
    return SCM_BOOL(FALSE);
  else {
-   SCM scm = scm_makfrom0str (g_strdup_printf("%c",  mid_c_offsettoname (thenote->mid_c_offset)));//FIXME a dedicated function avoiding memory leak.
-   return scm;
+   return scheme_mid_c_offsettoname(thenote->mid_c_offset);
  }
    
 }
@@ -1819,19 +1839,20 @@ SCM scheme_get_user_input(SCM label, SCM prompt, SCM init) {
  if(scm_is_string(label)){
    title = scm_to_locale_string(label);  
  }
- else title = "Input Required";
+ else title = strdup("Input Required");
  if(scm_is_string(prompt)){
    instruction = scm_to_locale_string(prompt);  
  }
- else instruction = "Give input: ";
+ else instruction = strdup("Give input: ");
 
  if(scm_is_string(init)){
    initial_value = scm_to_locale_string(init);   
  }
- else initial_value = " ";//FIXME mixed types of string, memory leaks
+ else initial_value = strdup(" ");
  
  gchar * ret = string_dialog_entry_with_widget (Denemo.gui, title, instruction, initial_value, NULL);
  SCM scm = scm_makfrom0str (ret);
+
  if (title) free(title);
  if (instruction) free(instruction);
  if (initial_value) free(initial_value);
@@ -1846,7 +1867,7 @@ SCM scheme_warningdialog(SCM msg) {
   if(scm_is_string(msg)){
     title = scm_to_locale_string(msg); 
   }
-  else title = "Script generated warning";//FIXME mixed types of string, memory leaks
+  else title = strdup("Script generated warning");
  
  warningdialog (title);
  if(title)
@@ -1862,7 +1883,7 @@ if(scm_is_string(msg)){
   msg = SCM_BOOL(TRUE);
   }
  else {
-   title = "Script error, wrong parameter type to d-InfoDialog";//FIXME mixed types of string, memory leaks
+   title = strdup("Script error, wrong parameter type to d-InfoDialog");
    msg = SCM_BOOL(FALSE);
  }
  infodialog (title);
@@ -2039,8 +2060,12 @@ SCM scheme_get_offset(void) {
   g_object_set_data(G_OBJECT(Denemo.printarea), "offset-dialog", NULL);
   gtk_widget_destroy(dialog);
   if(val == GTK_RESPONSE_ACCEPT) {
-    x= scm_makfrom0str (g_strdup_printf("%.1f", offsetx/10.0));
-    y= scm_makfrom0str (g_strdup_printf("%.1f", -offsety/10.0));
+    gchar *offsetx_str = g_strdup_printf("%.1f", offsetx/10.0);
+    gchar *offsety_str = g_strdup_printf("%.1f", -offsety/10.0);  
+    x= scm_makfrom0str (offsetx_str);
+    y= scm_makfrom0str (offsety_str);
+    g_free(offsetx_str);
+    g_free(offsety_str);
     ret = scm_cons(x, y);
   } else
     ret = SCM_BOOL(FALSE);//FIXME add a RESET button for which return TRUE to reset the overall offset to zero.
@@ -2121,7 +2146,9 @@ SCM scheme_get_padding(void) {
   g_object_set_data(G_OBJECT(Denemo.printarea), "pad-dialog", NULL);
   gtk_widget_destroy(dialog);
   if(val == GTK_RESPONSE_ACCEPT) {
-    ret = scm_makfrom0str (g_strdup_printf("%d", padding/10));
+    gchar *pad = g_strdup_printf("%d", padding/10);
+    ret = scm_makfrom0str (pad);
+    g_free(pad);
   } else
     ret = SCM_BOOL(FALSE);
   return ret;
@@ -2140,13 +2167,15 @@ SCM scheme_get_option(SCM options) {
     char *str_unterm;    
     str_unterm = scm_to_locale_stringn(options, &length);
     response = get_option(str_unterm, length);//returns NULL or a pointer to a location in str_unterm
+    //g_print("Got %p holding %s\n", response, response);
     if(response)
       response = g_strdup(response);   
     if (str_unterm) free(str_unterm);
   }
   if(response){
-    SCM ret = scm_take_locale_stringn(response, strlen(response));
-    g_free(response);
+    SCM ret = scm_from_locale_stringn(response, strlen(response));
+    //g_print("Freeing %p holding %s\n", response, response);
+    g_free(response);//FIXME the g_strdup above is not needed?
     return ret;
     //return scm_from_locale_stringn (response, strlen(response));
   }
@@ -2165,7 +2194,9 @@ SCM scheme_set_action_script_for_tag(SCM tag, SCM script) {
     if(scm_is_string(script)){
       char *the_script;
       the_script = scm_to_locale_string(script);
-      set_action_script_for_tag(the_tag, the_script);
+      gchar *stored_script = g_strdup(the_script);//FIXME
+      free(the_script);
+      set_action_script_for_tag(the_tag, stored_script);
       if(the_tag)
         free(the_tag);
       return SCM_BOOL(TRUE);
@@ -2184,7 +2215,7 @@ SCM scheme_set_action_script_for_tag(SCM tag, SCM script) {
     tagname = scm_to_locale_string(tag);\
   } \
   extern gchar *what##_directive_get_tag (gchar *tagname);\
-  gchar *val = (gchar*)what##_directive_get_tag (tagname);\
+  gchar *val = (gchar*)what##_directive_get_tag ((gchar*)tagname);\
   if(val){\
     SCM ret = scm_from_locale_stringn (val, strlen(val));\
     if(tagname) free(tagname);\
@@ -2256,7 +2287,7 @@ static SCM scheme_##what##_directive_get_##field(SCM tag) {\
   char *tagname;\
   tagname = scm_to_locale_string(tag);\
   extern gchar* what##_directive_get_##field(gchar *tagname);\
-  gchar *value = (gchar*)what##_directive_get_##field(tagname);\
+  gchar *value = (gchar*)what##_directive_get_##field((gchar*)tagname);\
   if(tagname) free(tagname);\
   if(value){\
     return scm_makfrom0str(value);\
@@ -2272,7 +2303,7 @@ static SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
   char *valuename;\
   valuename = scm_to_locale_string(value);\
   extern gboolean what##_directive_put_##field (gchar *tagname, gchar *valuename);\
-  gboolean ret = what##_directive_put_##field (tagname, valuename);\
+  gboolean ret = what##_directive_put_##field ((gchar*)tagname, (gchar*)valuename);\
   if(tagname) free(tagname);\
   if(valuename) free(valuename);\
   return SCM_BOOL(ret);\
@@ -2359,7 +2390,7 @@ static SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
   tagname = scm_to_locale_string(tag);\
   gint valuename = scm_num2int(value, 0, 0);\
   extern  gboolean  what##_directive_put_##field (gchar *tag, gint value);\
-  gboolean ret = what##_directive_put_##field (tagname, valuename);\
+  gboolean ret = what##_directive_put_##field ((gchar*)tagname, valuename);\
   if(tagname) free(tagname);\
   return SCM_BOOL(ret);\
 }
@@ -2371,7 +2402,7 @@ static SCM scheme_##what##_directive_get_##field(SCM tag) {\
   char *tagname;\
   tagname = scm_to_locale_string(tag);\
   extern gint what##_directive_get_##field (gchar *tag);\
-  gint ret = what##_directive_get_##field (tagname);\
+  gint ret = what##_directive_get_##field ((gchar*)tagname);\
   if(tagname) free(tagname);\
   return scm_int2num(ret);\
 }
@@ -2386,7 +2417,7 @@ static SCM scheme_##what##_directive_put_graphic(SCM tag, SCM value) {\
   tagname = scm_to_locale_string(tag);\
   char *valuename;\
   valuename = scm_to_locale_string(value);\
-  gboolean ret = what##_directive_put_graphic (tagname, valuename);\
+  gboolean ret = what##_directive_put_graphic ((gchar*)tagname, (gchar*)valuename);\
   if(tagname) free(tagname);\
   if(valuename) free(valuename);\
   return SCM_BOOL(ret);\
@@ -3011,7 +3042,7 @@ static  SCM scheme_midi_record(void) {
   return SCM_BOOL(Denemo.gui->midi_destination | MIDIRECORD);
 }
 
-typedef struct cb_scheme_and_id { gchar *scheme_code; gint id;} cb_scheme_and_id;
+typedef struct cb_scheme_and_id { char *scheme_code; gint id;} cb_scheme_and_id;
 
 static gboolean scheme_callback_one_shot_timer(cb_scheme_and_id *scheme){
     char *scheme_code = scheme->scheme_code;
@@ -3063,7 +3094,7 @@ static SCM scheme_kill_timer(SCM id) {
   if(scheme) {
     g_source_remove_by_user_data(scheme);//FIXME this timer leaks the memory of the scheme code and id
     //g_print("Freeing %s\n", scheme->scheme_code);
-    g_free(scheme->scheme_code);
+    free(scheme->scheme_code);
     g_free(scheme);
     return SCM_BOOL_T;
   }
@@ -3606,7 +3637,7 @@ gchar *get_midi_control_command(guchar type, guchar value) {
   g_free(command);
   if(scm_is_string(scm)) {
     char *ctrl = scm_to_locale_string(scm);
-    command = g_strdup(ctrl);
+    command = g_strdup(ctrl);//FIXME
     free(ctrl);
     return command;
   }
@@ -3620,7 +3651,7 @@ gchar *get_midi_pitch_bend_command(gint value) {
   if(scm_is_string(scm)) {
     char *pbend;
     pbend = scm_to_locale_string(scm);
-    command = g_strdup(pbend);
+    command = g_strdup(pbend);//FIXME
     free(pbend);
     return command;
   }
@@ -3719,17 +3750,17 @@ static void load_local_scheme_init(void)  {
 }
 
 void denemo_scheme_init(void){
-  gchar *initscheme = Denemo.schemeinit;
+  gchar *initscheme = Denemo.scheme_file;
   Denemo.gui->si->undo_guard++;
  
   if(initscheme) {
-
     if(g_file_test(initscheme, G_FILE_TEST_EXISTS))
       eval_file_with_catch(initscheme);//scm_c_primitive_load(initscheme);
     else
       g_warning("Cannot find your scheme initialization file %s", initscheme);
   }
-  //else ?????
+
+
   if(Denemo.prefs.profile->len){
     gchar *name = g_strconcat(Denemo.prefs.profile->str, ".scm", NULL);
     gchar *filename = g_build_filename(get_data_dir (), "actions", name, NULL);
@@ -4697,6 +4728,10 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
 
   INSTALL_SCM_FUNCTION ("Deletes all objects in the selection Returns #f if no selection else #t.", DENEMO_SCHEME_PREFIX"DeleteSelection", scheme_delete_selection);
 
+  INSTALL_SCM_FUNCTION ("Sets the selection to be used for a thumbnail. Returns #f if no selection or selection not in first movement else #t.", DENEMO_SCHEME_PREFIX"SetThumbnailSelection", scheme_set_thumbnail_selection);
+
+  INSTALL_SCM_FUNCTION ("creates a thumbnail for the current score.", DENEMO_SCHEME_PREFIX"CreateThumbnail", scheme_create_thumbnail);
+
   INSTALL_SCM_FUNCTION ("Snapshots the current movement putting it in the undo queue returns #f if no snapshot was taken because of a guard", DENEMO_SCHEME_PREFIX"TakeSnapshot", scheme_take_snapshot);
 
   INSTALL_SCM_FUNCTION ("Stop collecting undo information. Call DecreaseGuard when finished. Returns #f if already guarded, #t if this call is stopping the undo collection", DENEMO_SCHEME_PREFIX"IncreaseGuard", scheme_increase_guard);
@@ -4833,13 +4868,10 @@ void inner_main(void*closure, int argc, char **argv){
 	g_string_assign(Denemo.prefs.profile, choice);
       }
     }
+    g_free(never_again);
+    g_free(choice);
   }
 
-
-
-  //Denemo.gui->si->undo_guard++;
-  //denemo_scheme_init(initschemefile);
-  //Denemo.gui->si->undo_guard--;
 #ifdef _HAVE_JACK_
 if (Denemo.prefs.midi_audio_output == Jack)
   init_jack();
@@ -4868,7 +4900,7 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
     
   /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
   for(i=0;i<G_N_ELEMENTS(activatable_commands);i++) {
-    install_scm_function (g_strdup_printf(DENEMO_SCHEME_PREFIX"%s", activatable_commands[i].str), (gpointer)activatable_commands[i].p);
+    install_scm_function (g_strdup_printf(DENEMO_SCHEME_PREFIX"%s", activatable_commands[i].str), (gpointer)activatable_commands[i].p);//FIXME possible memeory leak
   }
   //ensure (use-modules (ice-9 optargs)) is loaded first #:optional params
   call_out_to_guile("(use-modules (ice-9 optargs))");
@@ -4987,8 +5019,10 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
    }
  }
 
- //denemo_scheme_init(); this is done when opening init.denemo
-
+ 
+  if(Denemo.scheme_commands)
+   call_out_to_guile(Denemo.scheme_commands);
+  //else ?????
 /* Now launch into the main gtk event loop and we're all set */
  gtk_main();
 }
@@ -5049,7 +5083,9 @@ static gboolean
 close_gui ()
 {
   stop_midi_playback (NULL, NULL);// if you do not do this, there is a timer moving the score on which will hang
-  activate_action("/MainMenu/InputMenu/KeyboardOnly");
+ //FIXME why was this here??? activate_action("/MainMenu/InputMenu/KeyboardOnly");
+ if(Denemo.prefs.enable_thumbnails)
+  create_thumbnail(g_list_length(Denemo.guis)==1); 
   if(Denemo.autosaveid) {
     if(g_list_length(Denemo.guis)>1)
       g_print("Auto save being turned off");
@@ -5154,7 +5190,9 @@ fetchcommands (GtkAction *action, gpointer param)
   location = g_build_filename(locatedotdenemo(), "download", "actions", NULL);
   gboolean err = g_mkdir_with_parents(location, 0770);
   if(err) {
-    warningdialog(g_strdup_printf("Could not make folder %s for the downloaded commands", location));
+    gchar *message = g_strdup_printf("Could not make folder %s for the downloaded commands", location);
+    warningdialog(message);
+    g_free(message);
     return;
   }
 
@@ -5202,7 +5240,7 @@ morecommands (GtkAction *action, gpointer param)
   //warningdialog(WARNING_NEW_MENUS);
   if(Denemo.last_merged_command && g_str_has_prefix(Denemo.last_merged_command, get_data_dir())) {
     g_free(location);
-    location = g_strdup(Denemo.last_merged_command);
+    location = g_strdup(Denemo.last_merged_command);//FIXME
   }
 }
 
@@ -5599,7 +5637,7 @@ static gboolean append_rhythm(RhythmPattern *r,  gpointer fn){
 
 
 static void add_to_pattern(gchar **p, gchar c) {
-  gchar *temp = g_strdup_printf("%s%c", *p, c);
+  gchar *temp = g_strdup_printf("%s%c", *p, c);//FIXME leak?
   g_free(*p);
   *p = temp;
 }
@@ -5734,22 +5772,22 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
   if(!singleton) {
     staffnode *curstaff;
     measurenode *curmeasure;
-    gint i = si->firststaffmarked;
+    gint i = si->selection.firststaffmarked;
     attach_clipboard(r);
     curstaff = g_list_nth (si->thescore, i - 1);
-    if(curstaff && i <= si->laststaffmarked) {
+    if(curstaff && i <= si->selection.laststaffmarked) {
       int j,k;
       objnode *curobj;
       /* Measure loop.  */
-      for (j = si->firstmeasuremarked, k = si->firstobjmarked,
+      for (j = si->selection.firstmeasuremarked, k = si->selection.firstobjmarked,
 	     curmeasure = g_list_nth (firstmeasurenode (curstaff), j - 1);
-	   curmeasure && j <= si->lastmeasuremarked;
+	   curmeasure && j <= si->selection.lastmeasuremarked;
 	   curmeasure = curmeasure->next, j++)
 	{
 	  for (curobj = g_list_nth ((objnode *) curmeasure->data, k);
 	       /* cursor_x is 0-indexed */
-	       curobj && (j < si->lastmeasuremarked
-			  || k <= si->lastobjmarked);
+	       curobj && (j < si->selection.lastmeasuremarked
+			  || k <= si->selection.lastobjmarked);
 	       curobj = curobj->next, k++)
 	    {
 	      gpointer fn;
@@ -6181,7 +6219,7 @@ static void insertScript(GtkWidget *widget, gchar *insertion_point) {
       submenu = string_dialog_entry (gui, "Create a new menu item", "Give a label for the Sub-Menu", "Sub Menu Label");
       if(submenu) {
 	subst_illegals(submenu);
-	myposition = g_strdup_printf("%s/%s", myposition, submenu);//FIXME leak
+	myposition = g_strdup_printf("%s/%s", myposition, submenu);
       }
     }
   
@@ -6202,6 +6240,7 @@ static void insertScript(GtkWidget *widget, gchar *insertion_point) {
       save_accels ();								    
   } else
     warningdialog("Operation cancelled");
+  g_free(myposition);
   return;
 }
 
@@ -6488,7 +6527,7 @@ locatebitmapsdir(void) {
   if(err) {
     warningdialog("Could not create .denemo/actions/bitmaps for your graphics for customized commands");
     g_free(bitmapsdir);
-    bitmapsdir = g_strdup("");
+    bitmapsdir = g_strdup("");//FIXME
   }
   return bitmapsdir;
 }
@@ -6589,7 +6628,7 @@ static GHashTable *bitmaps;
 static void bitmap_table_insert(gchar *name, DenemoGraphic *xbm) {
   if(!bitmaps)
     bitmaps = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);//FIXME is this right for GdkBitmap data?
-  g_hash_table_insert(bitmaps, g_strdup(name), xbm);
+  g_hash_table_insert(bitmaps, g_strdup(name), xbm);//FIXME
 }
 
 static  GdkBitmap * create_bitmap_from_data(gchar *data, gint width, gint height) {
@@ -7762,7 +7801,7 @@ addhistorymenuitem (gchar *filename)
   
   item = gtk_menu_item_new_with_label (filename);
   gtk_menu_shell_insert (GTK_MENU_SHELL (menu), item, 0);
-  g_signal_connect (G_OBJECT(item), "activate", G_CALLBACK (openrecent), g_strdup(filename));
+  g_signal_connect (G_OBJECT(item), "activate", G_CALLBACK (openrecent), g_strdup(filename));//FIXME
   gtk_widget_show (item);
 }
 
@@ -8130,6 +8169,7 @@ get_data_dir (),
       g_error_free (error);
       gchar *message = g_strdup_printf("The denemoui.xml %s file could not be used - exiting", data_file);
       warningdialog(message);
+      g_free(message);
       exit (EXIT_FAILURE);
     }
   g_free (data_file);
@@ -8396,10 +8436,10 @@ get_data_dir (),
 
   create_scheme_window();
 
-
-  gtk_widget_show(Denemo.window);
+  if(1)
+    gtk_widget_show(Denemo.window);
   /* Now that the window is shown, initialize the gcs */
-  gcs_init (Denemo.window->window);
+ // gcs_init (Denemo.window->window);
 
   data_file = g_build_filename (
 #ifndef USE_LOCAL_DENEMOUI

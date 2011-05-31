@@ -77,6 +77,19 @@ typedef struct DenemoGraphic
 DenemoGraphic;
 
 
+typedef struct DenemoSelection
+{
+    gint firststaffmarked;
+    gint laststaffmarked;
+    gint firstmeasuremarked;
+    gint lastmeasuremarked;
+    gint firstobjmarked;
+    gint lastobjmarked;
+}
+DenemoSelection;
+
+
+
 /* The idea here is to make everything recursive.  The dominant
    paradigm is a linked list.  Handy that there's such a nice
    precooked implementation of them in glib, eh?  Note, however, that
@@ -399,6 +412,7 @@ typedef struct DenemoPrefs
 
   gboolean visible_directive_buttons; /**< This option makes the hbox containing score/movement directives visible */
 
+  gboolean enable_thumbnails;
   gboolean disable_undo; /**< Do not collect undo information */
   gboolean saveparts; /**< Automatically save parts*/
   gboolean autosave; /**< Auto save data */
@@ -783,12 +797,7 @@ typedef struct DenemoScore
   gint markstaffnum;
   gint markmeasurenum;
   gint markcursor_x;
-  gint firststaffmarked;
-  gint laststaffmarked;
-  gint firstmeasuremarked;
-  gint lastmeasuremarked;
-  gint firstobjmarked;
-  gint lastobjmarked;
+  DenemoSelection selection;
 
 
   movementcontrol movementcontrol;/*< Directives for control of the whole movement */
@@ -880,6 +889,7 @@ typedef struct DenemoGUI
   GString *filename;/**< the filename to save to */
   GString *tabname;/**< the name of windows tab */
   GString *autosavename;/**< the filename to autosave to, full path */
+  DenemoSelection thumbnail; /**< the selection from which to create a thumbnail on exit */
 
   gint undo_level;/**< level of script nesting 0 = staging point for undo to return to */
   gboolean notsaved;/**< edited since last save */
@@ -940,7 +950,8 @@ struct cs_callback
  */
 struct DenemoRoot
 {
-  gchar *schemeinit;/* filename for scheme code to run on startup */
+  gchar *scheme_file;/* filename for scheme code to run on startup */
+  gchar *scheme_commands;/* scheme code to run on startup after scheme_file */
   /* Fields used fairly directly for drawing */
   GtkWidget *page;
   GtkWidget *scorearea;

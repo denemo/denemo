@@ -344,8 +344,8 @@ cp -pR --link %(installer_root)s/license*/* %(darwin_bundle_dir)s/Contents/Resou
 ''', locals ())
         self.file_sub ([('''PACKAGE_NAME=Denemo
 MAJOR_VERSION=0
-MINOR_VERSION=8
-PATCH_LEVEL=22
+MINOR_VERSION=9
+PATCH_LEVEL=1
 MY_PATCH_LEVEL=
 ''', '%(installer_version)s-%(installer_build)s'),
                         ('2.[0-9]+.[0-9]+-[0-9]', '%(installer_version)s-%(installer_build)s'),

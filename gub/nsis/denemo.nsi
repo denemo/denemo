@@ -37,7 +37,7 @@ SetCompressor bzip2  ;;
 
 Name "${PRETTY_NAME}"
 
-Caption "${PRETTY_NAME} 0.8.22 for Microsoft Windows"
+Caption "${PRETTY_NAME} 0.9.1"
 BrandingText "${PRETTY_NAME} installer v1.0"
 
 

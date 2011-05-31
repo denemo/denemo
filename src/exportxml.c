@@ -309,7 +309,17 @@ newXMLFraction (xmlNodePtr parent, xmlNsPtr ns, gint num, gint denom)
   newXMLIntChild (parent, ns, (xmlChar *) "numerator", num);
   newXMLIntChild (parent, ns, (xmlChar *) "denominator", denom);
 }
+static void
+newThumbnailElem(xmlNodePtr curElem,  xmlNsPtr ns, DenemoSelection *thumbnail, gchar *type) {
+  xmlNodePtr thumbElem =  xmlNewChild (curElem, ns, (xmlChar *) type, NULL);
 
+  newXMLIntChild (thumbElem, ns, (xmlChar *) "first-staff", thumbnail->firststaffmarked);
+  newXMLIntChild (thumbElem, ns, (xmlChar *) "last-staff", thumbnail->laststaffmarked);
+  newXMLIntChild (thumbElem, ns, (xmlChar *) "first-measure", thumbnail->firstmeasuremarked);
+  newXMLIntChild (thumbElem, ns, (xmlChar *) "last-measure", thumbnail->lastmeasuremarked);
+  newXMLIntChild (thumbElem, ns, (xmlChar *) "first-obj", thumbnail->firstobjmarked);
+  newXMLIntChild (thumbElem, ns, (xmlChar *) "last-obj", thumbnail->lastobjmarked);
+}
 static void
 newVersesElem(xmlNodePtr curElem,  xmlNsPtr ns, GList *verses, gchar *type) {
   xmlNodePtr versesElem =  xmlNewChild (curElem, ns, (xmlChar *) type, NULL);
@@ -644,7 +654,8 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   if(gui->paper.directives) 
 	    newDirectivesElem(scoreElem, ns, gui->paper.directives, "paper-directives");
 
-
+  if(gui->thumbnail.firststaffmarked)
+	    newThumbnailElem(scoreElem, ns, &gui->thumbnail, "thumbnail");
   /* lilycontrol for the whole musical score */
   
   

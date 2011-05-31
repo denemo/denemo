@@ -78,9 +78,9 @@ static struct FileFormatData supported_file_formats[] = {/* WARNING this array h
   {"*.pdf", N_("PDF (*.pdf)"), ".pdf", 1},
   {"*.png", N_("PNG Image format (*.png)"), ".png", 1},
   {"*.abc", N_("ABC (*.abc)"), ".abc", 0},
-  {"*.mid", N_("Midi (*.mid)"), ".mid", 0},
+  {"*.mid", N_("Midi (*.mid, *.midi)"), ".mid", 0},
   {"*.sco", N_("CSound Score File (*.sco)"), ".sco", 0},
-  {"*.mxml", N_("MusicXML file (*.mxml)"), ".mxml", 0}
+  {"*.mxml", N_("MusicXML file (*.mxml, *.xml)"), ".mxml", 0}
 };
 
 static gchar* supported_denemo_file_extension[] = {
@@ -96,7 +96,7 @@ static gchar *supported_midi_file_extension[] = {
   "*.midi", "*.mid", "*.MIDI", "*.MID" 
 };
 static gchar *supported_musicxml_file_extension[] = {
-  "*.mxml", "*.MXML" 
+  "*.mxml", "*.MXML", "*.xml"
 };
 
 /* Some macros just to shorten lines */
@@ -419,7 +419,7 @@ save_in_format(gint format_id, DenemoGUI * gui, gchar *filename) {
     case PNG_FORMAT:
       {
 	gui->si->markstaffnum = 0;
-	export_png (file, FALSE, gui);
+	export_png (file, (GChildWatchFunc)printpng_finished, gui);
         break;
       };
     case ABC_FORMAT:
@@ -717,6 +717,37 @@ file_dialog(gchar *message, gboolean type, gchar *location){
   return filename;
 }
 
+static void
+update_preview_cb(GtkFileChooser *file_chooser, gpointer data){
+
+  GtkWidget *preview;
+  gchar *thumb_filename;
+  gchar *selection_filename;
+  GdkPixbuf *pixbuf;
+  gboolean have_preview;
+
+  preview = GTK_WIDGET(data);
+  selection_filename = gtk_file_chooser_get_preview_filename(file_chooser);
+  thumb_filename = large_thumbnail_name(selection_filename); 
+  pixbuf = gdk_pixbuf_new_from_file_at_size(thumb_filename, 512,512, NULL);
+  have_preview = (pixbuf !=NULL);
+  
+  printf("\n# %s for %s thumbnail = %s\n",have_preview? "We have a thumbnail generated":
+				     "We have not yet generated a thumbnail",
+ 				     selection_filename,
+				     thumb_filename);
+  
+  g_free(selection_filename);
+  g_free(thumb_filename);
+
+  gtk_image_set_from_pixbuf (GTK_IMAGE (preview), pixbuf);
+  if(pixbuf)
+    gdk_pixbuf_unref(pixbuf);
+  
+  gtk_file_chooser_set_preview_widget_active(file_chooser, have_preview);
+}
+
+
 #define FILE_OPEN_DIALOG(message, format, save_type) \
   gboolean ret = -1;\
   if(filename && !g_file_test(filename, G_FILE_TEST_IS_DIR))\
@@ -745,6 +776,12 @@ file_dialog(gchar *message, gboolean type, gchar *location){
   gtk_dialog_set_default_response (GTK_DIALOG (file_selection),\
 				   GTK_RESPONSE_ACCEPT);\
   gtk_widget_show_all (file_selection);\
+  GtkWidget *preview;\
+  preview = gtk_image_new();\
+  gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER (file_selection), preview);\
+  g_signal_connect (GTK_FILE_CHOOSER(file_selection), "update-preview",\
+			G_CALLBACK (update_preview_cb), preview);\
+  gtk_widget_show_all (preview);\
   if (gtk_dialog_run (GTK_DIALOG (file_selection)) == GTK_RESPONSE_ACCEPT)\
     {\
       gchar *name =\

@@ -1369,7 +1369,7 @@ if directive is non-DenemoObject directive it  places the widget in the appropri
 */
      
 void 
-widget_for_directive_menu(DenemoDirective *directive,  void fn(), GtkMenu *staffmenu, GtkMenu *voicemenu) {
+widget_for_directive_menu(DenemoDirective *directive,  void fn(), GtkMenu *menu) {
   GtkWidget *box;
   gchar *value = "";
   //FIXME we don't need value now...
@@ -1393,24 +1393,12 @@ widget_for_directive_menu(DenemoDirective *directive,  void fn(), GtkMenu *staff
 	box = NULL;
 
 
-    if(fn==(void(*)())staff_directive_put_graphic) {
-      //g_print("Doing the staff case");
-      /* g_print("directive-type %s.....", thetype);	*/
-      GtkWidget *menu;
-      menu = GTK_WIDGET(staffmenu);
-      directive->widget = gtk_menu_item_new_with_label(value);
-      attach_textedit_widget(directive);
-      g_signal_connect(G_OBJECT(directive->widget), "button-release-event",  G_CALLBACK(button_callback), directive);
-      gtk_menu_shell_prepend(GTK_MENU_SHELL(menu), GTK_WIDGET(directive->widget));
-    } else    
-      if(fn==(void(*)())voice_directive_put_graphic) {
-	//g_print("Doing the voice case");
-	directive->widget = GTK_WIDGET(gtk_menu_item_new_with_label(value));//WARNING _with_label is important
-	attach_textedit_widget(directive);
-	GtkWidget *menu;
-	menu = GTK_WIDGET(voicemenu);  
-	g_signal_connect(G_OBJECT(directive->widget), "button-release-event",  G_CALLBACK(button_callback), directive);
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), GTK_WIDGET(directive->widget));
+    if((fn==(void(*)())staff_directive_put_graphic) || (fn==(void(*)())voice_directive_put_graphic)) {
+	//g_print("Doing the staff or voice case");
+        directive->widget = GTK_WIDGET(gtk_menu_item_new_with_label(value));//WARNING _with_label is important
+        attach_textedit_widget(directive);	
+        g_signal_connect(G_OBJECT(directive->widget), "button-release-event",  G_CALLBACK(button_callback), directive);
+        gtk_menu_shell_append(GTK_MENU_SHELL(menu), GTK_WIDGET(directive->widget));
       }  else 
 	if(box)  {
 	  //g_print("Doing the score and movement cases starting from %p", directive->widget);
@@ -1447,36 +1435,37 @@ widget_for_directive_menu(DenemoDirective *directive,  void fn(), GtkMenu *staff
 }
 void 
 widget_for_directive(DenemoDirective *directive,  void fn()) {
-GtkMenu *staffmenu=NULL, *voicemenu=NULL;
+GtkMenu *menu=NULL;
  if(Denemo.gui->si){
-   if( (fn == (void(*)())staff_directive_put_graphic) || (fn==(void(*)())voice_directive_put_graphic)) {
-   staffmenu =  ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->staffmenu;
-   voicemenu =  ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->voicemenu;
-   }
+    if(fn == (void(*)())staff_directive_put_graphic) {
+        menu =  ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->staffmenu;
+    }
+    if(fn==(void(*)())voice_directive_put_graphic) {
+        menu =  ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->voicemenu;
+    }    
  }
-   
-  widget_for_directive_menu(directive, fn, staffmenu, voicemenu);
+  widget_for_directive_menu(directive, fn, menu);
 }
 void
 widget_for_staff_directive(DenemoDirective *directive, GtkMenu *menu) {
-  return widget_for_directive_menu(directive, (void(*)())staff_directive_put_graphic, menu, NULL);
+  return widget_for_directive_menu(directive, (void(*)())staff_directive_put_graphic, menu);
 }
 void
 widget_for_voice_directive(DenemoDirective *directive, GtkMenu *menu) {
-  return widget_for_directive_menu(directive, (void(*)())voice_directive_put_graphic, NULL, menu);
+  return widget_for_directive_menu(directive, (void(*)())voice_directive_put_graphic,  menu);
 }
 
 void
 widget_for_movementcontrol_directive(DenemoDirective *directive) {
-  return widget_for_directive_menu(directive, (void(*)())movementcontrol_directive_put_graphic, NULL, NULL);
+  return widget_for_directive_menu(directive, (void(*)())movementcontrol_directive_put_graphic, NULL);
 }
 void
 widget_for_header_directive(DenemoDirective *directive) {
-  return widget_for_directive_menu(directive, (void(*)())header_directive_put_graphic, NULL, NULL);
+  return widget_for_directive_menu(directive, (void(*)())header_directive_put_graphic,  NULL);
 }
 void
 widget_for_layout_directive(DenemoDirective *directive) {
-  return widget_for_directive_menu(directive, (void(*)())layout_directive_put_graphic, NULL, NULL);
+  return widget_for_directive_menu(directive, (void(*)())layout_directive_put_graphic, NULL);
 }
 
 // create a directive for non-DenemoObject directive #what

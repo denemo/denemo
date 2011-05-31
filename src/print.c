@@ -15,6 +15,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 
+#include <glib/gstdio.h>
 #ifdef HAVE_SYS_WAIT_H
 #include <sys/wait.h>
 #endif
@@ -197,7 +198,7 @@ check_lily_version (gchar *version)
 */
    
 static gchar *get_printfile_pathbasename(void) {
-  return g_build_filename ( locatedotdenemo (), "denemoprint", NULL);
+  return g_build_filename ( locateprintdir (), "denemoprint", NULL);
 }       
 /* truncate epoint after 20 lines replacing the last three chars in that case with dots */
 static void truncate_lines(gchar *epoint) {
@@ -239,7 +240,7 @@ void convert_ly(gchar *lilyfile){
     NULL
   };
 #endif
-  g_spawn_sync (locatedotdenemo (),		/* dir */
+  g_spawn_sync (locateprintdir (),		/* dir */
 		conv_argv, NULL,	/* env */
 		G_SPAWN_SEARCH_PATH, NULL,	/* child setup func */
 		NULL,		/* user data */
@@ -370,7 +371,7 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
     }
   }
   else {
-    g_spawn_async_with_pipes (locatedotdenemo (),		/* dir */
+    g_spawn_async_with_pipes (locateprintdir (),		/* dir */
 		   arguments, 
 		   NULL,	/* env */
 		   G_SPAWN_SEARCH_PATH, /* search in path for executable */
@@ -407,22 +408,24 @@ open_pdfviewer(GPid pid, gint status, gchar *filename){
      open_viewer(pid, status, filename, FALSE);
 }
 
-static void
+static gint 
 run_lilypond(gchar **arguments) {
+  gint error = 0;
   DenemoGUI *gui = Denemo.gui;
-  progressbar("Running Lilypond");
+  progressbar("Denemo Typesetting");
   g_spawn_close_pid (get_lily_version_pid);
   get_lily_version_pid = GPID_NONE;
 
   if(printpid!=GPID_NONE) {
     if(confirm("Already doing a print", "Kill that one off and re-start?")) {
-      if(printviewpid!=GPID_NONE) //It could have died while the user was making up their mind...
-	 kill_process(printpid);
+      if(printpid!=GPID_NONE) //It could have died while the user was making up their mind...
+        kill_process(printpid);
       printpid = GPID_NONE;
     }
     else {
       warningdialog ("Cancelled");
-      return;
+      error = -1;
+      return error;
     }
   }
   if(lily_err) {
@@ -432,7 +435,8 @@ run_lilypond(gchar **arguments) {
     lily_err = NULL;
   }
   
-  g_spawn_async_with_pipes (locatedotdenemo (),		/* dir */
+  gboolean lilypond_launch_success =
+  g_spawn_async_with_pipes (locateprintdir (),		/* dir */
 		arguments,
 		NULL,		/* env */
 		G_SPAWN_SEARCH_PATH  | G_SPAWN_DO_NOT_REAP_CHILD,
@@ -448,19 +452,27 @@ run_lilypond(gchar **arguments) {
 #endif
 		&lily_err);
   if(lily_err) {
-    g_warning("Error launching lilypond message is %s\n", lily_err->message);
+    g_warning("Error launching lilypond! Message is %s\n", lily_err->message);
     g_error_free(lily_err);
     lily_err = NULL;
-  } 
+    error = -1;
+  }
+  if(!lilypond_launch_success) {
+    warningdialog("Error executing lilypond. Perhaps Lilypond is not installed");
+    error = -1;
+  }
+  if(error)
+    progressbar_stop();
+   
+  return error;
 }
 
-/*  Print function 
+/*  create pdf of current score, optionally restricted to voices/staffs whose name match the current one. 
  *  Save file in lilypond format
  *  Fork and run lilypond
- *  TODO Add in lpr command
  */
 static void
-print (DenemoGUI * gui, gboolean part_only, gboolean all_movements)
+create_pdf (DenemoGUI * gui, gboolean part_only, gboolean all_movements)
 {
   gchar *filename = get_printfile_pathbasename();
   gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
@@ -519,7 +531,7 @@ printrangedialog(DenemoGUI * gui){
   gtk_spin_button_new_with_range (1.0, (gdouble) max_measure, 1.0);
   gtk_box_pack_start (GTK_BOX (hbox), from_measure, TRUE, TRUE, 0);
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (from_measure),
-			     (gdouble) gui->si->firstmeasuremarked);
+			     (gdouble) gui->si->selection.firstmeasuremarked);
 
   label = gtk_label_new (_("to"));
   gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
@@ -529,7 +541,7 @@ printrangedialog(DenemoGUI * gui){
   gtk_box_pack_start (GTK_BOX (hbox), to_measure, TRUE, TRUE, 0);
   //  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), to_measure, TRUE, TRUE, 0);
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (to_measure),
-			     (gdouble) gui->si->lastmeasuremarked);
+			     (gdouble) gui->si->selection.lastmeasuremarked);
 
   gtk_widget_show (hbox);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
@@ -538,19 +550,19 @@ printrangedialog(DenemoGUI * gui){
 
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
-      gui->si->firstmeasuremarked =
+      gui->si->selection.firstmeasuremarked =
 	gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (from_measure));
-      gui->si->lastmeasuremarked =
+      gui->si->selection.lastmeasuremarked =
 	gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (to_measure));
       //gtk_widget_destroy (dialog);
     }
   else 
     {
-      gui->si->firstmeasuremarked = gui->si->lastmeasuremarked = 0;
+      gui->si->selection.firstmeasuremarked = gui->si->selection.lastmeasuremarked = 0;
     }
-  if(gui->si->firstmeasuremarked) {
-    gui->si->markstaffnum = gui->si->firststaffmarked = 1;
-    gui->si->laststaffmarked = g_list_length(gui->si->thescore);
+  if(gui->si->selection.firstmeasuremarked) {
+    gui->si->markstaffnum = gui->si->selection.firststaffmarked = 1;
+    gui->si->selection.laststaffmarked = g_list_length(gui->si->thescore);
   }
   
   gtk_widget_destroy (dialog);
@@ -651,9 +663,11 @@ draw_page (GtkPrintOperation *operation,
     g_print("returning from drawing page %d\n", page_nr+1);
 }
 
-void rm_temp_files(gchar *file,gpointer unused) {
-  printf("\nremoving file %s\n",file);
-  g_remove(file);
+static
+void rm_temp_files(gchar *file, gpointer free_only) {
+  //g_print("\n%s Deleting temp file %s\n",free_only?"Not":"", file);
+  if(!free_only)
+    g_remove(file);
   g_free(file);
 }
 
@@ -664,10 +678,10 @@ void print_finished(GPid pid, gint status, GList *filelist) {
   progressbar_stop();
 }
 
-static
+
 void printpng_finished(GPid pid, gint status, GList *filelist) {
   g_debug("printpng_finished\n");
-  g_list_foreach(filelist, (GFunc)rm_temp_files, NULL);
+  g_list_foreach(filelist, (GFunc)rm_temp_files, FALSE);
   g_list_free(filelist);
   g_spawn_close_pid (printpid);
   printpid = GPID_NONE;
@@ -678,7 +692,7 @@ void printpng_finished(GPid pid, gint status, GList *filelist) {
 static
 void printpdf_finished(GPid pid, gint status, GList *filelist) {
   if(filelist) {
-    g_list_foreach(filelist, (GFunc)rm_temp_files, NULL);
+    g_list_foreach(filelist, (GFunc)rm_temp_files, FALSE);
     g_list_free(filelist);
   }
   g_spawn_close_pid (printpid);
@@ -699,12 +713,11 @@ void prepare_preview(GPid pid, gint status, GList *filelist) {
  * runs lilypond to a create a filename.pdf
  *
  *  @param filename filename to save score to
- *  @param show_preview TRUE if you want to launch 
- *         previewer after creating png
+ *  @param finish callback after creating png or if NULL, wait for finish before returning.
  *  @param gui pointer to the DenemoGUI structure
  */
 void
-export_png (gchar * filename, gboolean show_preview, DenemoGUI * gui)
+export_png (gchar * filename, GChildWatchFunc finish, DenemoGUI * gui)
 {
   gchar *basename;
   gchar *lilyfile;  
@@ -716,7 +729,7 @@ export_png (gchar * filename, gboolean show_preview, DenemoGUI * gui)
   gchar **arguments;
   GList *filelist=NULL;
   
-  /* get the intended rosolution of the png */
+  /* get the intended resolution of the png */
   gchar *resolution = g_strdup_printf("-dresolution=%d",(int) Denemo.prefs.resolution);
  
   /* create temp file names */
@@ -727,6 +740,7 @@ export_png (gchar * filename, gboolean show_preview, DenemoGUI * gui)
   texfile = g_strconcat (filename, "-systems.tex", NULL);
   texifile = g_strconcat (filename, "-systems.texi", NULL);
   countfile = g_strconcat (filename, "-systems.count", NULL);
+  g_free (basename);
  
   /* create a list of files that need to be deleted */ 
   filelist = g_list_append(filelist, lilyfile);
@@ -737,7 +751,8 @@ export_png (gchar * filename, gboolean show_preview, DenemoGUI * gui)
   filelist = g_list_append(filelist, countfile);
 
   /* generate the lilypond file */
-  exportlilypond (lilyfile, gui, TRUE);
+  gui->lilysync = G_MAXUINT;
+  exportlilypond (lilyfile, gui, finish == (GChildWatchFunc)printpng_finished?TRUE:FALSE);
   /* create arguments needed to pass to lilypond to create a png */
 #if GLIB_MINOR_VERSION >= 14
   gchar *png_arguments1[] = {
@@ -781,14 +796,22 @@ export_png (gchar * filename, gboolean show_preview, DenemoGUI * gui)
 #endif
  
   /* generate the png file */
-  run_lilypond(arguments);
-  if (show_preview)
-    g_child_watch_add (printpid, (GChildWatchFunc)prepare_preview  /*  GChildWatchFunc function */, 
-	(gchar *) filelist);
-  else   
-    g_child_watch_add (printpid, (GChildWatchFunc)printpng_finished, (GList *)filelist);
-  
-  g_free (basename);
+  if(finish) {
+    gint error = run_lilypond(arguments);
+    if(!error)
+      g_child_watch_add (printpid, (GChildWatchFunc)finish, (gchar *) filelist);
+  } else {
+    GError *err; 
+    g_spawn_sync (locateprintdir (),		/* dir */
+		arguments, NULL,	/* env */
+		G_SPAWN_SEARCH_PATH, NULL,	/* child setup func */
+		NULL,		/* user data */
+		NULL,		/* stdout */
+		NULL,		/* stderr */
+		NULL, &err);
+    g_list_foreach(filelist, (GFunc)rm_temp_files, FALSE);
+    g_list_free(filelist);
+  }
 }
 
 /**
@@ -814,6 +837,8 @@ export_pdf (gchar * filename, DenemoGUI * gui)
   /* create list of files that will need to be deleted */
   filelist = g_list_append(filelist, lilyfile);
   filelist = g_list_append(filelist, psfile);
+  g_free (basename);
+
   /* generate the lilypond file */
   exportlilypond (lilyfile, gui, TRUE);
   /* create arguments to pass to lilypond to create a pdf */
@@ -827,10 +852,14 @@ export_pdf (gchar * filename, DenemoGUI * gui)
   };
   /* generate the pdf file */
 
-  run_lilypond(arguments);
+  gint error = run_lilypond(arguments);
+  if(error){
+    g_spawn_close_pid (printpid);
+    printpid = GPID_NONE;
+    return;
+  }
 
   g_child_watch_add (printpid, (GChildWatchFunc)printpdf_finished, filelist);
-  g_free (basename);
 }
 
 static void
@@ -1112,7 +1141,7 @@ void refresh_print_view (gboolean preview_only) {
   busy_cursor();
   changecount = Denemo.gui->changecount;// keep track so we know it update is needed
 
-  g_spawn_async_with_pipes (locatedotdenemo (),		/* dir */
+  g_spawn_async_with_pipes (locateprintdir (),		/* dir */
 		 arguments, 
 		 NULL,	/* env */
 		 G_SPAWN_SEARCH_PATH | G_SPAWN_DO_NOT_REAP_CHILD, 
@@ -1144,9 +1173,9 @@ printpart_cb (GtkAction *action, gpointer param) {
     }
   if((gui->movements && g_list_length(gui->movements)>1) && 
      (confirm("This piece has several movements", "Print this part from all of them?")))
-    print(gui, TRUE, TRUE);
+    create_pdf(gui, TRUE, TRUE);
   else
-   print(gui, TRUE, FALSE); 
+   create_pdf(gui, TRUE, FALSE); 
   g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, 
 	(gchar *) get_printfile_pathbasename());
 }
@@ -1158,9 +1187,9 @@ printpreview_cb (GtkAction *action, gpointer param) {
   gui->lilycontrol.excerpt = FALSE;
   if((gui->movements && g_list_length(gui->movements)>1) && 
      (confirm("This piece has several movements", "Print all of them?")))
-    print(gui, FALSE, TRUE);
+    create_pdf(gui, FALSE, TRUE);
   else
-    print(gui, FALSE, FALSE);
+    create_pdf(gui, FALSE, FALSE);
   g_child_watch_add (printpid, (GChildWatchFunc)print_finished, NULL);
 }
 
@@ -1168,7 +1197,7 @@ void
 printselection_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   if(gui->si->markstaffnum)
-    print(gui, FALSE, FALSE);
+    create_pdf(gui, FALSE, FALSE);
   else
     warningdialog(_("No selection to print"));
   g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, 
@@ -1180,10 +1209,155 @@ printexcerptpreview_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   if(!gui->si->markstaffnum) //If no selection has been made 
     printrangedialog(gui);  //Launch a dialog to get selection
-  if(gui->si->firstmeasuremarked){
+  if(gui->si->selection.firstmeasuremarked){
     gui->lilycontrol.excerpt = TRUE;
-    export_png((gchar *) get_printfile_pathbasename(), TRUE, gui); 
+    export_png((gchar *) get_printfile_pathbasename(), (GChildWatchFunc)prepare_preview, gui); 
   }
+}
+
+static gchar *get_thumb_directory(void) {
+  return g_build_filename (g_get_home_dir(), ".thumbnails", "large", NULL);
+}
+
+static gchar *get_thumb_printname(void) {
+return g_build_filename (locateprintdir (), "denemothumb", NULL);
+}
+static gchar *
+  get_thumbname (gchar *uri) {
+  gchar *basethumbname = g_compute_checksum_for_string (G_CHECKSUM_MD5, uri, -1);
+  gchar *thumbname = g_strconcat(basethumbname, ".png", NULL);
+  g_free(basethumbname);
+  return thumbname;
+}
+static gchar *thumbnailsdirN = NULL;
+static gchar *thumbnailsdirL = NULL;
+  
+/*call back to finish thumbnail processing. */
+static
+void thumb_finished(GPid pid, gint status, GList *filelist) {
+  GError *err = NULL;
+  if(filelist) {
+  g_list_foreach(filelist, (GFunc)rm_temp_files, (gpointer)TRUE); //these temp files are always the same, so better not to waste time deleting them
+  g_list_free(filelist);
+  g_spawn_close_pid (pid); 
+  }
+  gchar *printname = get_thumb_printname();
+    gchar *printpng = g_strconcat(printname, ".png", NULL);
+    GdkPixbuf *pbN = gdk_pixbuf_new_from_file_at_scale   (printpng, 128, -1, TRUE, &err);
+    GdkPixbuf *pbL = gdk_pixbuf_new_from_file_at_scale   (printpng, 256, -1, TRUE, &err);
+    
+    //FIXME if pb->height>128 or 256 scale it down...
+    if(pbN && pbL) {
+      gchar *uri = g_strdup_printf("file://%s", Denemo.gui->filename->str);
+      gchar *thumbname = get_thumbname (uri);
+
+      
+            struct stat thebuf;
+            gint status =  g_stat(Denemo.gui->filename->str, &thebuf);
+            unsigned mtime = thebuf.st_mtime;
+            g_print("the mt is %u\n", mtime);
+            
+ 
+
+            gchar * thumbpathN = g_build_filename(thumbnailsdirN, thumbname, NULL);
+            gchar * thumbpathL = g_build_filename(thumbnailsdirL, thumbname, NULL);
+           
+            gchar *mt = g_strdup_printf("%u", mtime);
+            if(!gdk_pixbuf_save (pbN, thumbpathN, "png"/*type*/, &err, "tEXt::Thumb::URI", uri, "tEXt::Thumb::MTime", mt , NULL))
+              g_print(err->message);
+            err = NULL;
+            if(!gdk_pixbuf_save (pbL, thumbpathL, "png"/*type*/, &err, "tEXt::Thumb::URI", uri, "tEXt::Thumb::MTime", mt , NULL))
+              g_print(err->message);
+
+              //FIXME do the pbN L need freeing???
+            g_free(uri);
+            g_free(mt);
+            g_free(thumbname);
+            g_free(thumbpathN);
+            g_free(thumbpathL);
+    }
+    g_free(printname);
+    printpid=GPID_NONE;
+    progressbar_stop();
+    //g_print("Set printpid = %d\n", printpid);
+  }
+
+// large_thumbnail_name takes a full path name to a .denemo file and returns the full path to the large thumbnail of that .denemo file. Caller must g_free the returned string
+gchar * large_thumbnail_name(gchar *filepath) {
+  gchar *temp = g_strdup_printf("file://%s", filepath);
+  gchar *ret = get_thumbname(temp);
+  g_free(temp);
+  return g_build_filename(get_thumb_directory(), ret, NULL);
+}
+
+/***
+ *  Create a thumbnail for Denemo.gui if needed
+ */
+gboolean
+create_thumbnail(gboolean closing) {
+  g_print("Not using temp dir %s yet\n", make_temp_dir());
+  if(printpid!=GPID_NONE)
+    return FALSE;
+  if(Denemo.gui->filename->len) {
+    if(!thumbnailsdirN) {
+      thumbnailsdirN = g_build_filename (g_get_home_dir(), ".thumbnails", "normal", NULL);
+      g_mkdir_with_parents(thumbnailsdirN, 0700);
+    }
+  if(!thumbnailsdirL) {
+    thumbnailsdirL = g_build_filename (g_get_home_dir(), ".thumbnails", "large", NULL);
+    g_mkdir_with_parents(thumbnailsdirL, 0700);
+    }
+//check if thumbnail is newer than file
+  struct stat thebuf;
+  gint status =  g_stat(Denemo.gui->filename->str, &thebuf);
+  unsigned mtime = thebuf.st_mtime;
+  gchar *uri = g_strdup_printf("file://%s", Denemo.gui->filename->str);
+  gchar *thumbname = get_thumbname (uri);
+  gchar * thumbpathN = g_build_filename(thumbnailsdirN, thumbname, NULL);
+  thebuf.st_mtime = 0;
+  status =  g_stat(thumbpathN, &thebuf);
+  unsigned mtime_thumb = thebuf.st_mtime;
+  if(mtime_thumb<mtime) {
+    gint saved = g_list_index(Denemo.gui->movements, Denemo.gui->si);
+    Denemo.gui->si = Denemo.gui->movements->data;//Thumbnail is from first movement
+//set selection to thumbnailselection, if not set, to the selection, if not set to first three measures of staff 1
+    if(Denemo.gui->thumbnail.firststaffmarked) 
+      memcpy(&Denemo.gui->si->selection, &Denemo.gui->thumbnail, sizeof(DenemoSelection));
+    else
+      if(Denemo.gui->si->selection.firststaffmarked)
+        memcpy(&Denemo.gui->thumbnail, &Denemo.gui->si->selection, sizeof(DenemoSelection));
+        else {
+          Denemo.gui->thumbnail.firststaffmarked = 1;
+          Denemo.gui->thumbnail.laststaffmarked = 1;
+          Denemo.gui->thumbnail.firstmeasuremarked = 1;
+          Denemo.gui->thumbnail.lastmeasuremarked = 3;
+          Denemo.gui->thumbnail.firstobjmarked = 0;
+          Denemo.gui->thumbnail.lastobjmarked = 100;//or find out how many there are
+          memcpy(&Denemo.gui->si->selection, &Denemo.gui->thumbnail, sizeof(DenemoSelection));
+        }
+    Denemo.gui->si->markstaffnum = Denemo.gui->si->selection.firststaffmarked;
+    gchar * printname = get_thumb_printname();
+    Denemo.gui->lilycontrol.excerpt = TRUE;
+
+    if(closing){
+        export_png(printname, (GChildWatchFunc)thumb_finished, Denemo.gui);
+        gtk_widget_hide(Denemo.window);
+        //g_print("Note printpid is %d\n", printpid);
+        while(printpid!=GPID_NONE) {
+          gtk_main_iteration_do(FALSE);
+        }
+    } else {
+      export_png(printname, NULL, Denemo.gui);
+      thumb_finished (printpid, 0, NULL);
+    }
+    
+    g_free(printname);
+    Denemo.gui->si = g_list_nth_data(Denemo.gui->movements, saved);
+    if(Denemo.gui->si==NULL)
+      Denemo.gui->si = Denemo.gui->movements->data;
+  }
+  }
+  return TRUE;
 }
 
 /* callback to print whole of score */

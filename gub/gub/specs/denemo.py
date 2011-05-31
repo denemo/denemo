@@ -13,7 +13,9 @@ from gub import target
 
 class Denemo (target.AutoBuild):
     source = 'git://git.savannah.gnu.org/denemo.git'
-    branch = 'stable-0.8.22'
+    #source = '/home/nils/workdir/denemo/'
+    #branch = 'stable-0.9.0'
+    branch = 'master'
     patches = [ ]
     subpackage_names = ['']
     dependencies = [
@@ -43,12 +45,12 @@ class Denemo (target.AutoBuild):
                        + ' --program-prefix='
                        )
     # FIXME: --enable-binreloc has been neutralized.
-    make_flags = 'BINRELOC_CFLAGS=-DENABLE_BINRELOC=1'
+    #make_flags = 'BINRELOC_CFLAGS=-DENABLE_BINRELOC=1'
 
     def __init__ (self, settings, source):
         target.AutoBuild.__init__ (self, settings, source)
         if isinstance (source, repository.Git):
-            source.versionversion = misc.bind_method (repository.Repository.version_from_configure_in, source)
+            source.version = misc.bind_method (repository.Repository.version_from_configure_in, source)
     def compile (self):
         if isinstance (self.source, repository.Git):
             # FIXME: missing dependency
@@ -67,7 +69,8 @@ class Denemo__mingw__windows (Denemo):
 
 class Denemo__mingw__console (Denemo__mingw__windows):
     configure_flags = (Denemo__mingw__windows.configure_flags
-                       + ' --enable-debugging')
+	                   .replace ('--enable-binreloc', '--disable-binreloc')
+                       + ' --enable-debug')
     def __init__ (self, settings, source):
         Denemo__mingw__windows.__init__ (self, settings, source)
         # Configure (link) without -mwindows for denemo-console.exe
