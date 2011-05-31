@@ -6,16 +6,13 @@
 (define  (split-divide)
 	(duration::ChangeNoteDurationInTicks (/ (duration::GetBaseDurationInTicks) 2) (d-GetDots)))
 
-(if (and (Note?) (not (Appending?))) ; DuplicateChord only works ON notes, not in the appending position. 
+(if (Note?) ; DuplicateChord only works ON notes, not in the appending position. 
 
 (begin
-
 (if (not howmany)
 	(begin
 		 (set! howmany (d-GetUserInput "Split in how many notes?" "Enter the amount of fraction of equal duration in their sum:" "5" ) )
-		 (if howmany (set! howmany (string->number howmany)) #f) ; If the user pressed "Abort" or Esc howmany will be #f which must be catched here
-	)
-)
+		 (if howmany (set! howmany (string->number howmany)) #f))) ; If the user pressed "Abort" or Esc howmany will be #f which must be catched here
 
 (case howmany
 	((1) #t) ; Already original duration in one note.
@@ -130,5 +127,5 @@
 		 
 	(else #f); out of range
 )) 
- #f ; it was no note or the appending position
+ #f ; it was no note
  )) 
