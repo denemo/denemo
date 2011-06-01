@@ -1295,7 +1295,7 @@ gchar * large_thumbnail_name(gchar *filepath) {
  */
 gboolean
 create_thumbnail(gboolean closing) {
-  g_print("Not using temp dir %s yet\n", make_temp_dir());
+  GError *err = NULL;
   if(printpid!=GPID_NONE)
     return FALSE;
   if(Denemo.gui->filename->len) {
@@ -1340,15 +1340,26 @@ create_thumbnail(gboolean closing) {
     Denemo.gui->lilycontrol.excerpt = TRUE;
 
     if(closing){
-        export_png(printname, (GChildWatchFunc)thumb_finished, Denemo.gui);
-        gtk_widget_hide(Denemo.window);
-        //g_print("Note printpid is %d\n", printpid);
-        while(printpid!=GPID_NONE) {
-          gtk_main_iteration_do(FALSE);
-        }
+   gchar *arguments[] = {
+    g_build_filename(get_bin_dir(), "denemo", NULL),
+   "-n", "-a", "(d-CreateThumbnail)(d-Exit)",
+    Denemo.gui->filename->str,
+    NULL
+  };
+
+  g_spawn_async_with_pipes (NULL,		/* any dir */
+		arguments, NULL,	/* env */
+		G_SPAWN_SEARCH_PATH, NULL,	/* child setup func */
+		NULL,		/* user data */
+        NULL, /* pid */
+		NULL,		/* stdin */
+		NULL,		/* stdout */
+		NULL,		/* stderr */
+		 &err);
     } else {
       export_png(printname, NULL, Denemo.gui);
       thumb_finished (printpid, 0, NULL);
+     //do it by script exit(0);//force the close
     }
     
     g_free(printname);
