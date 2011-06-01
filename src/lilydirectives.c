@@ -918,7 +918,7 @@ what##_directive_put_##field(gchar *tag, gchar *value) {\
 
 
 
-
+GET_TAG_FUNC(object);
 GET_TAG_FUNC(standalone);
 GET_TAG_FUNC(chord);
 GET_TAG_FUNC(note);

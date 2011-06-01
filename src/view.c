@@ -2230,6 +2230,8 @@ SCM scheme_set_action_script_for_tag(SCM tag, SCM script) {
   if(tagname) free(tagname);\
   return SCM_BOOL(FALSE);\
 }
+
+GET_TAG_FN_DEF(object);
 GET_TAG_FN_DEF(standalone);
 GET_TAG_FN_DEF(chord);
 GET_TAG_FN_DEF(note);
@@ -2563,7 +2565,7 @@ INT_PUTFUNC_DEF(score, gy)
 
 INT_GETFUNC_DEF(object, minpixels)
 INT_PUTFUNC_DEF(object, minpixels)
-
+DELETE_FN_DEF(object)
      // block to copy for new type of directive, !!minpixels is done in block to copy for new fields!!
 GETFUNC_DEF(clef, prefix)
 GETFUNC_DEF(clef, postfix)
@@ -4042,7 +4044,7 @@ static void create_scheme_identfiers(void) {
 
 #define INSTALL_GET_TAG(what)\
   INSTALL_SCM_FUNCTION1 ("Takes a optional tag. Returns that tag if a "#what" directive exists at the cursor, else returns the tag of the first such directive at the cursor, or #f if none", DENEMO_SCHEME_PREFIX"DirectiveGetForTag"  "-" #what, scheme_##what##_directive_get_tag);
-
+  INSTALL_GET_TAG(object);
   INSTALL_GET_TAG(standalone);
   INSTALL_GET_TAG(chord);
   INSTALL_GET_TAG(note);
@@ -4073,6 +4075,9 @@ static void create_scheme_identfiers(void) {
   INSTALL_EDIT(voice);
   INSTALL_EDIT(score);
  install_scm_function1 (DENEMO_SCHEME_PREFIX"DirectiveTextEdit-standalone", scheme_text_edit_standalone_directive);
+
+ install_scm_function1 (DENEMO_SCHEME_PREFIX"DirectiveDelete-object", scheme_delete_object_directive);
+
 
 #define INSTALL_PUT(what, field)\
  INSTALL_SCM_FUNCTION2 ("Writes the " #field" field (a string) of the " #what" directive with the passed int tag. Creates the directive of the given type and tag if it does not exist.",DENEMO_SCHEME_PREFIX"DirectivePut" "-" #what "-" #field, scheme_##what##_directive_put_##field);
