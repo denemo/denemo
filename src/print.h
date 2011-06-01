@@ -28,7 +28,7 @@ export_png (gchar *filename, GChildWatchFunc finish, DenemoGUI * gui);
 void
 printpng_finished(GPid pid, gint status, GList *filelist);
 gboolean
-create_thumbnail(gboolean closing);
+create_thumbnail(gboolean async);
 gchar *
 large_thumbnail_name(gchar *filepath);
 #endif /*PRINT_H*/	

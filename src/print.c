@@ -1294,7 +1294,7 @@ gchar * large_thumbnail_name(gchar *filepath) {
  *  Create a thumbnail for Denemo.gui if needed
  */
 gboolean
-create_thumbnail(gboolean closing) {
+create_thumbnail(gboolean async) {
   GError *err = NULL;
   if(printpid!=GPID_NONE)
     return FALSE;
@@ -1339,7 +1339,7 @@ create_thumbnail(gboolean closing) {
     gchar * printname = get_thumb_printname();
     Denemo.gui->lilycontrol.excerpt = TRUE;
 
-    if(closing){
+    if(async){
    gchar *arguments[] = {
     g_build_filename(get_bin_dir(), "denemo", NULL),
    "-n", "-a", "(d-CreateThumbnail)(d-Exit)",
