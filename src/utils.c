@@ -935,6 +935,41 @@ get_data_dir ()
 }
 
 const gchar *
+get_bin_dir (void)
+{
+  static gchar *bindir = NULL;
+  if (bindir == NULL)
+  {
+#ifdef G_OS_WIN32
+    gchar *rootdir = g_win32_get_package_installation_directory (NULL, NULL);
+    bindir = g_build_filename (rootdir, "bin", NULL);
+    g_print ("rootdir=%s\n", rootdir);
+    g_print ("bindir=%s\n", bindir);
+    g_free (rootdir);
+#else /* not G_OS_WIN32 */
+
+#ifdef __APPLE__
+     
+      {char path[1024];
+       guint size = sizeof(path);
+       _NSGetExecutablePath(path, &size);
+       bindir = (gchar*)g_malloc(size);
+       if (_NSGetExecutablePath(bindir, &size) == 0)
+	 g_print("using bin path %s\n", bindir);
+       else
+	 g_critical("Cannot get bin dir\n");
+       
+       g_print("OSX set bin dir to %s\n", bindir);
+      }
+#else
+    bindir = gbr_find_bin_dir ("/usr/local/bin");
+#endif
+#endif /* not G_OS_WIN32 */
+  }
+  return bindir;
+}
+
+const gchar *
 get_conf_dir ()
 {
   static gchar *confdir = NULL;
