@@ -831,10 +831,16 @@ static SCM scheme_set_thumbnail_selection(SCM optional) {
 
 
 static SCM scheme_create_thumbnail(SCM optional) {
- gboolean ret = create_thumbnail(FALSE);
-  return SCM_BOOL(ret);
+ gboolean ret;
+ if(optional == SCM_BOOL_T)
+  ret = create_thumbnail(TRUE);
+ else
+  ret = create_thumbnail(FALSE);
+return SCM_BOOL(ret);
 }
-
+static SCM scheme_exit(SCM optional) {
+exit(0);
+}
 
 static SCM scheme_take_snapshot (SCM optional) {   
   return SCM_BOOL(take_snapshot());
@@ -4730,7 +4736,9 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
 
   INSTALL_SCM_FUNCTION ("Sets the selection to be used for a thumbnail. Returns #f if no selection or selection not in first movement else #t.", DENEMO_SCHEME_PREFIX"SetThumbnailSelection", scheme_set_thumbnail_selection);
 
-  INSTALL_SCM_FUNCTION ("creates a thumbnail for the current score.", DENEMO_SCHEME_PREFIX"CreateThumbnail", scheme_create_thumbnail);
+  INSTALL_SCM_FUNCTION ("Creates a thumbnail for the current score. With no argument it waits for the thumbnail to complete, freezing any display. With #t it generates the thumbnail asynchrously. It does not report on completion.", DENEMO_SCHEME_PREFIX"CreateThumbnail", scheme_create_thumbnail);
+
+  INSTALL_SCM_FUNCTION ("Exits Denemo without saving history, prefs etc.", DENEMO_SCHEME_PREFIX"Exit", scheme_exit);
 
   INSTALL_SCM_FUNCTION ("Snapshots the current movement putting it in the undo queue returns #f if no snapshot was taken because of a guard", DENEMO_SCHEME_PREFIX"TakeSnapshot", scheme_take_snapshot);
 
@@ -5019,6 +5027,8 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
    }
  }
 
+ score_status(Denemo.gui, FALSE);//How come the code worked without this?
+
  
   if(Denemo.scheme_commands)
    call_out_to_guile(Denemo.scheme_commands);
@@ -5085,7 +5095,7 @@ close_gui ()
   stop_midi_playback (NULL, NULL);// if you do not do this, there is a timer moving the score on which will hang
  //FIXME why was this here??? activate_action("/MainMenu/InputMenu/KeyboardOnly");
  if(Denemo.prefs.enable_thumbnails)
-  create_thumbnail(g_list_length(Denemo.guis)==1); 
+  create_thumbnail(TRUE); 
   if(Denemo.autosaveid) {
     if(g_list_length(Denemo.guis)>1)
       g_print("Auto save being turned off");
@@ -8436,7 +8446,7 @@ get_data_dir (),
 
   create_scheme_window();
 
-  if(1)
+  if(!Denemo.non_interactive)
     gtk_widget_show(Denemo.window);
   /* Now that the window is shown, initialize the gcs */
  // gcs_init (Denemo.window->window);
