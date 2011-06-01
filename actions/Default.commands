@@ -5042,6 +5042,21 @@ for second and subsequent systems</tooltip>
         <label>Change chord-member to longa</label>
         <tooltip>Change one chord member to appear like a longa duration without changing the original logic like measure calculation or the duration of newly added chord members.</tooltip>
       </row>
+      <row>
+        <action>ChangeEnharmonic+</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
+        <label>Change Enharmonic +</label>
+        <tooltip>Shift through enharmonic variants of the same sounding note in the direction of higher diatonic base notes.</tooltip>
+      </row>
+      <row>
+        <action>ChangeEnharmonic-</action>
+        <after>ChangeEnharmonic+</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
+        <label>Change Enharmonic -</label>
+        <tooltip>Switch through enharmonic variants of the same sounding note in the direction of lower diatonic base notes</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

@@ -1830,6 +1830,14 @@
         <action>SimplifyTies</action>
         <hidden>true</hidden>
       </row>
+      <row>
+        <action>ChangeEnharmonic+</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangeEnharmonic-</action>
+        <hidden>true</hidden>
+      </row>
     </map>
   </merge>
 </Denemo>
