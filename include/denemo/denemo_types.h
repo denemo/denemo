@@ -950,6 +950,7 @@ struct cs_callback
  */
 struct DenemoRoot
 {
+  gboolean non_interactive; /* if TRUE denemo should not display gui, receive or send sounds etc*/
   gchar *scheme_file;/* filename for scheme code to run on startup */
   gchar *scheme_commands;/* scheme code to run on startup after scheme_file */
   /* Fields used fairly directly for drawing */

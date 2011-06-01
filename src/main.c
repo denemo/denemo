@@ -618,6 +618,7 @@ Options:\n\
   -i pathtofile         process scheme commands in pathtofile on file open\n\
   -s filename           process scheme commands from system file on file open\n\
   -a scheme             process the scheme on startup\n\
+  -n                    non-interactive. No GUI.\n\
   -v,--version          print version number and exit\n\n\n\
 Report bugs to http://www.denemo.org\n"), NULL) ;
 
@@ -638,9 +639,9 @@ Report bugs to http://www.denemo.org\n"), NULL) ;
 #endif
 
 #ifdef HAVE_GETOPT_H
-  while ((opts = getopt_long (argc, argv, "s:hi:vc:k:a:", long_options, NULL)) != -1)
+  while ((opts = getopt_long (argc, argv, "s:hi:vc:k:a:n", long_options, NULL)) != -1)
 #else
-  while ((opts = getopt (argc, argv, "s:hi:vc:k:a:")) != -1)
+  while ((opts = getopt (argc, argv, "s:hi:vc:k:a:n")) != -1)
 #endif
     {
 	  g_print("opt %c has %s\n", opts, argv[optind]);
@@ -656,6 +657,10 @@ Report bugs to http://www.denemo.org\n"), NULL) ;
       else if (opts == 'a')
         {
           Denemo.scheme_commands = g_strdup(optarg);
+        }
+      else if (opts == 'n')
+        {
+          Denemo.non_interactive = TRUE;
         }
       else if (opts == 'i')
         {
