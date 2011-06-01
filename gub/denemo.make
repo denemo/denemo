@@ -3,7 +3,8 @@
 .PHONY: nsis denemo denemo-installers
 default: all
 
-DENEMO_BRANCH="stable-0.8.22"
+#DENEMO_BRANCH="stable-0.9.0"
+DENEMO_BRANCH="master"
 DENEMO_REPO_URL=git://git.savannah.gnu.org/denemo.git
 
 PLATFORMS=mingw
