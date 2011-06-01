@@ -5281,7 +5281,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
          param.status = FALSE;
          
-delete_object_directive (NULL, &param);
+delete_chord_or_note_directive (NULL, &param);
          if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }

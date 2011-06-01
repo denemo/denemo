@@ -2561,7 +2561,8 @@ INT_PUTFUNC_DEF(score, ty)
 INT_PUTFUNC_DEF(score, gx)
 INT_PUTFUNC_DEF(score, gy)
 
-
+INT_GETFUNC_DEF(object, minpixels)
+INT_PUTFUNC_DEF(object, minpixels)
 
      // block to copy for new type of directive, !!minpixels is done in block to copy for new fields!!
 GETFUNC_DEF(clef, prefix)
@@ -4079,6 +4080,8 @@ static void create_scheme_identfiers(void) {
 #define INSTALL_GET(what, field)\
  INSTALL_SCM_FUNCTION1 ("Gets the value of the " #field" field (a string) of the " #what" directive with the passed tag.",DENEMO_SCHEME_PREFIX"DirectiveGet" "-" #what "-" #field, scheme_##what##_directive_get_##field);
 
+  INSTALL_GET(object, minpixels);
+  INSTALL_PUT(object, minpixels);
 
   //block to repeat for new  directive fields 
 

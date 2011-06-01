@@ -471,7 +471,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Edit any directives attached to time signature.", N_("EditTimesigDirective"), "edit_timesig_directive", N_("Edit Time Signature Directives")},
   {CMD_CATEGORY_DIRECT, NULL, "Edit any directives attached to key signature.", N_("EditKeysigDirective"), "edit_keysig_directive", N_("Edit Key Signature Directives")},
 
-  {CMD_CATEGORY_DIRECT, NULL, "Delete a directive attached to chord/note at cursor.", N_("DeleteDirective"), "delete_object_directive", N_("Delete a Directive")},
+  {CMD_CATEGORY_DIRECT, NULL, "Delete a directive attached to chord/note at cursor.", N_("DeleteDirective"), "delete_chord_or_note_directive", N_("Delete a Directive")},
 
  
   {CMD_CATEGORY_DIRECT, NULL, "Attach or edit attached LilyPond text to the note at the cursor. This can be used for guitar fingerings, cautionary accidentals and much more. See LilyPond documentation.",N_("AttachLilyToNote"), "note_directive", N_("Attach Lilypond to Note")},

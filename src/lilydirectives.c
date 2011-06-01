@@ -139,7 +139,7 @@ new_directive(gchar *tag){
 }
 
 
-static  DenemoObject *findobj(void) {
+static  DenemoObject *get_object(void) {
   DenemoGUI *gui = Denemo.gui;
   DenemoScore * si = gui->si;
   return (DenemoObject *) si->currentobject ?
@@ -160,7 +160,7 @@ attach_directive (attach_type attach, gchar *postfix, gchar *prefix, gchar *disp
   DenemoGUI *gui = Denemo.gui;
   DenemoScore * si = gui->si;
   note *curnote = NULL;
-  DenemoObject *curObj = findobj();
+  DenemoObject *curObj = get_object();
   if(curObj==NULL) {  
     if(interactive)
       warningdialog("You must put the cursor on a chord to attach LilyPond");//FIXME find a note and ask
@@ -420,7 +420,7 @@ chord_directive (GtkAction *action, DenemoScriptParam *param)
 
 static DenemoObject *get_chordobject(void) {
   chord *thechord = NULL;
-  DenemoObject *curObj = findobj();
+  DenemoObject *curObj = get_object();
   if(curObj==NULL)
     return NULL;
   thechord = (chord *)curObj->object;
@@ -464,7 +464,7 @@ static DenemoStaff *get_staff(void) {
 //block for new type of directive
 static  clef *get_clef(void) {
   clef *ret = NULL;
-  DenemoObject *curObj = findobj();  
+  DenemoObject *curObj = get_object();  
   if(curObj && curObj->type==CLEF){
     ret = ((clef*)curObj->object);
   } else {
@@ -495,7 +495,7 @@ gboolean delete_clef_directive(gchar *tag) {
 
 static  keysig *get_keysig(void) {
   keysig *ret = NULL;
-  DenemoObject *curObj = findobj();  
+  DenemoObject *curObj = get_object();  
   if(curObj && curObj->type==KEYSIG){
     ret = ((keysig*)curObj->object);
   } else {
@@ -524,7 +524,7 @@ gboolean delete_keysig_directive(gchar *tag) {
 
 static  timesig *get_timesig(void) {
   timesig *ret = NULL;
-  DenemoObject *curObj = findobj();  
+  DenemoObject *curObj = get_object();  
   if(curObj && curObj->type==TIMESIG){
     ret = ((timesig*)curObj->object);
   } else {
@@ -553,7 +553,7 @@ gboolean delete_timesig_directive(gchar *tag) {
 
 static  tuplet *get_tuplet(void) {
   tuplet *ret = NULL;
-  DenemoObject *curObj = findobj();  
+  DenemoObject *curObj = get_object();  
   if(curObj && (curObj->type==TUPOPEN || curObj->type==TUPCLOSE)){
     ret = ((tuplet*)curObj->object);
   }
@@ -578,7 +578,7 @@ gboolean delete_tuplet_directive(gchar *tag) {
 
 static  stemdirective *get_stemdirective(void) {
   stemdirective *ret = NULL;
-  DenemoObject *curObj = findobj();  
+  DenemoObject *curObj = get_object();  
   if(curObj && (curObj->type==STEMDIRECTIVE)){
     ret = ((stemdirective*)curObj->object);
   }
@@ -725,6 +725,23 @@ DenemoObject *curObj = get_chordobject();
 }
 
 static
+DenemoDirective *get_object_directive(gchar *tag) {
+DenemoObject *curObj = get_object();
+  if(curObj==NULL)
+    return NULL;
+  if(curObj->directives==NULL)
+    return NULL;
+  return find_directive(curObj->directives, tag);
+}
+gboolean delete_object_directive(gchar *tag) {
+  DenemoObject *curObj = get_object();
+  if(curObj==NULL)
+    return FALSE;
+  if(curObj->directives==NULL)
+    return FALSE;
+  return delete_directive(&curObj->directives, tag);
+}
+static
 DenemoDirective *get_score_directive(gchar *tag) {
 
   return find_directive(Denemo.gui->lilycontrol.directives, tag);
@@ -838,7 +855,7 @@ what##_directive_get_##field(gchar *tag) {\
 typedef DenemoStaff staff;
 typedef DenemoStaff voice;
 typedef DenemoLilyControl score;
-
+typedef DenemoObject object;
 
 
      //note I think you cannot change the graphic once you have set it.
@@ -870,7 +887,6 @@ PUT_GRAPHIC(keysig)
 PUT_GRAPHIC(timesig)
 PUT_GRAPHIC(tuplet)
 PUT_GRAPHIC(stemdirective)
-
 
 
 #define PUT_STR_FIELD_FUNC_NAME(what, field, name)\
@@ -1021,8 +1037,9 @@ what##_directive_get_##field(gchar *tag) {\
   return 0;\
 }
 
-
-
+PUT_GRAPHIC(object)
+PUT_INT_FIELD_FUNC(object, minpixels)
+GET_INT_FIELD_FUNC(object, minpixels)
 
      /* block which can be copied for new int fields */
 PUT_INT_FIELD_FUNC(note, minpixels)
@@ -1759,7 +1776,7 @@ standalone_directive_put_minpixels(gchar *tag, gint value) {
   DenemoDirective *directive = get_standalone_directive(tag);
   if(directive){
     directive->minpixels = value;//This field is not actually useful for standalone directives.
-    DenemoObject *obj = findobj();
+    DenemoObject *obj = get_object();
     store_for_undo_change (Denemo.gui->si, obj);
     obj->minpixelsalloted = value;
   }
@@ -1965,7 +1982,7 @@ gboolean unpopulate_menu(GtkWidget *menu) {
 
 
 void edit_object(GtkAction *action,  DenemoScriptParam *param) {
-  DenemoObject *obj = findobj();
+  DenemoObject *obj = get_object();
   if(obj==NULL){
       warningmessage("No object here to edit");
     return;
@@ -2345,7 +2362,7 @@ void edit_object_directive(GtkAction *action,  DenemoScriptParam *param) {
 /**
  * callback for DeleteDirective 
  */
-void delete_object_directive(GtkAction *action,  DenemoScriptParam *param) {
+void delete_chord_or_note_directive(GtkAction *action,  DenemoScriptParam *param) {
   //g_print("Edit directive called\n");
   DenemoDirective *directive;
   GList **directives;

@@ -203,7 +203,7 @@ typedef struct
 {
   DenemoObjType type; /**< The type of object pointed to by the gpointer object field below */
   gchar *user_string;/**< Holds user's original text parsed to generated this 
-			object */
+			object OBSOLETE */
   gint basic_durinticks; /**< Duration of object including dotting but not tuplet/grace note effects. */
   gint durinticks; /**< Duration of object where 384 (PPQN) is a quarter note, includes any tuplet/grace note effects */
   gint starttick; /**< When the object occurs */ 
@@ -220,6 +220,7 @@ typedef struct
   gboolean isend_beamgroup; /**< TRUE if this is the end of a beam group */
   gpointer object; /**< the structures pointed to are given in denemo_objects.h */
   gboolean isinvisible; /**< If  TRUE it will be drawn in a distinctive color and will be printed transparent. */
+  GList *directives; /* Directives attached to the object. These are transient */
 } DenemoObject;
 
 
