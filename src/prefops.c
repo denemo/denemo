@@ -167,7 +167,7 @@ initprefs ()
   ret->saveparts = FALSE;
   ret->lilyentrystyle = FALSE;
   ret->createclones = FALSE;
-  ret->enable_thumbnails = FALSE;
+  ret->enable_thumbnails = TRUE;
   ret->autosave = TRUE;
   ret->autosave_timeout = 5;
   ret->maxhistory = 20;
