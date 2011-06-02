@@ -315,7 +315,6 @@
 (define (ApplyToTaggedSelection proc)
 	(if (ForEachToSelection Tag) ; ForEachToSelection tests: only for selections and if preferences allow it
 		(let ()
-			(define position (GetPosition))
 			(d-GoToSelectionStart)
 			(d-UnsetMark)
 			(Untag) (proc)
@@ -324,8 +323,7 @@
 				(lambda () ; movement/test for RepeatProc which returns #t or #f
 				(if (Tag?) ; if the current object is already tagged stay. This is guaranteed to only happen once because next time it will be untagged by the line above.
 					#t
-					(NextTaggedObjectAllStaffs))))
-			(apply d-GoToPosition position))
+					(NextTaggedObjectAllStaffs)))))
 		#f)) ; no selection or not allowed by preferences
 
 ;A SingleAndSelectionSwitcherVariant that works with TaggedSelection which is more robust and works for more commands, but is slower.
