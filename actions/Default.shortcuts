@@ -1831,11 +1831,11 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>ChangeEnharmonic+</action>
+        <action>ChangeEnharmonicUp</action>
         <hidden>true</hidden>
       </row>
       <row>
-        <action>ChangeEnharmonic-</action>
+        <action>ChangeEnharmonicDown</action>
         <hidden>true</hidden>
       </row>
     </map>

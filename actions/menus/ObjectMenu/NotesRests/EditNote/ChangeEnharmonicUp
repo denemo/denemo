@@ -5,7 +5,7 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>ChangeEnharmonic+</action>
+        <action>ChangeEnharmonicUp</action>
         <scheme>;enharmonic +
 ;; This script switches through enharmonic variants of the same in the direction of higher diatonic base notes
 (if (Note?)
@@ -18,7 +18,7 @@
 			(else ansNote))) ; else just stay on the same note
 	;body
 	(ANS::ChangeChordNotes (map (lambda (x) (proc x)) old))))</scheme>
-        <label>Change Enharmonic +</label>
+        <label>Change Enharmonic Up</label>
         <tooltip>Shift through enharmonic variants of the same sounding note in the direction of higher diatonic base notes.</tooltip>
       </row>
     </map>
