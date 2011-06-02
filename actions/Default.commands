@@ -5057,6 +5057,14 @@ for second and subsequent systems</tooltip>
         <label>Change Enharmonic -</label>
         <tooltip>Switch through enharmonic variants of the same sounding note in the direction of lower diatonic base notes</tooltip>
       </row>
+      <row>
+        <action>SetThumbnail</action>
+        <after>ScoreProlog</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>Set Thumbnail from Selection</label>
+        <tooltip>Sets the thumbnail to the section made in the first movement.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
