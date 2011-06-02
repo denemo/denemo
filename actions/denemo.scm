@@ -298,6 +298,43 @@
 			)			
 		#f))
 
+;Three functions to tag any Denemo-object. Invisible to the user or lilypond.
+(define (Tag) (d-DirectivePut-object-minpixels "select" 0))
+(define (Untag) (d-DirectiveDelete-object "select"))
+(define (Tag?) (d-DirectiveGetForTag-object "select" ))
+
+;Search objects which were tagged by (Tag)
+(define (NextTaggedObjectAllStaffs)
+	(define position (GetPosition))
+	(if (FindNextObjectAllStaffs Tag?) 	
+		#t
+		(begin (apply d-GoToPosition position) #f)))
+					
+;An alternative implementation of ApplyToSelection which works with (Tag) instead of the normal selection. This allows destructive changes which would normally destroy the Denemo-selection
+;;Instead of a range, like the built-in selection, every item is tagged on its own. This is slower but allows items to be changed or deleted, which is not allowed otherwise
+(define (ApplyToTaggedSelection proc)
+	(if (ForEachToSelection Tag) ; ForEachToSelection tests: only for selections and if preferences allow it
+		(let ()
+			(define position (GetPosition))
+			(d-GoToSelectionStart)
+			(d-UnsetMark)
+			(Untag) (proc)
+			(RepeatProcWhileTest
+				(lambda () (Untag) (proc)) ; The action happens here. Untag makes sure that we never encounter an endless loop because the of functions that move the cursor on their own and return to the tagged item so the movement instruction see below cannot advance.
+				(lambda () ; movement/test for RepeatProc which returns #t or #f
+				(if (Tag?) ; if the current object is already tagged stay. This is guaranteed to only happen once because next time it will be untagged by the line above.
+					#t
+					(NextTaggedObjectAllStaffs))))
+			(apply d-GoToPosition position))
+		#f)) ; no selection or not allowed by preferences
+
+;A SingleAndSelectionSwitcherVariant that works with TaggedSelection which is more robust and works for more commands, but is slower.
+;; For documentation see (SingleAndSelectionSwitcher) and (ApplyToTaggedSelection)
+;; Works only with real functions, no deprecated support for string-commands like the original SingleAndSelectionSwitcher
+(define* (SingleAndTaggedSelectionSwitcher commandsingle #:optional (commandselection commandsingle) (onlyFor True))
+	(if (and DenemoPref_applytoselection (d-MarkStatus)) ; decide if single or selection.
+		(ApplyToTaggedSelection (lambda () (if (onlyFor) (commandselection))))
+		(commandsingle)))
 
 ; A set of simple tests / questions for score objects. 
 (define (Music?) 
