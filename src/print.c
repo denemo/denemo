@@ -1264,7 +1264,7 @@ create_thumbnail(gboolean async) {
         memcpy(&Denemo.gui->thumbnail, &Denemo.gui->si->selection, sizeof(DenemoSelection));
         else {
           Denemo.gui->thumbnail.firststaffmarked = 1;
-          Denemo.gui->thumbnail.laststaffmarked = 1;
+          Denemo.gui->thumbnail.laststaffmarked = 3;
           Denemo.gui->thumbnail.firstmeasuremarked = 1;
           Denemo.gui->thumbnail.lastmeasuremarked = 3;
           Denemo.gui->thumbnail.firstobjmarked = 0;
