@@ -809,7 +809,7 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoGUI * gui)
 		NULL,		/* stdout */
 		NULL,		/* stderr */
 		NULL, &err);
-    g_list_foreach(filelist, (GFunc)rm_temp_files, FALSE);
+ //These are in tmpdir and can be used for the .eps file, so don't delete them   g_list_foreach(filelist, (GFunc)rm_temp_files, FALSE);
     g_list_free(filelist);
   }
 }
@@ -1234,13 +1234,10 @@ static gchar *thumbnailsdirL = NULL;
   
 /*call back to finish thumbnail processing. */
 static
-void thumb_finished(GPid pid, gint status, GList *filelist) {
+void thumb_finished(GPid pid, gint status) {
   GError *err = NULL;
-  if(filelist) {
-  g_list_foreach(filelist, (GFunc)rm_temp_files, (gpointer)TRUE); //these temp files are always the same, so better not to waste time deleting them
-  g_list_free(filelist);
-  g_spawn_close_pid (pid); 
-  }
+  g_spawn_close_pid (printpid); 
+  printpid = GPID_NONE;
   gchar *printname = get_thumb_printname();
     gchar *printpng = g_strconcat(printname, ".png", NULL);
     GdkPixbuf *pbN = gdk_pixbuf_new_from_file_at_scale   (printpng, 128, -1, TRUE, &err);
@@ -1340,14 +1337,14 @@ create_thumbnail(gboolean async) {
     Denemo.gui->lilycontrol.excerpt = TRUE;
 
     if(async){
-   gchar *arguments[] = {
-    g_build_filename(get_bin_dir(), "denemo", NULL),
-   "-n", "-a", "(d-CreateThumbnail)(d-Exit)",
-    Denemo.gui->filename->str,
-    NULL
-  };
+      gchar *arguments[] = {
+      g_build_filename(get_bin_dir(), "denemo", NULL),
+        "-n", "-a", "(d-CreateThumbnail)(d-Exit)",
+      Denemo.gui->filename->str,
+      NULL
+    };
 
-  g_spawn_async_with_pipes (NULL,		/* any dir */
+    g_spawn_async_with_pipes (NULL,		/* any dir */
 		arguments, NULL,	/* env */
 		G_SPAWN_SEARCH_PATH, NULL,	/* child setup func */
 		NULL,		/* user data */
@@ -1358,8 +1355,7 @@ create_thumbnail(gboolean async) {
 		 &err);
     } else {
       export_png(printname, NULL, Denemo.gui);
-      thumb_finished (printpid, 0, NULL);
-     //do it by script exit(0);//force the close
+      thumb_finished (printpid, 0);
     }
     
     g_free(printname);
