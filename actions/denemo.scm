@@ -4,16 +4,12 @@
 (use-modules (ice-9 regex)) ; regular expressions
 (use-modules (ice-9 optargs)) ; optional (define* ) arguments
 (use-modules (ice-9 q)) ; queue module
-;Denemo subsystems and extra functions in additional files. 
-(define (LoadDenemo file)
-	 (load file))
-	 ;(load (string-append DENEMO_ACTIONS_DIR file)))	 
 	 
-(LoadDenemo "ans.scm") ; Abstract Note System for pitch calculations
-(LoadDenemo "notationmagick.scm") ; Insert and modify, mostly randomized, music. Depends on ans.scm
-(LoadDenemo "abstractionmovement.scm") ; Create an abstract form of the music in Scheme for further analysing. Depends on ans.scm 
-(LoadDenemo "commandlist.scm") ; Provide scrolling up and down through a list of commands. An extended toggle through multiple states.
-(LoadDenemo "helpsystem.scm") ; An online help system to display text in the second status bar
+(use-modules (denemo-modules ans)) ; Abstract Note System for pitch calculations
+(use-modules (denemo-modules notationmagick)) ; Insert and modify, mostly randomized, music. Depends on ans.scm
+(use-modules (denemo-modules abstractionmovement)) ; Create an abstract form of the music in Scheme for further analysing. Depends on ans.scm 
+(use-modules (denemo-modules commandlist)) ; Provide scrolling up and down through a list of commands. An extended toggle through multiple states.
+(use-modules (denemo-modules helpsystem)) ; An online help system to display text in the second status bar
 
 ;Needed to see if lyimport / mxml import is called from inside or outside Denemo
 (define Denemo #t)
