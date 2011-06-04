@@ -1,6 +1,21 @@
+(define-module (denemo-modules notationmagick)
+	#:export (list
+		NotationMagick::AskNewNotationstring
+		NotationMagick::AskNewAsciistring
+		NotationMagick::MirrorSelection
+		NotationMagick::ModifySelectedObjects
+		NotationMagick::ReverseCopyBuffer
+		NotationMagick::PutBinaryStringList
+		NotationMagick::String->CharsAsBinary
+		NotationMagick::ReverseStringsInList 
+		NotationMagick::InsertMemberRandomlyLy
+		NotationMagick::RandomWithinClefRangeDiatonic
+		NotationMagick::RandomWithinClefRangeChromatic
+		))
+
 ; Various scripts and variables for Denemos note-generation and filter section: NotationMagick
 ;; By Nils Gey 2010
-;; Needs loaded ans.scm
+(use-module (denemo-modules ans))
 
 ;; Global vars, used by several NotationMagick functions to remember the last value used 
 (define NotationMagick::NOTATIONSTRING "c' e' g'") 

@@ -1,3 +1,10 @@
+(define-module (denemo-modules helpsystem)
+	#:export (list
+		 Help::RemoveTag
+		 Help::TimedNotice 
+		 Help::Push
+		 Help::Pop
+	))
 (use-modules (ice-9 q))
 
 ; This help system is designed to give out messages in the second Denemo status bar.
