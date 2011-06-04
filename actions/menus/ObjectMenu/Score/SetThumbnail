@@ -17,6 +17,7 @@
  	(if (d-GoToSelectionStart)
  		(let ((response "y"))
  			(d-SetThumbnailSelection)
+ 			(d-Save)
  			(set! response (d-GetUserInput "Thumbnail Selection Complete" "Create thumbnail now?" response))
  			(if (and response (equal? response "y"))
  				(d-CreateThumbnail)))	
