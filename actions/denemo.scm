@@ -6,10 +6,8 @@
 (use-modules (ice-9 q)) ; queue module
 
 (define (use-denemo string)
-	(load (string-append "denemo-modules/" string ".scm")))
-
-;(define (use-denemo "string")
 	;(use-modules (actions denemo-modules (string->symbol string)))) ; maybe not (string->symbol) but (eval)
+	(load (string-append "denemo-modules/" string ".scm")))
 
 (use-denemo "ans") ; Abstract Note System for pitch calculations
 (use-denemo "notationmagick") ; Insert and modify, mostly randomized, music. Depends on ans.scm
