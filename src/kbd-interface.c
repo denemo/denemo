@@ -68,7 +68,7 @@ capture_add_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
   gtk_statusbar_pop(cbdata->statusbar, cbdata->context_id);
   g_signal_handler_disconnect(GTK_WIDGET(widget), cbdata->handler_key_press);
   g_signal_handler_disconnect(GTK_WIDGET(widget), cbdata->handler_focus_out);
-  
+  cbdata->two_key = 0;
   return TRUE;
 }
 
