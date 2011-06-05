@@ -5,7 +5,7 @@
 (use-modules (ice-9 optargs)) ; optional (define* ) arguments
 (use-modules (ice-9 q)) ; queue module
 
-(define (use-denemo "string")
+(define (use-denemo string)
 	(load (string-append "denemo-modules/" string ".scm")))
 
 ;(define (use-denemo "string")
