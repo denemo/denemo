@@ -886,8 +886,15 @@
 		;Quintuple Augmented, Quintuple Diminished. Only feses to bisis, the Final Frontier.	
 		((or (eq? target 'aaaaa4) (eq? target 'AAAAA4))  34)		
 		((or (eq? target 'ddddd5) (eq? target 'DDDDD5))  -34)
-		(else #f)))
-
+	
+		((or (eq? target 'q1) (eq? target 'Q1)) 0) 	;IntervalGetSteps variation to stay in key. These can be compared to the special rest symbol. They are only an indicator for other functions.
+		((or (eq? target 'q2) (eq? target 'Q2)) 102)
+		((or (eq? target 'q3) (eq? target 'Q3)) 104)
+		((or (eq? target 'q4) (eq? target 'Q4)) 106)
+		((or (eq? target 'q5) (eq? target 'Q5)) 101)
+		((or (eq? target 'q6) (eq? target 'Q6)) 103)
+		((or (eq? target 'q7) (eq? target 'Q7)) 105)
+		(else #f)))		
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1021,8 +1028,8 @@
 	  (else   #f))) ; someone might introduce some insane feature in the future where you can add doublecrosses or similar to a keysig. Or maybe there is even a real usage for micotonals like turkish maqam.
 	 
 
-
 ;IntervalCalc wants an ANS note as root and an interval like "m2", "M6" or "p5" returns an ANS value.
+;;It is also possible to use diatonic intervals which are name "q2" "q3" "q4" to "q7"
 ;;You can give a number like IntervalGetSteps directly instead.
 ;Op is needed to calc up or down. 1 is up, -1 is down.
 (define (ANS::IntervalCalcPrototype op ansNote interval)
@@ -1031,7 +1038,9 @@
 		interval
 		(ANS::IntervalGetSteps interval)))
  (define root (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote ansNote)))
- (list-ref ANS::PillarOfFifth (+ root (* op targ))))  
+ (if (> targ 100) ; > 100 are diatonic interval identifiers.
+ 	(ANS::GetDiatonic (list-ref ANS::PillarOfFifth (+ root (* op (- targ 100))))) ; -100 is a normal interval which then is modified to become in scale.
+	(list-ref ANS::PillarOfFifth (+ root (* op targ)))))
 
 
 ;Since IntervalCalcPrototype just returns a note name without octave we must check if the new note with the old octave is really above the old, if not shift it.
