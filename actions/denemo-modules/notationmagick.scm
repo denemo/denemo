@@ -1,6 +1,6 @@
 (use-modules (ice-9 optargs)) ; optional (define* ) arguments
 
-(define-module (actions denemo-modules notationmagick)
+#!(define-module (actions denemo-modules notationmagick)
 	#:export (
 		NotationMagick::AskNewNotationstring
 		NotationMagick::AskNewAsciistring
@@ -13,7 +13,7 @@
 		NotationMagick::InsertMemberRandomlyLy
 		NotationMagick::RandomWithinClefRangeDiatonic
 		NotationMagick::RandomWithinClefRangeChromatic
-		))
+		)) !#
 
 
 ; Various scripts and variables for Denemos note-generation and filter section: NotationMagick

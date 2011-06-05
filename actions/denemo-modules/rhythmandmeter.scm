@@ -1,6 +1,6 @@
 (use-modules (ice-9 optargs)) ; optional (define* ) arguments
 
-(define-module (actions denemo-modules notationmagick)
+#!(define-module (actions denemo-modules notationmagick)
 	#:export (
 		GetPrevailingTimeSig
 		GetMeasureTicks
@@ -33,7 +33,7 @@
 		duration::GetMetricalPosition
 		duration::MetricalMain?
 		d-GetStartTick
-		))
+		)) !#
 
 (define* (GetPrevailingTimeSig #:optional (numberorstring #f) ) 
 	(if numberorstring

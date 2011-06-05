@@ -1,9 +1,9 @@
-(use-modules (srfi srfi-1)) ; List library. Needed for list-index
+#!(use-modules (srfi srfi-1)) ; List library. Needed for list-index
 (define-module (actions denemo-modules commandlist)
 	#:export (
 		 CommandListScrollUp
 		 CommandListScrollDown
-	))
+	)) !#
 
 #!
 A set of functions to provide scrolling up and down through a list of commands. In other words: An extended toggle through multiple states.

@@ -3,7 +3,7 @@
 (use-modules (srfi srfi-13))
 (use-modules (ice-9 optargs))
 
-(define-module (actions denemo-modules ans)
+#!(define-module (actions denemo-modules ans)
 	#:export (
 			;ANS::NoteTable
 			;ANS::NoteTableR
@@ -49,7 +49,7 @@
 		ANS::RandomChromatic
 		ANS::InsertListRandomly
 		ANS::InsertMemberRandomly	
-		))
+		)) !#
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

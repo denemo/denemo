@@ -1,5 +1,4 @@
-(use-modules (ice-9 optargs)) ; optional (define* ) arguments
-
+#!
 (define-module (actions denemo-modules selection)
 	#:export (
 		NextSelectedObjectAllStaffs
@@ -12,7 +11,8 @@
 		SchemeCopy
 		ProcessSchemeCopyBufferMusObj
 		SchemePaste
-	))
+	)
+	#:use-module (ice-9 optargs)) !#
 
 (define (MoveToSelectionBeginningInThisStaff)
 	(define staffPosition (d-GetStaff))

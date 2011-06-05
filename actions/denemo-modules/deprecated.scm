@@ -1,4 +1,4 @@
-(define-module (actions denemo-modules deprecated))
+#!(define-module (actions denemo-modules deprecated)) !#
 
 ;;;;;;;;;;;;;; Refresh Procedures.
 ;;;;;;;;;;;;;; Naming convention D-<tag> is the refresh proc for tag
