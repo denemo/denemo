@@ -40,6 +40,7 @@
 #include "http.h"
 #include "texteditors.h"
 #include "prefops.h"
+#include "audiobackend.h"
 #define INIT_SCM "init.scm"
 
 //#include "pathconfig.h"
@@ -2992,10 +2993,12 @@ SCM scheme_output_midi_bytes (SCM input) {
     buffer[i] = (unsigned char) strtol(next, &next, 0);			    
   g_free(bytes);    
   g_debug("\nbuffer[0] = %d buffer[1] = %d buffer[2] = %d\n", buffer[0], buffer[1], buffer[2]);
-  if (Denemo.prefs.midi_audio_output == Jack)
-    jack_output_midi_event(buffer, 0, 0);
-  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
-    fluid_output_midi_event(buffer);
+//  if (Denemo.prefs.midi_audio_output == Jack)
+//    jack_output_midi_event(buffer, 0, 0);
+//  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
+//    fluid_output_midi_event(buffer);
+  play_midi_event(DEFAULT_BACKEND, curstaffstruct->midi_port, buffer);
+
   if(string_input) free(string_input);
   return  SCM_BOOL(TRUE);
 }
@@ -3006,7 +3009,9 @@ static SCM scheme_play_midikey(SCM scm) {
     gint channel = midi&0xF;
     double volume = ((midi>>16)&0xFF)/255.0;
     //g_print("Playing %x at %f volume, %d channel\n", key, (double)volume, channel);
-    play_midikey(key, 0.2, volume, channel);
+    // FIXME
+    //play_midikey(key, 0.2, volume, channel);
+    play_note(DEFAULT_BACKEND, 0 /*port*/, channel, key, 1000 /*duration*/, volume);
     //g_usleep(200000);
  return SCM_BOOL(TRUE);
 }
@@ -4872,30 +4877,31 @@ void inner_main(void*closure, int argc, char **argv){
     g_free(choice);
   }
 
-#ifdef _HAVE_JACK_
-if (Denemo.prefs.midi_audio_output == Jack)
-  init_jack();
-#endif
-  /* audio initialization */
-  //ext_init (); 
-  /* external players (midi...) */
-#ifdef _HAVE_FLUIDSYNTH_
-if (Denemo.prefs.midi_audio_output == Fluidsynth)
-  fluidsynth_init(); 
-#endif
-#ifdef _HAVE_PORTAUDIO_
-if (Denemo.prefs.midi_audio_output == Portaudio){
-  /* Immediate Playback */
-  if(Denemo.prefs.immediateplayback) {
-    if( midi_init ()  )  {           /* Opens Denemo.prefs.sequencer, if this is set to an empty
-				 string then the open fails and direct audio out is used for 
-				immediate playback */
-      //g_print("Initializing audio out\n");
-      init_audio_out();
-    }
-  }
-}
-#endif    
+// FIXME
+//#ifdef _HAVE_JACK_
+//if (Denemo.prefs.midi_audio_output == Jack)
+//  init_jack();
+//#endif
+//  /* audio initialization */
+//  //ext_init (); 
+//  /* external players (midi...) */
+//#ifdef _HAVE_FLUIDSYNTH_
+//if (Denemo.prefs.midi_audio_output == Fluidsynth)
+//  fluidsynth_init(); 
+//#endif
+//#ifdef _HAVE_PORTAUDIO_
+//if (Denemo.prefs.midi_audio_output == Portaudio){
+//  /* Immediate Playback */
+//  if(Denemo.prefs.immediateplayback) {
+//    if( midi_init ()  )  {           /* Opens Denemo.prefs.sequencer, if this is set to an empty
+//				 string then the open fails and direct audio out is used for 
+//				immediate playback */
+//      //g_print("Initializing audio out\n");
+//      init_audio_out();
+//    }
+//  }
+//}
+//#endif    
 
     
   /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */

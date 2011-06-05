@@ -536,8 +536,10 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);
   GtkWidget *button = gtk_button_new_with_label (_("Choose Soundfont"));
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-  gtk_signal_connect (GTK_OBJECT (button), "clicked",
-    GTK_SIGNAL_FUNC (choose_sound_font), fluidsynth_soundfont);
+
+  // FIXME
+//  gtk_signal_connect (GTK_OBJECT (button), "clicked",
+//    GTK_SIGNAL_FUNC (choose_sound_font), fluidsynth_soundfont);
   gtk_widget_show (button);
 
   BOOLEANENTRY("Enable Reverb on soundfont", fluidsynth_reverb)

@@ -67,14 +67,14 @@ typedef enum backend_type_t {
 
 
 /**
- * See:
+ * Used to be:
  * void fluid_midi_play(gchar *scheme_callback)
  * void jack_midi_play(gchar *scheme_callback)
  */
 void midi_play(gchar *callback);
 
 /**
- * See:
+ * Used to be:
  * void fluid_midi_stop()
  * void jack_midi_playback_stop()
  * int jack_kill_timer()
@@ -84,7 +84,7 @@ void midi_stop();
 /**
  * Plays a single MIDI event.
  *
- * See:
+ * Used to be:
  * void fluid_output_midi_event(unsigned char *buffer)
  * void jack_output_midi_event(unsigned char *buffer, gint client_number, gint port_number)
  */
@@ -93,7 +93,7 @@ int play_midi_event(backend_type_t backend, int port, unsigned char *buffer);
 /**
  * Plays a single note.
  *
- * See:
+ * Used to be:
  * void fluid_playpitch(int key, int duration, int channel, int vol)
  * void jack_playpitch(gint key, gint duration)
  */
@@ -103,7 +103,7 @@ int play_note(backend_type_t backend, int port, int channel, int key, int durati
 /**
  * FIXME: the seems to be something missing here...
  *
- * See:
+ * Used to be:
  * void playnotes(gboolean doit, chord *chord_to_play, int channel)
  */
 int play_notes(backend_type_t backend, int port, int channel, chord *chord_to_play);
@@ -111,7 +111,7 @@ int play_notes(backend_type_t backend, int port, int channel, chord *chord_to_pl
 /**
  * FIXME: what exactly does this do?
  *
- * See:
+ * Used to be:
  * void fluid_rhythm_feedback(gint duration, gboolean rest, gboolean dot)
  */
 int rhythm_feedback(backend_type_t backend, int duration, gboolean rest, gboolean dot);
@@ -120,11 +120,12 @@ int rhythm_feedback(backend_type_t backend, int duration, gboolean rest, gboolea
 /**
  * Sends a MIDI panic CC and/or resets the synth engine.
  *
- * See:
+ * Used to be:
  * void fluid_midi_panic()
  * void jack_midi_panic()
  */
 int panic(backend_type_t backend);
+
 int panic_all();
 
 

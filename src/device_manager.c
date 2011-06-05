@@ -271,7 +271,8 @@ device_manager_DevicePort_list(){
 void device_manager_create_device(GtkWidget *button, gpointer v)
 {
   GtkWidget *view = GTK_WIDGET(v);
-  stop_jack();
+  // FIXME
+  //stop_jack();
   if(ARRAY == NULL)
     ARRAY = g_array_new(TRUE, TRUE, sizeof(DeviceManagerDevice));
   g_array_set_size(ARRAY, ARRAY->len+1);
@@ -287,7 +288,8 @@ void device_manager_create_device(GtkWidget *button, gpointer v)
 void device_manager_remove_device(GtkWidget *button, gpointer v)
 {
   GtkWidget *view = GTK_WIDGET(v);
-  stop_jack();
+  // FIXME
+  //stop_jack();
   gint j = get_device_number(view);
   if (j<0)
     return;
@@ -303,7 +305,8 @@ void device_manager_create_port(GtkWidget *button, gpointer v)
 {
 #define ARRAY Denemo.prefs.midi_device[j].ports_array
   GtkWidget *view = GTK_WIDGET(v);
-  stop_jack();
+  // FIXME
+  //stop_jack();
   gint j = get_device_number(view);
   if(j<0)
     return;
@@ -373,10 +376,11 @@ cell_edited (GtkCellRendererText* cellrenderertext,
   store = GTK_TREE_STORE(gtk_tree_view_get_model
 		         (GTK_TREE_VIEW(view)));
   
-  if(!rename_jack_midi_port(device_number, port_number, new_name))
-    gtk_tree_store_set (store, &iter, 0, new_name, -1);
-  else 
-    g_debug("can't change device %d port %d name\n", device_number, port_number);
+  // FIXME
+//  if(!rename_jack_midi_port(device_number, port_number, new_name))
+//    gtk_tree_store_set (store, &iter, 0, new_name, -1);
+//  else 
+//    g_debug("can't change device %d port %d name\n", device_number, port_number);
 }
 
 GtkWidget *

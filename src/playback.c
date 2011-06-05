@@ -30,6 +30,7 @@
 #include <errno.h>
 #include "jackmidi.h"
 #include "fluid.h"
+#include "audiobackend.h"
 
 static gint timeout_id = 0, kill_id=0;
 static gdouble duration = 0.0;
@@ -74,22 +75,25 @@ void
 ext_midi_playback (GtkAction * action, DenemoScriptParam *param) {
   GET_1PARAM(action, param, callback);
   set_tempo();
-  if (Denemo.prefs.midi_audio_output == Jack)
-    jack_midi_play(callback);
-  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
-    fluid_midi_play(callback);
-  else infodialog("Nothing chosen to play back on:\nLook in Edit->Change Preferences->MIDI/Audio->MIDI/Audio Output\nRestart Denemo after setting this to Internal Synth.");
+//  if (Denemo.prefs.midi_audio_output == Jack)
+//    jack_midi_play(callback);
+//  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
+//    fluid_midi_play(callback);
+//  else infodialog("Nothing chosen to play back on:\nLook in Edit->Change Preferences->MIDI/Audio->MIDI/Audio Output\nRestart Denemo after setting this to Internal Synth.");
 
+  midi_play(callback);
 }
 
 void stop_midi_playback (GtkAction * action, gpointer param) {
- if (Denemo.prefs.midi_audio_output == Jack){
-   jack_midi_playback_stop();
-   jack_kill_timer();
- }
- else if (Denemo.prefs.midi_audio_output == Fluidsynth){
-   fluid_midi_stop();
- }
+// if (Denemo.prefs.midi_audio_output == Jack){
+//   jack_midi_playback_stop();
+//   jack_kill_timer();
+// }
+// else if (Denemo.prefs.midi_audio_output == Fluidsynth){
+//   fluid_midi_stop();
+// }
+
+  midi_stop();
 
  gtk_widget_queue_draw (Denemo.scorearea);//update playhead on screen
 }
@@ -97,10 +101,12 @@ void stop_midi_playback (GtkAction * action, gpointer param) {
 void
 playback_panic()
 {
-  if (Denemo.prefs.midi_audio_output == Jack)
-    jack_midi_panic();
-  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
-    fluid_midi_panic();   
+//  if (Denemo.prefs.midi_audio_output == Jack)
+//    jack_midi_panic();
+//  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
+//    fluid_midi_panic();   
+
+  panic_all();
 }
 
 /** 

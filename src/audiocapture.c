@@ -49,7 +49,7 @@
 #define PA_VERSION_19
 #endif
 
-/* #define SAMPLE_RATE  (17932) /* Test failure to open with this value. */
+/* #define SAMPLE_RATE  (17932) */ /* Test failure to open with this value. */
 #define SAMPLE_RATE  DENEMO_SAMPLE_RATE
 #define NUM_SECONDS     (10)
 

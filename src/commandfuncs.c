@@ -29,6 +29,7 @@
 #include "keyresponses.h"
 #include "view.h"
 #include "pitchentry.h"
+#include "audiobackend.h"
 
 #ifdef _HAVE_FLUIDSYNTH_
 #include "fluid.h"
@@ -1468,14 +1469,7 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
  
   if (gui->mode&(INPUTRHYTHM)) {
       if(Denemo.prefs.immediateplayback) {
-#ifdef _HAVE_FLUIDSYNTH_
-	fluid_rhythm_feedback(duration, rest, FALSE);
-#else
-	if(rest)
-	  playpitch(64.0*(1+duration), 60.0/(4.0*gui->si->tempo*(1<<duration)), 0.1, 2);//FIXME make a distinct noise
-	else
-	  playpitch(64.0*(1+duration), 60.0/(gui->si->tempo*(1<<duration)), 0.2, 1);
-#endif
+        rhythm_feedback(DEFAULT_BACKEND, duration, rest, FALSE);
       }
     if(!was_appending)
       movecursorleft(NULL);
@@ -1483,7 +1477,9 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
   } else {
     if(Denemo.gui->last_source==INPUTKEYBOARD) {
       DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
-      playnotes (Denemo.prefs.immediateplayback, (chord *) mudela_obj_new->object,  curstaffstruct->midi_channel);
+      if (Denemo.prefs.immediateplayback) {
+        play_notes(DEFAULT_BACKEND, curstaffstruct->midi_port, curstaffstruct->midi_channel, (chord *) mudela_obj_new->object);
+      }
     } else {
       //Denemo.gui->last_source = INPUTKEYBOARD;
     }
@@ -1613,8 +1609,9 @@ notechange (DenemoScore * si, gboolean remove)
       if(Denemo.gui->last_source==INPUTKEYBOARD) {
 	DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
 
-	playnotes (Denemo.prefs.immediateplayback,
-	 (chord *) curmudelaobj->object, curstaffstruct->midi_channel);
+      if (Denemo.prefs.immediateplayback) {
+	play_notes(DEFAULT_BACKEND, curstaffstruct->midi_port, curstaffstruct->midi_channel, (chord *) curmudelaobj->object);
+      }
       } else {
 	// Denemo.gui->last_source = INPUTKEYBOARD;
     }
@@ -1702,8 +1699,9 @@ incrementenshift (DenemoGUI * gui, gint direction)
       if(Denemo.gui->last_source==INPUTKEYBOARD) {
 	DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
 
-	playnotes (Denemo.prefs.immediateplayback,
-		   (chord *) curmudelaobj->object, curstaffstruct->midi_channel);
+        if (Denemo.prefs.immediateplayback) {
+          play_notes(DEFAULT_BACKEND, curstaffstruct->midi_port, curstaffstruct->midi_channel, (chord *) curmudelaobj->object);
+        }
       } else {
 	//	Denemo.gui->last_source = INPUTKEYBOARD;
       }
@@ -1739,9 +1737,9 @@ setenshift (DenemoScore * si, gint enshift)
 
       if(Denemo.gui->input_source==INPUTKEYBOARD) {
 	DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
-	playnotes (Denemo.prefs.immediateplayback,
-		   (chord *) curmudelaobj->object, curstaffstruct->midi_channel);
-
+        if (Denemo.prefs.immediateplayback) {
+          play_notes(DEFAULT_BACKEND, curstaffstruct->midi_port, curstaffstruct->midi_channel, (chord *) curmudelaobj->object);
+        }
       }
 
     }
@@ -1805,7 +1803,7 @@ changedots (DenemoScore * si, gint amount)
 #ifdef _HAVE_FLUIDSYNTH_	
 	  chord *thechord = (chord *) curmudelaobj->object;
 	  gboolean rest =  (thechord->notes == NULL);
-	  fluid_rhythm_feedback(thechord->baseduration, rest, TRUE);
+	  rhythm_feedback(DEFAULT_BACKEND, thechord->baseduration, rest, TRUE);
 	  
 #else
 	  playpitch(440.0, 0.2, 0.2, 1);

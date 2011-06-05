@@ -9,10 +9,8 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	hairpin.c \
 	help.c importxml.c importmusicxml.c importmidi.c kbd-custom.c kbd-interface.c \
 	keyresponses.c keysigdialog.c figure.c 	main.c \
-	measureops.c midi.c moveviewport.c mousing.c barline.c 	view.c http.c \
+	measureops.c moveviewport.c mousing.c barline.c 	view.c http.c \
 	mwidthdialog.c objops.c exportmidi.c 	instrumentname.c external.c \
-	jackmidi.c jackmidi.h \
-	fluid.c fluid.h \
 	device_manager.c device_manager.h \
 	playback.c drawfakechord.c fakechord.c \
 	playbackprops.c prefdialog.c prefops.c	processstaffname.c \
@@ -31,7 +29,7 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	figure.h barline.h view.h http.h hairpin.h  help.h importxml.h  importmusicxml.h importmidi.h \
 	kbd-custom.h kbd-interface.h graceops.h \
 	keyresponses.h  \
-	measureops.h midi.h mousing.h  moveviewport.h notewidths.h \
+	measureops.h mousing.h  moveviewport.h notewidths.h \
 	objops.h \
 	playbackprops.h prefops.h processstaffname.h \
 	redefs.h scoreops.h \
@@ -42,11 +40,12 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	bookmarks.c bookmarks.h scorewizard.c \
 	external.h scorewizard.h fakechord.h \
 	parseinstruments.c parseinstruments.h keyboard.c \
-	pitchentry.c pitchrecog.c audiocapture.c pitchentry.h audio.h \
+	pitchentry.c pitchrecog.c pitchentry.h audio.h \
 	drawlilydir.c lilydirectives.h lilydirectives.c keysigdialog.h \
 	callbacks.h entries.h \
 	scheme_cb.h scheme.h register_commands.h \
-	pathconfig.h
+	pathconfig.h \
+	audiobackend.c
 
 localedir = $(datadir)/locale
 INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
