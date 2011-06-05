@@ -1,3 +1,8 @@
+(use-modules (srfi srfi-1))
+(use-modules (srfi srfi-8))
+(use-modules (srfi srfi-13))
+(use-modules (ice-9 optargs))
+
 (define-module (actions denemo-modules ans)
 	#:export (
 			;ANS::NoteTable
@@ -45,11 +50,6 @@
 		ANS::InsertListRandomly
 		ANS::InsertMemberRandomly	
 		))
-
-(use-modules (srfi srfi-1))
-(use-modules (srfi srfi-8))
-(use-modules (srfi srfi-13))
-(use-modules (ice-9 optargs))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
