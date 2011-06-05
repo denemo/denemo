@@ -255,8 +255,8 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "Print"),
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintPart"), "PrintPart", "Print Part", "Displays the final finished score for the current part (that is current staff", printpart_cb);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Close"), "Close", "Close Score", "Close the current score. Other windows will stay open", close_gui_with_check);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Quit"), "Quit", "Quit", "Quit the Denemo program", closewrapper);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Undo"), "Undo", "Undo/Redo Last Note", "Undoes the insert/delete of last note", undowrapper);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Redo"), "Redo", "Redo", "Redo", redowrapper);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Undo"), "Undo", "Undo", "Undoes one (more) step of your edits to the current score.", undowrapper);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Redo"), "Redo", "Redo", "Redoes the next of the steps you have Undone", redowrapper);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Copy"), "Copy", "Copy", "Copy", copywrapper);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Cut"), "Cut", "Cut", "Cut", cutwrapper);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Paste"), "Paste", "Paste", "Paste the selected music", pastewrapper);

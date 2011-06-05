@@ -45,11 +45,23 @@ capture_add_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
       return TRUE;
   dnm_clean_event(event);
   modifiers = dnm_sanitize_key_state(event);
+  gchar *name = dnm_accelerator_name(event->keyval, event->state);
   if(cbdata->two_key==1) {
-    cbdata->first_keyval = event->keyval;
-    cbdata->first_modifiers = modifiers;
-    cbdata->two_key = 2;
-    return TRUE;
+    gint command_idx = lookup_command_for_keybinding_name(Denemo.map, name);
+    if(command_idx==-1) {
+      cbdata->first_keyval = event->keyval;
+      cbdata->first_modifiers = modifiers;
+      cbdata->two_key = 2;
+      return TRUE;
+    } else {
+      cbdata->two_key = 0;
+      gchar *msg = g_strdup_printf("The command %s has the shortcut: %s\nDelete it first or start again selecting an unused keypress.", lookup_name_from_idx (Denemo.map, command_idx), name);
+    warningdialog(msg);
+    g_free(msg);
+    g_free(name);
+      g_warning("trying to set a two key starting with a single\n");
+      return TRUE;
+    }
   }
   //get the command_index
   selection = gtk_tree_view_get_selection(cbdata->command_view);
@@ -58,6 +70,17 @@ capture_add_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
   array = gtk_tree_path_get_indices(path);
   command_idx = array[0];
   gtk_tree_path_free(path);
+
+  
+  if(cbdata->two_key == 0 && (GList *)g_hash_table_lookup(Denemo.map->continuations_table, name)) {
+    //g_warning("There is a two key binding starting with this\n");
+    gchar *msg = g_strdup_printf("There is at least one two-key shortcut that starts with: %s\nDelete it/those first or start again selecting an unused keypress.", name);
+    warningdialog(msg);
+    g_free(msg);
+    g_free(name);
+    return TRUE;
+  }
+  g_free(name);
   //set the new binding
   if(cbdata->two_key==2)
     add_twokeybinding_to_idx(Denemo.map, cbdata->first_keyval, cbdata->first_modifiers, event->keyval, modifiers,
@@ -68,7 +91,7 @@ capture_add_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
   gtk_statusbar_pop(cbdata->statusbar, cbdata->context_id);
   g_signal_handler_disconnect(GTK_WIDGET(widget), cbdata->handler_key_press);
   g_signal_handler_disconnect(GTK_WIDGET(widget), cbdata->handler_focus_out);
-  
+  cbdata->two_key = 0;
   return TRUE;
 }
 
@@ -363,9 +386,9 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
 		    (GtkAttachOptions) (0), 0, 0);
  
   lookbutton = gtk_button_new_from_stock (GTK_STOCK_FIND);
-  gtk_table_attach (GTK_TABLE (table), lookbutton, 5, 6, 5, 6,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
+ // gtk_table_attach (GTK_TABLE (table), lookbutton, 5, 6, 5, 6,
+//		    (GtkAttachOptions) (GTK_FILL),
+//		    (GtkAttachOptions) (0), 0, 0);
 
   addbutton = gtk_button_new_from_stock (GTK_STOCK_ADD);
   gtk_button_set_label(GTK_BUTTON(addbutton), "Add One Key Shortcut");
@@ -377,6 +400,9 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   gtk_button_set_label(GTK_BUTTON(add2button), "Add Two Key Shortcut");
   gtk_box_pack_end (GTK_BOX (vbox), add2button, FALSE, TRUE, 0);
 
+  lookbutton = gtk_button_new_from_stock (GTK_STOCK_FIND);
+  gtk_button_set_label(GTK_BUTTON(lookbutton), "Find Command for One Key Shortcut");
+  gtk_box_pack_end (GTK_BOX (vbox), lookbutton, FALSE, TRUE, 0);
 
   statusbar = gtk_statusbar_new();
   context_id = gtk_statusbar_get_context_id(GTK_STATUSBAR(statusbar), "");
