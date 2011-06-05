@@ -45,11 +45,23 @@ capture_add_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
       return TRUE;
   dnm_clean_event(event);
   modifiers = dnm_sanitize_key_state(event);
+  gchar *name = dnm_accelerator_name(event->keyval, event->state);
   if(cbdata->two_key==1) {
-    cbdata->first_keyval = event->keyval;
-    cbdata->first_modifiers = modifiers;
-    cbdata->two_key = 2;
-    return TRUE;
+    gint command_idx = lookup_command_for_keybinding_name(Denemo.map, name);
+    if(command_idx==-1) {
+      cbdata->first_keyval = event->keyval;
+      cbdata->first_modifiers = modifiers;
+      cbdata->two_key = 2;
+      return TRUE;
+    } else {
+      cbdata->two_key = 0;
+      gchar *msg = g_strdup_printf("The command %s has the shortcut: %s\nDelete it first or start again selecting an unused keypress.", lookup_name_from_idx (Denemo.map, command_idx), name);
+    warningdialog(msg);
+    g_free(msg);
+    g_free(name);
+      g_warning("trying to set a two key starting with a single\n");
+      return TRUE;
+    }
   }
   //get the command_index
   selection = gtk_tree_view_get_selection(cbdata->command_view);
@@ -58,6 +70,17 @@ capture_add_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
   array = gtk_tree_path_get_indices(path);
   command_idx = array[0];
   gtk_tree_path_free(path);
+
+  
+  if(cbdata->two_key == 0 && (GList *)g_hash_table_lookup(Denemo.map->continuations_table, name)) {
+    //g_warning("There is a two key binding starting with this\n");
+    gchar *msg = g_strdup_printf("There is at least one two-key shortcut that starts with: %s\nDelete it/those first or start again selecting an unused keypress.", name);
+    warningdialog(msg);
+    g_free(msg);
+    g_free(name);
+    return TRUE;
+  }
+  g_free(name);
   //set the new binding
   if(cbdata->two_key==2)
     add_twokeybinding_to_idx(Denemo.map, cbdata->first_keyval, cbdata->first_modifiers, event->keyval, modifiers,
