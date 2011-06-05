@@ -386,9 +386,9 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
 		    (GtkAttachOptions) (0), 0, 0);
  
   lookbutton = gtk_button_new_from_stock (GTK_STOCK_FIND);
-  gtk_table_attach (GTK_TABLE (table), lookbutton, 5, 6, 5, 6,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
+ // gtk_table_attach (GTK_TABLE (table), lookbutton, 5, 6, 5, 6,
+//		    (GtkAttachOptions) (GTK_FILL),
+//		    (GtkAttachOptions) (0), 0, 0);
 
   addbutton = gtk_button_new_from_stock (GTK_STOCK_ADD);
   gtk_button_set_label(GTK_BUTTON(addbutton), "Add One Key Shortcut");
@@ -400,6 +400,9 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   gtk_button_set_label(GTK_BUTTON(add2button), "Add Two Key Shortcut");
   gtk_box_pack_end (GTK_BOX (vbox), add2button, FALSE, TRUE, 0);
 
+  lookbutton = gtk_button_new_from_stock (GTK_STOCK_FIND);
+  gtk_button_set_label(GTK_BUTTON(lookbutton), "Find Command for One Key Shortcut");
+  gtk_box_pack_end (GTK_BOX (vbox), lookbutton, FALSE, TRUE, 0);
 
   statusbar = gtk_statusbar_new();
   context_id = gtk_statusbar_get_context_id(GTK_STATUSBAR(statusbar), "");
