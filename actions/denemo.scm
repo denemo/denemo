@@ -4,16 +4,21 @@
 (use-modules (ice-9 regex)) ; regular expressions
 (use-modules (ice-9 optargs)) ; optional (define* ) arguments
 (use-modules (ice-9 q)) ; queue module
-;Denemo subsystems and extra functions in additional files. 
-(define (LoadDenemo file)
-	 (load file))
-	 ;(load (string-append DENEMO_ACTIONS_DIR file)))	 
-	 
-(LoadDenemo "ans.scm") ; Abstract Note System for pitch calculations
-(LoadDenemo "notationmagick.scm") ; Insert and modify, mostly randomized, music. Depends on ans.scm
-(LoadDenemo "abstractionmovement.scm") ; Create an abstract form of the music in Scheme for further analysing. Depends on ans.scm 
-(LoadDenemo "commandlist.scm") ; Provide scrolling up and down through a list of commands. An extended toggle through multiple states.
-(LoadDenemo "helpsystem.scm") ; An online help system to display text in the second status bar
+
+(define (use-denemo string)
+	(load (string-append "denemo-modules/" string ".scm")))
+
+;(define (use-denemo "string")
+	;(use-modules (actions denemo-modules (string->symbol string)))) ; maybe not (string->symbol) but (eval)
+
+(use-denemo "ans") ; Abstract Note System for pitch calculations
+(use-denemo "notationmagick") ; Insert and modify, mostly randomized, music. Depends on ans.scm
+(use-denemo "abstractionmovement") ; Create an abstract form of the music in Scheme for further analysing. Depends on ans.scm 
+(use-denemo "commandlist")  ; Provide scrolling up and down through a list of commands. An extended toggle through multiple states.
+(use-denemo "helpsystem") ; An online help system to display text in the second status bar
+(use-denemo "selection")  ; Selections, Copy and Paste
+(use-denemo "rhythmandmeter") ; Rhythm, Durations, Ticks, Meter, Conversion between Lilypond, Tick and Denemo duration.
+;(use-denemo "deprecated") ; Old and outdated scripts
 
 ;Needed to see if lyimport / mxml import is called from inside or outside Denemo
 (define Denemo #t)
@@ -103,7 +108,7 @@
 (define* (GetUniquePairsFilterLowest listy #:optional (minimum min))
 	(define lowest (apply minimum listy))
 	(define returnList (GetUniquePairs listy)) ; sort the list ascending, so the lowest note/bass-note is the first.
-	(filter (lambda (x) (if (equal? (car x) lowest) #t #f)) returnList) ; return only those pairs which has lowest value as car
+	;(filter (lambda (x) (if (equal? (car x) lowest) #t #f)) returnList) ; return only those pairs which has lowest value as car
 	(filter (lambda (x) (if (or (equal? (car x) lowest) (equal? (cdr x) lowest)) #t #f))  returnList)) ; return only those pairs which has the lowest value as car or cdr.
 
 ;Get Lilypond Objects as strings. Currently just manual converting for single cases.
@@ -169,31 +174,6 @@
 	 (list-ref (reverse (string-tokenize(d-GetNotes))) 0)
 	 #f))
 
-
-;Next object in selection for all staffs
-(define (NextSelectedObjectAllStaffs)
-	(define lastposition (GetPosition))
-	(if (and (d-MarkStatus) (d-IsInSelection))
-		(if (d-NextSelectedObject)
-		  #t ; found one. End
-		   (if (d-MoveToStaffDown) ; no selected item left in the current staff. check one down.
-		  		(if (selection::MoveToStaffBeginning) 
-				  	#t ; found a selection in the lower staff
-				  	(begin (apply d-GoToPosition lastposition ) #f)) ; reset cursor to the last known selection position and end.
-				  #f)) ; no staff below
-	  #f)); no selection or cursor not in selection
-
-(define (selection::MoveToStaffBeginning)
-	(define staffPosition (d-GetStaff))
-	(define rememberPosition (GetPosition))
-	(if (d-GoToSelectionStart)
-		(begin 
-			(d-GoToPosition #f staffPosition #f 1)
-			(if (d-IsInSelection)
-				#t
-				(begin (apply d-GoToPosition rememberPosition) #f))) ; something went wrong. 
-		#f)) ; no selection at all. 
-
 ;Find the next object that returns #t from the given test function. Don't write the function in parentheses, just give the name (except you give a function that returns a name :))
 (define (FindNextObjectAllStaffs test?) 
 	(let loopy ()
@@ -244,95 +224,6 @@
 			(if (step)
 				(loop)
 				(begin (d-MoveToMovementBeginning) #f))))); Beginning of Movement, end of search
-
-
-;SingleAndSelectionSwitcher by Nils Gey Jan/2010
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;Automatically applies a script to a whole selection. You can give different commands or command blocks with (begin) for single items or whole selections. You can enter a complete scheme script with (),  arguments and everything you would want to run standalone. Don't forget to escape chars like  \" . You can even use a complete (begin ) block.
-;But attention! SingleAndSelectionSwitcher will still try to apply the given script to each of the single items alone. If you need a script which differs completly in beaviour for single/selection you have to write your own. You have to take out the (let loop () section for this and write your own selection part there.
-;The applied script itself has to take care if the command can be applied to each potential item. If you want only notes/chords/rests you have to make sure the script does not abort on other objects. Its the same as giving proper return values for a single item, just return #f if a command is not possible for an item. While a single item just returns an error if you don't do it correctly, but does no harm otherwise, a script applied to a selection will stop on that item and leaves you on half on the way.
-;Return values are the return values the script itself gives.
-;The third, optional, parameter can prevent an object from be processed. By default this parameter is #t so the command will be will be applied to any object in the selection and let the command itself decide what to do (or just do nothing). By giving the third optional argument you can specify additional conditions, for example with GetType. In general: Insert test conditions here, if #t the current object will be processed, otherwise it will be skipped.
-;Example: (SingleAndSelectionSwitcher d-AddDot d-ToggleStaccato) ; this is nonsense, but valid. It will add a dot for single notes or toggle staccato for the whole selection.
-
-(define* (SingleAndSelectionSwitcher commandsingle #:optional (commandselection commandsingle) (onlyFor True)) ; Amazingly commandsingle is already defined on spot so that it can be used again in the same line to define commandselection 
-	(if (string? commandsingle) ; support for old scripts. They passed the complete string of scheme as parameter
-		(set! commandsingle (eval-string (string-append "(lambda () " commandsingle " )"))))
-	(if (string? commandselection)
-		(set! commandselection (eval-string (string-append "(lambda () " commandselection " )"))))		
-	(if (and DenemoPref_applytoselection (d-MarkStatus))
-		(ForEachToSelection commandselection onlyFor)
-		(commandsingle)))
-
-; MapToSelection is like schemes (map) mixed with ApplyToSelection. Use a proc on all selection items and gather all proc return values in a list. You can give an optional test, only items which return #t are processed.
-(define* (MapToSelection proc #:optional (onlyFor True))
-	(define return (list #f))	; prepare return list
-	(define (gather)
-		(if (onlyFor) ; test the current item
-			(append! return (list (proc))) ; execute the proc and append its return value as listmember to the returnlist
-			#f))
-	(if (and DenemoPref_applytoselection (d-MarkStatus)) ; only if preferences allow it and if there is a selection at all
-		(begin 
-			(d-PushPosition)
-			(d-GoToSelectionStart)
-			(gather) ; start one without selection testing. We already know we have a selection and RepeatProcWhileTest tests first which results in ignoring the first selected item.
-			(RepeatProcWhileTest gather NextSelectedObjectAllStaffs) ; Use the proc/gather function on all items in the selection
-			(d-PopPosition)
-			(list-tail return 1))			
-		#f))
-
-;ForEachToSelection applies the command to each item in the selection. The return value is unspecified. Faster than MapToSelection.
-(define* (ForEachToSelection proc #:optional (onlyFor True))
-	(define (apply)
-		(if (onlyFor) ; test the current item
-			(proc)			
-			#f))
-	(if (and DenemoPref_applytoselection (d-MarkStatus)) ; only if preferences allow it and if there is a selection at all
-		(begin 
-			(d-PushPosition)
-			(d-GoToSelectionStart)
-			(apply) ; start one without selection testing. We already know we have a selection and RepeatProcWhileTest tests first which results in ignoring the first selected item.
-			(RepeatProcWhileTest apply NextSelectedObjectAllStaffs) ; Use the proc/gather function on all items in the selection
-			(d-PopPosition)
-			(if #f #f) ; return unspecified.
-			)			
-		#f))
-
-;Three functions to tag any Denemo-object. Invisible to the user or lilypond.
-(define (Tag) (d-DirectivePut-object-minpixels "select" 0))
-(define (Untag) (d-DirectiveDelete-object "select"))
-(define (Tag?) (d-DirectiveGetForTag-object "select" ))
-
-;Search objects which were tagged by (Tag)
-(define (NextTaggedObjectAllStaffs)
-	(define position (GetPosition))
-	(if (FindNextObjectAllStaffs Tag?) 	
-		#t
-		(begin (apply d-GoToPosition position) #f)))
-					
-;An alternative implementation of ApplyToSelection which works with (Tag) instead of the normal selection. This allows destructive changes which would normally destroy the Denemo-selection
-;;Instead of a range, like the built-in selection, every item is tagged on its own. This is slower but allows items to be changed or deleted, which is not allowed otherwise
-(define (ApplyToTaggedSelection proc)
-	(if (ForEachToSelection Tag) ; ForEachToSelection tests: only for selections and if preferences allow it
-		(let ()
-			(d-GoToSelectionStart)
-			(d-UnsetMark)
-			(Untag) (proc)
-			(RepeatProcWhileTest
-				(lambda () (Untag) (proc)) ; The action happens here. Untag makes sure that we never encounter an endless loop because the of functions that move the cursor on their own and return to the tagged item so the movement instruction see below cannot advance.
-				(lambda () ; movement/test for RepeatProc which returns #t or #f
-				(if (Tag?) ; if the current object is already tagged stay. This is guaranteed to only happen once because next time it will be untagged by the line above.
-					#t
-					(NextTaggedObjectAllStaffs)))))
-		#f)) ; no selection or not allowed by preferences
-
-;A SingleAndSelectionSwitcherVariant that works with TaggedSelection which is more robust and works for more commands, but is slower.
-;; For documentation see (SingleAndSelectionSwitcher) and (ApplyToTaggedSelection)
-;; Works only with real functions, no deprecated support for string-commands like the original SingleAndSelectionSwitcher
-(define* (SingleAndTaggedSelectionSwitcher commandsingle #:optional (commandselection commandsingle) (onlyFor True))
-	(if (and DenemoPref_applytoselection (d-MarkStatus)) ; decide if single or selection.
-		(ApplyToTaggedSelection (lambda () (if (onlyFor) (commandselection))))
-		(commandsingle)))
 
 ; A set of simple tests / questions for score objects. 
 (define (Music?) 
@@ -396,27 +287,6 @@
 
   
 ;;;;; End set of questions
-		  
-
-(define NextChordInSelection (lambda () (if (d-NextSelectedObject) 
-					    (if (Music?)
-			                	 #t
-			                	 (NextChordInSelection))
-					    #f)))
-(define FirstChordInSelection (lambda () (if (d-GoToMark)
-						  (if (Music?)
-			                	 #t)
-						  #f)))
-				    
-;;;Deprecated!
-(define ApplyToSelection (lambda (command positioning_command)
-			   (begin
-			     (if (eval-string positioning_command)
-				 (begin
-				   (d-PushPosition)
-				   (eval-string  command)
-				   (d-PopPosition)
-				   (ApplyToSelection command "(d-NextSelectedObject)"))))))
 				   
 (define (PrevDirectiveOfTag tag)
   (let loop ()
@@ -451,21 +321,6 @@
 (define cue-SetPadding "Set Padding")
 (define cue-Delete "Delete")
 ;(define cue- "")
-
-
-;Composer Mode hardcoded default number keys to "Insert Note"
-;;car is the default value, cdr is the current one. Various scripts alter the cdr to temporarily change the number keys.
-(define wrap:Op0 (cons d-Insert0 d-Insert0))
-(define wrap:Op1 (cons d-Insert1 d-Insert1))
-(define wrap:Op2 (cons d-Insert2 d-Insert2))
-(define wrap:Op3 (cons d-Insert3 d-Insert3))
-(define wrap:Op4 (cons d-Insert4 d-Insert4))
-(define wrap:Op5 (cons d-Insert5 d-Insert5))
-(define wrap:Op6 (cons d-Insert6 d-Insert6))
-(define wrap:Op7 (cons d-Insert7 d-Insert7))
-(define wrap:Op8 (cons d-InsertBreve d-InsertBreve))
-(define wrap:Op9 (cons d-InsertLonga d-InsertLonga))
-
 
 ;;;;;;;;;;;;;;;; Double-Stroke for sequencing keypresses. By Nils Gey June 2010
 ;One parameter for the GUI-version or help window. This is the version that appears if someone clicks on the menu version.
@@ -716,8 +571,6 @@
 	    (string-append oldstr prefixstring pad postfixstring))
 	  (regexp-substitute #f thematch 'pre (string-append prefixstring pad postfixstring) 'post))    
     )));;;; end of function change pad
-
-
 
 ;;;;;;;;;; SetHeaderField sets a field in the movement header
 ;;;;;;;;;; the directive created is tagged Score or Movement depending on the field
@@ -1039,160 +892,10 @@
     ;;;if there was no match return #f
     #f)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; This is Denemos interface to access the MediaWiki API (http://www.mediawiki.org/wiki/API), which is used for the current Denemo-Website
-;;;; Send any question to Nils Gey denemo@nilsgey.de
-;;;; Currently its only used to create/overwrite a page with a new script.
-;;;; It uses the User-Rights System so its very secure. Vandalism in only possible in the same degree as allowed on the website itself.
-;;;; All API access is done via (d-HTTP). The C function behind it sends HTTP-POST data to the given Server/Website and returns the HTTP-header and MediaWiki Data. 
-;;;; The basic steps are 1)Login with Username/PW given in Denemos Preferences and 2)Create a HTTP-Cookie .
-;;;; After that allowed Manipulation is possible. Currently we create request an Edit-Token and create a new Page.
-
-(define (d-UploadRoutine list)
-	  (define command (list-ref list 0))
-	  (define name (list-ref list 1))
-	  (define script (list-ref list 2))
-	  (define initscript (list-ref list 3))
-	  (define menupath (list-ref list 4))
-	  (define label (list-ref list 5))
-	  (define tooltip (list-ref list 6))
-	  (define after (list-ref list 7))
-
-	  ;Some constants. Change these only if the Website moves.
-	  (define HTTPHostname "www.denemo.org") ; don't use http:// . No tailing /
-	  (define HTTPSite "/api.php")   
-		
-		; Prepare Login. Use this only once in (CookieString) because all tokens change on any new login.
-		(define (LogMeIn) 
-				(d-HTTP ;Parameters are hostname, site, cookies/header and POST-body
-				HTTPHostname
-				HTTPSite
-				"" ; Cookie entrypoint. No Cookie for now.
-				(string-append "format=json&action=login&lgname=" (scheme-escape(d-GetUserName)) "&lgpassword=" (scheme-escape(d-GetPassword)))))
-
-		; Actually logs you in and prepares a HTTP-Cookie you have to use in all other Media-Wiki Actions as third (d-HTTP) parameter.
-		(define (CookieString) 
-			(define LogMeInReturn (LogMeIn))
-			
-				; Raise Error. Sorry, I don't know how to make Blocks and if/else does only allow one statement.
-				(define	(RaiseError)
-				  (begin
-					(d-WarningDialog "Login Error - Please check your username and password in Edit->prefs->misc")
-					(display "\nLogin Error - Please check your username and password in Denemos Preferences")
-					;return CookieError
-					(string-append "CookieError"))		
-				)
-				
-				; Test if hostname is ok
-				(if (string-ci=? LogMeInReturn "ERROR")
-				(display "\nConnection Error - Server unavailable")
-				
-					;If Server is ok check Login-Data:
-					(if  (string-ci=? (ParseJson LogMeInReturn "result") "Success")
-							
-					; If login is good go ahead and build the cookie string						
-					(string-append 
-					"Cookie: "(ParseJson LogMeInReturn "cookieprefix")"UserName=" (ParseJson LogMeInReturn "lgusername")
-					"; "(ParseJson LogMeInReturn "cookieprefix")"UserID=" (ParseJson LogMeInReturn "lguserid") 
-					"; "(ParseJson LogMeInReturn "cookieprefix")"Token=" (ParseJson LogMeInReturn "lgtoken")
-					"; "(ParseJson LogMeInReturn "cookieprefix")"_session=" (ParseJson LogMeInReturn "sessionid") 
-					"\n")					
-					;else
-					(RaiseError))))	
-
-		; Prepare request Edit-Token.
-		; First send d-HTTP, then parse the token, then modify it to the right format.
-		(define (GetEditToken name CookieStringReturn)
-			(define (ReceiveRawToken)
-				(d-HTTP 
-				HTTPHostname
-				HTTPSite
-				CookieStringReturn
-				(string-append "format=json&action=query&prop=info|revisions&intoken=edit&titles="name)))	
-			
-			;json gives you +\\ @ Tokens end, but you need only +\ which is %2B%5C in url-endcoded format. 
-			(string-append (string-trim-both (string-trim-both (ParseJson (ReceiveRawToken) "edittoken" ) #\\) #\+) "%2B%5C"))	
-		
-		;This will overwrite the page named like the parameter "name". If it is not existend it will be created.
-		;Any OverwritePage call has to be made in (d-UploadRoutine)'s body.
-		(define (OverwritePage CookieStringReturn)
-			
-			(define (GetLicenseAndBuildString)
-				;(define license (d-GetUserInput "License" "Please choose a license for your script. For example GPL or LGPL" "GPL")) ; This is gone. Scripts have to be GPL, too.
-				(define (SiteString) ; Any whitespace will be send, too.
-	(string-append 
-	"{{Script
-	|Name = " name "
-	|Author =  " (scheme-escape(d-GetUserName)) "  
-	|Label = " label  "
-	|License =  GPL 
-	|Explanation = " tooltip "
-	|SubLabel = " menupath "
-	|Version = " DENEMO_VERSION "
-	}}
-	=== Script ===			
-	<syntaxhighlight lang=\"scheme\">
-	" script "
-	</syntaxhighlight>
-				
-	=== Initscript === 
-	<syntaxhighlight lang=\"scheme\">
-	" initscript "
-	</syntaxhighlight>
-				
-	=== After === 
-	<syntaxhighlight lang=\"scheme\">
-	" after "
-	</syntaxhighlight>
-	"))
-				
-				;Send the data to let the API generate a new site!		
-				(d-HTTP
-					HTTPHostname
-					HTTPSite
-					CookieStringReturn
-					(string-append "action=edit&title=" name "&format=json&summary=" tooltip "&text=" (SiteString) "&token=" (GetEditToken name CookieStringReturn)))	
-				
-				;Show script in browser
-				(d-Help (string-append "http://" HTTPHostname "/index.php/" name))				
-		
-			); End of GetLicenseAndBuildString
-		
-		
-		;check if Login/Building the Cookie was correct
-		(if (string-ci=? CookieStringReturn "CookieError")
-			(display "\nAn error occured while performing the task. Thats why the result of your Upload-Command is: ")
-			(GetLicenseAndBuildString))
-		);;;; End of OverwritePage 
-		
-		;;;; The real action happens here.	This is the only place where (CookieString) is called so we have only one Login at all.
-		(display (OverwritePage (CookieString))) ;show and execute
-
-	) ; End Of (d-UploadRoutine)
-
-
 ;;; play a note a mid-volume 80
 (define* (PlayNote pitch duration #:optional (volume " 80"))
  (d-OutputMidiBytes (string-append "0x9$ " pitch volume))
  (d-OneShotTimer duration (string-append "(d-OutputMidiBytes " "\"" "0x8$ " pitch " 0" "\"" ")" )))
-
-;;;;;;;;;;;;;; Refresh Procedures.
-;;;;;;;;;;;;;; Naming convention D-<tag> is the refresh proc for tag
-
-(define (D-Anacrusis)
-(let ((duration (d-GetDurationInTicks)))
-  (if (boolean? duration)
-      (set! duration 0))
-  (while (d-NextObjectInMeasure) 
-	 (set! duration (+ duration (d-GetDurationInTicks))))
-  (PrevDirectiveOfTag "Anacrusis")
-  (set! duration (/ duration 12))
-  (if (equal? 0 duration)
-      (begin
-	(HideStandaloneDirective))
-      (begin
-	(d-DirectivePut-standalone-postfix "Anacrusis" (string-append "\\partial 128*" (number->string duration) " " ))))))
-
 
 (define (MeasureEmpty?) (None?))
 
@@ -1212,54 +915,6 @@
 	(d-PopPosition)
 	return)
 
-(define* (GetPrevailingTimeSig #:optional (numberorstring #f) ) 
-	(if numberorstring
-		(string->number (d-InsertTimeSig "query=timesigname"))
-		(d-InsertTimeSig "query=timesigname")))
-
-;Get Measure Filling Status in Ticks
-(define (GetMeasureTicks)
-	(let script ((return 0))
-	(d-PushPosition)
-	(GoToMeasureEnd)
-	(set! return (d-GetEndTick))
-
-	  (d-PopPosition)
-	  return))
-
-(define (MeasureFillStatus)
-(define MaxTicks (* 1536 (GetPrevailingTimeSig #t) )) ; How many ticks are in a 100% filled measure?
-(define ActualTicks (GetMeasureTicks))
-(cond 
- 	((not ActualTicks) #f) ; empty
- 	((< ActualTicks MaxTicks) #f) ; underful
- 	((= MaxTicks ActualTicks) 1)  ; 100% filled
- 	((< MaxTicks ActualTicks) 2) ; >100% filled
-	(else  (display "strange!")))) ; ?
- 	
-
-
-(define (EmptyMeasure?)
-  (not (d-GetEndTick)))
-
-(define (UnderfullMeasure?)
-  (or (EmptyMeasure?)
-     (not (MeasureFillStatus))))
-
-(define (FullDurationMeasure?)
-  (and (not (UnderfullMeasure?))
-       (= 1 (MeasureFillStatus))))
-
-(define (OverfullMeasure?)
-  (eq? 2 (MeasureFillStatus)))
-  ;;(and (not (EmptyMeasure?)) 
- ;; (> (d-GetEndTick) (* 1536 (GetPrevailingTimeSig #t)))))
-
-(define (MeasureComplete?) (or (FullDurationMeasure?) 
-			       (d-Directive-standalone? "Anacrusis")
-			       (d-Directive-standalone? "ShortMeasure")))
-   		
-;;;;;;;;;;;;;;;;;
 (define (DenemoFirst)
   (begin
     (display "DenemoFirst")))
@@ -1497,107 +1152,6 @@
 	(RepeatUntilFail d-MoveToStaffDown)
 	(d-GoToPosition #f #f measure #f))
 
-; Paste by Nils Gey, 2011
-;; Multistaff-Pasting always adds the complete part AFTER the current measure or fills any complete set of empty measures
-;; Singlestaff-Pasting happens at the cursor position and will just paste whats in the clipboard
-(define* (DenemoPaste #:optional (autocreatebarlines #f))
-  (define (Paste)
-	(define paste:multistaff? (d-GetClipObjType 1 0))
-	(define paste:howmanystaffs
-		(let loop ((n 0))
-		(if (d-GetClipObjType (1+ n) 0)
-		(loop (1+ n))
-		(1+ n))))
-	(define position:startmeasure (d-GetMeasure))
-	(define position:startstaff (d-GetStaff))
-	(define staff 0)
-	(define count -1)		
-	(define staffcountlist (list 0)) ; used for multistaff			
-	(define (1+count!)
-		(set! count (1+ count)))
-	(define (1+staff!)
-		(set! staff (1+ staff)))
-	(define (MeasuresToPasteToEmpty?)
-		(define position:measure (d-GetMeasure))	
-		(not (any not (map (lambda (x) (ProbePosition None? #f (+ position:startstaff x) (1+ position:measure) 1)) staffcountlist))))
-	(define (SplitMeasure!)
-		(if paste:multistaff?
-			(let ()
-				(define position:measure (d-GetMeasure))			
-				(define position:current (GetPosition))
-				(for-each (lambda (x) 
-					(if (d-GoToPosition #f (+ position:startstaff x) (1+ position:measure) 1)
-						(d-SplitMeasure) 
-						(begin 
-							(d-GoToPosition #f (+ position:startstaff x) 1 1) 
-							(d-MoveToEnd) (d-SplitMeasure)))) ; for staff ends
-					 staffcountlist)
-				(apply d-GoToPosition position:current)
-				(d-MoveToMeasureRight)) ; all needed empty measures got created			
-			(d-SplitMeasure))) ; singlestaff is simple split.	
-	(define (Put!) 
-		(if (and autocreatebarlines (not paste:multistaff?) (not (UnderfullMeasure?)) (Appending?)) ; in a single-staff with AutoCreateBarlines #t Put! will create Barlines if the current measure is full, not MeasureBreak!
-			(if (d-MoveToMeasureRight)
-						#t
-						(SplitMeasure!)))
-		(d-PutClipObj staff count)) ; nothing special here. Just paste.				
-	(define (MeasureBreak!)
-		(if (and autocreatebarlines (not paste:multistaff?))
-			#t ; no barline should be created by paste. Let Denemo decide if a measure is full or not.
-			(if  (or (> staff 0) (MeasuresToPasteToEmpty?)) ; only the first staff needs to check if the next measure is empty or not. In Multistaff the first paste-round created all necessary empty measures for all other staffs so its just straight-forward pasting of objects.
-				(d-MoveToMeasureRight)
-				(SplitMeasure!))))
-	(define (paste! staff count)		
-		(case (d-GetClipObjType staff count)
-			;In order of occurence, to boost performance.
-			((0) (Put!))	;note, rest, gracenote, chord
-			((8) (MeasureBreak!) ) ; Measurebreak
-			((15) (d-PutClipObj staff count))	;lilypond-directive
-			((1) (d-PutClipObj staff count))	;tuplet open
-			((2) (d-PutClipObj staff count))	;tuplet close
-			((5) (d-PutClipObj staff count))	;keysignature
-			((4) (d-PutClipObj staff count))	;timesignature
-			((3) (d-PutClipObj staff count))	;clef						
-			((7) (d-PutClipObj staff count))	;stem-directive
-			((9) #f) ; staffbreak 			
-			((#f) #f) ; No object left. Means "no clipboard", too.
-			(else (begin (display "Error! Object to paste unknown or unsupported\n") #f))))
-			
-	;body
-	(d-UnsetMark)
-	(set! staffcountlist (iota paste:howmanystaffs))	
-	(if paste:multistaff? ; check if the staff-length of all participating staffs is equal. If not append measures.
-		(let ()
-		(define position:current (1+ position:startmeasure))
-		(d-PushPosition)
-		(for-each (lambda (x) 
-		 	(if (d-GoToPosition #f (+ position:startstaff x) position:current 1)
-		 		#t
-		 		(begin ; fill in measures up to nr. position:startmeasure
-		 			(d-GoToPosition #f (+ position:startstaff x) 1 1)
-		 			(d-MoveToEnd)
-		 			(Repeat d-AppendMeasure (- position:current (d-GetMeasure)))))) staffcountlist) 
-		(d-PopPosition)))	
-	(if paste:multistaff?  ; check if the current measure in all needed staffs is empty. If not create an empty measure to start.
-		(if (any not (map (lambda (x) (ProbePosition None? #f (+ position:startstaff x) position:startmeasure 1)) staffcountlist))
-			(MeasureBreak!)
-			(set! position:startmeasure (1- position:startmeasure)))) 
-	;Do the first staff. It will stop on staffbreak or end of the clipboard.	
-	(RepeatUntilFail (lambda () (1+count!) (paste! staff count)))
-	(if paste:multistaff? 
-		(let ()
-			(define position:return (GetPosition))			
-			(Repeat  ; repeat single-staff pasting for each staff > 0.	
-				(lambda ()					
-					(1+staff!)
-					(set! count -1)
-					(if (d-GoToPosition #f (+ staff position:startstaff) (1+ position:startmeasure) 1) ; if a staff down, go there. else abort.
-						(RepeatUntilFail (lambda () (1+count!) (paste! staff count)))							
-						"No staff left to paste to. But the beginning of the clipboard was pasted, which is probably what you wanted."))
-				paste:howmanystaffs)
-			(apply d-GoToPosition position:return))))	
-  (if (d-GetClipObjType 0 0) (Paste)))
- 
 ;;;; Shuffling Sequences
 ;;; http://mumble.net/~campbell/scheme/shuffle.scm
 ;;; This code is written by Taylor R. Campbell and placed in the Public
@@ -1684,179 +1238,6 @@
   (set! lyimport::filename filename)
   (eval-string (lyimport::import))
   (d-MoveToMovementBeginning))
-
-;;;;;;;;;;Duration Conversions between Denemo, Lilypond and Tick syntax.
-;; A table of common values
-; 6 = 256 = 8
-;12 = 128 = 7
-;24 = 64 = 6
-;48 = 32 = 5
-;96 = 16 = 4
-;192 = 8 = 3
-;384 =4 = 2
-;768 = 2 = 1
-;1536 = 1 = 0
-;3072 = 0.5  = -1  ; Breve. 0.5 and -1 are not existend.  Lilypond and Denemo use the string breve instead.
-
-; Guile returns a value with .0, which should be exact but internally it's inexact. So we need this little back and forth conversion hack.
-(define (duration::inexact->exact return)
-  (inexact->exact (string->number (number->string return))))
-
-;Some functions, like Upbeat, know only a single tick-value. They need to guess the baseNote.
-(define (duration::GuessBaseNoteInTicks ticks)
-; first guess the basic note duration.  2*x > ticks < 1*x  is always true in our circumstance 
-  (cond
-	 ( (and (>= ticks 6) (< ticks 12)) 6 )       ;1/256
- 	 ( (and (>= ticks 12) (< ticks 24))  12 )   ;1/128
- 	 ( (and (>= ticks 24) (< ticks 48)) 24)   ;1/64
- 	 ( (and (>= ticks 48) (< ticks 96)) 48 )   ;1/32
- 	 ( (and (>= ticks 96) (< ticks 192))  96)   ;sixteen 1/16
- 	 ( (and (>= ticks 192) (< ticks 384)) 192 ) ; eight 1/8
- 	 ( (and (>= ticks 384) (< ticks 768))  384 ) ; quarter 1/4
- 	 ( (and (>= ticks 768) (< ticks 1536))  768) ; half 1/2
- 	 ( (and (>= ticks 1536) (< ticks 3072))  1536 ) ; whole 1
- 	 ( (and (>= ticks 3072) (< ticks 6144))  3072 ) ; breve 2*1
- 	 ( (and (>= ticks 6144) (< ticks 12288))  6144) ; longa 4*1
- 	 ( (and (>= ticks 12288) (< ticks 24576))  12288 )  ; maxima 8*1
-	(else #f)))
-
-; Calculate a new Duration in Ticks with a basic note value and a number of augmentation-dots
-(define (duration::CalculateTicksWithDots baseTicks numberOfDots)
-	; x = basic note value
-	; n = number of dots
-	; 2x - x/2^n 
-	(-  (* 2 baseTicks) (/ baseTicks (expt 2 numberOfDots))))
-
-; Calculate how many dots a tick value has. Needs base duration, too.
-(define (duration::CalculateDotsFromTicks ticks base)
-; x = base , y = ticks. result is the number of dots
-; log(x/(2*x-y))  / log(2)
- (define return (/  (log (/ base (- (* base 2) ticks)))   (log 2) ))
- (duration::inexact->exact return))
-
-; Get Number of Dots from a Lilypond string like "2.". Its so basic it will work on Denemo notes, too.
-(define (duration::GetNumberOfDotsInLilypond input)
- (length (cdr (string-split input #\.))))
-
-; For the sake of completenes. Denemo and Lilypond dot-syntax is just the same, only the number itself is different.
-(define (duration::GetNumberOfDotsInDenemo input)
-	(duration::GetNumberOfDotsInLilypond input))
-
-(define (duration::denemo->lilypond number)
-	(define return (expt 2 number))
-	return)
-
-(define (duration::lilypond->denemo number)
-	(define return (/ (log number) (log 2))	)
-	 (duration::inexact->exact return))
-
-(define (duration::denemo->ticks number) ; increases with negative integers
-	(define return (* (expt 2 (- 8 number)) 6))
-	return)
-
-(define (duration::lilypond->ticks number) ; increases with 0.5, 0.25 etc.
-	(define return (* (expt 2 (- 8 (/ (log number) (log 2)))) 6))
-	 (duration::inexact->exact return))
-
-; Ticks->Denemo wants a number but returns a string because of dots
-(define* (duration::ticks->denemo number #:optional (basenumber number))
- (define numberOfDots  (duration::CalculateDotsFromTicks number basenumber))
-;n = -(log(y/3)-9*log(2))/log(2) 
- (define return (- (/ (- (log (/ basenumber 3)) (* 9 (log 2))) (log 2))))
- (set! return (duration::inexact->exact return))
- (string-append (number->string return) (string-concatenate (make-list numberOfDots "."))))
-
-;Ticks->Lilypond wants a number but returns a string because of dots
-(define* (duration::ticks->lilypond number #:optional (basenumber number))
- ;Equation in readable form: http://www.numberempire.com/equationsolver.php?function=y+%3D+6*2^%288-n%29&var=n&answers=
- (define numberOfDots  (duration::CalculateDotsFromTicks number basenumber))
- (define return  (expt 2 (- (/ (- (log (/ basenumber 3)) (* 9 (log 2))) (log 2)))))
- (set! return (duration::inexact->exact return))
- (string-append (number->string return) (string-concatenate (make-list numberOfDots "."))))
-
-;SplitTicksToBaseDurations wants a single tick value as number and splits it to the lowest count of base durations
-;;Returns a list of base durations
-;;TODO: if the last step is no BaseDuration return it anyway and an additional #f to signal the problem. Most likely someone tried to involve an incomplete tuplet.
-;;TODO: Basic version. Duration will be correct but maybe ugly.
-(define (duration::SplitTicksToBaseDurations ticks)
-(let loop ((number ticks) (returnlist (list #f)))
-	(define basedur (duration::GuessBaseNoteInTicks number))	
-	(if basedur
-		(loop (- number basedur) (append returnlist (list basedur)))
-		(if (= number 0)
-			(list-tail returnlist 1)
-			(list-tail (append returnlist (list number #f)) 1)))))			 
-
-;;;;;;;;;; End of duration-conversion
-
-;; Applied duration scripts
-(define (duration::GetNumberOfDotsInTicks) ; Fails for tuplets
-	 (duration::CalculateDotsFromTicks (d-GetDurationInTicks) (duration::GetBaseDurationInTicks)))
-	   
-
-(define (duration::GetBaseDurationInTicks)
-	(define ticks (d-GetBaseDurationInTicks))
-	(if ticks
-		(abs ticks)
-		#f))	   
-
-(define (duration::GetSelectionDurationInTicks)
-	(if (d-MarkStatus)
-		(apply + (MapToSelection d-GetDurationInTicks Music?))
-		#f))
-    
-
-(define* (duration::ChangeNoteDurationInTicks ticks #:optional (dots 0))
-; First change the base-duration. The d-Change commands also delete any dots.
-  (define (changeBase number) (case number
-   ;((12288) (d-ChangeMaxima))  ;Maxima
-   ((6144)	(d-ChangeLonga)) ; Longa
-   ((3072)	(d-ChangeBreve)) ; Breve
-   ((1536)	(d-Change0)) ; Whole
-   ((768)	(d-Change1)) ; Half
-   ((384)	(d-Change2)) ; Quarter
-   ((192)	(d-Change3)) ; Eighth
-   ((96)	(d-Change4)) ; Sixteenth
-   ((48)	(d-Change5)) ; 1/32
-   ((24)	(d-Change6)) ; 1/64
-   ((12)	(d-Change7)) ; 1/128
-   ((6)		(d-Change8)) ; 1/256
-   (else   #f ))) 
-; Second step: add dots
-  ; d-ChangeN work on appending position, but Breve and Longa not. But d-AddDot works on appending, too. So we must rule Appending out, else it will add dots without changing the duration for breve and longa.
-  (if (and (Music?) (integer? ticks) (integer? dots) (changeBase ticks)) ; <-- the action changeBase itself needs to be a test, too. 
-  (let loop ((i 0))
-	(if (= dots i)
-	#t
-	(begin
-	   (d-AddDot)  
-	   (loop (+ i 1)))))
-  #f))
-
-(define (duration::InsertBaseDurationList basedurlist ansNotes)
-	(define itemnumber (length basedurlist))
-	(let loop ((counter 0))
-		(if (and (> counter 0) (= (list-ref basedurlist counter) (/ (list-ref basedurlist (1- counter)) 2)))  ; current duration is half of previous one = current is a dot. First position excluded.
-			(begin (d-MoveCursorLeft) (d-AddDot) (d-MoveCursorRight))
-			(begin (ANS::InsertNotes ansNotes) (d-MoveCursorLeft) (duration::ChangeNoteDurationInTicks (list-ref basedurlist counter)) (d-ToggleTie)  (d-MoveCursorRight)))		
-		(if (>= counter (1- itemnumber))
-			(begin (d-MoveCursorLeft) (d-ToggleTie) (d-MoveCursorRight) #t) ; last item was already inserted. Undo the last tie. The End.
-			(begin (loop (1+ counter))))))	
-
-;; Meter related functions
-(define (duration::GetNumerator) (string->number (car (string-split  (GetPrevailingTimeSig) #\/))))
-(define (duration::GetDenominator) (string->number (cadr (string-split  (GetPrevailingTimeSig) #\/))))
-(define (duration::GetDenominatorInTicks) (* 1536 (/ 1 (duration::GetDenominator))))
-(define (duration::GetWholeMeasureInTicks) (* 1536 (GetPrevailingTimeSig #t)))
-(define (duration::GetMetricalPosition)
-	(if (MeasureEmpty?)
-		1
-		(1+ (/ (d-GetStartTick) (duration::GetDenominatorInTicks)))))
-(define (duration::MetricalMain? position) (integer? position))
-
-
-;;;;;;;;;;;;;;
-
 
 (define MIDI-shortcuts::alist '(("" . "")))
 (define (SetMidiShortcut shortcut command)
@@ -1953,9 +1334,6 @@
 	  #f)
 	 (else  (d-KillTimer Pitchbend::timer) (set! Pitchbend::timer 0) #f )))
 ;;;;;;;;;;;;;;;;;;
-
-(define (d-GetStartTick)
-	(- (d-GetEndTick) (d-GetDurationInTicks)))
 	
 ; from http://icem.folkwang-hochschule.de/~finnendahl/cm_kurse/doc/t-y-scheme/t-y-scheme-Z-H-7.html
 ; needed for define-macro defstruct
@@ -2184,9 +1562,6 @@
 			 #f))
 		 #f))
  
-
-
-
 ;Remember the users choice of an interval in this global var
 (define GlobalRememberInterval "p5")
 
@@ -2206,63 +1581,8 @@
 ;TODO: (d-RemoveNoteFromChord) always returns #f so we have to use (d-GetNotes) as test until this gets fixed
 	(if (Music?)
 		(RepeatProcWhileTest d-RemoveNoteFromChord d-GetNotes)
-		#f))
-		
-; A copy variant in Scheme
-;; Save the selection in a scheme variable
-;; Music? are musobj (CreateMusObj)
-;;TODO: SchemeCopy and Paste are very limited and need improvement.
-(define (SchemeCopy)
-  ;If on an end-tuplet marker it gives you the startvalue
-  (define (GetTupletFromEndTuplet)
-		(let ()
-		(define return #f)
-			(if (equal? (d-GetType) "TUPCLOSE")
-			(begin
-				(d-PushPosition)
-				(let loop ()
-				(if (d-MoveCursorLeft)
-					(if (equal? (d-GetType) "TUPOPEN")
-						(set! return (d-GetTuplet))
-						(loop))
-					#f)) ; staff beginning		
-				(d-PopPosition)))
-				return))  
-  ;Mainfunction to gather data.
-  (define (gather)
-  	(ActionChooser 
-		(lambda () (CreateMusObj)) ;chords, notes, rests
-		(lambda () (cons 'TUPCLOSE (GetTupletFromEndTuplet))) ; tuplet close
-		(lambda () (cons 'TUPOPEN (d-GetTuplet))) ; tuplet open
-		(lambda () (disp "lily")) ; lilypond directive
-		(lambda () (disp "clef")) ; clefs
-		(lambda () (disp "time")) ; timesignatures
-		(lambda () (disp "key")) ; keysignatures
-		(lambda () (disp "stem")))) ; stem directives /voice presets		
-  (if (d-MarkStatus)
-	(MapToSelection gather)		
-	#f))
-	
-(define (ProcessSchemeCopyBufferMusObj musobjproc copybuffer)
-	;modify the current musobj and then return the complete, altered, object for the map-list.
-	(map (lambda (current) 
-		(if (musobj? current) 
-			(begin (musobjproc current) current) ; if museobj use the proc
-			current)) ; if not just return the original object
-		 copybuffer))
-	
-;Paste a list created by (SchemeCopy)
-(define (SchemePaste listy)
-  (define (insert x)
-  	(cond
-  	((musobj? x)  (ANS::InsertNotes (musobj.pitch x) (musobj.baseduration x) (musobj.dots x)))
-  	((equal? (car x) 'TUPCLOSE) (d-EndTuplet))
-  	((equal? (car x) 'TUPOPEN) (begin (d-StartTriplet) (d-SetTuplet (cdr x))))
-  	
-  	))
-  	(for-each (lambda (x) (insert x)) listy))
+		#f))		
 
-  	
 ;ActionChooser is a meta function to provide a simple way to react to all types of Denemo items in the score.
 (define (ActionChooser chord tupclose tupopen lilydirective clef timesig keysig stemdirective)	
 	(define type (string->symbol (d-GetType)))
@@ -2288,3 +1608,5 @@
 					(lambda () (disp "key")) ; keysignatures
 					(lambda () (disp "stem")))) ; stem directives /voice presets
 				(MapToSelection ActionChooserExample)!#
+
+

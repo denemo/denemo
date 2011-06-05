@@ -1,3 +1,12 @@
+#!(define-module (actions denemo-modules abstractionmovement3)
+	#:export (
+		CreateAbstractionMovement
+		PasteAbstractionMovement
+		SearchForSimultaneousInterval
+		SearchForSimultaneousIntervalFromBase
+		SearchForConsecutiveIntervalProgression	
+		)) !#
+
 ; This is the prototype of a system that creates an abstraction of the movement. 
 ; In the end there is a list of list of musobj-objects which are vertically aligned. Different durations are equalized out by inserting repeated notes.
 ; Only notes, chords and rests are saved currently. Duration is ignored. The start-tick value is used to check if notes need repetition.
