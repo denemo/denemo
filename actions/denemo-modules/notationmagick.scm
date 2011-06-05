@@ -1,5 +1,5 @@
-(define-module (denemo-modules notationmagick)
-	#:export (list
+(define-module (actions denemo-modules notationmagick)
+	#:export (
 		NotationMagick::AskNewNotationstring
 		NotationMagick::AskNewAsciistring
 		NotationMagick::MirrorSelection

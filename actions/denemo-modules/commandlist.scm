@@ -1,5 +1,5 @@
-(define-module (denemo-modules commandlist)
-	#:export (list
+(define-module (actions denemo-modules commandlist)
+	#:export (
 		 CommandListScrollUp
 		 CommandListScrollDown
 	))

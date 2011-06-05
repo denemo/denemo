@@ -1,5 +1,5 @@
-(define-module (denemo-modules ans)
-	#:export (list
+(define-module (actions denemo-modules ans)
+	#:export (
 			;ANS::NoteTable
 			;ANS::NoteTableR
 			;ANS::PillarOfFifthIndex

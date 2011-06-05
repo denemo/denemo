@@ -1,5 +1,5 @@
-(define-module (denemo-modules abstractionmovement3)
-	#:export (list
+(define-module (actions denemo-modules abstractionmovement3)
+	#:export (
 		CreateAbstractionMovement
 		PasteAbstractionMovement
 		SearchForSimultaneousInterval

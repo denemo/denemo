@@ -1,5 +1,5 @@
-(define-module (denemo-modules helpsystem)
-	#:export (list
+(define-module (actions denemo-modules helpsystem)
+	#:export (
 		 Help::RemoveTag
 		 Help::TimedNotice 
 		 Help::Push
