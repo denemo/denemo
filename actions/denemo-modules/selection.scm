@@ -12,6 +12,8 @@
 		SchemePaste
 	))
 
+(use-modules (ice-9 optargs)) ; optional (define* ) arguments
+
 (define (MoveToSelectionBeginningInThisStaff)
 	(define staffPosition (d-GetStaff))
 	(define rememberPosition (GetPosition))

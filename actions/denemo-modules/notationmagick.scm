@@ -13,6 +13,8 @@
 		NotationMagick::RandomWithinClefRangeChromatic
 		))
 
+(use-modules (ice-9 optargs)) ; optional (define* ) arguments
+
 ; Various scripts and variables for Denemos note-generation and filter section: NotationMagick
 ;; By Nils Gey 2010
 
