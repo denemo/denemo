@@ -5,14 +5,14 @@
 (use-modules (ice-9 optargs)) ; optional (define* ) arguments
 (use-modules (ice-9 q)) ; queue module
 	 
-(use-modules (denemo-modules ans)) ; Abstract Note System for pitch calculations
-(use-modules (denemo-modules notationmagick)) ; Insert and modify, mostly randomized, music. Depends on ans.scm
-(use-modules (denemo-modules abstractionmovement)) ; Create an abstract form of the music in Scheme for further analysing. Depends on ans.scm 
-(use-modules (denemo-modules commandlist)) ; Provide scrolling up and down through a list of commands. An extended toggle through multiple states.
-(use-modules (denemo-modules helpsystem)) ; An online help system to display text in the second status bar
-(use-modules (denemo-modules selection)) ; Selections, Copy and Paste
-(use-modules (denemo-modules rhythmandmeter)) ; Rhythm, Durations, Ticks, Meter, Conversion between Lilypond, Tick and Denemo duration.
-;(use-modules (denemo-modules deprecated)) ; Old and outdated scripts
+(use-modules (actions denemo-modules ans)) ; Abstract Note System for pitch calculations
+(use-modules (actions denemo-modules notationmagick)) ; Insert and modify, mostly randomized, music. Depends on ans.scm
+(use-modules (actions denemo-modules abstractionmovement)) ; Create an abstract form of the music in Scheme for further analysing. Depends on ans.scm 
+(use-modules (actions denemo-modules commandlist)) ; Provide scrolling up and down through a list of commands. An extended toggle through multiple states.
+(use-modules (actions denemo-modules helpsystem)) ; An online help system to display text in the second status bar
+(use-modules (actions denemo-modules selection)) ; Selections, Copy and Paste
+(use-modules (actions denemo-modules rhythmandmeter)) ; Rhythm, Durations, Ticks, Meter, Conversion between Lilypond, Tick and Denemo duration.
+;(use-modules (actions denemo-modules deprecated)) ; Old and outdated scripts
 
 
 ;Needed to see if lyimport / mxml import is called from inside or outside Denemo
