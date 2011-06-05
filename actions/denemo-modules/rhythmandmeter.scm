@@ -1,6 +1,6 @@
 (use-modules (ice-9 optargs)) ; optional (define* ) arguments
 
-#!(define-module (actions denemo-modules notationmagick)
+#!(define-module (actions denemo-modules rhythmandmeter)
 	#:export (
 		GetPrevailingTimeSig
 		GetMeasureTicks

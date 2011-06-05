@@ -16,7 +16,7 @@
 (use-denemo "abstractionmovement") ; Create an abstract form of the music in Scheme for further analysing. Depends on ans.scm 
 (use-denemo "commandlist")  ; Provide scrolling up and down through a list of commands. An extended toggle through multiple states.
 (use-denemo "helpsystem") ; An online help system to display text in the second status bar
-(use-denemo "selection  ; Selections, Copy and Paste
+(use-denemo "selection")  ; Selections, Copy and Paste
 (use-denemo "rhythmandmeter") ; Rhythm, Durations, Ticks, Meter, Conversion between Lilypond, Tick and Denemo duration.
 ;(use-denemo "deprecated") ; Old and outdated scripts
 
