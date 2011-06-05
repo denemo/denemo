@@ -15,8 +15,8 @@
 
 ; Various scripts and variables for Denemos note-generation and filter section: NotationMagick
 ;; By Nils Gey 2010
-(use-module (denemo-modules ans))
-(use-module (denemo-modules selection))
+(use-modules (denemo-modules ans))
+(use-modules (denemo-modules selection))
 
 ;; Global vars, used by several NotationMagick functions to remember the last value used 
 (define NotationMagick::NOTATIONSTRING "c' e' g'") 
