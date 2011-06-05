@@ -119,6 +119,7 @@
       <menuitem action="Copy"/>
       <menuitem action="Paste"/>
       <menuitem action="Undo"/>
+      <menuitem action="Redo"/>
 
       
      <menuitem action="PasteClipboard"/>
@@ -242,17 +243,12 @@
 	<menuitem action="AddAfter"/>
         <menuitem action="AddInitial"/>
  	<menuitem action="AddLast"/>	
-        <menuitem action="AddStaffs"/> 
       </menu>
-
-      <menu action="Delete">
-        <menuitem action="DeleteBefore"/>
-	<menuitem action="DeleteStaff"/>
-	<menuitem action="DeleteAfter"/>
-      </menu> 
-          <menuitem action="SwapStaffs"/>
-          <menuitem action="MoveToStaffUp"/>
-          <menuitem action="MoveToStaffDown"/> 
+      <menuitem action="DeleteStaff"/>
+    
+      <menuitem action="SwapStaffs"/>
+      <menuitem action="MoveToStaffUp"/>
+      <menuitem action="MoveToStaffDown"/> 
 <separator/>	  
         <menu action="Voices">
 	  <menuitem action="AddVoice"/>
