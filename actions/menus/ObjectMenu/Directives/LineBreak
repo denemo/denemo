@@ -11,6 +11,7 @@
 (d-DirectivePut-standalone "LineBreak")
 (d-DirectivePut-standalone-postfix "LineBreak" "\\break")
 (d-DirectivePut-standalone-display "LineBreak" "break")
+(d-DirectivePut-standalone-minpixels "LineBreak" 10)
 (d-RefreshDisplay)
 </scheme>
         <label>Line Break</label>

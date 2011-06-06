@@ -9,7 +9,7 @@
         <action>OpenSecondTimeBar</action>
         <scheme> ;;;OpenSecondTimeBar
 (d-Directive-standalone "Volta")
-(d-DirectivePut-standalone-minpixels  "Volta" 30)
+(d-DirectivePut-standalone-minpixels  "Volta" 50)
 (d-DirectivePut-standalone-postfix "Volta" "
 \\set Score.repeatCommands = #'((volta \"2\"))
 ")

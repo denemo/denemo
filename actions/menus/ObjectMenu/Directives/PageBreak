@@ -11,6 +11,7 @@
 (d-DirectivePut-standalone "PageBreak")
 (d-DirectivePut-standalone-postfix "PageBreak" "\\pageBreak")
 (d-DirectivePut-standalone-display "PageBreak" "page")
+(d-DirectivePut-standalone-minpixels "PageBreak" 10)
 (d-RefreshDisplay)
 </scheme>
         <label>Page Break</label>
