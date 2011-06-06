@@ -42,7 +42,7 @@
 					(set! duration (substring BaseBeat 0 (- len 1)))  ;if there's a dot, cut it off from BaseBeat to get base duration.
 					(set! duration BaseBeat)  
 				)
-				(if replace (set! defaultBPM (d-DirectiveGet-standalone-midibytes "TempoMark" ))) ;use old BPM if there. Bug: Only good for 4=...   
+				(if replace (set! defaultBPM (d-DirectiveGet-standalone-midibytes "Tempo" ))) ;use old BPM if there. Bug: Only good for 4=...   
 				
 				(set! bpm (d-GetUserInput "Metronome Marking"  (string-append "Give number of these " BaseBeat " beats per minute:") defaultBPM ) )
 				
@@ -71,47 +71,11 @@
 	);let
 );define GetBPM
 
-(define (BeatChange)
-	(let ((i 0)(Beat1 #f) (Beat2 #f) (LilyString #f) (DisplayString #f) (Input #f) (NewBPM 100) )
-		(set! Input (d-GetUserInput "Beat Change" 
-			(string-append "Enter beat change as [beat1]=[beat2] with the beats in Lilypond syntax,"
-			"\ni.e. 4 for quarter, 4. for dotted quarter, etc."
-			"\nPlace immediately after a barline to center the beat change  over the barline.")
-		 "4=4."))
-		 
-		;remove spaces from Input!!!
-		
-		(set! DisplayString Input)
-		(set! i (string-index Input #\=))
-		(set! Beat1 (substring Input 0 i))
-		(set! Beat2 (substring Input (+ 1 i)))
-		;now we want to get the bpm change.  This could be done automatically by a smart script that learned the current BPM and modified it appropriately.
-		(set! ShowBPM? "BPM Not Printed")
-		(GetBPM Beat2)			
-		
-		(set! LilyString (string-append "\\mark \\markup \\tiny { \\general-align #Y #DOWN \\note #\"" Beat1 "\" #UP = \\general-align #Y #DOWN \\note #\"" Beat2 "\" #UP } "))
-		
-		;this is optional: uncomment to put the lilypond bpm change in the score, but invisible:
-		;(set! LilyString (string-append  LilyString  "\\once \\override Score.MetronomeMark #'transparent = ##t \\tempo " BPMString ))
-		
-		(d-DirectivePut-standalone "BeatChange")
-		(d-DirectivePut-standalone-postfix "BeatChange" LilyString)
-		(d-DirectivePut-standalone-display "BeatChange" DisplayString)
-		(d-DirectivePut-standalone-minpixels "BeatChange" 15)
-		(if (equal? ValidBPM? #t)
-			(begin 
-				(d-DirectivePut-standalone-override "BeatChange" (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_TEMPO DENEMO_OVERRIDE_STEP))
-				(d-DirectivePut-standalone-midibytes "BeatChange" MidiBPM)
-			)
-		)
-		(d-RefreshDisplay)
-	)
-)	;BeatChange
 
 ;Tempo script begins here.
 
 ;see if there's already one there:
-(if (d-Directive-standalone?  "TempoMark")
+(if (d-Directive-standalone?  "Tempo")
 	;if we want to REPLACE an existing directive...
 	(let ((choice #f))		
 		(set! replace 'edit)
@@ -122,9 +86,9 @@
 			((equal? choice "Change")
 				(set! replace #t ))
 			((equal? choice  cue-Advanced)
-				(d-DirectiveTextEdit-standalone "TempoMark"))
+				(d-DirectiveTextEdit-standalone "Tempo"))
 			((equal? choice "Delete")
-				(d-DirectiveDelete-standalone "TempoMark"))
+				(d-DirectiveDelete-standalone "Tempo"))
 			((equal? choice "Offset the Position")
 				(ExtraOffset "TextScript" "standalone"))
 			((equal? choice "Set Padding")
@@ -169,7 +133,7 @@
 		(if (equal? TempoChoice "Beat Change (e.g., 4=4.)" ) 
 			(begin
 				(set! Go? #f)
-				(BeatChange)
+				(d-BeatChange)
 			)
 		)
 		(if (equal? TempoChoice "") (set! TempoChoice #f))
@@ -231,15 +195,15 @@
 		;now make the directive...
 		(if Go?
 			(begin
-				(if (not replace) (d-DirectivePut-standalone "TempoMark" ) )
-				(if LilyString (d-DirectivePut-standalone-postfix "TempoMark" LilyString ) )
-				(d-DirectivePut-standalone-display  "TempoMark" DisplayString)
-				(d-DirectivePut-standalone-minpixels "TempoMark" 10 )
-				(d-DirectivePut-standalone-ty "TempoMark" 85 ) ;;try -40 instead of 85 for above-the-staff
+				(if (not replace) (d-DirectivePut-standalone "Tempo" ) )
+				(if LilyString (d-DirectivePut-standalone-postfix "Tempo" LilyString ) )
+				(d-DirectivePut-standalone-display  "Tempo" DisplayString)
+				(d-DirectivePut-standalone-minpixels "Tempo" 10 )
+				(d-DirectivePut-standalone-ty "Tempo" 85 ) ;;try -40 instead of 85 for above-the-staff
 				(if (equal? ValidBPM? #t)
 					(begin 
-						(d-DirectivePut-standalone-override "TempoMark" (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_TEMPO DENEMO_OVERRIDE_STEP))
-						(d-DirectivePut-standalone-midibytes "TempoMark" MidiBPM)
+						(d-DirectivePut-standalone-override "Tempo" (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_TEMPO DENEMO_OVERRIDE_STEP))
+						(d-DirectivePut-standalone-midibytes "Tempo" MidiBPM)
 					)
 				)
 				(d-RefreshDisplay)
