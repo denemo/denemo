@@ -2117,8 +2117,9 @@ parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoScore * si)
   DenemoStaff *curStaff = (DenemoStaff *) si->currentprimarystaff->data;
 
   staffInfoElem = getXMLChild (staffElem, "staff-info", ns);
-  RETURN_IF_ELEM_NOT_FOUND ("staff", staffInfoElem, "staff-info");
-
+  //RETURN_IF_ELEM_NOT_FOUND ("staff", staffInfoElem, "staff-info");
+if(staffInfoElem==NULL) return 0;
+//rest is backward compatibility only
   FOREACH_CHILD_ELEM (childElem, staffInfoElem)
   {
     if (childElem->ns == ns)
@@ -2301,6 +2302,112 @@ parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoScore * si)
   }
 
   return 0;
+}
+
+/**
+ * Parse the given <voice-info> element into the voice in the given score.
+ * @param voiceInfoElem the XML node to process
+ * @param ns the Denemo XML namespaces
+ * @param si the DenemoScore to populate 
+ * 
+ * @return 0 on success, -1 on failure
+ */
+static gint
+parseVoiceProps (xmlNodePtr voicePropElem, xmlNsPtr ns, DenemoScore *si)
+{
+  DenemoStaff *curStaff = (DenemoStaff *)si->currentstaff->data;
+  xmlNodePtr childElem;
+  FOREACH_CHILD_ELEM (childElem, voicePropElem)
+  {
+    if (ELEM_NAME_EQ (childElem, "number-of-lines"))
+	  {
+	    curStaff->no_of_lines = getXMLIntChild (childElem);
+	    if (curStaff->no_of_lines == G_MAXINT)
+	      {
+		g_warning ("Could not determine number of lines in staff; "
+			   "defaulting to 5");
+		curStaff->no_of_lines = 5;
+	      }
+	  }
+    else if (ELEM_NAME_EQ (childElem, "instrument"))
+	  {
+	    gchar *temp = (gchar *) xmlNodeListGetString
+	      (childElem->doc, childElem->xmlChildrenNode, 1);
+	    if(temp)
+	      g_string_assign (curStaff->midi_instrument, temp);
+	    else
+	      curStaff->midi_instrument = g_string_new("");
+	    g_free (temp);
+	  }
+    else if (ELEM_NAME_EQ (childElem, "volume"))
+	  {
+  	    curStaff->volume = getXMLIntChild (childElem);
+  	  }	    
+    else if (ELEM_NAME_EQ (childElem, "midi_prognum"))
+	  {
+  	    curStaff->midi_prognum = getXMLIntChild (childElem);
+  	  }
+	else if (ELEM_NAME_EQ (childElem, "midi_channel"))
+	  {
+  	    curStaff->midi_channel = getXMLIntChild (childElem);
+  	  }
+	else if (ELEM_NAME_EQ (childElem, "transpose"))
+	  {
+	    curStaff->transposition = getXMLIntChild (childElem);
+	  }
+	else if (ELEM_NAME_EQ (childElem, "hasfigures"))
+	  {
+	    curStaff->hasfigures = getXMLIntChild (childElem);
+	    if(curStaff->hasfigures)
+	      si->has_figures = (gpointer) TRUE;
+	  }
+	else if (ELEM_NAME_EQ (childElem, "hasfakechords"))
+	  {
+	    curStaff->hasfakechords = getXMLIntChild (childElem);
+	    
+	  }
+	else if (ELEM_NAME_EQ (childElem, "verses"))
+	  {
+	    parseVerses(si, curStaff, childElem, ns);
+	  }
+	else if (ELEM_NAME_EQ (childElem, "instrument"))
+	  {
+	    gchar *temp = (gchar *) xmlNodeListGetString
+	      (childElem->doc, childElem->xmlChildrenNode, 1);
+	    if(temp)
+	      g_string_assign (curStaff->midi_instrument, temp);
+	    else
+	      curStaff->midi_instrument = g_string_new("");
+	    g_free (temp);
+	  }
+	else if (ELEM_NAME_EQ (childElem, "device-port"))
+	  {
+	    gchar *temp = (gchar *) xmlNodeListGetString
+	      (childElem->doc, childElem->xmlChildrenNode, 1);
+	    if(temp)
+	      g_string_assign (curStaff->device_port, temp);
+	    else
+	      curStaff->device_port = g_string_new("");
+	    g_free (temp);
+	  }
+	else if (ELEM_NAME_EQ (childElem, "staff-directives"))
+	  {
+	    curStaff->staff_directives = parseWidgetDirectives(childElem, ns, (gpointer)staff_directive_put_graphic, curStaff->staffmenu, &curStaff->staff_directives);
+	  }
+	else if (ELEM_NAME_EQ (childElem, "voice-directives"))
+	  {
+	    curStaff->voice_directives = parseWidgetDirectives(childElem, ns, (gpointer)voice_directive_put_graphic, curStaff->voicemenu, &curStaff->voice_directives);
+	  }
+	else if (ELEM_NAME_EQ (childElem, "clef-directives"))
+	  {
+	    curStaff->clef.directives = parseDirectives(childElem, ns);
+	  }
+	else
+	  {
+	    ILLEGAL_ELEM ("staff-info", childElem);
+	  }
+      }
+return 0;
 }
 
 
@@ -2755,7 +2862,12 @@ parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoGUI * gui)
   RETURN_IF_ELEM_NOT_FOUND ("voice", childElem, "initial-voice-params");
   if (parseInitVoiceParams (childElem, ns, si) != 0)
     return -1;
-
+    
+  childElem = getXMLChild (voiceElem, "voice-props", ns);
+  if(childElem) //older files will not have this
+    if (parseVoiceProps (childElem, ns, si) != 0)
+      return -1;
+    
   childElem = getXMLChild (voiceElem, "measures", ns);
   RETURN_IF_ELEM_NOT_FOUND ("voice", childElem, "measures");
   if (parseMeasures (childElem, ns, si) != 0)
