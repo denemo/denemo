@@ -2320,7 +2320,11 @@ edit_directive(DenemoDirective *directive, gchar *what) {
   gboolean ret = TRUE;
   gchar* filename = get_editscript_filename(directive->tag->str);
   if(filename == NULL) {
-    ret =( text_edit_directive(directive, what)  || !confirm("Directive Delete", "Are you sure you want to delete the directive?"));
+    GtkAction *action = lookup_action_from_name (directive->tag->str);
+    if(action)
+      ret = activate_script(action, NULL);
+    if(!ret)
+      ret =( text_edit_directive(directive, what)  || !confirm("Directive Delete", "Are you sure you want to delete the directive?"));
     score_status (Denemo.gui, TRUE);
     return ret;
   }
