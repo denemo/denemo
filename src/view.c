@@ -4877,7 +4877,6 @@ void inner_main(void*closure, int argc, char **argv){
     g_free(choice);
   }
 
-// FIXME
 //#ifdef _HAVE_JACK_
 //if (Denemo.prefs.midi_audio_output == Jack)
 //  init_jack();
@@ -4903,7 +4902,14 @@ void inner_main(void*closure, int argc, char **argv){
 //}
 //#endif    
 
-    
+  if (audiobackend_initialize(&Denemo.prefs)) {
+    g_error("Failed to initialize audio or MIDI backends\n");
+  }
+
+  // FIXME: call audiobackend_destroy() *somewhere*...
+
+
+
   /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
   for(i=0;i<G_N_ELEMENTS(activatable_commands);i++) {
     install_scm_function (g_strdup_printf(DENEMO_SCHEME_PREFIX"%s", activatable_commands[i].str), (gpointer)activatable_commands[i].p);//FIXME possible memeory leak

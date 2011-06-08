@@ -69,6 +69,17 @@ typedef enum backend_type_t {
 #define NUM_BACKENDS 2
 
 
+/**
+ * Initializes the audio/MIDI subsystem.
+ */
+int audiobackend_initialize(DenemoPrefs *config);
+
+/**
+ * Destroys and cleans up the audio/MIDI subsystem.
+ */
+int audiobackend_destroy();
+
+
 
 /**
  * Used to be:

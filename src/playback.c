@@ -95,7 +95,7 @@ void stop_midi_playback (GtkAction * action, gpointer param) {
 
   midi_stop();
 
- gtk_widget_queue_draw (Denemo.scorearea);//update playhead on screen
+  gtk_widget_queue_draw (Denemo.scorearea);//update playhead on screen
 }
 
 void

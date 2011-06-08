@@ -16,25 +16,32 @@
 
 static int dummy_initialize(DenemoPrefs *config)
 {
+  g_print("initializing dummy backend\n");
   return 0;
 }
 
 static int dummy_destroy()
 {
+  g_print("destroying dummy backend\n");
   return 0;
 }
 
 static int dummy_reconfigure(DenemoPrefs *config)
 {
+  g_print("reconfiguring dummy backend\n");
   return 0;
 }
 
 static int dummy_play_midi_event(int port, unsigned char *buffer)
 {
+  int channel = buffer[0] & 0x0f;
+  int type = (buffer[0] & 0xf0) >> 4;
+  g_print("playing midi event: port=%n, channel=%n, type=%x\n");
   return 0;
 }
 
 static int dummy_panic() {
+  g_print("panicking\n");
   return 0;
 }
 

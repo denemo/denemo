@@ -45,7 +45,7 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	callbacks.h entries.h \
 	scheme_cb.h scheme.h register_commands.h \
 	pathconfig.h \
-	audiobackend.c dummybackend.c
+	audiobackend.c dummybackend.c jackbackend.c
 
 localedir = $(datadir)/locale
 INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
