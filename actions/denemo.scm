@@ -136,6 +136,12 @@
 		(d-MoveCursorRight))
 	(d-RefreshDisplay))
 
+; Procedure to insert Self-Editing Lilypond Standalone Directives. Takes a pair with car Tag and cdr lilypond: (cons "BreathMark" "\\breathe") with optional boolean to step right after insertion and graphic
+(define* (StandAloneSelfEditDirective pair #:optional (step? #t) (graphic #f))
+	(if (d-Directive-standalone? (car pair))
+	  (d-DirectiveTextEdit-standalone (car pair))
+	  (StandAloneDirectiveProto pair step? graphic)))
+
 
 ; create documentation for a command - this version just prints out basic info
 ;;DocumentCommand
