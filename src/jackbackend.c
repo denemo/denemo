@@ -19,10 +19,6 @@ static char const *JACK_CLIENT_NAME = "denemo";
 
 static jack_client_t *client = NULL;
 
-//static size_t num_audio_in_ports;
-//static size_t num_audio_out_ports;
-//static size_t num_midi_in_ports;
-//static size_t num_midi_out_ports;
 static jack_port_t **audio_in_ports = NULL;
 static jack_port_t **audio_out_ports = NULL;
 static jack_port_t **midi_in_ports = NULL;
@@ -102,8 +98,6 @@ static int register_audio_ports(int num_in_ports, char const *in_portnames[], in
   // allocate one more item as an end-of-array marker
   audio_in_ports = g_new0(jack_port_t*, num_in_ports + 1);
   audio_out_ports = g_new0(jack_port_t*, num_out_ports + 1);
-//  num_audio_in_ports = num_in_ports;
-//  num_audio_out_ports = num_out_ports;
 
   for (n = 0; n < num_in_ports; ++n) {
     if ((audio_in_ports[n] = jack_port_register(client, in_portnames[n], JACK_DEFAULT_AUDIO_TYPE, JackPortIsInput, 0)) == NULL) {
@@ -150,8 +144,6 @@ static int register_midi_ports(int num_in_ports, char const *in_portnames[], int
   // allocate one more item as an end-of-array marker
   midi_in_ports = g_new0(jack_port_t*, num_in_ports + 1);
   midi_out_ports = g_new0(jack_port_t*, num_out_ports + 1);
-//  num_midi_in_ports = num_in_ports;
-//  num_midi_out_ports = num_out_ports;
 
   for (n = 0; n < num_in_ports; ++n) {
     if ((midi_in_ports[n] = jack_port_register(client, in_portnames[n], JACK_DEFAULT_MIDI_TYPE, JackPortIsInput, 0)) == NULL) {
