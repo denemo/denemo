@@ -11,6 +11,9 @@
  * (at your option) any later version.
  */
 
+#ifndef AUDIOBACKEND_H
+#define AUDIOBACKEND_H
+
 #include <denemo/denemo_types.h>
 
 
@@ -62,6 +65,7 @@ typedef enum backend_type_t {
   MIDI_BACKEND = 1
 } backend_type_t;
 
+// we only have two backends at the same time: audio and MIDI
 #define NUM_BACKENDS 2
 
 
@@ -157,3 +161,6 @@ void queue_redraw_all();
  * Queues a redraw of the playback cursor.
  */
 void queue_redraw_cursor();
+
+
+#endif // AUDIOBACKEND_H

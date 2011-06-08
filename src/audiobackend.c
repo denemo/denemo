@@ -11,10 +11,11 @@
  * (at your option) any later version.
  */
 
-#include <audiobackend.h>
+#include "audiobackend.h"
+#include "dummybackend.h"
 
-#include <midi.h>
-#include <audio.h>
+#include "midi.h"
+#include "audio.h"
 
 
 #define NOTE_OFF            0x80
@@ -28,40 +29,6 @@
 
 
 static backend_t *backends[NUM_BACKENDS] = { NULL };
-
-
-static int dummy_initialize(DenemoPrefs *config)
-{
-  return 0;
-}
-
-static int dummy_destroy()
-{
-  return 0;
-}
-
-static int dummy_reconfigure(DenemoPrefs *config)
-{
-  return 0;
-}
-
-static int dummy_play_midi_event(int port, unsigned char *buffer)
-{
-  return 0;
-}
-
-static int dummy_panic() {
-  return 0;
-}
-
-
-static backend_t dummy_backend = {
-  dummy_initialize,
-  dummy_destroy,
-  dummy_reconfigure,
-  dummy_play_midi_event,
-  dummy_panic,
-};
 
 
 backend_t *
@@ -219,3 +186,4 @@ double determine_frequency() { return 0.0; }
 void set_frequency_smoothing(double fraction) { }
 
 void setTuningTarget(double pitch) { }
+
