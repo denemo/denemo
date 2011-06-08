@@ -36,11 +36,12 @@ static int dummy_play_midi_event(int port, unsigned char *buffer)
 {
   int channel = buffer[0] & 0x0f;
   int type = (buffer[0] & 0xf0) >> 4;
-  g_print("playing midi event: port=%n, channel=%n, type=%x\n");
+  g_print("playing midi event: port=%d, channel=%d, type=%x\n", port, channel, type);
   return 0;
 }
 
-static int dummy_panic() {
+static int dummy_panic()
+{
   g_print("panicking\n");
   return 0;
 }

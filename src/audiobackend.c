@@ -44,17 +44,22 @@ static backend_t * get_backend(backend_type_t backend)
 
 int audiobackend_initialize(DenemoPrefs *config)
 {
-  if (config->midi_audio_output == Jack) {
+  // FIXME: add new setting to DenemoPrefs
+  g_print("audio driver is '%s'\n", config->fluidsynth_audio_driver->str);
+
+  if (strcmp(config->fluidsynth_audio_driver->str, "jack") == 0) {
     backends[AUDIO_BACKEND] = &jack_audio_backend;
   } else {
-    backends[AUDIO_BACKEND] = NULL;
+    backends[AUDIO_BACKEND] = &dummy_backend;
   }
 
   // FIXME: add new setting to DenemoPrefs
-  if (strcmp(config->fluidsynth_midi_driver, "jack") == 0) {
+  g_print("MIDI driver is '%s'\n", config->fluidsynth_midi_driver->str);
+
+  if (strcmp(config->fluidsynth_midi_driver->str, "jack") == 0) {
     backends[MIDI_BACKEND] = &jack_midi_backend;
   } else {
-    backends[MIDI_BACKEND] = NULL;
+    backends[MIDI_BACKEND] = &dummy_backend;
   }
 
   get_backend(AUDIO_BACKEND)->initialize(config);

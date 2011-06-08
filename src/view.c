@@ -4902,8 +4902,9 @@ void inner_main(void*closure, int argc, char **argv){
 //}
 //#endif    
 
+
   if (audiobackend_initialize(&Denemo.prefs)) {
-    g_error("Failed to initialize audio or MIDI backends\n");
+    g_warning("Failed to initialize audio or MIDI backends\n");
   }
 
   // FIXME: call audiobackend_destroy() *somewhere*...
