@@ -2322,8 +2322,8 @@ edit_directive(DenemoDirective *directive, gchar *what) {
   if(filename == NULL) {
     GtkAction *action = lookup_action_from_name (directive->tag->str);
     if(action)
-      ret = activate_script(action, NULL);
-    if(!ret)
+      activate_script(action, NULL);
+    else
       ret =( text_edit_directive(directive, what)  || !confirm("Directive Delete", "Are you sure you want to delete the directive?"));
     score_status (Denemo.gui, TRUE);
     return ret;
