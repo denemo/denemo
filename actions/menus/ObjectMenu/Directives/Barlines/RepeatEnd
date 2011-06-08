@@ -7,14 +7,8 @@
       <row>
         <action>RepeatEnd</action>
         <scheme>;;;RepeatEnd
-(d-DirectivePut-standalone-minpixels "RepeatEnd" 22)
-(d-MoveCursorLeft)
-(d-DirectivePut-standalone-postfix "RepeatEnd" " \\bar \":|\"")
-(d-DirectivePut-standalone-gx  "RepeatEnd"  15)
-(d-DirectivePut-standalone-gy  "RepeatEnd"  -2)
-(d-DirectivePut-standalone-graphic "RepeatEnd" "RepeatEnd")
-(d-MoveCursorRight)
-(d-RefreshDisplay)</scheme>
+(StandAloneSelfEditDirective (cons "RepeatEnd" "\\bar \":|\"") #t "RepeatEnd")
+</scheme>
         <label>Repeat End Barline</label>
         <tooltip>Insert a barline indicating the end of a repeated section.</tooltip>
       </row>

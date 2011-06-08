@@ -2439,21 +2439,21 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>RepeatStart</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
         <label>Repeat Start Barline</label>
         <tooltip>Insert a barline indicating the start of a repeated section.</tooltip>
       </row>
       <row>
         <action>RepeatEnd</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
         <label>Repeat End Barline</label>
         <tooltip>Insert a barline indicating the end of a repeated section.</tooltip>
       </row>
       <row>
         <action>RepeatEndStart</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
         <label>Repeat End-Start</label>
         <tooltip>Inserts a barline ending one repeated section and starting another</tooltip>
       </row>

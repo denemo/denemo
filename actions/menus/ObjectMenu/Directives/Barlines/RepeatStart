@@ -7,14 +7,8 @@
       <row>
         <action>RepeatStart</action>
         <scheme>;;;RepeatStart
-(d-DirectivePut-standalone-minpixels "RepeatStart" 30)
-(d-MoveCursorLeft)
-(d-DirectivePut-standalone-postfix "RepeatStart" " \\bar \"|:\"")
-(d-DirectivePut-standalone-gx  "RepeatStart"  -3)
-(d-DirectivePut-standalone-gy  "RepeatStart"  -1)
-(d-DirectivePut-standalone-graphic "RepeatStart" "RepeatStart")
-(d-MoveCursorRight)
-(d-RefreshDisplay)</scheme>
+(StandAloneSelfEditDirective (cons "RepeatStart" "\\bar \"|:\"") #t "RepeatStart")
+</scheme>
         <label>Repeat Start Barline</label>
         <tooltip>Insert a barline indicating the start of a repeated section.</tooltip>
       </row>
