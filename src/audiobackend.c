@@ -182,7 +182,7 @@ void queue_redraw_all()
   displayhelper(Denemo.gui);
 }
 
-void queue_redraw_cursor()
+void queue_redraw_playhead()
 {
   region_playhead();
 }

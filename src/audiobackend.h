@@ -169,9 +169,9 @@ void render_audio(unsigned int nframes, float buffer[]);
 void queue_redraw_all();
 
 /**
- * Queues a redraw of the playback cursor.
+ * Queues a redraw of the playhead.
  */
-void queue_redraw_cursor();
+void queue_redraw_playhead();
 
 
 #endif // AUDIOBACKEND_H
