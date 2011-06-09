@@ -46,7 +46,12 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	scheme_cb.h scheme.h register_commands.h \
 	pathconfig.h \
 	midi.c \
-	audiobackend.c dummybackend.c jackbackend.c
+	audiobackend.c dummybackend.c
+
+if HAVE_JACK
+denemo_SOURCES += jackbackend.c
+endif
+
 
 localedir = $(datadir)/locale
 INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \

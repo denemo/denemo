@@ -13,7 +13,10 @@
 
 #include "audiobackend.h"
 #include "dummybackend.h"
-#include "jackbackend.h"
+
+#ifdef _HAVE_JACK_
+  #include "jackbackend.h"
+#endif
 
 #include "midi.h"
 #include "audio.h"
@@ -44,31 +47,60 @@ static backend_t * get_backend(backend_type_t backend)
 
 int audiobackend_initialize(DenemoPrefs *config)
 {
+  char const *driver;
+
   // FIXME: add new setting to DenemoPrefs
   g_print("audio driver is '%s'\n", config->fluidsynth_audio_driver->str);
 
-  if (strcmp(config->fluidsynth_audio_driver->str, "jack") == 0) {
+  driver = config->fluidsynth_audio_driver->str;
+
+  if (strcmp(driver, "jack") == 0) {
+#ifdef _HAVE_JACK_
     backends[AUDIO_BACKEND] = &jack_audio_backend;
+#else
+    g_warning("JACK backend is not enabled\n");
+#endif
+  } else if (strcmp(driver, "dummy") == 0) {
+    // do nothing
   } else {
+    g_warning("unknown audio backend '%s'\n", driver);
+  }
+
+  if (backends[AUDIO_BACKEND] == NULL) {
     backends[AUDIO_BACKEND] = &dummy_backend;
   }
+
 
   // FIXME: add new setting to DenemoPrefs
   g_print("MIDI driver is '%s'\n", config->fluidsynth_midi_driver->str);
 
-  if (strcmp(config->fluidsynth_midi_driver->str, "jack") == 0) {
+  driver = config->fluidsynth_midi_driver->str;
+
+  if (strcmp(driver, "jack") == 0) {
+#ifdef _HAVE_JACK_
     backends[MIDI_BACKEND] = &jack_midi_backend;
+#else
+    g_warning("JACK backend is not enabled\n");
+#endif
+  } else if (strcmp(driver, "dummy") == 0) {
+    // do nothing
   } else {
+    g_warning("unknown MIDI backend '%s'\n", driver);
+  }
+
+  if (backends[MIDI_BACKEND] == NULL) {
     backends[MIDI_BACKEND] = &dummy_backend;
   }
 
+
+  // FIXME: check for errors
   get_backend(AUDIO_BACKEND)->initialize(config);
   get_backend(MIDI_BACKEND)->initialize(config);
 
   return 0;
 }
 
-// FIXME: this is never called!
+
 int audiobackend_destroy()
 {
   get_backend(AUDIO_BACKEND)->destroy();
