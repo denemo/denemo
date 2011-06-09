@@ -84,6 +84,8 @@ int audiobackend_destroy()
 
 void midi_play(gchar *callback)
 {
+  generate_midi();
+
   // TODO
 }
 
@@ -193,31 +195,6 @@ void queue_redraw_playhead()
 
 // from fluid.c
 void advance_time(gdouble seconds) { }
-
-
-// from midi.c
-gint midi_init () { return 0; }
-
-gint init_midi_input() { return 0; }
-void start_midi_input() { }
-gint stop_midi_input() { return 0; }
-
-gint get_midi_channel() { return 0; }
-gint get_midi_prognum() { return 0; }
-
-gdouble get_midi_on_time(GList *events) { return 0.0; }
-gdouble get_midi_off_time(GList *events) { return 0.0; }
-gdouble get_time() { return 0.0; }
-gboolean set_midi_capture(gboolean set) { return FALSE; }
-
-void process_midi_event(gchar *buf) { }
-
-gboolean intercept_midi_event(gint *midi) { return FALSE; }
-
-DenemoObject *get_obj_for_start_time(smf_t *smf, gdouble time) { return NULL; }
-DenemoObject *get_obj_for_end_time(smf_t *smf, gdouble time) { return NULL; }
-
-void change_tuning(gdouble *cents) { }
 
 
 // from audiocapture.c
