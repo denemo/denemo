@@ -4813,7 +4813,12 @@ void inner_main(void*closure, int argc, char **argv){
   rsvg_init();
 
 
-  
+  Denemo.prefs.cursor_highlight = TRUE;
+  Denemo.prefs.profile = g_string_new("Simple");
+  /* Initialize preferences */
+  initprefs();
+
+
   gchar *initial_file = process_command_line(argc, argv);
 
   //create window system
@@ -4821,15 +4826,15 @@ void inner_main(void*closure, int argc, char **argv){
 
   create_scheme_identfiers();
 
-  Denemo.prefs.cursor_highlight = TRUE;
+//  Denemo.prefs.cursor_highlight = TRUE;
 
   /* create the first tab */
   newtab (NULL, NULL);
 
 
-  Denemo.prefs.profile = g_string_new("Simple");
-  /* Initialize preferences */
-  initprefs();
+//  Denemo.prefs.profile = g_string_new("Simple");
+//  /* Initialize preferences */
+//  initprefs();
   /*ignore setting of mode unless user has explicitly asked for modal use */
   if(!Denemo.prefs.modal)
     Denemo.prefs.mode = INPUTEDIT|INPUTRHYTHM|INPUTNORMAL;//FIXME must correspond with default in prefops.c

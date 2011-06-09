@@ -637,46 +637,47 @@ Report bugs to http://www.denemo.org\n"), NULL) ;
   };
 #endif
 
+  char const *optstring = "s:hi:vc:k:a:A:M:";
+
 #ifdef HAVE_GETOPT_H
-  while ((opts = getopt_long (argc, argv, "s:hi:vc:k:a:", long_options, NULL)) != -1)
+  while ((opts = getopt_long (argc, argv, optstring, long_options, NULL)) != -1)
 #else
-  while ((opts = getopt (argc, argv, "s:hi:vc:k:a:")) != -1)
+  while ((opts = getopt (argc, argv, optstring)) != -1)
 #endif
     {
-	  g_print("opt %c has %s\n", opts, argv[optind]);
-      if (opts == 'h')
-        {
+      g_print("opt %c has %s\n", opts, argv[optind]);
+
+      switch (opts) {
+        case 'h':
           g_print ("%s", helptext);
           exit (0);
-        }
-      else if (opts == 's')
-        {
-          Denemo.scheme_file = g_build_filename(get_data_dir(), "actions",  optarg, NULL);
-        }
-      else if (opts == 'a')
-        {
-          Denemo.scheme_commands = g_strdup(optarg);
-        }
-      else if (opts == 'i')
-        {
-          Denemo.scheme_file = g_strdup(optarg);
-        }
-
-      else if (opts == 'c')
-        {
-	  commandsetfile = g_build_filename(get_data_dir(), "actions",  optarg, NULL);
-        }
-      else if (opts == 'k')
-        {
-	  commandsetfile = g_build_filename(locatedotdenemo(), "actions",  optarg, NULL);
-        }
-      else if (opts == 'v')
-        {
+        case 'v':
           g_print (_("\nGNU Denemo version "));
           g_print (VERSION ".\n\n");
           g_print ("%s", copytext);
           exit (0);
-        }
+        case 's':
+          Denemo.scheme_file = g_build_filename(get_data_dir(), "actions",  optarg, NULL);
+          break;
+        case 'a':
+          Denemo.scheme_commands = g_strdup(optarg);
+          break;
+        case 'i':
+          Denemo.scheme_file = g_strdup(optarg);
+          break;
+        case 'c':
+          commandsetfile = g_build_filename(get_data_dir(), "actions",  optarg, NULL);
+          break;
+        case 'k':
+          commandsetfile = g_build_filename(locatedotdenemo(), "actions",  optarg, NULL);
+          break;
+        case 'A':
+          g_string_assign(Denemo.prefs.fluidsynth_audio_driver, optarg);
+          break;
+        case 'M':
+          g_string_assign(Denemo.prefs.fluidsynth_midi_driver, optarg);
+          break;
+      }
     }
 
   g_print (_("\nGNU Denemo, a free and open music notation editor\n"));
