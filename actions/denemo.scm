@@ -9,6 +9,7 @@
 	;(use-modules (actions denemo-modules (string->symbol string)))) ; maybe not (string->symbol) but (eval)
 	(load (string-append "denemo-modules/" string ".scm")))
 
+;Load additional Denemo functions. These are technically in the same global namespace as functions defined directly in denemo.scm. 
 (use-denemo "scheme") ; Standalone functions and general Scheme helpers, not tied to any Denemo C-functions.
 (use-denemo "ans") ; Abstract Note System for pitch calculations
 (use-denemo "notationmagick") ; Insert and modify, mostly randomized, music. Depends on ans.scm
@@ -18,12 +19,31 @@
 (use-denemo "selection")  ; Selections, Copy and Paste
 (use-denemo "rhythmandmeter") ; Rhythm, Durations, Ticks, Meter, Conversion between Lilypond, Tick and Denemo duration.
 (use-denemo "directives") ; Functions to handle the built-in Denemo directives.
+(use-denemo "types") ; Denemo type related functions and tests. ("CHORD", "DIRECTIVE" etc.)
+(use-denemo "moveandsearch") ; Move the cursor to all kinds of positions, loop through the score to find things.
 ;(use-denemo "deprecated") ; Old and outdated scripts
+
+
+;Denenmo.scm is for functions that 
+;; directly influence the Denemo GUI
+;; or the keybindings
+;; work with Denemo controls
+;; are not part of a set currently (Creating a whole new file for just one function will not improve anything)
+;; leftovers from the "one big denemo.scm file" time :)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;Needed to see if lyimport / mxml import is called from inside or outside Denemo
 (define Denemo #t)
 
 (define DenemoKeypressActivatedCommand #f) ;;;is true while a keyboard shortcut is invoking a script, unless the script has set it to #f
+
+(define (lyimport::load-file pathname filename)
+  (load (string-append DENEMO_ACTIONS_DIR "lyimport.scm"))
+  (set! lyimport::pathname pathname) 
+  (set! lyimport::filename filename)
+  (eval-string (lyimport::import))
+  (d-MoveToMovementBeginning))
 
 ; GetUniquePairs is a function that takes a list and combines each value with any other, but without duplicates and in order.
 ;;; (a b c d) -> ab ac ad, bc bd, cd
@@ -89,138 +109,6 @@
 	(if (Note?)
 	 (list-ref (reverse (string-tokenize(d-GetNotes))) 0)
 	 #f))
-
-;Find the next object that returns #t from the given test function. Don't write the function in parentheses, just give the name (except you give a function that returns a name :))
-(define (FindNextObjectAllStaffs test?) 
-	(let loopy ()
-	(if (d-NextObject)
-		(if (test?)
-			#t ; object found. Stop
-			(loopy)) ; not the droids you're looking for, move on
-		(if (d-MoveToStaffDown); no next object possible
-			(begin (d-MoveToBeginning) ; lower staff found
-				(if (test?)
-					#t; object found. Stop
-					(loopy))) ; first object of lower staff is not a member, start search again.
-			#f) ; no staff left, final end.
-	); if end
-	));loopy end
-
-(define  (FindNextObjectAllColumns test?)
-	(if (not (MeasureEnd?))
-		(d-MoveCursorRight))
-	(let loop ()
-		(if (MeasureEnd?)
-			(if (d-GoToPosition #f (1+ (d-GetStaff)) #f 1) ; try to go a staff down
-				(loop) ; there is a staff down. Loop again
-				(begin ; there is no staff down. 
-					(if (d-GoToPosition #f 1 (1+ (d-GetMeasure)) 1) ; try to go to the next column
-						(loop) ; there is a next column. Loop again
-						#f))) ; there is none, end of the movement. End of the script
-			(if (test?) 
-				#t ; object found. stop				
-				(begin 
-					(d-MoveCursorRight)
-					(loop))))))
-
-(define  (FindPrevObjectAllColumns test?)
-	(define (step)
-		(if (not (MeasureBeginning?))
-			(d-MoveCursorLeft)
-			(if (d-GoToPosition #f (1- (d-GetStaff)) #f 1) ; try to go a staff up
-				(GoToMeasureEnd)
-				(if (and (MoveToColumnEnd) (d-GoToPosition #f #f (1- (d-GetMeasure)) 1)) ; no staff above.  try to go to the previous column					
-					(GoToMeasureEnd)
-					#f)))) ; no previous column
-	;;Body	
-	(step)
-	(let loop ()	
-		(if (test?)
-			#t
-			(if (step)
-				(loop)
-				(begin (d-MoveToMovementBeginning) #f))))); Beginning of Movement, end of search
-
-; A set of simple tests / questions for score objects. 
-(define (Music?) 
-  (if (string=? (d-GetType) "CHORD") #t #f))
-	
-(define (Note?) 
-  (if (and (string=? (d-GetType) "CHORD") (d-GetNoteName)) #t #f))
-
-(define (Rest?)
-  (if (and (not (d-GetNoteName)) (string=? (d-GetType) "CHORD")) #t #f))
-
-(define (Chord?) 
-  (if (Note?)
-	(if (string-contains (d-GetNotes) " ")
-		#t
-		#f
-	)
-  #f)) ; no note
-
-(define (Singlenote?) 
-  (if (Note?)
-	(if (string-contains (d-GetNotes) " ")
-		#f
-		#t
-	)
-  #f)) ; no note
-	
-(define (Directive?) 
-  (if (string=? (d-GetType) "LILYDIRECTIVE") #t #f))
-
-(define (Timesignature?) 
-  (if (string=? (d-GetType) "KEYSIG") #t #f))
-  
-(define (Keysignature?) 
-  (if (string=? (d-GetType) "TIMESIG") #t #f))
-  
-(define (Clef?) 
-  (if (string=? (d-GetType) "CLEF") #t #f))
-  
-(define (Tupletmarker?) 
-  (if (or (Tupletopen?) (Tupletclose?))  #t #f))
-  
-(define (Tupletopen?) 
-  (if (string=? (d-GetType) "TUPOPEN") #t #f))
-  
-(define (Tupletclose?) 
-  (if (string=? (d-GetType) "TUPCLOSE") #t #f))
- 
-(define (None?)
- (if (string=? (d-GetType) "None") #t #f))
-	
-(define (Appending?)
- (if (string=? (d-GetType) "Appending") #t #f))	 
-
-(define (MeasureEnd?)
-	(or (Appending?) (MeasureEmpty?)))
-
-(define (MeasureBeginning?)
-	(= 1 (d-GetHorizontalPosition)))
-
-(define (PrevDirectiveOfTag tag)
-  (let loop ()
-    (if (d-PrevStandaloneDirective)
-       (if (not (d-Directive-standalone? tag))
-	   (loop)
-	   #t
-	   )
-       #f)))
-(define (NextDirectiveOfTag tag)
-  (let loop ()
-    (if (d-NextStandaloneDirective)
-       (if (not (d-Directive-standalone? tag))
-	   (loop)
-	   #t
-	   )
-       #f)))
-
-(define (d-DirectiveDelete-standalone Tag)
-	(if (equal? (d-DirectiveGetTag-standalone) Tag)
-	(begin (d-DeleteObject) #t)
-	#f))
 
 (define cue-Advanced "Advanced")
 (define cue-PlaceAbove "Place above staff")
@@ -545,24 +433,6 @@
  (d-OutputMidiBytes (string-append "0x9$ " pitch volume))
  (d-OneShotTimer duration (string-append "(d-OutputMidiBytes " "\"" "0x8$ " pitch " 0" "\"" ")" )))
 
-(define (MeasureEmpty?) (None?))
-
-(define  (ColumnEmpty?)
-	(define return #f)
-	(define measure (d-GetMeasure)) ; to make shure we stay in the same column all the time.
-	(d-PushPosition)
-	(if (not (MoveToColumnStart))
-	  #f ; if we have unequal staff length in staff 1 stop immediatly, 
-	  (let loop ()		
-		(if (and (None?) (equal? measure (d-GetMeasure)))
-			(begin
-				(set! return #t)
-				(if (d-MoveToStaffDown)
-					(loop)))		
-			(set! return #f))))
-	(d-PopPosition)
-	return)
-
 (define (DenemoFirst)
   (begin
     (display "DenemoFirst")))
@@ -668,8 +538,9 @@
 		      (d-SetPlaybackInterval end start)
 		      (d-SetPlaybackInterval start end))
 		  (d-RefreshDisplay))))))))
-;;;;;;;; DenemoConvert;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
+; DenemoConvert
 (define (DenemoConvert)
 (define MidiNoteStarts (make-vector 256 #f))
 
@@ -776,37 +647,6 @@
 	(set! lily "print-all-headers"))
      (d-DirectivePut-paper-postfix "PrintAllHeaders" (string-append lily " = ##t\n"))))
 
-;;;; GoToMeasureEnd: Move right until "appending" or "none" which is the Measure End
-(define (GoToMeasureEnd)
-  (let loop ()
-    (if  (or (None?) (Appending?))
-	#t
-	(begin (d-MoveCursorRight) (loop)))))
-
-;;;; GoToMeasureBeginning
-(define (GoToMeasureBeginning)
-  (if (d-MoveToMeasureLeft)
-	(d-MoveToMeasureRight)  
-	(d-MoveToBeginning)))
-
-;;; Go to the first staff, same measure. Handle crossing unequal staff length.
-(define (MoveToColumnStart)
-	(define measure (d-GetMeasure)) ; to make shure we stay in the same column all the time.
-	(RepeatUntilFail d-MoveToStaffUp)
-	(d-GoToPosition #f #f measure #f))
-	
-(define (MoveToColumnEnd)
-	(define measure (d-GetMeasure)) ; to make shure we stay in the same column all the time.
-	(RepeatUntilFail d-MoveToStaffDown)
-	(d-GoToPosition #f #f measure #f))
-
-(define (lyimport::load-file pathname filename)
-  (load (string-append DENEMO_ACTIONS_DIR "lyimport.scm"))
-  (set! lyimport::pathname pathname) 
-  (set! lyimport::filename filename)
-  (eval-string (lyimport::import))
-  (d-MoveToMovementBeginning))
-
 (define MIDI-shortcuts::alist '(("" . "")))
 (define (SetMidiShortcut shortcut command)
 	(set! MIDI-shortcuts::alist (assoc-set! MIDI-shortcuts::alist shortcut command)))
@@ -881,7 +721,6 @@
         )
       (else #f)))
 
-
 (define Pitchbend::commandUp "(d-CursorRight)")
 (define Pitchbend::commandDown "(d-CursorLeft)")
 (define  Pitchbend::timer 0)
@@ -901,8 +740,6 @@
 	  (set! Pitchbend::timer (d-Timer 100 Pitchbend::commandDown)))
 	  #f)
 	 (else  (d-KillTimer Pitchbend::timer) (set! Pitchbend::timer 0) #f )))
-;;;;;;;;;;;;;;;;;;
-
                       
 ; Create a music-object that holds various information. This is the smallest, single object 
 (defstruct musobj pitch movement staff measure metricalp horizontal start duration baseduration dots)
@@ -970,16 +807,6 @@
 (define (InitializeTypesetting) (DefaultInitializeTypesetting))
 (define (FinalizeTypesetting) (DefaultFinalizeTypesetting))
 
-;;;;;;Apply the passed script to each movement of a score
-(define (ForAllMovements script)
-  (d-PushPosition)
-  (d-GoToPosition 1 1 1 1)
-  (let loop ()
-    (begin
-      (eval-string script)
-      (if (d-NextMovement)
-	  (loop))))
-  (d-PopPosition))
   
 ;Aliases for Breve and Longa to use with Denemo numbers for durations.
 (define (d-3072) (d-Breve))
@@ -1002,8 +829,6 @@
 ;Insert a no-pitch note of the prevailing duration.
 (define (d-Enter) (eval-string (string-append "(d-" (number->string (abs (d-GetPrevailingDuration))) ")" )))
 
-(define (GetPosition)
-	(list (d-GetMovement) (d-GetStaff) (d-GetMeasure)(d-GetHorizontalPosition)))
 
 ;Radiobox is a Radio-Box list where you have a pretty name and a data type.
 ;;Wants pairs, car is a string to show as radio-option, cdr is a return value and can be any data type, for example a function.
@@ -1015,28 +840,6 @@
 		(cdr	(list-ref  parameters (list-index (lambda (x) (equal?  answer (car x))) parameters)))
 		#f))
 
-(define (Probe test moveinstruction)
-	(define return #f)
-	(d-PushPosition)	
-	(if (moveinstruction)
-		(set! return (test)))
-	(d-PopPosition)
-	return)
-(define (ProbePosition test movement staff measure horizontalposition)
-	 (Probe test (lambda () (d-GoToPosition movement staff measure horizontalposition))))
-(define (ProbePreviousMeasure test)
-	(Probe test d-MoveToMeasureLeft))
-(define (ProbeNextMeasure test)
-	(Probe test d-MoveToMeasureRight))
-(define (ProbeNextObject test)
-	(Probe test d-NextObject))
-(define (ProbePreviousObject test)
-	(Probe test d-PreviousObject))
-(define (ProbeNextNote test)
-	(Probe test d-NextNote))
-(define (ProbePreviousNote test)
-	(Probe test d-PreviousNote))
-	
 ;Protofunction for all transpose and shift related commands
 ;; Get all notes on cursor position and create a list with new values which then exchanges the current notes on cursor position
 (define (ShiftProto method)
@@ -1084,30 +887,4 @@
 ;TODO: (d-RemoveNoteFromChord) always returns #f so we have to use (d-GetNotes) as test until this gets fixed
 	(if (Music?)
 		(RepeatProcWhileTest d-RemoveNoteFromChord d-GetNotes)
-		#f))		
-
-;ActionChooser is a meta function to provide a simple way to react to all types of Denemo items in the score.
-(define (ActionChooser chord tupclose tupopen lilydirective clef timesig keysig stemdirective)	
-	(define type (string->symbol (d-GetType)))
-	(case type
-	 	((CHORD) (chord))
-	 	((TUPCLOSE) (tupclose))
-	 	((TUPOPEN)  (tupopen))
-	 	((LILYDIRECTIVE) (lilydirective))
-	 	((CLEF) (clef))	
-	 	((TIMESIG) (timesig))
-	 	((KEYSIG) (keysig))
-	 	((STEMDIRECTIVE) (stemdirective))
-	 	(else #f)))
-
-			#! (define (ActionChooserExample)
-				  (ActionChooser 
-					(lambda () (disp "Chord")) ;chords, notes, rests
-					(lambda () (disp "tupclose")) ; tuplet close
-					(lambda () (disp "Tupopen")) ; tuplet open
-					(lambda () (disp "lily")) ; lilypond directive
-					(lambda () (disp "clef")) ; clefs
-					(lambda () (disp "time")) ; timesignatures
-					(lambda () (disp "key")) ; keysignatures
-					(lambda () (disp "stem")))) ; stem directives /voice presets
-				(MapToSelection ActionChooserExample)!#
+		#f))
