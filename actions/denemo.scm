@@ -9,6 +9,7 @@
 	;(use-modules (actions denemo-modules (string->symbol string)))) ; maybe not (string->symbol) but (eval)
 	(load (string-append "denemo-modules/" string ".scm")))
 
+(use-denemo "scheme") ; Standalone functions and general Scheme helpers, not tied to any Denemo C-functions.
 (use-denemo "ans") ; Abstract Note System for pitch calculations
 (use-denemo "notationmagick") ; Insert and modify, mostly randomized, music. Depends on ans.scm
 (use-denemo "abstractionmovement") ; Create an abstract form of the music in Scheme for further analysing. Depends on ans.scm 
@@ -16,76 +17,15 @@
 (use-denemo "helpsystem") ; An online help system to display text in the second status bar
 (use-denemo "selection")  ; Selections, Copy and Paste
 (use-denemo "rhythmandmeter") ; Rhythm, Durations, Ticks, Meter, Conversion between Lilypond, Tick and Denemo duration.
+(use-denemo "directives") ; Functions to handle the built-in Denemo directives.
 ;(use-denemo "deprecated") ; Old and outdated scripts
 
 ;Needed to see if lyimport / mxml import is called from inside or outside Denemo
 (define Denemo #t)
 
-; Create a seed for (random int) one time Denemo starts. The seed is altered by random itself afterwards.
-(let ((time (gettimeofday)))
-    (set! *random-state*
-        (seed->random-state (+ (car time)
-                 (cdr time)))))
+(define DenemoKeypressActivatedCommand #f) ;;;is true while a keyboard shortcut is invoking a script, unless the script has set it to #f
 
-(define DenemoKeypressActivatedCommand #f);;;is true while a keyboard shortcut is invoking a script, unless the script has set it to #f
-
-
-;Blank clears the console output. Don't use in released scripts, only for debugging.
-(define (Blank)
-	(system "clear"))
-
-;disp is an advanced display. Just give anything you want to print, it appends strings automatically and does a line break in the end. Don't use in released scripts, only for debugging.
-(define disp (lambda args
-   (letrec ((disp-in (lambda (arg) 
-              (if (null? arg) 
-                  #f 
-                  (begin 
-                     (display (car arg)) 
-                     (disp-in (cdr arg))))))) 
-		     (disp-in args)
-		     (newline))))
-
-;Doublequote constant to avoid backslashing		     
-(define DBLQ "\"")
-;Linefeed constant to avoid backslashing		     
-(define LFEED "\n")
-
-; A function that returns #f for cases where commands work with chunks of code. this prevents the spamming of (lambda () #f) for a function that returns #f.
-(define (False) 
-	#f)
-	
-; A function that returns #t. See (False)
-(define (True) 
-	#t)
-
-;repeat executes a proc n times
-(define (Repeat proc n)
-	(let loop ((counter 0))
-		(if (= n counter)
-			#t
-			(begin
-				(proc)
-				(loop (1+ counter))))))
-
-;Repeat a command until it returns #f
-;Warning: Functions that do not return #f create infinity loops!
-(define (RepeatUntilFail proc)
-	(let loop ()
-		(if (proc)
-			(loop)
-			#t)))
-			
-;Repeat a function while another (a test) returns #t. The return value of proc does NOT matter
-;;Warning: From all Repeat functions this one has the highest probability to be stuck in a loop forever. Always use tests that MUST return #f in the end. Do NOT use the Denemo tests like (None?) or (Music?) for example, they know nothing about a staffs end.
-(define (RepeatProcWhileTest proc test)
-	(RepeatUntilFail 		
-		(lambda () 
-			(if (test)
-				(begin (proc) #t); this is a dumb script. It will try to execute proc again even if proc itself returned #f. 	
-				#f )))) ; test failed, let RepeatUntilFail fail.		
-
-
-;;; GetUniquePairs is a function that takes a list and combines each value with any other, but without duplicates and in order.
+; GetUniquePairs is a function that takes a list and combines each value with any other, but without duplicates and in order.
 ;;; (a b c d) -> ab ac ad, bc bd, cd
 (define (GetUniquePairs listy)
 	 (define returnList (list #f)) ; we need a non-empty list to append! to
@@ -122,27 +62,6 @@
 		((CLEF) "Clef")
 		(else #f)))
 
-
-; Prototype to insert Lilypond Standalone Directives. Wants a pair with car Tag and cdr lilypond: (cons "BreathMark" "\\breathe")
-(define* (StandAloneDirectiveProto pair #:optional (step? #t) (graphic #f))
-	(d-Directive-standalone (car pair))
-	(d-DirectivePut-standalone-postfix (car pair) (cdr pair))
-	(d-DirectivePut-standalone-minpixels (car pair) 30)
-	(if graphic ;If the user specified a graphic use this, else greate a display text
-		(begin (d-DirectivePut-standalone-graphic (car pair) graphic)
-			   (d-DirectivePut-standalone-override (car pair) DENEMO_OVERRIDE_GRAPHIC))
-		(d-DirectivePut-standalone-display (car pair) (car pair)))
-	(if step?
-		(d-MoveCursorRight))
-	(d-RefreshDisplay))
-
-; Procedure to insert Self-Editing Lilypond Standalone Directives. Takes a pair with car Tag and cdr lilypond: (cons "BreathMark" "\\breathe") with optional boolean to step right after insertion and graphic
-(define* (StandAloneSelfEditDirective pair #:optional (step? #t) (graphic #f))
-	(if (d-Directive-standalone? (car pair))
-	  (d-DirectiveTextEdit-standalone (car pair))
-	  (StandAloneDirectiveProto pair step? graphic)))
-
-
 ; create documentation for a command - this version just prints out basic info
 ;;DocumentCommand
 (define (DocumentCommand name)
@@ -157,13 +76,6 @@
 		))))
     (format #t "~%~%Command ~A~%Tooltip ~A~%Label ~A~%Menu Path ~A~%" name help (d-GetLabel name) (d-GetMenuPath name))))
 
-
-;Replace a part of a string
-(define (Replace-nth list n elem)
-  (cond 
-    ((null? list) ())
-    ((eq? n 0) (cons elem (cdr list)))
-    (#t (cons(car list) (replace-nth (cdr list) (- n 1) elem)))))
 
 ; Get highest and lowest note as lilypond syntax. Works on Chords and Single Notes.
 ;; GetNotes returns a string of lily-notes from low to high. Make a list out of them and refer to the first (0) element or last (length -1) one.
@@ -288,10 +200,6 @@
 (define (MeasureBeginning?)
 	(= 1 (d-GetHorizontalPosition)))
 
-
-  
-;;;;; End set of questions
-				   
 (define (PrevDirectiveOfTag tag)
   (let loop ()
     (if (d-PrevStandaloneDirective)
@@ -314,7 +222,6 @@
 	(begin (d-DeleteObject) #t)
 	#f))
 
-(define stop "\0")
 (define cue-Advanced "Advanced")
 (define cue-PlaceAbove "Place above staff")
 (define cue-PlaceBelow "Place below staff")
@@ -417,8 +324,8 @@
 		  (set! DenemoKeypressActivatedCommand #f))		  
 		 (doublestroke::invokegui))) ; if not DenemoKeypressActivated
 
-;;;;;;;;;;;;;;;;; ExtraOffset
-;;; the parameter "what" is the LilyPond grob that is being tweaked - it may not be the tag of the DenemoDirective that is being edited
+; ExtraOffset
+;; the parameter "what" is the LilyPond grob that is being tweaked - it may not be the tag of the DenemoDirective that is being edited
 (define* (ExtraOffset what  #:optional (type "chord") (context ""))
   (let ((tag "")(oldstr #f) (start "") (end "") (get-command d-DirectiveGet-chord-prefix)  (put-command d-DirectivePut-chord-prefix))
     (cond
@@ -438,18 +345,16 @@
     (set! start (string-append "\\once \\override " context what " #'extra-offset = #'("))
     (set! end ")")
     (put-command tag (ChangeOffset oldstr start end))))
-
-;;;;;;;;;;;;;;;;; SetRelativeFontSize
+    
+; SetRelativeFontSize
 (define* (SetRelativeFontSize what #:optional (type "chord") (context ""))
   (SetValue ChangeRelativeFontSize " #'font-size = #" what type context))
 
-
-
-;;;;;;;;;;;;;;;;; SetPadding
+; SetPadding
 (define* (SetPadding what  #:optional (type "chord") (context ""))
   (SetValue ChangePad " #'padding = #" what type context))
 
-;;;;;;;;;;;;;;;;; SetValue
+; SetValue
 (define* (SetValue change-func change-str  what  #:optional (type "chord") (context ""))
   (let ((tag "") (oldstr #f) (start "") (end "") (pad "")  (get-command d-DirectiveGet-chord-prefix) (put-command d-DirectivePut-chord-prefix))
     (cond
@@ -468,11 +373,9 @@
 	(set! oldstr #f))
     (put-command tag (change-func oldstr start end))))
 
-
-
-;;;;;;;;;;;;;;;;; ChangeOffset
-;;; e.g.  (define prefixstring      "\\once \\override Fingering  #'extra-offset = #'(")
-;;; (define postfix ")")
+; ChangeOffset
+;; e.g.  (define prefixstring      "\\once \\override Fingering  #'extra-offset = #'(")
+;; (define postfix ")")
 
 (define (ChangeOffset oldstr prefixstring postfixstring)
   (let ((startbit "")
@@ -613,8 +516,7 @@
     
     (d-DirectivePut-header-postfix tag (string-append field " = \"" title "\"\n"))))
 
-;;;;;;;;;; SetScoreHeaderField sets a field in the score header
-
+; SetScoreHeaderField sets a field in the score header
 (define (SetScoreHeaderField field)
 (let ((title "") (current "") (thematch #f) (tag ""))
   (set! tag (string-append "Score" (string-capitalize field)))
@@ -633,268 +535,10 @@
   (d-DirectivePut-scoreheader-display tag (string-append field ": " title))
   (d-DirectivePut-scoreheader-postfix tag (string-append field " = \"" title "\"\n"))))
 
-;;;; d-DirectivePut-standalone a convenience function for standalone directives
-(define (d-DirectivePut-standalone tag)
-  (d-DirectivePut-standalone-minpixels tag 0)
-  (d-MoveCursorLeft))
-
-(define (d-Directive-standalone tag)
-  (if (not (d-Directive-standalone? tag))
-      (d-DirectivePut-standalone tag)))
-
-(define* (d-Directive-standalone?  #:optional (tag #f))
-  (if (equal? tag #f)
-      (string? (d-DirectiveGetForTag-standalone ""))
-      (equal? tag (d-DirectiveGetForTag-standalone tag))))
-(define (d-DirectiveGetTag-standalone)
-  (d-DirectiveGetForTag-standalone ""))
-
-
-(define* (d-Directive-chord?  #:optional (tag #f))
-  (if (equal? tag #f)
-      (string? (d-DirectiveGetForTag-chord ""))
-      (equal? tag (d-DirectiveGetForTag-chord tag))))
-(define (d-DirectiveGetTag-chord)
-  (d-DirectiveGetForTag-chord ""))
-
-(define* (d-Directive-note?  #:optional (tag #f))
-  (if (equal? tag #f)
-      (string? (d-DirectiveGetForTag-note ""))
-      (equal? tag (d-DirectiveGetForTag-note tag))))
-(define (d-DirectiveGetTag-note)
-  (d-DirectiveGetForTag-note ""))
-
-(define* (d-Directive-score?  #:optional (tag #f))
-  (if (equal? tag #f)
-      (string? (d-DirectiveGetForTag-score ""))
-      (equal? tag (d-DirectiveGetForTag-score tag))))
-(define (d-DirectiveGetTag-score)
-  (d-DirectiveGetForTag-score ""))
-
-(define* (d-Directive-scoreheader?  #:optional (tag #f))
-  (if (equal? tag #f)
-      (string? (d-DirectiveGetForTag-scoreheader ""))
-      (equal? tag (d-DirectiveGetForTag-scoreheader tag))))
-(define (d-DirectiveGetTag-scoreheader)
-  (d-DirectiveGetForTag-scoreheader ""))
-
-
-(define* (d-Directive-movementcontrol?  #:optional (tag #f))
-  (if (equal? tag #f)
-      (string? (d-DirectiveGetForTag-movementcontrol ""))
-      (equal? tag (d-DirectiveGetForTag-movementcontrol tag))))
-(define (d-DirectiveGetTag-movementcontrol)
-  (d-DirectiveGetForTag-movementcontrol ""))
-
-(define* (d-Directive-header?  #:optional (tag #f))
-  (if (equal? tag #f)
-      (string? (d-DirectiveGetForTag-header ""))
-      (equal? tag (d-DirectiveGetForTag-header tag))))
-(define (d-DirectiveGetTag-header)
-  (d-DirectiveGetForTag-header ""))
-
-
-(define* (d-Directive-paper?  #:optional (tag #f))
-  (if (equal? tag #f)
-      (string? (d-DirectiveGetForTag-paper ""))
-      (equal? tag (d-DirectiveGetForTag-paper tag))))
-(define (d-DirectiveGetTag-paper)
-  (d-DirectiveGetForTag-paper ""))
-
-
-(define* (d-Directive-layout?  #:optional (tag #f))
-  (if (equal? tag #f)
-      (string? (d-DirectiveGetForTag-layout ""))
-      (equal? tag (d-DirectiveGetForTag-layout tag))))
-(define (d-DirectiveGetTag-layout)
-  (d-DirectiveGetForTag-layout ""))
-
-
-(define* (d-Directive-staff?  #:optional (tag #f))
-  (if (equal? tag #f)
-      (string? (d-DirectiveGetForTag-staff ""))
-      (equal? tag (d-DirectiveGetForTag-staff tag))))
-(define (d-DirectiveGetTag-staff)
-  (d-DirectiveGetForTag-staff ""))
-
-
-(define* (d-Directive-voice?  #:optional (tag #f))
-  (if (equal? tag #f)
-      (string? (d-DirectiveGetForTag-voice ""))
-      (equal? tag (d-DirectiveGetForTag-voice tag))))
-(define (d-DirectiveGetTag-voice)
-  (d-DirectiveGetForTag-voice ""))
-
-
-(define* (d-Directive-clef?  #:optional (tag #f))
-  (if (equal? tag #f)
-      (string? (d-DirectiveGetForTag-clef ""))
-      (equal? tag (d-DirectiveGetForTag-clef tag))))
-(define (d-DirectiveGetTag-clef)
-  (d-DirectiveGetForTag-clef ""))
-
-
-(define* (d-Directive-keysig?  #:optional (tag #f))
-  (if (equal? tag #f)
-      (string? (d-DirectiveGetForTag-keysig ""))
-      (equal? tag (d-DirectiveGetForTag-keysig tag))))
-(define (d-DirectiveGetTag-keysig)
-  (d-DirectiveGetForTag-keysig ""))
-
-
-(define* (d-Directive-timesig?  #:optional (tag #f))
-  (if (equal? tag #f)
-      (string? (d-DirectiveGetForTag-timesig ""))
-      (equal? tag (d-DirectiveGetForTag-timesig tag))))
-(define (d-DirectiveGetTag-timesig)
-  (d-DirectiveGetForTag-timesig ""))
-
 (define (CreateButton tag label)
   (d-DirectivePut-score-override tag DENEMO_OVERRIDE_GRAPHIC)
   (d-DirectivePut-score-display tag label))
-  
-;Wrapper to attach any lilypond directive anywhere.
-;;Wants four strings and an arbitrary number of tags (numbers) for overrides.
-;;the tag parameter can be a single string or a pair. A single string is both the tag and display, a pair is (cons "tag" "display") 
-(define (AttachDirective type field tag content . overrides)
-	(define proc-put (string-append "d-DirectivePut-" type "-" field))
-	;(define proc-get (string-append "d-DirectiveGet-" type "-" field))
-	;(define proc-del (string-append "d-DirectiveDelete-" type))
-	(define proc-dis (string-append "d-DirectivePut-" type "-display"))
-	(define proc-ovr (string-append "d-DirectivePut-" type "-override"))
-	(define dis #f)
-	(if (pair? tag)
-		(begin (set! dis (cdr tag)) (set! tag (car tag)))
-		(set! dis tag))
-	(d-SetSaved #f)
-	((eval-string proc-put) tag content)
-	(if (member DENEMO_OVERRIDE_GRAPHIC overrides) ; If DENEMO_OVERRIDE_GRAPHIC is there just go on
-		((eval-string proc-ovr) tag (apply logior overrides))
-		(if (equal? type "staff") ; if not test if its a staff directive: we must enforce graphic to make sure staff-icons work.
-			((eval-string proc-ovr) tag (apply logior (append (list DENEMO_OVERRIDE_GRAPHIC) overrides)))
-			((eval-string proc-ovr) tag (apply logior overrides)))) ; not a staff, everythings ok without DENEMO_OVERRIDE_GRAPHIC
-	((eval-string proc-dis) tag dis)
-	#t)
-	
-; ToggleDirective is a script to help you by creating and deleting Denemo-Directives with the same command.
-;; return value is #t if directive was created or #f if it was deleted. This can be used as hook for further scripting.
-;; example (ToggleDirective "staff" "prefix" "Ambitus" "\\with { \\consists \"Ambitus_engraver\" }")
-(define (ToggleDirective type field tag content . overrides) ; four strings and an arbitrary number of tags (numbers) for overrides.
-	(define proc-get (string-append "d-DirectiveGet-" type "-" field))
-	(define proc-del (string-append "d-DirectiveDelete-" type))
-	(define dis #f)
-	(if (pair? tag)
-		(begin (set! dis (cdr tag)) (set! tag (car tag)))
-		(set! dis tag))		
-	(if ((eval-string proc-get) tag)
-		(begin	((eval-string proc-del) tag)
-				(d-SetSaved #f)
-				#f)
-	(apply AttachDirective type field (cons tag dis) content overrides)))
 
-;;;;;;;;; String Escaper
-;;;;;;;;; Escapes Strings
-;;; from brlewis http://srfi.schemers.org/srfi-13/mail-archive/msg00025.html
-
-(define (string-escaper esc)
-  (let ((spec (char-escape-spec esc)))
-    (lambda (str) (string-escape str spec))))
-
-(define (string-needs-escape? str esc)
-  (let ((len (string-length str)))
-    (let loop ((i 0))
-      (if (= i len)
-	  #f
-	  (let ((c (string-ref str i)))
-	    (if (and (char>=? c (car esc))
-		     (char<=? c (cadr esc)))
-		#t
-		(loop (+ 1 i))))))))
-
-(define (string-escape str esc)
-  (if (string-needs-escape? str esc)
-      (list->string
-       (reverse
-	(let ((len (string-length str)))
-	  (let loop ((i 0)
-		     (li '()))
-	    (if (= i len)
-		li
-		(loop (+ 1 i)
-		      (let ((c (string-ref str i)))
-			(if (and (char>=? c (car esc))
-				 (char<=? c (cadr esc)))
-			    (let ((li2 (vector-ref
-					(caddr esc)
-					(- (char->integer c)
-					   (char->integer (car esc))))))
-			      (if li2
-				  (append li2 li)
-				  (cons c li)))
-			    (cons c li)))))))))
-      str))
-
-(define (char-escape-spec speclist)
-  (let ((minchar (caar speclist))
-	(maxchar (caar speclist)))
-    (let loop ((li (cdr speclist)))
-      (if (not (null? li))
-	  (begin
-	    (let ((testchar (caar li)))
-	      (if (char<? testchar minchar)
-		  (set! minchar testchar))
-	      (if (char>? testchar maxchar)
-		  (set! maxchar testchar)))
-	    (loop (cdr li)))))
-    (list
-     minchar
-     maxchar
-     (let ((specv (make-vector (+ 1 (- (char->integer maxchar)
-				       (char->integer minchar))) #f)))
-      (map (lambda (specpair)
-	     (vector-set! specv
-			  (- (char->integer (car specpair))
-			     (char->integer minchar))
-			  (reverse (string->list (cdr specpair)))))
-	   speclist)
-      specv))))
-	  
-;; examples of use
-
-(define html-escape (string-escaper '((#\< . "&lt;")
-				      (#\> . "&gt;")
-				      (#\& . "&amp;"))))
-
-(define scheme-escape (string-escaper '((#\\ . "\\\\")
-					(#\" . "\\\""))))
-
-
-#! (define latex-escape (string-escaper '((#\\ . "\\\\")
-				       (#\~ . "\\~")
-				       (#\# . "\\#")
-				       (#\$ . "\\$")
-				       (#\% . "\\%")
-				       (#\^ . "\\^")
-				       (#\& . "\\&")
-				       (#\{ . "\\{")
-				       (#\} . "\\}")
-				       (#\_ . "\\_")))) !#
-
-
-;;;;;;;;;; Parse strings for json values
-(define (ParseJson target key)
-  (let ((theregexp #f) (thematch #f))
-
- ;;; this is the regexp to find "key":"something" with the something being the match, ie in ()
-(set! theregexp (string-append "\"" key "\":\"([^\"]*)\""))
-
-;;;;; this gets a match structure for target, so if there is a match
-(set! thematch (string-match theregexp target))
-
-(if (regexp-match? thematch) ;;; if there was a match return it
-   (match:substring thematch 1)
-    ;;;if there was no match return #f
-    #f)))
 
 ;;; play a note a mid-volume 80
 (define* (PlayNote pitch duration #:optional (volume " 80"))
@@ -1156,86 +800,6 @@
 	(RepeatUntilFail d-MoveToStaffDown)
 	(d-GoToPosition #f #f measure #f))
 
-;;;; Shuffling Sequences
-;;; http://mumble.net/~campbell/scheme/shuffle.scm
-;;; This code is written by Taylor R. Campbell and placed in the Public
-;;; Domain.  All warranties are disclaimed.
-;;; This uses SRFIs 1 (list-lib) and 8 (receive).
-
-;;;; Merge Shuffle
-;;; Partition the list into two equal halves; shuffle the two halves,
-;;; and then merge them by randomly choosing which half to select the
-;;; next element from.
-
-(define (Flip-coin) 
-	(if (= 1 (random 2))
-		#t
-		#f))
-
-
-(define (Merge-shuffle-list list)
-
-  (define (merge a b)
-    (cond ((not (pair? a)) b)
-          ((not (pair? b)) a)
-          (else
-           (if (Flip-coin)
-               (cons (car a) (merge (cdr a) b))
-               (cons (car b) (merge a (cdr b)))))))
-
-  (define (partition list a b)
-    (let ((next (cdr list))
-          (a b)
-          (b (cons (car list) a)))
-      (if (null-list? next)
-          (values a b)
-          (partition next a b))))
-
-  (if (null-list? list)
-      '()
-      (let shuffle ((list list))
-        (if (null-list? (cdr list))
-            list
-            (receive (a b) (partition list '() '())
-              (merge (shuffle a) (shuffle b)))))))
-
-;;; This has *far* too many SET-CDR!s.
-
-(define (Merge-shuffle-list! list)
-
-  (define (merge! a b)
-    (cond ((null-list? a)       b)
-          ((null-list? b)       a)
-          ((Flip-coin)          (%merge! a b) a)
-          (else                 (%merge! b a) b)))
-
-  (define (%merge! a b)
-    (cond ((null-list? (cdr a))
-           (set-cdr! a b))
-          ((Flip-coin)
-           (%merge! (cdr a) b))
-          (else
-           (%merge! b (let ((next (cdr a)))
-                        (set-cdr! a b)
-                        next)))))
-
-  (define (partition! list a b)
-    (let ((next (cdr list)))
-      (set-cdr! list a)
-      (if (null-list? next)
-          (values list b)
-          (partition! next b list))))
-
-  (if (null-list? list)
-      '()
-      (let shuffle! ((list list))
-        (if (null-list? (cdr list))
-            list
-            (receive (a b) (partition! list '() '())
-              (merge! (shuffle! a) (shuffle! b)))))))
-;;;;;;;;;;;;;;; End Shuffle
-
-
 (define (lyimport::load-file pathname filename)
   (load (string-append DENEMO_ACTIONS_DIR "lyimport.scm"))
   (set! lyimport::pathname pathname) 
@@ -1338,72 +902,7 @@
 	  #f)
 	 (else  (d-KillTimer Pitchbend::timer) (set! Pitchbend::timer 0) #f )))
 ;;;;;;;;;;;;;;;;;;
-	
-; from http://icem.folkwang-hochschule.de/~finnendahl/cm_kurse/doc/t-y-scheme/t-y-scheme-Z-H-7.html
-; needed for define-macro defstruct
-(define list-position
-  (lambda (o l)
-    (let loop ((i 0) (l l))
-      (if (null? l) #f
-          (if (eqv? (car l) o) i
-              (loop (+ i 1) (cdr l)))))))
 
-; from http://www.ccs.neu.edu/home/dorai/t-y-scheme/t-y-scheme-Z-H-11.html#node_sec_9.2
-(define-macro defstruct
-  (lambda (s . ff)
-    (let ((s-s (symbol->string s)) (n (length ff)))
-      (let* ((n+1 (+ n 1))
-             (vv (make-vector n+1)))
-        (let loop ((i 1) (ff ff))
-          (if (<= i n)
-            (let ((f (car ff)))
-              (vector-set! vv i 
-                (if (pair? f) (cadr f) '(if #f #f)))
-              (loop (+ i 1) (cdr ff)))))
-        (let ((ff (map (lambda (f) (if (pair? f) (car f) f))
-                       ff)))
-          `(begin
-             (define ,(string->symbol 
-                       (string-append "make-" s-s))
-               (lambda fvfv
-                 (let ((st (make-vector ,n+1)) (ff ',ff))
-                   (vector-set! st 0 ',s)
-                   ,@(let loop ((i 1) (r '()))
-                       (if (>= i n+1) r
-                           (loop (+ i 1)
-                                 (cons `(vector-set! st ,i 
-                                          ,(vector-ref vv i))
-                                       r))))
-                   (let loop ((fvfv fvfv))
-                     (if (not (null? fvfv))
-                         (begin
-                           (vector-set! st 
-                               (+ (list-position (car fvfv) ff)
-                                  1)
-                             (cadr fvfv))
-                           (loop (cddr fvfv)))))
-                   st)))
-             ,@(let loop ((i 1) (procs '()))
-                 (if (>= i n+1) procs
-                     (loop (+ i 1)
-                           (let ((f (symbol->string
-                                     (list-ref ff (- i 1)))))
-                             (cons
-                              `(define ,(string->symbol 
-                                         (string-append
-                                          s-s "." f))
-                                 (lambda (x) (vector-ref x ,i)))
-                              (cons
-                               `(define ,(string->symbol
-                                          (string-append 
-                                           "set!" s-s "." f))
-                                  (lambda (x v) 
-                                    (vector-set! x ,i v)))
-                               procs))))))
-             (define ,(string->symbol (string-append s-s "?"))
-               (lambda (x)
-                 (and (vector? x)
-                      (eqv? (vector-ref x 0) ',s))))))))))
                       
 ; Create a music-object that holds various information. This is the smallest, single object 
 (defstruct musobj pitch movement staff measure metricalp horizontal start duration baseduration dots)
@@ -1612,5 +1111,3 @@
 					(lambda () (disp "key")) ; keysignatures
 					(lambda () (disp "stem")))) ; stem directives /voice presets
 				(MapToSelection ActionChooserExample)!#
-
-

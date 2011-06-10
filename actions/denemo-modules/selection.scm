@@ -291,3 +291,14 @@
   	
   	))
   	(for-each (lambda (x) (insert x)) listy))
+
+;Apply the passed script to each movement of a score
+(define (ForAllMovements script)
+  (d-PushPosition)
+  (d-GoToPosition 1 1 1 1)
+  (let loop ()
+    (begin
+      (eval-string script)
+      (if (d-NextMovement)
+	  (loop))))
+  (d-PopPosition))
