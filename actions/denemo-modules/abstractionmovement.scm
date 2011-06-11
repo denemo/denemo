@@ -129,7 +129,7 @@ return)
 	musobj)
 
 
-;; creates a list of list of musob-j(ects). Each first level list is one staff.
+;; creates a list of list of musobj(ects). Each first level list is one staff.
 ;; All append! need an additional (list) because append merges only with lists.
 (define (createFinalList)
    (define (staffLoop)  ;; Subproc to gather the information for one staff and return a list.
@@ -170,7 +170,7 @@ return)
 ; Two sub-procs
 (define (insertRestBeforeFalse musobject)
  (if (not musobject) ; if the object is a #f fill in a infinity rest before/to the current position
-  	(insert-deep movement staffcounter positioncounter (make-musobj 'pitch (list +inf.0) 'movement #f 'staff #f 'measure #f 'horizontal #f 'metricalp #f 'start +inf.0 'duration #f)))	
+  	(insert-deep movement staffcounter positioncounter (make-musobj 'pitch (list +inf.0) 'movement #f 'staff #f 'measure #f 'horizontal #f 'metricalp #f 'start +inf.0 'duration #f 'baseduration #f 'dots #f)))	
 	(set!musobj.pitch (list-ref (list-ref movement staffcounter) positioncounter) (musobj.pitch (list-ref (list-ref movement staffcounter) (- positioncounter 1))))
   	(set! staffcounter (+ staffcounter 1))) ; the next for-each iteration needs another staff
   	 
@@ -194,7 +194,8 @@ return)
 					(set!musobj.measure (list-ref listy positioncounter) (musobj.measure (list-ref listy (- positioncounter 1))))
 					(set!musobj.horizontal (list-ref listy positioncounter) (musobj.horizontal (list-ref listy (- positioncounter 1))))
 					(set!musobj.metricalp (list-ref listy positioncounter) (musobj.metricalp (list-ref listy (- positioncounter 1))))
-					(set!musobj.start (list-ref listy  positioncounter) minimum))
+					(set!musobj.start (list-ref listy  positioncounter) minimum)
+					)
 			); if end
 			
 			(set! staffcounter (+ staffcounter 1))
@@ -228,7 +229,7 @@ return)
 	(define movement #f)
 	(set! OffsetTickList (CreateOffsetTickListMovement))
 	(set! movement (createFinalList))	
-	(apply list-equalizer! (make-musobj 'pitch (list +inf.0) 'movement #f 'staff #f 'measure #f 'horizontal #f 'metricalp #f 'start +inf.0  'duration #f) movement)
+	(apply list-equalizer! (make-musobj 'pitch (list +inf.0) 'movement #f 'staff #f 'measure #f 'horizontal #f 'metricalp #f 'start +inf.0  'duration #f 'baseduration #f 'dots #f) movement)
 	(map (lambda (lst) (append! lst (list #f))) movement)
 	(fill-with-redundancy! movement)
 	movement)
