@@ -1,3 +1,5 @@
+(use-modules (srfi srfi-1)) ; List library
+
 ;; In this file are only functions that enhance the traditional Guile functions. Nothing depends on any Denemo functions nor on anything which is not in this file. There might be dependencies between each other though. Conclusion: This file can be run from guile without any errors about functions not found.
 
 ; Create a seed for (random int) one time Denemo starts. The seed is altered by random itself afterwards.
@@ -320,3 +322,18 @@
                (lambda (x)
                  (and (vector? x)
                       (eqv? (vector-ref x 0) ',s))))))))))
+                      
+;InvertedMap takes a list of functions and applies each to a single value and returns a list of returnvalues.
+(define (InvertedMap val . funcs)
+	(concatenate
+		(map (lambda (proc) (call-with-values (lambda () (proc val)) list))
+		 funcs)))
+		 
+#! (define (InvertedMap2 value . functions)
+	(define returnlist (list #f))
+	(for-each (lambda (x)
+		(define return (x value))
+		(if return
+			(append! returnlist (list return))))
+		functions)	
+	(list-tail returnlist 1)) !#
