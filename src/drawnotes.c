@@ -167,7 +167,8 @@ draw_notehead (cairo_t *cr,
 
 /**
  * Draw the legder lines on the score
- *
+ * Modified RTS 2011, ledger lines must not coalesce, must project from noteheads and stems
+ * there is not much room, hence the sleight of hand
  */
 void
 draw_ledgers (cairo_t *cr,
@@ -176,23 +177,23 @@ draw_ledgers (cairo_t *cr,
 {
   int ledgerheight;
 
-#define EXTRA_ON_LEDGER 3
+#define EXTRA_ON_LEDGER 1.5
 
   cairo_set_line_width( cr, 1.0 );
   /* Draw the top ledger lines */
   for (ledgerheight = -LINE_SPACE; ledgerheight >= greaterheight;
        ledgerheight -= LINE_SPACE)
   {
-    cairo_move_to( cr, xx - EXTRA_ON_LEDGER, ledgerheight + y );
-    cairo_line_to( cr, xx + width + EXTRA_ON_LEDGER, ledgerheight + y );
+    cairo_move_to( cr, xx + ((ledgerheight==greaterheight)? (-EXTRA_ON_LEDGER): (-2)), ledgerheight + y );
+    cairo_line_to( cr, xx + width + ((ledgerheight==greaterheight)? EXTRA_ON_LEDGER: (-2)), ledgerheight + y );
   }
 
   /* Almost identically, draw the bottom ones */
   for (ledgerheight = STAFF_HEIGHT + LINE_SPACE;
        ledgerheight <= lesserheight; ledgerheight += LINE_SPACE)
   {
-    cairo_move_to( cr, xx - EXTRA_ON_LEDGER, ledgerheight + y );
-    cairo_line_to( cr, xx + width + EXTRA_ON_LEDGER, ledgerheight + y );
+    cairo_move_to( cr, xx + ((ledgerheight==lesserheight)?-EXTRA_ON_LEDGER:2), ledgerheight + y );
+    cairo_line_to( cr, xx + width + ((ledgerheight==lesserheight)?EXTRA_ON_LEDGER:2), ledgerheight + y );
   }
 
   cairo_stroke( cr );
