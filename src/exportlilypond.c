@@ -391,7 +391,7 @@ output_figured_bass (DenemoScore * si, GString *figures, chord * pchord, gint ti
 
   if(*figstr == '~') {
     if(!continuation) {
-      figures = g_string_append (figures, " \\set useBassFigureExtenders = ##t ");
+      figures = g_string_append (figures, " \\set Staff.useBassFigureExtenders = ##t ");
       continuation = TRUE;
     }
     if(last_figure->len) {
@@ -427,7 +427,7 @@ output_figured_bass (DenemoScore * si, GString *figures, chord * pchord, gint ti
       figures = g_string_append (figures, ">");
       APPEND_DUR (figures, duration, numdots);
       if(continuation_finishing) {
-	figures = g_string_append (figures, "\\set useBassFigureExtenders = ##f ");
+	figures = g_string_append (figures, "\\set Staff.useBassFigureExtenders = ##f ");
 	continuation = FALSE;
       }
       break;
@@ -1520,7 +1520,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     g_string_prepend(figures_name, "Figured Bass for ");
     g_string_append_printf(figures_name, " Voice %d", voice_count);
     insert_music_section(gui, figures_name->str);
-    g_string_append(figures, "%figures follow\n");
+    g_string_append(figures, "%figures follow\n\\set Staff.implicitBassFigures = #'(0)\n");
   }
   /* a button and mark for the chord symbols of this staff */
   GString *fakechords_name = g_string_new(movement);
