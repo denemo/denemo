@@ -10,7 +10,7 @@
 	(load (string-append "denemo-modules/" string ".scm")))
 
 ;Load additional Denemo functions. These are technically in the same global namespace as functions defined directly in denemo.scm. 
-(use-denemo "scheme") ; Standalone functions and general Scheme helpers, not tied to any Denemo C-functions.
+(use-denemo "scheme") ; Standalone functions and general Scheme helpers, not tied to any Denemo C-functions or Scheme functions which are not in the file itself.
 (use-denemo "ans") ; Abstract Note System for pitch calculations
 (use-denemo "notationmagick") ; Insert and modify, mostly randomized, music. Depends on ans.scm
 (use-denemo "abstractionmovement") ; Create an abstract form of the music in Scheme for further analysing. Depends on ans.scm 
