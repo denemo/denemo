@@ -1119,10 +1119,8 @@
 
 ;Convert two ANS notes to one ANS interval, ignores octaves.
 ;TODO: Give out the octave between.
-;Return pair in pair: (intervall (lower . higher))
-;Yes, I made a typo in Intervall. 
-;If rests are part of the chords the return value will be +inf.0 as interval step number (like 1 stands for fifth)
-(define (ANS::GetIntervall ansNoteOne ansNoteTwo)
+;If a rest is part of the pair the return value will be +inf.0 as interval step number (like 1 stands for fifth)
+(define (ANS::GetInterval ansNoteOne ansNoteTwo)
 	(define higher ansNoteOne)
 	(define lower ansNoteTwo)
 	(if (<= ansNoteOne ansNoteTwo) ; bring the notes in right order. We want to calculate from top to bottom.
@@ -1130,14 +1128,13 @@
 				(set! higher ansNoteTwo)))		
 
 	;Extract the tone, without octave and feed it to the hash to get the notes position in the pillar of 5th.
-	(cons
-		(if (or (equal? higher +inf.0) (equal? lower +inf.0)) ; with rests?
+	(if (or (equal? higher +inf.0) (equal? lower +inf.0)) ; with rests?
 			+inf.0
-			(- (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote higher)) (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote lower)))) ; no rest. Return interval step.	
-		(cons lower higher))) ; TODO: this may be a critical return value. At one time this did NOT return the ordered or simplified invervals but as they came in. I can't remember which function may need this, but it surely breaks all other tests with intervals.
+			(- (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote higher)) (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote lower))))) ; no rest. Return interval step.	
+		 
 
 
-; Wants a number from ANS::GetIntervall 
+; Wants a number from ANS::GetInterval
 ; Returns a number which represents the simplest "sounding" interval.
 ; For example: c - gis becomes c -as and therefore a minor sixth.  All Tritoni are represented as augmented 4th.
 ; There has to be made a decision if the "higher" interval is sounding lower like diminished 1 or double diminished 2. Is C - Ces M7 or m2? For Denemo all intervals are from bottom to top so ces is M7.
