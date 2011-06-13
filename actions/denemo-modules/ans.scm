@@ -1137,14 +1137,6 @@
 		(cons lower higher))) ; TODO: this may be a critical return value. At one time this did NOT return the ordered or simplified invervals but as they came in. I can't remember which function may need this, but it surely breaks all other tests with intervals.
 
 
-;GetIntervall for lists. 
-;Converts a list of pairs(lower note and higher ANS note) to a list of interval numbers (ans syntax. steps in the pillar of 5th)
-;Wants a list of pairs
-(define (ANS::CreateIntervalsFromPairs listy)
-	(define (GetIntv pair)
-		(ANS::GetIntervall (car pair) (cdr pair)))
-	(map GetIntv listy))
-	
 ; Wants a number from ANS::GetIntervall 
 ; Returns a number which represents the simplest "sounding" interval.
 ; For example: c - gis becomes c -as and therefore a minor sixth.  All Tritoni are represented as augmented 4th.
