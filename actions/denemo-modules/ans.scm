@@ -1140,6 +1140,7 @@
 ; There has to be made a decision if the "higher" interval is sounding lower like diminished 1 or double diminished 2. Is C - Ces M7 or m2? For Denemo all intervals are from bottom to top so ces is M7.
 ; Augmented Prime and Diminished Octave have to build an Octave; so do have Augmented Octave and Diminished Prime.
 ; With the normal system a double diminished second has to be treated as Major Seventh! Or not? Its confusing.
+;; TODO: Supplemental: No no, its all wrong. "Diminished Prime upwards" from C results ins Ces which sounds a half tone down. The flaw is in my system which cannot go octaves down while going "up" at the same time.
 (define (ANS::Interval->Sound interval)	
 	(case interval
 		((+inf.0) +inf.0) ; rests
@@ -1220,165 +1221,136 @@
 		((-34) ) ;DDDDD5 !#
 		(else #f)))
 
-;ANS::IntervalMember? checks if a forbidden interval is in the given list
-;;Wants a list of ans intervals, returns #t or #f
-;; Expects pair in pair as list member: (intervall (lower . higher)) from ANS::GetIntervall
-(define (ANS::IntervalMember? listy forbidden)
-	(define (test? one)
-		(if (member (car one) forbidden) #t #f))
-	
-	(if (member #t (map test? listy))
-		#t
-		#f))
 
-
-; forbidden compares two list (of intervals. ANS syntax) and checks if a sequence of intervals is the same and if this sequcence is forbidden
+; The following tests compare 2*2 notes and check if a sequcence is forbidden.
 ;; Used to detect often forbidden parallels of 5th or 8th or 1th etc. 
-;; Lists should be the same length (means the same amount of intervals, which is the case when both lists are generated from chords with the same number of notes)
-;; Repetitions and Octave shifts return as #f. (not (equal?...)) tests for repeats, ANS::GetNote equalizes octaves
-;; Expects pair in pair as list member: (intervall (lower . higher)) from ANS::GetIntervall
-;; The main difference between this functions is the checking with < >.
-;; This is a schema of the two intervals:
+;; Repetitions and Octave shifts return as #f. ANS::GetNote equalizes octaves
+;; The main difference between these functions is the checking with < >.		  
+
+;new system:
 ;;	g a
 ;;	c d
-;;	(cdr (cdr one))	(cdr (cdr two))
-;;	(car (cdr one)) (car (cdr two))
+;;	high1 high2
+;;	low1 low2
 
-(define (ANS::ConsecutiveOpen? list1 list2 forbidden)
-     (define (test? one two) 
-		(and 	(equal? (car one) (car two)) ; same interval?
-				(if (member (car one) forbidden) #t #f) ; interval forbidden?
-				(not (equal? (ANS::GetNote (car (cdr one))) (ANS::GetNote (car (cdr two))))) ; not the same notes, no direct repetition.
-				(or ;if both first notes are higher or lower as both seconds, but higher/lower does not change.
-					(and	(> (car (cdr one)) (car (cdr two)))
-							(> (cdr (cdr one)) (cdr (cdr two)))
-							(< (car (cdr one)) (cdr (cdr one)))  ;lower voice has the lower pitch 
-							(< (car (cdr two)) (cdr (cdr two)))) ;lower voice has the lower pitch 
-					(and	(< (car (cdr one)) (car (cdr two)))
-							(< (cdr (cdr one)) (cdr (cdr two)))
-							(< (car (cdr one)) (cdr (cdr one)))
-							(< (car (cdr two)) (cdr (cdr two)))))))				
-     (if (member #t (map test? list1 list2))
-		  #t
-		  #f))
-		 
-
-(define (ANS::ConsecutiveCrossed? list1 list2 forbidden)
+(define (ANS::ConsecutiveOpen? low1 high1 low2 high2 forbidden)
+	(and
+		(= (ANS:GetInterval high1 low1) (ANS:GetInterval high2 low2))  ; same interval?
+		(= (ANS:GetInterval high1 low1) forbidden) ; interval forbidden?
+		(not (= (ANS::GetNote high1) (ANS::GetNote high2))) ; not the same notes, no direct repetition, , no octave jump
+		(or ;if both first notes are higher or lower as both seconds, but higher/lower does not change.
+			(and	(> low1 low2)
+					(> high1 high2)
+					(< low1 high1)  ;lower voice has the lower pitch 
+					(< low2 high2)) ;lower voice has the lower pitch 
+			(and	(< low1 low2)
+					(< high1 high2)
+					(< low1 high1)
+					(< low2 high2)))))
+					
+(define (ANS::ConsecutiveCrossed? low1 high1 low2 high2 forbidden)
 ;cover inverted crossed also. Not the second interval but the firs is crossed. 
-     (define (test? one two) 
-		(and 	(equal? (car one) (car two)) ; same interval?
-				(if (member (car one) forbidden) #t #f) ; interval forbidden?
-				(not (equal? (ANS::GetNote (car (cdr one))) (ANS::GetNote (car (cdr two))))) ; not the same notes, no direct repetition.
-				(or 
-					(and	(> (car (cdr one)) (car (cdr two)))
-							(< (cdr (cdr one)) (cdr (cdr two)))
-							(> (car (cdr one)) (cdr (cdr one)))
-							(< (car (cdr two)) (cdr (cdr two))))
-					(and	(< (car (cdr one)) (car (cdr two)))
-							(> (cdr (cdr one)) (cdr (cdr two)))
-							(< (car (cdr one)) (cdr (cdr one)))
-							(> (car (cdr two)) (cdr (cdr two))))
-					(and	(< (car (cdr one)) (car (cdr two)))
-							(< (cdr (cdr one)) (cdr (cdr two)))
-							(< (car (cdr one)) (cdr (cdr one)))
-							(> (car (cdr two)) (cdr (cdr two))))
-					(and	(< (car (cdr one)) (car (cdr two)))
-							(< (cdr (cdr one)) (cdr (cdr two)))
-							(> (car (cdr one)) (cdr (cdr one)))
-							(< (car (cdr two)) (cdr (cdr two))))		
-					(and	(> (car (cdr one)) (car (cdr two)))
-							(> (cdr (cdr one)) (cdr (cdr two)))
-							(< (car (cdr one)) (cdr (cdr one)))
-							(> (car (cdr two)) (cdr (cdr two))))
-					(and	(> (car (cdr one)) (car (cdr two)))
-							(> (cdr (cdr one)) (cdr (cdr two)))
-							(> (car (cdr one)) (cdr (cdr one)))
-							(< (car (cdr two)) (cdr (cdr two)))))))				
-     (if (member #t (map test? list1 list2))
-		  #t
-		  #f))
-
+	(and
+	(= (ANS:GetInterval high1 low1) (ANS:GetInterval high2 low2))  ; same interval?
+	(= (ANS:GetInterval high1 low1) forbidden) ; interval forbidden?
+	(not (= (ANS::GetNote high1) (ANS::GetNote high2))) ; not the same notes, no direct repetition, no octave jump
+	(or 
+		(and	(> low1 low2)
+				(< high1 high2)
+				(> low1 high1)
+				(< low2 high2))
+		(and	(< low1 low2)
+				(> high1 high2)
+				(< low1 high1)
+				(> low2 high2))
+		(and	(< low1 low2)
+				(< high1 high2)
+				(< low1 high1)
+				(> low2 high2))
+		(and	(< low1 low2)
+				(< high1 high2)
+				(> low1 high1)
+				(< low2 high2))		
+		(and	(> low1 low2)
+				(> high1 high2)
+				(< low1 high1)
+				(> low2 high2))
+		(and	(> low1 low2)
+				(> high1 high2)
+				(> low1 high1)
+				(< low2 high2)))))
 		 
-(define (ANS::ConsecutiveAnti? list1 list2 forbidden)
-     (define (test? one two) 
-		(and 	(equal? (car one) (car two)) ; same interval?
-				(if (member (car one) forbidden) #t #f) ; interval forbidden?
-				(not (equal? (ANS::GetNote (car (cdr one))) (ANS::GetNote (car (cdr two))))) ; not the same notes, no direct repetition.
-				(or 
-					(and	(> (car (cdr one)) (car (cdr two)))
-							(< (cdr (cdr one)) (cdr (cdr two)))
-							(< (car (cdr one)) (cdr (cdr one)))
-							(< (car (cdr two)) (cdr (cdr two))))
-					(and	(< (car (cdr one)) (car (cdr two)))
-							(> (cdr (cdr one)) (cdr (cdr two)))
-							(< (car (cdr one)) (cdr (cdr one)))
-							(< (car (cdr two)) (cdr (cdr two)))))))
-     (if (member #t (map test? list1 list2))
-		  #t
-		  #f))	
+(define (ANS::ConsecutiveAnti? low1 high1 low2 high2 forbidden)
+	(= (ANS:GetInterval high1 low1) (ANS:GetInterval high2 low2))  ; same interval?
+	(= (ANS:GetInterval high1 low1) forbidden) ; interval forbidden?
+	(not (= (ANS::GetNote high1) (ANS::GetNote high2))) ; not the same notes, no direct repetition, no octave jump
+	(or 
+		(and	(> low1 low2)
+				(< high1 high2)
+				(< low1 high1)
+				(< low2 high2))
+		(and	(< low1 low2)
+				(> high1 high2)
+				(< low1 high1)
+				(< low2 high2))))
 
 ;;ANS::ConsecutiveAntiCrossed is covered by Crossed because AntiCrossed means just further octave spread.
 
 ;TODO: Sometimes it is important if one of the voices does a step or if both voices jump. Test for that, too.
-(define (ANS::ConsecutiveHidden? list1 list2 forbidden)
-     (define (test? one two) 
-		(and 	(if (member (car two) forbidden) #t #f) ; is the seoncd an forbidden interval?
-				(if (member (car one) forbidden) #f #t) ; but the first is not a forbidden one?
-				;comparision to open variants: Hidden progression cannot have a direct repetition by definition of the two line above.
-				(or 
-					(and	(< (car (cdr one)) (car (cdr two))) 
-							(< (cdr (cdr one)) (cdr (cdr two)))
-							(< (car (cdr one)) (cdr (cdr one)))
-							(< (car (cdr two)) (cdr (cdr two))))
-					(and	(> (car (cdr one)) (car (cdr two)))
-							(> (cdr (cdr one)) (cdr (cdr two)))
-							(< (car (cdr one)) (cdr (cdr one)))
-							(< (car (cdr two)) (cdr (cdr two)))))))				
-     (if (member #t (map test? list1 list2))
-		  #t
-		  #f))
+(define (ANS::ConsecutiveHidden? low1 high1 low2 high2 forbidden)
+	(and
+		(= (ANS:GetInterval high2 low2) forbidden) ; second interval forbidden?
+	 	(not (= (ANS:GetInterval high1 low1) forbidden)) ; but the first is not a forbidden one?
+		;comparision to open variants: Hidden progression cannot have a direct repetition by definition because the intervals are different.
+		(or 
+			(and	(< low1 low2) 
+					(< high1 high2)
+					(< low1 high1)
+					(< low2 high2))
+			(and	(> low1 low2)
+					(> high1 high2)
+					(< low1 high1)
+					(< low2 high2)))))
 
-(define (ANS::ConsecutiveHiddenCrossed? list1 list2 forbidden)
+(define (ANS::ConsecutiveHiddenCrossed? low1 high1 low2 high2 forbidden)
 ;cover inverted crossed also. Not the second interval but the firs is crossed. 
-     (define (test? one two) 
-		(and 	(if (member (car two) forbidden) #t #f) ; is the seoncd an forbidden interval?
-				(if (member (car one) forbidden) #f #t) ; but the first is not a forbidden one?
-				;comparision to open variants: Hidden progression cannot have a direct repetition by definition of the two line above.				
-				(or 
-					(and	(> (car (cdr one)) (car (cdr two)))
-							(< (cdr (cdr one)) (cdr (cdr two)))
-							(> (car (cdr one)) (cdr (cdr one)))
-							(< (car (cdr two)) (cdr (cdr two))))
-					(and	(< (car (cdr one)) (car (cdr two)))
-							(> (cdr (cdr one)) (cdr (cdr two)))
-							(< (car (cdr one)) (cdr (cdr one)))
-							(> (car (cdr two)) (cdr (cdr two))))
-					(and	(< (car (cdr one)) (car (cdr two)))
-							(< (cdr (cdr one)) (cdr (cdr two)))
-							(< (car (cdr one)) (cdr (cdr one)))
-							(> (car (cdr two)) (cdr (cdr two))))
-					(and	(< (car (cdr one)) (car (cdr two)))
-							(< (cdr (cdr one)) (cdr (cdr two)))
-							(> (car (cdr one)) (cdr (cdr one)))
-							(< (car (cdr two)) (cdr (cdr two))))		
-					(and	(> (car (cdr one)) (car (cdr two)))
-							(> (cdr (cdr one)) (cdr (cdr two)))
-							(< (car (cdr one)) (cdr (cdr one)))
-							(> (car (cdr two)) (cdr (cdr two))))
-					(and	(> (car (cdr one)) (car (cdr two)))
-							(> (cdr (cdr one)) (cdr (cdr two)))
-							(> (car (cdr one)) (cdr (cdr one)))
-							(< (car (cdr two)) (cdr (cdr two)))))))					
-     (if (member #t (map test? list1 list2))
-		  #t
-		  #f))
+	(and
+		(= (ANS:GetInterval high2 low2) forbidden) ; second interval forbidden?
+	 	(not (= (ANS:GetInterval high1 low1) forbidden)) ; but the first is not a forbidden one?
+		;comparision to open variants: Hidden progression cannot have a direct repetition by definition because the intervals are different.
+		(or 
+			(and	(> low1 low2)
+					(< high1 high2)
+					(> low1 high1)
+					(< low2 high2))
+			(and	(< low1 low2)
+					(> high1 high2)
+					(< low1 high1)
+					(> low2 high2))
+			(and	(< low1 low2)
+					(< high1 high2)
+					(< low1 high1)
+					(> low2 high2))
+			(and	(< low1 low2)
+					(< high1 high2)
+					(> low1 high1)
+					(< low2 high2))		
+			(and	(> low1 low2)
+					(> high1 high2)
+					(< low1 high1)
+					(> low2 high2))
+			(and	(> low1 low2)
+					(> high1 high2)
+					(> low1 high1)
+					(< low2 high2)))))	
 		  
 		  
 ; There is no Anti-Hidden or Anti-Crossed-Hidden. These become valid intervalprogressions!
 		 
-(define (ANS::ConsecutiveIndirect? list1 list2 forbidden) ; TODO: this is a paradox name. Indirect intervals are not consecutive by definition! It should probably need a complete new type of IntervalFinder, not only a special test.
+(define (ANS::ConsecutiveIndirect? low1 high1 low2 high2 forbidden) ; TODO: this is a paradox name. Indirect intervals are not consecutive by definition! It should probably need a complete new type of IntervalFinder, not only a special test.
 	#f
 )
+
        
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
