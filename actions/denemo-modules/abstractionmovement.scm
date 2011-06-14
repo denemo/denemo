@@ -266,6 +266,10 @@ return)
 			 (map (lambda (proc) (call-with-values (lambda () (proc previous current next)) list)) 
 			 	   functions)))))
 
+;MapToAbstractionMovement wants an abstractionsmovement and functions
+;; Each function will be applied to a vertical position (all notes which sound at the same time). The return values will be gathered in a list and then it advcances to the next vertical position until the end of the abstractionmovement.
+;; Compatible functions must accept three parameters: Three lists of MusObjs: All notes from the previous, current and next position. Even if the functions discard one or two of these position internaly.
+;; Compatible functions must return a list which members are either #f or pairs (cons 'tag data-you-like). In the end any #f will be deleted automatically. "Data-you-like" is mainly there to let Denemo find the place where the error is so you better include musobjs there.
 (define (MapToAbstractionMovement abstractmovement . functions)
 	(define return #f)
 	(set! abstractmovement (apply map list abstractmovement)) ; sync the voices vertically "in chords" by creating new list from each of the sublists. They all have the same length.
