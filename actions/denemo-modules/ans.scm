@@ -1235,8 +1235,8 @@
 
 (define (ANS::ConsecutiveOpen? low1 high1 low2 high2 forbidden)
 	(and
-		(= (ANS:GetInterval high1 low1) (ANS:GetInterval high2 low2))  ; same interval?
-		(= (ANS:GetInterval high1 low1) forbidden) ; interval forbidden?
+		(= (ANS::GetInterval high1 low1) (ANS::GetInterval high2 low2))  ; same interval?
+		(= (ANS::GetInterval high1 low1) forbidden) ; interval forbidden?
 		(not (= (ANS::GetNote high1) (ANS::GetNote high2))) ; not the same notes, no direct repetition, , no octave jump
 		(or ;if both first notes are higher or lower as both seconds, but higher/lower does not change.
 			(and	(> low1 low2)
@@ -1251,8 +1251,8 @@
 (define (ANS::ConsecutiveCrossed? low1 high1 low2 high2 forbidden)
 ;cover inverted crossed also. Not the second interval but the firs is crossed. 
 	(and
-	(= (ANS:GetInterval high1 low1) (ANS:GetInterval high2 low2))  ; same interval?
-	(= (ANS:GetInterval high1 low1) forbidden) ; interval forbidden?
+	(= (ANS::GetInterval high1 low1) (ANS::GetInterval high2 low2))  ; same interval?
+	(= (ANS::GetInterval high1 low1) forbidden) ; interval forbidden?
 	(not (= (ANS::GetNote high1) (ANS::GetNote high2))) ; not the same notes, no direct repetition, no octave jump
 	(or 
 		(and	(> low1 low2)
@@ -1281,8 +1281,8 @@
 				(< low2 high2)))))
 		 
 (define (ANS::ConsecutiveAnti? low1 high1 low2 high2 forbidden)
-	(= (ANS:GetInterval high1 low1) (ANS:GetInterval high2 low2))  ; same interval?
-	(= (ANS:GetInterval high1 low1) forbidden) ; interval forbidden?
+	(= (ANS::GetInterval high1 low1) (ANS::GetInterval high2 low2))  ; same interval?
+	(= (ANS::GetInterval high1 low1) forbidden) ; interval forbidden?
 	(not (= (ANS::GetNote high1) (ANS::GetNote high2))) ; not the same notes, no direct repetition, no octave jump
 	(or 
 		(and	(> low1 low2)
@@ -1299,8 +1299,8 @@
 ;TODO: Sometimes it is important if one of the voices does a step or if both voices jump. Test for that, too.
 (define (ANS::ConsecutiveHidden? low1 high1 low2 high2 forbidden)
 	(and
-		(= (ANS:GetInterval high2 low2) forbidden) ; second interval forbidden?
-	 	(not (= (ANS:GetInterval high1 low1) forbidden)) ; but the first is not a forbidden one?
+		(= (ANS::GetInterval high2 low2) forbidden) ; second interval forbidden?
+	 	(not (= (ANS::GetInterval high1 low1) forbidden)) ; but the first is not a forbidden one?
 		;comparision to open variants: Hidden progression cannot have a direct repetition by definition because the intervals are different.
 		(or 
 			(and	(< low1 low2) 
@@ -1315,8 +1315,8 @@
 (define (ANS::ConsecutiveHiddenCrossed? low1 high1 low2 high2 forbidden)
 ;cover inverted crossed also. Not the second interval but the firs is crossed. 
 	(and
-		(= (ANS:GetInterval high2 low2) forbidden) ; second interval forbidden?
-	 	(not (= (ANS:GetInterval high1 low1) forbidden)) ; but the first is not a forbidden one?
+		(= (ANS::GetInterval high2 low2) forbidden) ; second interval forbidden?
+	 	(not (= (ANS::GetInterval high1 low1) forbidden)) ; but the first is not a forbidden one?
 		;comparision to open variants: Hidden progression cannot have a direct repetition by definition because the intervals are different.
 		(or 
 			(and	(> low1 low2)
@@ -1342,8 +1342,7 @@
 			(and	(> low1 low2)
 					(> high1 high2)
 					(> low1 high1)
-					(< low2 high2)))))	
-		  
+					(< low2 high2)))))			  
 		  
 ; There is no Anti-Hidden or Anti-Crossed-Hidden. These become valid intervalprogressions!
 		 
