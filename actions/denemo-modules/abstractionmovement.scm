@@ -298,7 +298,7 @@ return)
 		(GetUniquePairs current)
 		(GetUniquePairs next)))
 		
-(define (AM::TestSimultaneousIntervalFromBase previos current next interval tag)
+(define (AM::TestSimultaneousIntervalFromBaseMetricalMain previos current next interval tag)
 	(define pairlist (GetUniquePairsFilterLowest current MusObj::minPitch))
 	(map 
 		(lambda (pair)
@@ -317,7 +317,16 @@ return)
 	
 ;Display all "chords" as lilypond pitches
 ;;Debug only. Has a wrong return format.
-(define (pitchfunction previous current next)
+(define (AM::displayLilypond previous current next)
 	(map (lambda (x) 
 		(ANS::Ans2Ly (car (musobj.pitch x))))
 		current))
+		
+(define (AM::consecutive5th previous current next)
+	(AbstractionMovement::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveOpen? 1 'consecutive5th))
+
+(define (AM::consecutive8th  previous current next)
+	(AbstractionMovement::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveOpen? 0 'consecutive8th))
+	
+(define (AM::simultaneousFromBaseMetricalMain4th previos current next)
+	(AbstractionMovement::TestSimultaneousIntervalFromBaseMetricalMain previos current next -1 'simultaneousBaseMain4th))
