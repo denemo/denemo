@@ -906,7 +906,7 @@
 		(ANS::IntervalGetSteps (string->symbol interval))
 		(let ()
 			(define listy (map (lambda (x) (ANS::Ly2Ans (string->symbol x))) (string-tokenize interval)))
-			(apply ANS::GetIntervall listy))))
+			(apply ANS::GetInterval listy))))
 
 (define (ChangeToRest)
 ;TODO: (d-RemoveNoteFromChord) always returns #f so we have to use (d-GetNotes) as test until this gets fixed
