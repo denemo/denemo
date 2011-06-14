@@ -781,6 +781,30 @@
 			(begin	(set!musobj.pitch return (list (ANS::Ly2Ans (string->symbol note))))
 			return)
 			#f))
+
+;Find the lowest pitch from the parameters, which are musobj.			
+(define (MusObj::minPitch . objects)
+	 (reduce 
+	 	(lambda (x y)
+	 		(if (< (car (musobj.pitch x))  (car (musobj.pitch y)))
+	 			 x
+	 			 y))
+	 	#f
+	 	objects))
+
+;Find the highest pitch from the parameters, which are musobj.	 	
+(define (MusObj::maxPitch . objects)
+	 (reduce 
+	 	(lambda (x y)
+	 		(if (> (car (musobj.pitch x))  (car (musobj.pitch y)))
+	 			 x
+	 			 y))
+	 	#f
+	 	objects))
+	 		 	
+;Converts two MusObjs to an interval numbe (ans syntax. steps in the pillar of 5th)
+(define (MusObj::GetInterval one two)
+	(ANS::GetInterval (car (musobj.pitch one)) (car (musobj.pitch two)))) 			
 		
 
 (define (DefaultInitializePrint) (display "\nstarting to print\n"))
