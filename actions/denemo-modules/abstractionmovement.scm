@@ -323,10 +323,10 @@ return)
 		current))
 		
 (define (AM::consecutive5th previous current next)
-	(AbstractionMovement::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveOpen? 1 'consecutive5th))
+	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveOpen? 1 'consecutive5th))
 
 (define (AM::consecutive8th  previous current next)
-	(AbstractionMovement::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveOpen? 0 'consecutive8th))
+	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveOpen? 0 'consecutive8th))
 	
 (define (AM::simultaneousFromBaseMetricalMain4th previos current next)
-	(AbstractionMovement::TestSimultaneousIntervalFromBaseMetricalMain previos current next -1 'simultaneousBaseMain4th))
+	(AM::TestSimultaneousIntervalFromBaseMetricalMain previos current next -1 'simultaneousBaseMain4th))
