@@ -344,3 +344,11 @@ return)
 	
 (define (AM::simultaneousFromBaseMetricalMain4th previos current next)
 	(AM::TestSimultaneousIntervalFromBaseMetricalMain previos current next -1 'simultaneousBaseMain4th))
+	
+;TODO: Most of the time you want this test only between the first and last staff. 
+(define (AM::hidden5th previous current next)
+	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveHidden? 1 'hidden5th))
+
+;TODO: Most of the time you want this test only between the first and last staff. 
+(define (AM::hidden8th previous current next)
+	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveHidden? 0 'hidden8th))	
