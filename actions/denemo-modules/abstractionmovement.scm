@@ -288,7 +288,7 @@ return)
 ;; "AM::CapitalCamelCase"
 
 ;Find consecutive interval progressions in two pairs of notes
-(define (AM::TestConsecutiveIntervalProgression previous current next proc interval tag)
+(define* (AM::TestConsecutiveIntervalProgression previous current next proc interval tag #:optional (staffs #f))
 	(map 
 		(lambda (pair-current pair-next) 			 
 		 	(if (proc
@@ -299,8 +299,12 @@ return)
 			interval)
 				(cons tag (cons pair-current pair-next))
 				#f)) 			
-		(GetUniquePairs current)
-		(GetUniquePairs next)))
+		(if staffs ;its possible to only check certain voices which may be in the optional staffs var.
+			(GetUniquePairs (map (lambda (x) (list-ref current x)) staffs))
+			(GetUniquePairs current)) 
+		(if staffs
+			(GetUniquePairs  (map (lambda (x) (list-ref next x)) staffs))
+			(GetUniquePairs next))))				
 		
 (define (AM::TestSimultaneousIntervalFromBaseMetricalMain previos current next interval tag)
 	(define pairlist (GetUniquePairsFilterLowest current MusObj::minPitch))
@@ -309,7 +313,7 @@ return)
 			(if (and  (duration::MetricalMain? (musobj.metricalp (car pair))) (duration::MetricalMain? (musobj.metricalp (cdr pair))) (= interval (MusObj::GetInterval (car pair) (cdr pair)))) ; if interval and both notes are on a metrical main position
 				(cons tag pair)
 				#f))
-		pairlist))
+		pairlist))		
 		
 ;Real Tests that can be used as MapToAbstractionMovement functions
 ;;"AM::lowerCamelCase"
@@ -331,6 +335,12 @@ return)
 
 (define (AM::consecutive8th  previous current next)
 	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveOpen? 0 'consecutive8th))
+	
+(define (AM::hidden5th previous current next)
+	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveHidden? 1 'hidden5th))
+
+(define (AM::hidden8th previous current next)
+	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveHidden? 0 'hidden8th))
 	
 (define (AM::simultaneousFromBaseMetricalMain4th previos current next)
 	(AM::TestSimultaneousIntervalFromBaseMetricalMain previos current next -1 'simultaneousBaseMain4th))
