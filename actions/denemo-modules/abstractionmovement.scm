@@ -239,9 +239,9 @@ return)
 	movement)
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;Functions that use the abstractionmovement;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Functions that use the abstractionmovement;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;PasteAbstractionMovement creates a new Denemo-tab and visualises the contents of an abstractionmovement there.
 (define (PasteAbstractionMovement abstractionmovement)
  ; For each staff (primary list in abstractionmovement)
@@ -276,3 +276,48 @@ return)
 				 (append (cdr abstractmovement) (list (last abstractmovement)))))
 	(filter (lambda (x) (not (null? x))) (concatenate return)))
 	
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Tests for MapToAbstractionMovement;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;Basic functions
+;; "AM::CapitalCamelCase"
+
+;Find consecutive interval progressions in two pairs of notes
+(define (AM::TestConsecutiveIntervalProgression previous current next proc interval tag)
+	(map 
+		(lambda (pair-current pair-next) 			 
+		 	(if (proc
+			(car (musobj.pitch (cdr pair-current)))  ;low1
+			(car (musobj.pitch (car pair-current))) ;high1
+			(car (musobj.pitch (cdr pair-next))) ;low2
+			(car (musobj.pitch (car pair-next))) ;high1
+			interval)
+				(cons tag (cons pair-current pair-next))
+				#f)) 			
+		(GetUniquePairs current)
+		(GetUniquePairs next)))
+		
+(define (AM::TestSimultaneousIntervalFromBase previos current next interval tag)
+	(define pairlist (GetUniquePairsFilterLowest current MusObj::minPitch))
+	(map 
+		(lambda (pair)
+			(if (and  (duration::MetricalMain? (musobj.metricalp (car pair))) (duration::MetricalMain? (musobj.metricalp (cdr pair))) (= interval (MusObj::GetInterval (car pair) (cdr pair)))) ; if interval and both notes are on a metrical main position
+				(cons tag pair)
+				#f))
+		pairlist))
+		
+;Real Tests that can be used as MapToAbstractionMovement functions
+;;"AM::lowerCamelCase"
+
+;Just display all "chords", made of musobj
+;;Debug only. Has a wrong return format.
+(define (AM::display previous current next)
+	(list current))
+	
+;Display all "chords" as lilypond pitches
+;;Debug only. Has a wrong return format.
+(define (pitchfunction previous current next)
+	(map (lambda (x) 
+		(ANS::Ans2Ly (car (musobj.pitch x))))
+		current))
