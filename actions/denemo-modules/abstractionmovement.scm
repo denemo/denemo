@@ -1,3 +1,5 @@
+(use-modules (srfi srfi-1)) ; List library
+
 #!(define-module (actions denemo-modules abstractionmovement3)
 	#:export (
 		CreateAbstractionMovement
@@ -240,7 +242,7 @@ return)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;Functions that use the abstractionmovement;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;PasteAbstractionMovement creates a new window and visualises the contents of an abstractionmovement there.
+;;PasteAbstractionMovement creates a new Denemo-tab and visualises the contents of an abstractionmovement there.
 (define (PasteAbstractionMovement abstractionmovement)
  ; For each staff (primary list in abstractionmovement)
  ; do inserting the pitch for every (for-each) object 
@@ -255,3 +257,22 @@ return)
 				(ANS::InsertNotes (musobj.pitch object) 0 384)))
 			 staff))
 	abstractionmovement))
+
+;ApplyTestsToAbstractionMovementPositions takes functions and applies each to a value and returns a list of returnvalues.
+;;Used in MapToAbstractionMovement
+(define (ApplyTestsToAbstractionMovementPositions previous current next . functions)
+	(filter (lambda (x) (not (not x)))
+		(concatenate (concatenate 
+			 (map (lambda (proc) (call-with-values (lambda () (proc previous current next)) list)) 
+			 	   functions)))))
+
+(define (MapToAbstractionMovement abstractmovement . functions)
+	(define return #f)
+	(set! abstractmovement (apply map list abstractmovement)) ; sync the voices vertically "in chords" by creating new list from each of the sublists. They all have the same length.
+	(set! return (map  ; this needs srfi-1 map which handles unequal list lengths
+				(lambda (previous current next) (apply ApplyTestsToAbstractionMovementPositions previous current next functions))
+				 (cons #f abstractmovement)
+				 abstractmovement
+				 (append (cdr abstractmovement) (list (last abstractmovement)))))
+	(filter (lambda (x) (not (null? x))) (concatenate return)))
+	
