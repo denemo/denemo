@@ -743,7 +743,7 @@
 	 (else  (d-KillTimer Pitchbend::timer) (set! Pitchbend::timer 0) #f )))
                       
 ; Create a music-object that holds various information. This is the smallest, single object 
-(defstruct musobj pitch movement staff measure metricalp horizontal start duration baseduration dots)
+(defstruct musobj pitch movement staff measure horizontal metricalp start duration baseduration dots)
 
 ; Actually create the music-object. In this process various information are collected.
 ;;(define testob (CreateMusObj))  (set!musobj.duration testob 256)  (display (musobj.start testob))
