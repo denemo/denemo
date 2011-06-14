@@ -2057,9 +2057,12 @@ static void create_script(DenemoDirective *directive, gchar *what) {
   GString *scheme = g_string_new(directive->tag->str);
   g_string_prepend(scheme, ";;;");
   g_string_append(scheme, "\n");
-
+if(what==NULL) {
+  what = "standalone";
+  g_string_append_printf(scheme, "(d-DirectivePut-standalone \"%s\")", directive->tag->str);
+}
 #define ADD_TEXT(field)\
-if(directive->field)\
+if(directive->field && directive->field->len)\
   {gchar *quote = quote_scheme(directive->field->str);\
    g_string_append_printf(scheme, "(d-DirectivePut-%s-%s \"%s\" \"%s\")\n",\
        what, #field, directive->tag->str, quote);\
@@ -2236,10 +2239,12 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
   button = gtk_button_new_with_label("Put Edit Script");
   gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
   g_signal_connect(G_OBJECT(button),"clicked",  G_CALLBACK(put_edit_script), directive->tag->str);
-
+#if 0
+//disabled until website can take uploading again
   button = gtk_button_new_with_label("Upload Edit Script");
   gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
   g_signal_connect(G_OBJECT(button),"clicked",  G_CALLBACK(upload_edit_script_cb), directive->tag->str);
+#endif  
   button = gtk_check_button_new_with_label("Show Current Script");
   gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
   gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"), button);
