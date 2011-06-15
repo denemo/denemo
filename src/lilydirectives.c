@@ -2267,6 +2267,7 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
   else {
     clone->widget = NULL;//prevent any button being destroyed FIXME ???
     free_directive(clone);
+    score_status(Denemo.gui, TRUE);
   }
 #define REMOVEEMPTIES(field)\
 if(directive->field && directive->field->len==0) g_string_free(directive->field, TRUE), directive->field=NULL;
