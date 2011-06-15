@@ -288,7 +288,7 @@ return)
 ;; "AM::CapitalCamelCase"
 
 ;Find consecutive interval progressions in two pairs of notes
-(define (AM::TestConsecutiveIntervalProgression previous current next proc interval tag)
+(define* (AM::TestConsecutiveIntervalProgression previous current next proc interval tag #:optional (staffs #f))
 	(map 
 		(lambda (pair-current pair-next) 			 
 		 	(if (proc
@@ -299,8 +299,12 @@ return)
 			interval)
 				(cons tag (cons pair-current pair-next))
 				#f)) 			
-		(GetUniquePairs current)
-		(GetUniquePairs next)))
+		(if staffs ;its possible to only check certain voices which may be in the optional staffs var.
+			(GetUniquePairs (map (lambda (x) (list-ref current x)) staffs))
+			(GetUniquePairs current)) 
+		(if staffs
+			(GetUniquePairs  (map (lambda (x) (list-ref next x)) staffs))
+			(GetUniquePairs next))))				
 		
 (define (AM::TestSimultaneousIntervalFromBaseMetricalMain previos current next interval tag)
 	(define pairlist (GetUniquePairsFilterLowest current MusObj::minPitch))
@@ -310,6 +314,16 @@ return)
 				(cons tag pair)
 				#f))
 		pairlist))
+		
+;AM::GenerateStaffList converts numbers and special symbols to a list of numbers which represents which of the staffs should be used for an AM::test
+;;needs to know how many staffs there are and as many parameters as needed
+;;parameters are plain numbers or special symbols
+;; 'last  the last staff
+;; 'first the first staff, but better use 0.
+;; '-3-5  from 3 to 5. Note the leading dash. 
+(define (AM::GenerateStaffList staffcount . parameter)
+	(set! parameter (delete-duplicates parameter))
+	parameter)
 		
 ;Real Tests that can be used as MapToAbstractionMovement functions
 ;;"AM::lowerCamelCase"
@@ -332,5 +346,20 @@ return)
 (define (AM::consecutive8th  previous current next)
 	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveOpen? 0 'consecutive8th))
 	
+(define (AM::hidden5th previous current next)
+	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveHidden? 1 'hidden5th))
+
+(define (AM::hidden8th previous current next)
+	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveHidden? 0 'hidden8th))
+	
 (define (AM::simultaneousFromBaseMetricalMain4th previos current next)
 	(AM::TestSimultaneousIntervalFromBaseMetricalMain previos current next -1 'simultaneousBaseMain4th))
+	
+;This function is not a test itself but generates a test-function
+(define (AM::generateHidden5th staffs)
+	(lambda (previous current next) (AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveHidden? 1 'hidden5th staffs)))
+
+;This function is not a test itself but generates a test-function
+(define (AM::generateHidden8thstaffs stafflist)
+	(lambda (previous current next) (AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveHidden? 0 'hidden8th stafflist)))
+	
