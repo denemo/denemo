@@ -25,8 +25,7 @@
 static backend_t *backends[NUM_BACKENDS] = { NULL };
 
 
-static backend_t * get_backend(backend_type_t backend)
-{
+static backend_t * get_backend(backend_type_t backend) {
   if (backend == DEFAULT_BACKEND) {
     // FIXME: this should be configurable
     return backends[MIDI_BACKEND];
@@ -35,8 +34,7 @@ static backend_t * get_backend(backend_type_t backend)
 }
 
 
-int audiobackend_initialize(DenemoPrefs *config)
-{
+int audiobackend_initialize(DenemoPrefs *config) {
   char const *driver;
 
   // FIXME: add new setting to DenemoPrefs
@@ -91,8 +89,7 @@ int audiobackend_initialize(DenemoPrefs *config)
 }
 
 
-int audiobackend_destroy()
-{
+int audiobackend_destroy() {
   get_backend(AUDIO_BACKEND)->destroy();
   get_backend(MIDI_BACKEND)->destroy();
 
@@ -104,8 +101,7 @@ int audiobackend_destroy()
 
 
 
-void midi_play(gchar *callback)
-{
+void midi_play(gchar *callback) {
   generate_midi();
 
   get_backend(AUDIO_BACKEND)->start_playing();
@@ -114,8 +110,7 @@ void midi_play(gchar *callback)
   start_playing();
 }
 
-void midi_stop()
-{
+void midi_stop() {
   get_backend(AUDIO_BACKEND)->stop_playing();
   get_backend(MIDI_BACKEND)->stop_playing();
 
@@ -123,13 +118,12 @@ void midi_stop()
 }
 
 
-int play_midi_event(backend_type_t backend, int port, unsigned char *buffer)
-{
+int play_midi_event(backend_type_t backend, int port, unsigned char *buffer) {
   return get_backend(backend)->play_midi_event(port, buffer);
 }
 
-static gboolean play_note_noteoff_callback(gpointer data)
-{
+
+static gboolean play_note_noteoff_callback(gpointer data) {
   backend_type_t backend = (((int)data) >> 24);
   int port = (((int)data) >> 16) & 0xff;
   int channel = (((int)data) >> 8) & 0xff;
@@ -146,8 +140,7 @@ static gboolean play_note_noteoff_callback(gpointer data)
   return FALSE;
 }
 
-int play_note(backend_type_t backend, int port, int channel, int key, int duration, int volume)
-{
+int play_note(backend_type_t backend, int port, int channel, int key, int duration, int volume) {
   unsigned char buffer[] = {
     NOTE_ON | channel,
     key,
@@ -163,26 +156,22 @@ int play_note(backend_type_t backend, int port, int channel, int key, int durati
   return r;
 }
 
-int play_notes(backend_type_t backend, int port, int channel, chord *chord_to_play)
-{
+int play_notes(backend_type_t backend, int port, int channel, chord *chord_to_play) {
   // TODO
   return 0;
 }
 
-int rhythm_feedback(backend_type_t backend, int duration, gboolean rest, gboolean dot)
-{
+int rhythm_feedback(backend_type_t backend, int duration, gboolean rest, gboolean dot) {
   // TODO
   return 0;
 }
 
 
-int panic(backend_type_t backend)
-{
+int panic(backend_type_t backend) {
   return get_backend(backend)->panic();
 }
 
-int panic_all()
-{
+int panic_all() {
   backend_type_t n;
   for (n = 0; n < NUM_BACKENDS; ++n) {
     panic(n);
@@ -192,28 +181,23 @@ int panic_all()
 }
 
 
-void input_midi_event(backend_type_t backend, int port, unsigned char *buffer)
-{
+void input_midi_event(backend_type_t backend, int port, unsigned char *buffer) {
     // TODO
 }
 
-void feed_midi(unsigned char *buffer)
-{
+void feed_midi(unsigned char *buffer) {
     // TODO: add fluidsynth code here
 }
 
-void render_audio(unsigned int nframes, float buffer[])
-{
+void render_audio(unsigned int nframes, float buffer[]) {
     // TODO: add fluidsynth code here
 }
 
-void queue_redraw_all()
-{
+void queue_redraw_all() {
   displayhelper(Denemo.gui);
 }
 
-void queue_redraw_playhead()
-{
+void queue_redraw_playhead() {
   region_playhead();
 }
 

@@ -20,8 +20,7 @@
 /**
  * The common interface for all audio and MIDI backends.
  */
-typedef struct backend_t
-{
+typedef struct backend_t {
   /**
    * Initializes the backend with the given configuration.
    *
@@ -42,8 +41,14 @@ typedef struct backend_t
    */
   int (*reconfigure)(DenemoPrefs *config);
 
+  /**
+   * Called when playback is started.
+   */
   int (*start_playing)();
 
+  /**
+   * Called when playback is stopped.
+   */
   int (*stop_playing)();
 
   /**

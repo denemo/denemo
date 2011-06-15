@@ -49,8 +49,7 @@ static nframes_t seconds_to_nframes(double seconds) {
 }
 
 
-static void process_audio(nframes_t nframes)
-{
+static void process_audio(nframes_t nframes) {
   size_t i;
   sample_t *port_buffers[num_audio_out_ports];
 
@@ -65,8 +64,7 @@ static void process_audio(nframes_t nframes)
 }
 
 
-static void process_midi(nframes_t nframes)
-{
+static void process_midi(nframes_t nframes) {
   size_t i;
   void *port_buffers[num_midi_out_ports];
 
@@ -110,8 +108,7 @@ static void process_midi(nframes_t nframes)
 
 
 
-static int process_callback(nframes_t nframes, void *arg)
-{
+static int process_callback(nframes_t nframes, void *arg) {
   process_audio(nframes);
   process_midi(nframes);
 
@@ -122,8 +119,7 @@ static int process_callback(nframes_t nframes, void *arg)
 
 
 
-static int initialize_client(char const *name)
-{
+static int initialize_client(char const *name) {
   if (client) {
     // already initialized
     return 0;
@@ -145,8 +141,8 @@ static int initialize_client(char const *name)
   return 0;
 }
 
-static int destroy_client()
-{
+
+static int destroy_client() {
   if (audio_in_ports || audio_out_ports || midi_in_ports || midi_out_ports) {
     // don't destroy client if ports are still around
     return 0;
@@ -161,8 +157,7 @@ static int destroy_client()
 }
 
 
-static int unregister_audio_ports()
-{
+static int unregister_audio_ports() {
   jack_port_t **p;
 
   for (p = audio_in_ports; p != NULL; ++p) {
@@ -179,8 +174,9 @@ static int unregister_audio_ports()
   return 0;
 }
 
-static int register_audio_ports(int num_in_ports, char const *in_portnames[], int num_out_ports, char const *out_portnames[])
-{
+
+static int register_audio_ports(int num_in_ports, char const *in_portnames[],
+                                int num_out_ports, char const *out_portnames[]) {
   int n;
 
   // allocate one more item as an end-of-array marker
@@ -211,8 +207,7 @@ err:
 }
 
 
-static int unregister_midi_ports()
-{
+static int unregister_midi_ports() {
   jack_port_t **p;
 
   for (p = midi_in_ports; p != NULL; ++p) {
@@ -229,8 +224,9 @@ static int unregister_midi_ports()
   return 0;
 }
 
-static int register_midi_ports(int num_in_ports, char const *in_portnames[], int num_out_ports, char const *out_portnames[])
-{
+
+static int register_midi_ports(int num_in_ports, char const *in_portnames[],
+                               int num_out_ports, char const *out_portnames[]) {
   int n;
 
   // allocate one more item as an end-of-array marker
@@ -262,8 +258,7 @@ err:
 
 
 
-static int jack_audio_initialize(DenemoPrefs *config)
-{
+static int jack_audio_initialize(DenemoPrefs *config) {
   g_print("initializing JACK audio backend\n");
 
   if (initialize_client(JACK_CLIENT_NAME)) {
@@ -281,8 +276,8 @@ static int jack_audio_initialize(DenemoPrefs *config)
   return 0;
 }
 
-static int jack_audio_destroy()
-{
+
+static int jack_audio_destroy() {
   g_print("destroying JACK audio backend\n");
 
   destroy_client();
@@ -290,8 +285,8 @@ static int jack_audio_destroy()
   return 0;
 }
 
-static int jack_audio_reconfigure(DenemoPrefs *config)
-{
+
+static int jack_audio_reconfigure(DenemoPrefs *config) {
   g_print("reconfiguring JACK audio backend\n");
 
   jack_audio_destroy();
@@ -300,33 +295,34 @@ static int jack_audio_reconfigure(DenemoPrefs *config)
   return 0;
 }
 
+
 static int jack_audio_start_playing() {
   playback_frame = 0;
   return 0;
 }
 
+
 static int jack_audio_stop_playing() {
   return 0;
 }
 
-static int jack_audio_play_midi_event(int port, unsigned char *buffer)
-{
+
+static int jack_audio_play_midi_event(int port, unsigned char *buffer) {
   int channel = buffer[0] & 0x0f;
   int type = (buffer[0] & 0xf0) >> 4;
   g_print("playing midi event: port=%d, channel=%d, type=%x\n", port, channel, type);
   return 0;
 }
 
-static int jack_audio_panic()
-{
+
+static int jack_audio_panic() {
   g_print("panicking\n");
   return 0;
 }
 
 
 
-static int jack_midi_initialize(DenemoPrefs *config)
-{
+static int jack_midi_initialize(DenemoPrefs *config) {
   g_print("initializing JACK MIDI backend\n");
 
   if (initialize_client(JACK_CLIENT_NAME)) {
@@ -344,8 +340,8 @@ static int jack_midi_initialize(DenemoPrefs *config)
   return 0;
 }
 
-static int jack_midi_destroy()
-{
+
+static int jack_midi_destroy() {
   g_print("destroying JACK MIDI backend\n");
 
   destroy_client();
@@ -353,8 +349,8 @@ static int jack_midi_destroy()
   return 0;
 }
 
-static int jack_midi_reconfigure(DenemoPrefs *config)
-{
+
+static int jack_midi_reconfigure(DenemoPrefs *config) {
   g_print("reconfiguring JACK MIDI backend\n");
 
   jack_midi_destroy();
@@ -363,26 +359,28 @@ static int jack_midi_reconfigure(DenemoPrefs *config)
   return 0;
 }
 
+
 static int jack_midi_start_playing() {
   playback_frame = 0;
   return 0;
 }
+
 
 static int jack_midi_stop_playing() {
   reset_midi = TRUE;
   return 0;
 }
 
-static int jack_midi_play_midi_event(int port, unsigned char *buffer)
-{
+
+static int jack_midi_play_midi_event(int port, unsigned char *buffer) {
   int channel = buffer[0] & 0x0f;
   int type = (buffer[0] & 0xf0) >> 4;
   g_print("playing midi event: port=%d, channel=%d, type=%x\n", port, channel, type);
   return 0;
 }
 
-static int jack_midi_panic()
-{
+
+static int jack_midi_panic() {
   g_print("panicking\n");
   reset_midi = TRUE;
   return 0;
