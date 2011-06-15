@@ -829,6 +829,17 @@ static SCM scheme_set_thumbnail_selection(SCM optional) {
   return SCM_BOOL_F;
 }
 
+static SCM scheme_get_checksum(SCM str) {
+  SCM ret = SCM_BOOL_F;
+  if(scm_is_string(str)) {
+    gchar *chk;
+  gchar *thestring = scm_to_locale_string(str);
+  chk = g_compute_checksum_for_string (G_CHECKSUM_MD5, thestring, -1);
+  ret = scm_from_locale_string(chk);
+  g_free(chk);
+  }
+return ret;
+}
 
 static SCM scheme_create_thumbnail(SCM optional) {
  gboolean ret;
@@ -4761,7 +4772,7 @@ INSTALL_SCM_FUNCTION ("Undo normally undoes all the actions performed by a scrip
 
 
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the menu path to that command or #f if none",DENEMO_SCHEME_PREFIX"GetMenuPath", scheme_get_menu_path);
-
+  INSTALL_SCM_FUNCTION ("Takes a string and returns a string representing an MD5 checksum for the passed string.", DENEMO_SCHEME_PREFIX"GetChecksum", scheme_get_checksum);
   INSTALL_SCM_FUNCTION ("Gets the current verse of the current staff or #f if none",DENEMO_SCHEME_PREFIX"GetVerse", scheme_get_verse);
   INSTALL_SCM_FUNCTION ("Puts the passed string as the current verse of the current staff",DENEMO_SCHEME_PREFIX"PutVerse", scheme_put_verse);
   INSTALL_SCM_FUNCTION ("Appends the passed string to the current verse of the current staff",DENEMO_SCHEME_PREFIX"AppendToVerse", scheme_append_to_verse);
