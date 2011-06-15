@@ -687,7 +687,9 @@ Report bugs to http://www.denemo.org\n"), NULL) ;
 
 
   /* Set up the signal handler */
-  signal (SIGSEGV, denemo_signal_handler);
+  // XXX this causes undefined behaviour
+  //signal (SIGSEGV, denemo_signal_handler);
+
 #ifdef HAVE_SIGCHLD
   signal (SIGCHLD, sigchld_handler);
 #endif
