@@ -1,13 +1,17 @@
-/* midi.c
- * functions for direct output to /dev/sequencer
- * and direct input from /dev/midi
+/*
+ * midi.c
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
- * (c) 2000-2005 Brian Delaney
+ * Copyright (C) 2011  Dominic Sacré
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  */
 
-#include "config.h"
 #include <denemo/denemo.h>
+#include "midi.h"
 #include "smf.h"
 #include "exportmidi.h"
 
@@ -15,18 +19,6 @@
 #include <math.h>
 #include <string.h>
 #include <assert.h>
-
-#define MIDI_NOTEOFF            0x80
-#define MIDI_NOTEON             0x90
-#define MIDI_KEY_PRESSURE       0xA0
-
-#define MIDI_CTL_CHANGE         0xB0
-#define MIDI_PGM_CHANGE         0xC0
-#define MIDI_CHN_PRESSURE       0xD0
-#define MIDI_PITCH_BEND         0xE0
-
-#define MIDI_SYSTEM_PREFIX      0xF0
-
 
 
 static gboolean playing = FALSE;
@@ -136,7 +128,7 @@ DenemoObject *get_obj_for_start_time(smf_t *smf, gdouble time) {
     gint error = smf_seek_to_seconds(smf, time);
     do {
       event = smf_get_next_event(smf);
-    } while(event && (!(event->midi_buffer[0] & MIDI_NOTEON) || !event->user_pointer));
+    } while(event && (!(event->midi_buffer[0] & NOTE_ON) || !event->user_pointer));
     if(initial)
       error = smf_seek_to_event(smf, initial);
     last_si = Denemo.gui->si;
@@ -163,7 +155,7 @@ DenemoObject *get_obj_for_end_time(smf_t *smf, gdouble time) {
     gint error = smf_seek_to_seconds(smf, time);
     do {
       event = smf_get_next_event(smf);
-    } while(event && (!(event->midi_buffer[0] & MIDI_NOTEOFF) || !event->user_pointer));
+    } while(event && (!(event->midi_buffer[0] & NOTE_OFF) || !event->user_pointer));
     if(initial)
       error = smf_seek_to_event(smf, initial);
     last_si = Denemo.gui->si;

@@ -12,6 +12,7 @@
  */
 
 #include "jackbackend.h"
+#include "midi.h"
 
 #include <jack/jack.h>
 #include <string.h>
@@ -35,8 +36,8 @@ static size_t num_audio_out_ports;
 static size_t num_midi_in_ports;
 static size_t num_midi_out_ports;
 
-static nframes_t playback_frame;
-
+static nframes_t playback_frame = 0;
+static gboolean reset_midi = FALSE;
 
 
 static double nframes_to_seconds(nframes_t nframes) {
@@ -74,6 +75,22 @@ static void process_midi(nframes_t nframes)
     jack_midi_clear_buffer(port_buffers[i], nframes);
   }
 
+  if (reset_midi) {
+    // send all-notes-off on all ports and on all channels
+    for (i = 0; i < num_midi_out_ports; ++i) {
+      int n;
+      for (n = 0; n < 16; ++n) {
+        unsigned char event_data[] = { CONTROL_CHANGE | n, 123, 0 };
+
+        jack_midi_event_write(port_buffers[i], 0, event_data, sizeof(event_data));
+      }
+    }
+
+    reset_midi = FALSE;
+
+    return;
+  }
+
   if (is_playing()) {
     unsigned char event_data[3];
     size_t event_length;
@@ -81,7 +98,7 @@ static void process_midi(nframes_t nframes)
 
     double until_time = nframes_to_seconds(playback_frame + nframes);
 
-    while (get_smf_event(&event_data, &event_length, &event_time, until_time)) {
+    while (get_smf_event(event_data, &event_length, &event_time, until_time)) {
       nframes_t frame = seconds_to_nframes(event_time) - playback_frame;
 
       // FIXME: use correct port
@@ -173,12 +190,14 @@ static int register_audio_ports(int num_in_ports, char const *in_portnames[], in
   num_audio_out_ports = num_out_ports;
 
   for (n = 0; n < num_in_ports; ++n) {
-    if ((audio_in_ports[n] = jack_port_register(client, in_portnames[n], JACK_DEFAULT_AUDIO_TYPE, JackPortIsInput, 0)) == NULL) {
+    audio_in_ports[n] = jack_port_register(client, in_portnames[n], JACK_DEFAULT_AUDIO_TYPE, JackPortIsInput, 0);
+    if (audio_in_ports[n] == NULL) {
       goto err;
     }
   }
   for (n = 0; n < num_out_ports; ++n) {
-    if ((audio_out_ports[n] = jack_port_register(client, out_portnames[n], JACK_DEFAULT_AUDIO_TYPE, JackPortIsOutput, 0)) == NULL) {
+    audio_out_ports[n] = jack_port_register(client, out_portnames[n], JACK_DEFAULT_AUDIO_TYPE, JackPortIsOutput, 0);
+    if (audio_out_ports[n] == NULL) {
       goto err;
     }
   }
@@ -221,12 +240,14 @@ static int register_midi_ports(int num_in_ports, char const *in_portnames[], int
   num_midi_out_ports = num_out_ports;
 
   for (n = 0; n < num_in_ports; ++n) {
-    if ((midi_in_ports[n] = jack_port_register(client, in_portnames[n], JACK_DEFAULT_MIDI_TYPE, JackPortIsInput, 0)) == NULL) {
+    midi_in_ports[n] = jack_port_register(client, in_portnames[n], JACK_DEFAULT_MIDI_TYPE, JackPortIsInput, 0);
+    if (midi_in_ports[n] == NULL) {
       goto err;
     }
   }
   for (n = 0; n < num_out_ports; ++n) {
-    if ((midi_out_ports[n] = jack_port_register(client, out_portnames[n], JACK_DEFAULT_MIDI_TYPE, JackPortIsOutput, 0)) == NULL) {
+    midi_out_ports[n] = jack_port_register(client, out_portnames[n], JACK_DEFAULT_MIDI_TYPE, JackPortIsOutput, 0);
+    if (midi_out_ports[n] == NULL) {
       goto err;
     }
   }
@@ -237,17 +258,6 @@ err:
   unregister_midi_ports();
 
   return -1;
-}
-
-
-static int jack_start_playing() {
-  playback_frame = 0;
-  return 0;
-}
-
-
-static int jack_stop_playing() {
-  return 0;
 }
 
 
@@ -287,6 +297,15 @@ static int jack_audio_reconfigure(DenemoPrefs *config)
   jack_audio_destroy();
   jack_audio_initialize(config);
 
+  return 0;
+}
+
+static int jack_audio_start_playing() {
+  playback_frame = 0;
+  return 0;
+}
+
+static int jack_audio_stop_playing() {
   return 0;
 }
 
@@ -344,6 +363,16 @@ static int jack_midi_reconfigure(DenemoPrefs *config)
   return 0;
 }
 
+static int jack_midi_start_playing() {
+  playback_frame = 0;
+  return 0;
+}
+
+static int jack_midi_stop_playing() {
+  reset_midi = TRUE;
+  return 0;
+}
+
 static int jack_midi_play_midi_event(int port, unsigned char *buffer)
 {
   int channel = buffer[0] & 0x0f;
@@ -355,6 +384,7 @@ static int jack_midi_play_midi_event(int port, unsigned char *buffer)
 static int jack_midi_panic()
 {
   g_print("panicking\n");
+  reset_midi = TRUE;
   return 0;
 }
 
@@ -363,8 +393,8 @@ backend_t jack_audio_backend = {
   jack_audio_initialize,
   jack_audio_destroy,
   jack_audio_reconfigure,
-  jack_start_playing,
-  jack_stop_playing,
+  jack_audio_start_playing,
+  jack_audio_stop_playing,
   jack_audio_play_midi_event,
   jack_audio_panic,
 };
@@ -373,8 +403,8 @@ backend_t jack_midi_backend = {
   jack_midi_initialize,
   jack_midi_destroy,
   jack_midi_reconfigure,
-  jack_start_playing,
-  jack_stop_playing,
+  jack_midi_start_playing,
+  jack_midi_stop_playing,
   jack_midi_play_midi_event,
   jack_midi_panic,
 };
