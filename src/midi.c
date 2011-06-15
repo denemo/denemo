@@ -24,6 +24,26 @@
 static gboolean playing = FALSE;
 
 
+static void update_position(smf_event_t *event) {
+  DenemoScore *si = Denemo.gui->si;
+
+  if (event) {
+    si->playingnow = event->user_pointer;
+    si->playhead = event->time_seconds;
+
+    if ((event->midi_buffer[0] & 0xf0) == NOTE_ON) {
+       // && event->time_seconds - last_draw_time>Denemo.prefs.display_refresh) {
+      queue_redraw_playhead();
+    }
+  } else {
+    si->playingnow = NULL;
+    si->playhead = 0;
+    queue_redraw_all();
+  }
+}
+
+
+
 void start_playing() {
   smf_t *smf = Denemo.gui->si->smf;
 
@@ -32,9 +52,12 @@ void start_playing() {
   playing = TRUE;
 }
 
+
 void stop_playing() {
+  update_position(NULL);
   playing = FALSE;
 }
+
 
 gboolean is_playing() {
   return playing;
@@ -51,7 +74,13 @@ gboolean get_smf_event(unsigned char *event_buffer, size_t *event_length, double
   for (;;) {
     smf_event_t *event = smf_peek_next_event(smf);
 
-    if (event == NULL || event->time_seconds >= until_time) {
+    if (event == NULL) {
+      playing = FALSE;
+      update_position(NULL);
+      return FALSE;
+    }
+
+    if (event->time_seconds >= until_time) {
       return FALSE;
     }
 
@@ -65,6 +94,9 @@ gboolean get_smf_event(unsigned char *event_buffer, size_t *event_length, double
     event = smf_get_next_event(smf);
 
     assert(event->midi_buffer_length <= 3);
+
+    update_position(event);
+
 
     memcpy(event_buffer, event->midi_buffer, event->midi_buffer_length);
     *event_length = event->midi_buffer_length;
