@@ -14,6 +14,12 @@
 #include "jackbackend.h"
 
 #include <jack/jack.h>
+#include <string.h>
+
+
+typedef jack_default_audio_sample_t sample_t;
+typedef jack_nframes_t nframes_t;
+
 
 static char const *JACK_CLIENT_NAME = "denemo";
 
@@ -24,10 +30,75 @@ static jack_port_t **audio_out_ports = NULL;
 static jack_port_t **midi_in_ports = NULL;
 static jack_port_t **midi_out_ports = NULL;
 
+static size_t num_audio_in_ports;
+static size_t num_audio_out_ports;
+static size_t num_midi_in_ports;
+static size_t num_midi_out_ports;
 
-static int process_callback(jack_nframes_t nframes, void *arg)
+static nframes_t playback_frame;
+
+
+
+static double nframes_to_seconds(nframes_t nframes) {
+  return nframes / (double)jack_get_sample_rate(client);
+}
+
+static nframes_t seconds_to_nframes(double seconds) {
+  return (nframes_t)(jack_get_sample_rate(client) * seconds);
+}
+
+
+static void process_audio(nframes_t nframes)
 {
+  size_t i;
+  sample_t *port_buffers[num_audio_out_ports];
 
+  for (i = 0; i < num_audio_out_ports; ++i) {
+    port_buffers[i] = jack_port_get_buffer(audio_out_ports[i], nframes);
+    memset(port_buffers[i], 0, nframes * sizeof(sample_t));
+  }
+
+  if (is_playing()) {
+    // TODO
+  }
+}
+
+
+static void process_midi(nframes_t nframes)
+{
+  size_t i;
+  void *port_buffers[num_midi_out_ports];
+
+  for (i = 0; i < num_midi_out_ports; ++i) {
+    port_buffers[i] = jack_port_get_buffer(midi_out_ports[i], nframes);
+    jack_midi_clear_buffer(port_buffers[i], nframes);
+  }
+
+  if (is_playing()) {
+    unsigned char event_data[3];
+    size_t event_length;
+    double event_time;
+
+    double until_time = nframes_to_seconds(playback_frame + nframes);
+
+    while (get_smf_event(&event_data, &event_length, &event_time, until_time)) {
+      nframes_t frame = seconds_to_nframes(event_time) - playback_frame;
+
+      // FIXME: use correct port
+      jack_midi_event_write(port_buffers[0], frame, event_data, event_length);
+    }
+  }
+}
+
+
+
+
+static int process_callback(nframes_t nframes, void *arg)
+{
+  process_audio(nframes);
+  process_midi(nframes);
+
+  playback_frame += nframes;
 
   return 0;
 }
@@ -98,6 +169,8 @@ static int register_audio_ports(int num_in_ports, char const *in_portnames[], in
   // allocate one more item as an end-of-array marker
   audio_in_ports = g_new0(jack_port_t*, num_in_ports + 1);
   audio_out_ports = g_new0(jack_port_t*, num_out_ports + 1);
+  num_audio_in_ports = num_in_ports;
+  num_audio_out_ports = num_out_ports;
 
   for (n = 0; n < num_in_ports; ++n) {
     if ((audio_in_ports[n] = jack_port_register(client, in_portnames[n], JACK_DEFAULT_AUDIO_TYPE, JackPortIsInput, 0)) == NULL) {
@@ -144,6 +217,8 @@ static int register_midi_ports(int num_in_ports, char const *in_portnames[], int
   // allocate one more item as an end-of-array marker
   midi_in_ports = g_new0(jack_port_t*, num_in_ports + 1);
   midi_out_ports = g_new0(jack_port_t*, num_out_ports + 1);
+  num_midi_in_ports = num_in_ports;
+  num_midi_out_ports = num_out_ports;
 
   for (n = 0; n < num_in_ports; ++n) {
     if ((midi_in_ports[n] = jack_port_register(client, in_portnames[n], JACK_DEFAULT_MIDI_TYPE, JackPortIsInput, 0)) == NULL) {
@@ -164,6 +239,16 @@ err:
   return -1;
 }
 
+
+static int jack_start_playing() {
+  playback_frame = 0;
+  return 0;
+}
+
+
+static int jack_stop_playing() {
+  return 0;
+}
 
 
 
@@ -278,6 +363,8 @@ backend_t jack_audio_backend = {
   jack_audio_initialize,
   jack_audio_destroy,
   jack_audio_reconfigure,
+  jack_start_playing,
+  jack_stop_playing,
   jack_audio_play_midi_event,
   jack_audio_panic,
 };
@@ -286,6 +373,8 @@ backend_t jack_midi_backend = {
   jack_midi_initialize,
   jack_midi_destroy,
   jack_midi_reconfigure,
+  jack_start_playing,
+  jack_stop_playing,
   jack_midi_play_midi_event,
   jack_midi_panic,
 };

@@ -42,6 +42,10 @@ typedef struct backend_t
    */
   int (*reconfigure)(DenemoPrefs *config);
 
+  int (*start_playing)();
+
+  int (*stop_playing)();
+
   /**
    * Plays a single MIDI event.
    *

@@ -118,12 +118,18 @@ void midi_play(gchar *callback)
 {
   generate_midi();
 
-  // TODO
+  get_backend(AUDIO_BACKEND)->start_playing();
+  get_backend(MIDI_BACKEND)->start_playing();
+
+  start_playing();
 }
 
 void midi_stop()
 {
-  // TODO
+  get_backend(AUDIO_BACKEND)->stop_playing();
+  get_backend(MIDI_BACKEND)->stop_playing();
+
+  stop_playing();
 }
 
 

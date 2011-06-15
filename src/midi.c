@@ -13,17 +13,76 @@
 
 #include <glib.h>
 #include <math.h>
+#include <string.h>
+#include <assert.h>
 
-#define MIDI_NOTEOFF		0x80
-#define MIDI_NOTEON		0x90
-#define MIDI_KEY_PRESSURE	0xA0
+#define MIDI_NOTEOFF            0x80
+#define MIDI_NOTEON             0x90
+#define MIDI_KEY_PRESSURE       0xA0
 
-#define MIDI_CTL_CHANGE		0xB0
-#define MIDI_PGM_CHANGE		0xC0
-#define MIDI_CHN_PRESSURE	0xD0
-#define MIDI_PITCH_BEND		0xE0
+#define MIDI_CTL_CHANGE         0xB0
+#define MIDI_PGM_CHANGE         0xC0
+#define MIDI_CHN_PRESSURE       0xD0
+#define MIDI_PITCH_BEND         0xE0
 
-#define MIDI_SYSTEM_PREFIX	0xF0
+#define MIDI_SYSTEM_PREFIX      0xF0
+
+
+
+static gboolean playing = FALSE;
+
+
+void start_playing() {
+  smf_t *smf = Denemo.gui->si->smf;
+
+  int ignore = smf_seek_to_seconds(smf, 0.0);
+
+  playing = TRUE;
+}
+
+void stop_playing() {
+  playing = FALSE;
+}
+
+gboolean is_playing() {
+  return playing;
+}
+
+
+gboolean get_smf_event(unsigned char *event_buffer, size_t *event_length, double *event_time, double until_time) {
+  if (!playing) {
+    return FALSE;
+  }
+
+  smf_t *smf = Denemo.gui->si->smf;
+
+  for (;;) {
+    smf_event_t *event = smf_peek_next_event(smf);
+
+    if (event == NULL || event->time_seconds >= until_time) {
+      return FALSE;
+    }
+
+    if (smf_event_is_metadata(event)) {
+      // consume metadata event and continue with the next one
+      event = smf_get_next_event(smf);
+      continue;
+    }
+
+    // consume the event
+    event = smf_get_next_event(smf);
+
+    assert(event->midi_buffer_length <= 3);
+
+    memcpy(event_buffer, event->midi_buffer, event->midi_buffer_length);
+    *event_length = event->midi_buffer_length;
+    *event_time = event->time_seconds;
+
+    return TRUE;
+  }
+}
+
+
 
 
 gdouble get_time() {
@@ -115,7 +174,6 @@ DenemoObject *get_obj_for_end_time(smf_t *smf, gdouble time) {
     return (DenemoObject *)(event->user_pointer);
   return NULL;
 }
-
 
 
 // FIXME: not quite sure what to do with these yet

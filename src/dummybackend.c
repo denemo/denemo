@@ -32,6 +32,18 @@ static int dummy_reconfigure(DenemoPrefs *config)
   return 0;
 }
 
+static int dummy_start_playing()
+{
+  g_print("starting playback\n");
+  return 0;
+}
+
+static int dummy_stop_playing()
+{
+  g_print("stopping playback\n");
+  return 0;
+}
+
 static int dummy_play_midi_event(int port, unsigned char *buffer)
 {
   int channel = buffer[0] & 0x0f;
@@ -51,6 +63,8 @@ backend_t dummy_backend = {
   dummy_initialize,
   dummy_destroy,
   dummy_reconfigure,
+  dummy_start_playing,
+  dummy_stop_playing,
   dummy_play_midi_event,
   dummy_panic,
 };
