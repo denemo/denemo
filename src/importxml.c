@@ -356,6 +356,8 @@ fix_prefix_use(GList *directives) {
   GList *g;
   for(g=directives;g;g=g->next) {
     DenemoDirective *directive = g->data;
+    if(directive->tag==NULL)
+      directive->tag = g_string_new("<Unknown Tag>");
     if(directive->prefix) {
       directive->prefix = g_string_new(g_strdup_printf("%%{Disabled form \n%s\n use newer command %%}\n", directive->prefix->str));
       directive->display = g_string_new(g_strdup_printf("Warning - re-run the %s command here!\nold version", directive->tag->str));
