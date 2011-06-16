@@ -47,7 +47,7 @@ static void update_position(smf_event_t *event) {
 void start_playing() {
   smf_t *smf = Denemo.gui->si->smf;
 
-  int ignore = smf_seek_to_seconds(smf, 0.0);
+  smf_rewind(smf);
 
   playing = TRUE;
 }

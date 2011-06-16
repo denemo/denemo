@@ -21,8 +21,19 @@
 #include "midi.h"
 #include "audio.h"
 
+#include <glib.h>
+
 
 static backend_t *backends[NUM_BACKENDS] = { NULL };
+
+static GThread *queue_thread;
+static GCond *queue_cond;
+
+static volatile gboolean quit_thread = FALSE;
+static volatile gboolean must_redraw_all = FALSE;
+static volatile gboolean must_redraw_playhead = FALSE;
+
+static gpointer queue_thread_func(gpointer data);
 
 
 static backend_t * get_backend(backend_type_t backend) {
@@ -34,13 +45,11 @@ static backend_t * get_backend(backend_type_t backend) {
 }
 
 
-int audiobackend_initialize(DenemoPrefs *config) {
-  char const *driver;
+static int initialize_audio(DenemoPrefs *config) {
+  char const *driver = config->fluidsynth_audio_driver->str;
 
   // FIXME: add new setting to DenemoPrefs
-  g_print("audio driver is '%s'\n", config->fluidsynth_audio_driver->str);
-
-  driver = config->fluidsynth_audio_driver->str;
+  g_print("audio driver is '%s'\n", driver);
 
   if (strcmp(driver, "jack") == 0) {
 #ifdef _HAVE_JACK_
@@ -58,11 +67,15 @@ int audiobackend_initialize(DenemoPrefs *config) {
     backends[AUDIO_BACKEND] = &dummy_backend;
   }
 
+  return get_backend(AUDIO_BACKEND)->initialize(config);
+}
+
+
+static int initialize_midi(DenemoPrefs *config) {
+  char const *driver = config->fluidsynth_midi_driver->str;
 
   // FIXME: add new setting to DenemoPrefs
-  g_print("MIDI driver is '%s'\n", config->fluidsynth_midi_driver->str);
-
-  driver = config->fluidsynth_midi_driver->str;
+  g_print("MIDI driver is '%s'\n", driver);
 
   if (strcmp(driver, "jack") == 0) {
 #ifdef _HAVE_JACK_
@@ -80,10 +93,18 @@ int audiobackend_initialize(DenemoPrefs *config) {
     backends[MIDI_BACKEND] = &dummy_backend;
   }
 
+  return get_backend(MIDI_BACKEND)->initialize(config);
+}
+
+
+int audiobackend_initialize(DenemoPrefs *config) {
+  queue_cond = g_cond_new();
+
+  queue_thread = g_thread_create(queue_thread_func, NULL, TRUE, NULL);
 
   // FIXME: check for errors
-  get_backend(AUDIO_BACKEND)->initialize(config);
-  get_backend(MIDI_BACKEND)->initialize(config);
+  initialize_audio(config);
+  initialize_midi(config);
 
   return 0;
 }
@@ -96,7 +117,45 @@ int audiobackend_destroy() {
   backends[AUDIO_BACKEND] = NULL;
   backends[MIDI_BACKEND] = NULL;
 
+  quit_thread = TRUE;
+  g_cond_signal(queue_cond);
+  g_thread_join(queue_thread);
+
+  g_cond_free(queue_cond);
+
   return 0;
+}
+
+
+
+static gpointer queue_thread_func(gpointer data) {
+  GMutex *mutex = g_mutex_new();
+
+  for (;;) {
+    g_cond_wait(queue_cond, mutex);
+
+    if (quit_thread) {
+      g_mutex_free(mutex);
+      return NULL;
+    }
+
+    if (must_redraw_all) {
+      must_redraw_all = FALSE;
+      must_redraw_playhead = FALSE;
+
+      gdk_threads_enter();
+      displayhelper(Denemo.gui);
+      gdk_threads_leave();
+    }
+
+    if (must_redraw_playhead) {
+      must_redraw_playhead = FALSE;
+
+      gdk_threads_enter();
+      region_playhead();
+      gdk_threads_leave();
+    }
+  }
 }
 
 
@@ -194,11 +253,15 @@ void render_audio(unsigned int nframes, float buffer[]) {
 }
 
 void queue_redraw_all() {
-  displayhelper(Denemo.gui);
+//  displayhelper(Denemo.gui);
+  must_redraw_all = TRUE;
+  g_cond_signal(queue_cond);
 }
 
 void queue_redraw_playhead() {
-  region_playhead();
+//  region_playhead();
+  must_redraw_playhead = TRUE;
+  g_cond_signal(queue_cond);
 }
 
 
