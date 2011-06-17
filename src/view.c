@@ -5042,7 +5042,10 @@ void inner_main(void*closure, int argc, char **argv){
    call_out_to_guile(Denemo.scheme_commands);
   //else ?????
 /* Now launch into the main gtk event loop and we're all set */
- gtk_main();
+
+  gdk_threads_enter();
+  gtk_main();
+  gdk_threads_leave();
 }
 
 
