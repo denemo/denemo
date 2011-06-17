@@ -127,6 +127,20 @@ int audiobackend_destroy() {
 }
 
 
+static gboolean redraw_all_callback(gpointer data) {
+  gdk_threads_enter();
+  displayhelper(Denemo.gui);
+  gdk_threads_leave();
+  return FALSE;
+}
+
+static gboolean redraw_playhead_callback(gpointer data) {
+  gdk_threads_enter();
+  region_playhead();
+  gdk_threads_leave();
+  return FALSE;
+}
+
 
 static gpointer queue_thread_func(gpointer data) {
   GMutex *mutex = g_mutex_new();
@@ -143,17 +157,13 @@ static gpointer queue_thread_func(gpointer data) {
       must_redraw_all = FALSE;
       must_redraw_playhead = FALSE;
 
-      gdk_threads_enter();
-      displayhelper(Denemo.gui);
-      gdk_threads_leave();
+      g_idle_add(redraw_all_callback, NULL);
     }
 
     if (must_redraw_playhead) {
       must_redraw_playhead = FALSE;
 
-      gdk_threads_enter();
-      region_playhead();
-      gdk_threads_leave();
+      g_idle_add(redraw_playhead_callback, NULL);
     }
   }
 }
