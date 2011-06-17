@@ -5575,8 +5575,15 @@ select_rhythm_pattern(RhythmPattern *r) {
 static void
 activate_rhythm_pattern(GtkToolButton *toolbutton, RhythmPattern *r) {
   select_rhythm_pattern(r);
- if((Denemo.gui->mode & INPUTEDIT))
-   insert_note_following_pattern(Denemo.gui);//insert_clipboard(r->clipboard);
+ if((Denemo.gui->mode & INPUTEDIT)) {
+    if (Denemo.gui->input_source==INPUTMIDI)
+      {
+          insert_note_following_pattern(Denemo.gui);
+          ((DenemoObject*)Denemo.gui->si->currentobject->data)->isinvisible = TRUE;
+      }
+    else
+      insert_clipboard(r->clipboard);
+ }
 }
 
 
