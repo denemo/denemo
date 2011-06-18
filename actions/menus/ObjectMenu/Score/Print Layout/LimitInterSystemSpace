@@ -8,17 +8,25 @@
         <after>ScoreIndent</after>
         <action>LimitInterSystemSpace</action>
         <scheme>;;;LimitInterSystemSpace
-(if (d-Directive-paper? "LimitInterSystemSpace")
-	(begin
-		(d-DirectiveDelete-paper "LimitInterSystemSpace")
-		(d-InfoDialog "Limit on space between systems removed"))
-	(begin
-	(d-DirectivePut-paper-postfix "LimitInterSystemSpace" "
+(define (LimitInterSystemSpace::set value)
+	(d-DirectivePut-paper-postfix "LimitInterSystemSpace" (string-append "
 page-limit-inter-system-space = ##t
-page-limit-inter-system-space-factor = 1.2
-")
-	(d-InfoDialog "Limit on space between systems set to 1.2")))
-(d-SetSaved #f)</scheme>
+page-limit-inter-system-space-factor = " value)))
+
+(if LimitInterSystemSpace::params
+	(begin
+		(LimitInterSystemSpace::set (number-&gt;string LimitInterSystemSpace::params)))
+	(if (d-Directive-paper? "LimitInterSystemSpace")
+		(begin
+			(d-DirectiveDelete-paper "LimitInterSystemSpace")
+			(d-InfoDialog "Limit on space between systems removed"))
+		(let ((value
+		(d-GetUserInput "Spacing Between Systems" "Give spacing limit (1=no extra space)" "1.2")))
+		(disp "value is " value "\n")
+		(if (and (string? value) (string-&gt;number value))
+		 (LimitInterSystemSpace::set  value)))))		
+(d-SetSaved #f) 
+</scheme>
         <label>Limit Space Between Systems</label>
         <tooltip>Limits the extent to which the lines are spaced apart to fill the page.</tooltip>
       </row>
