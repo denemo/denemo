@@ -5043,9 +5043,7 @@ void inner_main(void*closure, int argc, char **argv){
   //else ?????
 /* Now launch into the main gtk event loop and we're all set */
 
-  gdk_threads_enter();
   gtk_main();
-  gdk_threads_leave();
 }
 
 
