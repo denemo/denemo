@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ScoreIndent</after>
+        <action>LimitInterSystemSpace</action>
+        <scheme>;;;LimitInterSystemSpace
+(if (d-Directive-paper? "LimitInterSystemSpace")
+	(begin
+		(d-DirectiveDelete-paper "LimitInterSystemSpace")
+		(d-InfoDialog "Limit on space between systems removed"))
+	(begin
+	(d-DirectivePut-paper-postfix "LimitInterSystemSpace" "
+page-limit-inter-system-space = ##t
+page-limit-inter-system-space-factor = 1.2
+")
+	(d-InfoDialog "Limit on space between systems set to 1.2")))
+(d-SetSaved #f)</scheme>
+        <label>Limit Space Between Systems</label>
+        <tooltip>Limits the extent to which the lines are spaced apart to fill the page.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -1305,13 +1305,13 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
       </row>
       <row>
         <action>Undo</action>
-        <label>Undo/Redo Last Note</label>
-        <tooltip>Undoes the insert/delete of last note</tooltip>
+        <label>Undo</label>
+        <tooltip>Undoes one (more) step of your edits to the current score.</tooltip>
       </row>
       <row>
         <action>Redo</action>
         <label>Redo</label>
-        <tooltip>Redo</tooltip>
+        <tooltip>Redoes the next of the steps you have Undone</tooltip>
       </row>
       <row>
         <action>Copy</action>
@@ -5064,6 +5064,14 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/Score</menupath>
         <label>Set Thumbnail from Selection</label>
         <tooltip>Sets the thumbnail to the section made in the first movement.</tooltip>
+      </row>
+      <row>
+        <action>LimitInterSystemSpace</action>
+        <after>ScoreIndent</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Print Layout</menupath>
+        <label>Limit Space Between Systems</label>
+        <tooltip>Limits the extent to which the lines are spaced apart to fill the page.</tooltip>
       </row>
     </map>
   </merge>
