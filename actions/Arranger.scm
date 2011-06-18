@@ -2,3 +2,4 @@
 (SetHeaderField "title" "Untitled"))
 (d-DirectiveDelete-scoreheader "ScoreTagline")
 (d-LimitInterSystemSpace 1.2)
+(d-SetSaved #t)

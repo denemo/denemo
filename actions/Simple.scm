@@ -27,3 +27,4 @@
 (SetHeaderField "title" "Untitled"))
 
 (d-LimitInterSystemSpace 1.2)
+(d-SetSaved #t)
