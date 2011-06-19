@@ -1,1 +1,53 @@
 This git branch will hold changes needed to support (MIDI) input hooks.
+
+Here's a crude test of the current implementation. Save the following
+to a file within your guile %load-path and eval (load-from-path "filename").
+
+;;;------ file hook-tests.scm ---------------------------------------------------------
+
+;;; Create a new input hook
+(define input-hook (create-hook "input-hook" 1))
+
+(define a-result #f)
+
+;;; denfine a hook function
+;;; Note: this function does return #f, hence 
+;;; the hook will continue to run.
+(define (hook-a event)
+  (display "Hook-A: ") 
+  (display event) 
+  (newline)
+  #f)
+
+;;; another hook function
+;;; Note: this function returns a-result value. 
+(define (hook-b event)
+  (display "Hook-B: ") 
+  (display event) 
+  (newline)
+  a-result)
+
+(denemo-add-hook! input-hook hook-a)
+
+(display (denemo-hook->list input-hook))
+(newline)
+
+(denemo-add-hook! input-hook hook-b)
+(denemo-add-hook! input-hook hook-a)
+
+(display (denemo-hook->list input-hook))
+(newline)
+
+(denemo-run-hook input-hook "A test event")
+
+;;; Now set a-result to true - next time 
+;;; hook-b is called during run-hook it'll return
+;;; #t and hook processing will stop
+
+(set! a-result #t)
+
+(denemo-run-hook input-hook "A test event")
+
+(denemo-reset-hook! input-hook)
+
+(denemo-run-hook input-hook "A test event")
