@@ -122,7 +122,7 @@ gchar *get_text_from_view(GtkWidget *textview) {
 gboolean scan_syllable(gchar **next, GString *gs) {
   gboolean result;
   result = pango_scan_string((const char **)next, gs);
-  if(result && !strcmp(gs->str, "--"))
+  if(result && ((!strcmp(gs->str, "--")||(!strcmp(gs->str, "__")))))
      return scan_syllable(next, gs);
   return result;
 }
