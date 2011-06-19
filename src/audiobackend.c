@@ -17,8 +17,9 @@
 #ifdef _HAVE_JACK_
   #include "jackbackend.h"
 #endif
-
-#include "alsabackend.h"
+#ifdef _HAVE_ALSA_
+  #include "alsabackend.h"
+#endif
 
 #include "midi.h"
 #include "audio.h"
@@ -157,8 +158,7 @@ static gpointer queue_thread_func(gpointer data) {
     g_cond_wait(queue_cond, mutex);
 
     if (quit_thread) {
-      g_mutex_free(mutex);
-      return NULL;
+      break;
     }
 
     if (must_redraw_all) {
@@ -174,6 +174,9 @@ static gpointer queue_thread_func(gpointer data) {
       g_idle_add_full(G_PRIORITY_HIGH_IDLE, redraw_playhead_callback, NULL, NULL);
     }
   }
+
+  g_mutex_free(mutex);
+  return NULL;
 }
 
 
