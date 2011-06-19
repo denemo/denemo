@@ -18,6 +18,8 @@
   #include "jackbackend.h"
 #endif
 
+#include "alsabackend.h"
+
 #include "midi.h"
 #include "audio.h"
 
@@ -83,6 +85,8 @@ static int initialize_midi(DenemoPrefs *config) {
 #else
     g_warning("JACK backend is not enabled\n");
 #endif
+  } else if (strcmp(driver, "alsa") == 0) {
+    backends[MIDI_BACKEND] = &alsa_seq_midi_backend;
   } else if (strcmp(driver, "dummy") == 0) {
     // do nothing
   } else {

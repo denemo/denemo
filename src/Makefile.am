@@ -46,7 +46,8 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	scheme_cb.h scheme.h register_commands.h \
 	pathconfig.h \
 	midi.c \
-	audiobackend.c dummybackend.c
+	audiobackend.c dummybackend.c \
+	alsabackend.c
 
 if HAVE_JACK
 denemo_SOURCES += jackbackend.c
