@@ -86,7 +86,11 @@ static int initialize_midi(DenemoPrefs *config) {
     g_warning("JACK backend is not enabled\n");
 #endif
   } else if (strcmp(driver, "alsa") == 0) {
+#ifdef _HAVE_ALSA_
     backends[MIDI_BACKEND] = &alsa_seq_midi_backend;
+#else
+    g_warning("ALSA backend is not enabled\n");
+#endif
   } else if (strcmp(driver, "dummy") == 0) {
     // do nothing
   } else {
