@@ -4831,6 +4831,7 @@ void inner_main(void*closure, int argc, char **argv){
       }
   }
 #endif
+  denemo_init_hooks();
 
   rsvg_init();
 
