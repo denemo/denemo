@@ -4829,9 +4829,8 @@ void inner_main(void*closure, int argc, char **argv){
       user_path = getenv("DENEMO_LOAD_PATH");
       if (user_path) {
           printf("User path is: %s\n", user_path);
-          scm_variable_set_x(load_path, 
-                             scm_cons(scm_from_locale_string(user_path),
-                                      scm_variable_ref(load_path)));
+          scm_variable_set_x(load_path,
+                             scm_parse_path(scm_from_locale_string (user_path), scm_variable_ref(load_path)));
       }
       
       g_free(sys_path);
