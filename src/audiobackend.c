@@ -414,13 +414,11 @@ void render_audio(unsigned int nframes, float buffer[]) {
 }
 
 void queue_redraw_all() {
-//  displayhelper(Denemo.gui);
   must_redraw_all = TRUE;
   g_cond_signal(queue_cond);
 }
 
 void queue_redraw_playhead() {
-//  region_playhead();
   must_redraw_playhead = TRUE;
   g_cond_signal(queue_cond);
 }
