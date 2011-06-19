@@ -53,7 +53,7 @@ static gpointer process_thread_func(gpointer data) {
       return NULL;
     }
 
-    if (is_playing()) {
+//    if (is_playing()) {
       // FIXME: use a monotonic time source
       GTimeVal tv;
       g_get_current_time(&tv);
@@ -78,7 +78,7 @@ static gpointer process_thread_func(gpointer data) {
 
         snd_seq_event_output_direct(seq, &alsa_ev);
       }
-    }
+//    }
   }
 }
 

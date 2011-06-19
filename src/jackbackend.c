@@ -96,7 +96,8 @@ static void process_midi(nframes_t nframes) {
 
     double until_time = nframes_to_seconds(playback_frame + nframes);
 
-    while (read_event_from_queue(MIDI_BACKEND, event_data, &event_length, &event_time, until_time)) {
+//    while (read_event_from_queue(MIDI_BACKEND, event_data, &event_length, &event_time, until_time)) {
+    while (read_event_from_queue(AUDIO_BACKEND, event_data, &event_length, &event_time, until_time)) {
       nframes_t frame = seconds_to_nframes(event_time) - playback_frame;
 
       // FIXME: use correct port
@@ -390,13 +391,20 @@ static int jack_midi_panic() {
 
 
 backend_t jack_audio_backend = {
-  jack_audio_initialize,
-  jack_audio_destroy,
-  jack_audio_reconfigure,
-  jack_audio_start_playing,
-  jack_audio_stop_playing,
-  jack_audio_play_midi_event,
-  jack_audio_panic,
+//  jack_audio_initialize,
+//  jack_audio_destroy,
+//  jack_audio_reconfigure,
+//  jack_audio_start_playing,
+//  jack_audio_stop_playing,
+//  jack_audio_play_midi_event,
+//  jack_audio_panic,
+  jack_midi_initialize,
+  jack_midi_destroy,
+  jack_midi_reconfigure,
+  jack_midi_start_playing,
+  jack_midi_stop_playing,
+  jack_midi_play_midi_event,
+  jack_midi_panic,
 };
 
 backend_t jack_midi_backend = {
