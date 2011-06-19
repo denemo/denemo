@@ -1,5 +1,15 @@
 bin_PROGRAMS = denemo
 dist_pkgdata_DATA = denemoui.xml instruments.xml
+
+# the following is needed for guile 
+# Files generated with guile-snarf
+DOT_X_FILES = hooks.x
+snarfcppopts = $(DEFS) $(AM_CPPFLAGS) $(CPPFLAGS) $(CFLAGS)
+SUFFIXES = .x
+.c.x:
+	guile-snarf $(DEFS) $(INCLUDES) $(CPPFLAGS)  $(AM_CFLAGS) $(CFLAGS)  $(snarfcppopts) $< > $@ \
+	|| { rm $@; false; }
+
 denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	chordops.c clefdialog.c commandfuncs.c contexts.c draw.c \
 	drawaccidentals.c drawclefs.c drawcursor.c drawkey.c drawdynamic.c \
@@ -46,7 +56,11 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	drawlilydir.c lilydirectives.h lilydirectives.c keysigdialog.h \
 	callbacks.h entries.h \
 	scheme_cb.h scheme.h register_commands.h \
-	pathconfig.h
+	hooks.c
+
+BUILT_SOURCES = $(DOT_X_FILES) 
+
+nodist_denemo_SOURCES = $(DOT_X_FILES) 
 
 localedir = $(datadir)/locale
 INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
@@ -62,14 +76,7 @@ INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
 denemo_LDADD = $(INTLLIBS) ../libsmf/libsmf.a 
 AM_CPPFLAGS = $(BINRELOC_CFLAGS)
 
-pathconfig.h:  $(top_builddir)/config.status
-	-@rm pathconfig.tmp 
-	@echo "Generating pathconfig.h..."
-	@echo '#define DENEMO_LOAD_PATH "@denemo_load_path@"' >pathconfig.tmp
-	@echo '#define DENEMO_BIN_PATH  "@denemo_bin_path@"' >>pathconfig.tmp
-	@mv pathconfig.tmp $@	
-
-
 noinst_HEADERS = parseinstruments.h keyboard.h
 
-DISTCLEANFILES: pathconfig.h
+CLEANFILES = $(DOT_X_FILES) 
+
