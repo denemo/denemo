@@ -165,13 +165,13 @@ static gpointer queue_thread_func(gpointer data) {
       must_redraw_all = FALSE;
       must_redraw_playhead = FALSE;
 
-      g_idle_add(redraw_all_callback, NULL);
+      g_idle_add_full(G_PRIORITY_HIGH_IDLE, redraw_all_callback, NULL, NULL);
     }
 
     if (must_redraw_playhead) {
       must_redraw_playhead = FALSE;
 
-      g_idle_add(redraw_playhead_callback, NULL);
+      g_idle_add_full(G_PRIORITY_HIGH_IDLE, redraw_playhead_callback, NULL, NULL);
     }
   }
 }
