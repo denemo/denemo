@@ -4808,29 +4808,35 @@ void inner_main(void*closure, int argc, char **argv){
   
   gint i;
   GError *error = NULL;
- #if 0
- //disabled pending appearance of pathconfig.h 
+  
   /* initialize guile core */
   {
-      SCM   load_path;
-      char *user_path;
+      SCM    load_path;
+      gchar *sys_path;
+      char  *user_path;
 
+      sys_path = g_build_filename(get_data_dir(), "modules", NULL);
+      printf("System path is: %s\n", sys_path);
       /* we assume a normal guile with %load-path always be present */
+
       load_path = scm_c_lookup("%load-path");
 
       scm_variable_set_x(load_path, 
-                         scm_cons(scm_from_locale_string(DENEMO_LOAD_PATH), 
+                         scm_cons(scm_from_locale_string(sys_path), 
                                     scm_variable_ref(load_path)));
       
       /* consider user-specified path extension */
       user_path = getenv("DENEMO_LOAD_PATH");
       if (user_path) {
+          printf("User path is: %s\n", user_path);
           scm_variable_set_x(load_path, 
                              scm_cons(scm_from_locale_string(user_path),
                                       scm_variable_ref(load_path)));
       }
+      
+      g_free(sys_path);
   }
-#endif
+
 
   rsvg_init();
 
