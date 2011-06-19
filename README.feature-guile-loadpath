@@ -1,0 +1,10 @@
+This branch adds support for a denemo-specific load path. The embeded guile's load path 
+gets extendend with (data-dir)/modules (i.e. /usr/local/share/denemo/modules).
+
+As a second, related, feature it's now possible to extend denemos guile-loadpath from the
+environment. Starting denemo like: 
+
+ DENEMO_LOAD_PATH /home/user/denemo-guile/:/tmp/scratch/ denemo 
+
+will prepend the given directories to guile's loadpath so it's possible to shaddow/patch guile or
+denemos build-in modules.
