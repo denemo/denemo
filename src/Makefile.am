@@ -50,6 +50,8 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 
 if HAVE_JACK
 denemo_SOURCES += jackbackend.c
+else
+denemo_SOURCES += ringbuffer.c
 endif
 
 if HAVE_ALSA
