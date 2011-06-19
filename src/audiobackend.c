@@ -273,7 +273,6 @@ static gpointer queue_thread_func(gpointer data) {
       double until_time = playback_time + 5.0;
 
       while (event = get_smf_event(until_time)) {
-        g_print("queueing event\n");
         write_event_to_queue(AUDIO_BACKEND, event);
         write_event_to_queue(MIDI_BACKEND, event);
       }
