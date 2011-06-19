@@ -21,10 +21,10 @@
 #include <assert.h>
 
 
-static gboolean playing = FALSE;
+static volatile gboolean playing = FALSE;
 
 
-static void update_position(smf_event_t *event) {
+void update_position(smf_event_t *event) {
   DenemoScore *si = Denemo.gui->si;
 
   if (event) {
@@ -64,11 +64,7 @@ gboolean is_playing() {
 }
 
 
-gboolean get_smf_event(unsigned char *event_buffer, size_t *event_length, double *event_time, double until_time) {
-  if (!playing) {
-    return FALSE;
-  }
-
+smf_event_t *get_smf_event(double until_time) {
   smf_t *smf = Denemo.gui->si->smf;
 
   for (;;) {
@@ -76,12 +72,11 @@ gboolean get_smf_event(unsigned char *event_buffer, size_t *event_length, double
 
     if (event == NULL) {
       playing = FALSE;
-      update_position(NULL);
-      return FALSE;
+      return NULL;
     }
 
     if (event->time_seconds >= until_time) {
-      return FALSE;
+      return NULL;
     }
 
     if (smf_event_is_metadata(event)) {
@@ -95,14 +90,7 @@ gboolean get_smf_event(unsigned char *event_buffer, size_t *event_length, double
 
     assert(event->midi_buffer_length <= 3);
 
-    update_position(event);
-
-
-    memcpy(event_buffer, event->midi_buffer, event->midi_buffer_length);
-    *event_length = event->midi_buffer_length;
-    *event_time = event->time_seconds;
-
-    return TRUE;
+    return event;
   }
 }
 

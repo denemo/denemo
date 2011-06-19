@@ -64,7 +64,9 @@ static gpointer process_thread_func(gpointer data) {
       size_t event_length;
       double event_time;
 
-      while (get_smf_event(event_data, &event_length, &event_time, (playback_time + PLAYBACK_INTERVAL) / 1000000.0)) {
+      double until_time = (playback_time + PLAYBACK_INTERVAL) / 1000000.0;
+
+      while (read_event_from_queue(MIDI_BACKEND, event_data, &event_length, &event_time, until_time)) {
         snd_seq_event_t alsa_ev;
 
         snd_midi_event_reset_encode(parser);

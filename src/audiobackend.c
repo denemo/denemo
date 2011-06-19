@@ -24,13 +24,25 @@
 #include "midi.h"
 #include "audio.h"
 
+#include "ringbuffer.h"
+
 #include <glib.h>
+#include <string.h>
+#include <assert.h>
 
 
 static backend_t *backends[NUM_BACKENDS] = { NULL };
 
+#define PLAYBACK_QUEUE_SIZE 1024
+
+static jack_ringbuffer_t *playback_queues[NUM_BACKENDS] = { NULL };
+
+
 static GThread *queue_thread;
 static GCond *queue_cond;
+
+// FIXME: synchronize access from multiple threads
+static volatile double playback_time;
 
 static volatile gboolean quit_thread = FALSE;
 static volatile gboolean must_redraw_all = FALSE;
@@ -43,8 +55,18 @@ static backend_t * get_backend(backend_type_t backend) {
   if (backend == DEFAULT_BACKEND) {
     // FIXME: this should be configurable
     return backends[MIDI_BACKEND];
+  } else {
+    return backends[backend];
   }
-  return backends[backend];
+}
+
+static jack_ringbuffer_t * get_playback_queue(backend_type_t backend) {
+  if (backend == DEFAULT_BACKEND) {
+    // FIXME
+    return playback_queues[MIDI_BACKEND];
+  } else {
+    return playback_queues[backend];
+  }
 }
 
 
@@ -68,6 +90,10 @@ static int initialize_audio(DenemoPrefs *config) {
 
   if (backends[AUDIO_BACKEND] == NULL) {
     backends[AUDIO_BACKEND] = &dummy_backend;
+  }
+
+  if (backends[AUDIO_BACKEND] != &dummy_backend) {
+    playback_queues[AUDIO_BACKEND] = jack_ringbuffer_create(PLAYBACK_QUEUE_SIZE);
   }
 
   return get_backend(AUDIO_BACKEND)->initialize(config);
@@ -102,6 +128,10 @@ static int initialize_midi(DenemoPrefs *config) {
     backends[MIDI_BACKEND] = &dummy_backend;
   }
 
+  if (backends[MIDI_BACKEND] != &dummy_backend) {
+    playback_queues[MIDI_BACKEND] = jack_ringbuffer_create(PLAYBACK_QUEUE_SIZE);
+  }
+
   return get_backend(MIDI_BACKEND)->initialize(config);
 }
 
@@ -119,18 +149,26 @@ int audiobackend_initialize(DenemoPrefs *config) {
 }
 
 
+static int destroy(backend_type_t backend) {
+  get_backend(backend)->destroy();
+  backends[backend] = NULL;
+
+  if (get_playback_queue(backend)) {
+    jack_ringbuffer_free(get_playback_queue(backend));
+    playback_queues[backend] = NULL;
+  }
+}
+
+
 int audiobackend_destroy() {
-  get_backend(AUDIO_BACKEND)->destroy();
-  get_backend(MIDI_BACKEND)->destroy();
-
-  backends[AUDIO_BACKEND] = NULL;
-  backends[MIDI_BACKEND] = NULL;
-
   quit_thread = TRUE;
   g_cond_signal(queue_cond);
   g_thread_join(queue_thread);
 
   g_cond_free(queue_cond);
+
+  destroy(AUDIO_BACKEND);
+  destroy(MIDI_BACKEND);
 
   return 0;
 }
@@ -151,6 +189,74 @@ static gboolean redraw_playhead_callback(gpointer data) {
 }
 
 
+static void reset_playback_queue(backend_type_t backend) {
+  if (get_playback_queue(backend)) {
+    jack_ringbuffer_reset(get_playback_queue(backend));
+  }
+}
+
+
+static gboolean write_event_to_queue(backend_type_t backend, smf_event_t *event) {
+  jack_ringbuffer_t *queue = get_playback_queue(backend);
+
+  if (!queue) {
+    return FALSE;
+  }
+
+  int ret = jack_ringbuffer_write(queue, (char const *)&event, sizeof(smf_event_t*));
+
+  return ret == sizeof(smf_event_t*);
+}
+
+
+gboolean read_event_from_queue(backend_type_t backend, unsigned char *event_buffer, size_t *event_length,
+                               double *event_time, double until_time) {
+  jack_ringbuffer_t *queue = get_playback_queue(backend);
+
+  if (!queue) {
+    return FALSE;
+  }
+
+  for (;;) {
+    smf_event_t *event;
+
+    if (!jack_ringbuffer_read_space(queue)) {
+//      playing = FALSE;
+      if (is_playing() && playback_time > 0.0) {
+        stop_playing();
+      }
+//      update_position(NULL);
+      return FALSE;
+    }
+
+    jack_ringbuffer_peek(queue, (char *)&event, sizeof(smf_event_t*));
+
+    if (event->time_seconds >= until_time) {
+      return FALSE;
+    }
+
+    if (smf_event_is_metadata(event)) {
+      // consume metadata event and continue with the next one
+      jack_ringbuffer_read_advance(queue, sizeof(smf_event_t*));
+      continue;
+    }
+
+    // consume the event
+    jack_ringbuffer_read_advance(queue, sizeof(smf_event_t*));
+
+    assert(event->midi_buffer_length <= 3);
+
+    update_position(event);
+
+    memcpy(event_buffer, event->midi_buffer, event->midi_buffer_length);
+    *event_length = event->midi_buffer_length;
+    *event_time = event->time_seconds;
+
+    return TRUE;
+  }
+}
+
+
 static gpointer queue_thread_func(gpointer data) {
   GMutex *mutex = g_mutex_new();
 
@@ -160,6 +266,19 @@ static gpointer queue_thread_func(gpointer data) {
     if (quit_thread) {
       break;
     }
+
+
+    if (is_playing()) {
+      smf_event_t * event;
+      double until_time = playback_time + 5.0;
+
+      while (event = get_smf_event(until_time)) {
+        g_print("queueing event\n");
+        write_event_to_queue(AUDIO_BACKEND, event);
+        write_event_to_queue(MIDI_BACKEND, event);
+      }
+    }
+
 
     if (must_redraw_all) {
       must_redraw_all = FALSE;
@@ -180,22 +299,43 @@ static gpointer queue_thread_func(gpointer data) {
 }
 
 
+void update_playback_time(backend_type_t backend, double new_time) {
+  // ignore time from MIDI backend if audio backend exists
+  if (backend == MIDI_BACKEND && get_backend(AUDIO_BACKEND)) {
+    return;
+  }
+
+  playback_time = new_time;
+  g_cond_signal(queue_cond);
+}
+
 
 void midi_play(gchar *callback) {
   generate_midi();
 
-  get_backend(AUDIO_BACKEND)->start_playing();
-  get_backend(MIDI_BACKEND)->start_playing();
+  reset_playback_queue(AUDIO_BACKEND);
+  reset_playback_queue(MIDI_BACKEND);
+
+  playback_time = 0.0;
 
   start_playing();
+
+  get_backend(AUDIO_BACKEND)->start_playing();
+  get_backend(MIDI_BACKEND)->start_playing();
 }
+
 
 void midi_stop() {
   get_backend(AUDIO_BACKEND)->stop_playing();
   get_backend(MIDI_BACKEND)->stop_playing();
 
   stop_playing();
+
+  reset_playback_queue(AUDIO_BACKEND);
+  reset_playback_queue(MIDI_BACKEND);
 }
+
+
 
 
 int play_midi_event(backend_type_t backend, int port, unsigned char *buffer) {

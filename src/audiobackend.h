@@ -153,7 +153,11 @@ int panic(backend_type_t backend);
 int panic_all();
 
 
+gboolean read_event_from_queue(backend_type_t backend, unsigned char *event_buffer, size_t *event_length,
+                               double *event_time, double until_time);
 
+
+void update_playback_time(backend_type_t backend, double new_time);
 
 /**
  * Called when a MIDI event was received.
@@ -170,6 +174,10 @@ void feed_midi(unsigned char *buffer);
  * Renders the given number of audio frames into a buffer.
  */
 void render_audio(unsigned int nframes, float buffer[]);
+
+
+
+
 
 
 /**

@@ -34,10 +34,13 @@ DenemoObject *get_obj_for_start_time(smf_t *smf, gdouble time);
 DenemoObject *get_obj_for_end_time(smf_t *smf, gdouble time);
 
 
+void update_position(smf_event_t *event);
+
 void start_playing();
 void stop_playing();
 gboolean is_playing();
-gboolean get_smf_event(unsigned char *event_buffer, size_t *event_length, double *event_time, double until_time);
+
+smf_event_t *get_smf_event(double until_time);
 
 
 //void midi_cleanup ();

@@ -89,20 +89,20 @@ static void process_midi(nframes_t nframes) {
     return;
   }
 
-  if (is_playing()) {
+//  if (is_playing()) {
     unsigned char event_data[3];
     size_t event_length;
     double event_time;
 
     double until_time = nframes_to_seconds(playback_frame + nframes);
 
-    while (get_smf_event(event_data, &event_length, &event_time, until_time)) {
+    while (read_event_from_queue(MIDI_BACKEND, event_data, &event_length, &event_time, until_time)) {
       nframes_t frame = seconds_to_nframes(event_time) - playback_frame;
 
       // FIXME: use correct port
       jack_midi_event_write(port_buffers[0], frame, event_data, event_length);
     }
-  }
+//  }
 }
 
 
@@ -113,6 +113,8 @@ static int process_callback(nframes_t nframes, void *arg) {
   process_midi(nframes);
 
   playback_frame += nframes;
+
+  update_playback_time(AUDIO_BACKEND, nframes_to_seconds(playback_frame));
 
   return 0;
 }
