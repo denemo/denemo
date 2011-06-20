@@ -1,19 +1,17 @@
 <?xml version="1.0"?>
-<score xmlns="http://denemo.sourceforge.net/xmlns/Denemo" version="4">
-  <scoreheader-directives>
-    <directive>
-      <tag>ScoreTagline</tag>
-      <postfix>tagline=""
-</postfix>
-      <override>32</override>
-    </directive>
-  </scoreheader-directives>
+<score xmlns="http://denemo.sourceforge.net/xmlns/Denemo" version="5">
   <paper-directives>
     <directive>
       <tag>PrintAllHeaders</tag>
       <postfix>printallheaders = ##t
 </postfix>
       <override>32</override>
+    </directive>
+    <directive>
+      <tag>LimitInterSystemSpace</tag>
+      <postfix>
+page-limit-inter-system-space = ##t
+page-limit-inter-system-space-factor = 1.2</postfix>
     </directive>
   </paper-directives>
   <lilycontrol>
@@ -37,8 +35,8 @@
   <movement>
     <edit-info>
       <staffno>1</staffno>
-      <measureno>2</measureno>
-      <cursorposition>-1</cursorposition>
+      <measureno>4</measureno>
+      <cursorposition>0</cursorposition>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
@@ -71,38 +69,7 @@
       </tempo>
     </score-info>
     <staves>
-      <staff id="id0">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
-          <hasfigures>0</hasfigures>
-          <hasfakechords>1</hasfakechords>
-          <verses>
-            <verse>Quand il me prend dans ses bras
-ll me parl- e tout bas
-Je vois la vie en ros- e
-ll me dit des mots d'am- our
-Des mots de tous les jours
-Et ca_me fait quel- que chos- e
-
-Il est en- tr&#xE9; dans mon c&#x153;ur,
-Un- e part de bon- heur
-Dont je con- nais la cause,
-C'est lui pour moi,
-Moi pour lui dans la vie
-Il me l'a dit, l'a ju- r&#xE9;
-Pour la vi- e.
-Et d&#xE8;s que je l'a- per- &#xE7;ois
-A- lors je sens en moi
-Mon c&#x153;ur qui bat.</verse>
-          </verses>
-        </staff-info>
-      </staff>
+      <staff id="id0"/>
     </staves>
     <voices>
       <voice id="id1">
@@ -123,6 +90,39 @@ Mon c&#x153;ur qui bat.</verse>
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>1</hasfakechords>
+          <verses>
+            <verse>Quand il me prend dans ses bras
+ll me parl- e tout bas
+Je vois 
+\override Score . LyricText #'font-shape = #'italic
+"\"la" vie en ros- e"
+\override Score . LyricText #'font-shape = #'normal
+ll me dit des mots d'am- our
+Des mots de tous les jours
+Et ca_me fait quel- que chos- e
+
+Il est en- tr&#xE9; dans mon c&#x153;ur,
+Un- e part de bon- heur
+Dont je con- nais la cause,
+C'est lui pour moi,
+Moi pour lui dans la vie
+Il me l'a dit, l'a ju- r&#xE9;
+Pour la vi- e.
+Et d&#xE8;s que je l'a- per- &#xE7;ois
+A- lors je sens en moi
+Mon c&#x153;ur qui bat.</verse>
+          </verses>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id2">
