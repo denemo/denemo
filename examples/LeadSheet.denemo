@@ -1,9 +1,18 @@
 <?xml version="1.0"?>
 <score xmlns="http://denemo.sourceforge.net/xmlns/Denemo" version="5">
+  <scoreheader-directives>
+    <directive>
+      <tag>ScoreTagline</tag>
+      <postfix>tagline = "www.denemo.org"
+</postfix>
+      <display>tagline: www.denemo.org</display>
+      <override>36</override>
+    </directive>
+  </scoreheader-directives>
   <paper-directives>
     <directive>
       <tag>PrintAllHeaders</tag>
-      <postfix>printallheaders = ##t
+      <postfix>print-all-headers = ##t
 </postfix>
       <override>32</override>
     </directive>
@@ -105,7 +114,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
 ll me parl- e tout bas
 Je vois 
 \override Score . LyricText #'font-shape = #'italic
-"\"la" vie en ros- e"
+"\"la" vie en ros- "e\""
 \override Score . LyricText #'font-shape = #'normal
 ll me dit des mots d'am- our
 Des mots de tous les jours
