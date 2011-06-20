@@ -5073,6 +5073,14 @@ for second and subsequent systems</tooltip>
         <label>Limit Space Between Systems</label>
         <tooltip>Limits the extent to which the lines are spaced apart to fill the page.</tooltip>
       </row>
+      <row>
+        <action>PrintBassPartWithoutFigures</action>
+        <after>PrintAccompanistsScore</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
+        <label>Print Bass Part Omitting Figures</label>
+        <tooltip>Prints the Bass part omitting any figured bass figures.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

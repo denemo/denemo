@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>PrintAccompanistsScore</after>
+        <action>PrintBassPartWithoutFigures</action>
+        <scheme>;;;PrintBassWithoutFigures
+(let ((saved (d-GetSaved)) (response (d-GetUserInput "Print Bass Part Without Figures" "Which staff to printl?" "3")))
+  (if response
+	(if (string-&gt;number response)
+		(let ((command  (string-append "(d-GoToPosition #f " response " 1 1) (d-HideFiguredBass)")))
+		(ForAllMovements command)
+		(d-PrintPart)
+		(set! command  (string-append "(d-GoToPosition #f " response " 1 1) (d-ShowFiguredBass)"))
+		(ForAllMovements command)
+		(d-SetSaved saved)))))
+</scheme>
+        <label>Print Bass Part Omitting Figures</label>
+        <tooltip>Prints the Bass part omitting any figured bass figures.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

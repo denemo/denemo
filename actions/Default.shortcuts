@@ -523,6 +523,11 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>PrintBassWithoutFigures</action>
+        <hidden>true</hidden>
+      </row>
+       
+      <row>
         <action>EditObject</action>
         <hidden>true</hidden>
         <bind>Tab</bind>
