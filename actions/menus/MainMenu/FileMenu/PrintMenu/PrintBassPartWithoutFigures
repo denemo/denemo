@@ -8,15 +8,24 @@
         <after>PrintAccompanistsScore</after>
         <action>PrintBassPartWithoutFigures</action>
         <scheme>;;;PrintBassWithoutFigures
-(let ((saved (d-GetSaved)) (response (d-GetUserInput "Print Bass Part Without Figures" "Which staff to printl?" "3")))
-  (if response
-	(if (string-&gt;number response)
-		(let ((command  (string-append "(d-GoToPosition #f " response " 1 1) (d-HideFiguredBass)")))
+(let ((saved (d-GetSaved)) (response 1))
+ (d-GoToPosition #f response 1 1)
+ (let loop ()
+ 	(if  (d-GoToPosition #f response 1 1)
+		(if (not (d-HasFigures))
+			(begin 
+				(set! response (+ 1 response))
+				(loop)))))
+  (set! response (number-&gt;string response))
+  (if (d-HasFigures)
+	(let ((command  (string-append "(d-GoToPosition #f " response " 1 1) (d-HideFiguredBass)")))
 		(ForAllMovements command)
 		(d-PrintPart)
 		(set! command  (string-append "(d-GoToPosition #f " response " 1 1) (d-ShowFiguredBass)"))
 		(ForAllMovements command)
-		(d-SetSaved saved)))))
+		(d-SetSaved saved))
+	(d-InfoDialog "No staff has figured bass, or figured bass is hidden for printing already - use Print Part")))
+
 </scheme>
         <label>Print Bass Part Omitting Figures</label>
         <tooltip>Prints the Bass part omitting any figured bass figures.</tooltip>
