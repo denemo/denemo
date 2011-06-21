@@ -3133,6 +3133,10 @@ static SCM scheme_bass_figure(SCM bass, SCM harmony) {
   return ret;
 }
 
+static SCM scheme_has_figures(SCM optional) {
+  return SCM_BOOL(((DenemoStaff*)Denemo.gui->si->currentstaff->data)->hasfigures);
+}
+
 
 
 //badly named:
@@ -4698,6 +4702,9 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
   INSTALL_SCM_FUNCTION1 ("Takes duration and executable scheme script. Executes the passed scheme code after the passed duration milliseconds", DENEMO_SCHEME_PREFIX"OneShotTimer", scheme_one_shot_timer);
   INSTALL_SCM_FUNCTION1 ("Takes a duration and scheme script, starts a timer that tries to execute the script after every duration ms. It returns a timer id which must be passed back to destroy the timer", DENEMO_SCHEME_PREFIX"Timer", scheme_timer);
   INSTALL_SCM_FUNCTION ("Takes a timer id and destroys the timer",DENEMO_SCHEME_PREFIX"KillTimer", scheme_kill_timer);
+
+  INSTALL_SCM_FUNCTION ("Returns #f if the current staff has no figures (or will not print out figured bass. See d-ShowFiguredBass)",DENEMO_SCHEME_PREFIX"HasFigures", scheme_has_figures);
+
   INSTALL_SCM_FUNCTION2 ("Returns a string for the bass figure for the two MIDI keys passed in", DENEMO_SCHEME_PREFIX"BassFigure", scheme_bass_figure);
   INSTALL_SCM_FUNCTION ("Gets the MIDI key number for the note-position where the cursor is",DENEMO_SCHEME_PREFIX"GetCursorNoteAsMidi", scheme_get_cursor_note_as_midi);
   INSTALL_SCM_FUNCTION ("Returns the MIDI key number for the note at the cursor, or 0 if none",DENEMO_SCHEME_PREFIX"GetNoteAsMidi", scheme_get_note_as_midi);
