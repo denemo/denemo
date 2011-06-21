@@ -17,6 +17,9 @@
 (CreateButton  "ButtonFlatten" "b")
 (d-SetDirectiveTagActionScript  "ButtonFlatten" "(d-Flatten)")
 
+(CreateButton  "ButtonStartSlur" "()")
+(d-SetDirectiveTagActionScript  "ButtonStartSlur" "(d-SlurTwo)")
+
 (CreateButton  "ButtonExtendSlur" "(")
 (d-SetDirectiveTagActionScript  "ButtonExtendSlur" "(d-ExtendSlur)")
 
