@@ -888,7 +888,10 @@ readHistory ()
       filename = g_string_new (locatedotdenemo ());
       g_string_append (filename, "/denemohistory");
     }
-  doc = xmlParseFile (filename->str);
+  if(g_file_test(filename->str, G_FILE_TEST_EXISTS))
+    doc = xmlParseFile (filename->str);
+  else
+    return ret;
 
   if (doc == NULL)
     {
