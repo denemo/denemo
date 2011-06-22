@@ -356,7 +356,21 @@ return)
 	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveHidden? 1 'hidden5th))
 
 (define (AM::hidden8th previous current next)
-	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveHidden? 0 'hidden8th))	
+	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveHidden? 0 'hidden8th))
+	
+(define (AM::anti5th previous current next)
+	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveAnti? 1 'anti5th))
+
+(define (AM::anti8th previous current next)
+	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveAnti? 0 'anti8th))	
+
+(define (AM::hiddencrossed5th previous current next)
+	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveHiddenCrossed? 1 'hiddencrossed5th))
+
+(define (AM::hiddencrossed8th previous current next)
+	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveHiddenCrossed? 0 'hiddencrossed8th))
+
+
 	
 (define (AM::simultaneousFromBaseMetricalMain4th previos current next)
 	(AM::TestSimultaneousIntervalFromBaseMetricalMain previos current next -1 'simultaneousBaseMain4th))
