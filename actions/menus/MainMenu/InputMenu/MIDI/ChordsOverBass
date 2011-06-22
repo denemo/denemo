@@ -356,17 +356,9 @@
 (if (and (not (d-MoveToMeasureRight)) (d-GetUserInput "Chordal Accompaniment" "Mark consecutive 5ta and 8va?" "y"))
 (let ()
 (define (mark-positions pos)
-  (define type (car pos))
-  (set! pos (cadr pos))
-  (list-set! pos 0 #f)
-  (apply d-GoToPosition pos)
-  (d-DirectivePut-chord-graphic "Consecutives" "CrossSign")
-  (cond ((equal? type  'consecutive_open)
-	 (d-DirectivePut-chord-display  "Consecutives" "|| Open"))
-	((equal? type  'consecutive_hidden)
-	 (d-DirectivePut-chord-display  "Consecutives" "|| Hidden"))
-	(else
-	 (d-DirectivePut-chord-display  "Consecutives" "|| Unc"))))
+  (define musobj (caar (cdr pos)))
+  (d-GoToPosition  #f #f (musobj.measure musobj) (musobj.horizontal musobj))
+  (d-DirectivePut-chord-graphic "Consecutives" "CrossSign"))
 
 
 (define (delete-lowest-notes)
