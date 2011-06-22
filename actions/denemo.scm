@@ -805,7 +805,9 @@
 ;Converts two MusObjs to an interval numbe (ans syntax. steps in the pillar of 5th)
 (define (MusObj::GetInterval one two)
 	(ANS::GetInterval (car (musobj.pitch one)) (car (musobj.pitch two)))) 			
-		
+
+(define (MusbObj::MoveTo musobj)
+	(d-GoToPosition (musobj.movement musobj) (musobj.staff musobj) (musobj.measure musobj) (musobj.horizontal musobj)))		
 
 (define (DefaultInitializePrint) (display "\nstarting to print\n"))
 (define (DefaultFinalizePrint) (display "\nfinished print\n"))
