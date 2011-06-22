@@ -345,19 +345,25 @@ return)
 
 (define (AM::consecutive8th  previous current next)
 	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveOpen? 0 'consecutive8th))
+
+(define (AM::crossed5th previous current next)
+	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveCrossed? 1 'crossed5th))
+
+(define (AM::crossed8th previous current next)
+	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveCrossed? 0 'crossed8th))
 	
 (define (AM::hidden5th previous current next)
 	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveHidden? 1 'hidden5th))
 
 (define (AM::hidden8th previous current next)
-	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveHidden? 0 'hidden8th))
+	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveHidden? 0 'hidden8th))	
 	
 (define (AM::simultaneousFromBaseMetricalMain4th previos current next)
 	(AM::TestSimultaneousIntervalFromBaseMetricalMain previos current next -1 'simultaneousBaseMain4th))
 	
 ;This function is not a test itself but generates a test-function
-(define (AM::generateHidden5th staffs)
-	(lambda (previous current next) (AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveHidden? 1 'hidden5th staffs)))
+(define (AM::generateHidden5th stafflist)
+	(lambda (previous current next) (AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveHidden? 1 'hidden5th stafflist)))
 
 ;This function is not a test itself but generates a test-function
 (define (AM::generateHidden8thstaffs stafflist)
