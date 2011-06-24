@@ -506,6 +506,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READINTXMLENTRY(fluidsynth_sample_rate)
       READINTXMLENTRY(fluidsynth_period_size)
       READINTXMLENTRY(zoom)
+      READINTXMLENTRY(dynamic_compression)
       READINTXMLENTRY(system_height)
 
 
@@ -858,6 +859,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEBOOLXMLENTRY(fluidsynth_chorus)
   WRITEINTXMLENTRY(fluidsynth_sample_rate)
   WRITEINTXMLENTRY(fluidsynth_period_size)
+  WRITEINTXMLENTRY(dynamic_compression)
   WRITEINTXMLENTRY(zoom)
   WRITEINTXMLENTRY(system_height)
 
