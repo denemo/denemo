@@ -430,7 +430,7 @@
 
 ;;; play a note a mid-volume 80
 (define* (PlayNote pitch duration #:optional (volume " 80"))
- (d-OutputMidiBytes (string-append "0x9$ " pitch volume))
+ (d-OutputMidiBytes (string-append "0x9$ " pitch " " volume))
  (d-OneShotTimer duration (string-append "(d-OutputMidiBytes " "\"" "0x8$ " pitch " 0" "\"" ")" )))
 
 (define (DenemoFirst)
