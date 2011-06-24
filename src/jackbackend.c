@@ -16,6 +16,7 @@
 
 #include <jack/jack.h>
 #include <string.h>
+#include <assert.h>
 
 
 typedef jack_default_audio_sample_t sample_t;
@@ -58,9 +59,23 @@ static void process_audio(nframes_t nframes) {
     memset(port_buffers[i], 0, nframes * sizeof(sample_t));
   }
 
-  if (is_playing()) {
-    // TODO
+
+  unsigned char event_data[3];
+  size_t event_length;
+  double event_time;
+
+  double until_time = nframes_to_seconds(playback_frame + nframes);
+
+  while (read_event_from_queue(AUDIO_BACKEND, event_data, &event_length, &event_time, until_time)) {
+    nframes_t frame = seconds_to_nframes(event_time) - playback_frame;
+
+    feed_fluidsynth_midi(event_data, event_length);
   }
+
+
+  assert(num_audio_out_ports == 2);
+
+  render_fluidsynth_audio(nframes, port_buffers[0], port_buffers[1]);
 }
 
 
@@ -96,8 +111,7 @@ static void process_midi(nframes_t nframes) {
 
     double until_time = nframes_to_seconds(playback_frame + nframes);
 
-//    while (read_event_from_queue(MIDI_BACKEND, event_data, &event_length, &event_time, until_time)) {
-    while (read_event_from_queue(AUDIO_BACKEND, event_data, &event_length, &event_time, until_time)) {
+    while (read_event_from_queue(MIDI_BACKEND, event_data, &event_length, &event_time, until_time)) {
       nframes_t frame = seconds_to_nframes(event_time) - playback_frame;
 
       // FIXME: use correct port
@@ -110,8 +124,13 @@ static void process_midi(nframes_t nframes) {
 
 
 static int process_callback(nframes_t nframes, void *arg) {
-  process_audio(nframes);
-  process_midi(nframes);
+  // FIXME: use an additional flag to mark audio/midi as active
+  if (audio_out_ports) {
+    process_audio(nframes);
+  }
+  if (midi_out_ports) {
+    process_midi(nframes);
+  }
 
   playback_frame += nframes;
 
@@ -268,6 +287,10 @@ static int jack_audio_initialize(DenemoPrefs *config) {
     return -1;
   }
 
+  if (fluidsynth_init(config, jack_get_sample_rate(client))) {
+    return -1;
+  }
+
   // mono input, stereo output
   char const *in_portnames[] = { "in_1" };
   char const *out_portnames[] = { "out_1", "out_2" };
@@ -284,6 +307,8 @@ static int jack_audio_destroy() {
   g_print("destroying JACK audio backend\n");
 
   destroy_client();
+
+  fluidsynth_shutdown();
 
   return 0;
 }
@@ -391,20 +416,13 @@ static int jack_midi_panic() {
 
 
 backend_t jack_audio_backend = {
-//  jack_audio_initialize,
-//  jack_audio_destroy,
-//  jack_audio_reconfigure,
-//  jack_audio_start_playing,
-//  jack_audio_stop_playing,
-//  jack_audio_play_midi_event,
-//  jack_audio_panic,
-  jack_midi_initialize,
-  jack_midi_destroy,
-  jack_midi_reconfigure,
-  jack_midi_start_playing,
-  jack_midi_stop_playing,
-  jack_midi_play_midi_event,
-  jack_midi_panic,
+  jack_audio_initialize,
+  jack_audio_destroy,
+  jack_audio_reconfigure,
+  jack_audio_start_playing,
+  jack_audio_stop_playing,
+  jack_audio_play_midi_event,
+  jack_audio_panic,
 };
 
 backend_t jack_midi_backend = {

@@ -58,6 +58,10 @@ if HAVE_ALSA
 denemo_SOURCES += alsabackend.c
 endif
 
+if HAVE_FLUIDSYNTH
+denemo_SOURCES += fluid.c
+endif
+
 
 localedir = $(datadir)/locale
 INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \

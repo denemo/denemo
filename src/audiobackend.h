@@ -165,18 +165,6 @@ void update_playback_time(backend_type_t backend, double new_time);
 void input_midi_event(backend_type_t backend, int port, unsigned char *buffer);
 
 
-/**
- * Feeds a MIDI event to the synth engine.
- */
-void feed_midi(unsigned char *buffer);
-
-/**
- * Renders the given number of audio frames into a buffer.
- */
-void render_audio(unsigned int nframes, float buffer[]);
-
-
-
 
 
 

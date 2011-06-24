@@ -89,6 +89,7 @@ AC_ARG_ENABLE(
       usefluidsynth=yes
     fi 
   ], [ usefluidsynth=yes ])
+AM_CONDITIONAL(HAVE_FLUIDSYNTH, [test x$usefluidsynth = xyes])
 
 if test "x$usefluidsynth" = "xyes"; then
   PKG_CHECK_MODULES(FLUIDSYNTH, fluidsynth >= 1.0.8)

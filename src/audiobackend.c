@@ -142,7 +142,9 @@ int audiobackend_initialize(DenemoPrefs *config) {
   queue_thread = g_thread_create(queue_thread_func, NULL, TRUE, NULL);
 
   // FIXME: check for errors
+#ifdef _HAVE_FLUIDSYNTH_
   initialize_audio(config);
+#endif
   initialize_midi(config);
 
   return 0;
@@ -167,7 +169,9 @@ int audiobackend_destroy() {
 
   g_cond_free(queue_cond);
 
+#ifdef _HAVE_FLUIDSYNTH_
   destroy(AUDIO_BACKEND);
+#endif
   destroy(MIDI_BACKEND);
 
   return 0;
@@ -404,13 +408,6 @@ void input_midi_event(backend_type_t backend, int port, unsigned char *buffer) {
     // TODO
 }
 
-void feed_midi(unsigned char *buffer) {
-    // TODO: add fluidsynth code here
-}
-
-void render_audio(unsigned int nframes, float buffer[]) {
-    // TODO: add fluidsynth code here
-}
 
 void queue_redraw_all() {
   must_redraw_all = TRUE;
