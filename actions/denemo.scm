@@ -919,8 +919,7 @@
 ;Insert an object that just takes space and ticks in the denemo display and playback. No lilypond meaning.
 ;;It emulates the note-entry behaviour: A step right afterwards and creates new measures if necessary or continues in empty measures.
 ;;This is the basis for things like multi measure rests, longa, breve and other "Scheme Music Objects".
-(define (InsertNullObject ticks)
-	(define tag (number->string (random 1000))) 	
+(define* (InsertNullObject ticks #:optional (tag (number->string (random 1000))))	
 	(if (and (Appending?) (MeasureFillStatus)) ; is the current measure already full and are we in the appending position? if not just insert the object.
 		(let ()
 			(define next (ProbeNextMeasure d-GetType)) 
