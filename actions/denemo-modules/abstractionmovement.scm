@@ -315,6 +315,15 @@ return)
 				#f))
 		pairlist))
 		
+(define (AM::TestSimultaneousIntervalFromBaseMetricalFirst previos current next interval tag)
+	(define pairlist (GetUniquePairsFilterLowest current MusObj::minPitch))
+	(map 
+		(lambda (pair)
+			(if (and  (= 1 (musobj.metricalp (car pair))) (= 1 (musobj.metricalp (cdr pair))) (= interval (MusObj::GetInterval (car pair) (cdr pair)))) ; if interval and both notes are on the first metrical position
+				(cons tag pair)
+				#f))
+		pairlist))		
+		
 ;AM::GenerateStaffList converts numbers and special symbols to a list of numbers which represents which of the staffs should be used for an AM::test
 ;;needs to know how many staffs there are and as many parameters as needed
 ;;parameters are plain numbers or special symbols
@@ -374,6 +383,12 @@ return)
 	
 (define (AM::simultaneousFromBaseMetricalMain4th previos current next)
 	(AM::TestSimultaneousIntervalFromBaseMetricalMain previos current next -1 'simultaneousBaseMain4th))
+
+(define (AM::simultaneousFromBaseMetricalFirst8th previos current next)
+	(AM::TestSimultaneousIntervalFromBaseMetricalFirst previos current next 0 'simultaneousBaseFirst8th))
+
+(define (AM::simultaneousFromBaseMetricalFirst5th previos current next)
+	(AM::TestSimultaneousIntervalFromBaseMetricalFirst previos current next 1 'simultaneousBaseFirst5th))
 	
 ;This function is not a test itself but generates a test-function
 (define (AM::generateHidden5th stafflist)
