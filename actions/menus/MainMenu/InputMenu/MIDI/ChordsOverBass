@@ -281,7 +281,10 @@
 
 
 				   (d-DirectiveDelete-chord "ChordsOverBass")		       
-				   (d-PlayMidiKey midi)
+				   ;(d-PlayMidiKey midi)
+				(PlayNote (number-&gt;string note) 30 "127")
+
+				   
 				   (d-MoveToStaffUp)
 				   (GoToMeasureEnd)
 				   (d-Paste)
