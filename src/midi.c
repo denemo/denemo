@@ -403,9 +403,17 @@ gboolean set_midi_capture(gboolean set) {
   return ret;
 }
 
+
 #define command ((*buf)&0xF0)
 #define notenumber ((*(buf+1))&0x7F)
 #define velocity ((*(buf+2))&0x7F)
+void
+adjust_midi_velocity(gchar *buf, gint percent) {
+  if(command==MIDI_NOTEON)
+    buf[2]=127 - (gint)((127-buf[2])*percent/100.0);
+} 
+
+
 void process_midi_event(gchar *buf) {
   //g_print("process midi (%s) %x %x %x\n",divert_midi_event?"diverted":"straight", command, notenumber, velocity);
   if(divert_midi_event &&  divert_midi_id==Denemo.gui->id){

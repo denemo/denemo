@@ -437,7 +437,7 @@ typedef struct DenemoPrefs
   gboolean fluidsynth_chorus; /**< Toggle if chorus is applied to fluidsynth */
   gint fluidsynth_sample_rate;/**< sample rate in Hz > */
   gint fluidsynth_period_size;/**< The size of the audio buffers (in frames).> */
-
+  gint dynamic_compression;/**< percent compression of dynamic range desired when listening to MIDI-in */
   gdouble display_refresh;/**< time in ms between refresh of display during playback */
   gint animation_steps;/** < number of steps to use animating the page turns during playback */
   GString *pdfviewer; /**< PDF viewer */

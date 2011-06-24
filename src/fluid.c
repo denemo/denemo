@@ -628,8 +628,10 @@ static void handle_midi_event(gchar *buf) {
       process_midi_event(buf);
     else
       if(Denemo.keyboard_state==(GDK_SHIFT_MASK) ||
-	 Denemo.keyboard_state==(GDK_LOCK_MASK))
-	fluid_output_midi_event(buf);
+	 Denemo.keyboard_state==(GDK_LOCK_MASK)) {
+	  adjust_midi_velocity(buf, 100 - Denemo.prefs.dynamic_compression);
+	  fluid_output_midi_event(buf);
+	 }
   }
 }
 

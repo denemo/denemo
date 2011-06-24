@@ -58,6 +58,7 @@ struct callbackdata
   GtkWidget *password;
   GtkWidget *sequencer;
   GtkWidget *midi_in;
+  GtkWidget *dynamic_compression;
 
   GtkWidget *zoom;
   GtkWidget *system_height;
@@ -177,7 +178,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNBOOLEAN(continuous)
   ASSIGNINT(resolution)
   ASSIGNINT(maxhistory)
-
+  ASSIGNINT(dynamic_compression)
   ASSIGNINT(zoom)
   ASSIGNINT(system_height)
 
@@ -490,7 +491,7 @@ preferences_change (GtkAction *action, gpointer param)
 
   BOOLEANENTRY("Play back entered notes immediately", immediateplayback);   
   BOOLEANENTRY("Auto-start midi in", startmidiin);
-
+  INTENTRY_LIMITS(_("% MIDI-in Dynamic Compression"), dynamic_compression, 1, 100);
   COMBOBOX("Midi/Audio output", midi_audio_output, output_option_list, Denemo.prefs.midi_audio_output)
   g_signal_connect(G_OBJECT(GTK_COMBO(midi_audio_output)->entry), "changed",
   G_CALLBACK( GTK_SIGNAL_FUNC(midi_audio_tab_update) ), &audio_cbdata);
