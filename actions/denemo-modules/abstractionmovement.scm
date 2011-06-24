@@ -315,6 +315,15 @@ return)
 				#f))
 		pairlist))
 		
+(define (AM::TestSimultaneousIntervalFromBaseMetricalFirst previos current next interval tag)
+	(define pairlist (GetUniquePairsFilterLowest current MusObj::minPitch))
+	(map 
+		(lambda (pair)
+			(if (and  (= 1 (musobj.metricalp (car pair))) (= 1 (musobj.metricalp (cdr pair))) (= interval (MusObj::GetInterval (car pair) (cdr pair)))) ; if interval and both notes are on the first metrical position
+				(cons tag pair)
+				#f))
+		pairlist))		
+		
 ;AM::GenerateStaffList converts numbers and special symbols to a list of numbers which represents which of the staffs should be used for an AM::test
 ;;needs to know how many staffs there are and as many parameters as needed
 ;;parameters are plain numbers or special symbols
@@ -345,6 +354,12 @@ return)
 
 (define (AM::consecutive8th  previous current next)
 	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveOpen? 0 'consecutive8th))
+
+(define (AM::crossed5th previous current next)
+	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveCrossed? 1 'crossed5th))
+
+(define (AM::crossed8th previous current next)
+	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveCrossed? 0 'crossed8th))
 	
 (define (AM::hidden5th previous current next)
 	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveHidden? 1 'hidden5th))
@@ -352,12 +367,32 @@ return)
 (define (AM::hidden8th previous current next)
 	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveHidden? 0 'hidden8th))
 	
+(define (AM::anti5th previous current next)
+	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveAnti? 1 'anti5th))
+
+(define (AM::anti8th previous current next)
+	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveAnti? 0 'anti8th))	
+
+(define (AM::hiddencrossed5th previous current next)
+	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveHiddenCrossed? 1 'hiddencrossed5th))
+
+(define (AM::hiddencrossed8th previous current next)
+	(AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveHiddenCrossed? 0 'hiddencrossed8th))
+
+
+	
 (define (AM::simultaneousFromBaseMetricalMain4th previos current next)
 	(AM::TestSimultaneousIntervalFromBaseMetricalMain previos current next -1 'simultaneousBaseMain4th))
+
+(define (AM::simultaneousFromBaseMetricalFirst8th previos current next)
+	(AM::TestSimultaneousIntervalFromBaseMetricalFirst previos current next 0 'simultaneousBaseFirst8th))
+
+(define (AM::simultaneousFromBaseMetricalFirst5th previos current next)
+	(AM::TestSimultaneousIntervalFromBaseMetricalFirst previos current next 1 'simultaneousBaseFirst5th))
 	
 ;This function is not a test itself but generates a test-function
-(define (AM::generateHidden5th staffs)
-	(lambda (previous current next) (AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveHidden? 1 'hidden5th staffs)))
+(define (AM::generateHidden5th stafflist)
+	(lambda (previous current next) (AM::TestConsecutiveIntervalProgression previous current next ANS::ConsecutiveHidden? 1 'hidden5th stafflist)))
 
 ;This function is not a test itself but generates a test-function
 (define (AM::generateHidden8thstaffs stafflist)
