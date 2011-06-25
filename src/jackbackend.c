@@ -59,7 +59,7 @@ static void process_audio(nframes_t nframes) {
     memset(port_buffers[i], 0, nframes * sizeof(sample_t));
   }
 
-
+#ifdef _HAVE_FLUIDSYNTH_
   unsigned char event_data[3];
   size_t event_length;
   double event_time;
@@ -69,13 +69,14 @@ static void process_audio(nframes_t nframes) {
   while (read_event_from_queue(AUDIO_BACKEND, event_data, &event_length, &event_time, until_time)) {
     nframes_t frame = seconds_to_nframes(event_time) - playback_frame;
 
-    feed_fluidsynth_midi(event_data, event_length);
+    fluidsynth_feed_midi(event_data, event_length);
   }
 
 
-  assert(num_audio_out_ports == 2);
+  assert(num_audio_out_ports >= 2);
 
-  render_fluidsynth_audio(nframes, port_buffers[0], port_buffers[1]);
+  fluidsynth_render_audio(nframes, port_buffers[0], port_buffers[1]);
+#endif
 }
 
 
@@ -104,20 +105,18 @@ static void process_midi(nframes_t nframes) {
     return;
   }
 
-//  if (is_playing()) {
-    unsigned char event_data[3];
-    size_t event_length;
-    double event_time;
+  unsigned char event_data[3];
+  size_t event_length;
+  double event_time;
 
-    double until_time = nframes_to_seconds(playback_frame + nframes);
+  double until_time = nframes_to_seconds(playback_frame + nframes);
 
-    while (read_event_from_queue(MIDI_BACKEND, event_data, &event_length, &event_time, until_time)) {
-      nframes_t frame = seconds_to_nframes(event_time) - playback_frame;
+  while (read_event_from_queue(MIDI_BACKEND, event_data, &event_length, &event_time, until_time)) {
+    nframes_t frame = seconds_to_nframes(event_time) - playback_frame;
 
-      // FIXME: use correct port
-      jack_midi_event_write(port_buffers[0], frame, event_data, event_length);
-    }
-//  }
+    // FIXME: use correct port
+    jack_midi_event_write(port_buffers[0], frame, event_data, event_length);
+  }
 }
 
 
@@ -287,9 +286,11 @@ static int jack_audio_initialize(DenemoPrefs *config) {
     return -1;
   }
 
+#ifdef _HAVE_FLUIDSYNTH_
   if (fluidsynth_init(config, jack_get_sample_rate(client))) {
     return -1;
   }
+#endif
 
   // mono input, stereo output
   char const *in_portnames[] = { "in_1" };
@@ -308,7 +309,9 @@ static int jack_audio_destroy() {
 
   destroy_client();
 
+#ifdef _HAVE_FLUIDSYNTH_
   fluidsynth_shutdown();
+#endif
 
   return 0;
 }

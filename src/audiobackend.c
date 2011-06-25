@@ -142,9 +142,7 @@ int audiobackend_initialize(DenemoPrefs *config) {
   queue_thread = g_thread_create(queue_thread_func, NULL, TRUE, NULL);
 
   // FIXME: check for errors
-#ifdef _HAVE_FLUIDSYNTH_
   initialize_audio(config);
-#endif
   initialize_midi(config);
 
   return 0;
@@ -169,9 +167,7 @@ int audiobackend_destroy() {
 
   g_cond_free(queue_cond);
 
-#ifdef _HAVE_FLUIDSYNTH_
   destroy(AUDIO_BACKEND);
-#endif
   destroy(MIDI_BACKEND);
 
   return 0;

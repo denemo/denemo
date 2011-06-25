@@ -1800,14 +1800,9 @@ changedots (DenemoScore * si, gint amount)
 
       if (Denemo.gui->mode&(INPUTRHYTHM)) {
 	if(Denemo.prefs.immediateplayback) {
-#ifdef _HAVE_FLUIDSYNTH_	
 	  chord *thechord = (chord *) curmudelaobj->object;
 	  gboolean rest =  (thechord->notes == NULL);
 	  rhythm_feedback(DEFAULT_BACKEND, thechord->baseduration, rest, TRUE);
-	  
-#else
-	  playpitch(440.0, 0.2, 0.2, 1);
-#endif
 	}
       }
       changenumdots (curmudelaobj, amount);

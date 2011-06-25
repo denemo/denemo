@@ -24,12 +24,12 @@ void fluidsynth_shutdown();
 /**
  * Feeds a MIDI event to the synth engine.
  */
-void feed_fluidsynth_midi(unsigned char *event_data, size_t event_length);
+void fluidsynth_feed_midi(unsigned char *event_data, size_t event_length);
 
 /**
  * Renders the given number of audio frames into a buffer.
  */
-void render_fluidsynth_audio(unsigned int nframes, float *left_channel, float *right_channel);
+void fluidsynth_render_audio(unsigned int nframes, float *left_channel, float *right_channel);
 
 
 

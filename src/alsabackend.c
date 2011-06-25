@@ -53,32 +53,29 @@ static gpointer process_thread_func(gpointer data) {
       return NULL;
     }
 
-//    if (is_playing()) {
-      // FIXME: use a monotonic time source
-      GTimeVal tv;
-      g_get_current_time(&tv);
-      gint64 now = tv.tv_sec * 1000000 + tv.tv_usec;
-      gint64 playback_time = now - playback_start_time;
+    GTimeVal tv;
+    g_get_current_time(&tv);
+    gint64 now = tv.tv_sec * 1000000 + tv.tv_usec;
+    gint64 playback_time = now - playback_start_time;
 
-      unsigned char event_data[3];
-      size_t event_length;
-      double event_time;
+    unsigned char event_data[3];
+    size_t event_length;
+    double event_time;
 
-      double until_time = (playback_time + PLAYBACK_INTERVAL) / 1000000.0;
+    double until_time = (playback_time + PLAYBACK_INTERVAL) / 1000000.0;
 
-      while (read_event_from_queue(MIDI_BACKEND, event_data, &event_length, &event_time, until_time)) {
-        snd_seq_event_t alsa_ev;
+    while (read_event_from_queue(MIDI_BACKEND, event_data, &event_length, &event_time, until_time)) {
+      snd_seq_event_t alsa_ev;
 
-        snd_midi_event_reset_encode(parser);
-        snd_midi_event_encode(parser, event_data, event_length, &alsa_ev);
+      snd_midi_event_reset_encode(parser);
+      snd_midi_event_encode(parser, event_data, event_length, &alsa_ev);
 
-        snd_seq_ev_set_subs(&alsa_ev);
-        snd_seq_ev_set_direct(&alsa_ev);
-        snd_seq_ev_set_source(&alsa_ev, out_port_id);
+      snd_seq_ev_set_subs(&alsa_ev);
+      snd_seq_ev_set_direct(&alsa_ev);
+      snd_seq_ev_set_source(&alsa_ev, out_port_id);
 
-        snd_seq_event_output_direct(seq, &alsa_ev);
-      }
-//    }
+      snd_seq_event_output_direct(seq, &alsa_ev);
+    }
   }
 }
 

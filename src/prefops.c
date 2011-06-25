@@ -143,27 +143,27 @@ initprefs ()
 #else
   ret->immediateplayback = TRUE;
 #endif
-#ifdef _HAVE_FLUIDSYNTH_
-  /*TODO needs to check if linux and set fluidsynth_audio_driver = alsa
-  	for some reason the default for linux is jack */
-#ifdef G_OS_WIN32
-  ret->fluidsynth_audio_driver = g_string_new ("portaudio");
-  ret->fluidsynth_midi_driver = g_string_new ("");
-#else
-  ret->fluidsynth_audio_driver = g_string_new ("alsa");
-  ret->fluidsynth_midi_driver = g_string_new ("alsa_seq");
-#endif
+//#ifdef _HAVE_FLUIDSYNTH_
+//  /*TODO needs to check if linux and set fluidsynth_audio_driver = alsa
+//  	for some reason the default for linux is jack */
+//#ifdef G_OS_WIN32
+//  ret->fluidsynth_audio_driver = g_string_new ("portaudio");
+//  ret->fluidsynth_midi_driver = g_string_new ("");
+//#else
+  ret->fluidsynth_audio_driver = g_string_new ("jack");
+  ret->fluidsynth_midi_driver = g_string_new ("alsa");
+//#endif
   gchar *soundfontpath = g_build_filename (get_data_dir (), "soundfonts",
 		                                           "A320U.sf2", NULL);
   ret->fluidsynth_soundfont = g_string_new(soundfontpath);
 
 
-#ifdef G_OS_WIN32
-  ret->fluidsynth_sample_rate = 22050;//the worst case slow machine
-#else
-  ret->fluidsynth_sample_rate = 0;//do not set
-#endif
-#endif
+//#ifdef G_OS_WIN32
+//  ret->fluidsynth_sample_rate = 22050;//the worst case slow machine
+//#else
+//  ret->fluidsynth_sample_rate = 0;//do not set
+//#endif
+//#endif
   ret->saveparts = FALSE;
   ret->lilyentrystyle = FALSE;
   ret->createclones = FALSE;
