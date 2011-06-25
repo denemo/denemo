@@ -28,10 +28,10 @@
   (if (string=? (d-GetType) "LILYDIRECTIVE") #t #f))
 
 (define (Timesignature?) 
-  (if (string=? (d-GetType) "KEYSIG") #t #f))
+  (if (string=? (d-GetType) "TIMESIG") #t #f))
   
 (define (Keysignature?) 
-  (if (string=? (d-GetType) "TIMESIG") #t #f))
+  (if (string=? (d-GetType) "KEYSIG") #t #f))
   
 (define (Clef?) 
   (if (string=? (d-GetType) "CLEF") #t #f))
