@@ -50,12 +50,10 @@
 ;Repeat a command until it returns #f
 ;Warning: Functions that do not return #f create infinity loops!
 (define (RepeatUntilFail proc)
-	(define return #f)
 	(let loop ()
-		(set! return (proc))
-		(if return
+		(if (proc)
 			(loop)
-			return)))
+			#f)))
 			
 ;Repeat a function while another (a test) returns #t. The return value of proc does NOT matter
 ;;Warning: From all Repeat functions this one has the highest probability to be stuck in a loop forever. Always use tests that MUST return #f in the end. Do NOT use the Denemo tests like (None?) or (Music?) for example, they know nothing about a staffs end.
