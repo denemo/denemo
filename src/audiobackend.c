@@ -315,6 +315,8 @@ void midi_play(gchar *callback) {
   reset_playback_queue(AUDIO_BACKEND);
   reset_playback_queue(MIDI_BACKEND);
 
+  g_cond_signal(queue_cond);
+
   playback_time = 0.0;
 
   start_playing();
