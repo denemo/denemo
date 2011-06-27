@@ -93,32 +93,29 @@ initprefs ()
   const gchar *name = g_get_user_name();
   ret->username = g_string_new (name?name:"DenemoUser");
   ret->password = g_string_new ("");
-  ret->midi_audio_output = None;
-
-#ifdef _HAVE_PORTAUDIO_
-  ret->midi_audio_output = Portaudio;
-#endif
-
-#ifdef _HAVE_JACK_
-  ret->midi_audio_output = Jack;
-#endif
-
-#ifdef _HAVE_FLUIDSYNTH_ 
-  ret->midi_audio_output = Fluidsynth;	  
-#endif
+//  ret->midi_audio_output = None;
+//
+//#ifdef _HAVE_PORTAUDIO_
+//  ret->midi_audio_output = Portaudio;
+//#endif
+//
+//#ifdef _HAVE_JACK_
+//  ret->midi_audio_output = Jack;
+//#endif
+//
+//#ifdef _HAVE_FLUIDSYNTH_ 
+//  ret->midi_audio_output = Fluidsynth;	  
+//#endif
 
 #ifdef G_OS_WIN32
   ret->browser = g_string_new ("");//use file association
-  ret->midiplayer = g_string_new ("");
   ret->audioplayer = g_string_new ("");
   ret->lilypath = g_string_new ("lilypond.exe");//We don't assume the file assoc works - we are installing this anyway to a known place,the option  neither lilypond-windows.exe nor the -dgui option are used
   ret->pdfviewer = g_string_new ("");
   ret->imageviewer = g_string_new ("");
 
-  ret->midiplayer = g_string_new("");
 #else /* !G_OS_WIN32 */
   ret->browser = g_string_new ("firefox");
-  ret->midiplayer = g_string_new ("playmidi");
   ret->audioplayer = g_string_new ("play");
   ret->lilypath = g_string_new ("lilypond");
   ret->pdfviewer = g_string_new ("xpdf");
@@ -418,7 +415,6 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 
 	}
 
-	READXMLENTRY(midiplayer)      
 	READXMLENTRY(audioplayer)        
 	READXMLENTRY(browser)
         else if (0 ==
@@ -463,7 +459,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READXMLENTRY(temperament)
       READXMLENTRY(midi_in)
       READXMLENTRY(sequencer)
-      READXMLENTRY2(midi_audio_output)
+//      READXMLENTRY2(midi_audio_output)
       
       READBOOLXMLENTRY(createclones)
       READBOOLXMLENTRY(immediateplayback) 
@@ -770,7 +766,6 @@ writeXMLPrefs (DenemoPrefs * prefs)
 
   WRITEXMLENTRY(lilypath)
 
-  WRITEXMLENTRY(midiplayer)
   WRITEXMLENTRY(audioplayer)
   WRITEXMLENTRY(pdfviewer)
   WRITEXMLENTRY(imageviewer)

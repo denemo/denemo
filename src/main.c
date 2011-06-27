@@ -41,20 +41,8 @@
 #include "runsilent.h"
 #include "utils.h"
 #include "keyboard.h"
-#ifdef _HAVE_FLUIDSYNTH_
-#include "fluid.h"
-#endif
-#ifdef _HAVE_JACK_
-#include "jackmidi.h"
-#endif
 
 struct DenemoRoot Denemo;
-
-/* set strings for midi_audio_output */
-const gchar *None = "None";
-const gchar *Jack = "Jack";
-const gchar *Portaudio = "Portaudio";
-const gchar *Fluidsynth = "InternalSynth";
 
 
 /* just a simple check, if the user has never run denemo before

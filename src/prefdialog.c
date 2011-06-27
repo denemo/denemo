@@ -74,8 +74,8 @@ struct callbackdata
   GtkWidget *fluidsynth_chorus;
   GtkWidget *fluidsynth_sample_rate;
   GtkWidget *fluidsynth_period_size;
-
 #endif
+
   GtkWidget *display_refresh;
   GtkWidget *animation_steps;
   GtkWidget *profile;
@@ -136,9 +136,9 @@ set_preferences (struct callbackdata *cbdata)
   g_string_assign (prefs->field,\
     (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->field)->entry)));
 
-#define ASSIGNCOMBO2(field) \
-  prefs->field = get_midi_audio_pointer(\
-    (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->field)->entry)));
+//#define ASSIGNCOMBO2(field) \
+//  prefs->field = get_midi_audio_pointer(\
+//    (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->field)->entry)));
   ASSIGNTEXT(lilypath)
   ASSIGNTEXT(browser) 
   ASSIGNTEXT(pdfviewer)
@@ -149,25 +149,25 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNTEXT(audioplayer)
   ASSIGNTEXT(denemopath)
     // ASSIGNTEXT(sequencer)
-#ifndef _HAVE_FLUIDSYNTH_
-#ifndef G_OS_WIN32
-  ASSIGNTEXT(midi_in)
-#endif
-#endif
-#ifdef _HAVE_JACK_
-    // ASSIGNBOOLEAN(jacktransport)
-    //  ASSIGNBOOLEAN(jacktransport_start_stopped)
-#endif
-#ifdef _HAVE_FLUIDSYNTH_
-  /*TODO save combo as int????*/
-  ASSIGNCOMBO(fluidsynth_audio_driver);
-  ASSIGNCOMBO(fluidsynth_midi_driver);
-  ASSIGNTEXT(fluidsynth_soundfont);
-  ASSIGNBOOLEAN(fluidsynth_reverb)
-  ASSIGNBOOLEAN(fluidsynth_chorus)
-    ASSIGNINT(fluidsynth_sample_rate)
-    ASSIGNINT(fluidsynth_period_size)
-#endif
+//#ifndef _HAVE_FLUIDSYNTH_
+//#ifndef G_OS_WIN32
+//  ASSIGNTEXT(midi_in)
+//#endif
+//#endif
+//#ifdef _HAVE_JACK_
+//    // ASSIGNBOOLEAN(jacktransport)
+//    //  ASSIGNBOOLEAN(jacktransport_start_stopped)
+//#endif
+//#ifdef _HAVE_FLUIDSYNTH_
+//  /*TODO save combo as int????*/
+//  ASSIGNCOMBO(fluidsynth_audio_driver);
+//  ASSIGNCOMBO(fluidsynth_midi_driver);
+//  ASSIGNTEXT(fluidsynth_soundfont);
+//  ASSIGNBOOLEAN(fluidsynth_reverb)
+//  ASSIGNBOOLEAN(fluidsynth_chorus)
+//    ASSIGNINT(fluidsynth_sample_rate)
+//    ASSIGNINT(fluidsynth_period_size)
+//#endif
   ASSIGNDOUBLE(display_refresh)
   ASSIGNINT(animation_steps)
   ASSIGNTEXT(temperament)
@@ -182,7 +182,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNINT(system_height)
 
 
-  ASSIGNCOMBO2(midi_audio_output); 
+//  ASSIGNCOMBO2(midi_audio_output); 
   
   ASSIGNBOOLEAN(immediateplayback)
   ASSIGNBOOLEAN(modal)
@@ -215,30 +215,30 @@ static void
 midi_audio_tab_update(GtkWidget *box, gpointer data)
 {
   struct audio_callback_data *cbdata = (struct audio_callback_data *) data;
-  gchar *output = get_midi_audio_pointer((gchar *)gtk_entry_get_text (GTK_ENTRY (box))); 
-  if (output == Fluidsynth){
-    gtk_widget_hide(cbdata->pas);
-    if(cbdata->DM)
-      gtk_widget_hide(cbdata->DM);
-    gtk_widget_show(cbdata->fs);
-  }
-  else if (output == Jack){
-    gtk_widget_hide(cbdata->pas);
-    gtk_widget_hide(cbdata->fs);
-    if(cbdata->DM)
-      gtk_widget_show(cbdata->DM);
-  }
-  else if (output == Portaudio){
-    gtk_widget_hide(cbdata->fs);
-    if(cbdata->DM)
-      gtk_widget_hide(cbdata->DM);
-    gtk_widget_show(cbdata->pas);
-  }
-  else if (output == None){
-    gtk_widget_hide(cbdata->fs);
-    if(cbdata->DM)
-      gtk_widget_hide(cbdata->DM);
-  }
+//  gchar *output = get_midi_audio_pointer((gchar *)gtk_entry_get_text (GTK_ENTRY (box))); 
+//  if (output == Fluidsynth){
+//    gtk_widget_hide(cbdata->pas);
+//    if(cbdata->DM)
+//      gtk_widget_hide(cbdata->DM);
+//    gtk_widget_show(cbdata->fs);
+//  }
+//  else if (output == Jack){
+//    gtk_widget_hide(cbdata->pas);
+//    gtk_widget_hide(cbdata->fs);
+//    if(cbdata->DM)
+//      gtk_widget_show(cbdata->DM);
+//  }
+//  else if (output == Portaudio){
+//    gtk_widget_hide(cbdata->fs);
+//    if(cbdata->DM)
+//      gtk_widget_hide(cbdata->DM);
+//    gtk_widget_show(cbdata->pas);
+//  }
+//  else if (output == None){
+//    gtk_widget_hide(cbdata->fs);
+//    if(cbdata->DM)
+//      gtk_widget_hide(cbdata->DM);
+//  }
 
 }
 
@@ -358,17 +358,17 @@ preferences_change (GtkAction *action, gpointer param)
   NEWPAGE("View");
   BOOLEANENTRY("Highlight the cursor", cursor_highlight); 
   //Doesnt GList need to be freed
-  GList *output_option_list = NULL;
-  output_option_list = g_list_append (output_option_list, (gpointer) None);
-#ifdef _HAVE_PORTAUDIO_
-  output_option_list = g_list_append (output_option_list, (gpointer) Portaudio);
-#endif
-#ifdef _HAVE_JACK_
-  output_option_list = g_list_append (output_option_list, (gpointer) Jack);
-#endif 
-#ifdef _HAVE_FLUIDSYNTH_
-  output_option_list = g_list_append (output_option_list, (gpointer) Fluidsynth);
-#endif 
+//  GList *output_option_list = NULL;
+//  output_option_list = g_list_append (output_option_list, (gpointer) None);
+//#ifdef _HAVE_PORTAUDIO_
+//  output_option_list = g_list_append (output_option_list, (gpointer) Portaudio);
+//#endif
+//#ifdef _HAVE_JACK_
+//  output_option_list = g_list_append (output_option_list, (gpointer) Jack);
+//#endif 
+//#ifdef _HAVE_FLUIDSYNTH_
+//  output_option_list = g_list_append (output_option_list, (gpointer) Fluidsynth);
+//#endif 
 
 
 #define COMBOBOX(thelable, field, thelist, settext)\
@@ -491,112 +491,112 @@ preferences_change (GtkAction *action, gpointer param)
   BOOLEANENTRY("Play back entered notes immediately", immediateplayback);   
   BOOLEANENTRY("Auto-start midi in", startmidiin);
 
-  COMBOBOX("Midi/Audio output", midi_audio_output, output_option_list, Denemo.prefs.midi_audio_output)
-  g_signal_connect(G_OBJECT(GTK_COMBO(midi_audio_output)->entry), "changed",
-  G_CALLBACK( GTK_SIGNAL_FUNC(midi_audio_tab_update) ), &audio_cbdata);
+//  COMBOBOX("Midi/Audio output", midi_audio_output, output_option_list, Denemo.prefs.midi_audio_output)
+//  g_signal_connect(G_OBJECT(GTK_COMBO(midi_audio_output)->entry), "changed",
+//  G_CALLBACK( GTK_SIGNAL_FUNC(midi_audio_tab_update) ), &audio_cbdata);
  
-  /*
-   * Fluidsynth Menu
-   */
-#ifdef _HAVE_FLUIDSYNTH_
-#undef VBOX
-#define VBOX fs
+//  /*
+//   * Fluidsynth Menu
+//   */
+//#ifdef _HAVE_FLUIDSYNTH_
+//#undef VBOX
+//#define VBOX fs
+//
+//  /* Start/Restart Button */
+//  //BUTTON("Start/Restart FLUIDSYNTH", fluid_restart, fluidsynth_start_restart, NULL)
+//
+//  /*TODO ifdef differnet os's and support
+//   *jack, alsa, oss, pulseaudio, coreaudio, dsound, portaudio, sndman, dart, file 
+//   *defaults are:
+//   *jack (Linux), dsound (Windows), sndman (MacOS9), coreaudio (Mac OS X), dart (OS/2) 
+//   */
+//  fs = gtk_vbox_new (FALSE, 8);
+//  gtk_box_pack_start (GTK_BOX (main_vbox), fs, FALSE, TRUE, 0);
+//  //gtk_widget_show(fs);
+//#ifdef G_OS_WIN32
+//  gchar *driver_options[5] = {"portaudio", "jack"}; //Isn't there more options?
+//  gchar *midi_driver_options[1] = {"portaudio"}; //Is this correct?
+//#else
+//  gchar *driver_options[5] = {"alsa", "jack", "oss", "pulseaudio", "portaudio"};
+//  gchar *midi_driver_options[2] = {"alsa_seq", "oss"};
+//#endif
+//  GList *driver_option_list = NULL;
+//  GList *midi_driver_option_list = NULL;
+//  gint i;
+//  for (i=0;i<G_N_ELEMENTS(driver_options);i++)
+//    driver_option_list = g_list_append (driver_option_list, driver_options[i]);
+//  for (i=0;i<G_N_ELEMENTS(midi_driver_options);i++)
+//    midi_driver_option_list = g_list_append (midi_driver_option_list, midi_driver_options[i]);
+// 
+//  COMBOBOX("Audio Driver", fluidsynth_audio_driver, driver_option_list, Denemo.prefs.fluidsynth_audio_driver->str)
+//  COMBOBOX("Midi Driver", fluidsynth_midi_driver, midi_driver_option_list, Denemo.prefs.fluidsynth_midi_driver->str)	  
+//  TEXTENTRY("Soundfont", fluidsynth_soundfont)	
+//  
+//  hbox = gtk_hbox_new (FALSE, 8);
+//  gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);
+//  GtkWidget *button = gtk_button_new_with_label (_("Choose Soundfont"));
+//  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
+//
+//  // FIXME
+////  gtk_signal_connect (GTK_OBJECT (button), "clicked",
+////    GTK_SIGNAL_FUNC (choose_sound_font), fluidsynth_soundfont);
+//  gtk_widget_show (button);
+//
+//  BOOLEANENTRY("Enable Reverb on soundfont", fluidsynth_reverb)
+//  BOOLEANENTRY("Enable Chorus on soundfont", fluidsynth_chorus)
+//    INTENTRY_LIMITS(_("Sample Rate"), fluidsynth_sample_rate, 0, 96000);
+//   INTENTRY_LIMITS(_("Period Size"), fluidsynth_period_size, 0, 2048);
+//#undef VBOX
+//#endif
 
-  /* Start/Restart Button */
-  //BUTTON("Start/Restart FLUIDSYNTH", fluid_restart, fluidsynth_start_restart, NULL)
-
-  /*TODO ifdef differnet os's and support
-   *jack, alsa, oss, pulseaudio, coreaudio, dsound, portaudio, sndman, dart, file 
-   *defaults are:
-   *jack (Linux), dsound (Windows), sndman (MacOS9), coreaudio (Mac OS X), dart (OS/2) 
-   */
-  fs = gtk_vbox_new (FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (main_vbox), fs, FALSE, TRUE, 0);
-  //gtk_widget_show(fs);
-#ifdef G_OS_WIN32
-  gchar *driver_options[5] = {"portaudio", "jack"}; //Isn't there more options?
-  gchar *midi_driver_options[1] = {"portaudio"}; //Is this correct?
-#else
-  gchar *driver_options[5] = {"alsa", "jack", "oss", "pulseaudio", "portaudio"};
-  gchar *midi_driver_options[2] = {"alsa_seq", "oss"};
-#endif
-  GList *driver_option_list = NULL;
-  GList *midi_driver_option_list = NULL;
-  gint i;
-  for (i=0;i<G_N_ELEMENTS(driver_options);i++)
-    driver_option_list = g_list_append (driver_option_list, driver_options[i]);
-  for (i=0;i<G_N_ELEMENTS(midi_driver_options);i++)
-    midi_driver_option_list = g_list_append (midi_driver_option_list, midi_driver_options[i]);
- 
-  COMBOBOX("Audio Driver", fluidsynth_audio_driver, driver_option_list, Denemo.prefs.fluidsynth_audio_driver->str)
-  COMBOBOX("Midi Driver", fluidsynth_midi_driver, midi_driver_option_list, Denemo.prefs.fluidsynth_midi_driver->str)	  
-  TEXTENTRY("Soundfont", fluidsynth_soundfont)	
-  
-  hbox = gtk_hbox_new (FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);
-  GtkWidget *button = gtk_button_new_with_label (_("Choose Soundfont"));
-  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-
-  // FIXME
-//  gtk_signal_connect (GTK_OBJECT (button), "clicked",
-//    GTK_SIGNAL_FUNC (choose_sound_font), fluidsynth_soundfont);
-  gtk_widget_show (button);
-
-  BOOLEANENTRY("Enable Reverb on soundfont", fluidsynth_reverb)
-  BOOLEANENTRY("Enable Chorus on soundfont", fluidsynth_chorus)
-    INTENTRY_LIMITS(_("Sample Rate"), fluidsynth_sample_rate, 0, 96000);
-   INTENTRY_LIMITS(_("Period Size"), fluidsynth_period_size, 0, 2048);
-#undef VBOX
-#endif
-
-#ifdef _HAVE_JACK_
-  DM = DeviceManager();
-  gtk_box_pack_start (GTK_BOX (main_vbox), DM, FALSE, TRUE, 0);
-  //gtk_widget_show(DM);
-#else
-  DM = NULL;
-#endif
-#define VBOX pas
-  GtkWidget *pas;
-  pas = gtk_vbox_new (FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (main_vbox), pas, FALSE, TRUE, 0);
-  //TEXTENTRY("Sequencer Device", sequencer)
-#ifndef G_OS_WIN32
-  TEXTENTRY("Midi Input Device", midi_in) 
-#endif
-#undef VBOX
+//#ifdef _HAVE_JACK_
+//  DM = DeviceManager();
+//  gtk_box_pack_start (GTK_BOX (main_vbox), DM, FALSE, TRUE, 0);
+//  //gtk_widget_show(DM);
+//#else
+//  DM = NULL;
+//#endif
+//#define VBOX pas
+//  GtkWidget *pas;
+//  pas = gtk_vbox_new (FALSE, 8);
+//  gtk_box_pack_start (GTK_BOX (main_vbox), pas, FALSE, TRUE, 0);
+//  //TEXTENTRY("Sequencer Device", sequencer)
+//#ifndef G_OS_WIN32
+//  TEXTENTRY("Midi Input Device", midi_in) 
+//#endif
+//#undef VBOX
 
   gtk_widget_show_all (dialog);
 
-  if (Denemo.prefs.midi_audio_output == Fluidsynth){
-    gtk_widget_hide(pas);
-    if(DM)
-      gtk_widget_hide(DM);
-    gtk_widget_show(fs);
-  }
-  else if (Denemo.prefs.midi_audio_output == Jack){
-    gtk_widget_hide(pas);
-    gtk_widget_hide(fs);
-    if(DM)
-      gtk_widget_show(DM);
-  }
-  else if (Denemo.prefs.midi_audio_output == Portaudio){
-    gtk_widget_hide(fs);
-    if(DM)
-      gtk_widget_hide(DM);
-    gtk_widget_show(pas);
-  }
-  else if (Denemo.prefs.midi_audio_output == None){
-    gtk_widget_hide(fs);
-    gtk_widget_hide(pas);
-    if(DM)
-      gtk_widget_hide(DM);
-  }
+//  if (Denemo.prefs.midi_audio_output == Fluidsynth){
+//    gtk_widget_hide(pas);
+//    if(DM)
+//      gtk_widget_hide(DM);
+//    gtk_widget_show(fs);
+//  }
+//  else if (Denemo.prefs.midi_audio_output == Jack){
+//    gtk_widget_hide(pas);
+//    gtk_widget_hide(fs);
+//    if(DM)
+//      gtk_widget_show(DM);
+//  }
+//  else if (Denemo.prefs.midi_audio_output == Portaudio){
+//    gtk_widget_hide(fs);
+//    if(DM)
+//      gtk_widget_hide(DM);
+//    gtk_widget_show(pas);
+//  }
+//  else if (Denemo.prefs.midi_audio_output == None){
+//    gtk_widget_hide(fs);
+//    gtk_widget_hide(pas);
+//    if(DM)
+//      gtk_widget_hide(DM);
+//  }
 
-  audio_cbdata.main_vbox = main_vbox;
-  audio_cbdata.fs = fs;
-  audio_cbdata.DM = DM;
-  audio_cbdata.pas = pas;
+//  audio_cbdata.main_vbox = main_vbox;
+//  audio_cbdata.fs = fs;
+//  audio_cbdata.DM = DM;
+//  audio_cbdata.pas = pas;
 
 #define SETCALLBACKDATA(field) \
   cbdata.field = field;

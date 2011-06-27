@@ -21,9 +21,6 @@
 #include "commandfuncs.h"
 #include "lilydirectives.h"
 
-#ifdef _HAVE_JACK_
-#include "jackmidi.h"
-#endif
 
 /**
  * Return the first object node of the given measure

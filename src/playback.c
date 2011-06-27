@@ -15,6 +15,7 @@
 #include "prefops.h"
 #include "utils.h"
 #include "external.h"
+#include "audiobackend.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -28,31 +29,10 @@
 #include <wait.h>
 #endif
 #include <errno.h>
-#include "jackmidi.h"
-#include "fluid.h"
-#include "audiobackend.h"
 
 static gint timeout_id = 0, kill_id=0;
 static gdouble duration = 0.0;
 
-gchar *
-get_midi_audio_pointer(gchar *audio_device)
-{
-  if (!strcmp(audio_device, Fluidsynth))
-    return Fluidsynth;
-  else if (!strcmp(audio_device, Jack))
-    return Jack;
-  else if (!strcmp(audio_device, Portaudio))
-    return Portaudio;
-  else if (!strcmp(audio_device, None))
-    return None;
-
-#ifdef _HAVE_FLUIDSYNTH_
-  return Fluidsynth;
-#else 
-  return None;
-#endif
-}
 
 void set_tempo (void) {
   gdouble tempo = Denemo.gui->si->master_tempo;

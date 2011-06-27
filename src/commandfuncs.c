@@ -31,9 +31,6 @@
 #include "pitchentry.h"
 #include "audiobackend.h"
 
-#ifdef _HAVE_FLUIDSYNTH_
-#include "fluid.h"
-#endif
 
 /**
  * Macro to get the current DenemoObject

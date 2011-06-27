@@ -30,11 +30,7 @@
 #include "keyboard.h"
 #include "exportmidi.h"
 #include "midi.h"
-#include "jackmidi.h"
 #include "device_manager.h"
-#ifdef _HAVE_FLUIDSYNTH_
-#include "fluid.h"
-#endif
 #include "commandfuncs.h"
 #include "calculatepositions.h"
 #include "http.h"
@@ -2993,10 +2989,7 @@ SCM scheme_output_midi_bytes (SCM input) {
     buffer[i] = (unsigned char) strtol(next, &next, 0);			    
   g_free(bytes);    
   g_debug("\nbuffer[0] = %d buffer[1] = %d buffer[2] = %d\n", buffer[0], buffer[1], buffer[2]);
-//  if (Denemo.prefs.midi_audio_output == Jack)
-//    jack_output_midi_event(buffer, 0, 0);
-//  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
-//    fluid_output_midi_event(buffer);
+
   play_midi_event(DEFAULT_BACKEND, curstaffstruct->midi_port, buffer);
 
   if(string_input) free(string_input);
@@ -4882,38 +4875,11 @@ void inner_main(void*closure, int argc, char **argv){
     g_free(choice);
   }
 
-//#ifdef _HAVE_JACK_
-//if (Denemo.prefs.midi_audio_output == Jack)
-//  init_jack();
-//#endif
-//  /* audio initialization */
-//  //ext_init (); 
-//  /* external players (midi...) */
-//#ifdef _HAVE_FLUIDSYNTH_
-//if (Denemo.prefs.midi_audio_output == Fluidsynth)
-//  fluidsynth_init(); 
-//#endif
-//#ifdef _HAVE_PORTAUDIO_
-//if (Denemo.prefs.midi_audio_output == Portaudio){
-//  /* Immediate Playback */
-//  if(Denemo.prefs.immediateplayback) {
-//    if( midi_init ()  )  {           /* Opens Denemo.prefs.sequencer, if this is set to an empty
-//				 string then the open fails and direct audio out is used for 
-//				immediate playback */
-//      //g_print("Initializing audio out\n");
-//      init_audio_out();
-//    }
-//  }
-//}
-//#endif    
 
-
+  // initialize the audio subsystem
   if (audiobackend_initialize(&Denemo.prefs)) {
     g_warning("Failed to initialize audio or MIDI backends\n");
   }
-
-  // FIXME: call audiobackend_destroy() *somewhere*...
-
 
 
   /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
@@ -7276,15 +7242,9 @@ gint val = gtk_radio_action_get_current_value (current);
      stop_pitch_input();
    }
    gui->input_source=INPUTMIDI;
-  if (Denemo.prefs.midi_audio_output == Portaudio)
+
+   // FIXME?
    start_midi_input();
-  else if  (Denemo.prefs.midi_audio_output == None)
-   fail = TRUE;
-  else if (Denemo.prefs.midi_audio_output == Jack)
-   fail = init_midi_input();
-  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
-   fail = init_midi_input();
-  //g_print("Midi start - %d\n", fail);
    break;
  default:
    g_warning("Bad Value\n");
@@ -8260,13 +8220,7 @@ get_data_dir (),
     
     midiconductbutton = create_playbutton(inner,"Conductor", pb_conduct, NULL);
    
-    create_playbutton(inner,
-#ifdef _HAVE_JACK_
-"Panic"
-#else
-"Reset"
-#endif
-, pb_panic, NULL);
+    create_playbutton(inner, "Panic" , pb_panic, NULL);
 
 
       create_playbutton(inner, "Set From Selection", pb_set_range, NULL);

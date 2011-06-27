@@ -365,7 +365,6 @@ typedef struct DenemoPrefs
 {
   GString *profile; /**< Which set of commands and shortcuts to load, and which initialization of scheme to run */
   GString *lilypath; /**< This is the executable or full path to the lilypond executable */
-  GString *midiplayer; /**< This is the external midifile player */ 
   GString *audioplayer; /**< This is used for playing audio files*/
   gboolean immediateplayback; /**< This options sends audio directly to synth as notes 
 				are being entered */
