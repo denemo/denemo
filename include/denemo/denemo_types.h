@@ -121,30 +121,13 @@ typedef enum DenemoObjType
   FIGURE,
   LILYDIRECTIVE,
   FAKECHORD,
-  PARTIAL /* WARNING when adding to this list, add also to the type names that follow
-	  *  keep the numeration ordered to allow access ny array index. */
+  PARTIAL
+  /* WARNING when adding to this list, add also to the type names
+     in denemo_types.c */
 }DenemoObjType;
-static gchar *DenemoObjTypeNames[] =
-{
-  "CHORD",
-  "TUPOPEN",
-  "TUPCLOSE",
-  "CLEF",
-  "TIMESIG",
-  "KEYSIG",
-  "BARLINE",
-  "STEMDIRECTIVE",
-  "MEASUREBREAK",
-  "STAFFBREAK",
-  "DYNAMIC",
-  "GRACE_START",
-  "GRACE_END",
-  "LYRIC",
-  "FIGURE",
-  "LILYDIRECTIVE",
-  "FAKECHORD",
-  "PARTIAL"
-};
+
+extern gchar *DenemoObjTypeNames[18];
+
 #define DENEMO_OBJECT_TYPE_NAME(obj) ((obj)?(((obj)->type<G_N_ELEMENTS(DenemoObjTypeNames))?DenemoObjTypeNames[(obj)->type]:NULL):NULL)
 
 

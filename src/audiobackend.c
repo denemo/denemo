@@ -23,6 +23,8 @@
 
 #include "midi.h"
 #include "audio.h"
+#include "commandfuncs.h"
+#include "draw.h"
 
 #include "ringbuffer.h"
 
@@ -157,6 +159,8 @@ static int destroy(backend_type_t backend) {
     jack_ringbuffer_free(get_playback_queue(backend));
     playback_queues[backend] = NULL;
   }
+
+  return 0;
 }
 
 
@@ -272,7 +276,7 @@ static gpointer queue_thread_func(gpointer data) {
       smf_event_t * event;
       double until_time = playback_time + 5.0;
 
-      while (event = get_smf_event(until_time)) {
+      while ((event = get_smf_event(until_time))) {
         write_event_to_queue(AUDIO_BACKEND, event);
         write_event_to_queue(MIDI_BACKEND, event);
       }

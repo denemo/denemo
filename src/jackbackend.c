@@ -13,8 +13,10 @@
 
 #include "jackbackend.h"
 #include "midi.h"
+#include "fluid.h"
 
 #include <jack/jack.h>
+#include <jack/midiport.h>
 #include <string.h>
 #include <assert.h>
 
@@ -70,8 +72,7 @@ static void process_audio(nframes_t nframes) {
   double until_time = nframes_to_seconds(playback_frame + nframes);
 
   while (read_event_from_queue(AUDIO_BACKEND, event_data, &event_length, &event_time, until_time)) {
-    nframes_t frame = seconds_to_nframes(event_time) - playback_frame;
-
+    // FIXME: we can't pass an exact frame/time to fluidsynth, can we...?
     fluidsynth_feed_midi(event_data, event_length);
   }
 
@@ -89,7 +90,7 @@ static void process_midi(nframes_t nframes) {
 
   for (i = 0; i < num_midi_out_ports; ++i) {
     port_buffers[i] = jack_port_get_buffer(midi_out_ports[i], nframes);
-    jack_midi_clear_buffer(port_buffers[i], nframes);
+    jack_midi_clear_buffer(port_buffers[i]);
   }
 
   if (reset_midi) {

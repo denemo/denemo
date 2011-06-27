@@ -1,6 +1,7 @@
 bin_PROGRAMS = denemo
 dist_pkgdata_DATA = denemoui.xml instruments.xml
-denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
+denemo_SOURCES = denemo_types.c \
+	articulations.c calculatepositions.c changenotehead.c \
 	chordops.c clefdialog.c commandfuncs.c contexts.c draw.c \
 	drawaccidentals.c drawclefs.c drawcursor.c drawkey.c drawdynamic.c \
 	drawnotes.c drawselection.c drawstemdir.c drawtimesig.c drawtuplets.c \
@@ -45,21 +46,25 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	callbacks.h entries.h \
 	scheme_cb.h scheme.h register_commands.h \
 	pathconfig.h \
-	midi.c \
-	audiobackend.c dummybackend.c
+	midi.c
+
+
+noinst_LIBRARIES = libaudiobackend.a
+libaudiobackend_a_SOURCES = audiobackend.c dummybackend.c
+libaudiobackend_a_CFLAGS = -W -Wall -Wno-unused-parameter
 
 if HAVE_JACK
-denemo_SOURCES += jackbackend.c
+libaudiobackend_a_SOURCES += jackbackend.c
 else
-denemo_SOURCES += ringbuffer.c
+libaudiobackend_a_SOURCES += ringbuffer.c
 endif
 
 if HAVE_ALSA
-denemo_SOURCES += alsabackend.c
+libaudiobackend_a_SOURCES += alsabackend.c
 endif
 
 if HAVE_FLUIDSYNTH
-denemo_SOURCES += fluid.c
+libaudiobackend_a_SOURCES += fluid.c
 endif
 
 
@@ -73,8 +78,7 @@ INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
 -DDATAROOTDIR=\"$(datarootdir)/\" \
 -DPKGNAME=\"denemo\" 
 
-
-denemo_LDADD = $(INTLLIBS) ../libsmf/libsmf.a 
+denemo_LDADD = $(INTLLIBS) ../libsmf/libsmf.a libaudiobackend.a
 AM_CPPFLAGS = $(BINRELOC_CFLAGS)
 
 pathconfig.h:  $(top_builddir)/config.status

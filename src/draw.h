@@ -8,6 +8,9 @@
 #include <gtk/gtk.h>
 #include <denemo/denemo.h> 
 
+void
+region_playhead();
+
 gint
 scorearea_configure_event (GtkWidget * widget, GdkEventConfigure * event);
 
