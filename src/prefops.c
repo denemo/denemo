@@ -126,7 +126,7 @@ initprefs ()
 #endif /* !G_OS_WIN32 */
   ret->sequencer = g_string_new ("/dev/sequencer");
   ret->midi_in = g_string_new ("/dev/midi");
-
+  ret->profile = g_string_new("");
   ret->denemopath = g_string_new (g_get_home_dir());
   ret->lilyversion = g_string_new ("");//meaning use installed LilyPond version
   ret->temperament = g_string_new("Equal");
@@ -454,7 +454,8 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READBOOLXMLENTRY(autosave)
       
       READXMLENTRY(pdfviewer)
-      READXMLENTRY(imageviewer)    
+      READXMLENTRY(imageviewer) 
+         
       READXMLENTRY(profile) 
 	
       READXMLENTRY(username)    

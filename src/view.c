@@ -3858,7 +3858,7 @@ void  show_preferred_view(void) {
   if (!Denemo.prefs.object_palette)
     activate_action("/MainMenu/ViewMenu/"ToggleObjectMenu_STRING);
 
-  if (Denemo.prefs.visible_directive_buttons)
+  if (!Denemo.prefs.visible_directive_buttons)
    activate_action("/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
 
 
@@ -4845,6 +4845,10 @@ void inner_main(void*closure, int argc, char **argv){
   
   gchar *initial_file = process_command_line(argc, argv);
 
+  /* Initialize preferences */
+  Denemo.prefs.profile = g_string_new("Simple");
+  initprefs();
+
   //create window system
   create_window();
 
@@ -4856,9 +4860,7 @@ void inner_main(void*closure, int argc, char **argv){
   newtab (NULL, NULL);
 
 
-  Denemo.prefs.profile = g_string_new("Simple");
-  /* Initialize preferences */
-  initprefs();
+  
   /*ignore setting of mode unless user has explicitly asked for modal use */
   if(!Denemo.prefs.modal)
     Denemo.prefs.mode = INPUTEDIT|INPUTRHYTHM|INPUTNORMAL;//FIXME must correspond with default in prefops.c
@@ -4878,7 +4880,7 @@ void inner_main(void*closure, int argc, char **argv){
 
  
   if(uses_default_commandset()) {
-    gchar *initialpref = Denemo.prefs.profile?Denemo.prefs.profile->str:NULL;
+    gchar *initialpref = Denemo.prefs.profile->len?Denemo.prefs.profile->str:NULL;
     gchar * never_again = NULL;
     if(initialpref) never_again = g_strdup_printf( "Use %s and do not show these choices again", initialpref);
     
@@ -4903,7 +4905,7 @@ void inner_main(void*closure, int argc, char **argv){
       }
     }
     g_free(never_again);
-    g_free(choice);
+   //It is wrong to free choice when choice is one of the fixed strings. As this is one-off per run of the program, there is no need to free this anyway. g_free(choice);
   }
 
 #ifdef _HAVE_JACK_
