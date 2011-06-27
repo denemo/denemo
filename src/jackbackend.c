@@ -37,6 +37,9 @@ static size_t num_audio_out_ports;
 static size_t num_midi_in_ports;
 static size_t num_midi_out_ports;
 
+static gboolean audio_initialized = FALSE;
+static gboolean midi_initialized = FALSE;
+
 static nframes_t playback_frame = 0;
 static gboolean reset_midi = FALSE;
 
@@ -123,11 +126,10 @@ static void process_midi(nframes_t nframes) {
 
 
 static int process_callback(nframes_t nframes, void *arg) {
-  // FIXME: use an additional flag to mark audio/midi as active
-  if (audio_out_ports) {
+  if (audio_initialized) {
     process_audio(nframes);
   }
-  if (midi_out_ports) {
+  if (midi_initialized) {
     process_midi(nframes);
   }
 
@@ -164,14 +166,15 @@ static int initialize_client(char const *name) {
 
 
 static int destroy_client() {
-  if (audio_in_ports || audio_out_ports || midi_in_ports || midi_out_ports) {
-    // don't destroy client if ports are still around
+  if (audio_initialized || midi_initialized) {
+    // don't destroy client if someone's still using it
     return 0;
   }
 
   if (client) {
     jack_deactivate(client);
     jack_client_close(client);
+    client = NULL;
   }
 
   return 0;
@@ -181,16 +184,19 @@ static int destroy_client() {
 static int unregister_audio_ports() {
   jack_port_t **p;
 
-  for (p = audio_in_ports; p != NULL; ++p) {
+  for (p = audio_in_ports; *p != NULL; ++p) {
     jack_port_unregister(client, *p);
   }
 
-  for (p = audio_out_ports; p != NULL; ++p) {
+  for (p = audio_out_ports; *p != NULL; ++p) {
     jack_port_unregister(client, *p);
   }
 
   g_free(audio_in_ports);
   g_free(audio_out_ports);
+
+  audio_in_ports = NULL;
+  audio_out_ports = NULL;
 
   return 0;
 }
@@ -231,16 +237,19 @@ err:
 static int unregister_midi_ports() {
   jack_port_t **p;
 
-  for (p = midi_in_ports; p != NULL; ++p) {
+  for (p = midi_in_ports; *p != NULL; ++p) {
     jack_port_unregister(client, *p);
   }
 
-  for (p = midi_out_ports; p != NULL; ++p) {
+  for (p = midi_out_ports; *p != NULL; ++p) {
     jack_port_unregister(client, *p);
   }
 
   g_free(midi_in_ports);
   g_free(midi_out_ports);
+
+  midi_in_ports = NULL;
+  midi_out_ports = NULL;
 
   return 0;
 }
@@ -300,12 +309,18 @@ static int jack_audio_initialize(DenemoPrefs *config) {
     return -1;
   }
 
+  audio_initialized = TRUE;
+
   return 0;
 }
 
 
 static int jack_audio_destroy() {
   g_print("destroying JACK audio backend\n");
+
+  audio_initialized = FALSE;
+
+  unregister_audio_ports();
 
   destroy_client();
 
@@ -368,12 +383,18 @@ static int jack_midi_initialize(DenemoPrefs *config) {
     return -1;
   }
 
+  midi_initialized = TRUE;
+
   return 0;
 }
 
 
 static int jack_midi_destroy() {
   g_print("destroying JACK MIDI backend\n");
+
+  midi_initialized = FALSE;
+
+  unregister_midi_ports();
 
   destroy_client();
 
