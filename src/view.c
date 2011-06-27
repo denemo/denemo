@@ -1003,6 +1003,24 @@ static SCM scheme_get_temperament(void) {
   return ret;
 }
 
+static SCM
+ignore_handler (gchar *data SCM_UNUSED, SCM tag, SCM throw_args SCM_UNUSED)
+{
+ // g_warning("ignoring throw");
+  return SCM_BOOL_F;
+}
+void
+set_meantone_tuning(gint step) {
+SCM thestep = scm_int2num(step);
+if(SCM_BOOL_F == scm_internal_catch (SCM_BOOL_T,
+                      (scm_t_catch_body)  scm_c_lookup, (void *) "SetQuarterCommaMeanTone",
+                      (scm_t_catch_handler) ignore_handler, (void *) "whoops"))
+                      return;
+SCM  func_symbol = scm_c_lookup("SetQuarterCommaMeanTone");
+SCM  func = scm_variable_ref(func_symbol);
+scm_call_1(func, thestep); 
+}
+
 static SCM scheme_set_enharmonic_position(SCM position) {
   if(scm_integer_p(position)) {
      gint pos = scm_num2int(position, 0, 0);
@@ -5061,6 +5079,7 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
   if(Denemo.scheme_commands)
    call_out_to_guile(Denemo.scheme_commands);
   //else ?????
+  set_tuning();
 /* Now launch into the main gtk event loop and we're all set */
  gtk_main();
 }

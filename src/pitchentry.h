@@ -35,7 +35,6 @@ void signal_measure_end(void);
 gboolean pitch_entry_active(DenemoGUI *gui);
 GtkWidget *get_enharmonic_frame(void);
 GtkWidget *get_temperament_combo(void);
-void change_tuning(gdouble *cents);
 void reset_temperament(void);
 gchar *get_fents_string(void);
 gchar *get_sharpest(void);
@@ -44,4 +43,5 @@ gchar *get_temperament_name(void);
 void set_enharmonic_position(gint position);
 void notenum2enharmonic (gint notenum, gint *poffset, gint *penshift, gint *poctave);
 gchar *get_cents_string(void);
+void set_tuning(void);
 #endif //PITCHENTRY_H

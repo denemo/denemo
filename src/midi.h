@@ -26,3 +26,4 @@ DenemoObject *get_obj_for_end_time(smf_t *smf, gdouble time);
 gdouble generate_midi(void);
 gdouble get_time(void);
 void adjust_midi_velocity(gchar *buf, gint percent);
+void change_tuning(gdouble *cents);

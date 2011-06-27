@@ -144,7 +144,9 @@ gint  sfont_id = fluid_synth_sfload(synth, Denemo.prefs.fluidsynth_soundfont->st
   gint i;
   for(i=0;i<16;i++)
     fluid_synth_program_change(synth, i, 0);
-   return 0;
+
+  set_tuning();
+  return 0;
 }                                                                                                                              
                     
 void fluidsynth_shutdown()
