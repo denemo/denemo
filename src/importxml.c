@@ -31,7 +31,7 @@
 static gint version_number;
 
 
-static gint current_movement = 0, current_staff=0, current_measure=0, current_position = 0;
+static gint current_movement = 0, current_staff=0, current_measure=0, current_position = 0, tonal_center=0;
 
 /* Defines for making traversing XML trees easier */
 
@@ -1882,6 +1882,13 @@ parseEditInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoScore * si)
 	    current_position = getXMLIntChild (childElem);
 	    if(current_position<0)
 	      current_position = 0;
+	  }
+	else if (ELEM_NAME_EQ (childElem, "tonalcenter"))
+	  {
+	    tonal_center = getXMLIntChild (childElem);
+	    if(tonal_center<-7 || tonal_center>7)
+	      tonal_center = 0;
+	    set_enharmonic_position(tonal_center);
 	  }
 	else if (ELEM_NAME_EQ (childElem, "zoom"))
 	  {

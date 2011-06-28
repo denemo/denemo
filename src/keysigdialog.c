@@ -215,8 +215,9 @@ insert_keysig (GtkWidget * widget, gpointer data)
 					  data);
 	}
       si->cursor_appending = FALSE;
-
+    adjust_tonal_center( ((keysig*)((DenemoObject*)si->currentobject->data)->object)->accs);
     }				/* End if */
+
   g_free(cbdata->mdata);
   g_free(cbdata);
 }

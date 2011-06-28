@@ -1006,6 +1006,7 @@ file_newwrapper (GtkAction * action, gpointer param)
     }
   //open_user_default_template(REPLACE_SCORE);
   load_initdotdenemo();
+  set_enharmonic_position(0);
   if(Denemo.printarea) 
     g_object_set_data(G_OBJECT(Denemo.printarea), "printviewupdate", (gpointer)G_MAXUINT);
 }

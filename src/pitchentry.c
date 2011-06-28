@@ -400,6 +400,14 @@ if(t.alteration-1<-2)
 }
 
 void
+adjust_tonal_center(gint *accs) {
+gint i;
+gint center;
+for(center=0, i=0;i<7;i++)
+  center += accs[i];
+  set_enharmonic_position(center);
+}
+void
 set_enharmonic_position(gint position) {
   while (position<enharmonic_position) {
     set_flatter(NULL, NULL);
@@ -407,6 +415,10 @@ set_enharmonic_position(gint position) {
   while (position>enharmonic_position) {
     set_sharper(NULL, NULL);
   }
+}
+
+gint get_enharmonic_position(void) {
+  return enharmonic_position;
 }
 static void enharmonic_step (gboolean sharp) {
   gchar *sharpestname, *flattestname;

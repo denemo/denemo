@@ -44,4 +44,6 @@ void set_enharmonic_position(gint position);
 void notenum2enharmonic (gint notenum, gint *poffset, gint *penshift, gint *poctave);
 gchar *get_cents_string(void);
 void set_tuning(void);
+void adjust_tonal_center(gint *accs);
+gint get_enharmonic_position(void);
 #endif //PITCHENTRY_H

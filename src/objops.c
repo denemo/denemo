@@ -503,5 +503,5 @@ dnm_setinitialkeysig (DenemoStaff * curstaff, gint tokey, gint type)
   //memcpy (curstaff->keysig.keyaccs, curstaff->leftmost_keyaccs, SEVENGINTS);
   curstaff->leftmost_keysig = &curstaff->keysig;
   showwhichaccidentalswholestaff (curstaff);
-
+  adjust_tonal_center(curstaff->keysig.accs);
 }
