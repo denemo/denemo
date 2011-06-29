@@ -17,6 +17,7 @@
 
 #include <jack/jack.h>
 #include <jack/midiport.h>
+#include <glib.h>
 #include <string.h>
 #include <assert.h>
 
@@ -127,10 +128,10 @@ static void process_midi(nframes_t nframes) {
 
 
 static int process_callback(nframes_t nframes, void *arg) {
-  if (audio_initialized) {
+  if (g_atomic_int_get(&audio_initialized)) {
     process_audio(nframes);
   }
-  if (midi_initialized) {
+  if (g_atomic_int_get(&midi_initialized)) {
     process_midi(nframes);
   }
 
@@ -310,7 +311,7 @@ static int jack_audio_initialize(DenemoPrefs *config) {
     return -1;
   }
 
-  audio_initialized = TRUE;
+  g_atomic_int_set(&audio_initialized, TRUE);
 
   return 0;
 }
@@ -319,7 +320,7 @@ static int jack_audio_initialize(DenemoPrefs *config) {
 static int jack_audio_destroy() {
   g_print("destroying JACK audio backend\n");
 
-  audio_initialized = FALSE;
+  g_atomic_int_set(&audio_initialized, FALSE);
 
   unregister_audio_ports();
 
@@ -384,7 +385,7 @@ static int jack_midi_initialize(DenemoPrefs *config) {
     return -1;
   }
 
-  midi_initialized = TRUE;
+  g_atomic_int_set(&midi_initialized, TRUE);
 
   return 0;
 }
@@ -393,7 +394,7 @@ static int jack_midi_initialize(DenemoPrefs *config) {
 static int jack_midi_destroy() {
   g_print("destroying JACK MIDI backend\n");
 
-  midi_initialized = FALSE;
+  g_atomic_int_set(&midi_initialized, FALSE);
 
   unregister_midi_ports();
 
