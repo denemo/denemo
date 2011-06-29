@@ -43,7 +43,8 @@
 					     (if (or (d-GetNonprinting) (= bassnote (d-GetNoteAsMidi)))
 					      (begin                  ;; note ok
 						;(d-PushPosition)
-					     (d-PlayMidiKey midi)
+					     ;;(d-PlayMidiKey midi)
+					       (PlayNote (number-&gt;string note) 500 "127")
 					     ;;;(d-PutMidi midi) ;; this will alter the enharmonic...
 					     ;;this will have advanced so go back
 					    ;(d-PopPosition)
@@ -67,7 +68,10 @@
 						   (if  (= command #x90)
 							(begin
 							  (AddFigure note bassnote)
-							  (d-PlayMidiKey midi)))))))));; end of if noteon or noteoff				  
+							 ;; (d-PlayMidiKey midi)
+							  (PlayNote (number-&gt;string note) 500 "127")
+							  
+							  ))))))));; end of if noteon or noteoff				  
 		;;;;;;;;;; Pedal Down					  
 				 (if (and (= command #xB0) (= note #x40) (= velocity #x7F))	   
 				     (begin
