@@ -73,9 +73,8 @@ static jack_ringbuffer_t * get_playback_queue(backend_type_t backend) {
 
 
 static int initialize_audio(DenemoPrefs *config) {
-  char const *driver = config->fluidsynth_audio_driver->str;
+  char const *driver = config->audio_driver->str;
 
-  // FIXME: add new setting to DenemoPrefs
   g_print("audio driver is '%s'\n", driver);
 
   if (strcmp(driver, "jack") == 0) {
@@ -103,9 +102,8 @@ static int initialize_audio(DenemoPrefs *config) {
 
 
 static int initialize_midi(DenemoPrefs *config) {
-  char const *driver = config->fluidsynth_midi_driver->str;
+  char const *driver = config->midi_driver->str;
 
-  // FIXME: add new setting to DenemoPrefs
   g_print("MIDI driver is '%s'\n", driver);
 
   if (strcmp(driver, "jack") == 0) {

@@ -363,6 +363,8 @@ typedef struct DeviceManagerDevice
  */
 typedef struct DenemoPrefs
 {
+  // FIXME: the GStrings in here are never freed
+
   GString *profile; /**< Which set of commands and shortcuts to load, and which initialization of scheme to run */
   GString *lilypath; /**< This is the executable or full path to the lilypond executable */
   GString *audioplayer; /**< This is used for playing audio files*/
@@ -402,8 +404,11 @@ typedef struct DenemoPrefs
   gboolean autoupdate;/**< update command set from denemo.org */
   gint maxhistory;/**< how long a history of used files to retain */
   GString *browser; /**< Default browser string */
-  
-  const gchar *midi_audio_output; /**< How the user wants to deal with audio/midi output */
+
+
+  GString *audio_driver;  /* the name of the audio driver to be used */
+  GString *midi_driver;   /* the name of the MIDI driver to be used */
+
   GString *sequencer;  /**< path to sequencer device */
   GString *midi_in;  /**< path to midi_in device */
   gboolean jacktransport; /**< toggle on and off jack transport */
@@ -411,8 +416,10 @@ typedef struct DenemoPrefs
 #define DENEMO_MAX_DEVICES (50)
   GArray *midi_device_array;/**< holds the midi_device array for re-sizing purposes */
   DeviceManagerDevice *midi_device; /**< contains device name and output ports */ 
-  GString *fluidsynth_audio_driver; /**< Audio driver used by fluidsynth */
-  GString *fluidsynth_midi_driver; /**< MIDI driver used by fluidsynth */
+
+//  GString *fluidsynth_audio_driver; /**< Audio driver used by fluidsynth */
+//  GString *fluidsynth_midi_driver; /**< MIDI driver used by fluidsynth */
+
   GString *fluidsynth_soundfont; /**< Default soundfont for fluidsynth */
   gboolean fluidsynth_reverb; /**< Toggle if reverb is applied to fluidsynth */
   gboolean fluidsynth_chorus; /**< Toggle if chorus is applied to fluidsynth */

@@ -660,10 +660,10 @@ Report bugs to http://www.denemo.org\n"), NULL) ;
           commandsetfile = g_build_filename(locatedotdenemo(), "actions",  optarg, NULL);
           break;
         case 'A':
-          g_string_assign(Denemo.prefs.fluidsynth_audio_driver, optarg);
+          g_string_assign(Denemo.prefs.audio_driver, optarg);
           break;
         case 'M':
-          g_string_assign(Denemo.prefs.fluidsynth_midi_driver, optarg);
+          g_string_assign(Denemo.prefs.midi_driver, optarg);
           break;
       }
     }

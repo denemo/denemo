@@ -93,19 +93,6 @@ initprefs ()
   const gchar *name = g_get_user_name();
   ret->username = g_string_new (name?name:"DenemoUser");
   ret->password = g_string_new ("");
-//  ret->midi_audio_output = None;
-//
-//#ifdef _HAVE_PORTAUDIO_
-//  ret->midi_audio_output = Portaudio;
-//#endif
-//
-//#ifdef _HAVE_JACK_
-//  ret->midi_audio_output = Jack;
-//#endif
-//
-//#ifdef _HAVE_FLUIDSYNTH_ 
-//  ret->midi_audio_output = Fluidsynth;	  
-//#endif
 
 #ifdef G_OS_WIN32
   ret->browser = g_string_new ("");//use file association
@@ -135,32 +122,18 @@ initprefs ()
   ret->continuous = TRUE;
   ret->cursor_highlight = TRUE;
 
-#ifdef _HAVE_JACK_
-  ret->immediateplayback = FALSE;
-#else
   ret->immediateplayback = TRUE;
-#endif
-//#ifdef _HAVE_FLUIDSYNTH_
-//  /*TODO needs to check if linux and set fluidsynth_audio_driver = alsa
-//  	for some reason the default for linux is jack */
-//#ifdef G_OS_WIN32
-//  ret->fluidsynth_audio_driver = g_string_new ("portaudio");
+
+  ret->audio_driver = g_string_new("jack");
+  ret->midi_driver = g_string_new("jack");
+
+//  ret->fluidsynth_audio_driver = g_string_new ("");
 //  ret->fluidsynth_midi_driver = g_string_new ("");
-//#else
-  ret->fluidsynth_audio_driver = g_string_new ("jack");
-  ret->fluidsynth_midi_driver = g_string_new ("alsa");
-//#endif
-  gchar *soundfontpath = g_build_filename (get_data_dir (), "soundfonts",
-		                                           "A320U.sf2", NULL);
+
+  gchar *soundfontpath = g_build_filename (get_data_dir (), "soundfonts", "A320U.sf2", NULL);
   ret->fluidsynth_soundfont = g_string_new(soundfontpath);
 
 
-//#ifdef G_OS_WIN32
-//  ret->fluidsynth_sample_rate = 22050;//the worst case slow machine
-//#else
-//  ret->fluidsynth_sample_rate = 0;//do not set
-//#endif
-//#endif
   ret->saveparts = FALSE;
   ret->lilyentrystyle = FALSE;
   ret->createclones = FALSE;
@@ -339,18 +312,6 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	    }\
 	}
 
-#define READXMLENTRY2(field)  \
-      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) #field))\
-	{\
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
-	  if(tmp)\
-	    {\
-              define_scheme_variable("DenemoPref_" #field, tmp, NULL);\
-	      prefs->field = get_midi_audio_pointer(tmp);\
-	      xmlFree (tmp);\
-	    }\
-	}
-
 #define READINTXMLENTRY(field) \
       else if (0 ==\
 	       xmlStrcmp (cur->name, (const xmlChar *) #field))\
@@ -408,8 +369,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	      xmlFree (tmp);
 	    }
 	}
-
-      if (0 == xmlStrcmp (cur->name, (const xmlChar *) "midi-devices"))
+      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "midi-devices"))
 	{
 	  parseDevices(doc, cur, &Denemo.prefs);
 
@@ -432,8 +392,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	      xmlFree (tmp);
 	    }
 	}
-      else if (0 ==
-	       xmlStrcmp (cur->name, (const xmlChar *) "maxhistory"))
+      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "maxhistory"))
 	{
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
 	  if(tmp)
@@ -459,7 +418,6 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READXMLENTRY(temperament)
       READXMLENTRY(midi_in)
       READXMLENTRY(sequencer)
-//      READXMLENTRY2(midi_audio_output)
       
       READBOOLXMLENTRY(createclones)
       READBOOLXMLENTRY(immediateplayback) 
@@ -490,12 +448,14 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READBOOLXMLENTRY(console_pane)
       READBOOLXMLENTRY(lyrics_pane)
       READBOOLXMLENTRY(visible_directive_buttons)
-      READBOOLXMLENTRY(rhythm_palette) 
+      READBOOLXMLENTRY(rhythm_palette)
       READBOOLXMLENTRY(object_palette)
-      READBOOLXMLENTRY(autoupdate) 
-     
-      READXMLENTRY(fluidsynth_audio_driver)
-      READXMLENTRY(fluidsynth_midi_driver)
+      READBOOLXMLENTRY(autoupdate)
+
+
+      READXMLENTRY(audio_driver)
+      READXMLENTRY(midi_driver)
+
       READXMLENTRY(fluidsynth_soundfont)
       READBOOLXMLENTRY(fluidsynth_reverb)
       READBOOLXMLENTRY(fluidsynth_chorus)
@@ -845,9 +805,11 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEBOOLXMLENTRY(autoupdate)
   WRITEBOOLXMLENTRY(rhythm_palette)
   WRITEBOOLXMLENTRY(object_palette)
-  WRITEXMLENTRY2(midi_audio_output)
-  WRITEXMLENTRY(fluidsynth_audio_driver)
-  WRITEXMLENTRY(fluidsynth_midi_driver)
+
+
+  WRITEXMLENTRY(audio_driver)
+  WRITEXMLENTRY(midi_driver)
+
   WRITEXMLENTRY(fluidsynth_soundfont)
   WRITEBOOLXMLENTRY(fluidsynth_reverb)
   WRITEBOOLXMLENTRY(fluidsynth_chorus)
