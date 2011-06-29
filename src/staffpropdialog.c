@@ -348,19 +348,18 @@ staff_properties_change (void)
       entrycontent = g_string_new (NULL);
     }
  
-  dialog = gtk_dialog_new_with_buttons (_("Staff Properties"), NULL,	/* no parent window (should be gui->window but not always passing that here */
+  dialog = gtk_dialog_new_with_buttons (_("Staff Properties"), GTK_WINDOW(Denemo.window),
 					(GtkDialogFlags)
 					(GTK_DIALOG_MODAL |
 					 GTK_DIALOG_DESTROY_WITH_PARENT),
 					GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
 					GTK_STOCK_CANCEL, GTK_STOCK_CANCEL,
 					NULL);
- 
   gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
   notebook = gtk_notebook_new ();
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), notebook, TRUE,
 		                            TRUE, 0);
- 
+
 #define NEWPAGE(thelabel) \
   main_vbox = gtk_vbox_new (FALSE, 1);\
   gtk_notebook_append_page (GTK_NOTEBOOK (notebook), main_vbox, NULL);\
@@ -430,6 +429,7 @@ staff_properties_change (void)
   /* Display appearance tab */
   NEWPAGE("Display Appearance");
   TEXTENTRY("Staff name:", denemo_name);
+   //gtk_widget_grab_focus (entrywidget);
   INTENTRY_LIMITS("Space above:", space_above, 0, MAXEXTRASPACE);
   INTENTRY_LIMITS("Space below:", space_below, 0, MAXEXTRASPACE); 
   INTENTRY_LIMITS("Number of Lines:", no_of_lines, 1, 5);
