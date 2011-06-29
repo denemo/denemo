@@ -375,10 +375,9 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 
 	}
 
-	READXMLENTRY(audioplayer)        
-	READXMLENTRY(browser)
-        else if (0 ==
-	       xmlStrcmp (cur->name, (const xmlChar *) "autosavetimeout"))
+      READXMLENTRY(audioplayer)
+      READXMLENTRY(browser)
+      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "autosavetimeout"))
 	{
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
 	  if(tmp)
