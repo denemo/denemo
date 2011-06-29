@@ -23,6 +23,8 @@
 
 static volatile gboolean playing = FALSE;
 
+static double last_draw_time;
+
 
 void update_position(smf_event_t *event) {
   DenemoScore *si = Denemo.gui->si;
@@ -31,8 +33,9 @@ void update_position(smf_event_t *event) {
     si->playingnow = event->user_pointer;
     si->playhead = event->time_seconds;
 
-    if ((event->midi_buffer[0] & 0xf0) == NOTE_ON) {
-       // && event->time_seconds - last_draw_time>Denemo.prefs.display_refresh) {
+    if ((event->midi_buffer[0] & 0xf0) == NOTE_ON &&
+        event->time_seconds - last_draw_time > Denemo.prefs.display_refresh) {
+      last_draw_time = event->time_seconds;
       queue_redraw_playhead();
     }
   } else {
@@ -50,6 +53,7 @@ void start_playing() {
   smf_rewind(smf);
 
   playing = TRUE;
+  last_draw_time = 0.0;
 }
 
 
