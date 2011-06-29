@@ -143,6 +143,14 @@ static int process_callback(nframes_t nframes, void *arg) {
 }
 
 
+static void shutdown_callback(void *arg) {
+  g_warning("*** shut down by JACK! ***\n");
+
+  g_atomic_int_set(&audio_initialized, FALSE);
+  g_atomic_int_set(&midi_initialized, FALSE);
+}
+
+
 
 static int initialize_client(char const *name) {
   if (client) {
@@ -156,7 +164,7 @@ static int initialize_client(char const *name) {
   }
 
   jack_set_process_callback(client, &process_callback, NULL);
-//  jack_on_shutdown(client, &shutdown_callback, NULL);
+  jack_on_shutdown(client, &shutdown_callback, NULL);
 
   if (jack_activate(client)) {
     g_warning("can't activate jack client\n");
@@ -320,9 +328,11 @@ static int jack_audio_initialize(DenemoPrefs *config) {
 static int jack_audio_destroy() {
   g_print("destroying JACK audio backend\n");
 
-  g_atomic_int_set(&audio_initialized, FALSE);
+  if (audio_initialized) {
+    g_atomic_int_set(&audio_initialized, FALSE);
 
-  unregister_audio_ports();
+    unregister_audio_ports();
+  }
 
   destroy_client();
 
@@ -394,9 +404,11 @@ static int jack_midi_initialize(DenemoPrefs *config) {
 static int jack_midi_destroy() {
   g_print("destroying JACK MIDI backend\n");
 
-  g_atomic_int_set(&midi_initialized, FALSE);
+  if (midi_initialized) {
+    g_atomic_int_set(&midi_initialized, FALSE);
 
-  unregister_midi_ports();
+    unregister_midi_ports();
+  }
 
   destroy_client();
 
