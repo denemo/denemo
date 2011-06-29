@@ -21,7 +21,7 @@
    (define remainingTicks (- MaxTicks EndTick))
    (define partialDuartion (number-&gt;string (/ EndTick 6 )))
    (GoToMeasureBeginning)
-   (StandAloneDirectiveProto (cons "Upbeat" (string-append "\\partial 256*" partialDuartion 	" "))  #f)
+   (StandAloneDirectiveProto (cons "Upbeat" (string-append "\\partial 256*" partialDuartion 	" "))  #f #f "Upbeat")
    (d-SetDurationInTicks remainingTicks)
    (GoToMeasureEnd)
    (if  (not (d-MoveToMeasureRight))
