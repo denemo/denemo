@@ -655,7 +655,7 @@ void ToggleReduceToDrawingArea (GtkAction * action, DenemoScriptParam *param) {
   gboolean visibile =  GTK_WIDGET_VISIBLE (widget);
   if(Denemo.gui->view == DENEMO_MENU_VIEW && !visibile){
     g_warning("Out of step");
-    Denemo.gui->view == DENEMO_LINE_VIEW;
+    Denemo.gui->view = DENEMO_LINE_VIEW;
   }
   toggle_to_drawing_area(!GTK_WIDGET_VISIBLE (widget));
 }
@@ -7963,8 +7963,9 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page,  guint pagenum) {
       gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (widget), FALSE);
   }
   unhighlight_rhythm(Denemo.gui->prevailing_rhythm);
+
   Denemo.gui = gui = (DenemoGUI*)(g->data);
-     g_print("switch page\n");
+  //g_print("switch page\n");
 
 
   if(Denemo.prefs.visible_directive_buttons) {
