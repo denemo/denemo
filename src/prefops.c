@@ -24,7 +24,7 @@
 #ifdef G_OS_WIN32
 #define PREFS_FILE "denemorcV2"
 #else
-#define PREFS_FILE "denemorc"
+#define PREFS_FILE "denemosocrc"
 #endif
 
 
