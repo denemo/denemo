@@ -615,7 +615,7 @@
         <bind>F10</bind>
       </row>
       <row>
-        <action>WholeMeasureRest</action>
+        <action>InsertWholeMeasureRest</action>
         <bind>space</bind>
       </row>
       <row>

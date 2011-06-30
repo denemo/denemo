@@ -2945,8 +2945,16 @@ for second and subsequent systems</tooltip>
         <tooltip>Inserts a whole measure rest at the cursor</tooltip>
       </row>
       <row>
+        <action>InsertWholeMeasureRest</action>
+        <after>WholeMeasureRest</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
+        <label>Insert Whole Measure Rest</label>
+        <tooltip>Inserts/Appends a rest measure; if the current measure is empty, it simply places the whole measure rest in it. Do not invoke in a populated measure preceding an empty measure.</tooltip>
+      </row>
+      <row>
         <action>MultiMeasureRests</action>
-        <after>WholeMeasureRest</after>
+        <after>InsertWholeMeasureRest</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <label>Multi-Measure Rests</label>

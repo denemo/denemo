@@ -527,7 +527,7 @@
         <bind>F9</bind>
       </row>
       <row>
-        <action>WholeMeasureRest</action>
+        <action>InsertWholeMeasureRest</action>
         <bind>space</bind>
       </row>
       <row>
