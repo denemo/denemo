@@ -5,23 +5,23 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after>FingeringsDoublestroke</after>
-        <action>ChangeStaffUp</action>
-        <scheme>;;;ChangeStaffUp
+        <after>ChangeStaffUp</after>
+        <action>ChangeStaffDown</action>
+        <scheme>;;;ChangeStaffDown
 (let ((staffname #f))
 (if (d-DirectiveGet-standalone-display "ChangeStaff")
  	(d-DeleteObject))
  (if (equal? "STEMDIRECTIVE" (d-GetType))
  		(d-DeleteObject))
 (d-PushPosition)
-(d-MoveToStaffUp)
+(d-MoveToStaffDown)
 (set! staffname (d-StaffProperties "query=denemo_name"))
 (d-PopPosition)
 (StandAloneDirectiveProto (cons "ChangeStaff" (string-append "\\change Staff = \"" staffname "\" ")) #t #f "Staff Up")
-(d-StartDownStems))
+(d-StartUpStems))
 </scheme>
-        <label>Change to Printing on Staff Above.</label>
-        <tooltip>Prints the succeeding notes on the staff above the current one.</tooltip>
+        <label>Change to Printing on Staff Below</label>
+        <tooltip>Succeeding notes are printed on the staff below with stems up.</tooltip>
       </row>
     </map>
   </merge>

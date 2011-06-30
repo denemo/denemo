@@ -5089,6 +5089,23 @@ for second and subsequent systems</tooltip>
         <label>Change to Printing on Staff Above.</label>
         <tooltip>Prints the succeeding notes on the staff above the current one.</tooltip>
       </row>
+      <row>
+        <action>ChangeStaffDown</action>
+        <after>ChangeStaffUp</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/StaffChange</menupath>
+        <label>Change to Printing on Staff Below</label>
+        <tooltip>Succeeding notes are printed on the staff below with stems up.</tooltip>
+      </row>
+      <row>
+        <action>ChangeStaffBack</action>
+        <after>ChangeStaffDown</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/StaffChange</menupath>
+        <label>Change Back to Printing on this Staff</label>
+        <tooltip>Returns to printing the succeeding notes on this staff.</tooltip>
+      </row>
+      
     </map>
   </merge>
 </Denemo>
