@@ -2945,14 +2945,14 @@ for second and subsequent systems</tooltip>
         <tooltip>Inserts a whole measure rest at the cursor</tooltip>
       </row>
       <row>
-        <action>InsertWholeMeasureRest</action>
-        <after>WholeMeasureRest</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
-        <label>Insert Whole Measure Rest</label>
-        <tooltip>Inserts/Appends a rest measure; if the current measure is empty, it simply places the whole measure rest in it. Do not invoke in a populated measure preceding an empty measure.</tooltip>
-      </row>
-      <row>
+        <action>InsertWholeMeasureRest</action>
+        <after>WholeMeasureRest</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
+        <label>Insert&#xA0;Whole&#xA0;Measure&#xA0;Rest</label>
+        <tooltip>Inserts/Appends&#xA0;a&#xA0;rest&#xA0;measure;&#xA0;if&#xA0;the&#xA0;current&#xA0;measure&#xA0;is&#xA0;empty,&#xA0;it&#xA0;simply&#xA0;places&#xA0;the&#xA0;whole&#xA0;measure&#xA0;rest&#xA0;in&#xA0;it.&#xA0;Do&#xA0;not&#xA0;invoke&#xA0;in&#xA0;a&#xA0;populated&#xA0;measure&#xA0;preceding&#xA0;an&#xA0;empty&#xA0;measure.</tooltip>
+      </row>
+      <row>
         <action>MultiMeasureRests</action>
         <after>InsertWholeMeasureRest</after>
         <scheme></scheme>
@@ -5080,6 +5080,14 @@ for second and subsequent systems</tooltip>
         <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
         <label>Print Bass Part Omitting Figures</label>
         <tooltip>Prints the Bass part omitting any figured bass figures.</tooltip>
+      </row>
+      <row>
+        <action>ChangeStaffUp</action>
+        <after>FingeringsDoublestroke</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/StaffChange</menupath>
+        <label>Change to Printing on Staff Above.</label>
+        <tooltip>Prints the succeeding notes on the staff above the current one.</tooltip>
       </row>
     </map>
   </merge>
