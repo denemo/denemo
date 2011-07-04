@@ -46,11 +46,11 @@ static GCond *queue_cond;
 // FIXME: synchronize access from multiple threads
 static volatile double playback_time;
 
-static volatile gboolean quit_thread = FALSE;
-static volatile gboolean must_redraw_all = FALSE;
-static volatile gboolean must_redraw_playhead = FALSE;
+static gboolean quit_thread = FALSE;
+static gboolean must_redraw_all = FALSE;
+static gboolean must_redraw_playhead = FALSE;
 
-static volatile smf_event_t *redraw_event = NULL;
+static smf_event_t *redraw_event = NULL;
 
 static gpointer queue_thread_func(gpointer data);
 
@@ -165,7 +165,7 @@ static int destroy(backend_type_t backend) {
 
 
 int audiobackend_destroy() {
-  quit_thread = TRUE;
+  g_atomic_int_set(&quit_thread, TRUE);
   g_cond_signal(queue_cond);
   g_thread_join(queue_thread);
 
@@ -276,7 +276,7 @@ static gpointer queue_thread_func(gpointer data) {
   for (;;) {
     g_cond_wait(queue_cond, mutex);
 
-    if (quit_thread) {
+    if (g_atomic_int_get(&quit_thread)) {
       break;
     }
 
@@ -292,15 +292,15 @@ static gpointer queue_thread_func(gpointer data) {
     }
 
 
-    if (must_redraw_all) {
-      must_redraw_all = FALSE;
-      must_redraw_playhead = FALSE;
+    if (g_atomic_int_get(&must_redraw_all)) {
+      g_atomic_int_set(&must_redraw_all, FALSE);
+      g_atomic_int_set(&must_redraw_playhead, FALSE);
 
       g_idle_add_full(G_PRIORITY_HIGH_IDLE, redraw_all_callback, NULL, NULL);
     }
 
-    if (must_redraw_playhead) {
-      must_redraw_playhead = FALSE;
+    if (g_atomic_int_get(&must_redraw_playhead)) {
+      g_atomic_int_set(&must_redraw_playhead, FALSE);
 
       g_idle_add_full(G_PRIORITY_HIGH_IDLE, redraw_playhead_callback, (gpointer)redraw_event, NULL);
     }
@@ -421,12 +421,12 @@ void input_midi_event(backend_type_t backend, int port, unsigned char *buffer) {
 
 
 void queue_redraw_all() {
-  must_redraw_all = TRUE;
+  g_atomic_int_set(&must_redraw_all, TRUE);
   g_cond_signal(queue_cond);
 }
 
 void queue_redraw_playhead(smf_event_t *event) {
-  must_redraw_playhead = TRUE;
+  g_atomic_int_set(&must_redraw_playhead, TRUE);
   redraw_event = event;
   g_cond_signal(queue_cond);
 }
