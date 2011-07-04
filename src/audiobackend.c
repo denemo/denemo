@@ -50,6 +50,8 @@ static volatile gboolean quit_thread = FALSE;
 static volatile gboolean must_redraw_all = FALSE;
 static volatile gboolean must_redraw_playhead = FALSE;
 
+static volatile smf_event_t *redraw_event = NULL;
+
 static gpointer queue_thread_func(gpointer data);
 
 
@@ -185,7 +187,16 @@ static gboolean redraw_all_callback(gpointer data) {
 
 static gboolean redraw_playhead_callback(gpointer data) {
   gdk_threads_enter();
+
+  DenemoScore *si = Denemo.gui->si;
+
+  smf_event_t *event = (smf_event_t*) data;
+
+  si->playingnow = event->user_pointer;
+  si->playhead = event->time_seconds;
+
   region_playhead();
+
   gdk_threads_leave();
   return FALSE;
 }
@@ -291,7 +302,7 @@ static gpointer queue_thread_func(gpointer data) {
     if (must_redraw_playhead) {
       must_redraw_playhead = FALSE;
 
-      g_idle_add_full(G_PRIORITY_HIGH_IDLE, redraw_playhead_callback, NULL, NULL);
+      g_idle_add_full(G_PRIORITY_HIGH_IDLE, redraw_playhead_callback, (gpointer)redraw_event, NULL);
     }
   }
 
@@ -414,8 +425,9 @@ void queue_redraw_all() {
   g_cond_signal(queue_cond);
 }
 
-void queue_redraw_playhead() {
+void queue_redraw_playhead(smf_event_t *event) {
   must_redraw_playhead = TRUE;
+  redraw_event = event;
   g_cond_signal(queue_cond);
 }
 

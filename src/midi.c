@@ -14,6 +14,7 @@
 #include "midi.h"
 #include "smf.h"
 #include "exportmidi.h"
+#include "draw.h"
 
 #include <glib.h>
 #include <math.h>
@@ -30,13 +31,10 @@ void update_position(smf_event_t *event) {
   DenemoScore *si = Denemo.gui->si;
 
   if (event) {
-    si->playingnow = event->user_pointer;
-    si->playhead = event->time_seconds;
-
     if ((event->midi_buffer[0] & 0xf0) == NOTE_ON &&
         event->time_seconds - last_draw_time > Denemo.prefs.display_refresh) {
       last_draw_time = event->time_seconds;
-      queue_redraw_playhead();
+      queue_redraw_playhead(event);
     }
   } else {
     si->playingnow = NULL;
@@ -51,6 +49,8 @@ void start_playing() {
   smf_t *smf = Denemo.gui->si->smf;
 
   smf_rewind(smf);
+
+  initialize_playhead();
 
   playing = TRUE;
   last_draw_time = 0.0;

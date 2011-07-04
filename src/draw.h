@@ -11,6 +11,9 @@
 void
 region_playhead();
 
+void
+initialize_playhead();
+
 gint
 scorearea_configure_event (GtkWidget * widget, GdkEventConfigure * event);
 
