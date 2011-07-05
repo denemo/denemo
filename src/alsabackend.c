@@ -12,6 +12,7 @@
  */
 
 #include "alsabackend.h"
+#include "midi.h"
 
 #include <alsa/asoundlib.h>
 #include <glib.h>
@@ -75,7 +76,9 @@ static gpointer process_thread_func(gpointer data) {
       snd_seq_event_output_direct(seq, &alsa_ev);
     }
 
-    update_playback_time(MIDI_BACKEND, playback_time);
+    if (is_playing()) {
+      update_playback_time(MIDI_BACKEND, playback_time);
+    }
   }
 
   g_mutex_free(mutex);

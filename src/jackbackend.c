@@ -135,9 +135,11 @@ static int process_callback(nframes_t nframes, void *arg) {
     process_midi(nframes);
   }
 
-  playback_frame += nframes;
+  if (is_playing()) {
+    playback_frame += nframes;
 
-  update_playback_time(AUDIO_BACKEND, nframes_to_seconds(playback_frame));
+    update_playback_time(AUDIO_BACKEND, nframes_to_seconds(playback_frame));
+  }
 
   return 0;
 }
@@ -374,7 +376,7 @@ static int jack_audio_play_midi_event(int port, unsigned char *buffer) {
 
 
 static int jack_audio_panic() {
-  g_print("panicking\n");
+  // TODO
   return 0;
 }
 
@@ -447,7 +449,6 @@ static int jack_midi_play_midi_event(int port, unsigned char *buffer) {
 
 
 static int jack_midi_panic() {
-  g_print("panicking\n");
   reset_midi = TRUE;
   return 0;
 }

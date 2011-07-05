@@ -234,9 +234,12 @@ gboolean read_event_from_queue(backend_type_t backend, unsigned char *event_buff
   for (;;) {
     smf_event_t *event;
 
+    printf("is_playing=%d, playback_time=%f, end_time=%f\n", is_playing(), playback_time, get_end_time());
+
     if (!jack_ringbuffer_read_space(queue) || playback_time > get_end_time()) {
       if (is_playing() && playback_time > 0.0) {
-        stop_playing();
+        //stop_playing();
+        midi_stop();
       }
 //      update_position(NULL);
       return FALSE;
@@ -335,6 +338,8 @@ void midi_play(gchar *callback) {
 
   g_cond_signal(queue_cond);
 
+  g_print("starting playback\n");
+
   playback_start_time = get_start_time();
   playback_time = playback_start_time;
 
@@ -346,6 +351,8 @@ void midi_play(gchar *callback) {
 
 
 void midi_stop() {
+  g_print("stopping playback\n");
+
   get_backend(AUDIO_BACKEND)->stop_playing();
   get_backend(MIDI_BACKEND)->stop_playing();
 
@@ -408,6 +415,7 @@ int rhythm_feedback(backend_type_t backend, int duration, gboolean rest, gboolea
 
 
 int panic(backend_type_t backend) {
+  g_print("panicking\n");
   return get_backend(backend)->panic();
 }
 
