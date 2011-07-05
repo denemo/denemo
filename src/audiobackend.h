@@ -159,6 +159,8 @@ gboolean read_event_from_queue(backend_type_t backend, unsigned char *event_buff
 
 void update_playback_time(backend_type_t backend, double new_time);
 
+double get_playback_time();
+
 /**
  * Called when a MIDI event was received.
  */

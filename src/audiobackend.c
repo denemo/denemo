@@ -43,6 +43,7 @@ static jack_ringbuffer_t *playback_queues[NUM_BACKENDS] = { NULL };
 static GThread *queue_thread;
 static GCond *queue_cond;
 
+static double playback_start_time;
 // FIXME: synchronize access from multiple threads
 static volatile double playback_time;
 
@@ -233,7 +234,7 @@ gboolean read_event_from_queue(backend_type_t backend, unsigned char *event_buff
   for (;;) {
     smf_event_t *event;
 
-    if (!jack_ringbuffer_read_space(queue)) {
+    if (!jack_ringbuffer_read_space(queue) || playback_time > get_end_time()) {
       if (is_playing() && playback_time > 0.0) {
         stop_playing();
       }
@@ -321,6 +322,10 @@ void update_playback_time(backend_type_t backend, double new_time) {
   g_cond_signal(queue_cond);
 }
 
+double get_playback_time() {
+  return playback_time;
+}
+
 
 void midi_play(gchar *callback) {
   generate_midi();
@@ -330,7 +335,8 @@ void midi_play(gchar *callback) {
 
   g_cond_signal(queue_cond);
 
-  playback_time = 0.0;
+  playback_start_time = get_start_time();
+  playback_time = playback_start_time;
 
   start_playing();
 

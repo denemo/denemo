@@ -19,7 +19,6 @@
 
 static char const *ALSA_SEQ_CLIENT_NAME = "denemo";
 
-// FIXME: if we really depend on a fixed timeout interval, 5ms is way too much
 static int const PLAYBACK_INTERVAL = 5000;
 
 
@@ -34,7 +33,7 @@ static GThread *process_thread;
 static GCond *process_cond;
 static gboolean quit_thread = FALSE;
 
-static gint64 playback_start_time;
+static double playback_start_time;
 
 
 static gpointer process_thread_func(gpointer data) {
@@ -49,20 +48,19 @@ static gpointer process_thread_func(gpointer data) {
     g_cond_timed_wait(process_cond, mutex, &timeval);
 
     if (g_atomic_int_get(&quit_thread)) {
-      g_mutex_free(mutex);
-      return NULL;
+      break;
     }
 
     GTimeVal tv;
     g_get_current_time(&tv);
-    gint64 now = tv.tv_sec * 1000000 + tv.tv_usec;
-    gint64 playback_time = now - playback_start_time;
+    double now = (double)tv.tv_sec + tv.tv_usec / 1000000.0;
+    double playback_time = now - playback_start_time;
 
     unsigned char event_data[3];
     size_t event_length;
     double event_time;
 
-    double until_time = (playback_time + PLAYBACK_INTERVAL) / 1000000.0;
+    double until_time = playback_time + PLAYBACK_INTERVAL / 1000000.0;
 
     while (read_event_from_queue(MIDI_BACKEND, event_data, &event_length, &event_time, until_time)) {
       snd_seq_event_t alsa_ev;
@@ -77,13 +75,18 @@ static gpointer process_thread_func(gpointer data) {
       snd_seq_event_output_direct(seq, &alsa_ev);
     }
 
-    update_playback_time(MIDI_BACKEND, playback_time / 1000000.0);
+    update_playback_time(MIDI_BACKEND, playback_time);
   }
+
+  g_mutex_free(mutex);
+  return NULL;
 }
 
 
 
 static int alsa_seq_initialize(DenemoPrefs *config) {
+  g_print("initializing ALSA sequencer MIDI backend\n");
+
   // create sequencer client
   if (snd_seq_open(&seq, "hw", SND_SEQ_OPEN_DUPLEX, 0) < 0) {
       g_warning("error opening alsa sequencer");
@@ -130,6 +133,8 @@ static int alsa_seq_initialize(DenemoPrefs *config) {
 
 
 static int alsa_seq_destroy() {
+  g_print("destroying ALSA sequencer MIDI backend\n");
+
   g_atomic_int_set(&quit_thread, TRUE);
   g_cond_signal(process_cond);
   g_thread_join(process_thread);
@@ -157,7 +162,8 @@ static int alsa_seq_reconfigure(DenemoPrefs *config) {
 static int alsa_seq_start_playing() {
   GTimeVal tv;
   g_get_current_time(&tv);
-  playback_start_time = tv.tv_sec * 1000000 + tv.tv_usec;
+  playback_start_time = (double)tv.tv_sec + tv.tv_usec / 1000000.0;
+  playback_start_time -= get_playback_time();
   return 0;
 }
 

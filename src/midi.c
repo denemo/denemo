@@ -50,6 +50,8 @@ void start_playing() {
 
   smf_rewind(smf);
 
+  smf_seek_to_seconds(smf, Denemo.gui->si->start_time);
+
   initialize_playhead();
 
   playing = TRUE;
@@ -68,8 +70,22 @@ gboolean is_playing() {
 }
 
 
+double get_start_time() {
+  return Denemo.gui->si->start_time;
+}
+
+
+double get_end_time() {
+  return Denemo.gui->si->end_time;
+}
+
+
 smf_event_t *get_smf_event(double until_time) {
   smf_t *smf = Denemo.gui->si->smf;
+
+  if (until_time > Denemo.gui->si->end_time) {
+    until_time = Denemo.gui->si->end_time;
+  }
 
   for (;;) {
     smf_event_t *event = smf_peek_next_event(smf);

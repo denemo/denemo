@@ -39,6 +39,8 @@ void update_position(smf_event_t *event);
 void start_playing();
 void stop_playing();
 gboolean is_playing();
+double get_start_time();
+double get_end_time();
 
 smf_event_t *get_smf_event(double until_time);
 

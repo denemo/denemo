@@ -355,7 +355,7 @@ static int jack_audio_reconfigure(DenemoPrefs *config) {
 
 
 static int jack_audio_start_playing() {
-  playback_frame = 0;
+  playback_frame = seconds_to_nframes(get_playback_time());
   return 0;
 }
 
@@ -427,7 +427,7 @@ static int jack_midi_reconfigure(DenemoPrefs *config) {
 
 
 static int jack_midi_start_playing() {
-  playback_frame = 0;
+  playback_frame = seconds_to_nframes(get_playback_time());
   return 0;
 }
 
