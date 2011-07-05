@@ -5105,7 +5105,14 @@ for second and subsequent systems</tooltip>
         <label>Change Back to Printing on this Staff</label>
         <tooltip>Returns to printing the succeeding notes on this staff.</tooltip>
       </row>
-      
+      <row>
+        <action>EvenOutStaffLengths</action>
+        <after>ReBar</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <label>Even Up the Staffs</label>
+        <tooltip>Appends empty measures to any staffs that are too short.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
