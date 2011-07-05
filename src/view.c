@@ -3432,6 +3432,11 @@ static SCM scheme_get_staffs_in_clipboard(SCM optional) {
 }
 
 
+static SCM scheme_get_measures_in_staff(SCM optional) {
+  gint num = g_list_length(((DenemoStaff*)Denemo.gui->si->currentstaff->data)->measures);
+    return scm_int2num(num);
+}
+
 
 /* shifts the note at the cursor by the number of diatonic steps passed in */
 SCM scheme_diatonic_shift (SCM optional) {
@@ -3953,6 +3958,8 @@ static void create_scheme_identfiers(void) {
   INSTALL_SCM_FUNCTION2 ("Takes a staff number m and a object number n. Inserts the (m, n)th Denemo Object from Denemo Clipboard into the staff at the cursor position", DENEMO_SCHEME_PREFIX"PutClipObj",  scheme_put_clip_obj);
   INSTALL_SCM_FUNCTION ("Clears the Denemo Music Clipboard",DENEMO_SCHEME_PREFIX"ClearClipboard",  scheme_clear_clipboard);
   INSTALL_SCM_FUNCTION ("Gives the number of staffs in the Denemo Music Clipboard",DENEMO_SCHEME_PREFIX"GetStaffsInClipboard",  scheme_get_staffs_in_clipboard);
+
+  INSTALL_SCM_FUNCTION ("Gives the number of measures in the current staff",DENEMO_SCHEME_PREFIX"GetMeasuresInStaff",  scheme_get_measures_in_staff);
 
   INSTALL_SCM_FUNCTION ("Adjusts the horizontal (x-) positioning of notes etc after paste",DENEMO_SCHEME_PREFIX"AdjustXes",  scheme_adjust_xes);
 
