@@ -234,7 +234,6 @@ gboolean read_event_from_queue(backend_type_t backend, unsigned char *event_buff
     smf_event_t *event;
 
     if (!jack_ringbuffer_read_space(queue)) {
-//      playing = FALSE;
       if (is_playing() && playback_time > 0.0) {
         stop_playing();
       }

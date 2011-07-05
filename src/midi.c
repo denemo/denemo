@@ -74,12 +74,7 @@ smf_event_t *get_smf_event(double until_time) {
   for (;;) {
     smf_event_t *event = smf_peek_next_event(smf);
 
-    if (event == NULL) {
-      playing = FALSE;
-      return NULL;
-    }
-
-    if (event->time_seconds >= until_time) {
+    if (event == NULL || event->time_seconds >= until_time) {
       return NULL;
     }
 
