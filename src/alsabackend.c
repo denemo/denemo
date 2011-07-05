@@ -32,7 +32,7 @@ static snd_midi_event_t *parser;
 
 static GThread *process_thread;
 static GCond *process_cond;
-static volatile gboolean quit_thread;
+static gboolean quit_thread = FALSE;
 
 static gint64 playback_start_time;
 
@@ -48,7 +48,7 @@ static gpointer process_thread_func(gpointer data) {
 
     g_cond_timed_wait(process_cond, mutex, &timeval);
 
-    if (quit_thread) {
+    if (g_atomic_int_get(&quit_thread)) {
       g_mutex_free(mutex);
       return NULL;
     }
@@ -76,13 +76,14 @@ static gpointer process_thread_func(gpointer data) {
 
       snd_seq_event_output_direct(seq, &alsa_ev);
     }
+
+    update_playback_time(MIDI_BACKEND, playback_time / 1000000.0);
   }
 }
 
 
 
-static int alsa_seq_initialize(DenemoPrefs *config)
-{
+static int alsa_seq_initialize(DenemoPrefs *config) {
   // create sequencer client
   if (snd_seq_open(&seq, "hw", SND_SEQ_OPEN_DUPLEX, 0) < 0) {
       g_warning("error opening alsa sequencer");
@@ -128,9 +129,8 @@ static int alsa_seq_initialize(DenemoPrefs *config)
 }
 
 
-static int alsa_seq_destroy()
-{
-  quit_thread = TRUE;
+static int alsa_seq_destroy() {
+  g_atomic_int_set(&quit_thread, TRUE);
   g_cond_signal(process_cond);
   g_thread_join(process_thread);
 
@@ -148,15 +148,13 @@ static int alsa_seq_destroy()
 }
 
 
-static int alsa_seq_reconfigure(DenemoPrefs *config)
-{
+static int alsa_seq_reconfigure(DenemoPrefs *config) {
   alsa_seq_destroy();
   return alsa_seq_initialize(config);
 }
 
 
-static int alsa_seq_start_playing()
-{
+static int alsa_seq_start_playing() {
   GTimeVal tv;
   g_get_current_time(&tv);
   playback_start_time = tv.tv_sec * 1000000 + tv.tv_usec;
@@ -164,20 +162,17 @@ static int alsa_seq_start_playing()
 }
 
 
-static int alsa_seq_stop_playing()
-{
+static int alsa_seq_stop_playing() {
   return 0;
 }
 
 
-static int alsa_seq_play_midi_event(int port, unsigned char *buffer)
-{
+static int alsa_seq_play_midi_event(int port, unsigned char *buffer) {
   return 0;
 }
 
 
-static int alsa_seq_panic()
-{
+static int alsa_seq_panic() {
   return 0;
 }
 
