@@ -1127,13 +1127,9 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	}
 
 	if ((pchord->is_grace & ENDGRACE) && *pgrace_status) {
-	  *pgrace_status = FALSE, g_string_append_printf (ret,"} ");
-	  if(figures->len)
-	    g_string_append_printf (figures, "}");
-	  if(fakechords->len)
-	    g_string_append_printf (fakechords, "}");
+	  *pgrace_status = FALSE, g_string_append_printf (ret,"} ");	  
 	}
-	
+
 	g_free(chord_prefix);
 
 
@@ -1758,6 +1754,12 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	      
 	      if (curstaffstruct->hasfakechords)
 		output_fakechord(si, fakechords, pchord);
+	      if ((pchord->is_grace & ENDGRACE)) {
+		  if(figures->len)
+	               g_string_append_printf (figures, "}");
+	           if(fakechords->len)
+	               g_string_append_printf (fakechords, "}");
+	      }
 	    /* end of figures and chord symbols*/
 	    }
 	  }
