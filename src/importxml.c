@@ -2982,6 +2982,10 @@ static gint   parseMovement(xmlNodePtr childElem, xmlNsPtr ns, DenemoGUI *gui, I
    ret = parseScore (childElem, ns, gui, type);
    sPrevStaffElem = NULL;
    staffnode *curstaff;
+  if(si->thescore==NULL) {
+    g_warning("Bad Denemo file\n");
+    return -1;
+   }
   for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
     {
       beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
