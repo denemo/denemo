@@ -71,12 +71,20 @@ gboolean is_playing() {
 
 
 double get_start_time() {
-  return Denemo.gui->si->start_time;
+  if (Denemo.gui && Denemo.gui->si) {
+    return Denemo.gui->si->start_time;
+  } else {
+    return 0.0;
+  }
 }
 
 
 double get_end_time() {
-  return Denemo.gui->si->end_time;
+  if (Denemo.gui && Denemo.gui->si) {
+    return Denemo.gui->si->end_time;
+  } else {
+    return 0.0;
+  }
 }
 
 
