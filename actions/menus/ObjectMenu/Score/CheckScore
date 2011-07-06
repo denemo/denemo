@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>EditScoreDirective</after>
+        <action>CheckScore</action>
+        <scheme>;;;;;;;;;CheckScore
+(while (d-PreviousMovement))
+(define ReBar::return #f)
+(let movement ()
+  (d-EvenOutStaffLengths)
+  (let staff ()
+      (d-ReBar #t)
+      (if ReBar::return
+	(if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
+	(staff))))
+	(if (and ReBar::return (d-NextMovement))
+	  (movement)))
+(define CheckScore::return ReBar::return)
+</scheme>
+        <label>Check Score</label>
+        <tooltip>Checks score for wrong measure durations, unterminated tuplets, slurs, wrong ties etc.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

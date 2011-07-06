@@ -5113,6 +5113,14 @@ for second and subsequent systems</tooltip>
         <label>Even Up the Staffs</label>
         <tooltip>Appends empty measures to any staffs that are too short.</tooltip>
       </row>
+      <row>
+        <action>CheckScore</action>
+        <after>EditScoreDirective</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>Check Score</label>
+        <tooltip>Checks score for wrong measure durations, unterminated tuplets, slurs, wrong ties etc.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

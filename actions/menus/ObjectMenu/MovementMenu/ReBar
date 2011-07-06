@@ -13,7 +13,7 @@
 ;Variable descriptions:
 ;SplitAll set to #f allows user to decide whether to split across barlines; set to #t, splits always.
 ;TupletScaleFactor: e.g. if we're inside a triplet, scale durations by 2/3
-
+(define ReBar::return #f)
 (let ( (Input1 #f) (Input2 #f) (InitialTimeSig 1) (ScanAllStaffs #f) (TupletScaleFactor 1)  
 (SplitAll #f))
  	
@@ -386,17 +386,22 @@
 ) ;define AuditThisStaff
 
 ;now actually do it:
-(let ((Pad #f) (Blank #f)(MergeAndSplit #f))
+(if ReBar::params
+   (begin
+	 (d-MoveToBeginning) 
+	 (set! ReBar::return (AuditThisStaff 1 #f #f #f))
+    )
+    (let ((Pad #f) (Blank #f)(MergeAndSplit #f))
 	(set! Input1 (d-GetOption (string-append "Search for under/overfull bars" stop 
 				"Pad underfull bars with rests" stop "Pad underfull bars with blank rests"  stop
 				"Rebar-Merge underfull, split overfull bars" stop)))
 	(set! Blank (equal? Input1 "Pad underfull bars with blank rests"))
 	(set! Pad (or (equal? Input1 "Pad underfull bars with rests")(equal? Input1 "Pad underfull bars with blank rests" )))
 	(set! MergeAndSplit (equal? Input1 "Rebar-Merge underfull, split overfull bars"))
-	(if Input1 (set! Input2  (d-GetOption (string-append  "Entire Staff" stop "This Point Onwards"  stop "Entire Score" stop ))) )
+	(if Input1 (set! Input2  (d-GetOption (string-append  "Entire Staff" stop "This Point Onwards"  stop "Entire Movement" stop ))) )
 	(if (and Input1 Input2)  ;don't go if user cancelled
 		(begin
-			(if (equal? Input2 "Entire Score") (set! ScanAllStaffs #t))
+			(if (equal? Input2 "Entire Movement") (set! ScanAllStaffs #t))
 			(d-PushPosition)	;let's try to return cursor to here when done.
 			(if ScanAllStaffs (while (d-MoveToStaffUp)))	;Start at top staff, top voice
 			(if (not (equal? Input2 "This Point Onwards")) (d-MoveToBeginning))
@@ -410,13 +415,10 @@
 						(if (not (AuditThisStaff  InitialTimeSig Pad Blank MergeAndSplit) ) (set! AllOK #f))	;if AuditThisStaff returns #f, need to stop.
 						)
 					)
+				(set! ReBar::return AllOK)
 				(if AllOK 
 					(d-PopPosition)	;end where we began, unless there were problems.
-					)
-			)
-		)
-	)
-)
+					))))))
 )	;let</scheme>
         <label>Adjust the Measure Lengths</label>
         <tooltip>Removes gaps in duration of measures, redistributes the notes according to the time signature.</tooltip>
