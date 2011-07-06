@@ -178,18 +178,7 @@
 		(set! TimeSig (string-&gt;number (d-InsertTimeSig "query=timesigname") ))
 	);GetTimeSig
 	
-	(define (GetAnacrusis TagName)	;TagName = "Anacrusis" or "ShortMeasure"
-		(let ((AnacrusisPF #f)(AnacrusisSize 0))
-			(set! AnacrusisPF (d-DirectiveGet-standalone-postfix TagName))
-			;look only at number of 128ths-final #, cutting off final space: (NOTE: assumes it's partial 128*xxx)
-			(set! AnacrusisPF (substring AnacrusisPF 13   ))  ;remove final spaces, if there.
-			(if (string-index AnacrusisPF #\sp )
-				(set! AnacrusisPF (substring AnacrusisPF 0  (string-index AnacrusisPF #\sp) ))
-			)
-			(set! AnacrusisSize (/ (string-&gt;number AnacrusisPF) 128 ))
-			 (- TimeSig AnacrusisSize)	;return this:it's how much space the Anacrusis accounts for.
-		)
-	)
+
 		
 	(define (NextBreakInMeasure) ;move to next object in measure, skipping objects of no duration, return #t if we found something with nonzero duration
 		(let ((GNB 0)(Moved #f))
@@ -224,9 +213,8 @@
 					
 				)
 			)
-			(if (and 	(equal? (d-GetType) "LILYDIRECTIVE") 
-					(or (equal? (d-DirectiveGetTag-standalone) "Anacrusis" ) (equal? (d-DirectiveGetTag-standalone) "ShortMeasure" ) ))
-				(set! NoteBeat (GetAnacrusis (d-DirectiveGetTag-standalone)) )	;GetAnacrusis returns how much space it takes up.
+			(if (equal? (d-GetType) "LILYDIRECTIVE")
+				(set! NoteBeat (/ (d-GetDurationInTicks) 1536))
 			)
 			(if (equal? (d-GetType) "TUPCLOSE") (CloseTuplet) )
 			(if (equal? (d-GetType) "CHORD" ) 
@@ -430,10 +418,8 @@
 	)
 )
 )	;let</scheme>
-        <label>Audit Measures</label>
-        <tooltip>Search for over/underfull bars, pad with rests if desired, or \n
-        redistributes the notes into measures\naccording to the time signature (rebar).
-        </tooltip>
+        <label>Adjust the Measure Lengths</label>
+        <tooltip>Removes gaps in duration of measures, redistributes the notes according to the time signature.</tooltip>
       </row>
     </map>
   </merge>

@@ -7,29 +7,33 @@
       <row>
         <action>Upbeat</action>
         <scheme>;;;Upbeat
-(let script ()
+(let script ((upbeat "Upbeat"))
+
   ; How many ticks are in a 100% filled measure?
   (define MaxTicks (* 1536 (GetPrevailingTimeSig #t) )) 
   (define EndTick #f)
   ;Upbeat is only for underful measures
   (define (warning)
-   (Help::TimedNotice "Upbeat can only be used in an underful, non-empty measures")   
+   (Help::TimedNotice "Upbeat/Short Measure can only be used in an underful, non-empty measures")   
    #f)
  
  ; Create Upbeat-Directive Subprogram
  (define (createUpbeat)
    (define remainingTicks (- MaxTicks EndTick))
-   (define partialDuartion (number-&gt;string (/ EndTick 6 )))
+   (define partialDuration (number-&gt;string (/ EndTick 6 )))
    (GoToMeasureBeginning)
-   (StandAloneDirectiveProto (cons "Upbeat" (string-append "\\partial 256*" partialDuartion 	" "))  #f #f "Upbeat")
+   (StandAloneDirectiveProto (cons upbeat (string-append "\\partial 256*" partialDuration 	" "))  #f #f upbeat)
    (d-SetDurationInTicks remainingTicks)
+   (d-DirectivePut-standalone-override upbeat DENEMO_OVERRIDE_DURATION)
    (GoToMeasureEnd)
    (if  (not (d-MoveToMeasureRight))
 	(d-AddMeasure)))
- 
+	
+    (if Upbeat::params
+   	(set! upbeat Upbeat::params))
 ; First action: delete any old Upbeat directive in this measure
    (GoToMeasureBeginning)
-   (if (d-DirectiveGet-standalone-display "Upbeat")
+   (if (d-DirectiveGet-standalone-display upbeat)
  	(d-DeleteObject))
 
 ; Save how many ticks are in this measure
