@@ -1814,6 +1814,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		  break;
 
 		case LILYDIRECTIVE:
+		  {
+		  gint theduration = curobj->durinticks;
 		  if(!(((DenemoDirective *)curobj->object)->override & DENEMO_OVERRIDE_HIDDEN)) {
 		    gint numbytes;
 		    gchar *buffer = directive_get_midi_buffer(curobj->object, &numbytes, midi_channel, cur_volume);
@@ -1842,7 +1844,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			  g_warning("Tempo change to 0 bpm is illegal");
 			break;
 		      case DENEMO_OVERRIDE_DURATION:
-			g_warning("Not implemented");
+			theduration = midi_interpretation;
+			g_print("duration is %d\n", theduration);
 			break;
 		      default:
 			if(!(midi_override&DENEMO_OVERRIDE_HIDDEN))
@@ -1857,9 +1860,9 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		 
 
 		  curobj->earliest_time   = event->time_seconds;// taking the last one...
-		  curobj->latest_time = curobj->earliest_time + curobj->durinticks*60.0/(cur_tempo*MIDI_RESOLUTION);
-		  ticks_read += curobj->durinticks;
-
+		  curobj->latest_time = curobj->earliest_time + theduration*60.0/(cur_tempo*MIDI_RESOLUTION);
+		  ticks_read += theduration;
+		  }
 		  break;
 		default:
 #if DEBUG
