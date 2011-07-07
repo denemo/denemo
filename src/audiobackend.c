@@ -234,20 +234,28 @@ gboolean read_event_from_queue(backend_type_t backend, unsigned char *event_buff
   for (;;) {
     smf_event_t *event;
 
-    printf("is_playing=%d, playback_time=%f, end_time=%f\n", is_playing(), playback_time, get_end_time());
+//    printf("is_playing=%d, playback_time=%f, end_time=%f\n", is_playing(), playback_time, get_end_time());
 
-    if (!jack_ringbuffer_read_space(queue) || playback_time > get_end_time()) {
+    if (playback_time > get_end_time()) {
       if (is_playing() && playback_time > 0.0) {
-        //stop_playing();
         midi_stop();
       }
-//      update_position(NULL);
+
+//      printf("no more events to play\n");
+
+      return FALSE;
+    }
+    else if (!jack_ringbuffer_read_space(queue)) {
+//      printf("no event to play right now\n");
+
       return FALSE;
     }
 
     jack_ringbuffer_peek(queue, (char *)&event, sizeof(smf_event_t*));
 
     if (event->time_seconds >= until_time) {
+//      printf("no event to play right now\n");
+
       return FALSE;
     }
 
@@ -268,9 +276,12 @@ gboolean read_event_from_queue(backend_type_t backend, unsigned char *event_buff
     *event_length = event->midi_buffer_length;
     *event_time = event->time_seconds;
 
+//    printf("event_time=%f\n", *event_time);
+
     return TRUE;
   }
 }
+
 
 
 static gpointer queue_thread_func(gpointer data) {
@@ -287,6 +298,8 @@ static gpointer queue_thread_func(gpointer data) {
     if (is_playing()) {
       smf_event_t * event;
       double until_time = playback_time + 5.0;
+
+//      printf("playback_time=%f, until_time=%f\n", playback_time, until_time);
 
       while ((event = get_smf_event(until_time))) {
         write_event_to_queue(AUDIO_BACKEND, event);
@@ -335,8 +348,6 @@ void midi_play(gchar *callback) {
 
   reset_playback_queue(AUDIO_BACKEND);
   reset_playback_queue(MIDI_BACKEND);
-
-  g_cond_signal(queue_cond);
 
   g_print("starting playback\n");
 
