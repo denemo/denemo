@@ -2111,8 +2111,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
     gui->anchors = NULL;
   }
 
-  call_out_to_guile("(InitializeTypesetting)");
-
+ 
 
   /* divide up the buffer for the various parts of the lily file */
   GtkTextIter iter;

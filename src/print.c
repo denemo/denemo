@@ -800,7 +800,7 @@ export_pdf (gchar * filename, DenemoGUI * gui)
   gchar *lilyfile;  
   gchar *psfile;
   GList *filelist=NULL;
- 
+
   basename =  get_printfile_pathbasename();
   lilyfile = g_strconcat (basename, ".ly", NULL);
   psfile = g_strconcat (filename, ".ps", NULL);
@@ -845,8 +845,13 @@ print_and_view(gchar **arguments) {
 }
 
 void print_lily_cb (GtkWidget *item, DenemoGUI *gui){
+  if(call_out_to_guile("(InitializeTypesetting)")) {
+    g_warning("InitializeTypesetting failed\n");
+    return;
+  }
   gchar *filename = get_printfile_pathbasename();
   gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
+
   FILE *fp = fopen(lilyfile, "w");
   if(fp){
     GtkTextIter startiter, enditer;
@@ -1121,6 +1126,11 @@ printpart_cb (GtkAction *action, gpointer param) {
 
 void
 printpreview_cb (GtkAction *action, gpointer param) {
+  if(call_out_to_guile("(InitializeTypesetting)")) {
+      g_warning("InitializeTypesetting failed\n");
+  return;
+  }
+
   DenemoGUI *gui = Denemo.gui;
   gui->si->markstaffnum=0;//FIXME save and restore selection?    
   gui->lilycontrol.excerpt = FALSE;
