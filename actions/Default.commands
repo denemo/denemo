@@ -5121,6 +5121,14 @@ for second and subsequent systems</tooltip>
         <label>Check Score</label>
         <tooltip>Checks score for wrong measure durations, unterminated tuplets, slurs, wrong ties etc.</tooltip>
       </row>
+      <row>
+        <action>FixSlursInStaff</action>
+        <after>SimplifyTies</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Fix Slurs</label>
+        <tooltip>Removes incorrectly placed slur start/end markers on current voice/staff.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

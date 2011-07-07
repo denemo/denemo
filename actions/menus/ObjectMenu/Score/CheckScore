@@ -12,6 +12,10 @@
 (define ReBar::return #f)
 (let movement ()
   (d-EvenOutStaffLengths)
+   (let staff ()
+   	(d-FixSlursInStaff)
+ 	 (if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
+		(staff)))
   (let staff ()
       (d-ReBar #t)
       (if ReBar::return
