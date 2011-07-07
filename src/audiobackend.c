@@ -334,8 +334,10 @@ void update_playback_time(backend_type_t backend, double new_time) {
     return;
   }
 
-  playback_time = new_time;
-  g_cond_signal(queue_cond);
+  if (new_time != playback_time) {
+    playback_time = new_time;
+    g_cond_signal(queue_cond);
+  }
 }
 
 double get_playback_time() {
