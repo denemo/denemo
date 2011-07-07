@@ -30,4 +30,12 @@
 (SetHeaderField "title" "Untitled"))
 
 (d-LimitInterSystemSpace 1.2)
+
+(define (InitializeTypesetting)
+  (d-CheckScore)
+  (if (not CheckScore::return)
+    (begin
+	(d-InfoDialog "Score Check: Error in this measure - fix before printing")
+	(exit))))
+
 (d-SetSaved #t)
