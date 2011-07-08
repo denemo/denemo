@@ -628,12 +628,12 @@ int main() {
 	/*******************   create a callback for calling from a menuitem *******************/
 	if(mi&CMD_CATEGORY_BOOLEAN) {
 	  fprintf(callbacks, "static void %s_cb (GtkAction *action, DenemoScriptParam *param) {\n"
-		  "%s (param);\ndisplayhelper (Denemo.gui);\n%s}\n",
-		  fi, fi, (CMD_CLASS(mi)==CMD_CATEGORY_NAVIGATION)?"":"  score_status(gui, TRUE);\n");
+		  "%s (param);\n%s}\n",
+		  fi, fi, (CMD_CLASS(mi)==CMD_CATEGORY_NAVIGATION)?"gtk_widget_queue_draw(Denemo.scorearea);\n":" displayhelper (Denemo.gui);\n score_status(gui, TRUE);\n");
 	} else {
 	  fprintf(callbacks, "static void %s_cb (GtkAction *action, gpointer param) {\n"
 		  "  DenemoGUI *gui = Denemo.gui;\n"
-		  "%s (gui);\ndisplayhelper (gui);\n%s}\n", fi, fi, CMD_CLASS(mi)==CMD_CATEGORY_NAVIGATION?"":"  score_status(gui, TRUE);\n");
+		  "%s (gui);\n%s}\n", fi, fi, CMD_CLASS(mi)==CMD_CATEGORY_NAVIGATION?"gtk_widget_queue_draw(Denemo.scorearea);\n":"  displayhelper (gui);\nscore_status(gui, TRUE);\n");
 	}
       }
       
