@@ -12,10 +12,23 @@
 (define ReBar::return #f)
 (let movement ()
   (d-EvenOutStaffLengths)
+  
    (let staff ()
    	(d-FixSlursInStaff)
  	 (if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
 		(staff)))
+(d-MoveToStaffUp)	
+ (let staff ()
+ 	(d-MoveToBeginning)
+ 	(let measure ()
+ 		(d-CheckTupletsInMeasure)
+ 		(if (not CheckTupletsInMeasure::return)
+ 			(exit))
+ 		(if (d-MoveToMeasureRight)
+ 			(measure)))
+  	 (if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
+		(staff)))			
+ 
   (let staff ()
       (d-ReBar #t)
       (if ReBar::return

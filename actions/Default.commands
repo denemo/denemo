@@ -5129,6 +5129,14 @@ for second and subsequent systems</tooltip>
         <label>Fix Slurs</label>
         <tooltip>Removes incorrectly placed slur start/end markers on current voice/staff.</tooltip>
       </row>
+      <row>
+        <action>CheckTupletsInMeasure</action>
+        <after>SplitMeasure</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Check Tuplets</label>
+        <tooltip>Checks that start/end tuplets match in the current measure.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
