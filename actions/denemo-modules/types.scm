@@ -38,12 +38,18 @@
   
 (define (Tupletmarker?) 
   (if (or (Tupletopen?) (Tupletclose?))  #t #f))
-  
-(define (Tupletopen?) 
+
+(define (TupletOpen?) 
   (if (string=? (d-GetType) "TUPOPEN") #t #f))
   
-(define (Tupletclose?) 
+(define (TupletClose?) 
   (if (string=? (d-GetType) "TUPCLOSE") #t #f))
+  
+(define (Tupletopen?) 
+  (TupletOpen?))
+  
+(define (Tupletclose?) 
+  (TupletClose))
  
 (define (None?)
  (if (string=? (d-GetType) "None") #t #f))
