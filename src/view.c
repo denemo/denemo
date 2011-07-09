@@ -3174,8 +3174,6 @@ static SCM scheme_put_note_name (SCM optional) {
      interpret_lilypond_notename(str, &mid_c_offset, &enshift);
      //g_print("note %s gives %d and %d\n", str, mid_c_offset, enshift);
      modify_note(thechord, mid_c_offset, enshift,  find_prevailing_clef(Denemo.gui->si));
-     //thenote->mid_c_offset = interpret_lilypond_notename(str);
-     displayhelper(Denemo.gui);
      if(str) free(str);
    return SCM_BOOL(TRUE);
   }
@@ -3453,12 +3451,9 @@ SCM scheme_diatonic_shift (SCM optional) {
      str = scm_to_locale_string(optional);
      gint shift;
      sscanf(str, "%d", &shift);
-     
-     g_print("note shift %s ie %d\n", str, shift);
+//     g_print("note shift %s ie %d\n", str, shift);
      modify_note(thechord, thenote->mid_c_offset+shift, gui->si->curmeasureaccs[offsettonumber(thenote->mid_c_offset+shift)],  find_prevailing_clef(Denemo.gui->si));
-     //thenote->mid_c_offset = interpret_lilypond_notename(str);
-     displayhelper(Denemo.gui);
-     if(str) free(str);
+    if(str) free(str);
    }
  }
  return SCM_BOOL(FALSE);  

@@ -1343,8 +1343,6 @@ shiftcursor (DenemoGUI  *gui, gint note_value)
       } else {/* single-note chord - change the note */
       gint dclef = find_prevailing_clef(gui->si);	    
       modify_note(thechord, mid_c_offset, gui->si->curmeasureaccs[note_value], dclef);
-      showwhichaccidentals ((objnode *) gui->si->currentmeasure->data,
-			    gui->si->curmeasurekey, gui->si->curmeasureaccs);
       }
       gui->si->undo_guard--;
       score_status(gui, TRUE);
@@ -1727,10 +1725,6 @@ setenshift (DenemoScore * si, gint enshift)
       store_for_undo_change (si, curmudelaobj);
 
       changeenshift (curmudelaobj, si->cursor_y, enshift);
-      showwhichaccidentals ((objnode *) si->currentmeasure->data,
-			    si->curmeasurekey, si->curmeasureaccs);
-      find_xes_in_measure (si, si->currentmeasurenum, si->cursortime1,
-			   si->cursortime2);
       if (curmudelaobj->user_string)
 	{
 	  g_free (curmudelaobj->user_string);

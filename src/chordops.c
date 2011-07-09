@@ -245,6 +245,7 @@ void modify_note(chord *thechord, gint mid_c_offset, gint enshift, gint dclef) {
      {DenemoStaff *curstaffstruct = (DenemoStaff *)  Denemo.gui->si->currentstaff->data;
     playnotes (Denemo.prefs.immediateplayback, thechord, curstaffstruct->midi_channel);
   }
+  displayhelper(Denemo.gui);
 }
 
 /* Allocate a new note structure initializing the fields
@@ -427,6 +428,7 @@ changeenshift (DenemoObject * thechord, gint mid_c_offset, gint accidental)
     {
       tone = (note *) tnode->data;
       tone->enshift = accidental;
+      displayhelper(Denemo.gui);
     }
 }
 
