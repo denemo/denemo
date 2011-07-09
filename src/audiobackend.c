@@ -93,12 +93,10 @@ static int initialize_audio(DenemoPrefs *config) {
   }
 
   if (backends[AUDIO_BACKEND] == NULL) {
-    backends[AUDIO_BACKEND] = &dummy_backend;
+    backends[AUDIO_BACKEND] = &dummy_audio_backend;
   }
 
-  if (backends[AUDIO_BACKEND] != &dummy_backend) {
-    playback_queues[AUDIO_BACKEND] = jack_ringbuffer_create(PLAYBACK_QUEUE_SIZE);
-  }
+  playback_queues[AUDIO_BACKEND] = jack_ringbuffer_create(PLAYBACK_QUEUE_SIZE);
 
   return get_backend(AUDIO_BACKEND)->initialize(config);
 }
@@ -128,12 +126,10 @@ static int initialize_midi(DenemoPrefs *config) {
   }
 
   if (backends[MIDI_BACKEND] == NULL) {
-    backends[MIDI_BACKEND] = &dummy_backend;
+    backends[MIDI_BACKEND] = &dummy_midi_backend;
   }
 
-  if (backends[MIDI_BACKEND] != &dummy_backend) {
-    playback_queues[MIDI_BACKEND] = jack_ringbuffer_create(PLAYBACK_QUEUE_SIZE);
-  }
+  playback_queues[MIDI_BACKEND] = jack_ringbuffer_create(PLAYBACK_QUEUE_SIZE);
 
   return get_backend(MIDI_BACKEND)->initialize(config);
 }
@@ -330,7 +326,7 @@ static gpointer queue_thread_func(gpointer data) {
 void update_playback_time(backend_type_t backend, double new_time) {
   // ignore time from MIDI backend if audio backend exists
 //  if (backend == MIDI_BACKEND && get_backend(AUDIO_BACKEND)) {
-  if (backend == MIDI_BACKEND && get_backend(AUDIO_BACKEND) != &dummy_backend) {
+  if (backend == MIDI_BACKEND && get_backend(AUDIO_BACKEND) != &dummy_audio_backend) {
     return;
   }
 

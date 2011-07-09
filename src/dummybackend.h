@@ -17,7 +17,8 @@
 #include "audiobackend.h"
 
 
-extern backend_t dummy_backend;
+extern backend_t dummy_audio_backend;
+extern backend_t dummy_midi_backend;
 
 
 #endif // DUMMYBACKEND_H
