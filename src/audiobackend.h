@@ -77,6 +77,12 @@ typedef enum backend_type_t {
 // we only have two backends at the same time: audio and MIDI
 #define NUM_BACKENDS 2
 
+typedef enum backend_timebase_prio_t {
+  TIMEBASE_PRIO_AUDIO = 3,
+  TIMEBASE_PRIO_MIDI = 2,
+  TIMEBASE_PRIO_DUMMY = 1
+} backend_timebase_prio_t;
+
 
 /**
  * Initializes the audio/MIDI subsystem.
@@ -157,7 +163,7 @@ gboolean read_event_from_queue(backend_type_t backend, unsigned char *event_buff
                                double *event_time, double until_time);
 
 
-void update_playback_time(backend_type_t backend, double new_time);
+void update_playback_time(backend_timebase_prio_t prio, double new_time);
 
 double get_playback_time();
 

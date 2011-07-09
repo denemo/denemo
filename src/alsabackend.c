@@ -77,7 +77,7 @@ static gpointer process_thread_func(gpointer data) {
     }
 
     if (is_playing()) {
-      update_playback_time(MIDI_BACKEND, playback_time);
+      update_playback_time(TIMEBASE_PRIO_MIDI, playback_time);
     }
   }
 

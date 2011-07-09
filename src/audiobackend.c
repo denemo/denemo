@@ -323,10 +323,11 @@ static gpointer queue_thread_func(gpointer data) {
 }
 
 
-void update_playback_time(backend_type_t backend, double new_time) {
-  // ignore time from MIDI backend if audio backend exists
-//  if (backend == MIDI_BACKEND && get_backend(AUDIO_BACKEND)) {
-  if (backend == MIDI_BACKEND && get_backend(AUDIO_BACKEND) != &dummy_audio_backend) {
+void update_playback_time(backend_timebase_prio_t prio, double new_time) {
+  if (!((prio == TIMEBASE_PRIO_AUDIO) ||
+        (prio == TIMEBASE_PRIO_MIDI && get_backend(AUDIO_BACKEND) == &dummy_audio_backend) ||
+        (get_backend(AUDIO_BACKEND) == &dummy_audio_backend && get_backend(MIDI_BACKEND) == &dummy_midi_backend))) {
+    // ignore new playback time if another backend has higher priority
     return;
   }
 

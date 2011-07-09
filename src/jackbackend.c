@@ -138,7 +138,7 @@ static int process_callback(nframes_t nframes, void *arg) {
   if (is_playing()) {
     playback_frame += nframes;
 
-    update_playback_time(AUDIO_BACKEND, nframes_to_seconds(playback_frame));
+    update_playback_time(TIMEBASE_PRIO_AUDIO, nframes_to_seconds(playback_frame));
   }
 
   return 0;
