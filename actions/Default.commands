@@ -5137,6 +5137,14 @@ for second and subsequent systems</tooltip>
         <label>Check Tuplets</label>
         <tooltip>Checks that start/end tuplets match in the current measure.</tooltip>
       </row>
+      <row>
+        <action>CheckTiesInStaff</action>
+        <after>FixSlursInStaff</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Check Ties</label>
+        <tooltip>Checks for wrongly tied notes in the current voice/staff.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

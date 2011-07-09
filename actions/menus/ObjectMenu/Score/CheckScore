@@ -8,35 +8,40 @@
         <after>EditScoreDirective</after>
         <action>CheckScore</action>
         <scheme>;;;;;;;;;CheckScore
+(define CheckScore::return #t)
 (while (d-PreviousMovement))
-(define ReBar::return #f)
 (let movement ()
   (d-EvenOutStaffLengths)
-  
-   (let staff ()
-   	(d-FixSlursInStaff)
- 	 (if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
-		(staff)))
-(d-MoveToStaffUp)	
- (let staff ()
- 	(d-MoveToBeginning)
- 	(let measure ()
- 		(d-CheckTupletsInMeasure)
- 		(if (not CheckTupletsInMeasure::return)
- 			(exit))
- 		(if (d-MoveToMeasureRight)
- 			(measure)))
-  	 (if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
-		(staff)))			
- 
   (let staff ()
-      (d-ReBar #t)
-      (if ReBar::return
-	(if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
-	(staff))))
-	(if (and ReBar::return (d-NextMovement))
-	  (movement)))
-(define CheckScore::return ReBar::return)
+   	(d-FixSlursInStaff)   	
+   	(d-CheckTiesInStaff)
+   	(set! CheckScore::return CheckTiesInStaff::return)
+   	(if CheckTiesInStaff::return
+ 	 	(if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
+		(staff))))
+   (if CheckScore::return
+      (begin
+   	(while (d-MoveToStaffUp))	
+   	(let staff ()
+ 		(d-MoveToBeginning)
+ 		(let measure ()
+ 			(d-CheckTupletsInMeasure)			
+ 			(set! CheckScore::return CheckTupletsInMeasure::return)
+ 			(if CheckScore::return
+ 				(if (d-MoveToMeasureRight)
+ 					(measure))
+  				 (if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
+				(staff)))))
+	(if CheckScore::return
+  	  (let staff ()
+   	    (d-ReBar #t)
+   	    (set! CheckScore::return ReBar::return)
+      	    (if CheckScore::return
+      			(begin 
+				(if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
+				(staff))))
+				(if (d-NextMovement)
+	  				(movement)))))))
 </scheme>
         <label>Check Score</label>
         <tooltip>Checks score for wrong measure durations, unterminated tuplets, slurs, wrong ties etc.</tooltip>
