@@ -44,6 +44,8 @@ static gboolean audio_initialized = FALSE;
 static gboolean midi_initialized = FALSE;
 
 static nframes_t playback_frame = 0;
+
+static gboolean reset_audio = FALSE;
 static gboolean reset_midi = FALSE;
 
 
@@ -66,6 +68,12 @@ static void process_audio(nframes_t nframes) {
   }
 
 #ifdef _HAVE_FLUIDSYNTH_
+  if (reset_audio) {
+    fluidsynth_all_notes_off();
+    reset_audio = FALSE;
+    return;
+  }
+
   unsigned char event_data[3];
   size_t event_length;
   double event_time;
@@ -363,6 +371,7 @@ static int jack_audio_start_playing() {
 
 
 static int jack_audio_stop_playing() {
+  reset_audio = TRUE;
   return 0;
 }
 
@@ -376,7 +385,7 @@ static int jack_audio_play_midi_event(int port, unsigned char *buffer) {
 
 
 static int jack_audio_panic() {
-  // TODO
+  reset_audio = TRUE;
   return 0;
 }
 

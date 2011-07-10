@@ -81,18 +81,6 @@ void fluidsynth_shutdown()
 }
 
 
-//void fluid_all_notes_off_channel(gint chan) {
-//  fluid_synth_cc(synth, chan, 123, 0);
-//}
-//
-//void fluid_all_notes_off(void) {
-//  gint chan;
-//  for(chan=0;chan<16;chan++)
-//  fluid_all_notes_off_channel(chan);
-//}
-
-
-
 /**
  * Select the soundfont to use for playback
  */
@@ -129,17 +117,6 @@ void fluidsynth_shutdown()
 //}
 
 
-
-//void fluid_midi_panic()
-//{
-//  fluid_synth_system_reset(synth);
-//  Denemo.gui->si->end_time = pause_time = -1.0;
-//  Denemo.gui->si->start_time =  0.0;
-//  displayhelper(Denemo.gui);
-//}
-//
-
-
 void fluidsynth_feed_midi(unsigned char *event_data, size_t event_length) {
   int channel = (event_data[0] & 0x0f);
   int type = (event_data[0] & 0xf0);
@@ -169,6 +146,23 @@ void fluidsynth_feed_midi(unsigned char *event_data, size_t event_length) {
     default:
       g_warning("MIDI message not handled");
   }
+}
+
+
+//void fluid_all_notes_off_channel(gint chan) {
+//  fluid_synth_cc(synth, chan, 123, 0);
+//}
+//
+//void fluid_all_notes_off(void) {
+//  gint chan;
+//  for(chan=0;chan<16;chan++)
+//  fluid_all_notes_off_channel(chan);
+//}
+
+
+void fluidsynth_all_notes_off() {
+  // FIXME: this call has the potential to cause an xrun and/or disconnect us from JACK
+  fluid_synth_system_reset(synth);
 }
 
 

@@ -27,6 +27,11 @@ void fluidsynth_shutdown();
 void fluidsynth_feed_midi(unsigned char *event_data, size_t event_length);
 
 /**
+ * Sends an all-notes-off event to the synth engine.
+ */
+void fluidsynth_all_notes_off();
+
+/**
  * Renders the given number of audio frames into a buffer.
  */
 void fluidsynth_render_audio(unsigned int nframes, float *left_channel, float *right_channel);
