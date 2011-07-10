@@ -34,6 +34,8 @@ static GThread *process_thread;
 static GCond *process_cond;
 static gboolean quit_thread = FALSE;
 
+static gboolean reset = FALSE;
+
 static double playback_start_time;
 
 
@@ -62,6 +64,19 @@ static gpointer process_thread_func(gpointer data) {
     double event_time;
 
     double until_time = playback_time + PLAYBACK_INTERVAL / 1000000.0;
+
+    if (reset) {
+      int n;
+      for (n = 0; n < 16; ++n) {
+        snd_seq_event_t alsa_ev;
+        snd_seq_ev_set_controller(&alsa_ev, n, 123, 0);
+        snd_seq_ev_set_subs(&alsa_ev);
+        snd_seq_ev_set_direct(&alsa_ev);
+        snd_seq_ev_set_source(&alsa_ev, out_port_id);
+        snd_seq_event_output_direct(seq, &alsa_ev);
+      }
+      reset = FALSE;
+    }
 
     while (read_event_from_queue(MIDI_BACKEND, event_data, &event_length, &event_time, until_time)) {
       snd_seq_event_t alsa_ev;
@@ -172,6 +187,7 @@ static int alsa_seq_start_playing() {
 
 
 static int alsa_seq_stop_playing() {
+  reset = TRUE;
   return 0;
 }
 
@@ -182,6 +198,7 @@ static int alsa_seq_play_midi_event(int port, unsigned char *buffer) {
 
 
 static int alsa_seq_panic() {
+  reset = TRUE;
   return 0;
 }
 
