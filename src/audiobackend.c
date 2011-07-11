@@ -138,7 +138,7 @@ static int initialize_midi(DenemoPrefs *config) {
 int audiobackend_initialize(DenemoPrefs *config) {
   queue_cond = g_cond_new();
 
-  queue_thread = g_thread_create(queue_thread_func, NULL, TRUE, NULL);
+  queue_thread = g_thread_create_full(queue_thread_func, NULL, 262144, TRUE, FALSE, G_THREAD_PRIORITY_NORMAL, NULL);
 
   // FIXME: check for errors
   initialize_audio(config);

@@ -81,13 +81,29 @@ static gpointer process_thread_func(gpointer data) {
 }
 
 
+static void start_process_thread() {
+  if (!process_thread) {
+    process_cond = g_cond_new();
+    process_thread = g_thread_create_full(process_thread_func, NULL, 262144, TRUE, FALSE, G_THREAD_PRIORITY_NORMAL, NULL);
+  }
+}
+
+
+static void stop_process_thread() {
+  if (dummy_audio || dummy_midi) {
+    return;
+  }
+
+  g_atomic_int_set(&quit_thread, TRUE);
+  g_cond_signal(process_cond);
+  g_thread_join(process_thread);
+}
+
+
 static int dummy_audio_initialize(DenemoPrefs *config) {
   g_print("initializing dummy audio backend\n");
 
-  if (!process_thread) {
-    process_cond = g_cond_new();
-    process_thread = g_thread_create(process_thread_func, NULL, TRUE, NULL);
-  }
+  start_process_thread();
 
   g_atomic_int_set(&dummy_audio, TRUE);
 
@@ -97,10 +113,7 @@ static int dummy_audio_initialize(DenemoPrefs *config) {
 static int dummy_midi_initialize(DenemoPrefs *config) {
   g_print("initializing dummy MIDI backend\n");
 
-  if (!process_thread) {
-    process_cond = g_cond_new();
-    process_thread = g_thread_create(process_thread_func, NULL, TRUE, NULL);
-  }
+  start_process_thread();
 
   g_atomic_int_set(&dummy_midi, TRUE);
 
@@ -113,13 +126,7 @@ static int dummy_audio_destroy() {
 
   g_atomic_int_set(&dummy_audio, FALSE);
 
-  if (dummy_audio || dummy_midi) {
-    return 0;
-  }
-
-  g_atomic_int_set(&quit_thread, TRUE);
-  g_cond_signal(process_cond);
-  g_thread_join(process_thread);
+  stop_process_thread();
 
   return 0;
 }
@@ -129,13 +136,7 @@ static int dummy_midi_destroy() {
 
   g_atomic_int_set(&dummy_audio, TRUE);
 
-  if (dummy_audio || dummy_midi) {
-    return 0;
-  }
-
-  g_atomic_int_set(&quit_thread, TRUE);
-  g_cond_signal(process_cond);
-  g_thread_join(process_thread);
+  stop_process_thread();
 
   return 0;
 }

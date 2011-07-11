@@ -143,7 +143,7 @@ static int alsa_seq_initialize(DenemoPrefs *config) {
 
   process_cond = g_cond_new();
 
-  process_thread = g_thread_create(process_thread_func, NULL, TRUE, NULL);
+  process_thread = g_thread_create_full(process_thread_func, NULL, 262144, TRUE, FALSE, G_THREAD_PRIORITY_NORMAL, NULL);
 
 
   return 0;
