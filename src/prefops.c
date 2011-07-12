@@ -156,7 +156,8 @@ initprefs ()
   gchar *soundfontpath = g_build_filename (get_data_dir (), "soundfonts",
 		                                           "A320U.sf2", NULL);
   ret->fluidsynth_soundfont = g_string_new(soundfontpath);
-
+  ret->pitchspellingchannel = 15;
+  ret->pitchspellingprogram = 17;
 
 #ifdef G_OS_WIN32
   ret->fluidsynth_sample_rate = 22050;//the worst case slow machine
@@ -467,7 +468,9 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READXMLENTRY2(midi_audio_output)
       
       READBOOLXMLENTRY(createclones)
-      READBOOLXMLENTRY(immediateplayback) 
+      READBOOLXMLENTRY(immediateplayback)
+      READINTXMLENTRY(pitchspellingchannel)
+      READINTXMLENTRY(pitchspellingprogram) 
       READBOOLXMLENTRY(modal) 
       READBOOLXMLENTRY(persistence) 
       READBOOLXMLENTRY(cursor_highlight) 
@@ -825,6 +828,8 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEBOOLXMLENTRY(createclones)
   WRITEBOOLXMLENTRY(lilyentrystyle)
   WRITEBOOLXMLENTRY(immediateplayback)
+  WRITEINTXMLENTRY(pitchspellingchannel)
+  WRITEINTXMLENTRY(pitchspellingprogram)
   WRITEBOOLXMLENTRY(modal)
   WRITEBOOLXMLENTRY(persistence)
   WRITEBOOLXMLENTRY(cursor_highlight)

@@ -387,6 +387,8 @@ typedef struct DenemoPrefs
   GString *audioplayer; /**< This is used for playing audio files*/
   gboolean immediateplayback; /**< This options sends audio directly to synth as notes 
 				are being entered */
+  gint pitchspellingchannel; /**< channel to use for feedback when entering extreme intervals via MIDI in, that may indicate an enharmonic error, 0 means no pitch spelling*/
+  gint pitchspellingprogram; /**< program to set pitchspellingchannel to on startup */
   gboolean startmidiin; /**< try to start midi in on startup */
   gboolean applytoselection; /**< apply commands to selection */
   gboolean quickshortcuts;/**< TRUE if pressing a key while hovering over a menu item sets a shortcut */

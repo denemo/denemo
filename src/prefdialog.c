@@ -28,6 +28,8 @@ struct callbackdata
   GtkWidget *lilypath;
   GtkWidget *midi_audio_output;
   GtkWidget *immediateplayback;
+  GtkWidget *pitchspellingchannel;
+  GtkWidget *pitchspellingprogram;
   GtkWidget *modal;
   GtkWidget *cursor_highlight;
   GtkWidget *persistence;
@@ -186,6 +188,8 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNCOMBO2(midi_audio_output); 
   
   ASSIGNBOOLEAN(immediateplayback)
+  ASSIGNINT(pitchspellingchannel)
+  ASSIGNINT(pitchspellingprogram)
   ASSIGNBOOLEAN(modal)
   ASSIGNBOOLEAN(persistence)
   ASSIGNBOOLEAN(cursor_highlight)
@@ -489,7 +493,10 @@ preferences_change (GtkAction *action, gpointer param)
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
   }
 
-  BOOLEANENTRY("Play back entered notes immediately", immediateplayback);   
+  BOOLEANENTRY("Play back entered notes immediately", immediateplayback);
+  INTENTRY_LIMITS(_("Pitch Spelling Channel"), pitchspellingchannel, 0, 15);
+  INTENTRY_LIMITS(_("Pitch Spelling Program"), pitchspellingprogram, 0, 127);
+    
   BOOLEANENTRY("Auto-start midi in", startmidiin);
   INTENTRY_LIMITS(_("% MIDI-in Dynamic Compression"), dynamic_compression, 1, 100);
   COMBOBOX("Midi/Audio output", midi_audio_output, output_option_list, Denemo.prefs.midi_audio_output)
