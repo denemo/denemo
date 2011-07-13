@@ -34,8 +34,13 @@
 (define (InitializeTypesetting)
   (d-CheckScore)
   (if (not CheckScore::return)
-    (begin
-	(d-InfoDialog "Score Check: Error in this measure - fix before printing")
-	(exit))))
+    (let ((ok 
+	(d-GetUserInput "Score Check: Error in this measure" "Try to print anyway?" "n")))
+	(disp "note ok is " ok "\n")
+	(if (equal? ok "n")
+	(begin
+		(disp "we have ok = n\n")
+		(exit))))))
+
 
 (d-SetSaved #t)
