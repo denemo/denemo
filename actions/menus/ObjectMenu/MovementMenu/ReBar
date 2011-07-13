@@ -218,20 +218,8 @@
 			)
 			(if (equal? (d-GetType) "TUPCLOSE") (CloseTuplet) )
 			(if (equal? (d-GetType) "CHORD" ) 
-				(if (not (d-ToggleGrace "query="))	;if it's not a grace, continue; otherwise, leave it as 0.
-					(begin
-						(set! note (d-GetNoteDuration))
-						(set! len (string-length note) )
-						(set! DotIndex (string-index note #\.) )
-						( if DotIndex (begin		;if DotIndex is a valid number...
-							(set! NumDots (- len DotIndex) )
-							(set! note (substring note 0 DotIndex) )  ;trim off dots
-						) )
-						(set! note (string-&gt;number note))
-						(set! NoteBeat ( / 1 note))
-						;now modify base NoteBeat by (2-2^(-NumDots))
-						(set! NoteBeat (* NoteBeat (- 2 (expt 2 (* -1 NumDots)))))				
-					)
+				(if (not (d-ToggleGrace "query="))	;if it's not a grace, continue; otherwise, leave it as 0.					
+						(set! NoteBeat (/ (d-GetDurationInTicks) 1536))					
 				)
 			)
 			(* TupletScaleFactor NoteBeat)	;return NoteBeat--modified by TupletScale Factor.
