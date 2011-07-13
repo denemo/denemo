@@ -772,7 +772,7 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoGUI * gui)
     if(!error)
       g_child_watch_add (printpid, (GChildWatchFunc)finish, (gchar *) filelist);
   } else {
-    GError *err; 
+    GError *err = NULL; 
     g_spawn_sync (locateprintdir (),		/* dir */
 		arguments, NULL,	/* env */
 		G_SPAWN_SEARCH_PATH, NULL,	/* child setup func */
