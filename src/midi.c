@@ -295,8 +295,8 @@ static gint fifths[7] = { 0, 2, 4, -1, 1, 3, 5};
 /* check_interval() checks the interval passed notes
  * returns TRUE if the interval is unusual */
 static gboolean check_interval(enharmonic *this, enharmonic *that) {
-  gint distance = fifths[offsettonumber(this->mid_c_offset)]+ 7 * this->enshift
-      - fifths[offsettonumber(that->mid_c_offset)] - 7 * that->enshift;
+  gint distance = fifths[this->mid_c_offset]+ 7 * this->enshift
+      - fifths[that->mid_c_offset] - 7 * that->enshift;
           //g_print("off %d en %d and %d %d so dist %d\n", this->mid_c_offset, this->enshift, that->mid_c_offset, that->enshift, distance);
  if(distance>6 || distance<-6)
         return TRUE;
@@ -311,7 +311,7 @@ static gboolean get_current(enharmonic *enote) {
       chord *thechord = (chord *)  curObj->object;
       if(thechord->notes) {
         note *thenote = (note *) thechord->notes->data;
-          enote->mid_c_offset = thenote->mid_c_offset;
+          enote->mid_c_offset = offsettonumber(thenote->mid_c_offset);
           enote->enshift = thenote->enshift;
           return TRUE;
       }
@@ -335,7 +335,7 @@ static gboolean get_previous(enharmonic *enote) {
     chord *thechord = (chord *)  curObj->object;
     if(thechord->notes) {
         note *thenote = (note *) thechord->notes->data;
-        enote->mid_c_offset = thenote->mid_c_offset;
+        enote->mid_c_offset = offsettonumber(thenote->mid_c_offset);
         enote->enshift = thenote->enshift;
         return TRUE;
       }
