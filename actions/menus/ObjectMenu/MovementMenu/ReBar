@@ -211,7 +211,6 @@
 			(if (equal? (d-GetType) "LILYDIRECTIVE")
 				(set! NoteBeat (/ (d-GetDurationInTicks) 1536))
 			)
-			(if (equal? (d-GetType) "TUPCLOSE") (CloseTuplet) )
 			(if (equal? (d-GetType) "CHORD" ) 
 				(if (not (d-ToggleGrace "query="))	;if it's not a grace, continue; otherwise, leave it as 0.					
 						(set! NoteBeat (/ (d-GetDurationInTicks) 1536))					
@@ -230,11 +229,7 @@
 			(d-MoveCursorRight)
 		)
 	)
-	(define (CloseTuplet)
-		(begin 
-			(set! TupletScaleFactor 1) ;FIXME-doesn't allow nested tuplets.
-		)
-	)
+
 	(define (LoopThroughBar)   ;stops once we've met or surpassed the measure size, or run out of new notes.
 		(if (and (&lt; Counter TimeSig) (d-NextObjectInMeasure) )	;as long as the Counter is less than a full bar, and there's more stuff to process...
 			(begin
@@ -372,7 +367,7 @@
 (if ReBar::params
    (begin
 	 (d-MoveToBeginning) 
-	 (set! ReBar::return (AuditThisStaff 1 #f #f #f))
+	 (set! ReBar::return (AuditThisStaff (string-&gt;number (d-InsertTimeSig "query=timesigname")) #f #f #f))
     )
     (let ((Pad #f) (Blank #f)(MergeAndSplit #f))
 	(set! Input1 (d-GetOption (string-append "Search for under/overfull bars" stop 
