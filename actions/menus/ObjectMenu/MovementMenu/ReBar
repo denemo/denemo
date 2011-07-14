@@ -207,12 +207,7 @@
 					)
 				)
 			)
-			(if (equal? (d-GetType) "TUPOPEN") ;FIXME-no support for nested tuplets.
-				(begin
-					(set! TupletScaleFactor (string-&gt;number (d-GetTuplet))) ;FIXME-allow nested tuplets.
-					
-				)
-			)
+			
 			(if (equal? (d-GetType) "LILYDIRECTIVE")
 				(set! NoteBeat (/ (d-GetDurationInTicks) 1536))
 			)
@@ -222,7 +217,7 @@
 						(set! NoteBeat (/ (d-GetDurationInTicks) 1536))					
 				)
 			)
-			(* TupletScaleFactor NoteBeat)	;return NoteBeat--modified by TupletScale Factor.
+			 NoteBeat	;return NoteBeat
 			)
 		)
 	);GetNoteBeat
