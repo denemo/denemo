@@ -18,8 +18,10 @@
 	 (begin
 	  (d-SetBackground #xB0E0B0)
 	   (set! AddFigure (lambda (note bassnote)
-			     (begin
-			       (set! Figures (cons  (d-BassFigure bassnote note) Figures)))))
+			     (let ((fig (d-BassFigure bassnote note)))
+			      (if (car fig)
+				(d-PlayMidiNote note 255 15 350))
+			       (set! Figures (cons  (cdr fig) Figures)))))
 	   (set! GetFigures (lambda ()
 			      (begin
 				(string-append "figures=" (string-join (reverse Figures))))))
