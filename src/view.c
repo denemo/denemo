@@ -3038,17 +3038,26 @@ SCM scheme_output_midi_bytes (SCM input) {
   return  SCM_BOOL(TRUE);
 }
 
+static SCM scheme_play_midi_note(SCM note, SCM volume, SCM channel, SCM duration) {
+    guint vol = scm_num2int(volume, 0, 0);
+    gint key =  scm_num2int(note, 0, 0);
+    gint chan = scm_num2int(channel, 0, 0);
+    gint dur = scm_num2int(duration, 0, 0);
+    
+    g_print("Playing %x at %f volume, %d channel\n", key, vol/255.0, channel);
+    play_midikey(key, dur/1000.0, vol/255.0, chan);
+ return SCM_BOOL(TRUE);
+}
 static SCM scheme_play_midikey(SCM scm) {
     guint midi = scm_num2int(scm, 0, 0);
     gint key =  (midi>>8)&0xFF;
     gint channel = midi&0xF;
     double volume = ((midi>>16)&0xFF)/255.0;
-    //g_print("Playing %x at %f volume, %d channel\n", key, (double)volume, channel);
+    g_print("Playing %x at %f volume, %d channel\n", key, (double)volume, channel);
     play_midikey(key, 0.2, volume, channel);
     //g_usleep(200000);
  return SCM_BOOL(TRUE);
 }
-
 SCM scheme_put_rest (SCM optional_duration) {
   gint duration;
   if(scm_integer_p(optional_duration)) {
@@ -3143,11 +3152,15 @@ static SCM scheme_kill_timer(SCM id) {
 
 
 static SCM scheme_bass_figure(SCM bass, SCM harmony) {
+  SCM ret = SCM_BOOL_F;
+  gboolean status=FALSE;
   gint bassnum = scm_num2int(bass, 0, 0);
   gint harmonynum = scm_num2int(harmony, 0, 0);
-  gchar *interval = determine_interval(bassnum, harmonynum);
-  SCM ret= scm_makfrom0str(interval);
-  if(interval) g_free(interval);
+  gchar *interval = determine_interval(bassnum, harmonynum, &status);
+  if(interval) {
+    ret= scm_cons(status?SCM_BOOL_T:SCM_BOOL_F, scm_makfrom0str(interval));
+    g_free(interval);
+  }
   return ret;
 }
 
@@ -4718,6 +4731,7 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
   install_scm_function1 (DENEMO_SCHEME_PREFIX"PutMidi", scheme_put_midi);
   install_scm_function1 (DENEMO_SCHEME_PREFIX"OutputMidiBytes", scheme_output_midi_bytes);
   install_scm_function1 (DENEMO_SCHEME_PREFIX"PlayMidiKey", scheme_play_midikey);
+  INSTALL_SCM_FUNCTION4 ("Takes midi key number, volume 0-255, duration in ms and channel 0-15 and plays the note on midi out.", DENEMO_SCHEME_PREFIX"PlayMidiNote", scheme_play_midi_note);
 
   INSTALL_SCM_FUNCTION1 ("Takes duration and executable scheme script. Executes the passed scheme code after the passed duration milliseconds", DENEMO_SCHEME_PREFIX"OneShotTimer", scheme_one_shot_timer);
   INSTALL_SCM_FUNCTION1 ("Takes a duration and scheme script, starts a timer that tries to execute the script after every duration ms. It returns a timer id which must be passed back to destroy the timer", DENEMO_SCHEME_PREFIX"Timer", scheme_timer);
