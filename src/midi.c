@@ -291,17 +291,6 @@ do_one_note(gint mid_c_offset, gint enshift, gint notenum) {
     set_midi_in_status();
   }
 }
-static gint fifths[7] = { 0, 2, 4, -1, 1, 3, 5};
-/* check_interval() checks the interval passed notes
- * returns TRUE if the interval is unusual */
-static gboolean check_interval(enharmonic *this, enharmonic *that) {
-  gint distance = fifths[this->mid_c_offset]+ 7 * this->enshift
-      - fifths[that->mid_c_offset] - 7 * that->enshift;
-          //g_print("off %d en %d and %d %d so dist %d\n", this->mid_c_offset, this->enshift, that->mid_c_offset, that->enshift, distance);
- if(distance>6 || distance<-6)
-        return TRUE;
- return FALSE;
-}
 
 static gboolean get_current(enharmonic *enote) {
   DenemoObject *curObj=NULL;
@@ -427,7 +416,7 @@ static gint midiaction(gint notenum) {
     if(Denemo.prefs.immediateplayback) {
       gint channel = curstaffstruct->midi_channel;
       
-      if(have_previous && check_interval(&enote, &prevenote))
+      if(have_previous && check_interval(enote.mid_c_offset, enote.enshift, prevenote.mid_c_offset, prevenote.enshift))
         channel = Denemo.prefs.pitchspellingchannel;
               
       if (Denemo.prefs.midi_audio_output == Portaudio)

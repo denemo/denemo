@@ -264,6 +264,16 @@ static gchar *alteration_name(gint alteration) {
   }
 }
 
+static gint fifths[7] = { 0, 2, 4, -1, 1, 3, 5};
+/* check_interval() checks the interval passed notes
+ * returns TRUE if the interval is unusual */
+gboolean check_interval(gint step1, gint enshift1, gint step2, gint enshift2) {
+  gint distance = fifths[step1]+ 7 * enshift1
+      - fifths[step2] - 7 * enshift2;
+ if(distance>6 || distance<-6)
+        return TRUE;
+ return FALSE;
+}
 
 
 /* returns the note names currently set for the given temperament
@@ -287,7 +297,7 @@ static gchar * notenames(gpointer p) {
   return str;
 }
 
-gchar *determine_interval(gint bass, gint harmony){
+gchar *determine_interval(gint bass, gint harmony, gboolean *status){
   gint bass_octave, harmony_octave;
   gdouble deviation;
   gint semitones = harmony - bass;
@@ -299,7 +309,9 @@ gchar *determine_interval(gint bass, gint harmony){
  if(interval==2 && semitones>12) interval=9;
  gint inflection = harmonynote.spec.alteration - accs[harmonynote.spec.step];
 
+ *status = check_interval(bassnote.spec.step, bassnote.spec.alteration, harmonynote.spec.step, harmonynote.spec.alteration);
 
+g_print("have %d %d\n", bassnote.spec.step, harmonynote.spec.step);
 // g_print("Bass %d harmony %d\nInterval is %d, semitones is %d cf (%d, %d)  \n keyaccs of bass note %d of harmony %d\ninflection %d\n", bass, harmony, interval, semitones, bassnote.spec.alteration, harmonynote.spec.alteration, accs[bassnote.spec.step], accs[harmonynote.spec.step], inflection);
  gchar *modifier="";
  if(interval==5 && semitones==6)

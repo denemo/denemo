@@ -27,7 +27,7 @@ void store_pitch(double pitch);
 double get_pitch(void);
 void set_sharper (GtkAction *action, gpointer param);
 void set_flatter (GtkAction *action, gpointer param);
-gchar *determine_interval(gint bass, gint harmony);
+gchar *determine_interval(gint bass, gint harmony, gboolean *status);
 gchar *sharpest(void);
 gchar *flattest(void);
 
@@ -46,4 +46,5 @@ gchar *get_cents_string(void);
 void set_tuning(void);
 void adjust_tonal_center(gint *accs);
 gint get_enharmonic_position(void);
+gboolean check_interval(gint step1, gint enshift1, gint step2, gint enshift2);
 #endif //PITCHENTRY_H
