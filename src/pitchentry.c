@@ -274,7 +274,19 @@ gboolean check_interval(gint step1, gint enshift1, gint step2, gint enshift2) {
         return TRUE;
  return FALSE;
 }
-
+gboolean check_midi_intervals (GList *midichord) {
+  GList *g = midichord;
+  gint most=0, least=G_MAXINT;
+  for(;g;g=g->next) {
+    gint offset, enshift, octave, value;
+    notenum2enharmonic((gint)g->data, &offset, &enshift, &octave);
+    value = fifths[offset] + 7 * enshift;
+    most = MAX(most, value);
+    least = MIN(least, value);
+    //g_print("note %d value %d\noffset %d enshift %d least=%d most=%d\n", g->data, value, offset, least, least, most);
+  }
+  return abs(most-least)<6;
+}
 
 /* returns the note names currently set for the given temperament
  caller must free the string */
@@ -311,7 +323,7 @@ gchar *determine_interval(gint bass, gint harmony, gboolean *status){
 
  *status = check_interval(bassnote.spec.step, bassnote.spec.alteration, harmonynote.spec.step, harmonynote.spec.alteration);
 
-g_print("have %d %d\n", bassnote.spec.step, harmonynote.spec.step);
+//g_print("have %d %d\n", bassnote.spec.step, harmonynote.spec.step);
 // g_print("Bass %d harmony %d\nInterval is %d, semitones is %d cf (%d, %d)  \n keyaccs of bass note %d of harmony %d\ninflection %d\n", bass, harmony, interval, semitones, bassnote.spec.alteration, harmonynote.spec.alteration, accs[bassnote.spec.step], accs[harmonynote.spec.step], inflection);
  gchar *modifier="";
  if(interval==5 && semitones==6)

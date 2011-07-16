@@ -47,4 +47,5 @@ void set_tuning(void);
 void adjust_tonal_center(gint *accs);
 gint get_enharmonic_position(void);
 gboolean check_interval(gint step1, gint enshift1, gint step2, gint enshift2);
+gboolean check_midi_intervals (GList *midichord);
 #endif //PITCHENTRY_H
