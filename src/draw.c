@@ -158,6 +158,7 @@ struct infotopass
   gint markx1, markx2;
   gint marky1, marky2;
   gboolean line_end;//set true when an object is drawn off the right hand edge
+  gint tupletstart;//x-coordinate where tuplet started, 0 if none
 
   measurenode *curmeasure;
   GList *mwidthiterator;
@@ -383,9 +384,14 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
       }
       break;
     case TUPOPEN:
+      itp->tupletstart = x + mudelaitem->x;
+      if(cr) draw_tupbracket (cr,
+		       x + mudelaitem->x, y, mudelaitem, 0);
+      break;
     case TUPCLOSE:
       if(cr) draw_tupbracket (cr,
-		       x + mudelaitem->x, y, mudelaitem);
+		       x + mudelaitem->x, y, mudelaitem, itp->tupletstart);
+      itp->tupletstart = 0;
       break;
     case LILYDIRECTIVE:
       // if(si->markstaffnum) not available
