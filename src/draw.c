@@ -230,29 +230,13 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 {
   //g_print("draw obj %p\n", cr);
 
-  static gboolean init=FALSE;
-  static GdkColor white, black, blue, green, yellow;
-  if(!init) {
-    gdk_color_parse ("white", &white);
-    gdk_colormap_alloc_color (gdk_colormap_get_system (), &white, TRUE, TRUE);
-    gdk_color_parse ("black", &black);
-    gdk_colormap_alloc_color (gdk_colormap_get_system (), &black, TRUE, TRUE);
-    gdk_color_parse ("blue", &blue);
-    gdk_colormap_alloc_color (gdk_colormap_get_system (), &blue, TRUE, TRUE);
-    gdk_color_parse ("green", &green);
-    gdk_colormap_alloc_color (gdk_colormap_get_system (), &green, TRUE, TRUE);
-    gdk_color_parse ("yellow", &yellow);
-    gdk_colormap_alloc_color (gdk_colormap_get_system (), &yellow, TRUE, TRUE);
-    init = TRUE;
-  }
   itp->highy = itp->lowy = 0;
   DenemoScore *si = gui->si;
   DenemoObject *mudelaitem = (DenemoObject *) curobj->data;
 
 
   //this is the selection being given a blue background
-  //FIXME NO! save and restore are *fast*. too much save and restore for trifling reasons...
-  if(cr) if(/* Denemo.gui->si->playingnow==NULL && show selection during playback*/ itp->mark) {
+  if(cr) if(itp->mark) {
     cairo_save(cr);
     cairo_set_source_rgb( cr, 0.5, 0.5, 1.0 );
     cairo_rectangle (cr, x+mudelaitem->x, y, 20, 80 );
@@ -273,10 +257,6 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
        add_playhead_damage((x+mudelaitem->x)*Denemo.gui->si->zoom*100.0/(*itp->scale), y*Denemo.gui->si->zoom, 20*Denemo.gui->si->zoom*100.0/(*itp->scale), 80*Denemo.gui->si->zoom);   
      }
    }
-   
-
-
-
 
   /* The current note, rest, etc. being painted */
  
@@ -285,17 +265,9 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 
   if(mudelaitem == itp->startobj)
     itp->startposition = x + mudelaitem->x + mudelaitem->minpixelsalloted; 
-#if 0
- if(itp->startobj==NULL && itp->startposition<=0)
-   itp->startposition = x;
-#endif
+
   if(mudelaitem == itp->endobj)
     itp->endposition = x + mudelaitem->x + mudelaitem->minpixelsalloted;
-
-  //g_print("item %p draw at %d\n", mudelaitem, itp->playposition);
-  // if (!greengc)
-  //   greengc = gcs_greengc ();
-  /* Should we set cursor-context info before drawing? */
 
   /************ FIXME the drawing is side-effecting the DenemoScore si here *******************/
   if (si->currentobject == curobj)
