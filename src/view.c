@@ -1693,6 +1693,25 @@ SCM scheme_get_note (SCM count) {
    
 }
 
+SCM scheme_spell_check_midi_chord (SCM list) {
+  SCM scm;
+  GList *notes = NULL;
+  gboolean status;
+  if(scm_list_p(list)) {
+  for(scm = list; !scm_is_null(scm); scm = scm_cdr(scm)) {
+   gint note = scm_num2int(scm_car(scm), 0, 0);
+   notes = g_list_prepend(notes, (gpointer)note);
+  }
+ status = check_midi_intervals(notes);
+ g_list_free(notes);
+ return status?SCM_BOOL_T:SCM_BOOL_F;
+  } else {
+  g_print("Bad pitch spell list\n");
+    return SCM_BOOL_F;
+  }
+}
+
+
 SCM scheme_get_cursor_note_as_midi (SCM optional) {
 
  DenemoGUI *gui = Denemo.gui;
@@ -3044,7 +3063,7 @@ static SCM scheme_play_midi_note(SCM note, SCM volume, SCM channel, SCM duration
     gint chan = scm_num2int(channel, 0, 0);
     gint dur = scm_num2int(duration, 0, 0);
     
-    g_print("Playing %x at %f volume, %d channel\n", key, vol/255.0, channel);
+    //g_print("Playing %x at %f volume, %d channel\n", key, vol/255.0, channel);
     play_midikey(key, dur/1000.0, vol/255.0, chan);
  return SCM_BOOL(TRUE);
 }
@@ -4740,6 +4759,10 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
   INSTALL_SCM_FUNCTION ("Returns #f if the current staff has no figures (or will not print out figured bass. See d-ShowFiguredBass)",DENEMO_SCHEME_PREFIX"HasFigures", scheme_has_figures);
 
   INSTALL_SCM_FUNCTION2 ("Returns a string for the bass figure for the two MIDI keys passed in", DENEMO_SCHEME_PREFIX"BassFigure", scheme_bass_figure);
+
+  
+  INSTALL_SCM_FUNCTION ("returns #t if the passed list of MIDI keys fails the pitch spellcheck",DENEMO_SCHEME_PREFIX"SpellCheckMidiChord", scheme_spell_check_midi_chord);
+  
   INSTALL_SCM_FUNCTION ("Gets the MIDI key number for the note-position where the cursor is",DENEMO_SCHEME_PREFIX"GetCursorNoteAsMidi", scheme_get_cursor_note_as_midi);
   INSTALL_SCM_FUNCTION ("Returns the MIDI key number for the note at the cursor, or 0 if none",DENEMO_SCHEME_PREFIX"GetNoteAsMidi", scheme_get_note_as_midi);
   INSTALL_SCM_FUNCTION ("Re-draws the Denemo display, which can have side effects on the data",DENEMO_SCHEME_PREFIX"RefreshDisplay", scheme_refresh_display);
