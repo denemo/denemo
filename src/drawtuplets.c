@@ -38,6 +38,8 @@ draw_tupbracket (cairo_t *cr,
         cairo_rectangle (cr, start-2, y - BRACKET_HEIGHT, (xx - start)/2 - GAP + 2, 2); // draw line from start tuplet position to half way less gap
         drawnormaltext_cr(cr, tupopentext->str, (xx + start)/2, y - BRACKET_HEIGHT + 4);//print number in gap
         cairo_rectangle (cr, 2*GAP + (xx + start)/2, y - BRACKET_HEIGHT, (xx - start)/2 - GAP-3, 2);//draw line rest of way
+      } else {
+        drawnormaltext_cr(cr, "End",  xx, y - BRACKET_HEIGHT);
       }
     }
     cairo_fill(cr);
