@@ -50,7 +50,7 @@ void start_playing() {
 
   smf_rewind(smf);
 
-  smf_seek_to_seconds(smf, Denemo.gui->si->start_time);
+  int r = smf_seek_to_seconds(smf, Denemo.gui->si->start_time);
 
   initialize_playhead();
 
