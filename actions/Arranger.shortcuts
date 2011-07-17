@@ -756,10 +756,6 @@
         <action>SelectLeft</action>
         <bind>Shft+Left</bind>
       </row>
-      <row>
-        <action>ChordsOverBass</action>
-        <bind>Return</bind>
-      </row>
     </map>
   </merge>
 </Denemo>
