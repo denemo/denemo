@@ -159,7 +159,7 @@ struct infotopass
   gint marky1, marky2;
   gboolean line_end;//set true when an object is drawn off the right hand edge
   gint tupletstart;//x-coordinate where tuplet started, 0 if none
-
+  gint tuplety;//y-coordinate of highest note within tuplet
   measurenode *curmeasure;
   GList *mwidthiterator;
   GSList *slur_stack;
@@ -296,9 +296,12 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 		     itp->curaccs, itp->mark);
 	if((thechord->highesty) < itp->highy)
 	  itp->highy  = thechord->highesty/*, g_print("setting highy %d\n", itp->highy)*/;
+	  
 	
 	if((thechord->lowesty) > itp->lowy+STAFF_HEIGHT)
 	  itp->lowy  = thechord->lowesty-STAFF_HEIGHT;
+
+	if(itp->tupletstart) itp->tuplety = MAX(0, MAX(itp->tuplety, MAX(-thechord->lowesty, -thechord->highesty)));
 	
 	if (thechord->is_fakechord)
 	  	if(cr) draw_fakechord (cr,
@@ -390,8 +393,8 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
       break;
     case TUPCLOSE:
       if(cr) draw_tupbracket (cr,
-		       x + mudelaitem->x, y, mudelaitem, itp->tupletstart);
-      itp->tupletstart = 0;
+		       x + mudelaitem->x, y - itp->tuplety, mudelaitem, itp->tupletstart);
+      itp->tupletstart = itp->tuplety = 0;
       break;
     case LILYDIRECTIVE:
       // if(si->markstaffnum) not available
