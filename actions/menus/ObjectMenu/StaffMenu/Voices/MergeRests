@@ -10,6 +10,8 @@
         <scheme>;;MergeRests
 (if (d-Directive-score? "MergeRests")
 	(begin
+		(if (not MergeRests::params)
+			(d-InfoDialog "Turning off merging of rests, use Merge Rests command to turn it on"))
 		(d-DirectiveDelete-score "MergeRests")
 		(d-DirectiveDelete-layout "MergeRests"))
 	(begin
@@ -84,7 +86,7 @@
      }
 
 ")))
-(d-RefreshDisplay)</scheme>
+(d-SetSaved)</scheme>
         <label>Merge Rests</label>
         <tooltip>(Print) Merges rests where two voices have a common rest. Not for whole measure or multi-measure rests.</tooltip>
       </row>
