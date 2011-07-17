@@ -28,18 +28,18 @@ draw_tupbracket (cairo_t *cr,
   else {
     if (theobj->type == TUPOPEN) {
       g_string_sprintf (tupopentext,
-			"%d", ((tupopen *) theobj->object)->denominator);
-      drawnormaltext_cr( cr, "|", xx-4, y - BRACKET_HEIGHT + 12);
-      cairo_rectangle (cr, xx, y - BRACKET_HEIGHT, 10, 1);
+			"%d", ((tupopen *) theobj->object)->denominator); //save number for end tuplet call
+      cairo_rectangle (cr, xx-2, y - BRACKET_HEIGHT, 2, 15);//small vertical 
     }
     else {
-      drawnormaltext_cr( cr, "|", xx+4, y - BRACKET_HEIGHT + 12);
+      cairo_rectangle (cr, xx+GAP-3,  y - BRACKET_HEIGHT, 2, 15);
       if(start){
-        cairo_rectangle (cr, start-2, y - BRACKET_HEIGHT, (xx - start)/2 - GAP + 2, 2);
-        drawnormaltext_cr(cr, tupopentext->str, (xx + start)/2, y - BRACKET_HEIGHT + 4);
-        cairo_rectangle (cr, 2*GAP + (xx + start)/2, y - BRACKET_HEIGHT, (xx - start)/2 - GAP-3, 2);
-        cairo_fill(cr);
+        cairo_rectangle (cr, start-2, y - BRACKET_HEIGHT, 2, 15);//small vertical at start tuplet
+        cairo_rectangle (cr, start-2, y - BRACKET_HEIGHT, (xx - start)/2 - GAP + 2, 2); // draw line from start tuplet position to half way less gap
+        drawnormaltext_cr(cr, tupopentext->str, (xx + start)/2, y - BRACKET_HEIGHT + 4);//print number in gap
+        cairo_rectangle (cr, 2*GAP + (xx + start)/2, y - BRACKET_HEIGHT, (xx - start)/2 - GAP-3, 2);//draw line rest of way
       }
     }
+    cairo_fill(cr);
   }
 }
