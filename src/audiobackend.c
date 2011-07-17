@@ -166,10 +166,10 @@ int audiobackend_destroy() {
   g_cond_signal(queue_cond);
   g_thread_join(queue_thread);
 
-  g_cond_free(queue_cond);
-
   destroy(AUDIO_BACKEND);
   destroy(MIDI_BACKEND);
+
+  g_cond_free(queue_cond);
 
   return 0;
 }
@@ -287,6 +287,7 @@ static gpointer queue_thread_func(gpointer data) {
     g_cond_wait(queue_cond, mutex);
 
     if (g_atomic_int_get(&quit_thread)) {
+      g_print("that's it, i quit!\n");
       break;
     }
 
