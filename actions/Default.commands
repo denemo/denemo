@@ -5145,6 +5145,14 @@ for second and subsequent systems</tooltip>
         <label>Check Ties</label>
         <tooltip>Checks for wrongly tied notes in the current voice/staff.</tooltip>
       </row>
+      <row>
+        <action>MergeRests</action>
+        <after>CreateParts</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>Merge Rests</label>
+        <tooltip>(Print) Merges rests where two voices have a common rest. Not for whole measure or multi-measure rests.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
