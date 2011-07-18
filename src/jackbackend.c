@@ -93,7 +93,25 @@ static void process_audio(nframes_t nframes) {
 }
 
 
-static void process_midi(nframes_t nframes) {
+static void process_midi_input(nframes_t nframes) {
+  size_t i, n;
+  jack_midi_event_t ev;
+
+  for (i = 0; i < num_midi_in_ports; ++i) {
+    void * port_buffer = jack_port_get_buffer(midi_in_ports[i], nframes);
+
+    size_t num_events = jack_midi_get_event_count(port_buffer);
+
+    for (n = 0; n < num_events; ++n) {
+      jack_midi_event_get(&ev, port_buffer, n);
+
+      input_midi_event(MIDI_BACKEND, i, ev.buffer);
+    }
+  }
+}
+
+
+static void process_midi_output(nframes_t nframes) {
   size_t i;
   void *port_buffers[num_midi_out_ports];
 
@@ -107,7 +125,7 @@ static void process_midi(nframes_t nframes) {
     for (i = 0; i < num_midi_out_ports; ++i) {
       int n;
       for (n = 0; n < 16; ++n) {
-        unsigned char event_data[] = { CONTROL_CHANGE | n, 123, 0 };
+        unsigned char event_data[] = { MIDI_CONTROL_CHANGE | n, 123, 0 };
 
         jack_midi_event_write(port_buffers[i], 0, event_data, sizeof(event_data));
       }
@@ -140,7 +158,8 @@ static int process_callback(nframes_t nframes, void *arg) {
     process_audio(nframes);
   }
   if (g_atomic_int_get(&midi_initialized)) {
-    process_midi(nframes);
+    process_midi_input(nframes);
+    process_midi_output(nframes);
   }
 
   if (is_playing()) {

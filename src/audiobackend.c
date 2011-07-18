@@ -33,11 +33,20 @@
 #include <assert.h>
 
 
+typedef struct capture_event_t {
+  backend_type_t backend;
+  int port;
+  unsigned char data[3];
+} capture_event_t;
+
+
 static backend_t *backends[NUM_BACKENDS] = { NULL };
 
 #define PLAYBACK_QUEUE_SIZE 1024
+#define CAPTURE_QUEUE_SIZE 256
 
 static jack_ringbuffer_t *playback_queues[NUM_BACKENDS] = { NULL };
+static jack_ringbuffer_t *capture_queues[NUM_BACKENDS] = { NULL };
 
 
 static GThread *queue_thread;
@@ -96,7 +105,7 @@ static int initialize_audio(DenemoPrefs *config) {
     backends[AUDIO_BACKEND] = &dummy_audio_backend;
   }
 
-  playback_queues[AUDIO_BACKEND] = jack_ringbuffer_create(PLAYBACK_QUEUE_SIZE);
+  playback_queues[AUDIO_BACKEND] = jack_ringbuffer_create(PLAYBACK_QUEUE_SIZE * sizeof(smf_event_t *));
 
   return get_backend(AUDIO_BACKEND)->initialize(config);
 }
@@ -129,7 +138,8 @@ static int initialize_midi(DenemoPrefs *config) {
     backends[MIDI_BACKEND] = &dummy_midi_backend;
   }
 
-  playback_queues[MIDI_BACKEND] = jack_ringbuffer_create(PLAYBACK_QUEUE_SIZE);
+  playback_queues[MIDI_BACKEND] = jack_ringbuffer_create(PLAYBACK_QUEUE_SIZE * sizeof(smf_event_t *));
+  capture_queues[MIDI_BACKEND] = jack_ringbuffer_create(CAPTURE_QUEUE_SIZE * sizeof(capture_event_t));
 
   return get_backend(MIDI_BACKEND)->initialize(config);
 }
@@ -155,6 +165,11 @@ static int destroy(backend_type_t backend) {
   if (get_playback_queue(backend)) {
     jack_ringbuffer_free(get_playback_queue(backend));
     playback_queues[backend] = NULL;
+  }
+
+  if (capture_queues[backend]) {
+    jack_ringbuffer_free(capture_queues[backend]);
+    capture_queues[backend] = NULL;
   }
 
   return 0;
@@ -292,6 +307,16 @@ static gpointer queue_thread_func(gpointer data) {
     }
 
 
+    // TODO: audio capture
+    if (jack_ringbuffer_read_space(capture_queues[MIDI_BACKEND])) {
+      capture_event_t ev;
+      jack_ringbuffer_read(capture_queues[MIDI_BACKEND], (char *)&ev, sizeof(capture_event_t));
+
+      // TODO: handle backend type and port
+      handle_midi_event((gchar *)ev.data);
+    }
+
+
     if (is_playing()) {
       smf_event_t * event;
       double until_time = playback_time + 5.0;
@@ -388,7 +413,7 @@ static gboolean play_note_noteoff_callback(gpointer data) {
   int key = ((int)data) & 0xff;
 
   unsigned char buffer[] = {
-    NOTE_OFF | channel,
+    MIDI_NOTE_OFF | channel,
     key,
     0
   };
@@ -400,7 +425,7 @@ static gboolean play_note_noteoff_callback(gpointer data) {
 
 int play_note(backend_type_t backend, int port, int channel, int key, int duration, int volume) {
   unsigned char buffer[] = {
-    NOTE_ON | channel,
+    MIDI_NOTE_ON | channel,
     key,
     (volume ? volume : 127) * Denemo.gui->si->master_volume
   };
@@ -441,7 +466,15 @@ int panic_all() {
 
 
 void input_midi_event(backend_type_t backend, int port, unsigned char *buffer) {
-    // TODO
+  capture_event_t ev;
+  ev.backend = backend;
+  ev.port = port;
+  // FIXME: size might be less than 3
+  memcpy(&ev.data, buffer, 3);
+
+  jack_ringbuffer_write(capture_queues[backend], (char *)&ev, sizeof(capture_event_t));
+
+  g_cond_signal(queue_cond);
 }
 
 

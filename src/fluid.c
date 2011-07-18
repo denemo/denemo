@@ -122,22 +122,22 @@ void fluidsynth_feed_midi(unsigned char *event_data, size_t event_length) {
   int type = (event_data[0] & 0xf0);
 
   switch (type) {
-    case NOTE_ON: {
+    case MIDI_NOTE_ON: {
       int velocity = ((int)(Denemo.gui->si->master_volume * event_data[2]));
       if (velocity > 0x7F) velocity = 0x7F;
       fluid_synth_noteon(synth, channel, event_data[1], velocity);
       }
       break;
-    case NOTE_OFF:
+    case MIDI_NOTE_OFF:
       fluid_synth_noteoff(synth, channel, event_data[1]);
       break;
-    case CONTROL_CHANGE:
+    case MIDI_CONTROL_CHANGE:
        fluid_synth_cc(synth, channel, event_data[1], event_data[2]);
        break;
-    case PROGRAM_CHANGE:
+    case MIDI_PROGRAM_CHANGE:
       fluid_synth_program_change(synth, channel, event_data[1]);
       break;
-    case PITCH_BEND:
+    case MIDI_PITCH_BEND:
       fluid_synth_pitch_bend(synth, channel, event_data[1] + (event_data[2] << 8));
       break;
 //    case SYS_EXCLUSIVE_MESSAGE1:
