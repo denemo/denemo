@@ -86,7 +86,7 @@
      }
 
 ")))
-(d-SetSaved)</scheme>
+(d-SetSaved #f)</scheme>
         <label>Merge Rests</label>
         <tooltip>(Print) Merges rests where two voices have a common rest. Not for whole measure or multi-measure rests.</tooltip>
       </row>
