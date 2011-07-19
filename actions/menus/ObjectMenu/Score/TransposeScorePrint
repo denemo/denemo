@@ -28,7 +28,7 @@ e.g. c c' means octave up.
   (d-DirectivePut-score-postfix  "TransposeScorePrint" lily)
   (d-DirectivePut-score-display  "TransposeScorePrint" text)
   (d-DirectivePut-score-override  "TransposeScorePrint" DENEMO_OVERRIDE_GRAPHIC)
-  (d-RefreshDisplay))
+  (d-SetSaved #f))
 </scheme>
         <label>(Print) Transposed</label>
         <tooltip>Prints the score transposed by the interval selected by SetTransposeIntervalFromSelection</tooltip>
