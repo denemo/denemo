@@ -29,6 +29,7 @@
 #include "ringbuffer.h"
 
 #include <glib.h>
+#include <stdlib.h>
 #include <string.h>
 #include <assert.h>
 
@@ -213,6 +214,21 @@ static gboolean redraw_playhead_callback(gpointer data) {
   return FALSE;
 }
 
+static gboolean handle_midi_event_callback(gpointer data) {
+  gdk_threads_enter();
+
+  capture_event_t * ev = (capture_event_t *) data;
+
+  // TODO: handle backend type and port
+  handle_midi_event((gchar *)ev->data);
+
+  gdk_threads_leave();
+
+  free(ev);
+
+  return FALSE;
+}
+
 
 static void reset_playback_queue(backend_type_t backend) {
   if (get_playback_queue(backend)) {
@@ -309,11 +325,10 @@ static gpointer queue_thread_func(gpointer data) {
 
     // TODO: audio capture
     if (jack_ringbuffer_read_space(capture_queues[MIDI_BACKEND])) {
-      capture_event_t ev;
-      jack_ringbuffer_read(capture_queues[MIDI_BACKEND], (char *)&ev, sizeof(capture_event_t));
+      capture_event_t * ev = malloc(sizeof(capture_event_t));
+      jack_ringbuffer_read(capture_queues[MIDI_BACKEND], (char *)ev, sizeof(capture_event_t));
 
-      // TODO: handle backend type and port
-      handle_midi_event((gchar *)ev.data);
+      g_idle_add_full(G_PRIORITY_HIGH_IDLE, handle_midi_event_callback, (gpointer)ev, NULL);
     }
 
 
