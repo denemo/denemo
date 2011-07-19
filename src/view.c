@@ -4911,7 +4911,7 @@ void inner_main(void*closure, int argc, char **argv){
 
   create_scheme_identfiers();
 
-  Denemo.prefs.cursor_highlight = TRUE;
+  
 
   /* create the first tab */
   newtab (NULL, NULL);
