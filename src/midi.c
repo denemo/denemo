@@ -25,12 +25,17 @@
 #include <assert.h>
 
 
+static void initialize_clock();
+
+
 static volatile gboolean playing = FALSE;
 
 static double last_draw_time;
 
 // huh?
 static gboolean midi_capture_on = FALSE;//any midi events not caught by midi_divert will be dropped if this is true
+
+static  gdouble playalong_time = 0.0;
 
 
 void update_position(smf_event_t *event) {
@@ -57,6 +62,8 @@ void start_playing() {
   smf_rewind(smf);
 
   int r = smf_seek_to_seconds(smf, Denemo.gui->si->start_time);
+
+  initialize_clock();
 
   initialize_playhead();
 
@@ -457,6 +464,69 @@ void process_midi_event(gchar *buf) {
 }
 
 
+static void initialize_clock() {
+  if(Denemo.gui->si->currentobject ) {
+    DenemoObject *obj = Denemo.gui->si->currentobject->data;
+    if(obj->type==CHORD) {
+      chord *thechord = obj->object;
+      if(thechord->notes) {
+	note *thenote = thechord->notes->data;      
+	//gboolean thetime = get_time();
+	//Denemo.gui->si->start_player =  thetime - obj->earliest_time;
+	playalong_time = obj->latest_time; 
+      }
+    }
+  }
+}
+
+//test if the midi event in buf is a note-on for the current note
+//if so set a time delta so that a call to GET_TIME() will return get_time()- lost_time
+//unless this time is greater than the start time of the next note when GET_TIME() will stick
+//advance cursor to next note
+static void advance_clock(gchar *buf) {
+  if(Denemo.gui->si->currentobject) {
+    DenemoObject *obj = Denemo.gui->si->currentobject->data;
+    if(obj->type!=CHORD) 
+      if(cursor_to_next_chord()) 
+	obj = Denemo.gui->si->currentobject->data;
+    
+    if(Denemo.gui->si->currentobject && obj->type==CHORD) {
+      chord *thechord = obj->object;
+      if(thechord->notes) {
+	note *thenote = thechord->notes->data;
+	if( ((buf[0]&0xf0)==MIDI_NOTE_ON) && buf[2] && buf[1] == (dia_to_midinote (thenote->mid_c_offset) + thenote->enshift)) {
+	  gdouble thetime = get_time();
+	  Denemo.gui->si->start_player = thetime -  obj->earliest_time;
+	  
+	  if(thechord->is_tied && cursor_to_next_note()) {
+	    obj = Denemo.gui->si->currentobject->data;	   
+	  }
+	  //playalong_time = obj->latest_time;
+	  //IF THE NEXT OBJ IS A REST ADVANCE OVER IT/THEM
+	  do {
+	    if(!cursor_to_next_note())	//if(!cursor_to_next_chord())	   	      
+	      {
+		playalong_time = Denemo.gui->si->end_time + 1.0;
+		break;
+	      }
+	    else {
+	      obj = Denemo.gui->si->currentobject->data;
+	      thechord = obj->object;
+	      playalong_time = obj->earliest_time;
+	    }
+	  } 
+	  while(!thechord->notes);	    
+	}
+      }
+    } else
+      g_warning("Not on a chord");
+  } else
+    g_warning("Not on an object");
+}
+
+
+
+
 #define EDITING_MASK (GDK_SHIFT_MASK)  
 void handle_midi_event(gchar *buf) {
   //g_print("%x : %x %x %x %x\n", Denemo.keyboard_state, GDK_CONTROL_MASK, GDK_SHIFT_MASK, GDK_MOD1_MASK, GDK_LOCK_MASK);
@@ -466,7 +536,7 @@ void handle_midi_event(gchar *buf) {
     if(Denemo.gui->midi_destination & MIDIRECORD)
       record_midi(buf,  get_time() - Denemo.gui->si->start_player);
     if(Denemo.gui->midi_destination & (MIDIPLAYALONG))
-//      advance_clock(buf);
+      advance_clock(buf);
 //    fluid_output_midi_event(buf);
     play_midi_event(DEFAULT_BACKEND, 0, buf);
   } else {
