@@ -29,9 +29,7 @@
 #include "ringbuffer.h"
 
 #include <glib.h>
-#include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 
 
 typedef struct capture_event_t {
@@ -224,7 +222,7 @@ static gboolean handle_midi_event_callback(gpointer data) {
 
   gdk_threads_leave();
 
-  free(ev);
+  g_free(ev);
 
   return FALSE;
 }
@@ -295,7 +293,7 @@ gboolean read_event_from_queue(backend_type_t backend, unsigned char *event_buff
     // consume the event
     jack_ringbuffer_read_advance(queue, sizeof(smf_event_t*));
 
-    assert(event->midi_buffer_length <= 3);
+    g_assert(event->midi_buffer_length <= 3);
 
     update_position(event);
 
@@ -325,7 +323,7 @@ static gpointer queue_thread_func(gpointer data) {
 
     // TODO: audio capture
     if (jack_ringbuffer_read_space(capture_queues[MIDI_BACKEND])) {
-      capture_event_t * ev = malloc(sizeof(capture_event_t));
+      capture_event_t * ev = g_malloc(sizeof(capture_event_t));
       jack_ringbuffer_read(capture_queues[MIDI_BACKEND], (char *)ev, sizeof(capture_event_t));
 
       g_idle_add_full(G_PRIORITY_HIGH_IDLE, handle_midi_event_callback, (gpointer)ev, NULL);
