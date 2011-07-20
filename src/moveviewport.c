@@ -50,9 +50,9 @@ void
 update_vscrollbar (DenemoGUI * gui)
 {
   GtkAdjustment *adj = GTK_ADJUSTMENT (Denemo.vadjustment);
-  adj->upper = g_list_length (gui->si->thescore) + 2.0;
+  adj->upper = g_list_length (gui->si->thescore) + 1.0;
   adj->page_size = adj->page_increment
-    = gui->si->bottom_staff - gui->si->top_staff + 2.0;
+    = gui->si->bottom_staff - gui->si->top_staff + 1.0;
   adj->value = gui->si->top_staff;
 #if GTK_MAJOR_VERSION > 1
   gtk_adjustment_changed(adj);
