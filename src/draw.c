@@ -851,8 +851,8 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
     itp->measurenum++;
     //g_print("line_end is %d, while itp->measurenum=%d and si->rightmeasurenum=%d\n",  itp->line_end, itp->measurenum, si->rightmeasurenum);
     if(!itp->line_end) {
-		if(-itp->highy>itp->in_highy && -itp->highy<MAXEXTRASPACE) {
-		thestaff->space_above = -itp->highy;
+	if(-itp->highy>itp->in_highy && -itp->highy<MAXEXTRASPACE) {
+	  thestaff->space_above = -itp->highy;
 	  repeat = TRUE;
 	}
 	if(itp->lowy>itp->in_lowy && itp->lowy<MAXEXTRASPACE){
@@ -1265,20 +1265,16 @@ DenemoGUI *gui = Denemo.gui;
  }
 
   /* Layout the score. */
- //if(!Denemo.gui->si->playingnow)
  if(layout_needed)
-   draw_score (NULL);
+   if(draw_score (NULL)) {
+      set_bottom_staff(gui);
+      update_vscrollbar(gui);
+   }
  layout_needed = TRUE;
- // while(draw_score (NULL, gui) && !Denemo.gui->si->playingnow)
- //   {/*nothing*/}
 
   /* Setup a cairo context for rendering and clip to the exposed region. */
   cr = gdk_cairo_create (event->window);
-
- 
   gdk_cairo_region (cr, event->region);
-  
-  //region_playhead(cr); //!!!!!!! but not both!!!!!!
   cairo_clip (cr);
 
   /* Clear with an appropriate background color. */
