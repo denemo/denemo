@@ -25,6 +25,7 @@
    (StandAloneDirectiveProto (cons upbeat (string-append "\\partial 256*" partialDuration 	" "))  #f #f upbeat)
    (d-SetDurationInTicks remainingTicks)
    (d-DirectivePut-standalone-override upbeat DENEMO_OVERRIDE_DURATION)
+   (d-RefreshDisplay)
    (GoToMeasureEnd)
    (if  (not (d-MoveToMeasureRight))
 	(d-AddMeasure)))
