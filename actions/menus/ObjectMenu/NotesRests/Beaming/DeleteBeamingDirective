@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>EndBeam</after>
+        <action>DeleteBeamingDirective</action>
+        <scheme>;;; DeleteBeamingDirective
+(d-DirectiveDelete-chord "Beam")</scheme>
+        <label>Delete Beaming Directive</label>
+        <tooltip>Deletes a ] or [ (end or start beam) directive on the current chord.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

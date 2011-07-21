@@ -5153,6 +5153,30 @@ for second and subsequent systems</tooltip>
         <label>Merge Rests</label>
         <tooltip>(Print) Merges rests where two voices have a common rest. Not for whole measure or multi-measure rests.</tooltip>
       </row>
+      <row>
+        <action>DeleteBeamingDirective</action>
+        <after>EndBeam</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
+        <label>Delete Beaming Directive</label>
+        <tooltip>Deletes a ] or [ (end or start beam) directive on the current chord.</tooltip>
+      </row>
+      <row>
+        <action>BeamingOff</action>
+        <after>PageBreak</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Stop Beaming</label>
+        <tooltip>(Print)Stop automatic beaming from current position in score.</tooltip>
+      </row>
+      <row>
+        <action>BeamingOn</action>
+        <after>BeamingOff</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Start Beaming</label>
+        <tooltip>(Print) Start automatic beaming at this point in score. (Used after turning beaming off).</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
