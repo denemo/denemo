@@ -65,13 +65,23 @@ typedef enum
 typedef enum DenemoGraphicType
   {
     DENEMO_BITMAP,
-    DENEMO_PATTERN
+    DENEMO_PATTERN,
+    DENEMO_FONT
   } DenemoGraphicType;
+
+typedef struct DenemoGlyph
+{
+  gchar *fontname;/**< font to be used */
+  gchar *utf; /**< utf8 char(s) to be placed as graphic */
+  gdouble size; /**< font size to be used */
+  gint slant, weight; /**< CAIRO_FONT_SLANT_xxx and WEIGHT_xxx values */
+}
+DenemoGlyph;
 
 typedef struct DenemoGraphic
 {
   DenemoGraphicType type;
-  gpointer graphic; /**< either a GdkBitmap or a cairo_pattern_t */
+  gpointer graphic; /**< either a GdkBitmap, a cairo_pattern_t or a DenemoGlyph*/
   gint width, height;
 }
 DenemoGraphic;

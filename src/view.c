@@ -6817,35 +6817,68 @@ gboolean loadGraphicItem(gchar *name, DenemoGraphic **xbm ) {
 
   if (!name || !*name)
     return FALSE;
+#define NEWLINE "\n"
+  if(*name==*NEWLINE) {
+//if name starts '\n' treat it as lines holding char font size weight (e.g. bold) slant (e.g. italic) 
+//so let user specify a hex value and convert to utf8 here len = g_unichar_to_utf8( uc, utf_string );
+//e.g "\n0x20" would be glyph 0x20 from the feta26 font, size 35 not bold or italic (as in  drawfetachar_cr())
+//while "\n0x40 0x40\nSans\n16\n1\n1" would be a "AA" string in sans font at 16pt bold and italic
+  gchar **spec = g_strsplit(name+1,  NEWLINE,  5);
+  gint i;
+  DenemoGraphic *graphic = g_malloc(sizeof(DenemoGraphic));
+  DenemoGlyph *glyph = (DenemoGlyph*)g_malloc(sizeof(DenemoGlyph));
+  graphic->type = DENEMO_FONT;
+  graphic->graphic = glyph;
+  glyph->fontname = "feta26";
+  glyph->size = 35.0;
+  for(i=0;i<5 && spec[i];i++) {
+    g_print("The font spec has %d %s\n", i, spec[i]);
+    switch(i) {
+    case 0: {
+      // get a set of hex values (unicodes?) and create a utf8 string
+      //should involve strtol(spec[0], &next, 0);
+      //and perhaps g_unichar_to_utf8(*spec[0], NULL);
+      // and glyph->utf = g_malloc(len);
+      //if not hex digits, then treat as utf8 string
+      glyph->utf = g_strdup(spec[0]);
+      break;
+    }
+    case 1:
+      glyph->fontname = g_strdup(spec[1]);
+      break;
+    case 2:
+      glyph->size = g_ascii_strtod(spec[2], NULL);
+      break;
+    case 3:
+      glyph->weight = atoi(spec[3]);
+      break;
+    case 4:
+      glyph->slant = atoi(spec[4]);
+      break;
+    }
+  }
+  g_strfreev(spec);
+  *xbm = graphic;
+  return TRUE;
+  }
   if(bitmaps && (*xbm = (DenemoGraphic *) g_hash_table_lookup(bitmaps, name))) {
-    
     return TRUE;
   }  
   gchar *filename = g_build_filename (locatebitmapsdir (), name,
 				      NULL);
-  
-  if(1) {
-    if(loadGraphicFromFormat(name, filename, xbm))
+  if(loadGraphicFromFormat(name, filename, xbm))
       return TRUE;
-    g_free(filename);
-    filename = g_build_filename (locatedownloadbitmapsdir(), name,
+  g_free(filename);
+  filename = g_build_filename (locatedownloadbitmapsdir(), name,
 				      NULL);
-  }
-  if(1) {
-    if(loadGraphicFromFormat(name, filename, xbm))
+  if(loadGraphicFromFormat(name, filename, xbm))
       return TRUE;
-    g_free(filename);
-    filename = g_build_filename (get_data_dir (), "actions",  "bitmaps", name,
+  g_free(filename);
+  filename = g_build_filename (get_data_dir (), "actions",  "bitmaps", name,
 				      NULL);
-    if(loadGraphicFromFormat(name, filename, xbm))
+  if(loadGraphicFromFormat(name, filename, xbm))
       return TRUE;
-  }
- {
-    g_warning("Could not load graphic");
-    //warningdialog("Could not load graphic");
-  }
-
-
+  g_warning("Could not load graphic");
   return FALSE;
 }
 

@@ -252,39 +252,29 @@ drawbitmapinverse_cr (cairo_t * cr, DenemoGraphic * mask, gint x,
 		   gint y)
 {
   cairo_save(cr);
-  if(mask->type==DENEMO_BITMAP) {
-  gdk_cairo_set_source_pixmap( cr, mask->graphic, x,y );//??? bitmap???? asks torbenh
-  cairo_rectangle( cr, x,y, mask->width, mask->height );
-  cairo_fill( cr );
-  
-  } else {
-    cairo_pattern_t *pattern = (cairo_pattern_t *)mask->graphic;
-    cairo_translate(cr, x, y);
-    // cairo_rectangle( cr, 0, 0,  mask->width, mask->height );
-    cairo_mask(cr, pattern);
+  switch (mask->type) {
+    case DENEMO_BITMAP: {
+      gdk_cairo_set_source_pixmap( cr, mask->graphic, x,y );//??? bitmap???? asks torbenh
+      cairo_rectangle( cr, x,y, mask->width, mask->height );
+      cairo_fill( cr );
+      break;
+    }
+    case DENEMO_PATTERN: {
+      cairo_pattern_t *pattern = (cairo_pattern_t *)mask->graphic;
+      cairo_translate(cr, x, y);
+      cairo_mask(cr, pattern);
+      break;
+    }
+    case DENEMO_FONT:{
+	DenemoGlyph *glyph = mask->graphic;
+	cairo_select_font_face( cr, glyph->fontname, glyph->slant, glyph->weight );
+	cairo_set_font_size( cr, glyph->size);
+	cairo_move_to( cr, x,y );
+	cairo_show_text( cr, glyph->utf);
+      break;	
+    }
   }
   cairo_restore( cr );
-}
-void
-drawfetachar (GdkPixmap * pixmap, GdkGC * gc, gunichar uc, gint x, gint y)
-{
-  int len;
-  char utf_string[8];
-  PangoContext *context =
-    gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
-  PangoLayout *layout = pango_layout_new (context);
-  PangoFontDescription *desc = pango_font_description_from_string ( "feta26 35px" );
-  pango_context_load_font( context, desc );
-
-  len = g_unichar_to_utf8( uc, utf_string );
-
-  pango_layout_set_font_description (layout, desc);
-  pango_layout_set_text (layout,
-			 utf_string,
-			 len);
-  PangoLayoutLine *line = pango_layout_get_line_readonly( layout, 0 );
-
-  gdk_draw_layout_line (pixmap, gc, x, y, line);
 }
 
 void
@@ -296,8 +286,6 @@ drawfetachar_cr (cairo_t * cr, gunichar uc, double x, double y)
   utf_string[len] = '\0';
   cairo_select_font_face( cr, "feta26", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL );
   cairo_set_font_size( cr, 35.0 );
-
-
   cairo_move_to( cr, x,y );
   cairo_show_text( cr, utf_string );
 }
