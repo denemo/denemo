@@ -361,6 +361,8 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
       
   g_signal_handlers_unblock_by_func(G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_expose_event), NULL);
   gui->si->undo_guard=1;
+
+
   denemo_scheme_init();//to re-instate any user defined directives for whole score
   gui->si->undo_guard=Denemo.prefs.disable_undo;//user pref to (dis)allow undo information to be collected
   return result;
@@ -807,6 +809,8 @@ static gint
 file_open (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *filename)
 {
   FILE_OPEN_DIALOG("Open", denemo, DENEMO_FORMAT)
+  if(getNumCharsSchemeText())
+	  executeScript(); 
 }
 
 /**

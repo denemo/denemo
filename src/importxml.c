@@ -3198,8 +3198,7 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
     gtk_widget_hide(gui->si->lyricsbox);
       }
 	
-	if(getNumCharsSchemeText())
-	  executeScript(); 
+
 	break;
       default:
 	warningdialog("Erroneous call");
