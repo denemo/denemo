@@ -44,25 +44,28 @@
 			(else  (warning)) ; ?
 		)))
 	
- (if Upbeat::params
-   	(set! upbeat Upbeat::params))
+ 
 
   (GoToMeasureBeginning)
-  (if (d-DirectiveGet-standalone-display upbeat) ; if upbeat is present
+  
+  (if Upbeat::params ;;; non-interactive call, this used to take the params as the tag to be used - is that useful?
+   	(d-DirectiveDelete-standalone upbeat))
+   	
+  (if (d-DirectiveGet-standalone-display upbeat); if upbeat is present
    		(let ( (choice (d-GetOption  (string-append "Help" stop "Re-calculate" stop "Delete" stop "Advanced" stop))))
    		 (cond
     			 ((boolean? choice)
     			 	 (d-WarningDialog "Operation cancelled"))
-    			 ((equal? choice "Help")
+    			 ((equal? choice "Help")      				
       				(d-InfoDialog "This object fills up the duration of this measure, so that the notes in the measure form an upbeat. It needs to be renewed if you change the duration of the notes in the measure - use Re-calculate for this, or simply delete it and re-run the Upbeat command,"))
       			((equal? choice "Re-calculate")
-      				(d-DirectiveDelete-standalone "Upbeat")
+      				(d-DirectiveDelete-standalone upbeat)
       				(ComputeAndCreate))		
 			 ((equal? choice "Delete")
 	 			(d-DeleteObject))
 	 		((equal? choice "Advanced")
-	 			(if (not (d-DirectiveTextEdit-standalone "Upbeat"))
-	 				(d-DirectiveDelete-standalone "Upbeat"))
+	 			(if (not (d-DirectiveTextEdit-standalone upbeat))
+	 				(d-DirectiveDelete-standalone upbeat))
 	 			)))
 	 	;;;if upbeat not already present
 		(ComputeAndCreate)))
