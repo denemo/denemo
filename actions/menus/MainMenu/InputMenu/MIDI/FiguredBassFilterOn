@@ -89,6 +89,12 @@
 				       	(display "Pedal down")
 					(if (and (&gt; bassnote 0) (null? Figures))
 						(begin 
+						;;; here check if the previous note has a figure, if not put a 0 figure to be able to continue it
+						  (if (d-PrevNote)
+						  	(let ((fig (d-EditFiguredBass "query")))
+						  		(if (not fig)
+						  		     (d-EditFiguredBass "figures=0")
+						  		     (d-NextNote))))					
 						  (d-PlayMidiNote 49 255 9 100)
 						  (set! Figures (cons "~"  Figures))
 						  (d-EditFiguredBass (GetFigures))
