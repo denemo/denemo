@@ -170,10 +170,10 @@ figure_insert (GtkAction *action, DenemoScriptParam * param)
     gchar *str;
     gint i;
     if(!strcmp(values->str, "query")) {
-      if(PreValue && *PreValue) {
+      if(PreValue && *PreValue && *PreValue!='_') {//there is a figure, other than the "no figure" sign
 	param->status = TRUE;
 	g_string_assign(param->string, PreValue);
-      } else
+      } else //the no figure case leave status FALSE and return NULL
       g_string_assign(param->string, "");
     }  else //detect the string "figures" followed by a separator character and then the figures
       for(i=0;i<values->len;i+=strlen(values->str+i)+1) {
