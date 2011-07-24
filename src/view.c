@@ -7826,7 +7826,7 @@ toggle_object_menu (GtkAction * action, gpointer param)
  * Toggle entries for the menus
  */
 GtkToggleActionEntry toggle_menu_entries[] = {
-  {ToggleToolbar_STRING, NULL, N_("General Tools"), NULL, N_("Show/hide a toolbar for general operations on music files"),
+  {ToggleToolbar_STRING, NULL, N_("Tools"), NULL, N_("Show/hide a toolbar for general operations on music files"),
    G_CALLBACK (toggle_toolbar), TRUE}
   ,
   {TogglePlaybackControls_STRING, NULL, N_("Playback Control"), NULL, N_("Show/hide playback controls"),
@@ -7835,37 +7835,37 @@ GtkToggleActionEntry toggle_menu_entries[] = {
   {ToggleMidiInControls_STRING, NULL, N_("Midi In Control"), NULL, N_("Show/hide Midi Input controls"),
    G_CALLBACK (toggle_midi_in_controls), TRUE}
   ,
-  {ToggleRhythmToolbar_STRING, NULL, N_("Music Snippets"), NULL, N_("Show/hide a toolbar which allows\nyou to store and enter snippets of music and to enter notes using rhythm pattern of a snippet"),
+  {ToggleRhythmToolbar_STRING, NULL, N_("Snippets"), NULL, N_("Show/hide a toolbar which allows\nyou to store and enter snippets of music and to enter notes using rhythm pattern of a snippet"),
    G_CALLBACK (toggle_rhythm_toolbar), TRUE}
   ,
   {ToggleEntryToolbar_STRING, NULL, N_("Note and Rest Entry"), NULL, N_("Show/hide a toolbar which allows\nyou to enter notes and rests using the mouse"),
    G_CALLBACK (toggle_entry_toolbar), TRUE}
   ,
-  {ToggleObjectMenu_STRING, NULL, N_("Menu of objects"), NULL, N_("Show/hide a menu which is arranged by objects\nThe actions available for note objects change with the mode"),
+  {ToggleObjectMenu_STRING, NULL, N_("Object Menu"), NULL, N_("Show/hide a menu which is arranged by objects\nThe actions available for note objects change with the mode"),
    G_CALLBACK (toggle_object_menu), TRUE}
   ,
-  {ToggleLilyText_STRING, NULL, N_("Show LilyPond"), NULL, N_("Show/hide the LilyPond music typesetting language window"),
+  {ToggleLilyText_STRING, NULL, N_("LilyPond"), NULL, N_("Show/hide the LilyPond music typesetting language window"),
    G_CALLBACK (toggle_lilytext), FALSE}
   ,
-  {ToggleScript_STRING, NULL, N_("Show Scheme Script"), NULL, N_("Show scheme script window"),
+  {ToggleScript_STRING, NULL, N_("Scheme Script"), NULL, N_("Show scheme script window"),
    G_CALLBACK (toggle_scheme), FALSE}
   ,
 
   {ToggleArticulationPalette_STRING, NULL, N_("_Articulation Palette"), NULL, NULL,
    G_CALLBACK (toggle_articulation_palette), FALSE},
 
-  {TogglePrintView_STRING, NULL, N_("Print View"), NULL, NULL,
+  {TogglePrintView_STRING, NULL, N_("Typeset Music"), NULL, NULL,
    G_CALLBACK (toggle_print_view), FALSE},
 
-  {ToggleLyricsView_STRING, NULL, N_("Lyrics View"), NULL, NULL,
+  {ToggleLyricsView_STRING, NULL, N_("Lyrics"), NULL, NULL,
    G_CALLBACK (toggle_lyrics_view), TRUE},
 
   {ToggleConsoleView_STRING, NULL, N_("Console"), NULL, NULL,
    G_CALLBACK (toggle_console_view), TRUE},
 
-  {ToggleScoreView_STRING, NULL, N_("Score View"), NULL, NULL,
+  {ToggleScoreView_STRING, NULL, N_("Score"), NULL, NULL,
    G_CALLBACK (toggle_score_view), TRUE},
-  {ToggleScoreTitles_STRING, NULL, N_("Score Titles, Controls etc"), NULL, NULL,
+  {ToggleScoreTitles_STRING, NULL, N_("Titles, Buttons etc"), NULL, NULL,
    G_CALLBACK (toggle_scoretitles), FALSE},
 
 
