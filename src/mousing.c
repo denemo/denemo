@@ -600,6 +600,9 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
     //  calcmarkboundaries (gui->si);
      lh_down = TRUE;
  
+  } else {
+    if(gui->si->cursor_appending)
+    movecursorleft(NULL);//so that right click in appending position acts on previous object
   }
   /* Redraw to show new cursor position, note a real draw is needed because of side effects on display*/
   gtk_widget_draw (Denemo.scorearea, NULL);

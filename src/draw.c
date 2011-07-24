@@ -158,7 +158,8 @@ struct infotopass
   gint markx1, markx2;
   gint marky1, marky2;
   gboolean line_end;//set true when an object is drawn off the right hand edge
-
+  gint tupletstart;//x-coordinate where tuplet started, 0 if none
+  gint tuplety;//y-coordinate of highest note within tuplet
   measurenode *curmeasure;
   GList *mwidthiterator;
   GSList *slur_stack;
@@ -230,29 +231,13 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 {
   //g_print("draw obj %p\n", cr);
 
-  static gboolean init=FALSE;
-  static GdkColor white, black, blue, green, yellow;
-  if(!init) {
-    gdk_color_parse ("white", &white);
-    gdk_colormap_alloc_color (gdk_colormap_get_system (), &white, TRUE, TRUE);
-    gdk_color_parse ("black", &black);
-    gdk_colormap_alloc_color (gdk_colormap_get_system (), &black, TRUE, TRUE);
-    gdk_color_parse ("blue", &blue);
-    gdk_colormap_alloc_color (gdk_colormap_get_system (), &blue, TRUE, TRUE);
-    gdk_color_parse ("green", &green);
-    gdk_colormap_alloc_color (gdk_colormap_get_system (), &green, TRUE, TRUE);
-    gdk_color_parse ("yellow", &yellow);
-    gdk_colormap_alloc_color (gdk_colormap_get_system (), &yellow, TRUE, TRUE);
-    init = TRUE;
-  }
   itp->highy = itp->lowy = 0;
   DenemoScore *si = gui->si;
   DenemoObject *mudelaitem = (DenemoObject *) curobj->data;
 
 
   //this is the selection being given a blue background
-  //FIXME NO! save and restore are *fast*. too much save and restore for trifling reasons...
-  if(cr) if(/* Denemo.gui->si->playingnow==NULL && show selection during playback*/ itp->mark) {
+  if(cr) if(itp->mark) {
     cairo_save(cr);
     cairo_set_source_rgb( cr, 0.5, 0.5, 1.0 );
     cairo_rectangle (cr, x+mudelaitem->x, y, 20, 80 );
@@ -273,10 +258,6 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
        add_playhead_damage((x+mudelaitem->x)*Denemo.gui->si->zoom*100.0/(*itp->scale), y*Denemo.gui->si->zoom, 20*Denemo.gui->si->zoom*100.0/(*itp->scale), 80*Denemo.gui->si->zoom);   
      }
    }
-   
-
-
-
 
   /* The current note, rest, etc. being painted */
  
@@ -285,17 +266,9 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 
   if(mudelaitem == itp->startobj)
     itp->startposition = x + mudelaitem->x + mudelaitem->minpixelsalloted; 
-#if 0
- if(itp->startobj==NULL && itp->startposition<=0)
-   itp->startposition = x;
-#endif
+
   if(mudelaitem == itp->endobj)
     itp->endposition = x + mudelaitem->x + mudelaitem->minpixelsalloted;
-
-  //g_print("item %p draw at %d\n", mudelaitem, itp->playposition);
-  // if (!greengc)
-  //   greengc = gcs_greengc ();
-  /* Should we set cursor-context info before drawing? */
 
   /************ FIXME the drawing is side-effecting the DenemoScore si here *******************/
   if (si->currentobject == curobj)
@@ -323,9 +296,12 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 		     itp->curaccs, itp->mark);
 	if((thechord->highesty) < itp->highy)
 	  itp->highy  = thechord->highesty/*, g_print("setting highy %d\n", itp->highy)*/;
+	  
 	
 	if((thechord->lowesty) > itp->lowy+STAFF_HEIGHT)
 	  itp->lowy  = thechord->lowesty-STAFF_HEIGHT;
+
+	if(itp->tupletstart) itp->tuplety = MAX(0, MAX(itp->tuplety, MAX(-thechord->lowesty, -thechord->highesty)));
 	
 	if (thechord->is_fakechord)
 	  	if(cr) draw_fakechord (cr,
@@ -411,9 +387,14 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
       }
       break;
     case TUPOPEN:
+      itp->tupletstart = x + mudelaitem->x;
+      if(cr) draw_tupbracket (cr,
+		       x + mudelaitem->x, y, mudelaitem, 0);
+      break;
     case TUPCLOSE:
       if(cr) draw_tupbracket (cr,
-		       x + mudelaitem->x, y, mudelaitem);
+		       x + mudelaitem->x, y - itp->tuplety, mudelaitem, itp->tupletstart);
+      itp->tupletstart = itp->tuplety = 0;
       break;
     case LILYDIRECTIVE:
       // if(si->markstaffnum) not available
@@ -870,8 +851,8 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
     itp->measurenum++;
     //g_print("line_end is %d, while itp->measurenum=%d and si->rightmeasurenum=%d\n",  itp->line_end, itp->measurenum, si->rightmeasurenum);
     if(!itp->line_end) {
-		if(-itp->highy>itp->in_highy && -itp->highy<MAXEXTRASPACE) {
-		thestaff->space_above = -itp->highy;
+	if(-itp->highy>itp->in_highy && -itp->highy<MAXEXTRASPACE) {
+	  thestaff->space_above = -itp->highy;
 	  repeat = TRUE;
 	}
 	if(itp->lowy>itp->in_lowy && itp->lowy<MAXEXTRASPACE){
@@ -1284,20 +1265,16 @@ DenemoGUI *gui = Denemo.gui;
  }
 
   /* Layout the score. */
- //if(!Denemo.gui->si->playingnow)
  if(layout_needed)
-   draw_score (NULL);
+   if(draw_score (NULL)) {
+      set_bottom_staff(gui);
+      update_vscrollbar(gui);
+   }
  layout_needed = TRUE;
- // while(draw_score (NULL, gui) && !Denemo.gui->si->playingnow)
- //   {/*nothing*/}
 
   /* Setup a cairo context for rendering and clip to the exposed region. */
   cr = gdk_cairo_create (event->window);
-
- 
   gdk_cairo_region (cr, event->region);
-  
-  //region_playhead(cr); //!!!!!!! but not both!!!!!!
   cairo_clip (cr);
 
   /* Clear with an appropriate background color. */
@@ -1307,12 +1284,10 @@ DenemoGUI *gui = Denemo.gui;
     GdkColor col;
     gdk_color_parse ("lightblue", &col);
     gdk_cairo_set_source_color (cr, &col);
-  } else if (GTK_WIDGET_IS_SENSITIVE (Denemo.scorearea)) {
-    //cairo_set_source_rgb (cr, 1,1,1);
+  } else if (gtk_widget_has_focus (Denemo.scorearea)) {
     cairo_set_source_rgb (cr, ((0xFF0000&Denemo.color)>>16)/255.0, ((0xFF00&Denemo.color)>>8)/255.0, ((0xFF&Denemo.color))/255.0);
   } else {
-    gdk_cairo_set_source_color (cr, widget->style->bg);
-   
+   cairo_set_source_rgb (cr, 0.9, 0.9, 0.9);
   }
   cairo_paint (cr);
 

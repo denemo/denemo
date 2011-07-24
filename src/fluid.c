@@ -58,8 +58,14 @@ int fluidsynth_init(DenemoPrefs *config, unsigned int samplerate)
   gint i;
   for(i=0;i<16;i++)
     fluid_synth_program_change(synth, i, 0);
-   return 0;
+
+  if(Denemo.prefs.pitchspellingchannel)
+    fluid_synth_program_change(synth, Denemo.prefs.pitchspellingchannel, Denemo.prefs.pitchspellingprogram);
+  set_tuning();
+
+  return 0;
 }
+
 
 void fluidsynth_shutdown()
 {

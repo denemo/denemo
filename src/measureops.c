@@ -326,7 +326,7 @@ settickvalsinmeasure (objnode * theobjs)
 			in_tuplet = TRUE;
 			numerator = ((tupopen *) theobj->object)->numerator;
 			denominator = ((tupopen *) theobj->object)->denominator;
-			basic_ticks_in_tuplet_group = 0;	/* Probably gratuitous */
+			/* basic_ticks_in_tuplet_group = 0; does not work when nested tuplets are used */
 		}
 		else if (theobj->type == TUPCLOSE)
 		{

@@ -1,4 +1,4 @@
-/* kbd-interface.cpp
+/* kbd-interface.c
  *  functions for implementing the customize keyboard dialog
  *
  *  for Denemo, thu GNU graphical music notation editor
@@ -45,11 +45,23 @@ capture_add_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
       return TRUE;
   dnm_clean_event(event);
   modifiers = dnm_sanitize_key_state(event);
+  gchar *name = dnm_accelerator_name(event->keyval, event->state);
   if(cbdata->two_key==1) {
-    cbdata->first_keyval = event->keyval;
-    cbdata->first_modifiers = modifiers;
-    cbdata->two_key = 2;
-    return TRUE;
+    gint command_idx = lookup_command_for_keybinding_name(Denemo.map, name);
+    if(command_idx==-1) {
+      cbdata->first_keyval = event->keyval;
+      cbdata->first_modifiers = modifiers;
+      cbdata->two_key = 2;
+      return TRUE;
+    } else {
+      cbdata->two_key = 0;
+      gchar *msg = g_strdup_printf("The command %s has the shortcut: %s\nDelete it first or start again selecting an unused keypress.", lookup_name_from_idx (Denemo.map, command_idx), name);
+    warningdialog(msg);
+    g_free(msg);
+    g_free(name);
+      g_warning("trying to set a two key starting with a single\n");
+      return TRUE;
+    }
   }
   //get the command_index
   selection = gtk_tree_view_get_selection(cbdata->command_view);
@@ -58,6 +70,17 @@ capture_add_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
   array = gtk_tree_path_get_indices(path);
   command_idx = array[0];
   gtk_tree_path_free(path);
+
+  
+  if(cbdata->two_key == 0 && (GList *)g_hash_table_lookup(Denemo.map->continuations_table, name)) {
+    //g_warning("There is a two key binding starting with this\n");
+    gchar *msg = g_strdup_printf("There is at least one two-key shortcut that starts with: %s\nFind them using the Find button\nDelete it/those first or start again selecting an unused keypress.", name);
+    warningdialog(msg);
+    g_free(msg);
+    g_free(name);
+    return TRUE;
+  }
+  g_free(name);
   //set the new binding
   if(cbdata->two_key==2)
     add_twokeybinding_to_idx(Denemo.map, cbdata->first_keyval, cbdata->first_modifiers, event->keyval, modifiers,
@@ -68,7 +91,7 @@ capture_add_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
   gtk_statusbar_pop(cbdata->statusbar, cbdata->context_id);
   g_signal_handler_disconnect(GTK_WIDGET(widget), cbdata->handler_key_press);
   g_signal_handler_disconnect(GTK_WIDGET(widget), cbdata->handler_focus_out);
-  
+  cbdata->two_key = 0;
   return TRUE;
 }
 
@@ -83,6 +106,7 @@ capture_look_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
   GtkTreePath *path;
   gint command_idx;
   keyboard_dialog_data *cbdata = (keyboard_dialog_data *) user_data;
+  gtk_statusbar_pop(cbdata->statusbar, cbdata->context_id);
   //get the shortcut
   if (isModifier(event))
       return TRUE;
@@ -92,6 +116,22 @@ capture_look_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
   //look for the keybinding
   command_idx = lookup_command_for_keybinding(Denemo.map, event->keyval, modifiers);
   //if the binding is associated to a command 
+  if (command_idx == -1) {
+    gchar *name = dnm_accelerator_name(event->keyval, event->state);
+    GList *g = (GList *)g_hash_table_lookup(Denemo.map->continuations_table, name);
+   
+    GString *continuations = g_string_new("");
+    GString *final_list = g_string_new("");
+      for(;g;g=g->next) {
+        g_string_append_printf(continuations, "%s%s%s", name, ",", (gchar *) g->data);
+        command_idx = lookup_command_for_keybinding_name(Denemo.map, continuations->str);
+        const gchar * this = lookup_name_from_idx (Denemo.map, command_idx);
+        g_string_append_printf(final_list, "%s,%s=%s ", name, g->data, this);
+        g_string_assign(continuations, "");
+      }
+      if(final_list->len) 
+        cbdata->twokeylist = final_list;
+  }
   if (command_idx != -1) {
       model = gtk_tree_view_get_model(cbdata->command_view);
       selection = gtk_tree_view_get_selection(cbdata->command_view);
@@ -101,10 +141,14 @@ capture_look_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
       gtk_tree_view_scroll_to_cell(cbdata->command_view, path, NULL, FALSE,
               0, 0);
       gtk_tree_path_free(path);
+  }  else
+    gtk_statusbar_push(cbdata->statusbar, cbdata->context_id, _("No command has this keyboard shortcut"));
+  if(cbdata->twokeylist) {
+    gtk_statusbar_push(cbdata->statusbar, cbdata->context_id, cbdata->twokeylist->str);
+    g_string_free(cbdata->twokeylist, TRUE);
+    cbdata->twokeylist=NULL;
   }
-      
-  //clean the GUI
-  gtk_statusbar_pop(cbdata->statusbar, cbdata->context_id);
+   //clean the GUI
   g_signal_handler_disconnect(GTK_WIDGET(widget), cbdata->handler_key_press);
   g_signal_handler_disconnect(GTK_WIDGET(widget), cbdata->handler_focus_out);
   
@@ -127,12 +171,13 @@ kbd_interface_add_binding(GtkButton *button, gpointer user_data)
 {
   GtkTreeSelection *selection;
   keyboard_dialog_data *cbdata = (keyboard_dialog_data *) user_data;
+  gtk_statusbar_pop(cbdata->statusbar, cbdata->context_id);
   // check a command is selected
   selection = gtk_tree_view_get_selection(cbdata->command_view);
   if (!gtk_tree_selection_get_selected(selection, NULL, NULL))
       return;
   gtk_statusbar_push(cbdata->statusbar, cbdata->context_id,
-          _("Press a shortcut sequence"));
+          _("Press a shortcut sequence for this command"));
   cbdata->handler_key_press = g_signal_connect(GTK_WIDGET(button),
           "key-press-event", G_CALLBACK(capture_add_binding), user_data);
   cbdata->handler_focus_out = g_signal_connect(GTK_WIDGET(button),
@@ -143,6 +188,7 @@ static void
 kbd_interface_add_2binding(GtkButton *button, gpointer user_data)
 {
   keyboard_dialog_data *cbdata = (keyboard_dialog_data *) user_data;
+  gtk_statusbar_pop(cbdata->statusbar, cbdata->context_id);
   cbdata->two_key = 1;
   kbd_interface_add_binding(button, user_data);
 }
@@ -151,8 +197,9 @@ kbd_interface_look_binding(GtkButton *button, gpointer user_data)
 {
   GtkTreeSelection *selection;
   keyboard_dialog_data *cbdata = (keyboard_dialog_data *) user_data;
+  gtk_statusbar_pop(cbdata->statusbar, cbdata->context_id);
   gtk_statusbar_push(cbdata->statusbar, cbdata->context_id,
-          _("Press a shortcut sequence"));
+          _("Press a shortcut sequence whose command you seek"));
   cbdata->handler_key_press = g_signal_connect(GTK_WIDGET(button),
           "key-press-event", G_CALLBACK(capture_look_binding), user_data);
   cbdata->handler_focus_out = g_signal_connect(GTK_WIDGET(button),
@@ -168,6 +215,7 @@ kbd_interface_del_binding(GtkButton *button, gpointer user_data)
   GtkTreeIter iter;
   guint command_idx;
   keyboard_dialog_data *cbdata = (keyboard_dialog_data *) user_data;
+  gtk_statusbar_pop(cbdata->statusbar, cbdata->context_id);
   selection = gtk_tree_view_get_selection(cbdata->binding_view);
   //if no binding is selected, we do nothing
   if (!gtk_tree_selection_get_selected(selection, &model, &iter))
@@ -363,9 +411,9 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
 		    (GtkAttachOptions) (0), 0, 0);
  
   lookbutton = gtk_button_new_from_stock (GTK_STOCK_FIND);
-  gtk_table_attach (GTK_TABLE (table), lookbutton, 5, 6, 5, 6,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
+ // gtk_table_attach (GTK_TABLE (table), lookbutton, 5, 6, 5, 6,
+//		    (GtkAttachOptions) (GTK_FILL),
+//		    (GtkAttachOptions) (0), 0, 0);
 
   addbutton = gtk_button_new_from_stock (GTK_STOCK_ADD);
   gtk_button_set_label(GTK_BUTTON(addbutton), "Add One Key Shortcut");
@@ -377,6 +425,9 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   gtk_button_set_label(GTK_BUTTON(add2button), "Add Two Key Shortcut");
   gtk_box_pack_end (GTK_BOX (vbox), add2button, FALSE, TRUE, 0);
 
+  lookbutton = gtk_button_new_from_stock (GTK_STOCK_FIND);
+  gtk_button_set_label(GTK_BUTTON(lookbutton), "Find Command for Keyboard Shortcut");
+  gtk_box_pack_end (GTK_BOX (vbox), lookbutton, FALSE, TRUE, 0);
 
   statusbar = gtk_statusbar_new();
   context_id = gtk_statusbar_get_context_id(GTK_STATUSBAR(statusbar), "");
@@ -394,6 +445,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   cbdata.text_view = GTK_TEXT_VIEW(text_view);
   cbdata.command_idx = -1;
   cbdata.two_key = 0;
+  cbdata.twokeylist = NULL;
   //setup the link between command_view and binding_view
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(command_tree_view));
   gtk_tree_selection_set_select_function(selection,
@@ -478,7 +530,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
 
   gtk_widget_show_all (dialog);
   gint val = gtk_dialog_run (GTK_DIALOG (dialog));
-  
+
   //When closing the dialog remove the signals that were associated to the
   //dialog
   keymap_cleanup_command_view(&cbdata);

@@ -33,7 +33,7 @@ draw_timesig (cairo_t *cr,
 
 void
 draw_tupbracket (cairo_t *cr,
-		 gint xx, gint y, DenemoObject *theobj);
+		 gint xx, gint y, DenemoObject *theobj, gint start);
 
 void
 draw_cursor (cairo_t *cr, DenemoScore *si,

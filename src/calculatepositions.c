@@ -144,7 +144,7 @@ prune_list (GList * source)
 
 /**
  * Allocate_xes - allocate the x position for all chord elements
- * in the score
+ * in the score(??? JUl 2011, it appears to be just a single "block" it is called for each "block")
  * 
  * @param block_start_obj_nodes pointer to the starting object node
  * @param block_end_obj_nodes pointer to the last object node
@@ -189,7 +189,6 @@ allocate_xes (objnode ** block_start_obj_nodes,
    * only.  This code would be simpler if each mudela object stored its
    * own starttick rather that only that of its possibly hypothetical
    * successor */
-
   for (i = 0; i < num_staffs; i++)
     {
       this_staff_obj_node = block_start_obj_nodes[i];
@@ -214,17 +213,12 @@ allocate_xes (objnode ** block_start_obj_nodes,
 		    ((list_info *) non_chords_node->data)->pixels;
 		  non_chords_node = non_chords_node->next;
 		}
-
 		if (CHORDTEST(this_staff_obj_node))
 		{
 		  curobj->x = *base_x + extra_advance + non_chord_pixels
 		    + ((starts_at_tick - *base_tick) * block_width
 		       / (ticks_in_block ? ticks_in_block : 1));
-
-
-		    
 		  non_chord_pixels += curobj->minpixelsalloted;
-		   /*g_print("*curobj->x %d *base %d, *base_tick %d, extra %d non chord %d\n", curobj->x, *base_x,*base_tick, extra_advance, non_chord_pixels);*/
 		}
 	      else
 		{
@@ -232,12 +226,8 @@ allocate_xes (objnode ** block_start_obj_nodes,
 		    + ((starts_at_tick - *base_tick) * block_width
 		       / (ticks_in_block ? ticks_in_block : 1));
 		  non_chord_pixels = 0;
-
-
-		
 		}
 	      starts_at_tick = curobj->starttickofnextnote;
-
 
 	      if (this_staff_obj_node == block_end_obj_nodes[i])
 		break;

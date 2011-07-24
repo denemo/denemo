@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>SplitMeasure</after>
+        <action>CheckTupletsInMeasure</action>
+        <scheme>;;;CheckTupletsInMeasure
+(define CheckTupletsInMeasure::return #t)
+(let ()
+  (define start '())
+  (let loop ()
+    (if (TupletOpen?)
+      (begin
+	(if (not (null? start))
+	  (disp "Nested Tuplets"))
+      (set! start (cons (GetPosition) start))))
+	
+    (if (TupletClose?)
+      (if (null? start)
+	    (begin
+	      (set! CheckTupletsInMeasure::return #f)
+	      (d-InfoDialog "End Tuplet with no start")	      
+	      )
+	    (begin
+	      (set! start (cdr start))
+	      (if (d-NextObjectInMeasure)
+		(loop))))
+	      
+      (if (d-NextObjectInMeasure)
+	(loop))))
+  (if (not (null? start))
+    (begin
+      (apply d-GoToPosition (car start))
+      (set! CheckTupletsInMeasure::return #f)
+      (d-InfoDialog "Start Tuplet with no end"))))
+</scheme>
+        <label>Check Tuplets</label>
+        <tooltip>Checks that start/end tuplets match in the current measure.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

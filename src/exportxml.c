@@ -552,7 +552,45 @@ newXMLStemDirective (xmlNodePtr parent, xmlNsPtr ns, stemdirective *stem)
   return stemElem;
 }
 
+/* staff (aka voice) properties */
+static
+void newVoiceProps (xmlNodePtr parentElem, xmlNsPtr ns, DenemoStaff *curStaffStruct) {
+    xmlNodePtr curElem =
+    xmlNewChild (parentElem, ns, (xmlChar *) "voice-props", NULL);
+    newXMLIntChild (curElem, ns, (xmlChar *) "number-of-lines",
+			  curStaffStruct->no_of_lines);
+    newXMLIntChild (curElem, ns, (xmlChar *) "transpose",
+			  curStaffStruct->transposition);
+    xmlNewChild (curElem, ns, (xmlChar *) "instrument",
+		       (xmlChar *) curStaffStruct->midi_instrument->str);
+    if(curStaffStruct->device_port->len)
+	xmlNewChild (curElem, ns, (xmlChar *) "device-port",
+			 (xmlChar *) curStaffStruct->device_port->str);
 
+    newXMLIntChild (curElem, ns, (xmlChar *) "volume",
+			   			  curStaffStruct->volume);
+    newXMLIntChild (curElem, ns, (xmlChar *) "midi_prognum",
+	               curStaffStruct->midi_prognum);
+    newXMLIntChild (curElem, ns, (xmlChar *) "midi_channel",
+	               curStaffStruct->midi_channel);
+
+    newXMLIntChild (curElem, ns, (xmlChar *) "hasfigures",
+			  curStaffStruct->hasfigures);
+
+    newXMLIntChild (curElem, ns, (xmlChar *) "hasfakechords",
+			  curStaffStruct->hasfakechords);
+
+    if(curStaffStruct->verses)
+	    newVersesElem(curElem, ns, curStaffStruct->verses, "verses"); 
+	  
+    if(curStaffStruct->staff_directives) 
+	    newDirectivesElem(curElem, ns,curStaffStruct->staff_directives, "staff-directives");
+	  
+    if(curStaffStruct->voice_directives)
+	    newDirectivesElem(curElem, ns,curStaffStruct->voice_directives, "voice-directives");
+      if(curStaffStruct->clef.directives)
+	    newDirectivesElem(curElem, ns,curStaffStruct->voice_directives, "clef-directives");
+}
 /**
  * Output a notehead element of the form:
  *
@@ -694,6 +732,9 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 
   newXMLIntChild (parentElem, ns, (xmlChar *) "cursorposition",
 		  si->cursor_x - 1);
+  newXMLIntChild (parentElem, ns, (xmlChar *) "tonalcenter",
+		  get_enharmonic_position());
+		  
   newXMLIntChild (parentElem, ns, (xmlChar *) "zoom",
 		  (int)(100*si->zoom));
   newXMLIntChild (parentElem, ns, (xmlChar *) "system-height",
@@ -731,7 +772,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   
 
 
-  /* Output each (primary) staff, and store the IDs in a hash table. */
+  /* Output each (primary) staff, as a structure to hold the DenemoStaffs, which are thought of as voices in this xml format; and store the IDs in a hash table. */
   fraction = 1.0 / (gdouble) g_list_length (si->thescore);
   fraction /= 3;
 	
@@ -746,75 +787,15 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 	    xmlNewChild (stavesElem, ns, (xmlChar *) "staff", NULL);
 	  staffXMLID = getXMLID (curStaffStruct);
 	  xmlSetProp (parentElem, (xmlChar *) "id", (xmlChar *) staffXMLID);
-	  curElem = xmlNewChild (parentElem, ns,
-				 (xmlChar *) "staff-info", NULL);
-	  newXMLIntChild (curElem, ns, (xmlChar *) "number-of-lines",
-			  curStaffStruct->no_of_lines);
-	  newXMLIntChild (curElem, ns, (xmlChar *) "transpose",
-			  curStaffStruct->transposition);
-	  xmlNewChild (curElem, ns, (xmlChar *) "instrument",
-		       (xmlChar *) curStaffStruct->midi_instrument->str);
+	//  curElem = xmlNewChild (parentElem, ns,
+	//			 (xmlChar *) "staff-info", NULL);
 
-	  //FIXME this is only being done for staffs not voices is that good????
-	  if(curStaffStruct->device_port->len)
-	    xmlNewChild (curElem, ns, (xmlChar *) "device-port",
-			 (xmlChar *) curStaffStruct->device_port->str);
 
-	   newXMLIntChild (curElem, ns, (xmlChar *) "volume",
-			   			  curStaffStruct->volume);
-	  newXMLIntChild (curElem, ns, (xmlChar *) "midi_prognum",
-	               curStaffStruct->midi_prognum);
-	  newXMLIntChild (curElem, ns, (xmlChar *) "midi_channel",
-	               curStaffStruct->midi_channel);
-	  
 
-#define PUTCHILD(A,B) if(curStaffStruct->context & A) xmlNewChild (curElem, ns, (xmlChar *) "context", (xmlChar *)B);
-          PUTCHILD(DENEMO_PIANO_START, PIANO_START_STRING);
-          PUTCHILD(DENEMO_PIANO_END, PIANO_END_STRING);
-          PUTCHILD(DENEMO_CHOIR_START, CHOIR_START_STRING);
-          PUTCHILD(DENEMO_CHOIR_END, CHOIR_END_STRING);
-          PUTCHILD(DENEMO_GROUP_START, GROUP_START_STRING);
-          PUTCHILD(DENEMO_GROUP_END, GROUP_END_STRING);
-#undef PUTCHILD
-	  //  newXMLIntChild (curElem, ns, (xmlChar *) "space_above",
-	  //		  curStaffStruct->space_above);
-	  // newXMLIntChild (curElem, ns, (xmlChar *) "space_below",
-	  //		  curStaffStruct->space_below);
-	  newXMLIntChild (curElem, ns, (xmlChar *) "hasfigures",
-			  curStaffStruct->hasfigures);
-
-	  newXMLIntChild (curElem, ns, (xmlChar *) "hasfakechords",
-			  curStaffStruct->hasfakechords);
-
-	  if(curStaffStruct->verses)
-	    newVersesElem(curElem, ns, curStaffStruct->verses, "verses"); 
-	  
-	  //if(curStaffStruct->staff_prolog && curStaffStruct->staff_prolog->len)
-	  // xmlNewChild (curElem, ns, (xmlChar *) "staff-prolog",
-	  //	       (xmlChar *) curStaffStruct->staff_prolog->str);
-	  
-	  if(curStaffStruct->staff_directives) 
-	    newDirectivesElem(curElem, ns,curStaffStruct->staff_directives, "staff-directives");
-	  
-	  if(curStaffStruct->voice_directives)
-	    newDirectivesElem(curElem, ns,curStaffStruct->voice_directives, "voice-directives");
-	  if(curStaffStruct->clef.directives)
-	    newDirectivesElem(curElem, ns,curStaffStruct->voice_directives, "clef-directives");
-	    
-
-	  //if(curStaffStruct->lyrics_prolog && curStaffStruct->lyrics_prolog->len)
-	  //  xmlNewChild (curElem, ns, (xmlChar *) "lyrics-prolog",
-	  //	       (xmlChar *) curStaffStruct->lyrics_prolog->str);
-	  // if(curStaffStruct->figures_prolog && curStaffStruct->figures_prolog->len)
-	  //  xmlNewChild (curElem, ns, (xmlChar *) "figures-prolog",
-	  //       (xmlChar *) curStaffStruct->figures_prolog->str);
-	  //if(curStaffStruct->fakechords_prolog && curStaffStruct->fakechords_prolog->len)
-	  //  xmlNewChild (curElem, ns, (xmlChar *) "fakechords-prolog",
-	  //	       (xmlChar *) curStaffStruct->fakechords_prolog->str);
 	}
     }
 
-  /* Output each voice. */
+  /* Output each voice. These are the DenemoStaff objects */
 
   voicesElem = xmlNewChild (mvmntElem, ns, (xmlChar *) "voices", NULL);
   for (curStaff = si->thescore; curStaff != NULL; curStaff = curStaff->next)
@@ -877,6 +858,9 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
       curTime1 = curStaffStruct->timesig.time1;
       curTime2 = curStaffStruct->timesig.time2;
       newXMLTimeSignature (parentElem, ns, &curStaffStruct->timesig);
+// output here the stuff like device-port which are currently being done on the staff, because that staff is just a container, not a real Denemo staff
+      newVoiceProps (voiceElem, ns, curStaffStruct);
+
 
       /* Write out the measures. */
       measuresElem =

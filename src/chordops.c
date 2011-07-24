@@ -248,6 +248,7 @@ void modify_note(chord *thechord, gint mid_c_offset, gint enshift, gint dclef) {
         play_notes(DEFAULT_BACKEND, curstaffstruct->midi_port, curstaffstruct->midi_channel, thechord);
       }
   }
+  displayhelper(Denemo.gui);
 }
 
 /* Allocate a new note structure initializing the fields
@@ -430,6 +431,7 @@ changeenshift (DenemoObject * thechord, gint mid_c_offset, gint accidental)
     {
       tone = (note *) tnode->data;
       tone->enshift = accidental;
+      displayhelper(Denemo.gui);
     }
 }
 
@@ -529,6 +531,7 @@ freechord (DenemoObject * thechord)
     free_directives(((chord *) thechord->object)->directives);
     //g_list_free(((chord *) thechord->object)->directives);
   }
+//FIXME we should free thechord->directives too if scripts fail to delete them
   g_free (thechord);
 }
 
@@ -551,8 +554,8 @@ clone_chord (DenemoObject * thechord)
   memcpy ((DenemoObject *) ret, (DenemoObject *) thechord,
 	  sizeof (DenemoObject));
 
-  ret->object = NULL;//currently the only pointer in DenemoObject
-
+  ret->object = NULL;
+  ret->directives = NULL;//currently the only pointers in DenemoObject
   memcpy ((chord *) clonedchord, curchord, sizeof (chord));
   clonedchord->directives = NULL;
   clonedchord->dynamics = NULL;

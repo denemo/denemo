@@ -29,6 +29,8 @@
 
 void generate_midi();
 gdouble get_time();
+void adjust_midi_velocity(gchar *buf, gint percent);
+void change_tuning(gdouble *cents);
 gdouble get_midi_on_time(GList *events);
 gdouble get_midi_off_time(GList *events);
 DenemoObject *get_obj_for_start_time(smf_t *smf, gdouble time);

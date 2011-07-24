@@ -399,8 +399,8 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT", "Displays the final finished score for the current part (that is current staff", N_("PrintPart"), "printpart_cb", N_("Print Part")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_CLOSE", "Close the current score. Other windows will stay open", N_("Close"), "close_gui_with_check", N_("Close Score")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_QUIT", "Quit the Denemo program", N_("Quit"), "closewrapper", N_("Quit")}, 
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_UNDO", "Undoes the insert/delete of last note", N_("Undo"), "undowrapper", N_("Undo/Redo Last Note")}, 
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_REDO", "Redo", N_("Redo"), "redowrapper", N_("Redo")}, 
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_UNDO", "Undoes one (more) step of your edits to the current score.", N_("Undo"), "undowrapper", N_("Undo")}, 
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_REDO", "Redoes the next of the steps you have Undone", N_("Redo"), "redowrapper", N_("Redo")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Selecting stretches of notes", N_("Select"), NULL, N_("Select")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Extend the selection", N_("ExtendSelect"), NULL, N_("Extend Selection")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_COPY", "Copy", N_("Copy"), "copywrapper", N_("Copy")}, 
@@ -471,7 +471,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Edit any directives attached to time signature.", N_("EditTimesigDirective"), "edit_timesig_directive", N_("Edit Time Signature Directives")},
   {CMD_CATEGORY_DIRECT, NULL, "Edit any directives attached to key signature.", N_("EditKeysigDirective"), "edit_keysig_directive", N_("Edit Key Signature Directives")},
 
-  {CMD_CATEGORY_DIRECT, NULL, "Delete a directive attached to chord/note at cursor.", N_("DeleteDirective"), "delete_object_directive", N_("Delete a Directive")},
+  {CMD_CATEGORY_DIRECT, NULL, "Delete a directive attached to chord/note at cursor.", N_("DeleteDirective"), "delete_chord_or_note_directive", N_("Delete a Directive")},
 
  
   {CMD_CATEGORY_DIRECT, NULL, "Attach or edit attached LilyPond text to the note at the cursor. This can be used for guitar fingerings, cautionary accidentals and much more. See LilyPond documentation.",N_("AttachLilyToNote"), "note_directive", N_("Attach Lilypond to Note")},
@@ -628,12 +628,12 @@ int main() {
 	/*******************   create a callback for calling from a menuitem *******************/
 	if(mi&CMD_CATEGORY_BOOLEAN) {
 	  fprintf(callbacks, "static void %s_cb (GtkAction *action, DenemoScriptParam *param) {\n"
-		  "%s (param);\ndisplayhelper (Denemo.gui);\n%s}\n",
-		  fi, fi, (CMD_CLASS(mi)==CMD_CATEGORY_NAVIGATION)?"":"  score_status(gui, TRUE);\n");
+		  "%s (param);\n%s}\n",
+		  fi, fi, (CMD_CLASS(mi)==CMD_CATEGORY_NAVIGATION)?"gtk_widget_queue_draw(Denemo.scorearea);\n":" displayhelper (Denemo.gui);\n score_status(gui, TRUE);\n");
 	} else {
 	  fprintf(callbacks, "static void %s_cb (GtkAction *action, gpointer param) {\n"
 		  "  DenemoGUI *gui = Denemo.gui;\n"
-		  "%s (gui);\ndisplayhelper (gui);\n%s}\n", fi, fi, CMD_CLASS(mi)==CMD_CATEGORY_NAVIGATION?"":"  score_status(gui, TRUE);\n");
+		  "%s (gui);\n%s}\n", fi, fi, CMD_CLASS(mi)==CMD_CATEGORY_NAVIGATION?"gtk_widget_queue_draw(Denemo.scorearea);\n":"  displayhelper (gui);\nscore_status(gui, TRUE);\n");
 	}
       }
       

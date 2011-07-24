@@ -309,6 +309,47 @@ do_one_note(gint mid_c_offset, gint enshift, gint notenum) {
 }
 
 
+static gboolean get_current(enharmonic *enote) {
+  DenemoObject *curObj=NULL;
+   if(Denemo.gui->si->currentobject) {
+    curObj = Denemo.gui->si->currentobject->data;
+    if(curObj && curObj->type==CHORD) {
+      chord *thechord = (chord *)  curObj->object;
+      if(thechord->notes) {
+        note *thenote = (note *) thechord->notes->data;
+          enote->mid_c_offset = offsettonumber(thenote->mid_c_offset);
+          enote->enshift = thenote->enshift;
+          return TRUE;
+      }
+    }
+   }
+return FALSE;
+}
+
+static gboolean get_previous(enharmonic *enote) {
+  DenemoObject *curObj=NULL;
+   if(Denemo.gui->si->currentobject) {
+     if(Denemo.gui->si->currentobject->prev) 
+      curObj = Denemo.gui->si->currentobject->prev->data;
+      else {
+      if(Denemo.gui->si->currentmeasure->prev && Denemo.gui->si->currentmeasure->prev->data) {
+        curObj = g_list_last(Denemo.gui->si->currentmeasure->prev->data)->data;
+      }
+    }
+   }
+  if(curObj && curObj->type==CHORD) {
+    chord *thechord = (chord *)  curObj->object;
+    if(thechord->notes) {
+        note *thenote = (note *) thechord->notes->data;
+        enote->mid_c_offset = offsettonumber(thenote->mid_c_offset);
+        enote->enshift = thenote->enshift;
+        return TRUE;
+      }
+    }
+return FALSE;
+}
+
+
 /*  take an action for the passed note. Enter/edit/check the score following the mode and keyboard state. */
 static gint midiaction(gint notenum) {
 
@@ -316,28 +357,21 @@ static gint midiaction(gint notenum) {
   if(gui==NULL)
     return TRUE;
   if(gui->si==NULL)
-
     return TRUE;
-  //gint notenum;
   DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
-  // notenum = get_midi_note();
-  // if(notenum < 0) 
-  //  return TRUE;
-  enharmonic enote;
+  enharmonic enote, prevenote;
+  gboolean have_previous;
   //g_print("Keyboard state %x, mask %x %x %x\n", Denemo.keyboard_state, CHECKING_MASK, GDK_CONTROL_MASK, GDK_MOD2_MASK);
   notenum2enharmonic (notenum, &enote.mid_c_offset, &enote.enshift, &enote.octave);
-  if( !(Denemo.keyboard_state&CHECKING_MASK)) {
-    if(Denemo.prefs.immediateplayback) {
-      // TODO
-//      if (Denemo.prefs.midi_audio_output == Portaudio)
-//	playpitch(midi2hz(notenum), 0.3, 0.5, 0);
-//      if (Denemo.prefs.midi_audio_output == Jack)
-//	jack_playpitch(notenum, 300 /*duration*/);
-//      else if (Denemo.prefs.midi_audio_output == Fluidsynth)
-//	fluid_playpitch(notenum, 300 /*duration*/,  curstaffstruct->midi_channel, 0);
-    }
-    stage_undo(gui->si, ACTION_STAGE_END);//undo is a queue so this is the end :)
-  }
+
+  if(Denemo.gui->si->cursor_appending)
+    have_previous = get_current(&prevenote);
+  else
+    have_previous = get_previous(&prevenote);
+    
+  if( !(Denemo.keyboard_state&CHECKING_MASK))
+   stage_undo(gui->si, ACTION_STAGE_END);//undo is a queue so this is the end :)
+
   if((gui->mode & INPUTEDIT) || (Denemo.keyboard_state&CHECKING_MASK))
     {
       static gboolean beep = FALSE;
@@ -396,6 +430,23 @@ static gint midiaction(gint notenum) {
     stage_undo(gui->si, ACTION_STAGE_START);
   }
   gtk_widget_queue_draw (Denemo.scorearea);//just for advancing the cursor.
+ if(!(Denemo.keyboard_state&CHECKING_MASK)) {
+    if(Denemo.prefs.immediateplayback) {
+      gint channel = curstaffstruct->midi_channel;
+      
+      if(have_previous && check_interval(enote.mid_c_offset, enote.enshift, prevenote.mid_c_offset, prevenote.enshift))
+        channel = Denemo.prefs.pitchspellingchannel;
+              
+      // TODO
+//      if (Denemo.prefs.midi_audio_output == Portaudio)
+//        playpitch(midi2hz(notenum), 0.3, 0.5, 0);
+//      if (Denemo.prefs.midi_audio_output == Jack)
+//        jack_playpitch(notenum, 300 /*duration*/);
+//      else if (Denemo.prefs.midi_audio_output == Fluidsynth)
+//        fluid_playpitch(notenum, 300 /*duration*/,  channel, 0);
+    }
+  }
+
   return TRUE;
 }
 
@@ -410,6 +461,13 @@ gboolean set_midi_capture(gboolean set) {
 #define command ((*buf)&0xF0)
 #define notenumber ((*(buf+1))&0x7F)
 #define velocity ((*(buf+2))&0x7F)
+void
+adjust_midi_velocity(gchar *buf, gint percent) {
+  if(command==MIDI_NOTE_ON)
+    buf[2]=127 - (gint)((127-buf[2])*percent/100.0);
+} 
+
+
 void process_midi_event(gchar *buf) {
   //g_print("process midi (%s) %x %x %x\n",divert_midi_event?"diverted":"straight", command, notenumber, velocity);
 //  if(divert_midi_event &&  divert_midi_id==Denemo.gui->id){
@@ -549,9 +607,11 @@ void handle_midi_event(gchar *buf) {
       process_midi_event(buf);
     else
       if(Denemo.keyboard_state==(GDK_SHIFT_MASK) ||
-	 Denemo.keyboard_state==(GDK_LOCK_MASK))
+	 Denemo.keyboard_state==(GDK_LOCK_MASK)) {
 //	fluid_output_midi_event(buf);
         play_midi_event(DEFAULT_BACKEND, 0, buf);
+        adjust_midi_velocity(buf, 100 - Denemo.prefs.dynamic_compression);
+      }
   }
 }
 

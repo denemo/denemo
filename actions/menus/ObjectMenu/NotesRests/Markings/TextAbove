@@ -14,7 +14,7 @@
 		(d-DirectivePut-chord-ty "Text"  -100 )
 		(d-DirectivePut-chord-postfix "Text"  (string-append "^\\markup " text  " "))
 		(d-DirectivePut-chord-minpixels  "Text" 20)))
-		(d-RefreshDisplay))</scheme>
+		(d-SetSaved #f))</scheme>
         <label>Arbitrary Text</label>
         <tooltip>Prints your text above the music at this point</tooltip>
       </row>

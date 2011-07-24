@@ -110,7 +110,7 @@ initprefs ()
 #endif /* !G_OS_WIN32 */
   ret->sequencer = g_string_new ("/dev/sequencer");
   ret->midi_in = g_string_new ("/dev/midi");
-
+  ret->profile = g_string_new("");
   ret->denemopath = g_string_new (g_get_home_dir());
   ret->lilyversion = g_string_new ("");//meaning use installed LilyPond version
   ret->temperament = g_string_new("Equal");
@@ -132,12 +132,13 @@ initprefs ()
 
   gchar *soundfontpath = g_build_filename (get_data_dir (), "soundfonts", "A320U.sf2", NULL);
   ret->fluidsynth_soundfont = g_string_new(soundfontpath);
-
+  ret->pitchspellingchannel = 15;
+  ret->pitchspellingprogram = 17;
 
   ret->saveparts = FALSE;
   ret->lilyentrystyle = FALSE;
   ret->createclones = FALSE;
-  ret->enable_thumbnails = FALSE;
+  ret->enable_thumbnails = TRUE;
   ret->autosave = TRUE;
   ret->autosave_timeout = 5;
   ret->maxhistory = 20;
@@ -408,7 +409,8 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READBOOLXMLENTRY(autosave)
       
       READXMLENTRY(pdfviewer)
-      READXMLENTRY(imageviewer)    
+      READXMLENTRY(imageviewer) 
+         
       READXMLENTRY(profile) 
 	
       READXMLENTRY(username)    
@@ -419,7 +421,9 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READXMLENTRY(sequencer)
       
       READBOOLXMLENTRY(createclones)
-      READBOOLXMLENTRY(immediateplayback) 
+      READBOOLXMLENTRY(immediateplayback)
+      READINTXMLENTRY(pitchspellingchannel)
+      READINTXMLENTRY(pitchspellingprogram) 
       READBOOLXMLENTRY(modal) 
       READBOOLXMLENTRY(persistence) 
       READBOOLXMLENTRY(cursor_highlight) 
@@ -461,6 +465,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READINTXMLENTRY(fluidsynth_sample_rate)
       READINTXMLENTRY(fluidsynth_period_size)
       READINTXMLENTRY(zoom)
+      READINTXMLENTRY(dynamic_compression)
       READINTXMLENTRY(system_height)
 
 
@@ -777,6 +782,8 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEBOOLXMLENTRY(createclones)
   WRITEBOOLXMLENTRY(lilyentrystyle)
   WRITEBOOLXMLENTRY(immediateplayback)
+  WRITEINTXMLENTRY(pitchspellingchannel)
+  WRITEINTXMLENTRY(pitchspellingprogram)
   WRITEBOOLXMLENTRY(modal)
   WRITEBOOLXMLENTRY(persistence)
   WRITEBOOLXMLENTRY(cursor_highlight)
@@ -814,6 +821,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEBOOLXMLENTRY(fluidsynth_chorus)
   WRITEINTXMLENTRY(fluidsynth_sample_rate)
   WRITEINTXMLENTRY(fluidsynth_period_size)
+  WRITEINTXMLENTRY(dynamic_compression)
   WRITEINTXMLENTRY(zoom)
   WRITEINTXMLENTRY(system_height)
 
@@ -844,7 +852,10 @@ readHistory ()
       filename = g_string_new (locatedotdenemo ());
       g_string_append (filename, "/denemohistory");
     }
-  doc = xmlParseFile (filename->str);
+  if(g_file_test(filename->str, G_FILE_TEST_EXISTS))
+    doc = xmlParseFile (filename->str);
+  else
+    return ret;
 
   if (doc == NULL)
     {

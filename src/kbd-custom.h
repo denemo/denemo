@@ -30,6 +30,7 @@ typedef struct _keyboard_dialog_data
   gulong handler_focus_out;
   gint command_idx;
   gint two_key;// 0 means not two key, 1 means first key, 2 second.
+  GString *twokeylist;//list of commands whose shortcuts start with pressed key
   gint first_keyval;
   gint first_modifiers;
 } keyboard_dialog_data;

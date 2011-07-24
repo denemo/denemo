@@ -356,9 +356,13 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
       gtk_signal_emit_by_name (GTK_OBJECT (Denemo.hadjustment), "changed");
       gtk_signal_emit_by_name (GTK_OBJECT (Denemo.vadjustment), "changed");
       force_lily_refresh(gui);
-    }
+    } else /*file load failed - gui may not be valid */
+    deletescore(NULL, gui);
+      
   g_signal_handlers_unblock_by_func(G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_expose_event), NULL);
   gui->si->undo_guard=1;
+
+
   denemo_scheme_init();//to re-instate any user defined directives for whole score
   gui->si->undo_guard=Denemo.prefs.disable_undo;//user pref to (dis)allow undo information to be collected
   return result;
@@ -805,6 +809,8 @@ static gint
 file_open (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *filename)
 {
   FILE_OPEN_DIALOG("Open", denemo, DENEMO_FORMAT)
+  if(getNumCharsSchemeText())
+	  executeScript(); 
 }
 
 /**
@@ -1006,6 +1012,7 @@ file_newwrapper (GtkAction * action, gpointer param)
     }
   //open_user_default_template(REPLACE_SCORE);
   load_initdotdenemo();
+  set_enharmonic_position(0);
   if(Denemo.printarea) 
     g_object_set_data(G_OBJECT(Denemo.printarea), "printviewupdate", (gpointer)G_MAXUINT);
 }

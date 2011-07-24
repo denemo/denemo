@@ -155,32 +155,34 @@ void
 figure_insert (GtkAction *action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
-  gchar *string;
+  gchar *string = NULL;
   gchar *PreValue = NULL;
   DenemoScore *si = gui->si;
   static struct callbackdata cbdata;
-
-  if(!action && param && param->string)
-    {
-    GString *values = param->string;
-    gchar *str;
-#define SET_STRING(a, b)     if( (str = g_strstr_len(values->str+i,strlen(values->str+i), a))) {\
-      b = g_strdup(str+strlen(a)+1);\
-    }
-    gint i;
-    for(i=0;i<values->len;i+=strlen(values->str+i)+1) {
-      SET_STRING("figures", string); 
-    }
-#undef SET_STRING
-    } else {
-      DenemoObject *curObj = (DenemoObject *) si->currentobject ?
+  DenemoObject *curObj = (DenemoObject *) si->currentobject ?
 	(DenemoObject *) si->currentobject->data : NULL;
  
-      if (curObj && curObj->type == CHORD && ((chord *) curObj->object)->figure)
-	{
+  if (curObj && curObj->type == CHORD && ((chord *) curObj->object)->figure)
 	  PreValue = ((GString *) ((chord *) curObj->object)->figure)->str;
-	}
 
+  if(!action && param && param->string) {//Called from scheme, could be "query" or setting the values
+    GString *values = param->string;
+    gchar *str;
+    gint i;
+    if(!strcmp(values->str, "query")) {
+      if(PreValue && *PreValue) {
+	param->status = TRUE;
+	g_string_assign(param->string, PreValue);
+      } else
+      g_string_assign(param->string, "");
+    }  else //detect the string "figures" followed by a separator character and then the figures
+      for(i=0;i<values->len;i+=strlen(values->str+i)+1) {
+	  if((str = g_strstr_len(values->str+i,strlen(values->str+i), "figures"))) {
+		string = g_strdup(str+strlen("figures")+1);
+		break;
+	  }
+      }
+    } else {//interactive
       string = string_dialog_entry(gui, "Insert/Edit Figure", "Give figures followed by Enter key", PreValue);
     }
   cbdata.gui = gui;
@@ -190,8 +192,6 @@ figure_insert (GtkAction *action, DenemoScriptParam * param)
     {
       insertfigure (action!=NULL, &cbdata);
       //also \set Staff.useBassFigureExtenders = ##t
-
-
       ((DenemoStaff*)si->currentstaff->data)->hasfigures=TRUE;
       displayhelper (gui);
     }

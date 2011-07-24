@@ -66,6 +66,7 @@ toggle_grace (GtkAction *action, DenemoScriptParam * param)
    else {
      store_for_undo_change (si, curmudelaobj);
      ((chord *)curmudelaobj->object)->is_grace ^= GRACED_NOTE;
+     displayhelper(Denemo.gui);
    }
    //g_print("now %x\n",  ((chord *)curmudelaobj->object)->is_grace);
  }

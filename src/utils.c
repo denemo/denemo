@@ -252,39 +252,29 @@ drawbitmapinverse_cr (cairo_t * cr, DenemoGraphic * mask, gint x,
 		   gint y)
 {
   cairo_save(cr);
-  if(mask->type==DENEMO_BITMAP) {
-  gdk_cairo_set_source_pixmap( cr, mask->graphic, x,y );//??? bitmap???? asks torbenh
-  cairo_rectangle( cr, x,y, mask->width, mask->height );
-  cairo_fill( cr );
-  
-  } else {
-    cairo_pattern_t *pattern = (cairo_pattern_t *)mask->graphic;
-    cairo_translate(cr, x, y);
-    // cairo_rectangle( cr, 0, 0,  mask->width, mask->height );
-    cairo_mask(cr, pattern);
+  switch (mask->type) {
+    case DENEMO_BITMAP: {
+      gdk_cairo_set_source_pixmap( cr, mask->graphic, x,y );//??? bitmap???? asks torbenh
+      cairo_rectangle( cr, x,y, mask->width, mask->height );
+      cairo_fill( cr );
+      break;
+    }
+    case DENEMO_PATTERN: {
+      cairo_pattern_t *pattern = (cairo_pattern_t *)mask->graphic;
+      cairo_translate(cr, x, y);
+      cairo_mask(cr, pattern);
+      break;
+    }
+    case DENEMO_FONT:{
+	DenemoGlyph *glyph = mask->graphic;
+	cairo_select_font_face( cr, glyph->fontname, glyph->slant, glyph->weight );
+	cairo_set_font_size( cr, glyph->size);
+	cairo_move_to( cr, x,y );
+	cairo_show_text( cr, glyph->utf);
+      break;	
+    }
   }
   cairo_restore( cr );
-}
-void
-drawfetachar (GdkPixmap * pixmap, GdkGC * gc, gunichar uc, gint x, gint y)
-{
-  int len;
-  char utf_string[8];
-  PangoContext *context =
-    gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
-  PangoLayout *layout = pango_layout_new (context);
-  PangoFontDescription *desc = pango_font_description_from_string ( "feta26 35px" );
-  pango_context_load_font( context, desc );
-
-  len = g_unichar_to_utf8( uc, utf_string );
-
-  pango_layout_set_font_description (layout, desc);
-  pango_layout_set_text (layout,
-			 utf_string,
-			 len);
-  PangoLayoutLine *line = pango_layout_get_line_readonly( layout, 0 );
-
-  gdk_draw_layout_line (pixmap, gc, x, y, line);
 }
 
 void
@@ -296,8 +286,6 @@ drawfetachar_cr (cairo_t * cr, gunichar uc, double x, double y)
   utf_string[len] = '\0';
   cairo_select_font_face( cr, "feta26", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL );
   cairo_set_font_size( cr, 35.0 );
-
-
   cairo_move_to( cr, x,y );
   cairo_show_text( cr, utf_string );
 }
@@ -935,6 +923,41 @@ get_data_dir ()
 }
 
 const gchar *
+get_bin_dir (void)
+{
+  static gchar *bindir = NULL;
+  if (bindir == NULL)
+  {
+#ifdef G_OS_WIN32
+    gchar *rootdir = g_win32_get_package_installation_directory (NULL, NULL);
+    bindir = g_build_filename (rootdir, "bin", NULL);
+    g_print ("rootdir=%s\n", rootdir);
+    g_print ("bindir=%s\n", bindir);
+    g_free (rootdir);
+#else /* not G_OS_WIN32 */
+
+#ifdef __APPLE__
+     
+      {char path[1024];
+       guint size = sizeof(path);
+       _NSGetExecutablePath(path, &size);
+       bindir = (gchar*)g_malloc(size);
+       if (_NSGetExecutablePath(bindir, &size) == 0)
+	 g_print("using bin path %s\n", bindir);
+       else
+	 g_critical("Cannot get bin dir\n");
+       
+       g_print("OSX set bin dir to %s\n", bindir);
+      }
+#else
+    bindir = gbr_find_bin_dir ("/usr/local/bin");
+#endif
+#endif /* not G_OS_WIN32 */
+  }
+  return bindir;
+}
+
+const gchar *
 get_conf_dir ()
 {
   static gchar *confdir = NULL;
@@ -1317,7 +1340,7 @@ string_dialog_entry_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *direction
       	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
         gtk_widget_grab_focus (entry);
   	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-	gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
+	gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER);
 	gtk_window_set_keep_above(GTK_WINDOW (dialog), TRUE);
         gtk_widget_show_all (dialog);
 

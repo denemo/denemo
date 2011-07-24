@@ -15,7 +15,7 @@
 #define  DEFAULT_HIGH (4500.0)
 #define  DEFAULT_LOW (60.0)
 #define DEFAULT_TIMER_RATE (50)
-
+#define QUARTER_COMMA_MEAN_TONE "Quarter comma meantone"
 
 static GtkWidget *PR_window = NULL;/* a top level window for controlling pitch-recognition entry.
 			      We do not create one of these for each view (ie each DenemoGUI object, ie each score) because there is only one audio input source being used, so we would have to cope with resource contention issues, there is just no point. */
@@ -172,7 +172,7 @@ static temperament Lehman = {
 	 	
 
 static temperament Meantone = {
-  "Quarter comma meantone", 8,3,
+  QUARTER_COMMA_MEAN_TONE, 8,3,
     { 
       {261.6, {0, 0}},
       {272.8, {0, 1}},
@@ -265,7 +265,29 @@ static gchar *alteration_name(gint alteration) {
   }
 }
 
-
+static gint fifths[7] = { 0, 2, 4, -1, 1, 3, 5};
+/* check_interval() checks the interval passed notes
+ * returns TRUE if the interval is unusual */
+gboolean check_interval(gint step1, gint enshift1, gint step2, gint enshift2) {
+  gint distance = fifths[step1]+ 7 * enshift1
+      - fifths[step2] - 7 * enshift2;
+ if(distance>6 || distance<-6)
+        return TRUE;
+ return FALSE;
+}
+gboolean check_midi_intervals (GList *midichord) {
+  GList *g = midichord;
+  gint most=0, least=G_MAXINT;
+  for(;g;g=g->next) {
+    gint offset, enshift, octave, value;
+    notenum2enharmonic((gint)g->data, &offset, &enshift, &octave);
+    value = fifths[offset] + 7 * enshift;
+    most = MAX(most, value);
+    least = MIN(least, value);
+    //g_print("note %d value %d\noffset %d enshift %d least=%d most=%d\n", g->data, value, offset, least, least, most);
+  }
+  return abs(most-least)<6;
+}
 
 /* returns the note names currently set for the given temperament
  caller must free the string */
@@ -288,7 +310,7 @@ static gchar * notenames(gpointer p) {
   return str;
 }
 
-gchar *determine_interval(gint bass, gint harmony){
+gchar *determine_interval(gint bass, gint harmony, gboolean *status){
   gint bass_octave, harmony_octave;
   gdouble deviation;
   gint semitones = harmony - bass;
@@ -300,7 +322,9 @@ gchar *determine_interval(gint bass, gint harmony){
  if(interval==2 && semitones>12) interval=9;
  gint inflection = harmonynote.spec.alteration - accs[harmonynote.spec.step];
 
+ *status = check_interval(bassnote.spec.step, bassnote.spec.alteration, harmonynote.spec.step, harmonynote.spec.alteration);
 
+//g_print("have %d %d\n", bassnote.spec.step, harmonynote.spec.step);
 // g_print("Bass %d harmony %d\nInterval is %d, semitones is %d cf (%d, %d)  \n keyaccs of bass note %d of harmony %d\ninflection %d\n", bass, harmony, interval, semitones, bassnote.spec.alteration, harmonynote.spec.alteration, accs[bassnote.spec.step], accs[harmonynote.spec.step], inflection);
  gchar *modifier="";
  if(interval==5 && semitones==6)
@@ -401,6 +425,14 @@ if(t.alteration-1<-2)
 }
 
 void
+adjust_tonal_center(gint *accs) {
+gint i;
+gint center;
+for(center=0, i=0;i<7;i++)
+  center += accs[i];
+  set_enharmonic_position(center);
+}
+void
 set_enharmonic_position(gint position) {
   while (position<enharmonic_position) {
     set_flatter(NULL, NULL);
@@ -408,6 +440,10 @@ set_enharmonic_position(gint position) {
   while (position>enharmonic_position) {
     set_sharper(NULL, NULL);
   }
+}
+
+gint get_enharmonic_position(void) {
+  return enharmonic_position;
 }
 static void enharmonic_step (gboolean sharp) {
   gchar *sharpestname, *flattestname;
@@ -1068,7 +1104,12 @@ gchar *get_flattest(void) {
 gchar *get_temperament_name(void) {
   return g_strdup(PR_temperament->name);
 }
-
+void set_tuning(void) {
+  if (strcmp(PR_temperament->name, QUARTER_COMMA_MEAN_TONE))
+    change_tuning(get_cents(PR_temperament));
+  else
+    set_meantone_tuning(enharmonic_position);//Really other temperaments could do this too...
+}
 #define COLUMN_NAME (0)
 #define COLUMN_PTR (1)
 
@@ -1077,7 +1118,7 @@ static void  temperament_changed_callback (GtkComboBox *combobox,  GtkListStore 
   gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combobox), &iter);
   gtk_tree_model_get (GTK_TREE_MODEL (list_store), &iter,
 		      COLUMN_PTR, &PR_temperament, -1);
-  change_tuning(get_cents(PR_temperament));
+  set_tuning();//note synth may not be attached...
   g_string_assign(Denemo.prefs.temperament, PR_temperament->name);
   switch_back_to_main_window();
 }
@@ -1128,7 +1169,7 @@ GtkWidget *get_temperament_combo(void) {
   GtkCellRenderer *renderer;
   combobox = gtk_combo_box_new_with_model (GTK_TREE_MODEL (list_store));
   g_object_ref(combobox);
-   
+  PR_temperament = &Equal;
   int i;
   for (i = 0; i < (gint) G_N_ELEMENTS (temperaments); i++)
     {GtkTreeIter iter;
@@ -1137,8 +1178,10 @@ GtkWidget *get_temperament_combo(void) {
 			  COLUMN_NAME, temperaments[i]->name,
 			  COLUMN_PTR, temperaments[i], -1);
 
-      if((i==0) || (Denemo.prefs.temperament && !strcmp(Denemo.prefs.temperament->str, temperaments[i]->name)))
-	 gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combobox), &iter); 
+      if((i==0) || (Denemo.prefs.temperament && !strcmp(Denemo.prefs.temperament->str, temperaments[i]->name))) {
+	 gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combobox), &iter);
+	 PR_temperament = temperaments[i];
+      }
     }
   renderer = gtk_cell_renderer_text_new ();
   gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combobox), renderer, TRUE);
@@ -1146,8 +1189,7 @@ GtkWidget *get_temperament_combo(void) {
 				 renderer, "text", COLUMN_NAME);
   g_signal_connect(G_OBJECT (combobox),  "changed",
 		    G_CALLBACK (temperament_changed_callback), list_store);
-
-
+  set_tuning();
   }
   GtkWidget *cont = gtk_widget_get_parent(combobox);
   if(cont)

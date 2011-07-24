@@ -1,5 +1,14 @@
 (use-modules (ice-9 q))
 
+#!(define-module (actions denemo-modules helpsystem)
+	#:export (
+		 Help::RemoveTag
+		 Help::TimedNotice 
+		 Help::Push
+		 Help::Pop
+	)) !#
+
+
 ; This help system is designed to give out messages in the second Denemo status bar.
 ;; You can push and pop to a message-queue. If you Pop the front message the one before that will appear again
 ;; Each help message consists of a tag-symbol and a help-string. Only one message of each tag is allowed in the queue. If you push a another message with an existing tag the old message gets deleted.

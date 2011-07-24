@@ -60,7 +60,7 @@ chord_directive (GtkAction *action, DenemoScriptParam * param);
 void
 standalone_directive (GtkAction *action, DenemoScriptParam *param);
 void 
-delete_object_directive(GtkAction *action,  DenemoScriptParam *param);
+delete_chord_or_note_directive(GtkAction *action,  DenemoScriptParam *param);
 
 
 void

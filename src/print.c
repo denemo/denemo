@@ -86,7 +86,6 @@ check_lilypond_path (DenemoGUI * gui){
       return 1;
 }
 
-#if 1 // lilypond -v command should be good for all versions. was GLIB_MINOR_VERSION >= 14
 int
 version_check(lilyversion base, lilyversion installed)
 {
@@ -190,7 +189,7 @@ check_lily_version (gchar *version)
   lilyversion check_version = string_to_lilyversion(version);
   return version_check(check_version, installed_version);
 }
-#endif
+
  
 /* returns the base name (~/.denemo/denemoprint usually) used as a base
    filepath for printing. On windows there is some filelocking trouble.
@@ -332,7 +331,7 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
  {
 
   if (is_png)
-	printfile = g_strconcat (filename, ".png", NULL);
+    printfile = g_strconcat (filename, ".png", NULL);
   else
   	printfile = g_strconcat (filename, ".pdf", NULL);
   
@@ -726,7 +725,7 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoGUI * gui)
   gchar *texfile;
   gchar *texifile;
   gchar *countfile;
-  gchar **arguments;
+
   GList *filelist=NULL;
   
   /* get the intended resolution of the png */
@@ -754,8 +753,8 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoGUI * gui)
   gui->lilysync = G_MAXUINT;
   exportlilypond (lilyfile, gui, finish == (GChildWatchFunc)printpng_finished?TRUE:FALSE);
   /* create arguments needed to pass to lilypond to create a png */
-#if GLIB_MINOR_VERSION >= 14
-  gchar *png_arguments1[] = {
+
+  gchar *arguments[] = {
     Denemo.prefs.lilypath->str,
     "--png",
     "-dbackend=eps",
@@ -764,36 +763,8 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoGUI * gui)
     filename,
     lilyfile,
     NULL
-  };
-  gchar *png_arguments2[] = {
-    Denemo.prefs.lilypath->str,
-   "--png",
-    "-b",
-    "eps",
-    resolution,
-    "-o",
-    filename,
-    lilyfile,
-    NULL
-  };
-  
-  if (check_lily_version("2.12") >= 1)
-     arguments = png_arguments1;
-  else
-     arguments = png_arguments2;
-#else
-  gchar *png_arguments[] = {
-    Denemo.prefs.lilypath->str,
-    "--png",
-    "-b",
-    "eps",
-    resolution,
-    "-o",
-    filename,
-    lilyfile,
-    NULL
-  };
-#endif
+  };  
+ 
  
   /* generate the png file */
   if(finish) {
@@ -801,7 +772,7 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoGUI * gui)
     if(!error)
       g_child_watch_add (printpid, (GChildWatchFunc)finish, (gchar *) filelist);
   } else {
-    GError *err; 
+    GError *err = NULL; 
     g_spawn_sync (locateprintdir (),		/* dir */
 		arguments, NULL,	/* env */
 		G_SPAWN_SEARCH_PATH, NULL,	/* child setup func */
@@ -809,7 +780,7 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoGUI * gui)
 		NULL,		/* stdout */
 		NULL,		/* stderr */
 		NULL, &err);
-    g_list_foreach(filelist, (GFunc)rm_temp_files, FALSE);
+ //These are in tmpdir and can be used for the .eps file, so don't delete them   g_list_foreach(filelist, (GFunc)rm_temp_files, FALSE);
     g_list_free(filelist);
   }
 }
@@ -829,7 +800,7 @@ export_pdf (gchar * filename, DenemoGUI * gui)
   gchar *lilyfile;  
   gchar *psfile;
   GList *filelist=NULL;
- 
+
   basename =  get_printfile_pathbasename();
   lilyfile = g_strconcat (basename, ".ly", NULL);
   psfile = g_strconcat (filename, ".ps", NULL);
@@ -874,8 +845,13 @@ print_and_view(gchar **arguments) {
 }
 
 void print_lily_cb (GtkWidget *item, DenemoGUI *gui){
+  if(call_out_to_guile("(InitializeTypesetting)")) {
+    g_warning("InitializeTypesetting failed\n");
+    return;
+  }
   gchar *filename = get_printfile_pathbasename();
   gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
+
   FILE *fp = fopen(lilyfile, "w");
   if(fp){
     GtkTextIter startiter, enditer;
@@ -1095,10 +1071,7 @@ void refresh_print_view (gboolean preview_only) {
   gchar *printfile = g_strconcat (filename, "_", NULL);
   gchar *resolution = "-dresolution=180";
 
-
-#if GLIB_MINOR_VERSION >= 14
-  gchar **arguments;
-  gchar *arguments1[] = {
+  gchar *arguments[] = {
     Denemo.prefs.lilypath->str,
     "--png",
     "-dbackend=eps",
@@ -1108,36 +1081,7 @@ void refresh_print_view (gboolean preview_only) {
     lilyfile,
     NULL
   };
-  gchar *arguments2[] = {
-    Denemo.prefs.lilypath->str,
-    "--png",
-    "-b",
-    "eps",
-    resolution,
-    "-o",
-    printfile,
-    lilyfile,
-    NULL
-  };
-  if (check_lily_version("2.12") >= 1)
-   arguments = arguments1;
-  else
-    arguments = arguments2;
-#else
-  gchar *arguments[] = {
-    Denemo.prefs.lilypath->str,
-    "--png",
-    "-b",
-    "eps",
-    resolution,
-    "-o",
-    printfile,
-    lilyfile,
-    NULL
-  };
-#endif
-
-
+ 
   busy_cursor();
   changecount = Denemo.gui->changecount;// keep track so we know it update is needed
 
@@ -1182,6 +1126,11 @@ printpart_cb (GtkAction *action, gpointer param) {
 
 void
 printpreview_cb (GtkAction *action, gpointer param) {
+  if(call_out_to_guile("(InitializeTypesetting)")) {
+      g_warning("InitializeTypesetting failed\n");
+  return;
+  }
+
   DenemoGUI *gui = Denemo.gui;
   gui->si->markstaffnum=0;//FIXME save and restore selection?    
   gui->lilycontrol.excerpt = FALSE;
@@ -1234,13 +1183,10 @@ static gchar *thumbnailsdirL = NULL;
   
 /*call back to finish thumbnail processing. */
 static
-void thumb_finished(GPid pid, gint status, GList *filelist) {
+void thumb_finished(GPid pid, gint status) {
   GError *err = NULL;
-  if(filelist) {
-  g_list_foreach(filelist, (GFunc)rm_temp_files, (gpointer)TRUE); //these temp files are always the same, so better not to waste time deleting them
-  g_list_free(filelist);
-  g_spawn_close_pid (pid); 
-  }
+  g_spawn_close_pid (printpid); 
+  printpid = GPID_NONE;
   gchar *printname = get_thumb_printname();
     gchar *printpng = g_strconcat(printname, ".png", NULL);
     GdkPixbuf *pbN = gdk_pixbuf_new_from_file_at_scale   (printpng, 128, -1, TRUE, &err);
@@ -1294,8 +1240,8 @@ gchar * large_thumbnail_name(gchar *filepath) {
  *  Create a thumbnail for Denemo.gui if needed
  */
 gboolean
-create_thumbnail(gboolean closing) {
-  g_print("Not using temp dir %s yet\n", make_temp_dir());
+create_thumbnail(gboolean async) {
+  GError *err = NULL;
   if(printpid!=GPID_NONE)
     return FALSE;
   if(Denemo.gui->filename->len) {
@@ -1328,7 +1274,7 @@ create_thumbnail(gboolean closing) {
         memcpy(&Denemo.gui->thumbnail, &Denemo.gui->si->selection, sizeof(DenemoSelection));
         else {
           Denemo.gui->thumbnail.firststaffmarked = 1;
-          Denemo.gui->thumbnail.laststaffmarked = 1;
+          Denemo.gui->thumbnail.laststaffmarked = 3;
           Denemo.gui->thumbnail.firstmeasuremarked = 1;
           Denemo.gui->thumbnail.lastmeasuremarked = 3;
           Denemo.gui->thumbnail.firstobjmarked = 0;
@@ -1339,16 +1285,26 @@ create_thumbnail(gboolean closing) {
     gchar * printname = get_thumb_printname();
     Denemo.gui->lilycontrol.excerpt = TRUE;
 
-    if(closing){
-        export_png(printname, (GChildWatchFunc)thumb_finished, Denemo.gui);
-        gtk_widget_hide(Denemo.window);
-        //g_print("Note printpid is %d\n", printpid);
-        while(printpid!=GPID_NONE) {
-          gtk_main_iteration_do(FALSE);
-        }
+    if(async){
+      gchar *arguments[] = {
+      g_build_filename(get_bin_dir(), "denemo", NULL),
+        "-n", "-a", "(d-CreateThumbnail)(d-Exit)",
+      Denemo.gui->filename->str,
+      NULL
+    };
+
+    g_spawn_async_with_pipes (NULL,		/* any dir */
+		arguments, NULL,	/* env */
+		G_SPAWN_SEARCH_PATH, NULL,	/* child setup func */
+		NULL,		/* user data */
+        NULL, /* pid */
+		NULL,		/* stdin */
+		NULL,		/* stdout */
+		NULL,		/* stderr */
+		 &err);
     } else {
       export_png(printname, NULL, Denemo.gui);
-      thumb_finished (printpid, 0, NULL);
+      thumb_finished (printpid, 0);
     }
     
     g_free(printname);
@@ -1662,22 +1618,14 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
   busycursor = gdk_cursor_new(GDK_WATCH);
   arrowcursor = gdk_cursor_new(GDK_RIGHT_PTR);//FIXME what is the system cursor called??
 
-
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
-#if 1
   top_vbox = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title(GTK_WINDOW(top_vbox), "Denemo Print View");
   gtk_widget_set_size_request(GTK_WIDGET(top_vbox), 600, 750);
   g_signal_connect (G_OBJECT (top_vbox), "delete-event",
 		    G_CALLBACK (hide_printarea_on_delete), NULL);
   gtk_container_add (GTK_CONTAINER (top_vbox), main_vbox);
- 
- 
-#else
-  gtk_box_pack_start (GTK_BOX (top_vbox), main_vbox, TRUE, TRUE,
-		      0);
 
-#endif
   GtkWidget *score_and_scroll_hbox = gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (main_vbox), score_and_scroll_hbox, TRUE, TRUE,
 		      0);

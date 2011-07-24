@@ -1239,7 +1239,7 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "EditTimesigDirective")), 
 SCM scheme_EditKeysigDirective(SCM optional);
 install_scm_function ("d-EditKeysigDirective", scheme_EditKeysigDirective);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "EditKeysigDirective")), "scm", (gpointer)1);
-/*DeleteDirective delete_object_directive*/
+/*DeleteDirective delete_chord_or_note_directive*/
 SCM scheme_DeleteDirective(SCM optional);
 install_scm_function ("d-DeleteDirective", scheme_DeleteDirective);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "DeleteDirective")), "scm", (gpointer)1);

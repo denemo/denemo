@@ -50,9 +50,9 @@ void
 update_vscrollbar (DenemoGUI * gui)
 {
   GtkAdjustment *adj = GTK_ADJUSTMENT (Denemo.vadjustment);
-  adj->upper = g_list_length (gui->si->thescore) + 2.0;
+  adj->upper = g_list_length (gui->si->thescore) + 1.0;
   adj->page_size = adj->page_increment
-    = gui->si->bottom_staff - gui->si->top_staff + 2.0;
+    = gui->si->bottom_staff - gui->si->top_staff + 1.0;
   adj->value = gui->si->top_staff;
 #if GTK_MAJOR_VERSION > 1
   gtk_adjustment_changed(adj);
@@ -120,13 +120,16 @@ set_bottom_staff (DenemoGUI * gui)
      staves will fit into the window.  */
   staff_number = gui->si->top_staff;
   space_left = Denemo.scorearea->allocation.height*gui->si->system_height/gui->si->zoom;
+  space_left -= 2*LINE_SPACE;
   do
     {
-      space_left -= gui->si->staffspace;
-      to_next_primary_voice (&staff_number, &staff_iterator);
+     DenemoStaff *staff = staff_iterator->data;
+     space_left -= (staff->space_above + staff->space_below + 2*STAFF_HEIGHT);
+     to_next_primary_voice (&staff_number, &staff_iterator);
     }
-  while (staff_iterator && space_left >= gui->si->staffspace);
-
+  while (staff_iterator && space_left >= 0);
+  if(space_left<0 && staff_number>(gui->si->top_staff + 1))
+    staff_number--;
   gui->si->bottom_staff = staff_number - 1;
 }
 

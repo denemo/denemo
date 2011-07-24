@@ -65,13 +65,23 @@ typedef enum
 typedef enum DenemoGraphicType
   {
     DENEMO_BITMAP,
-    DENEMO_PATTERN
+    DENEMO_PATTERN,
+    DENEMO_FONT
   } DenemoGraphicType;
+
+typedef struct DenemoGlyph
+{
+  gchar *fontname;/**< font to be used */
+  gchar *utf; /**< utf8 char(s) to be placed as graphic */
+  gdouble size; /**< font size to be used */
+  gint slant, weight; /**< CAIRO_FONT_SLANT_xxx and WEIGHT_xxx values */
+}
+DenemoGlyph;
 
 typedef struct DenemoGraphic
 {
   DenemoGraphicType type;
-  gpointer graphic; /**< either a GdkBitmap or a cairo_pattern_t */
+  gpointer graphic; /**< either a GdkBitmap, a cairo_pattern_t or a DenemoGlyph*/
   gint width, height;
 }
 DenemoGraphic;
@@ -186,7 +196,7 @@ typedef struct
 {
   DenemoObjType type; /**< The type of object pointed to by the gpointer object field below */
   gchar *user_string;/**< Holds user's original text parsed to generated this 
-			object */
+			object OBSOLETE */
   gint basic_durinticks; /**< Duration of object including dotting but not tuplet/grace note effects. */
   gint durinticks; /**< Duration of object where 384 (PPQN) is a quarter note, includes any tuplet/grace note effects */
   gint starttick; /**< When the object occurs */ 
@@ -203,6 +213,7 @@ typedef struct
   gboolean isend_beamgroup; /**< TRUE if this is the end of a beam group */
   gpointer object; /**< the structures pointed to are given in denemo_objects.h */
   gboolean isinvisible; /**< If  TRUE it will be drawn in a distinctive color and will be printed transparent. */
+  GList *directives; /* Directives attached to the object. These are transient */
 } DenemoObject;
 
 
@@ -370,6 +381,8 @@ typedef struct DenemoPrefs
   GString *audioplayer; /**< This is used for playing audio files*/
   gboolean immediateplayback; /**< This options sends audio directly to synth as notes 
 				are being entered */
+  gint pitchspellingchannel; /**< channel to use for feedback when entering extreme intervals via MIDI in, that may indicate an enharmonic error, 0 means no pitch spelling*/
+  gint pitchspellingprogram; /**< program to set pitchspellingchannel to on startup */
   gboolean startmidiin; /**< try to start midi in on startup */
   gboolean applytoselection; /**< apply commands to selection */
   gboolean quickshortcuts;/**< TRUE if pressing a key while hovering over a menu item sets a shortcut */
@@ -425,7 +438,7 @@ typedef struct DenemoPrefs
   gboolean fluidsynth_chorus; /**< Toggle if chorus is applied to fluidsynth */
   gint fluidsynth_sample_rate;/**< sample rate in Hz > */
   gint fluidsynth_period_size;/**< The size of the audio buffers (in frames).> */
-
+  gint dynamic_compression;/**< percent compression of dynamic range desired when listening to MIDI-in */
   gdouble display_refresh;/**< time in ms between refresh of display during playback */
   gint animation_steps;/** < number of steps to use animating the page turns during playback */
   GString *pdfviewer; /**< PDF viewer */
@@ -939,6 +952,7 @@ struct cs_callback
  */
 struct DenemoRoot
 {
+  gboolean non_interactive; /* if TRUE denemo should not display gui, receive or send sounds etc*/
   gchar *scheme_file;/* filename for scheme code to run on startup */
   gchar *scheme_commands;/* scheme code to run on startup after scheme_file */
   /* Fields used fairly directly for drawing */

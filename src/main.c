@@ -406,7 +406,20 @@ debug_handler (const gchar *log_domain, GLogLevelFlags log_level,
   //g_debug ("%s",message);
 }
 
-
+static
+void append_to_path(gchar *path, gchar *extra) {
+  gchar * the_path = (gchar*)g_getenv (path);
+  if(the_path)
+#if G_OS_WIN32
+    the_path = g_strconcat(the_path, ";", extra, NULL);
+#else
+    the_path = g_strconcat(the_path, ":", extra, NULL);
+#endif
+  else
+    the_path = g_strdup(extra);  
+  g_setenv (path, the_path, TRUE);
+  g_print("%s is %s\n", path, the_path);
+}
 
 
 
@@ -477,21 +490,17 @@ main (int argc, char *argv[])
   add_font_directory(fontpath);
   fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "denemo.ttf", NULL);
   add_font_directory(fontpath);
+
+  append_to_path ("GUILE_LOAD_PATH", g_build_filename(prefix, "share", "denemo", NULL));
+
 #else
 
 
 #ifdef __APPLE__
   //FIXME if this works, remove the duplication with windows case
- {char apath[1024];
-       guint size = sizeof(apath);
-       _NSGetExecutablePath(apath, &size);
-       gchar * bindir = (gchar*)g_malloc(size);
-       if (_NSGetExecutablePath(bindir, &size) == 0)
-	 g_print("using bin path %s\n", bindir);
-       else
-	 g_critical("Cannot get bin dir\n");
-       gchar *prefix = g_build_filename (g_path_get_dirname(bindir), "..", NULL);      
-       gchar *guile = g_build_filename (prefix, "share", "guile", NULL);
+ {
+  gchar *prefix = g_build_filename (g_path_get_dirname(get_bin_dir()), "..", NULL);      
+  gchar *guile = g_build_filename (prefix, "share", "guile", NULL);
   gchar *guile_1_8 = g_build_filename (guile, "1.8", NULL);
   gchar *lilypond_current_scm = g_build_filename (prefix, "share", "lilypond", "current", "scm", NULL);
   if (g_file_test (guile, G_FILE_TEST_EXISTS))
@@ -509,12 +518,12 @@ main (int argc, char *argv[])
   g_setenv ("PANGO_MODULE_VERSION", "1.6.0", TRUE);
   g_setenv ("PANGO_SO_EXTENSION", ".so", TRUE);
   g_print ("Setting PANGO_PREFIX=%s\n", prefix);
-#if 1
+
   g_setenv ("GTK_MODULE_VERSION", "2.10.0", TRUE);
   g_setenv ("GTK_SO_EXTENSION", ".so", TRUE);
   g_setenv ("GTK_PREFIX", prefix, TRUE);
   g_print ("Setting GTK_PREFIX=%s\n", prefix);
-#endif
+
   g_setenv ("GDK_PIXBUF_MODULE_FILE", g_build_filename (prefix, "etc", "gtk-2.0", "gdk-pixbuf.loaders", NULL), TRUE);
   g_print("Set GDK_PIXBUF_MODULE_FILE to %s\n", g_build_filename (prefix, "etc", "gtk-2.0", "gdk-pixbuf.loaders", NULL));
   gchar *fc_path = g_build_filename (prefix, "etc","fonts", NULL);
@@ -550,18 +559,17 @@ main (int argc, char *argv[])
 
       }
 #else
+
+  gchar *prefix = g_build_filename (get_bin_dir(), "..", NULL); 
   add_font_directory (DATAROOTDIR "/fonts");
-#endif
+#endif /* end of not windows and not APPLE */
 
 
-#ifdef ENABLE_BINRELOC
-  g_debug("\n\n!!!!!!!!!!!!!!!!!\n\nBinreloc is %s\n\n the macro PKGDATADIR = %s, data dir is set to %s\n",  " Enabled", PKGDATADIR, get_data_dir());
-#else
- g_debug("\n\n!!!!!!!!!!!!!!!!!\n\nBinreloc is %s\n\n the macro PKGDATADIR = %s, data dir is set to %s\n",  " Disabled", PKGDATADIR, get_data_dir());
-#endif
 
+  append_to_path("GUILE_LOAD_PATH", g_build_filename(prefix, "share", "denemo", NULL));  
 
-#endif
+  
+#endif /* end of else not windows */
   GError *error = NULL;
   /* gtk initialization */
   gtk_init (&argc, &argv);
@@ -606,6 +614,7 @@ Options:\n\
   -i pathtofile         process scheme commands in pathtofile on file open\n\
   -s filename           process scheme commands from system file on file open\n\
   -a scheme             process the scheme on startup\n\
+  -n                    non-interactive. No GUI.\n\
   -v,--version          print version number and exit\n\n\n\
 Report bugs to http://www.denemo.org\n"), NULL) ;
 
@@ -625,7 +634,7 @@ Report bugs to http://www.denemo.org\n"), NULL) ;
   };
 #endif
 
-  char const *optstring = "s:hi:vc:k:a:A:M:";
+  char const *optstring = "s:hi:vc:k:a:nA:M:";
 
 #ifdef HAVE_GETOPT_H
   while ((opts = getopt_long (argc, argv, optstring, long_options, NULL)) != -1)
@@ -658,6 +667,9 @@ Report bugs to http://www.denemo.org\n"), NULL) ;
           break;
         case 'k':
           commandsetfile = g_build_filename(locatedotdenemo(), "actions",  optarg, NULL);
+          break;
+        case 'n':
+          Denemo.non_interactive = TRUE;
           break;
         case 'A':
           g_string_assign(Denemo.prefs.audio_driver, optarg);

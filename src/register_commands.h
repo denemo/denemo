@@ -255,8 +255,8 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "Print"),
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintPart"), "PrintPart", "Print Part", "Displays the final finished score for the current part (that is current staff", printpart_cb);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Close"), "Close", "Close Score", "Close the current score. Other windows will stay open", close_gui_with_check);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Quit"), "Quit", "Quit", "Quit the Denemo program", closewrapper);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Undo"), "Undo", "Undo/Redo Last Note", "Undoes the insert/delete of last note", undowrapper);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Redo"), "Redo", "Redo", "Redo", redowrapper);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Undo"), "Undo", "Undo", "Undoes one (more) step of your edits to the current score.", undowrapper);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Redo"), "Redo", "Redo", "Redoes the next of the steps you have Undone", redowrapper);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Copy"), "Copy", "Copy", "Copy", copywrapper);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Cut"), "Cut", "Cut", "Cut", cutwrapper);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Paste"), "Paste", "Paste", "Paste the selected music", pastewrapper);
@@ -308,7 +308,7 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "EditMove
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "EditClefDirective"), "EditClefDirective", "Edit Clef Directives", "Edit any directives attached to clef.", edit_clef_directive);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "EditTimesigDirective"), "EditTimesigDirective", "Edit Time Signature Directives", "Edit any directives attached to time signature.", edit_timesig_directive);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "EditKeysigDirective"), "EditKeysigDirective", "Edit Key Signature Directives", "Edit any directives attached to key signature.", edit_keysig_directive);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "DeleteDirective"), "DeleteDirective", "Delete a Directive", "Delete a directive attached to chord/note at cursor.", delete_object_directive);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "DeleteDirective"), "DeleteDirective", "Delete a Directive", "Delete a directive attached to chord/note at cursor.", delete_chord_or_note_directive);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "AttachLilyToNote"), "AttachLilyToNote", "Attach Lilypond to Note", "Attach or edit attached LilyPond text to the note at the cursor. This can be used for guitar fingerings, cautionary accidentals and much more. See LilyPond documentation.", note_directive);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "AttachLilyToChord"), "AttachLilyToChord", "Attach Lilypond to Chord", "Attach or edit attached LilyPond text to the chord at the cursor. This can be used for attaching and placing text and much more. See LilyPond documentation.", chord_directive);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBarline"), "InsertBarline", "Insert Barline", "Inserts specialized barline at the cursor position. Mostly not working", insert_barline);

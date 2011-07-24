@@ -652,7 +652,7 @@ void ToggleReduceToDrawingArea (GtkAction * action, DenemoScriptParam *param) {
   gboolean visibile =  GTK_WIDGET_VISIBLE (widget);
   if(Denemo.gui->view == DENEMO_MENU_VIEW && !visibile){
     g_warning("Out of step");
-    Denemo.gui->view == DENEMO_LINE_VIEW;
+    Denemo.gui->view = DENEMO_LINE_VIEW;
   }
   toggle_to_drawing_area(!GTK_WIDGET_VISIBLE (widget));
 }
@@ -826,12 +826,29 @@ static SCM scheme_set_thumbnail_selection(SCM optional) {
   return SCM_BOOL_F;
 }
 
-
-static SCM scheme_create_thumbnail(SCM optional) {
- gboolean ret = create_thumbnail(FALSE);
-  return SCM_BOOL(ret);
+static SCM scheme_get_checksum(SCM str) {
+  SCM ret = SCM_BOOL_F;
+  if(scm_is_string(str)) {
+    gchar *chk;
+  gchar *thestring = scm_to_locale_string(str);
+  chk = g_compute_checksum_for_string (G_CHECKSUM_MD5, thestring, -1);
+  ret = scm_from_locale_string(chk);
+  g_free(chk);
+  }
+return ret;
 }
 
+static SCM scheme_create_thumbnail(SCM optional) {
+ gboolean ret;
+ if(optional == SCM_BOOL_T)
+  ret = create_thumbnail(TRUE);
+ else
+  ret = create_thumbnail(FALSE);
+return SCM_BOOL(ret);
+}
+static SCM scheme_exit(SCM optional) {
+exit(0);
+}
 
 static SCM scheme_take_snapshot (SCM optional) {   
   return SCM_BOOL(take_snapshot());
@@ -981,6 +998,24 @@ static SCM scheme_get_temperament(void) {
   SCM ret = scm_makfrom0str (name);
   g_free(name);
   return ret;
+}
+
+static SCM
+ignore_handler (gchar *data SCM_UNUSED, SCM tag, SCM throw_args SCM_UNUSED)
+{
+ // g_warning("ignoring throw");
+  return SCM_BOOL_F;
+}
+void
+set_meantone_tuning(gint step) {
+SCM thestep = scm_int2num(step);
+if(SCM_BOOL_F == scm_internal_catch (SCM_BOOL_T,
+                      (scm_t_catch_body)  scm_c_lookup, (void *) "SetQuarterCommaMeanTone",
+                      (scm_t_catch_handler) ignore_handler, (void *) "whoops"))
+                      return;
+SCM  func_symbol = scm_c_lookup("SetQuarterCommaMeanTone");
+SCM  func = scm_variable_ref(func_symbol);
+scm_call_1(func, thestep); 
 }
 
 static SCM scheme_set_enharmonic_position(SCM position) {
@@ -1655,6 +1690,25 @@ SCM scheme_get_note (SCM count) {
    
 }
 
+SCM scheme_spell_check_midi_chord (SCM list) {
+  SCM scm;
+  GList *notes = NULL;
+  gboolean status;
+  if(scm_list_p(list)) {
+  for(scm = list; !scm_is_null(scm); scm = scm_cdr(scm)) {
+   gint note = scm_num2int(scm_car(scm), 0, 0);
+   notes = g_list_prepend(notes, (gpointer)note);
+  }
+ status = check_midi_intervals(notes);
+ g_list_free(notes);
+ return status?SCM_BOOL_T:SCM_BOOL_F;
+  } else {
+  g_print("Bad pitch spell list\n");
+    return SCM_BOOL_F;
+  }
+}
+
+
 SCM scheme_get_cursor_note_as_midi (SCM optional) {
 
  DenemoGUI *gui = Denemo.gui;
@@ -2221,6 +2275,8 @@ SCM scheme_set_action_script_for_tag(SCM tag, SCM script) {
   if(tagname) free(tagname);\
   return SCM_BOOL(FALSE);\
 }
+
+GET_TAG_FN_DEF(object);
 GET_TAG_FN_DEF(standalone);
 GET_TAG_FN_DEF(chord);
 GET_TAG_FN_DEF(note);
@@ -2552,8 +2608,9 @@ INT_PUTFUNC_DEF(score, ty)
 INT_PUTFUNC_DEF(score, gx)
 INT_PUTFUNC_DEF(score, gy)
 
-
-
+INT_GETFUNC_DEF(object, minpixels)
+INT_PUTFUNC_DEF(object, minpixels)
+DELETE_FN_DEF(object)
      // block to copy for new type of directive, !!minpixels is done in block to copy for new fields!!
 GETFUNC_DEF(clef, prefix)
 GETFUNC_DEF(clef, postfix)
@@ -2996,19 +3053,30 @@ SCM scheme_output_midi_bytes (SCM input) {
   return  SCM_BOOL(TRUE);
 }
 
+static SCM scheme_play_midi_note(SCM note, SCM volume, SCM channel, SCM duration) {
+    guint vol = scm_num2int(volume, 0, 0);
+    gint key =  scm_num2int(note, 0, 0);
+    gint chan = scm_num2int(channel, 0, 0);
+    gint dur = scm_num2int(duration, 0, 0);
+    
+    //g_print("Playing %x at %f volume, %d channel\n", key, vol/255.0, channel);
+    // FIXME
+    //play_midikey(key, dur/1000.0, vol/255.0, chan);
+    play_note(DEFAULT_BACKEND, 0 /*port*/, chan, key, dur/1000.0, vol/255.0);
+ return SCM_BOOL(TRUE);
+}
 static SCM scheme_play_midikey(SCM scm) {
     guint midi = scm_num2int(scm, 0, 0);
     gint key =  (midi>>8)&0xFF;
     gint channel = midi&0xF;
     double volume = ((midi>>16)&0xFF)/255.0;
-    //g_print("Playing %x at %f volume, %d channel\n", key, (double)volume, channel);
+    g_print("Playing %x at %f volume, %d channel\n", key, (double)volume, channel);
     // FIXME
     //play_midikey(key, 0.2, volume, channel);
     play_note(DEFAULT_BACKEND, 0 /*port*/, channel, key, 1000 /*duration*/, volume);
     //g_usleep(200000);
  return SCM_BOOL(TRUE);
 }
-
 SCM scheme_put_rest (SCM optional_duration) {
   gint duration;
   if(scm_integer_p(optional_duration)) {
@@ -3103,12 +3171,20 @@ static SCM scheme_kill_timer(SCM id) {
 
 
 static SCM scheme_bass_figure(SCM bass, SCM harmony) {
+  SCM ret = SCM_BOOL_F;
+  gboolean status=FALSE;
   gint bassnum = scm_num2int(bass, 0, 0);
   gint harmonynum = scm_num2int(harmony, 0, 0);
-  gchar *interval = determine_interval(bassnum, harmonynum);
-  SCM ret= scm_makfrom0str(interval);
-  if(interval) g_free(interval);
+  gchar *interval = determine_interval(bassnum, harmonynum, &status);
+  if(interval) {
+    ret= scm_cons(status?SCM_BOOL_T:SCM_BOOL_F, scm_makfrom0str(interval));
+    g_free(interval);
+  }
   return ret;
+}
+
+static SCM scheme_has_figures(SCM optional) {
+  return SCM_BOOL(((DenemoStaff*)Denemo.gui->si->currentstaff->data)->hasfigures);
 }
 
 
@@ -3130,8 +3206,6 @@ static SCM scheme_put_note_name (SCM optional) {
      interpret_lilypond_notename(str, &mid_c_offset, &enshift);
      //g_print("note %s gives %d and %d\n", str, mid_c_offset, enshift);
      modify_note(thechord, mid_c_offset, enshift,  find_prevailing_clef(Denemo.gui->si));
-     //thenote->mid_c_offset = interpret_lilypond_notename(str);
-     displayhelper(Denemo.gui);
      if(str) free(str);
    return SCM_BOOL(TRUE);
   }
@@ -3388,6 +3462,11 @@ static SCM scheme_get_staffs_in_clipboard(SCM optional) {
 }
 
 
+static SCM scheme_get_measures_in_staff(SCM optional) {
+  gint num = g_list_length(((DenemoStaff*)Denemo.gui->si->currentstaff->data)->measures);
+    return scm_int2num(num);
+}
+
 
 /* shifts the note at the cursor by the number of diatonic steps passed in */
 SCM scheme_diatonic_shift (SCM optional) {
@@ -3404,12 +3483,9 @@ SCM scheme_diatonic_shift (SCM optional) {
      str = scm_to_locale_string(optional);
      gint shift;
      sscanf(str, "%d", &shift);
-     
-     g_print("note shift %s ie %d\n", str, shift);
+//     g_print("note shift %s ie %d\n", str, shift);
      modify_note(thechord, thenote->mid_c_offset+shift, gui->si->curmeasureaccs[offsettonumber(thenote->mid_c_offset+shift)],  find_prevailing_clef(Denemo.gui->si));
-     //thenote->mid_c_offset = interpret_lilypond_notename(str);
-     displayhelper(Denemo.gui);
-     if(str) free(str);
+    if(str) free(str);
    }
  }
  return SCM_BOOL(FALSE);  
@@ -3832,7 +3908,7 @@ void  show_preferred_view(void) {
   if (!Denemo.prefs.object_palette)
     activate_action("/MainMenu/ViewMenu/"ToggleObjectMenu_STRING);
 
-  if (Denemo.prefs.visible_directive_buttons)
+  if (!Denemo.prefs.visible_directive_buttons)
    activate_action("/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
 
 
@@ -3909,6 +3985,8 @@ static void create_scheme_identfiers(void) {
   INSTALL_SCM_FUNCTION2 ("Takes a staff number m and a object number n. Inserts the (m, n)th Denemo Object from Denemo Clipboard into the staff at the cursor position", DENEMO_SCHEME_PREFIX"PutClipObj",  scheme_put_clip_obj);
   INSTALL_SCM_FUNCTION ("Clears the Denemo Music Clipboard",DENEMO_SCHEME_PREFIX"ClearClipboard",  scheme_clear_clipboard);
   INSTALL_SCM_FUNCTION ("Gives the number of staffs in the Denemo Music Clipboard",DENEMO_SCHEME_PREFIX"GetStaffsInClipboard",  scheme_get_staffs_in_clipboard);
+
+  INSTALL_SCM_FUNCTION ("Gives the number of measures in the current staff",DENEMO_SCHEME_PREFIX"GetMeasuresInStaff",  scheme_get_measures_in_staff);
 
   INSTALL_SCM_FUNCTION ("Adjusts the horizontal (x-) positioning of notes etc after paste",DENEMO_SCHEME_PREFIX"AdjustXes",  scheme_adjust_xes);
 
@@ -4033,7 +4111,7 @@ static void create_scheme_identfiers(void) {
 
 #define INSTALL_GET_TAG(what)\
   INSTALL_SCM_FUNCTION1 ("Takes a optional tag. Returns that tag if a "#what" directive exists at the cursor, else returns the tag of the first such directive at the cursor, or #f if none", DENEMO_SCHEME_PREFIX"DirectiveGetForTag"  "-" #what, scheme_##what##_directive_get_tag);
-
+  INSTALL_GET_TAG(object);
   INSTALL_GET_TAG(standalone);
   INSTALL_GET_TAG(chord);
   INSTALL_GET_TAG(note);
@@ -4065,12 +4143,17 @@ static void create_scheme_identfiers(void) {
   INSTALL_EDIT(score);
  install_scm_function1 (DENEMO_SCHEME_PREFIX"DirectiveTextEdit-standalone", scheme_text_edit_standalone_directive);
 
+ install_scm_function1 (DENEMO_SCHEME_PREFIX"DirectiveDelete-object", scheme_delete_object_directive);
+
+
 #define INSTALL_PUT(what, field)\
  INSTALL_SCM_FUNCTION2 ("Writes the " #field" field (a string) of the " #what" directive with the passed int tag. Creates the directive of the given type and tag if it does not exist.",DENEMO_SCHEME_PREFIX"DirectivePut" "-" #what "-" #field, scheme_##what##_directive_put_##field);
 
 #define INSTALL_GET(what, field)\
  INSTALL_SCM_FUNCTION1 ("Gets the value of the " #field" field (a string) of the " #what" directive with the passed tag.",DENEMO_SCHEME_PREFIX"DirectiveGet" "-" #what "-" #field, scheme_##what##_directive_get_##field);
 
+  INSTALL_GET(object, minpixels);
+  INSTALL_PUT(object, minpixels);
 
   //block to repeat for new  directive fields 
 
@@ -4667,11 +4750,19 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
   install_scm_function1 (DENEMO_SCHEME_PREFIX"PutMidi", scheme_put_midi);
   install_scm_function1 (DENEMO_SCHEME_PREFIX"OutputMidiBytes", scheme_output_midi_bytes);
   install_scm_function1 (DENEMO_SCHEME_PREFIX"PlayMidiKey", scheme_play_midikey);
+  INSTALL_SCM_FUNCTION4 ("Takes midi key number, volume 0-255, duration in ms and channel 0-15 and plays the note on midi out.", DENEMO_SCHEME_PREFIX"PlayMidiNote", scheme_play_midi_note);
 
   INSTALL_SCM_FUNCTION1 ("Takes duration and executable scheme script. Executes the passed scheme code after the passed duration milliseconds", DENEMO_SCHEME_PREFIX"OneShotTimer", scheme_one_shot_timer);
   INSTALL_SCM_FUNCTION1 ("Takes a duration and scheme script, starts a timer that tries to execute the script after every duration ms. It returns a timer id which must be passed back to destroy the timer", DENEMO_SCHEME_PREFIX"Timer", scheme_timer);
   INSTALL_SCM_FUNCTION ("Takes a timer id and destroys the timer",DENEMO_SCHEME_PREFIX"KillTimer", scheme_kill_timer);
+
+  INSTALL_SCM_FUNCTION ("Returns #f if the current staff has no figures (or will not print out figured bass. See d-ShowFiguredBass)",DENEMO_SCHEME_PREFIX"HasFigures", scheme_has_figures);
+
   INSTALL_SCM_FUNCTION2 ("Returns a string for the bass figure for the two MIDI keys passed in", DENEMO_SCHEME_PREFIX"BassFigure", scheme_bass_figure);
+
+  
+  INSTALL_SCM_FUNCTION ("returns #t if the passed list of MIDI keys fails the pitch spellcheck",DENEMO_SCHEME_PREFIX"SpellCheckMidiChord", scheme_spell_check_midi_chord);
+  
   INSTALL_SCM_FUNCTION ("Gets the MIDI key number for the note-position where the cursor is",DENEMO_SCHEME_PREFIX"GetCursorNoteAsMidi", scheme_get_cursor_note_as_midi);
   INSTALL_SCM_FUNCTION ("Returns the MIDI key number for the note at the cursor, or 0 if none",DENEMO_SCHEME_PREFIX"GetNoteAsMidi", scheme_get_note_as_midi);
   INSTALL_SCM_FUNCTION ("Re-draws the Denemo display, which can have side effects on the data",DENEMO_SCHEME_PREFIX"RefreshDisplay", scheme_refresh_display);
@@ -4728,7 +4819,9 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
 
   INSTALL_SCM_FUNCTION ("Sets the selection to be used for a thumbnail. Returns #f if no selection or selection not in first movement else #t.", DENEMO_SCHEME_PREFIX"SetThumbnailSelection", scheme_set_thumbnail_selection);
 
-  INSTALL_SCM_FUNCTION ("creates a thumbnail for the current score.", DENEMO_SCHEME_PREFIX"CreateThumbnail", scheme_create_thumbnail);
+  INSTALL_SCM_FUNCTION ("Creates a thumbnail for the current score. With no argument it waits for the thumbnail to complete, freezing any display. With #t it generates the thumbnail asynchrously. It does not report on completion.", DENEMO_SCHEME_PREFIX"CreateThumbnail", scheme_create_thumbnail);
+
+  INSTALL_SCM_FUNCTION ("Exits Denemo without saving history, prefs etc.", DENEMO_SCHEME_PREFIX"Exit", scheme_exit);
 
   INSTALL_SCM_FUNCTION ("Snapshots the current movement putting it in the undo queue returns #f if no snapshot was taken because of a guard", DENEMO_SCHEME_PREFIX"TakeSnapshot", scheme_take_snapshot);
 
@@ -4743,7 +4836,7 @@ INSTALL_SCM_FUNCTION ("Undo normally undoes all the actions performed by a scrip
 
 
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the menu path to that command or #f if none",DENEMO_SCHEME_PREFIX"GetMenuPath", scheme_get_menu_path);
-
+  INSTALL_SCM_FUNCTION ("Takes a string and returns a string representing an MD5 checksum for the passed string.", DENEMO_SCHEME_PREFIX"GetChecksum", scheme_get_checksum);
   INSTALL_SCM_FUNCTION ("Gets the current verse of the current staff or #f if none",DENEMO_SCHEME_PREFIX"GetVerse", scheme_get_verse);
   INSTALL_SCM_FUNCTION ("Puts the passed string as the current verse of the current staff",DENEMO_SCHEME_PREFIX"PutVerse", scheme_put_verse);
   INSTALL_SCM_FUNCTION ("Appends the passed string to the current verse of the current staff",DENEMO_SCHEME_PREFIX"AppendToVerse", scheme_append_to_verse);
@@ -4814,20 +4907,20 @@ void inner_main(void*closure, int argc, char **argv){
 
   gchar *initial_file = process_command_line(argc, argv);
 
+  /* Initialize preferences */
+  Denemo.prefs.profile = g_string_new("Simple");
+  initprefs();
+
   //create window system
   create_window();
 
   create_scheme_identfiers();
 
-//  Denemo.prefs.cursor_highlight = TRUE;
 
   /* create the first tab */
   newtab (NULL, NULL);
 
 
-//  Denemo.prefs.profile = g_string_new("Simple");
-//  /* Initialize preferences */
-//  initprefs();
   /*ignore setting of mode unless user has explicitly asked for modal use */
   if(!Denemo.prefs.modal)
     Denemo.prefs.mode = INPUTEDIT|INPUTRHYTHM|INPUTNORMAL;//FIXME must correspond with default in prefops.c
@@ -4847,7 +4940,7 @@ void inner_main(void*closure, int argc, char **argv){
 
  
   if(uses_default_commandset()) {
-    gchar *initialpref = Denemo.prefs.profile?Denemo.prefs.profile->str:NULL;
+    gchar *initialpref = Denemo.prefs.profile->len?Denemo.prefs.profile->str:NULL;
     gchar * never_again = NULL;
     if(initialpref) never_again = g_strdup_printf( "Use %s and do not show these choices again", initialpref);
     
@@ -4872,7 +4965,7 @@ void inner_main(void*closure, int argc, char **argv){
       }
     }
     g_free(never_again);
-    g_free(choice);
+   //It is wrong to free choice when choice is one of the fixed strings. As this is one-off per run of the program, there is no need to free this anyway. g_free(choice);
   }
 
 
@@ -5003,10 +5096,13 @@ void inner_main(void*closure, int argc, char **argv){
    }
  }
 
+ score_status(Denemo.gui, FALSE);//How come the code worked without this?
+
  
   if(Denemo.scheme_commands)
    call_out_to_guile(Denemo.scheme_commands);
   //else ?????
+  set_tuning();
 /* Now launch into the main gtk event loop and we're all set */
 
   gtk_main();
@@ -5070,7 +5166,7 @@ close_gui ()
   stop_midi_playback (NULL, NULL);// if you do not do this, there is a timer moving the score on which will hang
  //FIXME why was this here??? activate_action("/MainMenu/InputMenu/KeyboardOnly");
  if(Denemo.prefs.enable_thumbnails)
-  create_thumbnail(g_list_length(Denemo.guis)==1); 
+  create_thumbnail(TRUE); 
   if(Denemo.autosaveid) {
     if(g_list_length(Denemo.guis)>1)
       g_print("Auto save being turned off");
@@ -5535,8 +5631,15 @@ select_rhythm_pattern(RhythmPattern *r) {
 static void
 activate_rhythm_pattern(GtkToolButton *toolbutton, RhythmPattern *r) {
   select_rhythm_pattern(r);
- if((Denemo.gui->mode & INPUTEDIT))
-   insert_note_following_pattern(Denemo.gui);//insert_clipboard(r->clipboard);
+ if((Denemo.gui->mode & INPUTEDIT)) {
+    if (Denemo.gui->input_source==INPUTMIDI)
+      {
+          insert_note_following_pattern(Denemo.gui);
+          ((DenemoObject*)Denemo.gui->si->currentobject->data)->isinvisible = TRUE;
+      }
+    else
+      insert_clipboard(r->clipboard);
+ }
 }
 
 
@@ -6703,35 +6806,68 @@ gboolean loadGraphicItem(gchar *name, DenemoGraphic **xbm ) {
 
   if (!name || !*name)
     return FALSE;
+#define NEWLINE "\n"
+  if(*name==*NEWLINE) {
+//if name starts '\n' treat it as lines holding char font size weight (e.g. bold) slant (e.g. italic) 
+//so let user specify a hex value and convert to utf8 here len = g_unichar_to_utf8( uc, utf_string );
+//e.g "\n0x20" would be glyph 0x20 from the feta26 font, size 35 not bold or italic (as in  drawfetachar_cr())
+//while "\n0x40 0x40\nSans\n16\n1\n1" would be a "AA" string in sans font at 16pt bold and italic
+  gchar **spec = g_strsplit(name+1,  NEWLINE,  5);
+  gint i;
+  DenemoGraphic *graphic = g_malloc(sizeof(DenemoGraphic));
+  DenemoGlyph *glyph = (DenemoGlyph*)g_malloc(sizeof(DenemoGlyph));
+  graphic->type = DENEMO_FONT;
+  graphic->graphic = glyph;
+  glyph->fontname = "feta26";
+  glyph->size = 35.0;
+  for(i=0;i<5 && spec[i];i++) {
+    g_print("The font spec has %d %s\n", i, spec[i]);
+    switch(i) {
+    case 0: {
+      // get a set of hex values (unicodes?) and create a utf8 string
+      //should involve strtol(spec[0], &next, 0);
+      //and perhaps g_unichar_to_utf8(*spec[0], NULL);
+      // and glyph->utf = g_malloc(len);
+      //if not hex digits, then treat as utf8 string
+      glyph->utf = g_strdup(spec[0]);
+      break;
+    }
+    case 1:
+      glyph->fontname = g_strdup(spec[1]);
+      break;
+    case 2:
+      glyph->size = g_ascii_strtod(spec[2], NULL);
+      break;
+    case 3:
+      glyph->weight = atoi(spec[3]);
+      break;
+    case 4:
+      glyph->slant = atoi(spec[4]);
+      break;
+    }
+  }
+  g_strfreev(spec);
+  *xbm = graphic;
+  return TRUE;
+  }
   if(bitmaps && (*xbm = (DenemoGraphic *) g_hash_table_lookup(bitmaps, name))) {
-    
     return TRUE;
   }  
   gchar *filename = g_build_filename (locatebitmapsdir (), name,
 				      NULL);
-  
-  if(1) {
-    if(loadGraphicFromFormat(name, filename, xbm))
+  if(loadGraphicFromFormat(name, filename, xbm))
       return TRUE;
-    g_free(filename);
-    filename = g_build_filename (locatedownloadbitmapsdir(), name,
+  g_free(filename);
+  filename = g_build_filename (locatedownloadbitmapsdir(), name,
 				      NULL);
-  }
-  if(1) {
-    if(loadGraphicFromFormat(name, filename, xbm))
+  if(loadGraphicFromFormat(name, filename, xbm))
       return TRUE;
-    g_free(filename);
-    filename = g_build_filename (get_data_dir (), "actions",  "bitmaps", name,
+  g_free(filename);
+  filename = g_build_filename (get_data_dir (), "actions",  "bitmaps", name,
 				      NULL);
-    if(loadGraphicFromFormat(name, filename, xbm))
+  if(loadGraphicFromFormat(name, filename, xbm))
       return TRUE;
-  }
- {
-    g_warning("Could not load graphic");
-    //warningdialog("Could not load graphic");
-  }
-
-
+  g_warning("Could not load graphic");
   return FALSE;
 }
 
@@ -7673,7 +7809,7 @@ toggle_object_menu (GtkAction * action, gpointer param)
  * Toggle entries for the menus
  */
 GtkToggleActionEntry toggle_menu_entries[] = {
-  {ToggleToolbar_STRING, NULL, N_("General Tools"), NULL, N_("Show/hide a toolbar for general operations on music files"),
+  {ToggleToolbar_STRING, NULL, N_("Tools"), NULL, N_("Show/hide a toolbar for general operations on music files"),
    G_CALLBACK (toggle_toolbar), TRUE}
   ,
   {TogglePlaybackControls_STRING, NULL, N_("Playback Control"), NULL, N_("Show/hide playback controls"),
@@ -7682,37 +7818,37 @@ GtkToggleActionEntry toggle_menu_entries[] = {
   {ToggleMidiInControls_STRING, NULL, N_("Midi In Control"), NULL, N_("Show/hide Midi Input controls"),
    G_CALLBACK (toggle_midi_in_controls), TRUE}
   ,
-  {ToggleRhythmToolbar_STRING, NULL, N_("Music Snippets"), NULL, N_("Show/hide a toolbar which allows\nyou to store and enter snippets of music and to enter notes using rhythm pattern of a snippet"),
+  {ToggleRhythmToolbar_STRING, NULL, N_("Snippets"), NULL, N_("Show/hide a toolbar which allows\nyou to store and enter snippets of music and to enter notes using rhythm pattern of a snippet"),
    G_CALLBACK (toggle_rhythm_toolbar), TRUE}
   ,
   {ToggleEntryToolbar_STRING, NULL, N_("Note and Rest Entry"), NULL, N_("Show/hide a toolbar which allows\nyou to enter notes and rests using the mouse"),
    G_CALLBACK (toggle_entry_toolbar), TRUE}
   ,
-  {ToggleObjectMenu_STRING, NULL, N_("Menu of objects"), NULL, N_("Show/hide a menu which is arranged by objects\nThe actions available for note objects change with the mode"),
+  {ToggleObjectMenu_STRING, NULL, N_("Object Menu"), NULL, N_("Show/hide a menu which is arranged by objects\nThe actions available for note objects change with the mode"),
    G_CALLBACK (toggle_object_menu), TRUE}
   ,
-  {ToggleLilyText_STRING, NULL, N_("Show LilyPond"), NULL, N_("Show/hide the LilyPond music typesetting language window"),
+  {ToggleLilyText_STRING, NULL, N_("LilyPond"), NULL, N_("Show/hide the LilyPond music typesetting language window"),
    G_CALLBACK (toggle_lilytext), FALSE}
   ,
-  {ToggleScript_STRING, NULL, N_("Show Scheme Script"), NULL, N_("Show scheme script window"),
+  {ToggleScript_STRING, NULL, N_("Scheme Script"), NULL, N_("Show scheme script window"),
    G_CALLBACK (toggle_scheme), FALSE}
   ,
 
   {ToggleArticulationPalette_STRING, NULL, N_("_Articulation Palette"), NULL, NULL,
    G_CALLBACK (toggle_articulation_palette), FALSE},
 
-  {TogglePrintView_STRING, NULL, N_("Print View"), NULL, NULL,
+  {TogglePrintView_STRING, NULL, N_("Typeset Music"), NULL, NULL,
    G_CALLBACK (toggle_print_view), FALSE},
 
-  {ToggleLyricsView_STRING, NULL, N_("Lyrics View"), NULL, NULL,
+  {ToggleLyricsView_STRING, NULL, N_("Lyrics"), NULL, NULL,
    G_CALLBACK (toggle_lyrics_view), TRUE},
 
   {ToggleConsoleView_STRING, NULL, N_("Console"), NULL, NULL,
    G_CALLBACK (toggle_console_view), TRUE},
 
-  {ToggleScoreView_STRING, NULL, N_("Score View"), NULL, NULL,
+  {ToggleScoreView_STRING, NULL, N_("Score"), NULL, NULL,
    G_CALLBACK (toggle_score_view), TRUE},
-  {ToggleScoreTitles_STRING, NULL, N_("Score Titles, Controls etc"), NULL, NULL,
+  {ToggleScoreTitles_STRING, NULL, N_("Titles, Buttons etc"), NULL, NULL,
    G_CALLBACK (toggle_scoretitles), FALSE},
 
 
@@ -7882,8 +8018,9 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page,  guint pagenum) {
       gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (widget), FALSE);
   }
   unhighlight_rhythm(Denemo.gui->prevailing_rhythm);
+
   Denemo.gui = gui = (DenemoGUI*)(g->data);
-     g_print("switch page\n");
+  //g_print("switch page\n");
 
 
   if(Denemo.prefs.visible_directive_buttons) {
@@ -8413,7 +8550,7 @@ get_data_dir (),
 
   create_scheme_window();
 
-  if(1)
+  if(!Denemo.non_interactive)
     gtk_widget_show(Denemo.window);
   /* Now that the window is shown, initialize the gcs */
  // gcs_init (Denemo.window->window);

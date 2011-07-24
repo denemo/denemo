@@ -116,4 +116,5 @@ gchar *get_midi_control_command(guchar type, guchar value);
 gchar *get_midi_pitch_bend_command(gint value);
 gint hide_printarea_on_delete(void);
 void set_midi_in_status(void);
+void set_meantone_tuning(gint step);
 #endif

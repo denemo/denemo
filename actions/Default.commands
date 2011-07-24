@@ -1305,13 +1305,13 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
       </row>
       <row>
         <action>Undo</action>
-        <label>Undo/Redo Last Note</label>
-        <tooltip>Undoes the insert/delete of last note</tooltip>
+        <label>Undo</label>
+        <tooltip>Undoes one (more) step of your edits to the current score.</tooltip>
       </row>
       <row>
         <action>Redo</action>
         <label>Redo</label>
-        <tooltip>Redo</tooltip>
+        <tooltip>Redoes the next of the steps you have Undone</tooltip>
       </row>
       <row>
         <action>Copy</action>
@@ -2439,21 +2439,21 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>RepeatStart</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
         <label>Repeat Start Barline</label>
         <tooltip>Insert a barline indicating the start of a repeated section.</tooltip>
       </row>
       <row>
         <action>RepeatEnd</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
         <label>Repeat End Barline</label>
         <tooltip>Insert a barline indicating the end of a repeated section.</tooltip>
       </row>
       <row>
         <action>RepeatEndStart</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
         <label>Repeat End-Start</label>
         <tooltip>Inserts a barline ending one repeated section and starting another</tooltip>
       </row>
@@ -2949,8 +2949,8 @@ for second and subsequent systems</tooltip>
         <after>WholeMeasureRest</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
-        <label>Insert Whole Measure Rest</label>
-        <tooltip>Inserts/Appends a rest measure; if the current measure is empty, it simply places the whole measure rest in it. Do not invoke in a populated measure preceding an empty measure.</tooltip>
+        <label>Insert&#xA0;Whole&#xA0;Measure&#xA0;Rest</label>
+        <tooltip>Inserts/Appends&#xA0;a&#xA0;rest&#xA0;measure;&#xA0;if&#xA0;the&#xA0;current&#xA0;measure&#xA0;is&#xA0;empty,&#xA0;it&#xA0;simply&#xA0;places&#xA0;the&#xA0;whole&#xA0;measure&#xA0;rest&#xA0;in&#xA0;it.&#xA0;Do&#xA0;not&#xA0;invoke&#xA0;in&#xA0;a&#xA0;populated&#xA0;measure&#xA0;preceding&#xA0;an&#xA0;empty&#xA0;measure.</tooltip>
       </row>
       <row>
         <action>MultiMeasureRests</action>
@@ -5041,6 +5041,141 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/ChordMenu/ChangePrintDuration</menupath>
         <label>Change chord-member to longa</label>
         <tooltip>Change one chord member to appear like a longa duration without changing the original logic like measure calculation or the duration of newly added chord members.</tooltip>
+      </row>
+      <row>
+        <action>ChangeEnharmonicUp</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
+        <label>Change Enharmonic +</label>
+        <tooltip>Shift through enharmonic variants of the same sounding note in the direction of higher diatonic base notes.</tooltip>
+      </row>
+      <row>
+        <action>ChangeEnharmonicDown</action>
+        <after>ChangeEnharmonicUp</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
+        <label>Change Enharmonic -</label>
+        <tooltip>Switch through enharmonic variants of the same sounding note in the direction of lower diatonic base notes</tooltip>
+      </row>
+      <row>
+        <action>SetThumbnail</action>
+        <after>ScoreProlog</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>Set Thumbnail from Selection</label>
+        <tooltip>Sets the thumbnail to the section made in the first movement.</tooltip>
+      </row>
+      <row>
+        <action>LimitInterSystemSpace</action>
+        <after>ScoreIndent</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Print Layout</menupath>
+        <label>Limit Space Between Systems</label>
+        <tooltip>Limits the extent to which the lines are spaced apart to fill the page.</tooltip>
+      </row>
+      <row>
+        <action>PrintBassPartWithoutFigures</action>
+        <after>PrintAccompanistsScore</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
+        <label>Print Bass Part Omitting Figures</label>
+        <tooltip>Prints the Bass part omitting any figured bass figures.</tooltip>
+      </row>
+      <row>
+        <action>ChangeStaffUp</action>
+        <after>FingeringsDoublestroke</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/StaffChange</menupath>
+        <label>Change to Printing on Staff Above.</label>
+        <tooltip>Prints the succeeding notes on the staff above the current one.</tooltip>
+      </row>
+      <row>
+        <action>ChangeStaffDown</action>
+        <after>ChangeStaffUp</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/StaffChange</menupath>
+        <label>Change to Printing on Staff Below</label>
+        <tooltip>Succeeding notes are printed on the staff below with stems up.</tooltip>
+      </row>
+      <row>
+        <action>ChangeStaffBack</action>
+        <after>ChangeStaffDown</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/StaffChange</menupath>
+        <label>Change Back to Printing on this Staff</label>
+        <tooltip>Returns to printing the succeeding notes on this staff.</tooltip>
+      </row>
+      <row>
+        <action>EvenOutStaffLengths</action>
+        <after>ReBar</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <label>Even Up the Staffs</label>
+        <tooltip>Appends empty measures to any staffs that are too short.</tooltip>
+      </row>
+      <row>
+        <action>CheckScore</action>
+        <after>EditScoreDirective</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>Check Score</label>
+        <tooltip>Checks score for wrong measure durations, unterminated tuplets, slurs, wrong ties etc.</tooltip>
+      </row>
+      <row>
+        <action>FixSlursInStaff</action>
+        <after>SimplifyTies</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Fix Slurs</label>
+        <tooltip>Removes incorrectly placed slur start/end markers on current voice/staff.</tooltip>
+      </row>
+      <row>
+        <action>CheckTupletsInMeasure</action>
+        <after>SplitMeasure</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Check Tuplets</label>
+        <tooltip>Checks that start/end tuplets match in the current measure.</tooltip>
+      </row>
+      <row>
+        <action>CheckTiesInStaff</action>
+        <after>FixSlursInStaff</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Check Ties</label>
+        <tooltip>Checks for wrongly tied notes in the current voice/staff.</tooltip>
+      </row>
+      <row>
+        <action>MergeRests</action>
+        <after>CreateParts</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>Merge Rests</label>
+        <tooltip>(Print) Merges rests where two voices have a common rest. Not for whole measure or multi-measure rests.</tooltip>
+      </row>
+      <row>
+        <action>DeleteBeamingDirective</action>
+        <after>EndBeam</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
+        <label>Delete Beaming Directive</label>
+        <tooltip>Deletes a ] or [ (end or start beam) directive on the current chord.</tooltip>
+      </row>
+      <row>
+        <action>BeamingOff</action>
+        <after>PageBreak</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Stop Beaming</label>
+        <tooltip>(Print)Stop automatic beaming from current position in score.</tooltip>
+      </row>
+      <row>
+        <action>BeamingOn</action>
+        <after>BeamingOff</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Start Beaming</label>
+        <tooltip>(Print) Start automatic beaming at this point in score. (Used after turning beaming off).</tooltip>
       </row>
     </map>
   </merge>

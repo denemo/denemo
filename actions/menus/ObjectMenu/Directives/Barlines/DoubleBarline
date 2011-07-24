@@ -7,14 +7,7 @@
       <row>
         <action>DoubleBarline</action>
         <scheme>;;;DoubleBarline
-(d-DirectivePut-standalone-minpixels "DoubleBarline" 15)
-(d-MoveCursorLeft)
-(d-DirectivePut-standalone-postfix "DoubleBarline" " \\bar \"||\"")
-(d-DirectivePut-standalone-gx  "DoubleBarline"  16)	
-(d-DirectivePut-standalone-gy  "DoubleBarline"  -1)
-(d-DirectivePut-standalone-graphic "DoubleBarline" "DoubleBarline")
-(d-MoveCursorRight)
-(d-RefreshDisplay)</scheme>
+(StandAloneSelfEditDirective (cons "DoubleBarline" "\\bar \"||\"") #t "DoubleBarline")</scheme>
         <label>Double Bar</label>
         <tooltip>Insert a double barline at cursor position.</tooltip>
       </row>
