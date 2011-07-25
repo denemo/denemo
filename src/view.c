@@ -4899,23 +4899,23 @@ void inner_main(void*closure, int argc, char **argv){
   rsvg_init();
 
 
-  Denemo.prefs.cursor_highlight = TRUE;
-  Denemo.prefs.profile = g_string_new("Simple");
   /* Initialize preferences */
+  Denemo.prefs.profile = g_string_new("Simple");
   initprefs();
 
 
   gchar *initial_file = process_command_line(argc, argv);
 
-  /* Initialize preferences */
-  Denemo.prefs.profile = g_string_new("Simple");
-  initprefs();
+//  /* Initialize preferences */
+//  Denemo.prefs.profile = g_string_new("Simple");
+//  initprefs();
 
   //create window system
   create_window();
 
   create_scheme_identfiers();
 
+  
 
   /* create the first tab */
   newtab (NULL, NULL);
