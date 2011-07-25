@@ -394,6 +394,8 @@ void update_playback_time(backend_timebase_prio_t prio, double new_time) {
     if (g_mutex_trylock(queue_mutex)) {
       g_cond_signal(queue_cond);
       g_mutex_unlock(queue_mutex);
+    } else {
+      g_debug("couldn't signal playback time update to queue");
     }
   }
 }
@@ -514,6 +516,8 @@ void input_midi_event(backend_type_t backend, int port, unsigned char *buffer) {
   if (g_mutex_trylock(queue_mutex)) {
     g_cond_signal(queue_cond);
     g_mutex_unlock(queue_mutex);
+  } else {
+    g_debug("couldn't signal MIDI event input to queue");
   }
 }
 
@@ -524,6 +528,8 @@ void queue_redraw_all() {
   if (g_mutex_trylock(queue_mutex)) {
     g_cond_signal(queue_cond);
     g_mutex_unlock(queue_mutex);
+  } else {
+    g_debug("couldn't signal redraw request to queue");
   }
 }
 
@@ -534,6 +540,8 @@ void queue_redraw_playhead(smf_event_t *event) {
   if (g_mutex_trylock(queue_mutex)) {
     g_cond_signal(queue_cond);
     g_mutex_unlock(queue_mutex);
+  } else {
+    g_debug("couldn't signal redraw request to queue");
   }
 }
 
