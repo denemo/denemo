@@ -509,6 +509,11 @@ void input_midi_event(backend_type_t backend, int port, unsigned char *buffer) {
   // FIXME: size might be less than 3
   memcpy(&ev.data, buffer, 3);
 
+  // normalize events: replace note-on with zero velocity by note-off
+  if ((ev.data[0] & 0xf0) == MIDI_NOTE_ON && ev.data[2] == 0) {
+    ev.data[0] = (ev.data[0] & 0x0f) | MIDI_NOTE_OFF;
+  }
+
   jack_ringbuffer_write(capture_queues[backend], (char *)&ev, sizeof(capture_event_t));
 
   // if the lock fails, processing of the event will be delayed until the
