@@ -54,6 +54,17 @@ static gpointer process_thread_func(gpointer data) {
       break;
     }
 
+    snd_seq_event_t *pev;
+    while (snd_seq_event_input(seq, &pev) >= 0) {
+      unsigned char buffer[3];
+
+      snd_midi_event_reset_decode(parser);
+      if (snd_midi_event_decode(parser, buffer, sizeof(buffer), pev) > 0) {
+        input_midi_event(MIDI_BACKEND, 0, buffer);
+      }
+    }
+
+
     GTimeVal tv;
     g_get_current_time(&tv);
     double now = (double)tv.tv_sec + tv.tv_usec / 1000000.0;
@@ -68,27 +79,27 @@ static gpointer process_thread_func(gpointer data) {
     if (reset) {
       int n;
       for (n = 0; n < 16; ++n) {
-        snd_seq_event_t alsa_ev;
-        snd_seq_ev_set_controller(&alsa_ev, n, 123, 0);
-        snd_seq_ev_set_subs(&alsa_ev);
-        snd_seq_ev_set_direct(&alsa_ev);
-        snd_seq_ev_set_source(&alsa_ev, out_port_id);
-        snd_seq_event_output_direct(seq, &alsa_ev);
+        snd_seq_event_t ev;
+        snd_seq_ev_set_controller(&ev, n, 123, 0);
+        snd_seq_ev_set_subs(&ev);
+        snd_seq_ev_set_direct(&ev);
+        snd_seq_ev_set_source(&ev, out_port_id);
+        snd_seq_event_output_direct(seq, &ev);
       }
       reset = FALSE;
     }
 
     while (read_event_from_queue(MIDI_BACKEND, event_data, &event_length, &event_time, until_time)) {
-      snd_seq_event_t alsa_ev;
+      snd_seq_event_t ev;
 
       snd_midi_event_reset_encode(parser);
-      snd_midi_event_encode(parser, event_data, event_length, &alsa_ev);
+      snd_midi_event_encode(parser, event_data, event_length, &ev);
 
-      snd_seq_ev_set_subs(&alsa_ev);
-      snd_seq_ev_set_direct(&alsa_ev);
-      snd_seq_ev_set_source(&alsa_ev, out_port_id);
+      snd_seq_ev_set_subs(&ev);
+      snd_seq_ev_set_direct(&ev);
+      snd_seq_ev_set_source(&ev, out_port_id);
 
-      snd_seq_event_output_direct(seq, &alsa_ev);
+      snd_seq_event_output_direct(seq, &ev);
     }
 
     if (is_playing()) {
@@ -106,7 +117,7 @@ static int alsa_seq_initialize(DenemoPrefs *config) {
   g_print("initializing ALSA sequencer MIDI backend\n");
 
   // create sequencer client
-  if (snd_seq_open(&seq, "hw", SND_SEQ_OPEN_DUPLEX, 0) < 0) {
+  if (snd_seq_open(&seq, "hw", SND_SEQ_OPEN_DUPLEX, SND_SEQ_NONBLOCK) < 0) {
       g_warning("error opening alsa sequencer");
       return -1;
   }
