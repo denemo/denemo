@@ -337,7 +337,7 @@ static gpointer queue_thread_func(gpointer data) {
 
 
     // TODO: audio capture
-    if (jack_ringbuffer_read_space(capture_queues[MIDI_BACKEND])) {
+    while (jack_ringbuffer_read_space(capture_queues[MIDI_BACKEND])) {
       capture_event_t * ev = g_malloc(sizeof(capture_event_t));
       jack_ringbuffer_read(capture_queues[MIDI_BACKEND], (char *)ev, sizeof(capture_event_t));
 
