@@ -44,12 +44,17 @@ static backend_t *backends[NUM_BACKENDS] = { NULL };
 #define PLAYBACK_QUEUE_SIZE 1024
 #define CAPTURE_QUEUE_SIZE 256
 
+// the time in µs after which the queue thread wakes up, whether it has been
+// signalled or not
+#define QUEUE_TIMEOUT 100000
+
 static jack_ringbuffer_t *playback_queues[NUM_BACKENDS] = { NULL };
 static jack_ringbuffer_t *capture_queues[NUM_BACKENDS] = { NULL };
 
 
 static GThread *queue_thread;
 static GCond *queue_cond;
+static GMutex *queue_mutex;
 
 static double playback_start_time;
 // FIXME: synchronize access from multiple threads
@@ -146,12 +151,13 @@ static int initialize_midi(DenemoPrefs *config) {
 
 int audiobackend_initialize(DenemoPrefs *config) {
   queue_cond = g_cond_new();
-
-  queue_thread = g_thread_create_full(queue_thread_func, NULL, 262144, TRUE, FALSE, G_THREAD_PRIORITY_NORMAL, NULL);
+  queue_mutex = g_mutex_new();
 
   // FIXME: check for errors
   initialize_audio(config);
   initialize_midi(config);
+
+  queue_thread = g_thread_create_full(queue_thread_func, NULL, 262144, TRUE, FALSE, G_THREAD_PRIORITY_NORMAL, NULL);
 
   return 0;
 }
@@ -177,13 +183,18 @@ static int destroy(backend_type_t backend) {
 
 int audiobackend_destroy() {
   g_atomic_int_set(&quit_thread, TRUE);
+
+  g_mutex_lock(queue_mutex);
   g_cond_signal(queue_cond);
+  g_mutex_unlock(queue_mutex);
+
   g_thread_join(queue_thread);
 
   destroy(AUDIO_BACKEND);
   destroy(MIDI_BACKEND);
 
   g_cond_free(queue_cond);
+  g_mutex_free(queue_mutex);
 
   return 0;
 }
@@ -310,10 +321,14 @@ gboolean read_event_from_queue(backend_type_t backend, unsigned char *event_buff
 
 
 static gpointer queue_thread_func(gpointer data) {
-  GMutex *mutex = g_mutex_new();
+  g_mutex_lock(queue_mutex);
 
   for (;;) {
-    g_cond_wait(queue_cond, mutex);
+    GTimeVal timeval;
+    g_get_current_time(&timeval);
+    g_time_val_add(&timeval, QUEUE_TIMEOUT);
+
+    g_cond_timed_wait(queue_cond, queue_mutex, &timeval);
 
     if (g_atomic_int_get(&quit_thread)) {
       g_print("that's it, i quit!\n");
@@ -357,7 +372,8 @@ static gpointer queue_thread_func(gpointer data) {
     }
   }
 
-  g_mutex_free(mutex);
+  g_mutex_unlock(queue_mutex);
+
   return NULL;
 }
 
@@ -372,7 +388,13 @@ void update_playback_time(backend_timebase_prio_t prio, double new_time) {
 
   if (new_time != playback_time) {
     playback_time = new_time;
-    g_cond_signal(queue_cond);
+
+    // if the lock fails, the playback time update will be delayed until the
+    // queue thread wakes up on its own
+    if (g_mutex_trylock(queue_mutex)) {
+      g_cond_signal(queue_cond);
+      g_mutex_unlock(queue_mutex);
+    }
   }
 }
 
@@ -487,19 +509,32 @@ void input_midi_event(backend_type_t backend, int port, unsigned char *buffer) {
 
   jack_ringbuffer_write(capture_queues[backend], (char *)&ev, sizeof(capture_event_t));
 
-  g_cond_signal(queue_cond);
+  // if the lock fails, processing of the event will be delayed until the
+  // queue thread wakes up on its own
+  if (g_mutex_trylock(queue_mutex)) {
+    g_cond_signal(queue_cond);
+    g_mutex_unlock(queue_mutex);
+  }
 }
 
 
 void queue_redraw_all() {
   g_atomic_int_set(&must_redraw_all, TRUE);
-  g_cond_signal(queue_cond);
+
+  if (g_mutex_trylock(queue_mutex)) {
+    g_cond_signal(queue_cond);
+    g_mutex_unlock(queue_mutex);
+  }
 }
 
 void queue_redraw_playhead(smf_event_t *event) {
   g_atomic_int_set(&must_redraw_playhead, TRUE);
   redraw_event = event;
-  g_cond_signal(queue_cond);
+
+  if (g_mutex_trylock(queue_mutex)) {
+    g_cond_signal(queue_cond);
+    g_mutex_unlock(queue_mutex);
+  }
 }
 
 
