@@ -2426,7 +2426,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <action>MetronomeMarking</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives</menupath>
-        <label>Metronome Marking</label>
+        <label>Metronome Marking  𝅘𝅥 = 𝅘𝅥𝅭 </label>
         <tooltip>Prints a metronome. Adjusts playback tempo to this value.</tooltip>
       </row>
       <row>
