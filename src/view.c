@@ -5119,6 +5119,12 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
    call_out_to_guile(Denemo.scheme_commands);
   //else ?????
   set_tuning();
+
+  //Note: there is no need to set the FreeSerif font to get music symbols because font substitution is done - maybe needed on windows
+  // GtkSettings *settings = gtk_settings_get_default( );
+  // gtk_settings_set_string_property(settings, "gtk-font-name" , "FreeSerif 12", "denemo");
+  // Note: GTK complains that the font does not have a +ve size unless you mention, one as here.
+ 
 /* Now launch into the main gtk event loop and we're all set */
  gtk_main();
 }
@@ -6832,7 +6838,6 @@ gboolean loadGraphicItem(gchar *name, DenemoGraphic **xbm ) {
   glyph->fontname = "feta26";
   glyph->size = 35.0;
   for(i=0;i<5 && spec[i];i++) {
-    g_print("The font spec has %d %s\n", i, spec[i]);
     switch(i) {
     case 0: {
       // get a set of hex values (unicodes?) and create a utf8 string

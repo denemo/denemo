@@ -292,9 +292,9 @@ drawfetachar_cr (cairo_t * cr, gunichar uc, double x, double y)
 
 void drawtext_cr (cairo_t *cr, const char *text, double x, double y, double size)
 {
-  cairo_select_font_face( cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD );
+  //use the FreeSerif font as it has music symbols - there is no font substitution done by cairo here
+  cairo_select_font_face( cr, "FreeSerif", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL );
   cairo_set_font_size( cr, size );
-
   cairo_move_to( cr, x,y );
   cairo_show_text( cr, text );
 
@@ -302,7 +302,6 @@ void drawtext_cr (cairo_t *cr, const char *text, double x, double y, double size
 void drawnormaltext_cr (cairo_t *cr, const char *text, double x, double y)
 {
   drawtext_cr(cr, text, x, y, 14.0);
-
 }
 void drawlargetext_cr (cairo_t *cr, const char *text, double x, double y)
 {
