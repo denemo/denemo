@@ -4971,7 +4971,7 @@ void inner_main(void*closure, int argc, char **argv){
 
   // initialize the audio subsystem
   if (audiobackend_initialize(&Denemo.prefs)) {
-    g_warning("Failed to initialize audio or MIDI backends\n");
+    g_error("Failed to initialize audio or MIDI backends\n");
   }
 
 

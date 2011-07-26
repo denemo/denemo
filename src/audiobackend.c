@@ -52,7 +52,7 @@ static jack_ringbuffer_t *playback_queues[NUM_BACKENDS] = { NULL };
 static jack_ringbuffer_t *capture_queues[NUM_BACKENDS] = { NULL };
 
 
-static GThread *queue_thread;
+static GThread *queue_thread = NULL;
 static GCond *queue_cond;
 static GMutex *queue_mutex;
 
@@ -111,7 +111,15 @@ static int initialize_audio(DenemoPrefs *config) {
 
   playback_queues[AUDIO_BACKEND] = jack_ringbuffer_create(PLAYBACK_QUEUE_SIZE * sizeof(smf_event_t *));
 
-  return get_backend(AUDIO_BACKEND)->initialize(config);
+  int ret = get_backend(AUDIO_BACKEND)->initialize(config);
+
+  if (ret) {
+    g_warning("initializing audio backend '%s' failed, falling back to dummy", driver);
+    backends[AUDIO_BACKEND] = &dummy_audio_backend;
+    ret = get_backend(AUDIO_BACKEND)->initialize(config);
+  }
+
+  return ret;
 }
 
 
@@ -145,7 +153,15 @@ static int initialize_midi(DenemoPrefs *config) {
   playback_queues[MIDI_BACKEND] = jack_ringbuffer_create(PLAYBACK_QUEUE_SIZE * sizeof(smf_event_t *));
   capture_queues[MIDI_BACKEND] = jack_ringbuffer_create(CAPTURE_QUEUE_SIZE * sizeof(capture_event_t));
 
-  return get_backend(MIDI_BACKEND)->initialize(config);
+  int ret = get_backend(MIDI_BACKEND)->initialize(config);
+
+  if (ret) {
+    g_warning("initializing MIDI backend '%s' failed, falling back to dummy", driver);
+    backends[MIDI_BACKEND] = &dummy_audio_backend;
+    ret = get_backend(MIDI_BACKEND)->initialize(config);
+  }
+
+  return ret;
 }
 
 
@@ -153,13 +169,24 @@ int audiobackend_initialize(DenemoPrefs *config) {
   queue_cond = g_cond_new();
   queue_mutex = g_mutex_new();
 
-  // FIXME: check for errors
-  initialize_audio(config);
-  initialize_midi(config);
+  if (initialize_audio(config)) {
+    goto err;
+  }
+  if (initialize_midi(config)) {
+    goto err;
+  }
 
   queue_thread = g_thread_create_full(queue_thread_func, NULL, 262144, TRUE, FALSE, G_THREAD_PRIORITY_NORMAL, NULL);
 
+  if (queue_thread == NULL) {
+    goto err;
+  }
+
   return 0;
+
+err:
+  audiobackend_destroy();
+  return -1;
 }
 
 
@@ -184,14 +211,21 @@ static int destroy(backend_type_t backend) {
 int audiobackend_destroy() {
   g_atomic_int_set(&quit_thread, TRUE);
 
-  g_mutex_lock(queue_mutex);
-  g_cond_signal(queue_cond);
-  g_mutex_unlock(queue_mutex);
+  if (queue_thread) {
+    g_mutex_lock(queue_mutex);
+    g_cond_signal(queue_cond);
+    g_mutex_unlock(queue_mutex);
 
-  g_thread_join(queue_thread);
+    g_thread_join(queue_thread);
+  }
 
-  destroy(AUDIO_BACKEND);
-  destroy(MIDI_BACKEND);
+  if (get_backend(AUDIO_BACKEND)) {
+    destroy(AUDIO_BACKEND);
+  }
+
+  if (get_backend(MIDI_BACKEND)) {
+    destroy(MIDI_BACKEND);
+  }
 
   g_cond_free(queue_cond);
   g_mutex_free(queue_mutex);
@@ -222,6 +256,7 @@ static gboolean redraw_playhead_callback(gpointer data) {
   gdk_threads_leave();
   return FALSE;
 }
+
 
 static gboolean handle_midi_event_callback(gpointer data) {
   gdk_threads_enter();
