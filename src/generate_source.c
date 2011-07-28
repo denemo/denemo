@@ -111,8 +111,11 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_NAVIGATION, NULL, "Append/Edit  G",	N_("G"), "go_to_G_key", N_("G")},
   {CMD_CATEGORY_NAVIGATION, NULL, "Octave Up",	N_("OctaveUp"), "octave_up_key", N_("Octave Up")},
   {CMD_CATEGORY_NAVIGATION, NULL, "Octave Down",	N_("OctaveDown"), "octave_down_key", N_("Octave Down")},
-
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert whole-note",	N_("WholeNote"), "insert_chord_0key", "\"MUSIC_FONT(\"0\")\"", N_("Insert Whole Note")},
+#ifdef NEW_MUSIC_FONT
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert \xF0\x9D\x85\x9D",	N_("WholeNote"), "insert_chord_0key", "\xF0\x9D\x85\x9D", NULL},
+#else
+ {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert whole note",	N_("WholeNote"), "insert_chord_0key", "\"MUSIC_FONT(\"0\")\"", NULL},
+#endif
   {CMD_CATEGORY_NOTE_ENTRY,NULL , "Insert half-note",	N_("HalfNote"), "insert_chord_1key", "\"MUSIC_FONT(\"1\")\"", N_("Insert Half Note")},
   {CMD_CATEGORY_NOTE_ENTRY,NULL, "Insert quarter-note",	N_("QuarterNote"), "insert_chord_2key", "\"MUSIC_FONT(\"2\")\"", N_("Insert Quarter Note")},
   {CMD_CATEGORY_NOTE_ENTRY,NULL, "Insert eighth-note",	N_("EighthNote"), "insert_chord_3key", "\"MUSIC_FONT(\"3\")\"", N_("Insert Eigth Note")},
@@ -124,15 +127,15 @@ struct name_and_function denemo_commands[] = {
 
 
 
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankWholeNote"), "insert_blankchord_0key", N_("Insert Whole Note Skip")},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankHalfNote"), "insert_blankchord_1key", N_("Insert Half Note Skip")},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankQuarterNote"), "insert_blankchord_2key", N_("Insert Quarter Note Skip")},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankEighthNote"), "insert_blankchord_3key", N_("Insert Eigth Note Skip")},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankSixteenthNote"), "insert_blankchord_4key", N_("Insert Sixteenth Note Skip")},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankThirtysecondNote"), "insert_blankchord_5key", N_("Insert Thirty Second Note Skip")},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankSixtyfourthNote"), "insert_blankchord_6key", N_("Insert Sixty Forth Note Skip")},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankOneHundredTwentyEighthNote"), "insert_blankchord_7key", N_("Insert One Hundred and Twenty Eighth Note Skip")},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankTwoHundredFiftySixthNote"), "insert_blankchord_8key", N_("Insert  Two Hundred and Fifty Sixth Note Skip")},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing whole note rest.",	N_("InsertBlankWholeNote"), "insert_blankchord_0key", N_("Insert Whole Note Skip")},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing rest.",	N_("InsertBlankHalfNote"), "insert_blankchord_1key", N_("Insert Half Note Skip")},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing rest.",	N_("InsertBlankQuarterNote"), "insert_blankchord_2key", N_("Insert Quarter Note Skip")},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing rest.",	N_("InsertBlankEighthNote"), "insert_blankchord_3key", N_("Insert Eigth Note Skip")},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing rest.",	N_("InsertBlankSixteenthNote"), "insert_blankchord_4key", N_("Insert Sixteenth Note Skip")},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing rest.",	N_("InsertBlankThirtysecondNote"), "insert_blankchord_5key", N_("Insert Thirty Second Note Skip")},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing rest.",	N_("InsertBlankSixtyfourthNote"), "insert_blankchord_6key", N_("Insert Sixty Forth Note Skip")},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing rest.",	N_("InsertBlankOneHundredTwentyEighthNote"), "insert_blankchord_7key", N_("Insert One Hundred and Twenty Eighth Note Skip")},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing rest.",	N_("InsertBlankTwoHundredFiftySixthNote"), "insert_blankchord_8key", N_("Insert  Two Hundred and Fifty Sixth Note Skip")},
 
 
 
