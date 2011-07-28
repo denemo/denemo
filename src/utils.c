@@ -1047,7 +1047,22 @@ kill_process (GPid pid)
 * caller must free the returned string
 */
 gchar * music_font(gchar *str) {
+#ifdef NEW_MUSIC_FONT
+  GString *s = g_string_new("");
+  gchar c = *str;
+  for(c = *str; c;c = *++str)
+    switch (c) {
+      case '2':  g_string_append(s, " \xF0\x9D\x85\x9F ");
+	break;
+      case 20+'2': g_string_append(s, "<span foreground=\"blue\"> \xF0\x9D\x85\x9D </span>");
+	break;
+	//All the cases 0 ..6 and r,s,t,u,v,w 
+      default: g_string_append_c(s, c);
+      }
+  return g_string_free(s, FALSE);
+#else
   return g_strdup_printf("<span font_desc=\"Denemo 12\">%s</span>", str);
+#endif
 }
 
 void  set_title_bar(DenemoGUI *gui) {
