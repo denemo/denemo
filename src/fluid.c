@@ -13,6 +13,7 @@
 
 #include "fluid.h"
 #include "midi.h"
+#include "pitchentry.h"
 
 #include <fluidsynth.h>
 #include <glib.h>
