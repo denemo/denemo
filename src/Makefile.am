@@ -59,6 +59,10 @@ else
 libaudiobackend_a_SOURCES += ringbuffer.c
 endif
 
+if HAVE_PORTAUDIO
+libaudiobackend_a_SOURCES += portaudiobackend.c
+endif
+
 if HAVE_ALSA
 libaudiobackend_a_SOURCES += alsabackend.c
 endif

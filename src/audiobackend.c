@@ -17,6 +17,9 @@
 #ifdef _HAVE_JACK_
   #include "jackbackend.h"
 #endif
+#ifdef _HAVE_PORTAUDIO_
+  #include "portaudiobackend.h"
+#endif
 #ifdef _HAVE_ALSA_
   #include "alsabackend.h"
 #endif
@@ -98,6 +101,12 @@ static int initialize_audio(DenemoPrefs *config) {
     backends[AUDIO_BACKEND] = &jack_audio_backend;
 #else
     g_warning("JACK backend is not enabled\n");
+#endif
+  } else if (strcmp(driver, "portaudio") == 0) {
+#ifdef _HAVE_PORTAUDIO_
+    backends[AUDIO_BACKEND] = &portaudio_backend;
+#else
+    g_warning("PortAudio backend is not enabled\n");
 #endif
   } else if (strcmp(driver, "dummy") == 0) {
     // do nothing

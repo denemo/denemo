@@ -126,6 +126,7 @@ AC_ARG_ENABLE(
       useportaudio=yes
     fi 
   ], [ useportaudio=yes ])
+AM_CONDITIONAL(HAVE_PORTAUDIO, [test x$useportaudio = xyes])
 
 if test "x$useportaudio" = "xyes"; then
   PKG_CHECK_MODULES(PORTAUDIO, portaudio-2.0 >= 19)
