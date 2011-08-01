@@ -32,6 +32,7 @@
 #include "midi.h"
 #include "jackmidi.h"
 #include "device_manager.h"
+#include "screenshot.h"
 #ifdef _HAVE_FLUIDSYNTH_
 #include "fluid.h"
 #endif
@@ -797,8 +798,25 @@ static SCM scheme_load_commandset (SCM name) {
   return SCM_BOOL_F;
 }
 
-
-
+#ifdef G_OS_WIN32
+scheme_user_screenshot() {
+return SCM_BOOL_F;
+}
+#else
+SCM scheme_user_screenshot() {
+GdkRectangle *rect = screenshot_find_rectangle();
+if(rect) {
+        GError *error = NULL;
+      g_print("%d %d %d %d\n", rect->x, rect->y, rect->width, rect->height);
+      GdkPixbuf *screenshot = screenshot_get_pixbuf (gdk_get_default_root_window (), rect);
+      if(screenshot) {
+          //gdk_pixbuf_save (screenshot, "junk.png","png", &error,"tEXt::Software", "denemo", NULL);
+          return SCM_BOOL_T;
+      }
+  }
+return SCM_BOOL_F;
+}
+#endif
 
 static SCM scheme_push_clipboard (SCM optional) {
   push_clipboard();
@@ -4811,6 +4829,8 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
 
 
 
+  INSTALL_SCM_FUNCTION ("test.", DENEMO_SCHEME_PREFIX"UserScreenshot", scheme_user_screenshot);
+
   INSTALL_SCM_FUNCTION ("Pushes the Denemo clipboard (cut/copy buffer) onto a stack; Use d-PopClipboard to retrieve it.", DENEMO_SCHEME_PREFIX"PushClipboard", scheme_push_clipboard);
 
   INSTALL_SCM_FUNCTION ("Pops the Denemo clipboard (cut/copy buffer) from a stack created by d-PushClipboard. Returs #f if nothing on stack, else #t.", DENEMO_SCHEME_PREFIX"PopClipboard", scheme_pop_clipboard);
@@ -6407,8 +6427,6 @@ static void button_modifier_callback(GtkWidget *w, GdkEventButton *event,  Modif
   gtk_button_set_label (GTK_BUTTON(w), str->str);
   g_string_free(str,TRUE);
 }
-
-
 
 static void
 mouse_shortcut_dialog(ModifierAction *info){
