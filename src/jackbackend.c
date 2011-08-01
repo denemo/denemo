@@ -374,12 +374,8 @@ static int jack_audio_destroy() {
 
 
 static int jack_audio_reconfigure(DenemoPrefs *config) {
-  g_print("reconfiguring JACK audio backend\n");
-
   jack_audio_destroy();
-  jack_audio_initialize(config);
-
-  return 0;
+  return jack_audio_initialize(config);
 }
 
 
