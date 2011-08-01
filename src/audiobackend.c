@@ -20,6 +20,9 @@
 #ifdef _HAVE_PORTAUDIO_
   #include "portaudiobackend.h"
 #endif
+#ifdef _HAVE_PORTMIDI_
+  #include "portmidibackend.h"
+#endif
 #ifdef _HAVE_ALSA_
   #include "alsabackend.h"
 #endif
@@ -142,6 +145,12 @@ static int initialize_midi(DenemoPrefs *config) {
     backends[MIDI_BACKEND] = &jack_midi_backend;
 #else
     g_warning("JACK backend is not enabled\n");
+#endif
+  } else if (strcmp(driver, "portmidi") == 0) {
+#ifdef _HAVE_PORTMIDI_
+    backends[MIDI_BACKEND] = &portmidi_backend;
+#else
+    g_warning("PortMidi backend is not enabled\n");
 #endif
   } else if (strcmp(driver, "alsa") == 0) {
 #ifdef _HAVE_ALSA_

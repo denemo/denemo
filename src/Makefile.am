@@ -63,6 +63,10 @@ if HAVE_PORTAUDIO
 libaudiobackend_a_SOURCES += portaudiobackend.c
 endif
 
+if HAVE_PORTMIDI
+libaudiobackend_a_SOURCES += portmidibackend.c
+endif
+
 if HAVE_ALSA
 libaudiobackend_a_SOURCES += alsabackend.c
 endif
