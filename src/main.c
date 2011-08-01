@@ -422,7 +422,7 @@ static
 void append_to_path(gchar *path, gchar *extra) {
   gchar * the_path = (gchar*)g_getenv (path);
   if(the_path)
-#if G_OS_WIN32
+#ifdef G_OS_WIN32
     the_path = g_strconcat(the_path, ";", extra, NULL);
 #else
     the_path = g_strconcat(the_path, ":", extra, NULL);
