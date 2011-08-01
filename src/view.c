@@ -36,7 +36,7 @@
 #include "http.h"
 #include "texteditors.h"
 #include "prefops.h"
-#include "audiobackend.h"
+#include "audiointerface.h"
 #define INIT_SCM "init.scm"
 
 //#include "pathconfig.h"
@@ -4970,7 +4970,7 @@ void inner_main(void*closure, int argc, char **argv){
 
 
   // initialize the audio subsystem
-  if (audiobackend_initialize(&Denemo.prefs)) {
+  if (audio_initialize(&Denemo.prefs)) {
     g_error("Failed to initialize audio or MIDI backends\n");
   }
 
@@ -5391,7 +5391,7 @@ close_gui_with_check (GtkAction *action, gpointer param)
 
     /* ext_quit ();  clean players pidfiles (see external.c) DISUSED */
 
-    audiobackend_destroy();
+    audio_shutdown();
 
 
     exit(0);//do not use gtk_main_quit, as there may be inner loops active.

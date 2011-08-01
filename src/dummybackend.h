@@ -14,7 +14,7 @@
 #ifndef DUMMYBACKEND_H
 #define DUMMYBACKEND_H
 
-#include "audiobackend.h"
+#include "audiointerface.h"
 
 
 extern backend_t dummy_audio_backend;

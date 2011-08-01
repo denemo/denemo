@@ -1,5 +1,5 @@
 /*
- * audiobackend.h
+ * audiointerface.h
  * Interface definition for audio and MIDI backends.
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
@@ -11,8 +11,8 @@
  * (at your option) any later version.
  */
 
-#ifndef AUDIOBACKEND_H
-#define AUDIOBACKEND_H
+#ifndef AUDIOINTERFACE_H
+#define AUDIOINTERFACE_H
 
 #include <denemo/denemo_types.h>
 
@@ -87,12 +87,12 @@ typedef enum backend_timebase_prio_t {
 /**
  * Initializes the audio/MIDI subsystem.
  */
-int audiobackend_initialize(DenemoPrefs *config);
+int audio_initialize(DenemoPrefs *config);
 
 /**
  * Destroys and cleans up the audio/MIDI subsystem.
  */
-int audiobackend_destroy();
+int audio_shutdown();
 
 
 
@@ -187,4 +187,4 @@ void queue_redraw_all();
 void queue_redraw_playhead();
 
 
-#endif // AUDIOBACKEND_H
+#endif // AUDIOINTERFACE_H

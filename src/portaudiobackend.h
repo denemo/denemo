@@ -14,7 +14,7 @@
 #ifndef PORTAUDIOBACKEND_H
 #define PORTAUDIOBACKEND_H
 
-#include "audiobackend.h"
+#include "audiointerface.h"
 
 extern backend_t portaudio_backend;
 

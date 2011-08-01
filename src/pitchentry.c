@@ -9,7 +9,7 @@
 #include "audio.h"
 #include "pitchentry.h"
 #include "view.h"
-#include "audiobackend.h"
+#include "audiointerface.h"
 
 
 #define  DEFAULT_HIGH (4500.0)

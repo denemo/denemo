@@ -14,7 +14,7 @@
 #ifndef JACKBACKEND_H
 #define JACKBACKEND_H
 
-#include "audiobackend.h"
+#include "audiointerface.h"
 
 extern backend_t jack_audio_backend;
 extern backend_t jack_midi_backend;

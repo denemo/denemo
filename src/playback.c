@@ -15,7 +15,7 @@
 #include "prefops.h"
 #include "utils.h"
 #include "external.h"
-#include "audiobackend.h"
+#include "audiointerface.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

@@ -1,5 +1,5 @@
 /*
- * audiobackend.h
+ * audiointerface.h
  * Interface definition for audio and MIDI backends.
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
@@ -11,7 +11,7 @@
  * (at your option) any later version.
  */
 
-#include "audiobackend.h"
+#include "audiointerface.h"
 #include "dummybackend.h"
 
 #ifdef _HAVE_JACK_
@@ -183,7 +183,7 @@ static int initialize_midi(DenemoPrefs *config) {
 }
 
 
-int audiobackend_initialize(DenemoPrefs *config) {
+int audio_initialize(DenemoPrefs *config) {
   queue_cond = g_cond_new();
   queue_mutex = g_mutex_new();
 
@@ -203,7 +203,7 @@ int audiobackend_initialize(DenemoPrefs *config) {
   return 0;
 
 err:
-  audiobackend_destroy();
+  audio_shutdown();
   return -1;
 }
 
@@ -226,7 +226,7 @@ static int destroy(backend_type_t backend) {
 }
 
 
-int audiobackend_destroy() {
+int audio_shutdown() {
   g_atomic_int_set(&quit_thread, TRUE);
 
   if (queue_thread) {

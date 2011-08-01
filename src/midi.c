@@ -13,7 +13,7 @@
 
 #include <denemo/denemo.h>
 #include "midi.h"
-#include "audiobackend.h"
+#include "audiointerface.h"
 #include "smf.h"
 #include "exportmidi.h"
 #include "draw.h"

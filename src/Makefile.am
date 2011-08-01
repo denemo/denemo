@@ -50,7 +50,7 @@ denemo_SOURCES = denemo_types.c \
 
 
 noinst_LIBRARIES = libaudiobackend.a
-libaudiobackend_a_SOURCES = audiobackend.c dummybackend.c
+libaudiobackend_a_SOURCES = audiointerface.c dummybackend.c
 libaudiobackend_a_CFLAGS = -W -Wall -Wno-unused-parameter
 
 if HAVE_JACK

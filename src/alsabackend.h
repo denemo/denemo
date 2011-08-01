@@ -14,7 +14,7 @@
 #ifndef ALSABACKEND_H
 #define ALSABACKEND_H
 
-#include "audiobackend.h"
+#include "audiointerface.h"
 
 extern backend_t alsa_seq_midi_backend;
 

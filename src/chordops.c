@@ -15,7 +15,7 @@
 #include "chordops.h"
 #include "utils.h"
 #include "articulations.h"
-#include "audiobackend.h"
+#include "audiointerface.h"
 
 /* Calculates the height of a notehead */
 static void
