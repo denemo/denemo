@@ -6082,9 +6082,9 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
       while(*(pattern+i) && (*(pattern+i)<'0' || *(pattern+i)>'8'))
 	i++;
       if(*(pattern+i)) {
-	*(pattern+i) += 20;
+	*(pattern+i) += HIGHLIGHT_OFFSET;
 	el->icon = music_font(pattern);
-	*(pattern+i) -= 20;
+	*(pattern+i) -= HIGHLIGHT_OFFSET;
       }
       //g_print("el->icon = %s step %d pattern %s\n", el->icon, i, pattern);
     }
