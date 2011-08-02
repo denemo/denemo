@@ -803,17 +803,23 @@ scheme_user_screenshot() {
 return SCM_BOOL_F;
 }
 #else
-SCM scheme_user_screenshot() {
-GdkRectangle *rect = screenshot_find_rectangle();
-if(rect) {
+SCM scheme_user_screenshot(SCM type) {
+  GList **sources;
+  if(type==SCM_BOOL_F)
+   sources = &Denemo.gui->si->sources;
+  else
+   sources = &((DenemoStaff*)Denemo.gui->si->currentstaff->data)->sources;
+  GdkRectangle *rect = screenshot_find_rectangle();
+  if(rect) {
         GError *error = NULL;
-      g_print("%d %d %d %d\n", rect->x, rect->y, rect->width, rect->height);
-      GdkPixbuf *screenshot = screenshot_get_pixbuf (gdk_get_default_root_window (), rect);
-      if(screenshot) {
+        g_print("%d %d %d %d\n", rect->x, rect->y, rect->width, rect->height);
+        GdkPixbuf *screenshot = screenshot_get_pixbuf (gdk_get_default_root_window (), rect);
+        if(screenshot) {
+          *sources = g_list_append(*sources, screenshot);
           //gdk_pixbuf_save (screenshot, "junk.png","png", &error,"tEXt::Software", "denemo", NULL);
           return SCM_BOOL_T;
-      }
-  }
+        }
+  } 
 return SCM_BOOL_F;
 }
 #endif
@@ -4827,9 +4833,7 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
 
   INSTALL_SCM_FUNCTION ("Adjust end time for playback by passed number of seconds. Returns #f for bad parameter ", DENEMO_SCHEME_PREFIX"AdjustPlaybackEnd", scheme_adjust_playback_end);
 
-
-
-  INSTALL_SCM_FUNCTION ("test.", DENEMO_SCHEME_PREFIX"UserScreenshot", scheme_user_screenshot);
+  INSTALL_SCM_FUNCTION ("Takes a parameter #t or #f: Get a screenshot from the user and append it to a list (one per measure) either applying across the staffs or to the current staff.", DENEMO_SCHEME_PREFIX"UserScreenshot", scheme_user_screenshot);
 
   INSTALL_SCM_FUNCTION ("Pushes the Denemo clipboard (cut/copy buffer) onto a stack; Use d-PopClipboard to retrieve it.", DENEMO_SCHEME_PREFIX"PushClipboard", scheme_push_clipboard);
 

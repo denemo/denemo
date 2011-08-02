@@ -99,7 +99,7 @@ screenshot_find_current_window ()
 }
 
 static void
-select_area_button_press (XKeyEvent    *event,//BUG! should be XButtonEvent
+select_area_button_press (XButtonEvent    *event,//BUG! should be XButtonEvent
                           GdkRectangle *rect,
                           GdkRectangle *draw_rect)
 {
@@ -113,7 +113,7 @@ select_area_button_press (XKeyEvent    *event,//BUG! should be XButtonEvent
 }
 
 static void
-select_area_button_release (XKeyEvent    *event,//BUG! should be XButtonEvent
+select_area_button_release (XButtonEvent    *event,//BUG! should be XButtonEvent
                             GdkRectangle *rect,
                             GdkRectangle *draw_rect,
                             GdkWindow    *root,
@@ -133,7 +133,7 @@ select_area_button_release (XKeyEvent    *event,//BUG! should be XButtonEvent
 }
 
 static void
-select_area_motion_notify (XKeyEvent    *event,//BUG! should be XMotionEvent
+select_area_motion_notify (XButtonEvent    *event,//BUG! should be XMotionEvent
                            GdkRectangle *rect,
                            GdkRectangle *draw_rect,
                            GdkWindow    *root,
@@ -174,7 +174,7 @@ select_area_filter (GdkXEvent *gdk_xevent,
     case ButtonPress:
       if (!data->button_pressed)
         {
-          select_area_button_press (&xevent->xkey,//BUG! should be xbutton
+          select_area_button_press (&xevent->xbutton,//BUG! should be xbutton
                                     &data->rect, &data->draw_rect);
           data->button_pressed = TRUE;
         }
@@ -182,7 +182,7 @@ select_area_filter (GdkXEvent *gdk_xevent,
     case ButtonRelease:
       if (data->button_pressed)
       {
-        select_area_button_release (&xevent->xkey,//BUG! should be xbutton
+        select_area_button_release (&xevent->xbutton,//BUG! should be xbutton
                                     &data->rect, &data->draw_rect,
                                     data->root, data->gc);
         gtk_main_quit ();
@@ -190,12 +190,12 @@ select_area_filter (GdkXEvent *gdk_xevent,
       return GDK_FILTER_REMOVE;
     case MotionNotify:
       if (data->button_pressed)
-        select_area_motion_notify (&xevent->xkey,//BUG! should be xmotion
+        select_area_motion_notify (&xevent->xbutton,//BUG! should be xmotion
                                    &data->rect, &data->draw_rect,
                                    data->root, data->gc);
       return GDK_FILTER_REMOVE;
     case KeyPress:
-      if (xevent->xkey.keycode == XKeysymToKeycode (gdk_display, XK_Escape))
+      //if (xevent->xkey.keycode == XKeysymToKeycode (gdk_display, XK_Escape))
         {
           data->rect.x = 0;
           data->rect.y = 0;
@@ -296,22 +296,14 @@ GdkRectangle *
 screenshot_find_rectangle (void)
 {
   GdkRectangle *rectangle;
-
-
   rectangle = g_new0 (GdkRectangle, 1);
   if (screenshot_select_area (&rectangle->x, &rectangle->y,
-                              &rectangle->width, &rectangle->height))
-    {
-      g_assert (rectangle->width >= 0);
-      g_assert (rectangle->height >= 0);
-
+                              &rectangle->width, &rectangle->height)) {
+    if ((rectangle->width > 0) && (rectangle->height >= 0))
       return rectangle;
-    }
-  else
-    {
-      g_free (rectangle);
-      return NULL;
-    }
+  }
+  g_free (rectangle);
+  return NULL;
 }
 
 GdkPixbuf *
