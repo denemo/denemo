@@ -661,6 +661,125 @@ insert_chord_8key_cb (NULL, &param);
          if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
+SCM scheme_InsertWholeRest (SCM optional) {
+gboolean query=FALSE;
+DenemoScriptParam param;
+GString *gstr=NULL;
+int length;
+   char *str=NULL;
+if(scm_is_string(optional)){
+str = scm_to_locale_stringn(optional, &length);
+gstr = g_string_new_len(str, length);
+if(!strncmp("query",str,5)) query = TRUE;          }
+         param.string = gstr;
+         param.status = FALSE;
+         
+insert_rest_0key_cb (NULL, &param);
+         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+return SCM_BOOL(param.status);
+}
+SCM scheme_InsertHalfRest (SCM optional) {
+gboolean query=FALSE;
+DenemoScriptParam param;
+GString *gstr=NULL;
+int length;
+   char *str=NULL;
+if(scm_is_string(optional)){
+str = scm_to_locale_stringn(optional, &length);
+gstr = g_string_new_len(str, length);
+if(!strncmp("query",str,5)) query = TRUE;          }
+         param.string = gstr;
+         param.status = FALSE;
+         
+insert_rest_1key_cb (NULL, &param);
+         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+return SCM_BOOL(param.status);
+}
+SCM scheme_InsertQuarterRest (SCM optional) {
+gboolean query=FALSE;
+DenemoScriptParam param;
+GString *gstr=NULL;
+int length;
+   char *str=NULL;
+if(scm_is_string(optional)){
+str = scm_to_locale_stringn(optional, &length);
+gstr = g_string_new_len(str, length);
+if(!strncmp("query",str,5)) query = TRUE;          }
+         param.string = gstr;
+         param.status = FALSE;
+         
+insert_rest_2key_cb (NULL, &param);
+         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+return SCM_BOOL(param.status);
+}
+SCM scheme_InsertEighthRest (SCM optional) {
+gboolean query=FALSE;
+DenemoScriptParam param;
+GString *gstr=NULL;
+int length;
+   char *str=NULL;
+if(scm_is_string(optional)){
+str = scm_to_locale_stringn(optional, &length);
+gstr = g_string_new_len(str, length);
+if(!strncmp("query",str,5)) query = TRUE;          }
+         param.string = gstr;
+         param.status = FALSE;
+         
+insert_rest_3key_cb (NULL, &param);
+         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+return SCM_BOOL(param.status);
+}
+SCM scheme_InsertSixteenthRest (SCM optional) {
+gboolean query=FALSE;
+DenemoScriptParam param;
+GString *gstr=NULL;
+int length;
+   char *str=NULL;
+if(scm_is_string(optional)){
+str = scm_to_locale_stringn(optional, &length);
+gstr = g_string_new_len(str, length);
+if(!strncmp("query",str,5)) query = TRUE;          }
+         param.string = gstr;
+         param.status = FALSE;
+         
+insert_rest_4key_cb (NULL, &param);
+         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+return SCM_BOOL(param.status);
+}
+SCM scheme_InsertThirtysecondRest (SCM optional) {
+gboolean query=FALSE;
+DenemoScriptParam param;
+GString *gstr=NULL;
+int length;
+   char *str=NULL;
+if(scm_is_string(optional)){
+str = scm_to_locale_stringn(optional, &length);
+gstr = g_string_new_len(str, length);
+if(!strncmp("query",str,5)) query = TRUE;          }
+         param.string = gstr;
+         param.status = FALSE;
+         
+insert_rest_5key_cb (NULL, &param);
+         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+return SCM_BOOL(param.status);
+}
+SCM scheme_InsertSixtyfourthRest (SCM optional) {
+gboolean query=FALSE;
+DenemoScriptParam param;
+GString *gstr=NULL;
+int length;
+   char *str=NULL;
+if(scm_is_string(optional)){
+str = scm_to_locale_stringn(optional, &length);
+gstr = g_string_new_len(str, length);
+if(!strncmp("query",str,5)) query = TRUE;          }
+         param.string = gstr;
+         param.status = FALSE;
+         
+insert_rest_6key_cb (NULL, &param);
+         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+return SCM_BOOL(param.status);
+}
 SCM scheme_InsertBlankWholeNote (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
@@ -845,125 +964,6 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 toggle_blank_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
-return SCM_BOOL(param.status);
-}
-SCM scheme_InsertWholeRest (SCM optional) {
-gboolean query=FALSE;
-DenemoScriptParam param;
-GString *gstr=NULL;
-int length;
-   char *str=NULL;
-if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
-gstr = g_string_new_len(str, length);
-if(!strncmp("query",str,5)) query = TRUE;          }
-         param.string = gstr;
-         param.status = FALSE;
-         
-insert_rest_0key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
-return SCM_BOOL(param.status);
-}
-SCM scheme_InsertHalfRest (SCM optional) {
-gboolean query=FALSE;
-DenemoScriptParam param;
-GString *gstr=NULL;
-int length;
-   char *str=NULL;
-if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
-gstr = g_string_new_len(str, length);
-if(!strncmp("query",str,5)) query = TRUE;          }
-         param.string = gstr;
-         param.status = FALSE;
-         
-insert_rest_1key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
-return SCM_BOOL(param.status);
-}
-SCM scheme_InsertQuarterRest (SCM optional) {
-gboolean query=FALSE;
-DenemoScriptParam param;
-GString *gstr=NULL;
-int length;
-   char *str=NULL;
-if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
-gstr = g_string_new_len(str, length);
-if(!strncmp("query",str,5)) query = TRUE;          }
-         param.string = gstr;
-         param.status = FALSE;
-         
-insert_rest_2key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
-return SCM_BOOL(param.status);
-}
-SCM scheme_InsertEighthRest (SCM optional) {
-gboolean query=FALSE;
-DenemoScriptParam param;
-GString *gstr=NULL;
-int length;
-   char *str=NULL;
-if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
-gstr = g_string_new_len(str, length);
-if(!strncmp("query",str,5)) query = TRUE;          }
-         param.string = gstr;
-         param.status = FALSE;
-         
-insert_rest_3key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
-return SCM_BOOL(param.status);
-}
-SCM scheme_InsertSixteenthRest (SCM optional) {
-gboolean query=FALSE;
-DenemoScriptParam param;
-GString *gstr=NULL;
-int length;
-   char *str=NULL;
-if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
-gstr = g_string_new_len(str, length);
-if(!strncmp("query",str,5)) query = TRUE;          }
-         param.string = gstr;
-         param.status = FALSE;
-         
-insert_rest_4key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
-return SCM_BOOL(param.status);
-}
-SCM scheme_InsertThirtysecondRest (SCM optional) {
-gboolean query=FALSE;
-DenemoScriptParam param;
-GString *gstr=NULL;
-int length;
-   char *str=NULL;
-if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
-gstr = g_string_new_len(str, length);
-if(!strncmp("query",str,5)) query = TRUE;          }
-         param.string = gstr;
-         param.status = FALSE;
-         
-insert_rest_5key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
-return SCM_BOOL(param.status);
-}
-SCM scheme_InsertSixtyfourthRest (SCM optional) {
-gboolean query=FALSE;
-DenemoScriptParam param;
-GString *gstr=NULL;
-int length;
-   char *str=NULL;
-if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
-gstr = g_string_new_len(str, length);
-if(!strncmp("query",str,5)) query = TRUE;          }
-         param.string = gstr;
-         param.status = FALSE;
-         
-insert_rest_6key_cb (NULL, &param);
          if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }

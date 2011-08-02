@@ -1042,27 +1042,128 @@ kill_process (GPid pid)
 #endif /* not G_OS_WIN32 */
   g_spawn_close_pid (pid);
 }
+#define NOTE0 "\xF0\x9D\x85\x9D"
+#define NOTE1 "\xF0\x9D\x85\x9E"
+#define NOTE2 "\xF0\x9D\x85\x9F"
+#define NOTE3 "\xF0\x9D\x85\xA0"
+#define NOTE4 "\xF0\x9D\x85\xA1"
+#define NOTE5 "\xF0\x9D\x85\xA2"
+#define NOTE6 "\xF0\x9D\x85\xA3"
+#define NOTE7 "\xF0\x9D\x85\xA4"
+#define NOTE8 "\xF0\x9D\x85\xA5"
+
+#define REST0 "\xF0\x9D\x84\xBB"
+#define REST1 "\xF0\x9D\x84\xBC"
+#define REST2 "\xF0\x9D\x84\xBD"
+#define REST3 "\xF0\x9D\x84\xBE"
+#define REST4 "\xF0\x9D\x84\xBF"
+#define REST5 "\xF0\x9D\x85\x80"
+#define REST6 "\xF0\x9D\x85\x81"
+#define REST7 "\xF0\x9D\x85\x82"
+#define REST8 "\xF0\x9D\x85\x83"
+
 
 /* markup the passed string to be in the denemo music font
 * caller must free the returned string
 */
 gchar * music_font(gchar *str) {
-#ifdef NEW_MUSIC_FONT
   GString *s = g_string_new("");
-  gchar c = *str;
+  gint c = *str;
   for(c = *str; c;c = *++str)
     switch (c) {
-      case '2':  g_string_append(s, " \xF0\x9D\x85\x9F ");
+
+      case '0':  g_string_append(s, " "NOTE0" ");
 	break;
-      case 20+'2': g_string_append(s, "<span foreground=\"blue\"> \xF0\x9D\x85\x9D </span>");
+      case HIGHLIGHT_OFFSET+'0': g_string_append(s, "<span background=\"blue\"> "NOTE0" </span>");
 	break;
-	//All the cases 0 ..6 and r,s,t,u,v,w 
+
+      case '1':  g_string_append(s, " "NOTE1" ");
+	break;
+      case HIGHLIGHT_OFFSET+'1': g_string_append(s, "<span background=\"blue\"> "NOTE1" </span>");
+	break;
+      case '2':  g_string_append(s, " "NOTE2" ");
+	break;
+      case HIGHLIGHT_OFFSET+'2': g_string_append(s, "<span background=\"blue\"> "NOTE2" </span>");
+	break;
+      case '3':  g_string_append(s, " "NOTE3" ");
+	break;
+      case HIGHLIGHT_OFFSET+'3': g_string_append(s, "<span background=\"blue\"> "NOTE3" </span>");
+	break;
+      case '4':  g_string_append(s, " "NOTE4" ");
+	break;
+      case HIGHLIGHT_OFFSET+'4': g_string_append(s, "<span background=\"blue\"> "NOTE4" </span>");
+	break;
+      case '5':  g_string_append(s, " "NOTE5" ");
+	break;
+      case HIGHLIGHT_OFFSET+'5': g_string_append(s, "<span background=\"blue\"> "NOTE5" </span>");
+	break;
+      case '6':  g_string_append(s, " "NOTE6" ");
+	break;
+      case HIGHLIGHT_OFFSET+'6': g_string_append(s, "<span background=\"blue\"> "NOTE6" </span>");
+	break;
+      case '7':  g_string_append(s, " "NOTE7" ");
+	break;
+      case HIGHLIGHT_OFFSET+'7': g_string_append(s, "<span background=\"blue\"> "NOTE7" </span>");
+	break;
+      case '8':  g_string_append(s, " "NOTE8" ");
+	break;
+      case HIGHLIGHT_OFFSET+'8': g_string_append(s, "<span background=\"blue\"> "NOTE8" </span>");
+	break;
+
+
+     case 'r':  g_string_append(s, " "REST0" ");
+	break;
+     case HIGHLIGHT_OFFSET+'r': g_string_append(s, "<span background=\"blue\"> "REST0" </span>");
+	break;
+
+     case 's':  g_string_append(s, " "REST1" ");
+	break;
+     case HIGHLIGHT_OFFSET+'s': g_string_append(s, "<span background=\"blue\"> "REST1" </span>");
+	break;
+     case 't':  g_string_append(s, " "REST2" ");
+	break;
+     case HIGHLIGHT_OFFSET+'t': g_string_append(s, "<span background=\"blue\"> "REST2" </span>");
+	break;
+     case 'u':  g_string_append(s, " "REST3" ");
+	break;
+     case HIGHLIGHT_OFFSET+'u': g_string_append(s, "<span background=\"blue\"> "REST3" </span>");
+	break;
+     case 'v':  g_string_append(s, " "REST4" ");
+	break;
+     case HIGHLIGHT_OFFSET+'v': g_string_append(s, "<span background=\"blue\"> "REST4" </span>");
+	break;
+     case 'w':  g_string_append(s, " "REST5" ");
+	break;
+     case HIGHLIGHT_OFFSET+'w': g_string_append(s, "<span background=\"blue\"> "REST5" </span>");
+	break;
+     case 'x':  g_string_append(s, " "REST6" ");
+	break;
+     case HIGHLIGHT_OFFSET+'x': g_string_append(s, "<span background=\"blue\"> "REST6" </span>");
+	break;
+     case 'y':  g_string_append(s, " "REST7" ");
+	break;
+     case HIGHLIGHT_OFFSET+'y': g_string_append(s, "<span background=\"blue\"> "REST7" </span>");
+	break;
+     case 'z':  g_string_append(s, " "REST8" ");
+	break;
+     case HIGHLIGHT_OFFSET+'z': g_string_append(s, "<span background=\"blue\"> "REST8" </span>");
+	break;
+
+
+
+
+
+
+
+
+
+
+
+	
       default: g_string_append_c(s, c);
       }
   return g_string_free(s, FALSE);
-#else
-  return g_strdup_printf("<span font_desc=\"Denemo 12\">%s</span>", str);
-#endif
+
 }
 
 void  set_title_bar(DenemoGUI *gui) {
