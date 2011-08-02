@@ -30,7 +30,6 @@
 #include "keyboard.h"
 #include "exportmidi.h"
 #include "midi.h"
-#include "device_manager.h"
 #include "commandfuncs.h"
 #include "calculatepositions.h"
 #include "http.h"
@@ -3029,7 +3028,6 @@ SCM scheme_output_midi_bytes (SCM input) {
   DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   channel = get_midi_channel();
   volume = curstaffstruct->volume;
-  DevicePort *DP = (DevicePort *) device_manager_get_DevicePort(curstaffstruct->device_port->str);
   char *string_input;
   string_input = scm_to_locale_string(input);
   gchar *bytes = substitute_midi_values(string_input, channel, volume);

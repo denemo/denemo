@@ -18,9 +18,7 @@
 #include "prefops.h"
 #include "utils.h"
 #include "playback.h"
-#include "jackmidi.h"
 #include "fluid.h"
-#include "device_manager.h"
 
 struct callbackdata
 {

@@ -12,7 +12,6 @@ denemo_SOURCES = denemo_types.c \
 	keyresponses.c keysigdialog.c figure.c 	main.c \
 	measureops.c moveviewport.c mousing.c barline.c 	view.c http.c \
 	mwidthdialog.c objops.c exportmidi.c 	instrumentname.c external.c \
-	device_manager.c device_manager.h \
 	playback.c drawfakechord.c fakechord.c \
 	playbackprops.c prefdialog.c prefops.c	processstaffname.c \
 	lyric.c scoreops.c scoreprops.c \

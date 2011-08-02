@@ -60,7 +60,6 @@
 #include "exportmidi.h"
 #include "smf.h"
 #include "instrumentname.h"
-#include "device_manager.h"
 
 /* 
  * only for developers
@@ -1205,7 +1204,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
       smf_track_add_event_delta_pulses(track, event, 0);
       
       /* Midi Client/Port */
-      track->user_pointer = (DevicePort *) device_manager_get_DevicePort(curstaffstruct->device_port->str); 
+//      track->user_pointer = (DevicePort *) device_manager_get_DevicePort(curstaffstruct->device_port->str); 
 
       /* The midi instrument */
       if(curstaffstruct->midi_instrument && curstaffstruct->midi_instrument->len) {
