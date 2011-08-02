@@ -343,31 +343,31 @@ typedef struct DenemoKeymap
 
 }keymap;
 
-typedef struct MidiBuffer
-{
-  unsigned char buffer[3];
-  gint channel;
-} MidiBuffer;
-
-#define DENEMO_BUFFER_MAX_INDEX	(100)
-typedef struct DeviceManagerPort
-{
-  GString *port_name;
-  gpointer output_port;
-  MidiBuffer *midi_buffer;/*< an array of midi events queueing for output */
-  gint Index;
-  gint FillIndex;
-volatile  gint BufferEmpty;
-} DeviceManagerPort;
-
-/* structure for device manager */
-typedef struct DeviceManagerDevice
-{
-  GString *client_name;
-  gpointer jack_client;/**< Jack handle for the client with this name */
-  GArray *ports_array;/**< holds the ports array for resizing purposes */
-  DeviceManagerPort *ports;/*< ports for this client, NULL terminated */
-} DeviceManagerDevice;
+//typedef struct MidiBuffer
+//{
+//  unsigned char buffer[3];
+//  gint channel;
+//} MidiBuffer;
+//
+//#define DENEMO_BUFFER_MAX_INDEX	(100)
+//typedef struct DeviceManagerPort
+//{
+//  GString *port_name;
+//  gpointer output_port;
+//  MidiBuffer *midi_buffer;/*< an array of midi events queueing for output */
+//  gint Index;
+//  gint FillIndex;
+//volatile  gint BufferEmpty;
+//} DeviceManagerPort;
+//
+///* structure for device manager */
+//typedef struct DeviceManagerDevice
+//{
+//  GString *client_name;
+//  gpointer jack_client;/**< Jack handle for the client with this name */
+//  GArray *ports_array;/**< holds the ports array for resizing purposes */
+//  DeviceManagerPort *ports;/*< ports for this client, NULL terminated */
+//} DeviceManagerDevice;
 
 /**
  * DenemoPrefs holds information on user preferences. 
@@ -419,25 +419,31 @@ typedef struct DenemoPrefs
   GString *browser; /**< Default browser string */
 
 
+  // audio and MIDI driver
   GString *audio_driver;  /* the name of the audio driver to be used */
   GString *midi_driver;   /* the name of the MIDI driver to be used */
 
-  GString *sequencer;  /**< path to sequencer device */
-  GString *midi_in;  /**< path to midi_in device */
+//  GString *sequencer;  /**< path to sequencer device */
+//  GString *midi_in;  /**< path to midi_in device */
+
+  // JACK options
   gboolean jacktransport; /**< toggle on and off jack transport */
   gboolean jacktransport_start_stopped; /**< toggle if you don't want transport to play immediately but rely on the transport controls */
-#define DENEMO_MAX_DEVICES (50)
-  GArray *midi_device_array;/**< holds the midi_device array for re-sizing purposes */
-  DeviceManagerDevice *midi_device; /**< contains device name and output ports */ 
+
+  // PortAudio options
+  unsigned int portaudio_sample_rate;/**< sample rate in Hz > */
+  unsigned int portaudio_period_size;/**< The size of the audio buffers (in frames).> */
 
 //  GString *fluidsynth_audio_driver; /**< Audio driver used by fluidsynth */
 //  GString *fluidsynth_midi_driver; /**< MIDI driver used by fluidsynth */
 
+  // fluidsynth options
   GString *fluidsynth_soundfont; /**< Default soundfont for fluidsynth */
   gboolean fluidsynth_reverb; /**< Toggle if reverb is applied to fluidsynth */
   gboolean fluidsynth_chorus; /**< Toggle if chorus is applied to fluidsynth */
-  gint fluidsynth_sample_rate;/**< sample rate in Hz > */
-  gint fluidsynth_period_size;/**< The size of the audio buffers (in frames).> */
+//  gint fluidsynth_sample_rate;/**< sample rate in Hz > */
+//  gint fluidsynth_period_size;/**< The size of the audio buffers (in frames).> */
+
   gint dynamic_compression;/**< percent compression of dynamic range desired when listening to MIDI-in */
   gdouble display_refresh;/**< time in ms between refresh of display during playback */
   gint animation_steps;/** < number of steps to use animating the page turns during playback */
