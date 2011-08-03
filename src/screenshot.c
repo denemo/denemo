@@ -99,7 +99,7 @@ screenshot_find_current_window ()
 }
 
 static void
-select_area_button_press (XButtonEvent    *event,//BUG! should be XButtonEvent
+select_area_button_press (XButtonEvent    *event,
                           GdkRectangle *rect,
                           GdkRectangle *draw_rect)
 {
@@ -113,7 +113,7 @@ select_area_button_press (XButtonEvent    *event,//BUG! should be XButtonEvent
 }
 
 static void
-select_area_button_release (XButtonEvent    *event,//BUG! should be XButtonEvent
+select_area_button_release (XButtonEvent    *event,
                             GdkRectangle *rect,
                             GdkRectangle *draw_rect,
                             GdkWindow    *root,
@@ -133,7 +133,7 @@ select_area_button_release (XButtonEvent    *event,//BUG! should be XButtonEvent
 }
 
 static void
-select_area_motion_notify (XButtonEvent    *event,//BUG! should be XMotionEvent
+select_area_motion_notify (XButtonEvent    *event,
                            GdkRectangle *rect,
                            GdkRectangle *draw_rect,
                            GdkWindow    *root,
@@ -174,28 +174,28 @@ select_area_filter (GdkXEvent *gdk_xevent,
     case ButtonPress:
       if (!data->button_pressed)
         {
-          select_area_button_press (&xevent->xbutton,//BUG! should be xbutton
-                                    &data->rect, &data->draw_rect);
+          select_area_button_press (&xevent->xbutton,
+                                    &data->rect, &data->draw_rect);//sets the origin
           data->button_pressed = TRUE;
+        } else {
+          select_area_button_release (&xevent->xbutton,
+                                    &data->rect, &data->draw_rect,
+                                    data->root, data->gc);//sets the far corner
+          data->button_pressed = FALSE;                          
+          gtk_main_quit ();
         }
       return GDK_FILTER_REMOVE;
     case ButtonRelease:
-      if (data->button_pressed)
-      {
-        select_area_button_release (&xevent->xbutton,//BUG! should be xbutton
-                                    &data->rect, &data->draw_rect,
-                                    data->root, data->gc);
-        gtk_main_quit ();
-      }
+     
       return GDK_FILTER_REMOVE;
     case MotionNotify:
       if (data->button_pressed)
-        select_area_motion_notify (&xevent->xbutton,//BUG! should be xmotion
+        select_area_motion_notify (&xevent->xbutton,
                                    &data->rect, &data->draw_rect,
-                                   data->root, data->gc);
+                                   data->root, data->gc);//draws the rectangle
       return GDK_FILTER_REMOVE;
     case KeyPress:
-      //if (xevent->xkey.keycode == XKeysymToKeycode (gdk_display, XK_Escape))
+      if (xevent->xkey.keycode == XKeysymToKeycode (gdk_display, XK_Escape))
         {
           data->rect.x = 0;
           data->rect.y = 0;
