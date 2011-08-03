@@ -847,13 +847,15 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 		      gdouble height = (gdouble)gdk_pixbuf_get_height( GDK_PIXBUF(source));
 		      gdouble scale = GPOINTER_TO_INT (itp->mwidthiterator->data)/width;
 		      gint ypos = y + 2*STAFF_HEIGHT+thestaff->space_below;
+		      gint xpos = x;
 		      cairo_save( cr );
 		      if(scale<1.0) {//too large to fit under the measure
 			cairo_translate( cr, x*(1-scale), ypos*(1-scale));
 			cairo_scale(cr, scale, scale);
-		      }
-		      gdk_cairo_set_source_pixbuf( cr, GDK_PIXBUF(source), x,ypos );
-		      cairo_rectangle( cr,x,ypos, width, height );
+		      } else
+		      xpos = x - (width - GPOINTER_TO_INT (itp->mwidthiterator->data))/2;//narrow, center it
+		      gdk_cairo_set_source_pixbuf( cr, GDK_PIXBUF(source), xpos,ypos );
+		      cairo_rectangle( cr,xpos,ypos, width, height );
 		      cairo_fill( cr );
 		      cairo_restore( cr );
 		      itp->source_displayed = TRUE;
