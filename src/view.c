@@ -799,8 +799,11 @@ static SCM scheme_load_commandset (SCM name) {
 }
 
 #ifdef G_OS_WIN32
-scheme_user_screenshot() {
+SCM scheme_user_screenshot() {
 return SCM_BOOL_F;
+}
+SCM scheme_delete_screenshot(SCM type) {
+  return SCM_BOOL_F;
 }
 #else
 SCM scheme_user_screenshot(SCM type) {
@@ -821,6 +824,22 @@ SCM scheme_user_screenshot(SCM type) {
         }
   } 
 return SCM_BOOL_F;
+}
+SCM scheme_delete_screenshot(SCM type) {
+  GList **sources;
+  if(type==SCM_BOOL_F)
+   sources = &Denemo.gui->si->sources;
+  else
+   sources = &((DenemoStaff*)Denemo.gui->si->currentstaff->data)->sources;
+  if(*sources) {
+    GList *g = g_list_nth(*sources, Denemo.gui->si->currentmeasurenum -1);
+    if(g) {
+      *sources = g_list_remove_link(*sources, g);
+      //FIXME free g->data and g
+      return SCM_BOOL_T;
+    }
+  }
+  return SCM_BOOL_F;
 }
 #endif
 
@@ -4834,6 +4853,7 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
   INSTALL_SCM_FUNCTION ("Adjust end time for playback by passed number of seconds. Returns #f for bad parameter ", DENEMO_SCHEME_PREFIX"AdjustPlaybackEnd", scheme_adjust_playback_end);
 
   INSTALL_SCM_FUNCTION ("Takes a parameter #t or #f: Get a screenshot from the user and append it to a list (one per measure) either applying across the staffs or to the current staff.", DENEMO_SCHEME_PREFIX"UserScreenshot", scheme_user_screenshot);
+  INSTALL_SCM_FUNCTION ("Takes a parameter #t or #f: Delete a screenshot for the current measure, either across staffs or for current staff.", DENEMO_SCHEME_PREFIX"DeleteScreenshot", scheme_delete_screenshot);
 
   INSTALL_SCM_FUNCTION ("Pushes the Denemo clipboard (cut/copy buffer) onto a stack; Use d-PopClipboard to retrieve it.", DENEMO_SCHEME_PREFIX"PushClipboard", scheme_push_clipboard);
 
