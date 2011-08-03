@@ -66,6 +66,7 @@ static double playback_start_time;
 // FIXME: synchronize access from multiple threads
 static volatile double playback_time;
 
+static gboolean signalled = FALSE;
 static gboolean quit_thread = FALSE;
 static gboolean must_redraw_all = FALSE;
 static gboolean must_redraw_playhead = FALSE;
@@ -376,11 +377,14 @@ static gpointer queue_thread_func(gpointer data) {
   g_mutex_lock(queue_mutex);
 
   for (;;) {
-    GTimeVal timeval;
-    g_get_current_time(&timeval);
-    g_time_val_add(&timeval, QUEUE_TIMEOUT);
+    if (!g_atomic_int_get(&signalled)) {
+      GTimeVal timeval;
+      g_get_current_time(&timeval);
+      g_time_val_add(&timeval, QUEUE_TIMEOUT);
 
-    g_cond_timed_wait(queue_cond, queue_mutex, &timeval);
+      g_cond_timed_wait(queue_cond, queue_mutex, &timeval);
+      signalled = FALSE;
+    }
 
     if (g_atomic_int_get(&quit_thread)) {
       g_print("that's it, i quit!\n");
@@ -432,6 +436,7 @@ static gpointer queue_thread_func(gpointer data) {
 
 static void signal_queue() {
   g_mutex_lock(queue_mutex);
+  g_atomic_int_set(&signalled, TRUE);
   g_cond_signal(queue_cond);
   g_mutex_unlock(queue_mutex);
 }
@@ -439,6 +444,7 @@ static void signal_queue() {
 
 static gboolean try_signal_queue() {
   if (g_mutex_trylock(queue_mutex)) {
+    g_atomic_int_set(&signalled, TRUE);
     g_cond_signal(queue_cond);
     g_mutex_unlock(queue_mutex);
     return TRUE;
