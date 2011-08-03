@@ -73,6 +73,7 @@ static gboolean must_redraw_playhead = FALSE;
 static smf_event_t *redraw_event = NULL;
 
 static gpointer queue_thread_func(gpointer data);
+static void signal_queue();
 
 
 static backend_t * get_backend(backend_type_t backend) {
@@ -230,9 +231,7 @@ int audio_shutdown() {
   g_atomic_int_set(&quit_thread, TRUE);
 
   if (queue_thread) {
-    g_mutex_lock(queue_mutex);
-    g_cond_signal(queue_cond);
-    g_mutex_unlock(queue_mutex);
+    signal_queue();
 
     g_thread_join(queue_thread);
   }
@@ -431,6 +430,24 @@ static gpointer queue_thread_func(gpointer data) {
 }
 
 
+static void signal_queue() {
+  g_mutex_lock(queue_mutex);
+  g_cond_signal(queue_cond);
+  g_mutex_unlock(queue_mutex);
+}
+
+
+static gboolean try_signal_queue() {
+  if (g_mutex_trylock(queue_mutex)) {
+    g_cond_signal(queue_cond);
+    g_mutex_unlock(queue_mutex);
+    return TRUE;
+  } else {
+    return FALSE;
+  }
+}
+
+
 void update_playback_time(backend_timebase_prio_t prio, double new_time) {
   if (!((prio == TIMEBASE_PRIO_AUDIO) ||
         (prio == TIMEBASE_PRIO_MIDI && get_backend(AUDIO_BACKEND) == &dummy_audio_backend) ||
@@ -444,10 +461,7 @@ void update_playback_time(backend_timebase_prio_t prio, double new_time) {
 
     // if the lock fails, the playback time update will be delayed until the
     // queue thread wakes up on its own
-    if (g_mutex_trylock(queue_mutex)) {
-      g_cond_signal(queue_cond);
-      g_mutex_unlock(queue_mutex);
-    } else {
+    if (!try_signal_queue()) {
       g_debug("couldn't signal playback time update to queue");
     }
   }
@@ -571,10 +585,7 @@ void input_midi_event(backend_type_t backend, int port, unsigned char *buffer) {
 
   // if the lock fails, processing of the event will be delayed until the
   // queue thread wakes up on its own
-  if (g_mutex_trylock(queue_mutex)) {
-    g_cond_signal(queue_cond);
-    g_mutex_unlock(queue_mutex);
-  } else {
+  if (!try_signal_queue()) {
     g_debug("couldn't signal MIDI event input to queue");
   }
 }
@@ -583,10 +594,7 @@ void input_midi_event(backend_type_t backend, int port, unsigned char *buffer) {
 void queue_redraw_all() {
   g_atomic_int_set(&must_redraw_all, TRUE);
 
-  if (g_mutex_trylock(queue_mutex)) {
-    g_cond_signal(queue_cond);
-    g_mutex_unlock(queue_mutex);
-  } else {
+  if (!try_signal_queue()) {
     g_debug("couldn't signal redraw request to queue");
   }
 }
@@ -595,10 +603,7 @@ void queue_redraw_playhead(smf_event_t *event) {
   g_atomic_int_set(&must_redraw_playhead, TRUE);
   redraw_event = event;
 
-  if (g_mutex_trylock(queue_mutex)) {
-    g_cond_signal(queue_cond);
-    g_mutex_unlock(queue_mutex);
-  } else {
+  if (!try_signal_queue()) {
     g_debug("couldn't signal redraw request to queue");
   }
 }
