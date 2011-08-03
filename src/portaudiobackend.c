@@ -20,12 +20,8 @@
 #include <string.h>
 
 
-// FIXME: these should be configurable
-#define SAMPLE_RATE 44100
-#define PERIOD_SIZE 256
-
-
 static PaStream *stream;
+static unsigned long sample_rate;
 
 static unsigned long playback_frame = 0;
 
@@ -33,11 +29,11 @@ static gboolean reset_audio = FALSE;
 
 
 static double nframes_to_seconds(unsigned long nframes) {
-  return nframes / (double)SAMPLE_RATE;
+  return nframes / (double)sample_rate;
 }
 
 static unsigned long seconds_to_nframes(double seconds) {
-  return (unsigned long)(SAMPLE_RATE * seconds);
+  return (unsigned long)(sample_rate * seconds);
 }
 
 
@@ -110,16 +106,20 @@ static int portaudio_initialize(DenemoPrefs *config) {
   output_parameters.suggestedLatency = Pa_GetDeviceInfo(output_parameters.device)->defaultLowOutputLatency;
   output_parameters.hostApiSpecificStreamInfo = NULL;
 
+  g_print("opening output device %s\n", Pa_GetDeviceInfo(output_parameters.device)->name);
+
   err = Pa_OpenStream(&stream, NULL, &output_parameters,
-                      SAMPLE_RATE, PERIOD_SIZE, paClipOff,
-                      stream_callback, NULL);
+                      config->portaudio_sample_rate, config->portaudio_period_size,
+                      paClipOff, stream_callback, NULL);
   if (err != paNoError) {
     g_warning("couldn't open output stream\n");
     return -1;
   }
 
+  sample_rate = config->portaudio_sample_rate;
+
 #ifdef _HAVE_FLUIDSYNTH_
-  if (fluidsynth_init(config, SAMPLE_RATE)) {
+  if (fluidsynth_init(config, sample_rate)) {
     return -1;
   }
 #endif
