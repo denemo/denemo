@@ -119,11 +119,8 @@ select_area_button_release (XButtonEvent    *event,
                             GdkWindow    *root,
                             GdkGC        *gc)
 {
-  /* remove the old rectangle */
-  if (draw_rect->width > 0 && draw_rect->height > 0)
-    gdk_draw_rectangle (root, gc, FALSE, 
-                        draw_rect->x, draw_rect->y,
-                        draw_rect->width, draw_rect->height);
+  /* do not remove the old rectangle as it shows you what you have captured so far */
+
 
   rect->width  = ABS (rect->x - event->x_root);
   rect->height = ABS (rect->y - event->y_root);
