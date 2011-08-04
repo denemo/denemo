@@ -573,6 +573,7 @@ main (int argc, char *argv[])
   GError *error = NULL;
   /* gtk initialization */
   gtk_init (&argc, &argv);
+  g_thread_init(NULL);
 
   /* locale initialization */
   //setlocale (LC_CTYPE, "");
