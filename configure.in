@@ -46,12 +46,12 @@ PKG_CHECK_MODULES(RSVG, librsvg-2.0 >= 2.0)
 CFLAGS="$CFLAGS $RSVG_CFLAGS"
 LIBS="$LIBS $RSVG_LIBS"
 
-# The following is needed fot g_thread_init
+
 PKG_CHECK_MODULES(FONTCONFIG, fontconfig >= 2.2.0)
 CFLAGS="$CFLAGS $FONTCONFIG_CFLAGS"
 LIBS="$LIBS $FONTCONFIG_LIBS"
 
-# 
+# The following is needed fot g_thread_init 
 PKG_CHECK_MODULES(GTHREAD, gthread-2.0 >= 2.22.0)
 LIBS="$LIBS $GTHREAD_LIBS"
 

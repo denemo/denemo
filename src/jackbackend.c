@@ -14,7 +14,6 @@
 #include "jackbackend.h"
 #include "midi.h"
 #include "fluid.h"
-
 #include <jack/jack.h>
 #include <jack/midiport.h>
 #include <glib.h>
