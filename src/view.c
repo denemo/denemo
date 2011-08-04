@@ -5103,7 +5103,15 @@ void inner_main(void*closure, int argc, char **argv){
   set_tuning();
 /* Now launch into the main gtk event loop and we're all set */
 
+  /* accquire gdk lock 
+  * FIXME: this should be called before gtk_init
+  */
+  gdk_threads_enter();
   gtk_main();
+  /* release gdk lock */
+  gdk_threads_leave();
+
+
 }
 
 
