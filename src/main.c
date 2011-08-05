@@ -571,8 +571,13 @@ main (int argc, char *argv[])
   
 #endif /* end of else not windows */
   GError *error = NULL;
-  /* gtk initialization */
+  /* glib/gtk initialization */
+  if (!g_thread_supported ()){
+      g_thread_init(NULL);
+  }
+  gdk_threads_init();
   gtk_init (&argc, &argv);
+
 
   /* locale initialization */
   //setlocale (LC_CTYPE, "");
