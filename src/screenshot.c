@@ -27,7 +27,7 @@
 #include <gdk/gdkx.h>
 #include <gtk/gtk.h>
 #include <glib.h>
-#include <glib/gi18n.h>
+//#include <glib/gi18n.h>
 
 
 
@@ -40,66 +40,10 @@ typedef struct {
   GdkGC        *gc;
 } select_area_filter_data;
 
-static GdkWindow *
-screenshot_find_active_window (void)
-{
-  GdkWindow *window;
-  GdkScreen *default_screen;
 
-  default_screen = gdk_screen_get_default ();
-  window = gdk_screen_get_active_window (default_screen);
-
-  return window;
-}
-
-
-static gboolean
-screenshot_window_is_desktop (GdkWindow *window)
-{
-  GdkWindow *root_window = gdk_get_default_root_window ();
-  GdkWindowTypeHint window_type_hint;
-
-  if (window == root_window)
-    return TRUE;
-
-  window_type_hint = gdk_window_get_type_hint (window);
-  if (window_type_hint == GDK_WINDOW_TYPE_HINT_DESKTOP)
-    return TRUE;
-
-  return FALSE;
-      
-}
-
-GdkWindow *
-screenshot_find_current_window ()
-{
-  GdkWindow *current_window;
-
-  current_window = screenshot_find_active_window ();
-  
-  /* If there's no active window, we fall back to returning the
-   * window that the cursor is in.
-   */
-  if (!current_window)
-    current_window = gdk_window_at_pointer (NULL, NULL);
-
-  if (current_window)
-    {
-      if (screenshot_window_is_desktop (current_window))
-	/* if the current window is the desktop (e.g. nautilus), we
-	 * return NULL, as getting the whole screen makes more sense.
-         */
-        return NULL;
-
-      /* Once we have a window, we take the toplevel ancestor. */
-      current_window = gdk_window_get_toplevel (current_window);
-    }
-
-  return current_window;
-}
 
 static void
-select_area_button_press (XButtonEvent    *event,
+empty_rectangle (XButtonEvent    *event,
                           GdkRectangle *rect,
                           GdkRectangle *draw_rect)
 {
@@ -113,20 +57,23 @@ select_area_button_press (XButtonEvent    *event,
 }
 
 static void
-select_area_button_release (XButtonEvent    *event,
+fix_rectangle (XButtonEvent    *event,
                             GdkRectangle *rect,
                             GdkRectangle *draw_rect,
                             GdkWindow    *root,
                             GdkGC        *gc)
 {
   /* do not remove the old rectangle as it shows you what you have captured so far */
-
-
   rect->width  = ABS (rect->x - event->x_root);
   rect->height = ABS (rect->y - event->y_root);
 
   rect->x = MIN (rect->x, event->x_root);
   rect->y = MIN (rect->y, event->y_root);
+//  gdk_gc_set_function (gc, GDK_SET);
+//  if (draw_rect->width > 0 && draw_rect->height > 0)
+ //   gdk_draw_rectangle (root, gc, FALSE, 
+  //                      draw_rect->x, draw_rect->y,
+  //                      draw_rect->width, draw_rect->height);
 }
 
 static void
@@ -169,18 +116,26 @@ select_area_filter (GdkXEvent *gdk_xevent,
   switch (xevent->type)
     {
     case ButtonPress:
-      if (!data->button_pressed)
-        {
-          select_area_button_press (&xevent->xbutton,
-                                    &data->rect, &data->draw_rect);//sets the origin
-          data->button_pressed = TRUE;
-        } else {
-          select_area_button_release (&xevent->xbutton,
+      if(xevent->xbutton.button == 1) {
+        if (!data->button_pressed) {
+            empty_rectangle (&xevent->xbutton,
+                                    &data->rect, &data->draw_rect);//sets the origin, width, height 0
+            data->button_pressed = TRUE;
+          } else {
+            fix_rectangle (&xevent->xbutton,
                                     &data->rect, &data->draw_rect,
-                                    data->root, data->gc);//sets the far corner
-          data->button_pressed = FALSE;                          
-          gtk_main_quit ();
-        }
+                                    data->root, data->gc);//sets the far corner                      
+            gtk_main_quit ();
+          }
+      } else {//right click, switch ends.
+        gint x = xevent->xbutton.x_root;
+        gint y = xevent->xbutton.y_root;
+        GdkDisplay *disp = gdk_display_get_default();
+        g_print("moving pointer to x %d y %d\n", data->rect.x, data->rect.y);
+        gdk_display_warp_pointer (disp, gdk_display_get_default_screen (disp), data->rect.x, data->rect.y);
+        data->rect.x = x;
+        data->rect.y = y;
+      }
       return GDK_FILTER_REMOVE;
     case ButtonRelease:
      
@@ -194,6 +149,7 @@ select_area_filter (GdkXEvent *gdk_xevent,
     case KeyPress:
       if (xevent->xkey.keycode == XKeysymToKeycode (gdk_display, XK_Escape))
         {
+          data->button_pressed = FALSE;    
           data->rect.x = 0;
           data->rect.y = 0;
           data->rect.width  = 0;
@@ -213,7 +169,7 @@ gboolean
 screenshot_select_area (int *px, int *py, int *pwidth, int *pheight){
   GdkWindow               *root;
   GdkCursor               *cursor;
-  select_area_filter_data  data;
+  static select_area_filter_data  data;
   GdkGCValues              values;
   GdkColor                 color;
 
@@ -240,11 +196,6 @@ screenshot_select_area (int *px, int *py, int *pwidth, int *pheight){
 
   gdk_flush ();
 
-  data.rect.x = 0;
-  data.rect.y = 0;
-  data.rect.width  = 0;
-  data.rect.height = 0;
-  data.button_pressed = FALSE;
   data.root = root;
 
   values.function = GDK_XOR;
@@ -271,8 +222,41 @@ screenshot_select_area (int *px, int *py, int *pwidth, int *pheight){
   gdk_color_parse ("black", &color);
   gdk_gc_set_rgb_bg_color (data.gc, &color);
 
+  if(data.button_pressed) {
+    //!!!!!!!!!!!!!! y pos jumps down but x remains ...
+    //data.rect.x ++;//avoid overwriting box edge coming back
+    GdkDisplay *disp = gdk_display_get_default();
+    g_print("re-starting and moving pointer to x %d y %d\n", data.rect.x+data.rect.width, data.rect.y);
+    gdk_display_warp_pointer (disp, gdk_display_get_default_screen (disp), data.rect.x+data.rect.width, data.rect.y-data.rect.height);
+  }
+
+#if 0
+  values.function = GDK_SET;
+  values.line_width = 2;
+   gdk_gc_set_values (data.gc, &values,
+                                    GDK_GC_FUNCTION | GDK_GC_FILL |
+                                    GDK_GC_CLIP_MASK | GDK_GC_SUBWINDOW |
+                                    GDK_GC_CLIP_X_ORIGIN |
+                                    GDK_GC_CLIP_Y_ORIGIN | GDK_GC_EXPOSURES |
+                                    GDK_GC_LINE_WIDTH | GDK_GC_LINE_STYLE |
+                                    GDK_GC_CAP_STYLE | GDK_GC_JOIN_STYLE);
+  gdk_draw_rectangle (root, data.gc, FALSE, 
+                        data.rect.x, data.rect.y,
+                        data.rect.width, data.rect.height);
+  values.function = GDK_XOR;
+  values.line_width = 0;
+  gdk_gc_set_values (data.gc, &values,
+                                    GDK_GC_FUNCTION | GDK_GC_FILL |
+                                    GDK_GC_CLIP_MASK | GDK_GC_SUBWINDOW |
+                                    GDK_GC_CLIP_X_ORIGIN |
+                                    GDK_GC_CLIP_Y_ORIGIN | GDK_GC_EXPOSURES |
+                                    GDK_GC_LINE_WIDTH | GDK_GC_LINE_STYLE |
+                                    GDK_GC_CAP_STYLE | GDK_GC_JOIN_STYLE);
+#endif   
   gtk_main ();
 
+
+                        
   g_object_unref (data.gc);
 
   gdk_window_remove_filter (root, (GdkFilterFunc) select_area_filter, &data);
@@ -285,7 +269,9 @@ screenshot_select_area (int *px, int *py, int *pwidth, int *pheight){
   *py = data.rect.y;
   *pwidth  = data.rect.width;
   *pheight = data.rect.height;
-
+  data.rect.x += data.rect.width;
+  data.rect.y += data.rect.height;
+  //data.rect.width = data.rect.height = 0;
   return TRUE;
 }
 
@@ -296,7 +282,7 @@ screenshot_find_rectangle (void)
   rectangle = g_new0 (GdkRectangle, 1);
   if (screenshot_select_area (&rectangle->x, &rectangle->y,
                               &rectangle->width, &rectangle->height)) {
-    if ((rectangle->width > 0) && (rectangle->height >= 0))
+    if ((rectangle->width > 0) && (rectangle->height > 0))
       return rectangle;
   }
   g_free (rectangle);
@@ -308,53 +294,26 @@ screenshot_get_pixbuf (GdkWindow    *window,
                        GdkRectangle *rectangle)
 {
   GdkWindow *root;
-  GdkPixbuf *screenshot;
-  gint x_real_orig, y_real_orig, x_orig, y_orig;
+  GdkPixbuf *screenshot = NULL;
+  gint  x_orig, y_orig;
   gint width, real_width, height, real_height;
 
 
   root = gdk_get_default_root_window ();
 
-  gdk_drawable_get_size (window, &real_width, &real_height);      
-  gdk_window_get_origin (window, &x_real_orig, &y_real_orig);
-
-  x_orig = x_real_orig;
-  y_orig = y_real_orig;
-  width  = real_width;
-  height = real_height;
-
-  if (x_orig < 0)
-    {
-      width = width + x_orig;
-      x_orig = 0;
-    }
-
-  if (y_orig < 0)
-    {
-      height = height + y_orig;
-      y_orig = 0;
-    }
-
-  if (x_orig + width > gdk_screen_width ())
-    width = gdk_screen_width () - x_orig;
-
-  if (y_orig + height > gdk_screen_height ())
-    height = gdk_screen_height () - y_orig;
+ 
 
   if (rectangle)
     {
-      x_orig = rectangle->x - x_orig;
-      y_orig = rectangle->y - y_orig;
+      x_orig = rectangle->x;
+      y_orig = rectangle->y;
       width  = rectangle->width;
       height = rectangle->height;
-    }
-  
-  screenshot = gdk_pixbuf_get_from_drawable (NULL, root, NULL,
-                                             x_orig, y_orig, 0, 0,
-                                             width, height);
-
-  //FIXME mask_monitors (screenshot, root);
-  
+    if(width>0 && height>0)
+      screenshot = gdk_pixbuf_get_from_drawable (NULL, root, NULL,
+                                              x_orig, y_orig, 0, 0,
+                                              width, height);
+   }
   return screenshot;
 }
 
