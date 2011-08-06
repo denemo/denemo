@@ -5185,6 +5185,22 @@ for second and subsequent systems</tooltip>
         <label>Capture Measures (Score)</label>
         <tooltip>Creates blank measures one for each measure captured as a screenshot from a source score. Display the source score using any program. Click on opposite corners of each measure in turn to capture that measure as an image into Denemo. Right-click or scroll-wheel to switch corners to adjust. Press any key to finish. This command is for capturing in score form; to underlay each part with its own source measure use CaptureMeasuresPartPerStaff </tooltip>
       </row>
+      <row>
+        <action>CaptureMeasuresForStaff</action>
+        <after>CheckTiesInStaff</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/CaptureScore</menupath>
+        <label>Capture Measures (one staff)</label>
+        <tooltip>Creates blank measures one for each measure captured as a screenshot from one of a set of parts. Display the source score on the screen using any program. Click on opposite corners of each measure in turn to capture that measure as an image into Denemo. Right-click or scroll-wheel to switch corners to adjust. Press any key to finish. This command is for capturing in parts form; to capture in full score use  CaptureMeasures command</tooltip>
+      </row>
+      <row>
+        <action>DeleteScreenshot</action>
+        <after>CaptureMeasures</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/CaptureScore</menupath>
+        <label>Delete Captured Measure</label>
+        <tooltip>Deletes the captured image of the source measure for the current measure.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
