@@ -23,11 +23,12 @@
  */
 
 #ifndef G_OS_WIN32
- 
 #include <gdk/gdkx.h>
+#else
+#include "windows.h"
+#endif
 #include <gtk/gtk.h>
 #include <glib.h>
-//#include <glib/gi18n.h>
 
 
 
@@ -41,7 +42,7 @@ typedef struct {
 } select_area_filter_data;
 
 
-
+#ifndef G_OS_WIN32
 static void
 empty_rectangle (XButtonEvent    *event,
                           GdkRectangle *rect,
@@ -69,11 +70,6 @@ fix_rectangle (XButtonEvent    *event,
 
   rect->x = MIN (rect->x, event->x_root);
   rect->y = MIN (rect->y, event->y_root);
-//  gdk_gc_set_function (gc, GDK_SET);
-//  if (draw_rect->width > 0 && draw_rect->height > 0)
- //   gdk_draw_rectangle (root, gc, FALSE, 
-  //                      draw_rect->x, draw_rect->y,
-  //                      draw_rect->width, draw_rect->height);
 }
 
 static void
@@ -102,7 +98,7 @@ select_area_motion_notify (XButtonEvent    *event,
                         draw_rect->x, draw_rect->y,
                         draw_rect->width, draw_rect->height);
 }
-
+#endif
 
 
 static GdkFilterReturn
@@ -111,13 +107,18 @@ select_area_filter (GdkXEvent *gdk_xevent,
                     gpointer   user_data)
 {
   select_area_filter_data *data = user_data;
+#ifdef G_OS_WIN32
+  MSG *wevent = (MSG*) gdk_xevent;
+g_print("Received event %x %x %x \n", wevent->message, wevent->wParam, wevent->lParam);
+return GDK_FILTER_REMOVE;
+#else
   XEvent *xevent = (XEvent *) gdk_xevent;
-
   switch (xevent->type)
     {
     case ButtonPress:
-      if(xevent->xbutton.button == 1) {
-        if (!data->button_pressed) {
+      switch(xevent->xbutton.button) {
+        case 1:
+          if (!data->button_pressed) {
             empty_rectangle (&xevent->xbutton,
                                     &data->rect, &data->draw_rect);//sets the origin, width, height 0
             data->button_pressed = TRUE;
@@ -127,18 +128,28 @@ select_area_filter (GdkXEvent *gdk_xevent,
                                     data->root, data->gc);//sets the far corner                      
             gtk_main_quit ();
           }
-      } else {//right click, switch ends.
-        gint x = xevent->xbutton.x_root;
-        gint y = xevent->xbutton.y_root;
-        GdkDisplay *disp = gdk_display_get_default();
-        g_print("moving pointer to x %d y %d\n", data->rect.x, data->rect.y);
-        gdk_display_warp_pointer (disp, gdk_display_get_default_screen (disp), data->rect.x, data->rect.y);
-        data->rect.x = x;
-        data->rect.y = y;
+          break;
+        case 2:
+        case 3:
+        case 4: //scroll up
+        case 5: //scroll down
+         {
+          gint x = xevent->xbutton.x_root;
+          gint y = xevent->xbutton.y_root;
+          GdkDisplay *disp = gdk_display_get_default();
+          g_print("moving pointer to x %d y %d\n", data->rect.x, data->rect.y);
+          gdk_display_warp_pointer (disp, gdk_display_get_default_screen (disp), data->rect.x, data->rect.y);
+          data->rect.x = x;
+          data->rect.y = y;
+          break;
+        }
+        default:
+        g_print("button %d\n", xevent->xbutton.button);
+        //return GDK_FILTER_CONTINUE; no other application responds to the button press even with this return value.
+        break;
       }
       return GDK_FILTER_REMOVE;
     case ButtonRelease:
-     
       return GDK_FILTER_REMOVE;
     case MotionNotify:
       if (data->button_pressed)
@@ -147,8 +158,12 @@ select_area_filter (GdkXEvent *gdk_xevent,
                                    data->root, data->gc);//draws the rectangle
       return GDK_FILTER_REMOVE;
     case KeyPress:
-      if (xevent->xkey.keycode == XKeysymToKeycode (gdk_display, XK_Escape))
+     // if (xevent->xkey.keycode == XKeysymToKeycode (gdk_display, XK_Escape)) let any key end - may need to re-instate this for Ctrl-press to join pixbufs
         {
+          // this undraws in the wrong place, 
+         // gdk_draw_rectangle (data->root, data->gc, FALSE, 
+         //               data->rect.x - data->rect.width, data->rect.y - data->rect.height,
+          //              data->rect.width, data->rect.height);
           data->button_pressed = FALSE;    
           data->rect.x = 0;
           data->rect.y = 0;
@@ -161,7 +176,9 @@ select_area_filter (GdkXEvent *gdk_xevent,
     default:
       break;
     }
- 
+ #endif
+
+
   return GDK_FILTER_CONTINUE;
 }
 
@@ -223,40 +240,13 @@ screenshot_select_area (int *px, int *py, int *pwidth, int *pheight){
   gdk_gc_set_rgb_bg_color (data.gc, &color);
 
   if(data.button_pressed) {
-    //!!!!!!!!!!!!!! y pos jumps down but x remains ...
-    //data.rect.x ++;//avoid overwriting box edge coming back
     GdkDisplay *disp = gdk_display_get_default();
-    g_print("re-starting and moving pointer to x %d y %d\n", data.rect.x+data.rect.width, data.rect.y);
+    //g_print("re-starting and moving pointer to x %d y %d\n", data.rect.x+data.rect.width, data.rect.y);
     gdk_display_warp_pointer (disp, gdk_display_get_default_screen (disp), data.rect.x+data.rect.width, data.rect.y-data.rect.height);
   }
 
-#if 0
-  values.function = GDK_SET;
-  values.line_width = 2;
-   gdk_gc_set_values (data.gc, &values,
-                                    GDK_GC_FUNCTION | GDK_GC_FILL |
-                                    GDK_GC_CLIP_MASK | GDK_GC_SUBWINDOW |
-                                    GDK_GC_CLIP_X_ORIGIN |
-                                    GDK_GC_CLIP_Y_ORIGIN | GDK_GC_EXPOSURES |
-                                    GDK_GC_LINE_WIDTH | GDK_GC_LINE_STYLE |
-                                    GDK_GC_CAP_STYLE | GDK_GC_JOIN_STYLE);
-  gdk_draw_rectangle (root, data.gc, FALSE, 
-                        data.rect.x, data.rect.y,
-                        data.rect.width, data.rect.height);
-  values.function = GDK_XOR;
-  values.line_width = 0;
-  gdk_gc_set_values (data.gc, &values,
-                                    GDK_GC_FUNCTION | GDK_GC_FILL |
-                                    GDK_GC_CLIP_MASK | GDK_GC_SUBWINDOW |
-                                    GDK_GC_CLIP_X_ORIGIN |
-                                    GDK_GC_CLIP_Y_ORIGIN | GDK_GC_EXPOSURES |
-                                    GDK_GC_LINE_WIDTH | GDK_GC_LINE_STYLE |
-                                    GDK_GC_CAP_STYLE | GDK_GC_JOIN_STYLE);
-#endif   
   gtk_main ();
 
-
-                        
   g_object_unref (data.gc);
 
   gdk_window_remove_filter (root, (GdkFilterFunc) select_area_filter, &data);
@@ -271,7 +261,6 @@ screenshot_select_area (int *px, int *py, int *pwidth, int *pheight){
   *pheight = data.rect.height;
   data.rect.x += data.rect.width;
   data.rect.y += data.rect.height;
-  //data.rect.width = data.rect.height = 0;
   return TRUE;
 }
 
@@ -297,11 +286,7 @@ screenshot_get_pixbuf (GdkWindow    *window,
   GdkPixbuf *screenshot = NULL;
   gint  x_orig, y_orig;
   gint width, real_width, height, real_height;
-
-
   root = gdk_get_default_root_window ();
-
- 
 
   if (rectangle)
     {
@@ -309,13 +294,33 @@ screenshot_get_pixbuf (GdkWindow    *window,
       y_orig = rectangle->y;
       width  = rectangle->width;
       height = rectangle->height;
-    if(width>0 && height>0)
-      screenshot = gdk_pixbuf_get_from_drawable (NULL, root, NULL,
+      if(width>0 && height>0)
+        screenshot = gdk_pixbuf_get_from_drawable (NULL, root, NULL,
                                               x_orig, y_orig, 0, 0,
                                               width, height);
    }
   return screenshot;
 }
 
-#endif /*Not windows, this would require GdkXEvent to be handled appropriately - something called MSG??? */
+#if 0
+typedef struct tagMSG {
+  HWND   hwnd;
+  UINT   message;//The message identifier. Applications can only use the low word
+  //prefix = BCM, BCN, BM, and BN	Button control	Button Control Messages and Button Control Notifications
+//#define WM_KEYDOWN                      0x0100
+//#define WM_KEYUP                        0x0101
+   WM_LBUTTONDOWN
+        case WM_MOUSEMOVE: 
+
+            // When moving the mouse, the user must hold down 
+            // the left mouse button to draw lines. 
+ 
+            if (wParam & MK_LBUTTON) 
+   
+  WPARAM wParam;Additional information about the message.
+  LPARAM lParam;
+  DWORD  time;
+  POINT  pt;The cursor position, in screen coordinates, when the message was posted.
+} MSG, *PMSG, *LPMSG;
+#endif
 

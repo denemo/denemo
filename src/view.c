@@ -798,14 +798,7 @@ static SCM scheme_load_commandset (SCM name) {
   return SCM_BOOL_F;
 }
 
-#ifdef G_OS_WIN32
-SCM scheme_user_screenshot() {
-return SCM_BOOL_F;
-}
-SCM scheme_delete_screenshot(SCM type) {
-  return SCM_BOOL_F;
-}
-#else
+
 SCM scheme_user_screenshot(SCM type) {
   GList **sources;
   if(type==SCM_BOOL_F)
@@ -819,7 +812,6 @@ SCM scheme_user_screenshot(SCM type) {
         GdkPixbuf *screenshot = screenshot_get_pixbuf (gdk_get_default_root_window (), rect);
         if(screenshot) {
           *sources = g_list_append(*sources, screenshot);
-          //gdk_pixbuf_save (screenshot, "junk.png","png", &error,"tEXt::Software", "denemo", NULL);
           return SCM_BOOL_T;
         }
   } 
@@ -841,7 +833,7 @@ SCM scheme_delete_screenshot(SCM type) {
   }
   return SCM_BOOL_F;
 }
-#endif
+
 
 static SCM scheme_push_clipboard (SCM optional) {
   push_clipboard();
