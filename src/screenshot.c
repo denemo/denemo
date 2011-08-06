@@ -109,7 +109,7 @@ select_area_filter (GdkXEvent *gdk_xevent,
   select_area_filter_data *data = user_data;
 #ifdef G_OS_WIN32
   MSG *wevent = (MSG*) gdk_xevent;
-g_print("Received event %x %x %x \n", wevent->message, wevent->wParam, wevent->lParam);
+g_print("Received event %x %x %x at %ld %ld\n", wevent->message, wevent->wParam, wevent->lParam, wevent->pt.x, wevent->pt.y);
 return GDK_FILTER_REMOVE;
 #else
   XEvent *xevent = (XEvent *) gdk_xevent;
