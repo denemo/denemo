@@ -295,7 +295,9 @@ preferences_change (GtkAction *action, gpointer param)
   GtkWidget *maxhistory;
   GtkWidget *notebook;
   GtkWidget *hbox;
+#ifdef _HAVE_PORTAUDIO_
   GtkWidget *portaudio_settings;
+#endif
 
   static struct callbackdata cbdata;
   g_assert (gui != NULL);
@@ -605,7 +607,9 @@ preferences_change (GtkAction *action, gpointer param)
 
   audio_cbdata.audio_driver = cbdata.audio_driver;
   audio_cbdata.midi_driver = cbdata.midi_driver;
+#ifdef _HAVE_PORTAUDIO_
   audio_cbdata.portaudio_settings = portaudio_settings;
+#endif
 
   midi_audio_tab_update(NULL, (gpointer*) &audio_cbdata);
 
