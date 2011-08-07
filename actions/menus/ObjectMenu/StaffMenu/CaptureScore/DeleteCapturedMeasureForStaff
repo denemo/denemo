@@ -6,7 +6,7 @@
     <map>
       <row>
         <after>CaptureMeasuresForStaff</after>
-        <action>DeleteScreenshotForStaff</action>
+        <action>DeleteCapturedMeasureForStaff</action>
         <scheme>(d-DeleteScreenshot #t)
 (d-RefreshDisplay)
 </scheme>
