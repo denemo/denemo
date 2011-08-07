@@ -58,7 +58,7 @@ static jack_ringbuffer_t *playback_queues[NUM_BACKENDS] = { NULL };
 static jack_ringbuffer_t *capture_queues[NUM_BACKENDS] = { NULL };
 
 
-static GThread *queue_thread = NULL;
+static GThread *queue_thread;
 static GCond *queue_cond;
 static GMutex *queue_mutex;
 
@@ -66,12 +66,12 @@ static double playback_start_time;
 // FIXME: synchronize access from multiple threads
 static volatile double playback_time;
 
+static gboolean quit_thread;
 static gboolean signalled = FALSE;
-static gboolean quit_thread = FALSE;
 static gboolean must_redraw_all = FALSE;
 static gboolean must_redraw_playhead = FALSE;
 
-static smf_event_t *redraw_event = NULL;
+static smf_event_t *redraw_event;
 
 static gpointer queue_thread_func(gpointer data);
 static void signal_queue();
@@ -186,6 +186,10 @@ static int initialize_midi(DenemoPrefs *config) {
 
 
 int audio_initialize(DenemoPrefs *config) {
+  queue_thread = NULL;
+  quit_thread = FALSE;
+  redraw_event = NULL;
+
   queue_cond = g_cond_new();
   queue_mutex = g_mutex_new();
 
