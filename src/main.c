@@ -678,9 +678,11 @@ Report bugs to http://www.denemo.org\n"), NULL) ;
           break;
         case 'A':
           g_string_assign(Denemo.prefs.audio_driver, optarg);
+          g_string_ascii_down(Denemo.prefs.audio_driver);
           break;
         case 'M':
           g_string_assign(Denemo.prefs.midi_driver, optarg);
+          g_string_ascii_down(Denemo.prefs.midi_driver);
           break;
       }
     }
