@@ -587,6 +587,12 @@ preferences_change (GtkAction *action, gpointer param)
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
       set_preferences (&cbdata);
+
+      // stop playback and restart audio subsystem
+      // FIXME: only do this when audio settings actually changed
+      midi_stop();
+      audio_shutdown();
+      audio_initialize(cbdata.prefs);
     }
 
   gtk_widget_destroy (dialog);
