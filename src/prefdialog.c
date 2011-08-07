@@ -123,6 +123,43 @@ toggle_autosave (GtkToggleButton * togglebutton, GtkWidget * autosave_timeout)
                             gtk_toggle_button_get_active (togglebutton));
 }
 
+
+/**
+ * Select the soundfont to use for playback
+ */
+void
+choose_sound_font (GtkWidget * widget, GtkWidget *fluidsynth_soundfont)
+{
+  GtkWidget *sf;
+  GtkFileFilter *filter;
+
+  sf = gtk_file_chooser_dialog_new (_("Choose SoundFont File"),
+                                     GTK_WINDOW (Denemo.window),
+                                    GTK_FILE_CHOOSER_ACTION_OPEN,
+                                    GTK_STOCK_CANCEL,
+                                    GTK_RESPONSE_REJECT,
+                                    GTK_STOCK_OPEN,
+                                    GTK_RESPONSE_ACCEPT, NULL);
+
+  //TODO Should we filter????
+  //filter = gtk_file_filter_new ();
+  //gtk_file_filter_set_name (filter, "Soundfont file");
+  //gtk_file_filter_add_pattern (filter, "*.sf");
+  //gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (fs), filter);
+
+  gtk_widget_show_all (sf);
+  if (gtk_dialog_run (GTK_DIALOG (sf)) == GTK_RESPONSE_ACCEPT)
+    {
+      g_string_assign (Denemo.prefs.fluidsynth_soundfont,
+                       gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (sf)));
+        /* this will only work for 1 sound font */
+        gtk_entry_set_text (GTK_ENTRY (fluidsynth_soundfont), Denemo.prefs.fluidsynth_soundfont->str);
+
+    }
+  gtk_widget_destroy (sf);
+}
+
+
 static void
 set_preferences (struct callbackdata *cbdata)
 {
@@ -557,9 +594,7 @@ preferences_change (GtkAction *action, gpointer param)
   GtkWidget *button = gtk_button_new_with_label(_("Choose Soundfont"));
   gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 
-  // FIXME
-//  gtk_signal_connect (GTK_OBJECT (button), "clicked",
-//    GTK_SIGNAL_FUNC (choose_sound_font), fluidsynth_soundfont);
+  gtk_signal_connect (GTK_OBJECT (button), "clicked", GTK_SIGNAL_FUNC (choose_sound_font), fluidsynth_soundfont);
   gtk_widget_show(button);
 
   BOOLEANENTRY("Enable Reverb on soundfont", fluidsynth_reverb)
