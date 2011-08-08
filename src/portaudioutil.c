@@ -24,6 +24,8 @@ GList *get_portaudio_devices() {
     return NULL;
   }
 
+  list = g_list_append(list, g_strdup("default"));
+
   PaDeviceIndex num = Pa_GetDeviceCount();
 
   if (num < 0) {
