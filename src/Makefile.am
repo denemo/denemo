@@ -53,13 +53,13 @@ libaudiobackend_a_SOURCES = audiointerface.c dummybackend.c
 libaudiobackend_a_CFLAGS = -W -Wall -Wno-unused-parameter
 
 if HAVE_JACK
-libaudiobackend_a_SOURCES += jackbackend.c
+libaudiobackend_a_SOURCES += jackbackend.c jackutil.c
 else
 libaudiobackend_a_SOURCES += ringbuffer.c
 endif
 
 if HAVE_PORTAUDIO
-libaudiobackend_a_SOURCES += portaudiobackend.c
+libaudiobackend_a_SOURCES += portaudiobackend.c portaudioutil.c
 endif
 
 if HAVE_PORTMIDI
