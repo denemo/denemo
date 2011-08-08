@@ -21,6 +21,8 @@
 #include "utils.h"
 #include "playback.h"
 #include "fluid.h"
+#include "portaudioutil.h"
+
 
 struct callbackdata
 {
@@ -71,6 +73,7 @@ struct callbackdata
   GtkWidget *jacktransport_start_stopped;
 #endif
 #ifdef _HAVE_PORTAUDIO_
+  GtkWidget *portaudio_device;
   GtkWidget *portaudio_sample_rate;
   GtkWidget *portaudio_period_size;
 #endif
@@ -217,6 +220,7 @@ set_preferences (struct callbackdata *cbdata)
 #endif
 
 #ifdef _HAVE_PORTAUDIO_
+  ASSIGNCOMBO(portaudio_device)
   ASSIGNINT(portaudio_sample_rate)
   ASSIGNINT(portaudio_period_size)
 #endif
@@ -420,10 +424,10 @@ preferences_change (GtkAction *action, gpointer param)
   g_signal_connect (G_OBJECT (field), "clicked",\
   G_CALLBACK (thecallback), (gpointer) data);
 
-#define COMBOBOX(thelable, field, thelist, settext)\
+#define COMBOBOX(thelabel, field, thelist, settext)\
   hbox = gtk_hbox_new (FALSE, 8);\
   gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);\
-  label = gtk_label_new (thelable);\
+  label = gtk_label_new (thelabel);\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
   hbox = gtk_hbox_new (FALSE, 8);\
@@ -568,6 +572,8 @@ preferences_change (GtkAction *action, gpointer param)
 #define VBOX portaudio_settings
   portaudio_settings = gtk_vbox_new(FALSE, 8);
   gtk_box_pack_start(GTK_BOX (main_vbox), portaudio_settings, FALSE, TRUE, 0);
+
+  COMBOBOX("Output device", portaudio_device, get_portaudio_devices(), Denemo.prefs.portaudio_device->str);
 
   INTENTRY_LIMITS(_("Sample rate"), portaudio_sample_rate, 0, 96000);
   INTENTRY_LIMITS(_("Period size"), portaudio_period_size, 0, 2048);

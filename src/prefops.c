@@ -127,6 +127,7 @@ initprefs ()
   ret->audio_driver = g_string_new("jack");
   ret->midi_driver = g_string_new("jack");
 
+  ret->portaudio_device = g_string_new("default");
   ret->portaudio_sample_rate = 44100;
   ret->portaudio_period_size = 256;
 
@@ -461,6 +462,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READBOOLXMLENTRY(jacktransport)
       READBOOLXMLENTRY(jacktransport_start_stopped)
 
+      READXMLENTRY(portaudio_device)
       READINTXMLENTRY(portaudio_sample_rate)
       READINTXMLENTRY(portaudio_period_size)
 
@@ -822,6 +824,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEBOOLXMLENTRY(jacktransport)
   WRITEBOOLXMLENTRY(jacktransport_start_stopped)
 
+  WRITEXMLENTRY(portaudio_device)
   WRITEINTXMLENTRY(portaudio_sample_rate)
   WRITEINTXMLENTRY(portaudio_period_size)
 

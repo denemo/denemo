@@ -431,6 +431,7 @@ typedef struct DenemoPrefs
   gboolean jacktransport_start_stopped; /**< toggle if you don't want transport to play immediately but rely on the transport controls */
 
   // PortAudio options
+  GString *portaudio_device;
   unsigned int portaudio_sample_rate;/**< sample rate in Hz > */
   unsigned int portaudio_period_size;/**< The size of the audio buffers (in frames).> */
 

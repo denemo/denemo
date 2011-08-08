@@ -12,6 +12,7 @@
  */
 
 #include "portaudiobackend.h"
+#include "portaudioutil.h"
 #include "midi.h"
 #include "fluid.h"
 
@@ -93,11 +94,10 @@ static int portaudio_initialize(DenemoPrefs *config) {
     return -1;
   }
 
-  // FIXME: allow device selection in preferences
-  output_parameters.device = Pa_GetDefaultOutputDevice();
+  output_parameters.device = get_portaudio_device_index(config->portaudio_device->str);
 
   if (output_parameters.device == paNoDevice) {
-    g_warning("no default output device\n");
+    g_warning("no output device\n");
     return -1;
   }
 
@@ -106,7 +106,9 @@ static int portaudio_initialize(DenemoPrefs *config) {
   output_parameters.suggestedLatency = Pa_GetDeviceInfo(output_parameters.device)->defaultLowOutputLatency;
   output_parameters.hostApiSpecificStreamInfo = NULL;
 
-  g_print("opening output device %s\n", Pa_GetDeviceInfo(output_parameters.device)->name);
+  PaDeviceInfo const *info = Pa_GetDeviceInfo(output_parameters.device);
+  char const *api_name = Pa_GetHostApiInfo(info->hostApi)->name;
+  g_print("opening output device '%s: %s'\n", api_name, info->name);
 
   err = Pa_OpenStream(&stream, NULL, &output_parameters,
                       config->portaudio_sample_rate, config->portaudio_period_size,
