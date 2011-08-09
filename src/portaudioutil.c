@@ -77,5 +77,5 @@ PaDeviceIndex get_portaudio_device_index(char const *name) {
 
   free_portaudio_devices(list);
 
-  return index;
+  return index - 1;
 }
