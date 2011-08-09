@@ -21,7 +21,10 @@
 #include "utils.h"
 #include "playback.h"
 #include "fluid.h"
+
+#ifdef _HAVE_PORTAUDIO_
 #include "portaudioutil.h"
+#endif
 
 
 struct callbackdata
@@ -573,7 +576,9 @@ preferences_change (GtkAction *action, gpointer param)
   portaudio_settings = gtk_vbox_new(FALSE, 8);
   gtk_box_pack_start(GTK_BOX (main_vbox), portaudio_settings, FALSE, TRUE, 0);
 
-  COMBOBOX("Output device", portaudio_device, get_portaudio_devices(), Denemo.prefs.portaudio_device->str);
+  GList *portaudio_devices = get_portaudio_devices();
+  COMBOBOX("Output device", portaudio_device, portaudio_devices, Denemo.prefs.portaudio_device->str);
+  free_portaudio_devices(portaudio_devices);
 
   INTENTRY_LIMITS(_("Sample rate"), portaudio_sample_rate, 0, 96000);
   INTENTRY_LIMITS(_("Period size"), portaudio_period_size, 0, 2048);
