@@ -50,7 +50,7 @@ GList *get_jack_ports(gboolean midi, gboolean output) {
 }
 
 
-void free_jack_input_ports(GList *list) {
+void free_jack_ports(GList *list) {
   GList *p = list;
   while (p) {
     g_free(p->data);
