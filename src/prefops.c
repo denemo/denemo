@@ -127,6 +127,9 @@ initprefs ()
   ret->audio_driver = g_string_new("jack");
   ret->midi_driver = g_string_new("jack");
 
+  ret->jack_connect_ports_l = g_string_new("system:playback_1");
+  ret->jack_connect_ports_r = g_string_new("system:playback_2");
+
   ret->portaudio_device = g_string_new("default");
   ret->portaudio_sample_rate = 44100;
   ret->portaudio_period_size = 256;

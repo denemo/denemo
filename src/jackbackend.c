@@ -272,6 +272,19 @@ err:
 }
 
 
+static int connect_audio_ports(char const *connect_ports_l, char const *connect_ports_r) {
+  if (jack_connect(client, jack_port_name(audio_out_ports[0]), connect_ports_l)) {
+    return -1;
+  }
+
+  if (jack_connect(client, jack_port_name(audio_out_ports[1]), connect_ports_r)) {
+    return -1;
+  }
+
+  return 0;
+}
+
+
 static int unregister_midi_ports() {
   jack_port_t **p;
 
@@ -345,6 +358,10 @@ static int jack_audio_initialize(DenemoPrefs *config) {
 
   if (register_audio_ports(1, in_portnames, 2, out_portnames)) {
     return -1;
+  }
+
+  if (connect_audio_ports(config->jack_connect_ports_l->str, config->jack_connect_ports_r->str)) {
+    g_print("could not connect audio output ports\n");
   }
 
   g_atomic_int_set(&audio_initialized, TRUE);

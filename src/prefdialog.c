@@ -22,6 +22,9 @@
 #include "playback.h"
 #include "fluid.h"
 
+#ifdef _HAVE_JACK_
+#include "jackutil.h"
+#endif
 #ifdef _HAVE_PORTAUDIO_
 #include "portaudioutil.h"
 #endif
@@ -72,6 +75,8 @@ struct callbackdata
   GtkWidget *midi_driver;
 
 #ifdef _HAVE_JACK_
+  GtkWidget *jack_connect_ports_l;
+  GtkWidget *jack_connect_ports_r;
   GtkWidget *jacktransport;
   GtkWidget *jacktransport_start_stopped;
 #endif
@@ -104,6 +109,9 @@ struct audio_callback_data
 {
   GtkWidget *audio_driver;
   GtkWidget *midi_driver;
+#ifdef _HAVE_JACK_
+  GtkWidget *jack_audio_settings;
+#endif
 #ifdef _HAVE_PORTAUDIO_
   GtkWidget *portaudio_settings;
 #endif
@@ -285,6 +293,9 @@ midi_audio_tab_update(GtkWidget *box, gpointer data)
   gchar const *audio_driver = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(cbdata->audio_driver)->entry));
   gchar const *midi_driver = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(cbdata->midi_driver)->entry));
 
+#ifdef _HAVE_JACK_
+  gtk_widget_set_visible(cbdata->jack_audio_settings, strcmp(audio_driver, "JACK") == 0);
+#endif
 #ifdef _HAVE_PORTAUDIO_
   gtk_widget_set_visible(cbdata->portaudio_settings, strcmp(audio_driver, "PortAudio") == 0);
 #endif
@@ -302,6 +313,9 @@ preferences_change (GtkAction *action, gpointer param)
   GtkWidget *maxhistory;
   GtkWidget *notebook;
   GtkWidget *hbox;
+#ifdef _HAVE_JACK_
+  GtkWidget *jack_audio_settings;
+#endif
 #ifdef _HAVE_PORTAUDIO_
   GtkWidget *portaudio_settings;
 #endif
@@ -564,7 +578,22 @@ preferences_change (GtkAction *action, gpointer param)
   /*
    * JACK settings
    */
-  // TODO
+#ifdef _HAVE_JACK_
+
+#undef VBOX
+#define VBOX jack_audio_settings
+  jack_audio_settings = gtk_vbox_new(FALSE, 8);
+  gtk_box_pack_start(GTK_BOX(main_vbox), jack_audio_settings, FALSE, TRUE, 0);
+
+  GList *jack_audio_output_ports = get_jack_ports(FALSE, FALSE);
+  COMBOBOX("Connect to port (left)",  jack_connect_ports_l, jack_audio_output_ports, Denemo.prefs.jack_connect_ports_l->str);
+  COMBOBOX("Connect to port (right)", jack_connect_ports_r, jack_audio_output_ports, Denemo.prefs.jack_connect_ports_r->str);
+  free_jack_ports(jack_audio_output_ports);
+
+#undef VBOX
+#define VBOX main_vbox
+
+#endif // _HAVE_JACK_
 
   /**
    * PortAudio settings
@@ -586,7 +615,7 @@ preferences_change (GtkAction *action, gpointer param)
 #undef VBOX
 #define VBOX main_vbox
 
-#endif
+#endif // _HAVE_PORTAUDIO_
 
 
   item = g_list_find_custom(midi_backend_list, Denemo.prefs.midi_driver->str, (GCompareFunc)strcmp);
@@ -618,6 +647,9 @@ preferences_change (GtkAction *action, gpointer param)
 
   audio_cbdata.audio_driver = cbdata.audio_driver;
   audio_cbdata.midi_driver = cbdata.midi_driver;
+#ifdef _HAVE_JACK_
+  audio_cbdata.jack_audio_settings = jack_audio_settings;
+#endif
 #ifdef _HAVE_PORTAUDIO_
   audio_cbdata.portaudio_settings = portaudio_settings;
 #endif
