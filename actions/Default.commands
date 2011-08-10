@@ -5225,6 +5225,14 @@ for second and subsequent systems</tooltip>
         <label>Use Normal Beam Endings</label>
         <tooltip>Ends beams in the expected places (print).</tooltip>
       </row>
+      <row>
+        <action>ReduceSystemSpacing</action>
+        <after>NormalBeamEndings</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>Reduce Space Between Systems</label>
+        <tooltip>Reduces the gap between the systems of staffs on a page.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
