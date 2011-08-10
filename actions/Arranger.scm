@@ -13,4 +13,6 @@
 		(disp "we have ok = n\n")
 		(exit))))))
 (d-LimitInterSystemSpace 1.2)
+(d-NormalBeamEndings)
+(display "Arranger Profile\n")
 (d-SetSaved #t)

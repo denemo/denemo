@@ -5209,6 +5209,22 @@ for second and subsequent systems</tooltip>
         <label>Delete Captured Measure.</label>
         <tooltip>Deletes the captured measure image for the current measure of the current staff.</tooltip>
       </row>
+      <row>
+        <action>ScoreBlockProlog</action>
+        <after>ScoreProlog</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>LilyPond Score Block Prolog</label>
+        <tooltip>Inserts LilyPond at the start of every score block (movement).</tooltip>
+      </row>
+      <row>
+        <action>NormalBeamEndings</action>
+        <after>AccompanistsScore</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>Use Normal Beam Endings</label>
+        <tooltip>Ends beams in the expected places (print).</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
