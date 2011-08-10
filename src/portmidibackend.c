@@ -12,6 +12,7 @@
  */
 
 #include "portmidibackend.h"
+#include "portmidiutil.h"
 #include "midi.h"
 
 #include <portmidi.h>
@@ -42,26 +43,27 @@ static void process_midi(PtTimestamp timestamp, void *user_data) {
     return;
   }
 
-  while (Pm_Poll(input_stream) == TRUE) {
-    PmEvent event;
+  if (input_stream) {
+    while (Pm_Poll(input_stream) == TRUE) {
+      PmEvent event;
 
-    int r = Pm_Read(input_stream, &event, 1);
+      int r = Pm_Read(input_stream, &event, 1);
 
-    // we should only ever get one event.
-    // if we get a sysex, just skip it.
-    if (r != 1 || (Pm_MessageStatus(event.message) & 0xf0) == 0xf0) {
-      continue;
+      // we should only ever get one event.
+      // if we get a sysex, just skip it.
+      if (r != 1 || (Pm_MessageStatus(event.message) & 0xf0) == 0xf0) {
+        continue;
+      }
+
+      unsigned char buffer[3] = {
+        Pm_MessageStatus(event.message),
+        Pm_MessageData1(event.message),
+        Pm_MessageData2(event.message)
+      };
+
+      input_midi_event(MIDI_BACKEND, 0, buffer);
     }
-
-    unsigned char buffer[3] = {
-      Pm_MessageStatus(event.message),
-      Pm_MessageData1(event.message),
-      Pm_MessageData2(event.message)
-    };
-
-    input_midi_event(MIDI_BACKEND, 0, buffer);
   }
-
 
   GTimeVal tv;
   g_get_current_time(&tv);
@@ -74,7 +76,7 @@ static void process_midi(PtTimestamp timestamp, void *user_data) {
 
   double until_time = playback_time + TIMER_RESOLUTION / 1000.0;
 
-  if (reset) {
+  if (reset && output_stream) {
     int n;
     for (n = 0; n < 16; ++n) {
       long message = Pm_Message(MIDI_CONTROL_CHANGE | n, 123, 0);
@@ -84,8 +86,10 @@ static void process_midi(PtTimestamp timestamp, void *user_data) {
   }
 
   while (read_event_from_queue(MIDI_BACKEND, event_data, &event_length, &event_time, until_time)) {
-    long message = Pm_Message(event_data[0], event_data[1], event_data[2]);
-    Pm_WriteShort(output_stream, 0, message);
+    if (output_stream) {
+      long message = Pm_Message(event_data[0], event_data[1], event_data[2]);
+      Pm_WriteShort(output_stream, 0, message);
+    }
   }
 
   if (is_playing()) {
@@ -107,45 +111,62 @@ static int portmidi_initialize(DenemoPrefs *config) {
   int id;
   PmDeviceInfo const *info;
 
-  err = Pm_Initialize();
+  err = Pm_InitializeWrapper();
   if (err != pmNoError) {
     g_warning("couldn't initialize PortMidi\n");
     portmidi_destroy();
     return -1;
   }
 
-  id = Pm_GetDefaultInputDeviceID();
-  info = Pm_GetDeviceInfo(id);
-  if (info == NULL) {
-    g_warning("no default input device\n");
-    portmidi_destroy();
-    return -1;
+  if (g_strcmp0(config->portmidi_input_device->str, "none") != 0) {
+    id = get_portmidi_device_id(config->portmidi_input_device->str, FALSE);
+
+    info = Pm_GetDeviceInfo(id);
+    if (info == NULL) {
+      g_warning("no input device\n");
+      portmidi_destroy();
+      return -1;
+    }
+
+    g_print("opening input device '%s: %s'\n", info->interf, info->name);
+
+    err = Pm_OpenInput(&input_stream, id, NULL, INPUT_BUFFER_SIZE, NULL, NULL);
+    if (err != pmNoError) {
+      g_warning("couldn't open input stream\n");
+      portmidi_destroy();
+      return -1;
+    }
+  }
+  else {
+    g_print("input device is disabled\n");
+
+    input_stream = NULL;
   }
 
-  g_print("opening input device %s %s\n", info->interf, info->name);
 
-  err = Pm_OpenInput(&input_stream, id, NULL, INPUT_BUFFER_SIZE, NULL, NULL);
-  if (err != pmNoError) {
-    g_warning("couldn't open input stream\n");
-    portmidi_destroy();
-    return -1;
+  if (g_strcmp0(config->portmidi_output_device->str, "none") != 0) {
+    id = get_portmidi_device_id(config->portmidi_output_device->str, TRUE);
+
+    info = Pm_GetDeviceInfo(id);
+    if (info == NULL) {
+      g_warning("no output device\n");
+      portmidi_destroy();
+      return -1;
+    }
+
+    g_print("opening output device '%s: %s'\n", info->interf, info->name);
+
+    err = Pm_OpenOutput(&output_stream, id, NULL, OUTPUT_BUFFER_SIZE, NULL, NULL, 0);
+    if (err != pmNoError) {
+      g_warning("couldn't open output stream\n");
+      portmidi_destroy();
+      return -1;
+    }
   }
+  else {
+    g_print("output device is disabled\n");
 
-  id = Pm_GetDefaultOutputDeviceID();
-  info = Pm_GetDeviceInfo(id);
-  if (info == NULL) {
-    g_warning("no default output device\n");
-    portmidi_destroy();
-    return -1;
-  }
-
-  g_print("opening output device %s %s\n", info->interf, info->name);
-
-  err = Pm_OpenOutput(&output_stream, id, NULL, OUTPUT_BUFFER_SIZE, NULL, NULL, 0);
-  if (err != pmNoError) {
-    g_warning("couldn't open output stream\n");
-    portmidi_destroy();
-    return -1;
+    output_stream = NULL;
   }
 
   g_atomic_int_set(&initialized, TRUE);
@@ -168,7 +189,7 @@ static int portmidi_destroy() {
     Pm_Close(output_stream);
   }
 
-  Pm_Terminate();
+  Pm_TerminateWrapper();
 
   return 0;
 }

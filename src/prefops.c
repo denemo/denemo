@@ -134,6 +134,8 @@ initprefs ()
   ret->portaudio_sample_rate = 44100;
   ret->portaudio_period_size = 256;
 
+  ret->portmidi_input_device = g_string_new("default");
+  ret->portmidi_output_device = g_string_new("default");
 
   gchar *soundfontpath = g_build_filename (get_data_dir (), "soundfonts", "A320U.sf2", NULL);
   ret->fluidsynth_soundfont = g_string_new(soundfontpath);
@@ -468,6 +470,9 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READXMLENTRY(portaudio_device)
       READINTXMLENTRY(portaudio_sample_rate)
       READINTXMLENTRY(portaudio_period_size)
+
+      READXMLENTRY(portmidi_input_device)
+      READXMLENTRY(portmidi_output_device)
 
       READXMLENTRY(fluidsynth_soundfont)
       READBOOLXMLENTRY(fluidsynth_reverb)
@@ -830,6 +835,9 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEXMLENTRY(portaudio_device)
   WRITEINTXMLENTRY(portaudio_sample_rate)
   WRITEINTXMLENTRY(portaudio_period_size)
+
+  WRITEXMLENTRY(portmidi_input_device)
+  WRITEXMLENTRY(portmidi_output_device)
 
   WRITEXMLENTRY(fluidsynth_soundfont)
   WRITEBOOLXMLENTRY(fluidsynth_reverb)

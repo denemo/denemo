@@ -63,7 +63,7 @@ libaudiobackend_a_SOURCES += portaudiobackend.c portaudioutil.c
 endif
 
 if HAVE_PORTMIDI
-libaudiobackend_a_SOURCES += portmidibackend.c
+libaudiobackend_a_SOURCES += portmidibackend.c portmidiutil.c
 endif
 
 if HAVE_ALSA

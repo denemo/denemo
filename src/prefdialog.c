@@ -28,6 +28,9 @@
 #ifdef _HAVE_PORTAUDIO_
 #include "portaudioutil.h"
 #endif
+#ifdef _HAVE_PORTMIDI_
+#include "portmidiutil.h"
+#endif
 
 
 struct callbackdata
@@ -85,6 +88,10 @@ struct callbackdata
   GtkWidget *portaudio_sample_rate;
   GtkWidget *portaudio_period_size;
 #endif
+#ifdef _HAVE_PORTMIDI_
+  GtkWidget *portmidi_input_device;
+  GtkWidget *portmidi_output_device;
+#endif
 #ifdef _HAVE_FLUIDSYNTH_
   GtkWidget *fluidsynth_soundfont;
   GtkWidget *fluidsynth_reverb;
@@ -114,6 +121,9 @@ struct audio_callback_data
 #endif
 #ifdef _HAVE_PORTAUDIO_
   GtkWidget *portaudio_settings;
+#endif
+#ifdef _HAVE_PORTMIDI_
+  GtkWidget *portmidi_settings;
 #endif
 };
 
@@ -236,6 +246,11 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNINT(portaudio_period_size)
 #endif
 
+#ifdef _HAVE_PORTMIDI_
+  ASSIGNCOMBO(portmidi_input_device)
+  ASSIGNCOMBO(portmidi_output_device)
+#endif
+
 #ifdef _HAVE_FLUIDSYNTH_
   ASSIGNTEXT(fluidsynth_soundfont)
   ASSIGNBOOLEAN(fluidsynth_reverb)
@@ -299,6 +314,9 @@ midi_audio_tab_update(GtkWidget *box, gpointer data)
 #ifdef _HAVE_PORTAUDIO_
   gtk_widget_set_visible(cbdata->portaudio_settings, strcmp(audio_driver, "PortAudio") == 0);
 #endif
+#ifdef _HAVE_PORTMIDI_
+  gtk_widget_set_visible(cbdata->portmidi_settings, strcmp(midi_driver, "PortMidi") == 0);
+#endif
 }
 
 void
@@ -318,6 +336,9 @@ preferences_change (GtkAction *action, gpointer param)
 #endif
 #ifdef _HAVE_PORTAUDIO_
   GtkWidget *portaudio_settings;
+#endif
+#ifdef _HAVE_PORTMIDI_
+  GtkWidget *portmidi_settings;
 #endif
 
   static struct callbackdata cbdata;
@@ -346,7 +367,7 @@ preferences_change (GtkAction *action, gpointer param)
 #endif
 #ifdef _HAVE_ALSA_
     midi_backend_list = g_list_append(midi_backend_list, (gpointer)"alsa");
-    midi_driver_option_list = g_list_append(midi_driver_option_list, (gpointer)"ALSA Sequencer");
+    midi_driver_option_list = g_list_append(midi_driver_option_list, (gpointer)"ALSA");
 #endif
 #ifdef _HAVE_PORTAUDIO_
     midi_backend_list = g_list_append(midi_backend_list, (gpointer)"portmidi");
@@ -595,7 +616,7 @@ preferences_change (GtkAction *action, gpointer param)
 
 #endif // _HAVE_JACK_
 
-  /**
+  /*
    * PortAudio settings
    */
 #ifdef _HAVE_PORTAUDIO_
@@ -603,11 +624,11 @@ preferences_change (GtkAction *action, gpointer param)
 #undef VBOX
 #define VBOX portaudio_settings
   portaudio_settings = gtk_vbox_new(FALSE, 8);
-  gtk_box_pack_start(GTK_BOX (main_vbox), portaudio_settings, FALSE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(main_vbox), portaudio_settings, FALSE, TRUE, 0);
 
-  GList *portaudio_devices = get_portaudio_devices();
-  COMBOBOX("Output device", portaudio_device, portaudio_devices, Denemo.prefs.portaudio_device->str);
-  free_portaudio_devices(portaudio_devices);
+  GList *devices = get_portaudio_devices();
+  COMBOBOX("Output device", portaudio_device, devices, Denemo.prefs.portaudio_device->str);
+  free_portaudio_devices(devices);
 
   INTENTRY_LIMITS(_("Sample rate"), portaudio_sample_rate, 0, 96000);
   INTENTRY_LIMITS(_("Period size"), portaudio_period_size, 0, 2048);
@@ -624,6 +645,30 @@ preferences_change (GtkAction *action, gpointer param)
 
   COMBOBOX("MIDI backend", midi_driver, midi_driver_option_list, driver);
   g_signal_connect(G_OBJECT(GTK_COMBO(midi_driver)->entry), "changed", G_CALLBACK(GTK_SIGNAL_FUNC(midi_audio_tab_update)), &audio_cbdata);
+
+  /*
+   * PortMidi settings
+   */
+#ifdef _HAVE_PORTMIDI_
+
+#undef VBOX
+#define VBOX portmidi_settings
+  portmidi_settings = gtk_vbox_new(FALSE, 8);
+  gtk_box_pack_start(GTK_BOX(main_vbox), portmidi_settings, FALSE, TRUE, 0);
+
+  GList *input_devices = get_portmidi_devices(FALSE);
+  GList *output_devices = get_portmidi_devices(TRUE);
+
+  COMBOBOX("Input device", portmidi_input_device, input_devices, Denemo.prefs.portmidi_input_device->str);
+  COMBOBOX("Output device", portmidi_output_device, output_devices, Denemo.prefs.portmidi_output_device->str);
+
+  free_portmidi_devices(input_devices);
+  free_portmidi_devices(output_devices);
+
+#undef VBOX
+#define VBOX main_vbox
+
+#endif
 
 
   /*
@@ -652,6 +697,9 @@ preferences_change (GtkAction *action, gpointer param)
 #endif
 #ifdef _HAVE_PORTAUDIO_
   audio_cbdata.portaudio_settings = portaudio_settings;
+#endif
+#ifdef _HAVE_PORTMIDI_
+  audio_cbdata.portmidi_settings = portmidi_settings;
 #endif
 
   midi_audio_tab_update(NULL, (gpointer*) &audio_cbdata);

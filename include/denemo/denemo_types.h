@@ -437,6 +437,10 @@ typedef struct DenemoPrefs
   unsigned int portaudio_sample_rate;/**< sample rate in Hz > */
   unsigned int portaudio_period_size;/**< The size of the audio buffers (in frames).> */
 
+  // PortMidi options
+  GString *portmidi_input_device;
+  GString *portmidi_output_device;
+
 //  GString *fluidsynth_audio_driver; /**< Audio driver used by fluidsynth */
 //  GString *fluidsynth_midi_driver; /**< MIDI driver used by fluidsynth */
 
