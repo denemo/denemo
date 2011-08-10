@@ -473,7 +473,7 @@ preferences_change (GtkAction *action, gpointer param)
   g_signal_connect (G_OBJECT (field), "clicked",\
   G_CALLBACK (thecallback), (gpointer) data);
 
-#define COMBOBOX(thelabel, field, thelist, settext)\
+#define COMBOBOX(thelabel, field, thelist, settext, editable)\
   hbox = gtk_hbox_new (FALSE, 8);\
   gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);\
   label = gtk_label_new (thelabel);\
@@ -484,10 +484,8 @@ preferences_change (GtkAction *action, gpointer param)
   GtkWidget *field = gtk_combo_new ();\
   gtk_combo_set_popdown_strings (GTK_COMBO (field), thelist);\
   gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
-  gtk_entry_set_text\
-    (GTK_ENTRY (GTK_COMBO (field)->entry),  settext);\
-  gtk_entry_set_editable\
-    (GTK_ENTRY (GTK_COMBO (field)->entry), FALSE);\
+  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (field)->entry),  settext);\
+  gtk_entry_set_editable(GTK_ENTRY (GTK_COMBO (field)->entry), editable);\
   gtk_widget_show (field);\
   cbdata.field = field;
 
@@ -604,7 +602,7 @@ preferences_change (GtkAction *action, gpointer param)
   gint index = g_list_position(audio_backend_list, item);
   gchar *driver = g_list_nth_data(audio_driver_option_list, index);
 
-  COMBOBOX("Audio backend", audio_driver, audio_driver_option_list, driver);
+  COMBOBOX("Audio backend", audio_driver, audio_driver_option_list, driver, FALSE);
   g_signal_connect(G_OBJECT(GTK_COMBO(audio_driver)->entry), "changed", G_CALLBACK(GTK_SIGNAL_FUNC(midi_audio_tab_update)), &audio_cbdata);
 
   /*
@@ -618,8 +616,8 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_box_pack_start(GTK_BOX(main_vbox), jack_audio_settings, FALSE, TRUE, 0);
 
   GList *jack_audio_output_ports = get_jack_ports(FALSE, FALSE);
-  COMBOBOX("Connect to port (left)",  jack_connect_ports_l, jack_audio_output_ports, Denemo.prefs.jack_connect_ports_l->str);
-  COMBOBOX("Connect to port (right)", jack_connect_ports_r, jack_audio_output_ports, Denemo.prefs.jack_connect_ports_r->str);
+  COMBOBOX("Connect to port (left)",  jack_connect_ports_l, jack_audio_output_ports, Denemo.prefs.jack_connect_ports_l->str, TRUE);
+  COMBOBOX("Connect to port (right)", jack_connect_ports_r, jack_audio_output_ports, Denemo.prefs.jack_connect_ports_r->str, TRUE);
   free_jack_ports(jack_audio_output_ports);
 
 #undef VBOX
@@ -638,7 +636,7 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_box_pack_start(GTK_BOX(main_vbox), portaudio_settings, FALSE, TRUE, 0);
 
   GList *devices = get_portaudio_devices();
-  COMBOBOX("Output device", portaudio_device, devices, Denemo.prefs.portaudio_device->str);
+  COMBOBOX("Output device", portaudio_device, devices, Denemo.prefs.portaudio_device->str, FALSE);
   free_portaudio_devices(devices);
 
   INTENTRY_LIMITS(_("Sample rate"), portaudio_sample_rate, 0, 96000);
@@ -654,7 +652,7 @@ preferences_change (GtkAction *action, gpointer param)
   index = g_list_position(midi_backend_list, item);
   driver = g_list_nth_data(midi_driver_option_list, index);
 
-  COMBOBOX("MIDI backend", midi_driver, midi_driver_option_list, driver);
+  COMBOBOX("MIDI backend", midi_driver, midi_driver_option_list, driver, FALSE);
   g_signal_connect(G_OBJECT(GTK_COMBO(midi_driver)->entry), "changed", G_CALLBACK(GTK_SIGNAL_FUNC(midi_audio_tab_update)), &audio_cbdata);
 
   /*
@@ -669,8 +667,8 @@ preferences_change (GtkAction *action, gpointer param)
 
   GList *jack_midi_input_ports = get_jack_ports(TRUE, FALSE);
   GList *jack_midi_output_ports = get_jack_ports(TRUE, TRUE);
-  COMBOBOX("Connect input to port", jack_connect_midi_in_port, jack_midi_output_ports, Denemo.prefs.jack_connect_midi_in_port->str);
-  COMBOBOX("Connect output to port", jack_connect_midi_out_port, jack_midi_input_ports, Denemo.prefs.jack_connect_midi_out_port->str);
+  COMBOBOX("Connect input to port", jack_connect_midi_in_port, jack_midi_output_ports, Denemo.prefs.jack_connect_midi_in_port->str, TRUE);
+  COMBOBOX("Connect output to port", jack_connect_midi_out_port, jack_midi_input_ports, Denemo.prefs.jack_connect_midi_out_port->str, TRUE);
   free_jack_ports(jack_midi_output_ports);
   free_jack_ports(jack_midi_input_ports);
 
@@ -692,8 +690,8 @@ preferences_change (GtkAction *action, gpointer param)
   GList *input_devices = get_portmidi_devices(FALSE);
   GList *output_devices = get_portmidi_devices(TRUE);
 
-  COMBOBOX("Input device", portmidi_input_device, input_devices, Denemo.prefs.portmidi_input_device->str);
-  COMBOBOX("Output device", portmidi_output_device, output_devices, Denemo.prefs.portmidi_output_device->str);
+  COMBOBOX("Input device", portmidi_input_device, input_devices, Denemo.prefs.portmidi_input_device->str, FALSE);
+  COMBOBOX("Output device", portmidi_output_device, output_devices, Denemo.prefs.portmidi_output_device->str, FALSE);
 
   free_portmidi_devices(input_devices);
   free_portmidi_devices(output_devices);
