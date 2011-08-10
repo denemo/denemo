@@ -68,6 +68,10 @@ PaDeviceIndex get_portaudio_device_index(char const *name) {
 
   GList *list = get_portaudio_devices();
 
+  if (!list) {
+    return paNoDevice;
+  }
+
   GList *item = g_list_find_custom(list, name, (GCompareFunc)g_strcmp0);
   PaDeviceIndex index = g_list_position(list, item);
 
