@@ -204,7 +204,7 @@ static int initialize_client(char const *name) {
 
 
 static int destroy_client() {
-  if (audio_initialized || midi_initialized) {
+  if (g_atomic_int_get(&audio_initialized) || g_atomic_int_get(&midi_initialized)) {
     // don't destroy client if someone's still using it
     return 0;
   }
@@ -373,7 +373,7 @@ static int jack_audio_initialize(DenemoPrefs *config) {
 static int jack_audio_destroy() {
   g_print("destroying JACK audio backend\n");
 
-  if (audio_initialized) {
+  if (g_atomic_int_get(&audio_initialized)) {
     g_atomic_int_set(&audio_initialized, FALSE);
 
     unregister_audio_ports();
@@ -446,7 +446,7 @@ static int jack_midi_initialize(DenemoPrefs *config) {
 static int jack_midi_destroy() {
   g_print("destroying JACK MIDI backend\n");
 
-  if (midi_initialized) {
+  if (g_atomic_int_get(&midi_initialized)) {
     g_atomic_int_set(&midi_initialized, FALSE);
 
     unregister_midi_ports();
