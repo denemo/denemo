@@ -338,6 +338,24 @@ err:
 }
 
 
+static int connect_midi_ports(char const *connect_input_port, char const *connect_output_port) {
+  int ret = 0;
+
+  if (strlen(connect_input_port)) {
+    if (jack_connect(client, connect_input_port, jack_port_name(midi_in_ports[0]))) {
+      ret = -1;
+    }
+  }
+
+  if (strlen(connect_output_port)) {
+    if (jack_connect(client, jack_port_name(midi_out_ports[0]), connect_output_port)) {
+      ret = -1;
+    }
+  }
+
+  return ret;
+}
+
 
 static int jack_audio_initialize(DenemoPrefs *config) {
   g_print("initializing JACK audio backend\n");
@@ -435,6 +453,10 @@ static int jack_midi_initialize(DenemoPrefs *config) {
 
   if (register_midi_ports(1, in_portnames, 1, out_portnames)) {
     return -1;
+  }
+
+  if (connect_midi_ports(config->jack_connect_midi_in_port->str, config->jack_connect_midi_out_port->str)) {
+    g_print("could not connect MIDI port(s)\n");
   }
 
   g_atomic_int_set(&midi_initialized, TRUE);

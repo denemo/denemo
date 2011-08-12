@@ -429,6 +429,8 @@ typedef struct DenemoPrefs
   // JACK options
   GString *jack_connect_ports_l;
   GString *jack_connect_ports_r;
+  GString *jack_connect_midi_in_port;
+  GString *jack_connect_midi_out_port;
   gboolean jacktransport; /**< toggle on and off jack transport */
   gboolean jacktransport_start_stopped; /**< toggle if you don't want transport to play immediately but rely on the transport controls */
 
