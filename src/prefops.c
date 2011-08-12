@@ -129,6 +129,8 @@ initprefs ()
 
   ret->jack_connect_ports_l = g_string_new("system:playback_1");
   ret->jack_connect_ports_r = g_string_new("system:playback_2");
+  ret->jack_connect_midi_in_port = g_string_new("");
+  ret->jack_connect_midi_out_port = g_string_new("");
 
   ret->portaudio_device = g_string_new("default");
   ret->portaudio_sample_rate = 44100;
@@ -466,6 +468,8 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 
       READBOOLXMLENTRY(jacktransport)
       READBOOLXMLENTRY(jacktransport_start_stopped)
+      READXMLENTRY(jack_connect_ports_l)
+      READXMLENTRY(jack_connect_ports_r)
 
       READXMLENTRY(portaudio_device)
       READINTXMLENTRY(portaudio_sample_rate)
@@ -831,6 +835,8 @@ writeXMLPrefs (DenemoPrefs * prefs)
 
   WRITEBOOLXMLENTRY(jacktransport)
   WRITEBOOLXMLENTRY(jacktransport_start_stopped)
+  WRITEXMLENTRY(jack_connect_ports_l)
+  WRITEXMLENTRY(jack_connect_ports_r)
 
   WRITEXMLENTRY(portaudio_device)
   WRITEINTXMLENTRY(portaudio_sample_rate)
