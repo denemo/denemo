@@ -21,14 +21,14 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-
-#ifndef G_OS_WIN32
-#include <gdk/gdkx.h>
-#else
-#include "windows.h"
-#endif
 #include <gtk/gtk.h>
 #include <glib.h>
+#ifdef G_OS_WIN32
+#include "windows.h"
+#else
+#include <gdk/gdkx.h>
+#endif
+
 
 
 
@@ -42,7 +42,8 @@ typedef struct {
 } select_area_filter_data;
 
 
-#ifndef G_OS_WIN32
+#ifdef G_OS_WIN32
+#else
 static void
 empty_rectangle (XButtonEvent    *event,
                           GdkRectangle *rect,
