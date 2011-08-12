@@ -576,6 +576,10 @@ main (int argc, char *argv[])
       g_thread_init(NULL);
   }
   gdk_threads_init();
+
+  /* acquire gdk lock */
+  gdk_threads_enter();
+
   gtk_init (&argc, &argv);
 
 
@@ -593,7 +597,10 @@ main (int argc, char *argv[])
 
   //g_print("Calling scm boot guile with %d and %p\n", argc, argv);
   scm_boot_guile (argc, argv, inner_main, NULL);
-  
+
+  /* release gdk lock */
+  gdk_threads_leave();
+
   return 0;
 }
 
