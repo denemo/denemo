@@ -499,9 +499,9 @@ main (int argc, char *argv[])
   g_print("LILYPOND_DATA_PATH will be %s if not already set", lilypond_data_path);
   gchar *fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "fetta.ttf", NULL);
   g_setenv ("LILYPOND_VERBOSE", "1", FALSE);
-  add_font_directory(fontpath);
-  fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "denemo.ttf", NULL);
-  add_font_directory(fontpath);
+  add_font_file(fontpath);
+  fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "Denemo.ttf", NULL);
+  add_font_file(fontpath);
 
   append_to_path ("GUILE_LOAD_PATH", g_build_filename(prefix, "share", "denemo", NULL));
 
@@ -559,9 +559,9 @@ main (int argc, char *argv[])
   g_print("LILYPOND_DATA_PATH will be %s if not already set", lilypond_data_path);
   gchar *fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "fetta.ttf", NULL);
   g_setenv ("LILYPOND_VERBOSE", "1", FALSE);
-  add_font_directory(fontpath);
-  fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "denemo.ttf", NULL);
-  add_font_directory(fontpath);
+  add_font_file(fontpath);
+  fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "Denemo.ttf", NULL);
+  add_font_file(fontpath);
 
 
  add_font_directory (DATAROOTDIR "/fonts");

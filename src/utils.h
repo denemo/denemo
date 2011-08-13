@@ -276,6 +276,7 @@ void console_output(gchar *text);
 gint get_override(GList *g);
 
 void add_font_directory(gchar *fontpath);
+void add_font_file(gchar *fontpath);
 
 gboolean run_file_association(gchar *filenam);
 gchar *make_temp_dir(void);
