@@ -116,6 +116,8 @@ struct callbackdata
 
 struct audio_callback_data
 {
+  GtkWidget *dialog;
+
   GtkWidget *audio_driver;
   GtkWidget *midi_driver;
 #ifdef _HAVE_JACK_
@@ -222,8 +224,6 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNTEXT(audioplayer)
   ASSIGNTEXT(denemopath)
 
-//  ASSIGNCOMBO(audio_driver)
-//  ASSIGNCOMBO(midi_driver)
 
   gchar const *text = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(cbdata->audio_driver)->entry));
   GList *item = g_list_find_custom(audio_driver_option_list, text, (GCompareFunc)strcmp);
@@ -325,6 +325,9 @@ midi_audio_tab_update(GtkWidget *box, gpointer data)
 #ifdef _HAVE_PORTMIDI_
   gtk_widget_set_visible(cbdata->portmidi_settings, strcmp(midi_driver, "PortMidi") == 0);
 #endif
+
+  // resize the dialog to whatever size is necessary to show all widgets
+  gtk_window_resize(GTK_WINDOW(cbdata->dialog), 1, 1);
 }
 
 void
@@ -396,8 +399,7 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 
   notebook = gtk_notebook_new ();
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), notebook, TRUE,
-                      TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), notebook, TRUE, TRUE, 0);
 #define VBOX main_vbox
 
 #define NEWPAGE(thelabel) \
@@ -720,6 +722,8 @@ preferences_change (GtkAction *action, gpointer param)
 
 
   gtk_widget_show_all (dialog);
+
+  audio_cbdata.dialog = dialog;
 
   audio_cbdata.audio_driver = cbdata.audio_driver;
   audio_cbdata.midi_driver = cbdata.midi_driver;
