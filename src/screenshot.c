@@ -190,7 +190,10 @@ screenshot_select_area (int *px, int *py, int *pwidth, int *pheight){
   static select_area_filter_data  data;
   GdkGCValues              values;
   GdkColor                 color;
-
+#ifdef G_OS_WIN32
+g_warning("Not available on windows, sorry");
+return FALSE;
+#endif
   root = gdk_get_default_root_window ();
   cursor = gdk_cursor_new (GDK_CROSSHAIR);
 
