@@ -28,31 +28,31 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "F"), "F"
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "G"), "G", "G", "Append/Edit  G", go_to_G_key);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "OctaveUp"), "OctaveUp", "Octave Up", "Octave Up", octave_up_key);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "OctaveDown"), "OctaveDown", "Octave Down", "Octave Down", octave_down_key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "WholeNote"), "WholeNote", "WholeNote", "Insert 𝅝", insert_chord_0key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "HalfNote"), "HalfNote", "HalfNote", "Insert 𝅗𝅥", insert_chord_1key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "QuarterNote"), "QuarterNote", "QuarterNote", "Insert 𝅘𝅥", insert_chord_2key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "EighthNote"), "EighthNote", "EighthNote", "Insert 𝅘𝅥𝅮", insert_chord_3key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "SixteenthNote"), "SixteenthNote", "SixteenthNote", "Insert 𝅘𝅥𝅯", insert_chord_4key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "ThirtysecondNote"), "ThirtysecondNote", "ThirtysecondNote", "Insert 𝅘𝅥𝅰", insert_chord_5key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "SixtyfourthNote"), "SixtyfourthNote", "SixtyfourthNote", "Insert 𝅘𝅥𝅱", insert_chord_6key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "OneHundredTwentyEighthNote"), "OneHundredTwentyEighthNote", "OneHundredTwentyEighthNote", "Insert 𝅘𝅥𝅲", insert_chord_7key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "TwoHundredFiftySixthNote"), "TwoHundredFiftySixthNote", "TwoHundredFiftySixthNote", "Insert 𝅥", insert_chord_8key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertWholeRest"), "InsertWholeRest", "𝄻", "Insert 𝄻 rest", insert_rest_0key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertHalfRest"), "InsertHalfRest", "𝄼", "Insert 𝄼 rest", insert_rest_1key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertQuarterRest"), "InsertQuarterRest", "𝄽", "Insert 𝄽 rest", insert_rest_2key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertEighthRest"), "InsertEighthRest", "𝄾", "Insert 𝄾 rest", insert_rest_3key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertSixteenthRest"), "InsertSixteenthRest", "𝄿", "Insert 𝄿 rest", insert_rest_4key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertThirtysecondRest"), "InsertThirtysecondRest", "𝅀", "Insert 𝅀 rest", insert_rest_5key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertSixtyfourthRest"), "InsertSixtyfourthRest", "𝅁", "Insert 𝅁 rest", insert_rest_6key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankWholeNote"), "InsertBlankWholeNote", "InsertBlankWholeNote", "Insert a non-printing 𝄻 rest", insert_blankchord_0key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankHalfNote"), "InsertBlankHalfNote", "InsertBlankHalfNote", "Insert a non-printing 𝄼 rest", insert_blankchord_1key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankQuarterNote"), "InsertBlankQuarterNote", "InsertBlankQuarterNote", "Insert a non-printing 𝄽 rest", insert_blankchord_2key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankEighthNote"), "InsertBlankEighthNote", "InsertBlankEighthNote", "Insert a non-printing 𝄾 rest", insert_blankchord_3key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankSixteenthNote"), "InsertBlankSixteenthNote", "InsertBlankSixteenthNote", "Insert a non-printing 𝄿 rest", insert_blankchord_4key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankThirtysecondNote"), "InsertBlankThirtysecondNote", "InsertBlankThirtysecondNote", "Insert a non-printing 𝅀 rest", insert_blankchord_5key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankSixtyfourthNote"), "InsertBlankSixtyfourthNote", "InsertBlankSixtyfourthNote", "Insert a non-printing 𝅁 rest", insert_blankchord_6key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankOneHundredTwentyEighthNote"), "InsertBlankOneHundredTwentyEighthNote", "InsertBlankOneHundredTwentyEighthNote", "Insert a non-printing 𝅂 rest", insert_blankchord_7key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankTwoHundredFiftySixthNote"), "InsertBlankTwoHundredFiftySixthNote", "InsertBlankTwoHundredFiftySixthNote", "Insert a non-printing 𝅃 rest", insert_blankchord_8key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "WholeNote"), "WholeNote", "WholeNote", "Insert ", insert_chord_0key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "HalfNote"), "HalfNote", "HalfNote", "Insert ", insert_chord_1key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "QuarterNote"), "QuarterNote", "QuarterNote", "Insert ", insert_chord_2key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "EighthNote"), "EighthNote", "EighthNote", "Insert ", insert_chord_3key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "SixteenthNote"), "SixteenthNote", "SixteenthNote", "Insert ", insert_chord_4key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "ThirtysecondNote"), "ThirtysecondNote", "ThirtysecondNote", "Insert ", insert_chord_5key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "SixtyfourthNote"), "SixtyfourthNote", "SixtyfourthNote", "Insert ", insert_chord_6key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "OneHundredTwentyEighthNote"), "OneHundredTwentyEighthNote", "OneHundredTwentyEighthNote", "Insert ", insert_chord_7key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "TwoHundredFiftySixthNote"), "TwoHundredFiftySixthNote", "TwoHundredFiftySixthNote", "Insert ", insert_chord_8key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertWholeRest"), "InsertWholeRest", "", "Insert  rest", insert_rest_0key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertHalfRest"), "InsertHalfRest", "", "Insert  rest", insert_rest_1key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertQuarterRest"), "InsertQuarterRest", "", "Insert  rest", insert_rest_2key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertEighthRest"), "InsertEighthRest", "", "Insert  rest", insert_rest_3key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertSixteenthRest"), "InsertSixteenthRest", "", "Insert  rest", insert_rest_4key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertThirtysecondRest"), "InsertThirtysecondRest", "", "Insert  rest", insert_rest_5key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertSixtyfourthRest"), "InsertSixtyfourthRest", "", "Insert  rest", insert_rest_6key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankWholeNote"), "InsertBlankWholeNote", "InsertBlankWholeNote", "Insert a non-printing  rest", insert_blankchord_0key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankHalfNote"), "InsertBlankHalfNote", "InsertBlankHalfNote", "Insert a non-printing  rest", insert_blankchord_1key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankQuarterNote"), "InsertBlankQuarterNote", "InsertBlankQuarterNote", "Insert a non-printing  rest", insert_blankchord_2key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankEighthNote"), "InsertBlankEighthNote", "InsertBlankEighthNote", "Insert a non-printing  rest", insert_blankchord_3key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankSixteenthNote"), "InsertBlankSixteenthNote", "InsertBlankSixteenthNote", "Insert a non-printing  rest", insert_blankchord_4key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankThirtysecondNote"), "InsertBlankThirtysecondNote", "InsertBlankThirtysecondNote", "Insert a non-printing  rest", insert_blankchord_5key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankSixtyfourthNote"), "InsertBlankSixtyfourthNote", "InsertBlankSixtyfourthNote", "Insert a non-printing  rest", insert_blankchord_6key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankOneHundredTwentyEighthNote"), "InsertBlankOneHundredTwentyEighthNote", "InsertBlankOneHundredTwentyEighthNote", "Insert a non-printing  rest", insert_blankchord_7key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankTwoHundredFiftySixthNote"), "InsertBlankTwoHundredFiftySixthNote", "InsertBlankTwoHundredFiftySixthNote", "Insert a non-printing  rest", insert_blankchord_8key);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleRestMode"), "ToggleRestMode", "Toggle Rest Mode", "No Tooltip yet", rest_toggle_key);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleBlankMode"), "ToggleBlankMode", "Toggle Blank Mode", "No Tooltip yet", toggle_blank);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertDuplet"), "InsertDuplet", "Insert Duplet", "No Tooltip yet", insert_duplet);
@@ -371,9 +371,9 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangeTo
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "MoveToG"), "MoveToG", N_("Move to G"),N_("Moves cursor to nearest note G"),  MoveToG);
 /* putting 0 things ..*/
 
-#define NOTE0 "𝅝"
+#define NOTE0 ""
 
-#define REST0 "𝄻"
+#define REST0 ""
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "0"), "0", NOTE0, N_("In insert mode, changes prevailing rhythm to "NOTE0"\nIn edit mode changes the current note to "NOTE0"\n or appends a "NOTE0" if no current note\nIn classic mode inserts a "NOTE0" at the cursor"), Dur0);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change0"), "Change0", NOTE0, "Change the current note to a "NOTE0, ChangeDur0);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert0"), "Insert0", NOTE0, "Insert a "NOTE0, InsertDur0);
@@ -386,9 +386,9 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "Set0"), 
 #undef REST0
 /* putting 1 things ..*/
 
-#define NOTE1 "𝅗𝅥"
+#define NOTE1 ""
 
-#define REST1 "𝄼"
+#define REST1 ""
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "1"), "1", NOTE1, N_("In insert mode, changes prevailing rhythm to "NOTE1"\nIn edit mode changes the current note to "NOTE1"\n or appends a "NOTE1" if no current note\nIn classic mode inserts a "NOTE1" at the cursor"), Dur1);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change1"), "Change1", NOTE1, "Change the current note to a "NOTE1, ChangeDur1);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert1"), "Insert1", NOTE1, "Insert a "NOTE1, InsertDur1);
@@ -401,9 +401,9 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "Set1"), 
 #undef REST1
 /* putting 2 things ..*/
 
-#define NOTE2 "𝅘𝅥"
+#define NOTE2 ""
 
-#define REST2 "𝄽"
+#define REST2 ""
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "2"), "2", NOTE2, N_("In insert mode, changes prevailing rhythm to "NOTE2"\nIn edit mode changes the current note to "NOTE2"\n or appends a "NOTE2" if no current note\nIn classic mode inserts a "NOTE2" at the cursor"), Dur2);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change2"), "Change2", NOTE2, "Change the current note to a "NOTE2, ChangeDur2);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert2"), "Insert2", NOTE2, "Insert a "NOTE2, InsertDur2);
@@ -416,9 +416,9 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "Set2"), 
 #undef REST2
 /* putting 3 things ..*/
 
-#define NOTE3 "𝅘𝅥𝅮"
+#define NOTE3 ""
 
-#define REST3 "𝄾"
+#define REST3 ""
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "3"), "3", NOTE3, N_("In insert mode, changes prevailing rhythm to "NOTE3"\nIn edit mode changes the current note to "NOTE3"\n or appends a "NOTE3" if no current note\nIn classic mode inserts a "NOTE3" at the cursor"), Dur3);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change3"), "Change3", NOTE3, "Change the current note to a "NOTE3, ChangeDur3);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert3"), "Insert3", NOTE3, "Insert a "NOTE3, InsertDur3);
@@ -431,9 +431,9 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "Set3"), 
 #undef REST3
 /* putting 4 things ..*/
 
-#define NOTE4 "𝅘𝅥𝅯"
+#define NOTE4 ""
 
-#define REST4 "𝄿"
+#define REST4 ""
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "4"), "4", NOTE4, N_("In insert mode, changes prevailing rhythm to "NOTE4"\nIn edit mode changes the current note to "NOTE4"\n or appends a "NOTE4" if no current note\nIn classic mode inserts a "NOTE4" at the cursor"), Dur4);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change4"), "Change4", NOTE4, "Change the current note to a "NOTE4, ChangeDur4);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert4"), "Insert4", NOTE4, "Insert a "NOTE4, InsertDur4);
@@ -446,9 +446,9 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "Set4"), 
 #undef REST4
 /* putting 5 things ..*/
 
-#define NOTE5 "𝅘𝅥𝅰"
+#define NOTE5 ""
 
-#define REST5 "𝅀"
+#define REST5 ""
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "5"), "5", NOTE5, N_("In insert mode, changes prevailing rhythm to "NOTE5"\nIn edit mode changes the current note to "NOTE5"\n or appends a "NOTE5" if no current note\nIn classic mode inserts a "NOTE5" at the cursor"), Dur5);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change5"), "Change5", NOTE5, "Change the current note to a "NOTE5, ChangeDur5);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert5"), "Insert5", NOTE5, "Insert a "NOTE5, InsertDur5);
@@ -461,9 +461,9 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "Set5"), 
 #undef REST5
 /* putting 6 things ..*/
 
-#define NOTE6 "𝅘𝅥𝅱"
+#define NOTE6 ""
 
-#define REST6 "𝅁"
+#define REST6 ""
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "6"), "6", NOTE6, N_("In insert mode, changes prevailing rhythm to "NOTE6"\nIn edit mode changes the current note to "NOTE6"\n or appends a "NOTE6" if no current note\nIn classic mode inserts a "NOTE6" at the cursor"), Dur6);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change6"), "Change6", NOTE6, "Change the current note to a "NOTE6, ChangeDur6);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert6"), "Insert6", NOTE6, "Insert a "NOTE6, InsertDur6);
@@ -476,9 +476,9 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "Set6"), 
 #undef REST6
 /* putting 7 things ..*/
 
-#define NOTE7 "𝅘𝅥𝅲"
+#define NOTE7 ""
 
-#define REST7 "𝅂"
+#define REST7 ""
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "7"), "7", NOTE7, N_("In insert mode, changes prevailing rhythm to "NOTE7"\nIn edit mode changes the current note to "NOTE7"\n or appends a "NOTE7" if no current note\nIn classic mode inserts a "NOTE7" at the cursor"), Dur7);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change7"), "Change7", NOTE7, "Change the current note to a "NOTE7, ChangeDur7);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert7"), "Insert7", NOTE7, "Insert a "NOTE7, InsertDur7);
@@ -491,9 +491,9 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "Set7"), 
 #undef REST7
 /* putting 8 things ..*/
 
-#define NOTE8 "𝅥"
+#define NOTE8 ""
 
-#define REST8 "𝅃"
+#define REST8 ""
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "8"), "8", NOTE8, N_("In insert mode, changes prevailing rhythm to "NOTE8"\nIn edit mode changes the current note to "NOTE8"\n or appends a "NOTE8" if no current note\nIn classic mode inserts a "NOTE8" at the cursor"), Dur8);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change8"), "Change8", NOTE8, "Change the current note to a "NOTE8, ChangeDur8);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert8"), "Insert8", NOTE8, "Insert a "NOTE8, InsertDur8);

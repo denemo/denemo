@@ -32,14 +32,16 @@
 void add_font_directory(gchar *fontpath) {
 #ifdef G_OS_WIN32
   AddFontResource(fontpath);
-#endif
+#else
   FcConfigAppFontAddDir(NULL, fontpath);
+#endif
 }
 void add_font_file(gchar *fontname) {
 #ifdef G_OS_WIN32
   AddFontResource(fontname);
-#endif
+#else
   FcConfigAppFontAddFile(NULL, fontname);
+#endif
 }
 
 #ifdef G_OS_WIN32
@@ -1047,25 +1049,26 @@ kill_process (GPid pid)
 #endif /* not G_OS_WIN32 */
   g_spawn_close_pid (pid);
 }
-#define NOTE0 "\xF0\x9D\x85\x9D"
-#define NOTE1 "\xF0\x9D\x85\x9E"
-#define NOTE2 "\xF0\x9D\x85\x9F"
-#define NOTE3 "\xF0\x9D\x85\xA0"
-#define NOTE4 "\xF0\x9D\x85\xA1"
-#define NOTE5 "\xF0\x9D\x85\xA2"
-#define NOTE6 "\xF0\x9D\x85\xA3"
-#define NOTE7 "\xF0\x9D\x85\xA4"
-#define NOTE8 "\xF0\x9D\x85\xA5"
+#define NOTE0 "\x02"
+#define NOTE1 "\x03"
+#define NOTE2 "\x04"
+#define NOTE3 "\x05"
+#define NOTE4 "\x06"
+#define NOTE5 "\x07"
+#define NOTE6 "\x08"
+//skip over tab and line feed
+#define NOTE7 "\x0B"
+#define NOTE8 "\x0C"
 
-#define REST0 "\xF0\x9D\x84\xBB"
-#define REST1 "\xF0\x9D\x84\xBC"
-#define REST2 "\xF0\x9D\x84\xBD"
-#define REST3 "\xF0\x9D\x84\xBE"
-#define REST4 "\xF0\x9D\x84\xBF"
-#define REST5 "\xF0\x9D\x85\x80"
-#define REST6 "\xF0\x9D\x85\x81"
-#define REST7 "\xF0\x9D\x85\x82"
-#define REST8 "\xF0\x9D\x85\x83"
+#define REST0 "\x0F"
+#define REST1 "\x10"
+#define REST2 "\x11"
+#define REST3 "\x12"
+#define REST4 "\x13"
+#define REST5 "\x14"
+#define REST6 "\x15"
+#define REST7 "\x16"
+#define REST8 "\x17"
 
 
 /* markup the passed string to be in the denemo music font

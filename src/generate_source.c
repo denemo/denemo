@@ -11,36 +11,30 @@
 
 
 #include <stdio.h>
+#define NOTE0 "\x02"
+#define NOTE1 "\x03"
+#define NOTE2 "\x04"
+#define NOTE3 "\x05"
+#define NOTE4 "\x06"
+#define NOTE5 "\x07"
+#define NOTE6 "\x08"
+//skip over tab and line feed
+#define NOTE7 "\x0B"
+#define NOTE8 "\x0C"
 
-#define NOTE0 "\xF0\x9D\x85\x9D"
-#define NOTE1 "\xF0\x9D\x85\x9E"
-#define NOTE2 "\xF0\x9D\x85\x9F"
-#define NOTE3 "\xF0\x9D\x85\xA0"
-#define NOTE4 "\xF0\x9D\x85\xA1"
-#define NOTE5 "\xF0\x9D\x85\xA2"
-#define NOTE6 "\xF0\x9D\x85\xA3"
-#define NOTE7 "\xF0\x9D\x85\xA4"
-#define NOTE8 "\xF0\x9D\x85\xA5"
+#define REST0 "\x0F"
+#define REST1 "\x10"
+#define REST2 "\x11"
+#define REST3 "\x12"
+#define REST4 "\x13"
+#define REST5 "\x14"
+#define REST6 "\x15"
+#define REST7 "\x16"
+#define REST8 "\x17"
 
-#define REST0 "\xF0\x9D\x84\xBB"
-#define REST1 "\xF0\x9D\x84\xBC"
-#define REST2 "\xF0\x9D\x84\xBD"
-#define REST3 "\xF0\x9D\x84\xBE"
-#define REST4 "\xF0\x9D\x84\xBF"
-#define REST5 "\xF0\x9D\x85\x80"
-#define REST6 "\xF0\x9D\x85\x81"
-#define REST7 "\xF0\x9D\x85\x82"
-#define REST8 "\xF0\x9D\x85\x83"
+char *NOTES[] = {NOTE0, NOTE1, NOTE2, NOTE3, NOTE4, NOTE5, NOTE6, NOTE7, NOTE8};
 
-char *NOTES[] = {"\xF0\x9D\x85\x9D","\xF0\x9D\x85\x9E",
-"\xF0\x9D\x85\x9F","\xF0\x9D\x85\xA0",
-"\xF0\x9D\x85\xA1","\xF0\x9D\x85\xA2"
-,"\xF0\x9D\x85\xA3","\xF0\x9D\x85\xA4",
-"\xF0\x9D\x85\xA5"};
-
-char *RESTS[] = {"\xF0\x9D\x84\xBB", "\xF0\x9D\x84\xBC","\xF0\x9D\x84\xBD","\xF0\x9D\x84\xBE"
-,"\xF0\x9D\x84\xBF", "\xF0\x9D\x85\x80", "\xF0\x9D\x85\x81"
-, "\xF0\x9D\x85\x82", "\xF0\x9D\x85\x83"};
+char *RESTS[] = {REST0, REST1, REST2, REST3, REST4, REST5, REST6, REST7, REST8};
 
 
 #define N_
@@ -144,15 +138,15 @@ struct name_and_function denemo_commands[] = {
 #ifndef NEW_MUSIC_FONT
 
 
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert \xF0\x9D\x85\x9D",	N_("WholeNote"), "insert_chord_0key",  NULL},
-  {CMD_CATEGORY_NOTE_ENTRY,NULL , "Insert \xF0\x9D\x85\x9E",	N_("HalfNote"), "insert_chord_1key",   NULL},
-  {CMD_CATEGORY_NOTE_ENTRY,NULL, "Insert \xF0\x9D\x85\x9F",	N_("QuarterNote"), "insert_chord_2key",  NULL},
-  {CMD_CATEGORY_NOTE_ENTRY,NULL, "Insert \xF0\x9D\x85\xA0",	N_("EighthNote"), "insert_chord_3key",   NULL},
-  {CMD_CATEGORY_NOTE_ENTRY,NULL, "Insert \xF0\x9D\x85\xA1",	N_("SixteenthNote"), "insert_chord_4key", NULL},
-  {CMD_CATEGORY_NOTE_ENTRY,NULL, "Insert \xF0\x9D\x85\xA2",	N_("ThirtysecondNote"), "insert_chord_5key",  NULL},
-  {CMD_CATEGORY_NOTE_ENTRY,NULL , "Insert \xF0\x9D\x85\xA3",	N_("SixtyfourthNote"), "insert_chord_6key",  NULL},
-  {CMD_CATEGORY_NOTE_ENTRY,NULL , "Insert \xF0\x9D\x85\xA4",	N_("OneHundredTwentyEighthNote"), "insert_chord_7key", NULL},
-  {CMD_CATEGORY_NOTE_ENTRY,NULL , "Insert \xF0\x9D\x85\xA5",	N_("TwoHundredFiftySixthNote"), "insert_chord_8key",  NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert "NOTE0,	N_("WholeNote"), "insert_chord_0key",  NULL},
+  {CMD_CATEGORY_NOTE_ENTRY,NULL , "Insert "NOTE1,	N_("HalfNote"), "insert_chord_1key",   NULL},
+  {CMD_CATEGORY_NOTE_ENTRY,NULL, "Insert "NOTE2,	N_("QuarterNote"), "insert_chord_2key",  NULL},
+  {CMD_CATEGORY_NOTE_ENTRY,NULL, "Insert "NOTE3,	N_("EighthNote"), "insert_chord_3key",   NULL},
+  {CMD_CATEGORY_NOTE_ENTRY,NULL, "Insert "NOTE4,	N_("SixteenthNote"), "insert_chord_4key", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY,NULL, "Insert "NOTE5,	N_("ThirtysecondNote"), "insert_chord_5key",  NULL},
+  {CMD_CATEGORY_NOTE_ENTRY,NULL , "Insert "NOTE6,	N_("SixtyfourthNote"), "insert_chord_6key",  NULL},
+  {CMD_CATEGORY_NOTE_ENTRY,NULL , "Insert "NOTE7,	N_("OneHundredTwentyEighthNote"), "insert_chord_7key", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY,NULL , "Insert "NOTE8,	N_("TwoHundredFiftySixthNote"), "insert_chord_8key",  NULL},
   
   {CMD_CATEGORY_REST_ENTRY, NULL, "Insert "REST0" rest",  N_("InsertWholeRest"), "insert_rest_0key", REST0, NULL},
   {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert "REST1" rest",  N_("InsertHalfRest"), "insert_rest_1key",REST1, NULL},

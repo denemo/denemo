@@ -29,31 +29,31 @@
 {"G", NULL, N_("G"), NULL,N_("Append/Edit  G"),G_CALLBACK (go_to_G_key_cb)},
 {"OctaveUp", NULL, N_("Octave Up"), NULL,N_("Octave Up"),G_CALLBACK (octave_up_key_cb)},
 {"OctaveDown", NULL, N_("Octave Down"), NULL,N_("Octave Down"),G_CALLBACK (octave_down_key_cb)},
-{"WholeNote", NULL, N_("WholeNote"), NULL,N_("Insert 𝅝"),G_CALLBACK (insert_chord_0key_cb)},
-{"HalfNote", NULL, N_("HalfNote"), NULL,N_("Insert 𝅗𝅥"),G_CALLBACK (insert_chord_1key_cb)},
-{"QuarterNote", NULL, N_("QuarterNote"), NULL,N_("Insert 𝅘𝅥"),G_CALLBACK (insert_chord_2key_cb)},
-{"EighthNote", NULL, N_("EighthNote"), NULL,N_("Insert 𝅘𝅥𝅮"),G_CALLBACK (insert_chord_3key_cb)},
-{"SixteenthNote", NULL, N_("SixteenthNote"), NULL,N_("Insert 𝅘𝅥𝅯"),G_CALLBACK (insert_chord_4key_cb)},
-{"ThirtysecondNote", NULL, N_("ThirtysecondNote"), NULL,N_("Insert 𝅘𝅥𝅰"),G_CALLBACK (insert_chord_5key_cb)},
-{"SixtyfourthNote", NULL, N_("SixtyfourthNote"), NULL,N_("Insert 𝅘𝅥𝅱"),G_CALLBACK (insert_chord_6key_cb)},
-{"OneHundredTwentyEighthNote", NULL, N_("OneHundredTwentyEighthNote"), NULL,N_("Insert 𝅘𝅥𝅲"),G_CALLBACK (insert_chord_7key_cb)},
-{"TwoHundredFiftySixthNote", NULL, N_("TwoHundredFiftySixthNote"), NULL,N_("Insert 𝅥"),G_CALLBACK (insert_chord_8key_cb)},
-{"InsertWholeRest", NULL, N_("𝄻"), NULL,N_("Insert 𝄻 rest"),G_CALLBACK (insert_rest_0key_cb)},
-{"InsertHalfRest", NULL, N_("𝄼"), NULL,N_("Insert 𝄼 rest"),G_CALLBACK (insert_rest_1key_cb)},
-{"InsertQuarterRest", NULL, N_("𝄽"), NULL,N_("Insert 𝄽 rest"),G_CALLBACK (insert_rest_2key_cb)},
-{"InsertEighthRest", NULL, N_("𝄾"), NULL,N_("Insert 𝄾 rest"),G_CALLBACK (insert_rest_3key_cb)},
-{"InsertSixteenthRest", NULL, N_("𝄿"), NULL,N_("Insert 𝄿 rest"),G_CALLBACK (insert_rest_4key_cb)},
-{"InsertThirtysecondRest", NULL, N_("𝅀"), NULL,N_("Insert 𝅀 rest"),G_CALLBACK (insert_rest_5key_cb)},
-{"InsertSixtyfourthRest", NULL, N_("𝅁"), NULL,N_("Insert 𝅁 rest"),G_CALLBACK (insert_rest_6key_cb)},
-{"InsertBlankWholeNote", NULL, N_("InsertBlankWholeNote"), NULL,N_("Insert a non-printing 𝄻 rest"),G_CALLBACK (insert_blankchord_0key_cb)},
-{"InsertBlankHalfNote", NULL, N_("InsertBlankHalfNote"), NULL,N_("Insert a non-printing 𝄼 rest"),G_CALLBACK (insert_blankchord_1key_cb)},
-{"InsertBlankQuarterNote", NULL, N_("InsertBlankQuarterNote"), NULL,N_("Insert a non-printing 𝄽 rest"),G_CALLBACK (insert_blankchord_2key_cb)},
-{"InsertBlankEighthNote", NULL, N_("InsertBlankEighthNote"), NULL,N_("Insert a non-printing 𝄾 rest"),G_CALLBACK (insert_blankchord_3key_cb)},
-{"InsertBlankSixteenthNote", NULL, N_("InsertBlankSixteenthNote"), NULL,N_("Insert a non-printing 𝄿 rest"),G_CALLBACK (insert_blankchord_4key_cb)},
-{"InsertBlankThirtysecondNote", NULL, N_("InsertBlankThirtysecondNote"), NULL,N_("Insert a non-printing 𝅀 rest"),G_CALLBACK (insert_blankchord_5key_cb)},
-{"InsertBlankSixtyfourthNote", NULL, N_("InsertBlankSixtyfourthNote"), NULL,N_("Insert a non-printing 𝅁 rest"),G_CALLBACK (insert_blankchord_6key_cb)},
-{"InsertBlankOneHundredTwentyEighthNote", NULL, N_("InsertBlankOneHundredTwentyEighthNote"), NULL,N_("Insert a non-printing 𝅂 rest"),G_CALLBACK (insert_blankchord_7key_cb)},
-{"InsertBlankTwoHundredFiftySixthNote", NULL, N_("InsertBlankTwoHundredFiftySixthNote"), NULL,N_("Insert a non-printing 𝅃 rest"),G_CALLBACK (insert_blankchord_8key_cb)},
+{"WholeNote", NULL, N_("WholeNote"), NULL,N_("Insert "),G_CALLBACK (insert_chord_0key_cb)},
+{"HalfNote", NULL, N_("HalfNote"), NULL,N_("Insert "),G_CALLBACK (insert_chord_1key_cb)},
+{"QuarterNote", NULL, N_("QuarterNote"), NULL,N_("Insert "),G_CALLBACK (insert_chord_2key_cb)},
+{"EighthNote", NULL, N_("EighthNote"), NULL,N_("Insert "),G_CALLBACK (insert_chord_3key_cb)},
+{"SixteenthNote", NULL, N_("SixteenthNote"), NULL,N_("Insert "),G_CALLBACK (insert_chord_4key_cb)},
+{"ThirtysecondNote", NULL, N_("ThirtysecondNote"), NULL,N_("Insert "),G_CALLBACK (insert_chord_5key_cb)},
+{"SixtyfourthNote", NULL, N_("SixtyfourthNote"), NULL,N_("Insert "),G_CALLBACK (insert_chord_6key_cb)},
+{"OneHundredTwentyEighthNote", NULL, N_("OneHundredTwentyEighthNote"), NULL,N_("Insert "),G_CALLBACK (insert_chord_7key_cb)},
+{"TwoHundredFiftySixthNote", NULL, N_("TwoHundredFiftySixthNote"), NULL,N_("Insert "),G_CALLBACK (insert_chord_8key_cb)},
+{"InsertWholeRest", NULL, N_(""), NULL,N_("Insert  rest"),G_CALLBACK (insert_rest_0key_cb)},
+{"InsertHalfRest", NULL, N_(""), NULL,N_("Insert  rest"),G_CALLBACK (insert_rest_1key_cb)},
+{"InsertQuarterRest", NULL, N_(""), NULL,N_("Insert  rest"),G_CALLBACK (insert_rest_2key_cb)},
+{"InsertEighthRest", NULL, N_(""), NULL,N_("Insert  rest"),G_CALLBACK (insert_rest_3key_cb)},
+{"InsertSixteenthRest", NULL, N_(""), NULL,N_("Insert  rest"),G_CALLBACK (insert_rest_4key_cb)},
+{"InsertThirtysecondRest", NULL, N_(""), NULL,N_("Insert  rest"),G_CALLBACK (insert_rest_5key_cb)},
+{"InsertSixtyfourthRest", NULL, N_(""), NULL,N_("Insert  rest"),G_CALLBACK (insert_rest_6key_cb)},
+{"InsertBlankWholeNote", NULL, N_("InsertBlankWholeNote"), NULL,N_("Insert a non-printing  rest"),G_CALLBACK (insert_blankchord_0key_cb)},
+{"InsertBlankHalfNote", NULL, N_("InsertBlankHalfNote"), NULL,N_("Insert a non-printing  rest"),G_CALLBACK (insert_blankchord_1key_cb)},
+{"InsertBlankQuarterNote", NULL, N_("InsertBlankQuarterNote"), NULL,N_("Insert a non-printing  rest"),G_CALLBACK (insert_blankchord_2key_cb)},
+{"InsertBlankEighthNote", NULL, N_("InsertBlankEighthNote"), NULL,N_("Insert a non-printing  rest"),G_CALLBACK (insert_blankchord_3key_cb)},
+{"InsertBlankSixteenthNote", NULL, N_("InsertBlankSixteenthNote"), NULL,N_("Insert a non-printing  rest"),G_CALLBACK (insert_blankchord_4key_cb)},
+{"InsertBlankThirtysecondNote", NULL, N_("InsertBlankThirtysecondNote"), NULL,N_("Insert a non-printing  rest"),G_CALLBACK (insert_blankchord_5key_cb)},
+{"InsertBlankSixtyfourthNote", NULL, N_("InsertBlankSixtyfourthNote"), NULL,N_("Insert a non-printing  rest"),G_CALLBACK (insert_blankchord_6key_cb)},
+{"InsertBlankOneHundredTwentyEighthNote", NULL, N_("InsertBlankOneHundredTwentyEighthNote"), NULL,N_("Insert a non-printing  rest"),G_CALLBACK (insert_blankchord_7key_cb)},
+{"InsertBlankTwoHundredFiftySixthNote", NULL, N_("InsertBlankTwoHundredFiftySixthNote"), NULL,N_("Insert a non-printing  rest"),G_CALLBACK (insert_blankchord_8key_cb)},
 {"ToggleRestMode", NULL, N_("Toggle Rest Mode"), NULL,N_("No Tooltip yet"),G_CALLBACK (rest_toggle_key_cb)},
 {"ToggleBlankMode", NULL, N_("Toggle Blank Mode"), NULL,N_("No Tooltip yet"),G_CALLBACK (toggle_blank_cb)},
 {"InsertDuplet", NULL, N_("Insert Duplet"), NULL,N_("No Tooltip yet"),G_CALLBACK (insert_duplet_cb)},
@@ -420,9 +420,9 @@
 {"Tuplets", NULL, N_("Tuplets"), NULL,N_("Entering triplets and other tuplets")},
 {"Delete", NULL, N_("Delete"), NULL,N_("Deleting notes, measures staffs keysigs etc")},
 
-#define NOTE0 "𝅝"
+#define NOTE0 ""
 
-#define REST0 "𝄻"
+#define REST0 ""
 {"0", "NULL", NOTE0, NULL, "Edits the note at the cursor to have the duration 1/2^0, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur0)},
 {"Change0", "NULL", NOTE0, NULL, "Change current note to a "NOTE0,
@@ -436,9 +436,9 @@ G_CALLBACK (InsertRest0)},
 {"Set0", NULL, "Set Duration to "NOTE0"", NULL, "Sets prevailing rhythm to "NOTE0,
 G_CALLBACK (SetDur0)},
 
-#define NOTE1 "𝅗𝅥"
+#define NOTE1 ""
 
-#define REST1 "𝄼"
+#define REST1 ""
 {"1", "NULL", NOTE1, NULL, "Edits the note at the cursor to have the duration 1/2^1, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur1)},
 {"Change1", "NULL", NOTE1, NULL, "Change current note to a "NOTE1,
@@ -452,9 +452,9 @@ G_CALLBACK (InsertRest1)},
 {"Set1", NULL, "Set Duration to "NOTE1"", NULL, "Sets prevailing rhythm to "NOTE1,
 G_CALLBACK (SetDur1)},
 
-#define NOTE2 "𝅘𝅥"
+#define NOTE2 ""
 
-#define REST2 "𝄽"
+#define REST2 ""
 {"2", "NULL", NOTE2, NULL, "Edits the note at the cursor to have the duration 1/2^2, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur2)},
 {"Change2", "NULL", NOTE2, NULL, "Change current note to a "NOTE2,
@@ -468,9 +468,9 @@ G_CALLBACK (InsertRest2)},
 {"Set2", NULL, "Set Duration to "NOTE2"", NULL, "Sets prevailing rhythm to "NOTE2,
 G_CALLBACK (SetDur2)},
 
-#define NOTE3 "𝅘𝅥𝅮"
+#define NOTE3 ""
 
-#define REST3 "𝄾"
+#define REST3 ""
 {"3", "NULL", NOTE3, NULL, "Edits the note at the cursor to have the duration 1/2^3, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur3)},
 {"Change3", "NULL", NOTE3, NULL, "Change current note to a "NOTE3,
@@ -484,9 +484,9 @@ G_CALLBACK (InsertRest3)},
 {"Set3", NULL, "Set Duration to "NOTE3"", NULL, "Sets prevailing rhythm to "NOTE3,
 G_CALLBACK (SetDur3)},
 
-#define NOTE4 "𝅘𝅥𝅯"
+#define NOTE4 ""
 
-#define REST4 "𝄿"
+#define REST4 ""
 {"4", "NULL", NOTE4, NULL, "Edits the note at the cursor to have the duration 1/2^4, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur4)},
 {"Change4", "NULL", NOTE4, NULL, "Change current note to a "NOTE4,
@@ -500,9 +500,9 @@ G_CALLBACK (InsertRest4)},
 {"Set4", NULL, "Set Duration to "NOTE4"", NULL, "Sets prevailing rhythm to "NOTE4,
 G_CALLBACK (SetDur4)},
 
-#define NOTE5 "𝅘𝅥𝅰"
+#define NOTE5 ""
 
-#define REST5 "𝅀"
+#define REST5 ""
 {"5", "NULL", NOTE5, NULL, "Edits the note at the cursor to have the duration 1/2^5, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur5)},
 {"Change5", "NULL", NOTE5, NULL, "Change current note to a "NOTE5,
@@ -516,9 +516,9 @@ G_CALLBACK (InsertRest5)},
 {"Set5", NULL, "Set Duration to "NOTE5"", NULL, "Sets prevailing rhythm to "NOTE5,
 G_CALLBACK (SetDur5)},
 
-#define NOTE6 "𝅘𝅥𝅱"
+#define NOTE6 ""
 
-#define REST6 "𝅁"
+#define REST6 ""
 {"6", "NULL", NOTE6, NULL, "Edits the note at the cursor to have the duration 1/2^6, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur6)},
 {"Change6", "NULL", NOTE6, NULL, "Change current note to a "NOTE6,
@@ -532,9 +532,9 @@ G_CALLBACK (InsertRest6)},
 {"Set6", NULL, "Set Duration to "NOTE6"", NULL, "Sets prevailing rhythm to "NOTE6,
 G_CALLBACK (SetDur6)},
 
-#define NOTE7 "𝅘𝅥𝅲"
+#define NOTE7 ""
 
-#define REST7 "𝅂"
+#define REST7 ""
 {"7", "NULL", NOTE7, NULL, "Edits the note at the cursor to have the duration 1/2^7, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur7)},
 {"Change7", "NULL", NOTE7, NULL, "Change current note to a "NOTE7,
@@ -548,9 +548,9 @@ G_CALLBACK (InsertRest7)},
 {"Set7", NULL, "Set Duration to "NOTE7"", NULL, "Sets prevailing rhythm to "NOTE7,
 G_CALLBACK (SetDur7)},
 
-#define NOTE8 "𝅥"
+#define NOTE8 ""
 
-#define REST8 "𝅃"
+#define REST8 ""
 {"8", "NULL", NOTE8, NULL, "Edits the note at the cursor to have the duration 1/2^8, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur8)},
 {"Change8", "NULL", NOTE8, NULL, "Change current note to a "NOTE8,
