@@ -5156,12 +5156,12 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
   //else ?????
   set_tuning();
 
-#ifdef G_OS_WIN32
+//#ifdef G_OS_WIN32
   //Note: there is no need to set the FreeSerif font to get music symbols because font substitution is done - maybe needed on windows
   GtkSettings *settings = gtk_settings_get_default( );
-  gtk_settings_set_string_property(settings, "gtk-font-name" , "Denemo 12", "denemo");
+  gtk_settings_set_string_property(settings, "gtk-font-name" , "Denemo 9", "denemo");
   // Note: GTK complains that the font does not have a +ve size unless you mention, one as here.
-#endif
+//#endif
 
 /* Now launch into the main gtk event loop and we're all set */
  gtk_main();
