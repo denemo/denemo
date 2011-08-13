@@ -106,7 +106,7 @@ initprefs ()
 #ifdef _HAVE_FLUIDSYNTH_ 
   ret->midi_audio_output = Fluidsynth;	  
 #endif
-
+  ret->fontspec = g_string_new ("Denemo 9");
 #ifdef G_OS_WIN32
   ret->browser = g_string_new ("");//use file association
   ret->midiplayer = g_string_new ("");
@@ -420,7 +420,9 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	}
 
 	READXMLENTRY(midiplayer)      
-	READXMLENTRY(audioplayer)        
+	READXMLENTRY(audioplayer)
+	READXMLENTRY(fontspec)
+	       
 	READXMLENTRY(browser)
         else if (0 ==
 	       xmlStrcmp (cur->name, (const xmlChar *) "autosavetimeout"))
@@ -777,6 +779,8 @@ writeXMLPrefs (DenemoPrefs * prefs)
 
   WRITEXMLENTRY(midiplayer)
   WRITEXMLENTRY(audioplayer)
+  WRITEXMLENTRY(fontspec)
+
   WRITEXMLENTRY(pdfviewer)
   WRITEXMLENTRY(imageviewer)
   WRITEXMLENTRY(profile)
