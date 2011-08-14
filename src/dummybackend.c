@@ -97,6 +97,8 @@ static void stop_process_thread() {
   g_atomic_int_set(&quit_thread, TRUE);
   g_cond_signal(process_cond);
   g_thread_join(process_thread);
+
+  process_thread = NULL;
 }
 
 
