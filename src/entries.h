@@ -29,31 +29,31 @@
 {"G", NULL, N_("G"), NULL,N_("Append/Edit  G"),G_CALLBACK (go_to_G_key_cb)},
 {"OctaveUp", NULL, N_("Octave Up"), NULL,N_("Octave Up"),G_CALLBACK (octave_up_key_cb)},
 {"OctaveDown", NULL, N_("Octave Down"), NULL,N_("Octave Down"),G_CALLBACK (octave_down_key_cb)},
-{"WholeNote", NULL, N_("WholeNote"), NULL,N_("Insert "),G_CALLBACK (insert_chord_0key_cb)},
-{"HalfNote", NULL, N_("HalfNote"), NULL,N_("Insert "),G_CALLBACK (insert_chord_1key_cb)},
-{"QuarterNote", NULL, N_("QuarterNote"), NULL,N_("Insert "),G_CALLBACK (insert_chord_2key_cb)},
-{"EighthNote", NULL, N_("EighthNote"), NULL,N_("Insert "),G_CALLBACK (insert_chord_3key_cb)},
-{"SixteenthNote", NULL, N_("SixteenthNote"), NULL,N_("Insert "),G_CALLBACK (insert_chord_4key_cb)},
-{"ThirtysecondNote", NULL, N_("ThirtysecondNote"), NULL,N_("Insert "),G_CALLBACK (insert_chord_5key_cb)},
-{"SixtyfourthNote", NULL, N_("SixtyfourthNote"), NULL,N_("Insert "),G_CALLBACK (insert_chord_6key_cb)},
-{"OneHundredTwentyEighthNote", NULL, N_("OneHundredTwentyEighthNote"), NULL,N_("Insert "),G_CALLBACK (insert_chord_7key_cb)},
-{"TwoHundredFiftySixthNote", NULL, N_("TwoHundredFiftySixthNote"), NULL,N_("Insert "),G_CALLBACK (insert_chord_8key_cb)},
-{"InsertWholeRest", NULL, N_(""), NULL,N_("Insert  rest"),G_CALLBACK (insert_rest_0key_cb)},
-{"InsertHalfRest", NULL, N_(""), NULL,N_("Insert  rest"),G_CALLBACK (insert_rest_1key_cb)},
-{"InsertQuarterRest", NULL, N_(""), NULL,N_("Insert  rest"),G_CALLBACK (insert_rest_2key_cb)},
-{"InsertEighthRest", NULL, N_(""), NULL,N_("Insert  rest"),G_CALLBACK (insert_rest_3key_cb)},
-{"InsertSixteenthRest", NULL, N_(""), NULL,N_("Insert  rest"),G_CALLBACK (insert_rest_4key_cb)},
-{"InsertThirtysecondRest", NULL, N_(""), NULL,N_("Insert  rest"),G_CALLBACK (insert_rest_5key_cb)},
-{"InsertSixtyfourthRest", NULL, N_(""), NULL,N_("Insert  rest"),G_CALLBACK (insert_rest_6key_cb)},
-{"InsertBlankWholeNote", NULL, N_("InsertBlankWholeNote"), NULL,N_("Insert a non-printing  rest"),G_CALLBACK (insert_blankchord_0key_cb)},
-{"InsertBlankHalfNote", NULL, N_("InsertBlankHalfNote"), NULL,N_("Insert a non-printing  rest"),G_CALLBACK (insert_blankchord_1key_cb)},
-{"InsertBlankQuarterNote", NULL, N_("InsertBlankQuarterNote"), NULL,N_("Insert a non-printing  rest"),G_CALLBACK (insert_blankchord_2key_cb)},
-{"InsertBlankEighthNote", NULL, N_("InsertBlankEighthNote"), NULL,N_("Insert a non-printing  rest"),G_CALLBACK (insert_blankchord_3key_cb)},
-{"InsertBlankSixteenthNote", NULL, N_("InsertBlankSixteenthNote"), NULL,N_("Insert a non-printing  rest"),G_CALLBACK (insert_blankchord_4key_cb)},
-{"InsertBlankThirtysecondNote", NULL, N_("InsertBlankThirtysecondNote"), NULL,N_("Insert a non-printing  rest"),G_CALLBACK (insert_blankchord_5key_cb)},
-{"InsertBlankSixtyfourthNote", NULL, N_("InsertBlankSixtyfourthNote"), NULL,N_("Insert a non-printing  rest"),G_CALLBACK (insert_blankchord_6key_cb)},
-{"InsertBlankOneHundredTwentyEighthNote", NULL, N_("InsertBlankOneHundredTwentyEighthNote"), NULL,N_("Insert a non-printing  rest"),G_CALLBACK (insert_blankchord_7key_cb)},
-{"InsertBlankTwoHundredFiftySixthNote", NULL, N_("InsertBlankTwoHundredFiftySixthNote"), NULL,N_("Insert a non-printing  rest"),G_CALLBACK (insert_blankchord_8key_cb)},
+{"WholeNote", NULL, N_("WholeNote"), NULL,N_("Insert \xF0\x9D\x85\x9D"),G_CALLBACK (insert_chord_0key_cb)},
+{"HalfNote", NULL, N_("HalfNote"), NULL,N_("Insert \xF0\x9D\x85\x9E"),G_CALLBACK (insert_chord_1key_cb)},
+{"QuarterNote", NULL, N_("QuarterNote"), NULL,N_("Insert \xF0\x9D\x85\x9F"),G_CALLBACK (insert_chord_2key_cb)},
+{"EighthNote", NULL, N_("EighthNote"), NULL,N_("Insert \xF0\x9D\x85\xA0"),G_CALLBACK (insert_chord_3key_cb)},
+{"SixteenthNote", NULL, N_("SixteenthNote"), NULL,N_("Insert \xF0\x9D\x85\xA1"),G_CALLBACK (insert_chord_4key_cb)},
+{"ThirtysecondNote", NULL, N_("ThirtysecondNote"), NULL,N_("Insert \xF0\x9D\x85\xA2"),G_CALLBACK (insert_chord_5key_cb)},
+{"SixtyfourthNote", NULL, N_("SixtyfourthNote"), NULL,N_("Insert \xF0\x9D\x85\xA3"),G_CALLBACK (insert_chord_6key_cb)},
+{"OneHundredTwentyEighthNote", NULL, N_("OneHundredTwentyEighthNote"), NULL,N_("Insert \xF0\x9D\x85\xA4"),G_CALLBACK (insert_chord_7key_cb)},
+{"TwoHundredFiftySixthNote", NULL, N_("TwoHundredFiftySixthNote"), NULL,N_("Insert \xF0\x9D\x85\xA5"),G_CALLBACK (insert_chord_8key_cb)},
+{"InsertWholeRest", NULL, N_("<span font_desc=\"Denemo\">\xF0\x9D\x84\xBB</span>"), NULL,N_("Insert \xF0\x9D\x84\xBB rest"),G_CALLBACK (insert_rest_0key_cb)},
+{"InsertHalfRest", NULL, N_("<span font_desc=\"Denemo\">\xF0\x9D\x84\xBC</span>"), NULL,N_("Insert \xF0\x9D\x84\xBC rest"),G_CALLBACK (insert_rest_1key_cb)},
+{"InsertQuarterRest", NULL, N_("<span font_desc=\"Denemo\">\xF0\x9D\x84\xBD</span>"), NULL,N_("Insert \xF0\x9D\x84\xBD rest"),G_CALLBACK (insert_rest_2key_cb)},
+{"InsertEighthRest", NULL, N_("<span font_desc=\"Denemo\">\xF0\x9D\x84\xBE</span>"), NULL,N_("Insert \xF0\x9D\x84\xBE rest"),G_CALLBACK (insert_rest_3key_cb)},
+{"InsertSixteenthRest", NULL, N_("<span font_desc=\"Denemo\">\xF0\x9D\x84\xBF</span>"), NULL,N_("Insert \xF0\x9D\x84\xBF rest"),G_CALLBACK (insert_rest_4key_cb)},
+{"InsertThirtysecondRest", NULL, N_("<span font_desc=\"Denemo\">\xF0\x9D\x85\x80</span>"), NULL,N_("Insert \xF0\x9D\x85\x80 rest"),G_CALLBACK (insert_rest_5key_cb)},
+{"InsertSixtyfourthRest", NULL, N_("<span font_desc=\"Denemo\">\xF0\x9D\x85\x81</span>"), NULL,N_("Insert \xF0\x9D\x85\x81 rest"),G_CALLBACK (insert_rest_6key_cb)},
+{"InsertBlankWholeNote", NULL, N_("InsertBlankWholeNote"), NULL,N_("Insert a non-printing \xF0\x9D\x84\xBB rest"),G_CALLBACK (insert_blankchord_0key_cb)},
+{"InsertBlankHalfNote", NULL, N_("InsertBlankHalfNote"), NULL,N_("Insert a non-printing \xF0\x9D\x84\xBC rest"),G_CALLBACK (insert_blankchord_1key_cb)},
+{"InsertBlankQuarterNote", NULL, N_("InsertBlankQuarterNote"), NULL,N_("Insert a non-printing \xF0\x9D\x84\xBD rest"),G_CALLBACK (insert_blankchord_2key_cb)},
+{"InsertBlankEighthNote", NULL, N_("InsertBlankEighthNote"), NULL,N_("Insert a non-printing \xF0\x9D\x84\xBE rest"),G_CALLBACK (insert_blankchord_3key_cb)},
+{"InsertBlankSixteenthNote", NULL, N_("InsertBlankSixteenthNote"), NULL,N_("Insert a non-printing \xF0\x9D\x84\xBF rest"),G_CALLBACK (insert_blankchord_4key_cb)},
+{"InsertBlankThirtysecondNote", NULL, N_("InsertBlankThirtysecondNote"), NULL,N_("Insert a non-printing \xF0\x9D\x85\x80 rest"),G_CALLBACK (insert_blankchord_5key_cb)},
+{"InsertBlankSixtyfourthNote", NULL, N_("InsertBlankSixtyfourthNote"), NULL,N_("Insert a non-printing \xF0\x9D\x85\x81 rest"),G_CALLBACK (insert_blankchord_6key_cb)},
+{"InsertBlankOneHundredTwentyEighthNote", NULL, N_("InsertBlankOneHundredTwentyEighthNote"), NULL,N_("Insert a non-printing \xF0\x9D\x85\x82 rest"),G_CALLBACK (insert_blankchord_7key_cb)},
+{"InsertBlankTwoHundredFiftySixthNote", NULL, N_("InsertBlankTwoHundredFiftySixthNote"), NULL,N_("Insert a non-printing \xF0\x9D\x85\x83 rest"),G_CALLBACK (insert_blankchord_8key_cb)},
 {"ToggleRestMode", NULL, N_("Toggle Rest Mode"), NULL,N_("No Tooltip yet"),G_CALLBACK (rest_toggle_key_cb)},
 {"ToggleBlankMode", NULL, N_("Toggle Blank Mode"), NULL,N_("No Tooltip yet"),G_CALLBACK (toggle_blank_cb)},
 {"InsertDuplet", NULL, N_("Insert Duplet"), NULL,N_("No Tooltip yet"),G_CALLBACK (insert_duplet_cb)},
@@ -420,146 +420,182 @@
 {"Tuplets", NULL, N_("Tuplets"), NULL,N_("Entering triplets and other tuplets")},
 {"Delete", NULL, N_("Delete"), NULL,N_("Deleting notes, measures staffs keysigs etc")},
 
-#define NOTE0 ""
+#define NOTECHAR0 "\xF0\x9D\x85\x9D"
 
-#define REST0 ""
+#define RESTCHAR0 "\xF0\x9D\x84\xBB"
+
+#define NOTE0 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x9D</span>"
+
+#define REST0 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBB</span>"
 {"0", "NULL", NOTE0, NULL, "Edits the note at the cursor to have the duration 1/2^0, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur0)},
 {"Change0", "NULL", NOTE0, NULL, "Change current note to a "NOTE0,
 G_CALLBACK (ChangeDur0)},
 {"ChangeRest0", NULL, "Change duration", NULL, "Change duration of current rest",
 G_CALLBACK (ChangeRest0)},
-{"Insert0", NULL, "Insert a "NOTE0, NULL, "Inserts a "NOTE0" at cursor position\nSets prevailing rhythm to "NOTE0,
+{"Insert0", NULL, "Insert a "NOTE0"", NULL, "Inserts a "NOTE0" at cursor position\nSets prevailing rhythm to "NOTE0,
 G_CALLBACK (InsertDur0)},
-{"InsertRest0", NULL, "Insert a "NOTE0"rest", NULL, "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTE0,
+{"InsertRest0", NULL, "Insert a "REST0"rest", NULL, "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTE0,
 G_CALLBACK (InsertRest0)},
 {"Set0", NULL, "Set Duration to "NOTE0"", NULL, "Sets prevailing rhythm to "NOTE0,
 G_CALLBACK (SetDur0)},
 
-#define NOTE1 ""
+#define NOTECHAR1 "\xF0\x9D\x85\x9E"
 
-#define REST1 ""
+#define RESTCHAR1 "\xF0\x9D\x84\xBC"
+
+#define NOTE1 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x9E</span>"
+
+#define REST1 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBC</span>"
 {"1", "NULL", NOTE1, NULL, "Edits the note at the cursor to have the duration 1/2^1, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur1)},
 {"Change1", "NULL", NOTE1, NULL, "Change current note to a "NOTE1,
 G_CALLBACK (ChangeDur1)},
 {"ChangeRest1", NULL, "Change duration", NULL, "Change duration of current rest",
 G_CALLBACK (ChangeRest1)},
-{"Insert1", NULL, "Insert a "NOTE1, NULL, "Inserts a "NOTE1" at cursor position\nSets prevailing rhythm to "NOTE1,
+{"Insert1", NULL, "Insert a "NOTE1"", NULL, "Inserts a "NOTE1" at cursor position\nSets prevailing rhythm to "NOTE1,
 G_CALLBACK (InsertDur1)},
-{"InsertRest1", NULL, "Insert a "NOTE1"rest", NULL, "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTE1,
+{"InsertRest1", NULL, "Insert a "REST1"rest", NULL, "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTE1,
 G_CALLBACK (InsertRest1)},
 {"Set1", NULL, "Set Duration to "NOTE1"", NULL, "Sets prevailing rhythm to "NOTE1,
 G_CALLBACK (SetDur1)},
 
-#define NOTE2 ""
+#define NOTECHAR2 "\xF0\x9D\x85\x9F"
 
-#define REST2 ""
+#define RESTCHAR2 "\xF0\x9D\x84\xBD"
+
+#define NOTE2 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x9F</span>"
+
+#define REST2 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBD</span>"
 {"2", "NULL", NOTE2, NULL, "Edits the note at the cursor to have the duration 1/2^2, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur2)},
 {"Change2", "NULL", NOTE2, NULL, "Change current note to a "NOTE2,
 G_CALLBACK (ChangeDur2)},
 {"ChangeRest2", NULL, "Change duration", NULL, "Change duration of current rest",
 G_CALLBACK (ChangeRest2)},
-{"Insert2", NULL, "Insert a "NOTE2, NULL, "Inserts a "NOTE2" at cursor position\nSets prevailing rhythm to "NOTE2,
+{"Insert2", NULL, "Insert a "NOTE2"", NULL, "Inserts a "NOTE2" at cursor position\nSets prevailing rhythm to "NOTE2,
 G_CALLBACK (InsertDur2)},
-{"InsertRest2", NULL, "Insert a "NOTE2"rest", NULL, "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTE2,
+{"InsertRest2", NULL, "Insert a "REST2"rest", NULL, "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTE2,
 G_CALLBACK (InsertRest2)},
 {"Set2", NULL, "Set Duration to "NOTE2"", NULL, "Sets prevailing rhythm to "NOTE2,
 G_CALLBACK (SetDur2)},
 
-#define NOTE3 ""
+#define NOTECHAR3 "\xF0\x9D\x85\xA0"
 
-#define REST3 ""
+#define RESTCHAR3 "\xF0\x9D\x84\xBE"
+
+#define NOTE3 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA0</span>"
+
+#define REST3 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBE</span>"
 {"3", "NULL", NOTE3, NULL, "Edits the note at the cursor to have the duration 1/2^3, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur3)},
 {"Change3", "NULL", NOTE3, NULL, "Change current note to a "NOTE3,
 G_CALLBACK (ChangeDur3)},
 {"ChangeRest3", NULL, "Change duration", NULL, "Change duration of current rest",
 G_CALLBACK (ChangeRest3)},
-{"Insert3", NULL, "Insert a "NOTE3, NULL, "Inserts a "NOTE3" at cursor position\nSets prevailing rhythm to "NOTE3,
+{"Insert3", NULL, "Insert a "NOTE3"", NULL, "Inserts a "NOTE3" at cursor position\nSets prevailing rhythm to "NOTE3,
 G_CALLBACK (InsertDur3)},
-{"InsertRest3", NULL, "Insert a "NOTE3"rest", NULL, "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTE3,
+{"InsertRest3", NULL, "Insert a "REST3"rest", NULL, "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTE3,
 G_CALLBACK (InsertRest3)},
 {"Set3", NULL, "Set Duration to "NOTE3"", NULL, "Sets prevailing rhythm to "NOTE3,
 G_CALLBACK (SetDur3)},
 
-#define NOTE4 ""
+#define NOTECHAR4 "\xF0\x9D\x85\xA1"
 
-#define REST4 ""
+#define RESTCHAR4 "\xF0\x9D\x84\xBF"
+
+#define NOTE4 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA1</span>"
+
+#define REST4 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBF</span>"
 {"4", "NULL", NOTE4, NULL, "Edits the note at the cursor to have the duration 1/2^4, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur4)},
 {"Change4", "NULL", NOTE4, NULL, "Change current note to a "NOTE4,
 G_CALLBACK (ChangeDur4)},
 {"ChangeRest4", NULL, "Change duration", NULL, "Change duration of current rest",
 G_CALLBACK (ChangeRest4)},
-{"Insert4", NULL, "Insert a "NOTE4, NULL, "Inserts a "NOTE4" at cursor position\nSets prevailing rhythm to "NOTE4,
+{"Insert4", NULL, "Insert a "NOTE4"", NULL, "Inserts a "NOTE4" at cursor position\nSets prevailing rhythm to "NOTE4,
 G_CALLBACK (InsertDur4)},
-{"InsertRest4", NULL, "Insert a "NOTE4"rest", NULL, "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTE4,
+{"InsertRest4", NULL, "Insert a "REST4"rest", NULL, "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTE4,
 G_CALLBACK (InsertRest4)},
 {"Set4", NULL, "Set Duration to "NOTE4"", NULL, "Sets prevailing rhythm to "NOTE4,
 G_CALLBACK (SetDur4)},
 
-#define NOTE5 ""
+#define NOTECHAR5 "\xF0\x9D\x85\xA2"
 
-#define REST5 ""
+#define RESTCHAR5 "\xF0\x9D\x85\x80"
+
+#define NOTE5 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA2</span>"
+
+#define REST5 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x80</span>"
 {"5", "NULL", NOTE5, NULL, "Edits the note at the cursor to have the duration 1/2^5, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur5)},
 {"Change5", "NULL", NOTE5, NULL, "Change current note to a "NOTE5,
 G_CALLBACK (ChangeDur5)},
 {"ChangeRest5", NULL, "Change duration", NULL, "Change duration of current rest",
 G_CALLBACK (ChangeRest5)},
-{"Insert5", NULL, "Insert a "NOTE5, NULL, "Inserts a "NOTE5" at cursor position\nSets prevailing rhythm to "NOTE5,
+{"Insert5", NULL, "Insert a "NOTE5"", NULL, "Inserts a "NOTE5" at cursor position\nSets prevailing rhythm to "NOTE5,
 G_CALLBACK (InsertDur5)},
-{"InsertRest5", NULL, "Insert a "NOTE5"rest", NULL, "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTE5,
+{"InsertRest5", NULL, "Insert a "REST5"rest", NULL, "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTE5,
 G_CALLBACK (InsertRest5)},
 {"Set5", NULL, "Set Duration to "NOTE5"", NULL, "Sets prevailing rhythm to "NOTE5,
 G_CALLBACK (SetDur5)},
 
-#define NOTE6 ""
+#define NOTECHAR6 "\xF0\x9D\x85\xA3"
 
-#define REST6 ""
+#define RESTCHAR6 "\xF0\x9D\x85\x81"
+
+#define NOTE6 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA3</span>"
+
+#define REST6 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x81</span>"
 {"6", "NULL", NOTE6, NULL, "Edits the note at the cursor to have the duration 1/2^6, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur6)},
 {"Change6", "NULL", NOTE6, NULL, "Change current note to a "NOTE6,
 G_CALLBACK (ChangeDur6)},
 {"ChangeRest6", NULL, "Change duration", NULL, "Change duration of current rest",
 G_CALLBACK (ChangeRest6)},
-{"Insert6", NULL, "Insert a "NOTE6, NULL, "Inserts a "NOTE6" at cursor position\nSets prevailing rhythm to "NOTE6,
+{"Insert6", NULL, "Insert a "NOTE6"", NULL, "Inserts a "NOTE6" at cursor position\nSets prevailing rhythm to "NOTE6,
 G_CALLBACK (InsertDur6)},
-{"InsertRest6", NULL, "Insert a "NOTE6"rest", NULL, "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTE6,
+{"InsertRest6", NULL, "Insert a "REST6"rest", NULL, "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTE6,
 G_CALLBACK (InsertRest6)},
 {"Set6", NULL, "Set Duration to "NOTE6"", NULL, "Sets prevailing rhythm to "NOTE6,
 G_CALLBACK (SetDur6)},
 
-#define NOTE7 ""
+#define NOTECHAR7 "\xF0\x9D\x85\xA4"
 
-#define REST7 ""
+#define RESTCHAR7 "\xF0\x9D\x85\x82"
+
+#define NOTE7 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA4</span>"
+
+#define REST7 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x82</span>"
 {"7", "NULL", NOTE7, NULL, "Edits the note at the cursor to have the duration 1/2^7, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur7)},
 {"Change7", "NULL", NOTE7, NULL, "Change current note to a "NOTE7,
 G_CALLBACK (ChangeDur7)},
 {"ChangeRest7", NULL, "Change duration", NULL, "Change duration of current rest",
 G_CALLBACK (ChangeRest7)},
-{"Insert7", NULL, "Insert a "NOTE7, NULL, "Inserts a "NOTE7" at cursor position\nSets prevailing rhythm to "NOTE7,
+{"Insert7", NULL, "Insert a "NOTE7"", NULL, "Inserts a "NOTE7" at cursor position\nSets prevailing rhythm to "NOTE7,
 G_CALLBACK (InsertDur7)},
-{"InsertRest7", NULL, "Insert a "NOTE7"rest", NULL, "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTE7,
+{"InsertRest7", NULL, "Insert a "REST7"rest", NULL, "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTE7,
 G_CALLBACK (InsertRest7)},
 {"Set7", NULL, "Set Duration to "NOTE7"", NULL, "Sets prevailing rhythm to "NOTE7,
 G_CALLBACK (SetDur7)},
 
-#define NOTE8 ""
+#define NOTECHAR8 "\xF0\x9D\x85\xA5"
 
-#define REST8 ""
+#define RESTCHAR8 "\xF0\x9D\x85\x83"
+
+#define NOTE8 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA5</span>"
+
+#define REST8 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x83</span>"
 {"8", "NULL", NOTE8, NULL, "Edits the note at the cursor to have the duration 1/2^8, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur8)},
 {"Change8", "NULL", NOTE8, NULL, "Change current note to a "NOTE8,
 G_CALLBACK (ChangeDur8)},
 {"ChangeRest8", NULL, "Change duration", NULL, "Change duration of current rest",
 G_CALLBACK (ChangeRest8)},
-{"Insert8", NULL, "Insert a "NOTE8, NULL, "Inserts a "NOTE8" at cursor position\nSets prevailing rhythm to "NOTE8,
+{"Insert8", NULL, "Insert a "NOTE8"", NULL, "Inserts a "NOTE8" at cursor position\nSets prevailing rhythm to "NOTE8,
 G_CALLBACK (InsertDur8)},
-{"InsertRest8", NULL, "Insert a "NOTE8"rest", NULL, "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTE8,
+{"InsertRest8", NULL, "Insert a "REST8"rest", NULL, "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTE8,
 G_CALLBACK (InsertRest8)},
 {"Set8", NULL, "Set Duration to "NOTE8"", NULL, "Sets prevailing rhythm to "NOTE8,
 G_CALLBACK (SetDur8)},

@@ -32,6 +32,7 @@
 void add_font_directory(gchar *fontpath) {
 #ifdef G_OS_WIN32
   AddFontResource(fontpath);
+  FcConfigAppFontAddDir(NULL, fontpath);
 #else
   FcConfigAppFontAddDir(NULL, fontpath);
 #endif
@@ -39,6 +40,8 @@ void add_font_directory(gchar *fontpath) {
 void add_font_file(gchar *fontname) {
 #ifdef G_OS_WIN32
   AddFontResource(fontname);
+  FcConfigAppFontAddFile(NULL, fontname);
+
 #else
   FcConfigAppFontAddFile(NULL, fontname);
 #endif
@@ -1049,26 +1052,26 @@ kill_process (GPid pid)
 #endif /* not G_OS_WIN32 */
   g_spawn_close_pid (pid);
 }
-#define NOTE0 "\x02"
-#define NOTE1 "\x03"
-#define NOTE2 "\x04"
-#define NOTE3 "\x05"
-#define NOTE4 "\x06"
-#define NOTE5 "\x07"
-#define NOTE6 "\x08"
+#define NOTE0 "<span font_desc=\"Denemo\">\x02</span>"
+#define NOTE1 "<span font_desc=\"Denemo\">\x03</span>"
+#define NOTE2 "<span font_desc=\"Denemo\">\x04</span>"
+#define NOTE3 "<span font_desc=\"Denemo\">\x05</span>"
+#define NOTE4 "<span font_desc=\"Denemo\">\x06</span>"
+#define NOTE5 "<span font_desc=\"Denemo\">\x07</span>"
+#define NOTE6 "<span font_desc=\"Denemo\">\x08</span>"
 //skip over tab and line feed
-#define NOTE7 "\x0B"
-#define NOTE8 "\x0C"
+#define NOTE7 "<span font_desc=\"Denemo\">\x0B</span>"
+#define NOTE8 "<span font_desc=\"Denemo\">\x0C</span>"
 
-#define REST0 "\x0F"
-#define REST1 "\x10"
-#define REST2 "\x11"
-#define REST3 "\x12"
-#define REST4 "\x13"
-#define REST5 "\x14"
-#define REST6 "\x15"
-#define REST7 "\x16"
-#define REST8 "\x17"
+#define REST0 "<span font_desc=\"Denemo\">\x0F</span>"
+#define REST1 "<span font_desc=\"Denemo\">\x10</span>"
+#define REST2 "<span font_desc=\"Denemo\">\x11</span>"
+#define REST3 "<span font_desc=\"Denemo\">\x12</span>"
+#define REST4 "<span font_desc=\"Denemo\">\x13</span>"
+#define REST5 "<span font_desc=\"Denemo\">\x14</span>"
+#define REST6 "<span font_desc=\"Denemo\">\x15</span>"
+#define REST7 "<span font_desc=\"Denemo\">\x16</span>"
+#define REST8 "<span font_desc=\"Denemo\">\x17</span>"
 
 
 /* markup the passed string to be in the denemo music font

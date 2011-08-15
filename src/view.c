@@ -107,12 +107,14 @@ populate_opened_recent (void);
 #ifdef DEVELOPER
 #define MUSIC_FONT(a) "music-sign ("a")"
 #else
-#define MUSIC_FONT(a) "<span  size=\"10000\" face=\"Denemo\">"a"</span>"
+#ifdef G_OS_WIN32
+#define MUSIC_FONT(a) "<span face=\"Denemo\">"a"</span>"
+#else
+#define MUSIC_FONT(a) a
+#endif
 #endif
 
-GtkAction *sharpaction, *flataction;
-
-
+static GtkAction *sharpaction, *flataction;
 
 typedef enum 
 {

@@ -211,37 +211,37 @@
       </row>
       <row>
         <action>InsertWholeRest</action>
-        <label>&#x1D13B;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D13B;&lt;/span&gt;</label>
         <tooltip>Insert &#x1D13B; rest</tooltip>
       </row>
       <row>
         <action>InsertHalfRest</action>
-        <label>&#x1D13C;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D13C;&lt;/span&gt;</label>
         <tooltip>Insert &#x1D13C; rest</tooltip>
       </row>
       <row>
         <action>InsertQuarterRest</action>
-        <label>&#x1D13D;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D13D;&lt;/span&gt;</label>
         <tooltip>Insert &#x1D13D; rest</tooltip>
       </row>
       <row>
         <action>InsertEighthRest</action>
-        <label>&#x1D13E;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D13E;&lt;/span&gt;</label>
         <tooltip>Insert &#x1D13E; rest</tooltip>
       </row>
       <row>
         <action>InsertSixteenthRest</action>
-        <label>&#x1D13F;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D13F;&lt;/span&gt;</label>
         <tooltip>Insert &#x1D13F; rest</tooltip>
       </row>
       <row>
         <action>InsertThirtysecondRest</action>
-        <label>&#x1D140;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D140;&lt;/span&gt;</label>
         <tooltip>Insert &#x1D140; rest</tooltip>
       </row>
       <row>
         <action>InsertSixtyfourthRest</action>
-        <label>&#x1D141;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D141;&lt;/span&gt;</label>
         <tooltip>Insert &#x1D141; rest</tooltip>
       </row>
       <row>
@@ -1919,7 +1919,7 @@ Rhythm is unchanged</tooltip>
       </row>
       <row>
         <action>0</action>
-        <label>&#x1D15D;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D15D;&lt;/span&gt;</label>
         <tooltip>In insert mode, changes prevailing rhythm to &#x1D15D;
 In edit mode changes the current note to &#x1D15D;
  or appends a &#x1D15D; if no current note
@@ -1927,34 +1927,34 @@ In classic mode inserts a &#x1D15D; at the cursor</tooltip>
       </row>
       <row>
         <action>Change0</action>
-        <label>&#x1D15D;</label>
-        <tooltip>Change the current note to a &#x1D15D;</tooltip>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D15D;&lt;/span&gt;</label>
+        <tooltip>Change the current NOTECHAR to a &#x1D15D;</tooltip>
       </row>
       <row>
         <action>Insert0</action>
-        <label>&#x1D15D;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D15D;&lt;/span&gt;</label>
         <tooltip>Insert a &#x1D15D;</tooltip>
       </row>
       <row>
         <action>InsertRest0</action>
-        <label>Insert a &#x1D15D;rest</label>
+        <label>Insert a &#x1D13B;</label>
         <tooltip>Inserts a rest at cursor position
 Sets prevailing rhythm to &#x1D15D;</tooltip>
       </row>
       <row>
         <action>ChangeRest0</action>
-        <label>Change a &#x1D15D;rest</label>
+        <label>Change a &#x1D13B; </label>
         <tooltip>Changes a rest at cursor position
 Sets prevailing rhythm to &#x1D15D;</tooltip>
       </row>
       <row>
         <action>Set0</action>
-        <label>&#x1D15D;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D15D;&lt;/span&gt;</label>
         <tooltip>Set the prevailing duration to &#x1D15D;</tooltip>
       </row>
       <row>
         <action>1</action>
-        <label>&#x1D15E;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D15E;&lt;/span&gt;</label>
         <tooltip>In insert mode, changes prevailing rhythm to &#x1D15E;
 In edit mode changes the current note to &#x1D15E;
  or appends a &#x1D15E; if no current note
@@ -1962,34 +1962,34 @@ In classic mode inserts a &#x1D15E; at the cursor</tooltip>
       </row>
       <row>
         <action>Change1</action>
-        <label>&#x1D15E;</label>
-        <tooltip>Change the current note to a &#x1D15E;</tooltip>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D15E;&lt;/span&gt;</label>
+        <tooltip>Change the current NOTECHAR to a &#x1D15E;</tooltip>
       </row>
       <row>
         <action>Insert1</action>
-        <label>&#x1D15E;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D15E;&lt;/span&gt;</label>
         <tooltip>Insert a &#x1D15E;</tooltip>
       </row>
       <row>
         <action>InsertRest1</action>
-        <label>Insert a &#x1D15E;rest</label>
+        <label>Insert a &#x1D13C;</label>
         <tooltip>Inserts a rest at cursor position
 Sets prevailing rhythm to &#x1D15E;</tooltip>
       </row>
       <row>
         <action>ChangeRest1</action>
-        <label>Change a &#x1D15E;rest</label>
+        <label>Change a &#x1D13C; </label>
         <tooltip>Changes a rest at cursor position
 Sets prevailing rhythm to &#x1D15E;</tooltip>
       </row>
       <row>
         <action>Set1</action>
-        <label>&#x1D15E;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D15E;&lt;/span&gt;</label>
         <tooltip>Set the prevailing duration to &#x1D15E;</tooltip>
       </row>
       <row>
         <action>2</action>
-        <label>&#x1D15F;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D15F;&lt;/span&gt;</label>
         <tooltip>In insert mode, changes prevailing rhythm to &#x1D15F;
 In edit mode changes the current note to &#x1D15F;
  or appends a &#x1D15F; if no current note
@@ -1997,34 +1997,34 @@ In classic mode inserts a &#x1D15F; at the cursor</tooltip>
       </row>
       <row>
         <action>Change2</action>
-        <label>&#x1D15F;</label>
-        <tooltip>Change the current note to a &#x1D15F;</tooltip>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D15F;&lt;/span&gt;</label>
+        <tooltip>Change the current NOTECHAR to a &#x1D15F;</tooltip>
       </row>
       <row>
         <action>Insert2</action>
-        <label>&#x1D15F;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D15F;&lt;/span&gt;</label>
         <tooltip>Insert a &#x1D15F;</tooltip>
       </row>
       <row>
         <action>InsertRest2</action>
-        <label>Insert a &#x1D15F;rest</label>
+        <label>Insert a &#x1D13D;</label>
         <tooltip>Inserts a rest at cursor position
 Sets prevailing rhythm to &#x1D15F;</tooltip>
       </row>
       <row>
         <action>ChangeRest2</action>
-        <label>Change a &#x1D15F;rest</label>
+        <label>Change a &#x1D13D; </label>
         <tooltip>Changes a rest at cursor position
 Sets prevailing rhythm to &#x1D15F;</tooltip>
       </row>
       <row>
         <action>Set2</action>
-        <label>&#x1D15F;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D15F;&lt;/span&gt;</label>
         <tooltip>Set the prevailing duration to &#x1D15F;</tooltip>
       </row>
       <row>
         <action>3</action>
-        <label>&#x1D160;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D160;&lt;/span&gt;</label>
         <tooltip>In insert mode, changes prevailing rhythm to &#x1D160;
 In edit mode changes the current note to &#x1D160;
  or appends a &#x1D160; if no current note
@@ -2032,34 +2032,34 @@ In classic mode inserts a &#x1D160; at the cursor</tooltip>
       </row>
       <row>
         <action>Change3</action>
-        <label>&#x1D160;</label>
-        <tooltip>Change the current note to a &#x1D160;</tooltip>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D160;&lt;/span&gt;</label>
+        <tooltip>Change the current NOTECHAR to a &#x1D160;</tooltip>
       </row>
       <row>
         <action>Insert3</action>
-        <label>&#x1D160;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D160;&lt;/span&gt;</label>
         <tooltip>Insert a &#x1D160;</tooltip>
       </row>
       <row>
         <action>InsertRest3</action>
-        <label>Insert a &#x1D160;rest</label>
+        <label>Insert a &#x1D13E;</label>
         <tooltip>Inserts a rest at cursor position
 Sets prevailing rhythm to &#x1D160;</tooltip>
       </row>
       <row>
         <action>ChangeRest3</action>
-        <label>Change a &#x1D160;rest</label>
+        <label>Change a &#x1D13E; </label>
         <tooltip>Changes a rest at cursor position
 Sets prevailing rhythm to &#x1D160;</tooltip>
       </row>
       <row>
         <action>Set3</action>
-        <label>&#x1D160;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D160;&lt;/span&gt;</label>
         <tooltip>Set the prevailing duration to &#x1D160;</tooltip>
       </row>
       <row>
         <action>4</action>
-        <label>&#x1D161;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D161;&lt;/span&gt;</label>
         <tooltip>In insert mode, changes prevailing rhythm to &#x1D161;
 In edit mode changes the current note to &#x1D161;
  or appends a &#x1D161; if no current note
@@ -2067,34 +2067,34 @@ In classic mode inserts a &#x1D161; at the cursor</tooltip>
       </row>
       <row>
         <action>Change4</action>
-        <label>&#x1D161;</label>
-        <tooltip>Change the current note to a &#x1D161;</tooltip>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D161;&lt;/span&gt;</label>
+        <tooltip>Change the current NOTECHAR to a &#x1D161;</tooltip>
       </row>
       <row>
         <action>Insert4</action>
-        <label>&#x1D161;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D161;&lt;/span&gt;</label>
         <tooltip>Insert a &#x1D161;</tooltip>
       </row>
       <row>
         <action>InsertRest4</action>
-        <label>Insert a &#x1D161;rest</label>
+        <label>Insert a &#x1D13F;</label>
         <tooltip>Inserts a rest at cursor position
 Sets prevailing rhythm to &#x1D161;</tooltip>
       </row>
       <row>
         <action>ChangeRest4</action>
-        <label>Change a &#x1D161;rest</label>
+        <label>Change a &#x1D13F; </label>
         <tooltip>Changes a rest at cursor position
 Sets prevailing rhythm to &#x1D161;</tooltip>
       </row>
       <row>
         <action>Set4</action>
-        <label>&#x1D161;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D161;&lt;/span&gt;</label>
         <tooltip>Set the prevailing duration to &#x1D161;</tooltip>
       </row>
       <row>
         <action>5</action>
-        <label>&#x1D162;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D162;&lt;/span&gt;</label>
         <tooltip>In insert mode, changes prevailing rhythm to &#x1D162;
 In edit mode changes the current note to &#x1D162;
  or appends a &#x1D162; if no current note
@@ -2102,34 +2102,34 @@ In classic mode inserts a &#x1D162; at the cursor</tooltip>
       </row>
       <row>
         <action>Change5</action>
-        <label>&#x1D162;</label>
-        <tooltip>Change the current note to a &#x1D162;</tooltip>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D162;&lt;/span&gt;</label>
+        <tooltip>Change the current NOTECHAR to a &#x1D162;</tooltip>
       </row>
       <row>
         <action>Insert5</action>
-        <label>&#x1D162;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D162;&lt;/span&gt;</label>
         <tooltip>Insert a &#x1D162;</tooltip>
       </row>
       <row>
         <action>InsertRest5</action>
-        <label>Insert a &#x1D162;rest</label>
+        <label>Insert a &#x1D140;</label>
         <tooltip>Inserts a rest at cursor position
 Sets prevailing rhythm to &#x1D162;</tooltip>
       </row>
       <row>
         <action>ChangeRest5</action>
-        <label>Change a &#x1D162;rest</label>
+        <label>Change a &#x1D140; </label>
         <tooltip>Changes a rest at cursor position
 Sets prevailing rhythm to &#x1D162;</tooltip>
       </row>
       <row>
         <action>Set5</action>
-        <label>&#x1D162;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D162;&lt;/span&gt;</label>
         <tooltip>Set the prevailing duration to &#x1D162;</tooltip>
       </row>
       <row>
         <action>6</action>
-        <label>&#x1D163;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D163;&lt;/span&gt;</label>
         <tooltip>In insert mode, changes prevailing rhythm to &#x1D163;
 In edit mode changes the current note to &#x1D163;
  or appends a &#x1D163; if no current note
@@ -2137,34 +2137,34 @@ In classic mode inserts a &#x1D163; at the cursor</tooltip>
       </row>
       <row>
         <action>Change6</action>
-        <label>&#x1D163;</label>
-        <tooltip>Change the current note to a &#x1D163;</tooltip>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D163;&lt;/span&gt;</label>
+        <tooltip>Change the current NOTECHAR to a &#x1D163;</tooltip>
       </row>
       <row>
         <action>Insert6</action>
-        <label>&#x1D163;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D163;&lt;/span&gt;</label>
         <tooltip>Insert a &#x1D163;</tooltip>
       </row>
       <row>
         <action>InsertRest6</action>
-        <label>Insert a &#x1D163;rest</label>
+        <label>Insert a &#x1D141;</label>
         <tooltip>Inserts a rest at cursor position
 Sets prevailing rhythm to &#x1D163;</tooltip>
       </row>
       <row>
         <action>ChangeRest6</action>
-        <label>Change a &#x1D163;rest</label>
+        <label>Change a &#x1D141; </label>
         <tooltip>Changes a rest at cursor position
 Sets prevailing rhythm to &#x1D163;</tooltip>
       </row>
       <row>
         <action>Set6</action>
-        <label>&#x1D163;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D163;&lt;/span&gt;</label>
         <tooltip>Set the prevailing duration to &#x1D163;</tooltip>
       </row>
       <row>
         <action>7</action>
-        <label>&#x1D164;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D164;&lt;/span&gt;</label>
         <tooltip>In insert mode, changes prevailing rhythm to &#x1D164;
 In edit mode changes the current note to &#x1D164;
  or appends a &#x1D164; if no current note
@@ -2172,34 +2172,34 @@ In classic mode inserts a &#x1D164; at the cursor</tooltip>
       </row>
       <row>
         <action>Change7</action>
-        <label>&#x1D164;</label>
-        <tooltip>Change the current note to a &#x1D164;</tooltip>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D164;&lt;/span&gt;</label>
+        <tooltip>Change the current NOTECHAR to a &#x1D164;</tooltip>
       </row>
       <row>
         <action>Insert7</action>
-        <label>&#x1D164;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D164;&lt;/span&gt;</label>
         <tooltip>Insert a &#x1D164;</tooltip>
       </row>
       <row>
         <action>InsertRest7</action>
-        <label>Insert a &#x1D164;rest</label>
+        <label>Insert a &#x1D142;</label>
         <tooltip>Inserts a rest at cursor position
 Sets prevailing rhythm to &#x1D164;</tooltip>
       </row>
       <row>
         <action>ChangeRest7</action>
-        <label>Change a &#x1D164;rest</label>
+        <label>Change a &#x1D142; </label>
         <tooltip>Changes a rest at cursor position
 Sets prevailing rhythm to &#x1D164;</tooltip>
       </row>
       <row>
         <action>Set7</action>
-        <label>&#x1D164;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D164;&lt;/span&gt;</label>
         <tooltip>Set the prevailing duration to &#x1D164;</tooltip>
       </row>
       <row>
         <action>8</action>
-        <label>&#x1D165;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D165;&lt;/span&gt;</label>
         <tooltip>In insert mode, changes prevailing rhythm to &#x1D165;
 In edit mode changes the current note to &#x1D165;
  or appends a &#x1D165; if no current note
@@ -2207,29 +2207,29 @@ In classic mode inserts a &#x1D165; at the cursor</tooltip>
       </row>
       <row>
         <action>Change8</action>
-        <label>&#x1D165;</label>
-        <tooltip>Change the current note to a &#x1D165;</tooltip>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D165;&lt;/span&gt;</label>
+        <tooltip>Change the current NOTECHAR to a &#x1D165;</tooltip>
       </row>
       <row>
         <action>Insert8</action>
-        <label>&#x1D165;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D165;&lt;/span&gt;</label>
         <tooltip>Insert a &#x1D165;</tooltip>
       </row>
       <row>
         <action>InsertRest8</action>
-        <label>Insert a &#x1D165;rest</label>
+        <label>Insert a &#x1D143;</label>
         <tooltip>Inserts a rest at cursor position
 Sets prevailing rhythm to &#x1D165;</tooltip>
       </row>
       <row>
         <action>ChangeRest8</action>
-        <label>Change a &#x1D165;rest</label>
+        <label>Change a &#x1D143; </label>
         <tooltip>Changes a rest at cursor position
 Sets prevailing rhythm to &#x1D165;</tooltip>
       </row>
       <row>
         <action>Set8</action>
-        <label>&#x1D165;</label>
+        <label>&lt;span font_desc="Denemo"&gt;&#x1D165;&lt;/span&gt;</label>
         <tooltip>Set the prevailing duration to &#x1D165;</tooltip>
       </row>
       <row>
