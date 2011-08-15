@@ -5158,11 +5158,12 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
   //else ?????
   set_tuning();
 
-
+#ifndef G_OS_WIN32
   if(Denemo.prefs.fontspec->len) {
     GtkSettings *settings = gtk_settings_get_default( );
     gtk_settings_set_string_property(settings, "gtk-font-name" , Denemo.prefs.fontspec->str, "denemo");
   }
+#endif
 /* Now launch into the main gtk event loop and we're all set */
  gtk_main();
 }
