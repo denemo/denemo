@@ -336,6 +336,7 @@ preferences_change (GtkAction *action, gpointer param)
   DenemoGUI *gui = Denemo.gui;
   GtkWidget *dialog;
   GtkWidget *label;
+  GtkWidget *separator;
   GtkWidget *main_vbox;
   GtkWidget *autosave;
   GtkWidget *autosave_timeout;
@@ -489,6 +490,9 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_widget_show (field);\
   cbdata.field = field;
 
+#define SEPARATOR()\
+  separator = gtk_hseparator_new();\
+  gtk_box_pack_start (GTK_BOX (VBOX), separator, FALSE, TRUE, 4);\
 
   /*
    * Note entry settings
@@ -602,6 +606,10 @@ preferences_change (GtkAction *action, gpointer param)
   gint index = g_list_position(audio_backend_list, item);
   gchar *driver = g_list_nth_data(audio_driver_option_list, index);
 
+
+  SEPARATOR();
+
+
   COMBOBOX("Audio backend", audio_driver, audio_driver_option_list, driver, FALSE);
   g_signal_connect(G_OBJECT(GTK_COMBO(audio_driver)->entry), "changed", G_CALLBACK(GTK_SIGNAL_FUNC(midi_audio_tab_update)), &audio_cbdata);
 
@@ -612,7 +620,7 @@ preferences_change (GtkAction *action, gpointer param)
 
 #undef VBOX
 #define VBOX jack_audio_settings
-  jack_audio_settings = gtk_vbox_new(FALSE, 8);
+  jack_audio_settings = gtk_vbox_new(FALSE, 1);
   gtk_box_pack_start(GTK_BOX(main_vbox), jack_audio_settings, FALSE, TRUE, 0);
 
   GList *jack_audio_output_ports = get_jack_ports(FALSE, FALSE);
@@ -632,7 +640,7 @@ preferences_change (GtkAction *action, gpointer param)
 
 #undef VBOX
 #define VBOX portaudio_settings
-  portaudio_settings = gtk_vbox_new(FALSE, 8);
+  portaudio_settings = gtk_vbox_new(FALSE, 1);
   gtk_box_pack_start(GTK_BOX(main_vbox), portaudio_settings, FALSE, TRUE, 0);
 
   GList *devices = get_portaudio_devices();
@@ -652,6 +660,10 @@ preferences_change (GtkAction *action, gpointer param)
   index = g_list_position(midi_backend_list, item);
   driver = g_list_nth_data(midi_driver_option_list, index);
 
+
+  SEPARATOR();
+
+
   COMBOBOX("MIDI backend", midi_driver, midi_driver_option_list, driver, FALSE);
   g_signal_connect(G_OBJECT(GTK_COMBO(midi_driver)->entry), "changed", G_CALLBACK(GTK_SIGNAL_FUNC(midi_audio_tab_update)), &audio_cbdata);
 
@@ -662,7 +674,7 @@ preferences_change (GtkAction *action, gpointer param)
 
 #undef VBOX
 #define VBOX jack_midi_settings
-  jack_midi_settings = gtk_vbox_new(FALSE, 8);
+  jack_midi_settings = gtk_vbox_new(FALSE, 1);
   gtk_box_pack_start(GTK_BOX(main_vbox), jack_midi_settings, FALSE, TRUE, 0);
 
   GList *jack_midi_input_ports = get_jack_ports(TRUE, FALSE);
@@ -684,7 +696,7 @@ preferences_change (GtkAction *action, gpointer param)
 
 #undef VBOX
 #define VBOX portmidi_settings
-  portmidi_settings = gtk_vbox_new(FALSE, 8);
+  portmidi_settings = gtk_vbox_new(FALSE, 1);
   gtk_box_pack_start(GTK_BOX(main_vbox), portmidi_settings, FALSE, TRUE, 0);
 
   GList *input_devices = get_portmidi_devices(FALSE);
@@ -700,6 +712,9 @@ preferences_change (GtkAction *action, gpointer param)
 #define VBOX main_vbox
 
 #endif
+
+
+  SEPARATOR();
 
 
   /*
