@@ -999,10 +999,10 @@ int main() {
      * !!! FIXME what is ChangeRestn???? seems to be Changen ... */
      
     fprintf(register_commands, 
-	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"%d\"), \"%d\", NOTE%d, N_(\"In insert mode, changes prevailing rhythm to \"NOTECHAR%d\"\\nIn edit mode changes the current note to \"NOTECHAR%d\"\\n or appends a \"NOTECHAR%d\" if no current note\\nIn classic mode inserts a \"NOTECHAR%d\" at the cursor\"), Dur%d);\n", i, i, i, i, i, i, i, i);
+	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"%d\"), \"%d\", NOTE%d, _(\"When appending, appends a \"NOTECHAR%d\" \\nWith the cursor on a note inserts a \"NOTECHAR%d\"  before the current note\\nThe note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active\\n - the MIDI keyboard will provide the pitch\"), Dur%d);\n", i, i, i,  i, i, i);
 
     fprintf(register_commands,
-	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Change%d\"), \"Change%d\", NOTE%d, \"Change the current NOTECHAR to a \"NOTECHAR%d, ChangeDur%d);\n", i, i, i, i, i);
+	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Change%d\"), \"Change%d\", NOTE%d, \"Change the current note to a \"NOTECHAR%d, ChangeDur%d);\n", i, i, i, i, i);
 
     fprintf(register_commands, 
 	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Insert%d\"), \"Insert%d\", NOTE%d, \"Insert a \"NOTECHAR%d, InsertDur%d);\n", i, i, i, i, i);

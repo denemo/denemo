@@ -1920,15 +1920,15 @@ Rhythm is unchanged</tooltip>
       <row>
         <action>0</action>
         <label>&lt;span font_desc="Denemo"&gt;&#x1D15D;&lt;/span&gt;</label>
-        <tooltip>In insert mode, changes prevailing rhythm to &#x1D15D;
-In edit mode changes the current note to &#x1D15D;
- or appends a &#x1D15D; if no current note
-In classic mode inserts a &#x1D15D; at the cursor</tooltip>
+        <tooltip>When appending, appends a &#x1D15D; 
+With the cursor on a note inserts a &#x1D15D;  before the current note
+The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
+ - the MIDI keyboard will provide the pitch</tooltip>
       </row>
       <row>
         <action>Change0</action>
         <label>&lt;span font_desc="Denemo"&gt;&#x1D15D;&lt;/span&gt;</label>
-        <tooltip>Change the current NOTECHAR to a &#x1D15D;</tooltip>
+        <tooltip>Change the current note to a &#x1D15D;</tooltip>
       </row>
       <row>
         <action>Insert0</action>
@@ -1955,15 +1955,15 @@ Sets prevailing rhythm to &#x1D15D;</tooltip>
       <row>
         <action>1</action>
         <label>&lt;span font_desc="Denemo"&gt;&#x1D15E;&lt;/span&gt;</label>
-        <tooltip>In insert mode, changes prevailing rhythm to &#x1D15E;
-In edit mode changes the current note to &#x1D15E;
- or appends a &#x1D15E; if no current note
-In classic mode inserts a &#x1D15E; at the cursor</tooltip>
+        <tooltip>When appending, appends a &#x1D15E; 
+With the cursor on a note inserts a &#x1D15E;  before the current note
+The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
+ - the MIDI keyboard will provide the pitch</tooltip>
       </row>
       <row>
         <action>Change1</action>
         <label>&lt;span font_desc="Denemo"&gt;&#x1D15E;&lt;/span&gt;</label>
-        <tooltip>Change the current NOTECHAR to a &#x1D15E;</tooltip>
+        <tooltip>Change the current note to a &#x1D15E;</tooltip>
       </row>
       <row>
         <action>Insert1</action>
@@ -1990,15 +1990,15 @@ Sets prevailing rhythm to &#x1D15E;</tooltip>
       <row>
         <action>2</action>
         <label>&lt;span font_desc="Denemo"&gt;&#x1D15F;&lt;/span&gt;</label>
-        <tooltip>In insert mode, changes prevailing rhythm to &#x1D15F;
-In edit mode changes the current note to &#x1D15F;
- or appends a &#x1D15F; if no current note
-In classic mode inserts a &#x1D15F; at the cursor</tooltip>
+        <tooltip>When appending, appends a &#x1D15F; 
+With the cursor on a note inserts a &#x1D15F;  before the current note
+The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
+ - the MIDI keyboard will provide the pitch</tooltip>
       </row>
       <row>
         <action>Change2</action>
         <label>&lt;span font_desc="Denemo"&gt;&#x1D15F;&lt;/span&gt;</label>
-        <tooltip>Change the current NOTECHAR to a &#x1D15F;</tooltip>
+        <tooltip>Change the current note to a &#x1D15F;</tooltip>
       </row>
       <row>
         <action>Insert2</action>
@@ -2025,15 +2025,15 @@ Sets prevailing rhythm to &#x1D15F;</tooltip>
       <row>
         <action>3</action>
         <label>&lt;span font_desc="Denemo"&gt;&#x1D160;&lt;/span&gt;</label>
-        <tooltip>In insert mode, changes prevailing rhythm to &#x1D160;
-In edit mode changes the current note to &#x1D160;
- or appends a &#x1D160; if no current note
-In classic mode inserts a &#x1D160; at the cursor</tooltip>
+        <tooltip>When appending, appends a &#x1D160; 
+With the cursor on a note inserts a &#x1D160;  before the current note
+The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
+ - the MIDI keyboard will provide the pitch</tooltip>
       </row>
       <row>
         <action>Change3</action>
         <label>&lt;span font_desc="Denemo"&gt;&#x1D160;&lt;/span&gt;</label>
-        <tooltip>Change the current NOTECHAR to a &#x1D160;</tooltip>
+        <tooltip>Change the current note to a &#x1D160;</tooltip>
       </row>
       <row>
         <action>Insert3</action>
@@ -2060,15 +2060,15 @@ Sets prevailing rhythm to &#x1D160;</tooltip>
       <row>
         <action>4</action>
         <label>&lt;span font_desc="Denemo"&gt;&#x1D161;&lt;/span&gt;</label>
-        <tooltip>In insert mode, changes prevailing rhythm to &#x1D161;
-In edit mode changes the current note to &#x1D161;
- or appends a &#x1D161; if no current note
-In classic mode inserts a &#x1D161; at the cursor</tooltip>
+        <tooltip>When appending, appends a &#x1D161; 
+With the cursor on a note inserts a &#x1D161;  before the current note
+The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
+ - the MIDI keyboard will provide the pitch</tooltip>
       </row>
       <row>
         <action>Change4</action>
         <label>&lt;span font_desc="Denemo"&gt;&#x1D161;&lt;/span&gt;</label>
-        <tooltip>Change the current NOTECHAR to a &#x1D161;</tooltip>
+        <tooltip>Change the current note to a &#x1D161;</tooltip>
       </row>
       <row>
         <action>Insert4</action>
@@ -2095,15 +2095,15 @@ Sets prevailing rhythm to &#x1D161;</tooltip>
       <row>
         <action>5</action>
         <label>&lt;span font_desc="Denemo"&gt;&#x1D162;&lt;/span&gt;</label>
-        <tooltip>In insert mode, changes prevailing rhythm to &#x1D162;
-In edit mode changes the current note to &#x1D162;
- or appends a &#x1D162; if no current note
-In classic mode inserts a &#x1D162; at the cursor</tooltip>
+        <tooltip>When appending, appends a &#x1D162; 
+With the cursor on a note inserts a &#x1D162;  before the current note
+The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
+ - the MIDI keyboard will provide the pitch</tooltip>
       </row>
       <row>
         <action>Change5</action>
         <label>&lt;span font_desc="Denemo"&gt;&#x1D162;&lt;/span&gt;</label>
-        <tooltip>Change the current NOTECHAR to a &#x1D162;</tooltip>
+        <tooltip>Change the current note to a &#x1D162;</tooltip>
       </row>
       <row>
         <action>Insert5</action>
@@ -2130,15 +2130,15 @@ Sets prevailing rhythm to &#x1D162;</tooltip>
       <row>
         <action>6</action>
         <label>&lt;span font_desc="Denemo"&gt;&#x1D163;&lt;/span&gt;</label>
-        <tooltip>In insert mode, changes prevailing rhythm to &#x1D163;
-In edit mode changes the current note to &#x1D163;
- or appends a &#x1D163; if no current note
-In classic mode inserts a &#x1D163; at the cursor</tooltip>
+        <tooltip>When appending, appends a &#x1D163; 
+With the cursor on a note inserts a &#x1D163;  before the current note
+The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
+ - the MIDI keyboard will provide the pitch</tooltip>
       </row>
       <row>
         <action>Change6</action>
         <label>&lt;span font_desc="Denemo"&gt;&#x1D163;&lt;/span&gt;</label>
-        <tooltip>Change the current NOTECHAR to a &#x1D163;</tooltip>
+        <tooltip>Change the current note to a &#x1D163;</tooltip>
       </row>
       <row>
         <action>Insert6</action>
@@ -2165,15 +2165,15 @@ Sets prevailing rhythm to &#x1D163;</tooltip>
       <row>
         <action>7</action>
         <label>&lt;span font_desc="Denemo"&gt;&#x1D164;&lt;/span&gt;</label>
-        <tooltip>In insert mode, changes prevailing rhythm to &#x1D164;
-In edit mode changes the current note to &#x1D164;
- or appends a &#x1D164; if no current note
-In classic mode inserts a &#x1D164; at the cursor</tooltip>
+        <tooltip>When appending, appends a &#x1D164; 
+With the cursor on a note inserts a &#x1D164;  before the current note
+The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
+ - the MIDI keyboard will provide the pitch</tooltip>
       </row>
       <row>
         <action>Change7</action>
         <label>&lt;span font_desc="Denemo"&gt;&#x1D164;&lt;/span&gt;</label>
-        <tooltip>Change the current NOTECHAR to a &#x1D164;</tooltip>
+        <tooltip>Change the current note to a &#x1D164;</tooltip>
       </row>
       <row>
         <action>Insert7</action>
@@ -2200,15 +2200,15 @@ Sets prevailing rhythm to &#x1D164;</tooltip>
       <row>
         <action>8</action>
         <label>&lt;span font_desc="Denemo"&gt;&#x1D165;&lt;/span&gt;</label>
-        <tooltip>In insert mode, changes prevailing rhythm to &#x1D165;
-In edit mode changes the current note to &#x1D165;
- or appends a &#x1D165; if no current note
-In classic mode inserts a &#x1D165; at the cursor</tooltip>
+        <tooltip>When appending, appends a &#x1D165; 
+With the cursor on a note inserts a &#x1D165;  before the current note
+The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
+ - the MIDI keyboard will provide the pitch</tooltip>
       </row>
       <row>
         <action>Change8</action>
         <label>&lt;span font_desc="Denemo"&gt;&#x1D165;&lt;/span&gt;</label>
-        <tooltip>Change the current NOTECHAR to a &#x1D165;</tooltip>
+        <tooltip>Change the current note to a &#x1D165;</tooltip>
       </row>
       <row>
         <action>Insert8</action>
