@@ -1,0 +1,160 @@
+/*
+ * eventqueue.c
+ * event queue for audio/MIDI backends.
+ *
+ * for Denemo, a gtk+ frontend to GNU Lilypond
+ * Copyright (C) 2011  Dominic Sacré
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ */
+
+#include "eventqueue.h"
+#include "midi.h"
+
+#include <glib.h>
+#include <string.h>
+
+
+event_queue_t *event_queue_new(size_t playback_queue_size, size_t immediate_queue_size, size_t capture_queue_size) {
+  event_queue_t *queue = g_malloc0(sizeof(event_queue_t *));
+
+  if (playback_queue_size) {
+    queue->playback = jack_ringbuffer_create(playback_queue_size * sizeof(smf_event_t *));
+  }
+
+  if (immediate_queue_size) {
+    queue->immediate = jack_ringbuffer_create(immediate_queue_size * sizeof(capture_event_t));
+  }
+
+  if (capture_queue_size) {
+    queue->capture = jack_ringbuffer_create(capture_queue_size * sizeof(capture_event_t));
+  }
+
+  return queue;
+}
+
+
+void event_queue_free(event_queue_t *queue) {
+  if (queue->playback) {
+    jack_ringbuffer_free(queue->playback);
+  }
+
+  if (queue->immediate) {
+    jack_ringbuffer_free(queue->immediate);
+  }
+
+  if (queue->capture) {
+    jack_ringbuffer_free(queue->capture);
+  }
+
+  g_free(queue);
+}
+
+
+void event_queue_reset_playback(event_queue_t *queue) {
+  if (queue->playback) {
+    jack_ringbuffer_reset(queue->playback);
+  }
+}
+
+
+gboolean event_queue_write_playback_event(event_queue_t *queue, smf_event_t *event) {
+  if (!queue->playback) {
+    return FALSE;
+  }
+
+  size_t n = jack_ringbuffer_write(queue->playback, (char const *)&event, sizeof(smf_event_t*));
+
+  return n == sizeof(smf_event_t*);
+}
+
+
+gboolean event_queue_read_event(event_queue_t *queue, unsigned char *event_buffer, size_t *event_length,
+                                double *event_time, double until_time) {
+  // FIXME
+  if (!queue->playback) {
+    return FALSE;
+  }
+
+  for (;;) {
+    smf_event_t *event;
+
+//    printf("is_playing=%d, playback_time=%f, end_time=%f\n", is_playing(), playback_time, get_end_time());
+
+    double playback_time = get_playback_time();
+
+    // FIXME: do this in audiointerface.c
+    if (playback_time > get_end_time()) {
+      if (is_playing() && playback_time > 0.0) {
+        midi_stop();
+      }
+
+//      printf("no more events to play\n");
+
+      return FALSE;
+    }
+    else if (!jack_ringbuffer_read_space(queue->playback)) {
+//      printf("no event to play right now\n");
+
+      return FALSE;
+    }
+
+    jack_ringbuffer_peek(queue->playback, (char *)&event, sizeof(smf_event_t*));
+
+    if (event->time_seconds >= until_time) {
+//      printf("no event to play right now\n");
+
+      return FALSE;
+    }
+
+    if (smf_event_is_metadata(event)) {
+      // consume metadata event and continue with the next one
+      jack_ringbuffer_read_advance(queue->playback, sizeof(smf_event_t*));
+      continue;
+    }
+
+    // consume the event
+    jack_ringbuffer_read_advance(queue->playback, sizeof(smf_event_t*));
+
+    g_assert(event->midi_buffer_length <= 3);
+
+    update_position(event);
+
+    memcpy(event_buffer, event->midi_buffer, event->midi_buffer_length);
+    *event_length = event->midi_buffer_length;
+    *event_time = event->time_seconds;
+
+//    printf("event_time=%f\n", *event_time);
+
+    return TRUE;
+  }
+}
+
+
+gboolean event_queue_input_capture_event(event_queue_t *queue, capture_event_t const *ev) {
+  if (!queue->capture) {
+    return FALSE;
+  }
+
+  size_t n = jack_ringbuffer_write(queue->capture, (char *)ev, sizeof(capture_event_t));
+
+  return n == sizeof(capture_event_t);
+}
+
+
+capture_event_t * event_queue_read_capture_event(event_queue_t *queue) {
+  if (!queue->capture) {
+    return NULL;
+  }
+
+  if (jack_ringbuffer_read_space(queue->capture)) {
+    capture_event_t *ev = g_malloc(sizeof(capture_event_t));
+    jack_ringbuffer_read(queue->capture, (char *)ev, sizeof(capture_event_t));
+    return ev;
+  } else {
+    return NULL;
+  }
+}

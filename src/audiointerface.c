@@ -12,6 +12,7 @@
  */
 
 #include "audiointerface.h"
+#include "eventqueue.h"
 #include "dummybackend.h"
 
 #ifdef _HAVE_JACK_
@@ -32,30 +33,21 @@
 #include "commandfuncs.h"
 #include "draw.h"
 
-#include "ringbuffer.h"
-
 #include <glib.h>
 #include <string.h>
-
-
-typedef struct capture_event_t {
-  backend_type_t backend;
-  int port;
-  unsigned char data[3];
-} capture_event_t;
 
 
 static backend_t *backends[NUM_BACKENDS] = { NULL };
 
 #define PLAYBACK_QUEUE_SIZE 1024
+#define IMMEDIATE_QUEUE_SIZE 32
 #define CAPTURE_QUEUE_SIZE 256
 
 // the time in µs after which the queue thread wakes up, whether it has been
 // signalled or not
 #define QUEUE_TIMEOUT 100000
 
-static jack_ringbuffer_t *playback_queues[NUM_BACKENDS] = { NULL };
-static jack_ringbuffer_t *capture_queues[NUM_BACKENDS] = { NULL };
+static event_queue_t *event_queues[NUM_BACKENDS] = { NULL };
 
 
 static GThread *queue_thread;
@@ -86,12 +78,12 @@ static backend_t * get_backend(backend_type_t backend) {
   }
 }
 
-static jack_ringbuffer_t * get_playback_queue(backend_type_t backend) {
+static event_queue_t *get_event_queue(backend_type_t backend) {
   if (backend == DEFAULT_BACKEND) {
     // FIXME
-    return playback_queues[MIDI_BACKEND];
+    return event_queues[MIDI_BACKEND];
   } else {
-    return playback_queues[backend];
+    return event_queues[backend];
   }
 }
 
@@ -123,7 +115,7 @@ static int initialize_audio(DenemoPrefs *config) {
     backends[AUDIO_BACKEND] = &dummy_audio_backend;
   }
 
-  playback_queues[AUDIO_BACKEND] = jack_ringbuffer_create(PLAYBACK_QUEUE_SIZE * sizeof(smf_event_t *));
+  event_queues[AUDIO_BACKEND] = event_queue_new(PLAYBACK_QUEUE_SIZE, IMMEDIATE_QUEUE_SIZE, 0);
 
   int ret = get_backend(AUDIO_BACKEND)->initialize(config);
 
@@ -170,8 +162,7 @@ static int initialize_midi(DenemoPrefs *config) {
     backends[MIDI_BACKEND] = &dummy_midi_backend;
   }
 
-  playback_queues[MIDI_BACKEND] = jack_ringbuffer_create(PLAYBACK_QUEUE_SIZE * sizeof(smf_event_t *));
-  capture_queues[MIDI_BACKEND] = jack_ringbuffer_create(CAPTURE_QUEUE_SIZE * sizeof(capture_event_t));
+  event_queues[MIDI_BACKEND] = event_queue_new(PLAYBACK_QUEUE_SIZE, IMMEDIATE_QUEUE_SIZE, CAPTURE_QUEUE_SIZE);
 
   int ret = get_backend(MIDI_BACKEND)->initialize(config);
 
@@ -218,15 +209,7 @@ static int destroy(backend_type_t backend) {
   get_backend(backend)->destroy();
   backends[backend] = NULL;
 
-  if (get_playback_queue(backend)) {
-    jack_ringbuffer_free(get_playback_queue(backend));
-    playback_queues[backend] = NULL;
-  }
-
-  if (capture_queues[backend]) {
-    jack_ringbuffer_free(capture_queues[backend]);
-    capture_queues[backend] = NULL;
-  }
+  event_queue_free(event_queues[backend]);
 
   return 0;
 }
@@ -297,82 +280,20 @@ static gboolean handle_midi_event_callback(gpointer data) {
 
 
 static void reset_playback_queue(backend_type_t backend) {
-  if (get_playback_queue(backend)) {
-    jack_ringbuffer_reset(get_playback_queue(backend));
+  if (get_event_queue(backend)) {
+    event_queue_reset_playback(get_event_queue(backend));
   }
 }
 
 
 static gboolean write_event_to_queue(backend_type_t backend, smf_event_t *event) {
-  jack_ringbuffer_t *queue = get_playback_queue(backend);
-
-  if (!queue) {
-    return FALSE;
-  }
-
-  int ret = jack_ringbuffer_write(queue, (char const *)&event, sizeof(smf_event_t*));
-
-  return ret == sizeof(smf_event_t*);
+  return event_queue_write_playback_event(get_event_queue(backend), event);
 }
 
 
 gboolean read_event_from_queue(backend_type_t backend, unsigned char *event_buffer, size_t *event_length,
                                double *event_time, double until_time) {
-  jack_ringbuffer_t *queue = get_playback_queue(backend);
-
-  if (!queue) {
-    return FALSE;
-  }
-
-  for (;;) {
-    smf_event_t *event;
-
-//    printf("is_playing=%d, playback_time=%f, end_time=%f\n", is_playing(), playback_time, get_end_time());
-
-    if (playback_time > get_end_time()) {
-      if (is_playing() && playback_time > 0.0) {
-        midi_stop();
-      }
-
-//      printf("no more events to play\n");
-
-      return FALSE;
-    }
-    else if (!jack_ringbuffer_read_space(queue)) {
-//      printf("no event to play right now\n");
-
-      return FALSE;
-    }
-
-    jack_ringbuffer_peek(queue, (char *)&event, sizeof(smf_event_t*));
-
-    if (event->time_seconds >= until_time) {
-//      printf("no event to play right now\n");
-
-      return FALSE;
-    }
-
-    if (smf_event_is_metadata(event)) {
-      // consume metadata event and continue with the next one
-      jack_ringbuffer_read_advance(queue, sizeof(smf_event_t*));
-      continue;
-    }
-
-    // consume the event
-    jack_ringbuffer_read_advance(queue, sizeof(smf_event_t*));
-
-    g_assert(event->midi_buffer_length <= 3);
-
-    update_position(event);
-
-    memcpy(event_buffer, event->midi_buffer, event->midi_buffer_length);
-    *event_length = event->midi_buffer_length;
-    *event_time = event->time_seconds;
-
-//    printf("event_time=%f\n", *event_time);
-
-    return TRUE;
-  }
+  return event_queue_read_event(get_event_queue(backend), event_buffer, event_length, event_time, until_time);
 }
 
 
@@ -397,10 +318,9 @@ static gpointer queue_thread_func(gpointer data) {
 
 
     // TODO: audio capture
-    while (jack_ringbuffer_read_space(capture_queues[MIDI_BACKEND])) {
-      capture_event_t * ev = g_malloc(sizeof(capture_event_t));
-      jack_ringbuffer_read(capture_queues[MIDI_BACKEND], (char *)ev, sizeof(capture_event_t));
 
+    capture_event_t *ev;
+    while ((ev = event_queue_read_capture_event(get_event_queue(MIDI_BACKEND))) != NULL) {
       g_idle_add_full(G_PRIORITY_HIGH_IDLE, handle_midi_event_callback, (gpointer)ev, NULL);
     }
 
@@ -591,7 +511,7 @@ void input_midi_event(backend_type_t backend, int port, unsigned char *buffer) {
     ev.data[0] = (ev.data[0] & 0x0f) | MIDI_NOTE_OFF;
   }
 
-  jack_ringbuffer_write(capture_queues[backend], (char *)&ev, sizeof(capture_event_t));
+  event_queue_input_capture_event(get_event_queue(backend), &ev);
 
   // if the lock fails, processing of the event will be delayed until the
   // queue thread wakes up on its own
