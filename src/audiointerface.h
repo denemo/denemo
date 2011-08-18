@@ -84,11 +84,11 @@ typedef enum backend_timebase_prio_t {
 } backend_timebase_prio_t;
 
 
-typedef struct capture_event_t {
+typedef struct input_event_t {
   backend_type_t backend;
   int port;
   unsigned char data[3];
-} capture_event_t;
+} input_event_t;
 
 
 /**

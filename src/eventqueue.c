@@ -18,7 +18,7 @@
 #include <string.h>
 
 
-event_queue_t *event_queue_new(size_t playback_queue_size, size_t immediate_queue_size, size_t capture_queue_size) {
+event_queue_t *event_queue_new(size_t playback_queue_size, size_t immediate_queue_size, size_t input_queue_size) {
   event_queue_t *queue = g_malloc0(sizeof(event_queue_t *));
 
   if (playback_queue_size) {
@@ -26,11 +26,11 @@ event_queue_t *event_queue_new(size_t playback_queue_size, size_t immediate_queu
   }
 
   if (immediate_queue_size) {
-    queue->immediate = jack_ringbuffer_create(immediate_queue_size * sizeof(capture_event_t));
+    queue->immediate = jack_ringbuffer_create(immediate_queue_size * sizeof(input_event_t));
   }
 
-  if (capture_queue_size) {
-    queue->capture = jack_ringbuffer_create(capture_queue_size * sizeof(capture_event_t));
+  if (input_queue_size) {
+    queue->input = jack_ringbuffer_create(input_queue_size * sizeof(input_event_t));
   }
 
   return queue;
@@ -46,8 +46,8 @@ void event_queue_free(event_queue_t *queue) {
     jack_ringbuffer_free(queue->immediate);
   }
 
-  if (queue->capture) {
-    jack_ringbuffer_free(queue->capture);
+  if (queue->input) {
+    jack_ringbuffer_free(queue->input);
   }
 
   g_free(queue);
@@ -134,25 +134,25 @@ gboolean event_queue_read_event(event_queue_t *queue, unsigned char *event_buffe
 }
 
 
-gboolean event_queue_input_capture_event(event_queue_t *queue, capture_event_t const *ev) {
-  if (!queue->capture) {
+gboolean event_queue_input_event(event_queue_t *queue, input_event_t const *event) {
+  if (!queue->input) {
     return FALSE;
   }
 
-  size_t n = jack_ringbuffer_write(queue->capture, (char *)ev, sizeof(capture_event_t));
+  size_t n = jack_ringbuffer_write(queue->input, (char *)event, sizeof(input_event_t));
 
-  return n == sizeof(capture_event_t);
+  return n == sizeof(input_event_t);
 }
 
 
-capture_event_t * event_queue_read_capture_event(event_queue_t *queue) {
-  if (!queue->capture) {
+input_event_t * event_queue_read_input_event(event_queue_t *queue) {
+  if (!queue->input) {
     return NULL;
   }
 
-  if (jack_ringbuffer_read_space(queue->capture)) {
-    capture_event_t *ev = g_malloc(sizeof(capture_event_t));
-    jack_ringbuffer_read(queue->capture, (char *)ev, sizeof(capture_event_t));
+  if (jack_ringbuffer_read_space(queue->input)) {
+    input_event_t *ev = g_malloc(sizeof(input_event_t));
+    jack_ringbuffer_read(queue->input, (char *)ev, sizeof(input_event_t));
     return ev;
   } else {
     return NULL;

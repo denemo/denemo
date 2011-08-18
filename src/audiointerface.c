@@ -41,7 +41,7 @@ static backend_t *backends[NUM_BACKENDS] = { NULL };
 
 #define PLAYBACK_QUEUE_SIZE 1024
 #define IMMEDIATE_QUEUE_SIZE 32
-#define CAPTURE_QUEUE_SIZE 256
+#define INPUT_QUEUE_SIZE 256
 
 // the time in µs after which the queue thread wakes up, whether it has been
 // signalled or not
@@ -162,7 +162,7 @@ static int initialize_midi(DenemoPrefs *config) {
     backends[MIDI_BACKEND] = &dummy_midi_backend;
   }
 
-  event_queues[MIDI_BACKEND] = event_queue_new(PLAYBACK_QUEUE_SIZE, IMMEDIATE_QUEUE_SIZE, CAPTURE_QUEUE_SIZE);
+  event_queues[MIDI_BACKEND] = event_queue_new(PLAYBACK_QUEUE_SIZE, IMMEDIATE_QUEUE_SIZE, INPUT_QUEUE_SIZE);
 
   int ret = get_backend(MIDI_BACKEND)->initialize(config);
 
@@ -266,7 +266,7 @@ static gboolean redraw_playhead_callback(gpointer data) {
 static gboolean handle_midi_event_callback(gpointer data) {
   gdk_threads_enter();
 
-  capture_event_t * ev = (capture_event_t *) data;
+  input_event_t * ev = (input_event_t *) data;
 
   // TODO: handle backend type and port
   handle_midi_event((gchar *)ev->data);
@@ -319,8 +319,8 @@ static gpointer queue_thread_func(gpointer data) {
 
     // TODO: audio capture
 
-    capture_event_t *ev;
-    while ((ev = event_queue_read_capture_event(get_event_queue(MIDI_BACKEND))) != NULL) {
+    input_event_t *ev;
+    while ((ev = event_queue_read_input_event(get_event_queue(MIDI_BACKEND))) != NULL) {
       g_idle_add_full(G_PRIORITY_HIGH_IDLE, handle_midi_event_callback, (gpointer)ev, NULL);
     }
 
@@ -500,7 +500,7 @@ int panic_all() {
 
 
 void input_midi_event(backend_type_t backend, int port, unsigned char *buffer) {
-  capture_event_t ev;
+  input_event_t ev;
   ev.backend = backend;
   ev.port = port;
   // FIXME: size might be less than 3
@@ -511,7 +511,7 @@ void input_midi_event(backend_type_t backend, int port, unsigned char *buffer) {
     ev.data[0] = (ev.data[0] & 0x0f) | MIDI_NOTE_OFF;
   }
 
-  event_queue_input_capture_event(get_event_queue(backend), &ev);
+  event_queue_input_event(get_event_queue(backend), &ev);
 
   // if the lock fails, processing of the event will be delayed until the
   // queue thread wakes up on its own
