@@ -62,7 +62,7 @@ void event_queue_reset_playback(event_queue_t *queue) {
 
 
 gboolean event_queue_write_playback_event(event_queue_t *queue, smf_event_t *event) {
-  if (!queue->playback) {
+  if (!queue->playback || jack_ringbuffer_write_space(queue->playback) < sizeof(smf_event_t*)) {
     return FALSE;
   }
 
@@ -135,7 +135,7 @@ gboolean event_queue_read_event(event_queue_t *queue, unsigned char *event_buffe
 
 
 gboolean event_queue_input_event(event_queue_t *queue, input_event_t const *event) {
-  if (!queue->input) {
+  if (!queue->input || jack_ringbuffer_write_space(queue->input) < sizeof(input_event_t)) {
     return FALSE;
   }
 
