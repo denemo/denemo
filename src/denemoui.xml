@@ -468,7 +468,6 @@
       
       <menu action="Markings">
 	<menu action="Dynamics">
-	  <menuitem action="InsertDynamic"/>
 	  <menuitem action="ToggleStartCrescendo"/>
 	  <menuitem action="ToggleEndCrescendo"/>
 	  <menuitem action="ToggleStartDiminuendo"/>
