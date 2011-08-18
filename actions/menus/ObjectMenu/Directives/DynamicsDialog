@@ -2,7 +2,7 @@
 <Denemo>
   <merge>
     <title>A Denemo Keymap</title>
-    <author>Dan Wilckens, RTS</author>
+    <author>AT, JRR, RTS</author>
     <map>
       <row>
         <action>DynamicsDialog</action>
@@ -38,34 +38,21 @@
    )
   )
 )
-( if (not (boolean? choice) )
+( if choice
     (begin 
     	( if (equal? replace #f ) (d-DirectivePut-standalone "Dynamic" ) )
-	(d-DirectivePut-standalone-postfix "Dynamic"  LilyString)
-	(if (equal? Graphic "") 
-	   (begin
-		(d-DirectivePut-standalone-display  "Dynamic" choice)
-		(d-DirectivePut-standalone-ty "Dynamic" 70 )
-		(d-DirectivePut-standalone-graphic "Dynamic" "")
-	   )
-	   (begin
-	   	(d-DirectivePut-standalone-graphic "Dynamic" Graphic)
-	   	(d-DirectivePut-standalone-gy "Dynamic" 70 )
-	   	(d-DirectivePut-standalone-gx "Dynamic" 12 )
-		(d-DirectivePut-standalone-display  "Dynamic" "&#x25C6;")
-		(d-DirectivePut-standalone-ty "Dynamic" 60 )
-	   )
-	)
-        (if (not (boolean? level) ) 
+	(d-DirectivePut-standalone-postfix "Dynamic"  LilyString)	   
+	(d-DirectivePut-standalone-graphic  "Dynamic" (string-append "\n" choice "\nSerif\n24\n1\n1"))
+	(d-DirectivePut-standalone-gy "Dynamic" 70 )
+	  (d-DirectivePut-standalone-gx "Dynamic" 12 )
+	))
+        (if level
            (begin	(d-DirectivePut-standalone-override "Dynamic" (logior DENEMO_OVERRIDE_STEP DENEMO_OVERRIDE_VOLUME))
 	      (d-DirectivePut-standalone-midibytes "Dynamic" level ) ) 
 	)
 	(d-DirectivePut-standalone-minpixels "Dynamic" 10 )
 	(d-RefreshDisplay)
-	(d-MoveCursorRight)
-    )
- )
- )</scheme>
+	(d-MoveCursorRight))</scheme>
         <label>Dynamics</label>
         <tooltip>Choose dynamics and midi volume level.</tooltip>
       </row>
