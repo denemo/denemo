@@ -175,12 +175,6 @@ static int portaudio_stop_playing() {
 }
 
 
-static int portaudio_play_midi_event(int port, unsigned char *buffer) {
-  // TODO
-  return 0;
-}
-
-
 static int portaudio_panic() {
   reset_audio = TRUE;
   return 0;
@@ -193,7 +187,6 @@ backend_t portaudio_backend = {
   portaudio_reconfigure,
   portaudio_start_playing,
   portaudio_stop_playing,
-  portaudio_play_midi_event,
   portaudio_panic,
 };
 

@@ -203,11 +203,6 @@ static int alsa_seq_stop_playing() {
 }
 
 
-static int alsa_seq_play_midi_event(int port, unsigned char *buffer) {
-  return 0;
-}
-
-
 static int alsa_seq_panic() {
   reset = TRUE;
   return 0;
@@ -220,6 +215,5 @@ backend_t alsa_seq_midi_backend = {
   alsa_seq_reconfigure,
   alsa_seq_start_playing,
   alsa_seq_stop_playing,
-  alsa_seq_play_midi_event,
   alsa_seq_panic,
 };

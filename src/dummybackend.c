@@ -171,14 +171,6 @@ static int dummy_stop_playing() {
 }
 
 
-static int dummy_play_midi_event(int port, unsigned char *buffer) {
-  int channel = buffer[0] & 0x0f;
-  int type = (buffer[0] & 0xf0) >> 4;
-  g_print("playing midi event: port=%d, channel=%d, type=%x\n", port, channel, type);
-  return 0;
-}
-
-
 static int dummy_panic() {
   return 0;
 }
@@ -190,7 +182,6 @@ backend_t dummy_audio_backend = {
   dummy_audio_reconfigure,
   dummy_start_playing,
   dummy_stop_playing,
-  dummy_play_midi_event,
   dummy_panic,
 };
 
@@ -200,6 +191,5 @@ backend_t dummy_midi_backend = {
   dummy_midi_reconfigure,
   dummy_start_playing,
   dummy_stop_playing,
-  dummy_play_midi_event,
   dummy_panic,
 };

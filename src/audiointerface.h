@@ -52,15 +52,6 @@ typedef struct backend_t {
   int (*stop_playing)();
 
   /**
-   * Plays a single MIDI event.
-   *
-   * FIXME: this may not be feasible for all backends (at least JACK would
-   * require some kind of buffering between this function and the process
-   * callback)
-   */
-  int (*play_midi_event)(int port, unsigned char *buffer);
-
-  /**
    * Sends a MIDI panic CC and/or resets the synth engine.
    */
   int (*panic)();

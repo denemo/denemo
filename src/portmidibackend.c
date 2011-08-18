@@ -216,11 +216,6 @@ static int portmidi_stop_playing() {
 }
 
 
-static int portmidi_play_midi_event(int port, unsigned char *buffer) {
-  return 0;
-}
-
-
 static int portmidi_panic() {
   reset = TRUE;
   return 0;
@@ -233,7 +228,6 @@ backend_t portmidi_backend = {
   portmidi_reconfigure,
   portmidi_start_playing,
   portmidi_stop_playing,
-  portmidi_play_midi_event,
   portmidi_panic,
 };
 

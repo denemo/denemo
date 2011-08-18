@@ -425,14 +425,6 @@ static int jack_audio_stop_playing() {
 }
 
 
-static int jack_audio_play_midi_event(int port, unsigned char *buffer) {
-  int channel = buffer[0] & 0x0f;
-  int type = (buffer[0] & 0xf0) >> 4;
-  g_print("playing midi event: port=%d, channel=%d, type=%x\n", port, channel, type);
-  return 0;
-}
-
-
 static int jack_audio_panic() {
   reset_audio = TRUE;
   return 0;
@@ -502,14 +494,6 @@ static int jack_midi_stop_playing() {
 }
 
 
-static int jack_midi_play_midi_event(int port, unsigned char *buffer) {
-  int channel = buffer[0] & 0x0f;
-  int type = (buffer[0] & 0xf0) >> 4;
-  g_print("playing midi event: port=%d, channel=%d, type=%x\n", port, channel, type);
-  return 0;
-}
-
-
 static int jack_midi_panic() {
   reset_midi = TRUE;
   return 0;
@@ -522,7 +506,6 @@ backend_t jack_audio_backend = {
   jack_audio_reconfigure,
   jack_audio_start_playing,
   jack_audio_stop_playing,
-  jack_audio_play_midi_event,
   jack_audio_panic,
 };
 
@@ -532,6 +515,5 @@ backend_t jack_midi_backend = {
   jack_midi_reconfigure,
   jack_midi_start_playing,
   jack_midi_stop_playing,
-  jack_midi_play_midi_event,
   jack_midi_panic,
 };
