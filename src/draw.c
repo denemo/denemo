@@ -519,6 +519,7 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
 	      DenemoGUI * gui, struct infotopass *itp)
 {
   static GString *mstring;
+  gint last_type = -1;//type of last object in measure
   gint extra_ticks = 0;//number of ticks by which measure is over-full
   DenemoScore *si = gui->si;
   objnode *curobj;
@@ -622,8 +623,7 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
     extra_ticks = draw_object (cr, curobj, x, y, gui, itp);
 
     {DenemoObject *obj = (DenemoObject *) curobj->data;
-      if(Denemo.gui->si->smf)
-	;//g_print("Latest %f earliest %f Obj type %d\n", obj->latest_time, obj->earliest_time, obj->type);
+     last_type = obj->type;
     }
     //itp->rightmosttime = curobj->latest_time;//we just want this for the rightmost object 
   } // for each object
@@ -645,18 +645,18 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
       if(curmeasure->data) {
 	if(extra_ticks > 0 )
 	  cairo_set_source_rgba( cr, 1.0, 0.8, 0.8, 0.5);
-	else if(extra_ticks < 0 )
+	else if((extra_ticks < 0) && curmeasure->next )
 	  cairo_set_source_rgba( cr, 0.8, 0.8, 1, 0.5);
 	//else
 	  //cairo_set_source_rgba( cr, 1, 1, 1, 0.5);
      
-	if(extra_ticks != 0) {
+	if((extra_ticks > 0 ) || ((extra_ticks < 0 ) && (curmeasure->next))) {
 	  cairo_rectangle (cr, x , y, GPOINTER_TO_INT (itp->mwidthiterator->data), STAFF_HEIGHT+1);        
 	  cairo_fill(cr);
 	}
       }
       if(extra_ticks != 0) {
-	drawlargetext_cr( cr, "!", x, y - 8 );
+	//drawlargetext_cr( cr, "!", x, y - 8 );
 	//cairo_set_source_rgb( cr, 0.5, 0.5, 0.5 );
       } else {
 	cairo_set_source_rgb( cr, 0, 0, 0 );
@@ -667,13 +667,15 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
     cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y-0.5, 1.5, STAFF_HEIGHT+1);
     cairo_fill(cr);
 
-    if (!curmeasure->next)
+    if ((!curmeasure->next))
       {
 	/* we've reached the end of the score and should
 	 * draw the heavy part of double-barline at regular position */
 	x += 3;
-	cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y-0.5, 4, STAFF_HEIGHT+1);
-	cairo_fill(cr);
+	if(last_type != LILYDIRECTIVE) {
+	  cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y-0.5, 4, STAFF_HEIGHT+1);
+	  cairo_fill(cr);
+	}
 	itp->end = TRUE;
       }	
     else {
