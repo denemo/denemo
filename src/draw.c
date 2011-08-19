@@ -640,7 +640,7 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
 	  cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y, 20, STAFF_HEIGHT+1); 
 	  
 	  cairo_fill(cr);
-      } else {//not selected
+      } 
       /* Indicate fill status  */
       if(curmeasure->data) {
 	if(extra_ticks > 0 )
@@ -661,7 +661,7 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
       } else {
 	cairo_set_source_rgb( cr, 0, 0, 0 );
       }
-    }
+    
     
     //draw the barline
     cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y-0.5, 1.5, STAFF_HEIGHT+1);
