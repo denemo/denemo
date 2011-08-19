@@ -101,14 +101,20 @@ static int portaudio_initialize(DenemoPrefs *config) {
     return -1;
   }
 
+  PaDeviceInfo const *info = Pa_GetDeviceInfo(output_parameters.device);
+
+  if (!info) {
+    g_warning("invalid device '%s\n'", config->portaudio_device->str);
+    return -1;
+  }
+
+  char const *api_name = Pa_GetHostApiInfo(info->hostApi)->name;
+  g_print("opening output device '%s: %s'\n", api_name, info->name);
+
   output_parameters.channelCount = 2;
   output_parameters.sampleFormat = paFloat32 | paNonInterleaved;
   output_parameters.suggestedLatency = Pa_GetDeviceInfo(output_parameters.device)->defaultLowOutputLatency;
   output_parameters.hostApiSpecificStreamInfo = NULL;
-
-  PaDeviceInfo const *info = Pa_GetDeviceInfo(output_parameters.device);
-  char const *api_name = Pa_GetHostApiInfo(info->hostApi)->name;
-  g_print("opening output device '%s: %s'\n", api_name, info->name);
 
   err = Pa_OpenStream(&stream, NULL, &output_parameters,
                       config->portaudio_sample_rate, config->portaudio_period_size,
