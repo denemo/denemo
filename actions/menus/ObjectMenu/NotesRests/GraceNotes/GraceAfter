@@ -14,14 +14,17 @@
   (if (d-Directive-chord? "AfterGrace")
       (begin ;;; already is a grace after delete
 	(d-DirectiveDelete-chord "AfterGrace")
-	(d-ToggleGrace)
-	
+	(d-ToggleGrace)	
 	(d-MoveCursorLeft)
 	;;(display (d-GetNote))
 	(d-DirectiveDelete-chord "MainGraceAfter")
 	(d-MoveCursorRight)
 	)
-      (begin;;;make current note a grace note without the \grace output
+      (begin
+      ;;; if we are on a grace, turn it into an after grace by first making it an ordinary note
+      (if (d-IsGrace)
+      	(d-ToggleGrace))
+      ;;;make current note a grace note without the \grace output
        (d-ToggleGrace)
        (d-DirectivePut-chord-postfix "AfterGrace" (string-append (d-GetNote) (d-GetNoteDuration)))
        (d-DirectivePut-chord-override "AfterGrace" DENEMO_OVERRIDE_LILYPOND)
