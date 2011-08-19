@@ -642,37 +642,33 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
 	  cairo_fill(cr);
     } 
       /* Indicate fill status  */
+#define OPACITY (0.3)
     if(curmeasure->data) {
 	if(extra_ticks > 0 )
-	  cairo_set_source_rgba( cr, 1.0, 0.8, 0.8, 0.5);
+	  cairo_set_source_rgba( cr, 1.0, 0.8, 0.8, OPACITY);
 	else if((extra_ticks < 0) && curmeasure->next )
-	  cairo_set_source_rgba( cr, 0.8, 0.8, 1, 0.5);
-	//else
-	  //cairo_set_source_rgba( cr, 1, 1, 1, 0.5);
-     
+	  cairo_set_source_rgba( cr, 0.8, 0.8, 1, OPACITY);
+#undef OPACITY     
 	if((extra_ticks > 0 ) || ((extra_ticks < 0 ) && (curmeasure->next) && curmeasure->next->data)) {
 	  cairo_rectangle (cr, x , y, GPOINTER_TO_INT (itp->mwidthiterator->data), STAFF_HEIGHT+1);        
 	  cairo_fill(cr);
+	  extra_ticks>0 ? cairo_set_source_rgb( cr, 1, 0, 0 ):cairo_set_source_rgb( cr, 0, 0, 1 );
 	} else {
 	cairo_set_source_rgb( cr, 0, 0, 0 );
+       }
     }
-    }
-    if(extra_ticks != 0) {
-	//drawlargetext_cr( cr, "!", x, y - 8 );
-	//cairo_set_source_rgb( cr, 0.5, 0.5, 0.5 );
-    } else {
+    if(extra_ticks == 0)  {
 	cairo_set_source_rgb( cr, 0, 0, 0 );
     }
-    
-    
+
     //draw the barline
     cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y-0.5, 1.5, STAFF_HEIGHT+1);
     cairo_fill(cr);
 
     if ((!curmeasure->next))
       {
-	/* we've reached the end of the score and should
-	 * draw the heavy part of double-barline at regular position */
+	/* we've reached the end of the staff and should
+	 * draw the heavy part of double-barline unless there is a directive here in which case it takes responsibility for the type of barline */
 	x += 3;
 	if(last_type != LILYDIRECTIVE) {
 	  cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y-0.5, 4, STAFF_HEIGHT+1);
