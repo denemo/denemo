@@ -640,9 +640,9 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
 	  cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y, 20, STAFF_HEIGHT+1); 
 	  
 	  cairo_fill(cr);
-      } 
+    } 
       /* Indicate fill status  */
-      if(curmeasure->data) {
+    if(curmeasure->data) {
 	if(extra_ticks > 0 )
 	  cairo_set_source_rgba( cr, 1.0, 0.8, 0.8, 0.5);
 	else if((extra_ticks < 0) && curmeasure->next )
@@ -654,13 +654,13 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
 	  cairo_rectangle (cr, x , y, GPOINTER_TO_INT (itp->mwidthiterator->data), STAFF_HEIGHT+1);        
 	  cairo_fill(cr);
 	}
-      }
-      if(extra_ticks != 0) {
+    }
+    if(extra_ticks != 0) {
 	//drawlargetext_cr( cr, "!", x, y - 8 );
 	//cairo_set_source_rgb( cr, 0.5, 0.5, 0.5 );
-      } else {
+    } else {
 	cairo_set_source_rgb( cr, 0, 0, 0 );
-      }
+    }
     
     
     //draw the barline
