@@ -141,6 +141,12 @@ static int portaudio_destroy() {
 
   PaError err;
 
+  err = Pa_AbortStream(stream);
+  if (err != paNoError) {
+    g_warning("couldn't abort output stream\n");
+    return -1;
+  }
+
   err = Pa_CloseStream(stream);
   if (err != paNoError) {
     g_warning("closing stream failed: %d, %s\n", err, Pa_GetErrorText(err));
