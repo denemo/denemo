@@ -72,9 +72,31 @@ gboolean event_queue_write_playback_event(event_queue_t *queue, smf_event_t *eve
 }
 
 
+gboolean event_queue_write_immediate_event(event_queue_t *queue, input_event_t *event) {
+  if (!queue->immediate || jack_ringbuffer_write_space(queue->immediate) < sizeof(input_event_t)) {
+    return FALSE;
+  }
+
+  size_t n = jack_ringbuffer_write(queue->immediate, (char const *)event, sizeof(input_event_t));
+
+  return n == sizeof(input_event_t);
+}
+
+
 gboolean event_queue_read_event(event_queue_t *queue, unsigned char *event_buffer, size_t *event_length,
                                 double *event_time, double until_time) {
-  // FIXME
+  if (jack_ringbuffer_read_space(queue->immediate)) {
+    input_event_t event;
+    jack_ringbuffer_read(queue->immediate, (char *)&event, sizeof(input_event_t));
+
+    memcpy(event_buffer, &event.data, 3);
+    // FIXME
+    *event_length = 3;
+    *event_time = 0;
+
+    return TRUE;
+  }
+
   if (!queue->playback) {
     return FALSE;
   }

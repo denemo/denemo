@@ -73,6 +73,7 @@ static backend_t * get_backend(backend_type_t backend) {
   if (backend == DEFAULT_BACKEND) {
     // FIXME: this should be configurable
     return backends[MIDI_BACKEND];
+//    return backends[AUDIO_BACKEND];
   } else {
     return backends[backend];
   }
@@ -82,6 +83,7 @@ static event_queue_t *get_event_queue(backend_type_t backend) {
   if (backend == DEFAULT_BACKEND) {
     // FIXME
     return event_queues[MIDI_BACKEND];
+//    return event_queues[AUDIO_BACKEND];
   } else {
     return event_queues[backend];
   }
@@ -436,12 +438,19 @@ void midi_stop() {
 
 
 int play_midi_event(backend_type_t backend, int port, unsigned char *buffer) {
-//  return get_backend(backend)->play_midi_event(port, buffer);
-
   int channel = buffer[0] & 0x0f;
   int type = (buffer[0] & 0xf0) >> 4;
-  g_print("playing midi event: port=%d, channel=%d, type=%x\n", port, channel, type);
-  return 0;
+  g_print("playing midi event: port=%d, channel=%d, type=%x, data1=%d, data2=%d\n", port, channel, type, buffer[1], buffer[2]);
+
+  input_event_t ev;
+  ev.backend = backend;
+  ev.port = port;
+  // FIXME: size might be less than 3
+  memcpy(&ev.data, buffer, 3);
+
+  gboolean b = event_queue_write_immediate_event(get_event_queue(backend), &ev);
+
+  return b == TRUE;
 }
 
 
@@ -471,7 +480,7 @@ int play_note(backend_type_t backend, int port, int channel, int key, int durati
 
   int r = play_midi_event(backend, port, buffer);
 
-  // FIXME: this limits the number of ports to 256...
+  // XXX this limits the number of ports to 256...
   gpointer data = (gpointer) (backend << 24 | port << 16 | channel << 8 | key);
   g_timeout_add(duration, play_note_noteoff_callback, data);
 
@@ -479,7 +488,26 @@ int play_note(backend_type_t backend, int port, int channel, int key, int durati
 }
 
 int play_notes(backend_type_t backend, int port, int channel, chord *chord_to_play) {
-  // TODO
+  if (chord_to_play->notes) {
+    GList *g;
+    for (g = chord_to_play->notes; g; g = g->next) {
+      note * n = g->data;
+
+      /* Because mid_c_offset is a measure of notes and we need a measure of
+       * half-steps, this array will help */
+      const gint key_offset[] = { -10, -8, -7, -5, -3, -1, 0, 2, 4, 5, 7, 9, 11 };
+
+      gint offset = n->mid_c_offset;
+
+      /* 60 is middle-C in MIDI keys */
+      gchar key = 60 + 12 * (offset / 7) + key_offset[offset % 7 + 6];
+      key += n->enshift;
+
+      // FIXME
+      play_note(backend, port, channel, key, 200, 127);
+    }
+  }
+
   return 0;
 }
 

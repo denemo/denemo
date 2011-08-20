@@ -76,6 +76,16 @@ void event_queue_reset_playback(event_queue_t *queue);
 gboolean event_queue_write_playback_event(event_queue_t *queue, smf_event_t *event);
 
 /**
+ * Writes an event to the immmediate playback queue.
+ *
+ * @param event   the event to be written to the queue. The event data will be
+ *                copied.
+ *
+ * @return        TRUE if the event was successfully written to the queue
+ */
+gboolean event_queue_write_immediate_event(event_queue_t *queue, input_event_t *event);
+
+/**
  * Reads an event from one of the playback queues.
  *
  * @param[out] event_buffer   the event data
