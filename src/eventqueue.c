@@ -92,7 +92,7 @@ gboolean event_queue_read_event(event_queue_t *queue, unsigned char *event_buffe
     memcpy(event_buffer, &event.data, 3);
     // FIXME
     *event_length = 3;
-    *event_time = 0;
+    *event_time = 0.0;
 
     return TRUE;
   }

@@ -142,7 +142,12 @@ static void process_midi_output(nframes_t nframes) {
   double until_time = nframes_to_seconds(playback_frame + nframes);
 
   while (read_event_from_queue(MIDI_BACKEND, event_data, &event_length, &event_time, until_time)) {
-    nframes_t frame = seconds_to_nframes(event_time) - playback_frame;
+    nframes_t frame;
+    if (event_time == 0.0) {
+      frame = 0;
+    } else {
+      frame = seconds_to_nframes(event_time) - playback_frame;
+    }
 
     // FIXME: use correct port
     jack_midi_event_write(port_buffers[0], frame, event_data, event_length);
