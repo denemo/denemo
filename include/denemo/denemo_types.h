@@ -248,7 +248,7 @@ typedef struct
 {
   GtkMenu *staffmenu; /**< a menu to popup up with the staff directives attached */
   GtkMenu *voicemenu; /**< a menu to popup up with the voice directives attached */
-
+  GList *sources;/**< List of source pixbufs, one for each measure staff-view */
   measurenode *measures; /**< This is a pointer to each measure in the staff */
   clef clef; /**< The initial clef see denemo_objects.h clefs */
   keysig keysig;
@@ -379,6 +379,7 @@ typedef struct DenemoPrefs
   GString *profile; /**< Which set of commands and shortcuts to load, and which initialization of scheme to run */
   GString *lilypath; /**< This is the executable or full path to the lilypond executable */
   GString *audioplayer; /**< This is used for playing audio files*/
+  GString *fontspec; /**< Font specification usually Denemo as this has the required characters */
   gboolean immediateplayback; /**< This options sends audio directly to synth as notes 
 				are being entered */
   gint pitchspellingchannel; /**< channel to use for feedback when entering extreme intervals via MIDI in, that may indicate an enharmonic error, 0 means no pitch spelling*/
@@ -747,7 +748,7 @@ typedef struct DenemoScore
   gint widthtoworkwith;
   gint staffspace;
 
-
+  GList *sources; /**< List of source pixbufs, one for each measure score-view*/
   gdouble start_time; /**< time in seconds to start playing at */
   gdouble end_time; /**< time to end playing at */
   DenemoObject *playingnow; /**< the last object played via MIDI; it must not be dereferenced as it may no longer exist */

@@ -627,7 +627,26 @@ newXMLNoteHead (xmlNodePtr parent, xmlNsPtr ns, enum headtype noteHeadType)
   return noteHeadElem;
 }
 
-
+ static void  outputSources(xmlNodePtr mvmntElem, xmlNsPtr ns, GList *sources) {
+  GList *g = sources;
+  xmlNodePtr curElem = xmlNewChild (mvmntElem, ns, (xmlChar *) "sources", NULL);
+  for(;g; g=g->next) {
+      gsize len;
+      GError *error = NULL;
+      gchar *buf;
+      gdk_pixbuf_save_to_buffer(g->data, &buf, &len, "png", &error, NULL);
+      gchar *cdata = g_base64_encode(buf, len);
+      g_free(buf);
+      xmlNewChild (curElem, ns, (xmlChar *) "pixbuf", cdata);
+      g_free(cdata);
+		//??? xmlNodePtr xmlNewCDataBlock	(xmlDocPtr doc, const xmlChar *content, int len);
+		
+ //use gboolean  gdk_pixbuf_save_to_buffer(GdkPixbuf *pixbuf, gchar **buffer, gsize *buffer_size, const char *type, GError **error, ...);  
+//g_base64_encode(guchar *buf, gsize len);
+//g_base64_decode(guchar *buf, gsize* outlen);
+//g_base64_decode_inplace(guchar *buf, gsize* outlen);//overwrites buf with decoded data.
+  }	
+}
 /**
  * Export the given score (from measure start to measure end) as a "native"
  * Denemo XML file to the given file.
@@ -763,13 +782,17 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   if(si->movementcontrol.directives) {
     newDirectivesElem(mvmntElem, ns, si->movementcontrol.directives, "movementcontrol-directives");
   }
+  
+    // output si->sources
+  if(si->sources)
+    outputSources(mvmntElem, ns, si->sources);
 
   parentElem = xmlNewChild (mvmntElem, ns, (xmlChar *) "score-info", NULL);
   curElem = xmlNewChild (parentElem, ns, (xmlChar *) "tempo", NULL);
   newXMLFraction (xmlNewChild (curElem, ns, (xmlChar *) "duration", NULL), ns,
 		  1, 4);
   newXMLIntChild (curElem, ns, (xmlChar *) "bpm", si->tempo*si->master_tempo);
-  
+
 
 
   /* Output each (primary) staff, as a structure to hold the DenemoStaffs, which are thought of as voices in this xml format; and store the IDs in a hash table. */
@@ -860,6 +883,10 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
       newXMLTimeSignature (parentElem, ns, &curStaffStruct->timesig);
 // output here the stuff like device-port which are currently being done on the staff, because that staff is just a container, not a real Denemo staff
       newVoiceProps (voiceElem, ns, curStaffStruct);
+
+    // output staff->sources
+      if(curStaffStruct->sources)
+	outputSources(parentElem, ns, curStaffStruct->sources);
 
 
       /* Write out the measures. */

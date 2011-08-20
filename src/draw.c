@@ -171,6 +171,7 @@ struct infotopass
   gint lowy;/*(return) the lowest y value drawn*/
   gint in_highy; // FIXME these are passed in so that highy, lowy do not need to be passed back
   gint in_lowy;
+  gboolean source_displayed;//if pixbufs (sources) have been displayed for a staff - show no further staff content
   gboolean mark;//whether the region is selected
   gint *left, *right;//pointer into array, pointing to leftmost/rightmost measurenum for current system(line)
   gint *scale;//pointer into an array of scales - this entry is the percent horizontal scale applied to the current system
@@ -518,6 +519,7 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
 	      DenemoGUI * gui, struct infotopass *itp)
 {
   static GString *mstring;
+  gint last_type = -1;//type of last object in measure
   gint extra_ticks = 0;//number of ticks by which measure is over-full
   DenemoScore *si = gui->si;
   objnode *curobj;
@@ -621,8 +623,7 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
     extra_ticks = draw_object (cr, curobj, x, y, gui, itp);
 
     {DenemoObject *obj = (DenemoObject *) curobj->data;
-      if(Denemo.gui->si->smf)
-	;//g_print("Latest %f earliest %f Obj type %d\n", obj->latest_time, obj->earliest_time, obj->type);
+     last_type = obj->type;
     }
     //itp->rightmosttime = curobj->latest_time;//we just want this for the rightmost object 
   } // for each object
@@ -634,41 +635,50 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
        (si->selection.firststaffmarked <= itp->staffnum) &&
        (si->selection.laststaffmarked >= itp->staffnum) &&
        (si->selection.firstmeasuremarked <= itp->measurenum) &&
-       (si->selection.lastmeasuremarked > itp->measurenum))
-      {
-	cairo_set_source_rgb( cr, 0.5, 0.5, 1.0 );
-	cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y, 20, STAFF_HEIGHT+1); 
-	cairo_fill(cr);
-      }
-    
-    /* Paint the exclamation point, if necessary */
-    
-    if( extra_ticks > 0 )
-      cairo_set_source_rgb( cr, 1.0, 0, 0 );
-    else
-      cairo_set_source_rgb( cr, 0, 0, 1 );
-    if(extra_ticks != 0) {
-      drawlargetext_cr( cr, "!", x, y - 8 );
-      //cairo_set_source_rgb( cr, 0.5, 0.5, 0.5 );
-    } else
-      cairo_set_source_rgb( cr, 0, 0, 0 );
-    //draw the barline
+       (si->selection.lastmeasuremarked > itp->measurenum))      {
+	  cairo_set_source_rgb( cr, 0.5, 0.5, 1.0 );
+	  cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y, 20, STAFF_HEIGHT+1); 
+	  
+	  cairo_fill(cr);
+    } 
+      /* Indicate fill status  */
+#define OPACITY (0.3)
+    if(curmeasure->data) {
+	if(extra_ticks > 0 )
+	  cairo_set_source_rgba( cr, 1.0, 0.8, 0.8, OPACITY);
+	else if((extra_ticks < 0) && curmeasure->next )
+	  cairo_set_source_rgba( cr, 0.8, 0.8, 1, OPACITY);
+#undef OPACITY     
+	if((extra_ticks > 0 ) || ((extra_ticks < 0 ) && (curmeasure->next) && curmeasure->next->data)) {
+	  cairo_rectangle (cr, x , y, GPOINTER_TO_INT (itp->mwidthiterator->data), STAFF_HEIGHT+1);        
+	  cairo_fill(cr);
+	  extra_ticks>0 ? cairo_set_source_rgb( cr, 1, 0, 0 ):cairo_set_source_rgb( cr, 0, 0, 1 );
+	} else {
+	cairo_set_source_rgb( cr, 0, 0, 0 );
+       }
+    }
+    if(extra_ticks == 0)  {
+	cairo_set_source_rgb( cr, 0, 0, 0 );
+    }
 
+    //draw the barline
     cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y-0.5, 1.5, STAFF_HEIGHT+1);
     cairo_fill(cr);
 
-
-    if (!curmeasure->next)
+    if ((!curmeasure->next))
       {
-	/* we've reached the end of the score and should
-	 * draw the heavy part of double-barline at regular position */
+	/* we've reached the end of the staff and should
+	 * draw the heavy part of double-barline unless there is a directive here in which case it takes responsibility for the type of barline */
 	x += 3;
-	cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y-0.5, 4, STAFF_HEIGHT+1);
-	cairo_fill(cr);
+	if(last_type != LILYDIRECTIVE) {
+	  cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y-0.5, 4, STAFF_HEIGHT+1);
+	  cairo_fill(cr);
+	}
 	itp->end = TRUE;
       }	
-    else 
+    else {
       itp->end = FALSE;
+    }
     cairo_restore(cr);
   } //if cr
 
@@ -824,26 +834,49 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 
  gint scale_before=*itp->scale;
   itp->line_end = FALSE;
-  
+  cairo_t *saved_cr = NULL;
+  if(itp->source_displayed) {//We have displayed source material below the last staff, so do not draw anymore staff music. We cannot simply skip the drawing routines however, because they determine the rightmost bar for mouse positioning, so we save and restore it.
+    saved_cr = cr;
+    cr = NULL;
+  }
+    
   while ( (!itp->line_end) 
 	 && itp->measurenum <= nummeasures)
     {
       if( x + GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE >
 	  (int) (Denemo.scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)))
 	  itp->line_end=TRUE;
-      // if(!(itp->line_end &&  itp->measurenum > si->rightmeasurenum))
-	{
+
 	  itp->last_gap = 0;
 	  draw_measure (cr, itp->curmeasure, x, y, gui, itp);
-	  x += GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE;
-	}
+	  if(cr && (Denemo.gui->view!=DENEMO_PAGE_VIEW) && (si->sources||thestaff->sources) && (si->currentstaffnum == itp->staffnum)) {
+	    GdkPixbuf* source = (GdkPixbuf*)g_list_nth_data(si->sources?gui->si->sources:thestaff->sources, itp->measurenum-1);
+	    if(source) {	      
+		      gdouble width = (gdouble)gdk_pixbuf_get_width( GDK_PIXBUF(source));
+		      gdouble height = (gdouble)gdk_pixbuf_get_height( GDK_PIXBUF(source));
+		      gdouble scale = GPOINTER_TO_INT (itp->mwidthiterator->data)/width;
+		      gint ypos = y + 2*STAFF_HEIGHT+thestaff->space_below;
+		      gint xpos = x;
+		      cairo_save( cr );
+		      if(scale<1.0) {//too large to fit under the measure
+			cairo_translate( cr, x*(1-scale), ypos*(1-scale));
+			cairo_scale(cr, scale, scale);
+		      } else
+		      xpos = x - (width - GPOINTER_TO_INT (itp->mwidthiterator->data))/2;//narrow, center it
+		      gdk_cairo_set_source_pixbuf( cr, GDK_PIXBUF(source), xpos,ypos );
+		      cairo_rectangle( cr,xpos,ypos, width, height );
+		      cairo_fill( cr );
+		      cairo_restore( cr );
+		      itp->source_displayed = TRUE;
+	    }
+	  }
+	x += GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE;
 
-    if((Denemo.gui->view!=DENEMO_PAGE_VIEW && itp->line_end && itp->measurenum > si->rightmeasurenum)
-	||(Denemo.gui->view==DENEMO_PAGE_VIEW && itp->line_end && itp->curmeasure->next))
+	if((Denemo.gui->view!=DENEMO_PAGE_VIEW && itp->line_end && itp->measurenum > si->rightmeasurenum)
+	  ||(Denemo.gui->view==DENEMO_PAGE_VIEW && itp->line_end && itp->curmeasure->next))
 		*itp->scale = (int)(100*x/(Denemo.scorearea->allocation.width/gui->si->zoom));	
-    else
-     
-		*itp->scale = 100;
+	else
+	  *itp->scale = 100;
 
     itp->curmeasure = itp->curmeasure->next;
     itp->mwidthiterator = itp->mwidthiterator->next;
@@ -918,7 +951,9 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
       g_slist_free (itp->slur_stack);
       itp->slur_stack = NULL;
     }
-  //if(cr) cairo_restore(cr);
+  if(saved_cr)
+    cr = saved_cr;
+  
   return repeat;
 }
 static void
@@ -1007,7 +1042,7 @@ draw_score (cairo_t *cr)
   //g_print("Printing for %d\n", flip_count);
   itp.slur_stack = NULL;
   itp.hairpin_stack = NULL;
-
+  itp.source_displayed = FALSE;
   itp.highy = 0;//in case there are no objects...
   itp.lowy = 0;
   itp.last_gap = 0;

@@ -32,8 +32,18 @@
 void add_font_directory(gchar *fontpath) {
 #ifdef G_OS_WIN32
   AddFontResource(fontpath);
+  FcConfigAppFontAddDir(NULL, fontpath);
 #else
   FcConfigAppFontAddDir(NULL, fontpath);
+#endif
+}
+void add_font_file(gchar *fontname) {
+#ifdef G_OS_WIN32
+  AddFontResource(fontname);
+  FcConfigAppFontAddFile(NULL, fontname);
+
+#else
+  FcConfigAppFontAddFile(NULL, fontname);
 #endif
 }
 
@@ -292,9 +302,9 @@ drawfetachar_cr (cairo_t * cr, gunichar uc, double x, double y)
 
 void drawtext_cr (cairo_t *cr, const char *text, double x, double y, double size)
 {
-  cairo_select_font_face( cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD );
+  //use the FreeSerif font as it has music symbols - there is no font substitution done by cairo here
+  cairo_select_font_face( cr, "Denemo", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL );
   cairo_set_font_size( cr, size );
-
   cairo_move_to( cr, x,y );
   cairo_show_text( cr, text );
 
@@ -302,7 +312,6 @@ void drawtext_cr (cairo_t *cr, const char *text, double x, double y, double size
 void drawnormaltext_cr (cairo_t *cr, const char *text, double x, double y)
 {
   drawtext_cr(cr, text, x, y, 14.0);
-
 }
 void drawlargetext_cr (cairo_t *cr, const char *text, double x, double y)
 {
@@ -1043,12 +1052,129 @@ kill_process (GPid pid)
 #endif /* not G_OS_WIN32 */
   g_spawn_close_pid (pid);
 }
+#define NOTE0 "<span font_desc=\"Denemo\">\x02</span>"
+#define NOTE1 "<span font_desc=\"Denemo\">\x03</span>"
+#define NOTE2 "<span font_desc=\"Denemo\">\x04</span>"
+#define NOTE3 "<span font_desc=\"Denemo\">\x05</span>"
+#define NOTE4 "<span font_desc=\"Denemo\">\x06</span>"
+#define NOTE5 "<span font_desc=\"Denemo\">\x07</span>"
+#define NOTE6 "<span font_desc=\"Denemo\">\x08</span>"
+//skip over tab and line feed
+#define NOTE7 "<span font_desc=\"Denemo\">\x0B</span>"
+#define NOTE8 "<span font_desc=\"Denemo\">\x0C</span>"
+
+#define REST0 "<span font_desc=\"Denemo\">\x0F</span>"
+#define REST1 "<span font_desc=\"Denemo\">\x10</span>"
+#define REST2 "<span font_desc=\"Denemo\">\x11</span>"
+#define REST3 "<span font_desc=\"Denemo\">\x12</span>"
+#define REST4 "<span font_desc=\"Denemo\">\x13</span>"
+#define REST5 "<span font_desc=\"Denemo\">\x14</span>"
+#define REST6 "<span font_desc=\"Denemo\">\x15</span>"
+#define REST7 "<span font_desc=\"Denemo\">\x16</span>"
+#define REST8 "<span font_desc=\"Denemo\">\x17</span>"
+
 
 /* markup the passed string to be in the denemo music font
 * caller must free the returned string
 */
 gchar * music_font(gchar *str) {
-  return g_strdup_printf("<span font_desc=\"Denemo 12\">%s</span>", str);
+  GString *s = g_string_new("");
+  gint c = *str;
+  for(c = *str; c;c = *++str)
+    switch (c) {
+
+      case '0':  g_string_append(s, " "NOTE0" ");
+	break;
+      case HIGHLIGHT_OFFSET+'0': g_string_append(s, "<span background=\"blue\"> "NOTE0" </span>");
+	break;
+
+      case '1':  g_string_append(s, " "NOTE1" ");
+	break;
+      case HIGHLIGHT_OFFSET+'1': g_string_append(s, "<span background=\"blue\"> "NOTE1" </span>");
+	break;
+      case '2':  g_string_append(s, " "NOTE2" ");
+	break;
+      case HIGHLIGHT_OFFSET+'2': g_string_append(s, "<span background=\"blue\"> "NOTE2" </span>");
+	break;
+      case '3':  g_string_append(s, " "NOTE3" ");
+	break;
+      case HIGHLIGHT_OFFSET+'3': g_string_append(s, "<span background=\"blue\"> "NOTE3" </span>");
+	break;
+      case '4':  g_string_append(s, " "NOTE4" ");
+	break;
+      case HIGHLIGHT_OFFSET+'4': g_string_append(s, "<span background=\"blue\"> "NOTE4" </span>");
+	break;
+      case '5':  g_string_append(s, " "NOTE5" ");
+	break;
+      case HIGHLIGHT_OFFSET+'5': g_string_append(s, "<span background=\"blue\"> "NOTE5" </span>");
+	break;
+      case '6':  g_string_append(s, " "NOTE6" ");
+	break;
+      case HIGHLIGHT_OFFSET+'6': g_string_append(s, "<span background=\"blue\"> "NOTE6" </span>");
+	break;
+      case '7':  g_string_append(s, " "NOTE7" ");
+	break;
+      case HIGHLIGHT_OFFSET+'7': g_string_append(s, "<span background=\"blue\"> "NOTE7" </span>");
+	break;
+      case '8':  g_string_append(s, " "NOTE8" ");
+	break;
+      case HIGHLIGHT_OFFSET+'8': g_string_append(s, "<span background=\"blue\"> "NOTE8" </span>");
+	break;
+
+
+     case 'r':  g_string_append(s, " "REST0" ");
+	break;
+     case HIGHLIGHT_OFFSET+'r': g_string_append(s, "<span background=\"blue\"> "REST0" </span>");
+	break;
+
+     case 's':  g_string_append(s, " "REST1" ");
+	break;
+     case HIGHLIGHT_OFFSET+'s': g_string_append(s, "<span background=\"blue\"> "REST1" </span>");
+	break;
+     case 't':  g_string_append(s, " "REST2" ");
+	break;
+     case HIGHLIGHT_OFFSET+'t': g_string_append(s, "<span background=\"blue\"> "REST2" </span>");
+	break;
+     case 'u':  g_string_append(s, " "REST3" ");
+	break;
+     case HIGHLIGHT_OFFSET+'u': g_string_append(s, "<span background=\"blue\"> "REST3" </span>");
+	break;
+     case 'v':  g_string_append(s, " "REST4" ");
+	break;
+     case HIGHLIGHT_OFFSET+'v': g_string_append(s, "<span background=\"blue\"> "REST4" </span>");
+	break;
+     case 'w':  g_string_append(s, " "REST5" ");
+	break;
+     case HIGHLIGHT_OFFSET+'w': g_string_append(s, "<span background=\"blue\"> "REST5" </span>");
+	break;
+     case 'x':  g_string_append(s, " "REST6" ");
+	break;
+     case HIGHLIGHT_OFFSET+'x': g_string_append(s, "<span background=\"blue\"> "REST6" </span>");
+	break;
+     case 'y':  g_string_append(s, " "REST7" ");
+	break;
+     case HIGHLIGHT_OFFSET+'y': g_string_append(s, "<span background=\"blue\"> "REST7" </span>");
+	break;
+     case 'z':  g_string_append(s, " "REST8" ");
+	break;
+     case HIGHLIGHT_OFFSET+'z': g_string_append(s, "<span background=\"blue\"> "REST8" </span>");
+	break;
+
+
+
+
+
+
+
+
+
+
+
+	
+      default: g_string_append_c(s, c);
+      }
+  return g_string_free(s, FALSE);
+
 }
 
 void  set_title_bar(DenemoGUI *gui) {

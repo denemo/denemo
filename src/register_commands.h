@@ -28,33 +28,33 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "F"), "F"
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "G"), "G", "G", "Append/Edit  G", go_to_G_key);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "OctaveUp"), "OctaveUp", "Octave Up", "Octave Up", octave_up_key);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "OctaveDown"), "OctaveDown", "Octave Down", "Octave Down", octave_down_key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "WholeNote"), "WholeNote", ""MUSIC_FONT("0")"", "Insert whole-note", insert_chord_0key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "HalfNote"), "HalfNote", ""MUSIC_FONT("1")"", "Insert half-note", insert_chord_1key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "QuarterNote"), "QuarterNote", ""MUSIC_FONT("2")"", "Insert quarter-note", insert_chord_2key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "EighthNote"), "EighthNote", ""MUSIC_FONT("3")"", "Insert eighth-note", insert_chord_3key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "SixteenthNote"), "SixteenthNote", ""MUSIC_FONT("4")"", "Insert sixteenth-note", insert_chord_4key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "ThirtysecondNote"), "ThirtysecondNote", ""MUSIC_FONT("5")"", "Insert thirty-second-note", insert_chord_5key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "SixtyfourthNote"), "SixtyfourthNote", ""MUSIC_FONT("6")"", "Insert sixty-fourth-note", insert_chord_6key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "OneHundredTwentyEighthNote"), "OneHundredTwentyEighthNote", "128th", "Insert 128th-note", insert_chord_7key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "TwoHundredFiftySixthNote"), "TwoHundredFiftySixthNote", "256th", "Insert 256th-note", insert_chord_8key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankWholeNote"), "InsertBlankWholeNote", "Insert Whole Note Skip", "No Tooltip yet", insert_blankchord_0key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankHalfNote"), "InsertBlankHalfNote", "Insert Half Note Skip", "No Tooltip yet", insert_blankchord_1key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankQuarterNote"), "InsertBlankQuarterNote", "Insert Quarter Note Skip", "No Tooltip yet", insert_blankchord_2key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankEighthNote"), "InsertBlankEighthNote", "Insert Eigth Note Skip", "No Tooltip yet", insert_blankchord_3key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankSixteenthNote"), "InsertBlankSixteenthNote", "Insert Sixteenth Note Skip", "No Tooltip yet", insert_blankchord_4key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankThirtysecondNote"), "InsertBlankThirtysecondNote", "Insert Thirty Second Note Skip", "No Tooltip yet", insert_blankchord_5key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankSixtyfourthNote"), "InsertBlankSixtyfourthNote", "Insert Sixty Forth Note Skip", "No Tooltip yet", insert_blankchord_6key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankOneHundredTwentyEighthNote"), "InsertBlankOneHundredTwentyEighthNote", "Insert One Hundred and Twenty Eighth Note Skip", "No Tooltip yet", insert_blankchord_7key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankTwoHundredFiftySixthNote"), "InsertBlankTwoHundredFiftySixthNote", "Insert  Two Hundred and Fifty Sixth Note Skip", "No Tooltip yet", insert_blankchord_8key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "WholeNote"), "WholeNote", "WholeNote", "Insert \xF0\x9D\x85\x9D", insert_chord_0key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "HalfNote"), "HalfNote", "HalfNote", "Insert \xF0\x9D\x85\x9E", insert_chord_1key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "QuarterNote"), "QuarterNote", "QuarterNote", "Insert \xF0\x9D\x85\x9F", insert_chord_2key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "EighthNote"), "EighthNote", "EighthNote", "Insert \xF0\x9D\x85\xA0", insert_chord_3key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "SixteenthNote"), "SixteenthNote", "SixteenthNote", "Insert \xF0\x9D\x85\xA1", insert_chord_4key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "ThirtysecondNote"), "ThirtysecondNote", "ThirtysecondNote", "Insert \xF0\x9D\x85\xA2", insert_chord_5key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "SixtyfourthNote"), "SixtyfourthNote", "SixtyfourthNote", "Insert \xF0\x9D\x85\xA3", insert_chord_6key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "OneHundredTwentyEighthNote"), "OneHundredTwentyEighthNote", "OneHundredTwentyEighthNote", "Insert \xF0\x9D\x85\xA4", insert_chord_7key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "TwoHundredFiftySixthNote"), "TwoHundredFiftySixthNote", "TwoHundredFiftySixthNote", "Insert \xF0\x9D\x85\xA5", insert_chord_8key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertWholeRest"), "InsertWholeRest", "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBB</span>", "Insert \xF0\x9D\x84\xBB rest", insert_rest_0key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertHalfRest"), "InsertHalfRest", "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBC</span>", "Insert \xF0\x9D\x84\xBC rest", insert_rest_1key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertQuarterRest"), "InsertQuarterRest", "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBD</span>", "Insert \xF0\x9D\x84\xBD rest", insert_rest_2key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertEighthRest"), "InsertEighthRest", "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBE</span>", "Insert \xF0\x9D\x84\xBE rest", insert_rest_3key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertSixteenthRest"), "InsertSixteenthRest", "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBF</span>", "Insert \xF0\x9D\x84\xBF rest", insert_rest_4key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertThirtysecondRest"), "InsertThirtysecondRest", "<span font_desc=\"Denemo\">\xF0\x9D\x85\x80</span>", "Insert \xF0\x9D\x85\x80 rest", insert_rest_5key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertSixtyfourthRest"), "InsertSixtyfourthRest", "<span font_desc=\"Denemo\">\xF0\x9D\x85\x81</span>", "Insert \xF0\x9D\x85\x81 rest", insert_rest_6key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankWholeNote"), "InsertBlankWholeNote", "InsertBlankWholeNote", "Insert a non-printing \xF0\x9D\x84\xBB rest", insert_blankchord_0key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankHalfNote"), "InsertBlankHalfNote", "InsertBlankHalfNote", "Insert a non-printing \xF0\x9D\x84\xBC rest", insert_blankchord_1key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankQuarterNote"), "InsertBlankQuarterNote", "InsertBlankQuarterNote", "Insert a non-printing \xF0\x9D\x84\xBD rest", insert_blankchord_2key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankEighthNote"), "InsertBlankEighthNote", "InsertBlankEighthNote", "Insert a non-printing \xF0\x9D\x84\xBE rest", insert_blankchord_3key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankSixteenthNote"), "InsertBlankSixteenthNote", "InsertBlankSixteenthNote", "Insert a non-printing \xF0\x9D\x84\xBF rest", insert_blankchord_4key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankThirtysecondNote"), "InsertBlankThirtysecondNote", "InsertBlankThirtysecondNote", "Insert a non-printing \xF0\x9D\x85\x80 rest", insert_blankchord_5key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankSixtyfourthNote"), "InsertBlankSixtyfourthNote", "InsertBlankSixtyfourthNote", "Insert a non-printing \xF0\x9D\x85\x81 rest", insert_blankchord_6key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankOneHundredTwentyEighthNote"), "InsertBlankOneHundredTwentyEighthNote", "InsertBlankOneHundredTwentyEighthNote", "Insert a non-printing \xF0\x9D\x85\x82 rest", insert_blankchord_7key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertBlankTwoHundredFiftySixthNote"), "InsertBlankTwoHundredFiftySixthNote", "InsertBlankTwoHundredFiftySixthNote", "Insert a non-printing \xF0\x9D\x85\x83 rest", insert_blankchord_8key);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleRestMode"), "ToggleRestMode", "Toggle Rest Mode", "No Tooltip yet", rest_toggle_key);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleBlankMode"), "ToggleBlankMode", "Toggle Blank Mode", "No Tooltip yet", toggle_blank);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertWholeRest"), "InsertWholeRest", ""MUSIC_FONT("r")"", "Insert whole-note rest", insert_rest_0key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertHalfRest"), "InsertHalfRest", ""MUSIC_FONT("s")"", "Insert half-note rest", insert_rest_1key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertQuarterRest"), "InsertQuarterRest", ""MUSIC_FONT("t")"", "Insert quarter-note rest", insert_rest_2key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertEighthRest"), "InsertEighthRest", ""MUSIC_FONT("u")"", "Insert eighth-note rest", insert_rest_3key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertSixteenthRest"), "InsertSixteenthRest", ""MUSIC_FONT("v")"", "Insert sixteenth-note rest", insert_rest_4key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertThirtysecondRest"), "InsertThirtysecondRest", ""MUSIC_FONT("w")"", "Insert thirty-second note rest", insert_rest_5key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertSixtyfourthRest"), "InsertSixtyfourthRest", ""MUSIC_FONT("x")"", "Insert sixty-fourth note rest", insert_rest_6key);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertDuplet"), "InsertDuplet", "Insert Duplet", "No Tooltip yet", insert_duplet);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertTriplet"), "InsertTriplet", "Insert Triplet", "No Tooltip yet", insert_triplet);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "StartTriplet"), "StartTriplet", "Start Triplet", "No Tooltip yet", start_triplet);
@@ -369,57 +369,210 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "AddNoteG
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "AddG"), "AddG", "Add G","Adds note G to the chord at cursor\nCursor height determines which octave",  AddG);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangeToG"), "ChangeToG", N_("Change to G"),N_("Changes note at cursor to nearest note G\nRhythm is unchanged"),  ChangeToG);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "MoveToG"), "MoveToG", N_("Move to G"),N_("Moves cursor to nearest note G"),  MoveToG);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "0"), "0", N_(MUSIC_FONT("0")), N_("In insert mode, changes prevailing rhythm to "MUSIC_FONT("0")"\nIn edit mode changes the current note to "MUSIC_FONT("0")"\n or appends a "MUSIC_FONT("0")" if no current note\nIn classic mode inserts a "MUSIC_FONT("0")" at the cursor"), Dur0);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change0"), "Change0", N_(MUSIC_FONT("0")), N_("Change the current note to a "MUSIC_FONT("0")), ChangeDur0);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert0"), "Insert0", N_(MUSIC_FONT("0")), N_("Insert a "MUSIC_FONT("0")), InsertDur0);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertRest0"), "InsertRest0",  N_("Insert a "MUSIC_FONT("0")"rest") ,  N_("Inserts a rest at cursor position\nSets prevailing rhythm to "MUSIC_FONT("0")), InsertRest0);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangeRest0"), "ChangeRest0",  N_("Change a "MUSIC_FONT("0")"rest") ,  N_("Changes a rest at cursor position\nSets prevailing rhythm to "MUSIC_FONT("0")), ChangeRest0);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Set0"), "Set0", N_(MUSIC_FONT("0")), N_("Set the prevailing duration to "MUSIC_FONT("0")), SetDur0);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "1"), "1", N_(MUSIC_FONT("1")), N_("In insert mode, changes prevailing rhythm to "MUSIC_FONT("1")"\nIn edit mode changes the current note to "MUSIC_FONT("1")"\n or appends a "MUSIC_FONT("1")" if no current note\nIn classic mode inserts a "MUSIC_FONT("1")" at the cursor"), Dur1);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change1"), "Change1", N_(MUSIC_FONT("1")), N_("Change the current note to a "MUSIC_FONT("1")), ChangeDur1);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert1"), "Insert1", N_(MUSIC_FONT("1")), N_("Insert a "MUSIC_FONT("1")), InsertDur1);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertRest1"), "InsertRest1",  N_("Insert a "MUSIC_FONT("1")"rest") ,  N_("Inserts a rest at cursor position\nSets prevailing rhythm to "MUSIC_FONT("1")), InsertRest1);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangeRest1"), "ChangeRest1",  N_("Change a "MUSIC_FONT("1")"rest") ,  N_("Changes a rest at cursor position\nSets prevailing rhythm to "MUSIC_FONT("1")), ChangeRest1);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Set1"), "Set1", N_(MUSIC_FONT("1")), N_("Set the prevailing duration to "MUSIC_FONT("1")), SetDur1);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "2"), "2", N_(MUSIC_FONT("2")), N_("In insert mode, changes prevailing rhythm to "MUSIC_FONT("2")"\nIn edit mode changes the current note to "MUSIC_FONT("2")"\n or appends a "MUSIC_FONT("2")" if no current note\nIn classic mode inserts a "MUSIC_FONT("2")" at the cursor"), Dur2);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change2"), "Change2", N_(MUSIC_FONT("2")), N_("Change the current note to a "MUSIC_FONT("2")), ChangeDur2);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert2"), "Insert2", N_(MUSIC_FONT("2")), N_("Insert a "MUSIC_FONT("2")), InsertDur2);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertRest2"), "InsertRest2",  N_("Insert a "MUSIC_FONT("2")"rest") ,  N_("Inserts a rest at cursor position\nSets prevailing rhythm to "MUSIC_FONT("2")), InsertRest2);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangeRest2"), "ChangeRest2",  N_("Change a "MUSIC_FONT("2")"rest") ,  N_("Changes a rest at cursor position\nSets prevailing rhythm to "MUSIC_FONT("2")), ChangeRest2);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Set2"), "Set2", N_(MUSIC_FONT("2")), N_("Set the prevailing duration to "MUSIC_FONT("2")), SetDur2);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "3"), "3", N_(MUSIC_FONT("3")), N_("In insert mode, changes prevailing rhythm to "MUSIC_FONT("3")"\nIn edit mode changes the current note to "MUSIC_FONT("3")"\n or appends a "MUSIC_FONT("3")" if no current note\nIn classic mode inserts a "MUSIC_FONT("3")" at the cursor"), Dur3);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change3"), "Change3", N_(MUSIC_FONT("3")), N_("Change the current note to a "MUSIC_FONT("3")), ChangeDur3);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert3"), "Insert3", N_(MUSIC_FONT("3")), N_("Insert a "MUSIC_FONT("3")), InsertDur3);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertRest3"), "InsertRest3",  N_("Insert a "MUSIC_FONT("3")"rest") ,  N_("Inserts a rest at cursor position\nSets prevailing rhythm to "MUSIC_FONT("3")), InsertRest3);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangeRest3"), "ChangeRest3",  N_("Change a "MUSIC_FONT("3")"rest") ,  N_("Changes a rest at cursor position\nSets prevailing rhythm to "MUSIC_FONT("3")), ChangeRest3);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Set3"), "Set3", N_(MUSIC_FONT("3")), N_("Set the prevailing duration to "MUSIC_FONT("3")), SetDur3);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "4"), "4", N_(MUSIC_FONT("4")), N_("In insert mode, changes prevailing rhythm to "MUSIC_FONT("4")"\nIn edit mode changes the current note to "MUSIC_FONT("4")"\n or appends a "MUSIC_FONT("4")" if no current note\nIn classic mode inserts a "MUSIC_FONT("4")" at the cursor"), Dur4);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change4"), "Change4", N_(MUSIC_FONT("4")), N_("Change the current note to a "MUSIC_FONT("4")), ChangeDur4);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert4"), "Insert4", N_(MUSIC_FONT("4")), N_("Insert a "MUSIC_FONT("4")), InsertDur4);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertRest4"), "InsertRest4",  N_("Insert a "MUSIC_FONT("4")"rest") ,  N_("Inserts a rest at cursor position\nSets prevailing rhythm to "MUSIC_FONT("4")), InsertRest4);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangeRest4"), "ChangeRest4",  N_("Change a "MUSIC_FONT("4")"rest") ,  N_("Changes a rest at cursor position\nSets prevailing rhythm to "MUSIC_FONT("4")), ChangeRest4);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Set4"), "Set4", N_(MUSIC_FONT("4")), N_("Set the prevailing duration to "MUSIC_FONT("4")), SetDur4);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "5"), "5", N_(MUSIC_FONT("5")), N_("In insert mode, changes prevailing rhythm to "MUSIC_FONT("5")"\nIn edit mode changes the current note to "MUSIC_FONT("5")"\n or appends a "MUSIC_FONT("5")" if no current note\nIn classic mode inserts a "MUSIC_FONT("5")" at the cursor"), Dur5);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change5"), "Change5", N_(MUSIC_FONT("5")), N_("Change the current note to a "MUSIC_FONT("5")), ChangeDur5);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert5"), "Insert5", N_(MUSIC_FONT("5")), N_("Insert a "MUSIC_FONT("5")), InsertDur5);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertRest5"), "InsertRest5",  N_("Insert a "MUSIC_FONT("5")"rest") ,  N_("Inserts a rest at cursor position\nSets prevailing rhythm to "MUSIC_FONT("5")), InsertRest5);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangeRest5"), "ChangeRest5",  N_("Change a "MUSIC_FONT("5")"rest") ,  N_("Changes a rest at cursor position\nSets prevailing rhythm to "MUSIC_FONT("5")), ChangeRest5);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Set5"), "Set5", N_(MUSIC_FONT("5")), N_("Set the prevailing duration to "MUSIC_FONT("5")), SetDur5);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "6"), "6", N_(MUSIC_FONT("6")), N_("In insert mode, changes prevailing rhythm to "MUSIC_FONT("6")"\nIn edit mode changes the current note to "MUSIC_FONT("6")"\n or appends a "MUSIC_FONT("6")" if no current note\nIn classic mode inserts a "MUSIC_FONT("6")" at the cursor"), Dur6);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change6"), "Change6", N_(MUSIC_FONT("6")), N_("Change the current note to a "MUSIC_FONT("6")), ChangeDur6);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert6"), "Insert6", N_(MUSIC_FONT("6")), N_("Insert a "MUSIC_FONT("6")), InsertDur6);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertRest6"), "InsertRest6",  N_("Insert a "MUSIC_FONT("6")"rest") ,  N_("Inserts a rest at cursor position\nSets prevailing rhythm to "MUSIC_FONT("6")), InsertRest6);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangeRest6"), "ChangeRest6",  N_("Change a "MUSIC_FONT("6")"rest") ,  N_("Changes a rest at cursor position\nSets prevailing rhythm to "MUSIC_FONT("6")), ChangeRest6);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Set6"), "Set6", N_(MUSIC_FONT("6")), N_("Set the prevailing duration to "MUSIC_FONT("6")), SetDur6);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "7"), "7", N_(MUSIC_FONT("7")), N_("In insert mode, changes prevailing rhythm to "MUSIC_FONT("7")"\nIn edit mode changes the current note to "MUSIC_FONT("7")"\n or appends a "MUSIC_FONT("7")" if no current note\nIn classic mode inserts a "MUSIC_FONT("7")" at the cursor"), Dur7);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change7"), "Change7", N_(MUSIC_FONT("7")), N_("Change the current note to a "MUSIC_FONT("7")), ChangeDur7);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert7"), "Insert7", N_(MUSIC_FONT("7")), N_("Insert a "MUSIC_FONT("7")), InsertDur7);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertRest7"), "InsertRest7",  N_("Insert a "MUSIC_FONT("7")"rest") ,  N_("Inserts a rest at cursor position\nSets prevailing rhythm to "MUSIC_FONT("7")), InsertRest7);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangeRest7"), "ChangeRest7",  N_("Change a "MUSIC_FONT("7")"rest") ,  N_("Changes a rest at cursor position\nSets prevailing rhythm to "MUSIC_FONT("7")), ChangeRest7);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Set7"), "Set7", N_(MUSIC_FONT("7")), N_("Set the prevailing duration to "MUSIC_FONT("7")), SetDur7);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "8"), "8", N_(MUSIC_FONT("8")), N_("In insert mode, changes prevailing rhythm to "MUSIC_FONT("8")"\nIn edit mode changes the current note to "MUSIC_FONT("8")"\n or appends a "MUSIC_FONT("8")" if no current note\nIn classic mode inserts a "MUSIC_FONT("8")" at the cursor"), Dur8);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change8"), "Change8", N_(MUSIC_FONT("8")), N_("Change the current note to a "MUSIC_FONT("8")), ChangeDur8);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert8"), "Insert8", N_(MUSIC_FONT("8")), N_("Insert a "MUSIC_FONT("8")), InsertDur8);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertRest8"), "InsertRest8",  N_("Insert a "MUSIC_FONT("8")"rest") ,  N_("Inserts a rest at cursor position\nSets prevailing rhythm to "MUSIC_FONT("8")), InsertRest8);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangeRest8"), "ChangeRest8",  N_("Change a "MUSIC_FONT("8")"rest") ,  N_("Changes a rest at cursor position\nSets prevailing rhythm to "MUSIC_FONT("8")), ChangeRest8);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Set8"), "Set8", N_(MUSIC_FONT("8")), N_("Set the prevailing duration to "MUSIC_FONT("8")), SetDur8);
+/* putting 0 things ..*/
+
+#define NOTE0 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x9D</span>"
+
+#define REST0 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBB</span>"
+
+#define NOTECHAR0 "\xF0\x9D\x85\x9D"
+
+#define RESTCHAR0 "\xF0\x9D\x84\xBB"
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "0"), "0", NOTE0, _("When appending, appends a "NOTECHAR0" \nWith the cursor on a note inserts a "NOTECHAR0"  before the current note\nThe note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active\n - the MIDI keyboard will provide the pitch"), Dur0);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change0"), "Change0", NOTE0, "Change the current note to a "NOTECHAR0, ChangeDur0);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert0"), "Insert0", NOTE0, "Insert a "NOTECHAR0, InsertDur0);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertRest0"), "InsertRest0",  "Insert a "RESTCHAR0"" ,  "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTECHAR0, InsertRest0);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangeRest0"), "ChangeRest0",  "Change a "RESTCHAR0" " ,  "Changes a rest at cursor position\nSets prevailing rhythm to "NOTECHAR0, ChangeRest0);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Set0"), "Set0", NOTE0, "Set the prevailing duration to "NOTECHAR0, SetDur0);
+
+#undef NOTE0
+
+#undef REST0
+
+#undef NOTECHAR0
+
+#undef RESTCHAR0
+/* putting 1 things ..*/
+
+#define NOTE1 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x9E</span>"
+
+#define REST1 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBC</span>"
+
+#define NOTECHAR1 "\xF0\x9D\x85\x9E"
+
+#define RESTCHAR1 "\xF0\x9D\x84\xBC"
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "1"), "1", NOTE1, _("When appending, appends a "NOTECHAR1" \nWith the cursor on a note inserts a "NOTECHAR1"  before the current note\nThe note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active\n - the MIDI keyboard will provide the pitch"), Dur1);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change1"), "Change1", NOTE1, "Change the current note to a "NOTECHAR1, ChangeDur1);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert1"), "Insert1", NOTE1, "Insert a "NOTECHAR1, InsertDur1);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertRest1"), "InsertRest1",  "Insert a "RESTCHAR1"" ,  "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTECHAR1, InsertRest1);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangeRest1"), "ChangeRest1",  "Change a "RESTCHAR1" " ,  "Changes a rest at cursor position\nSets prevailing rhythm to "NOTECHAR1, ChangeRest1);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Set1"), "Set1", NOTE1, "Set the prevailing duration to "NOTECHAR1, SetDur1);
+
+#undef NOTE1
+
+#undef REST1
+
+#undef NOTECHAR1
+
+#undef RESTCHAR1
+/* putting 2 things ..*/
+
+#define NOTE2 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x9F</span>"
+
+#define REST2 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBD</span>"
+
+#define NOTECHAR2 "\xF0\x9D\x85\x9F"
+
+#define RESTCHAR2 "\xF0\x9D\x84\xBD"
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "2"), "2", NOTE2, _("When appending, appends a "NOTECHAR2" \nWith the cursor on a note inserts a "NOTECHAR2"  before the current note\nThe note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active\n - the MIDI keyboard will provide the pitch"), Dur2);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change2"), "Change2", NOTE2, "Change the current note to a "NOTECHAR2, ChangeDur2);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert2"), "Insert2", NOTE2, "Insert a "NOTECHAR2, InsertDur2);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertRest2"), "InsertRest2",  "Insert a "RESTCHAR2"" ,  "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTECHAR2, InsertRest2);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangeRest2"), "ChangeRest2",  "Change a "RESTCHAR2" " ,  "Changes a rest at cursor position\nSets prevailing rhythm to "NOTECHAR2, ChangeRest2);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Set2"), "Set2", NOTE2, "Set the prevailing duration to "NOTECHAR2, SetDur2);
+
+#undef NOTE2
+
+#undef REST2
+
+#undef NOTECHAR2
+
+#undef RESTCHAR2
+/* putting 3 things ..*/
+
+#define NOTE3 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA0</span>"
+
+#define REST3 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBE</span>"
+
+#define NOTECHAR3 "\xF0\x9D\x85\xA0"
+
+#define RESTCHAR3 "\xF0\x9D\x84\xBE"
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "3"), "3", NOTE3, _("When appending, appends a "NOTECHAR3" \nWith the cursor on a note inserts a "NOTECHAR3"  before the current note\nThe note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active\n - the MIDI keyboard will provide the pitch"), Dur3);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change3"), "Change3", NOTE3, "Change the current note to a "NOTECHAR3, ChangeDur3);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert3"), "Insert3", NOTE3, "Insert a "NOTECHAR3, InsertDur3);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertRest3"), "InsertRest3",  "Insert a "RESTCHAR3"" ,  "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTECHAR3, InsertRest3);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangeRest3"), "ChangeRest3",  "Change a "RESTCHAR3" " ,  "Changes a rest at cursor position\nSets prevailing rhythm to "NOTECHAR3, ChangeRest3);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Set3"), "Set3", NOTE3, "Set the prevailing duration to "NOTECHAR3, SetDur3);
+
+#undef NOTE3
+
+#undef REST3
+
+#undef NOTECHAR3
+
+#undef RESTCHAR3
+/* putting 4 things ..*/
+
+#define NOTE4 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA1</span>"
+
+#define REST4 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBF</span>"
+
+#define NOTECHAR4 "\xF0\x9D\x85\xA1"
+
+#define RESTCHAR4 "\xF0\x9D\x84\xBF"
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "4"), "4", NOTE4, _("When appending, appends a "NOTECHAR4" \nWith the cursor on a note inserts a "NOTECHAR4"  before the current note\nThe note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active\n - the MIDI keyboard will provide the pitch"), Dur4);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change4"), "Change4", NOTE4, "Change the current note to a "NOTECHAR4, ChangeDur4);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert4"), "Insert4", NOTE4, "Insert a "NOTECHAR4, InsertDur4);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertRest4"), "InsertRest4",  "Insert a "RESTCHAR4"" ,  "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTECHAR4, InsertRest4);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangeRest4"), "ChangeRest4",  "Change a "RESTCHAR4" " ,  "Changes a rest at cursor position\nSets prevailing rhythm to "NOTECHAR4, ChangeRest4);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Set4"), "Set4", NOTE4, "Set the prevailing duration to "NOTECHAR4, SetDur4);
+
+#undef NOTE4
+
+#undef REST4
+
+#undef NOTECHAR4
+
+#undef RESTCHAR4
+/* putting 5 things ..*/
+
+#define NOTE5 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA2</span>"
+
+#define REST5 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x80</span>"
+
+#define NOTECHAR5 "\xF0\x9D\x85\xA2"
+
+#define RESTCHAR5 "\xF0\x9D\x85\x80"
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "5"), "5", NOTE5, _("When appending, appends a "NOTECHAR5" \nWith the cursor on a note inserts a "NOTECHAR5"  before the current note\nThe note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active\n - the MIDI keyboard will provide the pitch"), Dur5);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change5"), "Change5", NOTE5, "Change the current note to a "NOTECHAR5, ChangeDur5);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert5"), "Insert5", NOTE5, "Insert a "NOTECHAR5, InsertDur5);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertRest5"), "InsertRest5",  "Insert a "RESTCHAR5"" ,  "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTECHAR5, InsertRest5);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangeRest5"), "ChangeRest5",  "Change a "RESTCHAR5" " ,  "Changes a rest at cursor position\nSets prevailing rhythm to "NOTECHAR5, ChangeRest5);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Set5"), "Set5", NOTE5, "Set the prevailing duration to "NOTECHAR5, SetDur5);
+
+#undef NOTE5
+
+#undef REST5
+
+#undef NOTECHAR5
+
+#undef RESTCHAR5
+/* putting 6 things ..*/
+
+#define NOTE6 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA3</span>"
+
+#define REST6 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x81</span>"
+
+#define NOTECHAR6 "\xF0\x9D\x85\xA3"
+
+#define RESTCHAR6 "\xF0\x9D\x85\x81"
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "6"), "6", NOTE6, _("When appending, appends a "NOTECHAR6" \nWith the cursor on a note inserts a "NOTECHAR6"  before the current note\nThe note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active\n - the MIDI keyboard will provide the pitch"), Dur6);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change6"), "Change6", NOTE6, "Change the current note to a "NOTECHAR6, ChangeDur6);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert6"), "Insert6", NOTE6, "Insert a "NOTECHAR6, InsertDur6);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertRest6"), "InsertRest6",  "Insert a "RESTCHAR6"" ,  "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTECHAR6, InsertRest6);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangeRest6"), "ChangeRest6",  "Change a "RESTCHAR6" " ,  "Changes a rest at cursor position\nSets prevailing rhythm to "NOTECHAR6, ChangeRest6);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Set6"), "Set6", NOTE6, "Set the prevailing duration to "NOTECHAR6, SetDur6);
+
+#undef NOTE6
+
+#undef REST6
+
+#undef NOTECHAR6
+
+#undef RESTCHAR6
+/* putting 7 things ..*/
+
+#define NOTE7 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA4</span>"
+
+#define REST7 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x82</span>"
+
+#define NOTECHAR7 "\xF0\x9D\x85\xA4"
+
+#define RESTCHAR7 "\xF0\x9D\x85\x82"
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "7"), "7", NOTE7, _("When appending, appends a "NOTECHAR7" \nWith the cursor on a note inserts a "NOTECHAR7"  before the current note\nThe note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active\n - the MIDI keyboard will provide the pitch"), Dur7);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change7"), "Change7", NOTE7, "Change the current note to a "NOTECHAR7, ChangeDur7);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert7"), "Insert7", NOTE7, "Insert a "NOTECHAR7, InsertDur7);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertRest7"), "InsertRest7",  "Insert a "RESTCHAR7"" ,  "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTECHAR7, InsertRest7);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangeRest7"), "ChangeRest7",  "Change a "RESTCHAR7" " ,  "Changes a rest at cursor position\nSets prevailing rhythm to "NOTECHAR7, ChangeRest7);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Set7"), "Set7", NOTE7, "Set the prevailing duration to "NOTECHAR7, SetDur7);
+
+#undef NOTE7
+
+#undef REST7
+
+#undef NOTECHAR7
+
+#undef RESTCHAR7
+/* putting 8 things ..*/
+
+#define NOTE8 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA5</span>"
+
+#define REST8 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x83</span>"
+
+#define NOTECHAR8 "\xF0\x9D\x85\xA5"
+
+#define RESTCHAR8 "\xF0\x9D\x85\x83"
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "8"), "8", NOTE8, _("When appending, appends a "NOTECHAR8" \nWith the cursor on a note inserts a "NOTECHAR8"  before the current note\nThe note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active\n - the MIDI keyboard will provide the pitch"), Dur8);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Change8"), "Change8", NOTE8, "Change the current note to a "NOTECHAR8, ChangeDur8);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Insert8"), "Insert8", NOTE8, "Insert a "NOTECHAR8, InsertDur8);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertRest8"), "InsertRest8",  "Insert a "RESTCHAR8"" ,  "Inserts a rest at cursor position\nSets prevailing rhythm to "NOTECHAR8, InsertRest8);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangeRest8"), "ChangeRest8",  "Change a "RESTCHAR8" " ,  "Changes a rest at cursor position\nSets prevailing rhythm to "NOTECHAR8, ChangeRest8);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Set8"), "Set8", NOTE8, "Set the prevailing duration to "NOTECHAR8, SetDur8);
+
+#undef NOTE8
+
+#undef REST8
+
+#undef NOTECHAR8
+
+#undef RESTCHAR8

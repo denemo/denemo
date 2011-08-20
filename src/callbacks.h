@@ -186,6 +186,55 @@ insert_chord_8key (gui);
   displayhelper (gui);
 score_status(gui, TRUE);
 }
+/*InsertWholeRest insert_rest_0key*/
+static void insert_rest_0key_cb (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+insert_rest_0key (gui);
+  displayhelper (gui);
+score_status(gui, TRUE);
+}
+/*InsertHalfRest insert_rest_1key*/
+static void insert_rest_1key_cb (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+insert_rest_1key (gui);
+  displayhelper (gui);
+score_status(gui, TRUE);
+}
+/*InsertQuarterRest insert_rest_2key*/
+static void insert_rest_2key_cb (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+insert_rest_2key (gui);
+  displayhelper (gui);
+score_status(gui, TRUE);
+}
+/*InsertEighthRest insert_rest_3key*/
+static void insert_rest_3key_cb (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+insert_rest_3key (gui);
+  displayhelper (gui);
+score_status(gui, TRUE);
+}
+/*InsertSixteenthRest insert_rest_4key*/
+static void insert_rest_4key_cb (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+insert_rest_4key (gui);
+  displayhelper (gui);
+score_status(gui, TRUE);
+}
+/*InsertThirtysecondRest insert_rest_5key*/
+static void insert_rest_5key_cb (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+insert_rest_5key (gui);
+  displayhelper (gui);
+score_status(gui, TRUE);
+}
+/*InsertSixtyfourthRest insert_rest_6key*/
+static void insert_rest_6key_cb (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+insert_rest_6key (gui);
+  displayhelper (gui);
+score_status(gui, TRUE);
+}
 /*InsertBlankWholeNote insert_blankchord_0key*/
 static void insert_blankchord_0key_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
@@ -260,55 +309,6 @@ score_status(gui, TRUE);
 static void toggle_blank_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
 toggle_blank (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
-/*InsertWholeRest insert_rest_0key*/
-static void insert_rest_0key_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-insert_rest_0key (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
-/*InsertHalfRest insert_rest_1key*/
-static void insert_rest_1key_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-insert_rest_1key (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
-/*InsertQuarterRest insert_rest_2key*/
-static void insert_rest_2key_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-insert_rest_2key (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
-/*InsertEighthRest insert_rest_3key*/
-static void insert_rest_3key_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-insert_rest_3key (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
-/*InsertSixteenthRest insert_rest_4key*/
-static void insert_rest_4key_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-insert_rest_4key (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
-/*InsertThirtysecondRest insert_rest_5key*/
-static void insert_rest_5key_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-insert_rest_5key (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
-/*InsertSixtyfourthRest insert_rest_6key*/
-static void insert_rest_6key_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-insert_rest_6key (gui);
   displayhelper (gui);
 score_status(gui, TRUE);
 }

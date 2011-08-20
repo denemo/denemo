@@ -30,6 +30,7 @@
 #include "keyboard.h"
 #include "exportmidi.h"
 #include "midi.h"
+#include "screenshot.h"
 #include "commandfuncs.h"
 #include "calculatepositions.h"
 #include "http.h"
@@ -102,12 +103,14 @@ populate_opened_recent (void);
 #ifdef DEVELOPER
 #define MUSIC_FONT(a) "music-sign ("a")"
 #else
-#define MUSIC_FONT(a) "<span  size=\"10000\" face=\"Denemo\">"a"</span>"
+#ifdef G_OS_WIN32
+#define MUSIC_FONT(a) "<span face=\"Denemo\">"a"</span>"
+#else
+#define MUSIC_FONT(a) a
+#endif
 #endif
 
-GtkAction *sharpaction, *flataction;
-
-
+static GtkAction *sharpaction, *flataction;
 
 typedef enum 
 {
@@ -794,6 +797,40 @@ static SCM scheme_load_commandset (SCM name) {
 }
 
 
+SCM scheme_user_screenshot(SCM type) {
+  GList **sources;
+  if(type==SCM_BOOL_F)
+   sources = &Denemo.gui->si->sources;
+  else
+   sources = &((DenemoStaff*)Denemo.gui->si->currentstaff->data)->sources;
+  GdkRectangle *rect = screenshot_find_rectangle();
+  if(rect) {
+        GError *error = NULL;
+        g_print("%d %d %d %d\n", rect->x, rect->y, rect->width, rect->height);
+        GdkPixbuf *screenshot = screenshot_get_pixbuf (gdk_get_default_root_window (), rect);
+        if(screenshot) {
+          *sources = g_list_append(*sources, screenshot);
+          return SCM_BOOL_T;
+        }
+  } 
+return SCM_BOOL_F;
+}
+SCM scheme_delete_screenshot(SCM type) {
+  GList **sources;
+  if(type==SCM_BOOL_F)
+   sources = &Denemo.gui->si->sources;
+  else
+   sources = &((DenemoStaff*)Denemo.gui->si->currentstaff->data)->sources;
+  if(*sources) {
+    GList *g = g_list_nth(*sources, Denemo.gui->si->currentmeasurenum -1);
+    if(g) {
+      *sources = g_list_remove_link(*sources, g);
+      //FIXME free g->data and g
+      return SCM_BOOL_T;
+    }
+  }
+  return SCM_BOOL_F;
+}
 
 
 static SCM scheme_push_clipboard (SCM optional) {
@@ -4807,7 +4844,8 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
 
   INSTALL_SCM_FUNCTION ("Adjust end time for playback by passed number of seconds. Returns #f for bad parameter ", DENEMO_SCHEME_PREFIX"AdjustPlaybackEnd", scheme_adjust_playback_end);
 
-
+  INSTALL_SCM_FUNCTION ("Takes a parameter #t or #f: Get a screenshot from the user and append it to a list (one per measure) either applying across the staffs or to the current staff.", DENEMO_SCHEME_PREFIX"UserScreenshot", scheme_user_screenshot);
+  INSTALL_SCM_FUNCTION ("Takes a parameter #t or #f: Delete a screenshot for the current measure, either across staffs or for current staff.", DENEMO_SCHEME_PREFIX"DeleteScreenshot", scheme_delete_screenshot);
 
   INSTALL_SCM_FUNCTION ("Pushes the Denemo clipboard (cut/copy buffer) onto a stack; Use d-PopClipboard to retrieve it.", DENEMO_SCHEME_PREFIX"PushClipboard", scheme_push_clipboard);
 
@@ -5101,6 +5139,14 @@ void inner_main(void*closure, int argc, char **argv){
    call_out_to_guile(Denemo.scheme_commands);
   //else ?????
   set_tuning();
+
+g_print("Gtk version %u.%u.%u\n", gtk_major_version, gtk_minor_version, gtk_micro_version);
+//#ifndef G_OS_WIN32
+  if(Denemo.prefs.fontspec->len) {
+    GtkSettings *settings = gtk_settings_get_default( );
+    gtk_settings_set_string_property(settings, "gtk-font-name" , Denemo.prefs.fontspec->str, "denemo");
+  }
+//#endif
 /* Now launch into the main gtk event loop and we're all set */
 
   gtk_main();
@@ -6038,9 +6084,9 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
       while(*(pattern+i) && (*(pattern+i)<'0' || *(pattern+i)>'8'))
 	i++;
       if(*(pattern+i)) {
-	*(pattern+i) += 20;
+	*(pattern+i) += HIGHLIGHT_OFFSET;
 	el->icon = music_font(pattern);
-	*(pattern+i) -= 20;
+	*(pattern+i) -= HIGHLIGHT_OFFSET;
       }
       //g_print("el->icon = %s step %d pattern %s\n", el->icon, i, pattern);
     }
@@ -6387,8 +6433,6 @@ static void button_modifier_callback(GtkWidget *w, GdkEventButton *event,  Modif
   gtk_button_set_label (GTK_BUTTON(w), str->str);
   g_string_free(str,TRUE);
 }
-
-
 
 static void
 mouse_shortcut_dialog(ModifierAction *info){
@@ -6820,7 +6864,6 @@ gboolean loadGraphicItem(gchar *name, DenemoGraphic **xbm ) {
   glyph->fontname = "feta26";
   glyph->size = 35.0;
   for(i=0;i<5 && spec[i];i++) {
-    g_print("The font spec has %d %s\n", i, spec[i]);
     switch(i) {
     case 0: {
       // get a set of hex values (unicodes?) and create a utf8 string

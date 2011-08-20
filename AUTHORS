@@ -29,9 +29,11 @@ translate them.
 
 Fonts
 
-Denemo.ttf is Copyright (c) 2001 by Robert Allgeyer,
-Re-ordered for denemo Copyright (c) 2007 Richard Shann, and is released
-under the SIL Open Font License: Version 1.1
+Denemo.ttf is derived from FreeSerif.ttf and FreeSans.ttf
+ Copyright © 2002-2009 Free Software Foundation.
+License: GNU GPL v3 or later
+The modifications for denemo are Copyright (c) 2011 Jeremiah Benham, Richard Shann, and are released
+under GNU GPL v3 or later
 
 See fonts/LICENSE_OFL.txt
 

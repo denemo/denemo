@@ -12,6 +12,55 @@
 
 #include <stdio.h>
 
+#define NOTECHAR0 "\\xF0\\x9D\\x85\\x9D"
+#define NOTECHAR1 "\\xF0\\x9D\\x85\\x9E"
+#define NOTECHAR2 "\\xF0\\x9D\\x85\\x9F"
+#define NOTECHAR3 "\\xF0\\x9D\\x85\\xA0"
+#define NOTECHAR4 "\\xF0\\x9D\\x85\\xA1"
+#define NOTECHAR5 "\\xF0\\x9D\\x85\\xA2"
+#define NOTECHAR6 "\\xF0\\x9D\\x85\\xA3"
+#define NOTECHAR7 "\\xF0\\x9D\\x85\\xA4"
+#define NOTECHAR8 "\\xF0\\x9D\\x85\\xA5"
+
+
+#define NOTE0 "<span font_desc=\\\"Denemo\\\">"NOTECHAR0"</span>"
+#define NOTE1 "<span font_desc=\\\"Denemo\\\">"NOTECHAR1"</span>"
+#define NOTE2 "<span font_desc=\\\"Denemo\\\">"NOTECHAR2"</span>"
+#define NOTE3 "<span font_desc=\\\"Denemo\\\">"NOTECHAR3"</span>"
+#define NOTE4 "<span font_desc=\\\"Denemo\\\">"NOTECHAR4"</span>"
+#define NOTE5 "<span font_desc=\\\"Denemo\\\">"NOTECHAR5"</span>"
+#define NOTE6 "<span font_desc=\\\"Denemo\\\">"NOTECHAR6"</span>"
+//skip over tab and line feed
+#define NOTE7 "<span font_desc=\\\"Denemo\\\">"NOTECHAR7"</span>"
+#define NOTE8 "<span font_desc=\\\"Denemo\\\">"NOTECHAR8"</span>"
+
+#define RESTCHAR0 "\\xF0\\x9D\\x84\\xBB"
+#define RESTCHAR1 "\\xF0\\x9D\\x84\\xBC"
+#define RESTCHAR2 "\\xF0\\x9D\\x84\\xBD"
+#define RESTCHAR3 "\\xF0\\x9D\\x84\\xBE"
+#define RESTCHAR4 "\\xF0\\x9D\\x84\\xBF"
+#define RESTCHAR5 "\\xF0\\x9D\\x85\\x80"
+#define RESTCHAR6 "\\xF0\\x9D\\x85\\x81"
+#define RESTCHAR7 "\\xF0\\x9D\\x85\\x82"
+#define RESTCHAR8 "\\xF0\\x9D\\x85\\x83"
+
+#define REST0 "<span font_desc=\\\"Denemo\\\">"RESTCHAR0"</span>"
+#define REST1 "<span font_desc=\\\"Denemo\\\">"RESTCHAR1"</span>"
+#define REST2 "<span font_desc=\\\"Denemo\\\">"RESTCHAR2"</span>"
+#define REST3 "<span font_desc=\\\"Denemo\\\">"RESTCHAR3"</span>"
+#define REST4 "<span font_desc=\\\"Denemo\\\">"RESTCHAR4"</span>"
+#define REST5 "<span font_desc=\\\"Denemo\\\">"RESTCHAR5"</span>"
+#define REST6 "<span font_desc=\\\"Denemo\\\">"RESTCHAR6"</span>"
+#define REST7 "<span font_desc=\\\"Denemo\\\">"RESTCHAR7"</span>"
+#define REST8 "<span font_desc=\\\"Denemo\\\">"RESTCHAR8"</span>"
+
+
+char *NOTES[] = {NOTE0, NOTE1, NOTE2, NOTE3, NOTE4, NOTE5, NOTE6, NOTE7, NOTE8};
+char *NOTECHARS[] = {NOTECHAR0, NOTECHAR1, NOTECHAR2, NOTECHAR3, NOTECHAR4, NOTECHAR5, NOTECHAR6, NOTECHAR7, NOTECHAR8};
+
+char *RESTS[] = {REST0, REST1, REST2, REST3, REST4, REST5, REST6, REST7, REST8};
+char *RESTCHARS[] = {RESTCHAR0, RESTCHAR1, RESTCHAR2, RESTCHAR3, RESTCHAR4, RESTCHAR5, RESTCHAR6, RESTCHAR7, RESTCHAR8};
+
 
 #define N_
 
@@ -112,27 +161,33 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_NAVIGATION, NULL, "Octave Up",	N_("OctaveUp"), "octave_up_key", N_("Octave Up")},
   {CMD_CATEGORY_NAVIGATION, NULL, "Octave Down",	N_("OctaveDown"), "octave_down_key", N_("Octave Down")},
 
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert whole-note",	N_("WholeNote"), "insert_chord_0key", "\"MUSIC_FONT(\"0\")\"", N_("Insert Whole Note")},
-  {CMD_CATEGORY_NOTE_ENTRY,NULL , "Insert half-note",	N_("HalfNote"), "insert_chord_1key", "\"MUSIC_FONT(\"1\")\"", N_("Insert Half Note")},
-  {CMD_CATEGORY_NOTE_ENTRY,NULL, "Insert quarter-note",	N_("QuarterNote"), "insert_chord_2key", "\"MUSIC_FONT(\"2\")\"", N_("Insert Quarter Note")},
-  {CMD_CATEGORY_NOTE_ENTRY,NULL, "Insert eighth-note",	N_("EighthNote"), "insert_chord_3key", "\"MUSIC_FONT(\"3\")\"", N_("Insert Eigth Note")},
-  {CMD_CATEGORY_NOTE_ENTRY,NULL, "Insert sixteenth-note",	N_("SixteenthNote"), "insert_chord_4key", "\"MUSIC_FONT(\"4\")\"", N_("Insert Sixteenth Note")},
-  {CMD_CATEGORY_NOTE_ENTRY,NULL, "Insert thirty-second-note",	N_("ThirtysecondNote"), "insert_chord_5key", "\"MUSIC_FONT(\"5\")\"", N_("Insert Thirty Second Note")},
-  {CMD_CATEGORY_NOTE_ENTRY,NULL , "Insert sixty-fourth-note",	N_("SixtyfourthNote"), "insert_chord_6key", "\"MUSIC_FONT(\"6\")\"", N_("Insert Sixty Forth Note")},
-  {CMD_CATEGORY_NOTE_ENTRY,NULL , "Insert 128th-note",	N_("OneHundredTwentyEighthNote"), "insert_chord_7key", "128th", N_("Insert Sixty Forth Note")},
-  {CMD_CATEGORY_NOTE_ENTRY,NULL , "Insert 256th-note",	N_("TwoHundredFiftySixthNote"), "insert_chord_8key", "256th", N_("Insert Two Hundred Sixth Fourth Note")},
-
-
-
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankWholeNote"), "insert_blankchord_0key", N_("Insert Whole Note Skip")},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankHalfNote"), "insert_blankchord_1key", N_("Insert Half Note Skip")},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankQuarterNote"), "insert_blankchord_2key", N_("Insert Quarter Note Skip")},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankEighthNote"), "insert_blankchord_3key", N_("Insert Eigth Note Skip")},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankSixteenthNote"), "insert_blankchord_4key", N_("Insert Sixteenth Note Skip")},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankThirtysecondNote"), "insert_blankchord_5key", N_("Insert Thirty Second Note Skip")},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankSixtyfourthNote"), "insert_blankchord_6key", N_("Insert Sixty Forth Note Skip")},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankOneHundredTwentyEighthNote"), "insert_blankchord_7key", N_("Insert One Hundred and Twenty Eighth Note Skip")},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankTwoHundredFiftySixthNote"), "insert_blankchord_8key", N_("Insert  Two Hundred and Fifty Sixth Note Skip")},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert "NOTECHAR0,	N_("WholeNote"), "insert_chord_0key",  NULL},
+  {CMD_CATEGORY_NOTE_ENTRY,NULL , "Insert "NOTECHAR1,	N_("HalfNote"), "insert_chord_1key",   NULL},
+  {CMD_CATEGORY_NOTE_ENTRY,NULL, "Insert "NOTECHAR2,	N_("QuarterNote"), "insert_chord_2key",  NULL},
+  {CMD_CATEGORY_NOTE_ENTRY,NULL, "Insert "NOTECHAR3,	N_("EighthNote"), "insert_chord_3key",   NULL},
+  {CMD_CATEGORY_NOTE_ENTRY,NULL, "Insert "NOTECHAR4,	N_("SixteenthNote"), "insert_chord_4key", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY,NULL, "Insert "NOTECHAR5,	N_("ThirtysecondNote"), "insert_chord_5key",  NULL},
+  {CMD_CATEGORY_NOTE_ENTRY,NULL , "Insert "NOTECHAR6,	N_("SixtyfourthNote"), "insert_chord_6key",  NULL},
+  {CMD_CATEGORY_NOTE_ENTRY,NULL , "Insert "NOTECHAR7,	N_("OneHundredTwentyEighthNote"), "insert_chord_7key", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY,NULL , "Insert "NOTECHAR8,	N_("TwoHundredFiftySixthNote"), "insert_chord_8key",  NULL},
+  
+  {CMD_CATEGORY_REST_ENTRY, NULL, "Insert "RESTCHAR0" rest",  N_("InsertWholeRest"), "insert_rest_0key", REST0, NULL},
+  {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert "RESTCHAR1" rest",  N_("InsertHalfRest"), "insert_rest_1key",REST1, NULL},
+  {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert "RESTCHAR2" rest",  N_("InsertQuarterRest"), "insert_rest_2key",REST2, NULL},
+  {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert "RESTCHAR3" rest",  N_("InsertEighthRest"), "insert_rest_3key",REST3, NULL},
+  {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert "RESTCHAR4" rest",  N_("InsertSixteenthRest"), "insert_rest_4key",REST4, NULL},
+  {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert "RESTCHAR5" rest",  N_("InsertThirtysecondRest"), "insert_rest_5key",REST5, NULL},
+  {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert "RESTCHAR6" rest",  N_("InsertSixtyfourthRest"), "insert_rest_6key",REST6, NULL},
+  
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR0" rest",  N_("InsertBlankWholeNote"), "insert_blankchord_0key", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR1" rest",  N_("InsertBlankHalfNote"), "insert_blankchord_1key", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR2" rest",  N_("InsertBlankQuarterNote"), "insert_blankchord_2key", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR3" rest",  N_("InsertBlankEighthNote"), "insert_blankchord_3key", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR4" rest",  N_("InsertBlankSixteenthNote"), "insert_blankchord_4key", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR5" rest",  N_("InsertBlankThirtysecondNote"), "insert_blankchord_5key", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR6" rest",  N_("InsertBlankSixtyfourthNote"), "insert_blankchord_6key", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR7" rest",  N_("InsertBlankOneHundredTwentyEighthNote"), "insert_blankchord_7key", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR8" rest",  N_("InsertBlankTwoHundredFiftySixthNote"), "insert_blankchord_8key", NULL},
 
 
 
@@ -140,14 +195,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_EDIT, NULL, "No Tooltip yet",	N_("ToggleRestMode"), "rest_toggle_key", N_("Toggle Rest Mode")},
   {CMD_CATEGORY_EDIT, NULL, "No Tooltip yet",	N_("ToggleBlankMode"), "toggle_blank", N_("Toggle Blank Mode")},
 
-  {CMD_CATEGORY_REST_ENTRY, NULL, "Insert whole-note rest",  N_("InsertWholeRest"), "insert_rest_0key","\"MUSIC_FONT(\"r\")\"", N_("Insert Whole Rest")},
-  {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert half-note rest",	N_("InsertHalfRest"), "insert_rest_1key","\"MUSIC_FONT(\"s\")\"", N_("Insert Half Rest")},
-  {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert quarter-note rest",	N_("InsertQuarterRest"), "insert_rest_2key","\"MUSIC_FONT(\"t\")\"", N_("Insert Quarter Rest")},
-  {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert eighth-note rest",	N_("InsertEighthRest"), "insert_rest_3key","\"MUSIC_FONT(\"u\")\"", N_("Insert Eigth Rest")},
-  {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert sixteenth-note rest",	N_("InsertSixteenthRest"), "insert_rest_4key","\"MUSIC_FONT(\"v\")\"", N_("Insert Sixteenth Rest")},
-  {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert thirty-second note rest",	N_("InsertThirtysecondRest"), "insert_rest_5key","\"MUSIC_FONT(\"w\")\"", N_("Insert Thirty-second Rest")},
-  {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert sixty-fourth note rest",	N_("InsertSixtyfourthRest"), "insert_rest_6key","\"MUSIC_FONT(\"x\")\"", N_("Insert Sixty-forth Rest")},
-
+  
 
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertDuplet"), "insert_duplet", N_("Insert Duplet")},
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertTriplet"), "insert_triplet", N_("Insert Triplet")},
@@ -669,7 +717,10 @@ int main() {
   /* generate source for duration callbacks - these were intercepted when
      typed at the keyboard to set prevailing rhythm, so the callback has to
      include code for this */
+ //     for(i=0;i<9;i++) {
 
+ //     }
+ 
   for(i=0;i<9;i++) {
     /* callbacks for mode independent duration actions InsertRest0,1,2... ChangeRest0,1,2... InsertDur,ChangeDur0,1,2... SetDur0,1,2... */
     fprintf(callbacks, 
@@ -754,26 +805,31 @@ int main() {
 	    " }\n"
 	    "}\n", i , i, i, i,i);
 
+        fprintf(entries, "\n#define NOTECHAR%d \"%s\"\n", i,  NOTECHARS[i]);
+        fprintf(entries, "\n#define RESTCHAR%d \"%s\"\n", i, RESTCHARS[i]);
+        fprintf(entries, "\n#define NOTE%d \"%s\"\n", i,  NOTES[i]);
+        fprintf(entries, "\n#define REST%d \"%s\"\n", i, RESTS[i]);
+
     /* menu_entries for the mode sensitive duration actions, Dur0,1,2 ... */
     fprintf(entries,
-  "{\"%d\", \"NULL\", N_(MUSIC_FONT(\"%d\")), NULL, N_(\"Edits the note at the cursor to have the duration 1/2^%d, or \\n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration\"),\n"
+  "{\"%d\", \"NULL\", NOTE%d, NULL, \"Edits the note at the cursor to have the duration 1/2^%d, or \\n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration\",\n"
 	    "G_CALLBACK (Dur%d)},\n"
-
-  "{\"Change%d\", \"NULL\", N_(MUSIC_FONT(\"%d\")), NULL, N_(\"Change current note to a \"MUSIC_FONT(\"%d\")),\n"
+      
+  "{\"Change%d\", \"NULL\", NOTE%d, NULL, \"Change current note to a \"NOTE%d,\n"
 	    "G_CALLBACK (ChangeDur%d)},\n"
-  "{\"ChangeRest%d\", NULL, N_(\"Change duration\"), NULL, N_(\"Change duration of current rest\"),\n"
+  "{\"ChangeRest%d\", NULL, \"Change duration\", NULL, \"Change duration of current rest\",\n"
     "G_CALLBACK (ChangeRest%d)},\n"
- "{\"Insert%d\", NULL, N_(\"Insert a \"MUSIC_FONT(\"%d\")\"\"), NULL, N_(\"Inserts a \"MUSIC_FONT(\"%d\")\" at cursor position\\nSets prevailing rhythm to \"MUSIC_FONT(\"%d\")),\n"
+ "{\"Insert%d\", NULL, \"Insert a \"NOTE%d\"\", NULL, \"Inserts a \"NOTE%d\" at cursor position\\nSets prevailing rhythm to \"NOTE%d,\n"
   "G_CALLBACK (InsertDur%d)},\n"
- "{\"InsertRest%d\", NULL, N_(\"Insert a \"MUSIC_FONT(\"%d\")\"rest\"), NULL, N_(\"Inserts a rest at cursor position\\nSets prevailing rhythm to \"MUSIC_FONT(\"%d\")),\n"
+ "{\"InsertRest%d\", NULL, \"Insert a \"REST%d\"rest\", NULL, \"Inserts a rest at cursor position\\nSets prevailing rhythm to \"NOTE%d,\n"
 	    "G_CALLBACK (InsertRest%d)},\n"
- "{\"Set%d\", NULL, N_(\"Set Duration to \"MUSIC_FONT(\"%d\")\"\"), NULL, N_(\"Sets prevailing rhythm to \"MUSIC_FONT(\"%d\")),\n"
+ "{\"Set%d\", NULL, \"Set Duration to \"NOTE%d\"\", NULL, \"Sets prevailing rhythm to \"NOTE%d,\n"
   "G_CALLBACK (SetDur%d)},\n"
-
-
 	    /* ,i, i, i*/, i
 
 , i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i,i,i  , i,i,i,i );
+
+
   }
 
 
@@ -928,27 +984,42 @@ int main() {
 
   }
 
+
+
   for(i=0;i<9;i++) {
-    /* registering commands for mode independent duration actions InsertRest0,1,2... ChangeRest0,1,2... InsertDur,ChangeDur0,1,2... */
+     fprintf(register_commands, "/* putting %d things ..*/\n", i );
+    fprintf(register_commands, "\n#define NOTE%d \"%s\"\n", i,  NOTES[i]);
+    fprintf(register_commands, "\n#define REST%d \"%s\"\n", i, RESTS[i]);
+    fprintf(register_commands, "\n#define NOTECHAR%d \"%s\"\n", i,  NOTECHARS[i]);
+    fprintf(register_commands, "\n#define RESTCHAR%d \"%s\"\n", i, RESTCHARS[i]);
+
+    
+    /* registering commands for mode independent duration actions InsertRest0,1,2... ChangeRest0,1,2... InsertDur,ChangeDur0,1,2...
+     *
+     * !!! FIXME what is ChangeRestn???? seems to be Changen ... */
+     
     fprintf(register_commands, 
-	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"%d\"), \"%d\", N_(MUSIC_FONT(\"%d\")), N_(\"In insert mode, changes prevailing rhythm to \"MUSIC_FONT(\"%d\")\"\\nIn edit mode changes the current note to \"MUSIC_FONT(\"%d\")\"\\n or appends a \"MUSIC_FONT(\"%d\")\" if no current note\\nIn classic mode inserts a \"MUSIC_FONT(\"%d\")\" at the cursor\"), Dur%d);\n", i, i, i, i, i, i, i, i);
+	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"%d\"), \"%d\", NOTE%d, _(\"When appending, appends a \"NOTECHAR%d\" \\nWith the cursor on a note inserts a \"NOTECHAR%d\"  before the current note\\nThe note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active\\n - the MIDI keyboard will provide the pitch\"), Dur%d);\n", i, i, i,  i, i, i);
+
+    fprintf(register_commands,
+	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Change%d\"), \"Change%d\", NOTE%d, \"Change the current note to a \"NOTECHAR%d, ChangeDur%d);\n", i, i, i, i, i);
 
     fprintf(register_commands, 
-	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Change%d\"), \"Change%d\", N_(MUSIC_FONT(\"%d\")), N_(\"Change the current note to a \"MUSIC_FONT(\"%d\")), ChangeDur%d);\n", i, i, i, i, i);
+	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Insert%d\"), \"Insert%d\", NOTE%d, \"Insert a \"NOTECHAR%d, InsertDur%d);\n", i, i, i, i, i);
 
     fprintf(register_commands, 
-	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Insert%d\"), \"Insert%d\", N_(MUSIC_FONT(\"%d\")), N_(\"Insert a \"MUSIC_FONT(\"%d\")), InsertDur%d);\n", i, i, i, i, i);
+	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"InsertRest%d\"), \"InsertRest%d\",  \"Insert a \"RESTCHAR%d\"\" ,  \"Inserts a rest at cursor position\\nSets prevailing rhythm to \"NOTECHAR%d, InsertRest%d);\n", i, i, i, i, i);
 
     fprintf(register_commands, 
-	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"InsertRest%d\"), \"InsertRest%d\",  N_(\"Insert a \"MUSIC_FONT(\"%d\")\"rest\") ,  N_(\"Inserts a rest at cursor position\\nSets prevailing rhythm to \"MUSIC_FONT(\"%d\")), InsertRest%d);\n", i, i, i, i, i);
+	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"ChangeRest%d\"), \"ChangeRest%d\",  \"Change a \"RESTCHAR%d\" \" ,  \"Changes a rest at cursor position\\nSets prevailing rhythm to \"NOTECHAR%d, ChangeRest%d);\n", i, i, i, i, i);
 
     fprintf(register_commands, 
-	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"ChangeRest%d\"), \"ChangeRest%d\",  N_(\"Change a \"MUSIC_FONT(\"%d\")\"rest\") ,  N_(\"Changes a rest at cursor position\\nSets prevailing rhythm to \"MUSIC_FONT(\"%d\")), ChangeRest%d);\n", i, i, i, i, i);
+	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Set%d\"), \"Set%d\", NOTE%d, \"Set the prevailing duration to \"NOTECHAR%d, SetDur%d);\n", i, i, i, i, i);
 
-    fprintf(register_commands, 
-	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Set%d\"), \"Set%d\", N_(MUSIC_FONT(\"%d\")), N_(\"Set the prevailing duration to \"MUSIC_FONT(\"%d\")), SetDur%d);\n", i, i, i, i, i);
-
-
+    fprintf(register_commands, "\n#undef NOTE%d\n", i);
+    fprintf(register_commands, "\n#undef REST%d\n", i);
+    fprintf(register_commands, "\n#undef NOTECHAR%d\n", i);
+    fprintf(register_commands, "\n#undef RESTCHAR%d\n", i);
 
       fprintf(scheme, "/*%d */\n", i);
       fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.map, \"%d\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.

@@ -190,6 +190,10 @@
         <bind>Ctrl+period</bind>
       </row>
       <row>
+        <action>ToggleTie</action>
+        <bind>Ctrl+t</bind>
+      </row>
+      <row>
         <action>DeleteObject</action>
         <bind>Ctrl+delete</bind>
       </row>
@@ -265,7 +269,7 @@
       </row>
       <row>
         <action>ToggleGrace</action>
-        <bind>slash</bind>
+        <bind>Divide</bind>
       </row>
       <row>
         <action>InsertRhythm</action>
@@ -290,10 +294,6 @@
       <row>
         <action>SaveAs</action>
         <bind>Ctrl+S</bind>
-      </row>
-      <row>
-        <action>NewWindow</action>
-        <bind>Ctrl+t</bind>
       </row>
       <row>
         <action>NewMovement</action>

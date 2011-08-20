@@ -155,6 +155,34 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "OneHundredTwentyEighthNot
 SCM scheme_TwoHundredFiftySixthNote(SCM optional);
 install_scm_function ("d-TwoHundredFiftySixthNote", scheme_TwoHundredFiftySixthNote);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "TwoHundredFiftySixthNote")), "scm", (gpointer)1);
+/*InsertWholeRest insert_rest_0key*/
+SCM scheme_InsertWholeRest(SCM optional);
+install_scm_function ("d-InsertWholeRest", scheme_InsertWholeRest);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertWholeRest")), "scm", (gpointer)1);
+/*InsertHalfRest insert_rest_1key*/
+SCM scheme_InsertHalfRest(SCM optional);
+install_scm_function ("d-InsertHalfRest", scheme_InsertHalfRest);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertHalfRest")), "scm", (gpointer)1);
+/*InsertQuarterRest insert_rest_2key*/
+SCM scheme_InsertQuarterRest(SCM optional);
+install_scm_function ("d-InsertQuarterRest", scheme_InsertQuarterRest);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertQuarterRest")), "scm", (gpointer)1);
+/*InsertEighthRest insert_rest_3key*/
+SCM scheme_InsertEighthRest(SCM optional);
+install_scm_function ("d-InsertEighthRest", scheme_InsertEighthRest);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertEighthRest")), "scm", (gpointer)1);
+/*InsertSixteenthRest insert_rest_4key*/
+SCM scheme_InsertSixteenthRest(SCM optional);
+install_scm_function ("d-InsertSixteenthRest", scheme_InsertSixteenthRest);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertSixteenthRest")), "scm", (gpointer)1);
+/*InsertThirtysecondRest insert_rest_5key*/
+SCM scheme_InsertThirtysecondRest(SCM optional);
+install_scm_function ("d-InsertThirtysecondRest", scheme_InsertThirtysecondRest);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertThirtysecondRest")), "scm", (gpointer)1);
+/*InsertSixtyfourthRest insert_rest_6key*/
+SCM scheme_InsertSixtyfourthRest(SCM optional);
+install_scm_function ("d-InsertSixtyfourthRest", scheme_InsertSixtyfourthRest);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertSixtyfourthRest")), "scm", (gpointer)1);
 /*InsertBlankWholeNote insert_blankchord_0key*/
 SCM scheme_InsertBlankWholeNote(SCM optional);
 install_scm_function ("d-InsertBlankWholeNote", scheme_InsertBlankWholeNote);
@@ -199,34 +227,6 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleRestMode")), "scm",
 SCM scheme_ToggleBlankMode(SCM optional);
 install_scm_function ("d-ToggleBlankMode", scheme_ToggleBlankMode);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleBlankMode")), "scm", (gpointer)1);
-/*InsertWholeRest insert_rest_0key*/
-SCM scheme_InsertWholeRest(SCM optional);
-install_scm_function ("d-InsertWholeRest", scheme_InsertWholeRest);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertWholeRest")), "scm", (gpointer)1);
-/*InsertHalfRest insert_rest_1key*/
-SCM scheme_InsertHalfRest(SCM optional);
-install_scm_function ("d-InsertHalfRest", scheme_InsertHalfRest);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertHalfRest")), "scm", (gpointer)1);
-/*InsertQuarterRest insert_rest_2key*/
-SCM scheme_InsertQuarterRest(SCM optional);
-install_scm_function ("d-InsertQuarterRest", scheme_InsertQuarterRest);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertQuarterRest")), "scm", (gpointer)1);
-/*InsertEighthRest insert_rest_3key*/
-SCM scheme_InsertEighthRest(SCM optional);
-install_scm_function ("d-InsertEighthRest", scheme_InsertEighthRest);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertEighthRest")), "scm", (gpointer)1);
-/*InsertSixteenthRest insert_rest_4key*/
-SCM scheme_InsertSixteenthRest(SCM optional);
-install_scm_function ("d-InsertSixteenthRest", scheme_InsertSixteenthRest);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertSixteenthRest")), "scm", (gpointer)1);
-/*InsertThirtysecondRest insert_rest_5key*/
-SCM scheme_InsertThirtysecondRest(SCM optional);
-install_scm_function ("d-InsertThirtysecondRest", scheme_InsertThirtysecondRest);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertThirtysecondRest")), "scm", (gpointer)1);
-/*InsertSixtyfourthRest insert_rest_6key*/
-SCM scheme_InsertSixtyfourthRest(SCM optional);
-install_scm_function ("d-InsertSixtyfourthRest", scheme_InsertSixtyfourthRest);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertSixtyfourthRest")), "scm", (gpointer)1);
 /*InsertDuplet insert_duplet*/
 SCM scheme_InsertDuplet(SCM optional);
 install_scm_function ("d-InsertDuplet", scheme_InsertDuplet);

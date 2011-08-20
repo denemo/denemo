@@ -1192,6 +1192,33 @@ parseDecoration (xmlNodePtr decorationElem, DenemoObject * chordObj)
 }
 
 
+static GdkPixbuf *
+parseSource(xmlNodePtr parentElem, xmlNsPtr ns) {
+GError *error = NULL;
+gchar *cdata = xmlNodeListGetString (parentElem->doc, parentElem->xmlChildrenNode,1);
+gsize len;
+guchar *buf = g_base64_decode(cdata, &len);
+// xml free(cdata);
+GInputStream *is = g_memory_input_stream_new_from_data (buf, len, NULL);
+GdkPixbuf* pb = gdk_pixbuf_new_from_stream (is, NULL, &error);
+g_free(buf);
+return pb;
+}
+/**
+ * Parse the given sources element.
+ * 
+ * @param chordElem the XML node to process
+ * @param ns the Denemo XML namespaces
+ * @param sources the GList* to populate  */
+static GList *
+parseSources(xmlNodePtr parentElem, xmlNsPtr ns) {
+  GList *sources = NULL;
+  xmlNodePtr childElem;
+ FOREACH_CHILD_ELEM (childElem, parentElem)
+    sources = g_list_append(sources, parseSource(childElem, ns));
+  return sources;
+}
+
 /**
  * Parse the given <chord> element and return a chord-type DenemoObject.
  * 
@@ -2560,6 +2587,13 @@ parseInitVoiceParams (xmlNodePtr initVoiceParamsElem, xmlNsPtr ns,
 	  {
 	    parseTimeSignature (childElem, ns, &curVoice->timesig);
 	  }
+
+	else if (ELEM_NAME_EQ (childElem, "sources"))
+	  {
+	    curVoice->sources = parseSources (childElem, ns);
+	  }
+
+	  
 	else
 	  {
 	    ILLEGAL_ELEM ("initial-voice-params", childElem);
@@ -2929,6 +2963,12 @@ parseScore (xmlNodePtr scoreElem, xmlNsPtr ns, DenemoGUI * gui, ImportType type)
   childElem = getXMLChild (scoreElem, "movementcontrol-directives", ns);
   if (childElem != 0)
     si->movementcontrol.directives = parseWidgetDirectives(childElem, ns, (gpointer)movementcontrol_directive_put_graphic, NULL, NULL);
+
+  childElem = getXMLChild (scoreElem, "sources", ns);
+  if (childElem != 0)
+    si->sources = parseSources(childElem, ns);//puts the pixbufs after decode_base64 into a GList* at this location
+
+    
 
   childElem = getXMLChild (scoreElem, "score-info", ns);
   RETURN_IF_ELEM_NOT_FOUND ("score", childElem, "score-info");

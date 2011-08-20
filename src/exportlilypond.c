@@ -834,15 +834,16 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 
     switch (curobj->type)
       {
-      case CHORD:
-
+      case CHORD: {
+	gint lily_override;
 	pchord = (chord *) curobj->object;
 	gchar *chord_prefix = get_prefix(pchord->directives);
 	duration = internaltomuduration (pchord->baseduration);
 	numdots = pchord->numdots;
 	is_chordmode = FALSE;
-	
-	
+	lily_override = get_lily_override (pchord->directives);
+
+	if(!lily_override)
 	if((!*pgrace_status) && pchord->is_grace) {
 	  *pgrace_status = TRUE;
 	  g_string_append_printf (ret,"\\grace {  ");
@@ -856,7 +857,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	/* prefix is before duration unless AFFIX override is set */
 	directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, invisibility, TRUE);
 	
-	if(!get_lily_override (pchord->directives)) { //skip all LilyPond output for this chord
+	if(!lily_override) { //skip all LilyPond output for this chord
 	  if (!pchord->notes)
 	    {			/* A rest */
 	      
@@ -1125,13 +1126,13 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	  }
 	}
 	}
-
-	if ((pchord->is_grace & ENDGRACE) && *pgrace_status) {
-	  *pgrace_status = FALSE, g_string_append_printf (ret,"} ");	  
-	}
+	if(!lily_override)
+	  if ((pchord->is_grace & ENDGRACE) && *pgrace_status) {
+	    *pgrace_status = FALSE, g_string_append_printf (ret,"} ");	  
+	  }
 
 	g_free(chord_prefix);
-
+      }
 
 	break;
       case CLEF:

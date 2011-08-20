@@ -94,6 +94,8 @@ initprefs ()
   ret->username = g_string_new (name?name:"DenemoUser");
   ret->password = g_string_new ("");
 
+  ret->fontspec = g_string_new ("Denemo 9");
+
 #ifdef G_OS_WIN32
   ret->browser = g_string_new ("");//use file association
   ret->audioplayer = g_string_new ("");
@@ -386,6 +388,8 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 //	}
 
       READXMLENTRY(audioplayer)
+      READXMLENTRY(fontspec)
+
       READXMLENTRY(browser)
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "autosavetimeout"))
 	{
@@ -752,6 +756,8 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEXMLENTRY(lilypath)
 
   WRITEXMLENTRY(audioplayer)
+  WRITEXMLENTRY(fontspec)
+
   WRITEXMLENTRY(pdfviewer)
   WRITEXMLENTRY(imageviewer)
   WRITEXMLENTRY(profile)

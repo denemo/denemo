@@ -1,9 +1,9 @@
-/* prefdialog.cpp
+/* prefdialog.c
  * functions for a preferences dialog
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 1999-2005 Matthew Hiller, Adam Tee
- * (c) 2011 Dominic Sacré
+ * (c) 2011 Richard Shann, Dominic Sacré
  */
 
 #ifdef HAVE_CONFIG_H
@@ -105,6 +105,7 @@ struct callbackdata
   GtkWidget *profile;
   GtkWidget *midiplayer;
   GtkWidget *audioplayer;
+  GtkWidget *fontspec;
   GtkWidget *denemopath;
   GtkWidget *temperament;
   GtkWidget *strictshortcuts;
@@ -221,7 +222,8 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNTEXT(username)
   ASSIGNTEXT(password)
   ASSIGNTEXT(profile)
-  ASSIGNTEXT(audioplayer)
+
+  ASSIGNTEXT(fontspec)
   ASSIGNTEXT(denemopath)
 
 
@@ -549,6 +551,7 @@ preferences_change (GtkAction *action, gpointer param)
   TEXTENTRY("Image Viewer", imageviewer)
 
   TEXTENTRY("Audio Player", audioplayer)
+  TEXTENTRY("Default Font Specification", fontspec)
 
   TEXTENTRY("Default Save Path", denemopath)
   BOOLEANENTRY("Update the command set on startup", autoupdate);

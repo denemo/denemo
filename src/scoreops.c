@@ -475,6 +475,10 @@ DenemoScore * clone_movement(DenemoScore *si) {
 
   GList *g;
   newscore->measurewidths = NULL;
+  if(newscore->sources) {
+    g_warning("Undo will lose source screenshots\n");
+    newscore->sources = NULL;
+  }
   for(g=si->measurewidths;g;g=g->next)
     newscore->measurewidths = g_list_append(newscore->measurewidths, g->data);
   newscore->playingnow = NULL;

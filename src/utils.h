@@ -11,7 +11,7 @@
 #define UTILS_H
 
 #include <denemo/denemo.h>
-
+#define HIGHLIGHT_OFFSET (20) /* Fairly arbitrary value to transform codes '0', '1' ... to a new range with the meaning highlight the whole-note, half-note, ..., glyph */ 
 #define MAXEXTRASPACE (150) /* maximum space for ledger lines, for sanity */
 
 #define LINE_SPACE 10
@@ -276,6 +276,7 @@ void console_output(gchar *text);
 gint get_override(GList *g);
 
 void add_font_directory(gchar *fontpath);
+void add_font_file(gchar *fontpath);
 
 gboolean run_file_association(gchar *filenam);
 gchar *make_temp_dir(void);
