@@ -12,7 +12,7 @@
       (d-MoveCursorRight)
 ;;there are two notes main note and gracenote, we are on the gracenote-to-be
   (if (d-Directive-chord? "AfterGrace")
-      (begin ;;; already is a grace after delete
+      (begin ;;; already is an after grace after so delete
 	(d-DirectiveDelete-chord "AfterGrace")
 	(d-ToggleGrace)	
 	(d-MoveCursorLeft)
@@ -26,7 +26,7 @@
       	(d-ToggleGrace))
       ;;;make current note a grace note without the \grace output
        (d-ToggleGrace)
-       (d-DirectivePut-chord-postfix "AfterGrace" (string-append (d-GetNote) (d-GetNoteDuration)))
+       (d-DirectivePut-chord-postfix "AfterGrace" (string-append (d-GetNote) (d-GetNoteDuration)  (if (d-IsSlurEnd) ")" "")         ))
        (d-DirectivePut-chord-override "AfterGrace" DENEMO_OVERRIDE_LILYPOND)
 
        (d-MoveCursorLeft);; now on main note
@@ -36,7 +36,8 @@
        (d-DirectivePut-chord-override "MainGraceAfter"  DENEMO_OVERRIDE_AFFIX)	
        (d-DirectivePut-chord-minpixels  "MainGraceAfter" 20)
        (d-MoveCursorRight);; move back onto the grace note
-       )))
+       ))
+       (d-SetSaved #f))
     (begin
       (d-WarningDialog  "The cursor is not on a potential grace note after a main note or chord\nFirst create the main note, then then follow it with the note that will be the grace note and then invoke this command")))</scheme>
         <label>Grace After (Off/On)</label>
