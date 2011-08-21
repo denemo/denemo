@@ -3951,8 +3951,8 @@ for second and subsequent systems</tooltip>
         <action>GraceAfter</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/GraceNotes</menupath>
-        <label>Grace After (Off/On)</label>
-        <tooltip>Print this note as grace note attached to the previous note. Beware! You must repeat this command if you change the note in any way, only the pitch and duration when this command was issued will be printed. Multiple grace notes to follow will need separate start { and end } block directives to group them - this requires extra LilyPond inserts.</tooltip>
+        <label>Grace After</label>
+        <tooltip>Print the grace note(s) at the cursor attached to the previous note. Beware! You must reissue this command if you change the notes in any way, only the pitch and duration when this command was issued will be printed.</tooltip>
       </row>
       <row>
         <action>SetBarNumber</action>
@@ -5232,6 +5232,14 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/Score</menupath>
         <label>Reduce Space Between Systems</label>
         <tooltip>Reduces the gap between the systems of staffs on a page.</tooltip>
+      </row>
+      <row>
+        <action>UnGraceAfter</action>
+        <after>GraceAfter</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/GraceNotes</menupath>
+        <label>Un-Grace After</label>
+        <tooltip>Make the grace note at the cursor closer to the following rather than preceding note.</tooltip>
       </row>
     </map>
   </merge>
