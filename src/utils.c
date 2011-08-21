@@ -1052,26 +1052,28 @@ kill_process (GPid pid)
 #endif /* not G_OS_WIN32 */
   g_spawn_close_pid (pid);
 }
-#define NOTE0 "<span font_desc=\"Denemo\">\x02</span>"
-#define NOTE1 "<span font_desc=\"Denemo\">\x03</span>"
-#define NOTE2 "<span font_desc=\"Denemo\">\x04</span>"
-#define NOTE3 "<span font_desc=\"Denemo\">\x05</span>"
-#define NOTE4 "<span font_desc=\"Denemo\">\x06</span>"
-#define NOTE5 "<span font_desc=\"Denemo\">\x07</span>"
-#define NOTE6 "<span font_desc=\"Denemo\">\x08</span>"
-//skip over tab and line feed
-#define NOTE7 "<span font_desc=\"Denemo\">\x0B</span>"
-#define NOTE8 "<span font_desc=\"Denemo\">\x0C</span>"
 
-#define REST0 "<span font_desc=\"Denemo\">\x0F</span>"
-#define REST1 "<span font_desc=\"Denemo\">\x10</span>"
-#define REST2 "<span font_desc=\"Denemo\">\x11</span>"
-#define REST3 "<span font_desc=\"Denemo\">\x12</span>"
-#define REST4 "<span font_desc=\"Denemo\">\x13</span>"
-#define REST5 "<span font_desc=\"Denemo\">\x14</span>"
-#define REST6 "<span font_desc=\"Denemo\">\x15</span>"
-#define REST7 "<span font_desc=\"Denemo\">\x16</span>"
-#define REST8 "<span font_desc=\"Denemo\">\x17</span>"
+
+
+#define NOTE0 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x9D</span>"
+#define NOTE1 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x9E</span>"
+#define NOTE2 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x9F</span>"
+#define NOTE3 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA0</span>"
+#define NOTE4 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA1</span>"
+#define NOTE5 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA2</span>"
+#define NOTE6 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA3</span>"
+#define NOTE7 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA4</span>"
+#define NOTE8 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA5</span>"
+
+#define REST0 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBB</span>"
+#define REST1 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBC</span>"
+#define REST2 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBD</span>"
+#define REST3 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBE</span>"
+#define REST4 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBF</span>"
+#define REST5 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x80</span>"
+#define REST6 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x81</span>"
+#define REST7 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x82</span>"
+#define REST8 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x83</span>"
 
 
 /* markup the passed string to be in the denemo music font
