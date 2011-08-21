@@ -723,7 +723,7 @@ brace_count(gchar *str) {
   return ret;
 }
 
-
+// get_overridden_prefix, postfix returns the relevant fields from the directive list assembled with those marked as overriding lilypond  in front and other at end; ones with AFFIX not matching override are omitted.
 #define GET_OVERRIDDEN_AFFIX(field)\
 static gchar *get_overridden_##field(GList *g, gboolean override) {\
   if(g==NULL)\
@@ -758,8 +758,8 @@ GET_AFFIX(postfix);
 
 
 /* insert editable prefix string from passed directives, updating duration and open brace count
- omit or include those with AFFIX override set */
-
+ omit or include those with AFFIX override set. Skip any directive with HIDDEN attribute set */
+      
 
 #define DIRECTIVES_INSERT_EDITABLE_AFFIX(field) static void \
 directives_insert_##field##_editable (GList *directives, gint *popen_braces, gint *pprevduration, GtkTextIter *iter, gchar* invisibility, gboolean override) {\
@@ -768,6 +768,8 @@ directives_insert_##field##_editable (GList *directives, gint *popen_braces, gin
   for(;g;g=g->next) {\
     DenemoDirective *directive = (DenemoDirective *)g->data;\
     if(override == ((directive->override&DENEMO_OVERRIDE_AFFIX)==0))\
+      continue;\
+    if(directive->override&DENEMO_OVERRIDE_HIDDEN)\
       continue;\
     if(directive->field && directive->field->len) {\
       if(pprevduration) *pprevduration = -1;		    \
@@ -855,7 +857,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	
 	
 	/* prefix is before duration unless AFFIX override is set */
-	directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, invisibility, TRUE);
+	directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, invisibility, !lily_override);
 	
 	if(!lily_override) { //skip all LilyPond output for this chord
 	  if (!pchord->notes)
@@ -982,7 +984,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 			  output(" ");
 			for(;g;g=g->next) {
 			  DenemoDirective *directive = (DenemoDirective *)g->data;
-			  if(directive->postfix ) {
+			  if(directive->postfix && !(directive->override&DENEMO_OVERRIDE_HIDDEN)) {
 			    insert_editable(&directive->postfix, directive->postfix->len?directive->postfix->str:" ", iter, invisibility, gui);
 			    prevduration = -1;
 			  }	else
@@ -1119,7 +1121,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	GList *g = pchord->directives;
 	for(;g;g=g->next) {
 	  DenemoDirective *directive = (DenemoDirective *)g->data;
-	  if(directive->postfix && directive->postfix->len) {
+	  if(directive->postfix && directive->postfix->len  && !(directive->override&DENEMO_OVERRIDE_HIDDEN)) {
 	    prevduration = -1;
 	    open_braces += brace_count(directive->postfix->str);
 	    insert_editable(&directive->postfix, directive->postfix->str, iter, invisibility, gui);
