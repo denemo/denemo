@@ -34,6 +34,8 @@ int fluidsynth_init(DenemoPrefs *config, unsigned int samplerate)
     return -1;
   }
 
+  fluid_settings_setnum(settings, "synth.sample-rate" , (double) samplerate);
+
   fluid_settings_setint(settings, "synth.reverb.active" , config->fluidsynth_reverb ? 1 : 0);
   fluid_settings_setint(settings, "synth.chorus.active" , config->fluidsynth_chorus ? 1 : 0);
 
