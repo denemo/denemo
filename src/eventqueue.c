@@ -61,7 +61,7 @@ void event_queue_reset_playback(event_queue_t *queue) {
 }
 
 
-gboolean event_queue_write_playback_event(event_queue_t *queue, smf_event_t *event) {
+gboolean event_queue_write_playback(event_queue_t *queue, smf_event_t *event) {
   if (!queue->playback || jack_ringbuffer_write_space(queue->playback) < sizeof(smf_event_t*)) {
     return FALSE;
   }
@@ -72,7 +72,7 @@ gboolean event_queue_write_playback_event(event_queue_t *queue, smf_event_t *eve
 }
 
 
-gboolean event_queue_write_immediate_event(event_queue_t *queue, midi_event_t *event) {
+gboolean event_queue_write_immediate(event_queue_t *queue, midi_event_t *event) {
   if (!queue->immediate || jack_ringbuffer_write_space(queue->immediate) < sizeof(midi_event_t)) {
     return FALSE;
   }
@@ -83,8 +83,8 @@ gboolean event_queue_write_immediate_event(event_queue_t *queue, midi_event_t *e
 }
 
 
-gboolean event_queue_read_event(event_queue_t *queue, unsigned char *event_buffer, size_t *event_length,
-                                double *event_time, double until_time) {
+gboolean event_queue_read_output(event_queue_t *queue, unsigned char *event_buffer, size_t *event_length,
+                                 double *event_time, double until_time) {
   if (jack_ringbuffer_read_space(queue->immediate)) {
     midi_event_t event;
     jack_ringbuffer_read(queue->immediate, (char *)&event, sizeof(midi_event_t));
@@ -156,7 +156,7 @@ gboolean event_queue_read_event(event_queue_t *queue, unsigned char *event_buffe
 }
 
 
-gboolean event_queue_input_event(event_queue_t *queue, midi_event_t const *event) {
+gboolean event_queue_write_input(event_queue_t *queue, midi_event_t const *event) {
   if (!queue->input || jack_ringbuffer_write_space(queue->input) < sizeof(midi_event_t)) {
     return FALSE;
   }
@@ -167,7 +167,7 @@ gboolean event_queue_input_event(event_queue_t *queue, midi_event_t const *event
 }
 
 
-midi_event_t * event_queue_read_input_event(event_queue_t *queue) {
+midi_event_t * event_queue_read_input(event_queue_t *queue) {
   if (!queue->input) {
     return NULL;
   }

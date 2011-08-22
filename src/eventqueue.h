@@ -73,7 +73,7 @@ void event_queue_reset_playback(event_queue_t *queue);
  *
  * @return        TRUE if the event was successfully written to the queue
  */
-gboolean event_queue_write_playback_event(event_queue_t *queue, smf_event_t *event);
+gboolean event_queue_write_playback(event_queue_t *queue, smf_event_t *event);
 
 /**
  * Writes an event to the immmediate playback queue.
@@ -83,10 +83,10 @@ gboolean event_queue_write_playback_event(event_queue_t *queue, smf_event_t *eve
  *
  * @return        TRUE if the event was successfully written to the queue
  */
-gboolean event_queue_write_immediate_event(event_queue_t *queue, midi_event_t *event);
+gboolean event_queue_write_immediate(event_queue_t *queue, midi_event_t *event);
 
 /**
- * Reads an event from one of the playback queues.
+ * Reads an event from one of the output queues.
  *
  * @param[out] event_buffer   the event data
  * @param[out] event_length   the length of the event in bytes
@@ -98,8 +98,8 @@ gboolean event_queue_write_immediate_event(event_queue_t *queue, midi_event_t *e
  * @return                    TRUE if an event was written to the output
  *                            parameters
  */
-gboolean event_queue_read_event(event_queue_t *queue, unsigned char *event_buffer, size_t *event_length,
-                                double *event_time, double until_time);
+gboolean event_queue_read_output(event_queue_t *queue, unsigned char *event_buffer, size_t *event_length,
+                                 double *event_time, double until_time);
 
 /**
  * Writes an event to the input queue.
@@ -109,7 +109,7 @@ gboolean event_queue_read_event(event_queue_t *queue, unsigned char *event_buffe
  *
  * @return        TRUE if the event was successfully written to the queue
  */
-gboolean event_queue_input_event(event_queue_t *queue, midi_event_t const *event);
+gboolean event_queue_write_input(event_queue_t *queue, midi_event_t const *event);
 
 /**
  * Reads an event from the input queue.
@@ -117,7 +117,7 @@ gboolean event_queue_input_event(event_queue_t *queue, midi_event_t const *event
  * @return  a pointer to a newly allocated structure containing the event data.
  *          The caller is responsible for calling g_free() on this pointer.
  */
-midi_event_t *event_queue_read_input_event(event_queue_t *queue);
+midi_event_t *event_queue_read_input(event_queue_t *queue);
 
 
 #endif // EVENTQUEUE_H

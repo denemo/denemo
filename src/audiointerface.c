@@ -290,13 +290,13 @@ static void reset_playback_queue(backend_type_t backend) {
 
 
 static gboolean write_event_to_queue(backend_type_t backend, smf_event_t *event) {
-  return event_queue_write_playback_event(get_event_queue(backend), event);
+  return event_queue_write_playback(get_event_queue(backend), event);
 }
 
 
 gboolean read_event_from_queue(backend_type_t backend, unsigned char *event_buffer, size_t *event_length,
                                double *event_time, double until_time) {
-  return event_queue_read_event(get_event_queue(backend), event_buffer, event_length, event_time, until_time);
+  return event_queue_read_output(get_event_queue(backend), event_buffer, event_length, event_time, until_time);
 }
 
 
@@ -323,7 +323,7 @@ static gpointer queue_thread_func(gpointer data) {
     // TODO: audio capture
 
     midi_event_t *ev;
-    while ((ev = event_queue_read_input_event(get_event_queue(MIDI_BACKEND))) != NULL) {
+    while ((ev = event_queue_read_input(get_event_queue(MIDI_BACKEND))) != NULL) {
       g_idle_add_full(G_PRIORITY_HIGH_IDLE, handle_midi_event_callback, (gpointer)ev, NULL);
     }
 
@@ -449,7 +449,7 @@ int play_midi_event(backend_type_t backend, int port, unsigned char *buffer) {
   // FIXME: size might be less than 3
   memcpy(&ev.data, buffer, 3);
 
-  gboolean b = event_queue_write_immediate_event(get_event_queue(backend), &ev);
+  gboolean b = event_queue_write_immediate(get_event_queue(backend), &ev);
 
   return b == TRUE;
 }
@@ -545,7 +545,7 @@ void input_midi_event(backend_type_t backend, int port, unsigned char *buffer) {
     ev.data[0] = (ev.data[0] & 0x0f) | MIDI_NOTE_OFF;
   }
 
-  event_queue_input_event(get_event_queue(backend), &ev);
+  event_queue_write_input(get_event_queue(backend), &ev);
 
   // if the lock fails, processing of the event will be delayed until the
   // queue thread wakes up on its own
