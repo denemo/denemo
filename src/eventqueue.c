@@ -26,11 +26,11 @@ event_queue_t *event_queue_new(size_t playback_queue_size, size_t immediate_queu
   }
 
   if (immediate_queue_size) {
-    queue->immediate = jack_ringbuffer_create(immediate_queue_size * sizeof(input_event_t));
+    queue->immediate = jack_ringbuffer_create(immediate_queue_size * sizeof(midi_event_t));
   }
 
   if (input_queue_size) {
-    queue->input = jack_ringbuffer_create(input_queue_size * sizeof(input_event_t));
+    queue->input = jack_ringbuffer_create(input_queue_size * sizeof(midi_event_t));
   }
 
   return queue;
@@ -72,22 +72,22 @@ gboolean event_queue_write_playback_event(event_queue_t *queue, smf_event_t *eve
 }
 
 
-gboolean event_queue_write_immediate_event(event_queue_t *queue, input_event_t *event) {
-  if (!queue->immediate || jack_ringbuffer_write_space(queue->immediate) < sizeof(input_event_t)) {
+gboolean event_queue_write_immediate_event(event_queue_t *queue, midi_event_t *event) {
+  if (!queue->immediate || jack_ringbuffer_write_space(queue->immediate) < sizeof(midi_event_t)) {
     return FALSE;
   }
 
-  size_t n = jack_ringbuffer_write(queue->immediate, (char const *)event, sizeof(input_event_t));
+  size_t n = jack_ringbuffer_write(queue->immediate, (char const *)event, sizeof(midi_event_t));
 
-  return n == sizeof(input_event_t);
+  return n == sizeof(midi_event_t);
 }
 
 
 gboolean event_queue_read_event(event_queue_t *queue, unsigned char *event_buffer, size_t *event_length,
                                 double *event_time, double until_time) {
   if (jack_ringbuffer_read_space(queue->immediate)) {
-    input_event_t event;
-    jack_ringbuffer_read(queue->immediate, (char *)&event, sizeof(input_event_t));
+    midi_event_t event;
+    jack_ringbuffer_read(queue->immediate, (char *)&event, sizeof(midi_event_t));
 
     memcpy(event_buffer, &event.data, 3);
     // FIXME
@@ -156,25 +156,25 @@ gboolean event_queue_read_event(event_queue_t *queue, unsigned char *event_buffe
 }
 
 
-gboolean event_queue_input_event(event_queue_t *queue, input_event_t const *event) {
-  if (!queue->input || jack_ringbuffer_write_space(queue->input) < sizeof(input_event_t)) {
+gboolean event_queue_input_event(event_queue_t *queue, midi_event_t const *event) {
+  if (!queue->input || jack_ringbuffer_write_space(queue->input) < sizeof(midi_event_t)) {
     return FALSE;
   }
 
-  size_t n = jack_ringbuffer_write(queue->input, (char *)event, sizeof(input_event_t));
+  size_t n = jack_ringbuffer_write(queue->input, (char *)event, sizeof(midi_event_t));
 
-  return n == sizeof(input_event_t);
+  return n == sizeof(midi_event_t);
 }
 
 
-input_event_t * event_queue_read_input_event(event_queue_t *queue) {
+midi_event_t * event_queue_read_input_event(event_queue_t *queue) {
   if (!queue->input) {
     return NULL;
   }
 
   if (jack_ringbuffer_read_space(queue->input)) {
-    input_event_t *ev = g_malloc(sizeof(input_event_t));
-    jack_ringbuffer_read(queue->input, (char *)ev, sizeof(input_event_t));
+    midi_event_t *ev = g_malloc(sizeof(midi_event_t));
+    jack_ringbuffer_read(queue->input, (char *)ev, sizeof(midi_event_t));
     return ev;
   } else {
     return NULL;

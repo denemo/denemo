@@ -269,7 +269,7 @@ static gboolean redraw_playhead_callback(gpointer data) {
 static gboolean handle_midi_event_callback(gpointer data) {
   gdk_threads_enter();
 
-  input_event_t * ev = (input_event_t *) data;
+  midi_event_t * ev = (midi_event_t *) data;
 
   // TODO: handle backend type and port
   handle_midi_event((gchar *)ev->data);
@@ -322,7 +322,7 @@ static gpointer queue_thread_func(gpointer data) {
 
     // TODO: audio capture
 
-    input_event_t *ev;
+    midi_event_t *ev;
     while ((ev = event_queue_read_input_event(get_event_queue(MIDI_BACKEND))) != NULL) {
       g_idle_add_full(G_PRIORITY_HIGH_IDLE, handle_midi_event_callback, (gpointer)ev, NULL);
     }
@@ -443,7 +443,7 @@ int play_midi_event(backend_type_t backend, int port, unsigned char *buffer) {
   int type = (buffer[0] & 0xf0) >> 4;
   g_print("playing midi event: port=%d, channel=%d, type=%x, data1=%d, data2=%d\n", port, channel, type, buffer[1], buffer[2]);
 
-  input_event_t ev;
+  midi_event_t ev;
   ev.backend = backend;
   ev.port = port;
   // FIXME: size might be less than 3
@@ -534,7 +534,7 @@ int panic_all() {
 
 
 void input_midi_event(backend_type_t backend, int port, unsigned char *buffer) {
-  input_event_t ev;
+  midi_event_t ev;
   ev.backend = backend;
   ev.port = port;
   // FIXME: size might be less than 3

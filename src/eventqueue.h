@@ -83,7 +83,7 @@ gboolean event_queue_write_playback_event(event_queue_t *queue, smf_event_t *eve
  *
  * @return        TRUE if the event was successfully written to the queue
  */
-gboolean event_queue_write_immediate_event(event_queue_t *queue, input_event_t *event);
+gboolean event_queue_write_immediate_event(event_queue_t *queue, midi_event_t *event);
 
 /**
  * Reads an event from one of the playback queues.
@@ -109,7 +109,7 @@ gboolean event_queue_read_event(event_queue_t *queue, unsigned char *event_buffe
  *
  * @return        TRUE if the event was successfully written to the queue
  */
-gboolean event_queue_input_event(event_queue_t *queue, input_event_t const *event);
+gboolean event_queue_input_event(event_queue_t *queue, midi_event_t const *event);
 
 /**
  * Reads an event from the input queue.
@@ -117,7 +117,7 @@ gboolean event_queue_input_event(event_queue_t *queue, input_event_t const *even
  * @return  a pointer to a newly allocated structure containing the event data.
  *          The caller is responsible for calling g_free() on this pointer.
  */
-input_event_t *event_queue_read_input_event(event_queue_t *queue);
+midi_event_t *event_queue_read_input_event(event_queue_t *queue);
 
 
 #endif // EVENTQUEUE_H
