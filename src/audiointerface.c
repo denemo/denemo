@@ -296,6 +296,14 @@ static gboolean write_event_to_queue(backend_type_t backend, smf_event_t *event)
 
 gboolean read_event_from_queue(backend_type_t backend, unsigned char *event_buffer, size_t *event_length,
                                double *event_time, double until_time) {
+  double playback_time = get_playback_time();
+
+  if (playback_time > get_end_time()) {
+    if (is_playing() && playback_time > 0.0) {
+      midi_stop();
+    }
+  }
+
   return event_queue_read_output(get_event_queue(backend), event_buffer, event_length, event_time, until_time);
 }
 

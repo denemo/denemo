@@ -106,20 +106,8 @@ gboolean event_queue_read_output(event_queue_t *queue, unsigned char *event_buff
 
 //    printf("is_playing=%d, playback_time=%f, end_time=%f\n", is_playing(), get_playback_time(), get_end_time());
 
-    double playback_time = get_playback_time();
-
-    // FIXME: do this in audiointerface.c
-    if (playback_time > get_end_time()) {
-      if (is_playing() && playback_time > 0.0) {
-        midi_stop();
-      }
-
-//      printf("no more events to play\n");
-
-      return FALSE;
-    }
-    else if (!jack_ringbuffer_read_space(queue->playback)) {
-//      printf("no event in playback queue\n");
+    if (!jack_ringbuffer_read_space(queue->playback)) {
+//      printf("no more events in playback queue\n");
 
       return FALSE;
     }
