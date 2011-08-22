@@ -15,9 +15,9 @@
 
 (if (and (Note?) (not (d-IsGrace)))
     (begin
-      (while (and (d-MoveCursorRight) (d-IsGrace))
+      (while (and (d-MoveCursorRight) (Note?) (d-IsGrace))
       	#t)
-      (if (not (d-IsGrace))
+      (if (or (Appending?) (not (Note?)) (not (d-IsGrace)))
 	  (d-MoveCursorLeft))
      (if (d-IsGrace)
      	(begin
