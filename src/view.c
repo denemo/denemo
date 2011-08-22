@@ -3063,7 +3063,7 @@ SCM scheme_output_midi_bytes (SCM input) {
     return SCM_BOOL_F;
   }
   DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
-  channel = get_midi_channel();
+  channel = get_midi_channel(curstaffstruct);
   volume = curstaffstruct->volume;
   char *string_input;
   string_input = scm_to_locale_string(input);
@@ -3095,8 +3095,6 @@ static SCM scheme_play_midi_note(SCM note, SCM volume, SCM channel, SCM duration
     gint dur = scm_num2int(duration, 0, 0);
     
     //g_print("Playing %x at %f volume, %d channel\n", key, vol/255.0, channel);
-    // FIXME
-    //play_midikey(key, dur/1000.0, vol/255.0, chan);
     play_note(DEFAULT_BACKEND, 0 /*port*/, chan, key, dur/1000.0, vol/255.0);
  return SCM_BOOL(TRUE);
 }
@@ -3106,8 +3104,6 @@ static SCM scheme_play_midikey(SCM scm) {
     gint channel = midi&0xF;
     double volume = ((midi>>16)&0xFF)/255.0;
     g_print("Playing %x at %f volume, %d channel\n", key, (double)volume, channel);
-    // FIXME
-    //play_midikey(key, 0.2, volume, channel);
     play_note(DEFAULT_BACKEND, 0 /*port*/, channel, key, 1000 /*duration*/, volume);
     //g_usleep(200000);
  return SCM_BOOL(TRUE);
@@ -7421,8 +7417,8 @@ gint val = gtk_radio_action_get_current_value (current);
    }
    gui->input_source=INPUTMIDI;
 
-   // FIXME?
-   start_midi_input();
+   // FIXME
+//   start_midi_input();
    break;
  default:
    g_warning("Bad Value\n");

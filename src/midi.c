@@ -433,17 +433,11 @@ static gint midiaction(gint notenum) {
  if(!(Denemo.keyboard_state&CHECKING_MASK)) {
     if(Denemo.prefs.immediateplayback) {
       gint channel = curstaffstruct->midi_channel;
-      
+
       if(have_previous && check_interval(enote.mid_c_offset, enote.enshift, prevenote.mid_c_offset, prevenote.enshift))
         channel = Denemo.prefs.pitchspellingchannel;
-              
-      // TODO
-//      if (Denemo.prefs.midi_audio_output == Portaudio)
-//        playpitch(midi2hz(notenum), 0.3, 0.5, 0);
-//      if (Denemo.prefs.midi_audio_output == Jack)
-//        jack_playpitch(notenum, 300 /*duration*/);
-//      else if (Denemo.prefs.midi_audio_output == Fluidsynth)
-//        fluid_playpitch(notenum, 300 /*duration*/,  channel, 0);
+
+      play_note(DEFAULT_BACKEND, 0 /*port*/, channel, notenum, 300 /*duration*/, 0);
     }
   }
 
@@ -616,17 +610,37 @@ void handle_midi_event(gchar *buf) {
 }
 
 
-// FIXME: not quite sure what to do with these yet
+gboolean intercept_midi_event(gint *midi) {
+  // FIXME: not implemented
+  return FALSE;
+}
 
-gint midi_init () { return 0; }
 
-gint init_midi_input() { return 0; }
-void start_midi_input() { }
-gint stop_midi_input() { return 0; }
+gint get_midi_channel(DenemoStaff *staff) {
+  if (!strcmp (staff->midi_instrument->str, "drums")) {
+    return 9;
+  } else {
+    gint tracknumber = Denemo.gui->si->currentstaffnum-1;
+    tracknumber = (tracknumber >= 9) ? tracknumber + 1 : tracknumber;
+    return tracknumber&0xF;
+  }
+}
 
-gint get_midi_channel() { return 0; }
-gint get_midi_prognum() { return 0; }
 
-gboolean intercept_midi_event(gint *midi) { return FALSE; }
+gint get_midi_prognum(DenemoStaff *staff) {
+  if (staff->midi_channel == 9) {
+    return 0;
+  } else {
+    return select_program (staff->midi_instrument->str);
+  }
+}
 
-void change_tuning(gdouble *cents) { }
+
+gint get_midi_port(DenemoStaff *staff) {
+  return staff->midi_port;
+}
+
+
+void change_tuning(gdouble *cents) {
+  // FIXME: not implemented
+}

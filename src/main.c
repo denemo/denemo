@@ -654,7 +654,7 @@ Report bugs to http://www.denemo.org\n"), NULL) ;
   while ((opts = getopt (argc, argv, optstring)) != -1)
 #endif
     {
-      g_print("opt %c has %s\n", opts, argv[optind]);
+//      g_print("opt %c has %s\n", opts, argv[optind]);
 
       switch (opts) {
         case 'h':
