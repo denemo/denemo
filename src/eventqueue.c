@@ -104,7 +104,7 @@ gboolean event_queue_read_event(event_queue_t *queue, unsigned char *event_buffe
   for (;;) {
     smf_event_t *event;
 
-//    printf("is_playing=%d, playback_time=%f, end_time=%f\n", is_playing(), playback_time, get_end_time());
+//    printf("is_playing=%d, playback_time=%f, end_time=%f\n", is_playing(), get_playback_time(), get_end_time());
 
     double playback_time = get_playback_time();
 
@@ -119,7 +119,7 @@ gboolean event_queue_read_event(event_queue_t *queue, unsigned char *event_buffe
       return FALSE;
     }
     else if (!jack_ringbuffer_read_space(queue->playback)) {
-//      printf("no event to play right now\n");
+//      printf("no event in playback queue\n");
 
       return FALSE;
     }
