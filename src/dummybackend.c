@@ -138,7 +138,7 @@ static int dummy_audio_destroy() {
 static int dummy_midi_destroy() {
   g_print("destroying dummy MIDI backend\n");
 
-  g_atomic_int_set(&dummy_audio, TRUE);
+  g_atomic_int_set(&dummy_midi, FALSE);
 
   stop_process_thread();
 
