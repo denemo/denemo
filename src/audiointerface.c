@@ -35,6 +35,7 @@
 
 #include <glib.h>
 #include <string.h>
+#include <stdint.h>
 
 
 static backend_t *backends[NUM_BACKENDS] = { NULL };
@@ -455,10 +456,10 @@ int play_midi_event(backend_type_t backend, int port, unsigned char *buffer) {
 
 
 static gboolean play_note_noteoff_callback(gpointer data) {
-  backend_type_t backend = (((int)data) >> 24);
-  int port = (((int)data) >> 16) & 0xff;
-  int channel = (((int)data) >> 8) & 0xff;
-  int key = ((int)data) & 0xff;
+  backend_type_t backend = (((intptr_t)data) >> 24);
+  int port = (((intptr_t)data) >> 16) & 0xff;
+  int channel = (((intptr_t)data) >> 8) & 0xff;
+  int key = ((intptr_t)data) & 0xff;
 
   unsigned char buffer[] = {
     MIDI_NOTE_OFF | channel,
@@ -481,7 +482,7 @@ int play_note(backend_type_t backend, int port, int channel, int key, int durati
   int r = play_midi_event(backend, port, buffer);
 
   // XXX this limits the number of ports to 256...
-  gpointer data = (gpointer) (backend << 24 | port << 16 | channel << 8 | key);
+  gpointer data = (gpointer)(intptr_t) (backend << 24 | port << 16 | channel << 8 | key);
   g_timeout_add(duration, play_note_noteoff_callback, data);
 
   return r;
