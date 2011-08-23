@@ -678,7 +678,19 @@ static SCM scheme_hide_menus(SCM hide) {
   return SCM_BOOL(TRUE);
 }
 
+static SCM scheme_hide_window(SCM hide) {
+  gboolean show = FALSE;
+  gboolean showing = GTK_WIDGET_VISIBLE(Denemo.window);
+  if(scm_is_bool(hide) && hide==SCM_BOOL_F)
+    show = TRUE;
+  if(show)
+    gtk_widget_show(Denemo.window);
+  else
+    gtk_widget_hide(Denemo.window);
+  return SCM_BOOL(showing==show);
+}
 
+  
 /* when a script calls a command which is itself a script it comes through here */
 static SCM scheme_script_callback(SCM script, SCM params) {
     int length;
@@ -803,21 +815,24 @@ static SCM scheme_load_commandset (SCM name) {
 
 SCM scheme_user_screenshot(SCM type) {
   GList **sources;
+  SCM ret = SCM_BOOL_F;
   if(type==SCM_BOOL_F)
    sources = &Denemo.gui->si->sources;
   else
    sources = &((DenemoStaff*)Denemo.gui->si->currentstaff->data)->sources;
+  scheme_hide_window(SCM_BOOL_T);
   GdkRectangle *rect = screenshot_find_rectangle();
   if(rect) {
         GError *error = NULL;
-        g_print("%d %d %d %d\n", rect->x, rect->y, rect->width, rect->height);
+        //g_print("%d %d %d %d\n", rect->x, rect->y, rect->width, rect->height);
         GdkPixbuf *screenshot = screenshot_get_pixbuf (gdk_get_default_root_window (), rect);
         if(screenshot) {
-          *sources = g_list_append(*sources, screenshot);
-          return SCM_BOOL_T;
+          *sources = g_list_append(*sources, screenshot);          
+          ret = SCM_BOOL_T;
         }
-  } 
-return SCM_BOOL_F;
+  }
+  scheme_hide_window(SCM_BOOL_F);
+  return ret;
 }
 SCM scheme_delete_screenshot(SCM type) {
   GList **sources;
@@ -3992,6 +4007,8 @@ static void create_scheme_identfiers(void) {
 
 
   INSTALL_SCM_FUNCTION ("Hides all the menus", DENEMO_SCHEME_PREFIX"HideMenus",  scheme_hide_menus);
+  INSTALL_SCM_FUNCTION ("Hides the Denemo gui or shows it if passed #f", DENEMO_SCHEME_PREFIX"HideWindow",  scheme_hide_window);
+  
   INSTALL_SCM_FUNCTION1 ("Takes the the name of a scripted command. Runs the script stored for that command. Scripts which invoke other scripted commands use this (implicitly?) ", DENEMO_SCHEME_PREFIX"ScriptCallback", scheme_script_callback);
 			
   INSTALL_SCM_FUNCTION1 ("create a dialog with the options & return the one chosen, of #f if the user cancels", DENEMO_SCHEME_PREFIX"GetOption", scheme_get_option);
