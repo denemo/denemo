@@ -18,8 +18,11 @@
 		(if (&lt; val 0)
 			(set! val 0))
 		(set! val (number-&gt;string val))
-		(disp "Pitch shift " val " and so "    (string-append "0xE0 0x00 " val)               "\n")
-		(d-OutputMidiBytes (string-append "0xE0 0x00 " val)))))
+		(let loop ((channel 0))
+			(if (&lt; channel 16)
+				(let ((chan (number-&gt;string  (+ #xE0 channel))))
+					(d-OutputMidiBytes (string-append chan " 0x00 " val))
+					(loop (+  channel 1))))))))
 </scheme>
         <label>Shift Pitch</label>
         <tooltip>Outputs a pitch bend signal to the synthesizer for the value +/- 64 given.</tooltip>
