@@ -244,7 +244,8 @@ void fluid_output_midi_event(unsigned char *buffer)
 	 //return fluid_synth_channel_pressure(synth, chan,  event->midi_buffer[1]);
  
        case PITCH_BEND:
-         fluid_synth_pitch_bend(synth, chan, buffer[1] + (buffer[2]<<8)
+       g_print("LSB %d MSB %d so %d\n", buffer[1], buffer[2], buffer[2]<<7);
+         fluid_synth_pitch_bend(synth, chan, buffer[1] + (buffer[2]<<7)
 				       /*I think! fluid_midi_event_get_pitch(event)*/);
 	 break;
  
@@ -480,7 +481,7 @@ static gboolean fluidsynth_play_smf_event(gchar *callback)
 	 //return fluid_synth_channel_pressure(synth, chan,  event->midi_buffer[1]);
  
        case PITCH_BEND:
-         fluid_synth_pitch_bend(synth, chan, event->midi_buffer[1] + (event->midi_buffer[2]<<8)
+         fluid_synth_pitch_bend(synth, chan, event->midi_buffer[1] + (event->midi_buffer[2]<<7)
 				       /*I think! fluid_midi_event_get_pitch(event)*/);
 	 break;
  
@@ -711,7 +712,7 @@ static handle_midi_event_func_t handle_midi_in(void* data, fluid_midi_event_t* e
   
     {
       short key = fluid_midi_event_get_pitch(event);
-      load_midi_buf(type, key>>8, key&0x7F);
+      load_midi_buf(type,  key&0x7F, key>>7);
     }
     break;
 
