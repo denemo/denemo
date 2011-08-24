@@ -5257,6 +5257,14 @@ for second and subsequent systems</tooltip>
         <label>Capture and Insert One Measure</label>
         <tooltip>Capture the image of a single measure (as screenshot) inserting at the current measure in the current staff.</tooltip>
       </row>
+      <row>
+        <action>PitchShift</action>
+        <after>ConvertMidiForBass</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/PlaybackMenu</menupath>
+        <label>Shift Pitch</label>
+        <tooltip>Outputs a pitch bend signal to the synthesizer for the value +/- 64 given.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
