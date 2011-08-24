@@ -5241,6 +5241,22 @@ for second and subsequent systems</tooltip>
         <label>Un-Grace After</label>
         <tooltip>Make the grace note at the cursor closer to the following rather than preceding note.</tooltip>
       </row>
+      <row>
+        <action>InsertCaptureMeasure</action>
+        <after>CaptureMeasures</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/CaptureScore</menupath>
+        <label>Capture and Insert One Measure</label>
+        <tooltip>Capture the image of a single measure (as screenshot) inserting at the current measure.</tooltip>
+      </row>
+      <row>
+        <action>InsertCaptureMeasureForStaff</action>
+        <after>CaptureMeasuresForStaff</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/CaptureScore</menupath>
+        <label>Capture and Insert One Measure</label>
+        <tooltip>Capture the image of a single measure (as screenshot) inserting at the current measure in the current staff.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
