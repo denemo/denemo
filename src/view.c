@@ -813,9 +813,13 @@ static SCM scheme_load_commandset (SCM name) {
 }
 
 
-SCM scheme_user_screenshot(SCM type) {
+SCM scheme_user_screenshot(SCM type, SCM position) {
   GList **sources;
   SCM ret = SCM_BOOL_F;
+  gint pos = -1;
+  if((!SCM_UNBNDP(position)) && scm_integer_p(position))
+    pos = scm_num2int(position,0,0);
+
   if(type==SCM_BOOL_F)
    sources = &Denemo.gui->si->sources;
   else
@@ -827,13 +831,18 @@ SCM scheme_user_screenshot(SCM type) {
         //g_print("%d %d %d %d\n", rect->x, rect->y, rect->width, rect->height);
         GdkPixbuf *screenshot = screenshot_get_pixbuf (gdk_get_default_root_window (), rect);
         if(screenshot) {
-          *sources = g_list_append(*sources, screenshot);          
+          *sources = g_list_insert(*sources, GINT_TO_POINTER(screenshot), pos); //-1 appends
           ret = SCM_BOOL_T;
         }
   }
   scheme_hide_window(SCM_BOOL_F);
+  
   return ret;
 }
+
+
+
+
 SCM scheme_delete_screenshot(SCM type) {
   GList **sources;
   if(type==SCM_BOOL_F)
@@ -4863,7 +4872,7 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
 
   INSTALL_SCM_FUNCTION ("Adjust end time for playback by passed number of seconds. Returns #f for bad parameter ", DENEMO_SCHEME_PREFIX"AdjustPlaybackEnd", scheme_adjust_playback_end);
 
-  INSTALL_SCM_FUNCTION ("Takes a parameter #t or #f: Get a screenshot from the user and append it to a list (one per measure) either applying across the staffs or to the current staff.", DENEMO_SCHEME_PREFIX"UserScreenshot", scheme_user_screenshot);
+  INSTALL_SCM_FUNCTION1 ("Takes a parameter #t or #f and optional position: Get a screenshot from the user and append or insert it in a list (one per measure) either applying across the staffs or to the current staff.", DENEMO_SCHEME_PREFIX"UserScreenshot", scheme_user_screenshot);
   INSTALL_SCM_FUNCTION ("Takes a parameter #t or #f: Delete a screenshot for the current measure, either across staffs or for current staff.", DENEMO_SCHEME_PREFIX"DeleteScreenshot", scheme_delete_screenshot);
 
   INSTALL_SCM_FUNCTION ("Pushes the Denemo clipboard (cut/copy buffer) onto a stack; Use d-PopClipboard to retrieve it.", DENEMO_SCHEME_PREFIX"PushClipboard", scheme_push_clipboard);
