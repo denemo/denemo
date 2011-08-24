@@ -671,7 +671,7 @@ static SCM scheme_hide_menus(SCM hide) {
     return  SCM_BOOL(TRUE);
   }
   gboolean show = FALSE;
-  if(scm_is_bool(hide) && hide==SCM_BOOL_F)
+  if(scm_is_false(hide))
     show = TRUE;
   toggle_to_drawing_area(show);
   activate_action("/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
@@ -681,7 +681,7 @@ static SCM scheme_hide_menus(SCM hide) {
 static SCM scheme_hide_window(SCM hide) {
   gboolean show = FALSE;
   gboolean showing = GTK_WIDGET_VISIBLE(Denemo.window);
-  if(scm_is_bool(hide) && hide==SCM_BOOL_F)
+  if(scm_is_false(hide))
     show = TRUE;
   if(show)
     gtk_widget_show(Denemo.window);
@@ -820,7 +820,7 @@ SCM scheme_user_screenshot(SCM type, SCM position) {
   if((!SCM_UNBNDP(position)) && scm_integer_p(position))
     pos = scm_num2int(position,0,0);
 
-  if(type==SCM_BOOL_F)
+  if(scm_is_false(type))
    sources = &Denemo.gui->si->sources;
   else
    sources = &((DenemoStaff*)Denemo.gui->si->currentstaff->data)->sources;
@@ -845,7 +845,7 @@ SCM scheme_user_screenshot(SCM type, SCM position) {
 
 SCM scheme_delete_screenshot(SCM type) {
   GList **sources;
-  if(type==SCM_BOOL_F)
+  if(scm_is_false(type))
    sources = &Denemo.gui->si->sources;
   else
    sources = &((DenemoStaff*)Denemo.gui->si->currentstaff->data)->sources;
@@ -904,7 +904,7 @@ return ret;
 
 static SCM scheme_create_thumbnail(SCM optional) {
  gboolean ret;
- if(optional == SCM_BOOL_T)
+ if(scm_is_true(optional))
   ret = create_thumbnail(TRUE);
  else
   ret = create_thumbnail(FALSE);
@@ -3459,7 +3459,7 @@ static SCM scheme_set_nonprinting (SCM optional) {
   DenemoObject *curObj;
   if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) ||  (curObj->type!=CHORD))
     return SCM_BOOL_F;
-  if(scm_is_bool(optional) && optional==SCM_BOOL_F)
+  if(scm_is_false(optional))
     curObj->isinvisible = FALSE;
   else
     curObj->isinvisible = TRUE;
@@ -3594,7 +3594,7 @@ SCM scheme_refresh_display (SCM optional) {
 
 SCM scheme_set_saved (SCM optional) {
   //scm_is_bool(optional) &&
-  if(optional == SCM_BOOL_F)
+  if(scm_is_false(optional))
     score_status(Denemo.gui, TRUE);
   else
     score_status(Denemo.gui, FALSE);
