@@ -35,9 +35,8 @@ License: GNU GPL v3 or later
 The modifications for denemo are Copyright (c) 2011 Jeremiah Benham, Richard Shann, and are released
 under GNU GPL v3 or later
 
-See fonts/LICENSE_OFL.txt
-
-Fetta.ttf was derived from lilypond's font, and is copyright
+emmentaler.ttf and
+feta.ttf were derived from lilypond's font, and is copyright
 
 (c) 1997--2009 Jan Nieuwenhuizen <janneke@gnu.org>
 (c) 1997--2009 Han-Wen Nienhuys <hanwen@xs4all.nl>
@@ -45,11 +44,11 @@ Fetta.ttf was derived from lilypond's font, and is copyright
 (c) 2000--2009 Juergen Reuter <reuter@ipd.uka.de>
 (c) 1998--2009 Christian Mondrup <scancm@biobase.dk>
 
-Fetta.ttf is released under the terms of the GNU General Public License as
+emmentaler.ttf and feta.ttf are released under the terms of the GNU General Public License as
 published by the Free Software Foundation, version 2
 with the following exception:
 
-- If you create a document which uses fonts included in Fetta.ttf, and
+- If you create a document which uses fonts included in feta.ttf, and
 embed this font or unaltered portions of this font into the document,
 then this font does not by itself cause the resulting document to be
 covered by the GNU General Public License. This exception does not
