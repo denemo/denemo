@@ -5265,6 +5265,14 @@ for second and subsequent systems</tooltip>
         <label>Shift Pitch</label>
         <tooltip>Outputs a pitch bend signal to the synthesizer for the value +/- 64 given.</tooltip>
       </row>
+      <row>
+        <action>Ottava</action>
+        <after>BreathMark</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Ottava</label>
+        <tooltip>Inserts an 8va mark (transposing the notes accordingly) or terminates one already started.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
