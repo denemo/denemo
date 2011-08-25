@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>Upprall</action>
+        <scheme>;;;Upprall
+(if (d-Directive-chord? "Ornament")
+	(d-DirectiveDelete-chord "Ornament")
+	(begin
+	(d-DirectivePut-chord-graphic "Ornament"
+"
+    \xEE\x86\x90   
+Emmentaler
+28")
+	(d-DirectivePut-chord-gy "Ornament"  -100)
+	(d-DirectivePut-chord-postfix "Ornament" "\\upprall")))
+(d-RefreshDisplay)</scheme>
+        <label>Up Prall</label>
+        <tooltip>Adds/Removes Up Prall ornament</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

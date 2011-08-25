@@ -8,12 +8,12 @@
         <after>BreathMark</after>
         <action>Ottava</action>
         <scheme>;;;OttavaStart
-(let ( (val (d-GetUserInput "Ottava" "Give 1 for ottava bassa, -1 for ottava alta and 0 for end ottava" "0")))
+(let ( (val (d-GetUserInput "Ottava" "Give -1 for ottava bassa, 1 for ottava alta and 0 for end ottava" "0")))
 	(if val
 		(StandAloneDirectiveProto (cons "Ottava"   (string-append "\\ottava #" val " " )))))
 		</scheme>
         <label>Ottava</label>
-        <tooltip>Inserts an 8va mark (transposing the notes accordingly) or terminates one already started.</tooltip>
+        <tooltip>Inserts an 8va mark (transposing the notes accordingly) or terminates one already started. Combine with a Print Transposition if you want to see the notes as typeset.</tooltip>
       </row>
     </map>
   </merge>

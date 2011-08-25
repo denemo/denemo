@@ -5273,6 +5273,13 @@ for second and subsequent systems</tooltip>
         <label>Ottava</label>
         <tooltip>Inserts an 8va mark (transposing the notes accordingly) or terminates one already started.</tooltip>
       </row>
+      <row>
+        <action>Upprall</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <label>Up Prall</label>
+        <tooltip>Adds/Removes Up Prall ornament</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
