@@ -667,10 +667,6 @@
         <bind>grave</bind>
       </row>
       <row>
-        <action>IntelligentDelete</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
         <action>SlurTwo</action>
         <bind>7</bind>
       </row>
