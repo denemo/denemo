@@ -904,7 +904,7 @@ return ret;
 
 static SCM scheme_create_thumbnail(SCM optional) {
  gboolean ret;
- if(scm_is_true(optional))
+ if( (!SCM_UNBNDP(optional)) && scm_is_true(optional))
   ret = create_thumbnail(TRUE);
  else
   ret = create_thumbnail(FALSE);
