@@ -282,4 +282,5 @@ gboolean run_file_association(gchar *filenam);
 gchar *make_temp_dir(void);
 gchar *remove_extension(gchar *name);
 gchar *substitute_extension(gchar *name, gchar *extension);
+void init_denemo_notenames(void);
 #endif /* UTILS_H */

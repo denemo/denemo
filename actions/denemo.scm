@@ -110,6 +110,10 @@
 	 (list-ref (reverse (string-tokenize(d-GetNotes))) 0)
 	 #f))
 
+(define MusicalSymbols-notes (vector Denemo-Note0 Denemo-Note1  Denemo-Note2 Denemo-Note3 Denemo-Note4 Denemo-Note5 Denemo-Note6 Denemo-Note7 Denemo-Note8))
+(define MusicalSymbols-sharp "\xe2\x99\xaf") ;;;may need to specify Denemo font for windows
+(define MusicalSymbols-flat "\xe2\x99\xad")
+
 (define cue-Advanced "Advanced")
 (define cue-PlaceAbove "Place above staff")
 (define cue-PlaceBelow "Place below staff")

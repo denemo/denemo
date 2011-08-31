@@ -1075,7 +1075,29 @@ kill_process (GPid pid)
 #define REST7 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x82</span>"
 #define REST8 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x83</span>"
 
+void
+init_denemo_notenames(void) {
 
+define_scheme_literal_variable("Denemo-Note0", NOTE0, NULL);
+define_scheme_literal_variable("Denemo-Rest0", REST0, NULL);
+define_scheme_literal_variable("Denemo-Note1", NOTE1, NULL);
+define_scheme_literal_variable("Denemo-Rest1", REST1, NULL);
+define_scheme_literal_variable("Denemo-Note2", NOTE2, NULL);
+define_scheme_literal_variable("Denemo-Rest2", REST2, NULL);
+define_scheme_literal_variable("Denemo-Note3", NOTE3, NULL);
+define_scheme_literal_variable("Denemo-Rest3", REST3, NULL);
+define_scheme_literal_variable("Denemo-Note4", NOTE4, NULL);
+define_scheme_literal_variable("Denemo-Rest4", REST4, NULL);
+define_scheme_literal_variable("Denemo-Note5", NOTE5, NULL);
+define_scheme_literal_variable("Denemo-Rest5", REST5, NULL);
+define_scheme_literal_variable("Denemo-Note6", NOTE6, NULL);
+define_scheme_literal_variable("Denemo-Rest6", REST6, NULL);
+define_scheme_literal_variable("Denemo-Note7", NOTE7, NULL);
+define_scheme_literal_variable("Denemo-Rest7", REST7, NULL);
+define_scheme_literal_variable("Denemo-Note8", NOTE8, NULL);
+define_scheme_literal_variable("Denemo-Rest8", REST8, NULL);
+
+}
 /* markup the passed string to be in the denemo music font
 * caller must free the returned string
 */

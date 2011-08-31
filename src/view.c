@@ -4013,7 +4013,7 @@ static void create_scheme_identfiers(void) {
      Note that all such actions (that may be called back by scheme directly in this fashion) are given the attribute "scm" with value 1; I do not think this is being exploited in the code at present, and is perhaps not needed.
   */
 #include "scheme.h"
-
+  init_denemo_notenames();
 
   INSTALL_SCM_FUNCTION ("Hides all the menus", DENEMO_SCHEME_PREFIX"HideMenus",  scheme_hide_menus);
   INSTALL_SCM_FUNCTION ("Hides the Denemo gui or shows it if passed #f", DENEMO_SCHEME_PREFIX"HideWindow",  scheme_hide_window);
@@ -5000,7 +5000,7 @@ void inner_main(void*closure, int argc, char **argv){
 #define choice6 "AllCommands\nUsers wanting to see the complete command set. No pre-defined shortcuts"
 
  
-  if(uses_default_commandset()) {
+  if((!Denemo.non_interactive) && uses_default_commandset()) {
     gchar *initialpref = Denemo.prefs.profile->len?Denemo.prefs.profile->str:NULL;
     gchar * never_again = NULL;
     if(initialpref) never_again = g_strdup_printf( "Use %s and do not show these choices again", initialpref);
