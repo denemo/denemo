@@ -34,7 +34,7 @@
 )
 (d-WarningDialog "Incorrect syntax.")
 ))</scheme>       
-        <label>Metronome Marking 𝅘𝅥 = 𝅘𝅥𝅭 </label>
+        <label>Metronome Marking 𝅘𝅥 = ... bpm </label>
         <tooltip>Prints a metronome. Adjusts playback tempo to this value.</tooltip>
       </row>
     </map>
