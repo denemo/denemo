@@ -2426,7 +2426,7 @@ Sets prevailing rhythm to &#x1D165;</tooltip>
         <action>MetronomeMarking</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives</menupath>
-        <label>Metronome Marking  &#x1D15F; = &#x1D15F;&#x1D16D; </label>
+        <label>Metronome Marking  &#x1D15F; = ... bpm </label>
         <tooltip>Prints a metronome. Adjusts playback tempo to this value.</tooltip>
       </row>
       <row>

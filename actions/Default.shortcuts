@@ -204,7 +204,7 @@
       <row>
         <action>Flatten</action>
         <bind>Subtract</bind>
-       <bind>Shft+minus</bind>
+        <bind>Shft+minus</bind>
       </row>
       <row>
         <action>PendingSharpen</action>
@@ -523,10 +523,9 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>PrintBassWithoutFigures</action>
+        <action>ShowFiguredBass</action>
         <hidden>true</hidden>
       </row>
-       
       <row>
         <action>EditObject</action>
         <hidden>true</hidden>
@@ -889,6 +888,10 @@
       </row>
       <row>
         <action>Ambitus</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>RecreateTimebase</action>
         <hidden>true</hidden>
       </row>
       <row>
@@ -1486,6 +1489,10 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>ToggleImmediatePlayback</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>VoicePresetAutomatic</action>
         <hidden>true</hidden>
       </row>
@@ -1576,6 +1583,18 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>Import-Lilypond</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>Import-Midi</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>Import-MusicXml</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>GroupStaffStart</action>
         <hidden>true</hidden>
       </row>
@@ -1605,6 +1624,10 @@
       </row>
       <row>
         <action>GrandStaffEnd</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>DeleteStaffGroupings</action>
         <hidden>true</hidden>
       </row>
       <row>
@@ -1836,11 +1859,87 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>ChangePrintDuration2</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangePrintDuration1</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangePrintDuration0</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangePrintDurationBreve</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangePrintDurationLonga</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>ChangeEnharmonicUp</action>
         <hidden>true</hidden>
       </row>
       <row>
         <action>ChangeEnharmonicDown</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>PrintBassPartWithoutFigures</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangeStaffUp</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangeStaffDown</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangeStaffBack</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>EvenOutStaffLengths</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MergeRests</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>CaptureMeasures</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>CaptureMeasuresForStaff</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>DeleteCapturedMeasure</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>DeleteCapturedMeasureForStaff</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ScoreBlockProlog</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>UnGraceAfter</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>InsertCaptureMeasure</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>InsertCaptureMeasureForStaff</action>
         <hidden>true</hidden>
       </row>
     </map>
