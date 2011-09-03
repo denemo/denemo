@@ -158,7 +158,7 @@ prune_list (GList * source)
  * @param non_chords
  * 
  */
-void
+static void
 allocate_xes (objnode ** block_start_obj_nodes,
 	      objnode ** block_end_obj_nodes, gint num_staffs,
 	      gint furthest_tick_advance, gint * base_x, gint * base_tick,
