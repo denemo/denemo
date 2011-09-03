@@ -436,6 +436,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 	}
       /* The following assumes no multiple simultaneous time signatures */
       itp->tickspermeasure = WHOLE_NUMTICKS * itp->time1 / itp->time2;
+      itp->wholenotewidth = si->measurewidth * itp->time2 / itp->time1;
       break;
     case STEMDIRECTIVE:
       if(cr) draw_stem_directive (cr,
