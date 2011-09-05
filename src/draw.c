@@ -230,13 +230,13 @@ static gint
 draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 	     DenemoGUI * gui, struct infotopass *itp)
 {
-  //g_print("draw obj %p\n", cr);
+
 
   itp->highy = itp->lowy = 0;
   DenemoScore *si = gui->si;
   DenemoObject *mudelaitem = (DenemoObject *) curobj->data;
 
-
+  //g_print("draw obj %d %d\n", mudelaitem->x, y);
   //this is the selection being given a blue background
   if(cr) if(itp->mark) {
     cairo_save(cr);
@@ -1052,6 +1052,7 @@ draw_score (cairo_t *cr)
   itp.startposition = -1;
   itp.endposition = -1;
   itp.startobj =  itp.endobj = NULL;
+  itp.tuplety = 0;
   y = 0;
 
   if(gui->si->smf) {
