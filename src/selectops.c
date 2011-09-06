@@ -1204,16 +1204,13 @@ void stage_undo(DenemoScore *si, action_type type) {
 // caller must g_free
 gchar *get_last_change(DenemoScore *si) {  
   DenemoUndoData *last = g_queue_peek_head(si->undodata);
+  gint n = 0;
+  while(last && ((last->action == ACTION_STAGE_START) || (last->action == ACTION_STAGE_END)))
+    last = g_queue_peek_nth(si->undodata, ++n);
   if(last==NULL)
     return NULL;
-  if(last->action == ACTION_STAGE_END)
-    last = g_queue_peek_nth(si->undodata, 1);
-  if(last==NULL)
-    return NULL;   	
+ 	
   switch (last->action) {    
-    case ACTION_STAGE_START:
-      return g_strdup_printf("Start of compound action \nUsually a script");
-      break;
     case ACTION_SNAPSHOT:
       return g_strdup_printf("Snapshot (e.g. measure delete, cut, paste and sadly many other things ... ");
       break;
