@@ -1200,25 +1200,25 @@ void stage_undo(DenemoScore *si, action_type type) {
   }
 }
 
-//return a string describing the top of the undo stack
+//return a string describing the top of the undo stack, or one below if stage start.
 // caller must g_free
 gchar *get_last_change(DenemoScore *si) {  
   DenemoUndoData *last = g_queue_peek_head(si->undodata);
   if(last==NULL)
-    return NULL;	
+    return NULL;
+  if(last->action == ACTION_STAGE_END)
+    last = g_queue_peek_nth(si->undodata, 1);
+  if(last==NULL)
+    return NULL;   	
   switch (last->action) {    
     case ACTION_STAGE_START:
-      return g_strdup_printf("[ start of compound action");
-      break;
-    case ACTION_STAGE_END:
-      return g_strdup_printf("end of compound action ]\n");
+      return g_strdup_printf("Start of compound action \nUsually a script");
       break;
     case ACTION_SNAPSHOT:
       return g_strdup_printf("Snapshot (e.g. measure delete, cut, paste and sadly many other things ... ");
       break;
     case ACTION_INSERT:
       return g_strdup_printf("Insert the object at staff %d measure %d position %d; ", last->position.staff, last->position.measure, last->position.object+1);
-
     case ACTION_DELETE:
       return g_strdup_printf("Deleted a %s at staff %d measure %d position %d; ", DenemoObjTypeNames[((DenemoObject*) last->object)->type], last->position.staff, last->position.measure, last->position.object);
       break;
