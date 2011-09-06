@@ -25,7 +25,7 @@
 #endif
 #include "pitchentry.h"
 
-#ifdef __APPLE__
+#ifdef UNUSED__APPLE
 #include <mach-o/dyld.h>
 #endif
 
@@ -910,7 +910,7 @@ get_data_dir ()
     g_free (rootdir);
 #else /* not G_OS_WIN32 */
 
-#ifdef __APPLE__
+#ifdef UNUSED__APPLE
      
       {char path[1024];
        guint size = sizeof(path);
@@ -945,7 +945,7 @@ get_bin_dir (void)
     g_free (rootdir);
 #else /* not G_OS_WIN32 */
 
-#ifdef __APPLE__
+#ifdef UNUSED__APPLE
      
       {char path[1024];
        guint size = sizeof(path);
@@ -977,7 +977,7 @@ get_conf_dir ()
   confdir = g_build_filename (rootdir, "etc", "denemo", NULL);
   g_free (rootdir);
 #else /* not G_OS_WIN32 */
-#ifdef __APPLE__
+#ifdef UNUSED__APPLE
      
       {char path[1024];
        guint size = sizeof(path);
@@ -1009,7 +1009,7 @@ get_locale_dir ()
     localedir = g_build_filename (rootdir, "share", "locale", NULL);
     g_free (rootdir);
 #else /* not G_OS_WIN32 */
-#ifdef __APPLE__
+#ifdef UNUSED__APPLE
      
       {char path[1024];
        guint size = sizeof(path);
