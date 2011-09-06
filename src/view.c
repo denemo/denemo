@@ -945,6 +945,17 @@ static SCM scheme_stage_for_undo (SCM optional) {
   return SCM_BOOL_T;
 }
 
+static SCM scheme_get_last_change (SCM optional) {
+  SCM ret = SCM_BOOL_F;
+  gchar *last = get_last_change(Denemo.gui->si);
+  if(last)
+    ret = scm_from_locale_string(last);
+  g_free(last);
+  return ret;
+}
+
+
+
 
 static SCM scheme_new_window  (SCM optional) {
   stage_undo(Denemo.gui->si, ACTION_STAGE_START);
@@ -4897,6 +4908,8 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
    INSTALL_SCM_FUNCTION ("Creates a new tab. Note this command has the same name as the built-in NewWindow command, to override it when called from a script. Returns #t", DENEMO_SCHEME_PREFIX"NewWindow"/*sic*/, scheme_new_window);
   
 INSTALL_SCM_FUNCTION ("Undo normally undoes all the actions performed by a script. This puts a stage at the point in a script where it is called, so that a user-invoked undo will stop at this point, continuing when a further undo is invoked. Returns #t", DENEMO_SCHEME_PREFIX"StageForUndo", scheme_stage_for_undo);
+
+INSTALL_SCM_FUNCTION ("return a string giving the latest step available for Undo", DENEMO_SCHEME_PREFIX"GetLastChange", scheme_get_last_change);
 
 
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the menu path to that command or #f if none",DENEMO_SCHEME_PREFIX"GetMenuPath", scheme_get_menu_path);
