@@ -5288,6 +5288,14 @@ for second and subsequent systems</tooltip>
         <label>Displace Rest Vertically</label>
         <tooltip>Turns the rest at the cursor into a polyphonic rest at the cursor height.</tooltip>
       </row>
+      <row>
+        <action>ShowLastChange</action>
+        <after>Undo</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <label>Show Last Change</label>
+        <tooltip>Shows the last change recorded on the Undo stack.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>Undo</after>
+        <action>ShowLastChange</action>
+        <scheme>;;;;ShowLastChange
+(let ((last (d-GetLastChange)))
+  (if last
+    (d-InfoDialog (string-append "The last change was:\n" last))
+    (d-InfoDialog "No change recorded in Undo stack")))
+</scheme>
+        <label>Show Last Change</label>
+        <tooltip>Shows the last change recorded on the Undo stack.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
