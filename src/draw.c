@@ -1052,7 +1052,7 @@ draw_score (cairo_t *cr)
   itp.startposition = -1;
   itp.endposition = -1;
   itp.startobj =  itp.endobj = NULL;
-  itp.tuplety = 0;
+  itp.tupletstart = itp.tuplety = 0;
   y = 0;
 
   if(gui->si->smf) {
