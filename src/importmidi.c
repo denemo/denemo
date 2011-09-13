@@ -232,8 +232,8 @@ dotrackname (gchar *name)
 {
   DenemoGUI *gui = Denemo.gui;
   DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
-  
-  curstaffstruct->denemo_name->str = g_strdup(name);
+  if(name)
+    g_string_assign(curstaffstruct->denemo_name, name);
 }
 
 static void
@@ -241,8 +241,8 @@ doinstrname (gchar* name)
 {
   DenemoGUI *gui = Denemo.gui;
   DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
-
-  curstaffstruct->midi_instrument->str = g_strdup(name);
+  if(name)
+    g_string_assign(curstaffstruct->midi_instrument, name);
 }
 
 static void
