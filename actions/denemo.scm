@@ -705,15 +705,15 @@
 (define (SetMidiShortcut shortcut command)
 	(set! MIDI-shortcuts::alist (assoc-set! MIDI-shortcuts::alist shortcut command)))
 
-(SetMidiShortcut "FootpedalUp" #f)
+(SetMidiShortcut "FootpedalUp" #f);;;set these to a command name, e.g. InsertA for the action (d-InsertA) 
 (SetMidiShortcut "FootpedalDown" #f)
 
 (define (MIDI-shortcut::controller type value)
 ;;(format #t "controller type ~a value ~a\n" type value)
   (cond ((and (equal? type 64) (equal? value 127))
-    	  (assoc-ref MIDI-shortcuts::alist "FootpedalUp"))
-        ((and (equal? type 64) (equal? value 0))
     	  (assoc-ref MIDI-shortcuts::alist "FootpedalDown"))
+        ((and (equal? type 64) (equal? value 0))
+    	  (assoc-ref MIDI-shortcuts::alist "FootpedalUp"))
 
         ((equal? type 1)
 	 (let ((thestep  (round(/ (- value 64) 16))))
