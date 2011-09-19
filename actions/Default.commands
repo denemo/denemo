@@ -5296,6 +5296,22 @@ for second and subsequent systems</tooltip>
         <label>Show Last Change</label>
         <tooltip>Shows the last change recorded on the Undo stack.</tooltip>
       </row>
+      <row>
+        <action>FootPedalConductor</action>
+        <after>AngryDelete</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/InputMenu/MIDI</menupath>
+        <label>Foot Pedal Conductor</label>
+        <tooltip>Press the foot pedal at the start of each measure. The bar number is displayed and the beats are interpolated following the timesignature set. Two quick presses of the foot pedal stops the conductor.</tooltip>
+      </row>
+      <row>
+        <action>PrintWithAmbitus</action>
+        <after>PrintAccompanistsScore</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
+        <label>Print with Ambitus</label>
+        <tooltip>Prints the score printing the range (ambitus) of each part at the start of the staff</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>PrintAccompanistsScore</after>
+        <action>PrintWithAmbitus</action>
+        <scheme>;;;;;;;;;PrintWithAmbitus
+(define (PrintWithAmbitus::ambitize)
+  (while (d-PreviousMovement))
+  (let movement ()
+    (while (d-MoveToStaffUp))
+    (let staff ()
+   	(ToggleDirective "staff" "prefix" "Ambitus" "\\with { \\consists \"Ambitus_engraver\" }")	
+ 	 (if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
+		(staff)))
+		(if (d-NextMovement)
+		    (movement))))
+
+(d-PushPosition)
+(PrintWithAmbitus::ambitize)
+(d-PrintPreview)
+(PrintWithAmbitus::ambitize)
+(d-PopPosition)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+</scheme>
+        <label>Print with Ambitus</label>
+        <tooltip>Prints the score printing the range (ambitus) of each part at the start of the staff</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
