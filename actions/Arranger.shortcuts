@@ -719,6 +719,10 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>GraceAfter</action>
+        <bind>G,a</bind>
+      </row>
+      <row>
         <action>Upbeat</action>
         <bind>u</bind>
       </row>
