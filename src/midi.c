@@ -481,17 +481,7 @@ void process_midi_event(gchar *buf) {
     buf[2]=128;//FIXME 127
   }
 #endif  
-   if (command==MIDI_CTL_CHANGE && (notenumber == 0x40)){
-	if (velocity == 0x7F)
-	  //PEDAL DOWN
-	  Denemo.keyboard_state |= ADDING_MASK;
-	else {
-	  Denemo.keyboard_state &= ~(CHORD_MASK|ADDING_MASK);
-	  next_editable_note();
-	}
-	set_midi_in_status();
-	displayhelper(Denemo.gui);
-      }
+ 
 
 
   if(midi_capture_on) {
@@ -507,7 +497,18 @@ void process_midi_event(gchar *buf) {
       if(command_name) {  
         execute_callback_from_name(Denemo.map, command_name);
         g_free(command_name);
-      }
+      } else {
+        if (notenumber == 0x40){  //Foot Pedal
+          if (velocity == 0x7F) {
+            Denemo.keyboard_state |= ADDING_MASK;
+        } else {
+            Denemo.keyboard_state &= ~(CHORD_MASK|ADDING_MASK);
+            next_editable_note();
+        }
+        set_midi_in_status();
+        displayhelper(Denemo.gui);
+        }
+      } 
     } else if(command==MIDI_PITCH_BEND) {
       gchar *command_name = get_midi_pitch_bend_command((notenumber<<8) + velocity);
       if(command_name) {
