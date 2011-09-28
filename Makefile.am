@@ -5,7 +5,7 @@ dist_sysconf_DATA = denemo.conf
 
 EXTRA_DIST = actions/menus doc/DESIGN doc/GOALS @PACKAGE@.spec.in  \
 	     doc/DESIGN.lilypond actions include \
-	     guile-1.8.pc fonts/LICENSE_OFL.txt \
+	     guile-1.8.pc \
 	     examples templates
 
 MAINTAINERCLEANFILES =  Makefile.in aclocal.m4 configure config.h.in \
