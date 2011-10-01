@@ -663,6 +663,31 @@ void ToggleReduceToDrawingArea (GtkAction * action, DenemoScriptParam *param) {
   toggle_to_drawing_area(!GTK_WIDGET_VISIBLE (widget));
 }
 
+
+static SCM scheme_hide_buttons(SCM hide) {
+  SCM ret = SCM_BOOL_F;
+  GtkWidget *widget = Denemo.gui->buttonbox;
+ if(GTK_IS_CONTAINER(widget)) {
+      ret = SCM_BOOL_T;
+      if(scm_is_false(hide))
+          gtk_container_foreach (GTK_CONTAINER(widget), (GtkCallback)gtk_widget_show, NULL);
+      else
+          gtk_container_foreach (GTK_CONTAINER(widget), (GtkCallback)gtk_widget_hide, NULL);    
+  }
+  return ret;
+}
+static SCM scheme_destroy_buttons(void) {
+  SCM ret = SCM_BOOL_F;
+  GtkWidget *widget = Denemo.gui->buttonbox;
+
+ if(GTK_IS_CONTAINER(widget)) {
+   gtk_container_foreach (GTK_CONTAINER(widget), (GtkCallback)gtk_widget_destroy, NULL);
+   ret = SCM_BOOL_T;
+    }
+  return ret;
+}
+
+
 /* hide all menus, leaving only the score titles, used for educational games */
 static SCM scheme_hide_menus(SCM hide) {
   if(Denemo.gui->view!=DENEMO_MENU_VIEW) {
@@ -4027,6 +4052,8 @@ static void create_scheme_identfiers(void) {
   init_denemo_notenames();
 
   INSTALL_SCM_FUNCTION ("Hides all the menus", DENEMO_SCHEME_PREFIX"HideMenus",  scheme_hide_menus);
+  INSTALL_SCM_FUNCTION ("Hides Score buttons or shows them if passed #f", DENEMO_SCHEME_PREFIX"HideButtons",  scheme_hide_buttons);
+  INSTALL_SCM_FUNCTION ("Removes Score buttons", DENEMO_SCHEME_PREFIX"DestroyButtons",  scheme_destroy_buttons);
   INSTALL_SCM_FUNCTION ("Hides the Denemo gui or shows it if passed #f", DENEMO_SCHEME_PREFIX"HideWindow",  scheme_hide_window);
   
   INSTALL_SCM_FUNCTION1 ("Takes the the name of a scripted command. Runs the script stored for that command. Scripts which invoke other scripted commands use this (implicitly?) ", DENEMO_SCHEME_PREFIX"ScriptCallback", scheme_script_callback);
