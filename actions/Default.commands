@@ -5312,6 +5312,22 @@ for second and subsequent systems</tooltip>
         <label>Print with Ambitus</label>
         <tooltip>Prints the score printing the range (ambitus) of each part at the start of the staff</tooltip>
       </row>
+      <row>
+        <action>ShiftOff</action>
+        <after>VoicesDoublestroke</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>No Horizontal Shifts</label>
+        <tooltip>Turns off horizontal displacement of notes (which avoid collisions between parts)</tooltip>
+      </row>
+      <row>
+        <action>ShiftOn</action>
+        <after>ShiftOff</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>Use Horizontal Shifts</label>
+        <tooltip>Turns on horizontal displacements of notes where needed.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
