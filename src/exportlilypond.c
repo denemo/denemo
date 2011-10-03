@@ -2296,7 +2296,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	    g_string_append_printf(thestr, "%s\\%s%s\n", staff_alt_prolog, movement_name->str, staff_name->str);
 	  }
 	  else
-	    g_string_append_printf(staffdefinitions, "%s", "\\new Voice = \"%s\" {\n", curstaffstruct->denemo_name->str);
+	    g_string_append_printf(staffdefinitions, "\\new Voice = \"%s\" {\n", curstaffstruct->denemo_name->str);
 	  g_free(staff_prolog_insert);
 	  g_free(staff_epilog_insert);
 
