@@ -96,7 +96,7 @@ to_next_primary_voice (gint * staff_number, staffnode ** staff_iterator)
       *staff_iterator = (*staff_iterator)->next;
     }
   while (*staff_iterator
-	 && ((DenemoStaff *) (*staff_iterator)->data)->voicenumber == 2);
+	 && !((DenemoStaff *) (*staff_iterator)->data)->voicecontrol & DENEMO_PRIMARY);
 }
 
 /**
@@ -113,7 +113,7 @@ set_bottom_staff (DenemoGUI * gui)
 
   /* Bump up si->top_staff, if necessary.  */
   staff_iterator = g_list_nth (gui->si->thescore, gui->si->top_staff - 1);
-  if (((DenemoStaff *) staff_iterator->data)->voicenumber == 2)
+  if (!((DenemoStaff *) staff_iterator->data)->voicecontrol & DENEMO_PRIMARY)
     to_next_primary_voice (&gui->si->top_staff, &staff_iterator);
 
   /* With that settled, now determine how many additional (primary)
@@ -182,7 +182,7 @@ move_viewport_up (DenemoGUI * gui)
 
   staff_iterator = g_list_nth (gui->si->thescore, gui->si->top_staff - 1);
   while (gui->si->currentstaffnum < gui->si->top_staff
-	 || ((DenemoStaff *) staff_iterator->data)->voicenumber == 2)
+	 || !((DenemoStaff *) staff_iterator->data)->voicecontrol & DENEMO_PRIMARY)
     {
       gui->si->top_staff--;
       staff_iterator = staff_iterator->prev;

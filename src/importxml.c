@@ -2169,8 +2169,7 @@ if(staffInfoElem==NULL) return 0;
 			   "defaulting to 5");
 		curStaff->no_of_lines = 5;
 	      }
-	  }
-	else if (ELEM_NAME_EQ (childElem, "volume"))
+	  }else if (ELEM_NAME_EQ (childElem, "volume"))
 	  {
   	    curStaff->volume = getXMLIntChild (childElem);
   	  }	    
@@ -2365,6 +2364,10 @@ parseVoiceProps (xmlNodePtr voicePropElem, xmlNsPtr ns, DenemoScore *si)
 		curStaff->no_of_lines = 5;
 	      }
 	  }
+    else if (ELEM_NAME_EQ (childElem, "voice-control"))
+	  {
+  	    curStaff->voicecontrol = getXMLIntChild (childElem);
+  	  }	
     else if (ELEM_NAME_EQ (childElem, "instrument"))
 	  {
 	    gchar *temp = (gchar *) xmlNodeListGetString
@@ -2548,7 +2551,7 @@ parseInitVoiceParams (xmlNodePtr initVoiceParamsElem, xmlNsPtr ns,
 		  {
 		    /* This is a new voice on the previous staff. */
 
-		    curVoice->voicenumber = 2;
+		    curVoice->voicecontrol = DENEMO_SECONDARY;//Set primary as well if display is to be separated
 		    curVoice->no_of_lines =
 		      ((DenemoStaff *) si->currentprimarystaff->data)->
 		      no_of_lines;

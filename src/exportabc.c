@@ -415,8 +415,8 @@ exportabc (gchar * thefilename, DenemoGUI * gui, gint start, gint end)
 
       nextisnonprimary =
 	(curstaff->next != NULL &&
-	 ((DenemoStaff *) curstaff->next->data)->voicenumber > 1);
-      curisnonprimary = (curstaffstruct->voicenumber > 1);
+	 ((DenemoStaff *) curstaff->next->data)->voicecontrol&DENEMO_SECONDARY);
+      curisnonprimary = (curstaffstruct->voicecontrol&DENEMO_SECONDARY);
 
       if (curvoicenum != 1)
 	fprintf (fp, " ");

@@ -249,6 +249,15 @@ typedef enum
   DENEMO_CHOIR_END = 1<<5
 } DenemoContext;
 
+/**
+ * Control of Voices
+ * 
+ */
+typedef enum 
+{
+  DENEMO_PRIMARY = 1<<0, /**< If set this voice should have its own staff for display*/
+  DENEMO_SECONDARY = 1<<1 /**< If set this is a secondary voice, but may still have PRIMARY set for display */  
+} DenemoVoice;
 
 /**
  * The ->data part of each measurenode points to an objlist, which is
@@ -303,8 +312,7 @@ typedef struct
   GList *currentverse;/**< verse to be displayed */
   gboolean hasfigures; /**<TRUE if the staff has had figures attached. Only one staff should have this set */
   gboolean hasfakechords; /**<TRUE if the staff has had chord symbols attached. Only one staff should have this set */
-  gint voicenumber; /**< presently set to 2 for any non-primary voices; we might want to
-   * change that, though */
+  DenemoVoice voicecontrol; /**< either controls whether this staff is displayed and printed separately or as a voice */
   measurenode ** is_parasite; /**< points to address of host staff's measures 
 				 field if measures are owned by another 
 				 staff */

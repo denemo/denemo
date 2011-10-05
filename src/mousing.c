@@ -76,18 +76,18 @@ static gdouble get_click_height(DenemoGUI * gui, gdouble y) {
   gint space_below = 0;
   curstaff = g_list_nth(gui->si->thescore,gui->si->top_staff-1);
 
-  if(((DenemoStaff *)(gui->si->currentstaff->data))->voicenumber != 1)
+  if(!(((DenemoStaff *)(gui->si->currentstaff->data))->voicecontrol & DENEMO_PRIMARY))
     staffs_from_top--;
 
   for(  curstaff = g_list_nth(gui->si->thescore,gui->si->top_staff-1) ; curstaff;curstaff=curstaff->next) {
     //g_print("before extra space %d\n", extra_space);
     staff = (DenemoStaff *) curstaff->data;
-    if(staff->voicenumber == 1)
+    if(staff->voicecontrol & DENEMO_PRIMARY)
       extra_space += (staff->space_above) + space_below;
     if(curstaff == gui->si->currentstaff)
       break;
     
-    if(staff->voicenumber == 1){
+    if(staff->voicecontrol & DENEMO_PRIMARY){
 
       space_below = 0;
       staffs_from_top++;
@@ -132,7 +132,7 @@ struct placement_info
 /* find the primary staff of the current staff, return its staffnum */
 static gint primary_staff(DenemoScore *si) {
   GList *curstaff;
-  for(curstaff = si->currentstaff;  curstaff && ((DenemoStaff *) curstaff->data)->voicenumber!=1;curstaff=curstaff->prev)
+  for(curstaff = si->currentstaff;  curstaff && !(((DenemoStaff *) curstaff->data)->voicecontrol&DENEMO_PRIMARY);curstaff=curstaff->prev)
    ;//do nothing
   //g_print("The position is %d\n", 1+g_list_position(si->thescore, curstaff));
   return 1+g_list_position(si->thescore, curstaff);
@@ -150,7 +150,7 @@ static gint staff_at (gint y, DenemoScore *si) {
     DenemoStaff *staff = (DenemoStaff *) curstaff->data;
 
     count++;
-    if(staff->voicenumber == 1)
+    if(staff->voicecontrol & DENEMO_PRIMARY)
       space += (staff)->space_above +
 	(staff)->space_below + si->staffspace; 
     //g_print("y %d and space %d count = %d\n",y,space, count);

@@ -559,6 +559,8 @@ void newVoiceProps (xmlNodePtr parentElem, xmlNsPtr ns, DenemoStaff *curStaffStr
     xmlNewChild (parentElem, ns, (xmlChar *) "voice-props", NULL);
     newXMLIntChild (curElem, ns, (xmlChar *) "number-of-lines",
 			  curStaffStruct->no_of_lines);
+    newXMLIntChild (curElem, ns, (xmlChar *) "voice-control",
+			  curStaffStruct->voicecontrol);
     newXMLIntChild (curElem, ns, (xmlChar *) "transpose",
 			  curStaffStruct->transposition);
     xmlNewChild (curElem, ns, (xmlChar *) "instrument",
@@ -804,7 +806,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   for (curStaff = si->thescore; curStaff != NULL; curStaff = curStaff->next)
     {
       curStaffStruct = (DenemoStaff *) curStaff->data;
-      if (curStaffStruct->voicenumber != 2)
+      if (!curStaffStruct->voicecontrol & DENEMO_SECONDARY)
 	{
 	  parentElem =
 	    xmlNewChild (stavesElem, ns, (xmlChar *) "staff", NULL);
@@ -840,7 +842,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
        * until the next primary voice we run across.
        */
 
-      if (curStaffStruct->voicenumber != 2)
+      if (!curStaffStruct->voicecontrol & DENEMO_SECONDARY)
 	{
 	  staffXMLID = getXMLID (curStaffStruct);
 	}

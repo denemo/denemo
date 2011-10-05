@@ -1715,13 +1715,9 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 
 	  if( (curobjnode==NULL) || (curobjnode->next==NULL)) {	//at end of measure
 	    GString *endstr = g_string_new("");
-	    if (empty_measure)// measure has nothing to use up the duration, assume whole measure rest for primary voice, skip for secondaries.CHANGE to SKIP for all
+	    if (empty_measure)// measure has nothing to use up the duration, assume  SKIP 
 	      {
-
-		g_string_append_printf(endstr, " %c1*%d/%d ",(curstaffstruct->voicenumber == 1)?/*'R'*/'s':'s', cur_stime1, cur_stime2);// NOW s1 always (was either R1 or s1 for whole measure rest or skip)
-
-
-
+		g_string_append_printf(endstr, " s1*%d/%d ", cur_stime1, cur_stime2);
 		gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
 		gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, endstr->str, -1,invisibility,NULL);
 		g_string_assign(endstr,"");
@@ -2241,7 +2237,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	GString *voice_name = g_string_new("");
 	GString *staff_name = g_string_new("");
 	GString *name = g_string_new("");
-	if (curstaffstruct->voicenumber == 1) 
+	if (curstaffstruct->voicecontrol == DENEMO_PRIMARY) 
 	  staff_count++;
 
 	g_string_printf(name, "Voice%d", voice_count);
@@ -2288,7 +2284,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	    if (curstaffstruct->context & DENEMO_PIANO_START) /* Piano staff cannot start before Group */
 	      g_string_append_printf(thestr, "\\new PianoStaff %s << %s\n", staff_group_prolog_insert, staff_group_epilog_insert);
 	  }
-	  if(curstaffstruct->voicenumber == 1) {
+	  if(curstaffstruct->voicecontrol == DENEMO_PRIMARY) {
 	    if(!staff_override)
 	      g_string_append_printf(staffdefinitions, "%s%s = \\new Staff = \"%s\" %s << %s{\n", movement_name->str, staff_name->str,  curstaffstruct->denemo_name->str,         staff_prolog_insert, staff_epilog_insert);
 	    else
@@ -2304,12 +2300,12 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	    g_string_append_printf(staffdefinitions, TAB "\\override Staff.StaffSymbol  #'line-count = #%d\n",
 				   curstaffstruct->no_of_lines);
 	  gchar *endofblock;
-	  if(curstaff->next && ((DenemoStaff *) curstaff->next->data)->voicenumber == 2)
+	  if(curstaff->next && ((DenemoStaff *) curstaff->next->data)->voicecontrol & DENEMO_SECONDARY)
 	    endofblock = g_strdup("");
 	  else
 	    endofblock = g_strdup(">>");
 	  
-	  if (curstaffstruct->voicenumber != 2)
+	  if (!(curstaffstruct->voicecontrol & DENEMO_SECONDARY))
 	    {
 	      g_string_append_printf(staffdefinitions, TAB TAB"\\%s%sContext\n"TAB TAB"}\n", movement_name->str, voice_name->str);
 	      g_string_append_printf(scoreblock, "%s",thestr->str);
@@ -2337,7 +2333,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 		g_string_append_printf(staffdefinitions, TAB TAB" \\context Staff = \"%s\" \\with {implicitBassFigures = #'(0) } \\%s%sBassFiguresLine\n",  curstaffstruct->denemo_name->str,  movement_name->str, voice_name->str);
 	      g_string_append_printf(staffdefinitions, TAB TAB"%s\n", endofblock);
 	    }
-	  else if (curstaffstruct->voicenumber == 2) {      
+	  else if (curstaffstruct->voicecontrol & DENEMO_SECONDARY) {      
 	    g_string_append_printf(staffdefinitions, "%s"TAB TAB"\\%s%s\n"TAB TAB"\n"TAB TAB"\n", thestr->str, movement_name->str, voice_name->str);
 
 	      if (curstaffstruct->verses)
