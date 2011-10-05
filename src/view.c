@@ -6346,11 +6346,10 @@ activate_script (GtkAction *action, gpointer param)
     scm_c_eval_string(current_script);
     g_free(current_script);
 
-
-    if(*text==0)
-      text = instantiate_script(action);
-    if(text) {
+   if(text) {
       gboolean ret;
+      if(*text==0)
+        text = instantiate_script(action); 
       stage_undo(gui->si, ACTION_STAGE_END);//undo is a queue so this is the end :)
       ret = (gboolean)!call_out_to_guile(text);
       stage_undo(gui->si, ACTION_STAGE_START);
