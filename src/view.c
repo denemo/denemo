@@ -3564,6 +3564,29 @@ static SCM scheme_get_measures_in_staff(SCM optional) {
     return scm_int2num(num);
 }
 
+static SCM scheme_staff_to_voice(SCM optional) {
+  SCM ret = SCM_BOOL_F;
+  if(Denemo.gui->si->currentstaff->prev && (((DenemoStaff*)Denemo.gui->si->currentstaff->data)->voicecontrol==DENEMO_PRIMARY)) {
+    ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->voicecontrol |= DENEMO_SECONDARY;
+    setcurrentprimarystaff(Denemo.gui->si);
+    ret = SCM_BOOL_T;
+    gtk_widget_queue_draw(Denemo.scorearea);
+  }
+  return ret;
+}
+static SCM scheme_voice_to_staff(SCM optional) {
+  SCM ret = SCM_BOOL_F;
+  if( ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->voicecontrol & DENEMO_SECONDARY ) {
+    ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->voicecontrol = DENEMO_PRIMARY;
+    setcurrentprimarystaff(Denemo.gui->si);
+    ret = SCM_BOOL_T;
+    gtk_widget_queue_draw(Denemo.scorearea);
+  }
+  return ret;
+}
+
+
+
 
 /* shifts the note at the cursor by the number of diatonic steps passed in */
 SCM scheme_diatonic_shift (SCM optional) {
@@ -4088,6 +4111,10 @@ static void create_scheme_identfiers(void) {
   INSTALL_SCM_FUNCTION ("Gives the number of staffs in the Denemo Music Clipboard",DENEMO_SCHEME_PREFIX"GetStaffsInClipboard",  scheme_get_staffs_in_clipboard);
 
   INSTALL_SCM_FUNCTION ("Gives the number of measures in the current staff",DENEMO_SCHEME_PREFIX"GetMeasuresInStaff",  scheme_get_measures_in_staff);
+  
+  INSTALL_SCM_FUNCTION ("Makes the current staff a voice belonging to the staff above",DENEMO_SCHEME_PREFIX"StaffToVoice",  scheme_staff_to_voice);
+
+  INSTALL_SCM_FUNCTION ("Makes the current voice a independent staff",DENEMO_SCHEME_PREFIX"VoiceToStaff",  scheme_voice_to_staff);
 
   INSTALL_SCM_FUNCTION ("Adjusts the horizontal (x-) positioning of notes etc after paste",DENEMO_SCHEME_PREFIX"AdjustXes",  scheme_adjust_xes);
 
