@@ -5328,6 +5328,22 @@ for second and subsequent systems</tooltip>
         <label>Use Horizontal Shifts</label>
         <tooltip>Turns on horizontal displacements of notes where needed.</tooltip>
       </row>
+      <row>
+        <action>SetCurrentStaffAsVoice</action>
+        <after>MoveToVoiceDown</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>Staff to Voice</label>
+        <tooltip>The current staff will be typeset as a voice on the staff above.</tooltip>
+      </row>
+      <row>
+        <action>SetCurrentVoiceAsStaff</action>
+        <after>SetCurrentStaffAsVoice</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>Voice to Staff</label>
+        <tooltip>The current voice will be typeset on its own staff.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
