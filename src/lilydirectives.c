@@ -2358,7 +2358,7 @@ void edit_object_directive(GtkAction *action,  DenemoScriptParam *param) {
   }
   if(directive->tag == NULL)
     directive->tag = g_string_new(UNKNOWN_TAG);
-  if(!edit_directive(directive, what)) {
+  if(!(param? text_edit_directive(directive, what) : edit_directive(directive, what))) {
     if(directives && *directives) {
       delete_directive(directives, directive->tag->str);
     } else {//standalone directive
