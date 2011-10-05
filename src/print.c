@@ -948,15 +948,17 @@ static void draw_print(cairo_t *cr) {
   if(selecting)
     {gint w = ABS(markx-curx);
     gint h = ABS(marky-cury);
-    gdk_draw_rectangle (Denemo.printarea->window,
-			gcs_bluegc(), FALSE,markx, marky, w, h);
+    cairo_set_source_rgba( cr, 0, 0, 1, 0.4 );
+    cairo_rectangle( cr,markx,marky, w, h );
+    cairo_fill( cr );
     }
   if(offsetting)
     {
       gint w = pointx-markx;
       gint h = pointy-marky;
-      gdk_draw_rectangle (Denemo.printarea->window,
-			gcs_graygc(), TRUE, markx, marky, w, h);
+
+      cairo_set_source_rgba( cr, 0.7, 0.7, 0.7, 0.4 );
+      cairo_rectangle( cr, markx, marky, w, h);
 
       gdk_draw_pixbuf(Denemo.printarea->window, NULL, GDK_PIXBUF(Denemo.pixbuf),
 		  markx+x, marky+y, curx, cury,/* x, y in pixbuf, x,y in window */
@@ -969,9 +971,8 @@ static void draw_print(cairo_t *cr) {
       gint pad = ABS(markx-curx);
       gint w = pointx-markx;
       gint h = pointy-marky;
-
-      gdk_draw_rectangle (Denemo.printarea->window,
-			gcs_graygc(), TRUE, markx-pad/2, marky-pad/2, w+pad, h+pad);
+      cairo_set_source_rgba( cr, 0.7, 0.7, 0.7, 0.4 );
+      cairo_rectangle( cr, markx-pad/2, marky-pad/2, w+pad, h+pad);
       gdk_draw_pixbuf(Denemo.printarea->window, NULL, GDK_PIXBUF(Denemo.pixbuf),
 		      markx+x, marky+y, markx, marky,/* x, y in pixbuf, x,y in window */
 		w,  h, GDK_RGB_DITHER_NONE,0,0);
