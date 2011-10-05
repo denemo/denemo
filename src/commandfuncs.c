@@ -514,7 +514,7 @@ splitstaffs (GtkAction *action, gpointer param)
       take_snapshot();
       DenemoStaff *thestaff = (DenemoStaff *)gui->si->currentstaff->data;
       DenemoStaff *nextstaff = (DenemoStaff *)gui->si->currentstaff->next->data;
-      if((thestaff->voicecontrol==DENEMO_PRIMARY) && (nextstaff->voicecontrol==DENEMO_SECONDARY))
+      if((thestaff->voicecontrol&DENEMO_PRIMARY) && (nextstaff->voicecontrol==DENEMO_SECONDARY))
 	nextstaff->voicecontrol=DENEMO_SECONDARY|DENEMO_PRIMARY;
       else
 	warningdialog("There is no voice below this one on this staff");
