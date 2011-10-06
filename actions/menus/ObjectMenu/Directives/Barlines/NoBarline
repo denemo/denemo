@@ -8,7 +8,10 @@
         <after>ClosingBarline</after>
         <action>NoBarline</action>
         <scheme>;;NoBarline
-(StandAloneSelfEditDirective (cons "NoBarline" "\\bar \"\"") #t "NoBarline")</scheme>
+(StandAloneSelfEditDirective (cons "NoBarline" "\\bar \"\"") #t "NoBarline")
+(d-DirectivePut-standalone-graphic "NoBarline" "\n&#x22C2;\nDenemo\n24")
+(d-DirectivePut-standalone-gx "NoBarline" 20)
+(d-DirectivePut-standalone-gy "NoBarline" -20)</scheme>
         <label>(Print) Omit Barline</label>
         <tooltip>Skips the printing of any automatic barline here - allows line break.</tooltip>
       </row>
