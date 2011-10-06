@@ -251,7 +251,6 @@
       <menuitem action="MoveToStaffDown"/> 
 <separator/>	  
         <menu action="Voices">
-	  <menuitem action="AddVoice"/>
 	  <menuitem action="EditVoiceDirective"/>
           <menuitem action="MoveToVoiceUp"/>
 	  <menuitem action="MoveToVoiceDown"/> 

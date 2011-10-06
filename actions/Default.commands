@@ -5327,6 +5327,14 @@ for second and subsequent systems</tooltip>
         <label>Change Staff</label>
         <tooltip>(Print) the current voice moves to the staff you name.</tooltip>
       </row>
+      <row>
+        <action>NewVoice</action>
+        <after>EditVoiceDirective</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>Add Voice</label>
+        <tooltip>Adds a voice to the current staff, initially displayed on a staff of its own, for readability. It will print on the staff above, and can be displayed there using Join Voices command if desired.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
