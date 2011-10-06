@@ -5335,6 +5335,14 @@ for second and subsequent systems</tooltip>
         <label>Add Voice</label>
         <tooltip>Adds a voice to the current staff, initially displayed on a staff of its own, for readability. It will print on the staff above, and can be displayed there using Join Voices command if desired.</tooltip>
       </row>
+      <row>
+        <action>NoBarline</action>
+        <after>ClosingBarline</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
+        <label>(Print) Omit Barline</label>
+        <tooltip>Skips the printing of any automatic barline here - allows line break.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
