@@ -756,6 +756,10 @@
         <action>SelectLeft</action>
         <bind>Shft+Left</bind>
       </row>
+      <row>
+        <action>NoBarline</action>
+        <bind>B,o</bind>
+      </row>
     </map>
   </merge>
 </Denemo>
