@@ -1137,24 +1137,33 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
       }
 
 	break;
-      case CLEF:
-	{gboolean override = get_lily_override(((clef *) curobj->object)->directives);
-	if(((clef *) curobj->object)->directives) {
-	  g_string_append_printf (ret, "%s", get_postfix(((clef *) curobj->object)->directives));//FIXME memory leak get_postfix
+      case CLEF: {
+	gboolean override = FALSE;
+	gchar *clef_string = "";
+	gchar *clef_prestring = "";
+	GList *directives =  ((clef *) curobj->object)->directives;
+	if(directives) {
+	  override = get_lily_override(directives);
+	  clef_string = get_postfix(directives);
+	  clef_prestring = get_prefix(directives);	 	 
 	}
-	if(!override) {
+	if(override) 
+	  g_string_append_printf (ret,"%s", clef_string);
+	else {
 	  determineclef (((clef *) curobj->object)->type, &clefname);
-	  g_string_append_printf (ret, "\\clef %s", clefname);
+	  g_string_append_printf (ret, "%s\\clef %s%s", clef_prestring, clefname, clef_string);
 	}
-	}
+      }
 	break;
       case KEYSIG: {
 	gboolean override = FALSE;
 	gchar *keysig_string = "";
+	gchar *keysig_prestring = "";
 	GList *directives =  ((keysig *) curobj->object)->directives;
 	if(directives) {
 	  override = get_lily_override(directives);
-	  keysig_string = get_postfix(directives);	 
+	  keysig_string = get_postfix(directives);
+	  keysig_prestring = get_prefix(directives);	 	 
 	}
 	if(override) 
 	  g_string_append_printf (ret,"%s", keysig_string);
@@ -1162,7 +1171,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	  determinekey (((keysig *) curobj->object)->isminor ?
 			((keysig *) curobj->object)->number + 3 :
 			((keysig *) curobj->object)->number, &keyname);
-	  g_string_append_printf (ret, "\\key %s", keyname);
+	  g_string_append_printf (ret, "%s\\key %s", keysig_prestring, keyname);
 	  if (((keysig *) curobj->object)->isminor)
 	    g_string_append_printf (ret, " \\minor%s", keysig_string);
 	  else
@@ -1173,15 +1182,18 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
       case TIMESIG: {
 	gboolean override = FALSE;
 	gchar *timesig_string = "";
+	gchar *timesig_prestring = "";
+	
 	GList *directives =  ((timesig *) curobj->object)->directives;
 	if(directives) {
 	  override = get_lily_override(directives);
-	  timesig_string = get_postfix(directives);	 
+	  timesig_string = get_postfix(directives);
+	  timesig_prestring = get_prefix(directives);	 
 	}
 	if(override) 
 	  g_string_append_printf (ret,"%s", timesig_string);
 	else 
-	  g_string_append_printf (ret, "\\time %d/%d%s",
+	  g_string_append_printf (ret, "%s\\time %d/%d%s", timesig_prestring,
 				  ((timesig *) curobj->object)->time1,
 				  ((timesig *) curobj->object)->time2, timesig_string);
       }
