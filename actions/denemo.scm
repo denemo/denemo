@@ -36,6 +36,29 @@
 ;Needed to see if lyimport / mxml import is called from inside or outside Denemo
 (define Denemo #t)
 
+
+
+;;; Emmentaler rests
+(define REST0 "")
+(define REST1 "")
+
+(define REST2 "")
+(define REST3 "")
+(define REST4 "")
+(define REST5 "")
+(define REST6 "")
+(define REST7 "")
+
+(define Rest0  (string-append "\n" REST0 "\nemmentaler"))
+(define Rest1  (string-append "\n" REST1 "\nemmentaler"))
+(define Rest2  (string-append "\n" REST2 "\nemmentaler"))
+(define Rest3  (string-append "\n" REST3 "\nemmentaler"))
+(define Rest4  (string-append "\n" REST4 "\nemmentaler"))
+(define Rest5  (string-append "\n" REST5 "\nemmentaler"))
+(define Rest6  (string-append "\n" REST6 "\nemmentaler"))
+(define Rest7  (string-append "\n" REST7 "\nemmentaler"))
+(define Rests (vector Rest0 Rest1 Rest2 Rest3 Rest4 Rest5 Rest6 Rest7 ))
+
 (define DenemoKeypressActivatedCommand #f) ;;;is true while a keyboard shortcut is invoking a script, unless the script has set it to #f
 
 (define (lyimport::load-file pathname filename)
