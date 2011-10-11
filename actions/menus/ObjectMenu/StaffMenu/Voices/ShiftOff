@@ -8,6 +8,8 @@
         <after>VoicesDoublestroke</after>
         <action>ShiftOff</action>
         <scheme>;;;ShiftOff
+(if (d-Directive-standalone?  "ShiftForVoices")
+	(d-DirectiveDelete-standalone  "ShiftForVoices"))
 (d-DirectivePut-standalone "ShiftForVoices")
 (d-DirectivePut-standalone-postfix "ShiftForVoices" "\\shiftOff")
 (d-DirectivePut-standalone-display "ShiftForVoices" "No Shift")

@@ -8,6 +8,8 @@
         <after>ShiftOff</after>
         <action>ShiftOn</action>
         <scheme>;;;ShiftOn
+(if (d-Directive-standalone?  "ShiftForVoices")
+	(d-DirectiveDelete-standalone  "ShiftForVoices"))
 (d-DirectivePut-standalone "ShiftForVoices")
 (d-DirectivePut-standalone-postfix "ShiftForVoices" "\\shiftOn")
 (d-DirectivePut-standalone-display "ShiftForVoices" "Shift")

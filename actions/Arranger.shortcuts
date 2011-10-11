@@ -218,10 +218,6 @@
         <bind>Ctrl+M</bind>
       </row>
       <row>
-        <action>UnsetMark</action>
-        <bind>return</bind>
-      </row>
-      <row>
         <action>ToggleStartCrescendo</action>
         <bind>PrsL-Shift-CapsLock</bind>
       </row>
@@ -741,12 +737,28 @@
         <bind>Ctrl+Home</bind>
       </row>
       <row>
-        <action>MoveToMovementEnd</action>
-        <bind>Ctrl+End</bind>
+        <action>VoicePresetAutomatic</action>
+        <bind>Alt+v,a</bind>
       </row>
       <row>
-        <action>VoicesDoublestroke</action>
-        <bind>Alt+v</bind>
+        <action>VoicePreset1</action>
+        <bind>Alt+v,1</bind>
+      </row>
+      <row>
+        <action>VoicePreset2</action>
+        <bind>Alt+v,2</bind>
+      </row>
+      <row>
+        <action>VoicePreset3</action>
+        <bind>Alt+v,3</bind>
+      </row>
+      <row>
+        <action>VoicePreset4</action>
+        <bind>Alt+v,4</bind>
+      </row>
+      <row>
+        <action>MoveToMovementEnd</action>
+        <bind>Ctrl+End</bind>
       </row>
       <row>
         <action>SelectRight</action>

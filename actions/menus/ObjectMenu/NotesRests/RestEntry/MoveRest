@@ -13,12 +13,10 @@
 		(d-DirectiveDelete-chord "PolyphonicRest")
 		(d-StagedDelete)))
 (if (Rest?)
-  (begin
+  (let ((which  (duration::lilypond-&gt;denemo (string-&gt;number (d-GetNoteDuration)))))
     (d-AddNoteToChord)
     (d-DirectivePut-chord-postfix "PolyphonicRest" "\\rest")
-    (d-DirectivePut-chord-graphic  "PolyphonicRest" "
-\xEE\x84\x89
-emmentaler")
+    (d-DirectivePut-chord-graphic  "PolyphonicRest" (vector-ref Rests which))
     (d-DirectivePut-chord-override "PolyphonicRest" (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_ALT_OVERRIDE))
   ))
 (d-SetSaved #f)
