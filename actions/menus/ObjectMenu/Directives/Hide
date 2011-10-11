@@ -10,11 +10,31 @@
 (define lilytype (GetTypeAsLilypond))  
 (define lilycontext  (GetContextAsLilypond))
 (if lilytype
-  (StandAloneDirectiveProto (cons "HideNext" (string-append  "\\once \\override " lilycontext "." lilytype " #'stencil = ##f"  )))
-  #f
-)
-)</scheme>
-        <label>(Print) Hide object</label>
+ (cond ((equal? lilytype "TimeSignature")
+ 			(if (d-Directive-timesig? "Hide")
+ 				(d-DirectiveDelete-timesig "Hide")
+ 				(begin
+ 					(d-DirectivePut-timesig-prefix "Hide"  (string-append  "\\once \\override " lilycontext "." lilytype " #'stencil = ##f"  ))
+ 					(d-DirectivePut-timesig-gy "Hide" -10)
+ 					(d-DirectivePut-timesig-graphic "Hide" "\n&#x22C2;\nDenemo\n24"))))
+ 		((equal? lilytype "Clef")
+ 		 		(if (d-Directive-clef? "Hide")
+ 					(d-DirectiveDelete-clef "Hide")
+ 					(begin
+ 						(d-DirectivePut-clef-prefix "Hide"  (string-append  "\\once \\override " lilycontext "." lilytype " #'stencil = ##f"  ))
+ 						(d-DirectivePut-clef-gy "Hide" -12)
+ 						(d-DirectivePut-clef-graphic "Hide" "\n&#x22C2;\nDenemo\n24"))))
+ 		 ((equal? lilytype "KeySignature")
+ 		 	(if (d-Directive-keysig? "Hide")
+ 				(d-DirectiveDelete-keysig "Hide")
+ 				(begin
+ 					(d-DirectivePut-keysig-prefix "Hide"  (string-append  "\\once \\override " lilycontext "." lilytype " #'stencil = ##f"  ))
+ 					(d-DirectivePut-keysig-gy "Hide" -10)
+ 					(d-DirectivePut-keysig-graphic "Hide" "\n&#x22C2;\nDenemo\n24"))))
+ 		(else 
+ 		 (StandAloneDirectiveProto (cons "HideNext" (string-append  "\\once \\override " lilycontext "." lilytype " #'stencil = ##f"  )))))
+  #f))</scheme>
+        <label>(Print) Hide Object</label>
         <tooltip>Hides the object at cursor position with a lilypond directive. Currently only Notes and the three Signatures. No rests!</tooltip>
       </row>
     </map>
