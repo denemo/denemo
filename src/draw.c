@@ -412,7 +412,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
     case KEYSIG:
       if(cr) draw_key (cr, x + mudelaitem->x, y,
 		((keysig *) mudelaitem->object)->number, itp->key,
-		itp->clef->type, TRUE);
+		itp->clef->type, TRUE, (keysig *) mudelaitem->object);
       itp->key = ((keysig *) mudelaitem->object)->number;
       memcpy (itp->keyaccs, ((keysig *) mudelaitem->object)->accs,
 	      SEVENGINTS);
@@ -427,7 +427,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
       itp->time2 =
 	((timesig *) mudelaitem->object)->time2;
       if(cr) draw_timesig (cr,
-		    x + mudelaitem->x, y, itp->time1, itp->time2);
+		    x + mudelaitem->x, y, itp->time1, itp->time2, (timesig *) mudelaitem->object);
       if (si->currentmeasure == itp->curmeasure)
 	{
 	  /* This is the current measure */
@@ -738,12 +738,14 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 
   if(!itp->line_end) {//not a continuation
     itp->clef = thestaff->leftmost_clefcontext;
-    if(cr && !(thestaff->voicecontrol&DENEMO_SECONDARY)) draw_clef (cr, LEFT_MARGIN, y,
+    if(cr && !(thestaff->voicecontrol&DENEMO_SECONDARY))
+      draw_clef (cr, LEFT_MARGIN, y,
 	       itp->clef);
     itp->key = thestaff->leftmost_keysig->number;
-    if(cr && !(thestaff->voicecontrol&DENEMO_SECONDARY)) draw_key (cr, x, y,
+    if(cr && !(thestaff->voicecontrol&DENEMO_SECONDARY))
+      draw_key (cr, x, y,
 	      itp->key,
-	      0, itp->clef->type, TRUE);
+	      0, itp->clef->type, TRUE, thestaff->leftmost_keysig);
     x += si->maxkeywidth;
     itp->time1 =
       thestaff->leftmost_timesig->time1;
@@ -751,7 +753,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
       thestaff->leftmost_timesig->time2;
     if(cr && !(thestaff->voicecontrol&DENEMO_SECONDARY)) {
       if(si->leftmeasurenum==1)  
-	draw_timesig (cr, x, y, itp->time1, itp->time2);
+	draw_timesig (cr, x, y, itp->time1, itp->time2, thestaff->leftmost_timesig);
       else {
 	guint width = gdk_pixbuf_get_width( GDK_PIXBUF(StaffGoBack));
 	guint height = gdk_pixbuf_get_height( GDK_PIXBUF(StaffGoBack));
@@ -766,7 +768,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
   } else {
     if(cr && !(thestaff->voicecontrol&DENEMO_SECONDARY)) draw_clef (cr, LEFT_MARGIN, y, itp->clef);
     if(cr && !(thestaff->voicecontrol&DENEMO_SECONDARY)) draw_key (cr, x, y,
-		     itp->key, 0, itp->clef->type, TRUE);
+		     itp->key, 0, itp->clef->type, TRUE, thestaff->leftmost_keysig);
     x += si->maxkeywidth;
     x += SPACE_FOR_TIME;// to allow the same margin ??
   }

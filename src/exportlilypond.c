@@ -1556,13 +1556,16 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     {
       gboolean override = get_lily_override(curstaffstruct->timesig.directives);
       gchar *timesig_string = get_postfix(curstaffstruct->timesig.directives);
+      gchar *time_prefix = get_prefix(curstaffstruct->timesig.directives);
       if(override)
 	g_string_append_printf(definitions, "%s%sTimeSig = %s", movement, voice, timesig_string);
       else
-	g_string_append_printf(definitions, "\n"TAB"%s%sTimeSig = \\time %d/%d %s\n", movement, voice, curstaffstruct->timesig.time1,
+	g_string_append_printf(definitions, "\n"TAB"%s%sTimeSig = {%s \\time %d/%d %s}\n", movement, voice, time_prefix, curstaffstruct->timesig.time1,
 			       curstaffstruct->timesig.time2, timesig_string);
-    }
 
+      g_free(timesig_string);
+      g_free(time_prefix);
+      }
     /* Determine the key signature */
     gchar *clefname;
     /* clef name */
@@ -1572,28 +1575,33 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     {
       gboolean override = get_lily_override(curstaffstruct->keysig.directives);
       gchar *keysig_string = get_postfix(curstaffstruct->keysig.directives);
+      gchar *key_prefix = get_prefix(curstaffstruct->keysig.directives);
       if(override)
 	g_string_append_printf(definitions, "%s%sKeySig = %s", movement, voice, keysig_string);
       else {
 	determinekey (curstaffstruct->keysig.isminor ?
 		      curstaffstruct->keysig.number + 3 : curstaffstruct->keysig.number, &keyname);
-	g_string_append_printf(definitions, "%s%sKeySig = \\key %s", movement, voice, keyname);
+	g_string_append_printf(definitions, "%s%sKeySig = {%s \\key %s", movement, voice, key_prefix, keyname);
 	if (curstaffstruct->keysig.isminor)
-	  g_string_append_printf(definitions, "%s %s", " \\minor\n", keysig_string);
+	  g_string_append_printf(definitions, "%s %s", " \\minor}\n", keysig_string);
 	else
-	  g_string_append_printf(definitions, "%s %s", " \\major\n", keysig_string);
+	  g_string_append_printf(definitions, "%s %s", " \\major}\n", keysig_string);
       }
-    }
 
+      g_free(keysig_string);
+      g_free(key_prefix);
+    }
     /* Determine the clef */
     determineclef (curstaffstruct->clef.type, &clefname);
     gboolean clef_override = get_lily_override(curstaffstruct->clef.directives);
     gchar *clef_postfix_insert = get_postfix(curstaffstruct->clef.directives);
+    gchar *clef_prefix = get_prefix(curstaffstruct->clef.directives);
     if(clef_override)
       g_string_append_printf(definitions, "%s%sClef = %s\n", movement, voice, clef_postfix_insert);
     else
-      g_string_append_printf(definitions, "%s%sClef = \\clef %s %s\n", movement, voice, clefname, clef_postfix_insert);
+      g_string_append_printf(definitions, "%s%sClef = %s \\clef %s %s\n", movement, voice, clef_prefix, clefname, clef_postfix_insert);
     g_free(clef_postfix_insert);
+    g_free(clef_prefix);
     g_string_append_printf(definitions, "%s%sProlog = { \\%s%sTimeSig \\%s%sKeySig \\%s%sClef}\n", 
 			    movement, voice, movement, voice, movement, voice, movement, voice);
     gchar *voice_prefix = get_prefix(curstaffstruct->voice_directives);
