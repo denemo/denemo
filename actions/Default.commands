@@ -5343,6 +5343,30 @@ for second and subsequent systems</tooltip>
         <label>(Print) Omit Barline</label>
         <tooltip>Skips the printing of any automatic barline here - allows line break.</tooltip>
       </row>
+      <row>
+        <action>HideKeysig</action>
+        <after>InsertKey</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Key</menupath>
+        <label>(Print) Hide</label>
+        <tooltip>On printing, omit the key signature change at the cursor, or the initial key signature if the cursor is not on a key signature change.</tooltip>
+      </row>
+      <row>
+        <action>HideTimesig</action>
+        <after>ChooseTimeSignature</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/TimeSig</menupath>
+        <label>(Print) Hide</label>
+        <tooltip>On printing, omit the time signature change at the cursor, or the initial time signature if the cursor is not on a time signature change.</tooltip>
+      </row>
+      <row>
+        <action>HideClef</action>
+        <after>ClefChooser</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ClefMenu</menupath>
+        <label>(Print) Hide</label>
+        <tooltip>On printing, omit the clef change at the cursor, or the initial clef if the cursor is not on a clef change.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
