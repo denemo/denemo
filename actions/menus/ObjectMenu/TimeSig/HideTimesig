@@ -12,12 +12,12 @@
 (let ((lilycontext "Staff"))
 (if lilycontext
 	(begin 
-		(if (d-Directive-timesig? "Hide")
- 			(d-DirectiveDelete-timesig "Hide")
+		(if (d-Directive-timesig? "HideTimesig")
+ 			(d-DirectiveDelete-timesig "HideTimesig")
  			(begin
- 				(d-DirectivePut-timesig-prefix "Hide"  (string-append  "\\once \\override " lilycontext ".TimeSignature #'stencil = ##f"  ))
- 				(d-DirectivePut-timesig-gy "Hide" -10)
- 				(d-DirectivePut-timesig-graphic "Hide" "\n&#x22C2;\nDenemo\n24")))
+ 				(d-DirectivePut-timesig-prefix "HideTimesig"  (string-append  "\\once \\override " lilycontext ".TimeSignature #'stencil = ##f"  ))
+ 				(d-DirectivePut-timesig-gy "HideTimesig" -10)
+ 				(d-DirectivePut-timesig-graphic "HideTimesig" "\n&#x22C2;\nDenemo\n24")))
  			(d-SetSaved #f))))
  			</scheme>
         <label>(Print) Hide</label>

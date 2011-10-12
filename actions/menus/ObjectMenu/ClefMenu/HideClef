@@ -12,12 +12,12 @@
 (let ((lilycontext "Staff"))
 (if lilycontext
 	(begin 
-		(if (d-Directive-clef? "Hide")
- 			(d-DirectiveDelete-clef "Hide")
+		(if (d-Directive-clef? "HideClef")
+ 			(d-DirectiveDelete-clef "HideClef")
  			(begin
- 				(d-DirectivePut-clef-prefix "Hide"  (string-append  "\\once \\override " lilycontext ".Clef #'stencil = ##f"  ))
- 				(d-DirectivePut-clef-gy "Hide" -10)
- 				(d-DirectivePut-clef-graphic "Hide" "\n&#x22C2;\nDenemo\n24")))
+ 				(d-DirectivePut-clef-prefix "HideClef"  (string-append  "\\once \\override " lilycontext ".Clef #'stencil = ##f"  ))
+ 				(d-DirectivePut-clef-gy "HideClef" -10)
+ 				(d-DirectivePut-clef-graphic "HideClef" "\n&#x22C2;\nDenemo\n24")))
  			(d-SetSaved #f))))
  			</scheme>
         <label>(Print) Hide</label>
