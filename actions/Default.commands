@@ -5367,6 +5367,14 @@ for second and subsequent systems</tooltip>
         <label>(Print) Hide</label>
         <tooltip>On printing, omit the clef change at the cursor, or the initial clef if the cursor is not on a clef change.</tooltip>
       </row>
+      <row>
+        <action>HideBarlines</action>
+        <after>HideMovement</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <label>(Print) Hide Barlines</label>
+        <tooltip>Omits barlines when printing.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
