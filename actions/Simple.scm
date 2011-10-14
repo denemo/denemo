@@ -30,15 +30,18 @@
 (d-LimitInterSystemSpace 1.2)
 
 (define (InitializeTypesetting)
+  (d-PushPosition)
   (d-CheckScore)
   (if (not CheckScore::return)
     (let ((ok 
 	(d-GetUserInput "Score Check: Error in this measure" "Try to print anyway?" "n")))
-	(disp "note ok is " ok "\n")
 	(if (equal? ok "n")
-	(begin
-		(disp "we have ok = n\n")
-		(exit))))))
+	  (begin
+		(d-PopPushPosition)
+		(d-PopPosition)
+		(exit))
+	  (begin
+	    (d-PopPosition))))))
 
-
+(d-PointAndClick)
 (d-SetSaved #t)

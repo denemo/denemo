@@ -5375,6 +5375,14 @@ for second and subsequent systems</tooltip>
         <label>(Print) Hide Barlines</label>
         <tooltip>Omits barlines when printing.</tooltip>
       </row>
+      <row>
+        <action>PointAndClick</action>
+        <after>ScoreBlockProlog</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>Point and Click (Off/On)</label>
+        <tooltip>When on, clicking on the pdf output executes a command to run an editor on the LilyPond at the relevant point. Not yet integrated in Denemo.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
