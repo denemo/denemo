@@ -806,7 +806,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   for (curStaff = si->thescore; curStaff != NULL; curStaff = curStaff->next)
     {
       curStaffStruct = (DenemoStaff *) curStaff->data;
-      if (!curStaffStruct->voicecontrol & DENEMO_SECONDARY)
+      if (!(curStaffStruct->voicecontrol & DENEMO_SECONDARY))
 	{
 	  parentElem =
 	    xmlNewChild (stavesElem, ns, (xmlChar *) "staff", NULL);
@@ -842,7 +842,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
        * until the next primary voice we run across.
        */
 
-      if (!curStaffStruct->voicecontrol & DENEMO_SECONDARY)
+      if (!(curStaffStruct->voicecontrol & DENEMO_SECONDARY))
 	{
 	  staffXMLID = getXMLID (curStaffStruct);
 	}
