@@ -352,10 +352,44 @@ segdialog (gchar * sigtype, gchar * message)
 }
 #endif /* GTK_MAJOR_VERSION > 1 */
 
+
+/**
+ * SIGUSR1 Handler to record the LilyPond text position the user has clicked on
+ *
+ */
+static volatile gboolean position_data;
+
+void
+denemo_client (int sig)
+{
+//register that a new location is available, to be picked up in an idle callback
+  position_data = TRUE;
+}
+
 /**
  * SIGSEGV Handler to do nice things if denemo bombs
  *
  */
+
+ gboolean check_for_position(void) {
+if(position_data) {
+  static gchar *filename = NULL;
+  if(filename==NULL)
+    filename = g_build_filename(locatedotdenemo(), "lylocation.txt", NULL);
+  FILE *fp = fopen(filename, "r");
+  if(fp) {
+    gint line, col;
+    fscanf(fp, "%d %d", &line, &col);
+    fclose(fp);
+    g_print("line %d column %d\n", line, col);
+    position_data = FALSE;
+    //set_lily_error(line, col, Denemo.gui);
+    //highlight_lily_error(Denemo.gui);
+    goto_lilypond_position(line, col);
+    }
+  } 
+  return TRUE;//keep going
+}
 void
 denemo_signal_handler (int sig)
 {
@@ -587,6 +621,8 @@ main (int argc, char *argv[])
 
   
 #endif /* end of else not windows */
+
+  g_setenv ("LYEDITOR", "denemoclient %(line)s %(column)s", FALSE);
   GError *error = NULL;
   /* gtk initialization */
   gtk_init (&argc, &argv);
@@ -703,8 +739,20 @@ Report bugs to http://www.denemo.org\n"), NULL) ;
   g_free (helptext);
 
 
-  /* Set up the signal handler */
-  signal (SIGSEGV, denemo_signal_handler);
+  /* Set up the signal handlers */
+    signal (SIGSEGV, denemo_signal_handler);
+    {
+      __pid_t pid = getpid();
+      gchar *pidfile = g_build_filename(locatedotdenemo(), "pid", NULL);
+      FILE *fp = fopen(pidfile, "w");
+      if(fp) {
+        fprintf(fp, "%d\n", pid);
+        fclose(fp);
+        struct sigaction act = { denemo_client, 0, SA_SIGINFO};
+        sigaction (SIGUSR1, &act, NULL);
+        g_idle_add((GSourceFunc)check_for_position, NULL);
+      }
+    }
 #ifdef HAVE_SIGCHLD
   signal (SIGCHLD, sigchld_handler);
 #endif

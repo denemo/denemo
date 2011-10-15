@@ -2633,6 +2633,52 @@ static gboolean populate_called(GtkWidget *view, GtkMenuShell *menu, DenemoGUI *
   return FALSE;
 }
 
+gboolean goto_lilypond_position(gint line, gint column) {
+  DenemoGUI *gui = Denemo.gui;
+  GtkTextIter enditer, iter;
+  gtk_text_buffer_get_end_iter (gui->textbuffer, &enditer);
+  gtk_text_buffer_get_start_iter (gui->textbuffer, &iter);
+
+  line--;
+  if(line>0) {
+#ifdef BUG_COLUMN_OFFSET_TOO_LARGE_FIXED
+    gtk_text_buffer_get_iter_at_line_offset
+      (gui->textbuffer,
+       &iter,
+       line,
+       column);
+#else
+    gtk_text_buffer_get_iter_at_line_offset
+      (gui->textbuffer,
+       &iter,
+       line,
+       0);
+    g_print("line %d column %d\n", line, column);
+    g_print("line has %d chars\n", gtk_text_iter_get_chars_in_line(&iter));
+    while(column--) 
+      (void)gtk_text_iter_forward_char(&iter);
+#endif
+
+
+  GtkTextChildAnchor *anchor = gtk_text_iter_get_child_anchor(&iter);
+  while((anchor==NULL) && gtk_text_iter_backward_char(&iter)) {
+    anchor = gtk_text_iter_get_child_anchor(&iter);
+  }
+  if(anchor){
+    gint objnum =  (intptr_t) g_object_get_data(G_OBJECT(anchor), OBJECTNUM);
+    gint measurenum =  (intptr_t) g_object_get_data(G_OBJECT(anchor), MEASURENUM);
+    gint staffnum =  (intptr_t) g_object_get_data(G_OBJECT(anchor), STAFFNUM);
+    gint movementnum =  (intptr_t) g_object_get_data(G_OBJECT(anchor), MOVEMENTNUM);
+    g_print("location %d %d %d %d\n", objnum, measurenum, staffnum, movementnum);
+    if(movementnum<1)
+      return FALSE;
+    if(!goto_movement_staff_obj (gui, movementnum, staffnum, measurenum, objnum))
+      return FALSE;
+    return TRUE;
+  } else g_warning("Anchor not found\n");
+  }
+  return FALSE;
+}
 
 static gboolean lily_keypress(GtkWidget *w, GdkEventKey *event, DenemoGUI *gui) {
   GtkTextIter cursor;
