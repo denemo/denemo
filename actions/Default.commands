@@ -5383,6 +5383,22 @@ for second and subsequent systems</tooltip>
         <label>Point and Click (Off/On)</label>
         <tooltip>When on, clicking on the pdf output executes a command to run an editor on the LilyPond at the relevant point. Not yet integrated in Denemo.</tooltip>
       </row>
+      <row>
+        <action>ShiftNext</action>
+        <after>Hide</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>(Print) Shift Object</label>
+        <tooltip>Asks for horizontal and vertical offsets and inserts a directive to displace the object at the cursor on printing.</tooltip>
+      </row>
+      <row>
+        <action>DisplaceRestHorizontally</action>
+        <after>MoveRest</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
+        <label>Displace Rest Horizontally</label>
+        <tooltip>Asks for a horizontal shift and moves the rest at the cursor by that much when printing.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
