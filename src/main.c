@@ -351,8 +351,14 @@ segdialog (gchar * sigtype, gchar * message)
   gtk_widget_destroy (dialog);
 }
 #endif /* GTK_MAJOR_VERSION > 1 */
-
-
+static gchar *pidfile;
+static void remove_pid_file(void) {
+FILE *fp = fopen(pidfile, "w");
+if(fp) {
+  fprintf(fp,"%d", 0);
+  fclose(fp);
+  }
+}
 /**
  * SIGUSR1 Handler to record the LilyPond text position the user has clicked on
  *
@@ -743,11 +749,12 @@ Report bugs to http://www.denemo.org\n"), NULL) ;
     signal (SIGSEGV, denemo_signal_handler);
     {
       __pid_t pid = getpid();
-      gchar *pidfile = g_build_filename(locatedotdenemo(), "pid", NULL);
+      pidfile = g_build_filename(locatedotdenemo(), "pid", NULL);
       FILE *fp = fopen(pidfile, "w");
       if(fp) {
         fprintf(fp, "%d\n", pid);
         fclose(fp);
+        g_atexit((GVoidFunc)remove_pid_file);
         struct sigaction act = { denemo_client, 0, SA_SIGINFO};
         sigaction (SIGUSR1, &act, NULL);
         g_idle_add((GSourceFunc)check_for_position, NULL);
