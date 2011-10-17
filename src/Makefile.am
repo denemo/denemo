@@ -69,8 +69,7 @@ pathconfig.h:  $(top_builddir)/config.status
 	@echo '#define DENEMO_BIN_PATH  "@denemo_bin_path@"' >>pathconfig.tmp
 	@mv pathconfig.tmp $@	
 
-denemoclient.o: denemo_client.c
-	$(COMPILE) -o denemoclient.o -c denemo_client.c
+denemoclient_SOURCES = denemo_client.c
 
 
 noinst_HEADERS = parseinstruments.h keyboard.h
