@@ -31,7 +31,7 @@ int main(int argc, char **argv)
 				__pid_t pid;
 				fscanf(fp, "%d", &pid);			
 				fclose(fp);
-				fp = fopen(g_build_filename(g_get_home_dir(),".denemo-"VERSION, "lylocation.txt"), "w");
+				fp = fopen(g_build_filename(g_get_home_dir(),".denemo-"VERSION, "lylocation.txt", NULL), "w");
 				if(fp) {
 					fprintf(fp, "%s %s", argv[1], argv[2]);
 					fclose(fp);
