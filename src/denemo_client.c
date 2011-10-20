@@ -24,7 +24,7 @@
 int main(int argc, char **argv)
 {
 	int ret = 0;
-	printf("Denemo argc %d arg %s\n", argc, argv[argc-1]);
+	//printf("Denemo argc %d arg %s\n", argc, argv[argc-1]);
 	if(argc==4) { //line column and filename, though we don't need that
 	FILE *fp = fopen("/home/rshann/.denemo-0.9.3/pid", "r");
 	if(fp) {
