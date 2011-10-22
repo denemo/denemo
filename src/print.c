@@ -47,7 +47,7 @@ typedef struct lilyversion
 }lilyversion;
 
 
-
+static changecount = -1;//changecount when the printfile was last created FIXME multiple tabs are muddled
 #define GPID_NONE (-1)
 static GPid printviewpid = GPID_NONE;
 static GPid previewerpid = GPID_NONE;
@@ -196,13 +196,16 @@ check_lily_version (gchar *version)
 }
 
  
-/* returns the base name (~/.denemo/denemoprint usually) used as a base
-   filepath for printing. On windows there is some filelocking trouble.
+/* returns the base name (/tmp/Denemo????/denemoprint usually) used as a base
+   filepath for printing.
    The returned string should not be freed.
 */
    
 static gchar *get_printfile_pathbasename(void) {
-  return g_build_filename ( locateprintdir (), "denemoprint", NULL);
+  static gchar *filename = NULL;
+  if(filename==NULL)
+    filename = g_build_filename ( locateprintdir (), "denemoprint", NULL);
+  return filename;
 }       
 /* truncate epoint after 20 lines replacing the last three chars in that case with dots */
 static void truncate_lines(gchar *epoint) {
@@ -679,6 +682,7 @@ static
 void print_finished(GPid pid, gint status, GList *filelist) {
   open_pdfviewer (pid,status, (gchar *) get_printfile_pathbasename());
   g_debug("print finished\n");
+  changecount = Denemo.gui->changecount;
   progressbar_stop();
 }
 
@@ -879,7 +883,7 @@ void print_lily_cb (GtkWidget *item, DenemoGUI *gui){
 }
 
 // Displaying Print Preview
-static changecount = -1;//changecount when last refreshed
+
 static gboolean selecting = FALSE;
 static gboolean offsetting = FALSE;
 static gboolean padding = FALSE;
@@ -1093,12 +1097,19 @@ void refresh_print_view (void) {
   busy_cursor();
   if(typeset(FALSE))
     g_child_watch_add (printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
+  else
+    normal_cursor();
 }
 
 void print_from_print_view() {
-  (void)typeset(FALSE);
   busy_cursor();
-  g_child_watch_add(printpid, (GChildWatchFunc)printview_finished, (gpointer)(TRUE));
+  if(typeset(FALSE)) {
+    g_child_watch_add(printpid, (GChildWatchFunc)printview_finished, (gpointer)(TRUE));
+  }
+  else {
+    normal_cursor();
+    printview_finished (printpid, 0, TRUE);
+  }
 }
 
 void
