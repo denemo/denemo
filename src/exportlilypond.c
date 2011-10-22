@@ -2066,7 +2066,13 @@ gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW(gui->textview),
   }
   }
   
-
+static void  print_cursor_cb(void) {
+ GtkTextIter iter;
+ DenemoGUI *gui = Denemo.gui;
+    gtk_text_buffer_get_iter_at_mark (gui->textbuffer , &iter, gtk_text_buffer_get_insert(gui->textbuffer));
+    g_print("Char is %c at bytes=%d chars=%d\n", gtk_text_iter_get_char (&iter), gtk_text_iter_get_visible_line_index (&iter),gtk_text_iter_get_visible_line_offset (&iter)  );
+    
+}
 /*
  *writes the current score in LilyPond format to the textbuffer.
  *sets gui->lilysync equal to gui->changecount
@@ -2592,7 +2598,7 @@ lily_refresh(GtkWidget *item, GdkEventCrossing *e, DenemoGUI *gui);
 
 static gboolean 
 lily_save(GtkWidget *item, GdkEventCrossing *e, DenemoGUI *gui){
-  g_print("Consider Save ... %d %d", gui->lilysync, gui->changecount);
+  //g_print("Consider Save ... %d %d", gui->lilysync, gui->changecount);
   g_signal_handlers_block_by_func (SIGNAL_WIDGET, G_CALLBACK (lily_save), gui);
   if(gui->textwindow) {
     g_signal_handlers_unblock_by_func (G_OBJECT (gui->textwindow), G_CALLBACK (lily_refresh), gui);
@@ -2604,7 +2610,7 @@ lily_save(GtkWidget *item, GdkEventCrossing *e, DenemoGUI *gui){
 }
 static gboolean 
 lily_refresh(GtkWidget *item, GdkEventCrossing *e, DenemoGUI *gui){
-  g_print("Consider Refresh ... %d %d", gui->lilysync, gui->changecount);
+  //g_print("Consider Refresh ... %d %d", gui->lilysync, gui->changecount);
   if(gui->textwindow)
     g_signal_handlers_block_by_func(gui->textwindow, G_CALLBACK (lily_refresh), gui);
   g_signal_handlers_unblock_by_func (G_OBJECT (SIGNAL_WIDGET), G_CALLBACK (lily_save), gui);
@@ -2630,6 +2636,7 @@ static gboolean populate_called(GtkWidget *view, GtkMenuShell *menu, DenemoGUI *
   GtkWidget *item;
   prepend_menu_item(menu, gui, "Find Current Object", (gpointer) place_cursor_cb);
   prepend_menu_item(menu, gui, "Print from visible LilyPond text", (gpointer) print_lily_cb);
+ //prepend_menu_item(menu, gui, "Print Current char", (gpointer) print_cursor_cb);
   return FALSE;
 }
 
@@ -2640,38 +2647,36 @@ gboolean goto_lilypond_position(gint line, gint column) {
   gtk_text_buffer_get_start_iter (gui->textbuffer, &iter);
 
   line--;
-  if(line>0) {
-#ifdef BUG_COLUMN_OFFSET_TOO_LARGE_FIXED
-    gtk_text_buffer_get_iter_at_line_offset
-      (gui->textbuffer,
-       &iter,
-       line,
-       column);
-#else
+  column--;
+  if(column>0 && line>0) {
     gtk_text_buffer_get_iter_at_line_offset
       (gui->textbuffer,
        &iter,
        line,
        0);
-    g_print("line %d column %d\n", line, column);
-    g_print("line has %d chars\n", gtk_text_iter_get_chars_in_line(&iter));
-    while(column--) 
-      (void)gtk_text_iter_forward_char(&iter);
-#endif
-
-
+  gint maxcol =  gtk_text_iter_get_chars_in_line(&iter);
+    //g_print("line %d column %d\n", line, column);
+    //g_print("line has %d chars\n", maxcol);
+  gtk_text_iter_set_visible_line_offset (&iter, MIN(maxcol, column));
+  gtk_text_buffer_place_cursor (gui->textbuffer, &iter);
   GtkTextChildAnchor *anchor = gtk_text_iter_get_child_anchor(&iter);
+  //if(anchor) g_print("At anchor <%c> ", gtk_text_iter_get_char (&iter));
+  //else g_print("Not at anchor <%c> ", gtk_text_iter_get_char (&iter));
   while((anchor==NULL) && gtk_text_iter_backward_char(&iter)) {
     anchor = gtk_text_iter_get_child_anchor(&iter);
+    //g_print("#%c#", gtk_text_iter_get_char (&iter));
   }
   if(anchor){
     gint objnum =  (intptr_t) g_object_get_data(G_OBJECT(anchor), OBJECTNUM);
     gint measurenum =  (intptr_t) g_object_get_data(G_OBJECT(anchor), MEASURENUM);
     gint staffnum =  (intptr_t) g_object_get_data(G_OBJECT(anchor), STAFFNUM);
     gint movementnum =  (intptr_t) g_object_get_data(G_OBJECT(anchor), MOVEMENTNUM);
-    g_print("location %d %d %d %d\n", objnum, measurenum, staffnum, movementnum);
+    //g_print("location %d %d %d %d\n", objnum, measurenum, staffnum, movementnum);
     if(movementnum<1)
-      return FALSE;
+      {
+	g_warning("Object %p has no location data\n", g_object_get_data(G_OBJECT(anchor), OBJECT));
+	return FALSE;
+      }
     if(!goto_movement_staff_obj (gui, movementnum, staffnum, measurenum, objnum))
       return FALSE;
     return TRUE;
