@@ -212,7 +212,7 @@ set_width_to_work_with (DenemoGUI * gui)
       // this length will be divided amongst the systems (line).
       // This length is in "pixels", the Denemo unit of display, which corresponds to a screen pixel when zoom ==1.0
       si->widthtoworkwith
-	= (gint)((Denemo.scorearea->allocation.width/si->zoom
+	= (gint)((gtk_widget_get_allocated_width(Denemo.scorearea)/si->zoom
 	   - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME))*((int)(1/si->system_height )));
 
 #endif
@@ -1262,7 +1262,7 @@ void insert_note_following_pattern(DenemoGUI *gui)  {
 	insertion_point (gui->si);	
       gui->si->cursoroffend = FALSE;
       h = ((RhythmElement*)g->data)->functions;
-      ((GtkFunction)h->data)(gui);
+      ((GSourceFunc)h->data)(gui);
       displayhelper(gui);
     }
     
