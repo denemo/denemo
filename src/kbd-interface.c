@@ -474,7 +474,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   GtkWidget *cursor_button = gtk_button_new_with_label(POINTER_PROMPT);
   static ModifierPointerInfo info;
   info.button_mask = GDK_BUTTON3_MASK;//radio button for left, right none
-  g_signal_connect (GTK_OBJECT (cursor_button), "button-release-event",
+  g_signal_connect (G_OBJECT (cursor_button), "button-release-event",
 		      G_CALLBACK(keyboard_modifier_callback), &info);
   gtk_box_pack_end (GTK_BOX (hbox), cursor_button, FALSE, TRUE, 0);
 
@@ -514,16 +514,16 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   g_signal_connect (delbutton, "clicked",
           G_CALLBACK(kbd_interface_del_binding), &cbdata);
   
-  g_signal_connect (GTK_OBJECT (button_save), "clicked",
+  g_signal_connect (G_OBJECT (button_save), "clicked",
 		      G_CALLBACK(save_default_keymap_file), NULL);
-  g_signal_connect (GTK_OBJECT (button_save_as), "clicked",
+  g_signal_connect (G_OBJECT (button_save_as), "clicked",
 		      G_CALLBACK(save_keymap_dialog), NULL);
-  g_signal_connect (GTK_OBJECT (button_load), "clicked",
+  g_signal_connect (G_OBJECT (button_load), "clicked",
 		      G_CALLBACK(load_system_keymap_dialog_response), dialog);
 
 
 
-  g_signal_connect (GTK_OBJECT (button_load_from), "clicked",
+  g_signal_connect (G_OBJECT (button_load_from), "clicked",
 		      G_CALLBACK(load_keymap_dialog_response), dialog);
 
 

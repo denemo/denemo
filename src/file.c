@@ -353,8 +353,8 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
       update_hscrollbar (gui);
       update_vscrollbar (gui);
       gtk_widget_queue_draw (Denemo.scorearea);
-      gtk_signal_emit_by_name (GTK_OBJECT (Denemo.hadjustment), "changed");
-      gtk_signal_emit_by_name (GTK_OBJECT (Denemo.vadjustment), "changed");
+      gtk_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
+      gtk_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
       force_lily_refresh(gui);
     } else /*file load failed - gui may not be valid */
     deletescore(NULL, gui);

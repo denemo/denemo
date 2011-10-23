@@ -8352,7 +8352,7 @@ create_window(void) {
   data_file = g_strconcat (get_data_dir (), "/../pixmaps/denemo.png", NULL);//FIXME installed in wrong place?
 #endif
   gtk_window_set_default_icon_from_file (data_file, NULL);
-  gtk_signal_connect (GTK_OBJECT (Denemo.window), "delete_event",
+  gtk_signal_connect (G_OBJECT (Denemo.window), "delete_event",
 		      (GtkSignalFunc) delete_callback, NULL);
   g_free (data_file);
 
@@ -8536,7 +8536,7 @@ get_data_dir (),
       gtk_scale_set_digits (GTK_SCALE(hscale), 0);
       GTK_WIDGET_UNSET_FLAGS(hscale, GTK_CAN_FOCUS);
 
-      g_signal_connect(GTK_OBJECT(master_tempo_adj), "value_changed", GTK_SIGNAL_FUNC(pb_tempo), NULL);
+      g_signal_connect(G_OBJECT(master_tempo_adj), "value_changed", GTK_SIGNAL_FUNC(pb_tempo), NULL);
       gtk_box_pack_start (GTK_BOX (hbox), hscale, TRUE, TRUE, 0);
 
       //create_playbutton(hbox, "Set Tempo", pb_set_tempo, NULL);
@@ -8652,14 +8652,14 @@ get_data_dir (),
 			       G_CALLBACK (scorearea_leave_event), NULL);
   g_signal_connect (G_OBJECT (Denemo.scorearea), "enter-notify-event",
 			       G_CALLBACK (scorearea_enter_event), NULL);
-  gtk_signal_connect (GTK_OBJECT (Denemo.scorearea), "scroll_event",
+  gtk_signal_connect (G_OBJECT (Denemo.scorearea), "scroll_event",
 		      (GtkSignalFunc) scorearea_scroll_event, NULL);
   //g_signal_handlers_block_by_func(Denemo.scorearea, G_CALLBACK (scorearea_motion_notify), NULL);
   g_signal_connect (G_OBJECT (Denemo.scorearea), "button_press_event",
 		      G_CALLBACK (scorearea_button_press), NULL);
-  gtk_signal_connect (GTK_OBJECT (Denemo.scorearea), "key_press_event",
+  gtk_signal_connect (G_OBJECT (Denemo.scorearea), "key_press_event",
 		      (GtkSignalFunc) scorearea_keypress_event, NULL);
-  gtk_signal_connect (GTK_OBJECT (Denemo.scorearea), "key_release_event",
+  gtk_signal_connect (G_OBJECT (Denemo.scorearea), "key_release_event",
 		      (GtkSignalFunc) scorearea_keyrelease_event, NULL);
 
 
@@ -8672,7 +8672,7 @@ get_data_dir (),
 					  | GDK_BUTTON_RELEASE_MASK));
 
   Denemo.vadjustment = gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0);
-  gtk_signal_connect (GTK_OBJECT (Denemo.vadjustment), "value_changed",
+  gtk_signal_connect (G_OBJECT (Denemo.vadjustment), "value_changed",
 		      GTK_SIGNAL_FUNC (vertical_scroll), NULL);
   Denemo.vscrollbar = gtk_vscrollbar_new (GTK_ADJUSTMENT (Denemo.vadjustment));
   gtk_box_pack_start (GTK_BOX (score_and_scroll_hbox), Denemo.vscrollbar, FALSE,
@@ -8681,7 +8681,7 @@ get_data_dir (),
 
   Denemo.hadjustment = gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0);
 
-  gtk_signal_connect (GTK_OBJECT (Denemo.hadjustment), "value_changed",
+  gtk_signal_connect (G_OBJECT (Denemo.hadjustment), "value_changed",
 		      GTK_SIGNAL_FUNC (horizontal_scroll), NULL);
   Denemo.hscrollbar = gtk_hscrollbar_new (GTK_ADJUSTMENT (Denemo.hadjustment));
   gtk_box_pack_start (GTK_BOX (scorearea_topbox), Denemo.hscrollbar, FALSE, TRUE, 0);

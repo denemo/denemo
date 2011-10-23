@@ -1055,7 +1055,7 @@ static void toggle_tuning(GtkToggleButton *button, DenemoGUI *gui) {
       gtk_container_add (GTK_CONTAINER (widget), hbox);
       PR_indicator = gtk_drawing_area_new ();
       gtk_box_pack_start (GTK_BOX (hbox), PR_indicator, TRUE, TRUE, 0); 
-      gtk_signal_connect (GTK_OBJECT (PR_indicator), "expose_event",
+      gtk_signal_connect (G_OBJECT (PR_indicator), "expose_event",
 			  GTK_SIGNAL_FUNC (draw_indicator), gui);
       gtk_widget_show_all(widget);
       }

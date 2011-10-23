@@ -96,11 +96,11 @@ insert_barline (GtkAction *action, gpointer param)
   cbdata.gui = gui;
   cbdata.combo = combobox;
   /* Signal connection */
-  gtk_signal_connect (GTK_OBJECT (okbutton), "clicked",
+  gtk_signal_connect (G_OBJECT (okbutton), "clicked",
 		      GTK_SIGNAL_FUNC (add_barline), &cbdata);
-  gtk_signal_connect_object (GTK_OBJECT (okbutton), "clicked",
+  gtk_signal_connect_object (G_OBJECT (okbutton), "clicked",
 			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (dialog));
+			     G_OBJECT (dialog));
 
   gtk_widget_show (okbutton);
 
@@ -108,9 +108,9 @@ insert_barline (GtkAction *action, gpointer param)
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area),
 		      cancelbutton, TRUE, TRUE, 0);
   /* Signal connection */
-  gtk_signal_connect_object (GTK_OBJECT (cancelbutton), "clicked",
+  gtk_signal_connect_object (G_OBJECT (cancelbutton), "clicked",
 			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (dialog));
+			     G_OBJECT (dialog));
 
   gtk_widget_show (cancelbutton);
 

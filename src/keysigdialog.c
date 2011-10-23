@@ -483,14 +483,14 @@ key_change (DenemoGUI * gui, actiontype action)
   //mdata.radiobutton3 = radiobutton3;
 
   radiobutton1 = gtk_radio_button_new_with_label (NULL, _("Major"));
-  gtk_signal_connect (GTK_OBJECT (radiobutton1), "clicked",
+  gtk_signal_connect (G_OBJECT (radiobutton1), "clicked",
 		      GTK_SIGNAL_FUNC (majorcallback), mdata);
   gtk_box_pack_start (GTK_BOX (hbox), radiobutton1, TRUE, TRUE, 0);
   gtk_widget_show (radiobutton1);
 
   radiobutton2 = gtk_radio_button_new_with_label
     (gtk_radio_button_group (GTK_RADIO_BUTTON (radiobutton1)), _("Minor"));
-  gtk_signal_connect (GTK_OBJECT (radiobutton2), "clicked",
+  gtk_signal_connect (G_OBJECT (radiobutton2), "clicked",
 		      GTK_SIGNAL_FUNC (minorcallback), mdata);
   gtk_box_pack_start (GTK_BOX (hbox), radiobutton2, TRUE, TRUE, 0);
   gtk_widget_show (radiobutton2);
@@ -499,7 +499,7 @@ key_change (DenemoGUI * gui, actiontype action)
   radiobutton3 = gtk_radio_button_new_with_label
     (gtk_radio_button_group (GTK_RADIO_BUTTON (radiobutton1)), _("Mode"));
 
-  gtk_signal_connect (GTK_OBJECT (radiobutton3), "clicked",
+  gtk_signal_connect (G_OBJECT (radiobutton3), "clicked",
 		      GTK_SIGNAL_FUNC (modedialog), mdata);
   gtk_box_pack_start (GTK_BOX (hbox), radiobutton3, TRUE, TRUE, 0);
   gtk_widget_show (radiobutton3);

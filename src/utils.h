@@ -34,13 +34,13 @@
  * a widget */
 
 #define processenter(entry, callback,  cbdata, dialog)\
-  gtk_signal_connect(GTK_OBJECT(entry), "activate", \
+  gtk_signal_connect(G_OBJECT(entry), "activate", \
 		     GTK_SIGNAL_FUNC(callback), \
 		     &cbdata); \
   if (dialog) \
-    gtk_signal_connect_object (GTK_OBJECT (entry), "activate", \
+    gtk_signal_connect_object (G_OBJECT (entry), "activate", \
 	  		       GTK_SIGNAL_FUNC(gtk_widget_destroy), \
-			       GTK_OBJECT (dialog))
+			       G_OBJECT (dialog))
   
 
 void

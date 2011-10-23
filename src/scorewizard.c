@@ -665,7 +665,7 @@ timekeysig(wizarddata *wdata, gboolean isnotebook)
                    (GtkAttachOptions) (0), 0, 0);
  
   GtkWidget *radiobutton1 = gtk_radio_button_new_with_label (NULL, _("Major"));
-  gtk_signal_connect (GTK_OBJECT (radiobutton1), "clicked",
+  gtk_signal_connect (G_OBJECT (radiobutton1), "clicked",
 		      GTK_SIGNAL_FUNC (majorcallback), cbdata->mdata);
   gtk_table_attach(GTK_TABLE(table), radiobutton1, 0,1,5,6,
                    (GtkAttachOptions) (GTK_FILL),
@@ -676,7 +676,7 @@ timekeysig(wizarddata *wdata, gboolean isnotebook)
 
   GtkWidget *radiobutton2 = gtk_radio_button_new_with_label
     (gtk_radio_button_group (GTK_RADIO_BUTTON (radiobutton1)), _("Minor"));
-  gtk_signal_connect (GTK_OBJECT (radiobutton2), "clicked",
+  gtk_signal_connect (G_OBJECT (radiobutton2), "clicked",
 		      GTK_SIGNAL_FUNC (minorcallback), cbdata->mdata);
   gtk_table_attach(GTK_TABLE(table), radiobutton2, 1,2,5,6,
                    (GtkAttachOptions) (GTK_FILL),
@@ -687,7 +687,7 @@ timekeysig(wizarddata *wdata, gboolean isnotebook)
   GtkWidget *radiobutton3 = gtk_radio_button_new_with_label
     (gtk_radio_button_group (GTK_RADIO_BUTTON (radiobutton1)), _("Mode"));
 
-  gtk_signal_connect (GTK_OBJECT (radiobutton3), "clicked",
+  gtk_signal_connect (G_OBJECT (radiobutton3), "clicked",
 		      GTK_SIGNAL_FUNC (modedialog), cbdata->mdata);
   gtk_table_attach(GTK_TABLE(table), radiobutton3, 2,3,5,6,
                    (GtkAttachOptions) (GTK_FILL),

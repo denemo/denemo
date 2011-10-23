@@ -67,19 +67,19 @@ score_staffspace_change (GtkAction * action, gpointer callback_data)
   cbdata.si = si;
 
   processenter (textentry, set_staffspace, cbdata, dialog);
-  gtk_signal_connect (GTK_OBJECT (okbutton), "clicked",
+  gtk_signal_connect (G_OBJECT (okbutton), "clicked",
 		      GTK_SIGNAL_FUNC (set_staffspace), &cbdata);
-  gtk_signal_connect_object (GTK_OBJECT (okbutton), "clicked",
+  gtk_signal_connect_object (G_OBJECT (okbutton), "clicked",
 			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (dialog));
+			     G_OBJECT (dialog));
   gtk_widget_show (okbutton);
 
   cancelbutton = gtk_button_new_with_label (_("Cancel"));
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area),
 		      cancelbutton, TRUE, TRUE, 0);
-  gtk_signal_connect_object (GTK_OBJECT (cancelbutton), "clicked",
+  gtk_signal_connect_object (G_OBJECT (cancelbutton), "clicked",
 			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (dialog));
+			     G_OBJECT (dialog));
   gtk_widget_show (cancelbutton);
 
   gtk_widget_grab_focus (textentry);
