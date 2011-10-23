@@ -5399,6 +5399,14 @@ for second and subsequent systems</tooltip>
         <label>Displace Rest Horizontally</label>
         <tooltip>Asks for a horizontal shift and moves the rest at the cursor by that much when printing.</tooltip>
       </row>
+      <row>
+        <action>RefreshDynamicDirectives</action>
+        <after>ScoreBlockProlog</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>Refresh Dynamic Directives</label>
+        <tooltip>Re-runs any directives that may have become stale.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
