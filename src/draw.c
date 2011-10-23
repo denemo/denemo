@@ -164,7 +164,6 @@ struct infotopass
   GList *mwidthiterator;
   GSList *slur_stack;
   GSList *hairpin_stack;
-  GdkGC *gc;
   GtkWidget * verse;
   gint space_above;
   gint highy;/*(return) the highest y value drawn*/
