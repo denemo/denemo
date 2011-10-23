@@ -44,21 +44,14 @@
   
 
 void
-drawbitmapinverse (GdkPixmap *pixmap, GdkGC *gc, GdkBitmap *mask,
-		   gint x, gint y, gint width, gint height);
-
-void
 drawbitmapinverse_cr (cairo_t * cr, DenemoGraphic * mask, gint x,
 		   gint y);
 
 void
-drawfetachar (GdkPixmap * pixmap, GdkGC * gc, gunichar uc, gint x, gint y);
-
-void
 drawfetachar_cr (cairo_t * cr, gunichar uc, double x, double y);
 
-void
-setcairocolor (cairo_t * cr, GdkGC * gc);
+//void
+//setcairocolor (cairo_t * cr, GdkGC * gc);
 
 void 
 drawnormaltext_cr (cairo_t *cr, const char *text, double x, double y);
