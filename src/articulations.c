@@ -241,7 +241,7 @@ insert_artic_cb (GtkWidget * widget, DenemoGUI * gui)
  *
  */
 static GtkWidget *
-create_articulation_button (const gchar * stock_id, GtkTooltips * tips,
+create_articulation_button (const gchar * stock_id, GtkTooltip * tips,
 			    GtkWidget * table, gint col, gint row,
 			    DenemoGUI * si)
 {
@@ -282,7 +282,7 @@ create_articulation_widget (DenemoGUI * si)
   GtkWidget *label;
   GtkWidget *table;
   GtkWidget *spacer;
-  GtkTooltips *tips;
+  GtkTooltip *tips;
 
   tips = gtk_tooltips_new ();
 
