@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
+#include <gdk/gdkkeysyms-compat.h> //FIXME Look for something more gtk3 like
 #include <glib.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -17,7 +18,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
+#include <gdk/gdkkeysyms-compat.h>
 #include <denemo/denemo.h>
 #include "commandfuncs.h"
 #include "kbd-custom.h"
