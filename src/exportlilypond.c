@@ -2572,7 +2572,7 @@ export_lilypond_parts (char *filename, DenemoGUI *gui)
 }
 
 /* callback on destroying lilypond window */
-static gboolean lilywindow_destroyed(GtkObject *object, DenemoGUI *gui) {
+static gboolean lilywindow_destroyed(GObject *object, DenemoGUI *gui) {
   merge_lily_strings (gui);
   if(gui==Denemo.gui){
     GtkWidget * toggle = gtk_ui_manager_get_widget (Denemo.ui_manager,
