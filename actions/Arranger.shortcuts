@@ -572,15 +572,55 @@
       </row>
       <row>
         <action>ScoreTitle</action>
-        <bind>S,t</bind>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ScoreArranger</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>ScoreComposer</action>
-        <bind>S,c</bind>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ScoreDedication</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ScoreInstrument</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ScoreMeter</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ScoreOpus</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ScorePoet</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ScoreTagline</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>MovementTitle</action>
-        <bind>M,t</bind>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MovementSubtitle</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MovementPiece</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ScoreCopyright</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>ToggleTripleting</action>
@@ -771,6 +811,18 @@
       <row>
         <action>NoBarline</action>
         <bind>B,o</bind>
+      </row>
+      <row>
+        <action>BookTitle</action>
+        <bind>S,t</bind>
+      </row>
+      <row>
+        <action>BookComposer</action>
+        <bind>S,c</bind>
+      </row>
+      <row>
+        <action>Chapter</action>
+        <bind>M,t</bind>
       </row>
     </map>
   </merge>

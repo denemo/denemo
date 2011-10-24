@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>MovementTitle</after>
+        <action>Chapter</action>
+        <scheme>;;;Chapter
+(d-LilyPondInclude "book-titling.ily")
+(let ((chapter (d-DirectiveGet-movementcontrol-prefix "Chapter")))
+  (if (not chapter)
+    (set! chapter "Movement Title"))
+  (set! chapter (d-GetUserInput "Movement Title" "Give a title for the current movement" chapter))
+  (if chapter
+    (begin
+      (d-SetSaved #f)
+      (d-DirectivePut-movementcontrol-prefix "Chapter" (string-append "\\chapter \"" chapter "\"\n")))
+    (d-WarningDialog "Movement Title unchanged")))
+</scheme>
+        <label>Title</label>
+        <tooltip>Prints title of Movement</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -5407,6 +5407,72 @@ for second and subsequent systems</tooltip>
         <label>Refresh Dynamic Directives</label>
         <tooltip>Re-runs any directives that may have become stale.</tooltip>
       </row>
+      <row>
+        <action>LilyPondInclude</action>
+        <after>ScoreBlockProlog</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>LilyPond Include File</label>
+        <tooltip>Allows specification of a LilyPond include file from the Denemo provided include files.</tooltip>
+      </row>
+      <row>
+        <action>BookTitle</action>
+        <after>TransposeScorePrint</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Book Titles Etc</menupath>
+        <label>Title</label>
+        <tooltip>Prints a title on title page</tooltip>
+      </row>
+      <row>
+        <action>BookArranger</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Book Titles Etc</menupath>
+        <label>Arranger</label>
+        <tooltip>Prints the arranger name on title page</tooltip>
+      </row>
+      <row>
+        <action>BookCopyright</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Book Titles Etc</menupath>
+        <label>Copyright</label>
+        <tooltip>Prints a copyright notice on title page</tooltip>
+      </row>
+      <row>
+        <action>BookComposer</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Book Titles Etc</menupath>
+        <label>Composer</label>
+        <tooltip>Prints a composer name on title page</tooltip>
+      </row>
+      <row>
+        <action>BookPoet</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Book Titles Etc</menupath>
+        <label>Poet/Lyricist</label>
+        <tooltip>Prints the poet or lyricist name on title page</tooltip>
+      </row>
+      <row>
+        <action>Chapter</action>
+        <after>MovementTitle</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/Book Titles</menupath>
+        <label>Title</label>
+        <tooltip>Prints title of Movement</tooltip>
+      </row>
+      <row>
+        <action>Section</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/Book Titles</menupath>
+        <label>Sub-Title</label>
+        <tooltip>Prints a subtitle for the Movement</tooltip>
+      </row>
+      <row>
+        <action>Piece</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/Book Titles</menupath>
+        <label>Piece</label>
+        <tooltip>Prints a piece name for the Movement</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
