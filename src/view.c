@@ -3956,7 +3956,9 @@ static void define_scheme_constants(void) {
 
   DEF_SCHEME_STR("DENEMO_VERSION", denemo_version, "Holds the denemo version major.minor.micro");
   DEF_SCHEME_STR("DENEMO_ACTIONS_DIR", actions_dir, "Holds location of system-wide Denemo actions directory");
+  DEF_SCHEME_STR("DENEMO_LILYPOND_DIR", g_build_filename(actions_dir, "lilypond", NULL), "Holds location of Denemo's system-wide  lilypond include files directory");
   DEF_SCHEME_STR("DENEMO_LOCAL_ACTIONS_DIR", local_actions_dir, "Holds location of Denemo actions directory beneath your home directory");
+  DEF_SCHEME_STR("DENEMO_LOCAL_LILYPOND_DIR", g_build_filename(local_actions_dir, "lilypond", NULL), "Holds location of user lilypond include files directory");
   {
     gint i;
     for(i=0;i<G_N_ELEMENTS(DenemoObjTypeNames);i++) 
