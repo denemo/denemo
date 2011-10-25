@@ -6407,10 +6407,15 @@ activate_script (GtkAction *action, gpointer param)
    if(text) {
       gboolean ret;
       if(*text==0)
-        text = instantiate_script(action); 
+        text = instantiate_script(action);
+      if(*text) {
       stage_undo(gui->si, ACTION_STAGE_END);//undo is a queue so this is the end :)
       ret = (gboolean)!call_out_to_guile(text);
       stage_undo(gui->si, ACTION_STAGE_START);
+      } else {
+        g_warning("Could not get script for %s\n", gtk_action_get_name(action));
+        ret = FALSE;
+      }
       return ret; 
     }
   }
