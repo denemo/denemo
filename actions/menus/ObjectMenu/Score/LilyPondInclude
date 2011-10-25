@@ -7,23 +7,22 @@
       <row>
         <after>ScoreBlockProlog</after>
         <action>LilyPondInclude</action>
-        <scheme>;;;RefreshDynamicDirectives
-(let loop ((number 0))
-  (define tag (d-DirectiveGetNthTag-score number))
-  (if tag
-    (let ((index (string-index tag #\:)) (command #f)) 
-    	(if index
-    		(set! command (substring tag 0 index))
-    		(set! command tag))
-      (set! command (string-append "d-" command))
-      (disp "looking at " tag "and " command "\n")
-      (if (positive? (logand (d-DirectiveGet-score-override tag) DENEMO_OVERRIDE_DYNAMIC))
-	(let ((sym (string-&gt;symbol command)))
-		(if (defined? sym)
-	 		 (eval-string command))))
-      (loop (+ 1 number)))))
-;;; FIXME there are 13 other types of directive to refresh ,,,      
-</scheme>
+        <scheme>;;;LilyPondInclude
+(let ((include LilyPondInclude::params))
+  (define (setinclude include)
+    (define tag (string-append "LilyPondInclude:" include))
+    (d-SetSaved #f)
+    (d-DirectivePut-score-override tag DENEMO_OVERRIDE_DYNAMIC)
+    (d-DirectivePut-score-prefix tag (string-append "\\include \"" DENEMO_LILYPOND_DIR "/" include "\"\n"))
+    (d-DirectivePut-score-display tag tag))
+  (if include
+    (if (not (d-Directive-score? (string-append "LilyPondInclude:" include)))
+      (setinclude include))
+    (begin   
+      (set! include (d-GetUserInput "Include LilyPond File" "Give LilyPond file name:" "book-titling.ily"));;;FIXME get list of possible files
+      (if include
+	(setinclude include)
+	(d-WarningDialog "LilyPondInclude unchanged")))))</scheme>
         <label>LilyPond Include File</label>
         <tooltip>Allows specification of a LilyPond include file from the Denemo provided include files.</tooltip>
       </row>
