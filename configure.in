@@ -96,7 +96,11 @@ AC_ARG_ENABLE(
   ])
 
 if test "x$useevince" = "xyes"; then
+<<<<<<< HEAD
   PKG_CHECK_MODULES(EVINCE, evince-view-3.0 >= 3.0)
+=======
+  PKG_CHECK_MODULES(EVINCE, evince-view-2.30 >= 2.3)
+>>>>>>> master
   CFLAGS="$CFLAGS $EVINCE_CFLAGS -D_HAVE_EVINCE_"
   LIBS="$LIBS $EVINCE_LIBS -D_HAVE_EVINCE_"
 fi

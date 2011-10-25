@@ -10,6 +10,7 @@
 #include <string.h> /*for SIGTERM */
 #include <fontconfig/fontconfig.h>
 #include <gtk/gtk.h>
+#include <gdk/gdk.h>
 #include "accwidths.h"
 #include <denemo/denemo.h>
 #include "notewidths.h"

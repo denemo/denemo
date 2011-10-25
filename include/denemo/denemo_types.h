@@ -978,9 +978,9 @@ struct DenemoRoot
   /* Fields used fairly directly for drawing */
   GtkWidget *page;
   GtkWidget *scorearea;
-  GObject *vadjustment;
+  GtkWidget *vadjustment;
   GtkWidget *vscrollbar;
-  GObject *hadjustment;
+  GtkWidget *hadjustment;
   GtkWidget *hscrollbar;
 
   GtkWidget *printarea;/**< area holding a print preview */
