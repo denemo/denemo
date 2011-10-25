@@ -5419,35 +5419,35 @@ for second and subsequent systems</tooltip>
         <action>BookTitle</action>
         <after>TransposeScorePrint</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Book Titles Etc</menupath>
+        <menupath>/ObjectMenu/Score/BookTitles</menupath>
         <label>Title</label>
         <tooltip>Prints a title on title page</tooltip>
       </row>
       <row>
         <action>BookArranger</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Book Titles Etc</menupath>
+        <menupath>/ObjectMenu/Score/BookTitles</menupath>
         <label>Arranger</label>
         <tooltip>Prints the arranger name on title page</tooltip>
       </row>
       <row>
         <action>BookCopyright</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Book Titles Etc</menupath>
+        <menupath>/ObjectMenu/Score/BookTitles</menupath>
         <label>Copyright</label>
         <tooltip>Prints a copyright notice on title page</tooltip>
       </row>
       <row>
         <action>BookComposer</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Book Titles Etc</menupath>
+        <menupath>/ObjectMenu/Score/BookTitles</menupath>
         <label>Composer</label>
         <tooltip>Prints a composer name on title page</tooltip>
       </row>
       <row>
         <action>BookPoet</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Book Titles Etc</menupath>
+        <menupath>/ObjectMenu/Score/BookTitles</menupath>
         <label>Poet/Lyricist</label>
         <tooltip>Prints the poet or lyricist name on title page</tooltip>
       </row>
@@ -5455,21 +5455,21 @@ for second and subsequent systems</tooltip>
         <action>Chapter</action>
         <after>MovementTitle</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MovementMenu/Book Titles</menupath>
+        <menupath>/ObjectMenu/MovementMenu/BookTitles</menupath>
         <label>Title</label>
         <tooltip>Prints title of Movement</tooltip>
       </row>
       <row>
         <action>Section</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MovementMenu/Book Titles</menupath>
+        <menupath>/ObjectMenu/MovementMenu/BookTitles</menupath>
         <label>Sub-Title</label>
         <tooltip>Prints a subtitle for the Movement</tooltip>
       </row>
       <row>
         <action>Piece</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MovementMenu/Book Titles</menupath>
+        <menupath>/ObjectMenu/MovementMenu/BookTitles</menupath>
         <label>Piece</label>
         <tooltip>Prints a piece name for the Movement</tooltip>
       </row>
