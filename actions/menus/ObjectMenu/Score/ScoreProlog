@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>EditScoreDirective</after>
+        <action>ScoreProlog</action>
+        <scheme>;;;;;;;; score prolog
+(let ((prolog ""))
+  (set! prolog (d-DirectiveGet-score-prefix "Prolog"))
+  (if prolog 
+      #t
+      (set! prolog "%{Insert LilyPond syntax here %}\n"))
+(set! prolog (d-GetUserInput "LilyPond Score Prolog" "Give LilyPond:" prolog))
+(if prolog
+    (begin
+      (d-SetSaved #f)
+      (d-DirectivePut-score-prefix "Prolog" prolog)
+      (d-DirectivePut-score-display "Prolog" prolog))
+    (d-WarningDialog "Prolog unchanged")))</scheme>
+        <label>LilyPond Score Prolog</label>
+        <tooltip>Inserts LilyPond syntax for include files etc at head of score.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
