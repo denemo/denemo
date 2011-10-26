@@ -109,8 +109,8 @@ AC_ARG_ENABLE(
 
 if test "x$usegtk3" = "xyes"; then
   PKG_CHECK_MODULES(GTK3, gtk+-3.0 >= 3.0.0)
-  CFLAGS="$CFLAGS $GTK3_CFLAGS"
-  LIBS="$LIBS $GTK3_LIBS"
+  CFLAGS="$CFLAGS $GTK3_CFLAGS -D_USE_GTK3_"
+  LIBS="$LIBS $GTK3_LIBS -D_USE_GTK3_"
 fi
 
 
