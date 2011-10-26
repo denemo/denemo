@@ -1412,7 +1412,7 @@ static void
 stolen_gtk_menu_stop_navigating_submenu (GtkMenu *menu)
 {
   if (menu->navigation_region) {
-    gdk_region_destroy (menu->navigation_region);
+    cairo_region_destroy (menu->navigation_region);
     menu->navigation_region = NULL;
   }
   if (menu->navigation_timeout) {
