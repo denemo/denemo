@@ -32,7 +32,6 @@
 #include "prefops.h"
 #include "exportlilypond.h"
 #include "utils.h"
-#include "gcs.h"
 #include "view.h"
 #include "external.h"
 

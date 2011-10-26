@@ -15,7 +15,6 @@
 #include "dialogs.h"
 #include "exportlilypond.h"
 #include "file.h"
-#include "gcs.h"
 #include "kbd-custom.h"
 #include "kbd-interface.h"
 #include "keyresponses.h"

@@ -14,7 +14,6 @@
 #include "contexts.h"
 #include "draw.h"		/* Which includes gtk.h */
 #include "drawingprims.h"
-#include "gcs.h"
 #include "slurs.h"
 #include "hairpin.h"
 #include "staffops.h"
