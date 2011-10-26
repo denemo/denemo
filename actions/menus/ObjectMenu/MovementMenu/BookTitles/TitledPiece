@@ -5,11 +5,11 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after>MovementTitle</after>
-        <action>Chapter</action>
-        <scheme>;;;Chapter
+        <after>Piece</after>
+        <action>TitledPiece</action>
+        <scheme>;;;TitledPiece
 (d-LilyPondInclude "book-titling.ily")
-(let ((chapter (d-DirectiveGet-movementcontrol-display "Chapter")))
+(let ((tag "TitledPiece") (chapter (d-DirectiveGet-movementcontrol-display "TitledPiece")))
   (if (not chapter)
     (set! chapter "Movement Title"))
   (set! chapter (d-GetUserInput "Movement Title" "Give a title for the current movement\nOr blank to delete" chapter))
@@ -17,14 +17,14 @@
     (begin
       (d-SetSaved #f)
       (if (string-null? chapter)
-      	(d-DirectiveDelete-movementcontrol "Chapter")
+      	(d-DirectiveDelete-movementcontrol tag)
         (begin 
-        	(d-DirectivePut-movementcontrol-prefix "Chapter" (string-append "\\chapter \"" chapter "\"\n"))
-        	(d-DirectivePut-movementcontrol-display "Chapter" chapter))))
+        	(d-DirectivePut-movementcontrol-prefix tag (string-append "\\titledPiece \\markup \"" chapter "\"\n"))
+        	(d-DirectivePut-movementcontrol-display tag chapter))))
     (d-WarningDialog "Movement Title unchanged")))
 </scheme>
         <label>Title</label>
-        <tooltip>Prints title of Movement</tooltip>
+        <tooltip>Prints a title for the movement, which will get a page reference in a table of contents.</tooltip>
       </row>
     </map>
   </merge>

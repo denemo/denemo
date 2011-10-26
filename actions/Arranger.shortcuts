@@ -153,6 +153,30 @@
         <bind>Alt+6</bind>
       </row>
       <row>
+        <action>InsertBlankWholeNote</action>
+        <bind>Mod4+0</bind>
+      </row>
+      <row>
+        <action>InsertBlankHalfNote</action>
+        <bind>Mod4+1</bind>
+      </row>
+      <row>
+        <action>InsertBlankQuarterNote</action>
+        <bind>Mod4+2</bind>
+      </row>
+      <row>
+        <action>InsertBlankEighthNote</action>
+        <bind>Mod4+3</bind>
+      </row>
+      <row>
+        <action>InsertBlankSixteenthNote</action>
+        <bind>Mod4+4</bind>
+      </row>
+      <row>
+        <action>InsertBlankThirtysecondNote</action>
+        <bind>Mod4+5</bind>
+      </row>
+      <row>
         <action>AddNoteToChord</action>
         <bind>Insert</bind>
       </row>
@@ -739,6 +763,10 @@
         <bind>Enter</bind>
       </row>
       <row>
+        <action>ReBar</action>
+        <bind>Return</bind>
+      </row>
+      <row>
         <action>DenemoPlayCursorToEnd</action>
         <bind>Ctrl+F5</bind>
       </row>
@@ -821,7 +849,7 @@
         <bind>S,c</bind>
       </row>
       <row>
-        <action>Chapter</action>
+        <action>TitledPiece</action>
         <bind>M,t</bind>
       </row>
     </map>

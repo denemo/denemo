@@ -5473,6 +5473,22 @@ for second and subsequent systems</tooltip>
         <label>Piece</label>
         <tooltip>Prints a piece name for the Movement</tooltip>
       </row>
+      <row>
+        <action>TocTitle</action>
+        <after>BookPoet</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/BookTitles</menupath>
+        <label>Table of Contents Title</label>
+        <tooltip>Gives a heading for a table of contents, inserting the table in the book.</tooltip>
+      </row>
+      <row>
+        <action>TitledPiece</action>
+        <after>Piece</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/BookTitles</menupath>
+        <label>Title</label>
+        <tooltip>Prints a title for the movement, which will get a page reference in a table of contents.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
