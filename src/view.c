@@ -850,7 +850,7 @@ SCM scheme_user_screenshot(SCM type, SCM position) {
   else
    sources = &((DenemoStaff*)Denemo.gui->si->currentstaff->data)->sources;
   scheme_hide_window(SCM_BOOL_T);
-  GdkRectangle *rect = screenshot_find_rectangle();
+  cairo_rectangle_int_t *rect = screenshot_find_rectangle();
   if(rect) {
         GError *error = NULL;
         //g_print("%d %d %d %d\n", rect->x, rect->y, rect->width, rect->height);

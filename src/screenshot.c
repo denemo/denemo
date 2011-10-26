@@ -33,8 +33,8 @@
 
 
 typedef struct {
-  GdkRectangle  rect;
-  GdkRectangle  draw_rect;
+  cairo_rectangle_int_t  rect;
+  cairo_rectangle_int_t  draw_rect;
   gboolean      button_pressed;
   /* only needed because we're not using cairo to draw the rectangle */
   GdkWindow    *root;
@@ -46,8 +46,8 @@ typedef struct {
 #else
 static void
 empty_rectangle (XButtonEvent    *event,
-                          GdkRectangle *rect,
-                          GdkRectangle *draw_rect)
+                          cairo_rectangle_int_t *rect,
+                          cairo_rectangle_int_t *draw_rect)
 {
   rect->x = event->x_root;
   rect->y = event->y_root;
@@ -60,8 +60,8 @@ empty_rectangle (XButtonEvent    *event,
 
 static void
 fix_rectangle (XButtonEvent    *event,
-                            GdkRectangle *rect,
-                            GdkRectangle *draw_rect,
+                            cairo_rectangle_int_t *rect,
+                            cairo_rectangle_int_t *draw_rect,
                             GdkWindow    *root,
                             GdkGC        *gc)
 {
@@ -75,8 +75,8 @@ fix_rectangle (XButtonEvent    *event,
 
 static void
 select_area_motion_notify (XButtonEvent    *event,
-                           GdkRectangle *rect,
-                           GdkRectangle *draw_rect,
+                           cairo_rectangle_int_t *rect,
+                           cairo_rectangle_int_t *draw_rect,
                            GdkWindow    *root,
                            GdkGC        *gc)
 {
@@ -268,11 +268,11 @@ return FALSE;
   return TRUE;
 }
 
-GdkRectangle *
+cairo_rectangle_int_t *
 screenshot_find_rectangle (void)
 {
-  GdkRectangle *rectangle;
-  rectangle = g_new0 (GdkRectangle, 1);
+  cairo_rectangle_int_t *rectangle;
+  rectangle = g_new0 (cairo_rectangle_int_t, 1);
   if (screenshot_select_area (&rectangle->x, &rectangle->y,
                               &rectangle->width, &rectangle->height)) {
     if ((rectangle->width > 0) && (rectangle->height > 0))
@@ -284,7 +284,7 @@ screenshot_find_rectangle (void)
 
 GdkPixbuf *
 screenshot_get_pixbuf (GdkWindow    *window,
-                       GdkRectangle *rectangle)
+                       cairo_rectangle_int_t *rectangle)
 {
   GdkWindow *root;
   GdkPixbuf *screenshot = NULL;
