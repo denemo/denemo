@@ -279,8 +279,13 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 
   notebook = gtk_notebook_new ();
+#ifdef _USE_GTK3_
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), notebook, TRUE,
+		      TRUE, 0);
+#else
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), notebook, TRUE,
 		      TRUE, 0);
+#endif
 #define VBOX main_vbox
 
 #define NEWPAGE(thelabel) \

@@ -337,8 +337,13 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
 					NULL);
 
   vbox = gtk_vbox_new (FALSE, 8);
+#ifdef _USE_GTK3_
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), vbox, TRUE, TRUE,
+		      0);
+#else
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox, TRUE, TRUE,
 		      0);
+#endif
   gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
 
 

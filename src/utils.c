@@ -1476,17 +1476,32 @@ string_dialog_entry_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *direction
                                         NULL);
 
 	label = gtk_label_new (direction);
+#ifdef _USE_GTK3_
+  	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), label,
+		                        TRUE, TRUE, 0);
+
+	if(widget)
+	  	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), widget,
+		                        TRUE, TRUE, 0);
+#else
   	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label,
 		                        TRUE, TRUE, 0);
+
 	if(widget)
 	  	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), widget,
 		                        TRUE, TRUE, 0);
+#endif
+
 	if (PreValue != NULL) {
             gtk_entry_set_text (GTK_ENTRY (entry), (gchar *) PreValue);
         }
-  
+#ifdef _USE_GTK3_ 
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), entry,
+		                        TRUE, TRUE, 0);
+#else
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), entry,
 		                        TRUE, TRUE, 0);
+#endif
     	gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
       	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
         gtk_widget_grab_focus (entry);
@@ -1528,8 +1543,13 @@ gchar * get_option(gchar *str, gint length) {
 						   GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
 						   NULL);
   GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
+#ifdef _USE_GTK3_
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), vbox,
+		      TRUE, TRUE, 0);
+#else
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox,
 		      TRUE, TRUE, 0);
+#endif
   gchar *opt;
   gint i;
   GtkWidget *widget1, *widget;

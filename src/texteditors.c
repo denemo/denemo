@@ -117,7 +117,11 @@ static void save_scheme_text_as(GtkWidget *widget, GtkWidget *textview) {
 		gchar *labeltext = g_strconcat("\nThe file ", *pfilename, " already exists.\n Do you want to overwrite it?\n\n", NULL);
 		label = gtk_label_new(labeltext);
 		g_free(labeltext);
+#ifdef _USE_GTK3_
+		gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)), label);
+#else 
 		gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox), label);
+#endif
 		gtk_widget_show_all(dialog);
 
 		if(gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_CANCEL) {
@@ -166,7 +170,11 @@ gboolean save_scheme_dialog(GtkTextBuffer *buffer, GtkWidget *textview) {
 						GTK_STOCK_CANCEL,
 						GTK_RESPONSE_CANCEL,
 						NULL);
-	  contentArea = GTK_DIALOG(dialog)->vbox/*gtk_dialog_get_content_area(GTK_DIALOG(dialog))*/;
+#ifdef _USE_GTK3_
+	   contentArea = GTK_DIALOG(dialog)/*gtk_dialog_get_content_area(GTK_DIALOG(dialog))*/;
+#else
+	   contentArea = GTK_DIALOG(dialog)->vbox/*gtk_dialog_get_content_area(GTK_DIALOG(dialog))*/;
+#endif	
 	  if(*pfilename == NULL) 
 		  label = gtk_label_new("\nDo you want to save the changes in a new file?\n\n");
 	  else {
@@ -396,24 +404,38 @@ search_dialog (GtkWidget *widget,
 			 "text", search_data.what ? search_data.what : "",
 			 "activates-default", TRUE,
 			 NULL);
+#ifdef _USE_GTK3_
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
+		      GTK_WIDGET (entry1), TRUE, TRUE, 0);
+#else
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
 		      GTK_WIDGET (entry1), TRUE, TRUE, 0);
+#endif
   entry2 = g_object_new (GTK_TYPE_ENTRY,
 			 "visible", replace,
 			 "text", search_data.replacement ? search_data.replacement : "",
 			 "activates-default", TRUE,
 			 NULL);
+#ifdef _USE_GTK3_
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
+		      GTK_WIDGET (entry2), TRUE, TRUE, 0);
+#else
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
 		      GTK_WIDGET (entry2), TRUE, TRUE, 0);
- 	
+#endif
   case_sensitive = g_object_new (GTK_TYPE_CHECK_BUTTON,
 				 "visible", TRUE,
 				 "label", "Case sensitive",
 				 "active", !(search_data.flags & GTK_SOURCE_SEARCH_CASE_INSENSITIVE),
 				 NULL);
+#ifdef _USE_GTK3_
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
+		      GTK_WIDGET (case_sensitive), FALSE, FALSE, 0);
+#else
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
 		      GTK_WIDGET (case_sensitive), FALSE, FALSE, 0);
- 	
+
+#endif
   while (TRUE)
     {
       if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)

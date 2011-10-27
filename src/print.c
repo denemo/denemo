@@ -526,8 +526,11 @@ printrangedialog(DenemoGUI * gui){
 	 GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
 
   hbox = gtk_hbox_new (FALSE, 8);
+#ifdef _USE_GTK3_
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), hbox, TRUE, TRUE, 0);
+#else
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox, TRUE, TRUE, 0);
-
+#endif
   gint max_measure =
   g_list_length (((DenemoStaff *) (gui->si->thescore->data))->measures);
 

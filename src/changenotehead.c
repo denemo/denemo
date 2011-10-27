@@ -112,15 +112,25 @@ set_notehead (GtkAction *action, gpointer param)
 
 
   label = gtk_label_new (_("Select Notehead Type"));
+#ifdef _USE_GTK3_
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
+		      label, TRUE, TRUE, 0);
+#else
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
 		      label, TRUE, TRUE, 0);
+#endif
   gtk_widget_show (label);
 
   combo = gtk_combo_new ();
   gtk_combo_set_popdown_strings (GTK_COMBO (combo), list);
   gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (combo)->entry), _(notehead[0]));
+#ifdef _USE_GTK3_
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), combo,
+		      TRUE, TRUE, 0);
+#else
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), combo,
 		      TRUE, TRUE, 0);
+#endif
   gtk_widget_show (combo);
 
 

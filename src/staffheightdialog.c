@@ -49,15 +49,25 @@ score_staffspace_change (GtkAction * action, gpointer callback_data)
   gtk_window_set_title (GTK_WINDOW (dialog), _("Set staff height"));
 
   label = gtk_label_new (_("Enter space (in pixels) between staves:"));
+#ifdef _USE_GTK3_
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
+		      label, TRUE, TRUE, 0);
+#else
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
 		      label, TRUE, TRUE, 0);
+#endif
   gtk_widget_show (label);
 
   textentry = gtk_entry_new ();
   g_string_sprintf (entrycontent, "%d", si->staffspace);
   gtk_entry_set_text (GTK_ENTRY (textentry), entrycontent->str);
+#ifdef _USE_GTK3_
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
+		      textentry, TRUE, TRUE, 0);
+#else
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
 		      textentry, TRUE, TRUE, 0);
+#endif  
   gtk_widget_show (textentry);
 
   okbutton = gtk_button_new_with_label (_("OK"));

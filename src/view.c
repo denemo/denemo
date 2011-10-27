@@ -2192,8 +2192,13 @@ SCM scheme_get_offset(void) {
                                         NULL);
   g_object_set_data(G_OBJECT(Denemo.printarea), "offset-dialog", (gpointer)dialog);
   GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
+#ifdef _USE_GTK3_
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), vbox,
+		      TRUE, TRUE, 0);
+#else
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox,
 		      TRUE, TRUE, 0);
+#endif
   gchar *text = g_strdup_printf("Current offset %d, %d\nDrag in print window to change this\nClick OK to apply the position shift to the directive", offsetx, -offsety);
   GtkWidget *label = gtk_label_new(text);
   g_free(text);
@@ -2279,8 +2284,13 @@ SCM scheme_get_padding(void) {
                                         NULL);
   g_object_set_data(G_OBJECT(Denemo.printarea), "pad-dialog", (gpointer)dialog);
   GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox,
+#ifdef _USE_GTK3_
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), vbox,
 		      TRUE, TRUE, 0);
+#else
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox,
+TRUE, TRUE, 0);
+#endif
   gchar *text = g_strdup_printf("Current padding is %d\nUse right click in print window to change this\nClick OK to apply the padding to the music item drawn by the directive", padding);
   GtkWidget *label = gtk_label_new(text);
   g_free(text);
@@ -5220,8 +5230,13 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
        gtk_label_new
        ("\nDenemo crashed, The open file has been recovered\n"
 	"do you want to continue editing your work?\n");
+#ifdef _USE_GTK3_
+     gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)),
+			label);
+#else
      gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox),
 			label);
+#endif
      gtk_widget_show_all (dialog);
      gint result = gtk_dialog_run (GTK_DIALOG (dialog));
      g_debug ("Dialog result is %d\n", result);
@@ -6588,9 +6603,13 @@ mouse_shortcut_dialog(ModifierAction *info){
   widget =   gtk_button_new_with_label("Hold Modifier Keys, Engage Caps or Num Lock\nand click here to set shorcut.");
   g_signal_connect(G_OBJECT(widget), "button-release-event", G_CALLBACK(button_modifier_callback), info);
   gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
-
+#ifdef _USE_GTK3_
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), hbox,
+		      TRUE, TRUE, 0);
+#else
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox,
 		      TRUE, TRUE, 0);
+#endif
   gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all (dialog);
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT){ 

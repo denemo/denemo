@@ -467,8 +467,13 @@ key_change (DenemoGUI * gui, actiontype action)
 			  _("Insert key signature change"));
 
   label = gtk_label_new (_("Select desired key signature"));
+#ifdef _USE_GTK3_
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
+		      label, TRUE, TRUE, 0);
+#else
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
 		      label, TRUE, TRUE, 0);
+#endif
   gtk_widget_show (label);
 
 
@@ -530,19 +535,35 @@ key_change (DenemoGUI * gui, actiontype action)
     }
   /* This setting-active will also complete the initialization of
    * the combobox */
-
+#ifdef _HAVE_GTK3_
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
+		      combobox, TRUE, TRUE, 0);
+#else
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
 		      combobox, TRUE, TRUE, 0);
+#endif  
   gtk_widget_show (combobox);
+#ifdef _HAVE_GTK3_
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
+		      pitchescombo, TRUE, TRUE, 0);
+  gtk_box_pack_end (GTK_BOX (GTK_DIALOG (dialog)), hbox, TRUE, TRUE, 0);
+
+#else
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
 		      pitchescombo, TRUE, TRUE, 0);
-
   gtk_box_pack_end (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox, TRUE, TRUE, 0);
+#endif
+
   gtk_widget_show (hbox);
 
   checkbutton = gtk_check_button_new_with_label (_("Apply to all staves?"));
+#ifdef _USE_GTK3_
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
+		      checkbutton, TRUE, TRUE, 0);
+#else
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
 		      checkbutton, TRUE, TRUE, 0);
+#endif
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), TRUE);
   gtk_widget_show (checkbutton);
 

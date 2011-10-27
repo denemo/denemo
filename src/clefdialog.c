@@ -134,9 +134,13 @@ clef_change (DenemoGUI * gui, actiontype action)
 
 
   label = gtk_label_new (_("Select desired clef"));
+#ifdef _USE_GTK3_
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
+		      label, TRUE, TRUE, 0);
+#else
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
 		      label, TRUE, TRUE, 0);
-
+#endif
   list_store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_INT);
   combobox = gtk_combo_box_new_with_model (GTK_TREE_MODEL (list_store));
 
@@ -158,10 +162,13 @@ clef_change (DenemoGUI * gui, actiontype action)
   gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combobox), renderer, TRUE);
   gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (combobox),
 				 renderer, "text", COLUMN_NAME);
-
+#ifdef _USE_GTK3_
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
+		      combobox, TRUE, TRUE, 0);
+#else
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
 		      combobox, TRUE, TRUE, 0);
-
+#endif
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
   gtk_widget_show_all (dialog);
 

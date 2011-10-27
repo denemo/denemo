@@ -55,8 +55,13 @@ tomeasurenum (GtkAction *action, gpointer param)
     gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
 
     box = gtk_hbox_new (FALSE, 8);
+#ifdef _USE_GTK3_
+    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), box, TRUE, TRUE,
+			0);
+#else
     gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), box, TRUE, TRUE,
 			0);
+#endif
     gtk_container_set_border_width (GTK_CONTAINER (box), 12);
 
     label = gtk_label_new_with_mnemonic (_("Go to _measure:"));

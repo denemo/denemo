@@ -75,8 +75,13 @@ insert_barline (GtkAction *action, gpointer param)
   gtk_window_set_title (GTK_WINDOW (dialog), _("Insert Barline"));
 
   label = gtk_label_new (_("Select desired barline"));
+#ifdef _USE_GTK3_
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
+		      label, TRUE, TRUE, 0);
+#else
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
 		      label, TRUE, TRUE, 0);
+#endif
   gtk_widget_show (label);
 
   for (i = 0; i < 6; i++)
@@ -84,9 +89,13 @@ insert_barline (GtkAction *action, gpointer param)
 
   combobox = gtk_combo_new ();
   gtk_combo_set_popdown_strings (GTK_COMBO (combobox), list);
-
+#ifdef _USE_GTK3_
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
+		      combobox, TRUE, TRUE, 0);
+#else
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
 		      combobox, TRUE, TRUE, 0);
+#endif  
   gtk_widget_show (combobox);
 
   okbutton = gtk_button_new_with_label (_("OK"));

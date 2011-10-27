@@ -89,8 +89,13 @@ insert_dynamic (GtkAction *action, gpointer param)
 
 
   label = gtk_label_new (_("Insert Dynamic"));
+#ifdef _USE_GTK3_	
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), label,
+		      TRUE, TRUE, 0);
+#else
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label,
 		      TRUE, TRUE, 0);
+#endif
   gtk_widget_show (label);
 
   combo = gtk_combo_new ();
@@ -102,8 +107,13 @@ insert_dynamic (GtkAction *action, gpointer param)
 
   gtk_combo_set_popdown_strings (GTK_COMBO (combo), directivelist);
   gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (combo)->entry), directives[0]);
+#ifdef _USE_GTK3_
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), combo,
+		      TRUE, TRUE, 0);
+#else
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), combo,
 		      TRUE, TRUE, 0);
+#endif
   gtk_widget_show (combo);
 
 
