@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ChooseTimeSignature</after>
+        <action>HideTimesig</action>
+        <scheme>;;;HideTimesig
+;(let ((lilycontext (d-GetOption  (string-append "Score" stop "Staff" stop "Voice" stop))))
+(let ((lilycontext "Staff"))
+(if lilycontext
+	(begin 
+		(if (d-Directive-timesig? "HideTimesig")
+ 			(d-DirectiveDelete-timesig "HideTimesig")
+ 			(begin
+ 				(d-DirectivePut-timesig-prefix "HideTimesig"  (string-append  "\\once \\override " lilycontext ".TimeSignature #'stencil = ##f"  ))
+ 				(d-DirectivePut-timesig-gy "HideTimesig" -10)
+ 				(d-DirectivePut-timesig-graphic "HideTimesig" "\n&#x22C2;\nDenemo\n24")))
+ 			(d-SetSaved #f))))
+ 			</scheme>
+        <label>(Print) Hide</label>
+        <tooltip>On printing, omit the time signature change at the cursor, or the initial time signature if the cursor is not on a time signature change.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

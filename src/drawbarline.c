@@ -6,7 +6,6 @@
  */
 #include "drawingprims.h"
 #include "utils.h"
-#include "gcs.h"
 
 /**
  * Draw a given barline on the score given the type

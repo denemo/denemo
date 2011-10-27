@@ -36,6 +36,29 @@
 ;Needed to see if lyimport / mxml import is called from inside or outside Denemo
 (define Denemo #t)
 
+
+
+;;; Emmentaler rests
+(define REST0 "")
+(define REST1 "")
+
+(define REST2 "")
+(define REST3 "")
+(define REST4 "")
+(define REST5 "")
+(define REST6 "")
+(define REST7 "")
+
+(define Rest0  (string-append "\n" REST0 "\nemmentaler"))
+(define Rest1  (string-append "\n" REST1 "\nemmentaler"))
+(define Rest2  (string-append "\n" REST2 "\nemmentaler"))
+(define Rest3  (string-append "\n" REST3 "\nemmentaler"))
+(define Rest4  (string-append "\n" REST4 "\nemmentaler"))
+(define Rest5  (string-append "\n" REST5 "\nemmentaler"))
+(define Rest6  (string-append "\n" REST6 "\nemmentaler"))
+(define Rest7  (string-append "\n" REST7 "\nemmentaler"))
+(define Rests (vector Rest0 Rest1 Rest2 Rest3 Rest4 Rest5 Rest6 Rest7 ))
+
 (define DenemoKeypressActivatedCommand #f) ;;;is true while a keyboard shortcut is invoking a script, unless the script has set it to #f
 
 (define (lyimport::load-file pathname filename)
@@ -109,6 +132,10 @@
 	(if (Note?)
 	 (list-ref (reverse (string-tokenize(d-GetNotes))) 0)
 	 #f))
+
+(define MusicalSymbols-notes (vector Denemo-Note0 Denemo-Note1  Denemo-Note2 Denemo-Note3 Denemo-Note4 Denemo-Note5 Denemo-Note6 Denemo-Note7 Denemo-Note8))
+(define MusicalSymbols-sharp "\xe2\x99\xaf") ;;;may need to specify Denemo font for windows
+(define MusicalSymbols-flat "\xe2\x99\xad")
 
 (define cue-Advanced "Advanced")
 (define cue-PlaceAbove "Place above staff")
@@ -396,13 +423,20 @@
 	  ;;(display thematch)
 	  (if (regexp-match? thematch)
 	      (set! current (match:substring thematch 1)))))
-    (if (boolean? title)
-	(set! title (scheme-escape (d-GetUserInput (string-append type " " fieldname)
-				    (string-append "Give a name for the " fieldname " of the " type) current))))
-    (d-DirectivePut-header-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
-    (d-DirectivePut-header-display tag (string-append type " " fieldname ": " (html-escape title)))
-    
-    (d-DirectivePut-header-postfix tag (string-append field " = \"" title "\"\n"))))
+    (if (not title)
+      (begin
+	(set! title (d-GetUserInput (string-append type " " fieldname)
+				    (string-append "Give a name for the " fieldname " of the " type) current))
+	(if title
+	  (begin
+	    (if (string-null? title)
+	      (d-DirectiveDelete-header tag)
+	      (begin
+		(set! title (scheme-escape title ))
+		(d-DirectivePut-header-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
+		(d-DirectivePut-header-display tag (string-append type " " fieldname ": " (html-escape title)))
+		(d-DirectivePut-header-postfix tag (string-append field " = \"" title "\"\n")))))
+	    (disp "Cancelled\n"))))))
 
 ; SetScoreHeaderField sets a field in the score header
 (define (SetScoreHeaderField field)
@@ -701,15 +735,15 @@
 (define (SetMidiShortcut shortcut command)
 	(set! MIDI-shortcuts::alist (assoc-set! MIDI-shortcuts::alist shortcut command)))
 
-(SetMidiShortcut "FootpedalUp" #f)
+(SetMidiShortcut "FootpedalUp" #f);;;set these to a command name, e.g. InsertA for the action (d-InsertA) 
 (SetMidiShortcut "FootpedalDown" #f)
 
 (define (MIDI-shortcut::controller type value)
 ;;(format #t "controller type ~a value ~a\n" type value)
   (cond ((and (equal? type 64) (equal? value 127))
-    	  (assoc-ref MIDI-shortcuts::alist "FootpedalUp"))
-        ((and (equal? type 64) (equal? value 0))
     	  (assoc-ref MIDI-shortcuts::alist "FootpedalDown"))
+        ((and (equal? type 64) (equal? value 0))
+    	  (assoc-ref MIDI-shortcuts::alist "FootpedalUp"))
 
         ((equal? type 1)
 	 (let ((thestep  (round(/ (- value 64) 16))))

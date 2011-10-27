@@ -88,7 +88,7 @@ void
 setcurrentprimarystaff (DenemoScore * si)
 {
   for (si->currentprimarystaff = si->currentstaff;
-       ((DenemoStaff *) si->currentprimarystaff->data)->voicenumber != 1;
+       !((DenemoStaff *) si->currentprimarystaff->data)->voicecontrol&DENEMO_PRIMARY;
        si->currentprimarystaff = si->currentprimarystaff->prev)
     ;
 }
@@ -118,7 +118,7 @@ copy_staff_bits (DenemoStaff * src, DenemoStaff * dest)
 }
 
 /**
- * Copies a staffs parameters from source to destination
+ * Copies a staffs parameters from source to destination FIXME: only for a new voice - does not really copy
  * @param src the source staff
  * @param dest the destination staff
  * @return none
@@ -138,7 +138,7 @@ copy_staff_properties (DenemoStaff * src, DenemoStaff * dest)
   dest->transposition = src->transposition;
 
   dest->volume = src->volume;
-  dest->voicenumber = 2;
+  dest->voicecontrol = DENEMO_SECONDARY;
   beamsandstemdirswholestaff (dest);
 
 }
@@ -155,7 +155,7 @@ copy_staff (DenemoStaff * src, DenemoStaff * dest)
   dest->transposition = src->transposition;
 
   dest->volume = src->volume;
-  dest->voicenumber = src->voicenumber;
+  dest->voicecontrol = src->voicecontrol;
   dest->clef.type = src->clef.type;
   dest->leftmost_clefcontext = &dest->clef;
  
@@ -291,25 +291,13 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
 
   if (action == NEWVOICE)
     {
-      thestaffstruct->voicenumber = 2;
+      thestaffstruct->voicecontrol = DENEMO_SECONDARY;
       thestaffstruct->nummeasures =
 	g_list_length (firstmeasurenode (si->currentstaff));//FIXME redundant
     }
-  else if (action == LYRICSTAFF)
-    {
-      thestaffstruct->voicenumber = 3;
-    }
-  else if (action == FIGURESTAFF)
-    {
-      thestaffstruct->voicenumber = 3;	/* what does this mean? */
-    }
-  else if (action == CHORDSTAFF)
-    {
-      thestaffstruct->voicenumber = 3;
-    }
   else
     {
-      thestaffstruct->voicenumber = 1;
+      thestaffstruct->voicecontrol = DENEMO_PRIMARY;
     };
 
   for (i = 0; i < thestaffstruct->nummeasures; i++)
@@ -473,7 +461,7 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
   if(interactive &&  (curstaffstruct->context!=DENEMO_NONE))
     give_info = TRUE;
   take_snapshot();
-  gboolean isprimary = ((int) curstaffstruct->voicenumber == 1);
+  gboolean isprimary = (gboolean)(curstaffstruct->voicecontrol & DENEMO_PRIMARY);
   //FIXME free_staff()
 
   free_directives(curstaffstruct->staff_directives);
@@ -506,7 +494,7 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
 
   if (isprimary) // we deleted the primary, so the next one must become the primary
     {
-      ((DenemoStaff *) si->currentstaff->data)->voicenumber = 1;
+      ((DenemoStaff *) si->currentstaff->data)->voicecontrol = DENEMO_PRIMARY;
       si->currentprimarystaff = si->currentstaff;
     } else {
       setcurrentprimarystaff (si);

@@ -2358,7 +2358,7 @@ void edit_object_directive(GtkAction *action,  DenemoScriptParam *param) {
   }
   if(directive->tag == NULL)
     directive->tag = g_string_new(UNKNOWN_TAG);
-  if(!edit_directive(directive, what)) {
+  if(!(param? text_edit_directive(directive, what) : edit_directive(directive, what))) {
     if(directives && *directives) {
       delete_directive(directives, directive->tag->str);
     } else {//standalone directive
@@ -2993,3 +2993,30 @@ TEXT_EDIT_DIRECTIVE(standalone);
 
 
 #undef TEXT_EDIT_DIRECTIVE
+
+#define GET_NTH_TAG(what, name)\
+gchar *get_nth_##what##_tag(gint n) {\
+  what *current = get_##what();\
+  if(current==NULL) return NULL;\
+   GList *g = g_list_nth(current->name, n);\
+  if(g==NULL) return NULL;\
+  DenemoDirective *directive = (DenemoDirective *)g->data;\
+  return directive->tag->str;}
+  
+GET_NTH_TAG(note, directives);
+GET_NTH_TAG(chord, directives);
+GET_NTH_TAG(staff, staff_directives);
+GET_NTH_TAG(voice, voice_directives);
+GET_NTH_TAG(score, directives);
+GET_NTH_TAG(clef, directives);
+GET_NTH_TAG(timesig, directives);
+GET_NTH_TAG(tuplet, directives);
+GET_NTH_TAG(stemdirective, directives);
+GET_NTH_TAG(keysig, directives);
+GET_NTH_TAG(scoreheader, directives);
+GET_NTH_TAG(header, directives);
+GET_NTH_TAG(paper, directives);
+GET_NTH_TAG(layout, directives);
+GET_NTH_TAG(movementcontrol, directives);
+#undef GET_NTH_TAG
+  

@@ -153,6 +153,30 @@
         <bind>Alt+6</bind>
       </row>
       <row>
+        <action>InsertBlankWholeNote</action>
+        <bind>Mod4+0</bind>
+      </row>
+      <row>
+        <action>InsertBlankHalfNote</action>
+        <bind>Mod4+1</bind>
+      </row>
+      <row>
+        <action>InsertBlankQuarterNote</action>
+        <bind>Mod4+2</bind>
+      </row>
+      <row>
+        <action>InsertBlankEighthNote</action>
+        <bind>Mod4+3</bind>
+      </row>
+      <row>
+        <action>InsertBlankSixteenthNote</action>
+        <bind>Mod4+4</bind>
+      </row>
+      <row>
+        <action>InsertBlankThirtysecondNote</action>
+        <bind>Mod4+5</bind>
+      </row>
+      <row>
         <action>AddNoteToChord</action>
         <bind>Insert</bind>
       </row>
@@ -216,10 +240,6 @@
       <row>
         <action>DeleteMeasureAllStaffs</action>
         <bind>Ctrl+M</bind>
-      </row>
-      <row>
-        <action>UnsetMark</action>
-        <bind>return</bind>
       </row>
       <row>
         <action>ToggleStartCrescendo</action>
@@ -576,15 +596,55 @@
       </row>
       <row>
         <action>ScoreTitle</action>
-        <bind>S,t</bind>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ScoreArranger</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>ScoreComposer</action>
-        <bind>S,c</bind>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ScoreDedication</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ScoreInstrument</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ScoreMeter</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ScoreOpus</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ScorePoet</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ScoreTagline</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>MovementTitle</action>
-        <bind>M,t</bind>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MovementSubtitle</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MovementPiece</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ScoreCopyright</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>ToggleTripleting</action>
@@ -667,10 +727,6 @@
         <bind>grave</bind>
       </row>
       <row>
-        <action>IntelligentDelete</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
         <action>SlurTwo</action>
         <bind>7</bind>
       </row>
@@ -707,6 +763,10 @@
         <bind>Enter</bind>
       </row>
       <row>
+        <action>ReBar</action>
+        <bind>Return</bind>
+      </row>
+      <row>
         <action>DenemoPlayCursorToEnd</action>
         <bind>Ctrl+F5</bind>
       </row>
@@ -721,6 +781,10 @@
       <row>
         <action>NotationMagick-TwelveToneRow</action>
         <hidden>true</hidden>
+      </row>
+      <row>
+        <action>GraceAfter</action>
+        <bind>G,a</bind>
       </row>
       <row>
         <action>Upbeat</action>
@@ -741,12 +805,28 @@
         <bind>Ctrl+Home</bind>
       </row>
       <row>
-        <action>MoveToMovementEnd</action>
-        <bind>Ctrl+End</bind>
+        <action>VoicePresetAutomatic</action>
+        <bind>Alt+v,a</bind>
       </row>
       <row>
-        <action>VoicesDoublestroke</action>
-        <bind>Alt+v</bind>
+        <action>VoicePreset1</action>
+        <bind>Alt+v,1</bind>
+      </row>
+      <row>
+        <action>VoicePreset2</action>
+        <bind>Alt+v,2</bind>
+      </row>
+      <row>
+        <action>VoicePreset3</action>
+        <bind>Alt+v,3</bind>
+      </row>
+      <row>
+        <action>VoicePreset4</action>
+        <bind>Alt+v,4</bind>
+      </row>
+      <row>
+        <action>MoveToMovementEnd</action>
+        <bind>Ctrl+End</bind>
       </row>
       <row>
         <action>SelectRight</action>
@@ -755,6 +835,22 @@
       <row>
         <action>SelectLeft</action>
         <bind>Shft+Left</bind>
+      </row>
+      <row>
+        <action>NoBarline</action>
+        <bind>B,o</bind>
+      </row>
+      <row>
+        <action>BookTitle</action>
+        <bind>S,t</bind>
+      </row>
+      <row>
+        <action>BookComposer</action>
+        <bind>S,c</bind>
+      </row>
+      <row>
+        <action>TitledPiece</action>
+        <bind>M,t</bind>
       </row>
     </map>
   </merge>

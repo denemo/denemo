@@ -749,7 +749,7 @@ showwhichaccidentals (objnode * theobjs, gint initialnum, gint * initialaccs)
 	  memcpy (whatpersisted, ret, SEVENGINTS);
 	  theobj->minpixelsalloted =
 	    draw_key (NULL, 0, 0, ((keysig *) theobj->object)->number,
-		      retnum, 0, FALSE);
+		      retnum, 0, FALSE, (keysig *) theobj->object);
 	  retnum = ((keysig *) theobj->object)->number;
 	}
 

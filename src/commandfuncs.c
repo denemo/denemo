@@ -469,9 +469,9 @@ swapstaffs (GtkAction *action, gpointer param)
     {
       DenemoStaff *temp;
       //if this is a staff with no voices extra voices on it then swap
-      if( ((DenemoStaff *)gui->si->currentstaff->data)->voicenumber==1 &&
+      if( ((DenemoStaff *)gui->si->currentstaff->data)->voicecontrol==DENEMO_PRIMARY &&
 	  ( (gui->si->currentstaff->next==NULL) || 
-	    ((DenemoStaff *)gui->si->currentstaff->next->data)->voicenumber<2)) {
+	    !((DenemoStaff *)gui->si->currentstaff->next->data)->voicecontrol&DENEMO_SECONDARY)) {
 
 	temp = gui->si->currentstaff->data;
 	if(temp->context==DENEMO_NONE ||
@@ -512,8 +512,8 @@ splitstaffs (GtkAction *action, gpointer param)
       take_snapshot();
       DenemoStaff *thestaff = (DenemoStaff *)gui->si->currentstaff->data;
       DenemoStaff *nextstaff = (DenemoStaff *)gui->si->currentstaff->next->data;
-      if((thestaff->voicenumber==1) && (nextstaff->voicenumber!=1))
-	nextstaff->voicenumber=1;
+      if((thestaff->voicecontrol&DENEMO_PRIMARY) && (nextstaff->voicecontrol==DENEMO_SECONDARY))
+	nextstaff->voicecontrol=DENEMO_SECONDARY|DENEMO_PRIMARY;
       else
 	warningdialog("There is no voice below this one on this staff");
       setcurrentprimarystaff (gui->si);
@@ -544,7 +544,7 @@ joinstaffs (GtkAction *action, gpointer param)
       take_snapshot();
       DenemoStaff *thestaff = (DenemoStaff *)gui->si->currentstaff->data;
       DenemoStaff *prevstaff = (DenemoStaff *)gui->si->currentstaff->prev->data;
-      thestaff->voicenumber=2;
+      thestaff->voicecontrol = DENEMO_SECONDARY;
       setcurrentprimarystaff (gui->si);
       setcurrents (gui->si);
       move_viewport_up (gui);
@@ -575,7 +575,7 @@ govoiceup (DenemoScriptParam *param, gboolean extend_selection)
   if(!gui->si->currentstaff)
     return param->status = FALSE;
   if(extend_selection && !si->markstaffnum) set_mark(gui);
-  if (gui->si->currentstaff && (((DenemoStaff *)(gui->si->currentstaff->data))->voicenumber==2))  {
+  if (gui->si->currentstaff && (((DenemoStaff *)(gui->si->currentstaff->data))->voicecontrol&DENEMO_SECONDARY))  {
     hide_lyrics();
     gui->si->currentstaffnum--;
     gui->si->currentstaff = gui->si->currentstaff->prev;
@@ -606,7 +606,7 @@ gostaffup (DenemoScriptParam *param, gboolean extend_selection)
   if(!gui->si->currentstaff)
     return param->status = FALSE;
   if(extend_selection && !si->markstaffnum) set_mark(gui);
-  while (((DenemoStaff *)(gui->si->currentstaff->data))->voicenumber!=1)
+  while (((DenemoStaff *)(gui->si->currentstaff->data))->voicecontrol != DENEMO_PRIMARY)
     govoiceup(param, extend_selection);//FIXME check param->status
   if (gui->si->currentstaff->prev)
     {
@@ -645,7 +645,7 @@ govoicedown (DenemoScriptParam *param, gboolean extend_selection)
   if(!gui->si->currentstaff)
     return param->status = FALSE;
   if(extend_selection && !si->markstaffnum) set_mark(gui);
-  if (gui->si->currentstaff->next && ((DenemoStaff *)(gui->si->currentstaff->next->data))->voicenumber==2) {
+  if (gui->si->currentstaff->next && ((DenemoStaff *)(gui->si->currentstaff->next->data))->voicecontrol&DENEMO_SECONDARY) {
       hide_lyrics();
       gui->si->currentstaffnum++;
       gui->si->currentstaff = gui->si->currentstaff->next;
@@ -709,7 +709,7 @@ gostaffdown (DenemoScriptParam *param, gboolean extend_selection)
   if(!gui->si->currentstaff)
     return param->status = FALSE;
   if(extend_selection && !si->markstaffnum) set_mark(gui);
-  while (gui->si->currentstaff->next && ((DenemoStaff *)(gui->si->currentstaff->next->data))->voicenumber==2)
+  while (gui->si->currentstaff->next && ((DenemoStaff *)(gui->si->currentstaff->next->data))->voicecontrol&DENEMO_SECONDARY)
     govoicedown(param, extend_selection);//FIXME
   if (gui->si->currentstaff->next)
     {

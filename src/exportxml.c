@@ -325,7 +325,7 @@ newVersesElem(xmlNodePtr curElem,  xmlNsPtr ns, GList *verses, gchar *type) {
   xmlNodePtr versesElem =  xmlNewChild (curElem, ns, (xmlChar *) type, NULL);
   for(;verses;verses=verses->next) {
     GtkWidget *textview = verses->data;
-    xmlNewChild (versesElem, ns, (xmlChar *) "verse", (xmlChar *)get_text_from_view(textview));
+    xmlNewTextChild (versesElem, ns, (xmlChar *) "verse", (xmlChar *)get_text_from_view(textview));
   }
 }
 static void
@@ -344,7 +344,7 @@ newDirectivesElem(xmlNodePtr objElem, xmlNsPtr ns, GList *g, gchar *type) {
     xmlNodePtr directiveElem =  xmlNewChild (directivesElem, ns, (xmlChar *) "directive", NULL);
 #define DO_DIREC(field)  if (directive->field \
                    && directive->field->len)\
-                      xmlNewChild (directiveElem, ns, (xmlChar *) #field,\
+                      xmlNewTextChild (directiveElem, ns, (xmlChar *) #field,\
 				     (xmlChar *) directive->field->str);
 #define DO_INTDIREC(field)   if(directive->field) newXMLIntChild (directiveElem, ns, (xmlChar *) #field,\
 				             directive->field);
@@ -559,6 +559,8 @@ void newVoiceProps (xmlNodePtr parentElem, xmlNsPtr ns, DenemoStaff *curStaffStr
     xmlNewChild (parentElem, ns, (xmlChar *) "voice-props", NULL);
     newXMLIntChild (curElem, ns, (xmlChar *) "number-of-lines",
 			  curStaffStruct->no_of_lines);
+    newXMLIntChild (curElem, ns, (xmlChar *) "voice-control",
+			  curStaffStruct->voicecontrol);
     newXMLIntChild (curElem, ns, (xmlChar *) "transpose",
 			  curStaffStruct->transposition);
     xmlNewChild (curElem, ns, (xmlChar *) "instrument",
@@ -702,7 +704,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   
   if(getNumCharsSchemeText()) {
     gchar *text = (gchar*) getSchemeText();
-    xmlNewChild (scoreElem, ns, (xmlChar *)"scheme", (xmlChar *)text);
+    xmlNewTextChild (scoreElem, ns, (xmlChar *)"scheme", (xmlChar *)text);
     g_free(text);
   }
 
@@ -718,7 +720,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   
   parentElem = xmlNewChild (scoreElem, ns, (xmlChar *) "lilycontrol", NULL);
 #define NEWCHILD(field) if(gui->lilycontrol.field->len) \
-                       xmlNewChild (parentElem, ns, (xmlChar *) #field,\
+                       xmlNewTextChild (parentElem, ns, (xmlChar *) #field,\
                       (xmlChar *) gui->lilycontrol.field->str)
   NEWCHILD(papersize);
   NEWCHILD(lilyversion);
@@ -731,7 +733,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 
   GList *custom;
   for(custom=g_list_last(gui->custom_scoreblocks);custom;custom=custom->prev) {
-    xmlNewChild (scoreElem, ns, (xmlChar *)"custom_scoreblock", (xmlChar *)((GString*)(((DenemoScoreblock*)custom->data)->scoreblock)->str));
+    xmlNewTextChild (scoreElem, ns, (xmlChar *)"custom_scoreblock", (xmlChar *)((GString*)(((DenemoScoreblock*)custom->data)->scoreblock)->str));
     if(((DenemoScoreblock*)custom->data)->visible)
       xmlNewChild (scoreElem, ns, (xmlChar *)"visible_scoreblock", NULL);
   }
@@ -804,7 +806,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   for (curStaff = si->thescore; curStaff != NULL; curStaff = curStaff->next)
     {
       curStaffStruct = (DenemoStaff *) curStaff->data;
-      if (curStaffStruct->voicenumber != 2)
+      if (!(curStaffStruct->voicecontrol & DENEMO_SECONDARY))
 	{
 	  parentElem =
 	    xmlNewChild (stavesElem, ns, (xmlChar *) "staff", NULL);
@@ -840,7 +842,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
        * until the next primary voice we run across.
        */
 
-      if (curStaffStruct->voicenumber != 2)
+      if (!(curStaffStruct->voicecontrol & DENEMO_SECONDARY))
 	{
 	  staffXMLID = getXMLID (curStaffStruct);
 	}
@@ -967,7 +969,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		  if ((thechord)->lyric)
 		    {
 		      parentElem =
-			xmlNewChild (objElem, ns, (xmlChar *) "lyric",
+			xmlNewTextChild (objElem, ns, (xmlChar *) "lyric",
 				     (xmlChar *) (thechord)->
 				     lyric->str);
 		      if ((thechord)->is_syllable)
@@ -991,7 +993,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		    //DenemoObject *mud = (DenemoObject *) ((GList *) ((thechord)->figure)->data);
 		    //chord *mych = (chord *) mud->object;
 		  
-		   	parentElem = xmlNewChild (objElem, ns, (xmlChar *) "figure",
+		   	parentElem = xmlNewTextChild (objElem, ns, (xmlChar *) "figure",
 						(xmlChar *) ((GString *) (thechord)->figure)->str);
 			
 			// printf("\nfigure in exportxml == %s\n", ((GString *) (thechord)->figure)->str);
@@ -1007,7 +1009,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   			   GString *temp = g_string_new("");
 		           temp = g_string_append(temp, ((GString *) (thechord)->fakechord)->str);
 			   
-		      parentElem = xmlNewChild (objElem, ns, (xmlChar *) "fakechord",
+		      parentElem = xmlNewTextChild (objElem, ns, (xmlChar *) "fakechord",
 						(xmlChar *) ((GString *) temp)->str);
   		    }
 
@@ -1384,7 +1386,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		  //obsolete
 		  break;
 		case LYRIC:
-		  objElem = xmlNewChild (measureElem, ns, (xmlChar *) "lyric",
+		  objElem = xmlNewTextChild (measureElem, ns, (xmlChar *) "lyric",
 					 (xmlChar *) ((lyric *) curObj->
 						      object)->lyrics->str);
 
@@ -1409,12 +1411,12 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 				     postfix && ((lilydirective *) curObj->object)->
 		      postfix->len)
 		    objElem =
-		      xmlNewChild (measureElem, ns, (xmlChar *) "lily-directive",
+		      xmlNewTextChild (measureElem, ns, (xmlChar *) "lily-directive",
 				   (xmlChar *) ((lilydirective *) curObj->object)->
 				   postfix->str);
 		  else
 		    objElem =
-		      xmlNewChild (measureElem, ns, (xmlChar *) "lily-directive",
+		      xmlNewTextChild (measureElem, ns, (xmlChar *) "lily-directive",
 				   (xmlChar *)" ");
 
 		  if(((lilydirective *) curObj->object)->locked)

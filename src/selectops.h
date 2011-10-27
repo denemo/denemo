@@ -92,5 +92,9 @@ GList *pop_off_clipboard(void);
 gboolean pop_clipboard(void);
 
 void push_clipboard (void);
+
 gint get_staffs_in_clipboard(void);
+
+gchar *get_last_change(DenemoScore *si);
+
 #endif

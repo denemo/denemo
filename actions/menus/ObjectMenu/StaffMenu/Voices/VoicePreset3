@@ -7,9 +7,15 @@
       <row>
         <after>VoicePreset2</after>
         <action>VoicePreset3</action>
-        <scheme>(d-StartUpStems)
+        <scheme>;;;VoicePreset3
+(d-StartUpStems)
 (d-MoveCursorLeft)
-(d-DirectivePut-stemdirective-display "Voice" "Voice-Preset 3")
+(d-DirectivePut-stemdirective-graphic "Voice" "
+v3
+Serif
+24
+1
+1")
 (d-DirectivePut-stemdirective-postfix "Voice" "\\voiceThree")
 (d-DirectivePut-stemdirective-override "Voice" DENEMO_OVERRIDE_LILYPOND)
 (d-MoveCursorRight)

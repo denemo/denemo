@@ -7,41 +7,50 @@
       <row>
         <action>GraceAfter</action>
         <scheme>;;GraceAfter
-(if (and (Note?) (d-MoveCursorLeft) (Note?))
-    (begin
-      (d-MoveCursorRight)
-;;there are two notes main note and gracenote, we are on the gracenote-to-be
-  (if (d-Directive-chord? "AfterGrace")
-      (begin ;;; already is an after grace after so delete
-	(d-DirectiveDelete-chord "AfterGrace")
-	(d-ToggleGrace)	
-	(d-MoveCursorLeft)
-	;;(display (d-GetNote))
-	(d-DirectiveDelete-chord "MainGraceAfter")
-	(d-MoveCursorRight)
-	)
-      (begin
-      ;;; if we are on a grace, turn it into an after grace by first making it an ordinary note
-      (if (d-IsGrace)
-      	(d-ToggleGrace))
-      ;;;make current note a grace note without the \grace output
-       (d-ToggleGrace)
-       (d-DirectivePut-chord-postfix "AfterGrace" (string-append (d-GetNote) (d-GetNoteDuration)  (if (d-IsSlurEnd) ")" "")         ))
-       (d-DirectivePut-chord-override "AfterGrace" DENEMO_OVERRIDE_LILYPOND)
+(d-PushPosition)
+(if (Appending?)
+  (d-MoveCursorLeft))
+(while  (and (d-IsGrace) (d-MoveCursorLeft))
+	#t)
 
-       (d-MoveCursorLeft);; now on main note
-       (d-DirectivePut-chord-display "MainGraceAfter"  "Grace After" )
-       (d-DirectivePut-chord-ty "MainGraceAfter"  -100 )
-       (d-DirectivePut-chord-prefix "MainGraceAfter"  "\\afterGrace ")
-       (d-DirectivePut-chord-override "MainGraceAfter"  DENEMO_OVERRIDE_AFFIX)	
-       (d-DirectivePut-chord-minpixels  "MainGraceAfter" 20)
-       (d-MoveCursorRight);; move back onto the grace note
-       ))
-       (d-SetSaved #f))
+(if (and (Note?) (not (d-IsGrace)))
     (begin
-      (d-WarningDialog  "The cursor is not on a potential grace note after a main note or chord\nFirst create the main note, then then follow it with the note that will be the grace note and then invoke this command")))</scheme>
-        <label>Grace After (Off/On)</label>
-        <tooltip>Print this note as grace note attached to the previous note. Beware! You must repeat this command if you change the note in any way, only the pitch and duration when this command was issued will be printed. Multiple grace notes to follow will need separate start { and end } block directives to group them - this requires extra LilyPond inserts.</tooltip>
+      (while (and (d-MoveCursorRight) (Note?) (d-IsGrace))
+      	#t)
+      (if (or (Appending?) (not (Note?)) (not (d-IsGrace)))
+	  (d-MoveCursorLeft))
+     (if (d-IsGrace)
+     	(begin
+     		 ;; on last grace note
+   		 (let loop ((close "}"))
+ 		(if (d-IsGrace)
+ 			(let ((beam (d-DirectiveGet-chord-postfix "Beam")))
+			   (if beam
+			      (d-DirectivePut-chord-override "Beam" (logior (d-DirectiveGet-chord-override "Beam") DENEMO_OVERRIDE_HIDDEN))
+		  	    (set! beam ""))		
+	    		   (d-DirectivePut-chord-postfix "GraceAfter" (string-append (d-GetNote) (d-GetNoteDuration)  beam (if (d-IsSlurStart) "(" "") (if (d-IsSlurEnd) ")" "") close))
+       		   	(d-DirectivePut-chord-override "GraceAfter" DENEMO_OVERRIDE_LILYPOND)
+       		   	(if (d-MoveCursorLeft)
+       		   		(loop "")))))
+      	(d-MoveCursorRight)
+     	 (d-DirectivePut-chord-prefix "GraceAfter" "{")
+    	  (d-MoveCursorLeft)
+    	  ; now on main note
+    	  (d-DirectivePut-chord-display "MainGraceAfter"  "Grace After" )
+     	  (d-DirectivePut-chord-ty "MainGraceAfter"  -100 )
+ 	   (d-DirectivePut-chord-prefix "MainGraceAfter"  "\\afterGrace ")
+      	   (d-DirectivePut-chord-override "MainGraceAfter"  DENEMO_OVERRIDE_AFFIX)	
+ 	   (d-DirectivePut-chord-minpixels  "MainGraceAfter" 20)
+	    (d-PopPosition)
+	    (d-SetSaved #f))
+  	(begin
+   	   (d-PopPosition)
+   	   (d-WarningDialog  "The cursor is not on a grace note after a main note or chord\nFirst create the main note, then then follow it with the grace note(s) then invoke this command with the cursor on the grace note"))))
+	(begin
+   	  	 (d-PopPosition)
+   	  	 (d-WarningDialog  "The cursor is not on a grace note after a main note or chord\nFirst create the main note, then then follow it with the grace note(s) then invoke this command with the cursor on the grace note")))</scheme>
+        <label>Grace After</label>
+        <tooltip>Print the grace note(s) at the cursor attached to the previous note. Beware! You must reissue this command if you change the notes in any way, only the pitch and duration when this command was issued will be printed.</tooltip>
       </row>
     </map>
   </merge>

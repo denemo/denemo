@@ -1200,6 +1200,44 @@ void stage_undo(DenemoScore *si, action_type type) {
   }
 }
 
+//return a string describing the top of the undo stack, or one below if stage start.
+// caller must g_free
+gchar *get_last_change(DenemoScore *si) {  
+  DenemoUndoData *last = g_queue_peek_head(si->undodata);
+  gint n = 0;
+  while(last && ((last->action == ACTION_STAGE_START) || (last->action == ACTION_STAGE_END)))
+    last = g_queue_peek_nth(si->undodata, ++n);
+  if(last==NULL)
+    return NULL;
+ 	
+  switch (last->action) {    
+    case ACTION_SNAPSHOT:
+      return g_strdup_printf("Snapshot (e.g. measure delete, cut, paste and sadly many other things ... ");
+      break;
+    case ACTION_INSERT:
+      return g_strdup_printf("Insert the object at staff %d measure %d position %d; ", last->position.staff, last->position.measure, last->position.object+1);
+    case ACTION_DELETE:
+      return g_strdup_printf("Deleted a %s at staff %d measure %d position %d; ", DenemoObjTypeNames[((DenemoObject*) last->object)->type], last->position.staff, last->position.measure, last->position.object);
+      break;
+    case ACTION_CHANGE:
+      return g_strdup_printf("Change %s at staff %d measure %d position %d; ", DenemoObjTypeNames[((DenemoObject*) last->object)->type], last->position.staff, last->position.measure, last->position.object);
+      break;
+    case ACTION_MEASURE_CREATE:
+      return g_strdup_printf("Create; at staff %d measure %d position %d; ", DenemoObjTypeNames[((DenemoObject*) last->object)->type], last->position.staff, last->position.measure, last->position.object);
+      break;
+    case ACTION_MEASURE_REMOVE:
+      return g_strdup_printf("Remove; at staff %d measure %d position %d; ", DenemoObjTypeNames[((DenemoObject*) last->object)->type], last->position.staff, last->position.measure, last->position.object);
+    case ACTION_NOOP:
+      return g_strdup_printf("No-op; ");
+      break;
+    default:
+      return g_strdup_printf("Unknown action %d\n", last->action);
+    }
+
+}
+
+
+    
 // snapshot the current movement for undo
 gboolean take_snapshot(void) {
   if (!Denemo.gui->si->undo_guard)

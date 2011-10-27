@@ -1,7 +1,7 @@
 ;(display "Creating duration edit buttons")
  (let loop ((count 0))
    (define dur (number->string count))
-(CreateButton (string-append "ButtonChange" dur) (string-append "~<span  size=\"10000\" face=\"Denemo\">" dur "</span>"))
+(CreateButton (string-append "ButtonChange" dur) (string-append "~ " (vector-ref MusicalSymbols-notes count)))
 (d-SetDirectiveTagActionScript  (string-append "ButtonChange" dur) (string-append "(d-Change" dur ")"))
 (if (< count 7)
     (loop (+ count 1))))
@@ -10,11 +10,9 @@
 (d-SetDirectiveTagActionScript  "ButtonAddDot"  "(d-AddDot)")
 (CreateButton  "ButtonRemoveDot" "~.")
 (d-SetDirectiveTagActionScript  "ButtonRemoveDot"  "(d-RemoveDot)")
-(CreateButton  "ButtonSharpen" "#")
+(CreateButton  "ButtonSharpen" MusicalSymbols-sharp)
 (d-SetDirectiveTagActionScript  "ButtonSharpen" "(d-Sharpen)")
-(CreateButton  "ButtonFlatten" "b")
-(d-SetDirectiveTagActionScript  "ButtonFlatten" "(d-Flatten)")
-(CreateButton  "ButtonFlatten" "b")
+(CreateButton  "ButtonFlatten" MusicalSymbols-flat)
 (d-SetDirectiveTagActionScript  "ButtonFlatten" "(d-Flatten)")
 
 (CreateButton  "ButtonStartSlur" "()")
@@ -32,15 +30,18 @@
 (d-LimitInterSystemSpace 1.2)
 
 (define (InitializeTypesetting)
+  (d-PushPosition)
   (d-CheckScore)
   (if (not CheckScore::return)
     (let ((ok 
 	(d-GetUserInput "Score Check: Error in this measure" "Try to print anyway?" "n")))
-	(disp "note ok is " ok "\n")
 	(if (equal? ok "n")
-	(begin
-		(disp "we have ok = n\n")
-		(exit))))))
+	  (begin
+		(d-PopPushPosition)
+		(d-PopPosition)
+		(exit))
+	  (begin
+	    (d-PopPosition))))))
 
-
+(d-PointAndClick)
 (d-SetSaved #t)

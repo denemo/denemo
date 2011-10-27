@@ -251,7 +251,6 @@
       <menuitem action="MoveToStaffDown"/> 
 <separator/>	  
         <menu action="Voices">
-	  <menuitem action="AddVoice"/>
 	  <menuitem action="EditVoiceDirective"/>
           <menuitem action="MoveToVoiceUp"/>
 	  <menuitem action="MoveToVoiceDown"/> 
@@ -447,8 +446,7 @@
       </menu>
       <menu action="StemControl">
 	<menuitem action="InsertStem"/>
- 	<menuitem action="StemDown"/>
-	<menuitem action="StemUp"/>
+ 	
       </menu>
       <menu action="Tuplets">
 	<menuitem action="InsertDuplet"/>
@@ -638,8 +636,7 @@
 	<menuitem action="ChangeToG"/>
 	<menuitem action="Sharpen"/>
 	<menuitem action="Flatten"/>
-	<menuitem action="StemDown"/>
-	<menuitem action="StemUp"/>
+	
       </menu>
 
 	   <menu action="ChangeDuration">

@@ -702,15 +702,15 @@ int main() {
       fprintf(register_commands, "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"%s\"), \"%s\", \"%s\", \"%s\", %s);\n",ni,ni, ml?ml:ni, ti?ti:ni,fi);
       /****************** install the command as an action in the menu system **************************/
       fprintf(entries,
-	      "{\"%s\", %s, N_(\"%s\"), NULL,"
-	      "N_(\"%s\"),"
+	      "{\"%s\", %s, \"%s\", NULL,"
+	      "\"%s\","
 	      "G_CALLBACK (%s%s)},\n",
 	      ni, ii?ii:"NULL",ml?ml:ni, ti?ti:ni,fi,  (mi&CMD_CATEGORY_DIRECT)?"":"_cb");
     }
     else //no callback function - a menu rather than a menu item. It still needs to be added as an action in the menu system.
      fprintf(entries,
-	      "{\"%s\", %s, N_(\"%s\"), NULL,"
-	      "N_(\"%s\")},\n",
+	      "{\"%s\", %s, \"%s\", NULL,"
+	      "\"%s\"},\n",
 	      ni, ii?ii:"NULL",ml?ml:ni, ti?ti:ni);
   }
 
@@ -855,18 +855,18 @@ int main() {
   /* menu_entries for the mode    note name    */
   for(i='A';i<='G';i++) {
     fprintf(entries,
-" {\"Insert%c\", NULL, N_(\"Insert %c\"), NULL, N_(\"Inserts note %c before note at cursor\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\"),\n"
+" {\"Insert%c\", NULL, \"Insert %c\", NULL, \"Inserts note %c before note at cursor\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\",\n"
 "  G_CALLBACK (Insert%c)},\n"
-" {\"AddNote%c\", NULL, N_(\"Insert %c After\"), NULL, N_(\"Inserts note %c after note at cursor\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\"),\n"
+" {\"AddNote%c\", NULL, \"Insert %c After\", NULL, \"Inserts note %c after note at cursor\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\",\n"
 "  G_CALLBACK (AddNote%c)},\n"
 
 
-" {\"Add%c\", NULL, N_(\"Add %c to Chord\"), NULL, N_(\"Adds note %c to chord at cursor\\nCursor determines which octave\"),\n"
+" {\"Add%c\", NULL, \"Add %c to Chord\", NULL, \"Adds note %c to chord at cursor\\nCursor determines which octave\",\n"
 "  G_CALLBACK (Add%c)},\n"
 
-"  {\"ChangeTo%c\", NULL, N_(\"Change current note to %c\"), NULL, N_(\"Changes current note to the %c nearest cursor or (if no current note) inserts the note %c\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\"),\n"
+"  {\"ChangeTo%c\", NULL, \"Change current note to %c\", NULL, \"Changes current note to the %c nearest cursor or (if no current note) inserts the note %c\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\",\n"
 "   G_CALLBACK (ChangeTo%c)},\n"
-"  {\"MoveTo%c\", NULL, N_(\"Move cursor to step %c\"), NULL, N_(\"Moves the cursor to the %c nearest cursor\\nCurrent cursor position determines which octave.\"),\n"
+"  {\"MoveTo%c\", NULL, \"Move cursor to step %c\", NULL, \"Moves the cursor to the %c nearest cursor\\nCurrent cursor position determines which octave.\",\n"
 "   G_CALLBACK (MoveTo%c)},\n"
 
      ,i,i,i,i	    ,i,i,i,i	    ,i ,i ,i ,i ,i ,i ,i ,i ,i, i, i, i, i);
@@ -970,14 +970,14 @@ int main() {
 
 
     fprintf(register_commands,
-	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"ChangeTo%c\"), \"ChangeTo%c\", N_(\"Change to %c\"),N_(\"Changes note at cursor to nearest note %c\\nRhythm is unchanged\"),  ChangeTo%c);\n", i,i,i,i,i);
+	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"ChangeTo%c\"), \"ChangeTo%c\", \"Change to %c\",\"Changes note at cursor to nearest note %c\\nRhythm is unchanged\",  ChangeTo%c);\n", i,i,i,i,i);
       fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.map, \"ChangeTo%c\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.
       fprintf(scheme, "SCM scheme_ChangeTo%c(SCM optional);\ninstall_scm_function (\"d-ChangeTo%c\", scheme_ChangeTo%c);\n", i, i, i);// for direct callback via (scheme_xxx)
       fprintf(scheme_cb, "SCM scheme_ChangeTo%c (SCM optional) {\nChangeTo%c (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i,  i);
 
 
     fprintf(register_commands,
-	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"MoveTo%c\"), \"MoveTo%c\", N_(\"Move to %c\"),N_(\"Moves cursor to nearest note %c\"),  MoveTo%c);\n", i,i,i,i,i);
+	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"MoveTo%c\"), \"MoveTo%c\", \"Move to %c\",\"Moves cursor to nearest note %c\",  MoveTo%c);\n", i,i,i,i,i);
       fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.map, \"MoveTo%c\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.
       fprintf(scheme, "SCM scheme_MoveTo%c(SCM optional);\ninstall_scm_function (\"d-MoveTo%c\", scheme_MoveTo%c);\n", i, i, i);// for direct callback via (scheme_xxx)
       fprintf(scheme_cb, "SCM scheme_MoveTo%c (SCM optional) {\nMoveTo%c (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i,  i);
@@ -999,7 +999,7 @@ int main() {
      * !!! FIXME what is ChangeRestn???? seems to be Changen ... */
      
     fprintf(register_commands, 
-	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"%d\"), \"%d\", NOTE%d, _(\"When appending, appends a \"NOTECHAR%d\" \\nWith the cursor on a note inserts a \"NOTECHAR%d\"  before the current note\\nThe note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active\\n - the MIDI keyboard will provide the pitch\"), Dur%d);\n", i, i, i,  i, i, i);
+	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"%d\"), \"%d\", NOTE%d, \"When appending, appends a \"NOTECHAR%d\" \\nWith the cursor on a note inserts a \"NOTECHAR%d\"  before the current note\\nThe note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active\\n - the MIDI keyboard will provide the pitch\", Dur%d);\n", i, i, i,  i, i, i);
 
     fprintf(register_commands,
 	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Change%d\"), \"Change%d\", NOTE%d, \"Change the current note to a \"NOTECHAR%d, ChangeDur%d);\n", i, i, i, i, i);

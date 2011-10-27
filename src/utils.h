@@ -11,6 +11,7 @@
 #define UTILS_H
 
 #include <denemo/denemo.h>
+#include <gdk/gdk.h>
 #define HIGHLIGHT_OFFSET (20) /* Fairly arbitrary value to transform codes '0', '1' ... to a new range with the meaning highlight the whole-note, half-note, ..., glyph */ 
 #define MAXEXTRASPACE (150) /* maximum space for ledger lines, for sanity */
 
@@ -282,4 +283,5 @@ gboolean run_file_association(gchar *filenam);
 gchar *make_temp_dir(void);
 gchar *remove_extension(gchar *name);
 gchar *substitute_extension(gchar *name, gchar *extension);
+void init_denemo_notenames(void);
 #endif /* UTILS_H */

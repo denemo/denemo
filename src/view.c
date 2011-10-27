@@ -659,6 +659,31 @@ void ToggleReduceToDrawingArea (GtkAction * action, DenemoScriptParam *param) {
   toggle_to_drawing_area(!GTK_WIDGET_VISIBLE (widget));
 }
 
+
+static SCM scheme_hide_buttons(SCM hide) {
+  SCM ret = SCM_BOOL_F;
+  GtkWidget *widget = Denemo.gui->buttonbox;
+ if(GTK_IS_CONTAINER(widget)) {
+      ret = SCM_BOOL_T;
+      if(scm_is_false(hide))
+          gtk_container_foreach (GTK_CONTAINER(widget), (GtkCallback)gtk_widget_show, NULL);
+      else
+          gtk_container_foreach (GTK_CONTAINER(widget), (GtkCallback)gtk_widget_hide, NULL);    
+  }
+  return ret;
+}
+static SCM scheme_destroy_buttons(void) {
+  SCM ret = SCM_BOOL_F;
+  GtkWidget *widget = Denemo.gui->buttonbox;
+
+ if(GTK_IS_CONTAINER(widget)) {
+   gtk_container_foreach (GTK_CONTAINER(widget), (GtkCallback)gtk_widget_destroy, NULL);
+   ret = SCM_BOOL_T;
+    }
+  return ret;
+}
+
+
 /* hide all menus, leaving only the score titles, used for educational games */
 static SCM scheme_hide_menus(SCM hide) {
   if(Denemo.gui->view!=DENEMO_MENU_VIEW) {
@@ -667,14 +692,26 @@ static SCM scheme_hide_menus(SCM hide) {
     return  SCM_BOOL(TRUE);
   }
   gboolean show = FALSE;
-  if(scm_is_bool(hide) && hide==SCM_BOOL_F)
+  if(scm_is_false(hide))
     show = TRUE;
   toggle_to_drawing_area(show);
   activate_action("/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
   return SCM_BOOL(TRUE);
 }
 
+static SCM scheme_hide_window(SCM hide) {
+  gboolean show = FALSE;
+  gboolean showing = GTK_WIDGET_VISIBLE(Denemo.window);
+  if(scm_is_false(hide))
+    show = TRUE;
+  if(show)
+    gtk_widget_show(Denemo.window);
+  else
+    gtk_widget_hide(Denemo.window);
+  return SCM_BOOL(showing==show);
+}
 
+  
 /* when a script calls a command which is itself a script it comes through here */
 static SCM scheme_script_callback(SCM script, SCM params) {
     int length;
@@ -797,27 +834,39 @@ static SCM scheme_load_commandset (SCM name) {
 }
 
 
-SCM scheme_user_screenshot(SCM type) {
+SCM scheme_user_screenshot(SCM type, SCM position) {
   GList **sources;
-  if(type==SCM_BOOL_F)
+  SCM ret = SCM_BOOL_F;
+  gint pos = -1;
+  if((!SCM_UNBNDP(position)) && scm_integer_p(position))
+    pos = scm_num2int(position,0,0);
+
+  if(scm_is_false(type))
    sources = &Denemo.gui->si->sources;
   else
    sources = &((DenemoStaff*)Denemo.gui->si->currentstaff->data)->sources;
+  scheme_hide_window(SCM_BOOL_T);
   GdkRectangle *rect = screenshot_find_rectangle();
   if(rect) {
         GError *error = NULL;
-        g_print("%d %d %d %d\n", rect->x, rect->y, rect->width, rect->height);
+        //g_print("%d %d %d %d\n", rect->x, rect->y, rect->width, rect->height);
         GdkPixbuf *screenshot = screenshot_get_pixbuf (gdk_get_default_root_window (), rect);
         if(screenshot) {
-          *sources = g_list_append(*sources, screenshot);
-          return SCM_BOOL_T;
+          *sources = g_list_insert(*sources, GINT_TO_POINTER(screenshot), pos); //-1 appends
+          ret = SCM_BOOL_T;
         }
-  } 
-return SCM_BOOL_F;
+  }
+  scheme_hide_window(SCM_BOOL_F);
+  
+  return ret;
 }
+
+
+
+
 SCM scheme_delete_screenshot(SCM type) {
   GList **sources;
-  if(type==SCM_BOOL_F)
+  if(scm_is_false(type))
    sources = &Denemo.gui->si->sources;
   else
    sources = &((DenemoStaff*)Denemo.gui->si->currentstaff->data)->sources;
@@ -876,7 +925,7 @@ return ret;
 
 static SCM scheme_create_thumbnail(SCM optional) {
  gboolean ret;
- if(optional == SCM_BOOL_T)
+ if( (!SCM_UNBNDP(optional)) && scm_is_true(optional))
   ret = create_thumbnail(TRUE);
  else
   ret = create_thumbnail(FALSE);
@@ -916,6 +965,17 @@ static SCM scheme_stage_for_undo (SCM optional) {
   stage_undo(Denemo.gui->si, ACTION_STAGE_END);
   return SCM_BOOL_T;
 }
+
+static SCM scheme_get_last_change (SCM optional) {
+  SCM ret = SCM_BOOL_F;
+  gchar *last = get_last_change(Denemo.gui->si);
+  if(last)
+    ret = scm_from_locale_string(last);
+  g_free(last);
+  return ret;
+}
+
+
 
 
 static SCM scheme_new_window  (SCM optional) {
@@ -2293,6 +2353,43 @@ SCM scheme_set_action_script_for_tag(SCM tag, SCM script) {
   return SCM_BOOL(FALSE);
 }
 
+
+
+#define GET_NTH_TAG(what)\
+ static SCM scheme_##what##_directive_get_nth_tag(SCM index) {\
+  gint n;\
+  if(!scm_is_integer(index))\
+     return SCM_BOOL_F;\
+    n = scm_to_int(index);\
+  extern gchar *get_nth_##what##_tag (gint n);\
+  gchar *val = get_nth_##what##_tag (n);\
+  if(val) return scm_from_locale_stringn (val, strlen(val));\
+  return SCM_BOOL_F;\
+}
+GET_NTH_TAG(chord);
+GET_NTH_TAG(note);
+GET_NTH_TAG(staff);
+GET_NTH_TAG(voice);
+GET_NTH_TAG(score);
+GET_NTH_TAG(clef);
+GET_NTH_TAG(timesig);
+GET_NTH_TAG(tuplet);
+GET_NTH_TAG(stemdirective);
+GET_NTH_TAG(keysig);
+GET_NTH_TAG(scoreheader);
+GET_NTH_TAG(header);
+GET_NTH_TAG(paper);
+GET_NTH_TAG(layout);
+GET_NTH_TAG(movementcontrol);
+#undef GET_NTH_TAG
+
+
+
+
+
+
+
+
 #define GET_TAG_FN_DEF(what)\
  static SCM scheme_##what##_directive_get_tag(SCM tag) {\
   char *tagname;\
@@ -3429,7 +3526,7 @@ static SCM scheme_set_nonprinting (SCM optional) {
   DenemoObject *curObj;
   if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) ||  (curObj->type!=CHORD))
     return SCM_BOOL_F;
-  if(scm_is_bool(optional) && optional==SCM_BOOL_F)
+  if(scm_is_false(optional))
     curObj->isinvisible = FALSE;
   else
     curObj->isinvisible = TRUE;
@@ -3498,6 +3595,29 @@ static SCM scheme_get_measures_in_staff(SCM optional) {
     return scm_int2num(num);
 }
 
+static SCM scheme_staff_to_voice(SCM optional) {
+  SCM ret = SCM_BOOL_F;
+  if(Denemo.gui->si->currentstaff->prev && (((DenemoStaff*)Denemo.gui->si->currentstaff->data)->voicecontrol==DENEMO_PRIMARY)) {
+    ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->voicecontrol |= DENEMO_SECONDARY;
+    setcurrentprimarystaff(Denemo.gui->si);
+    ret = SCM_BOOL_T;
+    gtk_widget_queue_draw(Denemo.scorearea);
+  }
+  return ret;
+}
+static SCM scheme_voice_to_staff(SCM optional) {
+  SCM ret = SCM_BOOL_F;
+  if( ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->voicecontrol & DENEMO_SECONDARY ) {
+    ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->voicecontrol = DENEMO_PRIMARY;
+    setcurrentprimarystaff(Denemo.gui->si);
+    ret = SCM_BOOL_T;
+    gtk_widget_queue_draw(Denemo.scorearea);
+  }
+  return ret;
+}
+
+
+
 
 /* shifts the note at the cursor by the number of diatonic steps passed in */
 SCM scheme_diatonic_shift (SCM optional) {
@@ -3564,7 +3684,7 @@ SCM scheme_refresh_display (SCM optional) {
 
 SCM scheme_set_saved (SCM optional) {
   //scm_is_bool(optional) &&
-  if(optional == SCM_BOOL_F)
+  if(scm_is_false(optional))
     score_status(Denemo.gui, TRUE);
   else
     score_status(Denemo.gui, FALSE);
@@ -3830,7 +3950,9 @@ static void define_scheme_constants(void) {
 
   DEF_SCHEME_STR("DENEMO_VERSION", denemo_version, "Holds the denemo version major.minor.micro");
   DEF_SCHEME_STR("DENEMO_ACTIONS_DIR", actions_dir, "Holds location of system-wide Denemo actions directory");
+  DEF_SCHEME_STR("DENEMO_LILYPOND_DIR", g_build_filename(actions_dir, "lilypond", NULL), "Holds location of Denemo's system-wide  lilypond include files directory");
   DEF_SCHEME_STR("DENEMO_LOCAL_ACTIONS_DIR", local_actions_dir, "Holds location of Denemo actions directory beneath your home directory");
+  DEF_SCHEME_STR("DENEMO_LOCAL_LILYPOND_DIR", g_build_filename(local_actions_dir, "lilypond", NULL), "Holds location of user lilypond include files directory");
   {
     gint i;
     for(i=0;i<G_N_ELEMENTS(DenemoObjTypeNames);i++) 
@@ -3983,9 +4105,13 @@ static void create_scheme_identfiers(void) {
      Note that all such actions (that may be called back by scheme directly in this fashion) are given the attribute "scm" with value 1; I do not think this is being exploited in the code at present, and is perhaps not needed.
   */
 #include "scheme.h"
-
+  init_denemo_notenames();
 
   INSTALL_SCM_FUNCTION ("Hides all the menus", DENEMO_SCHEME_PREFIX"HideMenus",  scheme_hide_menus);
+  INSTALL_SCM_FUNCTION ("Hides Score buttons or shows them if passed #f", DENEMO_SCHEME_PREFIX"HideButtons",  scheme_hide_buttons);
+  INSTALL_SCM_FUNCTION ("Removes Score buttons", DENEMO_SCHEME_PREFIX"DestroyButtons",  scheme_destroy_buttons);
+  INSTALL_SCM_FUNCTION ("Hides the Denemo gui or shows it if passed #f", DENEMO_SCHEME_PREFIX"HideWindow",  scheme_hide_window);
+  
   INSTALL_SCM_FUNCTION1 ("Takes the the name of a scripted command. Runs the script stored for that command. Scripts which invoke other scripted commands use this (implicitly?) ", DENEMO_SCHEME_PREFIX"ScriptCallback", scheme_script_callback);
 			
   INSTALL_SCM_FUNCTION1 ("create a dialog with the options & return the one chosen, of #f if the user cancels", DENEMO_SCHEME_PREFIX"GetOption", scheme_get_option);
@@ -4018,6 +4144,10 @@ static void create_scheme_identfiers(void) {
   INSTALL_SCM_FUNCTION ("Gives the number of staffs in the Denemo Music Clipboard",DENEMO_SCHEME_PREFIX"GetStaffsInClipboard",  scheme_get_staffs_in_clipboard);
 
   INSTALL_SCM_FUNCTION ("Gives the number of measures in the current staff",DENEMO_SCHEME_PREFIX"GetMeasuresInStaff",  scheme_get_measures_in_staff);
+  
+  INSTALL_SCM_FUNCTION ("Makes the current staff a voice belonging to the staff above",DENEMO_SCHEME_PREFIX"StaffToVoice",  scheme_staff_to_voice);
+
+  INSTALL_SCM_FUNCTION ("Makes the current voice a independent staff",DENEMO_SCHEME_PREFIX"VoiceToStaff",  scheme_voice_to_staff);
 
   INSTALL_SCM_FUNCTION ("Adjusts the horizontal (x-) positioning of notes etc after paste",DENEMO_SCHEME_PREFIX"AdjustXes",  scheme_adjust_xes);
 
@@ -4160,6 +4290,25 @@ static void create_scheme_identfiers(void) {
   INSTALL_GET_TAG(layout);
   INSTALL_GET_TAG(movementcontrol);
 #undef INSTALL_GET_TAG
+
+#define INSTALL_GET_NTH_TAG(what)\
+  INSTALL_SCM_FUNCTION1 ("Takes a number n. Returns the tag of the nth "#what" directive if it exists else returns #f if none", DENEMO_SCHEME_PREFIX"DirectiveGetNthTag"  "-" #what, scheme_##what##_directive_get_nth_tag);
+  INSTALL_GET_NTH_TAG(chord);
+  INSTALL_GET_NTH_TAG(note);
+  INSTALL_GET_NTH_TAG(staff);
+  INSTALL_GET_NTH_TAG(voice);
+  INSTALL_GET_NTH_TAG(score);
+  INSTALL_GET_NTH_TAG(clef);
+  INSTALL_GET_NTH_TAG(timesig);
+  INSTALL_GET_NTH_TAG(tuplet);
+  INSTALL_GET_NTH_TAG(stemdirective);
+  INSTALL_GET_NTH_TAG(keysig);
+  INSTALL_GET_NTH_TAG(scoreheader);
+  INSTALL_GET_NTH_TAG(header);
+  INSTALL_GET_NTH_TAG(paper);
+  INSTALL_GET_NTH_TAG(layout);
+  INSTALL_GET_NTH_TAG(movementcontrol);
+#undef INSTALL_GET_NTH_TAG
 
 
 
@@ -4840,7 +4989,7 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
 
   INSTALL_SCM_FUNCTION ("Adjust end time for playback by passed number of seconds. Returns #f for bad parameter ", DENEMO_SCHEME_PREFIX"AdjustPlaybackEnd", scheme_adjust_playback_end);
 
-  INSTALL_SCM_FUNCTION ("Takes a parameter #t or #f: Get a screenshot from the user and append it to a list (one per measure) either applying across the staffs or to the current staff.", DENEMO_SCHEME_PREFIX"UserScreenshot", scheme_user_screenshot);
+  INSTALL_SCM_FUNCTION1 ("Takes a parameter #t or #f and optional position: Get a screenshot from the user and append or insert it in a list (one per measure) either applying across the staffs or to the current staff.", DENEMO_SCHEME_PREFIX"UserScreenshot", scheme_user_screenshot);
   INSTALL_SCM_FUNCTION ("Takes a parameter #t or #f: Delete a screenshot for the current measure, either across staffs or for current staff.", DENEMO_SCHEME_PREFIX"DeleteScreenshot", scheme_delete_screenshot);
 
   INSTALL_SCM_FUNCTION ("Pushes the Denemo clipboard (cut/copy buffer) onto a stack; Use d-PopClipboard to retrieve it.", DENEMO_SCHEME_PREFIX"PushClipboard", scheme_push_clipboard);
@@ -4865,6 +5014,8 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
    INSTALL_SCM_FUNCTION ("Creates a new tab. Note this command has the same name as the built-in NewWindow command, to override it when called from a script. Returns #t", DENEMO_SCHEME_PREFIX"NewWindow"/*sic*/, scheme_new_window);
   
 INSTALL_SCM_FUNCTION ("Undo normally undoes all the actions performed by a script. This puts a stage at the point in a script where it is called, so that a user-invoked undo will stop at this point, continuing when a further undo is invoked. Returns #t", DENEMO_SCHEME_PREFIX"StageForUndo", scheme_stage_for_undo);
+
+INSTALL_SCM_FUNCTION ("return a string giving the latest step available for Undo", DENEMO_SCHEME_PREFIX"GetLastChange", scheme_get_last_change);
 
 
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the menu path to that command or #f if none",DENEMO_SCHEME_PREFIX"GetMenuPath", scheme_get_menu_path);
@@ -4971,7 +5122,7 @@ void inner_main(void*closure, int argc, char **argv){
 #define choice6 "AllCommands\nUsers wanting to see the complete command set. No pre-defined shortcuts"
 
  
-  if(uses_default_commandset()) {
+  if((!Denemo.non_interactive) && uses_default_commandset()) {
     gchar *initialpref = Denemo.prefs.profile->len?Denemo.prefs.profile->str:NULL;
     gchar * never_again = NULL;
     if(initialpref) never_again = g_strdup_printf( "Use %s and do not show these choices again", initialpref);
@@ -6237,14 +6388,18 @@ activate_script (GtkAction *action, gpointer param)
     scm_c_eval_string(current_script);
     g_free(current_script);
 
-
-    if(*text==0)
-      text = instantiate_script(action);
-    if(text) {
+   if(text) {
       gboolean ret;
-      stage_undo(gui->si, ACTION_STAGE_END);//undo is a queue so this is the end :)
-      ret = (gboolean)!call_out_to_guile(text);
-      stage_undo(gui->si, ACTION_STAGE_START);
+      if(*text==0)
+        text = instantiate_script(action);
+      if(text && *text) {
+        stage_undo(gui->si, ACTION_STAGE_END);//undo is a queue so this is the end :)
+        ret = (gboolean)!call_out_to_guile(text);
+        stage_undo(gui->si, ACTION_STAGE_START);
+      } else {
+        g_warning("Could not get script for %s\n", gtk_action_get_name(action));
+        ret = FALSE;
+      }
       return ret; 
     }
   }
@@ -7719,6 +7874,7 @@ toggle_action_menu (GtkAction * action, gpointer param)
 static void
 toggle_print_view (GtkAction *action, gpointer param)
 {
+#ifdef _HAVE_EVINCE_
   GtkWidget *w =  gtk_widget_get_toplevel(Denemo.printarea);
   if((!action) || GTK_WIDGET_VISIBLE(w))
     gtk_widget_hide(w);
@@ -7728,6 +7884,7 @@ toggle_print_view (GtkAction *action, gpointer param)
       refresh_print_view(TRUE);
   }
   return;
+#endif
 }
 
 /**

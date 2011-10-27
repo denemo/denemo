@@ -10,6 +10,7 @@
 #include <string.h> /*for SIGTERM */
 #include <fontconfig/fontconfig.h>
 #include <gtk/gtk.h>
+#include <gdk/gdk.h>
 #include "accwidths.h"
 #include <denemo/denemo.h>
 #include "notewidths.h"
@@ -25,7 +26,7 @@
 #endif
 #include "pitchentry.h"
 
-#ifdef __APPLE__
+#ifdef UNUSED__APPLE
 #include <mach-o/dyld.h>
 #endif
 
@@ -910,7 +911,7 @@ get_data_dir ()
     g_free (rootdir);
 #else /* not G_OS_WIN32 */
 
-#ifdef __APPLE__
+#ifdef UNUSED__APPLE
      
       {char path[1024];
        guint size = sizeof(path);
@@ -945,7 +946,7 @@ get_bin_dir (void)
     g_free (rootdir);
 #else /* not G_OS_WIN32 */
 
-#ifdef __APPLE__
+#ifdef UNUSED__APPLE
      
       {char path[1024];
        guint size = sizeof(path);
@@ -977,7 +978,7 @@ get_conf_dir ()
   confdir = g_build_filename (rootdir, "etc", "denemo", NULL);
   g_free (rootdir);
 #else /* not G_OS_WIN32 */
-#ifdef __APPLE__
+#ifdef UNUSED__APPLE
      
       {char path[1024];
        guint size = sizeof(path);
@@ -1009,7 +1010,7 @@ get_locale_dir ()
     localedir = g_build_filename (rootdir, "share", "locale", NULL);
     g_free (rootdir);
 #else /* not G_OS_WIN32 */
-#ifdef __APPLE__
+#ifdef UNUSED__APPLE
      
       {char path[1024];
        guint size = sizeof(path);
@@ -1052,28 +1053,52 @@ kill_process (GPid pid)
 #endif /* not G_OS_WIN32 */
   g_spawn_close_pid (pid);
 }
-#define NOTE0 "<span font_desc=\"Denemo\">\x02</span>"
-#define NOTE1 "<span font_desc=\"Denemo\">\x03</span>"
-#define NOTE2 "<span font_desc=\"Denemo\">\x04</span>"
-#define NOTE3 "<span font_desc=\"Denemo\">\x05</span>"
-#define NOTE4 "<span font_desc=\"Denemo\">\x06</span>"
-#define NOTE5 "<span font_desc=\"Denemo\">\x07</span>"
-#define NOTE6 "<span font_desc=\"Denemo\">\x08</span>"
-//skip over tab and line feed
-#define NOTE7 "<span font_desc=\"Denemo\">\x0B</span>"
-#define NOTE8 "<span font_desc=\"Denemo\">\x0C</span>"
-
-#define REST0 "<span font_desc=\"Denemo\">\x0F</span>"
-#define REST1 "<span font_desc=\"Denemo\">\x10</span>"
-#define REST2 "<span font_desc=\"Denemo\">\x11</span>"
-#define REST3 "<span font_desc=\"Denemo\">\x12</span>"
-#define REST4 "<span font_desc=\"Denemo\">\x13</span>"
-#define REST5 "<span font_desc=\"Denemo\">\x14</span>"
-#define REST6 "<span font_desc=\"Denemo\">\x15</span>"
-#define REST7 "<span font_desc=\"Denemo\">\x16</span>"
-#define REST8 "<span font_desc=\"Denemo\">\x17</span>"
 
 
+
+#define NOTE0 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x9D</span>"
+#define NOTE1 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x9E</span>"
+#define NOTE2 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x9F</span>"
+#define NOTE3 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA0</span>"
+#define NOTE4 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA1</span>"
+#define NOTE5 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA2</span>"
+#define NOTE6 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA3</span>"
+#define NOTE7 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA4</span>"
+#define NOTE8 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA5</span>"
+
+#define REST0 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBB</span>"
+#define REST1 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBC</span>"
+#define REST2 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBD</span>"
+#define REST3 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBE</span>"
+#define REST4 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBF</span>"
+#define REST5 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x80</span>"
+#define REST6 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x81</span>"
+#define REST7 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x82</span>"
+#define REST8 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x83</span>"
+
+void
+init_denemo_notenames(void) {
+
+define_scheme_literal_variable("Denemo-Note0", NOTE0, NULL);
+define_scheme_literal_variable("Denemo-Rest0", REST0, NULL);
+define_scheme_literal_variable("Denemo-Note1", NOTE1, NULL);
+define_scheme_literal_variable("Denemo-Rest1", REST1, NULL);
+define_scheme_literal_variable("Denemo-Note2", NOTE2, NULL);
+define_scheme_literal_variable("Denemo-Rest2", REST2, NULL);
+define_scheme_literal_variable("Denemo-Note3", NOTE3, NULL);
+define_scheme_literal_variable("Denemo-Rest3", REST3, NULL);
+define_scheme_literal_variable("Denemo-Note4", NOTE4, NULL);
+define_scheme_literal_variable("Denemo-Rest4", REST4, NULL);
+define_scheme_literal_variable("Denemo-Note5", NOTE5, NULL);
+define_scheme_literal_variable("Denemo-Rest5", REST5, NULL);
+define_scheme_literal_variable("Denemo-Note6", NOTE6, NULL);
+define_scheme_literal_variable("Denemo-Rest6", REST6, NULL);
+define_scheme_literal_variable("Denemo-Note7", NOTE7, NULL);
+define_scheme_literal_variable("Denemo-Rest7", REST7, NULL);
+define_scheme_literal_variable("Denemo-Note8", NOTE8, NULL);
+define_scheme_literal_variable("Denemo-Rest8", REST8, NULL);
+
+}
 /* markup the passed string to be in the denemo music font
 * caller must free the returned string
 */
@@ -1451,10 +1476,24 @@ string_dialog_entry_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *direction
                                         NULL);
 
 	label = gtk_label_new (direction);
-  	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label,
+#ifdef _USE_GTK3_
+  	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), label,
 		                        TRUE, TRUE, 0);
 	if(widget)
-	  	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), widget,
+          gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), widget,
+		                        TRUE, TRUE, 0);
+	if (PreValue != NULL) {
+            gtk_entry_set_text (GTK_ENTRY (entry), (gchar *) PreValue);
+        }
+  
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), entry,
+		                        TRUE, TRUE, 0);
+
+#else
+ 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label,
+		                        TRUE, TRUE, 0);
+	if(widget)
+	  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), widget,
 		                        TRUE, TRUE, 0);
 	if (PreValue != NULL) {
             gtk_entry_set_text (GTK_ENTRY (entry), (gchar *) PreValue);
@@ -1462,6 +1501,8 @@ string_dialog_entry_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *direction
   
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), entry,
 		                        TRUE, TRUE, 0);
+
+#endif
     	gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
       	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
         gtk_widget_grab_focus (entry);
@@ -1503,8 +1544,13 @@ gchar * get_option(gchar *str, gint length) {
 						   GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
 						   NULL);
   GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
+#ifdef _USE_GTK3_
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox,
 		      TRUE, TRUE, 0);
+#else
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox,
+		      TRUE, TRUE, 0);
+#endif
   gchar *opt;
   gint i;
   GtkWidget *widget1, *widget;

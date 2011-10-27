@@ -1428,6 +1428,24 @@ Another is the "AngryDelete" filter. With this filter on notes are entered norma
 </para>
   </sect1>
 
+ <sect1>
+<title>Transcribing from Facsimile or Hand-written Score</title>
+<para>
+This is particularly useful for difficult-to-read scores. Each measure of the original can be captured as an image and stored along with the Denemo measure that is your transcription. This makes the transcribing process much easier as you can glance at your original without losing your place in a large messy manuscript. Capturing the images of the measures is done using a screenshot type of process - you need to have the original visible on the screen so you can indicate the extent of each measure.
+</para>
+<para>
+First display the original score or part on the screen using your pdf viewer or other image display software. Then, in Denemo, choose one of the Capture Measures commands. For a Full score you can capture all the parts at once - choose Movement->Capture Score->Capture Measures (Score). If you have parts use Staff->Capture Score->Capture Measures (One Staff).
+</para>
+<para>
+Now you can continuously enter measures by left clicking at each measure. You can adjust the start position of the measure (which is normally the end of the last one) by right-clicking. As you enter a measure image a Denemo measure is entered into the score and the image placed underneath it. To stop entering images press a key on the keyboard. There are also commands to delete an erroneous measure-image and to insert a new one - N.B. when you delete the image for a measure all the other measures shift along by one, so they are under the wrong bars until you insert a new screenshot for the measure.
+</para>
+<para>
+Now you can transcribe the music straight from the images directly under the measure you have selected. 
+<ulink url="http://www.denemo.org/dl21">LaManina.denemo </ulink> is an example: the original print made in Venice is quite difficult to decipher and has a couple of errors. In this Denemo file each measure for each part can be seen directly beneath the transcription. 
+You will notice that in places the original measure was split across two lines; at the moment there is no mechanism for joining up the two halves, so instead the following measure has an image containing the remainder of the measure plus the next measure.
+</para>
+ </sect1>
+
   <sect1>
     <title>Playing Notes into Denemo - Audio (Souncard Mic Input)</title>
 

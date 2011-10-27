@@ -31,10 +31,11 @@
 (d-DirectivePut-standalone-midibytes "MM" midiBpm)
 (d-DirectivePut-standalone-display "MM" (string-append input "=" bpm))
 (d-DirectivePut-standalone-ty "MM" -5)
+(d-DirectivePut-standalone-minpixels "MM" 15)
 )
 (d-WarningDialog "Incorrect syntax.")
-))</scheme>       
-        <label>Metronome Marking 𝅘𝅥 = 𝅘𝅥𝅭 </label>
+))</scheme>
+        <label>Metronome Marking  &#x1D15F; = ... bpm </label>
         <tooltip>Prints a metronome. Adjusts playback tempo to this value.</tooltip>
       </row>
     </map>

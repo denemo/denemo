@@ -157,7 +157,7 @@ find_leftmost_staffcontext (DenemoStaff * curstaffstruct, DenemoScore * si)
 
       si->maxkeywidth = MAX (si->maxkeywidth, 
 			     draw_key (NULL, 0, 0, curstaffstruct->leftmost_keysig->number,
-	      0, 0, FALSE));
+	      0, 0, FALSE, curstaffstruct->leftmost_keysig));
   if ((obj = find_measure_context (leftmeasure, TIMESIG)))
     {
       curstaffstruct->leftmost_timesig =

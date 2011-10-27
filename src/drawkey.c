@@ -21,7 +21,7 @@
 
 gint
 draw_key (cairo_t *cr, gint xx, gint y,
-	  gint number, gint prevnumber, gint dclef, gboolean wetrun)
+	  gint number, gint prevnumber, gint dclef, gboolean wetrun, keysig *keysig)
 {
   /* These are just hard-coded offsets in pixels from the top of the staff.
    * mid_c_offset arrays. There's probably
@@ -42,7 +42,24 @@ draw_key (cairo_t *cr, gint xx, gint y,
   gint i;
   gint startindex, endindex;
   gint origx = xx;
-
+  
+  gboolean override = FALSE;
+  if(wetrun && keysig->directives) {
+    gint count=0;
+    GList *g=keysig->directives;
+    for(;g;g=g->next, count++) {
+      DenemoDirective* directive = g->data;
+      override = override || directive->override;
+      if(directive->display) { 
+        drawnormaltext_cr( cr, directive->display->str, xx + directive->tx, y+count*10 );
+      }
+      if(directive->graphic) {
+        drawbitmapinverse_cr (cr, directive->graphic,
+			   xx+directive->gx+count,  y+directive->gy);
+      }
+    }
+  }
+  if(!override) { 
   /* first, set the arrays we're using to something useful */
   if (wetrun)
     {
@@ -122,5 +139,6 @@ draw_key (cairo_t *cr, gint xx, gint y,
     for (i = 0; i < number; i++, xx += SHARP_WIDTH + 2)
       if (wetrun)
 	draw_accidental (cr, xx, y + theys[i], 1);
+  }
   return xx - origx;
 }

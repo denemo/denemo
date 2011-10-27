@@ -5,18 +5,24 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>VoicePreset1</action>
         <after>VoicePresetAutomatic</after>
-        <scheme>(d-StartUpStems)
+        <action>VoicePreset1</action>
+        <scheme>;;;VoicePreset1
+(d-StartUpStems)
 (d-MoveCursorLeft)
-(d-DirectivePut-stemdirective-display "Voice" "Voice-Preset 1")
+(d-DirectivePut-stemdirective-graphic "Voice" "
+v1
+Serif
+24
+1
+1")
 (d-DirectivePut-stemdirective-postfix "Voice" "\\voiceOne ")
 (d-DirectivePut-stemdirective-override "Voice" DENEMO_OVERRIDE_LILYPOND)
 (d-MoveCursorRight)
 (d-RefreshDisplay)
 </scheme>
         <label>Voice Preset 1 (Stems Up)</label>
-        <tooltip>Preset for first voice. Stems Up</tooltip>
+        <tooltip>Preset for first voice. Stems up</tooltip>
       </row>
     </map>
   </merge>

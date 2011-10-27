@@ -339,11 +339,51 @@ segdialog (gchar * sigtype, gchar * message)
   gtk_widget_destroy (dialog);
 }
 #endif /* GTK_MAJOR_VERSION > 1 */
+static gchar *pidfile;
+static void remove_pid_file(void) {
+FILE *fp = fopen(pidfile, "w");
+if(fp) {
+  fprintf(fp,"%d", 0);
+  fclose(fp);
+  }
+}
+/**
+ * SIGUSR1 Handler to record the LilyPond text position the user has clicked on
+ *
+ */
+static volatile gboolean position_data;
+
+void
+denemo_client (int sig)
+{
+//register that a new location is available, to be picked up in an idle callback
+  position_data = TRUE;
+}
 
 /**
  * SIGSEGV Handler to do nice things if denemo bombs
  *
  */
+
+ gboolean check_for_position(void) {
+if(position_data) {
+  static gchar *filename = NULL;
+  if(filename==NULL)
+    filename = g_build_filename(locatedotdenemo(), "lylocation.txt", NULL);
+  FILE *fp = fopen(filename, "r");
+  if(fp) {
+    gint line, col;
+    fscanf(fp, "%d %d", &line, &col);
+    fclose(fp);
+    g_print("line %d column %d\n", line, col);
+    position_data = FALSE;
+    //set_lily_error(line, col, Denemo.gui);
+    //highlight_lily_error(Denemo.gui);
+    goto_lilypond_position(line, col);
+    }
+  } 
+  return TRUE;//keep going
+}
 void
 denemo_signal_handler (int sig)
 {
@@ -485,10 +525,12 @@ main (int argc, char *argv[])
   gchar *lilypond_data_path = g_build_filename (prefix, "share", "lilypond", "current", NULL);
   g_setenv ("LILYPOND_DATA_PATH", lilypond_data_path, FALSE);
   g_print("LILYPOND_DATA_PATH will be %s if not already set", lilypond_data_path);
-  gchar *fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "fetta.ttf", NULL);
+  gchar *fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "feta.ttf", NULL);
   g_setenv ("LILYPOND_VERBOSE", "1", FALSE);
   add_font_file(fontpath);
   fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "Denemo.ttf", NULL);
+  add_font_file(fontpath);
+  fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "emmentaler.ttf", NULL);
   add_font_file(fontpath);
 
   append_to_path ("GUILE_LOAD_PATH", g_build_filename(prefix, "share", "denemo", NULL));
@@ -496,7 +538,7 @@ main (int argc, char *argv[])
 #else
 
 
-#ifdef __APPLE__
+#ifdef UNUSED__APPLE
   //FIXME if this works, remove the duplication with windows case
  {
   gchar *prefix = g_build_filename (g_path_get_dirname(get_bin_dir()), "..", NULL);      
@@ -545,11 +587,14 @@ main (int argc, char *argv[])
   gchar *lilypond_data_path = g_build_filename (prefix, "share", "lilypond", "current", NULL);
   g_setenv ("LILYPOND_DATA_PATH", lilypond_data_path, FALSE);
   g_print("LILYPOND_DATA_PATH will be %s if not already set", lilypond_data_path);
-  gchar *fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "fetta.ttf", NULL);
+  gchar *fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "feta.ttf", NULL);
   g_setenv ("LILYPOND_VERBOSE", "1", FALSE);
   add_font_file(fontpath);
   fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "Denemo.ttf", NULL);
   add_font_file(fontpath);
+  fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "emmentaler.ttf", NULL);
+  add_font_file(fontpath);
+
 
 
  add_font_directory (DATAROOTDIR "/fonts");
@@ -570,6 +615,8 @@ main (int argc, char *argv[])
 
   
 #endif /* end of else not windows */
+
+  g_setenv ("LYEDITOR", "denemoclient %(line)s %(column)s", FALSE);
   GError *error = NULL;
   /* glib/gtk initialization */
   if (!g_thread_supported ()){
@@ -700,10 +747,21 @@ Report bugs to http://www.denemo.org\n"), NULL) ;
   g_free (helptext);
 
 
-  /* Set up the signal handler */
-  // XXX this causes undefined behaviour
-  //signal (SIGSEGV, denemo_signal_handler);
-
+  /* Set up the signal handlers */
+    signal (SIGSEGV, denemo_signal_handler);
+    {
+      __pid_t pid = getpid();
+      pidfile = g_build_filename(locatedotdenemo(), "pid", NULL);
+      FILE *fp = fopen(pidfile, "w");
+      if(fp) {
+        fprintf(fp, "%d\n", pid);
+        fclose(fp);
+        g_atexit((GVoidFunc)remove_pid_file);
+        struct sigaction act = { denemo_client, 0, SA_SIGINFO};
+        sigaction (SIGUSR1, &act, NULL);
+        g_idle_add((GSourceFunc)check_for_position, NULL);
+      }
+    }
 #ifdef HAVE_SIGCHLD
   signal (SIGCHLD, sigchld_handler);
 #endif

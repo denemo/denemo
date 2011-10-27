@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>BookCopyright</action>
+        <scheme>;;BookCopyright
+(d-LilyPondInclude "book-titling.ily")
+(let ((chapter (d-DirectiveGet-scoreheader-postfix "Copyright")))
+  (if (not chapter)
+    (set! chapter "Book Copyright"))
+  (set! chapter (d-GetUserInput "Book Title" "Give a copyright notice for the whole score" chapter))
+   (d-SetSaved #f)
+  (if (string-null? chapter)
+  	(d-DirectiveDelete-scoreheader "Copyright")
+      	(d-DirectivePut-scoreheader-postfix "Copyright" (string-append "copyright = \"" chapter "\"\n"))))
+</scheme>
+        <label>Copyright</label>
+        <tooltip>Prints a copyright notice on title page</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

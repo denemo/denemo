@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script. 
-AC_INIT([denemo], [0.9.1], [denemo-devel@gnu.org])
+AC_INIT([denemo], [0.9.3], [denemo-devel@gnu.org])
 AC_CONFIG_SRCDIR([src/main.c])
 AM_INIT_AUTOMAKE([tar-pax]) 
 dnl AM_INIT_AUTOMAKE([foreign -Wall -Werror gnu tar-pax])
@@ -109,6 +109,21 @@ if test "x$usealsa" = "xyes"; then
 fi
 
 AC_ARG_ENABLE(
+  evince,
+  AC_HELP_STRING([--enable-evince], [use EVINCE @<:@default=no@:>@]),
+  [
+    if test "x$enableval" != "xno"; then
+      useevince=yes
+    fi
+  ])
+
+if test "x$useevince" = "xyes"; then
+  PKG_CHECK_MODULES(EVINCE, evince-view-2.30 >= 2.3)
+  CFLAGS="$CFLAGS $EVINCE_CFLAGS -D_HAVE_EVINCE_"
+  LIBS="$LIBS $EVINCE_LIBS -D_HAVE_EVINCE_"
+fi
+
+AC_ARG_ENABLE(
   fluidsynth,
   AC_HELP_STRING([--enable-fluidsynth], [use FLUIDSYNTH @<:@default=yes@:>@]),
   [ 
@@ -185,6 +200,18 @@ AC_ARG_ENABLE(
     fi
   ])
 
+AC_ARG_WITH(
+  x,
+  AC_HELP_STRING([--with-x], [use X @<:@default=check@:>@]),
+  [ ], [ withx=yes ])
+
+if test "x$withx" = "xyes"; then
+  CFLAGS="$CFLAGS"
+  LIBS="$LIBS"
+else
+  CFLAGS="$CFLAGS -D_WITHOUT_X"
+  LIBS="$LIBS -D_WITHOUT_X"
+fi
 
 dnl Memory debugging
 mem_debug=no

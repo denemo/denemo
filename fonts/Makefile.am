@@ -1,9 +1,9 @@
-#dist_pkgdata_DATA = Denemo.ttf fetta.ttf
+#dist_pkgdata_DATA = Denemo.ttf feta.ttf emmentaler.ttf
 
 
 fontsdir = $(datadir)/fonts/truetype/denemo
 
-fonts_DATA = $(srcdir)/Denemo.ttf  $(srcdir)/fetta.ttf $(srcdir)/LICENSE_OFL.txt
+fonts_DATA = $(srcdir)/Denemo.ttf  $(srcdir)/feta.ttf $(srcdir)/emmentaler.ttf
 
 EXTRA_DIST = $(fonts_DATA) 
 CLEANFILES = *~ #*#

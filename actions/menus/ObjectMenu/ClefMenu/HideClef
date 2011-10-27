@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ClefChooser</after>
+        <action>HideClef</action>
+        <scheme>;;;HideClef
+;(let ((lilycontext (d-GetOption  (string-append "Score" stop "Staff" stop "Voice" stop))))
+(let ((lilycontext "Staff"))
+(if lilycontext
+	(begin 
+		(if (d-Directive-clef? "HideClef")
+ 			(d-DirectiveDelete-clef "HideClef")
+ 			(begin
+ 				(d-DirectivePut-clef-prefix "HideClef"  (string-append  "\\once \\override " lilycontext ".Clef #'stencil = ##f"  ))
+ 				(d-DirectivePut-clef-gy "HideClef" -10)
+ 				(d-DirectivePut-clef-graphic "HideClef" "\n&#x22C2;\nDenemo\n24")))
+ 			(d-SetSaved #f))))
+ 			</scheme>
+        <label>(Print) Hide</label>
+        <tooltip>On printing, omit the clef change at the cursor, or the initial clef if the cursor is not on a clef change.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

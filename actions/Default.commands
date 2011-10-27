@@ -2426,7 +2426,7 @@ Sets prevailing rhythm to &#x1D165;</tooltip>
         <action>MetronomeMarking</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives</menupath>
-        <label>Metronome Marking  &#x1D15F; = &#x1D15F;&#x1D16D; </label>
+        <label>Metronome Marking  &#x1D15F; = ... bpm </label>
         <tooltip>Prints a metronome. Adjusts playback tempo to this value.</tooltip>
       </row>
       <row>
@@ -3951,8 +3951,8 @@ for second and subsequent systems</tooltip>
         <action>GraceAfter</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/GraceNotes</menupath>
-        <label>Grace After (Off/On)</label>
-        <tooltip>Print this note as grace note attached to the previous note. Beware! You must repeat this command if you change the note in any way, only the pitch and duration when this command was issued will be printed. Multiple grace notes to follow will need separate start { and end } block directives to group them - this requires extra LilyPond inserts.</tooltip>
+        <label>Grace After</label>
+        <tooltip>Print the grace note(s) at the cursor attached to the previous note. Beware! You must reissue this command if you change the notes in any way, only the pitch and duration when this command was issued will be printed.</tooltip>
       </row>
       <row>
         <action>SetBarNumber</action>
@@ -5082,30 +5082,6 @@ for second and subsequent systems</tooltip>
         <tooltip>Prints the Bass part omitting any figured bass figures.</tooltip>
       </row>
       <row>
-        <action>ChangeStaffUp</action>
-        <after>FingeringsDoublestroke</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/StaffChange</menupath>
-        <label>Change to Printing on Staff Above.</label>
-        <tooltip>Prints the succeeding notes on the staff above the current one.</tooltip>
-      </row>
-      <row>
-        <action>ChangeStaffDown</action>
-        <after>ChangeStaffUp</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/StaffChange</menupath>
-        <label>Change to Printing on Staff Below</label>
-        <tooltip>Succeeding notes are printed on the staff below with stems up.</tooltip>
-      </row>
-      <row>
-        <action>ChangeStaffBack</action>
-        <after>ChangeStaffDown</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/StaffChange</menupath>
-        <label>Change Back to Printing on this Staff</label>
-        <tooltip>Returns to printing the succeeding notes on this staff.</tooltip>
-      </row>
-      <row>
         <action>EvenOutStaffLengths</action>
         <after>ReBar</after>
         <scheme></scheme>
@@ -5232,6 +5208,286 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/Score</menupath>
         <label>Reduce Space Between Systems</label>
         <tooltip>Reduces the gap between the systems of staffs on a page.</tooltip>
+      </row>
+      <row>
+        <action>UnGraceAfter</action>
+        <after>GraceAfter</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/GraceNotes</menupath>
+        <label>Un-Grace After</label>
+        <tooltip>Make the grace note at the cursor closer to the following rather than preceding note.</tooltip>
+      </row>
+      <row>
+        <action>InsertCaptureMeasure</action>
+        <after>CaptureMeasures</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/CaptureScore</menupath>
+        <label>Capture and Insert One Measure</label>
+        <tooltip>Capture the image of a single measure (as screenshot) inserting at the current measure.</tooltip>
+      </row>
+      <row>
+        <action>InsertCaptureMeasureForStaff</action>
+        <after>CaptureMeasuresForStaff</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/CaptureScore</menupath>
+        <label>Capture and Insert One Measure</label>
+        <tooltip>Capture the image of a single measure (as screenshot) inserting at the current measure in the current staff.</tooltip>
+      </row>
+      <row>
+        <action>PitchShift</action>
+        <after>ConvertMidiForBass</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/PlaybackMenu</menupath>
+        <label>Shift Pitch</label>
+        <tooltip>Outputs a pitch bend signal to the synthesizer for the value +/- 64 given.</tooltip>
+      </row>
+      <row>
+        <action>Ottava</action>
+        <after>BreathMark</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Ottava</label>
+        <tooltip>Inserts an 8va mark (transposing the notes accordingly) or terminates one already started.</tooltip>
+      </row>
+      <row>
+        <action>Upprall</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <label>Up Prall</label>
+        <tooltip>Adds/Removes Up Prall ornament</tooltip>
+      </row>
+      <row>
+        <action>MoveRest</action>
+        <after>InsertLongaRest</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
+        <label>Displace Rest Vertically</label>
+        <tooltip>Turns the rest at the cursor into a polyphonic rest at the cursor height.</tooltip>
+      </row>
+      <row>
+        <action>ShowLastChange</action>
+        <after>Undo</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <label>Show Last Change</label>
+        <tooltip>Shows the last change recorded on the Undo stack.</tooltip>
+      </row>
+      <row>
+        <action>FootPedalConductor</action>
+        <after>AngryDelete</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/InputMenu/MIDI</menupath>
+        <label>Foot Pedal Conductor</label>
+        <tooltip>Press the foot pedal at the start of each measure. The bar number is displayed and the beats are interpolated following the timesignature set. Two quick presses of the foot pedal stops the conductor.</tooltip>
+      </row>
+      <row>
+        <action>PrintWithAmbitus</action>
+        <after>PrintAccompanistsScore</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
+        <label>Print with Ambitus</label>
+        <tooltip>Prints the score printing the range (ambitus) of each part at the start of the staff</tooltip>
+      </row>
+      <row>
+        <action>ShiftOff</action>
+        <after>VoicesDoublestroke</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>No Horizontal Shifts</label>
+        <tooltip>Turns off horizontal displacement of notes (which avoid collisions between parts)</tooltip>
+      </row>
+      <row>
+        <action>ShiftOn</action>
+        <after>ShiftOff</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>Use Horizontal Shifts</label>
+        <tooltip>Turns on horizontal displacements of notes where needed.</tooltip>
+      </row>
+      <row>
+        <action>SetCurrentStaffAsVoice</action>
+        <after>MoveToVoiceDown</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>Staff to Voice</label>
+        <tooltip>The current staff will be typeset as a voice on the staff above.</tooltip>
+      </row>
+      <row>
+        <action>SetCurrentVoiceAsStaff</action>
+        <after>SetCurrentStaffAsVoice</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>Voice to Staff</label>
+        <tooltip>The current voice will be typeset on its own staff.</tooltip>
+      </row>
+      <row>
+        <action>ChangeStaff</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Change Staff</label>
+        <tooltip>(Print) the current voice moves to the staff you name.</tooltip>
+      </row>
+      <row>
+        <action>NewVoice</action>
+        <after>EditVoiceDirective</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>Add Voice</label>
+        <tooltip>Adds a voice to the current staff, initially displayed on a staff of its own, for readability. It will print on the staff above, and can be displayed there using Join Voices command if desired.</tooltip>
+      </row>
+      <row>
+        <action>NoBarline</action>
+        <after>ClosingBarline</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
+        <label>(Print) Omit Barline</label>
+        <tooltip>Skips the printing of any automatic barline here - allows line break.</tooltip>
+      </row>
+      <row>
+        <action>HideKeysig</action>
+        <after>InsertKey</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Key</menupath>
+        <label>(Print) Hide</label>
+        <tooltip>On printing, omit the key signature change at the cursor, or the initial key signature if the cursor is not on a key signature change.</tooltip>
+      </row>
+      <row>
+        <action>HideTimesig</action>
+        <after>ChooseTimeSignature</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/TimeSig</menupath>
+        <label>(Print) Hide</label>
+        <tooltip>On printing, omit the time signature change at the cursor, or the initial time signature if the cursor is not on a time signature change.</tooltip>
+      </row>
+      <row>
+        <action>HideClef</action>
+        <after>ClefChooser</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ClefMenu</menupath>
+        <label>(Print) Hide</label>
+        <tooltip>On printing, omit the clef change at the cursor, or the initial clef if the cursor is not on a clef change.</tooltip>
+      </row>
+      <row>
+        <action>HideBarlines</action>
+        <after>HideMovement</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <label>(Print) Hide Barlines</label>
+        <tooltip>Omits barlines when printing.</tooltip>
+      </row>
+      <row>
+        <action>PointAndClick</action>
+        <after>ScoreBlockProlog</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>Point and Click (Off/On)</label>
+        <tooltip>When on, clicking on the pdf output executes a command to run an editor on the LilyPond at the relevant point. Not yet integrated in Denemo.</tooltip>
+      </row>
+      <row>
+        <action>ShiftNext</action>
+        <after>Hide</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>(Print) Shift Object</label>
+        <tooltip>Asks for horizontal and vertical offsets and inserts a directive to displace the object at the cursor on printing.</tooltip>
+      </row>
+      <row>
+        <action>DisplaceRestHorizontally</action>
+        <after>MoveRest</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
+        <label>Displace Rest Horizontally</label>
+        <tooltip>Asks for a horizontal shift and moves the rest at the cursor by that much when printing.</tooltip>
+      </row>
+      <row>
+        <action>RefreshDynamicDirectives</action>
+        <after>ScoreBlockProlog</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>Refresh Dynamic Directives</label>
+        <tooltip>Re-runs any directives that may have become stale.</tooltip>
+      </row>
+      <row>
+        <action>LilyPondInclude</action>
+        <after>ScoreBlockProlog</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>LilyPond Include File</label>
+        <tooltip>Allows specification of a LilyPond include file from the Denemo provided include files.</tooltip>
+      </row>
+      <row>
+        <action>BookTitle</action>
+        <after>TransposeScorePrint</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/BookTitles</menupath>
+        <label>Title</label>
+        <tooltip>Prints a title on title page</tooltip>
+      </row>
+      <row>
+        <action>BookArranger</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/BookTitles</menupath>
+        <label>Arranger</label>
+        <tooltip>Prints the arranger name on title page</tooltip>
+      </row>
+      <row>
+        <action>BookCopyright</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/BookTitles</menupath>
+        <label>Copyright</label>
+        <tooltip>Prints a copyright notice on title page</tooltip>
+      </row>
+      <row>
+        <action>BookComposer</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/BookTitles</menupath>
+        <label>Composer</label>
+        <tooltip>Prints a composer name on title page</tooltip>
+      </row>
+      <row>
+        <action>BookPoet</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/BookTitles</menupath>
+        <label>Poet/Lyricist</label>
+        <tooltip>Prints the poet or lyricist name on title page</tooltip>
+      </row>
+      <row>
+        <action>Chapter</action>
+        <after>MovementTitle</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/BookTitles</menupath>
+        <label>Title</label>
+        <tooltip>Prints title of Movement</tooltip>
+      </row>
+      <row>
+        <action>Section</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/BookTitles</menupath>
+        <label>Sub-Title</label>
+        <tooltip>Prints a subtitle for the Movement</tooltip>
+      </row>
+      <row>
+        <action>Piece</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/BookTitles</menupath>
+        <label>Piece</label>
+        <tooltip>Prints a piece name for the Movement</tooltip>
+      </row>
+      <row>
+        <action>TocTitle</action>
+        <after>BookPoet</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/BookTitles</menupath>
+        <label>Table of Contents Title</label>
+        <tooltip>Gives a heading for a table of contents, inserting the table in the book.</tooltip>
+      </row>
+      <row>
+        <action>TitledPiece</action>
+        <after>Piece</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/BookTitles</menupath>
+        <label>Title</label>
+        <tooltip>Prints a title for the movement, which will get a page reference in a table of contents.</tooltip>
       </row>
     </map>
   </merge>

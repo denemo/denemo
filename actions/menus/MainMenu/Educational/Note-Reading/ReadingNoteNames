@@ -5,7 +5,6 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after/>
         <action>ReadingNoteNames</action>
         <scheme>;;;;;;;;;;;;;;;
 ;;ReadingNoteNames NEW VERSION
@@ -28,7 +27,7 @@
 (define (ReadingNoteNames::AnotherChance?)
   (and
     (not ReadingNoteNames::LastNoteCorrect?)
-    (>=  ReadingNoteNames::ExtraChances 0)))
+    (&gt;=  ReadingNoteNames::ExtraChances 0)))
 
 
 ;;;;;;;;; callback when user chooses a note
@@ -114,7 +113,7 @@ Print out your score when you have finished.")
 
 
 
-;;;;;;;; the main function to run the test - just goes to end and places a note at a random height above the cursor, returning the cursor to where it was.
+;;;;;;;; the main function to run the test - just goes to end and places a note at a random position relative to ReadingNoteNames::note_position.
 (define (ReadingNoteNames::offerNote) 
     (if #t
 	(let (    
@@ -122,23 +121,20 @@ Print out your score when you have finished.")
 	      (steps 0)
 	      
 	      )
-	;;  (d-GoToEnd)
-	  ;(let gotoEnd () (if  (d-NextObject) (gotoEnd)))
 	  (EducationGames::gotoEnd)
 	  (if (ReadingNoteNames::AnotherChance?)
 	    (begin
-	      ;(d-CursorToNote (EducationalGames::middle_c_offset->lily ReadingNoteNames::note_position))
+	      ;(d-CursorToNote (EducationalGames::middle_c_offset-&gt;lily ReadingNoteNames::note_position))
 	      (d-Insert2))
 	    (begin
 	      (set! steps (+ 1 (random ReadingNoteNames::interval)))      
 	      ;(EducationGames::shiftup steps)
 	      (set! ReadingNoteNames::note_position (+ ReadingNoteNames::note_position steps))
-	      (d-CursorToNote (EducationalGames::middle_c_offset->lily ReadingNoteNames::note_position))
+	      (d-CursorToNote (EducationalGames::middle_c_offset-&gt;lily ReadingNoteNames::note_position))
 	      (d-Insert2)
 	      (set! ReadingNoteNames::ExtraChances 2)))
 	  (set! ReadingNoteNames::notewas (d-GetNoteName))	
 	  (ReadingNoteNames::showscore)
-	  ;(EducationGames::shiftdown steps)
 	  (if ReadingNoteNames::LastNoteCorrect?
 	    (set! ReadingNoteNames::note_position (- ReadingNoteNames::note_position steps)))
 	  )
@@ -146,7 +142,19 @@ Print out your score when you have finished.")
 (EducationGames::Chime)
 
 (d-New)
-
+(d-InitialClef)
+(let ((clef (d-GetPrevailingClef)))
+  (cond
+    ((equal? clef "Alto")
+      (set! ReadingNoteNames::note_position -6))
+    ((equal? clef "Tenor")
+      (set! ReadingNoteNames::note_position -8))
+   ((equal? clef "Bass")
+      (set! ReadingNoteNames::note_position -11))
+   ((equal? clef "French")
+      (set! ReadingNoteNames::note_position 3))
+      ))
+(d-DestroyButtons)
 (CreateButton "ReadingNoteNames::GameScore" "&lt;span font_desc=\"32\"&gt;Click to start&lt;/span&gt;")
 (CreateButton "ReadingNoteNames::GameHelp" "&lt;b&gt;Help&lt;/b&gt;")
 (d-SetDirectiveTagActionScript "ReadingNoteNames::GameHelp" "(ReadingNoteNames::help)")

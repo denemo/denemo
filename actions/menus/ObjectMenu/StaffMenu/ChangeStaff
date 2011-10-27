@@ -5,39 +5,34 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after>StaffAlias</after>
         <action>ChangeStaff</action>
-        <scheme>;Change staff-by DRW
-(let (   (Choices  "")(Dummy "") (Name #f ))
+        <scheme>;Change staff-by DRW modified to avoid use of aliases by RTS
+(if (d-Directive-standalone? "StaffChange")
+	(d-DirectiveDelete-standalone "StaffChange")
+	(let ((Choices  "")(Dummy "") (Name #f ))
 
 ( define (GetNames) 
 	(begin
-		(set! Dummy  (d-DirectiveGet-staff-display  "StaffAlias"))
+		(set! Dummy  (d-StaffProperties "query=denemo_name"))
 		(if Dummy (set! Choices (string-append Choices Dummy stop)))
-		(if (d-MoveToStaffDown) (GetNames))
-	)
-)
+		(if (d-MoveToStaffDown) (GetNames))))
 
 (d-PushPosition)
 (while (d-MoveToStaffUp))
 (GetNames)
 (d-PopPosition)
-
-(if  (equal? Choices "")
-	(d-InfoDialog "None of the staffs have aliases yet.\nUse Designate Alias to give an alias to the staff\nyou wish to change to, then run this command again.")
-	(set! Name (d-GetOption Choices ))
-)
+(set! Name (d-GetOption Choices ))
 (if Name 
 	(begin
-		(d-DirectivePut-standalone-postfix "StaffChange" (string-append "\\change Staff=" Name ))
-		(d-MoveCursorLeft)
-		(d-DirectivePut-standalone-display "StaffChange" Name)		
-	)
-)
-(d-RefreshDisplay)
-);let</scheme>
+		(d-DirectivePut-standalone  "StaffChange")
+		(d-DirectivePut-standalone-minpixels  "StaffChange" 50)
+		(d-DirectivePut-standalone-postfix "StaffChange" (string-append "\\change Staff=\"" Name "\" " ))
+		(d-DirectivePut-standalone-graphic "StaffChange" (string-append 
+		"\n&#x21D2;" Name "\nDenemo\n12"))
+		(d-DirectivePut-standalone-gy  "StaffChange" -1)))
+(d-RefreshDisplay)))</scheme>
         <label>Change Staff</label>
-        <tooltip>Changes the voice from one staff to another.\nUse designate alias to set the name of the staff you want\nto change to.</tooltip>
+        <tooltip>(Print) the current voice moves to the staff you name.</tooltip>
       </row>
     </map>
   </merge>

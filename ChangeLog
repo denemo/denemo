@@ -1,3 +1,44 @@
+2011-09-27 Release 0.9.2:
+    * Score Checking
+	   o Performed automatically before printing (optional)
+	   o Under/Overfull measures
+	   o Unterminated tuplets
+	   o Miss-matched slurs.
+    * Pitch Spelling
+	   o Performed live on MIDI entry
+	   o Colors intervals that may be enharmonic spelling mistakes with a different timbre
+    * Enter Accidental before or after note
+	   o Use enter accidental to avoid sounding spurious notes on entry.
+           o Change a note to one of its enharmonic variants. Same absolute pitch (in Equal Temperament).
+	   o Change the duration of single notes in a chord to create single-voice polyphony
+    * Vertical Rest Positioning (for polyphony)
+    * Grace Notes that come after rather than before the main note.
+    * Improved display of under/overfull measures
+    * Display shows if there are measures before/after those on screen and provides buttons to navigate
+    * Better beaming control.
+    * Arbitrary Dynamics text.
+    * New Denemo fonts
+	   o Denemo's own font now uses standard unicode font symbols
+	   o LilyPond font accessible to scripts
+	   o Improved display of entered music, help texts etc.
+	   o Simpler scripting to display any LilyPond feature.
+    * Thumbnails for .denemo files in file open dialog and for your Window Manager
+	   o Thumbnail shows a selection of your choice as finally typeset.
+	   o Default thumbnail is first three measures
+    * Import images of scores for transcription
+	   o Scores captured bar-by-bar into Denemo, displayed directly underneath the bar they relate to.
+	   o Editorial decisions/errors can easily be checked
+	   But Linux only.
+    * Bug Fixes
+	   o Vertical scrolling (a long-standing bug fixed at last)
+	   o Bookmark searching
+	   o Nested tuplet display
+	   o Redo crashes
+    * Notes:
+           o As yet no windows binary is available
+           o Playback out of priority thread is not in this release.
+           o The manual does not have the latest list of scheme commands available.
+
 2010-11-24 Release 0.8.22:
 	    *  Playback Improvements
           o playback in historic tunings, microtonal music playback.

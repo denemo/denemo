@@ -6,7 +6,6 @@
  */
 #include <math.h>
 #include "drawingprims.h"
-#include "gcs.h"
 #include "utils.h"
 
 

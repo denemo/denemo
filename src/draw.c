@@ -14,7 +14,6 @@
 #include "contexts.h"
 #include "draw.h"		/* Which includes gtk.h */
 #include "drawingprims.h"
-#include "gcs.h"
 #include "slurs.h"
 #include "hairpin.h"
 #include "staffops.h"
@@ -230,13 +229,13 @@ static gint
 draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 	     DenemoGUI * gui, struct infotopass *itp)
 {
-  //g_print("draw obj %p\n", cr);
+
 
   itp->highy = itp->lowy = 0;
   DenemoScore *si = gui->si;
   DenemoObject *mudelaitem = (DenemoObject *) curobj->data;
 
-
+  //g_print("draw obj %d %d\n", mudelaitem->x, y);
   //this is the selection being given a blue background
   if(cr) if(itp->mark) {
     cairo_save(cr);
@@ -412,7 +411,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
     case KEYSIG:
       if(cr) draw_key (cr, x + mudelaitem->x, y,
 		((keysig *) mudelaitem->object)->number, itp->key,
-		itp->clef->type, TRUE);
+		itp->clef->type, TRUE, (keysig *) mudelaitem->object);
       itp->key = ((keysig *) mudelaitem->object)->number;
       memcpy (itp->keyaccs, ((keysig *) mudelaitem->object)->accs,
 	      SEVENGINTS);
@@ -427,7 +426,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
       itp->time2 =
 	((timesig *) mudelaitem->object)->time2;
       if(cr) draw_timesig (cr,
-		    x + mudelaitem->x, y, itp->time1, itp->time2);
+		    x + mudelaitem->x, y, itp->time1, itp->time2, (timesig *) mudelaitem->object);
       if (si->currentmeasure == itp->curmeasure)
 	{
 	  /* This is the current measure */
@@ -436,6 +435,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 	}
       /* The following assumes no multiple simultaneous time signatures */
       itp->tickspermeasure = WHOLE_NUMTICKS * itp->time1 / itp->time2;
+      itp->wholenotewidth = si->measurewidth * itp->time2 / itp->time1;
       break;
     case STEMDIRECTIVE:
       if(cr) draw_stem_directive (cr,
@@ -737,20 +737,22 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 
   if(!itp->line_end) {//not a continuation
     itp->clef = thestaff->leftmost_clefcontext;
-    if(cr) draw_clef (cr, LEFT_MARGIN, y,
+    if(cr && !(thestaff->voicecontrol&DENEMO_SECONDARY))
+      draw_clef (cr, LEFT_MARGIN, y,
 	       itp->clef);
     itp->key = thestaff->leftmost_keysig->number;
-    if(cr) draw_key (cr, x, y,
+    if(cr && !(thestaff->voicecontrol&DENEMO_SECONDARY))
+      draw_key (cr, x, y,
 	      itp->key,
-	      0, itp->clef->type, TRUE);
+	      0, itp->clef->type, TRUE, thestaff->leftmost_keysig);
     x += si->maxkeywidth;
     itp->time1 =
       thestaff->leftmost_timesig->time1;
     itp->time2 =
       thestaff->leftmost_timesig->time2;
-    if(cr) {
+    if(cr && !(thestaff->voicecontrol&DENEMO_SECONDARY)) {
       if(si->leftmeasurenum==1)  
-	draw_timesig (cr, x, y, itp->time1, itp->time2);
+	draw_timesig (cr, x, y, itp->time1, itp->time2, thestaff->leftmost_timesig);
       else {
 	guint width = gdk_pixbuf_get_width( GDK_PIXBUF(StaffGoBack));
 	guint height = gdk_pixbuf_get_height( GDK_PIXBUF(StaffGoBack));
@@ -763,9 +765,9 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
     }
     x += SPACE_FOR_TIME;
   } else {
-    if(cr) draw_clef (cr, LEFT_MARGIN, y, itp->clef);
-    if(cr) draw_key (cr, x, y,
-		     itp->key, 0, itp->clef->type, TRUE);
+    if(cr && !(thestaff->voicecontrol&DENEMO_SECONDARY)) draw_clef (cr, LEFT_MARGIN, y, itp->clef);
+    if(cr && !(thestaff->voicecontrol&DENEMO_SECONDARY)) draw_key (cr, x, y,
+		     itp->key, 0, itp->clef->type, TRUE, thestaff->leftmost_keysig);
     x += si->maxkeywidth;
     x += SPACE_FOR_TIME;// to allow the same margin ??
   }
@@ -780,19 +782,15 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
   if(cr) {
   /* Draw staff name on first system */
   if(!itp->line_end) {
-    gint staffname_offset = (thestaff->voicenumber == 1) ? 24 :
-      (thestaff->voicenumber == 2
-       || thestaff->voicenumber == 3) ? 12 : 0;
+    gint staffname_offset = (thestaff->voicecontrol&DENEMO_PRIMARY) ? 24 :12;
     drawnormaltext_cr( cr, thestaff->denemo_name->str, 0/*KEY_MARGIN*/, y - staffname_offset+10 );
   } else {
- cairo_save(cr);
-   gint staffname_offset = (thestaff->voicenumber == 1) ? 24 :
-      (thestaff->voicenumber == 2
-       || thestaff->voicenumber == 3) ? 12 : 0;
-   cairo_translate(cr, 2, (y - staffname_offset+30) );
-   cairo_rotate( cr,- M_PI/5.0 );
-    drawnormaltext_cr( cr, thestaff->denemo_name->str, 0,0 );
- cairo_restore(cr);
+  cairo_save(cr);
+  gint staffname_offset = (thestaff->voicecontrol&DENEMO_PRIMARY) ? 24 : 12;
+  cairo_translate(cr, 2, (y - staffname_offset+30) );
+  cairo_rotate( cr,- M_PI/5.0 );
+  drawnormaltext_cr( cr, thestaff->denemo_name->str, 0,0 );
+  cairo_restore(cr);
   }
 
   // cairo_save(cr);
@@ -1051,6 +1049,7 @@ draw_score (cairo_t *cr)
   itp.startposition = -1;
   itp.endposition = -1;
   itp.startobj =  itp.endobj = NULL;
+  itp.tupletstart = itp.tuplety = 0;
   y = 0;
 
   if(gui->si->smf) {
@@ -1081,7 +1080,7 @@ draw_score (cairo_t *cr)
     GdkPixbuf *StaffDirectivesPixbuf = (si->currentstaffnum==itp.staffnum)?StaffPixbuf:StaffPixbufSmall;
       
 
-    if (curstaff && staff->voicenumber == 1)
+    if (curstaff && staff->voicecontrol&DENEMO_PRIMARY)
       y += staff->space_above;
 
     //g_print("Incrementing vertically %d\n", y);
@@ -1129,7 +1128,7 @@ draw_score (cairo_t *cr)
     
 
 
-    if(si->leftmeasurenum==1) {
+    if(si->leftmeasurenum==1  && !(staff->voicecontrol&DENEMO_SECONDARY)) {
       /* draw background of clef, keysig, timesig */
       gint key = gui->si->maxkeywidth;
       gint cmajor = key?0:5;//allow some area for keysig in C-major
@@ -1259,7 +1258,7 @@ draw_score (cairo_t *cr)
     *itp.left=0;//To signal end of valid systems
 
     if ( (!curstaff->next)
-	 ||    ((DenemoStaff *) curstaff->next->data)->voicenumber !=2)
+	 ||    ((DenemoStaff *) curstaff->next->data)->voicecontrol&DENEMO_PRIMARY)
       {
 	if (itp.verse) {
 	  y += LYRICS_HEIGHT;

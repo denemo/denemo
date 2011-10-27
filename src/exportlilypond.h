@@ -1,8 +1,8 @@
-/* exportmudela.h
- * Header file for mudela exportation
+/* exportlilypond.h
+ * Header file for lilypond generation
 
  * for Denemo, a gtk+ frontend to GNU Lilypond
- * (c) 2000-2005 Matthew Hiller, Adam Tee
+ * (c) 2000-2005 Matthew Hiller, Adam Tee, 2011 Richard Shann
  */
 #ifndef EXPORTMUDELAH
 #define EXPORTMUDELAH
@@ -27,4 +27,5 @@ void custom_lily_cb (GtkAction *action, gpointer param);
 void delete_lily_cb (GtkAction *action, gpointer param);
 void set_lily_error(gint line, gint column, DenemoGUI *gui);
 void highlight_lily_error(DenemoGUI *gui);
+gboolean goto_lilypond_position(gint line, gint column);
 #endif

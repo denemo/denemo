@@ -25,11 +25,11 @@ draw_clef (cairo_t *cr, gint xx, gint y, clef* type);
 
 gint
 draw_key (cairo_t *cr, gint xx, gint y,
-	  gint number, gint prevnumber, gint dclef, gint wetrun);
+	  gint number, gint prevnumber, gint dclef, gint wetrun, keysig *keysig);
 
 void
 draw_timesig (cairo_t *cr,
-	      gint xx, gint y, gint time1, gint time2);
+	      gint xx, gint y, gint time1, gint time2, timesig *timesig);
 
 void
 draw_tupbracket (cairo_t *cr,

@@ -723,7 +723,7 @@ brace_count(gchar *str) {
   return ret;
 }
 
-
+// get_overridden_prefix, postfix returns the relevant fields from the directive list assembled with those marked as overriding lilypond  in front and other at end; ones with AFFIX not matching override are omitted.
 #define GET_OVERRIDDEN_AFFIX(field)\
 static gchar *get_overridden_##field(GList *g, gboolean override) {\
   if(g==NULL)\
@@ -758,8 +758,8 @@ GET_AFFIX(postfix);
 
 
 /* insert editable prefix string from passed directives, updating duration and open brace count
- omit or include those with AFFIX override set */
-
+ omit or include those with AFFIX override set. Skip any directive with HIDDEN attribute set */
+      
 
 #define DIRECTIVES_INSERT_EDITABLE_AFFIX(field) static void \
 directives_insert_##field##_editable (GList *directives, gint *popen_braces, gint *pprevduration, GtkTextIter *iter, gchar* invisibility, gboolean override) {\
@@ -768,6 +768,8 @@ directives_insert_##field##_editable (GList *directives, gint *popen_braces, gin
   for(;g;g=g->next) {\
     DenemoDirective *directive = (DenemoDirective *)g->data;\
     if(override == ((directive->override&DENEMO_OVERRIDE_AFFIX)==0))\
+      continue;\
+    if(directive->override&DENEMO_OVERRIDE_HIDDEN)\
       continue;\
     if(directive->field && directive->field->len) {\
       if(pprevduration) *pprevduration = -1;		    \
@@ -855,7 +857,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	
 	
 	/* prefix is before duration unless AFFIX override is set */
-	directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, invisibility, TRUE);
+	directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, invisibility, !lily_override);
 	
 	if(!lily_override) { //skip all LilyPond output for this chord
 	  if (!pchord->notes)
@@ -982,7 +984,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 			  output(" ");
 			for(;g;g=g->next) {
 			  DenemoDirective *directive = (DenemoDirective *)g->data;
-			  if(directive->postfix ) {
+			  if(directive->postfix && !(directive->override&DENEMO_OVERRIDE_HIDDEN)) {
 			    insert_editable(&directive->postfix, directive->postfix->len?directive->postfix->str:" ", iter, invisibility, gui);
 			    prevduration = -1;
 			  }	else
@@ -1119,7 +1121,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	GList *g = pchord->directives;
 	for(;g;g=g->next) {
 	  DenemoDirective *directive = (DenemoDirective *)g->data;
-	  if(directive->postfix && directive->postfix->len) {
+	  if(directive->postfix && directive->postfix->len  && !(directive->override&DENEMO_OVERRIDE_HIDDEN)) {
 	    prevduration = -1;
 	    open_braces += brace_count(directive->postfix->str);
 	    insert_editable(&directive->postfix, directive->postfix->str, iter, invisibility, gui);
@@ -1135,24 +1137,33 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
       }
 
 	break;
-      case CLEF:
-	{gboolean override = get_lily_override(((clef *) curobj->object)->directives);
-	if(((clef *) curobj->object)->directives) {
-	  g_string_append_printf (ret, "%s", get_postfix(((clef *) curobj->object)->directives));//FIXME memory leak get_postfix
+      case CLEF: {
+	gboolean override = FALSE;
+	gchar *clef_string = "";
+	gchar *clef_prestring = "";
+	GList *directives =  ((clef *) curobj->object)->directives;
+	if(directives) {
+	  override = get_lily_override(directives);
+	  clef_string = get_postfix(directives);
+	  clef_prestring = get_prefix(directives);	 	 
 	}
-	if(!override) {
+	if(override) 
+	  g_string_append_printf (ret,"%s", clef_string);
+	else {
 	  determineclef (((clef *) curobj->object)->type, &clefname);
-	  g_string_append_printf (ret, "\\clef %s", clefname);
+	  g_string_append_printf (ret, "%s\\clef %s%s", clef_prestring, clefname, clef_string);
 	}
-	}
+      }
 	break;
       case KEYSIG: {
 	gboolean override = FALSE;
 	gchar *keysig_string = "";
+	gchar *keysig_prestring = "";
 	GList *directives =  ((keysig *) curobj->object)->directives;
 	if(directives) {
 	  override = get_lily_override(directives);
-	  keysig_string = get_postfix(directives);	 
+	  keysig_string = get_postfix(directives);
+	  keysig_prestring = get_prefix(directives);	 	 
 	}
 	if(override) 
 	  g_string_append_printf (ret,"%s", keysig_string);
@@ -1160,7 +1171,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	  determinekey (((keysig *) curobj->object)->isminor ?
 			((keysig *) curobj->object)->number + 3 :
 			((keysig *) curobj->object)->number, &keyname);
-	  g_string_append_printf (ret, "\\key %s", keyname);
+	  g_string_append_printf (ret, "%s\\key %s", keysig_prestring, keyname);
 	  if (((keysig *) curobj->object)->isminor)
 	    g_string_append_printf (ret, " \\minor%s", keysig_string);
 	  else
@@ -1171,15 +1182,18 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
       case TIMESIG: {
 	gboolean override = FALSE;
 	gchar *timesig_string = "";
+	gchar *timesig_prestring = "";
+	
 	GList *directives =  ((timesig *) curobj->object)->directives;
 	if(directives) {
 	  override = get_lily_override(directives);
-	  timesig_string = get_postfix(directives);	 
+	  timesig_string = get_postfix(directives);
+	  timesig_prestring = get_prefix(directives);	 
 	}
 	if(override) 
 	  g_string_append_printf (ret,"%s", timesig_string);
 	else 
-	  g_string_append_printf (ret, "\\time %d/%d%s",
+	  g_string_append_printf (ret, "%s\\time %d/%d%s", timesig_prestring,
 				  ((timesig *) curobj->object)->time1,
 				  ((timesig *) curobj->object)->time2, timesig_string);
       }
@@ -1542,13 +1556,16 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     {
       gboolean override = get_lily_override(curstaffstruct->timesig.directives);
       gchar *timesig_string = get_postfix(curstaffstruct->timesig.directives);
+      gchar *time_prefix = get_prefix(curstaffstruct->timesig.directives);
       if(override)
 	g_string_append_printf(definitions, "%s%sTimeSig = %s", movement, voice, timesig_string);
       else
-	g_string_append_printf(definitions, "\n"TAB"%s%sTimeSig = \\time %d/%d %s\n", movement, voice, curstaffstruct->timesig.time1,
+	g_string_append_printf(definitions, "\n"TAB"%s%sTimeSig = {%s \\time %d/%d %s}\n", movement, voice, time_prefix, curstaffstruct->timesig.time1,
 			       curstaffstruct->timesig.time2, timesig_string);
-    }
 
+      g_free(timesig_string);
+      g_free(time_prefix);
+      }
     /* Determine the key signature */
     gchar *clefname;
     /* clef name */
@@ -1558,28 +1575,33 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     {
       gboolean override = get_lily_override(curstaffstruct->keysig.directives);
       gchar *keysig_string = get_postfix(curstaffstruct->keysig.directives);
+      gchar *key_prefix = get_prefix(curstaffstruct->keysig.directives);
       if(override)
 	g_string_append_printf(definitions, "%s%sKeySig = %s", movement, voice, keysig_string);
       else {
 	determinekey (curstaffstruct->keysig.isminor ?
 		      curstaffstruct->keysig.number + 3 : curstaffstruct->keysig.number, &keyname);
-	g_string_append_printf(definitions, "%s%sKeySig = \\key %s", movement, voice, keyname);
+	g_string_append_printf(definitions, "%s%sKeySig = {%s \\key %s", movement, voice, key_prefix, keyname);
 	if (curstaffstruct->keysig.isminor)
-	  g_string_append_printf(definitions, "%s %s", " \\minor\n", keysig_string);
+	  g_string_append_printf(definitions, "%s %s", " \\minor}\n", keysig_string);
 	else
-	  g_string_append_printf(definitions, "%s %s", " \\major\n", keysig_string);
+	  g_string_append_printf(definitions, "%s %s", " \\major}\n", keysig_string);
       }
-    }
 
+      g_free(keysig_string);
+      g_free(key_prefix);
+    }
     /* Determine the clef */
     determineclef (curstaffstruct->clef.type, &clefname);
     gboolean clef_override = get_lily_override(curstaffstruct->clef.directives);
     gchar *clef_postfix_insert = get_postfix(curstaffstruct->clef.directives);
+    gchar *clef_prefix = get_prefix(curstaffstruct->clef.directives);
     if(clef_override)
       g_string_append_printf(definitions, "%s%sClef = %s\n", movement, voice, clef_postfix_insert);
     else
-      g_string_append_printf(definitions, "%s%sClef = \\clef %s %s\n", movement, voice, clefname, clef_postfix_insert);
+      g_string_append_printf(definitions, "%s%sClef = %s \\clef %s %s\n", movement, voice, clef_prefix, clefname, clef_postfix_insert);
     g_free(clef_postfix_insert);
+    g_free(clef_prefix);
     g_string_append_printf(definitions, "%s%sProlog = { \\%s%sTimeSig \\%s%sKeySig \\%s%sClef}\n", 
 			    movement, voice, movement, voice, movement, voice, movement, voice);
     gchar *voice_prefix = get_prefix(curstaffstruct->voice_directives);
@@ -1713,13 +1735,9 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 
 	  if( (curobjnode==NULL) || (curobjnode->next==NULL)) {	//at end of measure
 	    GString *endstr = g_string_new("");
-	    if (empty_measure)// measure has nothing to use up the duration, assume whole measure rest for primary voice, skip for secondaries.CHANGE to SKIP for all
+	    if (empty_measure)// measure has nothing to use up the duration, assume  SKIP 
 	      {
-
-		g_string_append_printf(endstr, " %c1*%d/%d ",(curstaffstruct->voicenumber == 1)?/*'R'*/'s':'s', cur_stime1, cur_stime2);// NOW s1 always (was either R1 or s1 for whole measure rest or skip)
-
-
-
+		g_string_append_printf(endstr, " s1*%d/%d ", cur_stime1, cur_stime2);
 		gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
 		gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, endstr->str, -1,invisibility,NULL);
 		g_string_assign(endstr,"");
@@ -2048,7 +2066,13 @@ gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW(gui->textview),
   }
   }
   
-
+static void  print_cursor_cb(void) {
+ GtkTextIter iter;
+ DenemoGUI *gui = Denemo.gui;
+    gtk_text_buffer_get_iter_at_mark (gui->textbuffer , &iter, gtk_text_buffer_get_insert(gui->textbuffer));
+    g_print("Char is %c at bytes=%d chars=%d\n", gtk_text_iter_get_char (&iter), gtk_text_iter_get_visible_line_index (&iter),gtk_text_iter_get_visible_line_offset (&iter)  );
+    
+}
 /*
  *writes the current score in LilyPond format to the textbuffer.
  *sets gui->lilysync equal to gui->changecount
@@ -2239,7 +2263,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	GString *voice_name = g_string_new("");
 	GString *staff_name = g_string_new("");
 	GString *name = g_string_new("");
-	if (curstaffstruct->voicenumber == 1) 
+	if (curstaffstruct->voicecontrol == DENEMO_PRIMARY) 
 	  staff_count++;
 
 	g_string_printf(name, "Voice%d", voice_count);
@@ -2286,7 +2310,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	    if (curstaffstruct->context & DENEMO_PIANO_START) /* Piano staff cannot start before Group */
 	      g_string_append_printf(thestr, "\\new PianoStaff %s << %s\n", staff_group_prolog_insert, staff_group_epilog_insert);
 	  }
-	  if(curstaffstruct->voicenumber == 1) {
+	  if(curstaffstruct->voicecontrol == DENEMO_PRIMARY) {
 	    if(!staff_override)
 	      g_string_append_printf(staffdefinitions, "%s%s = \\new Staff = \"%s\" %s << %s{\n", movement_name->str, staff_name->str,  curstaffstruct->denemo_name->str,         staff_prolog_insert, staff_epilog_insert);
 	    else
@@ -2294,7 +2318,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	    g_string_append_printf(thestr, "%s\\%s%s\n", staff_alt_prolog, movement_name->str, staff_name->str);
 	  }
 	  else
-	    g_string_append_printf(staffdefinitions, "%s", "\\new Voice = \"%s\" {\n", curstaffstruct->denemo_name->str);
+	    g_string_append_printf(staffdefinitions, "\\new Voice = \"%s\" {\n", curstaffstruct->denemo_name->str);
 	  g_free(staff_prolog_insert);
 	  g_free(staff_epilog_insert);
 
@@ -2302,12 +2326,12 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	    g_string_append_printf(staffdefinitions, TAB "\\override Staff.StaffSymbol  #'line-count = #%d\n",
 				   curstaffstruct->no_of_lines);
 	  gchar *endofblock;
-	  if(curstaff->next && ((DenemoStaff *) curstaff->next->data)->voicenumber == 2)
+	  if(curstaff->next && ((DenemoStaff *) curstaff->next->data)->voicecontrol & DENEMO_SECONDARY)
 	    endofblock = g_strdup("");
 	  else
 	    endofblock = g_strdup(">>");
 	  
-	  if (curstaffstruct->voicenumber != 2)
+	  if (!(curstaffstruct->voicecontrol & DENEMO_SECONDARY))
 	    {
 	      g_string_append_printf(staffdefinitions, TAB TAB"\\%s%sContext\n"TAB TAB"}\n", movement_name->str, voice_name->str);
 	      g_string_append_printf(scoreblock, "%s",thestr->str);
@@ -2335,7 +2359,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 		g_string_append_printf(staffdefinitions, TAB TAB" \\context Staff = \"%s\" \\with {implicitBassFigures = #'(0) } \\%s%sBassFiguresLine\n",  curstaffstruct->denemo_name->str,  movement_name->str, voice_name->str);
 	      g_string_append_printf(staffdefinitions, TAB TAB"%s\n", endofblock);
 	    }
-	  else if (curstaffstruct->voicenumber == 2) {      
+	  else if (curstaffstruct->voicecontrol & DENEMO_SECONDARY) {      
 	    g_string_append_printf(staffdefinitions, "%s"TAB TAB"\\%s%s\n"TAB TAB"\n"TAB TAB"\n", thestr->str, movement_name->str, voice_name->str);
 
 	      if (curstaffstruct->verses)
@@ -2574,7 +2598,7 @@ lily_refresh(GtkWidget *item, GdkEventCrossing *e, DenemoGUI *gui);
 
 static gboolean 
 lily_save(GtkWidget *item, GdkEventCrossing *e, DenemoGUI *gui){
-  g_print("Consider Save ... %d %d", gui->lilysync, gui->changecount);
+  //g_print("Consider Save ... %d %d", gui->lilysync, gui->changecount);
   g_signal_handlers_block_by_func (SIGNAL_WIDGET, G_CALLBACK (lily_save), gui);
   if(gui->textwindow) {
     g_signal_handlers_unblock_by_func (G_OBJECT (gui->textwindow), G_CALLBACK (lily_refresh), gui);
@@ -2586,7 +2610,7 @@ lily_save(GtkWidget *item, GdkEventCrossing *e, DenemoGUI *gui){
 }
 static gboolean 
 lily_refresh(GtkWidget *item, GdkEventCrossing *e, DenemoGUI *gui){
-  g_print("Consider Refresh ... %d %d", gui->lilysync, gui->changecount);
+  //g_print("Consider Refresh ... %d %d", gui->lilysync, gui->changecount);
   if(gui->textwindow)
     g_signal_handlers_block_by_func(gui->textwindow, G_CALLBACK (lily_refresh), gui);
   g_signal_handlers_unblock_by_func (G_OBJECT (SIGNAL_WIDGET), G_CALLBACK (lily_save), gui);
@@ -2612,9 +2636,54 @@ static gboolean populate_called(GtkWidget *view, GtkMenuShell *menu, DenemoGUI *
   GtkWidget *item;
   prepend_menu_item(menu, gui, "Find Current Object", (gpointer) place_cursor_cb);
   prepend_menu_item(menu, gui, "Print from visible LilyPond text", (gpointer) print_lily_cb);
+ //prepend_menu_item(menu, gui, "Print Current char", (gpointer) print_cursor_cb);
   return FALSE;
 }
 
+gboolean goto_lilypond_position(gint line, gint column) {
+  DenemoGUI *gui = Denemo.gui;
+  GtkTextIter enditer, iter;
+  gtk_text_buffer_get_end_iter (gui->textbuffer, &enditer);
+  gtk_text_buffer_get_start_iter (gui->textbuffer, &iter);
+
+  line--;
+  column--;
+  if(column>0 && line>0) {
+    gtk_text_buffer_get_iter_at_line_offset
+      (gui->textbuffer,
+       &iter,
+       line,
+       0);
+  gint maxcol =  gtk_text_iter_get_chars_in_line(&iter);
+    //g_print("line %d column %d\n", line, column);
+    //g_print("line has %d chars\n", maxcol);
+  gtk_text_iter_set_visible_line_offset (&iter, MIN(maxcol, column));
+  gtk_text_buffer_place_cursor (gui->textbuffer, &iter);
+  GtkTextChildAnchor *anchor = gtk_text_iter_get_child_anchor(&iter);
+  //if(anchor) g_print("At anchor <%c> ", gtk_text_iter_get_char (&iter));
+  //else g_print("Not at anchor <%c> ", gtk_text_iter_get_char (&iter));
+  while((anchor==NULL) && gtk_text_iter_backward_char(&iter)) {
+    anchor = gtk_text_iter_get_child_anchor(&iter);
+    //g_print("#%c#", gtk_text_iter_get_char (&iter));
+  }
+  if(anchor){
+    gint objnum =  (intptr_t) g_object_get_data(G_OBJECT(anchor), OBJECTNUM);
+    gint measurenum =  (intptr_t) g_object_get_data(G_OBJECT(anchor), MEASURENUM);
+    gint staffnum =  (intptr_t) g_object_get_data(G_OBJECT(anchor), STAFFNUM);
+    gint movementnum =  (intptr_t) g_object_get_data(G_OBJECT(anchor), MOVEMENTNUM);
+    //g_print("location %d %d %d %d\n", objnum, measurenum, staffnum, movementnum);
+    if(movementnum<1)
+      {
+	g_warning("Object %p has no location data\n", g_object_get_data(G_OBJECT(anchor), OBJECT));
+	return FALSE;
+      }
+    if(!goto_movement_staff_obj (gui, movementnum, staffnum, measurenum, objnum))
+      return FALSE;
+    return TRUE;
+  } else g_warning("Anchor not found\n");
+  }
+  return FALSE;
+}
 
 static gboolean lily_keypress(GtkWidget *w, GdkEventKey *event, DenemoGUI *gui) {
   GtkTextIter cursor;

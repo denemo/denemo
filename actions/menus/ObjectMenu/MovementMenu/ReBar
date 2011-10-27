@@ -175,6 +175,7 @@
 	))
 	
 	(define (GetTimeSigChange)
+		(d-RefreshDisplay);;forces the cached data about the time signature at the cursor to be updated (sigh)
 		(set! TimeSig (string-&gt;number (d-InsertTimeSig "query=timesigname") ))
 	);GetTimeSig
 	

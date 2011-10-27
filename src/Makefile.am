@@ -1,4 +1,4 @@
-bin_PROGRAMS = denemo
+bin_PROGRAMS = denemo denemoclient
 dist_pkgdata_DATA = denemoui.xml instruments.xml
 denemo_SOURCES = denemo_types.c \
 	articulations.c calculatepositions.c changenotehead.c \
@@ -6,7 +6,7 @@ denemo_SOURCES = denemo_types.c \
 	drawaccidentals.c drawclefs.c drawcursor.c drawkey.c drawdynamic.c \
 	drawnotes.c drawselection.c drawstemdir.c drawtimesig.c drawtuplets.c \
 	drawlyric.c dynamic.c drawfigure.c exportabc.c exportlilypond.c \
-	exportxml.c file.c gcs.c \
+	exportxml.c file.c \
 	hairpin.c \
 	help.c importxml.c importmusicxml.c importmidi.c kbd-custom.c kbd-interface.c \
 	keyresponses.c keysigdialog.c figure.c 	main.c \
@@ -25,7 +25,6 @@ denemo_SOURCES = denemo_types.c \
 	contexts.h  dynamic.h dialogs.h draw.h \
 	drawingprims.h \
 	exportabc.h exportlilypond.h  exportxml.h file.h \
-	gcs.h \
 	figure.h barline.h view.h http.h hairpin.h  help.h importxml.h  importmusicxml.h importmidi.h \
 	kbd-custom.h kbd-interface.h graceops.h \
 	keyresponses.h  \
@@ -95,6 +94,8 @@ pathconfig.h:  $(top_builddir)/config.status
 	@echo '#define DENEMO_LOAD_PATH "@denemo_load_path@"' >pathconfig.tmp
 	@echo '#define DENEMO_BIN_PATH  "@denemo_bin_path@"' >>pathconfig.tmp
 	@mv pathconfig.tmp $@	
+
+denemoclient_SOURCES = denemo_client.c
 
 
 noinst_HEADERS = parseinstruments.h keyboard.h

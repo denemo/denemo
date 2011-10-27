@@ -50,7 +50,7 @@ locatedotdenemo ()
   gboolean err;
   if (!dotdenemo)
     {
-      dotdenemo = g_build_filename (g_get_home_dir(), ".denemo", NULL);
+      dotdenemo = g_build_filename (g_get_home_dir(), ".denemo-"PACKAGE_VERSION, NULL);
     }
   err = g_mkdir_with_parents(dotdenemo, 0770);
   if(err) {
