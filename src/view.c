@@ -7052,9 +7052,11 @@ GdkBitmap *bitmap = gdk_pixmap_create_from_data(NULL, Denemo.gui->xbm, width, he
 
 #endif
 
-
+#ifdef _USE_GTK3_
     GdkPixbuf *pixbuf1 = gdk_pixbuf_get_from_window (NULL,  bitmap, NULL, 0,0,0,0, width, height);
-
+#else
+    GdkPixbuf *pixbuf1 = gdk_pixbuf_get_from_drawable (NULL,  bitmap, NULL, 0,0,0,0, width, height);
+#endif
     GdkPixbuf *pixbuf = gdk_pixbuf_add_alpha (pixbuf1, TRUE, 0,0,0);// 255, 255, 255);
 
     guchar *pixels;

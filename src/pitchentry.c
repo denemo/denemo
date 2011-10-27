@@ -1022,19 +1022,22 @@ static gint draw_indicator (GtkWidget * widget, GdkEventExpose * event, gpointer
     //value 400 is perfect, 410 = 5/2 cents sharp
     if (iCent < 0) iCent= 0;
     if (iCent >  800) iCent=  800;
-    GdkGC *gc;
+    cairo_t *cr = gdk_cairo_create (widget);
+
     if(iCent<380)
-      gc =gcs_redgc(); 
+      cairo_set_source_rgb (cr, 1, 0, 0);
     else
       if(iCent>420)
-	gc = gcs_bluegc(); //blue
+	cairo_set_source_rgb (cr, 0, 1, 0);
       else
-	gc =  gcs_greengc(); //green 	
-    gdk_draw_rectangle (widget->window,
-			gc, TRUE, iCent-barwidth/2,0,barwidth,320);
+	cairo_set_source_rgb (cr, 0, 0, 1);
+    cairo_rectangle (cr, iCent-barwidth/2,0,barwidth,320);
+    cairo_fill(cr);
+    cairo_set_source_rgb (cr, 0, 0, 0);
+    cairo_rectangle (cr, centre-barwidth/8, 0, barwidth/4, 320);
+    cairo_fill(cr);
+    cairo_destroy (cr);	    
 	
-    gdk_draw_rectangle (widget->window,
-			gcs_blackgc(), TRUE,centre-barwidth/8, 0, barwidth/4, 320);
   return TRUE;
 }
 

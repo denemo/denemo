@@ -299,9 +299,13 @@ screenshot_get_pixbuf (GdkWindow    *window,
       width  = rectangle->width;
       height = rectangle->height;
       if(width>0 && height>0)
-        screenshot = gdk_pixbuf_get_from_window (NULL, root, NULL,
-                                              x_orig, y_orig, 0, 0,
-                                              width, height);
+        screenshot = 
+#ifdef _USE_GTK3_
+   gdk_pixbuf_get_from_window 
+#else
+   gdk_pixbuf_get_from_drawable
+#endif
+	(NULL, root, NULL, x_orig, y_orig, 0, 0, width, height);
    }
   return screenshot;
 }
