@@ -8,14 +8,16 @@
         <action>BookComposer</action>
         <scheme>;;BookComposer
 (d-LilyPondInclude "book-titling.ily")
-(let ((chapter (d-DirectiveGet-scoreheader-postfix "Composer")))
+(let ((chapter (d-DirectiveGet-scoreheader-display "Composer")))
   (if (not chapter)
     (set! chapter "Composer"))
   (set! chapter (d-GetUserInput "Composer Name" "Give the name of the composer for the score" chapter))
    (d-SetSaved #f)
   (if (string-null? chapter)
   	(d-DirectiveDelete-scoreheader "Composer")
-      	(d-DirectivePut-scoreheader-postfix "Composer" (string-append "composer = \"" chapter "\"\n"))))
+  	(begin 
+  	(d-DirectivePut-scoreheader-display "Composer" chapter)
+      	(d-DirectivePut-scoreheader-postfix "Composer" (string-append "composer = \"" chapter "\"\n")))))
 </scheme>
         <label>Composer</label>
         <tooltip>Prints a composer name on title page</tooltip>
