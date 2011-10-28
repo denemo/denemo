@@ -649,6 +649,17 @@ newXMLNoteHead (xmlNodePtr parent, xmlNsPtr ns, enum headtype noteHeadType)
 //g_base64_decode_inplace(guchar *buf, gsize* outlen);//overwrites buf with decoded data.
   }	
 }
+
+static void set_invisible(xmlNodePtr objElem, DenemoObject *curObj) {
+if (curObj->isinvisible)
+    xmlSetProp (objElem, (xmlChar *) "show", (xmlChar *)
+				"false");
+else
+    xmlSetProp (objElem, (xmlChar *) "show",
+				(xmlChar *) "true");
+}
+
+
 /**
  * Export the given score (from measure start to measure end) as a "native"
  * Denemo XML file to the given file.
@@ -820,6 +831,9 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 	}
     }
 
+
+
+
   /* Output each voice. These are the DenemoStaff objects */
 
   voicesElem = xmlNewChild (mvmntElem, ns, (xmlChar *) "voices", NULL);
@@ -924,13 +938,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		    objElem =
 		      xmlNewChild (measureElem, ns, (xmlChar *) "chord",
 				   NULL);
-		  if (curObj->isinvisible)
-		    xmlSetProp (objElem, (xmlChar *) "show", (xmlChar *)
-				"false");
-		  else
-		    xmlSetProp (objElem, (xmlChar *) "show",
-				(xmlChar *) "true");
-
+		  set_invisible(objElem, curObj);
 
 
 		  chordXMLID = getXMLID (curObj);
@@ -1357,6 +1365,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		case CLEF:
 		  objElem = newXMLClef (measureElem, ns,
 					((clef *) curObj->object));
+		  set_invisible(objElem, curObj);
 		  break;
 
 		case TIMESIG:

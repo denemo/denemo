@@ -403,8 +403,17 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
       break;
     case CLEF:
       itp->clef = ((clef *) mudelaitem->object);
-      if(cr) draw_clef (cr, x + mudelaitem->x, y,
+      if(cr) {
+	if(mudelaitem->isinvisible) {
+	  cairo_save(cr);
+	  cairo_set_source_rgb( cr, 231.0/255, 215.0/255, 39.0/255 );//thecolor = &yellow;cairo_  rgb yellow
+	}
+	draw_clef (cr, x + mudelaitem->x, y,
 		 itp->clef);
+	if(mudelaitem->isinvisible) {	 
+		  cairo_restore(cr);
+	}
+      }
       if (si->currentobject == curobj && si->cursor_appending)
 	si->cursorclef = itp->clef->type;//FIXME drawing is side-effecting the data, presumably to economize on searching for the prevailing clef at the cursor.
       break;

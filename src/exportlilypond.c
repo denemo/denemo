@@ -1150,8 +1150,10 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	if(override) 
 	  g_string_append_printf (ret,"%s", clef_string);
 	else {
-	  determineclef (((clef *) curobj->object)->type, &clefname);
-	  g_string_append_printf (ret, "%s\\clef %s%s", clef_prestring, clefname, clef_string);
+	    if(!curobj->isinvisible) {
+	    determineclef (((clef *) curobj->object)->type, &clefname);
+	    g_string_append_printf (ret, "%s\\clef %s%s", clef_prestring, clefname, clef_string);
+	    }
 	}
       }
 	break;
