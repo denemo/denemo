@@ -5489,6 +5489,14 @@ for second and subsequent systems</tooltip>
         <label>Title</label>
         <tooltip>Prints a title for the movement, which will get a page reference in a table of contents.</tooltip>
       </row>
+      <row>
+        <action>SetDisplayClef</action>
+        <after>HideClef</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ClefMenu</menupath>
+        <label>Display Only Clef</label>
+        <tooltip>Inserts a clef that affects only the display, not the printed form. Use this after ChangeStaff in the staff the voice will be on is in a different clef. Also useful to display in a familiar clef music which you want to be printed in a less familiar one (e.g. display in treble or bass music to be printed for viola</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
