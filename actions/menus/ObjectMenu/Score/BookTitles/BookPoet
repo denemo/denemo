@@ -16,7 +16,7 @@
   (if (string-null? chapter)
   	(d-DirectiveDelete-scoreheader "Poet")
   	(begin
-  			(d-DirectivePut-scoreheader-display "Poet")
+  		(d-DirectivePut-scoreheader-display "Poet" chapter)
     	  	(d-DirectivePut-scoreheader-postfix "Poet" (string-append "poet = \"" chapter "\"\n")))))
 </scheme>
         <label>Poet/Lyricist</label>

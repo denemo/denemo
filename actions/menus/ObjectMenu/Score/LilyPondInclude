@@ -18,8 +18,7 @@
  ;;;;;start of procedure   
  
   (if include
-    (if (d-Directive-score? (string-append "LilyPondInclude:" include))
-      (setinclude include))
+      (setinclude include)
     (begin   
       (set! include (d-GetUserInput "Include LilyPond File" "Give LilyPond file name:" "book-titling.ily"));;;FIXME get list of possible files
       (if include
