@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>BookTitle</action>
+        <scheme>;;BookTitle
+(d-LilyPondInclude "book-titling.ily")
+(let ((chapter (d-DirectiveGet-scoreheader-postfix "Title")))
+  (if (not chapter)
+    (set! chapter "Book Title"))
+  (set! chapter (d-GetUserInput "Book Title" "Give a title for the whole score" chapter))
+   (d-SetSaved #f)
+  (if (string-null? chapter)
+  	(d-DirectiveDelete-scoreheader "Title")
+      	(d-DirectivePut-scoreheader-postfix "Title" (string-append "title = \"" chapter "\"\n"))))</scheme>
+        <label>Title</label>
+        <tooltip>Prints a title on title page</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

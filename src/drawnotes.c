@@ -9,7 +9,6 @@
 #include "utils.h"		/* Includes <gdk.h> */
 #include "drawingprims.h"
 #include "notewidths.h"
-#include "gcs.h"
 #include <math.h>
 
 gint restwidths[SMALLESTDURATION + 1] =

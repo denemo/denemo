@@ -1488,7 +1488,20 @@ string_dialog_entry_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *direction
 		                        TRUE, TRUE, 0);
 
 	if(widget)
-	  	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), widget,
+          gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), widget,
+		                        TRUE, TRUE, 0);
+	if (PreValue != NULL) {
+            gtk_entry_set_text (GTK_ENTRY (entry), (gchar *) PreValue);
+        }
+  
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), entry,
+		                        TRUE, TRUE, 0);
+
+#else
+ 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label,
+		                        TRUE, TRUE, 0);
+	if(widget)
+	  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), widget,
 		                        TRUE, TRUE, 0);
 #endif
 

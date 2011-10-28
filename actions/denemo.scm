@@ -423,13 +423,20 @@
 	  ;;(display thematch)
 	  (if (regexp-match? thematch)
 	      (set! current (match:substring thematch 1)))))
-    (if (boolean? title)
-	(set! title (scheme-escape (d-GetUserInput (string-append type " " fieldname)
-				    (string-append "Give a name for the " fieldname " of the " type) current))))
-    (d-DirectivePut-header-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
-    (d-DirectivePut-header-display tag (string-append type " " fieldname ": " (html-escape title)))
-    
-    (d-DirectivePut-header-postfix tag (string-append field " = \"" title "\"\n"))))
+    (if (not title)
+      (begin
+	(set! title (d-GetUserInput (string-append type " " fieldname)
+				    (string-append "Give a name for the " fieldname " of the " type) current))
+	(if title
+	  (begin
+	    (if (string-null? title)
+	      (d-DirectiveDelete-header tag)
+	      (begin
+		(set! title (scheme-escape title ))
+		(d-DirectivePut-header-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
+		(d-DirectivePut-header-display tag (string-append type " " fieldname ": " (html-escape title)))
+		(d-DirectivePut-header-postfix tag (string-append field " = \"" title "\"\n")))))
+	    (disp "Cancelled\n"))))))
 
 ; SetScoreHeaderField sets a field in the score header
 (define (SetScoreHeaderField field)

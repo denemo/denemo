@@ -1022,8 +1022,9 @@ static gint draw_indicator (GtkWidget * widget, GdkEventExpose * event, gpointer
     //value 400 is perfect, 410 = 5/2 cents sharp
     if (iCent < 0) iCent= 0;
     if (iCent >  800) iCent=  800;
-    cairo_t *cr = gdk_cairo_create (widget);
-
+    
+    cairo_t *cr = gdk_cairo_create (widget->window);
+    
     if(iCent<380)
       cairo_set_source_rgb (cr, 1, 0, 0);
     else

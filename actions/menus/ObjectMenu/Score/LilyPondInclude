@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ScoreBlockProlog</after>
+        <action>LilyPondInclude</action>
+        <scheme>;;;LilyPondInclude
+(let ((include LilyPondInclude::params))
+  (define (setinclude include)
+    (define tag (string-append "LilyPondInclude:" include))
+    (d-SetSaved #f)
+    (d-DirectivePut-score-override tag DENEMO_OVERRIDE_DYNAMIC)
+    (d-DirectivePut-score-prefix tag (string-append "\\include \"" DENEMO_LILYPOND_DIR "/" include "\"\n"))
+ ;;;;;start of procedure   
+    (d-DirectivePut-score-display tag tag))
+  (if include
+    (if (d-Directive-score? (string-append "LilyPondInclude:" include))
+      (setinclude include))
+    (begin   
+      (set! include (d-GetUserInput "Include LilyPond File" "Give LilyPond file name:" "book-titling.ily"));;;FIXME get list of possible files
+      (if include
+	(setinclude include)
+	(d-WarningDialog "LilyPondInclude unchanged")))))</scheme>
+        <label>LilyPond Include File</label>
+        <tooltip>Allows specification of a LilyPond include file from the Denemo provided include files.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

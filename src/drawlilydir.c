@@ -9,7 +9,6 @@
 #include "utils.h"		/* Includes <gdk.h> */
 #include <denemo/denemo.h>
 #include <string.h>
-#include "gcs.h"
 /**
  * Draw a lilypond directive on the score as a vertical bar and text if appropriate
  *

@@ -2367,6 +2367,43 @@ SCM scheme_set_action_script_for_tag(SCM tag, SCM script) {
   return SCM_BOOL(FALSE);
 }
 
+
+
+#define GET_NTH_TAG(what)\
+ static SCM scheme_##what##_directive_get_nth_tag(SCM index) {\
+  gint n;\
+  if(!scm_is_integer(index))\
+     return SCM_BOOL_F;\
+    n = scm_to_int(index);\
+  extern gchar *get_nth_##what##_tag (gint n);\
+  gchar *val = get_nth_##what##_tag (n);\
+  if(val) return scm_from_locale_stringn (val, strlen(val));\
+  return SCM_BOOL_F;\
+}
+GET_NTH_TAG(chord);
+GET_NTH_TAG(note);
+GET_NTH_TAG(staff);
+GET_NTH_TAG(voice);
+GET_NTH_TAG(score);
+GET_NTH_TAG(clef);
+GET_NTH_TAG(timesig);
+GET_NTH_TAG(tuplet);
+GET_NTH_TAG(stemdirective);
+GET_NTH_TAG(keysig);
+GET_NTH_TAG(scoreheader);
+GET_NTH_TAG(header);
+GET_NTH_TAG(paper);
+GET_NTH_TAG(layout);
+GET_NTH_TAG(movementcontrol);
+#undef GET_NTH_TAG
+
+
+
+
+
+
+
+
 #define GET_TAG_FN_DEF(what)\
  static SCM scheme_##what##_directive_get_tag(SCM tag) {\
   char *tagname;\
@@ -3929,7 +3966,9 @@ static void define_scheme_constants(void) {
 
   DEF_SCHEME_STR("DENEMO_VERSION", denemo_version, "Holds the denemo version major.minor.micro");
   DEF_SCHEME_STR("DENEMO_ACTIONS_DIR", actions_dir, "Holds location of system-wide Denemo actions directory");
+  DEF_SCHEME_STR("DENEMO_LILYPOND_DIR", g_build_filename(actions_dir, "lilypond", NULL), "Holds location of Denemo's system-wide  lilypond include files directory");
   DEF_SCHEME_STR("DENEMO_LOCAL_ACTIONS_DIR", local_actions_dir, "Holds location of Denemo actions directory beneath your home directory");
+  DEF_SCHEME_STR("DENEMO_LOCAL_LILYPOND_DIR", g_build_filename(local_actions_dir, "lilypond", NULL), "Holds location of user lilypond include files directory");
   {
     gint i;
     for(i=0;i<G_N_ELEMENTS(DenemoObjTypeNames);i++) 
@@ -4267,6 +4306,25 @@ static void create_scheme_identfiers(void) {
   INSTALL_GET_TAG(layout);
   INSTALL_GET_TAG(movementcontrol);
 #undef INSTALL_GET_TAG
+
+#define INSTALL_GET_NTH_TAG(what)\
+  INSTALL_SCM_FUNCTION1 ("Takes a number n. Returns the tag of the nth "#what" directive if it exists else returns #f if none", DENEMO_SCHEME_PREFIX"DirectiveGetNthTag"  "-" #what, scheme_##what##_directive_get_nth_tag);
+  INSTALL_GET_NTH_TAG(chord);
+  INSTALL_GET_NTH_TAG(note);
+  INSTALL_GET_NTH_TAG(staff);
+  INSTALL_GET_NTH_TAG(voice);
+  INSTALL_GET_NTH_TAG(score);
+  INSTALL_GET_NTH_TAG(clef);
+  INSTALL_GET_NTH_TAG(timesig);
+  INSTALL_GET_NTH_TAG(tuplet);
+  INSTALL_GET_NTH_TAG(stemdirective);
+  INSTALL_GET_NTH_TAG(keysig);
+  INSTALL_GET_NTH_TAG(scoreheader);
+  INSTALL_GET_NTH_TAG(header);
+  INSTALL_GET_NTH_TAG(paper);
+  INSTALL_GET_NTH_TAG(layout);
+  INSTALL_GET_NTH_TAG(movementcontrol);
+#undef INSTALL_GET_NTH_TAG
 
 
 
@@ -6364,10 +6422,15 @@ activate_script (GtkAction *action, gpointer param)
    if(text) {
       gboolean ret;
       if(*text==0)
-        text = instantiate_script(action); 
-      stage_undo(gui->si, ACTION_STAGE_END);//undo is a queue so this is the end :)
-      ret = (gboolean)!call_out_to_guile(text);
-      stage_undo(gui->si, ACTION_STAGE_START);
+        text = instantiate_script(action);
+      if(text && *text) {
+        stage_undo(gui->si, ACTION_STAGE_END);//undo is a queue so this is the end :)
+        ret = (gboolean)!call_out_to_guile(text);
+        stage_undo(gui->si, ACTION_STAGE_START);
+      } else {
+        g_warning("Could not get script for %s\n", gtk_action_get_name(action));
+        ret = FALSE;
+      }
       return ret; 
     }
   }
