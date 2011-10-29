@@ -2440,14 +2440,21 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
      
       g_string_append_printf(scoreblock, "%s", "}\n"); /*end of \score block */
      
-
+      /* output postfix score if OVERRIDE_AFFIX is set */
+      {gchar *tail = get_overridden_postfix(gui->lilycontrol.directives, TRUE);
+	g_print("The final movement %s\n", tail);
+	g_string_append_printf(scoreblock, "%s", tail);
+	g_free(tail);
+      }
       // Put this standard scoreblock in the textbuffer
 
       gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, STANDARD_SCOREBLOCK));
 
     
-	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter,scoreblock->str, -1, INEDITABLE,
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter,scoreblock->str, -1, INEDITABLE,
 						  (partname==NULL && gui->custom_scoreblocks)?"invisible":NULL, NULL);
+
+
       
     }/* if visible movement */
 
