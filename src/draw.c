@@ -749,6 +749,16 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
     if(cr && !(thestaff->voicecontrol&DENEMO_SECONDARY))
       draw_clef (cr, LEFT_MARGIN, y,
 	       itp->clef);
+    else if(cr) {
+      cairo_save(cr);
+      cairo_set_source_rgb( cr, 231.0/255, 215.0/255, 39.0/255 );//thecolor = &yellow;
+      draw_clef (cr, LEFT_MARGIN, y,
+	       itp->clef);
+      cairo_restore(cr);
+
+    }
+
+    
     itp->key = thestaff->leftmost_keysig->number;
     if(cr && !(thestaff->voicecontrol&DENEMO_SECONDARY))
       draw_key (cr, x, y,
