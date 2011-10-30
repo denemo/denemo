@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ReduceSystemSpacing</after>
+        <action>CriticalCommentary</action>
+        <scheme>;;;;;;;;;CriticalCommentary
+(d-PushPosition)
+(while (d-PreviousMovement))
+(let ()
+ (define thecomments '())
+ (define ok #f)
+ (let movement ()
+  (define (format-commentary thelist)
+    (define ret "")
+    (let loop ((count 0))
+      (if (&lt; count (length thelist))
+	(begin
+	  (set! ret (string-append ret "\n\\markup \"" (number-&gt;string (+ 1 count)) ". "
+	    (list-ref thelist count) "\"\n"))
+	  (loop (+ 1 count)))))
+  ret)
+
+   	(let staff ((voiceno 1))
+ 		(d-MoveToBeginning)
+ 		(let ()
+		    (define tag "CriticalComment")
+		    (define thecomment #f)
+		    (while (NextDirectiveOfTag tag)
+			  (set! ok #t)
+			  (set! thecomment (d-DirectiveGet-standalone-display tag))
+			  (set! thecomments (cons* (string-append "In mvnt: " (number-&gt;string (d-GetMovement)) " voice: " (number-&gt;string voiceno) " bar: " (number-&gt;string (d-GetMeasure))  ": " thecomment) thecomments)))
+
+			(if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
+			    (staff (+ 1 voiceno)))))
+	(if (d-NextMovement)
+	  (movement)
+	  (begin
+	    (if ok
+	      (begin
+		(d-LilyPondInclude "book-titling.ily")
+		(d-LilyPondInclude "simplified-book-titling.ily")
+		(d-DirectivePut-score-override "CriticalCommentary" DENEMO_OVERRIDE_AFFIX)
+		(d-DirectivePut-score-postfix "CriticalCommentary" (string-append "\\pageBreak\n\\titledPiece \\markup \"Critical Commentary\"\n"  (format-commentary (reverse thecomments)))))
+		(d-InfoDialog "No critical comments found\nUse Directive-&gt;Critical Comment to insert these"))))))  				
+(d-PopPosition)
+(d-SetSaved #f)  </scheme>
+        <label>Create Critical Commentary</label>
+        <tooltip>Collects together critical comments from the score and places them at the end of the music.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

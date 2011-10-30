@@ -5497,6 +5497,22 @@ for second and subsequent systems</tooltip>
         <label>Display Only Clef</label>
         <tooltip>Inserts a clef that affects only the display, not the printed form. Use this after ChangeStaff in the staff the voice will be on is in a different clef. Also useful to display in a familiar clef music which you want to be printed in a less familiar one (e.g. display in treble or bass music to be printed for viola</tooltip>
       </row>
+      <row>
+        <action>CriticalCommentary</action>
+        <after>ReduceSystemSpacing</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>Create Critical Commentary</label>
+        <tooltip>Collects together critical comments from the score and places them at the end of the music.</tooltip>
+      </row>
+      <row>
+        <action>CriticalComment</action>
+        <after>FreeFermata</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Critical Comment</label>
+        <tooltip>Adds a comment which can be printed in a critical commentary at the end of all the movements (see CriticalCommentary command to create this).</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

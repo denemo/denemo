@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>FreeFermata</after>
+        <action>CriticalComment</action>
+        <scheme>;;; CriticalComment
+(let ((tag  "CriticalComment"))
+(define current (d-DirectiveGet-standalone-display tag))
+(let script ((answer (d-GetUserInput "Critical Comment" "Give Comment" (if current current ""))))
+	(if (and answer (not (string=? answer "")))
+		(begin
+			(d-Directive-standalone tag)
+			(d-DirectivePut-standalone-minpixels tag 30)
+			(d-DirectivePut-standalone-override tag DENEMO_OVERRIDE_EDITOR)
+			(d-DirectivePut-standalone-display tag answer)
+			(d-MoveCursorRight)
+			(d-RefreshDisplay)
+			(d-SetSaved #f))
+		#f)))</scheme>
+        <label>Critical Comment</label>
+        <tooltip>Adds a comment which can be printed in a critical commentary at the end of all the movements (see CriticalCommentary command to create this).</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

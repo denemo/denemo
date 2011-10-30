@@ -9,6 +9,7 @@
         <action>TitledPiece</action>
         <scheme>;;;TitledPiece
 (d-LilyPondInclude "book-titling.ily")
+(d-LilyPondInclude "simplified-book-titling.ily")
 (let ((tag "TitledPiece") (chapter (d-DirectiveGet-movementcontrol-display "TitledPiece")))
   (if (not chapter)
     (set! chapter "Movement Title"))
