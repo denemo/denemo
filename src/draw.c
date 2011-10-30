@@ -399,7 +399,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
     case LILYDIRECTIVE:
       // if(si->markstaffnum) not available
       if(cr) draw_lily_dir(cr,
-		       x + mudelaitem->x, y, itp->in_highy, itp->in_lowy, mudelaitem, itp->mark);  
+		       x + mudelaitem->x, y, 0, 0, mudelaitem, itp->mark);  
       break;
     case CLEF:
       itp->clef = ((clef *) mudelaitem->object);
