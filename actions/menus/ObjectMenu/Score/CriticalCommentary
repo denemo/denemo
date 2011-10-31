@@ -7,13 +7,10 @@
       <row>
         <after>ReduceSystemSpacing</after>
         <action>CriticalCommentary</action>
-        <scheme>;;;;;;;;;CriticalCommentary
+        <scheme>;;;;;;;;CriticalCommentary
 (d-PushPosition)
 (while (d-PreviousMovement))
 (let ()
- (define thecomments '())
- (define ok #f)
- (let movement ()
   (define (format-commentary thelist)
     (define ret "")
     (let loop ((count 0))
@@ -23,23 +20,41 @@
 	    (list-ref thelist count) "\"}\n"))
 	  (loop (+ 1 count)))))
   ret)
-	(while (d-MoveToStaffUp))
-	(d-MoveToBeginning)
-   	(let staff ((voiceno 1))
- 		(d-MoveToBeginning)
- 		(let ()
-		    (define tag "CriticalComment")
-		    (define thecomment #f)
-		    (while (NextDirectiveOfTag tag)
-			  (set! ok #t)
-			  (set! thecomment (d-DirectiveGet-standalone-display tag))
-			  (set! thecomments (cons* (string-append "At m" (number-&gt;string (d-GetMovement)) " v" (number-&gt;string voiceno) " b" (number-&gt;string (d-GetMeasure))  ": " thecomment) thecomments)))
+ (define thecomments '())
+ (define ok #f)
+ (define tag "CriticalComment")
+ 
+ (let movement ()
+  (define movement-number (number-&gt;string (d-GetMovement)))
+  (define voice 1)
+  (while (d-MoveToStaffUp))
+  (d-MoveToBeginning)
 
-			(if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
-			    (staff (+ 1 voiceno)))))
-	(if (d-NextMovement)
-	  (movement)
+  (let measure ()
+      (define measure-number (number-&gt;string (d-GetMeasure)))
+      (define thecomment #f)
+	(let loop ()
+	  (if (d-Directive-standalone? tag) 
+	    (begin
+	      (set! ok #t)
+	      (set! thecomment (d-DirectiveGet-standalone-display tag))
+	      (set! thecomments (cons* (string-append "At m" movement-number " v" (number-&gt;string voice) " b" measure-number ": " thecomment) thecomments))))
+	    (if (NextDirectiveOfTagInMeasure tag)
+	      (loop)))	     
+	(if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
 	  (begin
+	    (set! voice (+ 1 voice))
+	    (measure))
+	  (begin
+	    (if (d-MoveToMeasureRight)
+		(begin
+		  (while  (d-MoveToStaffUp))
+		  (set! voice 1)
+		  (measure))))))
+			    
+  (if (d-NextMovement)
+	(movement)
+	(begin
 	    (if ok
 	      (begin
 		(d-SetSaved #f) 
@@ -47,7 +62,7 @@
 		(d-LilyPondInclude "simplified-book-titling.ily")
 		(d-DirectivePut-score-override "CriticalCommentary" DENEMO_OVERRIDE_AFFIX)
 		(d-DirectivePut-score-postfix "CriticalCommentary" (string-append "\\pageBreak\n\\titledPiece \\markup \"Critical Commentary\"\n\\markup { \\fill-line {\\postscript #\"-12 3 moveto 24 0 rlineto stroke\"}}\n\\markup {\\italic \\wordwrap-string #\"Key: m = Movement, v = voice, b = bar\"}\n"  (format-commentary (reverse thecomments)))))
-		(d-InfoDialog "No critical comments found\nUse Directive-&gt;Critical Comment to insert these"))))))  				
+	      (d-InfoDialog "No critical comments found\nUse Directive-&gt;Critical Comment to insert these")))))) 				
 (d-PopPosition)</scheme>
         <label>Create Critical Commentary</label>
         <tooltip>Collects together critical comments from the score and places them at the end of the music.</tooltip>
