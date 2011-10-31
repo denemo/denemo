@@ -8,14 +8,16 @@
         <action>BookPoet</action>
         <scheme>;;BookPoet
 (d-LilyPondInclude "book-titling.ily")
-(let ((chapter (d-DirectiveGet-scoreheader-postfix "Poet")))
+(let ((chapter (d-DirectiveGet-scoreheader-display "Poet")))
   (if (not chapter)
     (set! chapter "Poet"))
   (set! chapter (d-GetUserInput "Poet/Lyricist" "Give a poet or lyricist for the score" chapter))
    (d-SetSaved #f)
   (if (string-null? chapter)
   	(d-DirectiveDelete-scoreheader "Poet")
-      	(d-DirectivePut-scoreheader-postfix "Poet" (string-append "poet = \"" chapter "\"\n"))))
+  	(begin
+  		(d-DirectivePut-scoreheader-display "Poet" chapter)
+    	  	(d-DirectivePut-scoreheader-postfix "Poet" (string-append "poet = \"" chapter "\"\n")))))
 </scheme>
         <label>Poet/Lyricist</label>
         <tooltip>Prints the poet or lyricist name on title page</tooltip>

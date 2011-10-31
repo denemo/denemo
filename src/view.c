@@ -3540,7 +3540,7 @@ static SCM scheme_get_nonprinting (SCM optional) {
 static SCM scheme_set_nonprinting (SCM optional) {
   DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
-  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) ||  (curObj->type!=CHORD))
+  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data))
     return SCM_BOOL_F;
   if(scm_is_false(optional))
     curObj->isinvisible = FALSE;

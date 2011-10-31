@@ -398,12 +398,21 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
     case LILYDIRECTIVE:
       // if(si->markstaffnum) not available
       if(cr) draw_lily_dir(cr,
-		       x + mudelaitem->x, y, itp->in_highy, itp->in_lowy, mudelaitem, itp->mark);  
+		       x + mudelaitem->x, y, 0, 0, mudelaitem, itp->mark);  
       break;
     case CLEF:
       itp->clef = ((clef *) mudelaitem->object);
-      if(cr) draw_clef (cr, x + mudelaitem->x, y,
+      if(cr) {
+	if(mudelaitem->isinvisible) {
+	  cairo_save(cr);
+	  cairo_set_source_rgb( cr, 231.0/255, 215.0/255, 39.0/255 );//thecolor = &yellow;cairo_  rgb yellow
+	}
+	draw_clef (cr, x + mudelaitem->x, y,
 		 itp->clef);
+	if(mudelaitem->isinvisible) {	 
+		  cairo_restore(cr);
+	}
+      }
       if (si->currentobject == curobj && si->cursor_appending)
 	si->cursorclef = itp->clef->type;//FIXME drawing is side-effecting the data, presumably to economize on searching for the prevailing clef at the cursor.
       break;
@@ -739,6 +748,16 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
     if(cr && !(thestaff->voicecontrol&DENEMO_SECONDARY))
       draw_clef (cr, LEFT_MARGIN, y,
 	       itp->clef);
+    else if(cr) {
+      cairo_save(cr);
+      cairo_set_source_rgb( cr, 231.0/255, 215.0/255, 39.0/255 );//thecolor = &yellow;
+      draw_clef (cr, LEFT_MARGIN, y,
+	       itp->clef);
+      cairo_restore(cr);
+
+    }
+
+    
     itp->key = thestaff->leftmost_keysig->number;
     if(cr && !(thestaff->voicecontrol&DENEMO_SECONDARY))
       draw_key (cr, x, y,

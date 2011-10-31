@@ -2709,7 +2709,8 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
 		{
 		  curObj = dnm_newclefobj (DENEMO_TREBLE_CLEF);
 		  parseClef (objElem, ns, curObj->object);
-		  
+		  gchar *showProp = (gchar *) xmlGetProp (objElem, (xmlChar *) "show");
+		  if(showProp) curObj->isinvisible = !strcmp(showProp, "false");		  
 		  currentClef = ((clef*)curObj->object)->type;
 		}
 	      else if (ELEM_NAME_EQ (objElem, "lyric"))
