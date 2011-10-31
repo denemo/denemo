@@ -19,11 +19,12 @@
     (let loop ((count 0))
       (if (&lt; count (length thelist))
 	(begin
-	  (set! ret (string-append ret "\n\\markup \"" (number-&gt;string (+ 1 count)) ". "
-	    (list-ref thelist count) "\"\n"))
+	  (set! ret (string-append ret "\n\\markup { \\wordwrap-string #\"" (number-&gt;string (+ 1 count)) ". "
+	    (list-ref thelist count) "\"}\n"))
 	  (loop (+ 1 count)))))
   ret)
-
+	(while (d-MoveToStaffUp))
+	(d-MoveToBeginning)
    	(let staff ((voiceno 1))
  		(d-MoveToBeginning)
  		(let ()
@@ -32,7 +33,7 @@
 		    (while (NextDirectiveOfTag tag)
 			  (set! ok #t)
 			  (set! thecomment (d-DirectiveGet-standalone-display tag))
-			  (set! thecomments (cons* (string-append "In mvnt: " (number-&gt;string (d-GetMovement)) " voice: " (number-&gt;string voiceno) " bar: " (number-&gt;string (d-GetMeasure))  ": " thecomment) thecomments)))
+			  (set! thecomments (cons* (string-append "At m" (number-&gt;string (d-GetMovement)) " v" (number-&gt;string voiceno) " b" (number-&gt;string (d-GetMeasure))  ": " thecomment) thecomments)))
 
 			(if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
 			    (staff (+ 1 voiceno)))))
@@ -41,13 +42,13 @@
 	  (begin
 	    (if ok
 	      (begin
+		(d-SetSaved #f) 
 		(d-LilyPondInclude "book-titling.ily")
 		(d-LilyPondInclude "simplified-book-titling.ily")
 		(d-DirectivePut-score-override "CriticalCommentary" DENEMO_OVERRIDE_AFFIX)
-		(d-DirectivePut-score-postfix "CriticalCommentary" (string-append "\\pageBreak\n\\titledPiece \\markup \"Critical Commentary\"\n"  (format-commentary (reverse thecomments)))))
+		(d-DirectivePut-score-postfix "CriticalCommentary" (string-append "\\pageBreak\n\\titledPiece \\markup \"Critical Commentary\"\n\\markup { \\fill-line {\\postscript #\"-12 3 moveto 24 0 rlineto stroke\"}}\n\\markup {\\italic \\wordwrap-string #\"Key: m = Movement, v = voice, b = bar\"}\n"  (format-commentary (reverse thecomments)))))
 		(d-InfoDialog "No critical comments found\nUse Directive-&gt;Critical Comment to insert these"))))))  				
-(d-PopPosition)
-(d-SetSaved #f)  </scheme>
+(d-PopPosition)</scheme>
         <label>Create Critical Commentary</label>
         <tooltip>Collects together critical comments from the score and places them at the end of the music.</tooltip>
       </row>

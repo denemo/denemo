@@ -16,8 +16,7 @@
 			(d-Directive-standalone tag)
 			(d-DirectivePut-standalone-minpixels tag 30)
 			(d-DirectivePut-standalone-override tag DENEMO_OVERRIDE_EDITOR)
-			(d-DirectivePut-standalone-display tag answer)
-			(d-MoveCursorRight)
+			(d-DirectivePut-standalone-display tag (scheme-escape answer))
 			(d-RefreshDisplay)
 			(d-SetSaved #f))
 		#f)))</scheme>
