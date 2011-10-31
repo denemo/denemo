@@ -5513,6 +5513,14 @@ for second and subsequent systems</tooltip>
         <label>Critical Comment</label>
         <tooltip>Adds a comment which can be printed in a critical commentary at the end of all the movements (see CriticalCommentary command to create this).</tooltip>
       </row>
+      <row>
+        <action>AllowLineBreak</action>
+        <after>LineBreak</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Allow Line Break</label>
+        <tooltip>Permits the typesetter to break the line at this point.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
