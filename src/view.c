@@ -3738,6 +3738,13 @@ SCM scheme_next_standalone_directive (SCM optional) {
 SCM scheme_prev_standalone_directive (SCM optional) {
   return SCM_BOOL(cursor_to_prev_standalone_directive());
 }
+SCM scheme_next_standalone_directive_in_measure (SCM optional) {
+  return SCM_BOOL(cursor_to_next_standalone_in_measure());
+}
+
+SCM scheme_prev_standalone_directive_in_measure (SCM optional) {
+  return SCM_BOOL(cursor_to_prev_standalone_in_measure());
+}
 
 
 SCM scheme_next_chord (SCM optional) {
@@ -4251,6 +4258,10 @@ static void create_scheme_identfiers(void) {
 
   INSTALL_SCM_FUNCTION ("Moves the cursor the next object that is a Denemo Directive in the current staff. Returns #f if the cursor did not move",DENEMO_SCHEME_PREFIX"NextStandaloneDirective", scheme_next_standalone_directive);
   INSTALL_SCM_FUNCTION ("Moves the cursor the previous object that is a Denemo Directive in the current staff. Returns #f if the cursor did not move",DENEMO_SCHEME_PREFIX"PrevStandaloneDirective", scheme_prev_standalone_directive);
+  INSTALL_SCM_FUNCTION ("Moves the cursor within the current measure to the next object that is a Denemo Directive in the current staff. Returns #f if the cursor did not move",DENEMO_SCHEME_PREFIX"NextStandaloneDirectiveInMeasure", scheme_next_standalone_directive_in_measure);
+  INSTALL_SCM_FUNCTION ("Moves the cursor within the current measure to the previous object that is a Denemo Directive in the current staff. Returns #f if the cursor did not move",DENEMO_SCHEME_PREFIX"PrevStandaloneDirectiveInMeasure", scheme_prev_standalone_directive_in_measure);
+
+  
   INSTALL_SCM_FUNCTION ("Enforces the treatment of the note at the cursor as a chord in LilyPond",DENEMO_SCHEME_PREFIX"Chordize",  scheme_chordize);
   INSTALL_SCM_FUNCTION ("Takes xml representation of a preference and adds it to the Denemo preferences",DENEMO_SCHEME_PREFIX"SetPrefs",  scheme_set_prefs);
   INSTALL_SCM_FUNCTION ("Takes a script as a string, which will be stored. All the callbacks are called when the musical score is closed" ,DENEMO_SCHEME_PREFIX"AttachQuitCallback",  scheme_attach_quit_callback);
@@ -8736,7 +8747,7 @@ get_data_dir (),
 					  | GDK_BUTTON_PRESS_MASK
 					  | GDK_BUTTON_RELEASE_MASK));
 
-  Denemo.vadjustment = gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0);
+  Denemo.vadjustment = (GtkWidget*)gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0);
   gtk_signal_connect (GTK_OBJECT (Denemo.vadjustment), "value_changed",
 		      GTK_SIGNAL_FUNC (vertical_scroll), NULL);
   Denemo.vscrollbar = gtk_vscrollbar_new (GTK_ADJUSTMENT (Denemo.vadjustment));
@@ -8744,7 +8755,7 @@ get_data_dir (),
 		      TRUE, 0);
   gtk_widget_show (Denemo.vscrollbar);
 
-  Denemo.hadjustment = gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0);
+  Denemo.hadjustment = (GtkWidget*)gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0);
 
   gtk_signal_connect (GTK_OBJECT (Denemo.hadjustment), "value_changed",
 		      GTK_SIGNAL_FUNC (horizontal_scroll), NULL);

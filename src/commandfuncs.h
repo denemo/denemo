@@ -104,6 +104,11 @@ cursor_to_next_standalone_directive(void);
 gboolean 
 cursor_to_prev_standalone_directive(void);
 gboolean 
+cursor_to_next_standalone_in_measure(void);
+gboolean 
+cursor_to_prev_standalone_in_measure(void);
+
+gboolean 
 cursor_to_next_chord(void);
 gboolean 
 cursor_to_prev_chord(void);

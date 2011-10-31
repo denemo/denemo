@@ -1097,6 +1097,18 @@ static gboolean to_chord_direction_in_measure (gboolean right) {
       to_chord_direction_in_measure (right);
 }
 
+static gboolean to_standalone_direction_in_measure (gboolean right) {
+  gboolean ret = to_object_direction(TRUE, right, TRUE);
+  if(!ret)
+    return ret;
+  if(Denemo.gui->si->currentobject && Denemo.gui->si->currentobject->data &&
+    ((DenemoObject*) Denemo.gui->si->currentobject->data)->type == LILYDIRECTIVE)
+    return TRUE;
+  else
+    return 
+      to_standalone_direction_in_measure (right);
+}
+
  // there is a significant problem with the concept of next note in a chord of several notes. We have no way of iterating over the notes of a chord
   // since the notes may be altered during the iteration and Denemo does not define a "currentnote"
 //This next note is next chord that is not a rest in the given direction.
@@ -1150,6 +1162,14 @@ gboolean cursor_to_next_standalone_directive(void) {
 
 gboolean cursor_to_prev_standalone_directive(void) {
   return to_standalone_directive_direction(FALSE);
+}
+
+gboolean cursor_to_next_standalone_in_measure(void) {
+  return to_standalone_direction_in_measure(TRUE);
+}
+
+gboolean cursor_to_prev_standalone_in_measure(void) {
+  return to_standalone_direction_in_measure(FALSE);
 }
 
 gboolean cursor_to_next_chord(void) {
