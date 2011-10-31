@@ -1,6 +1,6 @@
 (if (and (= 1 (d-GetMovement)) (not (d-Directive-header? "ScoreTitle")))
 (SetHeaderField "title" "Untitled"))
-(d-DirectiveDelete-scoreheader "ScoreTagline")
+;;(d-DirectiveDelete-scoreheader "ScoreTagline")
 
 (define (InitializeTypesetting)
   (d-PushPosition)
