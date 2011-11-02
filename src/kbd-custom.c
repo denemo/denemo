@@ -1406,7 +1406,7 @@ gint add_keybinding_for_command(gint idx,  gchar *binding) {
  return -1;
 }
 
-
+#if 0
 //we have to reproduce this function here since it is static in gtkmenu.c
 static void
 stolen_gtk_menu_stop_navigating_submenu (GtkMenu *menu)
@@ -1420,7 +1420,7 @@ stolen_gtk_menu_stop_navigating_submenu (GtkMenu *menu)
     menu->navigation_timeout = 0;
   }
 }
-
+#endif
 
 gint
 keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event)
@@ -1452,13 +1452,15 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event)
   dnm_clean_event(event);
   modifiers = dnm_sanitize_key_state(event);
   keyval = event->keyval;
-
+  //gtk_widget_get_action(GTK_MENU_SHELL(menu)->active_menu_item);
   action = 
 #if GTK_MINOR_VERSION <10
     g_object_get_data(G_OBJECT(GTK_MENU_SHELL(menu)->active_menu_item), "action");
 #else
   gtk_widget_get_action(GTK_MENU_SHELL(menu)->active_menu_item);
 #endif
+
+  //action = gtk_widget_get_active(menu); FIXME does not compile in gtk2.24 
  //If this menu item has no action we give up
   if (!action)
     return TRUE;
