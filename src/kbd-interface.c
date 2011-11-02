@@ -244,7 +244,7 @@ static void keyboard_modifier_callback(GtkWidget *w, GdkEventButton *event, Modi
   g_string_append_printf(str, "Mouse Pointer number %d currently chosen for\n Mouse:-%s Keyboard:", cursor_number, mask?(mask&GDK_BUTTON1_MASK?"Left Button Drag":"Right Button Drag"):"No Button Press"); 
   append_modifier_name(str, state);
 #define POINTER_PROMPT  "To change the Pointer for a mouse/keyboard state:\nSelect Mouse Pointer number\nChoose mouse state and then click here\nwhile holding modifier key\nand/or engaging Caps/Num lock for the keyboard state"
-  gdk_window_set_cursor(w->window, cursor);
+  gdk_window_set_cursor(GTK_WINDOW(w), cursor);
 g_string_append(str, "\n");
   g_string_append(str, POINTER_PROMPT);
   
