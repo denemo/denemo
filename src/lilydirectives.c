@@ -1216,12 +1216,18 @@ instead of the "activate"  "button-release-event" signal
 gboolean            user_function                      (GtkWidget      *widget,
                                                         GdkEventButton *event,
                                                         gpointer        user_data)      : Run Last
+                                                        * PROBLEM cannot use gtk_widget_activate ... d-DirectiveActivate ...
 the look at event to see if left or right button pressed
 and allow advanced edit if right button.
 
 */
 static gboolean
 text_edit_directive_by_fn(DenemoDirective *directive, gpointer fn);
+#if 0
+!!!!!!!!!!! problem, for "activate" there are only two args, no event arg...
+also, is the event thing working?????
+!!!!!!!!!!!!!!!!!!!!
+#endif
 static void
 button_callback  (GtkWidget *widget, GdkEventButton *event, DenemoDirective *directive) {
   gboolean left = event!=NULL && (event->button != 3);                  
@@ -1270,6 +1276,11 @@ button_callback  (GtkWidget *widget, GdkEventButton *event, DenemoDirective *dir
       }
     }
   }
+}
+
+
+static void button_activate_callback(GtkWidget *w, DenemoDirective *d) {
+ button_callback(w, NULL, d);
 }
 
 /* return a GtkTextView which has been installed inside a scrolled window */
@@ -1425,7 +1436,13 @@ widget_for_directive_menu(DenemoDirective *directive,  void fn(), GtkMenu *menu)
 	    gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
 	  }
 	  attach_textedit_widget(directive);
-	  g_signal_connect(G_OBJECT(directive->widget), "button-release-event",  G_CALLBACK(button_callback), directive);
+	  g_signal_connect(G_OBJECT(directive->widget), /*"activate" we want to use gtk_widget_activate on this*/ "button-release-event" ,  G_CALLBACK(button_callback), directive);
+
+
+	  g_signal_connect(G_OBJECT(directive->widget), "activate"  ,  G_CALLBACK(button_activate_callback), directive);
+
+
+    
 	  if(box){
 	    gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET(directive->widget), FALSE, TRUE,0);
 	    gtk_widget_show(box);
@@ -2145,6 +2162,16 @@ static void put_edit_script (GtkWidget *widget, gchar *tag) {
   g_free(filename);
 }
 
+static gboolean activate_directive(DenemoDirective *directive, gchar *what) {
+  gboolean ret = TRUE;
+if(directive->widget && GTK_IS_WIDGET(directive->widget)) {
+g_print("activate\n");
+gtk_widget_activate(directive->widget);
+  //g_signal_emit!!!!!!!!!!!!!!! what do we do!!!!!!!!!!!(directive->widget, "button-release-event");
+  return TRUE;
+}
+return FALSE;
+}
 
 /* text_edit_directive
    textually edit the directive via a dialog.
@@ -2966,14 +2993,22 @@ gchar * get_scoretitle(void){
   return scoretitle;
 }
 
-
+#define ACTIVATE_DIRECTIVE(what)\
+gboolean activate_##what##_directive(gchar *tag) {\
+  DenemoDirective *directive = get_##what##_directive(tag);\
+  if(directive)\
+    return activate_directive(directive, #what);\
+  return FALSE;\
+}
 #define TEXT_EDIT_DIRECTIVE(what)\
 gboolean text_edit_##what##_directive(gchar *tag) {\
   DenemoDirective *directive = get_##what##_directive(tag);\
   if(directive)\
     return text_edit_directive(directive, #what);\
   return FALSE;\
-}
+}\
+ACTIVATE_DIRECTIVE(what)
+
 TEXT_EDIT_DIRECTIVE(note);
 TEXT_EDIT_DIRECTIVE(chord);
 TEXT_EDIT_DIRECTIVE(staff);

@@ -2431,6 +2431,18 @@ GET_TAG_FN_DEF(paper);
 GET_TAG_FN_DEF(layout);
 GET_TAG_FN_DEF(movementcontrol);
 #undef GET_TAG_FN_DEF
+#define ACTIVATE_FN_DEF(what)\
+ static SCM scheme_activate_##what##_directive(SCM tag) {\
+  if(!scm_is_string(tag)){\
+    return SCM_BOOL(FALSE);\
+  }\
+  char *tagname;\
+  tagname = scm_to_locale_string(tag);\
+  extern gboolean activate_##what##_directive (gchar *tagname);\
+  gboolean ret = activate_##what##_directive (tagname);\
+  if(tagname) g_free(tagname);\
+  return SCM_BOOL(ret);\
+}
 
 #define EDIT_FN_DEF(what)\
  static SCM scheme_text_edit_##what##_directive(SCM tag) {\
@@ -2458,7 +2470,8 @@ GET_TAG_FN_DEF(movementcontrol);
 }
 #define EDIT_DELETE_FN_DEF(what)\
 EDIT_FN_DEF(what)\
-DELETE_FN_DEF(what)
+DELETE_FN_DEF(what)\
+ACTIVATE_FN_DEF(what)
 
 EDIT_FN_DEF(standalone)
 
@@ -4332,6 +4345,7 @@ static void create_scheme_identfiers(void) {
 
 #define INSTALL_EDIT(what)\
   INSTALL_SCM_FUNCTION1 ("Deletes a "#what" directive of the passed in tag. Returns #f if not deleted", DENEMO_SCHEME_PREFIX"DirectiveDelete"  "-" #what, scheme_delete_##what##_directive); \
+  INSTALL_SCM_FUNCTION1 ("Activates a "#what" directive widget of the passed in tag. Returns #f if not a button", DENEMO_SCHEME_PREFIX"DirectiveActivate"  "-" #what, scheme_activate_##what##_directive); \
   INSTALL_SCM_FUNCTION1 ("Takes a tag. Lets the user edit (by running the editscript named by the tag) a "#what" directive of the passed in tag. Returns #f if none", DENEMO_SCHEME_PREFIX"DirectiveTextEdit"  "-" #what, scheme_text_edit_##what##_directive);
   INSTALL_EDIT(note);
   INSTALL_EDIT(chord);
