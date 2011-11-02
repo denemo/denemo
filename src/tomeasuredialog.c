@@ -54,21 +54,12 @@ tomeasurenum (GtkAction *action, gpointer param)
 
     gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
 
-    box = gtk_hbox_new (FALSE, 8);
-#ifdef _USE_GTK3_
-    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), box, TRUE, TRUE,
-			0);
-#else
-    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), box, TRUE, TRUE,
-			0);
-#endif
-    gtk_container_set_border_width (GTK_CONTAINER (box), 12);
-
+    GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
     label = gtk_label_new_with_mnemonic (_("Go to _measure:"));
-    gtk_box_pack_start (GTK_BOX (box), label, TRUE, TRUE, 0);
+    gtk_container_add (GTK_CONTAINER (content_area), label);
    
     measure = gtk_spin_button_new_with_range (1.0, (gdouble) max_mesure, 1.0);
-    gtk_box_pack_start (GTK_BOX (box), measure, TRUE, TRUE, 8);
+    gtk_container_add (GTK_CONTAINER (content_area), measure);
     gtk_spin_button_set_value (GTK_SPIN_BUTTON (measure),
 			       (gdouble) last_measure);
     gtk_label_set_mnemonic_widget (GTK_LABEL (label), measure);
