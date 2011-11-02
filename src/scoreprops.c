@@ -87,13 +87,9 @@ score_properties_dialog (GtkAction *action, DenemoScriptParam *param)
   gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 
   notebook = gtk_notebook_new ();
-#ifdef _USE_GTK3_
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), notebook, TRUE,
-		      TRUE, 0);
-#else
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), notebook, TRUE,
-		      TRUE, 0);
-#endif
+
+  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  gtk_container_add (GTK_CONTAINER (content_area), notebook);
 
   // Layout
   label = gtk_label_new_with_mnemonic (_("Display Layout"));
