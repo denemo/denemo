@@ -2,7 +2,7 @@
  * Implements lilydirectives which are not notes 
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
- * Richard Shann 2009, 2010
+ * Richard Shann 2009, 2010, 2011
  * A Tee  (c) 2000-2005
  */
 #include <stdio.h>
@@ -1223,56 +1223,52 @@ and allow advanced edit if right button.
 */
 static gboolean
 text_edit_directive_by_fn(DenemoDirective *directive, gpointer fn);
-#if 0
-!!!!!!!!!!! problem, for "activate" there are only two args, no event arg...
-also, is the event thing working?????
-!!!!!!!!!!!!!!!!!!!!
-#endif
+
 static void
 button_callback  (GtkWidget *widget, GdkEventButton *event, DenemoDirective *directive) {
-  gboolean left = event!=NULL && (event->button != 3);                  
-  if(directive->override&DENEMO_OVERRIDE_EDITOR)
+  gboolean left = (event==NULL || !((event->button != 1) && (event->state&(GDK_SHIFT_MASK|GDK_CONTROL_MASK))));                  
+  if(left && (directive->override&DENEMO_OVERRIDE_EDITOR))
     {
       GtkWidget *texteditor = (GtkWidget*)g_object_get_data(G_OBJECT(directive->widget), DENEMO_TEXTEDITOR_TAG);
       if(texteditor) {
-	//FIXME position at cursor if a toplevel window
-	gtk_widget_show_all(gtk_widget_get_toplevel(texteditor));
-	gtk_window_present(GTK_WINDOW(gtk_widget_get_toplevel(texteditor)));
+            //FIXME position at cursor if a toplevel window
+            gtk_widget_show_all(gtk_widget_get_toplevel(texteditor));
+            gtk_window_present(GTK_WINDOW(gtk_widget_get_toplevel(texteditor)));
       }
     } else {
-    gchar *script = get_action_script(directive->tag->str);
-    if(script) {
-      stage_undo(Denemo.gui->si, ACTION_STAGE_END);//undo is a queue so this is the end :)
-      call_out_to_guile(script);
-      stage_undo(Denemo.gui->si, ACTION_STAGE_START);
-    }
-    else {
-      if(left  && (directive->override&DENEMO_OVERRIDE_TAGEDIT))
-	script = get_editscript_filename(directive->tag->str);
-      else
-	script = NULL;
-      if(script)
-	execute_script_file(script);
+      gchar *script = get_action_script(directive->tag->str);
+      if(left && script) {
+        stage_undo(Denemo.gui->si, ACTION_STAGE_END);//undo is a queue so this is the end :)
+        call_out_to_guile(script);
+        stage_undo(Denemo.gui->si, ACTION_STAGE_START);
+      }
       else {
-	/* if there is an action of this tag with scheme script, run it again
-	   else do text edit of the directives fields
-
-	*/
-	GtkAction *action;
-	if(left && (directive->override&DENEMO_OVERRIDE_TAGEDIT) &&((action = lookup_action_from_name((gchar *)directive->tag->str))!=NULL))
-	  gtk_action_activate(action); else {
-	  gpointer fn = (widget!=NULL)? g_object_get_data(G_OBJECT(widget), "fn"):NULL;
-	  if(fn) {
-	    gboolean delete = !text_edit_directive_by_fn(directive, fn);
-	    if(delete) {
-	      GList **directives = (GList**)g_object_get_data(G_OBJECT(widget), "directives-pointer");
-	      if(directives)
-	        delete_directive(directives, directive->tag->str);
-	      else
-		g_warning("Could not get directives list to delete from");
-	    }
-	  }
-	}
+        if(left  && (directive->override&DENEMO_OVERRIDE_TAGEDIT))
+          script = get_editscript_filename(directive->tag->str);
+        else
+        script = NULL;
+      if(script)
+        execute_script_file(script);
+      else {
+        /* if there is an action of this tag with scheme script, run it again
+        else do text edit of the directives fields
+        */
+          GtkAction *action;
+          if(left && (directive->override&DENEMO_OVERRIDE_TAGEDIT) &&((action = lookup_action_from_name((gchar *)directive->tag->str))!=NULL))
+            gtk_action_activate(action);
+          else {
+            gpointer fn = (widget!=NULL)? g_object_get_data(G_OBJECT(widget), "fn"):NULL;
+            if(fn) {
+              gboolean delete = !text_edit_directive_by_fn(directive, fn);
+              if(delete) {
+                GList **directives = (GList**)g_object_get_data(G_OBJECT(widget), "directives-pointer");
+                if(directives)
+                  delete_directive(directives, directive->tag->str);
+                else
+                  g_warning("Could not get directives list to delete from");
+                }
+            }
+          }
       }
     }
   }
@@ -1288,7 +1284,7 @@ static GtkWidget * create_text_window(void) {
   GtkWidget *textview = gtk_text_view_new();
   GtkWidget *w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (w), "Denemo Editor:Newline to update, Esc for Advanced Edit");
-  gtk_window_set_default_size(GTK_WINDOW (w), 200, 100);
+  gtk_window_set_default_size(GTK_WINDOW (w), 600, 400);
   gtk_window_set_position(GTK_WINDOW (w),GTK_WIN_POS_MOUSE);
   g_signal_connect(G_OBJECT(w), "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), w);
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
