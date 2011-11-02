@@ -716,11 +716,7 @@ timekeysig(wizarddata *wdata, gboolean isnotebook)
     }
   else
     {
-#ifdef _USE_GTK3_
-      gtk_box_pack_start(GTK_BOX(GTK_DIALOG(notebook)), table, TRUE, TRUE,0);
-#else 
-      gtk_box_pack_start(GTK_BOX(GTK_DIALOG(notebook)->vbox), table, TRUE, TRUE,0);
-#endif
+      gtk_box_pack_start((GTK_NOTEBOOK(notebook)), table, TRUE, TRUE,0);
     }
     
   timekeysigdata->tempo = tempo;
@@ -899,13 +895,6 @@ void scorewizard(GtkAction *action, gpointer param)
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   gtk_container_add (GTK_CONTAINER (content_area), wdata->notebook);
 
-//#ifdef _USE_GTK3_  
-//  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), wdata->notebook,
- //                     TRUE, TRUE, 0);
-//#else
-//  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), wdata->notebook,
-  //                    TRUE, TRUE, 0);
-//#endif
   /* create pages of notebook */
   wdata->paper = papersetup (wdata->notebook, gui, TRUE);
   //wdata->hsetup = headersetup (wdata->notebook, gui, TRUE);
