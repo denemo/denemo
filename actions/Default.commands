@@ -5499,9 +5499,8 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>CriticalCommentary</action>
-        <after>ReduceSystemSpacing</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score</menupath>
+        <menupath>/ObjectMenu/Score/BookTitles/Epilog</menupath>
         <label>Create Critical Commentary</label>
         <tooltip>Collects together critical comments from the score and places them at the end of the music.</tooltip>
       </row>
@@ -5512,6 +5511,22 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/Directives</menupath>
         <label>Critical Comment</label>
         <tooltip>Adds a comment which can be printed in a critical commentary at the end of all the movements (see CriticalCommentary command to create this).</tooltip>
+      </row>
+      <row>
+        <action>AllowLineBreak</action>
+        <after>LineBreak</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Allow Line Break</label>
+        <tooltip>Permits the typesetter to break the line at this point.</tooltip>
+      </row>
+      <row>
+        <action>CriticalCommentaryIntro</action>
+        <after>TocTitle</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/BookTitles/Epilog</menupath>
+        <label>Title and Introduction</label>
+        <tooltip>A button is created for putting a title and introductory text for a critical commentary at the end of the score.</tooltip>
       </row>
     </map>
   </merge>
