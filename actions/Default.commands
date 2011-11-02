@@ -2537,91 +2537,91 @@ Sets prevailing rhythm to &#x1D165;</tooltip>
       <row>
         <action>ScoreTitle</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <menupath>/ObjectMenu/Score/Simple Titles</menupath>
         <label>Title</label>
         <tooltip>Prints the name given as a title centered at the start of the score.</tooltip>
       </row>
       <row>
         <action>ScoreArranger</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <menupath>/ObjectMenu/Score/Simple Titles</menupath>
         <label>Arranger</label>
         <tooltip>Name of the arranger, flush-right below the composer.</tooltip>
       </row>
       <row>
         <action>ScoreComposer</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <menupath>/ObjectMenu/Score/Simple Titles</menupath>
         <label>Composer</label>
         <tooltip>Name of the composer, flush-right below the subsubtitle.</tooltip>
       </row>
       <row>
         <action>ScoreDedication</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <menupath>/ObjectMenu/Score/Simple Titles</menupath>
         <label>Dedication</label>
         <tooltip>The dedicatee of the music, centered at the top of the first page.</tooltip>
       </row>
       <row>
         <action>ScoreInstrument</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <menupath>/ObjectMenu/Score/Simple Titles</menupath>
         <label>Instrument</label>
         <tooltip>Name of the instrument, centered below the subsubtitle. Also centered at the top of pages (other than the first page).</tooltip>
       </row>
       <row>
         <action>ScoreMeter</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <menupath>/ObjectMenu/Score/Simple Titles</menupath>
         <label>Meter</label>
         <tooltip>Meter string, flush-left below the poet.</tooltip>
       </row>
       <row>
         <action>ScoreOpus</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <menupath>/ObjectMenu/Score/Simple Titles</menupath>
         <label>Opus</label>
         <tooltip>Name of the opus, flush-right below the arranger.</tooltip>
       </row>
       <row>
         <action>ScorePoet</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <menupath>/ObjectMenu/Score/Simple Titles</menupath>
         <label>Poet</label>
         <tooltip>Name of the poet, flush-left below the subsubtitle.</tooltip>
       </row>
       <row>
         <action>ScoreTagline</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <menupath>/ObjectMenu/Score/Simple Titles</menupath>
         <label>Tagline</label>
         <tooltip> Centered at the bottom of the last page.</tooltip>
       </row>
       <row>
         <action>MovementTitle</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MovementMenu/Titles Etc</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Simple Titles</menupath>
         <label>Title</label>
         <tooltip>Prints the name given as a title above the current movement.</tooltip>
       </row>
       <row>
         <action>MovementSubtitle</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MovementMenu/Titles Etc</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Simple Titles</menupath>
         <label>Subtitle</label>
         <tooltip>Prints the given name below the title of the current movement.</tooltip>
       </row>
       <row>
         <action>MovementPiece</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MovementMenu/Titles Etc</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Simple Titles</menupath>
         <label>Piece</label>
         <tooltip>Prints the name given above and to the left at the start of the movement.</tooltip>
       </row>
       <row>
         <action>ScoreCopyright</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <menupath>/ObjectMenu/Score/Simple Titles</menupath>
         <label>Copyright</label>
         <tooltip>Copyright notice, centered at the bottom of the first page. To insert the copyright symbol, see Lilypond Text encoding.</tooltip>
       </row>
@@ -2770,7 +2770,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>TitlePage</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <menupath>/ObjectMenu/Score/Simple Titles</menupath>
         <label>Set Movement as Title Page</label>
         <tooltip>Makes this movement a title page (no music)</tooltip>
       </row>
@@ -5501,8 +5501,8 @@ for second and subsequent systems</tooltip>
         <action>CriticalCommentary</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Score/BookTitles/Epilog</menupath>
-        <label>Create Critical Commentary</label>
-        <tooltip>Collects together critical comments from the score and places them at the end of the music.</tooltip>
+        <label>(Re)Create Epilog - Critical Commentary</label>
+        <tooltip>Collects together any critical comments from the score and places them in an epilog at the end of the music. The Title and text of the Epilog are created with the CriticalCommentaryIntro command, and critical comments are added with the CriticalComment command.</tooltip>
       </row>
       <row>
         <action>CriticalComment</action>

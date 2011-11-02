@@ -77,8 +77,8 @@
 	      ))))) 				
    (d-PopPosition))
  </scheme>
-        <label>Create Critical Commentary</label>
-        <tooltip>Collects together critical comments from the score and places them at the end of the music.</tooltip>
+        <label>(Re)Create Epilog - Critical Commentary</label>
+        <tooltip>Collects together any critical comments from the score and places them in an epilog at the end of the music. The Title and text of the Epilog are created with the CriticalCommentaryIntro command, and critical comments are added with the CriticalComment command.</tooltip>
       </row>
     </map>
   </merge>
