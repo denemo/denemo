@@ -1,4 +1,4 @@
-/* dynamic.cpp 
+/* dynamic.c
  * Implements lilydirectives which are not notes 
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
@@ -18,12 +18,6 @@
 #include "utils.h"
 
 
-struct callbackdata
-{
-  DenemoScore *si;
-  GtkWidget *combobox;
-};
-
 static gchar *directives[15] =
   { "ppp", "pp", "p", "mp", "mf", "f", "ff", "fff",
   "sf", "fp", "sfz", "cr", "rc", "dr", "rd"
@@ -42,95 +36,65 @@ add_dynamic (DenemoObject * mudelaobj, GString * dynamic)
 }
 
 static void
-insert_it (GtkWidget * widget, gpointer data)
+insert_it (gint num)
 {
   DenemoObject *mudelaobj;
-  struct callbackdata *cbdata = (struct callbackdata *) data;
-  DenemoScore *si = cbdata->si;
   GString *directivestring = NULL;
-  gchar *string =
-    (gchar *)
-    gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->combobox)->entry));
 
-  directivestring = g_string_new (string);
+  directivestring = g_string_new (directives[num]);
   mudelaobj = (DenemoObject *)
-    (si->currentobject ? si->currentobject->data : NULL);
+    (Denemo.gui->si->currentobject ? Denemo.gui->si->currentobject->data : NULL);
 
   add_dynamic (mudelaobj, directivestring);
-
 }
-
-
-
 
 void
 insert_dynamic (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  int i;
-  static struct callbackdata cbdata;
   GtkWidget *dialog;
   GtkWidget *combo;
-  GtkWidget *okbutton;
-  GtkWidget *cancelbutton;
   GtkWidget *label;
-  GList *directivelist = NULL;
+  GtkWidget *content;
+  gint i;
 
+  dialog = gtk_dialog_new_with_buttons (_("Insert Dynamic"), NULL,
+                                 		(GtkDialogFlags) 
+						(GTK_DIALOG_MODAL |
+                                                 GTK_DIALOG_DESTROY_WITH_PARENT),
+                                 		GTK_STOCK_OK, 
+						GTK_RESPONSE_ACCEPT,
+                                 GTK_STOCK_CANCEL, GTK_STOCK_CANCEL, NULL);
+	
 
-  dialog = gtk_dialog_new_with_buttons (_("Insert Dynamic"), NULL,	/* parent window */
-						 (GtkDialogFlags)
-						 (GTK_DIALOG_MODAL |
-						  GTK_DIALOG_DESTROY_WITH_PARENT),
-						 GTK_STOCK_OK,
-						 GTK_RESPONSE_ACCEPT,
-						 GTK_STOCK_CANCEL,
-						 GTK_STOCK_CANCEL, NULL);
-
-
-
+  content = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   label = gtk_label_new (_("Insert Dynamic"));
-#ifdef _USE_GTK3_	
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), label,
-		      TRUE, TRUE, 0);
-#else
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label,
-		      TRUE, TRUE, 0);
-#endif
-  gtk_widget_show (label);
+  gtk_container_add (GTK_CONTAINER (content), label);
 
-  combo = gtk_combo_new ();
-  if (!directivelist)
-    for (i = 0; i < 15; i++)
-      {
-	directivelist = g_list_append (directivelist, directives[i]);
-      }
+  combo = gtk_combo_box_text_new ();
+  for(i=0;i<G_N_ELEMENTS(directives);i++)
+    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(combo), directives[i]);
 
-  gtk_combo_set_popdown_strings (GTK_COMBO (combo), directivelist);
-  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (combo)->entry), directives[0]);
-#ifdef _USE_GTK3_
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), combo,
-		      TRUE, TRUE, 0);
-#else
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), combo,
-		      TRUE, TRUE, 0);
-#endif
-  gtk_widget_show (combo);
-
-
-
-  okbutton = gtk_button_new_with_label (_("OK"));
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), okbutton,
-		      TRUE, TRUE, 0);
-  cbdata.si = gui->si;
-  cbdata.combobox = combo;
+  gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
+  
+  gtk_container_add (GTK_CONTAINER (content), combo);
+  gtk_widget_show_all (dialog);
 
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
 
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
-      insert_it (NULL, &cbdata);
-      displayhelper (gui);
+      gint num =
+        gtk_combo_box_get_active (GTK_COMBO_BOX (combo));
+      
+      insert_it (num);
     }
 
+  g_signal_connect_swapped (dialog,
+                             "response",
+                             G_CALLBACK (gtk_widget_destroy),
+                             dialog);
+  
   gtk_widget_destroy (dialog);
+  displayhelper (gui);
 }
