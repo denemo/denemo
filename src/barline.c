@@ -66,6 +66,7 @@ insert_barline (GtkAction *action, gpointer param)
   GtkWidget *combobox;
   GtkWidget *okbutton;
   GtkWidget *cancelbutton;
+  GtkWidget *content_area;
   GList *list = NULL;
   static struct callbackdata cbdata;
 
@@ -74,14 +75,17 @@ insert_barline (GtkAction *action, gpointer param)
   dialog = gtk_dialog_new ();
   gtk_window_set_title (GTK_WINDOW (dialog), _("Insert Barline"));
 
+  content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   label = gtk_label_new (_("Select desired barline"));
-#ifdef _USE_GTK3_
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
-		      label, TRUE, TRUE, 0);
-#else
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-		      label, TRUE, TRUE, 0);
-#endif
+  gtk_container_add (GTK_CONTAINER (content_area), label);
+
+//#ifdef _USE_GTK3_
+//  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
+//		      label, TRUE, TRUE, 0);
+//#else
+//  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
+//		      label, TRUE, TRUE, 0);
+//#endif
   gtk_widget_show (label);
 
   for (i = 0; i < 6; i++)
