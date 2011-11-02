@@ -264,6 +264,7 @@ preferences_change (GtkAction *action, gpointer param)
   GtkWidget *hbox;
   GtkWidget *fs;
   GtkWidget *DM; 
+  GtkWidget *content_area;
 
   static struct callbackdata cbdata;
   g_assert (gui != NULL);
@@ -277,15 +278,10 @@ preferences_change (GtkAction *action, gpointer param)
 					NULL);
 
   gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
-
+  content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   notebook = gtk_notebook_new ();
-#ifdef _USE_GTK3_
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), notebook, TRUE,
-		      TRUE, 0);
-#else
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), notebook, TRUE,
-		      TRUE, 0);
-#endif
+  gtk_container_add (GTK_CONTAINER (content_area), notebook);
+
 #define VBOX main_vbox
 
 #define NEWPAGE(thelabel) \
