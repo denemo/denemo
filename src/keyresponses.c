@@ -4,7 +4,7 @@
  */
 
 #include <string.h>
-
+#include <gdk/gdkkeysyms-compat.h> //FIXME Look for something more gtk3 like
 #include "kbd-custom.h"
 #include "keyresponses.h"
 #include "articulations.h"
