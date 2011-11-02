@@ -771,6 +771,10 @@
         <bind>Alt+t</bind>
       </row>
       <row>
+        <action>TextAbove</action>
+        <bind>Return</bind>
+      </row>
+      <row>
         <action>InsertTwoGraceNotesBeamed</action>
         <bind>G,2</bind>
       </row>

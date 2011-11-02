@@ -5528,6 +5528,14 @@ for second and subsequent systems</tooltip>
         <label>Title and Introduction</label>
         <tooltip>A button is created for putting a title and introductory text for a critical commentary at the end of the score.</tooltip>
       </row>
+      <row>
+        <action>BookDate</action>
+        <after>BookPoet</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/BookTitles</menupath>
+        <label>Date</label>
+        <tooltip>Prints a date on the title page.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
