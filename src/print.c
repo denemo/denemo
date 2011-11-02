@@ -525,11 +525,10 @@ printrangedialog(DenemoGUI * gui){
 	 GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
 
   hbox = gtk_hbox_new (FALSE, 8);
-#ifdef _USE_GTK3_
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), hbox, TRUE, TRUE, 0);
-#else
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox, TRUE, TRUE, 0);
-#endif
+  
+  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  gtk_container_add (GTK_CONTAINER (content_area), hbox);
+  
   gint max_measure =
   g_list_length (((DenemoStaff *) (gui->si->thescore->data))->measures);
 
