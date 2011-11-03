@@ -5536,6 +5536,22 @@ for second and subsequent systems</tooltip>
         <label>Date</label>
         <tooltip>Prints a date on the title page.</tooltip>
       </row>
+      <row>
+        <action>NeoMensuralNotehead</action>
+        <after>ChangeNotehead</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/NoteheadControl</menupath>
+        <label>Neo-mensural</label>
+        <tooltip>Prints note with neomensural style notehead.</tooltip>
+      </row>
+      <row>
+        <action>NoteColumnShift</action>
+        <after>ShiftOn</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>Force Note Shift</label>
+        <tooltip>On printing the current note/chord will be shifted from notes in other voices by the amount you give. Use with Voice Presets to ensure this chord is in a different voice.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
