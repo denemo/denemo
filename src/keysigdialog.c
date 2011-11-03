@@ -466,17 +466,13 @@ key_change (DenemoGUI * gui, actiontype action)
     gtk_window_set_title (GTK_WINDOW (dialog),
 			  _("Insert key signature change"));
 
+ 
+  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+
+  GtkWidget *vbox = gtk_vbox_new(FALSE,1);
+  gtk_container_add (GTK_CONTAINER (content_area), vbox);
   label = gtk_label_new (_("Select desired key signature"));
-#ifdef _USE_GTK3_
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
-		      label, TRUE, TRUE, 0);
-#else
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-		      label, TRUE, TRUE, 0);
-#endif
-  gtk_widget_show (label);
-
-
+  gtk_container_add (GTK_CONTAINER (vbox), label);
 
   combobox = gtk_combo_new ();
 
@@ -490,24 +486,20 @@ key_change (DenemoGUI * gui, actiontype action)
   radiobutton1 = gtk_radio_button_new_with_label (NULL, _("Major"));
   gtk_signal_connect (G_OBJECT (radiobutton1), "clicked",
 		      GTK_SIGNAL_FUNC (majorcallback), mdata);
-  gtk_box_pack_start (GTK_BOX (hbox), radiobutton1, TRUE, TRUE, 0);
-  gtk_widget_show (radiobutton1);
-
+  gtk_container_add (GTK_CONTAINER (vbox), radiobutton1);
+ 
   radiobutton2 = gtk_radio_button_new_with_label
     (gtk_radio_button_group (GTK_RADIO_BUTTON (radiobutton1)), _("Minor"));
-  gtk_signal_connect (G_OBJECT (radiobutton2), "clicked",
-		      GTK_SIGNAL_FUNC (minorcallback), mdata);
-  gtk_box_pack_start (GTK_BOX (hbox), radiobutton2, TRUE, TRUE, 0);
-  gtk_widget_show (radiobutton2);
-
+  
+  gtk_container_add (GTK_CONTAINER (vbox), radiobutton2);
 
   radiobutton3 = gtk_radio_button_new_with_label
     (gtk_radio_button_group (GTK_RADIO_BUTTON (radiobutton1)), _("Mode"));
 
   gtk_signal_connect (G_OBJECT (radiobutton3), "clicked",
 		      GTK_SIGNAL_FUNC (modedialog), mdata);
-  gtk_box_pack_start (GTK_BOX (hbox), radiobutton3, TRUE, TRUE, 0);
-  gtk_widget_show (radiobutton3);
+  
+  gtk_container_add (GTK_CONTAINER (vbox), radiobutton3);
 
   if (curstaffstruct->keysig.isminor == 2)
     {
@@ -535,39 +527,14 @@ key_change (DenemoGUI * gui, actiontype action)
     }
   /* This setting-active will also complete the initialization of
    * the combobox */
-#ifdef _HAVE_GTK3_
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
-		      combobox, TRUE, TRUE, 0);
-#else
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-		      combobox, TRUE, TRUE, 0);
-#endif  
-  gtk_widget_show (combobox);
-#ifdef _HAVE_GTK3_
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
-		      pitchescombo, TRUE, TRUE, 0);
-  gtk_box_pack_end (GTK_BOX (GTK_DIALOG (dialog)), hbox, TRUE, TRUE, 0);
 
-#else
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-		      pitchescombo, TRUE, TRUE, 0);
-  gtk_box_pack_end (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox, TRUE, TRUE, 0);
-#endif
-
-  gtk_widget_show (hbox);
+  gtk_container_add (GTK_CONTAINER (vbox), combobox);
+  gtk_container_add (GTK_CONTAINER (vbox), pitchescombo);
 
   checkbutton = gtk_check_button_new_with_label (_("Apply to all staves?"));
-#ifdef _USE_GTK3_
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
-		      checkbutton, TRUE, TRUE, 0);
-#else
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-		      checkbutton, TRUE, TRUE, 0);
-#endif
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), TRUE);
-  gtk_widget_show (checkbutton);
 
-
+  gtk_container_add (GTK_CONTAINER (vbox), checkbutton);
+ 
   cbdata->gui = gui;
   cbdata->curstaffstruct = curstaffstruct;
   cbdata->checkbutton = checkbutton;
@@ -585,7 +552,7 @@ key_change (DenemoGUI * gui, actiontype action)
   gtk_widget_grab_focus (combobox);
   gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-  gtk_widget_show (dialog);
+  gtk_widget_show_all (dialog);
 
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
