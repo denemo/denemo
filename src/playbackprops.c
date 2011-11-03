@@ -66,13 +66,9 @@ playback_properties_change (GtkAction *action, gpointer param)
 
   gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
   notebook = gtk_notebook_new ();
-#ifdef _USE_GTK3_
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), notebook, TRUE,
-		      TRUE, 0);
-#else
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), notebook, TRUE,
-		      TRUE, 0);
-#endif
+  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  gtk_container_add (GTK_CONTAINER (content_area), notebook);
+
 #define NEWPAGE(thelabel) \
   main_vbox = gtk_vbox_new (FALSE, 1);\
   gtk_notebook_append_page (GTK_NOTEBOOK (notebook), main_vbox, NULL);\
