@@ -357,7 +357,11 @@ static gboolean change_staff(DenemoScore *si, gint num, GList *staff) {
 static void
 transform_coords(double* x, double* y) {
   DenemoGUI *gui = Denemo.gui;
+#ifdef _USE_GTK3_
   gint application_height = gtk_widget_get_allocated_height (Denemo.scorearea);
+#else  
+  gint application_height = Denemo.scorearea->allocation.height;
+#endif  
   gint line_height = application_height*gui->si->system_height;
   gint line_num = ((int)*y)/line_height;
   *y -= line_num * line_height;
@@ -409,7 +413,11 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     return FALSE;
   if(Denemo.scorearea==NULL)
     return FALSE;
+#ifdef _USE_GTK3_  
   gint allocated_height = gtk_widget_get_allocated_height (Denemo.scorearea);
+#else  
+  gint allocated_height = Denemo.scorearea->allocation.height;
+#endif 
   gint line_height = allocated_height*gui->si->system_height;
   if (event->y < 0)
     event->y = 0.0;
@@ -419,7 +427,11 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 
 
   if(dragging_separator) {
+#ifdef _USE_GTK3_    
     gint allocated_height = gtk_widget_get_allocated_height (Denemo.scorearea);
+#else    
+    gint allocated_height = Denemo.scorearea->allocation.height;
+#endif    
     gui->si->system_height =  allocated_height;
     if(gui->si->system_height<DENEMO_MINIMUM_SYSTEM_HEIGHT)
       gui->si->system_height = DENEMO_MINIMUM_SYSTEM_HEIGHT;
@@ -506,7 +518,11 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   if(gui==NULL || gui->si==NULL)
     return FALSE;
   //if the cursor is at a system separator start dragging it
+#ifdef _USE_GTK3_  
   gint allocated_height = gtk_widget_get_allocated_height (Denemo.scorearea);
+#else
+  gint allocated_height = Denemo.scorearea->allocation.height;
+#endif  
   gint line_height = allocated_height*gui->si->system_height;
   gint line_num = ((int)event->y)/line_height;
   //g_print("diff %d\n", line_height - ((int)event->y)%line_height);
