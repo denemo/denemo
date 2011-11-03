@@ -234,56 +234,37 @@ timesig_change (DenemoGUI * gui, actiontype action)
 				 GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
 				 GTK_STOCK_CANCEL, GTK_STOCK_CANCEL,
 				 NULL);
-#ifdef _USE_GTK3_
-  gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)),
-				  12);
-#else
-  gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox),
-				  12);
-#endif
+
+  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+
+  gtk_container_set_border_width (GTK_CONTAINER(content_area), 12);
+  GtkDialog *vbox = gtk_vbox_new(FALSE,1);
+  gtk_container_add (GTK_CONTAINER (content_area), vbox);
   label = gtk_label_new (_("Enter desired time signature:"));
-#ifdef _USE_GTK3_
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
-		      label, FALSE, FALSE, 8);
-#else
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-		      label, FALSE, FALSE, 8);
-#endif  
+  gtk_container_add (GTK_CONTAINER (vbox), label);
+
   textentry1 = gtk_spin_button_new_with_range (1, 128, 1.0);
   gtk_spin_button_set_digits (GTK_SPIN_BUTTON (textentry1), 0);
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (textentry1),
 			     (gdouble) curstaffstruct->timesig.time1);
-#ifdef _USE_GTK3_
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), textentry1, FALSE,
-		      FALSE, 8);
-#else
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), textentry1, FALSE,
-		      FALSE, 8);
-#endif
+  gtk_container_add (GTK_CONTAINER (vbox), textentry1);
+
   gtk_entry_set_activates_default (GTK_ENTRY (textentry1), TRUE);
 
   textentry2 = gtk_spin_button_new_with_range (1, 16, 1.0);
   gtk_spin_button_set_digits (GTK_SPIN_BUTTON (textentry2), 0);
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (textentry2),
 			     (gdouble) curstaffstruct->timesig.time2);
-#ifdef _USE_GTK3_
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), textentry2, FALSE,
-		      FALSE, 8);
-#else
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), textentry2, FALSE,
-		      FALSE, 8);
-#endif
+
+  gtk_container_add (GTK_CONTAINER (vbox), textentry2);
+
   gtk_entry_set_activates_default (GTK_ENTRY (textentry2), TRUE);
 
   checkbutton = gtk_check_button_new_with_label (_("Apply to all staves"));
-#ifdef _USE_GTK3_
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
-		      checkbutton, FALSE, FALSE, 8);
-#else
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-		      checkbutton, FALSE, FALSE, 8);
-#endif
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), TRUE);
+
+  gtk_container_add (GTK_CONTAINER (vbox), checkbutton);
+
+ // gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), TRUE);
 
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
   gtk_widget_show_all (dialog);
