@@ -76,35 +76,23 @@ insert_barline (GtkAction *action, gpointer param)
   gtk_window_set_title (GTK_WINDOW (dialog), _("Insert Barline"));
 
   content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-  label = gtk_label_new (_("Select desired barline"));
-  gtk_container_add (GTK_CONTAINER (content_area), label);
+  GtkWidget *hbox = gtk_hbox_new (FALSE, 1);
+  gtk_container_add (GTK_CONTAINER (content_area), hbox);
 
-//#ifdef _USE_GTK3_
-//  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
-//		      label, TRUE, TRUE, 0);
-//#else
-//  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-//		      label, TRUE, TRUE, 0);
-//#endif
-  gtk_widget_show (label);
+  label = gtk_label_new (_("Select desired barline"));
+  gtk_container_add (GTK_CONTAINER (hbox), label);
 
   for (i = 0; i < 6; i++)
     list = g_list_append (list, string_barlines[i]);
 
-  combobox = gtk_combo_new ();
-  gtk_combo_set_popdown_strings (GTK_COMBO (combobox), list);
-#ifdef _USE_GTK3_
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
-		      combobox, TRUE, TRUE, 0);
-#else
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-		      combobox, TRUE, TRUE, 0);
-#endif  
-  gtk_widget_show (combobox);
+  combobox = gtk_combo_box_new ();
+  gtk_combo_set_popdown_strings (GTK_COMBO_BOX (combobox), list);
+
+  gtk_container_add (GTK_CONTAINER (hbox), combobox);
 
   okbutton = gtk_button_new_with_label (_("OK"));
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area),
-		      okbutton, TRUE, TRUE, 0);
+
+  gtk_container_add (GTK_CONTAINER (hbox), okbutton);
 
   cbdata.gui = gui;
   cbdata.combo = combobox;
@@ -115,22 +103,19 @@ insert_barline (GtkAction *action, gpointer param)
 			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
 			     G_OBJECT (dialog));
 
-  gtk_widget_show (okbutton);
-
   cancelbutton = gtk_button_new_with_label (_("Cancel"));
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area),
-		      cancelbutton, TRUE, TRUE, 0);
+  
+  gtk_container_add (GTK_CONTAINER (hbox), cancelbutton);
+
   /* Signal connection */
   gtk_signal_connect_object (G_OBJECT (cancelbutton), "clicked",
 			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
 			     G_OBJECT (dialog));
 
-  gtk_widget_show (cancelbutton);
-
   gtk_widget_grab_focus (combobox);
   gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-  gtk_widget_show (dialog);
+  gtk_widget_show_all (dialog);
 
   /*printf("In barline\n"); */
 
@@ -150,8 +135,8 @@ add_barline (GtkWidget * widget, gpointer data)
 
   gchar *thetext =
     (gchar *)
-    gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->combo)->entry));
-
+    //gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->combo)->entry));
+    gtk_combo_box_get_active_text (GTK_COMBO_BOX (cbdata->combo));
   object_insert (cbdata->gui, newbarline (barlinefromname (thetext)));
 
 }
