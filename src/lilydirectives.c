@@ -1841,9 +1841,9 @@ DenemoDirective *select_directive(gchar *instr, GList *directives) {
                                         GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
                                         NULL);
   GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox,
-		      TRUE, TRUE, 0);
-  
+  GtkWidget *content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+  gtk_container_add (GTK_CONTAINER (content_area), vbox);
+
   DenemoDirective *response = NULL;
   GList *g;
   gint count;//count tagged directives
@@ -2168,8 +2168,9 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
 
 
   GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox,
-		      TRUE, TRUE, 0);
+  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  gtk_container_add (GTK_CONTAINER (content_area), vbox);
+
   GtkWidget *hbox;
   GString *entrycontent = g_string_new("");
   GtkWidget *entrywidget;
