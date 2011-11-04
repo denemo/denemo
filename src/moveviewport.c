@@ -28,7 +28,8 @@ update_hscrollbar (DenemoGUI * gui)
   gtk_adjustment_set_page_increment(adj, gui->si->rightmeasurenum - gui->si->leftmeasurenum + 1.0);
   gtk_adjustment_set_value(adj, gui->si->leftmeasurenum);
 
-  gtk_range_slider_update (GTK_RANGE (Denemo.hscrollbar));
+  gtk_adjustment_changed(adj);
+  //gtk_range_slider_update (GTK_RANGE (Denemo.hscrollbar));
 }
 
 /**
@@ -48,9 +49,11 @@ update_vscrollbar (DenemoGUI * gui)
   GtkAdjustment *adj = GTK_ADJUSTMENT (Denemo.vadjustment);
   gtk_adjustment_set_upper(adj, g_list_length (gui->si->thescore) + 1.0);
   gtk_adjustment_set_page_size(adj, gui->si->bottom_staff - gui->si->top_staff + 1.0);
-   gtk_adjustment_set_page_increment(adj, gui->si->bottom_staff - gui->si->top_staff + 1.0);
- gtk_adjustment_set_value(adj, gui->si->top_staff);
-  gtk_range_slider_update (GTK_RANGE (Denemo.vscrollbar));
+  gtk_adjustment_set_page_increment(adj, gui->si->bottom_staff - gui->si->top_staff + 1.0);
+  gtk_adjustment_set_value(adj, gui->si->top_staff);
+  
+  gtk_adjustment_changed(adj);
+  //gtk_range_slider_update (GTK_RANGE (Denemo.vscrollbar));
 }
 
 /**
@@ -110,8 +113,12 @@ set_bottom_staff (DenemoGUI * gui)
   /* With that settled, now determine how many additional (primary)
      staves will fit into the window.  */
   staff_number = gui->si->top_staff;
-  space_left = gtk_widget_get_allocated_width(Denemo.scorearea)*gui->si->system_height/gui->si->zoom;
-  space_left -= 2*LINE_SPACE;
+#ifdef _USE_GTK3_
+  space_left = gtk_widget_get_allocated_height(Denemo.scorearea)*gui->si->system_height/gui->si->zoom;
+#else 
+  space_left = Denemo.scorearea->allocation.height*gui->si->system_height/gui->si->zoom;
+#endif
+   space_left -= 2*LINE_SPACE;
   do
     {
      DenemoStaff *staff = staff_iterator->data;
