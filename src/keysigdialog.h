@@ -1,8 +1,9 @@
 typedef struct modedata
 {
   GtkWidget *dialog;
-  GtkWidget *combobox;
-  GtkWidget *pitchcombo;
+  GtkWidget *majorkeycombo;
+  GtkWidget *minorkeycombo;
+  GtkWidget *modenamecombo;
   GList *majorlist;
   GList *minorlist;
   GList *modelist;
@@ -13,7 +14,8 @@ typedef struct keysig_callbackdata
   DenemoGUI *gui;
   DenemoStaff *curstaffstruct;
   GtkWidget *checkbutton;
-  GtkWidget *combobox;
+  GtkWidget *majorkeycombo;
+  GtkWidget *minorkeycombo;
   GtkWidget *radiobutton2;
   GtkWidget *radiobutton3;
   GtkWidget *mode;
