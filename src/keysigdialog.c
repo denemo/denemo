@@ -1,4 +1,4 @@
-/* keysigdialog.cpp
+/* keysigdialog.c
  * Prompts the user to change the key signature
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
@@ -46,37 +46,16 @@ static gchar *modes[7] =
   { "lydian", "ionian", "mixolydian", "dorian", "aeolian", "phrygian",
 "locrain" };
 
-
-/*static gchar *modes[7] =
-  {
-    "ionian", "locrian", "aeolian", "mixolydian",
-    "lydian", "phrygian", "dorian"
-  };
-
-static gchar *pitches[17] =
-  {
-    "c", "c#", "db", "d", "d#", "eb", "e", "f", "f#", "gb", "g", "g#", "ab" ,"a", "a#", "bb" ,"b"
-  };
-*/
-
-
 gint
 findmode (GtkWidget * modebox, modedata *mdata)
 {
   gint ret = -1;
-  gchar *mode =
-    (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (modebox)->entry));
+  gchar *mode = gtk_combo_box_get_active_text (GTK_COMBO_BOX (mdata->modenamecombo));
   ret =
     g_list_position (mdata->modelist,
-		     g_list_find_custom (mdata->modelist, mode,
-					 (GCompareFunc) strcmp));
+      g_list_find_custom (mdata->modelist, mode,
+	(GCompareFunc) strcmp));
 
-  /*if(ret != -1)
-     {
-
-
-     }
-   */
   return ret - 1;
 }
 
@@ -89,8 +68,8 @@ findmode (GtkWidget * modebox, modedata *mdata)
 gint
 findkey (GtkWidget * combobox, modedata *mdata, gint type)
 {
-  gchar *tokeystring =
-    (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (combobox)->entry));
+  gchar *tokeystring = gtk_combo_box_get_active_text (GTK_COMBO_BOX (combobox));
+
   gint ret;
   if (type == 2)
     {
@@ -135,12 +114,9 @@ set_keysig (GtkWidget * widget, gpointer data)
     1 :
     gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cbdata->radiobutton3)) ?
     2 : 0;
-  tokey = findkey (cbdata->combobox, cbdata->mdata, isminor);
+  tokey = findkey (cbdata->majorkeycombo, cbdata->mdata, isminor);
   if (isminor == 2)
     mode = findmode (cbdata->mode, cbdata->mdata);
-
-  //printf("\n tokey in set_keysig calling findmode returns %i\n",tokey);
-  //printf("\n mode in set_keysig calling findmode returns %i\n",mode);
 
   if (tokey != G_MININT)
     {
@@ -158,7 +134,6 @@ set_keysig (GtkWidget * widget, gpointer data)
 	{
 	  dnm_setinitialkeysig (cbdata->curstaffstruct, tokey - mode, isminor);
 	}
-
     }
   score_status(cbdata->gui, TRUE);
 }
@@ -182,7 +157,7 @@ insert_keysig (GtkWidget * widget, gpointer data)
     1 :
     gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cbdata->radiobutton3)) ?
     2 : 0;
-  tokey = findkey (cbdata->combobox,cbdata->mdata, isminor);
+  tokey = findkey (cbdata->majorkeycombo,cbdata->mdata, isminor);
   if (isminor == 2)
     mode = findmode (cbdata->mode, cbdata->mdata);
 
@@ -229,17 +204,15 @@ insert_keysig (GtkWidget * widget, gpointer data)
 void
 majorcallback (GtkWidget * widget, struct modedata *data)
 {
-  gchar *text =
-    g_strdup (gtk_entry_get_text
-	      (GTK_ENTRY (GTK_COMBO (data->combobox)->entry)));
+  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
 
-  gtk_combo_set_popdown_strings (GTK_COMBO (data->combobox), data->majorlist);
-  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (data->combobox)->entry), text);
+  gtk_combo_box_set_active(GTK_COMBO_BOX (data->majorkeycombo),
+         curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET);
 
-  gtk_widget_hide (data->pitchcombo);
-  g_free (text);
+  gtk_widget_hide (data->minorkeycombo);
+  gtk_widget_hide (data->modenamecombo);
+  gtk_widget_show (data->majorkeycombo);
 }
-
 
 /**
  * Update the keysig dialogs combobox with the 
@@ -248,15 +221,14 @@ majorcallback (GtkWidget * widget, struct modedata *data)
 void
 minorcallback (GtkWidget * widget, struct modedata *data)
 {
-  gchar *text =
-    g_strdup (gtk_entry_get_text
-	      (GTK_ENTRY (GTK_COMBO (data->combobox)->entry)));
+  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
 
-  gtk_combo_set_popdown_strings (GTK_COMBO (data->combobox), data->minorlist);
-  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (data->combobox)->entry), text);
+  gtk_combo_box_set_active(GTK_COMBO_BOX (data->minorkeycombo),
+         curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET);
 
-  gtk_widget_hide (data->pitchcombo);
-  g_free (text);
+  gtk_widget_hide (data->majorkeycombo);
+  gtk_widget_hide (data->modenamecombo);
+  gtk_widget_show (data->minorkeycombo);
 }
 
 
@@ -267,29 +239,9 @@ minorcallback (GtkWidget * widget, struct modedata *data)
 void
 modecallback (GtkWidget * widget, struct modedata *data)
 {
-  gchar *text =
-    g_strdup (gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (data)->entry)));
-  gtk_combo_set_popdown_strings (GTK_COMBO (data), data->majorlist);
-  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (data)->entry), text);
-  g_free (text);
-}
-
-/**
- * Update the keysig dialogs combobox with the 
- * pitches for the modes
- */
-void
-modedialog (GtkWidget * widget, struct modedata *mdata)
-{
-
-  gtk_combo_set_popdown_strings (GTK_COMBO (mdata->pitchcombo), mdata->modelist);
-  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (mdata->pitchcombo)->entry),
-		      modes[0]);
-  gtk_widget_show (mdata->pitchcombo);
-
-  //gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (mdata->radiobutton3), TRUE);
-//  modecallback (NULL, (gpointer) mdata->combobox);
-
+  gtk_widget_hide (data->minorkeycombo);
+  gtk_widget_show (data->majorkeycombo);
+  gtk_widget_show (data->modenamecombo);
 }
 
 /* interprets the scheme_string to set key number and isminor value
@@ -409,9 +361,9 @@ key_change (DenemoGUI * gui, actiontype action)
   GtkWidget *label;
   GtkWidget *radiobutton1, *radiobutton2, *radiobutton3;
   GtkWidget *checkbutton;
-  GtkWidget *combobox;
-  GtkWidget *hbox;
-  GtkWidget *pitchescombo = gtk_combo_new ();	//combobox to hold pitches for modes
+  GtkWidget *majorkeycombo = gtk_combo_box_text_new ();
+  GtkWidget *minorkeycombo = gtk_combo_box_text_new ();
+  GtkWidget *modenamecombo = gtk_combo_box_text_new ();	
   gint i;
   static GString *menustring = NULL;
   DenemoScore *si = gui->si;
@@ -421,7 +373,6 @@ key_change (DenemoGUI * gui, actiontype action)
   static GList *majorlist = NULL;
   static GList *minorlist = NULL;
   static GList *modelist = NULL;
-  //static GList *pitchlist = NULL;
 
   if (si->lily_file && action == CHANGEINITIAL)
     return;			/* no code for this yet - just edit textually */
@@ -444,11 +395,13 @@ key_change (DenemoGUI * gui, actiontype action)
   mdata->minorlist = minorlist;
   mdata->modelist = modelist;
 
-/*
-  if(!pitchlist)
-    for(i=0; i<17; i++)
-      pitchlist = g_list_append(pitchlist, pitches[i]);
-*/
+  for(i=0;i<G_N_ELEMENTS(majorkeys);i++)
+    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(majorkeycombo), majorkeys[i]);
+  for(i=0;i<G_N_ELEMENTS(minorkeys);i++)
+    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(minorkeycombo), minorkeys[i]);
+  for(i=0;i<G_N_ELEMENTS(modes);i++)
+    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(modenamecombo), modes[i]);
+  
   /* GUI setup */
   dialog = gtk_dialog_new_with_buttons (_("Key Signature Change"),
 					GTK_WINDOW (Denemo.window),
@@ -466,7 +419,6 @@ key_change (DenemoGUI * gui, actiontype action)
     gtk_window_set_title (GTK_WINDOW (dialog),
 			  _("Insert key signature change"));
 
- 
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
   GtkWidget *vbox = gtk_vbox_new(FALSE,1);
@@ -474,14 +426,10 @@ key_change (DenemoGUI * gui, actiontype action)
   label = gtk_label_new (_("Select desired key signature"));
   gtk_container_add (GTK_CONTAINER (vbox), label);
 
-  combobox = gtk_combo_new ();
-
-  hbox = gtk_hbox_new (FALSE, 0);
-
-  mdata->combobox = combobox;
+  mdata->majorkeycombo = majorkeycombo;
+  mdata->minorkeycombo = minorkeycombo;
   mdata->dialog = dialog;
-  mdata->pitchcombo = pitchescombo;
-  //mdata.radiobutton3 = radiobutton3;
+  mdata->modenamecombo = modenamecombo;
 
   radiobutton1 = gtk_radio_button_new_with_label (NULL, _("Major"));
   gtk_signal_connect (G_OBJECT (radiobutton1), "clicked",
@@ -490,46 +438,22 @@ key_change (DenemoGUI * gui, actiontype action)
  
   radiobutton2 = gtk_radio_button_new_with_label
     (gtk_radio_button_group (GTK_RADIO_BUTTON (radiobutton1)), _("Minor"));
-  
+  gtk_signal_connect (G_OBJECT (radiobutton2), "clicked",
+		      GTK_SIGNAL_FUNC (minorcallback), mdata);
   gtk_container_add (GTK_CONTAINER (vbox), radiobutton2);
 
   radiobutton3 = gtk_radio_button_new_with_label
     (gtk_radio_button_group (GTK_RADIO_BUTTON (radiobutton1)), _("Mode"));
-
   gtk_signal_connect (G_OBJECT (radiobutton3), "clicked",
-		      GTK_SIGNAL_FUNC (modedialog), mdata);
-  
+		      GTK_SIGNAL_FUNC (modecallback), mdata);
   gtk_container_add (GTK_CONTAINER (vbox), radiobutton3);
 
-  if (curstaffstruct->keysig.isminor == 2)
-    {
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton3), TRUE);
-      modedialog (NULL, mdata);
-
-    }
-  else if (curstaffstruct->keysig.isminor == 1)
-    {
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton2), TRUE);
-      minorcallback (NULL, mdata);
-      gtk_entry_set_text
-	(GTK_ENTRY (GTK_COMBO (combobox)->entry),
-	 minorkeys[curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET]);
-
-    }
-  else
-    {
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton1), TRUE);
-      majorcallback (NULL, mdata);
-      gtk_entry_set_text
-	(GTK_ENTRY (GTK_COMBO (combobox)->entry),
-	 majorkeys[curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET]);
-
-    }
   /* This setting-active will also complete the initialization of
    * the combobox */
 
-  gtk_container_add (GTK_CONTAINER (vbox), combobox);
-  gtk_container_add (GTK_CONTAINER (vbox), pitchescombo);
+  gtk_container_add (GTK_CONTAINER (vbox), majorkeycombo);
+  gtk_container_add (GTK_CONTAINER (vbox), minorkeycombo);
+  gtk_container_add (GTK_CONTAINER (vbox), modenamecombo);
 
   checkbutton = gtk_check_button_new_with_label (_("Apply to all staves?"));
 
@@ -538,21 +462,43 @@ key_change (DenemoGUI * gui, actiontype action)
   cbdata->gui = gui;
   cbdata->curstaffstruct = curstaffstruct;
   cbdata->checkbutton = checkbutton;
-  cbdata->combobox = combobox;
   cbdata->radiobutton2 = radiobutton2;
   cbdata->radiobutton3 = radiobutton3;
-  cbdata->mode = pitchescombo;
+  cbdata->majorkeycombo = majorkeycombo;
+  cbdata->minorkeycombo = minorkeycombo;
+  cbdata->mode = modenamecombo;
   cbdata->mdata = mdata;
-  gtk_entry_set_activates_default (GTK_ENTRY (GTK_COMBO (combobox)->entry),
-				   TRUE);
-  gtk_entry_set_activates_default (GTK_ENTRY
-				   (GTK_COMBO (pitchescombo)->entry), TRUE);
+  
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
 
-  gtk_widget_grab_focus (combobox);
+  gtk_widget_grab_focus (majorkeycombo);
   gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
   gtk_widget_show_all (dialog);
+  
+  if (curstaffstruct->keysig.isminor == 2)
+    {
+      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton3), TRUE);
+      gtk_widget_show (mdata->modenamecombo);
+    }
+  else if (curstaffstruct->keysig.isminor == 1)
+    {
+      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton2), TRUE);
+      gtk_widget_hide (mdata->majorkeycombo);
+      gtk_widget_hide (mdata->modenamecombo);
+      gtk_widget_show (mdata->minorkeycombo);
+      gtk_combo_box_set_active(GTK_COMBO_BOX (minorkeycombo), 
+	 curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET);
+    }
+  else
+    {
+      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton1), TRUE);
+      gtk_widget_hide (mdata->minorkeycombo);
+      gtk_widget_hide (mdata->modenamecombo);
+      gtk_widget_show (mdata->majorkeycombo);
+      gtk_combo_box_set_active(GTK_COMBO_BOX (majorkeycombo), 
+	curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET);
+    }
 
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
@@ -571,5 +517,4 @@ key_change (DenemoGUI * gui, actiontype action)
     }
 
   gtk_widget_destroy (dialog);
-
 }
