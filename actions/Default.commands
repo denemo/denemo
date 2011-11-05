@@ -5552,6 +5552,30 @@ for second and subsequent systems</tooltip>
         <label>Force Note Shift</label>
         <tooltip>On printing the current note/chord will be shifted from notes in other voices by the amount you give. Use with Voice Presets to ensure this chord is in a different voice.</tooltip>
       </row>
+      <row>
+        <action>SuggestSharp</action>
+        <after>ReminderAccidental</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
+        <label>Suggest Sharp</label>
+        <tooltip>Prints a sharp above the note at the cursor</tooltip>
+      </row>
+      <row>
+        <action>SuggestFlat</action>
+        <after>SuggestedSharp</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
+        <label>Suggest Flat</label>
+        <tooltip>Prints flat sign over the note at the cursor</tooltip>
+      </row>
+      <row>
+        <action>SuggestNatural</action>
+        <after>SuggestFlat</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
+        <label>Suggest Natural</label>
+        <tooltip>Prints a natural over the note at the cursor</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
