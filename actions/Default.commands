@@ -5576,6 +5576,14 @@ for second and subsequent systems</tooltip>
         <label>Suggest Natural</label>
         <tooltip>Prints a natural over the note at the cursor</tooltip>
       </row>
+      <row>
+        <action>CreatePartsFromTop</action>
+        <after>CreateParts</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>Create Parts (Treble First)</label>
+        <tooltip>Creates a set of parts extracting the highest part first.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

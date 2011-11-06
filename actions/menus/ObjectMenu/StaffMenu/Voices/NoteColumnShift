@@ -12,10 +12,15 @@
 (if (not val)
   (set! val "1.2"))
 (set! val (d-GetUserInput "Horizontal Shift" "Give amount (staff spaces)" val))
-(d-DirectivePut-chord-prefix tag (string-append "\\once \\override NoteColumn #'force-hshift = #" val " "))
-(d-DirectivePut-chord-display tag val)
-(d-DirectivePut-chord-override tag DENEMO_OVERRIDE_AFFIX)
-(d-SetSaved #f))
+(if val 
+	(begin
+		(if (string-null? val)
+			(d-DirectiveDelete-chord tag)
+			(begin
+				(d-DirectivePut-chord-prefix tag (string-append "\\once \\override NoteColumn #'force-hshift = #" val " "))
+				(d-DirectivePut-chord-display tag val)
+				(d-DirectivePut-chord-override tag DENEMO_OVERRIDE_AFFIX)))
+		(d-SetSaved #f))))
 </scheme>
         <label>Force Note Shift</label>
         <tooltip>On printing the current note/chord will be shifted from notes in other voices by the amount you give. Use with Voice Presets to ensure this chord is in a different voice.</tooltip>
