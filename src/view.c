@@ -1789,6 +1789,35 @@ SCM scheme_get_note (SCM count) {
  }
    
 }
+SCM scheme_get_note_from_top (SCM count) {
+  gint index=1;
+  DenemoGUI *gui = Denemo.gui;
+  DenemoObject *curObj;
+  chord *thechord;
+  note *thenote;
+  if(scm_is_integer(count)) {
+    index =  scm_to_int(count);
+    if(index<1)
+      return SCM_BOOL_F;
+  }
+  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) )
+    return SCM_BOOL_F;
+  else {
+    SCM scm;
+    gint end = g_list_length(thechord->notes);
+    index = end - index;
+    if(index<0)
+      scm = SCM_BOOL_F;
+    else {
+      thenote = (note *) g_list_nth_data(thechord->notes, index);
+      gchar *str = g_strdup_printf("%s",  mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift));
+      scm = scm_makfrom0str (str);
+      g_free(str);
+    }
+    return scm;
+ }
+   
+}
 
 SCM scheme_spell_check_midi_chord (SCM list) {
   SCM scm;
@@ -4207,6 +4236,7 @@ static void create_scheme_identfiers(void) {
   INSTALL_SCM_FUNCTION ("Returns the name of the (highest) note in any chord at the cursor position, or #f if none",DENEMO_SCHEME_PREFIX"GetNoteName",  scheme_get_note_name);
   INSTALL_SCM_FUNCTION ("Insert rests at the cursor to the value of the one whole measure in the key signature and return the number of rests inserted", DENEMO_SCHEME_PREFIX"PutWholeMeasureRests",  scheme_put_whole_measure_rests);
   INSTALL_SCM_FUNCTION ("Takes optional integer parameter n = 1..., returns LilyPond representation of the nth note of the chord at the cursor counting from the lowest, or #f if none",DENEMO_SCHEME_PREFIX"GetNote",  scheme_get_note);
+   INSTALL_SCM_FUNCTION ("Takes optional integer parameter n = 1..., returns LilyPond representation of the nth note of the chord at the cursor counting from the highest, or #f if none",DENEMO_SCHEME_PREFIX"GetNoteFromTop",  scheme_get_note_from_top);
   INSTALL_SCM_FUNCTION ("Returns a space separated string of LilyPond notes for the chord at the cursor position or #f if none",DENEMO_SCHEME_PREFIX"GetNotes",  scheme_get_notes);
   INSTALL_SCM_FUNCTION ("Returns the number of dots on the note at the cursor, or #f if no note",DENEMO_SCHEME_PREFIX"GetDots", scheme_get_dots);
   INSTALL_SCM_FUNCTION ("Returns the duration in LilyPond syntax of the note at the cursor, or #f if none",DENEMO_SCHEME_PREFIX"GetNoteDuration", scheme_get_note_duration);
