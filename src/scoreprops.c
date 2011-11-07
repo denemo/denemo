@@ -84,7 +84,7 @@ score_properties_dialog (GtkAction *action, DenemoScriptParam *param)
 					NULL);
 
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
-  gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+  //gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 
   notebook = gtk_notebook_new ();
 
