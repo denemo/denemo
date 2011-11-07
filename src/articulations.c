@@ -260,7 +260,8 @@ GtkWidget * table, gint col, gint row,
 
   if (gtk_stock_lookup (stock_id, &stock))
     {
-      gtk_tooltips_set_tip (GTK_TOOLTIPS (tips), button, stock.label, NULL);
+      gtk_tooltip_set_text (tips, stock.label);
+      //gtk_tooltips_set_tip (tips, button, stock.label, NULL); //FIXME obsolete function
       image = gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_BUTTON);
       gtk_container_add (GTK_CONTAINER (button), image);
     }
@@ -291,9 +292,9 @@ create_articulation_widget (DenemoGUI * si)
   GtkTooltip *tips;
 #else
   GtkTooltips *tips;
+  tips = gtk_tooltips_new ();
 #endif
 
-  tips = gtk_tooltips_new ();
 
   vbox = gtk_vbox_new (FALSE, 8);
   gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
@@ -445,12 +446,12 @@ toggle_articulation_palette (GtkAction *action, gpointer param)
 
   if (gui->articulation_palette)
     {
-      if (GTK_WIDGET_VISIBLE (gui->articulation_palette))
+      if (gtk_widget_get_visible (gui->articulation_palette))
 	{
 	  gtk_widget_hide (gui->articulation_palette);
 	}
       else if (Denemo.prefs.articulation_palette == FALSE
-	       && GTK_WIDGET_VISIBLE (gui->articulation_palette))
+	       && gtk_widget_get_visible (gui->articulation_palette))
 	{
 	  gtk_widget_hide (gui->articulation_palette);
 	}
