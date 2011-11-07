@@ -1445,7 +1445,7 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event)
   modifiers = dnm_sanitize_key_state(event);
   keyval = event->keyval;
   //gtk_widget_get_action(GTK_MENU_SHELL(menu)->active_menu_item);
-  action = gtk_widget_get_action(gtk_menu_get_active(GTK_MENU(menu)));
+  action = gtk_activatable_get_related_action(gtk_menu_get_active(GTK_MENU(menu)));
 
  //If this menu item has no action we give up
   if (!action)
