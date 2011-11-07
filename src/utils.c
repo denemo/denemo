@@ -265,7 +265,7 @@ drawbitmapinverse_cr (cairo_t * cr, DenemoGraphic * mask, gint x,
   cairo_save(cr);
   switch (mask->type) {
     case DENEMO_BITMAP: {
-      gdk_cairo_set_source_pixmap( cr, mask->graphic, x,y );//??? bitmap???? asks torbenh
+      gdk_cairo_set_source_window( cr, mask->graphic, x,y );//??? bitmap???? asks torbenh
       cairo_rectangle( cr, x,y, mask->width, mask->height );
       cairo_fill( cr );
       break;
@@ -319,13 +319,14 @@ void drawlargetext_cr (cairo_t *cr, const char *text, double x, double y)
  drawtext_cr(cr, text, x, y, 24.0);
 }
 void
-setcairocolor (cairo_t * cr, GdkGC * gc)
+setcairocolor (cairo_t * cr, cairo_surface_t * surface)
 {
-  GdkGCValues vals;
-  GdkColor col;
-  gdk_gc_get_values( gc, &vals );
-  gdk_colormap_query_color( gdk_colormap_get_system(), vals.foreground.pixel, &col );
-  gdk_cairo_set_source_color( cr, &col );
+  //FIXME!!!
+  //GdkGCValues vals;
+  //GdkColor col;
+  //gdk_gc_get_values( gc, &vals );
+  //gdk_colormap_query_color( gdk_colormap_get_system(), vals.foreground.pixel, &col );
+  //gdk_cairo_set_source_color( cr, &col );
 }
 
 /* draw display text and or graphics for directives
