@@ -1023,7 +1023,7 @@ static gint draw_indicator (GtkWidget * widget, GdkEventExpose * event, gpointer
     if (iCent < 0) iCent= 0;
     if (iCent >  800) iCent=  800;
     
-    cairo_t *cr = gdk_cairo_create (widget->window);
+    cairo_t *cr = gdk_cairo_create (widget);  //FIXME shouldn't this be cast somehow
     
     if(iCent<380)
       cairo_set_source_rgb (cr, 1, 0, 0);
@@ -1059,8 +1059,8 @@ static void toggle_tuning(GtkToggleButton *button, DenemoGUI *gui) {
       gtk_container_add (GTK_CONTAINER (widget), hbox);
       PR_indicator = gtk_drawing_area_new ();
       gtk_box_pack_start (GTK_BOX (hbox), PR_indicator, TRUE, TRUE, 0); 
-      gtk_signal_connect (G_OBJECT (PR_indicator), "expose_event",
-			  GTK_SIGNAL_FUNC (draw_indicator), gui);
+      g_signal_connect (G_OBJECT (PR_indicator), "expose_event",
+			  G_CALLBACK (draw_indicator), gui);
       gtk_widget_show_all(widget);
       }
       gtk_window_present(GTK_WINDOW(widget));
@@ -1141,7 +1141,7 @@ GtkWidget *get_enharmonic_frame(void) {
     GtkWidget *button = gtk_button_new_with_label("flatten");
     gtk_box_pack_start (GTK_BOX (hbox), button,
 			FALSE, TRUE, 0);
-    gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/FlattenEnharmonicSet"), button);
+    gtk_activatable_set_related_action(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/FlattenEnharmonicSet"), button);
     gchar *names = notenames(PR_temperament);
   
     gtk_label_set_markup(GTK_LABEL(label),names);
@@ -1152,7 +1152,7 @@ GtkWidget *get_enharmonic_frame(void) {
     button = gtk_button_new_with_label("sharpen");
     gtk_box_pack_start (GTK_BOX (hbox), button,
 			FALSE, TRUE, 0);
-    gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/SharpenEnharmonicSet"), button);
+    gtk_activatable_set_related_action(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/SharpenEnharmonicSet"), button);
   }
   GtkWidget *cont = gtk_widget_get_parent(frame);
   if(cont)
@@ -1216,7 +1216,7 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
   g_signal_connect (G_OBJECT (PR_window), "destroy",
 		    G_CALLBACK (window_destroy_callback), NULL); 
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
-  gtk_container_border_width (GTK_CONTAINER (main_vbox), 1);
+  gtk_container_set_border_width (GTK_CONTAINER (main_vbox), 1);
   gtk_container_add (GTK_CONTAINER (PR_window), main_vbox);
   if(gui->input_source==INPUTAUDIO) {
     frame = gtk_frame_new( "Mode");
