@@ -1620,3 +1620,17 @@ cleftypefromname (gchar * str)
   g_free (str);
   return ret;
 }
+
+gint
+get_widget_height(GtkWidget *w) {
+  GtkAllocation allocation;
+  gtk_widget_get_allocation(w, &allocation);
+  return allocation.height;
+}
+
+gint
+get_widget_width(GtkWidget *w) {
+  GtkAllocation allocation;
+  gtk_widget_get_allocation(w, &allocation);
+  return allocation.width;
+}

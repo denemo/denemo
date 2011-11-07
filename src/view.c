@@ -585,13 +585,6 @@ toggle_page_view(void) {
   }
 }
 
-static gint
-get_widget_height(GtkWidget *w) { 
-  GtkAllocation allocation; 
-  gtk_widget_get_allocation(w, &allocation);
-  return allocation.height;
-}
- 
 /* Hide/show everything except the drawing area */
 void toggle_to_drawing_area(gboolean show) {
 #define current_view Denemo.gui->view   
