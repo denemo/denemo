@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <gdk/gdkkeysyms-compat.h> //FIXME Look for something more gtk3 like
 #include <denemo/denemo.h>
 #include "lilydirectives.h"
 #include "chordops.h"
@@ -1437,7 +1438,9 @@ widget_for_directive_menu(DenemoDirective *directive,  void fn(), GtkMenu *menu)
 	}
     g_object_set_data(G_OBJECT(directive->widget), "directive", (gpointer)directive);
     g_object_set_data(G_OBJECT(directive->widget), "fn", (gpointer)fn);
-    GTK_WIDGET_UNSET_FLAGS(directive->widget, GTK_CAN_FOCUS);
+    //GTK_WIDGET_UNSET_FLAGS(directive->widget, GTK_CAN_FOCUS);
+    gtk_widget_set_can_focus (directive->widget, FALSE);
+ 
   }//end of no widget
 
   (directive->override&DENEMO_OVERRIDE_GRAPHIC)?gtk_widget_show(GTK_WIDGET(directive->widget)):gtk_widget_hide(GTK_WIDGET(directive->widget));
@@ -2248,7 +2251,7 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
 #endif  
   button = gtk_check_button_new_with_label("Show Current Script");
   gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
-  gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"), button);
+  gtk_activatable_set_related_action(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"), button);
 
   gtk_widget_show_all (dialog);
   gint response = gtk_dialog_run (GTK_DIALOG (dialog));
