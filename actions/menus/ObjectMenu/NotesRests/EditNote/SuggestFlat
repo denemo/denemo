@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>SuggestedSharp</after>
+        <action>SuggestFlat</action>
+        <scheme>(d-DirectivePut-chord-postfix "SuggestedAccidental" "^\\markup \\flat")
+(d-DirectivePut-chord-gy "SuggestedAccidental" -100)
+(d-DirectivePut-chord-graphic "SuggestedAccidental" "
+\xE2\x99\xAD
+Sans
+30")</scheme>
+        <label>Suggest Flat</label>
+        <tooltip>Prints flat sign over note</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
