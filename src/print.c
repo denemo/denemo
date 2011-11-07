@@ -922,9 +922,8 @@ printall(void) {
   else if (error) {
     GtkWidget *dialog;
     dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window),
-				     GTK_DIALOG_NO_SEPARATOR,
 				     GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-				     "%s", error->message);
+				     GTK_BUTTONS_CLOSE,error->message);
     g_error_free (error);
     error = NULL;
     gtk_dialog_run (GTK_DIALOG (dialog));
@@ -937,9 +936,9 @@ printall(void) {
 static void draw_print(cairo_t *cr) {
   gint x, y;
   GtkAdjustment * adjust = gtk_range_get_adjustment(GTK_RANGE(Denemo.printhscrollbar));
-  x = (gint)adjust->value;
+  x = (gint)gtk_adjustment_get_value(adjust);
   adjust = gtk_range_get_adjustment(GTK_RANGE(Denemo.printvscrollbar));
-  y = (gint)adjust->value;
+  y = (gint)gtk_adjustment_get_value(adjust);
 
   gint width, height;
   width = gdk_pixbuf_get_width( GDK_PIXBUF(Denemo.pixbuf));
@@ -970,9 +969,9 @@ static void draw_print(cairo_t *cr) {
       cairo_set_source_rgba( cr, 0.7, 0.7, 0.7, 0.4 );
       cairo_rectangle( cr, markx, marky, w, h);
 
-      gdk_draw_pixbuf(Denemo.printarea->window, NULL, GDK_PIXBUF(Denemo.pixbuf),
-		  markx+x, marky+y, curx, cury,/* x, y in pixbuf, x,y in window */
-		w,  h, GDK_RGB_DITHER_NONE,0,0);
+//      gdk_draw_pixbuf(Denemo.printarea->window, NULL, GDK_PIXBUF(Denemo.pixbuf),
+//		  markx+x, marky+y, curx, cury,/* x, y in pixbuf, x,y in window */
+//		w,  h, GDK_RGB_DITHER_NONE,0,0);
 
     }
   if(padding)
@@ -983,9 +982,9 @@ static void draw_print(cairo_t *cr) {
       gint h = pointy-marky;
       cairo_set_source_rgba( cr, 0.7, 0.7, 0.7, 0.4 );
       cairo_rectangle( cr, markx-pad/2, marky-pad/2, w+pad, h+pad);
-      gdk_draw_pixbuf(Denemo.printarea->window, NULL, GDK_PIXBUF(Denemo.pixbuf),
-		      markx+x, marky+y, markx, marky,/* x, y in pixbuf, x,y in window */
-		w,  h, GDK_RGB_DITHER_NONE,0,0);
+  //    gdk_draw_pixbuf(Denemo.printarea->window, NULL, GDK_PIXBUF(Denemo.pixbuf),
+//		      markx+x, marky+y, markx, marky,/* x, y in pixbuf, x,y in window */
+//		w,  h, GDK_RGB_DITHER_NONE,0,0);
 
     }
 
@@ -995,12 +994,12 @@ static void draw_print(cairo_t *cr) {
 static GdkCursor *busycursor;
 static GdkCursor *arrowcursor;
 static void busy_cursor(void) {
-  if(Denemo.printarea->window)
-    gdk_window_set_cursor(Denemo.printarea->window, busycursor);
+  //if(Denemo.printarea->window)
+    //gdk_window_set_cursor(Denemo.printarea->window, busycursor);
 }
 static void normal_cursor(void) {
-  if(Denemo.printarea->window)
-    gdk_window_set_cursor(Denemo.printarea->window, arrowcursor);
+  //if(Denemo.printarea->window)
+   // gdk_window_set_cursor(Denemo.printarea->window, arrowcursor);
 }
 
 static void
@@ -1393,7 +1392,7 @@ printarea_scroll_event (GtkWidget *widget, GdkEventScroll *event) {
     } else {
       GtkAdjustment *vadj = gtk_range_get_adjustment(GTK_RANGE(Denemo.printvscrollbar));
       gtk_adjustment_set_value(vadj,
-			       10.0 + vadj->value);
+			       10.0 + gtk_adjustment_get_value(vadj));
 
     }
     break;
@@ -1409,7 +1408,7 @@ printarea_scroll_event (GtkWidget *widget, GdkEventScroll *event) {
     } else {
       GtkAdjustment *vadj = gtk_range_get_adjustment(GTK_RANGE(Denemo.printvscrollbar));
       gtk_adjustment_set_value(vadj,
-			       -10.0 + vadj->value);
+			       -10.0 + gtk_adjustment_get_value(vadj));
 
     }
    break;
