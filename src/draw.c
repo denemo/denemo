@@ -939,12 +939,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 	     guint width = gdk_pixbuf_get_width( GDK_PIXBUF(StaffGoForward));
 	     guint height = gdk_pixbuf_get_height( GDK_PIXBUF(StaffGoForward));
 	     cairo_save( cr );
-
              gint xx = allocation.width/gui->si->zoom -width;
-
-	     GtkAllocation allocation;
-             gtk_widget_get_allocation(Denemo.scorearea, &allocation);
-             allocation.width/gui->si->zoom -width;
 	     gdk_cairo_set_source_pixbuf( cr, GDK_PIXBUF(StaffGoForward),xx,y );
 	     cairo_rectangle( cr,xx,y, width, height );
 	     cairo_fill( cr );
