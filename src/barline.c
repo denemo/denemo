@@ -86,7 +86,9 @@ insert_barline (GtkAction *action, gpointer param)
     list = g_list_append (list, string_barlines[i]);
 
   combobox = gtk_combo_box_new ();
-  gtk_combo_set_popdown_strings (GTK_COMBO_BOX (combobox), list);
+  
+  for(i=0;i<G_N_ELEMENTS(string_barlines);i++)
+    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(combobox), string_barlines[i]);
 
   gtk_container_add (GTK_CONTAINER (hbox), combobox);
 
@@ -97,20 +99,20 @@ insert_barline (GtkAction *action, gpointer param)
   cbdata.gui = gui;
   cbdata.combo = combobox;
   /* Signal connection */
-  gtk_signal_connect (G_OBJECT (okbutton), "clicked",
-		      GTK_SIGNAL_FUNC (add_barline), &cbdata);
-  gtk_signal_connect_object (G_OBJECT (okbutton), "clicked",
-			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     G_OBJECT (dialog));
+  g_signal_connect (G_OBJECT (okbutton), "clicked",
+		      G_CALLBACK (add_barline), &cbdata);
+  g_signal_connect_object (G_OBJECT (okbutton), "clicked",
+			     G_CALLBACK (gtk_widget_destroy),
+			   G_OBJECT (dialog), G_CONNECT_AFTER);
 
   cancelbutton = gtk_button_new_with_label (_("Cancel"));
   
   gtk_container_add (GTK_CONTAINER (hbox), cancelbutton);
 
   /* Signal connection */
-  gtk_signal_connect_object (G_OBJECT (cancelbutton), "clicked",
-			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     G_OBJECT (dialog));
+  g_signal_connect_object (G_OBJECT (cancelbutton), "clicked",
+			     G_CALLBACK (gtk_widget_destroy),
+			   G_OBJECT (dialog), G_CONNECT_AFTER);
 
   gtk_widget_grab_focus (combobox);
   gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
@@ -136,7 +138,7 @@ add_barline (GtkWidget * widget, gpointer data)
   gchar *thetext =
     (gchar *)
     //gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->combo)->entry));
-    gtk_combo_box_get_active_text (GTK_COMBO_BOX (cbdata->combo));
+    gtk_combo_box_text_get_active_text (GTK_COMBO_BOX (cbdata->combo));
   object_insert (cbdata->gui, newbarline (barlinefromname (thetext)));
 
 }
