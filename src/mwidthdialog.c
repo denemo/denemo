@@ -81,7 +81,7 @@ score_mwidth_change (GtkAction *action, gpointer param)
   cbdata.textentry = textentry;
   cbdata.gui = gui;
 
-  processenter (textentry, set_mwidth, cbdata, dialog);
+  processenter (textentry, G_CALLBACK(set_mwidth), cbdata, dialog);
  // gtk_signal_connect (G_OBJECT (okbutton), "clicked",
 //		      GTK_SIGNAL_FUNC (set_mwidth), &cbdata);
 //  gtk_signal_connect_object (G_OBJECT (okbutton), "clicked",
