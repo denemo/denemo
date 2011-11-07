@@ -139,11 +139,11 @@ set_preferences (struct callbackdata *cbdata)
 
 #define ASSIGNCOMBO(field) \
   g_string_assign (prefs->field,\
-    (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->field)->entry)));
+    (gchar *) gtk_entry_get_text (cbdata->field));
 
 #define ASSIGNCOMBO2(field) \
   prefs->field = get_midi_audio_pointer(\
-    (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->field)->entry)));
+    (gchar *) gtk_entry_get_text (cbdata->field));
   ASSIGNTEXT(lilypath)
   ASSIGNTEXT(browser) 
   ASSIGNTEXT(pdfviewer)
@@ -277,7 +277,7 @@ preferences_change (GtkAction *action, gpointer param)
 					GTK_STOCK_CANCEL, GTK_STOCK_CANCEL,
 					NULL);
 
-  gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+  //gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
   content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   notebook = gtk_notebook_new ();
   gtk_container_add (GTK_CONTAINER (content_area), notebook);
@@ -382,18 +382,18 @@ preferences_change (GtkAction *action, gpointer param)
 
 #define COMBOBOX(thelable, field, thelist, settext)\
   hbox = gtk_hbox_new (FALSE, 8);\
-  gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);\
+  gtk_container_add(VBOX, hbox);\
   label = gtk_label_new (thelable);\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
+  gtk_container_add(hbox, label);\
   hbox = gtk_hbox_new (FALSE, 8);\
-  gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);\
-  GtkWidget *field = gtk_combo_new ();\
-  gtk_combo_set_popdown_strings (GTK_COMBO (field), thelist);\
-  gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
-  gtk_entry_set_text\
-    (GTK_ENTRY (GTK_COMBO (field)->entry),  settext);\
-  gtk_widget_show (field);\
+  gtk_container_add(VBOX, hbox);\
+  GtkWidget *field = gtk_combo_box_text_new ();\
+  gint i;\
+  for(i=0;i<G_N_ELEMENTS(thelist);i++)\
+    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(field), thelist[i]);\
+  gtk_container_add(hbox, field);\
+  gtk_widget_show_all (field);\
   cbdata.field = field;
 
   BOOLEANENTRY("Display general toolbar", toolbar);
@@ -504,9 +504,9 @@ preferences_change (GtkAction *action, gpointer param)
     
   BOOLEANENTRY("Auto-start midi in", startmidiin);
   INTENTRY_LIMITS(_("% MIDI-in Dynamic Compression"), dynamic_compression, 1, 100);
-  COMBOBOX("Midi/Audio output", midi_audio_output, output_option_list, Denemo.prefs.midi_audio_output)
-  g_signal_connect(G_OBJECT(GTK_COMBO(midi_audio_output)->entry), "changed",
-  G_CALLBACK( GTK_SIGNAL_FUNC(midi_audio_tab_update) ), &audio_cbdata);
+  //COMBOBOX("Midi/Audio output", midi_audio_output, output_option_list, Denemo.prefs.midi_audio_output)
+  //g_signal_connect(G_OBJECT(GTK_COMBO_BOX_TEXT(midi_audio_output)), "changed",
+  //G_CALLBACK( GTK_SIGNAL_FUNC(midi_audio_tab_update) ), &audio_cbdata);
  
   /*
    * Fluidsynth Menu
@@ -533,16 +533,16 @@ preferences_change (GtkAction *action, gpointer param)
   gchar *driver_options[5] = {"alsa", "jack", "oss", "pulseaudio", "portaudio"};
   gchar *midi_driver_options[2] = {"alsa_seq", "oss"};
 #endif
-  GList *driver_option_list = NULL;
-  GList *midi_driver_option_list = NULL;
+  //GList *driver_option_list = NULL;
+  //GList *midi_driver_option_list = NULL;
   gint i;
-  for (i=0;i<G_N_ELEMENTS(driver_options);i++)
-    driver_option_list = g_list_append (driver_option_list, driver_options[i]);
-  for (i=0;i<G_N_ELEMENTS(midi_driver_options);i++)
-    midi_driver_option_list = g_list_append (midi_driver_option_list, midi_driver_options[i]);
+  //for (i=0;i<G_N_ELEMENTS(driver_options);i++)
+  //  driver_option_list = g_list_append (driver_option_list, driver_options[i]);
+  //for (i=0;i<G_N_ELEMENTS(midi_driver_options);i++)
+  //  midi_driver_option_list = g_list_append (midi_driver_option_list, midi_driver_options[i]);
  
-  COMBOBOX("Audio Driver", fluidsynth_audio_driver, driver_option_list, Denemo.prefs.fluidsynth_audio_driver->str)
-  COMBOBOX("Midi Driver", fluidsynth_midi_driver, midi_driver_option_list, Denemo.prefs.fluidsynth_midi_driver->str)	  
+  COMBOBOX("Audio Driver", fluidsynth_audio_driver, driver_options, Denemo.prefs.fluidsynth_audio_driver->str)
+  COMBOBOX("Midi Driver", fluidsynth_midi_driver, midi_driver_options, Denemo.prefs.fluidsynth_midi_driver->str)	  
   TEXTENTRY("Soundfont", fluidsynth_soundfont)	
   
   hbox = gtk_hbox_new (FALSE, 8);
