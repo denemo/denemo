@@ -436,7 +436,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
 
   statusbar = gtk_statusbar_new();
   context_id = gtk_statusbar_get_context_id(GTK_STATUSBAR(statusbar), "");
-  gtk_statusbar_set_has_resize_grip(GTK_STATUSBAR(statusbar), FALSE);
+  //FIXME gtk_statusbar_set_has_resize_grip(GTK_STATUSBAR(statusbar), FALSE);
   gtk_box_pack_end (GTK_BOX (vbox), statusbar, FALSE, TRUE, 0);
   
   cbdata.addbutton = GTK_BUTTON(addbutton);
