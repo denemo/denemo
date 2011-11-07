@@ -212,16 +212,9 @@ set_width_to_work_with (DenemoGUI * gui)
       // this length will be divided amongst the systems (line).
       // This length is in "pixels", the Denemo unit of display, which corresponds to a screen pixel when zoom ==1.0
       si->widthtoworkwith
-	= (gint)((
-  #ifdef _USE_GTK3_
-		gtk_widget_get_allocated_width(Denemo.scorearea)/si->zoom
-  #else
-		Denemo.scorearea->allocation.width/si->zoom
-  #endif
+	= (gint)((get_widget_width(Denemo.scorearea)/si->zoom
 	   - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME))*((int)(1/si->system_height )));
-
 #endif
-
 
 
       //g_print("Width %d from num systems%d\n", si->widthtoworkwith, ((int)(1/si->system_height )));
