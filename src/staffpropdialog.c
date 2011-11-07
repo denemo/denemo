@@ -355,7 +355,7 @@ staff_properties_change (void)
 					GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
 					GTK_STOCK_CANCEL, GTK_STOCK_CANCEL,
 					NULL);
-  gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+  //gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
   notebook = gtk_notebook_new ();
 #ifdef _USE_GTK3_
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), notebook, TRUE,
@@ -419,15 +419,17 @@ staff_properties_change (void)
 #define COMBOBOXENTRY(thelabel, field, thelist, setstring) \
   GtkWidget *field;\
   hbox = gtk_hbox_new (FALSE, 8);\
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
+  gtk_container_add (main_vbox, hbox);\
   label = gtk_label_new (_(thelabel));\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
-  field = gtk_combo_new ();\
-  gtk_combo_set_popdown_strings (GTK_COMBO (field), thelist);\
-  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (field)->entry),\
-		  setstring->str);\
-  gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
+  gtk_container_add (hbox, label);\
+  field = gtk_combo_box_text_new ();\
+  gint i;\
+  for(i=0;i<G_N_ELEMENTS(thelist);i++)\
+    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(field), thelist[i]);\
+  //gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (field)->entry),\
+//		  setstring->str);\
+  gtk_container_add (hbox, field);\
   cbdata.field = GTK_COMBO (field)->entry;
 
   /* Display appearance tab */
@@ -450,7 +452,7 @@ staff_properties_change (void)
  
   /* MIDI tab */
   NEWPAGE("MIDI");
-  COMBOBOXENTRY("MIDI Instrument:", midi_instrument, instrument_list, staffstruct->midi_instrument);
+  COMBOBOXENTRY("MIDI Instrument:", midi_instrument, instruments, staffstruct->midi_instrument);
   INTENTRY_LIMITS("Transposition:", transposition, -30, 30);
   BOOLEANENTRY("Mute", mute_volume);
   INTENTRY_LIMITS("Volume:", volume, 0, 127);
