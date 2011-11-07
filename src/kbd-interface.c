@@ -337,17 +337,10 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
 					NULL);
 
   vbox = gtk_vbox_new (FALSE, 8);
-#ifdef _USE_GTK3_
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), vbox, TRUE, TRUE,
-		      0);
-#else
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox, TRUE, TRUE,
-		      0);
-#endif
+  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  gtk_container_add (GTK_CONTAINER (content_area), vbox);
   gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
-
-
-  
+ 
   frame= gtk_frame_new( "Help for Selected Command");
   gtk_frame_set_shadow_type((GtkFrame *)frame, GTK_SHADOW_IN);
   gtk_container_add (GTK_CONTAINER (vbox), frame);
