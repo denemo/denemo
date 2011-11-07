@@ -76,54 +76,26 @@ tupletchangedialog (DenemoObject * theobj, GtkWidget * scorearea)
   if (!entrycontent)
     entrycontent = g_string_new (NULL);
 
-
+  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   label = gtk_label_new (_("Numerator"));
-#ifdef _USE_GTK3_
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
-		      label, TRUE, TRUE, 0);
-#else
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-		      label, TRUE, TRUE, 0);
-#endif
-  gtk_widget_show (label);
+  gtk_container_add (GTK_CONTAINER (content_area), label);
 
   numerator = gtk_entry_new ();
   g_string_sprintf (entrycontent, "%d",
 		    ((tupopen *) theobj->object)->numerator);
   gtk_entry_set_text (GTK_ENTRY (numerator), entrycontent->str);
-#ifdef _USE_GTK3_
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
-		      numerator, TRUE, TRUE, 0);
-#else
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-		      numerator, TRUE, TRUE, 0);
-#endif
-  gtk_widget_show (numerator);
+  
+  gtk_container_add (GTK_CONTAINER (content_area), numerator);
 
   label = gtk_label_new (_("Denominator"));
-#ifdef _USE_GTK3_
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
-		      label, TRUE, TRUE, 0);
-#else
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-		      label, TRUE, TRUE, 0);
-#endif
-  gtk_widget_show (label);
+  gtk_container_add (GTK_CONTAINER (content_area), label);
 
   denominator = gtk_entry_new ();
   g_string_sprintf (entrycontent, "%d",
 		    ((tupopen *) theobj->object)->denominator);
   gtk_entry_set_text (GTK_ENTRY (denominator), entrycontent->str);
-#ifdef _USE_GTK3_
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
-		      denominator, TRUE, TRUE, 0);
-#else
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-		      denominator, TRUE, TRUE, 0);
-#endif
-  gtk_widget_show (denominator);
 
-
+  gtk_container_add (GTK_CONTAINER (content_area), denominator);
 
   gtk_widget_grab_focus (numerator);
   gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
@@ -131,7 +103,7 @@ tupletchangedialog (DenemoObject * theobj, GtkWidget * scorearea)
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
   gtk_entry_set_activates_default (GTK_ENTRY (numerator), TRUE);
   gtk_entry_set_activates_default (GTK_ENTRY (denominator), TRUE);
-  gtk_widget_show (dialog);
+  gtk_widget_show_all (dialog);
 
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
