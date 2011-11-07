@@ -11,9 +11,9 @@
 #include <gtksourceview/gtksourcelanguagemanager.h>
 #include <gtksourceview/gtksourcestyleschememanager.h>
 #include <gtksourceview/gtksourceprintcompositor.h> 
-
+#include <gdk/gdkkeysyms-compat.h> //FIXME Look for something more gtk3 like
 #include <gtksourceview/gtksourcebuffer.h>
-#include <gtksourceview/gtksourceiter.h>
+//#include <gtksourceview/gtksourceiter.h>
 #include "texteditors.h"
 #include "view.h"
 
@@ -106,7 +106,7 @@ static void save_scheme_text_as(GtkWidget *widget, GtkWidget *textview) {
 
 	if(g_file_test(*pfilename, G_FILE_TEST_EXISTS)) {
 		gtk_widget_destroy(dialog);
-		dialog = gtk_dialog_new_with_buttons("File already exists",
+		dialog = gtk_dialog_new_with_buttons("File already exists", //FIXME I think there is a function to do this already.
 						     NULL/*GTK_WINDOW(gtk_text_view_get_window(GTK_TEXT_VIEW(Denemo.ScriptView), GTK_TEXT_WINDOW_WIDGET))*/,
 						     GTK_DIALOG_DESTROY_WITH_PARENT,
 						     GTK_STOCK_OK,
@@ -117,11 +117,7 @@ static void save_scheme_text_as(GtkWidget *widget, GtkWidget *textview) {
 		gchar *labeltext = g_strconcat("\nThe file ", *pfilename, " already exists.\n Do you want to overwrite it?\n\n", NULL);
 		label = gtk_label_new(labeltext);
 		g_free(labeltext);
-#ifdef _USE_GTK3_
 		gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)), label);
-#else 
-		gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox), label);
-#endif
 		gtk_widget_show_all(dialog);
 
 		if(gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_CANCEL) {
@@ -157,7 +153,7 @@ gboolean save_scheme_dialog(GtkTextBuffer *buffer, GtkWidget *textview) {
   GtkWidget *dialog;
   GtkWidget *label;
   gint response;
-  GtkWidget *contentArea;
+  GtkWidget *content_area;
 
   if(gtk_text_buffer_get_modified(buffer)) {
 	  dialog = gtk_dialog_new_with_buttons("Scheme text changed",
@@ -170,11 +166,8 @@ gboolean save_scheme_dialog(GtkTextBuffer *buffer, GtkWidget *textview) {
 						GTK_STOCK_CANCEL,
 						GTK_RESPONSE_CANCEL,
 						NULL);
-#ifdef _USE_GTK3_
-	   contentArea = GTK_DIALOG(dialog)/*gtk_dialog_get_content_area(GTK_DIALOG(dialog))*/;
-#else
-	   contentArea = GTK_DIALOG(dialog)->vbox/*gtk_dialog_get_content_area(GTK_DIALOG(dialog))*/;
-#endif	
+  
+
 	  if(*pfilename == NULL) 
 		  label = gtk_label_new("\nDo you want to save the changes in a new file?\n\n");
 	  else {
@@ -182,9 +175,12 @@ gboolean save_scheme_dialog(GtkTextBuffer *buffer, GtkWidget *textview) {
 	    label = gtk_label_new(labeltext);
 	    g_free(labeltext);
 	  }
-	  gtk_container_add(GTK_CONTAINER(contentArea), label);
-	  gtk_widget_show_all(dialog);
+  	  
+  	  content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  	  label = gtk_label_new (_("Select Notehead Type"));
+  	  gtk_container_add (GTK_CONTAINER (content_area), label);
 
+	  gtk_widget_show_all(dialog);
 
 	  response = gtk_dialog_run(GTK_DIALOG(dialog));
 	  gtk_widget_destroy(dialog);
@@ -309,28 +305,28 @@ static GtkWidget * create_editor_window(void) {
   menu = gtk_menu_new();
 
   item = gtk_menu_item_new_with_label("New");
-  gtk_menu_append(GTK_MENU(menu), item);
+  gtk_menu_shell_append(GTK_MENU(menu), item);
   g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(clear_scheme_window), (gpointer)TextView);
 
   item = gtk_menu_item_new_with_label("Open");
-  gtk_menu_append(GTK_MENU(menu), item);
+  gtk_menu_shell_append(GTK_MENU(menu), item);
   g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(load_scheme_from_file), (gpointer)TextView);
 
   item = gtk_menu_item_new_with_label("Save");
-  gtk_menu_append(GTK_MENU(menu), item);
+  gtk_menu_shell_append(GTK_MENU(menu), item);
   g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(save_scheme_text), (gpointer)TextView);
 
   item = gtk_menu_item_new_with_label("Save as...");
-  gtk_menu_append(GTK_MENU(menu), item);
+  gtk_menu_shell_append(GTK_MENU(menu), item);
   g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(save_scheme_text_as), (gpointer)TextView);
 
   item = gtk_menu_item_new_with_label("Find");
-  gtk_menu_append(GTK_MENU(menu), item);
-  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(find_cb), (gpointer)TextView);
+  gtk_menu_shell_append(GTK_MENU(menu), item);
+  //g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(find_cb), (gpointer)TextView);
 
   item = gtk_menu_item_new_with_label("Replace");
-  gtk_menu_append(GTK_MENU(menu), item);
-  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(replace_cb), (gpointer)TextView);
+  gtk_menu_shell_append(GTK_MENU(menu), item);
+  //g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(replace_cb), (gpointer)TextView);
 
 
 
@@ -344,11 +340,11 @@ static GtkWidget * create_editor_window(void) {
 
   gtk_box_pack_start(GTK_BOX(main_vbox), GTK_WIDGET(menuBar), FALSE, TRUE, 0);
   gtk_widget_show(menuBar);
-  gtk_menu_bar_append(GTK_MENU_BAR(menuBar), fileMenu);
+  gtk_menu_shell_append(GTK_MENU_BAR(menuBar), fileMenu);
 
 
   GtkWidget *wid = gtk_check_button_new();
-  gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ModeMenu/RecordScript"), wid);
+  gtk_activatable_set_related_action(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ModeMenu/RecordScript"), wid);
   gtk_box_pack_start (GTK_BOX (main_vbox), wid, FALSE, TRUE, 0);
   GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
@@ -367,15 +363,15 @@ void create_scheme_window(void) {
 
 
 /* Buffer action callbacks ------------------------------------------------------------ */
- 	
+#if 0 	
 static struct {
   char *what;
   char *replacement;
-  GtkSourceSearchFlags flags;
+  GtkSourceSearchFlags *flags; //FIXME
 } search_data = {
   NULL,
   NULL,
-  GTK_SOURCE_SEARCH_CASE_INSENSITIVE
+  NULL //GTK_SOURCE_SEARCH_CASE_INSENSITIVE FIXME
 };
  	
 static gboolean
@@ -383,7 +379,7 @@ search_dialog (GtkWidget *widget,
 	       gboolean replace,
 	       char **what_p,
 	       char **replacement_p,
-	       GtkSourceSearchFlags *flags_p)
+	       GtkSourceSearchFlags *flags_p) //FIXME
 {
   GtkWidget *dialog;
   GtkEntry *entry1, *entry2;
@@ -404,38 +400,47 @@ search_dialog (GtkWidget *widget,
 			 "text", search_data.what ? search_data.what : "",
 			 "activates-default", TRUE,
 			 NULL);
-#ifdef _USE_GTK3_
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
-		      GTK_WIDGET (entry1), TRUE, TRUE, 0);
-#else
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-		      GTK_WIDGET (entry1), TRUE, TRUE, 0);
-#endif
+  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  gtk_container_add (GTK_CONTAINER (content_area), entry1);
+
+//#ifdef _USE_GTK3_
+//  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
+//		      GTK_WIDGET (entry1), TRUE, TRUE, 0);
+//#else
+//  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
+//		      GTK_WIDGET (entry1), TRUE, TRUE, 0);
+//#endif
   entry2 = g_object_new (GTK_TYPE_ENTRY,
 			 "visible", replace,
 			 "text", search_data.replacement ? search_data.replacement : "",
 			 "activates-default", TRUE,
 			 NULL);
-#ifdef _USE_GTK3_
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
-		      GTK_WIDGET (entry2), TRUE, TRUE, 0);
-#else
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-		      GTK_WIDGET (entry2), TRUE, TRUE, 0);
-#endif
+  
+  gtk_container_add (GTK_CONTAINER (content_area), entry2);
+
+//#ifdef _USE_GTK3_
+//  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
+//		      GTK_WIDGET (entry2), TRUE, TRUE, 0);
+//#else
+//  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
+//		      GTK_WIDGET (entry2), TRUE, TRUE, 0);
+//#endif
   case_sensitive = g_object_new (GTK_TYPE_CHECK_BUTTON,
 				 "visible", TRUE,
 				 "label", "Case sensitive",
-				 "active", !(search_data.flags & GTK_SOURCE_SEARCH_CASE_INSENSITIVE),
+				 "active", FALSE, //FIXME//!(search_data.flags & GTK_SOURCE_SEARCH_CASE_INSENSITIVE),
 				 NULL);
-#ifdef _USE_GTK3_
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
-		      GTK_WIDGET (case_sensitive), FALSE, FALSE, 0);
-#else
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-		      GTK_WIDGET (case_sensitive), FALSE, FALSE, 0);
 
-#endif
+  gtk_container_add (GTK_CONTAINER (content_area), case_sensitive);
+
+//#ifdef _USE_GTK3_
+//  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
+//		      GTK_WIDGET (case_sensitive), FALSE, FALSE, 0);
+//#else
+//  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
+//		      GTK_WIDGET (case_sensitive), FALSE, FALSE, 0);
+//
+//#endif
   while (TRUE)
     {
       if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
@@ -453,7 +458,7 @@ search_dialog (GtkWidget *widget,
   g_free (search_data.replacement);
   *replacement_p = search_data.replacement = g_strdup (gtk_entry_get_text (entry2));
   *flags_p = search_data.flags = gtk_toggle_button_get_active (case_sensitive) ?
-    0 : GTK_SOURCE_SEARCH_CASE_INSENSITIVE;
+    0 : 0;//FIXME GTK_SOURCE_SEARCH_CASE_INSENSITIVE;
  	
   gtk_widget_destroy (dialog);
   return TRUE;
@@ -466,7 +471,7 @@ do_search_replace (GtkTextView *view,
   GtkTextBuffer *buffer = gtk_text_view_get_buffer (view);
   GtkTextIter iter;
   char *what, *replacement;
-  GtkSourceSearchFlags flags;
+  GtkSourceSearchFlags *flags; //FIXME
  	
   if (!search_dialog (GTK_WIDGET (view), replace, &what, &replacement, &flags))
     return;
@@ -479,7 +484,7 @@ do_search_replace (GtkTextView *view,
  	{
 	  GtkTextIter match_start, match_end;
  	
-	  if (!gtk_source_iter_forward_search (&iter, what, flags,
+	  if (!gtk_text_iter_forward_search (&iter, what, flags,
 					       &match_start,
 					       &match_end,
 					       NULL))
@@ -498,7 +503,7 @@ do_search_replace (GtkTextView *view,
  	
       gtk_text_buffer_get_iter_at_mark (buffer, &iter, gtk_text_buffer_get_insert (buffer));
  	
-      if (gtk_source_iter_forward_search (&iter, what, flags, &match_start, &match_end, NULL))
+      if (gtk_text_iter_forward_search (&iter, what, flags, &match_start, &match_end, NULL))
  	{
 	  gtk_text_buffer_select_range (buffer, &match_start, &match_end);
  	}
@@ -506,7 +511,7 @@ do_search_replace (GtkTextView *view,
  	{
 	  GtkTextIter insert = iter;
 	  gtk_text_buffer_get_start_iter (buffer, &iter);
-	  if (gtk_source_iter_forward_search (&iter, what, flags, &match_start, &match_end, &insert))
+	  if (gtk_text_iter_forward_search (&iter, what, flags, &match_start, &match_end, &insert))
 	    gtk_text_buffer_select_range (buffer, &match_start, &match_end);
  	}
     }
@@ -525,3 +530,4 @@ replace_cb (GtkAction *action,
 {
   do_search_replace (user_data, TRUE);
 } 
+#endif
