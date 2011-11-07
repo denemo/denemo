@@ -113,11 +113,10 @@ set_bottom_staff (DenemoGUI * gui)
   /* With that settled, now determine how many additional (primary)
      staves will fit into the window.  */
   staff_number = gui->si->top_staff;
-#ifdef _USE_GTK3_
-  space_left = gtk_widget_get_allocated_height(Denemo.scorearea)*gui->si->system_height/gui->si->zoom;
-#else 
-  space_left = Denemo.scorearea->allocation.height*gui->si->system_height/gui->si->zoom;
-#endif
+  GtkAllocation allocation;
+  gtk_widget_get_allocation(Denemo.scorearea, &allocation);
+
+  space_left = allocation.height*gui->si->system_height/gui->si->zoom;
    space_left -= 2*LINE_SPACE;
   do
     {
