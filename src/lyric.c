@@ -44,7 +44,7 @@ newlyric (gint baseduration, gint numdots, gchar *lys) {
 }
 
 static void
-switch_page (GtkNotebook *notebook, GtkNotebookPage *page,  guint pagenum, DenemoStaff *staff) {
+switch_page (GtkNotebook *notebook,  guint pagenum, DenemoStaff *staff) {
     gtk_widget_queue_draw (Denemo.scorearea);
     staff->currentverse = g_list_nth(staff->verses, pagenum);
 }
