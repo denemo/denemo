@@ -360,8 +360,6 @@ staff_properties_change (void)
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   gtk_container_add (GTK_CONTAINER (content_area), notebook);
 
-
-#endif 
 #define NEWPAGE(thelabel) \
   main_vbox = gtk_vbox_new (FALSE, 1);\
   gtk_notebook_append_page (GTK_NOTEBOOK (notebook), main_vbox, NULL);\
