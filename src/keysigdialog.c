@@ -50,7 +50,7 @@ gint
 findmode (GtkWidget * modebox, modedata *mdata)
 {
   gint ret = -1;
-  gchar *mode = gtk_combo_box_get_active_text (GTK_COMBO_BOX (mdata->modenamecombo));
+  gchar *mode = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (mdata->modenamecombo));
   ret =
     g_list_position (mdata->modelist,
       g_list_find_custom (mdata->modelist, mode,
@@ -68,7 +68,7 @@ findmode (GtkWidget * modebox, modedata *mdata)
 gint
 findkey (GtkWidget * combobox, modedata *mdata, gint type)
 {
-  gchar *tokeystring = gtk_combo_box_get_active_text (GTK_COMBO_BOX (combobox));
+  gchar *tokeystring = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (combobox));
 
   gint ret;
   if (type == 2)
@@ -432,20 +432,20 @@ key_change (DenemoGUI * gui, actiontype action)
   mdata->modenamecombo = modenamecombo;
 
   radiobutton1 = gtk_radio_button_new_with_label (NULL, _("Major"));
-  gtk_signal_connect (G_OBJECT (radiobutton1), "clicked",
-		      GTK_SIGNAL_FUNC (majorcallback), mdata);
+  g_signal_connect (G_OBJECT (radiobutton1), "clicked",
+		    G_CALLBACK(majorcallback), mdata);
   gtk_container_add (GTK_CONTAINER (vbox), radiobutton1);
  
   radiobutton2 = gtk_radio_button_new_with_label
-    (gtk_radio_button_group (GTK_RADIO_BUTTON (radiobutton1)), _("Minor"));
-  gtk_signal_connect (G_OBJECT (radiobutton2), "clicked",
-		      GTK_SIGNAL_FUNC (minorcallback), mdata);
+    (gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton1)), _("Minor"));
+  g_signal_connect (G_OBJECT (radiobutton2), "clicked",
+		    G_CALLBACK(minorcallback), mdata);
   gtk_container_add (GTK_CONTAINER (vbox), radiobutton2);
 
   radiobutton3 = gtk_radio_button_new_with_label
-    (gtk_radio_button_group (GTK_RADIO_BUTTON (radiobutton1)), _("Mode"));
-  gtk_signal_connect (G_OBJECT (radiobutton3), "clicked",
-		      GTK_SIGNAL_FUNC (modecallback), mdata);
+    (gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton1)), _("Mode"));
+  g_signal_connect (G_OBJECT (radiobutton3), "clicked",
+		    G_CALLBACK(modecallback), mdata);
   gtk_container_add (GTK_CONTAINER (vbox), radiobutton3);
 
   /* This setting-active will also complete the initialization of
