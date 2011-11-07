@@ -64,7 +64,7 @@ playback_properties_change (GtkAction *action, gpointer param)
 					GTK_STOCK_CANCEL, GTK_STOCK_CANCEL,
 					NULL);
 
-  gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+  //gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
   notebook = gtk_notebook_new ();
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   gtk_container_add (GTK_CONTAINER (content_area), notebook);
