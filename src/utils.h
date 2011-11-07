@@ -277,4 +277,6 @@ gchar *make_temp_dir(void);
 gchar *remove_extension(gchar *name);
 gchar *substitute_extension(gchar *name, gchar *extension);
 void init_denemo_notenames(void);
+gint get_widget_height(GtkWidget *w);
+gint get_widget_width(GtkWidget *w);
 #endif /* UTILS_H */
