@@ -480,14 +480,14 @@ papersetup(GtkWidget *notebook, DenemoGUI *gui, gboolean isnotebook)
   gtk_table_attach(GTK_TABLE(table), label, 0, 1,0 ,1,
                    (GtkAttachOptions) (GTK_FILL),
                    (GtkAttachOptions) (0), 0, 0);
-  GtkWidget *papersize = gtk_combo_box_entry_new_text();
+  GtkWidget *papersize = gtk_combo_box_text_new();
   for(i=0; i < 6; i++)
     {
-      gtk_combo_box_append_text(GTK_COMBO_BOX(papersize), papersizes[i]);
+      gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(papersize), papersizes[i]);
     }
 
-  gtk_entry_set_text(GTK_ENTRY(GTK_BIN(papersize)->child), 
-		    gui->lilycontrol.papersize->len? gui->lilycontrol.papersize->str:"");
+  //gtk_entry_set_text(GTK_ENTRY(GTK_BIN(papersize)->child), 
+//		    gui->lilycontrol.papersize->len? gui->lilycontrol.papersize->str:"");
   gtk_table_attach(GTK_TABLE(table), papersize,1,2,0,1,
                    (GtkAttachOptions) (GTK_FILL),
                    (GtkAttachOptions) (0), 0, 0);
@@ -497,14 +497,14 @@ papersetup(GtkWidget *notebook, DenemoGUI *gui, gboolean isnotebook)
   gtk_table_attach(GTK_TABLE(table), label, 0,1,1,2,
                    (GtkAttachOptions) (GTK_FILL),
                    (GtkAttachOptions) (0), 0, 0);
-  GtkWidget *fontsize = gtk_combo_box_entry_new_text();
+  GtkWidget *fontsize = gtk_combo_box_text_new();
   for(i=0; i < 8; i++)
     {
-      gtk_combo_box_append_text(GTK_COMBO_BOX(fontsize), fontsizes[i]);
+      gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(fontsize), fontsizes[i]);
     }
   gchar *tmp;
   //tmp = g_strdup_printf( "%d", gui->lilycontrol.fontsize);
-  gtk_entry_set_text (GTK_ENTRY (GTK_BIN(fontsize)->child),  gui->lilycontrol.staffsize->len?gui->lilycontrol.staffsize->str:"");
+  //gtk_entry_set_text (GTK_ENTRY (GTK_BIN(fontsize)->child),  gui->lilycontrol.staffsize->len?gui->lilycontrol.staffsize->str:"");
   //g_free(tmp);
   gtk_table_attach(GTK_TABLE(table), fontsize, 1,2,1,2,
                    (GtkAttachOptions) (GTK_FILL),
@@ -535,7 +535,7 @@ papersetup(GtkWidget *notebook, DenemoGUI *gui, gboolean isnotebook)
   
   GtkWidget *landscaperadio = 
     gtk_radio_button_new_with_label
-    (gtk_radio_button_group (GTK_RADIO_BUTTON (portraitradio)),_("Landscape"));
+    (gtk_radio_button_get_group (GTK_RADIO_BUTTON (portraitradio)),_("Landscape"));
   gtk_box_pack_start(GTK_BOX(vbox), landscaperadio, TRUE, TRUE,0);
 
   if(gui->lilycontrol.orientation)
@@ -578,8 +578,8 @@ timekeysig(wizarddata *wdata, gboolean isnotebook)
     (keysig_callbackdata *) g_malloc0(sizeof(keysig_callbackdata));
   modedata *mdata = cbdata->mdata = (modedata *) g_malloc0(sizeof(modedata)); 
   //combobox to hold pitches for modes
-  GtkWidget *pitchescombo = gtk_combo_new (); 
-  GtkWidget *combobox = gtk_combo_new ();	
+  GtkWidget *modenamecombo = gtk_combo_box_text_new (); 
+  GtkWidget *combobox = gtk_combo_box_text_new ();	
   gint i;
   GList *majorlist = NULL;
   GList *minorlist = NULL;
@@ -655,9 +655,9 @@ timekeysig(wizarddata *wdata, gboolean isnotebook)
 
   /*key signature*/
   
-  mdata->combobox = combobox;
+  mdata->majorkeycombo = combobox;
   mdata->dialog = table;
-  mdata->pitchcombo = pitchescombo;
+  mdata->modenamecombo = modenamecombo;
 
   label = gtk_label_new (_("Key Signature Setup:"));
   gtk_table_attach(GTK_TABLE(table), label, 0,1,4,5,
@@ -665,8 +665,8 @@ timekeysig(wizarddata *wdata, gboolean isnotebook)
                    (GtkAttachOptions) (0), 0, 0);
  
   GtkWidget *radiobutton1 = gtk_radio_button_new_with_label (NULL, _("Major"));
-  gtk_signal_connect (G_OBJECT (radiobutton1), "clicked",
-		      GTK_SIGNAL_FUNC (majorcallback), cbdata->mdata);
+  g_signal_connect (G_OBJECT (radiobutton1), "clicked",
+		      G_CALLBACK (majorcallback), cbdata->mdata);
   gtk_table_attach(GTK_TABLE(table), radiobutton1, 0,1,5,6,
                    (GtkAttachOptions) (GTK_FILL),
                    (GtkAttachOptions) (0), 0, 0);
@@ -675,9 +675,9 @@ timekeysig(wizarddata *wdata, gboolean isnotebook)
   gtk_widget_show (radiobutton1);
 
   GtkWidget *radiobutton2 = gtk_radio_button_new_with_label
-    (gtk_radio_button_group (GTK_RADIO_BUTTON (radiobutton1)), _("Minor"));
-  gtk_signal_connect (G_OBJECT (radiobutton2), "clicked",
-		      GTK_SIGNAL_FUNC (minorcallback), cbdata->mdata);
+    (gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton1)), _("Minor"));
+  g_signal_connect (G_OBJECT (radiobutton2), "clicked",
+		      G_CALLBACK (minorcallback), cbdata->mdata);
   gtk_table_attach(GTK_TABLE(table), radiobutton2, 1,2,5,6,
                    (GtkAttachOptions) (GTK_FILL),
                    (GtkAttachOptions) (0), 0, 0);
@@ -685,10 +685,10 @@ timekeysig(wizarddata *wdata, gboolean isnotebook)
   gtk_widget_show (radiobutton2);
 
   GtkWidget *radiobutton3 = gtk_radio_button_new_with_label
-    (gtk_radio_button_group (GTK_RADIO_BUTTON (radiobutton1)), _("Mode"));
+    (gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton1)), _("Mode"));
 
-  gtk_signal_connect (G_OBJECT (radiobutton3), "clicked",
-		      GTK_SIGNAL_FUNC (modedialog), cbdata->mdata);
+  //gtk_signal_connect (G_OBJECT (radiobutton3), "clicked",
+  //		      GTK_SIGNAL_FUNC (modedialog), cbdata->mdata);
   gtk_table_attach(GTK_TABLE(table), radiobutton3, 2,3,5,6,
                    (GtkAttachOptions) (GTK_FILL),
                    (GtkAttachOptions) (0), 0, 0);
@@ -698,15 +698,15 @@ timekeysig(wizarddata *wdata, gboolean isnotebook)
   gtk_table_attach(GTK_TABLE(table), combobox, 0,1,6,7,
                    (GtkAttachOptions) (GTK_FILL),
                    (GtkAttachOptions) (0), 0, 0);
-  gtk_table_attach(GTK_TABLE(table), pitchescombo, 0,1,7,8,
+  gtk_table_attach(GTK_TABLE(table), modenamecombo, 0,1,7,8,
                    (GtkAttachOptions) (GTK_FILL),
                    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_hide (mdata->pitchcombo); 
+  gtk_widget_hide (mdata->modenamecombo); 
     
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton1), TRUE);
   majorcallback (NULL, mdata);
-  gtk_entry_set_text(GTK_ENTRY (GTK_COMBO (combobox)->entry),
-		     majorkeys[curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET]);
+  gtk_combo_box_set_active(GTK_COMBO_BOX_TEXT (combobox),
+         curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET);
    
   if(isnotebook)
     {
@@ -725,10 +725,10 @@ timekeysig(wizarddata *wdata, gboolean isnotebook)
 
   cbdata->gui = gui;
   cbdata->curstaffstruct = curstaffstruct;
-  cbdata->combobox = combobox;
+  cbdata->majorkeycombo = combobox;
   cbdata->radiobutton2 = radiobutton2;
   cbdata->radiobutton3 = radiobutton3;
-  cbdata->mode = pitchescombo;
+  cbdata->mode = modenamecombo;
   cbdata->mdata = mdata; 
   timekeysigdata->cbdata = cbdata;
   
@@ -744,15 +744,17 @@ timekeysig(wizarddata *wdata, gboolean isnotebook)
 void setpaperconfig(papersetupcb *cbdata, DenemoGUI *gui)
 {
   g_string_assign(gui->lilycontrol.papersize, 
-		  (gchar *) gtk_entry_get_text 
-		  (GTK_ENTRY (GTK_BIN (cbdata->papersize)->child)));
+		  (gchar *) 
+		    gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->papersize)));
+  
   g_string_assign(gui->lilycontrol.lilyversion, 
 		  (gchar *)gtk_entry_get_text 
 		  (GTK_ENTRY (cbdata->lilyversion)));
 
   g_string_assign(gui->lilycontrol.staffsize,
-    (gchar *) gtk_entry_get_text 
-	 (GTK_ENTRY (GTK_BIN (cbdata->fontsize)->child)));
+    (gchar *) 
+      gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->fontsize)));
+
   if(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(cbdata->portrait)))
     {
       gui->lilycontrol.orientation = TRUE;
@@ -804,7 +806,7 @@ static void applykeytimesig_settings(wizarddata *wdata)
     gtk_toggle_button_get_active
     (GTK_TOGGLE_BUTTON (tsetup->cbdata->radiobutton3)) ?
     2 : 0;
-  tokey = findkey (tsetup->cbdata->combobox, tsetup->cbdata->mdata, isminor);
+  tokey = findkey (tsetup->cbdata->majorkeycombo, tsetup->cbdata->mdata, isminor);
  
   //printf("\nisminor = %i tokey = %i\n",isminor,tokey);
   if (isminor == 2)
@@ -903,7 +905,10 @@ void scorewizard(GtkAction *action, gpointer param)
 
   /* create buttons underneath*/
   wdata->backbutton = gtk_button_new_from_stock ("gtk-go-back");
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), 
+  
+  GtkWidget *action_area = gtk_dialog_get_action_area (GTK_DIALOG (dialog));
+
+  gtk_box_pack_start(GTK_BOX(GTK_CONTAINER(action_area)), 
 		     wdata->backbutton, FALSE, FALSE,0);
   g_signal_connect_swapped(G_OBJECT(wdata->backbutton), "clicked", 
 			   G_CALLBACK (gtk_notebook_prev_page), 
@@ -914,7 +919,7 @@ void scorewizard(GtkAction *action, gpointer param)
   //start the backbutton shadwoed out
 
   wdata->nextbutton = gtk_button_new_from_stock ("gtk-go-forward");
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), 
+  gtk_box_pack_start(GTK_BOX(GTK_CONTAINER(action_area)),
 		     wdata->nextbutton, FALSE, FALSE,0);
   g_signal_connect_swapped(G_OBJECT(wdata->nextbutton), "clicked", 
 			   G_CALLBACK (gtk_notebook_next_page), 
@@ -924,7 +929,7 @@ void scorewizard(GtkAction *action, gpointer param)
 
 
   wdata->finishbutton = gtk_button_new_from_stock ("gtk-apply");
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), 
+  gtk_box_pack_start(GTK_BOX(GTK_CONTAINER(action_area)), 
 		     wdata->finishbutton, FALSE, FALSE,0);
   g_signal_connect(G_OBJECT(wdata->finishbutton), "clicked", 
 		   G_CALLBACK (setupscore),  (gpointer)wdata);
@@ -933,7 +938,7 @@ void scorewizard(GtkAction *action, gpointer param)
   gtk_widget_set_sensitive (wdata->finishbutton, FALSE);
   
   GtkWidget *cancelbutton = gtk_button_new_from_stock ("gtk-cancel");
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), 
+  gtk_box_pack_start(GTK_BOX(GTK_CONTAINER(action_area)), 
 		     cancelbutton, FALSE, FALSE,0);
   g_signal_connect_swapped(G_OBJECT(cancelbutton), "clicked", 
 			   G_CALLBACK (gtk_widget_destroy), G_OBJECT(dialog));
