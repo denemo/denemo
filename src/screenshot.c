@@ -23,6 +23,7 @@
  */
 #include <gtk/gtk.h>
 #include <glib.h>
+#include <gdk/gdk.h>
 #ifdef G_OS_WIN32
 #include "windows.h"
 #else
@@ -38,7 +39,7 @@ typedef struct {
   gboolean      button_pressed;
   /* only needed because we're not using cairo to draw the rectangle */
   GdkWindow    *root;
-  GdkGC        *gc;
+  cairo_t        *cr;
 } select_area_filter_data;
 
 
@@ -63,7 +64,7 @@ fix_rectangle (XButtonEvent    *event,
                             cairo_rectangle_int_t *rect,
                             cairo_rectangle_int_t *draw_rect,
                             GdkWindow    *root,
-                            GdkGC        *gc)
+                            cairo_t        *cr)
 {
   /* do not remove the old rectangle as it shows you what you have captured so far */
   rect->width  = ABS (rect->x - event->x_root);
@@ -78,15 +79,15 @@ select_area_motion_notify (XButtonEvent    *event,
                            cairo_rectangle_int_t *rect,
                            cairo_rectangle_int_t *draw_rect,
                            GdkWindow    *root,
-                           GdkGC        *gc)
+                           cairo_t        *cr)
 {
   /* FIXME: draw some nice rubberband with cairo if composited */
 
   /* remove the old rectangle */
   if (draw_rect->width > 0 && draw_rect->height > 0)
-    gdk_draw_rectangle (root, gc, FALSE, 
-                        draw_rect->x, draw_rect->y,
-                        draw_rect->width, draw_rect->height);
+    //gdk_draw_rectangle (root, cr, FALSE, 
+      //                  draw_rect->x, draw_rect->y,
+        //FIXME                draw_rect->width, draw_rect->height);
   draw_rect->width  = ABS (rect->x - event->x_root);
   draw_rect->height = ABS (rect->y - event->y_root);
 
@@ -94,10 +95,10 @@ select_area_motion_notify (XButtonEvent    *event,
   draw_rect->y = MIN (rect->y, event->y_root);
 
   /* draw the new rectangle */
-  if (draw_rect->width > 0 && draw_rect->height > 0)
-    gdk_draw_rectangle (root, gc, FALSE, 
-                        draw_rect->x, draw_rect->y,
-                        draw_rect->width, draw_rect->height);
+  //if (draw_rect->width > 0 && draw_rect->height > 0)
+  //  gdk_draw_rectangle (root, gc, FALSE, 
+    //                    draw_rect->x, draw_rect->y,
+      //                  draw_rect->width, draw_rect->height);
 }
 #endif
 
@@ -126,7 +127,7 @@ return GDK_FILTER_REMOVE;
           } else {
             fix_rectangle (&xevent->xbutton,
                                     &data->rect, &data->draw_rect,
-                                    data->root, data->gc);//sets the far corner                      
+                                    data->root, data->cr);//sets the far corner                      
             gtk_main_quit ();
           }
           break;
@@ -156,7 +157,7 @@ return GDK_FILTER_REMOVE;
       if (data->button_pressed)
         select_area_motion_notify (&xevent->xbutton,
                                    &data->rect, &data->draw_rect,
-                                   data->root, data->gc);//draws the rectangle
+                                   data->root, data->cr);//draws the rectangle
       return GDK_FILTER_REMOVE;
     case KeyPress:
      // if (xevent->xkey.keycode == XKeysymToKeycode (gdk_display, XK_Escape)) let any key end - may need to re-instate this for Ctrl-press to join pixbufs
@@ -188,7 +189,7 @@ screenshot_select_area (int *px, int *py, int *pwidth, int *pheight){
   GdkWindow               *root;
   GdkCursor               *cursor;
   static select_area_filter_data  data;
-  GdkGCValues              values;
+//  GdkGCValues              values;
   GdkColor                 color;
 #ifdef G_OS_WIN32
 g_warning("Not available on windows, sorry");
@@ -218,7 +219,7 @@ return FALSE;
   gdk_flush ();
 
   data.root = root;
-
+#if 0
   values.function = GDK_XOR;
   values.fill = GDK_SOLID;
   values.clip_mask = NULL;
@@ -230,18 +231,18 @@ return FALSE;
   values.line_style = GDK_LINE_SOLID;
   values.cap_style = GDK_CAP_BUTT;
   values.join_style = GDK_JOIN_MITER;
-
-  data.gc = gdk_gc_new_with_values (root, &values,
-                                    GDK_GC_FUNCTION | GDK_GC_FILL |
-                                    GDK_GC_CLIP_MASK | GDK_GC_SUBWINDOW |
-                                    GDK_GC_CLIP_X_ORIGIN |
-                                    GDK_GC_CLIP_Y_ORIGIN | GDK_GC_EXPOSURES |
-                                    GDK_GC_LINE_WIDTH | GDK_GC_LINE_STYLE |
-                                    GDK_GC_CAP_STYLE | GDK_GC_JOIN_STYLE);
+#endif
+//  data.gc = gdk_gc_new_with_values (root, &values,
+//                                    GDK_GC_FUNCTION | GDK_GC_FILL |
+//                                    GDK_GC_CLIP_MASK | GDK_GC_SUBWINDOW |
+//                                    GDK_GC_CLIP_X_ORIGIN |
+//                                    GDK_GC_CLIP_Y_ORIGIN | GDK_GC_EXPOSURES |
+//                                    GDK_GC_LINE_WIDTH | GDK_GC_LINE_STYLE |
+// FIXME                                    GDK_GC_CAP_STYLE | GDK_GC_JOIN_STYLE);
   gdk_color_parse ("white", &color);
-  gdk_gc_set_rgb_fg_color (data.gc, &color);
+//  gdk_gc_set_rgb_fg_color (data.gc, &color);
   gdk_color_parse ("black", &color);
-  gdk_gc_set_rgb_bg_color (data.gc, &color);
+//  gdk_gc_set_rgb_bg_color (data.gc, &color);
 
   if(data.button_pressed) {
     GdkDisplay *disp = gdk_display_get_default();
@@ -251,7 +252,7 @@ return FALSE;
 
   gtk_main ();
 
-  g_object_unref (data.gc);
+  g_object_unref (data.cr);
 
   gdk_window_remove_filter (root, (GdkFilterFunc) select_area_filter, &data);
 
@@ -301,11 +302,13 @@ screenshot_get_pixbuf (GdkWindow    *window,
       if(width>0 && height>0)
         screenshot = 
 #ifdef _USE_GTK3_
-   gdk_pixbuf_get_from_window 
+   gdk_pixbuf_get_from_window
+	(root, x_orig, y_orig, width, height);
 #else
    gdk_pixbuf_get_from_drawable
-#endif
 	(NULL, root, NULL, x_orig, y_orig, 0, 0, width, height);
+#endif
+
    }
   return screenshot;
 }
