@@ -160,9 +160,9 @@ PlaybackRangeDialog(){
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
       gui->si->start_time =
-	gtk_spin_button_get_value_as_float (GTK_SPIN_BUTTON (from_time));
+	gtk_spin_button_get_value (GTK_SPIN_BUTTON (from_time));
       gui->si->end_time =
-	gtk_spin_button_get_value_as_float (GTK_SPIN_BUTTON (to_time));
+	gtk_spin_button_get_value (GTK_SPIN_BUTTON (to_time));
       //gtk_widget_destroy (dialog);
     }
   
