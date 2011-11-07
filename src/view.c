@@ -608,11 +608,11 @@ void toggle_to_drawing_area(gboolean show) {
   if(((current_view==DENEMO_PAGE_VIEW) && hide) || (show && (!current_view)))
     return;
   current_view = hide?DENEMO_LINE_VIEW:DENEMO_MENU_VIEW;
-#ifdef _USE_GTK3_
-  #define ACCUM height += gtk_widget_get_allocated_height (widget)
-#else
-  #define ACCUM height += widget->allocation.height
-#endif
+  GtkAllocation allocation;
+  gtk_widget_get_allocation(Denemo.scorearea, &allocation);
+
+  #define ACCUM height += allocation.height
+
 #define TOG(name, item, menu)\
   widget = gtk_ui_manager_get_widget (Denemo.ui_manager, name);\
   static gboolean item=TRUE;\
