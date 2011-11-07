@@ -25,7 +25,7 @@ about (GtkAction * action, gpointer callback_data)
   const char *authors[] = { "Richard Shann", "Jeremiah Benham", "Matthew Hiller", "Adam Tee", "Nils Gey", NULL };
 
   dialog = gtk_about_dialog_new ();
-  gtk_about_dialog_set_name (GTK_ABOUT_DIALOG (dialog), _("GNU Denemo"));
+  gtk_about_dialog_set_program_name (GTK_ABOUT_DIALOG (dialog), _("GNU Denemo"));
   gtk_about_dialog_set_comments (GTK_ABOUT_DIALOG (dialog),
 				 _("Free and Open Music Notation Editor"));
   gtk_about_dialog_set_version (GTK_ABOUT_DIALOG (dialog), VERSION);
