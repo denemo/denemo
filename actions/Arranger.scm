@@ -12,9 +12,8 @@
 	  (begin
 		(d-PopPushPosition)
 		(d-PopPosition)
-		(exit))
-	  (begin
-	    (d-PopPosition))))))
+		(exit))))
+	    (d-PopPosition)))
 (d-LimitInterSystemSpace 1.2)
 (d-NormalBeamEndings)
 ;(d-PointAndClick)
