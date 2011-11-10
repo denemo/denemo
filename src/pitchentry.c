@@ -1024,7 +1024,7 @@ static gint draw_indicator (GtkWidget * widget, GdkEventExpose * event, gpointer
     if (iCent < 0) iCent= 0;
     if (iCent >  800) iCent=  800;
     
-    cairo_t *cr = gdk_cairo_create (widget);  //FIXME shouldn't this be cast somehow
+    cairo_t *cr = gdk_cairo_create (gtk_widget_get_window(widget));
     
     if(iCent<380)
       cairo_set_source_rgb (cr, 1, 0, 0);
