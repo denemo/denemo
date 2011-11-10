@@ -969,9 +969,10 @@ static void draw_print(cairo_t *cr) {
       cairo_set_source_rgba( cr, 0.7, 0.7, 0.7, 0.4 );
       cairo_rectangle( cr, markx, marky, w, h);
 
-//      gdk_draw_pixbuf(Denemo.printarea->window, NULL, GDK_PIXBUF(Denemo.pixbuf),
-//		  markx+x, marky+y, curx, cury,/* x, y in pixbuf, x,y in window */
-//		w,  h, GDK_RGB_DITHER_NONE,0,0);
+	gdk_cairo_set_source_pixbuf (cr, GDK_PIXBUF(Denemo.pixbuf), curx, cury);
+      //gdk_draw_pixbuf(gtk_widget_get_window(Denemo.printarea), NULL, GDK_PIXBUF(Denemo.pixbuf),
+	//	  markx+x, marky+y, curx, cury,/* x, y in pixbuf, x,y in window */
+	//	w,  h, GDK_RGB_DITHER_NONE,0,0);
 
     }
   if(padding)
@@ -982,9 +983,10 @@ static void draw_print(cairo_t *cr) {
       gint h = pointy-marky;
       cairo_set_source_rgba( cr, 0.7, 0.7, 0.7, 0.4 );
       cairo_rectangle( cr, markx-pad/2, marky-pad/2, w+pad, h+pad);
-  //    gdk_draw_pixbuf(Denemo.printarea->window, NULL, GDK_PIXBUF(Denemo.pixbuf),
-//		      markx+x, marky+y, markx, marky,/* x, y in pixbuf, x,y in window */
-//		w,  h, GDK_RGB_DITHER_NONE,0,0);
+      gdk_cairo_set_source_pixbuf (cr, GDK_PIXBUF(Denemo.pixbuf), markx, marky);
+       //gdk_draw_pixbuf(gtk_widget_get_window(Denemo.printarea), NULL, GDK_PIXBUF(Denemo.pixbuf),
+	//	      markx+x, marky+y, markx, marky,/* x, y in pixbuf, x,y in window */
+	//	w,  h, GDK_RGB_DITHER_NONE,0,0);
 
     }
 
@@ -994,12 +996,12 @@ static void draw_print(cairo_t *cr) {
 static GdkCursor *busycursor;
 static GdkCursor *arrowcursor;
 static void busy_cursor(void) {
-  //if(Denemo.printarea->window)
-    //gdk_window_set_cursor(Denemo.printarea->window, busycursor);
+  if(gtk_widget_get_window(Denemo.printarea))
+    gdk_window_set_cursor(gtk_widget_get_window(Denemo.printarea), busycursor);
 }
 static void normal_cursor(void) {
-  //if(Denemo.printarea->window)
-   // gdk_window_set_cursor(Denemo.printarea->window, arrowcursor);
+  if(gtk_widget_get_window(Denemo.printarea))
+    gdk_window_set_cursor(gtk_widget_get_window(Denemo.printarea), arrowcursor);
 }
 
 static void
