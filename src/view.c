@@ -7413,7 +7413,7 @@ static gboolean menu_click (GtkWidget      *widget,
   gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), gtk_widget_get_visible(gtk_widget_get_toplevel(Denemo.ScriptView)));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   //FIXME the next statement triggers a warning that ToggleScript is not a registered denemo commad - correct, since we do not make the toggles available as commands since using such a command would make the check boxes out of step, instead we install function that activate the menuitem.
-  gtk_activatable_set_related_action(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"), item);
+  gtk_activatable_set_related_action(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"), GTK_MENU_ITEM(item));
 
 
   gtk_widget_show_all(menu);
@@ -8492,7 +8492,7 @@ create_window(void) {
 #endif
   gtk_window_set_default_icon_from_file (data_file, NULL);
   g_signal_connect (G_OBJECT (Denemo.window), "delete_event",
-		      (GSourceFunc) delete_callback, NULL);
+		    G_CALLBACK (delete_callback), NULL);
   g_free (data_file);
 
   gtk_window_set_resizable (GTK_WINDOW (Denemo.window), TRUE);
@@ -8797,14 +8797,14 @@ get_data_dir (),
   g_signal_connect (G_OBJECT (Denemo.scorearea), "enter-notify-event",
 			       G_CALLBACK (scorearea_enter_event), NULL);
   g_signal_connect (G_OBJECT (Denemo.scorearea), "scroll_event",
-		      (GSourceFunc) scorearea_scroll_event, NULL);
+		    G_CALLBACK(scorearea_scroll_event), NULL);
   //g_signal_handlers_block_by_func(Denemo.scorearea, G_CALLBACK (scorearea_motion_notify), NULL);
   g_signal_connect (G_OBJECT (Denemo.scorearea), "button_press_event",
-		      G_CALLBACK (scorearea_button_press), NULL);
+		    G_CALLBACK (scorearea_button_press), NULL);
   g_signal_connect (G_OBJECT (Denemo.scorearea), "key_press_event",
-		      (GSourceFunc) scorearea_keypress_event, NULL);
+		    G_CALLBACK (scorearea_keypress_event), NULL);
   g_signal_connect (G_OBJECT (Denemo.scorearea), "key_release_event",
-		      (GSourceFunc) scorearea_keyrelease_event, NULL);
+		    G_CALLBACK (scorearea_keyrelease_event), NULL);
 
 
 
