@@ -922,8 +922,9 @@ printall(void) {
   else if (error) {
     GtkWidget *dialog;
     dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window),
+				     GTK_DIALOG_DESTROY_WITH_PARENT,
 				     GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-				     GTK_BUTTONS_CLOSE,error->message);
+				     "%s", error->message);
     g_error_free (error);
     error = NULL;
     gtk_dialog_run (GTK_DIALOG (dialog));
@@ -1182,10 +1183,10 @@ void thumb_finished(GPid pid, gint status) {
            
             gchar *mt = g_strdup_printf("%u", mtime);
             if(!gdk_pixbuf_save (pbN, thumbpathN, "png"/*type*/, &err, "tEXt::Thumb::URI", uri, "tEXt::Thumb::MTime", mt , NULL))
-              g_print(err->message);
+              g_print("%s\n", err->message);
             err = NULL;
             if(!gdk_pixbuf_save (pbL, thumbpathL, "png"/*type*/, &err, "tEXt::Thumb::URI", uri, "tEXt::Thumb::MTime", mt , NULL))
-              g_print(err->message);
+              g_print("%s\n", err->message);
 
               //FIXME do the pbN L need freeing???
             g_free(uri);
