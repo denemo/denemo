@@ -265,7 +265,7 @@ preferences_change (GtkAction *action, gpointer param)
   GtkWidget *fs;
   GtkWidget *DM; 
   GtkWidget *content_area;
-
+  gint i;
   static struct callbackdata cbdata;
   g_assert (gui != NULL);
 
@@ -389,7 +389,6 @@ preferences_change (GtkAction *action, gpointer param)
   hbox = gtk_hbox_new (FALSE, 8);\
   gtk_container_add(VBOX, hbox);\
   GtkWidget *field = gtk_combo_box_text_new ();\
-  gint i;\
   for(i=0;i<G_N_ELEMENTS(thelist);i++)\
     gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(field), thelist[i]);\
   gtk_container_add(hbox, field);\
@@ -535,7 +534,7 @@ preferences_change (GtkAction *action, gpointer param)
 #endif
   //GList *driver_option_list = NULL;
   //GList *midi_driver_option_list = NULL;
-  gint i;
+  //gint i;
   //for (i=0;i<G_N_ELEMENTS(driver_options);i++)
   //  driver_option_list = g_list_append (driver_option_list, driver_options[i]);
   //for (i=0;i<G_N_ELEMENTS(midi_driver_options);i++)
@@ -549,8 +548,8 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);
   GtkWidget *button = gtk_button_new_with_label (_("Choose Soundfont"));
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-  gtk_signal_connect (G_OBJECT (button), "clicked",
-    GTK_SIGNAL_FUNC (choose_sound_font), fluidsynth_soundfont);
+  g_signal_connect (G_OBJECT (button), "clicked",
+    G_CALLBACK(choose_sound_font), fluidsynth_soundfont);
   gtk_widget_show (button);
 
   BOOLEANENTRY("Enable Reverb on soundfont", fluidsynth_reverb)
