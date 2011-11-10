@@ -268,9 +268,9 @@ set_cursor_for(guint state) {
   GdkCursor *cursor = g_hash_table_lookup(Denemo.map->cursors, &the_state);
   //g_print("looked up %x in %p got cursor %p which is number %d\n", state, Denemo.map->cursors,  cursor, cursor?cursor->type:-1);
   if(cursor)
-    gdk_window_set_cursor(GTK_WINDOW(Denemo.window), cursor);
+    gdk_window_set_cursor(gtk_widget_get_window(Denemo.window), cursor);
    else 
-     gdk_window_set_cursor(GTK_WINDOW(Denemo.window), gdk_cursor_new(GDK_LEFT_PTR));//FIXME? does this take time/hog memory
+     gdk_window_set_cursor(gtk_widget_get_window(Denemo.window), gdk_cursor_new(GDK_LEFT_PTR));//FIXME? does this take time/hog memory
 }
 
 
@@ -370,7 +370,7 @@ transform_coords(double* x, double* y) {
 
 gint 
 scorearea_leave_event(GtkWidget *widget, GdkEventCrossing *event) {
-   gdk_window_set_cursor(GTK_WINDOW(Denemo.window), gdk_cursor_new(GDK_LEFT_PTR));//FIXME? does this take time/hog memory
+   gdk_window_set_cursor(gtk_widget_get_window(Denemo.window), gdk_cursor_new(GDK_LEFT_PTR));//FIXME? does this take time/hog memory
    return FALSE;//allow other handlers (specifically the pitch entry one)
 }
 
@@ -432,9 +432,9 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
   }
 
   if(line_height - ((int)event->y - 8)%line_height<12)
-    gdk_window_set_cursor(GTK_WINDOW(Denemo.window), gdk_cursor_new(GDK_SB_V_DOUBLE_ARROW));
+    gdk_window_set_cursor(gtk_widget_get_window(Denemo.window), gdk_cursor_new(GDK_SB_V_DOUBLE_ARROW));
   else
-    gdk_window_set_cursor(GTK_WINDOW(Denemo.window), gdk_cursor_new(GDK_LEFT_PTR));//FIXME? does this take time/hog memory
+    gdk_window_set_cursor(gtk_widget_get_window(Denemo.window), gdk_cursor_new(GDK_LEFT_PTR));//FIXME? does this take time/hog memory
 
   transform_coords(&event->x, &event->y);
   //  g_print("Marked %d\n", gui->si->markstaffnum);
