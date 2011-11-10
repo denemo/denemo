@@ -1688,6 +1688,7 @@ displayhelper (DenemoGUI * gui)
 #endif
   /*gtk_widget_draw (Denemo.scorearea, NULL);*/
   gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score(NULL);
 }
 
 

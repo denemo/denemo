@@ -298,7 +298,9 @@ next_movement (GtkAction *action, DenemoScriptParam *param)
   g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
   g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
   write_status(gui);
-  gtk_widget_draw (Denemo.scorearea, NULL);//KLUDGE FIXME see staffup/down
+  //gtk_widget_draw (Denemo.scorearea, NULL);//KLUDGE FIXME see staffup/down
+  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score(NULL);
 }
 
 /**
@@ -341,7 +343,9 @@ prev_movement (GtkAction *action, DenemoScriptParam *param)
   g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
   g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
   write_status(gui);
-  gtk_widget_draw (Denemo.scorearea, NULL);//KLUDGE FIXME see staffup/down
+  //gtk_widget_draw (Denemo.scorearea, NULL);//KLUDGE FIXME see staffup/down
+  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score(NULL);
 }
 /**
  * Initialise scoreinfo structure 

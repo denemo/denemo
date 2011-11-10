@@ -14,3 +14,5 @@ scorearea_configure_event (GtkWidget * widget, GdkEventConfigure * event);
 gint
 scorearea_expose_event (GtkWidget * widget, GdkEventExpose * event);
 
+gboolean
+draw_score (cairo_t *cr);

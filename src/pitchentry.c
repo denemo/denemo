@@ -781,9 +781,10 @@ static void display_pitch(double note, DenemoGUI *gui) {
       // FIXME if tuning display a graphic for how far note is from target_note
       if(PR_tuning) {
 	PR_accurate_pitch = note;
-	gtk_widget_draw(PR_indicator, NULL);
-
-
+	//gtk_widget_draw(PR_indicator, NULL);
+	gtk_widget_queue_draw(PR_indicator);
+   	draw_score(NULL);
+	gtk_widget_queue_draw(PR_indicator);
       }
     }
 /*     fprintf(stderr, "Pitch is %d %d\t", (int)(Freq2Pitch(note)+0.5), (int)note); */
@@ -1532,12 +1533,16 @@ gint setup_pitch_input(void){
 static void 
 scorearea_set_active(GtkWidget *widget, GdkEventCrossing *event, DenemoGUI *gui) {
   PR_enable = TRUE; 
-  gtk_widget_draw(Denemo.scorearea, NULL);
+  //gtk_widget_draw(Denemo.scorearea, NULL);
+  gtk_widget_queue_draw(Denemo.scorearea);
+  draw_score(NULL);
 }
 static void 
 scorearea_set_inactive(GtkWidget *widget, GdkEventCrossing *event, DenemoGUI *gui) {
   PR_enable = FALSE; 
-  gtk_widget_draw(Denemo.scorearea, NULL);
+  //gtk_widget_draw(Denemo.scorearea, NULL);
+  gtk_widget_queue_draw(Denemo.scorearea);
+  draw_score(NULL);
 }
 void start_pitch_input(void) { 
   DenemoGUI *gui = Denemo.gui;

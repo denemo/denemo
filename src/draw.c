@@ -31,8 +31,6 @@
 #define EXCL_WIDTH 3
 #define EXCL_HEIGHT 13
 
-static gboolean
-draw_score (cairo_t *cr);
 GdkPixbuf *StaffPixbuf, *StaffPixbufSmall, *StaffGoBack, *StaffGoForward;
 #define MAX_PLAYHEADS (100)
 static cairo_rectangle_int_t old_playhead_damage[MAX_PLAYHEADS];
@@ -1042,7 +1040,7 @@ static gboolean schedule_draw(gint *flip_count) {
  * @param gui pointer to the DenemoGUI structure
  * returns whether the height of the drawing area was sufficient to draw everything
  */
-static gboolean
+gboolean
 draw_score (cairo_t *cr)
 {//g_print("draw_score %p\n", cr);
   staffnode *curstaff;

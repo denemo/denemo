@@ -3504,6 +3504,7 @@ static SCM scheme_adjust_xes (SCM optional) {
 
 static gint flash_cursor(void) {
   gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score(NULL);
   return TRUE;
 }
 static SCM scheme_highlight_cursor (SCM optional) {
@@ -3561,6 +3562,7 @@ static SCM scheme_set_background (SCM color) {
    gint value = scm_num2int(color, 0, 0);
    Denemo.color = value;
    gtk_widget_queue_draw (Denemo.scorearea);
+   draw_score(NULL);
    return SCM_BOOL_T;
   }
   return SCM_BOOL_F;
@@ -3656,6 +3658,7 @@ static SCM scheme_staff_to_voice(SCM optional) {
     setcurrentprimarystaff(Denemo.gui->si);
     ret = SCM_BOOL_T;
     gtk_widget_queue_draw(Denemo.scorearea);
+    draw_score(NULL);
   }
   return ret;
 }
@@ -5736,12 +5739,16 @@ static void pb_last (GtkWidget *button) {
 
 static void pb_start_to_cursor (GtkWidget *button) {
   call_out_to_guile("(DenemoSetPlaybackStart)");
-  gtk_widget_draw(Denemo.scorearea, NULL);
+  //gtk_widget_draw(Denemo.scorearea, NULL);
+  gtk_widget_queue_draw(Denemo.scorearea);
+  draw_score(NULL);
 }
 
 static void pb_end_to_cursor (GtkWidget *button) {
   call_out_to_guile("(DenemoSetPlaybackEnd)");
-  gtk_widget_draw(Denemo.scorearea, NULL);
+  //gtk_widget_draw(Denemo.scorearea, NULL);
+  gtk_widget_queue_draw(Denemo.scorearea);
+  draw_score(NULL);
 }
 
 static void pb_loop (GtkWidget *button) {
@@ -8356,6 +8363,7 @@ switch_page (GtkNotebook *notebook, GtkWidget *page,  guint pagenum) {
   set_title_bar(Denemo.gui);
   highlight_rhythm(Denemo.gui->prevailing_rhythm);
   gtk_widget_queue_draw(Denemo.scorearea);
+  draw_score(NULL);
 }
 
 

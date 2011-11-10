@@ -609,8 +609,9 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
     movecursorleft(NULL);//so that right click in appending position acts on previous object
   }
   /* Redraw to show new cursor position, note a real draw is needed because of side effects on display*/
-  gtk_widget_draw (Denemo.scorearea, NULL);
-    
+  //gtk_widget_draw (Denemo.scorearea, NULL);
+  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score(NULL);
   set_cursor_for(event->state | (left?GDK_BUTTON1_MASK:GDK_BUTTON3_MASK));
   perform_command(event->state | (left?GDK_BUTTON1_MASK:GDK_BUTTON3_MASK), GESTURE_PRESS, left);
   
