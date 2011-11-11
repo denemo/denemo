@@ -7,9 +7,13 @@
       <row>
         <action>ParenthesizeChord</action>
         <scheme> ;;; ParenthesizeChord
-(d-DirectivePut-chord-postfix "Parenthesize" "\\parenthesize ")
-(d-DirectivePut-chord-display "Parenthesize" "()")
-(d-RefreshDisplay)</scheme>
+ (if (d-Directive-chord? "Parenthesize")
+ 	(d-DirectiveDelete-chord  "Parenthesize")
+ 	(begin
+		(d-DirectivePut-chord-prefix "Parenthesize" "\\parenthesize ")
+		(d-DirectivePut-chord-override "Parenthesize" DENEMO_OVERRIDE_AFFIX)
+		(d-DirectivePut-chord-display "Parenthesize" "()")))
+(d-SetSaved #f)</scheme>
         <label>Parenthesize Chord</label>
         <tooltip>Enclose the chord in ( ) on printing.</tooltip>
       </row>
