@@ -8491,7 +8491,7 @@ create_window(void) {
   gchar *data_file;
 
   Denemo.window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (gtk_widget_get_window (Denemo.window), "Denemo Main Window");
+  gtk_window_set_title (GTK_WINDOW (Denemo.window), "Denemo Main Window");
   loadWindowState(/* it accesses Denemo.window */);
 #ifdef G_OS_WIN32
   data_file = g_build_filename (get_data_dir (), "icons","denemo.png", NULL);
@@ -8503,7 +8503,7 @@ create_window(void) {
 		    G_CALLBACK (delete_callback), NULL);
   g_free (data_file);
 
-  gtk_window_set_resizable (gtk_widget_get_window (Denemo.window), TRUE);
+  gtk_window_set_resizable (GTK_WINDOW (Denemo.window), TRUE);
 
   Denemo.color = 0xFFFFFF;//white background RGB values
 
