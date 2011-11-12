@@ -1295,6 +1295,51 @@ draw_score (cairo_t *cr)
   /* And we're done */
 }
 
+gint
+scorearea_draw_event (GtkWidget * widget, cairo_t *cr)
+{
+ DenemoGUI *gui = Denemo.gui;
+  gint width, height;
+  width = gtk_widget_get_allocated_width (widget);
+  height = gtk_widget_get_allocated_height (widget);
+ if((!Denemo.gui->si)||(!Denemo.gui->si->currentmeasure)){
+   g_warning("Cannot draw!\n");
+   return TRUE;
+ }
+ if(widget==NULL) {
+   draw_score (NULL);
+   return TRUE;
+ }
+
+  /* Layout the score. */
+ if(layout_needed)
+   if(draw_score (NULL)) {
+      set_bottom_staff(gui);
+      update_vscrollbar(gui);
+   }
+ layout_needed = TRUE;
+
+    /* Clear with an appropriate background color. */
+  if(Denemo.gui->input_source!=INPUTKEYBOARD && Denemo.gui->input_source!=INPUTMIDI &&
+     (Denemo.prefs.overlays || (Denemo.gui->input_source==INPUTAUDIO))
+     && pitch_entry_active(gui)) {
+    GdkColor col;
+    gdk_color_parse ("lightblue", &col);
+    gdk_cairo_set_source_color (cr, &col);
+  } else if (gtk_widget_has_focus (Denemo.scorearea)) {
+    cairo_set_source_rgb (cr, ((0xFF0000&Denemo.color)>>16)/255.0, ((0xFF00&Denemo.color)>>8)/255.0, ((0xFF&Denemo.color))/255.0);
+  } else {
+   cairo_set_source_rgb (cr, 0.9, 0.9, 0.9);
+  }
+  cairo_paint (cr);
+
+  /* Draw the score. */
+  draw_score (cr);
+  //cairo_destroy (cr);
+
+  return 0;
+}
+
 /**
  * Here we have the function that actually draws the score. Note that
  * it does not clip intelligently at all 

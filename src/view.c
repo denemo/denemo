@@ -8792,8 +8792,8 @@ get_data_dir (),
   gtk_box_pack_start (GTK_BOX (score_and_scroll_hbox), Denemo.scorearea, TRUE,
 		      TRUE, 0);// with this, the scorearea_expose_event is called
   gtk_widget_show (Denemo.scorearea);
-  g_signal_connect (G_OBJECT (Denemo.scorearea), "expose_event",
-		      G_CALLBACK (scorearea_expose_event), NULL);
+  g_signal_connect (G_OBJECT (Denemo.scorearea), "draw",
+		      G_CALLBACK (scorearea_draw_event), NULL);
   g_signal_connect (G_OBJECT (Denemo.scorearea), "configure_event",
 		      G_CALLBACK (scorearea_configure_event), NULL);
   g_signal_connect (G_OBJECT (Denemo.scorearea), "button_release_event",
@@ -9030,7 +9030,7 @@ newtab (GtkAction *action, gpointer param) {
 
   gtk_widget_set_can_focus (Denemo.scorearea, FALSE);
   //GTK_WIDGET_SET_FLAGS(Denemo.scorearea, GTK_CAN_FOCUS);
-  gtk_widget_grab_focus (GTK_WIDGET(Denemo.scorearea));
+  gtk_widget_grab_focus (GTK_WIDGET(Denemo.scorearea)); 
 
  if (Denemo.prefs.autosave) {
    if(Denemo.autosaveid) {
