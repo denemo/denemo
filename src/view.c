@@ -559,29 +559,29 @@ toggle_page_view(void) {
   static gdouble system_height=0.25;
   DenemoScore *si = Denemo.gui->si;
   if(si->page_width==0) {
-    si->page_width = gdk_screen_get_width(gtk_window_get_screen(gtk_widget_get_window (Denemo.window)));
-    si->page_height = gdk_screen_get_height(gtk_window_get_screen(gtk_widget_get_window (Denemo.window)));
+    si->page_width = gdk_screen_get_width(gtk_window_get_screen(GTK_WINDOW (Denemo.window)));
+    si->page_height = gdk_screen_get_height(gtk_window_get_screen(GTK_WINDOW (Denemo.window)));
     if(si->page_height/(double)si->page_width < 1.4)
       si->page_width = si->page_height /1.4;
     si->page_zoom = 0.5;
     si->page_system_height = 0.25;
   }
   if(Denemo.gui->view==DENEMO_PAGE_VIEW){
-    gtk_window_get_size (gtk_widget_get_window (Denemo.window), &si->page_width, &si->page_height);
+    gtk_window_get_size (GTK_WINDOW (Denemo.window), &si->page_width, &si->page_height);
     si->page_zoom = si->zoom;
     si->page_system_height = si->system_height;
     si->zoom = zoom;
     si->system_height = system_height;
     Denemo.gui->view=DENEMO_LINE_VIEW;
-    gtk_window_resize (gtk_widget_get_window (Denemo.window), si->stored_width, si->stored_height);
+    gtk_window_resize (GTK_WINDOW (Denemo.window), si->stored_width, si->stored_height);
   } else {
-    gtk_window_get_size (gtk_widget_get_window (Denemo.window), &si->stored_width, &si->stored_height);
+    gtk_window_get_size (GTK_WINDOW (Denemo.window), &si->stored_width, &si->stored_height);
     zoom = si->zoom;
     system_height = si->system_height;
     si->zoom = si->page_zoom;
     si->system_height = si->page_system_height;
     Denemo.gui->view=DENEMO_PAGE_VIEW;
-    gtk_window_resize (gtk_widget_get_window (Denemo.window), si->page_width, si->page_height);
+    gtk_window_resize (GTK_WINDOW (Denemo.window), si->page_width, si->page_height);
   }
 }
 
@@ -601,7 +601,7 @@ void toggle_to_drawing_area(gboolean show) {
     win_width = Denemo.gui->si->stored_width;
     win_height = Denemo.gui->si->stored_height;
   } else
-    gtk_window_get_size (gtk_widget_get_window (Denemo.window), &win_width, &win_height);
+    gtk_window_get_size (GTK_WINDOW (Denemo.window), &win_width, &win_height);
   //g_print("window width is %d\n", win_width);
   // NOTE  lyrics are per movement
   GtkWidget *widget;
@@ -2216,7 +2216,7 @@ SCM scheme_get_offset(void) {
 
 
   GtkWidget *dialog = gtk_dialog_new_with_buttons ("Select Offset in Print Window",
-                                        gtk_widget_get_window (Denemo.window),
+					GTK_WINDOW (Denemo.window),
                                         (GtkDialogFlags) (GTK_DIALOG_DESTROY_WITH_PARENT),
                                         GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
                                         GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
@@ -2305,7 +2305,7 @@ SCM scheme_get_padding(void) {
   gint padding = (intptr_t)g_object_get_data(G_OBJECT(Denemo.printarea), "padding");
 
   GtkWidget *dialog = gtk_dialog_new_with_buttons ("Select Padding in Print Window",
-                                        gtk_widget_get_window (Denemo.window),
+					GTK_WINDOW (Denemo.window),
                                         (GtkDialogFlags) (GTK_DIALOG_DESTROY_WITH_PARENT),
                                         GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
                                         GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
@@ -6674,7 +6674,7 @@ static void button_modifier_callback(GtkWidget *w, GdkEventButton *event,  Modif
 static void
 mouse_shortcut_dialog(ModifierAction *info){
   GtkWidget *dialog = gtk_dialog_new_with_buttons ("Set Mouse Shortcut",
-                                        gtk_widget_get_window (Denemo.window),
+                                        GTK_WINDOW (Denemo.window),
                                         (GtkDialogFlags) (GTK_DIALOG_MODAL |
                                                        GTK_DIALOG_DESTROY_WITH_PARENT),
                                         GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
@@ -6730,7 +6730,7 @@ mouse_shortcut_dialog(ModifierAction *info){
 
   gtk_container_add (GTK_CONTAINER (vbox), hbox);
 
-  gtk_window_set_modal (gtk_widget_get_window (dialog), TRUE);
+  gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all (dialog);
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT){ 
     setMouseAction(info);
