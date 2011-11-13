@@ -8438,7 +8438,7 @@ GtkWidget* create_playbutton(GtkWidget *box, gchar *thelabel, gpointer callback,
     button = gtk_button_new_with_label(thelabel);
   else 
     button = gtk_button_new();
-  gtk_widget_set_can_focus (button, FALSE);
+  gtk_widget_set_can_focus (button, TRUE);
   if (image){ 
     gtk_button_set_image (GTK_BUTTON(button), 
 			  gtk_image_new_from_stock(image, GTK_ICON_SIZE_BUTTON));
@@ -8610,7 +8610,7 @@ get_data_dir (),
 
   gtk_toolbar_set_style (GTK_TOOLBAR (toolbar), GTK_TOOLBAR_BOTH_HORIZ);
   gtk_box_pack_start (GTK_BOX (main_vbox), toolbar, FALSE, TRUE, 0);
-  gtk_widget_set_can_focus (toolbar, FALSE);
+  gtk_widget_set_can_focus (toolbar, TRUE);
   //GTK_WIDGET_UNSET_FLAGS(toolbar, GTK_CAN_FOCUS); 
 
 
@@ -8629,7 +8629,7 @@ get_data_dir (),
     gtk_box_pack_start (GTK_BOX (inner1), inner, FALSE, TRUE, 0);
 
     //gtk_box_pack_start (GTK_BOX (main_vbox), inner, FALSE, TRUE, 0);
-    gtk_widget_set_can_focus (inner, FALSE);
+    gtk_widget_set_can_focus (inner, TRUE);
     GtkWidget *button;
     GtkWidget *label;
 
@@ -8677,7 +8677,7 @@ get_data_dir (),
       gtk_box_pack_start (GTK_BOX (inner1), hbox, TRUE, TRUE, 0);
       /* Tempo */
       label = gtk_label_new (_("Tempo:"));
-      gtk_widget_set_can_focus (label, FALSE);
+      gtk_widget_set_can_focus (label, TRUE);
       gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
       master_tempo_adj = (GtkAdjustment*)gtk_adjustment_new (120.0, 0.0, 600.0, 1.0, 1.0, 0.0);
       GtkWidget *hscale = gtk_hscale_new(GTK_ADJUSTMENT( master_tempo_adj));
@@ -8992,7 +8992,7 @@ newtab (GtkAction *action, gpointer param) {
   gui->movements = g_list_append(NULL, gui->si);
  
   install_lyrics_preview(gui->si, top_vbox);
-
+  gtk_widget_set_can_focus(Denemo.scorearea, TRUE);
   gtk_widget_show (Denemo.page);
   gtk_widget_grab_focus (Denemo.scorearea);
 
