@@ -26,7 +26,6 @@ static gchar *majorkeys[15] =
   "C", "G", "D", "A", "E", "B", "F sharp", "C sharp"
 };
 
-
 static gchar *minorkeys[15] =
   { "A flat", "E flat", "B flat", "F", "C", "G", "D",
   "A", "E", "B", "F sharp", "C sharp", "G sharp", "D sharp", "A sharp"
@@ -46,16 +45,21 @@ static gchar *modes[7] =
   { "lydian", "ionian", "mixolydian", "dorian", "aeolian", "phrygian",
 "locrain" };
 
+static gint
+find_element_position(gchar **haystack, gchar *needle)
+{
+  gint i;
+  for(i=0;i<G_N_ELEMENTS(haystack);i++)
+    if (g_strcmp0(haystack[i], needle) == 0)
+      return i;
+}
+
 gint
 findmode (GtkWidget * modebox, modedata *mdata)
 {
   gint ret = -1;
   gchar *mode = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (mdata->modenamecombo));
-  ret =
-    g_list_position (mdata->modelist,
-      g_list_find_custom (mdata->modelist, mode,
-	(GCompareFunc) strcmp));
-
+  ret = find_element_position(modes, mode);
   return ret - 1;
 }
 
@@ -72,23 +76,12 @@ findkey (GtkWidget * combobox, modedata *mdata, gint type)
 
   gint ret;
   if (type == 2)
-    {
-      ret = g_list_position
-	(mdata->majorlist,
-	 g_list_find_custom (mdata->majorlist, tokeystring, 
-			     (GCompareFunc) strcmp));
-    }
+    ret = find_element_position(modes, tokeystring);
   else if (type == 1)
-    ret = g_list_position
-      (mdata->minorlist,
-       g_list_find_custom (mdata->minorlist, tokeystring, 
-			   (GCompareFunc) strcmp));
+    ret = find_element_position(minorkeys, tokeystring);
   else
-    ret = g_list_position
-      (mdata->majorlist,
-       g_list_find_custom (mdata->majorlist, tokeystring, 
-			   (GCompareFunc) strcmp));
-
+    ret = find_element_position(majorkeys, tokeystring);
+  
   if (ret != -1)
     return ret - KEYNAME_ARRAY_OFFSET;
   else
