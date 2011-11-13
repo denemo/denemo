@@ -1300,8 +1300,8 @@ scorearea_draw_event (GtkWidget * widget, cairo_t *cr)
 {
  DenemoGUI *gui = Denemo.gui;
   gint width, height;
-  width = gtk_widget_get_allocated_width (widget);
-  height = gtk_widget_get_allocated_height (widget);
+  width = get_widget_width (widget);
+  height = get_widget_height (widget);
  if((!Denemo.gui->si)||(!Denemo.gui->si->currentmeasure)){
    g_warning("Cannot draw!\n");
    return TRUE;
