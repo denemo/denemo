@@ -55,10 +55,10 @@ find_element_position(gchar **haystack, gchar *needle)
 }
 
 gint
-findmode (keysig_data *ksdata)
+findmode (GtkWidget *modenamecombo)
 {
   gint ret = -1;
-  gchar *mode = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (ksdata->modenamecombo));
+  gchar *mode = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (modenamecombo));
   ret = find_element_position(modes, mode);
   return ret - 1;
 }
@@ -97,7 +97,7 @@ set_keysig (GtkWidget * widget, keysig_data *cbdata)
 {
   DenemoScore *si = Denemo.gui->si;
   staffnode *curstaff;
-  DenemoStaff *curstaffstruct;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   gint tokey, mode;
   tokey = mode = 0;
 

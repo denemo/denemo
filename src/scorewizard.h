@@ -54,7 +54,8 @@ typedef struct timekeysigcb
 	GtkWidget *tempo;
 	GtkWidget *numerator;
 	GtkWidget *denominator;
-	keysig_callbackdata *cbdata;	
+	GtkWidget *keysig;
+	keysig_data *keysig_widgets;	
 }timekeysigcb;
 
 

@@ -50,20 +50,6 @@ static gchar *instrumenttypes[8] =
 
 #define KEYNAME_ARRAY_OFFSET 7
 
-static gchar *majorkeys[15] =
-  { "C flat", "G flat", "D flat", "A flat", "E flat", "B flat", "F",
-  "C", "G", "D", "A", "E", "B", "F sharp", "C sharp"
-};
-
-static gchar *minorkeys[15] =
-  { "A flat", "E flat", "B flat", "F", "C", "G", "D",
-  "A", "E", "B", "F sharp", "C sharp", "G sharp", "D sharp", "A sharp"
-};
-
-static gchar *modes[7] =
-  { "lydian", "ionian", "mixolydian", "dorian", "aeolian", "phrygian",
-"locrain" };
-
 /**
  * create a staff with that instrument name
  *
@@ -569,168 +555,66 @@ papersetup(GtkWidget *notebook, DenemoGUI *gui, gboolean isnotebook)
 timekeysigcb *
 timekeysig(wizarddata *wdata, gboolean isnotebook)
 {
-  DenemoGUI *gui = wdata->gui;
+  DenemoGUI *gui = Denemo.gui;
   GtkWidget *notebook = wdata->notebook;  
   DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
   timekeysigcb *timekeysigdata = 
     (timekeysigcb *) g_malloc0(sizeof(timekeysigcb));
-  keysig_callbackdata *cbdata = 
-    (keysig_callbackdata *) g_malloc0(sizeof(keysig_callbackdata));
-  modedata *mdata = cbdata->mdata = (modedata *) g_malloc0(sizeof(modedata)); 
-  //combobox to hold pitches for modes
-  GtkWidget *modenamecombo = gtk_combo_box_text_new (); 
-  GtkWidget *combobox = gtk_combo_box_text_new ();	
-  gint i;
-  GList *majorlist = NULL;
-  GList *minorlist = NULL;
-  GList *modelist = NULL;
-
-  if (!majorlist)
-    for (i = 0; i < 15; i++)
-      {
-	majorlist = g_list_append (majorlist, majorkeys[i]);
-	minorlist = g_list_append (minorlist, minorkeys[i]);
-      }
-  if (!modelist)
-    for (i = 0; i < 7; i++)
-      modelist = g_list_append (modelist, modes[i]);
-
-
-
-  mdata->majorlist = majorlist;
-  mdata->minorlist = minorlist;
-  mdata->modelist = modelist;
-
-  GtkWidget *table = gtk_table_new (3, 3 , FALSE);
-  gtk_container_set_border_width (GTK_CONTAINER (table), 12);
-  gtk_table_set_row_spacings (GTK_TABLE (table), 8);
-  gtk_table_set_col_spacings (GTK_TABLE (table), 8);
+  
+  GtkWidget *vbox = gtk_vbox_new(FALSE,1);
+  gtk_container_add(notebook, vbox);
+  //gtk_container_set_border_width (GTK_CONTAINER (table), 12);
 
 
   GtkWidget *label = gtk_label_new(_("Tempo"));
-  gtk_table_attach(GTK_TABLE(table), label, 0,1,0,1,
-                   (GtkAttachOptions) (GTK_FILL),
-                   (GtkAttachOptions) (0), 0, 0);
+  gtk_container_add(vbox, label);
 
   GtkWidget *tempo = gtk_entry_new();
-  gtk_table_attach(GTK_TABLE(table), tempo, 1,2,0,1,
-                   (GtkAttachOptions) (GTK_FILL),
-                   (GtkAttachOptions) (0), 0, 0);
+  gtk_container_add(vbox, tempo);
   //gtk_entry_set_text(GTK_ENTRY(lilyversion), gui->lilycontrol.lilyversion->str);
   /*timesig*/
   label = gtk_label_new (_("Enter desired time signature:"));
-  gtk_table_attach(GTK_TABLE(table), label, 0,1,1,2,
-                   (GtkAttachOptions) (GTK_FILL),
-                   (GtkAttachOptions) (0), 0, 0);
+  gtk_container_add(vbox, label);
  
   label = gtk_label_new (_("Numerator"));
-  gtk_table_attach(GTK_TABLE(table), label, 0,1,2,3,
-                   (GtkAttachOptions) (GTK_FILL),
-                   (GtkAttachOptions) (0), 0, 0);
+  gtk_container_add(vbox, label);
 
   GtkWidget *numerator = gtk_spin_button_new_with_range (1, 16, 1.0);
-  gtk_table_attach(GTK_TABLE(table), numerator, 1,2,2,3,
-                   (GtkAttachOptions) (GTK_FILL),
-                   (GtkAttachOptions) (0), 0, 0);
- 
+  gtk_container_add(vbox, numerator);
+
   label = gtk_label_new (_("Denominator"));
-  gtk_table_attach(GTK_TABLE(table), label, 0,1,3,4,
-                   (GtkAttachOptions) (GTK_FILL),
-                   (GtkAttachOptions) (0), 0, 0);
- 
+  gtk_container_add(vbox, label);
+
   gtk_spin_button_set_digits (GTK_SPIN_BUTTON (numerator), 0);
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (numerator),
 			     (gdouble) curstaffstruct->timesig.time1);
   gtk_entry_set_activates_default (GTK_ENTRY (numerator), TRUE);
 
   GtkWidget *denominator = gtk_spin_button_new_with_range (1, 16, 1.0);
-  gtk_table_attach(GTK_TABLE(table), denominator, 1,2,3,4,
-                   (GtkAttachOptions) (GTK_FILL),
-                   (GtkAttachOptions) (0), 0, 0);
- 
+  gtk_container_add(vbox, denominator);
   gtk_spin_button_set_digits (GTK_SPIN_BUTTON (denominator), 0);
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (denominator),
 			     (gdouble) curstaffstruct->timesig.time2);
   gtk_entry_set_activates_default (GTK_ENTRY (denominator), TRUE);
 
   /*key signature*/
-  
-  mdata->majorkeycombo = combobox;
-  mdata->dialog = table;
-  mdata->modenamecombo = modenamecombo;
-
-  label = gtk_label_new (_("Key Signature Setup:"));
-  gtk_table_attach(GTK_TABLE(table), label, 0,1,4,5,
-                   (GtkAttachOptions) (GTK_FILL),
-                   (GtkAttachOptions) (0), 0, 0);
- 
-  GtkWidget *radiobutton1 = gtk_radio_button_new_with_label (NULL, _("Major"));
-  g_signal_connect (G_OBJECT (radiobutton1), "clicked",
-		      G_CALLBACK (majorcallback), cbdata->mdata);
-  gtk_table_attach(GTK_TABLE(table), radiobutton1, 0,1,5,6,
-                   (GtkAttachOptions) (GTK_FILL),
-                   (GtkAttachOptions) (0), 0, 0);
- 
-
-  gtk_widget_show (radiobutton1);
-
-  GtkWidget *radiobutton2 = gtk_radio_button_new_with_label
-    (gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton1)), _("Minor"));
-  g_signal_connect (G_OBJECT (radiobutton2), "clicked",
-		      G_CALLBACK (minorcallback), cbdata->mdata);
-  gtk_table_attach(GTK_TABLE(table), radiobutton2, 1,2,5,6,
-                   (GtkAttachOptions) (GTK_FILL),
-                   (GtkAttachOptions) (0), 0, 0);
- 
-  gtk_widget_show (radiobutton2);
-
-  GtkWidget *radiobutton3 = gtk_radio_button_new_with_label
-    (gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton1)), _("Mode"));
-
-  //gtk_signal_connect (G_OBJECT (radiobutton3), "clicked",
-  //		      GTK_SIGNAL_FUNC (modedialog), cbdata->mdata);
-  gtk_table_attach(GTK_TABLE(table), radiobutton3, 2,3,5,6,
-                   (GtkAttachOptions) (GTK_FILL),
-                   (GtkAttachOptions) (0), 0, 0);
- 
-  gtk_widget_show (radiobutton3);
-  
-  gtk_table_attach(GTK_TABLE(table), combobox, 0,1,6,7,
-                   (GtkAttachOptions) (GTK_FILL),
-                   (GtkAttachOptions) (0), 0, 0);
-  gtk_table_attach(GTK_TABLE(table), modenamecombo, 0,1,7,8,
-                   (GtkAttachOptions) (GTK_FILL),
-                   (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_hide (mdata->modenamecombo); 
-    
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton1), TRUE);
-  majorcallback (NULL, mdata);
-  gtk_combo_box_set_active(GTK_COMBO_BOX_TEXT (combobox),
-         curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET);
    
-  if(isnotebook)
-    {
-      gtk_notebook_append_page (GTK_NOTEBOOK (notebook), table, NULL);
-      gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), table,
+  label = gtk_label_new (_("Key Signature Setup:"));
+  gtk_container_add(vbox, label);
+ 
+  keysig_data *keysig_widgets = (keysig_data *) g_malloc0(sizeof(keysig_data));
+  GtkWidget *keysig = keysig_widget_new(keysig_widgets);
+  gtk_container_add(vbox, keysig); 
+ 
+  gtk_notebook_append_page (GTK_NOTEBOOK (notebook), vbox, NULL);
+  gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), vbox,
                                        _("Key/Time signature"));
-    }
-  else
-    {
-      gtk_box_pack_start((GTK_NOTEBOOK(notebook)), table, TRUE, TRUE,0);
-    }
-    
+  
   timekeysigdata->tempo = tempo;
   timekeysigdata->numerator = numerator;
   timekeysigdata->denominator = denominator;
-
-  cbdata->gui = gui;
-  cbdata->curstaffstruct = curstaffstruct;
-  cbdata->majorkeycombo = combobox;
-  cbdata->radiobutton2 = radiobutton2;
-  cbdata->radiobutton3 = radiobutton3;
-  cbdata->mode = modenamecombo;
-  cbdata->mdata = mdata; 
-  timekeysigdata->cbdata = cbdata;
+  timekeysigdata->keysig = keysig;
+  timekeysigdata->keysig_widgets = keysig_widgets;
   
   return timekeysigdata;
 }
@@ -787,32 +671,7 @@ static void applykeytimesig_settings(wizarddata *wdata)
   /*apply Tempo*/
   si->tempo = atoi( (gchar *) gtk_entry_get_text (GTK_ENTRY (tsetup->tempo)));
   /*apply timesig*/
-
-  curstaffstruct->timesig.time1 = 
-    gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (tsetup->numerator));
-  curstaffstruct->timesig.time2 = 
-    gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (tsetup->denominator));
-
-  // wdata->gui->haschanged = TRUE;???????? why was this set???
-  //barlength = PPQN * 4 * curstaffstruct->stime1 / curstaffstruct->stime2;
-
-  gint tokey, mode;
-  tokey = mode = 0;
-
-  gint isminor =
-    gtk_toggle_button_get_active 
-    (GTK_TOGGLE_BUTTON (tsetup->cbdata->radiobutton2)) ?
-    1 :
-    gtk_toggle_button_get_active
-    (GTK_TOGGLE_BUTTON (tsetup->cbdata->radiobutton3)) ?
-    2 : 0;
-  tokey = findkey (tsetup->cbdata->majorkeycombo, tsetup->cbdata->mdata, isminor);
- 
-  //printf("\nisminor = %i tokey = %i\n",isminor,tokey);
-  if (isminor == 2)
-    mode = findmode (tsetup->cbdata->mode, tsetup->cbdata->mdata);
-  dnm_setinitialkeysig (curstaffstruct, tokey - mode, isminor);
-
+  set_keysig(tsetup->keysig, tsetup->keysig_widgets);
 }
 
 
@@ -833,7 +692,7 @@ static void setupscore(GtkButton *button, wizarddata *wdata)
   displayhelper(wdata->gui);
   /*free memory*/
   //g_free(wdata->tsetup->cbdata->mdata);
-  g_free(wdata->tsetup->cbdata);
+  g_free(wdata->tsetup->keysig_widgets);
   g_free(wdata->tsetup);
   g_free(wdata->sdata);
   g_free(wdata->icbdata);
