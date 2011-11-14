@@ -17,7 +17,7 @@
 	  (if (&lt; number response)
 	      (loop (+ 1 number))))	
 	(ForAllMovements staffs)
-	(ForAllMovements "(d-MovementPageBreak #t)")
+	;;(ForAllMovements "(d-MovementPageBreak #t)")
 	(d-PrintPreview)
 	(ForAllMovements staffs)
 	(d-SetSaved saved))))
