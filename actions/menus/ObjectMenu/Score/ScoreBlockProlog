@@ -7,11 +7,11 @@
       <row>
         <after>ScoreProlog</after>
         <action>ScoreBlockProlog</action>
-        <scheme>;;;;;;;; scoreblock prolog
+        <scheme>;;;;;;;; ScoreBlockProlog
 (let ((prolog ""))
 (if ScoreBlockProlog::params
  (set! prolog ScoreBlockProlog::params)
-  (set! prolog (d-DirectiveGet-score-prefix "ScoreBlockProlog")))
+  (set! prolog (d-DirectiveGet-score-postfix "ScoreBlockProlog")))
   (if (not prolog)
       (set! prolog "%{Insert LilyPond syntax here %}\n"))
  (if (not ScoreBlockProlog::params)
