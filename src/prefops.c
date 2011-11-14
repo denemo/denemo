@@ -188,7 +188,7 @@ initprefs ()
   ret->system_height = 100;
   ret->applytoselection = TRUE;
   ret->quickshortcuts = TRUE;
-  
+  ret->prossbardocorations = TRUE;
   /* Read values from systemwide preferences file */
 
   readxmlprefsFile (systemwide);
@@ -472,7 +472,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READBOOLXMLENTRY(createclones)
       READBOOLXMLENTRY(immediateplayback)
       READINTXMLENTRY(pitchspellingchannel)
-      READINTXMLENTRY(pitchspellingprogram) 
+      READINTXMLENTRY(pitchspellingprogram)
       READBOOLXMLENTRY(modal) 
       READBOOLXMLENTRY(persistence) 
       READBOOLXMLENTRY(cursor_highlight) 
@@ -514,6 +514,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READINTXMLENTRY(zoom)
       READINTXMLENTRY(dynamic_compression)
       READINTXMLENTRY(system_height)
+      READBOOLXMLENTRY(prossbardocorations)
 
 
       READBOOLXMLENTRY(saveparts)
@@ -872,7 +873,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEINTXMLENTRY(dynamic_compression)
   WRITEINTXMLENTRY(zoom)
   WRITEINTXMLENTRY(system_height)
-
+  WRITEBOOLXMLENTRY(prossbardocorations)
   WRITEXMLENTRY(browser) 
   
   xmlSaveFormatFile (localrc->str, doc, 1);
