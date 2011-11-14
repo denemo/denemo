@@ -192,7 +192,7 @@ insert_keysig (GtkWidget * widget, gpointer data)
  * major keys
  */
 void
-majorcallback (GtkWidget * widget, struct modedata *data)
+majorcallback (GtkWidget * widget, struct keysig_data *data)
 {
   DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
 
@@ -209,7 +209,7 @@ majorcallback (GtkWidget * widget, struct modedata *data)
  * minor keys
  */
 void
-minorcallback (GtkWidget * widget, struct modedata *data)
+minorcallback (GtkWidget * widget, struct keysig_data *data)
 {
   DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
 
@@ -227,7 +227,7 @@ minorcallback (GtkWidget * widget, struct modedata *data)
  * modes
  */
 void
-modecallback (GtkWidget * widget, struct modedata *data)
+modecallback (GtkWidget * widget, struct keysig_data *data)
 {
   gtk_widget_hide (data->minorkeycombo);
   gtk_widget_show (data->majorkeycombo);
