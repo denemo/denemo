@@ -22,11 +22,19 @@ typedef struct keysig_callbackdata
   modedata *mdata;
 }keysig_callbackdata;
 
+typedef struct keysig_data
+{
+  GtkWidget *checkbutton;
+  GtkWidget *majorkeycombo;
+  GtkWidget *minorkeycombo;
+  GtkWidget *modenamecombo;
+  GtkWidget *radiobutton1;
+  GtkWidget *radiobutton2;
+  GtkWidget *radiobutton3;
+}keysig_data;
 
 void majorcallback (GtkWidget * widget, struct modedata *data);
 void minorcallback (GtkWidget * widget, struct modedata *data);
 void modedialog (GtkWidget * widget, struct modedata *mdata);
-void set_keysig (GtkWidget * widget, gpointer data);
-gint findkey (GtkWidget * combobox, modedata *mdata, gint type);
-gint findmode (GtkWidget * modebox, modedata *mdata);
+void set_keysig (GtkWidget * widget, struct keysig_data *data);
 
