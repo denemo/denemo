@@ -188,7 +188,7 @@ initprefs ()
   ret->system_height = 100;
   ret->applytoselection = TRUE;
   ret->quickshortcuts = TRUE;
-  ret->prossbardocorations = TRUE;
+  ret->progressbardecorations = TRUE;
   /* Read values from systemwide preferences file */
 
   readxmlprefsFile (systemwide);
@@ -514,7 +514,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READINTXMLENTRY(zoom)
       READINTXMLENTRY(dynamic_compression)
       READINTXMLENTRY(system_height)
-      READBOOLXMLENTRY(prossbardocorations)
+      READBOOLXMLENTRY(progressbardecorations)
 
 
       READBOOLXMLENTRY(saveparts)
@@ -873,7 +873,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEINTXMLENTRY(dynamic_compression)
   WRITEINTXMLENTRY(zoom)
   WRITEINTXMLENTRY(system_height)
-  WRITEBOOLXMLENTRY(prossbardocorations)
+  WRITEBOOLXMLENTRY(progressbardocorations)
   WRITEXMLENTRY(browser) 
   
   xmlSaveFormatFile (localrc->str, doc, 1);

@@ -65,7 +65,7 @@ struct callbackdata
 
   GtkWidget *zoom;
   GtkWidget *system_height;
-  GtkWidget *prossbardocorations;
+  GtkWidget *progressbardecorations;
 #ifdef _HAVE_JACK_
   GtkWidget *jacktransport;
   GtkWidget *jacktransport_start_stopped;
@@ -187,7 +187,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNINT(zoom)
   ASSIGNINT(system_height)
   ASSIGNCOMBO2(midi_audio_output)
-  ASSIGNBOOLEAN(prossbardocorations)
+  ASSIGNBOOLEAN(progressbardecorations)
   ASSIGNBOOLEAN(immediateplayback)
   ASSIGNINT(pitchspellingchannel)
   ASSIGNINT(pitchspellingprogram)
@@ -407,7 +407,7 @@ preferences_change (GtkAction *action, gpointer param)
   BOOLEANENTRY("Display menu of objects toolbar", object_palette);
   INTENTRY_LIMITS(_("% Zoom"), zoom, 1, 100);
   INTENTRY_LIMITS(_("% of display height per system"), system_height, 1, 100);
-  BOOLEANENTRY("Display progressbar decorations", prossbardocorations);
+  BOOLEANENTRY("Display progressbar decorations", progressbardecorations);
 
   /*
    * Pitch Entry Parameters 

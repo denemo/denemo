@@ -219,7 +219,7 @@ progressbar (gchar *msg)
   /* Replace GTK_WINDOW_TOPLEVEL with GTK_WINDOW_POPUP
    * to have it witout window decoration. 
    */
-  if (Denemo.prefs.prossbardocorations)
+  if (Denemo.prefs.progressbardecorations)
     pdata->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   else
     pdata->window = gtk_window_new (GTK_WINDOW_POPUP);
