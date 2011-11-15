@@ -1540,9 +1540,10 @@ gchar * get_option(gchar *str, gint length) {
 						   GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
 						   GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
 						   NULL);
-  GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), vbox,
-		      TRUE, TRUE, 0);
+  GtkWidget *vbox = gtk_vbox_new(FALSE, 1);
+  GtkWidget *content_area = gtk_dialog_get_content_area(GTK_DIALOG (dialog));
+  gtk_container_add(GTK_CONTAINER(content_area), vbox);
+
   gchar *opt;
   gint i;
   GtkWidget *widget1, *widget;
@@ -1555,7 +1556,7 @@ gchar * get_option(gchar *str, gint length) {
     }	
     g_object_set_data(G_OBJECT(widget), "choice", (gpointer)opt);
     g_signal_connect(G_OBJECT(widget), "toggled", G_CALLBACK(option_choice), &response);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
+    gtk_container_add (GTK_CONTAINER(vbox), widget);
   }
   gtk_window_set_keep_above(GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all (dialog);
