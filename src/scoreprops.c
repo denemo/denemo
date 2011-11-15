@@ -15,6 +15,24 @@
 #define COL_VALUE 1
 #define COL_PTR 2
 
+/**
+ * Lilyponds supported font sizes
+ */
+static gchar *fontsizes[8] =
+  {
+    "11", "13", "14", "16", "18", "20", "23","26"
+  };
+
+/**
+ * Lilyponds supported paper sizes
+ */
+static gchar *papersizes[6] =
+  {
+    "a4", "a6", "a5", "legal", "letter", "tabloid"
+  };
+
+
+
 typedef struct papersetupcb
 {
 	GtkWidget *papersize;
@@ -41,6 +59,138 @@ gboolean abandon_editprops_custom_scoreblock(DenemoGUI *gui) {
     return confirm("Custom LilyPond Score Block", "You will need to edit the LilyPond text to copy these edits from the standard scoreblock.\nIt might be easier to edit your custom scoreblock directly. Abandon?");
   return FALSE;
 }
+
+static papersetupcb *
+papersetup(GtkWidget *notebook, DenemoGUI *gui, gboolean isnotebook)
+{
+  gint i;
+
+  papersetupcb *setup = (papersetupcb *) g_malloc0(sizeof(papersetupcb));
+  GtkWidget *table = gtk_table_new(3, 4 , FALSE);
+  gtk_container_set_border_width (GTK_CONTAINER (table), 12);
+  gtk_table_set_row_spacings (GTK_TABLE (table), 8);
+  gtk_table_set_col_spacings (GTK_TABLE (table), 8);
+
+  GtkWidget *label = gtk_label_new(_("Paper Size"));
+  gtk_table_attach(GTK_TABLE(table), label, 0, 1,0 ,1,
+                   (GtkAttachOptions) (GTK_FILL),
+                   (GtkAttachOptions) (0), 0, 0);
+  GtkWidget *papersize = gtk_combo_box_text_new();
+  for(i=0; i < 6; i++)
+    {
+      gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(papersize), papersizes[i]);
+    }
+
+  //gtk_entry_set_text(GTK_ENTRY(GTK_BIN(papersize)->child), 
+//		    gui->lilycontrol.papersize->len? gui->lilycontrol.papersize->str:"");
+  gtk_table_attach(GTK_TABLE(table), papersize,1,2,0,1,
+                   (GtkAttachOptions) (GTK_FILL),
+                   (GtkAttachOptions) (0), 0, 0);
+
+
+  label = gtk_label_new(_("Font Size"));
+  gtk_table_attach(GTK_TABLE(table), label, 0,1,1,2,
+                   (GtkAttachOptions) (GTK_FILL),
+                   (GtkAttachOptions) (0), 0, 0);
+  GtkWidget *fontsize = gtk_combo_box_text_new();
+  for(i=0; i < 8; i++)
+    {
+      gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(fontsize), fontsizes[i]);
+    }
+  gchar *tmp;
+  //tmp = g_strdup_printf( "%d", gui->lilycontrol.fontsize);
+  //gtk_entry_set_text (GTK_ENTRY (GTK_BIN(fontsize)->child),  gui->lilycontrol.staffsize->len?gui->lilycontrol.staffsize->str:"");
+  //g_free(tmp);
+  gtk_table_attach(GTK_TABLE(table), fontsize, 1,2,1,2,
+                   (GtkAttachOptions) (GTK_FILL),
+                   (GtkAttachOptions) (0), 0, 0);
+
+
+  label = gtk_label_new(_("Lilypond Version"));
+  gtk_table_attach(GTK_TABLE(table), label, 0,1,2,3,
+                   (GtkAttachOptions) (GTK_FILL),
+                   (GtkAttachOptions) (0), 0, 0);
+
+  GtkWidget *lilyversion = gtk_entry_new();
+  gtk_table_attach(GTK_TABLE(table), lilyversion, 1,2,2,3,
+                   (GtkAttachOptions) (GTK_FILL),
+                   (GtkAttachOptions) (0), 0, 0);
+  gtk_entry_set_text(GTK_ENTRY(lilyversion), gui->lilycontrol.lilyversion->len?
+		     gui->lilycontrol.lilyversion->str:"");
+
+
+
+
+
+
+  GtkWidget *vbox = gtk_vbox_new(FALSE,0);
+  GtkWidget *portraitradio = 
+    gtk_radio_button_new_with_label(NULL, _("Portrait"));
+  gtk_box_pack_start(GTK_BOX(vbox), portraitradio, TRUE, TRUE,0);
+  
+  GtkWidget *landscaperadio = 
+    gtk_radio_button_new_with_label
+    (gtk_radio_button_get_group (GTK_RADIO_BUTTON (portraitradio)),_("Landscape"));
+  gtk_box_pack_start(GTK_BOX(vbox), landscaperadio, TRUE, TRUE,0);
+
+  if(gui->lilycontrol.orientation)
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(portraitradio), TRUE);
+  else
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(landscaperadio), TRUE);
+  gtk_table_attach(GTK_TABLE(table), vbox, 2,3,0,1,
+                   (GtkAttachOptions) (GTK_FILL),
+                   (GtkAttachOptions) (0), 0, 0);
+
+  if(isnotebook)
+    {
+      gtk_notebook_append_page (GTK_NOTEBOOK (notebook), table, NULL);
+      gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), table,
+                                       _("Paper Setup"));
+    }
+  else
+    {
+      gtk_box_pack_start(GTK_NOTEBOOK(notebook), table, TRUE, TRUE,0);
+    }
+
+  setup->papersize = papersize;
+  setup->fontsize = fontsize;
+  setup->portrait = portraitradio;
+  setup->lilyversion = lilyversion;
+
+  score_status(gui, TRUE);
+  return setup;
+}
+
+/**
+ * Function to set the printed score parameters
+ *
+ */
+static void 
+setpaperconfig(papersetupcb *cbdata, DenemoGUI *gui)
+{
+  g_string_assign(gui->lilycontrol.papersize, 
+		  (gchar *) 
+		    gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->papersize)));
+  
+  g_string_assign(gui->lilycontrol.lilyversion, 
+		  (gchar *)gtk_entry_get_text 
+		  (GTK_ENTRY (cbdata->lilyversion)));
+
+  g_string_assign(gui->lilycontrol.staffsize,
+    (gchar *) 
+      gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->fontsize)));
+
+  if(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(cbdata->portrait)))
+    {
+      gui->lilycontrol.orientation = TRUE;
+    }
+  else
+    gui->lilycontrol.orientation = FALSE;
+
+  //g_print(" %s %s %d %d \n", gui->lilycontrol.papersize->str, gui->lilycontrol.lilyversion->str, gui->lilycontrol.fontsize, gui->lilycontrol.orientation);
+  score_status(gui, TRUE);
+}
+
 
 /**
  * Create and run a modal score properties dialog.
