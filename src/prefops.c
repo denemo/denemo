@@ -873,7 +873,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEINTXMLENTRY(dynamic_compression)
   WRITEINTXMLENTRY(zoom)
   WRITEINTXMLENTRY(system_height)
-  WRITEBOOLXMLENTRY(progressbardocorations)
+  WRITEBOOLXMLENTRY(progressbardecorations)
   WRITEXMLENTRY(browser) 
   
   xmlSaveFormatFile (localrc->str, doc, 1);
