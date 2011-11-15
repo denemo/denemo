@@ -16,6 +16,7 @@
 #include "notewidths.h"
 #include "utils.h"
 #include "smf.h"
+#include "print.h"
 #include <signal.h> /*for SIGTERM */
 
 #include "config.h"
@@ -237,9 +238,15 @@ progressbar (gchar *msg)
   gtk_progress_bar_set_text (GTK_PROGRESS_BAR (pdata->pbar), msg);
  
   pdata->timer = g_timeout_add (100, progress_timeout, pdata);  
-		   
+
   gtk_window_set_keep_above(GTK_WINDOW (pdata->window), TRUE);
   gtk_widget_show(pdata->window);
+  /* If widget is destroyed stop the printing */
+  /* TODO This should be fed by a function argurment
+	so that that it can stop other things besides
+	lilypond */
+  g_signal_connect (G_OBJECT (pdata->window), "destroy",
+  G_CALLBACK (stop_lilypond), NULL);
 }
 
 void
