@@ -143,7 +143,7 @@ set_preferences (struct callbackdata *cbdata)
 
 #define ASSIGNCOMBO2(field) \
   prefs->field = get_midi_audio_pointer(\
-    (gchar *) gtk_entry_get_text (cbdata->field));
+    (gchar *) gtk_combo_box_text_get_active_text (cbdata->field));
   ASSIGNTEXT(lilypath)
   ASSIGNTEXT(browser) 
   ASSIGNTEXT(pdfviewer)
