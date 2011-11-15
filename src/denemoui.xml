@@ -36,9 +36,6 @@
         <menuitem action="ExportPNG"/> 
 	<menuitem action="ExportMIDI"/> 
       </menu>
-      <separator/>
-      <menuitem action="ConfigureScore"/> 
-      <separator/> 
       <menu action="PrintMenu">
         <menuitem action="Print"/>
         <menuitem action="PrintPreview"/>
