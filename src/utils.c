@@ -218,7 +218,7 @@ progressbar (gchar *msg)
   /* Replace GTK_WINDOW_TOPLEVEL with GTK_WINDOW_POPUP
    * to have it witout window decoration. 
    */
-  pdata->window = gtk_window_new (GTK_WINDOW_POPUP); 
+  pdata->window = gtk_window_new (GTK_WINDOW_TOPLEVEL); 
   gtk_window_set_title (GTK_WINDOW (pdata->window), _("Progress")); 
  
   vbox = gtk_vbox_new (FALSE, 5);
