@@ -8,12 +8,20 @@
         <after>LineBreak</after>
         <action>PageBreak</action>
         <scheme>;;;;;;;;PageBreak
-(d-DirectivePut-standalone "PageBreak")
-(d-DirectivePut-standalone-postfix "PageBreak" "\\pageBreak")
-(d-DirectivePut-standalone-display "PageBreak" "page")
-(d-DirectivePut-standalone-minpixels "PageBreak" 10)
-(d-RefreshDisplay)
-</scheme>
+(if (d-Directive-standalone?  "PageBreak")
+	(d-DirectiveDelete-standalone "PageBreak")
+	(begin
+	(d-DirectivePut-standalone "PageBreak")
+	(d-DirectivePut-standalone-postfix "PageBreak" "\\pageBreak")
+	(d-DirectivePut-standalone-minpixels "PageBreak" 50)
+		(d-DirectivePut-standalone-gy "PageBreak" -40)
+	(d-DirectivePut-standalone-graphic "PageBreak" "
+&#x204B;
+Denemo
+36")
+	(d-DirectivePut-standalone-minpixels "PageBreak" 10)))
+(d-SetSaved #f)
+(d-RefreshDisplay)</scheme>
         <label>Page Break</label>
         <tooltip>(Print) Forces a new page at this barline.</tooltip>
       </row>
