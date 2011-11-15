@@ -473,6 +473,15 @@ run_lilypond(gchar **arguments) {
   return error;
 }
 
+void
+stop_lilypond()
+{
+  if(printpid!=GPID_NONE){
+    kill_process(printpid);
+    printpid = GPID_NONE;
+  }
+}
+
 /*  create pdf of current score, optionally restricted to voices/staffs whose name match the current one. 
  *  Save file in lilypond format
  *  Fork and run lilypond

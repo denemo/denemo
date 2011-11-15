@@ -31,4 +31,6 @@ gboolean
 create_thumbnail(gboolean async);
 gchar *
 large_thumbnail_name(gchar *filepath);
+void
+stop_lilypond();
 #endif /*PRINT_H*/	
