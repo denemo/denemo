@@ -995,10 +995,6 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ExportPNG")), "scm", (gpo
 SCM scheme_ExportMIDI(SCM optional);
 install_scm_function ("d-ExportMIDI", scheme_ExportMIDI);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ExportMIDI")), "scm", (gpointer)1);
-/*ConfigureScore scorewizard*/
-SCM scheme_ConfigureScore(SCM optional);
-install_scm_function ("d-ConfigureScore", scheme_ConfigureScore);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ConfigureScore")), "scm", (gpointer)1);
 /*PrintPreview printpreview_cb*/
 SCM scheme_PrintPreview(SCM optional);
 install_scm_function ("d-PrintPreview", scheme_PrintPreview);

@@ -38,8 +38,8 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	exportxml.h \
 	xmldefs.h exportmidi.h instrumentname.h  print.h \
 	lyric.h playback.h runsilent.h binreloc.c  binreloc.h \
-	bookmarks.c bookmarks.h scorewizard.c \
-	external.h screenshot.h scorewizard.h fakechord.h \
+	bookmarks.c bookmarks.h \
+	external.h screenshot.h fakechord.h \
 	parseinstruments.c parseinstruments.h keyboard.c \
 	pitchentry.c pitchrecog.c audiocapture.c pitchentry.h audio.h \
 	drawlilydir.c lilydirectives.h lilydirectives.c keysigdialog.h \

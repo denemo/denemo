@@ -261,7 +261,6 @@
 {"ExportPDF", GTK_STOCK_SAVE_AS, "Export PDF", NULL,"Export the score as a PDF document file",G_CALLBACK (export_pdf_action)},
 {"ExportPNG", GTK_STOCK_SAVE_AS, "Export PNG", NULL,"Export the score as a PNG image file",G_CALLBACK (export_png_action)},
 {"ExportMIDI", GTK_STOCK_SAVE_AS, "Export MIDI", NULL,"Export the score as a MIDI file",G_CALLBACK (export_midi_action)},
-{"ConfigureScore", GTK_STOCK_PROPERTIES, "Score Wizard", NULL,"Start up a wizard to create a new score. This allows you to set various properties of the score",G_CALLBACK (scorewizard)},
 {"PrintMenu", GTK_STOCK_PRINT, "Print", NULL,"Displays the final finished score"},
 {"PrintPreview", GTK_STOCK_PRINT_PREVIEW, "Print Preview", NULL,"Displays the final finished score in your pdf viewer",G_CALLBACK (printpreview_cb)},
 {"PrintSelection", GTK_STOCK_PRINT, "Print Selection", NULL,"Displays selected music from score in your pdf viewer",G_CALLBACK (printselection_cb)},

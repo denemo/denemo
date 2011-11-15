@@ -10,11 +10,19 @@
 #include "utils.h"
 #include "commandfuncs.h"
 #include "dialogs.h"
-#include "scorewizard.h"
 
 #define COL_NAME 0
 #define COL_VALUE 1
 #define COL_PTR 2
+
+typedef struct papersetupcb
+{
+	GtkWidget *papersize;
+	GtkWidget *lilyversion;
+	GtkWidget *portrait;
+	GtkWidget *fontsize;
+	GtkWidget *lilypond;
+}papersetupcb;
 
 static void
 cell_edited (GtkCellRendererText * cellrenderertext,

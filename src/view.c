@@ -19,7 +19,6 @@
 #include <librsvg/rsvg.h>
 #include <librsvg/rsvg-cairo.h>
 
-#include "scorewizard.h"
 #include "playback.h"
 #include "pitchentry.h"
 #include "exportlilypond.h"
