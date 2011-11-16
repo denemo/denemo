@@ -13,10 +13,10 @@
         <menuitem action="AddStaffs"/>
         <menuitem action="AddMovements"/>
         <menuitem action="OpenNewWindow"/>
-      <menu action="OpenRecent">
-        <menuitem action="Browse"/>
+        <menu action="OpenRecent">
+          <menuitem action="Browse"/>
+        </menu>
       </menu>
-    </menu>
       <menu action="Import">
 	<!-- <menuitem action="ImportLilypond"/>
 	<menuitem action="ImportMidi"/>
@@ -100,19 +100,19 @@
          <menuitem action="SetMark"/>
 	 <menuitem action="SetPoint"/>
 	 <menu action="ExtendSelect">
-	        <menuitem action="CursorLeft"/>
-                <menuitem action="CursorRight"/>
-		<menuitem action="MeasureLeft"/>
-		<menuitem action="MeasureRight"/>
-		<menuitem action="GoToBeginning"/>
-		<menuitem action="GoToEnd"/>
-		<menuitem action="StaffUp"/>
-		<menuitem action="StaffDown"/> 
-		<menuitem action="VoiceUp"/>
-		<menuitem action="VoiceDown"/>
+	   <menuitem action="CursorLeft"/>
+           <menuitem action="CursorRight"/>
+	   <menuitem action="MeasureLeft"/>
+	   <menuitem action="MeasureRight"/>
+	   <menuitem action="GoToBeginning"/>
+	   <menuitem action="GoToEnd"/>
+	   <menuitem action="StaffUp"/>
+	   <menuitem action="StaffDown"/> 
+	   <menuitem action="VoiceUp"/>
+	   <menuitem action="VoiceDown"/>
          </menu>
 	 <menuitem action="UnsetMark"/>
-	<menuitem action="SwapPointAndMark"/>
+	 <menuitem action="SwapPointAndMark"/>
       </menu>
       <menuitem action="Cut"/>
       <menuitem action="Copy"/>
@@ -121,12 +121,12 @@
       <menuitem action="Redo"/>
 
       
-     <menuitem action="PasteClipboard"/>
+      <menuitem action="PasteClipboard"/>
       <separator/>
       <menuitem action="DeletePreviousObject"/>
       <separator/>
       <menuitem action="EditObject"/>
-	   <separator/>
+      <separator/>
       <menuitem action="Preferences"/>
       <menu action="KeyBindings">
         <menuitem action="QuickEdits"/>
@@ -134,7 +134,7 @@
 
         <menuitem action="CommandManagement"/>
       </menu>
-        <separator/>
+      <separator/>
       <menuitem action="ClearOverlay"/>
       <menuitem action="ExecuteScheme"/>
     </menu>
@@ -160,16 +160,16 @@
       <menuitem action="InsertMode"/>
       <menuitem action="EditMode"/>
       <menuitem action="ClassicMode"/>
-	<separator/>
+      <separator/>
       <menuitem action="Note"/>
       <menuitem action="Blank"/>
       <menuitem action="Rest"/>
 
-	<separator/>
+      <separator/>
       <menuitem action="ToggleEdit"/>
       <menuitem action="ToggleRest"/>
 
-	<separator/>
+      <separator/>
       <menuitem action="Rhythm"/>
       <menuitem action="RecordScript"/>
     </menu>
@@ -178,10 +178,9 @@
       <menuitem action="KeyboardOnly"/>
       <menuitem action="JackMidi"/>
       <menuitem action="Microphone"/>
-     	<separator/>
-	<menuitem action="SharpenEnharmonicSet"/>
-	<menuitem action="FlattenEnharmonicSet"/>
-
+      <separator/>
+      <menuitem action="SharpenEnharmonicSet"/>
+      <menuitem action="FlattenEnharmonicSet"/>
     </menu> 
 
     <menu action="PlaybackMenu">
@@ -206,31 +205,26 @@
 
   
 
-<menubar name="ObjectMenu">
-     <menu action="Score">
-            <menuitem action="ScoreProperties"/>
-	    <menuitem action="EditScoreDirective"/>
-	    
-     </menu>
-
+  <menubar name="ObjectMenu">
+    <menu action="Score">
+      <menuitem action="ScoreProperties"/>
+      <menuitem action="EditScoreDirective"/>
+    </menu>
 
     <menu action="MovementMenu">
-       <menuitem action="EditMovementDirective"/>
-
+      <menuitem action="EditMovementDirective"/>
       <menu action="InsertMovement">
         <menuitem action="NewMovement"/>
         <menuitem action="InsertMovementBefore"/>
 	<menuitem action="InsertMovementAfter"/>
       </menu>
-	<menuitem action="DeleteMovement"/>
-	<separator/>
-       <menuitem action="PreviousMovement"/>
-       <menuitem action="NextMovement"/>
-
-             <separator/>
-       <menuitem action="AddMovements"/>
-       <menuitem action="SwapMovements"/>
-
+      <menuitem action="DeleteMovement"/>
+      <separator/>
+      <menuitem action="PreviousMovement"/>
+      <menuitem action="NextMovement"/>
+      <separator/>
+      <menuitem action="AddMovements"/>
+      <menuitem action="SwapMovements"/>
     </menu>
 
     <menu action="StaffMenu">
@@ -248,36 +242,33 @@
       <menuitem action="SwapStaffs"/>
       <menuitem action="MoveToStaffUp"/>
       <menuitem action="MoveToStaffDown"/> 
-<separator/>	  
-        <menu action="Voices">
-	  <menuitem action="EditVoiceDirective"/>
-          <menuitem action="MoveToVoiceUp"/>
-	  <menuitem action="MoveToVoiceDown"/> 
-          <menuitem action="SplitVoices"/>
-          <menuitem action="JoinVoices"/>
-
-	 </menu>
-<separator/>
+      <separator/>	  
+      <menu action="Voices">
+	<menuitem action="EditVoiceDirective"/>
+        <menuitem action="MoveToVoiceUp"/>
+	<menuitem action="MoveToVoiceDown"/> 
+        <menuitem action="SplitVoices"/>
+        <menuitem action="JoinVoices"/>
+      </menu>
+      <separator/>
     </menu>
 
     <menu action="ClefMenu">
-        <menuitem action="InitialClef"/>
-        <menuitem action="InsertClef"/>
+      <menuitem action="InitialClef"/>
+      <menuitem action="InsertClef"/>
     </menu>
 
     <menu action="Key">
-        <menuitem action="InitialKey"/>
-        <menuitem action="InsertKey"/>
+      <menuitem action="InitialKey"/>
+      <menuitem action="InsertKey"/>
     </menu>
 
     <menu action="TimeSig">
-        <menuitem action="InitialTimeSig"/>
-        <menuitem action="InsertTimeSig"/>
+      <menuitem action="InitialTimeSig"/>
+      <menuitem action="InsertTimeSig"/>
     </menu>
 
-
     <menu action="MeasureMenu">
-
       <menuitem action="MoveToMeasureLeft"/>
       <menuitem action="MoveToMeasureRight"/>
       <menuitem action="GoToMeasure"/>
@@ -308,35 +299,27 @@
 	<menuitem action="AddG"/>
       </menu>
       <menuitem action="AddNoteToChord"/>
-
       <menuitem action="RemoveNoteFromChord"/>
       <menu action="Directives">
 	<menuitem action="AttachLilyToChord"/>
       </menu>
-      
     </menu>
 
-
-
-
     <menu action="NotesRests">  
- 
-        <menu action="EditNote">
-	  
-	  <menuitem action="A"/>
-	  <menuitem action="B"/>
-	  <menuitem action="C"/>
-	  <menuitem action="D"/>
-	  <menuitem action="E"/>
-	  <menuitem action="F"/>
-	  <menuitem action="G"/>
-          <menuitem action="InsertTiedNote"/>
-	  <menuitem action="OctaveUp"/>
-          <menuitem action="OctaveDown"/>
-	  <menuitem action="Sharpen"/>
-	  <menuitem action="Flatten"/>
-
-        </menu>
+      <menu action="EditNote">
+	<menuitem action="A"/>
+	<menuitem action="B"/>
+	<menuitem action="C"/>
+	<menuitem action="D"/>
+	<menuitem action="E"/>
+	<menuitem action="F"/>
+	<menuitem action="G"/>
+        <menuitem action="InsertTiedNote"/>
+	<menuitem action="OctaveUp"/>
+        <menuitem action="OctaveDown"/>
+	<menuitem action="Sharpen"/>
+	<menuitem action="Flatten"/>
+      </menu>
       <menu action="InsertNote">
 	<menuitem action="PendingSharpen"/>
 	<menuitem action="PendingFlatten"/>
@@ -357,41 +340,32 @@
 	  <menuitem action="Insert6"/>
 	  <menuitem action="Insert7"/>     
         </menu>
-
       </menu>
-
-	<menu action="EditDuration">
-	  
-	  <menuitem action="0"/>
-	  <menuitem action="1"/>
-	  <menuitem action="2"/>
-	  <menuitem action="3"/>
-	  <menuitem action="4"/>
-	  <menuitem action="5"/>
-	  <menuitem action="6"/>
-	  <menuitem action="7"/>
-	  
-	  <menuitem action="AddDot"/>
-	  <menuitem action="RemoveDot"/>
-	  <menuitem action="InsertRhythm"/>	
-	</menu>
-      
-	<menu action="ChangeDuration">
-	  <menuitem action="Change0"/>
-	  <menuitem action="Change1"/>
-	  <menuitem action="Change2"/>
-	  <menuitem action="Change3"/>
-	  <menuitem action="Change4"/>
-	  <menuitem action="Change5"/>
-	  <menuitem action="Change6"/>
-	  <menuitem action="Change7"/>
-       	  <menuitem action="AddDot"/>
-	  <menuitem action="RemoveDot"/>          
-        </menu>
-
-
-
-
+      <menu action="EditDuration">
+	<menuitem action="0"/>
+	<menuitem action="1"/>
+	<menuitem action="2"/>
+	<menuitem action="3"/>
+	<menuitem action="4"/>
+	<menuitem action="5"/>
+	<menuitem action="6"/>
+	<menuitem action="7"/>
+	<menuitem action="AddDot"/>
+	<menuitem action="RemoveDot"/>
+	<menuitem action="InsertRhythm"/>	
+      </menu>
+      <menu action="ChangeDuration">
+	<menuitem action="Change0"/>
+	<menuitem action="Change1"/>
+	<menuitem action="Change2"/>
+	<menuitem action="Change3"/>
+	<menuitem action="Change4"/>
+	<menuitem action="Change5"/>
+	<menuitem action="Change6"/>
+	<menuitem action="Change7"/>
+       	<menuitem action="AddDot"/>
+	<menuitem action="RemoveDot"/>          
+      </menu>
       <menu action="RestEntry">
         <menuitem action="InsertWholeRest"/>
 	<menuitem action="InsertHalfRest"/>
@@ -400,7 +374,6 @@
 	<menuitem action="InsertSixteenthRest"/>
 	<menuitem action="InsertThirtysecondRest"/>
 	<menuitem action="InsertSixtyfourthRest"/>
-	
 	<separator/>
 	<menuitem action="InsertBlankWholeNote"/>
 	<menuitem action="InsertBlankHalfNote"/>
@@ -410,23 +383,18 @@
 	<menuitem action="InsertBlankThirtysecondNote"/>
 	<menuitem action="InsertBlankSixtyfourthNote"/>
 	<menuitem action="InsertBlankOneHundredTwentyEighthNote"/>
-
       </menu>	  	  
-
-
       <menu action="SelectDuration">
-	  <menuitem action="Set0"/>
-	  <menuitem action="Set1"/>
-	  <menuitem action="Set2"/>
-	  <menuitem action="Set3"/>
-	  <menuitem action="Set4"/>
-	  <menuitem action="Set5"/>
-	  <menuitem action="Set6"/>
-	  <menuitem action="Set7"/>
-	  <menuitem action="NextRhythm"/> 	  
+	<menuitem action="Set0"/>
+	<menuitem action="Set1"/>
+	<menuitem action="Set2"/>
+	<menuitem action="Set3"/>
+	<menuitem action="Set4"/>
+	<menuitem action="Set5"/>
+	<menuitem action="Set6"/>
+	<menuitem action="Set7"/>
+	<menuitem action="NextRhythm"/> 	  
       </menu>
-
-
       <menu action="Delete">
 	<menuitem action="Cut"/>
 	<menuitem action="DeleteObject"/>
@@ -445,7 +413,6 @@
       </menu>
       <menu action="StemControl">
 	<menuitem action="InsertStem"/>
- 	
       </menu>
       <menu action="Tuplets">
 	<menuitem action="InsertDuplet"/>
@@ -457,12 +424,9 @@
 	<menuitem action="InsertSextuplet"/>
 	<menuitem action="InsertSeptuplet"/>
       </menu>
-      
-      
       <menu action="GraceNotes">
 	<menuitem action="ToggleGrace"/>
       </menu>
-      
       <menu action="Markings">
 	<menu action="Dynamics">
 	  <menuitem action="ToggleStartCrescendo"/>
@@ -526,31 +490,24 @@
     </menu>
 
     <menu action="Lyrics">
-         <menuitem action="AddVerse"/>
-         <menuitem action="DeleteVerse"/>
-	 <menuitem action="ToggleLyricsView"/>
+      <menuitem action="AddVerse"/>
+      <menuitem action="DeleteVerse"/>
+      <menuitem action="ToggleLyricsView"/>
     </menu>
 
- </menubar>   
-
-
- 
-
+  </menubar>   
 
 
   <toolbar name="ToolBar">
-  	<toolitem action="New"/>
-  	<toolitem action="ConfigureScore"/>
+    <toolitem action="New"/>
     <toolitem action="Open"/>
     <toolitem action="Save"/>
     <separator/>
     <toolitem action="Print"/>
     <toolitem action="PrintPreview"/>
     <separator/>
-
     <toolitem action="Cut"/>
     <toolitem action="Copy"/>
-
     <separator/>
 	 <!--<toolitem action="GoToMeasure"/> -->
     <toolitem action="MoveToBeginning"/>
@@ -570,62 +527,62 @@
  Popup menus for the LilyPond text view
   -->
   <popup name="LilyMenu">
-      <menuitem action="LilyToggleShow"/>
+    <menuitem action="LilyToggleShow"/>
   </popup>
   <popup name="LilyScoreblockMenu">
-      <menuitem action="LilyToggleShow"/>
-      <menuitem action="LilyCreateCustom"/>
+    <menuitem action="LilyToggleShow"/>
+    <menuitem action="LilyCreateCustom"/>
   </popup>
   <popup name="LilyCustomScoreblockMenu">
-      <menuitem action="LilyToggleShow"/>
-      <menuitem action="LilyDelete"/>
+    <menuitem action="LilyToggleShow"/>
+    <menuitem action="LilyDelete"/>
   </popup>
 <!--
  Popup menus for edit object
   -->
 
   <popup name="InitialClefEditPopup">
-     <menuitem action="InitialClef"/>
-     <menuitem action="EditClefDirective"/>
+    <menuitem action="InitialClef"/>
+    <menuitem action="EditClefDirective"/>
   </popup>
   <popup name="InitialKeyEditPopup">
-     <menuitem action="InitialKey"/>
-     <menuitem action="EditKeysigDirective"/>
+    <menuitem action="InitialKey"/>
+    <menuitem action="EditKeysigDirective"/>
   </popup>
   <popup name="InitialTimeEditPopup">
-     <menuitem action="InitialTimeSig"/>
-     <menuitem action="EditTimesigDirective"/>
+    <menuitem action="InitialTimeSig"/>
+    <menuitem action="EditTimesigDirective"/>
   </popup>
   <popup name="ClefEditPopup">
-     <menuitem action="InsertClef"/>
+    <menuitem action="InsertClef"/>
   </popup>
   <popup action="ScorePopup">
-            <menuitem action="ScoreProperties"/>
-	    <menuitem action="EditScoreDirective"/>	    
+    <menuitem action="ScoreProperties"/>
+    <menuitem action="EditScoreDirective"/>	    
   </popup>
 
   <popup action="StaffMenuPopup">
-      <menuitem action="StaffProperties"/>
-      <menuitem action="EditStaffDirective"/>
-      <menuitem action="EditVoiceDirective"/>
+    <menuitem action="StaffProperties"/>
+    <menuitem action="EditStaffDirective"/>
+    <menuitem action="EditVoiceDirective"/>
    </popup>
 
   <popup name="KeyEditPopup">
-     <menuitem action="InsertKey"/>
-     <menuitem action="EditKeysigDirective"/>
+    <menuitem action="InsertKey"/>
+    <menuitem action="EditKeysigDirective"/>
   </popup>
   <popup name="TimeEditPopup">
-     <menuitem action="InsertTimeSig"/>
-     <menuitem action="EditTimesigDirective"/>
+    <menuitem action="InsertTimeSig"/>
+    <menuitem action="EditTimesigDirective"/>
   </popup>
 
   <popup name="NoteEditPopup">
-      <menu action="EditDirectivesMenu">
-        <menuitem action="EditDirective"/>
-        <menuitem action="DeleteDirective"/>
-      </menu>
+    <menu action="EditDirectivesMenu">
+      <menuitem action="EditDirective"/>
+      <menuitem action="DeleteDirective"/>
+    </menu>
 
-      <menu action="ChangeNote">
+    <menu action="ChangeNote">
         <menuitem action="ChangeToA"/>
 	<menuitem action="ChangeToB"/>
 	<menuitem action="ChangeToC"/>
