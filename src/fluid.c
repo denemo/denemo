@@ -504,8 +504,12 @@ static gboolean fluidsynth_play_smf_event(gchar *callback)
   return TRUE;
 }
 
-
-
+//return the midi key of the passed event if note on, else 0
+int noteon_key(smf_event_t *event) {
+if((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1)==NOTE_ON)
+  return event->midi_buffer[1];
+return 0;
+}
 
 void fluid_midi_play(gchar *callback)
 {
@@ -783,5 +787,6 @@ int fluid_kill_timer(void){}
 int fluid_stop_midi_in(void){}
 int fluid_start_midi_in(void){}
 void advance_time(void) {}
+int noteon_key(void) {return 0}
 #endif 
 

@@ -1127,7 +1127,44 @@ static SCM scheme_set_enharmonic_position(SCM position) {
     return SCM_BOOL_F;		      
 }
 
+static SCM scheme_rewind_midi(void) {
+  DenemoGUI *gui = Denemo.gui;
+  if((gui->si->smf==NULL) || (gui->si->smfsync!=gui->si->changecount))
+    generate_midi();
+  smf_rewind(gui->si->smf);
+  return SCM_BOOL_T;
+}
 
+
+static SCM scheme_next_midi_notes(SCM interval) {
+  SCM scm = scm_list_n(SCM_UNDEFINED);
+  DenemoScore *si = Denemo.gui->si;
+  if(scm_is_real(interval)) {
+    double margin = scm_to_double(interval);
+    smf_event_t *event = si->smf?smf_peek_next_event(si->smf):NULL;
+    if(event) {      
+      double start = -1.0;//unset      
+      while((event = smf_peek_next_event(si->smf))) {
+          gint key;
+        if((key = noteon_key(event))) {
+          if(start<0.0)
+            start = event->time_seconds;
+          if( (event->time_seconds-start) < margin) {
+            event = smf_get_next_event(si->smf);
+            scm = scm_cons(scm_int2num(key), scm);
+        } else {
+          break;
+        }
+      } else
+      event = smf_get_next_event(si->smf);
+    }
+
+    }
+    return scm;
+  }
+  return SCM_BOOL_F;
+}
+  
 static SCM scheme_get_midi_on_time(void) {
   if(!(Denemo.gui->si->currentobject))
     return SCM_BOOL_F;
@@ -5038,7 +5075,8 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
   INSTALL_SCM_FUNCTION ("Return name of sharpest degree of current temperament", DENEMO_SCHEME_PREFIX"GetSharpest", scheme_get_sharpest);
    INSTALL_SCM_FUNCTION ("Return name of current temperament", DENEMO_SCHEME_PREFIX"GetTemperament", scheme_get_temperament);
  
-
+  INSTALL_SCM_FUNCTION ("Rewind the MIDI generated for the current movement.", DENEMO_SCHEME_PREFIX"RewindMidi", scheme_rewind_midi);
+  INSTALL_SCM_FUNCTION ("Takes an interval, returns a list of the nexet note-on events that occur within that interval.", DENEMO_SCHEME_PREFIX"NextMidiNotes", scheme_next_midi_notes);
 
 
   INSTALL_SCM_FUNCTION ("Return a number, the midi time in seconds for the start of the object at the cursor; return #f if none ", DENEMO_SCHEME_PREFIX"GetMidiOnTime", scheme_get_midi_on_time);
