@@ -4,7 +4,8 @@
     <menu action="FileMenu">
       <menuitem action="New"/>
       <menuitem action="NewWindow"/>
-    <menu action="OpenMenu">
+      <separator/>
+      <menu action="OpenMenu">
         <menuitem action="Open"/>
         <menuitem action="OpenTemplate"/>
         <menuitem action="OpenExample"/>
@@ -36,6 +37,7 @@
         <menuitem action="ExportPNG"/> 
 	<menuitem action="ExportMIDI"/> 
       </menu>
+      <separator/>
       <menu action="PrintMenu">
         <menuitem action="Print"/>
         <menuitem action="PrintPreview"/>
