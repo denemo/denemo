@@ -8,11 +8,10 @@
         <after>SmallerStaff</after>
         <action>TinyStaff</action>
         <scheme>;;;TinyStaff
-(ToggleDirective "staff" "prefix" "StaffSize" "\\new Staff \\with {
+(ToggleDirective "staff" "prefix" "StaffSize" "\\with {
      		   fontSize = #-7
      		   \\override VerticalAxisGroup #'minimum-Y-extent = #'(0 . 0)
-     		   \\override StaffSymbol #'staff-space = #(magstep -7)\n}
-     		    &lt;&lt; {" DENEMO_OVERRIDE_LILYPOND)</scheme>
+     		   \\override StaffSymbol #'staff-space = #(magstep -7)\n}\n ")</scheme>
         <label>Tiny Staff</label>
         <tooltip>Prints current staff in a tiny font.</tooltip>
       </row>

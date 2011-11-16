@@ -1307,17 +1307,17 @@ assign_text(GtkWidget *w, gchar *text) {
     gtk_text_buffer_set_text(textbuffer, text, -1);
 }
 
-/* create a label. Warning: parameter value must be valid markup
+/* create a label. 
 Use the display string up to the first newline, if it is long enough
-eles use tag
+else use tag
 */
 static void
 set_directive_graphic_label(DenemoDirective *directive) {
   gchar *value;
   if(directive->display && directive->display->len>0)
-    value = g_strdup_printf("%s", directive->display->str);
+    value = g_markup_escape_text(directive->display->str, -1);
   else
-    value = g_strdup(directive->tag->str);
+    value = g_markup_escape_text(directive->tag->str, -1);
   gchar *c;
   for(c=value;*c;c++)
     if(*c=='\n') {
@@ -1403,7 +1403,7 @@ widget_for_directive_menu(DenemoDirective *directive,  void fn(), GtkMenu *menu)
   } else
     if(directive->display) 
       value = directive->display->str;
-
+  value = g_markup_escape_text(value, -1);
   if((directive->widget==NULL) ) {
 
 
@@ -1465,6 +1465,7 @@ widget_for_directive_menu(DenemoDirective *directive,  void fn(), GtkMenu *menu)
       assign_text(texteditor, directive->display->str);
   }
   set_directive_graphic_label(directive);
+  g_free(value);
 }
 void 
 widget_for_directive(DenemoDirective *directive,  void fn()) {

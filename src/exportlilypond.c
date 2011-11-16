@@ -2042,7 +2042,7 @@ void toggle_lily_visible_cb (GtkAction *action, gpointer param) {
       sb->visible = FALSE;
     gtk_text_buffer_apply_tag_by_name (gui->textbuffer,  "invisible", &start, &end);
   }
-  g_print("visible %d\n", sb?sb->visible:-1);
+  //g_print("visible %d\n", sb?sb->visible:-1);
 }
   
 static void  place_cursor_cb(GtkAction *action, DenemoGUI *gui) {
@@ -2443,7 +2443,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
       /* output postfix score if OVERRIDE_AFFIX is set */
       if(g->next==NULL) /* last movement- output score postfix if AFFIX override is set */
 	{gchar *tail = get_overridden_postfix(gui->lilycontrol.directives, TRUE);
-	g_print("The final movement %s\n", tail);
+	//g_print("The final movement %s\n", tail);
 	g_string_append_printf(scoreblock, "%s", tail);
 	g_free(tail);
 	}
