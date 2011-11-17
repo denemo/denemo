@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>AngryDelete</after>
+        <action>ToggleCheckChords</action>
+        <scheme>;;;ToggleCheckChords
+(if (not (defined? 'ToggleCheckChords::Active))
+    (define ToggleCheckChords::Active #f))
+
+(if (not ToggleCheckChords::Active)
+  (let ( (PedalDown #f))
+
+    (define (GetNoteOn)
+      (let* ( (midi (d-GetMidi))
+	  (velocity (bit-extract midi 16 24))
+	  (note (bit-extract midi 8 16))
+	  (command (bit-extract midi 0 8)))
+      (cond ((= command #x90)
+	      note)
+	      ((= command #x80)
+	      (GetNoteOn))
+	      (else #f))))
+    (define (burp)
+    (PlayNote "32" 500 "127")
+      (PlayNote "31" 500 "127"));!!!!!!!!! what if there is no such note on the current chan 0 instrument???
+
+    (d-InputFilterNames "Checking Chords Filter")
+
+    (d-SetBackground #xB0E0B0)
+    (d-RewindMidi)
+    (let nextchord ()
+	    (define Notes (d-NextMidiNotes 0.001))
+	    (if (not (null? Notes))	  
+	      (let nextnote ()
+		(define note (GetNoteOn))
+		(if note
+		  (if (member note Notes)
+		    (begin
+		      (PlayNote (number-&gt;string note) 500 "127")
+		      (set! Notes (delq note Notes))
+		      (if (null? Notes)
+			  (nextchord)
+			  (nextnote)))
+		    (begin
+		      (burp)
+		      (nextnote)
+		      ))))))))
+    
+(d-InputFilterNames "No active MIDI Filter")
+    	   (set! ToggleCheckChords::Active #f)
+    	   (d-PutMidi 0);;; to swallow up the last d-GetMidi??
+    	   (d-SetMidiCapture #f)	
+    	   (d-SetBackground #xFFFFFF)
+	  </scheme>
+        <label>Check Chords (On/Off)</label>
+        <tooltip>Advances through the current movement as you play the notes, stopping for wrong or missing notes in MIDI in.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -5584,6 +5584,14 @@ for second and subsequent systems</tooltip>
         <label>Create Parts (Treble First)</label>
         <tooltip>Creates a set of parts extracting the highest part first.</tooltip>
       </row>
+      <row>
+        <action>ToggleCheckChords</action>
+        <after>AngryDelete</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/InputMenu/MIDI</menupath>
+        <label>Check Chords (On/Off)</label>
+        <tooltip>Advances through the current movement as you play the notes, stopping for wrong or missing notes in MIDI in.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
