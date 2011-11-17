@@ -1487,18 +1487,17 @@ string_dialog_entry_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *direction
                                         NULL);
 
 	label = gtk_label_new (direction);
-  	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), label,
-		                        TRUE, TRUE, 0);
+	GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	gtk_container_add(GTK_CONTAINER(content_area), label);
 
 	if(widget)
-	  	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), widget,
-		                        TRUE, TRUE, 0);
+		gtk_container_add(GTK_CONTAINER(content_area), widget);
+
 	if (PreValue != NULL) {
             gtk_entry_set_text (GTK_ENTRY (entry), (gchar *) PreValue);
         }
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), entry,
-		                        TRUE, TRUE, 0);
-    	
+	gtk_container_add(GTK_CONTAINER(content_area), entry);
+
 	gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
       	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
         gtk_widget_grab_focus (entry);
