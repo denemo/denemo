@@ -139,11 +139,11 @@ set_preferences (struct callbackdata *cbdata)
 
 #define ASSIGNCOMBO(field) \
   g_string_assign (prefs->field,\
-    (gchar *) gtk_entry_get_text (cbdata->field));
+		   (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(cbdata->field)));
 
 #define ASSIGNCOMBO2(field) \
   prefs->field = get_midi_audio_pointer(\
-    (gchar *) gtk_combo_box_text_get_active_text (cbdata->field));
+		   (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(cbdata->field)));
   ASSIGNTEXT(lilypath)
   ASSIGNTEXT(browser) 
   ASSIGNTEXT(pdfviewer)
@@ -380,16 +380,16 @@ preferences_change (GtkAction *action, gpointer param)
 
 #define COMBOBOX(thelable, field, thelist, settext)\
   hbox = gtk_hbox_new (FALSE, 8);\
-  gtk_container_add(VBOX, hbox);\
+  gtk_container_add(GTK_CONTAINER(VBOX), hbox);	\
   label = gtk_label_new (thelable);\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
-  gtk_container_add(hbox, label);\
+  gtk_container_add(GTK_CONTAINER(hbox), label);    \
   hbox = gtk_hbox_new (FALSE, 8);\
-  gtk_container_add(VBOX, hbox);\
+  gtk_container_add(GTK_CONTAINER(VBOX), hbox);	\
   GtkWidget *field = gtk_combo_box_text_new ();\
   for(i=0;i<G_N_ELEMENTS(thelist);i++)\
     gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(field), thelist[i]);\
-  gtk_container_add(hbox, field);\
+  gtk_container_add(GTK_CONTAINER(hbox), field);			\
   gtk_widget_show_all (field);\
   cbdata.field = field;
 

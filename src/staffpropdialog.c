@@ -415,17 +415,17 @@ staff_properties_change (void)
 #define COMBOBOXENTRY(thelabel, field, thelist, setstring) \
   GtkWidget *field;\
   hbox = gtk_hbox_new (FALSE, 8);\
-  gtk_container_add (main_vbox, hbox);\
+  gtk_container_add (GTK_CONTAINER(main_vbox), hbox);	\
   label = gtk_label_new (_(thelabel));\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
-  gtk_container_add (hbox, label);\
+  gtk_container_add (GTK_CONTAINER(hbox), label);   \
   field = gtk_combo_box_text_new ();\
   gint i;\
   for(i=0;i<G_N_ELEMENTS(thelist);i++)\
     gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(field), thelist[i]);\
   //gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (field)->entry),\
 //		  setstring->str);\
-  gtk_container_add (hbox, field);\
+  gtk_container_add (GTK_CONTAINER(hbox), field);	\
   cbdata.field = GTK_COMBO (field)->entry;
 
   /* Display appearance tab */

@@ -385,7 +385,7 @@ if(position_data) {
   FILE *fp = fopen(filename, "r");
   if(fp) {
     gint line, col;
-    fscanf(fp, "%d %d", &line, &col);
+    gint error = fscanf(fp, "%d %d", &line, &col);
     fclose(fp);
     g_print("line %d column %d\n", line, col);
     position_data = FALSE;

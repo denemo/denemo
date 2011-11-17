@@ -2275,7 +2275,7 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
 #endif  
   button = gtk_check_button_new_with_label("Show Current Script");
   gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
-  gtk_activatable_set_related_action(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"), button);
+  gtk_activatable_set_related_action(GTK_ACTIVATABLE(button), gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"));
 
   gtk_widget_show_all (dialog);
   gint response = gtk_dialog_run (GTK_DIALOG (dialog));

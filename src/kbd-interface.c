@@ -126,7 +126,7 @@ capture_look_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
         g_string_append_printf(continuations, "%s%s%s", name, ",", (gchar *) g->data);
         command_idx = lookup_command_for_keybinding_name(Denemo.map, continuations->str);
         const gchar * this = lookup_name_from_idx (Denemo.map, command_idx);
-        g_string_append_printf(final_list, "%s,%s=%s ", name, g->data, this);
+        g_string_append_printf(final_list, "%s,%s=%s ", name, (gchar *) g->data, this);
         g_string_assign(continuations, "");
       }
       if(final_list->len) 
@@ -330,7 +330,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   command_tree_view = gtk_bin_get_child(GTK_BIN(command_view));
   
   dialog = gtk_dialog_new_with_buttons (_("Command Manager"),
-					gtk_widget_get_window (Denemo.window),
+					GTK_WINDOW (Denemo.window),
 					(GtkDialogFlags) (GTK_DIALOG_MODAL |
 							  GTK_DIALOG_DESTROY_WITH_PARENT),
 					GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,

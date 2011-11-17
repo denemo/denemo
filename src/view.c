@@ -650,7 +650,7 @@ void toggle_to_drawing_area(gboolean show) {
   TOG3(Denemo.playback_control, playback_control, "/MainMenu/ViewMenu/"TogglePlaybackControls_STRING);
   TOG3(Denemo.midi_in_control, midi_in_control, "/MainMenu/ViewMenu/"ToggleMidiInControls_STRING);
 
-  gtk_window_resize (gtk_widget_get_window (Denemo.window), win_width, win_height + (current_view?-height:height));
+  gtk_window_resize (GTK_WINDOW (Denemo.window), win_width, win_height + (current_view?-height:height));
 #undef current_view
 }
 
@@ -7419,8 +7419,8 @@ static gboolean menu_click (GtkWidget      *widget,
   gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), gtk_widget_get_visible(gtk_widget_get_toplevel(Denemo.ScriptView)));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   //FIXME the next statement triggers a warning that ToggleScript is not a registered denemo commad - correct, since we do not make the toggles available as commands since using such a command would make the check boxes out of step, instead we install function that activate the menuitem.
-  gtk_activatable_set_related_action(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"), GTK_MENU_ITEM(item));
-
+  gtk_activatable_set_related_action(GTK_ACTIVATABLE(item), gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"));
+  //gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"), item);
 
   gtk_widget_show_all(menu);
   gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
@@ -8781,12 +8781,12 @@ get_data_dir (),
  {
   Denemo.scorearea = gtk_drawing_area_new ();
   GtkWidget *scorearea_topbox = gtk_vbox_new(FALSE, 1);
-  gtk_container_add (GTK_BOX (main_vbox), scorearea_topbox);
+  gtk_container_add (GTK_CONTAINER(main_vbox), scorearea_topbox);
   
   GtkWidget *score_and_scroll_hbox = gtk_hbox_new (FALSE, 1);
-  gtk_container_add (GTK_BOX (scorearea_topbox), score_and_scroll_hbox);
+  gtk_container_add (GTK_CONTAINER (scorearea_topbox), score_and_scroll_hbox);
   gtk_widget_show (score_and_scroll_hbox);
-  gtk_container_add (GTK_BOX (score_and_scroll_hbox), Denemo.scorearea);
+  gtk_container_add (GTK_CONTAINER (score_and_scroll_hbox), Denemo.scorearea);
   gtk_widget_show (Denemo.scorearea);
   g_signal_connect (G_OBJECT (Denemo.scorearea), "expose_event",
 		      G_CALLBACK (scorearea_expose_event), NULL);

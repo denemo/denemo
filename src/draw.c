@@ -77,11 +77,11 @@ void region_playhead(void) {
     for(i=0;i< old_playhead_index; i++)
       {
 	//g_print("*");
-	gdk_window_invalidate_rect (GTK_WINDOW(Denemo.scorearea), old_playhead_damage+i, FALSE); }
+	gdk_window_invalidate_rect (gtk_widget_get_window(Denemo.scorearea), old_playhead_damage+i, FALSE); }
     for(i=0;i< new_playhead_index; i++)
       {
 	//g_print("~");
-	gdk_window_invalidate_rect (GTK_WINDOW(Denemo.scorearea), new_playhead_damage+i, FALSE); }   
+	gdk_window_invalidate_rect (gtk_widget_get_window(Denemo.scorearea), new_playhead_damage+i, FALSE); }   
     if(playhead_flip) {
       old_playhead_index = 0;
     }

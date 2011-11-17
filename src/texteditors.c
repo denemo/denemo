@@ -305,27 +305,27 @@ static GtkWidget * create_editor_window(void) {
   menu = gtk_menu_new();
 
   item = gtk_menu_item_new_with_label("New");
-  gtk_menu_shell_append(GTK_MENU(menu), item);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(clear_scheme_window), (gpointer)TextView);
 
   item = gtk_menu_item_new_with_label("Open");
-  gtk_menu_shell_append(GTK_MENU(menu), item);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(load_scheme_from_file), (gpointer)TextView);
 
   item = gtk_menu_item_new_with_label("Save");
-  gtk_menu_shell_append(GTK_MENU(menu), item);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(save_scheme_text), (gpointer)TextView);
 
   item = gtk_menu_item_new_with_label("Save as...");
-  gtk_menu_shell_append(GTK_MENU(menu), item);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(save_scheme_text_as), (gpointer)TextView);
 
   item = gtk_menu_item_new_with_label("Find");
-  gtk_menu_shell_append(GTK_MENU(menu), item);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   //g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(find_cb), (gpointer)TextView);
 
   item = gtk_menu_item_new_with_label("Replace");
-  gtk_menu_shell_append(GTK_MENU(menu), item);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   //g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(replace_cb), (gpointer)TextView);
 
 
@@ -338,19 +338,19 @@ static GtkWidget * create_editor_window(void) {
 
   menuBar = gtk_menu_bar_new();
 
-  gtk_box_pack_start(GTK_BOX(main_vbox), GTK_WIDGET(menuBar), FALSE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(main_vbox), menuBar);
   gtk_widget_show(menuBar);
-  gtk_menu_shell_append(GTK_MENU_BAR(menuBar), fileMenu);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menuBar), fileMenu);
 
 
   GtkWidget *wid = gtk_check_button_new();
-  gtk_activatable_set_related_action(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ModeMenu/RecordScript"), wid);
-  gtk_box_pack_start (GTK_BOX (main_vbox), wid, FALSE, TRUE, 0);
+  gtk_activatable_set_related_action(GTK_ACTIVATABLE(wid), gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ModeMenu/RecordScript"));
+  gtk_container_add (GTK_CONTAINER (main_vbox), wid);
   GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
 				  GTK_POLICY_AUTOMATIC,
 				  GTK_POLICY_AUTOMATIC);
-  gtk_box_pack_start (GTK_BOX (main_vbox), sw, TRUE, TRUE, 0);
+  gtk_container_add (GTK_CONTAINER (main_vbox), sw);
   gtk_container_add (GTK_CONTAINER (sw), TextView);
   return TextView;
 }

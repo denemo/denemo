@@ -1142,7 +1142,7 @@ GtkWidget *get_enharmonic_frame(void) {
     GtkWidget *button = gtk_button_new_with_label("flatten");
     gtk_box_pack_start (GTK_BOX (hbox), button,
 			FALSE, TRUE, 0);
-    gtk_activatable_set_related_action(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/FlattenEnharmonicSet"), button);
+    gtk_activatable_set_related_action(GTK_ACTIVATABLE(button), gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/FlattenEnharmonicSet"));
     gchar *names = notenames(PR_temperament);
   
     gtk_label_set_markup(GTK_LABEL(label),names);
@@ -1153,7 +1153,7 @@ GtkWidget *get_enharmonic_frame(void) {
     button = gtk_button_new_with_label("sharpen");
     gtk_box_pack_start (GTK_BOX (hbox), button,
 			FALSE, TRUE, 0);
-    gtk_activatable_set_related_action(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/SharpenEnharmonicSet"), button);
+    gtk_activatable_set_related_action(GTK_ACTIVATABLE(button), gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/SharpenEnharmonicSet"));
   }
   GtkWidget *cont = gtk_widget_get_parent(frame);
   if(cont)

@@ -137,8 +137,8 @@ gotobookmark (GtkAction * action, gpointer param)
   
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   GtkWidget *vbox = gtk_vbox_new(FALSE,1);
-  gtk_container_add(content_area, vbox);
-  gtk_container_add(vbox, combobox);
+  gtk_container_add(GTK_CONTAINER(content_area), vbox);
+  gtk_container_add(GTK_CONTAINER(vbox), combobox);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
   gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all (dialog);

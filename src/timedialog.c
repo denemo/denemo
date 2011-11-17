@@ -238,7 +238,7 @@ timesig_change (DenemoGUI * gui, actiontype action)
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
   gtk_container_set_border_width (GTK_CONTAINER(content_area), 12);
-  GtkDialog *vbox = gtk_vbox_new(FALSE,1);
+  GtkWidget *vbox = gtk_vbox_new(FALSE,1);
   gtk_container_add (GTK_CONTAINER (content_area), vbox);
   label = gtk_label_new (_("Enter desired time signature:"));
   gtk_container_add (GTK_CONTAINER (vbox), label);

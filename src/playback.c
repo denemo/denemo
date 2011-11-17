@@ -34,7 +34,7 @@
 static gint timeout_id = 0, kill_id=0;
 static gdouble duration = 0.0;
 
-gchar *
+const gchar *
 get_midi_audio_pointer(gchar *audio_device)
 {
   if (!strcmp(audio_device, Fluidsynth))

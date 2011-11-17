@@ -66,15 +66,10 @@ papersetup(GtkWidget *notebook, DenemoGUI *gui, gboolean isnotebook)
   gint i;
 
   papersetupcb *setup = (papersetupcb *) g_malloc0(sizeof(papersetupcb));
-  GtkWidget *table = gtk_table_new(3, 4 , FALSE);
-  gtk_container_set_border_width (GTK_CONTAINER (table), 12);
-  gtk_table_set_row_spacings (GTK_TABLE (table), 8);
-  gtk_table_set_col_spacings (GTK_TABLE (table), 8);
+  GtkWidget *vbox = gtk_vbox_new(FALSE,1);
 
   GtkWidget *label = gtk_label_new(_("Paper Size"));
-  gtk_table_attach(GTK_TABLE(table), label, 0, 1,0 ,1,
-                   (GtkAttachOptions) (GTK_FILL),
-                   (GtkAttachOptions) (0), 0, 0);
+  gtk_container_add(GTK_CONTAINER(vbox), label);  
   GtkWidget *papersize = gtk_combo_box_text_new();
   for(i=0; i < 6; i++)
     {
@@ -83,15 +78,9 @@ papersetup(GtkWidget *notebook, DenemoGUI *gui, gboolean isnotebook)
 
   //gtk_entry_set_text(GTK_ENTRY(GTK_BIN(papersize)->child), 
 //		    gui->lilycontrol.papersize->len? gui->lilycontrol.papersize->str:"");
-  gtk_table_attach(GTK_TABLE(table), papersize,1,2,0,1,
-                   (GtkAttachOptions) (GTK_FILL),
-                   (GtkAttachOptions) (0), 0, 0);
-
-
+  gtk_container_add(GTK_CONTAINER(vbox), papersize);  
   label = gtk_label_new(_("Font Size"));
-  gtk_table_attach(GTK_TABLE(table), label, 0,1,1,2,
-                   (GtkAttachOptions) (GTK_FILL),
-                   (GtkAttachOptions) (0), 0, 0);
+  gtk_container_add(GTK_CONTAINER(vbox), label);  
   GtkWidget *fontsize = gtk_combo_box_text_new();
   for(i=0; i < 8; i++)
     {
@@ -101,57 +90,28 @@ papersetup(GtkWidget *notebook, DenemoGUI *gui, gboolean isnotebook)
   //tmp = g_strdup_printf( "%d", gui->lilycontrol.fontsize);
   //gtk_entry_set_text (GTK_ENTRY (GTK_BIN(fontsize)->child),  gui->lilycontrol.staffsize->len?gui->lilycontrol.staffsize->str:"");
   //g_free(tmp);
-  gtk_table_attach(GTK_TABLE(table), fontsize, 1,2,1,2,
-                   (GtkAttachOptions) (GTK_FILL),
-                   (GtkAttachOptions) (0), 0, 0);
-
-
+  gtk_container_add(GTK_CONTAINER(vbox), fontsize);
   label = gtk_label_new(_("Lilypond Version"));
-  gtk_table_attach(GTK_TABLE(table), label, 0,1,2,3,
-                   (GtkAttachOptions) (GTK_FILL),
-                   (GtkAttachOptions) (0), 0, 0);
-
+  gtk_container_add(GTK_CONTAINER(vbox), label);
   GtkWidget *lilyversion = gtk_entry_new();
-  gtk_table_attach(GTK_TABLE(table), lilyversion, 1,2,2,3,
-                   (GtkAttachOptions) (GTK_FILL),
-                   (GtkAttachOptions) (0), 0, 0);
+  gtk_container_add(GTK_CONTAINER(vbox), lilyversion);  
   gtk_entry_set_text(GTK_ENTRY(lilyversion), gui->lilycontrol.lilyversion->len?
 		     gui->lilycontrol.lilyversion->str:"");
 
-
-
-
-
-
-  GtkWidget *vbox = gtk_vbox_new(FALSE,0);
   GtkWidget *portraitradio = 
     gtk_radio_button_new_with_label(NULL, _("Portrait"));
-  gtk_box_pack_start(GTK_BOX(vbox), portraitradio, TRUE, TRUE,0);
+  gtk_container_add(GTK_CONTAINER(vbox), portraitradio);
   
   GtkWidget *landscaperadio = 
     gtk_radio_button_new_with_label
     (gtk_radio_button_get_group (GTK_RADIO_BUTTON (portraitradio)),_("Landscape"));
-  gtk_box_pack_start(GTK_BOX(vbox), landscaperadio, TRUE, TRUE,0);
+  gtk_container_add(GTK_CONTAINER(vbox), landscaperadio);
 
   if(gui->lilycontrol.orientation)
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(portraitradio), TRUE);
   else
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(landscaperadio), TRUE);
-  gtk_table_attach(GTK_TABLE(table), vbox, 2,3,0,1,
-                   (GtkAttachOptions) (GTK_FILL),
-                   (GtkAttachOptions) (0), 0, 0);
-
-  if(isnotebook)
-    {
-      gtk_notebook_append_page (GTK_NOTEBOOK (notebook), table, NULL);
-      gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), table,
-                                       _("Paper Setup"));
-    }
-  else
-    {
-      gtk_box_pack_start(GTK_NOTEBOOK(notebook), table, TRUE, TRUE,0);
-    }
-
+  
   setup->papersize = papersize;
   setup->fontsize = fontsize;
   setup->portrait = portraitradio;

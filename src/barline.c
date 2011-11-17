@@ -138,7 +138,7 @@ add_barline (GtkWidget * widget, gpointer data)
   gchar *thetext =
     (gchar *)
     //gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->combo)->entry));
-    gtk_combo_box_text_get_active_text (GTK_COMBO_BOX (cbdata->combo));
+    gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->combo));
   object_insert (cbdata->gui, newbarline (barlinefromname (thetext)));
 
 }
