@@ -1355,6 +1355,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 	 * 	that seems relevant to us
 	 *******************************************/
 	      int tmpstaccato = 0, tmpstaccatissimo = 0;
+	      gboolean skip_midi = FALSE;
 	      GList *tmp;
 
 	      switch (curobj->type)
@@ -1386,7 +1387,10 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			  switch(midi_override) 
 			    {
 			    case DENEMO_OVERRIDE_VOLUME:
+			      if(midi_val)
 				change_volume(&cur_volume, midi_val, midi_interpretation, midi_action);
+				else
+				  skip_midi = TRUE;
 			      break;
 			    case DENEMO_OVERRIDE_TRANSPOSITION:
 				cur_transposition = midi_val;
@@ -1406,9 +1410,10 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			      //etc			      
 			    default:
 			      if(!(midi_override&DENEMO_OVERRIDE_HIDDEN))
-			      if(buffer) 
+			      if(buffer) {
 				if(NULL==put_event(buffer, numbytes, &curobj->midi_events, track))
 				  g_warning("Invalid midi bytes in chord directive\n");
+			      } 
 			      break;
 			    }
 			}//for each directive attached to the chord
@@ -1528,33 +1533,39 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		      for (curtone = chordval.notes; curtone;
 			   curtone = curtone->next)
 			{
-			  if (chordval.has_dynamic){
+			  note *thenote = (note *)curtone->data;
+			  GList *g;
+			  
+#ifdef NOTE_MIDI_OVERRIDES_IMPLEMENTED
+			  for(g = thenote->directives; g ; g=g->next) {
+			    DenemoDirective *directive = g->data;
+			    gint midi_override = directive_get_midi_override(directive);
+			    if(midi_override)
+			      skip_midi = TRUE;//TODO if it *is* overriden take action e.g. increase volume etc. For now we just drop it
+			  }
+#endif
+			  if(!skip_midi) {
+			    if (chordval.has_dynamic){
 			      g_debug("\nThis chord has a dynamic marking attatched\n");
 			      GList *dynamic = g_list_first(chordval.dynamics);	
 			      cur_volume =
 		              string_to_vol (((GString *) dynamic->data)->str,
 				   cur_volume);
-			  }
-
-			  mid_c_offset =
-			    ((note *) curtone->data)->mid_c_offset;
-			  enshift = ((note *) curtone->data)->enshift;
-			  //printf("mid_c_offset = %i\n",mid_c_offset);
-			  //printf("enshift = %i\n",enshift);
-			  notenumber =
-			    dia_to_midinote (mid_c_offset) + enshift;
-			  //printf ("transposition = %i\n",
-			  //	  curstaffstruct->transposition);
-			  notenumber += cur_transposition;
-			  //printf ("notenumber = %i\n", notenumber);
-			  if(notenumber>127) {
-			    g_warning("Note out of range\n", notenumber = 60);
-			  }
-			  slur_note (note_status,
+			    }
+			    mid_c_offset = thenote->mid_c_offset;
+			    enshift = thenote->enshift;			  
+			    notenumber = dia_to_midinote (mid_c_offset) + enshift;			  
+			    notenumber += cur_transposition;
+			  
+			    if(notenumber>127) {
+			      g_warning("Note out of range\n", notenumber = 60);
+			    }
+			    slur_note (note_status,
 				     slur_status,
 				     notenumber,
 				     tmpstaccato,
 				     tmpstaccatissimo, chordval.is_tied);
+			  }
 			  
 			}
 		      /* End chord read loop */
