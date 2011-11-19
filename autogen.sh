@@ -15,7 +15,7 @@ fi
 if  [ $KERNEL = 'Darwin' ]
 then
 
-aclocal $ACLOCAL_FLAGS -I m4 -I /usr/share/aclocal -I /opt/local/share/aclocal && \
+aclocal $ACLOCAL_FLAGS -I m4 -I /usr/share/aclocal && \
 autoheader && \
 glibtoolize  --force && \
 automake --add-missing --gnu && \
