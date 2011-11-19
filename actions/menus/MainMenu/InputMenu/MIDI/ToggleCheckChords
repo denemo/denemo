@@ -24,16 +24,38 @@
 	      ((= command #x80)
 	      (GetNoteOn))
 	      (else #f))))
+    
     (define (burp)
     (PlayNote "32" 500 "127")
       (PlayNote "31" 500 "127"));!!!!!!!!! what if there is no such note on the current chan 0 instrument???
+    
+    (define (move-cursor thetime)
+      (define current (d-GetMidiOnTime))
+      (if current
+	(if (&lt; current thetime)
+	  (if (d-NextNote)
+	      (move-cursor thetime)))
+	(if (d-NextNote)
+	    (move-cursor thetime))))
+	    
+    (define start (d-GetMidiOnTime))
 
+;;;;;;;; start of the code
+    (set! ToggleCheckChords::Active #t)
+    (if start
+      (set! start (- (d-GetMidiOnTime) 0.0001))
+      (set! start 0.0));;;FIXME warn or seek next note
     (d-InputFilterNames "Checking Chords Filter")
 
     (d-SetBackground #xB0E0B0)
-    (d-RewindMidi)
+    (d-RewindMidi start)
     (let nextchord ()
 	    (define Notes (d-NextMidiNotes 0.001))
+	    (define thetime #f)
+	    (set! thetime (cdr Notes))
+	    (set! Notes (car Notes))
+	    (move-cursor thetime)
+	    (d-RefreshDisplay)
 	    (if (not (null? Notes))	  
 	      (let nextnote ()
 		(define note (GetNoteOn))
@@ -46,16 +68,16 @@
 			  (nextchord)
 			  (nextnote)))
 		    (begin
+		    (disp "Note played was " note " Notes awaited are " Notes "\n")
 		      (burp)
 		      (nextnote)
 		      ))))))))
     
 (d-InputFilterNames "No active MIDI Filter")
-    	   (set! ToggleCheckChords::Active #f)
-    	   (d-PutMidi 0);;; to swallow up the last d-GetMidi??
-    	   (d-SetMidiCapture #f)	
-    	   (d-SetBackground #xFFFFFF)
-	  </scheme>
+(set! ToggleCheckChords::Active #f)
+(d-PutMidi 0);;; to swallow up the last d-GetMidi??
+(d-SetMidiCapture #f)	
+(d-SetBackground #xFFFFFF)</scheme>
         <label>Check Chords (On/Off)</label>
         <tooltip>Advances through the current movement as you play the notes, stopping for wrong or missing notes in MIDI in.</tooltip>
       </row>
