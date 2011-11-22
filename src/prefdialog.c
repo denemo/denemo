@@ -248,6 +248,15 @@ midi_audio_tab_update(GtkWidget *box, gpointer data)
 
 }
 
+static gint
+find_element_position(gchar **haystack, gchar *needle)
+{
+  gint i;
+  for(i=0;i<G_N_ELEMENTS(haystack);i++)
+    if (g_strcmp0(haystack[i], needle) == 0)
+      return i;
+}
+
 void
 preferences_change (GtkAction *action, gpointer param)
 {
@@ -365,6 +374,7 @@ preferences_change (GtkAction *action, gpointer param)
   NEWPAGE("View");
   BOOLEANENTRY("Highlight the cursor", cursor_highlight); 
   //Doesnt GList need to be freed
+#if 0
   GList *output_option_list = NULL;
   output_option_list = g_list_append (output_option_list, (gpointer) None);
 #ifdef _HAVE_PORTAUDIO_
@@ -375,7 +385,20 @@ preferences_change (GtkAction *action, gpointer param)
 #endif 
 #ifdef _HAVE_FLUIDSYNTH_
   output_option_list = g_list_append (output_option_list, (gpointer) Fluidsynth);
+#endif
+#endif
+ 
+  gchar *output_option_list[] = { (gpointer) None
+#ifdef _HAVE_PORTAUDIO_
+  ,(gpointer) Portaudio
+#endif
+#ifdef _HAVE_JACK_
+  ,(gpointer) Jack
 #endif 
+#ifdef _HAVE_FLUIDSYNTH_
+  ,(gpointer) Fluidsynth
+#endif
+  };
 
 
 #define COMBOBOX(thelable, field, thelist, settext)\
@@ -384,12 +407,12 @@ preferences_change (GtkAction *action, gpointer param)
   label = gtk_label_new (thelable);\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
   gtk_container_add(GTK_CONTAINER(hbox), label);    \
-  hbox = gtk_hbox_new (FALSE, 8);\
-  gtk_container_add(GTK_CONTAINER(VBOX), hbox);	\
   GtkWidget *field = gtk_combo_box_text_new ();\
   for(i=0;i<G_N_ELEMENTS(thelist);i++)\
     gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(field), thelist[i]);\
-  gtk_container_add(GTK_CONTAINER(hbox), field);			\
+  gtk_container_add(GTK_CONTAINER(hbox), field);\
+  gtk_combo_box_set_active(GTK_COMBO_BOX_TEXT (field),\
+         find_element_position(thelist, settext));\
   gtk_widget_show_all (field);\
   cbdata.field = field;
 
@@ -502,9 +525,9 @@ preferences_change (GtkAction *action, gpointer param)
     
   BOOLEANENTRY("Auto-start midi in", startmidiin);
   INTENTRY_LIMITS(_("% MIDI-in Dynamic Compression"), dynamic_compression, 1, 100);
-  //COMBOBOX("Midi/Audio output", midi_audio_output, output_option_list, Denemo.prefs.midi_audio_output)
+  COMBOBOX("Midi/Audio output", midi_audio_output, output_option_list, Denemo.prefs.midi_audio_output)
   //g_signal_connect(G_OBJECT(GTK_COMBO_BOX_TEXT(midi_audio_output)), "changed",
-  //G_CALLBACK( GTK_SIGNAL_FUNC(midi_audio_tab_update) ), &audio_cbdata);
+  //G_CALLBACK( G_CALLBACK(midi_audio_tab_update) ), &audio_cbdata);
  
   /*
    * Fluidsynth Menu

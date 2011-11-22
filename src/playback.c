@@ -37,6 +37,8 @@ static gdouble duration = 0.0;
 const gchar *
 get_midi_audio_pointer(gchar *audio_device)
 {
+  if (!audio_device)
+    return None;
   if (!strcmp(audio_device, Fluidsynth))
     return Fluidsynth;
   else if (!strcmp(audio_device, Jack))
