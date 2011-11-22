@@ -1032,6 +1032,29 @@ process_printpreview_errors(void){
   g_free(bytes);
 }
 
+static void
+libevince_print(void) {
+	GError *err = NULL;
+  GFile       *file;
+  gchar *filename = g_strconcat((gchar *) get_printfile_pathbasename(), ".pdf", NULL);
+  gchar *uri = g_filename_to_uri(filename, NULL, &err);
+
+  if(err) {
+    g_warning ("Malformed filename %s\n", filename);
+    return;
+  }
+
+  EvDocument *doc = ev_document_factory_get_document (uri, &err);
+  if(err) {
+    g_warning ("Trying to read the pdf file %s gave an error: %s", uri, err->message);
+    if(err)
+			g_error_free (err);
+    err = NULL;
+  } else {
+    EvPrintOperation *printop = ev_print_operation_new (doc);      
+    ev_print_operation_run (printop, NULL);
+  }
+}
 
 
 static void
@@ -1055,9 +1078,7 @@ printview_finished(GPid pid, gint status, gboolean print) {
     EvDocumentModel  *model = ev_document_model_new_with_document(doc);
     ev_view_set_model((EvView*)Denemo.printarea, model);
     if(print) {
-      EvPrintOperation *printop = ev_print_operation_new (doc);
-      GtkPrintSettings *settings = ev_print_operation_get_print_settings     (printop);
-      ev_print_operation_run (printop, NULL);
+     libevince_print();
     }
   }
 
@@ -1122,7 +1143,7 @@ void print_from_print_view() {
   }
   else {
     normal_cursor();
-    printview_finished (printpid, 0, TRUE);
+    libevince_print();//printview_finished (printpid, 0, TRUE);
   }
 }
 
@@ -1584,8 +1605,9 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
   GtkWidget *score_and_scroll_hbox = gtk_scrolled_window_new (printhadjustment, printvadjustment);
   gtk_box_pack_start (GTK_BOX (main_vbox), score_and_scroll_hbox, TRUE, TRUE,
 		      0);
-
+ 
   ev_init();
+  
   Denemo.printarea = (GtkWidget*)ev_view_new();
   gtk_container_add (GTK_CONTAINER(score_and_scroll_hbox), Denemo.printarea);
 
@@ -1593,7 +1615,8 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
  g_signal_connect (G_OBJECT (Denemo.printarea), "external-link",
 		      G_CALLBACK (goto_position), NULL);
  g_signal_connect (G_OBJECT (Denemo.printarea), "focus_in_event",
-		      G_CALLBACK (printarea_focus_in_event), NULL);  g_signal_connect (G_OBJECT (Denemo.printarea), "button_press_event",
+		      G_CALLBACK (printarea_focus_in_event), NULL);
+ g_signal_connect (G_OBJECT (Denemo.printarea), "button_press_event",
 		      G_CALLBACK (printarea_button_press), NULL);
 
   gtk_widget_show_all(main_vbox);
