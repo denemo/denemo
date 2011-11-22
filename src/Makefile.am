@@ -1,4 +1,4 @@
-bin_PROGRAMS = denemo denemoclient
+bin_PROGRAMS = denemo
 dist_pkgdata_DATA = denemoui.xml instruments.xml
 denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	chordops.c clefdialog.c commandfuncs.c contexts.c draw.c \
@@ -68,7 +68,6 @@ pathconfig.h:  $(top_builddir)/config.status
 	@echo '#define DENEMO_BIN_PATH  "@denemo_bin_path@"' >>pathconfig.tmp
 	@mv pathconfig.tmp $@	
 
-denemoclient_SOURCES = denemo_client.c
 
 
 noinst_HEADERS = parseinstruments.h keyboard.h
