@@ -388,29 +388,33 @@ preferences_change (GtkAction *action, gpointer param)
 #endif
 #endif
  
-  gchar *output_option_list[] = { (gpointer) None
+  gchar *output_option_list[4] = {"None", 
 #ifdef _HAVE_PORTAUDIO_
-  ,(gpointer) Portaudio
+  "Portaudio",
+#else
+  NULL,
 #endif
 #ifdef _HAVE_JACK_
-  ,(gpointer) Jack
+  "Jack",
+#else
+  NULL,
 #endif 
 #ifdef _HAVE_FLUIDSYNTH_
-  ,(gpointer) Fluidsynth
+  "Fluidsynth"
+#else
+  NULL
 #endif
-  };
+};
 
 
 #define COMBOBOX(thelable, field, thelist, settext)\
-  hbox = gtk_hbox_new (FALSE, 8);\
-  gtk_container_add(GTK_CONTAINER(VBOX), hbox);	\
   label = gtk_label_new (thelable);\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
-  gtk_container_add(GTK_CONTAINER(hbox), label);    \
+  gtk_container_add(GTK_CONTAINER(VBOX), label);    \
   GtkWidget *field = gtk_combo_box_text_new ();\
   for(i=0;i<G_N_ELEMENTS(thelist);i++)\
-    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(field), thelist[i]);\
-  gtk_container_add(GTK_CONTAINER(hbox), field);\
+    if (thelist[i]) gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(field), thelist[i]);\
+  gtk_container_add(GTK_CONTAINER(VBOX), field);\
   gtk_combo_box_set_active(GTK_COMBO_BOX_TEXT (field),\
          find_element_position(thelist, settext));\
   gtk_widget_show_all (field);\
