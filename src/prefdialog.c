@@ -221,7 +221,7 @@ static void
 midi_audio_tab_update(GtkWidget *box, gpointer data)
 {
   struct audio_callback_data *cbdata = (struct audio_callback_data *) data;
-  gchar *output = get_midi_audio_pointer((gchar *)gtk_entry_get_text (GTK_ENTRY (box))); 
+  gchar *output = get_midi_audio_pointer((gchar *)gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(box))); 
   if (output == Fluidsynth){
     gtk_widget_hide(cbdata->pas);
     if(cbdata->DM)
@@ -530,8 +530,8 @@ preferences_change (GtkAction *action, gpointer param)
   BOOLEANENTRY("Auto-start midi in", startmidiin);
   INTENTRY_LIMITS(_("% MIDI-in Dynamic Compression"), dynamic_compression, 1, 100);
   COMBOBOX("Midi/Audio output", midi_audio_output, output_option_list, Denemo.prefs.midi_audio_output)
-  //g_signal_connect(G_OBJECT(GTK_COMBO_BOX_TEXT(midi_audio_output)), "changed",
-  //G_CALLBACK( G_CALLBACK(midi_audio_tab_update) ), &audio_cbdata);
+  g_signal_connect(G_OBJECT(GTK_COMBO_BOX_TEXT(midi_audio_output)), "changed",
+  G_CALLBACK( G_CALLBACK(midi_audio_tab_update) ), &audio_cbdata);
  
   /*
    * Fluidsynth Menu
