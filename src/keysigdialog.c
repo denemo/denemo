@@ -58,7 +58,12 @@ gint
 findmode (GtkWidget *modenamecombo)
 {
   gint ret = -1;
+#if GTK_CHECK_VERSION(2,24,0)
   gchar *mode = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (modenamecombo));
+#else
+  gchar *mode =
+    (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (modenamecombo)->entry));
+#endif
   ret = find_element_position(modes, mode);
   return ret - 1;
 }
@@ -72,8 +77,12 @@ findmode (GtkWidget *modenamecombo)
 gint
 findkey (GtkWidget * combobox, gint type)
 {
+#if GTK_CHECK_VERSION(2,24,0)
   gchar *tokeystring = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (combobox));
-
+#else
+   gchar *tokeystring =
+    (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (combobox)->entry));
+#endif
   gint ret;
   if (type == 2)
     ret = find_element_position(modes, tokeystring);
@@ -346,12 +355,13 @@ keysig_widget_new(keysig_data *keysig_widgets)
   GtkWidget *label;
   GtkWidget *radiobutton1, *radiobutton2, *radiobutton3;
   GtkWidget *checkbutton;
+  DenemoScore *si = Denemo.gui->si;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
+
+#if GTK_CHECK_VERSION(2,24,0)
   GtkWidget *majorkeycombo = gtk_combo_box_text_new ();
   GtkWidget *minorkeycombo = gtk_combo_box_text_new ();
   GtkWidget *modenamecombo = gtk_combo_box_text_new ();
-  gint i;
-  DenemoScore *si = Denemo.gui->si;
-  DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
 
   for(i=0;i<G_N_ELEMENTS(majorkeys);i++)
     gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(majorkeycombo), majorkeys[i]);
@@ -359,6 +369,27 @@ keysig_widget_new(keysig_data *keysig_widgets)
     gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(minorkeycombo), minorkeys[i]);
   for(i=0;i<G_N_ELEMENTS(modes);i++)
     gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(modenamecombo), modes[i]);
+
+#else 
+  GtkWidget *majorkeycombo = gtk_combo_new ();
+  GtkWidget *minorkeycombo = gtk_combo_new ();
+  GtkWidget *modenamecombo = gtk_combo_new ();
+  static GList *majorlist = NULL;
+  static GList *minorlist = NULL;
+  static GList *modelist = NULL;
+  
+  gint i;
+  for(i=0;i<G_N_ELEMENTS(majorkeys);i++)
+    majorlist = g_list_append(majorlist, majorkeys[i]);
+  for(i=0;i<G_N_ELEMENTS(minorkeys);i++)
+    minorlist = g_list_append(minorlist, minorkeys[i]);
+  for(i=0;i<G_N_ELEMENTS(modes);i++)
+    modelist = g_list_append(modelist, modes[i]);
+ 
+  gtk_combo_set_popdown_strings (GTK_COMBO (majorkeycombo), majorlist);
+  gtk_combo_set_popdown_strings (GTK_COMBO (minorkeycombo), majorlist);
+  gtk_combo_set_popdown_strings (GTK_COMBO (modenamecombo), majorlist);
+#endif
 
   GtkWidget *pack_to_vbox = gtk_vbox_new(FALSE,1);
   label = gtk_label_new (_("Select desired key signature"));

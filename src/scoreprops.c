@@ -70,22 +70,30 @@ papersetup(GtkWidget *notebook, DenemoGUI *gui, gboolean isnotebook)
 
   GtkWidget *label = gtk_label_new(_("Paper Size"));
   gtk_container_add(GTK_CONTAINER(vbox), label);  
+#if GTK_CHECK_VERSION(2,24,0)
   GtkWidget *papersize = gtk_combo_box_text_new();
-  for(i=0; i < 6; i++)
-    {
+  for(i=0; i < G_N_ELEMENTS(papersizes); i++)
       gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(papersize), papersizes[i]);
-    }
+#else
+  GtkWidget *papersize = gtk_combo_new();
+  for(i=0; i < G_N_ELEMENTS(papersizes); i++)
+      gtk_combo_set_popdown_strings(GTK_COMBO(papersize), papersizes[i]);
+#endif
 
   //gtk_entry_set_text(GTK_ENTRY(GTK_BIN(papersize)->child), 
 //		    gui->lilycontrol.papersize->len? gui->lilycontrol.papersize->str:"");
   gtk_container_add(GTK_CONTAINER(vbox), papersize);  
   label = gtk_label_new(_("Font Size"));
   gtk_container_add(GTK_CONTAINER(vbox), label);  
+#if GTK_CHECK_VERSION(2,24,0)
   GtkWidget *fontsize = gtk_combo_box_text_new();
-  for(i=0; i < 8; i++)
-    {
+  for(i=0; i < G_N_ELEMENTS(fontsizes); i++)
       gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(fontsize), fontsizes[i]);
-    }
+#else
+  GtkWidget *fontsize = gtk_combo_new();
+  for(i=0; i < G_N_ELEMENTS(fontsizes); i++)
+      gtk_combo_set_popdown_strings(GTK_COMBO(fontsize), fontsizes[i]);
+#endif
   gchar *tmp;
   //tmp = g_strdup_printf( "%d", gui->lilycontrol.fontsize);
   //gtk_entry_set_text (GTK_ENTRY (GTK_BIN(fontsize)->child),  gui->lilycontrol.staffsize->len?gui->lilycontrol.staffsize->str:"");
@@ -128,17 +136,24 @@ papersetup(GtkWidget *notebook, DenemoGUI *gui, gboolean isnotebook)
 static void 
 setpaperconfig(papersetupcb *cbdata, DenemoGUI *gui)
 {
+#if GTK_CHECK_VERSION(2,24,0)
   g_string_assign(gui->lilycontrol.papersize, 
 		  (gchar *) 
 		    gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->papersize)));
-  
+  g_string_assign(gui->lilycontrol.staffsize,
+    (gchar *) 
+      gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->fontsize)));
+#else
+  g_string_assign(gui->lilycontrol.papersize,
+		  (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->papersize))));
+
+  g_string_assign(gui->lilycontrol.staffsize,
+		  (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->fontsize))));
+#endif 
   g_string_assign(gui->lilycontrol.lilyversion, 
 		  (gchar *)gtk_entry_get_text 
 		  (GTK_ENTRY (cbdata->lilyversion)));
 
-  g_string_assign(gui->lilycontrol.staffsize,
-    (gchar *) 
-      gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->fontsize)));
 
   if(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(cbdata->portrait)))
     {

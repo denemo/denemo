@@ -301,7 +301,7 @@ screenshot_get_pixbuf (GdkWindow    *window,
       height = rectangle->height;
       if(width>0 && height>0)
         screenshot = 
-#ifdef _USE_GTK3_
+#if GTK_CHECK_VERSION(3,0,0)
    gdk_pixbuf_get_from_window
 	(root, x_orig, y_orig, width, height);
 #else

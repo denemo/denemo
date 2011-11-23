@@ -56,6 +56,7 @@ insert_dynamic (GtkAction *action, gpointer param)
   GtkWidget *combo;
   GtkWidget *label;
   GtkWidget *content;
+  GList *directivelist = NULL;
   gint i;
 
   dialog = gtk_dialog_new_with_buttons (_("Insert Dynamic"), NULL,
@@ -70,13 +71,23 @@ insert_dynamic (GtkAction *action, gpointer param)
   content = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   label = gtk_label_new (_("Insert Dynamic"));
   gtk_container_add (GTK_CONTAINER (content), label);
-
+#if GTK_CHECK_VERSION(2,24,0)
   combo = gtk_combo_box_text_new ();
   for(i=0;i<G_N_ELEMENTS(directives);i++)
     gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(combo), directives[i]);
 
   gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
-  
+#else
+  combo = gtk_combo_new ();
+  if (!directivelist)
+    for (i = 0; i < 15; i++)
+      {
+	directivelist = g_list_append (directivelist, directives[i]);
+      }
+
+  gtk_combo_set_popdown_strings (GTK_COMBO (combo), directivelist);
+  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (combo)->entry), directives[0]);
+#endif
   gtk_container_add (GTK_CONTAINER (content), combo);
   gtk_widget_show_all (dialog);
 

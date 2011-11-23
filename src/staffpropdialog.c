@@ -411,8 +411,8 @@ staff_properties_change (void)
 		                                    staffstruct->field);\
     gtk_box_pack_start (GTK_BOX (main_vbox), field, FALSE, TRUE, 0);\
     cbdata.field = field;
-
-#define COMBOBOXENTRY(thelabel, field, thelist, setstring) \
+#if GTK_CHECK_VERSION(2,24,0)
+ #define COMBOBOXENTRY(thelabel, field, thelist, setstring) \
   GtkWidget *field;\
   hbox = gtk_hbox_new (FALSE, 8);\
   gtk_container_add (GTK_CONTAINER(main_vbox), hbox);	\
@@ -427,7 +427,21 @@ staff_properties_change (void)
 //		  setstring->str);\
   gtk_container_add (GTK_CONTAINER(hbox), field);	\
   cbdata.field = GTK_COMBO (field)->entry;
-
+#else
+ #define COMBOBOXENTRY(thelabel, field, thelist, setstring) \
+  GtkWidget *field;\
+  hbox = gtk_hbox_new (FALSE, 8);\
+  gtk_container_add (GTK_CONTAINER(main_vbox), hbox);	\
+  label = gtk_label_new (_(thelabel));\
+  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
+  gtk_container_add (GTK_CONTAINER(hbox), label);\
+  field = gtk_combo_new ();\
+  gint i;\
+  for(i=0;i<G_N_ELEMENTS(thelist);i++)\
+    gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (field)->entry), setstring->str);\
+  gtk_container_add (GTK_CONTAINER(hbox), field);	\
+  cbdata.field = GTK_COMBO (field)->entry;
+#endif
   /* Display appearance tab */
   NEWPAGE("Display Appearance");
   TEXTENTRY("Staff name:", denemo_name);

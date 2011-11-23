@@ -1280,7 +1280,7 @@ void insert_note_following_pattern(DenemoGUI *gui)  {
 	insertion_point (gui->si);	
       gui->si->cursoroffend = FALSE;
       h = ((RhythmElement*)g->data)->functions;
-#ifdef _USE_GTK3_
+#if GTK_CHECK_VERSION(3,0,0)
       ((GSourceFunc)h->data)(gui);
 #else
       ((GtkFunction)h->data)(gui);

@@ -33,8 +33,14 @@
 
 GdkPixbuf *StaffPixbuf, *StaffPixbufSmall, *StaffGoBack, *StaffGoForward;
 #define MAX_PLAYHEADS (100)
-static cairo_rectangle_int_t old_playhead_damage[MAX_PLAYHEADS];
-static cairo_rectangle_int_t new_playhead_damage[MAX_PLAYHEADS];
+
+#if GTK_CHECK_VERSION(2,24,0)
+  static cairo_rectangle_int_t old_playhead_damage[MAX_PLAYHEADS];
+  static cairo_rectangle_int_t new_playhead_damage[MAX_PLAYHEADS];
+#else
+  static GdkRectangle old_playhead_damage[MAX_PLAYHEADS];
+  static GdkRectangle new_playhead_damage[MAX_PLAYHEADS];
+#endif
 
 static gint old_playhead_index=0;
 static gint new_playhead_index=0;

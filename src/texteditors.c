@@ -11,7 +11,9 @@
 #include <gtksourceview/gtksourcelanguagemanager.h>
 #include <gtksourceview/gtksourcestyleschememanager.h>
 #include <gtksourceview/gtksourceprintcompositor.h> 
-#include <gdk/gdkkeysyms-compat.h> //FIXME Look for something more gtk3 like
+#if GTK_MAJOR_VERSION == 3
+  #include <gdk/gdkkeysyms-compat.h> //FIXME Look for something more gtk3 like
+#endif
 #include <gtksourceview/gtksourcebuffer.h>
 //#include <gtksourceview/gtksourceiter.h>
 #include "texteditors.h"
@@ -403,7 +405,7 @@ search_dialog (GtkWidget *widget,
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   gtk_container_add (GTK_CONTAINER (content_area), entry1);
 
-//#ifdef _USE_GTK3_
+//#if GTK_CHECK_VERSION(3,0,0)
 //  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
 //		      GTK_WIDGET (entry1), TRUE, TRUE, 0);
 //#else
@@ -418,7 +420,7 @@ search_dialog (GtkWidget *widget,
   
   gtk_container_add (GTK_CONTAINER (content_area), entry2);
 
-//#ifdef _USE_GTK3_
+//#if GTK_CHECK_VERSION(3,0,0)
 //  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
 //		      GTK_WIDGET (entry2), TRUE, TRUE, 0);
 //#else
@@ -433,7 +435,7 @@ search_dialog (GtkWidget *widget,
 
   gtk_container_add (GTK_CONTAINER (content_area), case_sensitive);
 
-//#ifdef _USE_GTK3_
+//#if GTK_CHECK_VERSION(3,0,0)
 //  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
 //		      GTK_WIDGET (case_sensitive), FALSE, FALSE, 0);
 //#else

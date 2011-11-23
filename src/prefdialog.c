@@ -137,13 +137,23 @@ set_preferences (struct callbackdata *cbdata)
    prefs->field =\
      gtk_spin_button_get_value (GTK_SPIN_BUTTON(cbdata->field));
 
+#if GTK_CHECK_VERSION(2,24,0)
+ #define ASSIGNCOMBO(field) \
+   g_string_assign (prefs->field,\
+		   (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(cbdata->field)));
+
+ #define ASSIGNCOMBO2(field) \
+   prefs->field = get_midi_audio_pointer(\
+		   (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(cbdata->field)));
+#else
 #define ASSIGNCOMBO(field) \
   g_string_assign (prefs->field,\
-		   (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(cbdata->field)));
+    (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->field)->entry)));
 
 #define ASSIGNCOMBO2(field) \
   prefs->field = get_midi_audio_pointer(\
-		   (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(cbdata->field)));
+    (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->field)->entry)));
+#endif
   ASSIGNTEXT(lilypath)
   ASSIGNTEXT(browser) 
   ASSIGNTEXT(pdfviewer)
@@ -221,7 +231,12 @@ static void
 midi_audio_tab_update(GtkWidget *box, gpointer data)
 {
   struct audio_callback_data *cbdata = (struct audio_callback_data *) data;
-  gchar *output = get_midi_audio_pointer((gchar *)gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(box))); 
+#if GTK_CHECK_VERSION(2,24,0)  
+  gchar *output = get_midi_audio_pointer((gchar *)gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(box)));
+#else
+   gchar *output = (gchar *)get_midi_audio_pointer((gchar *) 
+		  gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (box)->entry)));
+#endif 
   if (output == Fluidsynth){
     gtk_widget_hide(cbdata->pas);
     if(cbdata->DM)
@@ -406,19 +421,28 @@ preferences_change (GtkAction *action, gpointer param)
 #endif
 };
 
-
-#define COMBOBOX(thelable, field, thelist, settext)\
+#if GTK_CHECK_VERSION(2,24,0)
+ #define COMBOBOX(thelable, field, thelist, settext)\
   label = gtk_label_new (thelable);\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
-  gtk_container_add(GTK_CONTAINER(VBOX), label);    \
-  GtkWidget *field = gtk_combo_box_text_new ();\
-  for(i=0;i<G_N_ELEMENTS(thelist);i++)\
-    if (thelist[i]) gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(field), thelist[i]);\
-  gtk_container_add(GTK_CONTAINER(VBOX), field);\
-  gtk_combo_box_set_active(GTK_COMBO_BOX_TEXT (field),\
-         find_element_position(thelist, settext));\
+  gtk_container_add(GTK_CONTAINER(VBOX), label);\
+    GtkWidget *field = gtk_combo_box_text_new ();\
+    for(i=0;i<G_N_ELEMENTS(thelist);i++)\
+      if (thelist[i]) gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(field), thelist[i]);\
   gtk_widget_show_all (field);\
   cbdata.field = field;
+#else
+ #define COMBOBOX(thelable, field, thelist, settext)\
+  label = gtk_label_new (thelable);\
+  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
+  gtk_container_add(GTK_CONTAINER(VBOX), label);\
+  GtkWidget *field = gtk_combo_new();\
+  gtk_combo_set_popdown_strings (GTK_COMBO (field), thelist);\
+  gtk_entry_set_text\
+    (GTK_ENTRY (GTK_COMBO (field)->entry),  settext);\
+  gtk_widget_show_all (field);\
+  cbdata.field = field;
+#endif
 
   BOOLEANENTRY("Display general toolbar", toolbar);
   BOOLEANENTRY("Display Note/Rest entry toolbar", notation_palette);
@@ -529,10 +553,20 @@ preferences_change (GtkAction *action, gpointer param)
     
   BOOLEANENTRY("Auto-start midi in", startmidiin);
   INTENTRY_LIMITS(_("% MIDI-in Dynamic Compression"), dynamic_compression, 1, 100);
+#if GTK_CHECK_VERSION(2,24,0)
   COMBOBOX("Midi/Audio output", midi_audio_output, output_option_list, Denemo.prefs.midi_audio_output)
   g_signal_connect(G_OBJECT(GTK_COMBO_BOX_TEXT(midi_audio_output)), "changed",
-  G_CALLBACK( G_CALLBACK(midi_audio_tab_update) ), &audio_cbdata);
- 
+		   G_CALLBACK( G_CALLBACK(midi_audio_tab_update) ), &audio_cbdata);
+#else
+  GList *option_list = NULL;
+  for(i=0;i<G_N_ELEMENTS(output_option_list);i++)
+    if (output_option_list[i]) option_list = g_list_append(option_list, output_option_list[i]);
+  COMBOBOX("Midi/Audio output", midi_audio_output, option_list, Denemo.prefs.midi_audio_output)
+  g_signal_connect(G_OBJECT(GTK_COMBO(midi_audio_output)), "changed",
+		   G_CALLBACK( G_CALLBACK(midi_audio_tab_update) ), &audio_cbdata);
+#endif
+
+
   /*
    * Fluidsynth Menu
    */

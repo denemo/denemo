@@ -86,10 +86,13 @@ insert_barline (GtkAction *action, gpointer param)
     list = g_list_append (list, string_barlines[i]);
 
   combobox = gtk_combo_box_new ();
-  
+#if GTK_CHECK_VERSION(2,24,0)
   for(i=0;i<G_N_ELEMENTS(string_barlines);i++)
     gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(combobox), string_barlines[i]);
-
+#else
+  for(i=0;i<G_N_ELEMENTS(string_barlines);i++)
+    list = g_list_append (list, string_barlines[i]);
+#endif
   gtk_container_add (GTK_CONTAINER (hbox), combobox);
 
   okbutton = gtk_button_new_with_label (_("OK"));
@@ -134,12 +137,16 @@ add_barline (GtkWidget * widget, gpointer data)
 {
   struct callbackdata *cbdata = (struct callbackdata *) data;
   DenemoScore *si = cbdata->gui->si;
-
+#if GTK_CHECK_VERSION(2,24,0)
   gchar *thetext =
     (gchar *)
-    //gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->combo)->entry));
-    gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->combo));
-  object_insert (cbdata->gui, newbarline (barlinefromname (thetext)));
+    (GTK_COMBO_BOX_TEXT (cbdata->combo));
+#else
+  gchar *thetext = 
+   (gchar *)
+    gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->combo)->entry));
+#endif
+object_insert (cbdata->gui, newbarline (barlinefromname (thetext)));
 
 }
 

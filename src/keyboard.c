@@ -696,7 +696,11 @@ write_xml_keybinding_info (gchar *kb_name, xmlNodePtr node)
 static void
 output_pointer_shortcut(gint *state, GdkCursor *cursor, xmlNodePtr parent){
   gchar *statestr = g_strdup_printf("%x", *state);
+#if GTK_CHECK_VERSION(2,24,0)
   gint cursor_num = gdk_cursor_get_cursor_type(cursor);
+#else
+  gint cursor_num = cursor->type;
+#endif
   gchar *numstr = g_strdup_printf("%d", cursor_num);
   xmlNodePtr child = xmlNewTextChild (parent, NULL, (xmlChar *) "cursor-binding", NULL);
   xmlNewChild (child, NULL, "state", statestr);

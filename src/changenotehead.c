@@ -79,7 +79,9 @@ set_notehead (GtkAction *action, gpointer param)
   GtkWidget *label;
   GtkWidget *combo;
   GtkWidget *content_area;
-  gint i;
+  static GList *list = NULL; //NOTE required for gtk<2.24
+  
+ gint i;
   if(!action) {
     if(  ((DenemoScriptParam *)param)->string && ((DenemoScriptParam *)param)->string->len) {
       insertnotehead (gui->si, ((DenemoScriptParam *)param)->string->str);
@@ -91,6 +93,14 @@ set_notehead (GtkAction *action, gpointer param)
       return;
     }
   }
+
+  if (!list)
+    {
+      for (i = 0; i < 4; i++)
+	{
+	  list = g_list_append (list, _(notehead[i]));
+	}
+    }
     
   dialog =
     gtk_dialog_new_with_buttons (_("Change Notehead"),
@@ -104,15 +114,19 @@ set_notehead (GtkAction *action, gpointer param)
   content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   label = gtk_label_new (_("Select Notehead Type"));
   gtk_container_add (GTK_CONTAINER (content_area), label);
-
+#if GTK_CHECK_VERSION(2,24,0)
   combo = gtk_combo_box_text_new ();
   for(i=0;i<G_N_ELEMENTS(notehead);i++)
     gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(combo), notehead[i]);
-
-  gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
-  
+  gtk_combo_box_set_active_text (GTK_COMBO_BOX_TEXT(combo));
+  gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);  
+#else
+  combo = gtk_combo_new ();
+  gtk_combo_set_popdown_strings (GTK_COMBO (combo), list);
+  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (combo)->entry), _(notehead[0]));
+  gtk_combo_box_set_active(GTK_BOX(combo), 0);
+#endif
   gtk_container_add (GTK_CONTAINER (content_area), combo);
-
   gtk_widget_grab_focus (combo);
   gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
@@ -122,15 +136,16 @@ set_notehead (GtkAction *action, gpointer param)
 
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
-      gint num =
-        gtk_combo_box_get_active (GTK_COMBO_BOX (combo));
-       insertnotehead (gui->si, notehead[num]);
+#if GTK_CHECK_VERSION(2,24,0)
+      gint num =     
+	gtk_combo_box_get_active (GTK_COMBO_BOX (combo));
+      insertnotehead (gui->si, notehead[num]);
+#else
+      gchar *noteheadstring =
+	(gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (combo)->entry));
+      insertnotehead (gui->si, noteheadstring);
+#endif
     }
-
-  g_signal_connect_swapped (dialog,
-                             "response",
-                             G_CALLBACK (gtk_widget_destroy),
-                             dialog);  
   gtk_widget_destroy(dialog);
   displayhelper (gui);
 }

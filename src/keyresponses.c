@@ -4,7 +4,6 @@
  */
 
 #include <string.h>
-#include <gdk/gdkkeysyms-compat.h> //FIXME Look for something more gtk3 like
 #include "kbd-custom.h"
 #include "keyresponses.h"
 #include "articulations.h"
@@ -13,7 +12,9 @@
 #include "tupletops.h"
 #include "view.h"
 #include "commandfuncs.h"
-
+#if GTK_CHECK_VERSION(3,0,0)
+  #include <gdk/gdkkeysyms-compat.h> //FIXME Look for something more gtk3 like
+#endif
 static GdkEventKey ** divert_key_event;/* Non null if key events are being intercepted by a function
 					* (which is running a gtk_mail_loop() for this reason).
 					* return TRUE if a key press successfully captured

@@ -7110,7 +7110,7 @@ loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm) {
       cairo_pattern_reference(pattern); 
       cairo_destroy(cr);
       DenemoGraphic *graphic = g_malloc(sizeof(DenemoGraphic));
-      graphic->type = DENEMO_PATTERN;
+      graphic->type = DENEMO_BITMAP;
       graphic->width = thesize.width;
       graphic->height = thesize.height;
       graphic->graphic = pattern;
@@ -7121,7 +7121,7 @@ loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm) {
       return FALSE;
   }
   DenemoGraphic *graphic = g_malloc(sizeof(DenemoGraphic));
-  graphic->type = DENEMO_PATTERN;
+  graphic->type = DENEMO_BITMAP;
   GdkPixbuf *pixbufa = gdk_pixbuf_add_alpha (pixbuf, TRUE, 255, 255, 255);
   graphic->width = gdk_pixbuf_get_width(pixbufa);
   graphic->height = gdk_pixbuf_get_height(pixbufa);
@@ -7238,7 +7238,7 @@ GdkBitmap *bitmap = gdk_pixmap_create_from_data(NULL, Denemo.gui->xbm, width, he
 
 #endif
 #if 0
- //#ifdef _USE_GTK3_
+ //#if GTK_CHECK_VERSION(3,0,0)
  //  GdkPixbuf *pixbuf1 = gdk_pixbuf_get_from_window (NULL,  bitmap, NULL, 0,0,0,0, width, height);
  //#else
    //FIXME  GdkPixbuf *pixbuf1 = gdk_pixbuf_get_from_drawable (NULL,  bitmap, NULL, 0,0,0,0, width, height);

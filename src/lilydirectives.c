@@ -8,7 +8,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <gdk/gdkkeysyms-compat.h> //FIXME Look for something more gtk3 like
+#if GTK_VERSION == 3
+  #include <gdk/gdkkeysyms-compat.h> //FIXME Look for something more gtk3 like
+#endif				     /* */
 #include <denemo/denemo.h>
 #include "lilydirectives.h"
 #include "chordops.h"
