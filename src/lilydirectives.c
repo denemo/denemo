@@ -8,9 +8,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#if GTK_VERSION == 3
-  #include <gdk/gdkkeysyms-compat.h> //FIXME Look for something more gtk3 like
-#endif				     /* */
 #include <denemo/denemo.h>
 #include "lilydirectives.h"
 #include "chordops.h"
@@ -24,6 +21,9 @@
 #include "utils.h"
 #include "prefops.h"
 #include "view.h"
+#if GTK_CHECK_VERSION(2,24,0)
+  #include <gdk/gdkkeysyms-compat.h> //FIXME Look for something more gtk3 like
+#endif
 
 static DenemoDirective *get_movementcontrol_directive(gchar *tag);
 static DenemoDirective *get_score_directive(gchar *tag);

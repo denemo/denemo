@@ -362,7 +362,7 @@ keysig_widget_new(keysig_data *keysig_widgets)
   GtkWidget *majorkeycombo = gtk_combo_box_text_new ();
   GtkWidget *minorkeycombo = gtk_combo_box_text_new ();
   GtkWidget *modenamecombo = gtk_combo_box_text_new ();
-
+  gint i;
   for(i=0;i<G_N_ELEMENTS(majorkeys);i++)
     gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(majorkeycombo), majorkeys[i]);
   for(i=0;i<G_N_ELEMENTS(minorkeys);i++)

@@ -118,7 +118,6 @@ set_notehead (GtkAction *action, gpointer param)
   combo = gtk_combo_box_text_new ();
   for(i=0;i<G_N_ELEMENTS(notehead);i++)
     gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(combo), notehead[i]);
-  gtk_combo_box_set_active_text (GTK_COMBO_BOX_TEXT(combo));
   gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);  
 #else
   combo = gtk_combo_new ();

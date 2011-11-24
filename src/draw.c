@@ -32,73 +32,15 @@
 #define EXCL_HEIGHT 13
 
 GdkPixbuf *StaffPixbuf, *StaffPixbufSmall, *StaffGoBack, *StaffGoForward;
-#define MAX_PLAYHEADS (100)
-
-#if GTK_CHECK_VERSION(2,24,0)
-  static cairo_rectangle_int_t old_playhead_damage[MAX_PLAYHEADS];
-  static cairo_rectangle_int_t new_playhead_damage[MAX_PLAYHEADS];
-#else
-  static GdkRectangle old_playhead_damage[MAX_PLAYHEADS];
-  static GdkRectangle new_playhead_damage[MAX_PLAYHEADS];
-#endif
-
-static gint old_playhead_index=0;
-static gint new_playhead_index=0;
-static gboolean playhead_flip = TRUE;
-
 
 static layout_needed = TRUE; //Set FALSE when further call to draw_score(NULL) is not needed.
 void initialize_playhead(void) {
-  new_playhead_index = 0;
-  old_playhead_index = 0;
+
   layout_needed = TRUE;
 }
 
-static void add_playhead_damage(gint x, gint y, gint w, gint h) {
-  if(playhead_flip) {
-  new_playhead_damage[new_playhead_index].x = x;
-  new_playhead_damage[new_playhead_index].y = y;
-  new_playhead_damage[new_playhead_index].width = w;
-  new_playhead_damage[new_playhead_index].height = h;
-  new_playhead_index++;
-  new_playhead_index = new_playhead_index%MAX_PLAYHEADS;
-  //g_print("@");
-  } else {
-  old_playhead_damage[old_playhead_index].x = x;
-  old_playhead_damage[old_playhead_index].y = y;
-  old_playhead_damage[old_playhead_index].width = w;
-  old_playhead_damage[old_playhead_index].height = h;
-  old_playhead_index++;
-  old_playhead_index = old_playhead_index%MAX_PLAYHEADS;
-  //g_print("-");
-  } 
-
-}
 void region_playhead(void) {
-  gint i;
- 
-  draw_score (NULL);
-  layout_needed = FALSE;
-  {
-    for(i=0;i< old_playhead_index; i++)
-      {
-	//g_print("*");
-	gdk_window_invalidate_rect (gtk_widget_get_window(Denemo.scorearea), old_playhead_damage+i, FALSE); }
-    for(i=0;i< new_playhead_index; i++)
-      {
-	//g_print("~");
-	gdk_window_invalidate_rect (gtk_widget_get_window(Denemo.scorearea), new_playhead_damage+i, FALSE); }   
-    if(playhead_flip) {
-      old_playhead_index = 0;
-    }
-    else {
-      new_playhead_index = 0;
-    }
-    playhead_flip = !playhead_flip;
-    
-  }
-  
-  //g_print("o");Hah! this is needed to allow the re-draw to take place
+  gtk_widget_queue_draw (Denemo.scorearea);
 }
 
 static void      
@@ -248,19 +190,19 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
     cairo_restore(cr);
   }
   //g_print("%x %f %f %f\n", Denemo.gui->si->playingnow, Denemo.gui->si->playhead,  mudelaitem->earliest_time, mudelaitem->latest_time );
-  
+
   // draw playhead as green background
-   if( Denemo.gui->si->playingnow && (Denemo.gui->si->playhead > mudelaitem->earliest_time-0.0001) && (Denemo.gui->si->playhead < mudelaitem->latest_time+0.0001)) {
+
+ if( Denemo.gui->si->playingnow == mudelaitem)
+  {
      if(cr) {
        cairo_save(cr);
        cairo_set_source_rgb( cr, 0.5, 1.0, 0.5 );
        cairo_rectangle (cr, x+mudelaitem->x, y, 20, 80 );
        cairo_fill(cr);
        cairo_restore(cr);
-     } else {     
-       add_playhead_damage((x+mudelaitem->x)*Denemo.gui->si->zoom*100.0/(*itp->scale), y*Denemo.gui->si->zoom, 20*Denemo.gui->si->zoom*100.0/(*itp->scale), 80*Denemo.gui->si->zoom);   
-     }
-   }
+    }
+  }
 
   /* The current note, rest, etc. being painted */
  

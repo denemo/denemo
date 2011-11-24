@@ -1034,6 +1034,7 @@ process_printpreview_errors(void){
 
 static void
 libevince_print(void) {
+#ifdef _HAVE_EVINCE_
 	GError *err = NULL;
   GFile       *file;
   gchar *filename = g_strconcat((gchar *) get_printfile_pathbasename(), ".pdf", NULL);
@@ -1054,6 +1055,7 @@ libevince_print(void) {
     EvPrintOperation *printop = ev_print_operation_new (doc);      
     ev_print_operation_run (printop, NULL);
   }
+#endif
 }
 
 
