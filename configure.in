@@ -43,15 +43,11 @@ PKG_CHECK_MODULES(FONTCONFIG, fontconfig >= 2.2.0)
 CFLAGS="$CFLAGS $FONTCONFIG_CFLAGS"
 LIBS="$LIBS $FONTCONFIG_LIBS"
 
-AC_ARG_WITH(
-  included-smf,
-  AC_HELP_STRING([--with-included-smf], [use SMF @<:@default=check@:>@]),
-  [ ], [ withsmf=no ])
+PKG_CHECK_MODULES(SMF, smf >= 1.3, havesmf=yes, havesmf=no)
+CFLAGS="$CFLAGS $SMF_CFLAGS"
+LIBS="$LIBS $SMF_LIBS"
 
-if test "x$withsmf" = "xno"; then
-  PKG_CHECK_MODULES(SMF, smf >= 1.3)
-  CFLAGS="$CFLAGS $SMF_CFLAGS"
-  LIBS="$LIBS $SMF_LIBS"
+if test "x$havesmf" = "xyes"; then
   WHICH_SMF=''
   SMF_LDD=''
   SMF_INCLUDE=''
