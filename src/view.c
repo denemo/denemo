@@ -8022,7 +8022,6 @@ toggle_action_menu (GtkAction * action, gpointer param)
 static void
 toggle_print_view (GtkAction *action, gpointer param)
 {
-#ifdef _HAVE_EVINCE_
   GtkWidget *w =  gtk_widget_get_toplevel(Denemo.printarea);
   if((!action) || gtk_widget_get_visible(w))
     gtk_widget_hide(w);
@@ -8032,7 +8031,6 @@ toggle_print_view (GtkAction *action, gpointer param)
       refresh_print_view(TRUE);
   }
   return;
-#endif
 }
 
 /**

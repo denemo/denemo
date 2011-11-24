@@ -25,9 +25,7 @@
 
 #include <errno.h>
 #include <denemo/denemo.h>
-#ifdef _HAVE_EVINCE_
 #include <evince-view.h>
-#endif
 #include "print.h"
 #include "prefops.h"
 #include "exportlilypond.h"
@@ -1034,8 +1032,7 @@ process_printpreview_errors(void){
 
 static void
 libevince_print(void) {
-#ifdef _HAVE_EVINCE_
-	GError *err = NULL;
+  GError *err = NULL;
   GFile       *file;
   gchar *filename = g_strconcat((gchar *) get_printfile_pathbasename(), ".pdf", NULL);
   gchar *uri = g_filename_to_uri(filename, NULL, &err);
@@ -1055,7 +1052,6 @@ libevince_print(void) {
     EvPrintOperation *printop = ev_print_operation_new (doc);      
     ev_print_operation_run (printop, NULL);
   }
-#endif
 }
 
 
@@ -1063,7 +1059,6 @@ static void
 printview_finished(GPid pid, gint status, gboolean print) {
   progressbar_stop();
   printpid = GPID_NONE;
-#ifdef _HAVE_EVINCE_
   GError *err = NULL;
   GFile       *file;
   gchar *filename = g_strconcat((gchar *) get_printfile_pathbasename(), ".pdf", NULL);
@@ -1085,7 +1080,6 @@ printview_finished(GPid pid, gint status, gboolean print) {
   }
 
   normal_cursor();
-#endif
 }
 
 /* callback to print current part (staff) of score */
@@ -1326,9 +1320,7 @@ create_thumbnail(gboolean async) {
 /* callback to print whole of score */
 void
 printall_cb (GtkAction *action, gpointer param) {
-#ifdef _HAVE_EVINCE_
     print_from_print_view();
-#endif
 }
 
 
@@ -1365,7 +1357,6 @@ popup_print_preview_menu(void) {
   return TRUE;
 }
 
-#ifdef _HAVE_EVINCE_
 static void
 goto_position (EvView* view, EvLinkAction *obj)
 {
@@ -1380,7 +1371,6 @@ goto_position (EvView* view, EvLinkAction *obj)
   }
   g_strfreev(vec);
 }
-#endif
 static gint adjust_x=0;
 static gint adjust_y=0;
 
@@ -1597,7 +1587,6 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
 		    G_CALLBACK (hide_printarea_on_delete), NULL);
   gtk_container_add (GTK_CONTAINER (top_vbox), main_vbox);
 
-#ifdef _HAVE_EVINCE_
   GtkAdjustment *printvadjustment =  GTK_ADJUSTMENT (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
   Denemo.printvscrollbar = gtk_vscrollbar_new (GTK_ADJUSTMENT (printvadjustment));
 		     
@@ -1623,7 +1612,6 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
 
   gtk_widget_show_all(main_vbox);
   gtk_widget_hide(top_vbox);
-#endif /*  _HAVE_EVINCE_ */
 }
 
 
