@@ -390,11 +390,17 @@ init_score (DenemoScore * si, DenemoGUI *gui)
   si->stafftoplay = 0;
   si->start_time = -1.0;
   si->end_time = -1.0;//ie unset
-  set_master_volume(si, 1.0);//  si->master_volume=1.0;
+  if(Denemo.gui->si)
+    set_master_volume(si, 1.0);
+  else
+    si->master_volume=1.0;
   
  
   si->tempo_change_time=0.0;
-  set_master_tempo(si, 1.0);
+  if(Denemo.gui->si)
+    set_master_tempo(si, 1.0);
+  else
+    si->master_tempo = 1.0;
   si->savebuffer = NULL;
   si->bookmarks = NULL;
 
