@@ -43,6 +43,7 @@
 
 //#include "pathconfig.h"
 
+
 static GtkWidget *playbutton;
 static GtkWidget *recordbutton;
 static GtkWidget *midi_in_status;
@@ -838,7 +839,7 @@ static SCM scheme_load_commandset (SCM name) {
   return SCM_BOOL_F;
 }
 
-#if 0
+
 SCM scheme_user_screenshot(SCM type, SCM position) {
   GList **sources;
   SCM ret = SCM_BOOL_F;
@@ -851,7 +852,7 @@ SCM scheme_user_screenshot(SCM type, SCM position) {
   else
    sources = &((DenemoStaff*)Denemo.gui->si->currentstaff->data)->sources;
   scheme_hide_window(SCM_BOOL_T);
-  cairo_rectangle_int_t *rect = screenshot_find_rectangle();
+  GdkRectangle *rect = screenshot_find_rectangle();
   if(rect) {
         GError *error = NULL;
         //g_print("%d %d %d %d\n", rect->x, rect->y, rect->width, rect->height);
@@ -882,7 +883,7 @@ SCM scheme_delete_screenshot(SCM type) {
   }
   return SCM_BOOL_F;
 }
-#endif
+
 
 static SCM scheme_push_clipboard (SCM optional) {
   push_clipboard();
@@ -5104,8 +5105,8 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
 
   INSTALL_SCM_FUNCTION ("Adjust end time for playback by passed number of seconds. Returns #f for bad parameter ", DENEMO_SCHEME_PREFIX"AdjustPlaybackEnd", scheme_adjust_playback_end);
 
-  //INSTALL_SCM_FUNCTION1 ("Takes a parameter #t or #f and optional position: Get a screenshot from the user and append or insert it in a list (one per measure) either applying across the staffs or to the current staff.", DENEMO_SCHEME_PREFIX"UserScreenshot", scheme_user_screenshot);
- // INSTALL_SCM_FUNCTION ("Takes a parameter #t or #f: Delete a screenshot for the current measure, either across staffs or for current staff.", DENEMO_SCHEME_PREFIX"DeleteScreenshot", scheme_delete_screenshot);
+  INSTALL_SCM_FUNCTION1 ("Takes a parameter #t or #f and optional position: Get a screenshot from the user and append or insert it in a list (one per measure) either applying across the staffs or to the current staff.", DENEMO_SCHEME_PREFIX"UserScreenshot", scheme_user_screenshot);
+  INSTALL_SCM_FUNCTION ("Takes a parameter #t or #f: Delete a screenshot for the current measure, either across staffs or for current staff.", DENEMO_SCHEME_PREFIX"DeleteScreenshot", scheme_delete_screenshot);
 
   INSTALL_SCM_FUNCTION ("Pushes the Denemo clipboard (cut/copy buffer) onto a stack; Use d-PopClipboard to retrieve it.", DENEMO_SCHEME_PREFIX"PushClipboard", scheme_push_clipboard);
 
@@ -8834,8 +8835,7 @@ get_data_dir (),
   gtk_widget_show (Denemo.scorearea);
   g_signal_connect (G_OBJECT (Denemo.scorearea), "expose_event",
 		      G_CALLBACK (scorearea_expose_event), NULL);
-  g_signal_connect (G_OBJECT (Denemo.scorearea), "draw",
-		      G_CALLBACK (scorearea_draw_event), NULL);
+
   g_signal_connect (G_OBJECT (Denemo.scorearea), "configure_event",
 		      G_CALLBACK (scorearea_configure_event), NULL);
   g_signal_connect (G_OBJECT (Denemo.scorearea), "button_release_event",
