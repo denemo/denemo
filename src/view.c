@@ -7081,9 +7081,6 @@ loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm) {
     error = NULL;
     gchar *filename = g_strconcat(name, ".svg", NULL);
     if(g_file_test(filename,  G_FILE_TEST_EXISTS)) { 
-      gfloat thescale=0.04, offx=500.0, offy=500.0;
-      
-      g_print("Scale %f and offset (%f, %f) are chosen to match the set of .svgs extracted from the emmenthaler font\n", thescale, offx, offy);
       RsvgHandle *handle = rsvg_handle_new_from_file(filename, &error);
       g_free(filename);
       if(handle==NULL) {
@@ -7100,10 +7097,6 @@ loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm) {
       
       cairo_surface_t *surface =   (cairo_surface_t *)cairo_svg_surface_create_for_stream (NULL, NULL, (gdouble)thesize.width,  (gdouble)thesize.height); 
       cairo_t *cr = cairo_create(surface);
-      cairo_translate(cr, offx, offy);
-      cairo_scale(cr, thescale, -thescale);
-      g_print("scaled %f %f %f\n", thescale, offx, offy);
-      
       rsvg_handle_render_cairo(handle, cr);
       rsvg_handle_close(handle, NULL);
       g_object_unref(handle);
@@ -7111,7 +7104,7 @@ loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm) {
       cairo_pattern_reference(pattern); 
       cairo_destroy(cr);
       DenemoGraphic *graphic = g_malloc(sizeof(DenemoGraphic));
-      graphic->type = DENEMO_BITMAP;
+      graphic->type = DENEMO_PATTERN;
       graphic->width = thesize.width;
       graphic->height = thesize.height;
       graphic->graphic = pattern;
