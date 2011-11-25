@@ -10,7 +10,7 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	help.c importxml.c importmusicxml.c importmidi.c kbd-custom.c kbd-interface.c \
 	keyresponses.c keysigdialog.c figure.c 	main.c \
 	measureops.c midi.c moveviewport.c mousing.c barline.c 	view.c http.c \
-	mwidthdialog.c objops.c exportmidi.c 	instrumentname.c external.c \
+	mwidthdialog.c objops.c exportmidi.c 	instrumentname.c external.c screenshot.c\
 	jackmidi.c jackmidi.h \
 	fluid.c fluid.h \
 	device_manager.c device_manager.h \
@@ -39,7 +39,7 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	xmldefs.h exportmidi.h instrumentname.h  print.h \
 	lyric.h playback.h runsilent.h binreloc.c  binreloc.h \
 	bookmarks.c bookmarks.h \
-	external.h fakechord.h \
+	external.h screenshot.h fakechord.h \
 	parseinstruments.c parseinstruments.h keyboard.c \
 	pitchentry.c pitchrecog.c audiocapture.c pitchentry.h audio.h \
 	drawlilydir.c lilydirectives.h lilydirectives.c keysigdialog.h \

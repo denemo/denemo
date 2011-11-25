@@ -30,7 +30,7 @@
 #include "midi.h"
 #include "jackmidi.h"
 #include "device_manager.h"
-//#include "screenshot.h"
+#include "screenshot.h"
 #ifdef _HAVE_FLUIDSYNTH_
 #include "fluid.h"
 #endif

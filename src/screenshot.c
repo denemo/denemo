@@ -1,3 +1,4 @@
+#if 0
 /* screenshot.c - Take a screenshot from user selected rectangle
  * Copyright (C) 2011 Richard Shann
  *
@@ -334,4 +335,4 @@ typedef struct tagMSG {
   POINT  pt;The cursor position, in screen coordinates, when the message was posted.
 } MSG, *PMSG, *LPMSG;
 #endif
-
+#endif 
