@@ -123,7 +123,7 @@ set_notehead (GtkAction *action, gpointer param)
   combo = gtk_combo_new ();
   gtk_combo_set_popdown_strings (GTK_COMBO (combo), list);
   gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (combo)->entry), _(notehead[0]));
-  gtk_combo_box_set_active(GTK_BOX(combo), 0);
+  gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
 #endif
   gtk_container_add (GTK_CONTAINER (content_area), combo);
   gtk_widget_grab_focus (combo);
