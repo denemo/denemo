@@ -7080,7 +7080,8 @@ loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm) {
   thesize.width = 40;
   thesize.height = 40;
   cairo_surface_t *surface =  cairo_image_surface_create_from_png (filename);
-  g_free(filename);
+
+
   if(cairo_surface_status(surface)!=CAIRO_STATUS_SUCCESS) {
     gchar *filename = g_strconcat(name, ".svg", NULL);
     if(g_file_test(filename,  G_FILE_TEST_EXISTS)) { 
@@ -7093,11 +7094,8 @@ loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm) {
         g_warning("Opening %s, Bug in librsvg:rsvg handle null but no error message", basename);
       return FALSE;
       }
-      
+      g_free(filename);  
       rsvg_handle_get_dimensions(handle, &thesize); 
-
-      g_print("size %d x %d", thesize.width, thesize.height);
-
       surface =   (cairo_surface_t *)cairo_svg_surface_create_for_stream (NULL, NULL, (gdouble)thesize.width,  (gdouble)thesize.height); 
       cairo_t *cr = cairo_create(surface);
       rsvg_handle_render_cairo(handle, cr);
@@ -7105,6 +7103,10 @@ loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm) {
       g_object_unref(handle);
       cairo_destroy(cr);
     }
+  }  else {
+  GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file (filename, &error);
+  thesize.width = gdk_pixbuf_get_width(pixbuf);
+  thesize.height = gdk_pixbuf_get_height(pixbuf);
   }
  if(cairo_surface_status(surface)==CAIRO_STATUS_SUCCESS) {
       cairo_pattern_t *pattern = cairo_pattern_create_for_surface (surface);
@@ -7114,6 +7116,8 @@ loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm) {
       graphic->type = DENEMO_PATTERN;
       graphic->width = thesize.width;
       graphic->height = thesize.height;
+      g_print("size %d x %d", thesize.width, thesize.height);
+
       graphic->graphic = pattern;
       bitmap_table_insert(basename, graphic);
       *xbm = graphic;
