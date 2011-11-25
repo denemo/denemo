@@ -7065,44 +7065,51 @@ static  DenemoGraphic * create_bitmap_from_data(gchar *data, gint width, gint he
 /*   } */
   // return gdk_pixmap_create_from_data(NULL,data,  width, height, 1, &white, &black);
   //return gdk_bitmap_create_from_data(NULL,data,  width, height);
-  return cairo_image_surface_create_for_data(data, CAIRO_FORMAT_A1, width, height, 
+  cairo_surface_t *surface = cairo_image_surface_create_for_data(data, CAIRO_FORMAT_A1, width, height, 
 					     cairo_format_stride_for_width(CAIRO_FORMAT_A1, width));
+  cairo_pattern_t *pattern = cairo_pattern_create_for_surface (surface);
+  cairo_pattern_reference(pattern);
+  return pattern;
 }
 
 static gboolean
 loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm) {
-
+  RsvgDimensionData thesize;
   GError *error = NULL;
   gchar *filename = g_strconcat(name, ".png", NULL);
-  GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file (filename, &error);
+  thesize.width = 40;
+  thesize.height = 40;
+  cairo_surface_t *surface =  cairo_image_surface_create_from_png (filename);
   g_free(filename);
-  if(error) {
-    g_error_free(error);
-    error = NULL;
+  if(cairo_surface_status(surface)!=CAIRO_STATUS_SUCCESS) {
     gchar *filename = g_strconcat(name, ".svg", NULL);
     if(g_file_test(filename,  G_FILE_TEST_EXISTS)) { 
       RsvgHandle *handle = rsvg_handle_new_from_file(filename, &error);
       g_free(filename);
       if(handle==NULL) {
-	if(error)
-	  g_warning("Could not open %s error %s\n", basename, error->message);
-	else
-	  g_warning("Opening %s, Bug in librsvg:rsvg handle null but no error message", basename);
-	return FALSE;
+      if(error)
+        g_warning("Could not open %s error %s\n", basename, error->message);
+      else
+        g_warning("Opening %s, Bug in librsvg:rsvg handle null but no error message", basename);
+      return FALSE;
       }
-      RsvgDimensionData thesize;
+      
       rsvg_handle_get_dimensions(handle, &thesize); 
-      
+
       g_print("size %d x %d", thesize.width, thesize.height);
-      
-      cairo_surface_t *surface =   (cairo_surface_t *)cairo_svg_surface_create_for_stream (NULL, NULL, (gdouble)thesize.width,  (gdouble)thesize.height); 
+
+      surface =   (cairo_surface_t *)cairo_svg_surface_create_for_stream (NULL, NULL, (gdouble)thesize.width,  (gdouble)thesize.height); 
       cairo_t *cr = cairo_create(surface);
       rsvg_handle_render_cairo(handle, cr);
       rsvg_handle_close(handle, NULL);
       g_object_unref(handle);
+      cairo_destroy(cr);
+    }
+  }
+ if(cairo_surface_status(surface)==CAIRO_STATUS_SUCCESS) {
       cairo_pattern_t *pattern = cairo_pattern_create_for_surface (surface);
       cairo_pattern_reference(pattern); 
-      cairo_destroy(cr);
+
       DenemoGraphic *graphic = g_malloc(sizeof(DenemoGraphic));
       graphic->type = DENEMO_PATTERN;
       graphic->width = thesize.width;
@@ -7113,21 +7120,8 @@ loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm) {
       return TRUE;
     } else
       return FALSE;
-  }
-  DenemoGraphic *graphic = g_malloc(sizeof(DenemoGraphic));
-  graphic->type = DENEMO_BITMAP;
-  GdkPixbuf *pixbufa = gdk_pixbuf_add_alpha (pixbuf, TRUE, 255, 255, 255);
-  graphic->width = gdk_pixbuf_get_width(pixbufa);
-  graphic->height = gdk_pixbuf_get_height(pixbufa);
-  gchar *data = create_xbm_data_from_pixbuf(pixbufa, 0,0,graphic->width, graphic->height); 
-  gpointer thedata = (gpointer)create_bitmap_from_data(data, graphic->width, graphic->height);
-  graphic->graphic = thedata;
-  bitmap_table_insert(basename, graphic);
-  g_free(data);
-  *xbm = graphic;
-  return TRUE;
 }
-
+ 
 
 gboolean loadGraphicItem(gchar *name, DenemoGraphic **xbm ) {
 
