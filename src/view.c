@@ -8417,7 +8417,7 @@ static void  proxy_connected (GtkUIManager *uimanager, GtkAction *action, GtkWid
     g_signal_connect(G_OBJECT(proxy), "button-press-event", G_CALLBACK(thecallback), action);
      g_object_set_data(G_OBJECT(action), "connected", (gpointer)1);  //Unfortunately GtkImageMenuItems that pop up a menu do not wait for a button press - the focus switches to the popped up memory on entry. So we don't see this signal for them
   }
-#if (GTK_MINOR_VERSION <10)
+#if 0 //(GTK_MINOR_VERSION <10)
        attach_action_to_widget(proxy, action, Denemo.gui);
 #endif
   if(Denemo.map==NULL)

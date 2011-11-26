@@ -31,7 +31,7 @@
 #include "file.h"
 
 #define DENEMO_TWO_KEY_SEPARATOR ","
-#if GTK_MINOR_VERSION < 10
+#if 0 //GTK_MINOR_VERSION < 10
 //Hmm, should we define these as 0, so that they don't mask anything in gtk 2.8
 #define  GDK_SUPER_MASK ( 1 << 26)
 #define  GDK_HYPER_MASK  (1 << 27)
@@ -1453,7 +1453,7 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event)
   keyval = event->keyval;
 
   action = 
-#if GTK_MINOR_VERSION <10
+#if 0 //GTK_MINOR_VERSION <10
     g_object_get_data(G_OBJECT(GTK_MENU_SHELL(menu)->active_menu_item), "action");
 #else
   gtk_widget_get_action(GTK_MENU_SHELL(menu)->active_menu_item);
