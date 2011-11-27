@@ -1456,7 +1456,7 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event)
 #if 0 //GTK_MINOR_VERSION <10
     g_object_get_data(G_OBJECT(GTK_MENU_SHELL(menu)->active_menu_item), "action");
 #else
-  gtk_widget_get_action(GTK_MENU_SHELL(menu)->active_menu_item);
+  gtk_widget_get_action(gtk_menu_get_active(menu));
 #endif
  //If this menu item has no action we give up
   if (!action)
