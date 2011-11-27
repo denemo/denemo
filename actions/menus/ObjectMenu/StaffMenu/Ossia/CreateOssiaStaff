@@ -18,6 +18,7 @@
   (d-DirectivePut-staff-prefix "ossia" "\\new Staff \\with
   {
     \\remove \"Time_signature_engraver\"
+    \\remove \"Key_engraver\"
     fontSize = #-2
    \\override StaffSymbol #'staff-space = #(magstep -2)
     firstClef = ##f
