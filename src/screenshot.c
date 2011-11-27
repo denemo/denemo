@@ -40,6 +40,9 @@ typedef struct {
   GdkRectangle  rect;
   GdkRectangle  draw_rect;
   gboolean      button_pressed;
+ 
+  GtkWidget *window;
+  gboolean aborted;
 } select_area_filter_data;
 
 static
@@ -248,10 +251,12 @@ fix_rectangle (XButtonEvent    *event,
 static void
 select_area_motion_action (GdkEvent *unused,
                            GdkRectangle *rect,
-                           GdkRectangle *draw_rect,
-                           GdkWindow    *unused,
+                           GdkRectangle *pdraw_rect,
+                           GdkWindow    *unused2,
                            cairo_t        *cr)
 {
+  GdkRectangle draw_rect = (*pdraw_rect);
+
   gtk_window_move (GTK_WINDOW (window), draw_rect.x, draw_rect.y);
   gtk_window_resize (GTK_WINDOW (window), draw_rect.width, draw_rect.height);
 
@@ -388,7 +393,7 @@ gboolean
 screenshot_select_area (int *px, int *py, int *pwidth, int *pheight){
   screenshot_select_area_async(rectangle_found_cb);
   gtk_main ();
-if(the_data.rect->width>0) {
+if(the_data.rect.width>0) {
   *px = the_data.rect.x;
   *py = the_data.rect.y;
   *pwidth  = the_data.rect.width;
@@ -436,7 +441,14 @@ screenshot_get_pixbuf (GdkWindow    *window,
    }
   return screenshot;
 }
-
+#else
+GdkPixbuf *
+screenshot_get_pixbuf (GdkWindow    *window,
+                       GdkRectangle *rectangle)
+{
+g_warning("Not available on gtk3 yet\n");
+return NULL;
+}
 #endif //remove to compile and test on gtk3
 
 
