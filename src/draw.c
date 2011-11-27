@@ -1246,23 +1246,17 @@ draw_score (cairo_t *cr)
   /* And we're done */
 }
 
-/**
- * Here we have the function that actually draws the score. Note that
- * it does not clip intelligently at all 
- */
 
-gint
-scorearea_expose_event (GtkWidget * widget, GdkEventExpose * event)
+
+ 
+static gint
+draw_callback(cairo_t *cr)
 {
 DenemoGUI *gui = Denemo.gui;
- cairo_t *cr;
+
  //g_print("expose\n");
  if((!Denemo.gui->si)||(!Denemo.gui->si->currentmeasure)){
    g_warning("Cannot draw!\n");
-   return TRUE;
- }
- if(widget==NULL) {
-   draw_score (NULL);
    return TRUE;
  }
 
@@ -1274,10 +1268,6 @@ DenemoGUI *gui = Denemo.gui;
    }
  layout_needed = TRUE;
 
-  /* Setup a cairo context for rendering and clip to the exposed region. */
-  cr = gdk_cairo_create (event->window);
-  gdk_cairo_region (cr, event->region);
-  cairo_clip (cr);
 
   /* Clear with an appropriate background color. */
   if(Denemo.gui->input_source!=INPUTKEYBOARD && Denemo.gui->input_source!=INPUTMIDI &&
@@ -1295,9 +1285,33 @@ DenemoGUI *gui = Denemo.gui;
 
   /* Draw the score. */
   draw_score (cr);
-  cairo_destroy (cr);
+ 
 
   return TRUE;
 }
 
-
+ 
+/**
+ * Here we have the function that actually draws the score. Note that
+ * it does not clip intelligently at all 
+ */
+#if GTK_MAJOR_VERSION==3
+gint
+scorearea_draw_event(GtkWidget *w, cairo_t *cr) {
+return draw_callback(cr)
+}
+#else
+gint
+scorearea_expose_event (GtkWidget * widget, GdkEventExpose * event)
+{
+   if(widget==NULL) {
+   draw_score (NULL);
+   return TRUE;
+ }
+  /* Setup a cairo context for rendering and clip to the exposed region. */
+  cairo_t *cr = gdk_cairo_create (event->window);
+  gdk_cairo_region (cr, event->region);
+  cairo_clip (cr);
+  return draw_callback(cr);
+}
+#endif

@@ -10,7 +10,10 @@
 
 gint
 scorearea_configure_event (GtkWidget * widget, GdkEventConfigure * event);
-
+#if GTK_MAJOR_VERSION==3
+gint
+scorearea_draw_event (GtkWidget *widget, cairo_t *cr);
+#else
 gint
 scorearea_expose_event (GtkWidget * widget, GdkEventExpose * event);
-
+#endif
