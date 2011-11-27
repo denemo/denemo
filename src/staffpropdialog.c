@@ -514,10 +514,11 @@ void staff_properties_change_cb (GtkAction *action, DenemoScriptParam * param) {
  take_snapshot();
 
  if(denemo_name) {
-   g_string_assign(staff->denemo_name, denemo_name);
+    g_string_assign(staff->denemo_name, denemo_name);
+    canonicalize_denemo_name (denemo_name, staff->denemo_name);
+    set_lily_name (staff->denemo_name, staff->lily_name);
     param->status = TRUE;
    return;
-
  }
  if(device_port) {
    g_string_assign(staff->device_port, device_port);
