@@ -379,8 +379,6 @@ keysig_widget_new(keysig_data *keysig_widgets)
 		    G_CALLBACK(minorcallback), keysig_widgets);
   gtk_container_add (GTK_CONTAINER (pack_to_vbox), radiobutton2);
 
-  g_signal_connect (G_OBJECT (radiobutton3), "clicked",
-		    G_CALLBACK(modecallback), keysig_widgets);
   gtk_container_add (GTK_CONTAINER (pack_to_vbox), majorkeycombo);
   gtk_container_add (GTK_CONTAINER (pack_to_vbox), minorkeycombo);
 
