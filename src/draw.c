@@ -987,7 +987,7 @@ static gboolean schedule_draw(gint *flip_count) {
  * @param gui pointer to the DenemoGUI structure
  * returns whether the height of the drawing area was sufficient to draw everything
  */
-gboolean
+static gboolean
 draw_score (cairo_t *cr)
 {//g_print("draw_score %p\n", cr);
   staffnode *curstaff;
@@ -1286,6 +1286,10 @@ DenemoGUI *gui = Denemo.gui;
   return TRUE;
 }
 
+void
+update_drawing_cache(void) {
+draw_score(NULL);
+}
  
 /**
  * Here we have the function that actually draws the score. Note that
@@ -1298,7 +1302,7 @@ return draw_callback(cr)
 }
 #else
 gint
-scorearea_expose_event (GtkWidget * widget, GdkEventExpose * event)
+scorearea_draw_event (GtkWidget * widget, GdkEventExpose * event)
 {
    if(widget==NULL) {
    draw_score (NULL);

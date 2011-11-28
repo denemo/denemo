@@ -621,7 +621,7 @@ gostaffup (DenemoScriptParam *param, gboolean extend_selection)
 	calcmarkboundaries (gui->si);
       show_lyrics();
       find_leftmost_allcontexts (si);
-      scorearea_expose_event(NULL, NULL);
+      update_drawing_cache();;
       move_viewport_up (gui);
       return param->status = TRUE;
     } else
@@ -725,7 +725,7 @@ gostaffdown (DenemoScriptParam *param, gboolean extend_selection)
       show_lyrics();
       find_leftmost_allcontexts (si);
       
-      scorearea_expose_event(NULL, NULL);
+      update_drawing_cache();;
       move_viewport_down (gui);
       return param->status = TRUE;
     } else
@@ -1406,7 +1406,7 @@ insertion_point (DenemoScore * si)
 {
   //gtk_widget_draw(Denemo.Denemo.scorearea, NULL);//FIXME efficiency????
 
-  scorearea_expose_event(NULL, NULL);
+  update_drawing_cache();;
 
   gboolean next_measure;
 
@@ -2317,7 +2317,7 @@ gotoend (gpointer param, gboolean extend_selection)
     cursorright(param);
   else
     movecursorright(param);
-scorearea_expose_event(NULL, NULL);//refresh cached values, eg current timesig
+update_drawing_cache();;//refresh cached values, eg current timesig
   find_leftmost_allcontexts (gui->si);
   update_hscrollbar (gui);
   displayhelper (gui);
@@ -2341,7 +2341,7 @@ gotohome (gpointer param, gboolean extend_selection)
   find_leftmost_allcontexts (gui->si);
   update_hscrollbar (gui);
   /*gtk_widget_draw (Denemo.scorearea, NULL);*/
-  scorearea_expose_event(NULL, NULL);//refresh cached values, eg current timesig
+  update_drawing_cache();;//refresh cached values, eg current timesig
   gtk_widget_queue_draw (Denemo.scorearea);
 }
 
