@@ -52,7 +52,6 @@ typedef struct keysig_data
   GtkWidget *minorkeycombo;
   GList     *majorlist;
   GList     *minorlist;
-  GtkWidget *radiobutton1;
   GtkWidget *radiobutton2;
 }keysig_data;
 
@@ -343,16 +342,12 @@ keysig_widget_new(keysig_data *keysig_widgets)
   
   static GList *majorlist = NULL;
   static GList *minorlist = NULL;
-  static GList *modelist = NULL;
   
   gint i;
   for(i=0;i<G_N_ELEMENTS(majorkeys);i++)
     majorlist = g_list_append(majorlist, majorkeys[i]);
   for(i=0;i<G_N_ELEMENTS(minorkeys);i++)
     minorlist = g_list_append(minorlist, minorkeys[i]);
-  for(i=0;i<G_N_ELEMENTS(modes);i++)
-    modelist = g_list_append(modelist, modes[i]);
-
 
 #if GTK_CHECK_VERSION(2,24,0)
   GtkWidget *majorkeycombo = gtk_combo_box_text_new ();
@@ -394,7 +389,6 @@ keysig_widget_new(keysig_data *keysig_widgets)
   gtk_container_add (GTK_CONTAINER (pack_to_vbox), checkbutton);
 
   keysig_widgets->checkbutton = checkbutton;
-  keysig_widgets->radiobutton1 = radiobutton1;
   keysig_widgets->radiobutton2 = radiobutton2;
   keysig_widgets->majorkeycombo = majorkeycombo;
   keysig_widgets->minorkeycombo = minorkeycombo;
