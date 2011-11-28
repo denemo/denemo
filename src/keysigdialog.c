@@ -45,6 +45,18 @@ static gchar *modes[7] =
   { "lydian", "ionian", "mixolydian", "dorian", "aeolian", "phrygian",
 "locrain" };
 
+typedef struct keysig_data
+{
+  GtkWidget *checkbutton;
+  GtkWidget *majorkeycombo;
+  GtkWidget *minorkeycombo;
+  GList     *majorlist;
+  GList     *minorlist;
+  GtkWidget *radiobutton1;
+  GtkWidget *radiobutton2;
+}keysig_data;
+
+void set_keysig (struct keysig_data *data);
 /**
  * Finds key name and returns its numeric value
  *
