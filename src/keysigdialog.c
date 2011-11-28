@@ -45,29 +45,6 @@ static gchar *modes[7] =
   { "lydian", "ionian", "mixolydian", "dorian", "aeolian", "phrygian",
 "locrain" };
 
-static gint
-find_element_position(gchar **haystack, gchar *needle)
-{
-  gint i;
-  for(i=0;i<G_N_ELEMENTS(haystack);i++)
-    if (g_strcmp0(haystack[i], needle) == 0)
-      return i;
-}
-
-gint
-findmode (GtkWidget *modenamecombo)
-{
-  gint ret = -1;
-#if GTK_CHECK_VERSION(2,24,0)
-  gchar *mode = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (modenamecombo));
-#else
-  gchar *mode =
-    (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (modenamecombo)->entry));
-#endif
-  ret = find_element_position(modes, mode);
-  return ret - 1;
-}
-
 /**
  * Finds key name and returns its numeric value
  *
@@ -75,7 +52,7 @@ findmode (GtkWidget *modenamecombo)
  */
 
 gint
-findkey (GtkWidget * combobox, gint type)
+findkey (GtkWidget * combobox, GList *list)
 {
 #if GTK_CHECK_VERSION(2,24,0)
   gchar *tokeystring = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (combobox));
@@ -84,12 +61,10 @@ findkey (GtkWidget * combobox, gint type)
     (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (combobox)->entry));
 #endif
   gint ret;
-  if (type == 2)
-    ret = find_element_position(modes, tokeystring);
-  else if (type == 1)
-    ret = find_element_position(minorkeys, tokeystring);
-  else
-    ret = find_element_position(majorkeys, tokeystring);
+  ret = g_list_position
+    (list,
+     g_list_find_custom (list, tokeystring,
+                           (GCompareFunc) strcmp));
   
   if (ret != -1)
     return ret - KEYNAME_ARRAY_OFFSET;
@@ -102,7 +77,7 @@ findkey (GtkWidget * combobox, gint type)
  * across the entire score.
  */
 void
-set_keysig (GtkWidget * widget, keysig_data *cbdata)
+set_keysig (keysig_data *cbdata)
 {
   DenemoScore *si = Denemo.gui->si;
   staffnode *curstaff;
@@ -115,10 +90,15 @@ set_keysig (GtkWidget * widget, keysig_data *cbdata)
     1 :
     gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cbdata->radiobutton3)) ?
     2 : 0;
-  tokey = findkey (cbdata->majorkeycombo, isminor);
-  if (isminor == 2)
-    mode = findmode (cbdata->modenamecombo);
 
+  if (isminor == 0)
+    tokey = findkey (cbdata->majorkeycombo, cbdata->majorlist);
+  if (isminor == 1)
+    tokey = findkey (cbdata->minorkeycombo, cbdata->minorlist);
+  if (isminor == 2){
+    tokey = findkey (cbdata->modenamecombo, cbdata->modelist);
+    mode = findkey (cbdata->modenamecombo, cbdata->modelist);
+  }
   if (tokey != G_MININT)
     {
       if (gtk_toggle_button_get_active
@@ -144,9 +124,8 @@ set_keysig (GtkWidget * widget, keysig_data *cbdata)
  * across the entire score
  */
 void
-insert_keysig (GtkWidget * widget, gpointer data)
+insert_keysig (keysig_data *kdata)
 {
-  struct keysig_data *cbdata = (struct keysig_data *) data;
   staffnode *curstaff;
   DenemoScore *si = Denemo.gui->si;
   measurenode *curmeasure;
@@ -154,18 +133,23 @@ insert_keysig (GtkWidget * widget, gpointer data)
   tokey = mode = 0;
 
   gint isminor =
-    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cbdata->radiobutton2)) ?
+    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (kdata->radiobutton2)) ?
     1 :
-    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cbdata->radiobutton3)) ?
+    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (kdata->radiobutton3)) ?
     2 : 0;
-  tokey = findkey (cbdata->majorkeycombo, isminor);
-  if (isminor == 2)
-    mode = findmode (cbdata->modenamecombo);
 
+  if (isminor == 0)
+    tokey = findkey (kdata->majorkeycombo, kdata->majorlist);
+  if (isminor == 1)
+    tokey = findkey (kdata->minorkeycombo, kdata->minorlist);
+  if (isminor == 2){
+    tokey = findkey (kdata->modenamecombo, kdata->modelist);
+    mode = findkey (kdata->modenamecombo, kdata->modelist);
+  }
   if (tokey != G_MININT)
     {
       if (gtk_toggle_button_get_active
-	  (GTK_TOGGLE_BUTTON (cbdata->checkbutton)))
+	  (GTK_TOGGLE_BUTTON (kdata->checkbutton)))
 	{
 	  for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
 	    {
@@ -193,7 +177,7 @@ insert_keysig (GtkWidget * widget, gpointer data)
     adjust_tonal_center( ((keysig*)((DenemoObject*)si->currentobject->data)->object)->accs);
     }				/* End if */
 
-  g_free(cbdata);
+  g_free(kdata);
 }
 
 /**
@@ -357,23 +341,7 @@ keysig_widget_new(keysig_data *keysig_widgets)
   GtkWidget *checkbutton;
   DenemoScore *si = Denemo.gui->si;
   DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
-
-#if GTK_CHECK_VERSION(2,24,0)
-  GtkWidget *majorkeycombo = gtk_combo_box_text_new ();
-  GtkWidget *minorkeycombo = gtk_combo_box_text_new ();
-  GtkWidget *modenamecombo = gtk_combo_box_text_new ();
-  gint i;
-  for(i=0;i<G_N_ELEMENTS(majorkeys);i++)
-    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(majorkeycombo), majorkeys[i]);
-  for(i=0;i<G_N_ELEMENTS(minorkeys);i++)
-    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(minorkeycombo), minorkeys[i]);
-  for(i=0;i<G_N_ELEMENTS(modes);i++)
-    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(modenamecombo), modes[i]);
-
-#else 
-  GtkWidget *majorkeycombo = gtk_combo_new ();
-  GtkWidget *minorkeycombo = gtk_combo_new ();
-  GtkWidget *modenamecombo = gtk_combo_new ();
+  
   static GList *majorlist = NULL;
   static GList *minorlist = NULL;
   static GList *modelist = NULL;
@@ -385,6 +353,23 @@ keysig_widget_new(keysig_data *keysig_widgets)
     minorlist = g_list_append(minorlist, minorkeys[i]);
   for(i=0;i<G_N_ELEMENTS(modes);i++)
     modelist = g_list_append(modelist, modes[i]);
+
+
+#if GTK_CHECK_VERSION(2,24,0)
+  GtkWidget *majorkeycombo = gtk_combo_box_text_new ();
+  GtkWidget *minorkeycombo = gtk_combo_box_text_new ();
+  GtkWidget *modenamecombo = gtk_combo_box_text_new ();
+  for(i=0;i<G_N_ELEMENTS(majorkeys);i++)
+    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(majorkeycombo), majorkeys[i]);
+  for(i=0;i<G_N_ELEMENTS(minorkeys);i++)
+    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(minorkeycombo), minorkeys[i]);
+  for(i=0;i<G_N_ELEMENTS(modes);i++)
+    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(modenamecombo), modes[i]);
+
+#else 
+  GtkWidget *majorkeycombo = gtk_combo_new ();
+  GtkWidget *minorkeycombo = gtk_combo_new ();
+  GtkWidget *modenamecombo = gtk_combo_new ();
  
   gtk_combo_set_popdown_strings (GTK_COMBO (majorkeycombo), majorlist);
   gtk_combo_set_popdown_strings (GTK_COMBO (minorkeycombo), majorlist);
@@ -426,6 +411,9 @@ keysig_widget_new(keysig_data *keysig_widgets)
   keysig_widgets->majorkeycombo = majorkeycombo;
   keysig_widgets->minorkeycombo = minorkeycombo;
   keysig_widgets->modenamecombo = modenamecombo;
+  keysig_widgets->majorlist = majorlist;
+  keysig_widgets->minorlist = minorlist;
+  keysig_widgets->modelist = modelist;
 
   gtk_widget_grab_focus (majorkeycombo);
 
@@ -496,13 +484,13 @@ key_change (DenemoGUI * gui, actiontype action)
     {
       if (action == CHANGEINITIAL)
 	{
-	  set_keysig (NULL, keysig_widgets);
+	  set_keysig (keysig_widgets);
 	}
       else
 	{
 	  if(gui->si->currentobject && ((DenemoObject*)gui->si->currentobject->data)->type==KEYSIG)
 	    deleteobject(gui);
-	  insert_keysig (NULL, keysig_widgets);
+	  insert_keysig (keysig_widgets);
 	}
       score_status(gui, TRUE);
       displayhelper (gui);
