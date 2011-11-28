@@ -210,42 +210,9 @@ select_area_motion_action (GtkWidget *window,
         gdk_window_shape_combine_region (gdkwindow, NULL, 0, 0);
     }
 
- 
-  gtk_window_move (GTK_WINDOW (window), draw_rect.x, draw_rect.y);
-  gtk_window_resize (GTK_WINDOW (window), draw_rect.width, draw_rect.height);
-
-  /* We (ab)use app-paintable to indicate if we have an RGBA window */
-  if (!gtk_widget_get_app_paintable (window))
-    {
-      GdkWindow *gdkwindow = gtk_widget_get_window (window);
-
-      /* Shape the window to make only the outline visible */
-      if (draw_rect.width > 2 && draw_rect.height > 2)
-        {
-          cairo_region_t *region;
-          GdkRectangle region_rect = {
-            0, 0,
-            draw_rect.width, draw_rect.height
-          };
-
-          region = cairo_region_create_rectangle (&region_rect);
-          region_rect.x++;
-          region_rect.y++;
-          region_rect.width -= 2;
-          region_rect.height -= 2;
-          cairo_region_subtract_rectangle (region, &region_rect);
-
-          gdk_window_shape_combine_region (gdkwindow, region, 0, 0);
-
-          cairo_region_destroy (region);
-        }
-      else
-        gdk_window_shape_combine_region (gdkwindow, NULL, 0, 0);
-    }
-
    
-  draw_rect.width  = ABS (rect->x - event->x_root);
-  draw_rect.height = ABS (rect->y - event->y_root);
+  draw_rect.width  = ABS (rect->x - x_root);
+  draw_rect.height = ABS (rect->y - y_root);
 
   draw_rect.x = MIN (rect->x, event->x_root);
   draw_rect.y = MIN (rect->y, event->y_root);
