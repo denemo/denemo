@@ -20,9 +20,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#if GTK_CHECK_VERSION(3,0,0)
-  #include <gdk/gdkkeysyms-compat.h>
-#endif
 #include <denemo/denemo.h>
 #include "commandfuncs.h"
 #include "kbd-custom.h"
