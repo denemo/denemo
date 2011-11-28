@@ -142,6 +142,176 @@ emit_select_callback_in_idle (gpointer user_data)
   return FALSE;
 }
 
+
+static void
+empty_rectangle (GdkEvent    *event,
+                          GdkRectangle *rect,
+                          GdkRectangle *draw_rect)
+{
+  rect->x = event->x_root;
+  rect->y = event->y_root;
+
+  draw_rect->x = rect->x;
+  draw_rect->y = rect->y;
+  draw_rect->width  = 0;
+  draw_rect->height = 0;
+}
+
+static void
+fix_rectangle (GdkEvent    *event,
+                            GdkRectangle *rect,
+                            GdkRectangle *draw_rect,
+                            GdkWindow    *root,
+                            cairo_t        *cr)
+{
+  /* do not remove the old rectangle as it shows you what you have captured so far */
+  rect->width  = ABS (rect->x - event->x_root);
+  rect->height = ABS (rect->y - event->y_root);
+
+  rect->x = MIN (rect->x, event->x_root);
+  rect->y = MIN (rect->y, event->y_root);
+}
+
+static void
+select_area_motion_action (GtkWidget *window,
+                           GdkRectangle *rect,
+                           GdkRectangle *pdraw_rect,
+                           GdkWindow    *unused2,
+                           cairo_t        *cr)
+{
+  GdkRectangle draw_rect = (*pdraw_rect);
+
+  gtk_window_move (GTK_WINDOW (window), draw_rect.x, draw_rect.y);
+  gtk_window_resize (GTK_WINDOW (window), draw_rect.width, draw_rect.height);
+
+  /* We (ab)use app-paintable to indicate if we have an RGBA window */
+  if (!gtk_widget_get_app_paintable (window))
+    {
+      GdkWindow *gdkwindow = gtk_widget_get_window (window);
+
+      /* Shape the window to make only the outline visible */
+      if (draw_rect.width > 2 && draw_rect.height > 2)
+        {
+          cairo_region_t *region;
+          GdkRectangle region_rect = {
+            0, 0,
+            draw_rect.width, draw_rect.height
+          };
+
+          region = cairo_region_create_rectangle (&region_rect);
+          region_rect.x++;
+          region_rect.y++;
+          region_rect.width -= 2;
+          region_rect.height -= 2;
+          cairo_region_subtract_rectangle (region, &region_rect);
+
+          gdk_window_shape_combine_region (gdkwindow, region, 0, 0);
+
+          cairo_region_destroy (region);
+        }
+      else
+        gdk_window_shape_combine_region (gdkwindow, NULL, 0, 0);
+    }
+
+ 
+  gtk_window_move (GTK_WINDOW (window), draw_rect.x, draw_rect.y);
+  gtk_window_resize (GTK_WINDOW (window), draw_rect.width, draw_rect.height);
+
+  /* We (ab)use app-paintable to indicate if we have an RGBA window */
+  if (!gtk_widget_get_app_paintable (window))
+    {
+      GdkWindow *gdkwindow = gtk_widget_get_window (window);
+
+      /* Shape the window to make only the outline visible */
+      if (draw_rect.width > 2 && draw_rect.height > 2)
+        {
+          cairo_region_t *region;
+          GdkRectangle region_rect = {
+            0, 0,
+            draw_rect.width, draw_rect.height
+          };
+
+          region = cairo_region_create_rectangle (&region_rect);
+          region_rect.x++;
+          region_rect.y++;
+          region_rect.width -= 2;
+          region_rect.height -= 2;
+          cairo_region_subtract_rectangle (region, &region_rect);
+
+          gdk_window_shape_combine_region (gdkwindow, region, 0, 0);
+
+          cairo_region_destroy (region);
+        }
+      else
+        gdk_window_shape_combine_region (gdkwindow, NULL, 0, 0);
+    }
+
+   
+  draw_rect.width  = ABS (rect->x - event->x_root);
+  draw_rect.height = ABS (rect->y - event->y_root);
+
+  draw_rect.x = MIN (rect->x, event->x_root);
+  draw_rect.y = MIN (rect->y, event->y_root);
+  
+  g_print("... and Drew %d %d for %d, %d\n", draw_rect.x, draw_rect.y,
+                        draw_rect.width, draw_rect.height);
+  
+}
+
+
+select_area_button_press (GtkWidget               *window,
+                          GdkEventButton          *event,
+                          select_area_filter_data *data) {
+  gboolean left = (event->button != 3);
+  if(left) {
+    if (!data->button_pressed) {
+        empty_rectangle (event,
+                                    &data->rect, &data->draw_rect);//sets the origin, width, height 0
+        data->button_pressed = TRUE;
+    } else {
+        fix_rectangle (event,
+                                    &data->rect, &data->draw_rect,
+                                    data->root, data->cr);//sets the far corner                      
+        gtk_main_quit ();
+      }
+  } else {
+          gint x = event->x_root;
+          gint y = event->y_root;
+          GdkDisplay *disp = gdk_display_get_default();
+          g_print("moving pointer to x %d y %d\n", data->rect.x, data->rect.y);
+          gdk_display_warp_pointer (disp, gdk_display_get_default_screen (disp), data->rect.x, data->rect.y);
+          data->rect.x = x;
+          data->rect.y = y;
+        }
+  return TRUE;
+}
+
+static gboolean
+select_area_motion_notify (GtkWidget               *window,
+                           GdkEventMotion          *event,
+                           select_area_filter_data *data) {     
+
+  select_area_motion_action (window,
+                                   &data->rect, &data->draw_rect,
+                                   NULL, data->cr);//draws the rectangle
+  return TRUE;
+
+}
+static gboolean
+select_area_key_press (GtkWidget               *window,
+                       GdkEventKey             *event,
+                       select_area_filter_data *data){
+
+ data->button_pressed = FALSE;    
+ data->rect.x = 0;
+ data->rect.y = 0;
+ data->rect.width  = 0;
+ data->rect.height = 0;
+ gtk_main_quit ();
+ return TRUE;
+        
+}
+
 void
 screenshot_select_area_async (SelectAreaCallback callback)
 {
@@ -216,176 +386,6 @@ screenshot_select_area_async (SelectAreaCallback callback)
    * way to know that.
    */
   g_timeout_add (200, emit_select_callback_in_idle, cb_data);
-}
-
-
-static void
-empty_rectangle (XButtonEvent    *event,
-                          GdkRectangle *rect,
-                          GdkRectangle *draw_rect)
-{
-  rect->x = event->x_root;
-  rect->y = event->y_root;
-
-  draw_rect->x = rect->x;
-  draw_rect->y = rect->y;
-  draw_rect->width  = 0;
-  draw_rect->height = 0;
-}
-
-static void
-fix_rectangle (XButtonEvent    *event,
-                            GdkRectangle *rect,
-                            GdkRectangle *draw_rect,
-                            GdkWindow    *root,
-                            cairo_t        *cr)
-{
-  /* do not remove the old rectangle as it shows you what you have captured so far */
-  rect->width  = ABS (rect->x - event->x_root);
-  rect->height = ABS (rect->y - event->y_root);
-
-  rect->x = MIN (rect->x, event->x_root);
-  rect->y = MIN (rect->y, event->y_root);
-}
-
-static void
-select_area_motion_action (GdkEvent *unused,
-                           GdkRectangle *rect,
-                           GdkRectangle *pdraw_rect,
-                           GdkWindow    *unused2,
-                           cairo_t        *cr)
-{
-  GdkRectangle draw_rect = (*pdraw_rect);
-
-  gtk_window_move (GTK_WINDOW (window), draw_rect.x, draw_rect.y);
-  gtk_window_resize (GTK_WINDOW (window), draw_rect.width, draw_rect.height);
-
-  /* We (ab)use app-paintable to indicate if we have an RGBA window */
-  if (!gtk_widget_get_app_paintable (window))
-    {
-      GdkWindow *gdkwindow = gtk_widget_get_window (window);
-
-      /* Shape the window to make only the outline visible */
-      if (draw_rect.width > 2 && draw_rect.height > 2)
-        {
-          cairo_region_t *region;
-          GdkRectangle region_rect = {
-            0, 0,
-            draw_rect.width, draw_rect.height
-          };
-
-          region = cairo_region_create_rectangle (&region_rect);
-          region_rect.x++;
-          region_rect.y++;
-          region_rect.width -= 2;
-          region_rect.height -= 2;
-          cairo_region_subtract_rectangle (region, &region_rect);
-
-          gdk_window_shape_combine_region (gdkwindow, region, 0, 0);
-
-          cairo_region_destroy (region);
-        }
-      else
-        gdk_window_shape_combine_region (gdkwindow, NULL, 0, 0);
-    }
-
- 
-  gtk_window_move (GTK_WINDOW (window), draw_rect.x, draw_rect.y);
-  gtk_window_resize (GTK_WINDOW (window), draw_rect.width, draw_rect.height);
-
-  /* We (ab)use app-paintable to indicate if we have an RGBA window */
-  if (!gtk_widget_get_app_paintable (window))
-    {
-      GdkWindow *gdkwindow = gtk_widget_get_window (window);
-
-      /* Shape the window to make only the outline visible */
-      if (draw_rect.width > 2 && draw_rect.height > 2)
-        {
-          cairo_region_t *region;
-          GdkRectangle region_rect = {
-            0, 0,
-            draw_rect.width, draw_rect.height
-          };
-
-          region = cairo_region_create_rectangle (&region_rect);
-          region_rect.x++;
-          region_rect.y++;
-          region_rect.width -= 2;
-          region_rect.height -= 2;
-          cairo_region_subtract_rectangle (region, &region_rect);
-
-          gdk_window_shape_combine_region (gdkwindow, region, 0, 0);
-
-          cairo_region_destroy (region);
-        }
-      else
-        gdk_window_shape_combine_region (gdkwindow, NULL, 0, 0);
-    }
-
-   
-  draw_rect->width  = ABS (rect->x - event->x_root);
-  draw_rect->height = ABS (rect->y - event->y_root);
-
-  draw_rect->x = MIN (rect->x, event->x_root);
-  draw_rect->y = MIN (rect->y, event->y_root);
-  
-  g_print("... and Drew %d %d for %d, %d\n", draw_rect->x, draw_rect->y,
-                        draw_rect->width, draw_rect->height);
-  
-}
-
-
-select_area_button_press (GtkWidget               *window,
-                          GdkEventButton          *event,
-                          select_area_filter_data *data) {
-  gboolean left = (event->button != 3);
-  if(left) {
-    if (!data->button_pressed) {
-        empty_rectangle (&xevent->xbutton,
-                                    &data->rect, &data->draw_rect);//sets the origin, width, height 0
-        data->button_pressed = TRUE;
-    } else {
-        fix_rectangle (&xevent->xbutton,
-                                    &data->rect, &data->draw_rect,
-                                    data->root, data->cr);//sets the far corner                      
-        gtk_main_quit ();
-      }
-  } else {
-          gint x = event->x_root;
-          gint y = event->y_root;
-          GdkDisplay *disp = gdk_display_get_default();
-          g_print("moving pointer to x %d y %d\n", data->rect.x, data->rect.y);
-          gdk_display_warp_pointer (disp, gdk_display_get_default_screen (disp), data->rect.x, data->rect.y);
-          data->rect.x = x;
-          data->rect.y = y;
-        }
-  return TRUE;
-}
-
-static gboolean
-select_area_motion_notify (GtkWidget               *window,
-                           GdkEventMotion          *event,
-                           select_area_filter_data *data) {     
-
-  select_area_motion_action (event,
-                                   &data->rect, &data->draw_rect,
-                                   NULL, data->cr);//draws the rectangle
-  return TRUE;
-
-}
-static gboolean
-select_area_key_press (GtkWidget               *window,
-                       GdkEventKey             *event,
-                       select_area_filter_data *data){
-
- data->button_pressed = FALSE;    
- data->rect.x = 0;
- data->rect.y = 0;
- data->rect.width  = 0;
- data->rect.height = 0;
- gtk_main_quit ();
- return TRUE;
-        
 }
 
 
