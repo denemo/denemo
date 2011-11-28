@@ -8826,7 +8826,7 @@ get_data_dir (),
   gtk_widget_show (Denemo.scorearea);
 #if GTK_MAJOR_VERSION == 3
   g_signal_connect (G_OBJECT (Denemo.scorearea), "draw",
-		      G_CALLBACK (scorearea_expose_event), NULL);
+		      G_CALLBACK (scorearea_draw_event), NULL);
 #else
   g_signal_connect (G_OBJECT (Denemo.scorearea), "expose_event",
 		      G_CALLBACK (scorearea_expose_event), NULL);
