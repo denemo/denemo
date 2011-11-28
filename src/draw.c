@@ -1295,7 +1295,7 @@ DenemoGUI *gui = Denemo.gui;
 #if GTK_MAJOR_VERSION==3
 gint
 scorearea_draw_event(GtkWidget *w, cairo_t *cr) {
-return draw_callback(cr)
+return draw_callback(cr);
 }
 #else
 gint
