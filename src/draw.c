@@ -31,10 +31,7 @@
 #define EXCL_WIDTH 3
 #define EXCL_HEIGHT 13
 
-static gboolean
-draw_score (cairo_t *cr);
 GdkPixbuf *StaffPixbuf, *StaffPixbufSmall, *StaffGoBack, *StaffGoForward;
-
 
 static layout_needed = TRUE; //Set FALSE when further call to draw_score(NULL) is not needed.
 void initialize_playhead(void) {
@@ -112,7 +109,6 @@ struct infotopass
   GList *mwidthiterator;
   GSList *slur_stack;
   GSList *hairpin_stack;
-  GdkGC *gc;
   GtkWidget * verse;
   gint space_above;
   gint highy;/*(return) the highest y value drawn*/
@@ -991,7 +987,7 @@ static gboolean schedule_draw(gint *flip_count) {
  * @param gui pointer to the DenemoGUI structure
  * returns whether the height of the drawing area was sufficient to draw everything
  */
-static gboolean
+gboolean
 draw_score (cairo_t *cr)
 {//g_print("draw_score %p\n", cr);
   staffnode *curstaff;
