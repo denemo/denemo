@@ -839,7 +839,7 @@ static SCM scheme_load_commandset (SCM name) {
   return SCM_BOOL_F;
 }
 
-
+#if 0 //GTK3 Test
 SCM scheme_user_screenshot(SCM type, SCM position) {
   GList **sources;
   SCM ret = SCM_BOOL_F;
@@ -883,7 +883,7 @@ SCM scheme_delete_screenshot(SCM type) {
   }
   return SCM_BOOL_F;
 }
-
+#endif
 
 static SCM scheme_push_clipboard (SCM optional) {
   push_clipboard();
@@ -5104,10 +5104,10 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
   INSTALL_SCM_FUNCTION ("Adjust start time for playback by passed number of seconds. Returns #f for bad parameter ", DENEMO_SCHEME_PREFIX"AdjustPlaybackStart", scheme_adjust_playback_start);
 
   INSTALL_SCM_FUNCTION ("Adjust end time for playback by passed number of seconds. Returns #f for bad parameter ", DENEMO_SCHEME_PREFIX"AdjustPlaybackEnd", scheme_adjust_playback_end);
-
+#if 0// GTK3 Test
   INSTALL_SCM_FUNCTION1 ("Takes a parameter #t or #f and optional position: Get a screenshot from the user and append or insert it in a list (one per measure) either applying across the staffs or to the current staff.", DENEMO_SCHEME_PREFIX"UserScreenshot", scheme_user_screenshot);
   INSTALL_SCM_FUNCTION ("Takes a parameter #t or #f: Delete a screenshot for the current measure, either across staffs or for current staff.", DENEMO_SCHEME_PREFIX"DeleteScreenshot", scheme_delete_screenshot);
-
+#endif
   INSTALL_SCM_FUNCTION ("Pushes the Denemo clipboard (cut/copy buffer) onto a stack; Use d-PopClipboard to retrieve it.", DENEMO_SCHEME_PREFIX"PushClipboard", scheme_push_clipboard);
 
   INSTALL_SCM_FUNCTION ("Pops the Denemo clipboard (cut/copy buffer) from a stack created by d-PushClipboard. Returs #f if nothing on stack, else #t.", DENEMO_SCHEME_PREFIX"PopClipboard", scheme_pop_clipboard);
@@ -8430,7 +8430,7 @@ static void  proxy_connected (GtkUIManager *uimanager, GtkAction *action, GtkWid
     g_signal_connect(G_OBJECT(proxy), "button-press-event", G_CALLBACK(thecallback), action);
      g_object_set_data(G_OBJECT(action), "connected", (gpointer)1);  //Unfortunately GtkImageMenuItems that pop up a menu do not wait for a button press - the focus switches to the popped up memory on entry. So we don't see this signal for them
   }
-#if (GTK_MINOR_VERSION <10)
+#if 0 //(GTK_MINOR_VERSION <10)
        attach_action_to_widget(proxy, action, Denemo.gui);
 #endif
   if(Denemo.map==NULL)
@@ -8824,9 +8824,13 @@ get_data_dir (),
   gtk_widget_show (score_and_scroll_hbox);
   gtk_container_add (GTK_CONTAINER (score_and_scroll_hbox), Denemo.scorearea);
   gtk_widget_show (Denemo.scorearea);
+#if GTK_MAJOR_VERSION == 3
+  g_signal_connect (G_OBJECT (Denemo.scorearea), "draw",
+		      G_CALLBACK (scorearea_expose_event), NULL);
+#else
   g_signal_connect (G_OBJECT (Denemo.scorearea), "expose_event",
 		      G_CALLBACK (scorearea_expose_event), NULL);
-
+#endif
   g_signal_connect (G_OBJECT (Denemo.scorearea), "configure_event",
 		      G_CALLBACK (scorearea_configure_event), NULL);
   g_signal_connect (G_OBJECT (Denemo.scorearea), "button_release_event",

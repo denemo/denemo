@@ -5562,7 +5562,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>SuggestFlat</action>
-        <after>SuggestedSharp</after>
+        <after>SuggestSharp</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
         <label>Suggest Flat</label>

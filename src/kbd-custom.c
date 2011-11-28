@@ -36,6 +36,14 @@
 #include "file.h"
 
 #define DENEMO_TWO_KEY_SEPARATOR ","
+#if 0 //GTK_MINOR_VERSION < 10
+//Hmm, should we define these as 0, so that they don't mask anything in gtk 2.8
+#define  GDK_SUPER_MASK ( 1 << 26)
+#define  GDK_HYPER_MASK  (1 << 27)
+#define  GDK_META_MASK   (1 << 28)
+#endif
+
+
 
 #define DEFAULT_KEYMAP Denemo.prefs.profile->str
 
@@ -1451,8 +1459,11 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event)
   modifiers = dnm_sanitize_key_state(event);
   keyval = event->keyval;
   //gtk_widget_get_action(GTK_MENU_SHELL(menu)->active_menu_item);
+#if GTK_MAJOR_VERSION == 3
   action = gtk_activatable_get_related_action(gtk_menu_get_active(GTK_MENU(menu)));
-
+#else
+  action = gtk_widget_get_action(gtk_menu_get_active(menu));
+#endif
  //If this menu item has no action we give up
   if (!action)
     return TRUE;

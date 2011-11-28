@@ -5,7 +5,7 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after>SuggestedSharp</after>
+        <after>SuggestSharp</after>
         <action>SuggestFlat</action>
         <scheme>(d-DirectivePut-chord-postfix "SuggestedAccidental" "^\\markup \\flat")
 (d-DirectivePut-chord-gy "SuggestedAccidental" -100)

@@ -1249,10 +1249,13 @@ draw_score (cairo_t *cr)
  */
 
 gint
-scorearea_expose_event (GtkWidget * widget, GdkEventExpose * event)
+scorearea_expose_event (GtkWidget * widget, cairo_t *cr)
 {
 DenemoGUI *gui = Denemo.gui;
- cairo_t *cr;
+ //cairo_t *cr;
+ gint width, height;
+ width = get_widget_width (widget);
+ height = get_widget_height (widget);
  //g_print("expose\n");
  if((!Denemo.gui->si)||(!Denemo.gui->si->currentmeasure)){
    g_warning("Cannot draw!\n");
@@ -1272,9 +1275,11 @@ DenemoGUI *gui = Denemo.gui;
  layout_needed = TRUE;
 
   /* Setup a cairo context for rendering and clip to the exposed region. */
+#if 0
   cr = gdk_cairo_create (event->window);
   gdk_cairo_region (cr, event->region);
   cairo_clip (cr);
+#endif
 
   /* Clear with an appropriate background color. */
   if(Denemo.gui->input_source!=INPUTKEYBOARD && Denemo.gui->input_source!=INPUTMIDI &&
@@ -1292,7 +1297,7 @@ DenemoGUI *gui = Denemo.gui;
 
   /* Draw the score. */
   draw_score (cr);
-  cairo_destroy (cr);
+  //cairo_destroy (cr);
 
   return TRUE;
 }

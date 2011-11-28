@@ -12,7 +12,7 @@ gint
 scorearea_configure_event (GtkWidget * widget, GdkEventConfigure * event);
 
 gint
-scorearea_expose_event (GtkWidget * widget, GdkEventExpose * event);
+scorearea_expose_event (GtkWidget * widget, cairo_t *cr);
 
 gboolean
 draw_score (cairo_t *cr);
