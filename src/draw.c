@@ -1312,6 +1312,8 @@ scorearea_draw_event (GtkWidget * widget, GdkEventExpose * event)
   cairo_t *cr = gdk_cairo_create (event->window);
   gdk_cairo_region (cr, event->region);
   cairo_clip (cr);
-  return draw_callback(cr);
+  draw_callback(cr);
+  cairo_destroy(cr);
+  return TRUE;
 }
 #endif
