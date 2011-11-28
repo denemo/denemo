@@ -40,7 +40,7 @@ typedef struct {
   GdkRectangle  rect;
   GdkRectangle  draw_rect;
   gboolean      button_pressed;
- 
+
   GtkWidget *window;
   gboolean aborted;
 } select_area_filter_data;
@@ -144,12 +144,12 @@ emit_select_callback_in_idle (gpointer user_data)
 
 
 static void
-empty_rectangle (GdkEvent    *event,
+empty_rectangle (gint x_root, gint y_root,
                           GdkRectangle *rect,
                           GdkRectangle *draw_rect)
 {
-  rect->x = event->x_root;
-  rect->y = event->y_root;
+  rect->x = x_root;
+  rect->y = y_root;
 
   draw_rect->x = rect->x;
   draw_rect->y = rect->y;
@@ -158,26 +158,23 @@ empty_rectangle (GdkEvent    *event,
 }
 
 static void
-fix_rectangle (GdkEvent    *event,
+fix_rectangle (gint x_root, gint y_root,
                             GdkRectangle *rect,
                             GdkRectangle *draw_rect,
-                            GdkWindow    *root,
-                            cairo_t        *cr)
+                            GdkWindow    *root)
 {
-  /* do not remove the old rectangle as it shows you what you have captured so far */
-  rect->width  = ABS (rect->x - event->x_root);
-  rect->height = ABS (rect->y - event->y_root);
+  rect->width  = ABS (rect->x - x_root);
+  rect->height = ABS (rect->y - y_root);
 
-  rect->x = MIN (rect->x, event->x_root);
-  rect->y = MIN (rect->y, event->y_root);
+  rect->x = MIN (rect->x, x_root);
+  rect->y = MIN (rect->y, y_root);
 }
 
 static void
 select_area_motion_action (GtkWidget *window,
                            GdkRectangle *rect,
                            GdkRectangle *pdraw_rect,
-                           GdkWindow    *unused2,
-                           cairo_t        *cr)
+                           gint x_root, gint y_root)
 {
   GdkRectangle draw_rect = (*pdraw_rect);
 
@@ -262,21 +259,26 @@ select_area_motion_action (GtkWidget *window,
 select_area_button_press (GtkWidget               *window,
                           GdkEventButton          *event,
                           select_area_filter_data *data) {
+  gdouble xroot, yroot;
+  gint x_root, y_root;
+  gdk_event_get_root_coords (event, &xroot, &yroot);
+  x_root = (gint)xroot;
+  y_root = (gint)yroot;
   gboolean left = (event->button != 3);
   if(left) {
     if (!data->button_pressed) {
-        empty_rectangle (event,
+        empty_rectangle (x_root, y_root,
                                     &data->rect, &data->draw_rect);//sets the origin, width, height 0
         data->button_pressed = TRUE;
     } else {
-        fix_rectangle (event,
+        fix_rectangle (x_root, y_root,
                                     &data->rect, &data->draw_rect,
-                                    data->root, data->cr);//sets the far corner                      
+                                    data->root);//sets the far corner                      
         gtk_main_quit ();
       }
   } else {
-          gint x = event->x_root;
-          gint y = event->y_root;
+          gint x = x_root;
+          gint y = y_root;
           GdkDisplay *disp = gdk_display_get_default();
           g_print("moving pointer to x %d y %d\n", data->rect.x, data->rect.y);
           gdk_display_warp_pointer (disp, gdk_display_get_default_screen (disp), data->rect.x, data->rect.y);
@@ -290,10 +292,14 @@ static gboolean
 select_area_motion_notify (GtkWidget               *window,
                            GdkEventMotion          *event,
                            select_area_filter_data *data) {     
-
+  gdouble xroot, yroot;
+  gint x_root, y_root;
+  gdk_event_get_root_coords (event, &xroot, &yroot);
+  x_root = (gint)xroot;
+  y_root = (gint)yroot;
   select_area_motion_action (window,
                                    &data->rect, &data->draw_rect,
-                                   NULL, data->cr);//draws the rectangle
+                                   x_root, y_root);//draws the rectangle
   return TRUE;
 
 }
