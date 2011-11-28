@@ -87,18 +87,13 @@ set_keysig (keysig_data *cbdata)
 
   gint isminor =
     gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cbdata->radiobutton2)) ?
-    1 :
-    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cbdata->radiobutton3)) ?
-    2 : 0;
+    1 : 0;
 
   if (isminor == 0)
     tokey = findkey (cbdata->majorkeycombo, cbdata->majorlist);
-  if (isminor == 1)
+  else
     tokey = findkey (cbdata->minorkeycombo, cbdata->minorlist);
-  if (isminor == 2){
-    tokey = findkey (cbdata->modenamecombo, cbdata->modelist);
-    mode = findkey (cbdata->modenamecombo, cbdata->modelist);
-  }
+  
   if (tokey != G_MININT)
     {
       if (gtk_toggle_button_get_active
@@ -134,18 +129,13 @@ insert_keysig (keysig_data *kdata)
 
   gint isminor =
     gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (kdata->radiobutton2)) ?
-    1 :
-    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (kdata->radiobutton3)) ?
-    2 : 0;
+    1 : 0;
 
   if (isminor == 0)
     tokey = findkey (kdata->majorkeycombo, kdata->majorlist);
-  if (isminor == 1)
+  else 
     tokey = findkey (kdata->minorkeycombo, kdata->minorlist);
-  if (isminor == 2){
-    tokey = findkey (kdata->modenamecombo, kdata->modelist);
-    mode = findkey (kdata->modenamecombo, kdata->modelist);
-  }
+  
   if (tokey != G_MININT)
     {
       if (gtk_toggle_button_get_active
@@ -193,7 +183,6 @@ majorcallback (GtkWidget * widget, struct keysig_data *data)
          curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET);
 
   gtk_widget_hide (data->minorkeycombo);
-  gtk_widget_hide (data->modenamecombo);
   gtk_widget_show (data->majorkeycombo);
 }
 
@@ -210,7 +199,6 @@ minorcallback (GtkWidget * widget, struct keysig_data *data)
          curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET);
 
   gtk_widget_hide (data->majorkeycombo);
-  gtk_widget_hide (data->modenamecombo);
   gtk_widget_show (data->minorkeycombo);
 }
 
@@ -224,7 +212,6 @@ modecallback (GtkWidget * widget, struct keysig_data *data)
 {
   gtk_widget_hide (data->minorkeycombo);
   gtk_widget_show (data->majorkeycombo);
-  gtk_widget_show (data->modenamecombo);
 }
 
 /* interprets the scheme_string to set key number and isminor value
@@ -358,22 +345,16 @@ keysig_widget_new(keysig_data *keysig_widgets)
 #if GTK_CHECK_VERSION(2,24,0)
   GtkWidget *majorkeycombo = gtk_combo_box_text_new ();
   GtkWidget *minorkeycombo = gtk_combo_box_text_new ();
-  GtkWidget *modenamecombo = gtk_combo_box_text_new ();
   for(i=0;i<G_N_ELEMENTS(majorkeys);i++)
     gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(majorkeycombo), majorkeys[i]);
   for(i=0;i<G_N_ELEMENTS(minorkeys);i++)
     gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(minorkeycombo), minorkeys[i]);
-  for(i=0;i<G_N_ELEMENTS(modes);i++)
-    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(modenamecombo), modes[i]);
-
 #else 
   GtkWidget *majorkeycombo = gtk_combo_new ();
   GtkWidget *minorkeycombo = gtk_combo_new ();
-  GtkWidget *modenamecombo = gtk_combo_new ();
  
   gtk_combo_set_popdown_strings (GTK_COMBO (majorkeycombo), majorlist);
   gtk_combo_set_popdown_strings (GTK_COMBO (minorkeycombo), majorlist);
-  gtk_combo_set_popdown_strings (GTK_COMBO (modenamecombo), majorlist);
 #endif
 
   GtkWidget *pack_to_vbox = gtk_vbox_new(FALSE,1);
@@ -391,14 +372,10 @@ keysig_widget_new(keysig_data *keysig_widgets)
 		    G_CALLBACK(minorcallback), keysig_widgets);
   gtk_container_add (GTK_CONTAINER (pack_to_vbox), radiobutton2);
 
-  radiobutton3 = gtk_radio_button_new_with_label
-    (gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton1)), _("Mode"));
   g_signal_connect (G_OBJECT (radiobutton3), "clicked",
 		    G_CALLBACK(modecallback), keysig_widgets);
-  gtk_container_add (GTK_CONTAINER (pack_to_vbox), radiobutton3);
   gtk_container_add (GTK_CONTAINER (pack_to_vbox), majorkeycombo);
   gtk_container_add (GTK_CONTAINER (pack_to_vbox), minorkeycombo);
-  gtk_container_add (GTK_CONTAINER (pack_to_vbox), modenamecombo);
 
   checkbutton = gtk_check_button_new_with_label (_("Apply to all staves?"));
 
@@ -407,39 +384,17 @@ keysig_widget_new(keysig_data *keysig_widgets)
   keysig_widgets->checkbutton = checkbutton;
   keysig_widgets->radiobutton1 = radiobutton1;
   keysig_widgets->radiobutton2 = radiobutton2;
-  keysig_widgets->radiobutton3 = radiobutton3;
   keysig_widgets->majorkeycombo = majorkeycombo;
   keysig_widgets->minorkeycombo = minorkeycombo;
-  keysig_widgets->modenamecombo = modenamecombo;
   keysig_widgets->majorlist = majorlist;
   keysig_widgets->minorlist = minorlist;
-  keysig_widgets->modelist = modelist;
 
   gtk_widget_grab_focus (majorkeycombo);
-
-  if (curstaffstruct->keysig.isminor == 2)
-    {
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton3), TRUE);
-      gtk_widget_show (keysig_widgets->modenamecombo);
-    }
-  else if (curstaffstruct->keysig.isminor == 1)
-    {
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton2), TRUE);
-      gtk_widget_hide (keysig_widgets->majorkeycombo);
-      gtk_widget_hide (keysig_widgets->modenamecombo);
-      gtk_widget_show (keysig_widgets->minorkeycombo);
-      gtk_combo_box_set_active(GTK_COMBO_BOX (minorkeycombo),
-	 curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET);
-    }
-  else
-    {
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton1), TRUE);
-      gtk_widget_hide (keysig_widgets->minorkeycombo);
-      gtk_widget_hide (keysig_widgets->modenamecombo);
-      gtk_widget_show (keysig_widgets->majorkeycombo);
-      gtk_combo_box_set_active(GTK_COMBO_BOX (majorkeycombo),
-	curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET);
-    }
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton1), TRUE);
+  gtk_widget_hide (keysig_widgets->minorkeycombo);
+  gtk_widget_show (keysig_widgets->majorkeycombo);
+  gtk_combo_box_set_active(GTK_COMBO_BOX (majorkeycombo),
+    curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET);
   return pack_to_vbox;
 }
 
@@ -478,8 +433,9 @@ key_change (DenemoGUI * gui, actiontype action)
   GtkWidget *keysig = keysig_widget_new(keysig_widgets);
   gtk_container_add (GTK_CONTAINER (vbox), keysig);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
-  gtk_widget_show_all (dialog);
- 
+  gtk_widget_show_all(dialog);
+  gtk_widget_hide(keysig_widgets->minorkeycombo);
+
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
       if (action == CHANGEINITIAL)
