@@ -1287,6 +1287,10 @@ DenemoGUI *gui = Denemo.gui;
   return TRUE;
 }
 
+void
+update_drawing_cache(void) {
+draw_score(NULL);
+}
  
 /**
  * Here we have the function that actually draws the score. Note that
@@ -1299,7 +1303,7 @@ return draw_callback(cr);
 }
 #else
 gint
-scorearea_expose_event (GtkWidget * widget, GdkEventExpose * event)
+scorearea_draw_event (GtkWidget * widget, GdkEventExpose * event)
 {
    if(widget==NULL) {
    draw_score (NULL);

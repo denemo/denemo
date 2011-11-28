@@ -302,7 +302,7 @@ lyinput(gchar *filename, DenemoGUI *gui) {
 gint
 open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, ImportType type)
 {
-  g_signal_handlers_block_by_func(G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_expose_event), NULL);
+  g_signal_handlers_block_by_func(G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
   gint result;
   gboolean xml = FALSE;
   result = 1;//FAILURE
@@ -359,7 +359,7 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
     } else /*file load failed - gui may not be valid */
     deletescore(NULL, gui);
       
-  g_signal_handlers_unblock_by_func(G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_expose_event), NULL);
+  g_signal_handlers_unblock_by_func(G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
   gui->si->undo_guard=1;
 
 

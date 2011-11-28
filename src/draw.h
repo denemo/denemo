@@ -16,7 +16,6 @@ gint
 scorearea_draw_event (GtkWidget *widget, cairo_t *cr);
 #else
 gint
-scorearea_expose_event (GtkWidget * widget, GdkEventExpose * event);
+scorearea_draw_event (GtkWidget * widget, GdkEventExpose * event);
 #endif
-gboolean
-draw_score (cairo_t *cr);
+void update_drawing_cache (void);

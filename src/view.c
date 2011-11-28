@@ -8822,14 +8822,16 @@ get_data_dir (),
   GtkWidget *score_and_scroll_hbox = gtk_hbox_new (FALSE, 1);
   gtk_container_add (GTK_CONTAINER (scorearea_topbox), score_and_scroll_hbox);
   gtk_widget_show (score_and_scroll_hbox);
-  gtk_container_add (GTK_CONTAINER (score_and_scroll_hbox), Denemo.scorearea);
+
+  gtk_box_pack_start (GTK_BOX (score_and_scroll_hbox), Denemo.scorearea, TRUE,
+		      TRUE, 0);// with this, the scorearea_draw_event is called
   gtk_widget_show (Denemo.scorearea);
-#if GTK_MAJOR_VERSION == 3
+#if GTK_MAJOR_VERSION==3
   g_signal_connect (G_OBJECT (Denemo.scorearea), "draw",
 		      G_CALLBACK (scorearea_draw_event), NULL);
 #else
   g_signal_connect (G_OBJECT (Denemo.scorearea), "expose_event",
-		      G_CALLBACK (scorearea_expose_event), NULL);
+		      G_CALLBACK (scorearea_draw_event), NULL);
 #endif
   g_signal_connect (G_OBJECT (Denemo.scorearea), "configure_event",
 		      G_CALLBACK (scorearea_configure_event), NULL);
