@@ -1247,7 +1247,7 @@ draw_score (cairo_t *cr)
  * Here we have the function that actually draws the score. Note that
  * it does not clip intelligently at all 
  */
-
+#if GTK_MAJOR_VERSION == 3
 gint
 scorearea_expose_event (GtkWidget * widget, cairo_t *cr)
 {
@@ -1301,5 +1301,54 @@ DenemoGUI *gui = Denemo.gui;
 
   return TRUE;
 }
+#else
 
+gint
+scorearea_expose_event (GtkWidget * widget, GdkEventExpose * event)
+{
+DenemoGUI *gui = Denemo.gui;
+ cairo_t *cr;
+ //g_print("expose\n");
+ if((!Denemo.gui->si)||(!Denemo.gui->si->currentmeasure)){
+   g_warning("Cannot draw!\n");
+   return TRUE;
+ }
+ if(widget==NULL) {
+   draw_score (NULL);
+   return TRUE;
+ }
 
+  /* Layout the score. */
+ if(layout_needed)
+   if(draw_score (NULL)) {
+      set_bottom_staff(gui);
+      update_vscrollbar(gui);
+   }
+ layout_needed = TRUE;
+
+  /* Setup a cairo context for rendering and clip to the exposed region. */
+  cr = gdk_cairo_create (event->window);
+  gdk_cairo_region (cr, event->region);
+  cairo_clip (cr);
+
+  /* Clear with an appropriate background color. */
+  if(Denemo.gui->input_source!=INPUTKEYBOARD && Denemo.gui->input_source!=INPUTMIDI &&
+     (Denemo.prefs.overlays || (Denemo.gui->input_source==INPUTAUDIO))
+     && pitch_entry_active(gui)) {
+    GdkColor col;
+    gdk_color_parse ("lightblue", &col);
+    gdk_cairo_set_source_color (cr, &col);
+  } else if (gtk_widget_has_focus (Denemo.scorearea)) {
+    cairo_set_source_rgb (cr, ((0xFF0000&Denemo.color)>>16)/255.0, ((0xFF00&Denemo.color)>>8)/255.0, ((0xFF&Denemo.color))/255.0);
+  } else {
+   cairo_set_source_rgb (cr, 0.9, 0.9, 0.9);
+  }
+  cairo_paint (cr);
+
+  /* Draw the score. */
+  draw_score (cr);
+  cairo_destroy (cr);
+
+  return TRUE;
+}
+#endif
