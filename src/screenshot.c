@@ -40,7 +40,7 @@ typedef struct {
   GdkRectangle  rect;
   GdkRectangle  draw_rect;
   gboolean      button_pressed;
-
+  
   GtkWidget *window;
   gboolean aborted;
 } select_area_filter_data;
@@ -126,8 +126,8 @@ typedef struct {
   SelectAreaCallback callback;
   gboolean aborted;
 } CallbackData;
-static gboolean
 
+static gboolean
 emit_select_callback_in_idle (gpointer user_data)
 {
   CallbackData *data = user_data;
@@ -214,8 +214,8 @@ select_area_motion_action (GtkWidget *window,
   draw_rect.width  = ABS (rect->x - x_root);
   draw_rect.height = ABS (rect->y - y_root);
 
-  draw_rect.x = MIN (rect->x, event->x_root);
-  draw_rect.y = MIN (rect->y, event->y_root);
+  draw_rect.x = MIN (rect->x, x_root);
+  draw_rect.y = MIN (rect->y, y_root);
   
   g_print("... and Drew %d %d for %d, %d\n", draw_rect.x, draw_rect.y,
                         draw_rect.width, draw_rect.height);
@@ -231,7 +231,7 @@ select_area_button_press (GtkWidget               *window,
   gdk_event_get_root_coords (event, &xroot, &yroot);
   x_root = (gint)xroot;
   y_root = (gint)yroot;
-  gboolean left = (event->button != 3);
+  gboolean left = (event->button!=3);
   if(left) {
     if (!data->button_pressed) {
         empty_rectangle (x_root, y_root,
