@@ -114,7 +114,7 @@ set_notehead (GtkAction *action, gpointer param)
   content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   label = gtk_label_new (_("Select Notehead Type"));
   gtk_container_add (GTK_CONTAINER (content_area), label);
-#if GTK_CHECK_VERSION(2,24,0)
+#if GTK_MAJOR_VERSION==3
   combo = gtk_combo_box_text_new ();
   for(i=0;i<G_N_ELEMENTS(notehead);i++)
     gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(combo), notehead[i]);
@@ -123,7 +123,7 @@ set_notehead (GtkAction *action, gpointer param)
   combo = gtk_combo_new ();
   gtk_combo_set_popdown_strings (GTK_COMBO (combo), list);
   gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (combo)->entry), _(notehead[0]));
-  gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
+  gtk_combo_box_set_active(GTK_COMBO (combo), 0);
 #endif
   gtk_container_add (GTK_CONTAINER (content_area), combo);
   gtk_widget_grab_focus (combo);
@@ -135,7 +135,7 @@ set_notehead (GtkAction *action, gpointer param)
 
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
-#if GTK_CHECK_VERSION(2,24,0)
+#if GTK_MAJOR_VERSION==3
       gint num =     
 	gtk_combo_box_get_active (GTK_COMBO_BOX (combo));
       insertnotehead (gui->si, notehead[num]);

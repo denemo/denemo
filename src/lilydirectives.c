@@ -21,7 +21,7 @@
 #include "utils.h"
 #include "prefops.h"
 #include "view.h"
-#if GTK_CHECK_VERSION(2,24,0)
+#if GTK_MAJOR_VERSION==3
   #include <gdk/gdkkeysyms-compat.h> //FIXME Look for something more gtk3 like
 #endif
 

@@ -70,7 +70,7 @@ papersetup(GtkWidget *notebook, DenemoGUI *gui, gboolean isnotebook)
 
   GtkWidget *label = gtk_label_new(_("Paper Size"));
   gtk_container_add(GTK_CONTAINER(vbox), label);  
-#if GTK_CHECK_VERSION(2,24,0)
+#if GTK_MAJOR_VERSION==3
   GtkWidget *papersize = gtk_combo_box_text_new();
   for(i=0; i < G_N_ELEMENTS(papersizes); i++)
       gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(papersize), papersizes[i]);
@@ -85,7 +85,7 @@ papersetup(GtkWidget *notebook, DenemoGUI *gui, gboolean isnotebook)
   gtk_container_add(GTK_CONTAINER(vbox), papersize);  
   label = gtk_label_new(_("Font Size"));
   gtk_container_add(GTK_CONTAINER(vbox), label);  
-#if GTK_CHECK_VERSION(2,24,0)
+#if GTK_MAJOR_VERSION==3
   GtkWidget *fontsize = gtk_combo_box_text_new();
   for(i=0; i < G_N_ELEMENTS(fontsizes); i++)
       gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(fontsize), fontsizes[i]);
@@ -136,7 +136,7 @@ papersetup(GtkWidget *notebook, DenemoGUI *gui, gboolean isnotebook)
 static void 
 setpaperconfig(papersetupcb *cbdata, DenemoGUI *gui)
 {
-#if GTK_CHECK_VERSION(2,24,0)
+#if GTK_MAJOR_VERSION==3
   g_string_assign(gui->lilycontrol.papersize, 
 		  (gchar *) 
 		    gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->papersize)));

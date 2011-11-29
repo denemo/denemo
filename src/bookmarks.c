@@ -120,7 +120,7 @@ gotobookmark (GtkAction * action, gpointer param)
 
   //g_print ("List length %d\n", g_list_length (gui->si->bookmarks));
 #define FORMAT "%d : Staff %d : Bar %d"
-#if GTK_CHECK_VERSION(2,24,0)  
+#if GTK_MAJOR_VERSION==3  
   combobox = gtk_combo_box_text_new ();
   for (tmp = gui->si->bookmarks; tmp; tmp = tmp->next)
     {
@@ -157,7 +157,7 @@ gotobookmark (GtkAction * action, gpointer param)
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
       gint bmid, bms, bmb;
-#if GTK_CHECK_VERSION(2,24,0)	
+#if GTK_MAJOR_VERSION==3
       gchar *tmp =
 	(gchar *)gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (combobox));
 #else

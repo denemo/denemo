@@ -275,7 +275,7 @@ drawbitmapinverse_cr (cairo_t * cr, DenemoGraphic * mask, gint x,
   cairo_save(cr);
   switch (mask->type) {
     case DENEMO_BITMAP: {
-#if GTK_CHECK_VERSION(2,24,0)
+#if GTK_MAJOR_VERSION==3
       gdk_cairo_set_source_window( cr, mask->graphic, x,y );//??? bitmap???? asks torbenh
 #else 
       cairo_rectangle( cr, x,y, mask->width, mask->height );

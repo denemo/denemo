@@ -86,7 +86,7 @@ insert_barline (GtkAction *action, gpointer param)
     list = g_list_append (list, string_barlines[i]);
 
   combobox = gtk_combo_box_new ();
-#if GTK_CHECK_VERSION(2,24,0)
+#if GTK_MAJOR_VERSION==3
   for(i=0;i<G_N_ELEMENTS(string_barlines);i++)
     gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(combobox), string_barlines[i]);
 #else
@@ -137,7 +137,7 @@ add_barline (GtkWidget * widget, gpointer data)
 {
   struct callbackdata *cbdata = (struct callbackdata *) data;
   DenemoScore *si = cbdata->gui->si;
-#if GTK_CHECK_VERSION(2,24,0)
+#if GTK_MAJOR_VERSION==3
   gchar *thetext =
     (gchar *)
     (GTK_COMBO_BOX_TEXT (cbdata->combo));

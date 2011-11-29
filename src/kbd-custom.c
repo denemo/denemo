@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
-#if GTK_CHECK_VERSION(3,0,0)
+#if GTK_MAJOR_VERSION==3
   #include <gdk/gdkkeysyms-compat.h> //FIXME Look for something more gtk3 like
 #endif
 #include <glib.h>

@@ -65,7 +65,7 @@ void set_keysig (struct keysig_data *data);
 gint
 findkey (GtkWidget * combobox, GList *list)
 {
-#if GTK_CHECK_VERSION(2,24,0)
+#if GTK_MAJOR_VERSION==3
   gchar *tokeystring = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (combobox));
 #else
    gchar *tokeystring =
@@ -349,7 +349,7 @@ keysig_widget_new(keysig_data *keysig_widgets)
   for(i=0;i<G_N_ELEMENTS(minorkeys);i++)
     minorlist = g_list_append(minorlist, minorkeys[i]);
 
-#if GTK_CHECK_VERSION(2,24,0)
+#if GTK_MAJOR_VERSION==3
   GtkWidget *majorkeycombo = gtk_combo_box_text_new ();
   GtkWidget *minorkeycombo = gtk_combo_box_text_new ();
   for(i=0;i<G_N_ELEMENTS(majorkeys);i++)
