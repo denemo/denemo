@@ -627,10 +627,6 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>ScoreTagline</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
         <action>MovementTitle</action>
         <hidden>true</hidden>
       </row>
