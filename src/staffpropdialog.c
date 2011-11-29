@@ -411,7 +411,7 @@ staff_properties_change (void)
 		                                    staffstruct->field);\
     gtk_box_pack_start (GTK_BOX (main_vbox), field, FALSE, TRUE, 0);\
     cbdata.field = field;
-#if GTK_CHECK_VERSION(2,24,0)
+#if GTK_MAJOR_VERSION==3
  #define COMBOBOXENTRY(thelabel, field, thelist, setstring) \
   GtkWidget *field;\
   hbox = gtk_hbox_new (FALSE, 8);\

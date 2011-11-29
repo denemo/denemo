@@ -137,7 +137,7 @@ set_preferences (struct callbackdata *cbdata)
    prefs->field =\
      gtk_spin_button_get_value (GTK_SPIN_BUTTON(cbdata->field));
 
-#if GTK_CHECK_VERSION(2,24,0)
+#if GTK_MAJOR_VERSION==3
  #define ASSIGNCOMBO(field) \
    g_string_assign (prefs->field,\
 		   (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(cbdata->field)));
@@ -231,10 +231,10 @@ static void
 midi_audio_tab_update(GtkWidget *box, gpointer data)
 {
   struct audio_callback_data *cbdata = (struct audio_callback_data *) data;
-#if GTK_CHECK_VERSION(2,24,0)  
+#if GTK_MAJOR_VERSION==3
   gchar *output = get_midi_audio_pointer((gchar *)gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(box)));
 #else
-   gchar *output = (gchar *)get_midi_audio_pointer((gchar *) 
+  gchar *output = (gchar *)get_midi_audio_pointer((gchar *) 
 		  gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (box)->entry)));
 #endif 
   if (output == Fluidsynth){
@@ -421,7 +421,7 @@ preferences_change (GtkAction *action, gpointer param)
 #endif
 };
 
-#if GTK_CHECK_VERSION(2,24,0)
+#if GTK_MAJOR_VERSION==3
  #define COMBOBOX(thelable, field, thelist, settext)\
   label = gtk_label_new (thelable);\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
@@ -553,7 +553,7 @@ preferences_change (GtkAction *action, gpointer param)
     
   BOOLEANENTRY("Auto-start midi in", startmidiin);
   INTENTRY_LIMITS(_("% MIDI-in Dynamic Compression"), dynamic_compression, 1, 100);
-#if GTK_CHECK_VERSION(2,24,0)
+#if GTK_MAJOR_VERSION==3
   COMBOBOX("Midi/Audio output", midi_audio_output, output_option_list, Denemo.prefs.midi_audio_output)
   g_signal_connect(G_OBJECT(GTK_COMBO_BOX_TEXT(midi_audio_output)), "changed",
 		   G_CALLBACK( G_CALLBACK(midi_audio_tab_update) ), &audio_cbdata);

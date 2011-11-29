@@ -71,7 +71,7 @@ insert_dynamic (GtkAction *action, gpointer param)
   content = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   label = gtk_label_new (_("Insert Dynamic"));
   gtk_container_add (GTK_CONTAINER (content), label);
-#if GTK_CHECK_VERSION(2,24,0)
+#if GTK_MAJOR_VERSION==3
   combo = gtk_combo_box_text_new ();
   for(i=0;i<G_N_ELEMENTS(directives);i++)
     gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(combo), directives[i]);

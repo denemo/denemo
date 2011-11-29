@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
-#if GTK_CHECK_VERSION(3,0,0)
+#if GTK_MAJOR_VERSION==3
   #include <gdk/gdkkeysyms-compat.h> //FIXME Look for something more gtk3 like
 #endif
 #include <glib.h>
@@ -20,9 +20,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#if GTK_CHECK_VERSION(3,0,0)
-  #include <gdk/gdkkeysyms-compat.h>
-#endif
 #include <denemo/denemo.h>
 #include "commandfuncs.h"
 #include "kbd-custom.h"
