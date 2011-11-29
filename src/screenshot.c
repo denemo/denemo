@@ -93,7 +93,7 @@ create_select_window (void)
   visual = gdk_screen_get_rgba_visual (screen);
 
   window = gtk_window_new (GTK_WINDOW_POPUP);
-  if (gdk_screen_is_composited (screen) && visual)
+  if (gdk_screescreenshot.c:243:41: error: ‘select_area_filter_data’ has no member n_is_composited (screen) && visual)
     {
       gtk_widget_set_visual (window, visual);
       gtk_widget_set_app_paintable (window, TRUE);
@@ -159,9 +159,7 @@ empty_rectangle (gint x_root, gint y_root,
 
 static void
 fix_rectangle (gint x_root, gint y_root,
-                            GdkRectangle *rect,
-                            GdkRectangle *draw_rect,
-                            GdkWindow    *root)
+                            GdkRectangle *rect)
 {
   rect->width  = ABS (rect->x - x_root);
   rect->height = ABS (rect->y - y_root);
@@ -239,8 +237,7 @@ select_area_button_press (GtkWidget               *window,
         data->button_pressed = TRUE;
     } else {
         fix_rectangle (x_root, y_root,
-                                    &data->rect, &data->draw_rect,
-                                    data->root);//sets the far corner                      
+                                    &data->rect);//sets the far corner                      
         gtk_main_quit ();
       }
   } else {
