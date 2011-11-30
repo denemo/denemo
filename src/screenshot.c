@@ -93,7 +93,7 @@ create_select_window (void)
   visual = gdk_screen_get_rgba_visual (screen);
 
   window = gtk_window_new (GTK_WINDOW_POPUP);
-  if (gdk_screescreenshot.c:243:41: error: ‘select_area_filter_data’ has no member n_is_composited (screen) && visual)
+  if (gdk_screen_is_composited (screen) && visual)
     {
       gtk_widget_set_visual (window, visual);
       gtk_widget_set_app_paintable (window, TRUE);
