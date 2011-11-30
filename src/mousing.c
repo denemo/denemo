@@ -420,8 +420,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 
 
   if(dragging_separator) {
-    gint allocated_height = get_widget_height(Denemo.scorearea);
-    gui->si->system_height =  allocated_height;
+    gui->si->system_height =  event->y/get_widget_height(Denemo.scorearea);
     if(gui->si->system_height<DENEMO_MINIMUM_SYSTEM_HEIGHT)
       gui->si->system_height = DENEMO_MINIMUM_SYSTEM_HEIGHT;
     if(gui->si->system_height>1.0)
@@ -611,7 +610,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   /* Redraw to show new cursor position, note a real draw is needed because of side effects on display*/
   //gtk_widget_draw (Denemo.scorearea, NULL);
   gtk_widget_queue_draw (Denemo.scorearea);
-  draw_score(NULL);
+  //draw_score(NULL);
   set_cursor_for(event->state | (left?GDK_BUTTON1_MASK:GDK_BUTTON3_MASK));
   perform_command(event->state | (left?GDK_BUTTON1_MASK:GDK_BUTTON3_MASK), GESTURE_PRESS, left);
   
