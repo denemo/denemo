@@ -9067,7 +9067,7 @@ newtab (GtkAction *action, gpointer param) {
   // this stops the keyboard input from getting to  scorearea_keypress_event if done after attaching the signal, why?
   gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);//if this is not done Gdk-CRITICAL **: gdk_draw_drawable: assertion `GDK_IS_DRAWABLE (drawable)' failed message results. Presumably because we have failed to block the (expose_event) drawing while we set up the new page. FIXME.
 
-  gtk_widget_set_can_focus (Denemo.scorearea, FALSE);
+  gtk_widget_set_can_focus (Denemo.scorearea, TRUE);
   //GTK_WIDGET_SET_FLAGS(Denemo.scorearea, GTK_CAN_FOCUS);
   gtk_widget_grab_focus (GTK_WIDGET(Denemo.scorearea)); 
 
