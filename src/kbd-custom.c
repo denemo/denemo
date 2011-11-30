@@ -1430,21 +1430,6 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event)
   keymap *the_keymap = Denemo.map;
   GtkMenu *menu = GTK_MENU(grab_widget);
 
-#if 0 //instead turn off navigation when quick shortcuts are active.
-  GtkMenuClass *menu_class = GTK_MENU_GET_CLASS(menu);
-  GtkMenuShellClass *parent_class = g_type_class_peek_parent(menu_class);
-  //check if this a quick edit
-  //first try to handle the event with the key_press handler of the parent
-  //class (this allows navigation in the menu to take precedence over
-  //the quick edit), 
-  stolen_gtk_menu_stop_navigating_submenu (menu);
-  if (GTK_WIDGET_CLASS (parent_class)->key_press_event (grab_widget,
-              event)) {
-      //This was some navigation command in the submenu, and it was
-      //performed, no need to process further
-      return TRUE;
-  }
-#endif
   //If the KeyEvent is only a modifier, stop processing here
   if (isModifier(event))
       return TRUE;
@@ -1452,12 +1437,8 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event)
   modifiers = dnm_sanitize_key_state(event);
   keyval = event->keyval;
 
-  action = 
-#if 0 //GTK_MINOR_VERSION <10
-    g_object_get_data(G_OBJECT(GTK_MENU_SHELL(menu)->active_menu_item), "action");
-#else
-  gtk_widget_get_action(gtk_menu_get_active(menu));
-#endif
+  action =  gtk_widget_get_action(GTK_MENU_SHELL(menu)->active_menu_item);//note this is not gtk_menu_get_active(menu) except after a selection has been made, we want the menu item that the pointer has moved to before it is selected.
+
  //If this menu item has no action we give up
   if (!action)
     return TRUE;
