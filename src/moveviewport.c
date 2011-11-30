@@ -21,15 +21,14 @@
 void
 update_hscrollbar (DenemoGUI * gui)
 {
-  GtkAdjustment *adj = GTK_ADJUSTMENT (Denemo.hadjustment);
-  
-  gtk_adjustment_set_upper (adj, gui->si->rightmeasurenum - gui->si->leftmeasurenum + 1.0);
-  gtk_adjustment_set_page_size(adj,  gui->si->rightmeasurenum - gui->si->leftmeasurenum + 1.0);
-  gtk_adjustment_set_page_increment(adj, gui->si->rightmeasurenum - gui->si->leftmeasurenum + 1.0);
-  gtk_adjustment_set_value(adj, gui->si->leftmeasurenum);
+ GtkAdjustment *adj =
+ GTK_ADJUSTMENT (Denemo.hadjustment);
+ gdouble upper = g_list_length (gui->si->measurewidths) + 1.0, page_size = gui->si->rightmeasurenum - gui->si->leftmeasurenum + 1.0;
+ gtk_adjustment_set_upper (adj, upper);   gtk_adjustment_set_page_size(adj,  page_size);
+ gtk_adjustment_set_page_increment(adj, page_size);
+ gtk_adjustment_set_value(adj, gui->si->leftmeasurenum);
+ gtk_adjustment_changed(adj);
 
-  gtk_adjustment_changed(adj);
-  //gtk_range_slider_update (GTK_RANGE (Denemo.hscrollbar));
 }
 
 /**
