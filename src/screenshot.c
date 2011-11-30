@@ -26,7 +26,7 @@
 #include <glib.h>
 #include <gdk/gdk.h>
 #if GTK_MAJOR_VERSION==3
-#if 0 //remove this and the corresponding endif to compile and test on gkt3
+#if 1 //remove this and the corresponding endif to compile and test on gkt3
 
 #ifdef G_OS_WIN32
 #include "windows.h"
