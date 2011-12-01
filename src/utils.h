@@ -284,4 +284,5 @@ gchar *make_temp_dir(void);
 gchar *remove_extension(gchar *name);
 gchar *substitute_extension(gchar *name, gchar *extension);
 void init_denemo_notenames(void);
+void switch_back_to_main_window(void);
 #endif /* UTILS_H */

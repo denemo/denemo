@@ -1611,3 +1611,10 @@ cleftypefromname (gchar * str)
   g_free (str);
   return ret;
 }
+
+void switch_back_to_main_window(void) {
+  if(Denemo.non_interactive)
+    return;
+  gtk_window_present(GTK_WINDOW(Denemo.window));
+  gtk_widget_grab_focus (Denemo.scorearea);
+}

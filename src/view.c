@@ -8411,7 +8411,11 @@ static void  proxy_connected (GtkUIManager *uimanager, GtkAction *action, GtkWid
 
   attach_right_click_callback(proxy, action);
 
+
   if(GTK_IS_IMAGE_MENU_ITEM(proxy)) {
+#ifdef FAST_MACHINE
+  g_signal_connect_after(action, "activate", G_CALLBACK(switch_back_to_main_window), NULL);/*ensure keyboard focus returns to drawing area */
+#endif
     //  ????????????? should I put an icon named for the action->label into an icon factory here (we could just have one, static, and use gtk_icon_factory_add_default??????????
     if(!g_object_get_data(G_OBJECT(action), "connected"))
     g_signal_connect(G_OBJECT(proxy), "button-press-event", G_CALLBACK(thecallback), action);
