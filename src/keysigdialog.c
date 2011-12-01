@@ -180,8 +180,6 @@ insert_keysig (keysig_data *kdata)
       if(newkey)
 	adjust_tonal_center( ((keysig*)(newkey->object))->accs);
     }				/* End if */
-
-  g_free(kdata);
 }
 
 /**
