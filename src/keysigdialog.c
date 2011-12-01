@@ -53,6 +53,7 @@ typedef struct keysig_data
   GList     *majorlist;
   GList     *minorlist;
   GtkWidget *radiobutton2;
+  gboolean  initial;
 }keysig_data;
 
 void set_keysig (struct keysig_data *data);
@@ -188,11 +189,6 @@ insert_keysig (keysig_data *kdata)
 void
 majorcallback (GtkWidget * widget, struct keysig_data *data)
 {
-  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
-
-  gtk_combo_box_set_active(GTK_COMBO_BOX (data->majorkeycombo),
-         curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET);
-
   gtk_widget_hide (data->minorkeycombo);
   gtk_widget_show (data->majorkeycombo);
 }
@@ -204,25 +200,8 @@ majorcallback (GtkWidget * widget, struct keysig_data *data)
 void
 minorcallback (GtkWidget * widget, struct keysig_data *data)
 {
-  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
-
-  gtk_combo_box_set_active(GTK_COMBO_BOX (data->minorkeycombo),
-         curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET);
-
   gtk_widget_hide (data->majorkeycombo);
   gtk_widget_show (data->minorkeycombo);
-}
-
-
-/**
- * Update the keysig dialogs combobox with the 
- * modes
- */
-void
-modecallback (GtkWidget * widget, struct keysig_data *data)
-{
-  gtk_widget_hide (data->minorkeycombo);
-  gtk_widget_show (data->majorkeycombo);
 }
 
 /* interprets the scheme_string to set key number and isminor value
@@ -330,10 +309,56 @@ key_change_initial (GtkAction * action, DenemoScriptParam * param)
 
   }
 }
-
-GtkWidget *
-keysig_widget_new(keysig_data *keysig_widgets)
+ 
+static void 
+button_response(GtkWidget *dialog, gint response_id, keysig_data *data) 
 {
+  DenemoGUI *gui = Denemo.gui;
+  if (data->initial)
+    set_keysig (data);
+  else
+    {
+      if(gui->si->currentobject && ((DenemoObject*)gui->si->currentobject->data)->type==KEYSIG)
+	deleteobject(gui);
+      insert_keysig (data);
+     }
+  score_status(gui, TRUE);
+  displayhelper (gui);
+  gtk_widget_destroy (dialog);
+  g_free(data);
+} 
+/**
+ * Key sig change dialog
+ * Allows user to select key from a drop down list
+ *
+ */
+void
+key_change (DenemoGUI * gui, actiontype action)
+{
+  GtkWidget *dialog;
+  gboolean initial = action == CHANGEINITIAL?TRUE:FALSE; 
+  /* GUI setup */
+  dialog = gtk_dialog_new_with_buttons (_("Key Signature Change"),
+					GTK_WINDOW (Denemo.window),
+					(GtkDialogFlags) 
+					(GTK_DIALOG_MODAL |
+					 GTK_DIALOG_DESTROY_WITH_PARENT),
+					GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+					GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+					NULL);
+  
+  if (action == CHANGEINITIAL)
+    gtk_window_set_title (GTK_WINDOW (dialog),
+			  _("Change initial key signature"));
+  else 
+    gtk_window_set_title (GTK_WINDOW (dialog),
+			  _("Insert key signature change"));
+  
+  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  GtkWidget *vbox = gtk_vbox_new(FALSE,1);
+  gtk_container_add (GTK_CONTAINER (content_area), vbox);
+ 
+  keysig_data *keysig_widgets = (keysig_data *) g_malloc0(sizeof(keysig_data));
   GtkWidget *label;
   GtkWidget *radiobutton1, *radiobutton2, *radiobutton3;
   GtkWidget *checkbutton;
@@ -358,10 +383,9 @@ keysig_widget_new(keysig_data *keysig_widgets)
     gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(minorkeycombo), minorkeys[i]);
 #else 
   GtkWidget *majorkeycombo = gtk_combo_new ();
+  gtk_combo_set_popdown_strings (GTK_COMBO (majorkeycombo), majorlist);  
   GtkWidget *minorkeycombo = gtk_combo_new ();
- 
-  gtk_combo_set_popdown_strings (GTK_COMBO (majorkeycombo), majorlist);
-  gtk_combo_set_popdown_strings (GTK_COMBO (minorkeycombo), majorlist);
+  gtk_combo_set_popdown_strings (GTK_COMBO (minorkeycombo), minorlist);  
 #endif
 
   GtkWidget *pack_to_vbox = gtk_vbox_new(FALSE,1);
@@ -383,7 +407,6 @@ keysig_widget_new(keysig_data *keysig_widgets)
   gtk_container_add (GTK_CONTAINER (pack_to_vbox), minorkeycombo);
 
   checkbutton = gtk_check_button_new_with_label (_("Apply to all staves?"));
-
   gtk_container_add (GTK_CONTAINER (pack_to_vbox), checkbutton);
 
   keysig_widgets->checkbutton = checkbutton;
@@ -392,69 +415,17 @@ keysig_widget_new(keysig_data *keysig_widgets)
   keysig_widgets->minorkeycombo = minorkeycombo;
   keysig_widgets->majorlist = majorlist;
   keysig_widgets->minorlist = minorlist;
+  keysig_widgets->initial = initial;
 
   gtk_widget_grab_focus (majorkeycombo);
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton1), TRUE);
   gtk_widget_hide (keysig_widgets->minorkeycombo);
   gtk_widget_show (keysig_widgets->majorkeycombo);
-  gtk_combo_box_set_active(GTK_COMBO_BOX (majorkeycombo),
-    curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET);
-  return pack_to_vbox;
-}
 
-/**
- * Key sig change dialog
- * Allows user to select key from a drop down list
- *
- */
-void
-key_change (DenemoGUI * gui, actiontype action)
-{
-  GtkWidget *dialog;
-  
-  /* GUI setup */
-  dialog = gtk_dialog_new_with_buttons (_("Key Signature Change"),
-					GTK_WINDOW (Denemo.window),
-					(GtkDialogFlags) 
-					(GTK_DIALOG_MODAL |
-					 GTK_DIALOG_DESTROY_WITH_PARENT),
-					GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-					GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
-					NULL);
-  
-  if (action == CHANGEINITIAL)
-    gtk_window_set_title (GTK_WINDOW (dialog),
-			  _("Change initial key signature"));
-  else
-    gtk_window_set_title (GTK_WINDOW (dialog),
-			  _("Insert key signature change"));
-
-  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-  GtkWidget *vbox = gtk_vbox_new(FALSE,1);
-  gtk_container_add (GTK_CONTAINER (content_area), vbox);
-  
-  keysig_data *keysig_widgets = (keysig_data *) g_malloc0(sizeof(keysig_data));
-  GtkWidget *keysig = keysig_widget_new(keysig_widgets);
-  gtk_container_add (GTK_CONTAINER (vbox), keysig);
+  gtk_container_add (GTK_CONTAINER (vbox), pack_to_vbox);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
   gtk_widget_show_all(dialog);
   gtk_widget_hide(keysig_widgets->minorkeycombo);
 
-  if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
-    {
-      if (action == CHANGEINITIAL)
-	{
-	  set_keysig (keysig_widgets);
-	}
-      else
-	{
-	  if(gui->si->currentobject && ((DenemoObject*)gui->si->currentobject->data)->type==KEYSIG)
-	    deleteobject(gui);
-	  insert_keysig (keysig_widgets);
-	}
-      score_status(gui, TRUE);
-      displayhelper (gui);
-    }
-
-  gtk_widget_destroy (dialog);
+  g_signal_connect(dialog, "response", G_CALLBACK(button_response), keysig_widgets);
 }
