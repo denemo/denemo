@@ -279,4 +279,5 @@ gchar *substitute_extension(gchar *name, gchar *extension);
 void init_denemo_notenames(void);
 gint get_widget_height(GtkWidget *w);
 gint get_widget_width(GtkWidget *w);
+void switch_back_to_main_window(void);
 #endif /* UTILS_H */

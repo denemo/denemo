@@ -213,12 +213,6 @@ static temperament *PR_temperament=&Equal; /* the currently used temperament */
 static temperament *temperaments[] = {&Equal, &Meantone, &WerckmeisterIV, &Lehman, &Rameau};
 
 
-static void switch_back_to_main_window(void) {
-  if(Denemo.non_interactive)
-    return;
-  gtk_window_present(GTK_WINDOW(Denemo.window));
-  gtk_widget_grab_focus (Denemo.scorearea);
-}
 
 
 static void pr_display_note(DenemoGUI*gui, gchar *notename) {

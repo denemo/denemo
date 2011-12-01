@@ -1637,3 +1637,10 @@ get_widget_width(GtkWidget *w) {
   gtk_widget_get_allocation(w, &allocation);
   return allocation.width;
 }
+
+void switch_back_to_main_window(void) {
+  if(Denemo.non_interactive)
+    return;
+  gtk_window_present(GTK_WINDOW(Denemo.window));
+  gtk_widget_grab_focus (Denemo.scorearea);
+}
