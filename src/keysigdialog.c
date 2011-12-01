@@ -137,6 +137,7 @@ insert_keysig (keysig_data *kdata)
   DenemoScore *si = Denemo.gui->si;
   measurenode *curmeasure;
   gint tokey, mode;
+  DenemoObject *newkey = NULL;
   tokey = mode = 0;
 
   gint isminor =
@@ -159,7 +160,7 @@ insert_keysig (keysig_data *kdata)
 				       si->currentmeasurenum - 1);
 	      if(curmeasure) {
 		curmeasure->data = g_list_append ((objnode *) curmeasure->data,
-						  dnm_newkeyobj ((tokey - mode),
+						  newkey = dnm_newkeyobj ((tokey - mode),
 								 isminor, mode));
 		if (curmeasure == si->currentmeasure)
 		  si->currentobject =
@@ -171,12 +172,13 @@ insert_keysig (keysig_data *kdata)
       else
 	{
 
-	  object_insert (Denemo.gui, dnm_newkeyobj (tokey - mode, isminor, mode));
+	  object_insert (Denemo.gui, newkey = dnm_newkeyobj (tokey - mode, isminor, mode));
 	  showwhichaccidentalswholestaff ((DenemoStaff *) si->currentstaff->
 					  data);
 	}
       si->cursor_appending = FALSE;
-    adjust_tonal_center( ((keysig*)((DenemoObject*)si->currentobject->data)->object)->accs);
+      if(newkey)
+	adjust_tonal_center( ((keysig*)(newkey->object))->accs);
     }				/* End if */
 
   g_free(kdata);
