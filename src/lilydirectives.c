@@ -1308,7 +1308,11 @@ assign_text(GtkWidget *w, gchar *text) {
   if(textbuffer)
     gtk_text_buffer_set_text(textbuffer, text, -1);
 }
-
+static gchar *get_label_text(DenemoDirective *directive, gchar *text) {
+if(directive->override & DENEMO_OVERRIDE_MARKUP)
+  return g_strdup(text);
+return g_markup_escape_text(text, -1);
+}
 /* create a label. 
 Use the display string up to the first newline, if it is long enough
 else use tag
@@ -1317,9 +1321,9 @@ static void
 set_directive_graphic_label(DenemoDirective *directive) {
   gchar *value;
   if(directive->display && directive->display->len>0)
-    value = g_markup_escape_text(directive->display->str, -1);
+    value = get_label_text(directive, directive->display->str);
   else
-    value = g_markup_escape_text(directive->tag->str, -1);
+    value = get_label_text(directive, directive->tag->str);
   gchar *c;
   for(c=value;*c;c++)
     if(*c=='\n') {
@@ -1405,7 +1409,7 @@ widget_for_directive_menu(DenemoDirective *directive,  void fn(), GtkMenu *menu)
   } else
     if(directive->display) 
       value = directive->display->str;
-  value = g_markup_escape_text(value, -1);
+  value = get_label_text(directive, value);
   if((directive->widget==NULL) ) {
 
 

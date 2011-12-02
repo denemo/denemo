@@ -527,7 +527,7 @@ typedef struct DenemoDirective
 
 #define DENEMO_OVERRIDE_DYNAMIC (1<<28)
 #define DENEMO_OVERRIDE_HIDDEN (1<<29)
-
+#define DENEMO_OVERRIDE_MARKUP (1<<30)
 
 
   guint32 override; /**< specifies what if anything of the built-in behaviour of the object the directive is attached to is to be overriden by this directive and values to use when overriding MIDI */

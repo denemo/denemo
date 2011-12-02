@@ -458,7 +458,7 @@
   (d-DirectivePut-scoreheader-postfix tag (string-append field " = \"" title "\"\n"))))
 
 (define (CreateButton tag label)
-  (d-DirectivePut-score-override tag DENEMO_OVERRIDE_GRAPHIC)
+  (d-DirectivePut-score-override tag (logior DENEMO_OVERRIDE_MARKUP DENEMO_OVERRIDE_GRAPHIC))
   (d-DirectivePut-score-display tag label))
 
 
