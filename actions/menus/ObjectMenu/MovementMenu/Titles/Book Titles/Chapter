@@ -23,8 +23,8 @@
         	(d-DirectivePut-movementcontrol-display "Chapter" chapter))))
     (d-WarningDialog "Movement Title unchanged")))
 </scheme>
-        <label>Title</label>
-        <tooltip>Prints title of Movement</tooltip>
+        <label>Chapter</label>
+        <tooltip>Prints Chapter title for movement(s)</tooltip>
       </row>
     </map>
   </merge>
