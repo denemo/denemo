@@ -429,7 +429,8 @@ preferences_change (GtkAction *action, gpointer param)
     GtkWidget *field = gtk_combo_box_text_new ();\
     for(i=0;i<G_N_ELEMENTS(thelist);i++)\
       if (thelist[i]) gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(field), thelist[i]);\
-  gtk_widget_show_all (field);\
+  gtk_container_add(GTK_CONTAINER(VBOX), field);\
+  gtk_widget_show (field);\
   cbdata.field = field;
 #else
  #define COMBOBOX(thelable, field, thelist, settext)\
@@ -440,7 +441,8 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_combo_set_popdown_strings (GTK_COMBO (field), thelist);\
   gtk_entry_set_text\
     (GTK_ENTRY (GTK_COMBO (field)->entry),  settext);\
-  gtk_widget_show_all (field);\
+  gtk_container_add(GTK_CONTAINER(VBOX), field);\
+  gtk_widget_show (field);\
   cbdata.field = field;
 #endif
 
@@ -513,21 +515,19 @@ preferences_change (GtkAction *action, gpointer param)
   PASSWORDENTRY("Password for Denemo.org", password)
 
 
-  hbox = gtk_hbox_new (FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
   autosave = gtk_check_button_new_with_label (_("Autosave every"));
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autosave),
 				Denemo.prefs.autosave);
-  gtk_box_pack_start (GTK_BOX (hbox), autosave, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (main_vbox), autosave, FALSE, FALSE, 0);
 
   autosave_timeout = gtk_spin_button_new_with_range (1, 50, 1.0);
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (autosave_timeout),
 			     Denemo.prefs.autosave_timeout);
   gtk_widget_set_sensitive (autosave_timeout, Denemo.prefs.autosave);
-  gtk_box_pack_start (GTK_BOX (hbox), autosave_timeout, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (main_vbox), autosave_timeout, FALSE, FALSE, 0);
   g_debug("autosave %p\n", autosave);
   label = gtk_label_new (_("minute(s)"));
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (main_vbox), label, FALSE, FALSE, 0);
   g_signal_connect (G_OBJECT (autosave),
 		    "toggled", G_CALLBACK (toggle_autosave), autosave_timeout);
 
@@ -538,13 +538,11 @@ preferences_change (GtkAction *action, gpointer param)
   NEWPAGE("Audio/MIDI")
  
   {
-    hbox = gtk_hbox_new (FALSE, 8);
-    gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
     label = gtk_label_new ("");	
     gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
     gtk_label_set_markup(GTK_LABEL (label), _("<span background=\"#FFA0A0\">Warning: changes only have effect after quitting and re-starting Denemo</span>"));
     gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (main_vbox), label, FALSE, FALSE, 0);
   }
 
   BOOLEANENTRY("Play back entered notes immediately", immediateplayback);
@@ -599,9 +597,22 @@ preferences_change (GtkAction *action, gpointer param)
   //  driver_option_list = g_list_append (driver_option_list, driver_options[i]);
   //for (i=0;i<G_N_ELEMENTS(midi_driver_options);i++)
   //  midi_driver_option_list = g_list_append (midi_driver_option_list, midi_driver_options[i]);
- 
+#if GTK_MAJOR_VERSION==3 
   COMBOBOX("Audio Driver", fluidsynth_audio_driver, driver_options, Denemo.prefs.fluidsynth_audio_driver->str)
   COMBOBOX("Midi Driver", fluidsynth_midi_driver, midi_driver_options, Denemo.prefs.fluidsynth_midi_driver->str)	  
+#else
+  GList *driver_option_list = NULL;
+  GList *midi_driver_option_list = NULL;
+  for (i=0;i<G_N_ELEMENTS(driver_options);i++)
+    driver_option_list = g_list_append 
+	(driver_option_list, driver_options[i]);
+  for (i=0;i<G_N_ELEMENTS(midi_driver_options);i++)
+    midi_driver_option_list = g_list_append 
+	(midi_driver_option_list, midi_driver_options[i]);
+  COMBOBOX("Audio Driver", fluidsynth_audio_driver, driver_option_list, Denemo.prefs.fluidsynth_audio_driver->str)
+  COMBOBOX("Midi Driver", fluidsynth_midi_driver, midi_driver_option_list, Denemo.prefs.fluidsynth_midi_driver->str)
+#endif
+
   TEXTENTRY("Soundfont", fluidsynth_soundfont)	
   
   hbox = gtk_hbox_new (FALSE, 8);
