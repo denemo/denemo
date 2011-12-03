@@ -595,54 +595,6 @@
         <bind>Shft+slash</bind>
       </row>
       <row>
-        <action>ScoreTitle</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>ScoreArranger</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>ScoreComposer</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>ScoreDedication</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>ScoreInstrument</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>ScoreMeter</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>ScoreOpus</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>ScorePoet</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>MovementTitle</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>MovementSubtitle</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>MovementPiece</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>ScoreCopyright</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
         <action>ToggleTripleting</action>
         <bind>Tab</bind>
       </row>

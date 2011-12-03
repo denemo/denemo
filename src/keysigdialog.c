@@ -369,11 +369,12 @@ key_change (DenemoGUI * gui, actiontype action)
   static GList *minorlist = NULL;
   
   gint i;
-  for(i=0;i<G_N_ELEMENTS(majorkeys);i++)
-    majorlist = g_list_append(majorlist, majorkeys[i]);
-  for(i=0;i<G_N_ELEMENTS(minorkeys);i++)
-    minorlist = g_list_append(minorlist, minorkeys[i]);
-
+  if(majorlist==NULL) {
+    for(i=0;i<G_N_ELEMENTS(majorkeys);i++)
+      majorlist = g_list_append(majorlist, majorkeys[i]);
+    for(i=0;i<G_N_ELEMENTS(minorkeys);i++)
+      minorlist = g_list_append(minorlist, minorkeys[i]);
+  }
 #if GTK_MAJOR_VERSION==3
   GtkWidget *majorkeycombo = gtk_combo_box_text_new ();
   GtkWidget *minorkeycombo = gtk_combo_box_text_new ();
