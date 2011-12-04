@@ -8,18 +8,8 @@
         <after>BookPoet</after>
         <action>BookDate</action>
         <scheme>;;BookDate
-(d-LilyPondInclude "book-titling.ily")
-(let ((chapter (d-DirectiveGet-scoreheader-display "Date")))
-  (if (not chapter)
-    (set! chapter "Date"))
-  (set! chapter (d-GetUserInput "Composition Date" "Give the date for the score" chapter))
-   (d-SetSaved #f)
-  (if (string-null? chapter)
-  	(d-DirectiveDelete-scoreheader "Date")
-  	(begin
-  	(d-DirectivePut-scoreheader-display "Date" chapter)
-      	(d-DirectivePut-scoreheader-postfix "Date" (string-append "date = \"" chapter "\"\n")))))
-</scheme>
+        (BookTitles::Do "Date" "date" (strftime "%Y" (localtime (current-time)))  "Give date for score or blank out to delete: ")
+        </scheme>
         <label>Date</label>
         <tooltip>Prints a date on the title page.</tooltip>
       </row>
