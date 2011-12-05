@@ -271,14 +271,6 @@ find_element_position(gchar **haystack, gchar *needle)
       return i;
 }
 
-static void
-set_gtk_popdown_text(GtkWidget *widget, GList *thelist)
-{
-  GList *g = NULL;\
-  for(g=thelist;g;g=g->next)\
-    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(widget), g->data);\
-}
-
 void
 preferences_change (GtkAction *action, gpointer param)
 {
@@ -415,6 +407,9 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
   gtk_container_add(GTK_CONTAINER(hbox), label);\
   GtkWidget *field = gtk_combo_box_text_new ();\
+  GList *g = NULL;\
+  for(g=thelist;g;g=g->next)\
+    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(widget), g->data);\
   set_gtk_popdown_text (field, thelist);\
   gtk_container_add(GTK_CONTAINER(hbox), field);\
   gtk_widget_show (field);\
