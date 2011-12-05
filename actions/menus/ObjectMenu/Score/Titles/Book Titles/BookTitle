@@ -8,17 +8,8 @@
         <after>TransposeScorePrint</after>
         <action>BookTitle</action>
         <scheme>;;BookTitle
-(d-LilyPondInclude "book-titling.ily")
-(let ((chapter (d-DirectiveGet-scoreheader-display "Title")))
-  (if (not chapter)
-    (set! chapter "Book Title"))
-  (set! chapter (d-GetUserInput "Book Title" "Give a title for the whole score" chapter))
-   (d-SetSaved #f)
-  (if (string-null? chapter)
-  	(d-DirectiveDelete-scoreheader "Title")
-      	(begin 
-      		(d-DirectivePut-scoreheader-display "Title"  chapter)
-      		(d-DirectivePut-scoreheader-postfix "Title" (string-append "title = \"" chapter "\"\n")))))</scheme>
+        (BookTitles::Do "Title" "title" "My Title"  "Give a title for the whole score or blank out to delete: ")
+        </scheme>
         <label>Title</label>
         <tooltip>Prints a title on title page</tooltip>
       </row>

@@ -7,17 +7,8 @@
       <row>
         <action>Piece</action>
         <scheme>;;;Piece
-(d-LilyPondInclude "book-titling.ily")
-(let ((chapter (d-DirectiveGet-movementcontrol-prefix "Piece")))
-  (if (not chapter)
-    (set! chapter "Movement Piece"))
-  (set! chapter (d-GetUserInput "Movement Piece" "Give a name for this piece of the current movement" chapter))
-  (if chapter
-    (begin
-      (d-SetSaved #f)
-      (d-DirectivePut-movementcontrol-prefix "Piece" (string-append "\\piece \"" chapter "\"\n")))
-    (d-WarningDialog "Movement Piece unchanged")))
-</scheme>
+          (MovementBookTitles::Do "Piece" "piece \\markup" "My Piece"  "Give name for this piece of the current movement or blank out to delete: ")
+        </scheme>
         <label>Piece</label>
         <tooltip>Prints a piece name for the Movement</tooltip>
       </row>

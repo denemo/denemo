@@ -7,17 +7,7 @@
       <row>
         <action>BookPoet</action>
         <scheme>;;BookPoet
-(d-LilyPondInclude "book-titling.ily")
-(let ((chapter (d-DirectiveGet-scoreheader-display "Poet")))
-  (if (not chapter)
-    (set! chapter "Poet"))
-  (set! chapter (d-GetUserInput "Poet/Lyricist" "Give a poet or lyricist for the score" chapter))
-   (d-SetSaved #f)
-  (if (string-null? chapter)
-  	(d-DirectiveDelete-scoreheader "Poet")
-  	(begin
-  		(d-DirectivePut-scoreheader-display "Poet" chapter)
-    	  	(d-DirectivePut-scoreheader-postfix "Poet" (string-append "poet = \"" chapter "\"\n")))))
+(BookTitles::Do "Poet" "poet" "My Poet"  "Give name for poet/lyricist/librettist etc or blank out to delete: ")
 </scheme>
         <label>Poet/Lyricist</label>
         <tooltip>Prints the poet or lyricist name on title page</tooltip>
