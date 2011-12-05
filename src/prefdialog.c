@@ -234,8 +234,7 @@ midi_audio_tab_update(GtkWidget *box, gpointer data)
 #if GTK_MAJOR_VERSION==3
   gchar *output = get_midi_audio_pointer((gchar *)gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(box)));
 #else
-  gchar *output = (gchar *)get_midi_audio_pointer((gchar *) 
-		  gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (box)->entry)));
+  gchar *output = (gchar *)get_midi_audio_pointer((gchar *)gtk_entry_get_text (GTK_ENTRY (box)));
 #endif 
   if (output == Fluidsynth){
     gtk_widget_hide(cbdata->pas);
@@ -272,6 +271,14 @@ find_element_position(gchar **haystack, gchar *needle)
       return i;
 }
 
+static void
+set_gtk_popdown_text(GtkWidget *widget, GList *thelist)
+{
+  GList *g = NULL;\
+  for(g=thelist;g;g=g->next)\
+    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(widget), g->data);\
+}
+
 void
 preferences_change (GtkAction *action, gpointer param)
 {
@@ -299,11 +306,10 @@ preferences_change (GtkAction *action, gpointer param)
 					GTK_STOCK_CANCEL, GTK_STOCK_CANCEL,
 					NULL);
 
-  //gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+//  gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
   content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   notebook = gtk_notebook_new ();
   gtk_container_add (GTK_CONTAINER (content_area), notebook);
-
 #define VBOX main_vbox
 
 #define NEWPAGE(thelabel) \
@@ -389,7 +395,6 @@ preferences_change (GtkAction *action, gpointer param)
   NEWPAGE("View");
   BOOLEANENTRY("Highlight the cursor", cursor_highlight); 
   //Doesnt GList need to be freed
-#if 0
   GList *output_option_list = NULL;
   output_option_list = g_list_append (output_option_list, (gpointer) None);
 #ifdef _HAVE_PORTAUDIO_
@@ -401,42 +406,28 @@ preferences_change (GtkAction *action, gpointer param)
 #ifdef _HAVE_FLUIDSYNTH_
   output_option_list = g_list_append (output_option_list, (gpointer) Fluidsynth);
 #endif
-#endif
- 
-  gchar *output_option_list[4] = {"None", 
-#ifdef _HAVE_PORTAUDIO_
-  "Portaudio",
-#else
-  NULL,
-#endif
-#ifdef _HAVE_JACK_
-  "Jack",
-#else
-  NULL,
-#endif 
-#ifdef _HAVE_FLUIDSYNTH_
-  "Fluidsynth"
-#else
-  NULL
-#endif
-};
 
 #if GTK_MAJOR_VERSION==3
  #define COMBOBOX(thelable, field, thelist, settext)\
+  hbox = gtk_hbox_new (FALSE, 8);\
+  gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);\
   label = gtk_label_new (thelable);\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
-  gtk_container_add(GTK_CONTAINER(VBOX), label);\
-    GtkWidget *field = gtk_combo_box_text_new ();\
-    for(i=0;i<G_N_ELEMENTS(thelist);i++)\
-      if (thelist[i]) gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(field), thelist[i]);\
-  gtk_container_add(GTK_CONTAINER(VBOX), field);\
+  gtk_container_add(GTK_CONTAINER(hbox), label);\
+  GtkWidget *field = gtk_combo_box_text_new ();\
+  set_gtk_popdown_text (field, thelist);\
+  gtk_container_add(GTK_CONTAINER(hbox), field);\
   gtk_widget_show (field);\
   cbdata.field = field;
 #else
  #define COMBOBOX(thelable, field, thelist, settext)\
+  hbox = gtk_hbox_new (FALSE, 8);\
+  gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);\
   label = gtk_label_new (thelable);\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
-  gtk_container_add(GTK_CONTAINER(VBOX), label);\
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
+  hbox = gtk_hbox_new (FALSE, 8);\
+  gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);\
   GtkWidget *field = gtk_combo_new();\
   gtk_combo_set_popdown_strings (GTK_COMBO (field), thelist);\
   gtk_entry_set_text\
@@ -515,22 +506,28 @@ preferences_change (GtkAction *action, gpointer param)
   PASSWORDENTRY("Password for Denemo.org", password)
 
 
+  hbox = gtk_hbox_new (FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
   autosave = gtk_check_button_new_with_label (_("Autosave every"));
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autosave),
 				Denemo.prefs.autosave);
-  gtk_box_pack_start (GTK_BOX (main_vbox), autosave, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), autosave, FALSE, FALSE, 0);
 
   autosave_timeout = gtk_spin_button_new_with_range (1, 50, 1.0);
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (autosave_timeout),
 			     Denemo.prefs.autosave_timeout);
   gtk_widget_set_sensitive (autosave_timeout, Denemo.prefs.autosave);
-  gtk_box_pack_start (GTK_BOX (main_vbox), autosave_timeout, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), autosave_timeout, FALSE, FALSE, 0);
   g_debug("autosave %p\n", autosave);
   label = gtk_label_new (_("minute(s)"));
-  gtk_box_pack_start (GTK_BOX (main_vbox), label, FALSE, FALSE, 0);
-  g_signal_connect (G_OBJECT (autosave),
-		    "toggled", G_CALLBACK (toggle_autosave), autosave_timeout);
-
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+#if GTK_MAJOR_VERSION==3
+  g_signal_connect (G_OBJECT (autosave), "toggled",
+    G_CALLBACK (toggle_autosave), autosave_timeout);
+#else
+  g_signal_connect (GTK_OBJECT (autosave), "toggled",
+    G_CALLBACK (toggle_autosave), autosave_timeout);
+#endif
 
   BOOLEANENTRY("Autosave Parts", saveparts);
 
@@ -542,7 +539,7 @@ preferences_change (GtkAction *action, gpointer param)
     gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
     gtk_label_set_markup(GTK_LABEL (label), _("<span background=\"#FFA0A0\">Warning: changes only have effect after quitting and re-starting Denemo</span>"));
     gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-    gtk_box_pack_start (GTK_BOX (main_vbox), label, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
   }
 
   BOOLEANENTRY("Play back entered notes immediately", immediateplayback);
@@ -554,14 +551,11 @@ preferences_change (GtkAction *action, gpointer param)
 #if GTK_MAJOR_VERSION==3
   COMBOBOX("Midi/Audio output", midi_audio_output, output_option_list, Denemo.prefs.midi_audio_output)
   g_signal_connect(G_OBJECT(GTK_COMBO_BOX_TEXT(midi_audio_output)), "changed",
-		   G_CALLBACK( G_CALLBACK(midi_audio_tab_update) ), &audio_cbdata);
+    G_CALLBACK( G_CALLBACK(midi_audio_tab_update) ), &audio_cbdata);
 #else
-  GList *option_list = NULL;
-  for(i=0;i<G_N_ELEMENTS(output_option_list);i++)
-    if (output_option_list[i]) option_list = g_list_append(option_list, output_option_list[i]);
-  COMBOBOX("Midi/Audio output", midi_audio_output, option_list, Denemo.prefs.midi_audio_output)
-  g_signal_connect(G_OBJECT(GTK_COMBO(midi_audio_output)), "changed",
-		   G_CALLBACK( G_CALLBACK(midi_audio_tab_update) ), &audio_cbdata);
+  COMBOBOX("Midi/Audio output", midi_audio_output, output_option_list, Denemo.prefs.midi_audio_output)
+  g_signal_connect(G_OBJECT(GTK_COMBO(midi_audio_output)->entry), "changed",
+    G_CALLBACK( GTK_SIGNAL_FUNC(midi_audio_tab_update) ), &audio_cbdata);
 #endif
 
 
@@ -604,11 +598,9 @@ preferences_change (GtkAction *action, gpointer param)
   GList *driver_option_list = NULL;
   GList *midi_driver_option_list = NULL;
   for (i=0;i<G_N_ELEMENTS(driver_options);i++)
-    driver_option_list = g_list_append 
-	(driver_option_list, driver_options[i]);
+    driver_option_list = g_list_append (driver_option_list, driver_options[i]);
   for (i=0;i<G_N_ELEMENTS(midi_driver_options);i++)
-    midi_driver_option_list = g_list_append 
-	(midi_driver_option_list, midi_driver_options[i]);
+    midi_driver_option_list = g_list_append (midi_driver_option_list, midi_driver_options[i]);
   COMBOBOX("Audio Driver", fluidsynth_audio_driver, driver_option_list, Denemo.prefs.fluidsynth_audio_driver->str)
   COMBOBOX("Midi Driver", fluidsynth_midi_driver, midi_driver_option_list, Denemo.prefs.fluidsynth_midi_driver->str)
 #endif
@@ -619,8 +611,13 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);
   GtkWidget *button = gtk_button_new_with_label (_("Choose Soundfont"));
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
+#if GTK_MAJOR_VERSION==3
   g_signal_connect (G_OBJECT (button), "clicked",
     G_CALLBACK(choose_sound_font), fluidsynth_soundfont);
+#else
+  gtk_signal_connect (GTK_OBJECT (button), "clicked",
+  GTK_SIGNAL_FUNC (choose_sound_font), fluidsynth_soundfont);
+#endif
   gtk_widget_show (button);
 
   BOOLEANENTRY("Enable Reverb on soundfont", fluidsynth_reverb)
