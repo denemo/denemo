@@ -75,9 +75,9 @@ papersetup(GtkWidget *notebook, DenemoGUI *gui, gboolean isnotebook)
   for(i=0; i < G_N_ELEMENTS(papersizes); i++)
       gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(papersize), papersizes[i]);
 #else
-  GtkWidget *papersize = gtk_combo_new();
+  GtkWidget *papersize = gtk_combo_box_entry_new_text();
   for(i=0; i < G_N_ELEMENTS(papersizes); i++)
-      gtk_combo_set_popdown_strings(GTK_COMBO(papersize), papersizes[i]);
+      gtk_combo_box_append_text(GTK_COMBO_BOX(papersize), papersizes[i]);
 #endif
 
   //gtk_entry_set_text(GTK_ENTRY(GTK_BIN(papersize)->child), 
@@ -90,9 +90,9 @@ papersetup(GtkWidget *notebook, DenemoGUI *gui, gboolean isnotebook)
   for(i=0; i < G_N_ELEMENTS(fontsizes); i++)
       gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(fontsize), fontsizes[i]);
 #else
-  GtkWidget *fontsize = gtk_combo_new();
+  GtkWidget *fontsize = gtk_combo_box_entry_new_text();
   for(i=0; i < G_N_ELEMENTS(fontsizes); i++)
-      gtk_combo_set_popdown_strings(GTK_COMBO(fontsize), fontsizes[i]);
+      gtk_combo_box_append_text(GTK_COMBO_BOX(fontsize), fontsizes[i]);
 #endif
   gchar *tmp;
   //tmp = g_strdup_printf( "%d", gui->lilycontrol.fontsize);
