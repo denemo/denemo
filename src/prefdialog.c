@@ -262,15 +262,6 @@ midi_audio_tab_update(GtkWidget *box, gpointer data)
 
 }
 
-static gint
-find_element_position(gchar **haystack, gchar *needle)
-{
-  gint i;
-  for(i=0;i<G_N_ELEMENTS(haystack);i++)
-    if (g_strcmp0(haystack[i], needle) == 0)
-      return i;
-}
-
 void
 preferences_change (GtkAction *action, gpointer param)
 {
@@ -407,10 +398,10 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
   gtk_container_add(GTK_CONTAINER(hbox), label);\
   GtkWidget *field = gtk_combo_box_text_new ();\
-  GList *g = NULL;\
-  for(g=thelist;g;g=g->next)\
-    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(widget), g->data);\
-  set_gtk_popdown_text (field, thelist);\
+  while (thelist){\
+   gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(field), thelist->data);\
+   thelist = thelist->next;\
+  }\
   gtk_container_add(GTK_CONTAINER(hbox), field);\
   gtk_widget_show (field);\
   cbdata.field = field;
@@ -579,17 +570,6 @@ preferences_change (GtkAction *action, gpointer param)
   gchar *driver_options[5] = {"alsa", "jack", "oss", "pulseaudio", "portaudio"};
   gchar *midi_driver_options[2] = {"alsa_seq", "oss"};
 #endif
-  //GList *driver_option_list = NULL;
-  //GList *midi_driver_option_list = NULL;
-  //gint i;
-  //for (i=0;i<G_N_ELEMENTS(driver_options);i++)
-  //  driver_option_list = g_list_append (driver_option_list, driver_options[i]);
-  //for (i=0;i<G_N_ELEMENTS(midi_driver_options);i++)
-  //  midi_driver_option_list = g_list_append (midi_driver_option_list, midi_driver_options[i]);
-#if GTK_MAJOR_VERSION==3 
-  COMBOBOX("Audio Driver", fluidsynth_audio_driver, driver_options, Denemo.prefs.fluidsynth_audio_driver->str)
-  COMBOBOX("Midi Driver", fluidsynth_midi_driver, midi_driver_options, Denemo.prefs.fluidsynth_midi_driver->str)	  
-#else
   GList *driver_option_list = NULL;
   GList *midi_driver_option_list = NULL;
   for (i=0;i<G_N_ELEMENTS(driver_options);i++)
@@ -598,7 +578,6 @@ preferences_change (GtkAction *action, gpointer param)
     midi_driver_option_list = g_list_append (midi_driver_option_list, midi_driver_options[i]);
   COMBOBOX("Audio Driver", fluidsynth_audio_driver, driver_option_list, Denemo.prefs.fluidsynth_audio_driver->str)
   COMBOBOX("Midi Driver", fluidsynth_midi_driver, midi_driver_option_list, Denemo.prefs.fluidsynth_midi_driver->str)
-#endif
 
   TEXTENTRY("Soundfont", fluidsynth_soundfont)	
   
