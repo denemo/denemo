@@ -398,8 +398,13 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
   gtk_container_add(GTK_CONTAINER(hbox), label);\
   GtkWidget *field = gtk_combo_box_text_new ();\
+  i=0;\
   while (thelist){\
    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(field), thelist->data);\
+   if (!strcmp(thelist->data, settext))\
+     gtk_combo_box_set_active(GTK_COMBO_BOX(field), i);\
+   else\
+     i++;\
    thelist = thelist->next;\
   }\
   gtk_container_add(GTK_CONTAINER(hbox), field);\
