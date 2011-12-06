@@ -159,7 +159,7 @@ score_properties_dialog (GtkAction *action, DenemoScriptParam *param)
   gtk_notebook_append_page (GTK_NOTEBOOK (notebook), vbox, label);
 
   GtkWidget *hbox = gtk_hbox_new(FALSE,1);
-  gtk_container_add(GTK_CONTAINER (vbox), hbox);
+  gtk_box_pack_start(GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
   label = gtk_label_new (_("Measure width (pixels):"));
   gtk_container_add(GTK_CONTAINER (hbox), label);
   measure_width = gtk_spin_button_new_with_range (10.0, 1000, 1.0);
@@ -168,7 +168,7 @@ score_properties_dialog (GtkAction *action, DenemoScriptParam *param)
   gtk_container_add (GTK_CONTAINER (hbox), measure_width);
 
   hbox = gtk_hbox_new(FALSE,1);
-  gtk_container_add(GTK_CONTAINER (vbox), hbox);
+  gtk_box_pack_start(GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
   label = gtk_label_new (_("Staff spacing (pixels):"));
   gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
   gtk_container_add (GTK_CONTAINER(hbox), label);  
