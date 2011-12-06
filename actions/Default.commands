@@ -5440,19 +5440,25 @@ for second and subsequent systems</tooltip>
         <tooltip>Prints the poet or lyricist name on title page</tooltip>
       </row>
       <row>
-        <action>Chapter</action>
-        <after>MovementTitle</after>
+        <action>TitledPiece</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/MovementMenu/Titles/Book Titles</menupath>
-        <label>Chapter</label>
-        <tooltip>Prints Chapter title for movement(s)</tooltip>
+        <label>Title</label>
+        <tooltip>Prints title for the current movement, which will get a page reference in a table of contents.</tooltip>
+      </row>
+      <row>
+        <action>Chapter</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/Titles/Book Titles</menupath>
+        <label>Heading</label>
+        <tooltip>Prints a heading in upper case for the current movement.</tooltip>
       </row>
       <row>
         <action>Section</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/MovementMenu/Titles/Book Titles</menupath>
         <label>Sub-Title</label>
-        <tooltip>Prints a subtitle for the Movement</tooltip>
+        <tooltip>Prints a subtitle for the current movement</tooltip>
       </row>
       <row>
         <action>Piece</action>
@@ -5469,14 +5475,7 @@ for second and subsequent systems</tooltip>
         <label>Table of Contents Title</label>
         <tooltip>Gives a heading for a table of contents, inserting the table in the book.</tooltip>
       </row>
-      <row>
-        <action>TitledPiece</action>
-        <after>Piece</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/MovementMenu/Titles/Book Titles</menupath>
-        <label>Title</label>
-        <tooltip>Prints a title for the movement, which will get a page reference in a table of contents.</tooltip>
-      </row>
+
       <row>
         <action>SetDisplayClef</action>
         <after>HideClef</after>

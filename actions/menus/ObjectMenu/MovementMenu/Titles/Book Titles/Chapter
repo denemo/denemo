@@ -5,13 +5,12 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after>MovementTitle</after>
         <action>Chapter</action>
         <scheme>;;;Chapter
-         (MovementBookTitles::Do "Chapter" "chapter" "My Chapter"  "Give name for chapter or blank out to delete: ")
+         (MovementBookTitles::Do "Chapter" "chapter" "My Heading"  "Give heading or blank out to delete: ")
 </scheme>
-        <label>Chapter</label>
-        <tooltip>Prints Chapter title for movement(s)</tooltip>
+        <label>Heading</label>
+        <tooltip>Prints a heading the current movement</tooltip>
       </row>
     </map>
   </merge>
