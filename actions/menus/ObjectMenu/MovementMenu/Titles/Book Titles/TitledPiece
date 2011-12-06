@@ -8,10 +8,10 @@
         <after>Piece</after>
         <action>TitledPiece</action>
         <scheme>;;;TitledPiece
-         (MovementBookTitles::Do "Title" "titledPiece \\markup" "My Movement Title"  "Give movement title or blank out to delete: ")
+         (MovementBookTitles::Do "TitledPiece" "titledPiece \\markup" "My Movement Title"  "Give title for the movement or blank out to delete: ")
         </scheme>
         <label>Title</label>
-        <tooltip>Prints a title for the movement, which will get a page reference in a table of contents.</tooltip>
+        <tooltip>Prints title for the current movement</tooltip>
       </row>
     </map>
   </merge>
