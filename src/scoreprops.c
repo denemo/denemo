@@ -76,14 +76,13 @@ setpaperconfig(papersetupcb *cbdata, DenemoGUI *gui)
       gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->fontsize)));
 #else
   g_string_assign(gui->lilycontrol.papersize,
-		  (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->papersize))));
+		  (gchar *) gtk_combo_box_get_active_text (cbdata->papersize));
 
   g_string_assign(gui->lilycontrol.staffsize,
-		  (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->fontsize))));
+		  (gchar *) gtk_combo_box_get_active_text (cbdata->fontsize));
 #endif 
   g_string_assign(gui->lilycontrol.lilyversion, 
-		  (gchar *)gtk_entry_get_text 
-		  (GTK_ENTRY (cbdata->lilyversion)));
+		  (gchar *)gtk_entry_get_text (cbdata->lilyversion));
 
 
   if(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(cbdata->portrait)))
