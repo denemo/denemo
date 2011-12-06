@@ -158,30 +158,31 @@ score_properties_dialog (GtkAction *action, DenemoScriptParam *param)
   label = gtk_label_new_with_mnemonic (_("Display Layout"));
   gtk_notebook_append_page (GTK_NOTEBOOK (notebook), vbox, label);
 
+  GtkWidget *hbox = gtk_hbox_new(FALSE,1);
+  gtk_container_add(GTK_CONTAINER (vbox), hbox);
   label = gtk_label_new (_("Measure width (pixels):"));
-  gtk_container_add(GTK_CONTAINER (vbox), label);
+  gtk_container_add(GTK_CONTAINER (hbox), label);
   measure_width = gtk_spin_button_new_with_range (10.0, 1000, 1.0);
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (measure_width),
 			     (gdouble) si->measurewidth);
-  gtk_container_add (GTK_CONTAINER (vbox), measure_width);
+  gtk_container_add (GTK_CONTAINER (hbox), measure_width);
 
+  hbox = gtk_hbox_new(FALSE,1);
+  gtk_container_add(GTK_CONTAINER (vbox), hbox);
   label = gtk_label_new (_("Staff spacing (pixels):"));
   gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
-  gtk_container_add (GTK_CONTAINER(vbox), label);  
-
+  gtk_container_add (GTK_CONTAINER(hbox), label);  
   staff_spacing =
     gtk_spin_button_new_with_range (2 * STAFF_HEIGHT, 1000, 1.0);
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (staff_spacing),
 			     (gdouble) si->staffspace);
-  gtk_container_add (GTK_CONTAINER(vbox), staff_spacing);  
+  gtk_container_add (GTK_CONTAINER(hbox), staff_spacing);  
 
   papersetupcb *setup = (papersetupcb *) g_malloc0(sizeof(papersetupcb));
   vbox = gtk_vbox_new(FALSE,1);
   label = gtk_label_new_with_mnemonic (_("Paper Size"));
   gtk_notebook_append_page (GTK_NOTEBOOK (notebook), vbox, label);
   
-  label = gtk_label_new(_("Paper Size"));
-  gtk_container_add(GTK_CONTAINER(vbox), label);  
 #if GTK_MAJOR_VERSION==3
   GtkWidget *papersize = gtk_combo_box_text_new();
   for(i=0; i < G_N_ELEMENTS(papersizes); i++){
@@ -196,9 +197,12 @@ score_properties_dialog (GtkAction *action, DenemoScriptParam *param)
   gtk_entry_set_text(GTK_ENTRY(GTK_BIN(papersize)->child),
   	gui->lilycontrol.papersize->len? gui->lilycontrol.papersize->str:"");
 #endif
-  gtk_container_add(GTK_CONTAINER(vbox), papersize);  
-  label = gtk_label_new(_("Font Size"));
-  gtk_container_add(GTK_CONTAINER(vbox), label);  
+  hbox = gtk_hbox_new(FALSE,1);
+  gtk_container_add(GTK_CONTAINER(vbox), hbox);  
+  label = gtk_label_new(_("Paper Size"));
+  gtk_container_add(GTK_CONTAINER(hbox), label);  
+  gtk_container_add(GTK_CONTAINER(hbox), papersize);  
+  
 #if GTK_MAJOR_VERSION==3
   GtkWidget *fontsizecombo = gtk_combo_box_text_new();
   for(i=0; i < G_N_ELEMENTS(fontsizes); i++){
@@ -213,15 +217,18 @@ score_properties_dialog (GtkAction *action, DenemoScriptParam *param)
   gtk_entry_set_text(GTK_ENTRY(GTK_BIN(fontsizecombo)->child),
     gui->lilycontrol.staffsize->len? gui->lilycontrol.staffsize->str:"");
 #endif
-  gchar *tmp;
-  //tmp = g_strdup_printf( "%d", gui->lilycontrol.fontsize);
-  //gtk_entry_set_text (GTK_ENTRY (GTK_BIN(fontsize)->child),  gui->lilycontrol.staffsize->len?gui->lilycontrol.staffsize->str:"");
-  //g_free(tmp);
-  gtk_container_add(GTK_CONTAINER(vbox), fontsizecombo);
+  hbox = gtk_hbox_new(FALSE,1);
+  gtk_container_add(GTK_CONTAINER(vbox), hbox);  
+  label = gtk_label_new(_("Font Size"));
+  gtk_container_add(GTK_CONTAINER(hbox), label);  
+  gtk_container_add(GTK_CONTAINER(hbox), fontsizecombo);
+  
+  hbox = gtk_hbox_new(FALSE,1);
+  gtk_container_add(GTK_CONTAINER(vbox), hbox);  
   label = gtk_label_new(_("Lilypond Version"));
-  gtk_container_add(GTK_CONTAINER(vbox), label);
+  gtk_container_add(GTK_CONTAINER(hbox), label);
   GtkWidget *lilyversion = gtk_entry_new();
-  gtk_container_add(GTK_CONTAINER(vbox), lilyversion);  
+  gtk_container_add(GTK_CONTAINER(hbox), lilyversion);  
   gtk_entry_set_text(GTK_ENTRY(lilyversion), gui->lilycontrol.lilyversion->len?
 		     gui->lilycontrol.lilyversion->str:"");
 
