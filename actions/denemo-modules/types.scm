@@ -44,12 +44,16 @@
   
 (define (TupletClose?) 
   (if (string=? (d-GetType) "TUPCLOSE") #t #f))
-  
+
 (define (Tupletopen?) 
   (TupletOpen?))
   
 (define (Tupletclose?) 
   (TupletClose))
+
+(define (StemDirective?) 
+  (if (string=? (d-GetType) "STEMDIRECTIVE") #t #f))  
+
  
 (define (None?)
  (if (string=? (d-GetType) "None") #t #f))
