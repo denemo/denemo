@@ -191,7 +191,7 @@ score_properties_dialog (GtkAction *action, DenemoScriptParam *param)
       gtk_combo_box_set_active(GTK_COMBO_BOX(papersize), i);
   }
 #else
-  GtkWidget *papersize = gtk_combo_box_new();
+  GtkWidget *papersize = gtk_combo_box_entry_new_text();
   for(i=0; i < G_N_ELEMENTS(papersizes); i++)
     gtk_combo_box_append_text(GTK_COMBO_BOX(papersize), papersizes[i]);
   gtk_entry_set_text(GTK_ENTRY(GTK_BIN(papersize)->child),
@@ -201,17 +201,18 @@ score_properties_dialog (GtkAction *action, DenemoScriptParam *param)
   label = gtk_label_new(_("Font Size"));
   gtk_container_add(GTK_CONTAINER(vbox), label);  
 #if GTK_MAJOR_VERSION==3
-  GtkWidget *fontsizecombo = gtk_combo_box_text_new();
+  GtkWidget *fontsizecombo = gtk_combo_box_entry_new_text();
   for(i=0; i < G_N_ELEMENTS(fontsizes); i++){
       gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(fontsizecombo), fontsizes[i]);
     if (!strcmp(gui->lilycontrol.staffsize->str, fontsizes[i]))
      gtk_combo_box_set_active(GTK_COMBO_BOX(fontsizecombo), i);
   }
 #else
-  GtkWidget *fontsizecombo = gtk_combo_box_new();
+  GtkWidget *fontsizecombo = gtk_combo_box_entry_new_text();
   for(i=0; i < G_N_ELEMENTS(fontsizes); i++)
-      gtk_combo_box_append_text(GTK_COMBO_BOX(fontsizecombo), fontsizes[i]);
-  gtk_entry_set_text (GTK_ENTRY (GTK_BIN(fontsize)->child),  gui->lilycontrol.staffsize->len?gui->lilycontrol.staffsize->str:"");
+    gtk_combo_box_append_text(GTK_COMBO_BOX(fontsizecombo), fontsizes[i]);
+  gtk_entry_set_text(GTK_ENTRY(GTK_BIN(fontsizecombo)->child),
+    gui->lilycontrol.staffsize->len? gui->lilycontrol.staffsize->str:"");
 #endif
   gchar *tmp;
   //tmp = g_strdup_printf( "%d", gui->lilycontrol.fontsize);
