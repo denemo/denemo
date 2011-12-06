@@ -82,7 +82,7 @@ setpaperconfig(papersetupcb *cbdata, DenemoGUI *gui)
 		  (gchar *) gtk_combo_box_get_active_text (cbdata->fontsize));
 #endif 
   g_string_assign(gui->lilycontrol.lilyversion, 
-		  (gchar *)gtk_entry_get_text (cbdata->lilyversion));
+		  (gchar *)gtk_entry_get_text (GTK_ENTRY(cbdata->lilyversion)));
 
 
   if(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(cbdata->portrait)))
@@ -200,7 +200,7 @@ score_properties_dialog (GtkAction *action, DenemoScriptParam *param)
   label = gtk_label_new(_("Font Size"));
   gtk_container_add(GTK_CONTAINER(vbox), label);  
 #if GTK_MAJOR_VERSION==3
-  GtkWidget *fontsizecombo = gtk_combo_box_entry_new_text();
+  GtkWidget *fontsizecombo = gtk_combo_box_text_new();
   for(i=0; i < G_N_ELEMENTS(fontsizes); i++){
       gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(fontsizecombo), fontsizes[i]);
     if (!strcmp(gui->lilycontrol.staffsize->str, fontsizes[i]))
