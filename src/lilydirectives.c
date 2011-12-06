@@ -1229,7 +1229,9 @@ text_edit_directive_by_fn(DenemoDirective *directive, gpointer fn);
 
 static void
 button_callback  (GtkWidget *widget, GdkEventButton *event, DenemoDirective *directive) {
-  gboolean left = (event==NULL || !((event->button != 1) && (event->state&(GDK_SHIFT_MASK|GDK_CONTROL_MASK))));                  
+  gboolean left = TRUE;
+  if(event!=NULL)
+    left = !((event->button != 1) /* && (event->state&(GDK_SHIFT_MASK|GDK_CONTROL_MASK)) */);                  
   if(left && (directive->override&DENEMO_OVERRIDE_EDITOR))
     {
       GtkWidget *texteditor = (GtkWidget*)g_object_get_data(G_OBJECT(directive->widget), DENEMO_TEXTEDITOR_TAG);
@@ -2361,7 +2363,7 @@ edit_directive(DenemoDirective *directive, gchar *what) {
   gchar* filename = get_editscript_filename(directive->tag->str);
   if(filename == NULL) {
     GtkAction *action = lookup_action_from_name (directive->tag->str);
-    if(action)
+    if(action && (Denemo.keyboard_state!=GDK_MOD2_MASK/*NumLock */))
       activate_script(action, NULL);
     else
       ret =( text_edit_directive(directive, what)  || !confirm("Directive Delete", "Are you sure you want to delete the directive?"));
