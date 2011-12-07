@@ -292,13 +292,13 @@ static GtkWidget * create_editor_window(void) {
   GtkWidget* entry = w;
   //gtk_entry_set_activates_default (w,TRUE);
   gtk_box_pack_start (GTK_BOX (hbox), w, TRUE, TRUE, 0);
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox,FALSE, TRUE, 0); 
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox,FALSE, TRUE, 0);
   g_signal_connect(G_OBJECT(button), "clicked",  G_CALLBACK(executeCLI), entry);
   g_signal_connect (G_OBJECT (entry), "key-press-event",
 		  G_CALLBACK (keypress), NULL);
   w = gtk_button_new_with_label("Execute Script");
   g_signal_connect(G_OBJECT(w), "clicked",  G_CALLBACK(executeScript), NULL);
-  gtk_box_pack_start (GTK_BOX (main_vbox), w, FALSE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (main_vbox), w, FALSE, FALSE, 0);
 
 
 
@@ -340,18 +340,19 @@ static GtkWidget * create_editor_window(void) {
 
   menuBar = gtk_menu_bar_new();
 
-  gtk_container_add(GTK_CONTAINER(main_vbox), menuBar);
+  gtk_box_pack_start (GTK_BOX (main_vbox), menuBar, FALSE, FALSE, 0);
   gtk_widget_show(menuBar);
   gtk_menu_shell_append(GTK_MENU_SHELL(menuBar), fileMenu);
 
 
   GtkWidget *wid = gtk_check_button_new();
   gtk_activatable_set_related_action(GTK_ACTIVATABLE(wid), gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ModeMenu/RecordScript"));
-  gtk_container_add (GTK_CONTAINER (main_vbox), wid);
+  gtk_box_pack_start (GTK_BOX (main_vbox), wid, FALSE, FALSE, 0);
   GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
 				  GTK_POLICY_AUTOMATIC,
 				  GTK_POLICY_AUTOMATIC);
+  
   gtk_container_add (GTK_CONTAINER (main_vbox), sw);
   gtk_container_add (GTK_CONTAINER (sw), TextView);
   return TextView;
