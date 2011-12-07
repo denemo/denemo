@@ -2588,7 +2588,7 @@ Sets prevailing rhythm to &#x1D165;</tooltip>
       <row>
         <action>ScoreTagline</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Titles/</menupath>
+        <menupath>/ObjectMenu/Score/Titles</menupath>
         <label>Tagline</label>
         <tooltip> Centered at the bottom of the last page.</tooltip>
       </row>
@@ -5475,7 +5475,6 @@ for second and subsequent systems</tooltip>
         <label>Table of Contents Title</label>
         <tooltip>Gives a heading for a table of contents, inserting the table in the book.</tooltip>
       </row>
-
       <row>
         <action>SetDisplayClef</action>
         <after>HideClef</after>
@@ -5586,6 +5585,14 @@ for second and subsequent systems</tooltip>
         <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
         <label>Print Two Parts as Cue for Accompanist</label>
         <tooltip>Prints the top two staffs on a single staff as cue.</tooltip>
+      </row>
+      <row>
+        <action>TaglineLink</action>
+        <after>ScoreTagline</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles</menupath>
+        <label>Tagline with Link</label>
+        <tooltip>Creates a tagline with a link in PDF output.</tooltip>
       </row>
     </map>
   </merge>
