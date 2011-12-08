@@ -229,6 +229,7 @@ insert_artic_cb (GtkWidget * widget, DenemoGUI * gui)
   g_free (tmp);
 }
 
+#if 0
 /**
  * Creates button for the articulation palette 
  * 
@@ -470,3 +471,4 @@ toggle_articulation_palette (GtkAction *action, gpointer param)
 
   gtk_widget_show_all (window);
 }
+#endif

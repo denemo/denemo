@@ -249,7 +249,6 @@ void execute_scheme(GtkAction *action, DenemoScriptParam *param) {
 #define ToggleLilyText_STRING  "ToggleLilyText"
 #define ToggleScript_STRING  "ToggleScript"
 
-#define ToggleArticulationPalette_STRING  "ToggleArticulationPalette"
 #define TogglePrintView_STRING  "TogglePrintView"
 #define ToggleLyricsView_STRING  "ToggleLyricsView"
 #define ToggleConsoleView_STRING  "ToggleConsoleView"
@@ -8168,9 +8167,6 @@ GtkToggleActionEntry toggle_menu_entries[] = {
    G_CALLBACK (toggle_scheme), FALSE}
   ,
 
-  {ToggleArticulationPalette_STRING, NULL, N_("_Articulation Palette"), NULL, NULL,
-   G_CALLBACK (toggle_articulation_palette), FALSE},
-
   {TogglePrintView_STRING, NULL, N_("Typeset Music"), NULL, NULL,
    G_CALLBACK (toggle_print_view), FALSE},
 
@@ -9064,9 +9060,6 @@ newtab (GtkAction *action, gpointer param) {
  create_rhythm_cb((gpointer)insert_rest_7key, NULL);   
  create_rhythm_cb((gpointer)insert_rest_8key, NULL);   
 
-
-  if (Denemo.prefs.articulation_palette)
-    toggle_articulation_palette (NULL, NULL);
   //Denemo.gui->mode = Denemo.prefs.mode;
 
   // this stops the keyboard input from getting to  scorearea_keypress_event if done after attaching the signal, why?

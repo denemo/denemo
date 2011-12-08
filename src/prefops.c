@@ -173,7 +173,6 @@ initprefs ()
   ret->autosave_timeout = 5;
   ret->maxhistory = 20;
   ret->notation_palette = TRUE;
-  ret->articulation_palette = FALSE;
   ret->midi_in_controls = FALSE;
   ret->playback_controls = FALSE;
   ret->toolbar = TRUE;
@@ -494,7 +493,6 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READBOOLXMLENTRY(lilyentrystyle)
       READBOOLXMLENTRY(toolbar)
       READBOOLXMLENTRY(notation_palette)
-      READBOOLXMLENTRY(articulation_palette)
 	READBOOLXMLENTRY(midi_in_controls)
 	READBOOLXMLENTRY(playback_controls)
       READBOOLXMLENTRY(console_pane)
@@ -855,7 +853,6 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEBOOLXMLENTRY(notation_palette)
   WRITEBOOLXMLENTRY(midi_in_controls)
   WRITEBOOLXMLENTRY(playback_controls)
-  WRITEBOOLXMLENTRY(articulation_palette)
   WRITEBOOLXMLENTRY(console_pane)
   WRITEBOOLXMLENTRY(lyrics_pane)
   WRITEBOOLXMLENTRY(visible_directive_buttons)
