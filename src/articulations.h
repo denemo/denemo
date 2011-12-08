@@ -8,15 +8,5 @@
 
 #ifndef ARTICULATIONS_H
 #define ARTICULATIONS_H
-
-enum articulationcallbackaction
-{ GENERAL, STRING, ORGAN };
-
-
-void set_articulation(gchar *string, DenemoObject *obj);
-
-
-void toggle_articulation_palette (GtkAction *action, gpointer param);
-
 GList* insert_ornament_list(enum ornament orn, GList *list);
 #endif
