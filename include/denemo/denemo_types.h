@@ -425,7 +425,6 @@ typedef struct DenemoPrefs
   gboolean toolbar; /**< makes the toolbar visible */
   gboolean playback_controls; /**< makes the playback controls visible */
   gboolean midi_in_controls; /**< makes the midi in controls visible */
-  gboolean articulation_palette; /**< makes the articulation pallete visible */
   gboolean notation_palette; /**< makes the Note/Rest entry toolbar visible */
   gboolean rhythm_palette; /**< makes the rhythm toolbar visable */
   gboolean object_palette;  /**< makes the object menu toolbar visible */
@@ -887,7 +886,6 @@ typedef struct DenemoGUI
   
 
 
-  GtkWidget* articulation_palette; /**< Articulation palette window */
   InputSource input_source;/**< Where pitches are coming into Denemo (keyboard, audio, midi) */
   InputSource last_source;/**< Where the last input came from */
   MidiDestination midi_destination;/**< Where MIDI in should go */

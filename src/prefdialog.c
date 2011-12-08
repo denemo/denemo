@@ -209,7 +209,6 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNBOOLEAN(quickshortcuts)
   ASSIGNBOOLEAN(autosave)
   ASSIGNINT(autosave_timeout)
-  ASSIGNBOOLEAN(articulation_palette)
   ASSIGNBOOLEAN(midi_in_controls)
   ASSIGNBOOLEAN(playback_controls)
   ASSIGNBOOLEAN(console_pane)
@@ -430,7 +429,6 @@ preferences_change (GtkAction *action, gpointer param)
 
   BOOLEANENTRY("Display general toolbar", toolbar);
   BOOLEANENTRY("Display Note/Rest entry toolbar", notation_palette);
-  BOOLEANENTRY("Display articulation palette", articulation_palette);
   BOOLEANENTRY("Display Controls for Incoming MIDI signals", midi_in_controls);
   BOOLEANENTRY("Display Controls for Playback", playback_controls);
 
