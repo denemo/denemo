@@ -13,9 +13,10 @@
 #include <gtksourceview/gtksourceprintcompositor.h> 
 #if GTK_MAJOR_VERSION==3
   #include <gdk/gdkkeysyms-compat.h> //FIXME Look for something more gtk3 like
+#else
+  #include <gtksourceview/gtksourceiter.h>
 #endif
 #include <gtksourceview/gtksourcebuffer.h>
-//#include <gtksourceview/gtksourceiter.h>
 #include "texteditors.h"
 #include "view.h"
 
@@ -119,7 +120,8 @@ static void save_scheme_text_as(GtkWidget *widget, GtkWidget *textview) {
 		gchar *labeltext = g_strconcat("\nThe file ", *pfilename, " already exists.\n Do you want to overwrite it?\n\n", NULL);
 		label = gtk_label_new(labeltext);
 		g_free(labeltext);
-		gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)), label);
+                GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+		gtk_container_add(GTK_CONTAINER(content_area), label);
 		gtk_widget_show_all(dialog);
 
 		if(gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_CANCEL) {
@@ -324,12 +326,12 @@ static GtkWidget * create_editor_window(void) {
 
   item = gtk_menu_item_new_with_label("Find");
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  //g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(find_cb), (gpointer)TextView);
-
+#if GTK_MAJOR_VERSION==2
+  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(find_cb), (gpointer)TextView);
   item = gtk_menu_item_new_with_label("Replace");
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  //g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(replace_cb), (gpointer)TextView);
-
+  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(replace_cb), (gpointer)TextView);
+#endif
 
 
   fileMenu = gtk_menu_item_new_with_label("File");
@@ -366,15 +368,15 @@ void create_scheme_window(void) {
 
 
 /* Buffer action callbacks ------------------------------------------------------------ */
-#if 0 	
+#if  GTK_MAJOR_VERSION==2	
 static struct {
   char *what;
   char *replacement;
-  GtkSourceSearchFlags *flags; //FIXME
+  GtkSourceSearchFlags flags;
 } search_data = {
   NULL,
   NULL,
-  NULL //GTK_SOURCE_SEARCH_CASE_INSENSITIVE FIXME
+  GTK_SOURCE_SEARCH_CASE_INSENSITIVE
 };
  	
 static gboolean
@@ -382,7 +384,7 @@ search_dialog (GtkWidget *widget,
 	       gboolean replace,
 	       char **what_p,
 	       char **replacement_p,
-	       GtkSourceSearchFlags *flags_p) //FIXME
+	       GtkSourceSearchFlags *flags_p)
 {
   GtkWidget *dialog;
   GtkEntry *entry1, *entry2;
@@ -404,46 +406,28 @@ search_dialog (GtkWidget *widget,
 			 "activates-default", TRUE,
 			 NULL);
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-  gtk_container_add (GTK_CONTAINER (content_area), entry1);
-
-//#if GTK_MAJOR_VERSION==3
-//  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
-//		      GTK_WIDGET (entry1), TRUE, TRUE, 0);
-//#else
-//  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-//		      GTK_WIDGET (entry1), TRUE, TRUE, 0);
-//#endif
+  GtkWidget *vbox = gtk_vbox_new(FALSE, 1);
+  gtk_container_add (GTK_CONTAINER (content_area), vbox);
+  gtk_box_pack_start (GTK_BOX (vbox),
+		      GTK_WIDGET (entry1), TRUE, TRUE, 0);
   entry2 = g_object_new (GTK_TYPE_ENTRY,
 			 "visible", replace,
 			 "text", search_data.replacement ? search_data.replacement : "",
 			 "activates-default", TRUE,
 			 NULL);
+  gtk_box_pack_start (GTK_BOX (vbox),
+		      GTK_WIDGET (entry2), TRUE, TRUE, 0);
+ 	
   
-  gtk_container_add (GTK_CONTAINER (content_area), entry2);
-
-//#if GTK_MAJOR_VERSION==3
-//  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
-//		      GTK_WIDGET (entry2), TRUE, TRUE, 0);
-//#else
-//  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-//		      GTK_WIDGET (entry2), TRUE, TRUE, 0);
-//#endif
   case_sensitive = g_object_new (GTK_TYPE_CHECK_BUTTON,
 				 "visible", TRUE,
 				 "label", "Case sensitive",
-				 "active", FALSE, //FIXME//!(search_data.flags & GTK_SOURCE_SEARCH_CASE_INSENSITIVE),
-				 NULL);
+				 "active", !(search_data.flags & GTK_SOURCE_SEARCH_CASE_INSENSITIVE), NULL);
 
-  gtk_container_add (GTK_CONTAINER (content_area), case_sensitive);
-
-//#if GTK_MAJOR_VERSION==3
-//  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)),
-//		      GTK_WIDGET (case_sensitive), FALSE, FALSE, 0);
-//#else
-//  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-//		      GTK_WIDGET (case_sensitive), FALSE, FALSE, 0);
-//
-//#endif
+  gtk_box_pack_start (GTK_BOX (vbox),
+		      GTK_WIDGET (case_sensitive), FALSE, FALSE, 0);
+  gtk_widget_show_all(dialog);
+ 	
   while (TRUE)
     {
       if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
@@ -461,7 +445,7 @@ search_dialog (GtkWidget *widget,
   g_free (search_data.replacement);
   *replacement_p = search_data.replacement = g_strdup (gtk_entry_get_text (entry2));
   *flags_p = search_data.flags = gtk_toggle_button_get_active (case_sensitive) ?
-    0 : 0;//FIXME GTK_SOURCE_SEARCH_CASE_INSENSITIVE;
+    0 : GTK_SOURCE_SEARCH_CASE_INSENSITIVE;
  	
   gtk_widget_destroy (dialog);
   return TRUE;
@@ -474,7 +458,7 @@ do_search_replace (GtkTextView *view,
   GtkTextBuffer *buffer = gtk_text_view_get_buffer (view);
   GtkTextIter iter;
   char *what, *replacement;
-  GtkSourceSearchFlags *flags; //FIXME
+  GtkSourceSearchFlags flags;
  	
   if (!search_dialog (GTK_WIDGET (view), replace, &what, &replacement, &flags))
     return;
@@ -487,7 +471,7 @@ do_search_replace (GtkTextView *view,
  	{
 	  GtkTextIter match_start, match_end;
  	
-	  if (!gtk_text_iter_forward_search (&iter, what, flags,
+	  if (!gtk_source_iter_forward_search (&iter, what, flags,
 					       &match_start,
 					       &match_end,
 					       NULL))
@@ -506,7 +490,7 @@ do_search_replace (GtkTextView *view,
  	
       gtk_text_buffer_get_iter_at_mark (buffer, &iter, gtk_text_buffer_get_insert (buffer));
  	
-      if (gtk_text_iter_forward_search (&iter, what, flags, &match_start, &match_end, NULL))
+      if (gtk_source_iter_forward_search (&iter, what, flags, &match_start, &match_end, NULL))
  	{
 	  gtk_text_buffer_select_range (buffer, &match_start, &match_end);
  	}
@@ -514,7 +498,7 @@ do_search_replace (GtkTextView *view,
  	{
 	  GtkTextIter insert = iter;
 	  gtk_text_buffer_get_start_iter (buffer, &iter);
-	  if (gtk_text_iter_forward_search (&iter, what, flags, &match_start, &match_end, &insert))
+	  if (gtk_source_iter_forward_search (&iter, what, flags, &match_start, &match_end, &insert))
 	    gtk_text_buffer_select_range (buffer, &match_start, &match_end);
  	}
     }
@@ -532,5 +516,5 @@ replace_cb (GtkAction *action,
 	    gpointer user_data)
 {
   do_search_replace (user_data, TRUE);
-} 
+}
 #endif
