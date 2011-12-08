@@ -181,7 +181,6 @@ gboolean save_scheme_dialog(GtkTextBuffer *buffer, GtkWidget *textview) {
 	  }
   	  
   	  content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-  	  label = gtk_label_new (_("Select Notehead Type"));
   	  gtk_container_add (GTK_CONTAINER (content_area), label);
 
 	  gtk_widget_show_all(dialog);
