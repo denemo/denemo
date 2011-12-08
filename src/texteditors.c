@@ -323,10 +323,9 @@ static GtkWidget * create_editor_window(void) {
   item = gtk_menu_item_new_with_label("Save as...");
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(save_scheme_text_as), (gpointer)TextView);
-
+#if GTK_MAJOR_VERSION==2
   item = gtk_menu_item_new_with_label("Find");
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-#if GTK_MAJOR_VERSION==2
   g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(find_cb), (gpointer)TextView);
   item = gtk_menu_item_new_with_label("Replace");
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
