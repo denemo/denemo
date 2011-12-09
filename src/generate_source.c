@@ -62,6 +62,7 @@ char *RESTS[] = {REST0, REST1, REST2, REST3, REST4, REST5, REST6, REST7, REST8};
 char *RESTCHARS[] = {RESTCHAR0, RESTCHAR1, RESTCHAR2, RESTCHAR3, RESTCHAR4, RESTCHAR5, RESTCHAR6, RESTCHAR7, RESTCHAR8};
 
 
+
 #define N_
 
 #define CMD_CATEGORY_NAVIGATION		0
@@ -354,6 +355,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleEndDiminuendo"), "toggle_end_diminuendo", N_("End Diminuendo")},
 
   {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleAccent"), "add_accent", N_("Accent (Off/On)")},
+  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleMarcato"), "add_marcato", N_("Marcato (Off/On)")},
   {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleFermata"), "add_fermata", N_("Fermata (Off/On)")},
   {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleStaccato"), "add_staccato", N_("Staccato (Off/On)")},
   {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleTenuto"), "add_tenuto", N_("Tenuto (Off/On)")},
@@ -807,6 +809,7 @@ int main() {
         fprintf(entries, "\n#define RESTCHAR%d \"%s\"\n", i, RESTCHARS[i]);
         fprintf(entries, "\n#define NOTE%d \"%s\"\n", i,  NOTES[i]);
         fprintf(entries, "\n#define REST%d \"%s\"\n", i, RESTS[i]);
+
 
     /* menu_entries for the mode sensitive duration actions, Dur0,1,2 ... */
     fprintf(entries,

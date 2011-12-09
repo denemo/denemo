@@ -98,6 +98,7 @@ void insert_clone_key (DenemoGUI *gui);
 void add_staccato(DenemoGUI *gui);
 void add_fermata(DenemoGUI *gui);
 void add_accent(DenemoGUI *gui);
+void add_marcato(DenemoGUI *gui);
 void add_tenuto(DenemoGUI *gui);
 void add_mordent(DenemoGUI *gui);
 void add_turn(DenemoGUI *gui);

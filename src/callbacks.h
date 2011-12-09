@@ -1261,6 +1261,13 @@ add_accent (gui);
   displayhelper (gui);
 score_status(gui, TRUE);
 }
+/*ToggleMarcato add_marcato*/
+static void add_marcato_cb (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+add_marcato (gui);
+  displayhelper (gui);
+score_status(gui, TRUE);
+}
 /*ToggleFermata add_fermata*/
 static void add_fermata_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
