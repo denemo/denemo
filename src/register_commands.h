@@ -192,7 +192,6 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleEn
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleStartDiminuendo"), "ToggleStartDiminuendo", "Start Diminuendo", "No Tooltip yet", toggle_start_diminuendo);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleEndDiminuendo"), "ToggleEndDiminuendo", "End Diminuendo", "No Tooltip yet", toggle_end_diminuendo);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleAccent"), "ToggleAccent", "Accent (Off/On)", "No Tooltip yet", add_accent);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleMarcato"), "ToggleMarcato", "Marcato (Off/On)", "No Tooltip yet", add_marcato);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleFermata"), "ToggleFermata", "Fermata (Off/On)", "No Tooltip yet", add_fermata);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleStaccato"), "ToggleStaccato", "Staccato (Off/On)", "No Tooltip yet", add_staccato);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleTenuto"), "ToggleTenuto", "Tenuto (Off/On)", "No Tooltip yet", add_tenuto);

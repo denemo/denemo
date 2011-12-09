@@ -775,10 +775,6 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleEndDiminuendo")), "
 SCM scheme_ToggleAccent(SCM optional);
 install_scm_function ("d-ToggleAccent", scheme_ToggleAccent);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleAccent")), "scm", (gpointer)1);
-/*ToggleMarcato add_marcato*/
-SCM scheme_ToggleMarcato(SCM optional);
-install_scm_function ("d-ToggleMarcato", scheme_ToggleMarcato);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleMarcato")), "scm", (gpointer)1);
 /*ToggleFermata add_fermata*/
 SCM scheme_ToggleFermata(SCM optional);
 install_scm_function ("d-ToggleFermata", scheme_ToggleFermata);

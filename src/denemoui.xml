@@ -460,7 +460,6 @@
 	  <menuitem action="ToggleStaccatissimo"/>
 	  <menuitem action="ToggleTenuto"/>
 	  <menuitem action="ToggleAccent"/>
-	  <menuitem action="ToggleMarcato"/>
 	</menu>
 	<menu action="Strings">
        	  <menuitem action="ToggleFlageolet"/>
