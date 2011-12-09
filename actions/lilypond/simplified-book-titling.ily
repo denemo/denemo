@@ -7,8 +7,12 @@
                      
 \paper {
   bookTitleMarkup = \markup \when-property #'header:title {
-     { \postscript #"0.35 setlinewidth 0 20 moveto 108 0 rlineto 0 -160 rlineto -108 0 rlineto 0 160 rlineto  stroke
-	                   0.15 setlinewidth 5 15 moveto 98 0 rlineto 0 -150 rlineto -98 0 rlineto 0 150 rlineto  stroke" }
+     { \postscript #"
+                    gsave
+                    initmatrix
+                    0.35 setlinewidth 40 20 moveto 520 0 rlineto 0 800 rlineto -520 0 rlineto 0 -800 rlineto  stroke
+                    0.15 setlinewidth 45 25 moveto 510 0 rlineto 0 790 rlineto -510 0 rlineto 0 -790 rlineto  stroke
+                    grestore" }
     \column {
       \vspace #6
       \fill-line { \fontsize #8 \italic \fromproperty #'header:composer }
