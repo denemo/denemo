@@ -1,6 +1,7 @@
 (define (BookTitles::Do field lilyfield initial help)
 	(define tag (string-append "Book" field))
 	(d-LilyPondInclude "book-titling.ily")
+	(d-LilyPondInclude "simplified-book-titling.ily")
 	(let ((chapter (d-DirectiveGet-scoreheader-display tag)))
   (if (not chapter)
     (set! chapter initial))
