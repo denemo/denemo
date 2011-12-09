@@ -4,31 +4,40 @@
    (markup #:column (#:vspace 1
                      #:fill-line (#:fontsize 4 title)
                      #:vspace 1))))
+#(define-markup-command (when-notproperty layout props symbol markp) (symbol? markup?)
+  (if (chain-assoc-get symbol props)
+      (ly:make-stencil '()  '(1 . -1) '(1 . -1))
+      (interpret-markup layout props markp)))
+
                      
 \paper {
   bookTitleMarkup = \markup \when-property #'header:title {
      { \postscript #"
                     gsave
                     initmatrix
-                    0.35 setlinewidth 40 20 moveto 520 0 rlineto 0 800 rlineto -520 0 rlineto 0 -800 rlineto  stroke
-                    0.15 setlinewidth 45 25 moveto 510 0 rlineto 0 790 rlineto -510 0 rlineto 0 -790 rlineto  stroke
+                    1 setlinewidth 40 40 moveto 517 0 rlineto 0 760 rlineto -517 0 rlineto 0 -760 rlineto  stroke
+                    0.5 setlinewidth 45 45 moveto 507 0 rlineto 0 750 rlineto -507 0 rlineto 0 -750 rlineto  stroke
                     grestore" }
     \column {
-      \vspace #6
+      \when-property #'header:poet \vspace #6
+      \when-notproperty #'header:poet  \vspace #16
       \fill-line { \fontsize #8 \italic \fromproperty #'header:composer }
       \vspace #1
-      \fill-line { \fontsize #8 \italic \fromproperty #'header:poet }
-      \vspace #6
+      \when-property #'header:poet  
+          \fill-line { \fontsize #8 \italic \fromproperty #'header:poet }
+      \when-property #'header:poet     
+          \vspace #6
+      \when-notproperty #'header:poet  \vspace #2
       \fill-line { \fontsize #10 \fromproperty #'header:title }
-      \vspace #6
+      \vspace #1
       \fill-line { \postscript #"-20 0 moveto 40 0 rlineto stroke" }
       \vspace #6
       \fill-line { \fontsize #5 \fromproperty #'header:date }
       \vspace #1 
       \fill-line {
-        \when-property #'header:arrangement \column {
+        \when-property #'header:arranger \column {
           \vspace #5
-          \fill-line { \fontsize #3 \fromproperty #'header:arrangement }
+          \fill-line { \fontsize #3 \fromproperty #'header:arranger }
         }
       }
     }
@@ -47,3 +56,4 @@ oddFooterMarkup = \markup {
 }
 evenFooterMarkup = \oddFooterMarkup
 }
+\pageBreak
