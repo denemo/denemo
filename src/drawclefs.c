@@ -52,7 +52,7 @@ draw_clef (cairo_t *cr, gint xx, gint y, clef *clef)
 	//	gint width, height;
 	//gdk_drawable_get_size(GDK_DRAWABLE(directive->graphic), &width, &height);
 	drawbitmapinverse_cr (cr, directive->graphic,
-			   xx+directive->gx+count,  y+directive->gy);
+			   xx+directive->gx+count,  y+directive->gy, FALSE);
       }
     }
   }

@@ -61,7 +61,7 @@ draw_rest (cairo_t *cr,
   };
   if(override_rest)
     drawbitmapinverse_cr ( cr, override_rest,
-			       xx+gx+ restwidths[0]-override_rest->width/2,  y+restoffsets[0]+gy-override_rest->height/2);
+			       xx+gx+ restwidths[0]-override_rest->width/2,  y+restoffsets[0]+gy-override_rest->height/2, FALSE);
   else
     drawfetachar_cr (cr, rest_char[duration],
 		     xx, y + restoffsets[duration]);
@@ -138,7 +138,7 @@ draw_notehead (cairo_t *cr,
     if(override_notehead) {
       //g_print("drawing a chord override graphic at %d %d\n",  xx+gx-override_notehead->width/2,  y+height+gy-override_notehead->height/2);
       drawbitmapinverse_cr ( cr, override_notehead,
-			       xx+gx-override_notehead->width/2,  y+height+gy-override_notehead->height/2);
+			       xx+gx-override_notehead->width/2,  y+height+gy-override_notehead->height/2, FALSE);
     }
     else {
     if (is_stemup)
@@ -295,18 +295,18 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	    } else {
 	      drawbitmapinverse_cr (cr, directive->graphic, 
 				    xx+directive->gx-directive->graphic->width/2, 
-				    y + STAFF_HEIGHT+40+directive->gy  - directive->graphic->height/2);	      
+				    y + STAFF_HEIGHT+40+directive->gy  - directive->graphic->height/2, FALSE);	      
 	    }
 	  } else { //this directive's graphic does not override entire chord (other ones may)
-	    if(directive->override&DENEMO_ALT_OVERRIDE) {
+	    if(directive->override&DENEMO_ALT_OVERRIDE) {//ALT_OVERRIDE makes the positioning stem sensitive
 	      drawbitmapinverse_cr (cr, directive->graphic, 
 				    xx+directive->gx-directive->graphic->width/2, 
-				    (thechord.is_stemup? (y + STAFF_HEIGHT+40+directive->gy):(y - 40 -directive->gy))  - directive->graphic->height/2 );
+				    (thechord.is_stemup? (y + STAFF_HEIGHT+40+directive->gy):(y - 40 -directive->gy))  - directive->graphic->height/2, thechord.is_stemup);
 	      
 	    } else {
 	      drawbitmapinverse_cr (cr, directive->graphic, 
 				    xx+directive->gx-directive->graphic->width/2, 
-				    y + STAFF_HEIGHT+40+count+directive->gy  - directive->graphic->height/2);	      
+				    y + STAFF_HEIGHT+40+count+directive->gy  - directive->graphic->height/2, FALSE);	      
 	    }
 	  }
 	}

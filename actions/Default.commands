@@ -987,6 +987,11 @@ the end point of the selection is unaltered</tooltip>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
+        <action>ToggleMarcato</action>
+        <label>Marcato (Off/On)</label>
+        <tooltip>No Tooltip yet</tooltip>
+      </row>
+      <row>
         <action>ToggleFermata</action>
         <label>Fermata (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
@@ -5593,6 +5598,13 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/Score/Titles</menupath>
         <label>Tagline with Link</label>
         <tooltip>Creates a tagline with a link in PDF output.</tooltip>
+      </row>
+      <row>
+        <action>Marcato</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Marcato</label>
+        <tooltip>Mark/Unmark the current chord marcato</tooltip>
       </row>
     </map>
   </merge>

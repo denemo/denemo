@@ -46,7 +46,7 @@
 
 void
 drawbitmapinverse_cr (cairo_t * cr, DenemoGraphic * mask, gint x,
-		   gint y);
+		   gint y, gboolean invert);
 
 void
 drawfetachar_cr (cairo_t * cr, gunichar uc, double x, double y);

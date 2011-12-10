@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <string.h> /*for SIGTERM */
+#include <math.h>
 #include <fontconfig/fontconfig.h>
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
@@ -270,7 +271,7 @@ progressbar_stop(){
 
 void
 drawbitmapinverse_cr (cairo_t * cr, DenemoGraphic * mask, gint x,
-		   gint y)
+		   gint y, gboolean invert)
 {
   cairo_save(cr);
   switch (mask->type) {
@@ -294,6 +295,9 @@ drawbitmapinverse_cr (cairo_t * cr, DenemoGraphic * mask, gint x,
 	cairo_select_font_face( cr, glyph->fontname, glyph->slant, glyph->weight );
 	cairo_set_font_size( cr, glyph->size);
 	cairo_move_to( cr, x,y );
+
+  if(invert)
+    cairo_rotate( cr, M_PI);
 	cairo_show_text( cr, glyph->utf);
       break;	
     }
@@ -347,7 +351,7 @@ gint   draw_for_directives(cairo_t * cr, GList *directives, gint x, gint y) {
       maxwidth = MAX(gwidth, maxwidth);
       //g_print("drawing a graphic at %d %d\n", xx+directive->gx+count-gwidth/2,  y+height+directive->gy-gheight/2);
       drawbitmapinverse_cr ( cr, directive->graphic,
-			       x+directive->gx+count-gwidth/2,  y+directive->gy-gheight/2);
+			       x+directive->gx+count-gwidth/2,  y+directive->gy-gheight/2, FALSE);
       
     }
     if(directive->display) {
