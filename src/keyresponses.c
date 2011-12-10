@@ -931,15 +931,6 @@ add_accent (DenemoGUI * gui)
 }
 
 void
-add_marcato (DenemoGUI * gui)
-{
-  DenemoObject *curmudelaobj = (DenemoObject *)
-    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
-
-  addornament (curmudelaobj, MARCATO);
-}
-
-void
 add_fermata (DenemoGUI * gui)
 {
   DenemoObject *curmudelaobj = (DenemoObject *)

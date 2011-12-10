@@ -193,7 +193,6 @@
 {"ToggleStartDiminuendo", NULL, "Start Diminuendo", NULL,"No Tooltip yet",G_CALLBACK (toggle_start_diminuendo_cb)},
 {"ToggleEndDiminuendo", NULL, "End Diminuendo", NULL,"No Tooltip yet",G_CALLBACK (toggle_end_diminuendo_cb)},
 {"ToggleAccent", NULL, "Accent (Off/On)", NULL,"No Tooltip yet",G_CALLBACK (add_accent_cb)},
-{"ToggleMarcato", NULL, "Marcato (Off/On)", NULL,"No Tooltip yet",G_CALLBACK (add_marcato_cb)},
 {"ToggleFermata", NULL, "Fermata (Off/On)", NULL,"No Tooltip yet",G_CALLBACK (add_fermata_cb)},
 {"ToggleStaccato", NULL, "Staccato (Off/On)", NULL,"No Tooltip yet",G_CALLBACK (add_staccato_cb)},
 {"ToggleTenuto", NULL, "Tenuto (Off/On)", NULL,"No Tooltip yet",G_CALLBACK (add_tenuto_cb)},
