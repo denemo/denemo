@@ -987,11 +987,6 @@ the end point of the selection is unaltered</tooltip>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
-        <action>ToggleMarcato</action>
-        <label>Marcato (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
         <action>ToggleFermata</action>
         <label>Fermata (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
@@ -5605,6 +5600,14 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
         <label>Marcato</label>
         <tooltip>Mark/Unmark the current chord marcato</tooltip>
+      </row>
+      <row>
+        <action>PrintPartWithTitlePage</action>
+        <after>PrintPart</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
+        <label>Print Part with Title Page</label>
+        <tooltip>Prints part with part name on title page</tooltip>
       </row>
     </map>
   </merge>

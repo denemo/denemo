@@ -2,10 +2,11 @@
 	(define tag (string-append "Book" field))
 	(d-LilyPondInclude "book-titling.ily")
 	(d-LilyPondInclude "simplified-book-titling.ily")
-	(let ((chapter (d-DirectiveGet-scoreheader-display tag)))
+	(let ((chapter (if help (d-DirectiveGet-scoreheader-display tag) initial)))
   (if (not chapter)
     (set! chapter initial))
-  (set! chapter (d-GetUserInput initial help chapter))
+    (if help
+ 	 (set! chapter (d-GetUserInput initial help chapter)))
   (if chapter
    (begin
      (d-SetSaved #f)
