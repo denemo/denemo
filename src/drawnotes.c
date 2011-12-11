@@ -303,9 +303,9 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	    //FIXME - use count to stack up multiple markings
 	      drawbitmapinverse_cr (cr, directive->graphic, 
 				    xx+directive->gx-directive->graphic->width/2 + 4, 
-				    (thechord.is_stemup? (y + 8 + thechord.lowesty + directive->gy):(y + thechord.highesty - 8 - directive->gy))  - directive->graphic->height/2, thechord.is_stemup);
+				    (thechord.is_stemup? (y + thechord.lowesty + 8 + count + directive->gy):(y + thechord.highesty - 8 - count - directive->gy))  - directive->graphic->height/2, thechord.is_stemup);
 	      if(!thechord.is_stemup)
-		highest =  ((y + thechord.highesty-directive->gy - 8) - directive->graphic->height/2);
+		highest =  ((y + thechord.highesty-directive->gy - 16 - 2*count) - directive->graphic->height/2);
 	      
 	    } else {
 	      drawbitmapinverse_cr (cr, directive->graphic, 
@@ -317,8 +317,8 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	if(directive->display) {
 	  drawnormaltext_cr (cr, directive->display->str, xx+directive->tx, y + ((thechord.highesty>-10)?-10:thechord.highesty) - 8 +count+directive->ty );
 	  highest = y + ((thechord.highesty>-10)?-10:thechord.highesty) - 8 +count+directive->ty;
-	  count += 16;
 	}
+	count += 16;
       } //for each chord directive
     }//if drawing do chord directives
   if( (!override_chord_graphic) || (override_chord_graphic && override_notehead)) {
@@ -532,7 +532,6 @@ if(!override_chord_graphic) {
   }				/* end if not a rest draw stems etc */
 
 cairo_restore (cr);
-
 return highest;
 }
 
