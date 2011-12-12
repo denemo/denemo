@@ -236,13 +236,13 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
     case CHORD:
       { chord *thechord = ((chord *) mudelaitem->object);
 
-	draw_chord ( cr, curobj, x + mudelaitem->x, y,
+	gint highest = draw_chord ( cr, curobj, x + mudelaitem->x, y,
 		     GPOINTER_TO_INT (itp->mwidthiterator->data),
 		     itp->curaccs, itp->mark);
 	if((thechord->highesty) < itp->highy)
-	  itp->highy  = thechord->highesty/*, g_print("setting highy %d\n", itp->highy)*/;
-	  
-	
+	  itp->highy  = thechord->highesty;
+	itp->highy = MIN(itp->highy, highest);
+	 //g_print("highy %d\n", itp->highy);
 	if((thechord->lowesty) > itp->lowy+STAFF_HEIGHT)
 	  itp->lowy  = thechord->lowesty-STAFF_HEIGHT;
 
@@ -847,6 +847,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
     //g_print("line_end is %d, while itp->measurenum=%d and si->rightmeasurenum=%d\n",  itp->line_end, itp->measurenum, si->rightmeasurenum);
     if(!itp->line_end) {
 	if(-itp->highy>itp->in_highy && -itp->highy<MAXEXTRASPACE) {
+	  g_print("With %d to change %d\n", -itp->highy, itp->in_highy);
 	  thestaff->space_above = -itp->highy;
 	  repeat = TRUE;
 	}
