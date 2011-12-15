@@ -306,10 +306,6 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>ToggleStaccato</action>
-        <bind>;</bind>
-      </row>
-      <row>
         <action>ToggleTrill</action>
         <bind>Backslash</bind>
       </row>
@@ -391,10 +387,6 @@
       </row>
       <row>
         <action>ExportPDF</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>ConfigureScore</action>
         <hidden>true</hidden>
       </row>
       <row>
@@ -1891,18 +1883,6 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>ChangeStaffUp</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>ChangeStaffDown</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>ChangeStaffBack</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
         <action>EvenOutStaffLengths</action>
         <hidden>true</hidden>
       </row>
@@ -1924,10 +1904,6 @@
       </row>
       <row>
         <action>DeleteCapturedMeasureForStaff</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>ScoreBlockProlog</action>
         <hidden>true</hidden>
       </row>
       <row>

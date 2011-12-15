@@ -771,22 +771,6 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleStartDiminuendo")),
 SCM scheme_ToggleEndDiminuendo(SCM optional);
 install_scm_function ("d-ToggleEndDiminuendo", scheme_ToggleEndDiminuendo);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleEndDiminuendo")), "scm", (gpointer)1);
-/*ToggleAccent add_accent*/
-SCM scheme_ToggleAccent(SCM optional);
-install_scm_function ("d-ToggleAccent", scheme_ToggleAccent);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleAccent")), "scm", (gpointer)1);
-/*ToggleFermata add_fermata*/
-SCM scheme_ToggleFermata(SCM optional);
-install_scm_function ("d-ToggleFermata", scheme_ToggleFermata);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleFermata")), "scm", (gpointer)1);
-/*ToggleStaccato add_staccato*/
-SCM scheme_ToggleStaccato(SCM optional);
-install_scm_function ("d-ToggleStaccato", scheme_ToggleStaccato);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleStaccato")), "scm", (gpointer)1);
-/*ToggleTenuto add_tenuto*/
-SCM scheme_ToggleTenuto(SCM optional);
-install_scm_function ("d-ToggleTenuto", scheme_ToggleTenuto);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleTenuto")), "scm", (gpointer)1);
 /*ToggleTrill add_trill*/
 SCM scheme_ToggleTrill(SCM optional);
 install_scm_function ("d-ToggleTrill", scheme_ToggleTrill);
@@ -799,10 +783,6 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleTurn")), "scm", (gp
 SCM scheme_ToggleMordent(SCM optional);
 install_scm_function ("d-ToggleMordent", scheme_ToggleMordent);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleMordent")), "scm", (gpointer)1);
-/*ToggleStaccatissimo add_staccatissimo*/
-SCM scheme_ToggleStaccatissimo(SCM optional);
-install_scm_function ("d-ToggleStaccatissimo", scheme_ToggleStaccatissimo);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleStaccatissimo")), "scm", (gpointer)1);
 /*ToggleCoda add_coda*/
 SCM scheme_ToggleCoda(SCM optional);
 install_scm_function ("d-ToggleCoda", scheme_ToggleCoda);

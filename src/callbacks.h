@@ -1254,34 +1254,6 @@ toggle_end_diminuendo (gui);
   displayhelper (gui);
 score_status(gui, TRUE);
 }
-/*ToggleAccent add_accent*/
-static void add_accent_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-add_accent (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
-/*ToggleFermata add_fermata*/
-static void add_fermata_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-add_fermata (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
-/*ToggleStaccato add_staccato*/
-static void add_staccato_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-add_staccato (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
-/*ToggleTenuto add_tenuto*/
-static void add_tenuto_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-add_tenuto (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
 /*ToggleTrill add_trill*/
 static void add_trill_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
@@ -1300,13 +1272,6 @@ score_status(gui, TRUE);
 static void add_mordent_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
 add_mordent (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
-/*ToggleStaccatissimo add_staccatissimo*/
-static void add_staccatissimo_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-add_staccatissimo (gui);
   displayhelper (gui);
 score_status(gui, TRUE);
 }

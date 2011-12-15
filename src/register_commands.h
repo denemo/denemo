@@ -191,14 +191,9 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleSt
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleEndCrescendo"), "ToggleEndCrescendo", "End Crescendo", "No Tooltip yet", toggle_end_crescendo);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleStartDiminuendo"), "ToggleStartDiminuendo", "Start Diminuendo", "No Tooltip yet", toggle_start_diminuendo);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleEndDiminuendo"), "ToggleEndDiminuendo", "End Diminuendo", "No Tooltip yet", toggle_end_diminuendo);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleAccent"), "ToggleAccent", "Accent (Off/On)", "No Tooltip yet", add_accent);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleFermata"), "ToggleFermata", "Fermata (Off/On)", "No Tooltip yet", add_fermata);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleStaccato"), "ToggleStaccato", "Staccato (Off/On)", "No Tooltip yet", add_staccato);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleTenuto"), "ToggleTenuto", "Tenuto (Off/On)", "No Tooltip yet", add_tenuto);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleTrill"), "ToggleTrill", "Trill  (Off/On", "No Tooltip yet", add_trill);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleTurn"), "ToggleTurn", "Turn (Off/On)", "No Tooltip yet", add_turn);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleMordent"), "ToggleMordent", "Mordent (Off/On)", "No Tooltip yet", add_mordent);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleStaccatissimo"), "ToggleStaccatissimo", "Staccatissimo  (Off/On)", "No Tooltip yet", add_staccatissimo);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleCoda"), "ToggleCoda", "Coda (Off/On)", "No Tooltip yet", add_coda);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleFlageolet"), "ToggleFlageolet", "Flageolet  (Off/On)", "No Tooltip yet", add_flageolet);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleOpen"), "ToggleOpen", "Open (Off/On)", "No Tooltip yet", add_open);
