@@ -982,26 +982,6 @@ the end point of the selection is unaltered</tooltip>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
-        <action>ToggleAccent</action>
-        <label>Accent (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleFermata</action>
-        <label>Fermata (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleStaccato</action>
-        <label>Staccato (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleTenuto</action>
-        <label>Tenuto (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
         <action>ToggleTrill</action>
         <label>Trill  (Off/On</label>
         <tooltip>No Tooltip yet</tooltip>
@@ -1014,11 +994,6 @@ the end point of the selection is unaltered</tooltip>
       <row>
         <action>ToggleMordent</action>
         <label>Mordent (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleStaccatissimo</action>
-        <label>Staccatissimo  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
@@ -5608,6 +5583,46 @@ for second and subsequent systems</tooltip>
         <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
         <label>Print Part with Title Page</label>
         <tooltip>Prints part with part name on title page</tooltip>
+      </row>
+      <row>
+        <action>ToggleAccent</action>
+        <after>Marcato</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Accent</label>
+        <tooltip>Mark/Unmark the current chord accented</tooltip>
+      </row>
+      <row>
+        <action>ToggleStaccato</action>
+        <after>ToggleAccent</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Staccato</label>
+        <tooltip>Mark/Unmark the chord staccato</tooltip>
+      </row>
+      <row>
+        <action>ToggleFermata</action>
+        <after>ToggleStaccato</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Fermata</label>
+        <tooltip>Mark/Unmark the chord with a fermata</tooltip>
+      </row>
+      <row>
+        <action>ToggleTenuto</action>
+        <after>ToggleFermata</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Tenuto</label>
+        <tooltip>Mark/Unmark the chord Tenuto</tooltip>
+      </row>
+      <row>
+        <action>ToggleStaccatissimo</action>
+        <after>ToggleStaccato</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Staccatissimo</label>
+        <tooltip>Mark/Unmark chord as Staccatissimo</tooltip>
       </row>
     </map>
   </merge>
