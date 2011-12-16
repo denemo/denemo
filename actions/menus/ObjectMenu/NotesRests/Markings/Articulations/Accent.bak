@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ToggleAccent</action>
+        <scheme>;;;Accent
+(let ((tag "Accent"))
+(if (d-Directive-chord? tag)
+	(d-DirectiveDelete-chord tag)
+	(begin
+		(d-DirectivePut-chord-graphic tag LG-Accent)
+		(d-DirectivePut-chord-override tag DENEMO_ALT_OVERRIDE)
+		(d-DirectivePut-chord-postfix tag "\\accent")))
+(d-SetSaved #f))
+
+</scheme>
+        <label>Accent</label>
+        <tooltip>Mark/Unmark the current chord with an Accent</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
