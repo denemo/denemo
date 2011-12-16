@@ -38,7 +38,7 @@
 (define LG-Staccatissimo (string-append "\n" DENEMO_STACCATISSIMO "\nemmentaler"))
 (define LG-Accent (string-append "\n" DENEMO_ACCENT "\nemmentaler"))
 (define LG-Marcato (string-append "\n" DENEMO_MARCATO "\nemmentaler"))
-(define LG-Tenuto (string-append "\n" DENEMO_Tenuto "\nemmentaler"))
+(define LG-Tenuto (string-append "\n" DENEMO_TENUTO "\nemmentaler"))
 (define LG-UpBow (string-append "\n" DENEMO_UPBOW "\nemmentaler"))
 (define LG-DownBow (string-append "\n" DENEMO_DOWNBOW "\nemmentaler"))
 (define LG-Harmonic (string-append "\n" DENEMO_HARMONIC "\nemmentaler"))
