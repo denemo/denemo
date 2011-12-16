@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ToggleTenuto</after>
+        <action>ToggleUpBow</action>
+        <scheme>;;;ToggleUpBow
+(let ((tag "UpBow"))
+(if (d-Directive-chord? tag)
+	(d-DirectiveDelete-chord tag)
+	(begin
+		(d-DirectivePut-chord-graphic tag LG-UpBow)
+		(d-DirectivePut-chord-override tag DENEMO_ALT_OVERRIDE)
+		(d-DirectivePut-chord-postfix tag "\\upbow")))
+(d-SetSaved #f))
+</scheme>
+        <label>UpBow</label>
+        <tooltip>Mark/Unmark chord with an Up Bow</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
