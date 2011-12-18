@@ -37,7 +37,7 @@
     	  (d-MoveCursorLeft)
     	  ; now on main note
     	  (d-DirectivePut-chord-display "MainGraceAfter"  "Grace After" )
-     	  (d-DirectivePut-chord-ty "MainGraceAfter"  -100 )
+     	 
  	   (d-DirectivePut-chord-prefix "MainGraceAfter"  "\\afterGrace ")
       	   (d-DirectivePut-chord-override "MainGraceAfter"  DENEMO_OVERRIDE_AFFIX)	
  	   (d-DirectivePut-chord-minpixels  "MainGraceAfter" 20)
