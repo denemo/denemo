@@ -5,7 +5,7 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>Marcato</action>
+        <action>ToggleMarcato</action>
         <scheme>;;;Marcato
 (let ((tag "Marcato"))
 (if (d-Directive-chord? tag)

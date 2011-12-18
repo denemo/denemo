@@ -5570,7 +5570,7 @@ for second and subsequent systems</tooltip>
         <tooltip>Creates a tagline with a link in PDF output.</tooltip>
       </row>
       <row>
-        <action>Marcato</action>
+        <action>ToggleMarcato</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
         <label>Marcato</label>
@@ -5586,7 +5586,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>ToggleAccent</action>
-        <after>Marcato</after>
+        <after>ToggleMarcato</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
         <label>Accent</label>
