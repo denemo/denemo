@@ -5,20 +5,20 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>ToggleAccent</action>
-        <scheme>;;;Accent
-(let ((tag "Accent"))
+        <after>ToggleUpBow</after>
+        <action>ToggleDownBow</action>
+        <scheme>;;;ToggleDownBow
+(let ((tag "DownBow"))
 (if (d-Directive-chord? tag)
 	(d-DirectiveDelete-chord tag)
 	(begin
-		(d-DirectivePut-chord-graphic tag LG-Accent)
+		(d-DirectivePut-chord-graphic tag LG-DownBow)
 		(d-DirectivePut-chord-override tag DENEMO_ALT_OVERRIDE)
-		(d-DirectivePut-chord-postfix tag "\\accent")))
+		(d-DirectivePut-chord-postfix tag "\\downbow")))
 (d-SetSaved #f))
-
 </scheme>
-        <label>Accent</label>
-        <tooltip>Mark/Unmark the current chord with an Accent</tooltip>
+        <label>DownBow</label>
+        <tooltip>Mark/Unmark chord with a Down Bow</tooltip>
       </row>
     </map>
   </merge>
