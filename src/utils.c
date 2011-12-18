@@ -297,7 +297,7 @@ drawbitmapinverse_cr (cairo_t * cr, DenemoGraphic * mask, gint x,
 	cairo_move_to( cr, x,y );
 
   if(invert)
-    cairo_rotate( cr, M_PI);
+    cairo_scale(cr, 1, -1);
 	cairo_show_text( cr, glyph->utf);
       break;	
     }
