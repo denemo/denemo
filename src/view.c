@@ -6327,8 +6327,11 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
 	    } /* End object loop */	 
 	} /* End measure loop */
     }//looking at selection
-  if(strlen(pattern)==0) { // nothing useful selected
-      warningdialog("No selection to create a music snippet from\nSee Edit->Select menu for selecting music to snip");
+  if((strlen(pattern)==0) || (si->selection.lastmeasuremarked!=si->selection.firstmeasuremarked)) { // nothing useful selected
+      if((strlen(pattern)==0))
+        warningdialog("No selection to create a music snippet from\nSee Edit->Select menu for selecting music to snip");
+      else
+        warningdialog("A snippet must be within one measure");
       gtk_widget_destroy(GTK_WIDGET(r->button));
       g_free(pattern);
       g_free(r);

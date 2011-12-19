@@ -258,26 +258,9 @@
         <bind>RlsL-CapsLock-AltGr</bind>
       </row>
       <row>
-        <action>ToggleFermata</action>
-        <bind>A,f</bind>
-      </row>
-      <row>
-        <action>ToggleStaccato</action>
-        <bind>;</bind>
-        <bind>A,period</bind>
-      </row>
-      <row>
-        <action>ToggleTenuto</action>
-        <bind>A,minus</bind>
-      </row>
-      <row>
         <action>ToggleTrill</action>
         <bind>Backslash</bind>
         <bind>backslash</bind>
-      </row>
-      <row>
-        <action>ToggleStaccatissimo</action>
-        <bind>A,apostrophe</bind>
       </row>
       <row>
         <action>ToggleArpeggio</action>
@@ -471,20 +454,12 @@
         <bind>Shft+0</bind>
       </row>
       <row>
-        <action>Set0</action>
-        <bind>Ctrl+0</bind>
-      </row>
-      <row>
         <action>1</action>
         <bind>1</bind>
       </row>
       <row>
         <action>Change1</action>
         <bind>Shft+1</bind>
-      </row>
-      <row>
-        <action>Set1</action>
-        <bind>Ctrl+1</bind>
       </row>
       <row>
         <action>2</action>
@@ -495,20 +470,12 @@
         <bind>Shft+2</bind>
       </row>
       <row>
-        <action>Set2</action>
-        <bind>Ctrl+2</bind>
-      </row>
-      <row>
         <action>3</action>
         <bind>3</bind>
       </row>
       <row>
         <action>Change3</action>
         <bind>Shft+3</bind>
-      </row>
-      <row>
-        <action>Set3</action>
-        <bind>Ctrl+3</bind>
       </row>
       <row>
         <action>4</action>
@@ -519,10 +486,6 @@
         <bind>Shft+4</bind>
       </row>
       <row>
-        <action>Set4</action>
-        <bind>Ctrl+4</bind>
-      </row>
-      <row>
         <action>5</action>
         <bind>5</bind>
       </row>
@@ -531,20 +494,12 @@
         <bind>Shft+5</bind>
       </row>
       <row>
-        <action>Set5</action>
-        <bind>Ctrl+5</bind>
-      </row>
-      <row>
         <action>6</action>
         <bind>6</bind>
       </row>
       <row>
         <action>Change6</action>
         <bind>Shft+6</bind>
-      </row>
-      <row>
-        <action>Set6</action>
-        <bind>Ctrl+6</bind>
       </row>
       <row>
         <action>Change7</action>
@@ -799,6 +754,51 @@
       <row>
         <action>TitledPiece</action>
         <bind>M,t</bind>
+      </row>
+      <row>
+        <action>ToggleStaccato</action>
+        <bind>;</bind>
+        <bind>A,period</bind>
+      </row>
+      <row>
+        <action>ToggleFermata</action>
+        <bind>A,f</bind>
+      </row>
+      <row>
+        <action>ToggleTenuto</action>
+        <bind>A,minus</bind>
+      </row>
+      <row>
+        <action>ToggleStaccatissimo</action>
+        <bind>A,apostrophe</bind>
+      </row>
+      <row>
+        <action>Slur0</action>
+        <bind>Ctrl+0</bind>
+      </row>
+      <row>
+        <action>Slur1</action>
+        <bind>Ctrl+1</bind>
+      </row>
+      <row>
+        <action>Slur2</action>
+        <bind>Ctrl+2</bind>
+      </row>
+      <row>
+        <action>Slur3</action>
+        <bind>Ctrl+3</bind>
+      </row>
+      <row>
+        <action>Slur4</action>
+        <bind>Ctrl+4</bind>
+      </row>
+      <row>
+        <action>Slur5</action>
+        <bind>Ctrl+5</bind>
+      </row>
+      <row>
+        <action>Slur6</action>
+        <bind>Ctrl+6</bind>
       </row>
     </map>
   </merge>
