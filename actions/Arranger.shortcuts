@@ -258,26 +258,9 @@
         <bind>RlsL-CapsLock-AltGr</bind>
       </row>
       <row>
-        <action>ToggleFermata</action>
-        <bind>A,f</bind>
-      </row>
-      <row>
-        <action>ToggleStaccato</action>
-        <bind>;</bind>
-        <bind>A,period</bind>
-      </row>
-      <row>
-        <action>ToggleTenuto</action>
-        <bind>A,minus</bind>
-      </row>
-      <row>
         <action>ToggleTrill</action>
         <bind>Backslash</bind>
         <bind>backslash</bind>
-      </row>
-      <row>
-        <action>ToggleStaccatissimo</action>
-        <bind>A,apostrophe</bind>
       </row>
       <row>
         <action>ToggleArpeggio</action>
@@ -469,10 +452,6 @@
       <row>
         <action>Change0</action>
         <bind>Shft+0</bind>
-      </row>
-      <row>
-        <action>Set0</action>
-        <bind>Ctrl+0</bind>
       </row>
       <row>
         <action>1</action>
@@ -799,6 +778,27 @@
       <row>
         <action>TitledPiece</action>
         <bind>M,t</bind>
+      </row>
+      <row>
+        <action>ToggleStaccato</action>
+        <bind>;</bind>
+        <bind>A,period</bind>
+      </row>
+      <row>
+        <action>ToggleFermata</action>
+        <bind>A,f</bind>
+      </row>
+      <row>
+        <action>ToggleTenuto</action>
+        <bind>A,minus</bind>
+      </row>
+      <row>
+        <action>ToggleStaccatissimo</action>
+        <bind>A,apostrophe</bind>
+      </row>
+      <row>
+        <action>Slur0</action>
+        <bind>Ctrl+0</bind>
       </row>
     </map>
   </merge>

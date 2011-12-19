@@ -5648,6 +5648,77 @@ for second and subsequent systems</tooltip>
         <label>Harmonic</label>
         <tooltip>Mark/Unmark chord with a harmonic</tooltip>
       </row>
+      <row>
+        <action>Slur0</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <label> &#x23DC; &#x1D15D;</label>
+        <tooltip>Inserts a &#x1D15D; and slurs to it, extending previous slur.</tooltip>
+      </row>
+      <row>
+        <action>Slur1</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <label> &#x23DC; &#x1D15E;</label>
+        <tooltip>Inserts a &#x1D15E; and slurs to it, extending previous slur.</tooltip>
+      </row>
+      <row>
+        <action>Slur2</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <label> &#x23DC; &#x1D15F;</label>
+        <tooltip>Inserts a &#x1D15F; and slurs to it, extending previous slur.</tooltip>
+      </row>
+      <row>
+        <action>Slur3</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <label> &#x23DC; &#x1D160;</label>
+        <tooltip>Inserts a &#x1D160; and slurs to it, extending previous slur.</tooltip>
+      </row>
+      <row>
+        <action>Slur4</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <label> &#x23DC; &#x1D161;</label>
+        <tooltip>Inserts a &#x1D161; and slurs to it, extending previous slur.</tooltip>
+      </row>
+      <row>
+        <action>Slur5</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <label> &#x23DC; &#x1D162;</label>
+        <tooltip>Inserts a &#x1D162; and slurs to it, extending previous slur.</tooltip>
+      </row>
+      <row>
+        <action>Slur6</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <label> &#x23DC; &#x1D163;</label>
+        <tooltip>Inserts a &#x1D163; and slurs to it, extending previous slur.</tooltip>
+      </row>
+      <row>
+        <action>Slur7</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <label> &#x23DC; &#x1D164;</label>
+        <tooltip>Inserts a &#x1D164; and slurs to it, extending previous slur.</tooltip>
+      </row>
+      <row>
+        <action>SlurBreve</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <label> &#x23DC; &#x1D15C;</label>
+        <tooltip>Inserts a &#x1D15C; and slurs to it, extending previous slur.</tooltip>
+      </row>
+      <row>
+        <action>SlurLonga</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <label> &#x23DC; &#x1D15B;</label>
+        <tooltip>Inserts a &#x1D15B; and slurs to it, extending previous slur.</tooltip>
+      </row>
+
     </map>
   </merge>
 </Denemo>
