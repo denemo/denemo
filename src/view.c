@@ -5662,7 +5662,7 @@ mycommands (GtkAction *action, gpointer param)
 
   if(Denemo.last_merged_command && g_str_has_prefix(Denemo.last_merged_command, locatedotdenemo())) {
     g_free(location);
-    location = g_strdup(Denemo.last_merged_command);
+    location = g_path_get_dirname(Denemo.last_merged_command);
   }
   load_keymap_dialog_location (NULL, location);
   // warningdialog(WARNING_NEW_MENUS);
