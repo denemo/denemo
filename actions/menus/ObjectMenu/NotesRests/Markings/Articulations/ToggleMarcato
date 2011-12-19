@@ -20,7 +20,7 @@ emmentaler
 (d-SetSaved #f))
 
 </scheme>
-        <label>Marcato</label>
+        <label>Marcato (Off/On)</label>
         <tooltip>Mark/Unmark the current chord marcato</tooltip>
       </row>
     </map>

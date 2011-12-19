@@ -17,7 +17,7 @@
 		(d-DirectivePut-chord-postfix tag "\\tenuto")))
 (d-SetSaved #f))
 </scheme>
-        <label>Tenuto</label>
+        <label>Tenuto (Off/On)</label>
         <tooltip>Mark/Unmark the chord Tenuto</tooltip>
       </row>
     </map>

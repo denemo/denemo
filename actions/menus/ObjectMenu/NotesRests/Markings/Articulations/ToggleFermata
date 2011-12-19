@@ -18,7 +18,7 @@
 (d-SetSaved #f))
 
 </scheme>
-        <label>Fermata</label>
+        <label>Fermata (Off/On)</label>
         <tooltip>Mark/Unmark the chord with a fermata</tooltip>
       </row>
     </map>

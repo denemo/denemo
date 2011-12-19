@@ -5573,7 +5573,7 @@ for second and subsequent systems</tooltip>
         <action>ToggleMarcato</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
-        <label>Marcato</label>
+        <label>Marcato (Off/On)</label>
         <tooltip>Mark/Unmark the current chord marcato</tooltip>
       </row>
       <row>
@@ -5589,7 +5589,7 @@ for second and subsequent systems</tooltip>
         <after>ToggleMarcato</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
-        <label>Accent</label>
+        <label>Accent (Off/On)</label>
         <tooltip>Mark/Unmark the current chord accented</tooltip>
       </row>
       <row>
@@ -5597,7 +5597,7 @@ for second and subsequent systems</tooltip>
         <after>ToggleAccent</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
-        <label>Staccato</label>
+        <label>Staccato (Off/On)</label>
         <tooltip>Mark/Unmark the chord staccato</tooltip>
       </row>
       <row>
@@ -5605,7 +5605,7 @@ for second and subsequent systems</tooltip>
         <after>ToggleStaccato</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
-        <label>Fermata</label>
+        <label>Fermata (Off/On)</label>
         <tooltip>Mark/Unmark the chord with a fermata</tooltip>
       </row>
       <row>
@@ -5613,7 +5613,7 @@ for second and subsequent systems</tooltip>
         <after>ToggleFermata</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
-        <label>Tenuto</label>
+        <label>Tenuto (Off/On)</label>
         <tooltip>Mark/Unmark the chord Tenuto</tooltip>
       </row>
       <row>
@@ -5621,7 +5621,7 @@ for second and subsequent systems</tooltip>
         <after>ToggleStaccato</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
-        <label>Staccatissimo</label>
+        <label>Staccatissimo (Off/On)</label>
         <tooltip>Mark/Unmark chord as Staccatissimo</tooltip>
       </row>
       <row>
@@ -5629,7 +5629,7 @@ for second and subsequent systems</tooltip>
         <after>ToggleTenuto</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
-        <label>UpBow</label>
+        <label>UpBow (Off/On)</label>
         <tooltip>Mark/Unmark chord with an Up Bow</tooltip>
       </row>
       <row>
@@ -5637,7 +5637,7 @@ for second and subsequent systems</tooltip>
         <after>ToggleUpBow</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
-        <label>DownBow</label>
+        <label>DownBow (Off/On)</label>
         <tooltip>Mark/Unmark chord with a Down Bow</tooltip>
       </row>
       <row>
@@ -5645,7 +5645,7 @@ for second and subsequent systems</tooltip>
         <after>ToggleDownBow</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
-        <label>Harmonic</label>
+        <label>Harmonic (Off/On)</label>
         <tooltip>Mark/Unmark chord with a harmonic</tooltip>
       </row>
     </map>

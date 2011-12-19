@@ -16,7 +16,7 @@
 		(d-DirectivePut-chord-postfix tag "\\upbow")))
 (d-SetSaved #f))
 </scheme>
-        <label>UpBow</label>
+        <label>UpBow (Off/On)</label>
         <tooltip>Mark/Unmark chord with an Up Bow</tooltip>
       </row>
     </map>

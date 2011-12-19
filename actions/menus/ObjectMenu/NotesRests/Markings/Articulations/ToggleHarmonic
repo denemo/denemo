@@ -19,7 +19,7 @@
 		(d-DirectivePut-chord-postfix tag "^\\flageolet")))
 (d-SetSaved #f))
 </scheme>
-        <label>Harmonic</label>
+        <label>Harmonic (Off/On)</label>
         <tooltip>Mark/Unmark chord with a harmonic</tooltip>
       </row>
     </map>

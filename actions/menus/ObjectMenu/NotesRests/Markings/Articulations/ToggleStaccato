@@ -18,7 +18,7 @@
 (d-SetSaved #f))
 
 </scheme>
-        <label>Staccato</label>
+        <label>Staccato (Off/On)</label>
         <tooltip>Mark/Unmark the chord staccato</tooltip>
       </row>
     </map>
