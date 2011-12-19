@@ -13,11 +13,10 @@
 	(d-DirectiveDelete-chord tag)
 	(begin
 		(d-DirectivePut-chord-graphic tag LG-UpBow)
-		(d-DirectivePut-chord-override tag DENEMO_ALT_OVERRIDE)
 		(d-DirectivePut-chord-postfix tag "\\upbow")))
 (d-SetSaved #f))
 </scheme>
-        <label>UpBow</label>
+        <label>UpBow (Off/On)</label>
         <tooltip>Mark/Unmark chord with an Up Bow</tooltip>
       </row>
     </map>

@@ -9,7 +9,7 @@
         <action>StaccatoSelectionSwitcher</action>
         <scheme>(SingleAndSelectionSwitcher d-ToggleStaccato)
 		</scheme>
-        <label>Staccato (On/Off)</label>
+        <label>Staccato (Off/On)</label>
         <tooltip>Adds the staccato dot or removes it</tooltip>
       </row>
     </map>

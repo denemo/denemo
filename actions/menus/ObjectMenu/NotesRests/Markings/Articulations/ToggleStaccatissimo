@@ -17,7 +17,7 @@
 		(d-DirectivePut-chord-postfix tag "\\staccatissimo")))
 (d-SetSaved #f))
 </scheme>
-        <label>Staccatissimo</label>
+        <label>Staccatissimo (Off/On)</label>
         <tooltip>Mark/Unmark chord as Staccatissimo</tooltip>
       </row>
     </map>

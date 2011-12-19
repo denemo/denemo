@@ -9,7 +9,7 @@
         <action>AccentSelectionSwitcher</action>
         <scheme>(SingleAndSelectionSwitcher d-ToggleAccent)
 		</scheme>
-        <label>Accent (On/Off)</label>
+        <label>Accent (Off/On)</label>
         <tooltip>Adds the &gt; accent</tooltip>
       </row>
     </map>

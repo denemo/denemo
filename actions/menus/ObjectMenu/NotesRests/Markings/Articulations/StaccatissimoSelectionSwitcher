@@ -9,7 +9,7 @@
         <action>StaccatissimoSelectionSwitcher</action>
         <scheme>(SingleAndSelectionSwitcher  d-ToggleStaccatissimo)
 		</scheme>
-        <label>Staccatissimo (On/Off)</label>
+        <label>Staccatissimo (Off/On)</label>
         <tooltip>Toggles Staccatissimo</tooltip>
       </row>
     </map>

@@ -13,11 +13,13 @@
 	(d-DirectiveDelete-chord tag)
 	(begin
 		(d-DirectivePut-chord-graphic tag LG-Harmonic)
+		 (d-DirectivePut-chord-gy tag 8)
 		(d-DirectivePut-chord-override tag DENEMO_ALT_OVERRIDE)
-		(d-DirectivePut-chord-postfix tag "\\harmonic")))
+		;use _instead of ^ to place harmonic below note
+		(d-DirectivePut-chord-postfix tag "^\\flageolet")))
 (d-SetSaved #f))
 </scheme>
-        <label>Harmonic</label>
+        <label>Harmonic (Off/On)</label>
         <tooltip>Mark/Unmark chord with a harmonic</tooltip>
       </row>
     </map>

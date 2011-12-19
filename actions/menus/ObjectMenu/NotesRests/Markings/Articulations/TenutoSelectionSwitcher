@@ -9,7 +9,7 @@
         <action>TenutoSelectionSwitcher</action>
         <scheme>(SingleAndSelectionSwitcher d-ToggleTenuto )
 		</scheme>
-        <label>Tenuto (On/Off)</label>
+        <label>Tenuto (Off/On)</label>
         <tooltip>Toggles the Tenuto Line _ On/Off</tooltip>
       </row>
     </map>

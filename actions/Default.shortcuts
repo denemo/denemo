@@ -1107,18 +1107,6 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>StaccatoSelectionSwitcher</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>StaccatissimoSelectionSwitcher</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>TenutoSelectionSwitcher</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
         <action>AccentSelectionSwitcher</action>
         <hidden>true</hidden>
       </row>
@@ -1916,6 +1904,38 @@
       </row>
       <row>
         <action>InsertCaptureMeasureForStaff</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ToggleMarcato</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ToggleStaccato</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ToggleFermata</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ToggleTenuto</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ToggleStaccatissimo</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ToggleUpBow</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ToggleDownBow</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ToggleHarmonic</action>
         <hidden>true</hidden>
       </row>
     </map>

@@ -5,7 +5,7 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>Marcato</action>
+        <action>ToggleMarcato</action>
         <scheme>;;;Marcato
 (let ((tag "Marcato"))
 (if (d-Directive-chord? tag)
@@ -20,7 +20,7 @@ emmentaler
 (d-SetSaved #f))
 
 </scheme>
-        <label>Marcato</label>
+        <label>Marcato (Off/On)</label>
         <tooltip>Mark/Unmark the current chord marcato</tooltip>
       </row>
     </map>
