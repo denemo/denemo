@@ -1907,7 +1907,15 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>ToggleMarcato</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>ToggleStaccato</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ToggleFermata</action>
         <hidden>true</hidden>
       </row>
       <row>
@@ -1916,6 +1924,18 @@
       </row>
       <row>
         <action>ToggleStaccatissimo</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ToggleUpBow</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ToggleDownBow</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ToggleHarmonic</action>
         <hidden>true</hidden>
       </row>
     </map>

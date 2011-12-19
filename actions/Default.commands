@@ -3402,7 +3402,7 @@ for second and subsequent systems</tooltip>
         <after>ToggleStaccato</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
-        <label>Staccato (On/Off)</label>
+        <label>Staccato (Off/On)</label>
         <tooltip>Adds the staccato dot or removes it</tooltip>
       </row>
       <row>
@@ -3410,7 +3410,7 @@ for second and subsequent systems</tooltip>
         <after>ToggleStaccatissimo</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
-        <label>Staccatissimo (On/Off)</label>
+        <label>Staccatissimo (Off/On)</label>
         <tooltip>Toggles Staccatissimo</tooltip>
       </row>
       <row>
@@ -3418,7 +3418,7 @@ for second and subsequent systems</tooltip>
         <after>ToggleTenuto</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
-        <label>Tenuto (On/Off)</label>
+        <label>Tenuto (Off/On)</label>
         <tooltip>Toggles the Tenuto Line _ On/Off</tooltip>
       </row>
       <row>
@@ -3426,7 +3426,7 @@ for second and subsequent systems</tooltip>
         <after>ToggleAccent</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
-        <label>Accent (On/Off)</label>
+        <label>Accent (Off/On)</label>
         <tooltip>Adds the &gt; accent</tooltip>
       </row>
       <row>
@@ -5647,6 +5647,46 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
         <label>Harmonic (Off/On)</label>
         <tooltip>Mark/Unmark chord with a harmonic</tooltip>
+      </row>
+      <row>
+        <action>MarcatoSelectionSwitcher</action>
+        <after>ToggleFermata</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Marcato (Off/On)</label>
+        <tooltip>Mark/Unmark the selected notes marcato</tooltip>
+      </row>
+      <row>
+        <action>UpBowSelectionSwitcher</action>
+        <after>MarcatoSelectionSwitcher</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>UpBow (Off/On)</label>
+        <tooltip>Mark/Unmark current selection or note with UpBow</tooltip>
+      </row>
+      <row>
+        <action>DownbowSelectionSwitcher</action>
+        <after>UpBowSelectionSwitcher</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>DownBow (Off/On)</label>
+        <tooltip>Mark/Unmark selection or current object</tooltip>
+      </row>
+      <row>
+        <action>HarmonicSelectionSwitcher</action>
+        <after>DownbowSelectionSwitcher</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Harmonic (Off/On)</label>
+        <tooltip>Mark/Unmark current selection of object with a harmonic</tooltip>
+      </row>
+      <row>
+        <action>FermataSelectionSwitcher</action>
+        <after>ToggleAccent</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Fermata (Off/On)</label>
+        <tooltip>Mark/Unmark current selection or object with a fermata</tooltip>
       </row>
     </map>
   </merge>
