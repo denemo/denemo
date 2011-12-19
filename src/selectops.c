@@ -3,9 +3,9 @@
  * operations for selecting, cutting, copying, and pasting music
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
- * (c) 1999-2005 Matthew Hiller, Adam Tee 
+ * (c) 1999-2005 Matthew Hiller, Adam Tee, 2011 Richard Shann
  *
- * TODO: Fix Undo/Redo
+ * 
  */
 
 #include <string.h>
@@ -43,7 +43,11 @@ static gint staffsinbuffer = 0;
 static gint measurebreaksinbuffer = 0;
 
 static GList *clipboards = NULL;
-
+typedef struct DenemoClipboard {
+GList *objectlist;
+gint staffsinbuffer;
+gint measurebreaksinbuffer;
+} DenemoClipboard;
 static GList *clone_obj_list(GList *g) {
   GList *ret=NULL;
   do {
@@ -51,23 +55,36 @@ static GList *clone_obj_list(GList *g) {
   } while((g=g->next));
   return ret;
 }
+
+// pushes the current copybuffer; pushes a NULL clipboard if none.
 void push_clipboard (void) {
   GList *thecopy = NULL;
+  DenemoClipboard *clip = (DenemoClipboard*)g_malloc0(sizeof(DenemoClipboard));
   GList *g;
   for(g=copybuffer;g;g=g->next) {
     thecopy = g_list_append(thecopy, clone_obj_list(g->data));
   }
-  clipboards = g_list_prepend(clipboards, thecopy);
+  clip->objectlist = thecopy;
+  clip->measurebreaksinbuffer = measurebreaksinbuffer;
+  clip->staffsinbuffer = staffsinbuffer;
+  clipboards = g_list_prepend(clipboards, clip);
 }
 
 gboolean pop_clipboard(void) {
   GList *thecopy = NULL;
+  DenemoClipboard *clip;
   if(clipboards==NULL)
     return FALSE;
-  thecopy = clipboards->data;
-  clipboards = g_list_remove(clipboards, thecopy);
+  clip = (DenemoClipboard*)clipboards->data;
+  clipboards = g_list_remove(clipboards, clip);
   clearbuffer();
-  copybuffer = thecopy;
+  if(clip->objectlist) {
+   thecopy = clip->objectlist;
+   measurebreaksinbuffer = clip->measurebreaksinbuffer;
+   staffsinbuffer = clip->staffsinbuffer;
+   copybuffer = thecopy;
+  }
+  g_free(clip);
   return TRUE;
 }
 
@@ -76,8 +93,10 @@ gboolean pop_clipboard(void) {
    when done */
 GList *pop_off_clipboard(void) {
   GList *thecopy = NULL;
-  thecopy = clipboards->data;
-  clipboards = g_list_remove(clipboards, thecopy);
+  if(clipboards && clipboards->data)
+  thecopy = ((DenemoClipboard*)clipboards->data)->objectlist;
+  g_free(clipboards->data);
+  clipboards = g_list_remove(clipboards, clipboards->data);
   return thecopy;
 }
 
@@ -117,6 +136,8 @@ free_clipboard(GList *clipboard) {
   if(clipboard) {
     push_clipboard();
     copybuffer = clipboard;
+    measurebreaksinbuffer = 0;
+    staffsinbuffer=1;
     clearbuffer();
     pop_clipboard();
   }
@@ -130,6 +151,8 @@ insert_clipboard(GList *clipboard) {
   if(clipboard) {
     push_clipboard();
     copybuffer = clipboard;
+    measurebreaksinbuffer = 0;
+    staffsinbuffer=1;
     call_out_to_guile("(d-Paste)");
     copybuffer = NULL;
     pop_clipboard();
@@ -535,146 +558,6 @@ gboolean insert_clip_obj(gint m, gint n) {
   showwhichaccidentals ((objnode *) si->currentmeasure->data,
 			    si->curmeasurekey, si->curmeasureaccs);
 
-  return TRUE;
-}
-/**
- * pastefrombuffer
- * Pastes the current buffer to the score
- *
-
- *
- * The updates that are done towards the bottom of this function -
- * beamsandstemdirswholestaff, find_xes_in_all_measures, etc. - are
- * too much gruntwork and are inefficient in terms of everything
- * but additional lines-of-code required for implementation. 
- * return FALSE if no pasting was done.
- */
-
-static gboolean
-pastefrombuffer (void)
-{
-  DenemoGUI *gui = Denemo.gui;
-  DenemoScore *si = gui->si;
-  staffnode *curstaff;
-  measurenode *curmeasure;
-  GList *curbuffernode = copybuffer;
-  objnode *curbufferobj;
-  gint initialinsertat;
-  DenemoObject *clonedobject;
-  gint staffs_used = 0;//number of staffs we have pasted into after the first
-  gint i, j;
-  gint measuretoaddat = si->currentmeasurenum;
-  if((staffsinbuffer>1) || (measurebreaksinbuffer>0)) {
-    /* g_print("si->appending=%d si->cursoroffend=%d curobjnot1st=%d\n", si->cursor_appending, si->cursoroffend, 
-       (si->currentobject!=si->currentmeasure->data));*/
-
-    if((!si->cursor_appending) && (si->currentobject!=si->currentmeasure->data))
-      return FALSE;
-    if(si->currentobject) {
-      //g_print("Adding %d measures at %d\n", measurebreaksinbuffer+(staffsinbuffer==1), si->currentmeasurenum);
-      if(si->cursor_appending) {
-	addmeasures (si, si->currentmeasurenum, measurebreaksinbuffer+(staffsinbuffer==1), (staffsinbuffer>1));
-	measureright(NULL);measuretoaddat++;//Better check measureright worked
-      } else {
-	addmeasures (si, si->currentmeasurenum-1, measurebreaksinbuffer+(staffsinbuffer==1), (staffsinbuffer>1));
-      }
-      setcurrents (gui->si);
-    }
-    //currentobject is NULL, currentmeasure is first of added measures
-  }
-
-  /* All right. Any necessary measures have been inserted - now paste away */
-
-  if (staffsinbuffer == 1)
-    initialinsertat = si->cursor_x;
-  else
-    initialinsertat = 0;
-
-  g_debug ("Insert At position %d\n", initialinsertat);
-
-  for (curstaff = si->currentstaff; curstaff && curbuffernode;
-       curstaff? curstaff = si->currentstaff:0, curbuffernode = curbuffernode->next)
-    {
-
-      /*g_debug ("Current staff %x, Current Staff Next %x,"
-	       " CurBuf %x, CurBuf Next %x\n",
-	       curstaff, curstaff->next, curbuffernode, curbuffernode->next);
-      */
-      //gint prevailing_clef = find_prevailing_clef(si);
-
-      curmeasure = g_list_nth (firstmeasurenode (curstaff),
-			       si->currentmeasurenum - 1);
-
-      
-      for (curbufferobj = (objnode *) curbuffernode->data;
-	   curbufferobj && curmeasure; curbufferobj = curbufferobj->next)
-	{
-	  DenemoObject *curobj = (DenemoObject *) curbufferobj->data;
-	  if (curobj->type == STAFFBREAK)
-	    {
-
-	     break;
-	    }
-	  else if (curobj->type ==
-		   MEASUREBREAK)
-	    {
-	      /*Do nothing as we will not insert a new barline at 
-		this point. It is done automatically */
-	      g_debug("Have measurebreak object\n");
-	    
-	    }
-	  else
-	    {
-	      g_debug("Paste: Cursor Position %d\n", si->cursor_x);
-	      clonedobject =
-		dnm_clone_object (curobj);
-	      
-	      clonedobject->starttick = (si->currentobject?
-					 ((DenemoObject *)si->currentobject->data)->starttickofnextnote: 0);//guess
-	      
-	      g_debug ("offend %d start of next note %d\n", 
-		       si->cursoroffend, clonedobject->starttick);
-	      insertion_point (si);
-	      object_insert(gui, clonedobject);
-
-	      si->cursoroffend = (si->currentobject?
-		((DenemoObject *)si->currentobject->data)->starttickofnextnote
-				  >= (WHOLE_NUMTICKS * si->cursortime1 / si->cursortime2): 0);   // guess  
-
-
-	    } //not a staff break
-	}			/* End bufferobj loop */
-      fixnoteheights(curstaff->data);
-      showwhichaccidentalswholestaff ((DenemoStaff *) curstaff->data);
-      beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
-      si->currentmeasurenum =  measuretoaddat;
-      curstaff = si->currentstaff->next;
-      if(staffsinbuffer>1) {
-	DenemoScriptParam param; 
-	if(!staffdown(&param))
-	  break;//FIXME wrap this function up to be called from C
-	staffs_used++;
-      }
-      setcurrents (gui->si);
-    } /* End staff loop */
-  // g_print("check %d against %d\n", staffsinbuffer, staffs_used);
-  while(staffs_used--)
-    {
-      DenemoScriptParam param; 
-      staffup(&param);
-    }
-  si->currentmeasure = g_list_nth (firstmeasurenode (si->currentstaff),
-				   si->currentmeasurenum - 1);
-  si->currentobject = g_list_nth ((objnode *) si->currentmeasure->data,
-				  initialinsertat);
-  if (!si->currentobject)
-    /* Yah. There wasn't anything in the buffer after all. */
-    si->cursor_appending = TRUE;
-  else
-    si->cursor_appending = FALSE;
-  find_xes_in_all_measures (si);
-
-  g_debug ("End of Paste Cursor X: %d\n", si->cursor_x);
   return TRUE;
 }
 
