@@ -182,7 +182,7 @@
 	(begin (d-DeleteObject) #t)
 	#f))
 
-(define* (d-DirectivePut-note-font-lilypond tag fontname lilypond #:optional (override #t))
+(define* (ToggleChordDirective tag fontname lilypond #:optional (override #t))
 	(if (d-Directive-chord? tag)
           (d-DirectiveDelete-chord tag)
           (begin

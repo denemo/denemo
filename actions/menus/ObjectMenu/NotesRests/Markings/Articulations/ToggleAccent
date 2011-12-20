@@ -8,7 +8,7 @@
         <after>Marcato</after>
         <action>ToggleAccent</action>
         <scheme>;;;ToggleAccent
-	(d-DirectivePut-note-font-lilypond "Accent" LG-Accent "\\accent")
+	(ToggleChordDirective "Accent" LG-Accent "\\accent")
 </scheme>
         <label>Accent (Off/On)</label>
         <tooltip>Mark/Unmark the current chord accented</tooltip>

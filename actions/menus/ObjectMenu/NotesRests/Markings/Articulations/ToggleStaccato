@@ -8,7 +8,7 @@
         <after>ToggleAccent</after>
         <action>ToggleStaccato</action>
         <scheme>;;;ToggleStaccato
-(d-DirectivePut-note-font-lilypond "Staccato" LG-Staccato "\\staccato")
+(ToggleChordDirective "Staccato" LG-Staccato "\\staccato")
 </scheme>
         <label>Staccato (Off/On)</label>
         <tooltip>Mark/Unmark the chord staccato</tooltip>
