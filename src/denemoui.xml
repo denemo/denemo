@@ -438,7 +438,7 @@
 	  <menuitem action="ToggleEndSlur"/>
 	</menu>
 	<menu action="Ornaments">
-	  <menuitem action="ToggleFermata"/>
+	  <!-- <menuitem action="ToggleFermata"/>
 	  <menuitem action="ToggleTrill"/>
 	  <menuitem action="ToggleTurn"/>
 	  <menuitem action="ToggleMordent"/>
@@ -448,7 +448,7 @@
 	  <menuitem action="ToggleReverseTurn"/>	  
 	  <menuitem action="ToggleUpprall"/>
 	  <menuitem action="ToggleArpeggio"/>
-	  <menuitem action="ToggleGrace"/>
+	  <menuitem action="ToggleGrace"/> -->
         </menu>
         <menu action="TextMarks">
 	  <menuitem action="ToggleSegno"/>
