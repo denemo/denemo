@@ -438,17 +438,6 @@
 	  <menuitem action="ToggleEndSlur"/>
 	</menu>
 	<menu action="Ornaments">
-	  <!-- <menuitem action="ToggleFermata"/>
-	  <menuitem action="ToggleTrill"/>
-	  <menuitem action="ToggleTurn"/>
-	  <menuitem action="ToggleMordent"/>
-	  <menuitem action="TogglePrallMordent"/>
-	  <menuitem action="TogglePrallPrall"/>
-	  <menuitem action="TogglePrall"/>
-	  <menuitem action="ToggleReverseTurn"/>	  
-	  <menuitem action="ToggleUpprall"/>
-	  <menuitem action="ToggleArpeggio"/>
-	  <menuitem action="ToggleGrace"/> -->
         </menu>
         <menu action="TextMarks">
 	  <menuitem action="ToggleSegno"/>
