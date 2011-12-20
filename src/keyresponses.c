@@ -913,59 +913,6 @@ remove_dot_key (DenemoGUI * gui)
   changedots (gui->si, -1);
 }
 
-
-void
-add_accent (DenemoGUI * gui)
-{
-  DenemoObject *curmudelaobj = (DenemoObject *)
-    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
-
-  /* Equals - toggle whether this note is tied */
-  addornament (curmudelaobj, D_ACCENT);
-  /* if (curmudelaobj && curmudelaobj->type == CHORD &&
-     ((chord *) curmudelaobj->object)->notes)
-     ((chord *)curmudelaobj->object)->ornamentlist = 
-     insert_ornament_list(D_ACCENT,
-     ((chord *)curmudelaobj->object)->ornamentlist); */
-
-}
-
-void
-add_fermata (DenemoGUI * gui)
-{
-  DenemoObject *curmudelaobj = (DenemoObject *)
-    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
-
-  /* Equals - toggle whether this note is tied */
-  addornament (curmudelaobj, FERMATA);
-
-
-}
-
-void
-add_staccato (DenemoGUI * gui)
-{
-  DenemoObject *curmudelaobj = (DenemoObject *)
-    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
-
-  /* Equals - toggle whether this note is tied */
-  addornament (curmudelaobj, STACCATO);
-
-
-
-}
-
-void
-add_tenuto (DenemoGUI * gui)
-{
-  DenemoObject *curmudelaobj = (DenemoObject *)
-    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
-
-  /* Equals - toggle whether this note is tied */
-  addornament (curmudelaobj, TENUTO);
-}
-
-
 void
 add_trill (DenemoGUI * gui)
 {

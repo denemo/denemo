@@ -95,14 +95,9 @@ void tie_notes_key (DenemoGUI *gui);
 void add_dot_key (DenemoGUI *gui);
 void remove_dot_key (DenemoGUI *gui);
 void insert_clone_key (DenemoGUI *gui);
-void add_staccato(DenemoGUI *gui);
-void add_fermata(DenemoGUI *gui);
-void add_accent(DenemoGUI *gui);
-void add_tenuto(DenemoGUI *gui);
 void add_mordent(DenemoGUI *gui);
 void add_turn(DenemoGUI *gui);
 void add_trill(DenemoGUI *gui);
-void add_staccatissimo(DenemoGUI *gui);
 void set_grace(DenemoGUI *gui);
 
 void force_cautionary(DenemoGUI *gui);
