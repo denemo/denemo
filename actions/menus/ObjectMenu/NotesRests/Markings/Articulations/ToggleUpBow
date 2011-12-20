@@ -9,7 +9,6 @@
         <action>ToggleUpBow</action>
         <scheme>;;;ToggleUpBow
 (d-DirectivePut-note-font-lilypond "UpBow" LG-UpBow "\\upbow")
-(d-DirectivePut-chord-override "UpBow" DENEMO_ALT_OVERRIDE)
 </scheme>
         <label>UpBow (Off/On)</label>
         <tooltip>Mark/Unmark chord with an Up Bow</tooltip>
