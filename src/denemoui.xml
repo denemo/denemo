@@ -456,10 +456,6 @@
 	  <menuitem action="ToggleFermata"/>
         </menu>
 	<menu action="Articulations">
-	  <!--<menuitem action="ToggleStaccato"/>
-	  <menuitem action="ToggleStaccatissimo"/>
-	  <menuitem action="ToggleTenuto"/>
-	  <menuitem action="ToggleAccent"/>-->
 	</menu>
 	<menu action="Strings">
        	  <menuitem action="ToggleFlageolet"/>
