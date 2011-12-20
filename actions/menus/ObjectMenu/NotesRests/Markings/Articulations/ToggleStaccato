@@ -8,15 +8,7 @@
         <after>ToggleAccent</after>
         <action>ToggleStaccato</action>
         <scheme>;;;ToggleStaccato
-(let ((tag "Staccato"))
-(if (d-Directive-chord? tag)
-	(d-DirectiveDelete-chord tag)
-	(begin
-		(d-DirectivePut-chord-graphic tag LG-Staccato)
-		(d-DirectivePut-chord-override tag DENEMO_ALT_OVERRIDE)
-		(d-DirectivePut-chord-postfix tag "\\staccato")))
-(d-SetSaved #f))
-
+(d-DirectivePut-note-font-lilypond "Staccato" LG-Staccato "\\staccato")
 </scheme>
         <label>Staccato (Off/On)</label>
         <tooltip>Mark/Unmark the chord staccato</tooltip>

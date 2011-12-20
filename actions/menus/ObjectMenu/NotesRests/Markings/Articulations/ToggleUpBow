@@ -8,13 +8,8 @@
         <after>ToggleTenuto</after>
         <action>ToggleUpBow</action>
         <scheme>;;;ToggleUpBow
-(let ((tag "UpBow"))
-(if (d-Directive-chord? tag)
-	(d-DirectiveDelete-chord tag)
-	(begin
-		(d-DirectivePut-chord-graphic tag LG-UpBow)
-		(d-DirectivePut-chord-postfix tag "\\upbow")))
-(d-SetSaved #f))
+(d-DirectivePut-note-font-lilypond "UpBow" LG-UpBow "\\upbow")
+(d-DirectivePut-chord-override "UpBow" DENEMO_ALT_OVERRIDE)
 </scheme>
         <label>UpBow (Off/On)</label>
         <tooltip>Mark/Unmark chord with an Up Bow</tooltip>

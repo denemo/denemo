@@ -8,13 +8,8 @@
         <after>ToggleUpBow</after>
         <action>ToggleDownBow</action>
         <scheme>;;;ToggleDownBow
-(let ((tag "DownBow"))
-(if (d-Directive-chord? tag)
-	(d-DirectiveDelete-chord tag)
-	(begin
-		(d-DirectivePut-chord-graphic tag LG-DownBow)
-		(d-DirectivePut-chord-postfix tag "\\downbow")))
-(d-SetSaved #f))
+(d-DirectivePut-note-font-lilypond "DownBow" LG-DownBow "\\downbow")
+(d-DirectivePut-chord-override "DownBow" DENEMO_ALT_OVERRIDE)
 </scheme>
         <label>DownBow (Off/On)</label>
         <tooltip>Mark/Unmark chord with a Down Bow</tooltip>

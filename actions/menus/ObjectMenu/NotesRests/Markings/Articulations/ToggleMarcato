@@ -7,18 +7,9 @@
       <row>
         <action>ToggleMarcato</action>
         <scheme>;;;Marcato
-(let ((tag "Marcato"))
-(if (d-Directive-chord? tag)
-	(d-DirectiveDelete-chord tag)
-	(begin
-		(d-DirectivePut-chord-graphic tag "
-&#xE172;
-emmentaler
-56")
-		(d-DirectivePut-chord-override tag DENEMO_ALT_OVERRIDE)
-		(d-DirectivePut-chord-postfix tag "\\marcato")))
-(d-SetSaved #f))
-
+;fontsize	(d-DirectivePut-chord-graphic tag "&#xE172; emmentaler 56")
+(d-DirectivePut-note-font-lilypond "Marcato" LG-Marcato "\\marcato")
+(d-DirectivePut-chord-override "Marcato" DENEMO_ALT_OVERRIDE)
 </scheme>
         <label>Marcato (Off/On)</label>
         <tooltip>Mark/Unmark the current chord marcato</tooltip>

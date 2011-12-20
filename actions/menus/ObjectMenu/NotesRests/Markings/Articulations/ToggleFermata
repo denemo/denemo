@@ -8,15 +8,7 @@
         <after>ToggleStaccato</after>
         <action>ToggleFermata</action>
         <scheme>;;;ToggleFermata
-(let ((tag "Fermata"))
-(if (d-Directive-chord? tag)
-	(d-DirectiveDelete-chord tag)
-	(begin
-		(d-DirectivePut-chord-graphic tag LG-Fermata)
-		(d-DirectivePut-chord-override tag DENEMO_ALT_OVERRIDE)
-		(d-DirectivePut-chord-postfix tag "\\fermata")))
-(d-SetSaved #f))
-
+(d-DirectivePut-note-font-lilypond "Fermata" LG-Fermata "\\fermata")
 </scheme>
         <label>Fermata (Off/On)</label>
         <tooltip>Mark/Unmark the chord with a fermata</tooltip>

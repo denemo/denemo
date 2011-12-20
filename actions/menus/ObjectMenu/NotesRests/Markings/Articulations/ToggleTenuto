@@ -8,14 +8,7 @@
         <after>ToggleFermata</after>
         <action>ToggleTenuto</action>
         <scheme>;;;ToggleTenuto
-(let ((tag "Tenuto"))
-(if (d-Directive-chord? tag)
-	(d-DirectiveDelete-chord tag)
-	(begin
-		(d-DirectivePut-chord-graphic tag LG-Tenuto)
-		(d-DirectivePut-chord-override tag DENEMO_ALT_OVERRIDE)
-		(d-DirectivePut-chord-postfix tag "\\tenuto")))
-(d-SetSaved #f))
+(d-DirectivePut-note-font-lilypond "Tenuto" LG-Tenuto "\\tenuto")
 </scheme>
         <label>Tenuto (Off/On)</label>
         <tooltip>Mark/Unmark the chord Tenuto</tooltip>

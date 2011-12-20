@@ -8,14 +8,7 @@
         <after>ToggleStaccato</after>
         <action>ToggleStaccatissimo</action>
         <scheme>;;;ToggleStaccatissimo
-(let ((tag "Staccatissimo"))
-(if (d-Directive-chord? tag)
-	(d-DirectiveDelete-chord tag)
-	(begin
-		(d-DirectivePut-chord-graphic tag LG-Staccatissimo)
-		(d-DirectivePut-chord-override tag DENEMO_ALT_OVERRIDE)
-		(d-DirectivePut-chord-postfix tag "\\staccatissimo")))
-(d-SetSaved #f))
+(d-DirectivePut-note-font-lilypond "Staccatissimo" LG-Staccatissimo "\\staccatissimo")
 </scheme>
         <label>Staccatissimo (Off/On)</label>
         <tooltip>Mark/Unmark chord as Staccatissimo</tooltip>
