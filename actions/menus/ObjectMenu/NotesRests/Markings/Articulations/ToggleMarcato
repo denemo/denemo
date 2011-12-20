@@ -9,7 +9,6 @@
         <scheme>;;;Marcato
 ;fontsize	(d-DirectivePut-chord-graphic tag "&#xE172; emmentaler 56")
 (d-DirectivePut-note-font-lilypond "Marcato" LG-Marcato "\\marcato")
-(d-DirectivePut-chord-override "Marcato" DENEMO_ALT_OVERRIDE)
 </scheme>
         <label>Marcato (Off/On)</label>
         <tooltip>Mark/Unmark the current chord marcato</tooltip>

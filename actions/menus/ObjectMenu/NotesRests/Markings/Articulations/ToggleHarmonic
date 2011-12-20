@@ -10,7 +10,6 @@
         <scheme>;;;ToggleHarmonic
 ;use _instead of ^ to place harmonic below note
 (DirectivePut-note-font-lilypond "Harmonic" LG-Harmonic "^\\flageolet")
-(d-DirectivePut-chord-override "Harmonic" DENEMO_ALT_OVERRIDE)
 (d-DirectivePut-chord-gy "Harmonic" 12)
 ;(d-DirectivePut-chord-gx "Harmonic" -2)
 </scheme>
