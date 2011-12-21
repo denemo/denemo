@@ -526,7 +526,8 @@ typedef struct DenemoDirective
 
 #define DENEMO_OVERRIDE_DYNAMIC (1<<28)
 #define DENEMO_OVERRIDE_HIDDEN (1<<29)
-#define DENEMO_OVERRIDE_MARKUP (1<<30)
+#define DENEMO_OVERRIDE_MARKUP (1<<30) //For score and movement widgets (which can display as buttons) this controls whether the button text uses markup
+#define DENEMO_OVERRIDE_ABOVE DENEMO_OVERRIDE_MARKUP //For chord directives, makes the graphic display above rather than below the chord
 
 
   guint32 override; /**< specifies what if anything of the built-in behaviour of the object the directive is attached to is to be overriden by this directive and values to use when overriding MIDI */

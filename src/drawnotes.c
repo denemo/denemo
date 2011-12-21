@@ -308,7 +308,12 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 		highest =  ((y + thechord.highesty-directive->gy - 16 - 2*count) - directive->graphic->height/2);
 	      
 	    } else {
-	      drawbitmapinverse_cr (cr, directive->graphic, 
+	      if(directive->override&DENEMO_OVERRIDE_ABOVE)
+		  drawbitmapinverse_cr (cr, directive->graphic, 
+				    xx+directive->gx-directive->graphic->width/2, 
+				    y - 16 + thechord.highesty-count-directive->gy  + directive->graphic->height/2, FALSE);
+	      else
+		drawbitmapinverse_cr (cr, directive->graphic, 
 				    xx+directive->gx-directive->graphic->width/2, 
 				    y + STAFF_HEIGHT+ 8 + thechord.lowesty+count+directive->gy  - directive->graphic->height/2, FALSE);	      
 	    }
