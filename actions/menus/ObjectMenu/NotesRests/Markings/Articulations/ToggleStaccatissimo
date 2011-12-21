@@ -8,7 +8,7 @@
         <after>ToggleStaccato</after>
         <action>ToggleStaccatissimo</action>
         <scheme>;;;ToggleStaccatissimo
-(ToggleChordDirective "Staccatissimo" LG-Staccatissimo "\\staccatissimo" "alt")
+(ToggleChordDirective "Staccatissimo" LG-Staccatissimo "\\staccatissimo" DENEMO_ALT_OVERRIDE)
 </scheme>
         <label>Staccatissimo (Off/On)</label>
         <tooltip>Mark/Unmark chord as Staccatissimo</tooltip>

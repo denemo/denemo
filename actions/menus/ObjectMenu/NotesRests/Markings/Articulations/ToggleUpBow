@@ -8,7 +8,7 @@
         <after>ToggleTenuto</after>
         <action>ToggleUpBow</action>
         <scheme>;;;ToggleUpBow
-(ToggleChordDirective "UpBow" LG-UpBow "\\upbow" "above")
+(ToggleChordDirective "UpBow" LG-UpBow "\\upbow" DENEMO_OVERRIDE_ABOVE)
 </scheme>
         <label>UpBow (Off/On)</label>
         <tooltip>Mark/Unmark chord with an Up Bow</tooltip>

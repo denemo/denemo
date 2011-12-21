@@ -8,7 +8,7 @@
         <after>ToggleStaccato</after>
         <action>ToggleFermata</action>
         <scheme>;;;ToggleFermata
-(ToggleChordDirective "Fermata" LG-Fermata "\\fermata" "above")
+(ToggleChordDirective "Fermata" LG-Fermata "\\fermata" DENEMO_OVERRIDE_ABOVE)
 </scheme>
         <label>Fermata (Off/On)</label>
         <tooltip>Mark/Unmark the chord with a fermata</tooltip>
