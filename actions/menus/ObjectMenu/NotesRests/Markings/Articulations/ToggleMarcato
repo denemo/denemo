@@ -8,7 +8,7 @@
         <action>ToggleMarcato</action>
         <scheme>;;;Marcato
 ;fontsize	(d-DirectivePut-chord-graphic tag "&#xE172; emmentaler 56")
-(ToggleChordDirective "Marcato" LG-Marcato "\\marcato")
+(ToggleChordDirective "Marcato" LG-Marcato "\\marcato" "alt")
 </scheme>
         <label>Marcato (Off/On)</label>
         <tooltip>Mark/Unmark the current chord marcato</tooltip>

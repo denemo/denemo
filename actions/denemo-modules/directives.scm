@@ -182,11 +182,13 @@
 	(begin (d-DeleteObject) #t)
 	#f))
 
-(define* (ToggleChordDirective tag fontname lilypond #:optional (override #t))
+(define* (ToggleChordDirective tag fontname lilypond #:optional (override #f))
 	(if (d-Directive-chord? tag)
           (d-DirectiveDelete-chord tag)
           (begin
             (d-DirectivePut-chord-graphic tag fontname)
             (d-DirectivePut-chord-postfix tag lilypond)
-            (if override
-	      (d-DirectivePut-chord-override tag DENEMO_ALT_OVERRIDE)))))
+            (if (equal? override "alt")
+	      (d-DirectivePut-chord-override tag DENEMO_ALT_OVERRIDE))
+	    (if (equal? override "above")
+              (d-DirectivePut-chord-override tag DENEMO_OVERRIDE_ABOVE)))))
