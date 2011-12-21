@@ -914,110 +914,12 @@ remove_dot_key (DenemoGUI * gui)
 }
 
 void
-add_trill (DenemoGUI * gui)
-{
-/*  note *curr;*/
-  DenemoObject *curmudelaobj = (DenemoObject *)
-    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
-
-  addornament (curmudelaobj, TRILL);
-
-}
-
-void
-add_turn (DenemoGUI * gui)
-{
-  DenemoObject *curmudelaobj = (DenemoObject *)
-    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
-  addornament (curmudelaobj, TURN);
-}
-
-void
-add_mordent (DenemoGUI * gui)
-{
-  DenemoObject *curmudelaobj = (DenemoObject *)
-    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
-  addornament (curmudelaobj, MORDENT);
-
-}
-
-void
-add_staccatissimo (DenemoGUI * gui)
-{
-  DenemoObject *curmudelaobj = (DenemoObject *)
-    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
-  addornament (curmudelaobj, STACCATISSIMO);
-
-}
-
-void
-add_coda (DenemoGUI * gui)
-{
-  DenemoObject *curmudelaobj = (DenemoObject *)
-    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
-  addornament (curmudelaobj, CODA);
-
-
-}
-
-
-void
-add_flageolet (DenemoGUI * gui)
-{
-  DenemoObject *curmudelaobj = (DenemoObject *)
-    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
-
-  addornament (curmudelaobj, FLAGEOLET);
-
-}
-
-void
 add_open (DenemoGUI * gui)
 {
   DenemoObject *curmudelaobj = (DenemoObject *)
     (gui->si->currentobject ? gui->si->currentobject->data : NULL);
   addornament (curmudelaobj, OPEN);
 
-}
-
-void
-add_prallmordent (DenemoGUI * gui)
-{
-  DenemoObject *curmudelaobj = (DenemoObject *)
-    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
-  addornament (curmudelaobj, PRALLMORDENT);
-}
-
-void
-add_prallprall (DenemoGUI * gui)
-{
-  DenemoObject *curmudelaobj = (DenemoObject *)
-    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
-  addornament (curmudelaobj, PRALLPRALL);
-}
-
-void
-add_prall (DenemoGUI * gui)
-{
-  DenemoObject *curmudelaobj = (DenemoObject *)
-    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
-  addornament (curmudelaobj, PRALL);
-}
-
-void
-add_reverseturn (DenemoGUI * gui)
-{
-  DenemoObject *curmudelaobj = (DenemoObject *)
-    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
-  addornament (curmudelaobj, REVERSETURN);
-}
-
-void
-add_segno (DenemoGUI * gui)
-{
-  DenemoObject *curmudelaobj = (DenemoObject *)
-    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
-  addornament (curmudelaobj, SEGNO);
 }
 
 void
@@ -1044,29 +946,7 @@ add_thumb (DenemoGUI * gui)
   addornament (curmudelaobj, THUMB);
 }
 
-void
-add_trillelement (DenemoGUI * gui)
-{
-  DenemoObject *curmudelaobj = (DenemoObject *)
-    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
-  addornament (curmudelaobj, TRILLELEMENT);
-}
 
-void
-add_trill_element (DenemoGUI * gui)
-{
-  DenemoObject *curmudelaobj = (DenemoObject *)
-    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
-  addornament (curmudelaobj, TRILLELEMENT);
-}
-
-void
-add_upprall (DenemoGUI * gui)
-{
-  DenemoObject *curmudelaobj = (DenemoObject *)
-    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
-  addornament (curmudelaobj, UPPRALL);
-}
 
 void
 add_arpeggio (DenemoGUI * gui)

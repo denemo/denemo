@@ -982,22 +982,9 @@ the end point of the selection is unaltered</tooltip>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
-        <action>ToggleTrill</action>
-        <label>Trill  (Off/On</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleTurn</action>
-        <label>Turn (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleMordent</action>
-        <label>Mordent (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
         <action>ToggleCoda</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
         <label>Coda (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
@@ -1012,27 +999,9 @@ the end point of the selection is unaltered</tooltip>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
-        <action>TogglePrallMordent</action>
-        <label>Prall Mordent  (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>TogglePrallPrall</action>
-        <label>Prall Prall  (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>TogglePrall</action>
-        <label>Prall (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleReverseTurn</action>
-        <label>Reverse Turn  (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
         <action>ToggleSegno</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
         <label>Segno  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
@@ -1050,26 +1019,6 @@ the end point of the selection is unaltered</tooltip>
         <action>ToggleThumb</action>
         <label>Thumb  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleUpprall</action>
-        <label>Up Prall (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleArpeggio</action>
-        <label>Apreggio (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>SetGrace</action>
-        <label>Set Grace</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleGrace</action>
-        <label>Grace Note Off/On</label>
-        <tooltip>Makes the note at the cursor a grace note, if it is one, makes it normal</tooltip>
       </row>
       <row>
         <action>ForceCaution</action>
@@ -5757,6 +5706,56 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
         <label>Fermata (Off/On)</label>
         <tooltip>Mark/Unmark current selection or object with a fermata</tooltip>
+      </row>
+      <row>
+        <action>ToggleTrill</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <label>Trill (Off/On)</label>
+        <tooltip>Adds/Removes a trill to the note</tooltip>
+      </row>
+      <row>
+        <action>ToggleTurn</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <label>Turn (Off/On)</label>
+        <tooltip>Adds/Removes a turn to the note</tooltip>
+      </row>
+      <row>
+        <action>ToggleMordent</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <label>Mordent (Off/On)</label>
+        <tooltip>Adds/Removes a Mordent to the note</tooltip>
+      </row>
+      <row>
+        <action>TogglePrall</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <label>Prall (Off/On)</label>
+        <tooltip>Adds/Removes a prall to the note</tooltip>
+      </row>
+      <row>
+        <action>ToggleUpprall</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <label>Up Prall (Off/On)</label>
+        <tooltip>Adds/Removes Up Prall ornament</tooltip>
+      </row>
+      <row>
+        <action>TogglePrallPrall</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <label>PrallPrall (Off/On)</label>
+        <tooltip>Adds/Removes a PrallPrall to the note</tooltip>
+      </row>
+      <row>
+        <action>ToggleReverseTurn</action>
+        <after>TogglePrallPrall</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <label>Reverse Turn (Off/On)</label>
+        <tooltip>Add/Removes a Reverse Turn to the note</tooltip>
       </row>
     </map>
   </merge>

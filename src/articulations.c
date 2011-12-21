@@ -55,6 +55,7 @@ insert_ornament_list (enum ornament orn, GList * list)
   return list;
 }
 
+#if 0
 /**
  * Set the relevant articulation flag on the 
  * current DenemoObject.
@@ -66,33 +67,6 @@ insert_ornament_list (enum ornament orn, GList * list)
 void
 set_articulation (gchar * string, DenemoObject * obj)
 {
-
-
-
-  if (!strcmp (string, "staccato"))
-    {
-      addornament (obj, STACCATO);
-    }
-  else if (!strcmp (string, "tenuto"))
-    {
-      addornament (obj, TENUTO);
-    }
-  else if (!strcmp (string, "staccatissimo"))
-    {
-      addornament (obj, STACCATISSIMO);
-    }
-  else if (!strcmp (string, "accent"))
-    {
-      addornament (obj, D_ACCENT);
-    }
-  else if (!strcmp (string, "marcato"))
-    {
-      addornament (obj, MARCATO);
-    }
-  else if (!strcmp (string, "fermata"))
-    {
-      addornament (obj, FERMATA);
-    }
   else if (!strcmp (string, "trill"))
     {
       addornament (obj, TRILL);
@@ -108,15 +82,6 @@ set_articulation (gchar * string, DenemoObject * obj)
   else if (!strcmp (string, "reverse turn"))
     {
       addornament (obj, REVERSETURN);
-    }
-  /* String specific articulations */
-  else if (!strcmp (string, "up bow"))
-    {
-      addornament (obj, UBOW);
-    }
-  else if (!strcmp (string, "down bow"))
-    {
-      addornament (obj, DBOW);
     }
   /*organ articulations */
   else if (!strcmp (string, "rheel"))
@@ -142,10 +107,6 @@ set_articulation (gchar * string, DenemoObject * obj)
   else if (!strcmp (string, "arpeggio"))
     {
       addornament (obj, D_ARPEGGIO);
-    }
-  else if (!strcmp (string, "flagoelet"))
-    {
-      addornament (obj, FLAGEOLET);
     }
   else if (!strcmp (string, "open"))
     {
@@ -228,7 +189,7 @@ insert_artic_cb (GtkWidget * widget, DenemoGUI * gui)
   gtk_widget_grab_focus (Denemo.window);
   g_free (tmp);
 }
-
+#endif
 #if 0
 /**
  * Creates button for the articulation palette 

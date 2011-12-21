@@ -1254,80 +1254,10 @@ toggle_end_diminuendo (gui);
   displayhelper (gui);
 score_status(gui, TRUE);
 }
-/*ToggleTrill add_trill*/
-static void add_trill_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-add_trill (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
-/*ToggleTurn add_turn*/
-static void add_turn_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-add_turn (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
-/*ToggleMordent add_mordent*/
-static void add_mordent_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-add_mordent (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
-/*ToggleCoda add_coda*/
-static void add_coda_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-add_coda (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
-/*ToggleFlageolet add_flageolet*/
-static void add_flageolet_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-add_flageolet (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
 /*ToggleOpen add_open*/
 static void add_open_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
 add_open (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
-/*TogglePrallMordent add_prallmordent*/
-static void add_prallmordent_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-add_prallmordent (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
-/*TogglePrallPrall add_prallprall*/
-static void add_prallprall_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-add_prallprall (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
-/*TogglePrall add_prall*/
-static void add_prall_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-add_prall (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
-/*ToggleReverseTurn add_reverseturn*/
-static void add_reverseturn_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-add_reverseturn (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
-/*ToggleSegno add_segno*/
-static void add_segno_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-add_segno (gui);
   displayhelper (gui);
 score_status(gui, TRUE);
 }
@@ -1349,27 +1279,6 @@ score_status(gui, TRUE);
 static void add_thumb_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
 add_thumb (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
-/*ToggleUpprall add_upprall*/
-static void add_upprall_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-add_upprall (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
-/*ToggleArpeggio add_arpeggio*/
-static void add_arpeggio_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-add_arpeggio (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
-/*SetGrace set_grace*/
-static void set_grace_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-set_grace (gui);
   displayhelper (gui);
 score_status(gui, TRUE);
 }

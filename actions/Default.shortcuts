@@ -306,18 +306,6 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>ToggleTrill</action>
-        <bind>Backslash</bind>
-      </row>
-      <row>
-        <action>ToggleArpeggio</action>
-        <bind>%</bind>
-      </row>
-      <row>
-        <action>ToggleGrace</action>
-        <bind>slash</bind>
-      </row>
-      <row>
         <action>InsertRhythm</action>
         <hidden>true</hidden>
       </row>
