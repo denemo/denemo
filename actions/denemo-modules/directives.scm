@@ -188,5 +188,5 @@
           (begin
             (d-DirectivePut-chord-graphic tag fontname)
             (d-DirectivePut-chord-postfix tag lilypond)
-            (if (equal? override #t)
+            (if override
 	      (d-DirectivePut-chord-override tag DENEMO_ALT_OVERRIDE)))))
