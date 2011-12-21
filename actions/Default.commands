@@ -5758,6 +5758,14 @@ for second and subsequent systems</tooltip>
         <label>Fermata (Off/On)</label>
         <tooltip>Mark/Unmark current selection or object with a fermata</tooltip>
       </row>
+      <row>
+        <action>NoBeam</action>
+        <after>Beam1234</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
+        <label>No Beam</label>
+        <tooltip>(Print) Removes beam from current note</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
