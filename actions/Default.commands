@@ -5756,6 +5756,7 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
         <label>Reverse Turn (Off/On)</label>
         <tooltip>Add/Removes a Reverse Turn to the note</tooltip>
+      </row>
       <row>
         <action>NoBeam</action>
         <after>Beam1234</after>
