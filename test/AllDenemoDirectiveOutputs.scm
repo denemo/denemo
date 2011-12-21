@@ -1,3 +1,5 @@
+(d-InsertA)
+(d-AddD)
 (d-DirectivePut-chord-prefix "test" "%{chord prefix%}")
 (d-DirectivePut-chord-postfix "test" "%{chord postfix%}")
 (d-DirectivePut-chord-postfix "testwithaffix" "%{chord postfix with affix override set%}")
