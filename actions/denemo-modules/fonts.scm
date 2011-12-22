@@ -72,7 +72,7 @@
 (define LG-Marcato (string-append "\n" DENEMO_MARCATO "\nemmentaler"))
 (define LG-Tenuto (string-append "\n" DENEMO_TENUTO "\nemmentaler"))
 (define LG-Expressivo (string-append "\n" DENEMO_EXPRESSIVO "\nemmentaler"))
-(define LG-PORTATO (string-append "\n" DENEMO_PORTATO "\nemmentaler"))
+(define LG-Portato (string-append "\n" DENEMO_PORTATO "\nemmentaler"))
 (define LG-UpBow (string-append "\n" DENEMO_UPBOW "\nemmentaler"))
 (define LG-DownBow (string-append "\n" DENEMO_DOWNBOW "\nemmentaler"))
 (define LG-Thumb (string-append "\n" DENEMO_THUMB "\nemmentaler"))

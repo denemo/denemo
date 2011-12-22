@@ -982,27 +982,8 @@ the end point of the selection is unaltered</tooltip>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
-        <action>ToggleCoda</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
-        <label>Coda (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleFlageolet</action>
-        <label>Flageolet  (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
         <action>ToggleOpen</action>
         <label>Open (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleSegno</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
-        <label>Segno  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
@@ -2150,6 +2131,20 @@ Sets prevailing rhythm to &#x1D165;</tooltip>
         <action>Set8</action>
         <label>&lt;span font_desc="Denemo"&gt;&#x1D165;&lt;/span&gt;</label>
         <tooltip>Set the prevailing duration to &#x1D165;</tooltip>
+      </row>
+      <row>
+        <action>ToggleCoda</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <label>Coda (Off/On)</label>
+        <tooltip>No Tooltip yet</tooltip>
+      </row>
+      <row>
+        <action>ToggleSegno</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <label>Segno  (Off/On)</label>
+        <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>Preview4Bars</action>
@@ -5764,6 +5759,21 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
         <label>No Beam</label>
         <tooltip>(Print) Removes beam from current note</tooltip>
+      </row>
+      <row>
+        <action>TogglePortato</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Portato (Off/On)</label>
+        <tooltip>Mark/Unmark the chord Portato</tooltip>
+      </row>
+      <row>
+        <action>PortatoSelectionSwitcher</action>
+        <after>TogglePortato</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Portato (Off/On)</label>
+        <tooltip>Marks/Unmaks the selection with the Portato</tooltip>
       </row>
     </map>
   </merge>

@@ -1926,6 +1926,10 @@
         <action>ToggleHarmonic</action>
         <hidden>true</hidden>
       </row>
+      <row>
+        <action>TogglePortato</action>
+        <hidden>true</hidden>
+      </row>
     </map>
   </merge>
 </Denemo>
