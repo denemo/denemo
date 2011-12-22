@@ -191,6 +191,8 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleSt
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleEndCrescendo"), "ToggleEndCrescendo", "End Crescendo", "No Tooltip yet", toggle_end_crescendo);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleStartDiminuendo"), "ToggleStartDiminuendo", "Start Diminuendo", "No Tooltip yet", toggle_start_diminuendo);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleEndDiminuendo"), "ToggleEndDiminuendo", "End Diminuendo", "No Tooltip yet", toggle_end_diminuendo);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "SetGrace"), "SetGrace", "Set Grace", "No Tooltip yet", set_grace);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleGrace"), "ToggleGrace", "Grace Note Off/On", "Makes the note at the cursor a grace note, if it is one, makes it normal", toggle_grace);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ForceCaution"), "ForceCaution", "Force Cautionary Accidental", "No Tooltip yet", force_cautionary);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangePitch"), "ChangePitch", "Change Pitch", "No Tooltip yet", change_pitch);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertRhythm"), "InsertRhythm", "Insert Snippet", "No Tooltip yet", insert_rhythm_pattern);

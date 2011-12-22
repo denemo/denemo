@@ -1254,6 +1254,13 @@ toggle_end_diminuendo (gui);
   displayhelper (gui);
 score_status(gui, TRUE);
 }
+/*SetGrace set_grace*/
+static void set_grace_cb (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+set_grace (gui);
+  displayhelper (gui);
+score_status(gui, TRUE);
+}
 /*ForceCaution force_cautionary*/
 static void force_cautionary_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;

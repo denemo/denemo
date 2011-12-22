@@ -192,6 +192,8 @@
 {"ToggleEndCrescendo", NULL, "End Crescendo", NULL,"No Tooltip yet",G_CALLBACK (toggle_end_crescendo_cb)},
 {"ToggleStartDiminuendo", NULL, "Start Diminuendo", NULL,"No Tooltip yet",G_CALLBACK (toggle_start_diminuendo_cb)},
 {"ToggleEndDiminuendo", NULL, "End Diminuendo", NULL,"No Tooltip yet",G_CALLBACK (toggle_end_diminuendo_cb)},
+{"SetGrace", NULL, "Set Grace", NULL,"No Tooltip yet",G_CALLBACK (set_grace_cb)},
+{"ToggleGrace", NULL, "Grace Note Off/On", NULL,"Makes the note at the cursor a grace note, if it is one, makes it normal",G_CALLBACK (toggle_grace)},
 {"ForceCaution", NULL, "Force Cautionary Accidental", NULL,"No Tooltip yet",G_CALLBACK (force_cautionary_cb)},
 {"ChangePitch", NULL, "Change Pitch", NULL,"No Tooltip yet",G_CALLBACK (change_pitch_cb)},
 {"InsertRhythm", NULL, "Insert Snippet", NULL,"No Tooltip yet",G_CALLBACK (insert_rhythm_pattern_cb)},
