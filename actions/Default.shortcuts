@@ -306,6 +306,10 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>ToggleStopped</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>InsertRhythm</action>
         <hidden>true</hidden>
       </row>

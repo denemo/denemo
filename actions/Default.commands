@@ -993,6 +993,8 @@ the end point of the selection is unaltered</tooltip>
       </row>
       <row>
         <action>ToggleStopped</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
         <label>Stopped  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
@@ -5774,6 +5776,13 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
         <label>Portato (Off/On)</label>
         <tooltip>Marks/Unmaks the selection with the Portato</tooltip>
+      </row>
+      <row>
+        <action>StoppedSelectionSwitcher</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Stopped (Off/On)</label>
+        <tooltip>Mark/Unmark the selected notes stopped</tooltip>
       </row>
     </map>
   </merge>
