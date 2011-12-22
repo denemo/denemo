@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ArpeggioSelectionSwitcher</action>
+        <scheme>(SingleAndSelectionSwitcher d-ToggleArpeggio)
+		</scheme>
+        <label>Arpeggio (Off/On)</label>
+        <tooltip>Mark/Unmark the selected notes arpeggio</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

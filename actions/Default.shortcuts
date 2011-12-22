@@ -306,10 +306,6 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>ToggleStopped</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
         <action>InsertRhythm</action>
         <hidden>true</hidden>
       </row>
@@ -757,6 +753,10 @@
       <row>
         <action>Change8</action>
         <bind>Ctrl+8</bind>
+      </row>
+      <row>
+        <action>ToggleStopped</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>Preview4Bars</action>
@@ -1932,6 +1932,10 @@
       </row>
       <row>
         <action>TogglePortato</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ToggleArpeggio</action>
         <hidden>true</hidden>
       </row>
     </map>

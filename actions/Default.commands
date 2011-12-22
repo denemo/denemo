@@ -982,26 +982,14 @@ the end point of the selection is unaltered</tooltip>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
-        <action>ToggleOpen</action>
-        <label>Open (Off/On)</label>
+        <action>SetGrace</action>
+        <label>Set Grace</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
-        <action>ToggleSforzato</action>
-        <label>Sforzato  (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleStopped</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
-        <label>Stopped  (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleThumb</action>
-        <label>Thumb  (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
+        <action>ToggleGrace</action>
+        <label>Grace Note Off/On</label>
+        <tooltip>Makes the note at the cursor a grace note, if it is one, makes it normal</tooltip>
       </row>
       <row>
         <action>ForceCaution</action>
@@ -2133,6 +2121,13 @@ Sets prevailing rhythm to &#x1D165;</tooltip>
         <action>Set8</action>
         <label>&lt;span font_desc="Denemo"&gt;&#x1D165;&lt;/span&gt;</label>
         <tooltip>Set the prevailing duration to &#x1D165;</tooltip>
+      </row>
+      <row>
+        <action>ToggleStopped</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Stopped  (Off/On)</label>
+        <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleCoda</action>
@@ -5783,6 +5778,20 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
         <label>Stopped (Off/On)</label>
         <tooltip>Mark/Unmark the selected notes stopped</tooltip>
+      </row>
+      <row>
+        <action>ToggleArpeggio</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Arpeggio (Off/On)</label>
+        <tooltip>Mark/Unmark chord with an arpeggio</tooltip>
+      </row>
+      <row>
+        <action>ArpeggioSelectionSwitcher</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Arpeggio (Off/On)</label>
+        <tooltip>Mark/Unmark the selected notes arpeggio</tooltip>
       </row>
     </map>
   </merge>
