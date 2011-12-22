@@ -1303,7 +1303,7 @@ parseChord (xmlNodePtr chordElem, xmlNsPtr ns,
 	      if (grandchildElem->ns == ns
 		  && ELEM_NAME_EQ (grandchildElem, "decoration"))
 		{
-		  //parseDecoration (grandchildElem, chordObj);
+		  parseDecoration (grandchildElem, chordObj);
 		}
 	      else
 		{
