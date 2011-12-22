@@ -7,7 +7,7 @@
       <row>
         <action>ToggleCoda</action>
         <scheme>;;;Coda
-(ToggleChordDirective "Coda" LG-Coda "\\coda")
+(ToggleChordDirective "Coda" LG-Coda "\\coda" DENEMO_OVERRIDE_ABOVE)
 </scheme>
         <label>Coda (Off/On)</label>
         <tooltip>Adds/Removes a Mordent to the note</tooltip>

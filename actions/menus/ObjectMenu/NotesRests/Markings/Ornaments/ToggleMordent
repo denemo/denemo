@@ -7,7 +7,7 @@
       <row>
         <action>ToggleMordent</action>
         <scheme>;;;Mordent
-(ToggleChordDirective "Mordent" LG-Mordent "\\mordent")
+(ToggleChordDirective "Mordent" LG-Mordent "\\mordent" DENEMO_OVERRIDE_ABOVE)
 </scheme>
         <label>Mordent (Off/On)</label>
         <tooltip>Adds/Removes a Mordent to the note</tooltip>

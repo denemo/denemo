@@ -7,7 +7,7 @@
       <row>
         <action>ToggleTrill</action>
         <scheme>;;;Trill
-(ToggleChordDirective "Trill" LG-Trill "\\trill")
+(ToggleChordDirective "Trill" LG-Trill "\\trill" DENEMO_OVERRIDE_ABOVE)
 </scheme>
         <label>Trill (Off/On)</label>
         <tooltip>Adds/Removes a trill to the note</tooltip>

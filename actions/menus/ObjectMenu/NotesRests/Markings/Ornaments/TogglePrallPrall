@@ -7,7 +7,7 @@
       <row>
         <action>TogglePrallPrall</action>
         <scheme>;;;PrallPrall
-(ToggleChordDirective "PrallPrall" LG-PrallPrall "\\prallprall")
+(ToggleChordDirective "PrallPrall" LG-PrallPrall "\\prallprall" DENEMO_OVERRIDE_ABOVE)
 </scheme>
         <label>PrallPrall (Off/On)</label>
         <tooltip>Adds/Removes a PrallPrall to the note</tooltip>
