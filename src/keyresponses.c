@@ -913,48 +913,7 @@ remove_dot_key (DenemoGUI * gui)
   changedots (gui->si, -1);
 }
 
-void
-add_open (DenemoGUI * gui)
-{
-  DenemoObject *curmudelaobj = (DenemoObject *)
-    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
-  addornament (curmudelaobj, OPEN);
 
-}
-
-void
-add_sforzato (DenemoGUI * gui)
-{
-  DenemoObject *curmudelaobj = (DenemoObject *)
-    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
-  addornament (curmudelaobj, SFORZATO);
-}
-
-void
-add_stopped (DenemoGUI * gui)
-{
-  DenemoObject *curmudelaobj = (DenemoObject *)
-    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
-  addornament (curmudelaobj, STOPPED);
-}
-
-void
-add_thumb (DenemoGUI * gui)
-{
-  DenemoObject *curmudelaobj = (DenemoObject *)
-    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
-  addornament (curmudelaobj, THUMB);
-}
-
-
-
-void
-add_arpeggio (DenemoGUI * gui)
-{
-  DenemoObject *curmudelaobj = (DenemoObject *)
-    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
-  addornament (curmudelaobj, D_ARPEGGIO);
-}
 
 
 

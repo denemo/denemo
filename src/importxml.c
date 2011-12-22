@@ -1067,7 +1067,7 @@ parseDynamic (xmlNodePtr dynamicElem, DenemoObject * curobj)
   g_free (dynamicName);
 
 }
-
+#if 0
 /**
  * Parse the given <decoration> element into the given chord-type DenemoObject.
  */
@@ -1190,7 +1190,7 @@ parseDecoration (xmlNodePtr decorationElem, DenemoObject * chordObj)
 
   g_free (decorationType);
 }
-
+#endif
 
 static GdkPixbuf *
 parseSource(xmlNodePtr parentElem, xmlNsPtr ns) {
@@ -1304,7 +1304,7 @@ parseChord (xmlNodePtr chordElem, xmlNsPtr ns,
 	      if (grandchildElem->ns == ns
 		  && ELEM_NAME_EQ (grandchildElem, "decoration"))
 		{
-		  parseDecoration (grandchildElem, chordObj);
+		  //parseDecoration (grandchildElem, chordObj);
 		}
 	      else
 		{

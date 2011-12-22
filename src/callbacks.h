@@ -1254,34 +1254,6 @@ toggle_end_diminuendo (gui);
   displayhelper (gui);
 score_status(gui, TRUE);
 }
-/*ToggleOpen add_open*/
-static void add_open_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-add_open (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
-/*ToggleSforzato add_sforzato*/
-static void add_sforzato_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-add_sforzato (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
-/*ToggleStopped add_stopped*/
-static void add_stopped_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-add_stopped (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
-/*ToggleThumb add_thumb*/
-static void add_thumb_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-add_thumb (gui);
-  displayhelper (gui);
-score_status(gui, TRUE);
-}
 /*ForceCaution force_cautionary*/
 static void force_cautionary_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;

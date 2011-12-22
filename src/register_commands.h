@@ -191,10 +191,6 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleSt
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleEndCrescendo"), "ToggleEndCrescendo", "End Crescendo", "No Tooltip yet", toggle_end_crescendo);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleStartDiminuendo"), "ToggleStartDiminuendo", "Start Diminuendo", "No Tooltip yet", toggle_start_diminuendo);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleEndDiminuendo"), "ToggleEndDiminuendo", "End Diminuendo", "No Tooltip yet", toggle_end_diminuendo);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleOpen"), "ToggleOpen", "Open (Off/On)", "No Tooltip yet", add_open);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleSforzato"), "ToggleSforzato", "Sforzato  (Off/On)", "No Tooltip yet", add_sforzato);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleStopped"), "ToggleStopped", "Stopped  (Off/On)", "No Tooltip yet", add_stopped);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleThumb"), "ToggleThumb", "Thumb  (Off/On)", "No Tooltip yet", add_thumb);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ForceCaution"), "ForceCaution", "Force Cautionary Accidental", "No Tooltip yet", force_cautionary);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangePitch"), "ChangePitch", "Change Pitch", "No Tooltip yet", change_pitch);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertRhythm"), "InsertRhythm", "Insert Snippet", "No Tooltip yet", insert_rhythm_pattern);

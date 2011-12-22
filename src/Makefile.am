@@ -1,6 +1,6 @@
 bin_PROGRAMS = denemo
 dist_pkgdata_DATA = denemoui.xml instruments.xml
-denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
+denemo_SOURCES = calculatepositions.c changenotehead.c \
 	chordops.c clefdialog.c commandfuncs.c contexts.c draw.c \
 	drawaccidentals.c drawclefs.c drawcursor.c drawkey.c drawdynamic.c \
 	drawnotes.c drawselection.c drawstemdir.c drawtimesig.c drawtuplets.c \
@@ -22,7 +22,7 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	timedialog.c tomeasuredialog.c \
 	tupletops.c utils.c graceops.c runsilent.c drawgrace.c	print.c \
 	accwidths.h \
-	articulations.h calculatepositions.h changenotehead.h \
+	calculatepositions.h changenotehead.h \
 	 chordops.h commandfuncs.h \
 	contexts.h  dynamic.h dialogs.h draw.h \
 	drawingprims.h \

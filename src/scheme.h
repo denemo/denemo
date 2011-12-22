@@ -771,22 +771,6 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleStartDiminuendo")),
 SCM scheme_ToggleEndDiminuendo(SCM optional);
 install_scm_function ("d-ToggleEndDiminuendo", scheme_ToggleEndDiminuendo);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleEndDiminuendo")), "scm", (gpointer)1);
-/*ToggleOpen add_open*/
-SCM scheme_ToggleOpen(SCM optional);
-install_scm_function ("d-ToggleOpen", scheme_ToggleOpen);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleOpen")), "scm", (gpointer)1);
-/*ToggleSforzato add_sforzato*/
-SCM scheme_ToggleSforzato(SCM optional);
-install_scm_function ("d-ToggleSforzato", scheme_ToggleSforzato);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleSforzato")), "scm", (gpointer)1);
-/*ToggleStopped add_stopped*/
-SCM scheme_ToggleStopped(SCM optional);
-install_scm_function ("d-ToggleStopped", scheme_ToggleStopped);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleStopped")), "scm", (gpointer)1);
-/*ToggleThumb add_thumb*/
-SCM scheme_ToggleThumb(SCM optional);
-install_scm_function ("d-ToggleThumb", scheme_ToggleThumb);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleThumb")), "scm", (gpointer)1);
 /*ForceCaution force_cautionary*/
 SCM scheme_ForceCaution(SCM optional);
 install_scm_function ("d-ForceCaution", scheme_ForceCaution);

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>LheelSelectionSwitcher</action>
+        <scheme>(SingleAndSelectionSwitcher d-ToggleLheel )
+		</scheme>
+        <label>Lheel (Off/On)</label>
+        <tooltip>Marks/Unmaks the selection with the Lheel</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
