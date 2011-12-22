@@ -178,7 +178,6 @@ hidechord (DenemoObject * thechord)
   return thechord;
 }
 
-#if 0
 /**
  * adds an ornament to the given note
  * @param obj the DenemoObject to add the ornament to.
@@ -191,7 +190,6 @@ addornament (DenemoObject * obj, Ornament orn)
     ((chord *) obj->object)->ornamentlist = 
       (GList *) insert_ornament_list (orn, ((chord *) obj->object)->ornamentlist);
 }
-#endif
 /**
  * compare current note with pitch to be added
  * 
