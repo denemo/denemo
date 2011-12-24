@@ -1088,6 +1088,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 			    call_out_to_guile("(d-Togglearpeggio)");
 			}
 		      pop_position();
+		      (thechord)->ornamentlist = NULL;
 		    }
 		    /* Output the DenemoDirectives on the chord */
 		  if((thechord)->directives) {
