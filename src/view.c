@@ -5486,7 +5486,7 @@ static gboolean action_callbacks(DenemoGUI* gui) {
  * Do not close the sequencer
  */
 static gboolean
-close_gui ()
+close_gui (void)
 {
   stop_midi_playback (NULL, NULL);// if you do not do this, there is a timer moving the score on which will hang
  //FIXME why was this here??? activate_action("/MainMenu/InputMenu/KeyboardOnly");
@@ -5498,7 +5498,12 @@ close_gui ()
     g_source_remove(Denemo.autosaveid);
     Denemo.autosaveid = 0;
   }
-
+if(Denemo.gui->textwindow)
+  {
+  gtk_widget_destroy(Denemo.gui->textwindow);
+  //FIXME there is a handler in exportlilypond.c for the destroy signal. It might be better to have just one textwindow for LilyPond text etc
+  g_assert(Denemo.gui->textwindow==NULL);
+  }
   free_movements(Denemo.gui);
 
   DenemoGUI *oldgui = Denemo.gui;
