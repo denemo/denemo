@@ -175,10 +175,6 @@ if test "x$useportaudio" = "xyes"; then
   PKG_CHECK_MODULES(FFTW, fftw3 >= 3.1.2)
   CFLAGS="$CFLAGS $FFTW_CFLAGS"
   LIBS="$LIBS $FFTW_LIBS"
-
-  PKG_CHECK_MODULES(samplerate, samplerate >= 0.1.2)
-  CFLAGS="$CFLAGS $samplerate_CFLAGS"
-  LIBS="$LIBS $samplerate_LIBS"
 fi
 
 dnl Options for configuration
