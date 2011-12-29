@@ -1099,10 +1099,6 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>AccentSelectionSwitcher</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
         <action>ReloadDrumHash</action>
         <hidden>true</hidden>
       </row>
@@ -1900,6 +1896,10 @@
       </row>
       <row>
         <action>ToggleMarcato</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ToggleAccent</action>
         <hidden>true</hidden>
       </row>
       <row>
