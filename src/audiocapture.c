@@ -351,8 +351,7 @@ int pa_main(AubioCallback *fn)
 #ifdef PA_VERSION_19
        inputParameters.device = Pa_GetDefaultInputDevice(); /* default input device */
        if (inputParameters.device == paNoDevice) {
-    	        fprintf(stderr,"Error: No default input device.\n");
-    	        goto error;
+    	      inputParameters.device = 1; // guess
    	}
        inputParameters.channelCount = 1;                    /* mono input */
        inputParameters.sampleFormat = PA_SAMPLE_TYPE;
