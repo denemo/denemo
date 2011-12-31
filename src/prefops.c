@@ -121,7 +121,7 @@ initprefs ()
   ret->midiplayer = g_string_new ("playmidi");
   ret->audioplayer = g_string_new ("play");
   ret->lilypath = g_string_new ("lilypond");
-  ret->pdfviewer = g_string_new ("xpdf");
+  ret->pdfviewer = g_string_new ("evince");
   ret->imageviewer = g_string_new ("eog");
 #endif /* !G_OS_WIN32 */
   ret->sequencer = g_string_new ("/dev/sequencer");
