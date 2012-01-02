@@ -570,9 +570,8 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   }
 
 
-
+  gint offset = (gint)get_click_height(gui, event->y);
   if(event->x<LEFT_MARGIN) {
-    gint offset = (gint)get_click_height(gui, event->y);
     if(offset<STAFF_HEIGHT/2) {
       if(((DenemoStaff*)gui->si->currentstaff->data)->staff_directives)
 	gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->staffmenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
@@ -586,6 +585,12 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
       popup_menu("/InitialClefEditPopup");
       return TRUE;
     }  else  if(event->x<KEY_MARGIN+key+cmajor) {
+      if(left) {
+	if(offset<STAFF_HEIGHT/2)
+	  call_out_to_guile("(d-IncrementKeysig 1)");
+	else
+	  call_out_to_guile("(d-IncrementKeysig -1)");
+      } else
       popup_menu("/InitialKeyEditPopup");
       return TRUE;
     } else  if(event->x<KEY_MARGIN+SPACE_FOR_TIME+key) {
