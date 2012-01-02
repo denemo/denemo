@@ -1979,6 +1979,20 @@ SCM scheme_set_prevailing_keysig(SCM keyaccs) {
   return SCM_BOOL_T;
 }
 
+SCM scheme_increment_keysig(SCM amount) {
+  DenemoStaff *curstaff = Denemo.gui->si->currentstaff->data;
+  gint ret = SCM_BOOL_F;
+  gint inc=1;
+  if(scm_is_integer(amount))
+    inc = scm_num2int(amount, 0, 0);
+  inc += curstaff->keysig.number;
+  if(inc<8 && inc>-8) {
+    dnm_setinitialkeysig (curstaff, inc,  curstaff->keysig.isminor);
+    displayhelper(Denemo.gui);
+    ret = SCM_BOOL_T;
+  }
+  return ret;
+}
 
 SCM scheme_cursor_to_note (SCM lilyname) {
  DenemoGUI *gui = Denemo.gui;
@@ -4315,6 +4329,7 @@ static void create_scheme_identfiers(void) {
  
  //more work needed, see above INSTALL_SCM_FUNCTION ("Sets the prevailing keysignature at the cursor to the string of 7 steps passed. Each step can be -1, 0 or 1",DENEMO_SCHEME_PREFIX"SetPrevailingKeysig", scheme_set_prevailing_keysig);
 
+  INSTALL_SCM_FUNCTION ("Makes the keysig sharper/flatter",DENEMO_SCHEME_PREFIX"IncrementKeysig", scheme_increment_keysig);
   INSTALL_SCM_FUNCTION ("Appends a new movement without copying staff structure.",DENEMO_SCHEME_PREFIX"AddMovement", scheme_add_movement);
  
 
