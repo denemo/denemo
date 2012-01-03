@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>SharpenKeysig</after>
+        <action>FlattenKeysig</action>
+        <scheme>(d-IncrementKeysig -1)</scheme>
+        <label>&#x266D;</label>
+        <tooltip>Flattens the key signature by one degree. If no key signature at the cursor, operates on the initial key signature.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

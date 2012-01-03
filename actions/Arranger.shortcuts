@@ -258,15 +258,6 @@
         <bind>RlsL-CapsLock-AltGr</bind>
       </row>
       <row>
-        <action>ToggleTrill</action>
-        <bind>Backslash</bind>
-        <bind>backslash</bind>
-      </row>
-      <row>
-        <action>ToggleArpeggio</action>
-        <bind>%</bind>
-      </row>
-      <row>
         <action>SetGrace</action>
         <hidden>true</hidden>
       </row>
@@ -799,6 +790,10 @@
       <row>
         <action>Slur6</action>
         <bind>Ctrl+6</bind>
+      </row>
+      <row>
+        <action>ToggleTrill</action>
+        <bind>backslash</bind>
       </row>
     </map>
   </merge>

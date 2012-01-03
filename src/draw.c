@@ -1102,11 +1102,15 @@ draw_score (cairo_t *cr)
 
       cairo_set_source_rgb( cr, 0.7, 0.7, 0.7 );
       cairo_rectangle (cr, LEFT_MARGIN,y,KEY_MARGIN-LEFT_MARGIN - cmajor,STAFF_HEIGHT);/*clef edit*/
+
       cairo_rectangle (cr, KEY_MARGIN+key+cmajor,y,SPACE_FOR_TIME-cmajor,STAFF_HEIGHT);/*timesig edit*/
       cairo_fill(cr);
 
-      cairo_set_source_rgb( cr, 0.7, 0.7, 1 );
-      cairo_rectangle (cr, KEY_MARGIN-cmajor,y,key+2*cmajor,STAFF_HEIGHT);/*keysig edit*/
+      cairo_set_source_rgb( cr, 0.5, 1, 0.5 );
+      cairo_rectangle (cr, KEY_MARGIN-cmajor,y,key+2*cmajor,STAFF_HEIGHT/2);/*keysig sharpen edit*/
+      cairo_fill(cr);
+      cairo_set_source_rgb( cr, 1, 0.5, 0.5 );
+      cairo_rectangle (cr, KEY_MARGIN-cmajor,y+STAFF_HEIGHT/2,key+2*cmajor,STAFF_HEIGHT/2);/*keysig flatten edit*/
       cairo_fill(cr);
 
       cairo_restore(cr);

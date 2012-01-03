@@ -108,7 +108,7 @@ set_keysig (keysig_data *cbdata)
   
   if (tokey != G_MININT)
     {
-      if (gtk_toggle_button_get_active
+      if (!gtk_toggle_button_get_active
 	  (GTK_TOGGLE_BUTTON (cbdata->checkbutton)))
 	{
 	  for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
@@ -151,7 +151,7 @@ insert_keysig (keysig_data *kdata)
   
   if (tokey != G_MININT)
     {
-      if (gtk_toggle_button_get_active
+      if (!gtk_toggle_button_get_active
 	  (GTK_TOGGLE_BUTTON (kdata->checkbutton)))
 	{
 	  for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
@@ -407,7 +407,7 @@ key_change (DenemoGUI * gui, actiontype action)
   gtk_container_add (GTK_CONTAINER (pack_to_vbox), majorkeycombo);
   gtk_container_add (GTK_CONTAINER (pack_to_vbox), minorkeycombo);
 
-  checkbutton = gtk_check_button_new_with_label (_("Apply to all staves?"));
+  checkbutton = gtk_check_button_new_with_label (_("Current Staff Only?"));
   gtk_container_add (GTK_CONTAINER (pack_to_vbox), checkbutton);
 
   keysig_widgets->checkbutton = checkbutton;

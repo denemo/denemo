@@ -34,7 +34,7 @@
 (define DENEMO_RHEEL "")
 (define DENEMO_HARMONIC "")
 (define DENEMO_SNAPPIZZICATO "")
-(define DENEMO_ARPEGGIO "")
+(define DENEMO_ARPEGGIO "")
 (define DENEMO_ARPEGGIATODOWN "\xF0\x9D\x86\x84")
 (define DENEMO_ARPEGGIATOUP "\xF0\x9D\x86\x83")
 (define DENEMO_STOPPED "")
@@ -60,8 +60,6 @@
 (define DENEMO_LINEPRALL "")
 (define DENEMO_SIGNUMCONGRUENTIAE "")
 (define DENEMO_REVERSETURN "")
-;(define DENEMO_ARPEGGIO "")
-;(define DENEMO_GRACE "")
 ;;; Control Flow
 (define DENEMO_SEGNO "")
 (define DENEMO_CODA "")

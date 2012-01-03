@@ -260,9 +260,9 @@ timesig_change (DenemoGUI * gui, actiontype action)
 
   gtk_entry_set_activates_default (GTK_ENTRY (textentry2), TRUE);
 
-  checkbutton = gtk_check_button_new_with_label (_("Apply to all staves"));
-
-  gtk_container_add (GTK_CONTAINER (vbox), checkbutton);
+  checkbutton = gtk_check_button_new_with_label (_("Current Staff Only"));
+  if(action == CHANGEINITIAL) // there is no code for changing keysig just in one staff, or at least none called here.
+    gtk_container_add (GTK_CONTAINER (vbox), checkbutton);
 
  // gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), TRUE);
 
@@ -275,7 +275,7 @@ timesig_change (DenemoGUI * gui, actiontype action)
       gint time2 =
 	gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (textentry2));
       gboolean all_staves =
-	gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton));
+	!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton));
       if (action == CHANGEINITIAL)
 	{
 	  dnm_setinitialtimesig (gui->si, curstaffstruct, time1, 
