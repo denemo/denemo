@@ -440,17 +440,12 @@
 	<menu action="Ornaments">
         </menu>
         <menu action="TextMarks">
-	  <menuitem action="ToggleSegno"/>
-	  <menuitem action="ToggleCoda"/>
-	  <menuitem action="ToggleFermata"/>
+	  
         </menu>
 	<menu action="Articulations">
 	</menu>
 	<menu action="Strings">
-       	  <menuitem action="ToggleFlageolet"/>
-	  <menuitem action="ToggleStopped"/>
-	  <menuitem action="ToggleThumb"/>
-	  <menuitem action="ToggleOpen"/>	  
+       	  	  
 	</menu>
 	<menu action="FiguredBass">
 	  <menuitem action="EditFiguredBass"/>
