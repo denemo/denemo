@@ -73,8 +73,8 @@ static void signal_queue();
 static backend_t * get_backend(backend_type_t backend) {
   if (backend == DEFAULT_BACKEND) {
     // FIXME: this should be configurable
-    return backends[MIDI_BACKEND];
-//    return backends[AUDIO_BACKEND];
+    //return backends[MIDI_BACKEND];
+    return backends[AUDIO_BACKEND];
   } else {
     return backends[backend];
   }
@@ -83,8 +83,8 @@ static backend_t * get_backend(backend_type_t backend) {
 static event_queue_t *get_event_queue(backend_type_t backend) {
   if (backend == DEFAULT_BACKEND) {
     // FIXME
-    return event_queues[MIDI_BACKEND];
-//    return event_queues[AUDIO_BACKEND];
+   // return event_queues[MIDI_BACKEND];
+    return event_queues[AUDIO_BACKEND];
   } else {
     return event_queues[backend];
   }
