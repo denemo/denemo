@@ -521,8 +521,19 @@ int play_notes(backend_type_t backend, int port, int channel, chord *chord_to_pl
   return 0;
 }
 
-int rhythm_feedback(backend_type_t backend, int duration, gboolean rest, gboolean dot) {
-  // TODO
+/* give audible feedback for entering a rhythmic element */
+static gint rhythm_sounds[] = {41,48,64,62,60,70, 81, 69, 79};
+int rhythm_feedback(backend_type_t backend, gint duration, gboolean rest, gboolean dot) {
+  if(dot)
+    play_note(backend, 0, 9, 67, 100, 60*Denemo.gui->si->master_volume);
+  else
+    play_note(backend, 0, 9, rhythm_sounds[duration], rest?100:200, 127*Denemo.gui->si->master_volume);
+  //add extra sound effect for rests
+  if(rest)
+    play_note(backend, 0, 9, 46, 300, 127*Denemo.gui->si->master_volume);
+ 
+  //g_print("playing %d %d\n", rhythm_sounds[duration], (60/(4*Denemo.gui->si->tempo*(1<<duration)))*1000);
+
   return 0;
 }
 
