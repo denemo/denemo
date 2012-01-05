@@ -332,6 +332,7 @@ static gpointer queue_thread_func(gpointer data) {
 
     midi_event_t *ev;
     while ((ev = event_queue_read_input(get_event_queue(MIDI_BACKEND))) != NULL) {
+      Denemo.gui->input_source = INPUTMIDI;
       g_idle_add_full(G_PRIORITY_HIGH_IDLE, handle_midi_event_callback, (gpointer)ev, NULL);
     }
 
