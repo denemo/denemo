@@ -3191,8 +3191,8 @@ static SCM scheme_play_midi_note(SCM note, SCM volume, SCM channel, SCM duration
     gint chan = scm_num2int(channel, 0, 0);
     gint dur = scm_num2int(duration, 0, 0);
     
-    //g_print("Playing %x at %f volume, %d channel\n", key, vol/255.0, channel);
-    play_note(DEFAULT_BACKEND, 0 /*port*/, chan, key, dur/1000.0, vol/255.0);
+    //g_print("Playing %x at %f volume, %d channel for %dms\n", key, vol/255.0, channel, dur);
+    play_note(DEFAULT_BACKEND, 0 /*port*/, chan, key, dur, vol);
  return SCM_BOOL(TRUE);
 }
 static SCM scheme_play_midikey(SCM scm) {
