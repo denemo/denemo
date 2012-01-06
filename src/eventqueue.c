@@ -82,6 +82,14 @@ gboolean event_queue_write_immediate(event_queue_t *queue, midi_event_t *event) 
   return n == sizeof(midi_event_t);
 }
 
+static
+void page_for_time(gdouble time_seconds) {
+    DenemoScore *si = Denemo.gui->si;
+    if(si->rightmost_time>0.0 && time_seconds>si->rightmost_time) {
+        page_viewport();
+         si->rightmost_time=-1;
+    }
+}
 
 gboolean event_queue_read_output(event_queue_t *queue, unsigned char *event_buffer, size_t *event_length,
                                  double *event_time, double until_time) {
@@ -136,6 +144,7 @@ gboolean event_queue_read_output(event_queue_t *queue, unsigned char *event_buff
     memcpy(event_buffer, event->midi_buffer, event->midi_buffer_length);
     *event_length = event->midi_buffer_length;
     *event_time = event->time_seconds;
+    page_for_time(*event_time);
 
 //    printf("event_time=%f\n", *event_time);
 
