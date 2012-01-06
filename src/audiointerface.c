@@ -244,7 +244,8 @@ int audio_shutdown() {
 
 static gboolean redraw_all_callback(gpointer data) {
   gdk_threads_enter();
-  displayhelper(Denemo.gui);
+  //displayhelper(Denemo.gui);
+  gtk_widget_queue_draw(Denemo.scorearea);
   gdk_threads_leave();
   return FALSE;
 }
