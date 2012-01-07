@@ -614,8 +614,8 @@ void handle_midi_event(gchar *buf) {
       if(Denemo.keyboard_state==(GDK_SHIFT_MASK) ||
 	 Denemo.keyboard_state==(GDK_LOCK_MASK)) {
 //	fluid_output_midi_event(buf);
+	adjust_midi_velocity(buf, 100 - Denemo.prefs.dynamic_compression);
         play_midi_event(DEFAULT_BACKEND, 0, buf);
-        adjust_midi_velocity(buf, 100 - Denemo.prefs.dynamic_compression);
       }
   }
 }
