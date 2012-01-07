@@ -235,33 +235,36 @@ timesig_change (DenemoGUI * gui, actiontype action)
 				 GTK_STOCK_CANCEL, GTK_STOCK_CANCEL,
 				 NULL);
 
-  gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox),
-				  12);
-  
+  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+
+  gtk_container_set_border_width (GTK_CONTAINER(content_area), 12);
+  GtkWidget *vbox = gtk_vbox_new(FALSE,1);
+  gtk_container_add (GTK_CONTAINER (content_area), vbox);
   label = gtk_label_new (_("Enter desired time signature:"));
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-		      label, FALSE, FALSE, 8);
-  
+  gtk_container_add (GTK_CONTAINER (vbox), label);
+
   textentry1 = gtk_spin_button_new_with_range (1, 128, 1.0);
   gtk_spin_button_set_digits (GTK_SPIN_BUTTON (textentry1), 0);
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (textentry1),
 			     (gdouble) curstaffstruct->timesig.time1);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), textentry1, FALSE,
-		      FALSE, 8);
+  gtk_container_add (GTK_CONTAINER (vbox), textentry1);
+
   gtk_entry_set_activates_default (GTK_ENTRY (textentry1), TRUE);
 
   textentry2 = gtk_spin_button_new_with_range (1, 16, 1.0);
   gtk_spin_button_set_digits (GTK_SPIN_BUTTON (textentry2), 0);
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (textentry2),
 			     (gdouble) curstaffstruct->timesig.time2);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), textentry2, FALSE,
-		      FALSE, 8);
+
+  gtk_container_add (GTK_CONTAINER (vbox), textentry2);
+
   gtk_entry_set_activates_default (GTK_ENTRY (textentry2), TRUE);
 
-  checkbutton = gtk_check_button_new_with_label (_("Apply to all staves"));
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-		      checkbutton, FALSE, FALSE, 8);
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), TRUE);
+  checkbutton = gtk_check_button_new_with_label (_("Current Staff Only"));
+  if(action == CHANGEINITIAL) // there is no code for changing keysig just in one staff, or at least none called here.
+    gtk_container_add (GTK_CONTAINER (vbox), checkbutton);
+
+ // gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), TRUE);
 
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
   gtk_widget_show_all (dialog);
@@ -272,7 +275,7 @@ timesig_change (DenemoGUI * gui, actiontype action)
       gint time2 =
 	gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (textentry2));
       gboolean all_staves =
-	gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton));
+	!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton));
       if (action == CHANGEINITIAL)
 	{
 	  dnm_setinitialtimesig (gui->si, curstaffstruct, time1, 

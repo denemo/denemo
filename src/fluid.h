@@ -37,5 +37,4 @@ void fluidsynth_all_notes_off();
 void fluidsynth_render_audio(unsigned int nframes, float *left_channel, float *right_channel);
 
 
-
 #endif // FLUID_H

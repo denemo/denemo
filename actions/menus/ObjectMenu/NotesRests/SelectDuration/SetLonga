@@ -14,7 +14,9 @@
 (d-PushPosition)
 (d-InsertMeasureBefore)
 (d-Insert0)
-(d-DirectivePut-chord-graphic "Duration" "noteheads_sM2neomensural")
+(d-DirectivePut-chord-graphic "Duration" "
+&#xE20C;
+emmentaler")
 	(d-DirectivePut-chord-override "Duration" (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_ALT_OVERRIDE))
 	(d-DirectivePut-chord-prefix "Duration" "\\longa ")		
 (d-SetDurationInTicks (* 4 1536))

@@ -126,10 +126,8 @@ copy_staff_bits (DenemoStaff * src, DenemoStaff * dest)
 static void
 copy_staff_properties (DenemoStaff * src, DenemoStaff * dest)
 {
-  set_lily_name (dest->denemo_name, dest->lily_name);//???? is this a bug for src dest???FIXME
 
-  /* !!!! Insert advisory function for detecting colliding staff names
-   * here */
+
 
   dest->midi_instrument = g_string_new (src->midi_instrument->str);
   dest->space_above = src->space_above;
@@ -382,6 +380,7 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
 	{
 	  copy_staff_properties ((DenemoStaff *) si->currentstaff->data,
 				 thestaffstruct);
+    set_lily_name (thestaffstruct->denemo_name, thestaffstruct->lily_name);//this should be re-done if the denemo_name is reset.
 	  insert_staff (si, thestaffstruct, action, addat);
 	}
       else

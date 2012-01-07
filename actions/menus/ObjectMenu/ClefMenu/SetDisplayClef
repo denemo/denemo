@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>HideClef</after>
+        <action>SetDisplayClef</action>
+        <scheme>;;;SetDisplayClef
+(let ((type (d-GetType)))
+(if (not (string=? type "CLEF"))
+	(begin
+		(d-InsertClef)
+		(d-MoveCursorLeft)))
+(d-SetNonprinting (not (d-GetNonprinting)))
+(d-SetSaved #f))
+</scheme>
+        <label>Display Only Clef</label>
+        <tooltip>Inserts a clef that affects only the display, not the printed form. Use this after ChangeStaff in the staff the voice will be on is in a different clef. Also useful to display in a familiar clef music which you want to be printed in a less familiar one (e.g. display in treble or bass music to be printed for viola</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -380,11 +380,10 @@ typedef struct DenemoPrefs
   gint zoom; /**< percent zoom of score area display  1-100 */
   gint system_height; /**< percent of display height per system  1-100 */
   gboolean cursor_highlight; /** Should the cursor be highlighted */
-  
+  gboolean progressbardecorations; /** TRUE if you want window decorations on progressbar */
   gboolean toolbar; /**< makes the toolbar visible */
   gboolean playback_controls; /**< makes the playback controls visible */
   gboolean midi_in_controls; /**< makes the midi in controls visible */
-  gboolean articulation_palette; /**< makes the articulation pallete visible */
   gboolean notation_palette; /**< makes the Note/Rest entry toolbar visible */
   gboolean rhythm_palette; /**< makes the rhythm toolbar visable */
   gboolean object_palette;  /**< makes the object menu toolbar visible */
@@ -498,7 +497,8 @@ typedef struct DenemoDirective
 
 #define DENEMO_OVERRIDE_DYNAMIC (1<<28)
 #define DENEMO_OVERRIDE_HIDDEN (1<<29)
-
+#define DENEMO_OVERRIDE_MARKUP (1<<30) //For score and movement widgets (which can display as buttons) this controls whether the button text uses markup
+#define DENEMO_OVERRIDE_ABOVE DENEMO_OVERRIDE_MARKUP //For chord directives, makes the graphic display above rather than below the chord
 
 
   guint32 override; /**< specifies what if anything of the built-in behaviour of the object the directive is attached to is to be overriden by this directive and values to use when overriding MIDI */
@@ -858,7 +858,6 @@ typedef struct DenemoGUI
   
 
 
-  GtkWidget* articulation_palette; /**< Articulation palette window */
   InputSource input_source;/**< Where pitches are coming into Denemo (keyboard, audio, midi) */
   InputSource last_source;/**< Where the last input came from */
   MidiDestination midi_destination;/**< Where MIDI in should go */
@@ -949,9 +948,9 @@ struct DenemoRoot
   /* Fields used fairly directly for drawing */
   GtkWidget *page;
   GtkWidget *scorearea;
-  GtkWidget *vadjustment;
+  GtkAdjustment *vadjustment;
   GtkWidget *vscrollbar;
-  GtkWidget *hadjustment;
+  GtkAdjustment *hadjustment;
   GtkWidget *hscrollbar;
 
   GtkWidget *printarea;/**< area holding a print preview */

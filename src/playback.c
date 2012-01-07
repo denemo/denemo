@@ -93,7 +93,9 @@ PlaybackRangeDialog(){
 	 GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
 
   hbox = gtk_hbox_new (FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox, TRUE, TRUE, 0);
+  
+  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  gtk_container_add (GTK_CONTAINER (content_area), hbox);
 
   //TODO calculate hightest number in seconds
   gdouble max_end_time = 7200.0;
@@ -114,7 +116,7 @@ PlaybackRangeDialog(){
   to_time =
   gtk_spin_button_new_with_range (0.0, max_end_time, 0.1);
   gtk_box_pack_start (GTK_BOX (hbox), to_time, TRUE, TRUE, 0);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), to_time, TRUE, TRUE, 0);
+
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (to_time),
 	      (gdouble) gui->si->end_time);
 
@@ -126,9 +128,9 @@ PlaybackRangeDialog(){
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
       gui->si->start_time =
-	gtk_spin_button_get_value_as_float (GTK_SPIN_BUTTON (from_time));
+	gtk_spin_button_get_value (GTK_SPIN_BUTTON (from_time));
       gui->si->end_time =
-	gtk_spin_button_get_value_as_float (GTK_SPIN_BUTTON (to_time));
+	gtk_spin_button_get_value (GTK_SPIN_BUTTON (to_time));
       //gtk_widget_destroy (dialog);
     }
   

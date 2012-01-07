@@ -29,7 +29,7 @@ draw_lily_dir (cairo_t *cr,
     gint  height = lily->graphic->height;  
     //FIXME there may be scripts expecting a different positioning code
     drawbitmapinverse_cr (cr, (DenemoGraphic *)lily->graphic,
-			  xx + lily->gx - (((DenemoGraphic *)lily->graphic)->width)/2, y + MID_STAFF_HEIGHT + lily->gy -  (((DenemoGraphic *)lily->graphic)->height)/2);
+			  xx + lily->gx - (((DenemoGraphic *)lily->graphic)->width)/2, y + MID_STAFF_HEIGHT + lily->gy -  (((DenemoGraphic *)lily->graphic)->height)/2, FALSE);
   } else {
     cairo_rectangle (cr, xx/*-2*/, y, 10, STAFF_HEIGHT);
     cairo_fill( cr );

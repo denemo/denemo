@@ -126,7 +126,7 @@ capture_look_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
         g_string_append_printf(continuations, "%s%s%s", name, ",", (gchar *) g->data);
         command_idx = lookup_command_for_keybinding_name(Denemo.map, continuations->str);
         const gchar * this = lookup_name_from_idx (Denemo.map, command_idx);
-        g_string_append_printf(final_list, "%s,%s=%s ", name, g->data, this);
+        g_string_append_printf(final_list, "%s,%s=%s ", name, (gchar *) g->data, this);
         g_string_assign(continuations, "");
       }
       if(final_list->len) 
@@ -244,7 +244,7 @@ static void keyboard_modifier_callback(GtkWidget *w, GdkEventButton *event, Modi
   g_string_append_printf(str, "Mouse Pointer number %d currently chosen for\n Mouse:-%s Keyboard:", cursor_number, mask?(mask&GDK_BUTTON1_MASK?"Left Button Drag":"Right Button Drag"):"No Button Press"); 
   append_modifier_name(str, state);
 #define POINTER_PROMPT  "To change the Pointer for a mouse/keyboard state:\nSelect Mouse Pointer number\nChoose mouse state and then click here\nwhile holding modifier key\nand/or engaging Caps/Num lock for the keyboard state"
-  gdk_window_set_cursor(w->window, cursor);
+  gdk_window_set_cursor(gtk_widget_get_window(w), cursor);
 g_string_append(str, "\n");
   g_string_append(str, POINTER_PROMPT);
   
@@ -337,12 +337,10 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
 					NULL);
 
   vbox = gtk_vbox_new (FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox, TRUE, TRUE,
-		      0);
+  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  gtk_container_add (GTK_CONTAINER (content_area), vbox);
   gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
-
-
-  
+ 
   frame= gtk_frame_new( "Help for Selected Command");
   gtk_frame_set_shadow_type((GtkFrame *)frame, GTK_SHADOW_IN);
   gtk_container_add (GTK_CONTAINER (vbox), frame);
@@ -431,7 +429,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
 
   statusbar = gtk_statusbar_new();
   context_id = gtk_statusbar_get_context_id(GTK_STATUSBAR(statusbar), "");
-  gtk_statusbar_set_has_resize_grip(GTK_STATUSBAR(statusbar), FALSE);
+  //FIXME gtk_statusbar_set_has_resize_grip(GTK_STATUSBAR(statusbar), FALSE);
   gtk_box_pack_end (GTK_BOX (vbox), statusbar, FALSE, TRUE, 0);
   
   cbdata.addbutton = GTK_BUTTON(addbutton);
@@ -474,7 +472,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   GtkWidget *cursor_button = gtk_button_new_with_label(POINTER_PROMPT);
   static ModifierPointerInfo info;
   info.button_mask = GDK_BUTTON3_MASK;//radio button for left, right none
-  g_signal_connect (GTK_OBJECT (cursor_button), "button-release-event",
+  g_signal_connect (G_OBJECT (cursor_button), "button-release-event",
 		      G_CALLBACK(keyboard_modifier_callback), &info);
   gtk_box_pack_end (GTK_BOX (hbox), cursor_button, FALSE, TRUE, 0);
 
@@ -514,16 +512,16 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   g_signal_connect (delbutton, "clicked",
           G_CALLBACK(kbd_interface_del_binding), &cbdata);
   
-  g_signal_connect (GTK_OBJECT (button_save), "clicked",
+  g_signal_connect (G_OBJECT (button_save), "clicked",
 		      G_CALLBACK(save_default_keymap_file), NULL);
-  g_signal_connect (GTK_OBJECT (button_save_as), "clicked",
+  g_signal_connect (G_OBJECT (button_save_as), "clicked",
 		      G_CALLBACK(save_keymap_dialog), NULL);
-  g_signal_connect (GTK_OBJECT (button_load), "clicked",
+  g_signal_connect (G_OBJECT (button_load), "clicked",
 		      G_CALLBACK(load_system_keymap_dialog_response), dialog);
 
 
 
-  g_signal_connect (GTK_OBJECT (button_load_from), "clicked",
+  g_signal_connect (G_OBJECT (button_load_from), "clicked",
 		      G_CALLBACK(load_keymap_dialog_response), dialog);
 
 

@@ -61,7 +61,7 @@ draw_rest (cairo_t *cr,
   };
   if(override_rest)
     drawbitmapinverse_cr ( cr, override_rest,
-			       xx+gx+ restwidths[0]-override_rest->width/2,  y+restoffsets[0]+gy-override_rest->height/2);
+			       xx+gx+ restwidths[0]-override_rest->width/2,  y+restoffsets[0]+gy-override_rest->height/2, FALSE);
   else
     drawfetachar_cr (cr, rest_char[duration],
 		     xx, y + restoffsets[duration]);
@@ -138,7 +138,7 @@ draw_notehead (cairo_t *cr,
     if(override_notehead) {
       //g_print("drawing a chord override graphic at %d %d\n",  xx+gx-override_notehead->width/2,  y+height+gy-override_notehead->height/2);
       drawbitmapinverse_cr ( cr, override_notehead,
-			       xx+gx-override_notehead->width/2,  y+height+gy-override_notehead->height/2);
+			       xx+gx-override_notehead->width/2,  y+height+gy-override_notehead->height/2, FALSE);
     }
     else {
     if (is_stemup)
@@ -202,11 +202,11 @@ draw_ledgers (cairo_t *cr,
  * Draw the chord object on the score
  *
  */
-void
+gint
 draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	    gint mwidth, gint * accs, gboolean selected)
 {
-
+  gint highest = 0;
   static gunichar upstem_char[SMALLESTDURATION + 1] =
     { 0, 0, 0, 0xb9, 0xba,
       0xbb,
@@ -295,25 +295,36 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	    } else {
 	      drawbitmapinverse_cr (cr, directive->graphic, 
 				    xx+directive->gx-directive->graphic->width/2, 
-				    y + STAFF_HEIGHT+40+directive->gy  - directive->graphic->height/2);	      
+				    y + STAFF_HEIGHT+40+directive->gy  - directive->graphic->height/2, FALSE);
+				      
 	    }
 	  } else { //this directive's graphic does not override entire chord (other ones may)
-	    if(directive->override&DENEMO_ALT_OVERRIDE) {
+	    if(directive->override&DENEMO_ALT_OVERRIDE) {//ALT_OVERRIDE makes the positioning stem sensitive
+	    //FIXME - use count to stack up multiple markings
 	      drawbitmapinverse_cr (cr, directive->graphic, 
-				    xx+directive->gx-directive->graphic->width/2, 
-				    (thechord.is_stemup? (y + STAFF_HEIGHT+40+directive->gy):(y - 40 -directive->gy))  - directive->graphic->height/2 );
+				    xx+directive->gx-directive->graphic->width/2 + 4, 
+				    (thechord.is_stemup? (y + thechord.lowesty + 8 + count + directive->gy):(y + thechord.highesty - 8 - count - directive->gy))  - directive->graphic->height/2, thechord.is_stemup);
+	      if(!thechord.is_stemup)
+		highest =  ((y + thechord.highesty-directive->gy - 16 - 2*count) - directive->graphic->height/2);
 	      
 	    } else {
-	      drawbitmapinverse_cr (cr, directive->graphic, 
+	      if(directive->override&DENEMO_OVERRIDE_ABOVE) {
+		  gint posy = MIN(y - 16 + thechord.highesty-count-directive->gy  + directive->graphic->height/2, y - 8);
+		  drawbitmapinverse_cr (cr, directive->graphic, 
+				    xx+directive->gx-directive->graphic->width/2, posy, FALSE);
+	      }
+	      else
+		drawbitmapinverse_cr (cr, directive->graphic, 
 				    xx+directive->gx-directive->graphic->width/2, 
-				    y + STAFF_HEIGHT+40+count+directive->gy  - directive->graphic->height/2);	      
+				    y + STAFF_HEIGHT+ 8 + thechord.lowesty+count+directive->gy  - directive->graphic->height/2, FALSE);	      
 	    }
 	  }
 	}
 	if(directive->display) {
-	  drawnormaltext_cr (cr, directive->display->str, xx+directive->tx, y+STAFF_HEIGHT+40+count+directive->ty );
-	  count += 16;
+	  drawnormaltext_cr (cr, directive->display->str, xx+directive->tx, y + ((thechord.highesty>-10)?-10:thechord.highesty) - 8 +count+directive->ty );
+	  highest = y + ((thechord.highesty>-10)?-10:thechord.highesty) - 8 +count+directive->ty;
 	}
+	count += 16;
       } //for each chord directive
     }//if drawing do chord directives
   if( (!override_chord_graphic) || (override_chord_graphic && override_notehead)) {
@@ -328,7 +339,7 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
       }
     }
   }
-  if(!cr) return;
+  if(!cr) return highest;
       /* Now the stem and beams. This is complicated. */
       if (thechord.notes/* not a rest */) {
 	if (thechord.is_stemup)
@@ -527,6 +538,7 @@ if(!override_chord_graphic) {
   }				/* end if not a rest draw stems etc */
 
 cairo_restore (cr);
+return highest;
 }
 
 

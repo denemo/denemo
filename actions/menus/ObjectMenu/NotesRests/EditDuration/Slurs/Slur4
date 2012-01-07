@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>Slur4</action>
+        <scheme>(d-4)
+(SlurToCurrentChord)</scheme>
+        <label> &#9180; &#119137;</label>
+        <tooltip>Inserts a &#119137; and slurs to it, extending previous slur.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -181,3 +181,13 @@
 	(if (equal? (d-DirectiveGetTag-standalone) Tag)
 	(begin (d-DeleteObject) #t)
 	#f))
+
+(define* (ToggleChordDirective tag fontname lilypond #:optional (override #f))
+	(if (d-Directive-chord? tag)
+          (d-DirectiveDelete-chord tag)
+          (begin
+	    (d-SetSaved #f)
+            (d-DirectivePut-chord-graphic tag fontname)
+            (d-DirectivePut-chord-postfix tag lilypond)
+            (if override
+	      (d-DirectivePut-chord-override tag override)))))

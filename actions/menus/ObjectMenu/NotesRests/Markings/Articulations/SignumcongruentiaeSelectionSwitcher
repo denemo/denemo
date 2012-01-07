@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>SignumcongruentiaeSelectionSwitcher</action>
+        <scheme>(SingleAndSelectionSwitcher d-ToggleSignumcongruentiae)
+		</scheme>
+        <label>Signumcongruentiae (Off/On)</label>
+        <tooltip>Mark/Unmark the selected notes signumcongruentiae</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

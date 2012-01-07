@@ -1,11 +1,12 @@
-bin_PROGRAMS = denemo denemoclient
+bin_PROGRAMS = denemo
 dist_pkgdata_DATA = denemoui.xml instruments.xml
 denemo_SOURCES = denemo_types.c \
-	articulations.c calculatepositions.c changenotehead.c \
+	calculatepositions.c changenotehead.c \
 	chordops.c clefdialog.c commandfuncs.c contexts.c draw.c \
 	drawaccidentals.c drawclefs.c drawcursor.c drawkey.c drawdynamic.c \
 	drawnotes.c drawselection.c drawstemdir.c drawtimesig.c drawtuplets.c \
 	drawlyric.c dynamic.c drawfigure.c exportabc.c exportlilypond.c \
+	articulations.c articulations.h \
 	exportxml.c file.c \
 	hairpin.c \
 	help.c importxml.c importmusicxml.c importmidi.c kbd-custom.c kbd-interface.c \
@@ -20,7 +21,7 @@ denemo_SOURCES = denemo_types.c \
 	timedialog.c tomeasuredialog.c \
 	tupletops.c utils.c graceops.c runsilent.c drawgrace.c	print.c \
 	accwidths.h \
-	articulations.h calculatepositions.h changenotehead.h \
+	calculatepositions.h changenotehead.h \
 	 chordops.h commandfuncs.h \
 	contexts.h  dynamic.h dialogs.h draw.h \
 	drawingprims.h \
@@ -36,8 +37,8 @@ denemo_SOURCES = denemo_types.c \
 	exportxml.h \
 	xmldefs.h exportmidi.h instrumentname.h  print.h \
 	lyric.h playback.h runsilent.h binreloc.c  binreloc.h \
-	bookmarks.c bookmarks.h scorewizard.c \
-	external.h screenshot.h scorewizard.h fakechord.h \
+	bookmarks.c bookmarks.h \
+	external.h screenshot.h fakechord.h \
 	parseinstruments.c parseinstruments.h keyboard.c \
 	pitchentry.c pitchrecog.c pitchentry.h audio.h \
 	drawlilydir.c lilydirectives.h lilydirectives.c keysigdialog.h \
@@ -95,7 +96,6 @@ pathconfig.h:  $(top_builddir)/config.status
 	@echo '#define DENEMO_BIN_PATH  "@denemo_bin_path@"' >>pathconfig.tmp
 	@mv pathconfig.tmp $@	
 
-denemoclient_SOURCES = denemo_client.c
 
 
 noinst_HEADERS = parseinstruments.h keyboard.h

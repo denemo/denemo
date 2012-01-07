@@ -982,111 +982,6 @@ the end point of the selection is unaltered</tooltip>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
-        <action>ToggleAccent</action>
-        <label>Accent (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleFermata</action>
-        <label>Fermata (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleStaccato</action>
-        <label>Staccato (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleTenuto</action>
-        <label>Tenuto (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleTrill</action>
-        <label>Trill  (Off/On</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleTurn</action>
-        <label>Turn (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleMordent</action>
-        <label>Mordent (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleStaccatissimo</action>
-        <label>Staccatissimo  (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleCoda</action>
-        <label>Coda (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleFlageolet</action>
-        <label>Flageolet  (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleOpen</action>
-        <label>Open (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>TogglePrallMordent</action>
-        <label>Prall Mordent  (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>TogglePrallPrall</action>
-        <label>Prall Prall  (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>TogglePrall</action>
-        <label>Prall (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleReverseTurn</action>
-        <label>Reverse Turn  (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleSegno</action>
-        <label>Segno  (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleSforzato</action>
-        <label>Sforzato  (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleStopped</action>
-        <label>Stopped  (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleThumb</action>
-        <label>Thumb  (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleUpprall</action>
-        <label>Up Prall (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>ToggleArpeggio</action>
-        <label>Apreggio (Off/On)</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
         <action>SetGrace</action>
         <label>Set Grace</label>
         <tooltip>No Tooltip yet</tooltip>
@@ -1262,11 +1157,6 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
         <action>ExportMIDI</action>
         <label>Export MIDI</label>
         <tooltip>Export the score as a MIDI file</tooltip>
-      </row>
-      <row>
-        <action>ConfigureScore</action>
-        <label>Score Wizard</label>
-        <tooltip>Start up a wizard to create a new score. This allows you to set various properties of the score</tooltip>
       </row>
       <row>
         <action>PrintPreview</action>
@@ -2233,6 +2123,27 @@ Sets prevailing rhythm to &#x1D165;</tooltip>
         <tooltip>Set the prevailing duration to &#x1D165;</tooltip>
       </row>
       <row>
+        <action>ToggleStopped</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Stopped  (Off/On)</label>
+        <tooltip>No Tooltip yet</tooltip>
+      </row>
+      <row>
+        <action>ToggleCoda</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <label>Coda (Off/On)</label>
+        <tooltip>No Tooltip yet</tooltip>
+      </row>
+      <row>
+        <action>ToggleSegno</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <label>Segno  (Off/On)</label>
+        <tooltip>No Tooltip yet</tooltip>
+      </row>
+      <row>
         <action>Preview4Bars</action>
         <scheme></scheme>
         <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
@@ -2537,91 +2448,91 @@ Sets prevailing rhythm to &#x1D165;</tooltip>
       <row>
         <action>ScoreTitle</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <menupath>/ObjectMenu/Score/Titles/Simple Titles</menupath>
         <label>Title</label>
         <tooltip>Prints the name given as a title centered at the start of the score.</tooltip>
       </row>
       <row>
         <action>ScoreArranger</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <menupath>/ObjectMenu/Score/Titles/Simple Titles</menupath>
         <label>Arranger</label>
         <tooltip>Name of the arranger, flush-right below the composer.</tooltip>
       </row>
       <row>
         <action>ScoreComposer</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <menupath>/ObjectMenu/Score/Titles/Simple Titles</menupath>
         <label>Composer</label>
         <tooltip>Name of the composer, flush-right below the subsubtitle.</tooltip>
       </row>
       <row>
         <action>ScoreDedication</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <menupath>/ObjectMenu/Score/Titles/Simple Titles</menupath>
         <label>Dedication</label>
         <tooltip>The dedicatee of the music, centered at the top of the first page.</tooltip>
       </row>
       <row>
         <action>ScoreInstrument</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <menupath>/ObjectMenu/Score/Titles/Simple Titles</menupath>
         <label>Instrument</label>
         <tooltip>Name of the instrument, centered below the subsubtitle. Also centered at the top of pages (other than the first page).</tooltip>
       </row>
       <row>
         <action>ScoreMeter</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <menupath>/ObjectMenu/Score/Titles/Simple Titles</menupath>
         <label>Meter</label>
         <tooltip>Meter string, flush-left below the poet.</tooltip>
       </row>
       <row>
         <action>ScoreOpus</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <menupath>/ObjectMenu/Score/Titles/Simple Titles</menupath>
         <label>Opus</label>
         <tooltip>Name of the opus, flush-right below the arranger.</tooltip>
       </row>
       <row>
         <action>ScorePoet</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <menupath>/ObjectMenu/Score/Titles/Simple Titles</menupath>
         <label>Poet</label>
         <tooltip>Name of the poet, flush-left below the subsubtitle.</tooltip>
       </row>
       <row>
         <action>ScoreTagline</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <menupath>/ObjectMenu/Score/Titles</menupath>
         <label>Tagline</label>
         <tooltip> Centered at the bottom of the last page.</tooltip>
       </row>
       <row>
         <action>MovementTitle</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MovementMenu/Titles Etc</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Titles/Simple Titles</menupath>
         <label>Title</label>
         <tooltip>Prints the name given as a title above the current movement.</tooltip>
       </row>
       <row>
         <action>MovementSubtitle</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MovementMenu/Titles Etc</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Titles/Simple Titles</menupath>
         <label>Subtitle</label>
         <tooltip>Prints the given name below the title of the current movement.</tooltip>
       </row>
       <row>
         <action>MovementPiece</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MovementMenu/Titles Etc</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Titles/Simple Titles</menupath>
         <label>Piece</label>
         <tooltip>Prints the name given above and to the left at the start of the movement.</tooltip>
       </row>
       <row>
         <action>ScoreCopyright</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <menupath>/ObjectMenu/Score/Titles/Simple Titles</menupath>
         <label>Copyright</label>
         <tooltip>Copyright notice, centered at the bottom of the first page. To insert the copyright symbol, see Lilypond Text encoding.</tooltip>
       </row>
@@ -2766,13 +2677,6 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotesRests/Markings/TextMarks/Dynamic Markings</menupath>
         <label>Delete</label>
         <tooltip>Deletes a dynamic attached to the chord at the cursor.</tooltip>
-      </row>
-      <row>
-        <action>TitlePage</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
-        <label>Set Movement as Title Page</label>
-        <tooltip>Makes this movement a title page (no music)</tooltip>
       </row>
       <row>
         <action>ParenthesizeChord</action>
@@ -3439,7 +3343,7 @@ for second and subsequent systems</tooltip>
         <after>ToggleStaccato</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
-        <label>Staccato (On/Off)</label>
+        <label>Staccato (Off/On)</label>
         <tooltip>Adds the staccato dot or removes it</tooltip>
       </row>
       <row>
@@ -3447,7 +3351,7 @@ for second and subsequent systems</tooltip>
         <after>ToggleStaccatissimo</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
-        <label>Staccatissimo (On/Off)</label>
+        <label>Staccatissimo (Off/On)</label>
         <tooltip>Toggles Staccatissimo</tooltip>
       </row>
       <row>
@@ -3455,7 +3359,7 @@ for second and subsequent systems</tooltip>
         <after>ToggleTenuto</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
-        <label>Tenuto (On/Off)</label>
+        <label>Tenuto (Off/On)</label>
         <tooltip>Toggles the Tenuto Line _ On/Off</tooltip>
       </row>
       <row>
@@ -3463,7 +3367,7 @@ for second and subsequent systems</tooltip>
         <after>ToggleAccent</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
-        <label>Accent (On/Off)</label>
+        <label>Accent (Off/On)</label>
         <tooltip>Adds the &gt; accent</tooltip>
       </row>
       <row>
@@ -5419,57 +5323,63 @@ for second and subsequent systems</tooltip>
         <action>BookTitle</action>
         <after>TransposeScorePrint</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/BookTitles</menupath>
+        <menupath>/ObjectMenu/Score/Titles/Book Titles</menupath>
         <label>Title</label>
         <tooltip>Prints a title on title page</tooltip>
       </row>
       <row>
         <action>BookArranger</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/BookTitles</menupath>
+        <menupath>/ObjectMenu/Score/Titles/Book Titles</menupath>
         <label>Arranger</label>
         <tooltip>Prints the arranger name on title page</tooltip>
       </row>
       <row>
         <action>BookCopyright</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/BookTitles</menupath>
+        <menupath>/ObjectMenu/Score/Titles/Book Titles</menupath>
         <label>Copyright</label>
         <tooltip>Prints a copyright notice on title page</tooltip>
       </row>
       <row>
         <action>BookComposer</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/BookTitles</menupath>
+        <menupath>/ObjectMenu/Score/Titles/Book Titles</menupath>
         <label>Composer</label>
         <tooltip>Prints a composer name on title page</tooltip>
       </row>
       <row>
         <action>BookPoet</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/BookTitles</menupath>
+        <menupath>/ObjectMenu/Score/Titles/Book Titles</menupath>
         <label>Poet/Lyricist</label>
         <tooltip>Prints the poet or lyricist name on title page</tooltip>
       </row>
       <row>
-        <action>Chapter</action>
-        <after>MovementTitle</after>
+        <action>TitledPiece</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MovementMenu/BookTitles</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Titles/Book Titles</menupath>
         <label>Title</label>
-        <tooltip>Prints title of Movement</tooltip>
+        <tooltip>Prints title for the current movement, which will get a page reference in a table of contents.</tooltip>
+      </row>
+      <row>
+        <action>Chapter</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/Titles/Book Titles</menupath>
+        <label>Heading</label>
+        <tooltip>Prints a heading in upper case for the current movement.</tooltip>
       </row>
       <row>
         <action>Section</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MovementMenu/BookTitles</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Titles/Book Titles</menupath>
         <label>Sub-Title</label>
-        <tooltip>Prints a subtitle for the Movement</tooltip>
+        <tooltip>Prints a subtitle for the current movement</tooltip>
       </row>
       <row>
         <action>Piece</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MovementMenu/BookTitles</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Titles/Book Titles</menupath>
         <label>Piece</label>
         <tooltip>Prints a piece name for the Movement</tooltip>
       </row>
@@ -5477,17 +5387,427 @@ for second and subsequent systems</tooltip>
         <action>TocTitle</action>
         <after>BookPoet</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/BookTitles</menupath>
+        <menupath>/ObjectMenu/Score/Titles/Book Titles</menupath>
         <label>Table of Contents Title</label>
         <tooltip>Gives a heading for a table of contents, inserting the table in the book.</tooltip>
       </row>
       <row>
-        <action>TitledPiece</action>
-        <after>Piece</after>
+        <action>SetDisplayClef</action>
+        <after>HideClef</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MovementMenu/BookTitles</menupath>
-        <label>Title</label>
-        <tooltip>Prints a title for the movement, which will get a page reference in a table of contents.</tooltip>
+        <menupath>/ObjectMenu/ClefMenu</menupath>
+        <label>Display Only Clef</label>
+        <tooltip>Inserts a clef that affects only the display, not the printed form. Use this after ChangeStaff in the staff the voice will be on is in a different clef. Also useful to display in a familiar clef music which you want to be printed in a less familiar one (e.g. display in treble or bass music to be printed for viola</tooltip>
+      </row>
+      <row>
+        <action>CriticalCommentary</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles/Book Titles/Epilog</menupath>
+        <label>(Re)Create Epilog - Critical Commentary</label>
+        <tooltip>Collects together any critical comments from the score and places them in an epilog at the end of the music. The Title and text of the Epilog are created with the CriticalCommentaryIntro command, and critical comments are added with the CriticalComment command.</tooltip>
+      </row>
+      <row>
+        <action>CriticalComment</action>
+        <after>FreeFermata</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Critical Comment</label>
+        <tooltip>Adds a comment which can be printed in a critical commentary at the end of all the movements (see CriticalCommentary command to create this).</tooltip>
+      </row>
+      <row>
+        <action>AllowLineBreak</action>
+        <after>LineBreak</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Allow Line Break</label>
+        <tooltip>Permits the typesetter to break the line at this point.</tooltip>
+      </row>
+      <row>
+        <action>CriticalCommentaryIntro</action>
+        <after>TocTitle</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles/Book Titles/Epilog</menupath>
+        <label>Title and Introduction</label>
+        <tooltip>A button is created for putting a title and introductory text for a critical commentary at the end of the score.</tooltip>
+      </row>
+      <row>
+        <action>BookDate</action>
+        <after>BookPoet</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles/Book Titles</menupath>
+        <label>Date</label>
+        <tooltip>Prints a date on the title page.</tooltip>
+      </row>
+      <row>
+        <action>NeoMensuralNotehead</action>
+        <after>ChangeNotehead</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/NoteheadControl</menupath>
+        <label>Neo-mensural</label>
+        <tooltip>Prints note with neomensural style notehead.</tooltip>
+      </row>
+      <row>
+        <action>NoteColumnShift</action>
+        <after>ShiftOn</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>Force Note Shift</label>
+        <tooltip>On printing the current note/chord will be shifted from notes in other voices by the amount you give. Use with Voice Presets to ensure this chord is in a different voice.</tooltip>
+      </row>
+      <row>
+        <action>SuggestSharp</action>
+        <after>ReminderAccidental</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
+        <label>Suggest Sharp</label>
+        <tooltip>Prints a sharp above the note at the cursor</tooltip>
+      </row>
+      <row>
+        <action>SuggestFlat</action>
+        <after>SuggestSharp</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
+        <label>Suggest Flat</label>
+        <tooltip>Prints flat sign over the note at the cursor</tooltip>
+      </row>
+      <row>
+        <action>SuggestNatural</action>
+        <after>SuggestFlat</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
+        <label>Suggest Natural</label>
+        <tooltip>Prints a natural over the note at the cursor</tooltip>
+      </row>
+      <row>
+        <action>CreatePartsFromTop</action>
+        <after>CreateParts</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>Create Parts (Treble First)</label>
+        <tooltip>Creates a set of parts extracting the highest part first.</tooltip>
+      </row>
+      <row>
+        <action>ToggleCheckChords</action>
+        <after>AngryDelete</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/InputMenu/MIDI</menupath>
+        <label>Check Chords (On/Off)</label>
+        <tooltip>Advances through the current movement as you play the notes, stopping for wrong or missing notes in MIDI in.</tooltip>
+      </row>
+      <row>
+        <action>PrintTwoReduced</action>
+        <after>PrintAccompanistsScore</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
+        <label>Print Two Parts as Cue for Accompanist</label>
+        <tooltip>Prints the top two staffs on a single staff as cue.</tooltip>
+      </row>
+      <row>
+        <action>TaglineLink</action>
+        <after>ScoreTagline</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles</menupath>
+        <label>Tagline with Link</label>
+        <tooltip>Creates a tagline with a link in PDF output.</tooltip>
+      </row>
+      <row>
+        <action>ToggleMarcato</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Marcato (Off/On)</label>
+        <tooltip>Mark/Unmark the current chord marcato</tooltip>
+      </row>
+      <row>
+        <action>PrintPartWithTitlePage</action>
+        <after>PrintPart</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
+        <label>Print Part with Title Page</label>
+        <tooltip>Prints part with part name on title page</tooltip>
+      </row>
+      <row>
+        <action>ToggleAccent</action>
+        <after>ToggleMarcato</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Accent (Off/On)</label>
+        <tooltip>Mark/Unmark the current chord accented</tooltip>
+      </row>
+      <row>
+        <action>ToggleStaccato</action>
+        <after>ToggleAccent</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Staccato (Off/On)</label>
+        <tooltip>Mark/Unmark the chord staccato</tooltip>
+      </row>
+      <row>
+        <action>ToggleFermata</action>
+        <after>ToggleStaccato</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Fermata (Off/On)</label>
+        <tooltip>Mark/Unmark the chord with a fermata</tooltip>
+      </row>
+      <row>
+        <action>ToggleTenuto</action>
+        <after>ToggleFermata</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Tenuto (Off/On)</label>
+        <tooltip>Mark/Unmark the chord Tenuto</tooltip>
+      </row>
+      <row>
+        <action>ToggleStaccatissimo</action>
+        <after>ToggleStaccato</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Staccatissimo (Off/On)</label>
+        <tooltip>Mark/Unmark chord as Staccatissimo</tooltip>
+      </row>
+      <row>
+        <action>ToggleUpBow</action>
+        <after>ToggleTenuto</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>UpBow (Off/On)</label>
+        <tooltip>Mark/Unmark chord with an Up Bow</tooltip>
+      </row>
+      <row>
+        <action>ToggleDownBow</action>
+        <after>ToggleUpBow</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>DownBow (Off/On)</label>
+        <tooltip>Mark/Unmark chord with a Down Bow</tooltip>
+      </row>
+      <row>
+        <action>ToggleHarmonic</action>
+        <after>ToggleDownBow</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Harmonic (Off/On)</label>
+        <tooltip>Mark/Unmark chord with a harmonic</tooltip>
+      </row>
+      <row>
+        <action>Slur0</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <label> &#x23DC; &#x1D15D;</label>
+        <tooltip>Inserts a &#x1D15D; and slurs to it, extending previous slur.</tooltip>
+      </row>
+      <row>
+        <action>Slur1</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <label> &#x23DC; &#x1D15E;</label>
+        <tooltip>Inserts a &#x1D15E; and slurs to it, extending previous slur.</tooltip>
+      </row>
+      <row>
+        <action>Slur2</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <label> &#x23DC; &#x1D15F;</label>
+        <tooltip>Inserts a &#x1D15F; and slurs to it, extending previous slur.</tooltip>
+      </row>
+      <row>
+        <action>Slur3</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <label> &#x23DC; &#x1D160;</label>
+        <tooltip>Inserts a &#x1D160; and slurs to it, extending previous slur.</tooltip>
+      </row>
+      <row>
+        <action>Slur4</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <label> &#x23DC; &#x1D161;</label>
+        <tooltip>Inserts a &#x1D161; and slurs to it, extending previous slur.</tooltip>
+      </row>
+      <row>
+        <action>Slur5</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <label> &#x23DC; &#x1D162;</label>
+        <tooltip>Inserts a &#x1D162; and slurs to it, extending previous slur.</tooltip>
+      </row>
+      <row>
+        <action>Slur6</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <label> &#x23DC; &#x1D163;</label>
+        <tooltip>Inserts a &#x1D163; and slurs to it, extending previous slur.</tooltip>
+      </row>
+      <row>
+        <action>Slur7</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <label> &#x23DC; &#x1D164;</label>
+        <tooltip>Inserts a &#x1D164; and slurs to it, extending previous slur.</tooltip>
+      </row>
+      <row>
+        <action>SlurBreve</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <label> &#x23DC; &#x1D15C;</label>
+        <tooltip>Inserts a &#x1D15C; and slurs to it, extending previous slur.</tooltip>
+      </row>
+      <row>
+        <action>SlurLonga</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <label> &#x23DC; &#x1D15B;</label>
+        <tooltip>Inserts a &#x1D15B; and slurs to it, extending previous slur.</tooltip>
+      </row>
+      <row>
+        <action>MarcatoSelectionSwitcher</action>
+        <after>ToggleFermata</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Marcato (Off/On)</label>
+        <tooltip>Mark/Unmark the selected notes marcato</tooltip>
+      </row>
+      <row>
+        <action>UpBowSelectionSwitcher</action>
+        <after>MarcatoSelectionSwitcher</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>UpBow (Off/On)</label>
+        <tooltip>Mark/Unmark current selection or note with UpBow</tooltip>
+      </row>
+      <row>
+        <action>DownbowSelectionSwitcher</action>
+        <after>UpBowSelectionSwitcher</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>DownBow (Off/On)</label>
+        <tooltip>Mark/Unmark selection or current object</tooltip>
+      </row>
+      <row>
+        <action>HarmonicSelectionSwitcher</action>
+        <after>DownbowSelectionSwitcher</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Harmonic (Off/On)</label>
+        <tooltip>Mark/Unmark current selection of object with a harmonic</tooltip>
+      </row>
+      <row>
+        <action>FermataSelectionSwitcher</action>
+        <after>ToggleAccent</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Fermata (Off/On)</label>
+        <tooltip>Mark/Unmark current selection or object with a fermata</tooltip>
+      </row>
+      <row>
+        <action>ToggleTrill</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <label>Trill (Off/On)</label>
+        <tooltip>Adds/Removes a trill to the note</tooltip>
+      </row>
+      <row>
+        <action>ToggleTurn</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <label>Turn (Off/On)</label>
+        <tooltip>Adds/Removes a turn to the note</tooltip>
+      </row>
+      <row>
+        <action>ToggleMordent</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <label>Mordent (Off/On)</label>
+        <tooltip>Adds/Removes a Mordent to the note</tooltip>
+      </row>
+      <row>
+        <action>TogglePrall</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <label>Prall (Off/On)</label>
+        <tooltip>Adds/Removes a prall to the note</tooltip>
+      </row>
+      <row>
+        <action>ToggleUpprall</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <label>Up Prall (Off/On)</label>
+        <tooltip>Adds/Removes Up Prall ornament</tooltip>
+      </row>
+      <row>
+        <action>TogglePrallPrall</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <label>PrallPrall (Off/On)</label>
+        <tooltip>Adds/Removes a PrallPrall to the note</tooltip>
+      </row>
+      <row>
+        <action>ToggleReverseTurn</action>
+        <after>TogglePrallPrall</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <label>Reverse Turn (Off/On)</label>
+        <tooltip>Add/Removes a Reverse Turn to the note</tooltip>
+      </row>
+      <row>
+        <action>NoBeam</action>
+        <after>Beam1234</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
+        <label>No Beam</label>
+        <tooltip>(Print) Removes beam from current note</tooltip>
+      </row>
+      <row>
+        <action>TogglePortato</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Portato (Off/On)</label>
+        <tooltip>Mark/Unmark the chord Portato</tooltip>
+      </row>
+      <row>
+        <action>PortatoSelectionSwitcher</action>
+        <after>TogglePortato</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Portato (Off/On)</label>
+        <tooltip>Marks/Unmaks the selection with the Portato</tooltip>
+      </row>
+      <row>
+        <action>StoppedSelectionSwitcher</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Stopped (Off/On)</label>
+        <tooltip>Mark/Unmark the selected notes stopped</tooltip>
+      </row>
+      <row>
+        <action>ToggleArpeggio</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Arpeggio (Off/On)</label>
+        <tooltip>Mark/Unmark chord with an arpeggio</tooltip>
+      </row>
+      <row>
+        <action>ArpeggioSelectionSwitcher</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Arpeggio (Off/On)</label>
+        <tooltip>Mark/Unmark the selected notes arpeggio</tooltip>
+      </row>
+      <row>
+        <action>SharpenKeysig</action>
+        <after>InitialKey</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Key</menupath>
+        <label>&#x266F;</label>
+        <tooltip>Sharpens the key signature by one degree. If no key signature at cursor, sharpens the initial key signature.</tooltip>
+      </row>
+      <row>
+        <action>FlattenKeysig</action>
+        <after>SharpenKeysig</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Key</menupath>
+        <label>&#x266D;</label>
+        <tooltip>Flattens the key signature by one degree. If no key signature at the cursor, operates on the initial key signature.</tooltip>
       </row>
     </map>
   </merge>

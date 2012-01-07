@@ -2,7 +2,7 @@
  * Implements lilydirectives which are not notes 
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
- * Richard Shann 2009, 2010
+ * Richard Shann 2009, 2010, 2011
  * A Tee  (c) 2000-2005
  */
 #include <stdio.h>
@@ -21,6 +21,9 @@
 #include "utils.h"
 #include "prefops.h"
 #include "view.h"
+#if GTK_MAJOR_VERSION==3
+  #include <gdk/gdkkeysyms-compat.h> //FIXME Look for something more gtk3 like
+#endif
 
 static DenemoDirective *get_movementcontrol_directive(gchar *tag);
 static DenemoDirective *get_score_directive(gchar *tag);
@@ -1216,60 +1219,69 @@ instead of the "activate"  "button-release-event" signal
 gboolean            user_function                      (GtkWidget      *widget,
                                                         GdkEventButton *event,
                                                         gpointer        user_data)      : Run Last
+                                                        * PROBLEM cannot use gtk_widget_activate ... d-DirectiveActivate ...
 the look at event to see if left or right button pressed
 and allow advanced edit if right button.
 
 */
 static gboolean
 text_edit_directive_by_fn(DenemoDirective *directive, gpointer fn);
+
 static void
 button_callback  (GtkWidget *widget, GdkEventButton *event, DenemoDirective *directive) {
-  gboolean left = event!=NULL && (event->button != 3);                  
-  if(directive->override&DENEMO_OVERRIDE_EDITOR)
+  gboolean left = TRUE;
+  if(event!=NULL)
+    left = !((event->button != 1) /* && (event->state&(GDK_SHIFT_MASK|GDK_CONTROL_MASK)) */);                  
+  if(left && (directive->override&DENEMO_OVERRIDE_EDITOR))
     {
       GtkWidget *texteditor = (GtkWidget*)g_object_get_data(G_OBJECT(directive->widget), DENEMO_TEXTEDITOR_TAG);
       if(texteditor) {
-	//FIXME position at cursor if a toplevel window
-	gtk_widget_show_all(gtk_widget_get_toplevel(texteditor));
-	gtk_window_present(GTK_WINDOW(gtk_widget_get_toplevel(texteditor)));
+            //FIXME position at cursor if a toplevel window
+            gtk_widget_show_all(gtk_widget_get_toplevel(texteditor));
+            gtk_window_present(GTK_WINDOW(gtk_widget_get_toplevel(texteditor)));
       }
     } else {
-    gchar *script = get_action_script(directive->tag->str);
-    if(script) {
-      stage_undo(Denemo.gui->si, ACTION_STAGE_END);//undo is a queue so this is the end :)
-      call_out_to_guile(script);
-      stage_undo(Denemo.gui->si, ACTION_STAGE_START);
-    }
-    else {
-      if(left  && (directive->override&DENEMO_OVERRIDE_TAGEDIT))
-	script = get_editscript_filename(directive->tag->str);
-      else
-	script = NULL;
-      if(script)
-	execute_script_file(script);
+      gchar *script = get_action_script(directive->tag->str);
+      if(left && script) {
+        stage_undo(Denemo.gui->si, ACTION_STAGE_END);//undo is a queue so this is the end :)
+        call_out_to_guile(script);
+        stage_undo(Denemo.gui->si, ACTION_STAGE_START);
+      }
       else {
-	/* if there is an action of this tag with scheme script, run it again
-	   else do text edit of the directives fields
-
-	*/
-	GtkAction *action;
-	if(left && (directive->override&DENEMO_OVERRIDE_TAGEDIT) &&((action = lookup_action_from_name((gchar *)directive->tag->str))!=NULL))
-	  gtk_action_activate(action); else {
-	  gpointer fn = (widget!=NULL)? g_object_get_data(G_OBJECT(widget), "fn"):NULL;
-	  if(fn) {
-	    gboolean delete = !text_edit_directive_by_fn(directive, fn);
-	    if(delete) {
-	      GList **directives = (GList**)g_object_get_data(G_OBJECT(widget), "directives-pointer");
-	      if(directives)
-	        delete_directive(directives, directive->tag->str);
-	      else
-		g_warning("Could not get directives list to delete from");
-	    }
-	  }
-	}
+        if(left  && (directive->override&DENEMO_OVERRIDE_TAGEDIT))
+          script = get_editscript_filename(directive->tag->str);
+        else
+        script = NULL;
+      if(script)
+        execute_script_file(script);
+      else {
+        /* if there is an action of this tag with scheme script, run it again
+        else do text edit of the directives fields
+        */
+          GtkAction *action;
+          if(left && (directive->override&DENEMO_OVERRIDE_TAGEDIT) &&((action = lookup_action_from_name((gchar *)directive->tag->str))!=NULL))
+            gtk_action_activate(action);
+          else {
+            gpointer fn = (widget!=NULL)? g_object_get_data(G_OBJECT(widget), "fn"):NULL;
+            if(fn) {
+              gboolean delete = !text_edit_directive_by_fn(directive, fn);
+              if(delete) {
+                GList **directives = (GList**)g_object_get_data(G_OBJECT(widget), "directives-pointer");
+                if(directives)
+                  delete_directive(directives, directive->tag->str);
+                else
+                  g_warning("Could not get directives list to delete from");
+                }
+            }
+          }
       }
     }
   }
+}
+
+
+static void button_activate_callback(GtkWidget *w, DenemoDirective *d) {
+ button_callback(w, NULL, d);
 }
 
 /* return a GtkTextView which has been installed inside a scrolled window */
@@ -1277,7 +1289,7 @@ static GtkWidget * create_text_window(void) {
   GtkWidget *textview = gtk_text_view_new();
   GtkWidget *w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (w), "Denemo Editor:Newline to update, Esc for Advanced Edit");
-  gtk_window_set_default_size(GTK_WINDOW (w), 200, 100);
+  gtk_window_set_default_size(GTK_WINDOW (w), 600, 400);
   gtk_window_set_position(GTK_WINDOW (w),GTK_WIN_POS_MOUSE);
   g_signal_connect(G_OBJECT(w), "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), w);
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
@@ -1298,18 +1310,22 @@ assign_text(GtkWidget *w, gchar *text) {
   if(textbuffer)
     gtk_text_buffer_set_text(textbuffer, text, -1);
 }
-
-/* create a label. Warning: parameter value must be valid markup
+static gchar *get_label_text(DenemoDirective *directive, gchar *text) {
+if(directive->override & DENEMO_OVERRIDE_MARKUP)
+  return g_strdup(text);
+return g_markup_escape_text(text, -1);
+}
+/* create a label. 
 Use the display string up to the first newline, if it is long enough
-eles use tag
+else use tag
 */
 static void
 set_directive_graphic_label(DenemoDirective *directive) {
   gchar *value;
   if(directive->display && directive->display->len>0)
-    value = g_strdup_printf("%s", directive->display->str);
+    value = get_label_text(directive, directive->display->str);
   else
-    value = g_strdup(directive->tag->str);
+    value = get_label_text(directive, directive->tag->str);
   gchar *c;
   for(c=value;*c;c++)
     if(*c=='\n') {
@@ -1395,7 +1411,7 @@ widget_for_directive_menu(DenemoDirective *directive,  void fn(), GtkMenu *menu)
   } else
     if(directive->display) 
       value = directive->display->str;
-
+  value = get_label_text(directive, value);
   if((directive->widget==NULL) ) {
 
 
@@ -1425,7 +1441,13 @@ widget_for_directive_menu(DenemoDirective *directive,  void fn(), GtkMenu *menu)
 	    gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
 	  }
 	  attach_textedit_widget(directive);
-	  g_signal_connect(G_OBJECT(directive->widget), "button-release-event",  G_CALLBACK(button_callback), directive);
+	  g_signal_connect(G_OBJECT(directive->widget), /*"activate" we want to use gtk_widget_activate on this*/ "button-release-event" ,  G_CALLBACK(button_callback), directive);
+
+
+	  g_signal_connect(G_OBJECT(directive->widget), "activate"  ,  G_CALLBACK(button_activate_callback), directive);
+
+
+    
 	  if(box){
 	    gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET(directive->widget), FALSE, TRUE,0);
 	    gtk_widget_show(box);
@@ -1437,7 +1459,9 @@ widget_for_directive_menu(DenemoDirective *directive,  void fn(), GtkMenu *menu)
 	}
     g_object_set_data(G_OBJECT(directive->widget), "directive", (gpointer)directive);
     g_object_set_data(G_OBJECT(directive->widget), "fn", (gpointer)fn);
-    GTK_WIDGET_UNSET_FLAGS(directive->widget, GTK_CAN_FOCUS);
+    //GTK_WIDGET_UNSET_FLAGS(directive->widget, GTK_CAN_FOCUS);
+    gtk_widget_set_can_focus (directive->widget, FALSE);
+ 
   }//end of no widget
 
   (directive->override&DENEMO_OVERRIDE_GRAPHIC)?gtk_widget_show(GTK_WIDGET(directive->widget)):gtk_widget_hide(GTK_WIDGET(directive->widget));
@@ -1449,6 +1473,7 @@ widget_for_directive_menu(DenemoDirective *directive,  void fn(), GtkMenu *menu)
       assign_text(texteditor, directive->display->str);
   }
   set_directive_graphic_label(directive);
+  g_free(value);
 }
 void 
 widget_for_directive(DenemoDirective *directive,  void fn()) {
@@ -1841,9 +1866,9 @@ DenemoDirective *select_directive(gchar *instr, GList *directives) {
                                         GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
                                         NULL);
   GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox,
-		      TRUE, TRUE, 0);
-  
+  GtkWidget *content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+  gtk_container_add (GTK_CONTAINER (content_area), vbox);
+
   DenemoDirective *response = NULL;
   GList *g;
   gint count;//count tagged directives
@@ -2145,6 +2170,16 @@ static void put_edit_script (GtkWidget *widget, gchar *tag) {
   g_free(filename);
 }
 
+static gboolean activate_directive(DenemoDirective *directive, gchar *what) {
+  gboolean ret = TRUE;
+if(directive->widget && GTK_IS_WIDGET(directive->widget)) {
+g_print("activate\n");
+gtk_widget_activate(directive->widget);
+  //g_signal_emit!!!!!!!!!!!!!!! what do we do!!!!!!!!!!!(directive->widget, "button-release-event");
+  return TRUE;
+}
+return FALSE;
+}
 
 /* text_edit_directive
    textually edit the directive via a dialog.
@@ -2168,8 +2203,9 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
 
 
   GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox,
-		      TRUE, TRUE, 0);
+  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  gtk_container_add (GTK_CONTAINER (content_area), vbox);
+
   GtkWidget *hbox;
   GString *entrycontent = g_string_new("");
   GtkWidget *entrywidget;
@@ -2247,7 +2283,7 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
 #endif  
   button = gtk_check_button_new_with_label("Show Current Script");
   gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
-  gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"), button);
+  gtk_activatable_set_related_action(GTK_ACTIVATABLE(button), gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"));
 
   gtk_widget_show_all (dialog);
   gint response = gtk_dialog_run (GTK_DIALOG (dialog));
@@ -2327,7 +2363,7 @@ edit_directive(DenemoDirective *directive, gchar *what) {
   gchar* filename = get_editscript_filename(directive->tag->str);
   if(filename == NULL) {
     GtkAction *action = lookup_action_from_name (directive->tag->str);
-    if(action)
+    if(action && (Denemo.keyboard_state!=GDK_MOD2_MASK/*NumLock */))
       activate_script(action, NULL);
     else
       ret =( text_edit_directive(directive, what)  || !confirm("Directive Delete", "Are you sure you want to delete the directive?"));
@@ -2966,14 +3002,22 @@ gchar * get_scoretitle(void){
   return scoretitle;
 }
 
-
+#define ACTIVATE_DIRECTIVE(what)\
+gboolean activate_##what##_directive(gchar *tag) {\
+  DenemoDirective *directive = get_##what##_directive(tag);\
+  if(directive)\
+    return activate_directive(directive, #what);\
+  return FALSE;\
+}
 #define TEXT_EDIT_DIRECTIVE(what)\
 gboolean text_edit_##what##_directive(gchar *tag) {\
   DenemoDirective *directive = get_##what##_directive(tag);\
   if(directive)\
     return text_edit_directive(directive, #what);\
   return FALSE;\
-}
+}\
+ACTIVATE_DIRECTIVE(what)
+
 TEXT_EDIT_DIRECTIVE(note);
 TEXT_EDIT_DIRECTIVE(chord);
 TEXT_EDIT_DIRECTIVE(staff);

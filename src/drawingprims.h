@@ -13,7 +13,7 @@ draw_ledgers (cairo_t *cr,
 	      gint greaterheight, gint lesserheight,
 	      gint xx, gint y, gint width);
 
-void
+gint
 draw_chord (cairo_t * cr,
 	    objnode *curobj, gint xx, gint y, gint mwidth, gint *accs, gboolean selected);
 void

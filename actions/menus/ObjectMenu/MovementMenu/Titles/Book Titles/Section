@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>Section</action>
+        <scheme>;;;Section
+        (MovementBookTitles::Do "Section" "section" "My Sub-title"  "Give name for movement sub-title or blank out to delete: ")
+</scheme>
+        <label>Sub-Title</label>
+        <tooltip>Prints a subtitle for the Movement</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -649,6 +649,17 @@ newXMLNoteHead (xmlNodePtr parent, xmlNsPtr ns, enum headtype noteHeadType)
 //g_base64_decode_inplace(guchar *buf, gsize* outlen);//overwrites buf with decoded data.
   }	
 }
+
+static void set_invisible(xmlNodePtr objElem, DenemoObject *curObj) {
+if (curObj->isinvisible)
+    xmlSetProp (objElem, (xmlChar *) "show", (xmlChar *)
+				"false");
+else
+    xmlSetProp (objElem, (xmlChar *) "show",
+				(xmlChar *) "true");
+}
+
+
 /**
  * Export the given score (from measure start to measure end) as a "native"
  * Denemo XML file to the given file.
@@ -820,6 +831,9 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 	}
     }
 
+
+
+
   /* Output each voice. These are the DenemoStaff objects */
 
   voicesElem = xmlNewChild (mvmntElem, ns, (xmlChar *) "voices", NULL);
@@ -924,13 +938,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		    objElem =
 		      xmlNewChild (measureElem, ns, (xmlChar *) "chord",
 				   NULL);
-		  if (curObj->isinvisible)
-		    xmlSetProp (objElem, (xmlChar *) "show", (xmlChar *)
-				"false");
-		  else
-		    xmlSetProp (objElem, (xmlChar *) "show",
-				(xmlChar *) "true");
-
+		  set_invisible(objElem, curObj);
 
 
 		  chordXMLID = getXMLID (curObj);
@@ -958,10 +966,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		    newXMLIntChild (parentElem, ns, (xmlChar *) "dots",
 				    (thechord)->numdots);
 
-		  /* Output the DenemoDirectives on the chord */
-		  if((thechord)->directives) {
-		    newDirectivesElem(objElem, ns,  (thechord)->directives, "directives");
-		  }
+		  
 		  if((thechord)->chordize)
 		    newXMLIntChild (objElem, ns, (xmlChar *) "chordize", TRUE);
 
@@ -1016,74 +1021,79 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 
 		  /* Output all the decorations. */
 
-		  if ((thechord)->ornamentlist)
+		  if ((thechord)->ornamentlist)//backward compatibility
 		    {
 		      GList *tmp;
+		      push_position();
+		      goto_movement_staff_obj (NULL, 1+g_list_index(gui->movements, si), 1+g_list_position(si->thescore, curStaff), 1+g_list_position(curStaffStruct->measures, curMeasure), 1+g_list_position(curMeasure->data, curObjNode));
 		      for (tmp = (thechord)->ornamentlist;
 			   tmp; tmp = tmp->next)
 			{
-			  parentElem = xmlNewChild (objElem, ns,
-						    (xmlChar *) "decorations",
-						    NULL);
+			 
 			  if (*(enum ornament *) tmp->data == STACCATO)
-			    newXMLDecoration (parentElem, ns, "staccato");
+			    call_out_to_guile("(d-ToggleStaccato)");
 			  if (*(enum ornament *) tmp->data == D_ACCENT)
-			    newXMLDecoration (parentElem, ns, "accent");
+			    call_out_to_guile("(d-Toggleaccent)");
 			  if (*(enum ornament *) tmp->data == FERMATA)
-			    newXMLDecoration (parentElem, ns, "fermata");
+			    call_out_to_guile("(d-Togglefermata)");
 			  if (*(enum ornament *) tmp->data == TENUTO)
-			    newXMLDecoration (parentElem, ns, "tenuto");
+			    call_out_to_guile("(d-Toggletenuto)");
 			  if (*(enum ornament *) tmp->data == TRILL)
-			    newXMLDecoration (parentElem, ns, "trill");
+			    call_out_to_guile("(d-ToggleTrill)");
 			  if (*(enum ornament *) tmp->data == TURN)
-			    newXMLDecoration (parentElem, ns, "turn");
+			    call_out_to_guile("(d-Toggleturn)");
 			  if (*(enum ornament *) tmp->data == MORDENT)
-			    newXMLDecoration (parentElem, ns, "mordent");
+			    call_out_to_guile("(d-Togglemordent)");
 			  if (*(enum ornament *) tmp->data == STACCATISSIMO)
-			    newXMLDecoration (parentElem, ns,
-					      "staccatissimo");
+			    call_out_to_guile("(d-Staccatissimo)");
 			  if (*(enum ornament *) tmp->data == MARCATO)
-			    newXMLDecoration (parentElem, ns, "marcato");
+			    call_out_to_guile("(d-Togglemarcato)");
 			  if (*(enum ornament *) tmp->data == UBOW)
-			    newXMLDecoration (parentElem, ns, "up-bow");
+			    call_out_to_guile("(d-Toggleup-bow)");
 			  if (*(enum ornament *) tmp->data == DBOW)
-			    newXMLDecoration (parentElem, ns, "down-bow");
+			    call_out_to_guile("(d-Toggledown-bow)");
 			  if (*(enum ornament *) tmp->data == RHEEL)
-			    newXMLDecoration (parentElem, ns, "right-heel");
+			    call_out_to_guile("(d-Toggleright-heel)");
 			  if (*(enum ornament *) tmp->data == LHEEL)
-			    newXMLDecoration (parentElem, ns, "left-heel");
+			    call_out_to_guile("(d-Toggleleft-heel)");
 			  if (*(enum ornament *) tmp->data == RTOE)
-			    newXMLDecoration (parentElem, ns, "right-toe");
+			    call_out_to_guile("(d-Toggleright-toe)");
 			  if (*(enum ornament *) tmp->data == LTOE)
-			    newXMLDecoration (parentElem, ns, "left-toe");
+			    call_out_to_guile("(d-Toggleleft-toe)");
 			  if (*(enum ornament *) tmp->data == CODA)
-			    newXMLDecoration (parentElem, ns, "coda");
+			    call_out_to_guile("(d-Togglecoda)");
 			  if (*(enum ornament *) tmp->data == FLAGEOLET)
-			    newXMLDecoration (parentElem, ns, "flageolet");
+			    call_out_to_guile("(d-Toggleflageolet)");
 			  if (*(enum ornament *) tmp->data == OPEN)
-			    newXMLDecoration (parentElem, ns, "open");
+			    call_out_to_guile("(d-Toggleopen)");
 			  if (*(enum ornament *) tmp->data == PRALLMORDENT)
-			    newXMLDecoration (parentElem, ns, "prallmordent");
+			    call_out_to_guile("(d-Toggleprallmordent)");
 			  if (*(enum ornament *) tmp->data == PRALLPRALL)
-			    newXMLDecoration (parentElem, ns, "prallprall");
+			    call_out_to_guile("(d-Toggleprallprall)");
 			  if (*(enum ornament *) tmp->data == PRALL)
-			    newXMLDecoration (parentElem, ns, "prall");
+			    call_out_to_guile("(d-Toggleprall)");
 			  if (*(enum ornament *) tmp->data == REVERSETURN)
-			    newXMLDecoration (parentElem, ns, "reverseturn");
+			    call_out_to_guile("(d-Togglereverseturn)");
 			  if (*(enum ornament *) tmp->data == SEGNO)
-			    newXMLDecoration (parentElem, ns, "segno");
+			    call_out_to_guile("(d-Togglesegno)");
 			  if (*(enum ornament *) tmp->data == SFORZATO)
-			    newXMLDecoration (parentElem, ns, "sforzato");
+			    call_out_to_guile("(d-Togglesforzato)");
 			  if (*(enum ornament *) tmp->data == STOPPED)
-			    newXMLDecoration (parentElem, ns, "stopped");
+			    call_out_to_guile("(d-Togglestopped)");
 			  if (*(enum ornament *) tmp->data == THUMB)
-			    newXMLDecoration (parentElem, ns, "thumb");
+			    call_out_to_guile("(d-Togglethumb)");
 			  if (*(enum ornament *) tmp->data == UPPRALL)
-			    newXMLDecoration (parentElem, ns, "upprall");
+			    call_out_to_guile("(d-Toggleupprall)");
 			  if (*(enum ornament *) tmp->data == D_ARPEGGIO)
-			    newXMLDecoration (parentElem, ns, "arpeggio");
+			    call_out_to_guile("(d-Togglearpeggio)");
 			}
+		      pop_position();
+		      (thechord)->ornamentlist = NULL;
 		    }
+		    /* Output the DenemoDirectives on the chord */
+		  if((thechord)->directives) {
+		    newDirectivesElem(objElem, ns,  (thechord)->directives, "directives");
+		  }
 		  if(thechord->baseduration<0)
 		    newXMLIntChild (objElem, ns, (xmlChar *) "ticks", -thechord->baseduration);
 
@@ -1357,6 +1367,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		case CLEF:
 		  objElem = newXMLClef (measureElem, ns,
 					((clef *) curObj->object));
+		  set_invisible(objElem, curObj);
 		  break;
 
 		case TIMESIG:

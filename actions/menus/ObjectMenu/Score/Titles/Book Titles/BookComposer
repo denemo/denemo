@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>BookComposer</action>
+        <scheme>;;BookComposer
+        (BookTitles::Do "Composer" "composer" "My Composer"  "Give name for composer or blank out to delete: ")
+</scheme>
+        <label>Composer</label>
+        <tooltip>Prints a composer name on title page</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

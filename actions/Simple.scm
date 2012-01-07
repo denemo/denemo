@@ -28,7 +28,6 @@
 (SetHeaderField "title" "Untitled"))
 
 (d-LimitInterSystemSpace 1.2)
-
 (define (InitializeTypesetting)
   (d-PushPosition)
   (d-CheckScore)
@@ -39,9 +38,8 @@
 	  (begin
 		(d-PopPushPosition)
 		(d-PopPosition)
-		(exit))
-	  (begin
-	    (d-PopPosition))))))
+		(exit))))
+	    (d-PopPosition)))
 
 (d-PointAndClick)
 (d-SetSaved #t)

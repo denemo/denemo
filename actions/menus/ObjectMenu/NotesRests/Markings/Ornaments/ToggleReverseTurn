@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>TogglePrallPrall</after>
+        <action>ToggleReverseTurn</action>
+        <scheme>;;;ReverseTurn
+(ToggleChordDirective "ReverseTurn" LG-ReverseTurn "\\reverseturn" DENEMO_OVERRIDE_ABOVE)
+</scheme>
+        <label>Reverse Turn (Off/On)</label>
+        <tooltip>Add/Removes a Reverse Turn to the note</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

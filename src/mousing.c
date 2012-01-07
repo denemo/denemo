@@ -268,9 +268,9 @@ set_cursor_for(guint state) {
   GdkCursor *cursor = g_hash_table_lookup(Denemo.map->cursors, &the_state);
   //g_print("looked up %x in %p got cursor %p which is number %d\n", state, Denemo.map->cursors,  cursor, cursor?cursor->type:-1);
   if(cursor)
-    gdk_window_set_cursor(Denemo.window->window, cursor);
+    gdk_window_set_cursor(gtk_widget_get_window(Denemo.window), cursor);
    else 
-     gdk_window_set_cursor(Denemo.window->window, gdk_cursor_new(GDK_LEFT_PTR));//FIXME? does this take time/hog memory
+     gdk_window_set_cursor(gtk_widget_get_window(Denemo.window), gdk_cursor_new(GDK_LEFT_PTR));//FIXME? does this take time/hog memory
 }
 
 
@@ -357,7 +357,9 @@ static gboolean change_staff(DenemoScore *si, gint num, GList *staff) {
 static void
 transform_coords(double* x, double* y) {
   DenemoGUI *gui = Denemo.gui;
-  gint line_height = Denemo.scorearea->allocation.height*gui->si->system_height;
+  
+  gint application_height = get_widget_height(Denemo.scorearea);
+  gint line_height = application_height*gui->si->system_height;
   gint line_num = ((int)*y)/line_height;
   *y -= line_num * line_height;
   *x /= gui->si->zoom;
@@ -368,7 +370,7 @@ transform_coords(double* x, double* y) {
 
 gint 
 scorearea_leave_event(GtkWidget *widget, GdkEventCrossing *event) {
-   gdk_window_set_cursor(Denemo.window->window, gdk_cursor_new(GDK_LEFT_PTR));//FIXME? does this take time/hog memory
+   gdk_window_set_cursor(gtk_widget_get_window(Denemo.window), gdk_cursor_new(GDK_LEFT_PTR));//FIXME? does this take time/hog memory
    return FALSE;//allow other handlers (specifically the pitch entry one)
 }
 
@@ -408,8 +410,8 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     return FALSE;
   if(Denemo.scorearea==NULL)
     return FALSE;
-
-  gint line_height = Denemo.scorearea->allocation.height*gui->si->system_height;
+  gint allocated_height = get_widget_height(Denemo.scorearea);
+  gint line_height = allocated_height*gui->si->system_height;
   if (event->y < 0)
     event->y = 0.0;
   gint line_num = ((int)event->y)/line_height;
@@ -418,7 +420,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 
 
   if(dragging_separator) {
-    gui->si->system_height =  event->y/Denemo.scorearea->allocation.height;
+    gui->si->system_height =  event->y/get_widget_height(Denemo.scorearea);
     if(gui->si->system_height<DENEMO_MINIMUM_SYSTEM_HEIGHT)
       gui->si->system_height = DENEMO_MINIMUM_SYSTEM_HEIGHT;
     if(gui->si->system_height>1.0)
@@ -429,9 +431,9 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
   }
 
   if(line_height - ((int)event->y - 8)%line_height<12)
-    gdk_window_set_cursor(Denemo.window->window, gdk_cursor_new(GDK_SB_V_DOUBLE_ARROW));
+    gdk_window_set_cursor(gtk_widget_get_window(Denemo.window), gdk_cursor_new(GDK_SB_V_DOUBLE_ARROW));
   else
-    gdk_window_set_cursor(Denemo.window->window, gdk_cursor_new(GDK_LEFT_PTR));//FIXME? does this take time/hog memory
+    gdk_window_set_cursor(gtk_widget_get_window(Denemo.window), gdk_cursor_new(GDK_LEFT_PTR));//FIXME? does this take time/hog memory
 
   transform_coords(&event->x, &event->y);
   //  g_print("Marked %d\n", gui->si->markstaffnum);
@@ -504,7 +506,8 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   if(gui==NULL || gui->si==NULL)
     return FALSE;
   //if the cursor is at a system separator start dragging it
-  gint line_height = Denemo.scorearea->allocation.height*gui->si->system_height;
+  gint allocated_height = get_widget_height(Denemo.scorearea);
+  gint line_height = allocated_height*gui->si->system_height;
   gint line_num = ((int)event->y)/line_height;
   //g_print("diff %d\n", line_height - ((int)event->y)%line_height);
   if(dragging_separator == FALSE)
@@ -567,9 +570,8 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   }
 
 
-
+  gint offset = (gint)get_click_height(gui, event->y);
   if(event->x<LEFT_MARGIN) {
-    gint offset = (gint)get_click_height(gui, event->y);
     if(offset<STAFF_HEIGHT/2) {
       if(((DenemoStaff*)gui->si->currentstaff->data)->staff_directives)
 	gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->staffmenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
@@ -583,6 +585,12 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
       popup_menu("/InitialClefEditPopup");
       return TRUE;
     }  else  if(event->x<KEY_MARGIN+key+cmajor) {
+      if(left) {
+	if(offset<STAFF_HEIGHT/2)
+	  call_out_to_guile("(d-IncrementKeysig 1)");
+	else
+	  call_out_to_guile("(d-IncrementKeysig -1)");
+      } else
       popup_menu("/InitialKeyEditPopup");
       return TRUE;
     } else  if(event->x<KEY_MARGIN+SPACE_FOR_TIME+key) {
@@ -605,8 +613,9 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
     movecursorleft(NULL);//so that right click in appending position acts on previous object
   }
   /* Redraw to show new cursor position, note a real draw is needed because of side effects on display*/
-  gtk_widget_draw (Denemo.scorearea, NULL);
-    
+  //gtk_widget_draw (Denemo.scorearea, NULL);
+  gtk_widget_queue_draw (Denemo.scorearea);
+  //draw_score(NULL);
   set_cursor_for(event->state | (left?GDK_BUTTON1_MASK:GDK_BUTTON3_MASK));
   perform_command(event->state | (left?GDK_BUTTON1_MASK:GDK_BUTTON3_MASK), GESTURE_PRESS, left);
   

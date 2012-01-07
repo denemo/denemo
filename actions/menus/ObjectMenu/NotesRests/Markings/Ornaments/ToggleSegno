@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ToggleReverseTurn</after>
+        <action>ToggleSegno</action>
+        <scheme>;;;ToggleSegno
+(ToggleChordDirective "Segno" LG-Segno "\\segno" DENEMO_OVERRIDE_ABOVE)
+</scheme>
+        <label>Segno (Off/On)</label>
+        <tooltip>Adds/Removes a Segno to the note</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

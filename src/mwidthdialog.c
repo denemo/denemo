@@ -60,42 +60,45 @@ score_mwidth_change (GtkAction *action, gpointer param)
   dialog = gtk_dialog_new ();
   gtk_window_set_title (GTK_WINDOW (dialog), _("Set minimum measure width"));
 
+  GtkWidget *content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+  
+  GtkWidget *hbox = gtk_hbox_new(FALSE, 1);
+  gtk_container_add(GTK_CONTAINER(content_area), hbox);
+  
   label = gtk_label_new (_("Enter width (in pixels) of measures:"));
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-		      label, TRUE, TRUE, 0);
-  gtk_widget_show (label);
+  gtk_container_add(GTK_CONTAINER(hbox), label);
 
   textentry = gtk_entry_new ();
   g_string_sprintf (entrycontent, "%d", gui->si->measurewidth);
   gtk_entry_set_text (GTK_ENTRY (textentry), entrycontent->str);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
+  gtk_box_pack_start (GTK_BOX (hbox),
 		      textentry, TRUE, TRUE, 0);
   gtk_widget_show (textentry);
 
-  okbutton = gtk_button_new_with_label (_("OK"));
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area),
-		      okbutton, TRUE, TRUE, 0);
+//  okbutton = gtk_button_new_with_label (_("OK"));
+//  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area),
+//		      okbutton, TRUE, TRUE, 0);
   cbdata.textentry = textentry;
   cbdata.gui = gui;
 
-  processenter (textentry, set_mwidth, cbdata, dialog);
-  gtk_signal_connect (GTK_OBJECT (okbutton), "clicked",
-		      GTK_SIGNAL_FUNC (set_mwidth), &cbdata);
-  gtk_signal_connect_object (GTK_OBJECT (okbutton), "clicked",
-			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (dialog));
-  gtk_widget_show (okbutton);
+  processenter (textentry, G_CALLBACK(set_mwidth), cbdata, dialog);
+ // gtk_signal_connect (G_OBJECT (okbutton), "clicked",
+//		      GTK_SIGNAL_FUNC (set_mwidth), &cbdata);
+//  gtk_signal_connect_object (G_OBJECT (okbutton), "clicked",
+//			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
+//			     G_OBJECT (dialog));
+//  gtk_widget_show (okbutton);
 
-  cancelbutton = gtk_button_new_with_label (_("Cancel"));
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area),
-		      cancelbutton, TRUE, TRUE, 0);
-  gtk_signal_connect_object (GTK_OBJECT (cancelbutton), "clicked",
-			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (dialog));
+//  cancelbutton = gtk_button_new_with_label (_("Cancel"));
+//  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area),
+//		      cancelbutton, TRUE, TRUE, 0);
+//  gtk_signal_connect_object (G_OBJECT (cancelbutton), "clicked",
+//			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
+//			     G_OBJECT (dialog));
   gtk_widget_show (cancelbutton);
 
   gtk_widget_grab_focus (textentry);
   gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-  gtk_widget_show (dialog);
+  gtk_widget_show_all (dialog);
 }

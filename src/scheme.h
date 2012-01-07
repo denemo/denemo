@@ -771,90 +771,6 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleStartDiminuendo")),
 SCM scheme_ToggleEndDiminuendo(SCM optional);
 install_scm_function ("d-ToggleEndDiminuendo", scheme_ToggleEndDiminuendo);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleEndDiminuendo")), "scm", (gpointer)1);
-/*ToggleAccent add_accent*/
-SCM scheme_ToggleAccent(SCM optional);
-install_scm_function ("d-ToggleAccent", scheme_ToggleAccent);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleAccent")), "scm", (gpointer)1);
-/*ToggleFermata add_fermata*/
-SCM scheme_ToggleFermata(SCM optional);
-install_scm_function ("d-ToggleFermata", scheme_ToggleFermata);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleFermata")), "scm", (gpointer)1);
-/*ToggleStaccato add_staccato*/
-SCM scheme_ToggleStaccato(SCM optional);
-install_scm_function ("d-ToggleStaccato", scheme_ToggleStaccato);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleStaccato")), "scm", (gpointer)1);
-/*ToggleTenuto add_tenuto*/
-SCM scheme_ToggleTenuto(SCM optional);
-install_scm_function ("d-ToggleTenuto", scheme_ToggleTenuto);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleTenuto")), "scm", (gpointer)1);
-/*ToggleTrill add_trill*/
-SCM scheme_ToggleTrill(SCM optional);
-install_scm_function ("d-ToggleTrill", scheme_ToggleTrill);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleTrill")), "scm", (gpointer)1);
-/*ToggleTurn add_turn*/
-SCM scheme_ToggleTurn(SCM optional);
-install_scm_function ("d-ToggleTurn", scheme_ToggleTurn);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleTurn")), "scm", (gpointer)1);
-/*ToggleMordent add_mordent*/
-SCM scheme_ToggleMordent(SCM optional);
-install_scm_function ("d-ToggleMordent", scheme_ToggleMordent);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleMordent")), "scm", (gpointer)1);
-/*ToggleStaccatissimo add_staccatissimo*/
-SCM scheme_ToggleStaccatissimo(SCM optional);
-install_scm_function ("d-ToggleStaccatissimo", scheme_ToggleStaccatissimo);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleStaccatissimo")), "scm", (gpointer)1);
-/*ToggleCoda add_coda*/
-SCM scheme_ToggleCoda(SCM optional);
-install_scm_function ("d-ToggleCoda", scheme_ToggleCoda);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleCoda")), "scm", (gpointer)1);
-/*ToggleFlageolet add_flageolet*/
-SCM scheme_ToggleFlageolet(SCM optional);
-install_scm_function ("d-ToggleFlageolet", scheme_ToggleFlageolet);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleFlageolet")), "scm", (gpointer)1);
-/*ToggleOpen add_open*/
-SCM scheme_ToggleOpen(SCM optional);
-install_scm_function ("d-ToggleOpen", scheme_ToggleOpen);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleOpen")), "scm", (gpointer)1);
-/*TogglePrallMordent add_prallmordent*/
-SCM scheme_TogglePrallMordent(SCM optional);
-install_scm_function ("d-TogglePrallMordent", scheme_TogglePrallMordent);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "TogglePrallMordent")), "scm", (gpointer)1);
-/*TogglePrallPrall add_prallprall*/
-SCM scheme_TogglePrallPrall(SCM optional);
-install_scm_function ("d-TogglePrallPrall", scheme_TogglePrallPrall);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "TogglePrallPrall")), "scm", (gpointer)1);
-/*TogglePrall add_prall*/
-SCM scheme_TogglePrall(SCM optional);
-install_scm_function ("d-TogglePrall", scheme_TogglePrall);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "TogglePrall")), "scm", (gpointer)1);
-/*ToggleReverseTurn add_reverseturn*/
-SCM scheme_ToggleReverseTurn(SCM optional);
-install_scm_function ("d-ToggleReverseTurn", scheme_ToggleReverseTurn);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleReverseTurn")), "scm", (gpointer)1);
-/*ToggleSegno add_segno*/
-SCM scheme_ToggleSegno(SCM optional);
-install_scm_function ("d-ToggleSegno", scheme_ToggleSegno);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleSegno")), "scm", (gpointer)1);
-/*ToggleSforzato add_sforzato*/
-SCM scheme_ToggleSforzato(SCM optional);
-install_scm_function ("d-ToggleSforzato", scheme_ToggleSforzato);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleSforzato")), "scm", (gpointer)1);
-/*ToggleStopped add_stopped*/
-SCM scheme_ToggleStopped(SCM optional);
-install_scm_function ("d-ToggleStopped", scheme_ToggleStopped);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleStopped")), "scm", (gpointer)1);
-/*ToggleThumb add_thumb*/
-SCM scheme_ToggleThumb(SCM optional);
-install_scm_function ("d-ToggleThumb", scheme_ToggleThumb);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleThumb")), "scm", (gpointer)1);
-/*ToggleUpprall add_upprall*/
-SCM scheme_ToggleUpprall(SCM optional);
-install_scm_function ("d-ToggleUpprall", scheme_ToggleUpprall);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleUpprall")), "scm", (gpointer)1);
-/*ToggleArpeggio add_arpeggio*/
-SCM scheme_ToggleArpeggio(SCM optional);
-install_scm_function ("d-ToggleArpeggio", scheme_ToggleArpeggio);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleArpeggio")), "scm", (gpointer)1);
 /*SetGrace set_grace*/
 SCM scheme_SetGrace(SCM optional);
 install_scm_function ("d-SetGrace", scheme_SetGrace);
@@ -995,10 +911,6 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ExportPNG")), "scm", (gpo
 SCM scheme_ExportMIDI(SCM optional);
 install_scm_function ("d-ExportMIDI", scheme_ExportMIDI);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ExportMIDI")), "scm", (gpointer)1);
-/*ConfigureScore scorewizard*/
-SCM scheme_ConfigureScore(SCM optional);
-install_scm_function ("d-ConfigureScore", scheme_ConfigureScore);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ConfigureScore")), "scm", (gpointer)1);
 /*PrintPreview printpreview_cb*/
 SCM scheme_PrintPreview(SCM optional);
 install_scm_function ("d-PrintPreview", scheme_PrintPreview);

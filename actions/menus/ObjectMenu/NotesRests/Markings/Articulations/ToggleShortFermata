@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ToggleShortFermata</action>
+        <scheme>;;;ShortFermata
+(ToggleChordDirective "ShortFermata" LG-ShortFermata "\\shortfermata" DENEMO_ALT_OVERRIDE)
+</scheme>
+        <label>ShortFermata (Off/On)</label>
+        <tooltip>Mark/Unmark the current chord shortfermata</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

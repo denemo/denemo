@@ -118,10 +118,18 @@ gotobookmark (GtkAction * action, gpointer param)
 					GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
 					NULL);
 
-
-  combobox = gtk_combo_new ();
   //g_print ("List length %d\n", g_list_length (gui->si->bookmarks));
 #define FORMAT "%d : Staff %d : Bar %d"
+#if GTK_MAJOR_VERSION==3  
+  combobox = gtk_combo_box_text_new ();
+  for (tmp = gui->si->bookmarks; tmp; tmp = tmp->next)
+    {
+      Bookmark *bm = (Bookmark *) tmp->data;
+      char *tmpstring = g_strdup_printf(FORMAT,//FIXME insane use of sscanf see below
+		bm->id, bm->staff, bm->bar);
+      gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(combobox), tmpstring);
+#else
+  combobox = gtk_combo_new ();
   for (tmp = gui->si->bookmarks; tmp; tmp = tmp->next)
     {
       Bookmark *bm = (Bookmark *) tmp->data;
@@ -129,17 +137,19 @@ gotobookmark (GtkAction * action, gpointer param)
 		bm->id, bm->staff, bm->bar);
 
       strings = g_list_append (strings, tmpstring);
+      gtk_combo_set_popdown_strings (GTK_COMBO (combobox), strings);
+      gchar *text = g_strdup ((gchar *) g_list_nth_data (strings, 0));
+      gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (combobox)), text);
+      g_free (text);
+
+#endif
     }
 
-  gchar *text = g_strdup ((gchar *) g_list_nth_data (strings, 0));
-
-  gtk_combo_set_popdown_strings (GTK_COMBO (combobox), strings);
-  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (combobox)->entry), text);
-  g_free (text);
-
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-		      combobox, TRUE, TRUE, 0);
-  gtk_widget_show (combobox);
+  
+  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  GtkWidget *vbox = gtk_vbox_new(FALSE,1);
+  gtk_container_add(GTK_CONTAINER(content_area), vbox);
+  gtk_container_add(GTK_CONTAINER(vbox), combobox);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
   gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all (dialog);
@@ -147,15 +157,16 @@ gotobookmark (GtkAction * action, gpointer param)
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
       gint bmid, bms, bmb;
+#if GTK_MAJOR_VERSION==3
       gchar *tmp =
-	(gchar *)
-	gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (combobox)->entry));
+	(gchar *)gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (combobox));
+#else
+      gchar *tmp =
+	(gchar *)gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (combobox)->entry));
+#endif
       sscanf (tmp, FORMAT, &bmid, &bms, &bmb);
-      //g_print ("bmid %d\n", bmid);
       findbookmark (gui, bmb, bms);
 
     }
-  // g_list_free(strings);
   gtk_widget_destroy (dialog);
-
 }

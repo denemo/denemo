@@ -25,9 +25,7 @@
 
 #include <errno.h>
 #include <denemo/denemo.h>
-#ifdef _HAVE_EVINCE_
 #include <evince-view.h>
-#endif
 #include "print.h"
 #include "prefops.h"
 #include "exportlilypond.h"
@@ -473,6 +471,15 @@ run_lilypond(gchar **arguments) {
   return error;
 }
 
+void
+stop_lilypond()
+{
+  if(printpid!=GPID_NONE){
+    kill_process(printpid);
+    printpid = GPID_NONE;
+  }
+}
+
 /*  create pdf of current score, optionally restricted to voices/staffs whose name match the current one. 
  *  Save file in lilypond format
  *  Fork and run lilypond
@@ -525,8 +532,10 @@ printrangedialog(DenemoGUI * gui){
 	 GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
 
   hbox = gtk_hbox_new (FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox, TRUE, TRUE, 0);
-
+  
+  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  gtk_container_add (GTK_CONTAINER (content_area), hbox);
+  
   gint max_measure =
   g_list_length (((DenemoStaff *) (gui->si->thescore->data))->measures);
 
@@ -920,7 +929,7 @@ printall(void) {
   else if (error) {
     GtkWidget *dialog;
     dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window),
-				     GTK_DIALOG_NO_SEPARATOR,
+				     GTK_DIALOG_DESTROY_WITH_PARENT,
 				     GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
 				     "%s", error->message);
     g_error_free (error);
@@ -935,9 +944,9 @@ printall(void) {
 static void draw_print(cairo_t *cr) {
   gint x, y;
   GtkAdjustment * adjust = gtk_range_get_adjustment(GTK_RANGE(Denemo.printhscrollbar));
-  x = (gint)adjust->value;
+  x = (gint)gtk_adjustment_get_value(adjust);
   adjust = gtk_range_get_adjustment(GTK_RANGE(Denemo.printvscrollbar));
-  y = (gint)adjust->value;
+  y = (gint)gtk_adjustment_get_value(adjust);
 
   gint width, height;
   width = gdk_pixbuf_get_width( GDK_PIXBUF(Denemo.pixbuf));
@@ -968,9 +977,11 @@ static void draw_print(cairo_t *cr) {
       cairo_set_source_rgba( cr, 0.7, 0.7, 0.7, 0.4 );
       cairo_rectangle( cr, markx, marky, w, h);
 
-      gdk_draw_pixbuf(Denemo.printarea->window, NULL, GDK_PIXBUF(Denemo.pixbuf),
-		  markx+x, marky+y, curx, cury,/* x, y in pixbuf, x,y in window */
-		w,  h, GDK_RGB_DITHER_NONE,0,0);
+	gdk_cairo_set_source_pixbuf (cr, GDK_PIXBUF(Denemo.pixbuf), curx, cury);
+        //do i need this here? cairo_paint(cr);
+	//gdk_draw_pixbuf(gtk_widget_get_window(Denemo.printarea), NULL, GDK_PIXBUF(Denemo.pixbuf),
+	//	  markx+x, marky+y, curx, cury,/* x, y in pixbuf, x,y in window */
+	//	w,  h, GDK_RGB_DITHER_NONE,0,0);
 
     }
   if(padding)
@@ -981,9 +992,11 @@ static void draw_print(cairo_t *cr) {
       gint h = pointy-marky;
       cairo_set_source_rgba( cr, 0.7, 0.7, 0.7, 0.4 );
       cairo_rectangle( cr, markx-pad/2, marky-pad/2, w+pad, h+pad);
-      gdk_draw_pixbuf(Denemo.printarea->window, NULL, GDK_PIXBUF(Denemo.pixbuf),
-		      markx+x, marky+y, markx, marky,/* x, y in pixbuf, x,y in window */
-		w,  h, GDK_RGB_DITHER_NONE,0,0);
+      gdk_cairo_set_source_pixbuf (cr, GDK_PIXBUF(Denemo.pixbuf), markx, marky);
+      //do I need this here? cairo_paint(cr);
+	 //gdk_draw_pixbuf(gtk_widget_get_window(Denemo.printarea), NULL, GDK_PIXBUF(Denemo.pixbuf),
+	//	      markx+x, marky+y, markx, marky,/* x, y in pixbuf, x,y in window */
+	//	w,  h, GDK_RGB_DITHER_NONE,0,0);
 
     }
 
@@ -993,12 +1006,12 @@ static void draw_print(cairo_t *cr) {
 static GdkCursor *busycursor;
 static GdkCursor *arrowcursor;
 static void busy_cursor(void) {
-  if(Denemo.printarea->window)
-    gdk_window_set_cursor(Denemo.printarea->window, busycursor);
+  if(gtk_widget_get_window(Denemo.printarea))
+    gdk_window_set_cursor(gtk_widget_get_window(Denemo.printarea), busycursor);
 }
 static void normal_cursor(void) {
-  if(Denemo.printarea->window)
-    gdk_window_set_cursor(Denemo.printarea->window, arrowcursor);
+  if(gtk_widget_get_window(Denemo.printarea))
+    gdk_window_set_cursor(gtk_widget_get_window(Denemo.printarea), arrowcursor);
 }
 
 static void
@@ -1017,13 +1030,35 @@ process_printpreview_errors(void){
   g_free(bytes);
 }
 
+static void
+libevince_print(void) {
+  GError *err = NULL;
+  GFile       *file;
+  gchar *filename = g_strconcat((gchar *) get_printfile_pathbasename(), ".pdf", NULL);
+  gchar *uri = g_filename_to_uri(filename, NULL, &err);
+
+  if(err) {
+    g_warning ("Malformed filename %s\n", filename);
+    return;
+  }
+
+  EvDocument *doc = ev_document_factory_get_document (uri, &err);
+  if(err) {
+    g_warning ("Trying to read the pdf file %s gave an error: %s", uri, err->message);
+    if(err)
+			g_error_free (err);
+    err = NULL;
+  } else {
+    EvPrintOperation *printop = ev_print_operation_new (doc);      
+    ev_print_operation_run (printop, NULL);
+  }
+}
 
 
 static void
 printview_finished(GPid pid, gint status, gboolean print) {
   progressbar_stop();
   printpid = GPID_NONE;
-#ifdef _HAVE_EVINCE_
   GError *err = NULL;
   GFile       *file;
   gchar *filename = g_strconcat((gchar *) get_printfile_pathbasename(), ".pdf", NULL);
@@ -1040,14 +1075,11 @@ printview_finished(GPid pid, gint status, gboolean print) {
     EvDocumentModel  *model = ev_document_model_new_with_document(doc);
     ev_view_set_model((EvView*)Denemo.printarea, model);
     if(print) {
-      EvPrintOperation *printop = ev_print_operation_new (doc);
-      GtkPrintSettings *settings = ev_print_operation_get_print_settings     (printop);
-      ev_print_operation_run (printop, NULL);
+     libevince_print();
     }
   }
 
   normal_cursor();
-#endif
 }
 
 /* callback to print current part (staff) of score */
@@ -1107,7 +1139,7 @@ void print_from_print_view() {
   }
   else {
     normal_cursor();
-    printview_finished (printpid, 0, TRUE);
+    libevince_print();//printview_finished (printpid, 0, TRUE);
   }
 }
 
@@ -1179,10 +1211,10 @@ void thumb_finished(GPid pid, gint status) {
            
             gchar *mt = g_strdup_printf("%u", mtime);
             if(!gdk_pixbuf_save (pbN, thumbpathN, "png"/*type*/, &err, "tEXt::Thumb::URI", uri, "tEXt::Thumb::MTime", mt , NULL))
-              g_print(err->message);
+              g_print("%s\n", err->message);
             err = NULL;
             if(!gdk_pixbuf_save (pbL, thumbpathL, "png"/*type*/, &err, "tEXt::Thumb::URI", uri, "tEXt::Thumb::MTime", mt , NULL))
-              g_print(err->message);
+              g_print("%s\n", err->message);
 
               //FIXME do the pbN L need freeing???
             g_free(uri);
@@ -1288,9 +1320,7 @@ create_thumbnail(gboolean async) {
 /* callback to print whole of score */
 void
 printall_cb (GtkAction *action, gpointer param) {
-#ifdef _HAVE_EVINCE_
     print_from_print_view();
-#endif
 }
 
 
@@ -1327,7 +1357,6 @@ popup_print_preview_menu(void) {
   return TRUE;
 }
 
-#ifdef _HAVE_EVINCE_
 static void
 goto_position (EvView* view, EvLinkAction *obj)
 {
@@ -1342,7 +1371,6 @@ goto_position (EvView* view, EvLinkAction *obj)
   }
   g_strfreev(vec);
 }
-#endif
 static gint adjust_x=0;
 static gint adjust_y=0;
 
@@ -1391,7 +1419,7 @@ printarea_scroll_event (GtkWidget *widget, GdkEventScroll *event) {
     } else {
       GtkAdjustment *vadj = gtk_range_get_adjustment(GTK_RANGE(Denemo.printvscrollbar));
       gtk_adjustment_set_value(vadj,
-			       10.0 + vadj->value);
+			       10.0 + gtk_adjustment_get_value(vadj));
 
     }
     break;
@@ -1407,7 +1435,7 @@ printarea_scroll_event (GtkWidget *widget, GdkEventScroll *event) {
     } else {
       GtkAdjustment *vadj = gtk_range_get_adjustment(GTK_RANGE(Denemo.printvscrollbar));
       gtk_adjustment_set_value(vadj,
-			       -10.0 + vadj->value);
+			       -10.0 + gtk_adjustment_get_value(vadj));
 
     }
    break;
@@ -1559,7 +1587,6 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
 		    G_CALLBACK (hide_printarea_on_delete), NULL);
   gtk_container_add (GTK_CONTAINER (top_vbox), main_vbox);
 
-#ifdef _HAVE_EVINCE_
   GtkAdjustment *printvadjustment =  GTK_ADJUSTMENT (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
   Denemo.printvscrollbar = gtk_vscrollbar_new (GTK_ADJUSTMENT (printvadjustment));
 		     
@@ -1569,8 +1596,9 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
   GtkWidget *score_and_scroll_hbox = gtk_scrolled_window_new (printhadjustment, printvadjustment);
   gtk_box_pack_start (GTK_BOX (main_vbox), score_and_scroll_hbox, TRUE, TRUE,
 		      0);
-
+ 
   ev_init();
+  
   Denemo.printarea = (GtkWidget*)ev_view_new();
   gtk_container_add (GTK_CONTAINER(score_and_scroll_hbox), Denemo.printarea);
 
@@ -1578,12 +1606,12 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
  g_signal_connect (G_OBJECT (Denemo.printarea), "external-link",
 		      G_CALLBACK (goto_position), NULL);
  g_signal_connect (G_OBJECT (Denemo.printarea), "focus_in_event",
-		      G_CALLBACK (printarea_focus_in_event), NULL);  g_signal_connect (G_OBJECT (Denemo.printarea), "button_press_event",
+		      G_CALLBACK (printarea_focus_in_event), NULL);
+ g_signal_connect (G_OBJECT (Denemo.printarea), "button_press_event",
 		      G_CALLBACK (printarea_button_press), NULL);
 
   gtk_widget_show_all(main_vbox);
   gtk_widget_hide(top_vbox);
-#endif /*  _HAVE_EVINCE_ */
 }
 
 

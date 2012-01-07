@@ -107,7 +107,7 @@ initprefs ()
   ret->browser = g_string_new ("firefox");
   ret->audioplayer = g_string_new ("play");
   ret->lilypath = g_string_new ("lilypond");
-  ret->pdfviewer = g_string_new ("xpdf");
+  ret->pdfviewer = g_string_new ("evince");
   ret->imageviewer = g_string_new ("eog");
 #endif /* !G_OS_WIN32 */
   ret->profile = g_string_new("");
@@ -152,7 +152,6 @@ initprefs ()
   ret->autosave_timeout = 5;
   ret->maxhistory = 20;
   ret->notation_palette = TRUE;
-  ret->articulation_palette = FALSE;
   ret->midi_in_controls = FALSE;
   ret->playback_controls = FALSE;
   ret->toolbar = TRUE;
@@ -167,7 +166,7 @@ initprefs ()
   ret->system_height = 100;
   ret->applytoselection = TRUE;
   ret->quickshortcuts = TRUE;
-  
+  ret->progressbardecorations = TRUE;
   /* Read values from systemwide preferences file */
 
   readxmlprefsFile (systemwide);
@@ -320,7 +319,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READBOOLXMLENTRY(createclones)
       READBOOLXMLENTRY(immediateplayback)
       READINTXMLENTRY(pitchspellingchannel)
-      READINTXMLENTRY(pitchspellingprogram) 
+      READINTXMLENTRY(pitchspellingprogram)
       READBOOLXMLENTRY(modal) 
       READBOOLXMLENTRY(persistence) 
       READBOOLXMLENTRY(cursor_highlight) 
@@ -340,7 +339,6 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READBOOLXMLENTRY(lilyentrystyle)
       READBOOLXMLENTRY(toolbar)
       READBOOLXMLENTRY(notation_palette)
-      READBOOLXMLENTRY(articulation_palette)
 	READBOOLXMLENTRY(midi_in_controls)
 	READBOOLXMLENTRY(playback_controls)
       READBOOLXMLENTRY(console_pane)
@@ -374,6 +372,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READINTXMLENTRY(zoom)
       READINTXMLENTRY(dynamic_compression)
       READINTXMLENTRY(system_height)
+      READBOOLXMLENTRY(progressbardecorations)
 
 
       READBOOLXMLENTRY(saveparts)
@@ -677,7 +676,6 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEBOOLXMLENTRY(notation_palette)
   WRITEBOOLXMLENTRY(midi_in_controls)
   WRITEBOOLXMLENTRY(playback_controls)
-  WRITEBOOLXMLENTRY(articulation_palette)
   WRITEBOOLXMLENTRY(console_pane)
   WRITEBOOLXMLENTRY(lyrics_pane)
   WRITEBOOLXMLENTRY(visible_directive_buttons)
@@ -709,7 +707,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEINTXMLENTRY(dynamic_compression)
   WRITEINTXMLENTRY(zoom)
   WRITEINTXMLENTRY(system_height)
-
+  WRITEBOOLXMLENTRY(progressbardecorations)
   WRITEXMLENTRY(browser) 
   
   xmlSaveFormatFile (localrc->str, doc, 1);

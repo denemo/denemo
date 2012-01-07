@@ -49,16 +49,15 @@ score_staffspace_change (GtkAction * action, gpointer callback_data)
   gtk_window_set_title (GTK_WINDOW (dialog), _("Set staff height"));
 
   label = gtk_label_new (_("Enter space (in pixels) between staves:"));
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-		      label, TRUE, TRUE, 0);
-  gtk_widget_show (label);
+  GtkWidget *vbox = gtk_vbox_new(FALSE,1);
+  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  gtk_container_add (GTK_CONTAINER (content_area), vbox);
+  gtk_container_add (GTK_CONTAINER (content_area), label);
 
   textentry = gtk_entry_new ();
   g_string_sprintf (entrycontent, "%d", si->staffspace);
   gtk_entry_set_text (GTK_ENTRY (textentry), entrycontent->str);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-		      textentry, TRUE, TRUE, 0);
-  gtk_widget_show (textentry);
+  gtk_container_add (GTK_CONTAINER (vbox), textentry);
 
   okbutton = gtk_button_new_with_label (_("OK"));
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area),
@@ -67,23 +66,21 @@ score_staffspace_change (GtkAction * action, gpointer callback_data)
   cbdata.si = si;
 
   processenter (textentry, set_staffspace, cbdata, dialog);
-  gtk_signal_connect (GTK_OBJECT (okbutton), "clicked",
+  gtk_signal_connect (G_OBJECT (okbutton), "clicked",
 		      GTK_SIGNAL_FUNC (set_staffspace), &cbdata);
-  gtk_signal_connect_object (GTK_OBJECT (okbutton), "clicked",
+  gtk_signal_connect_object (G_OBJECT (okbutton), "clicked",
 			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (dialog));
-  gtk_widget_show (okbutton);
+			     G_OBJECT (dialog));
 
   cancelbutton = gtk_button_new_with_label (_("Cancel"));
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area),
-		      cancelbutton, TRUE, TRUE, 0);
-  gtk_signal_connect_object (GTK_OBJECT (cancelbutton), "clicked",
+  
+  gtk_container_add (GTK_CONTAINER (vbox), cancelbutton);
+  gtk_signal_connect_object (G_OBJECT (cancelbutton), "clicked",
 			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (dialog));
-  gtk_widget_show (cancelbutton);
+			     G_OBJECT (dialog));
 
   gtk_widget_grab_focus (textentry);
   gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-  gtk_widget_show (dialog);
+  gtk_widget_show_all (dialog);
 }

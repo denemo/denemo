@@ -10,6 +10,9 @@
 #include <stdio.h>
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
+#if GTK_MAJOR_VERSION==3
+  #include <gdk/gdkkeysyms-compat.h> //FIXME Look for something more gtk3 like
+#endif
 #include <glib.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -17,7 +20,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
 #include <denemo/denemo.h>
 #include "commandfuncs.h"
 #include "kbd-custom.h"
@@ -31,7 +33,7 @@
 #include "file.h"
 
 #define DENEMO_TWO_KEY_SEPARATOR ","
-#if GTK_MINOR_VERSION < 10
+#if 0 //GTK_MINOR_VERSION < 10
 //Hmm, should we define these as 0, so that they don't mask anything in gtk 2.8
 #define  GDK_SUPER_MASK ( 1 << 26)
 #define  GDK_HYPER_MASK  (1 << 27)
@@ -79,8 +81,10 @@ void    dnm_clean_event (GdkEventKey *event) {
   if(!Denemo.prefs.strictshortcuts){
     guint ret;
     //g_print("Called %s\n", gdk_keyval_name(event->keyval));
-    gdk_keymap_translate_keyboard_state (NULL, event->hardware_keycode,
-					 GDK_MOD2_MASK/*NumLock forcing numeric keypad to give numbers */, 0/*group 0 */,  &ret, NULL, NULL, NULL);
+    gdk_keymap_translate_keyboard_state (gdk_keymap_get_default(), 
+					 event->hardware_keycode,
+					 GDK_MOD2_MASK/*NumLock forcing numeric keypad to give numbers */, 
+					 0/*group 0 */,  &ret, NULL, NULL, NULL);
     if(ret>='A' && ret <='G')
       ret += ('a'-'A');
     event->keyval = ret;
@@ -106,7 +110,7 @@ dnm_sanitize_key_state(GdkEventKey *event)
     GdkModifierType consumed;
     /* We want to ignore irrelevant modifiers like ScrollLock */
 
-    gdk_keymap_translate_keyboard_state (NULL, event->hardware_keycode,
+    gdk_keymap_translate_keyboard_state (gdk_keymap_get_default(), event->hardware_keycode,
         event->state, event->group, NULL, NULL, NULL, &consumed);
     /* removing consumed modifiers from ret */
     ret &= ~consumed;
@@ -129,7 +133,7 @@ dnm_hyper_sanitize_key_state(GdkEventKey *event)
     GdkModifierType consumed;
     /* We want to ignore irrelevant modifiers like ScrollLock */
 
-    gdk_keymap_translate_keyboard_state (NULL, event->hardware_keycode,
+    gdk_keymap_translate_keyboard_state (gdk_keymap_get_default(), event->hardware_keycode,
         event->state, event->group, NULL, NULL, NULL, &consumed);
     /* removing consumed modifiers from ret */
     ret &= ~consumed;
@@ -1405,13 +1409,13 @@ gint add_keybinding_for_command(gint idx,  gchar *binding) {
  return -1;
 }
 
-
+#if 0
 //we have to reproduce this function here since it is static in gtkmenu.c
 static void
 stolen_gtk_menu_stop_navigating_submenu (GtkMenu *menu)
 {
   if (menu->navigation_region) {
-    gdk_region_destroy (menu->navigation_region);
+    cairo_region_destroy (menu->navigation_region);
     menu->navigation_region = NULL;
   }
   if (menu->navigation_timeout) {
@@ -1419,7 +1423,7 @@ stolen_gtk_menu_stop_navigating_submenu (GtkMenu *menu)
     menu->navigation_timeout = 0;
   }
 }
-
+#endif
 
 gint
 keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event)
@@ -1430,34 +1434,20 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event)
   keymap *the_keymap = Denemo.map;
   GtkMenu *menu = GTK_MENU(grab_widget);
 
-#if 0 //instead turn off navigation when quick shortcuts are active.
-  GtkMenuClass *menu_class = GTK_MENU_GET_CLASS(menu);
-  GtkMenuShellClass *parent_class = g_type_class_peek_parent(menu_class);
-  //check if this a quick edit
-  //first try to handle the event with the key_press handler of the parent
-  //class (this allows navigation in the menu to take precedence over
-  //the quick edit), 
-  stolen_gtk_menu_stop_navigating_submenu (menu);
-  if (GTK_WIDGET_CLASS (parent_class)->key_press_event (grab_widget,
-              event)) {
-      //This was some navigation command in the submenu, and it was
-      //performed, no need to process further
-      return TRUE;
-  }
-#endif
   //If the KeyEvent is only a modifier, stop processing here
   if (isModifier(event))
       return TRUE;
   dnm_clean_event(event);
   modifiers = dnm_sanitize_key_state(event);
   keyval = event->keyval;
-
-  action = 
-#if GTK_MINOR_VERSION <10
-    g_object_get_data(G_OBJECT(GTK_MENU_SHELL(menu)->active_menu_item), "action");
+#if GTK_MAJOR_VERSION == 3
+  action = gtk_activatable_get_related_action(gtk_menu_get_active(GTK_MENU(menu)));
 #else
-  gtk_widget_get_action(GTK_MENU_SHELL(menu)->active_menu_item);
+  action = gtk_widget_get_action(GTK_MENU_SHELL(menu)->active_menu_item);//note this is not gtk_menu_get_active(menu) except after a selection has been made, we want the menu item that the pointer has moved to before it is selected.
 #endif
+
+
+
  //If this menu item has no action we give up
   if (!action)
     return TRUE;

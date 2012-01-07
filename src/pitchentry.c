@@ -214,12 +214,6 @@ static temperament *PR_temperament=&Equal; /* the currently used temperament */
 static temperament *temperaments[] = {&Equal, &Meantone, &WerckmeisterIV, &Lehman, &Rameau};
 
 
-static void switch_back_to_main_window(void) {
-  if(Denemo.non_interactive)
-    return;
-  gtk_window_present(GTK_WINDOW(Denemo.window));
-  gtk_widget_grab_focus (Denemo.scorearea);
-}
 
 
 static void pr_display_note(DenemoGUI*gui, gchar *notename) {
@@ -779,9 +773,10 @@ static void display_pitch(double note, DenemoGUI *gui) {
       // FIXME if tuning display a graphic for how far note is from target_note
       if(PR_tuning) {
 	PR_accurate_pitch = note;
-	gtk_widget_draw(PR_indicator, NULL);
-
-
+	//gtk_widget_draw(PR_indicator, NULL);
+	gtk_widget_queue_draw(PR_indicator);
+   	draw_score(NULL);
+	gtk_widget_queue_draw(PR_indicator);
       }
     }
 /*     fprintf(stderr, "Pitch is %d %d\t", (int)(Freq2Pitch(note)+0.5), (int)note); */
@@ -1017,8 +1012,8 @@ static gint draw_indicator (GtkWidget * widget, GdkEventExpose * event, gpointer
     //value 400 is perfect, 410 = 5/2 cents sharp
     if (iCent < 0) iCent= 0;
     if (iCent >  800) iCent=  800;
-    GdkGC *gc;
-    cairo_t *cr = gdk_cairo_create (widget->window);
+    
+    cairo_t *cr = gdk_cairo_create (gtk_widget_get_window(widget));
     
     if(iCent<380)
       cairo_set_source_rgb (cr, 1, 0, 0);
@@ -1032,7 +1027,8 @@ static gint draw_indicator (GtkWidget * widget, GdkEventExpose * event, gpointer
     cairo_set_source_rgb (cr, 0, 0, 0);
     cairo_rectangle (cr, centre-barwidth/8, 0, barwidth/4, 320);
     cairo_fill(cr);
-    cairo_destroy (cr);		
+    cairo_destroy (cr);	    
+	
   return TRUE;
 }
 
@@ -1053,8 +1049,8 @@ static void toggle_tuning(GtkToggleButton *button, DenemoGUI *gui) {
       gtk_container_add (GTK_CONTAINER (widget), hbox);
       PR_indicator = gtk_drawing_area_new ();
       gtk_box_pack_start (GTK_BOX (hbox), PR_indicator, TRUE, TRUE, 0); 
-      gtk_signal_connect (GTK_OBJECT (PR_indicator), "expose_event",
-			  GTK_SIGNAL_FUNC (draw_indicator), gui);
+      g_signal_connect (G_OBJECT (PR_indicator), "expose_event",
+			  G_CALLBACK (draw_indicator), gui);
       gtk_widget_show_all(widget);
       }
       gtk_window_present(GTK_WINDOW(widget));
@@ -1135,7 +1131,7 @@ GtkWidget *get_enharmonic_frame(void) {
     GtkWidget *button = gtk_button_new_with_label("flatten");
     gtk_box_pack_start (GTK_BOX (hbox), button,
 			FALSE, TRUE, 0);
-    gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/FlattenEnharmonicSet"), button);
+    gtk_activatable_set_related_action(GTK_ACTIVATABLE(button), gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/FlattenEnharmonicSet"));
     gchar *names = notenames(PR_temperament);
   
     gtk_label_set_markup(GTK_LABEL(label),names);
@@ -1146,7 +1142,7 @@ GtkWidget *get_enharmonic_frame(void) {
     button = gtk_button_new_with_label("sharpen");
     gtk_box_pack_start (GTK_BOX (hbox), button,
 			FALSE, TRUE, 0);
-    gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/SharpenEnharmonicSet"), button);
+    gtk_activatable_set_related_action(GTK_ACTIVATABLE(button), gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/SharpenEnharmonicSet"));
   }
   GtkWidget *cont = gtk_widget_get_parent(frame);
   if(cont)
@@ -1210,7 +1206,7 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
   g_signal_connect (G_OBJECT (PR_window), "destroy",
 		    G_CALLBACK (window_destroy_callback), NULL); 
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
-  gtk_container_border_width (GTK_CONTAINER (main_vbox), 1);
+  gtk_container_set_border_width (GTK_CONTAINER (main_vbox), 1);
   gtk_container_add (GTK_CONTAINER (PR_window), main_vbox);
   if(gui->input_source==INPUTAUDIO) {
     frame = gtk_frame_new( "Mode");
@@ -1526,12 +1522,16 @@ gint setup_pitch_input(void){
 static void 
 scorearea_set_active(GtkWidget *widget, GdkEventCrossing *event, DenemoGUI *gui) {
   PR_enable = TRUE; 
-  gtk_widget_draw(Denemo.scorearea, NULL);
+  //gtk_widget_draw(Denemo.scorearea, NULL);
+  gtk_widget_queue_draw(Denemo.scorearea);
+  draw_score(NULL);
 }
 static void 
 scorearea_set_inactive(GtkWidget *widget, GdkEventCrossing *event, DenemoGUI *gui) {
   PR_enable = FALSE; 
-  gtk_widget_draw(Denemo.scorearea, NULL);
+  //gtk_widget_draw(Denemo.scorearea, NULL);
+  gtk_widget_queue_draw(Denemo.scorearea);
+  draw_score(NULL);
 }
 void start_pitch_input(void) { 
   DenemoGUI *gui = Denemo.gui;

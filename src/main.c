@@ -373,7 +373,7 @@ if(position_data) {
   FILE *fp = fopen(filename, "r");
   if(fp) {
     gint line, col;
-    fscanf(fp, "%d %d", &line, &col);
+    gint error = fscanf(fp, "%d %d", &line, &col);
     fclose(fp);
     g_print("line %d column %d\n", line, col);
     position_data = FALSE;
@@ -748,7 +748,10 @@ Report bugs to http://www.denemo.org\n"), NULL) ;
 
 
   /* Set up the signal handlers */
+
     signal (SIGSEGV, denemo_signal_handler);
+#if 0
+//it seems that GtkPrintOperation uses this signal (SIGUSR1) so this code interferes with printing
     {
       __pid_t pid = getpid();
       pidfile = g_build_filename(locatedotdenemo(), "pid", NULL);
@@ -762,9 +765,9 @@ Report bugs to http://www.denemo.org\n"), NULL) ;
         g_idle_add((GSourceFunc)check_for_position, NULL);
       }
     }
-#ifdef HAVE_SIGCHLD
-  signal (SIGCHLD, sigchld_handler);
 #endif
+
+  signal (SIGCHLD, sigchld_handler);
 
 
     if (optind < argc)

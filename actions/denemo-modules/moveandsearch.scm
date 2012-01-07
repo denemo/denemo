@@ -69,6 +69,34 @@
 	   )
        #f)))
 
+(define (NextDirectiveOfTagInMeasure tag)
+	(d-PushPosition)
+	(let loop ()
+		(if (d-NextStandaloneDirectiveInMeasure)
+			(if (not (d-Directive-standalone? tag))
+				(loop)
+				(begin
+					(d-PopPushPosition)
+					(d-PopPosition)
+					#t))
+			(begin
+					(d-PopPosition)
+					#f))))
+					
+(define (PrevDirectiveOfTagInMeasure tag)
+	(d-PushPosition)
+	(let loop ()
+		(if (d-PrevStandaloneDirectiveInMeasure)
+			(if (not (d-Directive-standalone? tag))
+				(loop)
+				(begin
+					(d-PopPushPosition)
+					(d-PopPosition)
+					#t))
+			(begin
+					(d-PopPosition)
+					#f))))
+
 ; GoToMeasureEnd: Move right until "appending" or "none" which is the Measure End
 (define (GoToMeasureEnd)
   (let loop ()

@@ -10,7 +10,7 @@
 (let ((current "voice 1"))
   (set! current (d-StaffProperties "query=denemo_name"))
   (d-AddBefore)
-  (d-StaffProperties (string-append "denemo_name=Ossia_" current))
+  (d-StaffProperties (string-append "denemo_name=" current))
   (d-DirectivePut-score-prefix "HideEmptyStaffs" 
 			       "\\layout {
                                      \\context { \\RemoveEmptyStaffContext }
@@ -18,14 +18,15 @@
   (d-DirectivePut-staff-prefix "ossia" "\\new Staff \\with
   {
     \\remove \"Time_signature_engraver\"
+    \\remove \"Key_engraver\"
+      \\remove \"Clef_engraver\"
     fontSize = #-2
    \\override StaffSymbol #'staff-space = #(magstep -2)
     firstClef = ##f
-  }&lt;&lt;{ \\stopStaff "
-			       )
-  )
-(d-DirectivePut-staff-override "ossia" DENEMO_OVERRIDE_LILYPOND)
-(d-RefreshDisplay)
+  }&lt;&lt;{ \\stopStaff ")
+ (d-DirectivePut-staff-override "ossia"  (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_LILYPOND))
+(d-DirectivePut-staff-display "ossia" "ossia")
+(d-RefreshDisplay))
 </scheme>
         <label>Create Ossia Staff</label>
         <tooltip>Creates a small staff above the current staff for inserting cues, ossia passages etc. Use Show Ossia and Hide Ossia to show specific measures.</tooltip>

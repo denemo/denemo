@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>Chapter</action>
+        <scheme>;;;Chapter
+         (MovementBookTitles::Do "Chapter" "chapter" "My Heading"  "Give heading or blank out to delete: ")
+</scheme>
+        <label>Heading</label>
+        <tooltip>Prints a heading the current movement</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

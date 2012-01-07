@@ -68,7 +68,6 @@ set_articulation (gchar * string, DenemoObject * obj)
 {
 
 
-
   if (!strcmp (string, "staccato"))
     {
       addornament (obj, STACCATO);
@@ -228,7 +227,7 @@ insert_artic_cb (GtkWidget * widget, DenemoGUI * gui)
   gtk_widget_grab_focus (Denemo.window);
   g_free (tmp);
 }
-
+#if 0
 /**
  * Creates button for the articulation palette 
  * 
@@ -241,8 +240,8 @@ insert_artic_cb (GtkWidget * widget, DenemoGUI * gui)
  *
  */
 static GtkWidget *
-create_articulation_button (const gchar * stock_id, GtkTooltips * tips,
-			    GtkWidget * table, gint col, gint row,
+create_articulation_button (const gchar * stock_id, 
+  GtkTooltip * tips, GtkWidget * table, gint col, gint row,
 			    DenemoGUI * si)
 {
   GtkWidget *button;
@@ -255,7 +254,8 @@ create_articulation_button (const gchar * stock_id, GtkTooltips * tips,
 
   if (gtk_stock_lookup (stock_id, &stock))
     {
-      gtk_tooltips_set_tip (GTK_TOOLTIPS (tips), button, stock.label, NULL);
+      gtk_tooltip_set_text (tips, stock.label);
+      //gtk_tooltips_set_tip (tips, button, stock.label, NULL); //FIXME obsolete function
       image = gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_BUTTON);
       gtk_container_add (GTK_CONTAINER (button), image);
     }
@@ -282,10 +282,8 @@ create_articulation_widget (DenemoGUI * si)
   GtkWidget *label;
   GtkWidget *table;
   GtkWidget *spacer;
-  GtkTooltips *tips;
-
-  tips = gtk_tooltips_new ();
-
+  GtkTooltip *tips;
+  
   vbox = gtk_vbox_new (FALSE, 8);
   gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
 
@@ -436,12 +434,12 @@ toggle_articulation_palette (GtkAction *action, gpointer param)
 
   if (gui->articulation_palette)
     {
-      if (GTK_WIDGET_VISIBLE (gui->articulation_palette))
+      if (gtk_widget_get_visible (gui->articulation_palette))
 	{
 	  gtk_widget_hide (gui->articulation_palette);
 	}
       else if (Denemo.prefs.articulation_palette == FALSE
-	       && GTK_WIDGET_VISIBLE (gui->articulation_palette))
+	       && gtk_widget_get_visible (gui->articulation_palette))
 	{
 	  gtk_widget_hide (gui->articulation_palette);
 	}
@@ -471,3 +469,4 @@ toggle_articulation_palette (GtkAction *action, gpointer param)
 
   gtk_widget_show_all (window);
 }
+#endif

@@ -210,11 +210,9 @@ set_width_to_work_with (DenemoGUI * gui)
       // this length will be divided amongst the systems (line).
       // This length is in "pixels", the Denemo unit of display, which corresponds to a screen pixel when zoom ==1.0
       si->widthtoworkwith
-	= (gint)((Denemo.scorearea->allocation.width/si->zoom
+	= (gint)((get_widget_width(Denemo.scorearea)/si->zoom
 	   - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME))*((int)(1/si->system_height )));
-
 #endif
-
 
 
       //g_print("Width %d from num systems%d\n", si->widthtoworkwith, ((int)(1/si->system_height )));
@@ -619,7 +617,7 @@ gostaffup (DenemoScriptParam *param, gboolean extend_selection)
 	calcmarkboundaries (gui->si);
       show_lyrics();
       find_leftmost_allcontexts (si);
-      scorearea_expose_event(NULL, NULL);
+      update_drawing_cache();;
       move_viewport_up (gui);
       return param->status = TRUE;
     } else
@@ -723,7 +721,7 @@ gostaffdown (DenemoScriptParam *param, gboolean extend_selection)
       show_lyrics();
       find_leftmost_allcontexts (si);
       
-      scorearea_expose_event(NULL, NULL);
+      update_drawing_cache();;
       move_viewport_down (gui);
       return param->status = TRUE;
     } else
@@ -1095,6 +1093,18 @@ static gboolean to_chord_direction_in_measure (gboolean right) {
       to_chord_direction_in_measure (right);
 }
 
+static gboolean to_standalone_direction_in_measure (gboolean right) {
+  gboolean ret = to_object_direction(TRUE, right, TRUE);
+  if(!ret)
+    return ret;
+  if(Denemo.gui->si->currentobject && Denemo.gui->si->currentobject->data &&
+    ((DenemoObject*) Denemo.gui->si->currentobject->data)->type == LILYDIRECTIVE)
+    return TRUE;
+  else
+    return 
+      to_standalone_direction_in_measure (right);
+}
+
  // there is a significant problem with the concept of next note in a chord of several notes. We have no way of iterating over the notes of a chord
   // since the notes may be altered during the iteration and Denemo does not define a "currentnote"
 //This next note is next chord that is not a rest in the given direction.
@@ -1148,6 +1158,14 @@ gboolean cursor_to_next_standalone_directive(void) {
 
 gboolean cursor_to_prev_standalone_directive(void) {
   return to_standalone_directive_direction(FALSE);
+}
+
+gboolean cursor_to_next_standalone_in_measure(void) {
+  return to_standalone_direction_in_measure(TRUE);
+}
+
+gboolean cursor_to_prev_standalone_in_measure(void) {
+  return to_standalone_direction_in_measure(FALSE);
 }
 
 gboolean cursor_to_next_chord(void) {
@@ -1260,7 +1278,11 @@ void insert_note_following_pattern(DenemoGUI *gui)  {
 	insertion_point (gui->si);	
       gui->si->cursoroffend = FALSE;
       h = ((RhythmElement*)g->data)->functions;
+#if GTK_MAJOR_VERSION==3
+      ((GSourceFunc)h->data)(gui);
+#else
       ((GtkFunction)h->data)(gui);
+#endif
       displayhelper(gui);
     }
     
@@ -1384,7 +1406,7 @@ insertion_point (DenemoScore * si)
 {
   //gtk_widget_draw(Denemo.Denemo.scorearea, NULL);//FIXME efficiency????
 
-  scorearea_expose_event(NULL, NULL);
+  update_drawing_cache();;
 
   gboolean next_measure;
 
@@ -1660,6 +1682,7 @@ displayhelper (DenemoGUI * gui)
 #endif
   /*gtk_widget_draw (Denemo.scorearea, NULL);*/
   gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score(NULL);
 }
 
 
@@ -2287,7 +2310,7 @@ gotoend (gpointer param, gboolean extend_selection)
     cursorright(param);
   else
     movecursorright(param);
-scorearea_expose_event(NULL, NULL);//refresh cached values, eg current timesig
+update_drawing_cache();;//refresh cached values, eg current timesig
   find_leftmost_allcontexts (gui->si);
   update_hscrollbar (gui);
   displayhelper (gui);
@@ -2311,7 +2334,7 @@ gotohome (gpointer param, gboolean extend_selection)
   find_leftmost_allcontexts (gui->si);
   update_hscrollbar (gui);
   /*gtk_widget_draw (Denemo.scorearea, NULL);*/
-  scorearea_expose_event(NULL, NULL);//refresh cached values, eg current timesig
+  update_drawing_cache();;//refresh cached values, eg current timesig
   gtk_widget_queue_draw (Denemo.scorearea);
 }
 

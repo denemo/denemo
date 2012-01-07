@@ -35,31 +35,24 @@
  * a widget */
 
 #define processenter(entry, callback,  cbdata, dialog)\
-  gtk_signal_connect(GTK_OBJECT(entry), "activate", \
-		     GTK_SIGNAL_FUNC(callback), \
+  g_signal_connect(G_OBJECT(entry), "activate", \
+		     G_CALLBACK(callback), \
 		     &cbdata); \
   if (dialog) \
-    gtk_signal_connect_object (GTK_OBJECT (entry), "activate", \
-	  		       GTK_SIGNAL_FUNC(gtk_widget_destroy), \
-			       GTK_OBJECT (dialog))
+    g_signal_connect_object (G_OBJECT (entry), "activate", \
+	  		       G_CALLBACK(gtk_widget_destroy), \
+			       G_OBJECT (dialog), G_CONNECT_AFTER)
   
 
 void
-drawbitmapinverse (GdkPixmap *pixmap, GdkGC *gc, GdkBitmap *mask,
-		   gint x, gint y, gint width, gint height);
-
-void
 drawbitmapinverse_cr (cairo_t * cr, DenemoGraphic * mask, gint x,
-		   gint y);
-
-void
-drawfetachar (GdkPixmap * pixmap, GdkGC * gc, gunichar uc, gint x, gint y);
+		   gint y, gboolean invert);
 
 void
 drawfetachar_cr (cairo_t * cr, gunichar uc, double x, double y);
 
-void
-setcairocolor (cairo_t * cr, GdkGC * gc);
+//void
+//setcairocolor (cairo_t * cr, GdkGC * gc);
 
 void 
 drawnormaltext_cr (cairo_t *cr, const char *text, double x, double y);
@@ -284,4 +277,7 @@ gchar *make_temp_dir(void);
 gchar *remove_extension(gchar *name);
 gchar *substitute_extension(gchar *name, gchar *extension);
 void init_denemo_notenames(void);
+gint get_widget_height(GtkWidget *w);
+gint get_widget_width(GtkWidget *w);
+void switch_back_to_main_window(void);
 #endif /* UTILS_H */

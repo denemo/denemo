@@ -1150,8 +1150,10 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	if(override) 
 	  g_string_append_printf (ret,"%s", clef_string);
 	else {
-	  determineclef (((clef *) curobj->object)->type, &clefname);
-	  g_string_append_printf (ret, "%s\\clef %s%s", clef_prestring, clefname, clef_string);
+	    if(!curobj->isinvisible) {
+	    determineclef (((clef *) curobj->object)->type, &clefname);
+	    g_string_append_printf (ret, "%s\\clef %s%s", clef_prestring, clefname, clef_string);
+	    }
 	}
       }
 	break;
@@ -2040,7 +2042,7 @@ void toggle_lily_visible_cb (GtkAction *action, gpointer param) {
       sb->visible = FALSE;
     gtk_text_buffer_apply_tag_by_name (gui->textbuffer,  "invisible", &start, &end);
   }
-  g_print("visible %d\n", sb?sb->visible:-1);
+  //g_print("visible %d\n", sb?sb->visible:-1);
 }
   
 static void  place_cursor_cb(GtkAction *action, DenemoGUI *gui) {
@@ -2438,14 +2440,22 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
      
       g_string_append_printf(scoreblock, "%s", "}\n"); /*end of \score block */
      
-
+      /* output postfix score if OVERRIDE_AFFIX is set */
+      if(g->next==NULL) /* last movement- output score postfix if AFFIX override is set */
+	{gchar *tail = get_overridden_postfix(gui->lilycontrol.directives, TRUE);
+	//g_print("The final movement %s\n", tail);
+	g_string_append_printf(scoreblock, "%s", tail);
+	g_free(tail);
+	}
       // Put this standard scoreblock in the textbuffer
 
       gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, STANDARD_SCOREBLOCK));
 
     
-	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter,scoreblock->str, -1, INEDITABLE,
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter,scoreblock->str, -1, INEDITABLE,
 						  (partname==NULL && gui->custom_scoreblocks)?"invisible":NULL, NULL);
+
+
       
     }/* if visible movement */
 
@@ -2578,7 +2588,7 @@ export_lilypond_parts (char *filename, DenemoGUI *gui)
 }
 
 /* callback on destroying lilypond window */
-static gboolean lilywindow_destroyed(GtkObject *object, DenemoGUI *gui) {
+static gboolean lilywindow_destroyed(GObject *object, DenemoGUI *gui) {
   merge_lily_strings (gui);
   if(gui==Denemo.gui){
     GtkWidget * toggle = gtk_ui_manager_get_widget (Denemo.ui_manager,
@@ -2604,7 +2614,7 @@ lily_save(GtkWidget *item, GdkEventCrossing *e, DenemoGUI *gui){
     g_signal_handlers_unblock_by_func (G_OBJECT (gui->textwindow), G_CALLBACK (lily_refresh), gui);
     merge_lily_strings(gui);
     if(gui->si)
-      scorearea_expose_event(NULL, NULL);//!gtk_widget_queue_draw (gui->scorearea);
+      update_drawing_cache();;//!gtk_widget_queue_draw (gui->scorearea);
   }
   return FALSE;
 }

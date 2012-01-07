@@ -1,6 +1,6 @@
 (if (and (= 1 (d-GetMovement)) (not (d-Directive-header? "ScoreTitle")))
 (SetHeaderField "title" "Untitled"))
-(d-DirectiveDelete-scoreheader "ScoreTagline")
+;;(d-DirectiveDelete-scoreheader "ScoreTagline")
 
 (define (InitializeTypesetting)
   (d-PushPosition)
@@ -12,9 +12,8 @@
 	  (begin
 		(d-PopPushPosition)
 		(d-PopPosition)
-		(exit))
-	  (begin
-	    (d-PopPosition))))))
+		(exit))))
+	    (d-PopPosition)))
 (d-LimitInterSystemSpace 1.2)
 (d-NormalBeamEndings)
 ;(d-PointAndClick)

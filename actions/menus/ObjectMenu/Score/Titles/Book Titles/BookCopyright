@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>BookCopyright</action>
+        <scheme>;;BookCopyright
+        (BookTitles::Do "Copyright" "copyright" (string-append "Copyright © "  (if (getlogin) (getlogin) "") " " (strftime "%Y" (localtime (current-time))))  "Give copyright notice or blank out to delete: ")
+</scheme>
+        <label>Copyright</label>
+        <tooltip>Prints a copyright notice on title page</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

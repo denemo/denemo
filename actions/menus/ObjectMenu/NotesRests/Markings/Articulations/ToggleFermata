@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ToggleStaccato</after>
+        <action>ToggleFermata</action>
+        <scheme>;;;ToggleFermata
+(ToggleChordDirective "Fermata" LG-Fermata "\\fermata" DENEMO_OVERRIDE_ABOVE)
+</scheme>
+        <label>Fermata (Off/On)</label>
+        <tooltip>Mark/Unmark the chord with a fermata</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

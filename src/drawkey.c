@@ -55,7 +55,7 @@ draw_key (cairo_t *cr, gint xx, gint y,
       }
       if(directive->graphic) {
         drawbitmapinverse_cr (cr, directive->graphic,
-			   xx+directive->gx+count,  y+directive->gy);
+			   xx+directive->gx+count,  y+directive->gy, FALSE);
       }
     }
   }

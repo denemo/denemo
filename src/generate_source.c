@@ -62,6 +62,7 @@ char *RESTS[] = {REST0, REST1, REST2, REST3, REST4, REST5, REST6, REST7, REST8};
 char *RESTCHARS[] = {RESTCHAR0, RESTCHAR1, RESTCHAR2, RESTCHAR3, RESTCHAR4, RESTCHAR5, RESTCHAR6, RESTCHAR7, RESTCHAR8};
 
 
+
 #define N_
 
 #define CMD_CATEGORY_NAVIGATION		0
@@ -352,30 +353,6 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleEndCrescendo"), "toggle_end_crescendo", N_("End Crescendo")},
   {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleStartDiminuendo"), "toggle_start_diminuendo", N_("Start Diminuendo")},
   {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleEndDiminuendo"), "toggle_end_diminuendo", N_("End Diminuendo")},
-
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleAccent"), "add_accent", N_("Accent (Off/On)")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleFermata"), "add_fermata", N_("Fermata (Off/On)")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleStaccato"), "add_staccato", N_("Staccato (Off/On)")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleTenuto"), "add_tenuto", N_("Tenuto (Off/On)")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleTrill"), "add_trill", N_("Trill  (Off/On")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleTurn"), "add_turn", N_("Turn (Off/On)")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleMordent"), "add_mordent", N_("Mordent (Off/On)")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleStaccatissimo"), "add_staccatissimo", N_("Staccatissimo  (Off/On)")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleCoda"), "add_coda", N_("Coda (Off/On)")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleFlageolet"), "add_flageolet", N_("Flageolet  (Off/On)")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleOpen"), "add_open", N_("Open (Off/On)")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("TogglePrallMordent"), "add_prallmordent", N_("Prall Mordent  (Off/On)")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("TogglePrallPrall"), "add_prallprall", N_("Prall Prall  (Off/On)")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("TogglePrall"), "add_prall", N_("Prall (Off/On)")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleReverseTurn"), "add_reverseturn", N_("Reverse Turn  (Off/On)")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleSegno"), "add_segno", N_("Segno  (Off/On)")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleSforzato"), "add_sforzato", N_("Sforzato  (Off/On)")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleStopped"), "add_stopped", N_("Stopped  (Off/On)")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleThumb"), "add_thumb", N_("Thumb  (Off/On)")},
-  /*{CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleTrillElement"), "add_trillelement", N_("Toggle Trill")},
-     {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleTrill_Element"), "add_trill_element", N_("Trill (Off/On)")}, */
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleUpprall"), "add_upprall", N_("Up Prall (Off/On)")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleArpeggio"), "add_arpeggio", N_("Apreggio (Off/On)")},
   {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("SetGrace"), "set_grace", N_("Set Grace")},
   {CMD_CATEGORY_ARTICULATION|CMD_CATEGORY_DIRECT, NULL, "Makes the note at the cursor a grace note, if it is one, makes it normal",	N_("ToggleGrace"), "toggle_grace", N_("Grace Note Off/On")},
 
@@ -437,9 +414,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Export the score as a PDF document file", N_("ExportPDF"), "export_pdf_action", N_("Export PDF")},
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Export the score as a PNG image file", N_("ExportPNG"), "export_png_action", N_("Export PNG")},
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Export the score as a MIDI file", N_("ExportMIDI"), "export_midi_action", N_("Export MIDI")},
-
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_PROPERTIES", "Start up a wizard to create a new score. This allows you to set various properties of the score", N_("ConfigureScore"), "scorewizard", N_("Score Wizard")}, 
-   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT", "Displays the final finished score", N_("PrintMenu"), NULL, N_("Print")}, 
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT", "Displays the final finished score", N_("PrintMenu"), NULL, N_("Print")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT_PREVIEW", "Displays the final finished score in your pdf viewer", N_("PrintPreview"), "printpreview_cb", N_("Print Preview")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT", "Displays selected music from score in your pdf viewer", N_("PrintSelection"), "printselection_cb", N_("Print Selection")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT_PREVIEW", "Displays a musical excerpt in your image viewer", N_("PrintExcerptPreview"), "printexcerptpreview_cb", N_("Print Excerpt")}, 
@@ -809,6 +784,7 @@ int main() {
         fprintf(entries, "\n#define RESTCHAR%d \"%s\"\n", i, RESTCHARS[i]);
         fprintf(entries, "\n#define NOTE%d \"%s\"\n", i,  NOTES[i]);
         fprintf(entries, "\n#define REST%d \"%s\"\n", i, RESTS[i]);
+
 
     /* menu_entries for the mode sensitive duration actions, Dur0,1,2 ... */
     fprintf(entries,

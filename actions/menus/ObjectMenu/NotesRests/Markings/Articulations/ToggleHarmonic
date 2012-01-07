@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ToggleDownBow</after>
+        <action>ToggleHarmonic</action>
+        <scheme>;;;ToggleHarmonic
+;use _instead of ^ to place harmonic below note
+(ToggleChordDirective "Harmonic" LG-Harmonic "^\\flageolet" DENEMO_OVERRIDE_ABOVE)
+(d-DirectivePut-chord-gy "Harmonic" 12)
+;(d-DirectivePut-chord-gx "Harmonic" -2)
+</scheme>
+        <label>Harmonic (Off/On)</label>
+        <tooltip>Mark/Unmark chord with a harmonic</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

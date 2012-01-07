@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <string.h> /*for SIGTERM */
+#include <math.h>
 #include <fontconfig/fontconfig.h>
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
@@ -16,6 +17,7 @@
 #include "notewidths.h"
 #include "utils.h"
 #include "smf.h"
+#include "print.h"
 #include <signal.h> /*for SIGTERM */
 
 #include "config.h"
@@ -218,7 +220,10 @@ progressbar (gchar *msg)
   /* Replace GTK_WINDOW_TOPLEVEL with GTK_WINDOW_POPUP
    * to have it witout window decoration. 
    */
-  pdata->window = gtk_window_new (GTK_WINDOW_POPUP); 
+  if (Denemo.prefs.progressbardecorations)
+    pdata->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  else
+    pdata->window = gtk_window_new (GTK_WINDOW_POPUP);
   gtk_window_set_title (GTK_WINDOW (pdata->window), _("Progress")); 
  
   vbox = gtk_vbox_new (FALSE, 5);
@@ -233,9 +238,15 @@ progressbar (gchar *msg)
   gtk_progress_bar_set_text (GTK_PROGRESS_BAR (pdata->pbar), msg);
  
   pdata->timer = g_timeout_add (100, progress_timeout, pdata);  
-		   
+
   gtk_window_set_keep_above(GTK_WINDOW (pdata->window), TRUE);
   gtk_widget_show(pdata->window);
+  /* If widget is destroyed stop the printing */
+  /* TODO This should be fed by a function argurment
+	so that that it can stop other things besides
+	lilypond */
+  g_signal_connect (G_OBJECT (pdata->window), "destroy",
+  G_CALLBACK (stop_lilypond), NULL);
 }
 
 void
@@ -260,13 +271,16 @@ progressbar_stop(){
 
 void
 drawbitmapinverse_cr (cairo_t * cr, DenemoGraphic * mask, gint x,
-		   gint y)
+		   gint y, gboolean invert)
 {
   cairo_save(cr);
   switch (mask->type) {
     case DENEMO_BITMAP: {
-      gdk_cairo_set_source_pixmap( cr, mask->graphic, x,y );//??? bitmap???? asks torbenh
+#if GTK_MAJOR_VERSION==3
+      gdk_cairo_set_source_window( cr, mask->graphic, x,y );//??? bitmap???? asks torbenh
+#else 
       cairo_rectangle( cr, x,y, mask->width, mask->height );
+#endif
       cairo_fill( cr );
       break;
     }
@@ -281,6 +295,9 @@ drawbitmapinverse_cr (cairo_t * cr, DenemoGraphic * mask, gint x,
 	cairo_select_font_face( cr, glyph->fontname, glyph->slant, glyph->weight );
 	cairo_set_font_size( cr, glyph->size);
 	cairo_move_to( cr, x,y );
+
+  if(invert)
+    cairo_scale(cr, 1, -1);
 	cairo_show_text( cr, glyph->utf);
       break;	
     }
@@ -318,15 +335,6 @@ void drawlargetext_cr (cairo_t *cr, const char *text, double x, double y)
 {
  drawtext_cr(cr, text, x, y, 24.0);
 }
-void
-setcairocolor (cairo_t * cr, GdkGC * gc)
-{
-  GdkGCValues vals;
-  GdkColor col;
-  gdk_gc_get_values( gc, &vals );
-  gdk_colormap_query_color( gdk_colormap_get_system(), vals.foreground.pixel, &col );
-  gdk_cairo_set_source_color( cr, &col );
-}
 
 /* draw display text and or graphics for directives
  return the widest graphic width*/
@@ -343,7 +351,7 @@ gint   draw_for_directives(cairo_t * cr, GList *directives, gint x, gint y) {
       maxwidth = MAX(gwidth, maxwidth);
       //g_print("drawing a graphic at %d %d\n", xx+directive->gx+count-gwidth/2,  y+height+directive->gy-gheight/2);
       drawbitmapinverse_cr ( cr, directive->graphic,
-			       x+directive->gx+count-gwidth/2,  y+directive->gy-gheight/2);
+			       x+directive->gx+count-gwidth/2,  y+directive->gy-gheight/2, FALSE);
       
     }
     if(directive->display) {
@@ -1476,34 +1484,18 @@ string_dialog_entry_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *direction
                                         NULL);
 
 	label = gtk_label_new (direction);
-#ifdef _USE_GTK3_
-  	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), label,
-		                        TRUE, TRUE, 0);
+	GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	gtk_container_add(GTK_CONTAINER(content_area), label);
+
 	if(widget)
-          gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), widget,
-		                        TRUE, TRUE, 0);
+		gtk_container_add(GTK_CONTAINER(content_area), widget);
+
 	if (PreValue != NULL) {
             gtk_entry_set_text (GTK_ENTRY (entry), (gchar *) PreValue);
         }
-  
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)), entry,
-		                        TRUE, TRUE, 0);
+	gtk_container_add(GTK_CONTAINER(content_area), entry);
 
-#else
- 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label,
-		                        TRUE, TRUE, 0);
-	if(widget)
-	  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), widget,
-		                        TRUE, TRUE, 0);
-	if (PreValue != NULL) {
-            gtk_entry_set_text (GTK_ENTRY (entry), (gchar *) PreValue);
-        }
-  
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), entry,
-		                        TRUE, TRUE, 0);
-
-#endif
-    	gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
+	gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
       	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
         gtk_widget_grab_focus (entry);
   	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
@@ -1543,14 +1535,10 @@ gchar * get_option(gchar *str, gint length) {
 						   GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
 						   GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
 						   NULL);
-  GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
-#ifdef _USE_GTK3_
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox,
-		      TRUE, TRUE, 0);
-#else
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox,
-		      TRUE, TRUE, 0);
-#endif
+  GtkWidget *vbox = gtk_vbox_new(FALSE, 1);
+  GtkWidget *content_area = gtk_dialog_get_content_area(GTK_DIALOG (dialog));
+  gtk_container_add(GTK_CONTAINER(content_area), vbox);
+
   gchar *opt;
   gint i;
   GtkWidget *widget1, *widget;
@@ -1563,7 +1551,7 @@ gchar * get_option(gchar *str, gint length) {
     }	
     g_object_set_data(G_OBJECT(widget), "choice", (gpointer)opt);
     g_signal_connect(G_OBJECT(widget), "toggled", G_CALLBACK(option_choice), &response);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
+    gtk_container_add (GTK_CONTAINER(vbox), widget);
   }
   gtk_window_set_keep_above(GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all (dialog);
@@ -1638,4 +1626,25 @@ cleftypefromname (gchar * str)
     ret = DENEMO_SOPRANO_CLEF;
   g_free (str);
   return ret;
+}
+
+gint
+get_widget_height(GtkWidget *w) {
+  GtkAllocation allocation;
+  gtk_widget_get_allocation(w, &allocation);
+  return allocation.height;
+}
+
+gint
+get_widget_width(GtkWidget *w) {
+  GtkAllocation allocation;
+  gtk_widget_get_allocation(w, &allocation);
+  return allocation.width;
+}
+
+void switch_back_to_main_window(void) {
+  if(Denemo.non_interactive)
+    return;
+  gtk_window_present(GTK_WINDOW(Denemo.window));
+  gtk_widget_grab_focus (Denemo.scorearea);
 }
