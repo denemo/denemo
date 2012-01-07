@@ -14,7 +14,7 @@
 #include <glib.h>
 
 /* The namespace in which built-in Denemo XML elements reside */
-#define DENEMO_XML_NAMESPACE "http://denemo./xmlns/Denemo"
+#define DENEMO_XML_NAMESPACE "http://denemo.org/xmlns/Denemo"
 /* some strings useful elsewhere */
 #define    NONE_STRING "None"
 #define    PIANO_START_STRING "PianoContextStart"
