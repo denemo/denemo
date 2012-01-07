@@ -14,7 +14,7 @@
 #include <glib.h>
 
 /* The namespace in which built-in Denemo XML elements reside */
-#define DENEMO_XML_NAMESPACE "http://denemo.sourceforge.net/xmlns/Denemo"
+#define DENEMO_XML_NAMESPACE "http://denemo./xmlns/Denemo"
 /* some strings useful elsewhere */
 #define    NONE_STRING "None"
 #define    PIANO_START_STRING "PianoContextStart"
@@ -24,7 +24,7 @@
 #define    GROUP_START_STRING "StaffGroupStart"
 #define    GROUP_END_STRING "StaffGroupEnd"
 
-#define CURRENT_XML_VERSION (5)/* the highest version of the .denemo xml format supported */
+#define CURRENT_XML_VERSION (6)/* the highest version of the .denemo xml format supported */
 
 
 #endif
