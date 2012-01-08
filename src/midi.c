@@ -588,12 +588,19 @@ static void advance_clock(gchar *buf) {
 }
 
 
-
+static gint *divert_midi_event;
+static gint divert_midi_id=0;//id of the DenemoGUI which wants to intercept midi events
 
 #define EDITING_MASK (GDK_SHIFT_MASK)  
 void handle_midi_event(gchar *buf) {
   //g_print("%x : %x %x %x %x\n", Denemo.keyboard_state, GDK_CONTROL_MASK, GDK_SHIFT_MASK, GDK_MOD1_MASK, GDK_LOCK_MASK);
-
+  if(divert_midi_event &&  divert_midi_id==Denemo.gui->id){
+    // this is only good for one endianness - FIXME
+    *divert_midi_event = 0;//clear 4th byte
+    memcpy(divert_midi_event, buf, 3);//midi events are up to three bytes long
+    gtk_main_quit();    
+    return;//this *is* reached
+  }
   if( (Denemo.gui->midi_destination & MIDIRECORD) ||
       (Denemo.gui->midi_destination & (MIDIPLAYALONG|MIDICONDUCT))) {
     if(Denemo.gui->midi_destination & MIDIRECORD)
@@ -614,16 +621,24 @@ void handle_midi_event(gchar *buf) {
       if(Denemo.keyboard_state==(GDK_SHIFT_MASK) ||
 	 Denemo.keyboard_state==(GDK_LOCK_MASK)) {
 //	fluid_output_midi_event(buf);
+	adjust_midi_velocity(buf, 100 - Denemo.prefs.dynamic_compression);
         play_midi_event(DEFAULT_BACKEND, 0, buf);
-        adjust_midi_velocity(buf, 100 - Denemo.prefs.dynamic_compression);
       }
   }
 }
 
 
 gboolean intercept_midi_event(gint *midi) {
-  // FIXME: not implemented
-  return FALSE;
+  if(divert_midi_event) {
+    infodialog("Recursive midi capture not possible!");/* we could make a stack of them instead ... */
+    divert_midi_event = NULL;
+    return FALSE;
+  }
+  divert_midi_event = midi;
+  divert_midi_id = Denemo.gui->id;
+  gtk_main();
+  divert_midi_event = NULL;
+  return TRUE;
 }
 
 
