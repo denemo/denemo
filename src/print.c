@@ -1120,8 +1120,14 @@ return FALSE;
 }
 void
 printpreview_cb (GtkAction *action, DenemoScriptParam* param) {
-  (void)typeset(TRUE);
-  g_child_watch_add (printpid, (GChildWatchFunc)print_finished, NULL);  
+  GtkWidget *w =  gtk_widget_get_toplevel(Denemo.printarea);
+  if(gtk_widget_get_visible(w))
+    gtk_widget_hide(w);
+  else {
+    gtk_widget_show(w);
+    if(((gint)g_object_get_data(G_OBJECT(Denemo.printarea), "printviewupdate"))<Denemo.gui->changecount)
+      refresh_print_view(TRUE);
+  }
 }
 
 void refresh_print_view (void) {
