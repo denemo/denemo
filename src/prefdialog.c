@@ -55,6 +55,7 @@ struct callbackdata
   GtkWidget *autosave_timeout;
   GtkWidget *maxhistory;
   GtkWidget *browser;
+  GtkWidget *pdfviewer;
   GtkWidget *imageviewer;
   GtkWidget *username;
   GtkWidget *password;
@@ -154,7 +155,8 @@ set_preferences (struct callbackdata *cbdata)
     (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->field)->entry)));
 #endif
   ASSIGNTEXT(lilypath)
-  ASSIGNTEXT(browser) 
+  ASSIGNTEXT(browser)
+  ASSIGNTEXT(pdfviewer)
   ASSIGNTEXT(imageviewer)
   ASSIGNTEXT(username)
   ASSIGNTEXT(password)
@@ -467,6 +469,7 @@ preferences_change (GtkAction *action, gpointer param)
   NEWPAGE("Externals");
  
   TEXTENTRY("Path to Lilypond", lilypath)
+  TEXTENTRY("Pdf Viewer", pdfviewer)
   TEXTENTRY("File/Internet Browser", browser)
 
   TEXTENTRY("Image Viewer", imageviewer)

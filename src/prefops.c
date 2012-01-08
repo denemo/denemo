@@ -112,6 +112,7 @@ initprefs ()
   ret->midiplayer = g_string_new ("");
   ret->audioplayer = g_string_new ("");
   ret->lilypath = g_string_new ("lilypond.exe");//We don't assume the file assoc works - we are installing this anyway to a known place,the option  neither lilypond-windows.exe nor the -dgui option are used
+  ret->pdfviewer = g_string_new ("");
   ret->imageviewer = g_string_new ("");
 
   ret->midiplayer = g_string_new("");
@@ -120,6 +121,7 @@ initprefs ()
   ret->midiplayer = g_string_new ("playmidi");
   ret->audioplayer = g_string_new ("play");
   ret->lilypath = g_string_new ("lilypond");
+  ret->pdfviewer = g_string_new ("evince");
   ret->imageviewer = g_string_new ("eog");
 #endif /* !G_OS_WIN32 */
   ret->sequencer = g_string_new ("/dev/sequencer");
@@ -452,7 +454,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	}
 	
       READBOOLXMLENTRY(autosave)
-      
+      READXMLENTRY(pdfviewer) 
       READXMLENTRY(imageviewer) 
          
       READXMLENTRY(profile) 
@@ -776,7 +778,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEXMLENTRY(midiplayer)
   WRITEXMLENTRY(audioplayer)
   WRITEXMLENTRY(fontspec)
-
+  WRITEXMLENTRY(pdfviewer)
   WRITEXMLENTRY(imageviewer)
   WRITEXMLENTRY(profile)
   WRITEXMLENTRY(username)
