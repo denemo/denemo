@@ -55,8 +55,6 @@ static gint output=-1;
 static gint errors=-1;
 static   GError *lily_err = NULL;
 
-static
-void print_finished(GPid pid, gint status, GList *filelist);
 
 /*** 
  * make sure lilypond is in the path defined in the preferences
@@ -317,7 +315,7 @@ process_lilypond_errors(gchar *filename){
 }
 
 static void
-open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
+open_viewer(GPid pid, gint status, gchar *filename){
   DenemoGUI *gui = Denemo.gui;
   GError *err = NULL;
   gchar *printfile;
@@ -335,11 +333,7 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
 #endif
  {
 
-  if (is_png)
-    printfile = g_strconcat (filename, ".png", NULL);
-  else
-  	printfile = g_strconcat (filename, ".pdf", NULL);
-  
+  printfile = g_strconcat (filename, ".png", NULL);
  
   if(!g_file_test (printfile, G_FILE_TEST_EXISTS)) {
     //FIXME use filename in message
@@ -352,51 +346,20 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
     printfile,
     NULL
   };  
-  gchar *pdf[] = {
-    Denemo.prefs.pdfviewer->str,
-    printfile,
-    NULL
-  };
-  if (is_png){
-
     arguments = png;
-  }
-  else {
-
-    arguments = pdf;  
-  }
+  
   printf("\nOpening filename = %s for %d\n",printfile, status);
-  if((!is_png && (Denemo.prefs.pdfviewer->len==0))||
-     (is_png && (Denemo.prefs.imageviewer->len==0))) {
+  if(Denemo.prefs.imageviewer->len==0) {
     gboolean ok =  run_file_association(printfile);
     if(!ok) {
-      err = g_error_new(G_FILE_ERROR, -1, "Could not run file assoc for %s", is_png?".png":".pdf");
-      g_warning("Could not run the file association for a %s file\n", is_png?".png":".pdf");
+      err = g_error_new(G_FILE_ERROR, -1, "Could not run file assoc for .png");
+      g_warning("Could not run the file association for a .png file\n");
     }
   }
-  else {
-    g_spawn_async_with_pipes (locateprintdir (),		/* dir */
-		   arguments, 
-		   NULL,	/* env */
-		   G_SPAWN_SEARCH_PATH, /* search in path for executable */
-		   NULL,	/* child setup func */
-		   NULL,		/* user data */		
-		   &previewerpid, /* FIXME &pid see g_spawn_close_pid(&pid) */
-		   NULL,
-		   NULL,
-		   NULL,
-		   &err);
-  }
-  if (err != NULL) {
-    if(Denemo.prefs.pdfviewer->len) {
-      g_warning ("Failed to find %s", Denemo.prefs.pdfviewer->str);
-      warningdialog("Cannot display: Check Edit->Preferences->externals\nfor your PDF viewer");
-    } else 
-      warningdialog(err->message);
+    warningdialog(err->message);
     g_warning ("%s", err->message);
     if(err) g_error_free (err);
     err = NULL;
-  }
   g_free(printfile);
   }
 }
@@ -404,12 +367,20 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
 
 static void
 open_pngviewer(GPid pid, gint status, gchar *filename){
-      open_viewer(pid, status, filename, TRUE);
+      open_viewer(pid, status, filename);
 }
 
 static void
-open_pdfviewer(GPid pid, gint status, gchar *filename){
-     open_viewer(pid, status, filename, FALSE);
+open_pdfviewer(){
+  GtkWidget *w =  gtk_widget_get_toplevel(Denemo.printarea);
+  if(gtk_widget_get_visible(w))
+    gtk_widget_hide(w);
+  else {
+    gtk_widget_show(w);
+    if(((gint)g_object_get_data(G_OBJECT(Denemo.printarea), "printviewupdate"))<Denemo.gui->changecount)
+      refresh_print_view(TRUE);
+  }
+  return;
 }
 
 static gint 
@@ -686,15 +657,6 @@ void rm_temp_files(gchar *file, gpointer free_only) {
   g_free(file);
 }
 
-static
-void print_finished(GPid pid, gint status, GList *filelist) {
-  open_pdfviewer (pid,status, (gchar *) get_printfile_pathbasename());
-  g_debug("print finished\n");
-  changecount = Denemo.gui->changecount;
-  progressbar_stop();
-}
-
-
 void printpng_finished(GPid pid, gint status, GList *filelist) {
   g_debug("printpng_finished\n");
   g_list_foreach(filelist, (GFunc)rm_temp_files, FALSE);
@@ -852,6 +814,7 @@ export_pdf (gchar * filename, DenemoGUI * gui)
 
 static void
 print_and_view(gchar **arguments) {
+#if 0
   run_lilypond(arguments);
   if(printpid!=GPID_NONE) {
     g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer, (gchar *) get_printfile_pathbasename());
@@ -859,6 +822,7 @@ print_and_view(gchar **arguments) {
       gtk_main_iteration_do(FALSE);
     }
   }
+#endif
 }
 
 void print_lily_cb (GtkWidget *item, DenemoGUI *gui){
@@ -1095,8 +1059,8 @@ printpart_cb (GtkAction *action, gpointer param) {
     create_pdf(gui, TRUE, TRUE);
   else
    create_pdf(gui, TRUE, FALSE); 
-  g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, 
-	(gchar *) get_printfile_pathbasename());
+  //g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, 
+//	(gchar *) get_printfile_pathbasename());
 }
 
 
@@ -1120,8 +1084,8 @@ return FALSE;
 }
 void
 printpreview_cb (GtkAction *action, DenemoScriptParam* param) {
-  (void)typeset(TRUE);
-  g_child_watch_add (printpid, (GChildWatchFunc)print_finished, NULL);
+  //(void)typeset(TRUE);
+  open_pdfviewer(); 
 }
 
 void refresh_print_view (void) {
@@ -1150,8 +1114,8 @@ printselection_cb (GtkAction *action, gpointer param) {
     create_pdf(gui, FALSE, FALSE);
   else
     warningdialog(_("No selection to print"));
-  g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, 
-	(gchar *) get_printfile_pathbasename());
+//  g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, 
+//	(gchar *) get_printfile_pathbasename());
 }
 
 void
