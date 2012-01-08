@@ -3101,7 +3101,8 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
 
   rootElem = xmlDocGetRootElement (doc);
   ns = rootElem->ns;
-  if (strcmp ((gchar *) ns->href, DENEMO_XML_NAMESPACE) != 0)
+  if ((strcmp ((gchar *) ns->href, DENEMO_XML_NAMESPACE) != 0) &&
+    /*backward compatibility */ (strcmp ((gchar *) ns->href,  "http://denemo.sourceforge.net/xmlns/Denemo") != 0))
     {
       g_warning ("Root element is not in Denemo namespace");
       ret = -1;
