@@ -72,10 +72,9 @@ static int stream_callback(const void * input_buffer,
 #endif
 
 
-  if (is_playing()) {
-    playback_frame += frames_per_buffer;
-
-    update_playback_time(TIMEBASE_PRIO_AUDIO, nframes_to_seconds(playback_frame));
+  if (is_playing() && !(is_paused())) {
+      playback_frame += frames_per_buffer;
+      update_playback_time(TIMEBASE_PRIO_AUDIO, nframes_to_seconds(playback_frame));
   }
 
   return paContinue;

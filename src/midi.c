@@ -29,6 +29,7 @@ static void initialize_clock();
 
 
 static volatile gboolean playing = FALSE;
+static volatile gboolean paused = FALSE;
 
 static double last_draw_time;
 
@@ -75,13 +76,25 @@ void start_playing() {
 void stop_playing() {
   update_position(NULL);
   playing = FALSE;
+  paused = FALSE;
 }
 
+void toggle_paused() {
+  paused = !paused;
+}
 
 gboolean is_playing() {
   return playing;
 }
+gboolean is_paused() {
+  return paused;
+}
 
+void update_playback_start_time(double adjust) {
+  if (Denemo.gui && Denemo.gui->si) {
+    Denemo.gui->si->start_time += adjust;
+  } 
+}
 
 double get_start_time() {
   if (Denemo.gui && Denemo.gui->si) {

@@ -40,11 +40,14 @@ DenemoObject *get_obj_for_end_time(smf_t *smf, gdouble time);
 void update_position(smf_event_t *event);
 
 void start_playing();
+void pause_playing();
+
 void stop_playing();
 gboolean is_playing();
+gboolean is_paused();
 double get_start_time();
 double get_end_time();
-
+void update_start_time(double adjust);
 smf_event_t *get_smf_event(double until_time);
 
 

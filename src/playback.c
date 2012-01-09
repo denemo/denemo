@@ -54,8 +54,14 @@ void set_tempo (void) {
 void
 ext_midi_playback (GtkAction * action, DenemoScriptParam *param) {
   GET_1PARAM(action, param, callback);
+  if(is_playing() ) {
+    //gdk_threads_enter();
+    toggle_playbutton();
+    //gdk_threads_leave();
+    toggle_paused();
+    return;
+  }
   set_tempo();
-
   midi_play(callback);
 }
 

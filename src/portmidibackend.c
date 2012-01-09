@@ -65,6 +65,8 @@ static void process_midi(PtTimestamp timestamp, void *user_data) {
     }
   }
 
+return;
+/*the subsequent code is for output to a MIDI backend, but it does not handle time like the portaudio backend, and will need more work to allow the pause mechanism to work. */
   GTimeVal tv;
   g_get_current_time(&tv);
   double now = (double)tv.tv_sec + tv.tv_usec / 1000000.0;
