@@ -40,7 +40,7 @@
       <separator/>
       <menu action="PrintMenu">
         <menuitem action="Print"/>
-        <menuitem action="PrintPreview"/>
+        <menuitem action="PrintView"/>
         <menuitem action="PrintExcerptPreview"/>
         <menuitem action="PrintPart"/>
         <menuitem action="PrintSelection"/>
@@ -483,7 +483,7 @@
     <toolitem action="Save"/>
     <separator/>
     <toolitem action="Print"/>
-    <toolitem action="PrintPreview"/>
+    <toolitem action="PrintView"/>
     <separator/>
     <toolitem action="Cut"/>
     <toolitem action="Copy"/>
