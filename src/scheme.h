@@ -915,6 +915,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ExportMIDI")), "scm", (gp
 SCM scheme_PrintPreview(SCM optional);
 install_scm_function ("d-PrintPreview", scheme_PrintPreview);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "PrintPreview")), "scm", (gpointer)1);
+/*PrintView show_print_view*/
+SCM scheme_PrintView(SCM optional);
+install_scm_function ("d-PrintView", scheme_PrintView);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "PrintView")), "scm", (gpointer)1);
 /*PrintSelection printselection_cb*/
 SCM scheme_PrintSelection(SCM optional);
 install_scm_function ("d-PrintSelection", scheme_PrintSelection);
