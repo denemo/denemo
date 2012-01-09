@@ -199,7 +199,7 @@ check_lily_version (gchar *version)
 */
    
 static gchar *get_printfile_pathbasename(void) {
-  static gchar *filename = NULL;
+  gchar *filename = NULL;
   if(filename==NULL)
     filename = g_build_filename ( locateprintdir (), "denemoprint", NULL);
   return filename;
@@ -363,9 +363,8 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
     arguments = pdf;  
   }
 
-  printf("\nOpening filename = %s for %d\n",printfile, status);
   if((!is_png && (Denemo.prefs.pdfviewer->len==0))||
--     (is_png && (Denemo.prefs.imageviewer->len==0))) {
+     (is_png && (Denemo.prefs.imageviewer->len==0))) {
     gboolean ok =  run_file_association(printfile);
     if(!ok) {
       err = g_error_new(G_FILE_ERROR, -1, "Could not run file assoc for %s", is_png?".png":".pdf");
@@ -781,7 +780,6 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoGUI * gui)
     lilyfile,
     NULL
   };  
- 
  
   /* generate the png file */
   if(finish) {
