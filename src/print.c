@@ -334,11 +334,12 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
   } else
 #endif
  {
- 
+
   if (is_png)
     printfile = g_strconcat (filename, ".png", NULL);
   else
-    printfile = g_strconcat (filename, ".pdf", NULL);
+  	printfile = g_strconcat (filename, ".pdf", NULL);
+  
  
   if(!g_file_test (printfile, G_FILE_TEST_EXISTS)) {
     //FIXME use filename in message
@@ -352,24 +353,24 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
     NULL
   };  
   gchar *pdf[] = {
-     Denemo.prefs.pdfviewer->str,
-     printfile,
-     NULL
-   };
-  if (is_png){    
-     arguments = png;
+    Denemo.prefs.pdfviewer->str,
+    printfile,
+    NULL
+  };
+  if (is_png){
+
+    arguments = png;
   }
   else {
+
     arguments = pdf;  
   }
-
   if((!is_png && (Denemo.prefs.pdfviewer->len==0))||
      (is_png && (Denemo.prefs.imageviewer->len==0))) {
     gboolean ok =  run_file_association(printfile);
     if(!ok) {
       err = g_error_new(G_FILE_ERROR, -1, "Could not run file assoc for %s", is_png?".png":".pdf");
       g_warning("Could not run the file association for a %s file\n", is_png?".png":".pdf");
-      g_warning("Could not run the file association for a .png file\n");
     }
   }
   else {
@@ -391,8 +392,6 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
       warningdialog("Cannot display: Check Edit->Preferences->externals\nfor your PDF viewer");
     } else 
       warningdialog(err->message);
-
-    warningdialog(err->message);
     g_warning ("%s", err->message);
     if(err) g_error_free (err);
     err = NULL;
@@ -409,7 +408,7 @@ open_pngviewer(GPid pid, gint status, gchar *filename){
 
 static void
 open_pdfviewer(GPid pid, gint status, gchar *filename){
-   open_viewer(pid, status, filename, FALSE);
+     open_viewer(pid, status, filename, FALSE);
 }
 
 static gint 
@@ -693,6 +692,7 @@ void print_finished(GPid pid, gint status, GList *filelist) {
   changecount = Denemo.gui->changecount;
   progressbar_stop();
 }
+
 
 void printpng_finished(GPid pid, gint status, GList *filelist) {
   g_debug("printpng_finished\n");
@@ -1093,8 +1093,8 @@ printpart_cb (GtkAction *action, gpointer param) {
     create_pdf(gui, TRUE, TRUE);
   else
    create_pdf(gui, TRUE, FALSE); 
-   g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, 
-   (gchar *) get_printfile_pathbasename());
+  g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, 
+	(gchar *) get_printfile_pathbasename());
 }
 
 
@@ -1118,14 +1118,8 @@ return FALSE;
 }
 void
 printpreview_cb (GtkAction *action, DenemoScriptParam* param) {
-  GtkWidget *w =  gtk_widget_get_toplevel(Denemo.printarea);
-  if(gtk_widget_get_visible(w))
-    gtk_widget_hide(w);
-  else {
-    gtk_widget_show(w);
-    if(((gint)g_object_get_data(G_OBJECT(Denemo.printarea), "printviewupdate"))<Denemo.gui->changecount)
-      refresh_print_view(TRUE);
-  }
+  (void)typeset(TRUE);
+  g_child_watch_add (printpid, (GChildWatchFunc)print_finished, NULL);
 }
 
 void refresh_print_view (void) {

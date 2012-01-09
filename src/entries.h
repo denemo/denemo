@@ -242,6 +242,7 @@
 {"ExportMIDI", GTK_STOCK_SAVE_AS, "Export MIDI", NULL,"Export the score as a MIDI file",G_CALLBACK (export_midi_action)},
 {"PrintMenu", GTK_STOCK_PRINT, "Print", NULL,"Displays the final finished score"},
 {"PrintPreview", GTK_STOCK_PRINT_PREVIEW, "Print Preview", NULL,"Displays the final finished score in your pdf viewer",G_CALLBACK (printpreview_cb)},
+{"PrintView", GTK_STOCK_PRINT_PREVIEW, "Print Preview", NULL,"Displays the final finished score in the Print View window",G_CALLBACK (show_print_view)},
 {"PrintSelection", GTK_STOCK_PRINT, "Print Selection", NULL,"Displays selected music from score in your pdf viewer",G_CALLBACK (printselection_cb)},
 {"PrintExcerptPreview", GTK_STOCK_PRINT_PREVIEW, "Print Excerpt", NULL,"Displays a musical excerpt in your image viewer",G_CALLBACK (printexcerptpreview_cb)},
 {"Print", GTK_STOCK_PRINT, "Print", NULL,"Displays the final finished score in a pdf viewer. From this you can print the file using the print command of the viewer",G_CALLBACK (printall_cb)},
