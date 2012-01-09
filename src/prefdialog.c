@@ -63,7 +63,6 @@ struct callbackdata
   GtkWidget *autosave_timeout;
   GtkWidget *maxhistory;
   GtkWidget *browser;
-  GtkWidget *pdfviewer;
   GtkWidget *imageviewer;
   GtkWidget *username;
   GtkWidget *password;
@@ -153,42 +152,6 @@ toggle_autosave (GtkToggleButton * togglebutton, GtkWidget * autosave_timeout)
 }
 
 
-/**
- * Select the soundfont to use for playback
- */
-void
-choose_sound_font (GtkWidget * widget, GtkWidget *fluidsynth_soundfont)
-{
-  GtkWidget *sf;
-  GtkFileFilter *filter;
-
-  sf = gtk_file_chooser_dialog_new (_("Choose SoundFont File"),
-                                     GTK_WINDOW (Denemo.window),
-                                    GTK_FILE_CHOOSER_ACTION_OPEN,
-                                    GTK_STOCK_CANCEL,
-                                    GTK_RESPONSE_REJECT,
-                                    GTK_STOCK_OPEN,
-                                    GTK_RESPONSE_ACCEPT, NULL);
-
-  //TODO Should we filter????
-  //filter = gtk_file_filter_new ();
-  //gtk_file_filter_set_name (filter, "Soundfont file");
-  //gtk_file_filter_add_pattern (filter, "*.sf");
-  //gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (fs), filter);
-
-  gtk_widget_show_all (sf);
-  if (gtk_dialog_run (GTK_DIALOG (sf)) == GTK_RESPONSE_ACCEPT)
-    {
-      g_string_assign (Denemo.prefs.fluidsynth_soundfont,
-                       gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (sf)));
-        /* this will only work for 1 sound font */
-        gtk_entry_set_text (GTK_ENTRY (fluidsynth_soundfont), Denemo.prefs.fluidsynth_soundfont->str);
-
-    }
-  gtk_widget_destroy (sf);
-}
-
-
 static void
 set_preferences (struct callbackdata *cbdata)
 {
@@ -210,13 +173,18 @@ set_preferences (struct callbackdata *cbdata)
    prefs->field =\
      gtk_spin_button_get_value (GTK_SPIN_BUTTON(cbdata->field));
 
+#if GTK_MAJOR_VERSION==3
+ #define ASSIGNCOMBO(field) \
+   g_string_assign (prefs->field,\
+                   (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(cbdata->field)));
+#else
 #define ASSIGNCOMBO(field) \
   g_string_assign (prefs->field,\
     (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->field)->entry)));
+#endif
 
   ASSIGNTEXT(lilypath)
-  ASSIGNTEXT(browser)
-  ASSIGNTEXT(pdfviewer)
+  ASSIGNTEXT(browser) 
   ASSIGNTEXT(imageviewer)
   ASSIGNTEXT(username)
   ASSIGNTEXT(password)
@@ -225,14 +193,21 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNTEXT(fontspec)
   ASSIGNTEXT(denemopath)
 
-
+#if GTK_MAJOR_VERSION==3
+  gchar const *text = (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(cbdata->audio_driver));
+#else
   gchar const *text = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(cbdata->audio_driver)->entry));
+#endif
   GList *item = g_list_find_custom(audio_driver_option_list, text, (GCompareFunc)strcmp);
   gint index = g_list_position(audio_driver_option_list, item);
   gchar *backend = g_list_nth_data(audio_backend_list, index);
   g_string_assign(prefs->audio_driver, backend);
 
+#if GTK_MAJOR_VERSION==3
+  text = gtk_entry_get_text(GTK_ENTRY(cbdata->midi_driver));
+#else
   text = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(cbdata->midi_driver)->entry));
+#endif
   item = g_list_find_custom(midi_driver_option_list, text, (GCompareFunc)strcmp);
   index = g_list_position(midi_driver_option_list, item);
   backend = g_list_nth_data(midi_backend_list, index);
@@ -312,8 +287,13 @@ midi_audio_tab_update(GtkWidget *box, gpointer data)
 {
   struct audio_callback_data *cbdata = (struct audio_callback_data *) data;
 
+#if GTK_MAJOR_VERSION==3
+  gchar const *audio_driver = gtk_entry_get_text(GTK_ENTRY(cbdata->audio_driver));
+  gchar const *midi_driver = gtk_entry_get_text(GTK_ENTRY(cbdata->midi_driver));
+#else
   gchar const *audio_driver = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(cbdata->audio_driver)->entry));
   gchar const *midi_driver = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(cbdata->midi_driver)->entry));
+#endif
 
 #ifdef _HAVE_JACK_
   gtk_widget_set_visible(cbdata->jack_audio_settings, strcmp(audio_driver, "JACK") == 0);
@@ -353,7 +333,7 @@ preferences_change (GtkAction *action, gpointer param)
 #ifdef _HAVE_PORTMIDI_
   GtkWidget *portmidi_settings;
 #endif
-
+  gint i;
   static struct callbackdata cbdata;
   g_assert (gui != NULL);
 
@@ -397,10 +377,10 @@ preferences_change (GtkAction *action, gpointer param)
                                         GTK_STOCK_CANCEL, GTK_STOCK_CANCEL,
                                         NULL);
 
-  gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
-
+  //gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   notebook = gtk_notebook_new ();
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), notebook, TRUE, TRUE, 0);
+  gtk_container_add (GTK_CONTAINER(content_area), notebook);
 #define VBOX main_vbox
 
 #define NEWPAGE(thelabel) \
@@ -474,6 +454,28 @@ preferences_change (GtkAction *action, gpointer param)
   g_signal_connect (G_OBJECT (field), "clicked",\
   G_CALLBACK (thecallback), (gpointer) data);
 
+#if GTK_MAJOR_VERSION==3
+ #define COMBOBOX(thelable, field, thelist, settext, editable)\
+  hbox = gtk_hbox_new (FALSE, 8);\
+  gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);\
+  label = gtk_label_new (thelable);\
+  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
+  gtk_container_add(GTK_CONTAINER(hbox), label);\
+  GtkWidget *field = gtk_combo_box_text_new_with_entry ();\
+ // i=0;\
+ // while (thelist){\
+ //  gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(field), thelist->data);\
+ //  if (!strcmp(thelist->data, settext))\
+ //    gtk_combo_box_set_active(GTK_COMBO_BOX(field), i);\
+ //  else\
+ //    i++;\
+ //  thelist = thelist->next;\
+  //}\
+  gtk_container_add(GTK_CONTAINER(hbox), field);\
+  //gtk_editable_set_editable(GTK_ENTRY (GTK_COMBO_BOX (field)), editable);\
+  gtk_widget_show (field);\
+  cbdata.field = field;
+#else
 #define COMBOBOX(thelabel, field, thelist, settext, editable)\
   hbox = gtk_hbox_new (FALSE, 8);\
   gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);\
@@ -489,6 +491,7 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_entry_set_editable(GTK_ENTRY (GTK_COMBO (field)->entry), editable);\
   gtk_widget_show (field);\
   cbdata.field = field;
+#endif 
 
 #define SEPARATOR()\
   separator = gtk_hseparator_new();\
@@ -543,7 +546,6 @@ preferences_change (GtkAction *action, gpointer param)
   NEWPAGE("Externals");
 
   TEXTENTRY("Path to Lilypond", lilypath)
-  TEXTENTRY("Pdf Viewer", pdfviewer)
   TEXTENTRY("File/Internet Browser", browser)
 
   TEXTENTRY("Image Viewer", imageviewer)
@@ -584,9 +586,13 @@ preferences_change (GtkAction *action, gpointer param)
   g_debug("autosave %p\n", autosave);
   label = gtk_label_new (_("minute(s)"));
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-  g_signal_connect (GTK_OBJECT (autosave),
-                    "toggled", G_CALLBACK (toggle_autosave), autosave_timeout);
-
+#if GTK_MAJOR_VERSION==3
+  g_signal_connect (G_OBJECT (autosave), "toggled",
+    G_CALLBACK (toggle_autosave), autosave_timeout);
+#else
+  g_signal_connect (GTK_OBJECT (autosave), "toggled",
+    G_CALLBACK (toggle_autosave), autosave_timeout);
+#endif
 
   BOOLEANENTRY("Autosave Parts", saveparts);
 
@@ -612,8 +618,11 @@ preferences_change (GtkAction *action, gpointer param)
 
 
   COMBOBOX("Audio backend", audio_driver, audio_driver_option_list, driver, FALSE);
+#if GTK_MAJOR_VERSION==3
+  g_signal_connect(G_OBJECT(GTK_COMBO_BOX(audio_driver)), "changed", G_CALLBACK(midi_audio_tab_update), &audio_cbdata);
+#else  
   g_signal_connect(G_OBJECT(GTK_COMBO(audio_driver)->entry), "changed", G_CALLBACK(GTK_SIGNAL_FUNC(midi_audio_tab_update)), &audio_cbdata);
-
+#endif
   /*
    * JACK settings
    */
@@ -666,8 +675,11 @@ preferences_change (GtkAction *action, gpointer param)
 
 
   COMBOBOX("MIDI backend", midi_driver, midi_driver_option_list, driver, FALSE);
+#if GTK_MAJOR_VERSION==3
+  g_signal_connect(G_OBJECT(GTK_COMBO_BOX(midi_driver)), "changed", G_CALLBACK(midi_audio_tab_update), &audio_cbdata);
+#else
   g_signal_connect(G_OBJECT(GTK_COMBO(midi_driver)->entry), "changed", G_CALLBACK(GTK_SIGNAL_FUNC(midi_audio_tab_update)), &audio_cbdata);
-
+#endif
   /*
    * JACK settings
    */
@@ -728,7 +740,14 @@ preferences_change (GtkAction *action, gpointer param)
   GtkWidget *button = gtk_button_new_with_label(_("Choose Soundfont"));
   gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 
-  gtk_signal_connect (GTK_OBJECT (button), "clicked", GTK_SIGNAL_FUNC (choose_sound_font), fluidsynth_soundfont);
+#if GTK_MAJOR_VERSION==3
+  g_signal_connect (G_OBJECT (button), "clicked",
+    G_CALLBACK(choose_sound_font), fluidsynth_soundfont);
+#else
+  gtk_signal_connect (GTK_OBJECT (button), "clicked",
+    GTK_SIGNAL_FUNC (choose_sound_font), fluidsynth_soundfont);
+#endif
+
   gtk_widget_show(button);
 
   BOOLEANENTRY("Enable Reverb on soundfont", fluidsynth_reverb)

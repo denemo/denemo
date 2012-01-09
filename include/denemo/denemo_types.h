@@ -431,7 +431,6 @@ typedef struct DenemoPrefs
   gint dynamic_compression;/**< percent compression of dynamic range desired when listening to MIDI-in */
   gdouble display_refresh;/**< time in ms between refresh of display during playback */
   gint animation_steps;/** < number of steps to use animating the page turns during playback */
-  GString *pdfviewer; /**< PDF viewer */
   GString *imageviewer; /**< Image Viewer */
   GString *username; /**< Username for use on denemo.org website */
   GString *password; /**< password  for use on denemo.org website (blank means prompt for username) */
