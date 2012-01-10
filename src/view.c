@@ -90,6 +90,7 @@ static void
 morecommands (GtkAction *action, gpointer param);
 static void
 mycommands (GtkAction *action, gpointer param);
+
 static void
 create_window(void);
 
@@ -98,6 +99,8 @@ dnm_key_snooper(GtkWidget *grab_widget, GdkEventKey *event);
 static void
 populate_opened_recent (void);
 
+static void
+show_print_view(GtkAction *action, gpointer param);
 
 #ifdef DEVELOPER
 #define MUSIC_FONT(a) "music-sign ("a")"
@@ -8040,6 +8043,13 @@ toggle_print_view (GtkAction *action, gpointer param)
   return;
 }
 
+static void show_print_view(GtkAction *action, gpointer param) {
+  GtkWidget *w =  gtk_widget_get_toplevel(Denemo.printarea);
+  if(gtk_widget_get_visible(w))
+    gtk_window_present(GTK_WINDOW(w));
+  else
+    gtk_widget_show(w);
+}
 /**
  *  Function to toggle visibility of lyrics view pane of current movement
  *  

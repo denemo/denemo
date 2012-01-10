@@ -2645,7 +2645,7 @@ static gboolean populate_called(GtkWidget *view, GtkMenuShell *menu, DenemoGUI *
   //g_print("populate called with %p\n", menu);
   GtkWidget *item;
   prepend_menu_item(menu, gui, "Find Current Object", (gpointer) place_cursor_cb);
-  //prepend_menu_item(menu, gui, "Print from visible LilyPond text", (gpointer) print_lily_cb);
+  prepend_menu_item(menu, gui, "Print from visible LilyPond text", (gpointer) print_lily_cb);
  //prepend_menu_item(menu, gui, "Print Current char", (gpointer) print_cursor_cb);
   return FALSE;
 }

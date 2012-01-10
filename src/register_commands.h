@@ -227,6 +227,7 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "ExportPD
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ExportPNG"), "ExportPNG", "Export PNG", "Export the score as a PNG image file", export_png_action);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ExportMIDI"), "ExportMIDI", "Export MIDI", "Export the score as a MIDI file", export_midi_action);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintPreview"), "PrintPreview", "Print Preview", "Displays the final finished score in your pdf viewer", printpreview_cb);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintView"), "PrintView", "Print Preview", "Displays the final finished score in the Print View window", show_print_view);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintSelection"), "PrintSelection", "Print Selection", "Displays selected music from score in your pdf viewer", printselection_cb);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintExcerptPreview"), "PrintExcerptPreview", "Print Excerpt", "Displays a musical excerpt in your image viewer", printexcerptpreview_cb);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Print"), "Print", "Print", "Displays the final finished score in a pdf viewer. From this you can print the file using the print command of the viewer", printall_cb);
