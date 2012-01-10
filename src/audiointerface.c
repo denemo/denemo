@@ -94,7 +94,7 @@ static event_queue_t *get_event_queue(backend_type_t backend) {
 static int initialize_audio(DenemoPrefs *config) {
   char const *driver = config->audio_driver->str;
 
-  g_print("audio driver is '%s'\n", driver);
+  g_print("audio driver is '%s' %d\n", driver, strcmp(driver, "portaudio"));
 
   if (strcmp(driver, "jack") == 0) {
 #ifdef _HAVE_JACK_
@@ -171,7 +171,7 @@ static int initialize_midi(DenemoPrefs *config) {
 
   if (ret) {
     g_warning("initializing MIDI backend '%s' failed, falling back to dummy", driver);
-    backends[MIDI_BACKEND] = &dummy_audio_backend;
+    backends[MIDI_BACKEND] = &dummy_midi_backend;
     ret = get_backend(MIDI_BACKEND)->initialize(config);
   }
 
