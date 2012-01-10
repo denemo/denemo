@@ -54,10 +54,8 @@ void set_tempo (void) {
 void
 ext_midi_playback (GtkAction * action, DenemoScriptParam *param) {
   GET_1PARAM(action, param, callback);
-  if(is_playing() ) {
-    //gdk_threads_enter();
-    toggle_playbutton();
-    //gdk_threads_leave();
+  toggle_playbutton();
+  if(is_playing()) {
     toggle_paused();
     return;
   }
@@ -66,8 +64,10 @@ ext_midi_playback (GtkAction * action, DenemoScriptParam *param) {
 }
 
 void stop_midi_playback (GtkAction * action, gpointer param) {
+  if(is_paused())
+   toggle_playbutton();
   midi_stop();
-
+  toggle_playbutton();
   gtk_widget_queue_draw (Denemo.scorearea);//update playhead on screen
 }
 
