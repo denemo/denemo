@@ -1116,6 +1116,10 @@ if((force) || (changecount!=Denemo.gui->changecount)) {
   }
 return FALSE;
 }
+static void
+force_typeset(void) {
+typeset(TRUE);
+}
 void
 printpreview_cb (GtkAction *action, DenemoScriptParam* param) {
   (void)typeset(TRUE);
@@ -1339,6 +1343,9 @@ popup_print_preview_menu(void) {
   GtkWidget *item = gtk_menu_item_new_with_label("Print");
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(print_from_print_view),NULL);
+  item = gtk_menu_item_new_with_label("Refresh Typesetting");
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(force_typeset),NULL);
 
 #if 0
   item = gtk_menu_item_new_with_label("Drag to desired offset");
