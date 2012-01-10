@@ -471,12 +471,13 @@ run_lilypond(gchar **arguments) {
 }
 
 void
-stop_lilypond()
+stop_lilypond(GtkWidget *w, gint timer)
 {
   if(printpid!=GPID_NONE){
     kill_process(printpid);
     printpid = GPID_NONE;
   }
+  g_source_remove(timer);
 }
 
 /*  create pdf of current score, optionally restricted to voices/staffs whose name match the current one. 
@@ -1118,7 +1119,7 @@ return FALSE;
 }
 static void
 force_typeset(void) {
-typeset(TRUE);
+ changecount = -1;
 }
 void
 printpreview_cb (GtkAction *action, DenemoScriptParam* param) {

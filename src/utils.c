@@ -159,13 +159,6 @@ typedef struct _ProgressData {
   int timer;
 } ProgressData;
 
-/* Clean up allocated memory */
-static void destroy_progress(ProgressData *pdata)
-{
-  pdata->timer = 0;
-  pdata->window = NULL;
-  g_free (pdata);
-}
 
 static volatile gboolean progressing = TRUE;
 /* Update the value of the progress bar so that we get
@@ -173,30 +166,13 @@ static volatile gboolean progressing = TRUE;
 static gboolean progress_timeout(gpointer data)
 {
   ProgressData *pdata = (ProgressData *) data;
-  gdouble new_val;
-
-  /* Calculate the value of the progress bar using the
-   * value range set in the adjustment object */
-#if 0
-  new_val = gtk_progress_bar_get_fraction (GTK_PROGRESS_BAR (pdata->pbar)) + 0.01;
-  
-  if (new_val >= 1.0){
-    gtk_widget_destroy (pdata->window);
-    destroy_progress(pdata);
-    return FALSE;
-  }
-
-  /* Set the new value */
-  gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (pdata->pbar), new_val);
-#endif
   if (progressing)
     gtk_progress_bar_pulse (GTK_PROGRESS_BAR (pdata->pbar));
   else {
     gtk_widget_destroy (pdata->window);
-    destroy_progress(pdata);
+    g_free(pdata);
     return FALSE;
   }
-
   return TRUE;
 }
 
@@ -246,7 +222,7 @@ progressbar (gchar *msg)
 	so that that it can stop other things besides
 	lilypond */
   g_signal_connect (G_OBJECT (pdata->window), "destroy",
-  G_CALLBACK (stop_lilypond), NULL);
+  G_CALLBACK (stop_lilypond), (gpointer)pdata->timer);
 }
 
 void
