@@ -1,3 +1,24 @@
+2012-01-09 Release 0.9.4:
+    * Better control of voices
+        Voices can be displayed on separate staffs but remain as voices.
+        No need to join voices before printing. 
+    * Printing directly from Denemo
+        no need for external pdf viewer
+        print to file (pdf, postcript or scalable vector graphics)
+        a print-preview is available 
+    * Navigate from PDF
+        Pointing and clicking on a note in the PDF score takes you to that note in the Denemo score 
+    * Tweaking the positions of Objects
+        Often needed for Rests in single staff polyphony 
+    * Book Titles
+        Title Page, with composer, arranger etc information nicely displayed.
+        Table of Contents optional
+        Epilog, a title and paragraph on a page at the end of the music
+        Critical Commentary automatically generated from critical comments placed on the music. 
+    * Improved display
+        Markings like staccato now display nicely
+        Text markings also move out of the way of notes in display 
+
 2011-09-27 Release 0.9.2:
     * Score Checking
 	   o Performed automatically before printing (optional)
