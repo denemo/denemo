@@ -90,6 +90,9 @@ gboolean is_paused() {
   return paused;
 }
 
+gdouble get_playalong_time(void) {
+return playalong_time;
+}
 void update_playback_start_time(double adjust) {
   if (Denemo.gui && Denemo.gui->si) {
     Denemo.gui->si->start_time += adjust;
@@ -553,6 +556,7 @@ static void initialize_clock() {
       }
     }
   }
+  g_print("playalong %f\n", playalong_time);
 }
 
 //test if the midi event in buf is a note-on for the current note

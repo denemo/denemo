@@ -63,6 +63,7 @@ static int stream_callback(const void * input_buffer,
   double event_time;
 
   double until_time = nframes_to_seconds(playback_frame + frames_per_buffer);
+  
 
   while (read_event_from_queue(AUDIO_BACKEND, event_data, &event_length, &event_time, until_time)) {
     fluidsynth_feed_midi(event_data, event_length);
@@ -71,11 +72,11 @@ static int stream_callback(const void * input_buffer,
   fluidsynth_render_audio(frames_per_buffer, buffers[0], buffers[1]);
 #endif
 
-
-  if (is_playing() && !(is_paused())) {
+  if (is_playing() && !(is_paused()) && ((!(Denemo.gui->midi_destination & MIDIPLAYALONG)) || (until_time<get_playalong_time()))) {
       playback_frame += frames_per_buffer;
       update_playback_time(TIMEBASE_PRIO_AUDIO, nframes_to_seconds(playback_frame));
   }
+
 
   return paContinue;
 }
