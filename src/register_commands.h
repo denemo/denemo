@@ -230,7 +230,8 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintPre
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintView"), "PrintView", "Print Preview", "Displays the final finished score in the Print View window", show_print_view);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintSelection"), "PrintSelection", "Print Selection", "Displays selected music from score in your pdf viewer", printselection_cb);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintExcerptPreview"), "PrintExcerptPreview", "Print Excerpt", "Displays a musical excerpt in your image viewer", printexcerptpreview_cb);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Print"), "Print", "Print", "Displays the final finished score in a pdf viewer. From this you can print the file using the print command of the viewer", printall_cb);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintMovement"), "PrintMovement", "Print Movement", "Typesets the current movement and opens a print dialog", printmovement_cb);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Print"), "Print", "Print", "Typesets the score using LilyPond and opens a print dialog", printall_cb);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintPart"), "PrintPart", "Print Part", "Displays the final finished score for the current part (that is current staff", printpart_cb);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Close"), "Close", "Close Score", "Close the current score. Other windows will stay open", close_gui_with_check);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Quit"), "Quit", "Quit", "Quit the Denemo program", closewrapper);

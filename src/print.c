@@ -1108,15 +1108,28 @@ if((force) || (changecount!=Denemo.gui->changecount)) {
   DenemoGUI *gui = Denemo.gui;
   gui->si->markstaffnum=0;//FIXME save and restore selection?    
   gui->lilycontrol.excerpt = FALSE;
-  if((gui->movements && g_list_length(gui->movements)>1) && 
-     (confirm("This piece has several movements", "Print all of them?")))
-    create_pdf(gui, FALSE, TRUE);
-  else
-    create_pdf(gui, FALSE, FALSE);
+  create_pdf(gui, FALSE, TRUE);
   return TRUE;
   }
 return FALSE;
 }
+
+static gboolean typeset_movement(gboolean force) {
+if((force) || (changecount!=Denemo.gui->changecount)) {
+  if(call_out_to_guile("(InitializeTypesetting)")) {
+      g_warning("InitializeTypesetting failed\n");
+      return FALSE;
+  }
+  DenemoGUI *gui = Denemo.gui;
+  gui->si->markstaffnum=0;//FIXME save and restore selection?    
+  gui->lilycontrol.excerpt = FALSE;
+  create_pdf(gui, FALSE, FALSE);
+  return TRUE;
+  }
+return FALSE;
+}
+
+
 static void
 force_typeset(void) {
  changecount = -1;
@@ -1135,9 +1148,10 @@ void refresh_print_view (void) {
     normal_cursor();
 }
 
-void print_from_print_view() {
+static
+void print_from_print_view(gboolean all_movements) {
   busy_cursor();
-  if(typeset(FALSE)) {
+  if(all_movements?typeset(FALSE):typeset_movement(FALSE)) {
     g_child_watch_add(printpid, (GChildWatchFunc)printview_finished, (gpointer)(TRUE));
   }
   else {
@@ -1323,7 +1337,15 @@ create_thumbnail(gboolean async) {
 /* callback to print whole of score */
 void
 printall_cb (GtkAction *action, gpointer param) {
-    print_from_print_view();
+    print_from_print_view(TRUE);
+}
+
+/* callback to print whole of score */
+void
+printmovement_cb (GtkAction *action, gpointer param) {
+    changecount = -1;
+    print_from_print_view(FALSE);
+    changecount = Denemo.gui->changecount;
 }
 
 
