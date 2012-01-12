@@ -573,6 +573,26 @@
         <bind>space</bind>
       </row>
       <row>
+        <action>OpenRepeat</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>CloseRepeat</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>FirstTimeBar</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>SecondTimeBar</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>EndSecondTimeBar</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>FindNextLowerNote</action>
         <bind>Ctrl+f</bind>
       </row>
@@ -586,19 +606,15 @@
       </row>
       <row>
         <action>StaccatoSelectionSwitcher</action>
-        <hidden>true</hidden>
+        <bind>semicolon</bind>
       </row>
       <row>
         <action>StaccatissimoSelectionSwitcher</action>
-        <hidden>true</hidden>
+        <bind>A,apostrophe</bind>
       </row>
       <row>
         <action>TenutoSelectionSwitcher</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>AccentSelectionSwitcher</action>
-        <hidden>true</hidden>
+        <bind>A,minus</bind>
       </row>
       <row>
         <action>ReloadDrumHash</action>
@@ -614,6 +630,10 @@
       </row>
       <row>
         <action>SelectAllStaffs</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>CloseReopenRepeat</action>
         <hidden>true</hidden>
       </row>
       <row>
@@ -657,12 +677,64 @@
         <bind>Enter</bind>
       </row>
       <row>
+        <action>NoOp</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>DenemoPlayCursorToEnd</action>
         <bind>Ctrl+F5</bind>
       </row>
       <row>
         <action>Tremolo</action>
         <bind>Alt+t</bind>
+      </row>
+      <row>
+        <action>OpOne</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>OpTwo</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>OpThree</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>OpFour</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>OpFive</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>OpSix</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>OpSeven</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>OpEight</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>OpNine</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>OpZero</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>LoadDefaultComposerNumberkeys</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>FingeringsDoublestroke</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>TextAbove</action>
@@ -723,6 +795,10 @@
         <bind>Ctrl+End</bind>
       </row>
       <row>
+        <action>LoadSelectDurationComposerNumberkeys</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>SelectRight</action>
         <bind>Shft+Right</bind>
       </row>
@@ -747,21 +823,40 @@
         <bind>M,t</bind>
       </row>
       <row>
+        <action>ToggleMarcato</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ToggleAccent</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>ToggleStaccato</action>
-        <bind>;</bind>
-        <bind>A,period</bind>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>ToggleFermata</action>
-        <bind>A,f</bind>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>ToggleTenuto</action>
-        <bind>A,minus</bind>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>ToggleStaccatissimo</action>
-        <bind>A,apostrophe</bind>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ToggleUpBow</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ToggleDownBow</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ToggleHarmonic</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>Slur0</action>
@@ -792,8 +887,16 @@
         <bind>Ctrl+6</bind>
       </row>
       <row>
+        <action>FermataSelectionSwitcher</action>
+        <bind>A,f</bind>
+      </row>
+      <row>
         <action>ToggleTrill</action>
         <bind>backslash</bind>
+      </row>
+      <row>
+        <action>TogglePortato</action>
+        <hidden>true</hidden>
       </row>
     </map>
   </merge>
