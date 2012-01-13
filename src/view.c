@@ -8509,8 +8509,8 @@ GtkWidget* create_playbutton(GtkWidget *box, gchar *thelabel, gpointer callback,
   return button;
 }
 
-void toggle_playbutton(void) {
-  static gboolean pause = TRUE;
+
+void set_playbutton(gboolean pause) {
   if(pause) {
     gtk_button_set_image (GTK_BUTTON(playbutton), 
 			  gtk_image_new_from_stock(GTK_STOCK_MEDIA_PAUSE, GTK_ICON_SIZE_BUTTON));
@@ -8518,7 +8518,6 @@ void toggle_playbutton(void) {
     gtk_button_set_image (GTK_BUTTON(playbutton), 
 			  gtk_image_new_from_stock(GTK_STOCK_MEDIA_PLAY, GTK_ICON_SIZE_BUTTON));
  }
-  pause = !pause;
 }
 
 //Set the master volume of the passed score and change the slider to suit

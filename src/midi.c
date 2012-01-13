@@ -29,14 +29,13 @@ static void initialize_clock();
 
 
 static volatile gboolean playing = FALSE;
-static volatile gboolean paused = FALSE;
 
 static double last_draw_time;
 
 // huh?
 static gboolean midi_capture_on = FALSE;//any midi events not caught by midi_divert will be dropped if this is true
 
-static  gdouble playalong_time = 0.0;
+static  gdouble play_until = G_MAXDOUBLE;
 
 
 void update_position(smf_event_t *event) {
@@ -75,23 +74,27 @@ void start_playing() {
 
 void stop_playing() {
   update_position(NULL);
+  set_playbutton(is_paused());
   playing = FALSE;
-  paused = FALSE;
+  play_until = -G_MAXDOUBLE;
 }
 
 void toggle_paused() {
-  paused = !paused;
+  if(play_until<0.0)
+    play_until = G_MAXDOUBLE;
+  else
+    play_until = -G_MAXDOUBLE;
 }
 
 gboolean is_playing() {
   return playing;
 }
 gboolean is_paused() {
-  return paused;
+  return play_until<0.0;
 }
 
-gdouble get_playalong_time(void) {
-return playalong_time;
+gdouble get_playuntil(void) {
+return play_until;
 }
 void update_playback_start_time(double adjust) {
   if (Denemo.gui && Denemo.gui->si) {
@@ -544,7 +547,7 @@ void process_midi_event(gchar *buf) {
 
 
 static void initialize_clock() {
-  if(Denemo.gui->si->currentobject ) {
+  if((Denemo.gui->midi_destination & MIDIPLAYALONG) && Denemo.gui->si->currentobject ) {
     DenemoObject *obj = Denemo.gui->si->currentobject->data;
     if(obj->type==CHORD) {
       chord *thechord = obj->object;
@@ -552,16 +555,16 @@ static void initialize_clock() {
 	note *thenote = thechord->notes->data;      
 	//gboolean thetime = get_time();
 	//Denemo.gui->si->start_player =  thetime - obj->earliest_time;
-	playalong_time = obj->latest_time; 
+	play_until = obj->latest_time; 
       }
     }
   }
-  g_print("playalong %f\n", playalong_time);
+  else
+    play_until = G_MAXDOUBLE;
 }
 
 //test if the midi event in buf is a note-on for the current note
-//if so set a time delta so that a call to GET_TIME() will return get_time()- lost_time
-//unless this time is greater than the start time of the next note when GET_TIME() will stick
+//if so set play_until
 //advance cursor to next note
 static void advance_clock(gchar *buf) {
   if(Denemo.gui->si->currentobject) {
@@ -581,18 +584,18 @@ static void advance_clock(gchar *buf) {
 	  if(thechord->is_tied && cursor_to_next_note()) {
 	    obj = Denemo.gui->si->currentobject->data;	   
 	  }
-	  //playalong_time = obj->latest_time;
+	  //play_until = obj->latest_time;
 	  //IF THE NEXT OBJ IS A REST ADVANCE OVER IT/THEM
 	  do {
 	    if(!cursor_to_next_note())	//if(!cursor_to_next_chord())	   	      
 	      {
-		playalong_time = Denemo.gui->si->end_time + 1.0;
+		play_until = G_MAXDOUBLE;
 		break;
 	      }
 	    else {
 	      obj = Denemo.gui->si->currentobject->data;
 	      thechord = obj->object;
-	      playalong_time = obj->earliest_time;
+	      play_until = obj->earliest_time;
 	    }
 	  } 
 	  while(!thechord->notes);	    

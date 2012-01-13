@@ -27,9 +27,9 @@
 
 
 
-void generate_midi();
-gdouble get_time();
-gdouble get_playalong_time();
+void generate_midi(void);
+gdouble get_time(void);
+gdouble get_playuntil(void);
 void adjust_midi_velocity(gchar *buf, gint percent);
 void change_tuning(gdouble *cents);
 gdouble get_midi_on_time(GList *events);

@@ -72,7 +72,7 @@ static int stream_callback(const void * input_buffer,
   fluidsynth_render_audio(frames_per_buffer, buffers[0], buffers[1]);
 #endif
 
-  if (is_playing() && !(is_paused()) && ((!(Denemo.gui->midi_destination & MIDIPLAYALONG)) || (until_time<get_playalong_time()))) {
+  if (until_time<get_playuntil()) {
       playback_frame += frames_per_buffer;
       update_playback_time(TIMEBASE_PRIO_AUDIO, nframes_to_seconds(playback_frame));
   }
