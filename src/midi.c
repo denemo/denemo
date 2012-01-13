@@ -545,6 +545,7 @@ void process_midi_event(gchar *buf) {
   }
 }
 
+#define SHAVING (0.01) //seconds to shave off a note start time to ensure stopping before noteon is sent, may depend of speed of machine??? FIXME
 
 static void initialize_clock() {
   if((Denemo.gui->midi_destination & MIDIPLAYALONG) && Denemo.gui->si->currentobject ) {
@@ -553,9 +554,7 @@ static void initialize_clock() {
       chord *thechord = obj->object;
       if(thechord->notes) {
 	note *thenote = thechord->notes->data;      
-	//gboolean thetime = get_time();
-	//Denemo.gui->si->start_player =  thetime - obj->earliest_time;
-	play_until = obj->latest_time; 
+	play_until = obj->earliest_time - SHAVING; //g_print("initial until %f\n", play_until);
       }
     }
   }
@@ -584,7 +583,6 @@ static void advance_clock(gchar *buf) {
 	  if(thechord->is_tied && cursor_to_next_note()) {
 	    obj = Denemo.gui->si->currentobject->data;	   
 	  }
-	  //play_until = obj->latest_time;
 	  //IF THE NEXT OBJ IS A REST ADVANCE OVER IT/THEM
 	  do {
 	    if(!cursor_to_next_note())	//if(!cursor_to_next_chord())	   	      
@@ -595,7 +593,8 @@ static void advance_clock(gchar *buf) {
 	    else {
 	      obj = Denemo.gui->si->currentobject->data;
 	      thechord = obj->object;
-	      play_until = obj->earliest_time;
+	      play_until = obj->earliest_time - SHAVING;
+	      //g_print("play until %f\n", play_until);
 	    }
 	  } 
 	  while(!thechord->notes);	    
@@ -627,8 +626,8 @@ void handle_midi_event(gchar *buf) {
       record_midi(buf,  get_time() - Denemo.gui->si->start_player);
     if(Denemo.gui->midi_destination & (MIDIPLAYALONG))
       advance_clock(buf);
-//    fluid_output_midi_event(buf);
-    play_midi_event(DEFAULT_BACKEND, 0, buf);
+    else
+      play_midi_event(DEFAULT_BACKEND, 0, buf);
   } else {
     if((Denemo.keyboard_state==(GDK_SHIFT_MASK|GDK_LOCK_MASK)) ||
        Denemo.keyboard_state==(GDK_CONTROL_MASK) ||

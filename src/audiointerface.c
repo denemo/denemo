@@ -451,7 +451,7 @@ void midi_stop() {
 int play_midi_event(backend_type_t backend, int port, unsigned char *buffer) {
   int channel = buffer[0] & 0x0f;
   int type = (buffer[0] & 0xf0) >> 4;
-  g_print("playing midi event: port=%d, channel=%d, type=%x, data1=%d, data2=%d\n", port, channel, type, buffer[1], buffer[2]);
+  //g_print("playing midi event: port=%d, channel=%d, type=%x, data1=%d, data2=%d\n", port, channel, type, buffer[1], buffer[2]);
 
   midi_event_t ev;
   ev.backend = backend;
