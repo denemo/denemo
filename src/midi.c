@@ -412,8 +412,8 @@ static gint midiaction(gint notenum) {
 	      note *thenote = (note*)thechord->notes->data;
 //	      check_midi_note(thenote, enote.mid_c_offset + 7 *(enote.octave), enote.enshift, enote.octave);
 	      if((!curObj->isinvisible)&&(thenote->mid_c_offset== (enote.mid_c_offset + 7 *( enote.octave)))&&(thenote->enshift==enote.enshift)) {
-                // FIXME
-//		playnote(thenote,curstaffstruct->midi_channel);
+		     gint midi = dia_to_midinote (thenote->mid_c_offset) + thenote->enshift;
+		     play_note(DEFAULT_BACKEND, 0 /*port*/, curstaffstruct->midi_channel, midi, 300 /*duration*/, 0);
 	      } else {
 		gdk_beep();
 		break;//do not move on to next note
