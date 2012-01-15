@@ -37,6 +37,25 @@ static gboolean midi_capture_on = FALSE;//any midi events not caught by midi_div
 
 static  gdouble play_until = G_MAXDOUBLE;
 
+/* MIDI in handling diversion to scheme scripts of MIDI in data */
+static gint *divert_midi_event;
+static gint divert_midi_id=0;//id of the DenemoGUI which wants to intercept midi events
+
+static GQueue midi_queue = G_QUEUE_INIT;
+static gint put_get_midiqueue(gint midi) {
+  if(g_queue_is_empty(&midi_queue))
+    return midi;
+  g_queue_push_tail(&midi_queue, (gpointer)midi);
+  return (gint)g_queue_pop_head(&midi_queue);
+}
+static void put_midiqueue(gint midi) {
+  g_queue_push_tail(&midi_queue, (gpointer)midi);
+}
+
+static gint get_midiqueue(void) {
+  return (gint)g_queue_pop_head(&midi_queue);
+}
+/*End of MIDI in handling diversion to scheme scripts of MIDI in data */
 
 void update_position(smf_event_t *event) {
   DenemoScore *si = Denemo.gui->si;
@@ -482,21 +501,6 @@ adjust_midi_velocity(gchar *buf, gint percent) {
 
 
 void process_midi_event(gchar *buf) {
-  //g_print("process midi (%s) %x %x %x\n",divert_midi_event?"diverted":"straight", command, notenumber, velocity);
-//  if(divert_midi_event &&  divert_midi_id==Denemo.gui->id){
-//    // this is only good for one endianness - FIXME
-//    *divert_midi_event = 0;//clear 4th byte
-//    memcpy(divert_midi_event, buf, 3);//midi events are up to three bytes long
-//    gtk_main_quit();    
-//    return;//this *is* reached
-//  }
-#if 0
-  //already done upstream
-  if(command==MIDI_NOTEON && velocity==0) {//Zero velocity NOTEON is used as NOTEOFF by some MIDI controllers
-    buf[0]=MIDI_NOTEOFF;
-    buf[2]=128;//FIXME 127
-  }
-#endif  
    if (command==MIDI_CONTROL_CHANGE && (notenumber == 0x40)){
 	if (velocity == 0x7F)
 	  //PEDAL DOWN
@@ -508,13 +512,10 @@ void process_midi_event(gchar *buf) {
 	set_midi_in_status();
 	displayhelper(Denemo.gui);
       }
-
-
-  if(midi_capture_on) {
-    if(command!=MIDI_NOTE_OFF) {
-      gdk_beep();
-      g_warning("MIDI event dropped");
-    }
+  if((0xFFFFFF & *(gint*)buf)==0) {
+    set_midi_capture(FALSE);
+    g_queue_clear(&midi_queue);
+    //g_print("queue emptied %d\n", g_queue_get_length(&midi_queue));
   } else {
     if(command==MIDI_NOTE_ON)
       midiaction(notenumber);
@@ -607,17 +608,19 @@ static void advance_clock(gchar *buf) {
 }
 
 
-static gint *divert_midi_event;
-static gint divert_midi_id=0;//id of the DenemoGUI which wants to intercept midi events
 
 #define EDITING_MASK (GDK_SHIFT_MASK)  
 void handle_midi_event(gchar *buf) {
-  //g_print("%x : %x %x %x %x\n", Denemo.keyboard_state, GDK_CONTROL_MASK, GDK_SHIFT_MASK, GDK_MOD1_MASK, GDK_LOCK_MASK);
-  if(divert_midi_event &&  divert_midi_id==Denemo.gui->id){
-    // this is only good for one endianness - FIXME
-    *divert_midi_event = 0;//clear 4th byte
-    memcpy(divert_midi_event, buf, 3);//midi events are up to three bytes long
-    gtk_main_quit();    
+  //g_print("%x : ready %d %x queue %d\n", midi_capture_on, divert_midi_event!=NULL, (0xFFFFFF & *(gint*)buf), g_queue_get_length(&midi_queue));
+  if(midi_capture_on  &&  divert_midi_id==Denemo.gui->id){
+    // this is only good for one endianness - FIXME ??
+    if( divert_midi_event) {
+      *divert_midi_event = (0xFFFFFF & put_get_midiqueue(*(gint*)buf));
+      divert_midi_event = NULL;
+      gtk_main_quit();
+    } else {
+      put_midiqueue(*(gint*)buf);
+    }   
     return;//this *is* reached
   }
   if( (Denemo.gui->midi_destination & MIDIRECORD) ||
@@ -653,11 +656,17 @@ gboolean intercept_midi_event(gint *midi) {
     divert_midi_event = NULL;
     return FALSE;
   }
+  if(g_queue_is_empty(&midi_queue)) {
   divert_midi_event = midi;
   divert_midi_id = Denemo.gui->id;
+  set_midi_capture(TRUE);
   gtk_main();
   divert_midi_event = NULL;
   return TRUE;
+  } else {
+    *midi =  (0xFFFFFF & get_midiqueue());
+     //g_print("getting from queue %x\n", *midi);
+  }
 }
 
 
