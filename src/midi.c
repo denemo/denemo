@@ -515,6 +515,11 @@ void process_midi_event(gchar *buf) {
   if((0xFFFFFF & *(gint*)buf)==0) {
     set_midi_capture(FALSE);
     g_queue_clear(&midi_queue);
+    if(divert_midi_event) {
+      *divert_midi_event = 0;
+      divert_midi_event = NULL;
+      gtk_main_quit();
+    }
     //g_print("queue emptied %d\n", g_queue_get_length(&midi_queue));
   } else {
     if(command==MIDI_NOTE_ON)
@@ -652,9 +657,13 @@ void handle_midi_event(gchar *buf) {
 
 gboolean intercept_midi_event(gint *midi) {
   if(divert_midi_event) {
-    infodialog("Recursive midi capture not possible!");/* we could make a stack of them instead ... */
-    divert_midi_event = NULL;
-    return FALSE;
+    infodialog("Not exiting the previous MIDI capture loop");
+    g_warning("Cannot return to script");
+   // divert_midi_event = NULL;
+   // return FALSE;
+   set_midi_capture(FALSE);
+    g_queue_clear(&midi_queue);
+   
   }
   if(g_queue_is_empty(&midi_queue)) {
   divert_midi_event = midi;
