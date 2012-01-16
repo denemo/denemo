@@ -73,11 +73,21 @@ void update_position(smf_event_t *event) {
   }
 }
 
+static void safely_add_track(smf_t *smf, smf_track_t *track) {
+  if(track->smf==NULL)
+    smf_add_track(smf, track);
+}
 
+static void safely_track_remove_from_smf(smf_track_t *track) {
+ if(track->smf!=NULL)
+   smf_track_remove_from_smf(track);
+}
 
 void start_playing() {
   smf_t *smf = Denemo.gui->si->smf;
-
+  if(Denemo.gui->si->recorded_midi_track)
+    safely_add_track(Denemo.gui->si->smf, Denemo.gui->si->recorded_midi_track);
+ 
   smf_rewind(smf);
 
   int r = smf_seek_to_seconds(smf, Denemo.gui->si->start_time);
@@ -96,6 +106,11 @@ void stop_playing() {
   set_playbutton(is_paused());
   playing = FALSE;
   play_until = -G_MAXDOUBLE;
+  if(Denemo.gui->si->recorded_midi_track) {
+    safely_track_remove_from_smf(Denemo.gui->si->recorded_midi_track);
+    finish_recording();
+  }
+  
 }
 
 void toggle_paused() {
@@ -631,7 +646,7 @@ void handle_midi_event(gchar *buf) {
   if( (Denemo.gui->midi_destination & MIDIRECORD) ||
       (Denemo.gui->midi_destination & (MIDIPLAYALONG|MIDICONDUCT))) {
     if(Denemo.gui->midi_destination & MIDIRECORD)
-      record_midi(buf,  get_time() - Denemo.gui->si->start_player);
+      record_midi(buf,  get_playback_time());
     if(Denemo.gui->midi_destination & (MIDIPLAYALONG))
       advance_clock(buf);
     else
