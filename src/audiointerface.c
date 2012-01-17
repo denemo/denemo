@@ -425,7 +425,7 @@ void midi_play(gchar *callback) {
   playback_start_time = get_start_time();
   playback_time = playback_start_time;
 
-  start_playing();
+  start_playing(callback);
 
   get_backend(AUDIO_BACKEND)->start_playing();
   get_backend(MIDI_BACKEND)->start_playing();

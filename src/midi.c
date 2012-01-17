@@ -82,9 +82,11 @@ static void safely_track_remove_from_smf(smf_track_t *track) {
  if(track->smf!=NULL)
    smf_track_remove_from_smf(track);
 }
-
-void start_playing() {
+static GString *callback_script = NULL;
+void start_playing(gchar *callback) {
   smf_t *smf = Denemo.gui->si->smf;
+  if(callback && *callback)
+      callback_script = g_string_new(callback);
   if(Denemo.gui->si->recorded_midi_track)
     safely_add_track(Denemo.gui->si->smf, Denemo.gui->si->recorded_midi_track);
  
@@ -99,8 +101,13 @@ void start_playing() {
   playing = TRUE;
   last_draw_time = 0.0;
 }
-
-
+static gboolean
+stop_play_callback(gchar *thescript) {
+    call_out_to_guile(thescript);
+    g_free(thescript);
+    return FALSE;
+}
+    
 void stop_playing() {
   update_position(NULL);
   set_playbutton(is_paused());
@@ -110,7 +117,10 @@ void stop_playing() {
     safely_track_remove_from_smf(Denemo.gui->si->recorded_midi_track);
     finish_recording();
   }
-  
+  if(callback_script) {
+    g_idle_add((GSourceFunc)stop_play_callback, g_string_free(callback_script, FALSE));
+    callback_script = NULL;
+  } 
 }
 
 void toggle_paused() {
