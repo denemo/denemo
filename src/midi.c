@@ -118,7 +118,7 @@ void stop_playing() {
     finish_recording();
   }
   if(callback_script) {
-    g_idle_add((GSourceFunc)stop_play_callback, g_string_free(callback_script, FALSE));
+    g_idle_add_full(G_PRIORITY_HIGH_IDLE, (GSourceFunc)stop_play_callback, g_string_free(callback_script, FALSE), NULL);
     callback_script = NULL;
   } 
 }
