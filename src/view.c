@@ -7723,15 +7723,10 @@ gint val = gtk_radio_action_get_current_value (current);
      start_pitch_input();
    break;
  case INPUTMIDI:
-   //g_print("Starting midi\n");
-   if(gui->input_source==INPUTAUDIO) {
-     //g_print("Stopping audio\n");
-     stop_pitch_input();
-   }
+   midi_stop();
+   audio_shutdown();
+   audio_initialize(&Denemo.prefs);
    gui->input_source=INPUTMIDI;
-
-   // FIXME
-//   start_midi_input();
    break;
  default:
    g_warning("Bad Value\n");
