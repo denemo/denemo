@@ -309,7 +309,7 @@ gboolean read_event_from_queue(backend_type_t backend, unsigned char *event_buff
 }
 
 
-
+GStaticMutex smfmutex = G_STATIC_MUTEX_INIT;
 static gpointer queue_thread_func(gpointer data) {
   g_mutex_lock(queue_mutex);
 
@@ -332,6 +332,7 @@ static gpointer queue_thread_func(gpointer data) {
     // TODO: audio capture
 
     midi_event_t *ev;
+
     while ((ev = event_queue_read_input(get_event_queue(MIDI_BACKEND))) != NULL) {
       g_idle_add_full(G_PRIORITY_HIGH_IDLE, handle_midi_event_callback, (gpointer)ev, NULL);
     }
@@ -342,11 +343,13 @@ static gpointer queue_thread_func(gpointer data) {
       double until_time = playback_time + 5.0;
 
 //      printf("playback_time=%f, until_time=%f\n", playback_time, until_time);
-
+    g_static_mutex_lock (&smfmutex);
+    if(Denemo.gui->si->smf)
       while ((event = get_smf_event(until_time))) {
         write_event_to_queue(AUDIO_BACKEND, event);
         write_event_to_queue(MIDI_BACKEND, event);
       }
+    g_static_mutex_unlock (&smfmutex);
     }
 
 

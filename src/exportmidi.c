@@ -4,7 +4,7 @@
  * Functions for exporting a Standard Midi file
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
- * (C) 2001, 2002 Per Andersson, 2009 Richard Shann
+ * (C) 2001, 2002 Per Andersson, 2009, 2010, 2011, 2012 Richard Shann
  * 
  * License: this file may be used under the FSF GPL version 3 or later
  */
@@ -60,6 +60,7 @@
 #include "exportmidi.h"
 #include "smf.h"
 #include "instrumentname.h"
+#include "audiointerface.h"
 
 /* 
  * only for developers
@@ -1959,6 +1960,9 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
   }
   /* we are done */
   {gboolean midi_track = FALSE;
+  
+  
+g_static_mutex_lock (&smfmutex);
     if(Denemo.gui->si->recorded_midi_track) {
       if(si->smf && (((smf_track_t*)Denemo.gui->si->recorded_midi_track)->smf==si->smf)) {
 	smf_track_remove_from_smf(Denemo.gui->si->recorded_midi_track);
@@ -1969,11 +1973,11 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
     si->smf = smf;
     if(midi_track)
       smf_add_track(smf, Denemo.gui->si->recorded_midi_track);
-  }
+
   
-  si->smfsync = si->changecount;
-
-
+    si->smfsync = si->changecount;
+g_static_mutex_unlock (&smfmutex);
+  }
 
   if(start || end)
     return exportmidi(NULL, si, 0, 0);// recurse if we have not generated all the MIDI for si

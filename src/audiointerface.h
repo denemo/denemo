@@ -257,5 +257,6 @@ void queue_redraw_all();
  */
 void queue_redraw_playhead();
 
+extern GStaticMutex smfmutex;
 
 #endif // AUDIOINTERFACE_H
