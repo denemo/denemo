@@ -70,13 +70,14 @@ static int stream_callback(const void * input_buffer,
   }
 
   fluidsynth_render_audio(frames_per_buffer, buffers[0], buffers[1]);
-#endif
 
-  if (until_time<get_playuntil()) {
+ if (until_time<get_playuntil()) {
+#endif
       playback_frame += frames_per_buffer;
       update_playback_time(TIMEBASE_PRIO_AUDIO, nframes_to_seconds(playback_frame));
+#ifdef _HAVE_FLUIDSYNTH_
   }
-
+#endif
 
   return paContinue;
 }
