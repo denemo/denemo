@@ -25,7 +25,7 @@
 #include <assert.h>
 
 
-static void initialize_clock();
+static void initialize_until_time(void);
 
 
 static volatile gboolean playing = FALSE;
@@ -94,7 +94,7 @@ void start_playing(gchar *callback) {
 
   int r = smf_seek_to_seconds(smf, Denemo.gui->si->start_time);
 
-  initialize_clock();
+  initialize_until_time();
 
   initialize_playhead();
 
@@ -578,7 +578,7 @@ void process_midi_event(gchar *buf) {
 
 #define SHAVING (0.01) //seconds to shave off a note start time to ensure stopping before noteon is sent, may depend of speed of machine??? FIXME
 
-static void initialize_clock() {
+static void initialize_until_time() {
   if((Denemo.gui->midi_destination & MIDIPLAYALONG) && Denemo.gui->si->currentobject ) {
     DenemoObject *obj = Denemo.gui->si->currentobject->data;
     if(obj->type==CHORD) {
@@ -596,7 +596,7 @@ static void initialize_clock() {
 //test if the midi event in buf is a note-on for the current note
 //if so set play_until
 //advance cursor to next note
-static void advance_clock(gchar *buf) {
+static void advance_until_time(gchar *buf) {
   if(Denemo.gui->si->currentobject) {
     DenemoObject *obj = Denemo.gui->si->currentobject->data;
     if(obj->type!=CHORD) 
@@ -658,7 +658,7 @@ void handle_midi_event(gchar *buf) {
     if(Denemo.gui->midi_destination & MIDIRECORD)
       record_midi(buf,  get_playback_time());
     if(Denemo.gui->midi_destination & (MIDIPLAYALONG))
-      advance_clock(buf);
+      advance_until_time(buf);
     else
       play_midi_event(DEFAULT_BACKEND, 0, buf);
   } else {
