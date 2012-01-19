@@ -602,7 +602,7 @@ void queue_redraw_playhead(smf_event_t *event) {
 // from fluid.c
 void advance_time(gdouble seconds) { }
 
-
+#if 0
 // from audiocapture.c
 int pa_main(AubioCallback *fn) { return 0; }
 int init_audio_out() { return 0; }
@@ -614,4 +614,4 @@ double determine_frequency() { return 0.0; }
 void set_frequency_smoothing(double fraction) { }
 
 void setTuningTarget(double pitch) { }
-
+#endif
