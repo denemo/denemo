@@ -5225,7 +5225,6 @@ void inner_main(void*closure, int argc, char **argv){
 
 
   /* Initialize preferences */
-  Denemo.prefs.profile = g_string_new("Simple");
   initprefs();
 
 
@@ -5256,42 +5255,7 @@ void inner_main(void*closure, int argc, char **argv){
     fetchcommands(NULL, NULL);
 
   gboolean save_default_keymap_file_on_entry = FALSE;
-#define choice1 "Simple\nMouse or PC keyboard: use this until you have read the manual\n"
-#define choice2 "Arranger\nMIDI keyboard mainly: transcribing music, playing music in, transposing etc"
-#define choice3 "Composer\nMIDI or PC keyboard: entering and modifying music, working with selections WASD use etc"
-#define choice4 "Classic\nOld Denemo pc-keyboard interface."
-#define choice5 "LilyPond\nExperienced Users with LilyPond knowledge"
-#define choice6 "AllCommands\nUsers wanting to see the complete command set. No pre-defined shortcuts"
 
- 
-  if((!Denemo.non_interactive) && uses_default_commandset()) {
-    gchar *initialpref = Denemo.prefs.profile->len?Denemo.prefs.profile->str:NULL;
-    gchar * never_again = NULL;
-    if(initialpref) never_again = g_strdup_printf( "Use %s and do not show these choices again", initialpref);
-    
-    GString *choicestr = g_string_new("");
-    gchar *thechoices = choice1"\0"choice2"\0"choice3"\0"choice4"\0"choice5"\0"choice6"\0";
-    g_string_insert_len(choicestr, -1, thechoices, strlen(choice1)+1+strlen(choice2)+1+strlen(choice3)+1+strlen(choice4)+1+strlen(choice5)+1+strlen(choice6)+1);
-    if(never_again)
-      g_string_insert_len(choicestr, -1, never_again, strlen(never_again)+1);
-    gchar *choice = get_option(choicestr->str, choicestr->len);
-    if(choice==NULL)
-      choice = choice1;
-     {
-      if(never_again && !strcmp(choice, never_again))
-	save_default_keymap_file_on_entry = TRUE;
-      else {
-	choice = g_strdup(choice);
-	gchar *c;
-	for(c=choice;*c;c++)
-	  if(*c=='\n')
-	    *c='\0';
-	g_string_assign(Denemo.prefs.profile, choice);
-      }
-    }
-    g_free(never_again);
-   //It is wrong to free choice when choice is one of the fixed strings. As this is one-off per run of the program, there is no need to free this anyway. g_free(choice);
-  }
 
 
   // initialize the audio subsystem

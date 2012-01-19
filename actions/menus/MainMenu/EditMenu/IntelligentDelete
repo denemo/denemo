@@ -9,7 +9,7 @@
         <scheme>;;;;Intelligent Delete. If selection present it deletes the whole selection. For single notes it deletes the note on the cursor
 		(SingleAndSelectionSwitcher d-DeleteObject d-DeleteSelectionLeaveEmpty)
 		</scheme>
-        <label>Delete</label>
+        <label>Delete Selection</label>
         <tooltip>Deletes a single object at the cursor, an empty measure or the complete selection.</tooltip>
       </row>
     </map>

@@ -6,6 +6,8 @@
 void
 printall_cb(GtkAction *action, gpointer param);
 void
+printmovement_cb(GtkAction *action, gpointer param);
+void
 printpreview_cb(GtkAction *action, gpointer param);
 void
 printselection_cb(GtkAction *action, gpointer param);

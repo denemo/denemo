@@ -1164,6 +1164,11 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
         <tooltip>Displays the final finished score in your pdf viewer</tooltip>
       </row>
       <row>
+        <action>PrintView</action>
+        <label>Print Preview</label>
+        <tooltip>Displays the final finished score in the Print View window</tooltip>
+      </row>
+      <row>
         <action>PrintSelection</action>
         <label>Print Selection</label>
         <tooltip>Displays selected music from score in your pdf viewer</tooltip>
@@ -1174,9 +1179,14 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
         <tooltip>Displays a musical excerpt in your image viewer</tooltip>
       </row>
       <row>
+        <action>PrintMovement</action>
+        <label>Print Movement</label>
+        <tooltip>Typesets the current movement and opens a print dialog</tooltip>
+      </row>
+      <row>
         <action>Print</action>
         <label>Print</label>
-        <tooltip>Displays the final finished score in a pdf viewer. From this you can print the file using the print command of the viewer</tooltip>
+        <tooltip>Typesets the score using LilyPond and opens a print dialog</tooltip>
       </row>
       <row>
         <action>PrintPart</action>
