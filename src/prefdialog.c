@@ -157,10 +157,15 @@ static void
 set_preferences (struct callbackdata *cbdata)
 {
   DenemoPrefs *prefs = cbdata->prefs;
-
+#if GTK_MAJOR_VERSION==3
+#define ASSIGNTEXT(field) \
+  g_string_assign (prefs->field,\
+    gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(cbdata->field)));
+#else
 #define ASSIGNTEXT(field) \
   g_string_assign (prefs->field,\
     gtk_entry_get_text (GTK_ENTRY (cbdata->field)));
+#endif
 
 #define ASSIGNBOOLEAN(field) \
   prefs->field =\
@@ -179,7 +184,7 @@ set_preferences (struct callbackdata *cbdata)
    g_string_assign (prefs->field,\
                    (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(cbdata->field)));
 #else
-#define ASSIGNCOMBO(field) \
+ #define ASSIGNCOMBO(field) \
   g_string_assign (prefs->field,\
     (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->field)->entry)));
 #endif
@@ -206,7 +211,8 @@ set_preferences (struct callbackdata *cbdata)
   g_string_assign(prefs->audio_driver, backend);
 
 #if GTK_MAJOR_VERSION==3
-  text = gtk_entry_get_text(GTK_ENTRY(cbdata->midi_driver));
+  text = (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(cbdata->midi_driver));
+  //text = gtk_entry_get_text(GTK_ENTRY(cbdata->midi_driver));
 #else
   text = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(cbdata->midi_driver)->entry));
 #endif
@@ -290,14 +296,15 @@ midi_audio_tab_update(GtkWidget *box, gpointer data)
   struct audio_callback_data *cbdata = (struct audio_callback_data *) data;
 
 #if GTK_MAJOR_VERSION==3
-  gchar const *audio_driver = gtk_entry_get_text(GTK_ENTRY(cbdata->audio_driver));
-  gchar const *midi_driver = gtk_entry_get_text(GTK_ENTRY(cbdata->midi_driver));
+  gchar const *audio_driver = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(cbdata->audio_driver));
+  gchar const *midi_driver = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(cbdata->midi_driver));
 #else
   gchar const *audio_driver = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(cbdata->audio_driver)->entry));
   gchar const *midi_driver = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(cbdata->midi_driver)->entry));
 #endif
 
 #ifdef _HAVE_JACK_
+  printf("\nwidget = %d, audio_driver == %s\n",cbdata->jack_audio_settings ? TRUE:FALSE, audio_driver);
   gtk_widget_set_visible(cbdata->jack_audio_settings, strcmp(audio_driver, "JACK") == 0);
   gtk_widget_set_visible(cbdata->jack_midi_settings, strcmp(midi_driver, "JACK") == 0);
 #endif
@@ -464,17 +471,11 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
   gtk_container_add(GTK_CONTAINER(hbox), label);\
   GtkWidget *field = gtk_combo_box_text_new_with_entry ();\
- // i=0;\
- // while (thelist){\
- //  gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(field), thelist->data);\
- //  if (!strcmp(thelist->data, settext))\
- //    gtk_combo_box_set_active(GTK_COMBO_BOX(field), i);\
- //  else\
- //    i++;\
- //  thelist = thelist->next;\
-  //}\
+  while (thelist){\
+    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(field), thelist->data);\
+    thelist = thelist->next;\
+  }\
   gtk_container_add(GTK_CONTAINER(hbox), field);\
-  //gtk_editable_set_editable(GTK_ENTRY (GTK_COMBO_BOX (field)), editable);\
   gtk_widget_show (field);\
   cbdata.field = field;
 #else
