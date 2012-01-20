@@ -332,7 +332,7 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
 #ifndef G_OS_WIN32
   //status check seems to fail on windows, and errors are not highlighted for windows.
   if(status) {
-    warningdialog/* a warning dialog causes deadlock if progress bar is being destroyed, sometimes */("LilyPond engraver failed - See highlighting in LilyPond window (open the LilyPond window and right click to print)");
+    g_warning/* a warning dialog causes deadlock in threaded version of program */("LilyPond engraver failed - See highlighting in LilyPond window (open the LilyPond window and right click to print)");
   } else
 #endif
  {
