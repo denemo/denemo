@@ -304,7 +304,6 @@ midi_audio_tab_update(GtkWidget *box, gpointer data)
 #endif
 
 #ifdef _HAVE_JACK_
-  printf("\nwidget = %d, audio_driver == %s\n",cbdata->jack_audio_settings ? TRUE:FALSE, audio_driver);
   gtk_widget_set_visible(cbdata->jack_audio_settings, strcmp(audio_driver, "JACK") == 0);
   gtk_widget_set_visible(cbdata->jack_midi_settings, strcmp(midi_driver, "JACK") == 0);
 #endif
