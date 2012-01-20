@@ -114,9 +114,18 @@ insert_movement_after(GtkAction *action, DenemoScriptParam *param) {
   new_movement(action, param, FALSE);
 }
 
+static void terminate_playback(void) {
+if(is_playing())
+  midi_stop();
+g_thread_yield(); //FIXME find a better way of ensuring playing is finished - in principle the user could start playing again
+if(is_playing())
+  terminate_playback();
+  g_print("Terminated %d\n", is_playing());
+}
 void
 delete_movement(GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
+  terminate_playback();
   if(!confirm_deletestaff_custom_scoreblock(gui))
     return;
   GString *primary = g_string_new(""), *secondary = g_string_new("");
@@ -157,6 +166,7 @@ gboolean
 goto_movement_staff_obj (DenemoGUI * possible_gui, gint movementnum, gint staffnum, gint measurenum, gint objnum)
 {
   DenemoGUI *gui;
+  terminate_playback();
   if(possible_gui==NULL)
     gui = Denemo.gui;
   else
@@ -268,6 +278,7 @@ void
 next_movement (GtkAction *action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
+  terminate_playback();
   GList *this = g_list_find( gui->movements, gui->si);
   this = this->next;
   if(param)
@@ -313,6 +324,7 @@ void
 prev_movement (GtkAction *action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
+  terminate_playback();
   GList *this = g_list_find( gui->movements, gui->si);
   this = this->prev;
   if(param)
