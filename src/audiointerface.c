@@ -344,7 +344,6 @@ static gpointer queue_thread_func(gpointer data) {
 
 //      printf("playback_time=%f, until_time=%f\n", playback_time, until_time);
     g_static_mutex_lock (&smfmutex);
-    if(Denemo.gui->si->smf)
       while ((event = get_smf_event(until_time))) {
         write_event_to_queue(AUDIO_BACKEND, event);
         write_event_to_queue(MIDI_BACKEND, event);

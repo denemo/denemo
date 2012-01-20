@@ -318,6 +318,8 @@ process_lilypond_errors(gchar *filename){
 
 static void
 open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
+  if(printpid==GPID_NONE)
+    return;
   DenemoGUI *gui = Denemo.gui;
   GError *err = NULL;
   gchar *printfile;
@@ -330,7 +332,7 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
 #ifndef G_OS_WIN32
   //status check seems to fail on windows, and errors are not highlighted for windows.
   if(status) {
-    warningdialog("LilyPond engraver failed - See highlighting in LilyPond window (open the LilyPond window and right click to print)");
+    g_warning/* a warning dialog causes deadlock in threaded version of program */("LilyPond engraver failed - See highlighting in LilyPond window (open the LilyPond window and right click to print)");
   } else
 #endif
  {
@@ -470,14 +472,14 @@ run_lilypond(gchar **arguments) {
   return error;
 }
 
-void
-stop_lilypond(GtkWidget *w, gint timer)
+gboolean
+stop_lilypond()
 {
   if(printpid!=GPID_NONE){
     kill_process(printpid);
     printpid = GPID_NONE;
   }
-  g_source_remove(timer);
+ return FALSE;//do not call again
 }
 
 /*  create pdf of current score, optionally restricted to voices/staffs whose name match the current one. 
@@ -688,6 +690,8 @@ void rm_temp_files(gchar *file, gpointer free_only) {
 
 static
 void print_finished(GPid pid, gint status, GList *filelist) {
+  if(printpid==GPID_NONE)
+    return;
   open_pdfviewer (pid,status, (gchar *) get_printfile_pathbasename());
   g_debug("print finished\n");
   changecount = Denemo.gui->changecount;
