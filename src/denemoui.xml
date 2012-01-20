@@ -41,6 +41,7 @@
       <menu action="PrintMenu">
         <menuitem action="Print"/>
         <menuitem action="PrintView"/>
+	<menuitem action="PrintMovement"/>
         <menuitem action="PrintExcerptPreview"/>
         <menuitem action="PrintPart"/>
         <menuitem action="PrintSelection"/>

@@ -120,7 +120,7 @@ if(is_playing())
 g_thread_yield(); //FIXME find a better way of ensuring playing is finished - in principle the user could start playing again
 if(is_playing())
   terminate_playback();
-  g_print("Terminated %d\n", is_playing());
+  //g_print("Terminated %d\n", is_playing());
 }
 void
 delete_movement(GtkAction *action, gpointer param) {
