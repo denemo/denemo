@@ -212,7 +212,6 @@ set_preferences (struct callbackdata *cbdata)
 
 #if GTK_MAJOR_VERSION==3
   text = (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(cbdata->midi_driver));
-  //text = gtk_entry_get_text(GTK_ENTRY(cbdata->midi_driver));
 #else
   text = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(cbdata->midi_driver)->entry));
 #endif
