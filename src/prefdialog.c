@@ -112,6 +112,11 @@ struct callbackdata
   GtkWidget *overlays;
   GtkWidget *enable_thumbnails;
   GtkWidget *continuous;
+
+  GList *audio_backend_list;
+  GList *audio_driver_option_list;
+  GList *midi_backend_list;
+  GList *midi_driver_option_list;
 };
 
 struct audio_callback_data
@@ -132,13 +137,18 @@ struct audio_callback_data
 #endif
 };
 
+static void
+free_g_lists(struct callbackdata *cbdata){
+  g_list_free(cbdata->audio_backend_list);
+  g_list_free(cbdata->audio_driver_option_list);
+  g_list_free(cbdata->midi_backend_list);
+  g_list_free(cbdata->midi_driver_option_list);
 
-static GList *audio_backend_list = NULL;
-static GList *audio_driver_option_list = NULL;
-static GList *midi_backend_list = NULL;
-static GList *midi_driver_option_list = NULL;
-
-
+  cbdata->audio_backend_list = NULL;
+  cbdata->audio_driver_option_list = NULL;
+  cbdata->midi_backend_list = NULL;
+  cbdata->midi_driver_option_list = NULL;
+}
 /**
  * Callback to enable/disable the autosave entry when the auto save button is
  * clicked
@@ -205,9 +215,9 @@ set_preferences (struct callbackdata *cbdata)
 #else
   gchar const *text = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(cbdata->audio_driver)->entry));
 #endif
-  GList *item = g_list_find_custom(audio_driver_option_list, text, (GCompareFunc)strcmp);
-  gint index = g_list_position(audio_driver_option_list, item);
-  gchar *backend = g_list_nth_data(audio_backend_list, index);
+  GList *item = g_list_find_custom(cbdata->audio_driver_option_list, text, (GCompareFunc)strcmp);
+  gint index = g_list_position(cbdata->audio_driver_option_list, item);
+  gchar *backend = g_list_nth_data(cbdata->audio_backend_list, index);
   g_string_assign(prefs->audio_driver, backend);
 
 #if GTK_MAJOR_VERSION==3
@@ -215,9 +225,9 @@ set_preferences (struct callbackdata *cbdata)
 #else
   text = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(cbdata->midi_driver)->entry));
 #endif
-  item = g_list_find_custom(midi_driver_option_list, text, (GCompareFunc)strcmp);
-  index = g_list_position(midi_driver_option_list, item);
-  backend = g_list_nth_data(midi_backend_list, index);
+  item = g_list_find_custom(cbdata->midi_driver_option_list, text, (GCompareFunc)strcmp);
+  index = g_list_position(cbdata->midi_driver_option_list, item);
+  backend = g_list_nth_data(cbdata->midi_backend_list, index);
   g_string_assign(prefs->midi_driver, backend);
 
 
@@ -287,6 +297,7 @@ set_preferences (struct callbackdata *cbdata)
 
   /* Now write it all to denemorc */
   writeXMLPrefs (prefs);
+  free_g_lists(cbdata);
 }
 
 static void
@@ -343,35 +354,40 @@ preferences_change (GtkAction *action, gpointer param)
   gint i;
   static struct callbackdata cbdata;
   g_assert (gui != NULL);
-
+  
+  
+  cbdata.audio_backend_list = NULL;
+  cbdata.audio_driver_option_list = NULL;
+  cbdata.midi_backend_list = NULL;
+  cbdata.midi_driver_option_list = NULL;
 
   // these lists need to be initialized the first time this function is called
   // FIXME: the lists are never freed...
-  if (!audio_backend_list) {
-    audio_backend_list = g_list_append(audio_backend_list, (gpointer)"dummy");
-    audio_driver_option_list = g_list_append(audio_driver_option_list, (gpointer)"none");
+  if (!cbdata.audio_backend_list) {
+    cbdata.audio_backend_list = g_list_append(cbdata.audio_backend_list, (gpointer)"dummy");
+    cbdata.audio_driver_option_list = g_list_append(cbdata.audio_driver_option_list, (gpointer)"none");
 #ifdef _HAVE_JACK_
-    audio_backend_list = g_list_append(audio_backend_list, (gpointer)"jack");
-    audio_driver_option_list = g_list_append(audio_driver_option_list, (gpointer)"JACK");
+    cbdata.audio_backend_list = g_list_append(cbdata.audio_backend_list, (gpointer)"jack");
+    cbdata.audio_driver_option_list = g_list_append(cbdata.audio_driver_option_list, (gpointer)"JACK");
 #endif
 #ifdef _HAVE_PORTAUDIO_
-    audio_backend_list = g_list_append(audio_backend_list, (gpointer)"portaudio");
-    audio_driver_option_list = g_list_append(audio_driver_option_list, (gpointer)"PortAudio");
+    cbdata.audio_backend_list = g_list_append(cbdata.audio_backend_list, (gpointer)"portaudio");
+    cbdata.audio_driver_option_list = g_list_append(cbdata.audio_driver_option_list, (gpointer)"PortAudio");
 #endif
 
-    midi_backend_list = g_list_append(midi_backend_list, (gpointer)"dummy");
-    midi_driver_option_list = g_list_append(midi_driver_option_list, (gpointer)"none");
+    cbdata.midi_backend_list = g_list_append(cbdata.midi_backend_list, (gpointer)"dummy");
+    cbdata.midi_driver_option_list = g_list_append(cbdata.midi_driver_option_list, (gpointer)"none");
 #ifdef _HAVE_JACK_
-    midi_backend_list = g_list_append(midi_backend_list, (gpointer)"jack");
-    midi_driver_option_list = g_list_append(midi_driver_option_list, (gpointer)"JACK");
+    cbdata.midi_backend_list = g_list_append(cbdata.midi_backend_list, (gpointer)"jack");
+    cbdata.midi_driver_option_list = g_list_append(cbdata.midi_driver_option_list, (gpointer)"JACK");
 #endif
 #ifdef _HAVE_ALSA_
-    midi_backend_list = g_list_append(midi_backend_list, (gpointer)"alsa");
-    midi_driver_option_list = g_list_append(midi_driver_option_list, (gpointer)"ALSA");
+    cbdata.midi_backend_list = g_list_append(cbdata.midi_backend_list, (gpointer)"alsa");
+    cbdata.midi_driver_option_list = g_list_append(cbdata.midi_driver_option_list, (gpointer)"ALSA");
 #endif
 #ifdef _HAVE_PORTAUDIO_
-    midi_backend_list = g_list_append(midi_backend_list, (gpointer)"portmidi");
-    midi_driver_option_list = g_list_append(midi_driver_option_list, (gpointer)"PortMidi");
+    cbdata.midi_backend_list = g_list_append(cbdata.midi_backend_list, (gpointer)"portmidi");
+    cbdata.midi_driver_option_list = g_list_append(cbdata.midi_driver_option_list, (gpointer)"PortMidi");
 #endif
   }
 
@@ -615,15 +631,15 @@ preferences_change (GtkAction *action, gpointer param)
   INTENTRY_LIMITS(_("% MIDI-in Dynamic Compression"), dynamic_compression, 1, 100);
 
 
-  GList *item = g_list_find_custom(audio_backend_list, Denemo.prefs.audio_driver->str, (GCompareFunc)strcmp);
-  gint index = g_list_position(audio_backend_list, item);
-  gchar *driver = g_list_nth_data(audio_driver_option_list, index);
+  GList *item = g_list_find_custom(cbdata.audio_backend_list, Denemo.prefs.audio_driver->str, (GCompareFunc)strcmp);
+  gint index = g_list_position(cbdata.audio_backend_list, item);
+  gchar *driver = g_list_nth_data(cbdata.audio_driver_option_list, index);
 
 
   SEPARATOR();
 
 
-  COMBOBOX("Audio backend", audio_driver, audio_driver_option_list, driver, FALSE);
+  COMBOBOX("Audio backend", audio_driver, cbdata.audio_driver_option_list, driver, FALSE);
 #if GTK_MAJOR_VERSION==3
   g_signal_connect(G_OBJECT(GTK_COMBO_BOX(audio_driver)), "changed", G_CALLBACK(midi_audio_tab_update), &audio_cbdata);
 #else  
@@ -672,15 +688,15 @@ preferences_change (GtkAction *action, gpointer param)
 #endif // _HAVE_PORTAUDIO_
 
 
-  item = g_list_find_custom(midi_backend_list, Denemo.prefs.midi_driver->str, (GCompareFunc)strcmp);
-  index = g_list_position(midi_backend_list, item);
-  driver = g_list_nth_data(midi_driver_option_list, index);
+  item = g_list_find_custom(cbdata.midi_backend_list, Denemo.prefs.midi_driver->str, (GCompareFunc)strcmp);
+  index = g_list_position(cbdata.midi_backend_list, item);
+  driver = g_list_nth_data(cbdata.midi_driver_option_list, index);
 
 
   SEPARATOR();
 
 
-  COMBOBOX("MIDI backend", midi_driver, midi_driver_option_list, driver, FALSE);
+  COMBOBOX("MIDI backend", midi_driver, cbdata.midi_driver_option_list, driver, FALSE);
 #if GTK_MAJOR_VERSION==3
   g_signal_connect(G_OBJECT(GTK_COMBO_BOX(midi_driver)), "changed", G_CALLBACK(midi_audio_tab_update), &audio_cbdata);
 #else
@@ -788,7 +804,7 @@ preferences_change (GtkAction *action, gpointer param)
   SETCALLBACKDATA(autosave_timeout);
   SETCALLBACKDATA(maxhistory);
 
-
+#if 0
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
       set_preferences (&cbdata);
@@ -799,7 +815,25 @@ preferences_change (GtkAction *action, gpointer param)
       audio_shutdown();
       audio_initialize(cbdata.prefs);
     }
-
-  gtk_widget_destroy (dialog);
+#endif
+#if 1 
+  switch (gtk_dialog_run (GTK_DIALOG (dialog))){
+    case GTK_RESPONSE_ACCEPT:
+      set_preferences (&cbdata);
+      midi_stop();
+      audio_shutdown();
+      audio_initialize(cbdata.prefs);
+      free_g_lists(&cbdata);
+      break;
+    case GTK_RESPONSE_CLOSE:
+      midi_stop();
+      audio_shutdown();
+      audio_initialize(cbdata.prefs);
+      free_g_lists(&cbdata);
+      break;
+  }
+#endif
+    //free_g_lists(&cbdata);  //TESTME
+    gtk_widget_destroy (dialog);
 }
 
