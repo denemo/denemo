@@ -615,13 +615,8 @@ preferences_change (GtkAction *action, gpointer param)
   g_debug("autosave %p\n", autosave);
   label = gtk_label_new (_("minute(s)"));
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-#if GTK_MAJOR_VERSION==3
   g_signal_connect (G_OBJECT (autosave), "toggled",
     G_CALLBACK (toggle_autosave), autosave_timeout);
-#else
-  g_signal_connect (GTK_OBJECT (autosave), "toggled",
-    G_CALLBACK (toggle_autosave), autosave_timeout);
-#endif
 
   BOOLEANENTRY("Autosave Parts", saveparts);
 
@@ -761,13 +756,8 @@ preferences_change (GtkAction *action, gpointer param)
   GtkWidget *button = gtk_button_new_with_label(_("Choose Soundfont"));
   gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 
-#if GTK_MAJOR_VERSION==3
   g_signal_connect (G_OBJECT (button), "clicked",
     G_CALLBACK(choose_sound_font), fluidsynth_soundfont);
-#else
-  gtk_signal_connect (GTK_OBJECT (button), "clicked",
-    GTK_SIGNAL_FUNC (choose_sound_font), fluidsynth_soundfont);
-#endif
 
   gtk_widget_show(button);
 
