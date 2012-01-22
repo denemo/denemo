@@ -793,7 +793,6 @@ preferences_change (GtkAction *action, gpointer param)
   SETCALLBACKDATA(autosave_timeout);
   SETCALLBACKDATA(maxhistory);
 
-#if 0
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
       set_preferences (&cbdata);
@@ -803,26 +802,15 @@ preferences_change (GtkAction *action, gpointer param)
       midi_stop();
       audio_shutdown();
       audio_initialize(cbdata.prefs);
+      free_g_lists(&cbdata);
     }
-#endif
-#if 1 
-  switch (gtk_dialog_run (GTK_DIALOG (dialog))){
-    case GTK_RESPONSE_ACCEPT:
-      set_preferences (&cbdata);
+  else
+    {
       midi_stop();
       audio_shutdown();
       audio_initialize(cbdata.prefs);
       free_g_lists(&cbdata);
-      break;
-    case GTK_RESPONSE_CLOSE:
-      midi_stop();
-      audio_shutdown();
-      audio_initialize(cbdata.prefs);
-      free_g_lists(&cbdata);
-      break;
-  }
-#endif
-    //free_g_lists(&cbdata);  //TESTME
+    }
     gtk_widget_destroy (dialog);
 }
 
