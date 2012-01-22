@@ -806,9 +806,6 @@ preferences_change (GtkAction *action, gpointer param)
     }
   else
     {
-      midi_stop();
-      audio_shutdown();
-      audio_initialize(cbdata.prefs);
       free_g_lists(&cbdata);
     }
     gtk_widget_destroy (dialog);
