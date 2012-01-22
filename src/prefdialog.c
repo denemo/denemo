@@ -191,12 +191,14 @@ set_preferences (struct callbackdata *cbdata)
 
 #if GTK_MAJOR_VERSION==3
  #define ASSIGNCOMBO(field) \
+  if (cbdata->field)\
    g_string_assign (prefs->field,\
-                   (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(cbdata->field)));
+    (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(cbdata->field)));
 #else
  #define ASSIGNCOMBO(field) \
-  g_string_assign (prefs->field,\
-    (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->field)->entry)));
+  if (cbdata->field)\
+   g_string_assign (prefs->field,\
+    (gchar *) gtk_combo_box_get_active_text (GTK_COMBO_BOX (cbdata->field)));
 #endif
 
   ASSIGNTEXT(lilypath)
@@ -213,7 +215,7 @@ set_preferences (struct callbackdata *cbdata)
 #if GTK_MAJOR_VERSION==3
   gchar const *text = (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(cbdata->audio_driver));
 #else
-  gchar const *text = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(cbdata->audio_driver)->entry));
+  gchar const *text = (gchar *) gtk_combo_box_get_active_text (GTK_COMBO_BOX(cbdata->audio_driver));
 #endif
   GList *item = g_list_find_custom(cbdata->audio_driver_option_list, text, (GCompareFunc)strcmp);
   gint index = g_list_position(cbdata->audio_driver_option_list, item);
@@ -223,7 +225,7 @@ set_preferences (struct callbackdata *cbdata)
 #if GTK_MAJOR_VERSION==3
   text = (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(cbdata->midi_driver));
 #else
-  text = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(cbdata->midi_driver)->entry));
+  text = (gchar *) gtk_combo_box_get_active_text (GTK_COMBO_BOX(cbdata->midi_driver));
 #endif
   item = g_list_find_custom(cbdata->midi_driver_option_list, text, (GCompareFunc)strcmp);
   index = g_list_position(cbdata->midi_driver_option_list, item);
@@ -309,8 +311,8 @@ midi_audio_tab_update(GtkWidget *box, gpointer data)
   gchar const *audio_driver = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(cbdata->audio_driver));
   gchar const *midi_driver = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(cbdata->midi_driver));
 #else
-  gchar const *audio_driver = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(cbdata->audio_driver)->entry));
-  gchar const *midi_driver = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(cbdata->midi_driver)->entry));
+  gchar const *audio_driver = gtk_combo_box_get_active_text(GTK_COMBO_BOX(cbdata->audio_driver));
+  gchar const *midi_driver = gtk_combo_box_get_active_text(GTK_COMBO_BOX(cbdata->midi_driver));
 #endif
 
 #ifdef _HAVE_JACK_
@@ -505,11 +507,16 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
   hbox = gtk_hbox_new (FALSE, 8);\
   gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);\
-  GtkWidget *field = gtk_combo_new ();\
-  gtk_combo_set_popdown_strings (GTK_COMBO (field), thelist);\
+  GtkWidget *field = gtk_combo_box_new_text ();\
+  i=0;\
+  while (thelist){\
+    gtk_combo_box_append_text (GTK_COMBO_BOX(field), thelist->data);\
+    if (0==strcmp(thelist->data, settext))\
+      gtk_combo_box_set_active(GTK_COMBO_BOX(field), i);\
+    i++;\
+    thelist = thelist->next;\
+  }\
   gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
-  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (field)->entry),  settext);\
-  gtk_entry_set_editable(GTK_ENTRY (GTK_COMBO (field)->entry), editable);\
   gtk_widget_show (field);\
   cbdata.field = field;
 #endif 
@@ -640,11 +647,7 @@ preferences_change (GtkAction *action, gpointer param)
 
 
   COMBOBOX("Audio backend", audio_driver, cbdata.audio_driver_option_list, driver, FALSE);
-#if GTK_MAJOR_VERSION==3
   g_signal_connect(G_OBJECT(GTK_COMBO_BOX(audio_driver)), "changed", G_CALLBACK(midi_audio_tab_update), &audio_cbdata);
-#else  
-  g_signal_connect(G_OBJECT(GTK_COMBO(audio_driver)->entry), "changed", G_CALLBACK(GTK_SIGNAL_FUNC(midi_audio_tab_update)), &audio_cbdata);
-#endif
   /*
    * JACK settings
    */
@@ -697,11 +700,7 @@ preferences_change (GtkAction *action, gpointer param)
 
 
   COMBOBOX("MIDI backend", midi_driver, cbdata.midi_driver_option_list, driver, FALSE);
-#if GTK_MAJOR_VERSION==3
   g_signal_connect(G_OBJECT(GTK_COMBO_BOX(midi_driver)), "changed", G_CALLBACK(midi_audio_tab_update), &audio_cbdata);
-#else
-  g_signal_connect(G_OBJECT(GTK_COMBO(midi_driver)->entry), "changed", G_CALLBACK(GTK_SIGNAL_FUNC(midi_audio_tab_update)), &audio_cbdata);
-#endif
   /*
    * JACK settings
    */
