@@ -121,6 +121,7 @@ typedef enum backend_timebase_prio_t {
 typedef struct midi_event_t {
   backend_type_t backend;
   int port;
+  int length;
   unsigned char data[3];
 } midi_event_t;
 

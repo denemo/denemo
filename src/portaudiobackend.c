@@ -37,6 +37,7 @@ static unsigned long seconds_to_nframes(double seconds) {
   return (unsigned long)(sample_rate * seconds);
 }
 
+#define MAX_MESSAGE_LENGTH (255) //Allow single sysex blocks, ie 0xF0, length, data...0xF7  where length is one byte.
 
 static int stream_callback(const void * input_buffer,
                            void * output_buffer,
@@ -58,8 +59,8 @@ static int stream_callback(const void * input_buffer,
     return paContinue;
   }
 
-  unsigned char event_data[3];
-  size_t event_length;
+  unsigned char event_data[MAX_MESSAGE_LENGTH]; //needs to be long enough for variable length messages...
+  size_t event_length = MAX_MESSAGE_LENGTH;
   double event_time;
 
   double until_time = nframes_to_seconds(playback_frame + frames_per_buffer);
