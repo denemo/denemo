@@ -113,11 +113,12 @@ void fluidsynth_feed_midi(unsigned char *event_data, size_t event_length) {
     case MIDI_PITCH_BEND:
       fluid_synth_pitch_bend(synth, channel, event_data[1] + (event_data[2] << 7));
       break;
-//    case SYS_EXCLUSIVE_MESSAGE1:
-//      fluid_synth_sysex(synth, buffer+1, 19, NULL, 0, NULL, FALSE);
-//      break;
+    case SYS_EXCLUSIVE_MESSAGE1:
+    g_print("length %d\n", event_length);//!!! length is 21 to correspond with 19 !!!!
+      fluid_synth_sysex(synth, event_data+1, event_length-2, NULL, 0, NULL, FALSE);
+      break;
     default:
-      g_warning("MIDI message not handled");
+      g_warning("MIDI message type %x not handled", type);
   }
 }
 

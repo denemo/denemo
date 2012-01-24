@@ -78,12 +78,13 @@ gboolean event_queue_write_playback(event_queue_t *queue, smf_event_t *event);
 /**
  * Writes an event to the immmediate playback queue.
  *
- * @param event   the event to be written to the queue. The event data will be
+ * @param data   the event or extended_event to be written to the queue. The event data will be
  *                copied.
+ * @param length  length of the event or extended_event to be written to the queue. 
  *
  * @return        TRUE if the event was successfully written to the queue
  */
-gboolean event_queue_write_immediate(event_queue_t *queue, midi_event_t *event);
+gboolean event_queue_write_immediate(event_queue_t *queue, guchar *data, guint length);
 
 /**
  * Reads an event from one of the output queues.

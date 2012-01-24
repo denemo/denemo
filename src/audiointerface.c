@@ -447,22 +447,20 @@ void midi_stop() {
 }
 
 
-
+#define MIDI_EOX (0xF7)
 
 int play_midi_event(backend_type_t backend, int port, unsigned char *buffer) {
-  int channel = buffer[0] & 0x0f;
-  int type = (buffer[0] & 0xf0) >> 4;
-  //g_print("playing midi event: port=%d, channel=%d, type=%x, data1=%d, data2=%d\n", port, channel, type, buffer[1], buffer[2]);
-
-  midi_event_t ev;
-  ev.backend = backend;
-  ev.port = port;
-  // FIXME: size might be less than 3
-  memcpy(&ev.data, buffer, 3);
-
-  gboolean b = event_queue_write_immediate(get_event_queue(backend), &ev);
-
-  return b == TRUE;
+ guchar ev[1+255];/* 1 length byte plus up to 255 data bytes */
+ gint i = 3;
+ if(buffer[0] == SYS_EXCLUSIVE_MESSAGE1) {
+    for(i=0;i<255;i++)
+      if(buffer[i]==MIDI_EOX)
+        break;
+    if(i==255) return FALSE;
+ }
+ *ev = i;
+ memcpy(ev+1, buffer, i);
+ return event_queue_write_immediate(get_event_queue(backend), ev, i+1); 
 }
 
 

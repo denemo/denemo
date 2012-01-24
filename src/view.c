@@ -3299,7 +3299,7 @@ SCM scheme_output_midi_bytes (SCM input) {
   for(i=0, next=bytes;i<numbytes;i++, next++)
     buffer[i] = (unsigned char) strtol(next, &next, 0);			    
   g_free(bytes);    
-  g_debug("\nbuffer[0] = %d buffer[1] = %d buffer[2] = %d\n", buffer[0], buffer[1], buffer[2]);
+  g_print("\nbuffer[0] = %x buffer[1] = %x buffer[2] = %x\n", buffer[0], buffer[1], buffer[2]);
 
   play_midi_event(DEFAULT_BACKEND, curstaffstruct->midi_port, buffer);
 

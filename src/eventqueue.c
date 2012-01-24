@@ -72,16 +72,15 @@ gboolean event_queue_write_playback(event_queue_t *queue, smf_event_t *event) {
 }
 
 
-gboolean event_queue_write_immediate(event_queue_t *queue, midi_event_t *event) {
-  if (!queue->immediate || jack_ringbuffer_write_space(queue->immediate) < sizeof(midi_event_t)) {
-    return FALSE;
-  }
+gboolean event_queue_write_immediate(event_queue_t *queue, guchar *data, guint length) {
+    if (!queue->immediate || jack_ringbuffer_write_space(queue->immediate) < length) {
+      return FALSE;
+    }
+    size_t n = jack_ringbuffer_write(queue->immediate, (char const *)data, length);
 
-  size_t n = jack_ringbuffer_write(queue->immediate, (char const *)event, sizeof(midi_event_t));
-
-  return n == sizeof(midi_event_t);
+    return n == length;
+  
 }
-
 static
 void page_for_time(gdouble time_seconds) {
     DenemoScore *si = Denemo.gui->si;
@@ -93,8 +92,12 @@ void page_for_time(gdouble time_seconds) {
 
 gboolean event_queue_read_output(event_queue_t *queue, unsigned char *event_buffer, size_t *event_length,
                                  double *event_time, double until_time) {
+
+#if 0
+//old fixed length code                                   
   if (jack_ringbuffer_read_space(queue->immediate)) {
     midi_event_t event;
+
     jack_ringbuffer_read(queue->immediate, (char *)&event, sizeof(midi_event_t));
 
     memcpy(event_buffer, &event.data, 3);
@@ -104,6 +107,21 @@ gboolean event_queue_read_output(event_queue_t *queue, unsigned char *event_buff
 
     return TRUE;
   }
+#else
+  if (jack_ringbuffer_read_space(queue->immediate)) {
+    jack_ringbuffer_data_t vec[2];
+    jack_ringbuffer_get_read_vector(queue->immediate, vec);
+    if(vec[0].len) {
+      guchar length;
+      jack_ringbuffer_read(queue->immediate, (char *)&length, 1);
+      g_assert(length<255);
+      jack_ringbuffer_read(queue->immediate, event_buffer, length);
+      *event_length = length;
+      *event_time = 0.0;
+      return TRUE;
+    }
+#endif
+}
 
   if (!queue->playback) {
     return FALSE;
@@ -137,7 +155,7 @@ gboolean event_queue_read_output(event_queue_t *queue, unsigned char *event_buff
     // consume the event
     jack_ringbuffer_read_advance(queue->playback, sizeof(smf_event_t*));
 
-    g_assert(event->midi_buffer_length <= 3);
+    //g_assert(event->midi_buffer_length <= 3);
 
     update_position(event);
 

@@ -186,8 +186,10 @@ smf_event_t *get_smf_event(double until_time) {
 
     // consume the event
     event = smf_get_next_event(smf);
-
-    assert(event->midi_buffer_length <= 3);
+    if(event->midi_buffer_length > 3) {
+      g_warning("Not Dropping event %d\n", event->midi_buffer_length);
+      //continue;
+    }	
 
     return event;
   }

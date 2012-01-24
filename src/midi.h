@@ -24,7 +24,7 @@
 #define MIDI_PROGRAM_CHANGE   0xC0
 #define MIDI_CHANNEL_PRESSURE 0xD0
 #define MIDI_PITCH_BEND       0xE0
-
+#define SYS_EXCLUSIVE_MESSAGE1  0xF0
 
 
 void generate_midi(void);
