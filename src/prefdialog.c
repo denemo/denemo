@@ -167,15 +167,9 @@ static void
 set_preferences (struct callbackdata *cbdata)
 {
   DenemoPrefs *prefs = cbdata->prefs;
-#if GTK_MAJOR_VERSION==3
-#define ASSIGNTEXT(field) \
-  g_string_assign (prefs->field,\
-    gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(cbdata->field)));
-#else
 #define ASSIGNTEXT(field) \
   g_string_assign (prefs->field,\
     gtk_entry_get_text (GTK_ENTRY (cbdata->field)));
-#endif
 
 #define ASSIGNBOOLEAN(field) \
   prefs->field =\
