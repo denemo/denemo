@@ -33,6 +33,13 @@
 #endif
 
 
+#if GTK_MAJOR_VERSION==2
+ #define gtk_combo_box_text_new_with_entry gtk_combo_box_new_text
+ #define gtk_combo_box_text_append_text gtk_combo_box_append_text
+ #define gtk_combo_box_text_get_active_text gtk_combo_box_get_active_text
+ #define GTK_COMBO_BOX_TEXT GTK_COMBO_BOX
+#endif
+
 struct callbackdata
 {
   DenemoPrefs *prefs;
@@ -183,17 +190,10 @@ set_preferences (struct callbackdata *cbdata)
    prefs->field =\
      gtk_spin_button_get_value (GTK_SPIN_BUTTON(cbdata->field));
 
-#if GTK_MAJOR_VERSION==3
- #define ASSIGNCOMBO(field) \
+#define ASSIGNCOMBO(field) \
   if (cbdata->field)\
    g_string_assign (prefs->field,\
     (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(cbdata->field)));
-#else
- #define ASSIGNCOMBO(field) \
-  if (cbdata->field)\
-   g_string_assign (prefs->field,\
-    (gchar *) gtk_combo_box_get_active_text (GTK_COMBO_BOX (cbdata->field)));
-#endif
 
   ASSIGNTEXT(lilypath)
   ASSIGNTEXT(browser)
@@ -206,21 +206,13 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNTEXT(fontspec)
   ASSIGNTEXT(denemopath)
 
-#if GTK_MAJOR_VERSION==3
   gchar const *text = (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(cbdata->audio_driver));
-#else
-  gchar const *text = (gchar *) gtk_combo_box_get_active_text (GTK_COMBO_BOX(cbdata->audio_driver));
-#endif
   GList *item = g_list_find_custom(cbdata->audio_driver_option_list, text, (GCompareFunc)strcmp);
   gint index = g_list_position(cbdata->audio_driver_option_list, item);
   gchar *backend = g_list_nth_data(cbdata->audio_backend_list, index);
   g_string_assign(prefs->audio_driver, backend);
 
-#if GTK_MAJOR_VERSION==3
   text = (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(cbdata->midi_driver));
-#else
-  text = (gchar *) gtk_combo_box_get_active_text (GTK_COMBO_BOX(cbdata->midi_driver));
-#endif
   item = g_list_find_custom(cbdata->midi_driver_option_list, text, (GCompareFunc)strcmp);
   index = g_list_position(cbdata->midi_driver_option_list, item);
   backend = g_list_nth_data(cbdata->midi_backend_list, index);
@@ -293,7 +285,6 @@ set_preferences (struct callbackdata *cbdata)
 
   /* Now write it all to denemorc */
   writeXMLPrefs (prefs);
-  free_g_lists(cbdata);
 }
 
 static void
@@ -301,13 +292,8 @@ midi_audio_tab_update(GtkWidget *box, gpointer data)
 {
   struct audio_callback_data *cbdata = (struct audio_callback_data *) data;
 
-#if GTK_MAJOR_VERSION==3
   gchar const *audio_driver = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(cbdata->audio_driver));
   gchar const *midi_driver = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(cbdata->midi_driver));
-#else
-  gchar const *audio_driver = gtk_combo_box_get_active_text(GTK_COMBO_BOX(cbdata->audio_driver));
-  gchar const *midi_driver = gtk_combo_box_get_active_text(GTK_COMBO_BOX(cbdata->midi_driver));
-#endif
 
 #ifdef _HAVE_JACK_
   gtk_widget_set_visible(cbdata->jack_audio_settings, strcmp(audio_driver, "JACK") == 0);
@@ -473,26 +459,17 @@ preferences_change (GtkAction *action, gpointer param)
   g_signal_connect (G_OBJECT (field), "clicked",\
   G_CALLBACK (thecallback), (gpointer) data);
 
-#if GTK_MAJOR_VERSION==3
- #define COMBOBOX(thelable, field, thelist, settext, editable)\
-  hbox = gtk_hbox_new (FALSE, 8);\
-  gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);\
-  label = gtk_label_new (thelable);\
-  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
-  gtk_container_add(GTK_CONTAINER(hbox), label);\
-  GtkWidget *field = gtk_combo_box_text_new_with_entry ();\
-  i=0;\
-  while (thelist){\
-    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(field), thelist->data);\
-    if (0==strcmp(thelist->data, settext))\
-      gtk_combo_box_set_active(GTK_COMBO_BOX(field), i);\
-    i++;\
-    thelist = thelist->next;\
-  }\
-  gtk_container_add(GTK_CONTAINER(hbox), field);\
-  gtk_widget_show (field);\
-  cbdata.field = field;
-#else
+#define CBOX(thelable, field, thelist, settext)\
+ GtkWidget *field = gtk_combo_box_text_new_with_entry ();\
+ i=0;\
+ while (thelist){\
+  gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(field), thelist->data);\
+  if (0==strcmp(thelist->data, settext))\
+    gtk_combo_box_set_active(GTK_COMBO_BOX(field), i);\
+  i++;\
+  thelist = thelist->next;\
+ }
+
 #define COMBOBOX(thelabel, field, thelist, settext, editable)\
   hbox = gtk_hbox_new (FALSE, 8);\
   gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);\
@@ -501,19 +478,10 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
   hbox = gtk_hbox_new (FALSE, 8);\
   gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);\
-  GtkWidget *field = gtk_combo_box_new_text ();\
-  i=0;\
-  while (thelist){\
-    gtk_combo_box_append_text (GTK_COMBO_BOX(field), thelist->data);\
-    if (0==strcmp(thelist->data, settext))\
-      gtk_combo_box_set_active(GTK_COMBO_BOX(field), i);\
-    i++;\
-    thelist = thelist->next;\
-  }\
+  CBOX(thelable, field, thelist, settext)\
   gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
   gtk_widget_show (field);\
   cbdata.field = field;
-#endif 
 
 #define SEPARATOR()\
   separator = gtk_hseparator_new();\
@@ -634,7 +602,6 @@ preferences_change (GtkAction *action, gpointer param)
 
   SEPARATOR();
 
-
   COMBOBOX("Audio backend", audio_driver, cbdata.audio_driver_option_list, driver, FALSE);
   g_signal_connect(G_OBJECT(GTK_COMBO_BOX(audio_driver)), "changed", G_CALLBACK(midi_audio_tab_update), &audio_cbdata);
   /*
@@ -648,9 +615,9 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_box_pack_start(GTK_BOX(main_vbox), jack_audio_settings, FALSE, TRUE, 0);
 
   GList *jack_audio_output_ports = get_jack_ports(FALSE, FALSE);
+
   COMBOBOX("Connect to port (left)",  jack_connect_ports_l, jack_audio_output_ports, Denemo.prefs.jack_connect_ports_l->str, TRUE);
   COMBOBOX("Connect to port (right)", jack_connect_ports_r, jack_audio_output_ports, Denemo.prefs.jack_connect_ports_r->str, TRUE);
-  free_jack_ports(jack_audio_output_ports);
 
 #undef VBOX
 #define VBOX main_vbox
