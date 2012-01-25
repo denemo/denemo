@@ -595,7 +595,7 @@ preferences_change (GtkAction *action, gpointer param)
   INTENTRY_LIMITS(_("Pitch Spelling Channel"), pitchspellingchannel, 0, 15);
   INTENTRY_LIMITS(_("Pitch Spelling Program"), pitchspellingprogram, 0, 127);
 
-  BOOLEANENTRY("Auto-start midi in", startmidiin);
+  BOOLEANENTRY("Rhythm Entry for MIDI in", startmidiin);
 
   INTENTRY_LIMITS(_("% MIDI-in Dynamic Compression"), dynamic_compression, 1, 100);
 
