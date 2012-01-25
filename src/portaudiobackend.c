@@ -99,8 +99,9 @@ static int portaudio_initialize(DenemoPrefs *config) {
   output_parameters.device = get_portaudio_device_index(config->portaudio_device->str);
 
   if (output_parameters.device == paNoDevice) {
-    g_warning("no output device\n");
-    return -1;
+    g_warning("no output device, gueesing device 1\n");
+   // return -1;
+   output_parameters.device = 1;
   }
 
   PaDeviceInfo const *info = Pa_GetDeviceInfo(output_parameters.device);
