@@ -178,6 +178,9 @@ static int initialize_midi(DenemoPrefs *config) {
   return ret;
 }
 
+gboolean have_midi(void) {
+return backends[MIDI_BACKEND] != &dummy_midi_backend;
+}
 
 int audio_initialize(DenemoPrefs *config) {
   queue_thread = NULL;

@@ -129,6 +129,7 @@ initprefs ()
 #ifdef _HAVE_PORTAUDIO_
   ret->audio_driver = g_string_new("portaudio");
   ret->midi_driver = g_string_new("portmidi");
+  ret->startmidiin = TRUE;//curiously, you need this even if you have no MIDI in, otherwise portaudio advances the clock during pause of playback.
 #endif
 #ifdef _HAVE_JACK_
   ret->audio_driver = g_string_new("jack");

@@ -5322,6 +5322,8 @@ void inner_main(void*closure, int argc, char **argv){
   Denemo.gui->mode = Denemo.prefs.mode;
   if (Denemo.prefs.startmidiin)
     activate_action("/MainMenu/InputMenu/JackMidi");
+  if(!have_midi())
+    activate_action("/MainMenu/InputMenu/KeyboardOnly");
   show_preferred_view();
   if(Denemo.prefs.cursor_highlight) {
     Denemo.prefs.cursor_highlight = FALSE;scheme_highlight_cursor(SCM_BOOL_T);

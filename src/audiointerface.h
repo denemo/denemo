@@ -260,4 +260,6 @@ void queue_redraw_playhead();
 
 extern GStaticMutex smfmutex;
 
+gboolean have_midi(void);
+
 #endif // AUDIOINTERFACE_H
