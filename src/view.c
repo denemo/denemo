@@ -5320,10 +5320,10 @@ void inner_main(void*closure, int argc, char **argv){
       break;
   }
   Denemo.gui->mode = Denemo.prefs.mode;
-  if (Denemo.prefs.startmidiin)
-    activate_action("/MainMenu/InputMenu/JackMidi");
-  if(!have_midi())
-    activate_action("/MainMenu/InputMenu/KeyboardOnly");
+   // if (Denemo.prefs.startmidiin)
+   // activate_action("/MainMenu/InputMenu/JackMidi");
+ // if(!have_midi())
+  //  activate_action("/MainMenu/InputMenu/KeyboardOnly");
   show_preferred_view();
   if(Denemo.prefs.cursor_highlight) {
     Denemo.prefs.cursor_highlight = FALSE;scheme_highlight_cursor(SCM_BOOL_T);
@@ -8563,7 +8563,7 @@ create_window(void) {
   gtk_action_group_add_radio_actions (action_group,
 				       input_menu_entries,
 				       G_N_ELEMENTS (input_menu_entries),
-				      INPUTKEYBOARD/* initial value */, 
+				      have_midi()?INPUTMIDI:INPUTKEYBOARD/* initial value */, 
 				      G_CALLBACK(change_input_type),  NULL);
 
 
@@ -9063,7 +9063,7 @@ newtab (GtkAction *action, gpointer param) {
     gtk_widget_hide(Denemo.gui->buttonboxes);
     activate_action("/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
   }
-
+ if(have_midi() && Denemo.prefs.startmidiin) gui->input_source = INPUTMIDI;
 } /* end of newtab creating a new DenemoGUI holding one musical score */
 
 
