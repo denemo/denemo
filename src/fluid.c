@@ -115,7 +115,7 @@ void fluidsynth_feed_midi(unsigned char *event_data, size_t event_length) {
       break;
     case SYS_EXCLUSIVE_MESSAGE1:
     g_print("length %d\n", event_length);//!!! length is 21 to correspond with 19 !!!!
-      fluid_synth_sysex(synth, event_data+1, event_length-2, NULL, 0, NULL, FALSE);
+      fluid_synth_sysex(synth, event_data+1, event_length-1, NULL, 0, NULL, FALSE);
       break;
     default:
       g_warning("MIDI message type %x not handled", type);
