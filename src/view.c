@@ -3299,7 +3299,7 @@ SCM scheme_output_midi_bytes (SCM input) {
   for(i=0, next=bytes;i<numbytes;i++, next++)
     buffer[i] = (unsigned char) strtol(next, &next, 0);			    
   g_free(bytes);    
-  g_print("\nbuffer[0] = %x buffer[1] = %x buffer[2] = %x\n", buffer[0], buffer[1], buffer[2]);
+  //g_print("\nbuffer[0] = %x buffer[1] = %x buffer[2] = %x\n", buffer[0], buffer[1], buffer[2]);
 
   play_midi_event(DEFAULT_BACKEND, curstaffstruct->midi_port, buffer);
 
@@ -5230,9 +5230,10 @@ void inner_main(void*closure, int argc, char **argv){
 
   gchar *initial_file = process_command_line(argc, argv);
 
-//  /* Initialize preferences */
-//  Denemo.prefs.profile = g_string_new("Simple");
-//  initprefs();
+ // initialize the audio subsystem
+  if (audio_initialize(&Denemo.prefs)) {
+    g_error("Failed to initialize audio or MIDI backends\n");
+  }
 
   //create window system
   create_window();
@@ -5258,11 +5259,7 @@ void inner_main(void*closure, int argc, char **argv){
 
 
 
-  // initialize the audio subsystem
-  if (audio_initialize(&Denemo.prefs)) {
-    g_error("Failed to initialize audio or MIDI backends\n");
-  }
-
+ 
 
   /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
   for(i=0;i<G_N_ELEMENTS(activatable_commands);i++) {
