@@ -219,6 +219,7 @@ set_preferences (struct callbackdata *cbdata)
 #endif
   GList *item = g_list_find_custom(cbdata->audio_driver_option_list, text, (GCompareFunc)strcmp);
   gint index = g_list_position(cbdata->audio_driver_option_list, item);
+  if(index<0) index=0;
   gchar *backend = g_list_nth_data(cbdata->audio_backend_list, index);
   g_string_assign(prefs->audio_driver, backend);
 
@@ -229,6 +230,7 @@ set_preferences (struct callbackdata *cbdata)
 #endif
   item = g_list_find_custom(cbdata->midi_driver_option_list, text, (GCompareFunc)strcmp);
   index = g_list_position(cbdata->midi_driver_option_list, item);
+  if(index<0) index=0;
   backend = g_list_nth_data(cbdata->midi_backend_list, index);
   g_string_assign(prefs->midi_driver, backend);
 
@@ -364,33 +366,36 @@ preferences_change (GtkAction *action, gpointer param)
   cbdata.midi_driver_option_list = NULL;
 
   // these lists need to be initialized the first time this function is called
-  // FIXME: the lists are never freed...
+  // The order is chose to default to portaudio, alsa, jack if present
   if (!cbdata.audio_backend_list) {
-    cbdata.audio_backend_list = g_list_append(cbdata.audio_backend_list, (gpointer)"dummy");
-    cbdata.audio_driver_option_list = g_list_append(cbdata.audio_driver_option_list, (gpointer)"none");
-#ifdef _HAVE_JACK_
-    cbdata.audio_backend_list = g_list_append(cbdata.audio_backend_list, (gpointer)"jack");
-    cbdata.audio_driver_option_list = g_list_append(cbdata.audio_driver_option_list, (gpointer)"JACK");
-#endif
 #ifdef _HAVE_PORTAUDIO_
     cbdata.audio_backend_list = g_list_append(cbdata.audio_backend_list, (gpointer)"portaudio");
     cbdata.audio_driver_option_list = g_list_append(cbdata.audio_driver_option_list, (gpointer)"PortAudio");
 #endif
 
-    cbdata.midi_backend_list = g_list_append(cbdata.midi_backend_list, (gpointer)"dummy");
-    cbdata.midi_driver_option_list = g_list_append(cbdata.midi_driver_option_list, (gpointer)"none");
 #ifdef _HAVE_JACK_
-    cbdata.midi_backend_list = g_list_append(cbdata.midi_backend_list, (gpointer)"jack");
-    cbdata.midi_driver_option_list = g_list_append(cbdata.midi_driver_option_list, (gpointer)"JACK");
+    cbdata.audio_backend_list = g_list_append(cbdata.audio_backend_list, (gpointer)"jack");
+    cbdata.audio_driver_option_list = g_list_append(cbdata.audio_driver_option_list, (gpointer)"JACK");
+#endif
+
+    cbdata.audio_backend_list = g_list_append(cbdata.audio_backend_list, (gpointer)"dummy");
+    cbdata.audio_driver_option_list = g_list_append(cbdata.audio_driver_option_list, (gpointer)"none");
+
+#ifdef _HAVE_PORTAUDIO_
+    cbdata.midi_backend_list = g_list_append(cbdata.midi_backend_list, (gpointer)"portmidi");
+    cbdata.midi_driver_option_list = g_list_append(cbdata.midi_driver_option_list, (gpointer)"PortMidi");
 #endif
 #ifdef _HAVE_ALSA_
     cbdata.midi_backend_list = g_list_append(cbdata.midi_backend_list, (gpointer)"alsa");
     cbdata.midi_driver_option_list = g_list_append(cbdata.midi_driver_option_list, (gpointer)"ALSA");
 #endif
-#ifdef _HAVE_PORTAUDIO_
-    cbdata.midi_backend_list = g_list_append(cbdata.midi_backend_list, (gpointer)"portmidi");
-    cbdata.midi_driver_option_list = g_list_append(cbdata.midi_driver_option_list, (gpointer)"PortMidi");
+#ifdef _HAVE_JACK_
+    cbdata.midi_backend_list = g_list_append(cbdata.midi_backend_list, (gpointer)"jack");
+    cbdata.midi_driver_option_list = g_list_append(cbdata.midi_driver_option_list, (gpointer)"JACK");
 #endif
+
+    cbdata.midi_backend_list = g_list_append(cbdata.midi_backend_list, (gpointer)"dummy");
+    cbdata.midi_driver_option_list = g_list_append(cbdata.midi_driver_option_list, (gpointer)"none");
   }
 
 
@@ -635,6 +640,7 @@ preferences_change (GtkAction *action, gpointer param)
 
   GList *item = g_list_find_custom(cbdata.audio_backend_list, Denemo.prefs.audio_driver->str, (GCompareFunc)strcmp);
   gint index = g_list_position(cbdata.audio_backend_list, item);
+  if(index<0) index=0;
   gchar *driver = g_list_nth_data(cbdata.audio_driver_option_list, index);
 
 
@@ -674,6 +680,10 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_box_pack_start(GTK_BOX(main_vbox), portaudio_settings, FALSE, TRUE, 0);
 
   GList *devices = get_portaudio_devices();
+  /* if default is requested choose first in portaudio list, rather than rely on portaudio which fails to select a default */
+  if((!strcmp(Denemo.prefs.portaudio_device->str, "default")) && (g_list_length(devices)>1))
+    g_string_assign(Denemo.prefs.portaudio_device, (gchar*)(devices->next->data));
+    
   COMBOBOX("Output device", portaudio_device, devices, Denemo.prefs.portaudio_device->str, FALSE);
   free_portaudio_devices(devices);
 
@@ -688,6 +698,7 @@ preferences_change (GtkAction *action, gpointer param)
 
   item = g_list_find_custom(cbdata.midi_backend_list, Denemo.prefs.midi_driver->str, (GCompareFunc)strcmp);
   index = g_list_position(cbdata.midi_backend_list, item);
+  if(index<0) index=0;
   driver = g_list_nth_data(cbdata.midi_driver_option_list, index);
 
 
