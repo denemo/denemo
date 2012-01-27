@@ -1,4 +1,5 @@
 2012-01-09 Release 0.9.4:
+    * Added support for GTK3 and update GTK2 code
     * Playback in real time
       No hiccups when page turns or if editing during playback etc
       Pause and Loop play included
