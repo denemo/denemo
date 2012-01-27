@@ -1,4 +1,8 @@
 2012-01-09 Release 0.9.4:
+    * Playback in real time
+      No hiccups when page turns or if editing during playback etc
+      Pause and Loop play included
+      Recording MIDI to accompany the live playback
     * Better control of voices
         Voices can be displayed on separate staffs but remain as voices.
         No need to join voices before printing. 

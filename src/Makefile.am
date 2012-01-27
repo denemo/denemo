@@ -1,6 +1,7 @@
 bin_PROGRAMS = denemo
 dist_pkgdata_DATA = denemoui.xml instruments.xml
-denemo_SOURCES = calculatepositions.c changenotehead.c \
+denemo_SOURCES = denemo_types.c \
+	calculatepositions.c changenotehead.c \
 	chordops.c clefdialog.c commandfuncs.c contexts.c draw.c \
 	drawaccidentals.c drawclefs.c drawcursor.c drawkey.c drawdynamic.c \
 	drawnotes.c drawselection.c drawstemdir.c drawtimesig.c drawtuplets.c \
@@ -10,11 +11,8 @@ denemo_SOURCES = calculatepositions.c changenotehead.c \
 	hairpin.c \
 	help.c importxml.c importmusicxml.c importmidi.c kbd-custom.c kbd-interface.c \
 	keyresponses.c keysigdialog.c figure.c 	main.c \
-	measureops.c midi.c moveviewport.c mousing.c barline.c 	view.c http.c \
-	mwidthdialog.c objops.c exportmidi.c 	instrumentname.c external.c screenshot.c\
-	jackmidi.c jackmidi.h \
-	fluid.c fluid.h \
-	device_manager.c device_manager.h \
+	measureops.c moveviewport.c mousing.c barline.c 	view.c http.c \
+	mwidthdialog.c objops.c exportmidi.c 	instrumentname.c external.c screenshot.c \
 	playback.c drawfakechord.c fakechord.c \
 	playbackprops.c prefdialog.c prefops.c	processstaffname.c \
 	lyric.c scoreops.c scoreprops.c \
@@ -31,7 +29,7 @@ denemo_SOURCES = calculatepositions.c changenotehead.c \
 	figure.h barline.h view.h http.h hairpin.h  help.h importxml.h  importmusicxml.h importmidi.h \
 	kbd-custom.h kbd-interface.h graceops.h \
 	keyresponses.h  \
-	measureops.h midi.h mousing.h  moveviewport.h notewidths.h \
+	measureops.h mousing.h  moveviewport.h notewidths.h \
 	objops.h \
 	playbackprops.h prefops.h processstaffname.h \
 	redefs.h scoreops.h \
@@ -42,11 +40,40 @@ denemo_SOURCES = calculatepositions.c changenotehead.c \
 	bookmarks.c bookmarks.h \
 	external.h screenshot.h fakechord.h \
 	parseinstruments.c parseinstruments.h keyboard.c \
-	pitchentry.c pitchrecog.c audiocapture.c pitchentry.h audio.h \
+	pitchentry.c pitchrecog.c pitchentry.h audio.h \
 	drawlilydir.c lilydirectives.h lilydirectives.c keysigdialog.h \
 	callbacks.h entries.h \
 	scheme_cb.h scheme.h register_commands.h \
-	pathconfig.h
+	pathconfig.h \
+	midi.c audiocapture.c
+
+
+noinst_LIBRARIES = libaudiobackend.a
+libaudiobackend_a_SOURCES = audiointerface.c eventqueue.c dummybackend.c
+libaudiobackend_a_CFLAGS = -W -Wall -Wno-unused-parameter
+
+if HAVE_JACK
+libaudiobackend_a_SOURCES += jackbackend.c jackutil.c
+else
+libaudiobackend_a_SOURCES += ringbuffer.c
+endif
+
+if HAVE_PORTAUDIO
+libaudiobackend_a_SOURCES += portaudiobackend.c portaudioutil.c
+endif
+
+if HAVE_PORTMIDI
+libaudiobackend_a_SOURCES += portmidibackend.c portmidiutil.c
+endif
+
+if HAVE_ALSA
+libaudiobackend_a_SOURCES += alsabackend.c
+endif
+
+if HAVE_FLUIDSYNTH
+libaudiobackend_a_SOURCES += fluid.c
+endif
+
 
 localedir = $(datadir)/locale
 INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
@@ -59,7 +86,7 @@ INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
 -DPKGNAME=\"denemo\" 
 
 
-denemo_LDADD = $(INTLLIBS) $(SMF_LDD)
+denemo_LDADD = $(INTLLIBS) $(SMF_LDD) libaudiobackend.a
 AM_CPPFLAGS = $(BINRELOC_CFLAGS)
 
 pathconfig.h:  $(top_builddir)/config.status

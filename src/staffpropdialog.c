@@ -9,7 +9,6 @@
 #include "calculatepositions.h"
 #include "chordops.h"
 #include "contexts.h"
-#include "device_manager.h"
 #include <denemo/denemo.h>
 #include "processstaffname.h"
 #include "staffops.h"
@@ -267,7 +266,7 @@ set_properties (struct callbackdata *cbdata)
   ASSIGNNUMBER(volume);
   // ASSIGNBOOLEAN(midi_prognum_override);
   if(staffstruct->midi_instrument->len) {
-    staffstruct->midi_prognum = get_midi_prognum();
+    staffstruct->midi_prognum = get_midi_prognum(staffstruct);
     gint i;
     for(i=0;instruments[i];i++) {
       if(!strcmp(instruments[i],staffstruct->midi_instrument->str)) {
@@ -471,13 +470,14 @@ staff_properties_change (void)
   INTENTRY_LIMITS_1("Program:", midi_prognum, 1, 128);
   g_print("chan prog %d %d\n", staffstruct->midi_channel, staffstruct->midi_prognum); 
 
-  GList *md = device_manager_DevicePort_list();
-  if(md) {
-#ifdef _HAVE_JACK_
-    COMBOBOXENTRY("Midi Devices", device_port, md, staffstruct->device_port);
-#endif
-  }
-  else
+  // FIXME
+//  GList *md = device_manager_DevicePort_list();
+//  if(md) {
+//#ifdef _HAVE_JACK_
+//    COMBOBOXENTRY("Midi Devices", device_port, md, staffstruct->device_port);
+//#endif
+//  }
+//  else
     cbdata.device_port = NULL;
   /* Set up the callback data */
 #define SETCALLBACKDATA(field) \

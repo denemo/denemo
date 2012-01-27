@@ -1,214 +1,295 @@
-/* midi.c
- * functions for direct output to /dev/sequencer
- * and direct input from /dev/midi
+/*
+ * midi.c
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
- * (c) 2000-2005 Brian Delaney
+ * Copyright (C) 2000-2005 Brian Delaney
+ * Copyright (C) 2011  Dominic Sacré
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  */
-
-#include "config.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <math.h>
-#include <string.h>
-#include "smf.h"
-#include "pitchentry.h"
-
-#define MIDI_NOTEOFF		0x80
-#define MIDI_NOTEON		0x90
-#define MIDI_KEY_PRESSURE	0xA0
-
-#define MIDI_CTL_CHANGE		0xB0
-#define MIDI_PGM_CHANGE		0xC0
-#define MIDI_CHN_PRESSURE	0xD0
-#define MIDI_PITCH_BEND		0xE0
-
-#define MIDI_SYSTEM_PREFIX	0xF0
-
-
-//#include <sys/types.h>
-//#include <sys/stat.h>
-//#include <fcntl.h>
-#include <gtk/gtk.h>
 
 #include <denemo/denemo.h>
+#include "midi.h"
+#include "audiointerface.h"
+#include "smf.h"
+#include "exportmidi.h"
 #include "draw.h"
-#include "audio.h"
-#include "jackmidi.h"
-#include "instrumentname.h"
 #include "view.h"
 
-static double
-midi2hz(int midinum)
-{
-  double argument = (midinum - 69);
-  double expon = (argument / 12);
-  return 440 * pow(2, expon);
+#include <glib.h>
+#include <math.h>
+#include <string.h>
+#include <assert.h>
+
+
+static void initialize_until_time(void);
+
+
+static volatile gboolean playing = FALSE;
+
+static double last_draw_time;
+
+// huh?
+static gboolean midi_capture_on = FALSE;//any midi events not caught by midi_divert will be dropped if this is true
+
+static  gdouble play_until = G_MAXDOUBLE;
+
+/* MIDI in handling diversion to scheme scripts of MIDI in data */
+static gint *divert_midi_event;
+static gint divert_midi_id=0;//id of the DenemoGUI which wants to intercept midi events
+
+static GQueue midi_queue = G_QUEUE_INIT;
+static gint put_get_midiqueue(gint midi) {
+  if(g_queue_is_empty(&midi_queue))
+    return midi;
+  g_queue_push_tail(&midi_queue, (gpointer)midi);
+  return (gint)g_queue_pop_head(&midi_queue);
+}
+static void put_midiqueue(gint midi) {
+  g_queue_push_tail(&midi_queue, (gpointer)midi);
 }
 
+static gint get_midiqueue(void) {
+  return (gint)g_queue_pop_head(&midi_queue);
+}
+/*End of MIDI in handling diversion to scheme scripts of MIDI in data */
 
+void update_position(smf_event_t *event) {
+  DenemoScore *si = Denemo.gui->si;
 
-/* 
- *  get the midi channel of the currently selected staff
- */
-gint get_midi_channel()
-{
-  gint tracknumber;
-  gint channel;
-  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
-  if (!strcmp (curstaffstruct->midi_instrument->str, "drums"))
-    channel = 9;
-  else
-    {
-      tracknumber = Denemo.gui->si->currentstaffnum-1;
-      tracknumber = (tracknumber >= 9) ? tracknumber + 1 : tracknumber;
-      channel = tracknumber&0xF;
+  if (event) {
+    if ((event->midi_buffer[0] & 0xf0) == MIDI_NOTE_ON &&
+        event->time_seconds - last_draw_time > Denemo.prefs.display_refresh) {
+      last_draw_time = event->time_seconds;
+      queue_redraw_playhead(event);
     }
-  return channel ; //staff struct uses encoding 0-15
-}
-
-gint get_midi_prognum()
-{
-  gint prognum;
-  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
-  if (curstaffstruct->midi_channel == 9)
-    prognum = 0;
-  else
-    prognum = select_program (curstaffstruct->midi_instrument->str);  
-  return prognum;
-}
-
-gint get_midi_port()
-{
-  gint portnumber;
-  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
-
-  portnumber = curstaffstruct->midi_port;
-  return portnumber; 
-}
-
-
-static gboolean sequencer_absent = TRUE;
-/**
- * Initialise the sequencer device ready for immediate playback
- *
- */
-gint
-midi_init ()
-{
-
-  return 0;
-}
-
-/* change the MIDI output tuning */
-void change_tuning(gdouble *cents) {
-  gchar buffer[] = {
-    0xF0, 0x7F,// 		Universal Real-Time SysEx header
-
-    0x7F, //<device ID> 	ID of target device (7F = all devices)
-
-    0x08,// 		sub-ID#1 = "MIDI Tuning Standard"
-	
-    0x08,// 		sub-ID#2 = "scale/octave tuning 1-byte form (Real-Time)"
-
-    0x03, /*		channel/options byte 1
-			bits 0 to 1 = channel 15 to 16
-			bit 2 to 6 = reserved for future expansion*/
-
-    0x7F, // 		channel byte 2 - bits 0 to 6 = channel 8 to 14
-
-    0x7F, //		channel byte 3 - bits 0 to 6 = channel 1 to 7
-    0,0,0,0,0,0,0,0,0,0,0,0,
-    /*	[ss]		12 byte tuning offset of 12 semitones from C to B
-				00H means -64 cents
-				40H means 0 cents (equal temperament)
-				7FH means +63 cents */
-
-    0xF7	//	EOX
-
-  };
-  gint i;
-  for(i=0;i<12;i++)
-    buffer[i+8] = 64 + (cents[i]+0.5);
-  if (Denemo.prefs.midi_audio_output == Jack)
-    jack_output_midi_event(buffer, 0, 0);
-  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
-    fluid_output_midi_event(buffer);
-}
-
-void playpitch(double pitch, double duration, double volume, int channel) {
-  if(!Denemo.prefs.immediateplayback)
-    return;
-#ifdef _HAVE_PORTAUDIO_ 
-  play_pitch(pitch, duration, volume, channel);
-#endif
-}
-
-void play_midikey(gint key, double duration, double volume, gint channel){
-  if (Denemo.prefs.midi_audio_output == Portaudio)
-    playpitch(midi2hz(key), duration, volume, channel);
-  else if (Denemo.prefs.midi_audio_output == Jack)
-    jack_playpitch(key, 1000 /*duration*/);
-  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
-    fluid_playpitch(key, 1000 /*duration*/, channel, (int)(0x7f&(int)(volume*127)));
-}
-
-/**
- *  Used to play each note in the given chord
- *  (a g_list_foreach function)
- */
-static void
-playnote (note * tone, /*GList * chord, */int channel)
-{
-  gint offset;
-  gchar key;
-  //gint voice;
-  /* Because mid_c_offset is a measure of notes and we need a measure of
-   * half-steps, this array will help */
-  const gint key_offset[] = { -10, -8, -7, -5, -3, -1, 0, 2, 4, 5, 7, 9, 11 };
-
-  offset = ((note *) tone)->mid_c_offset;
-
-  /* 60 is middle-C in MIDI keys */
-  key = 60 + 12 * (offset / 7) + key_offset[offset % 7 + 6];
-  key += ((note *) tone)->enshift;
-  //voice = g_list_index ((GList *) chord, tone);
-
-  play_midikey(key, 0.3, 1.0/*Denemo.prefs.pcmvolume*/, channel);
-
-}
-
-/** 
-
- */
-void
-playnotes (gboolean doit, chord *chord_to_play, int channel)
-{
-  //g_print("playnotes called for channel %d\n", channel);
-  if (doit && (sequencer_absent) && chord_to_play->notes) {
-    GList *g;
-    for(g=chord_to_play->notes;g;g=g->next)
-      playnote( g->data, /*chord_to_play->notes,*/ channel);
+  } else {
+    si->playingnow = NULL;
+    si->playhead = 0;
+    queue_redraw_all();
   }
 }
 
-// MIDI input
-#include <string.h> /*for memcpy */
-#include <math.h>
-#include <glib.h>
-static  GIOChannel* channel;/* a channel to access /dev/midi by */
-
-
-void safely_add_track(smf_t *smf, smf_track_t *track) {
+static void safely_add_track(smf_t *smf, smf_track_t *track) {
   if(track->smf==NULL)
     smf_add_track(smf, track);
 }
 
-void safely_track_remove_from_smf(smf_track_t *track) {
+static void safely_track_remove_from_smf(smf_track_t *track) {
  if(track->smf!=NULL)
    smf_track_remove_from_smf(track);
 }
+static GString *callback_script = NULL;
+void start_playing(gchar *callback) {
+  smf_t *smf = Denemo.gui->si->smf;
+  if(callback && *callback)
+      callback_script = g_string_new(callback);
+  if(Denemo.gui->si->recorded_midi_track)
+    safely_add_track(Denemo.gui->si->smf, Denemo.gui->si->recorded_midi_track);
+ 
+  smf_rewind(smf);
+
+  int r = smf_seek_to_seconds(smf, Denemo.gui->si->start_time);
+
+  initialize_until_time();
+
+  initialize_playhead();
+
+  playing = TRUE;
+  last_draw_time = 0.0;
+}
+static gboolean
+stop_play_callback(gchar *thescript) {
+    call_out_to_guile(thescript);
+    g_free(thescript);
+    return FALSE;
+}
+    
+void stop_playing() {
+  update_position(NULL);
+  set_playbutton(is_paused());
+  playing = FALSE;
+  play_until = -G_MAXDOUBLE;
+  if(Denemo.gui->si->recorded_midi_track) {
+    safely_track_remove_from_smf(Denemo.gui->si->recorded_midi_track);
+    finish_recording();
+  }
+  if(callback_script) {
+    g_idle_add_full(G_PRIORITY_HIGH_IDLE, (GSourceFunc)stop_play_callback, g_string_free(callback_script, FALSE), NULL);
+    callback_script = NULL;
+  } 
+}
+
+void toggle_paused() {
+  if(play_until<0.0)
+    play_until = G_MAXDOUBLE;
+  else
+    play_until = -G_MAXDOUBLE;
+}
+
+gboolean is_playing() {
+  return playing;
+}
+gboolean is_paused() {
+  return play_until<0.0;
+}
+
+gdouble get_playuntil(void) {
+return play_until;
+}
+void update_playback_start_time(double adjust) {
+  if (Denemo.gui && Denemo.gui->si) {
+    Denemo.gui->si->start_time += adjust;
+  } 
+}
+
+double get_start_time() {
+  if (Denemo.gui && Denemo.gui->si) {
+    return Denemo.gui->si->start_time;
+  } else {
+    return 0.0;
+  }
+}
+
+
+double get_end_time() {
+  if (Denemo.gui && Denemo.gui->si) {
+    return Denemo.gui->si->end_time;
+  } else {
+    return 0.0;
+  }
+}
+
+
+smf_event_t *get_smf_event(double until_time) {
+  smf_t *smf = Denemo.gui->si->smf;
+
+  if (until_time > Denemo.gui->si->end_time) {
+    until_time = Denemo.gui->si->end_time;
+  }
+
+  for (;;) {
+    smf_event_t *event = smf_peek_next_event(smf);
+
+    if (event == NULL || event->time_seconds >= until_time) {
+      return NULL;
+    }
+
+    if (smf_event_is_metadata(event)) {
+      // consume metadata event and continue with the next one
+      event = smf_get_next_event(smf);
+      continue;
+    }
+
+    // consume the event
+    event = smf_get_next_event(smf);
+    if(event->midi_buffer_length > 3) {
+      g_warning("Not Dropping event %d\n", event->midi_buffer_length);
+      //continue;
+    }	
+
+    return event;
+  }
+}
+
+
+
+
+gdouble get_time() {
+  GTimeVal tv;
+  double seconds;
+
+  g_get_current_time(&tv);
+
+  seconds = tv.tv_sec + tv.tv_usec / 1000000.0;
+  return seconds;
+}
+
+
+void generate_midi() {
+  if((Denemo.gui->si->smf==NULL) || (Denemo.gui->si->smfsync!=Denemo.gui->si->changecount)) {
+    exportmidi(NULL, Denemo.gui->si, 0, 0);
+  }
+
+  if (Denemo.gui->si->smf == NULL) {
+    g_critical("Loading SMF failed.");
+  }
+}
+
+
+/* return the time of the last event on the list events */
+gdouble get_midi_off_time(GList *events) {
+  smf_event_t *event = g_list_last(events)->data;
+return event->time_seconds;
+}
+
+/* return the time of the first event on the list events */
+gdouble get_midi_on_time(GList *events) {
+  smf_event_t *event = events->data;
+  return event->time_seconds;
+}
+
+
+
+DenemoObject *get_obj_for_start_time(smf_t *smf, gdouble time) {
+  if(time<0.0)
+      time=0.0;
+  static smf_event_t *event;
+  static guint smfsync;
+  static DenemoScore *last_si = NULL;
+  static gdouble last_time=-1.0;
+  if( fabs(time-last_time)>0.001 || (last_si!=Denemo.gui->si) || (smfsync!=Denemo.gui->si->smfsync)) {
+    smf_event_t *initial = smf_peek_next_event(smf);
+
+    gdouble total = smf_get_length_seconds(smf);
+    time = (time>total?total:time);
+    gint error = smf_seek_to_seconds(smf, time);
+    do {
+      event = smf_get_next_event(smf);
+    } while(event && (!(event->midi_buffer[0] & MIDI_NOTE_ON) || !event->user_pointer));
+    if(initial)
+      error = smf_seek_to_event(smf, initial);
+    last_si = Denemo.gui->si;
+    smfsync = Denemo.gui->si->smfsync;
+    last_time = time;
+  }
+  if(event)
+    return (DenemoObject *)(event->user_pointer);
+  return NULL;
+}
+
+DenemoObject *get_obj_for_end_time(smf_t *smf, gdouble time) {
+  if(time<0.0)
+      time=0.0;
+  static smf_event_t *event = NULL;
+  static guint smfsync;
+  static DenemoScore * last_si = NULL;
+  static gdouble last_time=-1.0;
+  if( fabs(time-last_time)>0.001 || (last_si!=Denemo.gui->si) || (smfsync!=Denemo.gui->si->smfsync)) {
+    smf_event_t *initial = smf_peek_next_event(smf);
+
+    gdouble total = smf_get_length_seconds(smf);
+    time = (time>total?total:time);
+    gint error = smf_seek_to_seconds(smf, time);
+    do {
+      event = smf_get_next_event(smf);
+    } while(event && (!(event->midi_buffer[0] & MIDI_NOTE_OFF) || !event->user_pointer));
+    if(initial)
+      error = smf_seek_to_event(smf, initial);
+    last_si = Denemo.gui->si;
+    smfsync = Denemo.gui->si->smfsync;
+    last_time = time;
+  }
+  if(event)
+    return (DenemoObject *)(event->user_pointer);
+  return NULL;
+}
+
+
+
 /**
  * action_note_into_score
   enters ( or (if mode==INPUTEDIT and appending) edits the note at the cursor)
@@ -292,6 +373,7 @@ do_one_note(gint mid_c_offset, gint enshift, gint notenum) {
   }
 }
 
+
 static gboolean get_current(enharmonic *enote) {
   DenemoObject *curObj=NULL;
    if(Denemo.gui->si->currentobject) {
@@ -333,7 +415,6 @@ return FALSE;
 }
 
 
-
 /*  take an action for the passed note. Enter/edit/check the score following the mode and keyboard state. */
 static gint midiaction(gint notenum) {
 
@@ -347,6 +428,7 @@ static gint midiaction(gint notenum) {
   gboolean have_previous;
   //g_print("Keyboard state %x, mask %x %x %x\n", Denemo.keyboard_state, CHECKING_MASK, GDK_CONTROL_MASK, GDK_MOD2_MASK);
   notenum2enharmonic (notenum, &enote.mid_c_offset, &enote.enshift, &enote.octave);
+
   if(Denemo.gui->si->cursor_appending)
     have_previous = get_current(&prevenote);
   else
@@ -374,10 +456,11 @@ static gint midiaction(gint notenum) {
 	    if( (Denemo.keyboard_state&CHECKING_MASK) && thechord->notes) {
 	      //later - find note nearest cursor and
 	      note *thenote = (note*)thechord->notes->data;
-	      check_midi_note(thenote, enote.mid_c_offset + 7 *(enote.octave), enote.enshift, enote.octave);
-	      if((!curObj->isinvisible)&&(thenote->mid_c_offset== (enote.mid_c_offset + 7 *( enote.octave)))&&(thenote->enshift==enote.enshift))
-		playnote(thenote,curstaffstruct->midi_channel);
-	      else {
+//	      check_midi_note(thenote, enote.mid_c_offset + 7 *(enote.octave), enote.enshift, enote.octave);
+	      if((!curObj->isinvisible)&&(thenote->mid_c_offset== (enote.mid_c_offset + 7 *( enote.octave)))&&(thenote->enshift==enote.enshift)) {
+		     gint midi = dia_to_midinote (thenote->mid_c_offset) + thenote->enshift;
+		     play_note(DEFAULT_BACKEND, 0 /*port*/, curstaffstruct->midi_channel, midi, 300 /*duration*/, 0);
+	      } else {
 		gdk_beep();
 		break;//do not move on to next note
 	      }
@@ -415,38 +498,17 @@ static gint midiaction(gint notenum) {
  if(!(Denemo.keyboard_state&CHECKING_MASK)) {
     if(Denemo.prefs.immediateplayback) {
       gint channel = curstaffstruct->midi_channel;
-      
+
       if(have_previous && check_interval(enote.mid_c_offset, enote.enshift, prevenote.mid_c_offset, prevenote.enshift))
         channel = Denemo.prefs.pitchspellingchannel;
-              
-      if (Denemo.prefs.midi_audio_output == Portaudio)
-        playpitch(midi2hz(notenum), 0.3, 0.5, 0);
-      if (Denemo.prefs.midi_audio_output == Jack)
-        jack_playpitch(notenum, 300 /*duration*/);
-      else if (Denemo.prefs.midi_audio_output == Fluidsynth)
-        fluid_playpitch(notenum, 300 /*duration*/,  channel, 0);
+
+      play_note(DEFAULT_BACKEND, 0 /*port*/, channel, notenum, 300 /*duration*/, 0);
     }
   }
 
   return TRUE;
 }
 
-
-
-void start_midi_input(void) {
-
-}
-
-
-
-
-
-
-
-static gint *divert_midi_event;
-static gint divert_midi_id=0;//id of the DenemoGUI which wants to intercept midi events
-
-static gboolean midi_capture_on = FALSE;//any midi events not caught by midi_divert will be dropped if this is true
 
 gboolean set_midi_capture(gboolean set) {
   gboolean ret = midi_capture_on;
@@ -460,39 +522,36 @@ gboolean set_midi_capture(gboolean set) {
 #define velocity ((*(buf+2))&0x7F)
 void
 adjust_midi_velocity(gchar *buf, gint percent) {
-  if(command==MIDI_NOTEON)
+  if(command==MIDI_NOTE_ON)
     buf[2]=127 - (gint)((127-buf[2])*percent/100.0);
 } 
 
 
 void process_midi_event(gchar *buf) {
-  //g_print("process midi (%s) %x %x %x\n",divert_midi_event?"diverted":"straight", command, notenumber, velocity);
-  if(divert_midi_event &&  divert_midi_id==Denemo.gui->id){
-    // this is only good for one endianness - FIXME
-    *divert_midi_event = 0;//clear 4th byte
-    memcpy(divert_midi_event, buf, 3);//midi events are up to three bytes long
-    gtk_main_quit();    
-    return;//this *is* reached
-  }
-#if 0
-  //already done upstream
-  if(command==MIDI_NOTEON && velocity==0) {//Zero velocity NOTEON is used as NOTEOFF by some MIDI controllers
-    buf[0]=MIDI_NOTEOFF;
-    buf[2]=128;//FIXME 127
-  }
-#endif  
- 
-
-
-  if(midi_capture_on) {
-    if(command!=MIDI_NOTEOFF) {
-      gdk_beep();
-      g_warning("MIDI event dropped");
+   if (command==MIDI_CONTROL_CHANGE && (notenumber == 0x40)){
+	if (velocity == 0x7F)
+	  //PEDAL DOWN
+	  Denemo.keyboard_state |= ADDING_MASK;
+	else {
+	  Denemo.keyboard_state &= ~(CHORD_MASK|ADDING_MASK);
+	  next_editable_note();
+	}
+	set_midi_in_status();
+	displayhelper(Denemo.gui);
+      }
+  if((0xFFFFFF & *(gint*)buf)==0) {
+    set_midi_capture(FALSE);
+    g_queue_clear(&midi_queue);
+    if(divert_midi_event) {
+      *divert_midi_event = 0;
+      divert_midi_event = NULL;
+      gtk_main_quit();
     }
+    //g_print("queue emptied %d\n", g_queue_get_length(&midi_queue));
   } else {
-    if(command==MIDI_NOTEON)
+    if(command==MIDI_NOTE_ON)
       midiaction(notenumber);
-    else if(command==MIDI_CTL_CHANGE) {
+    else if(command==MIDI_CONTROL_CHANGE) {
       gchar *command_name = get_midi_control_command(notenumber, velocity);
       if(command_name) {  
         execute_callback_from_name(Denemo.map, command_name);
@@ -519,192 +578,189 @@ void process_midi_event(gchar *buf) {
   }
 }
 
+#define SHAVING (0.01) //seconds to shave off a note start time to ensure stopping before noteon is sent, may depend of speed of machine??? FIXME
+
+static void initialize_until_time() {
+  if((Denemo.gui->midi_destination & MIDIPLAYALONG) && Denemo.gui->si->currentobject ) {
+    DenemoObject *obj = Denemo.gui->si->currentobject->data;
+    if(obj->type==CHORD) {
+      chord *thechord = obj->object;
+      if(thechord->notes) {
+	note *thenote = thechord->notes->data;      
+	play_until = obj->earliest_time - SHAVING; //g_print("initial until %f\n", play_until);
+      }
+    }
+  }
+  else
+    play_until = G_MAXDOUBLE;
+}
+
+//test if the midi event in buf is a note-on for the current note
+//if so set play_until
+//advance cursor to next note
+static void advance_until_time(gchar *buf) {
+  if(Denemo.gui->si->currentobject) {
+    DenemoObject *obj = Denemo.gui->si->currentobject->data;
+    if(obj->type!=CHORD) 
+      if(cursor_to_next_chord()) 
+	obj = Denemo.gui->si->currentobject->data;
+    
+    if(Denemo.gui->si->currentobject && obj->type==CHORD) {
+      chord *thechord = obj->object;
+      if(thechord->notes) {
+	note *thenote = thechord->notes->data;
+	if( ((buf[0]&0xf0)==MIDI_NOTE_ON) && buf[2] && buf[1] == (dia_to_midinote (thenote->mid_c_offset) + thenote->enshift)) {
+	  gdouble thetime = get_time();
+	  Denemo.gui->si->start_player = thetime -  obj->earliest_time;
+	  
+	  if(thechord->is_tied && cursor_to_next_note()) {
+	    obj = Denemo.gui->si->currentobject->data;	   
+	  }
+	  //IF THE NEXT OBJ IS A REST ADVANCE OVER IT/THEM
+	  do {
+	    if(!cursor_to_next_note())	//if(!cursor_to_next_chord())	   	      
+	      {
+		play_until = G_MAXDOUBLE;
+		break;
+	      }
+	    else {
+	      obj = Denemo.gui->si->currentobject->data;
+	      thechord = obj->object;
+	      play_until = obj->earliest_time - SHAVING;
+	      //g_print("play until %f\n", play_until);
+	    }
+	  } 
+	  while(!thechord->notes);	    
+	}
+      }
+    } else
+      g_warning("Not on a chord");
+  } else
+    g_warning("Not on an object");
+}
+
+
+
+#define EDITING_MASK (GDK_SHIFT_MASK)  
+void handle_midi_event(gchar *buf) {
+  //g_print("%x : ready %d %x queue %d\n", midi_capture_on, divert_midi_event!=NULL, (0xFFFFFF & *(gint*)buf), g_queue_get_length(&midi_queue));
+  if(midi_capture_on  &&  divert_midi_id==Denemo.gui->id){
+    // this is only good for one endianness - FIXME ??
+    if( divert_midi_event) {
+      *divert_midi_event = (0xFFFFFF & put_get_midiqueue(*(gint*)buf));
+      divert_midi_event = NULL;
+      gtk_main_quit();
+    } else {
+      put_midiqueue(*(gint*)buf);
+    }   
+    return;//this *is* reached
+  }
+  if( (Denemo.gui->midi_destination & MIDIRECORD) ||
+      (Denemo.gui->midi_destination & (MIDIPLAYALONG|MIDICONDUCT))) {
+    if(Denemo.gui->midi_destination & MIDIRECORD)
+      record_midi(buf,  get_playback_time());
+    if(Denemo.gui->midi_destination & (MIDIPLAYALONG))
+      advance_until_time(buf);
+    else
+      play_midi_event(DEFAULT_BACKEND, 0, buf);
+  } else {
+    if((Denemo.keyboard_state==(GDK_SHIFT_MASK|GDK_LOCK_MASK)) ||
+       Denemo.keyboard_state==(GDK_CONTROL_MASK) ||
+       Denemo.keyboard_state==(ADDING_MASK) ||
+       Denemo.keyboard_state==((ADDING_MASK)|(CHORD_MASK)) ||
+       Denemo.keyboard_state==(GDK_CONTROL_MASK|GDK_LOCK_MASK) ||
+       (Denemo.keyboard_state==0))
+      process_midi_event(buf);
+    else
+      if(Denemo.keyboard_state==(GDK_SHIFT_MASK) ||
+	 Denemo.keyboard_state==(GDK_LOCK_MASK)) {
+//	fluid_output_midi_event(buf);
+	adjust_midi_velocity(buf, 100 - Denemo.prefs.dynamic_compression);
+        play_midi_event(DEFAULT_BACKEND, 0, buf);
+      }
+  }
+}
+
+
 gboolean intercept_midi_event(gint *midi) {
   if(divert_midi_event) {
-    infodialog("Recursive midi capture not possible!");/* we could make a stack of them instead ... */
-    divert_midi_event = NULL;
-    return FALSE;
+    infodialog("Not exiting the previous MIDI capture loop");
+    g_warning("Cannot return to script");
+   // divert_midi_event = NULL;
+   // return FALSE;
+   set_midi_capture(FALSE);
+    g_queue_clear(&midi_queue);
+   
   }
+  if(g_queue_is_empty(&midi_queue)) {
   divert_midi_event = midi;
   divert_midi_id = Denemo.gui->id;
+  set_midi_capture(TRUE);
   gtk_main();
   divert_midi_event = NULL;
   return TRUE;
-}
-static int
-process_callback (GIOChannel *source, GIOCondition condition, gchar * data)
-{
-  GError *error=NULL;
-  gsize bytes_read;
-  static gchar buf[3];
-  if(channel==NULL)
-    return FALSE;//shutdown
-  if(channel!=source)
-    return FALSE;//shutdown
-
-  //  g_print("Channel %p source %p is %d\n", channel, source, source->is_readable);
-  g_io_channel_read_chars (source, buf, 1, &bytes_read, &error);
-
-  if(command==MIDI_SYSTEM_PREFIX) {
-    while(command!=0xF7)
-      g_io_channel_read_chars (source, buf, 1, &bytes_read, &error);
-    return TRUE;
+  } else {
+    *midi =  (0xFFFFFF & get_midiqueue());
+     //g_print("getting from queue %x\n", *midi);
   }
-  if(command)
-    switch(command) {
-    case MIDI_NOTEON:
-     
-    case MIDI_NOTEOFF:
-    case MIDI_KEY_PRESSURE:
-    case MIDI_CTL_CHANGE:
-    case MIDI_PITCH_BEND:
-    case 0xF2:
-      {
-	g_io_channel_read_chars (source, buf+1, 1, &bytes_read, &error);
-	g_io_channel_read_chars (source, buf+2, 1, &bytes_read, &error);            
-      }
-      if(command==MIDI_NOTEON && velocity==0) {//Zero velocity NOTEON is used as NOTEOFF by some MIDI controllers
-	buf[0]=MIDI_NOTEOFF;
-	buf[2]=128;
-      }
-      process_midi_event(buf);
-      break;
-    case MIDI_PGM_CHANGE:
-    case MIDI_CHN_PRESSURE:
-    case 0xF3:
-      g_io_channel_read_chars (source, buf+1, 1, &bytes_read, &error);
-      break;
-    default:
-      break; 
-    }
-  return TRUE; 
 }
 
 
-gint init_midi_input(void) {
-  gint ret = -1;
-  if (Denemo.prefs.midi_audio_output == Jack)
-    ret = jackmidi_server_running() ? 0 : -1;
-  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
-    ret = fluid_start_midi_in();
-  else if (Denemo.prefs.midi_audio_output == Portaudio){
-    GError *error = NULL;
-    if(!channel)
-      channel =  g_io_channel_new_file (Denemo.prefs.midi_in->str,"r", &error);
-    if(error)
-      ret = -1;
-    g_io_channel_set_encoding       (channel,NULL/* raw binary */,
-                                             &error);
-    if(error)
-      ret = -2;
-    g_io_add_watch_full(channel, G_PRIORITY_HIGH,G_IO_IN|G_IO_PRI, (GIOFunc) process_callback,NULL, NULL);
-    //  g_io_add_watch (channel,G_IO_IN, (GIOFunc) process_callback,NULL, NULL);
-    ret = 0;
+gint get_midi_channel(DenemoStaff *staff) {
+  if (!strcmp (staff->midi_instrument->str, "drums")) {
+    return 9;
+  } else {
+    gint tracknumber = Denemo.gui->si->currentstaffnum-1;
+    tracknumber = (tracknumber >= 9) ? tracknumber + 1 : tracknumber;
+    return tracknumber&0xF;
   }
-  start_midi_input();
-  return ret;
 }
 
-gint stop_midi_input(void) {
-  if (Denemo.prefs.midi_audio_output == Jack)
-    stop_jack();
-  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
-    return fluid_stop_midi_in();
-  else if (Denemo.prefs.midi_audio_output == Portaudio){
-    GError *error = NULL;
-    if(channel)
-      g_io_channel_shutdown(channel, FALSE, &error);
-    if(error)
-      g_warning("%s", error->message);
-    else
-      channel = NULL; 
+
+gint get_midi_prognum(DenemoStaff *staff) {
+  if (staff->midi_channel == 9) {
+    return 0;
+  } else {
+    return select_program (staff->midi_instrument->str);
   }
-return 0;
 }
 
 
-/* returns the system time in seconds */
-gdouble get_time(void)
-{
-  GTimeVal tv;
-  
-  double          seconds;
-  g_get_current_time(&tv);
-  
-  seconds = tv.tv_sec + tv.tv_usec / 1000000.0;
-  return seconds;
-}
-
-
-gdouble generate_midi(void) {
-  return exportmidi(NULL, Denemo.gui->si, 0, 0);
-}
-
-
-/* return the time of the last event on the list events */
-gdouble get_midi_off_time(GList *events) {
-  smf_event_t *event = g_list_last(events)->data;
-return event->time_seconds;
-}
-
-/* return the time of the first event on the list events */
-gdouble get_midi_on_time(GList *events) {
-  smf_event_t *event = events->data;
-return event->time_seconds;
+gint get_midi_port(DenemoStaff *staff) {
+  return staff->midi_port;
 }
 
 
 
-DenemoObject *get_obj_for_start_time(smf_t *smf, gdouble time) {
-  if(time<0.0)
-      time=0.0;
-  static smf_event_t *event;
-  static guint smfsync;
-  static DenemoScore *last_si = NULL;
-  static gdouble last_time=-1.0;
-  if( fabs(time-last_time)>0.001 || (last_si!=Denemo.gui->si) || (smfsync!=Denemo.gui->si->smfsync)) {
-    smf_event_t *initial = smf_peek_next_event(smf);
+/* change the MIDI output tuning */
+void change_tuning(gdouble *cents) {
+  gchar buffer[] = {
+    0xF0, 0x7F,// 		Universal Real-Time SysEx header
 
-    gdouble total = smf_get_length_seconds(smf);
-    time = (time>total?total:time);
-    gint error = smf_seek_to_seconds(smf, time);
-    do {
-      event = smf_get_next_event(smf);
-    } while(event && (!(event->midi_buffer[0] & MIDI_NOTEON) || !event->user_pointer));
-    if(initial)
-      error = smf_seek_to_event(smf, initial);
-    last_si = Denemo.gui->si;
-    smfsync = Denemo.gui->si->smfsync;
-    last_time = time;
-  }
-  if(event)
-    return (DenemoObject *)(event->user_pointer);
-  return NULL;
-}
+    0x7F, //<device ID> 	ID of target device (7F = all devices)
 
-DenemoObject *get_obj_for_end_time(smf_t *smf, gdouble time) {
-  if(time<0.0)
-      time=0.0;
-  static smf_event_t *event = NULL;
-  static guint smfsync;
-  static DenemoScore * last_si = NULL;
-  static gdouble last_time=-1.0;
-  if( fabs(time-last_time)>0.001 || (last_si!=Denemo.gui->si) || (smfsync!=Denemo.gui->si->smfsync)) {
-    smf_event_t *initial = smf_peek_next_event(smf);
+    0x08,// 		sub-ID#1 = "MIDI Tuning Standard"
+	
+    0x08,// 		sub-ID#2 = "scale/octave tuning 1-byte form (Real-Time)"
 
-    gdouble total = smf_get_length_seconds(smf);
-    time = (time>total?total:time);
-    gint error = smf_seek_to_seconds(smf, time);
-    do {
-      event = smf_get_next_event(smf);
-    } while(event && (!(event->midi_buffer[0] & MIDI_NOTEOFF) || !event->user_pointer));
-    if(initial)
-      error = smf_seek_to_event(smf, initial);
-    last_si = Denemo.gui->si;
-    smfsync = Denemo.gui->si->smfsync;
-    last_time = time;
-  }
-  if(event)
-    return (DenemoObject *)(event->user_pointer);
-  return NULL;
+    0x03, /*		channel/options byte 1
+			bits 0 to 1 = channel 15 to 16
+			bit 2 to 6 = reserved for future expansion*/
+
+    0x7F, // 		channel byte 2 - bits 0 to 6 = channel 8 to 14
+
+    0x7F, //		channel byte 3 - bits 0 to 6 = channel 1 to 7
+    0,0,0,0,0,0,0,0,0,0,0,0,
+    /*	[ss]		12 byte tuning offset of 12 semitones from C to B
+				00H means -64 cents
+				40H means 0 cents (equal temperament)
+				7FH means +63 cents */
+
+    0xF7	//	EOX
+
+  };
+  gint i;
+  for(i=0;i<12;i++)
+    buffer[i+8] = 64 + (cents[i]+0.5);
+  play_midi_event(DEFAULT_BACKEND, 0, buffer);
 }

@@ -131,30 +131,13 @@ typedef enum DenemoObjType
   FIGURE,
   LILYDIRECTIVE,
   FAKECHORD,
-  PARTIAL /* WARNING when adding to this list, add also to the type names that follow
-	  *  keep the numeration ordered to allow access ny array index. */
+  PARTIAL
+  /* WARNING when adding to this list, add also to the type names
+     in denemo_types.c */
 }DenemoObjType;
-static gchar *DenemoObjTypeNames[] =
-{
-  "CHORD",
-  "TUPOPEN",
-  "TUPCLOSE",
-  "CLEF",
-  "TIMESIG",
-  "KEYSIG",
-  "BARLINE",
-  "STEMDIRECTIVE",
-  "MEASUREBREAK",
-  "STAFFBREAK",
-  "DYNAMIC",
-  "GRACE_START",
-  "GRACE_END",
-  "LYRIC",
-  "FIGURE",
-  "LILYDIRECTIVE",
-  "FAKECHORD",
-  "PARTIAL"
-};
+
+extern gchar *DenemoObjTypeNames[18];
+
 #define DENEMO_OBJECT_TYPE_NAME(obj) ((obj)?(((obj)->type<G_N_ELEMENTS(DenemoObjTypeNames))?DenemoObjTypeNames[(obj)->type]:NULL):NULL)
 
 
@@ -368,40 +351,16 @@ typedef struct DenemoKeymap
 
 }keymap;
 
-typedef struct MidiBuffer
-{
-  unsigned char buffer[3];
-  gint channel;
-} MidiBuffer;
-
-#define DENEMO_BUFFER_MAX_INDEX	(100)
-typedef struct DeviceManagerPort
-{
-  GString *port_name;
-  gpointer output_port;
-  MidiBuffer *midi_buffer;/*< an array of midi events queueing for output */
-  gint Index;
-  gint FillIndex;
-volatile  gint BufferEmpty;
-} DeviceManagerPort;
-
-/* structure for device manager */
-typedef struct DeviceManagerDevice
-{
-  GString *client_name;
-  gpointer jack_client;/**< Jack handle for the client with this name */
-  GArray *ports_array;/**< holds the ports array for resizing purposes */
-  DeviceManagerPort *ports;/*< ports for this client, NULL terminated */
-} DeviceManagerDevice;
 
 /**
  * DenemoPrefs holds information on user preferences. 
  */
 typedef struct DenemoPrefs
 {
+  // FIXME: the GStrings in here are never freed
+
   GString *profile; /**< Which set of commands and shortcuts to load, and which initialization of scheme to run */
   GString *lilypath; /**< This is the executable or full path to the lilypond executable */
-  GString *midiplayer; /**< This is the external midifile player */ 
   GString *audioplayer; /**< This is used for playing audio files*/
   GString *fontspec; /**< Font specification usually Denemo as this has the required characters */
   gboolean immediateplayback; /**< This options sends audio directly to synth as notes 
@@ -441,22 +400,34 @@ typedef struct DenemoPrefs
   gboolean autoupdate;/**< update command set from denemo.org */
   gint maxhistory;/**< how long a history of used files to retain */
   GString *browser; /**< Default browser string */
-  
-  const gchar *midi_audio_output; /**< How the user wants to deal with audio/midi output */
-  GString *sequencer;  /**< path to sequencer device */
-  GString *midi_in;  /**< path to midi_in device */
+
+
+  // audio and MIDI driver
+  GString *audio_driver;  /* the name of the audio driver to be used */
+  GString *midi_driver;   /* the name of the MIDI driver to be used */
+
+  // JACK options
+  GString *jack_connect_ports_l;
+  GString *jack_connect_ports_r;
+  GString *jack_connect_midi_in_port;
+  GString *jack_connect_midi_out_port;
   gboolean jacktransport; /**< toggle on and off jack transport */
   gboolean jacktransport_start_stopped; /**< toggle if you don't want transport to play immediately but rely on the transport controls */
-#define DENEMO_MAX_DEVICES (50)
-  GArray *midi_device_array;/**< holds the midi_device array for re-sizing purposes */
-  DeviceManagerDevice *midi_device; /**< contains device name and output ports */ 
-  GString *fluidsynth_audio_driver; /**< Audio driver used by fluidsynth */
-  GString *fluidsynth_midi_driver; /**< MIDI driver used by fluidsynth */
+
+  // PortAudio options
+  GString *portaudio_device;
+  unsigned int portaudio_sample_rate;/**< sample rate in Hz > */
+  unsigned int portaudio_period_size;/**< The size of the audio buffers (in frames).> */
+
+  // PortMidi options
+  GString *portmidi_input_device;
+  GString *portmidi_output_device;
+
+  // fluidsynth options
   GString *fluidsynth_soundfont; /**< Default soundfont for fluidsynth */
   gboolean fluidsynth_reverb; /**< Toggle if reverb is applied to fluidsynth */
   gboolean fluidsynth_chorus; /**< Toggle if chorus is applied to fluidsynth */
-  gint fluidsynth_sample_rate;/**< sample rate in Hz > */
-  gint fluidsynth_period_size;/**< The size of the audio buffers (in frames).> */
+
   gint dynamic_compression;/**< percent compression of dynamic range desired when listening to MIDI-in */
   gdouble display_refresh;/**< time in ms between refresh of display during playback */
   gint animation_steps;/** < number of steps to use animating the page turns during playback */

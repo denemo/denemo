@@ -570,7 +570,7 @@ load_xml_keymap (gchar * filename, gboolean interactive)
 
   while (rootElem != NULL)
     {
-#ifndef DEBUG
+#ifdef DEBUG
       g_print ("RootElem %s\n", rootElem->name);
 #endif
 

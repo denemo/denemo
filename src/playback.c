@@ -15,6 +15,7 @@
 #include "prefops.h"
 #include "utils.h"
 #include "external.h"
+#include "audiointerface.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -28,32 +29,10 @@
 #include <wait.h>
 #endif
 #include <errno.h>
-#include "jackmidi.h"
-#include "fluid.h"
 
 static gint timeout_id = 0, kill_id=0;
 static gdouble duration = 0.0;
 
-const gchar *
-get_midi_audio_pointer(gchar *audio_device)
-{
-  if (!audio_device)
-    return None;
-  if (!strcmp(audio_device, Fluidsynth))
-    return Fluidsynth;
-  else if (!strcmp(audio_device, Jack))
-    return Jack;
-  else if (!strcmp(audio_device, Portaudio))
-    return Portaudio;
-  else if (!strcmp(audio_device, None))
-    return None;
-
-#ifdef _HAVE_FLUIDSYNTH_
-  return Fluidsynth;
-#else 
-  return None;
-#endif
-}
 
 void set_tempo (void) {
   gdouble tempo = Denemo.gui->si->master_tempo;
@@ -75,34 +54,31 @@ void set_tempo (void) {
 void
 ext_midi_playback (GtkAction * action, DenemoScriptParam *param) {
   GET_1PARAM(action, param, callback);
+  
+  set_playbutton(is_paused());
+  if(is_playing()) {
+    toggle_paused();
+    return;
+  }
   set_tempo();
-  if (Denemo.prefs.midi_audio_output == Jack)
-    jack_midi_play(callback);
-  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
-    fluid_midi_play(callback);
-  else infodialog("Nothing chosen to play back on:\nLook in Edit->Change Preferences->MIDI/Audio->MIDI/Audio Output\nRestart Denemo after setting this to Internal Synth.");
-
+  midi_play(callback);
 }
 
 void stop_midi_playback (GtkAction * action, gpointer param) {
- if (Denemo.prefs.midi_audio_output == Jack){
-   jack_midi_playback_stop();
-   jack_kill_timer();
- }
- else if (Denemo.prefs.midi_audio_output == Fluidsynth){
-   fluid_midi_stop();
- }
-
- gtk_widget_queue_draw (Denemo.scorearea);//update playhead on screen
+  
+  if(is_paused())
+    toggle_paused();
+  else
+    set_playbutton(TRUE);
+  midi_stop();
+  
+  gtk_widget_queue_draw (Denemo.scorearea);//update playhead on screen
 }
 
 void
 playback_panic()
 {
-  if (Denemo.prefs.midi_audio_output == Jack)
-    jack_midi_panic();
-  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
-    fluid_midi_panic();   
+  panic_all();
 }
 
 /** 

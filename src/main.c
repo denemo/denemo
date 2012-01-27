@@ -41,20 +41,8 @@
 #include "runsilent.h"
 #include "utils.h"
 #include "keyboard.h"
-#ifdef _HAVE_FLUIDSYNTH_
-#include "fluid.h"
-#endif
-#ifdef _HAVE_JACK_
-#include "jackmidi.h"
-#endif
 
 struct DenemoRoot Denemo;
-
-/* set strings for midi_audio_output */
-const gchar *None = "None";
-const gchar *Jack = "Jack";
-const gchar *Portaudio = "Portaudio";
-const gchar *Fluidsynth = "InternalSynth";
 
 
 /* just a simple check, if the user has never run denemo before
@@ -630,8 +618,17 @@ main (int argc, char *argv[])
 
   g_setenv ("LYEDITOR", "denemoclient %(line)s %(column)s", FALSE);
   GError *error = NULL;
-  /* gtk initialization */
+  /* glib/gtk initialization */
+  if (!g_thread_supported ()){
+      g_thread_init(NULL);
+  }
+  gdk_threads_init();
+
+  /* acquire gdk lock */
+  gdk_threads_enter();
+
   gtk_init (&argc, &argv);
+
 
   /* locale initialization */
   //setlocale (LC_CTYPE, "");
@@ -647,7 +644,10 @@ main (int argc, char *argv[])
 
   //g_print("Calling scm boot guile with %d and %p\n", argc, argv);
   scm_boot_guile (argc, argv, inner_main, NULL);
-  
+
+  /* release gdk lock */
+  gdk_threads_leave();
+
   return 0;
 }
 
@@ -693,50 +693,52 @@ Report bugs to http://www.denemo.org\n"), NULL) ;
   };
 #endif
 
+  char const *optstring = "s:hi:vc:k:a:nA:M:";
+
 #ifdef HAVE_GETOPT_H
-  while ((opts = getopt_long (argc, argv, "s:hi:vc:k:a:n", long_options, NULL)) != -1)
+  while ((opts = getopt_long (argc, argv, optstring, long_options, NULL)) != -1)
 #else
-  while ((opts = getopt (argc, argv, "s:hi:vc:k:a:n")) != -1)
+  while ((opts = getopt (argc, argv, optstring)) != -1)
 #endif
     {
-	  g_print("opt %c has %s\n", opts, argv[optind]);
-      if (opts == 'h')
-        {
+//      g_print("opt %c has %s\n", opts, argv[optind]);
+
+      switch (opts) {
+        case 'h':
           g_print ("%s", helptext);
           exit (0);
-        }
-      else if (opts == 's')
-        {
-          Denemo.scheme_file = g_build_filename(get_data_dir(), "actions",  optarg, NULL);
-        }
-      else if (opts == 'a')
-        {
-          Denemo.scheme_commands = g_strdup(optarg);
-        }
-      else if (opts == 'n')
-        {
-          Denemo.non_interactive = TRUE;
-        }
-      else if (opts == 'i')
-        {
-          Denemo.scheme_file = g_strdup(optarg);
-        }
-
-      else if (opts == 'c')
-        {
-	  commandsetfile = g_build_filename(get_data_dir(), "actions",  optarg, NULL);
-        }
-      else if (opts == 'k')
-        {
-	  commandsetfile = g_build_filename(locatedotdenemo(), "actions",  optarg, NULL);
-        }
-      else if (opts == 'v')
-        {
+        case 'v':
           g_print (_("\nGNU Denemo version "));
           g_print (VERSION ".\n\n");
           g_print ("%s", copytext);
           exit (0);
-        }
+        case 's':
+          Denemo.scheme_file = g_build_filename(get_data_dir(), "actions",  optarg, NULL);
+          break;
+        case 'a':
+          Denemo.scheme_commands = g_strdup(optarg);
+          break;
+        case 'i':
+          Denemo.scheme_file = g_strdup(optarg);
+          break;
+        case 'c':
+          commandsetfile = g_build_filename(get_data_dir(), "actions",  optarg, NULL);
+          break;
+        case 'k':
+          commandsetfile = g_build_filename(locatedotdenemo(), "actions",  optarg, NULL);
+          break;
+        case 'n':
+          Denemo.non_interactive = TRUE;
+          break;
+        case 'A':
+          g_string_assign(Denemo.prefs.audio_driver, optarg);
+          g_string_ascii_down(Denemo.prefs.audio_driver);
+          break;
+        case 'M':
+          g_string_assign(Denemo.prefs.midi_driver, optarg);
+          g_string_ascii_down(Denemo.prefs.midi_driver);
+          break;
+      }
     }
 
   g_print (_("\nGNU Denemo, a free and open music notation editor\n"));

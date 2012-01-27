@@ -9,6 +9,7 @@
 #include "audio.h"
 #include "pitchentry.h"
 #include "view.h"
+#include "audiointerface.h"
 
 
 #define  DEFAULT_HIGH (4500.0)
@@ -474,12 +475,9 @@ void set_flatter(GtkAction *action, gpointer param) {
 
 void
 signal_measure_end(void) {
-	if(Denemo.prefs.immediateplayback) {
-	  if (Denemo.prefs.midi_audio_output == Fluidsynth)
-	    fluid_playpitch(74, 300, 9, (gint)(100*Denemo.gui->si->master_volume));
-	  else
-	    gdk_beep();
-	}
+  if(Denemo.prefs.immediateplayback) {
+    play_note(DEFAULT_BACKEND, 0 /*port*/, 9, 74, 300, (gint)(100*Denemo.gui->si->master_volume));
+  }
 }
 
 
@@ -846,12 +844,9 @@ gint pitchentry(DenemoGUI *gui) {
 	if(gui->input_source==INPUTMIDI) {
 	  gint key=(gint)(Freq2Pitch(found->pitch * (pow(2,(octave)))));
 	  //g_print("pitch %f key number %d\n",found->pitch, key);
-	  if (Denemo.prefs.midi_audio_output == Portaudio)
-	    playpitch(found->pitch * (pow(2,(octave))), 0.3, 0.5, 0);
-	  else if (Denemo.prefs.midi_audio_output == Jack)
-	    jack_playpitch(key, 300 /*duration*/);
-	  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
-	    fluid_playpitch(key, 300 /*duration*/,  ((DenemoStaff *)Denemo.gui->si->currentstaff->data)->midi_channel, 0);
+
+          DenemoStaff *curstaffstruct = ((DenemoStaff *)Denemo.gui->si->currentstaff->data);
+          play_note(DEFAULT_BACKEND, curstaffstruct->midi_port, curstaffstruct->midi_channel, key, 300 /*duration*/, 0);
 	}
 	if(gui->input_source==INPUTMIDI || !Denemo.prefs.overlays) {
 	  enter_note_in_score(gui, found, octave);
@@ -950,8 +945,8 @@ int stop_pitch_input(void) {
 
    if(gui->input_source==INPUTAUDIO)
       terminate_pitch_recognition();
-   else
-     stop_midi_input();
+//   else
+//     stop_midi_input();
    clear_tone_store(NULL, gui);
    if(GTK_IS_WINDOW(PR_window)) { 
      GtkWidget *temp = PR_window; PR_window = NULL, gtk_widget_destroy(temp);
@@ -1503,7 +1498,7 @@ gint setup_pitch_input(void){
   }
   if(PR_temperament==NULL)
     PR_temperament = default_temperament();
-  if(gui->input_source==INPUTAUDIO?(initialize_pitch_recognition()==0):(init_midi_input()==0)) {
+  if(gui->input_source==INPUTAUDIO?(initialize_pitch_recognition()==0):/*(init_midi_input()==0)*/ TRUE) {
     if(gui->input_source==INPUTAUDIO) {//FIXME these should be done at initialize_pitch_recognition time
       set_silence(-90.0);
       set_threshold(0.3);

@@ -15,6 +15,7 @@
 #include "chordops.h"
 #include "utils.h"
 #include "articulations.h"
+#include "audiointerface.h"
 
 /* Calculates the height of a notehead */
 static void
@@ -239,9 +240,11 @@ void modify_note(chord *thechord, gint mid_c_offset, gint enshift, gint dclef) {
   thechord->lowestpitch = mid_c_offset;
   thechord->lowesty =
     calculateheight (mid_c_offset, dclef);
-  if(Denemo.gui->last_source==INPUTKEYBOARD) 
-     {DenemoStaff *curstaffstruct = (DenemoStaff *)  Denemo.gui->si->currentstaff->data;
-    playnotes (Denemo.prefs.immediateplayback, thechord, curstaffstruct->midi_channel);
+  if(Denemo.gui->last_source==INPUTKEYBOARD) {
+      DenemoStaff *curstaffstruct = (DenemoStaff *)  Denemo.gui->si->currentstaff->data;
+      if (Denemo.prefs.immediateplayback) {
+        play_notes(DEFAULT_BACKEND, curstaffstruct->midi_port, curstaffstruct->midi_channel, thechord);
+      }
   }
   displayhelper(Denemo.gui);
 }

@@ -120,7 +120,6 @@ void
 warningdialog (gchar * msg)
 {
   GtkWidget *dialog;
-
   dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window),
 				   GTK_DIALOG_DESTROY_WITH_PARENT,
 				   GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE, "%s", msg);
@@ -163,19 +162,23 @@ typedef struct _ProgressData {
 static volatile gboolean progressing = TRUE;
 /* Update the value of the progress bar so that we get
  * some movement */
-static gboolean progress_timeout(gpointer data)
+static gboolean progress_timeout(ProgressData *pdata)
 {
-  ProgressData *pdata = (ProgressData *) data;
   if (progressing)
     gtk_progress_bar_pulse (GTK_PROGRESS_BAR (pdata->pbar));
   else {
-    gtk_widget_destroy (pdata->window);
-    g_free(pdata);
+    gtk_widget_hide (pdata->window);
     return FALSE;
   }
   return TRUE;
 }
+static ProgressData progress_data;
 
+static gboolean call_stop_lilypond(GtkWidget *w, GdkEvent *event, ProgressData *pdata) {
+  progressing = FALSE;
+  stop_lilypond();
+  return TRUE;
+}
 /**
  * Displays progress bar
  * window should close upon completion
@@ -185,35 +188,36 @@ static gboolean progress_timeout(gpointer data)
 void
 progressbar (gchar *msg)
 {
-  ProgressData *pdata;
+  
   GtkWidget *vbox;
+  static ProgressData *pdata = NULL;
   
-  /* If this is false the progress bar will stop */
-  progressing = TRUE;
-  /* Allocate memory for the data that is passed to the callbacks */
-  pdata = g_malloc (sizeof (ProgressData));
+  progressing = TRUE;/* If this is false the progress bar will stop */
+  if(pdata==NULL) {
+    /* Allocate memory for the data that is passed to the callbacks */
+    pdata = &progress_data;
 
-  /* Replace GTK_WINDOW_TOPLEVEL with GTK_WINDOW_POPUP
-   * to have it witout window decoration. 
-   */
-  if (Denemo.prefs.progressbardecorations)
-    pdata->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  else
-    pdata->window = gtk_window_new (GTK_WINDOW_POPUP);
-  gtk_window_set_title (GTK_WINDOW (pdata->window), _("Progress")); 
+    /* Replace GTK_WINDOW_TOPLEVEL with GTK_WINDOW_POPUP
+    * to have it witout window decoration. 
+    */
+    if (Denemo.prefs.progressbardecorations)
+      pdata->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+    else
+      pdata->window = gtk_window_new (GTK_WINDOW_POPUP);
+    gtk_window_set_title (GTK_WINDOW (pdata->window), _("Progress")); 
  
-  vbox = gtk_vbox_new (FALSE, 5);
-  gtk_container_add (GTK_CONTAINER (pdata->window), vbox);
-  gtk_widget_show (vbox);
+    vbox = gtk_vbox_new (FALSE, 5);
+    gtk_container_add (GTK_CONTAINER (pdata->window), vbox);
+    gtk_widget_show (vbox);
 
-  pdata->pbar = gtk_progress_bar_new();
-  gtk_container_add (GTK_CONTAINER (vbox), pdata->pbar);
-  gtk_widget_show(pdata->pbar);
-  
+    pdata->pbar = gtk_progress_bar_new();
+    gtk_container_add (GTK_CONTAINER (vbox), pdata->pbar);
+    gtk_widget_show(pdata->pbar);
+  }
   /* set text inside progress bar */
   gtk_progress_bar_set_text (GTK_PROGRESS_BAR (pdata->pbar), msg);
  
-  pdata->timer = g_timeout_add (100, progress_timeout, pdata);  
+  pdata->timer = g_timeout_add (100, (GSourceFunc)progress_timeout, pdata);  
 
   gtk_window_set_keep_above(GTK_WINDOW (pdata->window), TRUE);
   gtk_widget_show(pdata->window);
@@ -221,8 +225,8 @@ progressbar (gchar *msg)
   /* TODO This should be fed by a function argurment
 	so that that it can stop other things besides
 	lilypond */
-  g_signal_connect (G_OBJECT (pdata->window), "destroy",
-  G_CALLBACK (stop_lilypond), (gpointer)pdata->timer);
+  g_signal_connect (G_OBJECT (pdata->window), "delete-event",
+  G_CALLBACK (call_stop_lilypond), pdata);
 }
 
 void

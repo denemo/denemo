@@ -93,39 +93,23 @@ initprefs ()
   const gchar *name = g_get_user_name();
   ret->username = g_string_new (name?name:"DenemoUser");
   ret->password = g_string_new ("");
-  ret->midi_audio_output = None;
 
-#ifdef _HAVE_PORTAUDIO_
-  ret->midi_audio_output = Portaudio;
-#endif
-
-#ifdef _HAVE_JACK_
-  ret->midi_audio_output = Jack;
-#endif
-
-#ifdef _HAVE_FLUIDSYNTH_ 
-  ret->midi_audio_output = Fluidsynth;	  
-#endif
   ret->fontspec = g_string_new ("Denemo 9");
+
 #ifdef G_OS_WIN32
   ret->browser = g_string_new ("");//use file association
-  ret->midiplayer = g_string_new ("");
   ret->audioplayer = g_string_new ("");
   ret->lilypath = g_string_new ("lilypond.exe");//We don't assume the file assoc works - we are installing this anyway to a known place,the option  neither lilypond-windows.exe nor the -dgui option are used
   ret->pdfviewer = g_string_new ("");
   ret->imageviewer = g_string_new ("");
 
-  ret->midiplayer = g_string_new("");
 #else /* !G_OS_WIN32 */
   ret->browser = g_string_new ("firefox");
-  ret->midiplayer = g_string_new ("playmidi");
   ret->audioplayer = g_string_new ("play");
   ret->lilypath = g_string_new ("lilypond");
   ret->pdfviewer = g_string_new ("evince");
   ret->imageviewer = g_string_new ("eog");
 #endif /* !G_OS_WIN32 */
-  ret->sequencer = g_string_new ("/dev/sequencer");
-  ret->midi_in = g_string_new ("/dev/midi");
   ret->profile = g_string_new("Arranger");
   ret->denemopath = g_string_new (g_get_home_dir());
   ret->lilyversion = g_string_new ("");//meaning use installed LilyPond version
@@ -138,33 +122,36 @@ initprefs ()
   ret->continuous = TRUE;
   ret->cursor_highlight = TRUE;
 
-#ifdef _HAVE_JACK_
-  ret->immediateplayback = FALSE;
-#else
   ret->immediateplayback = TRUE;
+
+  ret->audio_driver = g_string_new("default");
+  ret->midi_driver = g_string_new("default");
+#ifdef _HAVE_PORTAUDIO_
+  ret->audio_driver = g_string_new("portaudio");
+  ret->midi_driver = g_string_new("portmidi");
 #endif
-#ifdef _HAVE_FLUIDSYNTH_
-  /*TODO needs to check if linux and set fluidsynth_audio_driver = alsa
-  	for some reason the default for linux is jack */
-#ifdef G_OS_WIN32
-  ret->fluidsynth_audio_driver = g_string_new ("portaudio");
-  ret->fluidsynth_midi_driver = g_string_new ("");
-#else
-  ret->fluidsynth_audio_driver = g_string_new ("alsa");
-  ret->fluidsynth_midi_driver = g_string_new ("alsa_seq");
+#ifdef _HAVE_JACK_
+  ret->audio_driver = g_string_new("jack");
+  ret->midi_driver = g_string_new("jack");
 #endif
-  gchar *soundfontpath = g_build_filename (get_data_dir (), "soundfonts",
-		                                           "A320U.sf2", NULL);
+
+  ret->jack_connect_ports_l = g_string_new("system:playback_1");
+  ret->jack_connect_ports_r = g_string_new("system:playback_2");
+  ret->jack_connect_midi_in_port = g_string_new("");
+  ret->jack_connect_midi_out_port = g_string_new("");
+
+  ret->portaudio_device = g_string_new("default");
+  ret->portaudio_sample_rate = 44100;
+  ret->portaudio_period_size = 256;
+
+  ret->portmidi_input_device = g_string_new("default");
+  ret->portmidi_output_device = g_string_new("default");
+
+  gchar *soundfontpath = g_build_filename (get_data_dir (), "soundfonts", "A320U.sf2", NULL);
   ret->fluidsynth_soundfont = g_string_new(soundfontpath);
   ret->pitchspellingchannel = 15;
   ret->pitchspellingprogram = 17;
 
-#ifdef G_OS_WIN32
-  ret->fluidsynth_sample_rate = 22050;//the worst case slow machine
-#else
-  ret->fluidsynth_sample_rate = 0;//do not set
-#endif
-#endif
   ret->saveparts = FALSE;
   ret->lilyentrystyle = FALSE;
   ret->createclones = FALSE;
@@ -208,113 +195,6 @@ initprefs ()
 }
 
 
-/*
- *  Local function definitions to parse denemorc file
- */
-
-static void
-parsePorts (xmlDocPtr doc, xmlNodePtr cur, gint i)
-{
-  gint j=0;
-  xmlNodePtr child;
-  //first count the ports
-  for (j=0, child = cur->xmlChildrenNode;child != NULL;child = child->next)
-    {
-      if (xmlStrcmp (child->name, (const xmlChar *) "port") == 0)
-	{
-	  xmlChar *tmp = xmlNodeListGetString (doc, child->xmlChildrenNode, 1);
-	  if(tmp)
-	    {
-	      j++;
-	      xmlFree (tmp); 
-	    }
-	}
-    }
-  g_debug("We have %d ports for client %s\n",j, Denemo.prefs.midi_device[i].client_name->str);
-
-#if 1
-  {GArray *arr = g_array_new(TRUE, TRUE, sizeof(DeviceManagerPort));
-    g_array_set_size(arr, j);
-    Denemo.prefs.midi_device[i].ports =  (DeviceManagerPort *)arr->data;
-    Denemo.prefs.midi_device[i].ports_array = arr;
-  }
-#else
-  Denemo.prefs.midi_device[i].ports = g_malloc0((j+1) * sizeof(DeviceManagerPort));
-#endif
-
-
-  for (j=0,child = cur->xmlChildrenNode;child != NULL;child = child->next)
-    {
-      if (xmlStrcmp (child->name, (const xmlChar *) "port") == 0)
-	{
-	  xmlChar *tmp = xmlNodeListGetString (doc, child->xmlChildrenNode, 1);
-	  if(tmp)
-	    {
-	      //g_print("storing port %s into client\n", tmp);
-	      Denemo.prefs.midi_device[i].ports[j].midi_buffer = g_malloc0(DENEMO_BUFFER_MAX_INDEX*sizeof(MidiBuffer));
-	      Denemo.prefs.midi_device[i].ports[j].port_name = g_string_new(tmp);
-	      j++;
-	      //FIXME check j<max
-	      xmlFree (tmp); 
-	    }
-	}
-    }
-}
-
-/**
- * parseDevices - reads midi device prefs
- * 
- * @param  doc	document pointer
- * @param cur pointer to the current XML Node
- * @param prefs pointer to the preferences structure
- */
-
-static void
-parseDevices (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
-{
-  gint i;
-  xmlNodePtr child;
-  //first count the client devices
-  for (i=0, child = cur->xmlChildrenNode;child != NULL && i<DENEMO_MAX_DEVICES;child = child->next)
-    {
-      if (xmlStrcmp (child->name, (const xmlChar *) "device") == 0)
-	{
-	  i++;	  
-	}
-    }
-#if 1  
-  {GArray *arr = g_array_new(TRUE, TRUE, sizeof(DeviceManagerDevice));
-    g_array_set_size(arr, i);
-    prefs->midi_device =  (DeviceManagerDevice *)arr->data;
-    prefs->midi_device_array = arr;
-  }
-#else
-  prefs->midi_device = (DeviceManagerDevice *)g_malloc0((i+1)*sizeof(DeviceManagerDevice));
-#endif
-  for (i=0, child = cur->xmlChildrenNode;child != NULL && i<DENEMO_MAX_DEVICES;child = child->next, i++)
-    {
-      if (xmlStrcmp (child->name, (const xmlChar *) "device") == 0)
-	{
-	  gchar *tmp = (gchar *) xmlGetProp (child, (xmlChar *) "client");
-	  //g_print("storing client name %s\n", tmp);
-	  if(tmp)
-	    {
-	      if(prefs->midi_device[i].client_name)
-		g_string_assign (prefs->midi_device[i].client_name, (gchar *) tmp);
-	      else
-		prefs->midi_device[i].client_name = g_string_new ((gchar *) tmp);
-	      xmlFree (tmp);
-	    }
-	}
-      xmlNodePtr ports = child->xmlChildrenNode;
-      // g_print("for client ports is %p\n", ports);   
-      if (ports && xmlStrcmp (ports->name, (const xmlChar *) "ports") == 0)
-	{
-	  parsePorts(doc, ports, i);
-	}
-    }
-}
-
 /**
  * parseConfig searches the rc file for the configuration settings.
  *
@@ -338,18 +218,6 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
               define_scheme_variable("DenemoPref_" #field, tmp, NULL);\
 	      prefs->field =\
 		g_string_assign (prefs->field, (gchar *) tmp);\
-	      xmlFree (tmp);\
-	    }\
-	}
-
-#define READXMLENTRY2(field)  \
-      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) #field))\
-	{\
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
-	  if(tmp)\
-	    {\
-              define_scheme_variable("DenemoPref_" #field, tmp, NULL);\
-	      prefs->field = get_midi_audio_pointer(tmp);\
 	      xmlFree (tmp);\
 	    }\
 	}
@@ -412,19 +280,11 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	    }
 	}
 
-      if (0 == xmlStrcmp (cur->name, (const xmlChar *) "midi-devices"))
-	{
-	  parseDevices(doc, cur, &Denemo.prefs);
+      READXMLENTRY(audioplayer)
+      READXMLENTRY(fontspec)
 
-	}
-
-	READXMLENTRY(midiplayer)      
-	READXMLENTRY(audioplayer)
-	READXMLENTRY(fontspec)
-	       
-	READXMLENTRY(browser)
-        else if (0 ==
-	       xmlStrcmp (cur->name, (const xmlChar *) "autosavetimeout"))
+      READXMLENTRY(browser)
+      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "autosavetimeout"))
 	{
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
 	  if(tmp)
@@ -438,8 +298,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	      xmlFree (tmp);
 	    }
 	}
-      else if (0 ==
-	       xmlStrcmp (cur->name, (const xmlChar *) "maxhistory"))
+      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "maxhistory"))
 	{
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
 	  if(tmp)
@@ -463,9 +322,6 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READXMLENTRY(password)           
       READXMLENTRY(denemopath)          
       READXMLENTRY(temperament)
-      READXMLENTRY(midi_in)
-      READXMLENTRY(sequencer)
-      READXMLENTRY2(midi_audio_output)
       
       READBOOLXMLENTRY(createclones)
       READBOOLXMLENTRY(immediateplayback)
@@ -487,8 +343,6 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READBOOLXMLENTRY(enable_thumbnails)
       
       READBOOLXMLENTRY(continuous)
-      READBOOLXMLENTRY(jacktransport)
-      READBOOLXMLENTRY(jacktransport_start_stopped)
       READBOOLXMLENTRY(lilyentrystyle)
       READBOOLXMLENTRY(toolbar)
       READBOOLXMLENTRY(notation_palette)
@@ -497,17 +351,31 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READBOOLXMLENTRY(console_pane)
       READBOOLXMLENTRY(lyrics_pane)
       READBOOLXMLENTRY(visible_directive_buttons)
-      READBOOLXMLENTRY(rhythm_palette) 
+      READBOOLXMLENTRY(rhythm_palette)
       READBOOLXMLENTRY(object_palette)
-      READBOOLXMLENTRY(autoupdate) 
-     
-      READXMLENTRY(fluidsynth_audio_driver)
-      READXMLENTRY(fluidsynth_midi_driver)
+      READBOOLXMLENTRY(autoupdate)
+
+
+      READXMLENTRY(audio_driver)
+      READXMLENTRY(midi_driver)
+
+      READBOOLXMLENTRY(jacktransport)
+      READBOOLXMLENTRY(jacktransport_start_stopped)
+      READXMLENTRY(jack_connect_ports_l)
+      READXMLENTRY(jack_connect_ports_r)
+      READXMLENTRY(jack_connect_midi_in_port)
+      READXMLENTRY(jack_connect_midi_out_port)
+
+      READXMLENTRY(portaudio_device)
+      READINTXMLENTRY(portaudio_sample_rate)
+      READINTXMLENTRY(portaudio_period_size)
+
+      READXMLENTRY(portmidi_input_device)
+      READXMLENTRY(portmidi_output_device)
+
       READXMLENTRY(fluidsynth_soundfont)
       READBOOLXMLENTRY(fluidsynth_reverb)
       READBOOLXMLENTRY(fluidsynth_chorus)
-      READINTXMLENTRY(fluidsynth_sample_rate)
-      READINTXMLENTRY(fluidsynth_period_size)
       READINTXMLENTRY(zoom)
       READINTXMLENTRY(dynamic_compression)
       READINTXMLENTRY(system_height)
@@ -703,36 +571,6 @@ newXMLDoubleChild (xmlNodePtr parent, const xmlChar * name, gdouble content)
 }
 
 
-/**
- * Write the denemorc file
- *
- * @param prefs a pointer to the preferences structure
- *
- */
-static void
-writeDevices(xmlDocPtr doc, xmlNodePtr parent, DenemoPrefs * prefs) {
-  gint i;
-  xmlNodePtr child;
-  if(!prefs->midi_device)
-    return;
-  if(prefs->midi_device[0].client_name) {
-    child =  xmlNewChild (parent, NULL, (xmlChar *) "midi-devices", NULL);
-    for(i=0;i<DENEMO_MAX_DEVICES && prefs->midi_device[i].client_name;i++){
-	xmlNodePtr device = xmlNewChild (child, NULL, "device", NULL);
-	xmlSetProp (device, (xmlChar *) "client",
-		    (xmlChar *) prefs->midi_device[i].client_name->str);
-	
-	if(prefs->midi_device[i].ports && prefs->midi_device[i].ports[0].port_name) {
-	  gint j;
-	  xmlNodePtr ports = xmlNewChild (device, NULL, (xmlChar *) "ports", NULL);
-	  for(j=0;prefs->midi_device[i].ports[j].port_name;j++)
-	    xmlNewChild (ports, NULL, (xmlChar *)"port", (xmlChar *)prefs->midi_device[i].ports[j].port_name->str);
-	} 
-    }
-  }
-}
-
-
 gint
 writeXMLPrefs (DenemoPrefs * prefs)
 {
@@ -749,8 +587,6 @@ writeXMLPrefs (DenemoPrefs * prefs)
   doc->xmlRootNode = parent =
     xmlNewDocNode (doc, NULL, (xmlChar *) "Denemo", NULL);
   child = xmlNewChild (parent, NULL, (xmlChar *) "Config", NULL);
-
-    writeDevices(doc, child, prefs);
 
 #define WRITEXMLENTRY(field) \
   if (prefs->field){\
@@ -775,7 +611,6 @@ writeXMLPrefs (DenemoPrefs * prefs)
 
   WRITEXMLENTRY(lilypath)
 
-  WRITEXMLENTRY(midiplayer)
   WRITEXMLENTRY(audioplayer)
   WRITEXMLENTRY(fontspec)
   WRITEXMLENTRY(pdfviewer)
@@ -785,8 +620,6 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEXMLENTRY(password)
   WRITEXMLENTRY(denemopath)
   WRITEXMLENTRY(temperament)
-  WRITEXMLENTRY(midi_in)
-  WRITEXMLENTRY(sequencer)
 
 #define WRITEINTXMLENTRY(field){ \
     gchar *def = g_strdup("Holds the interger value of the user's " #field " preference");\
@@ -845,8 +678,6 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEBOOLXMLENTRY(overlays)
   WRITEBOOLXMLENTRY(enable_thumbnails)
   WRITEBOOLXMLENTRY(continuous)
-  WRITEBOOLXMLENTRY(jacktransport)
-  WRITEBOOLXMLENTRY(jacktransport_start_stopped)
   WRITEBOOLXMLENTRY(toolbar)
   WRITEBOOLXMLENTRY(notation_palette)
   WRITEBOOLXMLENTRY(midi_in_controls)
@@ -857,14 +688,28 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEBOOLXMLENTRY(autoupdate)
   WRITEBOOLXMLENTRY(rhythm_palette)
   WRITEBOOLXMLENTRY(object_palette)
-  WRITEXMLENTRY2(midi_audio_output)
-  WRITEXMLENTRY(fluidsynth_audio_driver)
-  WRITEXMLENTRY(fluidsynth_midi_driver)
+
+
+  WRITEXMLENTRY(audio_driver)
+  WRITEXMLENTRY(midi_driver)
+
+  WRITEBOOLXMLENTRY(jacktransport)
+  WRITEBOOLXMLENTRY(jacktransport_start_stopped)
+  WRITEXMLENTRY(jack_connect_ports_l)
+  WRITEXMLENTRY(jack_connect_ports_r)
+  WRITEXMLENTRY(jack_connect_midi_in_port)
+  WRITEXMLENTRY(jack_connect_midi_out_port)
+
+  WRITEXMLENTRY(portaudio_device)
+  WRITEINTXMLENTRY(portaudio_sample_rate)
+  WRITEINTXMLENTRY(portaudio_period_size)
+
+  WRITEXMLENTRY(portmidi_input_device)
+  WRITEXMLENTRY(portmidi_output_device)
+
   WRITEXMLENTRY(fluidsynth_soundfont)
   WRITEBOOLXMLENTRY(fluidsynth_reverb)
   WRITEBOOLXMLENTRY(fluidsynth_chorus)
-  WRITEINTXMLENTRY(fluidsynth_sample_rate)
-  WRITEINTXMLENTRY(fluidsynth_period_size)
   WRITEINTXMLENTRY(dynamic_compression)
   WRITEINTXMLENTRY(zoom)
   WRITEINTXMLENTRY(system_height)

@@ -28,17 +28,13 @@
 #include "keyboard.h"
 #include "exportmidi.h"
 #include "midi.h"
-#include "jackmidi.h"
-#include "device_manager.h"
 #include "screenshot.h"
-#ifdef _HAVE_FLUIDSYNTH_
-#include "fluid.h"
-#endif
 #include "commandfuncs.h"
 #include "calculatepositions.h"
 #include "http.h"
 #include "texteditors.h"
 #include "prefops.h"
+#include "audiointerface.h"
 #define INIT_SCM "init.scm"
 
 //#include "pathconfig.h"
@@ -3286,9 +3282,8 @@ SCM scheme_output_midi_bytes (SCM input) {
     return SCM_BOOL_F;
   }
   DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
-  channel = get_midi_channel();
+  channel = get_midi_channel(curstaffstruct);
   volume = curstaffstruct->volume;
-  DevicePort *DP = (DevicePort *) device_manager_get_DevicePort(curstaffstruct->device_port->str);
   char *string_input;
   string_input = scm_to_locale_string(input);
   gchar *bytes = substitute_midi_values(string_input, channel, volume);
@@ -3304,11 +3299,10 @@ SCM scheme_output_midi_bytes (SCM input) {
   for(i=0, next=bytes;i<numbytes;i++, next++)
     buffer[i] = (unsigned char) strtol(next, &next, 0);			    
   g_free(bytes);    
-  g_debug("\nbuffer[0] = %d buffer[1] = %d buffer[2] = %d\n", buffer[0], buffer[1], buffer[2]);
-  if (Denemo.prefs.midi_audio_output == Jack)
-    jack_output_midi_event(buffer, 0, 0);
-  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
-    fluid_output_midi_event(buffer);
+  //g_print("\nbuffer[0] = %x buffer[1] = %x buffer[2] = %x\n", buffer[0], buffer[1], buffer[2]);
+
+  play_midi_event(DEFAULT_BACKEND, curstaffstruct->midi_port, buffer);
+
   if(string_input) free(string_input);
   return  SCM_BOOL(TRUE);
 }
@@ -3319,8 +3313,8 @@ static SCM scheme_play_midi_note(SCM note, SCM volume, SCM channel, SCM duration
     gint chan = scm_num2int(channel, 0, 0);
     gint dur = scm_num2int(duration, 0, 0);
     
-    //g_print("Playing %x at %f volume, %d channel\n", key, vol/255.0, channel);
-    play_midikey(key, dur/1000.0, vol/255.0, chan);
+    //g_print("Playing %x at %f volume, %d channel for %dms\n", key, vol/255.0, channel, dur);
+    play_note(DEFAULT_BACKEND, 0 /*port*/, chan, key, dur, vol);
  return SCM_BOOL(TRUE);
 }
 static SCM scheme_play_midikey(SCM scm) {
@@ -3329,7 +3323,7 @@ static SCM scheme_play_midikey(SCM scm) {
     gint channel = midi&0xF;
     double volume = ((midi>>16)&0xFF)/255.0;
     g_print("Playing %x at %f volume, %d channel\n", key, (double)volume, channel);
-    play_midikey(key, 0.2, volume, channel);
+    play_note(DEFAULT_BACKEND, 0 /*port*/, channel, key, 1000 /*duration*/, volume);
     //g_usleep(200000);
  return SCM_BOOL(TRUE);
 }
@@ -5230,11 +5224,16 @@ void inner_main(void*closure, int argc, char **argv){
   rsvg_init();
 
 
-  
-  gchar *initial_file = process_command_line(argc, argv);
-
   /* Initialize preferences */
   initprefs();
+
+
+  gchar *initial_file = process_command_line(argc, argv);
+
+ // initialize the audio subsystem
+  if (audio_initialize(&Denemo.prefs)) {
+    g_error("Failed to initialize audio or MIDI backends\n");
+  }
 
   //create window system
   create_window();
@@ -5247,7 +5246,6 @@ void inner_main(void*closure, int argc, char **argv){
   newtab (NULL, NULL);
 
 
-  
   /*ignore setting of mode unless user has explicitly asked for modal use */
   if(!Denemo.prefs.modal)
     Denemo.prefs.mode = INPUTEDIT|INPUTRHYTHM|INPUTNORMAL;//FIXME must correspond with default in prefops.c
@@ -5260,32 +5258,9 @@ void inner_main(void*closure, int argc, char **argv){
   gboolean save_default_keymap_file_on_entry = FALSE;
 
 
-#ifdef _HAVE_JACK_
-if (Denemo.prefs.midi_audio_output == Jack)
-  init_jack();
-#endif
-  /* audio initialization */
-  //ext_init (); 
-  /* external players (midi...) */
-#ifdef _HAVE_FLUIDSYNTH_
-if (Denemo.prefs.midi_audio_output == Fluidsynth)
-  fluidsynth_init(); 
-#endif
-#ifdef _HAVE_PORTAUDIO_
-if (Denemo.prefs.midi_audio_output == Portaudio){
-  /* Immediate Playback */
-  if(Denemo.prefs.immediateplayback) {
-    if( midi_init ()  )  {           /* Opens Denemo.prefs.sequencer, if this is set to an empty
-				 string then the open fails and direct audio out is used for 
-				immediate playback */
-      //g_print("Initializing audio out\n");
-      init_audio_out();
-    }
-  }
-}
-#endif    
 
-    
+ 
+
   /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
   for(i=0;i<G_N_ELEMENTS(activatable_commands);i++) {
     install_scm_function (g_strdup_printf(DENEMO_SCHEME_PREFIX"%s", activatable_commands[i].str), (gpointer)activatable_commands[i].p);//FIXME possible memeory leak
@@ -5342,8 +5317,10 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
       break;
   }
   Denemo.gui->mode = Denemo.prefs.mode;
-  if (Denemo.prefs.startmidiin)
-    activate_action("/MainMenu/InputMenu/JackMidi");
+   // if (Denemo.prefs.startmidiin)
+   // activate_action("/MainMenu/InputMenu/JackMidi");
+ // if(!have_midi())
+  //  activate_action("/MainMenu/InputMenu/KeyboardOnly");
   show_preferred_view();
   if(Denemo.prefs.cursor_highlight) {
     Denemo.prefs.cursor_highlight = FALSE;scheme_highlight_cursor(SCM_BOOL_T);
@@ -5425,7 +5402,9 @@ g_print("Gtk version %u.%u.%u\n", gtk_major_version, gtk_minor_version, gtk_micr
   }
 //#endif
 /* Now launch into the main gtk event loop and we're all set */
- gtk_main();
+
+  gtk_main();
+
 }
 
 
@@ -5715,6 +5694,10 @@ close_gui_with_check (GtkAction *action, gpointer param)
 #endif
 
     /* ext_quit ();  clean players pidfiles (see external.c) DISUSED */
+
+    audio_shutdown();
+
+
     exit(0);//do not use gtk_main_quit, as there may be inner loops active.
   }
   return TRUE;
@@ -7703,21 +7686,10 @@ gint val = gtk_radio_action_get_current_value (current);
      start_pitch_input();
    break;
  case INPUTMIDI:
-   //g_print("Starting midi\n");
-   if(gui->input_source==INPUTAUDIO) {
-     //g_print("Stopping audio\n");
-     stop_pitch_input();
-   }
+   midi_stop();
+   audio_shutdown();
+   audio_initialize(&Denemo.prefs);
    gui->input_source=INPUTMIDI;
-  if (Denemo.prefs.midi_audio_output == Portaudio)
-   start_midi_input();
-  else if  (Denemo.prefs.midi_audio_output == None)
-   fail = TRUE;
-  else if (Denemo.prefs.midi_audio_output == Jack)
-   fail = init_midi_input();
-  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
-   fail = init_midi_input();
-  //g_print("Midi start - %d\n", fail);
    break;
  default:
    g_warning("Bad Value\n");
@@ -8495,8 +8467,8 @@ GtkWidget* create_playbutton(GtkWidget *box, gchar *thelabel, gpointer callback,
   return button;
 }
 
-void toggle_playbutton(void) {
-  static gboolean pause = TRUE;
+
+void set_playbutton(gboolean pause) {
   if(pause) {
     gtk_button_set_image (GTK_BUTTON(playbutton), 
 			  gtk_image_new_from_stock(GTK_STOCK_MEDIA_PAUSE, GTK_ICON_SIZE_BUTTON));
@@ -8504,7 +8476,6 @@ void toggle_playbutton(void) {
     gtk_button_set_image (GTK_BUTTON(playbutton), 
 			  gtk_image_new_from_stock(GTK_STOCK_MEDIA_PLAY, GTK_ICON_SIZE_BUTTON));
  }
-  pause = !pause;
 }
 
 //Set the master volume of the passed score and change the slider to suit
@@ -8589,7 +8560,7 @@ create_window(void) {
   gtk_action_group_add_radio_actions (action_group,
 				       input_menu_entries,
 				       G_N_ELEMENTS (input_menu_entries),
-				      INPUTKEYBOARD/* initial value */, 
+				      have_midi()?INPUTMIDI:INPUTKEYBOARD/* initial value */, 
 				      G_CALLBACK(change_input_type),  NULL);
 
 
@@ -8704,13 +8675,7 @@ get_data_dir (),
     
     midiconductbutton = create_playbutton(inner,"Conductor", pb_conduct, NULL);
    
-    create_playbutton(inner,
-#ifdef _HAVE_JACK_
-"Panic"
-#else
-"Reset"
-#endif
-, pb_panic, NULL);
+    create_playbutton(inner, "Panic" , pb_panic, NULL);
 
 
       create_playbutton(inner, "Set From Selection", pb_set_range, NULL);
@@ -9095,7 +9060,7 @@ newtab (GtkAction *action, gpointer param) {
     gtk_widget_hide(Denemo.gui->buttonboxes);
     activate_action("/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
   }
-
+ if(have_midi() && Denemo.prefs.startmidiin) gui->input_source = INPUTMIDI;
 } /* end of newtab creating a new DenemoGUI holding one musical score */
 
 
