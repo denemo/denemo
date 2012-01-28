@@ -386,6 +386,7 @@
 {"ModelessNote", NULL, "Notes/Durations", NULL,"Modeless actions on notes/rests"},
 {"NotesRests", NULL, "Notes/Rests", NULL,"Actions for notes/rests"},
 {"RestEntry", NULL, "Rest Insertion", NULL,"Modeless entry of rests"},
+{"Educational", NULL, "Educational", NULL,"Educational Games"},
 {"EditDirectivesMenu", NULL, "Edit Directive(s)", NULL,"Editing directives"},
 {"ChangeNote", NULL, "Change Note", NULL,"Changing the note at the cursor to the nearest ..."},
 {"ChangeDuration", NULL, "Edit Duration", NULL,"Changes the duration of the current note"},

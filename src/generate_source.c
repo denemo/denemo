@@ -598,6 +598,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Modeless actions on notes/rests", N_("ModelessNote"), NULL, N_("Notes/Durations")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Actions for notes/rests", N_("NotesRests"), NULL, N_("Notes/Rests")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Modeless entry of rests", N_("RestEntry"), NULL, N_("Rest Insertion")}, 
+ {CMD_CATEGORY_DIRECT, NULL, "Educational Games", N_("Educational"), NULL, N_("Educational")}, 
 
   {CMD_CATEGORY_DIRECT, NULL, "Editing directives", N_("EditDirectivesMenu"), NULL, N_("Edit Directive(s)")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Changing the note at the cursor to the nearest ...", N_("ChangeNote"), NULL, N_("Change Note")}, 
