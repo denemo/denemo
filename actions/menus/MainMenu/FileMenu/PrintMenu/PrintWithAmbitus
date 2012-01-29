@@ -21,7 +21,7 @@
 
 (d-PushPosition)
 (PrintWithAmbitus::ambitize)
-(d-PrintPreview)
+(d-TypesetForScript "(d-PrintWithAmbitus)")
 (PrintWithAmbitus::ambitize)
 (d-PopPosition)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

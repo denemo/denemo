@@ -35,4 +35,5 @@ gchar *
 large_thumbnail_name(gchar *filepath);
 gboolean
 stop_lilypond();
+void show_print_view(GtkAction *action, gpointer param);
 #endif /*PRINT_H*/	

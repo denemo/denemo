@@ -18,7 +18,7 @@
 	      (loop (+ 1 number))))	
 	(ForAllMovements staffs)
 	;;(ForAllMovements "(d-MovementPageBreak #t)")
-	(d-PrintPreview)
+	(d-TypesetForScript "(d-PrintAccompanistsScore)")
 	(ForAllMovements staffs)
 	(d-SetSaved saved))))
 </scheme>

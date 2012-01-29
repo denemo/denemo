@@ -99,9 +99,6 @@ dnm_key_snooper(GtkWidget *grab_widget, GdkEventKey *event);
 static void
 populate_opened_recent (void);
 
-static void
-show_print_view(GtkAction *action, gpointer param);
-
 #ifdef DEVELOPER
 #define MUSIC_FONT(a) "music-sign ("a")"
 #else
@@ -2161,6 +2158,17 @@ SCM scheme_progressbar(SCM msg) {
 SCM scheme_progressbar_stop(void) {
   progressbar_stop();
   return SCM_BOOL(TRUE);
+}
+
+static
+SCM scheme_typeset_for_script(SCM thescript) {
+  SCM ret = SCM_BOOL_F;
+if(scm_is_string(thescript)){
+  gchar *script = scm_to_locale_string(thescript);
+    if(typeset_for_script(script))
+      ret = SCM_BOOL_T;
+  }
+return ret;
 }
 
 SCM scheme_get_char(void) {
@@ -4401,6 +4409,9 @@ static void create_scheme_identfiers(void) {
   INSTALL_SCM_FUNCTION ("Takes a message as a string. Pops up the message for the user to take note of as a informative message",DENEMO_SCHEME_PREFIX"InfoDialog", scheme_infodialog);
   INSTALL_SCM_FUNCTION ("Takes a message as a string. Pops up the message inside of a pulsing progressbar",DENEMO_SCHEME_PREFIX"ProgressBar", scheme_progressbar);
   INSTALL_SCM_FUNCTION ("If running, Stops the ProgressBar.",DENEMO_SCHEME_PREFIX"ProgressBarStop", scheme_progressbar_stop);
+  INSTALL_SCM_FUNCTION ("Typesets the score. Takes a script which will be called when Refresh is performed on the typeset window.",DENEMO_SCHEME_PREFIX"TypesetForScript", scheme_typeset_for_script);
+
+  
   INSTALL_SCM_FUNCTION ("Intercepts the next keypress and returns a string containing the character. Returns #f if keyboard interception was not possible.",DENEMO_SCHEME_PREFIX"GetChar", scheme_get_char);
   INSTALL_SCM_FUNCTION ("Intercepts the next keypress and returns a string containing the name of the keypress (the shortcut name). Returns #f if keyboard interception was not possible.",DENEMO_SCHEME_PREFIX"GetKeypress", scheme_get_keypress);
   INSTALL_SCM_FUNCTION ("Returns the last keypress that successfully invoked a command ",DENEMO_SCHEME_PREFIX"GetCommandKeypress", scheme_get_command_keypress);
@@ -8001,13 +8012,7 @@ toggle_print_view (GtkAction *action, gpointer param)
   return;
 }
 
-static void show_print_view(GtkAction *action, gpointer param) {
-  GtkWidget *w =  gtk_widget_get_toplevel(Denemo.printarea);
-  if(gtk_widget_get_visible(w))
-    gtk_window_present(GTK_WINDOW(w));
-  else
-    gtk_widget_show(w);
-}
+
 /**
  *  Function to toggle visibility of lyrics view pane of current movement
  *  

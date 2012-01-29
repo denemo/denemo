@@ -13,7 +13,7 @@
 	(ForAllMovements "(d-GoToPosition #f 1 1 1) (d-SmallerStaff) (d-VoicePreset1)
 			  (d-GoToPosition #f 2 1 1) (d-SmallerStaff) (d-VoicePreset2)  (d-SetCurrentStaffAsVoice)")
 	
-	(d-PrintPreview)
+	(d-TypesetForScript "(d-PrintTwoReduced)")
 	
 	(ForAllMovements  "(d-GoToPosition #f 1 1 1)  (d-SmallerStaff) (if (StemDirective?) (d-DeleteObject))	
 	  (d-GoToPosition #f 2 1 1) (d-SmallerStaff) (if (StemDirective?) (d-DeleteObject))  (d-SetCurrentVoiceAsStaff)")
