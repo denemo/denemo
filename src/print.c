@@ -1424,15 +1424,28 @@ static	gboolean within_area(gint x, gint y) {
 gint
 printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 {
-GdkWindow *window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
+#define M (25)
+  static GdkRectangle rect;
+  GdkWindow *window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
+  if(rect.width) {
+    GdkRectangle newrect;
+    newrect.x = (gint)event->x-M/2;
+    newrect.y = (gint)event->y-M/2;
+    newrect.width = newrect.height = M;
+    if(!gdk_rectangle_intersect (&rect, &newrect, NULL))
+      gdk_window_invalidate_rect(window,&rect,TRUE); 
+  }
   cairo_t *cr = gdk_cairo_create (window);
   cairo_set_source_rgba( cr, 0.5, 0.5, 1.0 , 0.5);
-#define M (25)
-    cairo_rectangle (cr,(gint)event->x-M/2, (gint)event->y-M/2, M, M );
-#undef M
+
+  rect.x = (gint)event->x-M/2;
+  rect.y = (gint)event->y-M/2;
+  rect.width = rect.height = M;
+    cairo_rectangle (cr, rect.x, rect.y, M, M );
   cairo_fill(cr);
   cairo_destroy(cr);
 return TRUE;
+#undef M
 }
 
 
