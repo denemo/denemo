@@ -1418,6 +1418,18 @@ static	gboolean within_area(gint x, gint y) {
 gint
 printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 {
+
+GtkWidget *label = gtk_label_new("here");
+
+gtk_layout_put (widget,label,(gint)event->x, (gint)event->y);
+gtk_widget_show(label);
+g_print("Put %p at %d %d\n", label, (gint)event->x, (gint)event->y);
+ev_view_next_page(widget);
+ev_view_select_all (widget);
+return TRUE;
+
+
+  
   gboolean left = (event->button != 3);
   if((!left)) {
     if(printpid==GPID_NONE)
@@ -1527,7 +1539,7 @@ static void denemoprint_changed(gchar * filename) {
   static unsigned last_mtime=0;
   struct stat thebuf;
   if(g_stat(filename, &thebuf)) {
-    g_warning("stat failed with %d\n", g_stat(filename, &thebuf));
+    //g_warning("stat failed with %d\n", g_stat(filename, &thebuf));
     return;//probably no file yet
   }
   unsigned mtime = thebuf.st_mtime;
@@ -1561,7 +1573,7 @@ const gchar * get_printfile_name(void)
           filename = g_strconcat((gchar *) get_printfile_pathbasename(), ".pdf", NULL);
         }
         if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
-          g_print("Creating or deleting %s\n", filename);
+          //g_print("Creating or deleting %s\n", filename);
             //g_creat(filename, 0500);
             FILE *fp=fopen(filename, "rw");
             if(fp) fclose(fp);
@@ -1619,6 +1631,13 @@ show_print_view(NULL, NULL);
 return TRUE;
 }
 
+static void page_display(GtkWidget *button, gint page_increment) {
+  gint i;
+  for(i=0;i<page_increment;i++)
+    ev_view_next_page((EvView*)Denemo.printarea);
+  for(i=0;i>page_increment;i--)
+    ev_view_previous_page((EvView*)Denemo.printarea);
+}
 
 void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){ 
   if(Denemo.printarea)
@@ -1627,9 +1646,10 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
   arrowcursor = gdk_cursor_new(GDK_RIGHT_PTR);//FIXME what is the system cursor called??
 
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
-
+  GtkWidget *main_hbox =  gtk_hbox_new (FALSE, 1);
+  gtk_box_pack_start (GTK_BOX (main_vbox), main_hbox,FALSE, TRUE, 0);
   GtkWidget *hbox =  gtk_hbox_new (FALSE, 1);
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox,FALSE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (main_hbox), hbox,FALSE, TRUE, 0);
   GtkWidget *button = gtk_button_new_with_label("Print");
   g_signal_connect(button, "clicked", G_CALLBACK(libevince_print), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
@@ -1651,9 +1671,15 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
   g_signal_connect(button, "clicked", G_CALLBACK(typeset_control), create_part_pdf);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
+  hbox =  gtk_hbox_new (FALSE, 1);
+  gtk_box_pack_end (GTK_BOX (main_hbox), hbox,FALSE, TRUE, 0);
 
-
-
+  button = gtk_button_new_with_label("Next");
+  g_signal_connect(button, "clicked", G_CALLBACK(page_display), (gpointer) 1);
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+  button = gtk_button_new_with_label("Previous");
+  g_signal_connect(button, "clicked", G_CALLBACK(page_display), (gpointer) -1);
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
   
   top_vbox = gtk_window_new(GTK_WINDOW_TOPLEVEL);
