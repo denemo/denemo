@@ -1424,75 +1424,15 @@ static	gboolean within_area(gint x, gint y) {
 gint
 printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 {
-#if 0
- GtkWidget *label = gtk_label_new("here");
- gint w, h;
- gtk_layout_get_size (GTK_LAYOUT(Denemo.printarea), &w, &h);
- gtk_layout_put (GTK_LAYOUT(Denemo.printarea), label, (gint)event->x, (gint)event->y);
- gtk_widget_show(label);
-
-#endif
-
-//g_print(" number of children %d\n",  g_list_length(gtk_container_get_children(Denemo.printarea)));
-//GtkAdjustment *adj = gtk_layout_get_hadjustment(Denemo.printarea);
-//gtk_adjustment_set_value (adj, (gint)event->x);g_list_length(gtk_container_get_children(evview))
-
-return;
-
-  
-  gboolean left = (event->button != 3);
-  if((!left)) {
-    if(printpid==GPID_NONE)
-      popup_print_preview_menu();
-    return TRUE;
-  }
-  /* creating an offset? */
-  if(offsetting) {
-    offsetx = curx - markx;
-    offsety = cury - marky;  
-
-    GtkWidget *thedialog = g_object_get_data(G_OBJECT(Denemo.printarea), "offset-dialog");
-    g_object_set_data(G_OBJECT(Denemo.printarea), "offsetx", (gpointer)offsetx);
-    g_object_set_data(G_OBJECT(Denemo.printarea), "offsety", (gpointer)offsety);
-    if(thedialog){
-      gtk_dialog_response(GTK_DIALOG(thedialog), 1/*DRAGGED*/);
-    } else { 
-      gchar *msg = g_strdup_printf("You have chosen a offset tweak of %d, %d\nYour printed output will not change until you put this tweak into the corresponding Denemo directive\nUse Edit Directive to do this.", offsetx, -offsety);
-      warningdialog(msg);
-      g_free(msg);
-    }
-    offsetting = FALSE;
-    return TRUE;
-  }
-  /*( creating a padding value? */
-  if(padding) {
-    gint pad = ABS(curx - markx); 
-
-    GtkWidget *thedialog = g_object_get_data(G_OBJECT(Denemo.printarea), "pad-dialog");
-    g_object_set_data(G_OBJECT(Denemo.printarea), "padding", (gpointer)pad);
-    if(thedialog){
-      gtk_dialog_response(GTK_DIALOG(thedialog), 1/*DRAGGED*/);
-    } else { 
-      gchar *msg = g_strdup_printf("You have chosen a padding tweak of %d\nYour printed output will not change until you put this tweak into the corresponding Denemo directive\nUse Edit Directive to do this.", pad);
-      warningdialog(msg);
-      g_free(msg);
-    }
-    padding = FALSE;
-    return TRUE;
-  }
-
-
-  //  if(within_area((gint)event->x,(gint)event->y)) {
-  //    offsetting = TRUE;
-  //    return TRUE;
-  //  } else 
-     selecting = TRUE;
-  if(Denemo.pixbuf==NULL)
-    return TRUE;
-  pointx = markx=event->x;
-  pointy = marky=event->y;
-
-  return TRUE;
+GdkWindow *window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
+  cairo_t *cr = gdk_cairo_create (window);
+  cairo_set_source_rgba( cr, 0.5, 0.5, 1.0 , 0.5);
+#define M (25)
+    cairo_rectangle (cr,(gint)event->x-M/2, (gint)event->y-M/2, M, M );
+#undef M
+  cairo_fill(cr);
+  cairo_destroy(cr);
+return TRUE;
 }
 
 
@@ -1738,7 +1678,7 @@ g_signal_connect (G_OBJECT (Denemo.printarea), "sync-source",
 		      G_CALLBACK (denemoprintf_sync), NULL);
 
 g_print("...Attached signal?\n");
-// g_signal_connect (G_OBJECT (Denemo.printarea), "button_press_event", G_CALLBACK (printarea_button_press), NULL);
+ g_signal_connect (G_OBJECT (Denemo.printarea), "button_press_event", G_CALLBACK (printarea_button_press), NULL);
 
   gtk_widget_show_all(main_vbox);
   gtk_widget_hide(top_vbox);
