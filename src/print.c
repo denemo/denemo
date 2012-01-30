@@ -952,31 +952,37 @@ libevince_print(void) {
   }
 }
 
+static void
+set_printarea_doc(EvDocument *doc) {
+  EvDocumentModel  *model = ev_document_model_new_with_document(doc);
+  ev_document_model_set_dual_page (model, (gboolean)g_object_get_data(G_OBJECT(Denemo.printarea), "Duplex"));
+  ev_view_set_model((EvView*)Denemo.printarea, model);
+  }
 
 static void
-printview_finished(GPid pid, gint status, gboolean print) {
-  progressbar_stop();
-  printpid = GPID_NONE;
-  GError *err = NULL;
+set_printarea(GError **err) {
   GFile       *file;
   gchar *filename = g_strconcat((gchar *) get_printfile_pathbasename(), ".pdf", NULL);
   file = g_file_new_for_commandline_arg (filename);
   g_free(filename);
   gchar *uri = g_file_get_uri (file);
   g_object_unref (file);
-  EvDocument *doc = ev_document_factory_get_document (uri, &err);
-  if(err) {
-    g_warning ("Trying to read the pdf file %s gave an error: %s", uri, err->message);
-      if(err) g_error_free (err);
-      err = NULL;
-  } else {
-    EvDocumentModel  *model = ev_document_model_new_with_document(doc);
-    ev_view_set_model((EvView*)Denemo.printarea, model);
-    if(print) {
-     libevince_print();
-    }
-  }
+  EvDocument *doc = ev_document_factory_get_document (uri, err);
+  if(*err)
+    g_warning ("Trying to read the pdf file %s gave an error: %s", uri, (*err)->message);
+  else
+    set_printarea_doc(doc);
+  return;
+}
 
+static void
+printview_finished(GPid pid, gint status, gboolean print) {
+  progressbar_stop();
+  printpid = GPID_NONE;
+  GError *err = NULL;
+  set_printarea(&err);
+  if(!err && print)
+     libevince_print();
   normal_cursor();
 }
 
@@ -1418,16 +1424,20 @@ static	gboolean within_area(gint x, gint y) {
 gint
 printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 {
+#if 0
+ GtkWidget *label = gtk_label_new("here");
+ gint w, h;
+ gtk_layout_get_size (GTK_LAYOUT(Denemo.printarea), &w, &h);
+ gtk_layout_put (GTK_LAYOUT(Denemo.printarea), label, (gint)event->x, (gint)event->y);
+ gtk_widget_show(label);
 
-GtkWidget *label = gtk_label_new("here");
+#endif
 
-gtk_layout_put (widget,label,(gint)event->x, (gint)event->y);
-gtk_widget_show(label);
-g_print("Put %p at %d %d\n", label, (gint)event->x, (gint)event->y);
-ev_view_next_page(widget);
-ev_view_select_all (widget);
-return TRUE;
+//g_print(" number of children %d\n",  g_list_length(gtk_container_get_children(Denemo.printarea)));
+//GtkAdjustment *adj = gtk_layout_get_hadjustment(Denemo.printarea);
+//gtk_adjustment_set_value (adj, (gint)event->x);g_list_length(gtk_container_get_children(evview))
 
+return;
 
   
   gboolean left = (event->button != 3);
@@ -1535,6 +1545,7 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 static void denemoprintf_sync(EvView  *evview, gpointer arg1, gpointer user_data) {
 g_print("Sync Signal Callback! Please report how you got this to fire\n");
 }
+
 static void denemoprint_changed(gchar * filename) {
   static unsigned last_mtime=0;
   struct stat thebuf;
@@ -1558,8 +1569,8 @@ static void denemoprint_changed(gchar * filename) {
           if(err) g_error_free (err);
           err = NULL;
       } else {
-      EvDocumentModel  *model = ev_document_model_new_with_document(doc);
-      ev_view_set_model((EvView*)Denemo.printarea, model);
+        set_printarea_doc(doc);
+        
       }
     }
   }
@@ -1638,7 +1649,14 @@ static void page_display(GtkWidget *button, gint page_increment) {
   for(i=0;i>page_increment;i--)
     ev_view_previous_page((EvView*)Denemo.printarea);
 }
-
+static void dual_page(GtkWidget *button) {
+  GError *err = NULL;
+g_object_set_data(G_OBJECT(Denemo.printarea), "Duplex", (gpointer)!g_object_get_data(G_OBJECT(Denemo.printarea), "Duplex"));
+//refresh...
+//  EvDocumentModel  *model = ev_view_get_model((EvView*)Denemo.printarea);
+//  ev_document_model_set_dual_page (model, (gboolean)g_object_get_data(G_OBJECT(Denemo.printarea), "Duplex"));
+  set_printarea(&err);
+}
 void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){ 
   if(Denemo.printarea)
     return;
@@ -1673,6 +1691,11 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
 
   hbox =  gtk_hbox_new (FALSE, 1);
   gtk_box_pack_end (GTK_BOX (main_hbox), hbox,FALSE, TRUE, 0);
+
+
+  button = gtk_button_new_with_label("Duplex");
+  g_signal_connect(button, "clicked", G_CALLBACK(dual_page), NULL);
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
   button = gtk_button_new_with_label("Next");
   g_signal_connect(button, "clicked", G_CALLBACK(page_display), (gpointer) 1);
@@ -1715,8 +1738,7 @@ g_signal_connect (G_OBJECT (Denemo.printarea), "sync-source",
 		      G_CALLBACK (denemoprintf_sync), NULL);
 
 g_print("...Attached signal?\n");
- g_signal_connect (G_OBJECT (Denemo.printarea), "button_press_event",
-		      G_CALLBACK (printarea_button_press), NULL);
+// g_signal_connect (G_OBJECT (Denemo.printarea), "button_press_event", G_CALLBACK (printarea_button_press), NULL);
 
   gtk_widget_show_all(main_vbox);
   gtk_widget_hide(top_vbox);
