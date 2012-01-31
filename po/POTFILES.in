@@ -12,13 +12,11 @@ src/barline.c
 src/bookmarks.c
 src/changenotehead.c
 src/clefdialog.c
-src/csoundplayback.c
 src/drawgrace.c
 src/drawstemdir.c
 src/drawtuplets.c
 src/dynamic.c
 src/exportabc.c
-src/exportcsound.c
 #src/exportmudela.c
 src/exportlilypond.c
 src/external.c
@@ -46,7 +44,6 @@ src/print.c
 src/prefops.c
 src/scoreops.c
 src/scoreprops.c
-src/scorewizard.c
 #src/staffheightdialog.c
 src/staffops.c
 src/staffpropdialog.c
