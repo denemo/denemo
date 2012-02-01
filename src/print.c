@@ -32,6 +32,9 @@
 #include "view.h"
 #include "external.h"
 
+#define MARKER (24)
+static GdkRectangle Mark;
+static gboolean ObjectLocated;//TRUE when an external-link has just been followed back to a Denemo object
 #define GREATER 2
 #define SAME 1
 #define LESSER 0
@@ -957,7 +960,93 @@ set_printarea_doc(EvDocument *doc) {
   EvDocumentModel  *model = ev_document_model_new_with_document(doc);
   ev_document_model_set_dual_page (model, (gboolean)g_object_get_data(G_OBJECT(Denemo.printarea), "Duplex"));
   ev_view_set_model((EvView*)Denemo.printarea, model);
+  Mark.width=0;//indicate that there should no longer be any Mark placed on the score
   }
+
+static void get_window_position(gint*x, gint* y) {
+  GtkAdjustment * adjust = gtk_range_get_adjustment(GTK_RANGE(Denemo.printhscrollbar));
+  *x = (gint)adjust->value;
+  adjust = gtk_range_get_adjustment(GTK_RANGE(Denemo.printvscrollbar));
+  *y = (gint)adjust->value;
+}
+
+  
+//over-draw the evince widget with padding etc ...
+static gboolean overdraw_print(cairo_t *cr) {
+  if(Denemo.pixbuf==NULL)
+    return FALSE;
+  gint x, y;
+
+  get_window_position(&x, &y);
+
+  gint width, height;
+  width = gdk_pixbuf_get_width( GDK_PIXBUF(Denemo.pixbuf));
+  height = gdk_pixbuf_get_height( GDK_PIXBUF(Denemo.pixbuf));
+
+  cairo_scale( cr, Denemo.gui->si->preview_zoom, Denemo.gui->si->preview_zoom );
+  cairo_translate( cr, -x, -y );
+  gdk_cairo_set_source_pixbuf( cr, GDK_PIXBUF(Denemo.pixbuf), -x, -y);
+  if(Mark.width) {
+    cairo_set_source_rgba( cr, 0.5, 0.5, 1.0 , 0.5);
+    cairo_rectangle (cr, Mark.x, Mark.y, MARKER, MARKER );
+    cairo_fill(cr);
+  }
+return TRUE;
+//fragments of code for drawing actively dragging and already dragged objects - this will need a list of displaced rectangles and an actively dragged one
+//the list of dragged rectangles would be emptied on refreshing the pdf
+  if(selecting)
+    {gint w = ABS(markx-curx);
+    gint h = ABS(marky-cury);
+    cairo_set_source_rgb(cr, 0, 0, 1);
+    cairo_rectangle( cr, markx,marky, w, h );
+    cairo_fill( cr );
+    }
+  if(offsetting)
+    {
+      gint w = pointx-markx;
+      gint h = pointy-marky;
+      cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
+      cairo_rectangle( cr, markx,marky, w, h );
+      cairo_fill( cr );
+      GdkWindow *window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
+      gdk_draw_pixbuf(window, NULL, GDK_PIXBUF(Denemo.pixbuf),
+        markx+x, marky+y, curx, cury,/* x, y in pixbuf, x,y in window */
+        w,  h, GDK_RGB_DITHER_NONE,0,0);
+    }
+  if(padding)
+    {
+      gint pad = ABS(markx-curx);
+      gint w = pointx-markx;
+      gint h = pointy-marky;
+      cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
+      cairo_rectangle( cr, markx-pad/2, marky-pad/2, w+pad, h+pad);
+
+      GdkWindow *window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
+      gdk_draw_pixbuf(window, NULL, GDK_PIXBUF(Denemo.pixbuf),
+		      markx+x, marky+y, markx, marky,/* x, y in pixbuf, x,y in window */
+          w,  h, GDK_RGB_DITHER_NONE,0,0);
+    }
+return FALSE;
+}
+#if GTK_MAJOR_VERSION==3
+gint
+printarea_draw_event(GtkWidget *w, cairo_t *cr) {
+return overdraw_print(cr);
+}
+#else
+gint
+printarea_draw_event (GtkWidget * widget, GdkEventExpose * event)
+{
+  /* Setup a cairo context for rendering and clip to the exposed region. */
+  cairo_t *cr = gdk_cairo_create (event->window);
+  gdk_cairo_region (cr, event->region);
+  cairo_clip (cr);
+  overdraw_print(cr);
+  cairo_destroy(cr);
+  return TRUE;
+}
+#endif
+
 
 static void
 set_printarea(GError **err) {
@@ -972,6 +1061,16 @@ set_printarea(GError **err) {
     g_warning ("Trying to read the pdf file %s gave an error: %s", uri, (*err)->message);
   else
     set_printarea_doc(doc);
+    {
+      GdkWindow *window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
+      gint width, height;
+      gdk_drawable_get_size(window, &width, &height);
+      
+      Denemo.pixbuf = gdk_pixbuf_get_from_drawable(NULL, window, 
+                                                   NULL/*gdk_colormap_get_system ()*/, 0, 0, 0, 0,
+                                                  width, height);
+      g_print("Have %p\n", Denemo.pixbuf);
+    }
   return;
 }
 
@@ -1296,7 +1395,7 @@ popup_print_preview_menu(void) {
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(create_part_pdf),NULL);
 
-#if 0
+#if 1
   item = gtk_menu_item_new_with_label("Drag to desired offset");
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(start_drag), &offsetting);
@@ -1311,7 +1410,7 @@ popup_print_preview_menu(void) {
   return TRUE;
 }
 
-static void
+static gint
 goto_position (EvView* view, EvLinkAction *obj)
 {
 
@@ -1319,11 +1418,12 @@ goto_position (EvView* view, EvLinkAction *obj)
   //g_print("external signal %s\n", uri);
   gchar **vec = g_strsplit (uri, ":",5);
   if(!strcmp(vec[0], "textedit") && vec[1] && vec[2] && vec[3]) {
-    goto_lilypond_position(atoi(vec[2]), atoi(vec[3]));
+      ObjectLocated = goto_lilypond_position(atoi(vec[2]), atoi(vec[3]));
   } else {
   g_warning ("Cannot follow external link type %s\n", vec[0]);
   }
   g_strfreev(vec);
+return TRUE;//we do not want the evince widget to handle this.
 }
 static gint adjust_x=0;
 static gint adjust_y=0;
@@ -1343,11 +1443,11 @@ printarea_focus_in_event (GtkWidget * widget, GdkEventExpose * event)
 
 
 //GdkBitmap *graphic = NULL; /* a selection from the print area */
-//gint markx, marky, pointx, pointy;/* a selected area in the printarea */
 
-gint
+static gint
 printarea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 {
+  ObjectLocated = FALSE;
   if(Denemo.pixbuf==NULL)
     return TRUE;
   if(padding || offsetting || selecting) {
@@ -1356,46 +1456,11 @@ printarea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     gtk_widget_queue_draw (Denemo.printarea);
   }
 
-  return TRUE;
-}
-
-
-static gint
-printarea_scroll_event (GtkWidget *widget, GdkEventScroll *event) {
-  switch(event->direction) {
-  case GDK_SCROLL_UP:
-    if(event->state&GDK_CONTROL_MASK) {
-      if(event->state&GDK_SHIFT_MASK)
-	Denemo.gui->si->preview_zoom *= 1.01;
-      else
-	Denemo.gui->si->preview_zoom *= 1.1;
-      gtk_widget_queue_draw(Denemo.printarea);
-    } else {
-      GtkAdjustment *vadj = gtk_range_get_adjustment(GTK_RANGE(Denemo.printvscrollbar));
-      gtk_adjustment_set_value(vadj,
-			       10.0 + gtk_adjustment_get_value(vadj));
-
-    }
-    break;
-  case GDK_SCROLL_DOWN:
-    if(event->state&GDK_CONTROL_MASK) {
-      if(event->state&GDK_SHIFT_MASK)
-	Denemo.gui->si->preview_zoom /= 1.01;
-      else
-	Denemo.gui->si->preview_zoom /= 1.1;
-      if(Denemo.gui->si->preview_zoom <0.01)
-	Denemo.gui->si->preview_zoom = 0.01;
-      gtk_widget_queue_draw(Denemo.printarea);
-    } else {
-      GtkAdjustment *vadj = gtk_range_get_adjustment(GTK_RANGE(Denemo.printvscrollbar));
-      gtk_adjustment_set_value(vadj,
-			       -10.0 + gtk_adjustment_get_value(vadj));
-
-    }
-   break;
-  }
   return FALSE;
 }
+
+
+
 
 static void normalize(void){
   if(pointx<markx) {
@@ -1420,45 +1485,136 @@ static	gboolean within_area(gint x, gint y) {
 	 x>=markx &&
 	 y>=marky);
 }
- 
-gint
+
+#if 0
+static gint
+printarea_button_release (GtkWidget * widget, GdkEventButton * event)
+{
+g_print("release\n");
+ if(padding) {
+    gint pad = ABS(curx - markx); 
+
+    GtkWidget *thedialog = g_object_get_data(G_OBJECT(Denemo.printarea), "pad-dialog");
+    g_object_set_data(G_OBJECT(Denemo.printarea), "padding", (gpointer)pad);
+    if(thedialog){
+      gtk_dialog_response(GTK_DIALOG(thedialog), 1/*DRAGGED*/);
+    } else { 
+      gchar *msg = g_strdup_printf("You have chosen a padding tweak of %d\nYour printed output will not change until you put this tweak into the corresponding Denemo directive\nUse Edit Directive to do this.", pad);
+      warningdialog(msg);
+      g_free(msg);
+    
+    padding = FALSE;
+    return TRUE;
+ }
+ }
+
+  return TRUE;
+}
+#endif
+static gint
 printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 {
-#define M (25)
-  static GdkRectangle rect;
+#if 0
+  if(ObjectLocated) {
   GdkWindow *window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
-  if(rect.width) {
-    GdkRectangle newrect;
-    newrect.x = (gint)event->x-M/2;
-    newrect.y = (gint)event->y-M/2;
-    newrect.width = newrect.height = M;
-    if(!gdk_rectangle_intersect (&rect, &newrect, NULL))
-      gdk_window_invalidate_rect(window,&rect,TRUE); 
+  gint x, y;
+  get_window_position(&x, &y);
+  if(Mark.width) {
+      Mark.x -=x;
+      Mark.y -=y;
+      gdk_window_invalidate_rect(window,&Mark,TRUE); 
   }
-  cairo_t *cr = gdk_cairo_create (window);
-  cairo_set_source_rgba( cr, 0.5, 0.5, 1.0 , 0.5);
 
-  rect.x = (gint)event->x-M/2;
-  rect.y = (gint)event->y-M/2;
-  rect.width = rect.height = M;
-    cairo_rectangle (cr, rect.x, rect.y, M, M );
-  cairo_fill(cr);
-  cairo_destroy(cr);
-return TRUE;
-#undef M
+  Mark.x = (gint)event->x-MARKER/2;
+  Mark.y =  (gint)event->y-MARKER/2;
+  Mark.width = Mark.height = MARKER;
+  gdk_window_invalidate_rect(window,&Mark,TRUE);
+  Mark.x +=x;
+  Mark.y +=y;
+  }
+#endif
+#if 1
+//the old code - for dragging in the view window
+ gboolean left = (event->button != 3);
+  if((!left)) {
+    if(printpid==GPID_NONE)
+      popup_print_preview_menu();
+    return TRUE;
+  }
+  /* creating an offset? */
+  if(offsetting) {
+    offsetx = curx - markx;
+    offsety = cury - marky;  
+
+    GtkWidget *thedialog = g_object_get_data(G_OBJECT(Denemo.printarea), "offset-dialog");
+    g_object_set_data(G_OBJECT(Denemo.printarea), "offsetx", (gpointer)offsetx);
+    g_object_set_data(G_OBJECT(Denemo.printarea), "offsety", (gpointer)offsety);
+    if(thedialog){
+      gtk_dialog_response(GTK_DIALOG(thedialog), 1/*DRAGGED*/);
+    } else { 
+      gchar *msg = g_strdup_printf("You have chosen a offset tweak of %d, %d\nYour printed output will not change until you put this tweak into the corresponding Denemo directive\nUse Edit Directive to do this.", offsetx, -offsety);
+      warningdialog(msg);
+      g_free(msg);
+    }
+    offsetting = FALSE;
+    return TRUE;
+  }
+  /*( creating a padding value? */
+  if(padding) {
+    gint pad = ABS(curx - markx); 
+
+    GtkWidget *thedialog = g_object_get_data(G_OBJECT(Denemo.printarea), "pad-dialog");
+    g_object_set_data(G_OBJECT(Denemo.printarea), "padding", (gpointer)pad);
+    if(thedialog){
+      gtk_dialog_response(GTK_DIALOG(thedialog), 1/*DRAGGED*/);
+    } else { 
+      gchar *msg = g_strdup_printf("You have chosen a padding tweak of %d\nYour printed output will not change until you put this tweak into the corresponding Denemo directive\nUse Edit Directive to do this.", pad);
+      warningdialog(msg);
+      g_free(msg);
+    }
+    padding = FALSE;
+    return TRUE;
+  }
+  selecting = TRUE;
+//  if(Denemo.pixbuf==NULL)
+//    return TRUE;
+  pointx = markx=event->x;
+  pointy = marky=event->y;
+
+  return TRUE;
+#endif
 }
 
 
 
-gint
+static gint
 printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 {
-  gboolean left = (event->button != 3);
-  if(!left) {
-        return TRUE;
-  }
   if(Denemo.pixbuf==NULL)
     return TRUE;
+  gboolean left = (event->button != 3);
+  if(left && ObjectLocated) {
+    GdkWindow *window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
+    gint x, y;
+    get_window_position(&x, &y);
+    if(Mark.width) {
+      Mark.x -=x;
+      Mark.y -=y;
+      gdk_window_invalidate_rect(window,&Mark,TRUE); 
+    }
+
+    Mark.x = (gint)event->x-MARKER/2;
+    Mark.y =  (gint)event->y-MARKER/2;
+    Mark.width = Mark.height = MARKER;
+    gdk_window_invalidate_rect(window,&Mark,TRUE);
+    Mark.x +=x;
+    Mark.y +=y;
+    }
+return TRUE;
+
+//This code for use later when dragging an object
+  g_print("selecting %d\n", selecting);
+
   if(selecting) {
     pointx=event->x;
     pointy=event->y;
@@ -1683,15 +1839,30 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
 
  g_signal_connect (G_OBJECT (Denemo.printarea), "external-link",
 		      G_CALLBACK (goto_position), NULL);
+
+
+#if GTK_MAJOR_VERSION==3
+  g_signal_connect_after (G_OBJECT (Denemo.printarea), "draw",
+		      G_CALLBACK (printarea_draw_event), NULL);
+#else
+  g_signal_connect_after (G_OBJECT (Denemo.printarea), "expose_event",
+		      G_CALLBACK (printarea_draw_event), NULL);
+#endif
+
+  g_signal_connect (G_OBJECT (Denemo.printarea), "motion_notify_event",
+		      G_CALLBACK (printarea_motion_notify), NULL);
+          
  //g_signal_connect (G_OBJECT (Denemo.printarea), "focus_in_event",
 	//	      G_CALLBACK (printarea_focus_in_event), NULL);
-g_print("Attaching signal...");
-//!!!not available in early versions of libevince
-g_signal_connect (G_OBJECT (Denemo.printarea), "sync-source",
-		      G_CALLBACK (denemoprintf_sync), NULL);
 
-g_print("...Attached signal?\n");
+  
+//g_print("Attaching signal...");
+//!!!not available in early versions of libevince
+//g_signal_connect (G_OBJECT (Denemo.printarea), "sync-source",
+//		      G_CALLBACK (denemoprintf_sync), NULL);
+//g_print("...Attached signal?\n");
  g_signal_connect (G_OBJECT (Denemo.printarea), "button_press_event", G_CALLBACK (printarea_button_press), NULL);
+ g_signal_connect_after (G_OBJECT (Denemo.printarea), "button_release_event", G_CALLBACK (printarea_button_release), NULL);
 
   gtk_widget_show_all(main_vbox);
   gtk_widget_hide(top_vbox);
