@@ -983,7 +983,7 @@ static gboolean overdraw_print(cairo_t *cr) {
   width = gdk_pixbuf_get_width( GDK_PIXBUF(Denemo.pixbuf));
   height = gdk_pixbuf_get_height( GDK_PIXBUF(Denemo.pixbuf));
 
-  cairo_scale( cr, Denemo.gui->si->preview_zoom, Denemo.gui->si->preview_zoom );
+ // cairo_scale( cr, Denemo.gui->si->preview_zoom, Denemo.gui->si->preview_zoom );
   cairo_translate( cr, -x, -y );
   gdk_cairo_set_source_pixbuf( cr, GDK_PIXBUF(Denemo.pixbuf), -x, -y);
   if(Mark.width) {
