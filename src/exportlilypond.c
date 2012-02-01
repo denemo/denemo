@@ -2820,7 +2820,7 @@ static void create_lilywindow(DenemoGUI *gui) {
   /*   g_object_set_data(G_OBJECT (SIGNAL_WIDGET),"enter-signal", (gpointer)id); */
   GtkTextTag *t;
   t = gtk_text_tag_new("invisible");
-  g_object_set(G_OBJECT(t),  "invisible", TRUE, NULL);
+  //g_object_set(G_OBJECT(t),  "invisible", TRUE, NULL); //this invisibility lead to errors in location going from the LilyPond output back to the buffer, it was intended only to make the text more legible by hiding non-printing parts of the score. So this is now an unused tag.
   gtk_text_tag_table_add (tagtable, t);
 
   t = gtk_text_tag_new("system_invisible");
