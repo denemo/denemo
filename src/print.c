@@ -1069,7 +1069,6 @@ set_printarea(GError **err) {
       Denemo.pixbuf = gdk_pixbuf_get_from_drawable(NULL, window, 
                                                    NULL/*gdk_colormap_get_system ()*/, 0, 0, 0, 0,
                                                   width, height);
-      g_print("Have %p\n", Denemo.pixbuf);
     }
   return;
 }
@@ -1113,6 +1112,7 @@ if((force) || (changecount!=Denemo.gui->changecount)) {
   gui->si->markstaffnum=0;//FIXME save and restore selection?    
   gui->lilycontrol.excerpt = FALSE;
   create_pdf(FALSE, TRUE);
+  changecount = Denemo.gui->changecount;
   return TRUE;
   }
 return FALSE;
@@ -1514,26 +1514,6 @@ g_print("release\n");
 static gint
 printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 {
-#if 0
-  if(ObjectLocated) {
-  GdkWindow *window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
-  gint x, y;
-  get_window_position(&x, &y);
-  if(Mark.width) {
-      Mark.x -=x;
-      Mark.y -=y;
-      gdk_window_invalidate_rect(window,&Mark,TRUE); 
-  }
-
-  Mark.x = (gint)event->x-MARKER/2;
-  Mark.y =  (gint)event->y-MARKER/2;
-  Mark.width = Mark.height = MARKER;
-  gdk_window_invalidate_rect(window,&Mark,TRUE);
-  Mark.x +=x;
-  Mark.y +=y;
-  }
-#endif
-#if 1
 //the old code - for dragging in the view window
  gboolean left = (event->button != 3);
   if((!left)) {
@@ -1582,7 +1562,6 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
   pointy = marky=event->y;
 
   return TRUE;
-#endif
 }
 
 
@@ -1664,7 +1643,7 @@ static void denemoprint_changed(gchar * filename) {
   }
   unsigned mtime = thebuf.st_mtime;
   if(mtime != last_mtime) {
-    g_print("denemoprintf changed\n");
+   // g_print("denemoprintf changed\n");
     size_t st_size = thebuf.st_size;
     if(st_size) {
       GError *err = NULL;
@@ -1741,6 +1720,9 @@ void show_print_view(GtkAction *action, gpointer param) {
     gtk_window_present(GTK_WINDOW(w));
   else
     gtk_widget_show(w);
+  if(action && changecount!=Denemo.gui->changecount) {
+    typeset_control(NULL, NULL);
+  }
 }
 
 /* typeset the score, and store the passed script for refresh purposes*/
@@ -1766,6 +1748,20 @@ g_object_set_data(G_OBJECT(Denemo.printarea), "Duplex", (gpointer)!g_object_get_
 //  ev_document_model_set_dual_page (model, (gboolean)g_object_get_data(G_OBJECT(Denemo.printarea), "Duplex"));
   set_printarea(&err);
 }
+
+gint
+printarea_scroll_event (GtkWidget *widget, GdkEventScroll *event) {
+  switch(event->direction) {
+    case GDK_SCROLL_UP:
+      g_print("scroll up event\n");
+      break;
+    case GDK_SCROLL_DOWN:
+      g_print("scroll down event\n");
+      break;
+  }
+return FALSE;
+}
+
 void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){ 
   if(Denemo.printarea)
     return;
@@ -1861,7 +1857,13 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
 //g_signal_connect (G_OBJECT (Denemo.printarea), "sync-source",
 //		      G_CALLBACK (denemoprintf_sync), NULL);
 //g_print("...Attached signal?\n");
- g_signal_connect (G_OBJECT (Denemo.printarea), "button_press_event", G_CALLBACK (printarea_button_press), NULL);
+
+// Re-connect this signal to work on the pop up menu for dragging Denemo objects...
+// g_signal_connect (G_OBJECT (Denemo.printarea), "button_press_event", G_CALLBACK (printarea_button_press), NULL);
+
+// We may not need this signal
+//  g_signal_connect (G_OBJECT (Denemo.printarea), "scroll_event", G_CALLBACK(printarea_scroll_event), NULL);
+
  g_signal_connect_after (G_OBJECT (Denemo.printarea), "button_release_event", G_CALLBACK (printarea_button_release), NULL);
 
   gtk_widget_show_all(main_vbox);
