@@ -21,7 +21,6 @@
 #ifdef HAVE_WAIT_H
 #include <wait.h>
 #endif
-
 #include <errno.h>
 #include <denemo/denemo.h>
 #include <evince-view.h>
@@ -31,6 +30,14 @@
 #include "utils.h"
 #include "view.h"
 #include "external.h"
+
+#if GTK_MAJOR_VERSION==3
+typedef enum {
+  GDK_RGB_DITHER_NONE,
+  GDK_RGB_DITHER_NORMAL,
+  GDK_RGB_DITHER_MAX
+} GdkRgbDither;
+#endif
 
 #define MARKER (24)
 static GdkRectangle Mark;
@@ -965,9 +972,9 @@ set_printarea_doc(EvDocument *doc) {
 
 static void get_window_position(gint*x, gint* y) {
   GtkAdjustment * adjust = gtk_range_get_adjustment(GTK_RANGE(Denemo.printhscrollbar));
-  *x = (gint)adjust->value;
+  *x = (gint) gtk_adjustment_get_value(adjust);
   adjust = gtk_range_get_adjustment(GTK_RANGE(Denemo.printvscrollbar));
-  *y = (gint)adjust->value;
+  *y = gtk_adjustment_get_value(adjust);
 }
 
   
@@ -1064,11 +1071,17 @@ set_printarea(GError **err) {
     {
       GdkWindow *window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
       gint width, height;
+#if GTK_MAJOR_VERSION==2
       gdk_drawable_get_size(window, &width, &height);
       
       Denemo.pixbuf = gdk_pixbuf_get_from_drawable(NULL, window, 
                                                    NULL/*gdk_colormap_get_system ()*/, 0, 0, 0, 0,
                                                   width, height);
+#else
+      width = gdk_window_get_width(window);
+      height = gdk_window_get_height(window);
+      Denemo.pixbuf = gdk_pixbuf_get_from_window(window, 0,0, width,height);
+#endif
     }
   return;
 }
