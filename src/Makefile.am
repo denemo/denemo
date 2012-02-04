@@ -12,7 +12,7 @@ denemo_SOURCES = denemo_types.c \
 	help.c importxml.c importmusicxml.c importmidi.c kbd-custom.c kbd-interface.c \
 	keyresponses.c keysigdialog.c figure.c 	main.c \
 	measureops.c moveviewport.c mousing.c barline.c 	view.c http.c \
-	mwidthdialog.c objops.c exportmidi.c 	instrumentname.c external.c screenshot.c \
+	mwidthdialog.c objops.c exportmidi.c 	instrumentname.c external.c screenshot.c  source.c \
 	playback.c drawfakechord.c fakechord.c \
 	playbackprops.c prefdialog.c prefops.c	processstaffname.c \
 	lyric.c scoreops.c scoreprops.c \
@@ -38,7 +38,7 @@ denemo_SOURCES = denemo_types.c \
 	xmldefs.h exportmidi.h instrumentname.h  print.h \
 	lyric.h playback.h runsilent.h binreloc.c  binreloc.h \
 	bookmarks.c bookmarks.h \
-	external.h screenshot.h fakechord.h \
+	external.h screenshot.h source.h fakechord.h \
 	parseinstruments.c parseinstruments.h keyboard.c \
 	pitchentry.c pitchrecog.c pitchentry.h audio.h \
 	drawlilydir.c lilydirectives.h lilydirectives.c keysigdialog.h \

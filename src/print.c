@@ -603,99 +603,6 @@ printrangedialog(DenemoGUI * gui){
 }
 
 
-static   cairo_surface_t *the_surface;
-static gdouble repeat_length;
-static void
-begin_print (GtkPrintOperation *operation,
-	     GtkPrintContext   *context)
-{
-
-  gchar *filename = get_printfile_pathbasename();
-  gchar *path = g_strconcat (filename, "_.png", NULL);
-  g_free(filename);
-  the_surface = cairo_image_surface_create_from_png (path);
-  g_free(path);
-  int src_width = cairo_image_surface_get_width(the_surface);//PIXELS
-  int src_height = cairo_image_surface_get_height(the_surface);
-
-  double page_height =  1.414*((double)src_width);
-  //g_print("Estimated page height from width %f giving %f pages\n", page_height, src_height/page_height);
-  int num_pages = (int)(0.5+src_height/page_height);
-  repeat_length = src_height/num_pages +1.0;
-  //g_print("Estimated page height from width %f giving %f pages\nRepeat length %f", page_height, src_height/page_height, repeat_length);
-  gtk_print_operation_set_n_pages (operation, num_pages);
-  gtk_print_operation_set_use_full_page(operation, TRUE);
-}
-
-
-/***********************************
-We divide the .png image into pages.
- we use the page_nr parameter to choose the n'th page-sized chunk of the .png surface.
- paper size in points:
-
-Letter		 612x792
-LetterSmall	 612x792
-Tabloid		 792x1224
-Ledger		1224x792
-Legal		 612x1008
-Statement	 396x612
-Executive	 540x720
-A0               2384x3371
-A1              1685x2384
-A2		1190x1684
-A3		 842x1190
-A4		 595x842
-A4Small		 595x842
-A5		 420x595
-B4		 729x1032
-B5		 516x729
-Envelope	 ???x???
-Folio		 612x936
-Quarto		 610x780
-10x14		 720x1008
-
-
-*********************/
-static void
-draw_page (GtkPrintOperation *operation,
-	   GtkPrintContext   *context,
-	   gint               page_nr)
-{
-  cairo_t * cr = gtk_print_context_get_cairo_context (context);
-
-  int src_width = cairo_image_surface_get_width(the_surface);//PIXELS
-  int src_height = cairo_image_surface_get_height(the_surface);
-  int page_origin_x = 0;
-  int page_origin_y = 0;
-  static double scale = 1.414;
-  //g_print("width %d height %d\n", src_width, src_height);
-  double page_height =  scale*src_width;
-  int num_pages = (int)(0.5 + src_height/page_height);
-  //g_print("Have %d pages of page height %f at page number %d\n", num_pages, page_height, page_nr);
-
-  cairo_status_t  status = cairo_surface_status(the_surface);
-  if(status != CAIRO_STATUS_SUCCESS)
-    g_print("An error %d\n", status);
-  if(page_nr>=num_pages) {
-    g_warning("called for page_nr %d\n", page_nr+1);
-    gtk_print_operation_cancel (operation);
-    //cairo_surface_destroy (the_surface); the_surface = NULL;
-  }
-  else {
-
-    double margin = 15.0;
-    //cairo_rotate (cr, 45* 3.1418/180); works
-    cairo_scale (cr, 70.0/180.0, 70.0/180.0);
-    cairo_translate(cr, 4*margin,  4*margin   );
-    cairo_set_source_surface (cr, the_surface, 0.0 /*2*margin*/,   - (double)(repeat_length*page_nr));
-    cairo_rectangle (cr, 0.0, 0.0, (double)src_width+2*margin, (double)repeat_length);
-    cairo_fill (cr);
-  }
-  if(page_nr==num_pages-1)
-    g_print("Finished printing\n");
-  else
-    g_print("returning from drawing page %d\n", page_nr+1);
-}
 
 static
 void rm_temp_files(gchar *file, gpointer free_only) {
@@ -952,7 +859,7 @@ libevince_print(void) {
 
   EvDocument *doc = ev_document_factory_get_document (uri, &err);
   if(err) {
-    g_warning ("Trying to read the pdf file %s gave an error: %s", uri, err->message);
+    g_warning ("Trying to print the pdf file %s gave an error: %s", uri, err->message);
     if(err)
 			g_error_free (err);
     err = NULL;
@@ -964,11 +871,18 @@ libevince_print(void) {
 
 static void
 set_printarea_doc(EvDocument *doc) {
-  EvDocumentModel  *model = ev_document_model_new_with_document(doc);
+  EvDocumentModel  *model;
+
+  model = g_object_get_data(G_OBJECT(Denemo.printarea), "model");//there is no ev_view_get_model(), when there is use it
+  if(model==NULL) {
+    model = ev_document_model_new_with_document(doc);
+    ev_view_set_model((EvView*)Denemo.printarea, model);
+    g_object_set_data(G_OBJECT(Denemo.printarea), "model", model);//there is no ev_view_get_model(), when there is use it
+  } else
+  ev_document_model_set_document (model, doc);
   ev_document_model_set_dual_page (model, (gboolean)g_object_get_data(G_OBJECT(Denemo.printarea), "Duplex"));
-  ev_view_set_model((EvView*)Denemo.printarea, model);
   Mark.width=0;//indicate that there should no longer be any Mark placed on the score
-  }
+}
 
 static void get_window_position(gint*x, gint* y) {
   GtkAdjustment * adjust = gtk_range_get_adjustment(GTK_RANGE(Denemo.printhscrollbar));
@@ -977,12 +891,27 @@ static void get_window_position(gint*x, gint* y) {
   *y = gtk_adjustment_get_value(adjust);
 }
 
-  
+
+static void set_window_position(x, y) {
+  GtkAdjustment * adj = gtk_range_get_adjustment(GTK_RANGE(Denemo.printhscrollbar));
+  gint bound = gtk_adjustment_get_upper(adj);
+  if(x<bound) {
+  gtk_adjustment_set_value(adj, x);
+  gtk_adjustment_changed(adj);
+  } else g_print("out of horizontal range\n");
+
+  adj = gtk_range_get_adjustment(GTK_RANGE(Denemo.printvscrollbar));
+  bound = gtk_adjustment_get_upper(adj);
+  if(y<bound) {
+    gtk_adjustment_set_value(adj, y);
+    gtk_adjustment_changed(adj);
+  } else g_print("out of vertical range\n");
+}
 //over-draw the evince widget with padding etc ...
 static gboolean overdraw_print(cairo_t *cr) {
   if(Denemo.pixbuf==NULL)
     return FALSE;
-  gint x, y;
+  gint x, y, hupper, hlower, vupper, vlower;
 
   get_window_position(&x, &y);
 
@@ -1064,11 +993,19 @@ set_printarea(GError **err) {
   gchar *uri = g_file_get_uri (file);
   g_object_unref (file);
   EvDocument *doc = ev_document_factory_get_document (uri, err);
+  //gint x = 0, y = 0, hupper, hlower, vupper, vlower;//store current position for reloading
+
+
+  //get_window_position(&x, &y, &hupper, &hlower, &vupper, &vlower);
   if(*err)
     g_warning ("Trying to read the pdf file %s gave an error: %s", uri, (*err)->message);
   else
     set_printarea_doc(doc);
-    {
+
+
+  
+    //setting up Denemo.pixbuf so that parts of the pdf can be dragged etc.
+  {
       GdkWindow *window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
       gint width, height;
 #if GTK_MAJOR_VERSION==2
@@ -1082,7 +1019,7 @@ set_printarea(GError **err) {
       height = gdk_window_get_height(window);
       Denemo.pixbuf = gdk_pixbuf_get_from_window(window, 0,0, width,height);
 #endif
-    }
+  }
   return;
 }
 
@@ -1588,6 +1525,7 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
   if(left && ObjectLocated) {
     GdkWindow *window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
     gint x, y;
+    //g_print("reading position of mark");
     get_window_position(&x, &y);
     if(Mark.width) {
       Mark.x -=x;
@@ -1647,36 +1585,6 @@ static void denemoprintf_sync(EvView  *evview, gpointer arg1, gpointer user_data
 g_print("Sync Signal Callback! Please report how you got this to fire\n");
 }
 
-static void denemoprint_changed(gchar * filename) {
-  static unsigned last_mtime=0;
-  struct stat thebuf;
-  if(g_stat(filename, &thebuf)) {
-    //g_warning("stat failed with %d\n", g_stat(filename, &thebuf));
-    return;//probably no file yet
-  }
-  unsigned mtime = thebuf.st_mtime;
-  if(mtime != last_mtime) {
-   // g_print("denemoprintf changed\n");
-    size_t st_size = thebuf.st_size;
-    if(st_size) {
-      GError *err = NULL;
-      GFile       *file;
-      file = g_file_new_for_commandline_arg (filename);
-      gchar *uri = g_file_get_uri (file);
-      g_object_unref (file);
-      EvDocument *doc = ev_document_factory_get_document (uri, &err);
-      if(err) {
-          g_warning ("Trying to read the pdf file %s gave an error: %s", uri, err->message);
-          if(err) g_error_free (err);
-          err = NULL;
-      } else {
-        set_printarea_doc(doc);
-        
-      }
-    }
-  }
-  last_mtime = mtime;
-}
 
 const gchar * get_printfile_name(void)
       {
@@ -1871,23 +1779,20 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
 //		      G_CALLBACK (denemoprintf_sync), NULL);
 //g_print("...Attached signal?\n");
 
+//what would this one fire on???? g_signal_connect (G_OBJECT (Denemo.printarea), "binding-activated",
+//		      G_CALLBACK (denemoprintf_sync), NULL);
+
 // Re-connect this signal to work on the pop up menu for dragging Denemo objects...
 // g_signal_connect (G_OBJECT (Denemo.printarea), "button_press_event", G_CALLBACK (printarea_button_press), NULL);
 
 // We may not need this signal
-//  g_signal_connect (G_OBJECT (Denemo.printarea), "scroll_event", G_CALLBACK(printarea_scroll_event), NULL);
+//  g_signal_connect (G_OBJECT (score_and_scroll_hbox), "scroll_event", G_CALLBACK(printarea_scroll_event), NULL);
 
- g_signal_connect_after (G_OBJECT (Denemo.printarea), "button_release_event", G_CALLBACK (printarea_button_release), NULL);
+  g_signal_connect_after (G_OBJECT (Denemo.printarea), "button_release_event", G_CALLBACK (printarea_button_release), NULL);
 
   gtk_widget_show_all(main_vbox);
   gtk_widget_hide(top_vbox);
-  {
-    const gchar *filename = get_printfile_name();
 
-    g_idle_add ((GSourceFunc) denemoprint_changed, (gpointer)filename);
-
-  }
-  
 }
 
 
