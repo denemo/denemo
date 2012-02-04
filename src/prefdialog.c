@@ -362,7 +362,7 @@ preferences_change (GtkAction *action, gpointer param)
     cbdata.audio_backend_list = g_list_append(cbdata.audio_backend_list, (gpointer)"dummy");
     cbdata.audio_driver_option_list = g_list_append(cbdata.audio_driver_option_list, (gpointer)"none");
 
-#ifdef _HAVE_PORTAUDIO_
+#ifdef _HAVE_PORTMIDI_
     cbdata.midi_backend_list = g_list_append(cbdata.midi_backend_list, (gpointer)"portmidi");
     cbdata.midi_driver_option_list = g_list_append(cbdata.midi_driver_option_list, (gpointer)"PortMidi");
 #endif
