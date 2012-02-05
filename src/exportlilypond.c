@@ -782,7 +782,23 @@ directives_insert_##field##_editable (GList *directives, gint *popen_braces, gin
 DIRECTIVES_INSERT_EDITABLE_AFFIX(prefix);
 DIRECTIVES_INSERT_EDITABLE_AFFIX(postfix);
 
-
+static void
+directives_insert_affix_postfix_editable (GList *directives, gint *popen_braces, gint *pprevduration, GtkTextIter *iter, gchar* invisibility) {
+ DenemoGUI *gui = Denemo.gui;
+  GList *g = directives;
+  for(;g;g=g->next) {
+    DenemoDirective *directive = (DenemoDirective *)g->data;\
+    if(!(directive->override&DENEMO_OVERRIDE_AFFIX))
+      continue;
+    if(directive->override&DENEMO_OVERRIDE_HIDDEN)
+      continue;
+    if(directive->postfix && directive->postfix->len) {
+      if(pprevduration) *pprevduration = -1;		    
+      if(popen_braces) *popen_braces += brace_count(directive->postfix->str); 
+      insert_editable(&directive->postfix, directive->postfix->str, iter, invisibility, gui);
+    }
+  }
+}
 
 
 /* returns if there is a directive overriding the normal LilyPond output */
@@ -859,7 +875,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	/* prefix is before duration unless AFFIX override is set */
 	directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, invisibility, !lily_override);
 	
-	if(!lily_override) { //skip all LilyPond output for this chord
+	if(!lily_override) { //all LilyPond is output for this chord
 	  if (!pchord->notes)
 	    {			/* A rest */
 	      
@@ -1116,7 +1132,10 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 
 	    /* do this in caller                    g_string_append_printf (ret, " "); */
 	  } /* End of else chord with note(s) */
-   } /* End of skipping LilyPond for this chord because of LILYPOND_OVERRIDE set get_lily_overr*/
+//now output the postfix field of directives that have AFFIX set, which are not emitted 
+	directives_insert_affix_postfix_editable (pchord->directives, &open_braces, &prevduration, iter, invisibility);
+	  
+      } /* End of outputting LilyPond for this chord because of LILYPOND_OVERRIDE not set in a chord directive*/
 	else {
 	GList *g = pchord->directives;
 	for(;g;g=g->next) {
@@ -1127,8 +1146,9 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	    insert_editable(&directive->postfix, directive->postfix->str, iter, invisibility, gui);
 	  }
 	}
-	}
-	if(!lily_override)
+      }
+	
+    if(!lily_override)
 	  if ((pchord->is_grace & ENDGRACE) && *pgrace_status) {
 	    *pgrace_status = FALSE, g_string_append_printf (ret,"} ");	  
 	  }
