@@ -1,25 +1,38 @@
 (d-InsertA)
 (d-AddD)
-(d-DirectivePut-chord-prefix "test" "%{chord prefix%}")
-(d-DirectivePut-chord-postfix "test" "%{chord postfix%}")
-(d-DirectivePut-chord-postfix "testwithaffix" "%{chord postfix with affix override set%}")
-(d-DirectivePut-chord-prefix "testwithaffix" "%{chord prefix with affix override set%}")
+(d-DirectivePut-chord-prefix "test" "%{chord prefix%}\n")
+(d-DirectivePut-chord-postfix "test" "%{chord postfix%}\n")
+
+(d-Change0)
+(d-InsertB)
+(d-AddD)
+(d-DirectivePut-chord-prefix "testwithaffix" "%{chord prefix with affix override set%}\n")
+(d-DirectivePut-chord-postfix "testwithaffix" "%{chord postfix with affix override set%}\n")
 (d-DirectivePut-chord-override "testwithaffix" DENEMO_OVERRIDE_AFFIX)
 
-(d-DirectivePut-note-prefix "test" "%{note prefix%}")
-(d-DirectivePut-note-postfix "test" "%{note postfix%}")
+(d-Change1)
+(d-InsertC)
+(d-AddD)
+(d-DirectivePut-chord-prefix "testwithaffixandlilyoverride" "%{chord prefix with lily and affix override set%}\n") ;; does not need to output in LilyPond
+(d-DirectivePut-chord-postfix "testwithaffixandlilyoverride" "%{chord postfix with lily and affix override set%}\n")
+(d-DirectivePut-chord-override "testwithaffixandlilyoverride" (logior DENEMO_OVERRIDE_LILYPOND DENEMO_OVERRIDE_AFFIX))
 
-(d-DirectivePut-staff-prefix "test" "%{staff prefix%}")
-(d-DirectivePut-staff-postfix "test" "%{staff postfix%}")
+(d-Change2)
+(d-InsertD)
+(d-DirectivePut-note-prefix "test" "%{note prefix%}\n")
+(d-DirectivePut-note-postfix "test" "%{note postfix%}\n")
 
-(d-DirectivePut-voice-prefix "test" "%{voice prefix%}")
-(d-DirectivePut-voice-postfix "test" "%{voice postfix%}")
+(d-DirectivePut-staff-prefix "test" "%{staff prefix%}\n")
+(d-DirectivePut-staff-postfix "test" "%{staff postfix%}\n")
 
-(d-DirectivePut-score-prefix "test" "%{score prefix%}")
-(d-DirectivePut-score-postfix "test" "%{score postfix%}")
+(d-DirectivePut-voice-prefix "test" "%{voice prefix%}\n")
+(d-DirectivePut-voice-postfix "test" "%{voice postfix%}\n")
 
-(d-DirectivePut-clef-prefix "test" "%{clef prefix%}")
-(d-DirectivePut-clef-postfix "test" "%{clef postfix%}")
+(d-DirectivePut-score-prefix "test" "%{score prefix%}\n")
+(d-DirectivePut-score-postfix "test" "%{score postfix%}\n")
+
+(d-DirectivePut-clef-prefix "test" "%{clef prefix%}\n")
+(d-DirectivePut-clef-postfix "test" "%{clef postfix%}\n")
 
 (d-DirectivePut-scoreheader-prefix "test" "%{scoreheader prefix%}\n")
 (d-DirectivePut-scoreheader-postfix "test" "%{scoreheader postfix%}\n")
