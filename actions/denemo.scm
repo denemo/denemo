@@ -947,7 +947,7 @@
 ;;; Insert a directive that puts a comment in the LilyPond text showing where the source material for this part of the music is
 ;;; The tag name is a command to open the file containing that source
 (define (InsertLink filepos)
-  (d-DirectivePut-standalone  "DenemoLink")
+  (d-Directive-standalone  "DenemoLink")
   (d-DirectivePut-standalone-postfix "DenemoLink" (string-append "%{" filepos "%}"))
   (d-DirectivePut-standalone-minpixels "DenemoLink" 30)
   (d-DirectivePut-standalone-gy "DenemoLink" -40)
