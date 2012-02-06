@@ -4,6 +4,9 @@
       No hiccups when page turns or if editing during playback etc
       Pause and Loop play included
       Recording MIDI to accompany the live playback
+    *Links to Source Material
+      Source files (manuscripts/facsimiles) can be linked from the Denemo score
+      One click navigation to and from the source to the transcription
     * Better control of voices
         Voices can be displayed on separate staffs but remain as voices.
         No need to join voices before printing. 
