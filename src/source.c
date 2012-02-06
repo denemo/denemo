@@ -24,21 +24,8 @@ typedef struct fileview { gchar *filename; EvView *view;} fileview;
 
 GList *theviews = NULL;
 static void set_window_position(EvView *view, gint x, gint y, gint page) {
-  #if 0
- GtkAdjustment * adj = g_object_get_data(G_OBJECT(view), "vadj");
- if(adj) {
-	gtk_adjustment_set_value(adj, x);
-	gtk_adjustment_changed(adj);
- }
- adj = g_object_get_data(G_OBJECT(view), "hadj");
- if(adj) {
-	gtk_adjustment_set_value(adj, y);
-	gtk_adjustment_changed(adj);
- }
- #else
   EvDocumentModel *model = (EvDocumentModel*)g_object_get_data(G_OBJECT(view), "model");
   ev_document_model_set_page(model, page);
- #endif
 }
 
 
@@ -97,9 +84,10 @@ button_press (EvView *view, GdkEventButton * event)
   x += event->x;
   y += event->y;
   gchar *text = g_strdup_printf("(InsertLink \"%s:%d:%d:%d\")", filename, (gint)(x/scale), (gint)(y/scale), page);
-  Mark.x = x/scale;
-  Mark.y = y/scale;
+  Mark.x = (x-MARKER/2)/scale;
+  Mark.y = (y-MARKER/2)/scale;
   Mark.width = Mark.height = MARKER;
+  gtk_widget_queue_draw(GTK_WIDGET(view));
   call_out_to_guile(text);
   return FALSE;
 }
@@ -186,8 +174,8 @@ static gboolean position_view(EvView* eview, gint x, gint y, gint page) {
     return FALSE;
   set_window_position(eview, x, y, page);
   Mark.width = Mark.height = MARKER;
-  Mark.x = x;
-  Mark.y = y;
+  Mark.x = x-MARKER/2;
+  Mark.y = y-MARKER/2;
   
   gtk_widget_show(gtk_widget_get_toplevel(GTK_WIDGET(eview)));
   gtk_window_present(GTK_WINDOW(gtk_widget_get_toplevel(GTK_WIDGET(eview))));
