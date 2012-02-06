@@ -5819,6 +5819,29 @@ for second and subsequent systems</tooltip>
         <label>&#x266D;</label>
         <tooltip>Flattens the key signature by one degree. If no key signature at the cursor, operates on the initial key signature.</tooltip>
       </row>
+      <row>
+        <action>DenemoLink</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/NavigationMenu</menupath>
+        <label>Follow Link to Source</label>
+        <tooltip>Follows the link at the cursor to a source document.</tooltip>
+      </row>
+      <row>
+        <action>ReplaceChord</action>
+        <after>Tremolo</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests</menupath>
+        <label>Replace LilyPond</label>
+        <tooltip>Suppresses the normal LilyPond typetting for the current note/chord/rest replacing it with syntax provided by user.</tooltip>
+      </row>
+      <row>
+        <action>OpenSourceDialog</action>
+        <after>OpenNewWindow</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/FileMenu/OpenMenu</menupath>
+        <label>Open Source for Transcribing</label>
+        <tooltip>Opens a dialog to fetch a source facsimile or manuscript. Links can be placed in the Denemo score to this source file so that the source passage for a given measure can be re-displayed when reviewing the score.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

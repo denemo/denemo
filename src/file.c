@@ -98,7 +98,9 @@ static gchar *supported_midi_file_extension[] = {
 static gchar *supported_musicxml_file_extension[] = {
   "*.mxml", "*.MXML", "*.xml"
 };
-
+static gchar *supported_evince_file_extension[] = {
+  "*.pdf", "*.PDF"
+};
 /* Some macros just to shorten lines */
 #define FORMAT_MASK(i) supported_file_formats[i].filename_mask
 #define FORMAT_DESCRIPTION(i) supported_file_formats[i].description
@@ -319,6 +321,10 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
         result = mxmlinput (filename, gui);
       else if(EXISTS(".mid") || EXISTS(".midi"))
         result = importMidi (filename, gui);
+      else if(EXISTS(".pdf") || EXISTS(".PDF")) {// a .pdf file for transcribing from, does not affect the current score.
+        g_signal_handlers_unblock_by_func(G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
+        return !open_source (filename, 0, 0);
+      }
 #undef EXISTS
     }
   //printf("\nResult == %d type == %d template == %d xml == %d\n",result,type,template,(int)xml);
@@ -813,6 +819,13 @@ file_open (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *fil
 	  executeScript(); 
 }
 
+gint open_source_file(void){
+  gchar *filename = NULL;
+  ImportType type = 0;
+  DenemoSaveType template = 0;
+  DenemoGUI *gui = Denemo.gui;
+  FILE_OPEN_DIALOG("Open", evince, PDF_FORMAT);
+}
 /**
  * Lilypond Import dialog - opened where appropriate 
  * return 0 on success non-zero on failure.

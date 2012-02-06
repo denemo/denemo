@@ -24,7 +24,7 @@
 
 //Opens a window with an evince widget displaying filename marked at position x, y
 //keeps a list of opened files and re-uses the already opened file if there is one.
-gboolean open_source(gchar *filename, gint x, gint y);
+gboolean open_source(gchar *filename, gint x, gint y, gint page);
 
 
 #endif

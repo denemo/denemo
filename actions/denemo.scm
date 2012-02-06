@@ -942,3 +942,24 @@
 	(d-DirectivePut-standalone-minpixels tag (/ ticks 12))
 	(d-SetDurationInTicks ticks)
 	(d-MoveCursorRight))
+
+
+;;; Insert a directive that puts a comment in the LilyPond text showing where the source material for this part of the music is
+;;; The tag name is a command to open the file containing that source
+(define (InsertLink filepos)
+  (d-DirectivePut-standalone  "DenemoLink")
+  (d-DirectivePut-standalone-postfix "DenemoLink" (string-append "%{" filepos "%}"))
+  (d-DirectivePut-standalone-minpixels "DenemoLink" 30)
+  (d-DirectivePut-standalone-gy "DenemoLink" -40)
+  (d-DirectivePut-standalone-graphic "DenemoLink" "\nL")
+  (d-RefreshDisplay))
+  
+
+;;; The routine called by the DenemoLink command to follow the link
+(define (FollowLink)
+  (let ((link (d-DirectiveGet-standalone-postfix "DenemoLink")))
+    (if link
+     (begin
+     ;(disp "link is " link "ok\n")
+      (set! link (string-trim-both link   (lambda (c)(or (eqv? c #\{) (eqv? c #\%)))))
+  (d-OpenSource link)))))

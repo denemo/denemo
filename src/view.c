@@ -941,18 +941,27 @@ static SCM scheme_open_source (SCM link) {
     gchar *thestring = scm_to_locale_string(link);
     gchar *filename = strtok(thestring, ":");
     if(filename) {
-      gint x, y;
+      gint x, y, page;
         gchar *xstr = strtok(NULL, ":");
         gchar *ystr = strtok(NULL, ":");
+        gchar *pstr = strtok(NULL, ":");
         x = xstr?atoi(xstr):0;
         y = ystr?atoi(ystr):0;
-        if(open_source(filename, x, y))
+        page = pstr?atoi(pstr):0;
+        if(open_source(filename, x, y, page))
           ret = SCM_BOOL_T;
     }
    if(thestring) free(thestring);   
   }
   return ret;
 }
+
+static SCM scheme_open_source_file(SCM optional) {
+  if(open_source_file())
+    return SCM_BOOL_T;
+  return SCM_BOOL_F;
+}
+
 static SCM scheme_take_snapshot (SCM optional) {   
   return SCM_BOOL(take_snapshot());
 }
@@ -5179,7 +5188,9 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
 
   INSTALL_SCM_FUNCTION ("Snapshots the current movement putting it in the undo queue returns #f if no snapshot was taken because of a guard", DENEMO_SCHEME_PREFIX"TakeSnapshot", scheme_take_snapshot);
 
-  INSTALL_SCM_FUNCTION ("Follows a link to a source file of form string \"filename:x:y\". It opens the file and places a marker there. ", DENEMO_SCHEME_PREFIX"OpenSource", scheme_open_source);
+  INSTALL_SCM_FUNCTION ("Follows a link to a source file of form string \"filename:x:y:page\". It opens the file and places a marker there. ", DENEMO_SCHEME_PREFIX"OpenSource", scheme_open_source);
+
+  INSTALL_SCM_FUNCTION ("Opens a source file for transcribing from. Links to this source file can be placed by shift-clicking on its contents", DENEMO_SCHEME_PREFIX"OpenSourceFile", scheme_open_source_file);
 
   INSTALL_SCM_FUNCTION ("Stop collecting undo information. Call DecreaseGuard when finished. Returns #f if already guarded, #t if this call is stopping the undo collection", DENEMO_SCHEME_PREFIX"IncreaseGuard", scheme_increase_guard);
 
