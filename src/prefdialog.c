@@ -335,6 +335,7 @@ preferences_change (GtkAction *action, gpointer param)
 #ifdef _HAVE_PORTMIDI_
   GtkWidget *portmidi_settings;
 #endif
+  GList *g;
   gint i;
   static struct callbackdata cbdata;
   g_assert (gui != NULL);
@@ -361,7 +362,7 @@ preferences_change (GtkAction *action, gpointer param)
     cbdata.audio_backend_list = g_list_append(cbdata.audio_backend_list, (gpointer)"dummy");
     cbdata.audio_driver_option_list = g_list_append(cbdata.audio_driver_option_list, (gpointer)"none");
 
-#ifdef _HAVE_PORTAUDIO_
+#ifdef _HAVE_PORTMIDI_
     cbdata.midi_backend_list = g_list_append(cbdata.midi_backend_list, (gpointer)"portmidi");
     cbdata.midi_driver_option_list = g_list_append(cbdata.midi_driver_option_list, (gpointer)"PortMidi");
 #endif
@@ -467,12 +468,11 @@ preferences_change (GtkAction *action, gpointer param)
 #define CBOX(thelable, field, thelist, settext)\
  GtkWidget *field = gtk_combo_box_text_new_with_entry ();\
  i=0;\
- while (thelist){\
-  gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(field), thelist->data);\
-  if (0==strcmp(thelist->data, settext))\
+ for (g=thelist;g;g=g->next){\
+  gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(field), g->data);\
+  if (0==strcmp(g->data, settext))\
     gtk_combo_box_set_active(GTK_COMBO_BOX(field), i);\
   i++;\
-  thelist = thelist->next;\
  }
 
 #define COMBOBOX(thelabel, field, thelist, settext, editable)\
