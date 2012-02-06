@@ -139,16 +139,8 @@ void fluidsynth_all_notes_off() {
   fluid_synth_system_reset(synth);
 }
 
-//return the midi key of the passed event if note on, else 0 FIXME move this to a sensible place
-#define SYS_EXCLUSIVE_MESSAGE1  0xF0
-#define NOTE_ON                 0x90
-int noteon_key(smf_event_t *event) {
-if((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1)==NOTE_ON)
-  return event->midi_buffer[1];
-return 0;
-}
-
 void fluidsynth_render_audio(unsigned int nframes, float *left_channel, float *right_channel) {
+  printf("\nsynth == %d, nframes == %d, left_channel == %f right_channel == %f\n",synth, nframes, left_channel, right_channel);
   fluid_synth_write_float(synth, nframes, left_channel, 0, 1, right_channel, 0, 1);
 }
 
