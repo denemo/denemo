@@ -77,18 +77,23 @@ draw_event (EvView * widget, GdkEventExpose * event)
 static gint
 button_press (EvView *view, GdkEventButton * event)
 {
-  gint x, y, page;
-  gdouble scale;
-  get_window_position(view, &x, &y, &page, &scale);
-  gchar *filename = g_object_get_data(G_OBJECT(view), "filename");
-  x += event->x;
-  y += event->y;
-  gchar *text = g_strdup_printf("(InsertLink \"%s:%d:%d:%d\")", filename, (gint)(x/scale), (gint)(y/scale), page);
-  Mark.x = (x-MARKER/2)/scale;
-  Mark.y = (y-MARKER/2)/scale;
-  Mark.width = Mark.height = MARKER;
-  gtk_widget_queue_draw(GTK_WIDGET(view));
-  call_out_to_guile(text);
+  if(event->button==1)
+    g_print("Use right button to create link\n");
+  else {
+    gint x, y, page;
+    gdouble scale;
+    get_window_position(view, &x, &y, &page, &scale);
+    gchar *filename = g_object_get_data(G_OBJECT(view), "filename");
+    x += event->x;
+    y += event->y;
+    gchar *text = g_strdup_printf("(InsertLink \"%s:%d:%d:%d\")", filename, (gint)(x/scale), (gint)(y/scale), page);
+    Mark.x = (x-MARKER/2)/scale;
+    Mark.y = (y-MARKER/2)/scale;
+    Mark.width = Mark.height = MARKER;
+    gtk_widget_queue_draw(GTK_WIDGET(view));
+    call_out_to_guile(text);
+    switch_back_to_main_window();
+  }
   return FALSE;
 }
 

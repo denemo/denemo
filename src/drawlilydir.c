@@ -39,7 +39,7 @@ draw_lily_dir (cairo_t *cr,
   }
   else
   //FIXME do this by creating a display field
-    if( *first == '%' || *first == '^' || *first == '_' ) { //display comments, and markup above and below
+    if((!lily->graphic) && ( *first == '%' || *first == '^' || *first == '_' )) { //display comments, and markup above and below
       drawnormaltext_cr( cr, first+1, xx, *first=='_'?y+lowy+20:y-highy-20 );
     }
     cairo_restore(cr);
