@@ -93,7 +93,7 @@ void page_for_time(gdouble time_seconds) {
 gboolean event_queue_read_output(event_queue_t *queue, unsigned char *event_buffer, size_t *event_length,
                                  double *event_time, double until_time) {
 
-#if 0
+#if 1
 //old fixed length code                                   
   if (jack_ringbuffer_read_space(queue->immediate)) {
     midi_event_t event;
@@ -120,8 +120,8 @@ gboolean event_queue_read_output(event_queue_t *queue, unsigned char *event_buff
       *event_time = 0.0;
       return TRUE;
     }
+  }
 #endif
-}
 
   if (!queue->playback) {
     return FALSE;
