@@ -717,7 +717,7 @@ preferences_change (GtkAction *action, gpointer param)
 
   SEPARATOR();
 
-
+#ifdef _HAVE_FLUIDSYNTH_
   /*
    * FluidSynth settings
    */
@@ -735,7 +735,7 @@ preferences_change (GtkAction *action, gpointer param)
 
   BOOLEANENTRY("Enable Reverb on soundfont", fluidsynth_reverb)
   BOOLEANENTRY("Enable Chorus on soundfont", fluidsynth_chorus)
-
+#endif
 
   gtk_widget_show_all (dialog);
 

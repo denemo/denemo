@@ -764,3 +764,14 @@ void change_tuning(gdouble *cents) {
     buffer[i+8] = 64 + (cents[i]+0.5);
   play_midi_event(DEFAULT_BACKEND, 0, buffer);
 }
+
+//return the midi key of the passed event if note on, else 0 
+#define SYS_EXCLUSIVE_MESSAGE1  0xF0
+#define NOTE_ON                 0x90
+int noteon_key(smf_event_t *event) {
+if((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1)==NOTE_ON)
+  return event->midi_buffer[1];
+return 0;
+}
+
+

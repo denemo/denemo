@@ -62,6 +62,6 @@ gint get_midi_prognum(DenemoStaff *staff);
 gint get_midi_port(DenemoStaff *staff);
 
 void change_tuning(gdouble *cents);
-
+int noteon_key(smf_event_t *event);
 
 #endif // MIDI_H
