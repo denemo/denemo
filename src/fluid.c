@@ -140,7 +140,7 @@ void fluidsynth_all_notes_off() {
 }
 
 void fluidsynth_render_audio(unsigned int nframes, float *left_channel, float *right_channel) {
-  printf("\nsynth == %d, nframes == %d, left_channel == %f right_channel == %f\n",synth, nframes, left_channel, right_channel);
+  //printf("\nsynth == %d, nframes == %d, left_channel == %f right_channel == %f\n",synth, nframes, left_channel, right_channel);
   fluid_synth_write_float(synth, nframes, left_channel, 0, 1, right_channel, 0, 1);
 }
 
