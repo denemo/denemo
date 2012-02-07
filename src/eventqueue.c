@@ -93,7 +93,7 @@ void page_for_time(gdouble time_seconds) {
 gboolean event_queue_read_output(event_queue_t *queue, unsigned char *event_buffer, size_t *event_length,
                                  double *event_time, double until_time) {
 
-#if 1
+#ifdef _HAVE_JACK_
 //old fixed length code                                   
   if (jack_ringbuffer_read_space(queue->immediate)) {
     midi_event_t event;
