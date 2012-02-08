@@ -23,15 +23,11 @@
 #include "lyric.h"
 #include "midi.h"
 
-/**
- * defines function to choose the correct 
- * depending upon the GTK version
- *
- */
+
 #define EXCL_WIDTH 3
 #define EXCL_HEIGHT 13
 
-GdkPixbuf *StaffPixbuf, *StaffPixbufSmall, *StaffGoBack, *StaffGoForward;
+static GdkPixbuf *StaffPixbuf, *StaffPixbufSmall, *StaffGoBack, *StaffGoForward;
 
 static layout_needed = TRUE; //Set FALSE when further call to draw_score(NULL) is not needed.
 void initialize_playhead(void) {
