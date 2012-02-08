@@ -188,5 +188,7 @@ static gboolean position_view(EvView* eview, gint x, gint y, gint page) {
 }
 gboolean open_source(gchar *filename, gint x, gint y, gint page) {
 EvView* eview = get_view(filename);
-return position_view(eview, x, y, page);
+gboolean ret = position_view(eview, x, y, page);
+switch_back_to_main_window();
+return ret;
 }
