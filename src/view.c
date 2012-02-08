@@ -2007,7 +2007,7 @@ SCM scheme_set_prevailing_keysig(SCM keyaccs) {
 SCM scheme_increment_keysig(SCM amount) {
   DenemoStaff *curstaff = Denemo.gui->si->currentstaff->data;
   DenemoObject *curObj = NULL;
-  gint ret = SCM_BOOL_F;
+  SCM ret = SCM_BOOL_F;
   gint inc=1;
   if(scm_is_integer(amount))
     inc = scm_num2int(amount, 0, 0);
@@ -7087,6 +7087,7 @@ static void bitmap_table_insert(gchar *name, DenemoGraphic *xbm) {
 }
 
 static  DenemoGraphic * create_bitmap_from_data(gchar *data, gint width, gint height) {
+#if 0
 /*   static GdkColor white, black;gboolean init = FALSE; */
 /*   if(!init) { */
 /*     gdk_color_parse ("white", &white); */
@@ -7101,6 +7102,9 @@ static  DenemoGraphic * create_bitmap_from_data(gchar *data, gint width, gint he
   cairo_pattern_t *pattern = cairo_pattern_create_for_surface (surface);
   cairo_pattern_reference(pattern);
   return pattern;
+#else
+  return NULL;
+#endif
 }
 
 static gboolean
@@ -7700,7 +7704,11 @@ GtkAction *activate_action(gchar *path) {
 static void
 change_input_type (GtkRadioAction * action, GtkRadioAction * current) {
   DenemoGUI *gui = Denemo.gui;
-gint val = gtk_radio_action_get_current_value (current);
+  if(gui->notsaved) {
+      warningdialog("You have unsaved work. Hardware problems may cause the program to exit during this task.\nPlease save first.");
+      return;
+  }
+ gint val = gtk_radio_action_get_current_value (current);
  gboolean fail=FALSE;
  switch(val) {
  case INPUTKEYBOARD:
@@ -8877,7 +8885,7 @@ get_data_dir (),
 					  | GDK_BUTTON_PRESS_MASK
 					  | GDK_BUTTON_RELEASE_MASK));
 
-  Denemo.vadjustment = gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0);
+  Denemo.vadjustment = (GtkAdjustment*)gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0);
   g_signal_connect (G_OBJECT (Denemo.vadjustment), "value_changed",
 		      G_CALLBACK (vertical_scroll), NULL);
   Denemo.vscrollbar = gtk_vscrollbar_new (GTK_ADJUSTMENT (Denemo.vadjustment));
@@ -8885,7 +8893,7 @@ get_data_dir (),
 		      TRUE, 0);
   gtk_widget_show (Denemo.vscrollbar);
 
-  Denemo.hadjustment = gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0);
+  Denemo.hadjustment = (GtkAdjustment*)gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0);
 
   g_signal_connect (G_OBJECT (Denemo.hadjustment), "value_changed",
 		      G_CALLBACK (horizontal_scroll), NULL);
