@@ -14,6 +14,7 @@
 #include "selectops.h"
 #include "objops.h"
 #include "lyric.h"
+#include "audiointerface.h"
 
 static remove_all_staffs(DenemoScore * si);
 
@@ -29,7 +30,9 @@ point_to_empty_movement (DenemoGUI *gui)
   init_score (newscore, gui);
   if(gui->si && gui->si->buttonbox)
      gtk_widget_hide(gui->si->buttonbox);
+  g_static_mutex_lock (&smfmutex);
   gui->si = newscore;
+  g_static_mutex_unlock (&smfmutex);
   gtk_widget_show(gui->si->buttonbox);
 }
 /**
