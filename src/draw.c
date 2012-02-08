@@ -28,7 +28,7 @@
 #define EXCL_HEIGHT 13
 
 static GdkPixbuf *StaffPixbuf, *StaffPixbufSmall, *StaffGoBack, *StaffGoForward;
-
+static DenemoObject *Startobj, *Endobj;
 static layout_needed = TRUE; //Set FALSE when further call to draw_score(NULL) is not needed.
 void initialize_playhead(void) {
 
@@ -37,6 +37,16 @@ void initialize_playhead(void) {
 
 void region_playhead(void) {
   gtk_widget_queue_draw (Denemo.scorearea);
+}
+
+
+void set_start_and_end_objects_for_draw(void) {
+
+    Startobj =
+      get_obj_for_end_time(Denemo.gui->si->smf, Denemo.gui->si->start_time - 0.001);
+    Endobj =
+      get_obj_for_start_time(Denemo.gui->si->smf, Denemo.gui->si->end_time - 0.001);
+
 }
 
 static void      
@@ -1015,12 +1025,10 @@ draw_score (cairo_t *cr)
   y = 0;
 
   if(gui->si->smf) {
-    itp.startobj =
-      get_obj_for_end_time(gui->si->smf, gui->si->start_time - 0.001);
+    itp.startobj = Startobj;
     // g_print("start %p\n", itp.startobj);
 
-    itp.endobj =
-      get_obj_for_start_time(gui->si->smf, gui->si->end_time - 0.001);
+    itp.endobj = Endobj;
     //g_print("Start time %p %f end time %p %f\n", itp.startobj, si->start_time, itp.endobj, si->end_time);
   }
 
