@@ -89,7 +89,8 @@ void start_playing(gchar *callback) {
       callback_script = g_string_new(callback);
   if(Denemo.gui->si->recorded_midi_track)
     safely_add_track(Denemo.gui->si->smf, Denemo.gui->si->recorded_midi_track);
- 
+
+  set_start_and_end_objects_for_draw();
   smf_rewind(smf);
 
   int r = smf_seek_to_seconds(smf, Denemo.gui->si->start_time);
@@ -165,6 +166,8 @@ double get_end_time() {
 
 
 smf_event_t *get_smf_event(double until_time) {
+  if(Denemo.gui==NULL || Denemo.gui->si==NULL || Denemo.gui->si->smf==NULL)
+    return NULL;
   smf_t *smf = Denemo.gui->si->smf;
 
   if (until_time > Denemo.gui->si->end_time) {
