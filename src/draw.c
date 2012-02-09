@@ -853,7 +853,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
     //g_print("line_end is %d, while itp->measurenum=%d and si->rightmeasurenum=%d\n",  itp->line_end, itp->measurenum, si->rightmeasurenum);
     if(!itp->line_end) {
 	if(-itp->highy>itp->in_highy && -itp->highy<MAXEXTRASPACE) {
-	  g_print("With %d to change %d\n", -itp->highy, itp->in_highy);
+	  //g_print("With %d to change %d\n", -itp->highy, itp->in_highy);
 	  thestaff->space_above = -itp->highy;
 	  repeat = TRUE;
 	}
