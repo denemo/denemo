@@ -50,7 +50,7 @@ jack_ringbuffer_create (size_t sz)
 	rb->size_mask -= 1;
 	rb->write_ptr = 0;
 	rb->read_ptr = 0;
-	if ((rb->buf = malloc (rb->size)) == NULL) {
+	if ((rb->buf = calloc (rb->size, 1)) == NULL) {
 		free (rb);
 		return NULL;
 	}
