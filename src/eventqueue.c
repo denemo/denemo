@@ -19,7 +19,7 @@
 
 
 event_queue_t *event_queue_new(size_t playback_queue_size, size_t immediate_queue_size, size_t input_queue_size) {
-  event_queue_t *queue = g_malloc0(sizeof(event_queue_t *));
+  event_queue_t *queue = g_malloc0(sizeof(event_queue_t));
 
   if (playback_queue_size) {
     queue->playback = jack_ringbuffer_create(playback_queue_size * sizeof(smf_event_t *));
