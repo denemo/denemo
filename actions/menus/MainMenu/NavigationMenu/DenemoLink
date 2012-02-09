@@ -8,7 +8,9 @@
         <action>DenemoLink</action>
         <scheme>;;;DenemoLink
 (if (d-Directive-standalone? "DenemoLink")
-	(FollowLink)
+	(begin
+		(FollowLink)
+		(d-MoveCursorRight))
 	(d-WarningDialog "There is no link here, open the source document and click on it to place one."))</scheme>
         <label>Follow Link to Source</label>
         <tooltip>Follows the link at the cursor to a source document.</tooltip>
