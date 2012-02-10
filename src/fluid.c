@@ -136,7 +136,10 @@ void fluidsynth_feed_midi(unsigned char *event_data, size_t event_length) {
 
 void fluidsynth_all_notes_off() {
   // FIXME: this call has the potential to cause an xrun and/or disconnect us from JACK
+  //FIXME: this unsets the channel settings for immediate playback (fixed below) and more ...????
   fluid_synth_system_reset(synth);
+  if(Denemo.prefs.pitchspellingchannel)
+    fluid_synth_program_change(synth, Denemo.prefs.pitchspellingchannel, Denemo.prefs.pitchspellingprogram);
 }
 
 void fluidsynth_render_audio(unsigned int nframes, float *left_channel, float *right_channel) {
