@@ -5842,6 +5842,14 @@ for second and subsequent systems</tooltip>
         <label>Open Source for Transcribing</label>
         <tooltip>Opens a dialog to fetch a source facsimile or manuscript. Links can be placed in the Denemo score to this source file so that the source passage for a given measure can be re-displayed when reviewing the score.</tooltip>
       </row>
+      <row>
+        <action>PrintThreeReduced</action>
+        <after>PrintTwoReduced</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
+        <label>Print Three Parts as Cue for Accompanist</label>
+        <tooltip>Prints top three parts on one staff as cues.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
