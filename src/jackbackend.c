@@ -63,7 +63,8 @@ static void process_audio(nframes_t nframes) {
 
   for (i = 0; i < num_audio_out_ports; ++i) {
     port_buffers[i] = jack_port_get_buffer(audio_out_ports[i], nframes);
-    memset(port_buffers[i], 0, nframes * sizeof(sample_t));
+    //memset(port_buffers[i], 0, nframes * sizeof(sample_t));
+    jack_midi_clear_buffer(port_buffers[i]);
   }
 
 #ifdef _HAVE_FLUIDSYNTH_

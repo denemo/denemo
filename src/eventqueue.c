@@ -23,14 +23,17 @@ event_queue_t *event_queue_new(size_t playback_queue_size, size_t immediate_queu
 
   if (playback_queue_size) {
     queue->playback = jack_ringbuffer_create(playback_queue_size * sizeof(smf_event_t *));
+    jack_ringbuffer_reset(queue->playback);
   }
 
   if (immediate_queue_size) {
     queue->immediate = jack_ringbuffer_create(immediate_queue_size * sizeof(midi_event_t));
+    jack_ringbuffer_reset(queue->immediate);
   }
 
   if (input_queue_size) {
     queue->input = jack_ringbuffer_create(input_queue_size * sizeof(midi_event_t));
+    jack_ringbuffer_reset(queue->input);
   }
 
   return queue;
@@ -93,7 +96,7 @@ void page_for_time(gdouble time_seconds) {
 gboolean event_queue_read_output(event_queue_t *queue, unsigned char *event_buffer, size_t *event_length,
                                  double *event_time, double until_time) {
 
-#ifdef _HAVE_JACK_
+#if 0
 //old fixed length code                                   
   if (jack_ringbuffer_read_space(queue->immediate)) {
     midi_event_t event;

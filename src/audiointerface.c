@@ -118,7 +118,7 @@ static int initialize_audio(DenemoPrefs *config) {
     backends[AUDIO_BACKEND] = &dummy_audio_backend;
   }
 
-  event_queues[AUDIO_BACKEND] = event_queue_new(PLAYBACK_QUEUE_SIZE, IMMEDIATE_QUEUE_SIZE, 0);
+  //event_queues[AUDIO_BACKEND] = event_queue_new(PLAYBACK_QUEUE_SIZE, IMMEDIATE_QUEUE_SIZE, 0);
 
   int ret = get_backend(AUDIO_BACKEND)->initialize(config);
 
@@ -165,7 +165,7 @@ static int initialize_midi(DenemoPrefs *config) {
     backends[MIDI_BACKEND] = &dummy_midi_backend;
   }
 
-  event_queues[MIDI_BACKEND] = event_queue_new(PLAYBACK_QUEUE_SIZE, IMMEDIATE_QUEUE_SIZE, INPUT_QUEUE_SIZE);
+  //event_queues[MIDI_BACKEND] = event_queue_new(PLAYBACK_QUEUE_SIZE, IMMEDIATE_QUEUE_SIZE, INPUT_QUEUE_SIZE);
 
   int ret = get_backend(MIDI_BACKEND)->initialize(config);
 
@@ -189,7 +189,8 @@ int audio_initialize(DenemoPrefs *config) {
 
   queue_cond = g_cond_new();
   queue_mutex = g_mutex_new();
-
+  event_queues[AUDIO_BACKEND] = event_queue_new(PLAYBACK_QUEUE_SIZE, IMMEDIATE_QUEUE_SIZE, 0);
+  event_queues[MIDI_BACKEND] = event_queue_new(PLAYBACK_QUEUE_SIZE, IMMEDIATE_QUEUE_SIZE, INPUT_QUEUE_SIZE);
   if (initialize_audio(config)) {
     goto err;
   }

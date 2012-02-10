@@ -8721,7 +8721,13 @@ get_data_dir (),
     
     midiconductbutton = create_playbutton(inner,"Conductor", pb_conduct, NULL);
    
-    create_playbutton(inner, "Panic" , pb_panic, NULL);
+    create_playbutton(inner,
+#ifdef _HAVE_JACK_
+    "Panic"
+#else
+    "Reset"
+#endif
+    , pb_panic, NULL);
 
 
       create_playbutton(inner, "Set From Selection", pb_set_range, NULL);

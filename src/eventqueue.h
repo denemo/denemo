@@ -15,7 +15,11 @@
 #define EVENTQUEUE_H
 
 #include "audiointerface.h"
+#ifdef _HAVE_JACK_
+#include <jack/ringbuffer.h>
+#else
 #include "ringbuffer.h"
+#endif
 
 #include "smf.h"
 
