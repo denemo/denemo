@@ -1515,6 +1515,7 @@ gchar * get_option(gchar *str, gint length) {
 						   GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
 						   GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
 						   NULL);
+  gtk_dialog_set_default_response(dialog, GTK_RESPONSE_ACCEPT);
   GtkWidget *vbox = gtk_vbox_new(FALSE, 1);
   GtkWidget *content_area = gtk_dialog_get_content_area(GTK_DIALOG (dialog));
   gtk_container_add(GTK_CONTAINER(content_area), vbox);
