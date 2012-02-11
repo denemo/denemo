@@ -330,10 +330,6 @@
         <bind>Alt+Return</bind>
       </row>
       <row>
-        <action>InsertDynamic</action>
-        <bind>Ctrl+d</bind>
-      </row>
-      <row>
         <action>EditObject</action>
         <bind>PrsR</bind>
       </row>
@@ -599,6 +595,10 @@
       <row>
         <action>FindEditPoint</action>
         <bind>Alt+Left</bind>
+      </row>
+      <row>
+        <action>DynamicsDialog</action>
+        <bind>Ctrl+d</bind>
       </row>
       <row>
         <action>AddDotSelectionSwitcher</action>
