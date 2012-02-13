@@ -59,7 +59,7 @@ static GPid printviewpid = GPID_NONE;
 static GPid previewerpid = GPID_NONE;
 static GPid get_lily_version_pid = GPID_NONE;
 static GPid printpid = GPID_NONE;
-static gint printpreview_errors=-1;
+static gboolean print_is_valid = FALSE;
 static gint output=-1;
 static gint errors=-1;
 static   GError *lily_err = NULL;
@@ -272,6 +272,7 @@ void convert_ly(gchar *lilyfile){
 static void
 process_lilypond_errors(gchar *filename){
   DenemoGUI *gui = Denemo.gui;
+  print_is_valid = TRUE;
   if (errors == -1)
     return;
   gchar *basename = g_path_get_basename(filename);
@@ -305,6 +306,10 @@ process_lilypond_errors(gchar *filename){
         set_lily_error(line+1, column, gui);
       }
       goto_lilypond_position (line+1, column);
+      print_is_valid = FALSE;
+      if(Denemo.printarea)
+        gtk_widget_queue_draw(Denemo.printarea);
+     // FIXME this causes a lock-up     warningdialog("Typesetter detected errors. Cursor is position on the error point.\nIf in doubt delete and re-enter the measure.");
     }
     else {
       set_lily_error(0, 0, gui);
@@ -927,6 +932,15 @@ static gboolean overdraw_print(cairo_t *cr) {
     cairo_set_source_rgba( cr, 0.5, 0.5, 1.0 , 0.5);
     cairo_rectangle (cr, Mark.x, Mark.y, MARKER, MARKER );
     cairo_fill(cr);
+  }
+  if(!print_is_valid) {
+  cairo_set_source_rgba( cr, 0.5, 0.0, 0.0 , 0.4);
+  cairo_set_font_size( cr, 48.0 );
+  cairo_move_to( cr, 50,50 );
+  cairo_show_text( cr, "Not Valid");
+  cairo_set_font_size( cr, 18.0 );
+  cairo_move_to( cr, 50,80 );
+  cairo_show_text( cr, "Cursor has been moved to error point in the score.");
   }
 return TRUE;
 //fragments of code for drawing actively dragging and already dragged objects - this will need a list of displaced rectangles and an actively dragged one
