@@ -302,8 +302,9 @@ process_lilypond_errors(gchar *filename){
       /*     warningdialog(errmsg); */
       console_output(epoint);
       if(gui->textbuffer) {
-	set_lily_error(line+1, column, gui);
-      } 
+        set_lily_error(line+1, column, gui);
+      }
+      goto_lilypond_position (line+1, column);
     }
     else {
       set_lily_error(0, 0, gui);
@@ -1026,6 +1027,8 @@ set_printarea(GError **err) {
 static void
 printview_finished(GPid pid, gint status, gboolean print) {
   progressbar_stop();
+  //g_print("Processing %s\n", (gchar *) get_printfile_pathbasename());
+  process_lilypond_errors((gchar *) get_printfile_pathbasename());
   printpid = GPID_NONE;
   GError *err = NULL;
   set_printarea(&err);
