@@ -28,6 +28,7 @@ static unsigned long playback_frame = 0;
 
 static gboolean reset_audio = FALSE;
 
+static gint ready = FALSE;
 
 static double nframes_to_seconds(unsigned long nframes) {
   return nframes / (double)sample_rate;
@@ -51,7 +52,8 @@ static int stream_callback(const void * input_buffer,
   for (i = 0; i < 2; ++i) {
     memset(buffers[i], 0, frames_per_buffer * sizeof(float));
   }
-
+  if(!ready)
+    return paContinue;
 #ifdef _HAVE_FLUIDSYNTH_
   if (reset_audio) {
     fluidsynth_all_notes_off();
@@ -83,8 +85,7 @@ static int stream_callback(const void * input_buffer,
   return paContinue;
 }
 
-
-static int portaudio_initialize(DenemoPrefs *config) {
+static int actual_portaudio_initialize(DenemoPrefs *config) {
   g_print("initializing PortAudio backend\n");
 
   PaStreamParameters output_parameters;
@@ -144,10 +145,18 @@ static int portaudio_initialize(DenemoPrefs *config) {
   return 0;
 }
 
+static int ready_now(){
+ready = TRUE;
+return FALSE;
+}
+static int portaudio_initialize(DenemoPrefs *config) {
+  g_idle_add((GSourceFunc)ready_now, NULL);
+  return actual_portaudio_initialize(config);
+}
 
 static int portaudio_destroy() {
   g_print("destroying PortAudio backend\n");
-
+  ready = FALSE;
   PaError err;
 
   err = Pa_CloseStream(stream);
