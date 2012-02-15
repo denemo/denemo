@@ -1179,7 +1179,7 @@ GtkWidget *get_temperament_combo(void) {
 				 renderer, "text", COLUMN_NAME);
   g_signal_connect(G_OBJECT (combobox),  "changed",
 		    G_CALLBACK (temperament_changed_callback), list_store);
-  set_tuning();
+  //set_tuning();
   }
   GtkWidget *cont = gtk_widget_get_parent(combobox);
   if(cont)

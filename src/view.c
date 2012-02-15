@@ -5436,7 +5436,7 @@ void inner_main(void*closure, int argc, char **argv){
   if(Denemo.scheme_commands)
    call_out_to_guile(Denemo.scheme_commands);
   //else ?????
-  set_tuning();
+ // set_tuning();
 
 g_print("Gtk version %u.%u.%u\n", gtk_major_version, gtk_minor_version, gtk_micro_version);
 //#ifndef G_OS_WIN32
