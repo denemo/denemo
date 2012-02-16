@@ -7,11 +7,11 @@
       <row>
         <after>SmallFontStart</after>
         <action>SmallFontEnd</action>
-        <scheme>;;;StartSmallEnd
+        <scheme>;;;SmallFontEnd
      (StandAloneDirectiveProto (cons "SmallFontEnd" "%Restore normal note size
         	\\revert NoteHead #'font-size 
         	\\revert Accidental #'font-size
-"))
+") #t "\ns")
 		</scheme>
         <label>End Small Size</label>
         <tooltip>Printing resumes normal size music.</tooltip>

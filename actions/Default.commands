@@ -5850,6 +5850,22 @@ for second and subsequent systems</tooltip>
         <label>Print Three Parts as Cue for Accompanist</label>
         <tooltip>Prints top three parts on one staff as cues.</tooltip>
       </row>
+      <row>
+        <action>CreateCuesForStaff</action>
+        <after>StaffComment</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Create Cues</label>
+        <tooltip>Goes through the staff looking for long rests. Creates a cue in the whole measure rest.</tooltip>
+      </row>
+      <row>
+        <action>StaffMultiMeasureRests</action>
+        <after>CreateCuesForStaff</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Multi-Measure Rests</label>
+        <tooltip>Groups of whole measure rests of three or more are changed to multi-measure rests for the whole staff.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

@@ -5,13 +5,12 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after>FinishCadenza</after>
         <action>SmallFontStart</action>
-        <scheme>;;;StartSmallFont
+        <scheme>;;;SmallFontStart
 (StandAloneDirectiveProto (cons "SmallFontStart" "% Start small notes		
 		\\override NoteHead #'font-size = #-4
 		\\override Accidental #'font-size = #-4
-"))
+") #t "\nt")
 </scheme>
         <label>Small Size</label>
         <tooltip>Music after this is printed in a small size.</tooltip>
