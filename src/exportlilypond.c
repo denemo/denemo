@@ -419,9 +419,12 @@ output_figured_bass (DenemoScore * si, GString *figures, chord * pchord, gint ti
     default:
     case 1:
         if(*figstr != '~') {
-	if(continuation)
-	  continuation_finishing = TRUE;
+
 	figures = g_string_append (figures, figstr);
+	if(continuation) {
+	  continuation_finishing = TRUE;
+	  figures = g_string_append (figures, " \\! ");
+		}
 	g_string_assign(last_figure, figstr);
       }
       figures = g_string_append (figures, ">");
@@ -1240,11 +1243,11 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 				    ((tupopen *) curobj->object)->numerator,
 				    ((tupopen *) curobj->object)->denominator, poststem_string);
 	    if(figures->len)
-	      g_string_append_printf (figures, "\\times %d/%d {",
+	      g_string_append_printf (figures, " \\times %d/%d {",
 				      ((tupopen *) curobj->object)->numerator,
 				      ((tupopen *) curobj->object)->denominator);
 	    if(fakechords->len)
-	      g_string_append_printf (fakechords, "\\times %d/%d {",
+	      g_string_append_printf (fakechords, " \\times %d/%d {",
 				      ((tupopen *) curobj->object)->numerator,
 				      ((tupopen *) curobj->object)->denominator);
 	  }
