@@ -124,7 +124,7 @@ static EvView *get_view(gchar *filename) {
   //ev_document_model_set_continuous(model, FALSE);
   ev_view_set_model(view, model);
   GtkWidget *top_vbox = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title(GTK_WINDOW(top_vbox), g_strdup_printf("Denemo - Source File: ", filename));
+  gtk_window_set_title(GTK_WINDOW(top_vbox), g_strdup_printf("Denemo - Source File: %s", filename));
   gtk_widget_set_size_request(GTK_WIDGET(top_vbox), 600, 750);
   g_signal_connect (G_OBJECT (top_vbox), "delete-event",
 		    G_CALLBACK (gtk_widget_hide), NULL);
