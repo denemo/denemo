@@ -2365,9 +2365,10 @@ edit_directive(DenemoDirective *directive, gchar *what) {
     GtkAction *action = lookup_action_from_name (directive->tag->str);
     if(action && (Denemo.keyboard_state!=GDK_MOD2_MASK/*NumLock */))
       activate_script(action, NULL);
-    else
+    else {
       ret =( text_edit_directive(directive, what)  || !confirm("Directive Delete", "Are you sure you want to delete the directive?"));
-    score_status (Denemo.gui, TRUE);
+      score_status (Denemo.gui, TRUE);
+    }
     return ret;
   }
   GError *error = (GError*)execute_script_file(filename);
