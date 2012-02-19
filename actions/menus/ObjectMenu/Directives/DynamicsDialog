@@ -74,7 +74,7 @@
 	    (d-DirectivePut-standalone-override tag (logior DENEMO_OVERRIDE_STEP DENEMO_OVERRIDE_VOLUME))
 	    (d-DirectivePut-standalone-midibytes tag level)))
 	(d-DirectivePut-standalone-minpixels tag 10)
-	(d-RefreshDisplay)
+	(d-SetSaved #f)
 	(d-MoveCursorRight))))))</scheme>
         <label>Dynamics</label>
         <tooltip>Choose dynamics and midi volume level.</tooltip>
