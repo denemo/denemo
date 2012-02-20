@@ -1790,6 +1790,33 @@ parseThumbElem (xmlNodePtr thumbElem, xmlNsPtr ns, DenemoSelection *selection)
 	selection->lastobjmarked = getXMLIntChild (childElem);
   }	
 }
+/**
+ * Parse the given <thumbnail> into the thumbnail  DenemoSelection.
+ * @param thumbElem the XML node to process
+ * @param ns the Denemo XML namespaces
+ * @param selection the DenemoSelection to populate 
+ * 
+ * @return 
+ */
+static void
+parseSourceFileElem (xmlNodePtr sElem, xmlNsPtr ns, DenemoGUI *gui)
+{
+   xmlNodePtr childElem;
+  FOREACH_CHILD_ELEM (childElem, sElem)
+  {
+    if (ELEM_NAME_EQ (childElem, "x"))
+      gui->source_x = getXMLIntChild (childElem);
+    else  if (ELEM_NAME_EQ (childElem, "y"))
+      gui->source_y = getXMLIntChild (childElem);
+    else  if (ELEM_NAME_EQ (childElem, "width"))
+      gui->source_width = getXMLIntChild (childElem);
+    else  if (ELEM_NAME_EQ (childElem, "height"))
+      gui->source_height = getXMLIntChild (childElem);
+    else  if (ELEM_NAME_EQ (childElem, "scale"))
+      gui->source_scale = getXMLIntChild (childElem);
+  }
+
+}
 
 
 /**
@@ -3186,7 +3213,7 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
 	  }
 	}  else if (ELEM_NAME_EQ (childElem, "movement-number")){
 	  current_movement = getXMLIntChild (childElem);
-	} else
+	} else 
 	  if (ELEM_NAME_EQ (childElem, "custom_prolog")){
 	    gchar *tmp = (gchar *) xmlNodeListGetString (childElem->doc,
 							 childElem->
@@ -3201,6 +3228,9 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
 	    } else
 	      if (ELEM_NAME_EQ (childElem, "thumbnail")){
 	      parseThumbElem (childElem, ns, &gui->thumbnail);
+	    } else
+	      if (ELEM_NAME_EQ (childElem, "sourcefile")){
+	      parseSourceFileElem (childElem, ns, gui);
 	    } else
 	      if (ELEM_NAME_EQ (childElem, "scoreheader-directives")){
 		gui->scoreheader.directives = parseWidgetDirectives(childElem, ns, (gpointer)scoreheader_directive_put_graphic, NULL, NULL);

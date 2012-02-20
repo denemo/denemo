@@ -896,6 +896,13 @@ typedef struct DenemoGUI
   GList *rstep; /**< OBSOLETE step within RhythmPattern->rsteps, the current element of the current rhythm pattern */
 
   struct RhythmPattern *prevailing_rhythm; /**< one of singleton_rhythms used for entering notes */
+
+  /* support for positioning source views */
+  gint source_x;
+  gint source_y;
+  gint source_width;
+  gint source_height;
+  gint source_scale;/* scale is x1000 */
 }DenemoGUI;
 
 

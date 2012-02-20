@@ -321,6 +321,17 @@ newThumbnailElem(xmlNodePtr curElem,  xmlNsPtr ns, DenemoSelection *thumbnail, g
   newXMLIntChild (thumbElem, ns, (xmlChar *) "last-obj", thumbnail->lastobjmarked);
 }
 static void
+newSourceFileElem(xmlNodePtr curElem,  xmlNsPtr ns, DenemoGUI *gui) {
+  if(source_position(&gui->source_x, &gui->source_y, &gui->source_width, &gui->source_height, &gui->source_scale)){
+    xmlNodePtr sourceElem =  xmlNewChild (curElem, ns, (xmlChar *) "sourcefile", NULL);
+    newXMLIntChild (sourceElem, ns, (xmlChar *) "x", gui->source_x);
+    newXMLIntChild (sourceElem, ns, (xmlChar *) "y", gui->source_y);
+    newXMLIntChild (sourceElem, ns, (xmlChar *) "width", gui->source_width);
+      newXMLIntChild (sourceElem, ns, (xmlChar *) "height", gui->source_height);
+    newXMLIntChild (sourceElem, ns, (xmlChar *) "scale", gui->source_scale);
+  }
+}
+static void
 newVersesElem(xmlNodePtr curElem,  xmlNsPtr ns, GList *verses, gchar *type) {
   xmlNodePtr versesElem =  xmlNewChild (curElem, ns, (xmlChar *) type, NULL);
   for(;verses;verses=verses->next) {
@@ -726,6 +737,10 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 
   if(gui->thumbnail.firststaffmarked)
 	    newThumbnailElem(scoreElem, ns, &gui->thumbnail, "thumbnail");
+
+    
+  newSourceFileElem (scoreElem, ns, gui);
+	
   /* lilycontrol for the whole musical score */
   
   

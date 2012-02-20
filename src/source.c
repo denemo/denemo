@@ -51,7 +51,7 @@ static gboolean overdraw(cairo_t *cr, EvView *view) {
   cairo_translate( cr, -x, -y );
   if(Mark.width) {
     cairo_set_source_rgba( cr, 0.5, 0.5, 1.0 , 0.5);
-    cairo_rectangle (cr, Mark.x*scale, Mark.y*scale, MARKER, MARKER );
+    cairo_rectangle (cr, Mark.x*scale, Mark.y*scale, MARKER, MARKER );//this is not right once there is space outside the document visible inside the window.
     cairo_fill(cr);
   }
 return TRUE;
@@ -104,6 +104,21 @@ static void prev_page(GtkWidget *button, EvView *view) {
     ev_view_previous_page(view);
 }
 
+
+static gboolean
+position_source_window(EvView *view) {
+GtkWidget *top_vbox =  gtk_widget_get_toplevel(GTK_WIDGET(view));
+  if(Denemo.gui->source_scale) {
+    //gtk_widget_set_size_request(GTK_WIDGET(top_vbox), Denemo.gui->source_width, Denemo.gui->source_height);
+    //EvDocumentModel *model = (EvDocumentModel*)g_object_get_data(G_OBJECT(view), "model");
+    //ev_document_model_set_scale(model, Denemo.gui->source_scale/1000.0);
+    gtk_window_move (GTK_WINDOW(top_vbox), Denemo.gui->source_x, Denemo.gui->source_y);
+  } else
+  gtk_window_present(GTK_WINDOW(top_vbox));
+return FALSE;
+}
+
+
 static EvView *get_view(gchar *filename) {
   GFile *file;
   GError *err = NULL;
@@ -122,10 +137,38 @@ static EvView *get_view(gchar *filename) {
   view = (EvView*)ev_view_new();
   EvDocumentModel  *model = ev_document_model_new_with_document(doc);
   //ev_document_model_set_continuous(model, FALSE);
+
   ev_view_set_model(view, model);
   GtkWidget *top_vbox = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title(GTK_WINDOW(top_vbox), g_strdup_printf("Denemo - Source File: %s", filename));
-  gtk_widget_set_size_request(GTK_WIDGET(top_vbox), 600, 750);
+
+#if 0
+    if(Denemo.gui->source_scale) {
+    !!!! nooooo, get_window_position is getting the vadj, hadj settings, ie where it is scrolled to
+    we need to get the position of the root window top vbox on the desk top, and its width and height, possibly the scale will follow...
+    !!!!!!!!
+    this is the gtk window widget not the gdk window!
+     gtk_window_move                     (GtkWindow *window,
+                                                         gint x,
+                                                         gint y);
+    gtk_window_get_position             (GtkWindow *window,
+                                                         gint *root_x,
+                                                         gint *root_y);
+  nooo  set_window_position(view, gui->source_x, gui->source_y, gui->source_page);
+  scale
+  } else
+    gtk_widget_set_size_request(GTK_WIDGET(top_vbox), 600, 750);
+#else
+
+g_idle_add((GSourceFunc)position_source_window, view);
+//gtk_window_move (GTK_WINDOW(top_vbox), Denemo.gui->source_x, Denemo.gui->source_y);
+//gtk_widget_set_size_request(GTK_WIDGET(top_vbox), 600, 750);
+ if(Denemo.gui->source_scale)
+  gtk_window_set_default_size(GTK_WINDOW(top_vbox), Denemo.gui->source_width, Denemo.gui->source_height);
+ else
+  gtk_window_set_default_size(GTK_WINDOW(top_vbox), 600, 750);
+#endif
+  
   g_signal_connect (G_OBJECT (top_vbox), "delete-event",
 		    G_CALLBACK (gtk_widget_hide), NULL);
 
@@ -171,6 +214,7 @@ static EvView *get_view(gchar *filename) {
   theview->filename = g_strdup(filename);
   theview->view = view;
   theviews = g_list_append(theviews, theview);
+
   return view;
 }
 
@@ -186,9 +230,44 @@ static gboolean position_view(EvView* eview, gint x, gint y, gint page) {
   gtk_window_present(GTK_WINDOW(gtk_widget_get_toplevel(GTK_WIDGET(eview))));
   return TRUE;
 }
+
 gboolean open_source(gchar *filename, gint x, gint y, gint page) {
 EvView* eview = get_view(filename);
 gboolean ret = position_view(eview, x, y, page);
 switch_back_to_main_window();
 return ret;
 }
+
+#if 0
+//Finds the scale and position of the (first) source file. Returns FALSE if none
+gboolean source_position (gint *x, gint *y, gint *width, gint *height, gdouble *scale) {
+  if(theviews==NULL)
+    return FALSE;
+
+  eview = (fileview*)theviews->data)->view;
+  gtk_window_get_position (GTK_WINDOW(gtk_widget_get_toplevel(GTK_WIDGET(eview))),&x,&y);
+  gdk_window_get_root_origin(GTK_WIDGET(eview))->window, x, y);
+  gtk_window_get_size (GTK_WINDOW ( gtk_widget_get_toplevel(GTK_WIDGET(eview)), &width, &height);
+  EvDocumentModel *model = (EvDocumentModel*)g_object_get_data(G_OBJECT(view), "model");
+  *scale = ev_document_model_get_scale(model);
+  
+ //or ???? gdk_window_get_width(gtk_widget_get_toplevel(GTK_WIDGET(eview))->window, width);
+ //          gdk_window_get_height(gtk_widget_get_toplevel(GTK_WIDGET(eview))->window, height);
+ // get_window_position(eview, x, y, page, scale);nooo
+
+  return TRUE;
+}
+#else
+gboolean source_position (gint *x, gint *y, gint *width, gint *height, gint *scale) {
+    if(theviews==NULL)
+    return FALSE;
+  EvView* view = ((fileview*)theviews->data)->view;
+  GtkWindow *top = (GtkWindow*)gtk_widget_get_toplevel(GTK_WIDGET(view));
+  
+  gtk_window_get_position (top, x, y);
+  gtk_window_get_size (top, width, height);
+  EvDocumentModel *model = (EvDocumentModel*)g_object_get_data(G_OBJECT(view), "model");
+  *scale = (int) 1000 * ev_document_model_get_scale(model);
+  return TRUE;
+}
+#endif
