@@ -69,15 +69,16 @@ gint
 scorearea_configure_event (GtkWidget * widget, GdkEventConfigure * event)
 {
   DenemoGUI *gui = Denemo.gui;
-  if(gui==NULL)
-    return TRUE;
-  if(gui->si==NULL)
-    return TRUE;
-  static gboolean init = FALSE;
+static gboolean init = FALSE;
   if(!init) {
     create_tool_pixbuf();
     init = TRUE;
   }
+
+  if(gui==NULL)
+    return TRUE;
+  if(gui->si==NULL)
+    return TRUE;
 
   set_width_to_work_with (gui);
   nudgerightward (gui);
