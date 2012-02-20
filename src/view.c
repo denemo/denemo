@@ -99,7 +99,8 @@ static gint
 dnm_key_snooper(GtkWidget *grab_widget, GdkEventKey *event);
 static void
 populate_opened_recent (void);
-
+static gchar *
+get_most_recent_file (void);
 #ifdef DEVELOPER
 #define MUSIC_FONT(a) "music-sign ("a")"
 #else
@@ -5305,6 +5306,9 @@ void inner_main(void*closure, int argc, char **argv){
     Denemo.prefs.mode = INPUTEDIT|INPUTRHYTHM|INPUTNORMAL;//FIXME must correspond with default in prefops.c
   readHistory();
   populate_opened_recent ();
+  if(!initial_file)
+    initial_file = get_most_recent_file();
+  g_print("recent %s\n", initial_file);
   //  g_print("init prefs run");
   if(Denemo.prefs.autoupdate)
     fetchcommands(NULL, NULL);
@@ -8303,6 +8307,14 @@ populate_opened_recent (void)
   g_queue_foreach (Denemo.prefs.history, (GFunc)addhistorymenuitem, NULL);
 }
 
+static gchar *get_most_recent_file(void) {
+  if(Denemo.prefs.history) {
+    gchar *filename = (gchar *) g_queue_peek_tail(Denemo.prefs.history);
+    if(g_file_test(filename, G_FILE_TEST_EXISTS))
+      return filename;
+  }
+  return NULL;
+}
 static 	void show_type(GtkWidget *widget, gchar *message) {
     g_print("%s%s\n",message, widget?g_type_name(G_TYPE_FROM_INSTANCE(widget)):"NULL widget");
   }
