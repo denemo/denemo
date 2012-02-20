@@ -235,11 +235,11 @@
       </row>
       <row>
         <action>DeleteMeasure</action>
-        <bind>Ctrl+m</bind>
+        <bind>Delete,m</bind>
       </row>
       <row>
         <action>DeleteMeasureAllStaffs</action>
-        <bind>Ctrl+M</bind>
+        <bind>Delete,M</bind>
       </row>
       <row>
         <action>ToggleStartCrescendo</action>
@@ -654,7 +654,7 @@
       </row>
       <row>
         <action>StagedDelete</action>
-        <bind>Delete</bind>
+        <bind>Delete,Delete</bind>
       </row>
       <row>
         <action>OpenMyDefaultTemplate</action>
