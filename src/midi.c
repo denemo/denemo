@@ -67,9 +67,11 @@ void update_position(smf_event_t *event) {
       queue_redraw_playhead(event);
     }
   } else {
-    si->playingnow = NULL;
-    si->playhead = 0;
-    queue_redraw_all();
+    if(si) {
+      si->playingnow = NULL;
+      si->playhead = 0;
+      queue_redraw_all();
+    }
   }
 }
 
@@ -114,7 +116,7 @@ void stop_playing() {
   set_playbutton(is_paused());
   playing = FALSE;
   play_until = -G_MAXDOUBLE;
-  if(Denemo.gui->si->recorded_midi_track) {
+  if(Denemo.gui->si && Denemo.gui->si->recorded_midi_track) {
     safely_track_remove_from_smf(Denemo.gui->si->recorded_midi_track);
     finish_recording();
   }
