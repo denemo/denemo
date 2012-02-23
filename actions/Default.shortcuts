@@ -603,6 +603,10 @@
         <bind>F1</bind>
       </row>
       <row>
+        <action>FetchCommands</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>ClearOverlay</action>
         <hidden>true</hidden>
       </row>
