@@ -43,6 +43,8 @@ static backend_t *backends[NUM_BACKENDS] = { NULL };
 #define PLAYBACK_QUEUE_SIZE 1024
 #define IMMEDIATE_QUEUE_SIZE 32
 #define INPUT_QUEUE_SIZE 256
+#define MIXER_QUEUE_SIZE 2048
+
 
 // the time in µs after which the queue thread wakes up, whether it has been
 // signalled or not
@@ -69,6 +71,19 @@ static smf_event_t *redraw_event;
 static gpointer queue_thread_func(gpointer data);
 static void signal_queue();
 
+initialize_mixer(void) {
+  SF_INFO sfinfo;
+  sfinfo.format = 0;
+  Denemo.gui->si->sndfile = sf_open("/home/rshann/junk.audio", "r", &sfinfo);
+}
+//FIXME move this to its own file
+gboolean get_audio_sample(float *sample) {
+if(Denemo.gui->si && Denemo.gui->si->sndfile)
+  return 1 == sf_read(Denemo.gui->si->sndfile, sample, 1);
+return FALSE;
+}
+
+
 
 static backend_t * get_backend(backend_type_t backend) {
   if (backend == DEFAULT_BACKEND) {
@@ -93,6 +108,9 @@ static event_queue_t *get_event_queue(backend_type_t backend) {
 
 static int initialize_audio(DenemoPrefs *config) {
   char const *driver = config->audio_driver->str;
+
+initialize_mixer();
+
 
   g_print("audio driver is '%s' %d\n", driver, strcmp(driver, "portaudio"));
 
@@ -189,8 +207,8 @@ int audio_initialize(DenemoPrefs *config) {
 
   queue_cond = g_cond_new();
   queue_mutex = g_mutex_new();
-  event_queues[AUDIO_BACKEND] = event_queue_new(PLAYBACK_QUEUE_SIZE, IMMEDIATE_QUEUE_SIZE, 0);
-  event_queues[MIDI_BACKEND] = event_queue_new(PLAYBACK_QUEUE_SIZE, IMMEDIATE_QUEUE_SIZE, INPUT_QUEUE_SIZE);
+  event_queues[AUDIO_BACKEND] = event_queue_new(PLAYBACK_QUEUE_SIZE, IMMEDIATE_QUEUE_SIZE, 0, MIXER_QUEUE_SIZE);
+  event_queues[MIDI_BACKEND] = event_queue_new(PLAYBACK_QUEUE_SIZE, IMMEDIATE_QUEUE_SIZE, INPUT_QUEUE_SIZE, 0);
   if (initialize_audio(config)) {
     goto err;
   }
@@ -298,6 +316,9 @@ static gboolean write_event_to_queue(backend_type_t backend, smf_event_t *event)
   return event_queue_write_playback(get_event_queue(backend), event);
 }
 
+static gboolean write_sample_to_mixer_queue (float *sample) {
+  return event_queue_write_mixer(get_event_queue(backend), sample);
+}
 
 gboolean read_event_from_queue(backend_type_t backend, unsigned char *event_buffer, size_t *event_length,
                                double *event_time, double until_time) {
@@ -353,6 +374,10 @@ static gpointer queue_thread_func(gpointer data) {
         write_event_to_queue(MIDI_BACKEND, event);
       }
     g_static_mutex_unlock (&smfmutex);
+
+    float sample;
+    while(get_audio_sample(&sample))
+      write_sample_to_mixer_queue(&sample);
     }
 
 

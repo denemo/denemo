@@ -42,6 +42,10 @@ typedef struct event_queue_t {
    * The input queue.
    */
   jack_ringbuffer_t *input;
+  
+  /* mixer queue - audio for mixing with playback output */
+  jack_ringbuffer_t *mixer;
+  
 } event_queue_t;
 
 
@@ -57,7 +61,7 @@ typedef struct event_queue_t {
  *
  * @return                      the new event queue
  */
-event_queue_t *event_queue_new(size_t playback_queue_size, size_t immediate_queue_size, size_t input_queue_size);
+event_queue_t *event_queue_new(size_t playback_queue_size, size_t immediate_queue_size, size_t input_queue_size, size_t mixer_queue_size);
 
 /**
  * Frees the given queue.
@@ -89,6 +93,17 @@ gboolean event_queue_write_playback(event_queue_t *queue, smf_event_t *event);
  * @return        TRUE if the event was successfully written to the queue
  */
 gboolean event_queue_write_immediate(event_queue_t *queue, guchar *data, guint length);
+
+
+/**
+ * Writes an audio sample to the mixer queue.
+ *
+ * @param event   the sample to be written to the queue. 
+ *
+ * @return        TRUE if the sample was successfully written to the queue
+ */
+gboolean event_queue_write_mixer(event_queue_t *queue, float *sample);
+
 
 /**
  * Reads an event from one of the output queues.

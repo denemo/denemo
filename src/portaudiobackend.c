@@ -74,6 +74,15 @@ static int stream_callback(const void * input_buffer,
 
   fluidsynth_render_audio(frames_per_buffer, buffers[0], buffers[1]);
 
+// Now get any audio to mix - dump it in the left hand channel for now
+  int i;
+  for(i=0;i<frames_per_buffer;i++) {
+      read_event_from_mixer_queue( this should be in audiointerface.c calling a func in eventqueue.c )
+
+  }
+    
+
+
  if (until_time<get_playuntil()) {
 #endif
       playback_frame += frames_per_buffer;

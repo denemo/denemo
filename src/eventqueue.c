@@ -18,7 +18,7 @@
 #include <string.h>
 
 
-event_queue_t *event_queue_new(size_t playback_queue_size, size_t immediate_queue_size, size_t input_queue_size) {
+event_queue_t *event_queue_new(size_t playback_queue_size, size_t immediate_queue_size, size_t input_queue_size, size_t mixer_queue_size) {
   event_queue_t *queue = g_malloc0(sizeof(event_queue_t));
 
   if (playback_queue_size) {
@@ -35,7 +35,10 @@ event_queue_t *event_queue_new(size_t playback_queue_size, size_t immediate_queu
     queue->input = jack_ringbuffer_create(input_queue_size * sizeof(midi_event_t));
     jack_ringbuffer_reset(queue->input);
   }
-
+  if (mixer_queue_size) {
+    queue->mixer = jack_ringbuffer_create(mixer_queue_size * sizeof(float));
+    jack_ringbuffer_reset(queue->mixer);
+  }
   return queue;
 }
 
@@ -84,6 +87,16 @@ gboolean event_queue_write_immediate(event_queue_t *queue, guchar *data, guint l
     return n == length;
   
 }
+
+gboolean event_queue_write_mixer(event_queue_t *queue, float *data) {
+    if (!queue->mixer || jack_ringbuffer_write_space(queue->mixer) < sizeof(float)) {
+      return FALSE;
+    }
+    size_t n = jack_ringbuffer_write(queue->mixer, (char const *)data, sizeof(float));
+
+    return n == length;
+  
+}
 static
 void page_for_time(gdouble time_seconds) {
     DenemoScore *si = Denemo.gui->si;
@@ -92,6 +105,23 @@ void page_for_time(gdouble time_seconds) {
          si->rightmost_time=-1;
     }
 }
+
+
+gboolean event_queue_read_mixer(event_queue_t *queue, unsigned char *event_buffer, size_t *event_length,
+                                 double *event_time, double until_time) {                                
+  if (jack_ringbuffer_read_space(queue->mixer)) {
+    float event;
+
+    jack_ringbuffer_read(queue->immediate, (char *)&event, sizeof(float));
+
+    memcpy(event_buffer, &event.data, 3);
+    // FIXME
+    *event_length = 3;
+    *event_time = 0.0;
+
+    return TRUE;
+  }
+                                 }
 
 gboolean event_queue_read_output(event_queue_t *queue, unsigned char *event_buffer, size_t *event_length,
                                  double *event_time, double until_time) {
