@@ -37,13 +37,12 @@
 #include <string.h>
 #include <stdint.h>
 
-
 static backend_t *backends[NUM_BACKENDS] = { NULL };
 
 #define PLAYBACK_QUEUE_SIZE 1024
 #define IMMEDIATE_QUEUE_SIZE 32
 #define INPUT_QUEUE_SIZE 256
-#define MIXER_QUEUE_SIZE 2048
+#define MIXER_QUEUE_SIZE 50000
 
 
 // the time in µs after which the queue thread wakes up, whether it has been
@@ -71,18 +70,6 @@ static smf_event_t *redraw_event;
 static gpointer queue_thread_func(gpointer data);
 static void signal_queue();
 
-initialize_mixer(void) {
-  SF_INFO sfinfo;
-  sfinfo.format = 0;
-  Denemo.gui->si->sndfile = sf_open("/home/rshann/junk.audio", "r", &sfinfo);
-}
-//FIXME move this to its own file
-gboolean get_audio_sample(float *sample) {
-if(Denemo.gui->si && Denemo.gui->si->sndfile)
-  return 1 == sf_read(Denemo.gui->si->sndfile, sample, 1);
-return FALSE;
-}
-
 
 
 static backend_t * get_backend(backend_type_t backend) {
@@ -105,11 +92,8 @@ static event_queue_t *get_event_queue(backend_type_t backend) {
   }
 }
 
-
 static int initialize_audio(DenemoPrefs *config) {
   char const *driver = config->audio_driver->str;
-
-initialize_mixer();
 
 
   g_print("audio driver is '%s' %d\n", driver, strcmp(driver, "portaudio"));
@@ -310,13 +294,18 @@ static void reset_playback_queue(backend_type_t backend) {
     event_queue_reset_playback(get_event_queue(backend));
   }
 }
+static void reset_mixer_queue(backend_type_t backend) {
+  if (get_event_queue(backend)) {
+    event_queue_reset_mixer(get_event_queue(backend));
+  }
+}
 
 
 static gboolean write_event_to_queue(backend_type_t backend, smf_event_t *event) {
   return event_queue_write_playback(get_event_queue(backend), event);
 }
 
-static gboolean write_sample_to_mixer_queue (float *sample) {
+static gboolean write_sample_to_mixer_queue (backend_type_t backend, float *sample) {
   return event_queue_write_mixer(get_event_queue(backend), sample);
 }
 
@@ -332,6 +321,14 @@ gboolean read_event_from_queue(backend_type_t backend, unsigned char *event_buff
 
   return event_queue_read_output(get_event_queue(backend), event_buffer, event_length, event_time, until_time);
 }
+
+gboolean read_event_from_mixer_queue(backend_type_t backend, unsigned char *event_buffer, size_t *event_length,
+                               double *event_time, double until_time) {
+    return mixer_queue_read_output(get_event_queue(backend), event_buffer, event_length, event_time, until_time);
+    }
+
+
+
 
 
 GStaticMutex smfmutex = G_STATIC_MUTEX_INIT;
@@ -374,10 +371,14 @@ static gpointer queue_thread_func(gpointer data) {
         write_event_to_queue(MIDI_BACKEND, event);
       }
     g_static_mutex_unlock (&smfmutex);
-
-    float sample;
-    while(get_audio_sample(&sample))
-      write_sample_to_mixer_queue(&sample);
+    }
+    
+    if(audio_is_playing()) {
+      float sample[2];//two channels assumed FIXME
+      //FIXME I think this will drop samples if they can't be put in the queue, should find if there is space for a sample before getting it.
+      while(get_audio_sample(sample) &&
+        write_sample_to_mixer_queue(AUDIO_BACKEND, sample))
+       ;
     }
 
 
@@ -450,7 +451,7 @@ void midi_play(gchar *callback) {
 
   reset_playback_queue(AUDIO_BACKEND);
   reset_playback_queue(MIDI_BACKEND);
-
+  reset_mixer_queue(AUDIO_BACKEND);
   g_print("starting playback\n");
 
   playback_start_time = get_start_time();
@@ -473,6 +474,7 @@ void midi_stop() {
 
   reset_playback_queue(AUDIO_BACKEND);
   reset_playback_queue(MIDI_BACKEND);
+  reset_mixer_queue(AUDIO_BACKEND);
 }
 
 

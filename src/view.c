@@ -36,6 +36,7 @@
 #include "texteditors.h"
 #include "prefops.h"
 #include "audiointerface.h"
+#include "sourceaudio.h"
 #define INIT_SCM "init.scm"
 
 //#include "pathconfig.h"
@@ -961,6 +962,29 @@ static SCM scheme_open_source_file(SCM optional) {
   if(open_source_file())
     return SCM_BOOL_T;
   return SCM_BOOL_F;
+}
+
+static SCM scheme_open_source_audio_file(SCM optional) {
+  if(open_source_audio_file())
+    return SCM_BOOL_T;
+  return SCM_BOOL_F;
+}
+
+static SCM scheme_start_audio_play(SCM annotate) {
+  if(Denemo.gui->si->audio) {
+    start_audio_playing(scm_is_true(annotate));
+    return SCM_BOOL_T;
+  }
+  return SCM_BOOL_F;
+}
+
+static SCM scheme_next_audio_timing(SCM optional) {
+  if(Denemo.gui->si->audio) {
+    gdouble timing = get_audio_timing();
+    if(timing>0.0)
+    return scm_double2num(timing);
+  }
+return SCM_BOOL_F;
 }
 
 static SCM scheme_take_snapshot (SCM optional) {   
@@ -5203,6 +5227,14 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
 
   INSTALL_SCM_FUNCTION ("Opens a source file for transcribing from. Links to this source file can be placed by shift-clicking on its contents", DENEMO_SCHEME_PREFIX"OpenSourceFile", scheme_open_source_file);
 
+  INSTALL_SCM_FUNCTION ("Opens a source audio file for transcribing from. ", DENEMO_SCHEME_PREFIX"OpenSourceAudioFile", scheme_open_source_audio_file);
+  INSTALL_SCM_FUNCTION ("Plays audio allowing timings to be entered via keypresses if passed #t as parameter. ", DENEMO_SCHEME_PREFIX"StartAudioPlay", scheme_start_audio_play);
+  INSTALL_SCM_FUNCTION ("Returns the next in the list of timings registered by the user during audio play.", DENEMO_SCHEME_PREFIX"NextAudioTiming", scheme_next_audio_timing);
+
+
+
+
+
   INSTALL_SCM_FUNCTION ("Stop collecting undo information. Call DecreaseGuard when finished. Returns #f if already guarded, #t if this call is stopping the undo collection", DENEMO_SCHEME_PREFIX"IncreaseGuard", scheme_increase_guard);
 
   INSTALL_SCM_FUNCTION ("Drop one guard against collecting undo information. Returns #t if there are no more guards \n(undo information will be collected) \nor #f if there are still guards in place.", DENEMO_SCHEME_PREFIX"DecreaseGuard", scheme_decrease_guard);
@@ -5299,6 +5331,7 @@ void inner_main(void*closure, int argc, char **argv){
 
   /* create the first tab */
   newtab (NULL, NULL);
+
 
 
   /*ignore setting of mode unless user has explicitly asked for modal use */

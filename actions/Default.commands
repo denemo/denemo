@@ -5866,6 +5866,14 @@ for second and subsequent systems</tooltip>
         <label>Multi-Measure Rests</label>
         <tooltip>Groups of whole measure rests of three or more are changed to multi-measure rests for the whole staff.</tooltip>
       </row>
+      <row>
+        <action>OpenAudio</action>
+        <after>OpenSourceDialog</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/FileMenu/OpenMenu</menupath>
+        <label>Open Source Audio</label>
+        <tooltip>Opens an audio file which will be mixed with the current movement.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

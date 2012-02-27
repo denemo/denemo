@@ -699,7 +699,12 @@ typedef struct movementcontrol
   GList *directives;
 }
 movementcontrol;
-
+typedef struct DenemoAudio {
+  gchar *filename;
+  gint samplerate;
+  gint channels;
+  gpointer sndfile; /**< sndfile handle */
+} DenemoAudio;
 /*
  *  DenemoScore structure representing a single movement of a piece of music.
  *  A movement corresponds with a single \score{} block in the LilyPond language
@@ -723,6 +728,7 @@ typedef struct DenemoScore
   gint widthtoworkwith;
   gint staffspace;
 
+  DenemoAudio *audio;/**< Audio attached to movement */ 
   GList *sources; /**< List of source pixbufs, one for each measure score-view*/
   gdouble start_time; /**< time in seconds to start playing at */
   gdouble end_time; /**< time to end playing at */

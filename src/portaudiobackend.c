@@ -69,18 +69,14 @@ static int stream_callback(const void * input_buffer,
   
 
   while (read_event_from_queue(AUDIO_BACKEND, event_data, &event_length, &event_time, until_time)) {
-    fluidsynth_feed_midi(event_data, event_length);
+    fluidsynth_feed_midi(event_data, event_length);//in fluid.c note fluidsynth api ues fluid_synth_xxx these naming conventions are a bit too similar
   }
 
-  fluidsynth_render_audio(frames_per_buffer, buffers[0], buffers[1]);
+  fluidsynth_render_audio(frames_per_buffer, buffers[0], buffers[1]);//in fluid.c calls fluid_synth_write_float()
 
 // Now get any audio to mix - dump it in the left hand channel for now
-  int i;
-  for(i=0;i<frames_per_buffer;i++) {
-      read_event_from_mixer_queue( this should be in audiointerface.c calling a func in eventqueue.c )
-
-  }
-    
+  event_length = frames_per_buffer;
+  read_event_from_mixer_queue(AUDIO_BACKEND, buffers[1], &event_length, &event_time, until_time);
 
 
  if (until_time<get_playuntil()) {

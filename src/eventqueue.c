@@ -65,6 +65,11 @@ void event_queue_reset_playback(event_queue_t *queue) {
     jack_ringbuffer_reset(queue->playback);
   }
 }
+void event_queue_reset_mixer(event_queue_t *queue) {
+  if (queue->mixer) {
+    jack_ringbuffer_reset(queue->mixer);
+  }
+}
 
 
 gboolean event_queue_write_playback(event_queue_t *queue, smf_event_t *event) {
@@ -94,7 +99,7 @@ gboolean event_queue_write_mixer(event_queue_t *queue, float *data) {
     }
     size_t n = jack_ringbuffer_write(queue->mixer, (char const *)data, sizeof(float));
 
-    return n == length;
+    return n == sizeof(float);
   
 }
 static
@@ -107,22 +112,20 @@ void page_for_time(gdouble time_seconds) {
 }
 
 
-gboolean event_queue_read_mixer(event_queue_t *queue, unsigned char *event_buffer, size_t *event_length,
+gboolean mixer_queue_read_output(event_queue_t *queue, unsigned char *event_buffer, size_t *event_length,
                                  double *event_time, double until_time) {                                
-  if (jack_ringbuffer_read_space(queue->mixer)) {
-    float event;
-
-    jack_ringbuffer_read(queue->immediate, (char *)&event, sizeof(float));
-
-    memcpy(event_buffer, &event.data, 3);
-    // FIXME
-    *event_length = 3;
+  if (jack_ringbuffer_read_space(queue->mixer) >= *event_length) {
+    
+    *event_length = jack_ringbuffer_read(queue->mixer, (char*)event_buffer, (*event_length)*sizeof(float))/sizeof(float);
+   
+    //*event_length = sizeof(float);
     *event_time = 0.0;
-
     return TRUE;
   }
-                                 }
-
+  *event_length  = 0;
+  return FALSE;
+}
+                                 
 gboolean event_queue_read_output(event_queue_t *queue, unsigned char *event_buffer, size_t *event_length,
                                  double *event_time, double until_time) {
 
