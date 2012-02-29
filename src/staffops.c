@@ -629,7 +629,7 @@ newstaffbefore (GtkAction *action, gpointer param)
   DenemoGUI *gui = Denemo.gui;
   if(!confirm_insertstaff_custom_scoreblock(gui))
     return;
-  tohome(NULL, NULL);
+  movetostart(NULL, NULL);
   newstaff (gui, BEFORE, DENEMO_NONE);
   if(gui->si->currentstaffnum>= gui->si->top_staff)
     gui->si->top_staff++;
