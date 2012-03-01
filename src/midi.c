@@ -25,7 +25,7 @@
 #include <assert.h>
 
 
-static void initialize_until_time(void);
+
 
 
 static volatile gboolean playing = FALSE;
@@ -585,7 +585,7 @@ void process_midi_event(gchar *buf) {
 
 #define SHAVING (0.01) //seconds to shave off a note start time to ensure stopping before noteon is sent, may depend of speed of machine??? FIXME
 
-static void initialize_until_time() {
+void initialize_until_time(void) {
   if((Denemo.gui->midi_destination & MIDIPLAYALONG) && Denemo.gui->si->currentobject ) {
     DenemoObject *obj = Denemo.gui->si->currentobject->data;
     if(obj->type==CHORD) {

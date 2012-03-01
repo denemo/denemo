@@ -451,7 +451,7 @@ void midi_play(gchar *callback) {
 
   reset_playback_queue(AUDIO_BACKEND);
   reset_playback_queue(MIDI_BACKEND);
-  reset_mixer_queue(AUDIO_BACKEND);
+
   g_print("starting playback\n");
 
   playback_start_time = get_start_time();
@@ -463,7 +463,12 @@ void midi_play(gchar *callback) {
   get_backend(MIDI_BACKEND)->start_playing();
 }
 
+void audio_play(void) {
+  reset_mixer_queue(AUDIO_BACKEND);
+  playback_start_time = get_start_time();
+  playback_time = playback_start_time;
 
+}
 void midi_stop() {
   g_print("stopping playback\n");
 

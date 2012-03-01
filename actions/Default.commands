@@ -5874,6 +5874,14 @@ for second and subsequent systems</tooltip>
         <label>Open Source Audio</label>
         <tooltip>Opens an audio file which will be mixed with the current movement.</tooltip>
       </row>
+      <row>
+        <action>SynchronizeAudio</action>
+        <after>RecordAndConvert</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/PlaybackMenu/Audio</menupath>
+        <label>Synchronize Audio</label>
+        <tooltip>Plays the audio attached to the current movment. Creates a timing bar for each space bar press. Music written in the staffs below will synchronize with the audio.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

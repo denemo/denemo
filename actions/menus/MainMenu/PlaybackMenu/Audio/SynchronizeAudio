@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>RecordAndConvert</after>
+        <action>SynchronizeAudio</action>
+        <scheme>;; SynchronizeAudio
+(let ()
+  (define name #f)
+  (while (d-MoveToStaffUp))
+  (set! name (d-StaffProperties "query=denemo_name"))
+  (if (equal? name "Timing")
+    (d-MoveToBeginning)
+    (begin
+      (d-AddBefore)
+      (d-StaffProperties "denemo_name=Timing")))
+  (d-StartAudioPlay #t))
+
+</scheme>
+        <label>Synchronize Audio</label>
+        <tooltip>Plays the audio attached to the current movment. Creates a timing bar for each space bar press. Music written in the staffs below will synchronize with the audio.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

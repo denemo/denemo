@@ -49,6 +49,7 @@ gboolean is_paused();
 double get_start_time();
 double get_end_time();
 void update_start_time(double adjust);
+void initialize_until_time(void);
 smf_event_t *get_smf_event(double until_time);
 
 

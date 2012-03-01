@@ -977,9 +977,19 @@ static SCM scheme_start_audio_play(SCM annotate) {
   }
   return SCM_BOOL_F;
 }
+static SCM scheme_stop_audio_play(SCM annotate) {
+  if(audio_is_playing()) {
+    stop_audio_playing();
+    return SCM_BOOL_T;
+  }
+  return SCM_BOOL_F;
+}
 
+static SCM scheme_audio_is_playing(void) {
+  return SCM_BOOL(audio_is_playing());
+}
 static SCM scheme_next_audio_timing(SCM optional) {
-  if(Denemo.gui->si->audio) {
+  if(Denemo.gui->si->audio) {    
     gdouble timing = get_audio_timing();
     if(timing>0.0)
     return scm_double2num(timing);
@@ -5228,7 +5238,11 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
   INSTALL_SCM_FUNCTION ("Opens a source file for transcribing from. Links to this source file can be placed by shift-clicking on its contents", DENEMO_SCHEME_PREFIX"OpenSourceFile", scheme_open_source_file);
 
   INSTALL_SCM_FUNCTION ("Opens a source audio file for transcribing from. ", DENEMO_SCHEME_PREFIX"OpenSourceAudioFile", scheme_open_source_audio_file);
+
   INSTALL_SCM_FUNCTION ("Plays audio allowing timings to be entered via keypresses if passed #t as parameter. ", DENEMO_SCHEME_PREFIX"StartAudioPlay", scheme_start_audio_play);
+  INSTALL_SCM_FUNCTION ("Stops audio playback", DENEMO_SCHEME_PREFIX"StopAudioPlay", scheme_stop_audio_play);
+  INSTALL_SCM_FUNCTION ("returns #f if audio is not playing else #t", DENEMO_SCHEME_PREFIX"AudioIsPlaying", scheme_audio_is_playing);
+
   INSTALL_SCM_FUNCTION ("Returns the next in the list of timings registered by the user during audio play.", DENEMO_SCHEME_PREFIX"NextAudioTiming", scheme_next_audio_timing);
 
 

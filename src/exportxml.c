@@ -661,6 +661,14 @@ newXMLNoteHead (xmlNodePtr parent, xmlNsPtr ns, enum headtype noteHeadType)
   }	
 }
 
+
+ static void  outputAudio(xmlNodePtr mvmntElem, xmlNsPtr ns, DenemoAudio *audio) {
+  xmlNodePtr curElem = xmlNewChild (mvmntElem, ns, (xmlChar *) "audio", NULL);
+  xmlNewChild (curElem, ns, (xmlChar *) "filename", audio->filename);
+  newXMLIntChild(curElem, ns, (xmlChar *) "lead-in", audio->leadin);
+ }
+
+
 static void set_invisible(xmlNodePtr objElem, DenemoObject *curObj) {
 if (curObj->isinvisible)
     xmlSetProp (objElem, (xmlChar *) "show", (xmlChar *)
@@ -814,6 +822,9 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
     // output si->sources
   if(si->sources)
     outputSources(mvmntElem, ns, si->sources);
+    // output audio source
+  if(si->audio)
+    outputAudio(mvmntElem, ns, si->audio);
 
   parentElem = xmlNewChild (mvmntElem, ns, (xmlChar *) "score-info", NULL);
   curElem = xmlNewChild (parentElem, ns, (xmlChar *) "tempo", NULL);

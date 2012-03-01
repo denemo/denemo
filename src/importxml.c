@@ -1217,7 +1217,17 @@ parseSources(xmlNodePtr parentElem, xmlNsPtr ns) {
     sources = g_list_append(sources, parseSource(childElem, ns));
   return sources;
 }
-
+static void
+parseAudio(xmlNodePtr parentElem, xmlNsPtr ns, DenemoScore *si) {
+  xmlNodePtr childElem;
+  
+  FOREACH_CHILD_ELEM (childElem, parentElem) {
+    if (ELEM_NAME_EQ (childElem, "filename"))
+      si->audio->filename = g_strdup((gchar *)xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1));
+    if (ELEM_NAME_EQ (childElem, "lead-in"))
+      si->audio->leadin =  getXMLIntChild(childElem);
+  }
+}
 /**
  * Parse the given <chord> element and return a chord-type DenemoObject.
  * 
@@ -2998,7 +3008,11 @@ parseScore (xmlNodePtr scoreElem, xmlNsPtr ns, DenemoGUI * gui, ImportType type)
   if (childElem != 0)
     si->sources = parseSources(childElem, ns);//puts the pixbufs after decode_base64 into a GList* at this location
 
-    
+  childElem = getXMLChild (scoreElem, "audio", ns);
+  if (childElem != 0) {
+    si->audio = (DenemoAudio*)g_malloc(sizeof(DenemoAudio));
+    parseAudio(childElem, ns, si);
+  }
 
   childElem = getXMLChild (scoreElem, "score-info", ns);
   RETURN_IF_ELEM_NOT_FOUND ("score", childElem, "score-info");

@@ -141,12 +141,18 @@ int audio_initialize(DenemoPrefs *config);
 int audio_shutdown();
 
 /**
- * Starts playing the current score.
+ * Starts playing the current movement.
  */
 void midi_play(gchar *callback);
 
 /**
- * Stops playing the current score.
+ * Starts playing the current movements source audio.
+ */
+void
+audio_play(void);
+
+/**
+ * Stops playing the current movement.
  */
 void midi_stop();
 

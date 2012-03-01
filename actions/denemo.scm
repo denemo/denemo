@@ -963,3 +963,35 @@
      ;(disp "link is " link "ok\n")
       (set! link (string-trim-both link   (lambda (c)(or (eqv? c #\{) (eqv? c #\%)))))
   (d-OpenSource link)))))
+
+;;;; Routines for audio annotation
+(define (DenemoAudioAnnotation timing)
+  (define (set-tempo)
+    (if (d-MeasureLeft)
+      (let ((last-timing (string->number (d-DirectiveGet-standalone-display "Timing"))))
+	(if last-timing
+	  (let ((diff (- timing last-timing)))
+	    (set! diff (floor (* (/ (/ (duration::GetWholeMeasureInTicks) 384) diff) 60)))
+	    (d-DirectivePut-standalone-override "Timing" (logior DENEMO_OVERRIDE_TEMPO DENEMO_OVERRIDE_STEP))
+	    (d-DirectivePut-standalone-graphic "Timing" (string-append "\n𝅘𝅥 = " (number->string diff) " \ndenemo\n24"))
+	    (d-DirectivePut-standalone-gy  "Timing" -40)
+	    (d-DirectivePut-standalone-display "Timing" "")
+	    (d-DirectivePut-standalone-midibytes "Timing" (number->string diff))))
+	(d-MeasureRight))))
+	    
+    (disp "timing " timing "\n")
+    (if timing
+    (begin
+      (set-tempo)
+      (d-DirectivePut-standalone-display "Timing" (number->string timing))
+      (if (zero? (GetMeasureTicks))
+	(d-WholeMeasureRest))
+      (if (not (d-MeasureRight))
+	(begin
+	  (d-AppendMeasureAllStaffs)
+	  (d-MeasureRight))))))
+
+
+(define (DenemoAudioAnnotate)
+    (DenemoAudioAnnotation  (d-NextAudioTiming)))
+;;;;
