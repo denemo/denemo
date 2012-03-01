@@ -1201,9 +1201,11 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 
       /* tempo */
       gint cur_tempo = si->tempo;
-      event = midi_tempo (cur_tempo);
-      smf_track_add_event_delta_pulses(track, event, 0);
-      
+
+      if(tracknumber==1) {//Do not set the tempo for later tracks as there may be tempo directives at the start of the first measure which libsmf will muddle up with any done here
+	event = midi_tempo (cur_tempo);
+	smf_track_add_event_delta_pulses(track, event, 0);
+      }
       /* Midi Client/Port */
 //      track->user_pointer = (DevicePort *) device_manager_get_DevicePort(curstaffstruct->device_port->str); 
 
@@ -1496,6 +1498,10 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		  if (!chordval.notes) {
 		    //MUST GIVE OFF TIME FOR RESTS HERE
 		    curobj->latest_time = curobj->earliest_time + duration*60.0/(cur_tempo*MIDI_RESOLUTION);
+		    //g_print("Adding Dummy event for rest %d %d %d\n", duration, ticks_read, ticks_written); 
+		    event = midi_meta_text (1/* comment*/, "rest");
+		    smf_track_add_event_delta_pulses(track, event, duration);
+		    ticks_written += duration;
 		    //g_print("rest of %f seconds at %f\n", duration/(double)MIDI_RESOLUTION, curobj->latest_time);
 		  }
 
@@ -1610,6 +1616,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			      // FIXME the function compress is returning large values.
 			      event = smf_event_new_from_bytes (MIDI_NOTE_ON | midi_channel, n, (mute_volume ? 0:cur_volume/*FIXME as above, mix*/));
 			      smf_track_add_event_delta_pulses(track, event, mididelta);
+			      //g_print("Note  on for track %x at delta (%d) %.1f for cur_tempo %d\n", track, mididelta, event->time_seconds, cur_tempo);
 			      //g_print("Note on %x %x %x\n", MIDI_NOTE_ON | midi_channel, n, (mute_volume ? 0:cur_volume/*FIXME as above, mix*/));
 			      //g_print("event on %f\n", event->time_seconds);
 			      event->user_pointer = curobj;
@@ -1628,6 +1635,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			      event = smf_event_new_from_bytes ( MIDI_NOTE_OFF | midi_channel, n, 0);
 			      //g_print("{%d}", event->event_number);
 			      smf_track_add_event_delta_pulses(track, event, mididelta);
+			      //g_print("Note  off for track %x at delta (%d) %.1f for cur_tempo %d\n", track, mididelta, event->time_seconds, cur_tempo);
 			      event->user_pointer = curobj;
 			      curobj->midi_events = g_list_append(curobj->midi_events, event);
 			      
@@ -1679,6 +1687,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			      event = smf_event_new_from_bytes ( MIDI_NOTE_OFF | midi_channel, n, 60);
 			      //g_print("smf length before %d %f mididelta %d",smf_get_length_pulses(smf), smf_get_length_seconds(smf),mididelta);
 			      smf_track_add_event_delta_pulses(track, event, mididelta);
+			      //g_print("Note  off for track %x at delta (%d) %.1f for cur_tempo %d\n", track, mididelta, event->time_seconds, cur_tempo);
 			      //g_print("smf length after %d %f mididelta %d", smf_get_length_pulses(smf), smf_get_length_seconds(smf),mididelta);
 			      event->user_pointer = curobj;
 			      curobj->midi_events = g_list_append(curobj->midi_events, event);
@@ -1850,9 +1859,11 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			change_tempo(&cur_tempo, midi_val, midi_interpretation, midi_action);
 			if(cur_tempo) {
 			  event = midi_tempo (cur_tempo);
-			  smf_track_add_event_delta_pulses(track, event, 0);
-			} else
-			  g_warning("Tempo change to 0 bpm is illegal");
+			  smf_track_add_event_delta_pulses(track, event, 0);//!!!!!!!!!! if rests precede this it is not at the right time...
+			} else {
+			  g_warning("Tempo change to 0 bpm is illegal - re-setting.");
+			  cur_tempo = 120;
+			}
 			break;
 		      case DENEMO_OVERRIDE_DURATION:
 			theduration = midi_interpretation;
