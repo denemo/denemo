@@ -20,6 +20,9 @@
 
 gint scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event);
 gint scorearea_keyrelease_event (GtkWidget * widget, GdkEventKey * event);
+gint scorearea_button_press (GtkWidget * widget, GdkEventButton * event);
+gint scorearea_button_release (GtkWidget * widget, GdkEventButton * event);
+
 gboolean intercept_scorearea_keypress (GdkEventKey *pevent);
 
 void adjust_measure_less_width_key (DenemoGUI *gui);

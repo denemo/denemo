@@ -127,7 +127,7 @@ static int actual_portaudio_initialize(DenemoPrefs *config) {
 
   err = Pa_OpenStream(&stream, NULL, &output_parameters,
                       config->portaudio_sample_rate, config->portaudio_period_size,
-                      paClipOff, stream_callback, NULL);
+                      paNoFlag /* make this a pref??? paClipOff */, stream_callback, NULL);
   if (err != paNoError) {
     g_warning("couldn't open output stream\n");
     return -1;

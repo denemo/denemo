@@ -51,6 +51,7 @@ static GtkWidget *deletebutton;
 static GtkWidget *convertbutton;
 
 static GtkAdjustment *master_vol_adj;
+static GtkAdjustment *audio_vol_adj;
 static GtkAdjustment *master_tempo_adj;
 static 
 void pb_playalong (GtkWidget *button);
@@ -965,11 +966,11 @@ static SCM scheme_open_source_file(SCM optional) {
 }
 
 static SCM scheme_open_source_audio_file(SCM optional) {
-  if(open_source_audio_file())
-    return SCM_BOOL_T;
-  return SCM_BOOL_F;
+  return SCM_BOOL(open_source_audio_file());
 }
-
+static SCM scheme_close_source_audio(SCM optional) {
+  return SCM_BOOL(close_source_audio());
+}
 static SCM scheme_start_audio_play(SCM annotate) {
   if(Denemo.gui->si->audio) {
     start_audio_playing(scm_is_true(annotate));
@@ -5238,6 +5239,7 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
   INSTALL_SCM_FUNCTION ("Opens a source file for transcribing from. Links to this source file can be placed by shift-clicking on its contents", DENEMO_SCHEME_PREFIX"OpenSourceFile", scheme_open_source_file);
 
   INSTALL_SCM_FUNCTION ("Opens a source audio file for transcribing from. ", DENEMO_SCHEME_PREFIX"OpenSourceAudioFile", scheme_open_source_audio_file);
+  INSTALL_SCM_FUNCTION ("Closes a source audio attached to the current movement.", DENEMO_SCHEME_PREFIX"CloseSourceAudio", scheme_close_source_audio);
 
   INSTALL_SCM_FUNCTION ("Plays audio allowing timings to be entered via keypresses if passed #t as parameter. ", DENEMO_SCHEME_PREFIX"StartAudioPlay", scheme_start_audio_play);
   INSTALL_SCM_FUNCTION ("Stops audio playback", DENEMO_SCHEME_PREFIX"StopAudioPlay", scheme_stop_audio_play);
@@ -5903,6 +5905,16 @@ static void pb_volume (GtkAdjustment *adjustment) {
   gdouble volume = gtk_adjustment_get_value(adjustment);
   scm_c_define("DenemoVolume::Value", scm_double2num(volume));
   call_out_to_guile("(DenemoVolume)");
+}
+static void audio_volume_cut (GtkAdjustment *adjustment) {
+  if(Denemo.gui->si->audio) {
+  Denemo.gui->si->audio->volume = gtk_adjustment_get_value(adjustment);
+  }
+}
+static void audio_volume_boost (GtkAdjustment *adjustment) {
+  if(Denemo.gui->si->audio) {
+  Denemo.gui->si->audio->volume = gtk_adjustment_get_value(adjustment);
+  }
 }
 static void pb_set_range (GtkWidget *button) {
   call_out_to_guile("(DenemoSetPlaybackIntervalToSelection)");
@@ -8450,7 +8462,7 @@ switch_page (GtkNotebook *notebook, GtkWidget *page,  guint pagenum) {
   Denemo.gui = gui = (DenemoGUI*)(g->data);
   //g_print("switch page\n");
 
-
+//FIXME if Denemo.gui->si->audio then show Denemo.audio_vol_control
   if(Denemo.prefs.visible_directive_buttons) {
     gtk_widget_hide(Denemo.gui->buttonboxes);
     activate_action("/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
@@ -8639,7 +8651,6 @@ create_window(void) {
   gtk_window_set_resizable (GTK_WINDOW (Denemo.window), TRUE);
 
   Denemo.color = 0xFFFFFF;//white background RGB values
-
 
 
 
@@ -8838,6 +8849,39 @@ get_data_dir (),
       g_signal_connect(G_OBJECT( master_vol_adj), "value_changed", G_CALLBACK(pb_volume), NULL);
       gtk_box_pack_start (GTK_BOX (hbox), hscale, TRUE, TRUE, 0);
 
+
+      /*Audio Volume */
+      Denemo.audio_vol_control = gtk_hbox_new(FALSE, 1);
+      label = gtk_label_new (_("Audio Volume Cut"));
+      gtk_widget_set_can_focus (label, FALSE);
+      gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), label, FALSE, TRUE, 0);
+
+      audio_vol_adj = (GtkAdjustment *)gtk_adjustment_new (1.0, 0.0, 1.0, 0.1, 1.0, 0.0);
+
+      hscale = gtk_hscale_new(GTK_ADJUSTMENT( audio_vol_adj));
+      gtk_scale_set_digits (GTK_SCALE(hscale), 2);
+      gtk_widget_set_can_focus (hscale, FALSE);
+      //GTK_WIDGET_UNSET_FLAGS(hscale, GTK_CAN_FOCUS);
+      g_signal_connect(G_OBJECT( audio_vol_adj), "value_changed", G_CALLBACK(audio_volume_cut), NULL);
+      gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), hscale, TRUE, TRUE, 0);
+
+     label = gtk_label_new (_("Audio Volume Boost"));
+      gtk_widget_set_can_focus (label, FALSE);
+      gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), label, FALSE, TRUE, 0);
+
+      audio_vol_adj = (GtkAdjustment *)gtk_adjustment_new (1.0, 1.0, 10.0, 1.0, 1.0, 0.0);
+
+      hscale = gtk_hscale_new(GTK_ADJUSTMENT( audio_vol_adj));
+      gtk_scale_set_digits (GTK_SCALE(hscale), 2);
+      gtk_widget_set_can_focus (hscale, FALSE);
+      //GTK_WIDGET_UNSET_FLAGS(hscale, GTK_CAN_FOCUS);
+      g_signal_connect(G_OBJECT( audio_vol_adj), "value_changed", G_CALLBACK(audio_volume_boost), NULL);
+      gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), hscale, TRUE, TRUE, 0);
+
+
+      
+      gtk_box_pack_start (GTK_BOX (hbox), Denemo.audio_vol_control, TRUE, TRUE, 0);
+      
     }
 
 
@@ -8874,6 +8918,7 @@ get_data_dir (),
       gtk_widget_show_all (Denemo.playback_control);
       gtk_widget_hide(deletebutton);
       gtk_widget_hide(convertbutton);
+      gtk_widget_hide(Denemo.audio_vol_control);
       }
 
 
