@@ -5882,6 +5882,14 @@ for second and subsequent systems</tooltip>
         <label>Synchronize Audio</label>
         <tooltip>Plays the audio attached to the current movment. Creates a timing bar for each space bar press. Music written in the staffs below will synchronize with the audio.</tooltip>
       </row>
+      <row>
+        <action>CloseSourceAudioFile</action>
+        <after>SynchronizeAudio</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/PlaybackMenu/Audio</menupath>
+        <label>Close Source Audio File</label>
+        <tooltip>Drops the audio track attached to the current movement.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
