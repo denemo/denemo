@@ -476,7 +476,7 @@ void midi_stop() {
   get_backend(MIDI_BACKEND)->stop_playing();
 
   stop_playing();
-
+  stop_audio_playing();
   reset_playback_queue(AUDIO_BACKEND);
   reset_playback_queue(MIDI_BACKEND);
   reset_mixer_queue(AUDIO_BACKEND);

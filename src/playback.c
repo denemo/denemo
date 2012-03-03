@@ -62,7 +62,7 @@ ext_midi_playback (GtkAction * action, DenemoScriptParam *param) {
   }
   set_tempo();
   
-  rewind_audio();
+  //rewind_audio(); done in start_audio_playing()
   start_audio_playing(FALSE);
   midi_play(callback);
 }
@@ -74,7 +74,7 @@ void stop_midi_playback (GtkAction * action, gpointer param) {
   else
     set_playbutton(TRUE);
   midi_stop();
-  stop_audio_playing();
+  
   gtk_widget_queue_draw (Denemo.scorearea);//update playhead on screen
 }
 
