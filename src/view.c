@@ -978,6 +978,15 @@ static SCM scheme_start_audio_play(SCM annotate) {
   }
   return SCM_BOOL_F;
 }
+
+static SCM scheme_set_audio_lead_in(SCM seconds) {
+  if(scm_is_real(seconds)) {
+    gdouble secs = scm_to_double(seconds);
+    return SCM_BOOL(set_lead_in(secs));
+  }
+  return SCM_BOOL_F;
+}
+
 static SCM scheme_stop_audio_play(SCM annotate) {
   if(audio_is_playing()) {
     stop_audio_playing();
@@ -5243,6 +5252,7 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
 
   INSTALL_SCM_FUNCTION ("Plays audio allowing timings to be entered via keypresses if passed #t as parameter. ", DENEMO_SCHEME_PREFIX"StartAudioPlay", scheme_start_audio_play);
   INSTALL_SCM_FUNCTION ("Stops audio playback", DENEMO_SCHEME_PREFIX"StopAudioPlay", scheme_stop_audio_play);
+    INSTALL_SCM_FUNCTION ("Takes a number of seconds to be used as lead-in for audio. If negative clips that much from the start of the audio. ", DENEMO_SCHEME_PREFIX"SetAudioLeadIn", scheme_set_audio_lead_in);
   INSTALL_SCM_FUNCTION ("returns #f if audio is not playing else #t", DENEMO_SCHEME_PREFIX"AudioIsPlaying", scheme_audio_is_playing);
 
   INSTALL_SCM_FUNCTION ("Returns the next in the list of timings registered by the user during audio play.", DENEMO_SCHEME_PREFIX"NextAudioTiming", scheme_next_audio_timing);
