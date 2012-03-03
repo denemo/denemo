@@ -2,7 +2,7 @@ SUBDIRS = $(WHICH_SMF) m4 doc actions pixmaps po src \
 	  fonts soundfonts 
 
 dist_sysconf_DATA = denemo.conf 
-
+dnl bin_SCRIPTS = denemo_file_update.sh
 EXTRA_DIST = actions/menus doc/DESIGN doc/GOALS @PACKAGE@.spec.in  \
 	     doc/DESIGN.lilypond actions include \
 	     guile-1.8.pc \

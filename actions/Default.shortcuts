@@ -378,7 +378,7 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>PrintPreview</action>
+        <action>PrintView</action>
         <bind>Ctrl+p</bind>
       </row>
       <row>
@@ -601,6 +601,10 @@
       <row>
         <action>Help</action>
         <bind>F1</bind>
+      </row>
+      <row>
+        <action>FetchCommands</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>ClearOverlay</action>

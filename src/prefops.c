@@ -130,11 +130,6 @@ initprefs ()
   ret->audio_driver = g_string_new("portaudio");
   ret->midi_driver = g_string_new("portmidi");
 #endif
-#ifdef _HAVE_JACK_
-  ret->audio_driver = g_string_new("jack");
-  ret->midi_driver = g_string_new("jack");
-#endif
-
   ret->jack_connect_ports_l = g_string_new("system:playback_1");
   ret->jack_connect_ports_r = g_string_new("system:playback_2");
   ret->jack_connect_midi_in_port = g_string_new("");
