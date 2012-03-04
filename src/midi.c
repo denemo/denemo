@@ -150,7 +150,7 @@ void update_playback_start_time(double adjust) {
 }
 
 double get_start_time() {
-  if (Denemo.gui && Denemo.gui->si) {
+  if (Denemo.gui && Denemo.gui->si && (Denemo.gui->si->start_time>0.0)) {
     return Denemo.gui->si->start_time;
   } else {
     return 0.0;
@@ -159,7 +159,9 @@ double get_start_time() {
 
 
 double get_end_time() {
-  if (Denemo.gui && Denemo.gui->si) {
+  if (Denemo.gui && Denemo.gui->si && Denemo.gui->si->smf) {
+    if(Denemo.gui->si->end_time<0.0)
+      Denemo.gui->si->end_time =smf_get_length_seconds(Denemo.gui->si->smf);
     return Denemo.gui->si->end_time;
   } else {
     return 0.0;
