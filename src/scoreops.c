@@ -56,6 +56,7 @@ new_movement(GtkAction *action, DenemoScriptParam *param, gboolean before) {
   gui->movements = g_list_delete_link(gui->movements, g_list_last(gui->movements));
   gui->movements = g_list_insert(gui->movements, newsi, before?pos:pos+1);
   setcurrentprimarystaff (gui->si);
+  rewind_audio();
   write_status(gui);
 }
 
