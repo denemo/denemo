@@ -49,7 +49,7 @@ static GtkWidget *midiplayalongbutton;
 static GtkWidget *midiconductbutton;
 static GtkWidget *deletebutton;
 static GtkWidget *convertbutton;
-
+static GtkSpinButton *leadin;
 static GtkAdjustment *master_vol_adj;
 static GtkAdjustment *audio_vol_adj;
 static GtkAdjustment *master_tempo_adj;
@@ -5926,6 +5926,17 @@ static void audio_volume_boost (GtkAdjustment *adjustment) {
   Denemo.gui->si->audio->volume = gtk_adjustment_get_value(adjustment);
   }
 }
+
+static void leadin_changed(GtkSpinButton *spin) {
+  if(Denemo.gui->si->audio) {
+    set_lead_in(gtk_spin_button_get_value(spin));
+    //g_print("%d for %f\n", Denemo.gui->si->audio->leadin, gtk_spin_button_get_value(spin));
+  } 
+}
+
+void update_leadin_widget(gdouble secs) {
+  gtk_spin_button_set_value(leadin, secs);
+}
 static void pb_set_range (GtkWidget *button) {
   call_out_to_guile("(DenemoSetPlaybackIntervalToSelection)");
 }
@@ -8866,7 +8877,7 @@ get_data_dir (),
       gtk_widget_set_can_focus (label, FALSE);
       gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), label, FALSE, TRUE, 0);
 
-      audio_vol_adj = (GtkAdjustment *)gtk_adjustment_new (1.0, 0.0, 1.0, 0.1, 1.0, 0.0);
+      audio_vol_adj = (GtkAdjustment *)gtk_adjustment_new (1.0, 0.0, 1.0, 0.1, 0.2, 0.0);
 
       hscale = gtk_hscale_new(GTK_ADJUSTMENT( audio_vol_adj));
       gtk_scale_set_digits (GTK_SCALE(hscale), 2);
@@ -8879,7 +8890,7 @@ get_data_dir (),
       gtk_widget_set_can_focus (label, FALSE);
       gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), label, FALSE, TRUE, 0);
 
-      audio_vol_adj = (GtkAdjustment *)gtk_adjustment_new (1.0, 1.0, 10.0, 1.0, 1.0, 0.0);
+      audio_vol_adj = (GtkAdjustment *)gtk_adjustment_new (1.0, 1.0, 10.0, 0.5, 2.0, 0.0);
 
       hscale = gtk_hscale_new(GTK_ADJUSTMENT( audio_vol_adj));
       gtk_scale_set_digits (GTK_SCALE(hscale), 2);
@@ -8887,9 +8898,16 @@ get_data_dir (),
       //GTK_WIDGET_UNSET_FLAGS(hscale, GTK_CAN_FOCUS);
       g_signal_connect(G_OBJECT( audio_vol_adj), "value_changed", G_CALLBACK(audio_volume_boost), NULL);
       gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), hscale, TRUE, TRUE, 0);
-
-
-      
+      label = gtk_label_new (_("Audio Lead In "));
+      gtk_widget_set_can_focus (label, FALSE);
+      gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), label, FALSE, TRUE, 0);
+      leadin = gtk_spin_button_new_with_range(-2.0, 2.0, 0.01);
+      g_signal_connect(G_OBJECT(leadin),  "value_changed", G_CALLBACK(leadin_changed), NULL);
+      gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), GTK_WIDGET(leadin), FALSE, TRUE, 0);
+      label = gtk_label_new (_(" secs."));
+      gtk_widget_set_can_focus (label, FALSE);
+      gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), label, FALSE, TRUE, 0);
+            
       gtk_box_pack_start (GTK_BOX (hbox), Denemo.audio_vol_control, TRUE, TRUE, 0);
       
     }
