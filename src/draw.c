@@ -41,12 +41,12 @@ void region_playhead(void) {
 
 
 void set_start_and_end_objects_for_draw(void) {
-
+  if(Denemo.gui->si->smf) {
     Startobj =
       get_obj_for_end_time(Denemo.gui->si->smf, Denemo.gui->si->start_time - 0.001);
     Endobj =
       get_obj_for_start_time(Denemo.gui->si->smf, Denemo.gui->si->end_time - 0.001);
-
+  }
 }
 
 static void      
