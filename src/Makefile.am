@@ -47,7 +47,7 @@ denemo_SOURCES = denemo_types.c \
 	pathconfig.h \
 	midi.c audiocapture.c \
 	audiointerface.h eventqueue.h dummybackend.h portaudiobackend.h \
-	portmidibackend.h midi.h
+	portmidibackend.h midi.h ringbuffer.h
 
 
 noinst_LIBRARIES = libaudiobackend.a
