@@ -525,10 +525,11 @@
   (begin
     (if (boolean? (d-GetMidiOffTime))
 	(d-RecreateTimebase))
+   (d-PrevObjectInMeasure)
     (if (number? (d-GetMidiOffTime))
 	(begin (d-SetPlaybackInterval #t (d-GetMidiOffTime))
 	(d-RefreshDisplay)))))
-
+	
 (define (DenemoSetPlaybackIntervalToSelection)
   (begin
     
