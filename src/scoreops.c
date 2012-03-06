@@ -404,7 +404,7 @@ init_score (DenemoScore * si, DenemoGUI *gui)
   si->start = 0;
   si->end = 0;
   si->stafftoplay = 0;
-  si->start_time = -1.0;
+  si->start_time = 0;
   si->end_time = -1.0;//ie unset
   if(Denemo.gui->si)
     set_master_volume(si, 1.0);
