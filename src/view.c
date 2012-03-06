@@ -5945,8 +5945,7 @@ static void pb_range (GtkWidget *button) {
 }
 static void pb_panic (GtkWidget *button) {
   playback_panic();
-  Denemo.gui->si->start_time = -1.0;
-  Denemo.gui->si->end_time = -1.0;//ie unset
+  Denemo.gui->si->start_time = 0.0;
   Denemo.gui->si->end_time = -1.0;//ie unset
   set_start_and_end_objects_for_draw();
   reset_temperament();
