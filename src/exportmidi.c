@@ -1501,7 +1501,9 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		    //g_print("Adding Dummy event for rest %d %d %d\n", duration, ticks_read, ticks_written); 
 		    event = midi_meta_text (1/* comment*/, "rest");
 		    smf_track_add_event_delta_pulses(track, event, duration);
+		    curobj->midi_events = g_list_append(curobj->midi_events, event);
 		    ticks_written += duration;
+		    event->user_pointer = curobj;
 		    //g_print("rest of %f seconds at %f\n", duration/(double)MIDI_RESOLUTION, curobj->latest_time);
 		  }
 
