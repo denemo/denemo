@@ -110,10 +110,15 @@ stop_play_callback(gchar *thescript) {
     g_free(thescript);
     return FALSE;
 }
-    
+
+static gboolean update_playbutton_callback(gboolean paused) {
+  set_playbutton(paused);
+  return FALSE;
+}
+
 void stop_playing() {
   update_position(NULL);
-  set_playbutton(is_paused());
+  g_idle_add_full(G_PRIORITY_HIGH_IDLE, (GSourceFunc)update_playbutton_callback, is_paused(), NULL);
   playing = FALSE;
   play_until = -G_MAXDOUBLE;
   if(Denemo.gui->si && Denemo.gui->si->recorded_midi_track) {
