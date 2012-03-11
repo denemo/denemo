@@ -112,7 +112,9 @@ stop_play_callback(gchar *thescript) {
 }
 
 static gboolean update_playbutton_callback(gboolean paused) {
+  gdk_threads_enter();
   set_playbutton(paused);
+  gdk_threads_leave();
   return FALSE;
 }
 
