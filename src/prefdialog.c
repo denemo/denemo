@@ -174,6 +174,7 @@ static void
 set_preferences (struct callbackdata *cbdata)
 {
   DenemoPrefs *prefs = cbdata->prefs;
+  gboolean midi_in_device_was_default = !strcmp(prefs->portmidi_input_device->str, "default");
 #define ASSIGNTEXT(field) \
   g_string_assign (prefs->field,\
     gtk_entry_get_text (GTK_ENTRY (cbdata->field)));
@@ -284,7 +285,10 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNBOOLEAN(object_palette)
   ASSIGNBOOLEAN(saveparts)
   //g_print ("Timeout %d \n", prefs->autosave_timeout);
-
+  if(midi_in_device_was_default && strcmp(prefs->portmidi_input_device->str, "default")) {
+    Denemo.gui->input_source = INPUTMIDI;
+    prefs->startmidiin = TRUE;
+  }
   /* Now write it all to denemorc */
   writeXMLPrefs (prefs);
 }
