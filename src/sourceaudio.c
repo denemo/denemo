@@ -21,14 +21,14 @@
 #include <stdio.h>
 #include <sndfile.h>
 #include <fcntl.h>
-#if GTK_MAJOR_VERSION==3
-  #include <gdk/gdkkeysyms-compat.h> //FIXME Look for something more gtk3 like
-#endif
 #include "view.h"
 #include "midi.h"
 #include "sourceaudio.h"
 #include "keyresponses.h"
 #include "audiointerface.h"
+#if GTK_MAJOR_VERSION==3
+  #include <gdk/gdkkeysyms-compat.h> //FIXME Look for something more gtk3 like
+#endif
 
 static gint leadin = 0;//number of frames of silence before playing audio
 static gboolean playing = FALSE;
