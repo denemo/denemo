@@ -61,7 +61,7 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
     <sect2>
       <title>Dependencies</title>
 
-      <para>To build Denemo from a source package, the following
+      <para>To build Denemo from a source package, the following  !!out of date!!
       dependent packages should be installed first. Remember to install the
       development packages as well (check your distribution for the specific
       package name):<note>
@@ -146,7 +146,7 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
     <sect2>
       <title>Optional Helper Programs</title>
 
-      <para>Denemo uses other applications for  printing. You may need to install the following applications, and edit the preferences menu to tell Denemo which you want it to use.</para>
+      <para>Denemo can other applications for  printing. You may install the following applications, and edit the preferences menu to tell Denemo which you want it to use.</para>
 
       <itemizedlist>
  
@@ -229,9 +229,9 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
 
   <sect1>
     <title>Getting Started</title>
-     <para>Most people will start with playing around with Denemo via the pc keyboard. The default setup means that keys a-g represent the note names and 0-6 the different durations (whole note, half note etc). When the cursor is on blank space pressing key "0" then key "a" will append a whole-note A, pressing "1 b" will append a half-note B etc. If the duration is not changing you can simply type the note name, it will use the last entered duration. There are commands to set sharp/flat/double-sharp/double-flat for the next entered note and to sharpen or flatten using the keys +/- with the shift key for editing.
+     <para>Most people will start with playing around with Denemo via the pc keyboard. The default setup means that keys a-g represent the note names and 0-6 the different durations (whole note, half note etc). When the cursor is appending (blue) pressing key "0" will insert a note at the cursor. Pressing key "a" will append the nearest A. If the duration of the next note is the same you can simply type the note name, it will use the last entered duration. There are keypresses (+/-, and plus/minus on the numeric keypad) to set sharp/flat/double-sharp/double-flat for the next entered note and to sharpen or flatten. Use +/- with the shift key for editing. Likewise, Shift with a number key edits the duration. 
 </para>
-<para>When the cursor is moved on to a note (with the arrow key right or mouse) then a-g edits the note name. To insert a note before a note at the cursor use A-G. When the cursor is on a note the keys 0-6 change the duration of the note, while Shift-0 6 insert a note before the cursor. (If you use the numeric keypad you can use Shift-KP 0-6 for this).  The arrow keys move the cursor around, the period key adds a dot while Alt-a-g add notes to the chord at the cursor.
+<para>When the cursor is moved on to a note (with the arrow key right or mouse) the cursor turns green and then a-g edits the note name. To insert a note before a note at the cursor use a double strike A,A-G,G. When the cursor is green the keys 0-6 change the duration of the note, while Shift-0 6 insert a note before the cursor. (If you use the numeric keypad you can use Shift-KP 0-6 for this).  The arrow keys move the cursor around, the period key adds a dot while Alt-a-g add notes to the chord at the cursor. Ins inserts a note in a chord whether the cursor is on (green) or after (blue) a note, a double Del, Del removes it. 
 <note>
   When in the appending position the cursor shows as a large blue or red rectangle on a note-position. Blue indicates a note can be appended at that point without overflowing the measure. Red indicates that the measure is already full. When the cursor is a smaller green rectangle it indicates that you are not in the appending position: you can edit the note/object at the cursor or insert before it. The vertical blue line indicates the insertion point.
 </note>
@@ -239,27 +239,7 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
      <para>You can find more shortcuts by exploring the menu system - e.g. under the Notes/Rests menu the Select Duration submenu gives Remove Dot with the shortcut Control-period shown next to the command.
  </para>
 
- <sect2>
-<title>What Happens at Startup</title>
-    <para>On starting a Denemo up to two music scores (called init.denemo) are loaded, and any actions associated with them are run. The first of these is provided with the system and does essential initialization, the second you can provide yourself in the file ~/.denemo/actions/init.denemo (where ~ means your home directory).
-</para>
-    <para>In addition, on startup a set of keyboard and mouse shortcuts, and a selection of optional menu items are loaded. You are offered a choice on startup. Once you have settled on the set you wish to use, and perhaps started to customise it you can save it for next time using "Save as Default Command Set" in the command set manager.
-<note>
-You should exit and re-start Denemo after creating a new command set to be sure of getting your keybindings to work.
-</note>
-<note>
-The "Score Titles, Controls etc" checkbox is undocumented, unfortunately.
-What it does is to show/hide a button bar where Titles and such can be displayed.
-The menu items you need are under Score->Titles etc
-and Movement->Titles etc. When you set a title, composer, etc the Titles etc button bar will become populated.
-</note>
-<note>
-The Playback Controls are undocumented, unfortunately. Mostly obvious commands, the lerft/right arrows move the start and end playback point forwards and backwards, while the up/down arrows set the start and end playback points to the current cursor position.
-See the links from the features list "To-do List" on the website.
-</note>
 
-</para>
- </sect2>
  <sect2>
 <title>Some Common Keyboard Shortcuts</title>
 <para>Here are a few of the keyboard shortcuts that are commonly used in Denemo.
@@ -18208,7 +18188,27 @@ Piano staffs, and staff groups can be created using the menu under the staff men
       <para>To enter chord symbols choose Chords->Markings->Chord Symbols. A brief summary is given by right clicking the option. The conventions are described in the LilyPond docs.</para>
     </sect2>
 
+ <sect2>
+<title>What Happens at Startup</title>
+    <para>On starting a Denemo up to two music scores (called init.denemo) are loaded, and any actions associated with them are run. The first of these is provided with the system and does essential initialization, the second you can provide yourself in the file ~/.denemo/actions/init.denemo (where ~ means your home directory).
+</para>
+    <para>In addition, on startup a set of keyboard and mouse shortcuts, and a selection of optional menu items are loaded. Other sets are available via the Edit->Customize Commands ...->Manage Command Set dialog.
+<note>
+You should exit and re-start Denemo after creating a new command set to be sure of getting your keybindings to work.
+</note>
+<note>
+The "Score Titles, Controls etc" checkbox is undocumented, unfortunately.
+What it does is to show/hide a button bar where Titles and such can be displayed.
+The menu items you need are under Score->Titles etc
+and Movement->Titles etc. When you set a title, composer, etc the Titles etc button bar will become populated.
+</note>
+<note>
+The Playback Controls are undocumented, unfortunately. Mostly obvious commands, the left/right arrows move the start and end playback point forwards and backwards, while the up/down arrows set the start and end playback points to the current cursor position.
+See the links from the features list "To-do List" on the website.
+</note>
 
+</para>
+ </sect2>
   </sect1>
 
   <sect1>

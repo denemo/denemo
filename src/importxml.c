@@ -3317,10 +3317,11 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
   }
   if(gui->si->lyricsbox)
     gtk_widget_hide(gui->si->lyricsbox);
-  while(--current_movement>0) {
+  gint steps_back = g_list_length(gui->movements) - current_movement;
+  while(steps_back-->0) {
     if(gui->si->lyricsbox)
        gtk_widget_hide(gui->si->lyricsbox);
-    next_movement(NULL, NULL);
+    prev_movement(NULL, NULL);
   }
   if(gui->si->lyricsbox)
     if(!Denemo.prefs.lyrics_pane)
