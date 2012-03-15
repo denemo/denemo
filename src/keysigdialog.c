@@ -314,16 +314,18 @@ static void
 button_response(GtkWidget *dialog, gint response_id, keysig_data *data) 
 {
   DenemoGUI *gui = Denemo.gui;
-  if (data->initial)
-    set_keysig (data);
-  else
-    {
-      if(gui->si->currentobject && ((DenemoObject*)gui->si->currentobject->data)->type==KEYSIG)
+  if (response_id == GTK_RESPONSE_ACCEPT){
+    if (data->initial)
+      set_keysig (data);
+    else
+      {
+        if(gui->si->currentobject && ((DenemoObject*)gui->si->currentobject->data)->type==KEYSIG)
 	deleteobject(gui);
-      insert_keysig (data);
-     }
-  score_status(gui, TRUE);
-  displayhelper (gui);
+        insert_keysig (data);
+      }
+    score_status(gui, TRUE);
+    displayhelper (gui);
+  }
   gtk_widget_destroy (dialog);
   g_free(data);
 } 
@@ -403,6 +405,9 @@ key_change (DenemoGUI * gui, actiontype action)
   g_signal_connect (G_OBJECT (radiobutton2), "clicked",
 		    G_CALLBACK(minorcallback), keysig_widgets);
   gtk_container_add (GTK_CONTAINER (pack_to_vbox), radiobutton2);
+
+  gtk_combo_box_set_active(GTK_COMBO_BOX(majorkeycombo), 7);
+  gtk_combo_box_set_active(GTK_COMBO_BOX(minorkeycombo), 7);
 
   gtk_container_add (GTK_CONTAINER (pack_to_vbox), majorkeycombo);
   gtk_container_add (GTK_CONTAINER (pack_to_vbox), minorkeycombo);
