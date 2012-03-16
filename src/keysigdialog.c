@@ -406,8 +406,10 @@ key_change (DenemoGUI * gui, actiontype action)
 		    G_CALLBACK(minorcallback), keysig_widgets);
   gtk_container_add (GTK_CONTAINER (pack_to_vbox), radiobutton2);
 
+#if GTK_MAJOR_VERSION==3
   gtk_combo_box_set_active(GTK_COMBO_BOX(majorkeycombo), 7);
   gtk_combo_box_set_active(GTK_COMBO_BOX(minorkeycombo), 7);
+#endif
 
   gtk_container_add (GTK_CONTAINER (pack_to_vbox), majorkeycombo);
   gtk_container_add (GTK_CONTAINER (pack_to_vbox), minorkeycombo);
