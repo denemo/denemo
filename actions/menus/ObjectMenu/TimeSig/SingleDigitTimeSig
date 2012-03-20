@@ -8,7 +8,7 @@
         <after>HideTimesig</after>
         <action>SingleDigitTimeSig</action>
         <scheme>;;;SingleDigitTimeSig
-(if (equal? (d-GetType) "TIMESIG")
+
   (if (d-Directive-timesig? "SingleDigitTimeSig")
 	(d-DirectiveDelete-timesig "SingleDigitTimeSig")
 	(begin
@@ -16,16 +16,11 @@
 	  (d-DirectivePut-timesig-graphic "SingleDigitTimeSig" "\n1-Digit\nDenemo\n12")
 	  (d-DirectivePut-timesig-gy "SingleDigitTimeSig" 0)
 	  (d-DirectivePut-timesig-minpixels "SingleDigitTimeSig" 30)))
-  (begin
-    (d-Directive-standalone "SingleDigitTimeSig")
-    (d-DirectivePut-standalone-postfix "SingleDigitTimeSig" "\\override Staff.TimeSignature  #'style = #'single-digit\n")
-    (d-DirectivePut-standalone-graphic "SingleDigitTimeSig" "\n1-Digit\nDenemo\n12")
-    (d-DirectivePut-standalone-gy "SingleDigitTimeSig" 30)
-  (d-DirectivePut-standalone-minpixels "SingleDigitTimeSig" 30)))
+  
 (d-SetSaved #f)
 (d-RefreshDisplay)</scheme>
-        <label>(Print) Single Digit</label>
-        <tooltip>Makes the time signature at the cursor single digit; if no time signature at cursor, makes time signatures single digit for the staff.</tooltip>
+        <label>(Print) Single Digit (On/Off)</label>
+        <tooltip>Makes the time signature at the cursor single digit; if no time signature at cursor applies to initial timesig of staff. Operates as On/Off toggle.</tooltip>
       </row>
     </map>
   </merge>

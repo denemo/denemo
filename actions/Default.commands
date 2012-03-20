@@ -5895,8 +5895,8 @@ for second and subsequent systems</tooltip>
         <after>HideTimesig</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/TimeSig</menupath>
-        <label>(Print) Single Digit</label>
-        <tooltip>Makes the time signature at the cursor single digit; if no time signature at cursor, makes time signatures single digit for the staff.</tooltip>
+        <label>(Print) Single Digit (On/Off)</label>
+        <tooltip>Makes the time signature at the cursor single digit; if no time signature at cursor applies to initial timesig of staff. Operates as On/Off toggle.</tooltip>
       </row>
     </map>
   </merge>
