@@ -1,0 +1,42 @@
+<?xml version="1.0"?><!--*- mode: nxml; indent-tabs-mode: nil -*-->
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<!-- vim:set ts=2 expandtab: -->
+<moduleset>
+  <repository type="git" name="git.savannah.gnu.org" default="yes"
+      href="git://git.savannah.gnu.org"/>
+
+  <include href="gnome-apps-3.4.modules"/>
+
+  <autotools id="evince" autogenargs="--with-gtk=2.0">
+    <branch revision="gnome-2-32"/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="libxml2"/>
+      <dep package="gnome-icon-theme"/>
+      <dep package="poppler"/>
+      <dep package="gnome-doc-utils"/>
+    </dependencies>
+    <suggests>
+      <dep package="libgnome-keyring"/>
+    </suggests>
+    <after>
+      <dep package="nautilus"/>
+    </after>
+  </autotools>
+
+  <autotools id="denemo" autogen-sh="autogen-sh" autogenargs="--disable-fluidysnth --enable-gtk2 --disable-portaudio --disable-portmidi">
+    <branch revision="master"/> 
+    <dependencies>
+      <dep package="evince"/>
+    </dependencies>
+    <suggests>
+    </suggests>
+    <after>
+    </after>
+  </autotools>
+<!-- Proposed Modules -->
+
+</moduleset>
