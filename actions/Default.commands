@@ -5890,6 +5890,14 @@ for second and subsequent systems</tooltip>
         <label>Close Source Audio File</label>
         <tooltip>Drops the audio track attached to the current movement.</tooltip>
       </row>
+      <row>
+        <action>SingleDigitTimeSig</action>
+        <after>HideTimesig</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/TimeSig</menupath>
+        <label>(Print) Single Digit (On/Off)</label>
+        <tooltip>Makes the time signature at the cursor single digit; if no time signature at cursor applies to initial timesig of staff. Operates as On/Off toggle.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
