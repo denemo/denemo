@@ -1,0 +1,25 @@
+<?xml version="1.0"?><!--*- mode: nxml; indent-tabs-mode: nil -*-->
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<!-- vim:set ts=2 expandtab: -->
+<moduleset>
+  <repository type="git" name="git.savannah.gnu.org" default="yes"
+      href="git://git.savannah.gnu.org"/>
+
+  <include href="gnome-world-3.6.modules"/>"/>
+
+  <autotools id="denemo" autogen-sh="./autogen.sh" autogenargs="--disable-fluidysnth --disable-portaudio --disable-portmidi">
+    <branch revision="stable-0.9.4"/> 
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="librsvg"/>
+      <dep package="gtksourceview"/>
+    </dependencies>
+    <suggests>
+    </suggests>
+    <after>
+    </after>
+  </autotools>
+<!-- Proposed Modules -->
+
+</moduleset>
