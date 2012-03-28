@@ -47,13 +47,21 @@ static int stream_callback(const void * input_buffer,
                            PaStreamCallbackFlags status_flags,
                            void * user_data) {
   float **buffers = (float **) output_buffer;
-
-  size_t i;
+#ifdef HALF_TEMPO
+  static gboolean even = TRUE;
+  even = !even;
+  if(even) {
+    return paContinue;
+  }
+#endif
+  size_t i;  
   for (i = 0; i < 2; ++i) {
     memset(buffers[i], 0, frames_per_buffer * sizeof(float));
   }
+
   if(!ready)
     return paContinue;
+
 #ifdef _HAVE_FLUIDSYNTH_
   if (reset_audio) {
     fluidsynth_all_notes_off();
@@ -86,7 +94,7 @@ static int stream_callback(const void * input_buffer,
 #ifdef _HAVE_FLUIDSYNTH_
   }
 #endif
-
+  
   return paContinue;
 }
 
