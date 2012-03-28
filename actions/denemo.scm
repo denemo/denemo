@@ -551,7 +551,45 @@
 		      (d-SetPlaybackInterval start end))
 		  (d-RefreshDisplay))))))))
 
-
+;;;
+(define (CurrentMeasureOnTime)
+  (define ontime #f)
+  (d-PushPosition)
+  (while (d-MoveToStaffUp))
+  (let staffloop ()
+    (while (d-PrevObjectInMeasure))
+    (let loop ((this (d-GetMidiOnTime)))
+      (if this
+	(if ontime
+	  (if (< this ontime)
+	    (set! ontime this))
+	  (set! ontime this))
+	(if (d-NextObjectInMeasure)
+	  (loop (d-GetMidiOnTime)))))
+    (if (d-MoveToStaffDown)
+	(staffloop)))
+  (d-PopPosition)
+  ontime)
+  
+(define (CurrentMeasureOffTime)
+  (define offtime #f)
+  (d-PushPosition)
+  (while (d-MoveToStaffUp))
+  (let staffloop ()
+  (while (d-NextObjectInMeasure))
+  (let loop ((this (d-GetMidiOffTime)))
+    (if this
+      (if offtime
+	(if (> this offtime)
+	  (set! offtime this))
+	  (set! offtime this))
+	(if (d-PrevObjectInMeasure)
+	  (loop (d-GetMidiOffTime)))))
+    (if (d-MoveToStaffDown)
+	(staffloop)))
+  (d-PopPosition)
+  offtime)
+  
 ; DenemoConvert
 (define (DenemoConvert)
 (define MidiNoteStarts (make-vector 256 #f))
