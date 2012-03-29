@@ -15,7 +15,7 @@
 		(exit))))
 	    (d-PopPosition)))
 (d-LimitInterSystemSpace 1.2)
-(d-NormalBeamEndings)
+;;(d-NormalBeamEndings)
 ;(d-PointAndClick)
 (display "Arranger Profile\n")
 (d-SetSaved #t)
