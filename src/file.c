@@ -482,7 +482,6 @@ filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, DenemoSa
       /*export parts as lilypond files*/
       if(Denemo.prefs.saveparts)
 	export_lilypond_parts(file,gui);
-      score_status(gui, FALSE);
       si->readonly = FALSE;
     }
   g_free(basename);
