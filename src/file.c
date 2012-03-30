@@ -388,6 +388,25 @@ create_filename (const gchar * file_name, gint format_id)
     return (g_strconcat (file_name, FORMAT_EXTENSION (format_id), NULL));
 }
 
+/*
+  This is used to strip the extension (if it exists) off of ASYNC file types.
+*/
+static gchar *
+strip_filename_ext (const gchar * file_name, gint format_id)
+{
+    gchar *ext = strrchr(file_name, '.');
+    gint i;
+    GString *file_name_stripped = g_string_new ("");
+    gint filename_size = strlen(file_name);
+    gint ext_size = strlen(FORMAT_EXTENSION (format_id));
+    gint stripped_filename_size = filename_size - ext_size;
+    for (i=0;i < stripped_filename_size;i++){
+      g_string_append_c(file_name_stripped, file_name[i]);
+    }
+    printf("\nTruncated filename == %s\n", file_name_stripped->str);
+    return g_string_free(file_name_stripped, FALSE);
+}
+
 /* Save gui in the file in format format_id to the file filename (or gui->filename
    if filename is NULL)
    If there is a scheme script, offers to save that with the file.
@@ -465,17 +484,15 @@ filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, DenemoSa
   gchar *file = NULL;
   gchar *basename = NULL;
   file = create_filename(file_name, format_id);
-  g_debug("Saving to file %s\n", file);
   if(!template && format_id==DENEMO_FORMAT) {
     update_file_selection_path(file);
     set_gui_filename (gui, file);
   }
   basename = g_path_get_basename (file);
-
   if (basename[0] != '.') // avoids empty filename
     {
       if (FORMAT_ASYNC(format_id))
-        save_in_format(format_id, gui, (gchar *) file_name);
+        save_in_format(format_id, gui, strip_filename_ext(file_name, format_id));
       else
         save_in_format(format_id, gui, file);
  
