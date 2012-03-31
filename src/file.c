@@ -395,10 +395,14 @@ static gchar *
 strip_filename_ext (const gchar * file_name, gint format_id)
 {
     gchar *ext = strrchr(file_name, '.');
+    if (ext == NULL)
+      return file_name;
     gint i;
     GString *file_name_stripped = g_string_new ("");
     gint filename_size = strlen(file_name);
     gint ext_size = strlen(FORMAT_EXTENSION (format_id));
+    if (strlen(ext) != ext_size)
+      return file_name;
     gint stripped_filename_size = filename_size - ext_size;
     for (i=0;i < stripped_filename_size;i++){
       g_string_append_c(file_name_stripped, file_name[i]);
