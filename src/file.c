@@ -107,6 +107,12 @@ static gchar *supported_evince_file_extension[] = {
 #define FORMAT_EXTENSION(i) supported_file_formats[i].filename_extension
 #define FORMAT_ASYNC(i) supported_file_formats[i].async
 
+struct FileDialogData
+{
+  DenemoSaveType template;
+  gint format_id;
+};
+
 /* directory last used for saving */
 static gchar *file_selection_path = NULL;
 static gchar *system_template_path = NULL;
@@ -954,6 +960,25 @@ file_save (GtkWidget * widget, DenemoGUI * gui)
   score_status(gui, FALSE);
 }
 
+static void
+file_dialog_response(GtkWidget *dialog, gint response_id, struct FileDialogData *data)
+{
+  DenemoGUI *gui = Denemo.gui;
+  if (response_id == GTK_RESPONSE_ACCEPT){
+    gchar *file_name =
+      gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
+    if (replace_existing_file_dialog
+          (file_name, GTK_WINDOW (Denemo.window), data->format_id)){
+      filesel_save (gui, file_name, data->format_id, data->template);
+      force_lily_refresh(gui);
+    }
+    g_free (file_name);
+  }
+  gtk_widget_destroy (dialog);
+  g_free(data);
+}
+
+
 #define FILE_SAVE_DIALOG(description)\
   GtkWidget *file_selection;\
   GtkWidget *label;\
@@ -983,19 +1008,10 @@ file_save (GtkWidget * widget, DenemoGUI * gui)
   gtk_dialog_set_default_response (GTK_DIALOG (file_selection),\
 				   GTK_RESPONSE_ACCEPT);\
   gtk_widget_show_all (file_selection);\
-  if (gtk_dialog_run (GTK_DIALOG (file_selection)) == GTK_RESPONSE_ACCEPT)\
-    {\
-      gchar *file_name =\
-	gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_selection));\
-      if (replace_existing_file_dialog\
-          (file_name, GTK_WINDOW (Denemo.window), format_id)){\
-        filesel_save (gui, file_name, format_id, template);\
-        force_lily_refresh(gui);\
-      }\
-      g_free (file_name);\
-    }\
-  gtk_widget_destroy (file_selection);
-
+  struct FileDialogData *data = (struct FileDialogData *) g_malloc (sizeof (struct FileDialogData));\
+  data->template=template;\
+  data->format_id=format_id;\
+  g_signal_connect(file_selection, "response", G_CALLBACK(file_dialog_response), data);
 
 /**
  * Create file saveas dialog to enable user to export the current file to
