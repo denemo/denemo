@@ -1052,7 +1052,6 @@ file_newwrapper (GtkAction * action, gpointer param)
       if (confirmbox (gui))
 	{
 	  deletescore(NULL, gui);
-	  score_status(gui, FALSE);
 	}
       else
 	return;
@@ -1066,6 +1065,7 @@ file_newwrapper (GtkAction * action, gpointer param)
   set_enharmonic_position(0);
   if(Denemo.printarea) 
     g_object_set_data(G_OBJECT(Denemo.printarea), "printviewupdate", (gpointer)G_MAXUINT);
+  score_status(gui, FALSE);
 }
 
 /* open_user_default_template
