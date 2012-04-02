@@ -3398,7 +3398,14 @@ SCM scheme_output_midi_bytes (SCM input) {
   if(string_input) free(string_input);
   return  SCM_BOOL(TRUE);
 }
-
+static SCM scheme_create_timebase(SCM optional) {
+  DenemoScore *si = Denemo.gui->si;
+  if(si->smfsync = si->changecount) {
+    exportmidi(NULL, si, 0, 0);
+    return SCM_BOOL_T;
+  }
+  return SCM_BOOL_F;
+}
 static SCM scheme_play_midi_note(SCM note, SCM volume, SCM channel, SCM duration) {
     guint vol = scm_num2int(volume, 0, 0);
     gint key =  scm_num2int(note, 0, 0);
@@ -3413,7 +3420,7 @@ static SCM scheme_play_midikey(SCM scm) {
     guint midi = scm_num2int(scm, 0, 0);
     gint key =  (midi>>8)&0xFF;
     gint channel = midi&0xF;
-    double volume = ((midi>>16)&0xFF)/255.0;
+    gint volume = ((midi>>16)&0x7F);
     g_print("Playing %x at %f volume, %d channel\n", key, (double)volume, channel);
     play_note(DEFAULT_BACKEND, 0 /*port*/, channel, key, 1000 /*duration*/, volume);
     //g_usleep(200000);
@@ -5161,6 +5168,8 @@ INSTALL_SCM_FUNCTION ("Switches to playalong playback. When playing or recording
 INSTALL_SCM_FUNCTION ("Switches to mouse conducting playback. Playback will not advance beyond the cursor position unless then mouse is moved in the drawing area.",DENEMO_SCHEME_PREFIX"ToggleConduct", scheme_toggle_conduct);
 
 INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. The recording will play back with future play until deleted. The recording is not saved with the score - convert to notation first,",DENEMO_SCHEME_PREFIX"MidiRecord", scheme_midi_record);
+
+INSTALL_SCM_FUNCTION ("Generates the MIDI timings for the music of the current movement. Returns TRUE if the MIDI was re-computed else FALSE (call was unnecessary).",DENEMO_SCHEME_PREFIX"CreateTimebase", scheme_create_timebase);
 
 
   install_scm_function1 (DENEMO_SCHEME_PREFIX"PutMidi", scheme_put_midi);

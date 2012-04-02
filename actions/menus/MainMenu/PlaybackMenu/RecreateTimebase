@@ -7,8 +7,8 @@
       <row>
         <action>RecreateTimebase</action>
         <scheme>(d-UnsetMark)
-(d-Play)
-(d-Stop)
+(d-CreateTimebase)
+
 </scheme>
         <label>Create Timebase</label>
         <tooltip>Recalculates the timing of each note.</tooltip>
