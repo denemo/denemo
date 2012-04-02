@@ -1052,6 +1052,7 @@ file_newwrapper (GtkAction * action, gpointer param)
       if (confirmbox (gui))
 	{
 	  deletescore(NULL, gui);
+	  score_status(gui, FALSE);
 	}
       else
 	return;
