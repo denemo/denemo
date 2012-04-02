@@ -509,6 +509,7 @@ static gint midiaction(gint notenum) {
 gboolean set_midi_capture(gboolean set) {
   gboolean ret = midi_capture_on;
   midi_capture_on = set;
+  if(!set) divert_midi_id = 0;
   return ret;
 }
 
@@ -684,7 +685,7 @@ gboolean intercept_midi_event(gint *midi) {
     g_warning("Cannot return to script");
    // divert_midi_event = NULL;
    // return FALSE;
-   set_midi_capture(FALSE);
+    set_midi_capture(FALSE);
     g_queue_clear(&midi_queue);
    
   }
