@@ -3262,6 +3262,18 @@ static
 SCM scheme_get_keyboard_state(void) {
  return scm_int2num (Denemo.keyboard_state);
 }
+
+static
+SCM scheme_set_midi_thru(SCM set) {
+  SCM ret = scm_int2num(Denemo.keyboard_state);
+  if(scm_is_true(set))
+    Denemo.keyboard_state = GDK_SHIFT_MASK;
+  else
+    Denemo.keyboard_state = 0;
+  set_midi_in_status();
+  return ret;
+}
+
 static
 SCM scheme_get_recorded_midi_on_tick(void) {
   smf_track_t *track = Denemo.gui->si->recorded_midi_track;
@@ -3361,6 +3373,18 @@ static SCM scheme_put_midi (SCM scm) {
     process_midi_event(buf);
  return SCM_BOOL(TRUE);
 }
+
+static SCM scheme_output_midi(SCM scm) {
+  gchar buf[3];
+  gint midi = scm_num2int(scm, 0, 0);
+
+  buf[0] = midi & 0xFF;
+  buf[1] = (midi>>8)&0xFF;
+  buf[2] = (midi>>16)&0xFF;
+  play_adjusted_midi_event(buf);
+  return SCM_BOOL_T;
+}
+
 
 /* outputs a midibytes string to MIDI out. Format of midibytes as in DenemoDirective->midibytes */
 SCM scheme_output_midi_bytes (SCM input) {
@@ -5148,6 +5172,7 @@ INSTALL_EDIT(movementcontrol);
   INSTALL_SCM_FUNCTION ("Asks the user for a password which is returned",DENEMO_SCHEME_PREFIX"GetPassword", scheme_get_password);
 
   INSTALL_SCM_FUNCTION ("Returns an integer value, a set of bitfields representing the keyboard state, e.g. GDK_SHIFT_MASK etc",DENEMO_SCHEME_PREFIX"GetKeyboardState", scheme_get_keyboard_state);
+  INSTALL_SCM_FUNCTION ("Routes the MIDI in to MIDI out if it is not intercepted by d-GetMidi",DENEMO_SCHEME_PREFIX"SetMidiThru", scheme_set_midi_thru);
 
   INSTALL_SCM_FUNCTION ("Returns the ticks of the next event on the recorded MIDI track -ve if it is a NOTEOFF or #f if none. Advances to the next note.", DENEMO_SCHEME_PREFIX"GetRecordedMidiOnTick", scheme_get_recorded_midi_on_tick);
 
@@ -5172,7 +5197,11 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
 INSTALL_SCM_FUNCTION ("Generates the MIDI timings for the music of the current movement. Returns TRUE if the MIDI was re-computed else FALSE (call was unnecessary).",DENEMO_SCHEME_PREFIX"CreateTimebase", scheme_create_timebase);
 
 
-  install_scm_function1 (DENEMO_SCHEME_PREFIX"PutMidi", scheme_put_midi);
+  
+  INSTALL_SCM_FUNCTION1 ("Takes and int as MIDI data and simulates a midi event, avoiding capturing of midi by scripts. Value 0 is special and is received by scripts.", DENEMO_SCHEME_PREFIX"PutMidi", scheme_put_midi);
+  INSTALL_SCM_FUNCTION1 ("Takes and int as MIDI data and sends it directly to the MIDI out backend", DENEMO_SCHEME_PREFIX"OutputMidi", scheme_output_midi);
+
+  
   install_scm_function1 (DENEMO_SCHEME_PREFIX"OutputMidiBytes", scheme_output_midi_bytes);
   install_scm_function1 (DENEMO_SCHEME_PREFIX"PlayMidiKey", scheme_play_midikey);
   INSTALL_SCM_FUNCTION4 ("Takes midi key number, volume 0-255, duration in ms and channel 0-15 and plays the note on midi out.", DENEMO_SCHEME_PREFIX"PlayMidiNote", scheme_play_midi_note);
@@ -8913,7 +8942,7 @@ get_data_dir (),
       label = gtk_label_new (_("Audio Lead In "));
       gtk_widget_set_can_focus (label, FALSE);
       gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), label, FALSE, TRUE, 0);
-      leadin = gtk_spin_button_new_with_range(-2.0, 2.0, 0.01);
+      leadin = (GtkSpinButton*)gtk_spin_button_new_with_range(-2.0, 2.0, 0.01);
       g_signal_connect(G_OBJECT(leadin),  "value_changed", G_CALLBACK(leadin_changed), NULL);
       gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), GTK_WIDGET(leadin), FALSE, TRUE, 0);
       label = gtk_label_new (_(" secs."));
