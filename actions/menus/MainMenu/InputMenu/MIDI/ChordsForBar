@@ -12,7 +12,7 @@
 (if (not (defined? 'ChordsForBar::active))
     (begin
       (define ChordsForBar::active #f)
-      (d-InfoDialog "This command expects you to play the notes of the current bar together with chords.\nIt will notate the chords in a new staff above the current staff. You can hold chords over several notes, change chords on one note and use the foot-pedal.\nIt will play you the music before and after you have entered the chords.")))
+      (d-InfoDialog "This command expects you to play the notes of the current bar together with chords.\nIt will notate the chords in a new staff above the current staff. You can hold chords over several notes, change chords on one note.\nTo temporarily switch to listening so as to try out a chord depress the foot pedal.\nIt will play you two bars of the music at the start and after you have entered the chords.\nUse the pitch bend control to go on to the next bar or to try again in the current bar.")))
 
 (if ChordsForBar::active
     (begin ;;;;Filter is already running stop it
@@ -22,9 +22,11 @@
       (d-SetBackground #xFFFFFF)
       )
     (begin ;;;;Filter is not already running so run it
-      (set! Pitchbend::commandUp "(disp \"disabled\n\")")
-      (set! Pitchbend::commandDown "(disp \"disabled\n\")")
-      
+      ;;set up the pitch bend commands to re-run this ChordsForBar script (with the pitchbend command disabled because they flood)
+      (set! Pitchbend::commandDown "(set! Pitchbend::commandDown \"(disp \\\"pitchbend down is disabled\n\\\")\") (d-ChordsForBar)")
+      (set! Pitchbend::commandUp "(set! Pitchbend::commandUp \"(disp \\\"pitchbend up is disabled\n\\\")\") (d-MoveToMeasureRight)(d-ChordsForBar)")
+     
+
       (let  ((ons '())(suspension #f)  (chord-position #f) (pedal #f))
 	(define (noteOn? midi)
 	  (= #x90 (bit-extract midi 0 8)))
@@ -55,7 +57,7 @@
 	      (set! ontime (CurrentMeasureOnTime))))
 	  (set! offtime (CurrentMeasureOffTime))
 	  (d-SetPlaybackInterval ontime offtime)
-	  (d-Play))
+	  (d-RestartPlay))
 	  
 	(define (amalgamate-ties)
 	   ;;;start on a tied note. Amalgamate the note(s) tied to with the main note
@@ -244,6 +246,19 @@
 	  (while (not (None?))
 	      (d-DeleteObject))
 	  (d-MoveToStaffDown))
+	  
+	(define (midi-thru)
+	  (d-SetMidiThru #t)
+	  (d-SetBackground #xB020B0)
+	  (let loop ((midi (d-GetMidi)))
+	      (if (not (pedalUp? midi))
+		  (begin
+		    (d-OutputMidi midi)
+		    (loop (d-GetMidi)))
+		  (d-SetMidiThru #f)))
+	  (d-SetBackground #xB0E0B0))
+
+
 	
 ;;;;;;;; actual code
 	(set! ChordsForBar::active #t)
@@ -318,12 +333,12 @@
 				   (d-PlayMidiKey midi)
 				   (set! ons (cons note ons))
 				   (listening))
-				  ;;; pitch bend or our synthetic 0 midi message - abort
-				  ((or (zero? midi) (and  (= command #xE0) (&gt; velocity 32)))				  
-				   (d-PutMidi 0) ;;this clears the cue of intercepted events
+				   
+				  ;;; our synthetic 0 midi message - abort
+				 ((zero? midi)				  
+				 ;;  (d-PutMidi 0) ;;this clears the queue of intercepted events
 				   (d-SetBackground #xFFFFFF)
 				   (d-DirectiveDelete-chord "ChordsForBar")
-				   ;;(d-MoveToMeasureLeft)
 				   (set! ChordsForBar::active #f))
 				  
 				  ((= command #x80)
@@ -333,19 +348,15 @@
 				   (listening))
 				   
 				  ((pedalUp? midi)
-				   (if chord-position
-				       (begin
-					 (apply d-GoToPosition chord-position)
-					 (if (d-IsTied) (d-ToggleTie))
-					 (apply d-GoToPosition bass-position)))
-				   (set! pedal #f)
+				   (disp "Warning pedal up ignored\n")
 				   (listening))
 				   
  				  ((pedalDown? midi)
-				   (set! pedal #t)
+				   (midi-thru)
  				   (listening))
 				  (else
-				   (d-PlayMidiKey #x5000)
+				   ;;!!!!!! create a quiet drum sound hmm what about using the pitchbend to play the two bars... (d-PlayMidiKey #x5000)
+				   (d-PlayMidiKey #x702709)
 				   (disp "Ignoring " command " " note " " velocity " waiting for " bass-key "\n")
 				   (listening))))))
 		    (disp "finished with an object in the measure chords for bar is active is " ChordsForBar::active "\n")
@@ -358,19 +369,18 @@
 				(set! bass-position (GetPosition))		  
 				(loop (d-GetNoteAsMidi)))
 			      (begin
-				(PlayCurrentMeasure 1)
-				  ;;;; now repeat the current bar or go on to the next, if any...
-				)))
+				(d-PutMidi 0)
+				(PlayCurrentMeasure 1))))
 			(begin
 			    (d-PopPosition)
 			    (d-MoveToMeasureRight))))
 		  (disp "Finished ChordsForBar"))))
 	(set! ChordsForBar::active #f)
 	(d-SetBackground #xFFFFFF)
-	(set! Pitchbend::commandUp "(d-CursorRight)")
-	(set! Pitchbend::commandDown "(d-CursorLeft)"))))
-;;;;;;;;End of ChordsForBar
-</scheme>
+	;;(set! Pitchbend::commandUp "(d-CursorRight)")
+	;;(set! Pitchbend::commandDown "(d-CursorLeft)")
+	)))
+;;;;;;;;End of ChordsForBar</scheme>
         <label>Chords for Bar</label>
         <tooltip>Plays the current bar. Listens for you to play each bass note in the bar with a chord, notates that chord. When finished re-plays the bar. Allows you to repeat (pitch bend down) or go on to next bar (pitch bend up).</tooltip>
       </row>
