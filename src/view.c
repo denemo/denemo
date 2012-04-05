@@ -1262,6 +1262,10 @@ static SCM scheme_get_midi_off_time(void) {
   return scm_double2num(get_midi_off_time(curobj->midi_events));
 }
 
+static SCM scheme_restart_play(void) {
+  restart_play();
+  return SCM_BOOL_T;
+}
 static SCM scheme_set_playback_interval (SCM start, SCM end) {
   if(scm_is_real(start) && scm_is_real(end) ) {
     Denemo.gui->si->start_time = scm_to_double(start);
@@ -3445,7 +3449,7 @@ static SCM scheme_play_midikey(SCM scm) {
     gint key =  (midi>>8)&0xFF;
     gint channel = midi&0xF;
     gint volume = ((midi>>16)&0x7F);
-    g_print("Playing %x at %f volume, %d channel\n", key, (double)volume, channel);
+    //g_print("Playing %x at %f volume, %d channel\n", key, (double)volume, channel);
     play_note(DEFAULT_BACKEND, 0 /*port*/, channel, key, 1000 /*duration*/, volume);
     //g_usleep(200000);
  return SCM_BOOL(TRUE);
@@ -3518,8 +3522,9 @@ static gboolean scheme_callback_timer(cb_scheme_and_id *scheme){
 
 static SCM scheme_timer(SCM duration_amount, SCM callback) {
   char *scheme_code;
-  scheme_code = scm_to_locale_string(callback);  
+  scheme_code = scm_to_locale_string(callback);  //FIXME check that type of callback is tring
   gint duration = scm_num2int(duration_amount, 0, 0);
+  ;g_print("setting timer for %s after %d ms", scheme_code, duration);
   cb_scheme_and_id *scheme = g_malloc(sizeof(cb_scheme_and_id));
   scheme->scheme_code = scheme_code;
   scheme->id = Denemo.gui->id;
@@ -5254,7 +5259,7 @@ INSTALL_SCM_FUNCTION ("Generates the MIDI timings for the music of the current m
   INSTALL_SCM_FUNCTION ("Rewind the MIDI generated for the current movement. Given a time in seconds it tries to rewind to there.", DENEMO_SCHEME_PREFIX"RewindMidi", scheme_rewind_midi);
   INSTALL_SCM_FUNCTION ("Takes an interval, returns a pair, a list of the next note-on events that occur within that interval and the time of these events.", DENEMO_SCHEME_PREFIX"NextMidiNotes", scheme_next_midi_notes);
 
-
+  INSTALL_SCM_FUNCTION ("Restart midi play, cancelling any pause", DENEMO_SCHEME_PREFIX"RestartPlay", scheme_restart_play);
   INSTALL_SCM_FUNCTION ("Return a number, the midi time in seconds for the start of the object at the cursor; return #f if none ", DENEMO_SCHEME_PREFIX"GetMidiOnTime", scheme_get_midi_on_time);
   INSTALL_SCM_FUNCTION ("Return a number, the midi time in seconds for the end of the object at the cursor; return #f if none ", DENEMO_SCHEME_PREFIX"GetMidiOffTime", scheme_get_midi_off_time);
 
