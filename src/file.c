@@ -376,6 +376,9 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
 
 
   denemo_scheme_init();//to re-instate any user defined directives for whole score
+  if(!(type==ADD_STAFFS || type==ADD_MOVEMENTS))
+	    score_status(gui, FALSE);
+
   rewind_audio();
   gui->si->undo_guard=Denemo.prefs.disable_undo;//user pref to (dis)allow undo information to be collected
   return result;
