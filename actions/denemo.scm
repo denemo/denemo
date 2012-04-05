@@ -778,20 +778,12 @@
 (define  Pitchbend::timer 0)
 (define (MIDI-shortcut::pitchbend value)
   ;(format #t "pitch bend value ~a\n" value)
-  (cond ((> value (+ 50 8192))
-	 (d-KillTimer Pitchbend::timer)
+  (cond ((> value 64)	
 	 (if  Pitchbend::commandUp
-	 (eval-string Pitchbend::commandUp)
-	 (set! Pitchbend::timer (d-Timer 100 Pitchbend::commandUp)))
-	 #f)
-
-         ((< value (- 8192 50))
-	  (d-KillTimer Pitchbend::timer)
+	  (eval-string Pitchbend::commandUp)))
+         ((< value 64)	
 	  (if  Pitchbend::commandDown
-	  (eval-string Pitchbend::commandDown)
-	  (set! Pitchbend::timer (d-Timer 100 Pitchbend::commandDown)))
-	  #f)
-	 (else  (d-KillTimer Pitchbend::timer) (set! Pitchbend::timer 0) #f )))
+	  (eval-string Pitchbend::commandDown)))))
                       
 ; Create a music-object that holds various information. This is the smallest, single object 
 (defstruct musobj pitch movement staff measure horizontal metricalp start duration baseduration dots)
