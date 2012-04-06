@@ -382,7 +382,7 @@
 	)))
 ;;;;;;;;End of ChordsForBar</scheme>
         <label>Chords for Bar</label>
-        <tooltip>Plays the current bar. Listens for you to play each bass note in the bar with a chord, notates that chord. When finished re-plays the bar. Allows you to repeat (pitch bend down) or go on to next bar (pitch bend up).</tooltip>
+        <tooltip>Plays the context of the current bar. Then listens for you to play each note in current bar the bar with added chord(s), notates the chords on a staff above. When finished re-plays the bar. Allows you to repeat (pitch bend down) or go on to next bar (pitch bend up).</tooltip>
       </row>
     </map>
   </merge>
