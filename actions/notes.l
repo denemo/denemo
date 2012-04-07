@@ -2,6 +2,8 @@ A					[a-zA-Z\200-\377]
 AA					{A}|_
 N					[0-9]
 AN					{AA}|{N}
+
+
 ANY_CHAR			(.|\n)
 PUNCT				[?!:'`]
 ACCENT				\\[`'"^]
@@ -10,6 +12,8 @@ TEX					{AA}|-|{PUNCT}|{ACCENT}|{NATIONAL}
 WORD				{A}{AN}*
 DASHED_WORD			{A}({AN}|-)*
 DASHED_KEY_WORD		\\{DASHED_WORD}
+
+
 	
 ALPHAWORD			{A}+
 DIGIT				{N}
@@ -101,6 +105,8 @@ _							(lyimport::mtoken 'UNDERSCORE yytext)
 \[							(lyimport::mtoken 'BRACKET_OPEN yytext) ; This is a custom lexer rule. In Lilypond these are used directly as strings in the parser.
 \]							(lyimport::mtoken 'BRACKET_CLOSE yytext) ; This is a custom lexer rule. In Lilypond these are used directly as strings in the parser.
 
+\(         (lyimport::mtoken 'OPEN yytext); for slurs
+\)         (lyimport::mtoken 'CLOSE yytext); for slurs						
 						
 
 \\.							(case (string-ref yytext 0) ; not sure for what this is. maybe scheme escaped parts in lilypond?
