@@ -1,5 +1,6 @@
 ;; An reminder error. Stops the program and reminds to implement. Only if "Halt on error" is specified"
 (define (lyimport::error yytext)
+(display (string-append "error: Not implemented yet: " yytext " (Line: "(number->string (lexer-get-line)) " Column: " (number->string (lexer-get-column)) ")\n"))
 	(if lyimport::halt_on_error
 		(begin (display (string-append "error: Not implemented yet: " yytext " (Line: "(number->string (lexer-get-line)) " Column: " (number->string (lexer-get-column)) ")\n"))
 			   (exit))
@@ -33,8 +34,8 @@
    ;; --- token definitions
    (
 
-
-
+OPEN
+CLOSE
 ;;;;;from parser.yy
 
  ACCEPTS 
@@ -595,7 +596,7 @@ HYPHEN
 
 
  (event_chord ;; a pair
-	(simple_chord_elements post_events)			: (begin ;(format #t "Post event ~a~%" $2)
+	(simple_chord_elements post_events)			: (begin ;(format #t "Post event!!! ~a~%" $2)
 									 (cons 'x_CHORD (cons $1 $2)))
 
 	
@@ -691,6 +692,8 @@ HYPHEN
 
  (post_event
   ;many things are missing here
+  (OPEN)   : $1
+  (CLOSE)   : $1
   (MARKUP) : $1
   (script_dir direction_reqd_event) : $2;ignoring the up/down/center attribute (cons $1 $2)
   (string_number_event) : $1 
