@@ -54,13 +54,13 @@
 	(string-append "(d-InitialClef \"" theclef "\")")
 	(string-append "(d-InsertClef \"" theclef "\")")))
   
-   (define (do-tie cdr)	
+  (define (do-tie cdr)	
 	"(d-ToggleTie)") ; this only works because the command works in an appending position on the left note and we can be sure there is none in front of us during importing.
 	
-	(define (do-bracket-open cdr)	
+  (define (do-bracket-open cdr)	
 		"(d-StartBeam)") ; this only works because the command works in an appending position on the left note and we can be sure there is none in front of us during importing.		
 	
-	(define (do-bracket-close cdr)	
+  (define (do-bracket-close cdr)	
 		"(d-EndBeam)") ; this only works because the command works in an appending position on the left note and we can be sure there is none in front of us during importing.
 		  
   (define (do-time thetime)
@@ -347,7 +347,10 @@
 						   (if (string-contains (cdr (cdr current_object)) "fermata")
 								(set! postfix (string-append postfix "(d-ToggleFermata) ")))
 						   ;(format #t "~%~%~%hoping to process a note next for ~a~%" (list (cadr current_object)))
-						   
+						    (if (equal? (cdr (cdr current_object)) "(")
+							(set! postfix (string-append postfix "(d-BeginSlur) ")))
+						    (if (equal? (cdr (cdr current_object)) ")")
+							(set! postfix (string-append postfix "(d-EndSlur) ")))
 						   (if (eqv? (caadr current_object) 'x_REST) 
 						       (let ((thedur #f))
 							 (set! lyimport::notes #f)
@@ -388,6 +391,7 @@
 	  (define postfix " ") ; build a chain of postfixes
 	  (if (string-contains (cdr (cdr current_object)) "fermata")
 		(set! postfix (string-append postfix "(d-ToggleFermata) ")))
+	
   (string-append (do-duration (cdadr current_object)) " "   (start-chord (caaadr current_object))  (string-join (map add-notes-to-chord (list-tail   (caadr current_object) 1)))
  "(d-CursorToNote (GetLowestNote))" postfix)))
  
