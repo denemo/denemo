@@ -344,13 +344,31 @@
 	   ((eqv? (car current_object) 'x_CHORD) (let () 
 						   	;postfix section
 						   (define postfix " ") ; build a chain of postfixes
-						   (if (string-contains (cdr (cdr current_object)) "fermata")
+						   (if (> (string-length (cdr (cdr current_object))) 0)
+						    (cond
+						      ((string-contains (cdr (cdr current_object)) "fermata")
 								(set! postfix (string-append postfix "(d-ToggleFermata) ")))
-						   ;(format #t "~%~%~%hoping to process a note next for ~a~%" (list (cadr current_object)))
-						    (if (equal? (cdr (cdr current_object)) "(")
+						   
+						   
+						    
+
+						     
+							
+						     ((equal? (cdr (cdr current_object)) "(" ;;dummy ) to get the matching-paren to work
+						                                              )
 							(set! postfix (string-append postfix "(d-ToggleBeginSlur) ")))
-						    (if (equal? (cdr (cdr current_object)) ")")
+						     ((equal? (cdr (cdr current_object))   ;; dummy ( to get the matching-paren to work
+						                                          ")")
 							(set! postfix (string-append postfix "(d-ToggleEndSlur) ")))
+
+
+
+
+
+						    ((string? (cdr (cdr current_object)))
+							(set! postfix (string-append postfix "(d-DirectivePut-standalone-postfix \"" (scheme-escape (cdr (cdr current_object))) "\" \"" (scheme-escape (cdr (cdr current_object))) "\")")))))
+
+							;;FIXME is this really additional to the above???
 						   (if (eqv? (caadr current_object) 'x_REST) 
 						       (let ((thedur #f))
 							 (set! lyimport::notes #f)
@@ -414,9 +432,15 @@
 						      (set! lyimport::relative (cdr current_object))
 
 						       (string-append "(d-CursorToNote \"" (notename2 (cdr current_object)) "\");Translated from relative music\n")))
-	   ((eqv? (car current_object) 'x_LILYPOND)     (string-append "(d-PutDirective-standalone \"" (scheme-escape (cdr current_object)) "\" \"" (scheme-escape (cdr current_object)) "\")\n"))                                        
 
-	   (else (begin (format #t "Not handled~%~%") (pretty-print current_object) ";Syntax Ignored\n"))					  
+	   ((eqv? (car current_object) 'x_LILYPOND) ;(format #t "Some LilyPond to insert ~a\n" (cdr current_object))
+	       (cond
+		  ((equal? "//trill" (cdr current_object))
+		    " (d-ToggleTrill) ")
+		  (else
+		    (string-append "(d-DirectivePut-standalone-postfix \"" (scheme-escape (cdr current_object)) "\" \"" (scheme-escape (cdr current_object)) "\")\n"))))                                     
+
+	  (else (begin (format #t "Not handled~%~%") (pretty-print current_object) ";Syntax Ignored\n"))					  
 	   ))))
   
 (if (not (defined? 'Denemo))

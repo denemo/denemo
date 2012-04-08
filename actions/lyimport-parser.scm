@@ -34,6 +34,7 @@
    ;; --- token definitions
    (
 
+
 OPEN
 CLOSE
 ;;;;;from parser.yy
@@ -654,6 +655,8 @@ HYPHEN
 	(PARTIAL duration_length): (cons 'x_PARTIAL (cons (list-ref $2 0) (list-ref $2 1))) ; we get a list here: (duration numberofdots) Moment m = - unsmob_duration ($2)->get_length (); 		$$ = MAKE_SYNTAX ("property-operation", @$, SCM_BOOL_F, ly_symbol2scm ("Timing"), ly_symbol2scm ("PropertySet"), ly_symbol2scm ("measurePosition"), m.smobbed_copy ()); 	$$ = MAKE_SYNTAX ("context-specification", @$, ly_symbol2scm ("Score"), SCM_BOOL_F, $$, SCM_EOL, SCM_BOOL_F);
 	(TIME_T fraction) : (cons 'x_TIME $2) ; SCM proc = ly_lily_module_constant ("make-time-signature-set"); $$ = scm_apply_2   (proc, scm_car ($2), scm_cdr ($2), SCM_EOL);
 	(MARK scalar) : (lyimport::error "MARK scalar") ; SCM proc = ly_lily_module_constant ("make-mark-set"); 	$$ = scm_call_1 (proc, $2);
+
+	(DENEMODIRECTIVE) : (cons 'x_LILYPOND $1)
  )
 
 (command_event
@@ -695,7 +698,9 @@ HYPHEN
   (OPEN)   : $1
   (CLOSE)   : $1
   (MARKUP) : $1
-  (script_dir direction_reqd_event) : $2;ignoring the up/down/center attribute (cons $1 $2)
+  (script_dir direction_reqd_event) :  (cond ((equal? $1 'UP) (string-append "^\"" $2 "\""))
+					     ((equal? $1 'DOWN) (string-append "_\"" $2 "\""))
+					     ((equal? $1 'CENTER) (string-append "-\"" $2 "\"")))
   (string_number_event) : $1 
   (FERMATA) : $1
  )
@@ -768,7 +773,8 @@ HYPHEN
  (gen_text_def
 ;        (MARKUP) : $1
 	(full_markup) : $1
-;; 	| string {
+ 	(string) : $1
+;;	 {
 ;; 		Music *t = MY_MAKE_MUSIC ("TextScriptEvent", @$);
 ;; 		t->set_property ("text",
 ;; 			make_simple_markup ($1));
@@ -785,7 +791,7 @@ HYPHEN
 
  (script_dir     
 	(UNDERSCORE) :   'DOWN
-	(CARET) :  (begin (display "!!!!!!!!!!!!!!!!!!!!!!") 'UP); 
+	(CARET) :  'UP 
 	(HYPHEN) : 'CENTER
  )
  
@@ -921,7 +927,7 @@ HYPHEN
 
 
 (full_markup
-        (MARKUP) : $1
+        (MARKUP) : $1 ;;; FIXME this needs to be (cons 'x_MARKUP $1) and then something in the parser to turn it into a denemo directive
 
 ;; 	MARKUP_IDENTIFIER {
 ;; 		$$ = $1;

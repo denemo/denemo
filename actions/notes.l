@@ -98,7 +98,7 @@ R							(lyimport::mtoken 'MULTI_MEASURE_REST yytext)
 \?							(lyimport::mtoken 'QUESTIONMARK yytext)
 \|							(lyimport::mtoken 'PIPE yytext)
 /							(lyimport::mtoken 'SLASH yytext)
-^							(lyimport::mtoken 'CARET yytext)
+\^							(lyimport::mtoken 'CARET yytext)
 _							(lyimport::mtoken 'UNDERSCORE yytext)
 -							(lyimport::mtoken 'HYPHEN yytext)
 ~							(lyimport::mtoken 'TILDE yytext) ; This may be the wrong place. But the lexer did not detect E_TILDE with the block \\. below
