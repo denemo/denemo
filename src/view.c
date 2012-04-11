@@ -1653,6 +1653,12 @@ static SCM scheme_get_cursor_note (SCM optional) {
  return scheme_mid_c_offsettoname(gui->si->cursor_y);
 }
 
+static SCM scheme_get_cursor_note_with_octave (SCM optional) {
+  DenemoGUI *gui = Denemo.gui;
+  scm_makfrom0str(mid_c_offsettolily(gui->si->cursor_y, 0));
+}
+
+
 static SCM scheme_set_prefs (SCM xml) {
   DenemoGUI *gui = Denemo.gui;
   if(scm_is_string(xml)){
@@ -4438,6 +4444,9 @@ static void create_scheme_identfiers(void) {
   INSTALL_SCM_FUNCTION ("Returns the cursor horizontal position in current measure.\n 1 = first position in measure, n+1 is appending position where n is the number of objects in current measure",DENEMO_SCHEME_PREFIX"GetHorizontalPosition",  scheme_get_horizontal_position);
 
   INSTALL_SCM_FUNCTION ("Returns the note name for the line or space where the cursor is",DENEMO_SCHEME_PREFIX"GetCursorNote",  scheme_get_cursor_note);
+  INSTALL_SCM_FUNCTION ("Returns the note name and octave in LilyPond notation for the line or space where the cursor is",DENEMO_SCHEME_PREFIX"GetCursorNoteWithOctave",  scheme_get_cursor_note_with_octave);
+
+  
   INSTALL_SCM_FUNCTION ("Prints out information about the object at the cursor",DENEMO_SCHEME_PREFIX"DebugObject",  scheme_debug_object);
 
   INSTALL_SCM_FUNCTION ("Returns the name of the (highest) note in any chord at the cursor position, or #f if none",DENEMO_SCHEME_PREFIX"GetNoteName",  scheme_get_note_name);
