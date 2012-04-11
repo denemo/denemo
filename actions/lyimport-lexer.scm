@@ -183,7 +183,7 @@
 	;	(else (begin (display (string-append "error: Unknown word: " yytext " (Line: "(number->string (lexer-get-line)) " Column: " (number->string ;(lexer-get-column)) ")\n"))(lyimport::multilexer))
 	;	)
 
-		(else (lyimport::mtoken 'DENEMODIRECTIVE (string-append "//" yytext))
+		(else (lyimport::mtoken 'DENEMODIRECTIVE (string-append "\\" yytext))
 		)
 		
 	)

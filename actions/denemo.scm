@@ -99,7 +99,7 @@
 
 ; Get highest and lowest note as lilypond syntax. Works on Chords and Single Notes.
 ;; GetNotes returns a string of lily-notes from low to high. Make a list out of them and refer to the first (0) element or last (length -1) one.
-;; Returns #f if not a chord
+;; Returns #f if not a chord or appending
 (define (GetLowestNote)
 	(if (Note?)
 	 (list-ref (string-tokenize(d-GetNotes)) 0 )
@@ -109,6 +109,20 @@
 	(if (Note?)
 	 (list-ref (reverse (string-tokenize(d-GetNotes))) 0)
 	 #f))
+
+; Get highest and lowest note at or before cursor as lilypond syntax. Works on Chords and Single Notes and in appending position.
+;; Returns #f if not a chord, when appending reports chord before cursor
+(define (GetLowestAvailableNote)
+	(define notes (d-GetNotes))
+	(if notes 
+	 (list-ref (string-tokenize notes) 0 )
+	 #f))
+(define (GetHighestAvailableNote)
+	(define notes (d-GetNotes))
+	(if notes 
+	 (list-ref ((reverse string-tokenize notes)) 0 )
+	 #f))
+
 
 (define MusicalSymbols-notes (vector Denemo-Note0 Denemo-Note1  Denemo-Note2 Denemo-Note3 Denemo-Note4 Denemo-Note5 Denemo-Note6 Denemo-Note7 Denemo-Note8))
 (define MusicalSymbols-sharp "\xe2\x99\xaf") ;;;may need to specify Denemo font for windows

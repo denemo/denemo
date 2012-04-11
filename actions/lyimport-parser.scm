@@ -698,9 +698,9 @@ HYPHEN
   (OPEN)   : $1
   (CLOSE)   : $1
   (MARKUP) : $1
-  (script_dir direction_reqd_event) :  (cond ((equal? $1 'UP) (string-append "^\"" $2 "\""))
-					     ((equal? $1 'DOWN) (string-append "_\"" $2 "\""))
-					     ((equal? $1 'CENTER) (string-append "-\"" $2 "\"")))
+  (script_dir direction_reqd_event) :  (cond ((equal? $1 'UP) (string-append "^" $2)) ;!!!!!!!! take the \" out of here and require the direction_reqd_event to have them already, then you can have \markup here via gen_text_def and it won't get surrounded by quotes...
+					     ((equal? $1 'DOWN) (string-append "_" $2))
+					     ((equal? $1 'CENTER) (string-append "-" $2)))
   (string_number_event) : $1 
   (FERMATA) : $1
  )
@@ -773,7 +773,7 @@ HYPHEN
  (gen_text_def
 ;        (MARKUP) : $1
 	(full_markup) : $1
- 	(string) : $1
+ 	(string) : (string-append "\"" $1 "\"")
 ;;	 {
 ;; 		Music *t = MY_MAKE_MUSIC ("TextScriptEvent", @$);
 ;; 		t->set_property ("text",
@@ -932,7 +932,7 @@ HYPHEN
 ;; 	MARKUP_IDENTIFIER {
 ;; 		$$ = $1;
 ;; 	}
-	(MARKUP markup_top) : $3
+	(MARKUP markup_top) : (string-append "\\"$1 " \"" $2 "\"")
 
 ;;; will need a markup lexer... AND it has a mid rule action!!!!!!!!!!! FIXME
 ;; 		{ PARSER->lexer_->push_markup_state (); }
