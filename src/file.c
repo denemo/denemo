@@ -323,7 +323,7 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
         xml=TRUE, result = importXML (filename, gui, type);
       else if(EXISTS(".ly"))
         result = lyinput (filename, gui);
-      else if(EXISTS(".mxml"))
+      else if(EXISTS(".mxml") || EXISTS(".xml"))
         result = mxmlinput (filename, gui);
       else if(EXISTS(".mid") || EXISTS(".midi"))
         result = importMidi (filename, gui);
