@@ -8,8 +8,7 @@
         <after>WholeMeasureRest</after>
         <action>InsertWholeMeasureRest</action>
         <scheme>;;;;InsertWholeMeasureRest
- ;;; note that it works in edit mode properly
- (if (None?)
+ (if (or (None?)  (zero? (d-GetDurationInTicks)))
  	(begin
  		(d-WholeMeasureRest))
  	(begin	
