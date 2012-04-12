@@ -38,14 +38,14 @@
     )
 
   (define (add-notes-to-chord extra-chordnote)
-    (format #t "entered addnotes to chord with  ~a list ~a~%" extra-chordnote (cadr extra-chordnote))
+    ;(format #t "entered addnotes to chord with  ~a list ~a~%" extra-chordnote (cadr extra-chordnote))
     (set! lyimport::nonotes #f)
     (if lyimport::relative
 	(relative-add-note-to-chord extra-chordnote)
 	(string-append "(d-InsertNoteInChord \"" (notename (cadr extra-chordnote)) "\")") ))
 
   (define (start-chord chord-note)
-    (format #t "entered start chord with list chord-list ~a~%" chord-note)
+    ;(format #t "entered start chord with list chord-list ~a~%" chord-note)
     ;(set! lyimport::nonotes #f) ;; cannot do this early as context is created inside
       (do-note (cadr chord-note)))
 
@@ -112,7 +112,7 @@
 	"\n;;new movement not needed here\n"))
   
   (define (do-context thecontext)
-    (format #t "the context is ~a and ~a with nonotes ~a\n" thecontext lyimport::staff lyimport::nonotes)
+    ;(format #t "the context is ~a and ~a with nonotes ~a\n" thecontext lyimport::staff lyimport::nonotes)
 
     (cond
      ((equal? "Staff" thecontext)  (if lyimport::staff
@@ -154,7 +154,7 @@
 
   
   (define (do-newcontext thecontext)
-    (format #t "the new context is ~a and staffneeded is ~a~%" thecontext lyimport::staff)
+    ;(format #t "the new context is ~a and staffneeded is ~a~%" thecontext lyimport::staff)
     (cond
      ((equal? "Staff" thecontext) 
       (if (eq? lyimport::staff 'init)
@@ -280,7 +280,7 @@
 
 
 (define (loop-through-simult current_object)  ;;!!
- (format #t "New context for ~a\n\n" current_object)
+ ;(format #t "New context for ~a\n\n" current_object)
 (let ((temp (loop-through current_object)))
   (set! lyimport::staff #t)
   (set! lyimport::voice #t)
@@ -297,7 +297,7 @@
      
      
      ((eqv? 'NEWCONTEXT  (car (list-ref   theobject 0)))
-      (string-append ";;;FIXME A new context?\n"  "(d-AddLast)(d-MoveToBeginning)\n" (string-join (map loop-through (list-tail theobject 1)))))
+      (string-append ";;;FIXME A new context. Forcing a new staff here results in an empty staff at start of every import. If one is needed then test that lyimport::staff is not 'init. This may just be a matter of calling do-context? (d-AddLast)(d-MoveToBeginning)\n" (string-join (map loop-through (list-tail theobject 1)))))
      ((eqv? 'x_CHORD (caar theobject))
       (begin 
 	
@@ -330,7 +330,7 @@
 							    temp
 							    ))
 	   
-	   ((or (eqv? (car current_object) 'NEWCONTEXT)  (eqv? (car current_object) 'CONTEXT))    (do-newcontext (cadr current_object)));        "(d-AddLast)")
+	   ((or (eqv? (car current_object) 'NEWCONTEXT)  (eqv? (car current_object) 'CONTEXT))    (do-newcontext (cadr current_object)))
 	   
 	   ((eqv? (car current_object) 'x_SEQUENTIAL)		(begin
 								  ;(format #t "the sequential list has ~a~% ~%"  (cdr current_object))
@@ -402,7 +402,7 @@
 						       (let ((thedur #f))
 							 (set! lyimport::nonotes #f)
 							 (set! thedur  (list-ref (cadr current_object) 2))
-							 (format #t "dur is ~a~%" (car thedur))
+							 ;(format #t "dur is ~a~%" (car thedur))
 							 (if (number? (car thedur))
 							     (string-append (do-duration-relative thedur) (do-dots thedur))
 							     
