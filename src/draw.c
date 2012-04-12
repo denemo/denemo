@@ -603,12 +603,12 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
 	  cairo_fill(cr);
     } 
       /* Indicate fill status  */
-#define OPACITY (0.3)
+#define OPACITY (curmeasure == si->currentmeasure?0.3:0.8)
     if(curmeasure->data) {
 	if(extra_ticks > 0 )
-	  cairo_set_source_rgba( cr, 1.0, 0.8, 0.8, OPACITY);
+	  cairo_set_source_rgba( cr, 1.0, 0.6, 0.6, OPACITY);
 	else if((extra_ticks < 0) && curmeasure->next )
-	  cairo_set_source_rgba( cr, 0.8, 0.8, 1, OPACITY);
+	  cairo_set_source_rgba( cr, 0.6, 0.6, 1, OPACITY);
 #undef OPACITY     
 	if((extra_ticks > 0 ) || ((extra_ticks < 0 ) && (curmeasure->next) && curmeasure->next->data)) {
 	  cairo_rectangle (cr, x , y, GPOINTER_TO_INT (itp->mwidthiterator->data), STAFF_HEIGHT+1);        
