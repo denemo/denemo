@@ -211,7 +211,7 @@
 
 
   (define (do-dots thedur)
-(format #t "do-dots gets a duration of form ~a~%" thedur)
+;(format #t "do-dots gets a duration of form ~a~%" thedur)
     (if (equal? thedur "")
 	""
 	(let ((adot "(d-AddDot)") (numdots (list-ref thedur 1)))
@@ -237,7 +237,7 @@
    ))
   
 (define (do-note thenote)
-(format #t "Doing note with nonotes ~a\n\n" lyimport::nonotes)
+;(format #t "Doing note with nonotes ~a\n\n" lyimport::nonotes)
 (let ((context ""))
  (set! context (string-append (do-context "Staff") (do-context "Voice")))
    ;(format #t "And so context ~a\n\n" context)
