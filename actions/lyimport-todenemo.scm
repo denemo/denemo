@@ -477,7 +477,7 @@
 
 	   ((eqv? (car current_object) 'x_LILYPOND) ;(format #t "Some LilyPond to insert ~a\n" (cdr current_object))
 	       (cond
-		  ((equal? "//trill" (cdr current_object))
+		  ((equal? "\\trill" (cdr current_object))
 		    " (d-ToggleTrill) ")
 		  (else
 		    (string-append "(d-DirectivePut-standalone-postfix \"" (scheme-escape (cdr current_object)) "\" \"" (scheme-escape (cdr current_object)) "\")\n"))))                                     
