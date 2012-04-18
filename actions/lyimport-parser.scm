@@ -379,7 +379,7 @@ HYPHEN
 	(simple_music)					: (list $1)
 	(composite_music)				: (begin ;(format #t "~%music as composite_music with value ~a~%"  (list-ref $1 0))
 							    $1)
-	
+	(LYRICMODE music) :  (list (cons 'x_LILYPOND " %Lyrics Omitted\n")) ;;discard lyrics
  )
  
  (alternative_music
@@ -414,8 +414,8 @@ HYPHEN
 								 $1)	
     (MUSIC_IDENTIFIER)				: $1
     (music_property_def)			: $1
-	(context_change)				: $1
-		
+    (context_change)				: $1
+    (STRING) : $1 ;;;this would be illegal syntax in music, but allowed in lyrics mode. This line causes a heap of shift/reduce conflicts, it is not sure that these resolve ok.		
  )
 
 	
@@ -476,6 +476,8 @@ HYPHEN
 ;		$$ = MAKE_SYNTAX ("context-specification", @$, $2, $3, $5, mods, SCM_BOOL_F);
 ;	}
 	(NEWCONTEXT simple_string optional_id optional_context_mod music) :(begin ;(format #t "newcontext is ~a~%" $2)
+										  (cons (cons 'NEWCONTEXT (list $2  $3 $4)) $5))
+	(LYRICSTO simple_string optional_id optional_context_mod music) :(begin ;(format #t "newcontext is ~a~%" $2)
 										  (cons (cons 'NEWCONTEXT (list $2  $3 $4)) $5))
 ;   {            Context_mod *ctxmod = unsmob_context_mod ($4);
 ;                SCM mods = SCM_EOL;
@@ -647,7 +649,7 @@ HYPHEN
 
  (command_element
 	(command_event) : $1
-	(SKIP duration_length) : (string-append $1 $2)    ;	$$ = MAKE_SYNTAX ("skip-music", @$, $2);
+	(SKIP duration_length) : (cons 'x_SKIP $2)    ;	$$ = MAKE_SYNTAX ("skip-music", @$, $2);
 	(BRACKET_OPEN) : (cons 'x_BRACKET_OPEN $1) ;	Music *m = MY_MAKE_MUSIC ("LigatureEvent", @$); m->set_property ("span-direction", scm_from_int (START)); 	$$ = m->unprotect();
 	(BRACKET_CLOSE) : (cons 'x_BRACKET_CLOSE $1) ; Music *m = MY_MAKE_MUSIC ("LigatureEvent", @$); m->set_property ("span-direction", scm_from_int (STOP));	$$ = m->unprotect ();
 	(E_BACKSLASH) : (lyimport::error "E_BACKSLASH") ; $$ = MAKE_SYNTAX ("voice-separator", @$, SCM_UNDEFINED);
