@@ -843,7 +843,7 @@ SCM scheme_user_screenshot(SCM type, SCM position) {
   GList **sources;
   SCM ret = SCM_BOOL_F;
   gint pos = -1;
-  if((!SCM_UNBNDP(position)) && scm_integer_p(position))
+  if((!SCM_UNBNDP(position)) && scm_is_integer(position))
     pos = scm_num2int(position,0,0);
 
   if(scm_is_false(type))
@@ -1187,7 +1187,7 @@ scm_call_1(func, thestep);
 }
 
 static SCM scheme_set_enharmonic_position(SCM position) {
-  if(scm_integer_p(position)) {
+  if(scm_is_integer(position)) {
      gint pos = scm_num2int(position, 0, 0);
      set_enharmonic_position(pos);
      return SCM_BOOL_T;
@@ -1417,7 +1417,7 @@ static SCM scheme_add_keybinding (SCM command, SCM binding) {
     if(scm_is_string(command)) {
       name = scm_to_locale_string(command);
       old_id = add_keybinding_for_name(name, shortcut);
-    } else if(scm_integer_p(command)) {
+    } else if(scm_is_integer(command)) {
       id = scm_to_int(command);
       if(id>=0)
 	old_id = add_keybinding_for_command(id, shortcut);	
@@ -1611,7 +1611,7 @@ SCM scheme_goto_position (SCM movement, SCM staff, SCM measure, SCM object) {
 }
 
 SCM scheme_shift_cursor (SCM value) {
-  if(!scm_integer_p(value))
+  if(!scm_is_integer(value))
     return SCM_BOOL_F;
   gint shift = scm_num2int(value, 0, 0);
   Denemo.gui->si->cursor_y += shift;
@@ -1731,11 +1731,7 @@ SCM scheme_get_note_name (SCM optional) {
    
 }
 
-//Insert a rest in the prevailing duration
-static SCM scheme_insert_rest(void) {
-  dnm_insertchord (Denemo.gui, get_prevailing_duration(), INPUTNORMAL, TRUE);
-  return SCM_BOOL_T;
-}
+
 
 //Insert rests to the value of the timesig and return the number of rests inserted.
 SCM scheme_put_whole_measure_rests (void) {
@@ -2799,7 +2795,7 @@ PUTFUNC_DEF(standalone, postfix)
 
 #define INT_PUTFUNC_DEF(what, field)\
 static SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
-  if((!scm_is_string(tag))||(!scm_integer_p(value))){\
+  if((!scm_is_string(tag))||(!scm_is_integer(value))){\
     return SCM_BOOL(FALSE);\
   }\
   char *tagname;\
@@ -3466,15 +3462,14 @@ static SCM scheme_play_midikey(SCM scm) {
     //g_usleep(200000);
  return SCM_BOOL(TRUE);
 }
+
+//Insert a rest without setting the prevailing duration
 SCM scheme_put_rest (SCM optional_duration) {
   gint duration;
-  if(scm_integer_p(optional_duration)) {
+  if(scm_is_integer(optional_duration)) {
     duration = scm_num2int(optional_duration, 0, 0);
   } else {
-    for(duration=0;duration<7;duration++)
-      if(Denemo.gui->prevailing_rhythm == Denemo.singleton_rhythms['r'+duration])
-	break;
-    g_print("using duration %d\n", duration);
+    duration = get_prevailing_duration();
   }
   if( (duration<0) || (duration>7))
     return SCM_BOOL_F;
@@ -3483,6 +3478,17 @@ SCM scheme_put_rest (SCM optional_duration) {
   displayhelper(Denemo.gui);//without this a call to d-AddVoice causes a crash as the chord length info has not been updated
   return SCM_BOOL_T;
 }
+//Insert a rest in the given (or prevailing duration) and set the prevailing duration
+static SCM scheme_insert_rest(SCM optional) {
+  SCM ret = scheme_put_rest(optional);
+  if(scm_is_integer(optional)) {
+   gint duration = scm_num2int(optional, 0, 0);
+   highlight_duration(Denemo.gui, duration);
+  }
+  return ret;
+}
+
+
 static SCM scheme_toggle_playalong(void) {
   pb_playalong (midiplayalongbutton);
   return SCM_BOOL(Denemo.gui->midi_destination | MIDIPLAYALONG);
@@ -4456,7 +4462,7 @@ static void create_scheme_identfiers(void) {
   INSTALL_SCM_FUNCTION ("Prints out information about the object at the cursor",DENEMO_SCHEME_PREFIX"DebugObject",  scheme_debug_object);
 
   INSTALL_SCM_FUNCTION ("Returns the name of the (highest) note in any chord at the cursor position, or #f if none",DENEMO_SCHEME_PREFIX"GetNoteName",  scheme_get_note_name);
-    INSTALL_SCM_FUNCTION ("Insert a rests at the cursor in the prevailing duration", DENEMO_SCHEME_PREFIX"InsertRest",  scheme_insert_rest);
+    INSTALL_SCM_FUNCTION ("Insert a rests at the cursor in the prevailing duration, or if given a integer, in that duration, setting the prevailing duration", DENEMO_SCHEME_PREFIX"InsertRest",  scheme_insert_rest);
   INSTALL_SCM_FUNCTION ("Insert rests at the cursor to the value of the one whole measure in the key signature and return the number of rests inserted", DENEMO_SCHEME_PREFIX"PutWholeMeasureRests",  scheme_put_whole_measure_rests);
   INSTALL_SCM_FUNCTION ("Takes optional integer parameter n = 1..., returns LilyPond representation of the nth note of the chord at the cursor counting from the lowest, or #f if none",DENEMO_SCHEME_PREFIX"GetNote",  scheme_get_note);
    INSTALL_SCM_FUNCTION ("Takes optional integer parameter n = 1..., returns LilyPond representation of the nth note of the chord at the cursor counting from the highest, or #f if none",DENEMO_SCHEME_PREFIX"GetNoteFromTop",  scheme_get_note_from_top);
