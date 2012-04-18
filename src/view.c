@@ -1731,6 +1731,12 @@ SCM scheme_get_note_name (SCM optional) {
    
 }
 
+//Insert a rest in the prevailing duration
+static SCM scheme_insert_rest(void) {
+  dnm_insertchord (Denemo.gui, get_prevailing_duration(), INPUTNORMAL, TRUE);
+  return SCM_BOOL_T;
+}
+
 //Insert rests to the value of the timesig and return the number of rests inserted.
 SCM scheme_put_whole_measure_rests (void) {
   DenemoGUI *gui = Denemo.gui;
@@ -4450,6 +4456,7 @@ static void create_scheme_identfiers(void) {
   INSTALL_SCM_FUNCTION ("Prints out information about the object at the cursor",DENEMO_SCHEME_PREFIX"DebugObject",  scheme_debug_object);
 
   INSTALL_SCM_FUNCTION ("Returns the name of the (highest) note in any chord at the cursor position, or #f if none",DENEMO_SCHEME_PREFIX"GetNoteName",  scheme_get_note_name);
+    INSTALL_SCM_FUNCTION ("Insert a rests at the cursor in the prevailing duration", DENEMO_SCHEME_PREFIX"InsertRest",  scheme_insert_rest);
   INSTALL_SCM_FUNCTION ("Insert rests at the cursor to the value of the one whole measure in the key signature and return the number of rests inserted", DENEMO_SCHEME_PREFIX"PutWholeMeasureRests",  scheme_put_whole_measure_rests);
   INSTALL_SCM_FUNCTION ("Takes optional integer parameter n = 1..., returns LilyPond representation of the nth note of the chord at the cursor counting from the lowest, or #f if none",DENEMO_SCHEME_PREFIX"GetNote",  scheme_get_note);
    INSTALL_SCM_FUNCTION ("Takes optional integer parameter n = 1..., returns LilyPond representation of the nth note of the chord at the cursor counting from the highest, or #f if none",DENEMO_SCHEME_PREFIX"GetNoteFromTop",  scheme_get_note_from_top);
