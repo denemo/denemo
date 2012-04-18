@@ -1,6 +1,5 @@
 (define lyimport::movement #f)
-(define lyimport::staff 'init) ;;;;;; no staff context so far, because denemo always creates a staff and voice by default, the 'init state indicates that we have these, but we have not yet seen an instruction to create them.
-(define lyimport::voice 'init)
+
 (define lyimport::nonotes #t) ;;; #f once notes have been inserted in the current context
 (define lyimport::in-grace #f)
 (define lyimport::relative #f)
@@ -39,20 +38,17 @@
 
   (define (add-notes-to-chord extra-chordnote)
     ;(format #t "entered addnotes to chord with  ~a list ~a~%" extra-chordnote (cadr extra-chordnote))
-    (set! lyimport::nonotes #f)
+    ;(set! lyimport::nonotes #f)
     (if lyimport::relative
 	(relative-add-note-to-chord extra-chordnote)
 	(string-append "(d-InsertNoteInChord \"" (notename (cadr extra-chordnote)) "\")") ))
 
   (define (start-chord chord-note)
     ;(format #t "entered start chord with list chord-list ~a~%" chord-note)
-    ;(set! lyimport::nonotes #f) ;; cannot do this early as context is created inside
       (do-note (cadr chord-note)))
 
   (define (do-clef theclef)
-    (if lyimport::nonotes 
-	(string-append "(d-InitialClef \"" theclef "\")")
-	(string-append "(d-InsertClef \"" theclef "\")")))
+	(string-append "(if lyimport::nonotes (d-InitialClef \"" theclef "\") (d-InsertClef \"" theclef "\"))"))
   
   (define (do-tie cdr)	
 	"(d-ToggleTie)") ; this only works because the command works in an appending position on the left note and we can be sure there is none in front of us during importing.
@@ -64,9 +60,7 @@
 		"(d-EndBeam)") ; this only works because the command works in an appending position on the left note and we can be sure there is none in front of us during importing.
 		  
   (define (do-time thetime)
-    (if lyimport::nonotes        
-	(string-append "(d-InitialTimeSig \"" thetime "\")")
-	(string-append "(d-InsertTimeSig \"" thetime "\")")))
+    (string-append "(if lyimport::nonotes (d-InitialTimeSig \"" thetime "\") (d-InsertTimeSig \"" thetime "\"))"))
   
 
 (define (translate-key keyname)
@@ -79,9 +73,8 @@
 
   (define (do-key thekey type)
     (set! thekey (translate-key thekey))
-    (if lyimport::nonotes        
-	(string-append "(d-InitialKey \"" thekey " " type  "\")")
-	(string-append "(d-InsertKey \"" thekey " " type  "\")")))
+     (string-append "(if lyimport::nonotes (d-InitialKey \"" thekey "\") (d-InsertKey \"" thekey "\"))"))
+
   
   (define (do-partial current_object)
 	(define lilyticks (number->string (duration::CalculateTicksWithDots (duration::lilypond->ticks (car current_object)) (cdr current_object))))
@@ -104,72 +97,12 @@
  
   
   (define (do-movement)
-    (set! lyimport::nonotes #t)
-    (set! lyimport::staff 'init)
-    (set! lyimport::voice 'init)
+    ;(set! lyimport::nonotes #t)
     (if lyimport::movement
-	"\n(d-AddMovement)\n"
+	"\n(d-AddMovement)(set! lyimport::nonotes #t)\n"
 	"\n;;new movement not needed here\n"))
   
-  (define (do-context thecontext)
-    ;(format #t "the context is ~a and ~a with nonotes ~a\n" thecontext lyimport::staff lyimport::nonotes)
 
-    (cond
-     ((equal? "Staff" thecontext)  (if lyimport::staff
-								(begin
-								  (if lyimport::nonotes
-								    (begin
-								      (set! lyimport::staff #f)
-								      ";staff not needed\n")
-								    (begin
-								      (set! lyimport::nonotes #t) ;;!!
-								      (set! lyimport::staff #f)
-								      (set! lyimport::voice 'init)
-								      "(d-AddLast)")
-
-								))
-
-								
-								(begin "")))
-     ((equal? "Voice" thecontext)  (if lyimport::voice
-								(begin
-								 (if lyimport::nonotes
-								    (begin
-								      (set! lyimport::voice #f)
-								      (set! lyimport::staff #f) 
-								      ";voice not needed\n")
-								    (begin
-								      (set! lyimport::voice #f)
-								      (set! lyimport::staff #f) 
-								      (set! lyimport::nonotes #t)
-								      "(d-AddAfter)(d-SetCurrentStaffAsVoice)"
-
-								      ))) ;;!!
-
-								 
-								(begin "")))
-     ((equal? "PianoStaff" thecontext) ";ignoring PianoStaff\n")
-     (else "%context not handled\n")
-     ))
-
-  
-  (define (do-newcontext thecontext)
-    ;(format #t "the new context is ~a and staffneeded is ~a~%" thecontext lyimport::staff)
-    (cond
-     ((equal? "Staff" thecontext) 
-      (if (eq? lyimport::staff 'init)
-	  (set! lyimport::staff #f)
-	  (set! lyimport::staff #t)) 
-      (do-context thecontext))
-							
-     ((equal? "Voice" thecontext)
-      (if (eq? lyimport::voice 'init)
-	  (set! lyimport::voice #f)
-	  (set! lyimport::voice #t))
-      (do-context thecontext))							
-     ((equal? "PianoStaff" thecontext) ";ignoring PianoStaff\n")
-     (else ";context not handled\n")
-     ))
 
   
   (define (do-duration thedur)
@@ -190,7 +123,8 @@
 	   ))))
 
 
-  (define (do-duration-relative thedur)
+  (define (do-duration-rest thedur)
+  (format #t "rest of ~a\n" (list-ref thedur 0))
     (if (equal? thedur "")
 	";unknown rest\n\n"
 	(begin
@@ -238,19 +172,14 @@
   
 (define (do-note thenote)
 ;(format #t "Doing note with nonotes ~a\n\n" lyimport::nonotes)
-(let ((context ""))
- (set! context (string-append (do-context "Staff") (do-context "Voice")))
-   ;(format #t "And so context ~a\n\n" context)
-   (set! lyimport::nonotes #t) ;;!! has to be done after context
   (if lyimport::relative
-      (string-append context (do-relative-note (cadr thenote)) (do-accidental thenote))
-      (string-append context "(d-InsertC)(d-PutNoteName \"" (notename thenote) "\")"  (if lyimport::in-grace "(d-ToggleGrace)" "")) 
-      )))
+      (string-append (do-relative-note (cadr thenote)) (do-accidental thenote))
+      (string-append "(d-InsertC)(d-PutNoteName \"" (notename thenote) "\")"  (if lyimport::in-grace "(d-ToggleGrace)" "")) 
+      ))
 
 
- (define (create-note current_object)
-  ;  (let ((context (if lyimport::staff "" (string-append (do-context "Staff") (do-context "Voice")))))
-    ;(set! lyimport::nonotes #f)  ;;!! done inside do-note
+(define (create-note current_object)
+  (string-append "(set! lyimport::nonotes #f)\n"
     (cond 
      ((eqv? (car  current_object) 'x_CHORD)		(begin   (string-join (map create-note (list (cadr current_object)))   )   )
       )
@@ -261,17 +190,19 @@
      ((eqv? (car current_object) 'x_REST)          (begin (string-append ";(d-Insert" (notename current_object) ") rest omitted\n")))
      
      (else "(d-WarningDialog \"%unhandled note type\n\")")   
-     )
-;)
+     ))
 )
 (define (do-repeat theobject)
   ;(format #t "Repeat with alternative ~a\n\n"  theobject )
-  (string-append (if lyimport::nonotes "" "(d-RepeatStart)") (string-join (map loop-through (list-ref theobject 3)))   (do-alternative (car (list-tail theobject 4)))))
+  (string-append "(if lyimport::nonotes (d-RepeatStart))\n" (string-join (map loop-through (list-ref theobject 3)))   (do-alternative (car (list-tail theobject 4)))))
 
 (define (do-alternative theobject)
-;(format #t "alternative ~a\n\n"  (length theobject) )
+(format #t "alternative ~a\n\n"  (length theobject) )
 ;;; Note treatment of alternative with just one is here by repeating the music - this could fail in relative, it should issue a 1-2 time bar
-(cond ((= (length theobject) 1) 
+(cond
+      ((= (length theobject) 0)
+	"(d-RepeatEnd)\n")
+      ((= (length theobject) 1) 
        (string-append "(d-OpenFirstTimeBar)" (string-join (map loop-through  (list-tail (list-ref theobject 0) 1))) "(d-EndVolta)(d-RepeatEnd)(d-OpenSecondTimeBar)"  (string-join (map loop-through (list-tail (list-ref theobject 0) 1))) "(d-EndVolta)"  ))
       ((= (length theobject) 2)
        (string-append "(d-OpenFirstTimeBar)" (string-join (map loop-through  (list-tail (list-ref theobject 0) 1))) "(d-EndVolta)(d-RepeatEnd)(d-OpenSecondTimeBar)"    (string-join (map loop-through (list-tail (list-ref theobject 1) 1))) "(d-EndVolta)"  ))
@@ -282,11 +213,20 @@
 (define (loop-through-simult current_object)  ;;!!
  ;(format #t "New context for ~a\n\n" current_object)
 (let ((temp (loop-through current_object)))
-  (set! lyimport::staff #t)
-  (set! lyimport::voice #t)
-  (set! lyimport::nonotes #t)
+  ;(set! lyimport::nonotes #t)
   temp))
-
+  
+(define (new-context thecontext)
+  (cond  ((equal? thecontext "Staff")
+	      "(if (not lyimport::nonotes)
+		  (begin (d-AddLast)(set! lyimport::nonotes #t)))\n")
+	  ((equal? thecontext "Voice")
+	    "(if (not lyimport::nonotes)
+		  (begin (d-AddLast) (d-SetCurrentStaffAsVoice) (set! lyimport::nonotes #t)))\n")
+	  (else ";not handled\n")))
+      
+	  
+      
   (define (do-simultaneous theobject)
 ;(pretty-print theobject)
     (cond 
@@ -297,7 +237,8 @@
      
      
      ((eqv? 'NEWCONTEXT  (car (list-ref   theobject 0)))
-      (string-append ";;;FIXME A new context. Forcing a new staff here results in an empty staff at start of every import. If one is needed then test that lyimport::staff is not 'init. This may just be a matter of calling do-context? (d-AddLast)(d-MoveToBeginning)\n" (string-join (map loop-through (list-tail theobject 1)))))
+     ;(format #t "Newcontext is ~a\n\n" (equal? "Staff" (cadr (list-ref   theobject 0))))
+      (string-append (new-context (cadr (list-ref   theobject 0)))  (string-join (map loop-through (list-tail theobject 1)))))
      ((eqv? 'x_CHORD (caar theobject))
       (begin 
 	
@@ -330,7 +271,7 @@
 							    temp
 							    ))
 	   
-	   ((or (eqv? (car current_object) 'NEWCONTEXT)  (eqv? (car current_object) 'CONTEXT))    (do-newcontext (cadr current_object)))
+	   ((or (eqv? (car current_object) 'NEWCONTEXT)  (eqv? (car current_object) 'CONTEXT))    (new-context (cadr current_object)))
 	   
 	   ((eqv? (car current_object) 'x_SEQUENTIAL)		(begin
 								  ;(format #t "the sequential list has ~a~% ~%"  (cdr current_object))
@@ -397,26 +338,29 @@
 						    ((string? (cdr (cdr current_object)))
 							(set! postfix (string-append postfix "(d-DirectivePut-standalone-postfix \"" (scheme-escape (cdr (cdr current_object))) "\" \"" (scheme-escape (cdr (cdr current_object))) "\")")))))
 
-							;;FIXME is this really additional to the above???
+							;;now action x_REST or x_NOTE
 						   (if (eqv? (caadr current_object) 'x_REST) 
-						       (let ((thedur #f))
-							 (set! lyimport::nonotes #f)
-							 (set! thedur  (list-ref (cadr current_object) 2))
-							 ;(format #t "dur is ~a~%" (car thedur))
-							 (if (number? (car thedur))
-							     (string-append (do-duration-relative thedur) (do-dots thedur))
+						       (let ((thedur (cadr current_object)))
+							
+							 ;(format #t "x_REST !!!! \n\n\ndur is ~a length !!~a!!~%"  thedur (list-ref thedur 2))
+							 ;!!!!!!!!!! (x_REST r ) for a single r without duration what is the non-printing item?
+							 (if (pair? (list-ref thedur 2))							    
+							  (begin
+							  (set! thedur  (list-ref thedur 2))							  
+							  (format #t "x_REST with dur is ~a~%"  thedur)
+							  (if (number? (car thedur))
+							       (string-append "(set! lyimport::nonotes #f)" (do-duration-rest thedur) (do-dots thedur))
 							     
 							       (let loop ((count  (string->number (list-ref thedur 2))))
 								 ;(format #t "Looping ~a~%" count)
 								 (if (not (integer? count)) ";Cannot handle a fraction duration as multiplier\n"
 								 (if (zero? count) ""
 								     (string-append ;(do-duration (car thedur)) 
-								       (do-duration-relative (car thedur)) (do-dots (car thedur)) (loop (- count 1)) postfix ))))));;;; end of if a rest
-							 
-
-
-
-						  (string-append (do-duration (list-ref (cadr current_object) 5)) " "  (string-join (map create-note (list (cadr current_object)))) " "  (do-dots (list-ref (cadr current_object) 5)) postfix)
+								       "(set! lyimport::nonotes #f)" (do-duration-rest (car thedur)) (do-dots (car thedur)) (loop (- count 1)) postfix ))))))
+							  (begin ;; rest in current duration
+							    "(set! lyimport::nonotes #f) (d-InsertRest)"
+								       )));;;; end of if a rest the next is the x_NOTE case where the duration is at number 5 in the list,
+						      (string-append "(set! lyimport::nonotes #f)" (do-duration (list-ref (cadr current_object) 5)) " "  (string-join (map create-note (list (cadr current_object)))) " "  (do-dots (list-ref (cadr current_object) 5)) postfix)
 						  )))
 
 	   ((eqv? (car current_object) 'x_TIE) (begin  (do-tie (cdr current_object))))
@@ -440,9 +384,6 @@
 	  ;(format #t "we have    note ~a that is      ~a\n\n" thenote (notename thenote))
 	  (if (string-contains (cdr (cdr current_object)) "fermata")
 		(set! postfix (string-append postfix "(d-ToggleFermata) ")))
-	
-        ;;; here set lyimport::nonotes #f !!no later, context is set up when note is inserted for the first time!!to mean that we have started to get notes in this staff/voice  ;;!!
-	     ;; (set! lyimport::nonotes #f)
 	  (string-append (do-duration (cdadr current_object))
 			  " "
 			  (start-chord (caaadr current_object))
@@ -486,6 +427,9 @@
 	   ))))
   
 (if (not (defined? 'Denemo))
-  (begin (load "denemo.scm")(format #t "~%;;;Final Denemo Script~%+++++++++++++++++++++++++++~% ~a~%;;;End of Denemo Script++++++++++++++++++++++++++++~%" 
+  (begin (load "denemo.scm")(format #t ";;;Final Denemo Script+++++++++++++++++++++++++++
+  (set! lyimport::nonotes #t)(d-Set2)
+   ~a
+  ;;;End of Denemo Script++++++++++++++++++++++++++++\n" 
 (string-join (map loop-through list_from_parser))))
 (string-join (map loop-through list_from_parser))))
