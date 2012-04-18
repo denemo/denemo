@@ -129,14 +129,14 @@
 	";unknown rest\n\n"
 	(begin
 	  (string-append
-	   (cond ((equal? 1 (list-ref thedur 0)) "(d-PutRest 0)")
-		 ((equal? 2  (list-ref thedur 0)) "(d-PutRest 1)")
-		 ((equal? 4  (list-ref thedur 0)) "(d-PutRest 2)")
-		 ((equal? 8  (list-ref thedur 0)) "(d-PutRest 3)")
-		 ((equal? 16  (list-ref thedur 0)) "(d-PutRest 4)")
-		 ((equal? 32  (list-ref thedur 0)) "(d-PutRest 5)")
-		 ((equal? 64  (list-ref thedur 0)) "(d-PutRest 6)")
-		 ((equal? 128  (list-ref thedur 0)) "(d-PutRest 7)")
+	   (cond ((equal? 1 (list-ref thedur 0)) "(d-InsertRest 0)")
+		 ((equal? 2  (list-ref thedur 0)) "(d-InsertRest 1)")
+		 ((equal? 4  (list-ref thedur 0)) "(d-InsertRest 2)")
+		 ((equal? 8  (list-ref thedur 0)) "(d-InsertRest 3)")
+		 ((equal? 16  (list-ref thedur 0)) "(d-InsertRest 4)")
+		 ((equal? 32  (list-ref thedur 0)) "(d-InsertRest 5)")
+		 ((equal? 64  (list-ref thedur 0)) "(d-InsertRest 6)")
+		 ((equal? 128  (list-ref thedur 0)) "(d-InsertRest 7)")
 		 (else ""))
 	  
 	   ))))
