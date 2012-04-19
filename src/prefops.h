@@ -21,4 +21,9 @@ void writeHistory(void);
 gint readHistory(void);
 void storeWindowState (void);
 void loadWindowState (void);
+
+gboolean get_bool_pref(gchar *prefname);
+gint get_int_pref(gchar *prefname);
+gchar* get_string_pref(gchar *prefname);
+
 #endif

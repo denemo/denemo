@@ -1672,6 +1672,42 @@ static SCM scheme_set_prefs (SCM xml) {
   return SCM_BOOL(FALSE);
 }
 
+
+static SCM scheme_get_boolean_pref(SCM pref) {
+  gchar *prefname = NULL;
+  gboolean val;
+  if(scm_is_string(pref)) {
+    prefname = scm_to_locale_string(pref);
+    val = get_bool_pref(prefname);
+    free(prefname);    
+    return SCM_BOOL(val);
+  }   
+ return SCM_BOOL_F;
+}
+static SCM scheme_get_int_pref(SCM pref) {
+  gchar *prefname = NULL;
+  gint val;
+  if(scm_is_string(pref)) {
+    prefname = scm_to_locale_string(pref);
+    val = get_int_pref(prefname);
+    free(prefname);    
+    return scm_int2num (val);
+  }   
+ return SCM_BOOL_F;
+}
+static SCM scheme_get_string_pref(SCM pref) {
+  gchar *prefname = NULL;
+  gchar* val;
+  if(scm_is_string(pref)) {
+    prefname = scm_to_locale_string(pref);
+    val = get_string_pref(prefname);
+    free(prefname);
+    if(val)   
+      return scm_makfrom0str (val);
+  }
+ return SCM_BOOL_F;
+}
+
 SCM scheme_attach_quit_callback (SCM callback) {
   DenemoGUI *gui = Denemo.gui;
   if(scm_is_string(callback)){
@@ -4537,6 +4573,11 @@ static void create_scheme_identfiers(void) {
   
   INSTALL_SCM_FUNCTION ("Enforces the treatment of the note at the cursor as a chord in LilyPond",DENEMO_SCHEME_PREFIX"Chordize",  scheme_chordize);
   INSTALL_SCM_FUNCTION ("Takes xml representation of a preference and adds it to the Denemo preferences",DENEMO_SCHEME_PREFIX"SetPrefs",  scheme_set_prefs);
+
+  INSTALL_SCM_FUNCTION ("Takes string name of a boolean-valued preference and returns the current value. Non-existent prefs return #f, ensure that the preference name is correct before using.",DENEMO_SCHEME_PREFIX"GetBooleanPref",  scheme_get_boolean_pref);
+  INSTALL_SCM_FUNCTION ("Takes string name of an int-valued preference and returns the current value. Non-existent prefs return #f",DENEMO_SCHEME_PREFIX"GetIntPref",  scheme_get_int_pref);
+  INSTALL_SCM_FUNCTION ("Takes string name of a string-valued preference and returns the current value. Non-existent prefs return #f",DENEMO_SCHEME_PREFIX"GetStringPref",  scheme_get_string_pref);
+
   INSTALL_SCM_FUNCTION ("Takes a script as a string, which will be stored. All the callbacks are called when the musical score is closed" ,DENEMO_SCHEME_PREFIX"AttachQuitCallback",  scheme_attach_quit_callback);
   INSTALL_SCM_FUNCTION ("Removes a callback from the current musical score",DENEMO_SCHEME_PREFIX"DetachQuitCallback",  scheme_detach_quit_callback);
   
