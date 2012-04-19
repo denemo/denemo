@@ -38,7 +38,7 @@
 
   (define (add-notes-to-chord extra-chordnote)
     ;(format #t "entered addnotes to chord with  ~a list ~a~%" extra-chordnote (cadr extra-chordnote))
-    ;(set! lyimport::nonotes #f)
+
     (if lyimport::relative
 	(relative-add-note-to-chord extra-chordnote)
 	(string-append "(d-InsertNoteInChord \"" (notename (cadr extra-chordnote)) "\")") ))
@@ -97,7 +97,6 @@
  
   
   (define (do-movement)
-    ;(set! lyimport::nonotes #t)
     (if lyimport::movement
 	"\n(d-AddMovement)(set! lyimport::nonotes #t)\n"
 	"\n;;new movement not needed here\n"))
@@ -213,7 +212,6 @@
 (define (loop-through-simult current_object)  ;;!!
  ;(format #t "New context for ~a\n\n" current_object)
 (let ((temp (loop-through current_object)))
-  ;(set! lyimport::nonotes #t)
   temp))
   
 (define (new-context thecontext)
@@ -432,4 +430,12 @@
    ~a
   ;;;End of Denemo Script++++++++++++++++++++++++++++\n" 
 (string-join (map loop-through list_from_parser))))
-(string-join (map loop-through list_from_parser))))
+(let ((immediateplayback (d-GetBooleanPref "immediateplayback")) (script (string-join (map loop-through list_from_parser))))
+  (disp "Now to execute the creation script\n\n")
+  (d-SetPrefs "<immediateplayback>0</immediateplayback>")
+  (set! lyimport::nonotes #t)
+  (d-Set2)
+  (if immediateplayback
+    (string-append script "(d-SetPrefs \"<immediateplayback>1</immediateplayback>\")")
+    (string-append script "(d-SetPrefs \"<immediateplayback>0</immediateplayback>\")"))
+  )))
