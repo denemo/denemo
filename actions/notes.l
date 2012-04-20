@@ -73,7 +73,9 @@ BOM_UTF8			\357\273\277
                                                              (vector #f #f #f  (lambda () (lexer-getc)) #f) "r"))))
 
 
-
+\\lyricmode{WHITE}*\{         (lyimport::start_block) (lyimport::multilexer) 
+\\chordmode{WHITE}*\{         (lyimport::start_block)  (lyimport::multilexer)
+ 
                                                  
 R							(lyimport::mtoken 'MULTI_MEASURE_REST yytext)	
 <<							(lyimport::mtoken 'DOUBLE_ANGLE_OPEN yytext)	
