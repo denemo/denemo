@@ -332,6 +332,7 @@ HYPHEN
 	(string) : $1
 	(embedded_scm) : $1
 	(DIGIT): $1 	;$$ = scm_from_int ($1);
+	(BLOCK): (cons 'MUSIC_IDENTIFIER (cons 'x_SEQUENTIAL '()))  ;;Added to discard chordmode and lyricmode
 	)
 
  (score_block
@@ -379,7 +380,8 @@ HYPHEN
 	(simple_music)					: (list $1)
 	(composite_music)				: (begin ;(format #t "~%music as composite_music with value ~a~%"  (list-ref $1 0))
 							    $1)
-	(LYRICMODE music) :  (list (cons 'x_LILYPOND " %Lyrics Omitted\n")) ;;discard lyrics
+	;;(LYRICMODE music) :  (list (cons 'x_LILYPOND " %Lyrics Omitted\n")) ;;discard lyrics
+	;;(CHORDMODE music) :  (list (cons 'x_LILYPOND " %Chords Omitted\n")) ;;discard chords
  )
  
  (alternative_music
@@ -397,7 +399,7 @@ HYPHEN
  (sequential_music ;;; a pair
 	( SEQUENTIAL { music_list } )   : (cons 'x_SEQUENTIAL $3)
 	(  { music_list }  )			: (begin ;(format #t "Sequential this is a ~a~%" (list? $2)) 
-						    ;(pretty-print $2)
+						    (pretty-print $2)
 						    (cons 'x_SEQUENTIAL $2))
 	)
 
@@ -415,7 +417,7 @@ HYPHEN
     (MUSIC_IDENTIFIER)				: $1
     (music_property_def)			: $1
     (context_change)				: $1
-    (STRING) : $1 ;;;this would be illegal syntax in music, but allowed in lyrics mode. This line causes a heap of shift/reduce conflicts, it is not sure that these resolve ok.		
+    ;;(STRING) : $1 ;;;this would be illegal syntax in music, but allowed in lyrics mode. This line causes a heap of shift/reduce conflicts, it is not sure that these resolve ok.		
  )
 
 	
