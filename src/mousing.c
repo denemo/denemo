@@ -127,6 +127,7 @@ struct placement_info
   measurenode *the_measure;
   objnode *the_obj;
   gboolean nextmeasure;
+  gboolean offend;//TRUE when the user has clicked beyond the last note, taking you into appending
 };
 
 /* find the primary staff of the current staff, return its staffnum */
@@ -177,6 +178,8 @@ get_placement_from_coordinates (struct placement_info *pi,
 				      leftmeasurenum - 1);
   objnode *obj_iterator;
   gint x_to_explain = (gint) (x);
+  pi->offend = FALSE;
+  
   if(mwidthiterator==NULL) {
     g_critical("Array of measurewidths too small for leftmeasure %d\n", leftmeasurenum);
     return;
@@ -245,7 +248,7 @@ pi->measure_number >= rightmeasurenum);
 		     a measure (instead of appending after it) require
 		     precision.  This may be bad; tweak me if necessary.  */
 		  if (x_to_explain > current->x + current->minpixelsalloted)
-		    pi->cursor_x++;
+		    pi->offend = TRUE, pi->cursor_x++;
 		}
 	    }
 	  //g_print("got to cursor x %d\n", pi->cursor_x);
@@ -546,10 +549,12 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
     return TRUE;
   } 
   else
-    if(pi.nextmeasure) {
-      moveto_currentmeasurenum(gui, gui->si->rightmeasurenum+1);
-      write_status(gui);
-     
+    if(pi.nextmeasure && pi.the_obj) {
+      DenemoObject *theobj = pi.the_obj->data;
+      if((pi.the_obj->next==NULL) && (pi.offend)) {
+	 moveto_currentmeasurenum(gui, gui->si->rightmeasurenum + 1);
+	 write_status(gui);
+      }
     }
 
 
