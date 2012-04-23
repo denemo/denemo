@@ -15,19 +15,17 @@
 	(d-SetSaved #f)
 	(d-DirectivePut-standalone-midibytes "Mute" "")
 	(d-DirectivePut-standalone-override "Mute" 0)
-	(d-DirectivePut-standalone-graphic "Mute" "unmute"))
+	(d-DirectivePut-standalone-graphic "Mute" "Speaker_Icon"))
 	(begin
 	(d-DirectivePut-standalone "Mute")
-	(d-DirectivePut-standalone-graphic "Mute" "mute")
+	(d-DirectivePut-standalone-graphic "Mute" "Speaker_Icon_Mute")
 	(d-DirectivePut-standalone-midibytes "Mute" "0")
 	(d-DirectivePut-standalone-minpixels "Mute" 50)
-	(d-DirectivePut-standalone-gx "Mute" 5)
-	(d-DirectivePut-standalone-gy "Mute" 0)
+	(d-DirectivePut-standalone-gx "Mute" 20)
 	(d-DirectivePut-standalone-override "Mute" (logior DENEMO_OVERRIDE_VOLUME DENEMO_OVERRIDE_STEP))	
 	(d-SetSaved #f)))
 (d-PopPosition)
-(d-RefreshDisplay)
-</scheme>
+(d-RefreshDisplay)</scheme>
         <label>Mute</label>
         <tooltip>Mutes playback on this staff by placing a volume=zero directive at the start.</tooltip>
       </row>
