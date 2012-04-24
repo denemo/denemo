@@ -7,8 +7,10 @@
       <row>
         <action>InsertTiedNoteDuration</action>
         <scheme>;;;;;;;;;;;TiedNoteDuration  Insert tuplet into the score
- (d-PlayMidiNote 75 255 9 100)
 (d-ToggleTie)
+(if (d-IsTied)
+	(d-PlayMidiNote 75 255 9 100)
+	(d-PlayMidiNote 35 255 9 100))
 (d-MoveCursorRight)</scheme>
         <label>Attach Tied Note</label>
         <tooltip>Attaches a tied note: you must give the duration after invoking this function.</tooltip>
