@@ -5906,6 +5906,14 @@ for second and subsequent systems</tooltip>
         <label>Chords for Bar</label>
         <tooltip>Plays the context of the current bar. Then listens for you to play each note in current bar the bar with added chord(s), notates the chords on a staff above. When finished re-plays the bar. Allows you to repeat (pitch bend down) or go on to next bar (pitch bend up).</tooltip>
       </row>
+      <row>
+        <action>MakeGrace</action>
+        <after>ToggleGrace</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/GraceNotes</menupath>
+        <label>Grace/UnGrace</label>
+        <tooltip>Changes the note at the cursor to/from being a grace note. Gives audio feedback.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
