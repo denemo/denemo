@@ -12,7 +12,7 @@
     (define ToggleTripleting::InsideTriplet #t))
 (if  ToggleTripleting::InsideTriplet
        (begin 
-       		(d-PlayMidiNote 72 255 9 100)
+       		(d-PendingMidi 72)
        		(d-StartTriplet))
        	(begin
        		(d-PlayMidiNote 77 255 9 100)
