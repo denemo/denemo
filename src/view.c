@@ -3478,6 +3478,12 @@ static SCM scheme_create_timebase(SCM optional) {
   }
   return SCM_BOOL_F;
 }
+
+static SCM scheme_pending_midi(SCM scm) {
+  guint key = scm_num2int(scm, 0, 0);
+  g_queue_push_head(Denemo.gui->pending_midi, key);
+}
+
 static SCM scheme_play_midi_note(SCM note, SCM volume, SCM channel, SCM duration) {
     guint vol = scm_num2int(volume, 0, 0);
     gint key =  scm_num2int(note, 0, 0);
@@ -3879,6 +3885,9 @@ SCM scheme_is_in_selection (void) {
   return SCM_BOOL(in_selection(Denemo.gui->si));
 }
 
+SCM scheme_is_appending (void) {
+  return SCM_BOOL(Denemo.gui->si->cursor_appending);
+}
 
 
 
@@ -4482,6 +4491,7 @@ static void create_scheme_identfiers(void) {
 
   INSTALL_SCM_FUNCTION ("Returns #t if the cursor is in the selection area, else #f",DENEMO_SCHEME_PREFIX"IsInSelection",  scheme_is_in_selection);
 
+  INSTALL_SCM_FUNCTION ("Returns #t if the cursor is in the appending position, else #f",DENEMO_SCHEME_PREFIX"IsAppending",  scheme_is_appending);
 
   INSTALL_SCM_FUNCTION ("Shifts the cursor up or down by the integer amount passed in",DENEMO_SCHEME_PREFIX"ShiftCursor",  scheme_shift_cursor);
 
@@ -5272,6 +5282,7 @@ INSTALL_SCM_FUNCTION ("Generates the MIDI timings for the music of the current m
   
   install_scm_function1 (DENEMO_SCHEME_PREFIX"OutputMidiBytes", scheme_output_midi_bytes);
   install_scm_function1 (DENEMO_SCHEME_PREFIX"PlayMidiKey", scheme_play_midikey);
+  INSTALL_SCM_FUNCTION1 ("Takes a midi note key and plays it with next rhythm effect", DENEMO_SCHEME_PREFIX"PendingMidi", scheme_pending_midi);
   INSTALL_SCM_FUNCTION4 ("Takes midi key number, volume 0-255, duration in ms and channel 0-15 and plays the note on midi out.", DENEMO_SCHEME_PREFIX"PlayMidiNote", scheme_play_midi_note);
 
   INSTALL_SCM_FUNCTION1 ("Takes duration and executable scheme script. Executes the passed scheme code after the passed duration milliseconds", DENEMO_SCHEME_PREFIX"OneShotTimer", scheme_one_shot_timer);
@@ -9235,8 +9246,9 @@ newtab (GtkAction *action, gpointer param) {
   DenemoGUI *gui = (DenemoGUI *) g_malloc0 (sizeof (DenemoGUI));
   gui->id = id++;//uniquely identifies this musical score editor for duration of program.
   gui->mode = Denemo.prefs.mode;
+  gui->pending_midi = g_queue_new();
   Denemo.guis = g_list_append (Denemo.guis, gui);
-
+  
 
   Denemo.gui = NULL;
   // Denemo.gui = gui; must do this after switching to page, so after creating page
