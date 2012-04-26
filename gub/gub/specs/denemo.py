@@ -13,8 +13,6 @@ from gub import target
 
 class Denemo (target.AutoBuild):
     source = 'git://git.savannah.gnu.org/denemo.git'
-    #source = '/home/nils/workdir/denemo/'
-    #branch = 'stable-0.9.0'
     branch = 'master'
     patches = [ ]
     subpackage_names = ['']
@@ -24,10 +22,13 @@ class Denemo (target.AutoBuild):
         'tools::gettext',
         'tools::libtool',
         'tools::pkg-config',
+	'tools::glib',
         #'epdfview', # Builds, but needs dynamic relocation patches.
         'fluidsynth',
         'guile-devel',
         'gtk+-devel',
+ 	'glib-devel',
+	'evince',
         #'jack-devel',
         #'lash-devel',
         'libaubio-devel',
@@ -36,7 +37,8 @@ class Denemo (target.AutoBuild):
         'libxml2-devel',
         'lilypondcairo',
         'portaudio-devel',
-		'cairo',
+ 	'libsndfile',
+	'cairo',
         ]
     configure_flags = (target.AutoBuild.configure_flags
                        + ' --enable-binreloc'
@@ -54,7 +56,7 @@ class Denemo (target.AutoBuild):
     def compile (self):
         if isinstance (self.source, repository.Git):
             # FIXME: missing dependency
-            self.system ('cd %(builddir)s/src')
+            self.system ('cd %(builddir)s/src && make lylexer.c')
         target.AutoBuild.compile (self)
 
 class Denemo__mingw__windows (Denemo):
@@ -69,7 +71,7 @@ class Denemo__mingw__windows (Denemo):
 
 class Denemo__mingw__console (Denemo__mingw__windows):
     configure_flags = (Denemo__mingw__windows.configure_flags
-	                   .replace ('--enable-binreloc', '--disable-binreloc')
+                          .replace ('--enable-binreloc', '--disable-binreloc')
                        + ' --enable-debug')
     def __init__ (self, settings, source):
         Denemo__mingw__windows.__init__ (self, settings, source)
