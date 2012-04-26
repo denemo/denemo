@@ -8,8 +8,7 @@
         <after>ToggleGrace</after>
         <action>InsertTwoGraceNotesBeamed</action>
         <scheme> ;;;;;;;;;;;TwoGraceInsert with beaming into the score
- (if (not DenemoKeypressActivatedCommand)
- 	(Help::Push (cons 'doublestroketemp "Press a duration key to get two, beamed, grace notes")))
+ (Help::Push (cons 'doublestroketemp "Press a duration key to get two, beamed, grace notes"))
 
 (let ()
 (define command #f)

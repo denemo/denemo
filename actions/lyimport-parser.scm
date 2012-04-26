@@ -1,5 +1,6 @@
 ;; An reminder error. Stops the program and reminds to implement. Only if "Halt on error" is specified"
 (define (lyimport::error yytext)
+(display (string-append "error: Not implemented yet: " yytext " (Line: "(number->string (lexer-get-line)) " Column: " (number->string (lexer-get-column)) ")\n"))
 	(if lyimport::halt_on_error
 		(begin (display (string-append "error: Not implemented yet: " yytext " (Line: "(number->string (lexer-get-line)) " Column: " (number->string (lexer-get-column)) ")\n"))
 			   (exit))
@@ -34,7 +35,8 @@
    (
 
 
-
+OPEN
+CLOSE
 ;;;;;from parser.yy
 
  ACCEPTS 
@@ -330,6 +332,7 @@ HYPHEN
 	(string) : $1
 	(embedded_scm) : $1
 	(DIGIT): $1 	;$$ = scm_from_int ($1);
+	(BLOCK): (cons 'MUSIC_IDENTIFIER (cons 'x_SEQUENTIAL '()))  ;;Added to discard chordmode and lyricmode
 	)
 
  (score_block
@@ -377,7 +380,8 @@ HYPHEN
 	(simple_music)					: (list $1)
 	(composite_music)				: (begin ;(format #t "~%music as composite_music with value ~a~%"  (list-ref $1 0))
 							    $1)
-	
+	;;(LYRICMODE music) :  (list (cons 'x_LILYPOND " %Lyrics Omitted\n")) ;;discard lyrics
+	;;(CHORDMODE music) :  (list (cons 'x_LILYPOND " %Chords Omitted\n")) ;;discard chords
  )
  
  (alternative_music
@@ -395,7 +399,7 @@ HYPHEN
  (sequential_music ;;; a pair
 	( SEQUENTIAL { music_list } )   : (cons 'x_SEQUENTIAL $3)
 	(  { music_list }  )			: (begin ;(format #t "Sequential this is a ~a~%" (list? $2)) 
-						    ;(pretty-print $2)
+						    (pretty-print $2)
 						    (cons 'x_SEQUENTIAL $2))
 	)
 
@@ -412,8 +416,8 @@ HYPHEN
 								 $1)	
     (MUSIC_IDENTIFIER)				: $1
     (music_property_def)			: $1
-	(context_change)				: $1
-		
+    (context_change)				: $1
+    ;;(STRING) : $1 ;;;this would be illegal syntax in music, but allowed in lyrics mode. This line causes a heap of shift/reduce conflicts, it is not sure that these resolve ok.		
  )
 
 	
@@ -474,6 +478,8 @@ HYPHEN
 ;		$$ = MAKE_SYNTAX ("context-specification", @$, $2, $3, $5, mods, SCM_BOOL_F);
 ;	}
 	(NEWCONTEXT simple_string optional_id optional_context_mod music) :(begin ;(format #t "newcontext is ~a~%" $2)
+										  (cons (cons 'NEWCONTEXT (list $2  $3 $4)) $5))
+	(LYRICSTO simple_string optional_id optional_context_mod music) :(begin ;(format #t "newcontext is ~a~%" $2)
 										  (cons (cons 'NEWCONTEXT (list $2  $3 $4)) $5))
 ;   {            Context_mod *ctxmod = unsmob_context_mod ($4);
 ;                SCM mods = SCM_EOL;
@@ -595,7 +601,7 @@ HYPHEN
 
 
  (event_chord ;; a pair
-	(simple_chord_elements post_events)			: (begin ;(format #t "Post event ~a~%" $2)
+	(simple_chord_elements post_events)			: (begin ;(format #t "Post event!!! ~a~%" $2)
 									 (cons 'x_CHORD (cons $1 $2)))
 
 	
@@ -645,7 +651,7 @@ HYPHEN
 
  (command_element
 	(command_event) : $1
-	(SKIP duration_length) : (string-append $1 $2)    ;	$$ = MAKE_SYNTAX ("skip-music", @$, $2);
+	(SKIP duration_length) : (cons 'x_SKIP $2)    ;	$$ = MAKE_SYNTAX ("skip-music", @$, $2);
 	(BRACKET_OPEN) : (cons 'x_BRACKET_OPEN $1) ;	Music *m = MY_MAKE_MUSIC ("LigatureEvent", @$); m->set_property ("span-direction", scm_from_int (START)); 	$$ = m->unprotect();
 	(BRACKET_CLOSE) : (cons 'x_BRACKET_CLOSE $1) ; Music *m = MY_MAKE_MUSIC ("LigatureEvent", @$); m->set_property ("span-direction", scm_from_int (STOP));	$$ = m->unprotect ();
 	(E_BACKSLASH) : (lyimport::error "E_BACKSLASH") ; $$ = MAKE_SYNTAX ("voice-separator", @$, SCM_UNDEFINED);
@@ -653,6 +659,8 @@ HYPHEN
 	(PARTIAL duration_length): (cons 'x_PARTIAL (cons (list-ref $2 0) (list-ref $2 1))) ; we get a list here: (duration numberofdots) Moment m = - unsmob_duration ($2)->get_length (); 		$$ = MAKE_SYNTAX ("property-operation", @$, SCM_BOOL_F, ly_symbol2scm ("Timing"), ly_symbol2scm ("PropertySet"), ly_symbol2scm ("measurePosition"), m.smobbed_copy ()); 	$$ = MAKE_SYNTAX ("context-specification", @$, ly_symbol2scm ("Score"), SCM_BOOL_F, $$, SCM_EOL, SCM_BOOL_F);
 	(TIME_T fraction) : (cons 'x_TIME $2) ; SCM proc = ly_lily_module_constant ("make-time-signature-set"); $$ = scm_apply_2   (proc, scm_car ($2), scm_cdr ($2), SCM_EOL);
 	(MARK scalar) : (lyimport::error "MARK scalar") ; SCM proc = ly_lily_module_constant ("make-mark-set"); 	$$ = scm_call_1 (proc, $2);
+
+	(DENEMODIRECTIVE) : (cons 'x_LILYPOND $1)
  )
 
 (command_event
@@ -691,8 +699,12 @@ HYPHEN
 
  (post_event
   ;many things are missing here
+  (OPEN)   : $1
+  (CLOSE)   : $1
   (MARKUP) : $1
-  (script_dir direction_reqd_event) : $2;ignoring the up/down/center attribute (cons $1 $2)
+  (script_dir direction_reqd_event) :  (cond ((equal? $1 'UP) (string-append "^" $2)) ;!!!!!!!! take the \" out of here and require the direction_reqd_event to have them already, then you can have \markup here via gen_text_def and it won't get surrounded by quotes...
+					     ((equal? $1 'DOWN) (string-append "_" $2))
+					     ((equal? $1 'CENTER) (string-append "-" $2)))
   (string_number_event) : $1 
   (FERMATA) : $1
  )
@@ -765,7 +777,8 @@ HYPHEN
  (gen_text_def
 ;        (MARKUP) : $1
 	(full_markup) : $1
-;; 	| string {
+ 	(string) : (string-append "\"" $1 "\"")
+;;	 {
 ;; 		Music *t = MY_MAKE_MUSIC ("TextScriptEvent", @$);
 ;; 		t->set_property ("text",
 ;; 			make_simple_markup ($1));
@@ -782,7 +795,7 @@ HYPHEN
 
  (script_dir     
 	(UNDERSCORE) :   'DOWN
-	(CARET) :  (begin (display "!!!!!!!!!!!!!!!!!!!!!!") 'UP); 
+	(CARET) :  'UP 
 	(HYPHEN) : 'CENTER
  )
  
@@ -918,12 +931,12 @@ HYPHEN
 
 
 (full_markup
-        (MARKUP) : $1
+        (MARKUP) : $1 ;;; FIXME this needs to be (cons 'x_MARKUP $1) and then something in the parser to turn it into a denemo directive
 
 ;; 	MARKUP_IDENTIFIER {
 ;; 		$$ = $1;
 ;; 	}
-	(MARKUP markup_top) : $3
+	(MARKUP markup_top) : (string-append "\\"$1 " \"" $2 "\"")
 
 ;;; will need a markup lexer... AND it has a mid rule action!!!!!!!!!!! FIXME
 ;; 		{ PARSER->lexer_->push_markup_state (); }

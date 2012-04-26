@@ -636,7 +636,11 @@ static void advance_until_time(gchar *buf) {
     g_warning("Not on an object");
 }
 
-
+//adjusts the note-on volume by preferred dynamic compression and plays the passed event on default backend
+void play_adjusted_midi_event(gchar *buf) {
+    adjust_midi_velocity(buf, 100 - Denemo.prefs.dynamic_compression);
+    play_midi_event(DEFAULT_BACKEND, 0, buf);
+}
 
 #define EDITING_MASK (GDK_SHIFT_MASK)  
 void handle_midi_event(gchar *buf) {
@@ -671,9 +675,7 @@ void handle_midi_event(gchar *buf) {
     else
       if(Denemo.keyboard_state==(GDK_SHIFT_MASK) ||
 	 Denemo.keyboard_state==(GDK_LOCK_MASK)) {
-//	fluid_output_midi_event(buf);
-	adjust_midi_velocity(buf, 100 - Denemo.prefs.dynamic_compression);
-        play_midi_event(DEFAULT_BACKEND, 0, buf);
+	  play_adjusted_midi_event(buf);
       }
   }
 }

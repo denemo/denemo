@@ -843,7 +843,7 @@ SCM scheme_user_screenshot(SCM type, SCM position) {
   GList **sources;
   SCM ret = SCM_BOOL_F;
   gint pos = -1;
-  if((!SCM_UNBNDP(position)) && scm_integer_p(position))
+  if((!SCM_UNBNDP(position)) && scm_is_integer(position))
     pos = scm_num2int(position,0,0);
 
   if(scm_is_false(type))
@@ -1187,7 +1187,7 @@ scm_call_1(func, thestep);
 }
 
 static SCM scheme_set_enharmonic_position(SCM position) {
-  if(scm_integer_p(position)) {
+  if(scm_is_integer(position)) {
      gint pos = scm_num2int(position, 0, 0);
      set_enharmonic_position(pos);
      return SCM_BOOL_T;
@@ -1262,6 +1262,10 @@ static SCM scheme_get_midi_off_time(void) {
   return scm_double2num(get_midi_off_time(curobj->midi_events));
 }
 
+static SCM scheme_restart_play(void) {
+  restart_play();
+  return SCM_BOOL_T;
+}
 static SCM scheme_set_playback_interval (SCM start, SCM end) {
   if(scm_is_real(start) && scm_is_real(end) ) {
     Denemo.gui->si->start_time = scm_to_double(start);
@@ -1413,7 +1417,7 @@ static SCM scheme_add_keybinding (SCM command, SCM binding) {
     if(scm_is_string(command)) {
       name = scm_to_locale_string(command);
       old_id = add_keybinding_for_name(name, shortcut);
-    } else if(scm_integer_p(command)) {
+    } else if(scm_is_integer(command)) {
       id = scm_to_int(command);
       if(id>=0)
 	old_id = add_keybinding_for_command(id, shortcut);	
@@ -1607,7 +1611,7 @@ SCM scheme_goto_position (SCM movement, SCM staff, SCM measure, SCM object) {
 }
 
 SCM scheme_shift_cursor (SCM value) {
-  if(!scm_integer_p(value))
+  if(!scm_is_integer(value))
     return SCM_BOOL_F;
   gint shift = scm_num2int(value, 0, 0);
   Denemo.gui->si->cursor_y += shift;
@@ -1649,6 +1653,12 @@ static SCM scheme_get_cursor_note (SCM optional) {
  return scheme_mid_c_offsettoname(gui->si->cursor_y);
 }
 
+static SCM scheme_get_cursor_note_with_octave (SCM optional) {
+  DenemoGUI *gui = Denemo.gui;
+  scm_makfrom0str(mid_c_offsettolily(gui->si->cursor_y, 0));
+}
+
+
 static SCM scheme_set_prefs (SCM xml) {
   DenemoGUI *gui = Denemo.gui;
   if(scm_is_string(xml)){
@@ -1660,6 +1670,42 @@ static SCM scheme_set_prefs (SCM xml) {
     return SCM_BOOL(!fail);     
   }
   return SCM_BOOL(FALSE);
+}
+
+
+static SCM scheme_get_boolean_pref(SCM pref) {
+  gchar *prefname = NULL;
+  gboolean val;
+  if(scm_is_string(pref)) {
+    prefname = scm_to_locale_string(pref);
+    val = get_bool_pref(prefname);
+    free(prefname);    
+    return SCM_BOOL(val);
+  }   
+ return SCM_BOOL_F;
+}
+static SCM scheme_get_int_pref(SCM pref) {
+  gchar *prefname = NULL;
+  gint val;
+  if(scm_is_string(pref)) {
+    prefname = scm_to_locale_string(pref);
+    val = get_int_pref(prefname);
+    free(prefname);    
+    return scm_int2num (val);
+  }   
+ return SCM_BOOL_F;
+}
+static SCM scheme_get_string_pref(SCM pref) {
+  gchar *prefname = NULL;
+  gchar* val;
+  if(scm_is_string(pref)) {
+    prefname = scm_to_locale_string(pref);
+    val = get_string_pref(prefname);
+    free(prefname);
+    if(val)   
+      return scm_makfrom0str (val);
+  }
+ return SCM_BOOL_F;
 }
 
 SCM scheme_attach_quit_callback (SCM callback) {
@@ -1720,6 +1766,8 @@ SCM scheme_get_note_name (SCM optional) {
  }
    
 }
+
+
 
 //Insert rests to the value of the timesig and return the number of rests inserted.
 SCM scheme_put_whole_measure_rests (void) {
@@ -2783,7 +2831,7 @@ PUTFUNC_DEF(standalone, postfix)
 
 #define INT_PUTFUNC_DEF(what, field)\
 static SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
-  if((!scm_is_string(tag))||(!scm_integer_p(value))){\
+  if((!scm_is_string(tag))||(!scm_is_integer(value))){\
     return SCM_BOOL(FALSE);\
   }\
   char *tagname;\
@@ -3262,6 +3310,18 @@ static
 SCM scheme_get_keyboard_state(void) {
  return scm_int2num (Denemo.keyboard_state);
 }
+
+static
+SCM scheme_set_midi_thru(SCM set) {
+  SCM ret = scm_int2num(Denemo.keyboard_state);
+  if(scm_is_true(set))
+    Denemo.keyboard_state = GDK_SHIFT_MASK;
+  else
+    Denemo.keyboard_state = 0;
+  set_midi_in_status();
+  return ret;
+}
+
 static
 SCM scheme_get_recorded_midi_on_tick(void) {
   smf_track_t *track = Denemo.gui->si->recorded_midi_track;
@@ -3362,6 +3422,18 @@ static SCM scheme_put_midi (SCM scm) {
  return SCM_BOOL(TRUE);
 }
 
+static SCM scheme_output_midi(SCM scm) {
+  gchar buf[3];
+  gint midi = scm_num2int(scm, 0, 0);
+
+  buf[0] = midi & 0xFF;
+  buf[1] = (midi>>8)&0xFF;
+  buf[2] = (midi>>16)&0xFF;
+  play_adjusted_midi_event(buf);
+  return SCM_BOOL_T;
+}
+
+
 /* outputs a midibytes string to MIDI out. Format of midibytes as in DenemoDirective->midibytes */
 SCM scheme_output_midi_bytes (SCM input) {
   char *next;
@@ -3421,20 +3493,19 @@ static SCM scheme_play_midikey(SCM scm) {
     gint key =  (midi>>8)&0xFF;
     gint channel = midi&0xF;
     gint volume = ((midi>>16)&0x7F);
-    g_print("Playing %x at %f volume, %d channel\n", key, (double)volume, channel);
+    //g_print("Playing %x at %f volume, %d channel\n", key, (double)volume, channel);
     play_note(DEFAULT_BACKEND, 0 /*port*/, channel, key, 1000 /*duration*/, volume);
     //g_usleep(200000);
  return SCM_BOOL(TRUE);
 }
+
+//Insert a rest without setting the prevailing duration
 SCM scheme_put_rest (SCM optional_duration) {
   gint duration;
-  if(scm_integer_p(optional_duration)) {
+  if(scm_is_integer(optional_duration)) {
     duration = scm_num2int(optional_duration, 0, 0);
   } else {
-    for(duration=0;duration<7;duration++)
-      if(Denemo.gui->prevailing_rhythm == Denemo.singleton_rhythms['r'+duration])
-	break;
-    g_print("using duration %d\n", duration);
+    duration = get_prevailing_duration();
   }
   if( (duration<0) || (duration>7))
     return SCM_BOOL_F;
@@ -3443,6 +3514,17 @@ SCM scheme_put_rest (SCM optional_duration) {
   displayhelper(Denemo.gui);//without this a call to d-AddVoice causes a crash as the chord length info has not been updated
   return SCM_BOOL_T;
 }
+//Insert a rest in the given (or prevailing duration) and set the prevailing duration
+static SCM scheme_insert_rest(SCM optional) {
+  SCM ret = scheme_put_rest(optional);
+  if(scm_is_integer(optional)) {
+   gint duration = scm_num2int(optional, 0, 0);
+   highlight_duration(Denemo.gui, duration);
+  }
+  return ret;
+}
+
+
 static SCM scheme_toggle_playalong(void) {
   pb_playalong (midiplayalongbutton);
   return SCM_BOOL(Denemo.gui->midi_destination | MIDIPLAYALONG);
@@ -3494,8 +3576,9 @@ static gboolean scheme_callback_timer(cb_scheme_and_id *scheme){
 
 static SCM scheme_timer(SCM duration_amount, SCM callback) {
   char *scheme_code;
-  scheme_code = scm_to_locale_string(callback);  
+  scheme_code = scm_to_locale_string(callback);  //FIXME check that type of callback is tring
   gint duration = scm_num2int(duration_amount, 0, 0);
+  ;g_print("setting timer for %s after %d ms", scheme_code, duration);
   cb_scheme_and_id *scheme = g_malloc(sizeof(cb_scheme_and_id));
   scheme->scheme_code = scheme_code;
   scheme->id = Denemo.gui->id;
@@ -4409,9 +4492,13 @@ static void create_scheme_identfiers(void) {
   INSTALL_SCM_FUNCTION ("Returns the cursor horizontal position in current measure.\n 1 = first position in measure, n+1 is appending position where n is the number of objects in current measure",DENEMO_SCHEME_PREFIX"GetHorizontalPosition",  scheme_get_horizontal_position);
 
   INSTALL_SCM_FUNCTION ("Returns the note name for the line or space where the cursor is",DENEMO_SCHEME_PREFIX"GetCursorNote",  scheme_get_cursor_note);
+  INSTALL_SCM_FUNCTION ("Returns the note name and octave in LilyPond notation for the line or space where the cursor is",DENEMO_SCHEME_PREFIX"GetCursorNoteWithOctave",  scheme_get_cursor_note_with_octave);
+
+  
   INSTALL_SCM_FUNCTION ("Prints out information about the object at the cursor",DENEMO_SCHEME_PREFIX"DebugObject",  scheme_debug_object);
 
   INSTALL_SCM_FUNCTION ("Returns the name of the (highest) note in any chord at the cursor position, or #f if none",DENEMO_SCHEME_PREFIX"GetNoteName",  scheme_get_note_name);
+    INSTALL_SCM_FUNCTION ("Insert a rests at the cursor in the prevailing duration, or if given a integer, in that duration, setting the prevailing duration", DENEMO_SCHEME_PREFIX"InsertRest",  scheme_insert_rest);
   INSTALL_SCM_FUNCTION ("Insert rests at the cursor to the value of the one whole measure in the key signature and return the number of rests inserted", DENEMO_SCHEME_PREFIX"PutWholeMeasureRests",  scheme_put_whole_measure_rests);
   INSTALL_SCM_FUNCTION ("Takes optional integer parameter n = 1..., returns LilyPond representation of the nth note of the chord at the cursor counting from the lowest, or #f if none",DENEMO_SCHEME_PREFIX"GetNote",  scheme_get_note);
    INSTALL_SCM_FUNCTION ("Takes optional integer parameter n = 1..., returns LilyPond representation of the nth note of the chord at the cursor counting from the highest, or #f if none",DENEMO_SCHEME_PREFIX"GetNoteFromTop",  scheme_get_note_from_top);
@@ -4486,6 +4573,11 @@ static void create_scheme_identfiers(void) {
   
   INSTALL_SCM_FUNCTION ("Enforces the treatment of the note at the cursor as a chord in LilyPond",DENEMO_SCHEME_PREFIX"Chordize",  scheme_chordize);
   INSTALL_SCM_FUNCTION ("Takes xml representation of a preference and adds it to the Denemo preferences",DENEMO_SCHEME_PREFIX"SetPrefs",  scheme_set_prefs);
+
+  INSTALL_SCM_FUNCTION ("Takes string name of a boolean-valued preference and returns the current value. Non-existent prefs return #f, ensure that the preference name is correct before using.",DENEMO_SCHEME_PREFIX"GetBooleanPref",  scheme_get_boolean_pref);
+  INSTALL_SCM_FUNCTION ("Takes string name of an int-valued preference and returns the current value. Non-existent prefs return #f",DENEMO_SCHEME_PREFIX"GetIntPref",  scheme_get_int_pref);
+  INSTALL_SCM_FUNCTION ("Takes string name of a string-valued preference and returns the current value. Non-existent prefs return #f",DENEMO_SCHEME_PREFIX"GetStringPref",  scheme_get_string_pref);
+
   INSTALL_SCM_FUNCTION ("Takes a script as a string, which will be stored. All the callbacks are called when the musical score is closed" ,DENEMO_SCHEME_PREFIX"AttachQuitCallback",  scheme_attach_quit_callback);
   INSTALL_SCM_FUNCTION ("Removes a callback from the current musical score",DENEMO_SCHEME_PREFIX"DetachQuitCallback",  scheme_detach_quit_callback);
   
@@ -5148,6 +5240,7 @@ INSTALL_EDIT(movementcontrol);
   INSTALL_SCM_FUNCTION ("Asks the user for a password which is returned",DENEMO_SCHEME_PREFIX"GetPassword", scheme_get_password);
 
   INSTALL_SCM_FUNCTION ("Returns an integer value, a set of bitfields representing the keyboard state, e.g. GDK_SHIFT_MASK etc",DENEMO_SCHEME_PREFIX"GetKeyboardState", scheme_get_keyboard_state);
+  INSTALL_SCM_FUNCTION ("Routes the MIDI in to MIDI out if it is not intercepted by d-GetMidi",DENEMO_SCHEME_PREFIX"SetMidiThru", scheme_set_midi_thru);
 
   INSTALL_SCM_FUNCTION ("Returns the ticks of the next event on the recorded MIDI track -ve if it is a NOTEOFF or #f if none. Advances to the next note.", DENEMO_SCHEME_PREFIX"GetRecordedMidiOnTick", scheme_get_recorded_midi_on_tick);
 
@@ -5172,7 +5265,11 @@ INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. T
 INSTALL_SCM_FUNCTION ("Generates the MIDI timings for the music of the current movement. Returns TRUE if the MIDI was re-computed else FALSE (call was unnecessary).",DENEMO_SCHEME_PREFIX"CreateTimebase", scheme_create_timebase);
 
 
-  install_scm_function1 (DENEMO_SCHEME_PREFIX"PutMidi", scheme_put_midi);
+  
+  INSTALL_SCM_FUNCTION1 ("Takes and int as MIDI data and simulates a midi event, avoiding capturing of midi by scripts. Value 0 is special and is received by scripts.", DENEMO_SCHEME_PREFIX"PutMidi", scheme_put_midi);
+  INSTALL_SCM_FUNCTION1 ("Takes and int as MIDI data and sends it directly to the MIDI out backend", DENEMO_SCHEME_PREFIX"OutputMidi", scheme_output_midi);
+
+  
   install_scm_function1 (DENEMO_SCHEME_PREFIX"OutputMidiBytes", scheme_output_midi_bytes);
   install_scm_function1 (DENEMO_SCHEME_PREFIX"PlayMidiKey", scheme_play_midikey);
   INSTALL_SCM_FUNCTION4 ("Takes midi key number, volume 0-255, duration in ms and channel 0-15 and plays the note on midi out.", DENEMO_SCHEME_PREFIX"PlayMidiNote", scheme_play_midi_note);
@@ -5225,7 +5322,7 @@ INSTALL_SCM_FUNCTION ("Generates the MIDI timings for the music of the current m
   INSTALL_SCM_FUNCTION ("Rewind the MIDI generated for the current movement. Given a time in seconds it tries to rewind to there.", DENEMO_SCHEME_PREFIX"RewindMidi", scheme_rewind_midi);
   INSTALL_SCM_FUNCTION ("Takes an interval, returns a pair, a list of the next note-on events that occur within that interval and the time of these events.", DENEMO_SCHEME_PREFIX"NextMidiNotes", scheme_next_midi_notes);
 
-
+  INSTALL_SCM_FUNCTION ("Restart midi play, cancelling any pause", DENEMO_SCHEME_PREFIX"RestartPlay", scheme_restart_play);
   INSTALL_SCM_FUNCTION ("Return a number, the midi time in seconds for the start of the object at the cursor; return #f if none ", DENEMO_SCHEME_PREFIX"GetMidiOnTime", scheme_get_midi_on_time);
   INSTALL_SCM_FUNCTION ("Return a number, the midi time in seconds for the end of the object at the cursor; return #f if none ", DENEMO_SCHEME_PREFIX"GetMidiOffTime", scheme_get_midi_off_time);
 
@@ -7221,21 +7318,19 @@ loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm) {
   thesize.width = 40;
   thesize.height = 40;
   cairo_surface_t *surface =  cairo_image_surface_create_from_png (filename);
-
-
   if(cairo_surface_status(surface)!=CAIRO_STATUS_SUCCESS) {
-    gchar *filename = g_strconcat(name, ".svg", NULL);
+    g_free(filename);
+    filename = g_strconcat(name, ".svg", NULL);
     if(g_file_test(filename,  G_FILE_TEST_EXISTS)) { 
-      RsvgHandle *handle = rsvg_handle_new_from_file(filename, &error);
-      g_free(filename);
+      RsvgHandle *handle = rsvg_handle_new_from_file(filename, &error);      
       if(handle==NULL) {
-      if(error)
-        g_warning("Could not open %s error %s\n", basename, error->message);
-      else
-        g_warning("Opening %s, Bug in librsvg:rsvg handle null but no error message", basename);
-      return FALSE;
+        if(error)
+          g_warning("Could not open %s error %s\n", basename, error->message);
+        else
+          g_warning("Opening %s, Bug in librsvg:rsvg handle null but no error message", basename);
+        return FALSE;
       }
-      g_free(filename);  
+      
       rsvg_handle_get_dimensions(handle, &thesize); 
       surface =   (cairo_surface_t *)cairo_svg_surface_create_for_stream (NULL, NULL, (gdouble)thesize.width,  (gdouble)thesize.height); 
       cairo_t *cr = cairo_create(surface);
@@ -7249,6 +7344,7 @@ loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm) {
   thesize.width = gdk_pixbuf_get_width(pixbuf);
   thesize.height = gdk_pixbuf_get_height(pixbuf);
   }
+ g_free(filename);  
  if(cairo_surface_status(surface)==CAIRO_STATUS_SUCCESS) {
       cairo_pattern_t *pattern = cairo_pattern_create_for_surface (surface);
       cairo_pattern_reference(pattern); 
@@ -8913,7 +9009,7 @@ get_data_dir (),
       label = gtk_label_new (_("Audio Lead In "));
       gtk_widget_set_can_focus (label, FALSE);
       gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), label, FALSE, TRUE, 0);
-      leadin = gtk_spin_button_new_with_range(-2.0, 2.0, 0.01);
+      leadin = (GtkSpinButton*)gtk_spin_button_new_with_range(-2.0, 2.0, 0.01);
       g_signal_connect(G_OBJECT(leadin),  "value_changed", G_CALLBACK(leadin_changed), NULL);
       gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), GTK_WIDGET(leadin), FALSE, TRUE, 0);
       label = gtk_label_new (_(" secs."));

@@ -262,10 +262,6 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>ToggleGrace</action>
-        <bind>Divide</bind>
-      </row>
-      <row>
         <action>InsertRhythm</action>
         <bind>Ctrl+space</bind>
       </row>
@@ -897,6 +893,10 @@
       <row>
         <action>TogglePortato</action>
         <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MakeGrace</action>
+        <bind>Divide</bind>
       </row>
     </map>
   </merge>

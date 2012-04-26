@@ -7,39 +7,11 @@
       <row>
         <action>InsertTiedNoteDuration</action>
         <scheme>;;;;;;;;;;;TiedNoteDuration  Insert tuplet into the score
- (if (not DenemoKeypressActivatedCommand)
- 	(d-WarningDialog "Press a duration key to insert a tied note"))
- 	(display "going on")
-(let ()
-(define (command) (d-WarningDialog "To use this function correctly you need to give a duration.\nThis will insert a tied note of equal duration"))
-(define duration (d-GetCommand))
-(cond
- ((equal? duration "d-0") (set! command d-Change0))
- ((equal? duration "d-1") (set! command d-Change1))
- ((equal? duration "d-2") (set! command d-Change2))
- ((equal? duration "d-3") (set! command d-Change3))
- ((equal? duration "d-4") (set! command d-Change4))
- ((equal? duration "d-5") (set! command d-Change5))
- ((equal? duration "d-6") (set! command d-Change6))
- ((equal? duration "d-7") (set! command d-Change7))
- )
-(d-InsertTiedNote)
-(command)
-;;;;;;;;;force audible feedback if required
-(set! command d-Insert2);; a default insert
-(cond
- ((equal? duration "d-0") (set! command d-Insert0))
- ((equal? duration "d-1") (set! command d-Insert1))
- ((equal? duration "d-2") (set! command d-Insert2))
- ((equal? duration "d-3") (set! command d-Insert3))
- ((equal? duration "d-4") (set! command d-Insert4))
- ((equal? duration "d-5") (set! command d-Insert5))
- ((equal? duration "d-6") (set! command d-Insert6))
- ((equal? duration "d-7") (set! command d-Insert7)))
-(command)
-(d-DeletePreviousObject))
-
-</scheme>
+(d-ToggleTie)
+(if (d-IsTied)
+	(d-PlayMidiNote 75 255 9 100)
+	(d-PlayMidiNote 35 255 9 100))
+(d-MoveCursorRight)</scheme>
         <label>Attach Tied Note</label>
         <tooltip>Attaches a tied note: you must give the duration after invoking this function.</tooltip>
       </row>

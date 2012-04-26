@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ToggleGrace</after>
+        <action>MakeGrace</action>
+        <scheme>;MakeGrace
+(d-ToggleGrace)
+(if (d-IsGrace)
+ 	(d-PlayMidiNote 84 255 9 100)
+ 	(d-PlayMidiNote 35 255 9 100))</scheme>
+        <label>Grace/UnGrace</label>
+        <tooltip>Changes the note at the cursor to/from being a grace note. Gives audio feedback.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

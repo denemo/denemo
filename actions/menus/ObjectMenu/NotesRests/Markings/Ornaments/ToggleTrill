@@ -7,6 +7,7 @@
       <row>
         <action>ToggleTrill</action>
         <scheme>;;;Trill
+(d-PlayMidiNote 78  255 9 100)
 (ToggleChordDirective "Trill" LG-Trill "\\trill" DENEMO_OVERRIDE_ABOVE)
 </scheme>
         <label>Trill (Off/On)</label>

@@ -7,15 +7,19 @@
       <row>
         <after>ToggleTupletNumbering</after>
         <action>ToggleTripleting</action>
-        <scheme>;;;ToggleTripleting
+        <scheme>;;;;ToggleTripleting
 (if (not (defined? 'ToggleTripleting::InsideTriplet))
     (define ToggleTripleting::InsideTriplet #t))
 (if  ToggleTripleting::InsideTriplet
-       (d-StartTriplet)
-       (d-EndTuplet))
+       (begin 
+       		(d-PlayMidiNote 72 255 9 100)
+       		(d-StartTriplet))
+       	(begin
+       		(d-PlayMidiNote 77 255 9 100)
+      	 	(d-EndTuplet)))
 (set! ToggleTripleting::InsideTriplet (not ToggleTripleting::InsideTriplet))
 </scheme>
-        <label>Toggle Triplet Entry Off/On</label>
+        <label>Toggle Triplet Entry (Off/On)</label>
         <tooltip>Inserts a start triplet or end tuple alternately.</tooltip>
       </row>
     </map>

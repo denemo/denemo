@@ -67,6 +67,13 @@ ext_midi_playback (GtkAction * action, DenemoScriptParam *param) {
   midi_play(callback);
 }
 
+
+// a function that stops any play in progress, and starts play again.
+void restart_play(void) {
+stop_midi_playback(NULL, NULL);
+ext_midi_playback (NULL, NULL);
+}
+
 void stop_midi_playback (GtkAction * action, gpointer param) {
   
   if(is_paused())

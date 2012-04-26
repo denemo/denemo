@@ -384,7 +384,100 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 
   return;
 }
+#undef READXMLENTRY
+#undef READBOOLXMLENTRY
+#undef READINTXMLENTRY
+#undef READDOUBLEXMLENTRY
 
+
+
+#define GETBOOLPREF(field) \
+  else if (!strcmp(prefname, #field))\
+    return Denemo.prefs.field;
+
+
+gboolean get_bool_pref(gchar *prefname) {
+  if(*prefname == 0)
+    return FALSE;
+  GETBOOLPREF(immediateplayback)
+      GETBOOLPREF(autosave)
+      GETBOOLPREF(createclones)
+      GETBOOLPREF(immediateplayback)
+      GETBOOLPREF(modal) 
+      GETBOOLPREF(persistence) 
+      GETBOOLPREF(cursor_highlight) 
+      GETBOOLPREF(applytoselection) 
+      GETBOOLPREF(quickshortcuts) 
+      GETBOOLPREF(startmidiin) 
+      GETBOOLPREF(strictshortcuts)
+      GETBOOLPREF(overlays)
+      GETBOOLPREF(enable_thumbnails)
+      GETBOOLPREF(continuous)
+      GETBOOLPREF(lilyentrystyle)
+      GETBOOLPREF(toolbar)
+      GETBOOLPREF(notation_palette)
+      GETBOOLPREF(midi_in_controls)
+      GETBOOLPREF(playback_controls)
+      GETBOOLPREF(console_pane)
+      GETBOOLPREF(lyrics_pane)
+      GETBOOLPREF(visible_directive_buttons)
+      GETBOOLPREF(rhythm_palette)
+      GETBOOLPREF(object_palette)
+      GETBOOLPREF(autoupdate)
+      GETBOOLPREF(jacktransport_start_stopped)
+      GETBOOLPREF(fluidsynth_reverb)
+      GETBOOLPREF(fluidsynth_chorus)
+      GETBOOLPREF(progressbardecorations)
+return FALSE;
+}
+#undef GETBOOLPREF
+#define GETINTPREF(field) \
+  else if (!strcmp(prefname, #field))\
+    return Denemo.prefs.field;
+
+gint get_int_pref(gchar *prefname) {
+  if(*prefname == 0)
+    return 0;
+      GETINTPREF(pitchspellingchannel)
+      GETINTPREF(pitchspellingprogram)
+      GETINTPREF(mode) 
+      GETINTPREF(resolution)
+      GETINTPREF(animation_steps)
+      GETINTPREF(portaudio_sample_rate)
+      GETINTPREF(portaudio_period_size)
+      GETINTPREF(zoom)
+      GETINTPREF(dynamic_compression)
+      GETINTPREF(system_height)
+return 0;
+}
+#undef GETINTPREF
+#define GETSTRINGPREF(field) \
+  else if (!strcmp(prefname, #field))\
+    return Denemo.prefs.field->str;
+
+gchar* get_string_pref(gchar *prefname) {
+  if(*prefname == 0)
+    return NULL;
+      GETSTRINGPREF(pdfviewer) 
+      GETSTRINGPREF(imageviewer) 
+      GETSTRINGPREF(profile) 
+      GETSTRINGPREF(username)    
+      GETSTRINGPREF(password)           
+      GETSTRINGPREF(denemopath)          
+      GETSTRINGPREF(temperament)
+      GETSTRINGPREF(audio_driver)
+      GETSTRINGPREF(midi_driver)
+      GETSTRINGPREF(jack_connect_ports_l)
+      GETSTRINGPREF(jack_connect_ports_r)
+      GETSTRINGPREF(jack_connect_midi_in_port)
+      GETSTRINGPREF(jack_connect_midi_out_port)
+      GETSTRINGPREF(portaudio_device)
+      GETSTRINGPREF(portmidi_input_device)
+      GETSTRINGPREF(portmidi_output_device)
+      GETSTRINGPREF(fluidsynth_soundfont)
+       
+return NULL;
+}
 /**
  * writeHistoryEntry - adds history entry to the denemohistory file
  * @param data - pointer to the filename to add

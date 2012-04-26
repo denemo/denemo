@@ -2,6 +2,8 @@ A					[a-zA-Z\200-\377]
 AA					{A}|_
 N					[0-9]
 AN					{AA}|{N}
+
+
 ANY_CHAR			(.|\n)
 PUNCT				[?!:'`]
 ACCENT				\\[`'"^]
@@ -10,6 +12,8 @@ TEX					{AA}|-|{PUNCT}|{ACCENT}|{NATIONAL}
 WORD				{A}{AN}*
 DASHED_WORD			{A}({AN}|-)*
 DASHED_KEY_WORD		\\{DASHED_WORD}
+
+
 	
 ALPHAWORD			{A}+
 DIGIT				{N}
@@ -69,7 +73,9 @@ BOM_UTF8			\357\273\277
                                                              (vector #f #f #f  (lambda () (lexer-getc)) #f) "r"))))
 
 
-
+\\lyricmode{WHITE}*\{         (lyimport::start_block) (lyimport::multilexer) 
+\\chordmode{WHITE}*\{         (lyimport::start_block)  (lyimport::multilexer)
+ 
                                                  
 R							(lyimport::mtoken 'MULTI_MEASURE_REST yytext)	
 <<							(lyimport::mtoken 'DOUBLE_ANGLE_OPEN yytext)	
@@ -94,13 +100,15 @@ R							(lyimport::mtoken 'MULTI_MEASURE_REST yytext)
 \?							(lyimport::mtoken 'QUESTIONMARK yytext)
 \|							(lyimport::mtoken 'PIPE yytext)
 /							(lyimport::mtoken 'SLASH yytext)
-^							(lyimport::mtoken 'CARET yytext)
+\^							(lyimport::mtoken 'CARET yytext)
 _							(lyimport::mtoken 'UNDERSCORE yytext)
 -							(lyimport::mtoken 'HYPHEN yytext)
 ~							(lyimport::mtoken 'TILDE yytext) ; This may be the wrong place. But the lexer did not detect E_TILDE with the block \\. below
 \[							(lyimport::mtoken 'BRACKET_OPEN yytext) ; This is a custom lexer rule. In Lilypond these are used directly as strings in the parser.
 \]							(lyimport::mtoken 'BRACKET_CLOSE yytext) ; This is a custom lexer rule. In Lilypond these are used directly as strings in the parser.
 
+\(         (lyimport::mtoken 'OPEN yytext); for slurs
+\)         (lyimport::mtoken 'CLOSE yytext); for slurs						
 						
 
 \\.							(case (string-ref yytext 0) ; not sure for what this is. maybe scheme escaped parts in lilypond?
