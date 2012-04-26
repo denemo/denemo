@@ -3,11 +3,10 @@ from gub import repository
 from gub import target
 
 class Portaudio (target.AutoBuild):
-    source = 'http://www.portaudio.com/archives/pa_snapshot.tgz'
     #source = 'http://www.portaudio.com/archives/pa_stable_v19_20071207.tar.gz'
     # useless, changes every night
-    # source = 'http://www.portaudio.com/archives/pa_snapshot.tgz'
-    # source = 'svn:http://www.portaudio.com/repos/portaudio/trunk&revision=1428'
+    source = 'http://www.portaudio.com/archives/pa_snapshot.tgz'
+    #source = 'svn:https://subversion.assembla.com/svn/portaudio/portaudio/trunk&revision=1428'
     dependencies = [
         'tools::automake',
         'tools::libtool',
