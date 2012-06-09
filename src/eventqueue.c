@@ -102,12 +102,19 @@ gboolean event_queue_write_mixer(event_queue_t *queue, float *data) {
     return n == sizeof(float);
   
 }
+
+static gboolean page_viewport_callback(gpointer data) {
+  gdk_threads_enter();
+  page_viewport();
+  gdk_threads_leave();
+  return FALSE;
+}
 static
 void page_for_time(gdouble time_seconds) {
     DenemoScore *si = Denemo.gui->si;
     if(si->rightmost_time>0.0 && time_seconds>si->rightmost_time) {
-        page_viewport();
-         si->rightmost_time=-1;
+      si->rightmost_time=-1;
+      g_idle_add_full(G_PRIORITY_HIGH_IDLE, page_viewport_callback, NULL, NULL);
     }
 }
 
