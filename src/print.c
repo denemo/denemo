@@ -1658,8 +1658,8 @@ void show_print_view(GtkAction *action, gpointer param) {
     gtk_window_present(GTK_WINDOW(w));
   else
     gtk_widget_show(w);
-  if(action && changecount!=Denemo.gui->changecount) {
-    typeset_control(NULL, NULL);
+  if(action && (changecount!=Denemo.gui->changecount || Denemo.gui->lilysync != Denemo.gui->changecount) ) {
+    typeset_control(NULL, create_all_pdf);
   }
 }
 
@@ -1704,34 +1704,40 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
   if(Denemo.printarea)
     return;
   busycursor = gdk_cursor_new(GDK_WATCH);
-  arrowcursor = gdk_cursor_new(GDK_RIGHT_PTR);//FIXME what is the system cursor called??
+  arrowcursor = gdk_cursor_new(GDK_RIGHT_PTR);
 
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
   GtkWidget *main_hbox =  gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (main_vbox), main_hbox,FALSE, TRUE, 0);
   GtkWidget *hbox =  gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (main_hbox), hbox,FALSE, TRUE, 0);
-  GtkWidget *button = gtk_button_new_with_label("Print");
-  g_signal_connect(button, "clicked", G_CALLBACK(libevince_print), NULL);
-  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-
-
-  button = gtk_button_new_with_label("Refresh");
-  g_signal_connect(button, "clicked", G_CALLBACK(typeset_control), NULL);
-  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-  
-  button = gtk_button_new_with_label("Score");
+  GtkWidget *button = gtk_button_new_with_label("Typeset");
+  gtk_widget_set_tooltip_text(button, "Typesets the music using the current score layout. See View->Score Layouts to see which layouts you have created and which is currently selected.");
   g_signal_connect(button, "clicked", G_CALLBACK(typeset_control), create_all_pdf);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
+  button = gtk_button_new_with_label("Print");
+  gtk_widget_set_tooltip_text(button, "Pops up a Print dialog. From this you can send your typeset score to a printer or to a PDF file.");
+  g_signal_connect(button, "clicked", G_CALLBACK(libevince_print), NULL);
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+
+    
+
   button = gtk_button_new_with_label("Movement");
+  gtk_widget_set_tooltip_text(button, "Typesets the music from the current movement. This creates a score layout comprising one movement.");
   g_signal_connect(button, "clicked", G_CALLBACK(typeset_control), create_movement_pdf);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
  
   button = gtk_button_new_with_label("Part");
+  gtk_widget_set_tooltip_text(button, "Typesets the music from the current part for all movements. A part is all the music with the same staff-name. This creates a score layout with one part, all movements.");
   g_signal_connect(button, "clicked", G_CALLBACK(typeset_control), create_part_pdf);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
+  button = gtk_button_new_with_label("Refresh");
+  gtk_widget_set_tooltip_text(button, "Re-issues the last print command. Use this after modifying the file to repeat the typesetting.");
+  g_signal_connect(button, "clicked", G_CALLBACK(typeset_control), NULL);
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+ 
   hbox =  gtk_hbox_new (FALSE, 1);
   gtk_box_pack_end (GTK_BOX (main_hbox), hbox,FALSE, TRUE, 0);
 
