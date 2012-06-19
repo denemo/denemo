@@ -142,6 +142,7 @@
     <menu action="ViewMenu">
       <menuitem action="ToggleReduceToDrawingArea"/>
       <menuitem action="TogglePrintView"/>
+      <menuitem action="ToggleScoreLayout"/>
       <menuitem action="ToggleLyricsView"/>
       <menuitem action="ToggleConsoleView"/>
       <menuitem action="ToggleRhythmToolbar"/>
