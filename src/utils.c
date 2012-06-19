@@ -1313,50 +1313,22 @@ void write_status(DenemoGUI *gui) {
     case KEYSIG:
       selection = g_strdup_printf("key signature change");
       break;
-    case BARLINE:
-      selection = g_strdup_printf("special barline type %d", 	((barline *) curObj->object)->type);// FIXME names for these
-      break;
     case STEMDIRECTIVE:
       selection = g_strdup_printf("stem directive: %s",((stemdirective *) curObj->object)->type==DENEMO_STEMDOWN?
 				  "stem down":((stemdirective *) curObj->object)->type==DENEMO_STEMUP?"stem up":
 				  "normal stemming");
       break;
-    case MEASUREBREAK:
-      selection = g_strdup_printf("measurebreak");
-      break;
-    case STAFFBREAK:
-      selection = g_strdup_printf("staffbreak");
-      break;
     case DYNAMIC:
       selection = g_strdup_printf("Dynamic: %s", ((dynamic *) curObj->object)->type->str  );
-      break;
-    case GRACE_START:
-      selection = g_strdup_printf("Start Grace Notes: %s duration %d ", ((grace *) curObj->object)->on_beat?"On beat":"Before beat",
-				  ((grace *) curObj->object)->duration);
-      break;
-    case GRACE_END:
-      selection = g_strdup_printf("Grace note end");
-      break;
-    case LYRIC:
-      selection = g_strdup_printf("Lyric: %s",  ((lyric *) curObj->object)->lyrics->str  );
-      break;
-    case FIGURE:
-      selection = g_strdup_printf("Figure");
       break;
 
     case LILYDIRECTIVE:
       {
-	DenemoDirective *directive = (DenemoDirective *)curObj->object;
-	
-      selection = g_strdup_printf("Lily directive: %.50s", directive->postfix?directive->postfix->str:directive->prefix?directive->prefix->str:directive->graphic_name?directive->graphic_name->str:directive->display?directive->display->str:"empty");
+      DenemoDirective *directive = (DenemoDirective *)curObj->object;
+      selection = g_strdup_printf("Directive:(%.20s) %.20s%.50s", directive->tag->str,
+            directive->x?"Not all layouts":directive->y?"Only for one Layout":"",
+            directive->postfix?directive->postfix->str:directive->prefix?directive->prefix->str:directive->graphic_name?directive->graphic_name->str:directive->display?directive->display->str:"empty");
       }
-      break;
-
-    case FAKECHORD:
-      selection = g_strdup_printf("Fakechord"   );
-      break;
-    case PARTIAL:
-      selection = g_strdup_printf("Partial"   );
       break;
     default:
       selection = g_strdup_printf("Cursor on a unknown object");
@@ -1496,6 +1468,58 @@ string_dialog_entry_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *direction
   return NULL;
 }
 
+/* as string_dialog_entry_with_widget() but gives a text editor instead of a single line editor */
+gchar *
+string_dialog_editor_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *direction, gchar *PreValue, GtkWidget *widget)
+{
+ 	GtkWidget *dialog;
+	GtkWidget *textview;
+	GtkWidget *label;
+	textview = gtk_text_view_new ();
+  GtkTextBuffer *textbuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview));
+  gtk_text_buffer_set_text(textbuffer, PreValue?PreValue:"", -1);
+  GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  
+	dialog = gtk_dialog_new_with_buttons (wlabel,
+                                        GTK_WINDOW (Denemo.window),
+                                        (GtkDialogFlags) (GTK_DIALOG_MODAL |
+                                                       GTK_DIALOG_DESTROY_WITH_PARENT),
+                                        GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+                                        GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+                                        NULL);
+
+	label = gtk_label_new (direction);
+	GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	gtk_container_add(GTK_CONTAINER(content_area), label);
+
+	if(widget)
+		gtk_container_add(GTK_CONTAINER(content_area), widget);
+
+	gtk_container_add(GTK_CONTAINER(content_area), textview);
+
+  gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
+  
+  gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER);
+	gtk_window_set_keep_above(GTK_WINDOW (dialog), TRUE);
+        gtk_widget_show_all (dialog);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT){
+      GtkTextIter startiter, enditer;
+      gtk_text_buffer_get_start_iter (textbuffer, &startiter);
+      gtk_text_buffer_get_end_iter (textbuffer, &enditer);
+      gchar *text = gtk_text_buffer_get_text (textbuffer, &startiter, &enditer, FALSE);
+      gtk_widget_destroy (dialog);
+      return  text;
+	}
+	else {  
+		gtk_widget_destroy (dialog);
+		return NULL;
+	}
+  return NULL;
+}
+
 static gboolean
 option_choice(GtkWidget *widget, gchar **response) {
   if( gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
@@ -1515,7 +1539,7 @@ gchar * get_option(gchar *str, gint length) {
 						   GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
 						   GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
 						   NULL);
-  gtk_dialog_set_default_response(dialog, GTK_RESPONSE_ACCEPT);
+  gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
   GtkWidget *vbox = gtk_vbox_new(FALSE, 1);
   GtkWidget *content_area = gtk_dialog_get_content_area(GTK_DIALOG (dialog));
   gtk_container_add(GTK_CONTAINER(content_area), vbox);
@@ -1628,4 +1652,23 @@ void switch_back_to_main_window(void) {
     return;
   gtk_window_present(GTK_WINDOW(Denemo.window));
   gtk_widget_grab_focus (Denemo.scorearea);
+}
+
+/* set all labels in the hierarchy below widget to use markup */
+void use_markup(GtkWidget *widget)
+{
+  if (!widget)
+	return;
+  if(GTK_IS_LABEL(widget)) {
+    gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
+  }
+  else
+ if(GTK_IS_CONTAINER(widget)) {
+    GList *g = gtk_container_get_children (GTK_CONTAINER(widget));
+    for(;g;g=g->next)
+      use_markup(g->data);
+    if (GTK_IS_MENU_ITEM(widget)) {
+      use_markup(gtk_menu_item_get_submenu(GTK_MENU_ITEM(widget)));
+    }
+ }
 }
