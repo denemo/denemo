@@ -132,7 +132,9 @@ instantiate_menus(gchar *menupath) {
   GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
   GtkActionGroup *action_group = GTK_ACTION_GROUP(groups->data); //FIXME assuming the one we want is first
   if(NULL == gtk_action_group_get_action(action_group, name)) {
-    GtkAction *action = gtk_action_new(name,name,"A menu",NULL);
+    gchar *tooltip = g_strconcat("Menu:\nnamed \"", name, "\" located at ", menupath, " in the menu system", NULL);
+    GtkAction *action = gtk_action_new(name,name,tooltip,NULL);
+    g_free(tooltip);
     gtk_action_group_add_action(action_group, action);
     g_object_set_data(G_OBJECT(action), "menupath", up1);
   }
