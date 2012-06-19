@@ -1158,6 +1158,7 @@ GtkWidget *get_temperament_combo(void) {
   GtkListStore *list_store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
   GtkCellRenderer *renderer;
   combobox = gtk_combo_box_new_with_model (GTK_TREE_MODEL (list_store));
+  gtk_widget_set_tooltip_text(combobox, _("Set the musical temperament (tuning) to be used for playback."));
   g_object_ref(combobox);
   PR_temperament = &Equal;
   int i;
