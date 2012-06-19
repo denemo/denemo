@@ -428,8 +428,7 @@ gboolean
 swapmovements (GtkAction *action, gpointer param)
 {
   DenemoGUI  *gui = Denemo.gui;
-  if(!confirm_insertstaff_custom_scoreblock(gui))
-    return FALSE;
+  (void)signal_structural_change(gui);
   GList *this = g_list_find( gui->movements, gui->si);
   if(this->prev) {
     GList * prev = this->prev;
@@ -461,8 +460,7 @@ gboolean
 swapstaffs (GtkAction *action, gpointer param)
 {
   DenemoGUI  *gui = Denemo.gui;
-  if(!confirm_insertstaff_custom_scoreblock(gui))
-    return FALSE;
+  (void)signal_structural_change(gui);
   if (gui->si->currentstaff && gui->si->currentstaff->prev)
     {
       DenemoStaff *temp;
@@ -503,8 +501,7 @@ gboolean
 splitstaffs (GtkAction *action, gpointer param)
 {
   DenemoGUI  *gui = Denemo.gui;
-  if(!confirm_insertstaff_custom_scoreblock(gui))
-    return FALSE;
+
   if (gui->si->currentstaff && gui->si->currentstaff->next)
     {
       take_snapshot();
@@ -535,8 +532,7 @@ gboolean
 joinstaffs (GtkAction *action, gpointer param)
 {
   DenemoGUI  *gui = Denemo.gui;
-  if(!confirm_insertstaff_custom_scoreblock(gui))
-    return FALSE;
+
   if (gui->si->currentstaff && gui->si->currentstaff->prev)
     {
       take_snapshot();
