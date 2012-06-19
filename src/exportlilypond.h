@@ -28,4 +28,8 @@ void delete_lily_cb (GtkAction *action, gpointer param);
 void set_lily_error(gint line, gint column, DenemoGUI *gui);
 void highlight_lily_error(DenemoGUI *gui);
 gboolean goto_lilypond_position(gint line, gint column);
+
+
+void set_initiate_scoreblock(DenemoScore *si, GString *scoreblock);
+
 #endif
