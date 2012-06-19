@@ -10,20 +10,25 @@
 #include <denemo/denemo.h>
 #include <string.h>
 /**
- * Draw a lilypond directive on the score as a vertical bar and text if appropriate
+ * Draw a standalone Denemo directive on the score as a vertical bar or graphic and/or text
  *
  */
 void
 draw_lily_dir (cairo_t *cr,
 	       gint xx, gint y, gint highy, gint lowy, DenemoObject * theobj, gboolean selected)
 {
-  lilydirective *lily = ((lilydirective *) theobj->object);
+  DenemoDirective *lily = ((lilydirective *) theobj->object);
   gchar *first = (lily->postfix && lily->postfix->len)? lily->postfix->str:" ";
+  guint layout = selected_layout_id();
+  gdouble only = lily->y?((lily->y==layout)?0.5:0.0):0.0;
+  gdouble exclude = lily->x?((lily->x==layout)?0.5:0.0):0.0;
+
   cairo_save(cr);
+    
   selected?
       cairo_set_source_rgb( cr, 0.0, 0.0, 1.0 ):
-      lily->graphic? cairo_set_source_rgb( cr, 0.0, 0.0, 0.0 ):
-          cairo_set_source_rgb( cr, 0.4, 0.5, 0.4 );
+      lily->graphic? cairo_set_source_rgb( cr, 0.0+exclude, 0.0+only, 0.0 ):
+          cairo_set_source_rgb( cr, 0.4+exclude, 0.5+only, 0.4 );
   if(lily->graphic){
     gint width = lily->graphic->width;
     gint  height = lily->graphic->height;  
