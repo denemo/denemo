@@ -37,6 +37,8 @@
 #include "prefops.h"
 #include "audiointerface.h"
 #include "sourceaudio.h"
+#include "scorelayout.h"
+
 #define INIT_SCM "init.scm"
 
 //#include "pathconfig.h"
@@ -126,7 +128,6 @@ typedef enum
 
 //FIXME remove these - use for the other way... scm_from_locale_stringn (const char *str, size_t len)
 
-static void use_markup(GtkWidget *widget);
 static void save_accels (void);
 
 #include "callbacks.h" /* callback functions menuitems that can be called by scheme */
@@ -250,6 +251,7 @@ void execute_scheme(GtkAction *action, DenemoScriptParam *param) {
 #define ToggleScript_STRING  "ToggleScript"
 
 #define TogglePrintView_STRING  "TogglePrintView"
+#define ToggleScoreLayout_STRING  "ToggleScoreLayout"
 #define ToggleLyricsView_STRING  "ToggleLyricsView"
 #define ToggleConsoleView_STRING  "ToggleConsoleView"
 
@@ -544,11 +546,17 @@ toggle_console_view (GtkAction *action, gpointer param);
 static void
 toggle_print_view (GtkAction *action, gpointer param);
 static void
+toggle_score_layout (GtkAction *action, gpointer param);
+static void
 toggle_scoretitles (GtkAction *action, gpointer param);
 
 
 gint hide_printarea_on_delete(void) {
   activate_action("/MainMenu/ViewMenu/"TogglePrintView_STRING);
+  return TRUE;
+}
+static gint hide_score_layout_on_delete(void) {
+  activate_action("/MainMenu/ViewMenu/"ToggleScoreLayout_STRING);
   return TRUE;
 }
 static void
@@ -937,6 +945,27 @@ static SCM scheme_exit(SCM optional) {
 exit(0);
 }
 
+static SCM scheme_create_layout(SCM name) {
+if(scm_is_string(name)) {
+  gchar *layout_name = scm_to_locale_string(name);
+ if(create_custom_scoreblock(layout_name))
+  return SCM_BOOL_T;
+  }
+return SCM_BOOL_F;
+}
+
+static SCM scheme_get_layout_id(void) {
+DenemoScoreblock *sb = selected_scoreblock();
+  if(sb)
+    return scm_int2num(sb->id);
+return SCM_BOOL_F;
+}
+static SCM scheme_get_layout_name(void) {
+DenemoScoreblock *sb = selected_scoreblock();
+  if(sb && sb->name)
+    return scm_from_locale_string (sb->name);
+return SCM_BOOL_F;
+}
 
 static SCM scheme_open_source (SCM link) {   
   SCM ret = SCM_BOOL_F;
@@ -3481,7 +3510,7 @@ static SCM scheme_create_timebase(SCM optional) {
 
 static SCM scheme_pending_midi(SCM scm) {
   guint key = scm_num2int(scm, 0, 0);
-  g_queue_push_head(Denemo.gui->pending_midi, key);
+  g_queue_push_head(Denemo.gui->pending_midi, (gpointer)key);
 }
 
 static SCM scheme_play_midi_note(SCM note, SCM volume, SCM channel, SCM duration) {
@@ -5360,6 +5389,10 @@ INSTALL_SCM_FUNCTION ("Generates the MIDI timings for the music of the current m
 
   INSTALL_SCM_FUNCTION ("Snapshots the current movement putting it in the undo queue returns #f if no snapshot was taken because of a guard", DENEMO_SCHEME_PREFIX"TakeSnapshot", scheme_take_snapshot);
 
+  INSTALL_SCM_FUNCTION ("Creates a custom layout from the currently selected (standard) layout if the score layouts window is open. Uses the passed name for the new layout. Returns #f if nothing happened.", DENEMO_SCHEME_PREFIX"CreateLayout", scheme_create_layout);
+  INSTALL_SCM_FUNCTION ("Returns the id of the currently selected score layout (see View->Score Layout). Returns #f if no layout is selected.", DENEMO_SCHEME_PREFIX"GetLayoutId", scheme_get_layout_id);
+  INSTALL_SCM_FUNCTION ("Returns the name of the currently selected score layout (see View->Score Layout). Returns #f if no layout is selected.", DENEMO_SCHEME_PREFIX"GetLayoutName", scheme_get_layout_name);
+
   INSTALL_SCM_FUNCTION ("Follows a link to a source file of form string \"filename:x:y:page\". It opens the file and places a marker there. ", DENEMO_SCHEME_PREFIX"OpenSource", scheme_open_source);
 
   INSTALL_SCM_FUNCTION ("Opens a source file for transcribing from. Links to this source file can be placed by shift-clicking on its contents", DENEMO_SCHEME_PREFIX"OpenSourceFile", scheme_open_source_file);
@@ -5474,9 +5507,11 @@ void inner_main(void*closure, int argc, char **argv){
 
   /* create the first tab */
   newtab (NULL, NULL);
-
-
-
+  if(Denemo.prefs.tooltip_timeout) {
+    g_object_set (gtk_widget_get_settings (Denemo.window), "gtk-tooltip-timeout", Denemo.prefs.tooltip_timeout, NULL);
+    g_object_set (gtk_widget_get_settings (Denemo.window), "gtk-tooltip-browse-timeout", Denemo.prefs.tooltip_browse_timeout, NULL);
+    g_object_set (gtk_widget_get_settings (Denemo.window), "gtk-tooltip-browse-mode-timeout", Denemo.prefs.tooltip_browse_mode_timeout, NULL);
+  }
   /*ignore setting of mode unless user has explicitly asked for modal use */
   if(!Denemo.prefs.modal)
     Denemo.prefs.mode = INPUTEDIT|INPUTRHYTHM|INPUTNORMAL;//FIXME must correspond with default in prefops.c
@@ -5739,7 +5774,7 @@ if(Denemo.gui->textwindow)
 void free_movements(DenemoGUI *gui)
 {
   GList *g;
-
+  free_scoreblocks(gui);
   for(g=gui->movements;g;g=g->next) {
     gui->si = g->data;
     gui->si->undo_guard = 1;//no undo as that is per movement
@@ -5751,14 +5786,8 @@ void free_movements(DenemoGUI *gui)
   delete_directives(&gui->paper.directives);
   g_list_free(gui->movements);
   gui->movements = NULL;
-  if(gui->custom_scoreblocks) {
-    GList *custom;
-    for(custom=gui->custom_scoreblocks;custom;custom=custom->next) {
-      g_string_free((GString*)(((DenemoScoreblock*)custom->data)->scoreblock), TRUE);
-    }
-    g_list_free(gui->custom_scoreblocks);
-    gui->custom_scoreblocks=NULL;
-  }
+  
+
       /* any other free/initializations */
 
 }
@@ -6843,17 +6872,19 @@ static void setMouseAction(ModifierAction *info) {
 
 
 static void placeOnButtonBar(GtkWidget *widget,  GtkAction *action) {
-  gchar *name = (gchar *)gtk_action_get_name(action);
-  gint idx = lookup_command_from_name(Denemo.map, name);
-  gchar *label = (gchar*)lookup_label_from_idx(Denemo.map, idx);
+    gchar *name = (gchar *)gtk_action_get_name(action);
+    gint idx = lookup_command_from_name(Denemo.map, name);
+    if(idx>0) {
+      gchar *label = (gchar*)lookup_label_from_idx(Denemo.map, idx);
 
-  gchar *scheme = g_strdup_printf("\n;To remove the %s button delete from here\n(CreateButton \"Button%s\" \"%s\")\n(d-SetDirectiveTagActionScript  \"Button%s\" \"("DENEMO_SCHEME_PREFIX"%s)\")\n;;End of delete %s button",name, name, g_strescape(label, NULL), name, name, name);
-  g_print("the scheme is \n%s\n", scheme);
-  if(!call_out_to_guile(scheme))
-    append_to_local_scheme_init(scheme);
-  else
-    warningdialog("Could not create button");
-  g_free(scheme);
+      gchar *scheme = g_strdup_printf("\n;To remove the %s button delete from here\n(CreateButton \"Button%s\" \"%s\")\n(d-SetDirectiveTagActionScript  \"Button%s\" \"("DENEMO_SCHEME_PREFIX"%s)\")\n;;End of delete %s button",name, name, g_strescape(label, NULL), name, name, name);
+      //g_print("the scheme is \n%s\n", scheme);
+      if(!call_out_to_guile(scheme))
+        append_to_local_scheme_init(scheme);
+      else
+        warningdialog("Could not create button");
+      g_free(scheme);
+    }
 }
 /* gets a name label and tooltip from the user, then creates a menuitem in the menu 
    given by the path myposition whose callback is the activate on the current scheme script.
@@ -8266,6 +8297,27 @@ toggle_print_view (GtkAction *action, gpointer param)
   return;
 }
 
+/**
+ *  Function to toggle visibility of score layout window of current gui
+ *  
+ *  
+ */
+static void
+toggle_score_layout (GtkAction *action, gpointer param)
+{
+  DenemoGUI *gui = Denemo.gui;
+  GtkWidget *w =  gui->score_layout;
+  GList *g = gtk_container_get_children (GTK_CONTAINER(w));
+  if(g==NULL) {
+    create_default_scoreblock();
+  }
+  if((!action) || gtk_widget_get_visible(w))
+    gtk_widget_hide(w);
+  else {
+    gtk_widget_show(w);
+  }
+  return;
+}
 
 /**
  *  Function to toggle visibility of lyrics view pane of current movement
@@ -8412,7 +8464,10 @@ GtkToggleActionEntry toggle_menu_entries[] = {
   {TogglePrintView_STRING, NULL, N_("Typeset Music"), NULL, NULL,
    G_CALLBACK (toggle_print_view), FALSE},
 
-  {ToggleLyricsView_STRING, NULL, N_("Lyrics"), NULL, NULL,
+  {ToggleScoreLayout_STRING, NULL, N_("Score Layout"), NULL, NULL,
+   G_CALLBACK (toggle_score_layout), FALSE},
+
+   {ToggleLyricsView_STRING, NULL, N_("Lyrics"), NULL, NULL,
    G_CALLBACK (toggle_lyrics_view), TRUE},
 
   {ToggleConsoleView_STRING, NULL, N_("Console"), NULL, NULL,
@@ -8420,6 +8475,7 @@ GtkToggleActionEntry toggle_menu_entries[] = {
 
   {ToggleScoreView_STRING, NULL, N_("Score"), NULL, NULL,
    G_CALLBACK (toggle_score_view), TRUE},
+   
   {ToggleScoreTitles_STRING, NULL, N_("Titles, Buttons etc"), NULL, NULL,
    G_CALLBACK (toggle_scoretitles), FALSE},
 
@@ -8461,13 +8517,13 @@ static GtkRadioActionEntry type_menu_entries[] = {
 };
 
 static GtkRadioActionEntry input_menu_entries[] = {
-  {"KeyboardOnly", NULL, N_("No External Input"), NULL, N_("Entry of notes via computer keyboard only"),
+  {"KeyboardOnly", NULL, N_("No External Input"), NULL, N_("Entry of notes via computer keyboard only\nIgnores connected MIDI or microphone devices."),
   INPUTKEYBOARD}
   ,
   {"Microphone", NULL, N_("Audio Input"), NULL, N_("Enable pitch entry from microphone"), INPUTAUDIO
    /*  G_CALLBACK (toggle_pitch_recognition), FALSE*/}
   ,
-  {"JackMidi", NULL, N_("Midi Input"), NULL,N_("Input of midi via Jack Audio Connection Kit"), INPUTMIDI/*G_CALLBACK (jackmidi)*/}
+  {"JackMidi", NULL, N_("Midi Input"), NULL,N_("Input from a MIDI source. Set up the source first using Edit->Change Preferences->Audio/Midi\nUse View->MIDI In Control to control what the input does.\n"), INPUTMIDI/*G_CALLBACK (jackmidi)*/}
 };
 
 struct cbdata
@@ -8517,42 +8573,7 @@ static gchar *get_most_recent_file(void) {
 static 	void show_type(GtkWidget *widget, gchar *message) {
     g_print("%s%s\n",message, widget?g_type_name(G_TYPE_FROM_INSTANCE(widget)):"NULL widget");
   }
-/* set all labels in the hierarchy below widget to use markup */
-static void use_markup(GtkWidget *widget)
-{
-  if (!widget)
-	return;
-  //show_type(widget, "Widget Type: ");
 
- 
-  //g_print("container type %x\n", GTK_IS_CONTAINER(widget));
-  //g_print("label type %x\n", GTK_IS_LABEL(widget));
-  //g_print("menu item type %x\n",GTK_IS_MENU_ITEM(widget));
-  //g_print("tool item type %x\n",GTK_IS_TOOL_ITEM(widget));
-  //g_print("descended to use markup on %p\n", widget);
-
-  if(GTK_IS_LABEL(widget)) {
-   // gtk_label_set_use_underline (GTK_LABEL (widget), FALSE); font_desc gets interpreted in GtkLabel but not GtkAccelLabel hmmm...
-    //g_print("Before we have %d\n", gtk_label_get_use_markup        (widget));
-    //gchar * label = gtk_label_get_label(widget);
-     //g_print("label before is \"%s\"\n", label);
-    
-    gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-    //g_print("after we have %d\n", gtk_label_get_use_markup        (widget));
-    //if(*label=='M')
-    //g_print("seting %p", widget),gtk_label_set_markup(widget, "hello"MUSIC_FONT("33")"ok"), show_type(widget, "should be label: "), label = gtk_label_get_label(widget),g_print("label now %s\n",label) ;
-
-  }
-  else
- if(GTK_IS_CONTAINER(widget)) {
-    GList *g = gtk_container_get_children (GTK_CONTAINER(widget));
-    for(;g;g=g->next)
-      use_markup(g->data);
-    if (GTK_IS_MENU_ITEM(widget)) {
-      use_markup(gtk_menu_item_get_submenu(GTK_MENU_ITEM(widget)));
-    }
- }
-}
 
 
 
@@ -8670,8 +8691,17 @@ static void  proxy_connected (GtkUIManager *uimanager, GtkAction *action, GtkWid
   int command_idx;
 
   attach_right_click_callback(proxy, action);
-
-
+  const gchar *tooltip = gtk_action_get_tooltip(action);
+  const gchar *additional_text;
+  if(tooltip && g_str_has_prefix(tooltip, "Menu:"))
+    additional_text = "Click here then hover over the menu items to find out what they will do";
+  else
+    additional_text = "Left click to execute the command, press a key to assign a keyboard shortcut to the command,\nright click to get a menu from which you can\ncreate a button for this command, or a two-key keyboard shortcut or more options still";
+  gchar *tip = g_strconcat ( tooltip, "\n------------------------------------------------------------------\n", additional_text,  NULL);
+   // unfortunately submenus seem not to be attached yet ... if((GTK_IS_IMAGE_MENU_ITEM(proxy)) && gtk_menu_item_get_submenu(proxy)) tip = g_strdup("test");
+   // Denemo.map is not yet created either :(
+  gtk_widget_set_tooltip_text (proxy, tip);
+  g_free(tip);
   if(GTK_IS_IMAGE_MENU_ITEM(proxy)) {
 #ifdef FAST_MACHINE
   g_signal_connect_after(action, "activate", G_CALLBACK(switch_back_to_main_window), NULL);/*ensure keyboard focus returns to drawing area */
@@ -8718,7 +8748,7 @@ gtk_box_pack_start (GTK_BOX (box), sw, FALSE, TRUE, 0);
  gtk_widget_show_all(sw);
 }
 
-GtkWidget* create_playbutton(GtkWidget *box, gchar *thelabel, gpointer callback, gchar *image) {
+static GtkWidget* create_playbutton(GtkWidget *box, gchar *thelabel, gpointer callback, gchar *image, gchar *tooltip) {
   GtkWidget *button;
   if (thelabel)
     button = gtk_button_new_with_label(thelabel);
@@ -8731,6 +8761,7 @@ GtkWidget* create_playbutton(GtkWidget *box, gchar *thelabel, gpointer callback,
   }									
   g_signal_connect(button, "clicked", G_CALLBACK(callback), NULL);
   gtk_box_pack_start (GTK_BOX(box), button, FALSE, TRUE, 0);
+  gtk_widget_set_tooltip_text(button, tooltip);
   return button;
 }
 
@@ -8924,34 +8955,35 @@ get_data_dir (),
     
     //create_playbutton(inner,NULL, pb_rewind, GTK_STOCK_MEDIA_REWIND);
 
-    create_playbutton(inner,NULL, pb_go_back, GTK_STOCK_GO_BACK);
-    create_playbutton(inner,NULL, pb_start_to_cursor, GTK_STOCK_GO_DOWN);
-    create_playbutton(inner,NULL, pb_next, GTK_STOCK_GO_FORWARD );
-    create_playbutton(inner,NULL, pb_stop, GTK_STOCK_MEDIA_STOP);
-    playbutton = create_playbutton(inner,NULL, pb_play, GTK_STOCK_MEDIA_PLAY);
-    recordbutton = create_playbutton(inner,NULL, pb_record,  GTK_STOCK_MEDIA_RECORD);
-    create_playbutton(inner,NULL, pb_previous, GTK_STOCK_GO_BACK);
-    create_playbutton(inner,NULL, pb_end_to_cursor, GTK_STOCK_GO_UP);
+    button = create_playbutton(inner,NULL, pb_go_back, GTK_STOCK_GO_BACK, _("Moves the playback start point (which shows as a green bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+    
+    create_playbutton(inner,NULL, pb_start_to_cursor, GTK_STOCK_GO_DOWN, _("Sets the playback start point (green bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+    create_playbutton(inner,NULL, pb_next, GTK_STOCK_GO_FORWARD , _("Moves the playback start point (which shows as a green bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+    create_playbutton(inner,NULL, pb_stop, GTK_STOCK_MEDIA_STOP, _("Stops the playback. On pressing play after this playback will start where the green bar is, not where you stopped. Use the Play/Pause button for that."));
+    playbutton = create_playbutton(inner,NULL, pb_play, GTK_STOCK_MEDIA_PLAY, _("Starts playing back from the playback start (green bar) until the playback end (red bar).\nWhen playing it pauses the play, and continues when pressed again."));
+    recordbutton = create_playbutton(inner,NULL, pb_record,  GTK_STOCK_MEDIA_RECORD, _("Starts playing and simultaneously records from MIDI in.\nOnce a recording is made it is played back with the score when you press Play.\nIt can be deleted with the Delete button or converted to notation with Convert\n.A MIDI recording is not saved with the Denemo score."));
+    create_playbutton(inner,NULL, pb_previous, GTK_STOCK_GO_BACK, _("Moves the playback end point (which shows as a red bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+    create_playbutton(inner,NULL, pb_end_to_cursor, GTK_STOCK_GO_UP, _("Sets the playback end point (red bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
    
-    create_playbutton(inner,NULL, pb_go_forward, GTK_STOCK_GO_FORWARD);
+    create_playbutton(inner,NULL, pb_go_forward, GTK_STOCK_GO_FORWARD, _("Moves the playback end point (which shows as a red bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
 
     //create_playbutton(inner,NULL, pb_forward, GTK_STOCK_MEDIA_FORWARD);
  
-    create_playbutton(inner,"Loop", pb_loop, NULL);
+    create_playbutton(inner,"Loop", pb_loop, NULL, _("The music between the red and green bars is played in a loop.\nYou can edit the music while it is playing\nmonitoring your changes."));
     
-    midiconductbutton = create_playbutton(inner,"Conductor", pb_conduct, NULL);
-   
+    midiconductbutton = create_playbutton(inner,"Conductor", pb_conduct, NULL, _("With the mouse conductor once you press play the playback progresses as you move the mouse around\nWith this you can speed up and slow down the playback to listen in detail to a certain passage\n"));
+    
     create_playbutton(inner,
 #ifdef _HAVE_JACK_
     "Panic"
 #else
     "Reset"
 #endif
-    , pb_panic, NULL);
+    , pb_panic, NULL, _("Resets the synthesizer, on JACK it sends a JACK panic."));
 
-
-      create_playbutton(inner, "Set From Selection", pb_set_range, NULL);
-      create_playbutton(inner, "Playback Range", pb_range, NULL);
+      
+    create_playbutton(inner, "Set From Selection", pb_set_range, NULL, _("Sets the playback range (green and red bars) to the current selection."));
+    create_playbutton(inner, "Playback Range", pb_range, NULL, _("Pops up a dialog to get timings for start and end of playback."));
     GtkWidget *temperament_control = get_temperament_combo();
     if(!gtk_widget_get_parent(temperament_control))
       //gtk_container_add (GTK_CONTAINER (inner), temperament_control);
@@ -9021,6 +9053,7 @@ get_data_dir (),
       gtk_widget_set_can_focus (label, FALSE);
       gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), label, FALSE, TRUE, 0);
       leadin = (GtkSpinButton*)gtk_spin_button_new_with_range(-2.0, 2.0, 0.01);
+      gtk_widget_set_tooltip_text(GTK_WIDGET(leadin), _("Set the number of seconds to clip from the audio, or if negative number of seconds silence before audio plays.\nThis is useful when the audio track does not begin on a barline."));
       g_signal_connect(G_OBJECT(leadin),  "value_changed", G_CALLBACK(leadin_changed), NULL);
       gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), GTK_WIDGET(leadin), FALSE, TRUE, 0);
       label = gtk_label_new (_(" secs."));
@@ -9037,8 +9070,6 @@ get_data_dir (),
     frame= (GtkFrame *)gtk_frame_new(_("Midi In Control"));
     gtk_frame_set_shadow_type((GtkFrame *)frame, GTK_SHADOW_IN);
     gtk_container_add (GTK_CONTAINER (Denemo.midi_in_control), GTK_WIDGET(frame));
-
-
 
     inner1 = gtk_vbox_new(FALSE, 1);
     gtk_container_add (GTK_CONTAINER (frame), inner1);
@@ -9057,10 +9088,12 @@ get_data_dir (),
       gtk_label_set_use_markup (GTK_LABEL (midi_in_status), TRUE);
       gtk_box_pack_start (GTK_BOX(hbox), midi_in_status, FALSE, TRUE, 0);
      
-      midiplayalongbutton = create_playbutton(hbox, _("Switch to Play Along Playback"), pb_playalong, NULL);
-
-      deletebutton = create_playbutton(hbox, "Delete", pb_midi_delete, NULL);
-      convertbutton = create_playbutton(hbox, "Convert", pb_midi_convert, NULL);
+      midiplayalongbutton = create_playbutton(hbox, _("Switch to Play Along Playback"), pb_playalong, NULL, _("When in playalong mode, on clicking Play, the music plays until it reaches the Denemo cursor\nFrom then on you must play the notes at the cursor to progress the playback.\nSo if you set the cursor on the first note of the part you want to play, then once you have pressed play you can play along with Denemo, with Denemo filling in the other parts and waiting if you play a wrong note."));
+      
+      deletebutton = create_playbutton(hbox, "Delete", pb_midi_delete, NULL, _("Delete the MIDI recording you have made."));
+      
+      convertbutton = create_playbutton(hbox, "Convert", pb_midi_convert, NULL, _("Convert the MIDI recording you have made to notation."));
+      
       gtk_widget_show_all (Denemo.midi_in_control);
       gtk_widget_show_all (Denemo.playback_control);
       gtk_widget_hide(deletebutton);
@@ -9247,6 +9280,11 @@ newtab (GtkAction *action, gpointer param) {
   gui->id = id++;//uniquely identifies this musical score editor for duration of program.
   gui->mode = Denemo.prefs.mode;
   gui->pending_midi = g_queue_new();
+  gui->score_layout = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title (GTK_WINDOW (gui->score_layout), "Score Layout");
+  g_signal_connect (G_OBJECT (gui->score_layout), "delete-event",
+		    G_CALLBACK (hide_score_layout_on_delete), NULL);
+        
   Denemo.guis = g_list_append (Denemo.guis, gui);
   
 
