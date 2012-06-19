@@ -17,8 +17,8 @@
 	  (if (&lt; number response)
 	      (loop (+ 1 number))))	
 	(ForAllMovements staffs)
-	;;(ForAllMovements "(d-MovementPageBreak #t)")
 	(d-TypesetForScript "(d-PrintAccompanistsScore)")
+	(d-CreateLayout (string-append "Accompanist with " (number-&gt;string response) " cue part" ))
 	(ForAllMovements staffs)
 	(d-SetSaved saved))))
 </scheme>

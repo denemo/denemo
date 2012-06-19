@@ -23,12 +23,14 @@ Use commas for octave(s) down,
 single-quotes for octave(s) up
 e.g. c c' means octave up.
 " Transpose::Interval))
+(if Transpose::Interval
+  (begin
   (set! lily (string-append  "\\transpose " Transpose::Interval " "))
   (set! text (string-append  "Print transposed:  " Transpose::Interval " "))
   (d-DirectivePut-score-postfix  "TransposeScorePrint" lily)
   (d-DirectivePut-score-display  "TransposeScorePrint" text)
   (d-DirectivePut-score-override  "TransposeScorePrint" DENEMO_OVERRIDE_GRAPHIC)
-  (d-SetSaved #f))
+  (d-SetSaved #f))))
 </scheme>
         <label>(Print) Transposed</label>
         <tooltip>Prints the score transposed by the interval selected by SetTransposeIntervalFromSelection</tooltip>

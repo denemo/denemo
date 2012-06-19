@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>OnlyForLayout</after>
+        <action>ForAllLayouts</action>
+        <scheme>;;;;;;;; ForAllLayouts
+ (let ((tag (d-DirectiveGetTag-standalone)) )
+  (if tag
+	(begin
+		(d-DirectivePut-standalone-x tag 0)
+		(d-DirectivePut-standalone-y tag 0))))
+(d-RefreshDisplay)</scheme>
+        <label>Reset for All Layouts</label>
+        <tooltip>Clears conditional behavior of this layout. The Directive will apply to all score layouts.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

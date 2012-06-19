@@ -14,7 +14,7 @@
 (d-SetSaved #f)	
 </scheme>
         <label>Point and Click (Off/On)</label>
-        <tooltip>When on, clicking on the pdf output executes a command to run an editor on the LilyPond at the relevant point. Not yet integrated in Denemo.</tooltip>
+        <tooltip>When on, clicking on a note in the Print Preview window takes the cursor to that note\nThis works also for Rehearsal Marks and many other objects in the score. The only reason to turn it off is for export to PDF file via the Export menu. However, using print to file is a better way of doing this as thenit is not needed.</tooltip>
       </row>
     </map>
   </merge>

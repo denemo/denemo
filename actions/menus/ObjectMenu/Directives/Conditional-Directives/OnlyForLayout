@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>NotForLayout</after>
+        <action>OnlyForLayout</action>
+        <scheme>;;;;;;;; OnlyForLayout
+ (let ((tag (d-DirectiveGetTag-standalone)) ( id (d-GetLayoutId)))
+  (if tag
+	(d-DirectivePut-standalone-y tag id)))
+(d-RefreshDisplay)</scheme>
+        <label>Exclusive to Current Layout</label>
+        <tooltip>The Denemo Directive at the cursor will only apply to the current Score Layout (see View-&gt;Score Layout)</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

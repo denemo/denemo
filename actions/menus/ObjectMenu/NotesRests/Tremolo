@@ -35,7 +35,7 @@
  
 </scheme>
         <label>Tremolo</label>
-        <tooltip>Inserts LilyPond directive to make preceding note tremolo.\nGive the duration of the subdivisions required using a duration key.</tooltip>
+        <tooltip>Follow with a duration key for the subdivisions required: prints the note at the cursor with the tremolo marking.</tooltip>
       </row>
     </map>
   </merge>

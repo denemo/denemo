@@ -14,7 +14,7 @@
 (d-DirectivePut-standalone-ty "StartStaff" 40)
 (d-RefreshDisplay)</scheme>
         <label>Show Ossia</label>
-        <tooltip>Place this at the end of the music to be printed from the Ossia staff</tooltip>
+        <tooltip>Place this at the start of the music to be printed from the Ossia staff</tooltip>
       </row>
     </map>
   </merge>
