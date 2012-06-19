@@ -1081,7 +1081,7 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
       <row>
         <action>Save</action>
         <label>Save</label>
-        <tooltip>Save the score</tooltip>
+        <tooltip>Save the score. The score is saved to disk in XML format.</tooltip>
       </row>
       <row>
         <action>SaveAs</action>
@@ -1161,7 +1161,7 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
       <row>
         <action>PrintPreview</action>
         <label>Print Preview</label>
-        <tooltip>Displays the final finished score in your pdf viewer</tooltip>
+        <tooltip>Displays the final finished score in your pd viewer</tooltip>
       </row>
       <row>
         <action>PrintView</action>
@@ -1191,7 +1191,7 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
       <row>
         <action>PrintPart</action>
         <label>Print Part</label>
-        <tooltip>Displays the final finished score for the current part (that is current staff</tooltip>
+        <tooltip>Typesets the current part (the one containing the cursor).</tooltip>
       </row>
       <row>
         <action>Close</action>
@@ -1216,23 +1216,25 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
       <row>
         <action>Copy</action>
         <label>Copy</label>
-        <tooltip>Copy</tooltip>
+        <tooltip>Copy the music selected to the Denemo clipboard</tooltip>
       </row>
       <row>
         <action>Cut</action>
         <label>Cut</label>
-        <tooltip>Cut</tooltip>
+        <tooltip>Cut the music selected to the Denemo clipboard</tooltip>
       </row>
       <row>
         <action>Paste</action>
         <scheme></scheme>
         <label>Paste</label>
-        <tooltip>Paste the selected music</tooltip>
+        <tooltip>Paste the Denemo clipboard into the score where the cursor is positioned</tooltip>
       </row>
       <row>
         <action>PasteClipboard</action>
         <label>Paste LilyPond notes</label>
-        <tooltip>Paste LilyPond notes from the text clipboard</tooltip>
+        <tooltip>Paste LilyPond notes from the text clipboard
+This will import music written as LilyPond syntax
+You open the LilyPond file in a texteditor, copy the stretch of notes (control-c command in your texteditor usually) and then use this command.</tooltip>
       </row>
       <row>
         <action>ScoreProperties</action>
@@ -1247,7 +1249,8 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
       <row>
         <action>Preferences</action>
         <label>Change Preferences</label>
-        <tooltip>Set and save your preferences for how Denemo operates on startup. Edit .denemo/denemorc for missing ones</tooltip>
+        <tooltip>Set and save your preferences for how Denemo operates on startup.
+Advanced users can edit .denemo-XXXX/denemorc for missing ones</tooltip>
       </row>
       <row>
         <action>SaveAccels</action>
@@ -1262,7 +1265,9 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
       <row>
         <action>SwapStaffs</action>
         <label>Swap Staffs</label>
-        <tooltip>Swap this staff with the one higher up. Note this actually swaps voices.</tooltip>
+        <tooltip>Swap this staff with the one higher up.
+Be aware that if you have inserted directives to move a voice to another staff
+these may need re-making.</tooltip>
       </row>
       <row>
         <action>SplitVoices</action>
@@ -2996,7 +3001,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/StaffMenu/Ossia</menupath>
         <label>Show Ossia</label>
-        <tooltip>Place this at the end of the music to be printed from the Ossia staff</tooltip>
+        <tooltip>Place this at the start of the music to be printed from the Ossia staff</tooltip>
       </row>
       <row>
         <action>HideOssia</action>
@@ -3657,7 +3662,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests</menupath>
         <label>Tremolo</label>
-        <tooltip>Inserts LilyPond directive to make preceding note tremolo.\nGive the duration of the subdivisions required using a duration key.</tooltip>
+        <tooltip>Follow with a duration key for the subdivisions required: prints the note at the cursor with the tremolo marking.</tooltip>
       </row>
       <row>
         <action>TypesettingOff</action>
@@ -4145,7 +4150,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>VoicePresetAutomatic</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <menupath>/ObjectMenu/Directives/Voices</menupath>
         <label>Voice Preset Automatic</label>
         <tooltip>Automatic voice preset. Resets to normal behaviour.</tooltip>
       </row>
@@ -4153,7 +4158,7 @@ for second and subsequent systems</tooltip>
         <action>VoicePreset1</action>
         <after>VoicePresetAutomatic</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <menupath>/ObjectMenu/Directives/Voices</menupath>
         <label>Voice Preset 1 (Stems Up)</label>
         <tooltip>Preset for first voice. Stems up</tooltip>
       </row>
@@ -4161,7 +4166,7 @@ for second and subsequent systems</tooltip>
         <action>VoicePreset2</action>
         <after>VoicePreset1</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <menupath>/ObjectMenu/Directives/Voices</menupath>
         <label>Voice Preset 2 (Stems Down)</label>
         <tooltip>Preset for second voice. Stems down.</tooltip>
       </row>
@@ -4169,7 +4174,7 @@ for second and subsequent systems</tooltip>
         <action>VoicePreset3</action>
         <after>VoicePreset2</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <menupath>/ObjectMenu/Directives/Voices</menupath>
         <label>Voice Preset 3 (Stems Up)</label>
         <tooltip>Preset for third voice. Stems up.</tooltip>
       </row>
@@ -4177,7 +4182,7 @@ for second and subsequent systems</tooltip>
         <action>VoicePreset4</action>
         <after>VoicePreset3</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <menupath>/ObjectMenu/Directives/Voices</menupath>
         <label>Voice Preset 4 (Stems Down)</label>
         <tooltip>Preset for voice four. Stems down.</tooltip>
       </row>
@@ -4215,7 +4220,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>VoicesDoublestroke</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <menupath>/ObjectMenu/Directives/Voices</menupath>
         <label>Voice Preset</label>
         <tooltip>Choose a preset for four voices or automatic voice.</tooltip>
       </row>
@@ -5295,7 +5300,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/Score</menupath>
         <label>Point and Click (Off/On)</label>
-        <tooltip>When on, clicking on the pdf output executes a command to run an editor on the LilyPond at the relevant point. Not yet integrated in Denemo.</tooltip>
+        <tooltip>When on, clicking on a note in the Print Preview window takes the cursor to that note. This works also for Rehearsal Marks and many other objects in the score. The only reason to turn it off is for export to PDF file via the Export menu. However, using print to file is a better way of doing this as thenit is not needed.</tooltip>
       </row>
       <row>
         <action>ShiftNext</action>
@@ -5913,6 +5918,70 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotesRests/GraceNotes</menupath>
         <label>Grace/UnGrace</label>
         <tooltip>Changes the note at the cursor to/from being a grace note. Gives audio feedback.</tooltip>
+      </row>
+      <row>
+        <action>NotForLayout</action>
+        <after>PageBreak</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/Conditional-Directives</menupath>
+        <label>Ignore for Current Layout</label>
+        <tooltip>The Denemo Directive at the cursor will be ignored when printing from the current score layout (See View-&gt;Score Layout)</tooltip>
+      </row>
+      <row>
+        <action>OnlyForLayout</action>
+        <after>NotForLayout</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/Conditional-Directives</menupath>
+        <label>Exclusive to Current Layout</label>
+        <tooltip>The Denemo Directive at the cursor will only apply to the current Score Layout (see View-&gt;Score Layout)</tooltip>
+      </row>
+      <row>
+        <action>ForAllLayouts</action>
+        <after>OnlyForLayout</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/Conditional-Directives</menupath>
+        <label>Reset for All Layouts</label>
+        <tooltip>Clears conditional behavior of this layout. The Directive will apply to all score layouts.</tooltip>
+      </row>
+      <row>
+        <action>VoiceOne</action>
+        <after>JoinVoices</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>Voice One</label>
+        <tooltip>Sets the (initial) voice of the staff to be voice one (this affects stems up, slurs etc on printing)</tooltip>
+      </row>
+      <row>
+        <action>VoiceTwo</action>
+        <after>VoiceOne</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>Voice Two</label>
+        <tooltip>Sets the (initial) voice of the staff to be voice two (this affects stems down, slurs etc on printing)</tooltip>
+      </row>
+      <row>
+        <action>VoiceThree</action>
+        <after>VoiceTwo</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>Voice Three</label>
+        <tooltip>Sets the (initial) voice of the staff to be voice three (this affects stems up, slurs etc on printing)</tooltip>
+      </row>
+      <row>
+        <action>VoiceFour</action>
+        <after>VoiceThree</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>Voice Four</label>
+        <tooltip>Sets the (initial) voice of the staff to be voice four (this affects stems down, slurs etc on printing)</tooltip>
+      </row>
+      <row>
+        <action>VoiceAuto</action>
+        <after>VoiceFour</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>Automatic Voice</label>
+        <tooltip>Undoes the effect of the VoiceOne, Two ... commands. The voice has variable stem direction, slur placement etc.</tooltip>
       </row>
     </map>
   </merge>
