@@ -57,7 +57,7 @@ BOM_UTF8			\357\273\277
 \\paper{WHITE}*\{         (lyimport::start_block) (lyimport::multilexer)
 \\layout{WHITE}*\{         (lyimport::start_block) (lyimport::multilexer)
 \\header{WHITE}*\{         (lyimport::start_block) (lyimport::multilexer)
-
+\\midi{WHITE}*\{         (lyimport::start_block) (lyimport::multilexer) 
 \\markup{WHITE}*\{         (lyimport::start_block)  (lyimport::mtoken 'MARKUP ((record-accessor lexical-token 'value)(lyimport::multilexer)))
 
 \\version{WHITE}*.*{NEWLINE} (lyimport::mtoken 'VERSION	yytext) ; in lilypond it is a state switch yy_push_state (version)
@@ -128,7 +128,8 @@ _							(lyimport::mtoken 'UNDERSCORE yytext)
 
 ,							(lyimport::mtoken 'SUB_QUOTE yytext)
 '							(lyimport::mtoken 'SUP_QUOTE yytext)	
-\+							(lyimport::mtoken 'PLUS yytext)
+;\+							(lyimport::mtoken 'PLUS yytext)
+\+							(lyimport::mtoken 'STRING yytext)
 
 ({WHITE}|{NEWLINE})			(yycontinue);(lyimport::mtoken 'WHITESPACE yytext)
 .							(lyimport::mtoken 'ANYTHING yytext) ; in lilypond there is no token name
