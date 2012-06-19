@@ -2067,6 +2067,12 @@ static gboolean set_int (GtkSpinButton *widget,  gint *val)  {
   return TRUE;
 }
 
+static gboolean set_uint (GtkSpinButton *widget,  guint *val)  {
+  *val = (guint)gtk_spin_button_get_value (widget);
+  return TRUE;
+}
+
+
 static gchar* quote_scheme(gchar *s) {
   GString *dest = g_string_new("");
   gchar *c;
@@ -2190,7 +2196,7 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
 #define CREATE_SCRIPT (2)
   DenemoDirective *clone = clone_directive(directive);//for reset
  
-  GtkWidget *dialog = gtk_dialog_new_with_buttons ("Primitive Denemo Directive Edit",
+  GtkWidget *dialog = gtk_dialog_new_with_buttons ("Low Level Denemo Directive Edit",
                                         GTK_WINDOW (Denemo.window),
                                         (GtkDialogFlags) (GTK_DIALOG_MODAL |
                                                        GTK_DIALOG_DESTROY_WITH_PARENT),
@@ -2236,7 +2242,16 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (entrywidget), directive->field);\
   gtk_box_pack_start (GTK_BOX (hbox), entrywidget, TRUE, TRUE, 0);\
   g_signal_connect(G_OBJECT(entrywidget), "value-changed", G_CALLBACK(set_int), &directive->field);
-
+#define NEWUINTENTRY(thelabel, field)\
+  hbox = gtk_hbox_new (FALSE, 8);\
+  gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);\
+  label = gtk_label_new (_(thelabel));\
+  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
+  entrywidget = gtk_spin_button_new_with_range (0.0, (gdouble)G_MAXUINT, 1.0);\
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (entrywidget), *(guint*)&directive->field);\
+  gtk_box_pack_start (GTK_BOX (hbox), entrywidget, TRUE, TRUE, 0);\
+  g_signal_connect(G_OBJECT(entrywidget), "value-changed", G_CALLBACK(set_uint), &directive->field);
 #define ADDINTENTRY(thelabel, fieldx, fieldy)\
   label = gtk_label_new (_(thelabel));\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
@@ -2266,6 +2281,8 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
   TEXTENTRY("MidiBytes", midibytes);
   NEWINTENTRY("Override Mask", override);
   NEWINTENTRY("Minimum pixel width", minpixels);
+  NEWUINTENTRY("Only Applies to Layout", y);
+  NEWUINTENTRY("Ignored by Layout", x);
 #undef TEXTENTRY
   hbox = gtk_hbox_new (FALSE, 8);
   gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);
