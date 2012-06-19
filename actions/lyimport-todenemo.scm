@@ -88,11 +88,20 @@
  
    (define (do-set current_object)
 	(disp "Set found: " current_object)
-	(case (string->symbol (car current_object))
-		((Staff.instrumentName) (string-append "(AttachDirective \"staff\" \"postfix\" \"InstrumentName\"  \"\\\\set Staff.instrumentName = \\\""(cdr current_object)"\\\"\" DENEMO_OVERRIDE_GRAPHIC)")) ; what a string madness...
-		((Staff.shortInstrumentName) (string-append "(AttachDirective \"staff\" \"postfix\" \"ShortInstrumentName\"  \"\\\\set Staff.shortInstrumentName = \\\""(cdr current_object)"\\\"\" DENEMO_OVERRIDE_GRAPHIC)")) ; what a string madness...
+	;;; unfortunately this will create broken scheme for various sorts of input involving markup, quotes and { } so we will abandon it
+#!
+	(if (pair? current_object)
+	  (case (string->symbol (car current_object)); !!!!!!!!!!!!FIXME the double quotes won't do!!!!!!!!!
+		((Staff.instrumentName) (string-append "(AttachDirective \"staff\" \"postfix\" \"InstrumentName\"  \"\\\\set Staff.instrumentName = \\\""(scheme-escape (cdr current_object))"\\\"\" DENEMO_OVERRIDE_GRAPHIC)")) ; what a string madness...
+		((Staff.shortInstrumentName) (string-append "(AttachDirective \"staff\" \"postfix\" \"ShortInstrumentName\"  \"\\\\set Staff.shortInstrumentName = \\\""(scheme-escape (cdr current_object))"\\\"\" DENEMO_OVERRIDE_GRAPHIC)")) ; what a string madness...
 		(else "") ;;;many more are possible e.g. PianoStaff.instrumentName ...
-   ))
+	  )
+      ";not handled"
+
+   )
+!#
+";not handled\n"
+   )
  
  
   
@@ -123,7 +132,7 @@
 
 
   (define (do-duration-rest thedur)
-  (format #t "rest of ~a\n" (list-ref thedur 0))
+  ;(format #t "rest of ~a\n" (list-ref thedur 0))
     (if (equal? thedur "")
 	";unknown rest\n\n"
 	(begin
@@ -247,12 +256,13 @@
 
 
   (define (loop-through current_object)
-    ;(format #t "~% ------------ ~% current object ~a which is list?~a~%pair?~a~%" current_object (list? current_object)  (pair? current_object))
+  ;(format #t "~% ------------ ~% current object ~a which is list?~a~%pair?~a~%" current_object (list? current_object)  (pair? current_object))
     ;; (if (eqv?  current_object 'x_COMPOSITE_MUSIC)  
     ;;	 " "
 
 ;;;;;; first tokens
-    
+       ;(if (eqv?  current_object 'x_APPLY_CONTEXT)  
+    	; " "
 
 ;;;;;;; Next pairs that are lists
 
@@ -261,6 +271,11 @@
     (if (list? current_object)
 	(begin
 	  (cond
+	  ((eqv? (car current_object) 'x_APPLY_CONTEXT) "")
+	  ((eqv? (car current_object) 'x_OVERRIDE) "")
+	   ((eqv? (car current_object) 'x_SET) "")
+	   ((eqv? (car current_object) 'x_TEMPO) "")
+	   
 	   ((eqv? (car current_object) 'x_MOVEMENT)	  (let ((temp #f))
 ;(format #t "the movement has tail ~a~%~%" (list-tail current_object 1) )
 							    (set! temp 
@@ -269,7 +284,14 @@
 							    temp
 							    ))
 	   
-	   ((or (eqv? (car current_object) 'NEWCONTEXT)  (eqv? (car current_object) 'CONTEXT))    (new-context (cadr current_object)))
+	   ((or (eqv? (car current_object) 'NEWCONTEXT)  (eqv? (car current_object) 'CONTEXT))
+
+
+           ;;;I get this structure in   (((CONTEXT "Score" "" "")
+	;;;					(x_APPLY_CONTEXT set-bar-number-visibility 2))) a list of pairs, so is the problem further up.
+
+;(format #t "context is ~a compare ~a \n" (car current_object) current_object)
+	   (new-context (cadr current_object)))
 	   
 	   ((eqv? (car current_object) 'x_SEQUENTIAL)		(begin
 								  ;(format #t "the sequential list has ~a~% ~%"  (cdr current_object))
@@ -345,7 +367,7 @@
 							 (if (pair? (list-ref thedur 2))							    
 							  (begin
 							  (set! thedur  (list-ref thedur 2))							  
-							  (format #t "x_REST with dur is ~a~%"  thedur)
+							  ;(format #t "x_REST with dur is ~a~%"  thedur)
 							  (if (number? (car thedur))
 							       (string-append "(set! lyimport::nonotes #f)" (do-duration-rest thedur) (do-dots thedur))
 							     

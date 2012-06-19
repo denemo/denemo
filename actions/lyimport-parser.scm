@@ -237,9 +237,9 @@ GRACE
 BLOCK
 CLEF
 BAR
-DBLQUOTE
+;DBLQUOTE
 FERMATA
-
+APPLY_CONTEXT
 
 ;;;;;;; Nils tokens for Denemo
 WHITESPACE { } ERROR VERSION
@@ -360,7 +360,7 @@ HYPHEN
 )
 
  (tempo_event
-	(TEMPO steno_duration EQUAL bare_unsigned) : (lyimport::error "TEMPO dur = number")  ;	$$ = MAKE_SYNTAX ("tempo", @$, SCM_BOOL_F, $2, scm_int2num ($4));
+	(TEMPO steno_duration EQUAL bare_unsigned) : (cons 'x_TEMPO $2);(lyimport::error "TEMPO dur = number")  ;	$$ = MAKE_SYNTAX ("tempo", @$, SCM_BOOL_F, $2, scm_int2num ($4));
 	(TEMPO string steno_duration EQUAL bare_unsigned) : (lyimport::error "TEMPO strin dur = number") ; $$ = MAKE_SYNTAX ("tempo", @$, make_simple_markup($2), $3, scm_int2num ($5));
 	;(TEMPO full_markup steno_duration EQUAL bare_unsigned) : "" ;	$$ = MAKE_SYNTAX ("tempo", @$, $2, $3, scm_int2num ($5));
 	(TEMPO string) : "" ;	$$ = MAKE_SYNTAX ("tempoText", @$, make_simple_markup($2) );
@@ -417,7 +417,9 @@ HYPHEN
     (MUSIC_IDENTIFIER)				: $1
     (music_property_def)			: $1
     (context_change)				: $1
-    ;;(STRING) : $1 ;;;this would be illegal syntax in music, but allowed in lyrics mode. This line causes a heap of shift/reduce conflicts, it is not sure that these resolve ok.		
+    ;;(STRING) : $1 ;;;this would be illegal syntax in music, but allowed in lyrics mode. This line causes a heap of shift/reduce conflicts, it is not sure that these resolve ok.
+    ;;(CONTEXT APPLY_CONTEXT SCM_TOKEN) :  ???? so as to parse this ...
+    ;;\context Score \applyContext #(set-bar-number-visibility 2)	
  )
 
 	
@@ -547,7 +549,9 @@ HYPHEN
 	(CHANGE STRING EQUAL STRING) : (cons 'x_CHANGE (string-append $2 $3 $4))  ;		$$ = MAKE_SYNTAX ("context-change", @$, scm_string_to_symbol ($2), $4);
   )
 
-;; property_path:
+  (property_path
+  (SCM_TOKEN) : $1
+)
 ;; property_operation:
 ;; context_def_mod:
 ;; context_mod:
@@ -558,8 +562,9 @@ HYPHEN
  )
 
  (simple_music_property_def
-	;(OVERRIDE context_prop_spec property_path EQUAL scalar) : (lyimport::error "x_OVERRIDE"); (cons 'x_OVERRIDE (cons (cons $2 $3) $5))
+	(OVERRIDE context_prop_spec property_path EQUAL scalar) :  (cons 'x_OVERRIDE (cons (cons $2 $3) $5))
 	(REVERT context_prop_spec embedded_scm) : (lyimport::error "x_REVERT"); (cons 'x_REVERT (cons $2 $3))
+	(APPLY_CONTEXT embedded_scm) : (cons 'x_APPLY_CONTEXT $2)
 	(SET context_prop_spec EQUAL scalar) :  (cons 'x_SET (cons $2 $4))
 	(UNSET context_prop_spec) :  (lyimport::error "x_UNSET"); (cons 'x_UNSET $2)
 )
@@ -652,8 +657,8 @@ HYPHEN
  (command_element
 	(command_event) : $1
 	(SKIP duration_length) : (cons 'x_SKIP $2)    ;	$$ = MAKE_SYNTAX ("skip-music", @$, $2);
-	(BRACKET_OPEN) : (cons 'x_BRACKET_OPEN $1) ;	Music *m = MY_MAKE_MUSIC ("LigatureEvent", @$); m->set_property ("span-direction", scm_from_int (START)); 	$$ = m->unprotect();
-	(BRACKET_CLOSE) : (cons 'x_BRACKET_CLOSE $1) ; Music *m = MY_MAKE_MUSIC ("LigatureEvent", @$); m->set_property ("span-direction", scm_from_int (STOP));	$$ = m->unprotect ();
+	;(BRACKET_OPEN) : (cons 'x_BRACKET_OPEN $1) ;	Music *m = MY_MAKE_MUSIC ("LigatureEvent", @$); m->set_property ("span-direction", scm_from_int (START)); 	$$ = m->unprotect();
+	;(BRACKET_CLOSE) : (cons 'x_BRACKET_CLOSE $1) ; Music *m = MY_MAKE_MUSIC ("LigatureEvent", @$); m->set_property ("span-direction", scm_from_int (STOP));	$$ = m->unprotect ();
 	(E_BACKSLASH) : (lyimport::error "E_BACKSLASH") ; $$ = MAKE_SYNTAX ("voice-separator", @$, SCM_UNDEFINED);
 	(PIPE)		: (cons 'x_BARLINE $1) ; look in parser.yy 
 	(PARTIAL duration_length): (cons 'x_PARTIAL (cons (list-ref $2 0) (list-ref $2 1))) ; we get a list here: (duration numberofdots) Moment m = - unsmob_duration ($2)->get_length (); 		$$ = MAKE_SYNTAX ("property-operation", @$, SCM_BOOL_F, ly_symbol2scm ("Timing"), ly_symbol2scm ("PropertySet"), ly_symbol2scm ("measurePosition"), m.smobbed_copy ()); 	$$ = MAKE_SYNTAX ("context-specification", @$, ly_symbol2scm ("Score"), SCM_BOOL_F, $$, SCM_EOL, SCM_BOOL_F);
@@ -701,12 +706,16 @@ HYPHEN
   ;many things are missing here
   (OPEN)   : $1
   (CLOSE)   : $1
+  (BRACKET_OPEN)   : $1
+  (BRACKET_CLOSE)  : $1
   (MARKUP) : $1
   (script_dir direction_reqd_event) :  (cond ((equal? $1 'UP) (string-append "^" $2)) ;!!!!!!!! take the \" out of here and require the direction_reqd_event to have them already, then you can have \markup here via gen_text_def and it won't get surrounded by quotes...
 					     ((equal? $1 'DOWN) (string-append "_" $2))
 					     ((equal? $1 'CENTER) (string-append "-" $2)))
   (string_number_event) : $1 
   (FERMATA) : $1
+
+
  )
   
 

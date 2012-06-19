@@ -168,10 +168,13 @@
 		((string-ci=? "markuplines" yytext) (lyimport::mtoken 'MARKUPLINES yytext))
 		((string-ci=? "notemode" yytext) (lyimport::mtoken 'NOTEMODE yytext))
 		((string-ci=? "octave" yytext) (lyimport::mtoken 'OCTAVE yytext))
-		
+		((string-ci=? "applyContext" yytext) (lyimport::mtoken 'APPLY_CONTEXT yytext))
 		; Denemo specific
 		;; we have to swallow # and an embedded scheme integer following barNumberCheck 
-		((string-ci=? "barNumberCheck" yytext) (begin (let loop ((c #f)) (set! c (lexer-getc)) (if (char-whitespace? c) (loop c)))   (read (make-soft-port (vector #f #f #f  (lambda () (lexer-getc)) #f) "r"))(lyimport::multilexer)))
+		((string-ci=? "barNumberCheck" yytext)
+
+		    (begin (let loop ((c #f)) (set! c (lexer-getc)) (if (char-whitespace? c) (loop c)))   (read (make-soft-port (vector #f #f #f  (lambda () (lexer-getc)) #f) "r"))(lyimport::multilexer)))
+		
 		
         ;If its not a known keyword its probably a user assignment:
         ((hashq-ref lyimport::AssignmentTable (string->symbol yytext)) (lyimport::as-eval yytext))
@@ -182,14 +185,14 @@
         ;If its not a keyword, assignment or special identifier then its wrong				
 	;	(else (begin (display (string-append "error: Unknown word: " yytext " (Line: "(number->string (lexer-get-line)) " Column: " (number->string ;(lexer-get-column)) ")\n"))(lyimport::multilexer))
 	;	)
-
-		(else (lyimport::mtoken 'DENEMODIRECTIVE (string-append "\\" yytext))
+	      (else (lyimport::multilexer)
+		;(else (lyimport::mtoken 'DENEMODIRECTIVE (string-append "\\" yytext))
 		)
 		
 	)
 )
 
-(define (lyimport::scan_bare_word yytext)
+(define (lyimport::scan_bare_word yytext) 
 	;Helper function to test if the string matches any string of a list of strings, the notenames.
 	(define (notename_pitch? yytext)
 		(let loop ((counter 0))			
