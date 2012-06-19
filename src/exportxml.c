@@ -601,8 +601,8 @@ void newVoiceProps (xmlNodePtr parentElem, xmlNsPtr ns, DenemoStaff *curStaffStr
 	  
     if(curStaffStruct->voice_directives)
 	    newDirectivesElem(curElem, ns,curStaffStruct->voice_directives, "voice-directives");
-      if(curStaffStruct->clef.directives)
-	    newDirectivesElem(curElem, ns,curStaffStruct->voice_directives, "clef-directives");
+    if(curStaffStruct->clef.directives)
+	    newDirectivesElem(curElem, ns,curStaffStruct->clef.directives, "clef-directives");
 }
 /**
  * Output a notehead element of the form:
@@ -767,9 +767,15 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 
   GList *custom;
   for(custom=g_list_last(gui->custom_scoreblocks);custom;custom=custom->prev) {
-    xmlNewTextChild (scoreElem, ns, (xmlChar *)"custom_scoreblock", (xmlChar *)((GString*)(((DenemoScoreblock*)custom->data)->scoreblock)->str));
-    if(((DenemoScoreblock*)custom->data)->visible)
-      xmlNewChild (scoreElem, ns, (xmlChar *)"visible_scoreblock", NULL);
+    GString *lilypond = (GString*)(((DenemoScoreblock*)custom->data)->lilypond);
+    if(lilypond==NULL) refresh_lilypond((DenemoScoreblock*)custom->data);
+    lilypond = (GString*)(((DenemoScoreblock*)custom->data)->lilypond);
+    if(lilypond)
+      xmlNewTextChild (scoreElem, ns, (xmlChar *)"custom_scoreblock", (xmlChar *)(lilypond->str));
+    else
+      g_warning("Custom Scoreblock with no LilyPond text");
+   // if(((DenemoScoreblock*)custom->data)->visible)
+   //   xmlNewChild (scoreElem, ns, (xmlChar *)"visible_scoreblock", NULL);
   }
   //  if(gui->custom_prolog && gui->custom_prolog->len)
   //   xmlNewChild (scoreElem, ns, "custom_prolog", (xmlChar *)gui->custom_prolog->str);
