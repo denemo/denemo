@@ -421,17 +421,11 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
 }
 
 
-gboolean confirm_insertstaff_custom_scoreblock(DenemoGUI *gui) {
-  if(gui->custom_scoreblocks)
-    return confirm("Custom LilyPond Score Block", "You will need to edit the LilyPond text to make this change show in the print-out. Proceed?");
+gboolean signal_structural_change(DenemoGUI *gui) {
+  gui->layout_sync = gui->changecount;
   return TRUE;
 }
 
-gboolean confirm_deletestaff_custom_scoreblock(DenemoGUI *gui) {
-  if(gui->custom_scoreblocks)
-    return confirm("Custom LilyPond Score Block", "You will need to edit the LilyPond text to delete any reference to the deleted staff(s) in the scoreblock. Proceed?");
-  return TRUE;
-}
 
 
 /**
@@ -448,8 +442,7 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
   DenemoScore *si = gui->si;
   DenemoStaff *curstaffstruct = si->currentstaff->data;
  
-  if(interactive && !confirm_deletestaff_custom_scoreblock(gui))
-    return;
+  (void)signal_structural_change(gui);
   if(si->currentstaff==NULL)
     return;
   
@@ -627,8 +620,8 @@ void
 newstaffbefore (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  if(!confirm_insertstaff_custom_scoreblock(gui))
-    return;
+  (void)signal_structural_change(gui);
+   
   movetostart(NULL, NULL);
   newstaff (gui, BEFORE, DENEMO_NONE);
   if(gui->si->currentstaffnum>= gui->si->top_staff)
@@ -653,7 +646,7 @@ void
 dnm_newstaffafter (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  if(!confirm_insertstaff_custom_scoreblock(gui))
+  if(!signal_structural_change(gui))
     return;
   movetostart(NULL, NULL);
   newstaff (gui, AFTER, DENEMO_NONE);
