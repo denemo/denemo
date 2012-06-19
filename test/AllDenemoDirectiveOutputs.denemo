@@ -118,8 +118,8 @@
             <directives>
               <directive>
                 <tag>test</tag>
-                <prefix>%{voice prefix%}</prefix>
-                <postfix>%{voice postfix%}</postfix>
+                <prefix>%{clef prefix%}</prefix>
+                <postfix>%{clef postfix%}</postfix>
                 <override>32</override>
               </directive>
             </directives>
@@ -163,8 +163,8 @@
           <clef-directives>
             <directive>
               <tag>test</tag>
-              <prefix>%{voice prefix%}</prefix>
-              <postfix>%{voice postfix%}</postfix>
+              <prefix>%{clef prefix%}</prefix>
+              <postfix>%{clef postfix%}</postfix>
               <override>32</override>
             </directive>
           </clef-directives>
