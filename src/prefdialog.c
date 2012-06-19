@@ -67,6 +67,8 @@ struct callbackdata
   GtkWidget *visible_directive_buttons;
   GtkWidget *autoupdate;
 
+
+  
   GtkWidget *autosave_timeout;
   GtkWidget *maxhistory;
   GtkWidget *browser;
@@ -108,6 +110,9 @@ struct callbackdata
 
   GtkWidget *display_refresh;
   GtkWidget *animation_steps;
+  GtkWidget *tooltip_timeout;
+  GtkWidget *tooltip_browse_timeout;
+  GtkWidget *tooltip_browse_mode_timeout;
   GtkWidget *profile;
   GtkWidget *midiplayer;
   GtkWidget *audioplayer;
@@ -250,6 +255,9 @@ set_preferences (struct callbackdata *cbdata)
 
   ASSIGNDOUBLE(display_refresh)
   ASSIGNINT(animation_steps)
+  ASSIGNINT(tooltip_timeout)
+  ASSIGNINT(tooltip_browse_timeout)
+  ASSIGNINT(tooltip_browse_mode_timeout)
   ASSIGNTEXT(temperament)
   ASSIGNBOOLEAN(strictshortcuts)
   ASSIGNBOOLEAN(overlays)
@@ -273,6 +281,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNBOOLEAN(quickshortcuts)
   ASSIGNBOOLEAN(autosave)
   ASSIGNINT(autosave_timeout)
+ 
   ASSIGNBOOLEAN(midi_in_controls)
   ASSIGNBOOLEAN(playback_controls)
   ASSIGNBOOLEAN(console_pane)
@@ -316,6 +325,7 @@ midi_audio_tab_update(GtkWidget *box, gpointer data)
   gtk_window_resize(GTK_WINDOW(cbdata->dialog), 1, 1);
 }
 
+//callback for Prefences command
 void
 preferences_change (GtkAction *action, gpointer param)
 {
@@ -326,6 +336,9 @@ preferences_change (GtkAction *action, gpointer param)
   GtkWidget *main_vbox;
   GtkWidget *autosave;
   GtkWidget *autosave_timeout;
+   // GtkWidget *tooltip_timeout;
+   //   GtkWidget *tooltip_browse_timeout;
+    //    GtkWidget *tooltip_browse_mode_timeout;
   GtkWidget *maxhistory;
   GtkWidget *notebook;
   GtkWidget *hbox;
@@ -558,11 +571,15 @@ preferences_change (GtkAction *action, gpointer param)
    /*
    * Misc Menu
    */
-  NEWPAGE("Misc");
+  NEWPAGE("Miscellaneous");
   BOOLEANENTRY("Use Denemo modally", modal);
   BOOLEANENTRY("Re-use last settings on startup", persistence);
   DOUBLEENTRY_LIMITS(_("Playback Display Refresh"), display_refresh, 0.001, 0.5, 0.002);
   INTENTRY_LIMITS(_("Page Turn Steps"), animation_steps, 1, 200);
+
+  INTENTRY_LIMITS(_("Tooltip timeout in ms. (0 to use system preference)"), tooltip_timeout, 0, 1000000);
+  INTENTRY_LIMITS(_("Tooltip browse timeout in ms"), tooltip_browse_timeout, 0, 1000000);
+  INTENTRY_LIMITS(_("Tooltip browse mode timeout in ms"), tooltip_browse_mode_timeout, 0, 1000000);
 
   INTENTRY_LIMITS(_("Excerpt Resolution"), resolution, 72, 600);
   BOOLEANENTRY("Enable Thumbnails", enable_thumbnails);
