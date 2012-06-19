@@ -1,7 +1,5 @@
 /* exportlilypond.c
- * Functions for actually exporting what Denemo's working on to a LilyPond file
- *
- * AJT 14/3/2000 Parametised for quick midi playback
+ * Functions for generating LilyPond representation of the music
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 2000, 2001, 2002 Matthew Hiller, Adam Tee
  */
@@ -24,6 +22,7 @@
 #include "lyric.h"
 #include "processstaffname.h"
 #include "commandfuncs.h"
+#include "scorelayout.h"
 
 #define ENTER_NOTIFY_EVENT "focus-in-event"
 #define LEAVE_NOTIFY_EVENT "focus-out-event"
@@ -760,6 +759,8 @@ GET_AFFIX(prefix);
 GET_AFFIX(postfix);
 
 
+
+
 /* insert editable prefix string from passed directives, updating duration and open brace count
  omit or include those with AFFIX override set. Skip any directive with HIDDEN attribute set */
       
@@ -1403,7 +1404,7 @@ static void insert_music_section(DenemoGUI *gui, gchar *name) {
 
 /* create and insertion point and button for the next scoreblock */
 static GtkTextChildAnchor * insert_scoreblock_section(DenemoGUI *gui, gchar *name, DenemoScoreblock *sb) {
-  GString** target = sb?&sb->scoreblock:NULL;
+  GString** target = sb?&sb->lilypond:NULL;
   GtkTextChildAnchor *anchor;
   GtkTextIter iter;
   gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, SCOREBLOCK));
@@ -1488,8 +1489,101 @@ outputHeader (GString *str, DenemoGUI * gui)
 }
 
 
+static void do_time_sig(GString *definitions, DenemoStaff *curstaffstruct, gchar *movement, gchar *voice)
+    {
+      gboolean override = get_lily_override(curstaffstruct->timesig.directives);
+      gchar *timesig_string = get_postfix(curstaffstruct->timesig.directives);
+      gchar *time_prefix = get_prefix(curstaffstruct->timesig.directives);
+      if(override)
+	g_string_append_printf(definitions, "%s%sTimeSig = %s", movement, voice, timesig_string);
+      else
+	g_string_append_printf(definitions, "%s%sTimeSig = {%s \\time %d/%d %s}\n", movement, voice, time_prefix, curstaffstruct->timesig.time1,
+			       curstaffstruct->timesig.time2, timesig_string);
 
+      g_free(timesig_string);
+      g_free(time_prefix);
+      }
 
+gchar *get_time_sig_string(DenemoStaff *curstaffstruct) {
+ gboolean override = get_lily_override(curstaffstruct->timesig.directives);
+      gchar *timesig_string = get_postfix(curstaffstruct->timesig.directives);
+      gchar *time_prefix = get_prefix(curstaffstruct->timesig.directives);
+      if(override)
+	return  timesig_string;
+     
+      gchar *ret = g_strdup_printf("{%s \\time %d/%d %s}\n", time_prefix, curstaffstruct->timesig.time1,
+			       curstaffstruct->timesig.time2, timesig_string);
+      g_free(timesig_string);
+      g_free(time_prefix);
+      return ret;
+}
+      
+static void do_key_sig(GString *definitions, DenemoStaff *curstaffstruct, gchar *movement, gchar *voice)
+    {
+      gchar *keyname;
+      gboolean override = get_lily_override(curstaffstruct->keysig.directives);
+      gchar *keysig_string = get_postfix(curstaffstruct->keysig.directives);
+      gchar *key_prefix = get_prefix(curstaffstruct->keysig.directives);
+      if(override)
+	g_string_append_printf(definitions, "%s%sKeySig = %s", movement, voice, keysig_string);
+      else {
+	determinekey (curstaffstruct->keysig.isminor ?
+		      curstaffstruct->keysig.number + 3 : curstaffstruct->keysig.number, &keyname);
+	g_string_append_printf(definitions, "%s%sKeySig = {%s \\key %s", movement, voice, key_prefix, keyname);
+	if (curstaffstruct->keysig.isminor)
+	  g_string_append_printf(definitions, "%s\n%s", " \\minor}", keysig_string);
+	else
+	  g_string_append_printf(definitions, "%s\n%s", " \\major}", keysig_string);
+      }
+
+      g_free(keysig_string);
+      g_free(key_prefix);
+    }
+
+gchar *get_key_sig_string(DenemoStaff *curstaffstruct) {
+    gchar *keyname;
+    gboolean override = get_lily_override(curstaffstruct->keysig.directives);
+    gchar *keysig_string = get_postfix(curstaffstruct->keysig.directives);
+    gchar *key_prefix = get_prefix(curstaffstruct->keysig.directives);
+    if(override)
+      return  keysig_string;
+    determinekey (curstaffstruct->keysig.isminor ?
+		      curstaffstruct->keysig.number + 3 : curstaffstruct->keysig.number, &keyname);
+    gchar * ret = g_strdup_printf("{%s \\key %s%s\n%s", key_prefix, keyname, (curstaffstruct->keysig.isminor)?" \\minor}":" \\major}", keysig_string);
+    g_free(keysig_string);
+    g_free(key_prefix);
+    return ret;
+
+}
+
+void do_clef(GString *definitions, DenemoStaff *curstaffstruct, gchar *movement, gchar *voice) {
+    gchar *clefname;
+    determineclef (curstaffstruct->clef.type, &clefname);
+    gboolean clef_override = get_lily_override(curstaffstruct->clef.directives);
+    gchar *clef_postfix_insert = get_postfix(curstaffstruct->clef.directives);
+    gchar *clef_prefix = get_prefix(curstaffstruct->clef.directives);
+    if(clef_override)
+      g_string_append_printf(definitions, "%s%sClef = %s\n", movement, voice, clef_postfix_insert);
+    else
+      g_string_append_printf(definitions, "%s%sClef = %s \\clef %s %s\n", movement, voice, clef_prefix, clefname, clef_postfix_insert);
+    g_free(clef_postfix_insert);
+    g_free(clef_prefix);
+}
+
+gchar *get_clef_string(DenemoStaff *curstaffstruct) {
+    gchar *clefname;
+    determineclef (curstaffstruct->clef.type, &clefname);
+    gboolean clef_override = get_lily_override(curstaffstruct->clef.directives);
+    gchar *clef_postfix_insert = get_postfix(curstaffstruct->clef.directives);
+    gchar *clef_prefix = get_prefix(curstaffstruct->clef.directives);
+    if(clef_override)
+      return clef_postfix_insert;
+    gchar *ret =
+      g_strdup_printf("%s \\clef %s %s\n",  clef_prefix, clefname, clef_postfix_insert);
+    g_free(clef_postfix_insert);
+    g_free(clef_prefix);
+    return ret;
+}
 /**
  * Output a Denemo Staff in Lilypond syntax
  * A section is created in the gui->textbuffer and the music inserted into it.
@@ -1501,7 +1595,7 @@ outputHeader (GString *str, DenemoGUI * gui)
  */
 static void
 outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
-	     gint start, gint end, gchar *movement, gchar *voice, gint movement_count, gint voice_count, GString *definitions)
+	     gint start, gint end, gchar *movement, gchar *voice, gint movement_count, gint voice_count, GString *definitions, DenemoScoreblock *sb)
 {
   gint cur_stime1 = curstaffstruct->timesig.time1;
   gint cur_stime2 = curstaffstruct->timesig.time2;
@@ -1528,7 +1622,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   GtkTextIter iter;
   GtkTextMark *curmark;/* movable mark for insertion point of the music of the staff */
   /* a button and mark for the music of this staff */
-  gchar *invisibility =  ((movement_count>0) && (voice_count>0))?NULL:"invisible";/* tag to control visibility */
+  gchar *invisibility =  NULL;//((movement_count>0) && (voice_count>0))?NULL:"invisible";/* tag to control visibility */
 
   GString *voice_name = g_string_new(movement);
   g_string_prepend(voice_name, "Notes for ");
@@ -1578,61 +1672,37 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     //  g_string_append_printf(definitions, "\n%s%sMidiInst = \\set Staff.midiInstrument = \"%s\"\n", movement, voice, curstaffstruct->midi_instrument->str);
     
     /* Time signature */
-    {
-      gboolean override = get_lily_override(curstaffstruct->timesig.directives);
-      gchar *timesig_string = get_postfix(curstaffstruct->timesig.directives);
-      gchar *time_prefix = get_prefix(curstaffstruct->timesig.directives);
-      if(override)
-	g_string_append_printf(definitions, "%s%sTimeSig = %s", movement, voice, timesig_string);
-      else
-	g_string_append_printf(definitions, "\n"TAB"%s%sTimeSig = {%s \\time %d/%d %s}\n", movement, voice, time_prefix, curstaffstruct->timesig.time1,
-			       curstaffstruct->timesig.time2, timesig_string);
+    do_time_sig(definitions, curstaffstruct, movement, voice);
 
-      g_free(timesig_string);
-      g_free(time_prefix);
-      }
     /* Determine the key signature */
-    gchar *clefname;
-    /* clef name */
+
     gchar *keyname;
     /* key signature name */
-
-    {
-      gboolean override = get_lily_override(curstaffstruct->keysig.directives);
-      gchar *keysig_string = get_postfix(curstaffstruct->keysig.directives);
-      gchar *key_prefix = get_prefix(curstaffstruct->keysig.directives);
-      if(override)
-	g_string_append_printf(definitions, "%s%sKeySig = %s", movement, voice, keysig_string);
-      else {
-	determinekey (curstaffstruct->keysig.isminor ?
+  do_key_sig(definitions, curstaffstruct, movement, voice);
+  determinekey (curstaffstruct->keysig.isminor ?
 		      curstaffstruct->keysig.number + 3 : curstaffstruct->keysig.number, &keyname);
-	g_string_append_printf(definitions, "%s%sKeySig = {%s \\key %s", movement, voice, key_prefix, keyname);
-	if (curstaffstruct->keysig.isminor)
-	  g_string_append_printf(definitions, "%s %s", " \\minor}\n", keysig_string);
-	else
-	  g_string_append_printf(definitions, "%s %s", " \\major}\n", keysig_string);
-      }
-
-      g_free(keysig_string);
-      g_free(key_prefix);
-    }
-    /* Determine the clef */
-    determineclef (curstaffstruct->clef.type, &clefname);
-    gboolean clef_override = get_lily_override(curstaffstruct->clef.directives);
-    gchar *clef_postfix_insert = get_postfix(curstaffstruct->clef.directives);
-    gchar *clef_prefix = get_prefix(curstaffstruct->clef.directives);
-    if(clef_override)
-      g_string_append_printf(definitions, "%s%sClef = %s\n", movement, voice, clef_postfix_insert);
-    else
-      g_string_append_printf(definitions, "%s%sClef = %s \\clef %s %s\n", movement, voice, clef_prefix, clefname, clef_postfix_insert);
-    g_free(clef_postfix_insert);
-    g_free(clef_prefix);
+    gchar *clefname;
+    /* clef name */		      
+ /* Determine the clef */
+  do_clef(definitions, curstaffstruct, movement, voice);
+  determineclef (curstaffstruct->clef.type, &clefname);
+    
     g_string_append_printf(definitions, "%s%sProlog = { \\%s%sTimeSig \\%s%sKeySig \\%s%sClef}\n", 
 			    movement, voice, movement, voice, movement, voice, movement, voice);
+#if 0
+//This is the old meaning of voice-prefix without overrides. This could befome AFFIX override, if it is needed. Also we should put the voice postfix at the end
     gchar *voice_prefix = get_prefix(curstaffstruct->voice_directives);
     g_string_append_printf(str, "%s%s = %s {\n",
 			   movement, voice, voice_prefix);    
     g_free(voice_prefix);
+#else
+    //gchar *voice_prefix = get_prefix(curstaffstruct->voice_directives);
+    g_string_append_printf(str, "%s%s = {\n",
+			   movement, voice);    
+   // g_free(voice_prefix);
+
+    
+#endif
     gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
     //insert_editable(&curstaffstruct->staff_prolog, str->str, &iter,  invisibility, gui);
     gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, str->str, -1, INEDITABLE, invisibility, NULL);
@@ -1690,9 +1760,10 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 
 
  if(curobj->type==LILYDIRECTIVE){
+   DenemoDirective *directive = ((lilydirective *) curobj->object);
 #define OUTPUT_LILY(what) \
-  if(((lilydirective *) curobj->object)->what && ((lilydirective *) curobj->object)->what->len\
-     && (!( ((lilydirective *) curobj->object)->override & DENEMO_OVERRIDE_HIDDEN)) \
+  if(directive->what && directive->what->len && ((directive->x == 0 || (directive->x!=sb->id))) && ((directive->y == 0 || (directive->y==sb->id))) \
+     && (!(directive->override & DENEMO_OVERRIDE_HIDDEN)) \
      ) {								\
 	  gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);\
 	  GtkTextChildAnchor *objanc = gtk_text_buffer_create_child_anchor (gui->textbuffer, &iter);\
@@ -1829,8 +1900,17 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
       g_string_append_printf(definitions, "%s%sContext = %s {\\%s%sMusic}\n",
 			     movement, voice,   voice_prolog_insert, movement, voice);
     else
+#if 0
       g_string_append_printf(definitions, "%s%sContext = \\context Voice = %s%s %s {\\%s%sMusic}\n",
 			     movement, voice,  voice, movement, voice_prolog_insert, movement, voice);
+#else
+//voice_prolog_insert is going in scoreblock
+      g_string_append_printf(definitions, "%s%sContext = \\context Voice = %s%s {\\%s%sMusic}\n",
+			     movement, voice,  voice, movement, movement, voice);
+
+#endif
+
+			     
   }
 
 
@@ -2023,7 +2103,7 @@ void custom_lily_cb (GtkAction *action, gpointer param) {
     }
     gchar *lily = get_text(gui, anchor);
     DenemoScoreblock *sb = g_malloc0(sizeof(DenemoScoreblock));
-    sb->scoreblock= g_string_new(lily);
+    sb->lilypond= g_string_new(lily);
     sb->visible = TRUE;
     anchor = insert_scoreblock_section(gui, NULL, sb);
     gui->custom_scoreblocks = g_list_prepend(gui->custom_scoreblocks, sb);
@@ -2098,6 +2178,58 @@ static void  print_cursor_cb(void) {
     g_print("Char is %c at bytes=%d chars=%d\n", gtk_text_iter_get_char (&iter), gtk_text_iter_get_visible_line_index (&iter),gtk_text_iter_get_visible_line_offset (&iter)  );
     
 }
+
+
+
+void set_markup_before_score_block(DenemoScore *si, GString *scoreblock) { 
+  gchar *mvmnt_string = get_prefix(si->movementcontrol.directives);
+  if(mvmnt_string) {
+    g_string_append(scoreblock, mvmnt_string);
+    g_free(mvmnt_string);
+  }  
+}
+
+
+
+void set_initiate_scoreblock(DenemoScore *si, GString *scoreblock) {
+  gchar *movement_prolog = get_postfix(si->movementcontrol.directives);
+  g_string_append_printf (scoreblock, "%s", get_lily_override(si->movementcontrol.directives)? movement_prolog:" <<\n");
+  g_free(movement_prolog);
+}
+
+
+void set_staff_definition(GString *str, DenemoStaff *curstaffstruct,  gchar *denemo_name){
+    gint staff_override = get_lily_override(curstaffstruct->staff_directives);
+
+		gchar *staff_prolog_insert =  get_prefix(curstaffstruct->staff_directives);
+		gchar *staff_epilog_insert =  get_postfix(curstaffstruct->staff_directives);
+		if(staff_override) {
+		  g_string_append_printf(str, "%s%s", staff_prolog_insert, staff_epilog_insert);
+		} else {
+		g_string_append_printf(str, "\n%%Start of Staff\n\\new Staff = \"%s\" %s << %s\n",  denemo_name, staff_prolog_insert, staff_epilog_insert);
+		}
+}
+void set_voice_definition(GString *str, DenemoStaff *curstaffstruct,  gchar *denemo_name){
+    gint voice_override = get_lily_override(curstaffstruct->voice_directives);
+
+		gchar *voice_prolog_insert =  get_prefix(curstaffstruct->voice_directives);
+		gchar *voice_epilog_insert =  get_postfix(curstaffstruct->voice_directives);
+		if(voice_override) {
+		  g_string_append_printf(str, "%s", voice_prolog_insert);
+		} else {
+		g_string_append_printf(str, "\\new Voice = \"%s\" %s { %s\n",  denemo_name, voice_prolog_insert, voice_epilog_insert);
+		}
+}
+void set_voice_termination(GString *str, DenemoStaff *curstaffstruct){
+		gint voice_override = get_lily_override(curstaffstruct->voice_directives);
+		gchar *voice_epilog_insert =  get_postfix(curstaffstruct->voice_directives);		
+		if(voice_override) {
+		  g_string_append_printf(str, "%s", voice_epilog_insert);
+		} else {
+		g_string_assign(str, "\t\t} %End of voice");
+		}
+}
+	    
 /*
  *writes the current score in LilyPond format to the textbuffer.
  *sets gui->lilysync equal to gui->changecount
@@ -2130,16 +2262,19 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
   g_free(movementname);
   if(gui->textview==NULL)
     create_lilywindow(gui);
+
+
+  DenemoScoreblock *sb = select_layout(all_movements, partname);//FIXME gui->namespec mechanism is probably redundant, and could well cause trouble...
+
+  all_movements = TRUE;
+    
   staffnode *curstaff;
   DenemoStaff *curstaffstruct;
 
   gboolean context = FALSE;
   DenemoContext curcontext = DENEMO_NONE;
-  /*figured basses */
-
-  /*lyrics */
-  //GString *lyrics = NULL;
-
+//  if(Denemo.gui->custom_scoreblocks==NULL)
+ //   create_default_scoreblock();
   if(gui->textbuffer && (gui->changecount==gui->lilysync)
      && !strcmp(gui->namespec, namespec)) {
     g_free(gui->namespec);
@@ -2218,7 +2353,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
   GList *g = gui->lilycontrol.directives;
   for(;g;g=g->next) {
     DenemoDirective *directive = g->data;
-    if(directive->prefix)
+    if(directive->prefix && !(directive->override&(DENEMO_OVERRIDE_AFFIX|DENEMO_ALT_OVERRIDE))) //This used to be (mistakenly) DENEMO_ALT_OVERRIDE
       insert_editable(&directive->prefix, directive->prefix->str, &iter, NULL, gui);
     //insert_section(&directive->prefix, directive->tag->str, NULL, &iter, gui);
   }
@@ -2229,21 +2364,18 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
   gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, SCOREBLOCK));
   gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "% The scoreblocks follow\n", -1, "bold","system_invisible", NULL); 
   
-  /* output custom scoreblocks making the first one visible unless this is just a part being printed */
-  GList *custom;
-  for(custom=gui->custom_scoreblocks;custom;custom=custom->next) 
-    if(custom->data){
-      DenemoScoreblock *sb = (DenemoScoreblock *)custom->data;
-      insert_scoreblock_section(gui, "custom scoreblock", sb);
-      gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, "custom scoreblock"));
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, (sb->scoreblock)->str, -1, "bold", sb->visible?NULL:"invisible", NULL);
-    }
+  /* output scoreblock */
+  {
 
 
+	insert_scoreblock_section(gui, "standard scoreblock", sb);
+	gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, "standard scoreblock"));
+	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, (sb->lilypond)->str, -1, "bold", sb->visible?NULL:"invisible", NULL);
+
+  }
   /* insert standard scoreblock section*/
-
-
-  insert_scoreblock_section(gui, STANDARD_SCOREBLOCK, NULL);
+  //insert_scoreblock_section(gui, STANDARD_SCOREBLOCK, NULL);
+  
   GList *g; gint movement_count;
   gint visible_movement;/* 1 for visible -1 for invisible */ 
   for(g = gui->movements,  movement_count=1;g;g = g->next,  movement_count++) {
@@ -2258,27 +2390,10 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
     g_string_free(name, TRUE);
     //context = FALSE;
     curcontext = DENEMO_NONE;
-    GString *scoreblock = g_string_new("");
+    
     GString *scoreblock_defs = g_string_new("");
 
-    if(visible_movement==1) {
-      //standard score block
-      /* any markup before score block */
-      { 
-	gchar *mvmnt_string = get_prefix(si->movementcontrol.directives);
-	if(mvmnt_string) {
-	  g_string_append(scoreblock, mvmnt_string);
-	  g_free(mvmnt_string);
-	}  
-      }
-      /* the score prefix field is at the start of the whole score, the postfix field is placed as
-	 a prolog before the music in each movements scoreblock */
-      gchar *score_prolog = get_postfix(gui->lilycontrol.directives);
-      gchar *movement_prolog = get_postfix(si->movementcontrol.directives);
-      g_string_append_printf (scoreblock, "%s", get_lily_override(si->movementcontrol.directives)? movement_prolog:"\\score {\n");
-      g_string_append_printf (scoreblock, "<<%s <<\n", score_prolog);
-      g_free(score_prolog);
-    }
+
  
     for (curstaff = si->thescore, voice_count=1, staff_count = 0; curstaff; curstaff = curstaff->next, voice_count++)
       {
@@ -2304,62 +2419,26 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	    visible_part=-1;
 	  start = gui->si->selection.firstmeasuremarked;
 	  end = gui->si->selection.lastmeasuremarked;
-	} else {
-	  if(partname &&strcmp(curstaffstruct->lily_name->str, partname))
-	    visible_part=-1;
-	}
-	outputStaff (gui, si, curstaffstruct, start, end, movement_name->str, voice_name->str, movement_count*visible_movement, voice_count*visible_part, definitions);
+	} 
+	outputStaff (gui, si, curstaffstruct, start, end, movement_name->str, voice_name->str, movement_count*visible_movement, voice_count*visible_part, definitions, sb);
 	//FIXME amalgamate movement and voice names below here...
 	/* output score block */
 	if(visible_movement==1 && (visible_part==1)) {    
-	  if (curstaffstruct->hasfakechords)
-	    g_string_append_printf(scoreblock, TAB TAB"\\new ChordNames \\chordmode { \\%s%sChords }\n", 
-				   movement_name->str, voice_name->str);
+	  
 	  
 	  GString *thestr = g_string_new("");
-	  gchar *staff_prolog_insert =  get_prefix(curstaffstruct->staff_directives);
-	  gchar *staff_epilog_insert =  get_postfix(curstaffstruct->staff_directives);
 	  gchar *staff_alt_prolog =  get_overridden_prefix(curstaffstruct->staff_directives, TRUE);
 	  gchar *staff_alt_epilog =  get_overridden_postfix(curstaffstruct->staff_directives, TRUE);
 
-
-	  if(partname==NULL) {//when printing just one part, do not start/stop contexts
-	    gchar *staff_group_prolog_insert = "";//these are just to mark a place where a further directive type could be used to control staff groups
-	    gchar *staff_group_epilog_insert = "";
-
-
-	    if (curstaffstruct->context & DENEMO_CHOIR_START)
-	      g_string_append_printf(thestr, "\\new ChoirStaff %s << %s\n", staff_group_prolog_insert, staff_group_epilog_insert);
-	    if (curstaffstruct->context & DENEMO_GROUP_START)
-	      g_string_append_printf(thestr, "\\new StaffGroup %s << %s\n", staff_group_prolog_insert, staff_group_epilog_insert);
-	    if (curstaffstruct->context & DENEMO_PIANO_START) /* Piano staff cannot start before Group */
-	      g_string_append_printf(thestr, "\\new PianoStaff %s << %s\n", staff_group_prolog_insert, staff_group_epilog_insert);
-	  }
 	  if(curstaffstruct->voicecontrol == DENEMO_PRIMARY) {
-	    if(!staff_override)
-	      g_string_append_printf(staffdefinitions, "%s%s = \\new Staff = \"%s\" %s << %s{\n", movement_name->str, staff_name->str,  curstaffstruct->denemo_name->str,         staff_prolog_insert, staff_epilog_insert);
-	    else
-	      g_string_append_printf(staffdefinitions, "%s%s = %s%s",movement_name->str, staff_name->str, staff_prolog_insert, staff_epilog_insert);
 	    g_string_append_printf(thestr, "%s\\%s%s\n", staff_alt_prolog, movement_name->str, staff_name->str);
 	  }
-	  else
-	    g_string_append_printf(staffdefinitions, "\\new Voice = \"%s\" {\n", curstaffstruct->denemo_name->str);
-	  g_free(staff_prolog_insert);
-	  g_free(staff_epilog_insert);
 
-	  if (curstaffstruct->no_of_lines != 5)
-	    g_string_append_printf(staffdefinitions, TAB "\\override Staff.StaffSymbol  #'line-count = #%d\n",
-				   curstaffstruct->no_of_lines);
-	  gchar *endofblock;
-	  if(curstaff->next && ((DenemoStaff *) curstaff->next->data)->voicecontrol & DENEMO_SECONDARY)
-	    endofblock = g_strdup("");
-	  else
-	    endofblock = g_strdup(">>");
+	  
 	  
 	  if (!(curstaffstruct->voicecontrol & DENEMO_SECONDARY))
 	    {
-	      g_string_append_printf(staffdefinitions, TAB TAB"\\%s%sContext\n"TAB TAB"}\n", movement_name->str, voice_name->str);
-	      g_string_append_printf(scoreblock, "%s",thestr->str);
+	     
 
 	      if (curstaffstruct->verses)
 		{
@@ -2370,22 +2449,24 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 		    GString *temp = g_string_new("");
 		    g_string_printf(temp, "Verse%d", versenum);
 		    set_lily_name(temp, versename);
-		    g_string_append_printf(staffdefinitions, 
-				TAB TAB" \\lyricsto %s%s \\new Lyrics \\%s%sLyrics%s\n", 
-				voice_name->str, movement_name->str, 
-				movement_name->str, voice_name->str, versename->str);
+
+		    gchar *sofar = g_strdup(staffdefinitions->str);
+		    //this definition is used by score_layout.c to get LilyPond to provide the durations for lyrics, which denemo does not compute (contrast figured bass and chord symbols where durations are computed, see above).
+		    g_string_printf(staffdefinitions, "\n%s%s%sContext = \\context Lyrics = %s%s%s \\lyricsto %s%s \\%s%sLyrics%s\n%s", movement_name->str,voice_name->str, versename->str, movement_name->str,voice_name->str, versename->str,
+		    voice_name->str, movement_name->str, movement_name->str, voice_name->str, versename->str, sofar);
+		    g_free(sofar);
 		    g_string_free(versename, TRUE);
 		    g_string_free(temp, TRUE);
 		    
 		  }
 	      }
 
-	      if (curstaffstruct->hasfigures)
+	      if (curstaffstruct->hasfigures, 0)
 		g_string_append_printf(staffdefinitions, TAB TAB" \\context Staff = \"%s\" \\with {implicitBassFigures = #'(0) } \\%s%sBassFiguresLine\n",  curstaffstruct->denemo_name->str,  movement_name->str, voice_name->str);
-	      g_string_append_printf(staffdefinitions, TAB TAB"%s\n", endofblock);
+	      //g_string_append_printf(staffdefinitions, TAB TAB"%s\n", endofblock);
 	    }
 	  else if (curstaffstruct->voicecontrol & DENEMO_SECONDARY) {      
-	    g_string_append_printf(staffdefinitions, "%s"TAB TAB"\\%s%s\n"TAB TAB"\n"TAB TAB"\n", thestr->str, movement_name->str, voice_name->str);
+	      //g_string_append_printf(staffdefinitions, "%s"TAB TAB"\\%s%s\n"TAB TAB"\n"TAB TAB"\n", thestr->str, movement_name->str, voice_name->str);
 
 	      if (curstaffstruct->verses)
 		{
@@ -2396,32 +2477,34 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 		    GString *temp = g_string_new("");
 		    g_string_printf(temp, "Verse%d", versenum);
 		    set_lily_name(temp, versename);
-		    g_string_append_printf(staffdefinitions, 
-				TAB TAB" \\addlyrics { \\%s%sLyrics%s }\n", 
-				movement_name->str, voice_name->str, versename->str);
+		   
+		    gchar *sofar = g_strdup(staffdefinitions->str);
+		    //this definition is used by score_layout.c to get LilyPond to provide the durations for lyrics, which denemo does not compute (contrast figured bass and chord symbols where durations are computed, see above).
+		    g_string_printf(staffdefinitions, "\n%s%s%sContext = \\context Lyrics = %s%s%s \\lyricsto %s%s \\%s%sLyrics%s\n%s", movement_name->str,voice_name->str, versename->str, movement_name->str,voice_name->str, versename->str,
+		    voice_name->str, movement_name->str, movement_name->str, voice_name->str, versename->str, sofar);
+		    g_free(sofar);
+
+				
 		    g_string_free(versename, TRUE);
 		    g_string_free(temp, TRUE);
 		    
 		  }		  
 	      }
-	      g_string_append_printf(staffdefinitions,"}%s", endofblock);
+	     // g_string_append_printf(staffdefinitions,"}%s", endofblock);
 	  }
-	  g_free(endofblock);
 	  
-	  if(partname==NULL) {
-	    g_string_append_printf(scoreblock, "%s", staff_alt_epilog);
-
-	    if(curstaffstruct->context & DENEMO_PIANO_END)
-	      g_string_append_printf(scoreblock, "%s", ">>\n\n");
-	    if(curstaffstruct->context & DENEMO_CHOIR_END)
-	      g_string_append_printf(scoreblock, "%s", ">>\n\n");
-	    if(curstaffstruct->context & DENEMO_GROUP_END)
-	      g_string_append_printf(scoreblock, "%s", ">>\n\n");
-	  }
+	  
+	  
 
 	  g_string_free(thestr, TRUE);
 	}
       }/*end for staff loop */  
+
+
+
+    if(visible_movement==1) {
+
+
 
 
     /* output the definitions to a definitions block in the music section*/
@@ -2437,52 +2520,16 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 
       gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, staffdefinitions->str, -1, INEDITABLE, NULL);
 
-
-
       g_free(name);
       g_string_assign(definitions, "");
+      g_string_assign(staffdefinitions, "");  
     }
 
-    if(visible_movement==1) {
-
-      g_string_append_printf(scoreblock, "%s", ">>\n>>\n");
-     
-      if(!get_lily_override(si->layout.directives))
-	{ gchar *layout_string = get_postfix(si->layout.directives);
-	  g_string_append_printf(scoreblock, "%s%s%s", "\\layout {\n", layout_string?layout_string:"", ""TAB"}\n");
-	  g_free(layout_string);
-	}
 	
-	if(!get_lily_override(si->header.directives))
-	  { gchar *header_string = get_postfix(si->header.directives);	   
-	    g_string_append_printf(scoreblock, "%s%s%s", "\\header {\n", header_string?header_string:"", ""TAB"}\n");
-	    g_free(header_string);
-	  }
-	  
-
-     
-      g_string_append_printf(scoreblock, "%s", "}\n"); /*end of \score block */
-     
-      /* output postfix score if OVERRIDE_AFFIX is set */
-      if(g->next==NULL) /* last movement- output score postfix if AFFIX override is set */
-	{gchar *tail = get_overridden_postfix(gui->lilycontrol.directives, TRUE);
-	//g_print("The final movement %s\n", tail);
-	g_string_append_printf(scoreblock, "%s", tail);
-	g_free(tail);
-	}
-      // Put this standard scoreblock in the textbuffer
-
-      gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, STANDARD_SCOREBLOCK));
-
-    
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter,scoreblock->str, -1, INEDITABLE,
-						  (partname==NULL && gui->custom_scoreblocks)?"invisible":NULL, NULL);
-
-
       
     }/* if visible movement */
 
-    g_string_free(scoreblock, TRUE);
+   
  
   }/* for each movement */
 
