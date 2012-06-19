@@ -12,6 +12,10 @@
 
 #include <denemo/denemo.h>
 #include <gdk/gdk.h>
+//FIXME, these two need to be an enum in denemo_types.h and the field showaccidental changed from boolean to this type.
+#define DENEMO_REMINDER (2)
+#define DENEMO_CAUTIONARY (3)
+
 #define HIGHLIGHT_OFFSET (20) /* Fairly arbitrary value to transform codes '0', '1' ... to a new range with the meaning highlight the whole-note, half-note, ..., glyph */ 
 #define MAXEXTRASPACE (150) /* maximum space for ledger lines, for sanity */
 
@@ -151,6 +155,8 @@ string_dialog_entry (DenemoGUI *gui, gchar *title, gchar *instruction, gchar *in
 
 gchar *
 string_dialog_entry_with_widget (DenemoGUI *gui, gchar *title, gchar *instruction, gchar *initial_value, GtkWidget *extra_widget);
+gchar *
+string_dialog_editor_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *direction, gchar *PreValue, GtkWidget *widget);
 
 void note2lilynotename(struct note *noteobject, GString *ret);
 void note2lilyaccidental(struct note *noteobject, GString *ret);
@@ -280,4 +286,5 @@ void init_denemo_notenames(void);
 gint get_widget_height(GtkWidget *w);
 gint get_widget_width(GtkWidget *w);
 void switch_back_to_main_window(void);
+void use_markup(GtkWidget *widget);
 #endif /* UTILS_H */
