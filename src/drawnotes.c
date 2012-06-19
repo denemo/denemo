@@ -122,8 +122,16 @@ draw_notehead (cairo_t *cr,
      in the chord.  */
   if (thenote->showaccidental)
     {
-      if(cr)draw_accidental (cr, xx - thenote->position_of_accidental,
+      if(cr) {
+	  draw_accidental (cr, xx - thenote->position_of_accidental,
 		       y + height, enshift);
+	  if(thenote->showaccidental==DENEMO_REMINDER)
+	      drawtext_cr (cr, "!", xx - thenote->position_of_accidental - 8.0, y+height, 22.0); 
+	  if(thenote->showaccidental==DENEMO_CAUTIONARY) {
+	      drawtext_cr (cr, "(", xx - thenote->position_of_accidental - 8.0, y+height, 22.0);
+	      drawtext_cr (cr, ")", xx - thenote->position_of_accidental + 6.0, y+height, 22.0);//there are actual widths in accwidths.h which could be used instead of 6.0
+	  }
+      }
       accs[pitch] = enshift;
     }
 
