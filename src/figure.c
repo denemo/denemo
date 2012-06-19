@@ -192,7 +192,10 @@ figure_insert (GtkAction *action, DenemoScriptParam * param)
     {
       insertfigure (action!=NULL, &cbdata);
       //also \set Staff.useBassFigureExtenders = ##t
-      ((DenemoStaff*)si->currentstaff->data)->hasfigures=TRUE;
+      if(!((DenemoStaff*)si->currentstaff->data)->hasfigures) {
+	signal_structural_change(gui);
+	((DenemoStaff*)si->currentstaff->data)->hasfigures=TRUE;
+      }
       displayhelper (gui);
     }
   g_free(string);
