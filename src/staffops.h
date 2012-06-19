@@ -56,9 +56,7 @@ void dnm_newstaffvoice(GtkAction *action, gpointer param);
 
 void newstafflast(GtkAction *action, gpointer param);
 
-gboolean confirm_insertstaff_custom_scoreblock(DenemoGUI *gui);
-
-gboolean confirm_deletestaff_custom_scoreblock(DenemoGUI *gui);
+gboolean signal_structural_change(DenemoGUI *gui);
 
 void copy_staff (DenemoStaff * src, DenemoStaff * dest);
 
