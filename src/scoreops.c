@@ -66,6 +66,8 @@ append_movement(GtkAction *action, gpointer param,  gboolean populate) {
   DenemoGUI *gui = Denemo.gui;
   DenemoScore *source_movement = gui->si;
   GList *g;
+  (void)signal_structural_change(gui);
+    
   if(gui->si->lyricsbox)
     gtk_widget_hide(gui->si->lyricsbox);
   point_to_empty_movement(gui);
@@ -130,8 +132,7 @@ void
 delete_movement(GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   terminate_playback();
-  if(!confirm_deletestaff_custom_scoreblock(gui))
-    return;
+  (void)signal_structural_change(gui);
   GString *primary = g_string_new(""), *secondary = g_string_new("");
   if(gui->movements==NULL || (g_list_length(gui->movements)==1)) {
     g_string_assign(primary, _("This is the only movement"));
@@ -472,6 +473,7 @@ GList *extract_verses(GList *verses){
   return ret;
 }
 /**
+ * FIXME there is a muddle here between DenemoScore and DenemoGUI
  * frees the data in the passed scoreinfo stucture 
  *
  * @param si pointer to the scoreinfo structure to free
