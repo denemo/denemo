@@ -678,8 +678,7 @@ file_import_musicxml_with_check (GtkAction * action, DenemoScriptParam * param)
 #define ADD(insertion_strategy)\
   DenemoGUI *gui = Denemo.gui;\
   GET_1PARAM(action, param, filename);\
-  if(filename==NULL && !confirm_insertstaff_custom_scoreblock(gui))\
-    return;\
+  (void)signal_structural_change(gui);\
   param->status = !file_open(gui, FALSE, insertion_strategy, filename);\
   score_status(gui, TRUE);\
 
