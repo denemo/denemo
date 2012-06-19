@@ -31,9 +31,17 @@ gboolean lyric_change(GtkTextBuffer *buffer) {
 
 static GtkWidget *new_lyric_editor(void) {
  GtkWidget *view = gtk_text_view_new ();
- // g_signal_connect (G_OBJECT (view), "key-press-event", G_CALLBACK (lyric_keypress), NULL);
- //g_signal_connect (G_OBJECT (gtk_text_view_get_buffer(view)), "changed", G_CALLBACK (lyric_keypress), NULL);
 
+  
+  GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+				  GTK_POLICY_AUTOMATIC,
+				  GTK_POLICY_AUTOMATIC);
+  
+
+  gtk_container_add (GTK_CONTAINER (sw), view);
+
+  
  return view;
 }
 
@@ -69,14 +77,14 @@ GtkWidget * add_verse_to_staff(DenemoScore *si, DenemoStaff *staff) {
   //  gtk_widget_show(staff->currentverse->data);
   textview = new_lyric_editor();
   gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW(textview), GTK_WRAP_WORD_CHAR);
-  gtk_widget_show(textview);
+  gtk_widget_show_all(gtk_widget_get_parent(textview));
   staff->verses = g_list_append(staff->verses, textview);
   staff->currentverse = g_list_last(staff->verses);
   //  g_print("Setting verse to %p\n", staff->currentverse);
-  gint pagenum = gtk_notebook_append_page (GTK_NOTEBOOK (notebook), textview, NULL);
+  gint pagenum = gtk_notebook_append_page (GTK_NOTEBOOK (notebook), gtk_widget_get_parent(textview), NULL);
   gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook), pagenum);
   gchar *tablabel = g_strdup_printf("Verse %d", pagenum+1);
-  gtk_notebook_set_tab_label_text(GTK_NOTEBOOK(notebook), textview, tablabel);
+  gtk_notebook_set_tab_label_text(GTK_NOTEBOOK(notebook), gtk_widget_get_parent(textview), tablabel);
   g_free(tablabel);
   if(pagenum)
     gtk_notebook_set_show_tabs (GTK_NOTEBOOK(notebook), TRUE);
@@ -89,6 +97,7 @@ DenemoScore *si = gui->si;
  if(gui->si->currentstaff) {
    DenemoStaff *staff = si->currentstaff->data;
    add_verse_to_staff(si, staff);
+   signal_structural_change(gui);
    gtk_widget_show(staff->currentverse->data);
    g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (staff->currentverse->data)), "changed", G_CALLBACK (lyric_change), NULL);
  }
@@ -103,6 +112,7 @@ DenemoScore *si = gui->si;
      staff->verses = g_list_remove_link(staff->verses, staff->currentverse);
      gtk_widget_destroy(staff->currentverse->data);
      staff->currentverse = staff->verses;
+     signal_structural_change(gui);
      score_status(gui, TRUE);
      gtk_widget_queue_draw (Denemo.scorearea);
    }
