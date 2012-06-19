@@ -157,8 +157,10 @@ insertfakechord (GtkWidget * widget, gpointer data)
 		si->currentobject ? (DenemoObject *) si->currentobject->data : NULL;
 	    }
 	  while ((curObj != NULL) && (curObj->type != CHORD));
-
-	  si->has_fakechords = (gpointer)TRUE;//&null_info;
+	  if(!si->has_fakechords) {
+	    si->has_fakechords = (gpointer)TRUE;
+	    signal_structural_change(gui);
+	  }
 	  score_status(gui, TRUE);
 	  return TRUE;
   }
