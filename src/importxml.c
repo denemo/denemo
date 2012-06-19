@@ -21,6 +21,7 @@
 #include "texteditors.h"
 #include "lilydirectives.h"
 #include "calculatepositions.h"
+#include "scorelayout.h"
 #include <string.h>
 
 
@@ -3258,8 +3259,11 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
 								 xmlChildrenNode, 1);
 		    if (tmp != NULL)
 		      {
-			DenemoScoreblock *sb = g_malloc0 (sizeof(DenemoScoreblock));
-			sb->scoreblock = g_string_new(tmp);
+			DenemoScoreblock *sb = get_scoreblock_for_lilypond(tmp); 
+			GtkWidget *notebook = get_score_layout_notebook(gui);
+			GtkWidget *label = gtk_label_new(sb->name);
+			gtk_notebook_prepend_page(GTK_NOTEBOOK(notebook), sb->widget, label);
+			gtk_widget_show_all(notebook);
 			gui->custom_scoreblocks = g_list_prepend(gui->custom_scoreblocks, sb);
 			g_free (tmp);
 		      }
