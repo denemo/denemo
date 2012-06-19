@@ -431,6 +431,11 @@ typedef struct DenemoPrefs
   gint dynamic_compression;/**< percent compression of dynamic range desired when listening to MIDI-in */
   gdouble display_refresh;/**< time in ms between refresh of display during playback */
   gint animation_steps;/** < number of steps to use animating the page turns during playback */
+  gint tooltip_timeout;/** < timeout before a tooltip appears */
+  gint tooltip_browse_timeout;/** < timeout before a tooltip appears in tooltip browse mode */
+  gint tooltip_browse_mode_timeout;/** < timeout before a tooltip browse mode is dropped*/
+
+    
   GString *pdfviewer; /**< PDF viewer */
   GString *imageviewer; /**< Image Viewer */
   GString *username; /**< Username for use on denemo.org website */
@@ -663,13 +668,16 @@ typedef struct DenemoScriptParam { /**< commands called by scripts use one of th
 } DenemoScriptParam;
 
 
-
-
-
-
 typedef struct DenemoScoreblock {
-  GString *scoreblock;/**< text of the scoreblock */
+  GString *lilypond;/**< text of the scoreblock */
   gboolean visible;/**< Whether the scoreblock should be used by default */
+  gboolean layout_sync;/**< Value of gui->layout_sync when the scoreblock was created */
+  GtkWidget *widget;/**< Widget to be placed in the Score Layout window for this scoreblock */
+  GList *staff_list;/**< List of staff frames contained in widget */
+  gchar *name;/**< name for this scoreblock */
+  guint32 id;/**< an id for this scoreblock generated from name, as a quick identifier */
+  gint movement;/**< Which movement the scoreblock outputs, 0 = all movements. Only used for standard scoreblocks */
+  gchar *partname; /**< Which part the scoreblock outputs, NULL = all parts. Only used for standard scoreblocks */
 } DenemoScoreblock;
 
 
@@ -881,7 +889,9 @@ typedef struct DenemoGUI
   paper paper;/*< Directives for the paper block of the score */
   GList *midi_events;/*< midi_events to be output at start of first track of each movement */
 
-  GList *custom_scoreblocks; /**< List of customized texts for LilyPond output, replaces standard score blocks, elements are DenemoScoreblock * */
+  GList *standard_scoreblocks; /**< List of automatically generated \score blocks for LilyPond output elements are DenemoScoreblock * */
+  GList *custom_scoreblocks; /**< List of customized  \score blocks for LilyPond output, elements are DenemoScoreblock * */
+  GtkWidget *score_layout; /**< The window in which custom_scoreblock widgets are placed */
   GList *callbacks;/**< scheme callbacks on deletion */
   gpointer lilystart, lilyend; /**<range of lilytext  */
   GString **target; /**< pointer to target string for modification in lilytext  */
@@ -897,7 +907,7 @@ typedef struct DenemoGUI
   guint changecount;/**< number of edits since score loaded */
   guint lilysync;/**< value of changecount when the Lily text was last refreshed */
 
- 
+  guint layout_sync;/**< value of changecount when the layout structure of the score was last changed, used to detect if a DenemoScoreblock is out of date */
   /* support for rhythm patterns */
   GList *rhythms;/**< list of RhythmPattern s */
   GList *currhythm; /**< currently in use element of rhythms */
