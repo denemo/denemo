@@ -21,8 +21,8 @@ draw_lily_dir (cairo_t *cr,
   gchar *first = (lily->postfix && lily->postfix->len)? lily->postfix->str:" ";
   guint layout = selected_layout_id();
   gdouble only = lily->y?((lily->y==layout)?0.5:0.0):0.0;
-  gdouble exclude = lily->x?((lily->x==layout)?0.5:0.0):0.0;
-
+  gdouble exclude = lily->x?((lily->x==layout)?0.9:0.0):0.0;
+  if(lily->y && lily->y!=layout) exclude = 0.9;
   cairo_save(cr);
     
   selected?
