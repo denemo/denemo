@@ -28,7 +28,7 @@
 #include <math.h>
 #include <aubio/aubio.h>
 #include <audio.h>
-#include <glib/gmessages.h>
+#include <glib.h>
 
 #ifdef HAVE_C99_VARARGS_MACROS
 #define debug(...)              if (verbose) fprintf (stderr, __VA_ARGS__)
