@@ -33,6 +33,10 @@
       \fill-line { \postscript #"-20 0 moveto 40 0 rlineto stroke" }
       \vspace #6
       \fill-line { \fontsize #5 \fromproperty #'header:date }
+      \when-property #'header:date \vspace #6
+      \when-property #'header:instrumentation 
+          \fill-line { \fontsize #5 \italic \fromproperty #'header:instrumentation }
+      
       \vspace #1 
       \fill-line {
         \when-property #'header:arranger \column {
