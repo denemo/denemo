@@ -5983,6 +5983,14 @@ for second and subsequent systems</tooltip>
         <label>Automatic Voice</label>
         <tooltip>Undoes the effect of the VoiceOne, Two ... commands. The voice has variable stem direction, slur placement etc.</tooltip>
       </row>
+      <row>
+        <action>BookInstrumentation</action>
+        <after>BookComposer</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles/Book Titles</menupath>
+        <label>Instrumentation</label>
+        <tooltip>Prints the instrumentation on the title page. This can be edited for layouts that print just one part or section.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
