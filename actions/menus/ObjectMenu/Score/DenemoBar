@@ -7,7 +7,9 @@
       <row>
         <after>Ambitus</after>
         <action>DenemoBar</action>
-        <scheme>(d-DirectivePut-score-prefix "DenemoBar" "\n
+        <scheme>
+        ;;;DenemoBar
+        (d-DirectivePut-score-prefix "DenemoBar" "\n
 increaseBarNumber = \\applyContext
 #(lambda (x)
   (let ((measurepos (ly:context-property x 'measurePosition)))
@@ -39,9 +41,8 @@ nibar = #(define-music-function (parser location x) (string?)
   \\increaseBarNumber
 #})
 Barline =   \\nibar \"|\"\n")
-
-(d-DirectivePut-score-postfix "DenemoBar" " \\set Score.timing = ##f 
-")
+(d-DirectivePut-score-override "DenemoBar" DENEMO_OVERRIDE_AFFIX)
+(d-DirectivePut-score-postfix "ScoreTiming" " \\set Score.timing = ##f \n")
 </scheme>
         <label>Typeset Barlines Literally</label>
         <tooltip>Typesets the Denemo barlines, regardless of the timing.</tooltip>
