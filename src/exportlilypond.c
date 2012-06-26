@@ -47,8 +47,8 @@
 #define ERRORTEXT "error text"
 
 
-#define TAB "        "
-static gchar *get_postfix(GList *g);
+
+ gchar *get_postfix(GList *g);
 static void 
 create_lilywindow(DenemoGUI *gui);
 static void
@@ -748,7 +748,7 @@ return g_string_free(ret, FALSE);\
 }
 
 #define GET_AFFIX(field)\
- static gchar *get_##field(GList *g) {\
+   gchar *get_##field(GList *g) {\
   return get_overridden_##field(g, FALSE);\
 }
 
@@ -1463,31 +1463,36 @@ outputHeader (GString *str, DenemoGUI * gui)
   else
     g_string_append_printf (str, "\\version \"%s\"\n", get_lily_version_string());
   
-  /* print \paper block settings for excerpt */
+
+  
+}
+
+gchar *get_lilypond_paper(void) {
+  DenemoGUI *gui = Denemo.gui;
+  GString *str = g_string_new("");
+  /* \paper block settings for excerpt */
   if (gui->lilycontrol.excerpt == TRUE){
-    g_string_append_printf (str, "%s", "\\paper {printallheaders = ##f\n");
-    g_string_append_printf (str, "%s", "\t#(define dump-extents #t)\n");
-    g_string_append_printf (str, "%s", "\tline-width = 160\\mm - 2.0 * 0.4\\in\n");
-    g_string_append_printf (str, "%s", "\tragged-right = ##t\n");
-    g_string_append_printf (str, "%s", "\tindent = 0\\mm\n");
-    g_string_append_printf (str, "%s", "\tforce-assignment = #\"\"\n");
-    g_string_append_printf (str, "%s", "\tline-width = #(- line-width (* mm  3.000000))\n");
-    g_string_append_printf (str, "%s", "}\n");
+    g_string_append_printf (str, "%s", "print-all-headers = ##f\n");
+    g_string_append_printf (str, "%s", TAB"#(define dump-extents #t)\n");
+    g_string_append_printf (str, "%s", TAB"line-width = 160\\mm - 2.0 * 0.4\\in\n");
+    g_string_append_printf (str, "%s", TAB"ragged-right = ##t\n");
+    g_string_append_printf (str, "%s", TAB"indent = 0\\mm\n");
+    g_string_append_printf (str, "%s", TAB"force-assignment = #\"\"\n");
+    g_string_append_printf (str, "%s", TAB"line-width = #(- line-width (* mm  3.000000))\n");
+    
   }
-  /* print \paper block settings for the score */
+  /* \paper block settings for the score */
   else {
-    g_string_append_printf (str,  "%s", "\\paper {\n");
+    
     gchar *paper_settings = get_postfix(gui->paper.directives);
     if(paper_settings){
       g_string_append(str, paper_settings);
       g_free(paper_settings);
     } else
-      g_string_append_printf (str,  "%s", "printallheaders = ##f\n");
-    g_string_append_printf (str,  "%s", "}\n");
+      g_string_append_printf (str,  "%s", "print-all-headers = ##f\n");
   }
-  
+return g_string_free(str, FALSE);
 }
-
 
 static void do_time_sig(GString *definitions, DenemoStaff *curstaffstruct, gchar *movement, gchar *voice)
     {
@@ -1672,23 +1677,23 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     //  g_string_append_printf(definitions, "\n%s%sMidiInst = \\set Staff.midiInstrument = \"%s\"\n", movement, voice, curstaffstruct->midi_instrument->str);
     
     /* Time signature */
-    do_time_sig(definitions, curstaffstruct, movement, voice);
+   // do_time_sig(definitions, curstaffstruct, movement, voice);
 
     /* Determine the key signature */
 
     gchar *keyname;
     /* key signature name */
-  do_key_sig(definitions, curstaffstruct, movement, voice);
+  //do_key_sig(definitions, curstaffstruct, movement, voice);
   determinekey (curstaffstruct->keysig.isminor ?
 		      curstaffstruct->keysig.number + 3 : curstaffstruct->keysig.number, &keyname);
     gchar *clefname;
     /* clef name */		      
  /* Determine the clef */
-  do_clef(definitions, curstaffstruct, movement, voice);
+  //do_clef(definitions, curstaffstruct, movement, voice);
   determineclef (curstaffstruct->clef.type, &clefname);
     
-    g_string_append_printf(definitions, "%s%sProlog = { \\%s%sTimeSig \\%s%sKeySig \\%s%sClef}\n", 
-			    movement, voice, movement, voice, movement, voice, movement, voice);
+   // g_string_append_printf(definitions, "%s%sProlog = { \\%s%sTimeSig \\%s%sKeySig \\%s%sClef}\n", 
+//			    movement, voice, movement, voice, movement, voice, movement, voice);
 #if 0
 //This is the old meaning of voice-prefix without overrides. This could befome AFFIX override, if it is needed. Also we should put the voice postfix at the end
     gchar *voice_prefix = get_prefix(curstaffstruct->voice_directives);
@@ -1892,6 +1897,8 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   g_string_append_printf(str, "%s", "}\n");
   gint voice_override = get_lily_override(curstaffstruct->voice_directives);
   gchar *voice_prolog_insert = get_postfix(curstaffstruct->voice_directives);
+#if 0
+
   if(invisibility==NULL) {
     g_string_append_printf(definitions, "%s%sMusic =  {\\%s%sProlog \\%s%s}\n",
 			   movement, voice, movement, voice, movement, voice);
@@ -1913,6 +1920,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 			     
   }
 
+#endif
 
 
   g_free(voice_prolog_insert);
@@ -2226,7 +2234,7 @@ void set_voice_termination(GString *str, DenemoStaff *curstaffstruct){
 		if(voice_override) {
 		  g_string_append_printf(str, "%s", voice_epilog_insert);
 		} else {
-		g_string_assign(str, "\t\t} %End of voice");
+		g_string_assign(str, TAB TAB"} %End of voice\n");
 		}
 }
 	    
@@ -2317,11 +2325,12 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
  
   
     {//no custom prolog
+
     GString *header = g_string_new("");
     outputHeader (header, gui);
     gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, header->str, -1,  INEDITABLE, NULL);
     g_string_free(header, TRUE);
-
+#if 0
     gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "#(set-default-paper-size \"", -1, INEDITABLE, NULL, NULL);
     insert_editable(&gui->lilycontrol.papersize, gui->lilycontrol.papersize->str, &iter, NULL, gui);
     gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\"\n", -1, INEDITABLE, NULL, NULL);
@@ -2332,7 +2341,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
     gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "#(set-global-staff-size ", -1, INEDITABLE, NULL, NULL);
     insert_editable(&gui->lilycontrol.staffsize, gui->lilycontrol.staffsize->str, &iter, NULL, gui);
     gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, ")\n", -1, INEDITABLE, NULL, NULL);
-
+#endif
 
     {
       gchar *header_string = get_postfix(gui->scoreheader.directives);
@@ -2348,12 +2357,15 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
   }//end of standard prolog
 
     {//Score prefix
+//    !!used in DenemoBar command (set barlines literally) along with postfix.
+//    change this script to have DENEMO_OVERRIDE_AFFIX set and then move all others to the score layout section
+    
       //Default value for barline = barline check
       gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter,  "\nBarline = |\nEndMovementBarline = \\bar \"|.\"\n", -1, INEDITABLE, NULL, NULL);
   GList *g = gui->lilycontrol.directives;
   for(;g;g=g->next) {
     DenemoDirective *directive = g->data;
-    if(directive->prefix && !(directive->override&(DENEMO_OVERRIDE_AFFIX|DENEMO_ALT_OVERRIDE))) //This used to be (mistakenly) DENEMO_ALT_OVERRIDE
+    if(directive->prefix && (directive->override&(DENEMO_OVERRIDE_AFFIX))) //This used to be (mistakenly) DENEMO_ALT_OVERRIDE
       insert_editable(&directive->prefix, directive->prefix->str, &iter, NULL, gui);
     //insert_section(&directive->prefix, directive->tag->str, NULL, &iter, gui);
   }

@@ -2292,7 +2292,7 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
   button = gtk_button_new_with_label("Put Edit Script");
   gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
   g_signal_connect(G_OBJECT(button),"clicked",  G_CALLBACK(put_edit_script), directive->tag->str);
-#if 0
+#ifdef UPLOAD_TO_DENEMO_DOT_ORG
 //disabled until website can take uploading again
   button = gtk_button_new_with_label("Upload Edit Script");
   gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
