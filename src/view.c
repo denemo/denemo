@@ -7702,10 +7702,11 @@ static gboolean menu_click (GtkWidget      *widget,
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
       g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(saveGraphicItem), action);
     }
+#ifdef UPLOAD_TO_DENEMO_DOT_ORG
     item = gtk_menu_item_new_with_label("Upload this Script to denemo.org");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(uploadMenuItem), action);
-
+#endif
   }
   if (gtk_widget_get_visible(gtk_widget_get_toplevel(Denemo.ScriptView))) {
     item = gtk_menu_item_new_with_label("Save Script as New Menu Item");
