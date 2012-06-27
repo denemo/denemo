@@ -1367,6 +1367,7 @@ static void create_score_directives(GtkWidget *vbox) {
 	
 static void create_scorewide_block(GtkWidget *vbox) {
 	DenemoGUI *gui = Denemo.gui;
+	#if 0
 	GtkWidget *frame = gtk_frame_new(NULL);
 	gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, TRUE, 0);
 	GtkWidget *top_expander = gtk_expander_new("Score-wide Settings");
@@ -1374,9 +1375,9 @@ static void create_scorewide_block(GtkWidget *vbox) {
 	gtk_container_add(GTK_CONTAINER(frame), top_expander);
 	GtkWidget *inner_vbox = gtk_vbox_new(FALSE, 8);
 	gtk_container_add(GTK_CONTAINER(top_expander), inner_vbox);
-
-	frame = gtk_frame_new(NULL);
-	gtk_box_pack_start(GTK_BOX(inner_vbox), frame, FALSE, TRUE, 0);
+#endif
+	GtkWidget *frame = gtk_frame_new(NULL);
+	gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, TRUE, 0);
 	GtkWidget *expander = gtk_expander_new("Score-wide Titles etc.");
 	gtk_widget_set_tooltip_text(expander, _("Setting the score title, composer, headers and footers for this layout"));
 	gtk_container_add(GTK_CONTAINER(frame), expander);
