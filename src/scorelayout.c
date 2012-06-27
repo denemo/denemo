@@ -792,7 +792,7 @@ static popup_score_menu(GtkWidget *button) {
 	if(menuitem)
 		gtk_menu_popup (GTK_MENU(gtk_menu_item_get_submenu(GTK_MENU_ITEM(menuitem)) ), NULL, NULL, NULL, NULL, 0,  GDK_CURRENT_TIME);
 	else g_warning("No such menu path");
-	} else g_warning("This won't work for custom layout");!!!
+	} else warningdialog("This button is for changing the score itself, it will not affect this custom layout");
 }
 
 
@@ -1331,6 +1331,10 @@ static void create_scoreheader_directives(GtkWidget *vbox) {
 	gtk_container_add (GTK_CONTAINER (frame), top_expander);
 	GtkWidget *header_box = gtk_vbox_new(FALSE, 8);
 	gtk_container_add(GTK_CONTAINER(top_expander), header_box);
+	 
+	gchar *default_tagline = g_strdup_printf("tagline = \\markup {%s on \\simple #(strftime \"%%x\" (localtime (current-time)))}\n", gui->filename->str);		
+	create_element(header_box, gtk_label_new("Default tagline"), default_tagline);
+	
 	GList *g;
 	for(g=gui->scoreheader.directives;g;g=g->next){
 		DenemoDirective *directive = (DenemoDirective*)g->data;
@@ -1390,8 +1394,7 @@ static void create_scorewide_block(GtkWidget *vbox) {
 	gtk_box_pack_start(GTK_BOX(inner_box), button, FALSE, TRUE, 0);
 
 	
-	gchar *default_tagline = g_strdup_printf("tagline = \\markup {%s on \\simple #(strftime \"%%x\" (localtime (current-time)))}\n", gui->filename->str);		
-	create_element(inner_box, gtk_button_new_with_label("Default tagline"), default_tagline);
+	
 
 	create_scoreheader_directives(inner_box);
 	create_score_directives(inner_box);
