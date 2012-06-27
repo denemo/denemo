@@ -2341,7 +2341,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
     gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "#(set-global-staff-size ", -1, INEDITABLE, NULL, NULL);
     insert_editable(&gui->lilycontrol.staffsize, gui->lilycontrol.staffsize->str, &iter, NULL, gui);
     gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, ")\n", -1, INEDITABLE, NULL, NULL);
-#endif
+
 
     {
       gchar *header_string = get_postfix(gui->scoreheader.directives);
@@ -2354,6 +2354,8 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
       g_free(header_string);
       }
     }
+#endif
+    
   }//end of standard prolog
 
     {//Score prefix
