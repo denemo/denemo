@@ -332,10 +332,8 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
   if (action == NEWVOICE)
     g_string_sprintf (thestaffstruct->denemo_name, _("poly voice %d"),
 		      numstaffs + 1);
-  else if (action == LYRICSTAFF)
-    g_string_sprintf (thestaffstruct->denemo_name, _("lyrics"));
-  else if (action == FIGURESTAFF)
-    g_string_sprintf (thestaffstruct->denemo_name, _("figures"));
+  else if (action == INITIAL)
+    g_string_sprintf (thestaffstruct->denemo_name, _("unnamed"));
   else
     g_string_sprintf (thestaffstruct->denemo_name, _("voice %d"),
 		      numstaffs + 1);
