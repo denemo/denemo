@@ -60,7 +60,7 @@
     <voices>
       <voice id="id1">
         <voice-info>
-          <voice-name>voice 1</voice-name>
+          <voice-name>unnamed</voice-name>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>

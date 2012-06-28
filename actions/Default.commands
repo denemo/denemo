@@ -1306,21 +1306,25 @@ these may need re-making.</tooltip>
       </row>
       <row>
         <action>AddBefore</action>
+        <hidden></hidden>
         <label>Add Staff Before</label>
         <tooltip>Inserts a new staff before the current staff</tooltip>
       </row>
       <row>
         <action>AddAfter</action>
+        <hidden></hidden>
         <label>Add Staff After</label>
         <tooltip>Inserts/Adds a new staff after the current staff</tooltip>
       </row>
       <row>
         <action>AddInitial</action>
+        <hidden></hidden>
         <label>Add Initial Staff</label>
         <tooltip>Inserts a new staff at the top of the score</tooltip>
       </row>
       <row>
         <action>AddLast</action>
+        <hidden></hidden>
         <label>Add Last Staff</label>
         <tooltip>Inserts a new staff at the end of the score</tooltip>
       </row>
@@ -5990,6 +5994,20 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/Score/Titles/Book Titles</menupath>
         <label>Instrumentation</label>
         <tooltip>Prints the instrumentation on the title page. This can be edited for layouts that print just one part or section.</tooltip>
+      </row>
+      <row>
+        <action>NewStaffAfter</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/InsertStaff</menupath>
+        <label>New Staff After Current</label>
+        <tooltip>Creates a new staff with the given name, after the current staff. Use the staff to voice command if you want to make this staff a voice on the previous staff.</tooltip>
+      </row>
+            <row>
+        <action>NewStaffBefore</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/InsertStaff</menupath>
+        <label>New Staff Before Current</label>
+        <tooltip>Creates a new staff with the given name, before the current staff.</tooltip>
       </row>
     </map>
   </merge>
