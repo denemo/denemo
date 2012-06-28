@@ -33,8 +33,6 @@ open_user_default_template(ImportType type);
 
 void
 system_template_open_with_check (GtkAction *action, DenemoScriptParam * param);
-void
-load_initdotdenemo(void);
 
 void
 system_example_open_with_check (GtkAction *action, DenemoScriptParam * param);

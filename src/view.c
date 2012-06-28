@@ -5606,12 +5606,8 @@ void inner_main(void*closure, int argc, char **argv){
 
  load_scheme_init();
 
- if(!initial_file){   
-   load_initdotdenemo();
-
- } else
-   if (open_for_real (initial_file, Denemo.gui, FALSE, REPLACE_SCORE) == -1)
-     ;// open_user_default_template(REPLACE_SCORE);
+ if(initial_file)
+   (void)open_for_real (initial_file, Denemo.gui, FALSE, REPLACE_SCORE);
  
  {
    gchar *crash_file = g_build_filename(locatedotdenemo (), "crashrecovery.denemo", NULL);
@@ -5660,8 +5656,6 @@ void inner_main(void*closure, int argc, char **argv){
  
   if(Denemo.scheme_commands)
    call_out_to_guile(Denemo.scheme_commands);
-  //else ?????
- // set_tuning();
 
 g_print("Gtk version %u.%u.%u\n", gtk_major_version, gtk_minor_version, gtk_micro_version);
 //#ifndef G_OS_WIN32
@@ -9262,7 +9256,6 @@ newview (GtkAction *action, gpointer param)
   newtab(NULL, NULL);
   Denemo.gui->si->undo_guard = 1;//do not collect undo for initialization of score
   load_scheme_init();
-  load_initdotdenemo();
   Denemo.gui->si->undo_guard = Denemo.prefs.disable_undo;
 }
 
