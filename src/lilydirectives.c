@@ -1229,9 +1229,10 @@ text_edit_directive_by_fn(DenemoDirective *directive, gpointer fn);
 
 static void
 button_callback  (GtkWidget *widget, GdkEventButton *event, DenemoDirective *directive) {
+ // !!!!! clicking on a staff tools menu item comes thru here - but if you break gdb here as the menu item is still up your mouse is grabbed.
   gboolean left = TRUE;
   if(event!=NULL)
-    left = !((event->button != 1) /* && (event->state&(GDK_SHIFT_MASK|GDK_CONTROL_MASK)) */);                  
+    left = !((event->button != 1));      
   if(left && (directive->override&DENEMO_OVERRIDE_EDITOR))
     {
       GtkWidget *texteditor = (GtkWidget*)g_object_get_data(G_OBJECT(directive->widget), DENEMO_TEXTEDITOR_TAG);
@@ -1259,19 +1260,23 @@ button_callback  (GtkWidget *widget, GdkEventButton *event, DenemoDirective *dir
         else do text edit of the directives fields
         */
           GtkAction *action;
-          if(left && (directive->override&DENEMO_OVERRIDE_TAGEDIT) &&((action = lookup_action_from_name((gchar *)directive->tag->str))!=NULL))
+          if(left && ((action = lookup_action_from_name((gchar *)directive->tag->str))!=NULL) && (directive->override&DENEMO_OVERRIDE_TAGEDIT))
             gtk_action_activate(action);
           else {
-            gpointer fn = (widget!=NULL)? g_object_get_data(G_OBJECT(widget), "fn"):NULL;
-            if(fn) {
-              gboolean delete = !text_edit_directive_by_fn(directive, fn);
-              if(delete) {
-                GList **directives = (GList**)g_object_get_data(G_OBJECT(widget), "directives-pointer");
-                if(directives)
-                  delete_directive(directives, directive->tag->str);
-                else
-                  g_warning("Could not get directives list to delete from");
+            if(left && action && confirm("Directive Edit", "Re-issue command?")) {
+                  gtk_action_activate(action);
+              } else {
+              gpointer fn = (widget!=NULL)? g_object_get_data(G_OBJECT(widget), "fn"):NULL;
+              if(fn) {
+                gboolean delete = !text_edit_directive_by_fn(directive, fn);
+                if(delete) {
+                  GList **directives = (GList**)g_object_get_data(G_OBJECT(widget), "directives-pointer");
+                  if(directives)
+                    delete_directive(directives, directive->tag->str);
+                  else
+                    g_warning("Could not get directives list to delete from");
                 }
+              }
             }
           }
       }
