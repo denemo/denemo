@@ -528,7 +528,7 @@ void staff_properties_change_cb (GtkAction *action, DenemoScriptParam * param) {
    return;
  }
  take_snapshot();
-
+ signal_structural_change(Denemo.gui); 
  if(denemo_name) {
     g_string_assign(staff->denemo_name, denemo_name);
     canonicalize_denemo_name (denemo_name, staff->denemo_name);
