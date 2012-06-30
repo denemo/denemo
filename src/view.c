@@ -8613,6 +8613,10 @@ switch_page (GtkNotebook *notebook, GtkWidget *page,  guint pagenum) {
     if(gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (widget)))
       gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (widget), FALSE);
   }
+  
+  if(gtk_widget_get_visible( Denemo.gui->score_layout))
+    activate_action("/MainMenu/ViewMenu/"ToggleScoreLayout_STRING);
+    
   unhighlight_rhythm(Denemo.gui->prevailing_rhythm);
 
   Denemo.gui = gui = (DenemoGUI*)(g->data);
@@ -9273,9 +9277,9 @@ denemo_scheme_init();
  */
 static void
 newtab (GtkAction *action, gpointer param) {
+  if(Denemo.gui && gtk_widget_get_visible( Denemo.gui->score_layout))
+    activate_action("/MainMenu/ViewMenu/"ToggleScoreLayout_STRING); 
   static gint id=1;
-  //  if(Denemo.guis==NULL)
-  //    action_group = create_window();
   DenemoGUI *gui = (DenemoGUI *) g_malloc0 (sizeof (DenemoGUI));
   gui->id = id++;//uniquely identifies this musical score editor for duration of program.
   gui->mode = Denemo.prefs.mode;
