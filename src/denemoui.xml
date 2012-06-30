@@ -2,7 +2,7 @@
 <ui>
   <menubar name="MainMenu">
     <menu action="FileMenu">
-      <menuitem action="New"/>
+      <menuitem action="NewScore"/>
       <menuitem action="NewWindow"/>
       <separator/>
       <menu action="OpenMenu">
@@ -482,7 +482,7 @@
 
 
   <toolbar name="ToolBar">
-    <toolitem action="New"/>
+    <toolitem action="NewScore"/>
     <toolitem action="Open"/>
     <toolitem action="Save"/>
     <separator/>

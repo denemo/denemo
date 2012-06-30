@@ -8691,7 +8691,7 @@ static void  proxy_connected (GtkUIManager *uimanager, GtkAction *action, GtkWid
   if(tooltip && g_str_has_prefix(tooltip, "Menu:"))
     additional_text = "Click here then hover over the menu items to find out what they will do";
   else
-    additional_text = "Left click to execute the command, press a key to assign a keyboard shortcut to the command,\nright click to get a menu from which you can\ncreate a button for this command, or a two-key keyboard shortcut or more options still";
+    additional_text = "Left click to execute the command, press a key to assign a keyboard shortcut to the command,\nRight click to get a menu from which you can\nCreate a button for this command, or a two-key keyboard shortcut or more options still";
   gchar *tip = g_strconcat ( tooltip, "\n------------------------------------------------------------------\n", additional_text,  NULL);
    // unfortunately submenus seem not to be attached yet ... if((GTK_IS_IMAGE_MENU_ITEM(proxy)) && gtk_menu_item_get_submenu(proxy)) tip = g_strdup("test");
    // Denemo.map is not yet created either :(
@@ -9259,6 +9259,12 @@ newview (GtkAction *action, gpointer param)
   Denemo.gui->si->undo_guard = Denemo.prefs.disable_undo;
 }
 
+void new_score_cb(GtkAction * action, gpointer param)
+{
+file_newwrapper (action, param);
+call_out_to_guile("(d-InstrumentName)");
+denemo_scheme_init();
+}
 /**
  * Creates a new DenemoGUI structure represented by a tab in a notebook: the DenemoGUI can, at anyone time, control one musical score possibly of several movements. It can, from time to time have different musical scores loaded into it. So it is to be thought of as a Music Score Editor.
  * This DenemoGUI* gui is appended to the global list Denemo.guis.

@@ -49,6 +49,9 @@ void
 file_newwrapper (GtkAction *action, gpointer param);
 
 void
+new_score_cb(GtkAction * action, gpointer param);
+
+void
 file_save (GtkWidget * widget, DenemoGUI *gui);
 
 void

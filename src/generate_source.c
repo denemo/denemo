@@ -387,8 +387,9 @@ struct name_and_function denemo_commands[] = {
 
 
 
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_NEW", "Start a new musical score", N_("New"), "file_newwrapper", N_("New File")}, 
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Open a file containing a music score for editing", N_("OpenMenu"), NULL, N_("Open")}, 
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_NEW", "Start a new musical score", N_("New"), "file_newwrapper", "Empty Score"},
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_NEW", "Start a new musical score for a named instrument/voice.", N_("NewScore"), "new_score_cb", N_("New")},
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Menu:\\nOpen a previously edited score, or a source file for transcription", N_("OpenMenu"), NULL, N_("Open")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Open a file containing a music score for editing", N_("Open"), "file_open_with_check", N_("Open")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Import a Lilypond file", N_("ImportLilypond"), "file_import_lilypond_with_check", N_("Import Lilypond")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Import a Midi file", N_("ImportMidi"), "file_import_midi_with_check", N_("Import Midi")}, 
@@ -414,16 +415,16 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Export the score as a PDF document file", N_("ExportPDF"), "export_pdf_action", N_("Export PDF")},
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Export the score as a PNG image file", N_("ExportPNG"), "export_png_action", N_("Export PNG")},
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Export the score as a MIDI file", N_("ExportMIDI"), "export_midi_action", N_("Export MIDI")},
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT", "Typesets the score\\nIf you have a score layout selected it will use that\\notherwise all movements staffs and lyrics are typeset by default.\\nBe patient! It takes time to create a beautifully laid out score.\\nOnce complete you can view and then send to your printer or to a file as a .pdf document.", N_("PrintMenu"), NULL, N_("Print")}, 
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT", "Menu:\\nCommands for typesetting and then printing the music.\\nA part, movement, full score or various reduced scores can be typeset.\\n See also the Score Layout view for further options.", N_("PrintMenu"), NULL, N_("Print")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT_PREVIEW", "Displays the final finished score in your pd viewer", N_("PrintPreview"), "printpreview_cb", N_("Print Preview")},
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT_PREVIEW", "Displays the final finished score in the Print View window", N_("PrintView"), "show_print_view", N_("Print Preview")},
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT_PREVIEW", "Typesets the score\\nIf you have a score layout selected it will use that\\notherwise all movements staffs and lyrics are typeset by default.\\nBe patient! It takes time to create a beautifully laid out score.\\nOnce complete you can view and then send to your printer or to a file as a .pdf document.", N_("PrintView"), "show_print_view", N_("Print Preview")},
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT", "Displays selected music from score in your pdf viewer", N_("PrintSelection"), "printselection_cb", N_("Print Selection")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT_PREVIEW", "Displays a musical excerpt in your image viewer", N_("PrintExcerptPreview"), "printexcerptpreview_cb", N_("Print Excerpt")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT", "Typesets the current movement and opens a print dialog", N_("PrintMovement"), "printmovement_cb",  N_("Print Movement")},
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT", "Typesets the score using LilyPond and opens a print dialog", N_("Print"), "printall_cb",  N_("Print")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT", "Typesets the current part (the one containing the cursor).", N_("PrintPart"), "printpart_cb", N_("Print Part")}, 
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_CLOSE", "Close the current score. Other windows will stay open", N_("Close"), "close_gui_with_check", N_("Close Score")}, 
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_QUIT", "Quit the Denemo program", N_("Quit"), "closewrapper", N_("Quit")}, 
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_CLOSE", "Close the current score. Other scores (tabs) will stay open", N_("Close"), "close_gui_with_check", N_("Close Score")}, 
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_QUIT", "Quit the Denemo program - closes tabs one at a time.", N_("Quit"), "closewrapper", N_("Quit")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_UNDO", "Undoes one (more) step of your edits to the current score.", N_("Undo"), "undowrapper", N_("Undo")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_REDO", "Redoes the next of the steps you have Undone", N_("Redo"), "redowrapper", N_("Redo")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Selecting stretches of notes", N_("Select"), NULL, N_("Select")}, 
@@ -538,7 +539,7 @@ struct name_and_function denemo_commands[] = {
 
  
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Open previously used files", N_("OpenRecent"), NULL, N_("Open Recent")},
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Import supported file formats", N_("Import"), NULL, N_("Import File")},
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Menu:\\nImport the supported file formats", N_("Import"), NULL, N_("Import File")},
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nExport the music to another file format.\\nThese file formats will not support all the features of the score.", N_("Export"), NULL, N_("Export As")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Toggle between current mode and edit mode", N_("ToggleEdit"), "toggle_edit_mode", N_("Toggle Edit Mode")},
   {CMD_CATEGORY_DIRECT, NULL, "Toggle between note entry and rest entry", N_("ToggleRest"),  "toggle_rest_mode", N_("Toggle Rest Mode")}, 

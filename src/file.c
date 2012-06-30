@@ -1068,6 +1068,7 @@ file_newwrapper (GtkAction * action, gpointer param)
   score_status(gui, FALSE);
 }
 
+
 /* open_user_default_template
  * open the user's standard template if there is one
  * @return 0 for success non zero for failure

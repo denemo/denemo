@@ -815,6 +815,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "FlattenEnharmonicSet")), 
 SCM scheme_New(SCM optional);
 install_scm_function ("d-New", scheme_New);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "New")), "scm", (gpointer)1);
+/*NewScore new_score_cb*/
+SCM scheme_NewScore(SCM optional);
+install_scm_function ("d-NewScore", scheme_NewScore);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "NewScore")), "scm", (gpointer)1);
 /*Open file_open_with_check*/
 SCM scheme_Open(SCM optional);
 install_scm_function ("d-Open", scheme_Open);

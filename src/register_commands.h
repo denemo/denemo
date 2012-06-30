@@ -201,7 +201,8 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "AppendMe
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ExecuteScheme"), "ExecuteScheme", "Execute Scheme", "Execute the scheme code from the scripting window", execute_scheme);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "SharpenEnharmonicSet"), "SharpenEnharmonicSet", "Shift Accidentals Sharpwise", "Shifts the set of accidentals one step sharper", set_sharper);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "FlattenEnharmonicSet"), "FlattenEnharmonicSet", "Shift Accidentals Flatwise", "Shifts the set of accidentals one step flatter", set_flatter);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "New"), "New", "New File", "Start a new musical score", file_newwrapper);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "New"), "New", "Empty Score", "Start a new musical score", file_newwrapper);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "NewScore"), "NewScore", "New", "Start a new musical score for a named instrument/voice.", new_score_cb);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Open"), "Open", "Open", "Open a file containing a music score for editing", file_open_with_check);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ImportLilypond"), "ImportLilypond", "Import Lilypond", "Import a Lilypond file", file_import_lilypond_with_check);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ImportMidi"), "ImportMidi", "Import Midi", "Import a Midi file", file_import_midi_with_check);
@@ -227,14 +228,14 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "ExportPD
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ExportPNG"), "ExportPNG", "Export PNG", "Export the score as a PNG image file", export_png_action);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ExportMIDI"), "ExportMIDI", "Export MIDI", "Export the score as a MIDI file", export_midi_action);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintPreview"), "PrintPreview", "Print Preview", "Displays the final finished score in your pd viewer", printpreview_cb);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintView"), "PrintView", "Print Preview", "Displays the final finished score in the Print View window", show_print_view);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintView"), "PrintView", "Print Preview", "Typesets the score\nIf you have a score layout selected it will use that\notherwise all movements staffs and lyrics are typeset by default.\nBe patient! It takes time to create a beautifully laid out score.\nOnce complete you can view and then send to your printer or to a file as a .pdf document.", show_print_view);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintSelection"), "PrintSelection", "Print Selection", "Displays selected music from score in your pdf viewer", printselection_cb);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintExcerptPreview"), "PrintExcerptPreview", "Print Excerpt", "Displays a musical excerpt in your image viewer", printexcerptpreview_cb);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintMovement"), "PrintMovement", "Print Movement", "Typesets the current movement and opens a print dialog", printmovement_cb);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Print"), "Print", "Print", "Typesets the score using LilyPond and opens a print dialog", printall_cb);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintPart"), "PrintPart", "Print Part", "Typesets the current part (the one containing the cursor).", printpart_cb);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Close"), "Close", "Close Score", "Close the current score. Other windows will stay open", close_gui_with_check);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Quit"), "Quit", "Quit", "Quit the Denemo program", closewrapper);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Close"), "Close", "Close Score", "Close the current score. Other scores (tabs) will stay open", close_gui_with_check);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Quit"), "Quit", "Quit", "Quit the Denemo program - closes tabs one at a time.", closewrapper);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Undo"), "Undo", "Undo", "Undoes one (more) step of your edits to the current score.", undowrapper);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Redo"), "Redo", "Redo", "Redoes the next of the steps you have Undone", redowrapper);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Copy"), "Copy", "Copy", "Copy the music selected to the Denemo clipboard", copywrapper);
