@@ -5,7 +5,6 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after/>
         <action>ScoreIndent</action>
         <scheme>;;;;;;;;;;;;;;; ScoreIndent Set indent
 (let ((amount "0.0") (current "0.0")(thematch #f))
@@ -19,9 +18,14 @@
 	    (set! current (match:substring thematch 1)))))
   (set! amount (d-GetUserInput "Choose indent of first system" "Give amount in decimal" current))
   ;;(display amount)
-  (d-DirectivePut-score-prefix "ScoreIndent" (string-append "\\layout {indent = " amount "}\n"))
-  (d-DirectivePut-score-override "ScoreIndent"	DENEMO_OVERRIDE_GRAPHIC)
-  (d-DirectivePut-score-display "ScoreIndent" (string-append "indent=" amount))
+  (if amount
+  	(begin
+  		(if (&gt; (string-length amount) 0)
+  			(begin
+  				(d-DirectivePut-score-prefix "ScoreIndent" (string-append "\\layout {indent = " amount "}\n"))
+  				(d-DirectivePut-score-override "ScoreIndent"	DENEMO_OVERRIDE_GRAPHIC)
+  				(d-DirectivePut-score-display "ScoreIndent" (string-append "indent=" amount)))
+  		(d-DirectiveDelete-score "ScoreIndent"))))
   (d-RefreshDisplay))
 </scheme>
         <label>Indent</label>

@@ -1035,8 +1035,13 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
       </row>
       <row>
         <action>New</action>
-        <label>New File</label>
+        <label>Empty Score</label>
         <tooltip>Start a new musical score</tooltip>
+      </row>
+      <row>
+        <action>NewScore</action>
+        <label>New</label>
+        <tooltip>Start a new musical score for a named instrument/voice.</tooltip>
       </row>
       <row>
         <action>Open</action>
@@ -1166,7 +1171,11 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
       <row>
         <action>PrintView</action>
         <label>Print Preview</label>
-        <tooltip>Displays the final finished score in the Print View window</tooltip>
+        <tooltip>Typesets the score
+If you have a score layout selected it will use that
+otherwise all movements staffs and lyrics are typeset by default.
+Be patient! It takes time to create a beautifully laid out score.
+Once complete you can view and then send to your printer or to a file as a .pdf document.</tooltip>
       </row>
       <row>
         <action>PrintSelection</action>
@@ -1196,12 +1205,12 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
       <row>
         <action>Close</action>
         <label>Close Score</label>
-        <tooltip>Close the current score. Other windows will stay open</tooltip>
+        <tooltip>Close the current score. Other scores (tabs) will stay open</tooltip>
       </row>
       <row>
         <action>Quit</action>
         <label>Quit</label>
-        <tooltip>Quit the Denemo program</tooltip>
+        <tooltip>Quit the Denemo program - closes tabs one at a time.</tooltip>
       </row>
       <row>
         <action>Undo</action>
@@ -1306,25 +1315,21 @@ these may need re-making.</tooltip>
       </row>
       <row>
         <action>AddBefore</action>
-        <hidden></hidden>
         <label>Add Staff Before</label>
         <tooltip>Inserts a new staff before the current staff</tooltip>
       </row>
       <row>
         <action>AddAfter</action>
-        <hidden></hidden>
         <label>Add Staff After</label>
         <tooltip>Inserts/Adds a new staff after the current staff</tooltip>
       </row>
       <row>
         <action>AddInitial</action>
-        <hidden></hidden>
         <label>Add Initial Staff</label>
         <tooltip>Inserts a new staff at the top of the score</tooltip>
       </row>
       <row>
         <action>AddLast</action>
-        <hidden></hidden>
         <label>Add Last Staff</label>
         <tooltip>Inserts a new staff at the end of the score</tooltip>
       </row>
@@ -6002,12 +6007,20 @@ for second and subsequent systems</tooltip>
         <label>New Staff After Current</label>
         <tooltip>Creates a new staff with the given name, after the current staff. Use the staff to voice command if you want to make this staff a voice on the previous staff.</tooltip>
       </row>
-            <row>
+      <row>
         <action>NewStaffBefore</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/StaffMenu/InsertStaff</menupath>
         <label>New Staff Before Current</label>
         <tooltip>Creates a new staff with the given name, before the current staff.</tooltip>
+      </row>
+      <row>
+        <action>HelpForReturnKey</action>
+        <after>About</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/HelpMenu</menupath>
+        <label>Help for Return Keypress</label>
+        <tooltip>Does nothing except explain what the Return key is used for in Denemo, and how to make it an ordinary shortcut if you prefer.</tooltip>
       </row>
     </map>
   </merge>
