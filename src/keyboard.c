@@ -690,9 +690,9 @@ write_xml_keybinding_info (gchar *kb_name, xmlNodePtr node)
 #ifdef DEBUG
   g_print ("binding is : (dnm) %s, (gtk) %s \n", dnm_binding, kb_name);
 #endif
+  if(!(Denemo.prefs.return_key_is_special && !strcmp(dnm_binding, N_("Return"))))
   xmlNewTextChild (node, NULL, (xmlChar *) "bind", (xmlChar *) dnm_binding);
   g_free(dnm_binding);
-
 }
 
 static void

@@ -49,6 +49,7 @@ struct callbackdata
   GtkWidget *pitchspellingprogram;
   GtkWidget *modal;
   GtkWidget *cursor_highlight;
+  GtkWidget *return_key_is_special;
   GtkWidget *persistence;
   GtkWidget *startmidiin;
   GtkWidget *applytoselection;
@@ -276,6 +277,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNBOOLEAN(modal)
   ASSIGNBOOLEAN(persistence)
   ASSIGNBOOLEAN(cursor_highlight)
+  ASSIGNBOOLEAN(return_key_is_special)
   ASSIGNBOOLEAN(startmidiin)
   ASSIGNBOOLEAN(applytoselection)
   ASSIGNBOOLEAN(quickshortcuts)
@@ -551,6 +553,7 @@ preferences_change (GtkAction *action, gpointer param)
 
 
   BOOLEANENTRY("Strict Shortcuts", strictshortcuts);
+  BOOLEANENTRY("Treat Return key as movable shortcut", return_key_is_special);
 
   /*
    * External (Helper) Programs

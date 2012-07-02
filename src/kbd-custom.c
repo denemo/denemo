@@ -1321,11 +1321,13 @@ add_named_binding_to_idx (keymap * the_keymap, gchar *kb_name,  guint command_id
   gchar *title = NULL;
   gchar *prompt = NULL;
   if(old_command_idx >= 0) {
-    title = g_strdup_printf("The Command %s Responds to the Shortcut %s", lookup_name_from_idx(Denemo.map, old_command_idx), kb_name);
-    prompt = g_strdup_printf("Lose the shortcut %s for this?", kb_name);
+    if((!Denemo.prefs.return_key_is_special) || strcmp(kb_name, N_("Return"))) {
+      title = g_strdup_printf("The Command %s Responds to the Shortcut %s", lookup_name_from_idx(Denemo.map, old_command_idx), kb_name);
+      prompt = g_strdup_printf("Lose the shortcut %s for this?", kb_name);
+    }
   }
   
-  if((pos==POS_FIRST) && 
+  if(title && (pos==POS_FIRST) && 
      (old_command_idx >= 0) &&
      (!confirm(title, prompt))){
       g_free(title);
