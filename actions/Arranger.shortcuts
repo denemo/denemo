@@ -322,6 +322,22 @@
         <bind>Ctrl+v</bind>
       </row>
       <row>
+        <action>AddBefore</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>AddAfter</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>AddInitial</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>AddLast</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>StaffProperties</action>
         <bind>Alt+Return</bind>
       </row>
@@ -896,7 +912,6 @@
       </row>
       <row>
         <action>HelpForReturnKey</action>
-        <bind>Return</bind>
       </row>
     </map>
   </merge>
