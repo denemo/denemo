@@ -770,12 +770,12 @@ update_preview_cb(GtkFileChooser *file_chooser, gpointer data){
   thumb_filename = large_thumbnail_name(selection_filename); 
   pixbuf = gdk_pixbuf_new_from_file_at_size(thumb_filename, 512,512, NULL);
   have_preview = (pixbuf !=NULL);
-  
+#ifdef DEBUG  
   printf("\n# %s for %s thumbnail = %s\n",have_preview? "We have a thumbnail generated":
 				     "We have not yet generated a thumbnail",
  				     selection_filename,
 				     thumb_filename);
-  
+#endif  
   g_free(selection_filename);
   g_free(thumb_filename);
 
