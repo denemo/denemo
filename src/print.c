@@ -1149,7 +1149,8 @@ printexcerptpreview_cb (GtkAction *action, gpointer param) {
     printrangedialog(gui);  //Launch a dialog to get selection
   if(gui->si->selection.firstmeasuremarked){
     gui->lilycontrol.excerpt = TRUE;
-    export_png((gchar *) get_printfile_pathbasename(), (GChildWatchFunc)prepare_preview, gui); 
+    export_png((gchar *) get_printfile_pathbasename(), (GChildWatchFunc)prepare_preview, gui);
+    gui->lilycontrol.excerpt = FALSE;
   }
 }
 
