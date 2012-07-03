@@ -1668,32 +1668,20 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 
   gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, curmark);
 
-  /* output staff prolog
-  if(curstaffstruct->staff_prolog && curstaffstruct->staff_prolog->len) {
-    insert_editable(&curstaffstruct->staff_prolog, curstaffstruct->staff_prolog->str, &iter, invisibility, gui);
-  } else */ {
-    
-    /* The midi instrument */
-    //  g_string_append_printf(definitions, "\n%s%sMidiInst = \\set Staff.midiInstrument = \"%s\"\n", movement, voice, curstaffstruct->midi_instrument->str);
-    
-    /* Time signature */
-   // do_time_sig(definitions, curstaffstruct, movement, voice);
-
+ {/* standard staff-prolog */
     /* Determine the key signature */
 
     gchar *keyname;
     /* key signature name */
-  //do_key_sig(definitions, curstaffstruct, movement, voice);
+
   determinekey (curstaffstruct->keysig.isminor ?
 		      curstaffstruct->keysig.number + 3 : curstaffstruct->keysig.number, &keyname);
     gchar *clefname;
-    /* clef name */		      
+   	      
  /* Determine the clef */
-  //do_clef(definitions, curstaffstruct, movement, voice);
+  
   determineclef (curstaffstruct->clef.type, &clefname);
-    
-   // g_string_append_printf(definitions, "%s%sProlog = { \\%s%sTimeSig \\%s%sKeySig \\%s%sClef}\n", 
-//			    movement, voice, movement, voice, movement, voice, movement, voice);
+  
 #if 0
 //This is the old meaning of voice-prefix without overrides. This could befome AFFIX override, if it is needed. Also we should put the voice postfix at the end
     gchar *voice_prefix = get_prefix(curstaffstruct->voice_directives);
@@ -1701,19 +1689,13 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 			   movement, voice, voice_prefix);    
     g_free(voice_prefix);
 #else
-    //gchar *voice_prefix = get_prefix(curstaffstruct->voice_directives);
     g_string_append_printf(str, "%s%s = {\n",
-			   movement, voice);    
-   // g_free(voice_prefix);
-
-    
+			   movement, voice);
 #endif
     gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
     //insert_editable(&curstaffstruct->staff_prolog, str->str, &iter,  invisibility, gui);
     gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, str->str, -1, INEDITABLE, invisibility, NULL);
-  } /* standard staff-prolog */
-
-  /* end of output staff-prolog */
+  } /*end standard staff-prolog */
 
   g_string_assign(str,"");
  
@@ -2330,31 +2312,6 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
     outputHeader (header, gui);
     gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, header->str, -1,  INEDITABLE, NULL);
     g_string_free(header, TRUE);
-#if 0
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "#(set-default-paper-size \"", -1, INEDITABLE, NULL, NULL);
-    insert_editable(&gui->lilycontrol.papersize, gui->lilycontrol.papersize->str, &iter, NULL, gui);
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\"\n", -1, INEDITABLE, NULL, NULL);
-    if(!gui->lilycontrol.orientation)
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "'landscape", -1, INEDITABLE, NULL, NULL);
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, ")\n", -1, INEDITABLE, NULL, NULL);
-    
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "#(set-global-staff-size ", -1, INEDITABLE, NULL, NULL);
-    insert_editable(&gui->lilycontrol.staffsize, gui->lilycontrol.staffsize->str, &iter, NULL, gui);
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, ")\n", -1, INEDITABLE, NULL, NULL);
-
-
-    {
-      gchar *header_string = get_postfix(gui->scoreheader.directives);
-      if(header_string) {
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\n\\header{\ntagline = \\markup {", -1, INEDITABLE, NULL, NULL);
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, gui->filename->str, -1, INEDITABLE, NULL, NULL);
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, " on \\simple #(strftime \"%x\" (localtime (current-time)))}\n", -1, INEDITABLE, NULL, NULL);
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, header_string, -1, INEDITABLE, NULL, NULL);   
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "}\n", -1, INEDITABLE, NULL, NULL);   
-      g_free(header_string);
-      }
-    }
-#endif
     
   }//end of standard prolog
 
@@ -2380,8 +2337,6 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
   
   /* output scoreblock */
   {
-
-
 	insert_scoreblock_section(gui, "standard scoreblock", sb);
 	gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, "standard scoreblock"));
 	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, (sb->lilypond)->str, -1, "bold", sb->visible?NULL:"invisible", NULL);
@@ -2407,8 +2362,6 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
     
     GString *scoreblock_defs = g_string_new("");
 
-
- 
     for (curstaff = si->thescore, voice_count=1, staff_count = 0; curstaff; curstaff = curstaff->next, voice_count++)
       {
 	gint visible_part=1;/* 1 for visible -1 for invisible */ 
@@ -2437,9 +2390,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	outputStaff (gui, si, curstaffstruct, start, end, movement_name->str, voice_name->str, movement_count*visible_movement, voice_count*visible_part, definitions, sb);
 	//FIXME amalgamate movement and voice names below here...
 	/* output score block */
-	if(visible_movement==1 && (visible_part==1)) {    
-	  
-	  
+	if(visible_movement==1 && (visible_part==1)) {
 	  GString *thestr = g_string_new("");
 	  gchar *staff_alt_prolog =  get_overridden_prefix(curstaffstruct->staff_directives, TRUE);
 	  gchar *staff_alt_epilog =  get_overridden_postfix(curstaffstruct->staff_directives, TRUE);
@@ -2447,13 +2398,9 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	  if(curstaffstruct->voicecontrol == DENEMO_PRIMARY) {
 	    g_string_append_printf(thestr, "%s\\%s%s\n", staff_alt_prolog, movement_name->str, staff_name->str);
 	  }
-
-	  
 	  
 	  if (!(curstaffstruct->voicecontrol & DENEMO_SECONDARY))
 	    {
-	     
-
 	      if (curstaffstruct->verses)
 		{
 		  GList *g;
@@ -2506,10 +2453,6 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	      }
 	     // g_string_append_printf(staffdefinitions,"}%s", endofblock);
 	  }
-	  
-	  
-	  
-
 	  g_string_free(thestr, TRUE);
 	}
       }/*end for staff loop */  
