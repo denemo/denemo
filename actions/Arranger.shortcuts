@@ -290,8 +290,20 @@
         <bind>M,n</bind>
       </row>
       <row>
-        <action>PrintPreview</action>
-        <bind>Ctrl+p</bind>
+        <action>PrintView</action>
+        <bind>Ctrl+p,p</bind>
+      </row>
+      <row>
+        <action>PrintSelection</action>
+        <bind>Ctrl+p,s</bind>
+      </row>
+      <row>
+        <action>PrintMovement</action>
+        <bind>Ctrl+p,m</bind>
+      </row>
+      <row>
+        <action>PrintPart</action>
+        <bind>Ctrl+p,Ctrl+p</bind>
       </row>
       <row>
         <action>Close</action>
@@ -387,6 +399,10 @@
         <action>Help</action>
         <bind>F1</bind>
         <bind>f1</bind>
+      </row>
+      <row>
+        <action>HelpForReturnKey</action>
+        <bind>Return</bind>
       </row>
       <row>
         <action>InsertA</action>
@@ -815,6 +831,10 @@
         <bind>Shft+Left</bind>
       </row>
       <row>
+        <action>Ottava</action>
+        <bind>o</bind>
+      </row>
+      <row>
         <action>NoBarline</action>
         <bind>B,o</bind>
       </row>
@@ -911,7 +931,8 @@
         <bind>Divide</bind>
       </row>
       <row>
-        <action>HelpForReturnKey</action>
+        <action>BookInstrumentation</action>
+        <bind>S,i</bind>
       </row>
     </map>
   </merge>
