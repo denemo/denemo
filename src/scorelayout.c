@@ -394,7 +394,8 @@ static void customize_standard_scoreblock_callback(GtkWidget *widget, DenemoScor
 	clone_scoreblock (sb, NULL);
 }
 
-static gboolean options_for_layout(GtkWidget *widget, GdkEvent *event, DenemoScoreblock *sb) {
+//static gboolean options_for_layout(GtkWidget *widget, GdkEvent *event, DenemoScoreblock *sb) {
+static gboolean options_for_layout(GtkWidget *widget, DenemoScoreblock *sb) {
 	GtkWidget *menu = gtk_menu_new();
 	GtkWidget *menuitem;
 	menuitem = gtk_menu_item_new_with_label("Typeset");
@@ -429,13 +430,13 @@ static gboolean options_for_layout(GtkWidget *widget, GdkEvent *event, DenemoSco
 	gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
 	return TRUE;
 }
-static GtkWidget *get_options_button(DenemoScoreblock *sb) {//was add_layout_control
-	GtkWidget *button = gtk_button_new_with_label("Options for this Layout");
-	gtk_widget_set_tooltip_text (button,"Click here to typeset this layout, or to re-compute the layout after changing the score structurally,\nor to create a customized layout or delete one");
-	g_signal_connect(button, "button-press-event", G_CALLBACK(options_for_layout), sb);
-	return button;
-	
-	//gtk_box_pack_end (GTK_BOX(gtk_bin_get_child(GTK_BIN(sb->widget))), button, FALSE, FALSE, 0);
+static GtkWidget *get_options_button(DenemoScoreblock *sb) {
+	GtkWidget *menubar = gtk_menu_bar_new();
+	GtkWidget *menuitem = gtk_menu_item_new_with_label("Options for this Layout");
+	gtk_widget_set_tooltip_text (menuitem,"Double Click here to get a menu: typeset this layout, or re-compute the layout after changing the score structurally,\nor  create a customized layout or delete one");
+	gtk_menu_shell_append(menubar, menuitem);
+	g_signal_connect(menuitem, "activate", G_CALLBACK(options_for_layout), sb);
+	return menubar;	
 }
 
 
