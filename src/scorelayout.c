@@ -127,6 +127,7 @@ static void prefix_edit_callback(GtkWidget *widget, GtkWidget *frame);
 static void create_element(GtkWidget *vbox, GtkWidget *widget, gchar *lilypond);
 static void create_standard_scoreblock(DenemoScoreblock **psb, gint movement, gchar *partname);
 static void recreate_standard_scoreblock(DenemoScoreblock **psb);
+static DenemoScoreblock *get_standard_scoreblock(GtkWidget *widget);
 void refresh_lilypond(DenemoScoreblock *sb);
 
 
@@ -165,7 +166,7 @@ static guint32 crc32(guchar *message) {
    return bit_reverse(~crc);
 }
 
-static guint location(guint movementnum, guint voicecount) {
+static guint get_location(guint movementnum, guint voicecount) {
 	return (movementnum<<16) | voicecount;
 }
 static void navigate_to_location(GtkWidget *w, guint location) {
@@ -174,6 +175,20 @@ static void navigate_to_location(GtkWidget *w, guint location) {
 	goto_movement_staff_obj (NULL, movementnum, staffnum, 1, 0);
 }
 
+static popup_staff_groups_menu(GtkWidget *button) { 
+	GtkWidget *menuitem = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/StaffMenu/StaffGroupings");
+	if(get_standard_scoreblock(button)) {
+	if(menuitem)
+		gtk_menu_popup (GTK_MENU(gtk_menu_item_get_submenu(GTK_MENU_ITEM(menuitem)) ), NULL, NULL, NULL, NULL, 0,  GDK_CURRENT_TIME);
+	else g_warning("No such menu path");
+	g_print("popped\n");
+	} else warningdialog("This button is for changing the score itself, it will not affect this custom layout");
+}
+
+static void staff_groups_menu(GtkWidget *w, GdkEvent *event, guint location) {
+	navigate_to_location(NULL, location);
+	popup_staff_groups_menu(w);
+}
 
 //callback on destroying widgets that are on the staff_list of a scoreblock.
 static gboolean remove_from_staff_list(GtkWidget *widget, GList **g) {
@@ -366,7 +381,7 @@ static void customize_standard_scoreblock_callback(GtkWidget *widget, DenemoScor
 	clone_scoreblock (sb, NULL);
 }
 
-static gboolean options_for_layout(GtkWidget *widget, DenemoScoreblock *sb) {
+static gboolean options_for_layout(GtkWidget *widget, GdkEvent *event, DenemoScoreblock *sb) {
 	GtkWidget *menu = gtk_menu_new();
 	GtkWidget *menuitem;
 	menuitem = gtk_menu_item_new_with_label("Typeset");
@@ -404,7 +419,7 @@ static gboolean options_for_layout(GtkWidget *widget, DenemoScoreblock *sb) {
 static GtkWidget *get_options_button(DenemoScoreblock *sb) {//was add_layout_control
 	GtkWidget *button = gtk_button_new_with_label("Options for this Layout");
 	gtk_widget_set_tooltip_text (button,"Click here to typeset this layout, or to re-compute the layout after changing the score structurally,\nor to create a customized layout or delete one");
-	g_signal_connect(button, "clicked", G_CALLBACK(options_for_layout), sb);
+	g_signal_connect(button, "button-press-event", G_CALLBACK(options_for_layout), sb);
 	return button;
 	
 	//gtk_box_pack_end (GTK_BOX(gtk_bin_get_child(GTK_BIN(sb->widget))), button, FALSE, FALSE, 0);
@@ -574,7 +589,7 @@ static void install_voice(DenemoStaff *staff, gint movementnum, gint voice_count
 	
 		gchar *voicetag = get_voicetag(movementnum, voice_count);
 		gchar *voicename = get_voicename(movementnum, voice_count);
-		GtkWidget *voice = create_voice_widget(staff, voicename, location(movementnum, voice_count));
+		GtkWidget *voice = create_voice_widget(staff, voicename, get_location(movementnum, voice_count));
 
 		GString *voicetext = g_string_new("");
 		set_voice_definition(voicetext, staff, voicetag);//That is \new Voice = name prefix { postfix FIXME is prefix any use here????
@@ -1051,7 +1066,11 @@ static void add_staff_widget(DenemoStaff *staff, GtkWidget *hbox) {
 	g_signal_connect(button, "clicked", G_CALLBACK(remove_parent_element), NULL);
 	}
 
-
+static void	set_score_edit_color(GtkWidget *button) {
+	GdkColor color;
+			if(gdk_color_parse ("#908070",&color))
+				gtk_widget_modify_bg (button, GTK_STATE_NORMAL, &color);
+}
 
 
 
@@ -1077,6 +1096,7 @@ static GtkWidget *get_movement_widget(GList **pstaffs, gchar *partname, DenemoSc
 
 	gchar *label_text = (si->thescore->next==NULL)?"The Staff":"The Staffs";
 	GtkWidget *topexpander = gtk_expander_new(label_text);
+	gtk_expander_set_expanded(GTK_EXPANDER(topexpander), si==Denemo.gui->si);
 	gtk_box_pack_start (GTK_BOX (vbox), topexpander, FALSE, TRUE, 0);
 	vbox = gtk_vbox_new(FALSE, 8);
 	gtk_container_add (GTK_CONTAINER (topexpander), vbox);
@@ -1102,24 +1122,31 @@ static GtkWidget *get_movement_widget(GList **pstaffs, gchar *partname, DenemoSc
 	
 		label_text = (si->thescore->next==NULL)?g_strdup("The Staff"):g_strdup_printf("Staff %d", staff_count);
 		GtkWidget *frame = gtk_frame_new(NULL);
-		GtkWidget *button = gtk_button_new_with_label(label_text);
-		gtk_widget_set_tooltip_text(button, "Click to edit the properties of the staff for this layout\nTake care only alter the obvious bits, such as instrument name etc\nInjudicious deletion of the LilyPond typesetting characters {<<# etc can make the layout unreadable by LilyPond.");
-		gtk_frame_set_label_widget (GTK_FRAME(frame), button);
-		g_free(label_text);
 
-		
-		//g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(prefix_edit_callback), frame);
+		GtkWidget *staff_hbox = gtk_hbox_new(FALSE, 8);
+		gtk_frame_set_label_widget (GTK_FRAME(frame), staff_hbox);
+		GtkWidget *button = gtk_button_new_with_label(label_text);
+		g_free(label_text);
+		gtk_box_pack_start(GTK_BOX (staff_hbox), button, FALSE, TRUE, 0);
+		gtk_widget_set_tooltip_text(button, "Click to edit the properties of the staff for this layout\nTake care only alter the obvious bits, such as instrument name etc\nInjudicious deletion of the LilyPond typesetting characters {<<# etc can make the layout unreadable by LilyPond.");
 
 			GtkWidget *menu = gtk_menu_new();
-			GtkWidget *menuitem = gtk_menu_item_new_with_label("Edit Staff Properties");
+			GtkWidget *menuitem = gtk_menu_item_new_with_label("Move Cursor Here");
+			g_signal_connect(G_OBJECT(menuitem), "activate", G_CALLBACK(navigate_to_location), (gpointer)get_location(movementnum, voice_count)); 
+			gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
+
+			menuitem = gtk_menu_item_new_with_label("Edit Staff Properties");
 			g_signal_connect(menuitem, "activate", G_CALLBACK(prefix_edit_callback), frame);
 			gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
-		//	menuitem = gtk_menu_item_new_with_label("Delete");
-		//	g_signal_connect(menuitem, "activate", G_CALLBACK(affixes_delete_callback), frame);
-		//	gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
+
 			gtk_widget_show_all(menu);
 			g_signal_connect(button, "clicked", G_CALLBACK(popup), menu);
-	
+			
+		button = gtk_button_new_with_label("Set Staff Group Start/End");
+		set_score_edit_color(button);
+		gtk_box_pack_start(GTK_BOX (staff_hbox), button, FALSE, TRUE, 0);
+		gtk_widget_set_tooltip_text(button, "The braces { and [ binding staffs together can be set here. Set the start on one staff and the end on a later staff.\nThis is editing the score, not just customizing a layout.");
+		g_signal_connect(button, "button-press-event", G_CALLBACK(staff_groups_menu), (gpointer)get_location(movementnum, voice_count));
 		
 		*pstaffs = g_list_append(*pstaffs, frame);
 		g_signal_connect(G_OBJECT(frame), "destroy", G_CALLBACK(remove_from_staff_list), pstaffs);
@@ -1349,6 +1376,8 @@ static void create_scorewide_block(GtkWidget *vbox) {
 //and default_tagline needs to go inside that...
 		
 	GtkWidget *button = gtk_button_new_with_label(_("Create Book Titles"));
+	set_score_edit_color(button);
+
 	gtk_widget_set_tooltip_text(button, _("Set book titles for the score"));
 	g_signal_connect(button, "clicked", G_CALLBACK(popup_score_menu), NULL);
 	gtk_box_pack_start(GTK_BOX(inner_box), button, FALSE, TRUE, 0);
@@ -1392,7 +1421,8 @@ static void set_default_scoreblock(DenemoScoreblock **psb, gint movement, gchar 
 		if(movement==0 /*all movements */|| (movement==movement_num) /*this movement*/) {
 			DenemoScore *si = (DenemoScore *)g->data;
 			gchar *label_text = gui->movements->next?g_strdup_printf("Movement %d", movement_num):NULL;
-			GtkWidget *movement_frame = gtk_expander_new(label_text); 
+			GtkWidget *movement_frame = gtk_expander_new(label_text);
+			gtk_expander_set_expanded(GTK_EXPANDER(movement_frame), si==gui->si);
 			g_free(label_text);
 			gtk_box_pack_start (GTK_BOX (vbox), movement_frame,  FALSE, TRUE, 0);
 			GtkWidget *movement_vbox = gtk_vbox_new(FALSE, 8);
