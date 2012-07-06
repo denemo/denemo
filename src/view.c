@@ -9286,6 +9286,7 @@ newtab (GtkAction *action, gpointer param) {
   gui->pending_midi = g_queue_new();
   gui->score_layout = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (gui->score_layout), "Score Layout");
+  gtk_window_set_default_size (GTK_WINDOW (gui->score_layout), 400, 800);
   g_signal_connect (G_OBJECT (gui->score_layout), "delete-event",
 		    G_CALLBACK (hide_score_layout_on_delete), NULL);
         
