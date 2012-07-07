@@ -128,6 +128,7 @@ static void create_element(GtkWidget *vbox, GtkWidget *widget, gchar *lilypond);
 static void create_standard_scoreblock(DenemoScoreblock **psb, gint movement, gchar *partname);
 static void recreate_standard_scoreblock(DenemoScoreblock **psb);
 static DenemoScoreblock *get_standard_scoreblock(GtkWidget *widget);
+static GtkWidget *get_options_button(DenemoScoreblock *sb, gboolean custom);
 void refresh_lilypond(DenemoScoreblock *sb);
 
 
@@ -178,11 +179,12 @@ static void navigate_to_location(GtkWidget *w, guint location) {
 static popup_staff_groups_menu(GtkWidget *button) { 
 	GtkWidget *menuitem = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/StaffMenu/StaffGroupings");
 	if(get_standard_scoreblock(button)) {
-	if(menuitem)
-		gtk_menu_popup (GTK_MENU(gtk_menu_item_get_submenu(GTK_MENU_ITEM(menuitem)) ), NULL, NULL, NULL, NULL, 0,  GDK_CURRENT_TIME);
-	else g_warning("No such menu path");
-	g_print("popped\n");
-	} else warningdialog("This button is for changing the score itself, it will not affect this custom layout");
+		if(menuitem)
+			gtk_menu_popup (GTK_MENU(gtk_menu_item_get_submenu(GTK_MENU_ITEM(menuitem)) ), NULL, NULL, NULL, NULL, 0,  GDK_CURRENT_TIME);
+		else
+			g_warning("No such menu path");
+	} else
+		warningdialog("This button is for changing the score itself, it will not affect this custom layout");
 }
 
 static void staff_groups_menu(GtkWidget *w, GdkEvent *event, guint location) {
@@ -344,8 +346,8 @@ static void delete_custom_scoreblock_callback(GtkWidget *widget, DenemoScorebloc
 	Denemo.gui->custom_scoreblocks = g_list_remove(Denemo.gui->custom_scoreblocks, sb);
 	gtk_widget_destroy(sb->widget);
 }
-static void recreate_standard_scoreblock_callback(GtkWidget *widget, DenemoScoreblock **psb) {
-	recreate_standard_scoreblock (psb);
+static void recreate_standard_scoreblock_callback(GtkWidget *widget, DenemoScoreblock *psb) {
+	recreate_standard_scoreblock (&psb);
 }
 
 static gboolean customize_scoreblock(DenemoScoreblock *sb, gchar *name) {
@@ -379,6 +381,15 @@ static gboolean clone_scoreblock(DenemoScoreblock *sb, gchar *name) {
 		gint movement = sb->movement;
 		gchar *partname = g_strdup(sb->partname);
 		prune_layout(sb->widget);
+		GtkWidget *options = get_options_button(sb, TRUE);
+		gtk_widget_show_all(options);
+		GtkWidget *viewport = gtk_bin_get_child(GTK_BIN(sb->widget));
+		GList *children = gtk_container_get_children(GTK_CONTAINER(viewport));
+		GtkWidget *vbox = children->data;
+		GList *grandchildren = gtk_container_get_children(GTK_CONTAINER(vbox));
+		gtk_container_remove(GTK_CONTAINER(vbox), grandchildren->data);
+		gtk_box_pack_start(GTK_BOX(vbox), options, FALSE, FALSE, 0);
+		gtk_box_reorder_child (GTK_BOX(vbox), options, 0);
 		if(customize_scoreblock(sb, name)) {
 			DenemoScoreblock *newsb = g_malloc0(sizeof(DenemoScoreblock));
 			create_standard_scoreblock(&newsb, movement, partname);
@@ -394,49 +405,47 @@ static void customize_standard_scoreblock_callback(GtkWidget *widget, DenemoScor
 	clone_scoreblock (sb, NULL);
 }
 
-//static gboolean options_for_layout(GtkWidget *widget, GdkEvent *event, DenemoScoreblock *sb) {
-static gboolean options_for_layout(GtkWidget *widget, DenemoScoreblock *sb) {
-	GtkWidget *menu = gtk_menu_new();
-	GtkWidget *menuitem;
-	menuitem = gtk_menu_item_new_with_label("Typeset");
-	gtk_widget_set_tooltip_text(menuitem, "Typesets the current layout ready for printing to PDF file or printer");
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
-	g_signal_connect(menuitem, "activate", G_CALLBACK(show_print_view), NULL);
-	if(g_list_find(Denemo.gui->custom_scoreblocks, sb)) {
-		if(!is_lilypond_text_layout(sb)) {
-			menuitem = gtk_menu_item_new_with_label("Convert to LilyPond text");
-			gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
-			g_signal_connect(menuitem, "activate", G_CALLBACK(convert_to_lilypond_callback), sb);
-		}
-		
-		menuitem = gtk_menu_item_new_with_label("Delete");
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
-		g_signal_connect(menuitem, "activate", G_CALLBACK(delete_custom_scoreblock_callback), sb);
+//Mark the passed widget as being for standard layouts only
+static void	mark_as_non_custom(GtkWidget *button) {
+	GdkColor color;
+			if(gdk_color_parse ("#B0A090",&color))
+				gtk_widget_modify_bg (button, GTK_STATE_NORMAL, &color);
+	g_object_set_data(G_OBJECT(button), "standard", (gpointer)1);
+}
+
+
+static GtkWidget *get_options_button(DenemoScoreblock *sb, gboolean custom) {
+	GtkWidget *frame = gtk_frame_new("Actions for this Layout");
+	GtkWidget *hbox = gtk_hbox_new(FALSE, 8);
+	gtk_container_add (GTK_CONTAINER (frame), hbox);
+	
+	GtkWidget *button = gtk_button_new_with_label(_("Typeset"));
+	gtk_widget_set_tooltip_text(button, _("Typeset the score using this layout to determine which movements, parts, titles, page breaks etc should be used"));
+	gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
+	g_signal_connect(button, "clicked",  G_CALLBACK(show_print_view), NULL);
+	if(custom) {
+		button = gtk_button_new_with_label(_("Convert to LilyPond Text"));
+		gtk_widget_set_tooltip_text(button, _("Converts this layout to LilyPond text for further editing."));
+		gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
+		g_signal_connect(button, "clicked",  G_CALLBACK(convert_to_lilypond_callback), sb);
+		button = gtk_button_new_with_label(_("Delete"));
+		gtk_widget_set_tooltip_text(button, _("Discard this customized score layout."));
+		gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
+		g_signal_connect(button, "clicked",  G_CALLBACK(delete_custom_scoreblock_callback), sb);
 	} else {
-		GList *g = g_list_find(Denemo.gui->standard_scoreblocks, sb);
-		if(g) {
-			menuitem = gtk_menu_item_new_with_label("Refresh");
-			gtk_widget_set_tooltip_text(menuitem, "Re-calculates this layout from the Denemo score - do this after structural changes to the score.");
-			gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
-			g_signal_connect(menuitem, "activate", G_CALLBACK(recreate_standard_scoreblock_callback), &(g->data));
-			menuitem = gtk_menu_item_new_with_label("Customize");
-			gtk_widget_set_tooltip_text(menuitem, "Create a layout from this standard layout that you can then modify.");
-			gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
-			g_signal_connect(menuitem, "activate", G_CALLBACK(customize_standard_scoreblock_callback), sb);
-		}
+		button = gtk_button_new_with_label(_("Refresh"));
+		gtk_widget_set_tooltip_text(button, _("Re-calculate this layout to incorporate changes made to the score structure."));
+		gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
+		g_signal_connect(button, "clicked",  G_CALLBACK(recreate_standard_scoreblock_callback), sb);
+		
+		button = gtk_button_new_with_label(_("Customize"));
+		gtk_widget_set_tooltip_text(button, _("Create a layout from this standard layout that you can then modify."));
+		gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);		
+		g_signal_connect(button, "clicked",  G_CALLBACK(customize_standard_scoreblock_callback), sb);
 	}
 
-	gtk_widget_show_all(menu);
-	gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
-	return TRUE;
-}
-static GtkWidget *get_options_button(DenemoScoreblock *sb) {
-	GtkWidget *menubar = gtk_menu_bar_new();
-	GtkWidget *menuitem = gtk_menu_item_new_with_label("Options for this Layout");
-	gtk_widget_set_tooltip_text (menuitem,"Double Click here to get a menu: typeset this layout, or re-compute the layout after changing the score structurally,\nor  create a customized layout or delete one");
-	gtk_menu_shell_append(menubar, menuitem);
-	g_signal_connect(menuitem, "activate", G_CALLBACK(options_for_layout), sb);
-	return menubar;	
+
+	return frame;	
 }
 
 
@@ -535,7 +544,7 @@ static GtkWidget *create_voice_widget(DenemoStaff *staff, gchar *voicename, guin
 	GtkWidget *ret = gtk_hbox_new(FALSE, 8);
 			
 	GtkWidget *w = gtk_button_new_with_label("X");
-	gtk_widget_set_tooltip_text (w,"Delete this element from the score layout");
+	gtk_widget_set_tooltip_text (w,"Delete this voice from the score layout\nNote that if it is the first voice the clef time and keysignatures will be deleted too.");
 	g_signal_connect(w, "clicked", G_CALLBACK(remove_element), NULL);
 	gtk_box_pack_end(GTK_BOX (ret), w, FALSE, TRUE, 0);
 
@@ -1080,14 +1089,6 @@ static void add_staff_widget(DenemoStaff *staff, GtkWidget *hbox) {
 	g_signal_connect(button, "clicked", G_CALLBACK(remove_parent_element), NULL);
 	}
 
-//Mark the passed widget as being for standard layouts only
-static void	mark_as_non_custom(GtkWidget *button) {
-	GdkColor color;
-			if(gdk_color_parse ("#908070",&color))
-				gtk_widget_modify_bg (button, GTK_STATE_NORMAL, &color);
-	g_object_set_data(G_OBJECT(button), "standard", (gpointer)1);
-}
-
 
 
 static GtkWidget *get_movement_widget(GList **pstaffs, gchar *partname, DenemoScore *si, gint movementnum, gboolean last_movement, gboolean only_movement) {
@@ -1144,10 +1145,10 @@ static GtkWidget *get_movement_widget(GList **pstaffs, gchar *partname, DenemoSc
 		GtkWidget *button = gtk_button_new_with_label(label_text);
 		g_free(label_text);
 		gtk_box_pack_start(GTK_BOX (staff_hbox), button, FALSE, TRUE, 0);
-		gtk_widget_set_tooltip_text(button, "Click to edit the properties of the staff to customize this layout\nTake care only alter the obvious bits, such as instrument name etc\nInjudicious deletion of the LilyPond typesetting characters {<<# etc can make the layout unreadable by the LilyPond typesetter. Just delete the layout if you get stuck.");
+		gtk_widget_set_tooltip_text(button, "Click position the Denemo cursor on this staff\nor to edit the properties of the staff to customize this layout\nTake care only alter the obvious bits, such as instrument name etc\nInjudicious deletion of the LilyPond typesetting characters {<<# etc can make the layout unreadable by the LilyPond typesetter. Just delete the layout if you get stuck.");
 
 			GtkWidget *menu = gtk_menu_new();
-			GtkWidget *menuitem = gtk_menu_item_new_with_label("Move Cursor Here");
+			GtkWidget *menuitem = gtk_menu_item_new_with_label("Move Denemo Cursor to this staff");
 			g_signal_connect(G_OBJECT(menuitem), "activate", G_CALLBACK(navigate_to_location), (gpointer)get_location(movementnum, voice_count)); 
 			gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
 
@@ -1289,7 +1290,7 @@ static GtkWidget *get_colored_event_box(GtkWidget *vbox, gchar *colorstring) {
 static void create_misc_scorewide(GtkWidget *inner_vbox) {
 	DenemoGUI *gui = Denemo.gui;
 	GtkWidget *expander = gtk_expander_new("LilyPond Paper Block");
-	gtk_widget_set_tooltip_text(expander, _("LilyPond text that needs to be inside a \\paper{} block. Most users can ignore this!\n"));
+	gtk_widget_set_tooltip_text(expander, _("Settings for whole score: includes overall staff size, paper size ...\n"));
 	add_lilypond (expander,g_strdup("\\paper {\n"), g_strdup("\n}\n"));
 	gtk_box_pack_start(GTK_BOX(inner_vbox), expander, FALSE, TRUE, 0);
 	GtkWidget *paper_box = gtk_vbox_new(FALSE, 8);
@@ -1308,7 +1309,7 @@ static void create_scoreheader_directives(GtkWidget *vbox) {
 	gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, TRUE, 0);
 	GtkWidget *top_expander = gtk_expander_new("Score Header Directives");
 	add_lilypond (top_expander,g_strdup("\n\\header {\n"), g_strdup("\n}\n"));
-	gtk_widget_set_tooltip_text(top_expander, _("Settings for the LilyPond header block for the whole score.\nIncludes ..."));
+	gtk_widget_set_tooltip_text(top_expander, _("Titles etc for the whole score.\nIncludes main title, composer, date, instrumentation, tagline"));
 	gtk_container_add (GTK_CONTAINER (frame), top_expander);
 	GtkWidget *header_box = gtk_vbox_new(FALSE, 8);
 	gtk_container_add(GTK_CONTAINER(top_expander), header_box);
@@ -1331,7 +1332,7 @@ static void create_score_directives(GtkWidget *vbox) {
 	GtkWidget *frame = gtk_frame_new(NULL);
 	gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, TRUE, 0);
 	GtkWidget *top_expander = gtk_expander_new("Score Directives");
-	gtk_widget_set_tooltip_text(top_expander, _("Settings for the LilyPond for the whole score.\nIncludes ..."));
+	gtk_widget_set_tooltip_text(top_expander, _("Includes the indent before first measure, LilyPond include files ..."));
 	gtk_container_add (GTK_CONTAINER (frame), top_expander);
 	GtkWidget *inner_vbox = gtk_vbox_new(FALSE, 8);
 	gtk_container_add(GTK_CONTAINER(top_expander), inner_vbox);
@@ -1348,7 +1349,7 @@ static void create_score_directives(GtkWidget *vbox) {
 	
 static void create_scorewide_block(GtkWidget *vbox) {
 	DenemoGUI *gui = Denemo.gui;
-	GtkWidget *event_box = get_colored_event_box(vbox, "#AAFFBB");
+	GtkWidget *event_box = get_colored_event_box(vbox, "#BBFFCC");
 	GtkWidget *frame = gtk_frame_new(NULL);
 	gtk_container_add(GTK_CONTAINER(event_box), frame);
 	GtkWidget *expander = gtk_expander_new("Score-wide Settings.");
@@ -1356,21 +1357,13 @@ static void create_scorewide_block(GtkWidget *vbox) {
 	gtk_container_add(GTK_CONTAINER(frame), expander);
 	
   GtkWidget *inner_box = gtk_vbox_new(FALSE, 8);
-	gtk_container_add(GTK_CONTAINER(expander), inner_box);
-
-//move these inside the scoreheader_directives box...
-//EEEK FIXME the includes and #sets are inside the \\header it is being done above!!! it needs to be done inside create scoreheader
-//and default_tagline needs to go inside that...
-		
+	gtk_container_add(GTK_CONTAINER(expander), inner_box);		
 	GtkWidget *button = gtk_button_new_with_label(_("Create Book Titles"));
 	mark_as_non_custom(button);
 
 	gtk_widget_set_tooltip_text(button, _("Set book titles for the score"));
 	g_signal_connect(button, "clicked", G_CALLBACK(popup_score_menu), NULL);
 	gtk_box_pack_start(GTK_BOX(inner_box), button, FALSE, TRUE, 0);
-
-	
-	
 
 	create_scoreheader_directives(inner_box);
 	create_score_directives(inner_box);
@@ -1397,7 +1390,7 @@ static void set_default_scoreblock(DenemoScoreblock **psb, gint movement, gchar 
 	
 	GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
 	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW((*psb)->widget), vbox);
-	GtkWidget *options = get_options_button(*psb);
+	GtkWidget *options = get_options_button(*psb, FALSE);
 	gtk_box_pack_start (GTK_BOX(vbox), options, FALSE, FALSE, 0);
 	//now create a hierarchy of widgets representing the score
 	create_scorewide_block(vbox);
@@ -1412,21 +1405,36 @@ static void set_default_scoreblock(DenemoScoreblock **psb, gint movement, gchar 
 			gtk_expander_set_expanded(GTK_EXPANDER(movement_frame), si==gui->si);
 			g_free(label_text);
 			gtk_box_pack_start (GTK_BOX (vbox), movement_frame,  FALSE, TRUE, 0);
+
+			GtkWidget *outer_hbox = gtk_hbox_new(FALSE, 8);
+			gtk_container_add (GTK_CONTAINER (movement_frame), outer_hbox);
+
+			GtkWidget *w = gtk_button_new_with_label("X");
+			gtk_widget_set_tooltip_text (w,"Delete this movement from the score layout");
+			g_signal_connect(w, "clicked", G_CALLBACK(remove_element), NULL);
+			gtk_box_pack_end(GTK_BOX (outer_hbox), w, FALSE, TRUE, 0);
+
+	
 			GtkWidget *movement_vbox = gtk_vbox_new(FALSE, 8);
-			gtk_container_add (GTK_CONTAINER (movement_frame), movement_vbox);
+			gtk_box_pack_start(GTK_BOX (outer_hbox), movement_vbox, FALSE, TRUE, 0);
 			install_pre_movement_widgets(movement_vbox, si);
 			GtkWidget *frame = gtk_frame_new(NULL);
 			add_lilypond(frame, g_strdup("\n\\score { %Start of Movement\n"), g_strdup("\n} %End of Movement\n"));
 			gtk_box_pack_start (GTK_BOX (movement_vbox), frame,  FALSE, TRUE, 0);
 			GtkWidget *outer_vbox = gtk_vbox_new(FALSE, 8);
 			gtk_container_add (GTK_CONTAINER (frame), outer_vbox);
-			
-			
 			GtkWidget *hbox = gtk_hbox_new(FALSE, 8);
-			GtkWidget *button = gtk_button_new_with_label("X");
-			gtk_box_pack_end(GTK_BOX (hbox), button, FALSE, TRUE, 0);
-			g_signal_connect(button, "clicked", G_CALLBACK(remove_element), NULL);
+			
+			//GtkWidget *button = gtk_button_new_with_label("X");
+			//gtk_box_pack_end(GTK_BOX (hbox), button, FALSE, TRUE, 0);
+			//g_signal_connect(button, "clicked", G_CALLBACK(remove_element), NULL);
+
+			
 			gtk_box_pack_start (GTK_BOX (hbox), get_movement_widget(&(*psb)->staff_list, partname, si, movement_num, !(gboolean)g->next, !gui->movements->next), FALSE, TRUE, 0);
+
+	
+
+			
 			gtk_box_pack_start(GTK_BOX (outer_vbox), hbox, FALSE, TRUE, 0);
 		if(si->header.directives) {
 			GtkWidget *frame = gtk_frame_new("Header block");
@@ -1635,11 +1643,8 @@ DenemoScoreblock *select_layout(gboolean all_movements, gchar *partname) {
 		refresh_lilypond(sb);//creating a scoreblock does *not* include generating the lilypond from its widgets.
 	}
 
-
-	
 	gboolean layout_selected = gtk_widget_get_visible(Denemo.gui->score_layout);
 
-	
 	if(layout_selected && (all_movements && partname==NULL)) {
 		sb =  selected_scoreblock();
 		if(sb) {
@@ -1742,7 +1747,7 @@ DenemoScoreblock *get_scoreblock_for_lilypond(gchar *lily) {
 		sb->widget = frame;
 		GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
 		gtk_container_add (GTK_CONTAINER (sb->widget), vbox);
-		GtkWidget *options = get_options_button(sb);
+		GtkWidget *options = get_options_button(sb, TRUE);
 		gtk_box_pack_start (GTK_BOX(vbox), options, FALSE, FALSE, 0);
 		GtkWidget *textview = gtk_text_view_new();
 		gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(textview), TRUE);
