@@ -1105,7 +1105,12 @@ static void add_staff_widget(DenemoStaff *staff, GtkWidget *hbox) {
 	g_signal_connect(button, "clicked", G_CALLBACK(remove_parent_element), NULL);
 	}
 
-
+static popup_initial_clef_menu(GtkWidget *button) {
+	GtkWidget *menuitem = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/ClefMenu");
+	if(menuitem)
+		gtk_menu_popup (GTK_MENU(gtk_menu_item_get_submenu(GTK_MENU_ITEM(menuitem)) ), NULL, NULL, NULL, NULL, 0,  GDK_CURRENT_TIME);
+	else g_warning("No such menu path");
+}
 
 static GtkWidget *get_movement_widget(GList **pstaffs, gchar *partname, DenemoScore *si, gint movementnum, gboolean last_movement, gboolean only_movement) {
 	DenemoGUI *gui = Denemo.gui;
@@ -1161,20 +1166,32 @@ static GtkWidget *get_movement_widget(GList **pstaffs, gchar *partname, DenemoSc
 		GtkWidget *button = gtk_button_new_with_label(label_text);
 		g_free(label_text);
 		gtk_box_pack_start(GTK_BOX (staff_hbox), button, FALSE, TRUE, 0);
-		gtk_widget_set_tooltip_text(button, "Click position the Denemo cursor on this staff\nor to edit the properties of the staff to customize this layout\nTake care only alter the obvious bits, such as instrument name etc\nInjudicious deletion of the LilyPond typesetting characters {<<# etc can make the layout unreadable by the LilyPond typesetter. Just delete the layout if you get stuck.");
+		gtk_widget_set_tooltip_text(button, "Click to position the Denemo cursor on this staff\nor to alter this staff for a customized layout");
+
 
 			GtkWidget *menu = gtk_menu_new();
 			GtkWidget *menuitem = gtk_menu_item_new_with_label("Move Denemo Cursor to this staff");
+			gtk_widget_set_tooltip_text(menuitem, _("This will move the Denemo Cursor to the start of this staff in this movement"));
 			g_signal_connect(G_OBJECT(menuitem), "activate", G_CALLBACK(navigate_to_location), (gpointer)get_location(movementnum, voice_count)); 
 			gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
 
+
+	
 			menuitem = gtk_menu_item_new_with_label("Edit Staff Properties");
+			gtk_widget_set_tooltip_text(menuitem, _("Edit the properties of the staff to customize this layout\nTake care only alter the obvious bits, such as instrument name etc\nInjudicious deletion of the LilyPond typesetting characters {<<# etc can make the layout unreadable by the LilyPond typesetter. Just delete the layout if you get stuck."));
 			g_signal_connect(menuitem, "activate", G_CALLBACK(prefix_edit_callback), frame);
 			gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
 
 			gtk_widget_show_all(menu);
 			g_signal_connect(button, "clicked", G_CALLBACK(popup), menu);
-			
+#if 0
+//probably a bad idea, the menu includes inserting clef changes at the cursor...
+		button = gtk_button_new_with_label(_("Set Clef"));
+		g_signal_connect(button, "clicked", G_CALLBACK(popup_initial_clef_menu), NULL);
+		mark_as_non_custom(button);
+		gtk_box_pack_start(GTK_BOX (staff_hbox), button, FALSE, TRUE, 0);
+		gtk_widget_set_tooltip_text(button, _("Set the initial clef for this staff in the score"));
+#endif
 		button = gtk_button_new_with_label("Set Staff Group Start/End");
 		mark_as_non_custom(button);
 		gtk_box_pack_start(GTK_BOX (staff_hbox), button, FALSE, TRUE, 0);
@@ -1626,6 +1643,7 @@ static void create_standard_scoreblock(DenemoScoreblock **psb, gint movement, gc
 	GtkWidget *label = gtk_label_new(label_text);
 	g_free(label_text);
 	gtk_notebook_prepend_page(GTK_NOTEBOOK(notebook), (*psb)->widget, label);
+	gtk_widget_set_tooltip_text((*psb)->widget, _("This a score layout - the brown buttons affect the score itself, not just the layout.\nThe other buttons will customize the layout\nYou can have several layouts and use them to print different versions of your score.\nOnce customized e.g. by adding page breaks, deleting certain parts etc the layout will be saved with your score and can be used for printing from even though you may have made corrections to the music.\nStandard layouts are created by invoking the standard print commands - print, print part, print movement etc.\nThese standard layouts provide a convenient starting point for your customized layouts."));
 	gtk_widget_show_all(notebook);
 	
 }
@@ -1761,6 +1779,7 @@ DenemoScoreblock *get_scoreblock_for_lilypond(gchar *lily) {
 		GtkWidget *frame = gtk_frame_new(LILYPOND_TEXT_EDITOR);
 		DenemoScoreblock *sb = g_malloc0 (sizeof(DenemoScoreblock));
 		sb->widget = frame;
+		gtk_widget_set_tooltip_text(frame, _("This is a customized layout, which has been transformed into instructions for the LilyPond music typesetter.\nThis is the form in which customized layouts are stored in a Denemo score on disk - the graphical interface is no longer available. You can, however still edit the layout with care (and some understanding of LilyPond).\nOtherwise you can delete it and create a new one from a standard layout."));
 		GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
 		gtk_container_add (GTK_CONTAINER (sb->widget), vbox);
 		GtkWidget *options = get_options_button(sb, TRUE);
