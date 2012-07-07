@@ -728,15 +728,17 @@ static void toggle_expand (GtkWidget *item, GtkWidget *expander) {
 static void page_break(GtkWidget *item,  GtkWidget *vbox) {
 	if(!clone_scoreblock_if_needed(vbox)) return;
 	GtkWidget *button = gtk_button_new_with_label("Page Break");
-	gtk_widget_set_tooltip_text (button,"This forces a new page, useful for avoiding page turns\nMove it before the title!");
+	gtk_widget_set_tooltip_text (button,"This forces a new page, useful for avoiding page turns\n");
 	create_element(vbox, button, g_strdup("\\pageBreak\n"));
+	gtk_box_reorder_child(GTK_BOX(vbox), gtk_widget_get_parent(button), 0);
 	score_status(Denemo.gui, TRUE);
 }
 static void blank_page(GtkWidget *item,  GtkWidget *vbox) {
 	if(!clone_scoreblock_if_needed(vbox)) return;
 	GtkWidget *button = gtk_button_new_with_label("Blank Page");
-	gtk_widget_set_tooltip_text (button,"This prints a page intentionally left blank, useful for avoiding page turns\nMove it before the title!");
+	gtk_widget_set_tooltip_text (button,"This prints a page intentionally left blank, useful for avoiding page turns\n");
 	create_element(vbox, button, g_strdup("\\pageBreak\n\\markup \\italic \"This page is intentionally left blank\"\n\\pageBreak\n"));
+	gtk_box_reorder_child(GTK_BOX(vbox), gtk_widget_get_parent(button), 0);
 	score_status(Denemo.gui, TRUE);
 }
 static void custom_lilypond(GtkWidget *item,  GtkWidget *vbox) {
@@ -744,6 +746,7 @@ static void custom_lilypond(GtkWidget *item,  GtkWidget *vbox) {
 	GtkWidget *button = gtk_button_new_with_label("Lilypond");
 	gtk_widget_set_tooltip_text (button,"This lets you insert your own titles etc just for this layout.\nFor book titles use \\titledPiece \\markup \"myname\"\nSimple titles are not placed here, but appear in a header block at the end of the movement.\nFor other possible uses, see LilyPond manual.");
 	create_element(vbox, button, g_strdup("%Enter LilyPond syntax here\n"));
+	gtk_box_reorder_child(GTK_BOX(vbox), gtk_widget_get_parent(button), 0);
 	score_status(Denemo.gui, TRUE);
 }
 
@@ -772,11 +775,7 @@ static GtkWidget *get_titles_menu(GtkWidget *vbox) {
 	gtk_widget_show_all(menu);
 	return menu;
 }
-static void titles_menu_callback (GtkWidget *expander, GtkWidget *menu) {
-	g_signal_stop_emission_by_name (expander, "activate");//this callback does not allow you to omit the default handler, this does that
-	gtk_expander_set_expanded (GTK_EXPANDER(expander), TRUE);
-	gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL, 0,  GDK_CURRENT_TIME);	
-}
+
 
 //return a newly allocated label to hint at the contents of a directive
 static gchar *label_for_directive(DenemoDirective *d) {
@@ -789,24 +788,41 @@ static gchar *label_for_directive(DenemoDirective *d) {
 static popup_movement_menu(GtkWidget *w, GtkWidget *vbox) {
 gtk_menu_popup (GTK_MENU(get_titles_menu(vbox)), NULL, NULL, NULL, NULL, 0,  GDK_CURRENT_TIME);	
 }
+
+static popup_movement_titles_menu(GtkWidget *button) { 
+	GtkWidget *menuitem = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/MovementMenu/Titles/Book Titles");
+	if(get_standard_scoreblock(button)) {
+	if(menuitem)
+		gtk_menu_popup (GTK_MENU(gtk_menu_item_get_submenu(GTK_MENU_ITEM(menuitem)) ), NULL, NULL, NULL, NULL, 0,  GDK_CURRENT_TIME);
+	else g_warning("No such menu path");
+	} else warningdialog("This button is for changing the score itself, it will not affect this custom layout");
+}
+
 /* installs movement titles, page breaks etc
  *
  */
 static void install_pre_movement_widgets(GtkWidget *vbox, DenemoScore *si) {
 		GtkWidget *frame = gtk_frame_new(NULL);
 		gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, TRUE, 0);
-		GtkWidget *expander = gtk_expander_new("Movement Titles etc");
+		GtkWidget *expander = gtk_expander_new("Movement Titles, Page Breaks etc");
 		gtk_widget_set_tooltip_text(expander, "In here are settings for the movement title, page breaks before the movement etc");
 		gtk_container_add (GTK_CONTAINER (frame), expander);
 		
 		GtkWidget *inner_vbox = gtk_vbox_new(FALSE, 8);
-		//g_signal_connect(G_OBJECT(expander), "activate", G_CALLBACK(titles_menu_callback), get_titles_menu(expander, inner_vbox));
 		gtk_container_add (GTK_CONTAINER (expander), inner_vbox);
-		
-		GtkWidget *button = gtk_button_new_with_label("Create for Custom Layout");
+
+		GtkWidget *inner_hbox = gtk_hbox_new(FALSE, 8);
+		gtk_box_pack_start(GTK_BOX(inner_vbox), inner_hbox, FALSE, TRUE, 0);
+
+		GtkWidget *button = gtk_button_new_with_label(_("Create Titles for Movement"));
+		mark_as_non_custom(button);
+		gtk_widget_set_tooltip_text(button, _("Set book titles for this movement in the score"));
+		g_signal_connect(button, "clicked", G_CALLBACK(popup_movement_titles_menu), NULL);
+		gtk_box_pack_start(GTK_BOX(inner_hbox), button, FALSE, TRUE, 0);
+		button = gtk_button_new_with_label("Create for Custom Layout");
 		gtk_widget_set_tooltip_text(button, _("Create page breaks, blank pages ...for this layout"));
 		g_signal_connect(button, "clicked", G_CALLBACK(popup_movement_menu), inner_vbox);
-		gtk_box_pack_start(GTK_BOX(inner_vbox), button, FALSE, TRUE, 0);
+		gtk_box_pack_start(GTK_BOX(inner_hbox), button, FALSE, TRUE, 0);
 		
 		GList *g;
 		for(g=si->movementcontrol.directives;g;g=g->next) {
@@ -823,7 +839,7 @@ static void install_pre_movement_widgets(GtkWidget *vbox, DenemoScore *si) {
 		}
 }
 
-static popup_score_menu(GtkWidget *button) { 
+static popup_score_titles_menu(GtkWidget *button) { 
 	GtkWidget *menuitem = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/Score/Titles/Book Titles");
 	if(get_standard_scoreblock(button)) {
 	if(menuitem)
@@ -1362,7 +1378,7 @@ static void create_scorewide_block(GtkWidget *vbox) {
 	mark_as_non_custom(button);
 
 	gtk_widget_set_tooltip_text(button, _("Set book titles for the score"));
-	g_signal_connect(button, "clicked", G_CALLBACK(popup_score_menu), NULL);
+	g_signal_connect(button, "clicked", G_CALLBACK(popup_score_titles_menu), NULL);
 	gtk_box_pack_start(GTK_BOX(inner_box), button, FALSE, TRUE, 0);
 
 	create_scoreheader_directives(inner_box);
