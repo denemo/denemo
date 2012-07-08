@@ -544,7 +544,7 @@ static GtkWidget *create_voice_widget(DenemoStaff *staff, gchar *voicename, guin
 	GtkWidget *ret = gtk_hbox_new(FALSE, 8);
 			
 	GtkWidget *w = gtk_button_new_with_label("X");
-	gtk_widget_set_tooltip_text (w,"Delete this voice from the score layout\nNote that if it is the first voice the clef time and keysignatures will be deleted too.");
+	gtk_widget_set_tooltip_text (w,_("Delete this voice from the score layout\nNote that if it is the first voice the clef time and keysignatures will be deleted too."));
 	g_signal_connect(w, "clicked", G_CALLBACK(remove_element), NULL);
 	gtk_box_pack_end(GTK_BOX (ret), w, FALSE, TRUE, 0);
 
@@ -953,7 +953,7 @@ return TRUE;
 //Move the frame below into this frame's vbox, unless we are inside it.
 static gboolean move_context_down(GtkWidget *button, GtkWidget *parent) {
 	if(!clone_scoreblock_if_needed(parent)) return TRUE;
-	DenemoScoreblock *sb = get_custom_scoreblock(parent);
+	DenemoScoreblock *sb = get_custom_scoreblock(parent);//!!!!doesn't work see junk.denemo
 	g_assert(sb);
 	gint index = g_list_index(sb->staff_list, parent);
 	if(index<g_list_length(sb->staff_list)) {
@@ -1002,21 +1002,26 @@ static GtkWidget *install_staff_group_start(GList **pstaffs, GtkWidget *vbox, GL
 
 				gtk_box_pack_start(GTK_BOX (hbox), layout, TRUE, TRUE, 0);
 
+#if 0
+//these aren't working - perhaps instead create brown buttons that work on the staff groups of the score???
 				GtkWidget *controls = gtk_vbox_new(FALSE, 8);
 				gtk_box_pack_start(GTK_BOX (hbox), controls, FALSE, TRUE, 0);
 
 				GtkWidget *button = gtk_button_new_with_label("X");
+				gtk_widget_set_tooltip_text (button,_("Remove this staff group from customized layout."));
 				g_signal_connect(button, "clicked", G_CALLBACK(remove_context), hbox);
         gtk_box_pack_start(GTK_BOX (controls), button, FALSE, TRUE, 0);
 
 
         button = gtk_button_new_with_label("⬆");
+        gtk_widget_set_tooltip_text (button,_("Extend this staff group upwards for customized layout."));
 				g_signal_connect(button, "clicked", G_CALLBACK(move_context_up), frame);
         gtk_box_pack_start(GTK_BOX (controls), button, FALSE, TRUE, 0);
         button = gtk_button_new_with_label("⬇");
+        gtk_widget_set_tooltip_text (button,_("Extend this staff group downwards for customized layout."));
 				g_signal_connect(button, "clicked", G_CALLBACK(move_context_down), frame);
         gtk_box_pack_start(GTK_BOX (controls), button, FALSE, TRUE, 0);
-
+#endif
 				vbox = gtk_vbox_new(FALSE, 8);//this vbox will be passed back so that the staffs can be put inside this staff group frame.
 				gtk_box_pack_end(GTK_BOX (hbox), vbox, FALSE, TRUE, 0);
 				}
@@ -1091,16 +1096,21 @@ static void add_staff_widget(DenemoStaff *staff, GtkWidget *hbox) {
 			break;
 	}
 	GtkWidget *button = get_large_button(clef_glyph);
+	gtk_widget_set_tooltip_text (button,_("This shows the clef in the Denemo score - the actual clef printed may be modified by Directives attached to it.\nYou can edit the clef for a custom layout - do this on the first voice on the staff."));
 	gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
 	button = get_small_button("⬆");
+	gtk_widget_set_tooltip_text (button,_("Move this staff (with all its voices) above the preceding staff."));
 	gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
 	g_signal_connect(button, "clicked", G_CALLBACK(move_grandparent), (gpointer)TRUE);
 	button = get_small_button("⬇");
+	gtk_widget_set_tooltip_text (button,_("Move this staff (with all its voices) after the following staff."));
 	gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
 	g_signal_connect(button, "clicked", G_CALLBACK(move_grandparent), (gpointer)FALSE);
 
 	button = gtk_button_new_with_label("X");
+	gtk_widget_set_tooltip_text (button,_("Remove this staff (with all its voices) for customized layout."));
+
 	gtk_box_pack_end(GTK_BOX (hbox), button, FALSE, TRUE, 0);
 	g_signal_connect(button, "clicked", G_CALLBACK(remove_parent_element), NULL);
 	}
