@@ -205,7 +205,7 @@ progressbar (gchar *msg)
     else
       pdata->window = gtk_window_new (GTK_WINDOW_POPUP);
     gtk_window_set_title (GTK_WINDOW (pdata->window), _("Progress")); 
- 
+    gtk_widget_set_tooltip_text(pdata->window, _("This indicates the the LilyPond typsetter is still working on setting the Denemo score. This can take a long time, particularly for polyphony where voices must not collide. You can continue editing while the typsetting is taking place.\nKill this window if you want to re-start the typesetting e.g. after fixing a mistake you just spotted."));
     vbox = gtk_vbox_new (FALSE, 5);
     gtk_container_add (GTK_CONTAINER (pdata->window), vbox);
     gtk_widget_show (vbox);

@@ -1725,17 +1725,17 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
     
 
   button = gtk_button_new_with_label("Movement");
-  gtk_widget_set_tooltip_text(button, "Typesets the music from the current movement. This creates a score layout comprising one movement.");
+  gtk_widget_set_tooltip_text(button, _("Typesets the music from the current movement. This creates a score layout comprising one movement."));
   g_signal_connect(button, "clicked", G_CALLBACK(typeset_control), create_movement_pdf);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
  
   button = gtk_button_new_with_label("Part");
-  gtk_widget_set_tooltip_text(button, "Typesets the music from the current part for all movements. A part is all the music with the same staff-name. This creates a score layout with one part, all movements.");
+  gtk_widget_set_tooltip_text(button, _("Typesets the music from the current part for all movements. A part is all the music with the same staff-name. This creates a score layout with one part, all movements."));
   g_signal_connect(button, "clicked", G_CALLBACK(typeset_control), create_part_pdf);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
   button = gtk_button_new_with_label("Refresh");
-  gtk_widget_set_tooltip_text(button, "Re-issues the last print command. Use this after modifying the file to repeat the typesetting.");
+  gtk_widget_set_tooltip_text(button, _("Re-issues the last print command. Use this after modifying the file to repeat the typesetting."));
   g_signal_connect(button, "clicked", G_CALLBACK(typeset_control), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
  
@@ -1744,13 +1744,16 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
 
 
   button = gtk_button_new_with_label("Duplex");
+  gtk_widget_set_tooltip_text(button, _("Shows pages side by side, so you can see page turns for back-to-back printing\n"));
   g_signal_connect(button, "clicked", G_CALLBACK(dual_page), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
   button = gtk_button_new_with_label("Next");
+  gtk_widget_set_tooltip_text(button, _("Move to the next page - you can also scroll with the scroll-wheel, and zoom with control-wheel"));
   g_signal_connect(button, "clicked", G_CALLBACK(page_display), (gpointer) 1);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
   button = gtk_button_new_with_label("Previous");
+  gtk_widget_set_tooltip_text(button, _("Move to the previous page - you can also scroll with the scroll-wheel, and zoom with control-wheel"));
   g_signal_connect(button, "clicked", G_CALLBACK(page_display), (gpointer) -1);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
@@ -1775,8 +1778,10 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
   ev_init();
   
   Denemo.printarea = (GtkWidget*)ev_view_new();
-  gtk_container_add (GTK_CONTAINER(score_and_scroll_hbox), Denemo.printarea);
 
+  gtk_container_add (GTK_CONTAINER(score_and_scroll_hbox), Denemo.printarea);
+  if(Denemo.prefs.newbie)
+    gtk_widget_set_tooltip_text(score_and_scroll_hbox, _("This window shows the final typeset score from which you can print or (via print to file) create a PDF document.\nIt can take some time to generate a beautifully typeset score, so take a break!\nIf you just want to generate a score layout - e.g. for one part then you can kill off the actual typsetting by closing the Progress bar"));
 
  g_signal_connect (G_OBJECT (Denemo.printarea), "external-link",
 		      G_CALLBACK (goto_position), NULL);
