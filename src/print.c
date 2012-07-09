@@ -1781,7 +1781,7 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
 
   gtk_container_add (GTK_CONTAINER(score_and_scroll_hbox), Denemo.printarea);
   if(Denemo.prefs.newbie)
-    gtk_widget_set_tooltip_text(score_and_scroll_hbox, _("This window shows the final typeset score from which you can print or (via print to file) create a PDF document.\nIt can take some time to generate a beautifully typeset score, so take a break!\nIf you just want to generate a score layout - e.g. for one part then you can kill off the actual typsetting by closing the Progress bar"));
+    gtk_widget_set_tooltip_markup(score_and_scroll_hbox, _("This window shows the final typeset score from which you can print or (via print to file) create a PDF document.\nWhen you have typeset the score you can click on a note to move to that place in the Denemo display.\n<b>Note</b>: It can take some time to generate a beautifully typeset score, so take a break!\nIf you just want to generate a score layout - e.g. for one part then you can kill off the actual typsetting by closing the Progress bar"));
 
  g_signal_connect (G_OBJECT (Denemo.printarea), "external-link",
 		      G_CALLBACK (goto_position), NULL);
