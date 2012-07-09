@@ -394,6 +394,7 @@ static gboolean clone_scoreblock(DenemoScoreblock *sb, gchar *name) {
 			DenemoScoreblock *newsb = g_malloc0(sizeof(DenemoScoreblock));
 			create_standard_scoreblock(&newsb, movement, partname);
 			Denemo.gui->standard_scoreblocks = g_list_prepend(Denemo.gui->standard_scoreblocks, newsb);
+			Denemo.gui->lilysync = G_MAXUINT;
 			return TRUE;
 		} else {
 		g_free(partname);
@@ -920,16 +921,32 @@ static draw_staff_brace(GtkWidget *w, GdkEventExpose *event, gchar *context) {
   cairo_destroy(cr);
   return TRUE;
 }
+static 	void show_type(GtkWidget *widget, gchar *message) {
+    g_print("%s%s\n",message, widget?g_type_name(G_TYPE_FROM_INSTANCE(widget)):"NULL widget");
+  }
+
+
 static gboolean remove_context(GtkWidget *button, GtkWidget *parent) {
 	if(!clone_scoreblock_if_needed(parent)) return TRUE;
 	GList *children = gtk_container_get_children(GTK_CONTAINER(parent));
-	gtk_widget_reparent(g_list_last(children)->data, gtk_widget_get_parent(gtk_widget_get_parent(parent)));
+	show_type( g_list_last(children)->data,  "vbox type is");
+	show_type( gtk_widget_get_parent(gtk_widget_get_parent(parent)), "Reparenting on ");
+	GtkWidget *vbox = g_list_last(children)->data;
+	GList *staff_list = gtk_container_get_children(GTK_CONTAINER(vbox));
+	GList *g;
+	for(g=staff_list;g;g=g->next) {
+		show_type(g->data, "The staff frame is ");
+		gtk_widget_reparent(g->data,//frame
+		gtk_widget_get_parent(gtk_widget_get_parent(parent)));
+//now position correctly
+
+	}
 	gtk_widget_destroy(gtk_widget_get_parent(parent));
 return TRUE;
 }
 
 //Move the frame above into this frame's vbox, unless we are inside it.
-static gboolean move_context_up(GtkWidget *button, GtkWidget *parent) {
+static gboolean move_context_up(GtkWidget *button, GtkWidget *parent) {//!!!! these not working
 	if(!clone_scoreblock_if_needed(parent)) return TRUE;
 	DenemoScoreblock *sb = get_custom_scoreblock(parent);
 	gint index = g_list_index(sb->staff_list, parent);
@@ -1002,8 +1019,7 @@ static GtkWidget *install_staff_group_start(GList **pstaffs, GtkWidget *vbox, GL
 
 				gtk_box_pack_start(GTK_BOX (hbox), layout, TRUE, TRUE, 0);
 
-#if 0
-//these aren't working - perhaps instead create brown buttons that work on the staff groups of the score???
+
 				GtkWidget *controls = gtk_vbox_new(FALSE, 8);
 				gtk_box_pack_start(GTK_BOX (hbox), controls, FALSE, TRUE, 0);
 
@@ -1012,7 +1028,8 @@ static GtkWidget *install_staff_group_start(GList **pstaffs, GtkWidget *vbox, GL
 				g_signal_connect(button, "clicked", G_CALLBACK(remove_context), hbox);
         gtk_box_pack_start(GTK_BOX (controls), button, FALSE, TRUE, 0);
 
-
+#if 0
+//these aren't working - perhaps instead create brown buttons that work on the staff groups of the score???
         button = gtk_button_new_with_label("⬆");
         gtk_widget_set_tooltip_text (button,_("Extend this staff group upwards for customized layout."));
 				g_signal_connect(button, "clicked", G_CALLBACK(move_context_up), frame);
