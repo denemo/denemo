@@ -50,6 +50,7 @@ struct callbackdata
   GtkWidget *modal;
   GtkWidget *cursor_highlight;
   GtkWidget *return_key_is_special;
+  GtkWidget *newbie;
   GtkWidget *persistence;
   GtkWidget *startmidiin;
   GtkWidget *applytoselection;
@@ -278,6 +279,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNBOOLEAN(persistence)
   ASSIGNBOOLEAN(cursor_highlight)
   ASSIGNBOOLEAN(return_key_is_special)
+  ASSIGNBOOLEAN(newbie)
   ASSIGNBOOLEAN(startmidiin)
   ASSIGNBOOLEAN(applytoselection)
   ASSIGNBOOLEAN(quickshortcuts)
@@ -554,6 +556,7 @@ preferences_change (GtkAction *action, gpointer param)
 
   BOOLEANENTRY("Strict Shortcuts", strictshortcuts);
   BOOLEANENTRY("Treat Return key as movable shortcut", return_key_is_special);
+  BOOLEANENTRY("Turn on all tooltips", newbie);
 
   /*
    * External (Helper) Programs

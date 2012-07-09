@@ -122,6 +122,7 @@ initprefs ()
   ret->continuous = TRUE;
   ret->cursor_highlight = TRUE;
   ret->return_key_is_special = TRUE;
+  ret->newbie = TRUE;
   ret->immediateplayback = TRUE;
 
   ret->audio_driver = g_string_new("default");
@@ -326,6 +327,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READBOOLXMLENTRY(persistence) 
 
       READBOOLXMLENTRY(return_key_is_special) 
+      READBOOLXMLENTRY(newbie) 
       READBOOLXMLENTRY(applytoselection) 
       READBOOLXMLENTRY(quickshortcuts) 
       READBOOLXMLENTRY(startmidiin) 
@@ -411,6 +413,7 @@ gboolean get_bool_pref(gchar *prefname) {
       GETBOOLPREF(persistence) 
       GETBOOLPREF(cursor_highlight) 
       GETBOOLPREF(return_key_is_special) 
+      GETBOOLPREF(newbie) 
       GETBOOLPREF(applytoselection) 
       GETBOOLPREF(quickshortcuts) 
       GETBOOLPREF(startmidiin) 
@@ -764,6 +767,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEBOOLXMLENTRY(persistence)
   WRITEBOOLXMLENTRY(cursor_highlight)
   WRITEBOOLXMLENTRY(return_key_is_special)
+  WRITEBOOLXMLENTRY(newbie)
   WRITEBOOLXMLENTRY(applytoselection)
   WRITEBOOLXMLENTRY(quickshortcuts)
   WRITEBOOLXMLENTRY(startmidiin)

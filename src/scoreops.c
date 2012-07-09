@@ -441,6 +441,7 @@ init_score (DenemoScore * si, DenemoGUI *gui)
   si->undo_guard = 1;//do not collect undo information until file is loaded
   
   si->buttonbox = gtk_hbox_new(FALSE, 1);
+  gtk_widget_set_tooltip_text(si->buttonbox, _("A button bar that can be populated by Movement titles and other user generated buttons.\nGenerally by clicking the button you can edit the title or value or execute the action of the button"));
   gtk_box_pack_end (GTK_BOX (gui->buttonboxes), si->buttonbox, FALSE, TRUE,
 		      0);
   gtk_widget_show (si->buttonbox);

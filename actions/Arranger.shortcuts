@@ -401,10 +401,6 @@
         <bind>f1</bind>
       </row>
       <row>
-        <action>HelpForReturnKey</action>
-        <bind>Return</bind>
-      </row>
-      <row>
         <action>InsertA</action>
         <bind>A,A</bind>
       </row>
@@ -933,6 +929,10 @@
       <row>
         <action>BookInstrumentation</action>
         <bind>S,i</bind>
+      </row>
+      <row>
+        <action>HelpForReturnKey</action>
+        <bind>Return</bind>
       </row>
     </map>
   </merge>

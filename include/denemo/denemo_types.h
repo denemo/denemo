@@ -381,6 +381,7 @@ typedef struct DenemoPrefs
   gint system_height; /**< percent of display height per system  1-100 */
   gboolean cursor_highlight; /** Should the cursor be highlighted */
   gboolean return_key_is_special; /** Should the Return key be treated as movable shortcut */
+  gboolean newbie; /** Give maximum help */
   gboolean progressbardecorations; /** TRUE if you want window decorations on progressbar */
   gboolean toolbar; /**< makes the toolbar visible */
   gboolean playback_controls; /**< makes the playback controls visible */

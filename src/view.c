@@ -921,6 +921,19 @@ static SCM scheme_set_thumbnail_selection(SCM optional) {
   return SCM_BOOL_F;
 }
 
+static SCM scheme_set_newbie(SCM optional) {
+  SCM ret = SCM_BOOL(Denemo.prefs.newbie);
+  if(scm_is_true(optional)) {
+    Denemo.prefs.tooltip_timeout = Denemo.prefs.tooltip_browse_timeout = 0;
+    Denemo.prefs.newbie = 1;
+  }
+  else{
+    Denemo.prefs.tooltip_timeout = Denemo.prefs.tooltip_browse_timeout = 2000;
+    Denemo.prefs.newbie = 0;
+  }
+  return ret;
+}
+
 static SCM scheme_get_checksum(SCM str) {
   SCM ret = SCM_BOOL_F;
   if(scm_is_string(str)) {
@@ -5422,9 +5435,9 @@ INSTALL_SCM_FUNCTION ("Undo normally undoes all the actions performed by a scrip
 
 INSTALL_SCM_FUNCTION ("return a string giving the latest step available for Undo", DENEMO_SCHEME_PREFIX"GetLastChange", scheme_get_last_change);
 
-
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the menu path to that command or #f if none",DENEMO_SCHEME_PREFIX"GetMenuPath", scheme_get_menu_path);
   INSTALL_SCM_FUNCTION ("Takes a string and returns a string representing an MD5 checksum for the passed string.", DENEMO_SCHEME_PREFIX"GetChecksum", scheme_get_checksum);
+  INSTALL_SCM_FUNCTION ("Sets the newbie status to the passed value",DENEMO_SCHEME_PREFIX"SetNewbie", scheme_set_newbie);
   INSTALL_SCM_FUNCTION ("Gets the current verse of the current staff or #f if none",DENEMO_SCHEME_PREFIX"GetVerse", scheme_get_verse);
   INSTALL_SCM_FUNCTION ("Puts the passed string as the current verse of the current staff",DENEMO_SCHEME_PREFIX"PutVerse", scheme_put_verse);
   INSTALL_SCM_FUNCTION ("Appends the passed string to the current verse of the current staff",DENEMO_SCHEME_PREFIX"AppendToVerse", scheme_append_to_verse);
@@ -8915,13 +8928,19 @@ get_data_dir (),
 
   //menubar = gtk_item_factory_get_widget (item_factory, "<main>");
   Denemo.menubar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu");// this triggers Lily... missing action
+  gtk_widget_set_tooltip_text(Denemo.menubar, _("This is the Main Menu bar, where menus for the mostly non-musical aspects (saving, printing, setting up input sources etc) are placed. See the Object Menu bar for the commands that edit music"));
   gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.menubar, FALSE, TRUE, 0);
   gtk_widget_show (Denemo.menubar);
+
+  gtk_widget_set_tooltip_text(gtk_ui_manager_get_widget (ui_manager, "/ObjectMenu"), _("This is the Object Menu bar, where menus for the commands that edit music live. They are arranged in a hierarchy Score, Movement, Staff (which contains Voices) and then the things that go on a staff, notes, clefs etc. Directives covers everything else that you can put in amongst the notes to change the behavior from that point in the music."));
+  gtk_widget_set_tooltip_markup(gtk_ui_manager_get_widget (ui_manager, "/EntryToolBar"), _("This bar has buttons for entering notes and rests. The highlighted duration is the <i>prevailing duration</i>, that is the duration which will be applied to the next note entered. You can hide this bar (to make more room on the screen) using the View menu. You can make it your preference to hide it using MainMenu->Edit->Change Preferences->Display Note/Rest entry toolbar"));
+
+  gtk_widget_set_tooltip_markup(gtk_ui_manager_get_widget (ui_manager, "/RhythmToolBar"), _("You can populate this bar with buttons holding a snippet of music. The highlighted snippet is the <i>prevailing duration</i>, that is the next note entered will follow the rhythmic pattern of this snippet.\nYou can enter the whole snippet by clicking on it, or using the command under ObjectMenu->Notes/Rests->Append/InsertDuration->Insert Snippet. You can also select the <i>prevailing snippet</i> using  ObjectMenu->Notes/Rests->Select Duration->Next Snippet.\nYou can hide this bar (to make more room on the screen) using the View menu. You can make it your preference to hide it using MainMenu->Edit->Change Preferences->Display Note/Rest entry toolbar"));
 
   toolbar = gtk_ui_manager_get_widget (ui_manager, "/ToolBar");
   // The user should be able to decide toolbar style.
   // But without gnome, there is no (ui) to set this option.
-
+  gtk_widget_set_tooltip_text(toolbar, _("This tool bar contains a few conventional commands. You can hide it (to make more room on the screen) using the View menu. You can make it your preference to hide it using MainMenu->Edit->Change Preferences->Display general toolbar"));
   gtk_toolbar_set_style (GTK_TOOLBAR (toolbar), GTK_TOOLBAR_BOTH_HORIZ);
   gtk_box_pack_start (GTK_BOX (main_vbox), toolbar, FALSE, TRUE, 0);
   gtk_widget_set_can_focus (toolbar, FALSE);
@@ -9065,6 +9084,7 @@ get_data_dir (),
 
 
     Denemo.midi_in_control = gtk_vbox_new(FALSE, 1);
+    gtk_widget_set_tooltip_text(Denemo.midi_in_control, _("Controls for managing input from a MIDI controller (e.g. keyboard) attached to the computer. You may need to select your MIDI device first using MainMenu->Edit->Change Preferences->MIDI looking for MIDI in devices (turn your device on first). When you have a MIDI controller durations are inserted without any pitch (they appear in brown) playing on the controller puts the pitches onto the durations. The Shift and Control and ALT keys can also be used for listening without entering notes, checking pitches entered and entering chords. The foot pedal can also be used for chords. Release the ALT key and re-press to start a new chord - timing is unimportant, play the chord fast or slow."));
     gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.midi_in_control, FALSE, TRUE, 0);
     frame= (GtkFrame *)gtk_frame_new(_("Midi In Control"));
     gtk_frame_set_shadow_type((GtkFrame *)frame, GTK_SHADOW_IN);
@@ -9084,6 +9104,7 @@ get_data_dir (),
       hbox = gtk_hbox_new(FALSE, 1);
       gtk_box_pack_start (GTK_BOX (inner1), hbox, TRUE, TRUE, 0);
       midi_in_status = gtk_label_new(_("Appending/Editing Pitches"));
+      gtk_widget_set_tooltip_text(midi_in_status, _("This tells you what will happen to a MIDI in event from your controller. Use the Control Shift or ALT keys, or caps lock to affect what will happen."));
       gtk_label_set_use_markup (GTK_LABEL (midi_in_status), TRUE);
       gtk_box_pack_start (GTK_BOX(hbox), midi_in_status, FALSE, TRUE, 0);
      
@@ -9138,6 +9159,8 @@ get_data_dir (),
 
  {
   Denemo.scorearea = gtk_drawing_area_new ();
+  if(Denemo.prefs.newbie)
+    gtk_widget_set_tooltip_text(Denemo.scorearea, _("This is the Denemo Display for the music you have entered. It doesn't show how the music will look when printed - to typeset the music really well without you having to make adjustments is a time-consuming task. The green box is the Denemo Cursor - it turns Red when when the bar is full or blue if you are appending at the end of an underfull bar. Many commands operate on the object at the Denemo cursor\nOverfull/Underfull bars are colored red/blue, use the Upbeat (Anacrusis, Pickup) command if that is intentional.\nYou can switch to a menu-less view or a page-view using the Esc key. For the paged view you drag the red bar up the page to set how many systems you want showing.\nFor the paged view you will probably want a smaller zoom - use Control+scroll-wheel on your mouse to zoom the display."));
   GtkWidget *scorearea_topbox = gtk_vbox_new(FALSE, 1);
   gtk_container_add (GTK_CONTAINER(main_vbox), scorearea_topbox);
   
@@ -9312,13 +9335,13 @@ newtab (GtkAction *action, gpointer param) {
   gtk_box_pack_start (GTK_BOX (top_vbox), gui->buttonboxes, FALSE, TRUE,
 		      0);
   gui->buttonbox = gtk_hbox_new (FALSE, 1);
+  gtk_widget_set_tooltip_text(gui->buttonbox, _("A button bar that can be populated by titles and other user generated buttons.\nGenerally by clicking the button you can edit the title or value or execute the action of the button"));
   gtk_box_pack_start (GTK_BOX (gui->buttonboxes), gui->buttonbox, FALSE, TRUE,
 		      0);
   
   gtk_widget_set_can_focus (gui->buttonboxes, FALSE);
-  //GTK_WIDGET_UNSET_FLAGS(gui->buttonboxes, GTK_CAN_FOCUS);
   gtk_widget_set_can_focus (gui->buttonbox, FALSE);
-  //GTK_WIDGET_UNSET_FLAGS(gui->buttonbox, GTK_CAN_FOCUS);
+  
 
 
 
