@@ -1010,7 +1010,7 @@ static GtkWidget *install_staff_group_start(GList **pstaffs, GtkWidget *vbox, GL
 				
 
 				GtkWidget *layout = gtk_drawing_area_new();
-				
+				gtk_widget_set_tooltip_text(layout, _("This brace connects together several staffs - you can delete it for a customized layout."));
 				g_signal_connect (G_OBJECT (layout), "expose_event",
 		      G_CALLBACK (draw_staff_brace),directive->tag->str);
 
@@ -1024,7 +1024,7 @@ static GtkWidget *install_staff_group_start(GList **pstaffs, GtkWidget *vbox, GL
 				gtk_box_pack_start(GTK_BOX (hbox), controls, FALSE, TRUE, 0);
 
 				GtkWidget *button = gtk_button_new_with_label("X");
-				gtk_widget_set_tooltip_text (button,_("Remove this staff group from customized layout."));
+				gtk_widget_set_tooltip_text (button,_("Remove this staff brace from these staffs for a customized layout."));
 				g_signal_connect(button, "clicked", G_CALLBACK(remove_context), hbox);
         gtk_box_pack_start(GTK_BOX (controls), button, FALSE, TRUE, 0);
 
@@ -1161,6 +1161,7 @@ static GtkWidget *get_movement_widget(GList **pstaffs, gchar *partname, DenemoSc
 
 	gchar *label_text = (si->thescore->next==NULL)?"The Staff":"The Staffs";
 	GtkWidget *topexpander = gtk_expander_new(label_text);
+	gtk_widget_set_tooltip_text(topexpander, _("This holds the staffs below which are the voices with the music."));
 	gtk_expander_set_expanded(GTK_EXPANDER(topexpander), si==Denemo.gui->si);
 	gtk_box_pack_start (GTK_BOX (vbox), topexpander, FALSE, TRUE, 0);
 	vbox = gtk_vbox_new(FALSE, 8);
@@ -1193,7 +1194,7 @@ static GtkWidget *get_movement_widget(GList **pstaffs, gchar *partname, DenemoSc
 		GtkWidget *button = gtk_button_new_with_label(label_text);
 		g_free(label_text);
 		gtk_box_pack_start(GTK_BOX (staff_hbox), button, FALSE, TRUE, 0);
-		gtk_widget_set_tooltip_text(button, "Click to position the Denemo cursor on this staff\nor to alter this staff for a customized layout");
+		gtk_widget_set_tooltip_text(button, _("Click for a menu to position the Denemo cursor on this staff\nor to alter this staff for a customized layout"));
 
 
 			GtkWidget *menu = gtk_menu_new();
@@ -1247,6 +1248,7 @@ static GtkWidget *get_movement_widget(GList **pstaffs, gchar *partname, DenemoSc
 		
 		label_text = (nextstaff && nextstaff->voicecontrol&DENEMO_SECONDARY)?"Voices":"Voice";
 		GtkWidget *expander  = gtk_expander_new(label_text);
+		gtk_widget_set_tooltip_text(expander, _("This holds the voice(s) of the staff - the clef, time signature, key signature and music are all here"));
 		//gtk_container_add (GTK_CONTAINER (frame), expander);
 		gtk_box_pack_end(GTK_BOX(hbox), expander, FALSE, TRUE, 0);
 		GtkWidget *voices_vbox = gtk_vbox_new(FALSE, 8);
