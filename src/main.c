@@ -766,9 +766,9 @@ Report bugs to http://www.denemo.org\n"), NULL) ;
       }
     }
 #endif
-
+#ifdef HAVE_SIGCHLD
   signal (SIGCHLD, sigchld_handler);
-
+#endif
 
     if (optind < argc)
       return argv[optind];
