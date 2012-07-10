@@ -930,6 +930,7 @@ static SCM scheme_set_newbie(SCM optional) {
   else{
     Denemo.prefs.tooltip_timeout = Denemo.prefs.tooltip_browse_timeout = 2000;
     Denemo.prefs.newbie = 0;
+    gtk_widget_set_tooltip_text(Denemo.scorearea, NULL);
   }
   return ret;
 }
