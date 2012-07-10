@@ -1139,16 +1139,12 @@ static popup_initial_clef_menu(GtkWidget *button) {
 	else g_warning("No such menu path");
 }
 
-static GtkWidget *get_movement_widget(GList **pstaffs, gchar *partname, DenemoScore *si, gint movementnum, gboolean last_movement, gboolean only_movement) {
+static GtkWidget *get_movement_widget(GList **pstaffs, gchar *partname, DenemoScore *si, gint movementnum, gboolean last_movement) {
 	DenemoGUI *gui = Denemo.gui;
 	gint staff_group_nesting = 0;//to check on loose staff group markers
 	gint voice_count;//a count of voices from the very top of the score (ie DenemoStaffs in thescore)
 	gint staff_count;//a count of staffs excluding voices from top of score
-	//gchar *label_text = only_movement?NULL:g_strdup_printf("Movement %d", movementnum);
 	GtkWidget *ret = gtk_frame_new(NULL);
-	//g_free(label_text);
-
-
 	GString *start = g_string_new("");
 	set_initiate_scoreblock(si, start); // ie << possibly overridden
 	
@@ -1462,7 +1458,7 @@ static void set_default_scoreblock(DenemoScoreblock **psb, gint movement, gchar 
 	for(g = gui->movements;g;g=g->next, movement_num++) {
 		if(movement==0 /*all movements */|| (movement==movement_num) /*this movement*/) {
 			DenemoScore *si = (DenemoScore *)g->data;
-			gchar *label_text = gui->movements->next?g_strdup_printf("Movement %d", movement_num):NULL;
+			gchar *label_text = gui->movements->next?g_strdup_printf("Movement %d", movement_num):g_strdup("Movement");
 			GtkWidget *movement_frame = gtk_expander_new(label_text);
 			gtk_expander_set_expanded(GTK_EXPANDER(movement_frame), si==gui->si);
 			g_free(label_text);
@@ -1486,17 +1482,8 @@ static void set_default_scoreblock(DenemoScoreblock **psb, gint movement, gchar 
 			GtkWidget *outer_vbox = gtk_vbox_new(FALSE, 8);
 			gtk_container_add (GTK_CONTAINER (frame), outer_vbox);
 			GtkWidget *hbox = gtk_hbox_new(FALSE, 8);
-			
-			//GtkWidget *button = gtk_button_new_with_label("X");
-			//gtk_box_pack_end(GTK_BOX (hbox), button, FALSE, TRUE, 0);
-			//g_signal_connect(button, "clicked", G_CALLBACK(remove_element), NULL);
-
-			
-			gtk_box_pack_start (GTK_BOX (hbox), get_movement_widget(&(*psb)->staff_list, partname, si, movement_num, !(gboolean)g->next, !gui->movements->next), FALSE, TRUE, 0);
-
-	
-
-			
+		
+			gtk_box_pack_start (GTK_BOX (hbox), get_movement_widget(&(*psb)->staff_list, partname, si, movement_num, !(gboolean)g->next), FALSE, TRUE, 0);	
 			gtk_box_pack_start(GTK_BOX (outer_vbox), hbox, FALSE, TRUE, 0);
 		if(si->header.directives) {
 			GtkWidget *frame = gtk_frame_new("Header block");
