@@ -349,9 +349,14 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
       itp->tupletstart = itp->tuplety = 0;
       break;
     case LILYDIRECTIVE:
-      // if(si->markstaffnum) not available
+     {DenemoDirective *directive = mudelaitem->object;
       if(cr) draw_lily_dir(cr,
-		       x + mudelaitem->x, y, 0, 0, mudelaitem, itp->mark);  
+		       x + mudelaitem->x, y, 0, 0, mudelaitem, itp->mark);
+      if((directive->ty - 10) < itp->highy)
+	  itp->highy  = directive->ty - 10/* for height of text */;
+      if((directive->gy - 10) < itp->highy)
+	  itp->highy  = directive->gy - 10/* for height of text */;
+    }
       break;
     case CLEF:
       itp->clef = ((clef *) mudelaitem->object);

@@ -208,7 +208,7 @@ draw_ledgers (cairo_t *cr,
 
 /**
  * Draw the chord object on the score
- *
+ * returns the highest y value drawn at
  */
 gint
 draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
@@ -330,7 +330,7 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	}
 	if(directive->display) {
 	  drawnormaltext_cr (cr, directive->display->str, xx+directive->tx, y + ((thechord.highesty>-10)?-10:thechord.highesty) - 8 +count+directive->ty );
-	  highest = y + ((thechord.highesty>-10)?-10:thechord.highesty) - 8 +count+directive->ty;
+	  highest = y + ((thechord.highesty>-10)?-10:thechord.highesty) - 8 +count+directive->ty - 10/*for height of text */;
 	}
 	count += 16;
       } //for each chord directive
