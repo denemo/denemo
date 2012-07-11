@@ -7,10 +7,15 @@
       <row>
         <after>PageBreak</after>
         <action>NotForLayout</action>
-        <scheme>;;;;;;;;;;;;;;;;;; NotForLayout
+        <scheme>;;;;;;; NotForLayout
  (let ((tag (d-DirectiveGetTag-standalone)) ( id (d-GetLayoutId)))
   (if tag
-	(d-DirectivePut-standalone-x tag id)))
+  	(let ()
+  		(define text (string-append "Not for " (d-GetLayoutName)))
+  		(d-DirectivePut-standalone-display tag text)
+  		(d-DirectivePut-standalone-ty tag -50)
+  		(d-DirectivePut-standalone-tx tag -30)
+	(d-DirectivePut-standalone-x tag id))))
 	(d-RefreshDisplay)</scheme>
         <label>Ignore for Current Layout</label>
         <tooltip>The Denemo Directive at the cursor will be ignored when printing from the current score layout (See View-&gt;Score Layout)</tooltip>
