@@ -9287,11 +9287,17 @@ newview (GtkAction *action, gpointer param)
   Denemo.gui->si->undo_guard = Denemo.prefs.disable_undo;
 }
 
-void new_score_cb(GtkAction * action, gpointer param)
+void new_score_cb(GtkAction * action, DenemoScriptParam *param)
 {
-file_newwrapper (action, param);
-call_out_to_guile("(d-InstrumentName)");
-denemo_scheme_init();
+  DenemoScriptParam dummy;
+  dummy.string=NULL;
+  if(param==NULL)
+    param = &dummy;
+  file_newwrapper (action, param);
+  if(param->status) {
+    call_out_to_guile("(d-InstrumentName)");
+    denemo_scheme_init();
+  }
 }
 /**
  * Creates a new DenemoGUI structure represented by a tab in a notebook: the DenemoGUI can, at anyone time, control one musical score possibly of several movements. It can, from time to time have different musical scores loaded into it. So it is to be thought of as a Music Score Editor.

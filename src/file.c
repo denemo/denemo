@@ -909,7 +909,7 @@ file_saveaswrapper (GtkAction * action, DenemoScriptParam *param)
  * Wrapper function to save the current file as template
  */
 void
-template_save (GtkAction * action, gpointer param)
+template_save (GtkAction * action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
   init_local_path();
@@ -922,7 +922,7 @@ template_save (GtkAction * action, gpointer param)
  * Wrapper function to save the current file as a copy
  */
 void
-file_copy_save (GtkAction * action, gpointer param)
+file_copy_save (GtkAction * action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
   init_local_path();
@@ -934,7 +934,7 @@ file_copy_save (GtkAction * action, gpointer param)
  *
  */
 void
-file_savewrapper (GtkAction * action, gpointer param)
+file_savewrapper (GtkAction * action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
   file_save (NULL, gui);
@@ -1046,26 +1046,31 @@ file_saveas (DenemoGUI * gui, DenemoSaveType  template)
  *
  */
 void
-file_newwrapper (GtkAction * action, gpointer param)
+file_newwrapper (GtkAction * action, DenemoScriptParam *param)
 {
+  DenemoScriptParam dummy;
+  dummy.string=NULL;
+  if(param==NULL)
+    param = &dummy;
   DenemoGUI *gui = Denemo.gui;
   if (gui->notsaved)
     {
-      if (confirmbox (gui))
-	{
-	  deletescore(NULL, gui);
-	}
-      else
-	return;
+      if (confirmbox (gui)) {
+          deletescore(NULL, gui);
+      }
+      else {
+        param->status = FALSE;
+        return;
+      }
     }
-  else
-    {
+  else {
       deletescore(NULL, gui);
-    }
+  }
   set_enharmonic_position(0);
   if(Denemo.printarea) 
     g_object_set_data(G_OBJECT(Denemo.printarea), "printviewupdate", (gpointer)G_MAXUINT);
   score_status(gui, FALSE);
+  param->status = TRUE;
 }
 
 
@@ -1115,7 +1120,7 @@ replace_existing_file_dialog (const gchar * filename,
  * Save parts to individual files
  */
 void
-file_savepartswrapper (GtkAction * action, gpointer param)
+file_savepartswrapper (GtkAction * action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
   if (gui->filename->len==0)
@@ -1170,7 +1175,7 @@ selection_received (GtkClipboard *clipboard, const gchar *text, gpointer data) {
 }
 
 void
-paste_clipboard(GtkAction * action, gpointer param) {
+paste_clipboard(GtkAction * action, DenemoScriptParam *param) {
   if(Denemo.gui != g_list_last(Denemo.guis)->data) {
     warningdialog("Can only paste LilyPond text into the last tab, sorry");
     return;

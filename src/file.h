@@ -11,7 +11,7 @@
 gboolean confirmbox (DenemoGUI *gui);
 
 void 
-file_savepartswrapper(GtkAction *action, gpointer param);
+file_savepartswrapper(GtkAction *action, DenemoScriptParam *param);
 
 void
 file_open_with_check (GtkAction *action, DenemoScriptParam * param);
@@ -40,16 +40,16 @@ void
 local_template_open_with_check (GtkAction *action, DenemoScriptParam * param);
 
 void
-file_savewrapper (GtkAction *action, gpointer param);
+file_savewrapper (GtkAction *action, DenemoScriptParam *param);
 
 void
 file_saveaswrapper (GtkAction *action, DenemoScriptParam *param);
 
 void
-file_newwrapper (GtkAction *action, gpointer param);
+file_newwrapper (GtkAction *action, DenemoScriptParam *param);
 
 void
-new_score_cb(GtkAction * action, gpointer param);
+new_score_cb(GtkAction * action, DenemoScriptParam *param);
 
 void
 file_save (GtkWidget * widget, DenemoGUI *gui);
@@ -58,14 +58,14 @@ void
 file_saveas (DenemoGUI *gui,  DenemoSaveType as_template);
 
 void
-template_save (GtkAction * action, gpointer param);
+template_save (GtkAction * action, DenemoScriptParam *param);
 void
-file_copy_save (GtkAction * action, gpointer param); 
+file_copy_save (GtkAction * action, DenemoScriptParam *param); 
 void export_mudela_action (GtkAction *action, DenemoScriptParam *param);
 void export_pdf_action (GtkAction *action, DenemoScriptParam *param);
 void export_png_action (GtkAction *action, DenemoScriptParam *param);
 void export_midi_action (GtkAction *action, DenemoScriptParam *param);
-void paste_clipboard(GtkAction * action, gpointer param);
+void paste_clipboard(GtkAction * action, DenemoScriptParam *param);
 void openrecent (GtkWidget * widget, gchar *filename);
 gint open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, ImportType type);
 
