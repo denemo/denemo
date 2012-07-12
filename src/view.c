@@ -5739,6 +5739,7 @@ static gboolean action_callbacks(DenemoGUI* gui) {
 static gboolean
 close_gui (void)
 {
+  g_signal_handlers_block_by_func(G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);// turn of refresh of display before destroying the data
   stop_midi_playback (NULL, NULL);// if you do not do this, there is a timer moving the score on which will hang
  //FIXME why was this here??? activate_action("/MainMenu/InputMenu/KeyboardOnly");
  if(Denemo.prefs.enable_thumbnails)
@@ -5774,7 +5775,8 @@ if(Denemo.gui->textwindow)
     //g_print("Setting the first piece as your score\n");
     gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), index);
   } else
-    Denemo.gui = NULL; 
+    Denemo.gui = NULL;
+  g_signal_handlers_unblock_by_func(G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
   return TRUE;
 }
 
@@ -9229,6 +9231,7 @@ get_data_dir (),
 
   create_console(GTK_BOX(main_vbox));
   Denemo.statusbar = gtk_statusbar_new ();
+  gtk_widget_set_tooltip_text(Denemo.statusbar, _("This bar shows the movement number followed by a description of the object at the Denemo cursor and the position and status (appending or inserting) of the cursor. If the Playback Controls are visible then the timing of the object at the cursor is shown. When the first key of a two-key shortcut is pressed the possible continuations are shown here."));
   hbox = gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
   gtk_box_pack_start (GTK_BOX (hbox), Denemo.statusbar, TRUE, TRUE, 5);
@@ -9238,6 +9241,7 @@ get_data_dir (),
   gtk_statusbar_push (GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id,
 		      "Denemo");
   Denemo.input_source = gtk_label_new("");
+  gtk_widget_set_tooltip_text(Denemo.input_source, _("This area shows which MIDI filters are active. It can also be used by commands to pass information to the user"));
   gtk_widget_show(Denemo.input_source);
   Denemo.input_filters = g_string_new("");
   gtk_box_pack_end (GTK_BOX (hbox), Denemo.input_source, TRUE, TRUE, 5);
