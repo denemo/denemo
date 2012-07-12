@@ -37,8 +37,8 @@ static GtkWidget *new_lyric_editor(void) {
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
 				  GTK_POLICY_AUTOMATIC,
 				  GTK_POLICY_AUTOMATIC);
-  
-
+  if(Denemo.prefs.newbie)
+    gtk_widget_set_tooltip_text(sw, _("The text of a verse can be typed or pasted here. The space between syllables determines which syllable goes beneath which note(s).\nNew lines have no special significance for this. Slurs on notes make them take only one syllable. Use the underscore _ for blank syllables and the hyphen - for extending syllables."));
   gtk_container_add (GTK_CONTAINER (sw), view);
 
   
