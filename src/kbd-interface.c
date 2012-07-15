@@ -335,7 +335,8 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
 							  GTK_DIALOG_DESTROY_WITH_PARENT),
 					GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
 					NULL);
-
+  if(Denemo.prefs.newbie)
+    gtk_widget_set_tooltip_text(dialog, _("This dialog allows you to set shortcuts for commands. As there are so many commands it is best to launch the dialog from the command that you wish to change.\n(Do this by right clicking on the menu item of the command\nthis dialog then comes up with the command highlighted).\nYou can set single-key or two-key shortcuts, or mouse shortcuts.\nYou can also hide commands, so they don't appear in the menus.\nWhen you are finished you can save the settings as your default command set, or as a command set which you may wish to load in the future.\nThis dialog is also where you can load such a stored command set."));
   vbox = gtk_vbox_new (FALSE, 8);
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   gtk_container_add (GTK_CONTAINER (content_area), vbox);
@@ -366,7 +367,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   gtk_table_attach (GTK_TABLE (table), button_save, 0, 1, 1, 2,
 		    (GtkAttachOptions) (GTK_FILL),
 		    (GtkAttachOptions) (GTK_FILL), 0, 0);
-  
+  gtk_widget_set_tooltip_text(button_save, _("Use this to save the changes you have made so that they are used every time you start Denemo. The changes are stored under a directory (folder) called .denemo-* in your home directory. Look in subdirectory actions for Default.commands"));
   button_save_as =
     gtk_button_new_with_label (_("Save as a Custom Command Set"));
   gtk_table_attach (GTK_TABLE (table), button_save_as, 1, 2, 1, 2,
