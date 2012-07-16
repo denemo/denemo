@@ -55,7 +55,7 @@ tomeasurenum (GtkAction *action, gpointer param)
     gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
 
     GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-    label = gtk_label_new_with_mnemonic (_("Go to _measure:"));
+    label = gtk_label_new (_("Go to measure:"));
     gtk_container_add (GTK_CONTAINER (content_area), label);
    
     measure = gtk_spin_button_new_with_range (1.0, (gdouble) max_mesure, 1.0);
