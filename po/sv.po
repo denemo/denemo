@@ -5,13 +5,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: denemo 0.5.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-16 11:55+0100\n"
+"POT-Creation-Date: 2012-07-16 19:07+0100\n"
 "PO-Revision-Date: 2005-04-14 18:10+0200\n"
 "Last-Translator: Jens Askengren <jens.askengren@gmail.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/articulations.c:290
@@ -69,7 +69,7 @@ msgstr "Infoga dynamik"
 #: src/barline.c:82
 #, fuzzy
 msgid "Select desired barline"
-msgstr "Välj klav"
+msgstr "VÃ¤lj klav"
 
 #: src/barline.c:98
 msgid "OK"
@@ -107,7 +107,7 @@ msgstr ""
 #: src/changenotehead.c:115
 #, fuzzy
 msgid "Select Notehead Type"
-msgstr "Välj klav"
+msgstr "VÃ¤lj klav"
 
 #: src/clefdialog.c:35
 msgid "Treble"
@@ -149,11 +149,11 @@ msgstr ""
 
 #: src/clefdialog.c:126
 msgid "Insert clef change"
-msgstr "Infoga klavändring"
+msgstr "Infoga klavÃ¤ndring"
 
 #: src/clefdialog.c:137
 msgid "Select desired clef"
-msgstr "Välj klav"
+msgstr "VÃ¤lj klav"
 
 #: src/drawgrace.c:25
 msgid "\\"
@@ -317,7 +317,7 @@ msgstr ""
 #: src/kbd-custom.c:636
 #, fuzzy
 msgid "Keyboard shortcuts could not be found"
-msgstr "Inga tangentgenvägar konfigurerade"
+msgstr "Inga tangentgenvÃ¤gar konfigurerade"
 
 #: src/kbd-custom.c:641
 msgid ""
@@ -353,7 +353,7 @@ msgstr "Infoga dynamik"
 #: src/kbd-custom.c:2068
 #, fuzzy
 msgid "Shortcuts"
-msgstr "Inga tangentgenvägar konfigurerade"
+msgstr "Inga tangentgenvÃ¤gar konfigurerade"
 
 #: src/kbd-interface.c:145
 msgid "No command has this keyboard shortcut"
@@ -405,12 +405,12 @@ msgstr ""
 #: src/kbd-interface.c:377
 #, fuzzy
 msgid "Load a Standard Command Set"
-msgstr "Öppna"
+msgstr "Ã–ppna"
 
 #: src/kbd-interface.c:383
 #, fuzzy
 msgid "Load a Custom Command Set"
-msgstr "Öppna"
+msgstr "Ã–ppna"
 
 #: src/keyboard.c:752
 msgid "Return"
@@ -423,7 +423,7 @@ msgstr "Infoga tonartsbyte"
 
 #: src/keysigdialog.c:354
 msgid "Change initial key signature"
-msgstr "Ändra tonart"
+msgstr "Ã„ndra tonart"
 
 #: src/keysigdialog.c:357
 msgid "Insert key signature change"
@@ -431,7 +431,7 @@ msgstr "Infoga tonartsbyte"
 
 #: src/keysigdialog.c:395
 msgid "Select desired key signature"
-msgstr "Välj tonart"
+msgstr "VÃ¤lj tonart"
 
 #: src/keysigdialog.c:398
 msgid "Major"
@@ -444,7 +444,7 @@ msgstr "Moll"
 #: src/keysigdialog.c:417
 #, fuzzy
 msgid "Current Staff Only?"
-msgstr "Ändra tonart"
+msgstr "Ã„ndra tonart"
 
 #: src/lyric.c:41
 msgid ""
@@ -585,7 +585,7 @@ msgstr ""
 
 #: src/main.c:100
 msgid "Open"
-msgstr "Öppna"
+msgstr "Ã–ppna"
 
 #: src/main.c:101
 #, fuzzy
@@ -708,7 +708,7 @@ msgstr ""
 #: src/playback.c:124
 #, fuzzy
 msgid "Play from time"
-msgstr "Inställningar för uppspelning"
+msgstr "InstÃ¤llningar fÃ¶r uppspelning"
 
 #: src/playback.c:133 src/print.c:576
 msgid "to"
@@ -716,11 +716,11 @@ msgstr "till"
 
 #: src/playbackprops.c:59
 msgid "Playback properties"
-msgstr "Inställningar för uppspelning"
+msgstr "InstÃ¤llningar fÃ¶r uppspelning"
 
 #: src/prefdialog.c:404
 msgid "Preferences - Denemo"
-msgstr "Inställningar - Denemo"
+msgstr "InstÃ¤llningar - Denemo"
 
 #: src/prefdialog.c:535
 #, c-format
@@ -735,7 +735,7 @@ msgstr ""
 #: src/prefdialog.c:583
 #, fuzzy
 msgid "Playback Display Refresh"
-msgstr "Inställningar för uppspelning"
+msgstr "InstÃ¤llningar fÃ¶r uppspelning"
 
 #: src/prefdialog.c:584
 msgid "Page Turn Steps"
@@ -913,7 +913,7 @@ msgstr ""
 #: src/scoreprops.c:140
 #, fuzzy
 msgid "Score properties"
-msgstr "Egenskaper för notsystem"
+msgstr "Egenskaper fÃ¶r notsystem"
 
 #: src/scoreprops.c:158
 msgid "Display Layout"
@@ -955,7 +955,7 @@ msgstr ""
 #: src/staffops.c:336
 #, fuzzy
 msgid "unnamed"
-msgstr "Namnlöst notsystem"
+msgstr "NamnlÃ¶st notsystem"
 
 #: src/staffops.c:338
 #, c-format
@@ -964,15 +964,15 @@ msgstr ""
 
 #: src/staffpropdialog.c:350
 msgid "Staff Properties"
-msgstr "Egenskaper för notsystem"
+msgstr "Egenskaper fÃ¶r notsystem"
 
 #: src/timedialog.c:228
 msgid "Change initial time signature"
-msgstr "Ändra taktart"
+msgstr "Ã„ndra taktart"
 
 #: src/timedialog.c:229
 msgid "Insert time signature change"
-msgstr "Infoga taktartsändring"
+msgstr "Infoga taktartsÃ¤ndring"
 
 #: src/timedialog.c:243
 msgid "Enter desired time signature:"
@@ -981,7 +981,7 @@ msgstr "Taktart:"
 #: src/timedialog.c:263
 #, fuzzy
 msgid "Current Staff Only"
-msgstr "Ändra tonart"
+msgstr "Ã„ndra tonart"
 
 #: src/tomeasuredialog.c:47
 #, fuzzy
@@ -989,8 +989,9 @@ msgid "Go to measure"
 msgstr "Spela takt"
 
 #: src/tomeasuredialog.c:58
-msgid "Go to _measure:"
-msgstr ""
+#, fuzzy
+msgid "Go to measure:"
+msgstr "Spela takt"
 
 #: src/tupletops.c:71
 msgid "Customize tuplet multiplier"
@@ -1121,7 +1122,7 @@ msgstr ""
 #: src/view.c:8468
 #, fuzzy
 msgid "LilyPond"
-msgstr "Sökväg till lilypond:"
+msgstr "SÃ¶kvÃ¤g till lilypond:"
 
 #: src/view.c:8468
 msgid "Show/hide the LilyPond music typesetting language window"
@@ -1555,8 +1556,12 @@ msgid ""
 "the action of the button"
 msgstr ""
 
+#: src/entries.h:411
+msgid "ğ…"
+msgstr ""
+
 #~ msgid "Cannot open file %s"
-#~ msgstr "Kunde inte öppna file %s"
+#~ msgstr "Kunde inte Ã¶ppna file %s"
 
 #~ msgid "All files"
 #~ msgstr "All dokument"
@@ -1568,7 +1573,7 @@ msgstr ""
 #~ msgstr "Grafiskt notskrivningsprogram"
 
 #~ msgid "Apply to all staves?"
-#~ msgstr "Ändra alla notsystem"
+#~ msgstr "Ã„ndra alla notsystem"
 
 #~ msgid "<b>Tempo</b>"
 #~ msgstr "<b>Temp</b>"
@@ -1610,11 +1615,11 @@ msgstr ""
 #~ msgstr "Infoga tonartsbyte"
 
 #~ msgid "Apply to all staves"
-#~ msgstr "Ändra alla notsystem"
+#~ msgstr "Ã„ndra alla notsystem"
 
 #, fuzzy
 #~ msgid "shortcut"
-#~ msgstr "Inga tangentgenvägar konfigurerade"
+#~ msgstr "Inga tangentgenvÃ¤gar konfigurerade"
 
 #, fuzzy
 #~ msgid "Score View"
@@ -1634,7 +1639,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "To Mark"
-#~ msgstr "Sök"
+#~ msgstr "SÃ¶k"
 
 #, fuzzy
 #~ msgid "Staff Up"
@@ -1642,7 +1647,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Moves the cursor to the staff above"
-#~ msgstr "Ändra tonart"
+#~ msgstr "Ã„ndra tonart"
 
 #, fuzzy
 #~ msgid "Staff Down"
@@ -1650,7 +1655,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Moves the cursor to the staff below"
-#~ msgstr "Ändra tonart"
+#~ msgstr "Ã„ndra tonart"
 
 #, fuzzy
 #~ msgid "Measure Left"
@@ -1766,11 +1771,11 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Remove note"
-#~ msgstr "Välj klav"
+#~ msgstr "VÃ¤lj klav"
 
 #, fuzzy
 #~ msgid "Remove a note from the current chord"
-#~ msgstr "Infoga taktartsändring"
+#~ msgstr "Infoga taktartsÃ¤ndring"
 
 #, fuzzy
 #~ msgid "StemUp"
@@ -1782,7 +1787,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Remove Dot"
-#~ msgstr "Välj klav"
+#~ msgstr "VÃ¤lj klav"
 
 #, fuzzy
 #~ msgid "Tied note"
@@ -1790,7 +1795,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Inserts a duplicate of the current note, tied"
-#~ msgstr "Infoga taktartsändring"
+#~ msgstr "Infoga taktartsÃ¤ndring"
 
 #, fuzzy
 #~ msgid "Toggle Tie"
@@ -1798,15 +1803,15 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Ties/unties the note at the cursor"
-#~ msgstr "Ändra tonart"
+#~ msgstr "Ã„ndra tonart"
 
 #, fuzzy
 #~ msgid "Delete the object at the cursor"
-#~ msgstr "Ändra tonart"
+#~ msgstr "Ã„ndra tonart"
 
 #, fuzzy
 #~ msgid "Delete to the left of the cursor."
-#~ msgstr "Ändra tonart"
+#~ msgstr "Ã„ndra tonart"
 
 #, fuzzy
 #~ msgid "Insert Measure"
@@ -1814,7 +1819,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Insert a blank measure before the current one (in all staffs)"
-#~ msgstr "Infoga taktartsändring"
+#~ msgstr "Infoga taktartsÃ¤ndring"
 
 #, fuzzy
 #~ msgid "Append Measure"
@@ -1830,7 +1835,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Delete the current measure in all staffs"
-#~ msgstr "Ändra tonart"
+#~ msgstr "Ã„ndra tonart"
 
 #, fuzzy
 #~ msgid "Shrink Measure"
@@ -1854,7 +1859,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "New Alto Clef"
-#~ msgstr "Infoga klavändring"
+#~ msgstr "Infoga klavÃ¤ndring"
 
 #, fuzzy
 #~ msgid "New Tenor Clef"
@@ -1874,7 +1879,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Set Alto Clef"
-#~ msgstr "Infoga klavändring"
+#~ msgstr "Infoga klavÃ¤ndring"
 
 #, fuzzy
 #~ msgid "Set Tenor Clef"
@@ -2094,19 +2099,19 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Set Initial Keysig to C Major"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "Set Initial Keysig to G Major"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "Set Mark"
-#~ msgstr "Sök"
+#~ msgstr "SÃ¶k"
 
 #, fuzzy
 #~ msgid "Unset Mark"
-#~ msgstr "Sök"
+#~ msgstr "SÃ¶k"
 
 #, fuzzy
 #~ msgid "Fermata (Off/On)"
@@ -2126,11 +2131,11 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Insert Close Repeat"
-#~ msgstr "Kompositör"
+#~ msgstr "KompositÃ¶r"
 
 #, fuzzy
 #~ msgid "Insert Open Close Repeat"
-#~ msgstr "Kompositör"
+#~ msgstr "KompositÃ¶r"
 
 #, fuzzy
 #~ msgid "Insert Rhythm"
@@ -2150,11 +2155,11 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Staffs/Voices"
-#~ msgstr "Egenskaper för notsystem"
+#~ msgstr "Egenskaper fÃ¶r notsystem"
 
 #, fuzzy
 #~ msgid "Staffs and voices"
-#~ msgstr "Egenskaper för notsystem"
+#~ msgstr "Egenskaper fÃ¶r notsystem"
 
 #, fuzzy
 #~ msgid "New File"
@@ -2166,11 +2171,11 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Add Movement"
-#~ msgstr "Egenskaper för notsystem"
+#~ msgstr "Egenskaper fÃ¶r notsystem"
 
 #, fuzzy
 #~ msgid "Change Properties"
-#~ msgstr "Egenskaper för notsystem"
+#~ msgstr "Egenskaper fÃ¶r notsystem"
 
 #, fuzzy
 #~ msgid "Save"
@@ -2190,7 +2195,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Insert a new movement before the current one"
-#~ msgstr "Infoga taktartsändring"
+#~ msgstr "Infoga taktartsÃ¤ndring"
 
 #, fuzzy
 #~ msgid "Insert Movement After"
@@ -2198,7 +2203,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Insert a new movement after the current one"
-#~ msgstr "Infoga taktartsändring"
+#~ msgstr "Infoga taktartsÃ¤ndring"
 
 #, fuzzy
 #~ msgid "New Movement"
@@ -2210,7 +2215,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Close Score"
-#~ msgstr "Kompositör"
+#~ msgstr "KompositÃ¶r"
 
 #, fuzzy
 #~ msgid "Extend Selection"
@@ -2222,21 +2227,21 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Paste LilyPond notes"
-#~ msgstr "Sökväg till lilypond:"
+#~ msgstr "SÃ¶kvÃ¤g till lilypond:"
 
 #, fuzzy
 #~ msgid "Paste LilyPond notes from the text clipboard"
-#~ msgstr "Infoga taktartsändring"
+#~ msgstr "Infoga taktartsÃ¤ndring"
 
 #, fuzzy
 #~ msgid "Score Properties"
-#~ msgstr "Egenskaper för notsystem"
+#~ msgstr "Egenskaper fÃ¶r notsystem"
 
 #, fuzzy
 #~ msgid ""
 #~ "Change some of the properties of the current score. This will start up a "
 #~ "dialog window"
-#~ msgstr "Ändra tonart"
+#~ msgstr "Ã„ndra tonart"
 
 #, fuzzy
 #~ msgid "Save Selection"
@@ -2244,27 +2249,27 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Change Preferences"
-#~ msgstr "Inställningar - Denemo"
+#~ msgstr "InstÃ¤llningar - Denemo"
 
 #, fuzzy
 #~ msgid "Save the current commands and keyboard shortcuts as the default"
-#~ msgstr "Inga tangentgenvägar konfigurerade"
+#~ msgstr "Inga tangentgenvÃ¤gar konfigurerade"
 
 #, fuzzy
 #~ msgid "Swap Staffs"
-#~ msgstr "Egenskaper för notsystem"
+#~ msgstr "Egenskaper fÃ¶r notsystem"
 
 #, fuzzy
 #~ msgid "Split Voices"
-#~ msgstr "Egenskaper för notsystem"
+#~ msgstr "Egenskaper fÃ¶r notsystem"
 
 #, fuzzy
 #~ msgid "Join Voices"
-#~ msgstr "Egenskaper för notsystem"
+#~ msgstr "Egenskaper fÃ¶r notsystem"
 
 #, fuzzy
 #~ msgid "Swap Movements"
-#~ msgstr "Egenskaper för notsystem"
+#~ msgstr "Egenskaper fÃ¶r notsystem"
 
 #, fuzzy
 #~ msgid "Add Staff Before"
@@ -2272,7 +2277,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Inserts a new staff before the current staff"
-#~ msgstr "Infoga taktartsändring"
+#~ msgstr "Infoga taktartsÃ¤ndring"
 
 #, fuzzy
 #~ msgid "Add Staff After"
@@ -2280,7 +2285,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Add Initial Staff"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "Add Last Staff"
@@ -2292,11 +2297,11 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Deletes the staff before the current staff"
-#~ msgstr "Ändra tonart"
+#~ msgstr "Ã„ndra tonart"
 
 #, fuzzy
 #~ msgid "Deletes the current staff"
-#~ msgstr "Ändra tonart"
+#~ msgstr "Ã„ndra tonart"
 
 #, fuzzy
 #~ msgid "Delete Staff After"
@@ -2304,11 +2309,11 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Deletes the staff after the current staff"
-#~ msgstr "Ändra tonart"
+#~ msgstr "Ã„ndra tonart"
 
 #, fuzzy
 #~ msgid "Change the properties of the current staff"
-#~ msgstr "Ändra tonart"
+#~ msgstr "Ã„ndra tonart"
 
 #, fuzzy
 #~ msgid "InsertMenu"
@@ -2316,31 +2321,31 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Initial Clef"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "Change the initial clef of the current staff"
-#~ msgstr "Ändra tonart"
+#~ msgstr "Ã„ndra tonart"
 
 #, fuzzy
 #~ msgid "Clef Change"
-#~ msgstr "Infoga klavändring"
+#~ msgstr "Infoga klavÃ¤ndring"
 
 #, fuzzy
 #~ msgid "Insert/Edit a change of clef at the cursor"
-#~ msgstr "Infoga taktartsändring"
+#~ msgstr "Infoga taktartsÃ¤ndring"
 
 #, fuzzy
 #~ msgid "Initial Key"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "Set the initial key signature of the current staff"
-#~ msgstr "Ändra tonart"
+#~ msgstr "Ã„ndra tonart"
 
 #, fuzzy
 #~ msgid "Insert/Edit a key change at the cursor position"
-#~ msgstr "Infoga taktartsändring"
+#~ msgstr "Infoga taktartsÃ¤ndring"
 
 #, fuzzy
 #~ msgid "Time Signatures"
@@ -2348,15 +2353,15 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Manage the time signature changes and initial value"
-#~ msgstr "Infoga taktartsändring"
+#~ msgstr "Infoga taktartsÃ¤ndring"
 
 #, fuzzy
 #~ msgid "Inital Time Signature"
-#~ msgstr "Ändra taktart"
+#~ msgstr "Ã„ndra taktart"
 
 #, fuzzy
 #~ msgid "Set the initial time signature of the current staff"
-#~ msgstr "Ändra taktart"
+#~ msgstr "Ã„ndra taktart"
 
 #, fuzzy
 #~ msgid "Time Signature Change"
@@ -2364,11 +2369,11 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Edit/Insert a time signature change for the current measure"
-#~ msgstr "Infoga taktartsändring"
+#~ msgstr "Infoga taktartsÃ¤ndring"
 
 #, fuzzy
 #~ msgid "Set Notehead"
-#~ msgstr "Välj klav"
+#~ msgstr "VÃ¤lj klav"
 
 #, fuzzy
 #~ msgid "Delete Verse"
@@ -2388,7 +2393,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Edit the object at the cursor."
-#~ msgstr "Ändra tonart"
+#~ msgstr "Ã„ndra tonart"
 
 #, fuzzy
 #~ msgid "Edit Directives"
@@ -2432,7 +2437,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Delete a directive attached to chord/note at cursor."
-#~ msgstr "Ändra tonart"
+#~ msgstr "Ã„ndra tonart"
 
 #, fuzzy
 #~ msgid "Navigation"
@@ -2464,7 +2469,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Playback Properties"
-#~ msgstr "Inställningar för uppspelning"
+#~ msgstr "InstÃ¤llningar fÃ¶r uppspelning"
 
 #, fuzzy
 #~ msgid "More"
@@ -2480,11 +2485,11 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Select Note"
-#~ msgstr "Välj klav"
+#~ msgstr "VÃ¤lj klav"
 
 #, fuzzy
 #~ msgid "Notehead Types"
-#~ msgstr "Välj klav"
+#~ msgstr "VÃ¤lj klav"
 
 #, fuzzy
 #~ msgid "Tied Notes"
@@ -2544,7 +2549,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Clefs"
-#~ msgstr "Kompositör"
+#~ msgstr "KompositÃ¶r"
 
 #, fuzzy
 #~ msgid "Measures"
@@ -2568,7 +2573,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Changing properties of notes, measures, staffs, keysigs etc"
-#~ msgstr "Ändra tonart"
+#~ msgstr "Ã„ndra tonart"
 
 #, fuzzy
 #~ msgid "Notes/Durations"
@@ -2612,7 +2617,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Change durtion of current rest"
-#~ msgstr "Ändra tonart"
+#~ msgstr "Ã„ndra tonart"
 
 #, fuzzy
 #~ msgid "Insert a "
@@ -2695,7 +2700,7 @@ msgstr ""
 #~ msgstr "Infoga dynamik"
 
 #~ msgid "Play back entered notes immediately"
-#~ msgstr "Spela upp noter när de matas in"
+#~ msgstr "Spela upp noter nÃ¤r de matas in"
 
 #, fuzzy
 #~ msgid "Autosave Parts"
@@ -2706,7 +2711,7 @@ msgstr ""
 #~ msgstr "Inmatning"
 
 #~ msgid "Path to Lilypond:"
-#~ msgstr "Sökväg till lilypond:"
+#~ msgstr "SÃ¶kvÃ¤g till lilypond:"
 
 #~ msgid "Title"
 #~ msgstr "Titel"
@@ -2718,7 +2723,7 @@ msgstr ""
 #~ msgstr "Poet"
 
 #~ msgid "Composer"
-#~ msgstr "Kompositör"
+#~ msgstr "KompositÃ¶r"
 
 #~ msgid "Meter"
 #~ msgstr "Meter"
@@ -2752,10 +2757,10 @@ msgstr ""
 #~ msgstr "Namn:"
 
 #~ msgid "Space above:"
-#~ msgstr "Avstånd före:"
+#~ msgstr "AvstÃ¥nd fÃ¶re:"
 
 #~ msgid "Space below:"
-#~ msgstr "Avstånd efter:"
+#~ msgstr "AvstÃ¥nd efter:"
 
 #~ msgid "Number of lines:"
 #~ msgstr "Antal rader:"
@@ -2776,15 +2781,15 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Insert Key Change"
-#~ msgstr "Infoga klavändring"
+#~ msgstr "Infoga klavÃ¤ndring"
 
 #, fuzzy
 #~ msgid "Insert Time Signature"
-#~ msgstr "Infoga taktartsändring"
+#~ msgstr "Infoga taktartsÃ¤ndring"
 
 #, fuzzy
 #~ msgid "Bindings"
-#~ msgstr "Lägg till"
+#~ msgstr "LÃ¤gg till"
 
 #~ msgid "Plugins"
 #~ msgstr "Insticksmoduler"
@@ -2803,7 +2808,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Add Open"
-#~ msgstr "Öppna"
+#~ msgstr "Ã–ppna"
 
 #, fuzzy
 #~ msgid "Add Prall"
@@ -2835,38 +2840,38 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Transpose the current staff"
-#~ msgstr "Ändra tonart"
+#~ msgstr "Ã„ndra tonart"
 
 #~ msgid "Entry"
 #~ msgstr "Inmatning"
 
 #, fuzzy
 #~ msgid "Insertg8clef"
-#~ msgstr "Infoga klavändring"
+#~ msgstr "Infoga klavÃ¤ndring"
 
 #, fuzzy
 #~ msgid "SetInitialTrebleClef"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "SetInitialBassClef"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "SetInitialg8clef"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "SetInitialAltoClef"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "SetInitialTenorClef"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "SetInitialSopranoClef"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "InsertFSharpmaj"
@@ -2934,35 +2939,35 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "SetInitialDmaj"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "SetInitialAmaj"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "SetInitialEmaj"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "SetInitialBmaj"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "SetInitialFmaj"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "SetInitialBflatmaj"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "SetInitialEflatmaj"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "SetInitialAflatmaj"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "SetInitialDflatmaj"
@@ -2970,23 +2975,23 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "SetInitialGflatmaj"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "SetInitialCflatmaj"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "SetInitialAmin"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "SetInitialEmin"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "SetInitialBmin"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "SetInitialFSharpmin"
@@ -3010,19 +3015,19 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "SetInitialDmin"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "SetInitialGmin"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "SetInitialCmin"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "SetInitialFmin"
-#~ msgstr "Ändra klav"
+#~ msgstr "Ã„ndra klav"
 
 #, fuzzy
 #~ msgid "SetInitialBflatmin"
@@ -3054,11 +3059,11 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "StaffProperties"
-#~ msgstr "Egenskaper för notsystem"
+#~ msgstr "Egenskaper fÃ¶r notsystem"
 
 #, fuzzy
 #~ msgid "InsertClef"
-#~ msgstr "Infoga klavändring"
+#~ msgstr "Infoga klavÃ¤ndring"
 
 #, fuzzy
 #~ msgid "InsertKey"
@@ -3114,18 +3119,18 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "NoteProperties"
-#~ msgstr "Egenskaper för notsystem"
+#~ msgstr "Egenskaper fÃ¶r notsystem"
 
 #~ msgid "Load keymap"
-#~ msgstr "Öppna"
+#~ msgstr "Ã–ppna"
 
 #, fuzzy
 #~ msgid "Keyboard shortcuts"
-#~ msgstr "Inga tangentgenvägar konfigurerade"
+#~ msgstr "Inga tangentgenvÃ¤gar konfigurerade"
 
 #, fuzzy
 #~ msgid "Keyboard Setup"
-#~ msgstr "Inga tangentgenvägar konfigurerade"
+#~ msgstr "Inga tangentgenvÃ¤gar konfigurerade"
 
 #, fuzzy
 #~ msgid "Save Shortcuts"
@@ -3144,7 +3149,7 @@ msgstr ""
 #~ msgstr "Bas"
 
 #~ msgid "unable to write keymap file to %s\n"
-#~ msgstr "Kunde inte spara tangentinställningarn till filen %s\n"
+#~ msgstr "Kunde inte spara tangentinstÃ¤llningarn till filen %s\n"
 
 #~ msgid "Delete Selected Binding"
 #~ msgstr "Ta bort"
@@ -3155,7 +3160,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "_Open"
-#~ msgstr "Öppna"
+#~ msgstr "Ã–ppna"
 
 #, fuzzy
 #~ msgid "Save _As"
@@ -3163,7 +3168,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "_Score properties"
-#~ msgstr "Inställningar för uppspelning"
+#~ msgstr "InstÃ¤llningar fÃ¶r uppspelning"
 
 #, fuzzy
 #~ msgid "_Insert"
@@ -3198,14 +3203,14 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Staff _Properties"
-#~ msgstr "Egenskaper för notsystem"
+#~ msgstr "Egenskaper fÃ¶r notsystem"
 
 #, fuzzy
 #~ msgid "Save Niff"
 #~ msgstr "Spara som"
 
 #~ msgid "Set staff height"
-#~ msgstr "Ställ in på notsystemet"
+#~ msgstr "StÃ¤ll in pÃ¥ notsystemet"
 
 #~ msgid "Enter space (in pixels) between staves:"
-#~ msgstr "Avstånd (i pixlar) mellan notsystemen:"
+#~ msgstr "AvstÃ¥nd (i pixlar) mellan notsystemen:"

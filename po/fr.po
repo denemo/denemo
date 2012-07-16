@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: denemo 0.7.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-16 11:55+0100\n"
+"POT-Creation-Date: 2012-07-16 19:07+0100\n"
 "PO-Revision-Date: 2006-07-15 21:50+0000\n"
 "Last-Translator: Benoît Rouits <brouits@free.fr>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -1035,7 +1035,8 @@ msgid "Go to measure"
 msgstr "Aller à la mesure"
 
 #: src/tomeasuredialog.c:58
-msgid "Go to _measure:"
+#, fuzzy
+msgid "Go to measure:"
 msgstr "Aller à la mesure:"
 
 #: src/tupletops.c:71
@@ -1612,6 +1613,10 @@ msgid ""
 "buttons.\n"
 "Generally by clicking the button you can edit the title or value or execute "
 "the action of the button"
+msgstr ""
+
+#: src/entries.h:411
+msgid "𝅝"
 msgstr ""
 
 #~ msgid "lyrics"
