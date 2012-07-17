@@ -23,15 +23,13 @@ src/external.c
 src/fakechord.c
 src/figure.c
 src/file.c
-# src/frogparser.c # is it a generated parser?
 src/help.c
 src/kbd-custom.c
 src/kbd-interface.c
 src/keyboard.c
 src/keyresponses.c
 src/keysigdialog.c
-#src/lilydirectives.c
-#src/lyparser.c
+src/lilydirectives.c
 src/lyric.c
 src/main.c
 src/measureops.c
@@ -44,7 +42,7 @@ src/print.c
 src/prefops.c
 src/scoreops.c
 src/scoreprops.c
-#src/staffheightdialog.c
+src/staffheightdialog.c
 src/staffops.c
 src/staffpropdialog.c
 src/timedialog.c
@@ -52,3 +50,8 @@ src/tomeasuredialog.c
 src/tupletops.c
 src/view.c
 src/entries.h
+src/register_commands.h
+src/commands.c
+src/commands.h
+src/scorelayout.c
+src/scorelayout.h
