@@ -9,6 +9,10 @@
 	;(use-modules (actions denemo-modules (string->symbol string)))) ; maybe not (string->symbol) but (eval)
 	(load (string-append "denemo-modules/" string ".scm")))
 
+
+;(bindtextdomain "denemo" "/usr/local/share/locale") find prefix!!!
+(define (_ msg) (gettext msg "denemo"))
+
 ;Load additional Denemo functions. These are technically in the same global namespace as functions defined directly in denemo.scm. 
 (use-denemo "scheme") ; Standalone functions and general Scheme helpers, not tied to any Denemo C-functions or Scheme functions which are not in the file itself.
 (use-denemo "ans") ; Abstract Note System for pitch calculations
