@@ -14,14 +14,14 @@
   	(begin
   		(set! current (d-DirectiveGet-staff-postfix "InstrumentName" ))
   	(if (boolean? current)
-    	  (set! current "Violin")
+    	  (set! current (_ "Violin"))
     	  (begin
 		(set! thematch (string-match "\\\\set Staff.instrumentName = \"([^\"]*)\"" current))
 		;;(display thematch)
 		(if (regexp-match? thematch)
 	   	 (set! current (match:substring thematch 1))
 	    	(set! current "myname"))))
- 		 (set! current (d-GetUserInput "InstrumentName" "Give name of instrument/voice/part\nfor current staff:" current))))
+ 		 (set! current (d-GetUserInput "InstrumentName" (_ "Give name of instrument/voice/part\nfor current staff:") current))))
  (if current
  	(begin
   		(d-DirectivePut-staff-display "InstrumentName" current)

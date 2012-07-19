@@ -5,7 +5,7 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>F#-Major</action>
+        <action>F-sharp-Major</action>
         <scheme>(IdentifyScaleNote::IdentifyScaleNotes (cons "F# G# A# B C# D# E#" "fis' gis' ais' b' cis'' dis'' eis''"))</scheme>
         <label>F# Major</label>
         <tooltip>Identify Scale Notes that are sounded</tooltip>
