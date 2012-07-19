@@ -1,0 +1,1 @@
+(StandAloneDirectiveProto (cons "HideNotes" "\\hideNotes" ))

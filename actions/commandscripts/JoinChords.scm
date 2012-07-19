@@ -1,0 +1,5 @@
+(if (d-MarkStatus)
+	(let ()
+		(define basedurationlist (duration::SplitTicksToBaseDurations (duration::GetSelectionDurationInTicks)))
+		(d-DeleteSelectionLeaveEmpty)
+		(duration::InsertBaseDurationList basedurationlist (ANS::GetDiatonic (ANS::Ly2Ans (string->symbol (GetCursorNoteAsLilypond)))))))

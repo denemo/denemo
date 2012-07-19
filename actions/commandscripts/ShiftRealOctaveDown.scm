@@ -1,0 +1,3 @@
+;in reality this is not shift but transpose. But there are too many functions with the name transpose already...
+(SingleAndSelectionSwitcher (lambda () 
+	(ShiftProto ANS::CalculateRealOctaveDown)))

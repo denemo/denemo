@@ -1,0 +1,1 @@
+(ToggleDirective "staff" "postfix" "NonPrintingStaff" " { } hiddenStaff = << { "  DENEMO_OVERRIDE_LILYPOND)

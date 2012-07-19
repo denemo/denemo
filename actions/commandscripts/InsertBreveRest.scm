@@ -1,0 +1,5 @@
+(d-InsertWholeRest)
+(if (Appending?)
+	(d-MoveCursorLeft))
+(d-ChangeBreve)
+(d-MoveCursorRight)

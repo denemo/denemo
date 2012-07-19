@@ -1,0 +1,1 @@
+(if (not (d-MoveToMeasureRight)) (d-MoveToEnd))
