@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Denemo-0.9.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-19 12:49+0100\n"
+"POT-Creation-Date: 2012-07-19 18:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Richard Shann <richard.shann@virgin.net>\n"
 "Language-Team: \n"
@@ -141,7 +141,7 @@ msgstr ""
 msgid "French"
 msgstr ""
 
-#: src/clefdialog.c:126 src/scorelayout.c:1213
+#: src/clefdialog.c:126 src/scorelayout.c:1214
 msgid "Set Clef"
 msgstr ""
 
@@ -866,7 +866,7 @@ msgstr ""
 
 #: src/commands.c:786 src/commands.c:788 src/commands.c:1893
 #: src/commands.c:1894 src/commands.c:1943 src/commands.c:1945
-#: src/scorelayout.c:432
+#: src/scorelayout.c:433
 #, fuzzy
 msgid "Delete"
 msgstr "Angry Delete"
@@ -8109,95 +8109,113 @@ msgstr ""
 msgid "Set the prevailing duration to 𝅥"
 msgstr ""
 
-#: src/scorelayout.c:423
+#: src/scorelayout.c:424
 msgid "Typeset"
 msgstr ""
 
-#: src/scorelayout.c:424
+#: src/scorelayout.c:425
 msgid ""
 "Typeset the score using this layout to determine which movements, parts, "
 "titles, page breaks etc should be used"
 msgstr ""
 
-#: src/scorelayout.c:428
+#: src/scorelayout.c:429
 msgid "Convert to LilyPond Text"
 msgstr ""
 
-#: src/scorelayout.c:429
+#: src/scorelayout.c:430
 msgid "Converts this layout to LilyPond text for further editing."
 msgstr ""
 
-#: src/scorelayout.c:433
+#: src/scorelayout.c:434
 msgid "Discard this customized score layout."
 msgstr ""
 
-#: src/scorelayout.c:437
+#: src/scorelayout.c:438
 msgid "Refresh"
 msgstr ""
 
-#: src/scorelayout.c:438
+#: src/scorelayout.c:439
 msgid ""
 "Re-calculate this layout to incorporate changes made to the score structure."
 msgstr ""
 
-#: src/scorelayout.c:442
+#: src/scorelayout.c:443
 msgid "Customize"
 msgstr ""
 
-#: src/scorelayout.c:443
+#: src/scorelayout.c:444
 msgid "Create a layout from this standard layout that you can then modify."
 msgstr ""
 
-#: src/scorelayout.c:548
+#: src/scorelayout.c:549
 msgid ""
 "Delete this voice from the score layout\n"
 "Note that if it is the first voice the clef time and keysignatures will be "
 "deleted too."
 msgstr ""
 
-#: src/scorelayout.c:560
+#: src/scorelayout.c:555
+msgid "Initial Signatures"
+msgstr ""
+
+#: src/scorelayout.c:561
 msgid "Clef"
 msgstr ""
 
-#: src/scorelayout.c:566
+#: src/scorelayout.c:567
 msgid "Key"
 msgstr ""
 
-#: src/scorelayout.c:572
+#: src/scorelayout.c:573
 msgid "Time"
 msgstr ""
 
-#: src/scorelayout.c:818
+#: src/scorelayout.c:809
+msgid "Movement Titles, Page Breaks etc"
+msgstr ""
+
+#: src/scorelayout.c:810
+msgid ""
+"In here are settings for the movement title, page breaks before the movement "
+"etc"
+msgstr ""
+
+#: src/scorelayout.c:819
 msgid "Create Titles for Movement"
 msgstr ""
 
-#: src/scorelayout.c:820
+#: src/scorelayout.c:821
 msgid "Set book titles for this movement in the score"
 msgstr ""
 
 #: src/scorelayout.c:824
+msgid "Create for Custom Layout"
+msgstr ""
+
+#: src/scorelayout.c:825
 msgid "Create page breaks, blank pages ...for this layout"
 msgstr ""
 
-#: src/scorelayout.c:1013
+#: src/scorelayout.c:1014
 msgid ""
 "This brace connects together several staffs - you can delete it for a "
 "customized layout."
 msgstr ""
 
-#: src/scorelayout.c:1027
+#: src/scorelayout.c:1028
 msgid "Remove this staff brace from these staffs for a customized layout."
 msgstr ""
 
-#: src/scorelayout.c:1034
+#: src/scorelayout.c:1035
 msgid "Extend this staff group upwards for customized layout."
 msgstr ""
 
-#: src/scorelayout.c:1038
+#: src/scorelayout.c:1039
 msgid "Extend this staff group downwards for customized layout."
 msgstr ""
 
-#: src/scorelayout.c:1116
+#: src/scorelayout.c:1117
 msgid ""
 "This shows the clef in the Denemo score - the actual clef printed may be "
 "modified by Directives attached to it.\n"
@@ -8205,34 +8223,51 @@ msgid ""
 "the staff."
 msgstr ""
 
-#: src/scorelayout.c:1120
+#: src/scorelayout.c:1121
 msgid "Move this staff (with all its voices) above the preceding staff."
 msgstr ""
 
-#: src/scorelayout.c:1124
+#: src/scorelayout.c:1125
 msgid "Move this staff (with all its voices) after the following staff."
 msgstr ""
 
-#: src/scorelayout.c:1129
+#: src/scorelayout.c:1130
 msgid "Remove this staff (with all its voices) for customized layout."
 msgstr ""
 
-#: src/scorelayout.c:1160
+#: src/scorelayout.c:1159 src/scorelayout.c:1186
+msgid "The Staff"
+msgstr ""
+
+#: src/scorelayout.c:1159
+msgid "The Staffs"
+msgstr ""
+
+#: src/scorelayout.c:1161
 msgid "This holds the staffs below which are the voices with the music."
 msgstr ""
 
-#: src/scorelayout.c:1193
+#: src/scorelayout.c:1177
+msgid "Chord Symbols"
+msgstr ""
+
+#: src/scorelayout.c:1186
+#, fuzzy, c-format
+msgid "Staff %d"
+msgstr "Stems Down"
+
+#: src/scorelayout.c:1194
 msgid ""
 "Click for a menu to position the Denemo cursor on this staff\n"
 "or to alter this staff for a customized layout"
 msgstr ""
 
-#: src/scorelayout.c:1198
+#: src/scorelayout.c:1199
 msgid ""
 "This will move the Denemo Cursor to the start of this staff in this movement"
 msgstr ""
 
-#: src/scorelayout.c:1205
+#: src/scorelayout.c:1206
 msgid ""
 "Edit the properties of the staff to customize this layout\n"
 "Take care only alter the obvious bits, such as instrument name etc\n"
@@ -8241,43 +8276,98 @@ msgid ""
 "layout if you get stuck."
 msgstr ""
 
-#: src/scorelayout.c:1217
+#: src/scorelayout.c:1218
 msgid "Set the initial clef for this staff in the score"
 msgstr ""
 
-#: src/scorelayout.c:1247
+#: src/scorelayout.c:1248
 msgid ""
 "This holds the voice(s) of the staff - the clef, time signature, key "
 "signature and music are all here"
 msgstr ""
 
 #: src/scorelayout.c:1351
+msgid "Paper Block"
+msgstr ""
+
+#: src/scorelayout.c:1352
 msgid "Settings for whole score: includes overall staff size, paper size ...\n"
 msgstr ""
 
-#: src/scorelayout.c:1370
+#: src/scorelayout.c:1358
+msgid "the paper block contents"
+msgstr ""
+
+#: src/scorelayout.c:1363
+msgid "Global staff size"
+msgstr ""
+
+#: src/scorelayout.c:1369
+msgid "Score Titles"
+msgstr ""
+
+#: src/scorelayout.c:1372
 msgid ""
-"Titles etc for the whole score.\n"
+"Titles, layout settings, preferences etc for the whole score.\n"
 "Includes main title, composer, date, instrumentation, tagline"
 msgstr ""
 
-#: src/scorelayout.c:1393
+#: src/scorelayout.c:1378
+msgid "Default tagline"
+msgstr ""
+
+#: src/scorelayout.c:1396
+msgid "Score Directives"
+msgstr ""
+
+#: src/scorelayout.c:1397
 msgid "Includes the indent before first measure, LilyPond include files ..."
 msgstr "Includes the indent before first bar, LilyPond include files ..."
 
-#: src/scorelayout.c:1414
+#: src/scorelayout.c:1417
+msgid "Score-wide Settings."
+msgstr ""
+
+#: src/scorelayout.c:1418
 msgid "Setting the score title, composer, headers and footers for this layout"
 msgstr ""
 
-#: src/scorelayout.c:1419
+#: src/scorelayout.c:1423
 msgid "Create Book Titles"
 msgstr ""
 
-#: src/scorelayout.c:1422
+#: src/scorelayout.c:1426
 msgid "Set book titles for the score"
 msgstr ""
 
-#: src/scorelayout.c:1662
+#: src/scorelayout.c:1465
+#, c-format
+msgid "Movement %d"
+msgstr ""
+
+#: src/scorelayout.c:1465 src/utils.c:1339
+msgid "Movement"
+msgstr ""
+
+#: src/scorelayout.c:1467
+msgid ""
+"This contains the layout of the movement- the movement title, and the actual "
+"music itself"
+msgstr ""
+
+#: src/scorelayout.c:1476
+msgid "Delete this movement from the score layout"
+msgstr ""
+
+#: src/scorelayout.c:1494
+msgid "Header block"
+msgstr ""
+
+#: src/scorelayout.c:1512
+msgid "Layout block"
+msgstr ""
+
+#: src/scorelayout.c:1667
 msgid ""
 "This a score layout - the brown buttons affect the score itself, not just "
 "the layout.\n"
@@ -8293,7 +8383,7 @@ msgid ""
 "customized layouts."
 msgstr ""
 
-#: src/scorelayout.c:1798
+#: src/scorelayout.c:1803
 msgid ""
 "This is a customized layout, which has been transformed into instructions "
 "for the LilyPond music typesetter.\n"
@@ -8454,10 +8544,6 @@ msgid ""
 "taking place.\n"
 "Kill this window if you want to re-start the typesetting e.g. after fixing a "
 "mistake you just spotted."
-msgstr ""
-
-#: src/utils.c:1339
-msgid "Movement"
 msgstr ""
 
 #: src/view.c:6124
@@ -9018,6 +9104,14 @@ msgstr ""
 
 #: actions/denemo.scm:966
 msgid "Please enter a transpose interval"
+msgstr ""
+
+#: actions/denemo.scm:966
+msgid ""
+"Please enter a transpose interval or two notes in Lilypond syntax.\n"
+"\n"
+"Example: m2 minor second, M2 major second, p5 fifth, T tritone.\n"
+"Or:  c' e' for a major third."
 msgstr ""
 
 #: actions/commandscripts/ChordComment.scm:4
