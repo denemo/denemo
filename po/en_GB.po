@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Denemo-0.9.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-19 12:13+0100\n"
+"POT-Creation-Date: 2012-07-19 12:49+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Richard Shann <richard.shann@virgin.net>\n"
 "Language-Team: \n"
@@ -9014,6 +9014,10 @@ msgid ""
 "buttons.\n"
 "Generally by clicking the button you can edit the title or value or execute "
 "the action of the button"
+msgstr ""
+
+#: actions/denemo.scm:966
+msgid "Please enter a transpose interval"
 msgstr ""
 
 #: actions/commandscripts/ChordComment.scm:4
