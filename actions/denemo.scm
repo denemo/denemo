@@ -963,7 +963,7 @@
 ;;User has two different options: insert an interval like m2 or p5 directly or give two notes.
 ;;Return value is a number for the ANS pillar of 5th.
 (define (AskForInterval)
-	(define interval (d-GetUserInput "Please enter a transpose interval" "Please enter a transpose interval or two notes in Lilypond syntax.\n\nExample: m2 minor second, M2 major second, p5 fifth, T tritone.\nOr:  c' e' for a major third.\nFor a complete list please read the manual." GlobalRememberInterval))
+	(define interval (d-GetUserInput (_"Please enter a transpose interval") (_ "Please enter a transpose interval or two notes in Lilypond syntax.\n\nExample: m2 minor second, M2 major second, p5 fifth, T tritone.\nOr:  c' e' for a major third.") GlobalRememberInterval))
 	(set! GlobalRememberInterval interval)
 	(if (ANS::IntervalGetSteps (string->symbol interval))
 		(ANS::IntervalGetSteps (string->symbol interval))
