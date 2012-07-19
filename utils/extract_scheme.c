@@ -43,15 +43,19 @@ extract_scheme (xmlDocPtr doc, xmlNodePtr cur, gchar *filename)
       cur = cur->next;
     }
 }
-static gchar *usage = "extract_scheme commandfile_in_xml commandscripts-directory-path";
+static gchar *usage = "export DENEMO_COMMANDSCRIPTS_DIR=/.../denemo/actions/commandscripts && extract_scheme commandfile_in_xml";
 int main(int argc, char **argv)
 {
   if(argc!=2) {
-      g_critical("%s: wrong number of arguments", usage);
+      g_critical("%s: wrong number of arguments %d instead of 1", usage, argc-1);
     return -1;
   }
   gchar * filename = argv[1];
-  gchar *commandscripts = argv[2];
+  const gchar *commandscripts = g_getenv("DENEMO_COMMANDSCRIPTS_DIR");
+  if(commandscripts == NULL) {
+      g_critical("%s: Environment variable DENEMO_COMMANDSCRIPTS_DIR not set. Set it to denemo/actions/commandscripts/", usage);
+    return -1;
+  }
   gint ret = 0;
   xmlDocPtr doc;
   xmlNodePtr rootElem;
@@ -65,6 +69,10 @@ int main(int argc, char **argv)
   }
   if(!g_file_test(filename, G_FILE_TEST_EXISTS))
     return ret;
+
+  if(g_file_test(filename, G_FILE_TEST_IS_DIR))
+    return ret;
+    
   doc = xmlParseFile (filename);
   if (doc == NULL) {
     return ret;
@@ -80,7 +88,7 @@ int main(int argc, char **argv)
       return ret;
     }
   rootElem = rootElem->xmlChildrenNode;
-	filename = g_strconcat(commandscripts, "/", filename, ".scm", NULL);
+	filename = g_strconcat(commandscripts, "/", g_path_get_basename(filename), ".scm", NULL);
   while (rootElem != NULL) {
     if ( (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "merge"))) {
       xmlNodePtr cur;
