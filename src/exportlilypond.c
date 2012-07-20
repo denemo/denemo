@@ -2614,18 +2614,9 @@ export_lilypond_parts (char *filename, DenemoGUI *gui)
     g_free (staff_filename);
 }
 
-/* callback on destroying lilypond window */
-static gboolean lilywindow_destroyed(GObject *object, DenemoGUI *gui) {
-  merge_lily_strings (gui);
-  if(gui==Denemo.gui){
-    GtkWidget * toggle = gtk_ui_manager_get_widget (Denemo.ui_manager,
-						  "/MainMenu/ViewMenu/ToggleLilyText");
-    gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (toggle),
-				  FALSE);
-  }
-  gui->textwindow = NULL;
-  gui->textview = NULL;
-  gui->lilysync = G_MAXUINT;
+/* callback on closing lilypond window */
+static gboolean lilywindow_closed(GObject *object, DenemoGUI *gui) {
+  activate_action("/MainMenu/ViewMenu/ToggleLilyText");
   return TRUE;
 }
 
@@ -2815,8 +2806,8 @@ static void create_lilywindow(DenemoGUI *gui) {
   //gtk_window_set_position (GTK_WINDOW (gui->textwindow), GTK_WIN_POS_NONE);
   gtk_window_set_default_size (GTK_WINDOW (gui->textwindow), 800, 600);
   gtk_window_set_title(GTK_WINDOW (gui->textwindow), "LilyPond Text - Denemo");
-  g_signal_connect (G_OBJECT (gui->textwindow), "destroy",
-		    G_CALLBACK (lilywindow_destroyed), gui); 
+  g_signal_connect (G_OBJECT (gui->textwindow), "delete-event",
+		    G_CALLBACK (lilywindow_closed), gui); 
   GtkWidget *vpaned = gtk_vpaned_new ();
   gtk_container_set_border_width (GTK_CONTAINER(vpaned), 5);
 

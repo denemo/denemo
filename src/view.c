@@ -5744,17 +5744,15 @@ close_gui (void)
  //FIXME why was this here??? activate_action("/MainMenu/InputMenu/KeyboardOnly");
  if(Denemo.prefs.enable_thumbnails)
   create_thumbnail(TRUE); 
-  if(Denemo.autosaveid) {
+ if(Denemo.autosaveid) {
     if(g_list_length(Denemo.guis)>1)
       g_print("Auto save being turned off");
     g_source_remove(Denemo.autosaveid);
     Denemo.autosaveid = 0;
   }
-if(Denemo.gui->textwindow)
-  {
-  gtk_widget_destroy(Denemo.gui->textwindow);
-  //FIXME there is a handler in exportlilypond.c for the destroy signal. It might be better to have just one textwindow for LilyPond text etc
-  g_assert(Denemo.gui->textwindow==NULL);
+  if(Denemo.gui->textwindow && gtk_widget_get_visible(Denemo.gui->textwindow)) {
+    activate_action("/MainMenu/ViewMenu/"ToggleLilyText_STRING);
+    //FIXME there is a handler in exportlilypond.c for the delete signal. It would need to be disabled to get the memory freed.
   }
   free_movements(Denemo.gui);
 
@@ -8623,12 +8621,9 @@ switch_page (GtkNotebook *notebook, GtkWidget *page,  guint pagenum) {
   /* turn off the LilyPond window if it is on
    it would be nice to keep a record of whether it was open for re-opening
    on return to this tab FIXME*/
-  {
-    GtkWidget *widget;
-    widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleLilyText");
-    if(gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (widget)))
-      gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (widget), FALSE);
-  }
+   
+   if(Denemo.gui->textwindow && gtk_widget_get_visible(Denemo.gui->textwindow))
+    activate_action("/MainMenu/ViewMenu/"ToggleLilyText_STRING);
   
   if(gtk_widget_get_visible( Denemo.gui->score_layout))
     activate_action("/MainMenu/ViewMenu/"ToggleScoreLayout_STRING);
@@ -9312,7 +9307,10 @@ void new_score_cb(GtkAction * action, DenemoScriptParam *param)
 static void
 newtab (GtkAction *action, gpointer param) {
   if(Denemo.gui && gtk_widget_get_visible( Denemo.gui->score_layout))
-    activate_action("/MainMenu/ViewMenu/"ToggleScoreLayout_STRING); 
+    activate_action("/MainMenu/ViewMenu/"ToggleScoreLayout_STRING);
+  if(Denemo.gui && gtk_widget_get_visible( Denemo.gui->textwindow))
+    activate_action("/MainMenu/ViewMenu/"ToggleLilyText_STRING);
+    
   static gint id=1;
   DenemoGUI *gui = (DenemoGUI *) g_malloc0 (sizeof (DenemoGUI));
   gui->id = id++;//uniquely identifies this musical score editor for duration of program.
