@@ -7254,7 +7254,8 @@ and return label, else return NULL
 */
 gchar *
 get_icon_for_name(gchar *name, gchar *label) {
-
+  return NULL;//this function is disabled until we figure out why the icons are no longer being shown.
+#ifdef PROBLEM_SHOWING_ICONS_FIXED
   gchar *pngname = g_strconcat(name, ".png", NULL);
   gchar *filename = g_build_filename (locatebitmapsdir (), pngname,
 				      NULL);
@@ -7290,6 +7291,7 @@ get_icon_for_name(gchar *name, gchar *label) {
   g_object_unref(pixbuf);
   gtk_icon_factory_add (icon_factory, label, icon_set);
   return label;
+#endif
 }
 
 
