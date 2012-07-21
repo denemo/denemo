@@ -827,10 +827,6 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>Anacrusis</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
         <action>ApplyToSelection</action>
         <hidden>true</hidden>
       </row>

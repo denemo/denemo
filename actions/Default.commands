@@ -2365,13 +2365,6 @@ Sets prevailing rhythm to &#x1D165;</tooltip>
         <tooltip>Prints a metronome. Adjusts playback tempo to this value.</tooltip>
       </row>
       <row>
-        <action>Anacrusis</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
-        <label>Insert Anacrusis</label>
-        <tooltip>Insert a LilyPond Directive to give an eighth note upbeat</tooltip>
-      </row>
-      <row>
         <action>RepeatStart</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/Barlines</menupath>
@@ -2664,7 +2657,6 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>LineBreak</action>
-        <after>Anacrusis</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives</menupath>
         <label>Line Break</label>
@@ -3653,7 +3645,6 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>ForceBarline</action>
-        <after>Anacrusis</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/Barlines</menupath>
         <label>Insert Barline</label>

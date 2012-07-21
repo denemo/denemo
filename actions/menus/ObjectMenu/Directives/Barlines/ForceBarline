@@ -5,7 +5,6 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after>Anacrusis</after>
         <action>ForceBarline</action>
         <scheme>;;;ForceBarline
 (d-DirectivePut-standalone-minpixels "ForceBarline" 12)
