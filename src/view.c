@@ -7390,9 +7390,15 @@ loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm) {
       cairo_destroy(cr);
     }
   }  else {
-  GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file (filename, &error);
-  thesize.width = gdk_pixbuf_get_width(pixbuf);
-  thesize.height = gdk_pixbuf_get_height(pixbuf);
+    FILE *fp = fopen(filename, "rb");
+    if(fp) {
+      fseek(fp, 16, SEEK_SET);
+      fread( &thesize.width, 4, 1, fp);
+      fread( &thesize.height, 4, 1, fp);
+      thesize.width = GINT_FROM_BE(thesize.width);
+      thesize.height = GINT_FROM_BE(thesize.height);
+      fclose(fp);
+      }
   }
  g_free(filename);  
  if(cairo_surface_status(surface)==CAIRO_STATUS_SUCCESS) {
