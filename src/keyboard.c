@@ -266,11 +266,8 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	   
 
 	    if(fp)fprintf(fp, "\n/* %s*/\n", name);
-	    if(fp)fprintf(fp, "action = gtk_action_new(\"%s\",_(\"%s\"),_(\"%s\"), ", g_strescape(name, "\\"), g_strescape(label, "\\"), g_strescape(tooltip, "\\"));
-	    if(icon_name)
-	      {if(fp)fprintf(fp, "\"%s\");\n", g_strescape(icon_name, "\\"));}
-	    else
-	      {if(fp)fprintf(fp, "NULL);\n");}
+	    if(fp)fprintf(fp, "action = gtk_action_new(\"%s\",_(\"%s\"),_(\"%s\"), ", g_strescape(name, "\\"), g_strescape(label, "\\"), g_strescape(tooltip, "\\"));	    
+	    if(fp)fprintf(fp, "get_icon_for_name(\"%s\", \"%s\"));\n", g_strescape(name, "\\"), g_strescape(label, "\\"));
 	    if(after)
 	      if(fp)fprintf(fp, "g_object_set_data(G_OBJECT(action), \"after\", (gpointer)\"%s\");\n", g_strescape(after, "\\"));
 	    if(hidden)
