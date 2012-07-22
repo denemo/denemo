@@ -435,9 +435,8 @@ staff_properties_change (void)
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
   gtk_container_add (GTK_CONTAINER(hbox), label);\
   field = gtk_combo_new ();\
-  gint i;\
-  for(i=0;i<G_N_ELEMENTS(thelist);i++)\
-    gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (field)->entry), setstring->str);\
+  gtk_combo_set_popdown_strings(GTK_COMBO(field), thelist); \
+  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (field)->entry), setstring->str);\
   gtk_container_add (GTK_CONTAINER(hbox), field);	\
   cbdata.field = GTK_COMBO (field)->entry;
 #endif
@@ -461,7 +460,11 @@ staff_properties_change (void)
  
   /* MIDI tab */
   NEWPAGE("MIDI");
+#if GTK_MAJOR_VERSION==3
   COMBOBOXENTRY("MIDI Instrument:", midi_instrument, instruments, staffstruct->midi_instrument);
+#else
+  COMBOBOXENTRY("MIDI Instrument:", midi_instrument, instrument_list, staffstruct->midi_instrument);
+#endif
   INTENTRY_LIMITS("Transposition:", transposition, -30, 30);
   BOOLEANENTRY("Mute", mute_volume);
   INTENTRY_LIMITS("Volume:", volume, 0, 127);
