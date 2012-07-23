@@ -1211,11 +1211,11 @@ void  set_title_bar(DenemoGUI *gui) {
 }
 static const gchar* enshift_string(gint enshift) {
 switch(enshift) {
-    case -2: return "bb";
-    case -1: return "b";
+    case -2: return "𝄫";
+    case -1: return "♭";
     case 0: return " ";
-    case 1: return "#";
-    case 2: return "##";
+    case 1: return "♯";
+    case 2: return "𝄪";
     default: return "Error";
 }
 }
