@@ -180,10 +180,12 @@
       <menuitem action="JackMidi"/>
       <menuitem action="Microphone"/>
       <separator/>
-      <menuitem action="SharpenEnharmonicSet"/>
-      <menuitem action="FlattenEnharmonicSet"/>
+   
+      <menu action="MIDI">
+	<menuitem action="SharpenEnharmonicSet"/>
+	<menuitem action="FlattenEnharmonicSet"/>
+      </menu>
     </menu> 
-
     <menu action="PlaybackMenu">
       <menuitem action="Play"/>
       <menuitem action="Stop"/>

@@ -23,17 +23,6 @@
 #define NOTECHAR8 "\\xF0\\x9D\\x85\\xA5"
 
 
-#define NOTE0 "<span font_desc=\\\"Denemo\\\">"NOTECHAR0"</span>"
-#define NOTE1 "<span font_desc=\\\"Denemo\\\">"NOTECHAR1"</span>"
-#define NOTE2 "<span font_desc=\\\"Denemo\\\">"NOTECHAR2"</span>"
-#define NOTE3 "<span font_desc=\\\"Denemo\\\">"NOTECHAR3"</span>"
-#define NOTE4 "<span font_desc=\\\"Denemo\\\">"NOTECHAR4"</span>"
-#define NOTE5 "<span font_desc=\\\"Denemo\\\">"NOTECHAR5"</span>"
-#define NOTE6 "<span font_desc=\\\"Denemo\\\">"NOTECHAR6"</span>"
-//skip over tab and line feed
-#define NOTE7 "<span font_desc=\\\"Denemo\\\">"NOTECHAR7"</span>"
-#define NOTE8 "<span font_desc=\\\"Denemo\\\">"NOTECHAR8"</span>"
-
 #define RESTCHAR0 "\\xF0\\x9D\\x84\\xBB"
 #define RESTCHAR1 "\\xF0\\x9D\\x84\\xBC"
 #define RESTCHAR2 "\\xF0\\x9D\\x84\\xBD"
@@ -55,10 +44,10 @@
 #define REST8 "<span font_desc=\\\"Denemo\\\">"RESTCHAR8"</span>"
 
 
-char *NOTES[] = {NOTE0, NOTE1, NOTE2, NOTE3, NOTE4, NOTE5, NOTE6, NOTE7, NOTE8};
+//char *NOTES[] = {NOTE0, NOTE1, NOTE2, NOTE3, NOTE4, NOTE5, NOTE6, NOTE7, NOTE8};
 char *NOTECHARS[] = {NOTECHAR0, NOTECHAR1, NOTECHAR2, NOTECHAR3, NOTECHAR4, NOTECHAR5, NOTECHAR6, NOTECHAR7, NOTECHAR8};
 
-char *RESTS[] = {REST0, REST1, REST2, REST3, REST4, REST5, REST6, REST7, REST8};
+//char *RESTS[] = {REST0, REST1, REST2, REST3, REST4, REST5, REST6, REST7, REST8};
 char *RESTCHARS[] = {RESTCHAR0, RESTCHAR1, RESTCHAR2, RESTCHAR3, RESTCHAR4, RESTCHAR5, RESTCHAR6, RESTCHAR7, RESTCHAR8};
 
 
@@ -617,14 +606,11 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nEntering triplets and other tuplets", N_("Tuplets"), NULL, N_("Tuplets")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nDeleting notes, measures staffs keysigs etc", N_("Delete"), NULL, N_("Delete")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nBeaming - controlling which notes are beamed together", N_("Beaming"), NULL, N_("Beaming")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nFor making directives apply only to one score layout or be omitted from one score layout", N_("Conditional Directives"), NULL, N_("Conditional Directives")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nFor making directives apply only to one score layout or be omitted from one score layout", N_("Conditional Directives"), NULL, N_("Conditional Directives")},
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nFor affecting how MIDI in works. MIDI in refers to MIDI keyboards or other controllers connected to the computer. You may need to configure this using the Audio/MIDI section of the Preferences.", N_("MIDI"), NULL, N_("MIDI Keyboard")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nChoose between different ways of entering notes from the computer keyboard.", N_("Keyboard"), NULL, N_("PC Keyboard")}, 
 
 };
-
-
-
-
-
 
 #define ni denemo_commands[i].name
 #define ii denemo_commands[i].icon
@@ -786,15 +772,15 @@ int main() {
 	    " }\n"
 	    "}\n", i , i, i, i,i);
 
-        fprintf(entries, "\n#define NOTECHAR%d \"%s\"\n", i,  NOTECHARS[i]);
-        fprintf(entries, "\n#define RESTCHAR%d \"%s\"\n", i, RESTCHARS[i]);
-        fprintf(entries, "\n#define NOTE%d \"%s\"\n", i,  NOTES[i]);
-        fprintf(entries, "\n#define REST%d \"%s\"\n", i, RESTS[i]);
+       // fprintf(entries, "\n#define NOTECHAR%d \"%s\"\n", i,  NOTECHARS[i]);
+       // fprintf(entries, "\n#define RESTCHAR%d \"%s\"\n", i, RESTCHARS[i]);
+        fprintf(entries, "\n#define NOTE%d \"%s\"\n", i,  NOTECHARS[i]);
+        fprintf(entries, "\n#define REST%d \"%s\"\n", i, RESTCHARS[i]);
 
 
     /* menu_entries for the mode sensitive duration actions, Dur0,1,2 ... */
     fprintf(entries,
-  "{\"%d\", \"NULL\", NOTE%d, NULL, \"Edits the note at the cursor to have the duration 1/2^%d, or \\n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration\",\n"
+  "{\"%d\", \"NULL\", NOTE%d, NULL, \"Edits the note at the cursor to have the duration \"NOTE%d\", or \\n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration\",\n"
 	    "G_CALLBACK (Dur%d)},\n"
       
   "{\"Change%d\", \"NULL\", NOTE%d, NULL, \"Change current note to a \"NOTE%d,\n"

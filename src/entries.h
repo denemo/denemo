@@ -403,15 +403,13 @@
 {"Delete", NULL, "Delete", NULL,"Menu:\nDeleting notes, measures staffs keysigs etc"},
 {"Beaming", NULL, "Beaming", NULL,"Menu:\nBeaming - controlling which notes are beamed together"},
 {"Conditional Directives", NULL, "Conditional Directives", NULL,"Menu:\nFor making directives apply only to one score layout or be omitted from one score layout"},
+{"MIDI", NULL, "MIDI Keyboard", NULL,"Menu:\nFor affecting how MIDI in works. MIDI in refers to MIDI keyboards or other controllers connected to the computer. You may need to configure this using the Audio/MIDI section of the Preferences."},
+{"Keyboard", NULL, "PC Keyboard", NULL,"Menu:\nChoose between different ways of entering notes from the computer keyboard."},
 
-#define NOTECHAR0 "\xF0\x9D\x85\x9D"
+#define NOTE0 "\xF0\x9D\x85\x9D"
 
-#define RESTCHAR0 "\xF0\x9D\x84\xBB"
-
-#define NOTE0 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x9D</span>"
-
-#define REST0 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBB</span>"
-{"0", "NULL", NOTE0, NULL, "Edits the note at the cursor to have the duration 1/2^0, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
+#define REST0 "\xF0\x9D\x84\xBB"
+{"0", "NULL", NOTE0, NULL, "Edits the note at the cursor to have the duration "NOTE0", or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur0)},
 {"Change0", "NULL", NOTE0, NULL, "Change current note to a "NOTE0,
 G_CALLBACK (ChangeDur0)},
@@ -424,14 +422,10 @@ G_CALLBACK (InsertRest0)},
 {"Set0", NULL, "Set Duration to "NOTE0"", NULL, "Sets prevailing rhythm to "NOTE0,
 G_CALLBACK (SetDur0)},
 
-#define NOTECHAR1 "\xF0\x9D\x85\x9E"
+#define NOTE1 "\xF0\x9D\x85\x9E"
 
-#define RESTCHAR1 "\xF0\x9D\x84\xBC"
-
-#define NOTE1 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x9E</span>"
-
-#define REST1 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBC</span>"
-{"1", "NULL", NOTE1, NULL, "Edits the note at the cursor to have the duration 1/2^1, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
+#define REST1 "\xF0\x9D\x84\xBC"
+{"1", "NULL", NOTE1, NULL, "Edits the note at the cursor to have the duration "NOTE1", or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur1)},
 {"Change1", "NULL", NOTE1, NULL, "Change current note to a "NOTE1,
 G_CALLBACK (ChangeDur1)},
@@ -444,14 +438,10 @@ G_CALLBACK (InsertRest1)},
 {"Set1", NULL, "Set Duration to "NOTE1"", NULL, "Sets prevailing rhythm to "NOTE1,
 G_CALLBACK (SetDur1)},
 
-#define NOTECHAR2 "\xF0\x9D\x85\x9F"
+#define NOTE2 "\xF0\x9D\x85\x9F"
 
-#define RESTCHAR2 "\xF0\x9D\x84\xBD"
-
-#define NOTE2 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x9F</span>"
-
-#define REST2 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBD</span>"
-{"2", "NULL", NOTE2, NULL, "Edits the note at the cursor to have the duration 1/2^2, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
+#define REST2 "\xF0\x9D\x84\xBD"
+{"2", "NULL", NOTE2, NULL, "Edits the note at the cursor to have the duration "NOTE2", or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur2)},
 {"Change2", "NULL", NOTE2, NULL, "Change current note to a "NOTE2,
 G_CALLBACK (ChangeDur2)},
@@ -464,14 +454,10 @@ G_CALLBACK (InsertRest2)},
 {"Set2", NULL, "Set Duration to "NOTE2"", NULL, "Sets prevailing rhythm to "NOTE2,
 G_CALLBACK (SetDur2)},
 
-#define NOTECHAR3 "\xF0\x9D\x85\xA0"
+#define NOTE3 "\xF0\x9D\x85\xA0"
 
-#define RESTCHAR3 "\xF0\x9D\x84\xBE"
-
-#define NOTE3 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA0</span>"
-
-#define REST3 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBE</span>"
-{"3", "NULL", NOTE3, NULL, "Edits the note at the cursor to have the duration 1/2^3, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
+#define REST3 "\xF0\x9D\x84\xBE"
+{"3", "NULL", NOTE3, NULL, "Edits the note at the cursor to have the duration "NOTE3", or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur3)},
 {"Change3", "NULL", NOTE3, NULL, "Change current note to a "NOTE3,
 G_CALLBACK (ChangeDur3)},
@@ -484,14 +470,10 @@ G_CALLBACK (InsertRest3)},
 {"Set3", NULL, "Set Duration to "NOTE3"", NULL, "Sets prevailing rhythm to "NOTE3,
 G_CALLBACK (SetDur3)},
 
-#define NOTECHAR4 "\xF0\x9D\x85\xA1"
+#define NOTE4 "\xF0\x9D\x85\xA1"
 
-#define RESTCHAR4 "\xF0\x9D\x84\xBF"
-
-#define NOTE4 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA1</span>"
-
-#define REST4 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBF</span>"
-{"4", "NULL", NOTE4, NULL, "Edits the note at the cursor to have the duration 1/2^4, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
+#define REST4 "\xF0\x9D\x84\xBF"
+{"4", "NULL", NOTE4, NULL, "Edits the note at the cursor to have the duration "NOTE4", or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur4)},
 {"Change4", "NULL", NOTE4, NULL, "Change current note to a "NOTE4,
 G_CALLBACK (ChangeDur4)},
@@ -504,14 +486,10 @@ G_CALLBACK (InsertRest4)},
 {"Set4", NULL, "Set Duration to "NOTE4"", NULL, "Sets prevailing rhythm to "NOTE4,
 G_CALLBACK (SetDur4)},
 
-#define NOTECHAR5 "\xF0\x9D\x85\xA2"
+#define NOTE5 "\xF0\x9D\x85\xA2"
 
-#define RESTCHAR5 "\xF0\x9D\x85\x80"
-
-#define NOTE5 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA2</span>"
-
-#define REST5 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x80</span>"
-{"5", "NULL", NOTE5, NULL, "Edits the note at the cursor to have the duration 1/2^5, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
+#define REST5 "\xF0\x9D\x85\x80"
+{"5", "NULL", NOTE5, NULL, "Edits the note at the cursor to have the duration "NOTE5", or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur5)},
 {"Change5", "NULL", NOTE5, NULL, "Change current note to a "NOTE5,
 G_CALLBACK (ChangeDur5)},
@@ -524,14 +502,10 @@ G_CALLBACK (InsertRest5)},
 {"Set5", NULL, "Set Duration to "NOTE5"", NULL, "Sets prevailing rhythm to "NOTE5,
 G_CALLBACK (SetDur5)},
 
-#define NOTECHAR6 "\xF0\x9D\x85\xA3"
+#define NOTE6 "\xF0\x9D\x85\xA3"
 
-#define RESTCHAR6 "\xF0\x9D\x85\x81"
-
-#define NOTE6 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA3</span>"
-
-#define REST6 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x81</span>"
-{"6", "NULL", NOTE6, NULL, "Edits the note at the cursor to have the duration 1/2^6, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
+#define REST6 "\xF0\x9D\x85\x81"
+{"6", "NULL", NOTE6, NULL, "Edits the note at the cursor to have the duration "NOTE6", or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur6)},
 {"Change6", "NULL", NOTE6, NULL, "Change current note to a "NOTE6,
 G_CALLBACK (ChangeDur6)},
@@ -544,14 +518,10 @@ G_CALLBACK (InsertRest6)},
 {"Set6", NULL, "Set Duration to "NOTE6"", NULL, "Sets prevailing rhythm to "NOTE6,
 G_CALLBACK (SetDur6)},
 
-#define NOTECHAR7 "\xF0\x9D\x85\xA4"
+#define NOTE7 "\xF0\x9D\x85\xA4"
 
-#define RESTCHAR7 "\xF0\x9D\x85\x82"
-
-#define NOTE7 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA4</span>"
-
-#define REST7 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x82</span>"
-{"7", "NULL", NOTE7, NULL, "Edits the note at the cursor to have the duration 1/2^7, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
+#define REST7 "\xF0\x9D\x85\x82"
+{"7", "NULL", NOTE7, NULL, "Edits the note at the cursor to have the duration "NOTE7", or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur7)},
 {"Change7", "NULL", NOTE7, NULL, "Change current note to a "NOTE7,
 G_CALLBACK (ChangeDur7)},
@@ -564,14 +534,10 @@ G_CALLBACK (InsertRest7)},
 {"Set7", NULL, "Set Duration to "NOTE7"", NULL, "Sets prevailing rhythm to "NOTE7,
 G_CALLBACK (SetDur7)},
 
-#define NOTECHAR8 "\xF0\x9D\x85\xA5"
+#define NOTE8 "\xF0\x9D\x85\xA5"
 
-#define RESTCHAR8 "\xF0\x9D\x85\x83"
-
-#define NOTE8 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA5</span>"
-
-#define REST8 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x83</span>"
-{"8", "NULL", NOTE8, NULL, "Edits the note at the cursor to have the duration 1/2^8, or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
+#define REST8 "\xF0\x9D\x85\x83"
+{"8", "NULL", NOTE8, NULL, "Edits the note at the cursor to have the duration "NOTE8", or \n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration",
 G_CALLBACK (Dur8)},
 {"Change8", "NULL", NOTE8, NULL, "Change current note to a "NOTE8,
 G_CALLBACK (ChangeDur8)},

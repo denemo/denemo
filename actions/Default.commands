@@ -6021,6 +6021,20 @@ for second and subsequent systems</tooltip>
         <label>Turn Excessive Tooltips (Off/On)</label>
         <tooltip>Sets your status as a newbie on or off. This affects the tooltips.\nNote you can also delay tooltips, indefinitely if you wish, via the preferences dialog. See Edit-&gt;Change Preferences-&gt;Command Behavior</tooltip>
       </row>
+      <row>
+        <action>NoteNamesDefault</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/InputMenu/Keyboard</menupath>
+        <label>Note Names Default Action</label>
+        <tooltip>Changes the shortcuts for note names a, b, c, d, e, f, g so that they edit the note at the cursor, or append a note when in the appending position.</tooltip>
+      </row>
+      <row>
+        <action>NoteNamesMove</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/InputMenu/Keyboard</menupath>
+        <label>Note Names Move Cursor</label>
+        <tooltip>Changes the shortcuts for note names a, b, c, d, e, f, g so that they move the cursor to the nearest note of that name.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
