@@ -9234,7 +9234,7 @@ get_data_dir (),
 
   create_console(GTK_BOX(main_vbox));
   Denemo.statusbar = gtk_statusbar_new ();
-  gtk_widget_set_tooltip_text(Denemo.statusbar, _("This bar shows the movement number followed by a description of the object at the Denemo cursor and the position and status (appending or inserting) of the cursor. If the Playback Controls are visible then the timing of the object at the cursor is shown. When the first key of a two-key shortcut is pressed the possible continuations are shown here."));
+  gtk_widget_set_tooltip_text(Denemo.statusbar, _("This bar shows:\nPending ♯ or ♭ sign (if the next note entered will be sharpened or flattened)\nThe movement number\nDescription of the object at the Denemo cursor\nPosition and status (appending or inserting) of the cursor.\nIf the Playback Controls are visible then the timing of the object at the cursor is shown.\nWhen the first key of a two-key shortcut is pressed the possible continuations are shown here."));
   hbox = gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
   gtk_box_pack_start (GTK_BOX (hbox), Denemo.statusbar, TRUE, TRUE, 5);
