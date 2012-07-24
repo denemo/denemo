@@ -108,32 +108,6 @@ set_lily_error(gint line, gint column, DenemoGUI *gui) {
 }
 
 
-/* pop up an appropriate menu for the section attached to the button */
-static gboolean popup_menu_for_button(GtkButton *button,GdkEvent *event, DenemoGUI *gui) {
-  GtkTextChildAnchor *anchor = g_object_get_data(G_OBJECT(button), "anchor");
-  GtkWidget *menu;
-  if(g_object_get_data(G_OBJECT(anchor), STANDARD_SCOREBLOCK))
-    menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/LilyScoreblockMenu");
-  else {
-    if(g_object_get_data(G_OBJECT(anchor), CUSTOM))
-      menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/LilyCustomScoreblockMenu");
-    else
-      menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/LilyMenu");
-  }
-
-
-  //g_print("type of menu is %s\n", g_type_name(G_TYPE_FROM_INSTANCE(menu)));
-  // g_print("gui->custom_scoreblock = %p\n", g_object_get_data(button, "DenemoObject"));
-  gui->lilystart = anchor;
-  //gui->lilyend = g_object_get_data(G_OBJECT(anchor), "end");
-  //gui->target = g_object_get_data(G_OBJECT(anchor), TARGET);
-  gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
-  //event_button->button, event_button->time);
-
-  return TRUE;
-
-}
-
 /* insert a pair of anchors and a mark to denote a section.
    if str is non-null it is a target for saving edited versions of the section to, in this
    case the start anchor of the section is prepended to the list gui->anchors 
@@ -169,8 +143,8 @@ static GtkTextChildAnchor * insert_section(GString **str, gchar *markname, gchar
     gtk_container_add (GTK_CONTAINER(button), label);
     gtk_text_view_add_child_at_anchor (GTK_TEXT_VIEW(gui->textview), button, objanc);
     g_object_set_data(G_OBJECT(button), "anchor", (gpointer)objanc);
-    g_signal_connect (G_OBJECT (button), "button-press-event",
-		      G_CALLBACK (popup_menu_for_button), gui);
+   // g_signal_connect (G_OBJECT (button), "button-press-event",
+//		      G_CALLBACK (popup_menu_for_button), gui);
     gtk_widget_show_all(button);
   }
   (void)gtk_text_iter_backward_char(iter);
@@ -2078,39 +2052,6 @@ void delete_lily_cb (GtkAction *action, gpointer param) {
   gtk_text_buffer_delete(gui->textbuffer, &start, &end);
 }
 
-/* create a new custom scoreblock from the text of the one passed in lilystart */
-void custom_lily_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-  GtkTextChildAnchor *anchor = gui->lilystart;
-  merge_lily_strings(gui);
-  if(g_object_get_data(G_OBJECT(anchor),STANDARD_SCOREBLOCK)){
-    GtkTextIter start;
-    gtk_text_buffer_get_iter_at_child_anchor(gui->textbuffer, &start, anchor);
-    GtkTextTag *tag = gtk_text_tag_table_lookup(tagtable, "invisible");
-    (void)gtk_text_iter_forward_char(&start);
-    if(gtk_text_iter_has_tag(&start,tag)) {
-      warningdialog("The scoreblock is hidden,\nso you will have an empty custom scoreblock to start with");
-    }
-    gchar *lily = get_text(gui, anchor);
-    DenemoScoreblock *sb = g_malloc0(sizeof(DenemoScoreblock));
-    sb->lilypond= g_string_new(lily);
-    sb->visible = TRUE;
-    anchor = insert_scoreblock_section(gui, NULL, sb);
-    gui->custom_scoreblocks = g_list_prepend(gui->custom_scoreblocks, sb);
-    g_object_set_data(G_OBJECT(anchor),ORIGINAL, lily);
-    score_status(gui, TRUE);
-    refresh_lily_cb(action, gui);
-    GtkTextIter iter;//Place cursor at end of MUSIC which is where the score block has been placed
-    gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, MUSIC));
-    gtk_text_buffer_place_cursor(gui->textbuffer, &iter);
-    //gtk_text_view_scroll_mark_onscreen(GTK_TEXT_VIEW(gui->textview), gtk_text_buffer_get_insert(gui->textbuffer));
-    gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW(gui->textview), 
-			      gtk_text_buffer_get_insert(gui->textbuffer), 0.0, TRUE, 0.5, 0.5);
-    
-  }
-  else
-    refresh_lily_cb(action, gui);
-}
 
 void toggle_lily_visible_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
@@ -2339,7 +2280,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
   {
 	insert_scoreblock_section(gui, "standard scoreblock", sb);
 	gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, "standard scoreblock"));
-	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, (sb->lilypond)->str, -1, "bold", sb->visible?NULL:"invisible", NULL);
+	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, (sb->lilypond)->str, -1, INEDITABLE, NULL);
 
   }
   /* insert standard scoreblock section*/

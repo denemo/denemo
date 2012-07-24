@@ -8893,22 +8893,7 @@ create_window(void) {
   //accel_group = gtk_ui_manager_get_accel_group (ui_manager);
   //gtk_window_add_accel_group (GTK_WINDOW (Denemo.window), accel_group);
 
-  /* TODO Lily_menu actions are handled differently for the time being
-   * What are these actions?
-   */
-  GtkActionEntry lily_menus[] = {
-    {"LilyToggleShow", NULL, N_("Show/Hide"),NULL, N_("Toggle visibility of section"),G_CALLBACK (toggle_lily_visible_cb)},
-    {"LilyCreateCustom", NULL, N_("Create Custom Version"),NULL, N_("Create a custom version of this block"),G_CALLBACK (custom_lily_cb)},
-    {"LilyDelete", NULL, N_("Delete Block"),NULL, N_("Delete this block"),G_CALLBACK (delete_lily_cb)}
-  };
 
-  {
-  GtkActionGroup *lilyaction_group = gtk_action_group_new ("LilyActions");
-  gtk_action_group_set_translation_domain (lilyaction_group, NULL); 
-  gtk_action_group_add_actions (lilyaction_group, lily_menus,
-				G_N_ELEMENTS (lily_menus), Denemo.gui);
-  gtk_ui_manager_insert_action_group (ui_manager, lilyaction_group, 1);
-  }
   data_file = g_build_filename (
 #ifndef USE_LOCAL_DENEMOUI
 get_data_dir (),

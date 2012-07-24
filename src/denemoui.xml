@@ -508,20 +508,7 @@
     <toolitem action="DeleteRhythm"/>
   </toolbar>
 
-<!--
- Popup menus for the LilyPond text view
-  -->
-  <popup name="LilyMenu">
-    <menuitem action="LilyToggleShow"/>
-  </popup>
-  <popup name="LilyScoreblockMenu">
-    <menuitem action="LilyToggleShow"/>
-    <menuitem action="LilyCreateCustom"/>
-  </popup>
-  <popup name="LilyCustomScoreblockMenu">
-    <menuitem action="LilyToggleShow"/>
-    <menuitem action="LilyDelete"/>
-  </popup>
+
 <!--
  Popup menus for edit object
   -->
