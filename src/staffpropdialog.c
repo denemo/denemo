@@ -224,10 +224,17 @@ set_properties (struct callbackdata *cbdata)
   gint n;
   gint err;
 
+#if GTK_MAJOR_VERSION==3
+#define ASSIGNTEXT(field) \
+  if(cbdata->field)\
+    g_string_assign (staffstruct->field,\
+    gtk_combo_box_text_get_active_text (GTK_COMBO_BOX (cbdata->field)))
+#else
 #define ASSIGNTEXT(field) \
   if(cbdata->field)\
     g_string_assign (staffstruct->field,\
     gtk_entry_get_text (GTK_ENTRY (cbdata->field)))
+#endif
 
 #define ASSIGNNUMBER(field) \
   if(cbdata->field)\
@@ -411,7 +418,7 @@ staff_properties_change (void)
     gtk_box_pack_start (GTK_BOX (main_vbox), field, FALSE, TRUE, 0);\
     cbdata.field = field;
 #if GTK_MAJOR_VERSION==3
- #define COMBOBOXENTRY(thelabel, field, thelist, setstring) \
+ #define COMBOBOXENTRY(thelabel, field, thelist, index) \
   GtkWidget *field;\
   hbox = gtk_hbox_new (FALSE, 8);\
   gtk_container_add (GTK_CONTAINER(main_vbox), hbox);	\
@@ -422,10 +429,9 @@ staff_properties_change (void)
   gint i;\
   for(i=0;i<G_N_ELEMENTS(thelist);i++)\
     gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(field), thelist[i]);\
-  //gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (field)->entry),\
-//		  setstring->str);\
-  gtk_container_add (GTK_CONTAINER(hbox), field);	\
-  cbdata.field = GTK_COMBO (field)->entry;
+  gtk_combo_box_set_active(GTK_COMBO_BOX_TEXT (field),index);\
+  gtk_container_add (GTK_CONTAINER(hbox), field);\
+  cbdata.field = field;
 #else
  #define COMBOBOXENTRY(thelabel, field, thelist, setstring) \
   GtkWidget *field;\
@@ -461,7 +467,13 @@ staff_properties_change (void)
   /* MIDI tab */
   NEWPAGE("MIDI");
 #if GTK_MAJOR_VERSION==3
-  COMBOBOXENTRY("MIDI Instrument:", midi_instrument, instruments, staffstruct->midi_instrument);
+  // FIXME should probably be in seperate function 
+  gint index=0,z=0;
+  for(z=0;instruments[z];z++){
+    if (!g_strcmp0 (instruments[z], staffstruct->midi_instrument->str))\
+      index = z;
+  }
+  COMBOBOXENTRY("MIDI Instrument:", midi_instrument, instruments, index);
 #else
   COMBOBOXENTRY("MIDI Instrument:", midi_instrument, instrument_list, staffstruct->midi_instrument);
 #endif
