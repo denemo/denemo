@@ -5,13 +5,11 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after>SmallerStaff</after>
         <action>TransposeStaffPrint</action>
         <scheme> ;;;;;;;;;;; TransposeStaffPrint
-(if (not (defined? 'Transpose::init))
+(if (not (defined? 'Transpose::Interval))
     (begin
-    (d-LoadCommand "/MainMenu/EditMenu/Transpose/SetTransposeIntervalFromSelection")
-    (d-InitializeScript "SetTransposeIntervalFromSelection")))
+    	(define Transpose::Interval "c ees")))
 (let ((lily #f) (text #f))
   (set! Transpose::Interval (d-GetUserInput "Set Transpose Interval" "Give Interval to transpose by
 e.g. c ees means up minor third.
