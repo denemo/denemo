@@ -930,10 +930,6 @@
         <action>BookInstrumentation</action>
         <bind>S,i</bind>
       </row>
-      <row>
-        <action>HelpForReturnKey</action>
-        <bind>Return</bind>
-      </row>
     </map>
   </merge>
 </Denemo>

@@ -1833,7 +1833,7 @@ Rhythm is unchanged</tooltip>
       </row>
       <row>
         <action>0</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D15D;&lt;/span&gt;</label>
+        <label>&#x1D15D;</label>
         <tooltip>When appending, appends a &#x1D15D; 
 With the cursor on a note inserts a &#x1D15D;  before the current note
 The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
@@ -1841,12 +1841,12 @@ The note will be pitchless (displays yellow, non-printing, percussion-sounding) 
       </row>
       <row>
         <action>Change0</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D15D;&lt;/span&gt;</label>
+        <label>&#x1D15D;</label>
         <tooltip>Change the current note to a &#x1D15D;</tooltip>
       </row>
       <row>
         <action>Insert0</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D15D;&lt;/span&gt;</label>
+        <label>&#x1D15D;</label>
         <tooltip>Insert a &#x1D15D;</tooltip>
       </row>
       <row>
@@ -1857,18 +1857,18 @@ Sets prevailing rhythm to &#x1D15D;</tooltip>
       </row>
       <row>
         <action>ChangeRest0</action>
-        <label>Change a &#x1D13B; </label>
+        <label>Change a &#x1D13B;</label>
         <tooltip>Changes a rest at cursor position
 Sets prevailing rhythm to &#x1D15D;</tooltip>
       </row>
       <row>
         <action>Set0</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D15D;&lt;/span&gt;</label>
+        <label>&#x1D15D;</label>
         <tooltip>Set the prevailing duration to &#x1D15D;</tooltip>
       </row>
       <row>
         <action>1</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D15E;&lt;/span&gt;</label>
+        <label>&#x1D15E;</label>
         <tooltip>When appending, appends a &#x1D15E; 
 With the cursor on a note inserts a &#x1D15E;  before the current note
 The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
@@ -1876,12 +1876,12 @@ The note will be pitchless (displays yellow, non-printing, percussion-sounding) 
       </row>
       <row>
         <action>Change1</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D15E;&lt;/span&gt;</label>
+        <label>&#x1D15E;</label>
         <tooltip>Change the current note to a &#x1D15E;</tooltip>
       </row>
       <row>
         <action>Insert1</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D15E;&lt;/span&gt;</label>
+        <label>&#x1D15E;</label>
         <tooltip>Insert a &#x1D15E;</tooltip>
       </row>
       <row>
@@ -1892,18 +1892,18 @@ Sets prevailing rhythm to &#x1D15E;</tooltip>
       </row>
       <row>
         <action>ChangeRest1</action>
-        <label>Change a &#x1D13C; </label>
+        <label>Change a &#x1D13C;</label>
         <tooltip>Changes a rest at cursor position
 Sets prevailing rhythm to &#x1D15E;</tooltip>
       </row>
       <row>
         <action>Set1</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D15E;&lt;/span&gt;</label>
+        <label>&#x1D15E;</label>
         <tooltip>Set the prevailing duration to &#x1D15E;</tooltip>
       </row>
       <row>
         <action>2</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D15F;&lt;/span&gt;</label>
+        <label>&#x1D15F;</label>
         <tooltip>When appending, appends a &#x1D15F; 
 With the cursor on a note inserts a &#x1D15F;  before the current note
 The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
@@ -1911,12 +1911,12 @@ The note will be pitchless (displays yellow, non-printing, percussion-sounding) 
       </row>
       <row>
         <action>Change2</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D15F;&lt;/span&gt;</label>
+        <label>&#x1D15F;</label>
         <tooltip>Change the current note to a &#x1D15F;</tooltip>
       </row>
       <row>
         <action>Insert2</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D15F;&lt;/span&gt;</label>
+        <label>&#x1D15F;</label>
         <tooltip>Insert a &#x1D15F;</tooltip>
       </row>
       <row>
@@ -1927,18 +1927,18 @@ Sets prevailing rhythm to &#x1D15F;</tooltip>
       </row>
       <row>
         <action>ChangeRest2</action>
-        <label>Change a &#x1D13D; </label>
+        <label>Change a &#x1D13D;</label>
         <tooltip>Changes a rest at cursor position
 Sets prevailing rhythm to &#x1D15F;</tooltip>
       </row>
       <row>
         <action>Set2</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D15F;&lt;/span&gt;</label>
+        <label>&#x1D15F;</label>
         <tooltip>Set the prevailing duration to &#x1D15F;</tooltip>
       </row>
       <row>
         <action>3</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D160;&lt;/span&gt;</label>
+        <label>&#x1D160;</label>
         <tooltip>When appending, appends a &#x1D160; 
 With the cursor on a note inserts a &#x1D160;  before the current note
 The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
@@ -1946,12 +1946,12 @@ The note will be pitchless (displays yellow, non-printing, percussion-sounding) 
       </row>
       <row>
         <action>Change3</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D160;&lt;/span&gt;</label>
+        <label>&#x1D160;</label>
         <tooltip>Change the current note to a &#x1D160;</tooltip>
       </row>
       <row>
         <action>Insert3</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D160;&lt;/span&gt;</label>
+        <label>&#x1D160;</label>
         <tooltip>Insert a &#x1D160;</tooltip>
       </row>
       <row>
@@ -1962,18 +1962,18 @@ Sets prevailing rhythm to &#x1D160;</tooltip>
       </row>
       <row>
         <action>ChangeRest3</action>
-        <label>Change a &#x1D13E; </label>
+        <label>Change a &#x1D13E;</label>
         <tooltip>Changes a rest at cursor position
 Sets prevailing rhythm to &#x1D160;</tooltip>
       </row>
       <row>
         <action>Set3</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D160;&lt;/span&gt;</label>
+        <label>&#x1D160;</label>
         <tooltip>Set the prevailing duration to &#x1D160;</tooltip>
       </row>
       <row>
         <action>4</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D161;&lt;/span&gt;</label>
+        <label>&#x1D161;</label>
         <tooltip>When appending, appends a &#x1D161; 
 With the cursor on a note inserts a &#x1D161;  before the current note
 The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
@@ -1981,12 +1981,12 @@ The note will be pitchless (displays yellow, non-printing, percussion-sounding) 
       </row>
       <row>
         <action>Change4</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D161;&lt;/span&gt;</label>
+        <label>&#x1D161;</label>
         <tooltip>Change the current note to a &#x1D161;</tooltip>
       </row>
       <row>
         <action>Insert4</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D161;&lt;/span&gt;</label>
+        <label>&#x1D161;</label>
         <tooltip>Insert a &#x1D161;</tooltip>
       </row>
       <row>
@@ -1997,18 +1997,18 @@ Sets prevailing rhythm to &#x1D161;</tooltip>
       </row>
       <row>
         <action>ChangeRest4</action>
-        <label>Change a &#x1D13F; </label>
+        <label>Change a &#x1D13F;</label>
         <tooltip>Changes a rest at cursor position
 Sets prevailing rhythm to &#x1D161;</tooltip>
       </row>
       <row>
         <action>Set4</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D161;&lt;/span&gt;</label>
+        <label>&#x1D161;</label>
         <tooltip>Set the prevailing duration to &#x1D161;</tooltip>
       </row>
       <row>
         <action>5</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D162;&lt;/span&gt;</label>
+        <label>&#x1D162;</label>
         <tooltip>When appending, appends a &#x1D162; 
 With the cursor on a note inserts a &#x1D162;  before the current note
 The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
@@ -2016,12 +2016,12 @@ The note will be pitchless (displays yellow, non-printing, percussion-sounding) 
       </row>
       <row>
         <action>Change5</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D162;&lt;/span&gt;</label>
+        <label>&#x1D162;</label>
         <tooltip>Change the current note to a &#x1D162;</tooltip>
       </row>
       <row>
         <action>Insert5</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D162;&lt;/span&gt;</label>
+        <label>&#x1D162;</label>
         <tooltip>Insert a &#x1D162;</tooltip>
       </row>
       <row>
@@ -2032,18 +2032,18 @@ Sets prevailing rhythm to &#x1D162;</tooltip>
       </row>
       <row>
         <action>ChangeRest5</action>
-        <label>Change a &#x1D140; </label>
+        <label>Change a &#x1D140;</label>
         <tooltip>Changes a rest at cursor position
 Sets prevailing rhythm to &#x1D162;</tooltip>
       </row>
       <row>
         <action>Set5</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D162;&lt;/span&gt;</label>
+        <label>&#x1D162;</label>
         <tooltip>Set the prevailing duration to &#x1D162;</tooltip>
       </row>
       <row>
         <action>6</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D163;&lt;/span&gt;</label>
+        <label>&#x1D163;</label>
         <tooltip>When appending, appends a &#x1D163; 
 With the cursor on a note inserts a &#x1D163;  before the current note
 The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
@@ -2051,12 +2051,12 @@ The note will be pitchless (displays yellow, non-printing, percussion-sounding) 
       </row>
       <row>
         <action>Change6</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D163;&lt;/span&gt;</label>
+        <label>&#x1D163;</label>
         <tooltip>Change the current note to a &#x1D163;</tooltip>
       </row>
       <row>
         <action>Insert6</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D163;&lt;/span&gt;</label>
+        <label>&#x1D163;</label>
         <tooltip>Insert a &#x1D163;</tooltip>
       </row>
       <row>
@@ -2067,18 +2067,18 @@ Sets prevailing rhythm to &#x1D163;</tooltip>
       </row>
       <row>
         <action>ChangeRest6</action>
-        <label>Change a &#x1D141; </label>
+        <label>Change a &#x1D141;</label>
         <tooltip>Changes a rest at cursor position
 Sets prevailing rhythm to &#x1D163;</tooltip>
       </row>
       <row>
         <action>Set6</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D163;&lt;/span&gt;</label>
+        <label>&#x1D163;</label>
         <tooltip>Set the prevailing duration to &#x1D163;</tooltip>
       </row>
       <row>
         <action>7</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D164;&lt;/span&gt;</label>
+        <label>&#x1D164;</label>
         <tooltip>When appending, appends a &#x1D164; 
 With the cursor on a note inserts a &#x1D164;  before the current note
 The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
@@ -2086,12 +2086,12 @@ The note will be pitchless (displays yellow, non-printing, percussion-sounding) 
       </row>
       <row>
         <action>Change7</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D164;&lt;/span&gt;</label>
+        <label>&#x1D164;</label>
         <tooltip>Change the current note to a &#x1D164;</tooltip>
       </row>
       <row>
         <action>Insert7</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D164;&lt;/span&gt;</label>
+        <label>&#x1D164;</label>
         <tooltip>Insert a &#x1D164;</tooltip>
       </row>
       <row>
@@ -2102,18 +2102,18 @@ Sets prevailing rhythm to &#x1D164;</tooltip>
       </row>
       <row>
         <action>ChangeRest7</action>
-        <label>Change a &#x1D142; </label>
+        <label>Change a &#x1D142;</label>
         <tooltip>Changes a rest at cursor position
 Sets prevailing rhythm to &#x1D164;</tooltip>
       </row>
       <row>
         <action>Set7</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D164;&lt;/span&gt;</label>
+        <label>&#x1D164;</label>
         <tooltip>Set the prevailing duration to &#x1D164;</tooltip>
       </row>
       <row>
         <action>8</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D165;&lt;/span&gt;</label>
+        <label>&#x1D165;</label>
         <tooltip>When appending, appends a &#x1D165; 
 With the cursor on a note inserts a &#x1D165;  before the current note
 The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
@@ -2121,12 +2121,12 @@ The note will be pitchless (displays yellow, non-printing, percussion-sounding) 
       </row>
       <row>
         <action>Change8</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D165;&lt;/span&gt;</label>
+        <label>&#x1D165;</label>
         <tooltip>Change the current note to a &#x1D165;</tooltip>
       </row>
       <row>
         <action>Insert8</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D165;&lt;/span&gt;</label>
+        <label>&#x1D165;</label>
         <tooltip>Insert a &#x1D165;</tooltip>
       </row>
       <row>
@@ -2137,13 +2137,13 @@ Sets prevailing rhythm to &#x1D165;</tooltip>
       </row>
       <row>
         <action>ChangeRest8</action>
-        <label>Change a &#x1D143; </label>
+        <label>Change a &#x1D143;</label>
         <tooltip>Changes a rest at cursor position
 Sets prevailing rhythm to &#x1D165;</tooltip>
       </row>
       <row>
         <action>Set8</action>
-        <label>&lt;span font_desc="Denemo"&gt;&#x1D165;&lt;/span&gt;</label>
+        <label>&#x1D165;</label>
         <tooltip>Set the prevailing duration to &#x1D165;</tooltip>
       </row>
       <row>
@@ -2171,7 +2171,7 @@ Sets prevailing rhythm to &#x1D165;</tooltip>
         <action>Preview4Bars</action>
         <scheme></scheme>
         <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
-        <label>Preview Four Measures</label>
+        <label>Preview Four Bars</label>
         <tooltip>Print preview of current bar and the next three.</tooltip>
       </row>
       <row>
@@ -4597,7 +4597,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
         <label>Arbitrary transpose up</label>
-        <tooltip>Transpose/shift the cursor note or selection an arbitrary number of tones up. User can specify interval through a dialog.</tooltip>
+        <tooltip>Transpose/shift the cursor note or selection an arbitrary number of tones up. User can specify interval through a dialogue.</tooltip>
       </row>
       <row>
         <action>ShiftRealDialogDown</action>
@@ -4605,7 +4605,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
         <label>Arbitrary transpose down</label>
-        <tooltip>Transpose/shift the cursor note or selection an arbitrary number of tones down. User can specify interval through a dialog.</tooltip>
+        <tooltip>Transpose/shift the cursor note or selection an arbitrary number of tones down. User can specify interval through a dialogue.</tooltip>
       </row>
       <row>
         <action>AddLowestUpPerfect1</action>
@@ -5845,7 +5845,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/MainMenu/FileMenu/OpenMenu</menupath>
         <label>Open Source for Transcribing</label>
-        <tooltip>Opens a dialog to fetch a source facsimile or manuscript. Links can be placed in the Denemo score to this source file so that the source passage for a given measure can be re-displayed when reviewing the score.</tooltip>
+        <tooltip>Opens a dialogue to fetch a source facsimile or manuscript. Links can be placed in the Denemo score to this source file so that the source passage for a given bar can be re-displayed when reviewing the score.</tooltip>
       </row>
       <row>
         <action>PrintThreeReduced</action>
@@ -5861,7 +5861,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/StaffMenu</menupath>
         <label>Create Cues</label>
-        <tooltip>Goes through the staff looking for long rests. Creates a cue in the whole measure rest.</tooltip>
+        <tooltip>Goes through the staff looking for long rests. Creates a cue in the whole bar rest.</tooltip>
       </row>
       <row>
         <action>StaffMultiMeasureRests</action>
@@ -5941,7 +5941,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/Conditional-Directives</menupath>
         <label>Reset for All Layouts</label>
-        <tooltip>Clears conditional behavior of this layout. The Directive will apply to all score layouts.</tooltip>
+        <tooltip>Clears conditional behaviour of this layout. The Directive will apply to all score layouts.</tooltip>
       </row>
       <row>
         <action>VoiceOne</action>
@@ -6019,7 +6019,8 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/MainMenu/HelpMenu</menupath>
         <label>Turn Excessive Tooltips (Off/On)</label>
-        <tooltip>Sets your status as a newbie on or off. This affects the tooltips.\nNote you can also delay tooltips, indefinitely if you wish, via the preferences dialog. See Edit-&gt;Change Preferences-&gt;Command Behavior</tooltip>
+        <tooltip>Sets your status as a newbie on or off. This affects the tooltips.
+Note you can also delay tooltips, indefinitely if you wish, via the preferences dialogue. See Edit-&gt;Change Preferences-&gt;Command Behaviour</tooltip>
       </row>
       <row>
         <action>NoteNamesDefault</action>
@@ -6034,6 +6035,20 @@ for second and subsequent systems</tooltip>
         <menupath>/MainMenu/InputMenu/Keyboard</menupath>
         <label>Note Names Move Cursor</label>
         <tooltip>Changes the shortcuts for note names a, b, c, d, e, f, g so that they move the cursor to the nearest note of that name.</tooltip>
+      </row>
+      <row>
+        <action>MouseInsertion</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/InputMenu/Mouse</menupath>
+        <label>Mouse Note Insertion</label>
+        <tooltip>Changes the mouse use when CapsLock is on: left click inserts note in the prevailing duration. The shortcuts for number keys 0, 1, 2 ... are set change the prevailing duration.</tooltip>
+      </row>
+      <row>
+        <action>MouseDefault</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/InputMenu/Mouse</menupath>
+        <label>Mouse Default Action</label>
+        <tooltip>Mouse left click positions the cursor, right click edits, left-click with caps-lock does nothing..</tooltip>
       </row>
     </map>
   </merge>
