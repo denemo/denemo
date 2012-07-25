@@ -557,32 +557,32 @@ static GtkWidget *create_voice_widget(DenemoStaff *staff, gchar *voicename, guin
 	gchar *text = g_strdup_printf(" \\%s",  voicename);
 	if(staff->voicecontrol==DENEMO_PRIMARY) {
 	GtkWidget *expander = gtk_expander_new(_("Initial Signatures"));
-	gtk_widget_set_tooltip_text(expander, "Click here to view and edit the clef, key and time signatures of this staff");
+	gtk_widget_set_tooltip_text(expander, _("Click here to view and edit the clef, key and time signatures of this staff"));
 	gtk_box_pack_start(GTK_BOX(ret), expander, FALSE, TRUE, 0);
 	GtkWidget *hbox = gtk_hbox_new(FALSE, 8);
 	gtk_container_add (GTK_CONTAINER (expander), hbox);
 
 	GtkWidget *button = gtk_button_new_with_label(_("Clef"));
-	gtk_widget_set_tooltip_text(button, "Edit the LilyPond definition of the clef. The editing affects only this layout.");
+	gtk_widget_set_tooltip_text(button, _("Edit the LilyPond definition of the clef. The editing affects only this layout."));
 	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(prefix_edit_callback), button);
 	add_lilypond(button,  get_clef_string(staff), NULL);
 	gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
 	button = gtk_button_new_with_label(_("Key"));
-	gtk_widget_set_tooltip_text(button, "Edit the LilyPond definition of the key signature. The editing affects only this layout.");
+	gtk_widget_set_tooltip_text(button, _("Edit the LilyPond definition of the key signature. The editing affects only this layout."));
 	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(prefix_edit_callback), button);
 	add_lilypond(button,  get_key_sig_string(staff), NULL);
 	gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
 	button = gtk_button_new_with_label(_("Time"));
-	gtk_widget_set_tooltip_text(button, "Edit the LilyPond definition of the time signature. The editing affects only this layout.");
+	gtk_widget_set_tooltip_text(button, _("Edit the LilyPond definition of the time signature. The editing affects only this layout."));
 	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(prefix_edit_callback), button);
 	add_lilypond(button,  get_time_sig_string(staff), NULL);
 	gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
 	}
-	gchar *music = g_strconcat("Music for ", name, NULL);
+	gchar *music = g_strconcat(_("Music for "), name, NULL);
 	w = gtk_button_new_with_label(music);
-	gtk_widget_set_tooltip_text(w, "The actual notes live here. You can only edit these in the main Denemo display.\nHowever you can place conditional directives that are to be used only when using this layout. For example page breaks just for this layout can be placed at points in the music.\nClick here to move the Denemo cursor to the start of this music.");
+	gtk_widget_set_tooltip_text(w, _("The actual notes live here. You can only edit these in the main Denemo display.\nHowever you can place conditional directives that are to be used only when using this layout. For example page breaks just for this layout can be placed at points in the music.\nClick here to move the Denemo cursor to the start of this music."));
 	g_signal_connect(G_OBJECT(w), "clicked", G_CALLBACK(navigate_to_location), (gpointer)location);
 	g_free(music);
 	add_lilypond(w, text, NULL);
