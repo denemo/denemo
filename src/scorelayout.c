@@ -544,8 +544,12 @@ static gboolean remove_lyric_element(GtkWidget *widget, gchar *context_text) {
 static GtkWidget *create_voice_widget(DenemoStaff *staff, gchar *voicename, guint location) {
 	gchar *name = staff->denemo_name->str;
 	GtkWidget *ret = gtk_hbox_new(FALSE, 8);
-			
-	GtkWidget *w = gtk_button_new_with_label("X");
+	GtkWidget *w = gtk_button_new_with_label(_("Edit"));
+	gtk_widget_set_tooltip_text (w,_("Edit the voice directives for this layout"));	
+	gtk_box_pack_start(GTK_BOX (ret), w, FALSE, TRUE, 0);
+	g_signal_connect(w, "clicked", G_CALLBACK(prefix_edit_callback), ret);
+	
+	w = gtk_button_new_with_label("X");
 	gtk_widget_set_tooltip_text (w,_("Delete this voice from the score layout\nNote that if it is the first voice the clef time and keysignatures will be deleted too."));
 	g_signal_connect(w, "clicked", G_CALLBACK(remove_element), NULL);
 	gtk_box_pack_end(GTK_BOX (ret), w, FALSE, TRUE, 0);
@@ -622,6 +626,7 @@ static void install_voice(DenemoStaff *staff, gint movementnum, gint voice_count
 		g_string_assign(voicetext, "");
 		set_voice_termination(voicetext, staff); // TAB TAB"} %End of voice" if not overridden
 		add_lilypond(voice, text, g_string_free(voicetext, FALSE));
+
 		
 		gtk_box_pack_start (GTK_BOX (vbox), voice, FALSE, TRUE, 0);
 }
