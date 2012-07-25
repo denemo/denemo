@@ -379,7 +379,7 @@ select_program (char *instr)
   int score[128];
   int i;
   int winner = 1;
-
+  char *input_instr = instr;
   /* get a fresh start */
   clear_score_table (score);
 
@@ -415,8 +415,9 @@ select_program (char *instr)
 	}
     }
 
-  /* we have a winner */
-  g_print("For %s choose prog %d\n", instr, winner&127);
+#ifdef DEBUG
+  g_print("For %s choose prog %d\n", input_instr, winner&127);
+#endif
   return winner & 127;
 }
 
