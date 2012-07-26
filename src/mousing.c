@@ -452,7 +452,9 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
       if(offset<STAFF_HEIGHT/2) {
 	if(((DenemoStaff*)gui->si->currentstaff->data)->staff_directives)
 	  gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->staffmenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
-      }
+      } else
+	  if(((DenemoStaff*)gui->si->currentstaff->data)->voice_directives)
+	    gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->voicemenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
     }
   }
 
@@ -576,16 +578,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 
 
   gint offset = (gint)get_click_height(gui, event->y);
-  if(event->x<LEFT_MARGIN) {
-    if(offset<STAFF_HEIGHT/2) {
-      if(((DenemoStaff*)gui->si->currentstaff->data)->staff_directives)
-	gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->staffmenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
-    }
-    else
-      if(((DenemoStaff*)gui->si->currentstaff->data)->voice_directives)
-	gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->voicemenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
-    return TRUE;
-  } else if(gui->si->leftmeasurenum==1) {
+  if(gui->si->leftmeasurenum==1) {
     if(event->x<KEY_MARGIN-cmajor) {
       popup_menu("/InitialClefEditPopup");
       return TRUE;
