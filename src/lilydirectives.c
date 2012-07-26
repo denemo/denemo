@@ -1529,7 +1529,7 @@ gboolean \
 what##_directive_put_##field(gchar *tag, gchar *value) {\
   what *current = get_##what();\
   if(current==NULL) return FALSE;\
-  take_snapshot();		 \
+  /*take_snapshot(); this breaks voicemenu	*/	 \
   if(current->name==NULL)\
        create_directives (&current->name, tag);\
   DenemoDirective *directive = get_##what##_directive(tag);\
