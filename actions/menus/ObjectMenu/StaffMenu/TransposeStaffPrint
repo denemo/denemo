@@ -21,9 +21,15 @@ e.g. c c' means octave up.
 " Transpose::Interval))
   (set! lily (string-append  "\\transpose " Transpose::Interval " "))
   (set! text (string-append  "Print transposed:  " Transpose::Interval " "))
-  (d-DirectivePut-staff-postfix  "TransposeStaffPrint" lily)
-  (d-DirectivePut-staff-display  "TransposeStaffPrint" text)
-  (d-DirectivePut-staff-override  "TransposeStaffPrint" DENEMO_OVERRIDE_GRAPHIC)
+ (d-PushPosition)
+ (while (d-MoveToVoiceUp))
+ (let loop ()
+ 	(d-DirectivePut-voice-override  "TransposeStaffPrint" DENEMO_OVERRIDE_GRAPHIC)
+  	(d-DirectivePut-voice-display  "TransposeStaffPrint" text)
+  	(d-DirectivePut-voice-prefix  "TransposeStaffPrint" lily)
+ 	 (if (d-MoveToVoiceDown)
+ 		 (loop)))
+  (d-PopPosition)
   (d-RefreshDisplay))
 </scheme>
         <label>(Print) Transpose</label>
