@@ -555,8 +555,9 @@ static GtkWidget *create_voice_widget(DenemoStaff *staff, gchar *voicename, guin
 	gtk_box_pack_end(GTK_BOX (ret), w, FALSE, TRUE, 0);
 
 	gchar *text = g_strdup_printf(" \\%s",  voicename);
+	gchar *label_text = _("Initial Signatures");
 	if(staff->voicecontrol==DENEMO_PRIMARY) {
-	GtkWidget *expander = gtk_expander_new(_("Initial Signatures"));
+	GtkWidget *expander = gtk_expander_new(label_text);
 	gtk_widget_set_tooltip_text(expander, _("Click here to view and edit the clef, key and time signatures of this staff"));
 	gtk_box_pack_start(GTK_BOX(ret), expander, FALSE, TRUE, 0);
 	GtkWidget *hbox = gtk_hbox_new(FALSE, 8);
@@ -579,6 +580,12 @@ static GtkWidget *create_voice_widget(DenemoStaff *staff, gchar *voicename, guin
 	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(prefix_edit_callback), button);
 	add_lilypond(button,  get_time_sig_string(staff), NULL);
 	gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
+	} else {//Make a matching expander so the music aligns with primary voice
+
+		GtkWidget *expander = gtk_expander_new(label_text);
+		gtk_widget_set_sensitive(expander, FALSE);
+		gtk_widget_set_tooltip_text(expander, _("The clef, time and key signatures attached to other voices are ignored, only the primary one has effect"));
+		gtk_box_pack_start(GTK_BOX(ret), expander, FALSE, TRUE, 0);
 	}
 	gchar *music = g_strconcat(_("Music for "), name, NULL);
 	w = gtk_button_new_with_label(music);
