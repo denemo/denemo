@@ -6041,7 +6041,7 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <scheme></scheme>
         <menupath>/MainMenu/InputMenu/Mouse</menupath>
         <label>Mouse Note Insertion</label>
-        <tooltip>Changes the mouse use when CapsLock is on: left click inserts note in the prevailing duration. The shortcuts for number keys 0, 1, 2 ... are set change the prevailing duration.</tooltip>
+        <tooltip>Changes the mouse use when CapsLock is on: left click inserts note in the prevailing duration. The shortcuts for number keys 0, 1, 2 ... are set to change the prevailing duration.</tooltip>
       </row>
       <row>
         <action>MouseDefault</action>
