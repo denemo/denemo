@@ -8,7 +8,7 @@
         <after>EditVoiceDirective</after>
         <action>NewVoice</action>
         <scheme>;;NewVoice
-(d-AddAfter)
+(d-NewStaffAfter)
 (d-SetCurrentStaffAsVoice)</scheme>
         <label>Add Voice</label>
         <tooltip>Adds a voice to the current staff, initially displayed on a staff of its own, for readability. It will print on the staff above, and can be displayed there using Join Voices command if desired.</tooltip>
