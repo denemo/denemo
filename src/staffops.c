@@ -201,22 +201,7 @@ insert_staff (DenemoScore * si, DenemoStaff * thestaffstruct,
 
 }
 
-//CREATE a GtkMenus to popup when clicking to left of the staff
-GtkMenu * create_menu(GList *directives) {
-    //hmm, cannot populate it, why not ? FIXME 
-    GtkWidget *item;
-    //thestaffstruct->staffmenu = 
-      return (GtkMenu *)gtk_menu_new();
-    //item = gtk_menu_item_new_with_label("Edit Attributes");
-    //gtk_menu_shell_append(GTK_MENU_SHELL( thestaffstruct->staffmenu), item);
-    //g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(edit_staff_directive), NULL);
-    //gtk_widget_show(item);
-    //thestaffstruct->voicemenu = (GtkMenu *)gtk_menu_new();
-    //item = gtk_menu_item_new_with_label("Edit Attributes");
-    //gtk_menu_shell_append(GTK_MENU_SHELL( thestaffstruct->voicemenu), item);
-    //g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(edit_voice_directive), NULL);
-    //gtk_widget_show(item);
-}
+
 
 /**
  * Create and insert a new staff into the score
@@ -240,8 +225,8 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
 
 
  
-  thestaffstruct->staffmenu = create_menu(NULL);
-  thestaffstruct->voicemenu = create_menu(NULL);
+  thestaffstruct->staffmenu = (GtkMenu *)gtk_menu_new();
+  thestaffstruct->voicemenu = (GtkMenu *)gtk_menu_new();
 
 
   struct newstaffinfotopass itp;

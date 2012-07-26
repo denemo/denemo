@@ -609,7 +609,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nFor making directives apply only to one score layout or be omitted from one score layout", N_("Conditional Directives"), NULL, N_("Conditional Directives")},
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nFor affecting how MIDI in works. MIDI in refers to MIDI keyboards or other controllers connected to the computer. You may need to configure this using the Audio/MIDI section of the Preferences.", N_("MIDI"), NULL, N_("MIDI Keyboard")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nChoose between different ways of entering notes from the computer keyboard.", N_("Keyboard"), NULL, N_("PC Keyboard")}, 
- {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nChoose between different ways of using the mouser.", N_("Mouse"), NULL, N_("Mouse")}, 
+ {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nChoose between different ways of using the mouse.", N_("Mouse"), NULL, N_("Mouse")}, 
 
 };
 

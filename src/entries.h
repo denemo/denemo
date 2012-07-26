@@ -405,7 +405,7 @@
 {"Conditional Directives", NULL, "Conditional Directives", NULL,"Menu:\nFor making directives apply only to one score layout or be omitted from one score layout"},
 {"MIDI", NULL, "MIDI Keyboard", NULL,"Menu:\nFor affecting how MIDI in works. MIDI in refers to MIDI keyboards or other controllers connected to the computer. You may need to configure this using the Audio/MIDI section of the Preferences."},
 {"Keyboard", NULL, "PC Keyboard", NULL,"Menu:\nChoose between different ways of entering notes from the computer keyboard."},
-{"Mouse", NULL, "Mouse", NULL,"Menu:\nChoose between different ways of using the mouser."},
+{"Mouse", NULL, "Mouse", NULL,"Menu:\nChoose between different ways of using the mouse."},
 
 #define NOTE0 "\xF0\x9D\x85\x9D"
 
