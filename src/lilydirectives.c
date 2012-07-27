@@ -1418,59 +1418,55 @@ widget_for_directive_menu(DenemoDirective *directive,  void fn(), GtkMenu *menu)
       value = directive->display->str;
   value = get_label_text(directive, value);
   if((directive->widget==NULL) ) {
-
-
-  //FIXME at this point you could allow the user to specify a custom button box for his directive - some property of the directive saying which button box it should be in. We could even allow the directive to create a toolitem of a toolbar or menuitem on a menu bar???
+    //FIXME at this point you could allow the user to specify a custom button box for his directive - some property of the directive saying which button box it should be in. We could even allow the directive to create a toolitem of a toolbar or menuitem on a menu bar???
 
     if(fn==(void(*)())score_directive_put_graphic ||fn==(void(*)())scoreheader_directive_put_graphic ||fn==(void(*)())paper_directive_put_graphic)  
       box = Denemo.gui->buttonbox;
     else
       if(fn==(void(*)())movementcontrol_directive_put_graphic  ||fn==(void(*)())header_directive_put_graphic )
-	box = Denemo.gui->si->buttonbox;
+        box = Denemo.gui->si->buttonbox;
       else
-	box = NULL;
-
+        box = NULL;
 
     if((fn==(void(*)())staff_directive_put_graphic) || (fn==(void(*)())voice_directive_put_graphic)) {
-	//g_print("Doing the staff or voice case");
+        //g_print("Doing the staff or voice case");
         directive->widget = GTK_WIDGET(gtk_menu_item_new_with_label(value));//WARNING _with_label is important
         attach_textedit_widget(directive);	
         g_signal_connect(G_OBJECT(directive->widget), "button-release-event",  G_CALLBACK(button_callback), directive);
         gtk_menu_shell_append(GTK_MENU_SHELL(menu), GTK_WIDGET(directive->widget));
       }  else 
-	if(box)  {
-	  //g_print("Doing the score and movement cases starting from %p", directive->widget);
-	  directive->widget = GTK_WIDGET(gtk_button_new_with_label(value));
-    gchar *tooltip = g_strdup_printf("This button was created for the Denemo Directive whose tag is %s. Usually you click on it to alter the setting made or perform the action it is labelled with", directive->tag->str);//FIXME enable scripters to pass a tooltip in???
-    gtk_widget_set_tooltip_text(directive->widget, tooltip);
-    g_free(tooltip);
+            if(box)  {
+                      //g_print("Doing the score and movement cases starting from %p", directive->widget);
+                      directive->widget = GTK_WIDGET(gtk_button_new_with_label(value));
+                      gchar *tooltip = g_strdup_printf("This button was created for the Denemo Directive whose tag is %s. Usually you click on it to alter the setting made or perform the action it is labelled with", directive->tag->str);//FIXME enable scripters to pass a tooltip in???
+                      gtk_widget_set_tooltip_text(directive->widget, tooltip);
+                      g_free(tooltip);
     
-	  {
-	    GtkWidget *label = gtk_bin_get_child(GTK_BIN(directive->widget));
-	    gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
-	  }
-	  attach_textedit_widget(directive);
-	  g_signal_connect(G_OBJECT(directive->widget), /*"activate" we want to use gtk_widget_activate on this*/ "button-release-event" ,  G_CALLBACK(button_callback), directive);
+                      {
+                        GtkWidget *label = gtk_bin_get_child(GTK_BIN(directive->widget));
+                        gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+                      }
+                      attach_textedit_widget(directive);
+                      g_signal_connect(G_OBJECT(directive->widget), /*"activate" we want to use gtk_widget_activate on this*/ "button-release-event" ,  G_CALLBACK(button_callback), directive);
 
 
-	  g_signal_connect(G_OBJECT(directive->widget), "activate"  ,  G_CALLBACK(button_activate_callback), directive);
+                      g_signal_connect(G_OBJECT(directive->widget), "activate"  ,  G_CALLBACK(button_activate_callback), directive);
 
 
     
-	  if(box){
-	    gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET(directive->widget), FALSE, TRUE,0);
-	    gtk_widget_show(box);
-	  }
-	} else {
-	  directive->widget = gtk_menu_item_new_with_label(value);
-	  attach_textedit_widget(directive);
-	  g_signal_connect(G_OBJECT(directive->widget), "button-release-event",  G_CALLBACK(button_callback), directive);
-	}
+                      if(box) {
+                              gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET(directive->widget), FALSE, TRUE,0);
+                              gtk_widget_show(box);
+                              }
+          } else {
+                  directive->widget = gtk_menu_item_new_with_label(value);
+                  attach_textedit_widget(directive);
+                  g_signal_connect(G_OBJECT(directive->widget), "button-release-event",  G_CALLBACK(button_callback), directive);
+          }
     g_object_set_data(G_OBJECT(directive->widget), "directive", (gpointer)directive);
     g_object_set_data(G_OBJECT(directive->widget), "fn", (gpointer)fn);
     //GTK_WIDGET_UNSET_FLAGS(directive->widget, GTK_CAN_FOCUS);
     gtk_widget_set_can_focus (directive->widget, FALSE);
- 
   }//end of no widget
 
   (directive->override&DENEMO_OVERRIDE_GRAPHIC)?gtk_widget_show(GTK_WIDGET(directive->widget)):gtk_widget_hide(GTK_WIDGET(directive->widget));
@@ -1529,7 +1525,7 @@ gboolean \
 what##_directive_put_##field(gchar *tag, gchar *value) {\
   what *current = get_##what();\
   if(current==NULL) return FALSE;\
-  /*take_snapshot(); this breaks voicemenu	*/	 \
+  take_snapshot();     \
   if(current->name==NULL)\
        create_directives (&current->name, tag);\
   DenemoDirective *directive = get_##what##_directive(tag);\
