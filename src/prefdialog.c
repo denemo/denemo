@@ -796,11 +796,15 @@ preferences_change (GtkAction *action, gpointer param)
     {
       set_preferences (&cbdata);
 
+#ifndef G_OS_WIN32
+//under windows we have:  <http://savannah.gnu.org/bugs/?36968>
       // stop playback and restart audio subsystem
       // FIXME: only do this when audio settings actually changed
       midi_stop();
       audio_shutdown();
       audio_initialize(cbdata.prefs);
+#endif
+      
       free_g_lists(&cbdata);
     }
   else
