@@ -50,7 +50,8 @@
 (d-DirectiveDelete-score "EndSlur")
 (d-DirectiveDelete-score "Tie")
 (d-DirectiveDelete-score "Triplets")
-(d-DirectiveDelete-score "Dynamics")</scheme>
+(d-DirectiveDelete-score "Dynamics")
+(d-DirectiveDelete-score "Tempo")</scheme>
         <label>Mouse Default Action</label>
         <tooltip>Mouse left click positions the cursor, right click edits, left-click with caps-lock does nothing..</tooltip>
       </row>

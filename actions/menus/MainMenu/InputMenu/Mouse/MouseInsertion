@@ -79,6 +79,10 @@
 
 (CreateButton "Dynamics" "&lt;span font=\"times\" size=\"large\" font_style=\"italic\" font_weight=\"bold\"&gt;f p&lt;/span&gt;")
 (d-SetDirectiveTagActionScript "Dynamics" "(d-DynamicsDialog)")
+(CreateButton "Tempo" "&lt;span font=\"times\" size=\"large\" font_style=\"italic\" font_weight=\"bold\"&gt;Allegro&lt;/span&gt;")
+(d-SetDirectiveTagActionScript "Tempo" "(d-Tempo)")
+
+
 (d-InfoDialog (_ "To insert notes set CapsLock on and click with mouse"))
 </scheme>
         <label>Mouse Note Insertion</label>
