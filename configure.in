@@ -79,7 +79,7 @@ AC_ARG_ENABLE(
       usewin32portmidi=yes
     fi
   ])
-dnl AM_CONDITIONAL(HAVE_WIN32PORTMIDI, [test x$usewin32portmidi = xyes])
+AM_CONDITIONAL(HAVE_WIN32PORTMIDI, [test x$usewin32portmidi = xyes])
 
 if test "x$usewin32portmidi" = "xyes"; then
   CFLAGS="$CFLAGS -D_HAVE_PORTMIDI_"
