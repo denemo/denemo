@@ -1,4 +1,4 @@
-SUBDIRS = $(WHICH_SMF) m4 doc actions pixmaps po src \
+SUBDIRS = $(WHICH_SMF) $(WHICH_PORTMIDI) m4 doc actions pixmaps po src \
 	  fonts soundfonts 
 
 dist_sysconf_DATA = denemo.conf 
