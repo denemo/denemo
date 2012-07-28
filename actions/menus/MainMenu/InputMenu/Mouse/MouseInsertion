@@ -7,7 +7,7 @@
       <row>
         <action>MouseInsertion</action>
         <scheme>;;MouseInsertion
-        (d-AddKeybinding "InsertOneNote" "PrsL-CapsLock")
+(d-AddKeybinding "InsertOneNote" "PrsL-CapsLock")
 (d-AddKeybinding "A" "a")
 (d-AddKeybinding "B" "b")
 (d-AddKeybinding "C" "c")
@@ -23,26 +23,32 @@
 (d-AddKeybinding "Set5" "Shft+5")
 (d-AddKeybinding "Set6" "Shft+6")
 
-(CreateButton "Button0" "&#x1D15D;")
-(d-SetDirectiveTagActionScript "Button0" "(d-Set0)")
-(CreateButton "Button1" "&#x1D15E;")
-(d-SetDirectiveTagActionScript "Button1" "(d-Set1)")
-(CreateButton "Button2" "&#x1D15F;")
-(d-SetDirectiveTagActionScript "Button2" "(d-Set2)")
-(CreateButton "Button3" "&#x1D160;")
-(d-SetDirectiveTagActionScript "Button3" "(d-Set3)")
-(CreateButton "Button4" "&#x1D161;")
-(d-SetDirectiveTagActionScript "Button4" "(d-Set4)")
-(CreateButton "Button5" "&#x1D162;")
-(d-SetDirectiveTagActionScript "Button5" "(d-Set5)")
-(CreateButton "Button6" "&#x1D163;")
-(d-SetDirectiveTagActionScript "Button6" "(d-Set6)")
+(CreateButton "Note0" "&#x1D15D;")
+(d-SetDirectiveTagActionScript "Note0" "(d-Set0)")
+(CreateButton "Note1" "&#x1D15E;")
+(d-SetDirectiveTagActionScript "Note1" "(d-Set1)")
+(CreateButton "Note2" "&#x1D15F;")
+(d-SetDirectiveTagActionScript "Note2" "(d-Set2)")
+(CreateButton "Note3" "&#x1D160;")
+(d-SetDirectiveTagActionScript "Note3" "(d-Set3)")
+(CreateButton "Note4" "&#x1D161;")
+(d-SetDirectiveTagActionScript "Note4" "(d-Set4)")
+(CreateButton "Note5" "&#x1D162;")
+(d-SetDirectiveTagActionScript "Note5" "(d-Set5)")
+(CreateButton "Note6" "&#x1D163;")
+(d-SetDirectiveTagActionScript "Note6" "(d-Set6)")
 
-(CreateButton "Dot" "&#x2022;")
-(d-SetDirectiveTagActionScript "Dot" "(d-AddDot)")
+(CreateButton "SharpenNext" "&#x266F;")
+(d-SetDirectiveTagActionScript "SharpenNext" "(d-PendingSharpen)")
 
-(CreateButton "XDot" "&#x2022; X")
-(d-SetDirectiveTagActionScript "XDot" "(d-RemoveDot)")
+(CreateButton "FlattenNext" "&#x266D;")
+(d-SetDirectiveTagActionScript "FlattenNext" "(d-PendingFlatten)")
+
+(CreateButton "AddDot" "&#x2022;")
+(d-SetDirectiveTagActionScript "AddDot" "(d-AddDot)")
+
+(CreateButton "RemoveDot" "&#x2022; X")
+(d-SetDirectiveTagActionScript "RemoveDot" "(d-RemoveDot)")
 
 (CreateButton "Rest0" "&#x1D13B;")
 (d-SetDirectiveTagActionScript "Rest0" "(d-InsertWholeRest)")
@@ -70,6 +76,10 @@
 
 (CreateButton "Triplets" "3")
 (d-SetDirectiveTagActionScript "Triplets" "(d-ToggleTripleting)")
+
+(CreateButton "Dynamics" "&lt;span font=\"times\" size=\"large\" font_style=\"italic\" font_weight=\"bold\"&gt;f p&lt;/span&gt;")
+(d-SetDirectiveTagActionScript "Dynamics" "(d-DynamicsDialog)")
+(d-InfoDialog (_ "To insert notes set CapsLock on and click with mouse"))
 </scheme>
         <label>Mouse Note Insertion</label>
         <tooltip>Changes the mouse use when CapsLock is on: left click inserts note in the prevailing duration. The shortcuts for number keys 0, 1, 2 ... are set to change the prevailing duration.</tooltip>

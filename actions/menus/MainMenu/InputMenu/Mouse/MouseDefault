@@ -7,7 +7,7 @@
       <row>
         <action>MouseDefault</action>
         <scheme>;;MouseDefault
- (d-AddKeybinding "NoOp" "PrsL-CapsLock")
+(d-AddKeybinding "NoOp" "PrsL-CapsLock")
 (d-AddKeybinding "A" "a")
 (d-AddKeybinding "B" "b")
 (d-AddKeybinding "C" "c")
@@ -15,6 +15,7 @@
 (d-AddKeybinding "E" "e")
 (d-AddKeybinding "F" "f")
 (d-AddKeybinding "G" "g")
+
 (d-AddKeybinding "Shft+0" "Change0")
 (d-AddKeybinding "Shft+1" "Change1")
 (d-AddKeybinding "Shft+2" "Change2")
@@ -22,24 +23,34 @@
 (d-AddKeybinding "Shft+4" "Change4")
 (d-AddKeybinding "Shft+5" "Change5")
 (d-AddKeybinding "Shft+6" "Change6")
-(d-DirectiveDelete-score "Button0")
-(d-DirectiveDelete-score "Button1")
-(d-DirectiveDelete-score "Button2")
-(d-DirectiveDelete-score "Button3")
-(d-DirectiveDelete-score "Button4")
-(d-DirectiveDelete-score "Button5")
-(d-DirectiveDelete-score "Button6")
-(d-DirectiveDelete-score "Dot")
-(d-DirectiveDelete-score "XDot")
+
+(d-DirectiveDelete-score "Note0")
+(d-DirectiveDelete-score "Note1")
+(d-DirectiveDelete-score "Note2")
+(d-DirectiveDelete-score "Note3")
+(d-DirectiveDelete-score "Note4")
+(d-DirectiveDelete-score "Note5")
+(d-DirectiveDelete-score "Note6")
+
+(d-DirectiveDelete-score "SharpenNext")
+(d-DirectiveDelete-score "FlattenNext")
+
+(d-DirectiveDelete-score "AddDot")
+(d-DirectiveDelete-score "RemoveDot")
 
 (d-DirectiveDelete-score "Rest0")
-(d-DirectiveDelete-score "Rest1")(d-DirectiveDelete-score "Rest2")(d-DirectiveDelete-score "Rest3")
-(d-DirectiveDelete-score "Rest4")(d-DirectiveDelete-score "Rest5")(d-DirectiveDelete-score "Rest6")
+(d-DirectiveDelete-score "Rest1")
+(d-DirectiveDelete-score "Rest2")
+(d-DirectiveDelete-score "Rest3")
+(d-DirectiveDelete-score "Rest4")
+(d-DirectiveDelete-score "Rest5")
+(d-DirectiveDelete-score "Rest6")
 
 (d-DirectiveDelete-score "BeginSlur")
 (d-DirectiveDelete-score "EndSlur")
 (d-DirectiveDelete-score "Tie")
-(d-DirectiveDelete-score "Triplets")</scheme>
+(d-DirectiveDelete-score "Triplets")
+(d-DirectiveDelete-score "Dynamics")</scheme>
         <label>Mouse Default Action</label>
         <tooltip>Mouse left click positions the cursor, right click edits, left-click with caps-lock does nothing..</tooltip>
       </row>
