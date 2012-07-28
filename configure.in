@@ -87,14 +87,17 @@ if test "x$usewin32portmidi" = "xyes"; then
   WHICH_PORTMIDI='portmidi'
   PORTMIDI_LDD='../portmidi/libportmidi.a'
   PORTMIDI_INCLUDE='-I$(top_srcdir)/portmidi'
+  AC_SUBST([WHICH_PORTMIDI])
+  AC_SUBST([PORTMIDI_LDD])
+  AC_SUBST([PORTMIDI_INCLUDE])
 else
   WHICH_PORTMIDI=''
   PORTMIDI_LDD=''
   PORTMIDI_INCLUDE=''
-fi
   AC_SUBST([WHICH_PORTMIDI])
   AC_SUBST([PORTMIDI_LDD])
   AC_SUBST([PORTMIDI_INCLUDE])
+fi 
 
 AC_ARG_ENABLE(
   jack,
