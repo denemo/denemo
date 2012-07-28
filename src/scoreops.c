@@ -562,6 +562,7 @@ DenemoScore * clone_movement(DenemoScore *si) {
 	//	widget_for_staff_directive(directive);
       }
     }
+    thestaff->voice_directives = clone_directives(srcStaff->voice_directives);
     {GList *direc;
       for(direc=thestaff->voice_directives;direc;direc=direc->next) {
 	DenemoDirective *directive = direc->data;
