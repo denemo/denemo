@@ -7,7 +7,7 @@
       <row>
         <action>MouseInsertion</action>
         <scheme>;;MouseInsertion
-(d-AddKeybinding "InsertOneNote" "PrsL-CapsLock")
+(d-AddKeybinding "InsertOneNote" "PrsL-Shift")
 (d-AddKeybinding "A" "a")
 (d-AddKeybinding "B" "b")
 (d-AddKeybinding "C" "c")
@@ -63,8 +63,8 @@
 (CreateButton "Tempo" "&lt;span font=\"times\" size=\"large\" font_style=\"italic\" font_weight=\"bold\"&gt;Allegro&lt;/span&gt;")
 (d-SetDirectiveTagActionScript "Tempo" "(d-Tempo)")
 
-
-(d-InfoDialog (_ "To insert notes set CapsLock on and click with mouse"))
+(if DenemoPref_newbie
+	(d-InfoDialog (_ "To insert notes hold down shift key while clicking the mouse")))
 </scheme>
         <label>Mouse Note Insertion</label>
         <tooltip>Changes the mouse use when CapsLock is on: left click inserts note in the prevailing duration. The shortcuts for number keys 0, 1, 2 ... are set to change the prevailing duration.</tooltip>

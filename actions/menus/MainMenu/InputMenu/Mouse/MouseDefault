@@ -7,7 +7,7 @@
       <row>
         <action>MouseDefault</action>
         <scheme>;;MouseDefault
-(d-AddKeybinding "NoOp" "PrsL-CapsLock")
+(d-AddKeybinding "NoOp" "PrsL-Shift")
 (d-AddKeybinding "A" "a")
 (d-AddKeybinding "B" "b")
 (d-AddKeybinding "C" "c")

@@ -695,10 +695,6 @@
         <bind>Enter</bind>
       </row>
       <row>
-        <action>NoOp</action>
-        <bind>PrsL-CapsLock</bind>
-      </row>
-      <row>
         <action>DenemoPlayCursorToEnd</action>
         <bind>Ctrl+F5</bind>
       </row>
