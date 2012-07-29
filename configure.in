@@ -83,7 +83,7 @@ AM_CONDITIONAL(HAVE_WIN32PORTMIDI, [test x$usewin32portmidi = xyes])
 
 if test "x$usewin32portmidi" = "xyes"; then
   CFLAGS="$CFLAGS -D_HAVE_PORTMIDI_ -DWIN32 -D_WINDOWS -D_DEBUG -DPM_CHECK_ERRORS=1 -DDEBUG"
-  LIBS="$LIBS -D_HAVE_PORTMIDI_ -lportmidi"
+  LIBS="$LIBS -D_HAVE_PORTMIDI_"
   WHICH_PORTMIDI='portmidi'
   PORTMIDI_LDD='../portmidi/libportmidi.a'
   PORTMIDI_INCLUDE='-I$(top_srcdir)/portmidi'
