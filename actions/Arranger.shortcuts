@@ -205,12 +205,10 @@
       </row>
       <row>
         <action>AddDot</action>
-        <bind>Decimal</bind>
         <bind>period</bind>
       </row>
       <row>
         <action>RemoveDot</action>
-        <bind>Ctrl+Decimal</bind>
         <bind>Ctrl+period</bind>
       </row>
       <row>
@@ -513,10 +511,6 @@
         <bind>Shft+6</bind>
       </row>
       <row>
-        <action>Change7</action>
-        <bind>Ctrl+7</bind>
-      </row>
-      <row>
         <action>Change8</action>
         <bind>Ctrl+8</bind>
       </row>
@@ -702,7 +696,7 @@
       </row>
       <row>
         <action>NoOp</action>
-        <hidden>true</hidden>
+        <bind>PrsL-CapsLock</bind>
       </row>
       <row>
         <action>DenemoPlayCursorToEnd</action>
@@ -929,6 +923,10 @@
       <row>
         <action>BookInstrumentation</action>
         <bind>S,i</bind>
+      </row>
+      <row>
+        <action>DotDoubleDotNoDot</action>
+        <bind>Decimal</bind>
       </row>
     </map>
   </merge>

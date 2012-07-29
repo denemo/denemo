@@ -44,27 +44,8 @@
 (CreateButton "FlattenNext" "&#x266D;")
 (d-SetDirectiveTagActionScript "FlattenNext" "(d-PendingFlatten)")
 
-(CreateButton "AddDot" "&#x2022;")
-(d-SetDirectiveTagActionScript "AddDot" "(d-AddDot)")
-
-(CreateButton "RemoveDot" "&#x2022; X")
-(d-SetDirectiveTagActionScript "RemoveDot" "(d-RemoveDot)")
-
-(CreateButton "Rest0" "&#x1D13B;")
-(d-SetDirectiveTagActionScript "Rest0" "(d-InsertWholeRest)")
-(CreateButton "Rest1" "&#x1D13C;")
-(d-SetDirectiveTagActionScript "Rest1" "(d-InsertHalfRest)")
-(CreateButton "Rest2" "&#x1D13D;")
-(d-SetDirectiveTagActionScript "Rest2" "(d-InsertQuarterRest)")
-
-(CreateButton "Rest3" "&#x1D13E;")
-(d-SetDirectiveTagActionScript "Rest3" "(d-InsertEighthRest)")
-(CreateButton "Rest4" "&#x1D13F;")
-(d-SetDirectiveTagActionScript "Rest4" "(d-InsertSixteenthRest)")
-(CreateButton "Rest5" "&#x1D140;")
-(d-SetDirectiveTagActionScript "Rest5" "(d-InsertThirtysecondRest)")
-(CreateButton "Rest6" "&#x1D141;")
-(d-SetDirectiveTagActionScript "Rest6" "(d-InsertSixtyfourthRest)")
+(CreateButton "Dot - Double Dot - No Dot" "&#x2022;")
+(d-SetDirectiveTagActionScript "Dot - Double Dot - No Dot" "(d-DotDoubleDotNoDot)")
 
 (CreateButton "BeginSlur" "(")
 (d-SetDirectiveTagActionScript "BeginSlur" "(d-ToggleBeginSlur)")

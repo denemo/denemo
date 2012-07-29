@@ -16,13 +16,13 @@
 (d-AddKeybinding "F" "f")
 (d-AddKeybinding "G" "g")
 
-(d-AddKeybinding "Shft+0" "Change0")
-(d-AddKeybinding "Shft+1" "Change1")
-(d-AddKeybinding "Shft+2" "Change2")
-(d-AddKeybinding "Shft+3" "Change3")
-(d-AddKeybinding "Shft+4" "Change4")
-(d-AddKeybinding "Shft+5" "Change5")
-(d-AddKeybinding "Shft+6" "Change6")
+(d-AddKeybinding "Change0" "Shft+0")
+(d-AddKeybinding "Change1" "Shft+1")
+(d-AddKeybinding "Change2" "Shft+2")
+(d-AddKeybinding "Change3" "Shft+3")
+(d-AddKeybinding "Change4" "Shft+4")
+(d-AddKeybinding "Change5" "Shft+5")
+(d-AddKeybinding "Change6" "Shft+6")
 
 (d-DirectiveDelete-score "Note0")
 (d-DirectiveDelete-score "Note1")
@@ -35,16 +35,7 @@
 (d-DirectiveDelete-score "SharpenNext")
 (d-DirectiveDelete-score "FlattenNext")
 
-(d-DirectiveDelete-score "AddDot")
-(d-DirectiveDelete-score "RemoveDot")
-
-(d-DirectiveDelete-score "Rest0")
-(d-DirectiveDelete-score "Rest1")
-(d-DirectiveDelete-score "Rest2")
-(d-DirectiveDelete-score "Rest3")
-(d-DirectiveDelete-score "Rest4")
-(d-DirectiveDelete-score "Rest5")
-(d-DirectiveDelete-score "Rest6")
+(d-DirectiveDelete-score "Dot - Double Dot - No Dot")
 
 (d-DirectiveDelete-score "BeginSlur")
 (d-DirectiveDelete-score "EndSlur")

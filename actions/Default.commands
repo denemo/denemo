@@ -6050,6 +6050,14 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <label>Mouse Default Action</label>
         <tooltip>Mouse left click positions the cursor, right click edits, left-click with caps-lock does nothing..</tooltip>
       </row>
+      <row>
+        <action>DotDoubleDotNoDot</action>
+        <after>Change7</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
+        <label>Dot</label>
+        <tooltip>Adds a dot to the note/rest/chord at the cursor, or removes them if double dotted.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
