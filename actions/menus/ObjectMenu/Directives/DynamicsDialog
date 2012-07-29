@@ -75,7 +75,8 @@
 	    (d-DirectivePut-standalone-midibytes tag level)))
 	(d-DirectivePut-standalone-minpixels tag 10)
 	(d-SetSaved #f)
-	(d-MoveCursorRight))))))</scheme>
+	(d-MoveCursorRight))))))
+(d-RefreshDisplay)</scheme>
         <label>Dynamics</label>
         <tooltip>Choose dynamics and midi volume level.</tooltip>
       </row>
