@@ -794,8 +794,11 @@ print_and_view(gchar **arguments) {
   }
 }
 
+static gboolean initialize_typesetting(void) {
+  return call_out_to_guile("(InitializeTypesetting)");
+}
 void print_lily_cb (GtkWidget *item, DenemoGUI *gui){
-  if(call_out_to_guile("(InitializeTypesetting)")) {
+  if(initialize_typesetting()) {
     g_warning("InitializeTypesetting failed\n");
     return;
   }
@@ -1071,7 +1074,7 @@ printpart_cb (GtkAction *action, gpointer param) {
 
 static gboolean typeset(gboolean force) {
 if((force) || (changecount!=Denemo.gui->changecount)) {
-  if(call_out_to_guile("(InitializeTypesetting)")) {
+  if(initialize_typesetting()) {
       g_warning("InitializeTypesetting failed\n");
       return FALSE;
   }
@@ -1087,7 +1090,7 @@ return FALSE;
 
 static gboolean typeset_movement(gboolean force) {
 if((force) || (changecount!=Denemo.gui->changecount)) {
-  if(call_out_to_guile("(InitializeTypesetting)")) {
+  if(initialize_typesetting()) {
       g_warning("InitializeTypesetting failed\n");
       return FALSE;
   }
@@ -1660,7 +1663,8 @@ void show_print_view(GtkAction *action, gpointer param) {
   else
     gtk_widget_show(w);
   if(action && (changecount!=Denemo.gui->changecount || Denemo.gui->lilysync != Denemo.gui->changecount) ) {
-    typeset_control(NULL, create_all_pdf);
+    if(!initialize_typesetting())
+      typeset_control(NULL, create_all_pdf);
   }
 }
 
