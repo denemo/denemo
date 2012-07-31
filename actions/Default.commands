@@ -5944,43 +5944,43 @@ for second and subsequent systems</tooltip>
         <tooltip>Clears conditional behaviour of this layout. The Directive will apply to all score layouts.</tooltip>
       </row>
       <row>
-        <action>VoiceOne</action>
+        <action>InitialVoiceOne</action>
         <after>JoinVoices</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
-        <label>Voice One</label>
+        <label>Initial Voice One</label>
         <tooltip>Sets the (initial) voice of the staff to be voice one (this affects stems up, slurs etc on printing)</tooltip>
       </row>
       <row>
-        <action>VoiceTwo</action>
-        <after>VoiceOne</after>
+        <action>InitialVoiceTwo</action>
+        <after>InitialVoiceOne</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
-        <label>Voice Two</label>
+        <label>Initial Voice Two</label>
         <tooltip>Sets the (initial) voice of the staff to be voice two (this affects stems down, slurs etc on printing)</tooltip>
       </row>
       <row>
-        <action>VoiceThree</action>
-        <after>VoiceTwo</after>
+        <action>InitialVoiceThree</action>
+        <after>InitialVoiceTwo</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
-        <label>Voice Three</label>
+        <label>Initial Voice Three</label>
         <tooltip>Sets the (initial) voice of the staff to be voice three (this affects stems up, slurs etc on printing)</tooltip>
       </row>
       <row>
-        <action>VoiceFour</action>
-        <after>VoiceThree</after>
+        <action>InitialVoiceFour</action>
+        <after>InitialVoiceThree</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
-        <label>Voice Four</label>
+        <label>Initial Voice Four</label>
         <tooltip>Sets the (initial) voice of the staff to be voice four (this affects stems down, slurs etc on printing)</tooltip>
       </row>
       <row>
-        <action>VoiceAuto</action>
-        <after>VoiceFour</after>
+        <action>InitialVoiceAuto</action>
+        <after>InitialVoiceFour</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
-        <label>Automatic Voice</label>
+        <label>Initial Automatic Voice</label>
         <tooltip>Undoes the effect of the VoiceOne, Two ... commands. The voice has variable stem direction, slur placement etc.</tooltip>
       </row>
       <row>
@@ -6057,6 +6057,29 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
         <label>Dot</label>
         <tooltip>Adds a dot to the note/rest/chord at the cursor, or removes them if double dotted.</tooltip>
+      </row>
+      <row>
+        <action>VoiceSetting</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/Voices</menupath>
+        <label>Choose Voice</label>
+        <tooltip>The Voice 1,2,3,4 commands set up the voices so that first and third voices get stems up, second and fourth voices get stems down, third and fourth voice note heads are horizontally shifted, and rests in the respective voices are automatically moved to avoid collisions. The Automatic Voice command returns all the voice settings to the neutral default directions</tooltip>
+      </row>
+      <row>
+        <action>StaffSize</action>
+        <after>TinyStaff</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Set Staff Size</label>
+        <tooltip>Sets the size of the staff on printing relative to the default 0. Value -3 is tiny 3 is large.</tooltip>
+      </row>
+      <row>
+        <action>InitialVoice</action>
+        <after>InitialVoiceAuto</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>Choose Initial Voice</label>
+        <tooltip>Choose which voice this staff will initially be set to. To change voice during music see the Directives-&gt;Voices menu.</tooltip>
       </row>
     </map>
   </merge>

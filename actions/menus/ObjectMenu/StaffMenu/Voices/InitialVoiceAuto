@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>InitialVoiceFour</after>
+        <action>InitialVoiceAuto</action>
+        <scheme>;;;InitialVoiceAuto
+(let ((tag "InitialVoice") (move-left #f))
+(d-PushPosition)
+(d-DirectiveDelete-voice tag)
+(d-MoveToBeginning)
+(if (StemDirective?) (begin (d-DeleteObject) (set! move-left #t)))
+(d-PopPosition)
+(if move-left
+  (d-MoveCursorLeft));;to compensate for the deletion of the stem directive
+(d-SetSaved #f))
+</scheme>
+        <label>Initial Automatic Voice</label>
+        <tooltip>Undoes the effect of the InitialVoiceOne, Two ... commands. The voice has variable stem direction, slur placement etc.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

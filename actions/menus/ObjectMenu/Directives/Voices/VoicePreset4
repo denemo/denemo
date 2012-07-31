@@ -8,21 +8,26 @@
         <after>VoicePreset3</after>
         <action>VoicePreset4</action>
         <scheme>;;;VoicePreset4
+(if (string=? (d-GetType) "Appending")
+  (d-MoveCursorLeft))
+(if (string=? (d-GetType) "STEMDIRECTIVE")
+    (d-DeleteObject)
+    (d-MoveCursorRight))
 (d-StartDownStems)
 (d-MoveCursorLeft)
-(d-DirectivePut-stemdirective-graphic "Voice" "
+(d-DirectivePut-stemdirective-graphic "VoiceSetting" "
 v4
 Serif
 24
 1
 1")
-(d-DirectivePut-stemdirective-postfix "Voice" "\\voiceFour")
-(d-DirectivePut-stemdirective-override "Voice" DENEMO_OVERRIDE_LILYPOND)
+(d-DirectivePut-stemdirective-postfix "VoiceSetting" "\\voiceFour")
+(d-DirectivePut-stemdirective-override "VoiceSetting" DENEMO_OVERRIDE_LILYPOND)
 (d-MoveCursorRight)
 (d-RefreshDisplay)
 </scheme>
-        <label>Voice Preset 4 (Stems Down)</label>
-        <tooltip>Preset for voice four. Stems down.</tooltip>
+        <label>Voice 4</label>
+        <tooltip>The Voice 1,2,3,4 commands set up the voices so that first and third voices get stems up, second and fourth voices get stems down, third and fourth voice note heads are horizontally shifted, and rests in the respective voices are automatically moved to avoid collisions. The Automatic Voice command returns all the voice settings to the neutral default directions</tooltip>
       </row>
     </map>
   </merge>

@@ -352,6 +352,10 @@
         <bind>Alt+Return</bind>
       </row>
       <row>
+        <action>InsertStem</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>EditObject</action>
         <bind>PrsR</bind>
       </row>
@@ -517,6 +521,14 @@
       <row>
         <action>MoveNoteToCursor</action>
         <bind>MveL-Shift</bind>
+      </row>
+      <row>
+        <action>StartDownStems</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>StartUpStems</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>InsertTiedNoteDuration</action>
@@ -803,6 +815,10 @@
       <row>
         <action>MoveToMovementEnd</action>
         <bind>Ctrl+End</bind>
+      </row>
+      <row>
+        <action>VoicesDoublestroke</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>LoadSelectDurationComposerNumberkeys</action>

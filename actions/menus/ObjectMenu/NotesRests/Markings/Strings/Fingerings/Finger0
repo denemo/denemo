@@ -6,8 +6,11 @@
     <map>
       <row>
         <action>Finger0</action>
-        <scheme>(d-AttachLilyToNote "postfix=-0\0display=0")
-(d-Chordize #t)</scheme>
+        <scheme>(ToggleDirective "note" "postfix" "Fingering" "-0 ")
+(if (d-Directive-note? "Fingering")
+	(d-DirectivePut-note-display"Fingering" "0"))
+(d-Chordize #t)
+</scheme>
         <label>Finger 0</label>
         <tooltip>Inserts fingering for open string</tooltip>
       </row>

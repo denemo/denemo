@@ -6,7 +6,9 @@
     <map>
       <row>
         <action>Finger2</action>
-        <scheme>(d-AttachLilyToNote "postfix=-2\0display=2")
+        <scheme>(ToggleDirective "note" "postfix" "Fingering" "-2 ")
+(if (d-Directive-note? "Fingering")
+	(d-DirectivePut-note-display"Fingering" "2"))
 (d-Chordize #t)
 </scheme>
         <label>Finger 2</label>
