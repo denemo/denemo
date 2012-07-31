@@ -533,6 +533,11 @@ if(!commands_installed) {
       fclose(fp);
     }
   }
+#ifdef GENERATE_SOURCE_CODE
+g_print("The new source code file ../../denemo/src/commands.c has been created\n");
+exit(0);
+#endif
+  
 }
 
 static void
