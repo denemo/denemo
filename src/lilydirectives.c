@@ -1979,12 +1979,11 @@ void user_select_directive_at_cursor(gchar **what, GList ***pdirectives, DenemoD
 
 
 static void populate_menu_for_directive(GtkWidget *menu, DenemoDirective *directive) {
-  if(directive->widget) {
-  if(!gtk_widget_get_parent(directive->widget))
-      gtk_menu_shell_prepend(GTK_MENU_SHELL(menu), GTK_WIDGET(directive->widget));
-  //g_print("now add %p\n", directive->widget);
-    gtk_widget_show(directive->widget);
-  }
+  GtkWidget *item = gtk_menu_item_new_with_label(directive->tag->str);
+  gtk_menu_shell_prepend(GTK_MENU_SHELL(menu), GTK_WIDGET(item));
+  g_signal_connect(G_OBJECT(item), "activate",  G_CALLBACK(button_activate_callback), directive);
+  gtk_widget_show(item);
+ 
 }
 static void populate_menu_for_directives(GtkWidget *menu, GList *directives) {
   g_object_set_data(G_OBJECT(menu), "directives", directives);
@@ -2041,19 +2040,28 @@ void edit_object(GtkAction *action,  DenemoScriptParam *param) {
       GList *directives =  ((chord *)obj->object)->directives;
       note *curnote = findnote(obj, Denemo.gui->si->cursor_y); 
       if(curnote && (curnote->mid_c_offset == Denemo.gui->si->cursor_y))
-	directives = curnote->directives;
-      GtkWidget *menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/NoteEditPopup"); 
-      populate_menu_for_directives(menu, directives);
+        directives = curnote->directives;
       popup_menu( "/NoteEditPopup");
     }
     return;
 
   case STEMDIRECTIVE:
      {
-       GList *directives =  ((stemdirective *)obj->object)->directives;
-      GtkWidget *menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/StemControlPopup"); 
-      populate_menu_for_directives(menu, directives);
-      popup_menu( "/StemControlPopup");
+      GList *directives =  ((stemdirective *)obj->object)->directives;
+      if(directives) {
+      //GtkWidget *menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/StemControlPopup");
+      //gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"), item);
+      //GtkWidget *menuitem = gtk_menu_item_new_with_label(_("Down"));
+      //gtk_activatable_set_related_action(GTK_ACTIVATABLE(menuitem), gtk_ui_manager_get_action (Denemo.ui_manager, "/ObjectMenu/NotesRests/StemControl/StartDownStems"));
+      // menuitem = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/NotesRests/StemControl/StartUpStems");
+      //gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
+      GtkWidget *menu = gtk_menu_new();
+      populate_menu_for_directives(menu, directives); //!! directive->widget is null so no menu items...
+      gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time());
+      //popup_menu( "/StemControlPopup");
+      } else {
+          infodialog(_("Nothing to edit on this stem directive - use controls in Staffs->Voices menu"));
+      }
     }  
      return;
 
