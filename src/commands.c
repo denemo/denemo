@@ -36,8 +36,8 @@ g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
 /* Preview4Bars*/
-action = gtk_action_new("Preview4Bars",_("Preview Four Measures"),_("Print preview of current bar and the next three."), get_icon_for_name("Preview4Bars", "Preview Four Measures"));
-register_command(Denemo.map, action, "Preview4Bars", _("Preview Four Measures"), _("Print preview of current bar and the next three."), activate_script);
+action = gtk_action_new("Preview4Bars",_("Preview Four Bars"),_("Print preview of current bar and the next three."), get_icon_for_name("Preview4Bars", "Preview Four Bars"));
+register_command(Denemo.map, action, "Preview4Bars", _("Preview Four Bars"), _("Print preview of current bar and the next three."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Preview4Bars");
 add_ui("/MainMenu/FileMenu/PrintMenu", NULL, "Preview4Bars");
@@ -3435,9 +3435,9 @@ g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
 /* ShiftRealDialogUp*/
-action = gtk_action_new("ShiftRealDialogUp",_("Arbitrary transpose up"),_("Transpose/shift the cursor note or selection an arbitrary number of tones up. User can specify interval through a dialog."), get_icon_for_name("ShiftRealDialogUp", "Arbitrary transpose up"));
+action = gtk_action_new("ShiftRealDialogUp",_("Arbitrary transpose up"),_("Transpose/shift the cursor note or selection an arbitrary number of tones up. User can specify interval through a dialogue."), get_icon_for_name("ShiftRealDialogUp", "Arbitrary transpose up"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ShiftRealHalfDown");
-register_command(Denemo.map, action, "ShiftRealDialogUp", _("Arbitrary transpose up"), _("Transpose/shift the cursor note or selection an arbitrary number of tones up. User can specify interval through a dialog."), activate_script);
+register_command(Denemo.map, action, "ShiftRealDialogUp", _("Arbitrary transpose up"), _("Transpose/shift the cursor note or selection an arbitrary number of tones up. User can specify interval through a dialogue."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ShiftRealDialogUp");
 add_ui("/ObjectMenu/NotesRests/Transpose", "ShiftRealHalfDown", "ShiftRealDialogUp");
@@ -3446,9 +3446,9 @@ g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Transpos
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
 /* ShiftRealDialogDown*/
-action = gtk_action_new("ShiftRealDialogDown",_("Arbitrary transpose down"),_("Transpose/shift the cursor note or selection an arbitrary number of tones down. User can specify interval through a dialog."), get_icon_for_name("ShiftRealDialogDown", "Arbitrary transpose down"));
+action = gtk_action_new("ShiftRealDialogDown",_("Arbitrary transpose down"),_("Transpose/shift the cursor note or selection an arbitrary number of tones down. User can specify interval through a dialogue."), get_icon_for_name("ShiftRealDialogDown", "Arbitrary transpose down"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ShiftRealDialogUp");
-register_command(Denemo.map, action, "ShiftRealDialogDown", _("Arbitrary transpose down"), _("Transpose/shift the cursor note or selection an arbitrary number of tones down. User can specify interval through a dialog."), activate_script);
+register_command(Denemo.map, action, "ShiftRealDialogDown", _("Arbitrary transpose down"), _("Transpose/shift the cursor note or selection an arbitrary number of tones down. User can specify interval through a dialogue."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ShiftRealDialogDown");
 add_ui("/ObjectMenu/NotesRests/Transpose", "ShiftRealDialogUp", "ShiftRealDialogDown");
@@ -5166,9 +5166,9 @@ g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
 /* OpenSourceDialog*/
-action = gtk_action_new("OpenSourceDialog",_("Open Source for Transcribing"),_("Opens a dialog to fetch a source facsimile or manuscript. Links can be placed in the Denemo score to this source file so that the source passage for a given measure can be re-displayed when reviewing the score."), get_icon_for_name("OpenSourceDialog", "Open Source for Transcribing"));
+action = gtk_action_new("OpenSourceDialog",_("Open Source for Transcribing"),_("Opens a dialogue to fetch a source facsimile or manuscript. Links can be placed in the Denemo score to this source file so that the source passage for a given bar can be re-displayed when reviewing the score."), get_icon_for_name("OpenSourceDialog", "Open Source for Transcribing"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"OpenNewWindow");
-register_command(Denemo.map, action, "OpenSourceDialog", _("Open Source for Transcribing"), _("Opens a dialog to fetch a source facsimile or manuscript. Links can be placed in the Denemo score to this source file so that the source passage for a given measure can be re-displayed when reviewing the score."), activate_script);
+register_command(Denemo.map, action, "OpenSourceDialog", _("Open Source for Transcribing"), _("Opens a dialogue to fetch a source facsimile or manuscript. Links can be placed in the Denemo score to this source file so that the source passage for a given bar can be re-displayed when reviewing the score."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("OpenSourceDialog");
 add_ui("/MainMenu/FileMenu/OpenMenu", "OpenNewWindow", "OpenSourceDialog");
@@ -5188,9 +5188,9 @@ g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/FileMenu/PrintMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
 /* CreateCuesForStaff*/
-action = gtk_action_new("CreateCuesForStaff",_("Create Cues"),_("Goes through the staff looking for long rests. Creates a cue in the whole measure rest."), get_icon_for_name("CreateCuesForStaff", "Create Cues"));
+action = gtk_action_new("CreateCuesForStaff",_("Create Cues"),_("Goes through the staff looking for long rests. Creates a cue in the whole bar rest."), get_icon_for_name("CreateCuesForStaff", "Create Cues"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"StaffComment");
-register_command(Denemo.map, action, "CreateCuesForStaff", _("Create Cues"), _("Goes through the staff looking for long rests. Creates a cue in the whole measure rest."), activate_script);
+register_command(Denemo.map, action, "CreateCuesForStaff", _("Create Cues"), _("Goes through the staff looking for long rests. Creates a cue in the whole bar rest."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("CreateCuesForStaff");
 add_ui("/ObjectMenu/StaffMenu", "StaffComment", "CreateCuesForStaff");
@@ -5298,9 +5298,9 @@ g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Conditio
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
 /* ForAllLayouts*/
-action = gtk_action_new("ForAllLayouts",_("Reset for All Layouts"),_("Clears conditional behavior of this layout. The Directive will apply to all score layouts."), get_icon_for_name("ForAllLayouts", "Reset for All Layouts"));
+action = gtk_action_new("ForAllLayouts",_("Reset for All Layouts"),_("Clears conditional behaviour of this layout. The Directive will apply to all score layouts."), get_icon_for_name("ForAllLayouts", "Reset for All Layouts"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"OnlyForLayout");
-register_command(Denemo.map, action, "ForAllLayouts", _("Reset for All Layouts"), _("Clears conditional behavior of this layout. The Directive will apply to all score layouts."), activate_script);
+register_command(Denemo.map, action, "ForAllLayouts", _("Reset for All Layouts"), _("Clears conditional behaviour of this layout. The Directive will apply to all score layouts."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ForAllLayouts");
 add_ui("/ObjectMenu/Directives/Conditional-Directives", "OnlyForLayout", "ForAllLayouts");
@@ -5308,57 +5308,57 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Conditional-Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* VoiceOne*/
-action = gtk_action_new("VoiceOne",_("Voice One"),_("Sets the (initial) voice of the staff to be voice one (this affects stems up, slurs etc on printing)"), get_icon_for_name("VoiceOne", "Voice One"));
+/* InitialVoiceOne*/
+action = gtk_action_new("InitialVoiceOne",_("Initial Voice One"),_("Sets the (initial) voice of the staff to be voice one (this affects stems up, slurs etc on printing)"), get_icon_for_name("InitialVoiceOne", "Initial Voice One"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"JoinVoices");
-register_command(Denemo.map, action, "VoiceOne", _("Voice One"), _("Sets the (initial) voice of the staff to be voice one (this affects stems up, slurs etc on printing)"), activate_script);
+register_command(Denemo.map, action, "InitialVoiceOne", _("Initial Voice One"), _("Sets the (initial) voice of the staff to be voice one (this affects stems up, slurs etc on printing)"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
-create_scheme_function_for_script("VoiceOne");
-add_ui("/ObjectMenu/StaffMenu/Voices", "JoinVoices", "VoiceOne");
+create_scheme_function_for_script("InitialVoiceOne");
+add_ui("/ObjectMenu/StaffMenu/Voices", "JoinVoices", "InitialVoiceOne");
 g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* VoiceTwo*/
-action = gtk_action_new("VoiceTwo",_("Voice Two"),_("Sets the (initial) voice of the staff to be voice two (this affects stems down, slurs etc on printing)"), get_icon_for_name("VoiceTwo", "Voice Two"));
-g_object_set_data(G_OBJECT(action), "after", (gpointer)"VoiceOne");
-register_command(Denemo.map, action, "VoiceTwo", _("Voice Two"), _("Sets the (initial) voice of the staff to be voice two (this affects stems down, slurs etc on printing)"), activate_script);
+/* InitialVoiceTwo*/
+action = gtk_action_new("InitialVoiceTwo",_("Initial Voice Two"),_("Sets the (initial) voice of the staff to be voice two (this affects stems down, slurs etc on printing)"), get_icon_for_name("InitialVoiceTwo", "Initial Voice Two"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"InitialVoiceOne");
+register_command(Denemo.map, action, "InitialVoiceTwo", _("Initial Voice Two"), _("Sets the (initial) voice of the staff to be voice two (this affects stems down, slurs etc on printing)"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
-create_scheme_function_for_script("VoiceTwo");
-add_ui("/ObjectMenu/StaffMenu/Voices", "VoiceOne", "VoiceTwo");
+create_scheme_function_for_script("InitialVoiceTwo");
+add_ui("/ObjectMenu/StaffMenu/Voices", "InitialVoiceOne", "InitialVoiceTwo");
 g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* VoiceThree*/
-action = gtk_action_new("VoiceThree",_("Voice Three"),_("Sets the (initial) voice of the staff to be voice three (this affects stems up, slurs etc on printing)"), get_icon_for_name("VoiceThree", "Voice Three"));
-g_object_set_data(G_OBJECT(action), "after", (gpointer)"VoiceTwo");
-register_command(Denemo.map, action, "VoiceThree", _("Voice Three"), _("Sets the (initial) voice of the staff to be voice three (this affects stems up, slurs etc on printing)"), activate_script);
+/* InitialVoiceThree*/
+action = gtk_action_new("InitialVoiceThree",_("Initial Voice Three"),_("Sets the (initial) voice of the staff to be voice three (this affects stems up, slurs etc on printing)"), get_icon_for_name("InitialVoiceThree", "Initial Voice Three"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"InitialVoiceTwo");
+register_command(Denemo.map, action, "InitialVoiceThree", _("Initial Voice Three"), _("Sets the (initial) voice of the staff to be voice three (this affects stems up, slurs etc on printing)"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
-create_scheme_function_for_script("VoiceThree");
-add_ui("/ObjectMenu/StaffMenu/Voices", "VoiceTwo", "VoiceThree");
+create_scheme_function_for_script("InitialVoiceThree");
+add_ui("/ObjectMenu/StaffMenu/Voices", "InitialVoiceTwo", "InitialVoiceThree");
 g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* VoiceFour*/
-action = gtk_action_new("VoiceFour",_("Voice Four"),_("Sets the (initial) voice of the staff to be voice four (this affects stems down, slurs etc on printing)"), get_icon_for_name("VoiceFour", "Voice Four"));
-g_object_set_data(G_OBJECT(action), "after", (gpointer)"VoiceThree");
-register_command(Denemo.map, action, "VoiceFour", _("Voice Four"), _("Sets the (initial) voice of the staff to be voice four (this affects stems down, slurs etc on printing)"), activate_script);
+/* InitialVoiceFour*/
+action = gtk_action_new("InitialVoiceFour",_("Initial Voice Four"),_("Sets the (initial) voice of the staff to be voice four (this affects stems down, slurs etc on printing)"), get_icon_for_name("InitialVoiceFour", "Initial Voice Four"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"InitialVoiceThree");
+register_command(Denemo.map, action, "InitialVoiceFour", _("Initial Voice Four"), _("Sets the (initial) voice of the staff to be voice four (this affects stems down, slurs etc on printing)"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
-create_scheme_function_for_script("VoiceFour");
-add_ui("/ObjectMenu/StaffMenu/Voices", "VoiceThree", "VoiceFour");
+create_scheme_function_for_script("InitialVoiceFour");
+add_ui("/ObjectMenu/StaffMenu/Voices", "InitialVoiceThree", "InitialVoiceFour");
 g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* VoiceAuto*/
-action = gtk_action_new("VoiceAuto",_("Automatic Voice"),_("Undoes the effect of the VoiceOne, Two ... commands. The voice has variable stem direction, slur placement etc."), get_icon_for_name("VoiceAuto", "Automatic Voice"));
-g_object_set_data(G_OBJECT(action), "after", (gpointer)"VoiceFour");
-register_command(Denemo.map, action, "VoiceAuto", _("Automatic Voice"), _("Undoes the effect of the VoiceOne, Two ... commands. The voice has variable stem direction, slur placement etc."), activate_script);
+/* InitialVoiceAuto*/
+action = gtk_action_new("InitialVoiceAuto",_("Initial Automatic Voice"),_("Undoes the effect of the VoiceOne, Two ... commands. The voice has variable stem direction, slur placement etc."), get_icon_for_name("InitialVoiceAuto", "Initial Automatic Voice"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"InitialVoiceFour");
+register_command(Denemo.map, action, "InitialVoiceAuto", _("Initial Automatic Voice"), _("Undoes the effect of the VoiceOne, Two ... commands. The voice has variable stem direction, slur placement etc."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
-create_scheme_function_for_script("VoiceAuto");
-add_ui("/ObjectMenu/StaffMenu/Voices", "VoiceFour", "VoiceAuto");
+create_scheme_function_for_script("InitialVoiceAuto");
+add_ui("/ObjectMenu/StaffMenu/Voices", "InitialVoiceFour", "InitialVoiceAuto");
 g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
@@ -5406,13 +5406,96 @@ g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/HelpMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
 /* SetNewbieStatus*/
-action = gtk_action_new("SetNewbieStatus",_("Turn Excessive Tooltips (Off/On)"),_("Sets your status as a newbie on or off. This affects the tooltips.\nNote you can also delay tooltips, indefinitely if you wish, via the preferences dialog. See Edit->Change Preferences->Command Behavior"), get_icon_for_name("SetNewbieStatus", "Turn Excessive Tooltips (Off/On)"));
+action = gtk_action_new("SetNewbieStatus",_("Turn Excessive Tooltips (Off/On)"),_("Sets your status as a newbie on or off. This affects the tooltips.\nNote you can also delay tooltips, indefinitely if you wish, via the preferences dialogue. See Edit->Change Preferences->Command Behaviour"), get_icon_for_name("SetNewbieStatus", "Turn Excessive Tooltips (Off/On)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"HelpForReturnKey");
-register_command(Denemo.map, action, "SetNewbieStatus", _("Turn Excessive Tooltips (Off/On)"), _("Sets your status as a newbie on or off. This affects the tooltips.\nNote you can also delay tooltips, indefinitely if you wish, via the preferences dialog. See Edit->Change Preferences->Command Behavior"), activate_script);
+register_command(Denemo.map, action, "SetNewbieStatus", _("Turn Excessive Tooltips (Off/On)"), _("Sets your status as a newbie on or off. This affects the tooltips.\nNote you can also delay tooltips, indefinitely if you wish, via the preferences dialogue. See Edit->Change Preferences->Command Behaviour"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SetNewbieStatus");
 add_ui("/MainMenu/HelpMenu", "HelpForReturnKey", "SetNewbieStatus");
 g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/HelpMenu");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* NoteNamesDefault*/
+action = gtk_action_new("NoteNamesDefault",_("Note Names Default Action"),_("Changes the shortcuts for note names a, b, c, d, e, f, g so that they edit the note at the cursor, or append a note when in the appending position."), get_icon_for_name("NoteNamesDefault", "Note Names Default Action"));
+register_command(Denemo.map, action, "NoteNamesDefault", _("Note Names Default Action"), _("Changes the shortcuts for note names a, b, c, d, e, f, g so that they edit the note at the cursor, or append a note when in the appending position."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("NoteNamesDefault");
+add_ui("/MainMenu/InputMenu/Keyboard", NULL, "NoteNamesDefault");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/InputMenu/Keyboard");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* NoteNamesMove*/
+action = gtk_action_new("NoteNamesMove",_("Note Names Move Cursor"),_("Changes the shortcuts for note names a, b, c, d, e, f, g so that they move the cursor to the nearest note of that name."), get_icon_for_name("NoteNamesMove", "Note Names Move Cursor"));
+register_command(Denemo.map, action, "NoteNamesMove", _("Note Names Move Cursor"), _("Changes the shortcuts for note names a, b, c, d, e, f, g so that they move the cursor to the nearest note of that name."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("NoteNamesMove");
+add_ui("/MainMenu/InputMenu/Keyboard", NULL, "NoteNamesMove");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/InputMenu/Keyboard");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* MouseInsertion*/
+action = gtk_action_new("MouseInsertion",_("Mouse Note Insertion"),_("Changes the mouse use when CapsLock is on: left click inserts note in the prevailing duration. The shortcuts for number keys 0, 1, 2 ... are set to change the prevailing duration."), get_icon_for_name("MouseInsertion", "Mouse Note Insertion"));
+register_command(Denemo.map, action, "MouseInsertion", _("Mouse Note Insertion"), _("Changes the mouse use when CapsLock is on: left click inserts note in the prevailing duration. The shortcuts for number keys 0, 1, 2 ... are set to change the prevailing duration."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("MouseInsertion");
+add_ui("/MainMenu/InputMenu/Mouse", NULL, "MouseInsertion");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/InputMenu/Mouse");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* MouseDefault*/
+action = gtk_action_new("MouseDefault",_("Mouse Default Action"),_("Mouse left click positions the cursor, right click edits, left-click with caps-lock does nothing.."), get_icon_for_name("MouseDefault", "Mouse Default Action"));
+register_command(Denemo.map, action, "MouseDefault", _("Mouse Default Action"), _("Mouse left click positions the cursor, right click edits, left-click with caps-lock does nothing.."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("MouseDefault");
+add_ui("/MainMenu/InputMenu/Mouse", NULL, "MouseDefault");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/InputMenu/Mouse");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* DotDoubleDotNoDot*/
+action = gtk_action_new("DotDoubleDotNoDot",_("Dot"),_("Adds a dot to the note/rest/chord at the cursor, or removes them if double dotted."), get_icon_for_name("DotDoubleDotNoDot", "Dot"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"Change7");
+register_command(Denemo.map, action, "DotDoubleDotNoDot", _("Dot"), _("Adds a dot to the note/rest/chord at the cursor, or removes them if double dotted."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("DotDoubleDotNoDot");
+add_ui("/ObjectMenu/NotesRests/ChangeDuration", "Change7", "DotDoubleDotNoDot");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/ChangeDuration");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* VoiceSetting*/
+action = gtk_action_new("VoiceSetting",_("Choose Voice"),_("The Voice 1,2,3,4 commands set up the voices so that first and third voices get stems up, second and fourth voices get stems down, third and fourth voice note heads are horizontally shifted, and rests in the respective voices are automatically moved to avoid collisions. The Automatic Voice command returns all the voice settings to the neutral default directions"), get_icon_for_name("VoiceSetting", "Choose Voice"));
+register_command(Denemo.map, action, "VoiceSetting", _("Choose Voice"), _("The Voice 1,2,3,4 commands set up the voices so that first and third voices get stems up, second and fourth voices get stems down, third and fourth voice note heads are horizontally shifted, and rests in the respective voices are automatically moved to avoid collisions. The Automatic Voice command returns all the voice settings to the neutral default directions"), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("VoiceSetting");
+add_ui("/ObjectMenu/Directives/Voices", NULL, "VoiceSetting");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Voices");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* StaffSize*/
+action = gtk_action_new("StaffSize",_("Set Staff Size"),_("Sets the size of the staff on printing relative to the default 0. Value -3 is tiny 3 is large."), get_icon_for_name("StaffSize", "Set Staff Size"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"TinyStaff");
+register_command(Denemo.map, action, "StaffSize", _("Set Staff Size"), _("Sets the size of the staff on printing relative to the default 0. Value -3 is tiny 3 is large."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("StaffSize");
+add_ui("/ObjectMenu/StaffMenu", "TinyStaff", "StaffSize");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* InitialVoice*/
+action = gtk_action_new("InitialVoice",_("Choose Initial Voice"),_("Choose which voice this staff will initially be set to. To change voice during music see the Directives->Voices menu."), get_icon_for_name("InitialVoice", "Choose Initial Voice"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"InitialVoiceAuto");
+register_command(Denemo.map, action, "InitialVoice", _("Choose Initial Voice"), _("Choose which voice this staff will initially be set to. To change voice during music see the Directives->Voices menu."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("InitialVoice");
+add_ui("/ObjectMenu/StaffMenu/Voices", "InitialVoiceAuto", "InitialVoice");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 }
