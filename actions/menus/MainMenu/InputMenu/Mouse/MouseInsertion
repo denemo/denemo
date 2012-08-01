@@ -8,6 +8,8 @@
         <action>MouseInsertion</action>
         <scheme>;;MouseInsertion
 (d-AddKeybinding "InsertOneNote" "PrsL-Shift")
+(d-AddKeybinding "AddNoteToChord" "PrsL-Alt")
+(d-AddKeybinding "StagedDelete" "PrsL-Control")
 (d-AddKeybinding "A" "a")
 (d-AddKeybinding "B" "b")
 (d-AddKeybinding "C" "c")
@@ -64,7 +66,7 @@
 (d-SetDirectiveTagActionScript "Tempo" "(d-Tempo)")
 
 (if DenemoPref_newbie
-	(d-InfoDialog (_ "To insert notes hold down shift key while clicking the mouse")))
+	(d-InfoDialog (_ "To insert notes hold down shift key while clicking the mouse. To add to a chord hold down Alt key, to delete hold down Control key while clicking.")))
 </scheme>
         <label>Mouse Note Insertion</label>
         <tooltip>Changes the mouse use when CapsLock is on: left click inserts note in the prevailing duration. The shortcuts for number keys 0, 1, 2 ... are set to change the prevailing duration.</tooltip>
