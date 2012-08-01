@@ -547,7 +547,9 @@
     <menuitem action="InsertTimeSig"/>
     <menuitem action="EditTimesigDirective"/>
   </popup>
-
+  <popup name="TupletPopup">
+    <menuitem action="DeleteObject"/>
+  </popup>
   <popup name="NoteEditPopup">
     <menu action="EditDirectivesMenu">
       <menuitem action="EditDirective"/>

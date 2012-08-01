@@ -2049,22 +2049,22 @@ void edit_object(GtkAction *action,  DenemoScriptParam *param) {
      {
       GList *directives =  ((stemdirective *)obj->object)->directives;
       if(directives) {
-      //GtkWidget *menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/StemControlPopup");
-      //gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"), item);
-      //GtkWidget *menuitem = gtk_menu_item_new_with_label(_("Down"));
-      //gtk_activatable_set_related_action(GTK_ACTIVATABLE(menuitem), gtk_ui_manager_get_action (Denemo.ui_manager, "/ObjectMenu/NotesRests/StemControl/StartDownStems"));
-      // menuitem = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/NotesRests/StemControl/StartUpStems");
-      //gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
       GtkWidget *menu = gtk_menu_new();
       populate_menu_for_directives(menu, directives); //!! directive->widget is null so no menu items...
       gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time());
-      //popup_menu( "/StemControlPopup");
       } else {
           infodialog(_("Nothing to edit on this stem directive - use controls in Staffs->Voices menu"));
       }
     }  
      return;
-
+  case TUPOPEN:
+    popup_menu("/TupletPopup");
+    infodialog(_("This marks the start of a tuplet (that is triplets etc) - after the notes there should be a corresponding end of tuplet object.\nSee the Notes/Rests->Tuplets for control over how tuplets print"));
+    return;
+  case TUPCLOSE:
+    popup_menu("/TupletPopup");
+    infodialog(_("This marks the end of a tuplet (that is triplets etc) - it should come in the same measure as the tuplet start marker.\nSee the Notes/Rests->Tuplets for control over how tuplets print"));
+    return;
   default:
     warningdialog("No method for editing this type of object");
     return;
