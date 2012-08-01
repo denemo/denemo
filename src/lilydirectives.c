@@ -1263,8 +1263,14 @@ button_callback  (GtkWidget *widget, GdkEventButton *event, DenemoDirective *dir
           if(left && ((action = lookup_action_from_name((gchar *)directive->tag->str))!=NULL) && (directive->override&DENEMO_OVERRIDE_TAGEDIT))
             gtk_action_activate(action);
           else {
-            if(left && action && confirm("Directive Edit", "Re-issue command?")) {
-                  gtk_action_activate(action);
+            if(left && action) {
+                gchar *name = (gchar *)gtk_action_get_name(action);
+                gint idx = lookup_command_from_name(Denemo.map, name);
+                if(idx>0) {
+                          gchar *label = (gchar*)lookup_label_from_idx(Denemo.map, idx);
+                          if(confirm(label, _("Repeat the command?")))  
+                            gtk_action_activate(action);
+                }
               } else {
               gpointer fn = (widget!=NULL)? g_object_get_data(G_OBJECT(widget), "fn"):NULL;
               if(fn) {
