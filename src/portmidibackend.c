@@ -1,3 +1,4 @@
+#ifdef _HAVE_PORTMIDI_
 /*
  * portmidibackend.c
  * PortMidi backend.
@@ -233,3 +234,4 @@ backend_t portmidi_backend = {
   portmidi_panic,
 };
 
+#endif //_HAVE_PORTMIDI_

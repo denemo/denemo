@@ -73,13 +73,14 @@ fi
 
 AC_ARG_ENABLE(
   win32portmidi,
-  AC_HELP_STRING([--enable-win32portmidi], [use WIN32PORTMIDI @<:@default=no@:>@]),
+  AC_HELP_STRING([--enable-win32portmidi], [use PORTMIDI @<:@default=no@:>@]),
   [
     if test "x$enableval" != "xno"; then
       usewin32portmidi=yes
     fi
-  ])
-AM_CONDITIONAL(HAVE_WIN32PORTMIDI, [test x$usewin32portmidi = xyes])
+  ], [ usewin32portmidi=yes ])
+
+AM_CONDITIONAL(HAVE_PORTMIDI, [test x$usewin32portmidi = xyes])
 
 if test "x$usewin32portmidi" = "xyes"; then
   CFLAGS="$CFLAGS -D_HAVE_PORTMIDI_ -DWIN32 -D_WINDOWS -D_DEBUG -DPM_CHECK_ERRORS=1 -DDEBUG"
