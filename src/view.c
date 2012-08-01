@@ -5622,6 +5622,12 @@ void inner_main(void*closure, int argc, char **argv){
 
  if(initial_file)
    (void)open_for_real (initial_file, Denemo.gui, FALSE, REPLACE_SCORE);
+   else {
+      if(!Denemo.scheme_commands) {
+        call_out_to_guile("(d-InstrumentName \"Violino\")");
+        denemo_scheme_init();
+      }
+   }
  
  {
    gchar *crash_file = g_build_filename(locatedotdenemo (), "crashrecovery.denemo", NULL);
