@@ -217,7 +217,7 @@
       </row>
       <row>
         <action>DeleteObject</action>
-        <bind>Ctrl+delete</bind>
+        <bind>Ctrl+Delete</bind>
       </row>
       <row>
         <action>DeletePreviousObject</action>
