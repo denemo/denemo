@@ -8919,7 +8919,7 @@ get_data_dir (),
 
 
   {//pops up with menu items for the directives attached to the current note
-    GtkWidget *menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/NoteEditPopup");
+    GtkWidget *menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/NoteEditPopupDirectives");
     g_signal_connect(menu, "deactivate", G_CALLBACK(unpopulate_menu), NULL);
   }
 

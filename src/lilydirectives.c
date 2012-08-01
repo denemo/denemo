@@ -2043,11 +2043,17 @@ void edit_object(GtkAction *action,  DenemoScriptParam *param) {
      return;
   case CHORD:
     {
+        gboolean found = FALSE;
       GList *directives =  ((chord *)obj->object)->directives;
+      if(directives) found = TRUE;
       note *curnote = findnote(obj, Denemo.gui->si->cursor_y); 
       if(curnote && (curnote->mid_c_offset == Denemo.gui->si->cursor_y))
         directives = curnote->directives;
-      popup_menu( "/NoteEditPopup");
+      if(directives) found = TRUE;
+      if(found)
+        popup_menu( "/NoteEditPopupDirectives");
+      else
+        popup_menu( "/NoteEditPopup");
     }
     return;
 
