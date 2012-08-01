@@ -1,3 +1,4 @@
+#ifdef _HAVE_PORTMIDI_
 /*
  * portmidiutil.c
  * PortMidi utility functions.
@@ -127,4 +128,4 @@ out:
 
   return ret;
 }
-
+#endif //_HAVE_PORTMIDI_
