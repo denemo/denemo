@@ -78,7 +78,7 @@ AC_ARG_ENABLE(
     if test "x$enableval" != "xno"; then
       usewin32portmidi=yes
     fi
-  ], [ usewin32portmidi=yes ])
+  ])
 
 AM_CONDITIONAL(HAVE_PORTMIDI, [test x$usewin32portmidi = xyes])
 
