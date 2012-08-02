@@ -88,7 +88,7 @@ INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
 -DPKGNAME=\"denemo\" 
 
 
-denemo_LDADD = $(INTLLIBS) $(SMF_LDD) $(PORTMIDI_LDD) libaudiobackend.a
+denemo_LDADD = $(INTLLIBS) $(SMF_LDD) libaudiobackend.a $(PORTMIDI_LDD) 
 AM_CPPFLAGS = $(BINRELOC_CFLAGS)
 
 pathconfig.h:  $(top_builddir)/config.status
