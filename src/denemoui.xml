@@ -547,14 +547,18 @@
     <menuitem action="InsertTimeSig"/>
     <menuitem action="EditTimesigDirective"/>
   </popup>
-
-  <popup name="NoteEditPopup">
+  <popup name="TupletPopup">
+    <menuitem action="DeleteObject"/>
+  </popup>
+  <popup name="NoteEditPopupDirectives">
     <menu action="EditDirectivesMenu">
       <menuitem action="EditDirective"/>
       <menuitem action="DeleteDirective"/>
     </menu>
-
-    <menu action="ChangeNote">
+  </popup>
+  <popup name="NoteEditPopup">
+  <menu action="Ornaments"></menu>
+      <menu action="ChangeNote">
         <menuitem action="ChangeToA"/>
 	<menuitem action="ChangeToB"/>
 	<menuitem action="ChangeToC"/>
@@ -563,29 +567,26 @@
 	<menuitem action="ChangeToF"/>
 	<menuitem action="ChangeToG"/>
 	<menuitem action="Sharpen"/>
-	<menuitem action="Flatten"/>
-	
+	<menuitem action="Flatten"/>	
       </menu>
 
-	   <menu action="ChangeDuration">
-	      <menuitem action="Change0"/>
-	      <menuitem action="Change1"/>
-	      <menuitem action="Change2"/>
-	      <menuitem action="Change3"/>
-	      <menuitem action="Change4"/>
-	      <menuitem action="Change5"/>
-	      <menuitem action="Change6"/>
-	      <menuitem action="Change7"/>
-       	      <menuitem action="AddDot"/>
-	      <menuitem action="RemoveDot"/>
-           </menu>
+      <menu action="ChangeDuration">
+	<menuitem action="Change0"/>
+	<menuitem action="Change1"/>
+	<menuitem action="Change2"/>
+	<menuitem action="Change3"/>
+	<menuitem action="Change4"/>
+	<menuitem action="Change5"/>
+	<menuitem action="Change6"/>
+	<menuitem action="Change7"/>
+	<menuitem action="AddDot"/>
+	<menuitem action="RemoveDot"/>
+     </menu>
      <menu action="Slurs">
 	<menuitem action="ToggleBeginSlur"/>
 	<menuitem action="ToggleEndSlur"/>
     </menu>
-    <menuitem action="ToggleTie"/>
-
-
+      <menuitem action="ToggleTie"/>
   </popup>
 
 </ui>

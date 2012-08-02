@@ -43,7 +43,7 @@
    	 (d-DirectivePut-score-prefix "ScoreIndent" (string-append "\\layout {indent = " indent "}\n"))
   	(d-DirectivePut-score-override "ScoreIndent"	DENEMO_OVERRIDE_GRAPHIC)
  	 (d-DirectivePut-score-display "ScoreIndent" (string-append "indent=" indent))
-	 (d-RefreshDisplay))))
+	 (d-SetSaved #f))))
 </scheme>
         <label>Instrument Name</label>
         <tooltip>Print Instrument name before staff at start of score,</tooltip>
