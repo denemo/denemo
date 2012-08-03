@@ -31,6 +31,18 @@
 #include "view.h"
 #include "external.h"
 
+
+#ifdef G_OS_WIN32
+#define FILE_LOCKING 1
+#else
+#define FILE_LOCKING 0
+#endif
+
+
+#if FILE_LOCKING
+static gchar *printname="denemoprint";
+#endif
+
 #if GTK_MAJOR_VERSION==3
 typedef enum {
   GDK_RGB_DITHER_NONE,
@@ -66,6 +78,14 @@ static   GError *lily_err = NULL;
 
 static
 void print_finished(GPid pid, gint status, GList *filelist);
+
+#if FILE_LOCKING
+static void advance_printname() {
+static counter = 0;
+printname = g_strdup_printf("denemoprint%d", counter++);
+g_print("Printname this time %s\n", printname);
+}
+#endif
 
 /*** 
  * make sure lilypond is in the path defined in the preferences
@@ -210,7 +230,13 @@ check_lily_version (gchar *version)
 static gchar *get_printfile_pathbasename(void) {
   gchar *filename = NULL;
   if(filename==NULL)
-    filename = g_build_filename ( locateprintdir (), "denemoprint", NULL);
+    filename = g_build_filename ( locateprintdir (),
+#if FILE_LOCKING
+    printname,
+#else
+    "denemoprint",
+#endif
+     NULL);
   return filename;
 }       
 /* truncate epoint after 20 lines replacing the last three chars in that case with dots */
@@ -785,6 +811,9 @@ export_pdf (gchar * filename, DenemoGUI * gui)
 
 static void
 print_and_view(gchar **arguments) {
+#if FILE_LOCKING
+advance_printname();
+#endif
   run_lilypond(arguments);
   if(printpid!=GPID_NONE) {
     g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer, (gchar *) get_printfile_pathbasename());
@@ -798,6 +827,9 @@ static gboolean initialize_typesetting(void) {
   return call_out_to_guile("(InitializeTypesetting)");
 }
 void print_lily_cb (GtkWidget *item, DenemoGUI *gui){
+#if FILE_LOCKING
+advance_printname();
+#endif
   if(initialize_typesetting()) {
     g_warning("InitializeTypesetting failed\n");
     return;
@@ -1057,6 +1089,10 @@ printview_finished(GPid pid, gint status, gboolean print) {
 /* callback to print current part (staff) of score */
 void
 printpart_cb (GtkAction *action, gpointer param) {
+#if FILE_LOCKING
+advance_printname();
+#endif
+
   DenemoGUI *gui = Denemo.gui;
   if(gui->si->markstaffnum)
     if(confirm("A range of music is selected","Print whole file?")){
@@ -1073,6 +1109,9 @@ printpart_cb (GtkAction *action, gpointer param) {
 
 
 static gboolean typeset(gboolean force) {
+#if FILE_LOCKING
+advance_printname();
+#endif
 if((force) || (changecount!=Denemo.gui->changecount)) {
   if(initialize_typesetting()) {
       g_warning("InitializeTypesetting failed\n");
@@ -1089,6 +1128,9 @@ return FALSE;
 }
 
 static gboolean typeset_movement(gboolean force) {
+#if FILE_LOCKING
+advance_printname();
+#endif
 if((force) || (changecount!=Denemo.gui->changecount)) {
   if(initialize_typesetting()) {
       g_warning("InitializeTypesetting failed\n");
@@ -1124,6 +1166,9 @@ void refresh_print_view (void) {
 
 static
 void print_from_print_view(gboolean all_movements) {
+#if FILE_LOCKING
+advance_printname();
+#endif
   busy_cursor();
   if(all_movements?typeset(FALSE):typeset_movement(FALSE)) {
     g_child_watch_add(printpid, (GChildWatchFunc)printview_finished, (gpointer)(TRUE));
@@ -1335,16 +1380,25 @@ start_drag(GtkWidget *widget, gboolean *flag) {
   return TRUE;
 }
 static void create_all_pdf(void) {
+#if FILE_LOCKING
+advance_printname();
+#endif
 busy_cursor();
 create_pdf(FALSE, TRUE);
 g_child_watch_add(printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
 }
 static void create_movement_pdf(void) {
+#if FILE_LOCKING
+advance_printname();
+#endif
 busy_cursor();
 create_pdf(FALSE, FALSE);
 g_child_watch_add(printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
 }
 static void create_part_pdf(void) {
+#if FILE_LOCKING
+advance_printname();
+#endif
 busy_cursor();
 create_pdf(TRUE, TRUE);
 g_child_watch_add(printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
