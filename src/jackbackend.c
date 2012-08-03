@@ -1,3 +1,4 @@
+#ifdef _HAVE_JACK_
 /*
  * jackbackend.c
  * JACK audio and MIDI backends.
@@ -523,3 +524,5 @@ backend_t jack_midi_backend = {
   jack_midi_stop_playing,
   jack_midi_panic,
 };
+
+#endif //_HAVE_JACK_

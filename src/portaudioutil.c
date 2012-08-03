@@ -1,3 +1,4 @@
+#ifdef _HAVE_PORTAUDIO_
 /*
  * portaudioutil.c
  * PortAudio utility functions.
@@ -83,3 +84,4 @@ PaDeviceIndex get_portaudio_device_index(char const *name) {
 
   return index - 1;
 }
+#endif //_HAVE_PORTAUDIO_

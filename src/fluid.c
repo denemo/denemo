@@ -1,3 +1,4 @@
+#ifdef _HAVE_FLUIDSYNTH_
 /*
  * fluid.c
  * JACK audio and MIDI backends.
@@ -182,4 +183,4 @@ choose_sound_font (GtkWidget * widget, GtkWidget *fluidsynth_soundfont)
   gtk_widget_destroy (sf);
 }
 
-
+#endif //_HAVE_FLUIDSYNTH_

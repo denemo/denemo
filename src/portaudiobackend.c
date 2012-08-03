@@ -1,3 +1,4 @@
+#ifdef _HAVE_PORTAUDIO_
 /*
  * portaudiobackend.c
  * PortAudio backend.
@@ -220,4 +221,4 @@ backend_t portaudio_backend = {
   portaudio_stop_playing,
   portaudio_panic,
 };
-
+#endif //_HAVE_PORTAUDIO_

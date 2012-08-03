@@ -1,3 +1,4 @@
+#ifdef _HAVE_JACK_
 /*
  * jackutil.c
  * JACK utility functions.
@@ -59,3 +60,5 @@ void free_jack_ports(GList *list) {
 
   g_list_free(list);
 }
+
+#endif //_HAVE_JACK_

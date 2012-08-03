@@ -1,3 +1,4 @@
+#ifndef _HAVE_JACK_
 /*
   Copyright (C) 2000 Paul Davis
   Copyright (C) 2003 Rohan Drape
@@ -358,3 +359,4 @@ jack_ringbuffer_get_write_vector (const jack_ringbuffer_t * rb,
 		vec[1].len = 0;
 	}
 }
+#endif //_HAVE_JACK_

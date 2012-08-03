@@ -55,25 +55,12 @@ noinst_LIBRARIES = libaudiobackend.a
 libaudiobackend_a_SOURCES = audiointerface.c eventqueue.c dummybackend.c
 libaudiobackend_a_CFLAGS = -W -Wall -Wno-unused-parameter
 
-if HAVE_JACK
 libaudiobackend_a_SOURCES += jackbackend.c jackutil.c
-else
 libaudiobackend_a_SOURCES += ringbuffer.c
-endif
-
-if HAVE_PORTAUDIO
 libaudiobackend_a_SOURCES += portaudiobackend.c portaudioutil.c
-endif
-
 libaudiobackend_a_SOURCES += portmidibackend.c portmidiutil.c
-
-if HAVE_ALSA
 libaudiobackend_a_SOURCES += alsabackend.c
-endif
-
-if HAVE_FLUIDSYNTH
 libaudiobackend_a_SOURCES += fluid.c
-endif
 
 
 localedir = $(datadir)/locale

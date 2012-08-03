@@ -1,3 +1,4 @@
+#ifdef _HAVE_ALSA_
 /*
  * alsabackend.c
  * ALSA sequencer MIDI backend.
@@ -217,3 +218,4 @@ backend_t alsa_seq_midi_backend = {
   alsa_seq_stop_playing,
   alsa_seq_panic,
 };
+#endif //_HAVE_ALSA_
