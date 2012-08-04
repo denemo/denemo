@@ -7,15 +7,14 @@
       <row>
         <action>Tremolo</action>
         <scheme>;;;Tremolo
-
 (let ((command #f) (duration #f) (dur #f))
 (set! command (lambda ()
-		 (Help::TimedNotice "To use this function correctly you need to press a keyboard shortcut for a duration command\nThe duration will be used to divide the note at the cursor when printed.")))
+		 (d-WarningDialog "To use this function correctly you need to press a keyboard shortcut for a duration command\nThe duration will be used to divide the note at the cursor when printed.")))
 (if (d-Directive-chord? "Tremolo")
 	(d-DirectiveDelete-chord "Tremolo")
 	(begin 
 		(if (not DenemoKeypressActivatedCommand)
- 			(Help::Push (cons 'doublestroketemp "Press a shortcut key 3-7 for the duration into which the note at the cursor is to be divided")))
+ 			(d-WarningDialog "Dismiss this help box and then press a shortcut key 3-7 for the duration into which the note at the cursor is to be divided"))
    	  (set! duration (d-GetCommand))
           (set! dur #f)
    	  (cond
@@ -30,10 +29,7 @@
           		(d-DirectivePut-chord-display "Tremolo" "trem")
    			(d-DirectivePut-chord-postfix "Tremolo" dur))
 	 	 (command))
-	 	 (Help::Pop)
-(d-RefreshDisplay))))
- 
-</scheme>
+(d-RefreshDisplay))))</scheme>
         <label>Tremolo</label>
         <tooltip>Follow with a duration key for the subdivisions required: prints the note at the cursor with the tremolo marking.</tooltip>
       </row>
