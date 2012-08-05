@@ -3593,7 +3593,7 @@ typedef struct cb_scheme_and_id { char *scheme_code; gint id;} cb_scheme_and_id;
 static gboolean scheme_callback_one_shot_timer(cb_scheme_and_id *scheme){
     char *scheme_code = scheme->scheme_code;
     if(scheme->id == Denemo.gui->id)
-      scm_c_eval_string(scheme_code);
+      call_out_to_guile(scheme_code);
     else
      g_warning("Timer missed for gui %d\n", scheme->id);
     g_free(scheme);
@@ -3615,7 +3615,7 @@ static SCM scheme_one_shot_timer(SCM duration_amount, SCM callback) {
 static gboolean scheme_callback_timer(cb_scheme_and_id *scheme){
     char *scheme_code = scheme->scheme_code;
     if(scheme->id == Denemo.gui->id)
-      scm_c_eval_string(scheme_code);
+      call_out_to_guile(scheme_code);
     else
      g_warning("Timer missed for gui %d\n", scheme->id);
    
@@ -3625,25 +3625,29 @@ static gboolean scheme_callback_timer(cb_scheme_and_id *scheme){
 
 static SCM scheme_timer(SCM duration_amount, SCM callback) {
   char *scheme_code;
-  scheme_code = scm_to_locale_string(callback);  //FIXME check that type of callback is tring
-  gint duration = scm_num2int(duration_amount, 0, 0);
-  ;g_print("setting timer for %s after %d ms", scheme_code, duration);
-  cb_scheme_and_id *scheme = g_malloc(sizeof(cb_scheme_and_id));
-  scheme->scheme_code = scheme_code;
-  scheme->id = Denemo.gui->id;
-  g_timeout_add(duration, (GSourceFunc)scheme_callback_timer, (gpointer) scheme);
-  if(scheme_code) free(scheme_code);
-  return scm_int2num((gint)scheme);
+  if(scm_is_string(callback)) {
+    scheme_code = scm_to_locale_string(callback);  //FIXME check that type of callback is tring
+    gint duration = scm_num2int(duration_amount, 0, 0);
+    //g_print("setting timer for %s after %d ms", scheme_code, duration);
+    cb_scheme_and_id *scheme = g_malloc(sizeof(cb_scheme_and_id));
+    scheme->scheme_code = scheme_code;
+    scheme->id = Denemo.gui->id;
+    g_timeout_add(duration, (GSourceFunc)scheme_callback_timer, (gpointer) scheme);
+    //if(scheme_code) free(scheme_code);
+    return scm_int2num((gint)scheme);
+  } else
+  return SCM_BOOL_F;
 }
 
 static SCM scheme_kill_timer(SCM id) {
-  cb_scheme_and_id *scheme = (cb_scheme_and_id *)scm_num2int(id, 0, 0);
-  if(scheme) {
-    g_source_remove_by_user_data(scheme);//FIXME this timer leaks the memory of the scheme code and id
-    //g_print("Freeing %s\n", scheme->scheme_code);
-    free(scheme->scheme_code);
-    g_free(scheme);
-    return SCM_BOOL_T;
+  if(scm_is_integer(id)) {
+    cb_scheme_and_id *scheme = (cb_scheme_and_id *)scm_num2int(id, 0, 0);
+    if(scheme) {
+      g_source_remove_by_user_data(scheme);
+      free(scheme->scheme_code);
+      g_free(scheme);
+      return SCM_BOOL_T;
+    }
   }
   return SCM_BOOL_F;
 }
