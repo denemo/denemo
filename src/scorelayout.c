@@ -741,24 +741,24 @@ static void toggle_expand (GtkWidget *item, GtkWidget *expander) {
 
 static void page_break(GtkWidget *item,  GtkWidget *vbox) {
 	if(!clone_scoreblock_if_needed(vbox)) return;
-	GtkWidget *button = gtk_button_new_with_label("Page Break");
-	gtk_widget_set_tooltip_text (button,"This forces a new page, useful for avoiding page turns\n");
+	GtkWidget *button = gtk_button_new_with_label(_("Page Break"));
+	gtk_widget_set_tooltip_text (button,_("This forces a new page, useful for avoiding page turns\n"));
 	create_element(vbox, button, g_strdup("\\pageBreak\n"));
 	gtk_box_reorder_child(GTK_BOX(vbox), gtk_widget_get_parent(button), 0);
 	score_status(Denemo.gui, TRUE);
 }
 static void blank_page(GtkWidget *item,  GtkWidget *vbox) {
 	if(!clone_scoreblock_if_needed(vbox)) return;
-	GtkWidget *button = gtk_button_new_with_label("Blank Page");
-	gtk_widget_set_tooltip_text (button,"This prints a page intentionally left blank, useful for avoiding page turns\n");
+	GtkWidget *button = gtk_button_new_with_label(_("Blank Page"));
+	gtk_widget_set_tooltip_text (button,_("This prints a page intentionally left blank, useful for avoiding page turns\n"));
 	create_element(vbox, button, g_strdup("\\pageBreak\n\\markup \\italic \"This page is intentionally left blank\"\n\\pageBreak\n"));
 	gtk_box_reorder_child(GTK_BOX(vbox), gtk_widget_get_parent(button), 0);
 	score_status(Denemo.gui, TRUE);
 }
 static void custom_lilypond(GtkWidget *item,  GtkWidget *vbox) {
 	if(!clone_scoreblock_if_needed(vbox)) return;
-	GtkWidget *button = gtk_button_new_with_label("Lilypond");
-	gtk_widget_set_tooltip_text (button,"This lets you insert your own titles etc just for this layout.\nFor book titles use \\titledPiece \\markup \"myname\"\nSimple titles are not placed here, but appear in a header block at the end of the movement.\nFor other possible uses, see LilyPond manual.");
+	GtkWidget *button = gtk_button_new_with_label("LilyPond");
+	gtk_widget_set_tooltip_text (button,_("This lets you insert your own titles etc just for this layout.\nFor book titles use \\titledPiece \\markup \"myname\"\nSimple titles are not placed here, but appear in a header block at the end of the movement.\nFor other possible uses, see LilyPond manual."));
 	create_element(vbox, button, g_strdup("%Enter LilyPond syntax here\n"));
 	gtk_box_reorder_child(GTK_BOX(vbox), gtk_widget_get_parent(button), 0);
 	score_status(Denemo.gui, TRUE);
@@ -768,18 +768,18 @@ static GtkWidget *get_titles_menu(GtkWidget *vbox) {
 	GtkWidget *menu = gtk_menu_new();
 	GtkWidget *item;
 
-	item = gtk_menu_item_new_with_label("Create Page Break");
-	gtk_widget_set_tooltip_text (item,"This inserts a page break, useful for avoiding page turns\nMove it before the title!");
+	item = gtk_menu_item_new_with_label(_("Create Page Break"));
+	gtk_widget_set_tooltip_text (item,_("This inserts a page break, useful for avoiding page turns\nMove it before the title (using the up arrow) once created!"));
 	g_signal_connect(item, "activate", G_CALLBACK(page_break), vbox);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
-	item = gtk_menu_item_new_with_label("Create Blank Page");
-	gtk_widget_set_tooltip_text (item,"This inserts a page intentionally left blank, useful for avoiding page turns when printing on both sides of the paper");
+	item = gtk_menu_item_new_with_label(_("Create Blank Page"));
+	gtk_widget_set_tooltip_text (item,_("This inserts a page intentionally left blank, useful for avoiding page turns when printing on both sides of the paper"));
 	g_signal_connect(item, "activate", G_CALLBACK(blank_page), vbox);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
-	item = gtk_menu_item_new_with_label("Insert LilyPond");
-	gtk_widget_set_tooltip_text (item,"This lets you insert your own titles etc just for this layout.");
+	item = gtk_menu_item_new_with_label(_("Insert LilyPond"));
+	gtk_widget_set_tooltip_text (item,_(_("This creates a LilyPond comment which you can then edit to give titles etc for this movment, applying just to this layout.")));
 	g_signal_connect(item, "activate", G_CALLBACK(custom_lilypond), vbox);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
@@ -809,7 +809,7 @@ static popup_movement_titles_menu(GtkWidget *button) {
 	if(menuitem)
 		gtk_menu_popup (GTK_MENU(gtk_menu_item_get_submenu(GTK_MENU_ITEM(menuitem)) ), NULL, NULL, NULL, NULL, 0,  GDK_CURRENT_TIME);
 	else g_warning("No such menu path");
-	} else warningdialog("This button is for changing the score itself, it will not affect this custom layout");
+	} else warningdialog(_("This button is for changing the score itself, it will not affect this custom layout"));
 }
 
 /* installs movement titles, page breaks etc
