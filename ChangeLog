@@ -1,3 +1,22 @@
+2012-07-08 Release 0.9.6:
+
+  Tooltips
+    Tooltips now available on all the menus and menu items.
+    Control over delay before tooltips appear and tooltip browsing in preferences
+  Score Layouts - print a variety of score layouts without altering the score
+    In addition to the standard Full Score, Single Part, Reduced Score, you can now define score layouts to print just one section (e.g. the chorus, or the solo parts in score).
+    Blank Pages can be inserted specific to a score layout.
+    Lyrics can be positioned above and below the staff (for two parts to a staff)
+  Conditional Directives
+    Enabling the page turns to be defined separately for Full Score and Single Part layouts
+    Enabling parts which have identical first and second time bars to dispense with these when printing single part.
+    Enabling printing using different clef changes, or for transposing instruments without altering the score.
+  Translations
+    Commands, menu labels tooltips now all translatable.
+    Scheme scripts have their strings made available for translation, but these mostly need marking still.
+  Mouse User Option
+    For those who like clicking on the mouse, lots of user-friendly buttons for creating music scores.
+
 2012-03-06 Release 0.9.4:
 
     * Playback in real time
