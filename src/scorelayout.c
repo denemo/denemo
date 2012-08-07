@@ -595,6 +595,13 @@ static GtkWidget *create_voice_widget(DenemoStaff *staff, gchar *voicename, guin
 	add_lilypond(w, text, NULL);
 	gtk_box_pack_start(GTK_BOX (ret), w, FALSE, TRUE, 0);
 
+	GtkWidget *button = gtk_button_new_with_label(_("Substitute"));
+	gtk_widget_set_tooltip_text(button, _("Substitute the music of this staff with the music of another staff.\nFor example changing \\MvmntIVoiceI to \\MvmntIVoiceII will change the music from that of the first to the second staff. The editing affects only this layout."));
+	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(prefix_edit_callback), w);
+	gtk_box_pack_start(GTK_BOX (ret), button, FALSE, TRUE, 0);
+
+
+
 	return ret;
 	
 }
