@@ -392,10 +392,9 @@
 ;;;;;;;;;; SetHeaderField sets a field in the movement header
 ;;;;;;;;;; the directive created is tagged Score or Movement depending on the field
 
-(define* (SetHeaderField field #:optional (title #f))
+(define* (SetHeaderField field #:optional (title #f) (escape #t))
   (let ((current "") (thematch #f) (tag "") (type "") (fieldname ""))
-    (if 
-     (or (equal? field "subtitle") (equal? field "subsubtitle") (equal? field "piece"))
+    (if (or (equal? field "subtitle") (equal? field "subsubtitle") (equal? field "piece"))
      (begin
        (set! type "Movement")
        (if (equal? field "subtitle")
@@ -403,7 +402,7 @@
         (if (equal? field "subsubtitle")
 	   (set! fieldname "Subtitle"))
 	(if (equal? field "piece")
-	   (set! fieldname "Piece")) )
+	   (set! fieldname "Piece")))
      (begin
        (set! type "Score")
        (set! fieldname (string-capitalize field))))
@@ -419,23 +418,23 @@
 	  (if (regexp-match? thematch)
 	      (set! current (match:substring thematch 1)))))
     (if (not title)
-      (begin
 	(set! title (d-GetUserInput (string-append type " " fieldname)
-				    (string-append "Give a name for the " fieldname " of the " type) current))
-	(if title
-	  (begin
-	    (if (string-null? title)
+				    (string-append "Give a name for the " fieldname " of the " type) current)))
+    (if title
+      (begin
+	  (d-SetSaved #f)
+	  (if (string-null? title)
 	      (d-DirectiveDelete-header tag)
 	      (begin
-		(set! title (scheme-escape title ))
+		(if escape (set! title (scheme-escape title )))
 		(d-DirectivePut-header-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
 		(d-DirectivePut-header-display tag (string-append type " " fieldname ": " (html-escape title)))
 		(d-DirectivePut-header-postfix tag (string-append field " = \"" title "\"\n")))))
-	    (disp "Cancelled\n"))))))
+      (disp "Cancelled\n"))))
 
 ; SetScoreHeaderField sets a field in the score header
-(define (SetScoreHeaderField field)
-(let ((title "") (current "") (thematch #f) (tag ""))
+(define* (SetScoreHeaderField field  #:optional (title #f) (escape #t))
+(let ((current "") (thematch #f) (tag ""))
   (set! tag (string-append "Score" (string-capitalize field)))
   (set! current (d-DirectiveGet-scoreheader-postfix tag))
   (if (boolean? current)
@@ -446,11 +445,23 @@
 	;;(display thematch)
 	(if (regexp-match? thematch)
 	    (set! current (match:substring thematch 1)))))
-  (set! title (scheme-escape (d-GetUserInput (string-append "Score " field) 
-			      (string-append "Give a name for the " field " of the whole score") current)))
-  (d-DirectivePut-scoreheader-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
-  (d-DirectivePut-scoreheader-display tag (string-append field ": " title))
-  (d-DirectivePut-scoreheader-postfix tag (string-append field " = \"" title "\"\n"))))
+  (if (not title)
+    (begin 
+      (set! title  (d-GetUserInput (string-append "Score " field) 
+			      (string-append "Give a name for the " field " of the whole score") current))
+      (if title
+	(set! title (string-append "\"" title "\"")))))
+  (if title
+    (begin
+      (d-SetSaved #f)
+      (if (string-null? title)
+	      (d-DirectiveDelete-scoreheader tag)
+	      (begin
+		(if escape (set! title (scheme-escape title )))
+		(d-DirectivePut-scoreheader-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
+		(d-DirectivePut-scoreheader-display tag (string-append field ": " (html-escape title)))
+		(d-DirectivePut-scoreheader-postfix tag (string-append field " = " title "\n")))))
+	(disp "Cancelled\n"))))	
 
 (define (CreateButton tag label)
   (d-DirectivePut-score-override tag (logior DENEMO_OVERRIDE_MARKUP DENEMO_OVERRIDE_GRAPHIC))
