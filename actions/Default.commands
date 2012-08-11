@@ -6081,6 +6081,14 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <label>Choose Initial Voice</label>
         <tooltip>Choose which voice this staff will initially be set to. To change voice during music see the Directives-&gt;Voices menu.</tooltip>
       </row>
+      <row>
+        <action>IncipitFromSelection</action>
+        <after>BookCopyright</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles/Book Titles</menupath>
+        <label>Incipit from Selection</label>
+        <tooltip>Creates an incipit from the selection. This music will be printed on the title page. Only one voice is supported.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
