@@ -138,7 +138,6 @@ typedef struct chord
   gboolean is_grace;  /**< Flag to show whether note is a grace note */
   gboolean struck_through; /**< Flag for a struck through stem*/
   gint stemy;		/**< Stores the y position of the end of the stem */
-  GList *ornamentlist;
   gboolean is_highlighted; /**< If set true changes the notes color */
   GString *lyric; /**< Pointer to the lyrics applied to that chord */
   gboolean is_syllable; /**< Is the lyric a syllable? */

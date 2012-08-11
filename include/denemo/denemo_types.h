@@ -195,8 +195,7 @@ typedef enum  action_type {
 typedef struct 
 {
   DenemoObjType type; /**< The type of object pointed to by the gpointer object field below */
-  gchar *user_string;/**< Holds user's original text parsed to generated this 
-			object OBSOLETE */
+  gchar *lilypond;/**< Holds lilypond generated to represent this object, empty until typesetting is called and out of date if the object has been modified since typesetting */
   gint basic_durinticks; /**< Duration of object including dotting but not tuplet/grace note effects. */
   gint durinticks; /**< Duration of object where 384 (PPQN) is a quarter note, includes any tuplet/grace note effects */
   gint starttick; /**< When the object occurs */ 
