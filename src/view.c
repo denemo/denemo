@@ -2118,9 +2118,39 @@ SCM scheme_get_prevailing_clef(SCM optional) {
   else return SCM_BOOL_F;
 }
 
-
+SCM scheme_get_prevailing_clef_as_lilypond(SCM optional) {
+  clef *theclef = get_prevailing_context(CLEF);
+  const gchar *clefname = get_lilypond_for_clef(theclef);
+  if(clefname)
+    return scm_from_locale_string(clefname);
+  else return SCM_BOOL_F;
+}
+SCM scheme_get_prevailing_keysig_as_lilypond(SCM optional) {
+  keysig *thekey = get_prevailing_context(KEYSIG);
+  const gchar *keyname = get_lilypond_for_keysig(thekey);
+  if(keyname)
+    return scm_from_locale_string(keyname);
+  else return SCM_BOOL_F;
+}
+SCM scheme_get_prevailing_timesig_as_lilypond(SCM optional) {
+  timesig *thetime = get_prevailing_context(TIMESIG);
+  const gchar *timename = get_lilypond_for_timesig(thetime);
+  if(timename)
+    return scm_from_locale_string(timename);
+  else return SCM_BOOL_F;
+}
 SCM scheme_get_prevailing_duration(SCM optional) {
   return scm_int2num(get_prevailing_duration());
+}
+
+SCM scheme_get_prevailing_timesig(SCM optional) {
+  SCM ret = SCM_BOOL_F;
+  timesig *timesig = get_prevailing_context(TIMESIG);
+  //FIXME look at directives to see if it is overridden, e.g. drum clef
+  gchar *name = g_strdup_printf("%d/%d", timesig->time1, timesig->time2);
+  ret = scm_from_locale_string(name);
+  g_free(name);
+  return ret;
 }
 
 SCM scheme_get_prevailing_keysig(SCM optional) {
@@ -2149,6 +2179,8 @@ SCM scheme_set_prevailing_keysig(SCM keyaccs) {
   displayhelper (Denemo.gui);//score_status(Denemo.gui, TRUE);
   return SCM_BOOL_T;
 }
+
+
 
 SCM scheme_increment_keysig(SCM amount) {
   DenemoStaff *curstaff = Denemo.gui->si->currentstaff->data;
@@ -3833,6 +3865,21 @@ static SCM scheme_get_type (SCM optional) {
  return  scm_makfrom0str(DENEMO_OBJECT_TYPE_NAME(curObj));
 }
 
+static SCM scheme_get_lilypond (SCM optional) {
+ DenemoGUI *gui = Denemo.gui;
+ DenemoObject *curObj;
+ if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || !(DENEMO_OBJECT_TYPE_NAME(curObj)))
+   return SCM_BOOL_F;
+//g_print("Before %d %d\n", gui->lilysync, gui->changecount);
+   
+ if(gui->lilysync!=gui->changecount)
+    refresh_lily_cb(NULL, Denemo.gui);
+//g_print("After %d %d\n", gui->lilysync, gui->changecount);
+ if(curObj->lilypond)
+  return  scm_makfrom0str(curObj->lilypond);
+ return SCM_BOOL_F;
+}
+
 static SCM scheme_get_tuplet (SCM optional) {
  DenemoGUI *gui = Denemo.gui;
  DenemoObject *curObj;
@@ -4501,6 +4548,7 @@ static void create_scheme_identfiers(void) {
 
   INSTALL_SCM_FUNCTION ("Returns the directory holding the user's preferences",DENEMO_SCHEME_PREFIX"LocateDotDenemo", scheme_locate_dotdenemo);
   INSTALL_SCM_FUNCTION ("Returns the name of the type of object at the cursor",DENEMO_SCHEME_PREFIX"GetType",  scheme_get_type);
+  INSTALL_SCM_FUNCTION ("Returns the lilypond typesetting text for object at the cursor or #f if the object has not yet been typeset",DENEMO_SCHEME_PREFIX"GetLilyPond",  scheme_get_lilypond);
 
   INSTALL_SCM_FUNCTION ("Returns a string numerator/denominator for a tuplet open object or #f if cursor not on a tuplet open",DENEMO_SCHEME_PREFIX"GetTuplet",  scheme_get_tuplet);
   INSTALL_SCM_FUNCTION ("Set passed string as numerator/denominator for a tuplet open at cursor",DENEMO_SCHEME_PREFIX"SetTuplet",  scheme_set_tuplet);
@@ -4576,8 +4624,15 @@ static void create_scheme_identfiers(void) {
 
   INSTALL_SCM_FUNCTION ("Takes LilyPond note name string. Moves the cursor to the line or space",DENEMO_SCHEME_PREFIX"CursorToNote", scheme_cursor_to_note);
 
-  INSTALL_SCM_FUNCTION ("Returns the prevailing keysignature at the cursor",DENEMO_SCHEME_PREFIX"GetPrevailingKeysig", scheme_get_prevailing_keysig);
+  INSTALL_SCM_FUNCTION ("Returns the prevailing key signature at the cursor",DENEMO_SCHEME_PREFIX"GetPrevailingKeysig", scheme_get_prevailing_keysig);
+  INSTALL_SCM_FUNCTION ("Returns the prevailing time signature at the cursor",DENEMO_SCHEME_PREFIX"GetPrevailingTimesig", scheme_get_prevailing_timesig);
   INSTALL_SCM_FUNCTION ("Returns the prevailing clef at the cursor. Note that non-builtin clefs like drum are not handled yet.",DENEMO_SCHEME_PREFIX"GetPrevailingClef", scheme_get_prevailing_clef);
+
+  INSTALL_SCM_FUNCTION ("Returns the LilyPond typesetting syntax for prevailing clef at the cursor.",DENEMO_SCHEME_PREFIX"GetPrevailingClefAsLilyPond", scheme_get_prevailing_clef_as_lilypond);
+  INSTALL_SCM_FUNCTION ("Returns the LilyPond typesetting syntax for prevailing key signature at the cursor.",DENEMO_SCHEME_PREFIX"GetPrevailingKeysigAsLilyPond", scheme_get_prevailing_keysig_as_lilypond);
+  INSTALL_SCM_FUNCTION ("Returns the LilyPond typesetting syntax for prevailing time signature at the cursor.",DENEMO_SCHEME_PREFIX"GetPrevailingTimesigAsLilyPond", scheme_get_prevailing_timesig_as_lilypond);
+  
+  
   INSTALL_SCM_FUNCTION ("Returns the prevailing duration, ie duration which will be used for the next inserted note.",DENEMO_SCHEME_PREFIX"GetPrevailingDuration", scheme_get_prevailing_duration);
  
  //more work needed, see above INSTALL_SCM_FUNCTION ("Sets the prevailing keysignature at the cursor to the string of 7 steps passed. Each step can be -1, 0 or 1",DENEMO_SCHEME_PREFIX"SetPrevailingKeysig", scheme_set_prevailing_keysig);
