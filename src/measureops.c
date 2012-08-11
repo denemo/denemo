@@ -780,9 +780,4 @@ forceaccidentals (DenemoObject * theobj)
   ((chord *) theobj->object)->hasanacc = TRUE;
   set_accidental_positions (theobj);
   setpixelmin (theobj);
-  if (theobj->user_string)
-    {
-      g_free (theobj->user_string);
-      theobj->user_string = NULL;
-    }
 }

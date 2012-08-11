@@ -1614,11 +1614,7 @@ notechange (DenemoScore * si, gboolean remove)
 	ret = (gboolean)(intptr_t)addtone (curmudelaobj, si->cursor_y/* mid_c_offset*/,
 		 si->cursoraccs[si->staffletter_y]/* enshift */, si->cursorclef /*dclef*/);
 
-      if (curmudelaobj->user_string)
-	{
-	  g_free (curmudelaobj->user_string);
-	  curmudelaobj->user_string = NULL;
-	}
+      
       if(Denemo.gui->last_source==INPUTKEYBOARD) {
 	DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
 
@@ -1705,11 +1701,7 @@ incrementenshift (DenemoGUI * gui, gint direction)
 			    si->curmeasurekey, si->curmeasureaccs);
       find_xes_in_measure (si, si->currentmeasurenum, si->cursortime1,
 			   si->cursortime2);
-      if (curmudelaobj->user_string)
-	{
-	  g_free (curmudelaobj->user_string);
-	  curmudelaobj->user_string = NULL;
-	}
+      
       if(Denemo.gui->last_source==INPUTKEYBOARD) {
 	DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
 
@@ -1739,11 +1731,7 @@ setenshift (DenemoScore * si, gint enshift)
       store_for_undo_change (si, curmudelaobj);
 
       changeenshift (curmudelaobj, si->cursor_y, enshift);
-      if (curmudelaobj->user_string)
-	{
-	  g_free (curmudelaobj->user_string);
-	  curmudelaobj->user_string = NULL;
-	}
+      
 
       if(Denemo.gui->input_source==INPUTKEYBOARD) {
 	DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
@@ -1783,11 +1771,7 @@ change_stem_directive (DenemoScore * si, enum stemdirections amount)
 	  break;
 	}
 
-      if (curmudelaobj->user_string)
-	{
-	  g_free (curmudelaobj->user_string);
-	  curmudelaobj->user_string = NULL;
-	}
+      
 
     }
 }
@@ -1817,11 +1801,7 @@ changedots (DenemoScore * si, gint amount)
       }
       changenumdots (curmudelaobj, amount);
 
-      if (curmudelaobj->user_string)
-	{
-	  g_free (curmudelaobj->user_string);
-	  curmudelaobj->user_string = NULL;
-	}
+      
     }
 }
 
@@ -2433,11 +2413,7 @@ toggle_begin_slur (DenemoGUI *gui)
 
       ((chord *) curmudelaobj->object)->slur_begin_p
 	= !((chord *) curmudelaobj->object)->slur_begin_p;
-      if (curmudelaobj->user_string)
-	{
-	  g_free (curmudelaobj->user_string);
-	  curmudelaobj->user_string = NULL;
-	}
+      
 
     }
 }
@@ -2455,12 +2431,6 @@ caution (DenemoScore * si)
   forceaccidentals (curmudelaobj);
   find_xes_in_measure (si, si->currentmeasurenum, si->cursortime1,
 		       si->cursortime2);
-
-  if (curmudelaobj->user_string)
-    {
-      g_free (curmudelaobj->user_string);
-      curmudelaobj->user_string = NULL;
-    }
 }
 
 /**
@@ -2481,11 +2451,7 @@ toggle_end_slur (DenemoGUI *gui)
 
       ((chord *) curmudelaobj->object)->slur_end_p
 	= !((chord *) curmudelaobj->object)->slur_end_p;
-      if (curmudelaobj->user_string)
-	{
-	  g_free (curmudelaobj->user_string);
-	  curmudelaobj->user_string = NULL;
-	}
+      
 
     }
 }
@@ -2505,11 +2471,7 @@ toggle_start_crescendo (DenemoGUI * gui)
     {
       ((chord *) curmudelaobj->object)->crescendo_begin_p
 	= !((chord *) curmudelaobj->object)->crescendo_begin_p;
-      if (curmudelaobj->user_string)
-	{
-	  g_free (curmudelaobj->user_string);
-	  curmudelaobj->user_string = NULL;
-	}
+      
 
     }
 }
@@ -2529,11 +2491,7 @@ toggle_end_crescendo (DenemoGUI *gui)
     {
       ((chord *) curmudelaobj->object)->crescendo_end_p
 	= !((chord *) curmudelaobj->object)->crescendo_end_p;
-      if (curmudelaobj->user_string)
-	{
-	  g_free (curmudelaobj->user_string);
-	  curmudelaobj->user_string = NULL;
-	}
+      
 
     }
 }
@@ -2553,11 +2511,7 @@ toggle_start_diminuendo (DenemoGUI *gui)
     {
       ((chord *) curmudelaobj->object)->diminuendo_begin_p
 	= !((chord *) curmudelaobj->object)->diminuendo_begin_p;
-      if (curmudelaobj->user_string)
-	{
-	  g_free (curmudelaobj->user_string);
-	  curmudelaobj->user_string = NULL;
-	}
+      
 
     }
 }
@@ -2577,11 +2531,7 @@ toggle_end_diminuendo (DenemoGUI *gui)
     {
       ((chord *) curmudelaobj->object)->diminuendo_end_p
 	= !((chord *) curmudelaobj->object)->diminuendo_end_p;
-      if (curmudelaobj->user_string)
-	{
-	  g_free (curmudelaobj->user_string);
-	  curmudelaobj->user_string = NULL;
-	}
+      
 
     }
 }

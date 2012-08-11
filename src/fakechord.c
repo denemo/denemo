@@ -53,11 +53,6 @@ apply_fakechord (chord * ch, gchar * fig)
       chord *mych = (chord *) mud->object;
       GString *mygstr = (GString *) mych->fakechord;
       g_string_assign (mygstr, fig);	/* FIXME g_free(mygstr->str) first ? */
-      if (mud->user_string)
-	{
-	  g_free (mud->user_string);
-	  mud->user_string = NULL;
-	}
     }
 }
 

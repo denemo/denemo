@@ -1051,77 +1051,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   		    }
 
 
-		  /* Output all the decorations. */
 
-		  if ((thechord)->ornamentlist)//backward compatibility
-		    {
-		      GList *tmp;
-		      push_position();
-		      goto_movement_staff_obj (NULL, 1+g_list_index(gui->movements, si), 1+g_list_position(si->thescore, curStaff), 1+g_list_position(curStaffStruct->measures, curMeasure), 1+g_list_position(curMeasure->data, curObjNode));
-		      for (tmp = (thechord)->ornamentlist;
-			   tmp; tmp = tmp->next)
-			{
-			 
-			  if (*(enum ornament *) tmp->data == STACCATO)
-			    call_out_to_guile("(d-ToggleStaccato)");
-			  if (*(enum ornament *) tmp->data == D_ACCENT)
-			    call_out_to_guile("(d-Toggleaccent)");
-			  if (*(enum ornament *) tmp->data == FERMATA)
-			    call_out_to_guile("(d-Togglefermata)");
-			  if (*(enum ornament *) tmp->data == TENUTO)
-			    call_out_to_guile("(d-Toggletenuto)");
-			  if (*(enum ornament *) tmp->data == TRILL)
-			    call_out_to_guile("(d-ToggleTrill)");
-			  if (*(enum ornament *) tmp->data == TURN)
-			    call_out_to_guile("(d-Toggleturn)");
-			  if (*(enum ornament *) tmp->data == MORDENT)
-			    call_out_to_guile("(d-Togglemordent)");
-			  if (*(enum ornament *) tmp->data == STACCATISSIMO)
-			    call_out_to_guile("(d-Staccatissimo)");
-			  if (*(enum ornament *) tmp->data == MARCATO)
-			    call_out_to_guile("(d-Togglemarcato)");
-			  if (*(enum ornament *) tmp->data == UBOW)
-			    call_out_to_guile("(d-Toggleup-bow)");
-			  if (*(enum ornament *) tmp->data == DBOW)
-			    call_out_to_guile("(d-Toggledown-bow)");
-			  if (*(enum ornament *) tmp->data == RHEEL)
-			    call_out_to_guile("(d-Toggleright-heel)");
-			  if (*(enum ornament *) tmp->data == LHEEL)
-			    call_out_to_guile("(d-Toggleleft-heel)");
-			  if (*(enum ornament *) tmp->data == RTOE)
-			    call_out_to_guile("(d-Toggleright-toe)");
-			  if (*(enum ornament *) tmp->data == LTOE)
-			    call_out_to_guile("(d-Toggleleft-toe)");
-			  if (*(enum ornament *) tmp->data == CODA)
-			    call_out_to_guile("(d-Togglecoda)");
-			  if (*(enum ornament *) tmp->data == FLAGEOLET)
-			    call_out_to_guile("(d-Toggleflageolet)");
-			  if (*(enum ornament *) tmp->data == OPEN)
-			    call_out_to_guile("(d-Toggleopen)");
-			  if (*(enum ornament *) tmp->data == PRALLMORDENT)
-			    call_out_to_guile("(d-Toggleprallmordent)");
-			  if (*(enum ornament *) tmp->data == PRALLPRALL)
-			    call_out_to_guile("(d-Toggleprallprall)");
-			  if (*(enum ornament *) tmp->data == PRALL)
-			    call_out_to_guile("(d-Toggleprall)");
-			  if (*(enum ornament *) tmp->data == REVERSETURN)
-			    call_out_to_guile("(d-Togglereverseturn)");
-			  if (*(enum ornament *) tmp->data == SEGNO)
-			    call_out_to_guile("(d-Togglesegno)");
-			  if (*(enum ornament *) tmp->data == SFORZATO)
-			    call_out_to_guile("(d-Togglesforzato)");
-			  if (*(enum ornament *) tmp->data == STOPPED)
-			    call_out_to_guile("(d-Togglestopped)");
-			  if (*(enum ornament *) tmp->data == THUMB)
-			    call_out_to_guile("(d-Togglethumb)");
-			  if (*(enum ornament *) tmp->data == UPPRALL)
-			    call_out_to_guile("(d-Toggleupprall)");
-			  if (*(enum ornament *) tmp->data == D_ARPEGGIO)
-			    call_out_to_guile("(d-Togglearpeggio)");
-			}
-		      pop_position();
-		      (thechord)->ornamentlist = NULL;
-		    }
 		    /* Output the DenemoDirectives on the chord */
 		  if((thechord)->directives) {
 		    newDirectivesElem(objElem, ns,  (thechord)->directives, "directives");
