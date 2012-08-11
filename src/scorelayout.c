@@ -566,19 +566,19 @@ static GtkWidget *create_voice_widget(DenemoStaff *staff, gchar *voicename, guin
 	GtkWidget *button = gtk_button_new_with_label(_("Clef"));
 	gtk_widget_set_tooltip_text(button, _("Edit the LilyPond definition of the clef. The editing affects only this layout."));
 	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(prefix_edit_callback), button);
-	add_lilypond(button,  get_clef_string(staff), NULL);
+	add_lilypond(button,  get_lilypond_for_clef(&staff->clef), NULL);
 	gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
 	button = gtk_button_new_with_label(_("Key"));
 	gtk_widget_set_tooltip_text(button, _("Edit the LilyPond definition of the key signature. The editing affects only this layout."));
 	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(prefix_edit_callback), button);
-	add_lilypond(button,  get_key_sig_string(staff), NULL);
+	add_lilypond(button,  get_lilypond_for_keysig(&staff->keysig), NULL);
 	gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
 	button = gtk_button_new_with_label(_("Time"));
 	gtk_widget_set_tooltip_text(button, _("Edit the LilyPond definition of the time signature. The editing affects only this layout."));
 	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(prefix_edit_callback), button);
-	add_lilypond(button,  get_time_sig_string(staff), NULL);
+	add_lilypond(button,  get_lilypond_for_timesig(&staff->timesig), NULL);
 	gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
 	} else {//Make a matching expander so the music aligns with primary voice
 

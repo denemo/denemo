@@ -32,8 +32,8 @@ gboolean goto_lilypond_position(gint line, gint column);
 
 
 void set_initiate_scoreblock(DenemoScore *si, GString *scoreblock);
-gchar *get_clef_string(DenemoStaff *curstaffstruct);
-gchar *get_key_sig_string(DenemoStaff *curstaffstruct);
-gchar *get_time_sig_string(DenemoStaff *curstaffstruct);
+gchar *get_lilypond_for_clef(clef *theclef);
+gchar *get_lilypond_for_keysig(struct keysig *key);
+gchar *get_lilypond_for_timesig(timesig *time);
 gchar *get_lilypond_paper(void);
 #endif

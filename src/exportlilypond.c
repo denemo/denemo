@@ -466,7 +466,7 @@ output_figured_bass (DenemoScore * si, GString *figures, chord * pchord, gint ti
 	APPEND_DUR (figures, third_duration, 0);
       }
       break;
-    case 4:
+    case 4: 
       {
 	gint first_duration, second_duration, third_duration, fourth_duration;
 	if (numdots == 1)
@@ -659,12 +659,12 @@ output_fakechord (DenemoScore * si, GString *fakechord, chord * pchord)
  * DIRECTIVE: pointer to a target GString where changes should be stored,
  *            or NULL if editable text is to be allowed here (an editable space is inserted in this case)
  * ITER: the current iter in gui->textbuffer
- * INVISIBILITY: tag name to use for the insert (may be NULL)
+ 
  * GUI: the gui with the textbuffer
  * 
  */
 static void
-insert_editable (GString **pdirective, gchar *original, GtkTextIter *iter, gchar *invisibility, DenemoGUI *gui) {
+insert_editable (GString **pdirective, gchar *original, GtkTextIter *iter, DenemoGUI *gui, GString *staff_music) {
   GString *directive;
   if(pdirective) directive = *pdirective;
   GtkTextChildAnchor *lilyanc = gtk_text_buffer_create_child_anchor (gui->textbuffer, iter);
@@ -677,8 +677,8 @@ insert_editable (GString **pdirective, gchar *original, GtkTextIter *iter, gchar
   g_object_set_data(G_OBJECT(lilyanc), ORIGINAL, original);
 
   gui->anchors = g_list_prepend(gui->anchors, lilyanc);
-  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, g_strdup(original), -1, "bold", invisibility, NULL);
-
+  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, g_strdup(original), -1, "bold", NULL);
+  if(staff_music) g_string_append(staff_music, original);
   GtkTextChildAnchor *endanc  = gtk_text_buffer_create_child_anchor (gui->textbuffer, iter);
   back = *iter;
   (void)gtk_text_iter_backward_char(&back);
@@ -686,7 +686,7 @@ insert_editable (GString **pdirective, gchar *original, GtkTextIter *iter, gchar
   gtk_text_buffer_apply_tag_by_name(gui->textbuffer, "system_invisible", &back, iter);
   g_object_set_data(G_OBJECT(lilyanc), "end", (gpointer)endanc);
   if((*pdirective)==NULL || (*pdirective)->len==0)
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, " ", -1, HIGHLIGHT, invisibility, NULL);
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, " ", -1, HIGHLIGHT, NULL);
 }
 
 static gint
@@ -740,7 +740,7 @@ GET_AFFIX(postfix);
       
 
 #define DIRECTIVES_INSERT_EDITABLE_AFFIX(field) static void \
-directives_insert_##field##_editable (GList *directives, gint *popen_braces, gint *pprevduration, GtkTextIter *iter, gchar* invisibility, gboolean override) {\
+directives_insert_##field##_editable (GList *directives, gint *popen_braces, gint *pprevduration, GtkTextIter *iter, gboolean override, GString *staff_music) {\
   DenemoGUI *gui = Denemo.gui;\
   GList *g = directives;\
   for(;g;g=g->next) {\
@@ -752,7 +752,7 @@ directives_insert_##field##_editable (GList *directives, gint *popen_braces, gin
     if(directive->field && directive->field->len) {\
       if(pprevduration) *pprevduration = -1;		    \
       if(popen_braces) *popen_braces += brace_count(directive->field->str); \
-      insert_editable(&directive->field, directive->field->str, iter, invisibility, gui);\
+      insert_editable(&directive->field, directive->field->str, iter, gui, staff_music);\
     }\
   }\
 }
@@ -761,7 +761,7 @@ DIRECTIVES_INSERT_EDITABLE_AFFIX(prefix);
 DIRECTIVES_INSERT_EDITABLE_AFFIX(postfix);
 
 static void
-directives_insert_affix_postfix_editable (GList *directives, gint *popen_braces, gint *pprevduration, GtkTextIter *iter, gchar* invisibility) {
+directives_insert_affix_postfix_editable (GList *directives, gint *popen_braces, gint *pprevduration, GtkTextIter *iter, GString *staff_music) {
  DenemoGUI *gui = Denemo.gui;
   GList *g = directives;
   for(;g;g=g->next) {
@@ -773,7 +773,7 @@ directives_insert_affix_postfix_editable (GList *directives, gint *popen_braces,
     if(directive->postfix && directive->postfix->len) {
       if(pprevduration) *pprevduration = -1;		    
       if(popen_braces) *popen_braces += brace_count(directive->postfix->str); 
-      insert_editable(&directive->postfix, directive->postfix->str, iter, invisibility, gui);
+      insert_editable(&directive->postfix, directive->postfix->str, iter, gui, staff_music);
     }
   }
 }
@@ -793,18 +793,20 @@ static gint get_lily_override(GList *g) {
  * returns the excess of open braces "{" created by this object.
  */
 static gint
-generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, DenemoObject * curobj, 
-		       GtkTextChildAnchor *objanc,		       
+generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,		       
 		       gint * pprevduration, gint * pprevnumdots,
 		       gchar ** pclefname,
 		       gchar ** pkeyname, gint * pcur_stime1,
 		       gint * pcur_stime2, gint *pgrace_status, GString *figures, GString *fakechords)
 {
-  GString *ret = g_string_new ("");
-#define outputret gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, ret->str, -1, INEDITABLE, invisibility, NULL), \
+  GString *staff_music = g_string_new("");
+  GString *ret = g_string_new ("");//no longer returned, instead put into *music
+#define outputret gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, ret->str, -1, INEDITABLE, NULL), \
+    g_string_append(staff_music, ret->str);\
     open_braces +=  brace_count(ret->str), \
     g_string_assign(ret, "")
-#define output(astring) (gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, astring, -1, INEDITABLE, invisibility, NULL))
+#define output(astring) (gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, astring, -1, INEDITABLE, NULL));\
+			g_string_append(staff_music, astring);
   gint prevduration = *pprevduration;
   gint prevnumdots = *pprevnumdots;
   chord *pchord;
@@ -826,8 +828,8 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
   GString *dynamic_string = NULL;
 
 
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, " ", -1, INEDITABLE, HIGHLIGHT, invisibility, NULL);
-
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, " ", -1, INEDITABLE, HIGHLIGHT, NULL);
+    g_string_append(staff_music, " ");
     switch (curobj->type)
       {
       case CHORD: {
@@ -851,7 +853,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	
 	
 	/* prefix is before duration unless AFFIX override is set */
-	directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, invisibility, !lily_override);
+	directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, !lily_override, staff_music);
 	
 	if(!lily_override) { //all LilyPond is output for this chord
 	  if (!pchord->notes)
@@ -862,7 +864,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		  g_string_append_printf (ret, "r");
 		  /* Duplicated code follows. I ought to fix that */
 		  outputret;
-		  directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, invisibility, FALSE);
+		  directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, staff_music);
 		  if (duration != prevduration || numdots != prevnumdots || duration<0)
 		    {
 		      /* only in this case do we explicitly note the duration */
@@ -878,7 +880,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		{	/* non printing rest */
 		  g_string_append_printf (ret, "\\skip ");
 		  outputret;
-		  directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, invisibility, FALSE);
+		  directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, staff_music);
 		  if(duration>0)
 		    g_string_append_printf (ret, "%d", duration);
 		  prevduration = -1;
@@ -888,7 +890,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		}
 	      
 	      outputret;
-	      directives_insert_postfix_editable (pchord->directives, &open_braces, &prevduration, iter, invisibility, FALSE);
+	      directives_insert_postfix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, staff_music);
 	    } 
 	  else /* there are notes */
 	    {
@@ -914,7 +916,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 			DenemoDirective *directive = (DenemoDirective *)g->data;
 			if(directive->prefix ) {
 			  prevduration = -1;
-			  insert_editable(&directive->prefix, directive->prefix->len?directive->prefix->str:" ", iter, invisibility, gui);
+			  insert_editable(&directive->prefix, directive->prefix->len?directive->prefix->str:" ", iter, gui, staff_music);
 			}
 		      }
 		      
@@ -979,7 +981,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 			for(;g;g=g->next) {
 			  DenemoDirective *directive = (DenemoDirective *)g->data;
 			  if(directive->postfix && !(directive->override&DENEMO_OVERRIDE_HIDDEN)) {
-			    insert_editable(&directive->postfix, directive->postfix->len?directive->postfix->str:" ", iter, invisibility, gui);
+			    insert_editable(&directive->postfix, directive->postfix->len?directive->postfix->str:" ", iter, gui, staff_music);
 			    prevduration = -1;
 			  }	else
 			    if (notenode->next)
@@ -1002,7 +1004,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	      {
 		/* only in this case do we explicitly note the duration */
 		outputret;
-		directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, invisibility, FALSE);
+		directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, staff_music);
 		  if(duration>0)
 		    g_string_append_printf (ret, "%d", duration);
 		prevduration = duration;
@@ -1012,7 +1014,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		outputret;
 	      }
 
-	    directives_insert_postfix_editable (pchord->directives, &open_braces, &prevduration, iter, invisibility, FALSE);
+	    directives_insert_postfix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, staff_music);
 
 	    if (pchord->dynamics && (pchord->notes->next==NULL))
 	      {
@@ -1021,72 +1023,6 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		  g_string_append_printf (ret, "\\%s", dynamic_string->str);
 		else
 		  g_string_append_printf (ret, "\\%s ", dynamic_string->str);
-	      }
-
-	    for (tmpornament = pchord->ornamentlist; tmpornament;
-		 tmpornament = tmpornament->next)
-	      {
-		//g_print ("in tmpornament\n");
-		if (*(enum ornament *) tmpornament->data ==
-		    (enum ornament) STACCATO)
-		  g_string_append_printf (ret, " \\staccato");
-		if (*(enum ornament *) tmpornament->data ==
-		    (enum ornament) TENUTO)
-		  g_string_append_printf (ret, " \\tenuto");
-		if (*(enum ornament *) tmpornament->data ==
-		    (enum ornament) D_ACCENT)
-		  g_string_append_printf (ret, " \\accent");
-		if (*(enum ornament *) tmpornament->data ==
-		    (enum ornament) FERMATA)
-		  g_string_append_printf (ret, " \\fermata");
-		if (*(enum ornament *) tmpornament->data ==
-		    (enum ornament) TRILL)
-		  g_string_append_printf (ret, " \\trill");
-		if (*(enum ornament *) tmpornament->data ==
-		    (enum ornament) TURN)
-		  g_string_append_printf (ret, " \\turn");
-		if (*(enum ornament *) tmpornament->data ==
-		    (enum ornament) MORDENT)
-		  g_string_append_printf (ret, " \\mordent");
-		if (*(enum ornament *) tmpornament->data ==
-		    (enum ornament) STACCATISSIMO)
-		  g_string_append_printf (ret, " \\staccatissimo");
-		if (*(enum ornament *) tmpornament->data ==
-		    (enum ornament) CODA)
-		  g_string_append_printf (ret, " \\coda");
-		if (*(enum ornament *) tmpornament->data ==
-		    (enum ornament) FLAGEOLET)
-		  g_string_append_printf (ret, " \\flageolet");
-		if (*(enum ornament *) tmpornament->data ==
-		    (enum ornament) OPEN)
-		  g_string_append_printf (ret, " \\open");
-		if (*(enum ornament *) tmpornament->data ==
-		    (enum ornament) PRALLMORDENT)
-		  g_string_append_printf (ret, " \\prallmordent");
-		if (*(enum ornament *) tmpornament->data ==
-		    (enum ornament) PRALLPRALL)
-		  g_string_append_printf (ret, " \\prallprall");
-		if (*(enum ornament *) tmpornament->data ==
-		    (enum ornament) PRALL)
-		  g_string_append_printf (ret, " \\prall");
-		if (*(enum ornament *) tmpornament->data ==
-		    (enum ornament) REVERSETURN)
-		  g_string_append_printf (ret, " \\reverseturn");
-		if (*(enum ornament *) tmpornament->data ==
-		    (enum ornament) SEGNO)
-		  g_string_append_printf (ret, " \\segno");
-		if (*(enum ornament *) tmpornament->data ==
-		    (enum ornament) STOPPED)
-		  g_string_append_printf (ret, " \\stopped");
-		if (*(enum ornament *) tmpornament->data ==
-		    (enum ornament) THUMB)
-		  g_string_append_printf (ret, " \\thumb");
-		if (*(enum ornament *) tmpornament->data ==
-		    (enum ornament) UPPRALL)
-		  g_string_append_printf (ret, " \\upprall");
-		if (*(enum ornament *) tmpornament->data ==
-		    (enum ornament) D_ARPEGGIO)
-		  g_string_append_printf (ret, " \\arpeggio");
 	      }
 
 
@@ -1111,7 +1047,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	    /* do this in caller                    g_string_append_printf (ret, " "); */
 	  } /* End of else chord with note(s) */
 //now output the postfix field of directives that have AFFIX set, which are not emitted 
-	directives_insert_affix_postfix_editable (pchord->directives, &open_braces, &prevduration, iter, invisibility);
+	directives_insert_affix_postfix_editable (pchord->directives, &open_braces, &prevduration, iter, staff_music);
 	  
       } /* End of outputting LilyPond for this chord because of LILYPOND_OVERRIDE not set in a chord directive*/
 	else {
@@ -1121,7 +1057,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	  if(directive->postfix && directive->postfix->len  && !(directive->override&DENEMO_OVERRIDE_HIDDEN)) {
 	    prevduration = -1;
 	    open_braces += brace_count(directive->postfix->str);
-	    insert_editable(&directive->postfix, directive->postfix->str, iter, invisibility, gui);
+	    insert_editable(&directive->postfix, directive->postfix->str, iter, gui, staff_music);
 	  }
 	}
       }
@@ -1357,6 +1293,8 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 
     outputret;
 
+    g_free(curobj->lilypond);
+    curobj->lilypond = g_string_free(staff_music, FALSE);
     *pprevduration = prevduration;
     *pprevnumdots = prevnumdots;
 
@@ -1412,7 +1350,6 @@ static gchar *get_text(DenemoGUI *gui, GtkTextChildAnchor *anchor) {
   GtkTextChildAnchor *endanc = g_object_get_data(G_OBJECT(anchor), "end");
   gtk_text_buffer_get_iter_at_child_anchor(gui->textbuffer, &end, endanc);
   return gtk_text_buffer_get_text (gui->textbuffer, &start, &end, FALSE/* get only visible text */);
-  // return gtk_text_buffer_get_text (gui->textbuffer, &start, &end, TRUE/* ignore invisibility*/);
 }
 
 /**
@@ -1468,8 +1405,7 @@ gchar *get_lilypond_paper(void) {
 return g_string_free(str, FALSE);
 }
 
-static void do_time_sig(GString *definitions, DenemoStaff *curstaffstruct, gchar *movement, gchar *voice)
-    {
+static void do_time_sig(GString *definitions, DenemoStaff *curstaffstruct, gchar *movement, gchar *voice) {
       gboolean override = get_lily_override(curstaffstruct->timesig.directives);
       gchar *timesig_string = get_postfix(curstaffstruct->timesig.directives);
       gchar *time_prefix = get_prefix(curstaffstruct->timesig.directives);
@@ -1481,17 +1417,17 @@ static void do_time_sig(GString *definitions, DenemoStaff *curstaffstruct, gchar
 
       g_free(timesig_string);
       g_free(time_prefix);
-      }
+}
 
-gchar *get_time_sig_string(DenemoStaff *curstaffstruct) {
- gboolean override = get_lily_override(curstaffstruct->timesig.directives);
-      gchar *timesig_string = get_postfix(curstaffstruct->timesig.directives);
-      gchar *time_prefix = get_prefix(curstaffstruct->timesig.directives);
+gchar *get_lilypond_for_timesig(timesig *time) {
+ gboolean override = get_lily_override(time->directives);
+      gchar *timesig_string = get_postfix(time->directives);
+      gchar *time_prefix = get_prefix(time->directives);
       if(override)
 	return  timesig_string;
      
-      gchar *ret = g_strdup_printf("{%s \\time %d/%d %s}\n", time_prefix, curstaffstruct->timesig.time1,
-			       curstaffstruct->timesig.time2, timesig_string);
+      gchar *ret = g_strdup_printf("{%s \\time %d/%d %s}\n", time_prefix, time->time1,
+			       time->time2, timesig_string);
       g_free(timesig_string);
       g_free(time_prefix);
       return ret;
@@ -1519,16 +1455,16 @@ static void do_key_sig(GString *definitions, DenemoStaff *curstaffstruct, gchar 
       g_free(key_prefix);
     }
 
-gchar *get_key_sig_string(DenemoStaff *curstaffstruct) {
+gchar *get_lilypond_for_keysig(struct keysig *key) {
     gchar *keyname;
-    gboolean override = get_lily_override(curstaffstruct->keysig.directives);
-    gchar *keysig_string = get_postfix(curstaffstruct->keysig.directives);
-    gchar *key_prefix = get_prefix(curstaffstruct->keysig.directives);
+    gboolean override = get_lily_override(key->directives);
+    gchar *keysig_string = get_postfix(key->directives);
+    gchar *key_prefix = get_prefix(key->directives);
     if(override)
       return  keysig_string;
-    determinekey (curstaffstruct->keysig.isminor ?
-		      curstaffstruct->keysig.number + 3 : curstaffstruct->keysig.number, &keyname);
-    gchar * ret = g_strdup_printf("{%s \\key %s%s\n%s", key_prefix, keyname, (curstaffstruct->keysig.isminor)?" \\minor}":" \\major}", keysig_string);
+    determinekey (key->isminor ?
+		      key->number + 3 : key->number, &keyname);
+    gchar * ret = g_strdup_printf("{%s \\key %s%s\n%s", key_prefix, keyname, (key->isminor)?" \\minor}":" \\major}", keysig_string);
     g_free(keysig_string);
     g_free(key_prefix);
     return ret;
@@ -1549,12 +1485,12 @@ void do_clef(GString *definitions, DenemoStaff *curstaffstruct, gchar *movement,
     g_free(clef_prefix);
 }
 
-gchar *get_clef_string(DenemoStaff *curstaffstruct) {
+gchar *get_lilypond_for_clef(clef *theclef) {
     gchar *clefname;
-    determineclef (curstaffstruct->clef.type, &clefname);
-    gboolean clef_override = get_lily_override(curstaffstruct->clef.directives);
-    gchar *clef_postfix_insert = get_postfix(curstaffstruct->clef.directives);
-    gchar *clef_prefix = get_prefix(curstaffstruct->clef.directives);
+    determineclef (theclef->type, &clefname);
+    gboolean clef_override = get_lily_override(theclef->directives);
+    gchar *clef_postfix_insert = get_postfix(theclef->directives);
+    gchar *clef_prefix = get_prefix(theclef->directives);
     if(clef_override)
       return clef_postfix_insert;
     gchar *ret =
@@ -1591,7 +1527,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   gint measurenum; //count of measures from start of staff starting at 1
   gint objnum;//count of objects in measure starting at 1
   gint open_braces;//Keep track of the number of open brace "{" chars in the music, in case of imbalance.
-  GString *str = g_string_new("");
+  GString *staff_str = g_string_new("");//Bits of the music of the staff are accumulated here and then stored in the lilypond view buffer
   GList * lyrics = NULL;
   GString * figures = g_string_new("");
   GString * fakechords = g_string_new("");
@@ -1601,7 +1537,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   GtkTextIter iter;
   GtkTextMark *curmark;/* movable mark for insertion point of the music of the staff */
   /* a button and mark for the music of this staff */
-  gchar *invisibility =  NULL;//((movement_count>0) && (voice_count>0))?NULL:"invisible";/* tag to control visibility */
+  
 
   GString *voice_name = g_string_new(movement);
   g_string_prepend(voice_name, "Notes for ");
@@ -1656,22 +1592,15 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   
   determineclef (curstaffstruct->clef.type, &clefname);
   
-#if 0
-//This is the old meaning of voice-prefix without overrides. This could befome AFFIX override, if it is needed. Also we should put the voice postfix at the end
-    gchar *voice_prefix = get_prefix(curstaffstruct->voice_directives);
-    g_string_append_printf(str, "%s%s = %s {\n",
-			   movement, voice, voice_prefix);    
-    g_free(voice_prefix);
-#else
-    g_string_append_printf(str, "%s%s = {\n",
+
+  g_string_append_printf(staff_str, "%s%s = {\n",
 			   movement, voice);
-#endif
+
     gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
-    //insert_editable(&curstaffstruct->staff_prolog, str->str, &iter,  invisibility, gui);
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, str->str, -1, INEDITABLE, invisibility, NULL);
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, staff_str->str, -1, INEDITABLE, NULL);
   } /*end standard staff-prolog */
 
-  g_string_assign(str,"");
+  g_string_assign(staff_str,"");
  
   curmeasurenum = 0;
   curmeasure = curstaffstruct->measures;
@@ -1690,20 +1619,20 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
       gboolean is_syllable = FALSE;
       gboolean center_lyric = FALSE;
       if ((++curmeasurenum % 5) == 0) {
-	g_string_append_printf(str, "%%%d\n", curmeasurenum);
+	g_string_append_printf(staff_str, "%%%d\n", curmeasurenum);
 	if(figures->len)
 	  g_string_append_printf(figures, "\n%%%d\n", curmeasurenum);
 	if(fakechords->len)
 	  g_string_append_printf(fakechords, "\n%%%d\n", curmeasurenum);
       }
-      g_string_append_printf(str,  "%s",TAB);
+      g_string_append_printf(staff_str,  "%s",TAB);
       gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, str->str, -1, INEDITABLE, invisibility, NULL);
-      g_string_assign(str,"");
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, staff_str->str, -1, INEDITABLE, NULL);
+      g_string_assign(staff_str,"");
       gint firstobj=1, lastobj= G_MAXINT;
       if(start && gui->si->markstaffnum) {//markstaffnum==0 means not set
 	firstobj = 1+MIN( gui->si->selection.firstobjmarked, gui->si->selection.lastobjmarked);
-	lastobj =  MAX( gui->si->selection.firstobjmarked, gui->si->selection.lastobjmarked);
+	lastobj =  1+MAX( gui->si->selection.firstobjmarked, gui->si->selection.lastobjmarked);
       }
       //g_print("First last, %d %d %d\n", firstobj, lastobj, start);
       for (objnum=1, curobjnode = (objnode *) curmeasure->data;/* curobjnode NULL checked at end */;
@@ -1739,7 +1668,9 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	  gtk_text_buffer_apply_tag_by_name(gui->textbuffer, INEDITABLE, &back, &iter);\
 	  gtk_text_buffer_apply_tag_by_name(gui->textbuffer, "system_invisible", &back, &iter);\
     open_braces += brace_count( ((lilydirective *) curobj->object)->what->str);\
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter,  ((lilydirective *) curobj->object)->what->str, -1, "bold", invisibility, NULL); \
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter,  ((lilydirective *) curobj->object)->what->str, -1, "bold", NULL); \
+    g_free(curobj->lilypond);\
+    curobj->lilypond = g_strdup(((lilydirective *) curobj->object)->what->str);\
     GtkTextChildAnchor *endanc  = gtk_text_buffer_create_child_anchor (gui->textbuffer, &iter);\
     back = iter;\
     (void)gtk_text_iter_backward_char(&back);\
@@ -1752,7 +1683,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 
 
  OUTPUT_LILY(prefix);
- gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, " ", -1, INEDITABLE, HIGHLIGHT, invisibility, NULL);
+ gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, " ", -1, INEDITABLE, HIGHLIGHT, NULL);
  OUTPUT_LILY(postfix);
 
 #undef OUTPUT_LILY
@@ -1777,7 +1708,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	  gtk_text_buffer_apply_tag_by_name(gui->textbuffer, INEDITABLE, &back, &iter);
 	  gtk_text_buffer_apply_tag_by_name(gui->textbuffer, "system_invisible", &back, &iter);
 
-	  open_braces += generate_lily_for_obj (gui, &iter, invisibility, curobj, objanc, 
+	  open_braces += generate_lily_for_obj (gui, &iter, curobj,  
 				 &prevduration, &prevnumdots, &clefname,
 				 &keyname,
 						&cur_stime1, &cur_stime2, &grace_status, figures, fakechords);
@@ -1796,7 +1727,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	      {
 		g_string_append_printf(endstr, " s1*%d/%d ", cur_stime1, cur_stime2);
 		gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
-		gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, endstr->str, -1,invisibility,NULL);
+		gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, endstr->str, -1, NULL);
 		g_string_assign(endstr,"");
 		prevduration = -1;
 	      }
@@ -1814,8 +1745,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	    }
 	    
 	    gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
-	    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, endstr->str, -1, INEDITABLE, invisibility,NULL);
-	    //g_string_assign(endstr,"");
+	    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, endstr->str, -1, INEDITABLE, NULL);
 	  }   //if end of measure
 
 	  if(curobjnode) {
@@ -1846,43 +1776,19 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     } /* for each measure */
   
      
-  for(;open_braces>0;open_braces--)
-    g_string_append_printf(str, "%s","\n} %% missing close brace\n");
-
-  // str is empty again now FIXME
-  g_string_append_printf(str, "%s", "}\n");
+  for(;open_braces>0;open_braces--) {
+    g_string_append_printf(staff_str, "%s","\n} %% missing close brace\n");
+  }
+  g_string_append_printf(staff_str, "%s", "}\n");
   gint voice_override = get_lily_override(curstaffstruct->voice_directives);
   gchar *voice_prolog_insert = get_postfix(curstaffstruct->voice_directives);
-#if 0
 
-  if(invisibility==NULL) {
-    g_string_append_printf(definitions, "%s%sMusic =  {\\%s%sProlog \\%s%s}\n",
-			   movement, voice, movement, voice, movement, voice);
-    
-    if(voice_override) 
-      g_string_append_printf(definitions, "%s%sContext = %s {\\%s%sMusic}\n",
-			     movement, voice,   voice_prolog_insert, movement, voice);
-    else
-#if 0
-      g_string_append_printf(definitions, "%s%sContext = \\context Voice = %s%s %s {\\%s%sMusic}\n",
-			     movement, voice,  voice, movement, voice_prolog_insert, movement, voice);
-#else
-//voice_prolog_insert is going in scoreblock
-      g_string_append_printf(definitions, "%s%sContext = \\context Voice = %s%s {\\%s%sMusic}\n",
-			     movement, voice,  voice, movement, movement, voice);
-
-#endif
-
-			     
-  }
-
-#endif
 
 
   g_free(voice_prolog_insert);
   gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
   
-  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, str->str, -1, INEDITABLE, invisibility,NULL);
+  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, staff_str->str, -1, INEDITABLE, NULL);
   
 
   if (lyrics)
@@ -1898,7 +1804,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	g_string_printf(temp, "%s%sLyrics%s = \\lyricmode { \n", movement,
 			voice, versename->str);
 	g_string_append_printf(temp, "%s \n}\n", (char *)g->data);
-	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, invisibility,NULL);
+	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, NULL);
 	g_string_free(temp, TRUE);
 	g_string_free(versename, TRUE);
 	g_free(g->data);
@@ -1911,19 +1817,17 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
       GString *temp = g_string_new("");
       gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, figures_name->str));
       /* output figures prolog */
-      //      if(curstaffstruct->figures_prolog && curstaffstruct->figures_prolog->len) {
-      //	insert_editable(&curstaffstruct->figures_prolog, curstaffstruct->figures_prolog->str, &iter, invisibility, gui);
-      //} else {
+
 	g_string_printf(temp,  "%s%sBassFiguresLine = \\figuremode {\n"
 			"\\set figuredBassAlterationDirection = #1\n"
 			"\\set figuredBassPlusDirection = #1\n"
 			"\\override FiguredBass.BassFigure "
 			"#'font-size = #-1\n",movement, voice);
-	//insert_editable(&curstaffstruct->figures_prolog, temp->str, &iter,  invisibility, gui);
-	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, invisibility, NULL);
-	//}
+	
+	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, NULL);
+	
       g_string_printf(temp, "%s \n}\n", figures->str);
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, invisibility,NULL);
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, NULL);
       g_string_free(temp, TRUE);
     }
   g_string_free(figures_name, TRUE);
@@ -1933,20 +1837,18 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
       GString *temp = g_string_new("");
       gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, fakechords_name->str));
       /* output fakechords prolog */
-      // if(curstaffstruct->fakechords_prolog && curstaffstruct->fakechords_prolog->len) {
-      //insert_editable(&curstaffstruct->fakechords_prolog, curstaffstruct->fakechords_prolog->str, &iter, invisibility, gui);
-      // } else {
+      
 	g_string_append_printf(temp, "%s%sChords = \\new ChordNames \\chordmode {\n", movement, voice);
-	//insert_editable(&curstaffstruct->fakechords_prolog, temp->str, &iter,  invisibility, gui);
-	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, invisibility, NULL);
-	// }
+	
+	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, NULL);
+	
       g_string_printf(temp, "%s \n}\n"/* another definition here */, fakechords->str);
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, invisibility,NULL);
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, NULL);
       g_string_free(temp, TRUE);
     }
   g_string_free(fakechords_name, TRUE);
 
-  g_string_free(str, TRUE);
+  g_string_free(staff_str, TRUE);
   //g_string_free(lyrics, TRUE);
   g_string_free(figures, TRUE);
   g_string_free(fakechords, TRUE);
@@ -2170,8 +2072,7 @@ void set_voice_termination(GString *str, DenemoStaff *curstaffstruct){
  */
 
 
-static void
-output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname)
+static void output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname)
 {
 
   GString *definitions = g_string_new("");
@@ -2266,7 +2167,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
   for(;g;g=g->next) {
     DenemoDirective *directive = g->data;
     if(directive->prefix && (directive->override&(DENEMO_OVERRIDE_AFFIX))) //This used to be (mistakenly) DENEMO_ALT_OVERRIDE
-      insert_editable(&directive->prefix, directive->prefix->str, &iter, NULL, gui);
+      insert_editable(&directive->prefix, directive->prefix->str, &iter, gui, NULL);
     //insert_section(&directive->prefix, directive->tag->str, NULL, &iter, gui);
   }
   }
@@ -2329,17 +2230,11 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	  end = gui->si->selection.lastmeasuremarked;
 	} 
 	outputStaff (gui, si, curstaffstruct, start, end, movement_name->str, voice_name->str, movement_count*visible_movement, voice_count*visible_part, definitions, sb);
+	//g_print("Music for staff is \n%s\n", visible_part>0?"visible":"NOT visible");
+	
 	//FIXME amalgamate movement and voice names below here...
 	/* output score block */
-	if(visible_movement==1 && (visible_part==1)) {
-	  GString *thestr = g_string_new("");
-	  gchar *staff_alt_prolog =  get_overridden_prefix(curstaffstruct->staff_directives, TRUE);
-	  gchar *staff_alt_epilog =  get_overridden_postfix(curstaffstruct->staff_directives, TRUE);
-
-	  if(curstaffstruct->voicecontrol == DENEMO_PRIMARY) {
-	    g_string_append_printf(thestr, "%s\\%s%s\n", staff_alt_prolog, movement_name->str, staff_name->str);
-	  }
-	  
+	if(visible_movement==1 && (visible_part==1)) {	  
 	  if (!(curstaffstruct->voicecontrol & DENEMO_SECONDARY))
 	    {
 	      if (curstaffstruct->verses)
@@ -2394,7 +2289,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	      }
 	     // g_string_append_printf(staffdefinitions,"}%s", endofblock);
 	  }
-	  g_string_free(thestr, TRUE);
+//	  g_string_free(thestr, TRUE);
 	}
       }/*end for staff loop */  
 
@@ -2778,9 +2673,6 @@ static void create_lilywindow(DenemoGUI *gui) {
 
   /*   g_object_set_data(G_OBJECT (SIGNAL_WIDGET),"enter-signal", (gpointer)id); */
   GtkTextTag *t;
-  t = gtk_text_tag_new("invisible");
-  //g_object_set(G_OBJECT(t),  "invisible", TRUE, NULL); //this invisibility lead to errors in location going from the LilyPond output back to the buffer, it was intended only to make the text more legible by hiding non-printing parts of the score. So this is now an unused tag.
-  gtk_text_tag_table_add (tagtable, t);
 
   t = gtk_text_tag_new("system_invisible");
   g_object_set(G_OBJECT(t),  "invisible", TRUE, NULL);
