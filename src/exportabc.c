@@ -229,24 +229,7 @@ printchord (FILE * fp, chord * chordptr, gint octaveshift, gint defaultlength)
 
       if (chordptr->slur_begin_p)
 	fprintf (fp, "(");
-      for (tmp = chordptr->ornamentlist; tmp; tmp = tmp->next)
-	{
-	  if (*(enum ornament *) tmp->data == (enum ornament) STACCATO)
-	    fprintf (fp, ".");
-	  if (*(enum ornament *) tmp->data == (enum ornament) D_ACCENT)
-	    fprintf (fp, "k");	/* FIXME: nonstandard */
-	  if (*(enum ornament *) tmp->data == (enum ornament) FERMATA)
-	    fprintf (fp, "H");	/* FIXME: nonstandard */
-	  if (*(enum ornament *) tmp->data == (enum ornament) TENUTO)
-	    fprintf (fp, "M");	/* FIXME: nonstandard */
-	  if (*(enum ornament *) tmp->data == (enum ornament) TRILL)
-	    fprintf (fp, "T");	/* FIXME: somewhat nonstandard */
-	  /* FIXME: I believe turns are not supported in ABC at the moment. */
-	  if (*(enum ornament *) tmp->data == (enum ornament) MORDENT)
-	    fprintf (fp, "~");
-	  if (*(enum ornament *) tmp->data == (enum ornament) STACCATISSIMO)
-	    fprintf (fp, "K");	/* FIXME: nonstandard */
-	}
+
       if (ischord)
 	fprintf (fp, "[");
 

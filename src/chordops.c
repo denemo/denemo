@@ -150,7 +150,6 @@ newchord (gint baseduration, gint numdots, int tied)
   newchord->center_lyric = FALSE;
   newchord->lyric = NULL;
   newchord->figure = NULL;
-  newchord->ornamentlist = NULL;
   thechord->object = newchord;
 
   set_basic_numticks (thechord);
@@ -179,18 +178,7 @@ hidechord (DenemoObject * thechord)
   return thechord;
 }
 
-/**
- * adds an ornament to the given note
- * @param obj the DenemoObject to add the ornament to.
- * @param orn the ornament type to add
- */
-void
-addornament (DenemoObject * obj, Ornament orn)
-{
-  if (obj && obj->type == CHORD && ((chord *) obj->object)->notes)
-    ((chord *) obj->object)->ornamentlist = 
-      (GList *) insert_ornament_list (orn, ((chord *) obj->object)->ornamentlist);
-}
+
 /**
  * compare current note with pitch to be added
  * 
@@ -518,7 +506,6 @@ freechord (DenemoObject * thechord)
   g_list_foreach (((chord *) thechord->object)->notes, (GFunc)freenote, NULL);
   g_list_free (((chord *) thechord->object)->notes);
   g_list_free(((chord *) thechord->object)->dynamics);
-  g_list_free(((chord *) thechord->object)->ornamentlist);
   if(((chord *) thechord->object)->lyric)
     g_string_free(((chord *) thechord->object)->lyric, FALSE);//FIXME memory leak???? 
   /* tone_node does not belong to the chord but belongs instead to the pitch recognition system */
@@ -557,7 +544,6 @@ clone_chord (DenemoObject * thechord)
   memcpy ((chord *) clonedchord, curchord, sizeof (chord));
   clonedchord->directives = NULL;
   clonedchord->dynamics = NULL;
-  clonedchord->ornamentlist = NULL;
   clonedchord->tone_node = NULL;
   if(curchord->figure)
     clonedchord->figure = g_string_new(((GString*)curchord->figure)->str);

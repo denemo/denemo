@@ -1,3 +1,4 @@
+#if 0
 /* articulations.c
  * Implements articulation markings which are not notes 
  *
@@ -469,4 +470,6 @@ toggle_articulation_palette (GtkAction *action, gpointer param)
 
   gtk_widget_show_all (window);
 }
+#endif
+
 #endif
