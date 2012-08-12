@@ -1491,12 +1491,11 @@ string_dialog_editor_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *directio
 
 	label = gtk_label_new (direction);
 	GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-	gtk_container_add(GTK_CONTAINER(content_area), label);
-
+  gtk_box_pack_start(GTK_BOX(content_area), label, FALSE, TRUE, 0);
 	if(widget)
-		gtk_container_add(GTK_CONTAINER(content_area), widget);
-
-	gtk_container_add(GTK_CONTAINER(content_area), textview);
+    gtk_box_pack_start(GTK_BOX(content_area), widget, FALSE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(sw), textview);
+  gtk_box_pack_start(GTK_BOX(content_area), sw, TRUE, TRUE, 0);
 
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
   
