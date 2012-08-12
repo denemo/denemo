@@ -2333,7 +2333,7 @@ SCM scheme_get_user_multiline_input(SCM label, SCM prompt, SCM init) {
    initial_value = scm_to_locale_string(init);   
  }
  else initial_value = strdup(" ");
- GtkWidget *button = gtk_button_new_with_label(_("Paste Current Selection"));
+ GtkWidget *button = gtk_button_new_with_label(_("Paste Current Snippet"));
  gchar * ret = string_dialog_editor_with_widget (Denemo.gui, title, instruction, initial_value, button);
  SCM scm = scm_makfrom0str (ret);
 
@@ -6453,6 +6453,7 @@ attach_clipboard(RhythmPattern *r) {
  }
 }
 
+
 static 
 gint insert_pattern_in_toolbar(RhythmPattern *r) {
   DenemoGUI *gui = Denemo.gui;
@@ -6510,7 +6511,7 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
   gboolean default_rhythm = FALSE;
   DenemoScore * si= gui->si;
   RhythmPattern *r = (RhythmPattern*)g_malloc0(sizeof(RhythmPattern));
-
+  GString *lily_string = g_string_new("");
   gchar *pattern = NULL;
     if(action ==  (gpointer)insert_chord_0key)
       pattern = g_strdup("0");
@@ -6572,6 +6573,10 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
     measurenode *curmeasure;
     gint i = si->selection.firststaffmarked;
     attach_clipboard(r);
+
+    if(gui->lilysync!=gui->changecount)
+     refresh_lily_cb(NULL, Denemo.gui);
+   
     curstaff = g_list_nth (si->thescore, i - 1);
     if(curstaff && i <= si->selection.laststaffmarked) {
       int j,k;
@@ -6703,10 +6708,12 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
           break;
         } /* end of switch obj type */
 	      //g_print("Number of rhythms %d\n", g_list_length(r->rsteps));
+        if(obj->lilypond)
+          g_string_append(lily_string, obj->lilypond);
         } /* End object loop */
-        k = si->selection.firstobjmarked;
+        k = 0;//in the new measure start collecting objects from start
       } /* End measure loop */
-    }//for each staff in selection
+    }//if the first staff selected is present in the staff list. This should always be the case
     
   if((strlen(pattern)==0)) { // no selection
       warningdialog("No selection to create a music snippet from\nSee Edit->Select menu for selecting music to snip");
@@ -6719,6 +6726,8 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
     if(!already_done) 
       append_rhythm(r, action);
   }
+
+  r->lilypond = g_string_free(lily_string, FALSE);
   if(!already_done) {
     gchar *labelstr;
     if(pattern) {
