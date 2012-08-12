@@ -2316,6 +2316,33 @@ SCM scheme_get_user_input(SCM label, SCM prompt, SCM init) {
  return scm;
 }
 
+SCM scheme_get_user_multiline_input(SCM label, SCM prompt, SCM init) {
+  char *title, *instruction, *initial_value;
+  gint length;
+
+ if(scm_is_string(label)){
+   title = scm_to_locale_string(label);  
+ }
+ else title = strdup("Input Required");
+ if(scm_is_string(prompt)){
+   instruction = scm_to_locale_string(prompt);  
+ }
+ else instruction = strdup("Give input: ");
+
+ if(scm_is_string(init)){
+   initial_value = scm_to_locale_string(init);   
+ }
+ else initial_value = strdup(" ");
+ GtkWidget *button = gtk_button_new_with_label(_("Paste Current Selection"));
+ gchar * ret = string_dialog_editor_with_widget (Denemo.gui, title, instruction, initial_value, button);
+ SCM scm = scm_makfrom0str (ret);
+
+ if (title) free(title);
+ if (instruction) free(instruction);
+ if (initial_value) free(initial_value);
+ if (ret) g_free(ret);
+ return scm;
+}
 
 SCM scheme_warningdialog(SCM msg) {
   char *title;
@@ -4699,7 +4726,7 @@ static void create_scheme_identfiers(void) {
 
 
   INSTALL_SCM_FUNCTION3 ("Takes three strings, title, prompt and initial value. Shows these to the user and returns the user's string.", DENEMO_SCHEME_PREFIX"GetUserInput", scheme_get_user_input);
-
+  INSTALL_SCM_FUNCTION3 ("Takes three strings, title, prompt and initial value. Shows these to the user with a text editor for the user to return a string.", DENEMO_SCHEME_PREFIX"GetUserMultilineInput", scheme_get_user_multiline_input);
   INSTALL_SCM_FUNCTION ("Takes a message as a string. Pops up the message for the user to take note of as a warning",DENEMO_SCHEME_PREFIX"WarningDialog", scheme_warningdialog);
   INSTALL_SCM_FUNCTION ("Takes a message as a string. Pops up the message for the user to take note of as a informative message",DENEMO_SCHEME_PREFIX"InfoDialog", scheme_infodialog);
   INSTALL_SCM_FUNCTION ("Takes a message as a string. Pops up the message inside of a pulsing progressbar",DENEMO_SCHEME_PREFIX"ProgressBar", scheme_progressbar);
@@ -6397,11 +6424,21 @@ static gboolean append_rhythm(RhythmPattern *r,  gpointer fn){
 
 
 static void add_to_pattern(gchar **p, gchar c) {
-  gchar *temp = g_strdup_printf("%s%c", *p, c);//FIXME leak?
+  gchar *temp = g_strdup_printf("%s%c", *p, c);//FIXME this should be done with a GString in the caller.
   g_free(*p);
   *p = temp;
 }
 
+static void remove_breaks(GList *clip) {
+  for(;clip;clip=clip->next) {
+    GList *g = clip->data;
+    for(;g;g=g->next) {
+      //g_print("have %x type %d\n", g->data, ((DenemoObject*)g->data)->type);
+      if((((DenemoObject*)g->data)->type == MEASUREBREAK) || (((DenemoObject*)g->data)->type == STAFFBREAK))
+        g = clip->data = g_list_delete_link(clip->data, g); //we search from the start again, as g has been freed
+    }
+  }
+}
 static void
 attach_clipboard(RhythmPattern *r) {
  DenemoGUI *gui = Denemo.gui;
@@ -6411,6 +6448,7 @@ attach_clipboard(RhythmPattern *r) {
    copytobuffer(si);
    push_clipboard ();
    r->clipboard = pop_off_clipboard();
+   remove_breaks(r->clipboard);
    pop_clipboard();
  }
 }
@@ -6542,140 +6580,136 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
       for (j = si->selection.firstmeasuremarked, k = si->selection.firstobjmarked,
 	     curmeasure = g_list_nth (firstmeasurenode (curstaff), j - 1);
 	   curmeasure && j <= si->selection.lastmeasuremarked;
-	   curmeasure = curmeasure->next, j++)
-	{
+	   curmeasure = curmeasure->next, j++) {
 	  for (curobj = g_list_nth ((objnode *) curmeasure->data, k);
 	       /* cursor_x is 0-indexed */
 	       curobj && (j < si->selection.lastmeasuremarked
 			  || k <= si->selection.lastobjmarked);
-	       curobj = curobj->next, k++)
-	    {
+	       curobj = curobj->next, k++) {
 	      gpointer fn;
 	      gchar *temp;
 	      DenemoObject *obj = (DenemoObject *) curobj->data;
 	      switch(obj->type) {
-	      case TUPCLOSE:
-		fn = (gpointer)end_tuplet;
-		add_to_pattern(&pattern, '|');
-		append_rhythm(r, fn);
-		break;
-	      case TUPOPEN:
-		switch(((tupopen*)obj->object)->denominator) {
-		case 3:
-		  fn=(gpointer)start_triplet;
-		  add_to_pattern(&pattern, '~');
-		  break;
-		default:// need to create start_xxxtuplet() functions to go with start_triplet(), then they can go here.
-		  fn = NULL;
-		}
-		append_rhythm(r, fn);
-		break;
-	      case CHORD:
-		{
-		  chord *ch = (chord*)obj->object;
+          case TUPCLOSE:
+            fn = (gpointer)end_tuplet;
+            add_to_pattern(&pattern, '|');
+            append_rhythm(r, fn);
+            break;
+          case TUPOPEN:
+            switch(((tupopen*)obj->object)->denominator) {
+              case 3:
+              fn=(gpointer)start_triplet;
+              add_to_pattern(&pattern, '~');
+              break;
+              default:// need to create start_xxxtuplet() functions to go with start_triplet(), then they can go here.
+              fn = NULL;
+            }
+            append_rhythm(r, fn);
+            break;
+       case CHORD:
+                {
+                  chord *ch = (chord*)obj->object;
 		  
-		  if(ch->notes) {
-		    switch(ch->baseduration) {
-		    case 0:
-		      fn = insert_chord_0key;
-		      break;
-		    case 1:
-		      fn = insert_chord_1key;
-		      break;
-		    case 2:
-		      fn = insert_chord_2key;
-		      break;
-		    case 3:
-		      fn = insert_chord_3key;
-		      break;
-		    case 4:
-		      fn = insert_chord_4key;
-		      break;
-		    case 5:
-		      fn = insert_chord_5key;
-		      break;
-		    case 6:
-		      fn = insert_chord_6key;
-		      break;
-		    case 7:
-		      fn = insert_chord_7key;
-		      break;
-		    case 8:
-		      fn = insert_chord_8key;
-		      break;
-		    default:
-		      g_warning("Handling unknown type of chord as whole note");
-		      fn = insert_chord_0key;
-		      break;
-		    }
-		    add_to_pattern(&pattern, duration_code(fn));
-		    append_rhythm(r, fn);
-
-		  } else {/* a rest */
-		    switch(ch->baseduration) {
-		    case 0:
-		      fn = insert_rest_0key;
-		      break;
-		      case 1:
-		      fn = insert_rest_1key;
-		      break;
-		      case 2:
-		      fn = insert_rest_2key;
-		      break;
-		      case 3:
-		      fn = insert_rest_3key;
-		      break;
-		      case 4:
-		      fn = insert_rest_4key;
-		      break;
-		      case 5:
-		      fn = insert_rest_5key;
-		      break;
-		      case 6:
-		      fn = insert_rest_6key;
-		      break;
-		      fn = insert_rest_7key;
-		      break;
-		      fn = insert_rest_8key;
-		      break;
-		    default:
-		      g_warning("Handling unknown type of rest as whole note rest");
-		      fn = insert_rest_0key;
-		      break;
-		    }
-		    add_to_pattern(&pattern, modifier_code(fn));
-		    append_rhythm(r, fn);
-		  } /* end of rests */
-		  for (i=ch->numdots;i;i--) {
-		    fn = add_dot_key;		    
-		    add_to_pattern(&pattern, modifier_code(fn));
-		    append_rhythm(r, fn);
-		  }
-		  if(ch->slur_begin_p) {
-		    fn = (gpointer)toggle_begin_slur;
-		    add_to_pattern(&pattern,'('); 
-		    append_rhythm(r, fn);
-		  }
-		  if(ch->slur_end_p) {
-		    fn = (gpointer)toggle_end_slur;
-		    add_to_pattern(&pattern,')'); 
-		    append_rhythm(r, fn);
-		  }
-		}
-		break;
-	      default:
-		;
-		
-	      }
+                  if(ch->notes) {
+                    switch(ch->baseduration) {
+                      case 0:
+                      fn = insert_chord_0key;
+                      break;
+                      case 1:
+                      fn = insert_chord_1key;
+                      break;
+                      case 2:
+                      fn = insert_chord_2key;
+                      break;
+                      case 3:
+                      fn = insert_chord_3key;
+                      break;
+                      case 4:
+                      fn = insert_chord_4key;
+                      break;
+                      case 5:
+                      fn = insert_chord_5key;
+                      break;
+                      case 6:
+                      fn = insert_chord_6key;
+                      break;
+                      case 7:
+                      fn = insert_chord_7key;
+                      break;
+                      case 8:
+                      fn = insert_chord_8key;
+                      break;
+                      default:
+                      g_warning("Handling unknown type of chord as whole note");
+                      fn = insert_chord_0key;
+                      break;
+                      }
+                  add_to_pattern(&pattern, duration_code(fn));
+                  append_rhythm(r, fn);
+                   } else {/* a rest */
+                    switch(ch->baseduration) {
+                    case 0:
+                          fn = insert_rest_0key;
+                          break;
+                          case 1:
+                          fn = insert_rest_1key;
+                          break;
+                          case 2:
+                          fn = insert_rest_2key;
+                          break;
+                          case 3:
+                          fn = insert_rest_3key;
+                          break;
+                          case 4:
+                          fn = insert_rest_4key;
+                          break;
+                          case 5:
+                          fn = insert_rest_5key;
+                          break;
+                          case 6:
+                          fn = insert_rest_6key;
+                          break;
+                          fn = insert_rest_7key;
+                          break;
+                          fn = insert_rest_8key;
+                          break;
+                          default:
+                          g_warning("Handling unknown type of rest as whole note rest");
+                          fn = insert_rest_0key;
+                          break;
+                          }
+              add_to_pattern(&pattern, modifier_code(fn));
+		          append_rhythm(r, fn);
+		         } /* end of rests */
+		         for (i=ch->numdots;i;i--) {
+               fn = add_dot_key;		    
+               add_to_pattern(&pattern, modifier_code(fn));
+               append_rhythm(r, fn);
+		         }
+		         if(ch->slur_begin_p) {
+               fn = (gpointer)toggle_begin_slur;
+               add_to_pattern(&pattern,'('); 
+               append_rhythm(r, fn);
+		         }
+		         if(ch->slur_end_p) {
+               fn = (gpointer)toggle_end_slur;
+               add_to_pattern(&pattern,')'); 
+               append_rhythm(r, fn);
+		         }
+          }
+          break;
+          default:
+          //g_warning("ignoring %d\n", obj->type);
+          break;
+        } /* end of switch obj type */
 	      //g_print("Number of rhythms %d\n", g_list_length(r->rsteps));
-	    } /* End object loop */	 
-	} /* End measure loop */
-    }//looking at selection
-  if((strlen(pattern)==0) || (si->selection.lastmeasuremarked!=si->selection.firstmeasuremarked)) { // nothing useful selected
-      if((strlen(pattern)==0))
-        warningdialog("No selection to create a music snippet from\nSee Edit->Select menu for selecting music to snip");
-      else
-        warningdialog("A snippet must be within one measure");
+        } /* End object loop */
+        k = si->selection.firstobjmarked;
+      } /* End measure loop */
+    }//for each staff in selection
+    
+  if((strlen(pattern)==0)) { // no selection
+      warningdialog("No selection to create a music snippet from\nSee Edit->Select menu for selecting music to snip");
       gtk_widget_destroy(GTK_WIDGET(r->button));
       g_free(pattern);
       g_free(r);
