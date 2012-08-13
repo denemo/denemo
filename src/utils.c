@@ -1087,6 +1087,9 @@ define_scheme_literal_variable("Denemo-Note8", NOTE8, NULL);
 define_scheme_literal_variable("Denemo-Rest8", REST8, NULL);
 
 }
+
+#define HIGHLIGHT "<span background=\"lightblue\"> "
+
 /* markup the passed string to be in the denemo music font
 * caller must free the returned string
 */
@@ -1098,79 +1101,79 @@ gchar * music_font(gchar *str) {
 
       case '0':  g_string_append(s, " "NOTE0" ");
 	break;
-      case HIGHLIGHT_OFFSET+'0': g_string_append(s, "<span background=\"blue\"> "NOTE0" </span>");
+      case HIGHLIGHT_OFFSET+'0': g_string_append(s, HIGHLIGHT NOTE0" </span>");
 	break;
 
       case '1':  g_string_append(s, " "NOTE1" ");
 	break;
-      case HIGHLIGHT_OFFSET+'1': g_string_append(s, "<span background=\"blue\"> "NOTE1" </span>");
+      case HIGHLIGHT_OFFSET+'1': g_string_append(s, HIGHLIGHT NOTE1" </span>");
 	break;
       case '2':  g_string_append(s, " "NOTE2" ");
 	break;
-      case HIGHLIGHT_OFFSET+'2': g_string_append(s, "<span background=\"blue\"> "NOTE2" </span>");
+      case HIGHLIGHT_OFFSET+'2': g_string_append(s, HIGHLIGHT NOTE2" </span>");
 	break;
       case '3':  g_string_append(s, " "NOTE3" ");
 	break;
-      case HIGHLIGHT_OFFSET+'3': g_string_append(s, "<span background=\"blue\"> "NOTE3" </span>");
+      case HIGHLIGHT_OFFSET+'3': g_string_append(s, HIGHLIGHT NOTE3" </span>");
 	break;
       case '4':  g_string_append(s, " "NOTE4" ");
 	break;
-      case HIGHLIGHT_OFFSET+'4': g_string_append(s, "<span background=\"blue\"> "NOTE4" </span>");
+      case HIGHLIGHT_OFFSET+'4': g_string_append(s, HIGHLIGHT NOTE4" </span>");
 	break;
       case '5':  g_string_append(s, " "NOTE5" ");
 	break;
-      case HIGHLIGHT_OFFSET+'5': g_string_append(s, "<span background=\"blue\"> "NOTE5" </span>");
+      case HIGHLIGHT_OFFSET+'5': g_string_append(s, HIGHLIGHT NOTE5" </span>");
 	break;
       case '6':  g_string_append(s, " "NOTE6" ");
 	break;
-      case HIGHLIGHT_OFFSET+'6': g_string_append(s, "<span background=\"blue\"> "NOTE6" </span>");
+      case HIGHLIGHT_OFFSET+'6': g_string_append(s, HIGHLIGHT NOTE6" </span>");
 	break;
       case '7':  g_string_append(s, " "NOTE7" ");
 	break;
-      case HIGHLIGHT_OFFSET+'7': g_string_append(s, "<span background=\"blue\"> "NOTE7" </span>");
+      case HIGHLIGHT_OFFSET+'7': g_string_append(s, HIGHLIGHT NOTE7" </span>");
 	break;
       case '8':  g_string_append(s, " "NOTE8" ");
 	break;
-      case HIGHLIGHT_OFFSET+'8': g_string_append(s, "<span background=\"blue\"> "NOTE8" </span>");
+      case HIGHLIGHT_OFFSET+'8': g_string_append(s, HIGHLIGHT NOTE8" </span>");
 	break;
 
 
      case 'r':  g_string_append(s, " "REST0" ");
 	break;
-     case HIGHLIGHT_OFFSET+'r': g_string_append(s, "<span background=\"blue\"> "REST0" </span>");
+     case HIGHLIGHT_OFFSET+'r': g_string_append(s, HIGHLIGHT REST0" </span>");
 	break;
 
      case 's':  g_string_append(s, " "REST1" ");
 	break;
-     case HIGHLIGHT_OFFSET+'s': g_string_append(s, "<span background=\"blue\"> "REST1" </span>");
+     case HIGHLIGHT_OFFSET+'s': g_string_append(s, HIGHLIGHT REST1" </span>");
 	break;
      case 't':  g_string_append(s, " "REST2" ");
 	break;
-     case HIGHLIGHT_OFFSET+'t': g_string_append(s, "<span background=\"blue\"> "REST2" </span>");
+     case HIGHLIGHT_OFFSET+'t': g_string_append(s, HIGHLIGHT REST2" </span>");
 	break;
      case 'u':  g_string_append(s, " "REST3" ");
 	break;
-     case HIGHLIGHT_OFFSET+'u': g_string_append(s, "<span background=\"blue\"> "REST3" </span>");
+     case HIGHLIGHT_OFFSET+'u': g_string_append(s, HIGHLIGHT REST3" </span>");
 	break;
      case 'v':  g_string_append(s, " "REST4" ");
 	break;
-     case HIGHLIGHT_OFFSET+'v': g_string_append(s, "<span background=\"blue\"> "REST4" </span>");
+     case HIGHLIGHT_OFFSET+'v': g_string_append(s, HIGHLIGHT REST4" </span>");
 	break;
      case 'w':  g_string_append(s, " "REST5" ");
 	break;
-     case HIGHLIGHT_OFFSET+'w': g_string_append(s, "<span background=\"blue\"> "REST5" </span>");
+     case HIGHLIGHT_OFFSET+'w': g_string_append(s, HIGHLIGHT REST5" </span>");
 	break;
      case 'x':  g_string_append(s, " "REST6" ");
 	break;
-     case HIGHLIGHT_OFFSET+'x': g_string_append(s, "<span background=\"blue\"> "REST6" </span>");
+     case HIGHLIGHT_OFFSET+'x': g_string_append(s, HIGHLIGHT REST6" </span>");
 	break;
      case 'y':  g_string_append(s, " "REST7" ");
 	break;
-     case HIGHLIGHT_OFFSET+'y': g_string_append(s, "<span background=\"blue\"> "REST7" </span>");
+     case HIGHLIGHT_OFFSET+'y': g_string_append(s, HIGHLIGHT REST7" </span>");
 	break;
      case 'z':  g_string_append(s, " "REST8" ");
 	break;
-     case HIGHLIGHT_OFFSET+'z': g_string_append(s, "<span background=\"blue\"> "REST8" </span>");
+     case HIGHLIGHT_OFFSET+'z': g_string_append(s, HIGHLIGHT REST8" </span>");
 	break;
 
 
@@ -1492,8 +1495,10 @@ string_dialog_editor_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *directio
 	label = gtk_label_new (direction);
 	GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   gtk_box_pack_start(GTK_BOX(content_area), label, FALSE, TRUE, 0);
-	if(widget)
+	if(widget) {
     gtk_box_pack_start(GTK_BOX(content_area), widget, FALSE, TRUE, 0);
+    g_object_set_data(G_OBJECT(widget), "textbuffer", textbuffer);
+  }
   gtk_container_add(GTK_CONTAINER(sw), textview);
   gtk_box_pack_start(GTK_BOX(content_area), sw, TRUE, TRUE, 0);
 
