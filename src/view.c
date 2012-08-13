@@ -2315,8 +2315,24 @@ SCM scheme_get_user_input(SCM label, SCM prompt, SCM init) {
  if (ret) g_free(ret);
  return scm;
 }
+static void paste_snippet_lilypond (GtkWidget *button) {
+  DenemoGUI *gui = Denemo.gui;
+  GtkWidget *hbox = gtk_widget_get_parent(button);
+  GtkWidget *textbuffer = (GtkWidget*)g_object_get_data(G_OBJECT(hbox), "textbuffer");
+  if(textbuffer) {
+    RhythmPattern *r = (gui->currhythm)?
+          ((RhythmPattern *)gui->currhythm->data):NULL;
+    if(r) {
+      gchar *text = g_strconcat("`\\score { ", r->lilypond, " \\paper{indent=0.0}}`", NULL);
+      gtk_text_buffer_insert_at_cursor    (GTK_TEXT_BUFFER(textbuffer), text, -1/*gint len*/);
+      g_free(text);
+    }
+  } else {
+    g_warning("Denemo program error, widget hierarchy changed???");
+  }
+}
 
-SCM scheme_get_user_multiline_input(SCM label, SCM prompt, SCM init) {
+SCM scheme_get_user_input_with_snippets(SCM label, SCM prompt, SCM init) {
   char *title, *instruction, *initial_value;
   gint length;
 
@@ -2333,8 +2349,26 @@ SCM scheme_get_user_multiline_input(SCM label, SCM prompt, SCM init) {
    initial_value = scm_to_locale_string(init);   
  }
  else initial_value = strdup(" ");
+ GtkWidget *hbox = gtk_hbox_new(FALSE, 8);
  GtkWidget *button = gtk_button_new_with_label(_("Paste Current Snippet"));
- gchar * ret = string_dialog_editor_with_widget (Denemo.gui, title, instruction, initial_value, button);
+ gtk_widget_set_tooltip_text(button, _("Pastes the music captured in the currently selected Snippet into the text at the cursor. The music appears here in the LilyPond typesetter syntax between two markers (`) in bold. It wil print as typeset music embedded in the sentence you are writing.\nYou can edit the syntax, taking care to leave the markers in position. If you delete one marker be sure to delete the other.\n"));
+ if(!Denemo.gui->currhythm)
+    gtk_widget_set_sensitive(button, FALSE);
+ g_signal_connect(button, "clicked", G_CALLBACK(paste_snippet_lilypond), NULL);
+ gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
+ button = gtk_button_new_with_label(_("Next Snippet"));
+ gtk_widget_set_tooltip_text(button, _("Makes the next Snippet the one that can be pasted. To see the music snippets you need to check View->Snippets\nThe one selected is in bold black."));
+ GtkAction *action = gtk_ui_manager_get_action (Denemo.ui_manager, "/ObjectMenu/NotesRests/SelectDuration/NextRhythm");
+ if(action)
+    g_signal_connect_swapped(button, "clicked", G_CALLBACK(gtk_action_activate), action);
+ else
+  gtk_widget_set_sensitive(button, FALSE);
+ if((Denemo.gui->currhythm==NULL))
+    gtk_widget_set_sensitive(button, FALSE);
+ gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
+ 
+ gchar * ret = string_dialog_editor_with_widget (Denemo.gui, title, instruction, initial_value, hbox);
+ 
  SCM scm = scm_makfrom0str (ret);
 
  if (title) free(title);
@@ -4726,7 +4760,7 @@ static void create_scheme_identfiers(void) {
 
 
   INSTALL_SCM_FUNCTION3 ("Takes three strings, title, prompt and initial value. Shows these to the user and returns the user's string.", DENEMO_SCHEME_PREFIX"GetUserInput", scheme_get_user_input);
-  INSTALL_SCM_FUNCTION3 ("Takes three strings, title, prompt and initial value. Shows these to the user with a text editor for the user to return a string.", DENEMO_SCHEME_PREFIX"GetUserMultilineInput", scheme_get_user_multiline_input);
+  INSTALL_SCM_FUNCTION3 ("Takes three strings, title, prompt and initial value. Shows these to the user with a text editor for the user to return a string. Buttons are present to insert snippets which are bracketed with backquote characters in the return string.", DENEMO_SCHEME_PREFIX"GetUserInputWithSnippets", scheme_get_user_input_with_snippets);
   INSTALL_SCM_FUNCTION ("Takes a message as a string. Pops up the message for the user to take note of as a warning",DENEMO_SCHEME_PREFIX"WarningDialog", scheme_warningdialog);
   INSTALL_SCM_FUNCTION ("Takes a message as a string. Pops up the message for the user to take note of as a informative message",DENEMO_SCHEME_PREFIX"InfoDialog", scheme_infodialog);
   INSTALL_SCM_FUNCTION ("Takes a message as a string. Pops up the message inside of a pulsing progressbar",DENEMO_SCHEME_PREFIX"ProgressBar", scheme_progressbar);
