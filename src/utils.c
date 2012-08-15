@@ -1328,7 +1328,7 @@ void write_status(DenemoGUI *gui) {
     case LILYDIRECTIVE:
       {
       DenemoDirective *directive = (DenemoDirective *)curObj->object;
-      selection = g_strdup_printf("Directive:(%.20s) %.20s%.50s", directive->tag->str,
+      selection = g_strdup_printf("Directive:(%.20s) %.20s%.50s", directive->tag?directive->tag->str:"Unknown Tag",
             directive->x?"Not all layouts":directive->y?"Only for one Layout":"",
             directive->postfix?directive->postfix->str:directive->prefix?directive->prefix->str:directive->graphic_name?directive->graphic_name->str:directive->display?directive->display->str:"empty");
       }
