@@ -2119,26 +2119,24 @@ SCM scheme_get_prevailing_clef(SCM optional) {
 }
 
 SCM scheme_get_prevailing_clef_as_lilypond(SCM optional) {
-  clef *theclef = get_prevailing_context(CLEF);
-  const gchar *clefname = get_lilypond_for_clef(theclef);
+  const gchar *clefname = get_prevailing_clef_as_lilypond();
   if(clefname)
     return scm_from_locale_string(clefname);
   else return SCM_BOOL_F;
 }
 SCM scheme_get_prevailing_keysig_as_lilypond(SCM optional) {
-  keysig *thekey = get_prevailing_context(KEYSIG);
-  const gchar *keyname = get_lilypond_for_keysig(thekey);
-  if(keyname)
-    return scm_from_locale_string(keyname);
+  const gchar *keysigname = get_prevailing_keysig_as_lilypond();
+  if(keysigname)
+    return scm_from_locale_string(keysigname);
   else return SCM_BOOL_F;
 }
 SCM scheme_get_prevailing_timesig_as_lilypond(SCM optional) {
-  timesig *thetime = get_prevailing_context(TIMESIG);
-  const gchar *timename = get_lilypond_for_timesig(thetime);
-  if(timename)
-    return scm_from_locale_string(timename);
+  const gchar *timesigname = get_prevailing_timesig_as_lilypond();
+  if(timesigname)
+    return scm_from_locale_string(timesigname);
   else return SCM_BOOL_F;
 }
+
 SCM scheme_get_prevailing_duration(SCM optional) {
   return scm_int2num(get_prevailing_duration());
 }
@@ -2323,19 +2321,56 @@ static void paste_snippet_lilypond (GtkWidget *button) {
     RhythmPattern *r = (gui->currhythm)?
           ((RhythmPattern *)gui->currhythm->data):NULL;
     if(r) {
-      gchar *text = g_strconcat("`\\score { ", r->lilypond, " \\paper{indent=0.0}}`", NULL);
-      gtk_text_buffer_insert_at_cursor    (GTK_TEXT_BUFFER(textbuffer), text, -1/*gint len*/);
+      const gchar *transpose, *clefname = get_prevailing_clef_as_lilypond(), *keysigname = get_prevailing_keysig_as_lilypond(), *timesigname = get_prevailing_timesig_as_lilypond();
+      extern gchar* score_directive_get_postfix(gchar *tagname);
+      transpose = score_directive_get_postfix("TransposeScorePrint");
+      transpose = transpose?transpose:"";
+      gchar *text = g_strdup_printf("§\\raise #6.0 \\score { %s { {%s}{%s}{%s} %s } \\layout {indent=0.0}}§", transpose, clefname, keysigname, timesigname, r->lilypond);
+      gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER(textbuffer), text, -1/*gint len*/);
       g_free(text);
     }
   } else {
     g_warning("Denemo program error, widget hierarchy changed???");
   }
+  GtkWidget *textview = (GtkWidget*)g_object_get_data(G_OBJECT(hbox), "textview");
+  gtk_widget_grab_focus (textview);
+}
+
+#define SECTION_UTF8_STRING "§"
+//#define SECTION_UTF8_STRING "\302\247"
+
+static gchar *create_lilypond_from_text(gchar *orig) {
+  gchar *text = g_strdup(orig);
+  GString *ret = g_string_new("");
+  g_print("looking at %s\n", text);
+  gunichar section = g_utf8_get_char(SECTION_UTF8_STRING);
+  gchar *this = g_utf8_strchr (text, -1, section);
+  if(this) {
+    gchar *start = g_utf8_next_char(this);
+    *this = 0;
+    if(*text) {
+      g_string_append_printf(ret, "\\wordwrap-string #\"%s\"", g_strescape(text, "\"\\"));
+    }
+    gchar *end = g_utf8_strchr (start, -1, section);
+    if(end==NULL) {
+      g_warning("Unbalanced § marks");
+      g_string_free(ret, TRUE);
+      return g_strdup("%{error %}");
+    }
+    gchar *next = g_utf8_next_char(end);
+    *end = 0;
+    g_string_append_printf(ret, "%s %s", start, create_lilypond_from_text(next));
+  } else {
+    g_string_append_printf(ret, "\\wordwrap-string #\"%s\"", g_strescape(text, "\"\\"));
+  }
+ g_free(text);
+ return g_string_free(ret, FALSE);
 }
 
 SCM scheme_get_user_input_with_snippets(SCM label, SCM prompt, SCM init) {
   char *title, *instruction, *initial_value;
   gint length;
-
+  SCM scm;
  if(scm_is_string(label)){
    title = scm_to_locale_string(label);  
  }
@@ -2351,8 +2386,8 @@ SCM scheme_get_user_input_with_snippets(SCM label, SCM prompt, SCM init) {
  else initial_value = strdup(" ");
  GtkWidget *hbox = gtk_hbox_new(FALSE, 8);
  GtkWidget *button = gtk_button_new_with_label(_("Paste Current Snippet"));
- gtk_widget_set_tooltip_text(button, _("Pastes the music captured in the currently selected Snippet into the text at the cursor. The music appears here in the LilyPond typesetter syntax between two markers (`) in bold. It wil print as typeset music embedded in the sentence you are writing.\nYou can edit the syntax, taking care to leave the markers in position. If you delete one marker be sure to delete the other.\n"));
- if(!Denemo.gui->currhythm)
+ gtk_widget_set_tooltip_text(button, _("Pastes the music captured in the currently selected Snippet into the text at the cursor. The music appears here in the LilyPond typesetter syntax between two markers (\302\247). It will print as typeset music embedded in the sentence you are writing.\nYou can edit the syntax, taking care to leave the markers in position. If you delete one marker be sure to delete the other.\n"));
+ if(!Denemo.gui->rhythms)
     gtk_widget_set_sensitive(button, FALSE);
  g_signal_connect(button, "clicked", G_CALLBACK(paste_snippet_lilypond), NULL);
  gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
@@ -2363,18 +2398,23 @@ SCM scheme_get_user_input_with_snippets(SCM label, SCM prompt, SCM init) {
     g_signal_connect_swapped(button, "clicked", G_CALLBACK(gtk_action_activate), action);
  else
   gtk_widget_set_sensitive(button, FALSE);
- if((Denemo.gui->currhythm==NULL))
-    gtk_widget_set_sensitive(button, FALSE);
+ if(!Denemo.gui->rhythms)
+   gtk_widget_set_sensitive(button, FALSE);
  gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
  
- gchar * ret = string_dialog_editor_with_widget (Denemo.gui, title, instruction, initial_value, hbox);
+ gchar * text = string_dialog_editor_with_widget (Denemo.gui, title, instruction, initial_value, hbox);
+ if(text) {
+  gchar *lilypond = create_lilypond_from_text(text);
+  scm = scm_cons (scm_makfrom0str(text), scm_makfrom0str(lilypond));
+  g_free(lilypond);
+ } else
+  scm = SCM_BOOL_F;
  
- SCM scm = scm_makfrom0str (ret);
-
  if (title) free(title);
  if (instruction) free(instruction);
  if (initial_value) free(initial_value);
- if (ret) g_free(ret);
+ if (text) g_free(text);
+
  return scm;
 }
 

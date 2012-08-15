@@ -1498,6 +1498,7 @@ string_dialog_editor_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *directio
 	if(widget) {
     gtk_box_pack_start(GTK_BOX(content_area), widget, FALSE, TRUE, 0);
     g_object_set_data(G_OBJECT(widget), "textbuffer", textbuffer);
+     g_object_set_data(G_OBJECT(widget), "textview", textview);
   }
   gtk_container_add(GTK_CONTAINER(sw), textview);
   gtk_box_pack_start(GTK_BOX(content_area), sw, TRUE, TRUE, 0);
