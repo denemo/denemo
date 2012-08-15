@@ -1774,7 +1774,7 @@ DenemoScoreblock *select_layout(gboolean all_movements, gchar *partname) {
 	if(all_movements) {
 		movement = 0;
 	} else {
-		movement = g_list_index(Denemo.guis, Denemo.gui) + 1; //current movement
+		movement = g_list_index(Denemo.gui->movements, Denemo.gui->si) + 1;//current movement
 	}
 
 
