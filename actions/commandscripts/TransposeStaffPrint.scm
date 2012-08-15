@@ -1,8 +1,7 @@
  ;;;;;;;;;;; TransposeStaffPrint
-(if (not (defined? 'Transpose::init))
+(if (not (defined? 'Transpose::Interval))
     (begin
-    (d-LoadCommand "/MainMenu/EditMenu/Transpose/SetTransposeIntervalFromSelection")
-    (d-InitializeScript "SetTransposeIntervalFromSelection")))
+    	(define Transpose::Interval "c ees")))
 (let ((lily #f) (text #f))
   (set! Transpose::Interval (d-GetUserInput "Set Transpose Interval" "Give Interval to transpose by
 e.g. c ees means up minor third.
@@ -14,7 +13,13 @@ e.g. c c' means octave up.
 " Transpose::Interval))
   (set! lily (string-append  "\\transpose " Transpose::Interval " "))
   (set! text (string-append  "Print transposed:  " Transpose::Interval " "))
-  (d-DirectivePut-staff-postfix  "TransposeStaffPrint" lily)
-  (d-DirectivePut-staff-display  "TransposeStaffPrint" text)
-  (d-DirectivePut-staff-override  "TransposeStaffPrint" DENEMO_OVERRIDE_GRAPHIC)
+ (d-PushPosition)
+ (while (d-MoveToVoiceUp))
+ (let loop ()
+ 	(d-DirectivePut-voice-override  "TransposeStaffPrint" DENEMO_OVERRIDE_GRAPHIC)
+  	(d-DirectivePut-voice-display  "TransposeStaffPrint" text)
+  	(d-DirectivePut-voice-prefix  "TransposeStaffPrint" lily)
+ 	 (if (d-MoveToVoiceDown)
+ 		 (loop)))
+  (d-PopPosition)
   (d-RefreshDisplay))

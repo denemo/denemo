@@ -5498,4 +5498,15 @@ add_ui("/ObjectMenu/StaffMenu/Voices", "InitialVoiceAuto", "InitialVoice");
 g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* IncipitFromSelection*/
+action = gtk_action_new("IncipitFromSelection",_("Incipit from Selection"),_("Creates an incipit from the selection. This music will be printed on the title page. Only one voice is supported."), get_icon_for_name("IncipitFromSelection", "Incipit from Selection"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"BookCopyright");
+register_command(Denemo.map, action, "IncipitFromSelection", _("Incipit from Selection"), _("Creates an incipit from the selection. This music will be printed on the title page. Only one voice is supported."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("IncipitFromSelection");
+add_ui("/ObjectMenu/Score/Titles/Book Titles", "BookCopyright", "IncipitFromSelection");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score/Titles/Book Titles");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 }

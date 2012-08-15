@@ -354,6 +354,7 @@ actions/commandscripts/DiminishedOrAugmented.scm
 actions/commandscripts/DiminishedOrMinor.scm
 actions/commandscripts/Diminish.scm
 actions/commandscripts/DisplaceRestHorizontally.scm
+actions/commandscripts/DotDoubleDotNoDot.scm
 actions/commandscripts/DoubleBarline.scm
 actions/commandscripts/DownbowSelectionSwitcher.scm
 actions/commandscripts/DrumGM2Custom.scm
@@ -426,7 +427,14 @@ actions/commandscripts/HiTom.scm
 actions/commandscripts/Import-Lilypond.scm
 actions/commandscripts/Import-Midi.scm
 actions/commandscripts/Import-MusicXml.scm
+actions/commandscripts/IncipitFromSelection.scm
 actions/commandscripts/Indent.scm
+actions/commandscripts/InitialVoiceAuto.scm
+actions/commandscripts/InitialVoiceFour.scm
+actions/commandscripts/InitialVoiceOne.scm
+actions/commandscripts/InitialVoice.scm
+actions/commandscripts/InitialVoiceThree.scm
+actions/commandscripts/InitialVoiceTwo.scm
 actions/commandscripts/InsertBreveRest.scm
 actions/commandscripts/InsertBreve.scm
 actions/commandscripts/InsertCaptureMeasureForStaff.scm
@@ -473,6 +481,8 @@ actions/commandscripts/MezzoPiano.scm
 actions/commandscripts/MidiAdvanceOnEdit.scm
 actions/commandscripts/MidiFilterOff.scm
 actions/commandscripts/MidiTempo.scm
+actions/commandscripts/MouseDefault.scm
+actions/commandscripts/MouseInsertion.scm
 actions/commandscripts/MovementNoteheadsBaroque.scm
 actions/commandscripts/MovementNoteheadsCross.scm
 actions/commandscripts/MovementNoteheadsDefault.scm
@@ -524,6 +534,8 @@ actions/commandscripts/NotationMagick-SortSelectionAscending.scm
 actions/commandscripts/NotationMagick-SortSelectionDescending.scm
 actions/commandscripts/NotationMagick-TwelveToneRow.scm
 actions/commandscripts/NoteColumnShift.scm
+actions/commandscripts/NoteNamesDefault.scm
+actions/commandscripts/NoteNamesMove.scm
 actions/commandscripts/NoteNameSpeedTest.scm
 actions/commandscripts/NotForLayout.scm
 actions/commandscripts/NoTupletNumbers.scm
@@ -677,6 +689,7 @@ actions/commandscripts/StaccatoSelectionSwitcher.scm
 actions/commandscripts/StaffComment.scm
 actions/commandscripts/StaffMultiMeasureRests.scm
 actions/commandscripts/StaffOctaveUp.scm
+actions/commandscripts/StaffSize.scm
 actions/commandscripts/StagedDelete.scm
 actions/commandscripts/StartBeam.scm
 actions/commandscripts/StartDownStems.scm
@@ -768,6 +781,7 @@ actions/commandscripts/VoicePreset3.scm
 actions/commandscripts/VoicePreset4.scm
 actions/commandscripts/VoicePresetAutomatic.scm
 actions/commandscripts/VoicesDoublestroke.scm
+actions/commandscripts/VoiceSetting.scm
 actions/commandscripts/WholeMeasureRest.scm
 actions/commandscripts/ZoomDialog.scm
 actions/commandscripts/ZoomIn.scm

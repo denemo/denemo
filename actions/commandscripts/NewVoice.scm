@@ -1,3 +1,3 @@
 ;;NewVoice
-(d-AddAfter)
+(d-NewStaffAfter)
 (d-SetCurrentStaffAsVoice)

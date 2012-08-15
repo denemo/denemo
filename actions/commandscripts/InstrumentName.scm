@@ -34,4 +34,4 @@
    	 (d-DirectivePut-score-prefix "ScoreIndent" (string-append "\\layout {indent = " indent "}\n"))
   	(d-DirectivePut-score-override "ScoreIndent"	DENEMO_OVERRIDE_GRAPHIC)
  	 (d-DirectivePut-score-display "ScoreIndent" (string-append "indent=" indent))
-	 (d-RefreshDisplay))))
+	 (d-SetSaved #f))))

@@ -68,3 +68,4 @@
 	(d-DirectivePut-standalone-minpixels tag 10)
 	(d-SetSaved #f)
 	(d-MoveCursorRight))))))
+(d-RefreshDisplay)

@@ -1,2 +1,4 @@
-(d-AttachLilyToNote "postfix=-0\0display=0")
+(ToggleDirective "note" "postfix" "Fingering" "-0 ")
+(if (d-Directive-note? "Fingering")
+	(d-DirectivePut-note-display"Fingering" "0"))
 (d-Chordize #t)

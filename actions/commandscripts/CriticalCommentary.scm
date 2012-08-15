@@ -14,8 +14,8 @@
     (let loop ((count 0))
       (if (< count (length thelist))
 	(begin
-	  (set! ret (string-append ret "\n\\markup { \\wordwrap-string #\"" (number->string (+ 1 count)) ". "
-	    (list-ref thelist count) "\"}\n"))
+	  (set! ret (string-append ret "\n\\markup { \\wordwrap-string #\"" (number->string (+ 1 count)) ". \""
+	    (list-ref thelist count) "}\n"))
 	  (loop (+ 1 count)))))
    ret)
    (define thecomments '())
@@ -35,8 +35,8 @@
 	  (if (d-Directive-standalone? tag) 
 	    (begin
 	      (set! ok #t)
-	      (set! thecomment (d-DirectiveGet-standalone-display tag))
-	      (set! thecomments (cons* (string-append "At m" movement-number " v" (number->string voice) " b" measure-number ": " thecomment) thecomments))))
+	      (set! thecomment (d-DirectiveGet-standalone-postfix tag))
+	      (set! thecomments (cons* (string-append "\\wordwrap-string #\"At m" movement-number " v" (number->string voice) " b" measure-number ": \"" thecomment) thecomments))))
 	    (if (NextDirectiveOfTagInMeasure tag)
 	      (loop)))	     
 	(if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
