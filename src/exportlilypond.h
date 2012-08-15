@@ -36,4 +36,7 @@ gchar *get_lilypond_for_clef(clef *theclef);
 gchar *get_lilypond_for_keysig(struct keysig *key);
 gchar *get_lilypond_for_timesig(timesig *time);
 gchar *get_lilypond_paper(void);
+const gchar *get_prevailing_clef_as_lilypond(void);
+const gchar *get_prevailing_keysig_as_lilypond(void);
+const gchar *get_prevailing_timesig_as_lilypond(void);
 #endif

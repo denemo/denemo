@@ -23,6 +23,7 @@
 #include "processstaffname.h"
 #include "commandfuncs.h"
 #include "scorelayout.h"
+#include "contexts.h"
 
 #define ENTER_NOTIFY_EVENT "focus-in-event"
 #define LEAVE_NOTIFY_EVENT "focus-out-event"
@@ -1403,6 +1404,23 @@ gchar *get_lilypond_paper(void) {
       g_string_append_printf (str,  "%s", "print-all-headers = ##f\n");
   }
 return g_string_free(str, FALSE);
+}
+
+
+const gchar *get_prevailing_clef_as_lilypond(void) {
+  clef *theclef = get_prevailing_context(CLEF);
+  const gchar *clefname = get_lilypond_for_clef(theclef);
+  return clefname;
+}
+const gchar *get_prevailing_keysig_as_lilypond(void) {
+  keysig *thekeysig = get_prevailing_context(KEYSIG);
+  const gchar *keysigname = get_lilypond_for_keysig(thekeysig);
+  return keysigname;
+}
+const gchar *get_prevailing_timesig_as_lilypond(void) {
+  timesig *thetimesig = get_prevailing_context(TIMESIG);
+  const gchar *timesigname = get_lilypond_for_timesig(thetimesig);
+  return timesigname;
 }
 
 static void do_time_sig(GString *definitions, DenemoStaff *curstaffstruct, gchar *movement, gchar *voice) {
