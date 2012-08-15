@@ -188,23 +188,23 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
   DenemoObject *mudelaitem = (DenemoObject *) curobj->data;
 
   //g_print("draw obj %d %d\n", mudelaitem->x, y);
-  //this is the selection being given a blue background
+  //this is the selection being given a green background
   if(cr) if(itp->mark) {
     cairo_save(cr);
-    cairo_set_source_rgb( cr, 0.5, 0.5, 1.0 );
+    cairo_set_source_rgb( cr, 0.5, 1.0, 0.5 );
     cairo_rectangle (cr, x+mudelaitem->x, y, 20, 80 );
     cairo_fill(cr);
     cairo_restore(cr);
   }
   //g_print("%x %f %f %f\n", Denemo.gui->si->playingnow, Denemo.gui->si->playhead,  mudelaitem->earliest_time, mudelaitem->latest_time );
 
-  // draw playhead as green background
+  // draw playhead as yellowish background
 
  if( Denemo.gui->si->playingnow == mudelaitem)
   {
      if(cr) {
        cairo_save(cr);
-       cairo_set_source_rgb( cr, 0.5, 1.0, 0.5 );
+       cairo_set_source_rgb( cr, 0.8, 0.8, 0.0 );
        cairo_rectangle (cr, x+mudelaitem->x, y, 20, 80 );
        cairo_fill(cr);
        cairo_restore(cr);
