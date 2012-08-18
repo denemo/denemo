@@ -340,6 +340,7 @@ static void convert_to_lilypond_callback(GtkWidget *widget, DenemoScoreblock *sb
 				gtk_notebook_prepend_page(GTK_NOTEBOOK(notebook), newsb->widget, label);
 				gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook), 0);
 				Denemo.gui->custom_scoreblocks = g_list_append(Denemo.gui->custom_scoreblocks, newsb);
+				Denemo.gui->layout_id = 0;
 }
 
 static void delete_custom_scoreblock_callback(GtkWidget *widget, DenemoScoreblock *sb) {
@@ -396,6 +397,7 @@ static gboolean clone_scoreblock(DenemoScoreblock *sb, gchar *name) {
 			create_standard_scoreblock(&newsb, movement, partname);
 			Denemo.gui->standard_scoreblocks = g_list_prepend(Denemo.gui->standard_scoreblocks, newsb);
 			Denemo.gui->lilysync = G_MAXUINT;
+			Denemo.gui->layout_id = 0;
 			return TRUE;
 		} else {
 		g_free(partname);
@@ -1614,6 +1616,7 @@ static gboolean change_tab (GtkNotebook *notebook, GtkWidget *page, gint pagenum
 			DenemoScoreblock *sb = ((DenemoScoreblock*)g->data);
 			sb->visible = (sb->widget == page);
 		}
+	Denemo.gui->layout_id = 0;
 	return TRUE;
 }
 
@@ -1660,9 +1663,12 @@ DenemoScoreblock *selected_scoreblock(void) {
 }
 
 guint selected_layout_id(void) {
-DenemoScoreblock *sb = selected_scoreblock();
-if(sb) return sb->id;
-return 0;
+	if(Denemo.gui->layout_id==0) {
+		DenemoScoreblock *sb = selected_scoreblock();
+		if(sb)
+			Denemo.gui->layout_id = sb->id;
+	}
+  return Denemo.gui->layout_id;
 }
 
 GtkWidget *get_score_layout_notebook(DenemoGUI *gui) {

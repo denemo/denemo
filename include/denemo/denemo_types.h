@@ -893,6 +893,7 @@ typedef struct DenemoGUI
   GList *standard_scoreblocks; /**< List of automatically generated \score blocks for LilyPond output elements are DenemoScoreblock * */
   GList *custom_scoreblocks; /**< List of customized  \score blocks for LilyPond output, elements are DenemoScoreblock * */
   GtkWidget *score_layout; /**< The window in which custom_scoreblock widgets are placed */
+  guint layout_id; /**< cached value of the currently selected layout id */
   GList *callbacks;/**< scheme callbacks on deletion */
   gpointer lilystart, lilyend; /**<range of lilytext  */
   GString **target; /**< pointer to target string for modification in lilytext  */
