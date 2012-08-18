@@ -1336,11 +1336,14 @@ static void append_lilypond_for_affix(const gchar *affix, GtkWidget *w, GString 
 static void lilypond_for_layout(GString *out, GtkWidget *layout) {
 	append_lilypond_for_affix ("prefix", layout, out);
 	if(GTK_IS_CONTAINER(layout)) {
-		GList *g = gtk_container_get_children(GTK_CONTAINER(layout));
-		if(g)
-		do {
-			lilypond_for_layout(out, g->data);
-		} while ((g=g->next));
+		GList *list = gtk_container_get_children(GTK_CONTAINER(layout));
+		if(list) {
+			GList *g = list;
+			do {
+				lilypond_for_layout(out, g->data);
+			} while ((g=g->next));
+			g_list_free(list);
+		}
 	}
 	append_lilypond_for_affix ("postfix", layout, out);
 }
@@ -1619,6 +1622,7 @@ static gboolean change_tab (GtkNotebook *notebook, GtkWidget *page, gint pagenum
 void refresh_lilypond(DenemoScoreblock *sb) {
 	if(sb->widget) {
 		if(!is_lilypond_text_layout(sb)) {
+			g_free(sb->name);
 			sb->name = g_strdup(scoreblock_name(sb));
 			sb->id = crc32(sb->name);
 			if(sb->lilypond==NULL)
@@ -1641,7 +1645,7 @@ DenemoScoreblock *selected_scoreblock(void) {
 	for(g=Denemo.gui->custom_scoreblocks;g;g=g->next) {
 			DenemoScoreblock *sb = ((DenemoScoreblock*)g->data);
 			if(sb->widget == page){
-				refresh_lilypond(sb);
+				refresh_lilypond(sb);//!!!! needs sorting out !!!
 				return sb;
 			}
 	}
