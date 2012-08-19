@@ -245,7 +245,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 
 	gint highest = draw_chord ( cr, curobj, x + mudelaitem->x, y,
 		     GPOINTER_TO_INT (itp->mwidthiterator->data),
-		     itp->curaccs, itp->mark);
+		     itp->curaccs, itp->mark, (si->currentobject == curobj));
 	if((thechord->highesty) < itp->highy)
 	  itp->highy  = thechord->highesty;
 	itp->highy = MIN(itp->highy, highest);
@@ -351,7 +351,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
     case LILYDIRECTIVE:
      {DenemoDirective *directive = mudelaitem->object;
       if(cr) draw_lily_dir(cr,
-		       x + mudelaitem->x, y, 0, 0, mudelaitem, itp->mark);
+		       x + mudelaitem->x, y, 0, 0, mudelaitem, itp->mark, (si->currentobject == curobj));
       if((directive->ty - 10) < itp->highy)
 	  itp->highy  = directive->ty - 10/* for height of text */;
       if((directive->gy - 10) < itp->highy)

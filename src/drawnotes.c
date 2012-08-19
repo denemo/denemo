@@ -212,7 +212,7 @@ draw_ledgers (cairo_t *cr,
  */
 gint
 draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
-	    gint mwidth, gint * accs, gboolean selected)
+	    gint mwidth, gint * accs, gboolean selected, gboolean at_cursor)
 {
   gint highest = 0;
   static gunichar upstem_char[SMALLESTDURATION + 1] =
@@ -329,8 +329,17 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	  }
 	}
 	if(directive->display) {
+	  #define MAXLEN (8)
+	  gchar c=0;//if it is a long string only show it all when cursor is on it
+	  if((!at_cursor) && directive->display->len>MAXLEN) {
+	    c=*(directive->display->str+MAXLEN);
+	    *(directive->display->str+MAXLEN) = 0;
+	  }
 	  drawnormaltext_cr (cr, directive->display->str, xx+directive->tx, y + ((thechord.highesty>-10)?-10:thechord.highesty) - 8 +count+directive->ty );
 	  highest = y + ((thechord.highesty>-10)?-10:thechord.highesty) - 8 +count+directive->ty - 10/*for height of text */;
+	  if(c) {
+	  *(directive->display->str+MAXLEN) = c;
+	  }
 	}
 	count += 16;
       } //for each chord directive
