@@ -329,7 +329,7 @@ static void install_scm_function3(gchar *name, gpointer callback) {
   if(DEV_fp)
     fprintf(DEV_fp, "<listitem>%s three parameters: %s </listitem>\n",name, tooltip);
 #endif
-scm_c_define_gsubr (name, 3, 0, 0, callback);
+scm_c_define_gsubr (name, 0, 3, 0, callback);
 
 }
 
@@ -339,7 +339,7 @@ static void install_scm_function4(gchar *name, gpointer callback) {
   if(DEV_fp)
     fprintf(DEV_fp, "<listitem>%s four parameters: %s </listitem>\n",name, tooltip);
 #endif
-scm_c_define_gsubr (name, 4, 0, 0, callback);
+scm_c_define_gsubr (name, 0, 4, 0, callback);
 
 }
 
@@ -2286,7 +2286,7 @@ SCM scheme_change_chord_notes (SCM lilynotes) {
    return  SCM_BOOL(FALSE);
 }
 
-SCM scheme_get_user_input(SCM label, SCM prompt, SCM init) {
+SCM scheme_get_user_input(SCM label, SCM prompt, SCM init, SCM modal) {
   char *title, *instruction, *initial_value;
   gint length;
 
@@ -2304,7 +2304,7 @@ SCM scheme_get_user_input(SCM label, SCM prompt, SCM init) {
  }
  else initial_value = strdup(" ");
  
- gchar * ret = string_dialog_entry_with_widget (Denemo.gui, title, instruction, initial_value, NULL);
+ gchar * ret =  string_dialog_entry_with_widget_opt (Denemo.gui, title, instruction, initial_value, NULL, (modal==SCM_UNDEFINED)||scm_is_true(modal));
  SCM scm = scm_makfrom0str (ret);
 
  if (title) free(title);
@@ -2367,7 +2367,7 @@ static gchar *create_lilypond_from_text(gchar *orig) {
  return g_string_free(ret, FALSE);
 }
 
-SCM scheme_get_user_input_with_snippets(SCM label, SCM prompt, SCM init) {
+SCM scheme_get_user_input_with_snippets(SCM label, SCM prompt, SCM init, SCM modal) {
   char *title, *instruction, *initial_value;
   gint length;
   SCM scm;
@@ -2402,7 +2402,7 @@ SCM scheme_get_user_input_with_snippets(SCM label, SCM prompt, SCM init) {
    gtk_widget_set_sensitive(button, FALSE);
  gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
  
- gchar * text = string_dialog_editor_with_widget (Denemo.gui, title, instruction, initial_value, hbox);
+ gchar * text = string_dialog_editor_with_widget_opt (Denemo.gui, title, instruction, initial_value, hbox, (modal==SCM_UNDEFINED)||scm_is_true(modal));
  if(text) {
   gchar *lilypond = create_lilypond_from_text(text);
   scm = scm_cons (scm_makfrom0str(text), scm_makfrom0str(lilypond));
@@ -4799,8 +4799,8 @@ static void create_scheme_identfiers(void) {
   INSTALL_SCM_FUNCTION4 ("Move to given Movement, voice measure and object position. Takes 4 parameters integers starting from 1, use #f for no change. Returns #f if it fails", DENEMO_SCHEME_PREFIX"GoToPosition", scheme_goto_position);
 
 
-  INSTALL_SCM_FUNCTION3 ("Takes three strings, title, prompt and initial value. Shows these to the user and returns the user's string.", DENEMO_SCHEME_PREFIX"GetUserInput", scheme_get_user_input);
-  INSTALL_SCM_FUNCTION3 ("Takes three strings, title, prompt and initial value. Shows these to the user with a text editor for the user to return a string. Buttons are present to insert snippets which are bracketed with backquote characters in the return string.", DENEMO_SCHEME_PREFIX"GetUserInputWithSnippets", scheme_get_user_input_with_snippets);
+  INSTALL_SCM_FUNCTION4 ("Takes up to three strings, title, prompt and initial value. Shows these to the user and returns the user's string. Fourth parameter makes the dialog not block waiting for input", DENEMO_SCHEME_PREFIX"GetUserInput", scheme_get_user_input);
+  INSTALL_SCM_FUNCTION4 ("Takes up to three strings, title, prompt and initial value. Shows these to the user with a text editor for the user to return a string. Buttons are present to insert snippets which are bracketed with secion characters in the return string. Fourth parameter makes the dialog not block waiting for input", DENEMO_SCHEME_PREFIX"GetUserInputWithSnippets", scheme_get_user_input_with_snippets);
   INSTALL_SCM_FUNCTION ("Takes a message as a string. Pops up the message for the user to take note of as a warning",DENEMO_SCHEME_PREFIX"WarningDialog", scheme_warningdialog);
   INSTALL_SCM_FUNCTION ("Takes a message as a string. Pops up the message for the user to take note of as a informative message",DENEMO_SCHEME_PREFIX"InfoDialog", scheme_infodialog);
   INSTALL_SCM_FUNCTION ("Takes a message as a string. Pops up the message inside of a pulsing progressbar",DENEMO_SCHEME_PREFIX"ProgressBar", scheme_progressbar);
