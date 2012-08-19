@@ -10,9 +10,14 @@
         <scheme>;;; CriticalComment
 (let ((tag  "CriticalComment") (lilypond ""))
 (define current (d-DirectiveGet-standalone-display tag))
+(define position (GetPosition))
 (let script ((answer (d-GetUserInputWithSnippets "Critical Comment" "Give Comment" (if current current "")  #f )))
 	(set! lilypond (cdr answer))
 	(set! answer (car answer))
+	(if (not (PositionEqual? position (GetPosition)))
+		(begin
+			(if (not (equal? (_ "y") (d-GetUserInput (_ "Cursor has Moved") (_ "Apply Command to new position of cursor?")  (_ "y"))))
+			(apply d-GoToPosition position))))
 	(if (and answer (not (string=? answer "")))
 		(begin
 			(d-Directive-standalone tag)
