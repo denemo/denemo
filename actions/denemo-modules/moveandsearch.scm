@@ -123,6 +123,12 @@
 	
 (define (GetPosition)
 	(list (d-GetMovement) (d-GetStaff) (d-GetMeasure)(d-GetHorizontalPosition)))
+
+(define (PositionEqual? position1 position2)
+		(and (equal? (list-ref position1 0) (list-ref position2 0))
+		(equal? (list-ref position1 1) (list-ref position2 1))
+		(equal? (list-ref position1 2) (list-ref position2 2))
+		(equal? (list-ref position1 3) (list-ref position2 3))))
 	
 (define (Probe test moveinstruction)
 	(define return #f)
