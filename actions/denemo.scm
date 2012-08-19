@@ -419,7 +419,7 @@
 	      (set! current (match:substring thematch 1)))))
     (if (not title)
 	(set! title (d-GetUserInput (string-append type " " fieldname)
-				    (string-append "Give a name for the " fieldname " of the " type) current)))
+				    (string-append "Give a name for the " fieldname " of the " type) current #f)))
     (if title
       (begin
 	  (d-SetSaved #f)
@@ -448,7 +448,7 @@
   (if (not title)
     (begin 
       (set! title  (d-GetUserInput (string-append "Score " field) 
-			      (string-append "Give a name for the " field " of the whole score") current))
+			      (string-append "Give a name for the " field " of the whole score") current #f))
       (if title
 	(set! title (string-append "\"" title "\"")))))
   (if title
