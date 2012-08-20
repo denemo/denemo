@@ -20,6 +20,7 @@
 			(apply d-GoToPosition position))))
 	(if (and answer (not (string=? answer "")))
 		(begin
+			(d-Directive-score "CriticalCommentsAmended")
 			(d-Directive-standalone tag)
 			(d-DirectivePut-standalone-minpixels tag 30)
 			(d-DirectivePut-standalone-override tag

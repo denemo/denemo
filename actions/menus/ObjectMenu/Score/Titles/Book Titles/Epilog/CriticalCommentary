@@ -76,6 +76,7 @@
 		(d-DirectivePut-score-postfix "CriticalCommentary" (string-append "\\pageBreak\n\\titledPiece \\markup \"" (scheme-escape Title) "\"\n\\markup { \\fill-line {\\postscript #\"-12 3 moveto 24 0 rlineto stroke\"}}\n\\markup {\\italic \\wordwrap-string #\"" (scheme-escape Prolog) "\"}\n" )))
 	      ))))) 				
    (d-PopPosition))
+   (d-DirectiveDelete-score "CriticalCommentsAmended")
  </scheme>
         <label>(Re)Create Epilog - Critical Commentary</label>
         <tooltip>Collects together any critical comments from the score and places them in an epilog at the end of the music. The Title and text of the Epilog are created with the CriticalCommentaryIntro command, and critical comments are added with the CriticalComment command.</tooltip>

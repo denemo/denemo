@@ -74,8 +74,29 @@
   (if (equal? tag #f)
       (string? (d-DirectiveGetForTag-standalone ""))
       (equal? tag (d-DirectiveGetForTag-standalone tag))))
+
 (define (d-DirectiveGetTag-standalone)
   (d-DirectiveGetForTag-standalone ""))
+
+
+; d-DirectivePut-score a convenience function for score directives
+(define (d-DirectivePut-score tag)
+  (d-DirectivePut-score-minpixels tag 0))
+
+(define (d-Directive-score tag)
+      (d-DirectivePut-score tag))
+
+(define* (d-Directive-score?  #:optional (tag #f))
+  (if (equal? tag #f)
+      (string? (d-DirectiveGetForTag-score ""))
+      (equal? tag (d-DirectiveGetForTag-score tag))))
+
+(define (d-DirectiveGetTag-score)
+  (d-DirectiveGetForTag-score ""))
+
+
+
+  
 
 (define* (d-Directive-chord?  #:optional (tag #f))
   (if (equal? tag #f)
