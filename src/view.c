@@ -2387,8 +2387,8 @@ SCM scheme_get_user_input_with_snippets(SCM label, SCM prompt, SCM init, SCM mod
  GtkWidget *hbox = gtk_hbox_new(FALSE, 8);
  GtkWidget *button = gtk_button_new_with_label(_("Paste Current Snippet"));
  gtk_widget_set_tooltip_text(button, _("Pastes the music captured in the currently selected Snippet into the text at the cursor. The music appears here in the LilyPond typesetter syntax between two markers (\302\247). It will print as typeset music embedded in the sentence you are writing.\nYou can edit the syntax, taking care to leave the markers in position. If you delete one marker be sure to delete the other.\n"));
- if(!Denemo.gui->rhythms)
-    gtk_widget_set_sensitive(button, FALSE);
+// if(!Denemo.gui->rhythms)
+ //   gtk_widget_set_sensitive(button, FALSE);
  g_signal_connect(button, "clicked", G_CALLBACK(paste_snippet_lilypond), NULL);
  gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
  button = gtk_button_new_with_label(_("Next Snippet"));
@@ -2398,8 +2398,8 @@ SCM scheme_get_user_input_with_snippets(SCM label, SCM prompt, SCM init, SCM mod
     g_signal_connect_swapped(button, "clicked", G_CALLBACK(gtk_action_activate), action);
  else
   gtk_widget_set_sensitive(button, FALSE);
- if(!Denemo.gui->rhythms)
-   gtk_widget_set_sensitive(button, FALSE);
+// if(!Denemo.gui->rhythms)
+//   gtk_widget_set_sensitive(button, FALSE);
  gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
  
  gchar * text = string_dialog_editor_with_widget_opt (Denemo.gui, title, instruction, initial_value, hbox, (modal==SCM_UNDEFINED)||scm_is_true(modal));
