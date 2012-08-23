@@ -4597,7 +4597,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
         <label>Arbitrary transpose up</label>
-        <tooltip>Transpose/shift the cursor note or selection an arbitrary number of tones up. User can specify interval through a dialogue.</tooltip>
+        <tooltip>Transpose/shift the cursor note or selection an arbitrary number of tones up. User can specify interval through a dialog.</tooltip>
       </row>
       <row>
         <action>ShiftRealDialogDown</action>
@@ -4605,7 +4605,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
         <label>Arbitrary transpose down</label>
-        <tooltip>Transpose/shift the cursor note or selection an arbitrary number of tones down. User can specify interval through a dialogue.</tooltip>
+        <tooltip>Transpose/shift the cursor note or selection an arbitrary number of tones down. User can specify interval through a dialog.</tooltip>
       </row>
       <row>
         <action>AddLowestUpPerfect1</action>
@@ -5845,7 +5845,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/MainMenu/FileMenu/OpenMenu</menupath>
         <label>Open Source for Transcribing</label>
-        <tooltip>Opens a dialogue to fetch a source facsimile or manuscript. Links can be placed in the Denemo score to this source file so that the source passage for a given bar can be re-displayed when reviewing the score.</tooltip>
+        <tooltip>Opens a dialog to fetch a source facsimile or manuscript. Links can be placed in the Denemo score to this source file so that the source passage for a given bar can be re-displayed when reviewing the score.</tooltip>
       </row>
       <row>
         <action>PrintThreeReduced</action>
@@ -5861,7 +5861,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/StaffMenu</menupath>
         <label>Create Cues</label>
-        <tooltip>Goes through the staff looking for long rests. Creates a cue in the whole bar rest.</tooltip>
+        <tooltip>Goes through the staff looking for long rests. Creates a cue in the whole measure rest.</tooltip>
       </row>
       <row>
         <action>StaffMultiMeasureRests</action>
@@ -6020,7 +6020,7 @@ for second and subsequent systems</tooltip>
         <menupath>/MainMenu/HelpMenu</menupath>
         <label>Turn Excessive Tooltips (Off/On)</label>
         <tooltip>Sets your status as a newbie on or off. This affects the tooltips.
-Note you can also delay tooltips, indefinitely if you wish, via the preferences dialogue. See Edit-&gt;Change Preferences-&gt;Command Behaviour</tooltip>
+Note you can also delay tooltips, indefinitely if you wish, via the preferences dialog. See Edit-&gt;Change Preferences-&gt;Command Behaviour</tooltip>
       </row>
       <row>
         <action>NoteNamesDefault</action>

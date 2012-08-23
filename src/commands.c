@@ -3435,9 +3435,9 @@ g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
 /* ShiftRealDialogUp*/
-action = gtk_action_new("ShiftRealDialogUp",_("Arbitrary transpose up"),_("Transpose/shift the cursor note or selection an arbitrary number of tones up. User can specify interval through a dialogue."), get_icon_for_name("ShiftRealDialogUp", "Arbitrary transpose up"));
+action = gtk_action_new("ShiftRealDialogUp",_("Arbitrary transpose up"),_("Transpose/shift the cursor note or selection an arbitrary number of tones up. User can specify interval through a dialog."), get_icon_for_name("ShiftRealDialogUp", "Arbitrary transpose up"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ShiftRealHalfDown");
-register_command(Denemo.map, action, "ShiftRealDialogUp", _("Arbitrary transpose up"), _("Transpose/shift the cursor note or selection an arbitrary number of tones up. User can specify interval through a dialogue."), activate_script);
+register_command(Denemo.map, action, "ShiftRealDialogUp", _("Arbitrary transpose up"), _("Transpose/shift the cursor note or selection an arbitrary number of tones up. User can specify interval through a dialog."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ShiftRealDialogUp");
 add_ui("/ObjectMenu/NotesRests/Transpose", "ShiftRealHalfDown", "ShiftRealDialogUp");
@@ -3446,9 +3446,9 @@ g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Transpos
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
 /* ShiftRealDialogDown*/
-action = gtk_action_new("ShiftRealDialogDown",_("Arbitrary transpose down"),_("Transpose/shift the cursor note or selection an arbitrary number of tones down. User can specify interval through a dialogue."), get_icon_for_name("ShiftRealDialogDown", "Arbitrary transpose down"));
+action = gtk_action_new("ShiftRealDialogDown",_("Arbitrary transpose down"),_("Transpose/shift the cursor note or selection an arbitrary number of tones down. User can specify interval through a dialog."), get_icon_for_name("ShiftRealDialogDown", "Arbitrary transpose down"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ShiftRealDialogUp");
-register_command(Denemo.map, action, "ShiftRealDialogDown", _("Arbitrary transpose down"), _("Transpose/shift the cursor note or selection an arbitrary number of tones down. User can specify interval through a dialogue."), activate_script);
+register_command(Denemo.map, action, "ShiftRealDialogDown", _("Arbitrary transpose down"), _("Transpose/shift the cursor note or selection an arbitrary number of tones down. User can specify interval through a dialog."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ShiftRealDialogDown");
 add_ui("/ObjectMenu/NotesRests/Transpose", "ShiftRealDialogUp", "ShiftRealDialogDown");
@@ -5166,9 +5166,9 @@ g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
 /* OpenSourceDialog*/
-action = gtk_action_new("OpenSourceDialog",_("Open Source for Transcribing"),_("Opens a dialogue to fetch a source facsimile or manuscript. Links can be placed in the Denemo score to this source file so that the source passage for a given bar can be re-displayed when reviewing the score."), get_icon_for_name("OpenSourceDialog", "Open Source for Transcribing"));
+action = gtk_action_new("OpenSourceDialog",_("Open Source for Transcribing"),_("Opens a dialog to fetch a source facsimile or manuscript. Links can be placed in the Denemo score to this source file so that the source passage for a given bar can be re-displayed when reviewing the score."), get_icon_for_name("OpenSourceDialog", "Open Source for Transcribing"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"OpenNewWindow");
-register_command(Denemo.map, action, "OpenSourceDialog", _("Open Source for Transcribing"), _("Opens a dialogue to fetch a source facsimile or manuscript. Links can be placed in the Denemo score to this source file so that the source passage for a given bar can be re-displayed when reviewing the score."), activate_script);
+register_command(Denemo.map, action, "OpenSourceDialog", _("Open Source for Transcribing"), _("Opens a dialog to fetch a source facsimile or manuscript. Links can be placed in the Denemo score to this source file so that the source passage for a given bar can be re-displayed when reviewing the score."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("OpenSourceDialog");
 add_ui("/MainMenu/FileMenu/OpenMenu", "OpenNewWindow", "OpenSourceDialog");
@@ -5188,9 +5188,9 @@ g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/FileMenu/PrintMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
 /* CreateCuesForStaff*/
-action = gtk_action_new("CreateCuesForStaff",_("Create Cues"),_("Goes through the staff looking for long rests. Creates a cue in the whole bar rest."), get_icon_for_name("CreateCuesForStaff", "Create Cues"));
+action = gtk_action_new("CreateCuesForStaff",_("Create Cues"),_("Goes through the staff looking for long rests. Creates a cue in the whole measure rest."), get_icon_for_name("CreateCuesForStaff", "Create Cues"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"StaffComment");
-register_command(Denemo.map, action, "CreateCuesForStaff", _("Create Cues"), _("Goes through the staff looking for long rests. Creates a cue in the whole bar rest."), activate_script);
+register_command(Denemo.map, action, "CreateCuesForStaff", _("Create Cues"), _("Goes through the staff looking for long rests. Creates a cue in the whole measure rest."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("CreateCuesForStaff");
 add_ui("/ObjectMenu/StaffMenu", "StaffComment", "CreateCuesForStaff");
@@ -5406,9 +5406,9 @@ g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/HelpMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
 /* SetNewbieStatus*/
-action = gtk_action_new("SetNewbieStatus",_("Turn Excessive Tooltips (Off/On)"),_("Sets your status as a newbie on or off. This affects the tooltips.\nNote you can also delay tooltips, indefinitely if you wish, via the preferences dialogue. See Edit->Change Preferences->Command Behaviour"), get_icon_for_name("SetNewbieStatus", "Turn Excessive Tooltips (Off/On)"));
+action = gtk_action_new("SetNewbieStatus",_("Turn Excessive Tooltips (Off/On)"),_("Sets your status as a newbie on or off. This affects the tooltips.\nNote you can also delay tooltips, indefinitely if you wish, via the preferences dialog. See Edit->Change Preferences->Command Behaviour"), get_icon_for_name("SetNewbieStatus", "Turn Excessive Tooltips (Off/On)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"HelpForReturnKey");
-register_command(Denemo.map, action, "SetNewbieStatus", _("Turn Excessive Tooltips (Off/On)"), _("Sets your status as a newbie on or off. This affects the tooltips.\nNote you can also delay tooltips, indefinitely if you wish, via the preferences dialogue. See Edit->Change Preferences->Command Behaviour"), activate_script);
+register_command(Denemo.map, action, "SetNewbieStatus", _("Turn Excessive Tooltips (Off/On)"), _("Sets your status as a newbie on or off. This affects the tooltips.\nNote you can also delay tooltips, indefinitely if you wish, via the preferences dialog. See Edit->Change Preferences->Command Behaviour"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SetNewbieStatus");
 add_ui("/MainMenu/HelpMenu", "HelpForReturnKey", "SetNewbieStatus");
