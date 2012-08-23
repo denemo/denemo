@@ -403,6 +403,10 @@
         <bind>f1</bind>
       </row>
       <row>
+        <action>HelpForReturnKey</action>
+        <bind>Return</bind>
+      </row>
+      <row>
         <action>InsertA</action>
         <bind>A,A</bind>
       </row>
@@ -535,6 +539,18 @@
         <bind>t</bind>
       </row>
       <row>
+        <action>Allegro</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>Andante</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>Presto</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>StartBeam</action>
         <bind>bracketleft</bind>
       </row>
@@ -563,12 +579,36 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>Fortissimo</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>CautionaryAccidental</action>
         <bind>Shft+slash</bind>
       </row>
       <row>
+        <action>AllegroAssai</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MezzoForte</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>DeleteDynamic</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>ToggleTripleting</action>
         <bind>Tab</bind>
+      </row>
+      <row>
+        <action>Largo</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>Adagio</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>NextBookmark</action>
@@ -616,6 +656,14 @@
       </row>
       <row>
         <action>EndSecondTimeBar</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MezzoPiano</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>Forte</action>
         <hidden>true</hidden>
       </row>
       <row>
