@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: denemo 0.9.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-23 09:04+0100\n"
+"POT-Creation-Date: 2012-08-23 18:04+0100\n"
 "PO-Revision-Date: 2012-05-01 01:22+0900\n"
 "Last-Translator: Takeshi Hamasaki <hmatrjp@users.sourceforge.jp>\n"
 "Language-Team: Japanese\n"
@@ -2960,7 +2960,7 @@ msgstr ""
 #: src/commands.c:3438 src/commands.c:3440
 msgid ""
 "Transpose/shift the cursor note or selection an arbitrary number of tones "
-"up. User can specify interval through a dialogue."
+"up. User can specify interval through a dialog."
 msgstr ""
 
 #: src/commands.c:3449 src/commands.c:3451
@@ -2970,7 +2970,7 @@ msgstr ""
 #: src/commands.c:3449 src/commands.c:3451
 msgid ""
 "Transpose/shift the cursor note or selection an arbitrary number of tones "
-"down. User can specify interval through a dialogue."
+"down. User can specify interval through a dialog."
 msgstr ""
 
 #: src/commands.c:3460 src/commands.c:3461
@@ -4322,7 +4322,7 @@ msgstr ""
 
 #: src/commands.c:5169 src/commands.c:5171
 msgid ""
-"Opens a dialogue to fetch a source facsimile or manuscript. Links can be "
+"Opens a dialog to fetch a source facsimile or manuscript. Links can be "
 "placed in the Denemo score to this source file so that the source passage "
 "for a given bar can be re-displayed when reviewing the score."
 msgstr ""
@@ -4343,7 +4343,7 @@ msgstr "カスタムバージョンを作成"
 #: src/commands.c:5191 src/commands.c:5193
 msgid ""
 "Goes through the staff looking for long rests. Creates a cue in the whole "
-"bar rest."
+"measure rest."
 msgstr ""
 
 #: src/commands.c:5202 src/commands.c:5204
@@ -4543,7 +4543,7 @@ msgstr ""
 msgid ""
 "Sets your status as a newbie on or off. This affects the tooltips.\n"
 "Note you can also delay tooltips, indefinitely if you wish, via the "
-"preferences dialogue. See Edit->Change Preferences->Command Behaviour"
+"preferences dialog. See Edit->Change Preferences->Command Behaviour"
 msgstr ""
 
 #: src/commands.c:5420 src/commands.c:5421
