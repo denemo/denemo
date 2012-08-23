@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: denemo 0.7.3beta1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-19 18:16+0100\n"
+"POT-Creation-Date: 2012-08-23 09:04+0100\n"
 "PO-Revision-Date: 2005-02-11 23:18+0000\n"
 "Last-Translator:  <adam@ajtee.plus.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -17,27 +17,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/articulations.c:290
+#: src/articulations.c:291
 msgid "<b>General</b>"
 msgstr ""
 
-#: src/articulations.c:330
+#: src/articulations.c:331
 msgid "<b>String</b>"
 msgstr ""
 
-#: src/articulations.c:347
+#: src/articulations.c:348
 msgid "<b>Organ</b>"
 msgstr ""
 
-#: src/articulations.c:368
+#: src/articulations.c:369
 msgid "<b>Brass</b>"
 msgstr ""
 
-#: src/articulations.c:382
+#: src/articulations.c:383
 msgid "<b>Woodwind</b>"
 msgstr ""
 
-#: src/articulations.c:455
+#: src/articulations.c:456
 msgid "Articulation"
 msgstr ""
 
@@ -61,7 +61,7 @@ msgstr ""
 msgid "Close Repeat"
 msgstr ""
 
-#: src/barline.c:76 src/commands.c:2123 src/commands.c:2125
+#: src/barline.c:76 src/commands.c:2112 src/commands.c:2113
 #: src/register_commands.h:295
 msgid "Insert Barline"
 msgstr ""
@@ -86,18 +86,18 @@ msgstr ""
 msgid "Normal"
 msgstr ""
 
-#: src/changenotehead.c:22 src/changenotehead.c:36 src/commands.c:3352
-#: src/commands.c:3354
+#: src/changenotehead.c:22 src/changenotehead.c:36 src/commands.c:3340
+#: src/commands.c:3342
 msgid "Cross"
 msgstr ""
 
-#: src/changenotehead.c:22 src/changenotehead.c:38 src/commands.c:3341
-#: src/commands.c:3343
+#: src/changenotehead.c:22 src/changenotehead.c:38 src/commands.c:3329
+#: src/commands.c:3331
 msgid "Diamond"
 msgstr ""
 
-#: src/changenotehead.c:23 src/changenotehead.c:40 src/commands.c:3308
-#: src/commands.c:3310
+#: src/changenotehead.c:23 src/changenotehead.c:40 src/commands.c:3296
+#: src/commands.c:3298
 msgid "Harmonic"
 msgstr ""
 
@@ -141,7 +141,7 @@ msgstr ""
 msgid "French"
 msgstr ""
 
-#: src/clefdialog.c:126 src/scorelayout.c:1214
+#: src/clefdialog.c:126 src/scorelayout.c:1235
 msgid "Set Clef"
 msgstr ""
 
@@ -231,7 +231,7 @@ msgid "Segno  (Off/On)"
 msgstr ""
 
 #: src/commands.c:39 src/commands.c:40
-msgid "Preview Four Measures"
+msgid "Preview Four Bars"
 msgstr ""
 
 #: src/commands.c:39 src/commands.c:40
@@ -468,1160 +468,1152 @@ msgid "Prints a metronome. Adjusts playback tempo to this value."
 msgstr ""
 
 #: src/commands.c:319 src/commands.c:320
-msgid "Insert Anacrusis"
-msgstr ""
-
-#: src/commands.c:319 src/commands.c:320
-msgid "Insert a LilyPond Directive to give an eighth note upbeat"
-msgstr ""
-
-#: src/commands.c:329 src/commands.c:330
 msgid "Repeat Start Barline"
 msgstr ""
 
-#: src/commands.c:329 src/commands.c:330
+#: src/commands.c:319 src/commands.c:320
 msgid "Insert a barline indicating the start of a repeated section."
 msgstr ""
 
-#: src/commands.c:339 src/commands.c:340
+#: src/commands.c:329 src/commands.c:330
 msgid "Repeat End Barline"
 msgstr ""
 
-#: src/commands.c:339 src/commands.c:340
+#: src/commands.c:329 src/commands.c:330
 msgid "Insert a barline indicating the end of a repeated section."
 msgstr ""
 
-#: src/commands.c:349 src/commands.c:350
+#: src/commands.c:339 src/commands.c:340
 msgid "Repeat End-Start"
 msgstr ""
 
-#: src/commands.c:349 src/commands.c:350
+#: src/commands.c:339 src/commands.c:340
 msgid "Inserts a barline ending one repeated section and starting another"
 msgstr ""
 
-#: src/commands.c:359 src/commands.c:360
+#: src/commands.c:349 src/commands.c:350
 msgid "Apply Shortcut to Objects in Selection"
 msgstr ""
 
-#: src/commands.c:359 src/commands.c:360
+#: src/commands.c:349 src/commands.c:350
 msgid ""
 "Followed by a keyboard shortcut: applies the shortcut with the cursor "
 "successively on each object in the selection."
 msgstr ""
 
-#: src/commands.c:369 src/commands.c:370
+#: src/commands.c:359 src/commands.c:360
 msgid "(Print)Set Overall Score Size"
 msgstr ""
 
-#: src/commands.c:369 src/commands.c:370
+#: src/commands.c:359 src/commands.c:360
 msgid ""
 "Choose the font size of for the score, and hence how much space it takes up."
 msgstr ""
 
-#: src/commands.c:379 src/commands.c:380
+#: src/commands.c:369 src/commands.c:370
 msgid "Left Hand Fingering"
 msgstr ""
 
-#: src/commands.c:379 src/commands.c:380
+#: src/commands.c:369 src/commands.c:370
 msgid "Followed by a number, print Left Hand fingering on note"
 msgstr ""
 
-#: src/commands.c:389 src/commands.c:390
+#: src/commands.c:379 src/commands.c:380
 msgid "String Number"
 msgstr ""
 
-#: src/commands.c:389 src/commands.c:390
+#: src/commands.c:379 src/commands.c:380
 msgid "Followed by a number, places string number on note."
 msgstr ""
 
-#: src/commands.c:399 src/commands.c:400
+#: src/commands.c:389 src/commands.c:390
 msgid "Double Bar"
 msgstr ""
 
-#: src/commands.c:399 src/commands.c:400
+#: src/commands.c:389 src/commands.c:390
 msgid "Insert a double barline at cursor position."
 msgstr ""
 
-#: src/commands.c:409 src/commands.c:410
+#: src/commands.c:399 src/commands.c:400
 msgid "Glissando"
 msgstr ""
 
-#: src/commands.c:409 src/commands.c:410
+#: src/commands.c:399 src/commands.c:400
 msgid "Inserts a glissando"
 msgstr ""
 
-#: src/commands.c:419 src/commands.c:420
+#: src/commands.c:409 src/commands.c:410
 msgid "Smaller Staff"
 msgstr ""
 
-#: src/commands.c:419 src/commands.c:420
+#: src/commands.c:409 src/commands.c:410
 msgid ""
 "The current staff will print in a smaller size. Use this for the solo part "
 "above a piano accompaniment"
 msgstr ""
 
-#: src/commands.c:429 src/commands.c:430
+#: src/commands.c:419 src/commands.c:420
 msgid "Tmbales Style Staff"
 msgstr ""
 
-#: src/commands.c:429 src/commands.c:430
+#: src/commands.c:419 src/commands.c:420
 msgid "Changes to a drum staff"
 msgstr ""
 
-#: src/commands.c:439 src/commands.c:440
+#: src/commands.c:429 src/commands.c:430
 msgid "Fortissimo"
 msgstr ""
 
-#: src/commands.c:439 src/commands.c:440
+#: src/commands.c:429 src/commands.c:430
 msgid "Places a ff sign on the chord at the cursor"
 msgstr ""
 
-#: src/commands.c:449 src/commands.c:450
+#: src/commands.c:439 src/commands.c:440
 msgid "Cautionary Accidental"
 msgstr ""
 
-#: src/commands.c:449 src/commands.c:450
+#: src/commands.c:439 src/commands.c:440
 msgid "Forces the accidental on the note to be printed."
 msgstr ""
 
-#: src/commands.c:459 src/commands.c:460
+#: src/commands.c:449 src/commands.c:450
 msgid "Reminder Accidental"
 msgstr ""
 
-#: src/commands.c:459 src/commands.c:460
+#: src/commands.c:449 src/commands.c:450
 msgid ""
 "Shows the accidental in the print out inside (). Display shows accidental "
 "but plain."
 msgstr ""
 
-#: src/commands.c:469 src/commands.c:470 src/commands.c:559 src/commands.c:560
-#: src/commands.c:4475 src/commands.c:4477 src/commands.c:4526
-#: src/commands.c:4527
+#: src/commands.c:459 src/commands.c:460 src/commands.c:549 src/commands.c:550
+#: src/commands.c:4463 src/commands.c:4465 src/commands.c:4514
+#: src/commands.c:4515
 msgid "Title"
 msgstr ""
 
-#: src/commands.c:469 src/commands.c:470
+#: src/commands.c:459 src/commands.c:460
 msgid "Prints the name given as a title centered at the start of the score."
 msgstr ""
 
-#: src/commands.c:479 src/commands.c:480 src/commands.c:4486
-#: src/commands.c:4487
+#: src/commands.c:469 src/commands.c:470 src/commands.c:4474
+#: src/commands.c:4475
 msgid "Arranger"
 msgstr ""
 
-#: src/commands.c:479 src/commands.c:480
+#: src/commands.c:469 src/commands.c:470
 msgid "Name of the arranger, flush-right below the composer."
 msgstr ""
 
-#: src/commands.c:489 src/commands.c:490 src/commands.c:4506
-#: src/commands.c:4507
+#: src/commands.c:479 src/commands.c:480 src/commands.c:4494
+#: src/commands.c:4495
 msgid "Composer"
 msgstr ""
 
-#: src/commands.c:489 src/commands.c:490
+#: src/commands.c:479 src/commands.c:480
 msgid "Name of the composer, flush-right below the subsubtitle."
 msgstr ""
 
-#: src/commands.c:499 src/commands.c:500
+#: src/commands.c:489 src/commands.c:490
 msgid "Dedication"
 msgstr ""
 
-#: src/commands.c:499 src/commands.c:500
+#: src/commands.c:489 src/commands.c:490
 msgid "The dedicatee of the music, centered at the top of the first page."
 msgstr ""
 
-#: src/commands.c:509 src/commands.c:510
+#: src/commands.c:499 src/commands.c:500
 msgid "Instrument"
 msgstr ""
 
-#: src/commands.c:509 src/commands.c:510
+#: src/commands.c:499 src/commands.c:500
 msgid ""
 "Name of the instrument, centered below the subsubtitle. Also centered at the "
 "top of pages (other than the first page)."
 msgstr ""
 
-#: src/commands.c:519 src/commands.c:520
+#: src/commands.c:509 src/commands.c:510
 msgid "Meter"
 msgstr ""
 
-#: src/commands.c:519 src/commands.c:520
+#: src/commands.c:509 src/commands.c:510
 msgid "Meter string, flush-left below the poet."
 msgstr ""
 
-#: src/commands.c:529 src/commands.c:530
+#: src/commands.c:519 src/commands.c:520
 msgid "Opus"
 msgstr ""
 
-#: src/commands.c:529 src/commands.c:530
+#: src/commands.c:519 src/commands.c:520
 msgid "Name of the opus, flush-right below the arranger."
 msgstr ""
 
-#: src/commands.c:539 src/commands.c:540
+#: src/commands.c:529 src/commands.c:530
 msgid "Poet"
 msgstr ""
 
-#: src/commands.c:539 src/commands.c:540
+#: src/commands.c:529 src/commands.c:530
 msgid "Name of the poet, flush-left below the subsubtitle."
 msgstr ""
 
-#: src/commands.c:549 src/commands.c:550
+#: src/commands.c:539 src/commands.c:540
 msgid "Tagline"
 msgstr ""
 
-#: src/commands.c:549 src/commands.c:550
+#: src/commands.c:539 src/commands.c:540
 msgid " Centered at the bottom of the last page."
 msgstr ""
 
-#: src/commands.c:559 src/commands.c:560
+#: src/commands.c:549 src/commands.c:550
 msgid "Prints the name given as a title above the current movement."
 msgstr ""
 
-#: src/commands.c:569 src/commands.c:570
+#: src/commands.c:559 src/commands.c:560
 msgid "Subtitle"
 msgstr ""
 
-#: src/commands.c:569 src/commands.c:570
+#: src/commands.c:559 src/commands.c:560
 msgid "Prints the given name below the title of the current movement."
 msgstr ""
 
-#: src/commands.c:579 src/commands.c:580 src/commands.c:4556
-#: src/commands.c:4557
+#: src/commands.c:569 src/commands.c:570 src/commands.c:4544
+#: src/commands.c:4545
 msgid "Piece"
 msgstr ""
 
-#: src/commands.c:579 src/commands.c:580
+#: src/commands.c:569 src/commands.c:570
 msgid ""
 "Prints the name given above and to the left at the start of the movement."
 msgstr ""
 
-#: src/commands.c:589 src/commands.c:590 src/commands.c:4496
-#: src/commands.c:4497
+#: src/commands.c:579 src/commands.c:580 src/commands.c:4484
+#: src/commands.c:4485
 msgid "Copyright"
 msgstr ""
 
-#: src/commands.c:589 src/commands.c:590
+#: src/commands.c:579 src/commands.c:580
 msgid ""
 "Copyright notice, centered at the bottom of the first page. To insert the "
 "copyright symbol, see Lilypond Text encoding."
 msgstr ""
 
-#: src/commands.c:599 src/commands.c:600 src/commands.c:609 src/commands.c:610
+#: src/commands.c:589 src/commands.c:590 src/commands.c:599 src/commands.c:600
 msgid "Indent"
 msgstr ""
 
-#: src/commands.c:599 src/commands.c:600
+#: src/commands.c:589 src/commands.c:590
 msgid "Alter the indent of the opening system for the current movement."
 msgstr ""
 
-#: src/commands.c:609 src/commands.c:610
+#: src/commands.c:599 src/commands.c:600
 msgid "Indent the first system of every movement by the given amount."
 msgstr ""
 
-#: src/commands.c:619 src/commands.c:620
+#: src/commands.c:609 src/commands.c:610
 msgid "Tuplet Numbering (On/Off)"
 msgstr ""
 
-#: src/commands.c:619 src/commands.c:620
+#: src/commands.c:609 src/commands.c:610
 msgid "Control whether tuplet numbers will be printed over tuplets."
 msgstr ""
 
-#: src/commands.c:629 src/commands.c:630
+#: src/commands.c:619 src/commands.c:620
 msgid "Page Break Before"
 msgstr ""
 
-#: src/commands.c:629 src/commands.c:630
+#: src/commands.c:619 src/commands.c:620
 msgid "Prints this movement starting on a new page"
 msgstr ""
 
-#: src/commands.c:639 src/commands.c:640
+#: src/commands.c:629 src/commands.c:630
 msgid "(Print) Hide Movement"
 msgstr ""
 
-#: src/commands.c:639 src/commands.c:640
+#: src/commands.c:629 src/commands.c:630
 msgid "Hides the movement on printing."
 msgstr ""
 
-#: src/commands.c:649 src/commands.c:650
+#: src/commands.c:639 src/commands.c:640
 msgid "Beam 4 Beats"
 msgstr ""
 
-#: src/commands.c:649 src/commands.c:650
+#: src/commands.c:639 src/commands.c:640
 msgid "Beams end on each quarter note (up to 4)."
 msgstr ""
 
-#: src/commands.c:659 src/commands.c:660
+#: src/commands.c:649 src/commands.c:650
 msgid "Closing Barline"
 msgstr ""
 
-#: src/commands.c:659 src/commands.c:660
+#: src/commands.c:649 src/commands.c:650
 msgid "Inserts a closing barline (a double bar with last one thicker)."
 msgstr ""
 
-#: src/commands.c:669 src/commands.c:670
+#: src/commands.c:659 src/commands.c:660
 msgid "Insert Rest"
 msgstr ""
 
-#: src/commands.c:669 src/commands.c:670
+#: src/commands.c:659 src/commands.c:660
 msgid "Inserts a rest in the prevailing duration"
 msgstr ""
 
-#: src/commands.c:679 src/commands.c:680
+#: src/commands.c:669 src/commands.c:670
 msgid "Allegro Assai"
 msgstr ""
 
-#: src/commands.c:679 src/commands.c:680
+#: src/commands.c:669 src/commands.c:670
 msgid "Gives Allegro Assai tempo indication"
 msgstr ""
 
-#: src/commands.c:689 src/commands.c:690
+#: src/commands.c:679 src/commands.c:680
 msgid "(Print) Ambitus (On/Off)"
 msgstr ""
 
-#: src/commands.c:689 src/commands.c:690
+#: src/commands.c:679 src/commands.c:680
 msgid "Toggle the ambitus engraver for this staff on or off"
 msgstr ""
 
-#: src/commands.c:699 src/commands.c:700
+#: src/commands.c:689 src/commands.c:690
 msgid "Create Timebase"
 msgstr ""
 
-#: src/commands.c:699 src/commands.c:700
+#: src/commands.c:689 src/commands.c:690
 msgid "Recalculates the timing of each note."
 msgstr ""
 
-#: src/commands.c:709 src/commands.c:711
+#: src/commands.c:699 src/commands.c:701
 msgid "Hide Empty Staffs (Off/On)"
 msgstr ""
 
-#: src/commands.c:709 src/commands.c:711
+#: src/commands.c:699 src/commands.c:701
 msgid "Controls whether staffs containing only rests are printed."
 msgstr ""
 
-#: src/commands.c:720 src/commands.c:722
+#: src/commands.c:710 src/commands.c:712
 msgid "Instrument Name"
 msgstr ""
 
-#: src/commands.c:720 src/commands.c:722
+#: src/commands.c:710 src/commands.c:712
 msgid "Print Instrument name before staff at start of score,"
 msgstr ""
 
-#: src/commands.c:731 src/commands.c:733
+#: src/commands.c:721 src/commands.c:723
 msgid "Short Instrument Name"
 msgstr ""
 
-#: src/commands.c:731 src/commands.c:733
+#: src/commands.c:721 src/commands.c:723
 msgid ""
 "Prints shortened form of instrument name before this staff\n"
 "for second and subsequent systems"
 msgstr ""
 
-#: src/commands.c:742 src/commands.c:744
+#: src/commands.c:732 src/commands.c:733
 msgid "Line Break"
 msgstr ""
 
-#: src/commands.c:742 src/commands.c:744
+#: src/commands.c:732 src/commands.c:733
 msgid "(Print) Start a new line (i.e. system) at this measure."
 msgstr ""
 
-#: src/commands.c:753 src/commands.c:755
+#: src/commands.c:742 src/commands.c:744 src/scorelayout.c:753
 msgid "Page Break"
 msgstr ""
 
-#: src/commands.c:753 src/commands.c:755
+#: src/commands.c:742 src/commands.c:744
 msgid "(Print) Forces a new page at this barline."
 msgstr ""
 
-#: src/commands.c:764 src/commands.c:766
+#: src/commands.c:753 src/commands.c:755
 msgid "(Print) Transposed"
 msgstr ""
 
-#: src/commands.c:764 src/commands.c:766
+#: src/commands.c:753 src/commands.c:755
 msgid ""
 "Prints the score transposed by the interval selected by "
 "SetTransposeIntervalFromSelection"
 msgstr ""
 
-#: src/commands.c:775 src/commands.c:777
+#: src/commands.c:764 src/commands.c:766
 msgid "Mezzo Forte"
 msgstr ""
 
-#: src/commands.c:775 src/commands.c:777
+#: src/commands.c:764 src/commands.c:766
 msgid "Attach mf indication to a chord."
 msgstr ""
 
-#: src/commands.c:786 src/commands.c:788 src/commands.c:1893
-#: src/commands.c:1894 src/commands.c:1943 src/commands.c:1945
-#: src/scorelayout.c:433
+#: src/commands.c:775 src/commands.c:777 src/commands.c:1882
+#: src/commands.c:1883 src/commands.c:1932 src/commands.c:1934
+#: src/scorelayout.c:435
 msgid "Delete"
 msgstr ""
 
-#: src/commands.c:786 src/commands.c:788
+#: src/commands.c:775 src/commands.c:777
 msgid "Deletes a dynamic attached to the chord at the cursor."
 msgstr ""
 
-#: src/commands.c:797 src/commands.c:798
+#: src/commands.c:786 src/commands.c:787
 msgid "Parenthesize Chord"
 msgstr ""
 
-#: src/commands.c:797 src/commands.c:798
+#: src/commands.c:786 src/commands.c:787
 msgid "Enclose the chord in ( ) on printing."
 msgstr ""
 
-#: src/commands.c:807 src/commands.c:808
+#: src/commands.c:796 src/commands.c:797
 msgid "Parenthesize Note"
 msgstr ""
 
-#: src/commands.c:807 src/commands.c:808
+#: src/commands.c:796 src/commands.c:797
 msgid "Enclose the note at the cursor in ( ) when printed."
 msgstr ""
 
-#: src/commands.c:817 src/commands.c:818
+#: src/commands.c:806 src/commands.c:807
 msgid "Go To Next Empty Measure"
 msgstr ""
 
-#: src/commands.c:817 src/commands.c:818
+#: src/commands.c:806 src/commands.c:807
 msgid ""
 "Move cursor to the next point in the current staff where the music ends."
 msgstr ""
 
-#: src/commands.c:827 src/commands.c:829
+#: src/commands.c:816 src/commands.c:818
 msgid "Chat to Other Users"
 msgstr ""
 
-#: src/commands.c:827 src/commands.c:829
+#: src/commands.c:816 src/commands.c:818
 msgid ""
 "Runs your browser on a page giving access to denemo's internet relay chat"
 msgstr ""
 
-#: src/commands.c:838 src/commands.c:840
+#: src/commands.c:827 src/commands.c:829
 msgid "Toggle Triplet Entry (Off/On)"
 msgstr ""
 
-#: src/commands.c:838 src/commands.c:840
+#: src/commands.c:827 src/commands.c:829
 msgid "Inserts a start triplet or end tuple alternately."
 msgstr ""
 
-#: src/commands.c:849 src/commands.c:850
+#: src/commands.c:838 src/commands.c:839
 msgid "Non-Printing Staff"
 msgstr ""
 
-#: src/commands.c:849 src/commands.c:850
+#: src/commands.c:838 src/commands.c:839
 msgid "Hides the staff in LilyPond print out."
 msgstr ""
 
-#: src/commands.c:859 src/commands.c:861
+#: src/commands.c:848 src/commands.c:850
 msgid "Largo"
 msgstr ""
 
-#: src/commands.c:859 src/commands.c:861
+#: src/commands.c:848 src/commands.c:850
 msgid "Attaches Largo to chord"
 msgstr ""
 
-#: src/commands.c:870 src/commands.c:872
+#: src/commands.c:859 src/commands.c:861
 msgid "Adagio"
 msgstr ""
 
-#: src/commands.c:870 src/commands.c:872
+#: src/commands.c:859 src/commands.c:861
 msgid "Attaches tempo marking to chord at cursor"
 msgstr ""
 
-#: src/commands.c:881 src/commands.c:882
+#: src/commands.c:870 src/commands.c:871
 msgid "Drum GM2 Custom"
 msgstr ""
 
-#: src/commands.c:881 src/commands.c:882
+#: src/commands.c:870 src/commands.c:871
 msgid ""
 "Convert General Midi drum-staffs to user-notation drum-staffs. Please edit "
 "the script to enter your own values."
 msgstr ""
 
-#: src/commands.c:891 src/commands.c:893 src/commands.c:902 src/commands.c:904
-#: src/commands.c:913 src/commands.c:915 src/commands.c:924 src/commands.c:926
+#: src/commands.c:880 src/commands.c:882 src/commands.c:891 src/commands.c:893
+#: src/commands.c:902 src/commands.c:904 src/commands.c:913 src/commands.c:915
 msgid "Comment"
 msgstr ""
 
-#: src/commands.c:891 src/commands.c:893
+#: src/commands.c:880 src/commands.c:882
 msgid "Stores any textual commentary you may have for this score."
 msgstr ""
 
-#: src/commands.c:902 src/commands.c:904
+#: src/commands.c:891 src/commands.c:893
 msgid "Stores textual comments for this movement"
 msgstr ""
 
-#: src/commands.c:913 src/commands.c:915
+#: src/commands.c:902 src/commands.c:904
 msgid "Saves textual comments for this staff"
 msgstr ""
 
-#: src/commands.c:924 src/commands.c:926
+#: src/commands.c:913 src/commands.c:915
 msgid "Attach a textual comment to the chord at the cursor"
 msgstr ""
 
-#: src/commands.c:935 src/commands.c:936
+#: src/commands.c:924 src/commands.c:925
 msgid "(Print) Transpose"
 msgstr ""
 
-#: src/commands.c:935 src/commands.c:936
+#: src/commands.c:924 src/commands.c:925
 msgid ""
 "Prints this staff (only) transposed. This is in addtion to any score-wide "
 "transposition"
 msgstr ""
 
-#: src/commands.c:945 src/commands.c:946
+#: src/commands.c:934 src/commands.c:935
 msgid "Next Bookmark"
 msgstr ""
 
-#: src/commands.c:945 src/commands.c:946
+#: src/commands.c:934 src/commands.c:935
 msgid "Seach forward for bookmarks in the current staff."
 msgstr ""
 
-#: src/commands.c:955 src/commands.c:956
+#: src/commands.c:944 src/commands.c:945
 msgid "Prev Bookmark"
 msgstr ""
 
-#: src/commands.c:955 src/commands.c:956
+#: src/commands.c:944 src/commands.c:945
 msgid "Seach backward for bookmarks in the current staff."
 msgstr ""
 
-#: src/commands.c:965 src/commands.c:966
+#: src/commands.c:954 src/commands.c:955
 msgid "Add Rehearsal/Bookmark"
 msgstr ""
 
-#: src/commands.c:965 src/commands.c:966
+#: src/commands.c:954 src/commands.c:955
 msgid "Adds a Denemo bookmark combined with a default Rehearsal Mark"
 msgstr ""
 
-#: src/commands.c:975 src/commands.c:976
+#: src/commands.c:964 src/commands.c:965
 msgid "Add Named Bookmark"
 msgstr ""
 
-#: src/commands.c:975 src/commands.c:976
+#: src/commands.c:964 src/commands.c:965
 msgid "Adds a Denemo bookmark combined with a custom Lilypond Rehearsal Mark"
 msgstr ""
 
-#: src/commands.c:985 src/commands.c:986
+#: src/commands.c:974 src/commands.c:975
 msgid "Add Non-Printing Bookmark"
 msgstr ""
 
-#: src/commands.c:985 src/commands.c:986
+#: src/commands.c:974 src/commands.c:975
 msgid "Adds a custom Denemo bookmark without Lilypond output."
 msgstr ""
 
-#: src/commands.c:995 src/commands.c:996
+#: src/commands.c:984 src/commands.c:985
 msgid "Search Bookmark"
 msgstr ""
 
-#: src/commands.c:995 src/commands.c:996
+#: src/commands.c:984 src/commands.c:985
 msgid "Searches for a named Bookmark in the current staff."
 msgstr ""
 
-#: src/commands.c:1005 src/commands.c:1006
+#: src/commands.c:994 src/commands.c:995
 msgid "Diminish"
 msgstr ""
 
-#: src/commands.c:1005 src/commands.c:1006
+#: src/commands.c:994 src/commands.c:995
 msgid "Diminishs the note/chord/rest. Quarter Note becomes Eight Note. "
 msgstr ""
 
-#: src/commands.c:1015 src/commands.c:1016
+#: src/commands.c:1004 src/commands.c:1005
 msgid "Augment"
 msgstr ""
 
-#: src/commands.c:1015 src/commands.c:1016
+#: src/commands.c:1004 src/commands.c:1005
 msgid "Augments the current Note/Chord/Rest. Quarter Note becomes Half Note."
 msgstr ""
 
-#: src/commands.c:1025 src/commands.c:1027
+#: src/commands.c:1014 src/commands.c:1016
 msgid "Whole Measure Rest"
 msgstr ""
 
-#: src/commands.c:1025 src/commands.c:1027
+#: src/commands.c:1014 src/commands.c:1016
 msgid "Inserts a whole measure rest at the cursor"
 msgstr ""
 
-#: src/commands.c:1036 src/commands.c:1038
+#: src/commands.c:1025 src/commands.c:1027
 msgid "Insert Whole Measure Rest"
 msgstr ""
 
-#: src/commands.c:1036 src/commands.c:1038
+#: src/commands.c:1025 src/commands.c:1027
 msgid ""
 "Inserts/"
 "Appends a rest measure; if the current measure is empty, it simply places the whole measure rest in it. Do not invoke in a populated measure preceding an empty measure."
 msgstr ""
 
-#: src/commands.c:1047 src/commands.c:1049 src/commands.c:5214
-#: src/commands.c:5216
+#: src/commands.c:1036 src/commands.c:1038 src/commands.c:5202
+#: src/commands.c:5204
 msgid "Multi-Measure Rests"
 msgstr ""
 
-#: src/commands.c:1047 src/commands.c:1049
+#: src/commands.c:1036 src/commands.c:1038
 msgid ""
 "Creates a multi-measure rest from the whole measure rests after the cursor. "
 "You must create the whole measure rests first."
 msgstr ""
 
-#: src/commands.c:1058 src/commands.c:1059
+#: src/commands.c:1047 src/commands.c:1048
 msgid "Open Repeat Section"
 msgstr ""
 
-#: src/commands.c:1058 src/commands.c:1059
+#: src/commands.c:1047 src/commands.c:1048
 msgid ""
 "Marks the point where a repeat will start. A correspond close, or first and "
 "second time bars are needed."
 msgstr ""
 
-#: src/commands.c:1068 src/commands.c:1070
+#: src/commands.c:1057 src/commands.c:1059
 msgid "Close a Repeat Section"
 msgstr ""
 
-#: src/commands.c:1068 src/commands.c:1070
+#: src/commands.c:1057 src/commands.c:1059
 msgid ""
 "Closes a section that starts with an Open Repeat. Not needed with 1st and "
 "2nd time bars. (Printing)"
 msgstr ""
 
-#: src/commands.c:1079 src/commands.c:1081
+#: src/commands.c:1068 src/commands.c:1070
 msgid "First Time Bar"
 msgstr ""
 
-#: src/commands.c:1079 src/commands.c:1081
+#: src/commands.c:1068 src/commands.c:1070
 msgid "Closes a repeated section and starts a first time bar (printing)"
 msgstr ""
 
-#: src/commands.c:1090 src/commands.c:1092
+#: src/commands.c:1079 src/commands.c:1081
 msgid "Second Time Bar"
 msgstr ""
 
-#: src/commands.c:1090 src/commands.c:1092
+#: src/commands.c:1079 src/commands.c:1081
 msgid "Closes first time bars and starts second time bar(s) (printing)"
 msgstr ""
 
-#: src/commands.c:1101 src/commands.c:1103
+#: src/commands.c:1090 src/commands.c:1092
 msgid "Close Second Time Bar"
 msgstr ""
 
-#: src/commands.c:1101 src/commands.c:1103
+#: src/commands.c:1090 src/commands.c:1092
 msgid "Closes the second time bar peviously opened (printing)"
 msgstr ""
 
-#: src/commands.c:1112 src/commands.c:1114
+#: src/commands.c:1101 src/commands.c:1103
 msgid "Clef Chooser"
 msgstr ""
 
-#: src/commands.c:1112 src/commands.c:1114
+#: src/commands.c:1101 src/commands.c:1103
 msgid ""
 "Choose any sort of clef. If the cursor is at the start change initial clef, "
 "else insert chosen clef."
 msgstr ""
 
-#: src/commands.c:1123 src/commands.c:1125
+#: src/commands.c:1112 src/commands.c:1114
 msgid "Hide on Printing"
 msgstr ""
 
-#: src/commands.c:1123 src/commands.c:1125
+#: src/commands.c:1112 src/commands.c:1114
 msgid "Comments out the chord in the LilyPond output."
 msgstr ""
 
-#: src/commands.c:1134 src/commands.c:1136
+#: src/commands.c:1123 src/commands.c:1125
 msgid "Mezzo Piano"
 msgstr ""
 
-#: src/commands.c:1134 src/commands.c:1136
+#: src/commands.c:1123 src/commands.c:1125
 msgid "prints mp and outputs MIDI vol change#"
 msgstr ""
 
-#: src/commands.c:1145 src/commands.c:1147
+#: src/commands.c:1134 src/commands.c:1136
 msgid "Forte"
 msgstr ""
 
-#: src/commands.c:1145 src/commands.c:1147
+#: src/commands.c:1134 src/commands.c:1136
 msgid "Attaches Forte to chord and MIDI volume"
 msgstr ""
 
-#: src/commands.c:1156 src/commands.c:1157
+#: src/commands.c:1145 src/commands.c:1146
 msgid "Short Measure"
 msgstr ""
 
-#: src/commands.c:1156 src/commands.c:1157
+#: src/commands.c:1145 src/commands.c:1146
 msgid ""
 "Allow too few notes/rests in this measure. LilyPond will engrave this "
 "measure (in all staffs) with the short duration given by notes already "
 "present when this command was issued."
 msgstr ""
 
-#: src/commands.c:1166 src/commands.c:1168
+#: src/commands.c:1155 src/commands.c:1157
 msgid "(Print) Open { Octave Down"
 msgstr ""
 
-#: src/commands.c:1166 src/commands.c:1168
+#: src/commands.c:1155 src/commands.c:1157
 msgid ""
 "Opens a block printing an octave lower: must be terminated with "
 "CloseLilyBlock"
 msgstr ""
 
-#: src/commands.c:1177 src/commands.c:1178
+#: src/commands.c:1166 src/commands.c:1167
 msgid "Next Lower"
 msgstr ""
 
-#: src/commands.c:1177 src/commands.c:1178
+#: src/commands.c:1166 src/commands.c:1167
 msgid "Moves cursor to next note that is lower than the cursor."
 msgstr ""
 
-#: src/commands.c:1187 src/commands.c:1189
+#: src/commands.c:1176 src/commands.c:1178
 msgid "Next Higher"
 msgstr ""
 
-#: src/commands.c:1187 src/commands.c:1189
+#: src/commands.c:1176 src/commands.c:1178
 msgid "Move cursor to next note higher than cursor posiiton"
 msgstr ""
 
-#: src/commands.c:1198 src/commands.c:1200
+#: src/commands.c:1187 src/commands.c:1189
 msgid "Find Edit Point"
 msgstr ""
 
-#: src/commands.c:1198 src/commands.c:1200
+#: src/commands.c:1187 src/commands.c:1189
 msgid "Searches backward for the start of non-printing notes."
 msgstr ""
 
-#: src/commands.c:1209 src/commands.c:1210
+#: src/commands.c:1198 src/commands.c:1199
 msgid "Create Ossia Staff"
 msgstr ""
 
-#: src/commands.c:1209 src/commands.c:1210
+#: src/commands.c:1198 src/commands.c:1199
 msgid ""
 "Creates a small staff above the current staff for inserting cues, ossia "
 "passages etc. Use Show Ossia and Hide Ossia to show specific measures."
 msgstr ""
 
-#: src/commands.c:1219 src/commands.c:1221
+#: src/commands.c:1208 src/commands.c:1210
 msgid "Show Ossia"
 msgstr ""
 
-#: src/commands.c:1219 src/commands.c:1221
+#: src/commands.c:1208 src/commands.c:1210
 msgid "Place this at the start of the music to be printed from the Ossia staff"
 msgstr ""
 
-#: src/commands.c:1230 src/commands.c:1232
+#: src/commands.c:1219 src/commands.c:1221
 msgid "Hide Ossia"
 msgstr ""
 
-#: src/commands.c:1230 src/commands.c:1232
+#: src/commands.c:1219 src/commands.c:1221
 msgid "Place this at the end of the music to be printed from the Ossia staff"
 msgstr ""
 
-#: src/commands.c:1241 src/commands.c:1243
+#: src/commands.c:1230 src/commands.c:1232
 msgid "Start Arbitrary Tuplet"
 msgstr ""
 
-#: src/commands.c:1241 src/commands.c:1243
+#: src/commands.c:1230 src/commands.c:1232
 msgid ""
 "Asks for ratio of tuplet and then puts in a start for that. Use EndTuplet "
 "command after entering tuplet notes. Note that the Denemo display will not "
 "automatically group the tuplet, but it will print with expected beaming etc."
 msgstr ""
 
-#: src/commands.c:1252 src/commands.c:1253
+#: src/commands.c:1241 src/commands.c:1242
 msgid "Bar Numbers (On/Off)"
 msgstr ""
 
-#: src/commands.c:1252 src/commands.c:1253
+#: src/commands.c:1241 src/commands.c:1242
 msgid "Turns bar numbering on/off in print out."
 msgstr ""
 
-#: src/commands.c:1262 src/commands.c:1263
+#: src/commands.c:1251 src/commands.c:1252
 msgid "Set Tempo"
 msgstr ""
 
-#: src/commands.c:1262 src/commands.c:1263
+#: src/commands.c:1251 src/commands.c:1252
 msgid "Send a Midi command to change the tempo to a new bpm. No printout."
 msgstr ""
 
-#: src/commands.c:1272 src/commands.c:1273
+#: src/commands.c:1261 src/commands.c:1262
 msgid "Tempo"
 msgstr ""
 
-#: src/commands.c:1272 src/commands.c:1273
+#: src/commands.c:1261 src/commands.c:1262
 msgid "Insert tempi and/or metronome marks, printed or not"
 msgstr ""
 
-#: src/commands.c:1282 src/commands.c:1283
+#: src/commands.c:1271 src/commands.c:1272
 msgid "Dynamics"
 msgstr ""
 
-#: src/commands.c:1282 src/commands.c:1283
+#: src/commands.c:1271 src/commands.c:1272
 msgid "Choose dynamics and midi volume level."
 msgstr ""
 
-#: src/commands.c:1292 src/commands.c:1293
+#: src/commands.c:1281 src/commands.c:1282
 msgid "Cursor to Lowest Note"
 msgstr ""
 
-#: src/commands.c:1292 src/commands.c:1293
+#: src/commands.c:1281 src/commands.c:1282
 msgid ""
 "Moves the cursor to the lowest note on current horizontal position (in a "
 "chord or on a single note)"
 msgstr ""
 
-#: src/commands.c:1302 src/commands.c:1303
+#: src/commands.c:1291 src/commands.c:1292
 msgid "Cursor to Highest Note"
 msgstr ""
 
-#: src/commands.c:1302 src/commands.c:1303
+#: src/commands.c:1291 src/commands.c:1292
 msgid ""
 "Moves the cursor to the highest note on current horizontal position (in a "
 "chord or on a single note)"
 msgstr ""
 
-#: src/commands.c:1312 src/commands.c:1313
+#: src/commands.c:1301 src/commands.c:1302
 msgid "Set Display Scale"
 msgstr ""
 
-#: src/commands.c:1312 src/commands.c:1313
+#: src/commands.c:1301 src/commands.c:1302
 msgid "Scales the display by value given by user."
 msgstr ""
 
-#: src/commands.c:1322 src/commands.c:1324
+#: src/commands.c:1311 src/commands.c:1313
 msgid "Channel"
 msgstr ""
 
-#: src/commands.c:1322 src/commands.c:1324
+#: src/commands.c:1311 src/commands.c:1313
 msgid "Change the Channel of a staff"
 msgstr ""
 
-#: src/commands.c:1333 src/commands.c:1335
+#: src/commands.c:1322 src/commands.c:1324
 msgid "Program"
 msgstr ""
 
-#: src/commands.c:1333 src/commands.c:1335
+#: src/commands.c:1322 src/commands.c:1324
 msgid "Change the Program of the current channel/staff"
 msgstr ""
 
-#: src/commands.c:1344 src/commands.c:1346 src/view.c:9031
+#: src/commands.c:1333 src/commands.c:1335 src/view.c:9201
 msgid "Volume"
 msgstr ""
 
-#: src/commands.c:1344 src/commands.c:1346
+#: src/commands.c:1333 src/commands.c:1335
 msgid "Change the Volume of a channel/staff"
 msgstr ""
 
-#: src/commands.c:1355 src/commands.c:1357
+#: src/commands.c:1344 src/commands.c:1346
 msgid "Generic Control Change"
 msgstr ""
 
-#: src/commands.c:1355 src/commands.c:1357
+#: src/commands.c:1344 src/commands.c:1346
 msgid "Generic 0xB Control Change - User can give the midi bytes, too. "
 msgstr ""
 
-#: src/commands.c:1366 src/commands.c:1368
+#: src/commands.c:1355 src/commands.c:1357
 msgid "1 Modwheel"
 msgstr ""
 
-#: src/commands.c:1366 src/commands.c:1368
+#: src/commands.c:1355 src/commands.c:1357
 msgid "Change the Modwheel value of a channel/staff"
 msgstr ""
 
-#: src/commands.c:1377 src/commands.c:1379
+#: src/commands.c:1366 src/commands.c:1368
 msgid "8 Balance"
 msgstr ""
 
-#: src/commands.c:1377 src/commands.c:1379
+#: src/commands.c:1366 src/commands.c:1368
 msgid ""
 "Balance. Typically used for a stereo signal tweak without changing the pan "
 "itself. Like a CD player. "
 msgstr ""
 
-#: src/commands.c:1388 src/commands.c:1390
+#: src/commands.c:1377 src/commands.c:1379
 msgid "10 Pan"
 msgstr ""
 
-#: src/commands.c:1388 src/commands.c:1390
+#: src/commands.c:1377 src/commands.c:1379
 msgid "Where in the stereo field the channel sound will be placed."
 msgstr ""
 
-#: src/commands.c:1399 src/commands.c:1401
+#: src/commands.c:1388 src/commands.c:1390
 msgid "11 Expression"
 msgstr ""
 
-#: src/commands.c:1399 src/commands.c:1401
+#: src/commands.c:1388 src/commands.c:1390
 msgid ""
 "Aka \"Sub Volume\" or \"Percent Volume\". The \"real\" volume. Use Volume as "
 "initial value for each staff/channel and change further cresc/desc with "
 "expression. "
 msgstr ""
 
-#: src/commands.c:1410 src/commands.c:1412
+#: src/commands.c:1399 src/commands.c:1401
 msgid "64 Hold Pedal (Right Piano Pedal)"
 msgstr ""
 
-#: src/commands.c:1410 src/commands.c:1412
+#: src/commands.c:1399 src/commands.c:1401
 msgid ""
 "Hold Pedal On/Off (Right Piano Pedal). Deactivates Note-Off until set to "
 "\"Off\""
 msgstr ""
 
-#: src/commands.c:1421 src/commands.c:1423
+#: src/commands.c:1410 src/commands.c:1412
 msgid "65 Portamento (On/Off)"
 msgstr ""
 
-#: src/commands.c:1421 src/commands.c:1423
+#: src/commands.c:1410 src/commands.c:1412
 msgid "Slides between 2 notes. Can be adjusted with 5 - Portamento Time"
 msgstr ""
 
-#: src/commands.c:1432 src/commands.c:1434
+#: src/commands.c:1421 src/commands.c:1423
 msgid "66 Sustenuto Pedal (On/Off) (Middle Grand Piano Pedal)"
 msgstr ""
 
-#: src/commands.c:1432 src/commands.c:1434
+#: src/commands.c:1421 src/commands.c:1423
 msgid ""
 "Middle Grand Piano Pedal. All Notes currently active (without a note off) "
 "will not have a note-off until Sustenuto Off."
 msgstr ""
 
-#: src/commands.c:1443 src/commands.c:1445
+#: src/commands.c:1432 src/commands.c:1434
 msgid "67 Soft Pedal (On/Off) (Left Piano Pedal)"
 msgstr ""
 
-#: src/commands.c:1443 src/commands.c:1445
+#: src/commands.c:1432 src/commands.c:1434
 msgid "Left Piano Pedal. Lowers the volume of any notes played."
 msgstr ""
 
-#: src/commands.c:1454 src/commands.c:1456
+#: src/commands.c:1443 src/commands.c:1445
 msgid "68 Legato Pedal (On/Off)"
 msgstr ""
 
-#: src/commands.c:1454 src/commands.c:1456
+#: src/commands.c:1443 src/commands.c:1445
 msgid ""
 "Skips the attack portion of the VCA's envelope. For phrasing like wind or "
 "brass or guitar hammer-on."
 msgstr ""
 
-#: src/commands.c:1465 src/commands.c:1467
+#: src/commands.c:1454 src/commands.c:1456
 msgid "69 Hold Pedal #2 (On/Off)"
 msgstr ""
 
-#: src/commands.c:1465 src/commands.c:1467
+#: src/commands.c:1454 src/commands.c:1456
 msgid "Longer release time but notes will fade out eventually."
 msgstr ""
 
-#: src/commands.c:1476 src/commands.c:1477
+#: src/commands.c:1465 src/commands.c:1466
 msgid "C Pentascale"
 msgstr ""
 
-#: src/commands.c:1476 src/commands.c:1477 src/commands.c:1486
-#: src/commands.c:1487 src/commands.c:1496 src/commands.c:1497
-#: src/commands.c:1506 src/commands.c:1507 src/commands.c:1516
-#: src/commands.c:1517 src/commands.c:1526 src/commands.c:1527
-#: src/commands.c:1536 src/commands.c:1537 src/commands.c:1546
-#: src/commands.c:1547
+#: src/commands.c:1465 src/commands.c:1466 src/commands.c:1475
+#: src/commands.c:1476 src/commands.c:1485 src/commands.c:1486
+#: src/commands.c:1495 src/commands.c:1496 src/commands.c:1505
+#: src/commands.c:1506 src/commands.c:1515 src/commands.c:1516
+#: src/commands.c:1525 src/commands.c:1526 src/commands.c:1535
+#: src/commands.c:1536
 msgid "Identify Scale Notes that are sounded"
 msgstr ""
 
-#: src/commands.c:1486 src/commands.c:1487
+#: src/commands.c:1475 src/commands.c:1476
 msgid "F Pentascale"
 msgstr ""
 
-#: src/commands.c:1496 src/commands.c:1497
+#: src/commands.c:1485 src/commands.c:1486
 msgid "Bb Pentascale"
 msgstr ""
 
-#: src/commands.c:1506 src/commands.c:1507
+#: src/commands.c:1495 src/commands.c:1496
 msgid "Eb Pentascale"
 msgstr ""
 
-#: src/commands.c:1516 src/commands.c:1517
+#: src/commands.c:1505 src/commands.c:1506
 msgid "Ab Pentascale"
 msgstr ""
 
-#: src/commands.c:1526 src/commands.c:1527
+#: src/commands.c:1515 src/commands.c:1516
 msgid "Db Pentascale"
 msgstr ""
 
-#: src/commands.c:1536 src/commands.c:1537
+#: src/commands.c:1525 src/commands.c:1526
 msgid "C Major"
 msgstr ""
 
-#: src/commands.c:1546 src/commands.c:1547
+#: src/commands.c:1535 src/commands.c:1536
 msgid "F Major"
 msgstr ""
 
-#: src/commands.c:1556 src/commands.c:1557
+#: src/commands.c:1545 src/commands.c:1546
 msgid "MajorMinor"
 msgstr ""
 
-#: src/commands.c:1556 src/commands.c:1557
+#: src/commands.c:1545 src/commands.c:1546
 msgid "Determine if the chord played is major or minor"
 msgstr ""
 
-#: src/commands.c:1566 src/commands.c:1568
+#: src/commands.c:1555 src/commands.c:1557
 msgid "DiminishedAugmented"
 msgstr ""
 
-#: src/commands.c:1566 src/commands.c:1568
+#: src/commands.c:1555 src/commands.c:1557
 msgid "Determine if the chord sounded is Diminished or Augmented"
 msgstr ""
 
-#: src/commands.c:1577 src/commands.c:1578
+#: src/commands.c:1566 src/commands.c:1567
 msgid "Line and Space Recognition"
 msgstr ""
 
-#: src/commands.c:1577 src/commands.c:1578
+#: src/commands.c:1566 src/commands.c:1567
 #, c-format
 msgid "%tests your ability to recognize the difference between line and space"
 msgstr ""
 
-#: src/commands.c:1587 src/commands.c:1588
+#: src/commands.c:1576 src/commands.c:1577
 msgid "Trace Note Direction"
 msgstr ""
 
-#: src/commands.c:1587 src/commands.c:1588
+#: src/commands.c:1576 src/commands.c:1577
 #, c-format
 msgid "%tests your note tracking ability"
 msgstr ""
 
-#: src/commands.c:1597 src/commands.c:1598
+#: src/commands.c:1586 src/commands.c:1587
 msgid "Step, Skip, or Same?"
 msgstr ""
 
-#: src/commands.c:1597 src/commands.c:1598
+#: src/commands.c:1586 src/commands.c:1587
 #, c-format
 msgid "%tests your ability to determine if note is moving by a step or skip"
 msgstr ""
 
-#: src/commands.c:1607 src/commands.c:1608
+#: src/commands.c:1596 src/commands.c:1597
 msgid "Step Counting Exercise"
 msgstr ""
 
-#: src/commands.c:1607 src/commands.c:1608
+#: src/commands.c:1596 src/commands.c:1597
 #, c-format
 msgid ""
 "%tests your ability to find the number of diatonic notes between two notes"
 msgstr ""
 
-#: src/commands.c:1617 src/commands.c:1618
+#: src/commands.c:1606 src/commands.c:1607
 msgid "Diatonic Interval Detection"
 msgstr ""
 
-#: src/commands.c:1617 src/commands.c:1618
+#: src/commands.c:1606 src/commands.c:1607
 #, c-format
 msgid ""
 "%tests your ability to find the diatonic interval name between two notes"
 msgstr ""
 
-#: src/commands.c:1627 src/commands.c:1628
+#: src/commands.c:1616 src/commands.c:1617
 msgid "Note Name Recognition"
 msgstr ""
 
-#: src/commands.c:1627 src/commands.c:1628 src/commands.c:1637
-#: src/commands.c:1638 src/commands.c:1647 src/commands.c:1648
+#: src/commands.c:1616 src/commands.c:1617 src/commands.c:1626
+#: src/commands.c:1627 src/commands.c:1636 src/commands.c:1637
 #, c-format
 msgid "%tests your ability to name the notes of the scale"
 msgstr ""
 
-#: src/commands.c:1637 src/commands.c:1638
+#: src/commands.c:1626 src/commands.c:1627
 msgid "Solfege Note Name Recognition"
 msgstr ""
 
-#: src/commands.c:1647 src/commands.c:1648
+#: src/commands.c:1636 src/commands.c:1637
 msgid "Note Name Speed Recognition"
 msgstr ""
 
-#: src/commands.c:1657 src/commands.c:1658
+#: src/commands.c:1646 src/commands.c:1647
 msgid "Bass Clef Note Name Speed Recognition"
 msgstr ""
 
-#: src/commands.c:1657 src/commands.c:1658
+#: src/commands.c:1646 src/commands.c:1647
 #, c-format
 msgid "%tests your ability to read the notes of the bass clef staff"
 msgstr ""
 
-#: src/commands.c:1667 src/commands.c:1669
+#: src/commands.c:1656 src/commands.c:1658
 msgid "DiminishedMinor"
 msgstr ""
 
-#: src/commands.c:1667 src/commands.c:1669
+#: src/commands.c:1656 src/commands.c:1658
 msgid "Determine if the chord sounded is Diminished or Minor"
 msgstr ""
 
-#: src/commands.c:1678 src/commands.c:1680
+#: src/commands.c:1667 src/commands.c:1669
 msgid "MajorAugmented"
 msgstr ""
 
-#: src/commands.c:1678 src/commands.c:1680
+#: src/commands.c:1667 src/commands.c:1669
 msgid "Determine if chord sounded is Major or Augmented"
 msgstr ""
 
-#: src/commands.c:1689 src/commands.c:1691
+#: src/commands.c:1678 src/commands.c:1680
 msgid "MajorMinorAugmentedDiminished"
 msgstr ""
 
-#: src/commands.c:1689 src/commands.c:1691
+#: src/commands.c:1678 src/commands.c:1680
 msgid "Determine if the chord sounded is Major Minor Augmented or Diminished"
 msgstr ""
 
-#: src/commands.c:1700 src/commands.c:1702
+#: src/commands.c:1689 src/commands.c:1691
 msgid "Major7Minor7Dominant7"
 msgstr ""
 
-#: src/commands.c:1700 src/commands.c:1702
+#: src/commands.c:1689 src/commands.c:1691
 msgid "Determine which seventh chord is sounded"
 msgstr ""
 
-#: src/commands.c:1711 src/commands.c:1712 src/register_commands.h:74
+#: src/commands.c:1700 src/commands.c:1701 src/register_commands.h:74
 msgid "Add Dot"
 msgstr ""
 
-#: src/commands.c:1711 src/commands.c:1712
+#: src/commands.c:1700 src/commands.c:1701
 msgid "Adds an Augmentation Dot to current note/chord/rest."
 msgstr ""
 
-#: src/commands.c:1721 src/commands.c:1723 src/commands.c:4773
-#: src/commands.c:4775
+#: src/commands.c:1710 src/commands.c:1712 src/commands.c:4761
+#: src/commands.c:4763
 msgid "Staccato (Off/On)"
 msgstr ""
 
-#: src/commands.c:1721 src/commands.c:1723
+#: src/commands.c:1710 src/commands.c:1712
 msgid "Adds the staccato dot or removes it"
 msgstr ""
 
-#: src/commands.c:1732 src/commands.c:1734 src/commands.c:4806
-#: src/commands.c:4808
+#: src/commands.c:1721 src/commands.c:1723 src/commands.c:4794
+#: src/commands.c:4796
 msgid "Staccatissimo (Off/On)"
 msgstr ""
 
-#: src/commands.c:1732 src/commands.c:1734
+#: src/commands.c:1721 src/commands.c:1723
 msgid "Toggles Staccatissimo"
 msgstr ""
 
-#: src/commands.c:1743 src/commands.c:1745 src/commands.c:4795
-#: src/commands.c:4797
+#: src/commands.c:1732 src/commands.c:1734 src/commands.c:4783
+#: src/commands.c:4785
 msgid "Tenuto (Off/On)"
 msgstr ""
 
-#: src/commands.c:1743 src/commands.c:1745
+#: src/commands.c:1732 src/commands.c:1734
 msgid "Toggles the Tenuto Line _ On/Off"
 msgstr ""
 
-#: src/commands.c:1754 src/commands.c:1756 src/commands.c:4762
-#: src/commands.c:4764
+#: src/commands.c:1743 src/commands.c:1745 src/commands.c:4750
+#: src/commands.c:4752
 msgid "Accent (Off/On)"
 msgstr ""
 
-#: src/commands.c:1754 src/commands.c:1756
+#: src/commands.c:1743 src/commands.c:1745
 msgid "Adds the > accent"
 msgstr ""
 
-#: src/commands.c:1765 src/commands.c:1766
+#: src/commands.c:1754 src/commands.c:1755
 msgid "Reload the \"Drum GM to User\" map"
 msgstr ""
 
-#: src/commands.c:1765 src/commands.c:1766
+#: src/commands.c:1754 src/commands.c:1755
 msgid "Reloads the drum map which is needed for DrumGm2User"
 msgstr ""
 
-#: src/commands.c:1775 src/commands.c:1777
+#: src/commands.c:1764 src/commands.c:1766
 msgid "Convert GM-Drum to User-Drum"
 msgstr ""
 
-#: src/commands.c:1775 src/commands.c:1777
+#: src/commands.c:1764 src/commands.c:1766
 msgid ""
 "Converts between the midi-drum notation and a user-drum notation. The user "
 "can set his/her drummap in a template in ~/.denemo/templates or choose any "
@@ -1629,1518 +1621,1518 @@ msgid ""
 "drummers avaible."
 msgstr ""
 
-#: src/commands.c:1786 src/commands.c:1788
+#: src/commands.c:1775 src/commands.c:1777
 msgid "Select Staff"
 msgstr ""
 
-#: src/commands.c:1786 src/commands.c:1788
+#: src/commands.c:1775 src/commands.c:1777
 msgid "Selects the whole staff"
 msgstr ""
 
-#: src/commands.c:1797 src/commands.c:1799
+#: src/commands.c:1786 src/commands.c:1788
 msgid "Select All Staffs"
 msgstr ""
 
-#: src/commands.c:1797 src/commands.c:1799
+#: src/commands.c:1786 src/commands.c:1788
 msgid "Selects the whole movement / All staffs"
 msgstr ""
 
-#: src/commands.c:1808 src/commands.c:1810
+#: src/commands.c:1797 src/commands.c:1799
 msgid "MIDI Tempo"
 msgstr ""
 
-#: src/commands.c:1808 src/commands.c:1810
+#: src/commands.c:1797 src/commands.c:1799
 msgid "Sets the (initial) tempo in quarter notes per minute."
 msgstr ""
 
-#: src/commands.c:1819 src/commands.c:1821
+#: src/commands.c:1808 src/commands.c:1810
 msgid "Identify Line Number"
 msgstr ""
 
-#: src/commands.c:1819 src/commands.c:1821
+#: src/commands.c:1808 src/commands.c:1810
 msgid "Identify the line number in which the note is displayed"
 msgstr ""
 
-#: src/commands.c:1830 src/commands.c:1832
+#: src/commands.c:1819 src/commands.c:1821
 msgid "Identify Space Number"
 msgstr ""
 
-#: src/commands.c:1830 src/commands.c:1832
+#: src/commands.c:1819 src/commands.c:1821
 msgid "Identify the space number in which the note is display on"
 msgstr ""
 
-#: src/commands.c:1841 src/commands.c:1842
+#: src/commands.c:1830 src/commands.c:1831
 msgid "Tonal step up"
 msgstr ""
 
-#: src/commands.c:1841 src/commands.c:1842
+#: src/commands.c:1830 src/commands.c:1831
 msgid ""
 "Transpose/shift the cursor note or selection one step up, stay in the "
 "keysignature."
 msgstr ""
 
-#: src/commands.c:1851 src/commands.c:1853
+#: src/commands.c:1840 src/commands.c:1842
 msgid "Tonal step down"
 msgstr ""
 
-#: src/commands.c:1851 src/commands.c:1853
+#: src/commands.c:1840 src/commands.c:1842
 msgid ""
 "Transpose/shift the cursor note or selection one step down, stay in the "
 "keysignature."
 msgstr ""
 
-#: src/commands.c:1862 src/commands.c:1864
+#: src/commands.c:1851 src/commands.c:1853
 msgid "Close and Reopen Repeat"
 msgstr ""
 
-#: src/commands.c:1862 src/commands.c:1864
+#: src/commands.c:1851 src/commands.c:1853
 msgid "Closes and open repeat block and opens a new one."
 msgstr ""
 
-#: src/commands.c:1873 src/commands.c:1874
+#: src/commands.c:1862 src/commands.c:1863
 msgid "Grace Note (On/Off)"
 msgstr ""
 
-#: src/commands.c:1873 src/commands.c:1874
+#: src/commands.c:1862 src/commands.c:1863
 msgid "Transforms the current selected notes into grace notes."
 msgstr ""
 
-#: src/commands.c:1883 src/commands.c:1884
+#: src/commands.c:1872 src/commands.c:1873
 msgid "Cursor Highlighting (Off/On)"
 msgstr ""
 
-#: src/commands.c:1883 src/commands.c:1884
+#: src/commands.c:1872 src/commands.c:1873
 msgid "Shows up the position of the cursor more clearly (off/on)"
 msgstr ""
 
-#: src/commands.c:1893 src/commands.c:1894
+#: src/commands.c:1882 src/commands.c:1883
 msgid ""
 "Deletes a single object at the cursor, an empty measure or the complete "
 "selection."
 msgstr ""
 
-#: src/commands.c:1903 src/commands.c:1904
+#: src/commands.c:1892 src/commands.c:1893
 msgid "Go To Measure End"
 msgstr ""
 
-#: src/commands.c:1903 src/commands.c:1904
+#: src/commands.c:1892 src/commands.c:1893
 msgid "Move the Cursor to the end of the measure"
 msgstr ""
 
-#: src/commands.c:1911 src/commands.c:1912
+#: src/commands.c:1900 src/commands.c:1901
 msgid "Slur with Next Note"
 msgstr ""
 
-#: src/commands.c:1911 src/commands.c:1912
+#: src/commands.c:1900 src/commands.c:1901
 msgid "Creates a slur from current note to next note."
 msgstr ""
 
-#: src/commands.c:1921 src/commands.c:1923
+#: src/commands.c:1910 src/commands.c:1912
 msgid "Extend Slur"
 msgstr ""
 
-#: src/commands.c:1921 src/commands.c:1923
+#: src/commands.c:1910 src/commands.c:1912
 msgid "Extends the slur finishing at the cursor."
 msgstr ""
 
-#: src/commands.c:1932 src/commands.c:1934
+#: src/commands.c:1921 src/commands.c:1923
 msgid "Shorten Slur from End"
 msgstr ""
 
-#: src/commands.c:1932 src/commands.c:1934
+#: src/commands.c:1921 src/commands.c:1923
 msgid "Shorten a slur that ends at the cursor."
 msgstr ""
 
-#: src/commands.c:1943 src/commands.c:1945
+#: src/commands.c:1932 src/commands.c:1934
 msgid ""
 "Deletes the object at the cursor. For Chords it deletes the chord stage by "
 "stage."
 msgstr ""
 
-#: src/commands.c:1954 src/commands.c:1956
+#: src/commands.c:1943 src/commands.c:1945
 msgid "Open Default Template"
 msgstr ""
 
-#: src/commands.c:1954 src/commands.c:1956
+#: src/commands.c:1943 src/commands.c:1945
 msgid "Opens the template Default.denemo in the user's custom template folder."
 msgstr ""
 
-#: src/commands.c:1965 src/commands.c:1967
+#: src/commands.c:1954 src/commands.c:1956
 msgid "Check for Irregular Measures"
 msgstr ""
 
-#: src/commands.c:1965 src/commands.c:1967
+#: src/commands.c:1954 src/commands.c:1956
 msgid ""
 "Checks each measure for complete number of beats, ignoring Anacrusis and "
 "ShortMeasure ones. Stops at anything bad."
 msgstr ""
 
-#: src/commands.c:1976 src/commands.c:1977
+#: src/commands.c:1965 src/commands.c:1966
 msgid "Small Size"
 msgstr ""
 
-#: src/commands.c:1976 src/commands.c:1977
+#: src/commands.c:1965 src/commands.c:1966
 msgid "Music after this is printed in a small size."
 msgstr ""
 
-#: src/commands.c:1986 src/commands.c:1988
+#: src/commands.c:1975 src/commands.c:1977
 msgid "Start a First Time Bar"
 msgstr ""
 
-#: src/commands.c:1986 src/commands.c:1988
+#: src/commands.c:1975 src/commands.c:1977
 msgid "(Print) start a first time bar, must be followed by EndVolta."
 msgstr ""
 
-#: src/commands.c:1997 src/commands.c:1999
+#: src/commands.c:1986 src/commands.c:1988
 msgid "Start a Second Time Bar"
 msgstr ""
 
-#: src/commands.c:1997 src/commands.c:1999
+#: src/commands.c:1986 src/commands.c:1988
 msgid "(Print) start a second time bar, must be followed by EndVolta"
 msgstr ""
 
-#: src/commands.c:2008 src/commands.c:2010
+#: src/commands.c:1997 src/commands.c:1999
 msgid "End 1st/2nd Time Bar"
 msgstr ""
 
-#: src/commands.c:2008 src/commands.c:2010
+#: src/commands.c:1997 src/commands.c:1999
 msgid "Ends a volta, that is a n'th time bar"
 msgstr ""
 
-#: src/commands.c:2019 src/commands.c:2021
+#: src/commands.c:2008 src/commands.c:2010
 msgid "End Small Size"
 msgstr ""
 
-#: src/commands.c:2019 src/commands.c:2021
+#: src/commands.c:2008 src/commands.c:2010
 msgid "Printing resumes normal size music."
 msgstr ""
 
-#: src/commands.c:2030 src/commands.c:2032
+#: src/commands.c:2019 src/commands.c:2021
 msgid "Insert Duplicate Measure After"
 msgstr ""
 
-#: src/commands.c:2030 src/commands.c:2032
+#: src/commands.c:2019 src/commands.c:2021
 msgid "Inserts a copy of the current measure after the present measure."
 msgstr ""
 
-#: src/commands.c:2041 src/commands.c:2042
+#: src/commands.c:2030 src/commands.c:2031
 msgid "Duplicate Note/Chord"
 msgstr ""
 
-#: src/commands.c:2041 src/commands.c:2042
+#: src/commands.c:2030 src/commands.c:2031
 msgid "Duplicate a note or chord. Not for rests."
 msgstr ""
 
-#: src/commands.c:2051 src/commands.c:2052
+#: src/commands.c:2040 src/commands.c:2041
 msgid "Split Note/Chord"
 msgstr ""
 
-#: src/commands.c:2051 src/commands.c:2052
+#: src/commands.c:2040 src/commands.c:2041
 msgid ""
 "Split a chord into a specific amount of smaller notes while preserving "
 "original duration, generating tuplets if necessary. Not for rests."
 msgstr ""
 
-#: src/commands.c:2061 src/commands.c:2063
+#: src/commands.c:2050 src/commands.c:2052
 msgid "Start Cadenza"
 msgstr ""
 
-#: src/commands.c:2061 src/commands.c:2063
+#: src/commands.c:2050 src/commands.c:2052
 msgid "Turns off barlines etc for cadenza"
 msgstr ""
 
-#: src/commands.c:2072 src/commands.c:2074
+#: src/commands.c:2061 src/commands.c:2063
 msgid "End Cadenza"
 msgstr ""
 
-#: src/commands.c:2072 src/commands.c:2074
+#: src/commands.c:2061 src/commands.c:2063
 msgid "Returns to normal barlines etc after a cadenza"
 msgstr ""
 
-#: src/commands.c:2083 src/commands.c:2084
+#: src/commands.c:2072 src/commands.c:2073
 msgid "Null Operation"
 msgstr ""
 
-#: src/commands.c:2083 src/commands.c:2084
+#: src/commands.c:2072 src/commands.c:2073
 msgid "Does absolutely nothing. Use to \"blank\" a shortcut."
 msgstr ""
 
-#: src/commands.c:2093 src/commands.c:2094
+#: src/commands.c:2082 src/commands.c:2083
 msgid "Merge with Next Measure"
 msgstr ""
 
-#: src/commands.c:2093 src/commands.c:2094
+#: src/commands.c:2082 src/commands.c:2083
 msgid "Joins two measures together."
 msgstr ""
 
-#: src/commands.c:2103 src/commands.c:2104
+#: src/commands.c:2092 src/commands.c:2093
 msgid "Adjust the Measure Lengths"
 msgstr ""
 
-#: src/commands.c:2103 src/commands.c:2104
+#: src/commands.c:2092 src/commands.c:2093
 msgid ""
 "Removes gaps in duration of measures, redistributes the notes according to "
 "the time signature."
 msgstr ""
 
-#: src/commands.c:2113 src/commands.c:2114
+#: src/commands.c:2102 src/commands.c:2103
 msgid "Split Measure at Cursor"
 msgstr ""
 
-#: src/commands.c:2113 src/commands.c:2114
+#: src/commands.c:2102 src/commands.c:2103
 msgid "Split the current measure into two at the cursor."
 msgstr ""
 
-#: src/commands.c:2123 src/commands.c:2125
+#: src/commands.c:2112 src/commands.c:2113
 msgid "Insert barline at cursor, Denemo's measure count is unaffected."
 msgstr ""
 
-#: src/commands.c:2134 src/commands.c:2135
+#: src/commands.c:2122 src/commands.c:2123
 msgid "Play from Cursor to End"
 msgstr ""
 
-#: src/commands.c:2134 src/commands.c:2135
+#: src/commands.c:2122 src/commands.c:2123
 msgid ""
 "Playback all staffs from the current cursor position to the end of the "
 "movement."
 msgstr ""
 
-#: src/commands.c:2144 src/commands.c:2145
+#: src/commands.c:2132 src/commands.c:2133
 msgid "Tremolo"
 msgstr ""
 
-#: src/commands.c:2144 src/commands.c:2145
+#: src/commands.c:2132 src/commands.c:2133
 msgid ""
 "Follow with a duration key for the subdivisions required: prints the note at "
 "the cursor with the tremolo marking."
 msgstr ""
 
-#: src/commands.c:2154 src/commands.c:2155
+#: src/commands.c:2142 src/commands.c:2143
 msgid "TypesettingOff"
 msgstr ""
 
-#: src/commands.c:2154 src/commands.c:2155
+#: src/commands.c:2142 src/commands.c:2143
 msgid "Turns off typesetting from that point until turned on."
 msgstr ""
 
-#: src/commands.c:2164 src/commands.c:2166
+#: src/commands.c:2152 src/commands.c:2154
 msgid "TypesettingOn"
 msgstr ""
 
-#: src/commands.c:2164 src/commands.c:2166
+#: src/commands.c:2152 src/commands.c:2154
 msgid "Turns on typesetting from this point forward in all staffs."
 msgstr ""
 
-#: src/commands.c:2175 src/commands.c:2176
+#: src/commands.c:2163 src/commands.c:2164
 msgid "OpOne"
 msgstr ""
 
-#: src/commands.c:2175 src/commands.c:2176 src/commands.c:2185
-#: src/commands.c:2186 src/commands.c:2195 src/commands.c:2196
-#: src/commands.c:2205 src/commands.c:2206 src/commands.c:2215
-#: src/commands.c:2216 src/commands.c:2225 src/commands.c:2226
-#: src/commands.c:2235 src/commands.c:2236 src/commands.c:2245
-#: src/commands.c:2246 src/commands.c:2255 src/commands.c:2256
-#: src/commands.c:2265 src/commands.c:2266 src/commands.c:2275
-#: src/commands.c:2276
+#: src/commands.c:2163 src/commands.c:2164 src/commands.c:2173
+#: src/commands.c:2174 src/commands.c:2183 src/commands.c:2184
+#: src/commands.c:2193 src/commands.c:2194 src/commands.c:2203
+#: src/commands.c:2204 src/commands.c:2213 src/commands.c:2214
+#: src/commands.c:2223 src/commands.c:2224 src/commands.c:2233
+#: src/commands.c:2234 src/commands.c:2243 src/commands.c:2244
+#: src/commands.c:2253 src/commands.c:2254 src/commands.c:2263
+#: src/commands.c:2264
 msgid "Wrapper/Dummy for Keypresses"
 msgstr ""
 
-#: src/commands.c:2185 src/commands.c:2186
+#: src/commands.c:2173 src/commands.c:2174
 msgid "OpTwo"
 msgstr ""
 
-#: src/commands.c:2195 src/commands.c:2196
+#: src/commands.c:2183 src/commands.c:2184
 msgid "OpThree"
 msgstr ""
 
-#: src/commands.c:2205 src/commands.c:2206
+#: src/commands.c:2193 src/commands.c:2194
 msgid "OpFour"
 msgstr ""
 
-#: src/commands.c:2215 src/commands.c:2216
+#: src/commands.c:2203 src/commands.c:2204
 msgid "OpFive"
 msgstr ""
 
-#: src/commands.c:2225 src/commands.c:2226
+#: src/commands.c:2213 src/commands.c:2214
 msgid "OpSix"
 msgstr ""
 
-#: src/commands.c:2235 src/commands.c:2236
+#: src/commands.c:2223 src/commands.c:2224
 msgid "OpSeven"
 msgstr ""
 
-#: src/commands.c:2245 src/commands.c:2246
+#: src/commands.c:2233 src/commands.c:2234
 msgid "OpEight"
 msgstr ""
 
-#: src/commands.c:2255 src/commands.c:2256
+#: src/commands.c:2243 src/commands.c:2244
 msgid "OpNine"
 msgstr ""
 
-#: src/commands.c:2265 src/commands.c:2266
+#: src/commands.c:2253 src/commands.c:2254
 msgid "OpZero"
 msgstr ""
 
-#: src/commands.c:2275 src/commands.c:2276
+#: src/commands.c:2263 src/commands.c:2264
 msgid "Reset Keys in Composer Mode"
 msgstr ""
 
-#: src/commands.c:2285 src/commands.c:2286
+#: src/commands.c:2273 src/commands.c:2274
 msgid "Fingerings"
 msgstr ""
 
-#: src/commands.c:2285 src/commands.c:2286
+#: src/commands.c:2273 src/commands.c:2274
 msgid "Place a fingering instruction on a note"
 msgstr ""
 
-#: src/commands.c:2295 src/commands.c:2296
+#: src/commands.c:2283 src/commands.c:2284
 msgid "Arbitrary Text"
 msgstr ""
 
-#: src/commands.c:2295 src/commands.c:2296
+#: src/commands.c:2283 src/commands.c:2284
 msgid "Prints your text above the music at this point"
 msgstr ""
 
-#: src/commands.c:2305 src/commands.c:2307 src/commands.c:2370
-#: src/commands.c:2371 src/register_commands.h:29
+#: src/commands.c:2293 src/commands.c:2295 src/commands.c:2358
+#: src/commands.c:2359 src/register_commands.h:29
 msgid "Octave Up"
 msgstr ""
 
-#: src/commands.c:2305 src/commands.c:2307
+#: src/commands.c:2293 src/commands.c:2295
 msgid "Moves cursor up one octave."
 msgstr ""
 
-#: src/commands.c:2316 src/commands.c:2318 src/commands.c:2380
-#: src/commands.c:2381 src/register_commands.h:30
+#: src/commands.c:2304 src/commands.c:2306 src/commands.c:2368
+#: src/commands.c:2369 src/register_commands.h:30
 msgid "Octave Down"
 msgstr ""
 
-#: src/commands.c:2316 src/commands.c:2318
+#: src/commands.c:2304 src/commands.c:2306
 msgid "Moves cursor down an octave."
 msgstr ""
 
-#: src/commands.c:2327 src/commands.c:2329
+#: src/commands.c:2315 src/commands.c:2317
 msgid "Typeset Barlines Literally"
 msgstr ""
 
-#: src/commands.c:2327 src/commands.c:2329
+#: src/commands.c:2315 src/commands.c:2317
 msgid "Typesets the Denemo barlines, regardless of the timing."
 msgstr ""
 
-#: src/commands.c:2338 src/commands.c:2340
+#: src/commands.c:2326 src/commands.c:2328
 msgid "(Print) Accidental Printing"
 msgstr ""
 
-#: src/commands.c:2338 src/commands.c:2340
+#: src/commands.c:2326 src/commands.c:2328
 msgid ""
 "Prints accidentals according to a chosen style. Affects following notes only."
 msgstr ""
 
-#: src/commands.c:2349 src/commands.c:2351
+#: src/commands.c:2337 src/commands.c:2339
 msgid "Insert Two"
 msgstr ""
 
-#: src/commands.c:2349 src/commands.c:2351
+#: src/commands.c:2337 src/commands.c:2339
 msgid ""
 "Inserts two grace notes at the cursor beaming them together. Follow with a "
 "duration key."
 msgstr ""
 
-#: src/commands.c:2360 src/commands.c:2361
+#: src/commands.c:2348 src/commands.c:2349
 msgid "Selection to Next Empty Measure"
 msgstr ""
 
-#: src/commands.c:2360 src/commands.c:2361
+#: src/commands.c:2348 src/commands.c:2349
 msgid "Creates a selection to the next empty measure in the current staff"
 msgstr ""
 
-#: src/commands.c:2370 src/commands.c:2371
+#: src/commands.c:2358 src/commands.c:2359
 msgid ""
 "Shifts current notes/selection up one octave while preserving accidental "
 "status. This means real transposition"
 msgstr ""
 
-#: src/commands.c:2380 src/commands.c:2381
+#: src/commands.c:2368 src/commands.c:2369
 msgid ""
 "Shifts current notes/selection down one octave while preserving accidental "
 "status. This means real transposition"
 msgstr ""
 
-#: src/commands.c:2390 src/commands.c:2391
+#: src/commands.c:2378 src/commands.c:2379
 msgid "Twelve Tone Row"
 msgstr ""
 
-#: src/commands.c:2390 src/commands.c:2391
+#: src/commands.c:2378 src/commands.c:2379
 msgid ""
 "Generates twelve notes of the prevailing duration, each is unique so the "
 "whole chromatic range gets inserted in a random manner. "
 msgstr ""
 
-#: src/commands.c:2400 src/commands.c:2401
+#: src/commands.c:2388 src/commands.c:2389
 msgid "Note from Pool"
 msgstr ""
 
-#: src/commands.c:2400 src/commands.c:2401
+#: src/commands.c:2388 src/commands.c:2389
 msgid "Inserts one note from a user-specified pool of notes in Lilypond syntax"
 msgstr ""
 
-#: src/commands.c:2410 src/commands.c:2411
+#: src/commands.c:2398 src/commands.c:2399
 msgid "Insert Shuffled Pool"
 msgstr ""
 
-#: src/commands.c:2410 src/commands.c:2411
+#: src/commands.c:2398 src/commands.c:2399
 msgid ""
 "Inserts all notes, shuffled, from a user-specified pool of notes in Lilypond "
 "syntax"
 msgstr ""
 
-#: src/commands.c:2420 src/commands.c:2421
+#: src/commands.c:2408 src/commands.c:2409
 msgid "Chromatic within Clef Range"
 msgstr ""
 
-#: src/commands.c:2420 src/commands.c:2421
+#: src/commands.c:2408 src/commands.c:2409
 msgid "Insert a random note within clef range. Full chromatic spectrum."
 msgstr ""
 
-#: src/commands.c:2430 src/commands.c:2431
+#: src/commands.c:2418 src/commands.c:2419
 msgid "Diatonic within Clef Range"
 msgstr ""
 
-#: src/commands.c:2430 src/commands.c:2431
+#: src/commands.c:2418 src/commands.c:2419
 msgid ""
 "Insert a random note within clef range, only diatonic notes according to "
 "current keysignature."
 msgstr ""
 
-#: src/commands.c:2440 src/commands.c:2441
+#: src/commands.c:2428 src/commands.c:2429
 msgid "Grace After"
 msgstr ""
 
-#: src/commands.c:2440 src/commands.c:2441
+#: src/commands.c:2428 src/commands.c:2429
 msgid ""
 "Print the grace note(s) at the cursor attached to the previous note. Beware! "
 "You must reissue this command if you change the notes in any way, only the "
 "pitch and duration when this command was issued will be printed."
 msgstr ""
 
-#: src/commands.c:2450 src/commands.c:2451
+#: src/commands.c:2438 src/commands.c:2439
 msgid "(Print) Set Bar Number"
 msgstr ""
 
-#: src/commands.c:2450 src/commands.c:2451
+#: src/commands.c:2438 src/commands.c:2439
 msgid ""
 "Enter a number to change the lilypond bar number. The printout will continue "
 "to count up from there."
 msgstr ""
 
-#: src/commands.c:2460 src/commands.c:2462
+#: src/commands.c:2448 src/commands.c:2450
 msgid "Set Tuning for Current Staff"
 msgstr ""
 
-#: src/commands.c:2460 src/commands.c:2462
+#: src/commands.c:2448 src/commands.c:2450
 msgid ""
 "At this time in playback the current staff's tuning will switch to the "
 "temperament selected when this command is invoked."
 msgstr ""
 
-#: src/commands.c:2471 src/commands.c:2473
+#: src/commands.c:2459 src/commands.c:2461
 msgid "Set Tuning Across All Staffs"
 msgstr ""
 
-#: src/commands.c:2471 src/commands.c:2473
+#: src/commands.c:2459 src/commands.c:2461
 msgid ""
 "At this time during playback switch to the temperament set when this command "
 "was invoked."
 msgstr ""
 
-#: src/commands.c:2482 src/commands.c:2483
+#: src/commands.c:2470 src/commands.c:2471
 msgid "(Print) Hide Object"
 msgstr ""
 
-#: src/commands.c:2482 src/commands.c:2483
+#: src/commands.c:2470 src/commands.c:2471
 msgid ""
 "Hides the object at cursor position with a lilypond directive. Currently "
 "only Notes and the three Signatures. No rests!"
 msgstr ""
 
-#: src/commands.c:2492 src/commands.c:2493
+#: src/commands.c:2480 src/commands.c:2481
 msgid "Breath Mark"
 msgstr ""
 
-#: src/commands.c:2492 src/commands.c:2493
+#: src/commands.c:2480 src/commands.c:2481
 msgid "Inserts a Breath Mark"
 msgstr ""
 
-#: src/commands.c:2502 src/commands.c:2503
+#: src/commands.c:2490 src/commands.c:2491
 msgid "(Print) Don't Engrave Time Signatures"
 msgstr ""
 
-#: src/commands.c:2502 src/commands.c:2503
+#: src/commands.c:2490 src/commands.c:2491
 msgid ""
 "Deactivates the stencil for Time Signatures for the whole score, which "
 "prevents them from getting drawn and taking space. But the logic is still "
 "active."
 msgstr ""
 
-#: src/commands.c:2512 src/commands.c:2513
+#: src/commands.c:2500 src/commands.c:2501
 msgid "(Print) Stop Drawing Staff"
 msgstr ""
 
-#: src/commands.c:2512 src/commands.c:2513
+#: src/commands.c:2500 src/commands.c:2501
 msgid "Stop drawing the staff and barlines in Lilypond. Notes are still drawn."
 msgstr ""
 
-#: src/commands.c:2522 src/commands.c:2524
+#: src/commands.c:2510 src/commands.c:2512
 msgid "(Print) Start Drawing Staff (Again)"
 msgstr ""
 
-#: src/commands.c:2522 src/commands.c:2524
+#: src/commands.c:2510 src/commands.c:2512
 msgid "Reverts the \"Stop Drawing Staff\" command"
 msgstr ""
 
-#: src/commands.c:2533 src/commands.c:2534
+#: src/commands.c:2521 src/commands.c:2522
 msgid "(Print) Stop Drawing Notes"
 msgstr ""
 
-#: src/commands.c:2533 src/commands.c:2534
+#: src/commands.c:2521 src/commands.c:2522
 msgid "Stops the Lilypond engraving of notes"
 msgstr ""
 
-#: src/commands.c:2543 src/commands.c:2545
+#: src/commands.c:2531 src/commands.c:2533
 msgid "(Print) Start Drawing Notes (Again)"
 msgstr ""
 
-#: src/commands.c:2543 src/commands.c:2545
+#: src/commands.c:2531 src/commands.c:2533
 msgid "Reverts the \"Stop drawing notes\" command"
 msgstr ""
 
-#: src/commands.c:2554 src/commands.c:2555
+#: src/commands.c:2542 src/commands.c:2543
 msgid "(Print) Mensural Barlines (On/Off)"
 msgstr ""
 
-#: src/commands.c:2554 src/commands.c:2555
+#: src/commands.c:2542 src/commands.c:2543
 msgid "Draw the barlines only between the staves but not inside."
 msgstr ""
 
-#: src/commands.c:2564 src/commands.c:2565 src/commands.c:2574
-#: src/commands.c:2575 src/commands.c:2624 src/commands.c:2626
-#: src/commands.c:2646 src/commands.c:2648
+#: src/commands.c:2552 src/commands.c:2553 src/commands.c:2562
+#: src/commands.c:2563 src/commands.c:2612 src/commands.c:2614
+#: src/commands.c:2634 src/commands.c:2636
 msgid "Breve"
 msgstr ""
 
-#: src/commands.c:2564 src/commands.c:2565
+#: src/commands.c:2552 src/commands.c:2553
 msgid "Insert a Breve"
 msgstr ""
 
-#: src/commands.c:2574 src/commands.c:2575
+#: src/commands.c:2562 src/commands.c:2563
 msgid "Change current note duration to Breve"
 msgstr ""
 
-#: src/commands.c:2584 src/commands.c:2585 src/commands.c:2594
-#: src/commands.c:2595 src/commands.c:2635 src/commands.c:2637
-#: src/commands.c:2678 src/commands.c:2680
+#: src/commands.c:2572 src/commands.c:2573 src/commands.c:2582
+#: src/commands.c:2583 src/commands.c:2623 src/commands.c:2625
+#: src/commands.c:2666 src/commands.c:2668
 msgid "Longa"
 msgstr ""
 
-#: src/commands.c:2584 src/commands.c:2585
+#: src/commands.c:2572 src/commands.c:2573
 msgid "Insert a Longa"
 msgstr ""
 
-#: src/commands.c:2594 src/commands.c:2595
+#: src/commands.c:2582 src/commands.c:2583
 msgid "Change current note duration to Longa"
 msgstr ""
 
-#: src/commands.c:2604 src/commands.c:2605
+#: src/commands.c:2592 src/commands.c:2593
 msgid "Breve Rest"
 msgstr ""
 
-#: src/commands.c:2604 src/commands.c:2605
+#: src/commands.c:2592 src/commands.c:2593
 msgid "Insert a rest with breve duration"
 msgstr ""
 
-#: src/commands.c:2614 src/commands.c:2615
+#: src/commands.c:2602 src/commands.c:2603
 msgid "Longa Rest"
 msgstr ""
 
-#: src/commands.c:2614 src/commands.c:2615
+#: src/commands.c:2602 src/commands.c:2603
 msgid "Insert a rest with longa duration"
 msgstr ""
 
-#: src/commands.c:2624 src/commands.c:2626
+#: src/commands.c:2612 src/commands.c:2614
 msgid "Append/Insert Breve"
 msgstr ""
 
-#: src/commands.c:2635 src/commands.c:2637
+#: src/commands.c:2623 src/commands.c:2625
 msgid "Append/Insert Longa duration"
 msgstr ""
 
-#: src/commands.c:2646 src/commands.c:2648
+#: src/commands.c:2634 src/commands.c:2636
 msgid "Sets Prevailing Duration to Breve"
 msgstr ""
 
-#: src/commands.c:2657 src/commands.c:2659
+#: src/commands.c:2645 src/commands.c:2647
 msgid "LilyPond Score Prolog"
 msgstr ""
 
-#: src/commands.c:2657 src/commands.c:2659
+#: src/commands.c:2645 src/commands.c:2647
 msgid "Inserts LilyPond syntax for include files etc at head of score."
 msgstr ""
 
-#: src/commands.c:2668 src/commands.c:2669
+#: src/commands.c:2656 src/commands.c:2657
 msgid "Anacrusis (Upbeat, Pickup)"
 msgstr ""
 
-#: src/commands.c:2668 src/commands.c:2669
+#: src/commands.c:2656 src/commands.c:2657
 msgid ""
 "Convert the current measure to a partial measure so that it is complete with "
 "just the beats already inserted."
 msgstr ""
 
-#: src/commands.c:2678 src/commands.c:2680
+#: src/commands.c:2666 src/commands.c:2668
 msgid ""
 "Sets Longa as the prevailing duration, installing it as a musical snippet."
 msgstr ""
 
-#: src/commands.c:2689 src/commands.c:2691
+#: src/commands.c:2677 src/commands.c:2679
 msgid "Mute"
 msgstr ""
 
-#: src/commands.c:2689 src/commands.c:2691
+#: src/commands.c:2677 src/commands.c:2679
 msgid ""
 "Mutes playback on this staff by placing a volume=zero directive at the start."
 msgstr ""
 
-#: src/commands.c:2700 src/commands.c:2702
+#: src/commands.c:2688 src/commands.c:2690
 msgid "Tiny Staff"
 msgstr ""
 
-#: src/commands.c:2700 src/commands.c:2702
+#: src/commands.c:2688 src/commands.c:2690
 msgid "Prints current staff in a tiny font."
 msgstr ""
 
-#: src/commands.c:2711 src/commands.c:2713
+#: src/commands.c:2699 src/commands.c:2701
 msgid "Tablature"
 msgstr ""
 
-#: src/commands.c:2711 src/commands.c:2713
+#: src/commands.c:2699 src/commands.c:2701
 msgid "Converts to tablature notation (print only)"
 msgstr ""
 
-#: src/commands.c:2722 src/commands.c:2723
+#: src/commands.c:2710 src/commands.c:2711
 msgid "(Print) Standalone Fermata (for Barlines)"
 msgstr ""
 
-#: src/commands.c:2722 src/commands.c:2723
+#: src/commands.c:2710 src/commands.c:2711
 msgid ""
 "Adds a standalone fermata which has no playback effect. Can be used to place "
 "a Fermata on a barline."
 msgstr ""
 
-#: src/commands.c:2732 src/commands.c:2734
+#: src/commands.c:2720 src/commands.c:2722
 msgid "Set Pitch Bend Controller"
 msgstr ""
 
-#: src/commands.c:2732 src/commands.c:2734
+#: src/commands.c:2720 src/commands.c:2722
 msgid ""
 "Takes two keyboard shortcuts and sets the commands as the actions for Pitch "
 "Bend controller wheel up/down"
 msgstr ""
 
-#: src/commands.c:2743 src/commands.c:2744
+#: src/commands.c:2731 src/commands.c:2732
 msgid "Zoom In"
 msgstr ""
 
-#: src/commands.c:2753 src/commands.c:2754
+#: src/commands.c:2741 src/commands.c:2742
 msgid "Zoom Out"
 msgstr ""
 
-#: src/commands.c:2763 src/commands.c:2764
+#: src/commands.c:2751 src/commands.c:2752
 msgid "Zoom to 100%"
 msgstr ""
 
-#: src/commands.c:2763 src/commands.c:2764
+#: src/commands.c:2751 src/commands.c:2752
 msgid "Zoom to 100%, restore the original size"
 msgstr ""
 
-#: src/commands.c:2773 src/commands.c:2775
+#: src/commands.c:2761 src/commands.c:2763
 msgid "(Print) Accompanist's Score"
 msgstr ""
 
-#: src/commands.c:2773 src/commands.c:2775
+#: src/commands.c:2761 src/commands.c:2763
 msgid ""
 "Sets/Unsets the top staff of each movement to a tiny font, with the lower "
 "staffs - the accompaniment - at the normal font. Print effect only."
 msgstr ""
 
-#: src/commands.c:2784 src/commands.c:2785
+#: src/commands.c:2772 src/commands.c:2773
 msgid "Delete Selected Objects"
 msgstr ""
 
-#: src/commands.c:2784 src/commands.c:2785
+#: src/commands.c:2772 src/commands.c:2773
 msgid "Delete all selected objects and leave empty measures behind"
 msgstr ""
 
-#: src/commands.c:2794 src/commands.c:2795
+#: src/commands.c:2782 src/commands.c:2783
 msgid "Half Barline"
 msgstr ""
 
-#: src/commands.c:2794 src/commands.c:2795
+#: src/commands.c:2782 src/commands.c:2783
 msgid "Insert a barline with only half of its original size"
 msgstr ""
 
-#: src/commands.c:2804 src/commands.c:2806
+#: src/commands.c:2792 src/commands.c:2794
 msgid "Move To Movement Beginning"
 msgstr ""
 
-#: src/commands.c:2804 src/commands.c:2806
+#: src/commands.c:2792 src/commands.c:2794
 msgid ""
 "Moves the cursor to the beginning of the movement without altering the "
 "selection"
 msgstr ""
 
-#: src/commands.c:2815 src/commands.c:2816
+#: src/commands.c:2803 src/commands.c:2804
 msgid "Insert Lilypond"
 msgstr ""
 
-#: src/commands.c:2815 src/commands.c:2816
+#: src/commands.c:2803 src/commands.c:2804
 msgid ""
 "Insert or edit a directive in the LilyPond music typesetting language. This "
 "can be used for extra spacing, transposing or almost anything. See LilyPond "
 "documentation for ideas."
 msgstr ""
 
-#: src/commands.c:2825 src/commands.c:2826
+#: src/commands.c:2813 src/commands.c:2814
 msgid "Toggle Immediate Playback"
 msgstr ""
 
-#: src/commands.c:2825 src/commands.c:2826
+#: src/commands.c:2813 src/commands.c:2814
 msgid ""
 "Toggle on/off if you want to hear the note directly after inserting/changing."
 msgstr ""
 
-#: src/commands.c:2835 src/commands.c:2836
+#: src/commands.c:2823 src/commands.c:2824
 msgid "Voice Preset Automatic"
 msgstr ""
 
-#: src/commands.c:2835 src/commands.c:2836
+#: src/commands.c:2823 src/commands.c:2824
 msgid "Automatic voice preset. Resets to normal behaviour."
 msgstr ""
 
-#: src/commands.c:2845 src/commands.c:2847
+#: src/commands.c:2833 src/commands.c:2835
 msgid "Voice Preset 1 (Stems Up)"
 msgstr ""
 
-#: src/commands.c:2845 src/commands.c:2847
+#: src/commands.c:2833 src/commands.c:2835
 msgid "Preset for first voice. Stems up"
 msgstr ""
 
-#: src/commands.c:2856 src/commands.c:2858
+#: src/commands.c:2844 src/commands.c:2846
 msgid "Voice Preset 2 (Stems Down)"
 msgstr ""
 
-#: src/commands.c:2856 src/commands.c:2858
+#: src/commands.c:2844 src/commands.c:2846
 msgid "Preset for second voice. Stems down."
 msgstr ""
 
-#: src/commands.c:2867 src/commands.c:2869
+#: src/commands.c:2855 src/commands.c:2857
 msgid "Voice Preset 3 (Stems Up)"
 msgstr ""
 
-#: src/commands.c:2867 src/commands.c:2869
+#: src/commands.c:2855 src/commands.c:2857
 msgid "Preset for third voice. Stems up."
 msgstr ""
 
-#: src/commands.c:2878 src/commands.c:2880
+#: src/commands.c:2866 src/commands.c:2868
 msgid "Voice Preset 4 (Stems Down)"
 msgstr ""
 
-#: src/commands.c:2878 src/commands.c:2880
+#: src/commands.c:2866 src/commands.c:2868
 msgid "Preset for voice four. Stems down."
 msgstr ""
 
-#: src/commands.c:2889 src/commands.c:2891
+#: src/commands.c:2877 src/commands.c:2879
 msgid "Print Accompanist's Score"
 msgstr ""
 
-#: src/commands.c:2889 src/commands.c:2891
+#: src/commands.c:2877 src/commands.c:2879
 msgid ""
 "Prints out the score with the topmost staff in tiny size and puts page "
 "breaks before each movement."
 msgstr ""
 
-#: src/commands.c:2900 src/commands.c:2902
+#: src/commands.c:2888 src/commands.c:2890
 msgid "Tiny Staff in All Movements"
 msgstr ""
 
-#: src/commands.c:2900 src/commands.c:2902
+#: src/commands.c:2888 src/commands.c:2890
 msgid ""
 "Gets a staff number 1 ... n from user and makes that staff tiny in all "
 "movements."
 msgstr ""
 
-#: src/commands.c:2911 src/commands.c:2912
+#: src/commands.c:2899 src/commands.c:2900
 msgid "Select Column"
 msgstr ""
 
-#: src/commands.c:2911 src/commands.c:2912
+#: src/commands.c:2899 src/commands.c:2900
 msgid "Selects the whole column"
 msgstr ""
 
-#: src/commands.c:2921 src/commands.c:2923
+#: src/commands.c:2909 src/commands.c:2911
 msgid "Move To Movement End"
 msgstr ""
 
-#: src/commands.c:2921 src/commands.c:2923
+#: src/commands.c:2909 src/commands.c:2911
 msgid ""
 "Move the cursor to last measure, last staff without altering the selection."
 msgstr ""
 
-#: src/commands.c:2932 src/commands.c:2933
+#: src/commands.c:2920 src/commands.c:2921
 msgid "Voice Preset"
 msgstr ""
 
-#: src/commands.c:2932 src/commands.c:2933
+#: src/commands.c:2920 src/commands.c:2921
 msgid "Choose a preset for four voices or automatic voice."
 msgstr ""
 
-#: src/commands.c:2942 src/commands.c:2944
+#: src/commands.c:2930 src/commands.c:2932
 msgid "Congruentia"
 msgstr ""
 
-#: src/commands.c:2942 src/commands.c:2944
+#: src/commands.c:2930 src/commands.c:2932
 msgid "Print congruentia / canon symbol"
 msgstr ""
 
-#: src/commands.c:2953 src/commands.c:2954
+#: src/commands.c:2941 src/commands.c:2942
 msgid "Change to 'Select Duration' Number Keys in Composer Mode"
 msgstr ""
 
-#: src/commands.c:2953 src/commands.c:2954
+#: src/commands.c:2941 src/commands.c:2942
 msgid ""
 "Change the number keys to select the prevailing duration in composer mode."
 msgstr ""
 
-#: src/commands.c:2963 src/commands.c:2964
+#: src/commands.c:2951 src/commands.c:2952
 msgid "Select Right"
 msgstr ""
 
-#: src/commands.c:2963 src/commands.c:2964
+#: src/commands.c:2951 src/commands.c:2952
 msgid "Create a selection, move the cursor right."
 msgstr ""
 
-#: src/commands.c:2973 src/commands.c:2975
+#: src/commands.c:2961 src/commands.c:2963
 msgid "Select Left"
 msgstr ""
 
-#: src/commands.c:2973 src/commands.c:2975
+#: src/commands.c:2961 src/commands.c:2963
 msgid "Create a selection, move cursor left."
 msgstr ""
 
-#: src/commands.c:2984 src/commands.c:2985
+#: src/commands.c:2972 src/commands.c:2973
 msgid "Insert String as Binary Rhythm"
 msgstr ""
 
-#: src/commands.c:2984 src/commands.c:2985
+#: src/commands.c:2972 src/commands.c:2973
 msgid ""
 "Give a string to generate a rhythm out of its ascii chars in binary encoding"
 msgstr ""
 
-#: src/commands.c:2994 src/commands.c:2996
+#: src/commands.c:2982 src/commands.c:2984
 msgid "Insert Reversed String as Binary Rhythm"
 msgstr ""
 
-#: src/commands.c:2994 src/commands.c:2996
+#: src/commands.c:2982 src/commands.c:2984
 msgid ""
 "Give a string to generate a rhythm out of its ascii chars in binary "
 "encoding. The string gets reversed before converting."
 msgstr ""
 
-#: src/commands.c:3005 src/commands.c:3007
+#: src/commands.c:2993 src/commands.c:2995
 msgid "Insert String as Reversed Binary Rhythm"
 msgstr ""
 
-#: src/commands.c:3005 src/commands.c:3007
+#: src/commands.c:2993 src/commands.c:2995
 msgid ""
 "Give a string to generate a rhythm out of its ascii chars in binary "
 "encoding. The rhythm for each letter gets reversed before inserting."
 msgstr ""
 
-#: src/commands.c:3016 src/commands.c:3018
+#: src/commands.c:3004 src/commands.c:3006
 msgid "Insert Reversed String as Reversed Binary Rhythm"
 msgstr ""
 
-#: src/commands.c:3016 src/commands.c:3018
+#: src/commands.c:3004 src/commands.c:3006
 msgid ""
 "Give a string to generate a rhythm out of its ascii chars in binary "
 "encoding. The string gets reversed before converting. The rhythm for each "
 "letter gets reversed before inserting."
 msgstr ""
 
-#: src/commands.c:3027 src/commands.c:3029
+#: src/commands.c:3015 src/commands.c:3017
 msgid "Select Measure"
 msgstr ""
 
-#: src/commands.c:3027 src/commands.c:3029
+#: src/commands.c:3015 src/commands.c:3017
 msgid "Create a selection for the entire current measure"
 msgstr ""
 
-#: src/commands.c:3038 src/commands.c:3040
+#: src/commands.c:3026 src/commands.c:3028
 msgid "Move To Previous Empty Measure"
 msgstr ""
 
-#: src/commands.c:3038 src/commands.c:3040
+#: src/commands.c:3026 src/commands.c:3028
 msgid ""
 "Move the cursor left until it finds an empty measure or the staffs beginning"
 msgstr ""
 
-#: src/commands.c:3049 src/commands.c:3050
+#: src/commands.c:3037 src/commands.c:3038
 msgid "Choose Barline"
 msgstr ""
 
-#: src/commands.c:3049 src/commands.c:3050
+#: src/commands.c:3037 src/commands.c:3038
 msgid "Choose a barline "
 msgstr ""
 
-#: src/commands.c:3059 src/commands.c:3060
+#: src/commands.c:3047 src/commands.c:3048
 msgid "Choose Typical Time Signature"
 msgstr ""
 
-#: src/commands.c:3059 src/commands.c:3060
+#: src/commands.c:3047 src/commands.c:3048
 msgid "Choose from a set of typical time signatures"
 msgstr ""
 
-#: src/commands.c:3069 src/commands.c:3070 src/register_commands.h:75
+#: src/commands.c:3057 src/commands.c:3058 src/register_commands.h:75
 msgid "Remove Dot"
 msgstr ""
 
-#: src/commands.c:3069 src/commands.c:3070
+#: src/commands.c:3057 src/commands.c:3058
 msgid "Remove one dot for each note in the selection or single note"
 msgstr ""
 
-#: src/commands.c:3079 src/commands.c:3081
+#: src/commands.c:3067 src/commands.c:3069
 msgid "Convert MIDI Chords Over Bass"
 msgstr ""
 
-#: src/commands.c:3079 src/commands.c:3081
+#: src/commands.c:3067 src/commands.c:3069
 msgid ""
 "Takes a MIDI recording over a bass line and inserts the chords by matching "
 "the bass notes. Each chord must include the bass note."
 msgstr ""
 
-#: src/commands.c:3090 src/commands.c:3092
+#: src/commands.c:3078 src/commands.c:3080
 msgid "Play Along Playback (Off/On)"
 msgstr ""
 
-#: src/commands.c:3090 src/commands.c:3092
+#: src/commands.c:3078 src/commands.c:3080
 msgid ""
 "Turns off play along playback: when this is on the playback does not advance "
 "past the cursor unless you play along the correct note via Midi In, or move "
 "the mouse over the music to drive the score along."
 msgstr ""
 
-#: src/commands.c:3101 src/commands.c:3103
+#: src/commands.c:3089 src/commands.c:3091
 msgid "Record and Convert"
 msgstr ""
 
-#: src/commands.c:3101 src/commands.c:3103
+#: src/commands.c:3089 src/commands.c:3091
 msgid ""
 "Starts playing the score and recording from MIDI in, When finished it "
 "converts the recording to notation."
 msgstr ""
 
-#: src/commands.c:3112 src/commands.c:3114
+#: src/commands.c:3100 src/commands.c:3102
 msgid "Create Intro"
 msgstr ""
 
-#: src/commands.c:3112 src/commands.c:3114
+#: src/commands.c:3100 src/commands.c:3102
 msgid ""
 "Creates a new staff with a bar for nothing (an intro of the right number of "
 "beats)"
 msgstr ""
 
-#: src/commands.c:3123 src/commands.c:3125 src/register_commands.h:207
+#: src/commands.c:3111 src/commands.c:3113 src/register_commands.h:207
 msgid "Import Lilypond"
 msgstr ""
 
-#: src/commands.c:3123 src/commands.c:3125
+#: src/commands.c:3111 src/commands.c:3113
 msgid "Try to Import a Lilypond File"
 msgstr ""
 
-#: src/commands.c:3134 src/commands.c:3136 src/register_commands.h:208
+#: src/commands.c:3122 src/commands.c:3124 src/register_commands.h:208
 msgid "Import Midi"
 msgstr ""
 
-#: src/commands.c:3134 src/commands.c:3136
+#: src/commands.c:3122 src/commands.c:3124
 msgid "Try to Imports a Midi File"
 msgstr ""
 
-#: src/commands.c:3145 src/commands.c:3147 src/register_commands.h:209
+#: src/commands.c:3133 src/commands.c:3135 src/register_commands.h:209
 msgid "Import MusicXml"
 msgstr ""
 
-#: src/commands.c:3145 src/commands.c:3147
+#: src/commands.c:3133 src/commands.c:3135
 msgid "Try to Import a MusicXml file"
 msgstr ""
 
-#: src/commands.c:3156 src/commands.c:3157
+#: src/commands.c:3144 src/commands.c:3145
 msgid "GroupStaff Start"
 msgstr ""
 
-#: src/commands.c:3156 src/commands.c:3157
+#: src/commands.c:3144 src/commands.c:3145
 msgid ""
 "Start grouping single staves together in order to form multi-stave systems. "
 "In the StaffGroup context, the group is started with a bracket and bar lines "
 "are drawn through all the staves."
 msgstr ""
 
-#: src/commands.c:3166 src/commands.c:3168
+#: src/commands.c:3154 src/commands.c:3156
 msgid "GroupStaff End"
 msgstr ""
 
-#: src/commands.c:3166 src/commands.c:3168
+#: src/commands.c:3154 src/commands.c:3156
 msgid "Stop GroupStaff multi-stave system."
 msgstr ""
 
-#: src/commands.c:3177 src/commands.c:3179
+#: src/commands.c:3165 src/commands.c:3167
 msgid "PianoStaff Start"
 msgstr ""
 
-#: src/commands.c:3177 src/commands.c:3179
+#: src/commands.c:3165 src/commands.c:3167
 msgid ""
 "Start grouping single staves together in order to form multi-stave systems. "
 "The PianoStaff is identical to a GrandStaff, except that it supports "
 "printing the instrument name directly."
 msgstr ""
 
-#: src/commands.c:3188 src/commands.c:3190
+#: src/commands.c:3176 src/commands.c:3178
 msgid "PianoStaff End"
 msgstr ""
 
-#: src/commands.c:3188 src/commands.c:3190
+#: src/commands.c:3176 src/commands.c:3178
 msgid "Stop PianoStaff multi-stave system."
 msgstr ""
 
-#: src/commands.c:3199 src/commands.c:3201
+#: src/commands.c:3187 src/commands.c:3189
 msgid "ChoirStaff Start"
 msgstr ""
 
-#: src/commands.c:3199 src/commands.c:3201
+#: src/commands.c:3187 src/commands.c:3189
 msgid ""
 "Start grouping single staves together in order to form multi-stave systems. "
 "In a ChoirStaff, the group starts with a bracket, but bar lines are not "
 "connected. "
 msgstr ""
 
-#: src/commands.c:3210 src/commands.c:3212
+#: src/commands.c:3198 src/commands.c:3200
 msgid "ChoirStaff End"
 msgstr ""
 
-#: src/commands.c:3210 src/commands.c:3212
+#: src/commands.c:3198 src/commands.c:3200
 msgid "Stop ChoirStaff multi-stave system."
 msgstr ""
 
-#: src/commands.c:3221 src/commands.c:3223
+#: src/commands.c:3209 src/commands.c:3211
 msgid "GrandStaff Start"
 msgstr ""
 
-#: src/commands.c:3221 src/commands.c:3223
+#: src/commands.c:3209 src/commands.c:3211
 msgid ""
 "Start grouping single staves together in order to form multi-stave systems. "
 "In a GrandStaff, the group begins with a brace, and bar lines are connected "
 "between the staves."
 msgstr ""
 
-#: src/commands.c:3232 src/commands.c:3234
+#: src/commands.c:3220 src/commands.c:3222
 msgid "GrandStaff End"
 msgstr ""
 
-#: src/commands.c:3232 src/commands.c:3234
+#: src/commands.c:3220 src/commands.c:3222
 msgid "Stop GrandStaff multi-stave system."
 msgstr ""
 
-#: src/commands.c:3243 src/commands.c:3245
+#: src/commands.c:3231 src/commands.c:3233
 msgid "Delete all staff contexts"
 msgstr ""
 
-#: src/commands.c:3243 src/commands.c:3245
+#: src/commands.c:3231 src/commands.c:3233
 msgid "Clear the staff from all groupings"
 msgstr ""
 
-#: src/commands.c:3254 src/commands.c:3255
+#: src/commands.c:3242 src/commands.c:3243
 msgid "Default"
 msgstr ""
 
-#: src/commands.c:3254 src/commands.c:3255
+#: src/commands.c:3242 src/commands.c:3243
 msgid "Default note head style for the current movement."
 msgstr ""
 
-#: src/commands.c:3264 src/commands.c:3266
+#: src/commands.c:3252 src/commands.c:3254
 msgid "Baroque"
 msgstr ""
 
-#: src/commands.c:3264 src/commands.c:3266
+#: src/commands.c:3252 src/commands.c:3254
 msgid "Baroque note head style for the current movement."
 msgstr ""
 
-#: src/commands.c:3275 src/commands.c:3277
+#: src/commands.c:3263 src/commands.c:3265
 msgid "Neomensural"
 msgstr ""
 
-#: src/commands.c:3275 src/commands.c:3277
+#: src/commands.c:3263 src/commands.c:3265
 msgid "Neomensural note head style for the current movement."
 msgstr ""
 
-#: src/commands.c:3286 src/commands.c:3288
+#: src/commands.c:3274 src/commands.c:3276
 msgid "Mensural"
 msgstr ""
 
-#: src/commands.c:3286 src/commands.c:3288
+#: src/commands.c:3274 src/commands.c:3276
 msgid "Mensural note head style for the current movement."
 msgstr ""
 
-#: src/commands.c:3297 src/commands.c:3299
+#: src/commands.c:3285 src/commands.c:3287
 msgid "Petrucci"
 msgstr ""
 
-#: src/commands.c:3297 src/commands.c:3299
+#: src/commands.c:3285 src/commands.c:3287
 msgid "Petrucci note head style for the current movement."
 msgstr ""
 
-#: src/commands.c:3308 src/commands.c:3310
+#: src/commands.c:3296 src/commands.c:3298
 msgid "Harmonic note head style for the current movement."
 msgstr ""
 
-#: src/commands.c:3319 src/commands.c:3321 src/commands.c:3330
-#: src/commands.c:3332
+#: src/commands.c:3307 src/commands.c:3309 src/commands.c:3318
+#: src/commands.c:3320
 msgid "Harmonic-black"
 msgstr ""
 
-#: src/commands.c:3319 src/commands.c:3321 src/commands.c:3330
-#: src/commands.c:3332
+#: src/commands.c:3307 src/commands.c:3309 src/commands.c:3318
+#: src/commands.c:3320
 msgid "Harmonic-black note head style for the current movement."
 msgstr ""
 
-#: src/commands.c:3341 src/commands.c:3343
+#: src/commands.c:3329 src/commands.c:3331
 msgid "Diamond note head style for the current movement."
 msgstr ""
 
-#: src/commands.c:3352 src/commands.c:3354
+#: src/commands.c:3340 src/commands.c:3342
 msgid "Cross note head style for the current movement."
 msgstr ""
 
-#: src/commands.c:3363 src/commands.c:3365
+#: src/commands.c:3351 src/commands.c:3353
 msgid "Xcircle"
 msgstr ""
 
-#: src/commands.c:3363 src/commands.c:3365
+#: src/commands.c:3351 src/commands.c:3353
 msgid "Xcircle note head style for the current movement."
 msgstr ""
 
-#: src/commands.c:3374 src/commands.c:3376
+#: src/commands.c:3362 src/commands.c:3364
 msgid "Slash"
 msgstr ""
 
-#: src/commands.c:3374 src/commands.c:3376
+#: src/commands.c:3362 src/commands.c:3364
 msgid "Slash note head style for the current movement."
 msgstr ""
 
-#: src/commands.c:3385 src/commands.c:3387
+#: src/commands.c:3373 src/commands.c:3375
 msgid "Delete Movement Notehead Settings"
 msgstr ""
 
-#: src/commands.c:3385 src/commands.c:3387
+#: src/commands.c:3373 src/commands.c:3375
 msgid ""
 "Delete note head style of this movement. Reset to whatever Score or Lilypond "
 "has set as default."
 msgstr ""
 
-#: src/commands.c:3396 src/commands.c:3397
+#: src/commands.c:3384 src/commands.c:3385
 msgid "Whole tone up"
 msgstr ""
 
-#: src/commands.c:3396 src/commands.c:3397
+#: src/commands.c:3384 src/commands.c:3385
 msgid "Transpose/shift the cursor note or selection one whole tone up"
 msgstr ""
 
-#: src/commands.c:3406 src/commands.c:3408
+#: src/commands.c:3394 src/commands.c:3396
 msgid "Whole tone down"
 msgstr ""
 
-#: src/commands.c:3406 src/commands.c:3408
+#: src/commands.c:3394 src/commands.c:3396
 msgid "Transpose/shift the cursor note or selection one whole tone down"
 msgstr ""
 
-#: src/commands.c:3417 src/commands.c:3419
+#: src/commands.c:3405 src/commands.c:3407
 msgid "Half tone up"
 msgstr ""
 
-#: src/commands.c:3417 src/commands.c:3419
+#: src/commands.c:3405 src/commands.c:3407
 msgid "Transpose/shift the cursor note or selection one half tone up"
 msgstr ""
 
-#: src/commands.c:3428 src/commands.c:3430
+#: src/commands.c:3416 src/commands.c:3418
 msgid "Half tone down"
 msgstr ""
 
-#: src/commands.c:3428 src/commands.c:3430
+#: src/commands.c:3416 src/commands.c:3418
 msgid "Transpose/shift the cursor note or selection one half tone down"
 msgstr ""
 
-#: src/commands.c:3439 src/commands.c:3441
+#: src/commands.c:3427 src/commands.c:3429
 msgid "Join music objects"
 msgstr ""
 
-#: src/commands.c:3439 src/commands.c:3441
+#: src/commands.c:3427 src/commands.c:3429
 msgid ""
 "Joins all notes, chords and rests in the selection and inserts a new, longer "
 "note instead. May create tied notes. Uses the cursor position as pitch."
 msgstr ""
 
-#: src/commands.c:3450 src/commands.c:3452
+#: src/commands.c:3438 src/commands.c:3440
 msgid "Arbitrary transpose up"
 msgstr ""
 
-#: src/commands.c:3450 src/commands.c:3452
+#: src/commands.c:3438 src/commands.c:3440
 msgid ""
 "Transpose/shift the cursor note or selection an arbitrary number of tones "
-"up. User can specify interval through a dialog."
+"up. User can specify interval through a dialogue."
 msgstr ""
 
-#: src/commands.c:3461 src/commands.c:3463
+#: src/commands.c:3449 src/commands.c:3451
 msgid "Arbitrary transpose down"
 msgstr ""
 
-#: src/commands.c:3461 src/commands.c:3463
+#: src/commands.c:3449 src/commands.c:3451
 msgid ""
 "Transpose/shift the cursor note or selection an arbitrary number of tones "
-"down. User can specify interval through a dialog."
+"down. User can specify interval through a dialogue."
 msgstr ""
 
-#: src/commands.c:3472 src/commands.c:3473
+#: src/commands.c:3460 src/commands.c:3461
 msgid "Add Perfect 1st above base"
 msgstr ""
 
-#: src/commands.c:3472 src/commands.c:3473
+#: src/commands.c:3460 src/commands.c:3461
 msgid "Add a perfect prime as chordnote relative to the lowest note upwards."
 msgstr ""
 
-#: src/commands.c:3482 src/commands.c:3484
+#: src/commands.c:3470 src/commands.c:3472
 msgid "Add Major 2nd above base"
 msgstr ""
 
-#: src/commands.c:3482 src/commands.c:3484
+#: src/commands.c:3470 src/commands.c:3472
 msgid "Add a major second as chordnote relative to the lowest note upwards."
 msgstr ""
 
-#: src/commands.c:3493 src/commands.c:3495
+#: src/commands.c:3481 src/commands.c:3483
 msgid "Add Minor 2nd above base"
 msgstr ""
 
-#: src/commands.c:3493 src/commands.c:3495
+#: src/commands.c:3481 src/commands.c:3483
 msgid "Add a minor second as chordnote relative to the lowest note upwards."
 msgstr ""
 
-#: src/commands.c:3504 src/commands.c:3506
+#: src/commands.c:3492 src/commands.c:3494
 msgid "Add Major 3rd above base"
 msgstr ""
 
-#: src/commands.c:3504 src/commands.c:3506
+#: src/commands.c:3492 src/commands.c:3494
 msgid "Add a major third as chordnote relative to the lowest note upwards."
 msgstr ""
 
-#: src/commands.c:3515 src/commands.c:3517
+#: src/commands.c:3503 src/commands.c:3505
 msgid "Add Minor 3rd above base "
 msgstr ""
 
-#: src/commands.c:3515 src/commands.c:3517
+#: src/commands.c:3503 src/commands.c:3505
 msgid "Add a minor third as chordnote relative to the lowest note upwards."
 msgstr ""
 
-#: src/commands.c:3526 src/commands.c:3528
+#: src/commands.c:3514 src/commands.c:3516
 msgid "Add Perfect 4th above base"
 msgstr ""
 
-#: src/commands.c:3526 src/commands.c:3528
+#: src/commands.c:3514 src/commands.c:3516
 msgid "Add a perfect fourth as chordnote relative to the lowest note upwards."
 msgstr ""
 
-#: src/commands.c:3537 src/commands.c:3539
+#: src/commands.c:3525 src/commands.c:3527
 msgid "Add Augmented 4th above base "
 msgstr ""
 
-#: src/commands.c:3537 src/commands.c:3539
+#: src/commands.c:3525 src/commands.c:3527
 msgid ""
 "Add a tritone/augmented fourth as chordnote relative to the lowest note "
 "upwards."
 msgstr ""
 
-#: src/commands.c:3548 src/commands.c:3550
+#: src/commands.c:3536 src/commands.c:3538
 msgid "Add Diminished 5th above base"
 msgstr ""
 
-#: src/commands.c:3548 src/commands.c:3550
+#: src/commands.c:3536 src/commands.c:3538
 msgid ""
 "Add a diminished fifth as chordnote relative to the lowest note upwards."
 msgstr ""
 
-#: src/commands.c:3559 src/commands.c:3561
+#: src/commands.c:3547 src/commands.c:3549
 msgid "Add Perfect 5th above base"
 msgstr ""
 
-#: src/commands.c:3559 src/commands.c:3561
+#: src/commands.c:3547 src/commands.c:3549
 msgid "Add a perfect fifth as chordnote relative to the lowest note upwards."
 msgstr ""
 
-#: src/commands.c:3570 src/commands.c:3572
+#: src/commands.c:3558 src/commands.c:3560
 msgid "Add Major 6th above base"
 msgstr ""
 
-#: src/commands.c:3570 src/commands.c:3572
+#: src/commands.c:3558 src/commands.c:3560
 msgid "Add a major sixth as chordnote relative to the lowest note upwards."
 msgstr ""
 
-#: src/commands.c:3581 src/commands.c:3583
+#: src/commands.c:3569 src/commands.c:3571
 msgid "Add Minor 6th above base"
 msgstr ""
 
-#: src/commands.c:3581 src/commands.c:3583
+#: src/commands.c:3569 src/commands.c:3571
 msgid "Add a minor sixth as chordnote relative to the lowest note upwards."
 msgstr ""
 
-#: src/commands.c:3592 src/commands.c:3594
+#: src/commands.c:3580 src/commands.c:3582
 msgid "Add Major 7th above base"
 msgstr ""
 
-#: src/commands.c:3592 src/commands.c:3594
+#: src/commands.c:3580 src/commands.c:3582
 msgid "Add a major seventh as chordnote relative to the lowest note upwards."
 msgstr ""
 
-#: src/commands.c:3603 src/commands.c:3605
+#: src/commands.c:3591 src/commands.c:3593
 msgid "Add Minor 7th above base"
 msgstr ""
 
-#: src/commands.c:3603 src/commands.c:3605
+#: src/commands.c:3591 src/commands.c:3593
 msgid "Add a minor seventh as chordnote relative to the lowest note upwards."
 msgstr ""
 
-#: src/commands.c:3614 src/commands.c:3615
+#: src/commands.c:3602 src/commands.c:3603
 msgid "Add Perfect 1st below top"
 msgstr ""
 
-#: src/commands.c:3614 src/commands.c:3615
+#: src/commands.c:3602 src/commands.c:3603
 msgid ""
 "Add a perfect prime as chordnote relative to the highest note downwards."
 msgstr ""
 
-#: src/commands.c:3624 src/commands.c:3626
+#: src/commands.c:3612 src/commands.c:3614
 msgid "Add Major 2nd below top"
 msgstr ""
 
-#: src/commands.c:3624 src/commands.c:3626
+#: src/commands.c:3612 src/commands.c:3614
 msgid "Add a major second as chordnote relative to the highest note downwards."
 msgstr ""
 
-#: src/commands.c:3635 src/commands.c:3637
+#: src/commands.c:3623 src/commands.c:3625
 msgid "Add Minor 2nd below top"
 msgstr ""
 
-#: src/commands.c:3635 src/commands.c:3637
+#: src/commands.c:3623 src/commands.c:3625
 msgid "Add a minor second as chordnote relative to the highest note downwards."
 msgstr ""
 
-#: src/commands.c:3646 src/commands.c:3648
+#: src/commands.c:3634 src/commands.c:3636
 msgid "Add Major 3rd below top"
 msgstr ""
 
-#: src/commands.c:3646 src/commands.c:3648
+#: src/commands.c:3634 src/commands.c:3636
 msgid "Add a major third as chordnote relative to the highest note downwards."
 msgstr ""
 
-#: src/commands.c:3657 src/commands.c:3659
+#: src/commands.c:3645 src/commands.c:3647
 msgid "Add Minor 3rd below top"
 msgstr ""
 
-#: src/commands.c:3657 src/commands.c:3659
+#: src/commands.c:3645 src/commands.c:3647
 msgid "Add a minor third as chordnote relative to the highest note downwards."
 msgstr ""
 
-#: src/commands.c:3668 src/commands.c:3670
+#: src/commands.c:3656 src/commands.c:3658
 msgid "Add Perfect 4th below top"
 msgstr ""
 
-#: src/commands.c:3668 src/commands.c:3670
+#: src/commands.c:3656 src/commands.c:3658
 msgid ""
 "Add a perfect fourth as chordnote relative to the highest note downwards."
 msgstr ""
 
-#: src/commands.c:3679 src/commands.c:3681
+#: src/commands.c:3667 src/commands.c:3669
 msgid "Add Augmented 4th below top"
 msgstr ""
 
-#: src/commands.c:3679 src/commands.c:3681
+#: src/commands.c:3667 src/commands.c:3669
 msgid ""
 "Add a augmented fourth as chordnote relative to the highest note downwards."
 msgstr ""
 
-#: src/commands.c:3690 src/commands.c:3692
+#: src/commands.c:3678 src/commands.c:3680
 msgid "Add Diminished 5th below top"
 msgstr ""
 
-#: src/commands.c:3690 src/commands.c:3692
+#: src/commands.c:3678 src/commands.c:3680
 msgid ""
 "Add a tritone/diminished fifth as chordnote relative to the highest note "
 "downwards."
 msgstr ""
 
-#: src/commands.c:3701 src/commands.c:3703
+#: src/commands.c:3689 src/commands.c:3691
 msgid "Add Perfect 5th below top"
 msgstr ""
 
-#: src/commands.c:3701 src/commands.c:3703
+#: src/commands.c:3689 src/commands.c:3691
 msgid ""
 "Add a perfect fifth as chordnote relative to the highest note downwards."
 msgstr ""
 
-#: src/commands.c:3712 src/commands.c:3714
+#: src/commands.c:3700 src/commands.c:3702
 msgid "Add Major 6th below top"
 msgstr ""
 
-#: src/commands.c:3712 src/commands.c:3714
+#: src/commands.c:3700 src/commands.c:3702
 msgid "Add a major sixth as chordnote relative to the highest note downwards."
 msgstr ""
 
-#: src/commands.c:3723 src/commands.c:3725
+#: src/commands.c:3711 src/commands.c:3713
 msgid "Add Minor 6th below top"
 msgstr ""
 
-#: src/commands.c:3723 src/commands.c:3725
+#: src/commands.c:3711 src/commands.c:3713
 msgid "Add a minor sixth as chordnote relative to the highest note downwards."
 msgstr ""
 
-#: src/commands.c:3734 src/commands.c:3736
+#: src/commands.c:3722 src/commands.c:3724
 msgid "Add Major 7th below top"
 msgstr ""
 
-#: src/commands.c:3734 src/commands.c:3736
+#: src/commands.c:3722 src/commands.c:3724
 msgid ""
 "Add a major seventh as chordnote relative to the highest note downwards."
 msgstr ""
 
-#: src/commands.c:3745 src/commands.c:3747
+#: src/commands.c:3733 src/commands.c:3735
 msgid "Add Minor 7th below top"
 msgstr ""
 
-#: src/commands.c:3745 src/commands.c:3747
+#: src/commands.c:3733 src/commands.c:3735
 msgid ""
 "Add a minor seventh as chordnote relative to the highest note downwards."
 msgstr ""
 
-#: src/commands.c:3756 src/commands.c:3758
+#: src/commands.c:3744 src/commands.c:3746
 msgid "Create Chords Over Bass Line"
 msgstr ""
 
-#: src/commands.c:3756 src/commands.c:3758
+#: src/commands.c:3744 src/commands.c:3746
 msgid ""
 "Place the cursor on a bass note and invoke this command. It creates a treble "
 "staff above and for each note in the bass staff, as you play it, it switches "
@@ -3149,299 +3141,299 @@ msgid ""
 "note to extend the chord over more than one bass note."
 msgstr ""
 
-#: src/commands.c:3767 src/commands.c:3768
+#: src/commands.c:3755 src/commands.c:3756
 msgid "Insert Note"
 msgstr ""
 
-#: src/commands.c:3767 src/commands.c:3768
+#: src/commands.c:3755 src/commands.c:3756
 msgid "Inserts a note in the prevailing duration."
 msgstr ""
 
-#: src/commands.c:3777 src/commands.c:3779
+#: src/commands.c:3765 src/commands.c:3767
 msgid "Join music objects to new chord"
 msgstr ""
 
-#: src/commands.c:3777 src/commands.c:3779
+#: src/commands.c:3765 src/commands.c:3767
 msgid ""
 "Joins all notes, chords and rests in the selection and inserts a all "
 "selected notes as chord. May create tied notes."
 msgstr ""
 
-#: src/commands.c:3788 src/commands.c:3789
+#: src/commands.c:3776 src/commands.c:3777
 msgid "Reverse Selected Objects"
 msgstr ""
 
-#: src/commands.c:3788 src/commands.c:3789
+#: src/commands.c:3776 src/commands.c:3777
 msgid "Revert selected objects"
 msgstr ""
 
-#: src/commands.c:3798 src/commands.c:3800
+#: src/commands.c:3786 src/commands.c:3788
 msgid "Mirror Selected Objects (Axis=Cursor)"
 msgstr ""
 
-#: src/commands.c:3798 src/commands.c:3800
+#: src/commands.c:3786 src/commands.c:3788
 msgid "Mirror the selected notes. Axis is the cursor position."
 msgstr ""
 
-#: src/commands.c:3809 src/commands.c:3811
+#: src/commands.c:3797 src/commands.c:3799
 msgid "Shuffle Selected Objects"
 msgstr ""
 
-#: src/commands.c:3809 src/commands.c:3811
+#: src/commands.c:3797 src/commands.c:3799
 msgid "Shuffle the selected objects"
 msgstr ""
 
-#: src/commands.c:3820 src/commands.c:3822
+#: src/commands.c:3808 src/commands.c:3810
 msgid "Sort Selection (Ascending)"
 msgstr ""
 
-#: src/commands.c:3820 src/commands.c:3822
+#: src/commands.c:3808 src/commands.c:3810
 msgid "Sort all notes in the selection, ascending order."
 msgstr ""
 
-#: src/commands.c:3831 src/commands.c:3833
+#: src/commands.c:3819 src/commands.c:3821
 msgid "Sort Selection (Descending)"
 msgstr ""
 
-#: src/commands.c:3831 src/commands.c:3833
+#: src/commands.c:3819 src/commands.c:3821
 msgid "Sort all notes in the selection, descending order."
 msgstr ""
 
-#: src/commands.c:3842 src/commands.c:3843
+#: src/commands.c:3830 src/commands.c:3831
 msgid "Handel's Figured Bass Exercises"
 msgstr ""
 
-#: src/commands.c:3842 src/commands.c:3843
+#: src/commands.c:3830 src/commands.c:3831
 msgid "Allows you to play in chords to Handel's continuo practice material"
 msgstr ""
 
-#: src/commands.c:3852 src/commands.c:3854
+#: src/commands.c:3840 src/commands.c:3842
 msgid "Create Parts"
 msgstr ""
 
-#: src/commands.c:3852 src/commands.c:3854
+#: src/commands.c:3840 src/commands.c:3842
 msgid "Create three parts from the current staff."
 msgstr ""
 
-#: src/commands.c:3863 src/commands.c:3865
+#: src/commands.c:3851 src/commands.c:3853
 msgid "Simplify Ties"
 msgstr ""
 
-#: src/commands.c:3863 src/commands.c:3865
+#: src/commands.c:3851 src/commands.c:3853
 msgid "Converts tied notes to longer notes and removes spurious ties."
 msgstr ""
 
-#: src/commands.c:3874 src/commands.c:3876
+#: src/commands.c:3862 src/commands.c:3864
 msgid "Paste and Replace Selection"
 msgstr ""
 
-#: src/commands.c:3874 src/commands.c:3876
+#: src/commands.c:3862 src/commands.c:3864
 msgid ""
 "Paste the clipboard. Replace any selected objects. This paste-version also "
 "creates new barlines instead of strictly using the copied ones."
 msgstr ""
 
-#: src/commands.c:3885 src/commands.c:3887
+#: src/commands.c:3873 src/commands.c:3875
 msgid "Begin Phrasing Slur"
 msgstr ""
 
-#: src/commands.c:3885 src/commands.c:3887
+#: src/commands.c:3873 src/commands.c:3875
 msgid ""
 "Begin a phrasing slur on the current note. You can have normal slurs "
 "(partially) inside a phrasing slur."
 msgstr ""
 
-#: src/commands.c:3896 src/commands.c:3898
+#: src/commands.c:3884 src/commands.c:3886
 msgid "End Phrasing Slur"
 msgstr ""
 
-#: src/commands.c:3896 src/commands.c:3898
+#: src/commands.c:3884 src/commands.c:3886
 msgid "End a phrasing slur on the current note."
 msgstr ""
 
-#: src/commands.c:3907 src/commands.c:3908
+#: src/commands.c:3895 src/commands.c:3896
 msgid "Change Chordmember to Quarter "
 msgstr ""
 
-#: src/commands.c:3907 src/commands.c:3908
+#: src/commands.c:3895 src/commands.c:3896
 msgid ""
 "Change one chord member to appear like a quarter-note duration without "
 "changing the original logic like measure calculation or the duration of "
 "newly added chord members."
 msgstr ""
 
-#: src/commands.c:3917 src/commands.c:3919
+#: src/commands.c:3905 src/commands.c:3907
 msgid "Change chord-member to half note"
 msgstr ""
 
-#: src/commands.c:3917 src/commands.c:3919
+#: src/commands.c:3905 src/commands.c:3907
 msgid ""
 "Change one chord member to appear like a half-note duration without changing "
 "the original logic like measure calculation or the duration of newly added "
 "chord members."
 msgstr ""
 
-#: src/commands.c:3928 src/commands.c:3930
+#: src/commands.c:3916 src/commands.c:3918
 msgid "Change chord-member to whole note"
 msgstr ""
 
-#: src/commands.c:3928 src/commands.c:3930
+#: src/commands.c:3916 src/commands.c:3918
 msgid ""
 "Change one chord member to appear like a whole-note duration without "
 "changing the original logic like measure calculation or the duration of "
 "newly added chord members."
 msgstr ""
 
-#: src/commands.c:3939 src/commands.c:3941
+#: src/commands.c:3927 src/commands.c:3929
 msgid "Change chord-member to breve"
 msgstr ""
 
-#: src/commands.c:3939 src/commands.c:3941
+#: src/commands.c:3927 src/commands.c:3929
 msgid ""
 "Change one chord member to appear like a breve duration without changing the "
 "original logic like measure calculation or the duration of newly added chord "
 "members."
 msgstr ""
 
-#: src/commands.c:3950 src/commands.c:3952
+#: src/commands.c:3938 src/commands.c:3940
 msgid "Change chord-member to longa"
 msgstr ""
 
-#: src/commands.c:3950 src/commands.c:3952
+#: src/commands.c:3938 src/commands.c:3940
 msgid ""
 "Change one chord member to appear like a longa duration without changing the "
 "original logic like measure calculation or the duration of newly added chord "
 "members."
 msgstr ""
 
-#: src/commands.c:3961 src/commands.c:3962
+#: src/commands.c:3949 src/commands.c:3950
 msgid "Change Enharmonic +"
 msgstr ""
 
-#: src/commands.c:3961 src/commands.c:3962
+#: src/commands.c:3949 src/commands.c:3950
 msgid ""
 "Shift through enharmonic variants of the same sounding note in the direction "
 "of higher diatonic base notes."
 msgstr ""
 
-#: src/commands.c:3971 src/commands.c:3973
+#: src/commands.c:3959 src/commands.c:3961
 msgid "Change Enharmonic -"
 msgstr ""
 
-#: src/commands.c:3971 src/commands.c:3973
+#: src/commands.c:3959 src/commands.c:3961
 msgid ""
 "Switch through enharmonic variants of the same sounding note in the "
 "direction of lower diatonic base notes"
 msgstr ""
 
-#: src/commands.c:3982 src/commands.c:3984
+#: src/commands.c:3970 src/commands.c:3972
 msgid "Set Thumbnail from Selection"
 msgstr ""
 
-#: src/commands.c:3982 src/commands.c:3984
+#: src/commands.c:3970 src/commands.c:3972
 msgid "Sets the thumbnail to the section made in the first movement."
 msgstr ""
 
-#: src/commands.c:3993 src/commands.c:3995
+#: src/commands.c:3981 src/commands.c:3983
 msgid "Limit Space Between Systems"
 msgstr ""
 
-#: src/commands.c:3993 src/commands.c:3995
+#: src/commands.c:3981 src/commands.c:3983
 msgid "Limits the extent to which the lines are spaced apart to fill the page."
 msgstr ""
 
-#: src/commands.c:4004 src/commands.c:4006
+#: src/commands.c:3992 src/commands.c:3994
 msgid "Print Bass Part Omitting Figures"
 msgstr ""
 
-#: src/commands.c:4004 src/commands.c:4006
+#: src/commands.c:3992 src/commands.c:3994
 msgid "Prints the Bass part omitting any figured bass figures."
 msgstr ""
 
-#: src/commands.c:4015 src/commands.c:4017
+#: src/commands.c:4003 src/commands.c:4005
 msgid "Even Up the Staffs"
 msgstr ""
 
-#: src/commands.c:4015 src/commands.c:4017
+#: src/commands.c:4003 src/commands.c:4005
 msgid "Appends empty measures to any staffs that are too short."
 msgstr ""
 
-#: src/commands.c:4026 src/commands.c:4028
+#: src/commands.c:4014 src/commands.c:4016
 msgid "Check Score"
 msgstr ""
 
-#: src/commands.c:4026 src/commands.c:4028
+#: src/commands.c:4014 src/commands.c:4016
 msgid ""
 "Checks score for wrong measure durations, unterminated tuplets, slurs, wrong "
 "ties etc."
 msgstr ""
 
-#: src/commands.c:4037 src/commands.c:4039
+#: src/commands.c:4025 src/commands.c:4027
 msgid "Fix Slurs"
 msgstr ""
 
-#: src/commands.c:4037 src/commands.c:4039
+#: src/commands.c:4025 src/commands.c:4027
 msgid ""
 "Removes incorrectly placed slur start/end markers on current voice/staff."
 msgstr ""
 
-#: src/commands.c:4048 src/commands.c:4050
+#: src/commands.c:4036 src/commands.c:4038
 msgid "Check Tuplets"
 msgstr ""
 
-#: src/commands.c:4048 src/commands.c:4050
+#: src/commands.c:4036 src/commands.c:4038
 msgid "Checks that start/end tuplets match in the current measure."
 msgstr ""
 
-#: src/commands.c:4059 src/commands.c:4061
+#: src/commands.c:4047 src/commands.c:4049
 msgid "Check Ties"
 msgstr ""
 
-#: src/commands.c:4059 src/commands.c:4061
+#: src/commands.c:4047 src/commands.c:4049
 msgid "Checks for wrongly tied notes in the current voice/staff."
 msgstr ""
 
-#: src/commands.c:4070 src/commands.c:4072
+#: src/commands.c:4058 src/commands.c:4060
 msgid "Merge Rests"
 msgstr ""
 
-#: src/commands.c:4070 src/commands.c:4072
+#: src/commands.c:4058 src/commands.c:4060
 msgid ""
 "(Print) Merges rests where two voices have a common rest. Not for whole "
 "measure or multi-measure rests."
 msgstr ""
 
-#: src/commands.c:4081 src/commands.c:4083
+#: src/commands.c:4069 src/commands.c:4071
 msgid "Delete Beaming Directive"
 msgstr ""
 
-#: src/commands.c:4081 src/commands.c:4083
+#: src/commands.c:4069 src/commands.c:4071
 msgid "Deletes a ] or [ (end or start beam) directive on the current chord."
 msgstr ""
 
-#: src/commands.c:4092 src/commands.c:4094
+#: src/commands.c:4080 src/commands.c:4082
 msgid "Stop Beaming"
 msgstr ""
 
-#: src/commands.c:4092 src/commands.c:4094
+#: src/commands.c:4080 src/commands.c:4082
 msgid "(Print)Stop automatic beaming from current position in score."
 msgstr ""
 
-#: src/commands.c:4103 src/commands.c:4105
+#: src/commands.c:4091 src/commands.c:4093
 msgid "Start Beaming"
 msgstr ""
 
-#: src/commands.c:4103 src/commands.c:4105
+#: src/commands.c:4091 src/commands.c:4093
 msgid ""
 "(Print) Start automatic beaming at this point in score. (Used after turning "
 "beaming off)."
 msgstr ""
 
-#: src/commands.c:4114 src/commands.c:4116
+#: src/commands.c:4102 src/commands.c:4104
 msgid "Capture Measures (Score)"
 msgstr ""
 
-#: src/commands.c:4114 src/commands.c:4116
+#: src/commands.c:4102 src/commands.c:4104
 msgid ""
 "Creates blank measures one for each measure captured as a screenshot from a "
 "source score. Display the source score using any program. Click on opposite "
@@ -3451,11 +3443,11 @@ msgid ""
 "part with its own source measure use CaptureMeasuresPartPerStaff "
 msgstr ""
 
-#: src/commands.c:4125 src/commands.c:4127
+#: src/commands.c:4113 src/commands.c:4115
 msgid "Capture Measures (one staff)"
 msgstr ""
 
-#: src/commands.c:4125 src/commands.c:4127
+#: src/commands.c:4113 src/commands.c:4115
 msgid ""
 "Creates blank measures one for each measure captured as a screenshot from "
 "one of a set of parts. Display the source score on the screen using any "
@@ -3465,239 +3457,239 @@ msgid ""
 "parts form; to capture in full score use  CaptureMeasures command"
 msgstr ""
 
-#: src/commands.c:4136 src/commands.c:4138
+#: src/commands.c:4124 src/commands.c:4126
 msgid "Delete Captured Measure"
 msgstr ""
 
-#: src/commands.c:4136 src/commands.c:4138
+#: src/commands.c:4124 src/commands.c:4126
 msgid ""
 "Deletes the captured image of the source measure for the current measure."
 msgstr ""
 
-#: src/commands.c:4147 src/commands.c:4149
+#: src/commands.c:4135 src/commands.c:4137
 msgid "Delete Captured Measure."
 msgstr ""
 
-#: src/commands.c:4147 src/commands.c:4149
+#: src/commands.c:4135 src/commands.c:4137
 msgid ""
 "Deletes the captured measure image for the current measure of the current "
 "staff."
 msgstr ""
 
-#: src/commands.c:4158 src/commands.c:4160
+#: src/commands.c:4146 src/commands.c:4148
 msgid "LilyPond Score Block Prolog"
 msgstr ""
 
-#: src/commands.c:4158 src/commands.c:4160
+#: src/commands.c:4146 src/commands.c:4148
 msgid "Inserts LilyPond at the start of every score block (movement)."
 msgstr ""
 
-#: src/commands.c:4169 src/commands.c:4171
+#: src/commands.c:4157 src/commands.c:4159
 msgid "Use Normal Beam Endings"
 msgstr ""
 
-#: src/commands.c:4169 src/commands.c:4171
+#: src/commands.c:4157 src/commands.c:4159
 msgid "Ends beams in the expected places (print)."
 msgstr ""
 
-#: src/commands.c:4180 src/commands.c:4182
+#: src/commands.c:4168 src/commands.c:4170
 msgid "Reduce Space Between Systems"
 msgstr ""
 
-#: src/commands.c:4180 src/commands.c:4182
+#: src/commands.c:4168 src/commands.c:4170
 msgid "Reduces the gap between the systems of staffs on a page."
 msgstr ""
 
-#: src/commands.c:4191 src/commands.c:4193
+#: src/commands.c:4179 src/commands.c:4181
 msgid "Un-Grace After"
 msgstr ""
 
-#: src/commands.c:4191 src/commands.c:4193
+#: src/commands.c:4179 src/commands.c:4181
 msgid ""
 "Make the grace note at the cursor closer to the following rather than "
 "preceding note."
 msgstr ""
 
-#: src/commands.c:4202 src/commands.c:4204 src/commands.c:4213
-#: src/commands.c:4215
+#: src/commands.c:4190 src/commands.c:4192 src/commands.c:4201
+#: src/commands.c:4203
 msgid "Capture and Insert One Measure"
 msgstr ""
 
-#: src/commands.c:4202 src/commands.c:4204
+#: src/commands.c:4190 src/commands.c:4192
 msgid ""
 "Capture the image of a single measure (as screenshot) inserting at the "
 "current measure."
 msgstr ""
 
-#: src/commands.c:4213 src/commands.c:4215
+#: src/commands.c:4201 src/commands.c:4203
 msgid ""
 "Capture the image of a single measure (as screenshot) inserting at the "
 "current measure in the current staff."
 msgstr ""
 
-#: src/commands.c:4224 src/commands.c:4226
+#: src/commands.c:4212 src/commands.c:4214
 msgid "Shift Pitch"
 msgstr ""
 
-#: src/commands.c:4224 src/commands.c:4226
+#: src/commands.c:4212 src/commands.c:4214
 msgid ""
 "Outputs a pitch bend signal to the synthesizer for the value +/- 64 given."
 msgstr ""
 
-#: src/commands.c:4235 src/commands.c:4237
+#: src/commands.c:4223 src/commands.c:4225
 msgid "Ottava"
 msgstr ""
 
-#: src/commands.c:4235 src/commands.c:4237
+#: src/commands.c:4223 src/commands.c:4225
 msgid ""
 "Inserts an 8va mark (transposing the notes accordingly) or terminates one "
 "already started."
 msgstr ""
 
-#: src/commands.c:4246 src/commands.c:4247
+#: src/commands.c:4234 src/commands.c:4235
 msgid "Up Prall"
 msgstr ""
 
-#: src/commands.c:4246 src/commands.c:4247 src/commands.c:5045
-#: src/commands.c:5046
+#: src/commands.c:4234 src/commands.c:4235 src/commands.c:5033
+#: src/commands.c:5034
 msgid "Adds/Removes Up Prall ornament"
 msgstr ""
 
-#: src/commands.c:4256 src/commands.c:4258
+#: src/commands.c:4244 src/commands.c:4246
 msgid "Displace Rest Vertically"
 msgstr ""
 
-#: src/commands.c:4256 src/commands.c:4258
+#: src/commands.c:4244 src/commands.c:4246
 msgid ""
 "Turns the rest at the cursor into a polyphonic rest at the cursor height."
 msgstr ""
 
-#: src/commands.c:4267 src/commands.c:4269
+#: src/commands.c:4255 src/commands.c:4257
 msgid "Show Last Change"
 msgstr ""
 
-#: src/commands.c:4267 src/commands.c:4269
+#: src/commands.c:4255 src/commands.c:4257
 msgid "Shows the last change recorded on the Undo stack."
 msgstr ""
 
-#: src/commands.c:4278 src/commands.c:4280
+#: src/commands.c:4266 src/commands.c:4268
 msgid "Foot Pedal Conductor"
 msgstr ""
 
-#: src/commands.c:4278 src/commands.c:4280
+#: src/commands.c:4266 src/commands.c:4268
 msgid ""
 "Press the foot pedal at the start of each measure. The bar number is "
 "displayed and the beats are interpolated following the timesignature set. "
 "Two quick presses of the foot pedal stops the conductor."
 msgstr ""
 
-#: src/commands.c:4289 src/commands.c:4291
+#: src/commands.c:4277 src/commands.c:4279
 msgid "Print with Ambitus"
 msgstr ""
 
-#: src/commands.c:4289 src/commands.c:4291
+#: src/commands.c:4277 src/commands.c:4279
 msgid ""
 "Prints the score printing the range (ambitus) of each part at the start of "
 "the staff"
 msgstr ""
 
-#: src/commands.c:4300 src/commands.c:4302
+#: src/commands.c:4288 src/commands.c:4290
 msgid "No Horizontal Shifts"
 msgstr ""
 
-#: src/commands.c:4300 src/commands.c:4302
+#: src/commands.c:4288 src/commands.c:4290
 msgid ""
 "Turns off horizontal displacement of notes (which avoid collisions between "
 "parts)"
 msgstr ""
 
-#: src/commands.c:4311 src/commands.c:4313
+#: src/commands.c:4299 src/commands.c:4301
 msgid "Use Horizontal Shifts"
 msgstr ""
 
-#: src/commands.c:4311 src/commands.c:4313
+#: src/commands.c:4299 src/commands.c:4301
 msgid "Turns on horizontal displacements of notes where needed."
 msgstr ""
 
-#: src/commands.c:4322 src/commands.c:4324
+#: src/commands.c:4310 src/commands.c:4312
 msgid "Staff to Voice"
 msgstr ""
 
-#: src/commands.c:4322 src/commands.c:4324
+#: src/commands.c:4310 src/commands.c:4312
 msgid "The current staff will be typeset as a voice on the staff above."
 msgstr ""
 
-#: src/commands.c:4333 src/commands.c:4335
+#: src/commands.c:4321 src/commands.c:4323
 msgid "Voice to Staff"
 msgstr ""
 
-#: src/commands.c:4333 src/commands.c:4335
+#: src/commands.c:4321 src/commands.c:4323
 msgid "The current voice will be typeset on its own staff."
 msgstr ""
 
-#: src/commands.c:4344 src/commands.c:4345
+#: src/commands.c:4332 src/commands.c:4333
 msgid "Change Staff"
 msgstr ""
 
-#: src/commands.c:4344 src/commands.c:4345
+#: src/commands.c:4332 src/commands.c:4333
 msgid "(Print) the current voice moves to the staff you name."
 msgstr ""
 
-#: src/commands.c:4354 src/commands.c:4356 src/register_commands.h:265
+#: src/commands.c:4342 src/commands.c:4344 src/register_commands.h:265
 msgid "Add Voice"
 msgstr ""
 
-#: src/commands.c:4354 src/commands.c:4356
+#: src/commands.c:4342 src/commands.c:4344
 msgid ""
 "Adds a voice to the current staff, initially displayed on a staff of its "
 "own, for readability. It will print on the staff above, and can be displayed "
 "there using Join Voices command if desired."
 msgstr ""
 
-#: src/commands.c:4365 src/commands.c:4367
+#: src/commands.c:4353 src/commands.c:4355
 msgid "(Print) Omit Barline"
 msgstr ""
 
-#: src/commands.c:4365 src/commands.c:4367
+#: src/commands.c:4353 src/commands.c:4355
 msgid "Skips the printing of any automatic barline here - allows line break."
 msgstr ""
 
-#: src/commands.c:4376 src/commands.c:4378 src/commands.c:4387
-#: src/commands.c:4389 src/commands.c:4398 src/commands.c:4400
+#: src/commands.c:4364 src/commands.c:4366 src/commands.c:4375
+#: src/commands.c:4377 src/commands.c:4386 src/commands.c:4388
 msgid "(Print) Hide"
 msgstr ""
 
-#: src/commands.c:4376 src/commands.c:4378
+#: src/commands.c:4364 src/commands.c:4366
 msgid ""
 "On printing, omit the key signature change at the cursor, or the initial key "
 "signature if the cursor is not on a key signature change."
 msgstr ""
 
-#: src/commands.c:4387 src/commands.c:4389
+#: src/commands.c:4375 src/commands.c:4377
 msgid ""
 "On printing, omit the time signature change at the cursor, or the initial "
 "time signature if the cursor is not on a time signature change."
 msgstr ""
 
-#: src/commands.c:4398 src/commands.c:4400
+#: src/commands.c:4386 src/commands.c:4388
 msgid ""
 "On printing, omit the clef change at the cursor, or the initial clef if the "
 "cursor is not on a clef change."
 msgstr ""
 
-#: src/commands.c:4409 src/commands.c:4411
+#: src/commands.c:4397 src/commands.c:4399
 msgid "(Print) Hide Barlines"
 msgstr ""
 
-#: src/commands.c:4409 src/commands.c:4411
+#: src/commands.c:4397 src/commands.c:4399
 msgid "Omits barlines when printing."
 msgstr ""
 
-#: src/commands.c:4420 src/commands.c:4422
+#: src/commands.c:4408 src/commands.c:4410
 msgid "Point and Click (Off/On)"
 msgstr ""
 
-#: src/commands.c:4420 src/commands.c:4422
+#: src/commands.c:4408 src/commands.c:4410
 msgid ""
 "When on, clicking on a note in the Print Preview window takes the cursor to "
 "that note. This works also for Rehearsal Marks and many other objects in the "
@@ -3706,108 +3698,108 @@ msgid ""
 "thenit is not needed."
 msgstr ""
 
-#: src/commands.c:4431 src/commands.c:4433
+#: src/commands.c:4419 src/commands.c:4421
 msgid "(Print) Shift Object"
 msgstr ""
 
-#: src/commands.c:4431 src/commands.c:4433
+#: src/commands.c:4419 src/commands.c:4421
 msgid ""
 "Asks for horizontal and vertical offsets and inserts a directive to displace "
 "the object at the cursor on printing."
 msgstr ""
 
-#: src/commands.c:4442 src/commands.c:4444
+#: src/commands.c:4430 src/commands.c:4432
 msgid "Displace Rest Horizontally"
 msgstr ""
 
-#: src/commands.c:4442 src/commands.c:4444
+#: src/commands.c:4430 src/commands.c:4432
 msgid ""
 "Asks for a horizontal shift and moves the rest at the cursor by that much "
 "when printing."
 msgstr ""
 
-#: src/commands.c:4453 src/commands.c:4455
+#: src/commands.c:4441 src/commands.c:4443
 msgid "Refresh Dynamic Directives"
 msgstr ""
 
-#: src/commands.c:4453 src/commands.c:4455
+#: src/commands.c:4441 src/commands.c:4443
 msgid "Re-runs any directives that may have become stale."
 msgstr ""
 
-#: src/commands.c:4464 src/commands.c:4466
+#: src/commands.c:4452 src/commands.c:4454
 msgid "LilyPond Include File"
 msgstr ""
 
-#: src/commands.c:4464 src/commands.c:4466
+#: src/commands.c:4452 src/commands.c:4454
 msgid ""
 "Allows specification of a LilyPond include file from the Denemo provided "
 "include files."
 msgstr ""
 
-#: src/commands.c:4475 src/commands.c:4477
+#: src/commands.c:4463 src/commands.c:4465
 msgid "Prints a title on title page"
 msgstr ""
 
-#: src/commands.c:4486 src/commands.c:4487
+#: src/commands.c:4474 src/commands.c:4475
 msgid "Prints the arranger name on title page"
 msgstr ""
 
-#: src/commands.c:4496 src/commands.c:4497
+#: src/commands.c:4484 src/commands.c:4485
 msgid "Prints a copyright notice on title page"
 msgstr ""
 
-#: src/commands.c:4506 src/commands.c:4507
+#: src/commands.c:4494 src/commands.c:4495
 msgid "Prints a composer name on title page"
 msgstr ""
 
-#: src/commands.c:4516 src/commands.c:4517
+#: src/commands.c:4504 src/commands.c:4505
 msgid "Poet/Lyricist"
 msgstr ""
 
-#: src/commands.c:4516 src/commands.c:4517
+#: src/commands.c:4504 src/commands.c:4505
 msgid "Prints the poet or lyricist name on title page"
 msgstr ""
 
-#: src/commands.c:4526 src/commands.c:4527
+#: src/commands.c:4514 src/commands.c:4515
 msgid ""
 "Prints title for the current movement, which will get a page reference in a "
 "table of contents."
 msgstr ""
 
-#: src/commands.c:4536 src/commands.c:4537
+#: src/commands.c:4524 src/commands.c:4525
 msgid "Heading"
 msgstr ""
 
-#: src/commands.c:4536 src/commands.c:4537
+#: src/commands.c:4524 src/commands.c:4525
 msgid "Prints a heading in upper case for the current movement."
 msgstr ""
 
-#: src/commands.c:4546 src/commands.c:4547
+#: src/commands.c:4534 src/commands.c:4535
 msgid "Sub-Title"
 msgstr ""
 
-#: src/commands.c:4546 src/commands.c:4547
+#: src/commands.c:4534 src/commands.c:4535
 msgid "Prints a subtitle for the current movement"
 msgstr ""
 
-#: src/commands.c:4556 src/commands.c:4557
+#: src/commands.c:4544 src/commands.c:4545
 msgid "Prints a piece name for the Movement"
 msgstr ""
 
-#: src/commands.c:4566 src/commands.c:4568
+#: src/commands.c:4554 src/commands.c:4556
 msgid "Table of Contents Title"
 msgstr ""
 
-#: src/commands.c:4566 src/commands.c:4568
+#: src/commands.c:4554 src/commands.c:4556
 msgid ""
 "Gives a heading for a table of contents, inserting the table in the book."
 msgstr ""
 
-#: src/commands.c:4577 src/commands.c:4579
+#: src/commands.c:4565 src/commands.c:4567
 msgid "Display Only Clef"
 msgstr ""
 
-#: src/commands.c:4577 src/commands.c:4579
+#: src/commands.c:4565 src/commands.c:4567
 msgid ""
 "Inserts a clef that affects only the display, not the printed form. Use this "
 "after ChangeStaff in the staff the voice will be on is in a different clef. "
@@ -3816,11 +3808,11 @@ msgid ""
 "for viola"
 msgstr ""
 
-#: src/commands.c:4588 src/commands.c:4589
+#: src/commands.c:4576 src/commands.c:4577
 msgid "(Re)Create Epilog - Critical Commentary"
 msgstr ""
 
-#: src/commands.c:4588 src/commands.c:4589
+#: src/commands.c:4576 src/commands.c:4577
 msgid ""
 "Collects together any critical comments from the score and places them in an "
 "epilog at the end of the music. The Title and text of the Epilog are created "
@@ -3828,497 +3820,497 @@ msgid ""
 "with the CriticalComment command."
 msgstr ""
 
-#: src/commands.c:4598 src/commands.c:4600
+#: src/commands.c:4586 src/commands.c:4588
 msgid "Critical Comment"
 msgstr ""
 
-#: src/commands.c:4598 src/commands.c:4600
+#: src/commands.c:4586 src/commands.c:4588
 msgid ""
 "Adds a comment which can be printed in a critical commentary at the end of "
 "all the movements (see CriticalCommentary command to create this)."
 msgstr ""
 
-#: src/commands.c:4609 src/commands.c:4611
+#: src/commands.c:4597 src/commands.c:4599
 msgid "Allow Line Break"
 msgstr ""
 
-#: src/commands.c:4609 src/commands.c:4611
+#: src/commands.c:4597 src/commands.c:4599
 msgid "Permits the typesetter to break the line at this point."
 msgstr ""
 
-#: src/commands.c:4620 src/commands.c:4622
+#: src/commands.c:4608 src/commands.c:4610
 msgid "Title and Introduction"
 msgstr ""
 
-#: src/commands.c:4620 src/commands.c:4622
+#: src/commands.c:4608 src/commands.c:4610
 msgid ""
 "A button is created for putting a title and introductory text for a critical "
 "commentary at the end of the score."
 msgstr ""
 
-#: src/commands.c:4631 src/commands.c:4633
+#: src/commands.c:4619 src/commands.c:4621
 msgid "Date"
 msgstr ""
 
-#: src/commands.c:4631 src/commands.c:4633
+#: src/commands.c:4619 src/commands.c:4621
 msgid "Prints a date on the title page."
 msgstr ""
 
-#: src/commands.c:4642 src/commands.c:4644
+#: src/commands.c:4630 src/commands.c:4632
 msgid "Neo-mensural"
 msgstr ""
 
-#: src/commands.c:4642 src/commands.c:4644
+#: src/commands.c:4630 src/commands.c:4632
 msgid "Prints note with neomensural style notehead."
 msgstr ""
 
-#: src/commands.c:4653 src/commands.c:4655
+#: src/commands.c:4641 src/commands.c:4643
 msgid "Force Note Shift"
 msgstr ""
 
-#: src/commands.c:4653 src/commands.c:4655
+#: src/commands.c:4641 src/commands.c:4643
 msgid ""
 "On printing the current note/chord will be shifted from notes in other "
 "voices by the amount you give. Use with Voice Presets to ensure this chord "
 "is in a different voice."
 msgstr ""
 
-#: src/commands.c:4664 src/commands.c:4666
+#: src/commands.c:4652 src/commands.c:4654
 msgid "Suggest Sharp"
 msgstr ""
 
-#: src/commands.c:4664 src/commands.c:4666
+#: src/commands.c:4652 src/commands.c:4654
 msgid "Prints a sharp above the note at the cursor"
 msgstr ""
 
-#: src/commands.c:4675 src/commands.c:4677
+#: src/commands.c:4663 src/commands.c:4665
 msgid "Suggest Flat"
 msgstr ""
 
-#: src/commands.c:4675 src/commands.c:4677
+#: src/commands.c:4663 src/commands.c:4665
 msgid "Prints flat sign over the note at the cursor"
 msgstr ""
 
-#: src/commands.c:4686 src/commands.c:4688
+#: src/commands.c:4674 src/commands.c:4676
 msgid "Suggest Natural"
 msgstr ""
 
-#: src/commands.c:4686 src/commands.c:4688
+#: src/commands.c:4674 src/commands.c:4676
 msgid "Prints a natural over the note at the cursor"
 msgstr ""
 
-#: src/commands.c:4697 src/commands.c:4699
+#: src/commands.c:4685 src/commands.c:4687
 msgid "Create Parts (Treble First)"
 msgstr ""
 
-#: src/commands.c:4697 src/commands.c:4699
+#: src/commands.c:4685 src/commands.c:4687
 msgid "Creates a set of parts extracting the highest part first."
 msgstr ""
 
-#: src/commands.c:4708 src/commands.c:4710
+#: src/commands.c:4696 src/commands.c:4698
 msgid "Check Chords (On/Off)"
 msgstr ""
 
-#: src/commands.c:4708 src/commands.c:4710
+#: src/commands.c:4696 src/commands.c:4698
 msgid ""
 "Advances through the current movement as you play the notes, stopping for "
 "wrong or missing notes in MIDI in."
 msgstr ""
 
-#: src/commands.c:4719 src/commands.c:4721
+#: src/commands.c:4707 src/commands.c:4709
 msgid "Print Two Parts as Cue for Accompanist"
 msgstr ""
 
-#: src/commands.c:4719 src/commands.c:4721
+#: src/commands.c:4707 src/commands.c:4709
 msgid "Prints the top two staffs on a single staff as cue."
 msgstr ""
 
-#: src/commands.c:4730 src/commands.c:4732
+#: src/commands.c:4718 src/commands.c:4720
 msgid "Tagline with Link"
 msgstr ""
 
-#: src/commands.c:4730 src/commands.c:4732
+#: src/commands.c:4718 src/commands.c:4720
 msgid "Creates a tagline with a link in PDF output."
 msgstr ""
 
-#: src/commands.c:4741 src/commands.c:4742 src/commands.c:4950
-#: src/commands.c:4952
+#: src/commands.c:4729 src/commands.c:4730 src/commands.c:4938
+#: src/commands.c:4940
 msgid "Marcato (Off/On)"
 msgstr ""
 
-#: src/commands.c:4741 src/commands.c:4742
+#: src/commands.c:4729 src/commands.c:4730
 msgid "Mark/Unmark the current chord marcato"
 msgstr ""
 
-#: src/commands.c:4751 src/commands.c:4753
+#: src/commands.c:4739 src/commands.c:4741
 msgid "Print Part with Title Page"
 msgstr ""
 
-#: src/commands.c:4751 src/commands.c:4753
+#: src/commands.c:4739 src/commands.c:4741
 msgid "Prints part with part name on title page"
 msgstr ""
 
-#: src/commands.c:4762 src/commands.c:4764
+#: src/commands.c:4750 src/commands.c:4752
 msgid "Mark/Unmark the current chord accented"
 msgstr ""
 
-#: src/commands.c:4773 src/commands.c:4775
+#: src/commands.c:4761 src/commands.c:4763
 msgid "Mark/Unmark the chord staccato"
 msgstr ""
 
-#: src/commands.c:4784 src/commands.c:4786 src/commands.c:4994
-#: src/commands.c:4996
+#: src/commands.c:4772 src/commands.c:4774 src/commands.c:4982
+#: src/commands.c:4984
 msgid "Fermata (Off/On)"
 msgstr ""
 
-#: src/commands.c:4784 src/commands.c:4786
+#: src/commands.c:4772 src/commands.c:4774
 msgid "Mark/Unmark the chord with a fermata"
 msgstr ""
 
-#: src/commands.c:4795 src/commands.c:4797
+#: src/commands.c:4783 src/commands.c:4785
 msgid "Mark/Unmark the chord Tenuto"
 msgstr ""
 
-#: src/commands.c:4806 src/commands.c:4808
+#: src/commands.c:4794 src/commands.c:4796
 msgid "Mark/Unmark chord as Staccatissimo"
 msgstr ""
 
-#: src/commands.c:4817 src/commands.c:4819 src/commands.c:4961
-#: src/commands.c:4963
+#: src/commands.c:4805 src/commands.c:4807 src/commands.c:4949
+#: src/commands.c:4951
 msgid "UpBow (Off/On)"
 msgstr ""
 
-#: src/commands.c:4817 src/commands.c:4819
+#: src/commands.c:4805 src/commands.c:4807
 msgid "Mark/Unmark chord with an Up Bow"
 msgstr ""
 
-#: src/commands.c:4828 src/commands.c:4830 src/commands.c:4972
-#: src/commands.c:4974
+#: src/commands.c:4816 src/commands.c:4818 src/commands.c:4960
+#: src/commands.c:4962
 msgid "DownBow (Off/On)"
 msgstr ""
 
-#: src/commands.c:4828 src/commands.c:4830
+#: src/commands.c:4816 src/commands.c:4818
 msgid "Mark/Unmark chord with a Down Bow"
 msgstr ""
 
-#: src/commands.c:4839 src/commands.c:4841 src/commands.c:4983
-#: src/commands.c:4985
+#: src/commands.c:4827 src/commands.c:4829 src/commands.c:4971
+#: src/commands.c:4973
 msgid "Harmonic (Off/On)"
 msgstr ""
 
-#: src/commands.c:4839 src/commands.c:4841
+#: src/commands.c:4827 src/commands.c:4829
 msgid "Mark/Unmark chord with a harmonic"
 msgstr ""
 
-#: src/commands.c:4850 src/commands.c:4851
+#: src/commands.c:4838 src/commands.c:4839
 msgid " ⏜ 𝅝"
 msgstr ""
 
-#: src/commands.c:4850 src/commands.c:4851
+#: src/commands.c:4838 src/commands.c:4839
 msgid "Inserts a 𝅝 and slurs to it, extending previous slur."
 msgstr ""
 
-#: src/commands.c:4860 src/commands.c:4861
+#: src/commands.c:4848 src/commands.c:4849
 msgid " ⏜ 𝅗𝅥"
 msgstr ""
 
-#: src/commands.c:4860 src/commands.c:4861
+#: src/commands.c:4848 src/commands.c:4849
 msgid "Inserts a 𝅗𝅥 and slurs to it, extending previous slur."
 msgstr ""
 
-#: src/commands.c:4870 src/commands.c:4871
+#: src/commands.c:4858 src/commands.c:4859
 msgid " ⏜ 𝅘𝅥"
 msgstr ""
 
-#: src/commands.c:4870 src/commands.c:4871
+#: src/commands.c:4858 src/commands.c:4859
 msgid "Inserts a 𝅘𝅥 and slurs to it, extending previous slur."
 msgstr ""
 
-#: src/commands.c:4880 src/commands.c:4881
+#: src/commands.c:4868 src/commands.c:4869
 msgid " ⏜ 𝅘𝅥𝅮"
 msgstr ""
 
-#: src/commands.c:4880 src/commands.c:4881
+#: src/commands.c:4868 src/commands.c:4869
 msgid "Inserts a 𝅘𝅥𝅮 and slurs to it, extending previous slur."
 msgstr ""
 
-#: src/commands.c:4890 src/commands.c:4891
+#: src/commands.c:4878 src/commands.c:4879
 msgid " ⏜ 𝅘𝅥𝅯"
 msgstr ""
 
-#: src/commands.c:4890 src/commands.c:4891
+#: src/commands.c:4878 src/commands.c:4879
 msgid "Inserts a 𝅘𝅥𝅯 and slurs to it, extending previous slur."
 msgstr ""
 
-#: src/commands.c:4900 src/commands.c:4901
+#: src/commands.c:4888 src/commands.c:4889
 msgid " ⏜ 𝅘𝅥𝅰"
 msgstr ""
 
-#: src/commands.c:4900 src/commands.c:4901
+#: src/commands.c:4888 src/commands.c:4889
 msgid "Inserts a 𝅘𝅥𝅰 and slurs to it, extending previous slur."
 msgstr ""
 
-#: src/commands.c:4910 src/commands.c:4911
+#: src/commands.c:4898 src/commands.c:4899
 msgid " ⏜ 𝅘𝅥𝅱"
 msgstr ""
 
-#: src/commands.c:4910 src/commands.c:4911
+#: src/commands.c:4898 src/commands.c:4899
 msgid "Inserts a 𝅘𝅥𝅱 and slurs to it, extending previous slur."
 msgstr ""
 
-#: src/commands.c:4920 src/commands.c:4921
+#: src/commands.c:4908 src/commands.c:4909
 msgid " ⏜ 𝅘𝅥𝅲"
 msgstr ""
 
-#: src/commands.c:4920 src/commands.c:4921
+#: src/commands.c:4908 src/commands.c:4909
 msgid "Inserts a 𝅘𝅥𝅲 and slurs to it, extending previous slur."
 msgstr ""
 
-#: src/commands.c:4930 src/commands.c:4931
+#: src/commands.c:4918 src/commands.c:4919
 msgid " ⏜ 𝅜"
 msgstr ""
 
-#: src/commands.c:4930 src/commands.c:4931
+#: src/commands.c:4918 src/commands.c:4919
 msgid "Inserts a 𝅜 and slurs to it, extending previous slur."
 msgstr ""
 
-#: src/commands.c:4940 src/commands.c:4941
+#: src/commands.c:4928 src/commands.c:4929
 msgid " ⏜ 𝅛"
 msgstr ""
 
-#: src/commands.c:4940 src/commands.c:4941
+#: src/commands.c:4928 src/commands.c:4929
 msgid "Inserts a 𝅛 and slurs to it, extending previous slur."
 msgstr ""
 
-#: src/commands.c:4950 src/commands.c:4952
+#: src/commands.c:4938 src/commands.c:4940
 msgid "Mark/Unmark the selected notes marcato"
 msgstr ""
 
-#: src/commands.c:4961 src/commands.c:4963
+#: src/commands.c:4949 src/commands.c:4951
 msgid "Mark/Unmark current selection or note with UpBow"
 msgstr ""
 
-#: src/commands.c:4972 src/commands.c:4974
+#: src/commands.c:4960 src/commands.c:4962
 msgid "Mark/Unmark selection or current object"
 msgstr ""
 
-#: src/commands.c:4983 src/commands.c:4985
+#: src/commands.c:4971 src/commands.c:4973
 msgid "Mark/Unmark current selection of object with a harmonic"
 msgstr ""
 
-#: src/commands.c:4994 src/commands.c:4996
+#: src/commands.c:4982 src/commands.c:4984
 msgid "Mark/Unmark current selection or object with a fermata"
 msgstr ""
 
-#: src/commands.c:5005 src/commands.c:5006
+#: src/commands.c:4993 src/commands.c:4994
 msgid "Trill (Off/On)"
 msgstr ""
 
-#: src/commands.c:5005 src/commands.c:5006
+#: src/commands.c:4993 src/commands.c:4994
 msgid "Adds/Removes a trill to the note"
 msgstr ""
 
-#: src/commands.c:5015 src/commands.c:5016
+#: src/commands.c:5003 src/commands.c:5004
 msgid "Turn (Off/On)"
 msgstr ""
 
-#: src/commands.c:5015 src/commands.c:5016
+#: src/commands.c:5003 src/commands.c:5004
 msgid "Adds/Removes a turn to the note"
 msgstr ""
 
-#: src/commands.c:5025 src/commands.c:5026
+#: src/commands.c:5013 src/commands.c:5014
 msgid "Mordent (Off/On)"
 msgstr ""
 
-#: src/commands.c:5025 src/commands.c:5026
+#: src/commands.c:5013 src/commands.c:5014
 msgid "Adds/Removes a Mordent to the note"
 msgstr ""
 
-#: src/commands.c:5035 src/commands.c:5036
+#: src/commands.c:5023 src/commands.c:5024
 msgid "Prall (Off/On)"
 msgstr ""
 
-#: src/commands.c:5035 src/commands.c:5036
+#: src/commands.c:5023 src/commands.c:5024
 msgid "Adds/Removes a prall to the note"
 msgstr ""
 
-#: src/commands.c:5045 src/commands.c:5046
+#: src/commands.c:5033 src/commands.c:5034
 msgid "Up Prall (Off/On)"
 msgstr ""
 
-#: src/commands.c:5055 src/commands.c:5056
+#: src/commands.c:5043 src/commands.c:5044
 msgid "PrallPrall (Off/On)"
 msgstr ""
 
-#: src/commands.c:5055 src/commands.c:5056
+#: src/commands.c:5043 src/commands.c:5044
 msgid "Adds/Removes a PrallPrall to the note"
 msgstr ""
 
-#: src/commands.c:5065 src/commands.c:5067
+#: src/commands.c:5053 src/commands.c:5055
 msgid "Reverse Turn (Off/On)"
 msgstr ""
 
-#: src/commands.c:5065 src/commands.c:5067
+#: src/commands.c:5053 src/commands.c:5055
 msgid "Add/Removes a Reverse Turn to the note"
 msgstr ""
 
-#: src/commands.c:5076 src/commands.c:5078
+#: src/commands.c:5064 src/commands.c:5066
 msgid "No Beam"
 msgstr ""
 
-#: src/commands.c:5076 src/commands.c:5078
+#: src/commands.c:5064 src/commands.c:5066
 msgid "(Print) Removes beam from current note"
 msgstr ""
 
-#: src/commands.c:5087 src/commands.c:5088 src/commands.c:5097
-#: src/commands.c:5099
+#: src/commands.c:5075 src/commands.c:5076 src/commands.c:5085
+#: src/commands.c:5087
 msgid "Portato (Off/On)"
 msgstr ""
 
-#: src/commands.c:5087 src/commands.c:5088
+#: src/commands.c:5075 src/commands.c:5076
 msgid "Mark/Unmark the chord Portato"
 msgstr ""
 
-#: src/commands.c:5097 src/commands.c:5099
+#: src/commands.c:5085 src/commands.c:5087
 msgid "Marks/Unmaks the selection with the Portato"
 msgstr ""
 
-#: src/commands.c:5108 src/commands.c:5109
+#: src/commands.c:5096 src/commands.c:5097
 msgid "Stopped (Off/On)"
 msgstr ""
 
-#: src/commands.c:5108 src/commands.c:5109
+#: src/commands.c:5096 src/commands.c:5097
 msgid "Mark/Unmark the selected notes stopped"
 msgstr ""
 
-#: src/commands.c:5118 src/commands.c:5119 src/commands.c:5128
-#: src/commands.c:5129
+#: src/commands.c:5106 src/commands.c:5107 src/commands.c:5116
+#: src/commands.c:5117
 msgid "Arpeggio (Off/On)"
 msgstr ""
 
-#: src/commands.c:5118 src/commands.c:5119
+#: src/commands.c:5106 src/commands.c:5107
 msgid "Mark/Unmark chord with an arpeggio"
 msgstr ""
 
-#: src/commands.c:5128 src/commands.c:5129
+#: src/commands.c:5116 src/commands.c:5117
 msgid "Mark/Unmark the selected notes arpeggio"
 msgstr ""
 
-#: src/commands.c:5138 src/commands.c:5140
+#: src/commands.c:5126 src/commands.c:5128
 msgid "♯"
 msgstr ""
 
-#: src/commands.c:5138 src/commands.c:5140
+#: src/commands.c:5126 src/commands.c:5128
 msgid ""
 "Sharpens the key signature by one degree. If no key signature at cursor, "
 "sharpens the initial key signature."
 msgstr ""
 
-#: src/commands.c:5149 src/commands.c:5151
+#: src/commands.c:5137 src/commands.c:5139
 msgid "♭"
 msgstr ""
 
-#: src/commands.c:5149 src/commands.c:5151
+#: src/commands.c:5137 src/commands.c:5139
 msgid ""
 "Flattens the key signature by one degree. If no key signature at the cursor, "
 "operates on the initial key signature."
 msgstr ""
 
-#: src/commands.c:5160 src/commands.c:5161
+#: src/commands.c:5148 src/commands.c:5149
 msgid "Follow Link to Source"
 msgstr ""
 
-#: src/commands.c:5160 src/commands.c:5161
+#: src/commands.c:5148 src/commands.c:5149
 msgid "Follows the link at the cursor to a source document."
 msgstr ""
 
-#: src/commands.c:5170 src/commands.c:5172
+#: src/commands.c:5158 src/commands.c:5160
 msgid "Replace LilyPond"
 msgstr ""
 
-#: src/commands.c:5170 src/commands.c:5172
+#: src/commands.c:5158 src/commands.c:5160
 msgid ""
 "Suppresses the normal LilyPond typetting for the current note/chord/rest "
 "replacing it with syntax provided by user."
 msgstr ""
 
-#: src/commands.c:5181 src/commands.c:5183
+#: src/commands.c:5169 src/commands.c:5171
 msgid "Open Source for Transcribing"
 msgstr ""
 
-#: src/commands.c:5181 src/commands.c:5183
+#: src/commands.c:5169 src/commands.c:5171
 msgid ""
-"Opens a dialog to fetch a source facsimile or manuscript. Links can be "
+"Opens a dialogue to fetch a source facsimile or manuscript. Links can be "
 "placed in the Denemo score to this source file so that the source passage "
-"for a given measure can be re-displayed when reviewing the score."
+"for a given bar can be re-displayed when reviewing the score."
 msgstr ""
 
-#: src/commands.c:5192 src/commands.c:5194
+#: src/commands.c:5180 src/commands.c:5182
 msgid "Print Three Parts as Cue for Accompanist"
 msgstr ""
 
-#: src/commands.c:5192 src/commands.c:5194
+#: src/commands.c:5180 src/commands.c:5182
 msgid "Prints top three parts on one staff as cues."
 msgstr ""
 
-#: src/commands.c:5203 src/commands.c:5205
+#: src/commands.c:5191 src/commands.c:5193
 msgid "Create Cues"
 msgstr ""
 
-#: src/commands.c:5203 src/commands.c:5205
+#: src/commands.c:5191 src/commands.c:5193
 msgid ""
 "Goes through the staff looking for long rests. Creates a cue in the whole "
-"measure rest."
+"bar rest."
 msgstr ""
 
-#: src/commands.c:5214 src/commands.c:5216
+#: src/commands.c:5202 src/commands.c:5204
 msgid ""
 "Groups of whole measure rests of three or more are changed to multi-measure "
 "rests for the whole staff."
 msgstr ""
 
-#: src/commands.c:5225 src/commands.c:5227
+#: src/commands.c:5213 src/commands.c:5215
 msgid "Open Source Audio"
 msgstr ""
 
-#: src/commands.c:5225 src/commands.c:5227
+#: src/commands.c:5213 src/commands.c:5215
 msgid "Opens an audio file which will be mixed with the current movement."
 msgstr ""
 
-#: src/commands.c:5236 src/commands.c:5238
+#: src/commands.c:5224 src/commands.c:5226
 msgid "Synchronize Audio"
 msgstr ""
 
-#: src/commands.c:5236 src/commands.c:5238
+#: src/commands.c:5224 src/commands.c:5226
 msgid ""
 "Plays the audio attached to the current movment. Creates a timing bar for "
 "each space bar press. Music written in the staffs below will synchronize "
 "with the audio."
 msgstr ""
 
-#: src/commands.c:5247 src/commands.c:5249
+#: src/commands.c:5235 src/commands.c:5237
 msgid "Close Source Audio File"
 msgstr ""
 
-#: src/commands.c:5247 src/commands.c:5249
+#: src/commands.c:5235 src/commands.c:5237
 msgid "Drops the audio track attached to the current movement."
 msgstr ""
 
-#: src/commands.c:5258 src/commands.c:5260
+#: src/commands.c:5246 src/commands.c:5248
 msgid "(Print) Single Digit (On/Off)"
 msgstr ""
 
-#: src/commands.c:5258 src/commands.c:5260
+#: src/commands.c:5246 src/commands.c:5248
 msgid ""
 "Makes the time signature at the cursor single digit; if no time signature at "
 "cursor applies to initial timesig of staff. Operates as On/Off toggle."
 msgstr ""
 
-#: src/commands.c:5269 src/commands.c:5271
+#: src/commands.c:5257 src/commands.c:5259
 msgid "Chords for Bar"
 msgstr ""
 
-#: src/commands.c:5269 src/commands.c:5271
+#: src/commands.c:5257 src/commands.c:5259
 msgid ""
 "Plays the context of the current bar. Then listens for you to play each note "
 "in current bar the bar with added chord(s), notates the chords on a staff "
@@ -4326,144 +4318,238 @@ msgid ""
 "down) or go on to next bar (pitch bend up)."
 msgstr ""
 
-#: src/commands.c:5280 src/commands.c:5282
+#: src/commands.c:5268 src/commands.c:5270
 msgid "Grace/UnGrace"
 msgstr ""
 
-#: src/commands.c:5280 src/commands.c:5282
+#: src/commands.c:5268 src/commands.c:5270
 msgid ""
 "Changes the note at the cursor to/from being a grace note. Gives audio "
 "feedback."
 msgstr ""
 
-#: src/commands.c:5291 src/commands.c:5293
+#: src/commands.c:5279 src/commands.c:5281
 msgid "Ignore for Current Layout"
 msgstr ""
 
-#: src/commands.c:5291 src/commands.c:5293
+#: src/commands.c:5279 src/commands.c:5281
 msgid ""
 "The Denemo Directive at the cursor will be ignored when printing from the "
 "current score layout (See View->Score Layout)"
 msgstr ""
 
-#: src/commands.c:5302 src/commands.c:5304
+#: src/commands.c:5290 src/commands.c:5292
 msgid "Exclusive to Current Layout"
 msgstr ""
 
-#: src/commands.c:5302 src/commands.c:5304
+#: src/commands.c:5290 src/commands.c:5292
 msgid ""
 "The Denemo Directive at the cursor will only apply to the current Score "
 "Layout (see View->Score Layout)"
 msgstr ""
 
-#: src/commands.c:5313 src/commands.c:5315
+#: src/commands.c:5301 src/commands.c:5303
 msgid "Reset for All Layouts"
 msgstr ""
 
-#: src/commands.c:5313 src/commands.c:5315
+#: src/commands.c:5301 src/commands.c:5303
 msgid ""
-"Clears conditional behavior of this layout. The Directive will apply to all "
+"Clears conditional behaviour of this layout. The Directive will apply to all "
 "score layouts."
 msgstr ""
 
-#: src/commands.c:5324 src/commands.c:5326
-msgid "Voice One"
+#: src/commands.c:5312 src/commands.c:5314
+msgid "Initial Voice One"
 msgstr ""
 
-#: src/commands.c:5324 src/commands.c:5326
+#: src/commands.c:5312 src/commands.c:5314
 msgid ""
 "Sets the (initial) voice of the staff to be voice one (this affects stems "
 "up, slurs etc on printing)"
 msgstr ""
 
-#: src/commands.c:5335 src/commands.c:5337
-msgid "Voice Two"
+#: src/commands.c:5323 src/commands.c:5325
+msgid "Initial Voice Two"
 msgstr ""
 
-#: src/commands.c:5335 src/commands.c:5337
+#: src/commands.c:5323 src/commands.c:5325
 msgid ""
 "Sets the (initial) voice of the staff to be voice two (this affects stems "
 "down, slurs etc on printing)"
 msgstr ""
 
-#: src/commands.c:5346 src/commands.c:5348
-msgid "Voice Three"
+#: src/commands.c:5334 src/commands.c:5336
+msgid "Initial Voice Three"
 msgstr ""
 
-#: src/commands.c:5346 src/commands.c:5348
+#: src/commands.c:5334 src/commands.c:5336
 msgid ""
 "Sets the (initial) voice of the staff to be voice three (this affects stems "
 "up, slurs etc on printing)"
 msgstr ""
 
-#: src/commands.c:5357 src/commands.c:5359
-msgid "Voice Four"
+#: src/commands.c:5345 src/commands.c:5347
+msgid "Initial Voice Four"
 msgstr ""
 
-#: src/commands.c:5357 src/commands.c:5359
+#: src/commands.c:5345 src/commands.c:5347
 msgid ""
 "Sets the (initial) voice of the staff to be voice four (this affects stems "
 "down, slurs etc on printing)"
 msgstr ""
 
-#: src/commands.c:5368 src/commands.c:5370
-msgid "Automatic Voice"
+#: src/commands.c:5356 src/commands.c:5358
+msgid "Initial Automatic Voice"
 msgstr ""
 
-#: src/commands.c:5368 src/commands.c:5370
+#: src/commands.c:5356 src/commands.c:5358
 msgid ""
 "Undoes the effect of the VoiceOne, Two ... commands. The voice has variable "
 "stem direction, slur placement etc."
 msgstr ""
 
-#: src/commands.c:5379 src/commands.c:5381
+#: src/commands.c:5367 src/commands.c:5369
 msgid "Instrumentation"
 msgstr ""
 
-#: src/commands.c:5379 src/commands.c:5381
+#: src/commands.c:5367 src/commands.c:5369
 msgid ""
 "Prints the instrumentation on the title page. This can be edited for layouts "
 "that print just one part or section."
 msgstr ""
 
-#: src/commands.c:5390 src/commands.c:5391
+#: src/commands.c:5378 src/commands.c:5379
 msgid "New Staff After Current"
 msgstr ""
 
-#: src/commands.c:5390 src/commands.c:5391
+#: src/commands.c:5378 src/commands.c:5379
 msgid ""
 "Creates a new staff with the given name, after the current staff. Use the "
 "staff to voice command if you want to make this staff a voice on the "
 "previous staff."
 msgstr ""
 
-#: src/commands.c:5400 src/commands.c:5401
+#: src/commands.c:5388 src/commands.c:5389
 msgid "New Staff Before Current"
 msgstr ""
 
-#: src/commands.c:5400 src/commands.c:5401
+#: src/commands.c:5388 src/commands.c:5389
 msgid "Creates a new staff with the given name, before the current staff."
 msgstr ""
 
-#: src/commands.c:5410 src/commands.c:5412
+#: src/commands.c:5398 src/commands.c:5400
 msgid "Help for Return Keypress"
 msgstr ""
 
-#: src/commands.c:5410 src/commands.c:5412
+#: src/commands.c:5398 src/commands.c:5400
 msgid ""
 "Does nothing except explain what the Return key is used for in Denemo, and "
 "how to make it an ordinary shortcut if you prefer."
 msgstr ""
 
-#: src/commands.c:5421 src/commands.c:5423
+#: src/commands.c:5409 src/commands.c:5411
 msgid "Turn Excessive Tooltips (Off/On)"
 msgstr ""
 
-#: src/commands.c:5421 src/commands.c:5423
+#: src/commands.c:5409 src/commands.c:5411
 msgid ""
 "Sets your status as a newbie on or off. This affects the tooltips.\n"
 "Note you can also delay tooltips, indefinitely if you wish, via the "
-"preferences dialog. See Edit->Change Preferences->Command Behavior"
+"preferences dialogue. See Edit->Change Preferences->Command Behaviour"
+msgstr ""
+
+#: src/commands.c:5420 src/commands.c:5421
+msgid "Note Names Default Action"
+msgstr ""
+
+#: src/commands.c:5420 src/commands.c:5421
+msgid ""
+"Changes the shortcuts for note names a, b, c, d, e, f, g so that they edit "
+"the note at the cursor, or append a note when in the appending position."
+msgstr ""
+
+#: src/commands.c:5430 src/commands.c:5431
+msgid "Note Names Move Cursor"
+msgstr ""
+
+#: src/commands.c:5430 src/commands.c:5431
+msgid ""
+"Changes the shortcuts for note names a, b, c, d, e, f, g so that they move "
+"the cursor to the nearest note of that name."
+msgstr ""
+
+#: src/commands.c:5440 src/commands.c:5441
+msgid "Mouse Note Insertion"
+msgstr ""
+
+#: src/commands.c:5440 src/commands.c:5441
+msgid ""
+"Changes the mouse use when CapsLock is on: left click inserts note in the "
+"prevailing duration. The shortcuts for number keys 0, 1, 2 ... are set to "
+"change the prevailing duration."
+msgstr ""
+
+#: src/commands.c:5450 src/commands.c:5451
+msgid "Mouse Default Action"
+msgstr ""
+
+#: src/commands.c:5450 src/commands.c:5451
+msgid ""
+"Mouse left click positions the cursor, right click edits, left-click with "
+"caps-lock does nothing.."
+msgstr ""
+
+#: src/commands.c:5460 src/commands.c:5462
+msgid "Dot"
+msgstr ""
+
+#: src/commands.c:5460 src/commands.c:5462
+msgid ""
+"Adds a dot to the note/rest/chord at the cursor, or removes them if double "
+"dotted."
+msgstr ""
+
+#: src/commands.c:5471 src/commands.c:5472
+msgid "Choose Voice"
+msgstr ""
+
+#: src/commands.c:5471 src/commands.c:5472
+msgid ""
+"The Voice 1,2,3,4 commands set up the voices so that first and third voices "
+"get stems up, second and fourth voices get stems down, third and fourth "
+"voice note heads are horizontally shifted, and rests in the respective "
+"voices are automatically moved to avoid collisions. The Automatic Voice "
+"command returns all the voice settings to the neutral default directions"
+msgstr ""
+
+#: src/commands.c:5481 src/commands.c:5483
+msgid "Set Staff Size"
+msgstr ""
+
+#: src/commands.c:5481 src/commands.c:5483
+msgid ""
+"Sets the size of the staff on printing relative to the default 0. Value -3 "
+"is tiny 3 is large."
+msgstr ""
+
+#: src/commands.c:5492 src/commands.c:5494
+msgid "Choose Initial Voice"
+msgstr ""
+
+#: src/commands.c:5492 src/commands.c:5494
+msgid ""
+"Choose which voice this staff will initially be set to. To change voice "
+"during music see the Directives->Voices menu."
+msgstr ""
+
+#: src/commands.c:5503 src/commands.c:5505
+msgid "Incipit from Selection"
+msgstr ""
+
+#: src/commands.c:5503 src/commands.c:5505
+msgid ""
+"Creates an incipit from the selection. This music will be printed on the "
+"title page. Only one voice is supported."
 msgstr ""
 
 #: src/drawgrace.c:25
@@ -4500,20 +4586,20 @@ msgstr ""
 msgid "%{error. defaulting to%}C"
 msgstr ""
 
-#: src/exportabc.c:125 src/exportlilypond.c:293
+#: src/exportabc.c:125 src/exportlilypond.c:268
 msgid "%{error. defaulting to%}treble"
 msgstr ""
 
-#: src/exportabc.c:370
+#: src/exportabc.c:353
 #, c-format
 msgid "%% ABC file generated by Denemo version "
 msgstr ""
 
-#: src/exportlilypond.c:253
+#: src/exportlilypond.c:228
 msgid "%{error. defaulting to%}c"
 msgstr ""
 
-#: src/exportlilypond.c:1454
+#: src/exportlilypond.c:1366
 #, c-format
 msgid "%% LilyPond file generated by Denemo version "
 msgstr ""
@@ -4585,7 +4671,7 @@ msgstr ""
 msgid "Do you want to replace it?"
 msgstr ""
 
-#: src/fluid.c:159
+#: src/fluid.c:160
 msgid "Choose SoundFont File"
 msgstr ""
 
@@ -4718,7 +4804,7 @@ msgstr ""
 msgid "Load a Custom Command Set"
 msgstr ""
 
-#: src/keyboard.c:752
+#: src/keyboard.c:754
 msgid "Return"
 msgstr ""
 
@@ -4750,11 +4836,34 @@ msgstr ""
 msgid "Current Staff Only?"
 msgstr ""
 
-#: src/lilydirectives.c:2268
+#: src/lilydirectives.c:1271
+msgid "Repeat the command?"
+msgstr ""
+
+#: src/lilydirectives.c:2068
+msgid ""
+"Nothing to edit on this stem directive - use controls in Staffs->Voices menu"
+msgstr ""
+
+#: src/lilydirectives.c:2074
+msgid ""
+"This marks the start of a tuplet (that is triplets etc) - after the notes "
+"there should be a corresponding end of tuplet object.\n"
+"See the Notes/Rests->Tuplets for control over how tuplets print"
+msgstr ""
+
+#: src/lilydirectives.c:2078
+msgid ""
+"This marks the end of a tuplet (that is triplets etc) - it should come in "
+"the same measure as the tuplet start marker.\n"
+"See the Notes/Rests->Tuplets for control over how tuplets print"
+msgstr ""
+
+#: src/lilydirectives.c:2284
 msgid " x:"
 msgstr ""
 
-#: src/lilydirectives.c:2275
+#: src/lilydirectives.c:2291
 msgid " y:"
 msgstr ""
 
@@ -4767,188 +4876,33 @@ msgid ""
 "hyphen - for extending syllables."
 msgstr ""
 
-#: src/main.c:67
-msgid "Staccato"
-msgstr ""
-
-#: src/main.c:68
-msgid "Staccatissimo"
-msgstr ""
-
-#: src/main.c:69
-msgid "Marcato"
-msgstr ""
-
-#: src/main.c:70
-msgid "Accent"
-msgstr ""
-
-#: src/main.c:71
-msgid "Fermata"
-msgstr ""
-
-#: src/main.c:72
-msgid "Coda"
-msgstr ""
-
-#: src/main.c:73
-msgid "Tenuto"
-msgstr ""
-
-#: src/main.c:74
-msgid "Turn"
-msgstr ""
-
-#: src/main.c:75
-msgid "Reverse turn"
-msgstr ""
-
-#: src/main.c:76
-msgid "Trill"
-msgstr ""
-
-#: src/main.c:77
-msgid "Mordent"
-msgstr ""
-
-#: src/main.c:78
-msgid "Up bow"
-msgstr ""
-
-#: src/main.c:79
-msgid "Down bow"
-msgstr ""
-
-#: src/main.c:80
-msgid "Right heel"
-msgstr ""
-
-#: src/main.c:81
-msgid "Left heel"
-msgstr ""
-
-#: src/main.c:82
-msgid "Left toe"
-msgstr ""
-
-#: src/main.c:83
-msgid "Right toe"
-msgstr ""
-
-#: src/main.c:84
-msgid "Whole note"
-msgstr ""
-
-#: src/main.c:85
-msgid "Half note"
-msgstr ""
-
-#: src/main.c:86
-msgid "Quarter note"
-msgstr ""
-
-#: src/main.c:87
-msgid "Eight note"
-msgstr ""
-
-#: src/main.c:88
-msgid "Sixteenth note"
-msgstr ""
-
-#: src/main.c:90
-msgid "Whole rest"
-msgstr ""
-
-#: src/main.c:91
-msgid "Half rest"
-msgstr ""
-
-#: src/main.c:92
-msgid "Quarter rest"
-msgstr ""
-
-#: src/main.c:93
-msgid "Eigth rest"
-msgstr ""
-
-#: src/main.c:94
-msgid "Sixteenth rest"
-msgstr ""
-
-#: src/main.c:96
-msgid "Prall"
-msgstr ""
-
-#: src/main.c:97
-msgid "Flageolet"
-msgstr ""
-
 #: src/main.c:98
-msgid "PrallMordent"
-msgstr ""
-
-#: src/main.c:99
-msgid "PrallPrall"
-msgstr ""
-
-#: src/main.c:100 src/register_commands.h:206
-msgid "Open"
-msgstr ""
-
-#: src/main.c:101
-msgid "Segno"
-msgstr ""
-
-#: src/main.c:102
-msgid "Stopped"
-msgstr ""
-
-#: src/main.c:103
-msgid "Thumb"
-msgstr ""
-
-#: src/main.c:104
-msgid "Upprall"
-msgstr ""
-
-#: src/main.c:105
-msgid "Arpeggio"
-msgstr ""
-
-#: src/main.c:123
-#, c-format
-msgid ""
-"Could not load specified pixbuf:\n"
-"%s\n"
-msgstr ""
-
-#: src/main.c:289
 #, c-format
 msgid "Parent: child exited, pid = %d, exit status = %d\n"
 msgstr ""
 
-#: src/main.c:297
+#: src/main.c:106
 #, c-format
 msgid "Parent: child terminated by signal %d, pid = %d\n"
 msgstr ""
 
-#: src/main.c:305
+#: src/main.c:114
 #, c-format
 msgid "Parent: child stopped by signal %d, pid = %d\n"
 msgstr ""
 
-#: src/main.c:311
+#: src/main.c:120
 #, c-format
 msgid "Parent: child exited magically, pid = %d\n"
 msgstr ""
 
-#: src/main.c:662 src/main.c:711
+#: src/main.c:471 src/main.c:520
 msgid ""
 "\n"
 "GNU Denemo version "
 msgstr ""
 
-#: src/main.c:663
+#: src/main.c:472
 msgid ""
 "Usage: denemo [OPTION]... [FILE]\n"
 "\n"
@@ -4973,7 +4927,7 @@ msgid ""
 "Report bugs to http://www.denemo.org\n"
 msgstr ""
 
-#: src/main.c:680
+#: src/main.c:489
 msgid ""
 "(c) 1999-2005, 2009 Matthew Hiller, Adam Tee, and others, 2010-2011 Richard "
 "Shann, Jeremiah Benham, Nils Gey and others.\n"
@@ -4988,7 +4942,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/main.c:744
+#: src/main.c:553
 msgid ""
 "\n"
 "GNU Denemo, a free and open music notation editor\n"
@@ -5008,6 +4962,14 @@ msgstr ""
 msgid "Enter width (in pixels) of measures:"
 msgstr ""
 
+#: src/pitchentry.c:1131
+msgid "flatten "
+msgstr ""
+
+#: src/pitchentry.c:1142
+msgid "sharpen"
+msgstr ""
+
 #: src/pitchentry.c:1161
 msgid "Set the musical temperament (tuning) to be used for playback."
 msgstr ""
@@ -5020,7 +4982,7 @@ msgstr ""
 msgid "Play from time"
 msgstr ""
 
-#: src/playback.c:133 src/print.c:576
+#: src/playback.c:133 src/print.c:602
 msgid "to"
 msgstr ""
 
@@ -5102,65 +5064,65 @@ msgstr ""
 msgid "Choose Soundfont"
 msgstr ""
 
-#: src/print.c:85
+#: src/print.c:105
 #, c-format
 msgid "Could not find %s"
 msgstr ""
 
-#: src/print.c:88
+#: src/print.c:108
 msgid "Please edit lilypond path in the preferences."
 msgstr ""
 
-#: src/print.c:552
+#: src/print.c:578
 msgid "Print Excerpt Range"
 msgstr ""
 
-#: src/print.c:567
+#: src/print.c:593
 msgid "Print from Measure"
 msgstr ""
 
-#: src/print.c:1140
+#: src/print.c:1188
 msgid "No selection to print"
 msgstr ""
 
-#: src/print.c:1728
+#: src/print.c:1791
 msgid ""
 "Typesets the music from the current movement. This creates a score layout "
 "comprising one movement."
 msgstr ""
 
-#: src/print.c:1733
+#: src/print.c:1796
 msgid ""
 "Typesets the music from the current part for all movements. A part is all "
 "the music with the same staff-name. This creates a score layout with one "
 "part, all movements."
 msgstr ""
 
-#: src/print.c:1738
+#: src/print.c:1801
 msgid ""
 "Re-issues the last print command. Use this after modifying the file to "
 "repeat the typesetting."
 msgstr ""
 
-#: src/print.c:1747
+#: src/print.c:1810
 msgid ""
 "Shows pages side by side, so you can see page turns for back-to-back "
 "printing\n"
 msgstr ""
 
-#: src/print.c:1752
+#: src/print.c:1815
 msgid ""
 "Move to the next page - you can also scroll with the scroll-wheel, and zoom "
 "with control-wheel"
 msgstr ""
 
-#: src/print.c:1756
+#: src/print.c:1819
 msgid ""
 "Move to the previous page - you can also scroll with the scroll-wheel, and "
 "zoom with control-wheel"
 msgstr ""
 
-#: src/print.c:1784
+#: src/print.c:1847
 msgid ""
 "This window shows the final typeset score from which you can print or (via "
 "print to file) create a PDF document.\n"
@@ -6272,7 +6234,7 @@ msgstr ""
 msgid "Insert Snippet"
 msgstr ""
 
-#: src/register_commands.h:199
+#: src/register_commands.h:199 src/view.c:2394
 msgid "Next Snippet"
 msgstr ""
 
@@ -6329,6 +6291,10 @@ msgstr ""
 
 #: src/register_commands.h:205
 msgid "Start a new musical score for a named instrument/voice."
+msgstr ""
+
+#: src/register_commands.h:206
+msgid "Open"
 msgstr ""
 
 #: src/register_commands.h:206
@@ -6808,7 +6774,7 @@ msgid ""
 "between the voices. Suggest to use merge staffs"
 msgstr ""
 
-#: src/register_commands.h:266 src/staffpropdialog.c:350
+#: src/register_commands.h:266 src/staffpropdialog.c:357
 msgid "Staff Properties"
 msgstr ""
 
@@ -7987,113 +7953,234 @@ msgstr ""
 msgid "Set the prevailing duration to 𝅥"
 msgstr ""
 
-#: src/scorelayout.c:424
+#: src/scorelayout.c:426
 msgid "Typeset"
 msgstr ""
 
-#: src/scorelayout.c:425
+#: src/scorelayout.c:427
 msgid ""
 "Typeset the score using this layout to determine which movements, parts, "
 "titles, page breaks etc should be used"
 msgstr ""
 
-#: src/scorelayout.c:429
+#: src/scorelayout.c:431
 msgid "Convert to LilyPond Text"
 msgstr ""
 
-#: src/scorelayout.c:430
+#: src/scorelayout.c:432
 msgid "Converts this layout to LilyPond text for further editing."
 msgstr ""
 
-#: src/scorelayout.c:434
+#: src/scorelayout.c:436
 msgid "Discard this customized score layout."
 msgstr ""
 
-#: src/scorelayout.c:438
+#: src/scorelayout.c:440
 msgid "Refresh"
 msgstr ""
 
-#: src/scorelayout.c:439
+#: src/scorelayout.c:441
 msgid ""
 "Re-calculate this layout to incorporate changes made to the score structure."
 msgstr ""
 
-#: src/scorelayout.c:443
+#: src/scorelayout.c:445
 msgid "Customize"
 msgstr ""
 
-#: src/scorelayout.c:444
+#: src/scorelayout.c:446
 msgid "Create a layout from this standard layout that you can then modify."
 msgstr ""
 
-#: src/scorelayout.c:549
+#: src/scorelayout.c:549 src/view.c:8703
+msgid "Edit"
+msgstr ""
+
+#: src/scorelayout.c:550
+msgid "Edit the voice directives for this layout"
+msgstr ""
+
+#: src/scorelayout.c:555
 msgid ""
 "Delete this voice from the score layout\n"
 "Note that if it is the first voice the clef time and keysignatures will be "
 "deleted too."
 msgstr ""
 
-#: src/scorelayout.c:555
+#: src/scorelayout.c:560
 msgid "Initial Signatures"
 msgstr ""
 
-#: src/scorelayout.c:561
+#: src/scorelayout.c:563
+msgid ""
+"Click here to view and edit the clef, key and time signatures of this staff"
+msgstr ""
+
+#: src/scorelayout.c:568
 msgid "Clef"
 msgstr ""
 
-#: src/scorelayout.c:567
+#: src/scorelayout.c:569
+msgid ""
+"Edit the LilyPond definition of the clef. The editing affects only this "
+"layout."
+msgstr ""
+
+#: src/scorelayout.c:574
 msgid "Key"
 msgstr ""
 
-#: src/scorelayout.c:573
+#: src/scorelayout.c:575
+msgid ""
+"Edit the LilyPond definition of the key signature. The editing affects only "
+"this layout."
+msgstr ""
+
+#: src/scorelayout.c:580
 msgid "Time"
 msgstr ""
 
-#: src/scorelayout.c:809
+#: src/scorelayout.c:581
+msgid ""
+"Edit the LilyPond definition of the time signature. The editing affects only "
+"this layout."
+msgstr ""
+
+#: src/scorelayout.c:589
+msgid ""
+"The clef, time and key signatures attached to other voices are ignored, only "
+"the primary one has effect"
+msgstr ""
+
+#: src/scorelayout.c:592
+msgid "Music for "
+msgstr ""
+
+#: src/scorelayout.c:594
+msgid ""
+"The actual notes live here. You can only edit these in the main Denemo "
+"display.\n"
+"However you can place conditional directives that are to be used only when "
+"using this layout. For example page breaks just for this layout can be "
+"placed at points in the music.\n"
+"Click here to move the Denemo cursor to the start of this music."
+msgstr ""
+
+#: src/scorelayout.c:600
+msgid "Substitute"
+msgstr ""
+
+#: src/scorelayout.c:601
+msgid ""
+"Substitute the music of this staff with the music of another staff.\n"
+"For example changing \\MvmntIVoiceI to \\MvmntIVoiceII will change the music "
+"from that of the first to the second staff. The editing affects only this "
+"layout."
+msgstr ""
+
+#: src/scorelayout.c:754
+msgid "This forces a new page, useful for avoiding page turns\n"
+msgstr ""
+
+#: src/scorelayout.c:761
+msgid "Blank Page"
+msgstr ""
+
+#: src/scorelayout.c:762
+msgid ""
+"This prints a page intentionally left blank, useful for avoiding page turns\n"
+msgstr ""
+
+#: src/scorelayout.c:770
+msgid ""
+"This lets you insert your own titles etc just for this layout.\n"
+"For book titles use \\titledPiece \\markup \"myname\"\n"
+"Simple titles are not placed here, but appear in a header block at the end "
+"of the movement.\n"
+"For other possible uses, see LilyPond manual."
+msgstr ""
+
+#: src/scorelayout.c:780
+msgid "Create Page Break"
+msgstr ""
+
+#: src/scorelayout.c:781
+msgid ""
+"This inserts a page break, useful for avoiding page turns\n"
+"Move it before the title (using the up arrow) once created!"
+msgstr ""
+
+#: src/scorelayout.c:785
+msgid "Create Blank Page"
+msgstr ""
+
+#: src/scorelayout.c:786
+msgid ""
+"This inserts a page intentionally left blank, useful for avoiding page turns "
+"when printing on both sides of the paper"
+msgstr ""
+
+#: src/scorelayout.c:790
+msgid "Insert LilyPond"
+msgstr ""
+
+#: src/scorelayout.c:791
+msgid ""
+"This creates a LilyPond comment which you can then edit to give titles etc "
+"for this movment, applying just to this layout."
+msgstr ""
+
+#: src/scorelayout.c:821
+msgid ""
+"This button is for changing the score itself, it will not affect this custom "
+"layout"
+msgstr ""
+
+#: src/scorelayout.c:830
 msgid "Movement Titles, Page Breaks etc"
 msgstr ""
 
-#: src/scorelayout.c:810
+#: src/scorelayout.c:831
 msgid ""
 "In here are settings for the movement title, page breaks before the movement "
 "etc"
 msgstr ""
 
-#: src/scorelayout.c:819
+#: src/scorelayout.c:840
 msgid "Create Titles for Movement"
 msgstr ""
 
-#: src/scorelayout.c:821
+#: src/scorelayout.c:842
 msgid "Set book titles for this movement in the score"
 msgstr ""
 
-#: src/scorelayout.c:824
+#: src/scorelayout.c:845
 msgid "Create for Custom Layout"
 msgstr ""
 
-#: src/scorelayout.c:825
+#: src/scorelayout.c:846
 msgid "Create page breaks, blank pages ...for this layout"
 msgstr ""
 
-#: src/scorelayout.c:1014
+#: src/scorelayout.c:1035
 msgid ""
 "This brace connects together several staffs - you can delete it for a "
 "customized layout."
 msgstr ""
 
-#: src/scorelayout.c:1028
+#: src/scorelayout.c:1049
 msgid "Remove this staff brace from these staffs for a customized layout."
 msgstr ""
 
-#: src/scorelayout.c:1035
+#: src/scorelayout.c:1056
 msgid "Extend this staff group upwards for customized layout."
 msgstr ""
 
-#: src/scorelayout.c:1039
+#: src/scorelayout.c:1060
 msgid "Extend this staff group downwards for customized layout."
 msgstr ""
 
-#: src/scorelayout.c:1117
+#: src/scorelayout.c:1138
 msgid ""
 "This shows the clef in the Denemo score - the actual clef printed may be "
 "modified by Directives attached to it.\n"
@@ -8101,51 +8188,51 @@ msgid ""
 "the staff."
 msgstr ""
 
-#: src/scorelayout.c:1121
+#: src/scorelayout.c:1142
 msgid "Move this staff (with all its voices) above the preceding staff."
 msgstr ""
 
-#: src/scorelayout.c:1125
+#: src/scorelayout.c:1146
 msgid "Move this staff (with all its voices) after the following staff."
 msgstr ""
 
-#: src/scorelayout.c:1130
+#: src/scorelayout.c:1151
 msgid "Remove this staff (with all its voices) for customized layout."
 msgstr ""
 
-#: src/scorelayout.c:1159 src/scorelayout.c:1186
+#: src/scorelayout.c:1180 src/scorelayout.c:1207
 msgid "The Staff"
 msgstr ""
 
-#: src/scorelayout.c:1159
+#: src/scorelayout.c:1180
 msgid "The Staffs"
 msgstr ""
 
-#: src/scorelayout.c:1161
+#: src/scorelayout.c:1182
 msgid "This holds the staffs below which are the voices with the music."
 msgstr ""
 
-#: src/scorelayout.c:1177
+#: src/scorelayout.c:1198
 msgid "Chord Symbols"
 msgstr ""
 
-#: src/scorelayout.c:1186
+#: src/scorelayout.c:1207
 #, c-format
 msgid "Staff %d"
 msgstr ""
 
-#: src/scorelayout.c:1194
+#: src/scorelayout.c:1215
 msgid ""
 "Click for a menu to position the Denemo cursor on this staff\n"
 "or to alter this staff for a customized layout"
 msgstr ""
 
-#: src/scorelayout.c:1199
+#: src/scorelayout.c:1220
 msgid ""
 "This will move the Denemo Cursor to the start of this staff in this movement"
 msgstr ""
 
-#: src/scorelayout.c:1206
+#: src/scorelayout.c:1227
 msgid ""
 "Edit the properties of the staff to customize this layout\n"
 "Take care only alter the obvious bits, such as instrument name etc\n"
@@ -8154,98 +8241,98 @@ msgid ""
 "layout if you get stuck."
 msgstr ""
 
-#: src/scorelayout.c:1218
+#: src/scorelayout.c:1239
 msgid "Set the initial clef for this staff in the score"
 msgstr ""
 
-#: src/scorelayout.c:1248
+#: src/scorelayout.c:1269
 msgid ""
 "This holds the voice(s) of the staff - the clef, time signature, key "
 "signature and music are all here"
 msgstr ""
 
-#: src/scorelayout.c:1351
+#: src/scorelayout.c:1375
 msgid "Paper Block"
 msgstr ""
 
-#: src/scorelayout.c:1352
+#: src/scorelayout.c:1376
 msgid "Settings for whole score: includes overall staff size, paper size ...\n"
 msgstr ""
 
-#: src/scorelayout.c:1358
+#: src/scorelayout.c:1382
 msgid "the paper block contents"
 msgstr ""
 
-#: src/scorelayout.c:1363
+#: src/scorelayout.c:1387
 msgid "Global staff size"
 msgstr ""
 
-#: src/scorelayout.c:1369
+#: src/scorelayout.c:1393
 msgid "Score Titles"
 msgstr ""
 
-#: src/scorelayout.c:1372
+#: src/scorelayout.c:1396
 msgid ""
 "Titles, layout settings, preferences etc for the whole score.\n"
 "Includes main title, composer, date, instrumentation, tagline"
 msgstr ""
 
-#: src/scorelayout.c:1378
+#: src/scorelayout.c:1402
 msgid "Default tagline"
 msgstr ""
 
-#: src/scorelayout.c:1396
+#: src/scorelayout.c:1420
 msgid "Score Directives"
 msgstr ""
 
-#: src/scorelayout.c:1397
+#: src/scorelayout.c:1421
 msgid "Includes the indent before first measure, LilyPond include files ..."
 msgstr ""
 
-#: src/scorelayout.c:1417
+#: src/scorelayout.c:1441
 msgid "Score-wide Settings."
 msgstr ""
 
-#: src/scorelayout.c:1418
+#: src/scorelayout.c:1442
 msgid "Setting the score title, composer, headers and footers for this layout"
 msgstr ""
 
-#: src/scorelayout.c:1423
+#: src/scorelayout.c:1447
 msgid "Create Book Titles"
 msgstr ""
 
-#: src/scorelayout.c:1426
+#: src/scorelayout.c:1450
 msgid "Set book titles for the score"
 msgstr ""
 
-#: src/scorelayout.c:1465
+#: src/scorelayout.c:1489
 #, c-format
 msgid "Movement %d"
 msgstr ""
 
-#: src/scorelayout.c:1465 src/utils.c:1339
+#: src/scorelayout.c:1489 src/utils.c:1342
 msgid "Movement"
 msgstr ""
 
-#: src/scorelayout.c:1467
+#: src/scorelayout.c:1491
 msgid ""
 "This contains the layout of the movement- the movement title, and the actual "
 "music itself"
 msgstr ""
 
-#: src/scorelayout.c:1476
+#: src/scorelayout.c:1500
 msgid "Delete this movement from the score layout"
 msgstr ""
 
-#: src/scorelayout.c:1494
+#: src/scorelayout.c:1518
 msgid "Header block"
 msgstr ""
 
-#: src/scorelayout.c:1512
+#: src/scorelayout.c:1536
 msgid "Layout block"
 msgstr ""
 
-#: src/scorelayout.c:1667
+#: src/scorelayout.c:1696
 msgid ""
 "This a score layout - the brown buttons affect the score itself, not just "
 "the layout.\n"
@@ -8258,10 +8345,15 @@ msgid ""
 "Standard layouts are created by invoking the standard print commands - "
 "print, print part, print movement etc.\n"
 "These standard layouts provide a convenient starting point for your "
-"customized layouts."
+"customized layouts.<b>Note 1</b>Custom layouts are not saved for further "
+"graphical editing, only the typesetting commands are saved, so, unless you "
+"are familiar with LilyPond do all your work on the layout in one session."
+"<b>Note 2</b>The first comment holds in the LilyPond text of the layout "
+"holds the name of the layout. If you change it any conditional directives "
+"that are for the layout will need refreshing"
 msgstr ""
 
-#: src/scorelayout.c:1803
+#: src/scorelayout.c:1832
 msgid ""
 "This is a customized layout, which has been transformed into instructions "
 "for the LilyPond music typesetter.\n"
@@ -8360,16 +8452,16 @@ msgstr ""
 msgid "Enter space (in pixels) between staves:"
 msgstr ""
 
-#: src/staffops.c:333
+#: src/staffops.c:318
 #, c-format
 msgid "poly voice %d"
 msgstr ""
 
-#: src/staffops.c:336
+#: src/staffops.c:321
 msgid "unnamed"
 msgstr ""
 
-#: src/staffops.c:338
+#: src/staffops.c:323
 #, c-format
 msgid "voice %d"
 msgstr ""
@@ -8424,194 +8516,215 @@ msgid ""
 "mistake you just spotted."
 msgstr ""
 
-#: src/view.c:6124
+#: src/view.c:2388
+msgid "Paste Current Snippet"
+msgstr ""
+
+#: src/view.c:2389
+msgid ""
+"Pastes the music captured in the currently selected Snippet into the text at "
+"the cursor. The music appears here in the LilyPond typesetter syntax between "
+"two markers (§). It will print as typeset music embedded in the sentence you "
+"are writing.\n"
+"You can edit the syntax, taking care to leave the markers in position. If "
+"you delete one marker be sure to delete the other.\n"
+msgstr ""
+
+#: src/view.c:2395
+msgid ""
+"Makes the next Snippet the one that can be pasted. To see the music snippets "
+"you need to check View->Snippets\n"
+"The one selected is in bold black."
+msgstr ""
+
+#: src/view.c:6288
 msgid "<span foreground=\"blue\">Recording + Play Along</span>"
 msgstr ""
 
-#: src/view.c:6126
+#: src/view.c:6290
 msgid "<span foreground=\"red\">Recording</span>"
 msgstr ""
 
-#: src/view.c:6128
+#: src/view.c:6292
 msgid "<span foreground=\"red\">Play Along</span>"
 msgstr ""
 
-#: src/view.c:6130
+#: src/view.c:6294
 msgid "Checking Pitches"
 msgstr ""
 
-#: src/view.c:6132
+#: src/view.c:6296
 msgid "Listening to Pitches"
 msgstr ""
 
-#: src/view.c:6135
+#: src/view.c:6299
 msgid "Adding to a Chord"
 msgstr ""
 
-#: src/view.c:6137
+#: src/view.c:6301
 msgid "Starting a Chord"
 msgstr ""
 
-#: src/view.c:6139 src/view.c:9109
+#: src/view.c:6303 src/view.c:9279
 msgid "Appending/Editing Pitches"
 msgstr ""
 
-#: src/view.c:6155
+#: src/view.c:6319
 msgid "Mouse Conductor ON"
 msgstr ""
 
-#: src/view.c:6157
+#: src/view.c:6321
 msgid "Mouse Conductor OFF"
 msgstr ""
 
-#: src/view.c:6165
+#: src/view.c:6329
 msgid "Switch to Normal Playback"
 msgstr ""
 
-#: src/view.c:6167 src/view.c:9114
+#: src/view.c:6331 src/view.c:9284
 msgid "Switch to Play Along Playback"
 msgstr ""
 
-#: src/view.c:7905
+#: src/view.c:8093
 msgid "Browse"
 msgstr ""
 
-#: src/view.c:7905
+#: src/view.c:8093
 msgid "Opens a dialog for a new file"
 msgstr ""
 
-#: src/view.c:8450
+#: src/view.c:8638
 msgid "Tools"
 msgstr ""
 
-#: src/view.c:8450
+#: src/view.c:8638
 msgid "Show/hide a toolbar for general operations on music files"
 msgstr ""
 
-#: src/view.c:8453 src/view.c:8956
+#: src/view.c:8641 src/view.c:9126
 msgid "Playback Control"
 msgstr ""
 
-#: src/view.c:8453
+#: src/view.c:8641
 msgid "Show/hide playback controls"
 msgstr ""
 
-#: src/view.c:8456 src/view.c:9092
+#: src/view.c:8644 src/view.c:9262
 msgid "Midi In Control"
 msgstr ""
 
-#: src/view.c:8456
+#: src/view.c:8644
 msgid "Show/hide Midi Input controls"
 msgstr ""
 
-#: src/view.c:8459
+#: src/view.c:8647
 msgid "Snippets"
 msgstr ""
 
-#: src/view.c:8459
+#: src/view.c:8647
 msgid ""
 "Show/hide a toolbar which allows\n"
 "you to store and enter snippets of music and to enter notes using rhythm "
 "pattern of a snippet"
 msgstr ""
 
-#: src/view.c:8462
+#: src/view.c:8650
 msgid "Note and Rest Entry"
 msgstr ""
 
-#: src/view.c:8462
+#: src/view.c:8650
 msgid ""
 "Show/hide a toolbar which allows\n"
 "you to enter notes and rests using the mouse"
 msgstr ""
 
-#: src/view.c:8465
+#: src/view.c:8653
 msgid "Object Menu"
 msgstr ""
 
-#: src/view.c:8465
+#: src/view.c:8653
 msgid ""
 "Show/hide a menu which is arranged by objects\n"
 "The actions available for note objects change with the mode"
 msgstr ""
 
-#: src/view.c:8468
+#: src/view.c:8656
 msgid "LilyPond"
 msgstr ""
 
-#: src/view.c:8468
+#: src/view.c:8656
 msgid "Show/hide the LilyPond music typesetting language window"
 msgstr ""
 
-#: src/view.c:8471
+#: src/view.c:8659
 msgid "Scheme Script"
 msgstr ""
 
-#: src/view.c:8471
+#: src/view.c:8659
 msgid "Show scheme script window"
 msgstr ""
 
-#: src/view.c:8475
+#: src/view.c:8663
 msgid "Typeset Music"
 msgstr ""
 
-#: src/view.c:8478
+#: src/view.c:8666
 msgid "Score Layout"
 msgstr ""
 
-#: src/view.c:8481
+#: src/view.c:8669
 msgid "Lyrics"
 msgstr ""
 
-#: src/view.c:8484
+#: src/view.c:8672
 msgid "Console"
 msgstr ""
 
-#: src/view.c:8487
+#: src/view.c:8675
 msgid "Score"
 msgstr ""
 
-#: src/view.c:8490
+#: src/view.c:8678
 msgid "Titles, Buttons etc"
 msgstr ""
 
-#: src/view.c:8494
+#: src/view.c:8682
 msgid "Allow Quick Shortcut Edits"
 msgstr ""
 
-#: src/view.c:8496
+#: src/view.c:8684
 msgid "Record Scheme Script"
 msgstr ""
 
-#: src/view.c:8499
+#: src/view.c:8687
 msgid ""
 "Audible Feedback\n"
 "Insert Duration/Edit Note"
 msgstr ""
 
-#: src/view.c:8499
+#: src/view.c:8687
 msgid ""
 "Gives feedback as you enter durations. N.B. durations are entered in Edit "
 "mode"
 msgstr ""
 
-#: src/view.c:8501
+#: src/view.c:8689
 msgid "Read Only"
 msgstr ""
 
-#: src/view.c:8509
+#: src/view.c:8697
 msgid "No mode"
 msgstr ""
 
-#: src/view.c:8511
+#: src/view.c:8699
 msgid "Classic"
 msgstr ""
 
-#: src/view.c:8513
+#: src/view.c:8701
 msgid "Insert"
 msgstr ""
 
-#: src/view.c:8513
+#: src/view.c:8701
 msgid ""
 "Mode for inserting notes into the score at the cursor position\n"
 "Uses prevailing duration/rhythm\n"
@@ -8619,112 +8732,84 @@ msgid ""
 "Use the note names to insert the note"
 msgstr ""
 
-#: src/view.c:8515
-msgid "Edit"
-msgstr ""
-
-#: src/view.c:8515
+#: src/view.c:8703
 msgid ""
 "Mode for changing the note at cursor (name, duration)\n"
 "and to enter notes by duration (rhythms)\n"
 "Use the durations to insert notes"
 msgstr ""
 
-#: src/view.c:8521
+#: src/view.c:8709
 msgid "Note"
 msgstr ""
 
-#: src/view.c:8521
+#: src/view.c:8709
 msgid "Normal (note) entry"
 msgstr ""
 
-#: src/view.c:8522
+#: src/view.c:8710
 msgid "Rest"
 msgstr ""
 
-#: src/view.c:8522
+#: src/view.c:8710
 msgid "Entering rests not notes"
 msgstr ""
 
-#: src/view.c:8523
+#: src/view.c:8711
 msgid "Non printing rests"
 msgstr ""
 
-#: src/view.c:8523
+#: src/view.c:8711
 msgid ""
 "Enters rests which will not be printed (just take up space)\n"
 "Used for positioning polyphonic voice entries"
 msgstr ""
 
-#: src/view.c:8526
+#: src/view.c:8714
 msgid "Audible Feedback"
 msgstr ""
 
-#: src/view.c:8526
+#: src/view.c:8714
 msgid "Gives feedback as you enter durations"
 msgstr ""
 
-#: src/view.c:8531
+#: src/view.c:8719
 msgid "No External Input"
 msgstr ""
 
-#: src/view.c:8531
+#: src/view.c:8719
 msgid ""
 "Entry of notes via computer keyboard only\n"
 "Ignores connected MIDI or microphone devices."
 msgstr ""
 
-#: src/view.c:8534
+#: src/view.c:8722
 msgid "Audio Input"
 msgstr ""
 
-#: src/view.c:8534
+#: src/view.c:8722
 msgid "Enable pitch entry from microphone"
 msgstr ""
 
-#: src/view.c:8537
+#: src/view.c:8725
 msgid "Midi Input"
 msgstr ""
 
-#: src/view.c:8537
+#: src/view.c:8725
 msgid ""
 "Input from a MIDI source. Set up the source first using Edit->Change "
 "Preferences->Audio/Midi\n"
 "Use View->MIDI In Control to control what the input does.\n"
 msgstr ""
 
-#: src/view.c:8897
-msgid "Show/Hide"
-msgstr ""
-
-#: src/view.c:8897
-msgid "Toggle visibility of section"
-msgstr ""
-
-#: src/view.c:8898
-msgid "Create Custom Version"
-msgstr ""
-
-#: src/view.c:8898
-msgid "Create a custom version of this block"
-msgstr ""
-
-#: src/view.c:8899
-msgid "Delete Block"
-msgstr ""
-
-#: src/view.c:8899
-msgid "Delete this block"
-msgstr ""
-
-#: src/view.c:8934
+#: src/view.c:9104
 msgid ""
 "This is the Main Menu bar, where menus for the mostly non-musical aspects "
 "(saving, printing, setting up input sources etc) are placed. See the Object "
 "Menu bar for the commands that edit music"
 msgstr ""
 
-#: src/view.c:8938
+#: src/view.c:9108
 msgid ""
 "This is the Object Menu bar, where menus for the commands that edit music "
 "live. They are arranged in a hierarchy Score, Movement, Staff (which "
@@ -8733,7 +8818,7 @@ msgid ""
 "change the behavior from that point in the music."
 msgstr ""
 
-#: src/view.c:8939
+#: src/view.c:9109
 msgid ""
 "This bar has buttons for entering notes and rests. The highlighted duration "
 "is the <i>prevailing duration</i>, that is the duration which will be "
@@ -8742,7 +8827,7 @@ msgid ""
 "it using MainMenu->Edit->Change Preferences->Display Note/Rest entry toolbar"
 msgstr ""
 
-#: src/view.c:8941
+#: src/view.c:9111
 msgid ""
 "You can populate this bar with buttons holding a snippet of music. The "
 "highlighted snippet is the <i>prevailing duration</i>, that is the next note "
@@ -8756,7 +8841,7 @@ msgid ""
 "Preferences->Display Note/Rest entry toolbar"
 msgstr ""
 
-#: src/view.c:8946
+#: src/view.c:9116
 msgid ""
 "This tool bar contains a few conventional commands. You can hide it (to make "
 "more room on the screen) using the View menu. You can make it your "
@@ -8764,41 +8849,41 @@ msgid ""
 "general toolbar"
 msgstr ""
 
-#: src/view.c:8979
+#: src/view.c:9149
 msgid ""
 "Moves the playback start point (which shows as a green bar) earlier in time\n"
 "The red and green bars do not get drawn until you have started play, or at "
 "least created the time base."
 msgstr ""
 
-#: src/view.c:8981
+#: src/view.c:9151
 msgid ""
 "Sets the playback start point (green bar) to the note at the cursor.\n"
 "The red and green bars do not get drawn until you have started play, or at "
 "least created the time base."
 msgstr ""
 
-#: src/view.c:8982
+#: src/view.c:9152
 msgid ""
 "Moves the playback start point (which shows as a green bar) later in time\n"
 "The red and green bars do not get drawn until you have started play, or at "
 "least created the time base."
 msgstr ""
 
-#: src/view.c:8983
+#: src/view.c:9153
 msgid ""
 "Stops the playback. On pressing play after this playback will start where "
 "the green bar is, not where you stopped. Use the Play/Pause button for that."
 msgstr ""
 
-#: src/view.c:8984
+#: src/view.c:9154
 msgid ""
 "Starts playing back from the playback start (green bar) until the playback "
 "end (red bar).\n"
 "When playing it pauses the play, and continues when pressed again."
 msgstr ""
 
-#: src/view.c:8985
+#: src/view.c:9155
 msgid ""
 "Starts playing and simultaneously records from MIDI in.\n"
 "Once a recording is made it is played back with the score when you press "
@@ -8808,35 +8893,35 @@ msgid ""
 ".A MIDI recording is not saved with the Denemo score."
 msgstr ""
 
-#: src/view.c:8986
+#: src/view.c:9156
 msgid ""
 "Moves the playback end point (which shows as a red bar) earlier in time\n"
 "The red and green bars do not get drawn until you have started play, or at "
 "least created the time base."
 msgstr ""
 
-#: src/view.c:8987
+#: src/view.c:9157
 msgid ""
 "Sets the playback end point (red bar) to the note at the cursor.\n"
 "The red and green bars do not get drawn until you have started play, or at "
 "least created the time base."
 msgstr ""
 
-#: src/view.c:8989
+#: src/view.c:9159
 msgid ""
 "Moves the playback end point (which shows as a red bar) later in time\n"
 "The red and green bars do not get drawn until you have started play, or at "
 "least created the time base."
 msgstr ""
 
-#: src/view.c:8993
+#: src/view.c:9163
 msgid ""
 "The music between the red and green bars is played in a loop.\n"
 "You can edit the music while it is playing\n"
 "monitoring your changes."
 msgstr ""
 
-#: src/view.c:8995
+#: src/view.c:9165
 msgid ""
 "With the mouse conductor once you press play the playback progresses as you "
 "move the mouse around\n"
@@ -8844,46 +8929,46 @@ msgid ""
 "a certain passage\n"
 msgstr ""
 
-#: src/view.c:9003
+#: src/view.c:9173
 msgid "Resets the synthesizer, on JACK it sends a JACK panic."
 msgstr ""
 
-#: src/view.c:9006
+#: src/view.c:9176
 msgid "Sets the playback range (green and red bars) to the current selection."
 msgstr ""
 
-#: src/view.c:9007
+#: src/view.c:9177
 msgid "Pops up a dialog to get timings for start and end of playback."
 msgstr ""
 
-#: src/view.c:9016
+#: src/view.c:9186
 msgid "Tempo:"
 msgstr ""
 
-#: src/view.c:9048
+#: src/view.c:9218
 msgid "Audio Volume Cut"
 msgstr ""
 
-#: src/view.c:9061
+#: src/view.c:9231
 msgid "Audio Volume Boost"
 msgstr ""
 
-#: src/view.c:9073
+#: src/view.c:9243
 msgid "Audio Lead In "
 msgstr ""
 
-#: src/view.c:9077
+#: src/view.c:9247
 msgid ""
 "Set the number of seconds to clip from the audio, or if negative number of "
 "seconds silence before audio plays.\n"
 "This is useful when the audio track does not begin on a barline."
 msgstr ""
 
-#: src/view.c:9080
+#: src/view.c:9250
 msgid " secs."
 msgstr ""
 
-#: src/view.c:9090
+#: src/view.c:9260
 msgid ""
 "Controls for managing input from a MIDI controller (e.g. keyboard) attached "
 "to the computer. You may need to select your MIDI device first using "
@@ -8897,13 +8982,13 @@ msgid ""
 "chord fast or slow."
 msgstr ""
 
-#: src/view.c:9110
+#: src/view.c:9280
 msgid ""
 "This tells you what will happen to a MIDI in event from your controller. Use "
 "the Control Shift or ALT keys, or caps lock to affect what will happen."
 msgstr ""
 
-#: src/view.c:9114
+#: src/view.c:9284
 msgid ""
 "When in playalong mode, on clicking Play, the music plays until it reaches "
 "the Denemo cursor\n"
@@ -8914,15 +8999,15 @@ msgid ""
 "filling in the other parts and waiting if you play a wrong note."
 msgstr ""
 
-#: src/view.c:9116
+#: src/view.c:9286
 msgid "Delete the MIDI recording you have made."
 msgstr ""
 
-#: src/view.c:9118
+#: src/view.c:9288
 msgid "Convert the MIDI recording you have made to notation."
 msgstr ""
 
-#: src/view.c:9166
+#: src/view.c:9336
 msgid ""
 "This is the Denemo Display for the music you have entered. It doesn't show "
 "how the music will look when printed - to typeset the music really well "
@@ -8939,22 +9024,27 @@ msgid ""
 "+scroll-wheel on your mouse to zoom the display."
 msgstr ""
 
-#: src/view.c:9234
+#: src/view.c:9404
 msgid ""
-"This bar shows the movement number followed by a description of the object "
-"at the Denemo cursor and the position and status (appending or inserting) of "
-"the cursor. If the Playback Controls are visible then the timing of the "
-"object at the cursor is shown. When the first key of a two-key shortcut is "
-"pressed the possible continuations are shown here."
+"This bar shows:\n"
+"Pending ♯ or ♭ sign (if the next note entered will be sharpened or "
+"flattened)\n"
+"The movement number\n"
+"Description of the object at the Denemo cursor\n"
+"Position and status (appending or inserting) of the cursor.\n"
+"If the Playback Controls are visible then the timing of the object at the "
+"cursor is shown.\n"
+"When the first key of a two-key shortcut is pressed the possible "
+"continuations are shown here."
 msgstr ""
 
-#: src/view.c:9244
+#: src/view.c:9414
 msgid ""
 "This area shows which MIDI filters are active. It can also be used by "
 "commands to pass information to the user"
 msgstr ""
 
-#: src/view.c:9349
+#: src/view.c:9522
 msgid ""
 "A button bar that can be populated by titles and other user generated "
 "buttons.\n"
@@ -8962,11 +9052,11 @@ msgid ""
 "the action of the button"
 msgstr ""
 
-#: actions/denemo.scm:966
+#: actions/denemo.scm:977
 msgid "Please enter a transpose interval"
 msgstr ""
 
-#: actions/denemo.scm:966
+#: actions/denemo.scm:977
 msgid ""
 "Please enter a transpose interval or two notes in Lilypond syntax.\n"
 "\n"
@@ -8974,12 +9064,64 @@ msgid ""
 "Or:  c' e' for a major third."
 msgstr ""
 
-#: actions/commandscripts/ChordComment.scm:4
+#: actions/commandscripts/ChordComment.scm:5
 msgid "Insert Comment"
 msgstr ""
 
-#: actions/commandscripts/ChordComment.scm:4
+#: actions/commandscripts/ChordComment.scm:5
 msgid "Comment this chord"
+msgstr ""
+
+#: actions/commandscripts/ChordComment.scm:10
+#: actions/commandscripts/CriticalComment.scm:10
+#: actions/commandscripts/TextAbove.scm:16
+#: actions/commandscripts/TextAbove.scm:17
+msgid "y"
+msgstr ""
+
+#: actions/commandscripts/ChordComment.scm:10
+#: actions/commandscripts/CriticalComment.scm:10
+msgid "Cursor has Moved"
+msgstr ""
+
+#: actions/commandscripts/ChordComment.scm:10
+#: actions/commandscripts/CriticalComment.scm:10
+msgid "Apply Command to new position of cursor?"
+msgstr ""
+
+#: actions/commandscripts/InitialVoice.scm:2
+#: actions/commandscripts/InitialVoice.scm:4
+#: actions/commandscripts/VoiceSetting.scm:2
+#: actions/commandscripts/VoiceSetting.scm:4
+msgid "Voice 1"
+msgstr ""
+
+#: actions/commandscripts/InitialVoice.scm:2
+#: actions/commandscripts/InitialVoice.scm:6
+#: actions/commandscripts/VoiceSetting.scm:2
+#: actions/commandscripts/VoiceSetting.scm:6
+msgid "Voice 2"
+msgstr ""
+
+#: actions/commandscripts/InitialVoice.scm:2
+#: actions/commandscripts/InitialVoice.scm:8
+#: actions/commandscripts/VoiceSetting.scm:2
+#: actions/commandscripts/VoiceSetting.scm:8
+msgid "Voice 3"
+msgstr ""
+
+#: actions/commandscripts/InitialVoice.scm:2
+#: actions/commandscripts/InitialVoice.scm:10
+#: actions/commandscripts/VoiceSetting.scm:2
+#: actions/commandscripts/VoiceSetting.scm:10
+msgid "Voice 4"
+msgstr ""
+
+#: actions/commandscripts/InitialVoice.scm:2
+#: actions/commandscripts/InitialVoice.scm:12
+#: actions/commandscripts/VoiceSetting.scm:2
+#: actions/commandscripts/VoiceSetting.scm:12
+msgid "Automatic Voice"
 msgstr ""
 
 #: actions/commandscripts/InstrumentName.scm:8
@@ -8990,4 +9132,48 @@ msgstr ""
 msgid ""
 "Give name of instrument/voice/part\n"
 "for current staff:"
+msgstr ""
+
+#: actions/commandscripts/MouseInsertion.scm:61
+msgid ""
+"To insert notes hold down shift key while clicking the mouse. To add to a "
+"chord hold down Alt key, to delete hold down Control key while clicking."
+msgstr ""
+
+#: actions/commandscripts/StaffSize.scm:2
+msgid "Setting Staff Size"
+msgstr ""
+
+#: actions/commandscripts/StaffSize.scm:2
+msgid "Give Staff Size (for printing), 0 for default"
+msgstr ""
+
+#: actions/commandscripts/TextAbove.scm:6
+msgid "Text"
+msgstr ""
+
+#: actions/commandscripts/TextAbove.scm:6
+msgid "Give text to appear above music: "
+msgstr ""
+
+#: actions/commandscripts/TextAbove.scm:16
+msgid "Delete this text?"
+msgstr ""
+
+#: actions/commandscripts/TextAbove.scm:21
+msgid "Cancelled"
+msgstr ""
+
+#: actions/commandscripts/Tremolo.scm:4
+msgid ""
+"To use this function correctly you need to press a keyboard shortcut for a "
+"duration command\n"
+"The duration will be used to divide the note at the cursor when printed. "
+"Durations 3-7 are valid (that is eighth note and shorter)"
+msgstr ""
+
+#: actions/commandscripts/Tremolo.scm:9
+msgid ""
+"Click on the display and press a shortcut key 3-7 for the duration into "
+"which the note at the cursor is to be divided"
 msgstr ""
