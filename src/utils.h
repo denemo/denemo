@@ -157,7 +157,10 @@ gchar *
 string_dialog_entry_with_widget (DenemoGUI *gui, gchar *title, gchar *instruction, gchar *initial_value, GtkWidget *extra_widget);
 gchar *
 string_dialog_editor_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *direction, gchar *PreValue, GtkWidget *widget);
-
+gchar *
+string_dialog_entry_with_widget_opt (DenemoGUI *gui, gchar *wlabel, gchar *direction, gchar *PreValue, GtkWidget *widget, gboolean modal);
+gchar *
+string_dialog_editor_with_widget_opt (DenemoGUI *gui, gchar *wlabel, gchar *direction, gchar *PreValue, GtkWidget *widget, gboolean modal);
 void note2lilynotename(struct note *noteobject, GString *ret);
 void note2lilyaccidental(struct note *noteobject, GString *ret);
 void note2lilyoctave(struct note* noteobject, GString *ret);

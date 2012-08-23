@@ -1,11 +1,17 @@
 ;;; CriticalComment
 (let ((tag  "CriticalComment") (lilypond ""))
 (define current (d-DirectiveGet-standalone-display tag))
-(let script ((answer (d-GetUserInputWithSnippets "Critical Comment" "Give Comment" (if current current ""))))
+(define position (GetPosition))
+(let script ((answer (d-GetUserInputWithSnippets "Critical Comment" "Give Comment" (if current current "")  #f )))
 	(set! lilypond (cdr answer))
 	(set! answer (car answer))
+	(if (not (PositionEqual? position (GetPosition)))
+		(begin
+			(if (not (equal? (_ "y") (d-GetUserInput (_ "Cursor has Moved") (_ "Apply Command to new position of cursor?")  (_ "y"))))
+			(apply d-GoToPosition position))))
 	(if (and answer (not (string=? answer "")))
 		(begin
+			(d-Directive-score "CriticalCommentsAmended")
 			(d-Directive-standalone tag)
 			(d-DirectivePut-standalone-minpixels tag 30)
 			(d-DirectivePut-standalone-override tag

@@ -15,7 +15,7 @@
  */
 void
 draw_lily_dir (cairo_t *cr,
-	       gint xx, gint y, gint highy, gint lowy, DenemoObject * theobj, gboolean selected)
+	       gint xx, gint y, gint highy, gint lowy, DenemoObject * theobj, gboolean selected, gboolean at_cursor)
 {
   DenemoDirective *lily = ((lilydirective *) theobj->object);
   gchar *first = (lily->postfix && lily->postfix->len)? lily->postfix->str:" ";
@@ -26,9 +26,9 @@ draw_lily_dir (cairo_t *cr,
   cairo_save(cr);
     
   selected?
-      cairo_set_source_rgb( cr, 0.0, 0.0, 1.0 ):
+      cairo_set_source_rgba( cr, 0.0, 0.0, 1.0, at_cursor?1.0:0.5 ):
       lily->graphic? cairo_set_source_rgb( cr, 0.0+exclude, 0.0+only, 0.0 ):
-          cairo_set_source_rgb( cr, 0.4+exclude, 0.5+only, 0.4 );
+          cairo_set_source_rgba( cr, 0.4+exclude, 0.5+only, 0.4, at_cursor?1.0:0.5 );
   if(lily->graphic){
     gint width = lily->graphic->width;
     gint  height = lily->graphic->height;  
@@ -40,7 +40,16 @@ draw_lily_dir (cairo_t *cr,
     cairo_fill( cr );
   }
   if(lily->display) {  //store display position x,y as well
-    drawnormaltext_cr( cr, lily->display->str, xx+ lily->tx, y+lowy+lily->ty );
+#define MAXLEN (8)
+    gchar c=0;//if it is a long string only show it all when cursor is on it
+    if((!at_cursor) && lily->display->len>MAXLEN) {
+      c=*(lily->display->str+MAXLEN);
+      *(lily->display->str+MAXLEN) = 0;
+    }
+    drawnormaltext_cr( cr, lily->display->str, xx+ lily->tx, y+lowy+lily->ty - 8);
+    if(c) {
+    *(lily->display->str+MAXLEN) = c;
+    }
   }
   else
   //FIXME do this by creating a display field

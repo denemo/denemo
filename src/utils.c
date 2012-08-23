@@ -1417,10 +1417,14 @@ string_dialog_entry (DenemoGUI *gui, gchar *title, gchar *instruction, gchar *in
 {
   return string_dialog_entry_with_widget (gui, title, instruction, initial_value, NULL);
 }
+static void get_entry(GtkWidget *dialog, gint response, GtkWidget *entry) {
+
+
+}
 
 /* as string_dialog_entry() but with extra widget */
 gchar *
-string_dialog_entry_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *direction, gchar *PreValue, GtkWidget *widget)
+string_dialog_entry_with_widget_opt (DenemoGUI *gui, gchar *wlabel, gchar *direction, gchar *PreValue, GtkWidget *widget, gboolean modal)
 {
 
  	GtkWidget *dialog;
@@ -1430,12 +1434,16 @@ string_dialog_entry_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *direction
 	GString *string;
 	entry = gtk_entry_new ();
 
-	dialog = gtk_dialog_new_with_buttons (wlabel,
+	dialog = modal? gtk_dialog_new_with_buttons (wlabel,
                                         GTK_WINDOW (Denemo.window),
-                                        (GtkDialogFlags) (GTK_DIALOG_MODAL |
-                                                       GTK_DIALOG_DESTROY_WITH_PARENT),
+                                        (GtkDialogFlags) (GTK_DIALOG_DESTROY_WITH_PARENT),
                                         GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
                                         GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+                                        NULL):
+                                        gtk_dialog_new_with_buttons (wlabel,
+                                        GTK_WINDOW (Denemo.window),
+                                        (GtkDialogFlags) (GTK_DIALOG_DESTROY_WITH_PARENT),
+                                        GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
                                         NULL);
 
 	label = gtk_label_new (direction);
@@ -1451,13 +1459,15 @@ string_dialog_entry_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *direction
 	gtk_container_add(GTK_CONTAINER(content_area), entry);
 
 	gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
-      	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
-        gtk_widget_grab_focus (entry);
-  	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+  gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
+  //gtk_widget_grab_focus (entry);
+  //gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER);
 	gtk_window_set_keep_above(GTK_WINDOW (dialog), TRUE);
-        gtk_widget_show_all (dialog);
-
+  gtk_widget_show_all (dialog);
+  
+  if(modal) {
+    gtk_widget_grab_focus (entry);
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT){ 
 		entry_string = (gchar *) gtk_entry_get_text (GTK_ENTRY (entry));
 		string = g_string_new(entry_string);
@@ -1469,11 +1479,24 @@ string_dialog_entry_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *direction
 		return NULL;
 	}
   return NULL;
+  } else {
+    g_signal_connect_swapped (dialog,"response", G_CALLBACK (gtk_main_quit), entry);
+    gtk_main();
+    entry_string = (gchar *) gtk_entry_get_text (GTK_ENTRY (entry));
+		string = g_string_new(entry_string);
+    gtk_widget_destroy (dialog);
+		return g_string_free(string, FALSE);
+  }
+}
+
+gchar *
+string_dialog_entry_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *direction, gchar *PreValue, GtkWidget *widget) {
+  return string_dialog_entry_with_widget_opt (gui, wlabel, direction, PreValue, widget, TRUE); 
 }
 
 /* as string_dialog_entry_with_widget() but gives a text editor instead of a single line editor */
 gchar *
-string_dialog_editor_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *direction, gchar *PreValue, GtkWidget *widget)
+string_dialog_editor_with_widget_opt (DenemoGUI *gui, gchar *wlabel, gchar *direction, gchar *PreValue, GtkWidget *widget, gboolean modal)
 {
  	GtkWidget *dialog;
 	GtkWidget *textview;
@@ -1484,12 +1507,16 @@ string_dialog_editor_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *directio
   GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   
-	dialog = gtk_dialog_new_with_buttons (wlabel,
+	dialog = modal? gtk_dialog_new_with_buttons (wlabel,
                                         GTK_WINDOW (Denemo.window),
-                                        (GtkDialogFlags) (GTK_DIALOG_MODAL |
-                                                       GTK_DIALOG_DESTROY_WITH_PARENT),
+                                        (GtkDialogFlags) ( GTK_DIALOG_DESTROY_WITH_PARENT),
                                         GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
                                         GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+                                        NULL):
+                  gtk_dialog_new_with_buttons (wlabel,
+                                        GTK_WINDOW (Denemo.window),
+                                        (GtkDialogFlags) ( GTK_DIALOG_DESTROY_WITH_PARENT),
+                                        GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
                                         NULL);
 
 	label = gtk_label_new (direction);
@@ -1505,11 +1532,11 @@ string_dialog_editor_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *directio
 
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
   
-  gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+  
 	gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER);
 	gtk_window_set_keep_above(GTK_WINDOW (dialog), TRUE);
-        gtk_widget_show_all (dialog);
-
+  gtk_widget_show_all (dialog);
+  if(modal) {
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT){
       GtkTextIter startiter, enditer;
       gtk_text_buffer_get_start_iter (textbuffer, &startiter);
@@ -1523,6 +1550,21 @@ string_dialog_editor_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *directio
 		return NULL;
 	}
   return NULL;
+  } else {
+    g_signal_connect_swapped (dialog,"response", G_CALLBACK (gtk_main_quit), NULL);
+    gtk_main();
+    GtkTextIter startiter, enditer;
+    gtk_text_buffer_get_start_iter (textbuffer, &startiter);
+    gtk_text_buffer_get_end_iter (textbuffer, &enditer);
+    gchar *text = gtk_text_buffer_get_text (textbuffer, &startiter, &enditer, FALSE);
+    gtk_widget_destroy (dialog);
+		return text;
+  }
+}
+
+gchar *
+string_dialog_editor_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *direction, gchar *PreValue, GtkWidget *widget) {
+  return string_dialog_editor_with_widget_opt (gui, wlabel, direction, PreValue, widget, TRUE); 
 }
 
 static gboolean

@@ -6,7 +6,7 @@
   (if (not chapter)
     (set! chapter initial))
     (if help
- 	 (set! chapter (d-GetUserInput initial help chapter)))
+ 	 (set! chapter (d-GetUserInput initial help chapter #f)))
   (if chapter
    (begin
      (d-SetSaved #f)

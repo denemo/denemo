@@ -15,7 +15,7 @@ draw_ledgers (cairo_t *cr,
 
 gint
 draw_chord (cairo_t * cr,
-	    objnode *curobj, gint xx, gint y, gint mwidth, gint *accs, gboolean selected);
+	    objnode *curobj, gint xx, gint y, gint mwidth, gint *accs, gboolean selected, gboolean at_cursor);
 void
 draw_tuplet (cairo_t *cr,
 	     objnode *curobj, gint xx, gint y, gint mwidth, gint *accs);
@@ -57,7 +57,7 @@ draw_dynamic(cairo_t *cr,
 
 void
 draw_lily_dir(cairo_t *cr,
-	      gint xx, gint y, gint highy, gint lowy, DenemoObject *theobj, gboolean selected);
+	      gint xx, gint y, gint highy, gint lowy, DenemoObject *theobj, gboolean selected, gboolean at_cursor);
 
 void
 draw_gracebracket (cairo_t *cr,

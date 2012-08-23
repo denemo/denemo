@@ -2062,7 +2062,7 @@ void edit_object(GtkAction *action,  DenemoScriptParam *param) {
       GList *directives =  ((stemdirective *)obj->object)->directives;
       if(directives) {
       GtkWidget *menu = gtk_menu_new();
-      populate_menu_for_directives(menu, directives); //!! directive->widget is null so no menu items...
+      populate_menu_for_directives(menu, directives);
       gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time());
       } else {
           infodialog(_("Nothing to edit on this stem directive - use controls in Staffs->Voices menu"));

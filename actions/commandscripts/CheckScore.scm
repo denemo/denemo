@@ -1,5 +1,9 @@
 ;;;;;;;;;CheckScore
 (define CheckScore::return #t)
+
+(if (d-Directive-score? "CriticalCommentsAmended")
+    (d-CriticalCommentary))
+
 (while (d-PreviousMovement))
 (let movement ()
   (d-EvenOutStaffLengths)
