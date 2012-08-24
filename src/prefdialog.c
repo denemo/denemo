@@ -532,7 +532,9 @@ preferences_change (GtkAction *action, gpointer param)
 
   BOOLEANENTRY("Display Music Snippets", rhythm_palette);
   BOOLEANENTRY("Display menu of objects toolbar", object_palette);
+  //xgettext:no-c-format
   INTENTRY_LIMITS(_("% Zoom"), zoom, 1, 100);
+  //xgettext:no-c-format
   INTENTRY_LIMITS(_("% of display height per system"), system_height, 1, 100);
 
   /*

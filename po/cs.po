@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Denemo 0.7.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-23 18:04+0100\n"
+"POT-Creation-Date: 2012-08-24 11:23+0100\n"
 "PO-Revision-Date: 2011-03-14 18:09+0100\n"
 "Last-Translator: Pavel Fric\n"
 "Language-Team: Czech <none>\n"
@@ -5359,13 +5359,13 @@ msgstr "Vlastnosti přehrávání"
 msgid "Preferences - Denemo"
 msgstr "Nastavení - Denemo"
 
-#: src/prefdialog.c:535
-#, c-format
+#: src/prefdialog.c:536
+#, no-c-format
 msgid "% Zoom"
 msgstr ""
 
-#: src/prefdialog.c:536
-#, c-format
+#: src/prefdialog.c:538
+#, no-c-format
 msgid "% of display height per system"
 msgstr ""
 
@@ -5373,65 +5373,65 @@ msgstr ""
 # msgstr "% Zvětšení"
 # msgid "% of display height per system"
 # msgstr "% výšky zobrazení na systém"
-#: src/prefdialog.c:583
+#: src/prefdialog.c:585
 msgid "Playback Display Refresh"
 msgstr "Obnova zobrazení přehrávání"
 
-#: src/prefdialog.c:584
+#: src/prefdialog.c:586
 msgid "Page Turn Steps"
 msgstr "Kroky otočení strany"
 
-#: src/prefdialog.c:586
+#: src/prefdialog.c:588
 msgid "Tooltip timeout in ms. (0 to use system preference)"
 msgstr ""
 
-#: src/prefdialog.c:587
+#: src/prefdialog.c:589
 msgid "Tooltip browse timeout in ms"
 msgstr ""
 
-#: src/prefdialog.c:588
+#: src/prefdialog.c:590
 msgid "Tooltip browse mode timeout in ms"
 msgstr ""
 
-#: src/prefdialog.c:590
+#: src/prefdialog.c:592
 msgid "Excerpt Resolution"
 msgstr "Rozlišení úryvku"
 
-#: src/prefdialog.c:592
+#: src/prefdialog.c:594
 msgid "Max recent files"
 msgstr "Největší počet naposledy otevřených souborů"
 
-#: src/prefdialog.c:599
+#: src/prefdialog.c:601
 msgid "Autosave every"
 msgstr "Automaticky uložit každých"
 
-#: src/prefdialog.c:610
+#: src/prefdialog.c:612
 msgid "minute(s)"
 msgstr "minut(y)"
 
-#: src/prefdialog.c:622
+#: src/prefdialog.c:624
 msgid "Pitch Spelling Channel"
 msgstr ""
 
-#: src/prefdialog.c:623
+#: src/prefdialog.c:625
 msgid "Pitch Spelling Program"
 msgstr ""
 
-#: src/prefdialog.c:627
+#: src/prefdialog.c:629
 msgid "% MIDI-in Dynamic Compression"
 msgstr ""
 
-#: src/prefdialog.c:678
+#: src/prefdialog.c:680
 #, fuzzy
 msgid "Sample rate"
 msgstr "Vzorkovací kmitočet"
 
-#: src/prefdialog.c:679
+#: src/prefdialog.c:681
 #, fuzzy
 msgid "Period size"
 msgstr "Velikost období (periody)"
 
-#: src/prefdialog.c:755
+#: src/prefdialog.c:757
 msgid "Choose Soundfont"
 msgstr "Vybrat zvukové písmo"
 

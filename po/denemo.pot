@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-23 18:04+0100\n"
+"POT-Creation-Date: 2012-08-24 11:23+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4994,73 +4994,73 @@ msgstr ""
 msgid "Preferences - Denemo"
 msgstr ""
 
-#: src/prefdialog.c:535
-#, c-format
+#: src/prefdialog.c:536
+#, no-c-format
 msgid "% Zoom"
 msgstr ""
 
-#: src/prefdialog.c:536
-#, c-format
+#: src/prefdialog.c:538
+#, no-c-format
 msgid "% of display height per system"
 msgstr ""
 
-#: src/prefdialog.c:583
+#: src/prefdialog.c:585
 msgid "Playback Display Refresh"
 msgstr ""
 
-#: src/prefdialog.c:584
+#: src/prefdialog.c:586
 msgid "Page Turn Steps"
 msgstr ""
 
-#: src/prefdialog.c:586
+#: src/prefdialog.c:588
 msgid "Tooltip timeout in ms. (0 to use system preference)"
 msgstr ""
 
-#: src/prefdialog.c:587
+#: src/prefdialog.c:589
 msgid "Tooltip browse timeout in ms"
 msgstr ""
 
-#: src/prefdialog.c:588
+#: src/prefdialog.c:590
 msgid "Tooltip browse mode timeout in ms"
 msgstr ""
 
-#: src/prefdialog.c:590
+#: src/prefdialog.c:592
 msgid "Excerpt Resolution"
 msgstr ""
 
-#: src/prefdialog.c:592
+#: src/prefdialog.c:594
 msgid "Max recent files"
 msgstr ""
 
-#: src/prefdialog.c:599
+#: src/prefdialog.c:601
 msgid "Autosave every"
 msgstr ""
 
-#: src/prefdialog.c:610
+#: src/prefdialog.c:612
 msgid "minute(s)"
 msgstr ""
 
-#: src/prefdialog.c:622
+#: src/prefdialog.c:624
 msgid "Pitch Spelling Channel"
 msgstr ""
 
-#: src/prefdialog.c:623
+#: src/prefdialog.c:625
 msgid "Pitch Spelling Program"
 msgstr ""
 
-#: src/prefdialog.c:627
+#: src/prefdialog.c:629
 msgid "% MIDI-in Dynamic Compression"
 msgstr ""
 
-#: src/prefdialog.c:678
+#: src/prefdialog.c:680
 msgid "Sample rate"
 msgstr ""
 
-#: src/prefdialog.c:679
+#: src/prefdialog.c:681
 msgid "Period size"
 msgstr ""
 
-#: src/prefdialog.c:755
+#: src/prefdialog.c:757
 msgid "Choose Soundfont"
 msgstr ""
 
