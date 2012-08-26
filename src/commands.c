@@ -5,8 +5,9 @@ void install_commands(void) {
 DenemoGUI *gui = Denemo.gui;
 GtkAction *action;
 
-/* ToggleStopped*/
+/* ToggleStopped xgettext:no-c-format*/
 action = gtk_action_new("ToggleStopped",_("Stopped  (Off/On)"),_("No Tooltip yet"), get_icon_for_name("ToggleStopped", "Stopped  (Off/On)"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ToggleStopped", _("Stopped  (Off/On)"), _("No Tooltip yet"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ToggleStopped");
@@ -15,8 +16,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Articulations");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ToggleCoda*/
+/* ToggleCoda xgettext:no-c-format*/
 action = gtk_action_new("ToggleCoda",_("Coda (Off/On)"),_("No Tooltip yet"), get_icon_for_name("ToggleCoda", "Coda (Off/On)"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ToggleCoda", _("Coda (Off/On)"), _("No Tooltip yet"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ToggleCoda");
@@ -25,8 +27,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Ornaments");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ToggleSegno*/
+/* ToggleSegno xgettext:no-c-format*/
 action = gtk_action_new("ToggleSegno",_("Segno  (Off/On)"),_("No Tooltip yet"), get_icon_for_name("ToggleSegno", "Segno  (Off/On)"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ToggleSegno", _("Segno  (Off/On)"), _("No Tooltip yet"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ToggleSegno");
@@ -35,8 +38,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Ornaments");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Preview4Bars*/
+/* Preview4Bars xgettext:no-c-format*/
 action = gtk_action_new("Preview4Bars",_("Preview Four Bars"),_("Print preview of current bar and the next three."), get_icon_for_name("Preview4Bars", "Preview Four Bars"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Preview4Bars", _("Preview Four Bars"), _("Print preview of current bar and the next three."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Preview4Bars");
@@ -45,8 +49,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/FileMenu/PrintMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MoveNoteToCursor*/
+/* MoveNoteToCursor xgettext:no-c-format*/
 action = gtk_action_new("MoveNoteToCursor",_("To Cursor"),_("Moves the nearest note to join the cursor"), get_icon_for_name("MoveNoteToCursor", "To Cursor"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MoveNoteToCursor", _("To Cursor"), _("Moves the nearest note to join the cursor"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MoveNoteToCursor");
@@ -55,8 +60,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/EditNote");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* StartDownStems*/
+/* StartDownStems xgettext:no-c-format*/
 action = gtk_action_new("StartDownStems",_("Stems Down"),_("Stems from now on point downward."), get_icon_for_name("StartDownStems", "Stems Down"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "StartDownStems", _("Stems Down"), _("Stems from now on point downward."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("StartDownStems");
@@ -65,8 +71,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/StemControl");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* StartUpStems*/
+/* StartUpStems xgettext:no-c-format*/
 action = gtk_action_new("StartUpStems",_("Stems Up"),_("Stems from now on point upward."), get_icon_for_name("StartUpStems", "Stems Up"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "StartUpStems", _("Stems Up"), _("Stems from now on point upward."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("StartUpStems");
@@ -75,8 +82,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/StemControl");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* InsertTiedNoteDuration*/
+/* InsertTiedNoteDuration xgettext:no-c-format*/
 action = gtk_action_new("InsertTiedNoteDuration",_("Attach Tied Note"),_("Attaches a tied note: you must give the duration after invoking this function."), get_icon_for_name("InsertTiedNoteDuration", "Attach Tied Note"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "InsertTiedNoteDuration", _("Attach Tied Note"), _("Attaches a tied note: you must give the duration after invoking this function."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("InsertTiedNoteDuration");
@@ -85,8 +93,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/TiedNotes");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* FiguredBassFilterOn*/
+/* FiguredBassFilterOn xgettext:no-c-format*/
 action = gtk_action_new("FiguredBassFilterOn",_("Figured Bass Filter On"),_("Start filtering MIDI events, First note is bass, hold this down while entering notes for figures. Pedal changes harmony on same bass."), get_icon_for_name("FiguredBassFilterOn", "Figured Bass Filter On"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "FiguredBassFilterOn", _("Figured Bass Filter On"), _("Start filtering MIDI events, First note is bass, hold this down while entering notes for figures. Pedal changes harmony on same bass."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("FiguredBassFilterOn");
@@ -95,8 +104,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/InputMenu/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MidiFilterOff*/
+/* MidiFilterOff xgettext:no-c-format*/
 action = gtk_action_new("MidiFilterOff",_("MIDI Filter Off"),_("Turn off any MIDI filter script currently active."), get_icon_for_name("MidiFilterOff", "MIDI Filter Off"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MidiFilterOff", _("MIDI Filter Off"), _("Turn off any MIDI filter script currently active."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MidiFilterOff");
@@ -105,8 +115,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/InputMenu/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* CheckPitches*/
+/* CheckPitches xgettext:no-c-format*/
 action = gtk_action_new("CheckPitches",_("Check Note Pitches"),_("Compares note from MIDI with current note, if equal in pitch, advances to next note, else beeps."), get_icon_for_name("CheckPitches", "Check Note Pitches"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "CheckPitches", _("Check Note Pitches"), _("Compares note from MIDI with current note, if equal in pitch, advances to next note, else beeps."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("CheckPitches");
@@ -115,8 +126,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MidiAdvanceOnEdit*/
+/* MidiAdvanceOnEdit xgettext:no-c-format*/
 action = gtk_action_new("MidiAdvanceOnEdit",_("MIDI Advance on Edit"),_("Advances the cursor on MIDI note entry. Use in Edit mode."), get_icon_for_name("MidiAdvanceOnEdit", "MIDI Advance on Edit"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MidiAdvanceOnEdit", _("MIDI Advance on Edit"), _("Advances the cursor on MIDI note entry. Use in Edit mode."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MidiAdvanceOnEdit");
@@ -125,8 +137,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/InputMenu/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AngryDelete*/
+/* AngryDelete xgettext:no-c-format*/
 action = gtk_action_new("AngryDelete",_("Angry Delete"),_("MIDI notes struck loudly delete the previous note before taking effect."), get_icon_for_name("AngryDelete", "Angry Delete"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AngryDelete", _("Angry Delete"), _("MIDI notes struck loudly delete the previous note before taking effect."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AngryDelete");
@@ -135,8 +148,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/InputMenu/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* OpenOctaveUp*/
+/* OpenOctaveUp xgettext:no-c-format*/
 action = gtk_action_new("OpenOctaveUp",_("(Print) Open { Octave Up"),_("Opens a block to be transposed up one octave\n\tThis must be followed by a CloseBlock \"}\" to end the transposed section."), get_icon_for_name("OpenOctaveUp", "(Print) Open { Octave Up"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "OpenOctaveUp", _("(Print) Open { Octave Up"), _("Opens a block to be transposed up one octave\n\tThis must be followed by a CloseBlock \"}\" to end the transposed section."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("OpenOctaveUp");
@@ -145,8 +159,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Print Transpositions");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* CloseLilyBlock*/
+/* CloseLilyBlock xgettext:no-c-format*/
 action = gtk_action_new("CloseLilyBlock",_("(Print) Close } a LilyPond Block"),_("Closes a LilyPond Block (there must be a matching open, {, earlier)"), get_icon_for_name("CloseLilyBlock", "(Print) Close } a LilyPond Block"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "CloseLilyBlock", _("(Print) Close } a LilyPond Block"), _("Closes a LilyPond Block (there must be a matching open, {, earlier)"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("CloseLilyBlock");
@@ -155,8 +170,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Print Transpositions");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* TransposeOctaveUp*/
+/* TransposeOctaveUp xgettext:no-c-format*/
 action = gtk_action_new("TransposeOctaveUp",_("(Print) Transpose Octave Up"),_("Instructs the LilyPond Engraver to transpose this score one octave up."), get_icon_for_name("TransposeOctaveUp", "(Print) Transpose Octave Up"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "TransposeOctaveUp", _("(Print) Transpose Octave Up"), _("Instructs the LilyPond Engraver to transpose this score one octave up."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("TransposeOctaveUp");
@@ -165,8 +181,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* D.C.AlFine*/
+/* D.C.AlFine xgettext:no-c-format*/
 action = gtk_action_new("D.C.AlFine",_("D.C. al fine"),_("Puts a da capo in the score. Position is adjusted via the numbers in the script."), get_icon_for_name("D.C.AlFine", "D.C. al fine"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "D.C.AlFine", _("D.C. al fine"), _("Puts a da capo in the score. Position is adjusted via the numbers in the script."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("D.C.AlFine");
@@ -175,8 +192,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/TextMarks");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Allegro*/
+/* Allegro xgettext:no-c-format*/
 action = gtk_action_new("Allegro",_("Allegro"),_("Print Allegro in bold italics above the chord."), get_icon_for_name("Allegro", "Allegro"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Allegro", _("Allegro"), _("Print Allegro in bold italics above the chord."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Allegro");
@@ -185,8 +203,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/TextMarks/Tempo Indications");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Andante*/
+/* Andante xgettext:no-c-format*/
 action = gtk_action_new("Andante",_("Andante"),_("Print Andante in bold italics above the chord."), get_icon_for_name("Andante", "Andante"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Andante", _("Andante"), _("Print Andante in bold italics above the chord."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Andante");
@@ -195,8 +214,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/TextMarks/Tempo Indications");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Presto*/
+/* Presto xgettext:no-c-format*/
 action = gtk_action_new("Presto",_("Presto"),_("Print Presto in bold italics above the chord."), get_icon_for_name("Presto", "Presto"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Presto", _("Presto"), _("Print Presto in bold italics above the chord."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Presto");
@@ -205,8 +225,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/TextMarks/Tempo Indications");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Finger0*/
+/* Finger0 xgettext:no-c-format*/
 action = gtk_action_new("Finger0",_("Finger 0"),_("Inserts fingering for open string"), get_icon_for_name("Finger0", "Finger 0"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Finger0", _("Finger 0"), _("Inserts fingering for open string"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Finger0");
@@ -215,8 +236,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Strings/Fingerings");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Finger1*/
+/* Finger1 xgettext:no-c-format*/
 action = gtk_action_new("Finger1",_("Finger 1"),_("Inserts fingering for finger 1"), get_icon_for_name("Finger1", "Finger 1"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Finger1", _("Finger 1"), _("Inserts fingering for finger 1"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Finger1");
@@ -225,8 +247,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Strings/Fingerings");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Finger2*/
+/* Finger2 xgettext:no-c-format*/
 action = gtk_action_new("Finger2",_("Finger 2"),_("Inserts fingering for finger 2"), get_icon_for_name("Finger2", "Finger 2"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Finger2", _("Finger 2"), _("Inserts fingering for finger 2"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Finger2");
@@ -235,8 +258,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Strings/Fingerings");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Finger3*/
+/* Finger3 xgettext:no-c-format*/
 action = gtk_action_new("Finger3",_("Finger 3"),_("Inserts fingering for finger 3"), get_icon_for_name("Finger3", "Finger 3"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Finger3", _("Finger 3"), _("Inserts fingering for finger 3"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Finger3");
@@ -245,8 +269,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Strings/Fingerings");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Finger4*/
+/* Finger4 xgettext:no-c-format*/
 action = gtk_action_new("Finger4",_("Finger 4"),_("Inserts fingering for finger 4"), get_icon_for_name("Finger4", "Finger 4"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Finger4", _("Finger 4"), _("Inserts fingering for finger 4"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Finger4");
@@ -255,8 +280,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Strings/Fingerings");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Finger5*/
+/* Finger5 xgettext:no-c-format*/
 action = gtk_action_new("Finger5",_("Finger 5"),_("Inserts fingering for finger 5"), get_icon_for_name("Finger5", "Finger 5"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Finger5", _("Finger 5"), _("Inserts fingering for finger 5"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Finger5");
@@ -265,8 +291,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Strings/Fingerings");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* StartBeam*/
+/* StartBeam xgettext:no-c-format*/
 action = gtk_action_new("StartBeam",_("Start Beam"),_("Instructs the LilyPond engraver to start a beam here. (Print effect only)"), get_icon_for_name("StartBeam", "Start Beam"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "StartBeam", _("Start Beam"), _("Instructs the LilyPond engraver to start a beam here. (Print effect only)"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("StartBeam");
@@ -275,8 +302,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Beaming");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* EndBeam*/
+/* EndBeam xgettext:no-c-format*/
 action = gtk_action_new("EndBeam",_("End Beam"),_("Instructs LilyPond engraver to stop previously started manual beaming. Print effect only."), get_icon_for_name("EndBeam", "End Beam"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "EndBeam", _("End Beam"), _("Instructs LilyPond engraver to stop previously started manual beaming. Print effect only."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("EndBeam");
@@ -285,8 +313,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Beaming");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* DeleteLilyPondOnNote*/
+/* DeleteLilyPondOnNote xgettext:no-c-format*/
 action = gtk_action_new("DeleteLilyPondOnNote",_("Delete LilyPond on Note"),_("Deletes the LilyPond attached to the note where the cursor is."), get_icon_for_name("DeleteLilyPondOnNote", "Delete LilyPond on Note"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "DeleteLilyPondOnNote", _("Delete LilyPond on Note"), _("Deletes the LilyPond attached to the note where the cursor is."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("DeleteLilyPondOnNote");
@@ -295,8 +324,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* DeleteLilyPondOnChord*/
+/* DeleteLilyPondOnChord xgettext:no-c-format*/
 action = gtk_action_new("DeleteLilyPondOnChord",_("Delete LilyPond on Chord"),_("Deletes the LilyPond attached to the chord at the cursor."), get_icon_for_name("DeleteLilyPondOnChord", "Delete LilyPond on Chord"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "DeleteLilyPondOnChord", _("Delete LilyPond on Chord"), _("Deletes the LilyPond attached to the chord at the cursor."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("DeleteLilyPondOnChord");
@@ -305,8 +335,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MetronomeMarking*/
+/* MetronomeMarking xgettext:no-c-format*/
 action = gtk_action_new("MetronomeMarking",_("Metronome Marking  \360\235\205\237 = ... bpm "),_("Prints a metronome. Adjusts playback tempo to this value."), get_icon_for_name("MetronomeMarking", "Metronome Marking  \360\235\205\237 = ... bpm "));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MetronomeMarking", _("Metronome Marking  \360\235\205\237 = ... bpm "), _("Prints a metronome. Adjusts playback tempo to this value."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MetronomeMarking");
@@ -315,8 +346,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* RepeatStart*/
+/* RepeatStart xgettext:no-c-format*/
 action = gtk_action_new("RepeatStart",_("Repeat Start Barline"),_("Insert a barline indicating the start of a repeated section."), get_icon_for_name("RepeatStart", "Repeat Start Barline"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "RepeatStart", _("Repeat Start Barline"), _("Insert a barline indicating the start of a repeated section."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("RepeatStart");
@@ -325,8 +357,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Barlines");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* RepeatEnd*/
+/* RepeatEnd xgettext:no-c-format*/
 action = gtk_action_new("RepeatEnd",_("Repeat End Barline"),_("Insert a barline indicating the end of a repeated section."), get_icon_for_name("RepeatEnd", "Repeat End Barline"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "RepeatEnd", _("Repeat End Barline"), _("Insert a barline indicating the end of a repeated section."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("RepeatEnd");
@@ -335,8 +368,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Barlines");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* RepeatEndStart*/
+/* RepeatEndStart xgettext:no-c-format*/
 action = gtk_action_new("RepeatEndStart",_("Repeat End-Start"),_("Inserts a barline ending one repeated section and starting another"), get_icon_for_name("RepeatEndStart", "Repeat End-Start"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "RepeatEndStart", _("Repeat End-Start"), _("Inserts a barline ending one repeated section and starting another"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("RepeatEndStart");
@@ -345,8 +379,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Barlines");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ApplyToSelection*/
+/* ApplyToSelection xgettext:no-c-format*/
 action = gtk_action_new("ApplyToSelection",_("Apply Shortcut to Objects in Selection"),_("Followed by a keyboard shortcut: applies the shortcut with the cursor successively on each object in the selection."), get_icon_for_name("ApplyToSelection", "Apply Shortcut to Objects in Selection"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ApplyToSelection", _("Apply Shortcut to Objects in Selection"), _("Followed by a keyboard shortcut: applies the shortcut with the cursor successively on each object in the selection."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ApplyToSelection");
@@ -355,8 +390,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/EditMenu/Select");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SetFontSize*/
+/* SetFontSize xgettext:no-c-format*/
 action = gtk_action_new("SetFontSize",_("(Print)Set Overall Score Size"),_("Choose the font size of for the score, and hence how much space it takes up."), get_icon_for_name("SetFontSize", "(Print)Set Overall Score Size"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SetFontSize", _("(Print)Set Overall Score Size"), _("Choose the font size of for the score, and hence how much space it takes up."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SetFontSize");
@@ -365,8 +401,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* LHFinger*/
+/* LHFinger xgettext:no-c-format*/
 action = gtk_action_new("LHFinger",_("Left Hand Fingering"),_("Followed by a number, print Left Hand fingering on note"), get_icon_for_name("LHFinger", "Left Hand Fingering"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "LHFinger", _("Left Hand Fingering"), _("Followed by a number, print Left Hand fingering on note"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("LHFinger");
@@ -375,8 +412,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Strings");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* StringNum*/
+/* StringNum xgettext:no-c-format*/
 action = gtk_action_new("StringNum",_("String Number"),_("Followed by a number, places string number on note."), get_icon_for_name("StringNum", "String Number"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "StringNum", _("String Number"), _("Followed by a number, places string number on note."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("StringNum");
@@ -385,8 +423,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Strings");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* DoubleBarline*/
+/* DoubleBarline xgettext:no-c-format*/
 action = gtk_action_new("DoubleBarline",_("Double Bar"),_("Insert a double barline at cursor position."), get_icon_for_name("DoubleBarline", "Double Bar"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "DoubleBarline", _("Double Bar"), _("Insert a double barline at cursor position."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("DoubleBarline");
@@ -395,8 +434,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Barlines");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Glissando*/
+/* Glissando xgettext:no-c-format*/
 action = gtk_action_new("Glissando",_("Glissando"),_("Inserts a glissando"), get_icon_for_name("Glissando", "Glissando"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Glissando", _("Glissando"), _("Inserts a glissando"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Glissando");
@@ -405,8 +445,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/TextMarks");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SmallerStaff*/
+/* SmallerStaff xgettext:no-c-format*/
 action = gtk_action_new("SmallerStaff",_("Smaller Staff"),_("The current staff will print in a smaller size. Use this for the solo part above a piano accompaniment"), get_icon_for_name("SmallerStaff", "Smaller Staff"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SmallerStaff", _("Smaller Staff"), _("The current staff will print in a smaller size. Use this for the solo part above a piano accompaniment"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SmallerStaff");
@@ -415,8 +456,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* TmbalesStyle*/
+/* TmbalesStyle xgettext:no-c-format*/
 action = gtk_action_new("TmbalesStyle",_("Tmbales Style Staff"),_("Changes to a drum staff"), get_icon_for_name("TmbalesStyle", "Tmbales Style Staff"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "TmbalesStyle", _("Tmbales Style Staff"), _("Changes to a drum staff"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("TmbalesStyle");
@@ -425,8 +467,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/EditMenu/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Fortissimo*/
+/* Fortissimo xgettext:no-c-format*/
 action = gtk_action_new("Fortissimo",_("Fortissimo"),_("Places a ff sign on the chord at the cursor"), get_icon_for_name("Fortissimo", "Fortissimo"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Fortissimo", _("Fortissimo"), _("Places a ff sign on the chord at the cursor"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Fortissimo");
@@ -435,8 +478,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/TextMarks/Dynamic Markings");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* CautionaryAccidental*/
+/* CautionaryAccidental xgettext:no-c-format*/
 action = gtk_action_new("CautionaryAccidental",_("Cautionary Accidental"),_("Forces the accidental on the note to be printed."), get_icon_for_name("CautionaryAccidental", "Cautionary Accidental"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "CautionaryAccidental", _("Cautionary Accidental"), _("Forces the accidental on the note to be printed."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("CautionaryAccidental");
@@ -445,8 +489,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/EditNote");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ReminderAccidental*/
+/* ReminderAccidental xgettext:no-c-format*/
 action = gtk_action_new("ReminderAccidental",_("Reminder Accidental"),_("Shows the accidental in the print out inside (). Display shows accidental but plain."), get_icon_for_name("ReminderAccidental", "Reminder Accidental"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ReminderAccidental", _("Reminder Accidental"), _("Shows the accidental in the print out inside (). Display shows accidental but plain."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ReminderAccidental");
@@ -455,8 +500,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/EditNote");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ScoreTitle*/
+/* ScoreTitle xgettext:no-c-format*/
 action = gtk_action_new("ScoreTitle",_("Title"),_("Prints the name given as a title centered at the start of the score."), get_icon_for_name("ScoreTitle", "Title"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ScoreTitle", _("Title"), _("Prints the name given as a title centered at the start of the score."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ScoreTitle");
@@ -465,8 +511,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score/Titles/Simple Titles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ScoreArranger*/
+/* ScoreArranger xgettext:no-c-format*/
 action = gtk_action_new("ScoreArranger",_("Arranger"),_("Name of the arranger, flush-right below the composer."), get_icon_for_name("ScoreArranger", "Arranger"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ScoreArranger", _("Arranger"), _("Name of the arranger, flush-right below the composer."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ScoreArranger");
@@ -475,8 +522,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score/Titles/Simple Titles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ScoreComposer*/
+/* ScoreComposer xgettext:no-c-format*/
 action = gtk_action_new("ScoreComposer",_("Composer"),_("Name of the composer, flush-right below the subsubtitle."), get_icon_for_name("ScoreComposer", "Composer"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ScoreComposer", _("Composer"), _("Name of the composer, flush-right below the subsubtitle."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ScoreComposer");
@@ -485,8 +533,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score/Titles/Simple Titles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ScoreDedication*/
+/* ScoreDedication xgettext:no-c-format*/
 action = gtk_action_new("ScoreDedication",_("Dedication"),_("The dedicatee of the music, centered at the top of the first page."), get_icon_for_name("ScoreDedication", "Dedication"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ScoreDedication", _("Dedication"), _("The dedicatee of the music, centered at the top of the first page."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ScoreDedication");
@@ -495,8 +544,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score/Titles/Simple Titles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ScoreInstrument*/
+/* ScoreInstrument xgettext:no-c-format*/
 action = gtk_action_new("ScoreInstrument",_("Instrument"),_("Name of the instrument, centered below the subsubtitle. Also centered at the top of pages (other than the first page)."), get_icon_for_name("ScoreInstrument", "Instrument"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ScoreInstrument", _("Instrument"), _("Name of the instrument, centered below the subsubtitle. Also centered at the top of pages (other than the first page)."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ScoreInstrument");
@@ -505,8 +555,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score/Titles/Simple Titles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ScoreMeter*/
+/* ScoreMeter xgettext:no-c-format*/
 action = gtk_action_new("ScoreMeter",_("Meter"),_("Meter string, flush-left below the poet."), get_icon_for_name("ScoreMeter", "Meter"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ScoreMeter", _("Meter"), _("Meter string, flush-left below the poet."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ScoreMeter");
@@ -515,8 +566,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score/Titles/Simple Titles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ScoreOpus*/
+/* ScoreOpus xgettext:no-c-format*/
 action = gtk_action_new("ScoreOpus",_("Opus"),_("Name of the opus, flush-right below the arranger."), get_icon_for_name("ScoreOpus", "Opus"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ScoreOpus", _("Opus"), _("Name of the opus, flush-right below the arranger."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ScoreOpus");
@@ -525,8 +577,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score/Titles/Simple Titles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ScorePoet*/
+/* ScorePoet xgettext:no-c-format*/
 action = gtk_action_new("ScorePoet",_("Poet"),_("Name of the poet, flush-left below the subsubtitle."), get_icon_for_name("ScorePoet", "Poet"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ScorePoet", _("Poet"), _("Name of the poet, flush-left below the subsubtitle."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ScorePoet");
@@ -535,8 +588,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score/Titles/Simple Titles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ScoreTagline*/
+/* ScoreTagline xgettext:no-c-format*/
 action = gtk_action_new("ScoreTagline",_("Tagline"),_(" Centered at the bottom of the last page."), get_icon_for_name("ScoreTagline", "Tagline"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ScoreTagline", _("Tagline"), _(" Centered at the bottom of the last page."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ScoreTagline");
@@ -545,8 +599,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score/Titles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MovementTitle*/
+/* MovementTitle xgettext:no-c-format*/
 action = gtk_action_new("MovementTitle",_("Title"),_("Prints the name given as a title above the current movement."), get_icon_for_name("MovementTitle", "Title"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MovementTitle", _("Title"), _("Prints the name given as a title above the current movement."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MovementTitle");
@@ -555,8 +610,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu/Titles/Simple Titles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MovementSubtitle*/
+/* MovementSubtitle xgettext:no-c-format*/
 action = gtk_action_new("MovementSubtitle",_("Subtitle"),_("Prints the given name below the title of the current movement."), get_icon_for_name("MovementSubtitle", "Subtitle"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MovementSubtitle", _("Subtitle"), _("Prints the given name below the title of the current movement."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MovementSubtitle");
@@ -565,8 +621,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu/Titles/Simple Titles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MovementPiece*/
+/* MovementPiece xgettext:no-c-format*/
 action = gtk_action_new("MovementPiece",_("Piece"),_("Prints the name given above and to the left at the start of the movement."), get_icon_for_name("MovementPiece", "Piece"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MovementPiece", _("Piece"), _("Prints the name given above and to the left at the start of the movement."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MovementPiece");
@@ -575,8 +632,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu/Titles/Simple Titles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ScoreCopyright*/
+/* ScoreCopyright xgettext:no-c-format*/
 action = gtk_action_new("ScoreCopyright",_("Copyright"),_("Copyright notice, centered at the bottom of the first page. To insert the copyright symbol, see Lilypond Text encoding."), get_icon_for_name("ScoreCopyright", "Copyright"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ScoreCopyright", _("Copyright"), _("Copyright notice, centered at the bottom of the first page. To insert the copyright symbol, see Lilypond Text encoding."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ScoreCopyright");
@@ -585,8 +643,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score/Titles/Simple Titles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Indent*/
+/* Indent xgettext:no-c-format*/
 action = gtk_action_new("Indent",_("Indent"),_("Alter the indent of the opening system for the current movement."), get_icon_for_name("Indent", "Indent"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Indent", _("Indent"), _("Alter the indent of the opening system for the current movement."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Indent");
@@ -595,8 +654,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu/Print Layout");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ScoreIndent*/
+/* ScoreIndent xgettext:no-c-format*/
 action = gtk_action_new("ScoreIndent",_("Indent"),_("Indent the first system of every movement by the given amount."), get_icon_for_name("ScoreIndent", "Indent"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ScoreIndent", _("Indent"), _("Indent the first system of every movement by the given amount."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ScoreIndent");
@@ -605,8 +665,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score/Print Layout");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ToggleTupletNumbering*/
+/* ToggleTupletNumbering xgettext:no-c-format*/
 action = gtk_action_new("ToggleTupletNumbering",_("Tuplet Numbering (On/Off)"),_("Control whether tuplet numbers will be printed over tuplets."), get_icon_for_name("ToggleTupletNumbering", "Tuplet Numbering (On/Off)"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ToggleTupletNumbering", _("Tuplet Numbering (On/Off)"), _("Control whether tuplet numbers will be printed over tuplets."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ToggleTupletNumbering");
@@ -615,8 +676,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Tuplets");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MovementPageBreak*/
+/* MovementPageBreak xgettext:no-c-format*/
 action = gtk_action_new("MovementPageBreak",_("Page Break Before"),_("Prints this movement starting on a new page"), get_icon_for_name("MovementPageBreak", "Page Break Before"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MovementPageBreak", _("Page Break Before"), _("Prints this movement starting on a new page"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MovementPageBreak");
@@ -625,8 +687,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* HideMovement*/
+/* HideMovement xgettext:no-c-format*/
 action = gtk_action_new("HideMovement",_("(Print) Hide Movement"),_("Hides the movement on printing."), get_icon_for_name("HideMovement", "(Print) Hide Movement"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "HideMovement", _("(Print) Hide Movement"), _("Hides the movement on printing."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("HideMovement");
@@ -635,8 +698,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Beam1234*/
+/* Beam1234 xgettext:no-c-format*/
 action = gtk_action_new("Beam1234",_("Beam 4 Beats"),_("Beams end on each quarter note (up to 4)."), get_icon_for_name("Beam1234", "Beam 4 Beats"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Beam1234", _("Beam 4 Beats"), _("Beams end on each quarter note (up to 4)."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Beam1234");
@@ -645,8 +709,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Beaming");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ClosingBarline*/
+/* ClosingBarline xgettext:no-c-format*/
 action = gtk_action_new("ClosingBarline",_("Closing Barline"),_("Inserts a closing barline (a double bar with last one thicker)."), get_icon_for_name("ClosingBarline", "Closing Barline"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ClosingBarline", _("Closing Barline"), _("Inserts a closing barline (a double bar with last one thicker)."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ClosingBarline");
@@ -655,8 +720,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Barlines");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* EnterRest*/
+/* EnterRest xgettext:no-c-format*/
 action = gtk_action_new("EnterRest",_("Insert Rest"),_("Inserts a rest in the prevailing duration"), get_icon_for_name("EnterRest", "Insert Rest"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "EnterRest", _("Insert Rest"), _("Inserts a rest in the prevailing duration"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("EnterRest");
@@ -665,8 +731,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/RestEntry");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AllegroAssai*/
+/* AllegroAssai xgettext:no-c-format*/
 action = gtk_action_new("AllegroAssai",_("Allegro Assai"),_("Gives Allegro Assai tempo indication"), get_icon_for_name("AllegroAssai", "Allegro Assai"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AllegroAssai", _("Allegro Assai"), _("Gives Allegro Assai tempo indication"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AllegroAssai");
@@ -675,8 +742,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/TextMarks/Tempo Indications");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Ambitus*/
+/* Ambitus xgettext:no-c-format*/
 action = gtk_action_new("Ambitus",_("(Print) Ambitus (On/Off)"),_("Toggle the ambitus engraver for this staff on or off"), get_icon_for_name("Ambitus", "(Print) Ambitus (On/Off)"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Ambitus", _("(Print) Ambitus (On/Off)"), _("Toggle the ambitus engraver for this staff on or off"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Ambitus");
@@ -685,8 +753,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* RecreateTimebase*/
+/* RecreateTimebase xgettext:no-c-format*/
 action = gtk_action_new("RecreateTimebase",_("Create Timebase"),_("Recalculates the timing of each note."), get_icon_for_name("RecreateTimebase", "Create Timebase"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "RecreateTimebase", _("Create Timebase"), _("Recalculates the timing of each note."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("RecreateTimebase");
@@ -695,9 +764,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/PlaybackMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* HideEmptyStaffs*/
+/* HideEmptyStaffs xgettext:no-c-format*/
 action = gtk_action_new("HideEmptyStaffs",_("Hide Empty Staffs (Off/On)"),_("Controls whether staffs containing only rests are printed."), get_icon_for_name("HideEmptyStaffs", "Hide Empty Staffs (Off/On)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ScoreIndent");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "HideEmptyStaffs", _("Hide Empty Staffs (Off/On)"), _("Controls whether staffs containing only rests are printed."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("HideEmptyStaffs");
@@ -706,9 +776,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score/Print Layout");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* InstrumentName*/
+/* InstrumentName xgettext:no-c-format*/
 action = gtk_action_new("InstrumentName",_("Instrument Name"),_("Print Instrument name before staff at start of score,"), get_icon_for_name("InstrumentName", "Instrument Name"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"SmallerStaff");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "InstrumentName", _("Instrument Name"), _("Print Instrument name before staff at start of score,"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("InstrumentName");
@@ -717,9 +788,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ShortInstrumentName*/
+/* ShortInstrumentName xgettext:no-c-format*/
 action = gtk_action_new("ShortInstrumentName",_("Short Instrument Name"),_("Prints shortened form of instrument name before this staff\nfor second and subsequent systems"), get_icon_for_name("ShortInstrumentName", "Short Instrument Name"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"InstrumentName");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ShortInstrumentName", _("Short Instrument Name"), _("Prints shortened form of instrument name before this staff\nfor second and subsequent systems"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ShortInstrumentName");
@@ -728,8 +800,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* LineBreak*/
+/* LineBreak xgettext:no-c-format*/
 action = gtk_action_new("LineBreak",_("Line Break"),_("(Print) Start a new line (i.e. system) at this measure."), get_icon_for_name("LineBreak", "Line Break"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "LineBreak", _("Line Break"), _("(Print) Start a new line (i.e. system) at this measure."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("LineBreak");
@@ -738,9 +811,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* PageBreak*/
+/* PageBreak xgettext:no-c-format*/
 action = gtk_action_new("PageBreak",_("Page Break"),_("(Print) Forces a new page at this barline."), get_icon_for_name("PageBreak", "Page Break"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"LineBreak");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "PageBreak", _("Page Break"), _("(Print) Forces a new page at this barline."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("PageBreak");
@@ -749,9 +823,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* TransposeScorePrint*/
+/* TransposeScorePrint xgettext:no-c-format*/
 action = gtk_action_new("TransposeScorePrint",_("(Print) Transposed"),_("Prints the score transposed by the interval selected by SetTransposeIntervalFromSelection"), get_icon_for_name("TransposeScorePrint", "(Print) Transposed"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"SetFontSize");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "TransposeScorePrint", _("(Print) Transposed"), _("Prints the score transposed by the interval selected by SetTransposeIntervalFromSelection"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("TransposeScorePrint");
@@ -760,9 +835,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MezzoForte*/
+/* MezzoForte xgettext:no-c-format*/
 action = gtk_action_new("MezzoForte",_("Mezzo Forte"),_("Attach mf indication to a chord."), get_icon_for_name("MezzoForte", "Mezzo Forte"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"Fortissimo");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MezzoForte", _("Mezzo Forte"), _("Attach mf indication to a chord."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MezzoForte");
@@ -771,9 +847,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/TextMarks/Dynamic Markings");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* DeleteDynamic*/
+/* DeleteDynamic xgettext:no-c-format*/
 action = gtk_action_new("DeleteDynamic",_("Delete"),_("Deletes a dynamic attached to the chord at the cursor."), get_icon_for_name("DeleteDynamic", "Delete"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MezzoForte");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "DeleteDynamic", _("Delete"), _("Deletes a dynamic attached to the chord at the cursor."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("DeleteDynamic");
@@ -782,8 +859,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/TextMarks/Dynamic Markings");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ParenthesizeChord*/
+/* ParenthesizeChord xgettext:no-c-format*/
 action = gtk_action_new("ParenthesizeChord",_("Parenthesize Chord"),_("Enclose the chord in ( ) on printing."), get_icon_for_name("ParenthesizeChord", "Parenthesize Chord"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ParenthesizeChord", _("Parenthesize Chord"), _("Enclose the chord in ( ) on printing."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ParenthesizeChord");
@@ -792,8 +870,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ParenthesizeNote*/
+/* ParenthesizeNote xgettext:no-c-format*/
 action = gtk_action_new("ParenthesizeNote",_("Parenthesize Note"),_("Enclose the note at the cursor in ( ) when printed."), get_icon_for_name("ParenthesizeNote", "Parenthesize Note"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ParenthesizeNote", _("Parenthesize Note"), _("Enclose the note at the cursor in ( ) when printed."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ParenthesizeNote");
@@ -802,8 +881,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* GoToEmptyMeasure*/
+/* GoToEmptyMeasure xgettext:no-c-format*/
 action = gtk_action_new("GoToEmptyMeasure",_("Go To Next Empty Measure"),_("Move cursor to the next point in the current staff where the music ends."), get_icon_for_name("GoToEmptyMeasure", "Go To Next Empty Measure"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "GoToEmptyMeasure", _("Go To Next Empty Measure"), _("Move cursor to the next point in the current staff where the music ends."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("GoToEmptyMeasure");
@@ -812,9 +892,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/NavigationMenu/Seek");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* IRC*/
+/* IRC xgettext:no-c-format*/
 action = gtk_action_new("IRC",_("Chat to Other Users"),_("Runs your browser on a page giving access to denemo's internet relay chat"), get_icon_for_name("IRC", "Chat to Other Users"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"Help");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "IRC", _("Chat to Other Users"), _("Runs your browser on a page giving access to denemo's internet relay chat"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("IRC");
@@ -823,9 +904,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/HelpMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ToggleTripleting*/
+/* ToggleTripleting xgettext:no-c-format*/
 action = gtk_action_new("ToggleTripleting",_("Toggle Triplet Entry (Off/On)"),_("Inserts a start triplet or end tuple alternately."), get_icon_for_name("ToggleTripleting", "Toggle Triplet Entry (Off/On)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ToggleTupletNumbering");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ToggleTripleting", _("Toggle Triplet Entry (Off/On)"), _("Inserts a start triplet or end tuple alternately."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ToggleTripleting");
@@ -834,8 +916,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Tuplets");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NonPrintingStaff*/
+/* NonPrintingStaff xgettext:no-c-format*/
 action = gtk_action_new("NonPrintingStaff",_("Non-Printing Staff"),_("Hides the staff in LilyPond print out."), get_icon_for_name("NonPrintingStaff", "Non-Printing Staff"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NonPrintingStaff", _("Non-Printing Staff"), _("Hides the staff in LilyPond print out."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NonPrintingStaff");
@@ -844,9 +927,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Largo*/
+/* Largo xgettext:no-c-format*/
 action = gtk_action_new("Largo",_("Largo"),_("Attaches Largo to chord"), get_icon_for_name("Largo", "Largo"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"Andante");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Largo", _("Largo"), _("Attaches Largo to chord"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Largo");
@@ -855,9 +939,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/TextMarks/Tempo Indications");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Adagio*/
+/* Adagio xgettext:no-c-format*/
 action = gtk_action_new("Adagio",_("Adagio"),_("Attaches tempo marking to chord at cursor"), get_icon_for_name("Adagio", "Adagio"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"Largo");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Adagio", _("Adagio"), _("Attaches tempo marking to chord at cursor"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Adagio");
@@ -866,8 +951,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/TextMarks/Tempo Indications");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* DrumGM2Custom*/
+/* DrumGM2Custom xgettext:no-c-format*/
 action = gtk_action_new("DrumGM2Custom",_("Drum GM2 Custom"),_("Convert General Midi drum-staffs to user-notation drum-staffs. Please edit the script to enter your own values."), get_icon_for_name("DrumGM2Custom", "Drum GM2 Custom"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "DrumGM2Custom", _("Drum GM2 Custom"), _("Convert General Midi drum-staffs to user-notation drum-staffs. Please edit the script to enter your own values."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("DrumGM2Custom");
@@ -876,9 +962,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/EditMenu/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ScoreComment*/
+/* ScoreComment xgettext:no-c-format*/
 action = gtk_action_new("ScoreComment",_("Comment"),_("Stores any textual commentary you may have for this score."), get_icon_for_name("ScoreComment", "Comment"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"EditScoreDirective");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ScoreComment", _("Comment"), _("Stores any textual commentary you may have for this score."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ScoreComment");
@@ -887,9 +974,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MvntComment*/
+/* MvntComment xgettext:no-c-format*/
 action = gtk_action_new("MvntComment",_("Comment"),_("Stores textual comments for this movement"), get_icon_for_name("MvntComment", "Comment"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"SwapMovements");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MvntComment", _("Comment"), _("Stores textual comments for this movement"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MvntComment");
@@ -898,9 +986,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* StaffComment*/
+/* StaffComment xgettext:no-c-format*/
 action = gtk_action_new("StaffComment",_("Comment"),_("Saves textual comments for this staff"), get_icon_for_name("StaffComment", "Comment"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"NonPrintingStaff");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "StaffComment", _("Comment"), _("Saves textual comments for this staff"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("StaffComment");
@@ -909,9 +998,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChordComment*/
+/* ChordComment xgettext:no-c-format*/
 action = gtk_action_new("ChordComment",_("Comment"),_("Attach a textual comment to the chord at the cursor"), get_icon_for_name("ChordComment", "Comment"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ParenthesizeNote");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChordComment", _("Comment"), _("Attach a textual comment to the chord at the cursor"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChordComment");
@@ -920,8 +1010,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* TransposeStaffPrint*/
+/* TransposeStaffPrint xgettext:no-c-format*/
 action = gtk_action_new("TransposeStaffPrint",_("(Print) Transpose"),_("Prints this staff (only) transposed. This is in addtion to any score-wide transposition"), get_icon_for_name("TransposeStaffPrint", "(Print) Transpose"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "TransposeStaffPrint", _("(Print) Transpose"), _("Prints this staff (only) transposed. This is in addtion to any score-wide transposition"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("TransposeStaffPrint");
@@ -930,8 +1021,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NextBookmark*/
+/* NextBookmark xgettext:no-c-format*/
 action = gtk_action_new("NextBookmark",_("Next Bookmark"),_("Seach forward for bookmarks in the current staff."), get_icon_for_name("NextBookmark", "Next Bookmark"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NextBookmark", _("Next Bookmark"), _("Seach forward for bookmarks in the current staff."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NextBookmark");
@@ -940,8 +1032,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/NavigationMenu/Bookmarks");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* PrevBookmark*/
+/* PrevBookmark xgettext:no-c-format*/
 action = gtk_action_new("PrevBookmark",_("Prev Bookmark"),_("Seach backward for bookmarks in the current staff."), get_icon_for_name("PrevBookmark", "Prev Bookmark"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "PrevBookmark", _("Prev Bookmark"), _("Seach backward for bookmarks in the current staff."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("PrevBookmark");
@@ -950,8 +1043,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/NavigationMenu/Bookmarks");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* RehearsalMark*/
+/* RehearsalMark xgettext:no-c-format*/
 action = gtk_action_new("RehearsalMark",_("Add Rehearsal/Bookmark"),_("Adds a Denemo bookmark combined with a default Rehearsal Mark"), get_icon_for_name("RehearsalMark", "Add Rehearsal/Bookmark"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "RehearsalMark", _("Add Rehearsal/Bookmark"), _("Adds a Denemo bookmark combined with a default Rehearsal Mark"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("RehearsalMark");
@@ -960,8 +1054,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* BookmarkNamed*/
+/* BookmarkNamed xgettext:no-c-format*/
 action = gtk_action_new("BookmarkNamed",_("Add Named Bookmark"),_("Adds a Denemo bookmark combined with a custom Lilypond Rehearsal Mark"), get_icon_for_name("BookmarkNamed", "Add Named Bookmark"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "BookmarkNamed", _("Add Named Bookmark"), _("Adds a Denemo bookmark combined with a custom Lilypond Rehearsal Mark"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("BookmarkNamed");
@@ -970,8 +1065,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/NavigationMenu/Bookmarks");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* BookmarkNonPrinting*/
+/* BookmarkNonPrinting xgettext:no-c-format*/
 action = gtk_action_new("BookmarkNonPrinting",_("Add Non-Printing Bookmark"),_("Adds a custom Denemo bookmark without Lilypond output."), get_icon_for_name("BookmarkNonPrinting", "Add Non-Printing Bookmark"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "BookmarkNonPrinting", _("Add Non-Printing Bookmark"), _("Adds a custom Denemo bookmark without Lilypond output."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("BookmarkNonPrinting");
@@ -980,8 +1076,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/NavigationMenu/Bookmarks");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SearchBookmark*/
+/* SearchBookmark xgettext:no-c-format*/
 action = gtk_action_new("SearchBookmark",_("Search Bookmark"),_("Searches for a named Bookmark in the current staff."), get_icon_for_name("SearchBookmark", "Search Bookmark"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SearchBookmark", _("Search Bookmark"), _("Searches for a named Bookmark in the current staff."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SearchBookmark");
@@ -990,8 +1087,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/NavigationMenu/Bookmarks");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Diminish*/
+/* Diminish xgettext:no-c-format*/
 action = gtk_action_new("Diminish",_("Diminish"),_("Diminishs the note/chord/rest. Quarter Note becomes Eight Note. "), get_icon_for_name("Diminish", "Diminish"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Diminish", _("Diminish"), _("Diminishs the note/chord/rest. Quarter Note becomes Eight Note. "), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Diminish");
@@ -1000,8 +1098,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Augment*/
+/* Augment xgettext:no-c-format*/
 action = gtk_action_new("Augment",_("Augment"),_("Augments the current Note/Chord/Rest. Quarter Note becomes Half Note."), get_icon_for_name("Augment", "Augment"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Augment", _("Augment"), _("Augments the current Note/Chord/Rest. Quarter Note becomes Half Note."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Augment");
@@ -1010,9 +1109,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* WholeMeasureRest*/
+/* WholeMeasureRest xgettext:no-c-format*/
 action = gtk_action_new("WholeMeasureRest",_("Whole Measure Rest"),_("Inserts a whole measure rest at the cursor"), get_icon_for_name("WholeMeasureRest", "Whole Measure Rest"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"EnterRest");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "WholeMeasureRest", _("Whole Measure Rest"), _("Inserts a whole measure rest at the cursor"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("WholeMeasureRest");
@@ -1021,9 +1121,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/RestEntry");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* InsertWholeMeasureRest*/
+/* InsertWholeMeasureRest xgettext:no-c-format*/
 action = gtk_action_new("InsertWholeMeasureRest",_("Insert\302\240Whole\302\240Measure\302\240Rest"),_("Inserts/Appends\302\240a\302\240rest\302\240measure;\302\240if\302\240the\302\240current\302\240measure\302\240is\302\240empty,\302\240it\302\240simply\302\240places\302\240the\302\240whole\302\240measure\302\240rest\302\240in\302\240it.\302\240Do\302\240not\302\240invoke\302\240in\302\240a\302\240populated\302\240measure\302\240preceding\302\240an\302\240empty\302\240measure."), get_icon_for_name("InsertWholeMeasureRest", "Insert\302\240Whole\302\240Measure\302\240Rest"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"WholeMeasureRest");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "InsertWholeMeasureRest", _("Insert\302\240Whole\302\240Measure\302\240Rest"), _("Inserts/Appends\302\240a\302\240rest\302\240measure;\302\240if\302\240the\302\240current\302\240measure\302\240is\302\240empty,\302\240it\302\240simply\302\240places\302\240the\302\240whole\302\240measure\302\240rest\302\240in\302\240it.\302\240Do\302\240not\302\240invoke\302\240in\302\240a\302\240populated\302\240measure\302\240preceding\302\240an\302\240empty\302\240measure."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("InsertWholeMeasureRest");
@@ -1032,9 +1133,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/RestEntry");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MultiMeasureRests*/
+/* MultiMeasureRests xgettext:no-c-format*/
 action = gtk_action_new("MultiMeasureRests",_("Multi-Measure Rests"),_("Creates a multi-measure rest from the whole measure rests after the cursor. You must create the whole measure rests first."), get_icon_for_name("MultiMeasureRests", "Multi-Measure Rests"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"InsertWholeMeasureRest");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MultiMeasureRests", _("Multi-Measure Rests"), _("Creates a multi-measure rest from the whole measure rests after the cursor. You must create the whole measure rests first."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MultiMeasureRests");
@@ -1043,8 +1145,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/RestEntry");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* OpenRepeat*/
+/* OpenRepeat xgettext:no-c-format*/
 action = gtk_action_new("OpenRepeat",_("Open Repeat Section"),_("Marks the point where a repeat will start. A correspond close, or first and second time bars are needed."), get_icon_for_name("OpenRepeat", "Open Repeat Section"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "OpenRepeat", _("Open Repeat Section"), _("Marks the point where a repeat will start. A correspond close, or first and second time bars are needed."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("OpenRepeat");
@@ -1053,9 +1156,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MeasureMenu/Repeats");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* CloseRepeat*/
+/* CloseRepeat xgettext:no-c-format*/
 action = gtk_action_new("CloseRepeat",_("Close a Repeat Section"),_("Closes a section that starts with an Open Repeat. Not needed with 1st and 2nd time bars. (Printing)"), get_icon_for_name("CloseRepeat", "Close a Repeat Section"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"OpenRepeat");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "CloseRepeat", _("Close a Repeat Section"), _("Closes a section that starts with an Open Repeat. Not needed with 1st and 2nd time bars. (Printing)"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("CloseRepeat");
@@ -1064,9 +1168,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MeasureMenu/Repeats");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* FirstTimeBar*/
+/* FirstTimeBar xgettext:no-c-format*/
 action = gtk_action_new("FirstTimeBar",_("First Time Bar"),_("Closes a repeated section and starts a first time bar (printing)"), get_icon_for_name("FirstTimeBar", "First Time Bar"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"CloseRepeat");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "FirstTimeBar", _("First Time Bar"), _("Closes a repeated section and starts a first time bar (printing)"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("FirstTimeBar");
@@ -1075,9 +1180,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MeasureMenu/Repeats");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SecondTimeBar*/
+/* SecondTimeBar xgettext:no-c-format*/
 action = gtk_action_new("SecondTimeBar",_("Second Time Bar"),_("Closes first time bars and starts second time bar(s) (printing)"), get_icon_for_name("SecondTimeBar", "Second Time Bar"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"FirstTimeBar");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SecondTimeBar", _("Second Time Bar"), _("Closes first time bars and starts second time bar(s) (printing)"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SecondTimeBar");
@@ -1086,9 +1192,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MeasureMenu/Repeats");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* EndSecondTimeBar*/
+/* EndSecondTimeBar xgettext:no-c-format*/
 action = gtk_action_new("EndSecondTimeBar",_("Close Second Time Bar"),_("Closes the second time bar peviously opened (printing)"), get_icon_for_name("EndSecondTimeBar", "Close Second Time Bar"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"SecondTimeBar");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "EndSecondTimeBar", _("Close Second Time Bar"), _("Closes the second time bar peviously opened (printing)"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("EndSecondTimeBar");
@@ -1097,9 +1204,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MeasureMenu/Repeats");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ClefChooser*/
+/* ClefChooser xgettext:no-c-format*/
 action = gtk_action_new("ClefChooser",_("Clef Chooser"),_("Choose any sort of clef. If the cursor is at the start change initial clef, else insert chosen clef."), get_icon_for_name("ClefChooser", "Clef Chooser"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"InsertClef");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ClefChooser", _("Clef Chooser"), _("Choose any sort of clef. If the cursor is at the start change initial clef, else insert chosen clef."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ClefChooser");
@@ -1108,9 +1216,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ClefMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* HideLilyPond*/
+/* HideLilyPond xgettext:no-c-format*/
 action = gtk_action_new("HideLilyPond",_("Hide on Printing"),_("Comments out the chord in the LilyPond output."), get_icon_for_name("HideLilyPond", "Hide on Printing"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ParenthesizeChord");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "HideLilyPond", _("Hide on Printing"), _("Comments out the chord in the LilyPond output."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("HideLilyPond");
@@ -1119,9 +1228,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MezzoPiano*/
+/* MezzoPiano xgettext:no-c-format*/
 action = gtk_action_new("MezzoPiano",_("Mezzo Piano"),_("prints mp and outputs MIDI vol change#"), get_icon_for_name("MezzoPiano", "Mezzo Piano"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MezzoForte");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MezzoPiano", _("Mezzo Piano"), _("prints mp and outputs MIDI vol change#"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MezzoPiano");
@@ -1130,9 +1240,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/TextMarks/Dynamic Markings");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Forte*/
+/* Forte xgettext:no-c-format*/
 action = gtk_action_new("Forte",_("Forte"),_("Attaches Forte to chord and MIDI volume"), get_icon_for_name("Forte", "Forte"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"Fortissimo");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Forte", _("Forte"), _("Attaches Forte to chord and MIDI volume"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Forte");
@@ -1141,8 +1252,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/TextMarks/Dynamic Markings");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ShortMeasure*/
+/* ShortMeasure xgettext:no-c-format*/
 action = gtk_action_new("ShortMeasure",_("Short Measure"),_("Allow too few notes/rests in this measure. LilyPond will engrave this measure (in all staffs) with the short duration given by notes already present when this command was issued."), get_icon_for_name("ShortMeasure", "Short Measure"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ShortMeasure", _("Short Measure"), _("Allow too few notes/rests in this measure. LilyPond will engrave this measure (in all staffs) with the short duration given by notes already present when this command was issued."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ShortMeasure");
@@ -1151,9 +1263,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MeasureMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* OpenOctaveDown*/
+/* OpenOctaveDown xgettext:no-c-format*/
 action = gtk_action_new("OpenOctaveDown",_("(Print) Open { Octave Down"),_("Opens a block printing an octave lower: must be terminated with CloseLilyBlock"), get_icon_for_name("OpenOctaveDown", "(Print) Open { Octave Down"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"OpenOctaveUp");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "OpenOctaveDown", _("(Print) Open { Octave Down"), _("Opens a block printing an octave lower: must be terminated with CloseLilyBlock"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("OpenOctaveDown");
@@ -1162,8 +1275,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Print Transpositions");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* FindNextLowerNote*/
+/* FindNextLowerNote xgettext:no-c-format*/
 action = gtk_action_new("FindNextLowerNote",_("Next Lower"),_("Moves cursor to next note that is lower than the cursor."), get_icon_for_name("FindNextLowerNote", "Next Lower"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "FindNextLowerNote", _("Next Lower"), _("Moves cursor to next note that is lower than the cursor."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("FindNextLowerNote");
@@ -1172,9 +1286,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/NavigationMenu/Seek");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NextHigher*/
+/* NextHigher xgettext:no-c-format*/
 action = gtk_action_new("NextHigher",_("Next Higher"),_("Move cursor to next note higher than cursor posiiton"), get_icon_for_name("NextHigher", "Next Higher"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"FindNextLowerNote");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NextHigher", _("Next Higher"), _("Move cursor to next note higher than cursor posiiton"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NextHigher");
@@ -1183,9 +1298,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/NavigationMenu/Seek");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* FindEditPoint*/
+/* FindEditPoint xgettext:no-c-format*/
 action = gtk_action_new("FindEditPoint",_("Find Edit Point"),_("Searches backward for the start of non-printing notes."), get_icon_for_name("FindEditPoint", "Find Edit Point"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"NextHigher");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "FindEditPoint", _("Find Edit Point"), _("Searches backward for the start of non-printing notes."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("FindEditPoint");
@@ -1194,8 +1310,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/NavigationMenu/Seek");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* CreateOssiaStaff*/
+/* CreateOssiaStaff xgettext:no-c-format*/
 action = gtk_action_new("CreateOssiaStaff",_("Create Ossia Staff"),_("Creates a small staff above the current staff for inserting cues, ossia passages etc. Use Show Ossia and Hide Ossia to show specific measures."), get_icon_for_name("CreateOssiaStaff", "Create Ossia Staff"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "CreateOssiaStaff", _("Create Ossia Staff"), _("Creates a small staff above the current staff for inserting cues, ossia passages etc. Use Show Ossia and Hide Ossia to show specific measures."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("CreateOssiaStaff");
@@ -1204,9 +1321,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Ossia");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ShowOssia*/
+/* ShowOssia xgettext:no-c-format*/
 action = gtk_action_new("ShowOssia",_("Show Ossia"),_("Place this at the start of the music to be printed from the Ossia staff"), get_icon_for_name("ShowOssia", "Show Ossia"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"CreateOssiaStaff");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ShowOssia", _("Show Ossia"), _("Place this at the start of the music to be printed from the Ossia staff"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ShowOssia");
@@ -1215,9 +1333,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Ossia");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* HideOssia*/
+/* HideOssia xgettext:no-c-format*/
 action = gtk_action_new("HideOssia",_("Hide Ossia"),_("Place this at the end of the music to be printed from the Ossia staff"), get_icon_for_name("HideOssia", "Hide Ossia"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ShowOssia");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "HideOssia", _("Hide Ossia"), _("Place this at the end of the music to be printed from the Ossia staff"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("HideOssia");
@@ -1226,9 +1345,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Ossia");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* StartTuplet*/
+/* StartTuplet xgettext:no-c-format*/
 action = gtk_action_new("StartTuplet",_("Start Arbitrary Tuplet"),_("Asks for ratio of tuplet and then puts in a start for that. Use EndTuplet command after entering tuplet notes. Note that the Denemo display will not automatically group the tuplet, but it will print with expected beaming etc."), get_icon_for_name("StartTuplet", "Start Arbitrary Tuplet"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"StartTriplet");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "StartTuplet", _("Start Arbitrary Tuplet"), _("Asks for ratio of tuplet and then puts in a start for that. Use EndTuplet command after entering tuplet notes. Note that the Denemo display will not automatically group the tuplet, but it will print with expected beaming etc."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("StartTuplet");
@@ -1237,8 +1357,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Tuplets");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* BarNumbers*/
+/* BarNumbers xgettext:no-c-format*/
 action = gtk_action_new("BarNumbers",_("Bar Numbers (On/Off)"),_("Turns bar numbering on/off in print out."), get_icon_for_name("BarNumbers", "Bar Numbers (On/Off)"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "BarNumbers", _("Bar Numbers (On/Off)"), _("Turns bar numbering on/off in print out."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("BarNumbers");
@@ -1247,8 +1368,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Numbering");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MidiTempo*/
+/* MidiTempo xgettext:no-c-format*/
 action = gtk_action_new("MidiTempo",_("Set Tempo"),_("Send a Midi command to change the tempo to a new bpm. No printout."), get_icon_for_name("MidiTempo", "Set Tempo"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MidiTempo", _("Set Tempo"), _("Send a Midi command to change the tempo to a new bpm. No printout."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MidiTempo");
@@ -1257,8 +1379,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Tempo*/
+/* Tempo xgettext:no-c-format*/
 action = gtk_action_new("Tempo",_("Tempo"),_("Insert tempi and/or metronome marks, printed or not"), get_icon_for_name("Tempo", "Tempo"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Tempo", _("Tempo"), _("Insert tempi and/or metronome marks, printed or not"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Tempo");
@@ -1267,8 +1390,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* DynamicsDialog*/
+/* DynamicsDialog xgettext:no-c-format*/
 action = gtk_action_new("DynamicsDialog",_("Dynamics"),_("Choose dynamics and midi volume level."), get_icon_for_name("DynamicsDialog", "Dynamics"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "DynamicsDialog", _("Dynamics"), _("Choose dynamics and midi volume level."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("DynamicsDialog");
@@ -1277,8 +1401,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* CursorToLowestNote*/
+/* CursorToLowestNote xgettext:no-c-format*/
 action = gtk_action_new("CursorToLowestNote",_("Cursor to Lowest Note"),_("Moves the cursor to the lowest note on current horizontal position (in a chord or on a single note)"), get_icon_for_name("CursorToLowestNote", "Cursor to Lowest Note"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "CursorToLowestNote", _("Cursor to Lowest Note"), _("Moves the cursor to the lowest note on current horizontal position (in a chord or on a single note)"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("CursorToLowestNote");
@@ -1287,8 +1412,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/NavigationMenu/Cursor");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* CursorToHighestNote*/
+/* CursorToHighestNote xgettext:no-c-format*/
 action = gtk_action_new("CursorToHighestNote",_("Cursor to Highest Note"),_("Moves the cursor to the highest note on current horizontal position (in a chord or on a single note)"), get_icon_for_name("CursorToHighestNote", "Cursor to Highest Note"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "CursorToHighestNote", _("Cursor to Highest Note"), _("Moves the cursor to the highest note on current horizontal position (in a chord or on a single note)"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("CursorToHighestNote");
@@ -1297,8 +1423,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/NavigationMenu/Cursor");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ZoomDialog*/
+/* ZoomDialog xgettext:no-c-format*/
 action = gtk_action_new("ZoomDialog",_("Set Display Scale"),_("Scales the display by value given by user."), get_icon_for_name("ZoomDialog", "Set Display Scale"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ZoomDialog", _("Set Display Scale"), _("Scales the display by value given by user."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ZoomDialog");
@@ -1307,9 +1434,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/ViewMenu/Zoom");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChangeChannel*/
+/* ChangeChannel xgettext:no-c-format*/
 action = gtk_action_new("ChangeChannel",_("Channel"),_("Change the Channel of a staff"), get_icon_for_name("ChangeChannel", "Channel"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MidiTempo");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChangeChannel", _("Channel"), _("Change the Channel of a staff"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChangeChannel");
@@ -1318,9 +1446,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChangeProgram*/
+/* ChangeProgram xgettext:no-c-format*/
 action = gtk_action_new("ChangeProgram",_("Program"),_("Change the Program of the current channel/staff"), get_icon_for_name("ChangeProgram", "Program"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ChangeChannel");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChangeProgram", _("Program"), _("Change the Program of the current channel/staff"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChangeProgram");
@@ -1329,9 +1458,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChangeVolume*/
+/* ChangeVolume xgettext:no-c-format*/
 action = gtk_action_new("ChangeVolume",_("Volume"),_("Change the Volume of a channel/staff"), get_icon_for_name("ChangeVolume", "Volume"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ChangeProgram");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChangeVolume", _("Volume"), _("Change the Volume of a channel/staff"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChangeVolume");
@@ -1340,9 +1470,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChangeGeneric*/
+/* ChangeGeneric xgettext:no-c-format*/
 action = gtk_action_new("ChangeGeneric",_("Generic Control Change"),_("Generic 0xB Control Change - User can give the midi bytes, too. "), get_icon_for_name("ChangeGeneric", "Generic Control Change"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ChangeChannel");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChangeGeneric", _("Generic Control Change"), _("Generic 0xB Control Change - User can give the midi bytes, too. "), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChangeGeneric");
@@ -1351,9 +1482,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChangeModwheel*/
+/* ChangeModwheel xgettext:no-c-format*/
 action = gtk_action_new("ChangeModwheel",_("1 Modwheel"),_("Change the Modwheel value of a channel/staff"), get_icon_for_name("ChangeModwheel", "1 Modwheel"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ChangeVolume");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChangeModwheel", _("1 Modwheel"), _("Change the Modwheel value of a channel/staff"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChangeModwheel");
@@ -1362,9 +1494,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChangeBalance*/
+/* ChangeBalance xgettext:no-c-format*/
 action = gtk_action_new("ChangeBalance",_("8 Balance"),_("Balance. Typically used for a stereo signal tweak without changing the pan itself. Like a CD player. "), get_icon_for_name("ChangeBalance", "8 Balance"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ChangeModwheel");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChangeBalance", _("8 Balance"), _("Balance. Typically used for a stereo signal tweak without changing the pan itself. Like a CD player. "), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChangeBalance");
@@ -1373,9 +1506,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChangePan*/
+/* ChangePan xgettext:no-c-format*/
 action = gtk_action_new("ChangePan",_("10 Pan"),_("Where in the stereo field the channel sound will be placed."), get_icon_for_name("ChangePan", "10 Pan"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ChangeBalance");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChangePan", _("10 Pan"), _("Where in the stereo field the channel sound will be placed."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChangePan");
@@ -1384,9 +1518,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChangeExpression*/
+/* ChangeExpression xgettext:no-c-format*/
 action = gtk_action_new("ChangeExpression",_("11 Expression"),_("Aka \"Sub Volume\" or \"Percent Volume\". The \"real\" volume. Use Volume as initial value for each staff/channel and change further cresc/desc with expression. "), get_icon_for_name("ChangeExpression", "11 Expression"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ChangePan");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChangeExpression", _("11 Expression"), _("Aka \"Sub Volume\" or \"Percent Volume\". The \"real\" volume. Use Volume as initial value for each staff/channel and change further cresc/desc with expression. "), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChangeExpression");
@@ -1395,9 +1530,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChangeHoldPedal*/
+/* ChangeHoldPedal xgettext:no-c-format*/
 action = gtk_action_new("ChangeHoldPedal",_("64 Hold Pedal (Right Piano Pedal)"),_("Hold Pedal On/Off (Right Piano Pedal). Deactivates Note-Off until set to \"Off\""), get_icon_for_name("ChangeHoldPedal", "64 Hold Pedal (Right Piano Pedal)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ChangeExpression");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChangeHoldPedal", _("64 Hold Pedal (Right Piano Pedal)"), _("Hold Pedal On/Off (Right Piano Pedal). Deactivates Note-Off until set to \"Off\""), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChangeHoldPedal");
@@ -1406,9 +1542,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChangePortamento*/
+/* ChangePortamento xgettext:no-c-format*/
 action = gtk_action_new("ChangePortamento",_("65 Portamento (On/Off)"),_("Slides between 2 notes. Can be adjusted with 5 - Portamento Time"), get_icon_for_name("ChangePortamento", "65 Portamento (On/Off)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ChangeHoldPedal");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChangePortamento", _("65 Portamento (On/Off)"), _("Slides between 2 notes. Can be adjusted with 5 - Portamento Time"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChangePortamento");
@@ -1417,9 +1554,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChangeSustenutoPedal*/
+/* ChangeSustenutoPedal xgettext:no-c-format*/
 action = gtk_action_new("ChangeSustenutoPedal",_("66 Sustenuto Pedal (On/Off) (Middle Grand Piano Pedal)"),_("Middle Grand Piano Pedal. All Notes currently active (without a note off) will not have a note-off until Sustenuto Off."), get_icon_for_name("ChangeSustenutoPedal", "66 Sustenuto Pedal (On/Off) (Middle Grand Piano Pedal)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ChangePortamento");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChangeSustenutoPedal", _("66 Sustenuto Pedal (On/Off) (Middle Grand Piano Pedal)"), _("Middle Grand Piano Pedal. All Notes currently active (without a note off) will not have a note-off until Sustenuto Off."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChangeSustenutoPedal");
@@ -1428,9 +1566,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChangeSoftPedal*/
+/* ChangeSoftPedal xgettext:no-c-format*/
 action = gtk_action_new("ChangeSoftPedal",_("67 Soft Pedal (On/Off) (Left Piano Pedal)"),_("Left Piano Pedal. Lowers the volume of any notes played."), get_icon_for_name("ChangeSoftPedal", "67 Soft Pedal (On/Off) (Left Piano Pedal)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ChangeSustenutoPedal");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChangeSoftPedal", _("67 Soft Pedal (On/Off) (Left Piano Pedal)"), _("Left Piano Pedal. Lowers the volume of any notes played."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChangeSoftPedal");
@@ -1439,9 +1578,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChangeLegatoPedal*/
+/* ChangeLegatoPedal xgettext:no-c-format*/
 action = gtk_action_new("ChangeLegatoPedal",_("68 Legato Pedal (On/Off)"),_("Skips the attack portion of the VCA's envelope. For phrasing like wind or brass or guitar hammer-on."), get_icon_for_name("ChangeLegatoPedal", "68 Legato Pedal (On/Off)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ChangeSoftPedal");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChangeLegatoPedal", _("68 Legato Pedal (On/Off)"), _("Skips the attack portion of the VCA's envelope. For phrasing like wind or brass or guitar hammer-on."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChangeLegatoPedal");
@@ -1450,9 +1590,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChangeHold2Pedal*/
+/* ChangeHold2Pedal xgettext:no-c-format*/
 action = gtk_action_new("ChangeHold2Pedal",_("69 Hold Pedal #2 (On/Off)"),_("Longer release time but notes will fade out eventually."), get_icon_for_name("ChangeHold2Pedal", "69 Hold Pedal #2 (On/Off)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ChangeLegatoPedal");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChangeHold2Pedal", _("69 Hold Pedal #2 (On/Off)"), _("Longer release time but notes will fade out eventually."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChangeHold2Pedal");
@@ -1461,8 +1602,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* C-Pentascale*/
+/* C-Pentascale xgettext:no-c-format*/
 action = gtk_action_new("C-Pentascale",_("C Pentascale"),_("Identify Scale Notes that are sounded"), get_icon_for_name("C-Pentascale", "C Pentascale"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "C-Pentascale", _("C Pentascale"), _("Identify Scale Notes that are sounded"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("C-Pentascale");
@@ -1471,8 +1613,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/Aural Training/Identify-Scale-Note");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* F-Pentascale*/
+/* F-Pentascale xgettext:no-c-format*/
 action = gtk_action_new("F-Pentascale",_("F Pentascale"),_("Identify Scale Notes that are sounded"), get_icon_for_name("F-Pentascale", "F Pentascale"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "F-Pentascale", _("F Pentascale"), _("Identify Scale Notes that are sounded"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("F-Pentascale");
@@ -1481,8 +1624,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/Aural Training/Identify-Scale-Note");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Bb-Pentascale*/
+/* Bb-Pentascale xgettext:no-c-format*/
 action = gtk_action_new("Bb-Pentascale",_("Bb Pentascale"),_("Identify Scale Notes that are sounded"), get_icon_for_name("Bb-Pentascale", "Bb Pentascale"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Bb-Pentascale", _("Bb Pentascale"), _("Identify Scale Notes that are sounded"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Bb-Pentascale");
@@ -1491,8 +1635,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/Aural Training/Identify-Scale-Note");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Eb-Pentascale*/
+/* Eb-Pentascale xgettext:no-c-format*/
 action = gtk_action_new("Eb-Pentascale",_("Eb Pentascale"),_("Identify Scale Notes that are sounded"), get_icon_for_name("Eb-Pentascale", "Eb Pentascale"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Eb-Pentascale", _("Eb Pentascale"), _("Identify Scale Notes that are sounded"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Eb-Pentascale");
@@ -1501,8 +1646,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/Aural Training/Identify-Scale-Note");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Ab-Pentascale*/
+/* Ab-Pentascale xgettext:no-c-format*/
 action = gtk_action_new("Ab-Pentascale",_("Ab Pentascale"),_("Identify Scale Notes that are sounded"), get_icon_for_name("Ab-Pentascale", "Ab Pentascale"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Ab-Pentascale", _("Ab Pentascale"), _("Identify Scale Notes that are sounded"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Ab-Pentascale");
@@ -1511,8 +1657,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/Aural Training/Identify-Scale-Note");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Db-Pentascale*/
+/* Db-Pentascale xgettext:no-c-format*/
 action = gtk_action_new("Db-Pentascale",_("Db Pentascale"),_("Identify Scale Notes that are sounded"), get_icon_for_name("Db-Pentascale", "Db Pentascale"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Db-Pentascale", _("Db Pentascale"), _("Identify Scale Notes that are sounded"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Db-Pentascale");
@@ -1521,8 +1668,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/Aural Training/Identify-Scale-Note");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* C-Major*/
+/* C-Major xgettext:no-c-format*/
 action = gtk_action_new("C-Major",_("C Major"),_("Identify Scale Notes that are sounded"), get_icon_for_name("C-Major", "C Major"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "C-Major", _("C Major"), _("Identify Scale Notes that are sounded"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("C-Major");
@@ -1531,8 +1679,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/Aural Training/Identify-Scale-Note");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* F-Major*/
+/* F-Major xgettext:no-c-format*/
 action = gtk_action_new("F-Major",_("F Major"),_("Identify Scale Notes that are sounded"), get_icon_for_name("F-Major", "F Major"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "F-Major", _("F Major"), _("Identify Scale Notes that are sounded"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("F-Major");
@@ -1541,8 +1690,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/Aural Training/Identify-Scale-Note");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MajorOrMinor*/
+/* MajorOrMinor xgettext:no-c-format*/
 action = gtk_action_new("MajorOrMinor",_("MajorMinor"),_("Determine if the chord played is major or minor"), get_icon_for_name("MajorOrMinor", "MajorMinor"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MajorOrMinor", _("MajorMinor"), _("Determine if the chord played is major or minor"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MajorOrMinor");
@@ -1551,9 +1701,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/Aural Training/Chord-Comparison");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* DiminishedOrAugmented*/
+/* DiminishedOrAugmented xgettext:no-c-format*/
 action = gtk_action_new("DiminishedOrAugmented",_("DiminishedAugmented"),_("Determine if the chord sounded is Diminished or Augmented"), get_icon_for_name("DiminishedOrAugmented", "DiminishedAugmented"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MajorOrMinor");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "DiminishedOrAugmented", _("DiminishedAugmented"), _("Determine if the chord sounded is Diminished or Augmented"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("DiminishedOrAugmented");
@@ -1562,8 +1713,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/Aural Training/Chord-Comparison");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* LineOrSpace*/
+/* LineOrSpace xgettext:no-c-format*/
 action = gtk_action_new("LineOrSpace",_("Line and Space Recognition"),_("%tests your ability to recognize the difference between line and space"), get_icon_for_name("LineOrSpace", "Line and Space Recognition"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "LineOrSpace", _("Line and Space Recognition"), _("%tests your ability to recognize the difference between line and space"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("LineOrSpace");
@@ -1572,8 +1724,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/Note-Reading");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* UpDownOrSame*/
+/* UpDownOrSame xgettext:no-c-format*/
 action = gtk_action_new("UpDownOrSame",_("Trace Note Direction"),_("%tests your note tracking ability"), get_icon_for_name("UpDownOrSame", "Trace Note Direction"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "UpDownOrSame", _("Trace Note Direction"), _("%tests your note tracking ability"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("UpDownOrSame");
@@ -1582,8 +1735,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/Note-Reading");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* StepSkipOrSame*/
+/* StepSkipOrSame xgettext:no-c-format*/
 action = gtk_action_new("StepSkipOrSame",_("Step, Skip, or Same?"),_("%tests your ability to determine if note is moving by a step or skip"), get_icon_for_name("StepSkipOrSame", "Step, Skip, or Same?"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "StepSkipOrSame", _("Step, Skip, or Same?"), _("%tests your ability to determine if note is moving by a step or skip"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("StepSkipOrSame");
@@ -1592,8 +1746,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/Note-Reading");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* CountSteps*/
+/* CountSteps xgettext:no-c-format*/
 action = gtk_action_new("CountSteps",_("Step Counting Exercise"),_("%tests your ability to find the number of diatonic notes between two notes"), get_icon_for_name("CountSteps", "Step Counting Exercise"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "CountSteps", _("Step Counting Exercise"), _("%tests your ability to find the number of diatonic notes between two notes"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("CountSteps");
@@ -1602,8 +1757,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/Note-Reading");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* DiatonicInterval*/
+/* DiatonicInterval xgettext:no-c-format*/
 action = gtk_action_new("DiatonicInterval",_("Diatonic Interval Detection"),_("%tests your ability to find the diatonic interval name between two notes"), get_icon_for_name("DiatonicInterval", "Diatonic Interval Detection"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "DiatonicInterval", _("Diatonic Interval Detection"), _("%tests your ability to find the diatonic interval name between two notes"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("DiatonicInterval");
@@ -1612,8 +1768,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/Note-Reading");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ReadingNoteNames*/
+/* ReadingNoteNames xgettext:no-c-format*/
 action = gtk_action_new("ReadingNoteNames",_("Note Name Recognition"),_("%tests your ability to name the notes of the scale"), get_icon_for_name("ReadingNoteNames", "Note Name Recognition"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ReadingNoteNames", _("Note Name Recognition"), _("%tests your ability to name the notes of the scale"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ReadingNoteNames");
@@ -1622,8 +1779,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/Note-Reading");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ReadingNoteNamesSolfege*/
+/* ReadingNoteNamesSolfege xgettext:no-c-format*/
 action = gtk_action_new("ReadingNoteNamesSolfege",_("Solfege Note Name Recognition"),_("%tests your ability to name the notes of the scale"), get_icon_for_name("ReadingNoteNamesSolfege", "Solfege Note Name Recognition"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ReadingNoteNamesSolfege", _("Solfege Note Name Recognition"), _("%tests your ability to name the notes of the scale"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ReadingNoteNamesSolfege");
@@ -1632,8 +1790,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/Note-Reading");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NoteNameSpeedTest*/
+/* NoteNameSpeedTest xgettext:no-c-format*/
 action = gtk_action_new("NoteNameSpeedTest",_("Note Name Speed Recognition"),_("%tests your ability to name the notes of the scale"), get_icon_for_name("NoteNameSpeedTest", "Note Name Speed Recognition"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NoteNameSpeedTest", _("Note Name Speed Recognition"), _("%tests your ability to name the notes of the scale"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NoteNameSpeedTest");
@@ -1642,8 +1801,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/Note-Reading");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* BassClefNoteNameSpeedTest*/
+/* BassClefNoteNameSpeedTest xgettext:no-c-format*/
 action = gtk_action_new("BassClefNoteNameSpeedTest",_("Bass Clef Note Name Speed Recognition"),_("%tests your ability to read the notes of the bass clef staff"), get_icon_for_name("BassClefNoteNameSpeedTest", "Bass Clef Note Name Speed Recognition"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "BassClefNoteNameSpeedTest", _("Bass Clef Note Name Speed Recognition"), _("%tests your ability to read the notes of the bass clef staff"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("BassClefNoteNameSpeedTest");
@@ -1652,9 +1812,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/Note-Reading");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* DiminishedOrMinor*/
+/* DiminishedOrMinor xgettext:no-c-format*/
 action = gtk_action_new("DiminishedOrMinor",_("DiminishedMinor"),_("Determine if the chord sounded is Diminished or Minor"), get_icon_for_name("DiminishedOrMinor", "DiminishedMinor"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"DiminishedOrAugmented");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "DiminishedOrMinor", _("DiminishedMinor"), _("Determine if the chord sounded is Diminished or Minor"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("DiminishedOrMinor");
@@ -1663,9 +1824,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/Aural Training/Chord-Comparison");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MajorOrAugmented*/
+/* MajorOrAugmented xgettext:no-c-format*/
 action = gtk_action_new("MajorOrAugmented",_("MajorAugmented"),_("Determine if chord sounded is Major or Augmented"), get_icon_for_name("MajorOrAugmented", "MajorAugmented"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"DiminishedOrMinor");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MajorOrAugmented", _("MajorAugmented"), _("Determine if chord sounded is Major or Augmented"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MajorOrAugmented");
@@ -1674,9 +1836,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/Aural Training/Chord-Comparison");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MajorMinorAugmentedOrDiminished*/
+/* MajorMinorAugmentedOrDiminished xgettext:no-c-format*/
 action = gtk_action_new("MajorMinorAugmentedOrDiminished",_("MajorMinorAugmentedDiminished"),_("Determine if the chord sounded is Major Minor Augmented or Diminished"), get_icon_for_name("MajorMinorAugmentedOrDiminished", "MajorMinorAugmentedDiminished"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MajorOrAugmented");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MajorMinorAugmentedOrDiminished", _("MajorMinorAugmentedDiminished"), _("Determine if the chord sounded is Major Minor Augmented or Diminished"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MajorMinorAugmentedOrDiminished");
@@ -1685,9 +1848,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/Aural Training/Chord-Comparison");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Major7Minor7OrDominant7*/
+/* Major7Minor7OrDominant7 xgettext:no-c-format*/
 action = gtk_action_new("Major7Minor7OrDominant7",_("Major7Minor7Dominant7"),_("Determine which seventh chord is sounded"), get_icon_for_name("Major7Minor7OrDominant7", "Major7Minor7Dominant7"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MajorMinorAugmentedOrDiminished");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Major7Minor7OrDominant7", _("Major7Minor7Dominant7"), _("Determine which seventh chord is sounded"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Major7Minor7OrDominant7");
@@ -1696,8 +1860,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/Aural Training/Chord-Comparison");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddDotSelectionSwitcher*/
+/* AddDotSelectionSwitcher xgettext:no-c-format*/
 action = gtk_action_new("AddDotSelectionSwitcher",_("Add Dot"),_("Adds an Augmentation Dot to current note/chord/rest."), get_icon_for_name("AddDotSelectionSwitcher", "Add Dot"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddDotSelectionSwitcher", _("Add Dot"), _("Adds an Augmentation Dot to current note/chord/rest."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddDotSelectionSwitcher");
@@ -1706,9 +1871,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/EditNote");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* StaccatoSelectionSwitcher*/
+/* StaccatoSelectionSwitcher xgettext:no-c-format*/
 action = gtk_action_new("StaccatoSelectionSwitcher",_("Staccato (Off/On)"),_("Adds the staccato dot or removes it"), get_icon_for_name("StaccatoSelectionSwitcher", "Staccato (Off/On)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ToggleStaccato");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "StaccatoSelectionSwitcher", _("Staccato (Off/On)"), _("Adds the staccato dot or removes it"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("StaccatoSelectionSwitcher");
@@ -1717,9 +1883,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Articulations");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* StaccatissimoSelectionSwitcher*/
+/* StaccatissimoSelectionSwitcher xgettext:no-c-format*/
 action = gtk_action_new("StaccatissimoSelectionSwitcher",_("Staccatissimo (Off/On)"),_("Toggles Staccatissimo"), get_icon_for_name("StaccatissimoSelectionSwitcher", "Staccatissimo (Off/On)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ToggleStaccatissimo");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "StaccatissimoSelectionSwitcher", _("Staccatissimo (Off/On)"), _("Toggles Staccatissimo"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("StaccatissimoSelectionSwitcher");
@@ -1728,9 +1895,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Articulations");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* TenutoSelectionSwitcher*/
+/* TenutoSelectionSwitcher xgettext:no-c-format*/
 action = gtk_action_new("TenutoSelectionSwitcher",_("Tenuto (Off/On)"),_("Toggles the Tenuto Line _ On/Off"), get_icon_for_name("TenutoSelectionSwitcher", "Tenuto (Off/On)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ToggleTenuto");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "TenutoSelectionSwitcher", _("Tenuto (Off/On)"), _("Toggles the Tenuto Line _ On/Off"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("TenutoSelectionSwitcher");
@@ -1739,9 +1907,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Articulations");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AccentSelectionSwitcher*/
+/* AccentSelectionSwitcher xgettext:no-c-format*/
 action = gtk_action_new("AccentSelectionSwitcher",_("Accent (Off/On)"),_("Adds the > accent"), get_icon_for_name("AccentSelectionSwitcher", "Accent (Off/On)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ToggleAccent");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AccentSelectionSwitcher", _("Accent (Off/On)"), _("Adds the > accent"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AccentSelectionSwitcher");
@@ -1750,8 +1919,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Articulations");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ReloadDrumHash*/
+/* ReloadDrumHash xgettext:no-c-format*/
 action = gtk_action_new("ReloadDrumHash",_("Reload the \"Drum GM to User\" map"),_("Reloads the drum map which is needed for DrumGm2User"), get_icon_for_name("ReloadDrumHash", "Reload the \"Drum GM to User\" map"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ReloadDrumHash", _("Reload the \"Drum GM to User\" map"), _("Reloads the drum map which is needed for DrumGm2User"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ReloadDrumHash");
@@ -1760,9 +1930,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/EditMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ConvertDrum2GmSingleSelection*/
+/* ConvertDrum2GmSingleSelection xgettext:no-c-format*/
 action = gtk_action_new("ConvertDrum2GmSingleSelection",_("Convert GM-Drum to User-Drum"),_("Converts between the midi-drum notation and a user-drum notation. The user can set his/her drummap in a template in ~/.denemo/templates or choose any other copy he made of the template file to have drummaps for different drummers avaible."), get_icon_for_name("ConvertDrum2GmSingleSelection", "Convert GM-Drum to User-Drum"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ReloadDrumHash");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ConvertDrum2GmSingleSelection", _("Convert GM-Drum to User-Drum"), _("Converts between the midi-drum notation and a user-drum notation. The user can set his/her drummap in a template in ~/.denemo/templates or choose any other copy he made of the template file to have drummaps for different drummers avaible."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ConvertDrum2GmSingleSelection");
@@ -1771,9 +1942,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/EditMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SelectStaff*/
+/* SelectStaff xgettext:no-c-format*/
 action = gtk_action_new("SelectStaff",_("Select Staff"),_("Selects the whole staff"), get_icon_for_name("SelectStaff", "Select Staff"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"UnsetMark");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SelectStaff", _("Select Staff"), _("Selects the whole staff"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SelectStaff");
@@ -1782,9 +1954,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/EditMenu/Select");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SelectAllStaffs*/
+/* SelectAllStaffs xgettext:no-c-format*/
 action = gtk_action_new("SelectAllStaffs",_("Select All Staffs"),_("Selects the whole movement / All staffs"), get_icon_for_name("SelectAllStaffs", "Select All Staffs"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"SelectStaff");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SelectAllStaffs", _("Select All Staffs"), _("Selects the whole movement / All staffs"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SelectAllStaffs");
@@ -1793,9 +1966,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/EditMenu/Select");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SetMovementTempo*/
+/* SetMovementTempo xgettext:no-c-format*/
 action = gtk_action_new("SetMovementTempo",_("MIDI Tempo"),_("Sets the (initial) tempo in quarter notes per minute."), get_icon_for_name("SetMovementTempo", "MIDI Tempo"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"SwapMovements");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SetMovementTempo", _("MIDI Tempo"), _("Sets the (initial) tempo in quarter notes per minute."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SetMovementTempo");
@@ -1804,9 +1978,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* LineNumber*/
+/* LineNumber xgettext:no-c-format*/
 action = gtk_action_new("LineNumber",_("Identify Line Number"),_("Identify the line number in which the note is displayed"), get_icon_for_name("LineNumber", "Identify Line Number"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"LineOrSpace");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "LineNumber", _("Identify Line Number"), _("Identify the line number in which the note is displayed"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("LineNumber");
@@ -1815,9 +1990,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/Note-Reading");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SpaceNumber*/
+/* SpaceNumber xgettext:no-c-format*/
 action = gtk_action_new("SpaceNumber",_("Identify Space Number"),_("Identify the space number in which the note is display on"), get_icon_for_name("SpaceNumber", "Identify Space Number"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"LineNumber");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SpaceNumber", _("Identify Space Number"), _("Identify the space number in which the note is display on"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SpaceNumber");
@@ -1826,8 +2002,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/Note-Reading");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ShiftUp*/
+/* ShiftUp xgettext:no-c-format*/
 action = gtk_action_new("ShiftUp",_("Tonal step up"),_("Transpose/shift the cursor note or selection one step up, stay in the keysignature."), get_icon_for_name("ShiftUp", "Tonal step up"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ShiftUp", _("Tonal step up"), _("Transpose/shift the cursor note or selection one step up, stay in the keysignature."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ShiftUp");
@@ -1836,9 +2013,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Transpose");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ShiftDown*/
+/* ShiftDown xgettext:no-c-format*/
 action = gtk_action_new("ShiftDown",_("Tonal step down"),_("Transpose/shift the cursor note or selection one step down, stay in the keysignature."), get_icon_for_name("ShiftDown", "Tonal step down"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ShiftUp");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ShiftDown", _("Tonal step down"), _("Transpose/shift the cursor note or selection one step down, stay in the keysignature."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ShiftDown");
@@ -1847,9 +2025,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Transpose");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* CloseReopenRepeat*/
+/* CloseReopenRepeat xgettext:no-c-format*/
 action = gtk_action_new("CloseReopenRepeat",_("Close and Reopen Repeat"),_("Closes and open repeat block and opens a new one."), get_icon_for_name("CloseReopenRepeat", "Close and Reopen Repeat"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"CloseRepeat");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "CloseReopenRepeat", _("Close and Reopen Repeat"), _("Closes and open repeat block and opens a new one."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("CloseReopenRepeat");
@@ -1858,8 +2037,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MeasureMenu/Repeats");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* GraceNoteSwitcher*/
+/* GraceNoteSwitcher xgettext:no-c-format*/
 action = gtk_action_new("GraceNoteSwitcher",_("Grace Note (On/Off)"),_("Transforms the current selected notes into grace notes."), get_icon_for_name("GraceNoteSwitcher", "Grace Note (On/Off)"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "GraceNoteSwitcher", _("Grace Note (On/Off)"), _("Transforms the current selected notes into grace notes."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("GraceNoteSwitcher");
@@ -1868,8 +2048,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/GraceNotes");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ToggleCursorHighlight*/
+/* ToggleCursorHighlight xgettext:no-c-format*/
 action = gtk_action_new("ToggleCursorHighlight",_("Cursor Highlighting (Off/On)"),_("Shows up the position of the cursor more clearly (off/on)"), get_icon_for_name("ToggleCursorHighlight", "Cursor Highlighting (Off/On)"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ToggleCursorHighlight", _("Cursor Highlighting (Off/On)"), _("Shows up the position of the cursor more clearly (off/on)"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ToggleCursorHighlight");
@@ -1878,8 +2059,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/NavigationMenu/Cursor");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* IntelligentDelete*/
+/* IntelligentDelete xgettext:no-c-format*/
 action = gtk_action_new("IntelligentDelete",_("Delete"),_("Deletes a single object at the cursor, an empty measure or the complete selection."), get_icon_for_name("IntelligentDelete", "Delete"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "IntelligentDelete", _("Delete"), _("Deletes a single object at the cursor, an empty measure or the complete selection."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("IntelligentDelete");
@@ -1888,16 +2070,18 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/EditMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* GoToMeasureEnd*/
+/* GoToMeasureEnd xgettext:no-c-format*/
 action = gtk_action_new("GoToMeasureEnd",_("Go To Measure End"),_("Move the Cursor to the end of the measure"), get_icon_for_name("GoToMeasureEnd", "Go To Measure End"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "GoToMeasureEnd", _("Go To Measure End"), _("Move the Cursor to the end of the measure"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("GoToMeasureEnd");
 g_object_set_data(G_OBJECT(action), "scheme", "");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SlurTwo*/
+/* SlurTwo xgettext:no-c-format*/
 action = gtk_action_new("SlurTwo",_("Slur with Next Note"),_("Creates a slur from current note to next note."), get_icon_for_name("SlurTwo", "Slur with Next Note"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SlurTwo", _("Slur with Next Note"), _("Creates a slur from current note to next note."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SlurTwo");
@@ -1906,9 +2090,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Slurs");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ExtendSlur*/
+/* ExtendSlur xgettext:no-c-format*/
 action = gtk_action_new("ExtendSlur",_("Extend Slur"),_("Extends the slur finishing at the cursor."), get_icon_for_name("ExtendSlur", "Extend Slur"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"SlurTwo");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ExtendSlur", _("Extend Slur"), _("Extends the slur finishing at the cursor."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ExtendSlur");
@@ -1917,9 +2102,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Slurs");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ReduceSlur*/
+/* ReduceSlur xgettext:no-c-format*/
 action = gtk_action_new("ReduceSlur",_("Shorten Slur from End"),_("Shorten a slur that ends at the cursor."), get_icon_for_name("ReduceSlur", "Shorten Slur from End"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ExtendSlur");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ReduceSlur", _("Shorten Slur from End"), _("Shorten a slur that ends at the cursor."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ReduceSlur");
@@ -1928,9 +2114,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Slurs");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* StagedDelete*/
+/* StagedDelete xgettext:no-c-format*/
 action = gtk_action_new("StagedDelete",_("Delete"),_("Deletes the object at the cursor. For Chords it deletes the chord stage by stage."), get_icon_for_name("StagedDelete", "Delete"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"DeletePreviousObject");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "StagedDelete", _("Delete"), _("Deletes the object at the cursor. For Chords it deletes the chord stage by stage."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("StagedDelete");
@@ -1939,9 +2126,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/EditMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* OpenMyDefaultTemplate*/
+/* OpenMyDefaultTemplate xgettext:no-c-format*/
 action = gtk_action_new("OpenMyDefaultTemplate",_("Open Default Template"),_("Opens the template Default.denemo in the user's custom template folder."), get_icon_for_name("OpenMyDefaultTemplate", "Open Default Template"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"OpenMyTemplate");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "OpenMyDefaultTemplate", _("Open Default Template"), _("Opens the template Default.denemo in the user's custom template folder."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("OpenMyDefaultTemplate");
@@ -1950,9 +2138,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/FileMenu/OpenMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* CheckForIncompleteMeasures*/
+/* CheckForIncompleteMeasures xgettext:no-c-format*/
 action = gtk_action_new("CheckForIncompleteMeasures",_("Check for Irregular Measures"),_("Checks each measure for complete number of beats, ignoring Anacrusis and ShortMeasure ones. Stops at anything bad."), get_icon_for_name("CheckForIncompleteMeasures", "Check for Irregular Measures"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"GoToEmptyMeasure");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "CheckForIncompleteMeasures", _("Check for Irregular Measures"), _("Checks each measure for complete number of beats, ignoring Anacrusis and ShortMeasure ones. Stops at anything bad."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("CheckForIncompleteMeasures");
@@ -1961,8 +2150,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/NavigationMenu/Seek");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SmallFontStart*/
+/* SmallFontStart xgettext:no-c-format*/
 action = gtk_action_new("SmallFontStart",_("Small Size"),_("Music after this is printed in a small size."), get_icon_for_name("SmallFontStart", "Small Size"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SmallFontStart", _("Small Size"), _("Music after this is printed in a small size."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SmallFontStart");
@@ -1971,9 +2161,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* OpenFirstTimeBar*/
+/* OpenFirstTimeBar xgettext:no-c-format*/
 action = gtk_action_new("OpenFirstTimeBar",_("Start a First Time Bar"),_("(Print) start a first time bar, must be followed by EndVolta."), get_icon_for_name("OpenFirstTimeBar", "Start a First Time Bar"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ClosingBarline");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "OpenFirstTimeBar", _("Start a First Time Bar"), _("(Print) start a first time bar, must be followed by EndVolta."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("OpenFirstTimeBar");
@@ -1982,9 +2173,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* OpenSecondTimeBar*/
+/* OpenSecondTimeBar xgettext:no-c-format*/
 action = gtk_action_new("OpenSecondTimeBar",_("Start a Second Time Bar"),_("(Print) start a second time bar, must be followed by EndVolta"), get_icon_for_name("OpenSecondTimeBar", "Start a Second Time Bar"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"OpenFirstTimeBar");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "OpenSecondTimeBar", _("Start a Second Time Bar"), _("(Print) start a second time bar, must be followed by EndVolta"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("OpenSecondTimeBar");
@@ -1993,9 +2185,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* EndVolta*/
+/* EndVolta xgettext:no-c-format*/
 action = gtk_action_new("EndVolta",_("End 1st/2nd Time Bar"),_("Ends a volta, that is a n'th time bar"), get_icon_for_name("EndVolta", "End 1st/2nd Time Bar"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"OpenSecondTimeBar");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "EndVolta", _("End 1st/2nd Time Bar"), _("Ends a volta, that is a n'th time bar"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("EndVolta");
@@ -2004,9 +2197,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SmallFontEnd*/
+/* SmallFontEnd xgettext:no-c-format*/
 action = gtk_action_new("SmallFontEnd",_("End Small Size"),_("Printing resumes normal size music."), get_icon_for_name("SmallFontEnd", "End Small Size"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"SmallFontStart");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SmallFontEnd", _("End Small Size"), _("Printing resumes normal size music."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SmallFontEnd");
@@ -2015,9 +2209,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddDuplicateMeasure*/
+/* AddDuplicateMeasure xgettext:no-c-format*/
 action = gtk_action_new("AddDuplicateMeasure",_("Insert Duplicate Measure After"),_("Inserts a copy of the current measure after the present measure."), get_icon_for_name("AddDuplicateMeasure", "Insert Duplicate Measure After"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AddMeasure");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddDuplicateMeasure", _("Insert Duplicate Measure After"), _("Inserts a copy of the current measure after the present measure."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddDuplicateMeasure");
@@ -2026,8 +2221,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MeasureMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* DuplicateChord*/
+/* DuplicateChord xgettext:no-c-format*/
 action = gtk_action_new("DuplicateChord",_("Duplicate Note/Chord"),_("Duplicate a note or chord. Not for rests."), get_icon_for_name("DuplicateChord", "Duplicate Note/Chord"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "DuplicateChord", _("Duplicate Note/Chord"), _("Duplicate a note or chord. Not for rests."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("DuplicateChord");
@@ -2036,8 +2232,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SplitChord*/
+/* SplitChord xgettext:no-c-format*/
 action = gtk_action_new("SplitChord",_("Split Note/Chord"),_("Split a chord into a specific amount of smaller notes while preserving original duration, generating tuplets if necessary. Not for rests."), get_icon_for_name("SplitChord", "Split Note/Chord"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SplitChord", _("Split Note/Chord"), _("Split a chord into a specific amount of smaller notes while preserving original duration, generating tuplets if necessary. Not for rests."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SplitChord");
@@ -2046,9 +2243,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* CadenzaOn*/
+/* CadenzaOn xgettext:no-c-format*/
 action = gtk_action_new("CadenzaOn",_("Start Cadenza"),_("Turns off barlines etc for cadenza"), get_icon_for_name("CadenzaOn", "Start Cadenza"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"Tempo");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "CadenzaOn", _("Start Cadenza"), _("Turns off barlines etc for cadenza"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("CadenzaOn");
@@ -2057,9 +2255,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* FinishCadenza*/
+/* FinishCadenza xgettext:no-c-format*/
 action = gtk_action_new("FinishCadenza",_("End Cadenza"),_("Returns to normal barlines etc after a cadenza"), get_icon_for_name("FinishCadenza", "End Cadenza"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"CadenzaOn");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "FinishCadenza", _("End Cadenza"), _("Returns to normal barlines etc after a cadenza"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("FinishCadenza");
@@ -2068,8 +2267,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NoOp*/
+/* NoOp xgettext:no-c-format*/
 action = gtk_action_new("NoOp",_("Null Operation"),_("Does absolutely nothing. Use to \"blank\" a shortcut."), get_icon_for_name("NoOp", "Null Operation"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NoOp", _("Null Operation"), _("Does absolutely nothing. Use to \"blank\" a shortcut."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NoOp");
@@ -2078,8 +2278,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/MoreMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MergeWithNextMeasure*/
+/* MergeWithNextMeasure xgettext:no-c-format*/
 action = gtk_action_new("MergeWithNextMeasure",_("Merge with Next Measure"),_("Joins two measures together."), get_icon_for_name("MergeWithNextMeasure", "Merge with Next Measure"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MergeWithNextMeasure", _("Merge with Next Measure"), _("Joins two measures together."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MergeWithNextMeasure");
@@ -2088,8 +2289,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MeasureMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ReBar*/
+/* ReBar xgettext:no-c-format*/
 action = gtk_action_new("ReBar",_("Adjust the Measure Lengths"),_("Removes gaps in duration of measures, redistributes the notes according to the time signature."), get_icon_for_name("ReBar", "Adjust the Measure Lengths"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ReBar", _("Adjust the Measure Lengths"), _("Removes gaps in duration of measures, redistributes the notes according to the time signature."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ReBar");
@@ -2098,8 +2300,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SplitMeasure*/
+/* SplitMeasure xgettext:no-c-format*/
 action = gtk_action_new("SplitMeasure",_("Split Measure at Cursor"),_("Split the current measure into two at the cursor."), get_icon_for_name("SplitMeasure", "Split Measure at Cursor"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SplitMeasure", _("Split Measure at Cursor"), _("Split the current measure into two at the cursor."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SplitMeasure");
@@ -2108,8 +2311,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MeasureMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ForceBarline*/
+/* ForceBarline xgettext:no-c-format*/
 action = gtk_action_new("ForceBarline",_("Insert Barline"),_("Insert barline at cursor, Denemo's measure count is unaffected."), get_icon_for_name("ForceBarline", "Insert Barline"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ForceBarline", _("Insert Barline"), _("Insert barline at cursor, Denemo's measure count is unaffected."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ForceBarline");
@@ -2118,8 +2322,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Barlines");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* DenemoPlayCursorToEnd*/
+/* DenemoPlayCursorToEnd xgettext:no-c-format*/
 action = gtk_action_new("DenemoPlayCursorToEnd",_("Play from Cursor to End"),_("Playback all staffs from the current cursor position to the end of the movement."), get_icon_for_name("DenemoPlayCursorToEnd", "Play from Cursor to End"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "DenemoPlayCursorToEnd", _("Play from Cursor to End"), _("Playback all staffs from the current cursor position to the end of the movement."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("DenemoPlayCursorToEnd");
@@ -2128,8 +2333,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/PlaybackMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Tremolo*/
+/* Tremolo xgettext:no-c-format*/
 action = gtk_action_new("Tremolo",_("Tremolo"),_("Follow with a duration key for the subdivisions required: prints the note at the cursor with the tremolo marking."), get_icon_for_name("Tremolo", "Tremolo"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Tremolo", _("Tremolo"), _("Follow with a duration key for the subdivisions required: prints the note at the cursor with the tremolo marking."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Tremolo");
@@ -2138,8 +2344,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* TypesettingOff*/
+/* TypesettingOff xgettext:no-c-format*/
 action = gtk_action_new("TypesettingOff",_("TypesettingOff"),_("Turns off typesetting from that point until turned on."), get_icon_for_name("TypesettingOff", "TypesettingOff"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "TypesettingOff", _("TypesettingOff"), _("Turns off typesetting from that point until turned on."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("TypesettingOff");
@@ -2148,9 +2355,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* TypesettingOn*/
+/* TypesettingOn xgettext:no-c-format*/
 action = gtk_action_new("TypesettingOn",_("TypesettingOn"),_("Turns on typesetting from this point forward in all staffs."), get_icon_for_name("TypesettingOn", "TypesettingOn"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"TypesettingOff");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "TypesettingOn", _("TypesettingOn"), _("Turns on typesetting from this point forward in all staffs."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("TypesettingOn");
@@ -2159,8 +2367,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* OpOne*/
+/* OpOne xgettext:no-c-format*/
 action = gtk_action_new("OpOne",_("OpOne"),_("Wrapper/Dummy for Keypresses"), get_icon_for_name("OpOne", "OpOne"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "OpOne", _("OpOne"), _("Wrapper/Dummy for Keypresses"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("OpOne");
@@ -2169,8 +2378,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/MoreMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* OpTwo*/
+/* OpTwo xgettext:no-c-format*/
 action = gtk_action_new("OpTwo",_("OpTwo"),_("Wrapper/Dummy for Keypresses"), get_icon_for_name("OpTwo", "OpTwo"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "OpTwo", _("OpTwo"), _("Wrapper/Dummy for Keypresses"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("OpTwo");
@@ -2179,8 +2389,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/MoreMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* OpThree*/
+/* OpThree xgettext:no-c-format*/
 action = gtk_action_new("OpThree",_("OpThree"),_("Wrapper/Dummy for Keypresses"), get_icon_for_name("OpThree", "OpThree"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "OpThree", _("OpThree"), _("Wrapper/Dummy for Keypresses"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("OpThree");
@@ -2189,8 +2400,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/MoreMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* OpFour*/
+/* OpFour xgettext:no-c-format*/
 action = gtk_action_new("OpFour",_("OpFour"),_("Wrapper/Dummy for Keypresses"), get_icon_for_name("OpFour", "OpFour"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "OpFour", _("OpFour"), _("Wrapper/Dummy for Keypresses"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("OpFour");
@@ -2199,8 +2411,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/MoreMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* OpFive*/
+/* OpFive xgettext:no-c-format*/
 action = gtk_action_new("OpFive",_("OpFive"),_("Wrapper/Dummy for Keypresses"), get_icon_for_name("OpFive", "OpFive"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "OpFive", _("OpFive"), _("Wrapper/Dummy for Keypresses"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("OpFive");
@@ -2209,8 +2422,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/MoreMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* OpSix*/
+/* OpSix xgettext:no-c-format*/
 action = gtk_action_new("OpSix",_("OpSix"),_("Wrapper/Dummy for Keypresses"), get_icon_for_name("OpSix", "OpSix"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "OpSix", _("OpSix"), _("Wrapper/Dummy for Keypresses"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("OpSix");
@@ -2219,8 +2433,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/MoreMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* OpSeven*/
+/* OpSeven xgettext:no-c-format*/
 action = gtk_action_new("OpSeven",_("OpSeven"),_("Wrapper/Dummy for Keypresses"), get_icon_for_name("OpSeven", "OpSeven"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "OpSeven", _("OpSeven"), _("Wrapper/Dummy for Keypresses"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("OpSeven");
@@ -2229,8 +2444,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/MoreMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* OpEight*/
+/* OpEight xgettext:no-c-format*/
 action = gtk_action_new("OpEight",_("OpEight"),_("Wrapper/Dummy for Keypresses"), get_icon_for_name("OpEight", "OpEight"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "OpEight", _("OpEight"), _("Wrapper/Dummy for Keypresses"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("OpEight");
@@ -2239,8 +2455,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/MoreMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* OpNine*/
+/* OpNine xgettext:no-c-format*/
 action = gtk_action_new("OpNine",_("OpNine"),_("Wrapper/Dummy for Keypresses"), get_icon_for_name("OpNine", "OpNine"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "OpNine", _("OpNine"), _("Wrapper/Dummy for Keypresses"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("OpNine");
@@ -2249,8 +2466,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/MoreMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* OpZero*/
+/* OpZero xgettext:no-c-format*/
 action = gtk_action_new("OpZero",_("OpZero"),_("Wrapper/Dummy for Keypresses"), get_icon_for_name("OpZero", "OpZero"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "OpZero", _("OpZero"), _("Wrapper/Dummy for Keypresses"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("OpZero");
@@ -2259,8 +2477,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/MoreMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* LoadDefaultComposerNumberkeys*/
+/* LoadDefaultComposerNumberkeys xgettext:no-c-format*/
 action = gtk_action_new("LoadDefaultComposerNumberkeys",_("Reset Keys in Composer Mode"),_("Wrapper/Dummy for Keypresses"), get_icon_for_name("LoadDefaultComposerNumberkeys", "Reset Keys in Composer Mode"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "LoadDefaultComposerNumberkeys", _("Reset Keys in Composer Mode"), _("Wrapper/Dummy for Keypresses"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("LoadDefaultComposerNumberkeys");
@@ -2269,8 +2488,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/MoreMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* FingeringsDoublestroke*/
+/* FingeringsDoublestroke xgettext:no-c-format*/
 action = gtk_action_new("FingeringsDoublestroke",_("Fingerings"),_("Place a fingering instruction on a note"), get_icon_for_name("FingeringsDoublestroke", "Fingerings"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "FingeringsDoublestroke", _("Fingerings"), _("Place a fingering instruction on a note"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("FingeringsDoublestroke");
@@ -2279,8 +2499,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* TextAbove*/
+/* TextAbove xgettext:no-c-format*/
 action = gtk_action_new("TextAbove",_("Arbitrary Text"),_("Prints your text above the music at this point"), get_icon_for_name("TextAbove", "Arbitrary Text"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "TextAbove", _("Arbitrary Text"), _("Prints your text above the music at this point"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("TextAbove");
@@ -2289,9 +2510,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* JumpUpOctave*/
+/* JumpUpOctave xgettext:no-c-format*/
 action = gtk_action_new("JumpUpOctave",_("Octave Up"),_("Moves cursor up one octave."), get_icon_for_name("JumpUpOctave", "Octave Up"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MoveCursorRight");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "JumpUpOctave", _("Octave Up"), _("Moves cursor up one octave."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("JumpUpOctave");
@@ -2300,9 +2522,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/NavigationMenu/Cursor");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* JumpDownOctave*/
+/* JumpDownOctave xgettext:no-c-format*/
 action = gtk_action_new("JumpDownOctave",_("Octave Down"),_("Moves cursor down an octave."), get_icon_for_name("JumpDownOctave", "Octave Down"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"JumpUpOctave");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "JumpDownOctave", _("Octave Down"), _("Moves cursor down an octave."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("JumpDownOctave");
@@ -2311,9 +2534,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/NavigationMenu/Cursor");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* DenemoBar*/
+/* DenemoBar xgettext:no-c-format*/
 action = gtk_action_new("DenemoBar",_("Typeset Barlines Literally"),_("Typesets the Denemo barlines, regardless of the timing."), get_icon_for_name("DenemoBar", "Typeset Barlines Literally"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"Ambitus");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "DenemoBar", _("Typeset Barlines Literally"), _("Typesets the Denemo barlines, regardless of the timing."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("DenemoBar");
@@ -2322,9 +2546,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AutoAccidentals*/
+/* AutoAccidentals xgettext:no-c-format*/
 action = gtk_action_new("AutoAccidentals",_("(Print) Accidental Printing"),_("Prints accidentals according to a chosen style. Affects following notes only."), get_icon_for_name("AutoAccidentals", "(Print) Accidental Printing"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"TypesettingOff");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AutoAccidentals", _("(Print) Accidental Printing"), _("Prints accidentals according to a chosen style. Affects following notes only."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AutoAccidentals");
@@ -2333,9 +2558,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* InsertTwoGraceNotesBeamed*/
+/* InsertTwoGraceNotesBeamed xgettext:no-c-format*/
 action = gtk_action_new("InsertTwoGraceNotesBeamed",_("Insert Two"),_("Inserts two grace notes at the cursor beaming them together. Follow with a duration key."), get_icon_for_name("InsertTwoGraceNotesBeamed", "Insert Two"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ToggleGrace");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "InsertTwoGraceNotesBeamed", _("Insert Two"), _("Inserts two grace notes at the cursor beaming them together. Follow with a duration key."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("InsertTwoGraceNotesBeamed");
@@ -2344,8 +2570,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/GraceNotes");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SelectionToEmptyMeasure*/
+/* SelectionToEmptyMeasure xgettext:no-c-format*/
 action = gtk_action_new("SelectionToEmptyMeasure",_("Selection to Next Empty Measure"),_("Creates a selection to the next empty measure in the current staff"), get_icon_for_name("SelectionToEmptyMeasure", "Selection to Next Empty Measure"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SelectionToEmptyMeasure", _("Selection to Next Empty Measure"), _("Creates a selection to the next empty measure in the current staff"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SelectionToEmptyMeasure");
@@ -2354,8 +2581,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/EditMenu/Select");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ShiftRealOctaveUp*/
+/* ShiftRealOctaveUp xgettext:no-c-format*/
 action = gtk_action_new("ShiftRealOctaveUp",_("Octave Up"),_("Shifts current notes/selection up one octave while preserving accidental status. This means real transposition"), get_icon_for_name("ShiftRealOctaveUp", "Octave Up"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ShiftRealOctaveUp", _("Octave Up"), _("Shifts current notes/selection up one octave while preserving accidental status. This means real transposition"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ShiftRealOctaveUp");
@@ -2364,8 +2592,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Transpose");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ShiftRealOctaveDown*/
+/* ShiftRealOctaveDown xgettext:no-c-format*/
 action = gtk_action_new("ShiftRealOctaveDown",_("Octave Down"),_("Shifts current notes/selection down one octave while preserving accidental status. This means real transposition"), get_icon_for_name("ShiftRealOctaveDown", "Octave Down"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ShiftRealOctaveDown", _("Octave Down"), _("Shifts current notes/selection down one octave while preserving accidental status. This means real transposition"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ShiftRealOctaveDown");
@@ -2374,8 +2603,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Transpose");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NotationMagick-TwelveToneRow*/
+/* NotationMagick-TwelveToneRow xgettext:no-c-format*/
 action = gtk_action_new("NotationMagick-TwelveToneRow",_("Twelve Tone Row"),_("Generates twelve notes of the prevailing duration, each is unique so the whole chromatic range gets inserted in a random manner. "), get_icon_for_name("NotationMagick-TwelveToneRow", "Twelve Tone Row"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NotationMagick-TwelveToneRow", _("Twelve Tone Row"), _("Generates twelve notes of the prevailing duration, each is unique so the whole chromatic range gets inserted in a random manner. "), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NotationMagick-TwelveToneRow");
@@ -2384,8 +2614,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotationMagick");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NotationMagick-InsertNoteFromPool*/
+/* NotationMagick-InsertNoteFromPool xgettext:no-c-format*/
 action = gtk_action_new("NotationMagick-InsertNoteFromPool",_("Note from Pool"),_("Inserts one note from a user-specified pool of notes in Lilypond syntax"), get_icon_for_name("NotationMagick-InsertNoteFromPool", "Note from Pool"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NotationMagick-InsertNoteFromPool", _("Note from Pool"), _("Inserts one note from a user-specified pool of notes in Lilypond syntax"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NotationMagick-InsertNoteFromPool");
@@ -2394,8 +2625,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotationMagick/SingleRandomNote");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NotationMagick-InsertPoolShuffled*/
+/* NotationMagick-InsertPoolShuffled xgettext:no-c-format*/
 action = gtk_action_new("NotationMagick-InsertPoolShuffled",_("Insert Shuffled Pool"),_("Inserts all notes, shuffled, from a user-specified pool of notes in Lilypond syntax"), get_icon_for_name("NotationMagick-InsertPoolShuffled", "Insert Shuffled Pool"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NotationMagick-InsertPoolShuffled", _("Insert Shuffled Pool"), _("Inserts all notes, shuffled, from a user-specified pool of notes in Lilypond syntax"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NotationMagick-InsertPoolShuffled");
@@ -2404,8 +2636,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotationMagick");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NotationMagick-RandomWithinClefRangeChromatic*/
+/* NotationMagick-RandomWithinClefRangeChromatic xgettext:no-c-format*/
 action = gtk_action_new("NotationMagick-RandomWithinClefRangeChromatic",_("Chromatic within Clef Range"),_("Insert a random note within clef range. Full chromatic spectrum."), get_icon_for_name("NotationMagick-RandomWithinClefRangeChromatic", "Chromatic within Clef Range"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NotationMagick-RandomWithinClefRangeChromatic", _("Chromatic within Clef Range"), _("Insert a random note within clef range. Full chromatic spectrum."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NotationMagick-RandomWithinClefRangeChromatic");
@@ -2414,8 +2647,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotationMagick/SingleRandomNote");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NotationMagick-RandomWithinClefRangeDiatonic*/
+/* NotationMagick-RandomWithinClefRangeDiatonic xgettext:no-c-format*/
 action = gtk_action_new("NotationMagick-RandomWithinClefRangeDiatonic",_("Diatonic within Clef Range"),_("Insert a random note within clef range, only diatonic notes according to current keysignature."), get_icon_for_name("NotationMagick-RandomWithinClefRangeDiatonic", "Diatonic within Clef Range"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NotationMagick-RandomWithinClefRangeDiatonic", _("Diatonic within Clef Range"), _("Insert a random note within clef range, only diatonic notes according to current keysignature."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NotationMagick-RandomWithinClefRangeDiatonic");
@@ -2424,8 +2658,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotationMagick/SingleRandomNote");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* GraceAfter*/
+/* GraceAfter xgettext:no-c-format*/
 action = gtk_action_new("GraceAfter",_("Grace After"),_("Print the grace note(s) at the cursor attached to the previous note. Beware! You must reissue this command if you change the notes in any way, only the pitch and duration when this command was issued will be printed."), get_icon_for_name("GraceAfter", "Grace After"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "GraceAfter", _("Grace After"), _("Print the grace note(s) at the cursor attached to the previous note. Beware! You must reissue this command if you change the notes in any way, only the pitch and duration when this command was issued will be printed."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("GraceAfter");
@@ -2434,8 +2669,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/GraceNotes");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SetBarNumber*/
+/* SetBarNumber xgettext:no-c-format*/
 action = gtk_action_new("SetBarNumber",_("(Print) Set Bar Number"),_("Enter a number to change the lilypond bar number. The printout will continue to count up from there."), get_icon_for_name("SetBarNumber", "(Print) Set Bar Number"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SetBarNumber", _("(Print) Set Bar Number"), _("Enter a number to change the lilypond bar number. The printout will continue to count up from there."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SetBarNumber");
@@ -2444,9 +2680,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SetTuningStaff*/
+/* SetTuningStaff xgettext:no-c-format*/
 action = gtk_action_new("SetTuningStaff",_("Set Tuning for Current Staff"),_("At this time in playback the current staff's tuning will switch to the temperament selected when this command is invoked."), get_icon_for_name("SetTuningStaff", "Set Tuning for Current Staff"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"TypesettingOn");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SetTuningStaff", _("Set Tuning for Current Staff"), _("At this time in playback the current staff's tuning will switch to the temperament selected when this command is invoked."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SetTuningStaff");
@@ -2455,9 +2692,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Tuning");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SetTuningAllStaffs*/
+/* SetTuningAllStaffs xgettext:no-c-format*/
 action = gtk_action_new("SetTuningAllStaffs",_("Set Tuning Across All Staffs"),_("At this time during playback switch to the temperament set when this command was invoked."), get_icon_for_name("SetTuningAllStaffs", "Set Tuning Across All Staffs"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"SetTuningStaff");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SetTuningAllStaffs", _("Set Tuning Across All Staffs"), _("At this time during playback switch to the temperament set when this command was invoked."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SetTuningAllStaffs");
@@ -2466,8 +2704,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Tuning");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Hide*/
+/* Hide xgettext:no-c-format*/
 action = gtk_action_new("Hide",_("(Print) Hide Object"),_("Hides the object at cursor position with a lilypond directive. Currently only Notes and the three Signatures. No rests!"), get_icon_for_name("Hide", "(Print) Hide Object"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Hide", _("(Print) Hide Object"), _("Hides the object at cursor position with a lilypond directive. Currently only Notes and the three Signatures. No rests!"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Hide");
@@ -2476,8 +2715,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* BreathMark*/
+/* BreathMark xgettext:no-c-format*/
 action = gtk_action_new("BreathMark",_("Breath Mark"),_("Inserts a Breath Mark"), get_icon_for_name("BreathMark", "Breath Mark"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "BreathMark", _("Breath Mark"), _("Inserts a Breath Mark"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("BreathMark");
@@ -2486,8 +2726,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* DeactivateTimeSignatureStencil*/
+/* DeactivateTimeSignatureStencil xgettext:no-c-format*/
 action = gtk_action_new("DeactivateTimeSignatureStencil",_("(Print) Don't Engrave Time Signatures"),_("Deactivates the stencil for Time Signatures for the whole score, which prevents them from getting drawn and taking space. But the logic is still active."), get_icon_for_name("DeactivateTimeSignatureStencil", "(Print) Don't Engrave Time Signatures"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "DeactivateTimeSignatureStencil", _("(Print) Don't Engrave Time Signatures"), _("Deactivates the stencil for Time Signatures for the whole score, which prevents them from getting drawn and taking space. But the logic is still active."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("DeactivateTimeSignatureStencil");
@@ -2496,8 +2737,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* StopStaff*/
+/* StopStaff xgettext:no-c-format*/
 action = gtk_action_new("StopStaff",_("(Print) Stop Drawing Staff"),_("Stop drawing the staff and barlines in Lilypond. Notes are still drawn."), get_icon_for_name("StopStaff", "(Print) Stop Drawing Staff"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "StopStaff", _("(Print) Stop Drawing Staff"), _("Stop drawing the staff and barlines in Lilypond. Notes are still drawn."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("StopStaff");
@@ -2506,9 +2748,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Staff");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* StartStaff*/
+/* StartStaff xgettext:no-c-format*/
 action = gtk_action_new("StartStaff",_("(Print) Start Drawing Staff (Again)"),_("Reverts the \"Stop Drawing Staff\" command"), get_icon_for_name("StartStaff", "(Print) Start Drawing Staff (Again)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"StopStaff");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "StartStaff", _("(Print) Start Drawing Staff (Again)"), _("Reverts the \"Stop Drawing Staff\" command"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("StartStaff");
@@ -2517,8 +2760,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Staff");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* HideNotes*/
+/* HideNotes xgettext:no-c-format*/
 action = gtk_action_new("HideNotes",_("(Print) Stop Drawing Notes"),_("Stops the Lilypond engraving of notes"), get_icon_for_name("HideNotes", "(Print) Stop Drawing Notes"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "HideNotes", _("(Print) Stop Drawing Notes"), _("Stops the Lilypond engraving of notes"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("HideNotes");
@@ -2527,9 +2771,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Staff");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* UnHideNotes*/
+/* UnHideNotes xgettext:no-c-format*/
 action = gtk_action_new("UnHideNotes",_("(Print) Start Drawing Notes (Again)"),_("Reverts the \"Stop drawing notes\" command"), get_icon_for_name("UnHideNotes", "(Print) Start Drawing Notes (Again)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"HideNotes");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "UnHideNotes", _("(Print) Start Drawing Notes (Again)"), _("Reverts the \"Stop drawing notes\" command"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("UnHideNotes");
@@ -2538,8 +2783,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Staff");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SwitchMensuralBarlines*/
+/* SwitchMensuralBarlines xgettext:no-c-format*/
 action = gtk_action_new("SwitchMensuralBarlines",_("(Print) Mensural Barlines (On/Off)"),_("Draw the barlines only between the staves but not inside."), get_icon_for_name("SwitchMensuralBarlines", "(Print) Mensural Barlines (On/Off)"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SwitchMensuralBarlines", _("(Print) Mensural Barlines (On/Off)"), _("Draw the barlines only between the staves but not inside."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SwitchMensuralBarlines");
@@ -2548,8 +2794,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* InsertBreve*/
+/* InsertBreve xgettext:no-c-format*/
 action = gtk_action_new("InsertBreve",_("Breve"),_("Insert a Breve"), get_icon_for_name("InsertBreve", "Breve"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "InsertBreve", _("Breve"), _("Insert a Breve"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("InsertBreve");
@@ -2558,8 +2805,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/InsertNote/InsertDuration");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChangeBreve*/
+/* ChangeBreve xgettext:no-c-format*/
 action = gtk_action_new("ChangeBreve",_("Breve"),_("Change current note duration to Breve"), get_icon_for_name("ChangeBreve", "Breve"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChangeBreve", _("Breve"), _("Change current note duration to Breve"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChangeBreve");
@@ -2568,8 +2816,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/ChangeDuration");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* InsertLonga*/
+/* InsertLonga xgettext:no-c-format*/
 action = gtk_action_new("InsertLonga",_("Longa"),_("Insert a Longa"), get_icon_for_name("InsertLonga", "Longa"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "InsertLonga", _("Longa"), _("Insert a Longa"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("InsertLonga");
@@ -2578,8 +2827,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/InsertNote/InsertDuration");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChangeLonga*/
+/* ChangeLonga xgettext:no-c-format*/
 action = gtk_action_new("ChangeLonga",_("Longa"),_("Change current note duration to Longa"), get_icon_for_name("ChangeLonga", "Longa"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChangeLonga", _("Longa"), _("Change current note duration to Longa"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChangeLonga");
@@ -2588,8 +2838,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/ChangeDuration");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* InsertBreveRest*/
+/* InsertBreveRest xgettext:no-c-format*/
 action = gtk_action_new("InsertBreveRest",_("Breve Rest"),_("Insert a rest with breve duration"), get_icon_for_name("InsertBreveRest", "Breve Rest"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "InsertBreveRest", _("Breve Rest"), _("Insert a rest with breve duration"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("InsertBreveRest");
@@ -2598,8 +2849,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/RestEntry");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* InsertLongaRest*/
+/* InsertLongaRest xgettext:no-c-format*/
 action = gtk_action_new("InsertLongaRest",_("Longa Rest"),_("Insert a rest with longa duration"), get_icon_for_name("InsertLongaRest", "Longa Rest"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "InsertLongaRest", _("Longa Rest"), _("Insert a rest with longa duration"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("InsertLongaRest");
@@ -2608,9 +2860,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/RestEntry");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Breve*/
+/* Breve xgettext:no-c-format*/
 action = gtk_action_new("Breve",_("Breve"),_("Append/Insert Breve"), get_icon_for_name("Breve", "Breve"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"InsertRhythm");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Breve", _("Breve"), _("Append/Insert Breve"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Breve");
@@ -2619,9 +2872,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/EditDuration");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Longa*/
+/* Longa xgettext:no-c-format*/
 action = gtk_action_new("Longa",_("Longa"),_("Append/Insert Longa duration"), get_icon_for_name("Longa", "Longa"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"Breve");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Longa", _("Longa"), _("Append/Insert Longa duration"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Longa");
@@ -2630,9 +2884,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/EditDuration");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SetBreve*/
+/* SetBreve xgettext:no-c-format*/
 action = gtk_action_new("SetBreve",_("Breve"),_("Sets Prevailing Duration to Breve"), get_icon_for_name("SetBreve", "Breve"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"Set7");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SetBreve", _("Breve"), _("Sets Prevailing Duration to Breve"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SetBreve");
@@ -2641,9 +2896,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/SelectDuration");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ScoreProlog*/
+/* ScoreProlog xgettext:no-c-format*/
 action = gtk_action_new("ScoreProlog",_("LilyPond Score Prolog"),_("Inserts LilyPond syntax for include files etc at head of score."), get_icon_for_name("ScoreProlog", "LilyPond Score Prolog"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"EditScoreDirective");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ScoreProlog", _("LilyPond Score Prolog"), _("Inserts LilyPond syntax for include files etc at head of score."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ScoreProlog");
@@ -2652,8 +2908,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Upbeat*/
+/* Upbeat xgettext:no-c-format*/
 action = gtk_action_new("Upbeat",_("Anacrusis (Upbeat, Pickup)"),_("Convert the current measure to a partial measure so that it is complete with just the beats already inserted."), get_icon_for_name("Upbeat", "Anacrusis (Upbeat, Pickup)"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Upbeat", _("Anacrusis (Upbeat, Pickup)"), _("Convert the current measure to a partial measure so that it is complete with just the beats already inserted."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Upbeat");
@@ -2662,9 +2919,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MeasureMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SetLonga*/
+/* SetLonga xgettext:no-c-format*/
 action = gtk_action_new("SetLonga",_("Longa"),_("Sets Longa as the prevailing duration, installing it as a musical snippet."), get_icon_for_name("SetLonga", "Longa"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"SetBreve");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SetLonga", _("Longa"), _("Sets Longa as the prevailing duration, installing it as a musical snippet."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SetLonga");
@@ -2673,9 +2931,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/SelectDuration");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SetInitialVolumeToZero*/
+/* SetInitialVolumeToZero xgettext:no-c-format*/
 action = gtk_action_new("SetInitialVolumeToZero",_("Mute"),_("Mutes playback on this staff by placing a volume=zero directive at the start."), get_icon_for_name("SetInitialVolumeToZero", "Mute"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MoveToVoiceDown");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SetInitialVolumeToZero", _("Mute"), _("Mutes playback on this staff by placing a volume=zero directive at the start."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SetInitialVolumeToZero");
@@ -2684,9 +2943,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Playback");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* TinyStaff*/
+/* TinyStaff xgettext:no-c-format*/
 action = gtk_action_new("TinyStaff",_("Tiny Staff"),_("Prints current staff in a tiny font."), get_icon_for_name("TinyStaff", "Tiny Staff"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"SmallerStaff");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "TinyStaff", _("Tiny Staff"), _("Prints current staff in a tiny font."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("TinyStaff");
@@ -2695,9 +2955,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* TabStaff*/
+/* TabStaff xgettext:no-c-format*/
 action = gtk_action_new("TabStaff",_("Tablature"),_("Converts to tablature notation (print only)"), get_icon_for_name("TabStaff", "Tablature"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"TinyStaff");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "TabStaff", _("Tablature"), _("Converts to tablature notation (print only)"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("TabStaff");
@@ -2706,8 +2967,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* FreeFermata*/
+/* FreeFermata xgettext:no-c-format*/
 action = gtk_action_new("FreeFermata",_("(Print) Standalone Fermata (for Barlines)"),_("Adds a standalone fermata which has no playback effect. Can be used to place a Fermata on a barline."), get_icon_for_name("FreeFermata", "(Print) Standalone Fermata (for Barlines)"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "FreeFermata", _("(Print) Standalone Fermata (for Barlines)"), _("Adds a standalone fermata which has no playback effect. Can be used to place a Fermata on a barline."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("FreeFermata");
@@ -2716,9 +2978,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SetPitchBendActions*/
+/* SetPitchBendActions xgettext:no-c-format*/
 action = gtk_action_new("SetPitchBendActions",_("Set Pitch Bend Controller"),_("Takes two keyboard shortcuts and sets the commands as the actions for Pitch Bend controller wheel up/down"), get_icon_for_name("SetPitchBendActions", "Set Pitch Bend Controller"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AngryDelete");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SetPitchBendActions", _("Set Pitch Bend Controller"), _("Takes two keyboard shortcuts and sets the commands as the actions for Pitch Bend controller wheel up/down"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SetPitchBendActions");
@@ -2727,8 +2990,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/InputMenu/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ZoomIn*/
+/* ZoomIn xgettext:no-c-format*/
 action = gtk_action_new("ZoomIn",_("Zoom In"),_("Zoom In"), get_icon_for_name("ZoomIn", "Zoom In"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ZoomIn", _("Zoom In"), _("Zoom In"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ZoomIn");
@@ -2737,8 +3001,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/ViewMenu/Zoom");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ZoomOut*/
+/* ZoomOut xgettext:no-c-format*/
 action = gtk_action_new("ZoomOut",_("Zoom Out"),_("Zoom Out"), get_icon_for_name("ZoomOut", "Zoom Out"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ZoomOut", _("Zoom Out"), _("Zoom Out"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ZoomOut");
@@ -2747,8 +3012,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/ViewMenu/Zoom");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ZoomReset*/
+/* ZoomReset xgettext:no-c-format*/
 action = gtk_action_new("ZoomReset",_("Zoom to 100%"),_("Zoom to 100%, restore the original size"), get_icon_for_name("ZoomReset", "Zoom to 100%"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ZoomReset", _("Zoom to 100%"), _("Zoom to 100%, restore the original size"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ZoomReset");
@@ -2757,9 +3023,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/ViewMenu/Zoom");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AccompanistsScore*/
+/* AccompanistsScore xgettext:no-c-format*/
 action = gtk_action_new("AccompanistsScore",_("(Print) Accompanist's Score"),_("Sets/Unsets the top staff of each movement to a tiny font, with the lower staffs - the accompaniment - at the normal font. Print effect only."), get_icon_for_name("AccompanistsScore", "(Print) Accompanist's Score"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"DeactivateTimeSignatureStencil");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AccompanistsScore", _("(Print) Accompanist's Score"), _("Sets/Unsets the top staff of each movement to a tiny font, with the lower staffs - the accompaniment - at the normal font. Print effect only."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AccompanistsScore");
@@ -2768,8 +3035,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* DeleteSelectionLeaveEmpty*/
+/* DeleteSelectionLeaveEmpty xgettext:no-c-format*/
 action = gtk_action_new("DeleteSelectionLeaveEmpty",_("Delete Selected Objects"),_("Delete all selected objects and leave empty measures behind"), get_icon_for_name("DeleteSelectionLeaveEmpty", "Delete Selected Objects"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "DeleteSelectionLeaveEmpty", _("Delete Selected Objects"), _("Delete all selected objects and leave empty measures behind"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("DeleteSelectionLeaveEmpty");
@@ -2778,8 +3046,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/EditMenu/Select");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* HalfBarline*/
+/* HalfBarline xgettext:no-c-format*/
 action = gtk_action_new("HalfBarline",_("Half Barline"),_("Insert a barline with only half of its original size"), get_icon_for_name("HalfBarline", "Half Barline"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "HalfBarline", _("Half Barline"), _("Insert a barline with only half of its original size"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("HalfBarline");
@@ -2788,9 +3057,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Barlines");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MoveToMovementBeginning*/
+/* MoveToMovementBeginning xgettext:no-c-format*/
 action = gtk_action_new("MoveToMovementBeginning",_("Move To Movement Beginning"),_("Moves the cursor to the beginning of the movement without altering the selection"), get_icon_for_name("MoveToMovementBeginning", "Move To Movement Beginning"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MoveToBeginning");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MoveToMovementBeginning", _("Move To Movement Beginning"), _("Moves the cursor to the beginning of the movement without altering the selection"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MoveToMovementBeginning");
@@ -2799,8 +3069,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/NavigationMenu/Cursor");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* InsertStandaloneDirective*/
+/* InsertStandaloneDirective xgettext:no-c-format*/
 action = gtk_action_new("InsertStandaloneDirective",_("Insert Lilypond"),_("Insert or edit a directive in the LilyPond music typesetting language. This can be used for extra spacing, transposing or almost anything. See LilyPond documentation for ideas."), get_icon_for_name("InsertStandaloneDirective", "Insert Lilypond"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "InsertStandaloneDirective", _("Insert Lilypond"), _("Insert or edit a directive in the LilyPond music typesetting language. This can be used for extra spacing, transposing or almost anything. See LilyPond documentation for ideas."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("InsertStandaloneDirective");
@@ -2809,8 +3080,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ToggleImmediatePlayback*/
+/* ToggleImmediatePlayback xgettext:no-c-format*/
 action = gtk_action_new("ToggleImmediatePlayback",_("Toggle Immediate Playback"),_("Toggle on/off if you want to hear the note directly after inserting/changing."), get_icon_for_name("ToggleImmediatePlayback", "Toggle Immediate Playback"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ToggleImmediatePlayback", _("Toggle Immediate Playback"), _("Toggle on/off if you want to hear the note directly after inserting/changing."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ToggleImmediatePlayback");
@@ -2819,8 +3091,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/PlaybackMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* VoicePresetAutomatic*/
+/* VoicePresetAutomatic xgettext:no-c-format*/
 action = gtk_action_new("VoicePresetAutomatic",_("Voice Preset Automatic"),_("Automatic voice preset. Resets to normal behaviour."), get_icon_for_name("VoicePresetAutomatic", "Voice Preset Automatic"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "VoicePresetAutomatic", _("Voice Preset Automatic"), _("Automatic voice preset. Resets to normal behaviour."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("VoicePresetAutomatic");
@@ -2829,9 +3102,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* VoicePreset1*/
+/* VoicePreset1 xgettext:no-c-format*/
 action = gtk_action_new("VoicePreset1",_("Voice Preset 1 (Stems Up)"),_("Preset for first voice. Stems up"), get_icon_for_name("VoicePreset1", "Voice Preset 1 (Stems Up)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"VoicePresetAutomatic");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "VoicePreset1", _("Voice Preset 1 (Stems Up)"), _("Preset for first voice. Stems up"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("VoicePreset1");
@@ -2840,9 +3114,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* VoicePreset2*/
+/* VoicePreset2 xgettext:no-c-format*/
 action = gtk_action_new("VoicePreset2",_("Voice Preset 2 (Stems Down)"),_("Preset for second voice. Stems down."), get_icon_for_name("VoicePreset2", "Voice Preset 2 (Stems Down)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"VoicePreset1");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "VoicePreset2", _("Voice Preset 2 (Stems Down)"), _("Preset for second voice. Stems down."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("VoicePreset2");
@@ -2851,9 +3126,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* VoicePreset3*/
+/* VoicePreset3 xgettext:no-c-format*/
 action = gtk_action_new("VoicePreset3",_("Voice Preset 3 (Stems Up)"),_("Preset for third voice. Stems up."), get_icon_for_name("VoicePreset3", "Voice Preset 3 (Stems Up)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"VoicePreset2");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "VoicePreset3", _("Voice Preset 3 (Stems Up)"), _("Preset for third voice. Stems up."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("VoicePreset3");
@@ -2862,9 +3138,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* VoicePreset4*/
+/* VoicePreset4 xgettext:no-c-format*/
 action = gtk_action_new("VoicePreset4",_("Voice Preset 4 (Stems Down)"),_("Preset for voice four. Stems down."), get_icon_for_name("VoicePreset4", "Voice Preset 4 (Stems Down)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"VoicePreset3");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "VoicePreset4", _("Voice Preset 4 (Stems Down)"), _("Preset for voice four. Stems down."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("VoicePreset4");
@@ -2873,9 +3150,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* PrintAccompanistsScore*/
+/* PrintAccompanistsScore xgettext:no-c-format*/
 action = gtk_action_new("PrintAccompanistsScore",_("Print Accompanist's Score"),_("Prints out the score with the topmost staff in tiny size and puts page breaks before each movement."), get_icon_for_name("PrintAccompanistsScore", "Print Accompanist's Score"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"PrintSelection");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "PrintAccompanistsScore", _("Print Accompanist's Score"), _("Prints out the score with the topmost staff in tiny size and puts page breaks before each movement."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("PrintAccompanistsScore");
@@ -2884,9 +3162,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/FileMenu/PrintMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* TinyStaffAllMovements*/
+/* TinyStaffAllMovements xgettext:no-c-format*/
 action = gtk_action_new("TinyStaffAllMovements",_("Tiny Staff in All Movements"),_("Gets a staff number 1 ... n from user and makes that staff tiny in all movements."), get_icon_for_name("TinyStaffAllMovements", "Tiny Staff in All Movements"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"TinyStaff");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "TinyStaffAllMovements", _("Tiny Staff in All Movements"), _("Gets a staff number 1 ... n from user and makes that staff tiny in all movements."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("TinyStaffAllMovements");
@@ -2895,8 +3174,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SelectColumn*/
+/* SelectColumn xgettext:no-c-format*/
 action = gtk_action_new("SelectColumn",_("Select Column"),_("Selects the whole column"), get_icon_for_name("SelectColumn", "Select Column"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SelectColumn", _("Select Column"), _("Selects the whole column"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SelectColumn");
@@ -2905,9 +3185,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/EditMenu/Select");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MoveToMovementEnd*/
+/* MoveToMovementEnd xgettext:no-c-format*/
 action = gtk_action_new("MoveToMovementEnd",_("Move To Movement End"),_("Move the cursor to last measure, last staff without altering the selection."), get_icon_for_name("MoveToMovementEnd", "Move To Movement End"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MoveToMovementBeginning");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MoveToMovementEnd", _("Move To Movement End"), _("Move the cursor to last measure, last staff without altering the selection."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MoveToMovementEnd");
@@ -2916,8 +3197,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/NavigationMenu/Cursor");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* VoicesDoublestroke*/
+/* VoicesDoublestroke xgettext:no-c-format*/
 action = gtk_action_new("VoicesDoublestroke",_("Voice Preset"),_("Choose a preset for four voices or automatic voice."), get_icon_for_name("VoicesDoublestroke", "Voice Preset"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "VoicesDoublestroke", _("Voice Preset"), _("Choose a preset for four voices or automatic voice."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("VoicesDoublestroke");
@@ -2926,9 +3208,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Congruentia*/
+/* Congruentia xgettext:no-c-format*/
 action = gtk_action_new("Congruentia",_("Congruentia"),_("Print congruentia / canon symbol"), get_icon_for_name("Congruentia", "Congruentia"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ToggleFermata");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Congruentia", _("Congruentia"), _("Print congruentia / canon symbol"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Congruentia");
@@ -2937,8 +3220,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/TextMarks");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* LoadSelectDurationComposerNumberkeys*/
+/* LoadSelectDurationComposerNumberkeys xgettext:no-c-format*/
 action = gtk_action_new("LoadSelectDurationComposerNumberkeys",_("Change to 'Select Duration' Number Keys in Composer Mode"),_("Change the number keys to select the prevailing duration in composer mode."), get_icon_for_name("LoadSelectDurationComposerNumberkeys", "Change to 'Select Duration' Number Keys in Composer Mode"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "LoadSelectDurationComposerNumberkeys", _("Change to 'Select Duration' Number Keys in Composer Mode"), _("Change the number keys to select the prevailing duration in composer mode."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("LoadSelectDurationComposerNumberkeys");
@@ -2947,8 +3231,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/MoreMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SelectRight*/
+/* SelectRight xgettext:no-c-format*/
 action = gtk_action_new("SelectRight",_("Select Right"),_("Create a selection, move the cursor right."), get_icon_for_name("SelectRight", "Select Right"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SelectRight", _("Select Right"), _("Create a selection, move the cursor right."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SelectRight");
@@ -2957,9 +3242,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/EditMenu/Select");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SelectLeft*/
+/* SelectLeft xgettext:no-c-format*/
 action = gtk_action_new("SelectLeft",_("Select Left"),_("Create a selection, move cursor left."), get_icon_for_name("SelectLeft", "Select Left"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"SelectRight");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SelectLeft", _("Select Left"), _("Create a selection, move cursor left."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SelectLeft");
@@ -2968,8 +3254,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/EditMenu/Select");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NotationMagick-InsertStringAsBinaryRhythm*/
+/* NotationMagick-InsertStringAsBinaryRhythm xgettext:no-c-format*/
 action = gtk_action_new("NotationMagick-InsertStringAsBinaryRhythm",_("Insert String as Binary Rhythm"),_("Give a string to generate a rhythm out of its ascii chars in binary encoding"), get_icon_for_name("NotationMagick-InsertStringAsBinaryRhythm", "Insert String as Binary Rhythm"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NotationMagick-InsertStringAsBinaryRhythm", _("Insert String as Binary Rhythm"), _("Give a string to generate a rhythm out of its ascii chars in binary encoding"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NotationMagick-InsertStringAsBinaryRhythm");
@@ -2978,9 +3265,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotationMagick/GenerateRhythmFromString");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NotationMagick-InsertReversedStringAsBinaryRhythm*/
+/* NotationMagick-InsertReversedStringAsBinaryRhythm xgettext:no-c-format*/
 action = gtk_action_new("NotationMagick-InsertReversedStringAsBinaryRhythm",_("Insert Reversed String as Binary Rhythm"),_("Give a string to generate a rhythm out of its ascii chars in binary encoding. The string gets reversed before converting."), get_icon_for_name("NotationMagick-InsertReversedStringAsBinaryRhythm", "Insert Reversed String as Binary Rhythm"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"NotationMagick-InsertStringAsBinaryRhythm");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NotationMagick-InsertReversedStringAsBinaryRhythm", _("Insert Reversed String as Binary Rhythm"), _("Give a string to generate a rhythm out of its ascii chars in binary encoding. The string gets reversed before converting."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NotationMagick-InsertReversedStringAsBinaryRhythm");
@@ -2989,9 +3277,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotationMagick/GenerateRhythmFromString");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NotationMagick-InsertStringAsReversedBinaryRhythm*/
+/* NotationMagick-InsertStringAsReversedBinaryRhythm xgettext:no-c-format*/
 action = gtk_action_new("NotationMagick-InsertStringAsReversedBinaryRhythm",_("Insert String as Reversed Binary Rhythm"),_("Give a string to generate a rhythm out of its ascii chars in binary encoding. The rhythm for each letter gets reversed before inserting."), get_icon_for_name("NotationMagick-InsertStringAsReversedBinaryRhythm", "Insert String as Reversed Binary Rhythm"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"NotationMagick-InsertReversedStringAsBinaryRhythm");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NotationMagick-InsertStringAsReversedBinaryRhythm", _("Insert String as Reversed Binary Rhythm"), _("Give a string to generate a rhythm out of its ascii chars in binary encoding. The rhythm for each letter gets reversed before inserting."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NotationMagick-InsertStringAsReversedBinaryRhythm");
@@ -3000,9 +3289,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotationMagick/GenerateRhythmFromString");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NotationMagick-InsertReversedStringAsReversedBinaryRhythm*/
+/* NotationMagick-InsertReversedStringAsReversedBinaryRhythm xgettext:no-c-format*/
 action = gtk_action_new("NotationMagick-InsertReversedStringAsReversedBinaryRhythm",_("Insert Reversed String as Reversed Binary Rhythm"),_("Give a string to generate a rhythm out of its ascii chars in binary encoding. The string gets reversed before converting. The rhythm for each letter gets reversed before inserting."), get_icon_for_name("NotationMagick-InsertReversedStringAsReversedBinaryRhythm", "Insert Reversed String as Reversed Binary Rhythm"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"NotationMagick-InsertStringAsReversedBinaryRhythm");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NotationMagick-InsertReversedStringAsReversedBinaryRhythm", _("Insert Reversed String as Reversed Binary Rhythm"), _("Give a string to generate a rhythm out of its ascii chars in binary encoding. The string gets reversed before converting. The rhythm for each letter gets reversed before inserting."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NotationMagick-InsertReversedStringAsReversedBinaryRhythm");
@@ -3011,9 +3301,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotationMagick/GenerateRhythmFromString");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SelectMeasure*/
+/* SelectMeasure xgettext:no-c-format*/
 action = gtk_action_new("SelectMeasure",_("Select Measure"),_("Create a selection for the entire current measure"), get_icon_for_name("SelectMeasure", "Select Measure"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"SelectColumn");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SelectMeasure", _("Select Measure"), _("Create a selection for the entire current measure"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SelectMeasure");
@@ -3022,9 +3313,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/EditMenu/Select");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MoveToPreviousEmptyMeasure*/
+/* MoveToPreviousEmptyMeasure xgettext:no-c-format*/
 action = gtk_action_new("MoveToPreviousEmptyMeasure",_("Move To Previous Empty Measure"),_("Move the cursor left until it finds an empty measure or the staffs beginning"), get_icon_for_name("MoveToPreviousEmptyMeasure", "Move To Previous Empty Measure"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"GoToEmptyMeasure");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MoveToPreviousEmptyMeasure", _("Move To Previous Empty Measure"), _("Move the cursor left until it finds an empty measure or the staffs beginning"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MoveToPreviousEmptyMeasure");
@@ -3033,8 +3325,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/NavigationMenu/Seek");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChooseBarline*/
+/* ChooseBarline xgettext:no-c-format*/
 action = gtk_action_new("ChooseBarline",_("Choose Barline"),_("Choose a barline "), get_icon_for_name("ChooseBarline", "Choose Barline"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChooseBarline", _("Choose Barline"), _("Choose a barline "), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChooseBarline");
@@ -3043,8 +3336,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Barlines");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChooseTimeSignature*/
+/* ChooseTimeSignature xgettext:no-c-format*/
 action = gtk_action_new("ChooseTimeSignature",_("Choose Typical Time Signature"),_("Choose from a set of typical time signatures"), get_icon_for_name("ChooseTimeSignature", "Choose Typical Time Signature"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChooseTimeSignature", _("Choose Typical Time Signature"), _("Choose from a set of typical time signatures"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChooseTimeSignature");
@@ -3053,8 +3347,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/TimeSig");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* RemoveDotSelectionSwitcher*/
+/* RemoveDotSelectionSwitcher xgettext:no-c-format*/
 action = gtk_action_new("RemoveDotSelectionSwitcher",_("Remove Dot"),_("Remove one dot for each note in the selection or single note"), get_icon_for_name("RemoveDotSelectionSwitcher", "Remove Dot"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "RemoveDotSelectionSwitcher", _("Remove Dot"), _("Remove one dot for each note in the selection or single note"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("RemoveDotSelectionSwitcher");
@@ -3063,9 +3358,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/EditNote");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ConvertMidiForBass*/
+/* ConvertMidiForBass xgettext:no-c-format*/
 action = gtk_action_new("ConvertMidiForBass",_("Convert MIDI Chords Over Bass"),_("Takes a MIDI recording over a bass line and inserts the chords by matching the bass notes. Each chord must include the bass note."), get_icon_for_name("ConvertMidiForBass", "Convert MIDI Chords Over Bass"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ToggleImmediatePlayback");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ConvertMidiForBass", _("Convert MIDI Chords Over Bass"), _("Takes a MIDI recording over a bass line and inserts the chords by matching the bass notes. Each chord must include the bass note."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ConvertMidiForBass");
@@ -3074,9 +3370,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/PlaybackMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MouseOrMidiDrivenPlayback*/
+/* MouseOrMidiDrivenPlayback xgettext:no-c-format*/
 action = gtk_action_new("MouseOrMidiDrivenPlayback",_("Play Along Playback (Off/On)"),_("Turns off play along playback: when this is on the playback does not advance past the cursor unless you play along the correct note via Midi In, or move the mouse over the music to drive the score along."), get_icon_for_name("MouseOrMidiDrivenPlayback", "Play Along Playback (Off/On)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"Stop");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MouseOrMidiDrivenPlayback", _("Play Along Playback (Off/On)"), _("Turns off play along playback: when this is on the playback does not advance past the cursor unless you play along the correct note via Midi In, or move the mouse over the music to drive the score along."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MouseOrMidiDrivenPlayback");
@@ -3085,9 +3382,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/PlaybackMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* RecordAndConvert*/
+/* RecordAndConvert xgettext:no-c-format*/
 action = gtk_action_new("RecordAndConvert",_("Record and Convert"),_("Starts playing the score and recording from MIDI in, When finished it converts the recording to notation."), get_icon_for_name("RecordAndConvert", "Record and Convert"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MouseOrMidiDrivenPlayback");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "RecordAndConvert", _("Record and Convert"), _("Starts playing the score and recording from MIDI in, When finished it converts the recording to notation."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("RecordAndConvert");
@@ -3096,9 +3394,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/PlaybackMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* CreateIntro*/
+/* CreateIntro xgettext:no-c-format*/
 action = gtk_action_new("CreateIntro",_("Create Intro"),_("Creates a new staff with a bar for nothing (an intro of the right number of beats)"), get_icon_for_name("CreateIntro", "Create Intro"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MovementPageBreak");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "CreateIntro", _("Create Intro"), _("Creates a new staff with a bar for nothing (an intro of the right number of beats)"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("CreateIntro");
@@ -3107,9 +3406,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Import-Lilypond*/
+/* Import-Lilypond xgettext:no-c-format*/
 action = gtk_action_new("Import-Lilypond",_("Import Lilypond"),_("Try to Import a Lilypond File"), get_icon_for_name("Import-Lilypond", "Import Lilypond"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"Import-Midi");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Import-Lilypond", _("Import Lilypond"), _("Try to Import a Lilypond File"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Import-Lilypond");
@@ -3118,9 +3418,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/FileMenu/Import");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Import-Midi*/
+/* Import-Midi xgettext:no-c-format*/
 action = gtk_action_new("Import-Midi",_("Import Midi"),_("Try to Imports a Midi File"), get_icon_for_name("Import-Midi", "Import Midi"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ImportMusicXml");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Import-Midi", _("Import Midi"), _("Try to Imports a Midi File"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Import-Midi");
@@ -3129,9 +3430,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/FileMenu/Import");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Import-MusicXml*/
+/* Import-MusicXml xgettext:no-c-format*/
 action = gtk_action_new("Import-MusicXml",_("Import MusicXml"),_("Try to Import a MusicXml file"), get_icon_for_name("Import-MusicXml", "Import MusicXml"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"Import-Lilypond");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Import-MusicXml", _("Import MusicXml"), _("Try to Import a MusicXml file"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Import-MusicXml");
@@ -3140,8 +3442,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/FileMenu/Import");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* GroupStaffStart*/
+/* GroupStaffStart xgettext:no-c-format*/
 action = gtk_action_new("GroupStaffStart",_("GroupStaff Start"),_("Start grouping single staves together in order to form multi-stave systems. In the StaffGroup context, the group is started with a bracket and bar lines are drawn through all the staves."), get_icon_for_name("GroupStaffStart", "GroupStaff Start"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "GroupStaffStart", _("GroupStaff Start"), _("Start grouping single staves together in order to form multi-stave systems. In the StaffGroup context, the group is started with a bracket and bar lines are drawn through all the staves."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("GroupStaffStart");
@@ -3150,9 +3453,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/StaffGroupings");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* GroupStaffEnd*/
+/* GroupStaffEnd xgettext:no-c-format*/
 action = gtk_action_new("GroupStaffEnd",_("GroupStaff End"),_("Stop GroupStaff multi-stave system."), get_icon_for_name("GroupStaffEnd", "GroupStaff End"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"GroupStaffStart");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "GroupStaffEnd", _("GroupStaff End"), _("Stop GroupStaff multi-stave system."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("GroupStaffEnd");
@@ -3161,9 +3465,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/StaffGroupings");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* PianoStaffStart*/
+/* PianoStaffStart xgettext:no-c-format*/
 action = gtk_action_new("PianoStaffStart",_("PianoStaff Start"),_("Start grouping single staves together in order to form multi-stave systems. The PianoStaff is identical to a GrandStaff, except that it supports printing the instrument name directly."), get_icon_for_name("PianoStaffStart", "PianoStaff Start"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"GroupStaffEnd");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "PianoStaffStart", _("PianoStaff Start"), _("Start grouping single staves together in order to form multi-stave systems. The PianoStaff is identical to a GrandStaff, except that it supports printing the instrument name directly."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("PianoStaffStart");
@@ -3172,9 +3477,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/StaffGroupings");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* PianoStaffEnd*/
+/* PianoStaffEnd xgettext:no-c-format*/
 action = gtk_action_new("PianoStaffEnd",_("PianoStaff End"),_("Stop PianoStaff multi-stave system."), get_icon_for_name("PianoStaffEnd", "PianoStaff End"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"PianoStaffStart");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "PianoStaffEnd", _("PianoStaff End"), _("Stop PianoStaff multi-stave system."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("PianoStaffEnd");
@@ -3183,9 +3489,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/StaffGroupings");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChoirStaffStart*/
+/* ChoirStaffStart xgettext:no-c-format*/
 action = gtk_action_new("ChoirStaffStart",_("ChoirStaff Start"),_("Start grouping single staves together in order to form multi-stave systems. In a ChoirStaff, the group starts with a bracket, but bar lines are not connected. "), get_icon_for_name("ChoirStaffStart", "ChoirStaff Start"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"PianoStaffEnd");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChoirStaffStart", _("ChoirStaff Start"), _("Start grouping single staves together in order to form multi-stave systems. In a ChoirStaff, the group starts with a bracket, but bar lines are not connected. "), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChoirStaffStart");
@@ -3194,9 +3501,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/StaffGroupings");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChoirStaffEnd*/
+/* ChoirStaffEnd xgettext:no-c-format*/
 action = gtk_action_new("ChoirStaffEnd",_("ChoirStaff End"),_("Stop ChoirStaff multi-stave system."), get_icon_for_name("ChoirStaffEnd", "ChoirStaff End"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ChoirStaffStart");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChoirStaffEnd", _("ChoirStaff End"), _("Stop ChoirStaff multi-stave system."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChoirStaffEnd");
@@ -3205,9 +3513,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/StaffGroupings");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* GrandStaffStart*/
+/* GrandStaffStart xgettext:no-c-format*/
 action = gtk_action_new("GrandStaffStart",_("GrandStaff Start"),_("Start grouping single staves together in order to form multi-stave systems. In a GrandStaff, the group begins with a brace, and bar lines are connected between the staves."), get_icon_for_name("GrandStaffStart", "GrandStaff Start"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ChoirStaffEnd");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "GrandStaffStart", _("GrandStaff Start"), _("Start grouping single staves together in order to form multi-stave systems. In a GrandStaff, the group begins with a brace, and bar lines are connected between the staves."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("GrandStaffStart");
@@ -3216,9 +3525,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/StaffGroupings");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* GrandStaffEnd*/
+/* GrandStaffEnd xgettext:no-c-format*/
 action = gtk_action_new("GrandStaffEnd",_("GrandStaff End"),_("Stop GrandStaff multi-stave system."), get_icon_for_name("GrandStaffEnd", "GrandStaff End"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"GrandStaffStart");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "GrandStaffEnd", _("GrandStaff End"), _("Stop GrandStaff multi-stave system."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("GrandStaffEnd");
@@ -3227,9 +3537,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/StaffGroupings");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* DeleteStaffGroupings*/
+/* DeleteStaffGroupings xgettext:no-c-format*/
 action = gtk_action_new("DeleteStaffGroupings",_("Delete all staff contexts"),_("Clear the staff from all groupings"), get_icon_for_name("DeleteStaffGroupings", "Delete all staff contexts"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"GrandStaffEnd");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "DeleteStaffGroupings", _("Delete all staff contexts"), _("Clear the staff from all groupings"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("DeleteStaffGroupings");
@@ -3238,8 +3549,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/StaffGroupings");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MovementNoteheadsDefault*/
+/* MovementNoteheadsDefault xgettext:no-c-format*/
 action = gtk_action_new("MovementNoteheadsDefault",_("Default"),_("Default note head style for the current movement."), get_icon_for_name("MovementNoteheadsDefault", "Default"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MovementNoteheadsDefault", _("Default"), _("Default note head style for the current movement."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MovementNoteheadsDefault");
@@ -3248,9 +3560,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu/NoteHeadStyles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MovementNoteheadsBaroque*/
+/* MovementNoteheadsBaroque xgettext:no-c-format*/
 action = gtk_action_new("MovementNoteheadsBaroque",_("Baroque"),_("Baroque note head style for the current movement."), get_icon_for_name("MovementNoteheadsBaroque", "Baroque"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MovementNoteheadsDefault");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MovementNoteheadsBaroque", _("Baroque"), _("Baroque note head style for the current movement."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MovementNoteheadsBaroque");
@@ -3259,9 +3572,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu/NoteHeadStyles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MovementNoteheadsNeomensural*/
+/* MovementNoteheadsNeomensural xgettext:no-c-format*/
 action = gtk_action_new("MovementNoteheadsNeomensural",_("Neomensural"),_("Neomensural note head style for the current movement."), get_icon_for_name("MovementNoteheadsNeomensural", "Neomensural"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MovementNoteheadsBaroque");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MovementNoteheadsNeomensural", _("Neomensural"), _("Neomensural note head style for the current movement."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MovementNoteheadsNeomensural");
@@ -3270,9 +3584,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu/NoteHeadStyles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MovementNoteheadsMensural*/
+/* MovementNoteheadsMensural xgettext:no-c-format*/
 action = gtk_action_new("MovementNoteheadsMensural",_("Mensural"),_("Mensural note head style for the current movement."), get_icon_for_name("MovementNoteheadsMensural", "Mensural"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MovementNoteheadsNeomensural");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MovementNoteheadsMensural", _("Mensural"), _("Mensural note head style for the current movement."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MovementNoteheadsMensural");
@@ -3281,9 +3596,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu/NoteHeadStyles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MovementNoteheadsPetrucci*/
+/* MovementNoteheadsPetrucci xgettext:no-c-format*/
 action = gtk_action_new("MovementNoteheadsPetrucci",_("Petrucci"),_("Petrucci note head style for the current movement."), get_icon_for_name("MovementNoteheadsPetrucci", "Petrucci"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MovementNoteheadsMensural");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MovementNoteheadsPetrucci", _("Petrucci"), _("Petrucci note head style for the current movement."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MovementNoteheadsPetrucci");
@@ -3292,9 +3608,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu/NoteHeadStyles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MovementNoteheadsHarmonic*/
+/* MovementNoteheadsHarmonic xgettext:no-c-format*/
 action = gtk_action_new("MovementNoteheadsHarmonic",_("Harmonic"),_("Harmonic note head style for the current movement."), get_icon_for_name("MovementNoteheadsHarmonic", "Harmonic"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MovementNoteheadsPetrucci");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MovementNoteheadsHarmonic", _("Harmonic"), _("Harmonic note head style for the current movement."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MovementNoteheadsHarmonic");
@@ -3303,9 +3620,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu/NoteHeadStyles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MovementNoteheadsHarmonic-black*/
+/* MovementNoteheadsHarmonic-black xgettext:no-c-format*/
 action = gtk_action_new("MovementNoteheadsHarmonic-black",_("Harmonic-black"),_("Harmonic-black note head style for the current movement."), get_icon_for_name("MovementNoteheadsHarmonic-black", "Harmonic-black"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MovementNoteheadsHarmonic");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MovementNoteheadsHarmonic-black", _("Harmonic-black"), _("Harmonic-black note head style for the current movement."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MovementNoteheadsHarmonic-black");
@@ -3314,9 +3632,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu/NoteHeadStyles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MovementNoteheadsHarmonic-mixed*/
+/* MovementNoteheadsHarmonic-mixed xgettext:no-c-format*/
 action = gtk_action_new("MovementNoteheadsHarmonic-mixed",_("Harmonic-black"),_("Harmonic-black note head style for the current movement."), get_icon_for_name("MovementNoteheadsHarmonic-mixed", "Harmonic-black"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MovementNoteheadsHarmonic-black");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MovementNoteheadsHarmonic-mixed", _("Harmonic-black"), _("Harmonic-black note head style for the current movement."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MovementNoteheadsHarmonic-mixed");
@@ -3325,9 +3644,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu/NoteHeadStyles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MovementNoteheadsDiamond*/
+/* MovementNoteheadsDiamond xgettext:no-c-format*/
 action = gtk_action_new("MovementNoteheadsDiamond",_("Diamond"),_("Diamond note head style for the current movement."), get_icon_for_name("MovementNoteheadsDiamond", "Diamond"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MovementNoteheadsHarmonic-mixed");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MovementNoteheadsDiamond", _("Diamond"), _("Diamond note head style for the current movement."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MovementNoteheadsDiamond");
@@ -3336,9 +3656,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu/NoteHeadStyles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MovementNoteheadsCross*/
+/* MovementNoteheadsCross xgettext:no-c-format*/
 action = gtk_action_new("MovementNoteheadsCross",_("Cross"),_("Cross note head style for the current movement."), get_icon_for_name("MovementNoteheadsCross", "Cross"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MovementNoteheadsDiamond");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MovementNoteheadsCross", _("Cross"), _("Cross note head style for the current movement."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MovementNoteheadsCross");
@@ -3347,9 +3668,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu/NoteHeadStyles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MovementNoteheadsXcircle*/
+/* MovementNoteheadsXcircle xgettext:no-c-format*/
 action = gtk_action_new("MovementNoteheadsXcircle",_("Xcircle"),_("Xcircle note head style for the current movement."), get_icon_for_name("MovementNoteheadsXcircle", "Xcircle"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MovementNoteheadsCross");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MovementNoteheadsXcircle", _("Xcircle"), _("Xcircle note head style for the current movement."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MovementNoteheadsXcircle");
@@ -3358,9 +3680,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu/NoteHeadStyles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MovementNoteheadsSlash*/
+/* MovementNoteheadsSlash xgettext:no-c-format*/
 action = gtk_action_new("MovementNoteheadsSlash",_("Slash"),_("Slash note head style for the current movement."), get_icon_for_name("MovementNoteheadsSlash", "Slash"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MovementNoteheadsXcircle");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MovementNoteheadsSlash", _("Slash"), _("Slash note head style for the current movement."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MovementNoteheadsSlash");
@@ -3369,9 +3692,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu/NoteHeadStyles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MovementNoteheadsDelete*/
+/* MovementNoteheadsDelete xgettext:no-c-format*/
 action = gtk_action_new("MovementNoteheadsDelete",_("Delete Movement Notehead Settings"),_("Delete note head style of this movement. Reset to whatever Score or Lilypond has set as default."), get_icon_for_name("MovementNoteheadsDelete", "Delete Movement Notehead Settings"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MovementNoteheadsSlash");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MovementNoteheadsDelete", _("Delete Movement Notehead Settings"), _("Delete note head style of this movement. Reset to whatever Score or Lilypond has set as default."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MovementNoteheadsDelete");
@@ -3380,8 +3704,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu/NoteHeadStyles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ShiftRealWholeUp*/
+/* ShiftRealWholeUp xgettext:no-c-format*/
 action = gtk_action_new("ShiftRealWholeUp",_("Whole tone up"),_("Transpose/shift the cursor note or selection one whole tone up"), get_icon_for_name("ShiftRealWholeUp", "Whole tone up"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ShiftRealWholeUp", _("Whole tone up"), _("Transpose/shift the cursor note or selection one whole tone up"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ShiftRealWholeUp");
@@ -3390,9 +3715,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Transpose");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ShiftRealWholeDown*/
+/* ShiftRealWholeDown xgettext:no-c-format*/
 action = gtk_action_new("ShiftRealWholeDown",_("Whole tone down"),_("Transpose/shift the cursor note or selection one whole tone down"), get_icon_for_name("ShiftRealWholeDown", "Whole tone down"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ShiftRealWholeUp");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ShiftRealWholeDown", _("Whole tone down"), _("Transpose/shift the cursor note or selection one whole tone down"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ShiftRealWholeDown");
@@ -3401,9 +3727,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Transpose");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ShiftRealHalfUp*/
+/* ShiftRealHalfUp xgettext:no-c-format*/
 action = gtk_action_new("ShiftRealHalfUp",_("Half tone up"),_("Transpose/shift the cursor note or selection one half tone up"), get_icon_for_name("ShiftRealHalfUp", "Half tone up"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ShiftRealWholeDown");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ShiftRealHalfUp", _("Half tone up"), _("Transpose/shift the cursor note or selection one half tone up"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ShiftRealHalfUp");
@@ -3412,9 +3739,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Transpose");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ShiftRealHalfDown*/
+/* ShiftRealHalfDown xgettext:no-c-format*/
 action = gtk_action_new("ShiftRealHalfDown",_("Half tone down"),_("Transpose/shift the cursor note or selection one half tone down"), get_icon_for_name("ShiftRealHalfDown", "Half tone down"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ShiftRealHalfUp");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ShiftRealHalfDown", _("Half tone down"), _("Transpose/shift the cursor note or selection one half tone down"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ShiftRealHalfDown");
@@ -3423,9 +3751,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Transpose");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* JoinChords*/
+/* JoinChords xgettext:no-c-format*/
 action = gtk_action_new("JoinChords",_("Join music objects"),_("Joins all notes, chords and rests in the selection and inserts a new, longer note instead. May create tied notes. Uses the cursor position as pitch."), get_icon_for_name("JoinChords", "Join music objects"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"SplitChord");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "JoinChords", _("Join music objects"), _("Joins all notes, chords and rests in the selection and inserts a new, longer note instead. May create tied notes. Uses the cursor position as pitch."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("JoinChords");
@@ -3434,9 +3763,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ShiftRealDialogUp*/
+/* ShiftRealDialogUp xgettext:no-c-format*/
 action = gtk_action_new("ShiftRealDialogUp",_("Arbitrary transpose up"),_("Transpose/shift the cursor note or selection an arbitrary number of tones up. User can specify interval through a dialog."), get_icon_for_name("ShiftRealDialogUp", "Arbitrary transpose up"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ShiftRealHalfDown");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ShiftRealDialogUp", _("Arbitrary transpose up"), _("Transpose/shift the cursor note or selection an arbitrary number of tones up. User can specify interval through a dialog."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ShiftRealDialogUp");
@@ -3445,9 +3775,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Transpose");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ShiftRealDialogDown*/
+/* ShiftRealDialogDown xgettext:no-c-format*/
 action = gtk_action_new("ShiftRealDialogDown",_("Arbitrary transpose down"),_("Transpose/shift the cursor note or selection an arbitrary number of tones down. User can specify interval through a dialog."), get_icon_for_name("ShiftRealDialogDown", "Arbitrary transpose down"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ShiftRealDialogUp");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ShiftRealDialogDown", _("Arbitrary transpose down"), _("Transpose/shift the cursor note or selection an arbitrary number of tones down. User can specify interval through a dialog."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ShiftRealDialogDown");
@@ -3456,8 +3787,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Transpose");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddLowestUpPerfect1*/
+/* AddLowestUpPerfect1 xgettext:no-c-format*/
 action = gtk_action_new("AddLowestUpPerfect1",_("Add Perfect 1st above base"),_("Add a perfect prime as chordnote relative to the lowest note upwards."), get_icon_for_name("AddLowestUpPerfect1", "Add Perfect 1st above base"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddLowestUpPerfect1", _("Add Perfect 1st above base"), _("Add a perfect prime as chordnote relative to the lowest note upwards."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddLowestUpPerfect1");
@@ -3466,9 +3798,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/AddAboveBase");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddLowestUpMajor2*/
+/* AddLowestUpMajor2 xgettext:no-c-format*/
 action = gtk_action_new("AddLowestUpMajor2",_("Add Major 2nd above base"),_("Add a major second as chordnote relative to the lowest note upwards."), get_icon_for_name("AddLowestUpMajor2", "Add Major 2nd above base"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AddLowestUpPerfect1");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddLowestUpMajor2", _("Add Major 2nd above base"), _("Add a major second as chordnote relative to the lowest note upwards."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddLowestUpMajor2");
@@ -3477,9 +3810,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/AddAboveBase");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddLowestUpMinor2*/
+/* AddLowestUpMinor2 xgettext:no-c-format*/
 action = gtk_action_new("AddLowestUpMinor2",_("Add Minor 2nd above base"),_("Add a minor second as chordnote relative to the lowest note upwards."), get_icon_for_name("AddLowestUpMinor2", "Add Minor 2nd above base"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AddLowestUpMajor2");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddLowestUpMinor2", _("Add Minor 2nd above base"), _("Add a minor second as chordnote relative to the lowest note upwards."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddLowestUpMinor2");
@@ -3488,9 +3822,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/AddAboveBase");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddLowestUpMajor3*/
+/* AddLowestUpMajor3 xgettext:no-c-format*/
 action = gtk_action_new("AddLowestUpMajor3",_("Add Major 3rd above base"),_("Add a major third as chordnote relative to the lowest note upwards."), get_icon_for_name("AddLowestUpMajor3", "Add Major 3rd above base"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AddLowestUpMinor2");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddLowestUpMajor3", _("Add Major 3rd above base"), _("Add a major third as chordnote relative to the lowest note upwards."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddLowestUpMajor3");
@@ -3499,9 +3834,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/AddAboveBase");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddLowestUpMinor3*/
+/* AddLowestUpMinor3 xgettext:no-c-format*/
 action = gtk_action_new("AddLowestUpMinor3",_("Add Minor 3rd above base "),_("Add a minor third as chordnote relative to the lowest note upwards."), get_icon_for_name("AddLowestUpMinor3", "Add Minor 3rd above base "));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AddLowestUpMajor3");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddLowestUpMinor3", _("Add Minor 3rd above base "), _("Add a minor third as chordnote relative to the lowest note upwards."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddLowestUpMinor3");
@@ -3510,9 +3846,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/AddAboveBase");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddLowestUpPerfect4*/
+/* AddLowestUpPerfect4 xgettext:no-c-format*/
 action = gtk_action_new("AddLowestUpPerfect4",_("Add Perfect 4th above base"),_("Add a perfect fourth as chordnote relative to the lowest note upwards."), get_icon_for_name("AddLowestUpPerfect4", "Add Perfect 4th above base"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AddLowestUpMinor3");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddLowestUpPerfect4", _("Add Perfect 4th above base"), _("Add a perfect fourth as chordnote relative to the lowest note upwards."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddLowestUpPerfect4");
@@ -3521,9 +3858,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/AddAboveBase");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddLowestUpAugmented4*/
+/* AddLowestUpAugmented4 xgettext:no-c-format*/
 action = gtk_action_new("AddLowestUpAugmented4",_("Add Augmented 4th above base "),_("Add a tritone/augmented fourth as chordnote relative to the lowest note upwards."), get_icon_for_name("AddLowestUpAugmented4", "Add Augmented 4th above base "));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AddLowestUpPerfect4");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddLowestUpAugmented4", _("Add Augmented 4th above base "), _("Add a tritone/augmented fourth as chordnote relative to the lowest note upwards."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddLowestUpAugmented4");
@@ -3532,9 +3870,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/AddAboveBase");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddLowestUpDiminished5*/
+/* AddLowestUpDiminished5 xgettext:no-c-format*/
 action = gtk_action_new("AddLowestUpDiminished5",_("Add Diminished 5th above base"),_("Add a diminished fifth as chordnote relative to the lowest note upwards."), get_icon_for_name("AddLowestUpDiminished5", "Add Diminished 5th above base"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AddLowestUpAugmented4");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddLowestUpDiminished5", _("Add Diminished 5th above base"), _("Add a diminished fifth as chordnote relative to the lowest note upwards."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddLowestUpDiminished5");
@@ -3543,9 +3882,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/AddAboveBase");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddLowestUpPerfect5*/
+/* AddLowestUpPerfect5 xgettext:no-c-format*/
 action = gtk_action_new("AddLowestUpPerfect5",_("Add Perfect 5th above base"),_("Add a perfect fifth as chordnote relative to the lowest note upwards."), get_icon_for_name("AddLowestUpPerfect5", "Add Perfect 5th above base"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AddLowestUpDiminished5");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddLowestUpPerfect5", _("Add Perfect 5th above base"), _("Add a perfect fifth as chordnote relative to the lowest note upwards."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddLowestUpPerfect5");
@@ -3554,9 +3894,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/AddAboveBase");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddLowestUpMajor6*/
+/* AddLowestUpMajor6 xgettext:no-c-format*/
 action = gtk_action_new("AddLowestUpMajor6",_("Add Major 6th above base"),_("Add a major sixth as chordnote relative to the lowest note upwards."), get_icon_for_name("AddLowestUpMajor6", "Add Major 6th above base"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AddLowestUpPerfect5");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddLowestUpMajor6", _("Add Major 6th above base"), _("Add a major sixth as chordnote relative to the lowest note upwards."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddLowestUpMajor6");
@@ -3565,9 +3906,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/AddAboveBase");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddLowestUpMinor6*/
+/* AddLowestUpMinor6 xgettext:no-c-format*/
 action = gtk_action_new("AddLowestUpMinor6",_("Add Minor 6th above base"),_("Add a minor sixth as chordnote relative to the lowest note upwards."), get_icon_for_name("AddLowestUpMinor6", "Add Minor 6th above base"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AddLowestUpMajor6");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddLowestUpMinor6", _("Add Minor 6th above base"), _("Add a minor sixth as chordnote relative to the lowest note upwards."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddLowestUpMinor6");
@@ -3576,9 +3918,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/AddAboveBase");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddLowestUpMajor7*/
+/* AddLowestUpMajor7 xgettext:no-c-format*/
 action = gtk_action_new("AddLowestUpMajor7",_("Add Major 7th above base"),_("Add a major seventh as chordnote relative to the lowest note upwards."), get_icon_for_name("AddLowestUpMajor7", "Add Major 7th above base"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AddLowestUpMinor6");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddLowestUpMajor7", _("Add Major 7th above base"), _("Add a major seventh as chordnote relative to the lowest note upwards."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddLowestUpMajor7");
@@ -3587,9 +3930,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/AddAboveBase");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddLowestUpMinor7*/
+/* AddLowestUpMinor7 xgettext:no-c-format*/
 action = gtk_action_new("AddLowestUpMinor7",_("Add Minor 7th above base"),_("Add a minor seventh as chordnote relative to the lowest note upwards."), get_icon_for_name("AddLowestUpMinor7", "Add Minor 7th above base"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AddLowestUpMajor7");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddLowestUpMinor7", _("Add Minor 7th above base"), _("Add a minor seventh as chordnote relative to the lowest note upwards."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddLowestUpMinor7");
@@ -3598,8 +3942,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/AddAboveBase");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddHighestDownPerfect1*/
+/* AddHighestDownPerfect1 xgettext:no-c-format*/
 action = gtk_action_new("AddHighestDownPerfect1",_("Add Perfect 1st below top"),_("Add a perfect prime as chordnote relative to the highest note downwards."), get_icon_for_name("AddHighestDownPerfect1", "Add Perfect 1st below top"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddHighestDownPerfect1", _("Add Perfect 1st below top"), _("Add a perfect prime as chordnote relative to the highest note downwards."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddHighestDownPerfect1");
@@ -3608,9 +3953,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/AddBelowTop");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddHighestDownMajor2*/
+/* AddHighestDownMajor2 xgettext:no-c-format*/
 action = gtk_action_new("AddHighestDownMajor2",_("Add Major 2nd below top"),_("Add a major second as chordnote relative to the highest note downwards."), get_icon_for_name("AddHighestDownMajor2", "Add Major 2nd below top"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AddHighestDownPerfect1");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddHighestDownMajor2", _("Add Major 2nd below top"), _("Add a major second as chordnote relative to the highest note downwards."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddHighestDownMajor2");
@@ -3619,9 +3965,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/AddBelowTop");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddHighestDownMinor2*/
+/* AddHighestDownMinor2 xgettext:no-c-format*/
 action = gtk_action_new("AddHighestDownMinor2",_("Add Minor 2nd below top"),_("Add a minor second as chordnote relative to the highest note downwards."), get_icon_for_name("AddHighestDownMinor2", "Add Minor 2nd below top"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AddHighestDownMajor2");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddHighestDownMinor2", _("Add Minor 2nd below top"), _("Add a minor second as chordnote relative to the highest note downwards."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddHighestDownMinor2");
@@ -3630,9 +3977,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/AddBelowTop");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddHighestDownMajor3*/
+/* AddHighestDownMajor3 xgettext:no-c-format*/
 action = gtk_action_new("AddHighestDownMajor3",_("Add Major 3rd below top"),_("Add a major third as chordnote relative to the highest note downwards."), get_icon_for_name("AddHighestDownMajor3", "Add Major 3rd below top"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AddHighestDownMinor2");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddHighestDownMajor3", _("Add Major 3rd below top"), _("Add a major third as chordnote relative to the highest note downwards."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddHighestDownMajor3");
@@ -3641,9 +3989,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/AddBelowTop");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddHighestDownMinor3*/
+/* AddHighestDownMinor3 xgettext:no-c-format*/
 action = gtk_action_new("AddHighestDownMinor3",_("Add Minor 3rd below top"),_("Add a minor third as chordnote relative to the highest note downwards."), get_icon_for_name("AddHighestDownMinor3", "Add Minor 3rd below top"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AddHighestDownMajor3");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddHighestDownMinor3", _("Add Minor 3rd below top"), _("Add a minor third as chordnote relative to the highest note downwards."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddHighestDownMinor3");
@@ -3652,9 +4001,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/AddBelowTop");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddHighestDownPerfect4*/
+/* AddHighestDownPerfect4 xgettext:no-c-format*/
 action = gtk_action_new("AddHighestDownPerfect4",_("Add Perfect 4th below top"),_("Add a perfect fourth as chordnote relative to the highest note downwards."), get_icon_for_name("AddHighestDownPerfect4", "Add Perfect 4th below top"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AddHighestDownMinor3");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddHighestDownPerfect4", _("Add Perfect 4th below top"), _("Add a perfect fourth as chordnote relative to the highest note downwards."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddHighestDownPerfect4");
@@ -3663,9 +4013,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/AddBelowTop");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddHighestDownAugmented4*/
+/* AddHighestDownAugmented4 xgettext:no-c-format*/
 action = gtk_action_new("AddHighestDownAugmented4",_("Add Augmented 4th below top"),_("Add a augmented fourth as chordnote relative to the highest note downwards."), get_icon_for_name("AddHighestDownAugmented4", "Add Augmented 4th below top"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AddHighestDownPerfect4");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddHighestDownAugmented4", _("Add Augmented 4th below top"), _("Add a augmented fourth as chordnote relative to the highest note downwards."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddHighestDownAugmented4");
@@ -3674,9 +4025,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/AddBelowTop");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddHighestDownDiminished5*/
+/* AddHighestDownDiminished5 xgettext:no-c-format*/
 action = gtk_action_new("AddHighestDownDiminished5",_("Add Diminished 5th below top"),_("Add a tritone/diminished fifth as chordnote relative to the highest note downwards."), get_icon_for_name("AddHighestDownDiminished5", "Add Diminished 5th below top"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AddHighestDownAugmented4");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddHighestDownDiminished5", _("Add Diminished 5th below top"), _("Add a tritone/diminished fifth as chordnote relative to the highest note downwards."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddHighestDownDiminished5");
@@ -3685,9 +4037,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/AddBelowTop");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddHighestDownPerfect5*/
+/* AddHighestDownPerfect5 xgettext:no-c-format*/
 action = gtk_action_new("AddHighestDownPerfect5",_("Add Perfect 5th below top"),_("Add a perfect fifth as chordnote relative to the highest note downwards."), get_icon_for_name("AddHighestDownPerfect5", "Add Perfect 5th below top"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AddHighestDownDiminished5");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddHighestDownPerfect5", _("Add Perfect 5th below top"), _("Add a perfect fifth as chordnote relative to the highest note downwards."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddHighestDownPerfect5");
@@ -3696,9 +4049,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/AddBelowTop");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddHighestDownMajor6*/
+/* AddHighestDownMajor6 xgettext:no-c-format*/
 action = gtk_action_new("AddHighestDownMajor6",_("Add Major 6th below top"),_("Add a major sixth as chordnote relative to the highest note downwards."), get_icon_for_name("AddHighestDownMajor6", "Add Major 6th below top"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AddHighestDownPerfect5");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddHighestDownMajor6", _("Add Major 6th below top"), _("Add a major sixth as chordnote relative to the highest note downwards."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddHighestDownMajor6");
@@ -3707,9 +4061,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/AddBelowTop");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddHighestDownMinor6*/
+/* AddHighestDownMinor6 xgettext:no-c-format*/
 action = gtk_action_new("AddHighestDownMinor6",_("Add Minor 6th below top"),_("Add a minor sixth as chordnote relative to the highest note downwards."), get_icon_for_name("AddHighestDownMinor6", "Add Minor 6th below top"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AddHighestDownMajor6");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddHighestDownMinor6", _("Add Minor 6th below top"), _("Add a minor sixth as chordnote relative to the highest note downwards."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddHighestDownMinor6");
@@ -3718,9 +4073,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/AddBelowTop");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddHighestDownMajor7*/
+/* AddHighestDownMajor7 xgettext:no-c-format*/
 action = gtk_action_new("AddHighestDownMajor7",_("Add Major 7th below top"),_("Add a major seventh as chordnote relative to the highest note downwards."), get_icon_for_name("AddHighestDownMajor7", "Add Major 7th below top"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AddHighestDownMinor6");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddHighestDownMajor7", _("Add Major 7th below top"), _("Add a major seventh as chordnote relative to the highest note downwards."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddHighestDownMajor7");
@@ -3729,9 +4085,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/AddBelowTop");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AddHighestDownMinor7*/
+/* AddHighestDownMinor7 xgettext:no-c-format*/
 action = gtk_action_new("AddHighestDownMinor7",_("Add Minor 7th below top"),_("Add a minor seventh as chordnote relative to the highest note downwards."), get_icon_for_name("AddHighestDownMinor7", "Add Minor 7th below top"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AddHighestDownMajor7");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AddHighestDownMinor7", _("Add Minor 7th below top"), _("Add a minor seventh as chordnote relative to the highest note downwards."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AddHighestDownMinor7");
@@ -3740,9 +4097,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/AddBelowTop");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChordsOverBass*/
+/* ChordsOverBass xgettext:no-c-format*/
 action = gtk_action_new("ChordsOverBass",_("Create Chords Over Bass Line"),_("Place the cursor on a bass note and invoke this command. It creates a treble staff above and for each note in the bass staff, as you play it, it switches to the treble staff and allows you to enter a chord. Use the Pitch Bend wheel to stop/start the process. Hold a chord while moving to the next bass note to extend the chord over more than one bass note."), get_icon_for_name("ChordsOverBass", "Create Chords Over Bass Line"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"CheckPitches");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChordsOverBass", _("Create Chords Over Bass Line"), _("Place the cursor on a bass note and invoke this command. It creates a treble staff above and for each note in the bass staff, as you play it, it switches to the treble staff and allows you to enter a chord. Use the Pitch Bend wheel to stop/start the process. Hold a chord while moving to the next bass note to extend the chord over more than one bass note."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChordsOverBass");
@@ -3751,8 +4109,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/InputMenu/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* InsertOneNote*/
+/* InsertOneNote xgettext:no-c-format*/
 action = gtk_action_new("InsertOneNote",_("Insert Note"),_("Inserts a note in the prevailing duration."), get_icon_for_name("InsertOneNote", "Insert Note"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "InsertOneNote", _("Insert Note"), _("Inserts a note in the prevailing duration."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("InsertOneNote");
@@ -3761,9 +4120,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/InsertNote/InsertDuration");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* JoinChordsToMergedChord*/
+/* JoinChordsToMergedChord xgettext:no-c-format*/
 action = gtk_action_new("JoinChordsToMergedChord",_("Join music objects to new chord"),_("Joins all notes, chords and rests in the selection and inserts a all selected notes as chord. May create tied notes."), get_icon_for_name("JoinChordsToMergedChord", "Join music objects to new chord"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"JoinChords");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "JoinChordsToMergedChord", _("Join music objects to new chord"), _("Joins all notes, chords and rests in the selection and inserts a all selected notes as chord. May create tied notes."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("JoinChordsToMergedChord");
@@ -3772,8 +4132,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NotationMagick-ReverseSelectedObjects*/
+/* NotationMagick-ReverseSelectedObjects xgettext:no-c-format*/
 action = gtk_action_new("NotationMagick-ReverseSelectedObjects",_("Reverse Selected Objects"),_("Revert selected objects"), get_icon_for_name("NotationMagick-ReverseSelectedObjects", "Reverse Selected Objects"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NotationMagick-ReverseSelectedObjects", _("Reverse Selected Objects"), _("Revert selected objects"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NotationMagick-ReverseSelectedObjects");
@@ -3782,9 +4143,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotationMagick");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NotationMagick-MirrorSelectedObjects*/
+/* NotationMagick-MirrorSelectedObjects xgettext:no-c-format*/
 action = gtk_action_new("NotationMagick-MirrorSelectedObjects",_("Mirror Selected Objects (Axis=Cursor)"),_("Mirror the selected notes. Axis is the cursor position."), get_icon_for_name("NotationMagick-MirrorSelectedObjects", "Mirror Selected Objects (Axis=Cursor)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"NotationMagick-ReverseSelectedObjects");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NotationMagick-MirrorSelectedObjects", _("Mirror Selected Objects (Axis=Cursor)"), _("Mirror the selected notes. Axis is the cursor position."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NotationMagick-MirrorSelectedObjects");
@@ -3793,9 +4155,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotationMagick");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NotationMagick-ShuffleSelectedObjects*/
+/* NotationMagick-ShuffleSelectedObjects xgettext:no-c-format*/
 action = gtk_action_new("NotationMagick-ShuffleSelectedObjects",_("Shuffle Selected Objects"),_("Shuffle the selected objects"), get_icon_for_name("NotationMagick-ShuffleSelectedObjects", "Shuffle Selected Objects"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"NotationMagick-MirrorSelectedObjects");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NotationMagick-ShuffleSelectedObjects", _("Shuffle Selected Objects"), _("Shuffle the selected objects"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NotationMagick-ShuffleSelectedObjects");
@@ -3804,9 +4167,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotationMagick");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NotationMagick-SortSelectionAscending*/
+/* NotationMagick-SortSelectionAscending xgettext:no-c-format*/
 action = gtk_action_new("NotationMagick-SortSelectionAscending",_("Sort Selection (Ascending)"),_("Sort all notes in the selection, ascending order."), get_icon_for_name("NotationMagick-SortSelectionAscending", "Sort Selection (Ascending)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"NotationMagick-ShuffleSelectedObjects");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NotationMagick-SortSelectionAscending", _("Sort Selection (Ascending)"), _("Sort all notes in the selection, ascending order."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NotationMagick-SortSelectionAscending");
@@ -3815,9 +4179,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotationMagick");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NotationMagick-SortSelectionDescending*/
+/* NotationMagick-SortSelectionDescending xgettext:no-c-format*/
 action = gtk_action_new("NotationMagick-SortSelectionDescending",_("Sort Selection (Descending)"),_("Sort all notes in the selection, descending order."), get_icon_for_name("NotationMagick-SortSelectionDescending", "Sort Selection (Descending)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"NotationMagick-SortSelectionAscending");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NotationMagick-SortSelectionDescending", _("Sort Selection (Descending)"), _("Sort all notes in the selection, descending order."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NotationMagick-SortSelectionDescending");
@@ -3826,8 +4191,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotationMagick");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* FiguredBassExercises*/
+/* FiguredBassExercises xgettext:no-c-format*/
 action = gtk_action_new("FiguredBassExercises",_("Handel's Figured Bass Exercises"),_("Allows you to play in chords to Handel's continuo practice material"), get_icon_for_name("FiguredBassExercises", "Handel's Figured Bass Exercises"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "FiguredBassExercises", _("Handel's Figured Bass Exercises"), _("Allows you to play in chords to Handel's continuo practice material"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("FiguredBassExercises");
@@ -3836,9 +4202,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/Educational/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* CreateParts*/
+/* CreateParts xgettext:no-c-format*/
 action = gtk_action_new("CreateParts",_("Create Parts"),_("Create three parts from the current staff."), get_icon_for_name("CreateParts", "Create Parts"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"CreateIntro");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "CreateParts", _("Create Parts"), _("Create three parts from the current staff."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("CreateParts");
@@ -3847,9 +4214,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SimplifyTies*/
+/* SimplifyTies xgettext:no-c-format*/
 action = gtk_action_new("SimplifyTies",_("Simplify Ties"),_("Converts tied notes to longer notes and removes spurious ties."), get_icon_for_name("SimplifyTies", "Simplify Ties"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"TransposeStaffPrint");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SimplifyTies", _("Simplify Ties"), _("Converts tied notes to longer notes and removes spurious ties."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SimplifyTies");
@@ -3858,9 +4226,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* PasteReplaceSelection*/
+/* PasteReplaceSelection xgettext:no-c-format*/
 action = gtk_action_new("PasteReplaceSelection",_("Paste and Replace Selection"),_("Paste the clipboard. Replace any selected objects. This paste-version also creates new barlines instead of strictly using the copied ones."), get_icon_for_name("PasteReplaceSelection", "Paste and Replace Selection"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"Paste");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "PasteReplaceSelection", _("Paste and Replace Selection"), _("Paste the clipboard. Replace any selected objects. This paste-version also creates new barlines instead of strictly using the copied ones."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("PasteReplaceSelection");
@@ -3869,9 +4238,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/EditMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ToggleBeginPhrasingSlur*/
+/* ToggleBeginPhrasingSlur xgettext:no-c-format*/
 action = gtk_action_new("ToggleBeginPhrasingSlur",_("Begin Phrasing Slur"),_("Begin a phrasing slur on the current note. You can have normal slurs (partially) inside a phrasing slur."), get_icon_for_name("ToggleBeginPhrasingSlur", "Begin Phrasing Slur"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ReduceSlur");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ToggleBeginPhrasingSlur", _("Begin Phrasing Slur"), _("Begin a phrasing slur on the current note. You can have normal slurs (partially) inside a phrasing slur."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ToggleBeginPhrasingSlur");
@@ -3880,9 +4250,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Slurs");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ToggleEndPhrasingSlur*/
+/* ToggleEndPhrasingSlur xgettext:no-c-format*/
 action = gtk_action_new("ToggleEndPhrasingSlur",_("End Phrasing Slur"),_("End a phrasing slur on the current note."), get_icon_for_name("ToggleEndPhrasingSlur", "End Phrasing Slur"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ToggleBeginPhrasingSlur");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ToggleEndPhrasingSlur", _("End Phrasing Slur"), _("End a phrasing slur on the current note."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ToggleEndPhrasingSlur");
@@ -3891,8 +4262,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Slurs");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChangePrintDuration2*/
+/* ChangePrintDuration2 xgettext:no-c-format*/
 action = gtk_action_new("ChangePrintDuration2",_("Change Chordmember to Quarter "),_("Change one chord member to appear like a quarter-note duration without changing the original logic like measure calculation or the duration of newly added chord members."), get_icon_for_name("ChangePrintDuration2", "Change Chordmember to Quarter "));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChangePrintDuration2", _("Change Chordmember to Quarter "), _("Change one chord member to appear like a quarter-note duration without changing the original logic like measure calculation or the duration of newly added chord members."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChangePrintDuration2");
@@ -3901,9 +4273,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/ChangePrintDuration");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChangePrintDuration1*/
+/* ChangePrintDuration1 xgettext:no-c-format*/
 action = gtk_action_new("ChangePrintDuration1",_("Change chord-member to half note"),_("Change one chord member to appear like a half-note duration without changing the original logic like measure calculation or the duration of newly added chord members."), get_icon_for_name("ChangePrintDuration1", "Change chord-member to half note"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ChangePrintDuration2");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChangePrintDuration1", _("Change chord-member to half note"), _("Change one chord member to appear like a half-note duration without changing the original logic like measure calculation or the duration of newly added chord members."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChangePrintDuration1");
@@ -3912,9 +4285,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/ChangePrintDuration");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChangePrintDuration0*/
+/* ChangePrintDuration0 xgettext:no-c-format*/
 action = gtk_action_new("ChangePrintDuration0",_("Change chord-member to whole note"),_("Change one chord member to appear like a whole-note duration without changing the original logic like measure calculation or the duration of newly added chord members."), get_icon_for_name("ChangePrintDuration0", "Change chord-member to whole note"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ChangePrintDuration1");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChangePrintDuration0", _("Change chord-member to whole note"), _("Change one chord member to appear like a whole-note duration without changing the original logic like measure calculation or the duration of newly added chord members."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChangePrintDuration0");
@@ -3923,9 +4297,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/ChangePrintDuration");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChangePrintDurationBreve*/
+/* ChangePrintDurationBreve xgettext:no-c-format*/
 action = gtk_action_new("ChangePrintDurationBreve",_("Change chord-member to breve"),_("Change one chord member to appear like a breve duration without changing the original logic like measure calculation or the duration of newly added chord members."), get_icon_for_name("ChangePrintDurationBreve", "Change chord-member to breve"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ChangePrintDuration0");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChangePrintDurationBreve", _("Change chord-member to breve"), _("Change one chord member to appear like a breve duration without changing the original logic like measure calculation or the duration of newly added chord members."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChangePrintDurationBreve");
@@ -3934,9 +4309,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/ChangePrintDuration");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChangePrintDurationLonga*/
+/* ChangePrintDurationLonga xgettext:no-c-format*/
 action = gtk_action_new("ChangePrintDurationLonga",_("Change chord-member to longa"),_("Change one chord member to appear like a longa duration without changing the original logic like measure calculation or the duration of newly added chord members."), get_icon_for_name("ChangePrintDurationLonga", "Change chord-member to longa"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ChangePrintDurationBreve");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChangePrintDurationLonga", _("Change chord-member to longa"), _("Change one chord member to appear like a longa duration without changing the original logic like measure calculation or the duration of newly added chord members."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChangePrintDurationLonga");
@@ -3945,8 +4321,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/ChangePrintDuration");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChangeEnharmonicUp*/
+/* ChangeEnharmonicUp xgettext:no-c-format*/
 action = gtk_action_new("ChangeEnharmonicUp",_("Change Enharmonic +"),_("Shift through enharmonic variants of the same sounding note in the direction of higher diatonic base notes."), get_icon_for_name("ChangeEnharmonicUp", "Change Enharmonic +"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChangeEnharmonicUp", _("Change Enharmonic +"), _("Shift through enharmonic variants of the same sounding note in the direction of higher diatonic base notes."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChangeEnharmonicUp");
@@ -3955,9 +4332,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/EditNote");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChangeEnharmonicDown*/
+/* ChangeEnharmonicDown xgettext:no-c-format*/
 action = gtk_action_new("ChangeEnharmonicDown",_("Change Enharmonic -"),_("Switch through enharmonic variants of the same sounding note in the direction of lower diatonic base notes"), get_icon_for_name("ChangeEnharmonicDown", "Change Enharmonic -"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ChangeEnharmonicUp");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChangeEnharmonicDown", _("Change Enharmonic -"), _("Switch through enharmonic variants of the same sounding note in the direction of lower diatonic base notes"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChangeEnharmonicDown");
@@ -3966,9 +4344,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/EditNote");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SetThumbnail*/
+/* SetThumbnail xgettext:no-c-format*/
 action = gtk_action_new("SetThumbnail",_("Set Thumbnail from Selection"),_("Sets the thumbnail to the section made in the first movement."), get_icon_for_name("SetThumbnail", "Set Thumbnail from Selection"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ScoreProlog");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SetThumbnail", _("Set Thumbnail from Selection"), _("Sets the thumbnail to the section made in the first movement."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SetThumbnail");
@@ -3977,9 +4356,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* LimitInterSystemSpace*/
+/* LimitInterSystemSpace xgettext:no-c-format*/
 action = gtk_action_new("LimitInterSystemSpace",_("Limit Space Between Systems"),_("Limits the extent to which the lines are spaced apart to fill the page."), get_icon_for_name("LimitInterSystemSpace", "Limit Space Between Systems"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ScoreIndent");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "LimitInterSystemSpace", _("Limit Space Between Systems"), _("Limits the extent to which the lines are spaced apart to fill the page."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("LimitInterSystemSpace");
@@ -3988,9 +4368,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score/Print Layout");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* PrintBassPartWithoutFigures*/
+/* PrintBassPartWithoutFigures xgettext:no-c-format*/
 action = gtk_action_new("PrintBassPartWithoutFigures",_("Print Bass Part Omitting Figures"),_("Prints the Bass part omitting any figured bass figures."), get_icon_for_name("PrintBassPartWithoutFigures", "Print Bass Part Omitting Figures"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"PrintAccompanistsScore");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "PrintBassPartWithoutFigures", _("Print Bass Part Omitting Figures"), _("Prints the Bass part omitting any figured bass figures."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("PrintBassPartWithoutFigures");
@@ -3999,9 +4380,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/FileMenu/PrintMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* EvenOutStaffLengths*/
+/* EvenOutStaffLengths xgettext:no-c-format*/
 action = gtk_action_new("EvenOutStaffLengths",_("Even Up the Staffs"),_("Appends empty measures to any staffs that are too short."), get_icon_for_name("EvenOutStaffLengths", "Even Up the Staffs"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ReBar");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "EvenOutStaffLengths", _("Even Up the Staffs"), _("Appends empty measures to any staffs that are too short."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("EvenOutStaffLengths");
@@ -4010,9 +4392,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* CheckScore*/
+/* CheckScore xgettext:no-c-format*/
 action = gtk_action_new("CheckScore",_("Check Score"),_("Checks score for wrong measure durations, unterminated tuplets, slurs, wrong ties etc."), get_icon_for_name("CheckScore", "Check Score"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"EditScoreDirective");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "CheckScore", _("Check Score"), _("Checks score for wrong measure durations, unterminated tuplets, slurs, wrong ties etc."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("CheckScore");
@@ -4021,9 +4404,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* FixSlursInStaff*/
+/* FixSlursInStaff xgettext:no-c-format*/
 action = gtk_action_new("FixSlursInStaff",_("Fix Slurs"),_("Removes incorrectly placed slur start/end markers on current voice/staff."), get_icon_for_name("FixSlursInStaff", "Fix Slurs"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"SimplifyTies");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "FixSlursInStaff", _("Fix Slurs"), _("Removes incorrectly placed slur start/end markers on current voice/staff."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("FixSlursInStaff");
@@ -4032,9 +4416,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* CheckTupletsInMeasure*/
+/* CheckTupletsInMeasure xgettext:no-c-format*/
 action = gtk_action_new("CheckTupletsInMeasure",_("Check Tuplets"),_("Checks that start/end tuplets match in the current measure."), get_icon_for_name("CheckTupletsInMeasure", "Check Tuplets"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"SplitMeasure");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "CheckTupletsInMeasure", _("Check Tuplets"), _("Checks that start/end tuplets match in the current measure."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("CheckTupletsInMeasure");
@@ -4043,9 +4428,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MeasureMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* CheckTiesInStaff*/
+/* CheckTiesInStaff xgettext:no-c-format*/
 action = gtk_action_new("CheckTiesInStaff",_("Check Ties"),_("Checks for wrongly tied notes in the current voice/staff."), get_icon_for_name("CheckTiesInStaff", "Check Ties"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"FixSlursInStaff");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "CheckTiesInStaff", _("Check Ties"), _("Checks for wrongly tied notes in the current voice/staff."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("CheckTiesInStaff");
@@ -4054,9 +4440,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MergeRests*/
+/* MergeRests xgettext:no-c-format*/
 action = gtk_action_new("MergeRests",_("Merge Rests"),_("(Print) Merges rests where two voices have a common rest. Not for whole measure or multi-measure rests."), get_icon_for_name("MergeRests", "Merge Rests"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"CreateParts");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MergeRests", _("Merge Rests"), _("(Print) Merges rests where two voices have a common rest. Not for whole measure or multi-measure rests."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MergeRests");
@@ -4065,9 +4452,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* DeleteBeamingDirective*/
+/* DeleteBeamingDirective xgettext:no-c-format*/
 action = gtk_action_new("DeleteBeamingDirective",_("Delete Beaming Directive"),_("Deletes a ] or [ (end or start beam) directive on the current chord."), get_icon_for_name("DeleteBeamingDirective", "Delete Beaming Directive"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"EndBeam");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "DeleteBeamingDirective", _("Delete Beaming Directive"), _("Deletes a ] or [ (end or start beam) directive on the current chord."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("DeleteBeamingDirective");
@@ -4076,9 +4464,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Beaming");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* BeamingOff*/
+/* BeamingOff xgettext:no-c-format*/
 action = gtk_action_new("BeamingOff",_("Stop Beaming"),_("(Print)Stop automatic beaming from current position in score."), get_icon_for_name("BeamingOff", "Stop Beaming"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"PageBreak");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "BeamingOff", _("Stop Beaming"), _("(Print)Stop automatic beaming from current position in score."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("BeamingOff");
@@ -4087,9 +4476,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* BeamingOn*/
+/* BeamingOn xgettext:no-c-format*/
 action = gtk_action_new("BeamingOn",_("Start Beaming"),_("(Print) Start automatic beaming at this point in score. (Used after turning beaming off)."), get_icon_for_name("BeamingOn", "Start Beaming"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"BeamingOff");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "BeamingOn", _("Start Beaming"), _("(Print) Start automatic beaming at this point in score. (Used after turning beaming off)."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("BeamingOn");
@@ -4098,9 +4488,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* CaptureMeasures*/
+/* CaptureMeasures xgettext:no-c-format*/
 action = gtk_action_new("CaptureMeasures",_("Capture Measures (Score)"),_("Creates blank measures one for each measure captured as a screenshot from a source score. Display the source score using any program. Click on opposite corners of each measure in turn to capture that measure as an image into Denemo. Right-click or scroll-wheel to switch corners to adjust. Press any key to finish. This command is for capturing in score form; to underlay each part with its own source measure use CaptureMeasuresPartPerStaff "), get_icon_for_name("CaptureMeasures", "Capture Measures (Score)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"SwapMovements");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "CaptureMeasures", _("Capture Measures (Score)"), _("Creates blank measures one for each measure captured as a screenshot from a source score. Display the source score using any program. Click on opposite corners of each measure in turn to capture that measure as an image into Denemo. Right-click or scroll-wheel to switch corners to adjust. Press any key to finish. This command is for capturing in score form; to underlay each part with its own source measure use CaptureMeasuresPartPerStaff "), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("CaptureMeasures");
@@ -4109,9 +4500,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu/CaptureScore");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* CaptureMeasuresForStaff*/
+/* CaptureMeasuresForStaff xgettext:no-c-format*/
 action = gtk_action_new("CaptureMeasuresForStaff",_("Capture Measures (one staff)"),_("Creates blank measures one for each measure captured as a screenshot from one of a set of parts. Display the source score on the screen using any program. Click on opposite corners of each measure in turn to capture that measure as an image into Denemo. Right-click or scroll-wheel to switch corners to adjust. Press any key to finish. This command is for capturing in parts form; to capture in full score use  CaptureMeasures command"), get_icon_for_name("CaptureMeasuresForStaff", "Capture Measures (one staff)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"CheckTiesInStaff");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "CaptureMeasuresForStaff", _("Capture Measures (one staff)"), _("Creates blank measures one for each measure captured as a screenshot from one of a set of parts. Display the source score on the screen using any program. Click on opposite corners of each measure in turn to capture that measure as an image into Denemo. Right-click or scroll-wheel to switch corners to adjust. Press any key to finish. This command is for capturing in parts form; to capture in full score use  CaptureMeasures command"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("CaptureMeasuresForStaff");
@@ -4120,9 +4512,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/CaptureScore");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* DeleteCapturedMeasure*/
+/* DeleteCapturedMeasure xgettext:no-c-format*/
 action = gtk_action_new("DeleteCapturedMeasure",_("Delete Captured Measure"),_("Deletes the captured image of the source measure for the current measure."), get_icon_for_name("DeleteCapturedMeasure", "Delete Captured Measure"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"CaptureMeasures");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "DeleteCapturedMeasure", _("Delete Captured Measure"), _("Deletes the captured image of the source measure for the current measure."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("DeleteCapturedMeasure");
@@ -4131,9 +4524,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu/CaptureScore");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* DeleteCapturedMeasureForStaff*/
+/* DeleteCapturedMeasureForStaff xgettext:no-c-format*/
 action = gtk_action_new("DeleteCapturedMeasureForStaff",_("Delete Captured Measure."),_("Deletes the captured measure image for the current measure of the current staff."), get_icon_for_name("DeleteCapturedMeasureForStaff", "Delete Captured Measure."));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"CaptureMeasuresForStaff");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "DeleteCapturedMeasureForStaff", _("Delete Captured Measure."), _("Deletes the captured measure image for the current measure of the current staff."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("DeleteCapturedMeasureForStaff");
@@ -4142,9 +4536,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/CaptureScore");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ScoreBlockProlog*/
+/* ScoreBlockProlog xgettext:no-c-format*/
 action = gtk_action_new("ScoreBlockProlog",_("LilyPond Score Block Prolog"),_("Inserts LilyPond at the start of every score block (movement)."), get_icon_for_name("ScoreBlockProlog", "LilyPond Score Block Prolog"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ScoreProlog");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ScoreBlockProlog", _("LilyPond Score Block Prolog"), _("Inserts LilyPond at the start of every score block (movement)."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ScoreBlockProlog");
@@ -4153,9 +4548,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NormalBeamEndings*/
+/* NormalBeamEndings xgettext:no-c-format*/
 action = gtk_action_new("NormalBeamEndings",_("Use Normal Beam Endings"),_("Ends beams in the expected places (print)."), get_icon_for_name("NormalBeamEndings", "Use Normal Beam Endings"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AccompanistsScore");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NormalBeamEndings", _("Use Normal Beam Endings"), _("Ends beams in the expected places (print)."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NormalBeamEndings");
@@ -4164,9 +4560,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ReduceSystemSpacing*/
+/* ReduceSystemSpacing xgettext:no-c-format*/
 action = gtk_action_new("ReduceSystemSpacing",_("Reduce Space Between Systems"),_("Reduces the gap between the systems of staffs on a page."), get_icon_for_name("ReduceSystemSpacing", "Reduce Space Between Systems"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"NormalBeamEndings");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ReduceSystemSpacing", _("Reduce Space Between Systems"), _("Reduces the gap between the systems of staffs on a page."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ReduceSystemSpacing");
@@ -4175,9 +4572,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* UnGraceAfter*/
+/* UnGraceAfter xgettext:no-c-format*/
 action = gtk_action_new("UnGraceAfter",_("Un-Grace After"),_("Make the grace note at the cursor closer to the following rather than preceding note."), get_icon_for_name("UnGraceAfter", "Un-Grace After"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"GraceAfter");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "UnGraceAfter", _("Un-Grace After"), _("Make the grace note at the cursor closer to the following rather than preceding note."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("UnGraceAfter");
@@ -4186,9 +4584,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/GraceNotes");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* InsertCaptureMeasure*/
+/* InsertCaptureMeasure xgettext:no-c-format*/
 action = gtk_action_new("InsertCaptureMeasure",_("Capture and Insert One Measure"),_("Capture the image of a single measure (as screenshot) inserting at the current measure."), get_icon_for_name("InsertCaptureMeasure", "Capture and Insert One Measure"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"CaptureMeasures");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "InsertCaptureMeasure", _("Capture and Insert One Measure"), _("Capture the image of a single measure (as screenshot) inserting at the current measure."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("InsertCaptureMeasure");
@@ -4197,9 +4596,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu/CaptureScore");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* InsertCaptureMeasureForStaff*/
+/* InsertCaptureMeasureForStaff xgettext:no-c-format*/
 action = gtk_action_new("InsertCaptureMeasureForStaff",_("Capture and Insert One Measure"),_("Capture the image of a single measure (as screenshot) inserting at the current measure in the current staff."), get_icon_for_name("InsertCaptureMeasureForStaff", "Capture and Insert One Measure"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"CaptureMeasuresForStaff");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "InsertCaptureMeasureForStaff", _("Capture and Insert One Measure"), _("Capture the image of a single measure (as screenshot) inserting at the current measure in the current staff."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("InsertCaptureMeasureForStaff");
@@ -4208,9 +4608,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/CaptureScore");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* PitchShift*/
+/* PitchShift xgettext:no-c-format*/
 action = gtk_action_new("PitchShift",_("Shift Pitch"),_("Outputs a pitch bend signal to the synthesizer for the value +/- 64 given."), get_icon_for_name("PitchShift", "Shift Pitch"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ConvertMidiForBass");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "PitchShift", _("Shift Pitch"), _("Outputs a pitch bend signal to the synthesizer for the value +/- 64 given."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("PitchShift");
@@ -4219,9 +4620,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/PlaybackMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Ottava*/
+/* Ottava xgettext:no-c-format*/
 action = gtk_action_new("Ottava",_("Ottava"),_("Inserts an 8va mark (transposing the notes accordingly) or terminates one already started."), get_icon_for_name("Ottava", "Ottava"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"BreathMark");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Ottava", _("Ottava"), _("Inserts an 8va mark (transposing the notes accordingly) or terminates one already started."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Ottava");
@@ -4230,8 +4632,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Upprall*/
+/* Upprall xgettext:no-c-format*/
 action = gtk_action_new("Upprall",_("Up Prall"),_("Adds/Removes Up Prall ornament"), get_icon_for_name("Upprall", "Up Prall"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Upprall", _("Up Prall"), _("Adds/Removes Up Prall ornament"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Upprall");
@@ -4240,9 +4643,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Ornaments");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MoveRest*/
+/* MoveRest xgettext:no-c-format*/
 action = gtk_action_new("MoveRest",_("Displace Rest Vertically"),_("Turns the rest at the cursor into a polyphonic rest at the cursor height."), get_icon_for_name("MoveRest", "Displace Rest Vertically"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"InsertLongaRest");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MoveRest", _("Displace Rest Vertically"), _("Turns the rest at the cursor into a polyphonic rest at the cursor height."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MoveRest");
@@ -4251,9 +4655,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/RestEntry");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ShowLastChange*/
+/* ShowLastChange xgettext:no-c-format*/
 action = gtk_action_new("ShowLastChange",_("Show Last Change"),_("Shows the last change recorded on the Undo stack."), get_icon_for_name("ShowLastChange", "Show Last Change"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"Undo");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ShowLastChange", _("Show Last Change"), _("Shows the last change recorded on the Undo stack."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ShowLastChange");
@@ -4262,9 +4667,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/EditMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* FootPedalConductor*/
+/* FootPedalConductor xgettext:no-c-format*/
 action = gtk_action_new("FootPedalConductor",_("Foot Pedal Conductor"),_("Press the foot pedal at the start of each measure. The bar number is displayed and the beats are interpolated following the timesignature set. Two quick presses of the foot pedal stops the conductor."), get_icon_for_name("FootPedalConductor", "Foot Pedal Conductor"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AngryDelete");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "FootPedalConductor", _("Foot Pedal Conductor"), _("Press the foot pedal at the start of each measure. The bar number is displayed and the beats are interpolated following the timesignature set. Two quick presses of the foot pedal stops the conductor."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("FootPedalConductor");
@@ -4273,9 +4679,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/InputMenu/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* PrintWithAmbitus*/
+/* PrintWithAmbitus xgettext:no-c-format*/
 action = gtk_action_new("PrintWithAmbitus",_("Print with Ambitus"),_("Prints the score printing the range (ambitus) of each part at the start of the staff"), get_icon_for_name("PrintWithAmbitus", "Print with Ambitus"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"PrintAccompanistsScore");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "PrintWithAmbitus", _("Print with Ambitus"), _("Prints the score printing the range (ambitus) of each part at the start of the staff"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("PrintWithAmbitus");
@@ -4284,9 +4691,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/FileMenu/PrintMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ShiftOff*/
+/* ShiftOff xgettext:no-c-format*/
 action = gtk_action_new("ShiftOff",_("No Horizontal Shifts"),_("Turns off horizontal displacement of notes (which avoid collisions between parts)"), get_icon_for_name("ShiftOff", "No Horizontal Shifts"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"VoicesDoublestroke");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ShiftOff", _("No Horizontal Shifts"), _("Turns off horizontal displacement of notes (which avoid collisions between parts)"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ShiftOff");
@@ -4295,9 +4703,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ShiftOn*/
+/* ShiftOn xgettext:no-c-format*/
 action = gtk_action_new("ShiftOn",_("Use Horizontal Shifts"),_("Turns on horizontal displacements of notes where needed."), get_icon_for_name("ShiftOn", "Use Horizontal Shifts"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ShiftOff");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ShiftOn", _("Use Horizontal Shifts"), _("Turns on horizontal displacements of notes where needed."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ShiftOn");
@@ -4306,9 +4715,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SetCurrentStaffAsVoice*/
+/* SetCurrentStaffAsVoice xgettext:no-c-format*/
 action = gtk_action_new("SetCurrentStaffAsVoice",_("Staff to Voice"),_("The current staff will be typeset as a voice on the staff above."), get_icon_for_name("SetCurrentStaffAsVoice", "Staff to Voice"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MoveToVoiceDown");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SetCurrentStaffAsVoice", _("Staff to Voice"), _("The current staff will be typeset as a voice on the staff above."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SetCurrentStaffAsVoice");
@@ -4317,9 +4727,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SetCurrentVoiceAsStaff*/
+/* SetCurrentVoiceAsStaff xgettext:no-c-format*/
 action = gtk_action_new("SetCurrentVoiceAsStaff",_("Voice to Staff"),_("The current voice will be typeset on its own staff."), get_icon_for_name("SetCurrentVoiceAsStaff", "Voice to Staff"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"SetCurrentStaffAsVoice");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SetCurrentVoiceAsStaff", _("Voice to Staff"), _("The current voice will be typeset on its own staff."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SetCurrentVoiceAsStaff");
@@ -4328,8 +4739,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChangeStaff*/
+/* ChangeStaff xgettext:no-c-format*/
 action = gtk_action_new("ChangeStaff",_("Change Staff"),_("(Print) the current voice moves to the staff you name."), get_icon_for_name("ChangeStaff", "Change Staff"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChangeStaff", _("Change Staff"), _("(Print) the current voice moves to the staff you name."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChangeStaff");
@@ -4338,9 +4750,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NewVoice*/
+/* NewVoice xgettext:no-c-format*/
 action = gtk_action_new("NewVoice",_("Add Voice"),_("Adds a voice to the current staff, initially displayed on a staff of its own, for readability. It will print on the staff above, and can be displayed there using Join Voices command if desired."), get_icon_for_name("NewVoice", "Add Voice"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"EditVoiceDirective");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NewVoice", _("Add Voice"), _("Adds a voice to the current staff, initially displayed on a staff of its own, for readability. It will print on the staff above, and can be displayed there using Join Voices command if desired."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NewVoice");
@@ -4349,9 +4762,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NoBarline*/
+/* NoBarline xgettext:no-c-format*/
 action = gtk_action_new("NoBarline",_("(Print) Omit Barline"),_("Skips the printing of any automatic barline here - allows line break."), get_icon_for_name("NoBarline", "(Print) Omit Barline"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ClosingBarline");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NoBarline", _("(Print) Omit Barline"), _("Skips the printing of any automatic barline here - allows line break."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NoBarline");
@@ -4360,9 +4774,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Barlines");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* HideKeysig*/
+/* HideKeysig xgettext:no-c-format*/
 action = gtk_action_new("HideKeysig",_("(Print) Hide"),_("On printing, omit the key signature change at the cursor, or the initial key signature if the cursor is not on a key signature change."), get_icon_for_name("HideKeysig", "(Print) Hide"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"InsertKey");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "HideKeysig", _("(Print) Hide"), _("On printing, omit the key signature change at the cursor, or the initial key signature if the cursor is not on a key signature change."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("HideKeysig");
@@ -4371,9 +4786,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Key");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* HideTimesig*/
+/* HideTimesig xgettext:no-c-format*/
 action = gtk_action_new("HideTimesig",_("(Print) Hide"),_("On printing, omit the time signature change at the cursor, or the initial time signature if the cursor is not on a time signature change."), get_icon_for_name("HideTimesig", "(Print) Hide"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ChooseTimeSignature");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "HideTimesig", _("(Print) Hide"), _("On printing, omit the time signature change at the cursor, or the initial time signature if the cursor is not on a time signature change."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("HideTimesig");
@@ -4382,9 +4798,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/TimeSig");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* HideClef*/
+/* HideClef xgettext:no-c-format*/
 action = gtk_action_new("HideClef",_("(Print) Hide"),_("On printing, omit the clef change at the cursor, or the initial clef if the cursor is not on a clef change."), get_icon_for_name("HideClef", "(Print) Hide"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ClefChooser");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "HideClef", _("(Print) Hide"), _("On printing, omit the clef change at the cursor, or the initial clef if the cursor is not on a clef change."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("HideClef");
@@ -4393,9 +4810,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ClefMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* HideBarlines*/
+/* HideBarlines xgettext:no-c-format*/
 action = gtk_action_new("HideBarlines",_("(Print) Hide Barlines"),_("Omits barlines when printing."), get_icon_for_name("HideBarlines", "(Print) Hide Barlines"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"HideMovement");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "HideBarlines", _("(Print) Hide Barlines"), _("Omits barlines when printing."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("HideBarlines");
@@ -4404,9 +4822,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* PointAndClick*/
+/* PointAndClick xgettext:no-c-format*/
 action = gtk_action_new("PointAndClick",_("Point and Click (Off/On)"),_("When on, clicking on a note in the Print Preview window takes the cursor to that note. This works also for Rehearsal Marks and many other objects in the score. The only reason to turn it off is for export to PDF file via the Export menu. However, using print to file is a better way of doing this as thenit is not needed."), get_icon_for_name("PointAndClick", "Point and Click (Off/On)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ScoreBlockProlog");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "PointAndClick", _("Point and Click (Off/On)"), _("When on, clicking on a note in the Print Preview window takes the cursor to that note. This works also for Rehearsal Marks and many other objects in the score. The only reason to turn it off is for export to PDF file via the Export menu. However, using print to file is a better way of doing this as thenit is not needed."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("PointAndClick");
@@ -4415,9 +4834,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ShiftNext*/
+/* ShiftNext xgettext:no-c-format*/
 action = gtk_action_new("ShiftNext",_("(Print) Shift Object"),_("Asks for horizontal and vertical offsets and inserts a directive to displace the object at the cursor on printing."), get_icon_for_name("ShiftNext", "(Print) Shift Object"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"Hide");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ShiftNext", _("(Print) Shift Object"), _("Asks for horizontal and vertical offsets and inserts a directive to displace the object at the cursor on printing."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ShiftNext");
@@ -4426,9 +4846,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* DisplaceRestHorizontally*/
+/* DisplaceRestHorizontally xgettext:no-c-format*/
 action = gtk_action_new("DisplaceRestHorizontally",_("Displace Rest Horizontally"),_("Asks for a horizontal shift and moves the rest at the cursor by that much when printing."), get_icon_for_name("DisplaceRestHorizontally", "Displace Rest Horizontally"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MoveRest");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "DisplaceRestHorizontally", _("Displace Rest Horizontally"), _("Asks for a horizontal shift and moves the rest at the cursor by that much when printing."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("DisplaceRestHorizontally");
@@ -4437,9 +4858,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/RestEntry");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* RefreshDynamicDirectives*/
+/* RefreshDynamicDirectives xgettext:no-c-format*/
 action = gtk_action_new("RefreshDynamicDirectives",_("Refresh Dynamic Directives"),_("Re-runs any directives that may have become stale."), get_icon_for_name("RefreshDynamicDirectives", "Refresh Dynamic Directives"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ScoreBlockProlog");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "RefreshDynamicDirectives", _("Refresh Dynamic Directives"), _("Re-runs any directives that may have become stale."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("RefreshDynamicDirectives");
@@ -4448,9 +4870,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* LilyPondInclude*/
+/* LilyPondInclude xgettext:no-c-format*/
 action = gtk_action_new("LilyPondInclude",_("LilyPond Include File"),_("Allows specification of a LilyPond include file from the Denemo provided include files."), get_icon_for_name("LilyPondInclude", "LilyPond Include File"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ScoreBlockProlog");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "LilyPondInclude", _("LilyPond Include File"), _("Allows specification of a LilyPond include file from the Denemo provided include files."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("LilyPondInclude");
@@ -4459,9 +4882,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* BookTitle*/
+/* BookTitle xgettext:no-c-format*/
 action = gtk_action_new("BookTitle",_("Title"),_("Prints a title on title page"), get_icon_for_name("BookTitle", "Title"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"TransposeScorePrint");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "BookTitle", _("Title"), _("Prints a title on title page"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("BookTitle");
@@ -4470,8 +4894,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score/Titles/Book Titles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* BookArranger*/
+/* BookArranger xgettext:no-c-format*/
 action = gtk_action_new("BookArranger",_("Arranger"),_("Prints the arranger name on title page"), get_icon_for_name("BookArranger", "Arranger"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "BookArranger", _("Arranger"), _("Prints the arranger name on title page"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("BookArranger");
@@ -4480,8 +4905,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score/Titles/Book Titles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* BookCopyright*/
+/* BookCopyright xgettext:no-c-format*/
 action = gtk_action_new("BookCopyright",_("Copyright"),_("Prints a copyright notice on title page"), get_icon_for_name("BookCopyright", "Copyright"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "BookCopyright", _("Copyright"), _("Prints a copyright notice on title page"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("BookCopyright");
@@ -4490,8 +4916,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score/Titles/Book Titles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* BookComposer*/
+/* BookComposer xgettext:no-c-format*/
 action = gtk_action_new("BookComposer",_("Composer"),_("Prints a composer name on title page"), get_icon_for_name("BookComposer", "Composer"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "BookComposer", _("Composer"), _("Prints a composer name on title page"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("BookComposer");
@@ -4500,8 +4927,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score/Titles/Book Titles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* BookPoet*/
+/* BookPoet xgettext:no-c-format*/
 action = gtk_action_new("BookPoet",_("Poet/Lyricist"),_("Prints the poet or lyricist name on title page"), get_icon_for_name("BookPoet", "Poet/Lyricist"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "BookPoet", _("Poet/Lyricist"), _("Prints the poet or lyricist name on title page"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("BookPoet");
@@ -4510,8 +4938,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score/Titles/Book Titles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* TitledPiece*/
+/* TitledPiece xgettext:no-c-format*/
 action = gtk_action_new("TitledPiece",_("Title"),_("Prints title for the current movement, which will get a page reference in a table of contents."), get_icon_for_name("TitledPiece", "Title"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "TitledPiece", _("Title"), _("Prints title for the current movement, which will get a page reference in a table of contents."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("TitledPiece");
@@ -4520,8 +4949,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu/Titles/Book Titles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Chapter*/
+/* Chapter xgettext:no-c-format*/
 action = gtk_action_new("Chapter",_("Heading"),_("Prints a heading in upper case for the current movement."), get_icon_for_name("Chapter", "Heading"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Chapter", _("Heading"), _("Prints a heading in upper case for the current movement."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Chapter");
@@ -4530,8 +4960,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu/Titles/Book Titles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Section*/
+/* Section xgettext:no-c-format*/
 action = gtk_action_new("Section",_("Sub-Title"),_("Prints a subtitle for the current movement"), get_icon_for_name("Section", "Sub-Title"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Section", _("Sub-Title"), _("Prints a subtitle for the current movement"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Section");
@@ -4540,8 +4971,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu/Titles/Book Titles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Piece*/
+/* Piece xgettext:no-c-format*/
 action = gtk_action_new("Piece",_("Piece"),_("Prints a piece name for the Movement"), get_icon_for_name("Piece", "Piece"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Piece", _("Piece"), _("Prints a piece name for the Movement"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Piece");
@@ -4550,9 +4982,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu/Titles/Book Titles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* TocTitle*/
+/* TocTitle xgettext:no-c-format*/
 action = gtk_action_new("TocTitle",_("Table of Contents Title"),_("Gives a heading for a table of contents, inserting the table in the book."), get_icon_for_name("TocTitle", "Table of Contents Title"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"BookPoet");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "TocTitle", _("Table of Contents Title"), _("Gives a heading for a table of contents, inserting the table in the book."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("TocTitle");
@@ -4561,9 +4994,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score/Titles/Book Titles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SetDisplayClef*/
+/* SetDisplayClef xgettext:no-c-format*/
 action = gtk_action_new("SetDisplayClef",_("Display Only Clef"),_("Inserts a clef that affects only the display, not the printed form. Use this after ChangeStaff in the staff the voice will be on is in a different clef. Also useful to display in a familiar clef music which you want to be printed in a less familiar one (e.g. display in treble or bass music to be printed for viola"), get_icon_for_name("SetDisplayClef", "Display Only Clef"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"HideClef");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SetDisplayClef", _("Display Only Clef"), _("Inserts a clef that affects only the display, not the printed form. Use this after ChangeStaff in the staff the voice will be on is in a different clef. Also useful to display in a familiar clef music which you want to be printed in a less familiar one (e.g. display in treble or bass music to be printed for viola"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SetDisplayClef");
@@ -4572,8 +5006,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ClefMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* CriticalCommentary*/
+/* CriticalCommentary xgettext:no-c-format*/
 action = gtk_action_new("CriticalCommentary",_("(Re)Create Epilog - Critical Commentary"),_("Collects together any critical comments from the score and places them in an epilog at the end of the music. The Title and text of the Epilog are created with the CriticalCommentaryIntro command, and critical comments are added with the CriticalComment command."), get_icon_for_name("CriticalCommentary", "(Re)Create Epilog - Critical Commentary"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "CriticalCommentary", _("(Re)Create Epilog - Critical Commentary"), _("Collects together any critical comments from the score and places them in an epilog at the end of the music. The Title and text of the Epilog are created with the CriticalCommentaryIntro command, and critical comments are added with the CriticalComment command."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("CriticalCommentary");
@@ -4582,9 +5017,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score/Titles/Book Titles/Epilog");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* CriticalComment*/
+/* CriticalComment xgettext:no-c-format*/
 action = gtk_action_new("CriticalComment",_("Critical Comment"),_("Adds a comment which can be printed in a critical commentary at the end of all the movements (see CriticalCommentary command to create this)."), get_icon_for_name("CriticalComment", "Critical Comment"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"FreeFermata");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "CriticalComment", _("Critical Comment"), _("Adds a comment which can be printed in a critical commentary at the end of all the movements (see CriticalCommentary command to create this)."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("CriticalComment");
@@ -4593,9 +5029,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* AllowLineBreak*/
+/* AllowLineBreak xgettext:no-c-format*/
 action = gtk_action_new("AllowLineBreak",_("Allow Line Break"),_("Permits the typesetter to break the line at this point."), get_icon_for_name("AllowLineBreak", "Allow Line Break"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"LineBreak");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "AllowLineBreak", _("Allow Line Break"), _("Permits the typesetter to break the line at this point."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("AllowLineBreak");
@@ -4604,9 +5041,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* CriticalCommentaryIntro*/
+/* CriticalCommentaryIntro xgettext:no-c-format*/
 action = gtk_action_new("CriticalCommentaryIntro",_("Title and Introduction"),_("A button is created for putting a title and introductory text for a critical commentary at the end of the score."), get_icon_for_name("CriticalCommentaryIntro", "Title and Introduction"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"TocTitle");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "CriticalCommentaryIntro", _("Title and Introduction"), _("A button is created for putting a title and introductory text for a critical commentary at the end of the score."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("CriticalCommentaryIntro");
@@ -4615,9 +5053,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score/Titles/Book Titles/Epilog");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* BookDate*/
+/* BookDate xgettext:no-c-format*/
 action = gtk_action_new("BookDate",_("Date"),_("Prints a date on the title page."), get_icon_for_name("BookDate", "Date"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"BookPoet");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "BookDate", _("Date"), _("Prints a date on the title page."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("BookDate");
@@ -4626,9 +5065,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score/Titles/Book Titles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NeoMensuralNotehead*/
+/* NeoMensuralNotehead xgettext:no-c-format*/
 action = gtk_action_new("NeoMensuralNotehead",_("Neo-mensural"),_("Prints note with neomensural style notehead."), get_icon_for_name("NeoMensuralNotehead", "Neo-mensural"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ChangeNotehead");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NeoMensuralNotehead", _("Neo-mensural"), _("Prints note with neomensural style notehead."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NeoMensuralNotehead");
@@ -4637,9 +5077,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/NoteheadControl");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NoteColumnShift*/
+/* NoteColumnShift xgettext:no-c-format*/
 action = gtk_action_new("NoteColumnShift",_("Force Note Shift"),_("On printing the current note/chord will be shifted from notes in other voices by the amount you give. Use with Voice Presets to ensure this chord is in a different voice."), get_icon_for_name("NoteColumnShift", "Force Note Shift"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ShiftOn");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NoteColumnShift", _("Force Note Shift"), _("On printing the current note/chord will be shifted from notes in other voices by the amount you give. Use with Voice Presets to ensure this chord is in a different voice."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NoteColumnShift");
@@ -4648,9 +5089,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SuggestSharp*/
+/* SuggestSharp xgettext:no-c-format*/
 action = gtk_action_new("SuggestSharp",_("Suggest Sharp"),_("Prints a sharp above the note at the cursor"), get_icon_for_name("SuggestSharp", "Suggest Sharp"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ReminderAccidental");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SuggestSharp", _("Suggest Sharp"), _("Prints a sharp above the note at the cursor"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SuggestSharp");
@@ -4659,9 +5101,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/EditNote");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SuggestFlat*/
+/* SuggestFlat xgettext:no-c-format*/
 action = gtk_action_new("SuggestFlat",_("Suggest Flat"),_("Prints flat sign over the note at the cursor"), get_icon_for_name("SuggestFlat", "Suggest Flat"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"SuggestSharp");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SuggestFlat", _("Suggest Flat"), _("Prints flat sign over the note at the cursor"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SuggestFlat");
@@ -4670,9 +5113,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/EditNote");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SuggestNatural*/
+/* SuggestNatural xgettext:no-c-format*/
 action = gtk_action_new("SuggestNatural",_("Suggest Natural"),_("Prints a natural over the note at the cursor"), get_icon_for_name("SuggestNatural", "Suggest Natural"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"SuggestFlat");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SuggestNatural", _("Suggest Natural"), _("Prints a natural over the note at the cursor"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SuggestNatural");
@@ -4681,9 +5125,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/EditNote");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* CreatePartsFromTop*/
+/* CreatePartsFromTop xgettext:no-c-format*/
 action = gtk_action_new("CreatePartsFromTop",_("Create Parts (Treble First)"),_("Creates a set of parts extracting the highest part first."), get_icon_for_name("CreatePartsFromTop", "Create Parts (Treble First)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"CreateParts");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "CreatePartsFromTop", _("Create Parts (Treble First)"), _("Creates a set of parts extracting the highest part first."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("CreatePartsFromTop");
@@ -4692,9 +5137,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ToggleCheckChords*/
+/* ToggleCheckChords xgettext:no-c-format*/
 action = gtk_action_new("ToggleCheckChords",_("Check Chords (On/Off)"),_("Advances through the current movement as you play the notes, stopping for wrong or missing notes in MIDI in."), get_icon_for_name("ToggleCheckChords", "Check Chords (On/Off)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"AngryDelete");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ToggleCheckChords", _("Check Chords (On/Off)"), _("Advances through the current movement as you play the notes, stopping for wrong or missing notes in MIDI in."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ToggleCheckChords");
@@ -4703,9 +5149,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/InputMenu/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* PrintTwoReduced*/
+/* PrintTwoReduced xgettext:no-c-format*/
 action = gtk_action_new("PrintTwoReduced",_("Print Two Parts as Cue for Accompanist"),_("Prints the top two staffs on a single staff as cue."), get_icon_for_name("PrintTwoReduced", "Print Two Parts as Cue for Accompanist"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"PrintAccompanistsScore");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "PrintTwoReduced", _("Print Two Parts as Cue for Accompanist"), _("Prints the top two staffs on a single staff as cue."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("PrintTwoReduced");
@@ -4714,9 +5161,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/FileMenu/PrintMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* TaglineLink*/
+/* TaglineLink xgettext:no-c-format*/
 action = gtk_action_new("TaglineLink",_("Tagline with Link"),_("Creates a tagline with a link in PDF output."), get_icon_for_name("TaglineLink", "Tagline with Link"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ScoreTagline");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "TaglineLink", _("Tagline with Link"), _("Creates a tagline with a link in PDF output."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("TaglineLink");
@@ -4725,8 +5173,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score/Titles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ToggleMarcato*/
+/* ToggleMarcato xgettext:no-c-format*/
 action = gtk_action_new("ToggleMarcato",_("Marcato (Off/On)"),_("Mark/Unmark the current chord marcato"), get_icon_for_name("ToggleMarcato", "Marcato (Off/On)"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ToggleMarcato", _("Marcato (Off/On)"), _("Mark/Unmark the current chord marcato"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ToggleMarcato");
@@ -4735,9 +5184,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Articulations");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* PrintPartWithTitlePage*/
+/* PrintPartWithTitlePage xgettext:no-c-format*/
 action = gtk_action_new("PrintPartWithTitlePage",_("Print Part with Title Page"),_("Prints part with part name on title page"), get_icon_for_name("PrintPartWithTitlePage", "Print Part with Title Page"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"PrintPart");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "PrintPartWithTitlePage", _("Print Part with Title Page"), _("Prints part with part name on title page"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("PrintPartWithTitlePage");
@@ -4746,9 +5196,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/FileMenu/PrintMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ToggleAccent*/
+/* ToggleAccent xgettext:no-c-format*/
 action = gtk_action_new("ToggleAccent",_("Accent (Off/On)"),_("Mark/Unmark the current chord accented"), get_icon_for_name("ToggleAccent", "Accent (Off/On)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ToggleMarcato");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ToggleAccent", _("Accent (Off/On)"), _("Mark/Unmark the current chord accented"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ToggleAccent");
@@ -4757,9 +5208,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Articulations");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ToggleStaccato*/
+/* ToggleStaccato xgettext:no-c-format*/
 action = gtk_action_new("ToggleStaccato",_("Staccato (Off/On)"),_("Mark/Unmark the chord staccato"), get_icon_for_name("ToggleStaccato", "Staccato (Off/On)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ToggleAccent");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ToggleStaccato", _("Staccato (Off/On)"), _("Mark/Unmark the chord staccato"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ToggleStaccato");
@@ -4768,9 +5220,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Articulations");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ToggleFermata*/
+/* ToggleFermata xgettext:no-c-format*/
 action = gtk_action_new("ToggleFermata",_("Fermata (Off/On)"),_("Mark/Unmark the chord with a fermata"), get_icon_for_name("ToggleFermata", "Fermata (Off/On)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ToggleStaccato");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ToggleFermata", _("Fermata (Off/On)"), _("Mark/Unmark the chord with a fermata"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ToggleFermata");
@@ -4779,9 +5232,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Articulations");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ToggleTenuto*/
+/* ToggleTenuto xgettext:no-c-format*/
 action = gtk_action_new("ToggleTenuto",_("Tenuto (Off/On)"),_("Mark/Unmark the chord Tenuto"), get_icon_for_name("ToggleTenuto", "Tenuto (Off/On)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ToggleFermata");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ToggleTenuto", _("Tenuto (Off/On)"), _("Mark/Unmark the chord Tenuto"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ToggleTenuto");
@@ -4790,9 +5244,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Articulations");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ToggleStaccatissimo*/
+/* ToggleStaccatissimo xgettext:no-c-format*/
 action = gtk_action_new("ToggleStaccatissimo",_("Staccatissimo (Off/On)"),_("Mark/Unmark chord as Staccatissimo"), get_icon_for_name("ToggleStaccatissimo", "Staccatissimo (Off/On)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ToggleStaccato");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ToggleStaccatissimo", _("Staccatissimo (Off/On)"), _("Mark/Unmark chord as Staccatissimo"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ToggleStaccatissimo");
@@ -4801,9 +5256,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Articulations");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ToggleUpBow*/
+/* ToggleUpBow xgettext:no-c-format*/
 action = gtk_action_new("ToggleUpBow",_("UpBow (Off/On)"),_("Mark/Unmark chord with an Up Bow"), get_icon_for_name("ToggleUpBow", "UpBow (Off/On)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ToggleTenuto");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ToggleUpBow", _("UpBow (Off/On)"), _("Mark/Unmark chord with an Up Bow"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ToggleUpBow");
@@ -4812,9 +5268,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Articulations");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ToggleDownBow*/
+/* ToggleDownBow xgettext:no-c-format*/
 action = gtk_action_new("ToggleDownBow",_("DownBow (Off/On)"),_("Mark/Unmark chord with a Down Bow"), get_icon_for_name("ToggleDownBow", "DownBow (Off/On)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ToggleUpBow");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ToggleDownBow", _("DownBow (Off/On)"), _("Mark/Unmark chord with a Down Bow"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ToggleDownBow");
@@ -4823,9 +5280,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Articulations");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ToggleHarmonic*/
+/* ToggleHarmonic xgettext:no-c-format*/
 action = gtk_action_new("ToggleHarmonic",_("Harmonic (Off/On)"),_("Mark/Unmark chord with a harmonic"), get_icon_for_name("ToggleHarmonic", "Harmonic (Off/On)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ToggleDownBow");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ToggleHarmonic", _("Harmonic (Off/On)"), _("Mark/Unmark chord with a harmonic"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ToggleHarmonic");
@@ -4834,8 +5292,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Articulations");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Slur0*/
+/* Slur0 xgettext:no-c-format*/
 action = gtk_action_new("Slur0",_(" \342\217\234 \360\235\205\235"),_("Inserts a \360\235\205\235 and slurs to it, extending previous slur."), get_icon_for_name("Slur0", " \342\217\234 \360\235\205\235"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Slur0", _(" \342\217\234 \360\235\205\235"), _("Inserts a \360\235\205\235 and slurs to it, extending previous slur."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Slur0");
@@ -4844,8 +5303,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/EditDuration/Slurs");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Slur1*/
+/* Slur1 xgettext:no-c-format*/
 action = gtk_action_new("Slur1",_(" \342\217\234 \360\235\205\236"),_("Inserts a \360\235\205\236 and slurs to it, extending previous slur."), get_icon_for_name("Slur1", " \342\217\234 \360\235\205\236"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Slur1", _(" \342\217\234 \360\235\205\236"), _("Inserts a \360\235\205\236 and slurs to it, extending previous slur."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Slur1");
@@ -4854,8 +5314,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/EditDuration/Slurs");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Slur2*/
+/* Slur2 xgettext:no-c-format*/
 action = gtk_action_new("Slur2",_(" \342\217\234 \360\235\205\237"),_("Inserts a \360\235\205\237 and slurs to it, extending previous slur."), get_icon_for_name("Slur2", " \342\217\234 \360\235\205\237"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Slur2", _(" \342\217\234 \360\235\205\237"), _("Inserts a \360\235\205\237 and slurs to it, extending previous slur."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Slur2");
@@ -4864,8 +5325,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/EditDuration/Slurs");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Slur3*/
+/* Slur3 xgettext:no-c-format*/
 action = gtk_action_new("Slur3",_(" \342\217\234 \360\235\205\240"),_("Inserts a \360\235\205\240 and slurs to it, extending previous slur."), get_icon_for_name("Slur3", " \342\217\234 \360\235\205\240"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Slur3", _(" \342\217\234 \360\235\205\240"), _("Inserts a \360\235\205\240 and slurs to it, extending previous slur."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Slur3");
@@ -4874,8 +5336,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/EditDuration/Slurs");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Slur4*/
+/* Slur4 xgettext:no-c-format*/
 action = gtk_action_new("Slur4",_(" \342\217\234 \360\235\205\241"),_("Inserts a \360\235\205\241 and slurs to it, extending previous slur."), get_icon_for_name("Slur4", " \342\217\234 \360\235\205\241"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Slur4", _(" \342\217\234 \360\235\205\241"), _("Inserts a \360\235\205\241 and slurs to it, extending previous slur."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Slur4");
@@ -4884,8 +5347,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/EditDuration/Slurs");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Slur5*/
+/* Slur5 xgettext:no-c-format*/
 action = gtk_action_new("Slur5",_(" \342\217\234 \360\235\205\242"),_("Inserts a \360\235\205\242 and slurs to it, extending previous slur."), get_icon_for_name("Slur5", " \342\217\234 \360\235\205\242"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Slur5", _(" \342\217\234 \360\235\205\242"), _("Inserts a \360\235\205\242 and slurs to it, extending previous slur."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Slur5");
@@ -4894,8 +5358,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/EditDuration/Slurs");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Slur6*/
+/* Slur6 xgettext:no-c-format*/
 action = gtk_action_new("Slur6",_(" \342\217\234 \360\235\205\243"),_("Inserts a \360\235\205\243 and slurs to it, extending previous slur."), get_icon_for_name("Slur6", " \342\217\234 \360\235\205\243"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Slur6", _(" \342\217\234 \360\235\205\243"), _("Inserts a \360\235\205\243 and slurs to it, extending previous slur."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Slur6");
@@ -4904,8 +5369,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/EditDuration/Slurs");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Slur7*/
+/* Slur7 xgettext:no-c-format*/
 action = gtk_action_new("Slur7",_(" \342\217\234 \360\235\205\244"),_("Inserts a \360\235\205\244 and slurs to it, extending previous slur."), get_icon_for_name("Slur7", " \342\217\234 \360\235\205\244"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "Slur7", _(" \342\217\234 \360\235\205\244"), _("Inserts a \360\235\205\244 and slurs to it, extending previous slur."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("Slur7");
@@ -4914,8 +5380,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/EditDuration/Slurs");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SlurBreve*/
+/* SlurBreve xgettext:no-c-format*/
 action = gtk_action_new("SlurBreve",_(" \342\217\234 \360\235\205\234"),_("Inserts a \360\235\205\234 and slurs to it, extending previous slur."), get_icon_for_name("SlurBreve", " \342\217\234 \360\235\205\234"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SlurBreve", _(" \342\217\234 \360\235\205\234"), _("Inserts a \360\235\205\234 and slurs to it, extending previous slur."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SlurBreve");
@@ -4924,8 +5391,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/EditDuration/Slurs");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SlurLonga*/
+/* SlurLonga xgettext:no-c-format*/
 action = gtk_action_new("SlurLonga",_(" \342\217\234 \360\235\205\233"),_("Inserts a \360\235\205\233 and slurs to it, extending previous slur."), get_icon_for_name("SlurLonga", " \342\217\234 \360\235\205\233"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SlurLonga", _(" \342\217\234 \360\235\205\233"), _("Inserts a \360\235\205\233 and slurs to it, extending previous slur."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SlurLonga");
@@ -4934,9 +5402,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/EditDuration/Slurs");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MarcatoSelectionSwitcher*/
+/* MarcatoSelectionSwitcher xgettext:no-c-format*/
 action = gtk_action_new("MarcatoSelectionSwitcher",_("Marcato (Off/On)"),_("Mark/Unmark the selected notes marcato"), get_icon_for_name("MarcatoSelectionSwitcher", "Marcato (Off/On)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ToggleFermata");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MarcatoSelectionSwitcher", _("Marcato (Off/On)"), _("Mark/Unmark the selected notes marcato"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MarcatoSelectionSwitcher");
@@ -4945,9 +5414,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Articulations");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* UpBowSelectionSwitcher*/
+/* UpBowSelectionSwitcher xgettext:no-c-format*/
 action = gtk_action_new("UpBowSelectionSwitcher",_("UpBow (Off/On)"),_("Mark/Unmark current selection or note with UpBow"), get_icon_for_name("UpBowSelectionSwitcher", "UpBow (Off/On)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"MarcatoSelectionSwitcher");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "UpBowSelectionSwitcher", _("UpBow (Off/On)"), _("Mark/Unmark current selection or note with UpBow"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("UpBowSelectionSwitcher");
@@ -4956,9 +5426,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Articulations");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* DownbowSelectionSwitcher*/
+/* DownbowSelectionSwitcher xgettext:no-c-format*/
 action = gtk_action_new("DownbowSelectionSwitcher",_("DownBow (Off/On)"),_("Mark/Unmark selection or current object"), get_icon_for_name("DownbowSelectionSwitcher", "DownBow (Off/On)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"UpBowSelectionSwitcher");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "DownbowSelectionSwitcher", _("DownBow (Off/On)"), _("Mark/Unmark selection or current object"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("DownbowSelectionSwitcher");
@@ -4967,9 +5438,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Articulations");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* HarmonicSelectionSwitcher*/
+/* HarmonicSelectionSwitcher xgettext:no-c-format*/
 action = gtk_action_new("HarmonicSelectionSwitcher",_("Harmonic (Off/On)"),_("Mark/Unmark current selection of object with a harmonic"), get_icon_for_name("HarmonicSelectionSwitcher", "Harmonic (Off/On)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"DownbowSelectionSwitcher");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "HarmonicSelectionSwitcher", _("Harmonic (Off/On)"), _("Mark/Unmark current selection of object with a harmonic"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("HarmonicSelectionSwitcher");
@@ -4978,9 +5450,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Articulations");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* FermataSelectionSwitcher*/
+/* FermataSelectionSwitcher xgettext:no-c-format*/
 action = gtk_action_new("FermataSelectionSwitcher",_("Fermata (Off/On)"),_("Mark/Unmark current selection or object with a fermata"), get_icon_for_name("FermataSelectionSwitcher", "Fermata (Off/On)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ToggleAccent");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "FermataSelectionSwitcher", _("Fermata (Off/On)"), _("Mark/Unmark current selection or object with a fermata"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("FermataSelectionSwitcher");
@@ -4989,8 +5462,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Articulations");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ToggleTrill*/
+/* ToggleTrill xgettext:no-c-format*/
 action = gtk_action_new("ToggleTrill",_("Trill (Off/On)"),_("Adds/Removes a trill to the note"), get_icon_for_name("ToggleTrill", "Trill (Off/On)"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ToggleTrill", _("Trill (Off/On)"), _("Adds/Removes a trill to the note"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ToggleTrill");
@@ -4999,8 +5473,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Ornaments");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ToggleTurn*/
+/* ToggleTurn xgettext:no-c-format*/
 action = gtk_action_new("ToggleTurn",_("Turn (Off/On)"),_("Adds/Removes a turn to the note"), get_icon_for_name("ToggleTurn", "Turn (Off/On)"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ToggleTurn", _("Turn (Off/On)"), _("Adds/Removes a turn to the note"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ToggleTurn");
@@ -5009,8 +5484,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Ornaments");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ToggleMordent*/
+/* ToggleMordent xgettext:no-c-format*/
 action = gtk_action_new("ToggleMordent",_("Mordent (Off/On)"),_("Adds/Removes a Mordent to the note"), get_icon_for_name("ToggleMordent", "Mordent (Off/On)"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ToggleMordent", _("Mordent (Off/On)"), _("Adds/Removes a Mordent to the note"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ToggleMordent");
@@ -5019,8 +5495,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Ornaments");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* TogglePrall*/
+/* TogglePrall xgettext:no-c-format*/
 action = gtk_action_new("TogglePrall",_("Prall (Off/On)"),_("Adds/Removes a prall to the note"), get_icon_for_name("TogglePrall", "Prall (Off/On)"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "TogglePrall", _("Prall (Off/On)"), _("Adds/Removes a prall to the note"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("TogglePrall");
@@ -5029,8 +5506,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Ornaments");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ToggleUpprall*/
+/* ToggleUpprall xgettext:no-c-format*/
 action = gtk_action_new("ToggleUpprall",_("Up Prall (Off/On)"),_("Adds/Removes Up Prall ornament"), get_icon_for_name("ToggleUpprall", "Up Prall (Off/On)"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ToggleUpprall", _("Up Prall (Off/On)"), _("Adds/Removes Up Prall ornament"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ToggleUpprall");
@@ -5039,8 +5517,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Ornaments");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* TogglePrallPrall*/
+/* TogglePrallPrall xgettext:no-c-format*/
 action = gtk_action_new("TogglePrallPrall",_("PrallPrall (Off/On)"),_("Adds/Removes a PrallPrall to the note"), get_icon_for_name("TogglePrallPrall", "PrallPrall (Off/On)"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "TogglePrallPrall", _("PrallPrall (Off/On)"), _("Adds/Removes a PrallPrall to the note"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("TogglePrallPrall");
@@ -5049,9 +5528,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Ornaments");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ToggleReverseTurn*/
+/* ToggleReverseTurn xgettext:no-c-format*/
 action = gtk_action_new("ToggleReverseTurn",_("Reverse Turn (Off/On)"),_("Add/Removes a Reverse Turn to the note"), get_icon_for_name("ToggleReverseTurn", "Reverse Turn (Off/On)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"TogglePrallPrall");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ToggleReverseTurn", _("Reverse Turn (Off/On)"), _("Add/Removes a Reverse Turn to the note"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ToggleReverseTurn");
@@ -5060,9 +5540,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Ornaments");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NoBeam*/
+/* NoBeam xgettext:no-c-format*/
 action = gtk_action_new("NoBeam",_("No Beam"),_("(Print) Removes beam from current note"), get_icon_for_name("NoBeam", "No Beam"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"Beam1234");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NoBeam", _("No Beam"), _("(Print) Removes beam from current note"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NoBeam");
@@ -5071,8 +5552,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Beaming");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* TogglePortato*/
+/* TogglePortato xgettext:no-c-format*/
 action = gtk_action_new("TogglePortato",_("Portato (Off/On)"),_("Mark/Unmark the chord Portato"), get_icon_for_name("TogglePortato", "Portato (Off/On)"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "TogglePortato", _("Portato (Off/On)"), _("Mark/Unmark the chord Portato"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("TogglePortato");
@@ -5081,9 +5563,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Articulations");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* PortatoSelectionSwitcher*/
+/* PortatoSelectionSwitcher xgettext:no-c-format*/
 action = gtk_action_new("PortatoSelectionSwitcher",_("Portato (Off/On)"),_("Marks/Unmaks the selection with the Portato"), get_icon_for_name("PortatoSelectionSwitcher", "Portato (Off/On)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"TogglePortato");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "PortatoSelectionSwitcher", _("Portato (Off/On)"), _("Marks/Unmaks the selection with the Portato"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("PortatoSelectionSwitcher");
@@ -5092,8 +5575,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Articulations");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* StoppedSelectionSwitcher*/
+/* StoppedSelectionSwitcher xgettext:no-c-format*/
 action = gtk_action_new("StoppedSelectionSwitcher",_("Stopped (Off/On)"),_("Mark/Unmark the selected notes stopped"), get_icon_for_name("StoppedSelectionSwitcher", "Stopped (Off/On)"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "StoppedSelectionSwitcher", _("Stopped (Off/On)"), _("Mark/Unmark the selected notes stopped"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("StoppedSelectionSwitcher");
@@ -5102,8 +5586,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Articulations");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ToggleArpeggio*/
+/* ToggleArpeggio xgettext:no-c-format*/
 action = gtk_action_new("ToggleArpeggio",_("Arpeggio (Off/On)"),_("Mark/Unmark chord with an arpeggio"), get_icon_for_name("ToggleArpeggio", "Arpeggio (Off/On)"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ToggleArpeggio", _("Arpeggio (Off/On)"), _("Mark/Unmark chord with an arpeggio"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ToggleArpeggio");
@@ -5112,8 +5597,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Articulations");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ArpeggioSelectionSwitcher*/
+/* ArpeggioSelectionSwitcher xgettext:no-c-format*/
 action = gtk_action_new("ArpeggioSelectionSwitcher",_("Arpeggio (Off/On)"),_("Mark/Unmark the selected notes arpeggio"), get_icon_for_name("ArpeggioSelectionSwitcher", "Arpeggio (Off/On)"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ArpeggioSelectionSwitcher", _("Arpeggio (Off/On)"), _("Mark/Unmark the selected notes arpeggio"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ArpeggioSelectionSwitcher");
@@ -5122,9 +5608,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Articulations");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SharpenKeysig*/
+/* SharpenKeysig xgettext:no-c-format*/
 action = gtk_action_new("SharpenKeysig",_("\342\231\257"),_("Sharpens the key signature by one degree. If no key signature at cursor, sharpens the initial key signature."), get_icon_for_name("SharpenKeysig", "\342\231\257"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"InitialKey");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SharpenKeysig", _("\342\231\257"), _("Sharpens the key signature by one degree. If no key signature at cursor, sharpens the initial key signature."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SharpenKeysig");
@@ -5133,9 +5620,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Key");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* FlattenKeysig*/
+/* FlattenKeysig xgettext:no-c-format*/
 action = gtk_action_new("FlattenKeysig",_("\342\231\255"),_("Flattens the key signature by one degree. If no key signature at the cursor, operates on the initial key signature."), get_icon_for_name("FlattenKeysig", "\342\231\255"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"SharpenKeysig");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "FlattenKeysig", _("\342\231\255"), _("Flattens the key signature by one degree. If no key signature at the cursor, operates on the initial key signature."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("FlattenKeysig");
@@ -5144,8 +5632,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Key");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* DenemoLink*/
+/* DenemoLink xgettext:no-c-format*/
 action = gtk_action_new("DenemoLink",_("Follow Link to Source"),_("Follows the link at the cursor to a source document."), get_icon_for_name("DenemoLink", "Follow Link to Source"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "DenemoLink", _("Follow Link to Source"), _("Follows the link at the cursor to a source document."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("DenemoLink");
@@ -5154,9 +5643,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/NavigationMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ReplaceChord*/
+/* ReplaceChord xgettext:no-c-format*/
 action = gtk_action_new("ReplaceChord",_("Replace LilyPond"),_("Suppresses the normal LilyPond typetting for the current note/chord/rest replacing it with syntax provided by user."), get_icon_for_name("ReplaceChord", "Replace LilyPond"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"Tremolo");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ReplaceChord", _("Replace LilyPond"), _("Suppresses the normal LilyPond typetting for the current note/chord/rest replacing it with syntax provided by user."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ReplaceChord");
@@ -5165,9 +5655,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* OpenSourceDialog*/
+/* OpenSourceDialog xgettext:no-c-format*/
 action = gtk_action_new("OpenSourceDialog",_("Open Source for Transcribing"),_("Opens a dialog to fetch a source facsimile or manuscript. Links can be placed in the Denemo score to this source file so that the source passage for a given bar can be re-displayed when reviewing the score."), get_icon_for_name("OpenSourceDialog", "Open Source for Transcribing"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"OpenNewWindow");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "OpenSourceDialog", _("Open Source for Transcribing"), _("Opens a dialog to fetch a source facsimile or manuscript. Links can be placed in the Denemo score to this source file so that the source passage for a given bar can be re-displayed when reviewing the score."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("OpenSourceDialog");
@@ -5176,9 +5667,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/FileMenu/OpenMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* PrintThreeReduced*/
+/* PrintThreeReduced xgettext:no-c-format*/
 action = gtk_action_new("PrintThreeReduced",_("Print Three Parts as Cue for Accompanist"),_("Prints top three parts on one staff as cues."), get_icon_for_name("PrintThreeReduced", "Print Three Parts as Cue for Accompanist"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"PrintTwoReduced");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "PrintThreeReduced", _("Print Three Parts as Cue for Accompanist"), _("Prints top three parts on one staff as cues."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("PrintThreeReduced");
@@ -5187,9 +5679,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/FileMenu/PrintMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* CreateCuesForStaff*/
+/* CreateCuesForStaff xgettext:no-c-format*/
 action = gtk_action_new("CreateCuesForStaff",_("Create Cues"),_("Goes through the staff looking for long rests. Creates a cue in the whole measure rest."), get_icon_for_name("CreateCuesForStaff", "Create Cues"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"StaffComment");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "CreateCuesForStaff", _("Create Cues"), _("Goes through the staff looking for long rests. Creates a cue in the whole measure rest."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("CreateCuesForStaff");
@@ -5198,9 +5691,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* StaffMultiMeasureRests*/
+/* StaffMultiMeasureRests xgettext:no-c-format*/
 action = gtk_action_new("StaffMultiMeasureRests",_("Multi-Measure Rests"),_("Groups of whole measure rests of three or more are changed to multi-measure rests for the whole staff."), get_icon_for_name("StaffMultiMeasureRests", "Multi-Measure Rests"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"CreateCuesForStaff");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "StaffMultiMeasureRests", _("Multi-Measure Rests"), _("Groups of whole measure rests of three or more are changed to multi-measure rests for the whole staff."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("StaffMultiMeasureRests");
@@ -5209,9 +5703,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* OpenAudio*/
+/* OpenAudio xgettext:no-c-format*/
 action = gtk_action_new("OpenAudio",_("Open Source Audio"),_("Opens an audio file which will be mixed with the current movement."), get_icon_for_name("OpenAudio", "Open Source Audio"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"OpenSourceDialog");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "OpenAudio", _("Open Source Audio"), _("Opens an audio file which will be mixed with the current movement."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("OpenAudio");
@@ -5220,9 +5715,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/FileMenu/OpenMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SynchronizeAudio*/
+/* SynchronizeAudio xgettext:no-c-format*/
 action = gtk_action_new("SynchronizeAudio",_("Synchronize Audio"),_("Plays the audio attached to the current movment. Creates a timing bar for each space bar press. Music written in the staffs below will synchronize with the audio."), get_icon_for_name("SynchronizeAudio", "Synchronize Audio"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"RecordAndConvert");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SynchronizeAudio", _("Synchronize Audio"), _("Plays the audio attached to the current movment. Creates a timing bar for each space bar press. Music written in the staffs below will synchronize with the audio."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SynchronizeAudio");
@@ -5231,9 +5727,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/PlaybackMenu/Audio");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* CloseSourceAudioFile*/
+/* CloseSourceAudioFile xgettext:no-c-format*/
 action = gtk_action_new("CloseSourceAudioFile",_("Close Source Audio File"),_("Drops the audio track attached to the current movement."), get_icon_for_name("CloseSourceAudioFile", "Close Source Audio File"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"SynchronizeAudio");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "CloseSourceAudioFile", _("Close Source Audio File"), _("Drops the audio track attached to the current movement."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("CloseSourceAudioFile");
@@ -5242,9 +5739,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/PlaybackMenu/Audio");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SingleDigitTimeSig*/
+/* SingleDigitTimeSig xgettext:no-c-format*/
 action = gtk_action_new("SingleDigitTimeSig",_("(Print) Single Digit (On/Off)"),_("Makes the time signature at the cursor single digit; if no time signature at cursor applies to initial timesig of staff. Operates as On/Off toggle."), get_icon_for_name("SingleDigitTimeSig", "(Print) Single Digit (On/Off)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"HideTimesig");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SingleDigitTimeSig", _("(Print) Single Digit (On/Off)"), _("Makes the time signature at the cursor single digit; if no time signature at cursor applies to initial timesig of staff. Operates as On/Off toggle."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SingleDigitTimeSig");
@@ -5253,9 +5751,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/TimeSig");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ChordsForBar*/
+/* ChordsForBar xgettext:no-c-format*/
 action = gtk_action_new("ChordsForBar",_("Chords for Bar"),_("Plays the context of the current bar. Then listens for you to play each note in current bar the bar with added chord(s), notates the chords on a staff above. When finished re-plays the bar. Allows you to repeat (pitch bend down) or go on to next bar (pitch bend up)."), get_icon_for_name("ChordsForBar", "Chords for Bar"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ChordsOverBass");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ChordsForBar", _("Chords for Bar"), _("Plays the context of the current bar. Then listens for you to play each note in current bar the bar with added chord(s), notates the chords on a staff above. When finished re-plays the bar. Allows you to repeat (pitch bend down) or go on to next bar (pitch bend up)."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ChordsForBar");
@@ -5264,9 +5763,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/InputMenu/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MakeGrace*/
+/* MakeGrace xgettext:no-c-format*/
 action = gtk_action_new("MakeGrace",_("Grace/UnGrace"),_("Changes the note at the cursor to/from being a grace note. Gives audio feedback."), get_icon_for_name("MakeGrace", "Grace/UnGrace"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"ToggleGrace");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MakeGrace", _("Grace/UnGrace"), _("Changes the note at the cursor to/from being a grace note. Gives audio feedback."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MakeGrace");
@@ -5275,9 +5775,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/GraceNotes");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NotForLayout*/
+/* NotForLayout xgettext:no-c-format*/
 action = gtk_action_new("NotForLayout",_("Ignore for Current Layout"),_("The Denemo Directive at the cursor will be ignored when printing from the current score layout (See View->Score Layout)"), get_icon_for_name("NotForLayout", "Ignore for Current Layout"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"PageBreak");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NotForLayout", _("Ignore for Current Layout"), _("The Denemo Directive at the cursor will be ignored when printing from the current score layout (See View->Score Layout)"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NotForLayout");
@@ -5286,9 +5787,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Conditional-Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* OnlyForLayout*/
+/* OnlyForLayout xgettext:no-c-format*/
 action = gtk_action_new("OnlyForLayout",_("Exclusive to Current Layout"),_("The Denemo Directive at the cursor will only apply to the current Score Layout (see View->Score Layout)"), get_icon_for_name("OnlyForLayout", "Exclusive to Current Layout"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"NotForLayout");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "OnlyForLayout", _("Exclusive to Current Layout"), _("The Denemo Directive at the cursor will only apply to the current Score Layout (see View->Score Layout)"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("OnlyForLayout");
@@ -5297,9 +5799,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Conditional-Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* ForAllLayouts*/
+/* ForAllLayouts xgettext:no-c-format*/
 action = gtk_action_new("ForAllLayouts",_("Reset for All Layouts"),_("Clears conditional behaviour of this layout. The Directive will apply to all score layouts."), get_icon_for_name("ForAllLayouts", "Reset for All Layouts"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"OnlyForLayout");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "ForAllLayouts", _("Reset for All Layouts"), _("Clears conditional behaviour of this layout. The Directive will apply to all score layouts."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("ForAllLayouts");
@@ -5308,9 +5811,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Conditional-Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* InitialVoiceOne*/
+/* InitialVoiceOne xgettext:no-c-format*/
 action = gtk_action_new("InitialVoiceOne",_("Initial Voice One"),_("Sets the (initial) voice of the staff to be voice one (this affects stems up, slurs etc on printing)"), get_icon_for_name("InitialVoiceOne", "Initial Voice One"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"JoinVoices");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "InitialVoiceOne", _("Initial Voice One"), _("Sets the (initial) voice of the staff to be voice one (this affects stems up, slurs etc on printing)"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("InitialVoiceOne");
@@ -5319,9 +5823,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* InitialVoiceTwo*/
+/* InitialVoiceTwo xgettext:no-c-format*/
 action = gtk_action_new("InitialVoiceTwo",_("Initial Voice Two"),_("Sets the (initial) voice of the staff to be voice two (this affects stems down, slurs etc on printing)"), get_icon_for_name("InitialVoiceTwo", "Initial Voice Two"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"InitialVoiceOne");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "InitialVoiceTwo", _("Initial Voice Two"), _("Sets the (initial) voice of the staff to be voice two (this affects stems down, slurs etc on printing)"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("InitialVoiceTwo");
@@ -5330,9 +5835,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* InitialVoiceThree*/
+/* InitialVoiceThree xgettext:no-c-format*/
 action = gtk_action_new("InitialVoiceThree",_("Initial Voice Three"),_("Sets the (initial) voice of the staff to be voice three (this affects stems up, slurs etc on printing)"), get_icon_for_name("InitialVoiceThree", "Initial Voice Three"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"InitialVoiceTwo");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "InitialVoiceThree", _("Initial Voice Three"), _("Sets the (initial) voice of the staff to be voice three (this affects stems up, slurs etc on printing)"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("InitialVoiceThree");
@@ -5341,9 +5847,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* InitialVoiceFour*/
+/* InitialVoiceFour xgettext:no-c-format*/
 action = gtk_action_new("InitialVoiceFour",_("Initial Voice Four"),_("Sets the (initial) voice of the staff to be voice four (this affects stems down, slurs etc on printing)"), get_icon_for_name("InitialVoiceFour", "Initial Voice Four"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"InitialVoiceThree");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "InitialVoiceFour", _("Initial Voice Four"), _("Sets the (initial) voice of the staff to be voice four (this affects stems down, slurs etc on printing)"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("InitialVoiceFour");
@@ -5352,9 +5859,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* InitialVoiceAuto*/
+/* InitialVoiceAuto xgettext:no-c-format*/
 action = gtk_action_new("InitialVoiceAuto",_("Initial Automatic Voice"),_("Undoes the effect of the VoiceOne, Two ... commands. The voice has variable stem direction, slur placement etc."), get_icon_for_name("InitialVoiceAuto", "Initial Automatic Voice"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"InitialVoiceFour");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "InitialVoiceAuto", _("Initial Automatic Voice"), _("Undoes the effect of the VoiceOne, Two ... commands. The voice has variable stem direction, slur placement etc."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("InitialVoiceAuto");
@@ -5363,9 +5871,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* BookInstrumentation*/
+/* BookInstrumentation xgettext:no-c-format*/
 action = gtk_action_new("BookInstrumentation",_("Instrumentation"),_("Prints the instrumentation on the title page. This can be edited for layouts that print just one part or section."), get_icon_for_name("BookInstrumentation", "Instrumentation"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"BookComposer");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "BookInstrumentation", _("Instrumentation"), _("Prints the instrumentation on the title page. This can be edited for layouts that print just one part or section."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("BookInstrumentation");
@@ -5374,8 +5883,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score/Titles/Book Titles");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NewStaffAfter*/
+/* NewStaffAfter xgettext:no-c-format*/
 action = gtk_action_new("NewStaffAfter",_("New Staff After Current"),_("Creates a new staff with the given name, after the current staff. Use the staff to voice command if you want to make this staff a voice on the previous staff."), get_icon_for_name("NewStaffAfter", "New Staff After Current"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NewStaffAfter", _("New Staff After Current"), _("Creates a new staff with the given name, after the current staff. Use the staff to voice command if you want to make this staff a voice on the previous staff."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NewStaffAfter");
@@ -5384,8 +5894,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/InsertStaff");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NewStaffBefore*/
+/* NewStaffBefore xgettext:no-c-format*/
 action = gtk_action_new("NewStaffBefore",_("New Staff Before Current"),_("Creates a new staff with the given name, before the current staff."), get_icon_for_name("NewStaffBefore", "New Staff Before Current"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NewStaffBefore", _("New Staff Before Current"), _("Creates a new staff with the given name, before the current staff."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NewStaffBefore");
@@ -5394,9 +5905,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/InsertStaff");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* HelpForReturnKey*/
+/* HelpForReturnKey xgettext:no-c-format*/
 action = gtk_action_new("HelpForReturnKey",_("Help for Return Keypress"),_("Does nothing except explain what the Return key is used for in Denemo, and how to make it an ordinary shortcut if you prefer."), get_icon_for_name("HelpForReturnKey", "Help for Return Keypress"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"About");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "HelpForReturnKey", _("Help for Return Keypress"), _("Does nothing except explain what the Return key is used for in Denemo, and how to make it an ordinary shortcut if you prefer."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("HelpForReturnKey");
@@ -5405,9 +5917,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/HelpMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* SetNewbieStatus*/
+/* SetNewbieStatus xgettext:no-c-format*/
 action = gtk_action_new("SetNewbieStatus",_("Turn Excessive Tooltips (Off/On)"),_("Sets your status as a newbie on or off. This affects the tooltips.\nNote you can also delay tooltips, indefinitely if you wish, via the preferences dialog. See Edit->Change Preferences->Command Behaviour"), get_icon_for_name("SetNewbieStatus", "Turn Excessive Tooltips (Off/On)"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"HelpForReturnKey");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "SetNewbieStatus", _("Turn Excessive Tooltips (Off/On)"), _("Sets your status as a newbie on or off. This affects the tooltips.\nNote you can also delay tooltips, indefinitely if you wish, via the preferences dialog. See Edit->Change Preferences->Command Behaviour"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("SetNewbieStatus");
@@ -5416,8 +5929,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/HelpMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NoteNamesDefault*/
+/* NoteNamesDefault xgettext:no-c-format*/
 action = gtk_action_new("NoteNamesDefault",_("Note Names Default Action"),_("Changes the shortcuts for note names a, b, c, d, e, f, g so that they edit the note at the cursor, or append a note when in the appending position."), get_icon_for_name("NoteNamesDefault", "Note Names Default Action"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NoteNamesDefault", _("Note Names Default Action"), _("Changes the shortcuts for note names a, b, c, d, e, f, g so that they edit the note at the cursor, or append a note when in the appending position."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NoteNamesDefault");
@@ -5426,8 +5940,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/InputMenu/Keyboard");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* NoteNamesMove*/
+/* NoteNamesMove xgettext:no-c-format*/
 action = gtk_action_new("NoteNamesMove",_("Note Names Move Cursor"),_("Changes the shortcuts for note names a, b, c, d, e, f, g so that they move the cursor to the nearest note of that name."), get_icon_for_name("NoteNamesMove", "Note Names Move Cursor"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "NoteNamesMove", _("Note Names Move Cursor"), _("Changes the shortcuts for note names a, b, c, d, e, f, g so that they move the cursor to the nearest note of that name."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("NoteNamesMove");
@@ -5436,8 +5951,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/InputMenu/Keyboard");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MouseInsertion*/
+/* MouseInsertion xgettext:no-c-format*/
 action = gtk_action_new("MouseInsertion",_("Mouse Note Insertion"),_("Changes the mouse use when CapsLock is on: left click inserts note in the prevailing duration. The shortcuts for number keys 0, 1, 2 ... are set to change the prevailing duration."), get_icon_for_name("MouseInsertion", "Mouse Note Insertion"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MouseInsertion", _("Mouse Note Insertion"), _("Changes the mouse use when CapsLock is on: left click inserts note in the prevailing duration. The shortcuts for number keys 0, 1, 2 ... are set to change the prevailing duration."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MouseInsertion");
@@ -5446,8 +5962,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/InputMenu/Mouse");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MouseDefault*/
+/* MouseDefault xgettext:no-c-format*/
 action = gtk_action_new("MouseDefault",_("Mouse Default Action"),_("Mouse left click positions the cursor, right click edits, left-click with caps-lock does nothing.."), get_icon_for_name("MouseDefault", "Mouse Default Action"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "MouseDefault", _("Mouse Default Action"), _("Mouse left click positions the cursor, right click edits, left-click with caps-lock does nothing.."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("MouseDefault");
@@ -5456,9 +5973,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/InputMenu/Mouse");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* DotDoubleDotNoDot*/
+/* DotDoubleDotNoDot xgettext:no-c-format*/
 action = gtk_action_new("DotDoubleDotNoDot",_("Dot"),_("Adds a dot to the note/rest/chord at the cursor, or removes them if double dotted."), get_icon_for_name("DotDoubleDotNoDot", "Dot"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"Change7");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "DotDoubleDotNoDot", _("Dot"), _("Adds a dot to the note/rest/chord at the cursor, or removes them if double dotted."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("DotDoubleDotNoDot");
@@ -5467,8 +5985,9 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/ChangeDuration");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* VoiceSetting*/
+/* VoiceSetting xgettext:no-c-format*/
 action = gtk_action_new("VoiceSetting",_("Choose Voice"),_("The Voice 1,2,3,4 commands set up the voices so that first and third voices get stems up, second and fourth voices get stems down, third and fourth voice note heads are horizontally shifted, and rests in the respective voices are automatically moved to avoid collisions. The Automatic Voice command returns all the voice settings to the neutral default directions"), get_icon_for_name("VoiceSetting", "Choose Voice"));
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "VoiceSetting", _("Choose Voice"), _("The Voice 1,2,3,4 commands set up the voices so that first and third voices get stems up, second and fourth voices get stems down, third and fourth voice note heads are horizontally shifted, and rests in the respective voices are automatically moved to avoid collisions. The Automatic Voice command returns all the voice settings to the neutral default directions"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("VoiceSetting");
@@ -5477,9 +5996,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* StaffSize*/
+/* StaffSize xgettext:no-c-format*/
 action = gtk_action_new("StaffSize",_("Set Staff Size"),_("Sets the size of the staff on printing relative to the default 0. Value -3 is tiny 3 is large."), get_icon_for_name("StaffSize", "Set Staff Size"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"TinyStaff");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "StaffSize", _("Set Staff Size"), _("Sets the size of the staff on printing relative to the default 0. Value -3 is tiny 3 is large."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("StaffSize");
@@ -5488,9 +6008,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* InitialVoice*/
+/* InitialVoice xgettext:no-c-format*/
 action = gtk_action_new("InitialVoice",_("Choose Initial Voice"),_("Choose which voice this staff will initially be set to. To change voice during music see the Directives->Voices menu."), get_icon_for_name("InitialVoice", "Choose Initial Voice"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"InitialVoiceAuto");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "InitialVoice", _("Choose Initial Voice"), _("Choose which voice this staff will initially be set to. To change voice during music see the Directives->Voices menu."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("InitialVoice");
@@ -5499,9 +6020,10 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Voices");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* IncipitFromSelection*/
+/* IncipitFromSelection xgettext:no-c-format*/
 action = gtk_action_new("IncipitFromSelection",_("Incipit from Selection"),_("Creates an incipit from the selection. This music will be printed on the title page. Only one voice is supported."), get_icon_for_name("IncipitFromSelection", "Incipit from Selection"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"BookCopyright");
+/* xgettext:no-c-format*/
 register_command(Denemo.map, action, "IncipitFromSelection", _("Incipit from Selection"), _("Creates an incipit from the selection. This music will be printed on the title page. Only one voice is supported."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
 create_scheme_function_for_script("IncipitFromSelection");
