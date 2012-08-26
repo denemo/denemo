@@ -6,7 +6,7 @@ bin_SCRIPTS = denemo_file_update.sh
 EXTRA_DIST = actions/menus doc/DESIGN doc/GOALS @PACKAGE@.spec.in  \
 	     doc/DESIGN.lilypond actions include \
 	     guile-1.8.pc \
-	     examples templates denemo_file_update.sh
+	     examples portmidi templates denemo_file_update.sh
 
 MAINTAINERCLEANFILES =  Makefile.in aclocal.m4 configure config.h.in \
 	stamp-h.in \
