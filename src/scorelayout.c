@@ -1397,8 +1397,10 @@ static void create_scoreheader_directives(GtkWidget *vbox) {
 	gtk_container_add (GTK_CONTAINER (frame), top_expander);
 	GtkWidget *header_box = gtk_vbox_new(FALSE, 8);
 	gtk_container_add(GTK_CONTAINER(top_expander), header_box);
-	 
-	gchar *default_tagline = g_strdup_printf("tagline = \\markup {%s on \\simple #(strftime \"%%x\" (localtime (current-time)))}\n", gui->filename->str);		
+
+	gchar *escaped_name = g_strescape(gui->filename->str, NULL);
+	gchar *default_tagline = g_strdup_printf("tagline = \\markup {\"%s\" on \\simple #(strftime \"%%x\" (localtime (current-time)))}\n", escaped_name);
+	g_free(escaped_name);	
 	create_element(header_box, gtk_label_new(_("Default tagline")), default_tagline);
 	
 	GList *g;
