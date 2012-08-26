@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: denemo 0.9.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-23 18:04+0100\n"
+"POT-Creation-Date: 2012-08-24 11:23+0100\n"
 "PO-Revision-Date: 2012-05-01 01:22+0900\n"
 "Last-Translator: Takeshi Hamasaki <hmatrjp@users.sourceforge.jp>\n"
 "Language-Team: Japanese\n"
@@ -5147,75 +5147,75 @@ msgstr "演奏のプロパティ"
 msgid "Preferences - Denemo"
 msgstr "Denemoの設定"
 
-#: src/prefdialog.c:535
-#, fuzzy, c-format
+#: src/prefdialog.c:536
+#, fuzzy, no-c-format
 msgid "% Zoom"
 msgstr "ズーム (%)"
 
-#: src/prefdialog.c:536
-#, fuzzy, c-format
+#: src/prefdialog.c:538
+#, fuzzy, no-c-format
 msgid "% of display height per system"
 msgstr "システムのディスプレイの高さに対して (%)"
 
-#: src/prefdialog.c:583
+#: src/prefdialog.c:585
 msgid "Playback Display Refresh"
 msgstr "演奏画面を再描画"
 
-#: src/prefdialog.c:584
+#: src/prefdialog.c:586
 msgid "Page Turn Steps"
 msgstr "再生時ページめくりのステップ数"
 
-#: src/prefdialog.c:586
+#: src/prefdialog.c:588
 msgid "Tooltip timeout in ms. (0 to use system preference)"
 msgstr ""
 
-#: src/prefdialog.c:587
+#: src/prefdialog.c:589
 msgid "Tooltip browse timeout in ms"
 msgstr ""
 
-#: src/prefdialog.c:588
+#: src/prefdialog.c:590
 msgid "Tooltip browse mode timeout in ms"
 msgstr ""
 
-#: src/prefdialog.c:590
+#: src/prefdialog.c:592
 msgid "Excerpt Resolution"
 msgstr "引用部分の解像度"
 
-#: src/prefdialog.c:592
+#: src/prefdialog.c:594
 msgid "Max recent files"
 msgstr "最近のファイルの最大数"
 
-#: src/prefdialog.c:599
+#: src/prefdialog.c:601
 msgid "Autosave every"
 msgstr "全てを自動保存"
 
-#: src/prefdialog.c:610
+#: src/prefdialog.c:612
 msgid "minute(s)"
 msgstr "分毎"
 
-#: src/prefdialog.c:622
+#: src/prefdialog.c:624
 msgid "Pitch Spelling Channel"
 msgstr "音程を入力するチャネル"
 
-#: src/prefdialog.c:623
+#: src/prefdialog.c:625
 msgid "Pitch Spelling Program"
 msgstr "音程を入力する楽器"
 
-#: src/prefdialog.c:627
+#: src/prefdialog.c:629
 msgid "% MIDI-in Dynamic Compression"
 msgstr "MIDI入力の動的圧縮 (%)"
 
-#: src/prefdialog.c:678
+#: src/prefdialog.c:680
 #, fuzzy
 msgid "Sample rate"
 msgstr "サンプルレート"
 
-#: src/prefdialog.c:679
+#: src/prefdialog.c:681
 #, fuzzy
 msgid "Period size"
 msgstr "区間の大きさ"
 
-#: src/prefdialog.c:755
+#: src/prefdialog.c:757
 msgid "Choose Soundfont"
 msgstr "サウンドフォントを選択"
 
