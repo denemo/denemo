@@ -1053,7 +1053,8 @@ set_printarea(GError **err) {
     set_printarea_doc(doc);
 
 
-  
+#if 0
+//this will fail if the printarea is not visible, so it would need to be re-triggered on showing the printarea  
     //setting up Denemo.pixbuf so that parts of the pdf can be dragged etc.
   {
       GdkWindow *window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
@@ -1070,6 +1071,7 @@ set_printarea(GError **err) {
       Denemo.pixbuf = gdk_pixbuf_get_from_window(window, 0,0, width,height);
 #endif
   }
+#endif
   return;
 }
 
