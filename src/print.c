@@ -887,8 +887,13 @@ static void normal_cursor(void) {
 /*void                user_function                      (EvPrintOperation       *evprintoperation,
                                                         GtkPrintOperationResult arg1,
                                                         gpointer                user_data)             : Run Last */
-void printop_done(void) {
-  call_out_to_guile("(FinalizePrint)");
+void printop_done(EvPrintOperation *printop, GtkPrintOperationResult arg1, GtkPrintSettings **psettings) {
+     if(*psettings)
+      g_object_unref(*psettings);
+    *psettings = ev_print_operation_get_print_settings (printop);
+    g_object_ref(*psettings);
+    g_print("Came away with number copies %d\n", gtk_print_settings_get_n_copies (*psettings));
+    call_out_to_guile("(FinalizePrint)");
 }
 static gboolean
 libevince_print(void) {
@@ -910,8 +915,11 @@ libevince_print(void) {
     err = NULL;
     return -1;
   } else {
-    EvPrintOperation *printop = ev_print_operation_new (doc);
-    g_signal_connect(printop, "done", printop_done, NULL);     
+    static GtkPrintSettings *settings;
+    EvPrintOperation *printop = ev_print_operation_new (doc);    
+    g_signal_connect(printop, "done", G_CALLBACK(printop_done), &settings);
+    if(settings)
+      g_print("Number copies %d\n", gtk_print_settings_get_n_copies (settings)), ev_print_operation_set_print_settings (printop, settings);
     ev_print_operation_run (printop, NULL);
   }
   return 0;
