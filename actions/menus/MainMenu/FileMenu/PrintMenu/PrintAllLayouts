@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>Print</after>
+        <action>PrintAllLayouts</action>
+        <scheme>;;;PrintAllLayouts
+(if (not (defined? 'PrintAllLayouts::Finished))
+  (define PrintAllLayouts::Finished #f))
+  
+(if PrintAllLayouts::Finished
+  (begin
+    (if (d-SelectNextLayout)
+      (begin
+	(set! FinalizeTypesetting  (lambda ()  (set! FinalizeTypesetting DefaultFinalizeTypesetting)(d-PrintTypesetPDF)))	
+	(d-TypesetForScript "(d-PrintView)"))
+      (begin
+	(set!  PrintAllLayouts::Finished #f)
+	(set! FinalizePrint DefaultFinalizePrint))))
+  (begin
+    (if (d-SelectFirstLayout)
+      (begin
+	(set! FinalizePrint (lambda ()  (set! PrintAllLayouts::Finished #t) (d-PrintAllLayouts)))
+	(set! FinalizeTypesetting  (lambda ()  (set! FinalizeTypesetting DefaultFinalizeTypesetting)(d-PrintTypesetPDF)))	
+	(d-TypesetForScript "(d-PrintView)")
+	)
+      (begin
+	(d-WarningDialog (_ "No Layouts Visible - check View-&gt;Score Layout"))))))
+</scheme>
+        <label>Prints All Layouts</label>
+        <tooltip>Prints the score using all the defined score layouts.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
