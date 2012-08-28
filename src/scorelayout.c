@@ -1664,6 +1664,53 @@ DenemoScoreblock *selected_scoreblock(void) {
 	return NULL;
 }
 
+//Returns the next scoreblock in the score layout notebook, or NULL if it is the last
+DenemoScoreblock *get_next_scoreblock(void) {	
+	GtkWidget *notebook = get_score_layout_notebook(Denemo.gui);
+	gint pagenum = gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook));
+	GtkWidget *page = gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook), pagenum+1);
+	if(page)
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook), pagenum+1);
+	GList *g;
+	for(g=Denemo.gui->custom_scoreblocks;g;g=g->next) {
+			DenemoScoreblock *sb = ((DenemoScoreblock*)g->data);
+			if(sb->widget == page){
+				refresh_lilypond(sb);//!!!! needs sorting out !!!
+				return sb;
+			}
+	}
+	for(g=Denemo.gui->standard_scoreblocks;g;g=g->next) {
+			DenemoScoreblock *sb = ((DenemoScoreblock*)g->data);
+			if(sb->widget == page) {
+				refresh_lilypond(sb);
+				return sb;
+			}
+	}
+	return NULL;
+}
+//Returns the next scoreblock in the score layout notebook, or NULL if it is the last
+DenemoScoreblock *get_first_scoreblock(void) {	
+	GtkWidget *notebook = get_score_layout_notebook(Denemo.gui);
+	gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook), 0);
+	GtkWidget *page = gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook), 0);
+	GList *g;
+	for(g=Denemo.gui->custom_scoreblocks;g;g=g->next) {
+			DenemoScoreblock *sb = ((DenemoScoreblock*)g->data);
+			if(sb->widget == page){
+				refresh_lilypond(sb);
+				return sb;
+			}
+	}
+	for(g=Denemo.gui->standard_scoreblocks;g;g=g->next) {
+			DenemoScoreblock *sb = ((DenemoScoreblock*)g->data);
+			if(sb->widget == page) {
+				refresh_lilypond(sb);
+				return sb;
+			}
+	}
+	return NULL;
+}
+
 guint selected_layout_id(void) {
 	if(Denemo.gui->layout_id==0) {
 		DenemoScoreblock *sb = selected_scoreblock();
