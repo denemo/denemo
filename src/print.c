@@ -884,9 +884,13 @@ static void normal_cursor(void) {
     gdk_window_set_cursor(gtk_widget_get_window(Denemo.printarea), arrowcursor);
 }
 
-
-
-static void
+/*void                user_function                      (EvPrintOperation       *evprintoperation,
+                                                        GtkPrintOperationResult arg1,
+                                                        gpointer                user_data)             : Run Last */
+void printop_done(void) {
+  call_out_to_guile("(FinalizePrint)");
+}
+static gboolean
 libevince_print(void) {
   GError *err = NULL;
   GFile       *file;
@@ -895,7 +899,7 @@ libevince_print(void) {
 
   if(err) {
     g_warning ("Malformed filename %s\n", filename);
-    return;
+    return -1;
   }
 
   EvDocument *doc = ev_document_factory_get_document (uri, &err);
@@ -904,12 +908,18 @@ libevince_print(void) {
     if(err)
 			g_error_free (err);
     err = NULL;
+    return -1;
   } else {
-    EvPrintOperation *printop = ev_print_operation_new (doc);      
+    EvPrintOperation *printop = ev_print_operation_new (doc);
+    g_signal_connect(printop, "done", printop_done, NULL);     
     ev_print_operation_run (printop, NULL);
   }
+  return 0;
 }
 
+gboolean print_typeset_pdf(void){
+return libevince_print();
+}
 static void
 set_printarea_doc(EvDocument *doc) {
   EvDocumentModel  *model;
@@ -1078,6 +1088,7 @@ set_printarea(GError **err) {
 static void
 printview_finished(GPid pid, gint status, gboolean print) {
   progressbar_stop();
+  call_out_to_guile("(FinalizeTypesetting)");
   //g_print("Processing %s\n", (gchar *) get_printfile_pathbasename());
   process_lilypond_errors((gchar *) get_printfile_pathbasename());
   printpid = GPID_NONE;
@@ -1086,6 +1097,8 @@ printview_finished(GPid pid, gint status, gboolean print) {
   if(!err && print)
      libevince_print();
   normal_cursor();
+
+
 }
 
 /* callback to print current part (staff) of score */
