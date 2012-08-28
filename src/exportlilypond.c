@@ -2374,7 +2374,7 @@ static void output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gcha
 }
 
   gtk_text_buffer_set_modified (gui->textbuffer, FALSE);
-  call_out_to_guile("(FinalizeTypesetting)");
+  
 } /* output_score_to_buffer */
 
 
