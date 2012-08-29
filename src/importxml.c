@@ -3120,6 +3120,7 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
 		    gchar *tmp = (gchar *) xmlNodeListGetString (childElem->doc,
 								 childElem->
 								 xmlChildrenNode, 1);
+		    gchar *uri = (gchar *) xmlGetProp (childElem, (xmlChar *) "scoreblock_uri");
 		    if (tmp != NULL)
 		      {
 			DenemoScoreblock *sb = get_scoreblock_for_lilypond(tmp); 
@@ -3128,6 +3129,7 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
 			gtk_notebook_prepend_page(GTK_NOTEBOOK(notebook), sb->widget, label);
 			gtk_widget_show_all(notebook);
 			gui->custom_scoreblocks = g_list_prepend(gui->custom_scoreblocks, sb);
+			sb->uri = uri;//do not free uri
 			g_free (tmp);
 		      }
 		  } else

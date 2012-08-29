@@ -1663,7 +1663,46 @@ DenemoScoreblock *selected_scoreblock(void) {
 	}
 	return NULL;
 }
-
+//returns a uri for the pdf output for the current scoreblock. The user must free when done.
+gchar *get_output_uri_from_scoreblock(void) {
+	DenemoScoreblock *sb = selected_scoreblock();
+	if(sb==NULL) {
+		g_warning("No Score Layout");
+		return g_strdup("");
+	}
+	DenemoGUI *gui = Denemo.gui;
+	if(sb->uri)
+		return g_strdup(sb->uri);
+	gchar *basename;
+	gchar *dirname;
+	if(Denemo.gui->filename && Denemo.gui->filename->len) {
+		gchar *filename = gui->filename->str;
+		dirname = g_path_get_dirname(filename);
+		basename = g_path_get_basename(filename);
+		gchar *suffix = g_strrstr(basename, DENEMO_FILE_SUFFIX);
+		if(suffix) *suffix = 0;
+	} else {
+		basename = g_strdup("ouput");
+		dirname = g_get_current_dir();
+	}
+	gchar *uri = g_strdup_printf("file://%s", dirname);
+	g_free(dirname);
+	gchar *ret;
+	if(sb) {
+		gchar *pdf_name = g_strconcat(basename, "-", sb->name, ".pdf", NULL);
+		ret = g_build_filename (uri, pdf_name, NULL);
+		g_free(pdf_name);
+	} else {
+		ret = g_build_filename (uri, "output.pdf", NULL);
+	}
+	g_free(basename);
+	g_free(uri);
+	return ret;
+}
+void set_current_scoreblock_uri(gchar *uri) {
+	DenemoScoreblock *sb = selected_scoreblock();
+	if(sb) sb->uri = uri;
+}
 //Returns the next scoreblock in the score layout notebook, or NULL if it is the last
 DenemoScoreblock *get_next_scoreblock(void) {	
 	GtkWidget *notebook = get_score_layout_notebook(Denemo.gui);

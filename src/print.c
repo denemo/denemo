@@ -30,7 +30,7 @@
 #include "utils.h"
 #include "view.h"
 #include "external.h"
-
+#include "scorelayout.h"
 
 #ifdef G_OS_WIN32
 #define FILE_LOCKING 1
@@ -892,7 +892,8 @@ void printop_done(EvPrintOperation *printop, GtkPrintOperationResult arg1, GtkPr
       g_object_unref(*psettings);
     *psettings = ev_print_operation_get_print_settings (printop);
     g_object_ref(*psettings);
-    g_print("Came away with number copies %d\n", gtk_print_settings_get_n_copies (*psettings));
+    //g_print("Came away with uri %s\n", gtk_print_settings_get(*psettings, GTK_PRINT_SETTINGS_OUTPUT_URI));
+    set_current_scoreblock_uri(g_strdup(gtk_print_settings_get(*psettings, GTK_PRINT_SETTINGS_OUTPUT_URI)));
     call_out_to_guile("(FinalizePrint)");
 }
 static gboolean
@@ -916,10 +917,12 @@ libevince_print(void) {
     return -1;
   } else {
     static GtkPrintSettings *settings;
+    if(settings==NULL)
+      settings = gtk_print_settings_new();
     EvPrintOperation *printop = ev_print_operation_new (doc);    
     g_signal_connect(printop, "done", G_CALLBACK(printop_done), &settings);
-    if(settings)
-      g_print("Number copies %d\n", gtk_print_settings_get_n_copies (settings)), ev_print_operation_set_print_settings (printop, settings);
+    gtk_print_settings_set(settings, GTK_PRINT_SETTINGS_OUTPUT_URI, get_output_uri_from_scoreblock());
+    ev_print_operation_set_print_settings (printop, settings);
     ev_print_operation_run (printop, NULL);
   }
   return 0;
