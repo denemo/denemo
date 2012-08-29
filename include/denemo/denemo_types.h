@@ -676,6 +676,7 @@ typedef struct DenemoScoreblock {
   GtkWidget *widget;/**< Widget to be placed in the Score Layout window for this scoreblock */
   GList *staff_list;/**< List of staff frames contained in widget */
   gchar *name;/**< name for this scoreblock */
+  gchar *uri;/**< uri for the output from printing this scoreblock */
   guint32 id;/**< an id for this scoreblock generated from name, as a quick identifier */
   gint movement;/**< Which movement the scoreblock outputs, 0 = all movements. Only used for standard scoreblocks */
   gchar *partname; /**< Which part the scoreblock outputs, NULL = all parts. Only used for standard scoreblocks */
