@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: denemo 0.9.6-rc2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-08-29 17:52+0100\n"
-"PO-Revision-Date: 2012-08-26 09:45+0200\n"
+"PO-Revision-Date: 2012-09-07 23:47+0200\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
 "Language: cs\n"
@@ -243,7 +243,7 @@ msgid "Segno  (Off/On)"
 msgstr "Segno (zapnuto/vypnuto)"
 
 #: src/commands.c:42 src/commands.c:44
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Preview Four Bars"
 msgstr "Náhled na čtyři takty"
 
@@ -4251,7 +4251,7 @@ msgstr "Požádá o vodorovný posun a o tu hodnotu při tisku přesune pomlku v
 #: src/commands.c:4862 src/commands.c:4865
 #, no-c-format
 msgid "Refresh Dynamic Directives"
-msgstr "Obnovit dynamické pokyny"
+msgstr "Obnovit dynamické příkazy"
 
 #: src/commands.c:4862 src/commands.c:4865
 #, no-c-format
@@ -4861,7 +4861,7 @@ msgid "Open Source for Transcribing"
 msgstr "Otevřený zdroj pro přepis"
 
 #: src/commands.c:5659 src/commands.c:5662
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Opens a dialog to fetch a source facsimile or manuscript. Links can be placed in the Denemo score to this source file so that the source passage for a given bar can be re-displayed when reviewing the score."
 msgstr "Otevře dialog pro natažení zdrojové přesné kopie (faksimile) nebo rukopisu. Odkazy k tomuto zdrojovému souboru lze umístit do notového zápisu Denema, takže zdrojová pasáž pro daný takt může být při přezkoumávání notového zápisu znovu zobrazena."
 
@@ -4976,14 +4976,14 @@ msgid "Reset for All Layouts"
 msgstr "Nastavit znovu pro všechna rozvržení"
 
 #: src/commands.c:5803 src/commands.c:5806
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Clears conditional behaviour of this layout. The Directive will apply to all score layouts."
 msgstr "Smaže podmíněné chování tohoto rozvržení. Pokyn se použije na všechna rozvržení notového zápisu."
 
 #: src/commands.c:5815 src/commands.c:5818
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Initial Voice One"
-msgstr "Hlas jedna"
+msgstr "Počáteční hlas jedna"
 
 #: src/commands.c:5815 src/commands.c:5818
 #, no-c-format
@@ -4991,9 +4991,9 @@ msgid "Sets the (initial) voice of the staff to be voice one (this affects stems
 msgstr "Nastaví (počáteční) hlas osnovy na hlas jedna (toto při tisku ovlivní směr nožiček nahoru, legata atd.)"
 
 #: src/commands.c:5827 src/commands.c:5830
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Initial Voice Two"
-msgstr "Hlas dvě"
+msgstr "Počáteční hlas dvě"
 
 #: src/commands.c:5827 src/commands.c:5830
 #, no-c-format
@@ -5001,9 +5001,9 @@ msgid "Sets the (initial) voice of the staff to be voice two (this affects stems
 msgstr "Nastaví (počáteční) hlas osnovy na hlas dvě (toto při tisku ovlivní směr nožiček dolů, legata atd.)"
 
 #: src/commands.c:5839 src/commands.c:5842
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Initial Voice Three"
-msgstr "Hlas tři"
+msgstr "Počáteční hlas tři"
 
 #: src/commands.c:5839 src/commands.c:5842
 #, no-c-format
@@ -5011,9 +5011,9 @@ msgid "Sets the (initial) voice of the staff to be voice three (this affects ste
 msgstr "Nastaví (počáteční) hlas osnovy na hlas tři (toto při tisku ovlivní směr nožiček nahoru, legata atd.)"
 
 #: src/commands.c:5851 src/commands.c:5854
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Initial Voice Four"
-msgstr "Hlas čtyři"
+msgstr "Počáteční hlas čtyři"
 
 #: src/commands.c:5851 src/commands.c:5854
 #, no-c-format
@@ -5021,9 +5021,9 @@ msgid "Sets the (initial) voice of the staff to be voice four (this affects stem
 msgstr "Nastaví (počáteční) hlas osnovy na hlas čtyři (toto při tisku ovlivní směr nožiček dolů, legata atd.)"
 
 #: src/commands.c:5863 src/commands.c:5866
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Initial Automatic Voice"
-msgstr "Automatický hlas"
+msgstr "Počáteční automatický hlas"
 
 #: src/commands.c:5863 src/commands.c:5866
 #, no-c-format
@@ -5076,7 +5076,7 @@ msgid "Turn Excessive Tooltips (Off/On)"
 msgstr "Zapnout/Vypnout nadměrné nástrojové rady"
 
 #: src/commands.c:5921 src/commands.c:5924
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Sets your status as a newbie on or off. This affects the tooltips.\n"
 "Note you can also delay tooltips, indefinitely if you wish, via the preferences dialog. See Edit->Change Preferences->Command Behaviour"
@@ -5085,106 +5085,104 @@ msgstr ""
 "Všimněte si, že nástrojové rady také můžete zpozdit, chcete-li na neurčito, v dialogu pro nastavení. Viz Úpravy->Změnit nastavení->Chování příkazů"
 
 #: src/commands.c:5933 src/commands.c:5935
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Note Names Default Action"
-msgstr "Rozpoznání názvu noty"
+msgstr "Výchozí činnost pro názvy not"
 
 #: src/commands.c:5933 src/commands.c:5935
 #, no-c-format
 msgid "Changes the shortcuts for note names a, b, c, d, e, f, g so that they edit the note at the cursor, or append a note when in the appending position."
-msgstr ""
+msgstr "Změní klávesové zkratky pro názvy not a, b, c, d, e, f, g tak, aby upravovaly notu v poloze ukazovátka, nebo připojily notu, když je v připojovací poloze."
 
 #: src/commands.c:5944 src/commands.c:5946
 #, no-c-format
 msgid "Note Names Move Cursor"
-msgstr ""
+msgstr "Přesunutí ukazovátka k názvům not"
 
 #: src/commands.c:5944 src/commands.c:5946
 #, no-c-format
 msgid "Changes the shortcuts for note names a, b, c, d, e, f, g so that they move the cursor to the nearest note of that name."
-msgstr ""
+msgstr "Změní klávesové zkratky pro názvy not a, b, c, d, e, f, g tak, aby přesunovaly ukazovátko k nejbližší notě s tím názvem."
 
 #: src/commands.c:5955 src/commands.c:5957
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Mouse Note Insertion"
-msgstr "Vložení noty"
+msgstr "Vložení noty myší"
 
 #: src/commands.c:5955 src/commands.c:5957
 #, no-c-format
 msgid "Changes the mouse use when CapsLock is on: left click inserts note in the prevailing duration. The shortcuts for number keys 0, 1, 2 ... are set to change the prevailing duration."
-msgstr ""
+msgstr "Změní použití myši, když je zapnuta klávesa CapsLock: Klepnutí levým tlačítkem myši vloží notu o převládající době trvání. Klávesové zkratky pro klávesy s čísly 0, 1, 2 ... jsou nastaveny tak, aby změnily převládající dobu trvání."
 
 #: src/commands.c:5966 src/commands.c:5968
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Mouse Default Action"
-msgstr "Výchozí heslo"
+msgstr "Výchozí činnost pro myš"
 
 #: src/commands.c:5966 src/commands.c:5968
 #, no-c-format
 msgid "Mouse left click positions the cursor, right click edits, left-click with caps-lock does nothing.."
-msgstr ""
+msgstr "Klepnutí levým tlačítkem myši umístí ukazovátko, klepnutí pravým tlačítkem myši upravuje, klepnutí levým tlačítkem myši se zapnutou klávesou CapsLock nedělá nic."
 
 #: src/commands.c:5977 src/commands.c:5980
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Dot"
-msgstr "Přidat tečku"
+msgstr "Tečka"
 
 #: src/commands.c:5977 src/commands.c:5980
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Adds a dot to the note/rest/chord at the cursor, or removes them if double dotted."
-msgstr ""
-"Přidá notu k současnému akordu\n"
-"Poloha ukazovátka určuje, která nota se vloží"
+msgstr "Přidá tečku k notě/pomlce/akordu v poloze ukazovátka, nebo tečky, v případě že je nota/pomlka/akord opatřena dvěma tečkami, odstraní."
 
 #: src/commands.c:5989 src/commands.c:5991
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Choose Voice"
-msgstr "Vybrat taktovou čáru"
+msgstr "Vybrat hlas"
 
 #: src/commands.c:5989 src/commands.c:5991
 #, no-c-format
 msgid "The Voice 1,2,3,4 commands set up the voices so that first and third voices get stems up, second and fourth voices get stems down, third and fourth voice note heads are horizontally shifted, and rests in the respective voices are automatically moved to avoid collisions. The Automatic Voice command returns all the voice settings to the neutral default directions"
-msgstr ""
+msgstr "Příkazy pro hlas 1, 2, 3, 4 nastavují hlasy tak, aby první a třetí hlas měly nožičky nahoru, druhý a čtvrtý hlas měly nožičky dolů. Hlavičky not třetího a čtvrtého hlasu jsou vodorovně posunuty, a pomlky v příslušných hlasech jsou automaticky posunuty, aby se vyhnuly střetu. Příkaz pro automatický hlas vrací všechna nastavení hlasů k neutrálním výchozím směrům"
 
 #: src/commands.c:6000 src/commands.c:6003
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Set Staff Size"
-msgstr "Vybrat osnovu"
+msgstr "Nastavit velikost osnovy"
 
 #: src/commands.c:6000 src/commands.c:6003
 #, no-c-format
 msgid "Sets the size of the staff on printing relative to the default 0. Value -3 is tiny 3 is large."
-msgstr ""
+msgstr "Nastaví velikost osnovy při tisku v poměru k výchozí 0. Při hodnotě -3 je malá, 3 je velká."
 
 #: src/commands.c:6012 src/commands.c:6015
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Choose Initial Voice"
-msgstr "Vybrat taktovou čáru"
+msgstr "Vybrat počáteční hlas"
 
 #: src/commands.c:6012 src/commands.c:6015
 #, no-c-format
 msgid "Choose which voice this staff will initially be set to. To change voice during music see the Directives->Voices menu."
-msgstr ""
+msgstr "Vybrat, na který  hlas bude tato osnova na začátku nastavena. Pro změnu hlasu během hudby se podívejte na nabídky Příkazy->Hlasy."
 
 #: src/commands.c:6024 src/commands.c:6027
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Incipit from Selection"
-msgstr "Nastavit náhled z výběru"
+msgstr "Incipit z výběru"
 
 #: src/commands.c:6024 src/commands.c:6027
 #, no-c-format
 msgid "Creates an incipit from the selection. This music will be printed on the title page. Only one voice is supported."
-msgstr ""
+msgstr "Vytvoří incipit od výběru z výběru. Tyto noty budou vytištěny na titulní straně. Je podporován jen jeden hlas."
 
 #: src/commands.c:6036 src/commands.c:6039
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Prints All Layouts"
-msgstr "Nastavit znovu pro všechna rozvržení"
+msgstr "Vytiskne všechna rozvržení"
 
 #: src/commands.c:6036 src/commands.c:6039
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Prints the score using all the defined score layouts."
-msgstr "Zahodit vlastní rozvržení notového zápisu."
+msgstr "Vytiskne notový zápis za použití všech stanovených rozvržení notového zápisu."
 
 #: src/drawgrace.c:25
 msgid "\\"
@@ -5480,25 +5478,28 @@ msgid "Current Staff Only?"
 msgstr "Pouze nynější osnova?"
 
 #: src/lilydirectives.c:1271
-#, fuzzy
 msgid "Repeat the command?"
-msgstr "Obecné příkazy pro zpracování"
+msgstr "Zopakovat příkaz?"
 
 #: src/lilydirectives.c:2068
 msgid "Nothing to edit on this stem directive - use controls in Staffs->Voices menu"
-msgstr ""
+msgstr "Nic k upravení na směru této nožičky - použijte ovládání v nabídce Osnovy->Hlasy"
 
 #: src/lilydirectives.c:2074
 msgid ""
 "This marks the start of a tuplet (that is triplets etc) - after the notes there should be a corresponding end of tuplet object.\n"
 "See the Notes/Rests->Tuplets for control over how tuplets print"
 msgstr ""
+"Toto označí začátek rytmické notové skupiny (trioly atd.) - po notách má být odpovídající konec předmětu rytmické notové skupiny.\n"
+"Podívejte se na Noty/Pomlky Rytmické notové skupiny na to, jak řídit tisk rytmických notových skupin"
 
 #: src/lilydirectives.c:2078
 msgid ""
 "This marks the end of a tuplet (that is triplets etc) - it should come in the same measure as the tuplet start marker.\n"
 "See the Notes/Rests->Tuplets for control over how tuplets print"
 msgstr ""
+"Toto označí konec rytmické notové skupiny (trioly atd) - měla by přijít ve stejném taktu jako značka pro začátek rytmické notové skupiny.\n"
+"Podívejte se na Noty/Pomlky Rytmické notové skupiny na to, jak řídit tisk rytmických notových skupin"
 
 #: src/lilydirectives.c:2284
 msgid " x:"
@@ -5630,14 +5631,12 @@ msgid "Enter width (in pixels) of measures:"
 msgstr "Zadat šířku taktů (v pixelech):"
 
 #: src/pitchentry.c:1131
-#, fuzzy
 msgid "flatten "
-msgstr "Snížit o půltón"
+msgstr "Snížit o půltón "
 
 #: src/pitchentry.c:1142
-#, fuzzy
 msgid "sharpen"
-msgstr "Zvýšit o půltón"
+msgstr "Zvýšit o půltón "
 
 #: src/pitchentry.c:1161
 msgid "Set the musical temperament (tuning) to be used for playback."
@@ -7595,7 +7594,7 @@ msgstr "Upravit jakékoli příkazy přidané k hlasu."
 
 #: src/register_commands.h:287
 msgid "Edit Score Directives"
-msgstr "Upravit příkazy pro notový zápisém"
+msgstr "Upravit příkazy pro notový zápis"
 
 #: src/register_commands.h:287
 msgid "Edit any directives attached to score."
@@ -7627,7 +7626,7 @@ msgstr "Upravit jakékoli příkazy přidané k taktovému označení"
 
 #: src/register_commands.h:291
 msgid "Edit Key Signature Directives"
-msgstr "Upravit příkazy pro předznamenání (tóninu)"
+msgstr "Upravit příkazy pro předznamenání"
 
 #: src/register_commands.h:291
 msgid "Edit any directives attached to key signature."
@@ -8769,9 +8768,8 @@ msgid "Edit"
 msgstr "Úpravy"
 
 #: src/scorelayout.c:550
-#, fuzzy
 msgid "Edit the voice directives for this layout"
-msgstr "Upravit příkazy pro hlas"
+msgstr "Upravit příkazy pro hlas pro toto rozvržení"
 
 #: src/scorelayout.c:555
 msgid ""
@@ -8787,7 +8785,7 @@ msgstr "Taktová označení na začátku"
 
 #: src/scorelayout.c:563
 msgid "Click here to view and edit the clef, key and time signatures of this staff"
-msgstr ""
+msgstr "Klepnout sem pro zobrazení a úpravu klíče, předznamenání a taktového označení této osnovy"
 
 #: src/scorelayout.c:568
 msgid "Clef"
@@ -8795,7 +8793,7 @@ msgstr "Klíč"
 
 #: src/scorelayout.c:569
 msgid "Edit the LilyPond definition of the clef. The editing affects only this layout."
-msgstr ""
+msgstr "Upravit vymezení klíče v LilyPondu. Úprava ovlivní jen toto rozvržení."
 
 #: src/scorelayout.c:574
 msgid "Key"
@@ -8803,7 +8801,7 @@ msgstr "Klíč"
 
 #: src/scorelayout.c:575
 msgid "Edit the LilyPond definition of the key signature. The editing affects only this layout."
-msgstr ""
+msgstr "Upravit vymezení předznamenání v LilyPondu. Úprava ovlivní jen toto rozvržení."
 
 #: src/scorelayout.c:580
 msgid "Time"
@@ -8811,15 +8809,15 @@ msgstr "Druh taktu"
 
 #: src/scorelayout.c:581
 msgid "Edit the LilyPond definition of the time signature. The editing affects only this layout."
-msgstr ""
+msgstr "Upravit vymezení taktového označení v LilyPondu. Úprava ovlivní jen toto rozvržení."
 
 #: src/scorelayout.c:589
 msgid "The clef, time and key signatures attached to other voices are ignored, only the primary one has effect"
-msgstr ""
+msgstr "Klíč, předznamenání a taktové označení připojené k jiným hlasům jsou přehlíženy, jen hlavní má účinek"
 
 #: src/scorelayout.c:592
 msgid "Music for "
-msgstr ""
+msgstr "Hudba pro "
 
 #: src/scorelayout.c:594
 msgid ""
@@ -8827,28 +8825,33 @@ msgid ""
 "However you can place conditional directives that are to be used only when using this layout. For example page breaks just for this layout can be placed at points in the music.\n"
 "Click here to move the Denemo cursor to the start of this music."
 msgstr ""
+"Skutečné noty jsou zde. Můžete je upravovat jen v zobrazení hlavním Denema.\n"
+"Můžete však umísťovat podmíněné příkazy, které se mají použít jen, když se používá toto rozvržení. Například zalomení stran pouze pro toto rozvržení lze umístit na bodech v notách.\n"
+"Klepněte sem pro přesunutí ukazovátka  Denema na začátek těchto not."
 
 #: src/scorelayout.c:600
 msgid "Substitute"
-msgstr ""
+msgstr "Nahradit"
 
 #: src/scorelayout.c:601
 msgid ""
 "Substitute the music of this staff with the music of another staff.\n"
 "For example changing \\MvmntIVoiceI to \\MvmntIVoiceII will change the music from that of the first to the second staff. The editing affects only this layout."
 msgstr ""
+"Nahradit noty této osnovy notami jiné osnovy.\n"
+"Například změna \\MvmntIVoiceI na \\MvmntIVoiceII změní noty z první osnovy na druhou. Úprava ovlivní pouze toto rozvržení."
 
 #: src/scorelayout.c:754
 msgid "This forces a new page, useful for avoiding page turns\n"
-msgstr ""
+msgstr "Toto vynutí novou stranu, což je užitečné pro vyhnutí se otočení stran\n"
 
 #: src/scorelayout.c:761
 msgid "Blank Page"
-msgstr ""
+msgstr "Prázdna strana"
 
 #: src/scorelayout.c:762
 msgid "This prints a page intentionally left blank, useful for avoiding page turns\n"
-msgstr ""
+msgstr "Toto vytiskne stranu ponechanou záměrně prázdnou, což je užitečné pro vyhnutí se otočení stran\n"
 
 #: src/scorelayout.c:770
 msgid ""
@@ -8857,39 +8860,42 @@ msgid ""
 "Simple titles are not placed here, but appear in a header block at the end of the movement.\n"
 "For other possible uses, see LilyPond manual."
 msgstr ""
+"Toto vás nechá vložit vaše vlastní názvy atd. pouze pro toto rozvržení.\n"
+"Pro názvy knih použijte \\titledPiece \\markup \"myname\"\n"
+"Jednoduché názvy nejsou umístěny zde, ale objevují se v bloku záhlaví  na konci věty.\n"
+"Na jiná možná užití se podívejte do příručky k LilyPondu."
 
 #: src/scorelayout.c:780
-#, fuzzy
 msgid "Create Page Break"
-msgstr "Zalomení strany"
+msgstr "Vytvořit zalomení strany"
 
 #: src/scorelayout.c:781
 msgid ""
 "This inserts a page break, useful for avoiding page turns\n"
 "Move it before the title (using the up arrow) once created!"
 msgstr ""
+"Toto vloží zalomení strany, což je užitečné pro vyhnutí se otočení stran\n"
+"Přesuňte je, jakmile bude vytvořeno, před název (pomocí šipky nahoru)!"
 
 #: src/scorelayout.c:785
-#, fuzzy
 msgid "Create Blank Page"
-msgstr "Vytvořit názvy knih"
+msgstr "Vytvořit prázdnou stranu"
 
 #: src/scorelayout.c:786
 msgid "This inserts a page intentionally left blank, useful for avoiding page turns when printing on both sides of the paper"
-msgstr ""
+msgstr "Toto vloží stranu ponechanou záměrně prázdnou, což je užitečné pro vyhnutí seotočení stran, když se tiskne na obě strany papíru"
 
 #: src/scorelayout.c:790
-#, fuzzy
 msgid "Insert LilyPond"
 msgstr "Vložit Lilypond"
 
 #: src/scorelayout.c:791
 msgid "This creates a LilyPond comment which you can then edit to give titles etc for this movment, applying just to this layout."
-msgstr ""
+msgstr "Toto vytvoří poznámku LilyPond, již pak můžete upravit pro dodání názvů atd. pro tuto větu, která se použije pouze na toto rozvržení."
 
 #: src/scorelayout.c:821
 msgid "This button is for changing the score itself, it will not affect this custom layout"
-msgstr ""
+msgstr "Toto tlačítko je na změnění samotného notového zápisu. Neovlivní toto vlastní rozvržení"
 
 #: src/scorelayout.c:830
 msgid "Movement Titles, Page Breaks etc"
@@ -8936,7 +8942,7 @@ msgid ""
 "This shows the clef in the Denemo score - the actual clef printed may be modified by Directives attached to it.\n"
 "You can edit the clef for a custom layout - do this on the first voice on the staff."
 msgstr ""
-"Toto v notovém zápisu Denema ukáže klíč - skutečný vytištěný klíč může být změněn k němu připojeným  pokynem.\n"
+"Toto v notovém zápisu Denema ukáže klíč - skutečný vytištěný klíč může být změněn k němu připojeným  příkazem.\n"
 "Klíč můžete upravit pro vlastní rozvržení - udělejte to na prvním hlase v osnově."
 
 #: src/scorelayout.c:1142
@@ -9036,7 +9042,7 @@ msgstr "Výchozí heslo"
 
 #: src/scorelayout.c:1422
 msgid "Score Directives"
-msgstr "Pokyny pro notový zápis"
+msgstr "Příkazy pro notový zápis"
 
 #: src/scorelayout.c:1423
 msgid "Includes the indent before first measure, LilyPond include files ..."
@@ -9084,7 +9090,6 @@ msgid "Layout block"
 msgstr "Blok rozvržení"
 
 #: src/scorelayout.c:1784
-#, fuzzy
 msgid ""
 "This a score layout - the brown buttons affect the score itself, not just the layout.\n"
 "The other buttons will customize the layout\n"
@@ -9098,7 +9103,7 @@ msgstr ""
 "Můžete mít několik rozvržení a použít je na tisk různých verzí vašeho notového zápisu.\n"
 "Jakmile je rozvržení přizpůsobeno, např. přidáním zalomení stran, smazáním určitých částí atd., rozvržení je uloženo společně s vaším notovým zápisem a lze je použít pro tisk, přestože snad byste udělali v notách opravy.\n"
 "Standardní rozvržení jsou vytvořena zavoláním běžných tiskových příkazů - pro tisk, tisk hlasu, tisk věty atd.\n"
-"Tato běžná rozvržení poskytují pohodlný výchozí bod pro vaše vlastní rozvržení."
+"Tato běžná rozvržení poskytují pohodlný výchozí bod pro vaše vlastní rozvržení. <b>Poznámka 1:</b>Vlastní rozvržení nejsou uložena pro další obrazovéupravování, ukládají se jen příkazy pro sazbu not, takže, dokud nejste dobře obeznámení s LilyPondem, dělejte všechnu práci na rozvržení v jednom sezení.<b>Poznámka 2:</b>První poznámka v LilyPondu drží text rozvržení, drží název rozvržení. Pokud ji změníte, všechny podmíněné příkazy, co jsou pro rozvržení, bude potřeba obnovit"
 
 #: src/scorelayout.c:1920
 msgid ""
@@ -9262,21 +9267,24 @@ msgstr ""
 "Toto okno zabijte, pokud chcete sázení spustit znovu, to jest po opravě chyby, již jste si právě všiml."
 
 #: src/view.c:2404
-#, fuzzy
 msgid "Paste Current Snippet"
-msgstr "Vložit úryvek"
+msgstr "Vložit nynější úryvek"
 
 #: src/view.c:2405
 msgid ""
 "Pastes the music captured in the currently selected Snippet into the text at the cursor. The music appears here in the LilyPond typesetter syntax between two markers (§). It will print as typeset music embedded in the sentence you are writing.\n"
 "You can edit the syntax, taking care to leave the markers in position. If you delete one marker be sure to delete the other.\n"
 msgstr ""
+"Vloží noty zachycené v nyní vybraném úryvku do textu v poloze ukazovátka. Hudba se objevuje zde ve skladbě sazeče LilyPondu mezi dvěma značkami (§). Bude se tisknout jako sazba not vložených do věty, kterou píšete.\n"
+"Můžete upravit skladbu, staraje se, aby byly značky ponechány v jejich umístění. Pokud smažete jednu značku, ujistěte se, že smažete i druhou.\n"
 
 #: src/view.c:2411
 msgid ""
 "Makes the next Snippet the one that can be pasted. To see the music snippets you need to check View->Snippets\n"
 "The one selected is in bold black."
 msgstr ""
+"Udělá další úryvek tím, který lze vložit. Abyste viděli úryvky not, potřebujete prověřit Pohled->Úryvky\n"
+"Ten, který je vybrán, je vyznačen tučným řezem písma, černě."
 
 #: src/view.c:6313
 msgid "<span foreground=\"blue\">Recording + Play Along</span>"
@@ -9566,7 +9574,7 @@ msgstr "Toto je pruh s hlavní nabídkou, kde jsou umístěny nabídky pro vět�
 
 #: src/view.c:9133
 msgid "This is the Object Menu bar, where menus for the commands that edit music live. They are arranged in a hierarchy Score, Movement, Staff (which contains Voices) and then the things that go on a staff, notes, clefs etc. Directives covers everything else that you can put in amongst the notes to change the behavior from that point in the music."
-msgstr "Toto je pruh s nabídkou předmětů, kde jsou nabídky pro příkazy, jimiž se noty upravují. Jsou uspořádány hierarchicky: notový zápis, věta, osnova (obsahuje hlasy), a pak věci, co jdou na osnovu, noty, klíče atd. Pokyny pokrývají vše ostatní, co můžete dát mezi noty pro změnu chování od toho bodu v notách."
+msgstr "Toto je pruh s nabídkou předmětů, kde jsou nabídky pro příkazy, jimiž se noty upravují. Jsou uspořádány hierarchicky: notový zápis, věta, osnova (obsahuje hlasy), a pak věci, co jdou na osnovu, noty, klíče atd. Příkazy pokrývají vše ostatní, co můžete dát mezi noty pro změnu chování od toho bodu v notách."
 
 #: src/view.c:9134
 msgid "This bar has buttons for entering notes and rests. The highlighted duration is the <i>prevailing duration</i>, that is the duration which will be applied to the next note entered. You can hide this bar (to make more room on the screen) using the View menu. You can make it your preference to hide it using MainMenu->Edit->Change Preferences->Display Note/Rest entry toolbar"
@@ -9754,7 +9762,6 @@ msgstr ""
 "Pro stránkový pohled budete pravděpodobně chtít menší zvětšení. Použijte Ctrl+kolečko myši na změnu v přiblížení zobrazení."
 
 #: src/view.c:9429
-#, fuzzy
 msgid ""
 "This bar shows:\n"
 "Pending ♯ or ♭ sign (if the next note entered will be sharpened or flattened)\n"
@@ -9763,7 +9770,14 @@ msgid ""
 "Position and status (appending or inserting) of the cursor.\n"
 "If the Playback Controls are visible then the timing of the object at the cursor is shown.\n"
 "When the first key of a two-key shortcut is pressed the possible continuations are shown here."
-msgstr "Tento pruh ukazuje číslo věty následované popisem předmětu v poloze ukazovátka Denema a polohou a stavem ukazovátka (přidávání nebo vkládání). Pokud je viditelné ovládání přehrávání, pak je ukázáno načasování předmětu v poloze ukazovátka. Když je stisknuta první klávesa klávesové zkratky složené ze dvou kláves, jsou zde ukázána možná pokračování."
+msgstr ""
+"Tento takt ukazuje:\n"
+"Čekající značku ♯ nebo ♭ (pokud bude další zadaná nota zvýšena nebo snížena o půl tónu)\n"
+"Číslo věty\n"
+"Popis předmětu ukazovátka Denema\n"
+"Polohu a stav (přidávání nebo vkládání) ukazovátka.\n"
+"Pokud je viditelné ovládání přehrávání, potom je ukázáno načasování předmětu v poloze ukazovátka.\n"
+"Když je stisknuta první klávesa dvouklávesové zkratky, jsou zde ukázána možná pokračování."
 
 #: src/view.c:9439
 msgid "This area shows which MIDI filters are active. It can also be used by commands to pass information to the user"
@@ -9806,50 +9820,45 @@ msgstr "Opatřit tento akord poznámkou"
 #: actions/commandscripts/TextAbove.scm:16
 #: actions/commandscripts/TextAbove.scm:17
 msgid "y"
-msgstr ""
+msgstr "y"
 
 #: actions/commandscripts/ChordComment.scm:10
 #: actions/commandscripts/CriticalComment.scm:10
-#, fuzzy
 msgid "Cursor has Moved"
-msgstr "Ukazovátko na nejvyšší notu"
+msgstr "Ukazovátko se přesunulo"
 
 #: actions/commandscripts/ChordComment.scm:10
 #: actions/commandscripts/CriticalComment.scm:10
 msgid "Apply Command to new position of cursor?"
-msgstr ""
+msgstr "Použít příkaz na novou polohu ukazovátka?"
 
 #: actions/commandscripts/InitialVoice.scm:2
 #: actions/commandscripts/InitialVoice.scm:4
 #: actions/commandscripts/VoiceSetting.scm:2
 #: actions/commandscripts/VoiceSetting.scm:4
-#, fuzzy
 msgid "Voice 1"
-msgstr "Hlas nahoru"
+msgstr "Hlas 1"
 
 #: actions/commandscripts/InitialVoice.scm:2
 #: actions/commandscripts/InitialVoice.scm:6
 #: actions/commandscripts/VoiceSetting.scm:2
 #: actions/commandscripts/VoiceSetting.scm:6
-#, fuzzy
 msgid "Voice 2"
-msgstr "Hlas nahoru"
+msgstr "Hlas 2"
 
 #: actions/commandscripts/InitialVoice.scm:2
 #: actions/commandscripts/InitialVoice.scm:8
 #: actions/commandscripts/VoiceSetting.scm:2
 #: actions/commandscripts/VoiceSetting.scm:8
-#, fuzzy
 msgid "Voice 3"
-msgstr "Hlas nahoru"
+msgstr "Hlas 3"
 
 #: actions/commandscripts/InitialVoice.scm:2
 #: actions/commandscripts/InitialVoice.scm:10
 #: actions/commandscripts/VoiceSetting.scm:2
 #: actions/commandscripts/VoiceSetting.scm:10
-#, fuzzy
 msgid "Voice 4"
-msgstr "Hlas nahoru"
+msgstr "Hlas 4"
 
 #: actions/commandscripts/InitialVoice.scm:2
 #: actions/commandscripts/InitialVoice.scm:12
@@ -9872,44 +9881,43 @@ msgstr ""
 
 #: actions/commandscripts/MouseInsertion.scm:61
 msgid "To insert notes hold down shift key while clicking the mouse. To add to a chord hold down Alt key, to delete hold down Control key while clicking."
-msgstr ""
+msgstr "Ke vložení noty podržte klávesu Shift současně s klepnutím myší. Pro vložení do akordu podržte klávesu Alt, pro smazání podržte současně s klepnutím myší klávesu Ctrl."
 
 #: actions/commandscripts/StaffSize.scm:2
-#, fuzzy
 msgid "Setting Staff Size"
-msgstr "Vybrat osnovu"
+msgstr "Nastavení velikosti osnovy"
 
 #: actions/commandscripts/StaffSize.scm:2
 msgid "Give Staff Size (for printing), 0 for default"
-msgstr ""
+msgstr "Zadejte velikost osnovy (pro tisk), 0 pro výchozí"
 
 #: actions/commandscripts/TextAbove.scm:6
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 #: actions/commandscripts/TextAbove.scm:6
 msgid "Give text to appear above music: "
-msgstr ""
+msgstr "Zadejte text, aby se objevil nad notami "
 
 #: actions/commandscripts/TextAbove.scm:16
-#, fuzzy
 msgid "Delete this text?"
-msgstr "Smazat tento blok"
+msgstr "Smazat tento text?"
 
 #: actions/commandscripts/TextAbove.scm:21
-#, fuzzy
 msgid "Cancelled"
-msgstr "Zrušit"
+msgstr "Zrušeno"
 
 #: actions/commandscripts/Tremolo.scm:4
 msgid ""
 "To use this function correctly you need to press a keyboard shortcut for a duration command\n"
 "The duration will be used to divide the note at the cursor when printed. Durations 3-7 are valid (that is eighth note and shorter)"
 msgstr ""
+"Ke správnému použití této funkce stiskněte klávesovou zkratku pro příkaz pro dobu trvání\n"
+"Doba trvání bude při tisku použita k rozdělení noty v poloze ukazovátka. Doby trvání 3-7 jsou platné (to je osminová nota a kratší)"
 
 #: actions/commandscripts/Tremolo.scm:9
 msgid "Click on the display and press a shortcut key 3-7 for the duration into which the note at the cursor is to be divided"
-msgstr ""
+msgstr "Klepněte na zobrazení a použijte klávesovou zkratku 3-7 pro dobu trvání, na kterou se nota v poloze ukazovátka má rozdělit"
 
 #~ msgid "Insert Anacrusis"
 #~ msgstr "Vložit předtaktí (anacrusis)"
