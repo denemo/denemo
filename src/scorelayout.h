@@ -33,4 +33,8 @@ GtkWidget *get_score_layout_notebook(DenemoGUI *gui);
 gboolean create_custom_scoreblock (gchar *layout_name);
 DenemoScoreblock *selected_scoreblock(void);
 guint selected_layout_id(void);
+DenemoScoreblock *get_next_scoreblock(void);
+DenemoScoreblock *get_first_scoreblock(void);
+gchar *get_output_uri_from_scoreblock(void);
+void set_current_scoreblock_uri(gchar *uri);
 #endif

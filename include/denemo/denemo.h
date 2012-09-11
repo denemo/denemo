@@ -44,6 +44,7 @@ extern "C" {
 #define DENEMO_INITIAL_MEASURE_WIDTH 160
 #define DENEMO_INITIAL_STAFF_HEIGHT 100
 
+#define DENEMO_FILE_SUFFIX ".denemo"
 
 #define g_malloc(a) g_malloc0(a) /* for extensible debuggable code */
 #if 0

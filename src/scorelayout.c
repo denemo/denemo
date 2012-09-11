@@ -1397,8 +1397,10 @@ static void create_scoreheader_directives(GtkWidget *vbox) {
 	gtk_container_add (GTK_CONTAINER (frame), top_expander);
 	GtkWidget *header_box = gtk_vbox_new(FALSE, 8);
 	gtk_container_add(GTK_CONTAINER(top_expander), header_box);
-	 
-	gchar *default_tagline = g_strdup_printf("tagline = \\markup {%s on \\simple #(strftime \"%%x\" (localtime (current-time)))}\n", gui->filename->str);		
+
+	gchar *escaped_name = g_strescape(gui->filename->str, NULL);
+	gchar *default_tagline = g_strdup_printf("tagline = \\markup {\"%s\" on \\simple #(strftime \"%%x\" (localtime (current-time)))}\n", escaped_name);
+	g_free(escaped_name);	
 	create_element(header_box, gtk_label_new(_("Default tagline")), default_tagline);
 	
 	GList *g;
@@ -1649,6 +1651,92 @@ DenemoScoreblock *selected_scoreblock(void) {
 			DenemoScoreblock *sb = ((DenemoScoreblock*)g->data);
 			if(sb->widget == page){
 				refresh_lilypond(sb);//!!!! needs sorting out !!!
+				return sb;
+			}
+	}
+	for(g=Denemo.gui->standard_scoreblocks;g;g=g->next) {
+			DenemoScoreblock *sb = ((DenemoScoreblock*)g->data);
+			if(sb->widget == page) {
+				refresh_lilypond(sb);
+				return sb;
+			}
+	}
+	return NULL;
+}
+//returns a uri for the pdf output for the current scoreblock. The user must free when done.
+gchar *get_output_uri_from_scoreblock(void) {
+	DenemoScoreblock *sb = selected_scoreblock();
+	if(sb==NULL) {
+		g_warning("No Score Layout");
+		return g_strdup("");
+	}
+	DenemoGUI *gui = Denemo.gui;
+	if(sb->uri)
+		return g_strdup(sb->uri);
+	gchar *basename;
+	gchar *dirname;
+	if(Denemo.gui->filename && Denemo.gui->filename->len) {
+		gchar *filename = gui->filename->str;
+		dirname = g_path_get_dirname(filename);
+		basename = g_path_get_basename(filename);
+		gchar *suffix = g_strrstr(basename, DENEMO_FILE_SUFFIX);
+		if(suffix) *suffix = 0;
+	} else {
+		basename = g_strdup("ouput");
+		dirname = g_get_current_dir();
+	}
+	gchar *uri = g_strdup_printf("file://%s", dirname);
+	g_free(dirname);
+	gchar *ret;
+	if(sb) {
+		gchar *pdf_name = g_strconcat(basename, "-", sb->name, ".pdf", NULL);
+		ret = g_build_filename (uri, pdf_name, NULL);
+		g_free(pdf_name);
+	} else {
+		ret = g_build_filename (uri, "output.pdf", NULL);
+	}
+	g_free(basename);
+	g_free(uri);
+	return ret;
+}
+void set_current_scoreblock_uri(gchar *uri) {
+	DenemoScoreblock *sb = selected_scoreblock();
+	if(sb) sb->uri = uri;
+}
+//Returns the next scoreblock in the score layout notebook, or NULL if it is the last
+DenemoScoreblock *get_next_scoreblock(void) {	
+	GtkWidget *notebook = get_score_layout_notebook(Denemo.gui);
+	gint pagenum = gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook));
+	GtkWidget *page = gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook), pagenum+1);
+	if(page)
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook), pagenum+1);
+	GList *g;
+	for(g=Denemo.gui->custom_scoreblocks;g;g=g->next) {
+			DenemoScoreblock *sb = ((DenemoScoreblock*)g->data);
+			if(sb->widget == page){
+				refresh_lilypond(sb);//!!!! needs sorting out !!!
+				return sb;
+			}
+	}
+	for(g=Denemo.gui->standard_scoreblocks;g;g=g->next) {
+			DenemoScoreblock *sb = ((DenemoScoreblock*)g->data);
+			if(sb->widget == page) {
+				refresh_lilypond(sb);
+				return sb;
+			}
+	}
+	return NULL;
+}
+//Returns the next scoreblock in the score layout notebook, or NULL if it is the last
+DenemoScoreblock *get_first_scoreblock(void) {	
+	GtkWidget *notebook = get_score_layout_notebook(Denemo.gui);
+	gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook), 0);
+	GtkWidget *page = gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook), 0);
+	GList *g;
+	for(g=Denemo.gui->custom_scoreblocks;g;g=g->next) {
+			DenemoScoreblock *sb = ((DenemoScoreblock*)g->data);
+			if(sb->widget == page){
+				refresh_lilypond(sb);
 				return sb;
 			}
 	}

@@ -30,7 +30,7 @@
 #include "utils.h"
 #include "view.h"
 #include "external.h"
-
+#include "scorelayout.h"
 
 #ifdef G_OS_WIN32
 #define FILE_LOCKING 1
@@ -884,9 +884,19 @@ static void normal_cursor(void) {
     gdk_window_set_cursor(gtk_widget_get_window(Denemo.printarea), arrowcursor);
 }
 
-
-
-static void
+/*void                user_function                      (EvPrintOperation       *evprintoperation,
+                                                        GtkPrintOperationResult arg1,
+                                                        gpointer                user_data)             : Run Last */
+void printop_done(EvPrintOperation *printop, GtkPrintOperationResult arg1, GtkPrintSettings **psettings) {
+     if(*psettings)
+      g_object_unref(*psettings);
+    *psettings = ev_print_operation_get_print_settings (printop);
+    g_object_ref(*psettings);
+    //g_print("Came away with uri %s\n", gtk_print_settings_get(*psettings, GTK_PRINT_SETTINGS_OUTPUT_URI));
+    set_current_scoreblock_uri(g_strdup(gtk_print_settings_get(*psettings, GTK_PRINT_SETTINGS_OUTPUT_URI)));
+    call_out_to_guile("(FinalizePrint)");
+}
+static gboolean
 libevince_print(void) {
   GError *err = NULL;
   GFile       *file;
@@ -895,7 +905,7 @@ libevince_print(void) {
 
   if(err) {
     g_warning ("Malformed filename %s\n", filename);
-    return;
+    return -1;
   }
 
   EvDocument *doc = ev_document_factory_get_document (uri, &err);
@@ -904,12 +914,23 @@ libevince_print(void) {
     if(err)
 			g_error_free (err);
     err = NULL;
+    return -1;
   } else {
-    EvPrintOperation *printop = ev_print_operation_new (doc);      
+    static GtkPrintSettings *settings;
+    if(settings==NULL)
+      settings = gtk_print_settings_new();
+    EvPrintOperation *printop = ev_print_operation_new (doc);    
+    g_signal_connect(printop, "done", G_CALLBACK(printop_done), &settings);
+    gtk_print_settings_set(settings, GTK_PRINT_SETTINGS_OUTPUT_URI, get_output_uri_from_scoreblock());
+    ev_print_operation_set_print_settings (printop, settings);
     ev_print_operation_run (printop, NULL);
   }
+  return 0;
 }
 
+gboolean print_typeset_pdf(void){
+return libevince_print();
+}
 static void
 set_printarea_doc(EvDocument *doc) {
   EvDocumentModel  *model;
@@ -1053,7 +1074,8 @@ set_printarea(GError **err) {
     set_printarea_doc(doc);
 
 
-  
+#if 0
+//this will fail if the printarea is not visible, so it would need to be re-triggered on showing the printarea  
     //setting up Denemo.pixbuf so that parts of the pdf can be dragged etc.
   {
       GdkWindow *window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
@@ -1070,12 +1092,14 @@ set_printarea(GError **err) {
       Denemo.pixbuf = gdk_pixbuf_get_from_window(window, 0,0, width,height);
 #endif
   }
+#endif
   return;
 }
 
 static void
 printview_finished(GPid pid, gint status, gboolean print) {
   progressbar_stop();
+  call_out_to_guile("(FinalizeTypesetting)");
   //g_print("Processing %s\n", (gchar *) get_printfile_pathbasename());
   process_lilypond_errors((gchar *) get_printfile_pathbasename());
   printpid = GPID_NONE;
@@ -1084,6 +1108,8 @@ printview_finished(GPid pid, gint status, gboolean print) {
   if(!err && print)
      libevince_print();
   normal_cursor();
+
+
 }
 
 /* callback to print current part (staff) of score */

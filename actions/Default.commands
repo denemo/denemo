@@ -6089,6 +6089,14 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <label>Incipit from Selection</label>
         <tooltip>Creates an incipit from the selection. This music will be printed on the title page. Only one voice is supported.</tooltip>
       </row>
+      <row>
+        <action>PrintAllLayouts</action>
+        <after>Print</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
+        <label>Prints All Layouts</label>
+        <tooltip>Prints the score using all the defined score layouts.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

@@ -265,14 +265,14 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	    action = gtk_action_new(name,label,tooltip, icon_name);
 	   
 
-	    if(fp)fprintf(fp, "\n/* %s*/\n", name);
-	    if(fp)fprintf(fp, "action = gtk_action_new(\"%s\",_(\"%s\"),_(\"%s\"), ", g_strescape(name, "\\"), g_strescape(label, "\\"), g_strescape(tooltip, "\\"));	    
+	    if(fp)fprintf(fp, "\n/* %s xgettext:no-c-format*/\n", name);
+	    if(fp)fprintf(fp, "action = gtk_action_new(\"%s\",_(\"%s\"),/* xgettext:no-c-format*/_(\"%s\"), ", g_strescape(name, "\\"), g_strescape(label, "\\"), g_strescape(tooltip, "\\"));	    
 	    if(fp)fprintf(fp, "get_icon_for_name(\"%s\", \"%s\"));\n", g_strescape(name, "\\"), g_strescape(label, "\\"));
 	    if(after)
 	      if(fp)fprintf(fp, "g_object_set_data(G_OBJECT(action), \"after\", (gpointer)\"%s\");\n", g_strescape(after, "\\"));
 	    if(hidden)
 	      if(fp)fprintf(fp, "g_object_set_data(G_OBJECT(action), \"hidden\",  (gpointer)TRUE) );\n");
-	    if(fp)fprintf(fp, "register_command(Denemo.map, action, \"%s\", _(\"%s\"), _(\"%s\"), activate_script);\n", g_strescape(name, "\\"), g_strescape(label, "\\"), g_strescape(tooltip, "\\"));
+	    if(fp)fprintf(fp, "/* xgettext:no-c-format*/\nregister_command(Denemo.map, action, \"%s\", _(\"%s\"), /* xgettext:no-c-format*/_(\"%s\"), activate_script);\n", g_strescape(name, "\\"), g_strescape(label, "\\"), g_strescape(tooltip, "\\"));
 	    if(fp)fprintf(fp, "gtk_action_group_add_action(Denemo.action_group, action);\n");
 	    if(fp)fprintf(fp, "create_scheme_function_for_script(\"%s\");\n", g_strescape(name, "\\"));
 

@@ -770,12 +770,13 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
     GString *lilypond = (GString*)(((DenemoScoreblock*)custom->data)->lilypond);
     if(lilypond==NULL) refresh_lilypond((DenemoScoreblock*)custom->data);
     lilypond = (GString*)(((DenemoScoreblock*)custom->data)->lilypond);
-    if(lilypond)
-      xmlNewTextChild (scoreElem, ns, (xmlChar *)"custom_scoreblock", (xmlChar *)(lilypond->str));
+    if(lilypond) {
+      xmlNodePtr scoreblockElem = xmlNewTextChild (scoreElem, ns, (xmlChar *)"custom_scoreblock", (xmlChar *)(lilypond->str));
+      if(((DenemoScoreblock*)custom->data)->uri)
+	  xmlSetProp (scoreblockElem, (xmlChar *)"scoreblock_uri",  (xmlChar *)((DenemoScoreblock*)custom->data)->uri);
+    }
     else
       g_warning("Custom Scoreblock with no LilyPond text");
-   // if(((DenemoScoreblock*)custom->data)->visible)
-   //   xmlNewChild (scoreElem, ns, (xmlChar *)"visible_scoreblock", NULL);
   }
   //  if(gui->custom_prolog && gui->custom_prolog->len)
   //   xmlNewChild (scoreElem, ns, "custom_prolog", (xmlChar *)gui->custom_prolog->str);
