@@ -2031,17 +2031,6 @@ static void  print_cursor_cb(void) {
 }
 
 
-
-void set_markup_before_score_block(DenemoScore *si, GString *scoreblock) { 
-  gchar *mvmnt_string = get_prefix(si->movementcontrol.directives);
-  if(mvmnt_string) {
-    g_string_append(scoreblock, mvmnt_string);
-    g_free(mvmnt_string);
-  }  
-}
-
-
-
 void set_initiate_scoreblock(DenemoScore *si, GString *scoreblock) {
   gchar *movement_prolog = get_postfix(si->movementcontrol.directives);
   g_string_append_printf (scoreblock, "%s", get_lily_override(si->movementcontrol.directives)? movement_prolog:" <<\n");
