@@ -854,11 +854,12 @@ static void install_pre_movement_widgets(GtkWidget *vbox, DenemoScore *si) {
 				continue;
 			if(d->override&DENEMO_OVERRIDE_HIDDEN)
 				continue;
-			gchar * text = label_for_directive(d);
-			
-			GtkWidget *label = gtk_label_new(text);
-			g_free(text);
-			create_element(inner_vbox, label, g_strdup(d->prefix->str));		
+			if(d->prefix) {
+				gchar * text = label_for_directive(d);
+				GtkWidget *label = gtk_label_new(text);
+				g_free(text);
+				create_element(inner_vbox, label, g_strdup(d->prefix->str));
+			}		
 		}
 }
 
@@ -1170,7 +1171,7 @@ static GtkWidget *get_movement_widget(GList **pstaffs, gchar *partname, DenemoSc
 	GString *start = g_string_new("");
 	set_initiate_scoreblock(si, start); // ie << possibly overridden
 	
-  add_lilypond(ret, g_string_free(start, FALSE), g_strdup("\n>>\n"));
+	add_lilypond(ret, g_string_free(start, FALSE), g_strdup("\n>>\n"));
 
 	GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
 	gtk_container_add (GTK_CONTAINER (ret), vbox);
