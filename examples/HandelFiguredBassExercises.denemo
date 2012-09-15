@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<score xmlns="http://denemo.sourceforge.net/xmlns/Denemo" version="4">
+<score xmlns="http://denemo.org/xmlns/Denemo" version="6">
   <scoreheader-directives>
     <directive>
       <tag>ScoreTagline</tag>
@@ -14,6 +14,12 @@
       <postfix>printallheaders = ##t
 </postfix>
       <override>32</override>
+    </directive>
+    <directive>
+      <tag>LimitInterSystemSpace</tag>
+      <postfix>
+page-limit-inter-system-space = ##t
+page-limit-inter-system-space-factor = 1.2</postfix>
     </directive>
   </paper-directives>
   <lilycontrol>
@@ -42,6 +48,7 @@
       <staffno>2</staffno>
       <measureno>1</measureno>
       <cursorposition>-1</cursorposition>
+      <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
@@ -96,46 +103,8 @@
       </tempo>
     </score-info>
     <staves>
-      <staff id="id0">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>2</midi_channel>
-          <hasfigures>0</hasfigures>
-          <hasfakechords>0</hasfakechords>
-        </staff-info>
-      </staff>
-      <staff id="id1">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>1</midi_channel>
-          <hasfigures>0</hasfigures>
-          <hasfakechords>0</hasfakechords>
-          <staff-directives>
-            <directive>
-              <tag>InstrumentName</tag>
-              <postfix>\set Staff.instrumentName = "Basso"</postfix>
-              <display>Basso</display>
-              <override>4</override>
-            </directive>
-            <directive>
-              <tag>ShortInstrumentName</tag>
-              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
-              <display>B.C.</display>
-              <override>4</override>
-            </directive>
-          </staff-directives>
-        </staff-info>
-      </staff>
+      <staff id="id0"/>
+      <staff id="id1"/>
     </staves>
     <voices>
       <voice id="id2">
@@ -156,6 +125,18 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>2</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id3">
@@ -373,6 +354,32 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>1</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = "Basso"</postfix>
+              <display>Basso</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
+              <display>B.C.</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id56">
@@ -501,6 +508,7 @@
       <staffno>2</staffno>
       <measureno>1</measureno>
       <cursorposition>-1</cursorposition>
+      <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
@@ -525,46 +533,8 @@
       </tempo>
     </score-info>
     <staves>
-      <staff id="id82">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
-          <hasfigures>0</hasfigures>
-          <hasfakechords>0</hasfakechords>
-        </staff-info>
-      </staff>
-      <staff id="id83">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>1</midi_channel>
-          <hasfigures>0</hasfigures>
-          <hasfakechords>0</hasfakechords>
-          <staff-directives>
-            <directive>
-              <tag>InstrumentName</tag>
-              <postfix>\set Staff.instrumentName = "Basso"</postfix>
-              <display>Basso</display>
-              <override>4</override>
-            </directive>
-            <directive>
-              <tag>ShortInstrumentName</tag>
-              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
-              <display>B.C.</display>
-              <override>4</override>
-            </directive>
-          </staff-directives>
-        </staff-info>
-      </staff>
+      <staff id="id82"/>
+      <staff id="id83"/>
     </staves>
     <voices>
       <voice id="id84">
@@ -585,6 +555,18 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id85">
@@ -934,6 +916,32 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>1</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = "Basso"</postfix>
+              <display>Basso</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
+              <display>B.C.</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id174">
@@ -1150,6 +1158,7 @@
       <staffno>2</staffno>
       <measureno>1</measureno>
       <cursorposition>-1</cursorposition>
+      <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
@@ -1174,46 +1183,8 @@
       </tempo>
     </score-info>
     <staves>
-      <staff id="id222">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
-          <hasfigures>0</hasfigures>
-          <hasfakechords>0</hasfakechords>
-        </staff-info>
-      </staff>
-      <staff id="id223">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>1</midi_channel>
-          <hasfigures>0</hasfigures>
-          <hasfakechords>0</hasfakechords>
-          <staff-directives>
-            <directive>
-              <tag>InstrumentName</tag>
-              <postfix>\set Staff.instrumentName = "Basso"</postfix>
-              <display>Basso</display>
-              <override>4</override>
-            </directive>
-            <directive>
-              <tag>ShortInstrumentName</tag>
-              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
-              <display>B.C.</display>
-              <override>4</override>
-            </directive>
-          </staff-directives>
-        </staff-info>
-      </staff>
+      <staff id="id222"/>
+      <staff id="id223"/>
     </staves>
     <voices>
       <voice id="id224">
@@ -1234,6 +1205,18 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id225">
@@ -1499,6 +1482,32 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>1</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = "Basso"</postfix>
+              <display>Basso</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
+              <display>B.C.</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id291">
@@ -1848,6 +1857,7 @@
       <staffno>2</staffno>
       <measureno>1</measureno>
       <cursorposition>-1</cursorposition>
+      <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
@@ -1872,46 +1882,8 @@
       </tempo>
     </score-info>
     <staves>
-      <staff id="id371">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
-          <hasfigures>0</hasfigures>
-          <hasfakechords>0</hasfakechords>
-        </staff-info>
-      </staff>
-      <staff id="id372">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>1</midi_channel>
-          <hasfigures>1</hasfigures>
-          <hasfakechords>0</hasfakechords>
-          <staff-directives>
-            <directive>
-              <tag>InstrumentName</tag>
-              <postfix>\set Staff.instrumentName = "Basso"</postfix>
-              <display>Basso</display>
-              <override>4</override>
-            </directive>
-            <directive>
-              <tag>ShortInstrumentName</tag>
-              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
-              <display>B.C.</display>
-              <override>4</override>
-            </directive>
-          </staff-directives>
-        </staff-info>
-      </staff>
+      <staff id="id371"/>
+      <staff id="id372"/>
     </staves>
     <voices>
       <voice id="id373">
@@ -1932,6 +1904,18 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id374">
@@ -2122,6 +2106,32 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>1</midi_channel>
+          <hasfigures>1</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = "Basso"</postfix>
+              <display>Basso</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
+              <display>B.C.</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id414">
@@ -2249,6 +2259,7 @@
       <staffno>2</staffno>
       <measureno>1</measureno>
       <cursorposition>-1</cursorposition>
+      <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
@@ -2273,46 +2284,8 @@
       </tempo>
     </score-info>
     <staves>
-      <staff id="id436">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
-          <hasfigures>0</hasfigures>
-          <hasfakechords>0</hasfakechords>
-        </staff-info>
-      </staff>
-      <staff id="id437">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>1</midi_channel>
-          <hasfigures>1</hasfigures>
-          <hasfakechords>0</hasfakechords>
-          <staff-directives>
-            <directive>
-              <tag>InstrumentName</tag>
-              <postfix>\set Staff.instrumentName = "Basso"</postfix>
-              <display>Basso</display>
-              <override>4</override>
-            </directive>
-            <directive>
-              <tag>ShortInstrumentName</tag>
-              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
-              <display>B.C.</display>
-              <override>4</override>
-            </directive>
-          </staff-directives>
-        </staff-info>
-      </staff>
+      <staff id="id436"/>
+      <staff id="id437"/>
     </staves>
     <voices>
       <voice id="id438">
@@ -2333,6 +2306,18 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id439">
@@ -2612,6 +2597,32 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>1</midi_channel>
+          <hasfigures>1</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = "Basso"</postfix>
+              <display>Basso</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
+              <display>B.C.</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id504">
@@ -2959,6 +2970,7 @@
       <staffno>2</staffno>
       <measureno>4</measureno>
       <cursorposition>-1</cursorposition>
+      <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
@@ -2984,46 +2996,8 @@
       </tempo>
     </score-info>
     <staves>
-      <staff id="id580">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
-          <hasfigures>0</hasfigures>
-          <hasfakechords>0</hasfakechords>
-        </staff-info>
-      </staff>
-      <staff id="id581">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>1</midi_channel>
-          <hasfigures>1</hasfigures>
-          <hasfakechords>0</hasfakechords>
-          <staff-directives>
-            <directive>
-              <tag>InstrumentName</tag>
-              <postfix>\set Staff.instrumentName = "Basso"</postfix>
-              <display>Basso</display>
-              <override>4</override>
-            </directive>
-            <directive>
-              <tag>ShortInstrumentName</tag>
-              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
-              <display>B.C.</display>
-              <override>4</override>
-            </directive>
-          </staff-directives>
-        </staff-info>
-      </staff>
+      <staff id="id580"/>
+      <staff id="id581"/>
     </staves>
     <voices>
       <voice id="id582">
@@ -3044,6 +3018,18 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id583">
@@ -3473,6 +3459,32 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>1</midi_channel>
+          <hasfigures>1</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = "Basso"</postfix>
+              <display>Basso</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
+              <display>B.C.</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id692">
@@ -3672,6 +3684,7 @@
       <staffno>2</staffno>
       <measureno>3</measureno>
       <cursorposition>-1</cursorposition>
+      <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
@@ -3697,46 +3710,8 @@
       </tempo>
     </score-info>
     <staves>
-      <staff id="id732">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
-          <hasfigures>0</hasfigures>
-          <hasfakechords>0</hasfakechords>
-        </staff-info>
-      </staff>
-      <staff id="id733">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>1</midi_channel>
-          <hasfigures>1</hasfigures>
-          <hasfakechords>0</hasfakechords>
-          <staff-directives>
-            <directive>
-              <tag>InstrumentName</tag>
-              <postfix>\set Staff.instrumentName = "Basso"</postfix>
-              <display>Basso</display>
-              <override>4</override>
-            </directive>
-            <directive>
-              <tag>ShortInstrumentName</tag>
-              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
-              <display>B.C.</display>
-              <override>4</override>
-            </directive>
-          </staff-directives>
-        </staff-info>
-      </staff>
+      <staff id="id732"/>
+      <staff id="id733"/>
     </staves>
     <voices>
       <voice id="id734">
@@ -3757,6 +3732,18 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id735">
@@ -4131,6 +4118,32 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>1</midi_channel>
+          <hasfigures>1</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = "Basso"</postfix>
+              <display>Basso</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
+              <display>B.C.</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id830">
@@ -4447,6 +4460,7 @@
       <staffno>2</staffno>
       <measureno>2</measureno>
       <cursorposition>-1</cursorposition>
+      <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
@@ -4463,46 +4477,8 @@
       </tempo>
     </score-info>
     <staves>
-      <staff id="id896">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
-          <hasfigures>0</hasfigures>
-          <hasfakechords>0</hasfakechords>
-        </staff-info>
-      </staff>
-      <staff id="id897">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>1</midi_channel>
-          <hasfigures>1</hasfigures>
-          <hasfakechords>0</hasfakechords>
-          <staff-directives>
-            <directive>
-              <tag>InstrumentName</tag>
-              <postfix>\set Staff.instrumentName = "Basso"</postfix>
-              <display>Basso</display>
-              <override>4</override>
-            </directive>
-            <directive>
-              <tag>ShortInstrumentName</tag>
-              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
-              <display>B.C.</display>
-              <override>4</override>
-            </directive>
-          </staff-directives>
-        </staff-info>
-      </staff>
+      <staff id="id896"/>
+      <staff id="id897"/>
     </staves>
     <voices>
       <voice id="id898">
@@ -4523,6 +4499,18 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id899">
@@ -4873,6 +4861,32 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>1</midi_channel>
+          <hasfigures>1</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = "Basso"</postfix>
+              <display>Basso</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
+              <display>B.C.</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id984">
@@ -5203,6 +5217,7 @@
       <staffno>2</staffno>
       <measureno>5</measureno>
       <cursorposition>-1</cursorposition>
+      <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
@@ -5228,46 +5243,8 @@
       </tempo>
     </score-info>
     <staves>
-      <staff id="id1050">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
-          <hasfigures>0</hasfigures>
-          <hasfakechords>0</hasfakechords>
-        </staff-info>
-      </staff>
-      <staff id="id1051">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>1</midi_channel>
-          <hasfigures>1</hasfigures>
-          <hasfakechords>0</hasfakechords>
-          <staff-directives>
-            <directive>
-              <tag>InstrumentName</tag>
-              <postfix>\set Staff.instrumentName = "Basso"</postfix>
-              <display>Basso</display>
-              <override>4</override>
-            </directive>
-            <directive>
-              <tag>ShortInstrumentName</tag>
-              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
-              <display>B.C.</display>
-              <override>4</override>
-            </directive>
-          </staff-directives>
-        </staff-info>
-      </staff>
+      <staff id="id1050"/>
+      <staff id="id1051"/>
     </staves>
     <voices>
       <voice id="id1052">
@@ -5288,6 +5265,18 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id1053">
@@ -5759,6 +5748,32 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>1</midi_channel>
+          <hasfigures>1</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = "Basso"</postfix>
+              <display>Basso</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
+              <display>B.C.</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id1172">
@@ -6184,6 +6199,7 @@
       <staffno>2</staffno>
       <measureno>12</measureno>
       <cursorposition>-1</cursorposition>
+      <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
@@ -6209,46 +6225,8 @@
       </tempo>
     </score-info>
     <staves>
-      <staff id="id1260">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
-          <hasfigures>0</hasfigures>
-          <hasfakechords>0</hasfakechords>
-        </staff-info>
-      </staff>
-      <staff id="id1261">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>1</midi_channel>
-          <hasfigures>1</hasfigures>
-          <hasfakechords>0</hasfakechords>
-          <staff-directives>
-            <directive>
-              <tag>InstrumentName</tag>
-              <postfix>\set Staff.instrumentName = "Basso"</postfix>
-              <display>Basso</display>
-              <override>4</override>
-            </directive>
-            <directive>
-              <tag>ShortInstrumentName</tag>
-              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
-              <display>B.C.</display>
-              <override>4</override>
-            </directive>
-          </staff-directives>
-        </staff-info>
-      </staff>
+      <staff id="id1260"/>
+      <staff id="id1261"/>
     </staves>
     <voices>
       <voice id="id1262">
@@ -6269,6 +6247,18 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id1263">
@@ -6984,6 +6974,32 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>1</midi_channel>
+          <hasfigures>1</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = "Basso"</postfix>
+              <display>Basso</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
+              <display>B.C.</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id1448">
@@ -7622,6 +7638,7 @@
       <staffno>1</staffno>
       <measureno>13</measureno>
       <cursorposition>-1</cursorposition>
+      <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
@@ -7647,46 +7664,8 @@
       </tempo>
     </score-info>
     <staves>
-      <staff id="id1580">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
-          <hasfigures>0</hasfigures>
-          <hasfakechords>0</hasfakechords>
-        </staff-info>
-      </staff>
-      <staff id="id1581">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>1</midi_channel>
-          <hasfigures>1</hasfigures>
-          <hasfakechords>0</hasfakechords>
-          <staff-directives>
-            <directive>
-              <tag>InstrumentName</tag>
-              <postfix>\set Staff.instrumentName = "Basso"</postfix>
-              <display>Basso</display>
-              <override>4</override>
-            </directive>
-            <directive>
-              <tag>ShortInstrumentName</tag>
-              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
-              <display>B.C.</display>
-              <override>4</override>
-            </directive>
-          </staff-directives>
-        </staff-info>
-      </staff>
+      <staff id="id1580"/>
+      <staff id="id1581"/>
     </staves>
     <voices>
       <voice id="id1582">
@@ -7707,6 +7686,18 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id1583">
@@ -8513,6 +8504,32 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>1</midi_channel>
+          <hasfigures>1</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = "Basso"</postfix>
+              <display>Basso</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
+              <display>B.C.</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id1784">
@@ -9274,6 +9291,7 @@
       <staffno>2</staffno>
       <measureno>5</measureno>
       <cursorposition>-1</cursorposition>
+      <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
@@ -9299,46 +9317,8 @@
       </tempo>
     </score-info>
     <staves>
-      <staff id="id1938">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
-          <hasfigures>0</hasfigures>
-          <hasfakechords>0</hasfakechords>
-        </staff-info>
-      </staff>
-      <staff id="id1939">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>1</midi_channel>
-          <hasfigures>1</hasfigures>
-          <hasfakechords>0</hasfakechords>
-          <staff-directives>
-            <directive>
-              <tag>InstrumentName</tag>
-              <postfix>\set Staff.instrumentName = "Basso"</postfix>
-              <display>Basso</display>
-              <override>4</override>
-            </directive>
-            <directive>
-              <tag>ShortInstrumentName</tag>
-              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
-              <display>B.C.</display>
-              <override>4</override>
-            </directive>
-          </staff-directives>
-        </staff-info>
-      </staff>
+      <staff id="id1938"/>
+      <staff id="id1939"/>
     </staves>
     <voices>
       <voice id="id1940">
@@ -9359,6 +9339,18 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id1941">
@@ -10568,6 +10560,32 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>1</midi_channel>
+          <hasfigures>1</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = "Basso"</postfix>
+              <display>Basso</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
+              <display>B.C.</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id2257">
@@ -11356,13 +11374,13 @@
             </chord>
             <rest show="true" id="id2421">
               <duration base="eighth"/>
+              <figure>_+</figure>
               <directives>
                 <directive>
                   <tag>ChordsOverBass</tag>
                   <graphic_name>CheckMark</graphic_name>
                 </directive>
               </directives>
-              <figure>_+</figure>
             </rest>
             <chord show="true" id="id2422">
               <duration base="eighth"/>
@@ -11432,13 +11450,13 @@
             </chord>
             <rest show="true" id="id2435">
               <duration base="eighth"/>
+              <figure>5+ _+</figure>
               <directives>
                 <directive>
                   <tag>ChordsOverBass</tag>
                   <graphic_name>CheckMark</graphic_name>
                 </directive>
               </directives>
-              <figure>5+ _+</figure>
             </rest>
             <chord show="true" id="id2436">
               <duration base="eighth"/>
@@ -11547,13 +11565,13 @@
             </chord>
             <rest show="true" id="id2457">
               <duration base="sixteenth"/>
+              <figure>_-</figure>
               <directives>
                 <directive>
                   <tag>ChordsOverBass</tag>
                   <graphic_name>CheckMark</graphic_name>
                 </directive>
               </directives>
-              <figure>_-</figure>
             </rest>
             <chord show="true" id="id2458">
               <duration base="sixteenth"/>
@@ -11642,13 +11660,13 @@
             </chord>
             <rest show="true" id="id2475">
               <duration base="sixteenth"/>
+              <figure>_+</figure>
               <directives>
                 <directive>
                   <tag>ChordsOverBass</tag>
                   <graphic_name>CheckMark</graphic_name>
                 </directive>
               </directives>
-              <figure>_+</figure>
             </rest>
             <chord show="true" id="id2476">
               <duration base="sixteenth"/>
@@ -11968,6 +11986,7 @@
       <staffno>2</staffno>
       <measureno>2</measureno>
       <cursorposition>-1</cursorposition>
+      <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
@@ -12002,46 +12021,8 @@
       </tempo>
     </score-info>
     <staves>
-      <staff id="id2542">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
-          <hasfigures>0</hasfigures>
-          <hasfakechords>0</hasfakechords>
-        </staff-info>
-      </staff>
-      <staff id="id2543">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>1</midi_channel>
-          <hasfigures>1</hasfigures>
-          <hasfakechords>0</hasfakechords>
-          <staff-directives>
-            <directive>
-              <tag>InstrumentName</tag>
-              <postfix>\set Staff.instrumentName = "Basso"</postfix>
-              <display>Basso</display>
-              <override>4</override>
-            </directive>
-            <directive>
-              <tag>ShortInstrumentName</tag>
-              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
-              <display>B.C.</display>
-              <override>4</override>
-            </directive>
-          </staff-directives>
-        </staff-info>
-      </staff>
+      <staff id="id2542"/>
+      <staff id="id2543"/>
     </staves>
     <voices>
       <voice id="id2544">
@@ -12062,6 +12043,18 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id2545">
@@ -12827,6 +12820,32 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>1</midi_channel>
+          <hasfigures>1</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = "Basso"</postfix>
+              <display>Basso</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
+              <display>B.C.</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id2729">
@@ -13454,6 +13473,7 @@
       <staffno>2</staffno>
       <measureno>5</measureno>
       <cursorposition>-1</cursorposition>
+      <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
@@ -13470,46 +13490,8 @@
       </tempo>
     </score-info>
     <staves>
-      <staff id="id2853">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
-          <hasfigures>0</hasfigures>
-          <hasfakechords>0</hasfakechords>
-        </staff-info>
-      </staff>
-      <staff id="id2854">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>1</midi_channel>
-          <hasfigures>1</hasfigures>
-          <hasfakechords>0</hasfakechords>
-          <staff-directives>
-            <directive>
-              <tag>InstrumentName</tag>
-              <postfix>\set Staff.instrumentName = "Basso"</postfix>
-              <display>Basso</display>
-              <override>4</override>
-            </directive>
-            <directive>
-              <tag>ShortInstrumentName</tag>
-              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
-              <display>B.C.</display>
-              <override>4</override>
-            </directive>
-          </staff-directives>
-        </staff-info>
-      </staff>
+      <staff id="id2853"/>
+      <staff id="id2854"/>
     </staves>
     <voices>
       <voice id="id2855">
@@ -13530,6 +13512,18 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id2856">
@@ -14346,6 +14340,32 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>1</midi_channel>
+          <hasfigures>1</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = "Basso"</postfix>
+              <display>Basso</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
+              <display>B.C.</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id3061">
@@ -14930,6 +14950,7 @@
       <staffno>2</staffno>
       <measureno>11</measureno>
       <cursorposition>-1</cursorposition>
+      <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
@@ -14955,46 +14976,8 @@
       </tempo>
     </score-info>
     <staves>
-      <staff id="id3177">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
-          <hasfigures>0</hasfigures>
-          <hasfakechords>0</hasfakechords>
-        </staff-info>
-      </staff>
-      <staff id="id3178">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>1</midi_channel>
-          <hasfigures>1</hasfigures>
-          <hasfakechords>0</hasfakechords>
-          <staff-directives>
-            <directive>
-              <tag>InstrumentName</tag>
-              <postfix>\set Staff.instrumentName = "Basso"</postfix>
-              <display>Basso</display>
-              <override>4</override>
-            </directive>
-            <directive>
-              <tag>ShortInstrumentName</tag>
-              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
-              <display>B.C.</display>
-              <override>4</override>
-            </directive>
-          </staff-directives>
-        </staff-info>
-      </staff>
+      <staff id="id3177"/>
+      <staff id="id3178"/>
     </staves>
     <voices>
       <voice id="id3179">
@@ -15015,6 +14998,18 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id3180">
@@ -15639,6 +15634,32 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>1</midi_channel>
+          <hasfigures>1</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = "Basso"</postfix>
+              <display>Basso</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
+              <display>B.C.</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id3333">
@@ -16106,6 +16127,7 @@
       <staffno>2</staffno>
       <measureno>5</measureno>
       <cursorposition>-1</cursorposition>
+      <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
@@ -16131,46 +16153,8 @@
       </tempo>
     </score-info>
     <staves>
-      <staff id="id3423">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
-          <hasfigures>0</hasfigures>
-          <hasfakechords>0</hasfakechords>
-        </staff-info>
-      </staff>
-      <staff id="id3424">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>1</midi_channel>
-          <hasfigures>1</hasfigures>
-          <hasfakechords>0</hasfakechords>
-          <staff-directives>
-            <directive>
-              <tag>InstrumentName</tag>
-              <postfix>\set Staff.instrumentName = "Basso"</postfix>
-              <display>Basso</display>
-              <override>4</override>
-            </directive>
-            <directive>
-              <tag>ShortInstrumentName</tag>
-              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
-              <display>B.C.</display>
-              <override>4</override>
-            </directive>
-          </staff-directives>
-        </staff-info>
-      </staff>
+      <staff id="id3423"/>
+      <staff id="id3424"/>
     </staves>
     <voices>
       <voice id="id3425">
@@ -16191,6 +16175,18 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id3426">
@@ -17224,6 +17220,32 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>1</midi_channel>
+          <hasfigures>1</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = "Basso"</postfix>
+              <display>Basso</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
+              <display>B.C.</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id3673">
@@ -18054,6 +18076,7 @@
       <staffno>2</staffno>
       <measureno>6</measureno>
       <cursorposition>-1</cursorposition>
+      <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
@@ -18079,46 +18102,8 @@
       </tempo>
     </score-info>
     <staves>
-      <staff id="id3837">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
-          <hasfigures>0</hasfigures>
-          <hasfakechords>0</hasfakechords>
-        </staff-info>
-      </staff>
-      <staff id="id3838">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>1</midi_channel>
-          <hasfigures>1</hasfigures>
-          <hasfakechords>0</hasfakechords>
-          <staff-directives>
-            <directive>
-              <tag>InstrumentName</tag>
-              <postfix>\set Staff.instrumentName = "Basso"</postfix>
-              <display>Basso</display>
-              <override>4</override>
-            </directive>
-            <directive>
-              <tag>ShortInstrumentName</tag>
-              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
-              <display>B.C.</display>
-              <override>4</override>
-            </directive>
-          </staff-directives>
-        </staff-info>
-      </staff>
+      <staff id="id3837"/>
+      <staff id="id3838"/>
     </staves>
     <voices>
       <voice id="id3839">
@@ -18139,6 +18124,18 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id3840">
@@ -18861,6 +18858,32 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>1</midi_channel>
+          <hasfigures>1</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = "Basso"</postfix>
+              <display>Basso</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
+              <display>B.C.</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id4016">
@@ -19172,6 +19195,7 @@
       <staffno>1</staffno>
       <measureno>3</measureno>
       <cursorposition>-1</cursorposition>
+      <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
@@ -19197,46 +19221,8 @@
       </tempo>
     </score-info>
     <staves>
-      <staff id="id4074">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
-          <hasfigures>0</hasfigures>
-          <hasfakechords>0</hasfakechords>
-        </staff-info>
-      </staff>
-      <staff id="id4075">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>1</midi_channel>
-          <hasfigures>1</hasfigures>
-          <hasfakechords>0</hasfakechords>
-          <staff-directives>
-            <directive>
-              <tag>InstrumentName</tag>
-              <postfix>\set Staff.instrumentName = "Basso"</postfix>
-              <display>Basso</display>
-              <override>4</override>
-            </directive>
-            <directive>
-              <tag>ShortInstrumentName</tag>
-              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
-              <display>B.C.</display>
-              <override>4</override>
-            </directive>
-          </staff-directives>
-        </staff-info>
-      </staff>
+      <staff id="id4074"/>
+      <staff id="id4075"/>
     </staves>
     <voices>
       <voice id="id4076">
@@ -19257,6 +19243,18 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id4077">
@@ -20216,6 +20214,32 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>1</midi_channel>
+          <hasfigures>1</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = "Basso"</postfix>
+              <display>Basso</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
+              <display>B.C.</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id4274">
@@ -21080,7 +21104,8 @@
     <edit-info>
       <staffno>2</staffno>
       <measureno>2</measureno>
-      <cursorposition>3</cursorposition>
+      <cursorposition>2</cursorposition>
+      <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
@@ -21106,46 +21131,8 @@
       </tempo>
     </score-info>
     <staves>
-      <staff id="id4450">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
-          <hasfigures>0</hasfigures>
-          <hasfakechords>0</hasfakechords>
-        </staff-info>
-      </staff>
-      <staff id="id4451">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>1</midi_channel>
-          <hasfigures>1</hasfigures>
-          <hasfakechords>0</hasfakechords>
-          <staff-directives>
-            <directive>
-              <tag>InstrumentName</tag>
-              <postfix>\set Staff.instrumentName = "Basso"</postfix>
-              <display>Basso</display>
-              <override>4</override>
-            </directive>
-            <directive>
-              <tag>ShortInstrumentName</tag>
-              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
-              <display>B.C.</display>
-              <override>4</override>
-            </directive>
-          </staff-directives>
-        </staff-info>
-      </staff>
+      <staff id="id4450"/>
+      <staff id="id4451"/>
     </staves>
     <voices>
       <voice id="id4452">
@@ -21166,6 +21153,18 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id4453">
@@ -22013,6 +22012,32 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>1</midi_channel>
+          <hasfigures>1</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = "Basso"</postfix>
+              <display>Basso</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
+              <display>B.C.</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id4637">
@@ -22511,10 +22536,11 @@
       <staffno>1</staffno>
       <measureno>4</measureno>
       <cursorposition>-1</cursorposition>
+      <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
-      <page-zoom>0</page-zoom>
-      <page-system-height>0</page-system-height>
+      <page-zoom>100</page-zoom>
+      <page-system-height>100</page-system-height>
       <measure-width>320</measure-width>
     </edit-info>
     <header-directives>
@@ -22536,46 +22562,8 @@
       </tempo>
     </score-info>
     <staves>
-      <staff id="id4735">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
-          <hasfigures>0</hasfigures>
-          <hasfakechords>0</hasfakechords>
-        </staff-info>
-      </staff>
-      <staff id="id4736">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>1</midi_channel>
-          <hasfigures>1</hasfigures>
-          <hasfakechords>0</hasfakechords>
-          <staff-directives>
-            <directive>
-              <tag>InstrumentName</tag>
-              <postfix>\set Staff.instrumentName = "Basso"</postfix>
-              <display>Basso</display>
-              <override>4</override>
-            </directive>
-            <directive>
-              <tag>ShortInstrumentName</tag>
-              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
-              <display>B.C.</display>
-              <override>4</override>
-            </directive>
-          </staff-directives>
-        </staff-info>
-      </staff>
+      <staff id="id4735"/>
+      <staff id="id4736"/>
     </staves>
     <voices>
       <voice id="id4737">
@@ -22596,6 +22584,18 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id4738">
@@ -23280,6 +23280,32 @@
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>1</midi_channel>
+          <hasfigures>1</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = "Basso"</postfix>
+              <display>Basso</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "B.C."</postfix>
+              <display>B.C.</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id4886">
