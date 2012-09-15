@@ -69,7 +69,7 @@ GtkWidget * add_verse_to_staff(DenemoScore *si, DenemoStaff *staff) {
       si->measurewidth = DENEMO_INITIAL_MEASURE_WIDTH*3;
   } else {
     GtkWidget *w = staff->verses->data;
-    notebook = gtk_widget_get_parent(w);
+    notebook = gtk_widget_get_parent(gtk_widget_get_parent(w));
   }
   // if(staff->currentverse)    
   //  gtk_widget_hide(staff->currentverse->data); 
@@ -110,7 +110,7 @@ DenemoScore *si = gui->si;
    DenemoStaff *staff = si->currentstaff->data;
    if(staff->currentverse) {
      staff->verses = g_list_remove_link(staff->verses, staff->currentverse);
-     gtk_widget_destroy(staff->currentverse->data);
+     gtk_widget_destroy(gtk_widget_get_parent(staff->currentverse->data));
      staff->currentverse = staff->verses;
      signal_structural_change(gui);
      score_status(gui, TRUE);
