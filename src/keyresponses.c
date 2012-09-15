@@ -914,18 +914,6 @@ remove_dot_key (DenemoGUI * gui)
 }
 
 
-
-
-
-void
-set_grace (DenemoGUI * gui)
-{
-  insertgrace (gui);
-}
-
-
-
-
 void
 force_cautionary (DenemoGUI * gui)
 {

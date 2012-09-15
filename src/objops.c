@@ -345,12 +345,6 @@ dnm_clone_object (DenemoObject * orig)
 	    case STAFFBREAK:
 	      ret = newstaffbreakobject ();
 	      break;
-	    case GRACE_START:
-	      ret = (DenemoObject *)newgracestart ();
-	      break;
-	    case GRACE_END:
-	      ret = (DenemoObject *)newgraceend ();
-	      break;
 	    case LILYDIRECTIVE: {
 	      lilydirective *curlily = (lilydirective*)orig->object;
 	      ret = directive_object_new(clone_directive(curlily));

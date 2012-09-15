@@ -1604,37 +1604,6 @@ parseTupletEnd (xmlNodePtr tupletStartElem, xmlNsPtr ns, tuplet *tup)
 
 
 
-/**
- * Parse the given <grace-start> into a grace-start DenemoObject.
- * @param graceStartElem the XML node to process
- * @param ns the Denemo XML namespaces
- * @param si the DenemoScore to populate 
- * 
- * @return the new DenemoObject
- */
-static DenemoObject *
-parseGraceStart (xmlNodePtr graceStartElem, xmlNsPtr ns, DenemoScore * si)
-{
-  gchar *onBeatStr =
-    (gchar *) xmlGetProp (graceStartElem, (xmlChar *) "on-beat");
-  gboolean onBeat = FALSE;
-  DenemoObject *result = newgracestart ();
-
-  if (onBeatStr != NULL)
-    {
-      if (!strcmp (onBeatStr, "true"))
-	onBeat = TRUE;
-      else if (!strcmp (onBeatStr, "false"))
-	onBeat = FALSE;
-      else
-	g_warning ("Invalid value \"%s\" for \"on-beat\" attribute on "
-		   "<grace-start> element; defaulting to \"false\"",
-		   onBeatStr);
-    }
-  ((grace *) result->object)->on_beat = onBeat;
-
-  return result;
-}
 
 /**
  * Parse the given <thumbnail> into the thumbnail  DenemoSelection.
@@ -2633,11 +2602,11 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
 	         } */
 	      else if (ELEM_NAME_EQ (objElem, "grace-end"))
 		{
-		  curObj = newgraceend ();
+		  g_warning(_("Obsolete form, use earlier Denemo version to convert"));//curObj = newgraceend ();
 		}
 	      else if (ELEM_NAME_EQ (objElem, "grace-start"))
 		{
-		  curObj = parseGraceStart (objElem, ns, si);
+		  g_warning(_("Obsolete form, use earlier Denemo version to convert"));//curObj = parseGraceStart (objElem, ns, si);
 		}
 	      else if (ELEM_NAME_EQ (objElem, "key-signature"))
 		{
