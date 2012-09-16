@@ -930,9 +930,9 @@ parseBaseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoScore * si)
 	  show = FALSE;
 	}
     }
-
-  gboolean grace= (xmlGetProp (chordElem, (xmlChar *) "grace")!=NULL);//we only store this for grace notes
-    
+  gchar *grace_type = xmlGetProp (chordElem, (xmlChar *) "grace");
+  gint grace= (grace_type?(strcmp(grace_type, "true")?ACCIACCATURA:GRACED_NOTE):0);//we only store this for grace notes
+  g_free(grace_type);
 
   /*
    * First, in order to actually create a chord object, we must figure out the
@@ -997,8 +997,8 @@ parseBaseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoScore * si)
     }
 DenemoObject *chordObj =
   show?newchord (baseDuration, numDots, 0):hidechord(newchord (baseDuration, numDots, 0));
- if(grace)
-   ((chord *) chordObj->object)->is_grace = GRACED_NOTE;
+ 
+   ((chord *) chordObj->object)->is_grace = grace;
 
 
   FOREACH_CHILD_ELEM (childElem, chordElem)  {

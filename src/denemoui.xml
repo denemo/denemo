@@ -431,6 +431,7 @@
       </menu>
       <menu action="GraceNotes">
 	<menuitem action="ToggleGrace"/>
+		<menuitem action="ToggleAcciaccatura"/>
       </menu>
       <menu action="Markings">
 	<menu action="Dynamics">

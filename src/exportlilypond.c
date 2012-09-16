@@ -845,7 +845,10 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 	if(!lily_override)
 	if((!*pgrace_status) && pchord->is_grace) {
 	  *pgrace_status = TRUE;
-	  g_string_append_printf (ret,"\\grace {  ");
+	  if(pchord->is_grace&GRACED_NOTE)
+		g_string_append_printf (ret,"\\grace {");
+	  else
+		g_string_append_printf (ret,"\\acciaccatura {");
 	  if(figures->len)
 	    g_string_append_printf (figures, "\\grace {");
 	  if(fakechords->len)
@@ -1052,26 +1055,25 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 	  
       } /* End of outputting LilyPond for this chord because of LILYPOND_OVERRIDE not set in a chord directive*/
 	else {
-	GList *g = pchord->directives;
-	for(;g;g=g->next) {
-	  DenemoDirective *directive = (DenemoDirective *)g->data;
-	  if(directive->postfix && directive->postfix->len  && !(directive->override&DENEMO_OVERRIDE_HIDDEN)) {
-	    prevduration = -1;
-	    open_braces += brace_count(directive->postfix->str);
-	    insert_editable(&directive->postfix, directive->postfix->str, iter, gui, staff_music);
-	  }
+			GList *g = pchord->directives;
+			for(;g;g=g->next) {
+				DenemoDirective *directive = (DenemoDirective *)g->data;
+				if(directive->postfix && directive->postfix->len  && !(directive->override&DENEMO_OVERRIDE_HIDDEN)) {
+					prevduration = -1;
+					open_braces += brace_count(directive->postfix->str);
+					insert_editable(&directive->postfix, directive->postfix->str, iter, gui, staff_music);
+				}
+			}
 	}
-      }
 	
     if(!lily_override)
 	  if ((pchord->is_grace & ENDGRACE) && *pgrace_status) {
 	    *pgrace_status = FALSE, g_string_append_printf (ret,"} ");	  
 	  }
 
-	g_free(chord_prefix);
-      }
-
-	break;
+		g_free(chord_prefix);
+		} //end of case CHORD
+		break;
       case CLEF: {
 	gboolean override = FALSE;
 	gchar *clef_string = "";
@@ -1187,16 +1189,6 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 	  }
 	}
 	break;
-      case GRACE_START:
-	//	g_string_append_printf (ret, "\\grace {");
-	//	if(figures->len)
-	//	  g_string_append_printf (figures, "\\grace {");
-	break;
-      case GRACE_END:
-	//	g_string_append_printf (ret, "}");
-	//	if(figures->len)
-	//	  g_string_append_printf (figures, "}");
-	break;
       case STEMDIRECTIVE: {
 	gboolean override = FALSE;
 	gchar *prestem_string = "";
@@ -1229,72 +1221,18 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 	  g_free(prestem_string);
       }
 	break;
-      case DYNAMIC:
-	/*if (is_chordmode)
-	  {
-	  sprintf (dynamic_string, "-\\%s ",
-	  ((dynamic *)curobj->object)->type->str);
-	  strcat (dynamic_string, temp);
-	  g_string_append_printf (ret, "%s", dynamic_string);
-	  }
-	  else
-	  g_string_append_printf (ret, "-\\%s ", 
-	  ((dynamic *)curobj->object)->type->str); */
-	break;
       case LILYDIRECTIVE:
 	; //handled in the if block
 	break; 
-      case BARLINE:
-	switch (((barline *) curobj->object)->type)
-	  {
 
-	  case ORDINARY_BARLINE:
-	    g_string_append (ret, "|\n");
-	    break;
-	  case DOUBLE_BARLINE:
-	    g_string_append (ret, "\\bar \"||\"\n");
-	    break;
-	  case END_BARLINE:
-	    g_string_append (ret, "\\bar \"|.\"\n");
-	    break;
-	  case OPENREPEAT_BARLINE:
-	    g_string_append (ret, "\\bar \"|:\"\n");
-	    break;
-	  case CLOSE_REPEAT:
-	    g_string_append (ret, "\\bar \":|\"\n");
-	    break;
-	  case OPEN_CLOSE_REPEAT:
-	    g_string_append (ret, "\\bar \":\"\n");
-	    break;
 
-	  }
-	break;
-      case LYRIC:
-      case FIGURE:
-	//handle in caller
-	break;
-
-      case PARTIAL:
-
-	pchord = (chord *) curobj->object;
-	duration = internaltomuduration (pchord->baseduration);
-	numdots = pchord->numdots;
-	ret = g_string_append (ret, "\\partial ");
-	g_string_append_printf (ret, "%d", duration);
-	for (j = 0; j < numdots; j++)
-	  ret = g_string_append (ret, ".");
-	ret = g_string_append (ret, " ");
-	break;
-
-      default:
+   default:
 	break;
       }
-
-
-
+      
     outputret;
 
-    g_free(curobj->lilypond);
+    g_free(curobj->lilypond);//FIXME obsolete code
     curobj->lilypond = g_string_free(staff_music, FALSE);
     *pprevduration = prevduration;
     *pprevnumdots = prevnumdots;
@@ -1774,19 +1712,20 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 
 	       
 	      if(curstaffstruct->hasfigures)
-		output_figured_bass (si, figures, pchord, cur_stime1, cur_stime2);
+			output_figured_bass (si, figures, pchord, cur_stime1, cur_stime2);
 	      
 	      if (curstaffstruct->hasfakechords)
-		output_fakechord(si, fakechords, pchord);
+			output_fakechord(si, fakechords, pchord);
 	      if ((pchord->is_grace & ENDGRACE)) {
-		  if(figures->len)
+				if(figures->len)
 	               g_string_append_printf (figures, "}");
 	           if(fakechords->len)
-	               g_string_append_printf (fakechords, "}");
+	               g_string_append_printf (fakechords, "}");             
 	      }
+	    
 	    /* end of figures and chord symbols*/
-	    }
-	  }
+	    } // if CHORD
+	  } // if object
 	  }//in obj range
 	  if(curobjnode==NULL || curobjnode->next==NULL)
 	    break;//we want to go through once for empty measures

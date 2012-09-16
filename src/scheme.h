@@ -775,6 +775,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleEndDiminuendo")), "
 SCM scheme_ToggleGrace(SCM optional);
 install_scm_function ("d-ToggleGrace", scheme_ToggleGrace);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleGrace")), "scm", (gpointer)1);
+/*ToggleAcciaccatura toggle_acciaccatura*/
+SCM scheme_ToggleAcciaccatura(SCM optional);
+install_scm_function ("d-ToggleAcciaccatura", scheme_ToggleAcciaccatura);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleAcciaccatura")), "scm", (gpointer)1);
 /*ForceCaution force_cautionary*/
 SCM scheme_ForceCaution(SCM optional);
 install_scm_function ("d-ForceCaution", scheme_ForceCaution);
