@@ -646,14 +646,14 @@ mark_boundaries_helper (DenemoScore * si, gint mark_staff,
 	  else
 	    {
 	      si->selection.firstobjmarked = 0;
-	      si->selection.lastobjmarked = G_MAXINT;
+	      si->selection.lastobjmarked = G_MAXINT-1;
 	    }
 	  break;
 	case WHOLE_STAFFS:
 	  si->selection.firstmeasuremarked = 1;
 	  si->selection.lastmeasuremarked = g_list_length (si->measurewidths);
 	  si->selection.firstobjmarked = 0;
-	  si->selection.lastobjmarked = G_MAXINT;
+	  si->selection.lastobjmarked = G_MAXINT-1;
 	}
     }
 }
