@@ -1575,20 +1575,20 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
       gboolean is_syllable = FALSE;
       gboolean center_lyric = FALSE;
       if ((++curmeasurenum % 5) == 0) {
-	g_string_append_printf(staff_str, "%%%d\n", curmeasurenum);
-	if(figures->len)
-	  g_string_append_printf(figures, "\n%%%d\n", curmeasurenum);
-	if(fakechords->len)
-	  g_string_append_printf(fakechords, "\n%%%d\n", curmeasurenum);
+				g_string_append_printf(staff_str, "%%%d\n", curmeasurenum);
+				if(figures->len)
+					g_string_append_printf(figures, "\n%%%d\n", curmeasurenum);
+				if(fakechords->len)
+					g_string_append_printf(fakechords, "\n%%%d\n", curmeasurenum);
       }
       g_string_append_printf(staff_str,  "%s",TAB);
       gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
       gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, staff_str->str, -1, INEDITABLE, NULL);
       g_string_assign(staff_str,"");
-      gint firstobj=1, lastobj= G_MAXINT;
+      gint firstobj=1, lastobj= G_MAXINT-1;
       if(start && gui->si->markstaffnum) {//markstaffnum==0 means not set
-	firstobj = 1+MIN( gui->si->selection.firstobjmarked, gui->si->selection.lastobjmarked);
-	lastobj =  1+MAX( gui->si->selection.firstobjmarked, gui->si->selection.lastobjmarked);
+				firstobj = 1+MIN( gui->si->selection.firstobjmarked, gui->si->selection.lastobjmarked);
+				lastobj =  1+MAX( gui->si->selection.firstobjmarked, gui->si->selection.lastobjmarked);
       }
       //g_print("First last, %d %d %d\n", firstobj, lastobj, start);
       for (objnum=1, curobjnode = (objnode *) curmeasure->data;/* curobjnode NULL checked at end */;
@@ -2044,7 +2044,8 @@ static void output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gcha
 
   DenemoScoreblock *sb = select_layout(all_movements, partname);//FIXME gui->namespec mechanism is probably redundant, and could well cause trouble...
 
-  all_movements = TRUE;
+  if(gui->si->markstaffnum)
+		all_movements = FALSE;
     
   staffnode *curstaff;
   DenemoStaff *curstaffstruct;
@@ -2053,7 +2054,7 @@ static void output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gcha
   DenemoContext curcontext = DENEMO_NONE;
 //  if(Denemo.gui->custom_scoreblocks==NULL)
  //   create_default_scoreblock();
-  if(gui->textbuffer && (gui->changecount==gui->lilysync)
+  if((gui->si->markstaffnum==0) && gui->textbuffer && (gui->changecount==gui->lilysync)
      && !strcmp(gui->namespec, namespec)) {
     g_free(gui->namespec);
     gui->namespec = namespec;
@@ -2175,7 +2176,8 @@ static void output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gcha
 	  start = gui->si->selection.firstmeasuremarked;
 	  end = gui->si->selection.lastmeasuremarked;
 	} 
-	outputStaff (gui, si, curstaffstruct, start, end, movement_name->str, voice_name->str, movement_count*visible_movement, voice_count*visible_part, definitions, sb);
+	if(visible_part>0 && visible_movement>0)
+		outputStaff (gui, si, curstaffstruct, start, end, movement_name->str, voice_name->str, movement_count*visible_movement, voice_count*visible_part, definitions, sb);
 	//g_print("Music for staff is \n%s\n", visible_part>0?"visible":"NOT visible");
 	
 	//FIXME amalgamate movement and voice names below here...
