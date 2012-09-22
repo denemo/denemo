@@ -3180,6 +3180,7 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
   }
   sXMLIDToElemMap = NULL;
   //g_print("Number of movements %d\n", g_list_length(gui->movements));
+  reset_movement_numbers(gui);
   return ret;
 }
 

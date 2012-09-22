@@ -30,4 +30,5 @@ goto_movement_staff_obj (DenemoGUI * gui, gint movementnum, gint staffnum, gint 
 void PopPosition (GtkAction * action, DenemoScriptParam *param);
 void PushPosition (GtkAction * action, DenemoScriptParam *param);
 void PopPushPosition (GtkAction * action, DenemoScriptParam *param);
+void reset_movement_numbers(DenemoGUI *gui);
 #endif

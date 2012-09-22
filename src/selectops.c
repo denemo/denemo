@@ -299,91 +299,81 @@ cuttobuffer (DenemoScore * si, gboolean copyfirst)
 
       /* Clear the relevant part of the first measure selected */
       if (lmeasurebreaksinbuffer)
-	max = G_MAXINT;
+				max = G_MAXINT;
       else
-	max = si->selection.lastobjmarked;
+				max = si->selection.lastobjmarked;
       for (i = si->selection.firstobjmarked;
-	   ((tempobj = g_list_nth ((objnode *) curmeasure->data,
-				   si->selection.firstobjmarked)) && i <= max); i++)
-	{
-	  curmeasure->data =
-	    g_list_remove_link ((objnode *) curmeasure->data, tempobj);
-	  freeobject ((DenemoObject *) tempobj->data);
-	  g_list_free_1 (tempobj);
-	}
+				((tempobj = g_list_nth ((objnode *) curmeasure->data,
+				   si->selection.firstobjmarked)) && i <= max); i++) {
+					curmeasure->data =
+					g_list_remove_link ((objnode *) curmeasure->data, tempobj);
+					freeobject ((DenemoObject *) tempobj->data);
+					g_list_free_1 (tempobj);
+			}
       jcounter++; //move on to the second measure being cleared
       curmeasure = curmeasure->next;
 
       if (!si->thescore->next)
-	{
-	  /* That is, the score has only this one staff
-	   remove the (whole) measures between the first and last - which may be partial.*/
-	  if (lmeasurebreaksinbuffer - 1 > 0)
-	    {
-	      curmeasure =
-		removemeasures (si, jcounter - 1, lmeasurebreaksinbuffer - 1, TRUE);
-	      jcounter += lmeasurebreaksinbuffer - 1;// increased by the number of measures *between* first and last marked
-	    }
-	}
+				{
+					/* That is, the score has only this one staff
+					remove the (whole) measures between the first and last - which may be partial.*/
+				if (lmeasurebreaksinbuffer - 1 > 0)
+					{
+						curmeasure =
+							removemeasures (si, jcounter - 1, lmeasurebreaksinbuffer - 1, TRUE);
+						jcounter += lmeasurebreaksinbuffer - 1;// increased by the number of measures *between* first and last marked
+					}
+			}
       else
-	for (; curmeasure && jcounter < si->selection.lastmeasuremarked;
-	     curmeasure = curmeasure->next, jcounter++)
-	  {
-	    freeobjlist (curmeasure->data, NULL);
-	    curmeasure->data = NULL;
-	  }
+				for (; curmeasure && jcounter < si->selection.lastmeasuremarked;
+	     curmeasure = curmeasure->next, jcounter++) {
+					freeobjlist (curmeasure->data, NULL);
+					curmeasure->data = NULL;
+			}
       /* Now clear the relevant part of the last measure selected */
       if (curmeasure && (jcounter <= si->selection.lastmeasuremarked))
-	{
-	  for (i = 0; curmeasure->data && i <= si->selection.lastobjmarked; i++)
-	    {
-	      tempobj = (objnode *) curmeasure->data;
-	      curmeasure->data =
-		g_list_remove_link ((objnode *) curmeasure->data, tempobj);
-	      freeobject ((DenemoObject *) tempobj->data);
-	      g_list_free_1 (tempobj);
-	    }
-	  /* And delete it, if the measure's been cleared and there's only
+				{
+				for (i = 0; curmeasure->data && i <= si->selection.lastobjmarked; i++) {
+						tempobj = (objnode *) curmeasure->data;
+						curmeasure->data =
+							g_list_remove_link ((objnode *) curmeasure->data, tempobj);
+						freeobject ((DenemoObject *) tempobj->data);
+						g_list_free_1 (tempobj);
+				}
+				/* And delete it, if the measure's been cleared and there's only
 	     one staff.  */
-#if 0
-	  if (!curmeasure->data && !si->thescore->next)
-	    removemeasures (si, jcounter - 1, 1, TRUE);//WRONG the other measures have been removed, so jcounter no longer indexes anything in the staff!
-#else
-	  if (!curmeasure->data && !si->thescore->next)
-	    removemeasures (si, g_list_position(firstmeasurenode(si->currentstaff), curmeasure), 1, TRUE);
-#endif
 
-
-
-	}
+			if (!curmeasure->data && !si->thescore->next)
+				removemeasures (si, g_list_position(firstmeasurenode(si->currentstaff), curmeasure), 1, TRUE);
+			}
       showwhichaccidentalswholestaff ((DenemoStaff *) si->currentstaff->data);
       beamsandstemdirswholestaff ((DenemoStaff *) si->currentstaff->data);
-    } // end of single staff
-  else
-    {				/* Multiple staff selection */
-      if (lstaffsinbuffer == (gint) (g_list_length (si->thescore)))
-	{
-	  /* Every staff was part of the selection */
-	  if (lmeasurebreaksinbuffer > 0)
-	    {
+			} // end of single staff
+		else
+			{				/* Multiple staff selection */
+				if (lstaffsinbuffer == (gint) (g_list_length (si->thescore)))
+					{
+						/* Every staff was part of the selection */
+					if (lmeasurebreaksinbuffer > 0)
+						{
 	      
-	      removemeasures (si, si->selection.firstmeasuremarked - 1,
-			    lmeasurebreaksinbuffer+1, TRUE);
-	      staffs_removed_measures = lmeasurebreaksinbuffer;
-	    }
-	  else
-	    for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
-	      {
-		curmeasure = g_list_nth (firstmeasurenode (curstaff),  si->selection.firstmeasuremarked-1);
-		freeobjlist (curmeasure->data, NULL);
-		curmeasure->data = NULL;
+							removemeasures (si, si->selection.firstmeasuremarked - 1,
+							lmeasurebreaksinbuffer+1, TRUE);
+							staffs_removed_measures = lmeasurebreaksinbuffer;
+						}
+					else
+					for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
+						{
+						curmeasure = g_list_nth (firstmeasurenode (curstaff),  si->selection.firstmeasuremarked-1);
+						freeobjlist (curmeasure->data, NULL);
+						curmeasure->data = NULL;
 		
-		showwhichaccidentalswholestaff ((DenemoStaff *) curstaff->data);
-		beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
-	      }
-	}
-      else
-	{
+						showwhichaccidentalswholestaff ((DenemoStaff *) curstaff->data);
+						beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
+						}
+					}
+					else
+					{
 	  /* Staff loop */
 	  for (i = si->selection.firststaffmarked,
 	       curstaff = g_list_nth (si->thescore, i - 1);
@@ -422,12 +412,6 @@ cuttobuffer (DenemoScore * si, gboolean copyfirst)
 
   si->currentmeasure = g_list_nth (firstmeasurenode (si->currentstaff),
 				   si->currentmeasurenum - 1);
-#if 0
-  if(si->currentmeasure==NULL)
-    si->currentmeasure = g_list_last (firstmeasurenode (si->currentstaff));
-#endif
-
-
 
   si->cursor_x = si->selection.firstobjmarked;
   if (si->cursor_x <
@@ -451,10 +435,6 @@ cuttobuffer (DenemoScore * si, gboolean copyfirst)
 
   score_status(Denemo.gui, TRUE);
 
-  /*   isoffleftside;  */
-  /*find_xes_in_all_measures (si);
-    nudgerightward (Denemo.gui);
-    gtk_widget_draw (si->scorearea, NULL);  */
 }
 
 

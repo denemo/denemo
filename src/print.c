@@ -1731,8 +1731,7 @@ void typeset_control(GtkWidget*dummy, gpointer data) {
     create_movement_pdf();
   else if(data==create_part_pdf)
     create_part_pdf();
-  else if(data!=NULL) {
-		
+  else if(data!=NULL) {	
 			if(PrintStatus.background) {
 				save_selection(Denemo.gui->si);
 				if(PrintStatus.print_all) {
@@ -1740,7 +1739,7 @@ void typeset_control(GtkWidget*dummy, gpointer data) {
 					create_pdf(FALSE, TRUE);
 				} else {
 				gint value = Denemo.gui->si->currentstaffnum - PrintStatus.first_staff;
-				if(value<1) value = 1;g_print("first staff %d\n", value);
+				if(value<1) value = 1;
 				Denemo.gui->si->markstaffnum = Denemo.gui->si->selection.firststaffmarked = value;
 				
 				value = Denemo.gui->si->currentstaffnum + PrintStatus.last_staff;
@@ -1854,7 +1853,18 @@ static void typeset_action(GtkWidget *button, gpointer data) {
 }
 
 gboolean retypeset(void) {//FIXME check for cursor moved and not retypesetting all
- if(PrintStatus.printpid==GPID_NONE && (changecount != Denemo.gui->changecount)) {
+static gint firstmeasure, lastmeasure, firststaff, laststaff, movementnum;
+ DenemoScore *si = Denemo.gui->si;
+ if((PrintStatus.printpid==GPID_NONE) &&
+			(si->currentmovementnum!=movementnum || si->currentmeasurenum<firstmeasure || si->currentmeasurenum>lastmeasure || si->currentstaffnum<firststaff || si->currentstaffnum>laststaff
+			||  (changecount != Denemo.gui->changecount))) {
+		firstmeasure = si->currentmeasurenum-PrintStatus.first_measure;
+		if(firstmeasure<0) firstmeasure = 0;
+		lastmeasure = si->currentmeasurenum+PrintStatus.last_measure;
+		firststaff = si->currentstaffnum-PrintStatus.first_staff;
+		if(firststaff<0) firststaff = 0;
+		laststaff = si->currentstaffnum+PrintStatus.last_staff;
+		movementnum = si->currentmovementnum;
 		PrintStatus.background = TRUE;
 		typeset_control(NULL, "(disp \"This is called when hitting the refresh button while in continuous re-typeset\")(d-PrintView)");
 		changecount = Denemo.gui->changecount;

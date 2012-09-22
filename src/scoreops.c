@@ -55,6 +55,7 @@ new_movement(GtkAction *action, DenemoScriptParam *param, gboolean before) {
   DenemoScore *newsi = g_list_last(gui->movements)->data;
   gui->movements = g_list_delete_link(gui->movements, g_list_last(gui->movements));
   gui->movements = g_list_insert(gui->movements, newsi, before?pos:pos+1);
+  newsi->currentmovementnum = 1+g_list_index(gui->movements, newsi);
   setcurrentprimarystaff (gui->si);
   rewind_audio();
   write_status(gui);
@@ -81,6 +82,7 @@ append_movement(GtkAction *action, gpointer param,  gboolean populate) {
     copy_staff(source_staff, dest_staff);
   }
   gui->movements = g_list_append(gui->movements, gui->si);
+  gui->si->currentmovementnum = 1+g_list_index(gui->movements, gui->si);
   gui->si->undo_guard = Denemo.prefs.disable_undo;
   set_width_to_work_with(gui);
   //FIXME duplicate code
@@ -128,6 +130,15 @@ if(is_playing())
   terminate_playback();
   //g_print("Terminated %d\n", is_playing());
 }
+
+void reset_movement_numbers(DenemoGUI *gui) {
+	GList *g;
+	gint i;
+	for(i=1, g=gui->movements;g;g=g->next, i++) {
+		DenemoScore *si = g->data;
+		si->currentmovementnum = i;
+	}
+}
 void
 delete_movement(GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
@@ -152,11 +163,12 @@ delete_movement(GtkAction *action, gpointer param) {
       DenemoScore *si= gui->si;
       GList *g = g_list_find(gui->movements, si)->next;
       if(g==NULL)
-	g = g_list_find(gui->movements, si)->prev;
+				g = g_list_find(gui->movements, si)->prev;
       gui->si = g->data;
       gui->movements = g_list_remove(gui->movements, (gpointer)si);
     }
   }
+  reset_movement_numbers(gui);
   g_string_free(primary, TRUE);
   g_string_free(secondary, TRUE);
   displayhelper(gui);
@@ -688,6 +700,7 @@ deletescore (GtkWidget * widget, DenemoGUI * gui)
 
   point_to_new_movement(gui);
   gui->movements = g_list_append(gui->movements, gui->si);
+  reset_movement_numbers(gui);
   set_width_to_work_with(gui);
   set_rightmeasurenum (gui->si);
   update_hscrollbar (gui);

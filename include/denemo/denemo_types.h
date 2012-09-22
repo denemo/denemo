@@ -769,7 +769,7 @@ typedef struct DenemoScore
    * though they may be modified by side-effects of the drawing routines */
   // score thescore;
   staffnode *thescore;
-  
+  gint currentmovementnum;/**< position of this DenemoScore in the gui->movements list starting at 1 */
   staffnode *currentprimarystaff;
   staffnode *currentstaff;
   gint currentstaffnum;/**< start at 1 */
