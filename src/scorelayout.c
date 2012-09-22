@@ -592,7 +592,7 @@ static GtkWidget *create_voice_widget(DenemoStaff *staff, gchar *voicename, guin
 	gchar *music = g_strconcat(_("Music for "), name, NULL);
 	w = gtk_button_new_with_label(music);
 	gtk_widget_set_tooltip_text(w, _("The actual notes live here. You can only edit these in the main Denemo display.\nHowever you can place conditional directives that are to be used only when using this layout. For example page breaks just for this layout can be placed at points in the music.\nClick here to move the Denemo cursor to the start of this music."));
-	g_signal_connect(G_OBJECT(w), "clicked", G_CALLBACK(navigate_to_location), (gpointer)location);
+	g_signal_connect(G_OBJECT(w), "clicked", G_CALLBACK(navigate_to_location), GINT_TO_POINTER(location));
 	g_free(music);
 	add_lilypond(w, text, NULL);
 	gtk_box_pack_start(GTK_BOX (ret), w, FALSE, TRUE, 0);
@@ -1219,7 +1219,7 @@ static GtkWidget *get_movement_widget(GList **pstaffs, gchar *partname, DenemoSc
 			GtkWidget *menu = gtk_menu_new();
 			GtkWidget *menuitem = gtk_menu_item_new_with_label("Move Denemo Cursor to this staff");
 			gtk_widget_set_tooltip_text(menuitem, _("This will move the Denemo Cursor to the start of this staff in this movement"));
-			g_signal_connect(G_OBJECT(menuitem), "activate", G_CALLBACK(navigate_to_location), (gpointer)get_location(movementnum, voice_count)); 
+			g_signal_connect(G_OBJECT(menuitem), "activate", G_CALLBACK(navigate_to_location), GINT_TO_POINTER(get_location(movementnum, voice_count))); 
 			gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
 
 
@@ -1243,7 +1243,7 @@ static GtkWidget *get_movement_widget(GList **pstaffs, gchar *partname, DenemoSc
 		mark_as_non_custom(button);
 		gtk_box_pack_start(GTK_BOX (staff_hbox), button, FALSE, TRUE, 0);
 		gtk_widget_set_tooltip_text(button, "The braces { and [ binding staffs together can be set here. Set the start on one staff and the end on a later staff.\nThis is editing the score, not just customizing a layout.\nRefresh the layout view (see under Options for this Layout button at the top) once you have made the changes.");
-		g_signal_connect(button, "button-press-event", G_CALLBACK(staff_groups_menu), (gpointer)get_location(movementnum, voice_count));
+		g_signal_connect(button, "button-press-event", G_CALLBACK(staff_groups_menu), GINT_TO_POINTER(get_location(movementnum, voice_count)));
 		
 		*pstaffs = g_list_append(*pstaffs, frame);
 		g_signal_connect(G_OBJECT(frame), "destroy", G_CALLBACK(remove_from_staff_list), pstaffs);
@@ -1280,15 +1280,7 @@ static GtkWidget *get_movement_widget(GList **pstaffs, gchar *partname, DenemoSc
 		add_lilypond(voice, text, NULL);
 		gtk_box_pack_start (GTK_BOX (voices_vbox), voice, FALSE, TRUE, 0);
 		}
-#if 0      //These have to be placed outside the staff frame to appear above
-		if(staff->hasfakechords) {
-		GtkWidget *voice = gtk_label_new("chord symbols");		
-		gchar *text = g_strdup_printf("\n"TAB TAB"\\new ChordNames \\chordmode { \\%sChords }\n", 
-				   get_voicename(movementnum, voice_count));
-		add_lilypond(voice, text, NULL);
-		gtk_box_pack_start (GTK_BOX (voices_vbox), voice, FALSE, TRUE, 0);
-		}
-#endif
+
 		install_voice(staff, movementnum, voice_count, voices_vbox); //Primary voice
 		do_verses(staff, vbox, movementnum, voice_count);
 		
@@ -1515,7 +1507,7 @@ static void set_default_scoreblock(DenemoScoreblock **psb, gint movement, gchar 
 			gtk_container_add (GTK_CONTAINER (frame), outer_vbox);
 			GtkWidget *hbox = gtk_hbox_new(FALSE, 8);
 		
-			gtk_box_pack_start (GTK_BOX (hbox), get_movement_widget(&(*psb)->staff_list, partname, si, movement_num, !(gboolean)g->next), FALSE, TRUE, 0);	
+			gtk_box_pack_start (GTK_BOX (hbox), get_movement_widget(&(*psb)->staff_list, partname, si, movement_num, !(gboolean)GPOINTER_TO_INT(g->next)), FALSE, TRUE, 0);	
 			gtk_box_pack_start(GTK_BOX (outer_vbox), hbox, FALSE, TRUE, 0);
 		if(si->header.directives) {
 			GtkWidget *frame = gtk_frame_new(_("Header block"));
@@ -1683,7 +1675,7 @@ gchar *get_output_uri_from_scoreblock(void) {
 		gchar *suffix = g_strrstr(basename, DENEMO_FILE_SUFFIX);
 		if(suffix) *suffix = 0;
 	} else {
-		basename = g_strdup("ouput");
+		basename = g_strdup("output");
 		dirname = g_get_current_dir();
 	}
 	gchar *uri = g_strdup_printf("file://%s", dirname);
@@ -1804,11 +1796,161 @@ void create_default_scoreblock(void) {
 	gui->standard_scoreblocks = g_list_prepend(gui->standard_scoreblocks, (gpointer)sb);
 }
 
+void selection_install_voice(DenemoStaff *staff, gint movementnum, gint voice_count, GString *lilypond, GString *tail) {
+	gchar *voicetag = get_voicetag(movementnum, voice_count);
+	gchar *voicename = get_voicename(movementnum, voice_count);
+	gchar *text1;
 
+
+		GString *voicetext = g_string_new("");
+		set_voice_definition(voicetext, staff, voicetag);//That is \new Voice = name prefix { postfix FIXME is prefix any use here????
+		gchar *text = g_strdup_printf(" %s ",  voicetext->str);	
+		g_string_assign(voicetext, "");
+		set_voice_termination(voicetext, staff); // TAB TAB"} %End of voice" if not overridden
+
+
+		
+		g_string_append(lilypond,  text);
+		
+		text1 = g_strdup_printf(" \\%s",  voicename);
+		if(staff->voicecontrol==DENEMO_PRIMARY) {
+			g_string_append(lilypond,  get_lilypond_for_clef(&staff->clef));
+			g_string_append(lilypond, get_lilypond_for_keysig(&staff->keysig));
+			g_string_append(lilypond, get_lilypond_for_timesig(&staff->timesig));
+			}
+		g_string_append(lilypond,  text1);
+		g_free(text1);
+		
+		
+		g_string_prepend(tail, g_string_free(voicetext, FALSE));
+}
+//returns a layout with no widget whose lilypond is the scoreblock for just the selected staffs 
+DenemoScoreblock *selection_layout(void) {
+	DenemoGUI *gui = Denemo.gui;
+	DenemoScore *si = gui->si;
+	GString *movement_tail = g_string_new("");
+	gint movementnum = g_list_index(Denemo.gui->movements, Denemo.gui->si)+1;
+	static DenemoScoreblock *sb;
+	if(sb==NULL) {
+		sb = g_malloc0(sizeof(DenemoScoreblock));
+		sb->lilypond = g_string_new("");
+	}
+
+	g_string_assign(sb->lilypond, "\n\\score { %Start of Selection from current movement\n");
+	set_initiate_scoreblock(si, sb->lilypond); // ie << possibly overridden
+	
+		GList *g;//things like transpose whole score etc
+	 for(g=gui->lilycontrol.directives;g;g=g->next) {
+    DenemoDirective *d = g->data;
+    if(d->override & DENEMO_OVERRIDE_HIDDEN)
+			continue;
+		if(d->override & DENEMO_OVERRIDE_AFFIX)
+			continue;
+		gchar *start = (d->postfix && d->postfix->len)?d->postfix->str:NULL;
+		if(start) {
+			g_string_append_printf(sb->lilypond, "\n<< %s\n<< ", start);
+			g_string_prepend(movement_tail, "\n>>\n>>");
+			}
+		}
+	gint voice_count, staff_count;	
+	for(voice_count = 1, staff_count = 1, g = gui->si->thescore;g;g=g->next, voice_count++, staff_count++) {
+		DenemoStaff *staff = g->data;
+		DenemoStaff *nextstaff = g->next?g->next->data:NULL;
+		if(!(voice_count>=gui->si->selection.firststaffmarked && voice_count<=gui->si->selection.laststaffmarked))
+			continue;
+		if(staff->hasfakechords) {//the reason these are outside the staff frame is it makes them appear above the staff
+			g_string_append_printf(sb->lilypond,"\n"TAB TAB"\\new ChordNames \\chordmode { \\%sChords }\n", 
+				   get_voicename(movementnum, voice_count));	
+		}
+		set_staff_definition(sb->lilypond, staff, staff->denemo_name->str);
+	  if (staff->no_of_lines != 5)
+			g_string_append_printf(sb->lilypond, TAB"\\override Staff.StaffSymbol  #'line-count = #%d\n", staff->no_of_lines);//FIXME create_element
+    GString *tail = g_string_new("");
+		g_string_prepend(tail,"\n>>\n%End of Staff\n");
+
+		if(staff->hasfigures) {
+		g_string_append_printf(sb->lilypond, "\n"TAB TAB"\\context Staff \\with {implicitBassFigures = #'(0) } \\%sBassFiguresLine %%End of bass figures\n",
+					get_voicename(movementnum, voice_count));
+		}
+		
+		selection_install_voice(staff, movementnum, voice_count, sb->lilypond, tail); //Primary voice
+				
+		
+		//selection_do_verses(staff, vbox, movementnum, this is repeated below
+		
+		if(nextstaff && (nextstaff->voicecontrol&DENEMO_SECONDARY)) {	
+			for(g=g->next, voice_count++;g && (((DenemoStaff*)g->data)->voicecontrol&DENEMO_SECONDARY);g=g->next, voice_count++) {
+				GString *voicetail = g_string_new("");
+				DenemoStaff *staff = g->data;
+				selection_install_voice(staff, movementnum, voice_count, sb->lilypond, voicetail);		
+				g_string_append(sb->lilypond, g_string_free(voicetail, FALSE));	
+				//selection_do_verses(staff, vbox, movementnum, this is repeated above
+			}
+		}			
+	
+	g_string_append(sb->lilypond, g_string_free(tail, FALSE));
+	
+	} // end of for each staff Now loop back for all the staffs in firststaffnum -  laststaffnum
+	g_string_append(sb->lilypond, movement_tail->str); 
+	g_string_free(movement_tail, TRUE);
+	g_string_append(sb->lilypond, "\n>>\n"); 
+		g_string_append_printf(sb->lilypond,"\n\\header {\n");
+	
+		for(g=si->header.directives;g;g=g->next) {
+				DenemoDirective *d = g->data;
+				if(d->override & DENEMO_OVERRIDE_HIDDEN)
+					continue;
+				
+				gchar *lily = (d->postfix && d->postfix->len)?d->postfix->str:NULL;
+				if(lily) {
+					g_string_append_printf(sb->lilypond, lily);
+				}
+			}
+
+		g_string_append(sb->lilypond, "\n}\n");
+		
+	
+		
+		if(si->layout.directives) {		
+			g_string_append(sb->lilypond,"\n\\layout {\n");
+			for(g=si->layout.directives;g;g=g->next) {
+				DenemoDirective *d = g->data;
+				if(d->override & DENEMO_OVERRIDE_HIDDEN)
+					continue;
+				
+				gchar *lily = (d->postfix && d->postfix->len)?d->postfix->str:NULL;
+				if(lily) {
+					g_string_append(sb->lilypond, lily);
+				}
+			}
+		 g_string_append(sb->lilypond,("\n}\n"));		
+		}
+#if 0		
+		maybe not this...
+			 for(g=gui->lilycontrol.directives;g;g=g->next) {
+    DenemoDirective *d = g->data;
+    if(d->override & DENEMO_OVERRIDE_HIDDEN)
+			continue;
+		if(!(d->override & DENEMO_OVERRIDE_AFFIX))
+			continue;
+		gchar *post = (d->postfix && d->postfix->len)?d->postfix->str:NULL;
+		if(post) {
+			create_element(vbox, gtk_button_new_with_label(d->tag->str), g_strdup(post));
+			}
+		}
+#endif
+
+g_string_append(sb->lilypond,  "\n} %End of Movement\n");
+
+
+return sb;
+}
 //if no custom scoreblock is selected, selects or creates a standard one for the given 
 DenemoScoreblock *select_layout(gboolean all_movements, gchar *partname) {
 	GList *g;
 	DenemoScoreblock *sb;
+	if(Denemo.gui->si->markstaffnum)
+		return selection_layout();
 	//make sure at least the default scoreblock has been created
 	if(Denemo.gui->standard_scoreblocks==NULL) {
 		create_default_scoreblock();

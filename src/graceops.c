@@ -12,45 +12,6 @@
 #include "utils.h"
 
 
-/**
- * Create a new grace start object
- *
- */
-DenemoObject *
-newgracestart ()
-{
-  DenemoObject *thegrace;
-  grace *newgrace = (grace *) g_malloc (sizeof (grace));
-  thegrace = (DenemoObject *) g_malloc (sizeof (DenemoObject));
-
-  thegrace->type = GRACE_START;
-  newgrace->on_beat = FALSE;
-  thegrace->object = newgrace;
-  set_basic_numticks (thegrace);
-  setpixelmin (thegrace);
-
-  return thegrace;
-}
-
-/**
- * Create a new grace end object
- *
- */
-DenemoObject *
-newgraceend ()
-{
-  DenemoObject *thegrace;
-
-  thegrace = (DenemoObject *) g_malloc (sizeof (DenemoObject));
-
-  thegrace->type = GRACE_END;
-
-
-  set_basic_numticks (thegrace);
-  setpixelmin (thegrace);
-
-  return thegrace;
-}
 
 void
 toggle_grace (GtkAction *action, DenemoScriptParam * param)
@@ -66,6 +27,25 @@ toggle_grace (GtkAction *action, DenemoScriptParam * param)
    else {
      store_for_undo_change (si, curmudelaobj);
      ((chord *)curmudelaobj->object)->is_grace ^= GRACED_NOTE;
+     displayhelper(Denemo.gui);
+   }
+   //g_print("now %x\n",  ((chord *)curmudelaobj->object)->is_grace);
+ }
+}
+void
+toggle_acciaccatura (GtkAction *action, DenemoScriptParam * param)
+{
+  DenemoGUI *gui = Denemo.gui;
+  DenemoScore *si = gui->si;
+  GET_1PARAM(action, param, grace);
+ DenemoObject *curmudelaobj = (DenemoObject *)
+    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
+ if(curmudelaobj && (curmudelaobj->type==CHORD)) {
+   if(query)
+     param->status =  ((chord *)curmudelaobj->object)->is_grace, g_string_assign(param->string, "acciaccatura");
+   else {
+     store_for_undo_change (si, curmudelaobj);
+     ((chord *)curmudelaobj->object)->is_grace ^= ACCIACCATURA;
      displayhelper(Denemo.gui);
    }
    //g_print("now %x\n",  ((chord *)curmudelaobj->object)->is_grace);

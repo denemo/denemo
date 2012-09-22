@@ -67,10 +67,22 @@ typedef struct lilyversion
 
 static changecount = -1;//changecount when the printfile was last created FIXME multiple tabs are muddled
 #define GPID_NONE (-1)
-static GPid printviewpid = GPID_NONE;
+
 static GPid previewerpid = GPID_NONE;
 static GPid get_lily_version_pid = GPID_NONE;
-static GPid printpid = GPID_NONE;
+
+typedef struct printstatus {
+GPid printpid;
+gboolean background;
+gint first_measure;
+gint last_measure;
+gint first_staff;
+gint last_staff;
+gboolean print_all;
+} printstatus;
+
+static printstatus PrintStatus = {GPID_NONE, 0, 4, 4, 4, 4};
+
 static gboolean print_is_valid = FALSE;
 static gint output=-1;
 static gint errors=-1;
@@ -359,15 +371,15 @@ process_lilypond_errors(gchar *filename){
 
 static void
 open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
-  if(printpid==GPID_NONE)
+  if(PrintStatus.printpid==GPID_NONE)
     return;
   DenemoGUI *gui = Denemo.gui;
   GError *err = NULL;
   gchar *printfile;
   gchar **arguments;
   progressbar_stop();
-  g_spawn_close_pid (printpid);
-  printpid = GPID_NONE;
+  g_spawn_close_pid (PrintStatus.printpid);
+  PrintStatus.printpid = GPID_NONE;
   //normal_cursor();
   process_lilypond_errors(filename); 
 #ifndef G_OS_WIN32
@@ -458,15 +470,16 @@ static gint
 run_lilypond(gchar **arguments) {
   gint error = 0;
   DenemoGUI *gui = Denemo.gui;
-  progressbar("Denemo Typesetting");
+  if(!PrintStatus.background)
+	progressbar("Denemo Typesetting");
   g_spawn_close_pid (get_lily_version_pid);
   get_lily_version_pid = GPID_NONE;
 
-  if(printpid!=GPID_NONE) {
+  if(PrintStatus.printpid!=GPID_NONE) {
     if(confirm("Already doing a print", "Kill that one off and re-start?")) {
-      if(printpid!=GPID_NONE) //It could have died while the user was making up their mind...
-        kill_process(printpid);
-      printpid = GPID_NONE;
+      if(PrintStatus.printpid!=GPID_NONE) //It could have died while the user was making up their mind...
+        kill_process(PrintStatus.printpid);
+      PrintStatus.printpid = GPID_NONE;
     }
     else {
       warningdialog ("Cancelled");
@@ -488,7 +501,7 @@ run_lilypond(gchar **arguments) {
 		G_SPAWN_SEARCH_PATH  | G_SPAWN_DO_NOT_REAP_CHILD,
 		NULL,		/* child setup func */
 		NULL,		/* user data */
-		&printpid,
+		&PrintStatus.printpid,
 	        NULL,
 		NULL,		/* stdout */
 #ifdef G_OS_WIN32
@@ -516,9 +529,9 @@ run_lilypond(gchar **arguments) {
 gboolean
 stop_lilypond()
 {
-  if(printpid!=GPID_NONE){
-    kill_process(printpid);
-    printpid = GPID_NONE;
+  if(PrintStatus.printpid!=GPID_NONE){
+    kill_process(PrintStatus.printpid);
+    PrintStatus.printpid = GPID_NONE;
   }
  return FALSE;//do not call again
 }
@@ -646,7 +659,7 @@ void rm_temp_files(gchar *file, gpointer free_only) {
 
 static
 void print_finished(GPid pid, gint status, GList *filelist) {
-  if(printpid==GPID_NONE)
+  if(PrintStatus.printpid==GPID_NONE)
     return;
   open_pdfviewer (pid,status, (gchar *) get_printfile_pathbasename());
   g_debug("print finished\n");
@@ -659,8 +672,8 @@ void printpng_finished(GPid pid, gint status, GList *filelist) {
   g_debug("printpng_finished\n");
   g_list_foreach(filelist, (GFunc)rm_temp_files, FALSE);
   g_list_free(filelist);
-  g_spawn_close_pid (printpid);
-  printpid = GPID_NONE;
+  g_spawn_close_pid (PrintStatus.printpid);
+  PrintStatus.printpid = GPID_NONE;
   progressbar_stop();
   infodialog("Your png file has now been created");
 }
@@ -671,8 +684,8 @@ void printpdf_finished(GPid pid, gint status, GList *filelist) {
     g_list_foreach(filelist, (GFunc)rm_temp_files, FALSE);
     g_list_free(filelist);
   }
-  g_spawn_close_pid (printpid);
-  printpid = GPID_NONE;
+  g_spawn_close_pid (PrintStatus.printpid);
+  PrintStatus.printpid = GPID_NONE;
   progressbar_stop();
   infodialog("Your pdf file has now been created");
 }
@@ -746,7 +759,7 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoGUI * gui)
   if(finish) {
     gint error = run_lilypond(arguments);
     if(!error)
-      g_child_watch_add (printpid, (GChildWatchFunc)finish, (gchar *) filelist);
+      g_child_watch_add (PrintStatus.printpid, (GChildWatchFunc)finish, (gchar *) filelist);
   } else {
     GError *err = NULL; 
     g_spawn_sync (locateprintdir (),		/* dir */
@@ -801,12 +814,12 @@ export_pdf (gchar * filename, DenemoGUI * gui)
 
   gint error = run_lilypond(arguments);
   if(error){
-    g_spawn_close_pid (printpid);
-    printpid = GPID_NONE;
+    g_spawn_close_pid (PrintStatus.printpid);
+    PrintStatus.printpid = GPID_NONE;
     return;
   }
 
-  g_child_watch_add (printpid, (GChildWatchFunc)printpdf_finished, filelist);
+  g_child_watch_add (PrintStatus.printpid, (GChildWatchFunc)printpdf_finished, filelist);
 }
 
 static void
@@ -815,9 +828,9 @@ print_and_view(gchar **arguments) {
 advance_printname();
 #endif
   run_lilypond(arguments);
-  if(printpid!=GPID_NONE) {
-    g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer, (gchar *) get_printfile_pathbasename());
-    while(printpid!=GPID_NONE) {
+  if(PrintStatus.printpid!=GPID_NONE) {
+    g_child_watch_add (PrintStatus.printpid, (GChildWatchFunc)open_pdfviewer, (gchar *) get_printfile_pathbasename());
+    while(PrintStatus.printpid!=GPID_NONE) {
       gtk_main_iteration_do(FALSE);
     }
   }
@@ -942,7 +955,7 @@ set_printarea_doc(EvDocument *doc) {
     g_object_set_data(G_OBJECT(Denemo.printarea), "model", model);//there is no ev_view_get_model(), when there is use it
   } else
   ev_document_model_set_document (model, doc);
-  ev_document_model_set_dual_page (model, (gboolean)g_object_get_data(G_OBJECT(Denemo.printarea), "Duplex"));
+  ev_document_model_set_dual_page (model, GPOINTER_TO_INT(g_object_get_data(G_OBJECT(Denemo.printarea), "Duplex")));
   Mark.width=0;//indicate that there should no longer be any Mark placed on the score
 }
 
@@ -1099,10 +1112,11 @@ set_printarea(GError **err) {
 static void
 printview_finished(GPid pid, gint status, gboolean print) {
   progressbar_stop();
-  call_out_to_guile("(FinalizeTypesetting)");
-  //g_print("Processing %s\n", (gchar *) get_printfile_pathbasename());
-  process_lilypond_errors((gchar *) get_printfile_pathbasename());
-  printpid = GPID_NONE;
+  if(!PrintStatus.background) {
+	call_out_to_guile("(FinalizeTypesetting)");
+	process_lilypond_errors((gchar *) get_printfile_pathbasename());
+  }
+  PrintStatus.printpid = GPID_NONE;
   GError *err = NULL;
   set_printarea(&err);
   if(!err && print)
@@ -1129,7 +1143,7 @@ advance_printname();
     create_pdf(TRUE, TRUE);
   else
    create_pdf(TRUE, FALSE); 
-  g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, 
+  g_child_watch_add (PrintStatus.printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, 
 	(gchar *) get_printfile_pathbasename());
 }
 
@@ -1179,13 +1193,13 @@ force_typeset(void) {
 void
 printpreview_cb (GtkAction *action, DenemoScriptParam* param) {
   (void)typeset(TRUE);
-  g_child_watch_add (printpid, (GChildWatchFunc)print_finished, NULL);
+  g_child_watch_add (PrintStatus.printpid, (GChildWatchFunc)print_finished, NULL);
 }
 
 void refresh_print_view (void) {
   busy_cursor();
   if(typeset(FALSE))
-    g_child_watch_add (printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
+    g_child_watch_add (PrintStatus.printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
   else
     normal_cursor();
 }
@@ -1197,11 +1211,11 @@ advance_printname();
 #endif
   busy_cursor();
   if(all_movements?typeset(FALSE):typeset_movement(FALSE)) {
-    g_child_watch_add(printpid, (GChildWatchFunc)printview_finished, (gpointer)(TRUE));
+    g_child_watch_add(PrintStatus.printpid, (GChildWatchFunc)printview_finished, (gpointer)(TRUE));
   }
   else {
     normal_cursor();
-    libevince_print();//printview_finished (printpid, 0, TRUE);
+    libevince_print();//printview_finished (PrintStatus.printpid, 0, TRUE);
   }
 }
 
@@ -1212,7 +1226,7 @@ printselection_cb (GtkAction *action, gpointer param) {
     create_pdf(FALSE, FALSE);
   else
     warningdialog(_("No selection to print"));
-  g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, 
+  g_child_watch_add (PrintStatus.printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, 
 	(gchar *) get_printfile_pathbasename());
 }
 
@@ -1249,8 +1263,8 @@ static gchar *thumbnailsdirL = NULL;
 static
 void thumb_finished(GPid pid, gint status) {
   GError *err = NULL;
-  g_spawn_close_pid (printpid); 
-  printpid = GPID_NONE;
+  g_spawn_close_pid (PrintStatus.printpid); 
+  PrintStatus.printpid = GPID_NONE;
   gchar *printname = get_thumb_printname();
     gchar *printpng = g_strconcat(printname, ".png", NULL);
     GdkPixbuf *pbN = gdk_pixbuf_new_from_file_at_scale   (printpng, 128, -1, TRUE, &err);
@@ -1287,9 +1301,9 @@ void thumb_finished(GPid pid, gint status) {
             g_free(thumbpathL);
     }
     g_free(printname);
-    printpid=GPID_NONE;
+    PrintStatus.printpid=GPID_NONE;
     progressbar_stop();
-    //g_print("Set printpid = %d\n", printpid);
+    //g_print("Set PrintStatus.printpid = %d\n", PrintStatus.printpid);
   }
 
 // large_thumbnail_name takes a full path name to a .denemo file and returns the full path to the large thumbnail of that .denemo file. Caller must g_free the returned string
@@ -1306,7 +1320,7 @@ gchar * large_thumbnail_name(gchar *filepath) {
 gboolean
 create_thumbnail(gboolean async) {
   GError *err = NULL;
-  if(printpid!=GPID_NONE)
+  if(PrintStatus.printpid!=GPID_NONE)
     return FALSE;
   if(Denemo.gui->filename->len) {
     if(!thumbnailsdirN) {
@@ -1368,7 +1382,7 @@ create_thumbnail(gboolean async) {
 		 &err);
     } else {
       export_png(printname, NULL, Denemo.gui);
-      thumb_finished (printpid, 0);
+      thumb_finished (PrintStatus.printpid, 0);
     }
     
     g_free(printname);
@@ -1411,7 +1425,7 @@ advance_printname();
 #endif
 busy_cursor();
 create_pdf(FALSE, TRUE);
-g_child_watch_add(printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
+g_child_watch_add(PrintStatus.printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
 }
 static void create_movement_pdf(void) {
 #if FILE_LOCKING
@@ -1419,7 +1433,7 @@ advance_printname();
 #endif
 busy_cursor();
 create_pdf(FALSE, FALSE);
-g_child_watch_add(printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
+g_child_watch_add(PrintStatus.printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
 }
 static void create_part_pdf(void) {
 #if FILE_LOCKING
@@ -1427,7 +1441,7 @@ advance_printname();
 #endif
 busy_cursor();
 create_pdf(TRUE, TRUE);
-g_child_watch_add(printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
+g_child_watch_add(PrintStatus.printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
 }
 static gint 
 popup_print_preview_menu(void) {
@@ -1483,7 +1497,7 @@ static gint adjust_y=0;
 static gint
 printarea_focus_in_event (GtkWidget * widget, GdkEventExpose * event)
 {
-  if((printpid==GPID_NONE) && (changecount!=Denemo.gui->changecount)) {
+  if((PrintStatus.printpid==GPID_NONE) && (changecount!=Denemo.gui->changecount)) {
     refresh_print_view();
     changecount = Denemo.gui->changecount;// keep track so we know if update is needed FIXME - different tabs etc
   }
@@ -1568,7 +1582,7 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 //the old code - for dragging in the view window
  gboolean left = (event->button != 3);
   if((!left)) {
-    if(printpid==GPID_NONE)
+    if(PrintStatus.printpid==GPID_NONE)
       popup_print_preview_menu();
     return TRUE;
   }
@@ -1578,8 +1592,8 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
     offsety = cury - marky;  
 
     GtkWidget *thedialog = g_object_get_data(G_OBJECT(Denemo.printarea), "offset-dialog");
-    g_object_set_data(G_OBJECT(Denemo.printarea), "offsetx", (gpointer)offsetx);
-    g_object_set_data(G_OBJECT(Denemo.printarea), "offsety", (gpointer)offsety);
+    g_object_set_data(G_OBJECT(Denemo.printarea), "offsetx", GINT_TO_POINTER(offsetx));
+    g_object_set_data(G_OBJECT(Denemo.printarea), "offsety", GINT_TO_POINTER(offsety));
     if(thedialog){
       gtk_dialog_response(GTK_DIALOG(thedialog), 1/*DRAGGED*/);
     } else { 
@@ -1595,7 +1609,7 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
     gint pad = ABS(curx - markx); 
 
     GtkWidget *thedialog = g_object_get_data(G_OBJECT(Denemo.printarea), "pad-dialog");
-    g_object_set_data(G_OBJECT(Denemo.printarea), "padding", (gpointer)pad);
+    g_object_set_data(G_OBJECT(Denemo.printarea), "padding", GINT_TO_POINTER(pad));
     if(thedialog){
       gtk_dialog_response(GTK_DIALOG(thedialog), 1/*DRAGGED*/);
     } else { 
@@ -1675,7 +1689,6 @@ return TRUE;
 	Denemo.gui->xbm = data;
 	Denemo.gui->xbm_width = width;
 	Denemo.gui->xbm_height = height;
-
       }
     }
   }
@@ -1706,9 +1719,12 @@ static
 void typeset_control(GtkWidget*dummy, gpointer data) {
   static gpointer last_data=NULL;
   static GString *last_script=NULL;
+  gint markstaff = Denemo.gui->si->markstaffnum;
+  Denemo.gui->si->markstaffnum = 0;
+ 
   if(last_script==NULL)
-    last_script=g_string_new("(d-Print)");
-    
+    last_script=g_string_new("(d-PrintView)");
+   
   if(data==create_all_pdf)
     create_all_pdf();
   else if(data==create_movement_pdf)
@@ -1716,26 +1732,69 @@ void typeset_control(GtkWidget*dummy, gpointer data) {
   else if(data==create_part_pdf)
     create_part_pdf();
   else if(data!=NULL) {
-    busy_cursor();
-    create_pdf(FALSE, TRUE);
+		
+			if(PrintStatus.background) {
+				save_selection(Denemo.gui->si);
+				if(PrintStatus.print_all) {
+					Denemo.gui->si->markstaffnum = 0;
+					create_pdf(FALSE, TRUE);
+				} else {
+				gint value = Denemo.gui->si->currentstaffnum - PrintStatus.first_staff;
+				if(value<1) value = 1;g_print("first staff %d\n", value);
+				Denemo.gui->si->markstaffnum = Denemo.gui->si->selection.firststaffmarked = value;
+				
+				value = Denemo.gui->si->currentstaffnum + PrintStatus.last_staff;
+				if(value<1) value = 1;		
+				Denemo.gui->si->selection.laststaffmarked = value;
+				
+				value = Denemo.gui->si->currentmeasurenum - PrintStatus.first_measure;
+				if(value<1) value = 1;
+				Denemo.gui->si->selection.firstmeasuremarked = value;
+				
+				value = Denemo.gui->si->currentmeasurenum + PrintStatus.last_measure;
+				if(value<1) value = 1;
+				Denemo.gui->si->selection.lastmeasuremarked = value;
+				
+				Denemo.gui->si->selection.firstobjmarked = 0;Denemo.gui->si->selection.lastobjmarked = G_MAXINT-1;//counts from 0, +1 must be valid
+				create_pdf(FALSE, FALSE);//this movement only cursor-relative selection of measures	
+			}
+		} else	{	
+			busy_cursor();
+			create_pdf(FALSE, TRUE);
+		}
     g_string_assign(last_script, data);
     last_data = NULL;
-    g_child_watch_add(printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
+    g_child_watch_add(PrintStatus.printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
+    if(PrintStatus.background) {
+				restore_selection(Denemo.gui->si);
+		}    
+    Denemo.gui->si->markstaffnum = markstaff; 
     return;
   } else { //data is NULL, repeat last typeset
     if(last_data) {
           ((void (*)())last_data)();
+          Denemo.gui->si->markstaffnum = markstaff; 
           return;
     } else if(last_script->len) {
-      busy_cursor();
+
+				busy_cursor();
       call_out_to_guile(last_script->str);
-      g_child_watch_add(printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
+      g_child_watch_add(PrintStatus.printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
+
+      Denemo.gui->si->markstaffnum = markstaff; 
       return;
     }
+    Denemo.gui->si->markstaffnum = markstaff; 
+ 
     return;
   }
 last_data = data;
+Denemo.gui->si->markstaffnum = markstaff; 
 }
+
+//Callback for the command PrintView
+//Ensures the print view window is visible.
+//when called back as an action it calls create_all_pdf() provided the score has changed
 void show_print_view(GtkAction *action, gpointer param) {
   GtkWidget *w =  gtk_widget_get_toplevel(Denemo.printarea);
   if(gtk_widget_get_visible(w))
@@ -1743,8 +1802,9 @@ void show_print_view(GtkAction *action, gpointer param) {
   else
     gtk_widget_show(w);
   if(action && (changecount!=Denemo.gui->changecount || Denemo.gui->lilysync != Denemo.gui->changecount) ) {
+
     if(!initialize_typesetting())
-      typeset_control(NULL, create_all_pdf);
+      typeset_control(NULL, create_all_pdf);	
   }
 }
 
@@ -1765,7 +1825,7 @@ static void page_display(GtkWidget *button, gint page_increment) {
 }
 static void dual_page(GtkWidget *button) {
   GError *err = NULL;
-g_object_set_data(G_OBJECT(Denemo.printarea), "Duplex", (gpointer)!g_object_get_data(G_OBJECT(Denemo.printarea), "Duplex"));
+g_object_set_data(G_OBJECT(Denemo.printarea), "Duplex", GINT_TO_POINTER(!g_object_get_data(G_OBJECT(Denemo.printarea), "Duplex")));
 //refresh...
 //  EvDocumentModel  *model = ev_view_get_model((EvView*)Denemo.printarea);
 //  ev_document_model_set_dual_page (model, (gboolean)g_object_get_data(G_OBJECT(Denemo.printarea), "Duplex"));
@@ -1785,9 +1845,126 @@ printarea_scroll_event (GtkWidget *widget, GdkEventScroll *event) {
 return FALSE;
 }
 
+#define MANUAL _("Manual Updates")
+#define CONTINUOUS _("Continuous")
 static void typeset_action(GtkWidget *button, gpointer data) {
+  PrintStatus.background = FALSE;
   initialize_typesetting();
   typeset_control(NULL, data);
+}
+
+gboolean retypeset(void) {//FIXME check for cursor moved and not retypesetting all
+ if(PrintStatus.printpid==GPID_NONE && (changecount != Denemo.gui->changecount)) {
+		PrintStatus.background = TRUE;
+		typeset_control(NULL, "(disp \"This is called when hitting the refresh button while in continuous re-typeset\")(d-PrintView)");
+		changecount = Denemo.gui->changecount;
+ }
+ return TRUE;//continue
+}
+//turn the continuous update off and on
+static void toggle_updates(GtkWidget *menu_item, GtkWidget *button) {
+ static gint updating_id;
+ if(updating_id) {
+	 g_source_remove(updating_id);
+	 updating_id = 0;
+	 gtk_button_set_label(GTK_BUTTON(button), MANUAL);
+ } else {
+	 updating_id = g_idle_add( (GSourceFunc)retypeset, NULL);
+	 gtk_button_set_label(GTK_BUTTON(button), CONTINUOUS);
+ }
+}
+
+toggle_print_all_continuous(void) {
+	PrintStatus.print_all = !PrintStatus.print_all;
+}
+
+value_change(GtkWidget *spinner, gint *value) {
+	*value = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(spinner));
+}
+range_dialog(void) {
+	static GtkWidget *dialog;
+	if(dialog==NULL) {
+			dialog = gtk_dialog_new();
+			GtkWidget *area = gtk_dialog_get_action_area (GTK_DIALOG(dialog));
+			GtkWidget *vbox = gtk_vbox_new(FALSE, 1);
+			gtk_container_add(GTK_CONTAINER(area), vbox);
+			GtkWidget *hbox = gtk_hbox_new(FALSE, 1);
+			gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 0);
+			
+			GtkWidget *label = gtk_label_new(_("Measures before cursor:"));
+			gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, TRUE, 8);
+			GtkWidget *spinner = gtk_spin_button_new_with_range(0,1000,1);
+			g_signal_connect(spinner, "value-changed", (GCallback)value_change, &PrintStatus.first_measure);
+			gtk_spin_button_set_value (GTK_SPIN_BUTTON(spinner), PrintStatus.first_measure);
+			
+			gtk_box_pack_start(GTK_BOX(hbox), spinner, TRUE, TRUE, 0);
+			
+			
+			label = gtk_label_new(_("Measures after cursor:"));
+			gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, TRUE, 8);
+			spinner = gtk_spin_button_new_with_range(0,1000,1);
+			g_signal_connect(spinner, "value-changed", (GCallback)value_change, &PrintStatus.last_measure);
+			gtk_spin_button_set_value (GTK_SPIN_BUTTON(spinner), PrintStatus.last_measure);
+			
+			gtk_box_pack_start(GTK_BOX(hbox), spinner, TRUE, TRUE, 0);
+			
+			hbox = gtk_hbox_new(FALSE, 1);
+			gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 0);
+			
+			label = gtk_label_new(_("Staffs before cursor:"));
+			gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, TRUE, 8);
+			spinner = gtk_spin_button_new_with_range(0,100,1);
+			g_signal_connect(spinner, "value-changed", (GCallback)value_change, &PrintStatus.first_staff);
+			gtk_spin_button_set_value (GTK_SPIN_BUTTON(spinner), PrintStatus.first_staff);
+			
+			gtk_box_pack_start(GTK_BOX(hbox), spinner, TRUE, TRUE, 0);
+			
+			label = gtk_label_new(_("Staffs after cursor:"));
+			gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, TRUE, 8);
+			spinner = gtk_spin_button_new_with_range(0,100,1);
+			g_signal_connect(spinner, "value-changed", (GCallback)value_change, &PrintStatus.last_staff);
+			gtk_spin_button_set_value (GTK_SPIN_BUTTON(spinner), PrintStatus.last_staff);
+			
+			gtk_box_pack_start(GTK_BOX(hbox), spinner, TRUE, TRUE, 0);
+
+			hbox = gtk_hbox_new(FALSE, 1);
+			gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 0);
+
+			hbox = gtk_hbox_new(FALSE, 1);
+			gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 0);
+			GtkWidget *button = gtk_check_button_new_with_label(_("Print All"));
+			g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(toggle_print_all_continuous), NULL);
+			gtk_widget_set_tooltip_text(button, _("If checked the current layout is re-typeset at every change"));
+			gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 0);
+			g_signal_connect(dialog, "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), NULL);
+			gtk_widget_show_all(dialog);
+		} else
+		gtk_widget_show(dialog);
+	
+}
+updates_menu(GtkWidget *button) {
+	static GtkWidget *menu;
+	if(menu==NULL) {
+		GtkWidget *item;
+		menu = gtk_menu_new();
+		item = gtk_check_menu_item_new_with_label(CONTINUOUS);
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+		gtk_widget_set_tooltip_text(item, _("Set background updats on/off."));
+		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(toggle_updates), button);
+		
+		item = gtk_menu_item_new_with_label(_("Range"));
+		gtk_widget_set_tooltip_text(item, _("Set how much of the score to re-draw."));	
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(range_dialog), NULL);
+		gtk_widget_show_all(menu);
+	}
+  gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+}
+GtkWidget *get_updates_button(void) {
+  GtkWidget *button = gtk_button_new_with_label(_("Manual"));
+  gtk_widget_set_tooltip_text(button, _("Set background updater on/off."));
+  g_signal_connect(button, "clicked", G_CALLBACK(updates_menu), NULL);
+  return button;	
 }
 
 void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){ 
@@ -1827,7 +2004,10 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
   gtk_widget_set_tooltip_text(button, _("Re-issues the last print command. Use this after modifying the file to repeat the typesetting."));
   g_signal_connect(button, "clicked", G_CALLBACK(typeset_action), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
- 
+  
+  button = get_updates_button();
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+
   hbox =  gtk_hbox_new (FALSE, 1);
   gtk_box_pack_end (GTK_BOX (main_hbox), hbox,FALSE, TRUE, 0);
 

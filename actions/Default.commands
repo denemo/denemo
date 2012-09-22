@@ -982,14 +982,14 @@ the end point of the selection is unaltered</tooltip>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
-        <action>SetGrace</action>
-        <label>Set Grace</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
         <action>ToggleGrace</action>
         <label>Grace Note Off/On</label>
-        <tooltip>Makes the note at the cursor a grace note, if it is one, makes it normal</tooltip>
+        <tooltip>Makes the note at the cursor an appogiatura grace note, if it is one, makes it normal</tooltip>
+      </row>
+      <row>
+        <action>ToggleAcciaccatura</action>
+        <label>Acciaccatura Off/On</label>
+        <tooltip>Makes the note at the cursor an acciaccatura grace note, if it is one, makes it normal</tooltip>
       </row>
       <row>
         <action>ForceCaution</action>
@@ -6096,6 +6096,22 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
         <label>Prints All Layouts</label>
         <tooltip>Prints the score using all the defined score layouts.</tooltip>
+      </row>
+      <row>
+        <action>DalSegno</action>
+        <after>D.C.AlFine</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/TextMarks</menupath>
+        <label>Dal Segno</label>
+        <tooltip>Prints Dal Segno below the chord at the cursor.</tooltip>
+      </row>
+      <row>
+        <action>WholeMeasureRepeat</action>
+        <after>ParenthesizeNote</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Whole Measure Repeat</label>
+        <tooltip>Inserts a whole measure repeat sign.</tooltip>
       </row>
     </map>
   </merge>

@@ -1548,29 +1548,6 @@ dnm_inserttuplet (DenemoGUI * gui, tuplet_type type)
   si->cursor_appending = FALSE;
 }
 
-/**
- * Insert grace note into the score
- * @param si pointer to the scoreinfo structure
- */
-void
-insertgrace (DenemoGUI * gui)
-{
-  DenemoScore *si = gui->si;
-  DenemoObject *mudela_obj_new;
-  insertion_point (si);
-
-
-  mudela_obj_new = newgracestart ();
-
-  object_insert (gui, mudela_obj_new);
-
-  object_insert (gui, newgraceend ());
-  si->cursor_x--;
-  si->currentobject =
-    g_list_nth ((objnode *) si->currentmeasure->data, si->cursor_x);
-  si->cursor_appending = FALSE;
-  // useless, never set false again ... si->is_grace_mode = TRUE;
-}
 
 /**
  * Change the duration of the current note/rest

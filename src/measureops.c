@@ -295,30 +295,23 @@ settickvalsinmeasure (objnode * theobjs)
 		  if (in_tuplet)
 		    {
 		      if(!((chord *)theobj->object)->is_grace) {
-			set_tuplefied_numticks (theobj, numerator, denominator);
-			basic_ticks_in_tuplet_group += theobj->basic_durinticks;
-		      }
-		    }
-		  else if (in_grace) //For backward compatibility with old grace object types
-		    {
-
-		      ((chord *)theobj->object)->is_grace |= GRACE_SECTION;//  means grace inside bracketed start/end markers
-
-		      theobj->durinticks = 0;
+				set_tuplefied_numticks (theobj, numerator, denominator);
+				basic_ticks_in_tuplet_group += theobj->basic_durinticks;
+		      } //FIXME set up endgrace as needed for grace notes inside tuplets
 		    }
 		  else
 		    {
 
-		      ((chord *)theobj->object)->is_grace &= GRACED_NOTE;//leave any fixed grace, changed by toggle.
+		      ((chord *)theobj->object)->is_grace &= (GRACED_NOTE|ACCIACCATURA);//leave any fixed grace, changed by toggle.
 		 
 		      if(((chord *)theobj->object)->is_grace) {
-			((chord *)theobj->object)->is_grace = GRACED_NOTE;//clear any old ENDGRACE marker
-			((chord *)theobj->object)->is_grace |= is_end_grace(curobjnode);//and re-instate if needed
-			theobj->durinticks = 0;
+				((chord *)theobj->object)->is_grace & ~ENDGRACE;//clear any old ENDGRACE marker
+				((chord *)theobj->object)->is_grace |= is_end_grace(curobjnode);//and re-instate if needed
+			    theobj->durinticks = 0;
 		      }
 		      else
-			theobj->durinticks =  theobj->basic_durinticks;
-		      ticks_so_far += theobj->durinticks;
+			    theobj->durinticks =  theobj->basic_durinticks;
+		     ticks_so_far += theobj->durinticks;
 		    }
 		}
 		else if (theobj->type == TUPOPEN)
@@ -336,15 +329,6 @@ settickvalsinmeasure (objnode * theobjs)
 			numerator = 1;
 			denominator = 1;
 			basic_ticks_in_tuplet_group = 0;
-		}
-		else if (theobj->type == GRACE_START)//For backward compatibility, old grace object types
-		{
-			in_grace = TRUE;
-		}
-		else if (theobj->type == GRACE_END)//For backward compatibility, old grace object types
-		{
-			in_grace = FALSE;
-
 		}
 		else if (theobj->type == LILYDIRECTIVE)
 		   ticks_so_far += theobj->durinticks;

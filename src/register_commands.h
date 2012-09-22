@@ -191,8 +191,8 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleSt
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleEndCrescendo"), "ToggleEndCrescendo", N_("End Crescendo"), N_("No Tooltip yet"), toggle_end_crescendo);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleStartDiminuendo"), "ToggleStartDiminuendo", N_("Start Diminuendo"), N_("No Tooltip yet"), toggle_start_diminuendo);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleEndDiminuendo"), "ToggleEndDiminuendo", N_("End Diminuendo"), N_("No Tooltip yet"), toggle_end_diminuendo);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "SetGrace"), "SetGrace", N_("Set Grace"), N_("No Tooltip yet"), set_grace);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleGrace"), "ToggleGrace", N_("Grace Note Off/On"), N_("Makes the note at the cursor a grace note, if it is one, makes it normal"), toggle_grace);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleGrace"), "ToggleGrace", N_("Grace Note Off/On"), N_("Makes the note at the cursor an appogiatura grace note, if it is one, makes it normal"), toggle_grace);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleAcciaccatura"), "ToggleAcciaccatura", N_("Acciaccatura Off/On"), N_("Makes the note at the cursor an acciaccatura grace note, if it is one, makes it normal"), toggle_acciaccatura);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ForceCaution"), "ForceCaution", N_("Force Cautionary Accidental"), N_("No Tooltip yet"), force_cautionary);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangePitch"), "ChangePitch", N_("Change Pitch"), N_("No Tooltip yet"), change_pitch);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertRhythm"), "InsertRhythm", N_("Insert Snippet"), N_("No Tooltip yet"), insert_rhythm_pattern);

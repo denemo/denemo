@@ -248,7 +248,7 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 
   gint prevbaseduration, nextbaseduration;
   GList *curnode;
-  gboolean is_grace = thechord.is_grace && thechord.notes;
+  gint is_grace = (thechord.notes?thechord.is_grace:0) ;
   DenemoGraphic *override_notehead = NULL;//overriding notehead to be used for all notes of chord unless built-in or overriden
   gint gx=0, gy=0;//positioning for overriding notehead
   if(cr) {
@@ -434,6 +434,11 @@ if(!override_chord_graphic) {
 	  /* Vertical line */
 	  cairo_move_to( cr, xx + headwidths[noteheadtype], thechord.stemy + y );
 	  cairo_line_to( cr, xx + headwidths[noteheadtype], thechord.lowesty + y - 2 );
+	  if(is_grace & ACCIACCATURA) {
+		cairo_set_line_width( cr, 2.0);
+		cairo_move_to( cr, xx + headwidths[noteheadtype] - 3, thechord.lowesty + y - 2 - 4);
+		cairo_line_to( cr, xx + headwidths[noteheadtype] + 6, thechord.stemy + y );
+		}
 	  cairo_stroke( cr );
 	}
  } //if graphic not overrriden	

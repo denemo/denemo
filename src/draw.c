@@ -408,12 +408,6 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 			   x + mudelaitem->x, y, mudelaitem);
       itp->stem_directive = ((stemdirective *) mudelaitem->object)->type;
       break;
-    case GRACE_START:
-    case GRACE_END:
-      if(cr) draw_gracebracket (cr,
-			 x + mudelaitem->x, y, mudelaitem);
-      break;
-
     default:
       /* Nothing */
       break;

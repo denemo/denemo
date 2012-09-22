@@ -978,14 +978,12 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		  xmlSetProp (objElem, (xmlChar *) "id",
 			      (xmlChar *) chordXMLID);
 
-		  if (thechord->is_grace)
+		  if (thechord->is_grace & GRACED_NOTE)
 		    xmlSetProp (objElem, (xmlChar *) "grace", (xmlChar *)
 				"true");
-		  // else
-		  //  xmlSetProp (objElem, (xmlChar *) "grace",
-		  //		(xmlChar *) "true");
-
-
+		 else if (thechord->is_grace & ACCIACCATURA)
+		    xmlSetProp (objElem, (xmlChar *) "grace", (xmlChar *)
+				"acciaccatura");
 
 		  /* Output the duration. */
 

@@ -845,7 +845,10 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 	if(!lily_override)
 	if((!*pgrace_status) && pchord->is_grace) {
 	  *pgrace_status = TRUE;
-	  g_string_append_printf (ret,"\\grace {  ");
+	  if(pchord->is_grace&GRACED_NOTE)
+		g_string_append_printf (ret,"\\grace {");
+	  else
+		g_string_append_printf (ret,"\\acciaccatura {");
 	  if(figures->len)
 	    g_string_append_printf (figures, "\\grace {");
 	  if(fakechords->len)
@@ -1052,26 +1055,25 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 	  
       } /* End of outputting LilyPond for this chord because of LILYPOND_OVERRIDE not set in a chord directive*/
 	else {
-	GList *g = pchord->directives;
-	for(;g;g=g->next) {
-	  DenemoDirective *directive = (DenemoDirective *)g->data;
-	  if(directive->postfix && directive->postfix->len  && !(directive->override&DENEMO_OVERRIDE_HIDDEN)) {
-	    prevduration = -1;
-	    open_braces += brace_count(directive->postfix->str);
-	    insert_editable(&directive->postfix, directive->postfix->str, iter, gui, staff_music);
-	  }
+			GList *g = pchord->directives;
+			for(;g;g=g->next) {
+				DenemoDirective *directive = (DenemoDirective *)g->data;
+				if(directive->postfix && directive->postfix->len  && !(directive->override&DENEMO_OVERRIDE_HIDDEN)) {
+					prevduration = -1;
+					open_braces += brace_count(directive->postfix->str);
+					insert_editable(&directive->postfix, directive->postfix->str, iter, gui, staff_music);
+				}
+			}
 	}
-      }
 	
     if(!lily_override)
 	  if ((pchord->is_grace & ENDGRACE) && *pgrace_status) {
 	    *pgrace_status = FALSE, g_string_append_printf (ret,"} ");	  
 	  }
 
-	g_free(chord_prefix);
-      }
-
-	break;
+		g_free(chord_prefix);
+		} //end of case CHORD
+		break;
       case CLEF: {
 	gboolean override = FALSE;
 	gchar *clef_string = "";
@@ -1187,16 +1189,6 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 	  }
 	}
 	break;
-      case GRACE_START:
-	//	g_string_append_printf (ret, "\\grace {");
-	//	if(figures->len)
-	//	  g_string_append_printf (figures, "\\grace {");
-	break;
-      case GRACE_END:
-	//	g_string_append_printf (ret, "}");
-	//	if(figures->len)
-	//	  g_string_append_printf (figures, "}");
-	break;
       case STEMDIRECTIVE: {
 	gboolean override = FALSE;
 	gchar *prestem_string = "";
@@ -1229,72 +1221,18 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 	  g_free(prestem_string);
       }
 	break;
-      case DYNAMIC:
-	/*if (is_chordmode)
-	  {
-	  sprintf (dynamic_string, "-\\%s ",
-	  ((dynamic *)curobj->object)->type->str);
-	  strcat (dynamic_string, temp);
-	  g_string_append_printf (ret, "%s", dynamic_string);
-	  }
-	  else
-	  g_string_append_printf (ret, "-\\%s ", 
-	  ((dynamic *)curobj->object)->type->str); */
-	break;
       case LILYDIRECTIVE:
 	; //handled in the if block
 	break; 
-      case BARLINE:
-	switch (((barline *) curobj->object)->type)
-	  {
 
-	  case ORDINARY_BARLINE:
-	    g_string_append (ret, "|\n");
-	    break;
-	  case DOUBLE_BARLINE:
-	    g_string_append (ret, "\\bar \"||\"\n");
-	    break;
-	  case END_BARLINE:
-	    g_string_append (ret, "\\bar \"|.\"\n");
-	    break;
-	  case OPENREPEAT_BARLINE:
-	    g_string_append (ret, "\\bar \"|:\"\n");
-	    break;
-	  case CLOSE_REPEAT:
-	    g_string_append (ret, "\\bar \":|\"\n");
-	    break;
-	  case OPEN_CLOSE_REPEAT:
-	    g_string_append (ret, "\\bar \":\"\n");
-	    break;
 
-	  }
-	break;
-      case LYRIC:
-      case FIGURE:
-	//handle in caller
-	break;
-
-      case PARTIAL:
-
-	pchord = (chord *) curobj->object;
-	duration = internaltomuduration (pchord->baseduration);
-	numdots = pchord->numdots;
-	ret = g_string_append (ret, "\\partial ");
-	g_string_append_printf (ret, "%d", duration);
-	for (j = 0; j < numdots; j++)
-	  ret = g_string_append (ret, ".");
-	ret = g_string_append (ret, " ");
-	break;
-
-      default:
+   default:
 	break;
       }
-
-
-
+      
     outputret;
 
-    g_free(curobj->lilypond);
+    g_free(curobj->lilypond);//FIXME obsolete code
     curobj->lilypond = g_string_free(staff_music, FALSE);
     *pprevduration = prevduration;
     *pprevnumdots = prevnumdots;
@@ -1637,20 +1575,20 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
       gboolean is_syllable = FALSE;
       gboolean center_lyric = FALSE;
       if ((++curmeasurenum % 5) == 0) {
-	g_string_append_printf(staff_str, "%%%d\n", curmeasurenum);
-	if(figures->len)
-	  g_string_append_printf(figures, "\n%%%d\n", curmeasurenum);
-	if(fakechords->len)
-	  g_string_append_printf(fakechords, "\n%%%d\n", curmeasurenum);
+				g_string_append_printf(staff_str, "%%%d\n", curmeasurenum);
+				if(figures->len)
+					g_string_append_printf(figures, "\n%%%d\n", curmeasurenum);
+				if(fakechords->len)
+					g_string_append_printf(fakechords, "\n%%%d\n", curmeasurenum);
       }
       g_string_append_printf(staff_str,  "%s",TAB);
       gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
       gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, staff_str->str, -1, INEDITABLE, NULL);
       g_string_assign(staff_str,"");
-      gint firstobj=1, lastobj= G_MAXINT;
+      gint firstobj=1, lastobj= G_MAXINT-1;
       if(start && gui->si->markstaffnum) {//markstaffnum==0 means not set
-	firstobj = 1+MIN( gui->si->selection.firstobjmarked, gui->si->selection.lastobjmarked);
-	lastobj =  1+MAX( gui->si->selection.firstobjmarked, gui->si->selection.lastobjmarked);
+				firstobj = 1+MIN( gui->si->selection.firstobjmarked, gui->si->selection.lastobjmarked);
+				lastobj =  1+MAX( gui->si->selection.firstobjmarked, gui->si->selection.lastobjmarked);
       }
       //g_print("First last, %d %d %d\n", firstobj, lastobj, start);
       for (objnum=1, curobjnode = (objnode *) curmeasure->data;/* curobjnode NULL checked at end */;
@@ -1774,19 +1712,20 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 
 	       
 	      if(curstaffstruct->hasfigures)
-		output_figured_bass (si, figures, pchord, cur_stime1, cur_stime2);
+			output_figured_bass (si, figures, pchord, cur_stime1, cur_stime2);
 	      
 	      if (curstaffstruct->hasfakechords)
-		output_fakechord(si, fakechords, pchord);
+			output_fakechord(si, fakechords, pchord);
 	      if ((pchord->is_grace & ENDGRACE)) {
-		  if(figures->len)
+				if(figures->len)
 	               g_string_append_printf (figures, "}");
 	           if(fakechords->len)
-	               g_string_append_printf (fakechords, "}");
+	               g_string_append_printf (fakechords, "}");             
 	      }
+	    
 	    /* end of figures and chord symbols*/
-	    }
-	  }
+	    } // if CHORD
+	  } // if object
 	  }//in obj range
 	  if(curobjnode==NULL || curobjnode->next==NULL)
 	    break;//we want to go through once for empty measures
@@ -2105,7 +2044,8 @@ static void output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gcha
 
   DenemoScoreblock *sb = select_layout(all_movements, partname);//FIXME gui->namespec mechanism is probably redundant, and could well cause trouble...
 
-  all_movements = TRUE;
+  if(gui->si->markstaffnum)
+		all_movements = FALSE;
     
   staffnode *curstaff;
   DenemoStaff *curstaffstruct;
@@ -2114,7 +2054,7 @@ static void output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gcha
   DenemoContext curcontext = DENEMO_NONE;
 //  if(Denemo.gui->custom_scoreblocks==NULL)
  //   create_default_scoreblock();
-  if(gui->textbuffer && (gui->changecount==gui->lilysync)
+  if((gui->si->markstaffnum==0) && gui->textbuffer && (gui->changecount==gui->lilysync)
      && !strcmp(gui->namespec, namespec)) {
     g_free(gui->namespec);
     gui->namespec = namespec;
@@ -2236,7 +2176,8 @@ static void output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gcha
 	  start = gui->si->selection.firstmeasuremarked;
 	  end = gui->si->selection.lastmeasuremarked;
 	} 
-	outputStaff (gui, si, curstaffstruct, start, end, movement_name->str, voice_name->str, movement_count*visible_movement, voice_count*visible_part, definitions, sb);
+	if(visible_part>0 && visible_movement>0)
+		outputStaff (gui, si, curstaffstruct, start, end, movement_name->str, voice_name->str, movement_count*visible_movement, voice_count*visible_part, definitions, sb);
 	//g_print("Music for staff is \n%s\n", visible_part>0?"visible":"NOT visible");
 	
 	//FIXME amalgamate movement and voice names below here...

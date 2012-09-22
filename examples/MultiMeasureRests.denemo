@@ -47,13 +47,22 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <edit-info>
       <staffno>1</staffno>
       <measureno>2</measureno>
-      <cursorposition>0</cursorposition>
+      <cursorposition>-1</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
-      <page-zoom>0</page-zoom>
-      <page-system-height>0</page-system-height>
+      <page-zoom>100</page-zoom>
+      <page-system-height>100</page-system-height>
     </edit-info>
+    <header-directives>
+      <directive>
+        <tag>ScoreTitle</tag>
+        <postfix>title = "Untitled"
+</postfix>
+        <display>Score Title: Untitled</display>
+        <override>36</override>
+      </directive>
+    </header-directives>
     <score-info>
       <tempo>
         <duration>

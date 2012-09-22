@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<score xmlns="http://denemo.sourceforge.net/xmlns/Denemo" version="5">
+<score xmlns="http://denemo.org/xmlns/Denemo" version="6">
   <scoreheader-directives>
     <directive>
       <tag>ScoreTagline</tag>
@@ -45,7 +45,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <edit-info>
       <staffno>1</staffno>
       <measureno>4</measureno>
-      <cursorposition>0</cursorposition>
+      <cursorposition>-1</cursorposition>
+      <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
@@ -101,6 +102,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
         </initial-voice-params>
         <voice-props>
           <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
           <transpose>0</transpose>
           <instrument></instrument>
           <device-port>NONE</device-port>

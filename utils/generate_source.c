@@ -342,8 +342,8 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleEndCrescendo"), "toggle_end_crescendo", N_("End Crescendo")},
   {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleStartDiminuendo"), "toggle_start_diminuendo", N_("Start Diminuendo")},
   {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleEndDiminuendo"), "toggle_end_diminuendo", N_("End Diminuendo")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("SetGrace"), "set_grace", N_("Set Grace")},
-  {CMD_CATEGORY_ARTICULATION|CMD_CATEGORY_DIRECT, NULL, "Makes the note at the cursor a grace note, if it is one, makes it normal",	N_("ToggleGrace"), "toggle_grace", N_("Grace Note Off/On")},
+  {CMD_CATEGORY_ARTICULATION|CMD_CATEGORY_DIRECT, NULL, "Makes the note at the cursor an appogiatura grace note, if it is one, makes it normal",	N_("ToggleGrace"), "toggle_grace", N_("Grace Note Off/On")},
+  {CMD_CATEGORY_ARTICULATION|CMD_CATEGORY_DIRECT, NULL, "Makes the note at the cursor an acciaccatura grace note, if it is one, makes it normal",	N_("ToggleAcciaccatura"), "toggle_acciaccatura", N_("Acciaccatura Off/On")},
 
   {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ForceCaution"), "force_cautionary", N_("Force Cautionary Accidental")},
 
