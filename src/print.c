@@ -37,7 +37,7 @@
 #else
 #define FILE_LOCKING 0
 #endif
-
+static gboolean retypeset(void);
 
 #if FILE_LOCKING
 static gchar *printname="denemoprint";
@@ -71,9 +71,14 @@ static changecount = -1;//changecount when the printfile was last created FIXME 
 static GPid previewerpid = GPID_NONE;
 static GPid get_lily_version_pid = GPID_NONE;
 
+typedef enum { STATE_OFF = 1<<0,
+							 STATE_ON = 1<<1, 
+							 STATE_PAUSED = 1<<2
+							 } background_state;
 typedef struct printstatus {
 GPid printpid;
-gboolean background;
+background_state background;
+gint updating_id;//id of idle callback
 gint first_measure;
 gint last_measure;
 gint first_staff;
@@ -81,7 +86,7 @@ gint last_staff;
 gboolean print_all;
 } printstatus;
 
-static printstatus PrintStatus = {GPID_NONE, 0, 4, 4, 4, 4};
+static printstatus PrintStatus = {GPID_NONE, 0, 0, 4, 4, 4, 4};
 
 static gboolean print_is_valid = FALSE;
 static gint output=-1;
@@ -471,7 +476,7 @@ run_lilypond(gchar **arguments) {
   gint error = 0;
   DenemoGUI *gui = Denemo.gui;
   if(!PrintStatus.background)
-	progressbar("Denemo Typesetting");
+		progressbar("Denemo Typesetting");
   g_spawn_close_pid (get_lily_version_pid);
   get_lily_version_pid = GPID_NONE;
 
@@ -907,6 +912,10 @@ void printop_done(EvPrintOperation *printop, GtkPrintOperationResult arg1, GtkPr
     g_object_ref(*psettings);
     //g_print("Came away with uri %s\n", gtk_print_settings_get(*psettings, GTK_PRINT_SETTINGS_OUTPUT_URI));
     set_current_scoreblock_uri(g_strdup(gtk_print_settings_get(*psettings, GTK_PRINT_SETTINGS_OUTPUT_URI)));
+    if(PrintStatus.background&STATE_PAUSED) {
+			PrintStatus.updating_id = g_idle_add( (GSourceFunc)retypeset, NULL);
+			PrintStatus.background != ~STATE_PAUSED;
+		}
     call_out_to_guile("(FinalizePrint)");
 }
 static gboolean
@@ -936,6 +945,13 @@ libevince_print(void) {
     g_signal_connect(printop, "done", G_CALLBACK(printop_done), &settings);
     gtk_print_settings_set(settings, GTK_PRINT_SETTINGS_OUTPUT_URI, get_output_uri_from_scoreblock());
     ev_print_operation_set_print_settings (printop, settings);
+    		
+		if(PrintStatus.updating_id) {
+			PrintStatus.background|=STATE_PAUSED;
+			g_source_remove(PrintStatus.updating_id);
+			PrintStatus.updating_id = 0;
+		} else g_warning("idle updating not active");
+		
     ev_print_operation_run (printop, NULL);
   }
   return 0;
@@ -1112,9 +1128,9 @@ set_printarea(GError **err) {
 static void
 printview_finished(GPid pid, gint status, gboolean print) {
   progressbar_stop();
-  if(!PrintStatus.background) {
-	call_out_to_guile("(FinalizeTypesetting)");
-	process_lilypond_errors((gchar *) get_printfile_pathbasename());
+  if(PrintStatus.background==STATE_OFF) {
+		call_out_to_guile("(FinalizeTypesetting)");
+		process_lilypond_errors((gchar *) get_printfile_pathbasename());
   }
   PrintStatus.printpid = GPID_NONE;
   GError *err = NULL;
@@ -1448,7 +1464,7 @@ popup_print_preview_menu(void) {
   GtkWidget *menu = gtk_menu_new();
   GtkWidget *item = gtk_menu_item_new_with_label("Print");
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(print_from_print_view),NULL);
+  g_signal_connect_swapped(G_OBJECT(item), "activate", G_CALLBACK(print_from_print_view), GINT_TO_POINTER(TRUE));
   item = gtk_menu_item_new_with_label("Refresh Typesetting");
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(force_typeset),NULL);
@@ -1732,7 +1748,7 @@ void typeset_control(GtkWidget*dummy, gpointer data) {
   else if(data==create_part_pdf)
     create_part_pdf();
   else if(data!=NULL) {	
-			if(PrintStatus.background) {
+			if(PrintStatus.background==STATE_ON) {
 				save_selection(Denemo.gui->si);
 				if(PrintStatus.print_all) {
 					Denemo.gui->si->markstaffnum = 0;
@@ -1764,7 +1780,7 @@ void typeset_control(GtkWidget*dummy, gpointer data) {
     g_string_assign(last_script, data);
     last_data = NULL;
     g_child_watch_add(PrintStatus.printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
-    if(PrintStatus.background) {
+    if(PrintStatus.background==STATE_ON) {
 				restore_selection(Denemo.gui->si);
 		}    
     Denemo.gui->si->markstaffnum = markstaff; 
@@ -1847,16 +1863,20 @@ return FALSE;
 #define MANUAL _("Manual Updates")
 #define CONTINUOUS _("Continuous")
 static void typeset_action(GtkWidget *button, gpointer data) {
-  PrintStatus.background = FALSE;
   initialize_typesetting();
   typeset_control(NULL, data);
 }
 
-gboolean retypeset(void) {//FIXME check for cursor moved and not retypesetting all
+static gboolean retypeset(void) {
 static gint firstmeasure, lastmeasure, firststaff, laststaff, movementnum;
  DenemoScore *si = Denemo.gui->si;
  if((PrintStatus.printpid==GPID_NONE) &&
+			(
+			
+			((!PrintStatus.print_all) && 
 			(si->currentmovementnum!=movementnum || si->currentmeasurenum<firstmeasure || si->currentmeasurenum>lastmeasure || si->currentstaffnum<firststaff || si->currentstaffnum>laststaff
+			))
+
 			||  (changecount != Denemo.gui->changecount))) {
 		firstmeasure = si->currentmeasurenum-PrintStatus.first_measure;
 		if(firstmeasure<0) firstmeasure = 0;
@@ -1865,21 +1885,21 @@ static gint firstmeasure, lastmeasure, firststaff, laststaff, movementnum;
 		if(firststaff<0) firststaff = 0;
 		laststaff = si->currentstaffnum+PrintStatus.last_staff;
 		movementnum = si->currentmovementnum;
-		PrintStatus.background = TRUE;
+		PrintStatus.background = STATE_ON;
 		typeset_control(NULL, "(disp \"This is called when hitting the refresh button while in continuous re-typeset\")(d-PrintView)");
+		PrintStatus.background = STATE_OFF;
 		changecount = Denemo.gui->changecount;
  }
  return TRUE;//continue
 }
 //turn the continuous update off and on
 static void toggle_updates(GtkWidget *menu_item, GtkWidget *button) {
- static gint updating_id;
- if(updating_id) {
-	 g_source_remove(updating_id);
-	 updating_id = 0;
+ if(PrintStatus.updating_id) {
+	 g_source_remove(PrintStatus.updating_id);
+	 PrintStatus.updating_id = 0;
 	 gtk_button_set_label(GTK_BUTTON(button), MANUAL);
  } else {
-	 updating_id = g_idle_add( (GSourceFunc)retypeset, NULL);
+	 PrintStatus.updating_id = g_idle_add( (GSourceFunc)retypeset, NULL);
 	 gtk_button_set_label(GTK_BUTTON(button), CONTINUOUS);
  }
 }
