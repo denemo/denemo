@@ -72,10 +72,14 @@ static changecount = -1;//changecount when the printfile was last created FIXME 
 static GPid previewerpid = GPID_NONE;
 static GPid get_lily_version_pid = GPID_NONE;
 
-typedef enum { STATE_OFF = 1<<0,
-							 STATE_ON = 1<<1, 
-							 STATE_PAUSED = 1<<2
+typedef enum { STATE_NONE = 0, //not a background typeset
+							 STATE_OFF = 1<<0, //background typeset complete
+							 STATE_ON = 1<<1, //background typeset in progress
+							 STATE_PAUSED = 1<<2 	//background typesetting turned off to allow printing
 							 } background_state;
+							 
+typedef enum { EXCERPT, MOVEMENT, ALL} typeset_type;							 
+							 
 typedef struct printstatus {
 GPid printpid;
 background_state background;
@@ -84,7 +88,7 @@ gint first_measure;
 gint last_measure;
 gint first_staff;
 gint last_staff;
-gboolean print_all;
+typeset_type typeset_type;
 gint invalid;//set 1 if  lilypond reported problems or 2 if generating new pdf failed 
 unsigned mtime;//modification time of the last generated pdf
 } printstatus;
@@ -478,7 +482,7 @@ static gint
 run_lilypond(gchar **arguments) {
   gint error = 0;
   DenemoGUI *gui = Denemo.gui;
-  if(!PrintStatus.background)
+  if(PrintStatus.background==STATE_NONE)
 		progressbar("Denemo Typesetting");
   g_spawn_close_pid (get_lily_version_pid);
   get_lily_version_pid = GPID_NONE;
@@ -1080,13 +1084,16 @@ static gboolean overdraw_print(cairo_t *cr) {
 	
 	
   }
-  	if(PrintStatus.updating_id) {
+  	if(PrintStatus.updating_id && (PrintStatus.background!=STATE_NONE)) {
 		cairo_set_source_rgba( cr, 0.5, 0.0, 0.5 , 0.3);
 		cairo_set_font_size( cr, 64.0 );
 		cairo_move_to( cr, 0, 0);
 		cairo_rotate(cr, M_PI/4);
 		cairo_move_to( cr, 200,80);
-		cairo_show_text( cr, _("Excerpt Only"));
+		if(PrintStatus.typeset_type==MOVEMENT)
+			cairo_show_text( cr, _("Current Movement"));
+		else if(PrintStatus.typeset_type==EXCERPT)
+			cairo_show_text( cr, _("Excerpt Only"));
 	}
 	
 return TRUE;
@@ -1779,7 +1786,8 @@ void typeset_control(GtkWidget*dummy, gpointer data) {
   static GString *last_script=NULL;
   gint markstaff = Denemo.gui->si->markstaffnum;
   Denemo.gui->si->markstaffnum = 0;
- 
+ 	if(PrintStatus.background!=STATE_ON)
+		PrintStatus.background=0; //STATE_NONE
   if(last_script==NULL)
     last_script=g_string_new("(d-PrintView)");
    
@@ -1792,9 +1800,9 @@ void typeset_control(GtkWidget*dummy, gpointer data) {
   else if(data!=NULL) {	
 			if(PrintStatus.background==STATE_ON) {
 				save_selection(Denemo.gui->si);
-				if(PrintStatus.print_all) {
+				if(PrintStatus.typeset_type==MOVEMENT) {
 					Denemo.gui->si->markstaffnum = 0;
-					create_pdf(FALSE, TRUE);
+					create_pdf(FALSE, FALSE);
 				} else {
 				gint value = Denemo.gui->si->currentstaffnum - PrintStatus.first_staff;
 				if(value<1) value = 1;
@@ -1914,10 +1922,10 @@ static gint firstmeasure, lastmeasure, firststaff, laststaff, movementnum;
  DenemoScore *si = Denemo.gui->si;
  if((PrintStatus.printpid==GPID_NONE) &&
 			(
-			
-			((!PrintStatus.print_all) && 
-			(si->currentmovementnum!=movementnum || si->currentmeasurenum<firstmeasure || si->currentmeasurenum>lastmeasure || si->currentstaffnum<firststaff || si->currentstaffnum>laststaff
-			))
+			((si->currentmovementnum!=movementnum || 
+			((PrintStatus.typeset_type==EXCERPT) && 
+			(si->currentmeasurenum<firstmeasure || si->currentmeasurenum>lastmeasure || si->currentstaffnum<firststaff || si->currentstaffnum>laststaff)
+			)))
 
 			||  (changecount != Denemo.gui->changecount))) {
 		firstmeasure = si->currentmeasurenum-PrintStatus.first_measure;
@@ -1947,7 +1955,7 @@ static void toggle_updates(GtkWidget *menu_item, GtkWidget *button) {
 }
 
 toggle_print_all_continuous(void) {
-	PrintStatus.print_all = !PrintStatus.print_all;
+	PrintStatus.typeset_type= (PrintStatus.typeset_type==MOVEMENT)? EXCERPT:MOVEMENT;
 }
 
 value_change(GtkWidget *spinner, gint *value) {
@@ -2004,7 +2012,7 @@ range_dialog(void) {
 
 			hbox = gtk_hbox_new(FALSE, 1);
 			gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 0);
-			GtkWidget *button = gtk_check_button_new_with_label(_("Print All"));
+			GtkWidget *button = gtk_check_button_new_with_label(_("Current Movement"));
 			g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(toggle_print_all_continuous), NULL);
 			gtk_widget_set_tooltip_text(button, _("If checked the current layout is re-typeset at every change"));
 			gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 0);
