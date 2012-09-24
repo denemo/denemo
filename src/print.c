@@ -9,6 +9,7 @@
 
 #define PRINT_H
 #include <stdio.h>
+#include <math.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -84,11 +85,13 @@ gint last_measure;
 gint first_staff;
 gint last_staff;
 gboolean print_all;
+gint invalid;//set 1 if  lilypond reported problems or 2 if generating new pdf failed 
+unsigned mtime;//modification time of the last generated pdf
 } printstatus;
 
 static printstatus PrintStatus = {GPID_NONE, 0, 0, 4, 4, 4, 4};
 
-static gboolean print_is_valid = FALSE;
+
 static gint output=-1;
 static gint errors=-1;
 static   GError *lily_err = NULL;
@@ -315,7 +318,7 @@ void convert_ly(gchar *lilyfile){
 static void
 process_lilypond_errors(gchar *filename){
   DenemoGUI *gui = Denemo.gui;
-  print_is_valid = TRUE;
+  PrintStatus.invalid = 0;
   if (errors == -1)
     return;
   gchar *basename = g_path_get_basename(filename);
@@ -349,7 +352,7 @@ process_lilypond_errors(gchar *filename){
         set_lily_error(line+1, column, gui);
       }
       goto_lilypond_position (line+1, column);
-      print_is_valid = FALSE;
+      PrintStatus.invalid = 2;//print_is_valid = FALSE;
       if(Denemo.printarea)
         gtk_widget_queue_draw(Denemo.printarea);
      // FIXME this causes a lock-up     warningdialog("Typesetter detected errors. Cursor is position on the error point.\nIf in doubt delete and re-enter the measure.");
@@ -562,7 +565,18 @@ run_lilypond_for_pdf(gchar *filename, gchar *lilyfile) {
   };
   run_lilypond(arguments);
 }
-
+static unsigned file_get_mtime(gchar *filename) {
+	struct stat thebuf;
+  gint status =  g_stat(filename, &thebuf);
+  unsigned mtime = thebuf.st_mtime;
+  g_print("the mt is %u\n", mtime);
+	return mtime;
+}
+static void set_mtime(gchar *basename) {
+	gchar *filename = g_strconcat(basename, ".pdf", NULL);
+	PrintStatus.mtime = file_get_mtime(filename);
+	g_free(filename);
+}
 /*  create pdf of current score, optionally restricted to voices/staffs whose name match the current one.
  *  generate the lilypond text (on disk)
  *  Fork and run lilypond
@@ -574,6 +588,7 @@ create_pdf (gboolean part_only, gboolean all_movements)
   gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
   g_remove (lilyfile);
   generate_lilypond(lilyfile, part_only, all_movements);
+  set_mtime(filename);
   run_lilypond_for_pdf(filename, lilyfile);
   // gui->lilysync = G_MAXUINT;in certain cases this may not be needed
   g_free(lilyfile);
@@ -844,6 +859,8 @@ advance_printname();
 static gboolean initialize_typesetting(void) {
   return call_out_to_guile("(InitializeTypesetting)");
 }
+
+//callback to print the LilyPond text in the LilyPond View window
 void print_lily_cb (GtkWidget *item, DenemoGUI *gui){
 #if FILE_LOCKING
 advance_printname();
@@ -948,9 +965,9 @@ libevince_print(void) {
     		
 		if(PrintStatus.updating_id) {
 			PrintStatus.background|=STATE_PAUSED;
-			g_source_remove(PrintStatus.updating_id);
+			g_source_remove(PrintStatus.updating_id);//if this is not turned off the print preview thread hangs until it is.
 			PrintStatus.updating_id = 0;
-		} else g_warning("idle updating not active");
+		}
 		
     ev_print_operation_run (printop, NULL);
   }
@@ -998,9 +1015,31 @@ static void set_window_position(x, y) {
     gtk_adjustment_changed(adj);
   } else g_print("out of vertical range\n");
 }
+   
+//setting up Denemo.pixbuf so that parts of the pdf can be dragged etc.
+static void set_denemo_pixbuf(void)  {
+      GdkWindow *window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
+      if(window) {
+      gint width, height;
+#if GTK_MAJOR_VERSION==2
+      gdk_drawable_get_size(window, &width, &height);
+      
+      Denemo.pixbuf = gdk_pixbuf_get_from_drawable(NULL, window, 
+                                                   NULL/*gdk_colormap_get_system ()*/, 0, 0, 0, 0,
+                                                  width, height);
+#else
+      width = gdk_window_get_width(window);
+      height = gdk_window_get_height(window);
+      Denemo.pixbuf = gdk_pixbuf_get_from_window(window, 0,0, width,height);
+#endif
+	}
+}
+ 
 //over-draw the evince widget with padding etc ...
 static gboolean overdraw_print(cairo_t *cr) {
-  if(Denemo.pixbuf==NULL)
+   if(Denemo.pixbuf==NULL)
+    set_denemo_pixbuf();
+   if(Denemo.pixbuf==NULL)
     return FALSE;
   gint x, y, hupper, hlower, vupper, vlower;
 
@@ -1018,15 +1057,38 @@ static gboolean overdraw_print(cairo_t *cr) {
     cairo_rectangle (cr, Mark.x, Mark.y, MARKER, MARKER );
     cairo_fill(cr);
   }
-  if(!print_is_valid) {
+  if(PrintStatus.invalid/*!print_is_valid*/) {
+		gchar *headline, *explanation;
+		switch(PrintStatus.invalid) {
+		case 1:
+			headline = _("Possibly Invalid");
+			explanation = _("Cursor not moved.");
+			break;
+		case 2:
+			headline = _("Check Score.");
+			explanation = _("Cursor may have moved to error point in the score.");
+			break;
+	}
   cairo_set_source_rgba( cr, 0.5, 0.0, 0.0 , 0.4);
   cairo_set_font_size( cr, 48.0 );
   cairo_move_to( cr, 50,50 );
-  cairo_show_text( cr, "Not Valid");
+  cairo_show_text( cr, headline);
   cairo_set_font_size( cr, 18.0 );
   cairo_move_to( cr, 50,80 );
-  cairo_show_text( cr, "Cursor has been moved to error point in the score.");
+	cairo_show_text( cr,explanation);
+
+	
+	
   }
+  	if(PrintStatus.updating_id) {
+		cairo_set_source_rgba( cr, 0.5, 0.0, 0.5 , 0.3);
+		cairo_set_font_size( cr, 64.0 );
+		cairo_move_to( cr, 0, 0);
+		cairo_rotate(cr, M_PI/4);
+		cairo_move_to( cr, 200,80);
+		cairo_show_text( cr, _("Excerpt Only"));
+	}
+	
 return TRUE;
 //fragments of code for drawing actively dragging and already dragged objects - this will need a list of displaced rectangles and an actively dragged one
 //the list of dragged rectangles would be emptied on refreshing the pdf
@@ -1083,11 +1145,12 @@ printarea_draw_event (GtkWidget * widget, GdkEventExpose * event)
 }
 #endif
 
-
 static void
 set_printarea(GError **err) {
   GFile       *file;
   gchar *filename = g_strconcat((gchar *) get_printfile_pathbasename(), ".pdf", NULL);
+  unsigned mtime = file_get_mtime(filename);
+	PrintStatus.invalid = (mtime == PrintStatus.mtime)?1:0;
   file = g_file_new_for_commandline_arg (filename);
   g_free(filename);
   gchar *uri = g_file_get_uri (file);
@@ -1103,25 +1166,9 @@ set_printarea(GError **err) {
     set_printarea_doc(doc);
 
 
-#if 0
-//this will fail if the printarea is not visible, so it would need to be re-triggered on showing the printarea  
-    //setting up Denemo.pixbuf so that parts of the pdf can be dragged etc.
-  {
-      GdkWindow *window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
-      gint width, height;
-#if GTK_MAJOR_VERSION==2
-      gdk_drawable_get_size(window, &width, &height);
-      
-      Denemo.pixbuf = gdk_pixbuf_get_from_drawable(NULL, window, 
-                                                   NULL/*gdk_colormap_get_system ()*/, 0, 0, 0, 0,
-                                                  width, height);
-#else
-      width = gdk_window_get_width(window);
-      height = gdk_window_get_height(window);
-      Denemo.pixbuf = gdk_pixbuf_get_from_window(window, 0,0, width,height);
-#endif
-  }
-#endif
+
+	//this will fail if the printarea is not visible, so it would need to be re-triggered on showing the printarea  
+   set_denemo_pixbuf();
   return;
 }
 
@@ -1258,6 +1305,8 @@ printexcerptpreview_cb (GtkAction *action, gpointer param) {
   }
 }
 
+
+
 static gchar *get_thumb_directory(void) {
   return g_build_filename (g_get_home_dir(), ".thumbnails", "large", NULL);
 }
@@ -1291,11 +1340,11 @@ void thumb_finished(GPid pid, gint status) {
       gchar *uri = g_strdup_printf("file://%s", Denemo.gui->filename->str);
       gchar *thumbname = get_thumbname (uri);
 
-      
-            struct stat thebuf;
-            gint status =  g_stat(Denemo.gui->filename->str, &thebuf);
-            unsigned mtime = thebuf.st_mtime;
-            g_print("the mt is %u\n", mtime);
+						unsigned mtime = file_get_mtime(Denemo.gui->filename->str);
+            //struct stat thebuf;
+            //gint status =  g_stat(Denemo.gui->filename->str, &thebuf);
+           // unsigned mtime = thebuf.st_mtime;
+            //g_print("the mt is %u\n", mtime);
             
  
 
@@ -1529,6 +1578,8 @@ static gint
 printarea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 {
   ObjectLocated = FALSE;
+   if(Denemo.pixbuf==NULL)
+    set_denemo_pixbuf();
   if(Denemo.pixbuf==NULL)
     return TRUE;
   if(padding || offsetting || selecting) {
@@ -1650,6 +1701,8 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 static gint
 printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 {
+	if(Denemo.pixbuf==NULL)
+    set_denemo_pixbuf();
   if(Denemo.pixbuf==NULL)
     return TRUE;
   gboolean left = (event->button != 3);
@@ -1716,20 +1769,9 @@ g_print("Sync Signal Callback! Please report how you got this to fire\n");
 }
 
 
-const gchar * get_printfile_name(void)
-      {
-       static gchar *filename = NULL;
-       if(!filename) {
-          filename = g_strconcat((gchar *) get_printfile_pathbasename(), ".pdf", NULL);
-        }
-        if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
-          //g_print("Creating or deleting %s\n", filename);
-            //g_creat(filename, 0500);
-            FILE *fp=fopen(filename, "rw");
-            if(fp) fclose(fp);
-        }
-        return filename;
-      }
+
+
+// PrintStatus.mtime = file_get_mtime(filename); use in get_printfile_pathbasename
 
 static
 void typeset_control(GtkWidget*dummy, gpointer data) {
