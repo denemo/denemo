@@ -1730,6 +1730,7 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
     gdk_window_invalidate_rect(window,&Mark,TRUE);
     Mark.x +=x;
     Mark.y +=y;
+    switch_back_to_main_window();
     }
 return TRUE;
 
