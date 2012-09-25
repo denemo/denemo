@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Denemo-8.4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-25 10:31+0100\n"
+"POT-Creation-Date: 2012-09-25 10:44+0100\n"
 "PO-Revision-Date: 2009-07-07 14:43+0100\n"
 "Last-Translator: Piotr Komorowski <piotr-komorowski@wp.pl>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -11682,6 +11682,10 @@ msgstr ""
 msgid ""
 "To insert notes hold down shift key while clicking the mouse. To add to a "
 "chord hold down Alt key, to delete hold down Control key while clicking."
+msgstr ""
+
+#: actions/commandscripts/PrintAllLayouts.scm:22
+msgid "No Layouts Visible - check View->Score Layout"
 msgstr ""
 
 #: actions/commandscripts/StaffSize.scm:2

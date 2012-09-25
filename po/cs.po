@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: denemo 0.9.6-rc2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-25 10:31+0100\n"
+"POT-Creation-Date: 2012-09-25 10:44+0100\n"
 "PO-Revision-Date: 2012-09-07 23:47+0200\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
@@ -12220,6 +12220,10 @@ msgstr ""
 "Ke vložení noty podržte klávesu Shift současně s klepnutím myší. Pro vložení "
 "do akordu podržte klávesu Alt, pro smazání podržte současně s klepnutím myší "
 "klávesu Ctrl."
+
+#: actions/commandscripts/PrintAllLayouts.scm:22
+msgid "No Layouts Visible - check View->Score Layout"
+msgstr ""
 
 #: actions/commandscripts/StaffSize.scm:2
 msgid "Setting Staff Size"

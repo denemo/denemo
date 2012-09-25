@@ -334,6 +334,7 @@ actions/commandscripts/CriticalCommentaryIntro.scm
 actions/commandscripts/CursorToHighestNote.scm
 actions/commandscripts/CursorToLowestNote.scm
 actions/commandscripts/D.C.AlFine.scm
+actions/commandscripts/DalSegno.scm
 actions/commandscripts/Db-Major.scm
 actions/commandscripts/Db-Pentascale.scm
 actions/commandscripts/DeactivateTimeSignatureStencil.scm
@@ -575,6 +576,7 @@ actions/commandscripts/Presto.scm
 actions/commandscripts/PrevBookmark.scm
 actions/commandscripts/Preview4Bars.scm
 actions/commandscripts/PrintAccompanistsScore.scm
+actions/commandscripts/PrintAllLayouts.scm
 actions/commandscripts/PrintBassPartWithoutFigures.scm
 actions/commandscripts/PrintPartWithTitlePage.scm
 actions/commandscripts/PrintThreeReduced.scm
@@ -782,6 +784,7 @@ actions/commandscripts/VoicePreset4.scm
 actions/commandscripts/VoicePresetAutomatic.scm
 actions/commandscripts/VoiceSetting.scm
 actions/commandscripts/VoicesDoublestroke.scm
+actions/commandscripts/WholeMeasureRepeat.scm
 actions/commandscripts/WholeMeasureRest.scm
 actions/commandscripts/ZoomDialog.scm
 actions/commandscripts/ZoomIn.scm
