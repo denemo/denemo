@@ -78,7 +78,7 @@ typedef enum { STATE_NONE = 0, //not a background typeset
 							 STATE_PAUSED = 1<<2 	//background typesetting turned off to allow printing
 							 } background_state;
 							 
-typedef enum { EXCERPT, MOVEMENT, ALL} typeset_type;							 
+typedef enum { EXCERPT, MOVEMENT, ALL_MOVEMENTS} typeset_type;							 
 							 
 typedef struct printstatus {
 GPid printpid;
@@ -1800,7 +1800,10 @@ void typeset_control(GtkWidget*dummy, gpointer data) {
   else if(data!=NULL) {	
 			if(PrintStatus.background==STATE_ON) {
 				save_selection(Denemo.gui->si);
-				if(PrintStatus.typeset_type==MOVEMENT) {
+				if(PrintStatus.typeset_type==ALL_MOVEMENTS) {
+					Denemo.gui->si->markstaffnum = 0;
+					create_pdf(FALSE, TRUE);
+				} else if(PrintStatus.typeset_type==MOVEMENT) 	{
 					Denemo.gui->si->markstaffnum = 0;
 					create_pdf(FALSE, FALSE);
 				} else {
@@ -1822,7 +1825,7 @@ void typeset_control(GtkWidget*dummy, gpointer data) {
 				
 				Denemo.gui->si->selection.firstobjmarked = 0;Denemo.gui->si->selection.lastobjmarked = G_MAXINT-1;//counts from 0, +1 must be valid
 				create_pdf(FALSE, FALSE);//this movement only cursor-relative selection of measures	
-			}
+			} 			
 		} else	{	
 			busy_cursor();
 			create_pdf(FALSE, TRUE);
@@ -1920,14 +1923,21 @@ static void typeset_action(GtkWidget *button, gpointer data) {
 static gboolean retypeset(void) {
 static gint firstmeasure, lastmeasure, firststaff, laststaff, movementnum;
  DenemoScore *si = Denemo.gui->si;
- if((PrintStatus.printpid==GPID_NONE) &&
-			(
-			((si->currentmovementnum!=movementnum || 
-			((PrintStatus.typeset_type==EXCERPT) && 
-			(si->currentmeasurenum<firstmeasure || si->currentmeasurenum>lastmeasure || si->currentstaffnum<firststaff || si->currentstaffnum>laststaff)
-			)))
-
-			||  (changecount != Denemo.gui->changecount))) {
+ if(PrintStatus.printpid==GPID_NONE) { 
+	 if(PrintStatus.typeset_type==ALL_MOVEMENTS) {
+				if(changecount != Denemo.gui->changecount) {
+					PrintStatus.background = STATE_ON;
+					typeset_control(NULL, "(disp \"This is called when hitting the refresh button while in continuous re-typeset\")(d-PrintView)");
+					PrintStatus.background = STATE_OFF;
+					changecount = Denemo.gui->changecount;
+				}
+  	} else if((changecount != Denemo.gui->changecount) ||
+							(si->currentmovementnum!=movementnum) || 
+							((PrintStatus.typeset_type==EXCERPT) && 
+									(si->currentmeasurenum<firstmeasure || 
+									si->currentmeasurenum>lastmeasure || 
+									si->currentstaffnum<firststaff || 
+									si->currentstaffnum>laststaff))) {
 		firstmeasure = si->currentmeasurenum-PrintStatus.first_measure;
 		if(firstmeasure<0) firstmeasure = 0;
 		lastmeasure = si->currentmeasurenum+PrintStatus.last_measure;
@@ -1939,6 +1949,7 @@ static gint firstmeasure, lastmeasure, firststaff, laststaff, movementnum;
 		typeset_control(NULL, "(disp \"This is called when hitting the refresh button while in continuous re-typeset\")(d-PrintView)");
 		PrintStatus.background = STATE_OFF;
 		changecount = Denemo.gui->changecount;
+	}
  }
  return TRUE;//continue
 }
@@ -1954,8 +1965,22 @@ static void toggle_updates(GtkWidget *menu_item, GtkWidget *button) {
  }
 }
 
-toggle_print_all_continuous(void) {
-	PrintStatus.typeset_type= (PrintStatus.typeset_type==MOVEMENT)? EXCERPT:MOVEMENT;
+toggle_print_all_continuous(GtkWidget *radiobutton) {
+	if(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(radiobutton))) {
+		changecount = 0;//reset so that a retype occurs
+		gint index = g_slist_index(gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton)), radiobutton);
+		//g_print("Get %s at %d\n", gtk_button_get_label(GTK_BUTTON(radiobutton)), index);
+		switch(index) {
+				case 2:
+					PrintStatus.typeset_type = EXCERPT;
+					break;
+				case 1:
+					PrintStatus.typeset_type = MOVEMENT;
+					break;
+				case 0:
+					PrintStatus.typeset_type= ALL_MOVEMENTS;
+		}
+	}
 }
 
 value_change(GtkWidget *spinner, gint *value) {
@@ -2012,10 +2037,23 @@ range_dialog(void) {
 
 			hbox = gtk_hbox_new(FALSE, 1);
 			gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 0);
-			GtkWidget *button = gtk_check_button_new_with_label(_("Current Movement"));
-			g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(toggle_print_all_continuous), NULL);
+			
+			
+			GtkWidget *button = gtk_radio_button_new_with_label_from_widget (NULL, _("Cursor Context"));
+			g_signal_connect(G_OBJECT(button), "toggled", G_CALLBACK(toggle_print_all_continuous), NULL);
+			gtk_widget_set_tooltip_text(button, _("If checked the range around the current cursor position is re-typeset at every change or when the cursor moves out of range."));
+			gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 0);
+			
+			button = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON(button), _("Current Movement"));
+			g_signal_connect(G_OBJECT(button), "toggled", G_CALLBACK(toggle_print_all_continuous), NULL);
+			gtk_widget_set_tooltip_text(button, _("If checked the current movement is re-typeset at every change"));
+			gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 0);
+
+			button = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON(button), _("All Movements"));
+			g_signal_connect(G_OBJECT(button), "toggled", G_CALLBACK(toggle_print_all_continuous), NULL);
 			gtk_widget_set_tooltip_text(button, _("If checked the current layout is re-typeset at every change"));
 			gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 0);
+	
 			g_signal_connect(dialog, "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), NULL);
 			gtk_widget_show_all(dialog);
 		} else
@@ -2041,7 +2079,7 @@ updates_menu(GtkWidget *button) {
   gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 }
 GtkWidget *get_updates_button(void) {
-  GtkWidget *button = gtk_button_new_with_label(_("Manual"));
+  GtkWidget *button = gtk_button_new_with_label(MANUAL);
   gtk_widget_set_tooltip_text(button, _("Set background updater on/off."));
   g_signal_connect(button, "clicked", G_CALLBACK(updates_menu), NULL);
   return button;	
