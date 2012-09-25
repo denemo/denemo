@@ -670,15 +670,15 @@ int main() {
       fprintf(register_commands, "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"%s\"), \"%s\", N_(\"%s\"), N_(\"%s\"), %s);\n",ni,ni, ml?ml:ni, ti?ti:ni,fi);
       /****************** install the command as an action in the menu system **************************/
       fprintf(entries,
-	      "{\"%s\", %s, \"%s\", \"\","
-	      "\"%s\","
+	      "{\"%s\", %s, N_(\"%s\"), \"\","
+	      "N_(\"%s\"),"
 	      "G_CALLBACK (%s%s)},\n",
 	      ni, ii?ii:"NULL",ml?ml:ni, ti?ti:ni,fi,  (mi&CMD_CATEGORY_DIRECT)?"":"_cb");
     }
     else //no callback function - a menu rather than a menu item. It still needs to be added as an action in the menu system.
      fprintf(entries,
-	      "{\"%s\", %s, \"%s\", \"\","
-	      "\"%s\"},\n",
+	      "{\"%s\", %s, N_(\"%s\"), \"\","
+	      "N_(\"%s\")},\n",
 	      ni, ii?ii:"NULL",ml?ml:ni, ti?ti:ni);
   }
 

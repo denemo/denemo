@@ -3788,14 +3788,14 @@ static SCM scheme_timer(SCM duration_amount, SCM callback) {
     scheme->id = Denemo.gui->id;
     g_timeout_add(duration, (GSourceFunc)scheme_callback_timer, (gpointer) scheme);
     //if(scheme_code) free(scheme_code);
-    return scm_int2num((gint)scheme);
+    return scm_int2num(GPOINTER_TO_INT(scheme));//FIXME pointer may not fit in int
   } else
   return SCM_BOOL_F;
 }
 
 static SCM scheme_kill_timer(SCM id) {
   if(scm_is_integer(id)) {
-    cb_scheme_and_id *scheme = (cb_scheme_and_id *)scm_num2int(id, 0, 0);
+    cb_scheme_and_id *scheme = (cb_scheme_and_id *)scm_num2int(id, 0, 0);//FIXME the int may not be large enough for a pointer
     if(scheme) {
       g_source_remove_by_user_data(scheme);
       free(scheme->scheme_code);
@@ -7871,7 +7871,7 @@ static gboolean menu_click (GtkWidget      *widget,
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(createMouseShortcut), action);
     item = gtk_menu_item_new_with_label("Edit Shortcuts\nSet Mouse Pointers\nHide/Delete Menu Item");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-    g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(configure_keyboard_idx), (gpointer)idx);
+    g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(configure_keyboard_idx), GINT_TO_POINTER(idx));
     item = gtk_menu_item_new_with_label("Save Command Set");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(save_default_keymap_file), action);
@@ -8515,7 +8515,7 @@ toggle_print_view (GtkAction *action, gpointer param)
     gtk_widget_hide(w);
   else {
     gtk_widget_show(w);
-    if(((gint)g_object_get_data(G_OBJECT(Denemo.printarea), "printviewupdate"))<Denemo.gui->changecount)
+    if(GPOINTER_TO_INT(g_object_get_data(G_OBJECT(Denemo.printarea), "printviewupdate"))<Denemo.gui->changecount)
       refresh_print_view(TRUE);
   }
   return;
@@ -8949,7 +8949,7 @@ static void  proxy_connected (GtkUIManager *uimanager, GtkAction *action, GtkWid
     update_accel_labels(Denemo.map, command_idx);
   //  else //not an error, it occurs for menus being loaded
   //   g_warning("%s is not yet in map\n",  gtk_action_get_name(action));
-  gboolean hidden= (gboolean) (action?g_object_get_data(G_OBJECT(action), "hidden"):NULL);
+  gboolean hidden= (gboolean)GPOINTER_TO_INT( (action?g_object_get_data(G_OBJECT(action), "hidden"):NULL));
   if(hidden) {
 	    set_visibility_for_action(action, FALSE);	   
 	  }

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-29 17:52+0100\n"
+"POT-Creation-Date: 2012-09-25 10:31+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,7 +37,7 @@ msgstr ""
 msgid "<b>Woodwind</b>"
 msgstr ""
 
-#: src/articulations.c:456
+#: src/articulations.c:456 src/entries.h:365
 msgid "Articulation"
 msgstr ""
 
@@ -61,7 +61,7 @@ msgstr ""
 msgid "Close Repeat"
 msgstr ""
 
-#: src/barline.c:76 src/commands.c:2315 src/commands.c:2317
+#: src/barline.c:76 src/commands.c:2315 src/commands.c:2317 src/entries.h:317
 #: src/register_commands.h:295
 #, no-c-format
 msgid "Insert Barline"
@@ -145,7 +145,7 @@ msgstr ""
 msgid "French"
 msgstr ""
 
-#: src/clefdialog.c:126 src/scorelayout.c:1235
+#: src/clefdialog.c:126 src/scorelayout.c:1236
 msgid "Set Clef"
 msgstr ""
 
@@ -163,7 +163,37 @@ msgid "Stopped  (Off/On)"
 msgstr ""
 
 #: src/commands.c:9 src/commands.c:11 src/commands.c:20 src/commands.c:22
-#: src/commands.c:31 src/commands.c:33 src/register_commands.h:56
+#: src/commands.c:31 src/commands.c:33 src/entries.h:57 src/entries.h:58
+#: src/entries.h:59 src/entries.h:60 src/entries.h:61 src/entries.h:62
+#: src/entries.h:63 src/entries.h:64 src/entries.h:65 src/entries.h:66
+#: src/entries.h:69 src/entries.h:70 src/entries.h:75 src/entries.h:76
+#: src/entries.h:85 src/entries.h:88 src/entries.h:89 src/entries.h:90
+#: src/entries.h:91 src/entries.h:92 src/entries.h:93 src/entries.h:94
+#: src/entries.h:95 src/entries.h:96 src/entries.h:97 src/entries.h:98
+#: src/entries.h:99 src/entries.h:100 src/entries.h:101 src/entries.h:102
+#: src/entries.h:103 src/entries.h:104 src/entries.h:105 src/entries.h:106
+#: src/entries.h:107 src/entries.h:108 src/entries.h:109 src/entries.h:110
+#: src/entries.h:111 src/entries.h:112 src/entries.h:113 src/entries.h:114
+#: src/entries.h:115 src/entries.h:116 src/entries.h:117 src/entries.h:118
+#: src/entries.h:119 src/entries.h:120 src/entries.h:121 src/entries.h:122
+#: src/entries.h:123 src/entries.h:124 src/entries.h:125 src/entries.h:126
+#: src/entries.h:127 src/entries.h:128 src/entries.h:129 src/entries.h:130
+#: src/entries.h:131 src/entries.h:132 src/entries.h:133 src/entries.h:134
+#: src/entries.h:135 src/entries.h:136 src/entries.h:137 src/entries.h:138
+#: src/entries.h:139 src/entries.h:140 src/entries.h:141 src/entries.h:142
+#: src/entries.h:143 src/entries.h:144 src/entries.h:145 src/entries.h:146
+#: src/entries.h:147 src/entries.h:148 src/entries.h:149 src/entries.h:150
+#: src/entries.h:151 src/entries.h:152 src/entries.h:153 src/entries.h:154
+#: src/entries.h:155 src/entries.h:156 src/entries.h:157 src/entries.h:158
+#: src/entries.h:159 src/entries.h:160 src/entries.h:161 src/entries.h:162
+#: src/entries.h:163 src/entries.h:164 src/entries.h:165 src/entries.h:166
+#: src/entries.h:167 src/entries.h:168 src/entries.h:169 src/entries.h:170
+#: src/entries.h:171 src/entries.h:172 src/entries.h:173 src/entries.h:174
+#: src/entries.h:175 src/entries.h:176 src/entries.h:177 src/entries.h:178
+#: src/entries.h:179 src/entries.h:180 src/entries.h:181 src/entries.h:182
+#: src/entries.h:183 src/entries.h:184 src/entries.h:185 src/entries.h:191
+#: src/entries.h:192 src/entries.h:193 src/entries.h:194 src/entries.h:197
+#: src/entries.h:198 src/entries.h:199 src/register_commands.h:56
 #: src/register_commands.h:57 src/register_commands.h:58
 #: src/register_commands.h:59 src/register_commands.h:60
 #: src/register_commands.h:61 src/register_commands.h:62
@@ -222,8 +252,8 @@ msgstr ""
 #: src/register_commands.h:183 src/register_commands.h:184
 #: src/register_commands.h:190 src/register_commands.h:191
 #: src/register_commands.h:192 src/register_commands.h:193
-#: src/register_commands.h:194 src/register_commands.h:196
-#: src/register_commands.h:197 src/register_commands.h:198
+#: src/register_commands.h:196 src/register_commands.h:197
+#: src/register_commands.h:198
 #, no-c-format
 msgid "No Tooltip yet"
 msgstr ""
@@ -995,7 +1025,7 @@ msgstr ""
 
 #: src/commands.c:851 src/commands.c:854 src/commands.c:2063
 #: src/commands.c:2065 src/commands.c:2118 src/commands.c:2121
-#: src/scorelayout.c:435
+#: src/entries.h:403 src/scorelayout.c:435
 #, no-c-format
 msgid "Delete"
 msgstr ""
@@ -1479,7 +1509,7 @@ msgstr ""
 msgid "Insert tempi and/or metronome marks, printed or not"
 msgstr ""
 
-#: src/commands.c:1394 src/commands.c:1396
+#: src/commands.c:1394 src/commands.c:1396 src/entries.h:396
 #, no-c-format
 msgid "Dynamics"
 msgstr ""
@@ -1867,7 +1897,8 @@ msgstr ""
 msgid "Determine which seventh chord is sounded"
 msgstr ""
 
-#: src/commands.c:1864 src/commands.c:1866 src/register_commands.h:74
+#: src/commands.c:1864 src/commands.c:1866 src/entries.h:75
+#: src/register_commands.h:74
 #, no-c-format
 msgid "Add Dot"
 msgstr ""
@@ -2406,7 +2437,7 @@ msgid "Prints your text above the music at this point"
 msgstr ""
 
 #: src/commands.c:2514 src/commands.c:2517 src/commands.c:2585
-#: src/commands.c:2587 src/register_commands.h:29
+#: src/commands.c:2587 src/entries.h:30 src/register_commands.h:29
 #, no-c-format
 msgid "Octave Up"
 msgstr ""
@@ -2417,7 +2448,7 @@ msgid "Moves cursor up one octave."
 msgstr ""
 
 #: src/commands.c:2526 src/commands.c:2529 src/commands.c:2596
-#: src/commands.c:2598 src/register_commands.h:30
+#: src/commands.c:2598 src/entries.h:31 src/register_commands.h:30
 #, no-c-format
 msgid "Octave Down"
 msgstr ""
@@ -3149,7 +3180,8 @@ msgstr ""
 msgid "Choose from a set of typical time signatures"
 msgstr ""
 
-#: src/commands.c:3351 src/commands.c:3353 src/register_commands.h:75
+#: src/commands.c:3351 src/commands.c:3353 src/entries.h:76
+#: src/register_commands.h:75
 #, no-c-format
 msgid "Remove Dot"
 msgstr ""
@@ -3208,7 +3240,8 @@ msgid ""
 "beats)"
 msgstr ""
 
-#: src/commands.c:3410 src/commands.c:3413 src/register_commands.h:207
+#: src/commands.c:3410 src/commands.c:3413 src/entries.h:220
+#: src/register_commands.h:207
 #, no-c-format
 msgid "Import Lilypond"
 msgstr ""
@@ -3218,7 +3251,8 @@ msgstr ""
 msgid "Try to Import a Lilypond File"
 msgstr ""
 
-#: src/commands.c:3422 src/commands.c:3425 src/register_commands.h:208
+#: src/commands.c:3422 src/commands.c:3425 src/entries.h:221
+#: src/register_commands.h:208
 #, no-c-format
 msgid "Import Midi"
 msgstr ""
@@ -3228,7 +3262,8 @@ msgstr ""
 msgid "Try to Imports a Midi File"
 msgstr ""
 
-#: src/commands.c:3434 src/commands.c:3437 src/register_commands.h:209
+#: src/commands.c:3434 src/commands.c:3437 src/entries.h:222
+#: src/register_commands.h:209
 #, no-c-format
 msgid "Import MusicXml"
 msgstr ""
@@ -3811,7 +3846,7 @@ msgid ""
 "note to extend the chord over more than one bass note."
 msgstr ""
 
-#: src/commands.c:4113 src/commands.c:4115
+#: src/commands.c:4113 src/commands.c:4115 src/entries.h:364
 #, no-c-format
 msgid "Insert Note"
 msgstr ""
@@ -4412,7 +4447,8 @@ msgstr ""
 msgid "(Print) the current voice moves to the staff you name."
 msgstr ""
 
-#: src/commands.c:4754 src/commands.c:4757 src/register_commands.h:265
+#: src/commands.c:4754 src/commands.c:4757 src/entries.h:283
+#: src/register_commands.h:265
 #, no-c-format
 msgid "Add Voice"
 msgstr ""
@@ -5538,14 +5574,6 @@ msgstr ""
 msgid "Prints the score using all the defined score layouts."
 msgstr ""
 
-#: src/drawgrace.c:25
-msgid "\\"
-msgstr ""
-
-#: src/drawgrace.c:29
-msgid "'"
-msgstr ""
-
 #: src/drawstemdir.c:27
 msgid ""
 "stem\n"
@@ -5568,6 +5596,2958 @@ msgstr ""
 msgid "Insert Dynamic"
 msgstr ""
 
+#: src/entries.h:2 src/register_commands.h:1
+msgid "Cursor Left"
+msgstr ""
+
+#: src/entries.h:2 src/register_commands.h:1
+msgid "Moves the cursor one object left, altering the selection if any"
+msgstr ""
+
+#: src/entries.h:3 src/register_commands.h:2
+msgid "Move Cursor Left"
+msgstr ""
+
+#: src/entries.h:3 src/register_commands.h:2
+msgid "Moves the cursor one object left, without altering the selection"
+msgstr ""
+
+#: src/entries.h:4 src/register_commands.h:3
+msgid "Cursor Down"
+msgstr ""
+
+#: src/entries.h:4 src/register_commands.h:3
+msgid "Moves the cursor one scale step down"
+msgstr ""
+
+#: src/entries.h:5 src/register_commands.h:4
+msgid "Cursor Up"
+msgstr ""
+
+#: src/entries.h:5 src/register_commands.h:4
+msgid "Moves the cursor one scale step up"
+msgstr ""
+
+#: src/entries.h:6 src/register_commands.h:5
+msgid "Cursor Right"
+msgstr ""
+
+#: src/entries.h:6 src/register_commands.h:5
+msgid "Moves the cursor one object right, altering the selection if any"
+msgstr ""
+
+#: src/entries.h:7 src/register_commands.h:6
+msgid "Move Cursor Right"
+msgstr ""
+
+#: src/entries.h:7 src/register_commands.h:6
+msgid "Moves the cursor one object right, without altering the selection"
+msgstr ""
+
+#: src/entries.h:8 src/register_commands.h:7
+msgid "To Mark"
+msgstr ""
+
+#: src/entries.h:8 src/register_commands.h:7
+msgid "Moves the cursor to the Mark without altering the selection"
+msgstr ""
+
+#: src/entries.h:9 src/register_commands.h:8
+msgid "Swap Ends of Selection"
+msgstr ""
+
+#: src/entries.h:9 src/register_commands.h:8
+msgid "Swaps the active end of the selection"
+msgstr ""
+
+#: src/entries.h:10 src/register_commands.h:9
+msgid "To Selection Start"
+msgstr ""
+
+#: src/entries.h:10 src/register_commands.h:9
+msgid ""
+"Moves the cursor to the first object in the selection without altering the "
+"selection. returns #f if no selection"
+msgstr ""
+
+#: src/entries.h:11 src/register_commands.h:10
+msgid "Push Position"
+msgstr ""
+
+#: src/entries.h:11 src/register_commands.h:10
+msgid "Pushes the current cursor position onto a stack"
+msgstr ""
+
+#: src/entries.h:12 src/register_commands.h:11
+msgid "Pop Position"
+msgstr ""
+
+#: src/entries.h:12 src/register_commands.h:11
+msgid ""
+"Pops a position from the stack of cursor positions, moving the cursor there"
+msgstr ""
+
+#: src/entries.h:13 src/register_commands.h:12
+msgid "Pop and Push Position"
+msgstr ""
+
+#: src/entries.h:13 src/register_commands.h:12
+msgid ""
+"Pops a position from the stack of cursor positions, pushes the current "
+"position, then moves the cursor to the popped position"
+msgstr ""
+
+#: src/entries.h:14 src/register_commands.h:13
+msgid "Hide/Show Menus"
+msgstr ""
+
+#: src/entries.h:14 src/register_commands.h:13
+msgid ""
+"Hides/Shows menus, panes etc. The ones shown are those checked in the view "
+"menu."
+msgstr ""
+
+#: src/entries.h:15 src/register_commands.h:14
+msgid "Staff Up"
+msgstr ""
+
+#: src/entries.h:15 src/register_commands.h:14
+msgid "Moves the cursor to the staff above, extending selection if any"
+msgstr ""
+
+#: src/entries.h:16 src/register_commands.h:15
+msgid "Staff Down"
+msgstr ""
+
+#: src/entries.h:16 src/register_commands.h:15
+msgid "Moves the cursor to the staff below, extending selection if any"
+msgstr ""
+
+#: src/entries.h:17 src/register_commands.h:16
+msgid "Move to Staff Up"
+msgstr ""
+
+#: src/entries.h:17 src/register_commands.h:16
+msgid "Moves the cursor to the staff above without altering selection"
+msgstr ""
+
+#: src/entries.h:18 src/register_commands.h:17
+msgid "Move to Staff Down"
+msgstr ""
+
+#: src/entries.h:18 src/register_commands.h:17
+msgid "Moves the cursor to the staff below  without altering selection"
+msgstr ""
+
+#: src/entries.h:19 src/register_commands.h:18
+msgid "Measure Left"
+msgstr ""
+
+#: src/entries.h:19 src/register_commands.h:18
+msgid ""
+"Moves the cursor to the first object in the next measure, extending "
+"selection if any"
+msgstr ""
+
+#: src/entries.h:20 src/register_commands.h:19
+msgid "Measure Right"
+msgstr ""
+
+#: src/entries.h:20 src/register_commands.h:19
+msgid ""
+"Moves the cursor to the first object in the previous measure, extending "
+"selection if any"
+msgstr ""
+
+#: src/entries.h:21 src/register_commands.h:20
+msgid "Move to Measure Left"
+msgstr ""
+
+#: src/entries.h:21 src/register_commands.h:20
+msgid ""
+"Moves the cursor to the first object in the next measure leaving selection, "
+"if any, unchanged"
+msgstr ""
+
+#: src/entries.h:22 src/register_commands.h:21
+msgid "Move to Measure Right"
+msgstr ""
+
+#: src/entries.h:22 src/register_commands.h:21
+msgid ""
+"Moves the cursor to the first object in the previous measureleaving "
+"selection, if any, unchanged"
+msgstr ""
+
+#: src/entries.h:23 src/register_commands.h:22
+msgid "A"
+msgstr ""
+
+#: src/entries.h:23 src/register_commands.h:22
+msgid "Append/Edit  A"
+msgstr ""
+
+#: src/entries.h:24 src/register_commands.h:23
+msgid "B"
+msgstr ""
+
+#: src/entries.h:24 src/register_commands.h:23
+msgid "Append/Edit  B"
+msgstr ""
+
+#: src/entries.h:25 src/register_commands.h:24
+msgid "C"
+msgstr ""
+
+#: src/entries.h:25 src/register_commands.h:24
+msgid "Append/Edit  C"
+msgstr ""
+
+#: src/entries.h:26 src/register_commands.h:25
+msgid "D"
+msgstr ""
+
+#: src/entries.h:26 src/register_commands.h:25
+msgid "Append/Edit  D"
+msgstr ""
+
+#: src/entries.h:27 src/register_commands.h:26
+msgid "E"
+msgstr ""
+
+#: src/entries.h:27 src/register_commands.h:26
+msgid "Append/Edit  E"
+msgstr ""
+
+#: src/entries.h:28 src/register_commands.h:27
+msgid "F"
+msgstr ""
+
+#: src/entries.h:28 src/register_commands.h:27
+msgid "Append/Edit  F"
+msgstr ""
+
+#: src/entries.h:29 src/register_commands.h:28
+msgid "G"
+msgstr ""
+
+#: src/entries.h:29 src/register_commands.h:28
+msgid "Append/Edit  G"
+msgstr ""
+
+#: src/entries.h:32 src/register_commands.h:31
+msgid "WholeNote"
+msgstr ""
+
+#: src/entries.h:32 src/register_commands.h:31
+msgid "Insert 𝅝"
+msgstr ""
+
+#: src/entries.h:33 src/register_commands.h:32
+msgid "HalfNote"
+msgstr ""
+
+#: src/entries.h:33 src/register_commands.h:32
+msgid "Insert 𝅗𝅥"
+msgstr ""
+
+#: src/entries.h:34 src/register_commands.h:33
+msgid "QuarterNote"
+msgstr ""
+
+#: src/entries.h:34 src/register_commands.h:33
+msgid "Insert 𝅘𝅥"
+msgstr ""
+
+#: src/entries.h:35 src/register_commands.h:34
+msgid "EighthNote"
+msgstr ""
+
+#: src/entries.h:35 src/register_commands.h:34
+msgid "Insert 𝅘𝅥𝅮"
+msgstr ""
+
+#: src/entries.h:36 src/register_commands.h:35
+msgid "SixteenthNote"
+msgstr ""
+
+#: src/entries.h:36 src/register_commands.h:35
+msgid "Insert 𝅘𝅥𝅯"
+msgstr ""
+
+#: src/entries.h:37 src/register_commands.h:36
+msgid "ThirtysecondNote"
+msgstr ""
+
+#: src/entries.h:37 src/register_commands.h:36
+msgid "Insert 𝅘𝅥𝅰"
+msgstr ""
+
+#: src/entries.h:38 src/register_commands.h:37
+msgid "SixtyfourthNote"
+msgstr ""
+
+#: src/entries.h:38 src/register_commands.h:37
+msgid "Insert 𝅘𝅥𝅱"
+msgstr ""
+
+#: src/entries.h:39 src/register_commands.h:38
+msgid "OneHundredTwentyEighthNote"
+msgstr ""
+
+#: src/entries.h:39 src/register_commands.h:38
+msgid "Insert 𝅘𝅥𝅲"
+msgstr ""
+
+#: src/entries.h:40 src/register_commands.h:39
+msgid "TwoHundredFiftySixthNote"
+msgstr ""
+
+#: src/entries.h:40 src/register_commands.h:39
+msgid "Insert 𝅥"
+msgstr ""
+
+#: src/entries.h:41 src/register_commands.h:40
+msgid "<span font_desc=\"Denemo\">𝄻</span>"
+msgstr ""
+
+#: src/entries.h:41 src/register_commands.h:40
+msgid "Insert 𝄻 rest"
+msgstr ""
+
+#: src/entries.h:42 src/register_commands.h:41
+msgid "<span font_desc=\"Denemo\">𝄼</span>"
+msgstr ""
+
+#: src/entries.h:42 src/register_commands.h:41
+msgid "Insert 𝄼 rest"
+msgstr ""
+
+#: src/entries.h:43 src/register_commands.h:42
+msgid "<span font_desc=\"Denemo\">𝄽</span>"
+msgstr ""
+
+#: src/entries.h:43 src/register_commands.h:42
+msgid "Insert 𝄽 rest"
+msgstr ""
+
+#: src/entries.h:44 src/register_commands.h:43
+msgid "<span font_desc=\"Denemo\">𝄾</span>"
+msgstr ""
+
+#: src/entries.h:44 src/register_commands.h:43
+msgid "Insert 𝄾 rest"
+msgstr ""
+
+#: src/entries.h:45 src/register_commands.h:44
+msgid "<span font_desc=\"Denemo\">𝄿</span>"
+msgstr ""
+
+#: src/entries.h:45 src/register_commands.h:44
+msgid "Insert 𝄿 rest"
+msgstr ""
+
+#: src/entries.h:46 src/register_commands.h:45
+msgid "<span font_desc=\"Denemo\">𝅀</span>"
+msgstr ""
+
+#: src/entries.h:46 src/register_commands.h:45
+msgid "Insert 𝅀 rest"
+msgstr ""
+
+#: src/entries.h:47 src/register_commands.h:46
+msgid "<span font_desc=\"Denemo\">𝅁</span>"
+msgstr ""
+
+#: src/entries.h:47 src/register_commands.h:46
+msgid "Insert 𝅁 rest"
+msgstr ""
+
+#: src/entries.h:48 src/register_commands.h:47
+msgid "InsertBlankWholeNote"
+msgstr ""
+
+#: src/entries.h:48 src/register_commands.h:47
+msgid "Insert a non-printing 𝄻 rest"
+msgstr ""
+
+#: src/entries.h:49 src/register_commands.h:48
+msgid "InsertBlankHalfNote"
+msgstr ""
+
+#: src/entries.h:49 src/register_commands.h:48
+msgid "Insert a non-printing 𝄼 rest"
+msgstr ""
+
+#: src/entries.h:50 src/register_commands.h:49
+msgid "InsertBlankQuarterNote"
+msgstr ""
+
+#: src/entries.h:50 src/register_commands.h:49
+msgid "Insert a non-printing 𝄽 rest"
+msgstr ""
+
+#: src/entries.h:51 src/register_commands.h:50
+msgid "InsertBlankEighthNote"
+msgstr ""
+
+#: src/entries.h:51 src/register_commands.h:50
+msgid "Insert a non-printing 𝄾 rest"
+msgstr ""
+
+#: src/entries.h:52 src/register_commands.h:51
+msgid "InsertBlankSixteenthNote"
+msgstr ""
+
+#: src/entries.h:52 src/register_commands.h:51
+msgid "Insert a non-printing 𝄿 rest"
+msgstr ""
+
+#: src/entries.h:53 src/register_commands.h:52
+msgid "InsertBlankThirtysecondNote"
+msgstr ""
+
+#: src/entries.h:53 src/register_commands.h:52
+msgid "Insert a non-printing 𝅀 rest"
+msgstr ""
+
+#: src/entries.h:54 src/register_commands.h:53
+msgid "InsertBlankSixtyfourthNote"
+msgstr ""
+
+#: src/entries.h:54 src/register_commands.h:53
+msgid "Insert a non-printing 𝅁 rest"
+msgstr ""
+
+#: src/entries.h:55 src/register_commands.h:54
+msgid "InsertBlankOneHundredTwentyEighthNote"
+msgstr ""
+
+#: src/entries.h:55 src/register_commands.h:54
+msgid "Insert a non-printing 𝅂 rest"
+msgstr ""
+
+#: src/entries.h:56 src/register_commands.h:55
+msgid "InsertBlankTwoHundredFiftySixthNote"
+msgstr ""
+
+#: src/entries.h:56 src/register_commands.h:55
+msgid "Insert a non-printing 𝅃 rest"
+msgstr ""
+
+#: src/entries.h:57 src/entries.h:340 src/register_commands.h:56
+#: src/register_commands.h:313
+msgid "Toggle Rest Mode"
+msgstr ""
+
+#: src/entries.h:58 src/register_commands.h:57
+msgid "Toggle Blank Mode"
+msgstr ""
+
+#: src/entries.h:59 src/register_commands.h:58
+msgid "Insert Duplet"
+msgstr ""
+
+#: src/entries.h:60 src/register_commands.h:59
+msgid "Insert Triplet"
+msgstr ""
+
+#: src/entries.h:61 src/register_commands.h:60
+msgid "Start Triplet"
+msgstr ""
+
+#: src/entries.h:62 src/register_commands.h:61
+msgid "End Tuplet"
+msgstr ""
+
+#: src/entries.h:63 src/register_commands.h:62
+msgid "Insert Quadtuplet"
+msgstr ""
+
+#: src/entries.h:64 src/register_commands.h:63
+msgid "Insert Quintuplet"
+msgstr ""
+
+#: src/entries.h:65 src/register_commands.h:64
+msgid "Insert Sextuplet"
+msgstr ""
+
+#: src/entries.h:66 src/register_commands.h:65
+msgid "Insert Septuplet"
+msgstr ""
+
+#: src/entries.h:67 src/register_commands.h:66
+msgid "Add note"
+msgstr ""
+
+#: src/entries.h:67 src/register_commands.h:66
+msgid ""
+"Add a note to the current chord\n"
+"The cursor position determines which note to add"
+msgstr ""
+
+#: src/entries.h:68 src/register_commands.h:67
+msgid "Remove note"
+msgstr ""
+
+#: src/entries.h:68 src/register_commands.h:67
+msgid "Remove a note from the current chord"
+msgstr ""
+
+#: src/entries.h:69 src/register_commands.h:68
+msgid "Sharpen"
+msgstr ""
+
+#: src/entries.h:70 src/register_commands.h:69
+msgid "Flatten"
+msgstr ""
+
+#: src/entries.h:71 src/register_commands.h:70
+msgid "Sharpen Next Note"
+msgstr ""
+
+#: src/entries.h:71 src/register_commands.h:70
+msgid ""
+"Increases the sharpness of the next entered note. The status bar shows the "
+"current state."
+msgstr ""
+
+#: src/entries.h:72 src/register_commands.h:71
+msgid "Flatten Next Note"
+msgstr ""
+
+#: src/entries.h:72 src/register_commands.h:71
+msgid ""
+"Increases the flatness of the next entered note. The status bar shows the "
+"current state."
+msgstr ""
+
+#: src/entries.h:73 src/register_commands.h:72
+msgid "StemUp"
+msgstr ""
+
+#: src/entries.h:73 src/register_commands.h:72
+msgid "Alters a StemNeutral object to stem up."
+msgstr ""
+
+#: src/entries.h:74 src/register_commands.h:73
+msgid "StemDown"
+msgstr ""
+
+#: src/entries.h:74 src/register_commands.h:73
+msgid "Alters a StemNeutral object to stem down."
+msgstr ""
+
+#: src/entries.h:77 src/register_commands.h:76
+msgid "Tied note"
+msgstr ""
+
+#: src/entries.h:77 src/register_commands.h:76
+msgid "Inserts a duplicate of the current note, tied"
+msgstr ""
+
+#: src/entries.h:78 src/register_commands.h:77
+msgid "Toggle Tie"
+msgstr ""
+
+#: src/entries.h:78 src/register_commands.h:77
+msgid "Ties/unties the note at the cursor"
+msgstr ""
+
+#: src/entries.h:79 src/register_commands.h:78
+msgid "Delete Object"
+msgstr ""
+
+#: src/entries.h:79 src/register_commands.h:78
+msgid "Delete the object at the cursor"
+msgstr ""
+
+#: src/entries.h:80 src/register_commands.h:79
+msgid "Delete Previous Object"
+msgstr ""
+
+#: src/entries.h:80 src/register_commands.h:79
+msgid "Delete to the left of the cursor."
+msgstr ""
+
+#: src/entries.h:81 src/register_commands.h:80
+msgid "Insert Measure Before"
+msgstr ""
+
+#: src/entries.h:81 src/register_commands.h:80
+msgid "Insert a blank measure before the current one (in all staffs)"
+msgstr ""
+
+#: src/entries.h:82 src/register_commands.h:81
+msgid "Insert Measure After"
+msgstr ""
+
+#: src/entries.h:82 src/register_commands.h:81
+msgid "Insert a blank measure after the current one (in all staffs)"
+msgstr ""
+
+#: src/entries.h:83 src/register_commands.h:82
+msgid "Staff Insert Measure Before"
+msgstr ""
+
+#: src/entries.h:83 src/register_commands.h:82
+msgid "Insert a blank measure before the current one (in current staff)"
+msgstr ""
+
+#: src/entries.h:84 src/register_commands.h:83
+msgid "Staff Insert Measure After"
+msgstr ""
+
+#: src/entries.h:84 src/register_commands.h:83
+msgid "Insert a blank measure in current staff after the current measure"
+msgstr ""
+
+#: src/entries.h:85 src/register_commands.h:84
+msgid "Staff Append Measure"
+msgstr ""
+
+#: src/entries.h:86 src/register_commands.h:85
+msgid "Staff Delete Measure"
+msgstr ""
+
+#: src/entries.h:86 src/register_commands.h:85
+msgid "Delete the current measure in this staff, leaving the staff short"
+msgstr ""
+
+#: src/entries.h:87 src/register_commands.h:86
+msgid "Delete Measure All Staffs"
+msgstr ""
+
+#: src/entries.h:87 src/register_commands.h:86
+msgid "Delete the current measure in all staffs"
+msgstr ""
+
+#: src/entries.h:88 src/register_commands.h:87
+msgid "Shrink Measure"
+msgstr ""
+
+#: src/entries.h:89 src/register_commands.h:88
+msgid "Widen Measures"
+msgstr ""
+
+#: src/entries.h:90 src/register_commands.h:89
+msgid "Shorter Staffs"
+msgstr ""
+
+#: src/entries.h:91 src/register_commands.h:90
+msgid "Taller Staffs"
+msgstr ""
+
+#: src/entries.h:92 src/register_commands.h:91
+msgid "New Treble Clef"
+msgstr ""
+
+#: src/entries.h:93 src/register_commands.h:92
+msgid "New Bass Clef"
+msgstr ""
+
+#: src/entries.h:94 src/register_commands.h:93
+msgid "New G8 Clef"
+msgstr ""
+
+#: src/entries.h:95 src/register_commands.h:94
+msgid "New Alto Clef"
+msgstr ""
+
+#: src/entries.h:96 src/register_commands.h:95
+msgid "New Tenor Clef"
+msgstr ""
+
+#: src/entries.h:97 src/register_commands.h:96
+msgid "New Soprano Clef"
+msgstr ""
+
+#: src/entries.h:98 src/register_commands.h:97
+msgid "Set Treble Clef"
+msgstr ""
+
+#: src/entries.h:99 src/register_commands.h:98
+msgid "Set Bass Clef"
+msgstr ""
+
+#: src/entries.h:100 src/register_commands.h:99
+msgid "Set G8 Clef"
+msgstr ""
+
+#: src/entries.h:101 src/register_commands.h:100
+msgid "Set Alto Clef"
+msgstr ""
+
+#: src/entries.h:102 src/register_commands.h:101
+msgid "Set Tenor Clef"
+msgstr ""
+
+#: src/entries.h:103 src/register_commands.h:102
+msgid "Set Soprano Clef"
+msgstr ""
+
+#: src/entries.h:104 src/register_commands.h:103
+msgid "Insert 2/2 Time"
+msgstr ""
+
+#: src/entries.h:105 src/register_commands.h:104
+msgid "Insert 3/2 Time"
+msgstr ""
+
+#: src/entries.h:106 src/register_commands.h:105
+msgid "Insert 4/2 Time"
+msgstr ""
+
+#: src/entries.h:107 src/register_commands.h:106
+msgid "Insert 4/4 Time"
+msgstr ""
+
+#: src/entries.h:108 src/register_commands.h:107
+msgid "Insert 3/4 Time"
+msgstr ""
+
+#: src/entries.h:109 src/register_commands.h:108
+msgid "Insert 2/4 Time"
+msgstr ""
+
+#: src/entries.h:110 src/register_commands.h:109
+msgid "Insert 6/4 Time"
+msgstr ""
+
+#: src/entries.h:111 src/register_commands.h:110
+msgid "Insert 3/8 Time"
+msgstr ""
+
+#: src/entries.h:112 src/register_commands.h:111
+msgid "Insert 6/8 Time"
+msgstr ""
+
+#: src/entries.h:113 src/register_commands.h:112
+msgid "Insert 12/8 Time"
+msgstr ""
+
+#: src/entries.h:114 src/register_commands.h:113
+msgid "Insert 9/8 Time"
+msgstr ""
+
+#: src/entries.h:115 src/register_commands.h:114
+msgid "Set 2/2 Time"
+msgstr ""
+
+#: src/entries.h:116 src/register_commands.h:115
+msgid "Set 3/2 Time"
+msgstr ""
+
+#: src/entries.h:117 src/register_commands.h:116
+msgid "Set 4/2 Time"
+msgstr ""
+
+#: src/entries.h:118 src/register_commands.h:117
+msgid "Set 4/4 Time"
+msgstr ""
+
+#: src/entries.h:119 src/register_commands.h:118
+msgid "Set 3/4 Time"
+msgstr ""
+
+#: src/entries.h:120 src/register_commands.h:119
+msgid "Set 2/4 Time"
+msgstr ""
+
+#: src/entries.h:121 src/register_commands.h:120
+msgid "Set 6/4 Time"
+msgstr ""
+
+#: src/entries.h:122 src/register_commands.h:121
+msgid "Set 3/8 Time"
+msgstr ""
+
+#: src/entries.h:123 src/register_commands.h:122
+msgid "Set 6/8 Time"
+msgstr ""
+
+#: src/entries.h:124 src/register_commands.h:123
+msgid "Set 12/8 Time"
+msgstr ""
+
+#: src/entries.h:125 src/register_commands.h:124
+msgid "Set 9/8 Time"
+msgstr ""
+
+#: src/entries.h:126 src/register_commands.h:125
+msgid "Insert Cmaj"
+msgstr ""
+
+#: src/entries.h:127 src/register_commands.h:126
+msgid "Insert Gmaj"
+msgstr ""
+
+#: src/entries.h:128 src/register_commands.h:127
+msgid "Insert Dmaj"
+msgstr ""
+
+#: src/entries.h:129 src/register_commands.h:128
+msgid "Insert Amaj"
+msgstr ""
+
+#: src/entries.h:130 src/register_commands.h:129
+msgid "Insert Emaj"
+msgstr ""
+
+#: src/entries.h:131 src/register_commands.h:130
+msgid "Insert Bmaj"
+msgstr ""
+
+#: src/entries.h:132 src/register_commands.h:131
+msgid "Insert F# Major"
+msgstr ""
+
+#: src/entries.h:133 src/register_commands.h:132
+msgid "Insert C# Major"
+msgstr ""
+
+#: src/entries.h:134 src/register_commands.h:133
+msgid "Insert F Major"
+msgstr ""
+
+#: src/entries.h:135 src/register_commands.h:134
+msgid "Insert Bb Major"
+msgstr ""
+
+#: src/entries.h:136 src/register_commands.h:135
+msgid "Insert Eb Major"
+msgstr ""
+
+#: src/entries.h:137 src/register_commands.h:136
+msgid "Insert Ab Major"
+msgstr ""
+
+#: src/entries.h:138 src/register_commands.h:137
+msgid "Insert Db Major"
+msgstr ""
+
+#: src/entries.h:139 src/register_commands.h:138
+msgid "Insert Gb Major"
+msgstr ""
+
+#: src/entries.h:140 src/register_commands.h:139
+msgid "Insert Cb Major"
+msgstr ""
+
+#: src/entries.h:141 src/register_commands.h:140
+msgid "Insert A Minor"
+msgstr ""
+
+#: src/entries.h:142 src/register_commands.h:141
+msgid "Insert E Minor"
+msgstr ""
+
+#: src/entries.h:143 src/register_commands.h:142
+msgid "Insert B Minor"
+msgstr ""
+
+#: src/entries.h:144 src/register_commands.h:143
+msgid "Insert F# Minor"
+msgstr ""
+
+#: src/entries.h:145 src/register_commands.h:144
+msgid "Insert C# Minor"
+msgstr ""
+
+#: src/entries.h:146 src/register_commands.h:145
+msgid "Insert G# Minor"
+msgstr ""
+
+#: src/entries.h:147 src/register_commands.h:146
+msgid "Insert D# Minor"
+msgstr ""
+
+#: src/entries.h:148 src/register_commands.h:147
+msgid "Insert A# Minor"
+msgstr ""
+
+#: src/entries.h:149 src/register_commands.h:148
+msgid "Insert D Minor"
+msgstr ""
+
+#: src/entries.h:150 src/register_commands.h:149
+msgid "Insert G Minor"
+msgstr ""
+
+#: src/entries.h:151 src/register_commands.h:150
+msgid "Insert C Minor"
+msgstr ""
+
+#: src/entries.h:152 src/register_commands.h:151
+msgid "Insert F Minor"
+msgstr ""
+
+#: src/entries.h:153 src/register_commands.h:152
+msgid "Insert Bb Minor"
+msgstr ""
+
+#: src/entries.h:154 src/register_commands.h:153
+msgid "Insert Eb Minor"
+msgstr ""
+
+#: src/entries.h:155 src/register_commands.h:154
+msgid "Insert Ab Minor"
+msgstr ""
+
+#: src/entries.h:156 src/register_commands.h:155
+msgid "Set Initial Keysig to C Major"
+msgstr ""
+
+#: src/entries.h:157 src/register_commands.h:156
+msgid "Set Initial Keysig to G Major"
+msgstr ""
+
+#: src/entries.h:158 src/register_commands.h:157
+msgid "Set D Major as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:159 src/register_commands.h:158
+msgid "Set A Major as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:160 src/register_commands.h:159
+msgid "Set E Major as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:161 src/register_commands.h:160
+msgid "Set B Major as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:162 src/register_commands.h:161
+msgid "Set F# Major as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:163 src/register_commands.h:162
+msgid "Set C# Major as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:164 src/register_commands.h:163
+msgid "Set F Major as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:165 src/register_commands.h:164
+msgid "Set Bb Major as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:166 src/register_commands.h:165
+msgid "Set Eb Major as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:167 src/register_commands.h:166
+msgid "Set Ab Major as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:168 src/register_commands.h:167
+msgid "Set Db Major as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:169 src/register_commands.h:168
+msgid "Set Gb Major as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:170 src/register_commands.h:169
+msgid "Set Cb Major as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:171 src/register_commands.h:170
+msgid "Set A Minor as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:172 src/register_commands.h:171
+msgid "Set E Minor as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:173 src/register_commands.h:172
+msgid "Set B Minor as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:174 src/register_commands.h:173
+msgid "Set F# Minor as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:175 src/register_commands.h:174
+msgid "Set C# Minor as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:176 src/register_commands.h:175
+msgid "Set G# Minor as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:177 src/register_commands.h:176
+msgid "Set D# Minor as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:178 src/register_commands.h:177
+msgid "Set A# Minor as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:179 src/register_commands.h:178
+msgid "Set D Minor as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:180 src/register_commands.h:179
+msgid "Set G Minor as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:181 src/register_commands.h:180
+msgid "Set C Minor as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:182 src/register_commands.h:181
+msgid "Set F Minor as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:183 src/register_commands.h:182
+msgid "Set Bb Minor as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:184 src/register_commands.h:183
+msgid "Set Eb Minor as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:185 src/register_commands.h:184
+msgid "Set Ab Minor as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:186 src/register_commands.h:185
+msgid "Set Mark"
+msgstr ""
+
+#: src/entries.h:186 src/register_commands.h:185
+msgid ""
+"Sets the start point for a selection,\n"
+"the end point of the selection is unaltered"
+msgstr ""
+
+#: src/entries.h:187 src/register_commands.h:186
+msgid "Unset Mark"
+msgstr ""
+
+#: src/entries.h:187 src/register_commands.h:186
+msgid "Gets rid of the selection."
+msgstr ""
+
+#: src/entries.h:188 src/register_commands.h:187
+msgid "Set Point"
+msgstr ""
+
+#: src/entries.h:188 src/register_commands.h:187
+msgid "Extends the selection to the current cursor position"
+msgstr ""
+
+#: src/entries.h:189 src/register_commands.h:188
+msgid "Begin Slur"
+msgstr ""
+
+#: src/entries.h:189 src/register_commands.h:188
+msgid "Insert/delete begin slur on this note"
+msgstr ""
+
+#: src/entries.h:190 src/register_commands.h:189
+msgid "End Slur"
+msgstr ""
+
+#: src/entries.h:190 src/register_commands.h:189
+msgid "Insert/delete end slur on this note"
+msgstr ""
+
+#: src/entries.h:191 src/register_commands.h:190
+msgid "Start Crescendo"
+msgstr ""
+
+#: src/entries.h:192 src/register_commands.h:191
+msgid "End Crescendo"
+msgstr ""
+
+#: src/entries.h:193 src/register_commands.h:192
+msgid "Start Diminuendo"
+msgstr ""
+
+#: src/entries.h:194 src/register_commands.h:193
+msgid "End Diminuendo"
+msgstr ""
+
+#: src/entries.h:195 src/register_commands.h:194
+msgid "Grace Note Off/On"
+msgstr ""
+
+#: src/entries.h:195 src/register_commands.h:194
+msgid ""
+"Makes the note at the cursor an appogiatura grace note, if it is one, makes "
+"it normal"
+msgstr ""
+
+#: src/entries.h:196 src/register_commands.h:195
+msgid "Acciaccatura Off/On"
+msgstr ""
+
+#: src/entries.h:196 src/register_commands.h:195
+msgid ""
+"Makes the note at the cursor an acciaccatura grace note, if it is one, makes "
+"it normal"
+msgstr ""
+
+#: src/entries.h:197 src/register_commands.h:196
+msgid "Force Cautionary Accidental"
+msgstr ""
+
+#: src/entries.h:198 src/register_commands.h:197
+msgid "Change Pitch"
+msgstr ""
+
+#: src/entries.h:199 src/register_commands.h:198
+msgid "Insert Snippet"
+msgstr ""
+
+#: src/entries.h:200 src/register_commands.h:199 src/view.c:2410
+msgid "Next Snippet"
+msgstr ""
+
+#: src/entries.h:200 src/register_commands.h:199
+msgid ""
+"Make next snippet\n"
+"the current snippet.\n"
+"Notes entered will follow the rhythmic pattern of this snippet"
+msgstr ""
+
+#: src/entries.h:201 src/register_commands.h:200
+msgid "Append Measure All Staffs"
+msgstr ""
+
+#: src/entries.h:201 src/register_commands.h:200
+msgid "Appends a blank measure to every staff in this movement"
+msgstr ""
+
+#: src/entries.h:202 src/register_commands.h:201
+msgid "Execute Scheme"
+msgstr ""
+
+#: src/entries.h:202 src/register_commands.h:201
+msgid "Execute the scheme code from the scripting window"
+msgstr ""
+
+#: src/entries.h:203
+msgid "File"
+msgstr ""
+
+#: src/entries.h:203
+msgid ""
+"Menu:\n"
+"Creating, saving, loading, exporting, importing, typesetting and printing "
+"musical scores"
+msgstr ""
+
+#: src/entries.h:204
+msgid "Bookmarks"
+msgstr ""
+
+#: src/entries.h:204
+msgid "Creating, saving places in musical scores"
+msgstr ""
+
+#: src/entries.h:205
+msgid "Mode"
+msgstr ""
+
+#: src/entries.h:205
+msgid "Different keyboard and MIDI entry modes"
+msgstr ""
+
+#: src/entries.h:206 src/entries.h:366 src/scorelayout.c:549 src/view.c:8728
+msgid "Edit"
+msgstr ""
+
+#: src/entries.h:206
+msgid ""
+"Menu:\n"
+"General editing commands"
+msgstr ""
+
+#: src/entries.h:207
+msgid "View"
+msgstr ""
+
+#: src/entries.h:207
+msgid ""
+"Menu:\n"
+"Control which tools are to be shown"
+msgstr ""
+
+#: src/entries.h:208
+msgid "Staffs/Voices"
+msgstr ""
+
+#: src/entries.h:208
+msgid ""
+"Menu:\n"
+"Commands that manipulate Staffs and voices on staffs.\n"
+"Commands that apply to the current staff."
+msgstr ""
+
+#: src/entries.h:209
+msgid "Voices"
+msgstr ""
+
+#: src/entries.h:209
+msgid ""
+"Menu:\n"
+"Things that manipulate Voices, that is separately stemmed and beamed parts "
+"that will be typeset on the same staff.\n"
+"Keep them displayed on separate staffs for editing purposes at least.\n"
+"The typesetter will amalgamate them for you.\n"
+"See also commands for hiding rests and moving notes and rests to avoid "
+"collisions in the Notes/Rests menu"
+msgstr ""
+
+#: src/entries.h:210
+msgid "Movements"
+msgstr ""
+
+#: src/entries.h:210
+msgid ""
+"Menu:\n"
+"Commands that apply to the current movement in your score.\n"
+"Movements in a score could be songs in a song book etc\n"
+"Any piece of continuous music."
+msgstr ""
+
+#: src/entries.h:211
+msgid "Help"
+msgstr ""
+
+#: src/entries.h:211
+msgid ""
+"Menu:\n"
+"Information and help for Denemo"
+msgstr ""
+
+#: src/entries.h:212
+msgid "Input"
+msgstr ""
+
+#: src/entries.h:212
+msgid ""
+"Menu:\n"
+"Choose whether to get input audio (e.g. microphone) or MIDI controller (e.g. "
+"MIDI keyboard)\n"
+"or just from the pc keyboard."
+msgstr ""
+
+#: src/entries.h:213 src/register_commands.h:202
+msgid "Shift Accidentals Sharpwise"
+msgstr ""
+
+#: src/entries.h:213 src/register_commands.h:202
+msgid "Shifts the set of accidentals one step sharper"
+msgstr ""
+
+#: src/entries.h:214 src/register_commands.h:203
+msgid "Shift Accidentals Flatwise"
+msgstr ""
+
+#: src/entries.h:214 src/register_commands.h:203
+msgid "Shifts the set of accidentals one step flatter"
+msgstr ""
+
+#: src/entries.h:215 src/entries.h:369
+msgid "Playback"
+msgstr ""
+
+#: src/entries.h:215
+msgid ""
+"Music playback. Music is played between the playback start (green bar) and "
+"playback end (red bar).\n"
+"There are playback controls (See View->Playback Controls) which make it easy "
+"to set and re-set these and also to loop-play, choose the temperament to "
+"play in etc. Or use items in this menu to play the whole piece of from the "
+"cursor to the end."
+msgstr ""
+
+#: src/entries.h:216 src/register_commands.h:204
+msgid "Empty Score"
+msgstr ""
+
+#: src/entries.h:216 src/register_commands.h:204
+msgid "Start a new musical score"
+msgstr ""
+
+#: src/entries.h:217 src/register_commands.h:205
+msgid "New"
+msgstr ""
+
+#: src/entries.h:217 src/register_commands.h:205
+msgid "Start a new musical score for a named instrument/voice."
+msgstr ""
+
+#: src/entries.h:218 src/entries.h:219 src/register_commands.h:206
+msgid "Open"
+msgstr ""
+
+#: src/entries.h:218
+msgid ""
+"Menu:\n"
+"Open a previously edited score, or a source file for transcription"
+msgstr ""
+
+#: src/entries.h:219 src/register_commands.h:206
+msgid "Open a file containing a music score for editing"
+msgstr ""
+
+#: src/entries.h:220 src/register_commands.h:207
+msgid "Import a Lilypond file"
+msgstr ""
+
+#: src/entries.h:221 src/register_commands.h:208
+msgid "Import a Midi file"
+msgstr ""
+
+#: src/entries.h:222 src/register_commands.h:209
+msgid "Import a MusicXml file"
+msgstr ""
+
+#: src/entries.h:223 src/register_commands.h:210
+msgid "Add Staffs"
+msgstr ""
+
+#: src/entries.h:223 src/register_commands.h:210
+msgid "Add staffs from a Denemo file"
+msgstr ""
+
+#: src/entries.h:224 src/register_commands.h:211
+msgid "Add Movement"
+msgstr ""
+
+#: src/entries.h:224 src/register_commands.h:211
+msgid "Add movements from a Denemo file"
+msgstr ""
+
+#: src/entries.h:225 src/register_commands.h:212
+msgid "Change Properties"
+msgstr ""
+
+#: src/entries.h:225 src/register_commands.h:212
+msgid "Change properties of this movement"
+msgstr ""
+
+#: src/entries.h:226 src/register_commands.h:213
+msgid "Open In New"
+msgstr ""
+
+#: src/entries.h:226 src/register_commands.h:213
+msgid ""
+"Open a file containing a music score for editing in a separate working area "
+"(tab"
+msgstr ""
+
+#: src/entries.h:227 src/entries.h:238 src/register_commands.h:214
+msgid "Save"
+msgstr ""
+
+#: src/entries.h:227 src/register_commands.h:214
+msgid "Save the score. The score is saved to disk in XML format."
+msgstr ""
+
+#: src/entries.h:228 src/file.c:1041 src/register_commands.h:215
+msgid "Save As"
+msgstr ""
+
+#: src/entries.h:228 src/register_commands.h:215
+msgid "Save the score under a new name"
+msgstr ""
+
+#: src/entries.h:229 src/register_commands.h:216
+msgid "Create Copy"
+msgstr ""
+
+#: src/entries.h:229 src/register_commands.h:216
+msgid "Save a copy of the score"
+msgstr ""
+
+#: src/entries.h:230 src/register_commands.h:217
+msgid "Open Template"
+msgstr ""
+
+#: src/entries.h:230 src/register_commands.h:217
+msgid "Start a new score from a built-in template file"
+msgstr ""
+
+#: src/entries.h:231 src/register_commands.h:218
+msgid "Open Example"
+msgstr ""
+
+#: src/entries.h:231 src/register_commands.h:218
+msgid "Start a new score from a built-in example"
+msgstr ""
+
+#: src/entries.h:232 src/register_commands.h:219
+msgid "Open Custom Template"
+msgstr ""
+
+#: src/entries.h:232 src/register_commands.h:219
+msgid "Start a new score from one of your own template files"
+msgstr ""
+
+#: src/entries.h:233 src/register_commands.h:220
+msgid "Save Template"
+msgstr ""
+
+#: src/entries.h:233 src/register_commands.h:220
+msgid ""
+"Save the score as a template for re-use as a starting point for new scores"
+msgstr ""
+
+#: src/entries.h:234 src/register_commands.h:221
+msgid "New Tab"
+msgstr ""
+
+#: src/entries.h:234 src/register_commands.h:221
+msgid "Create working area (tab with an empty score in it)"
+msgstr ""
+
+#: src/entries.h:235 src/register_commands.h:222
+msgid "Insert Movement Before"
+msgstr ""
+
+#: src/entries.h:235 src/register_commands.h:222
+msgid "Insert a new movement before the current one"
+msgstr ""
+
+#: src/entries.h:236 src/register_commands.h:223
+msgid "Insert Movement After"
+msgstr ""
+
+#: src/entries.h:236 src/register_commands.h:223
+msgid "Insert a new movement after the current one"
+msgstr ""
+
+#: src/entries.h:237 src/register_commands.h:224
+msgid "New Movement"
+msgstr ""
+
+#: src/entries.h:237 src/register_commands.h:224
+msgid "Create a new movement, usign any default template"
+msgstr ""
+
+#: src/entries.h:238
+msgid ""
+"Menu:\n"
+"Save the score\n"
+"Besides saving for later you can save the score for use as a template for "
+"future works, or save under a new name etc\n"
+"The score is saved to disk in XML format."
+msgstr ""
+
+#: src/entries.h:239 src/register_commands.h:225
+msgid "Save Parts"
+msgstr ""
+
+#: src/entries.h:239 src/register_commands.h:225
+msgid "Save Parts: each staff becomes a file in lilypond format"
+msgstr ""
+
+#: src/entries.h:240 src/register_commands.h:226
+msgid "Export Lilypond"
+msgstr ""
+
+#: src/entries.h:240 src/register_commands.h:226
+msgid "Export the score as a lilypond file"
+msgstr ""
+
+#: src/entries.h:241 src/register_commands.h:227
+msgid "Export PDF"
+msgstr ""
+
+#: src/entries.h:241 src/register_commands.h:227
+msgid "Export the score as a PDF document file"
+msgstr ""
+
+#: src/entries.h:242 src/register_commands.h:228
+msgid "Export PNG"
+msgstr ""
+
+#: src/entries.h:242 src/register_commands.h:228
+msgid "Export the score as a PNG image file"
+msgstr ""
+
+#: src/entries.h:243 src/register_commands.h:229
+msgid "Export MIDI"
+msgstr ""
+
+#: src/entries.h:243 src/register_commands.h:229
+msgid "Export the score as a MIDI file"
+msgstr ""
+
+#: src/entries.h:244 src/entries.h:250 src/register_commands.h:235
+msgid "Print"
+msgstr ""
+
+#: src/entries.h:244
+msgid ""
+"Menu:\n"
+"Commands for typesetting and then printing the music.\n"
+"A part, movement, full score or various reduced scores can be typeset.\n"
+" See also the Score Layout view for further options."
+msgstr ""
+
+#: src/entries.h:245 src/entries.h:246 src/register_commands.h:230
+#: src/register_commands.h:231
+msgid "Print Preview"
+msgstr ""
+
+#: src/entries.h:245 src/register_commands.h:230
+msgid "Displays the final finished score in your pd viewer"
+msgstr ""
+
+#: src/entries.h:246 src/register_commands.h:231
+msgid ""
+"Typesets the score\n"
+"If you have a score layout selected it will use that\n"
+"otherwise all movements staffs and lyrics are typeset by default.\n"
+"Be patient! It takes time to create a beautifully laid out score.\n"
+"Once complete you can view and then send to your printer or to a file as a ."
+"pdf document."
+msgstr ""
+
+#: src/entries.h:247 src/register_commands.h:232
+msgid "Print Selection"
+msgstr ""
+
+#: src/entries.h:247 src/register_commands.h:232
+msgid "Displays selected music from score in your pdf viewer"
+msgstr ""
+
+#: src/entries.h:248 src/register_commands.h:233
+msgid "Print Excerpt"
+msgstr ""
+
+#: src/entries.h:248 src/register_commands.h:233
+msgid "Displays a musical excerpt in your image viewer"
+msgstr ""
+
+#: src/entries.h:249 src/register_commands.h:234
+msgid "Print Movement"
+msgstr ""
+
+#: src/entries.h:249 src/register_commands.h:234
+msgid "Typesets the current movement and opens a print dialog"
+msgstr ""
+
+#: src/entries.h:250 src/register_commands.h:235
+msgid "Typesets the score using LilyPond and opens a print dialog"
+msgstr ""
+
+#: src/entries.h:251 src/register_commands.h:236
+msgid "Print Part"
+msgstr ""
+
+#: src/entries.h:251 src/register_commands.h:236
+msgid "Typesets the current part (the one containing the cursor)."
+msgstr ""
+
+#: src/entries.h:252 src/register_commands.h:237
+msgid "Close Score"
+msgstr ""
+
+#: src/entries.h:252 src/register_commands.h:237
+msgid "Close the current score. Other scores (tabs) will stay open"
+msgstr ""
+
+#: src/entries.h:253 src/register_commands.h:238
+msgid "Quit"
+msgstr ""
+
+#: src/entries.h:253 src/register_commands.h:238
+msgid "Quit the Denemo program - closes tabs one at a time."
+msgstr ""
+
+#: src/entries.h:254 src/register_commands.h:239
+msgid "Undo"
+msgstr ""
+
+#: src/entries.h:254 src/register_commands.h:239
+msgid "Undoes one (more) step of your edits to the current score."
+msgstr ""
+
+#: src/entries.h:255 src/register_commands.h:240
+msgid "Redo"
+msgstr ""
+
+#: src/entries.h:255 src/register_commands.h:240
+msgid "Redoes the next of the steps you have Undone"
+msgstr ""
+
+#: src/entries.h:256
+msgid "Select"
+msgstr ""
+
+#: src/entries.h:256
+msgid "Selecting stretches of notes"
+msgstr ""
+
+#: src/entries.h:257
+msgid "Extend Selection"
+msgstr ""
+
+#: src/entries.h:257
+msgid "Extend the selection"
+msgstr ""
+
+#: src/entries.h:258 src/register_commands.h:241
+msgid "Copy"
+msgstr ""
+
+#: src/entries.h:258 src/register_commands.h:241
+msgid "Copy the music selected to the Denemo clipboard"
+msgstr ""
+
+#: src/entries.h:259 src/register_commands.h:242
+msgid "Cut"
+msgstr ""
+
+#: src/entries.h:259 src/register_commands.h:242
+msgid "Cut the music selected to the Denemo clipboard"
+msgstr ""
+
+#: src/entries.h:260 src/register_commands.h:243
+msgid "Paste"
+msgstr ""
+
+#: src/entries.h:260 src/register_commands.h:243
+msgid ""
+"Paste the Denemo clipboard into the score where the cursor is positioned"
+msgstr ""
+
+#: src/entries.h:261 src/register_commands.h:244
+msgid "Paste LilyPond notes"
+msgstr ""
+
+#: src/entries.h:261 src/register_commands.h:244
+msgid ""
+"Paste LilyPond notes from the text clipboard\n"
+"This will import music written as LilyPond syntax\n"
+"You open the LilyPond file in a texteditor, copy the stretch of notes "
+"(control-c command in your texteditor usually) and then use this command."
+msgstr ""
+
+#: src/entries.h:262 src/register_commands.h:245
+msgid "Score Properties"
+msgstr ""
+
+#: src/entries.h:262 src/register_commands.h:245
+msgid ""
+"Change some of the properties of the current score. This will start up a "
+"dialog window"
+msgstr ""
+
+#: src/entries.h:263 src/register_commands.h:246
+msgid "Save Selection"
+msgstr ""
+
+#: src/entries.h:263 src/register_commands.h:246
+msgid "Save the selected music. Not sure if this is working"
+msgstr ""
+
+#: src/entries.h:264 src/register_commands.h:247
+msgid "Change Preferences"
+msgstr ""
+
+#: src/entries.h:264 src/register_commands.h:247
+msgid ""
+"Set and save your preferences for how Denemo operates on startup.\n"
+"Advanced users can edit .denemo-XXXX/denemorc for missing ones"
+msgstr ""
+
+#: src/entries.h:265
+msgid "Customize Commands, Shortcuts ..."
+msgstr ""
+
+#: src/entries.h:265
+msgid "Set actions to take in response to keypresses"
+msgstr ""
+
+#: src/entries.h:266 src/register_commands.h:248
+msgid "Save Command Set"
+msgstr ""
+
+#: src/entries.h:266 src/register_commands.h:248
+msgid "Save the current commands and keyboard shortcuts as the default"
+msgstr ""
+
+#: src/entries.h:267 src/register_commands.h:249
+msgid "Manage Command Set"
+msgstr ""
+
+#: src/entries.h:267 src/register_commands.h:249
+msgid "View help, change and save keyboard shortcuts"
+msgstr ""
+
+#: src/entries.h:268 src/register_commands.h:250
+msgid "Swap Staffs"
+msgstr ""
+
+#: src/entries.h:268 src/register_commands.h:250
+msgid ""
+"Swap this staff with the one higher up.\n"
+"Be aware that if you have inserted directives to move a voice to another "
+"staff\n"
+"these may need re-making."
+msgstr ""
+
+#: src/entries.h:269 src/register_commands.h:251
+msgid "Split Voices"
+msgstr ""
+
+#: src/entries.h:269 src/register_commands.h:251
+msgid "Split off the next voice as a separate staff"
+msgstr ""
+
+#: src/entries.h:270 src/register_commands.h:252
+msgid "Join Voices"
+msgstr ""
+
+#: src/entries.h:270 src/register_commands.h:252
+msgid "Merge this staff as a voice on the previous staff"
+msgstr ""
+
+#: src/entries.h:271 src/register_commands.h:253
+msgid "Swap Movements"
+msgstr ""
+
+#: src/entries.h:271 src/register_commands.h:253
+msgid "Swap this movement with the one before"
+msgstr ""
+
+#: src/entries.h:272 src/register_commands.h:254
+msgid "Voice Up"
+msgstr ""
+
+#: src/entries.h:272 src/register_commands.h:254
+msgid "Go to the higher numbered voice on staff, extending selection if any"
+msgstr ""
+
+#: src/entries.h:273 src/register_commands.h:255
+msgid "Voice Down"
+msgstr ""
+
+#: src/entries.h:273 src/register_commands.h:255
+msgid ""
+"Go to the lower numbered voice on this staff, extending selection if any"
+msgstr ""
+
+#: src/entries.h:274 src/register_commands.h:256
+msgid "Move to Voice Up"
+msgstr ""
+
+#: src/entries.h:274 src/register_commands.h:256
+msgid "Go to the higher numbered voice on staff without altering selection"
+msgstr ""
+
+#: src/entries.h:275 src/register_commands.h:257
+msgid "Move to Voice Down"
+msgstr ""
+
+#: src/entries.h:275 src/register_commands.h:257
+msgid "Go to the lower numbered voice on this staff without altering selection"
+msgstr ""
+
+#: src/entries.h:276 src/register_commands.h:258
+msgid "Add Staff Before"
+msgstr ""
+
+#: src/entries.h:276 src/register_commands.h:258
+msgid "Inserts a new staff before the current staff"
+msgstr ""
+
+#: src/entries.h:277 src/register_commands.h:259
+msgid "Add Staff After"
+msgstr ""
+
+#: src/entries.h:277 src/register_commands.h:259
+msgid "Inserts/Adds a new staff after the current staff"
+msgstr ""
+
+#: src/entries.h:278 src/register_commands.h:260
+msgid "Add Initial Staff"
+msgstr ""
+
+#: src/entries.h:278 src/register_commands.h:260
+msgid "Inserts a new staff at the top of the score"
+msgstr ""
+
+#: src/entries.h:279 src/register_commands.h:261
+msgid "Add Last Staff"
+msgstr ""
+
+#: src/entries.h:279 src/register_commands.h:261
+msgid "Inserts a new staff at the end of the score"
+msgstr ""
+
+#: src/entries.h:280 src/register_commands.h:262
+msgid "Delete Staff Before"
+msgstr ""
+
+#: src/entries.h:280 src/register_commands.h:262
+msgid "Deletes the staff before the current staff"
+msgstr ""
+
+#: src/entries.h:281 src/register_commands.h:263
+msgid "Delete Current Staff"
+msgstr ""
+
+#: src/entries.h:281 src/register_commands.h:263
+msgid "Deletes the current staff"
+msgstr ""
+
+#: src/entries.h:282 src/register_commands.h:264
+msgid "Delete Staff After"
+msgstr ""
+
+#: src/entries.h:282 src/register_commands.h:264
+msgid "Deletes the staff after the current staff"
+msgstr ""
+
+#: src/entries.h:283 src/register_commands.h:265
+msgid ""
+"Adds a new voice (part), to the current staff. It is tricky to switch "
+"between the voices. Suggest to use merge staffs"
+msgstr ""
+
+#: src/entries.h:284 src/register_commands.h:266 src/staffpropdialog.c:357
+msgid "Staff Properties"
+msgstr ""
+
+#: src/entries.h:284 src/register_commands.h:266
+msgid "Change the properties of the current staff"
+msgstr ""
+
+#: src/entries.h:285
+msgid "InsertMenu"
+msgstr ""
+
+#: src/entries.h:285 src/entries.h:347 src/entries.h:382 src/view.c:8726
+msgid "Insert"
+msgstr ""
+
+#: src/entries.h:286 src/scorelayout.c:568
+msgid "Clef"
+msgstr ""
+
+#: src/entries.h:286
+msgid ""
+"Menu:\n"
+"Clef"
+msgstr ""
+
+#: src/entries.h:287 src/register_commands.h:267
+msgid "Initial Clef"
+msgstr ""
+
+#: src/entries.h:287 src/register_commands.h:267
+msgid "Change the initial clef of the current staff"
+msgstr ""
+
+#: src/entries.h:288 src/register_commands.h:268
+msgid "Clef Change"
+msgstr ""
+
+#: src/entries.h:288 src/register_commands.h:268
+msgid "Insert/Edit a change of clef at the cursor"
+msgstr ""
+
+#: src/entries.h:289
+msgid "Keys"
+msgstr ""
+
+#: src/entries.h:289
+msgid ""
+"Menu:\n"
+"Set the key signature or insert a change of key signature\n"
+"Sharpen or flatten a key signature or\n"
+"hide it on printing"
+msgstr ""
+
+#: src/entries.h:290 src/register_commands.h:269
+msgid "Initial Key"
+msgstr ""
+
+#: src/entries.h:290 src/register_commands.h:269
+msgid "Set the initial key signature of the current staff"
+msgstr ""
+
+#: src/entries.h:291 src/keysigdialog.c:343 src/register_commands.h:270
+msgid "Key Signature Change"
+msgstr ""
+
+#: src/entries.h:291 src/register_commands.h:270
+msgid "Insert/Edit a key change at the cursor position"
+msgstr ""
+
+#: src/entries.h:292
+msgid "Time Signatures"
+msgstr ""
+
+#: src/entries.h:292
+msgid ""
+"Menu:\n"
+"Set the time signature, insert or edit a change of timesignature,\n"
+"hide a time signature on printing.\n"
+"Control whether to use numerical or traditional styles."
+msgstr ""
+
+#: src/entries.h:293 src/register_commands.h:271
+msgid "Inital Time Signature"
+msgstr ""
+
+#: src/entries.h:293 src/register_commands.h:271
+msgid "Set the initial time signature of the current staff"
+msgstr ""
+
+#: src/entries.h:294 src/register_commands.h:272
+msgid "Time Signature Change"
+msgstr ""
+
+#: src/entries.h:294 src/register_commands.h:272
+msgid "Edit/Insert a time signature change for the current measure"
+msgstr ""
+
+#: src/entries.h:295 src/register_commands.h:273
+msgid "Set Notehead"
+msgstr ""
+
+#: src/entries.h:295 src/register_commands.h:273
+msgid "Change the type of notehead for the current note"
+msgstr ""
+
+#: src/entries.h:296 src/register_commands.h:274
+msgid "Auto Stemming"
+msgstr ""
+
+#: src/entries.h:296 src/register_commands.h:274
+msgid ""
+"Inserts a stem neutral object. After this automatic stem directions are "
+"active. You can click on this tag and use Sharpen/StemUp etc commands to "
+"change stem direction"
+msgstr ""
+
+#: src/entries.h:297 src/register_commands.h:275
+msgid "Add Lyric Verse"
+msgstr ""
+
+#: src/entries.h:297 src/register_commands.h:275
+msgid "Add a verse of lyrics"
+msgstr ""
+
+#: src/entries.h:298 src/register_commands.h:276
+msgid "Delete Verse"
+msgstr ""
+
+#: src/entries.h:298 src/register_commands.h:276
+msgid "Deletes current verse of lyrics from current voice"
+msgstr ""
+
+#: src/entries.h:299 src/register_commands.h:277
+msgid "Insert/Edit Figured Bass"
+msgstr ""
+
+#: src/entries.h:299 src/register_commands.h:277
+msgid ""
+"Add a bass figure to the current note. Use | sign to split the duration of a "
+"note so as to have multiple figures on one note. See Lilypond docs for other "
+"notation"
+msgstr ""
+
+#: src/entries.h:300 src/register_commands.h:278
+msgid "Delete Figures"
+msgstr ""
+
+#: src/entries.h:300 src/register_commands.h:278
+msgid "Delete the figured bass on the current staff"
+msgstr ""
+
+#: src/entries.h:301 src/register_commands.h:279
+msgid "Hide Figures (Print)"
+msgstr ""
+
+#: src/entries.h:301 src/register_commands.h:279
+msgid "Hide the figured bass on the current staff on printing"
+msgstr ""
+
+#: src/entries.h:302 src/register_commands.h:280
+msgid "Show Figures (Print)"
+msgstr ""
+
+#: src/entries.h:302 src/register_commands.h:280
+msgid "Show the figured bass on the current staff on printing"
+msgstr ""
+
+#: src/entries.h:303 src/register_commands.h:281
+msgid "Edit Chord Symbols"
+msgstr ""
+
+#: src/entries.h:303 src/register_commands.h:281
+msgid ""
+"Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-"
+"sharp diminished 7th. See Lilypond docs for notation"
+msgstr ""
+
+#: src/entries.h:304 src/register_commands.h:282
+msgid "Insert Dynamics"
+msgstr ""
+
+#: src/entries.h:304 src/register_commands.h:282
+msgid "Inserts a dynamic marking at the cursor position"
+msgstr ""
+
+#: src/entries.h:305 src/register_commands.h:283
+msgid "Edit Object"
+msgstr ""
+
+#: src/entries.h:305 src/register_commands.h:283
+msgid "Edit the object at the cursor."
+msgstr ""
+
+#: src/entries.h:306 src/register_commands.h:284
+msgid "Edit Directives"
+msgstr ""
+
+#: src/entries.h:306 src/register_commands.h:284
+msgid "Edit any directives attached to chord/note at cursor."
+msgstr ""
+
+#: src/entries.h:307 src/register_commands.h:285
+msgid "Edit Staff Directives"
+msgstr ""
+
+#: src/entries.h:307 src/register_commands.h:285
+msgid "Edit any directives attached to staff."
+msgstr ""
+
+#: src/entries.h:308 src/register_commands.h:286
+msgid "Edit Voice Directives"
+msgstr ""
+
+#: src/entries.h:308 src/register_commands.h:286
+msgid "Edit any directives attached to voice."
+msgstr ""
+
+#: src/entries.h:309 src/register_commands.h:287
+msgid "Edit Score Directives"
+msgstr ""
+
+#: src/entries.h:309 src/register_commands.h:287
+msgid "Edit any directives attached to score."
+msgstr ""
+
+#: src/entries.h:310 src/register_commands.h:288
+msgid "Edit Movement Directives"
+msgstr ""
+
+#: src/entries.h:310 src/register_commands.h:288
+msgid "Edit any directives attached to movement."
+msgstr ""
+
+#: src/entries.h:311 src/register_commands.h:289
+msgid "Edit Clef Directives"
+msgstr ""
+
+#: src/entries.h:311 src/register_commands.h:289
+msgid "Edit any directives attached to clef."
+msgstr ""
+
+#: src/entries.h:312 src/register_commands.h:290
+msgid "Edit Time Signature Directives"
+msgstr ""
+
+#: src/entries.h:312 src/register_commands.h:290
+msgid "Edit any directives attached to time signature."
+msgstr ""
+
+#: src/entries.h:313 src/register_commands.h:291
+msgid "Edit Key Signature Directives"
+msgstr ""
+
+#: src/entries.h:313 src/register_commands.h:291
+msgid "Edit any directives attached to key signature."
+msgstr ""
+
+#: src/entries.h:314 src/register_commands.h:292
+msgid "Delete a Directive"
+msgstr ""
+
+#: src/entries.h:314 src/register_commands.h:292
+msgid "Delete a directive attached to chord/note at cursor."
+msgstr ""
+
+#: src/entries.h:315 src/register_commands.h:293
+msgid "Attach Lilypond to Note"
+msgstr ""
+
+#: src/entries.h:315 src/register_commands.h:293
+msgid ""
+"Attach or edit attached LilyPond text to the note at the cursor. This can be "
+"used for guitar fingerings, cautionary accidentals and much more. See "
+"LilyPond documentation."
+msgstr ""
+
+#: src/entries.h:316 src/register_commands.h:294
+msgid "Attach Lilypond to Chord"
+msgstr ""
+
+#: src/entries.h:316 src/register_commands.h:294
+msgid ""
+"Attach or edit attached LilyPond text to the chord at the cursor. This can "
+"be used for attaching and placing text and much more. See LilyPond "
+"documentation."
+msgstr ""
+
+#: src/entries.h:317 src/register_commands.h:295
+msgid "Inserts specialized barline at the cursor position. Mostly not working"
+msgstr ""
+
+#: src/entries.h:318 src/entries.h:363
+msgid "Navigation"
+msgstr ""
+
+#: src/entries.h:318
+msgid ""
+"Moving the cursor within the current movement, setting bookmarks, seeking "
+"things in the score"
+msgstr ""
+
+#: src/entries.h:319 src/register_commands.h:296
+msgid "Go to Measure"
+msgstr ""
+
+#: src/entries.h:319 src/register_commands.h:296
+msgid "Opens a dialog for going to a numbered measure"
+msgstr ""
+
+#: src/entries.h:320 src/register_commands.h:297
+msgid "Go to Beginning"
+msgstr ""
+
+#: src/entries.h:320 src/register_commands.h:297
+msgid "Cursor to start of staff/voice, extending selection if any"
+msgstr ""
+
+#: src/entries.h:321 src/register_commands.h:298
+msgid "Go to End"
+msgstr ""
+
+#: src/entries.h:321 src/register_commands.h:298
+msgid "Cursor to end of staff/voice, extending selection if any"
+msgstr ""
+
+#: src/entries.h:322 src/register_commands.h:299
+msgid "Move to Staff/Voice Beginning"
+msgstr ""
+
+#: src/entries.h:322 src/register_commands.h:299
+msgid "Cursor to start of staff/voice, without extending selection if any"
+msgstr ""
+
+#: src/entries.h:323 src/register_commands.h:300
+msgid "Move to Staff/Voice End"
+msgstr ""
+
+#: src/entries.h:323 src/register_commands.h:300
+msgid "Cursor to end of staff/voice, without extending selection if any"
+msgstr ""
+
+#: src/entries.h:324 src/register_commands.h:301
+msgid "Next Movement"
+msgstr ""
+
+#: src/entries.h:324 src/register_commands.h:301
+msgid "Go to the next movement"
+msgstr ""
+
+#: src/entries.h:325 src/register_commands.h:302
+msgid "Previous Movement"
+msgstr ""
+
+#: src/entries.h:325 src/register_commands.h:302
+msgid "Go to the previous movement"
+msgstr ""
+
+#: src/entries.h:326 src/register_commands.h:303
+msgid "Delete Movement"
+msgstr ""
+
+#: src/entries.h:326 src/register_commands.h:303
+msgid "Delete the current movement"
+msgstr ""
+
+#: src/entries.h:327 src/register_commands.h:304
+msgid "Play"
+msgstr ""
+
+#: src/entries.h:328 src/register_commands.h:305
+msgid "Stop"
+msgstr ""
+
+#: src/entries.h:329 src/register_commands.h:306
+msgid "Playback Properties"
+msgstr ""
+
+#: src/entries.h:329 src/register_commands.h:306
+msgid "Allows you to specify properties used in playing back (midi)"
+msgstr ""
+
+#: src/entries.h:330 src/register_commands.h:307
+msgid "Browse Manual"
+msgstr ""
+
+#: src/entries.h:330 src/register_commands.h:307
+msgid "Opens a browser on the user manual"
+msgstr ""
+
+#: src/entries.h:331 src/register_commands.h:308
+msgid "About"
+msgstr ""
+
+#: src/entries.h:331 src/register_commands.h:308
+msgid "Gives the version number etc of this program"
+msgstr ""
+
+#: src/entries.h:332
+msgid "More"
+msgstr ""
+
+#: src/entries.h:332
+msgid "Allows choosing extra commands/menu items from disk"
+msgstr ""
+
+#: src/entries.h:333 src/register_commands.h:309
+msgid "More Commands"
+msgstr ""
+
+#: src/entries.h:333 src/register_commands.h:309
+msgid "Allows choosing standard extra commands/menu items"
+msgstr ""
+
+#: src/entries.h:334 src/register_commands.h:310
+msgid "My Commands"
+msgstr ""
+
+#: src/entries.h:334 src/register_commands.h:310
+msgid ""
+"Allows choosing extra commands/menu items from your own collection of extras"
+msgstr ""
+
+#: src/entries.h:335 src/register_commands.h:311
+msgid "Update Commands from Internet"
+msgstr ""
+
+#: src/entries.h:335 src/register_commands.h:311
+msgid ""
+"Refreshes the set of commands available from Denemo.org.\n"
+"Use More Commands after this has finished"
+msgstr ""
+
+#: src/entries.h:336
+msgid "Open Recent"
+msgstr ""
+
+#: src/entries.h:336
+msgid "Open previously used files"
+msgstr ""
+
+#: src/entries.h:337
+msgid "Import File"
+msgstr ""
+
+#: src/entries.h:337
+msgid ""
+"Menu:\n"
+"Import the supported file formats"
+msgstr ""
+
+#: src/entries.h:338
+msgid "Export As"
+msgstr ""
+
+#: src/entries.h:338
+msgid ""
+"Menu:\n"
+"Export the music to another file format.\n"
+"These file formats will not support all the features of the score."
+msgstr ""
+
+#: src/entries.h:339 src/register_commands.h:312
+msgid "Toggle Edit Mode"
+msgstr ""
+
+#: src/entries.h:339 src/register_commands.h:312
+msgid "Toggle between current mode and edit mode"
+msgstr ""
+
+#: src/entries.h:340 src/register_commands.h:313
+msgid "Toggle between note entry and rest entry"
+msgstr ""
+
+#: src/entries.h:341 src/register_commands.h:314
+msgid "Toggle Audible Feedback"
+msgstr ""
+
+#: src/entries.h:341 src/register_commands.h:314
+msgid "Toggle audible feedback on/off"
+msgstr ""
+
+#: src/entries.h:342 src/register_commands.h:315
+msgid "Clear Overlay"
+msgstr ""
+
+#: src/entries.h:342 src/register_commands.h:315
+msgid "Clear the list of pitches that overlay the notes"
+msgstr ""
+
+#: src/entries.h:343 src/register_commands.h:316
+msgid "Create Snippet"
+msgstr ""
+
+#: src/entries.h:343 src/register_commands.h:316
+msgid ""
+"Copy selection as music snippet or rhythm pattern for notes to follow as "
+"they are entered"
+msgstr ""
+
+#: src/entries.h:344 src/register_commands.h:317
+msgid "Delete Snippet"
+msgstr ""
+
+#: src/entries.h:344 src/register_commands.h:317
+msgid "Delete the selected music snippet/rhythm pattern"
+msgstr ""
+
+#: src/entries.h:345
+msgid "Classic Mode"
+msgstr ""
+
+#: src/entries.h:345
+msgid ""
+"Menu:\n"
+"Moving the cursor and inserting notes or rests there"
+msgstr ""
+
+#: src/entries.h:346
+msgid "Select Note"
+msgstr ""
+
+#: src/entries.h:346
+msgid ""
+"Menu:\n"
+"Moving the cursor to the nearest ..."
+msgstr ""
+
+#: src/entries.h:347
+msgid ""
+"Menu:\n"
+"Commands for notes: inserting, deleting, etc."
+msgstr ""
+
+#: src/entries.h:348
+msgid "Stem Direction"
+msgstr ""
+
+#: src/entries.h:348
+msgid ""
+"Menu:\n"
+"Commands to control the stem up/down"
+msgstr ""
+
+#: src/entries.h:349
+msgid "Notehead Types"
+msgstr ""
+
+#: src/entries.h:349
+msgid ""
+"Menu:\n"
+"Different types of notehead"
+msgstr ""
+
+#: src/entries.h:350
+msgid "Tied Notes"
+msgstr ""
+
+#: src/entries.h:350
+msgid ""
+"Menu:\n"
+"Creating Tied Notes\n"
+"Do not confuse with slurs!!"
+msgstr ""
+
+#: src/entries.h:351
+msgid "Display Effects"
+msgstr ""
+
+#: src/entries.h:351
+msgid ""
+"Menu:\n"
+"Effects that are only for the Denemo display,\n"
+"not affecting the printed page."
+msgstr ""
+
+#: src/entries.h:352
+msgid "Articulations"
+msgstr ""
+
+#: src/entries.h:352
+msgid ""
+"Menu:\n"
+"Articulations"
+msgstr ""
+
+#: src/entries.h:353
+msgid "Slurs"
+msgstr ""
+
+#: src/entries.h:353
+msgid ""
+"Menu:\n"
+"Slurs\n"
+"Do not confuse with ties which in print can look the same\n"
+"Slurs have little ticks at the end in the Denemo display."
+msgstr ""
+
+#: src/entries.h:354
+msgid "Grace Notes"
+msgstr ""
+
+#: src/entries.h:354
+msgid ""
+"Menu:\n"
+"Grace Notes"
+msgstr ""
+
+#: src/entries.h:355 src/view.c:8700
+msgid "Score"
+msgstr ""
+
+#: src/entries.h:355
+msgid ""
+"Menu:\n"
+"Commands that affect the entire piece of music across all movements."
+msgstr ""
+
+#: src/entries.h:356
+msgid "Instruments"
+msgstr ""
+
+#: src/entries.h:356
+msgid ""
+"Menu:\n"
+"Instruments"
+msgstr ""
+
+#: src/entries.h:357
+msgid "Markings"
+msgstr ""
+
+#: src/entries.h:357
+msgid ""
+"Menu:\n"
+"Markings to be applied to the note at the cursor.\n"
+"Includes articulations, string numbers, chord symbols, arbitrary text ..."
+msgstr ""
+
+#: src/entries.h:358
+msgid "Text/Symbol"
+msgstr ""
+
+#: src/entries.h:358
+msgid ""
+"Menu:\n"
+"Text and symbol Markings"
+msgstr ""
+
+#: src/entries.h:359
+msgid "Strings"
+msgstr ""
+
+#: src/entries.h:359
+msgid ""
+"Menu:\n"
+"Commands for Stringed Instruments"
+msgstr ""
+
+#: src/entries.h:360
+msgid "Note Insertion"
+msgstr ""
+
+#: src/entries.h:360
+msgid ""
+"Menu:\n"
+"Inserting the note ..."
+msgstr ""
+
+#: src/entries.h:361 src/view.c:8694
+msgid "Lyrics"
+msgstr ""
+
+#: src/entries.h:361
+msgid ""
+"Menu:\n"
+"Lyrics consist of syllables which are placed under or above the notes of the "
+"voice they are attached to\n"
+"You can use the hyphen - and underscore _ to affect the placement\n"
+"as well as slurs placed over notes. Spaces, tabs or new lines can serve to "
+"separate the syllables, it makes no difference which."
+msgstr ""
+
+#: src/entries.h:362
+msgid "Directives"
+msgstr ""
+
+#: src/entries.h:362
+msgid ""
+"Menu:\n"
+"Directives tell Denemo to do something special with the object they are "
+"attached to\n"
+"or at the point in the music they are placed\n"
+"This can be directing the typesetter to do something special\n"
+"or issuing MIDI instructions to alter the playback\n"
+"or even take an action, such as linking to source manuscript when clicked"
+msgstr ""
+
+#: src/entries.h:363
+msgid ""
+"Menu:\n"
+"Moving the Denemo cursor around the piece"
+msgstr ""
+
+#: src/entries.h:364
+msgid ""
+"Menu:\n"
+"Entering notes"
+msgstr ""
+
+#: src/entries.h:365
+msgid ""
+"Menu:\n"
+"Marks placed on notes and chords"
+msgstr ""
+
+#: src/entries.h:366
+msgid ""
+"Menu:\n"
+"Editing"
+msgstr ""
+
+#: src/entries.h:367
+msgid "Measure"
+msgstr ""
+
+#: src/entries.h:367
+msgid ""
+"Menu:\n"
+"Manipulating measures\n"
+"Commands that apply to the current measure"
+msgstr ""
+
+#: src/entries.h:368
+msgid "Staff"
+msgstr ""
+
+#: src/entries.h:368
+msgid ""
+"Menu:\n"
+"Commands for staffs"
+msgstr ""
+
+#: src/entries.h:369
+msgid ""
+"Menu:\n"
+"Playing the music via the computer's soundcard.\n"
+"All or part of the piece can be played controlled by the green and red "
+"markers (start and stop playing)\n"
+"Use the Playback Controls (from the View menu) to set/reset these and to "
+"loop play while editing the score"
+msgstr ""
+
+#: src/entries.h:370
+msgid "Select Duration"
+msgstr ""
+
+#: src/entries.h:370
+msgid ""
+"Menu:\n"
+"Changing the prevailing duration or rhythm pattern"
+msgstr ""
+
+#: src/entries.h:371
+msgid "Append/Edit"
+msgstr ""
+
+#: src/entries.h:371
+msgid ""
+"Menu:\n"
+"Appending, Changing, and deleting notes"
+msgstr ""
+
+#: src/entries.h:372
+msgid "Append/Edit Note"
+msgstr ""
+
+#: src/entries.h:372
+msgid ""
+"Menu:\n"
+"Appending or Editing notes"
+msgstr ""
+
+#: src/entries.h:373
+msgid "Append/Insert Duration"
+msgstr ""
+
+#: src/entries.h:373
+msgid ""
+"Menu:\n"
+"Appending or Editing durations"
+msgstr ""
+
+#: src/entries.h:374
+msgid "Cursor"
+msgstr ""
+
+#: src/entries.h:374
+msgid ""
+"Menu:\n"
+"Moving the cursor"
+msgstr ""
+
+#: src/entries.h:375
+msgid "Cursor to Note"
+msgstr ""
+
+#: src/entries.h:375
+msgid ""
+"Menu:\n"
+"Moving the cursor to note positions"
+msgstr ""
+
+#: src/entries.h:376
+msgid "Clefs"
+msgstr ""
+
+#: src/entries.h:376
+msgid ""
+"Menu:\n"
+"Insert/change clef, set initial clef, hide a clef on printing,\n"
+"or display in a different clef"
+msgstr ""
+
+#: src/entries.h:377
+msgid "Chords"
+msgstr ""
+
+#: src/entries.h:377
+msgid ""
+"Menu:\n"
+"Commands for creating chords. Note that chord symbols and figured bass are "
+"under markings on notes.\n"
+"See Notes/Rests menu"
+msgstr ""
+
+#: src/entries.h:378
+msgid "Add Note"
+msgstr ""
+
+#: src/entries.h:378
+msgid ""
+"Menu:\n"
+"Adding notes to a note or chord at the cursor to make chords"
+msgstr ""
+
+#: src/entries.h:379
+msgid "Chords Symbols"
+msgstr ""
+
+#: src/entries.h:379
+msgid ""
+"Menu:\n"
+"Adding Chord Symbols over music"
+msgstr ""
+
+#: src/entries.h:380
+msgid "Figured Bass"
+msgstr ""
+
+#: src/entries.h:380
+msgid ""
+"Menu:\n"
+"Adding Figured Bass Figures"
+msgstr ""
+
+#: src/entries.h:381
+msgid "Measures"
+msgstr ""
+
+#: src/entries.h:381
+msgid ""
+"Menu:\n"
+"Measures: adding, deleting, navigating etc"
+msgstr ""
+
+#: src/entries.h:382
+msgid ""
+"Menu:\n"
+"Inserting notes, measures, staffs, keysignatures etc"
+msgstr ""
+
+#: src/entries.h:383
+msgid "Add Staff"
+msgstr ""
+
+#: src/entries.h:383
+msgid ""
+"Menu:\n"
+"Insert a new staff postioned relative to current staff"
+msgstr ""
+
+#: src/entries.h:384
+msgid "Insert Movement"
+msgstr ""
+
+#: src/entries.h:384
+msgid ""
+"Menu:\n"
+"Insert a new movement positioned relative to current movement"
+msgstr ""
+
+#: src/entries.h:385
+msgid "Insert at Cursor"
+msgstr ""
+
+#: src/entries.h:385
+msgid ""
+"Menu:\n"
+"Inserting notes of a given duration at cursor note height"
+msgstr ""
+
+#: src/entries.h:386
+msgid "Change"
+msgstr ""
+
+#: src/entries.h:386
+msgid ""
+"Menu:\n"
+"Changing properties of notes, measures, staffs, keysigs etc"
+msgstr ""
+
+#: src/entries.h:387
+msgid "Notes/Durations"
+msgstr ""
+
+#: src/entries.h:387
+msgid ""
+"Menu:\n"
+"Modeless actions on notes/rests"
+msgstr ""
+
+#: src/entries.h:388
+msgid "Notes/Rests"
+msgstr ""
+
+#: src/entries.h:388
+msgid ""
+"Menu:\n"
+"Commands for notes/rests"
+msgstr ""
+
+#: src/entries.h:389
+msgid "Rest Insertion"
+msgstr ""
+
+#: src/entries.h:389
+msgid ""
+"Menu:\n"
+"Modeless entry of rests"
+msgstr ""
+
+#: src/entries.h:390
+msgid "Educational"
+msgstr ""
+
+#: src/entries.h:390
+msgid ""
+"Menu:\n"
+"Educational Games"
+msgstr ""
+
+#: src/entries.h:391
+msgid "Edit Directive(s)"
+msgstr ""
+
+#: src/entries.h:391
+msgid ""
+"Menu:\n"
+"Editing directives"
+msgstr ""
+
+#: src/entries.h:392
+msgid "Change Note"
+msgstr ""
+
+#: src/entries.h:392
+msgid ""
+"Menu:\n"
+"Changing the note at the cursor to the nearest ..."
+msgstr ""
+
+#: src/entries.h:393
+msgid "Edit Duration"
+msgstr ""
+
+#: src/entries.h:393
+msgid ""
+"Menu:\n"
+"Changes the duration of the current note"
+msgstr ""
+
+#: src/entries.h:394
+msgid "Change Rest"
+msgstr ""
+
+#: src/entries.h:394
+msgid ""
+"Menu:\n"
+"Changes the duration of the current rest"
+msgstr ""
+
+#: src/entries.h:395
+msgid "Expression Marks"
+msgstr ""
+
+#: src/entries.h:395
+msgid ""
+"Menu:\n"
+"Dynamics, staccato, slurs, ties and other expressive marks"
+msgstr ""
+
+#: src/entries.h:396
+msgid "Dynamic markings"
+msgstr ""
+
+#: src/entries.h:397
+msgid "Ornaments"
+msgstr ""
+
+#: src/entries.h:397
+msgid ""
+"Menu:\n"
+"grace notes etc"
+msgstr ""
+
+#: src/entries.h:398
+msgid "Other"
+msgstr ""
+
+#: src/entries.h:398
+msgid "Lyrics, chord symbols, figured basses etc"
+msgstr ""
+
+#: src/entries.h:399
+msgid "Others"
+msgstr ""
+
+#: src/entries.h:399
+msgid "Less used actions"
+msgstr ""
+
+#: src/entries.h:400
+msgid "Favorites"
+msgstr ""
+
+#: src/entries.h:400
+msgid ""
+"Customized LilyPond inserts. Store often-used inserts here labelled with "
+"what they do"
+msgstr ""
+
+#: src/entries.h:401
+msgid "Add Favorite"
+msgstr ""
+
+#: src/entries.h:401
+msgid ""
+"Menu:\n"
+"Add a custom LilyPond insert to favorites menu"
+msgstr ""
+
+#: src/entries.h:402
+msgid "Tuplets"
+msgstr ""
+
+#: src/entries.h:402
+msgid ""
+"Menu:\n"
+"Entering triplets and other tuplets"
+msgstr ""
+
+#: src/entries.h:403
+msgid ""
+"Menu:\n"
+"Deleting notes, measures staffs keysigs etc"
+msgstr ""
+
+#: src/entries.h:404
+msgid "Beaming"
+msgstr ""
+
+#: src/entries.h:404
+msgid ""
+"Menu:\n"
+"Beaming - controlling which notes are beamed together"
+msgstr ""
+
+#: src/entries.h:405
+msgid "Conditional Directives"
+msgstr ""
+
+#: src/entries.h:405
+msgid ""
+"Menu:\n"
+"For making directives apply only to one score layout or be omitted from one "
+"score layout"
+msgstr ""
+
+#: src/entries.h:406
+msgid "MIDI Keyboard"
+msgstr ""
+
+#: src/entries.h:406
+msgid ""
+"Menu:\n"
+"For affecting how MIDI in works. MIDI in refers to MIDI keyboards or other "
+"controllers connected to the computer. You may need to configure this using "
+"the Audio/MIDI section of the Preferences."
+msgstr ""
+
+#: src/entries.h:407
+msgid "PC Keyboard"
+msgstr ""
+
+#: src/entries.h:407
+msgid ""
+"Menu:\n"
+"Choose between different ways of entering notes from the computer keyboard."
+msgstr ""
+
+#: src/entries.h:408
+msgid "Mouse"
+msgstr ""
+
+#: src/entries.h:408
+msgid ""
+"Menu:\n"
+"Choose between different ways of using the mouse."
+msgstr ""
+
 #: src/exportabc.c:86
 msgid "%{error. defaulting to%}C"
 msgstr ""
@@ -5585,7 +8565,7 @@ msgstr ""
 msgid "%{error. defaulting to%}c"
 msgstr ""
 
-#: src/exportlilypond.c:1366
+#: src/exportlilypond.c:1304
 #, c-format
 msgid "%% LilyPond file generated by Denemo version "
 msgstr ""
@@ -5644,10 +8624,6 @@ msgstr ""
 msgid "Export As "
 msgstr ""
 
-#: src/file.c:1041 src/register_commands.h:215
-msgid "Save As"
-msgstr ""
-
 #: src/file.c:1110
 #, c-format
 msgid "A file with the name %s already exists"
@@ -5696,6 +8672,10 @@ msgstr ""
 #: src/help.c:105
 #, c-format
 msgid "Could not execute specified web browser: %s\n"
+msgstr ""
+
+#: src/importxml.c:2605 src/importxml.c:2609
+msgid "Obsolete form, use earlier Denemo version to convert"
 msgstr ""
 
 #: src/kbd-custom.c:636
@@ -5792,10 +8772,6 @@ msgstr ""
 
 #: src/keyboard.c:754
 msgid "Return"
-msgstr ""
-
-#: src/keysigdialog.c:343 src/register_commands.h:270
-msgid "Key Signature Change"
 msgstr ""
 
 #: src/keysigdialog.c:354
@@ -5968,7 +8944,7 @@ msgstr ""
 msgid "Play from time"
 msgstr ""
 
-#: src/playback.c:133 src/print.c:602
+#: src/playback.c:133 src/print.c:639
 msgid "to"
 msgstr ""
 
@@ -6050,65 +9026,137 @@ msgstr ""
 msgid "Choose Soundfont"
 msgstr ""
 
-#: src/print.c:105
+#: src/print.c:129
 #, c-format
 msgid "Could not find %s"
 msgstr ""
 
-#: src/print.c:108
+#: src/print.c:132
 msgid "Please edit lilypond path in the preferences."
 msgstr ""
 
-#: src/print.c:578
+#: src/print.c:615
 msgid "Print Excerpt Range"
 msgstr ""
 
-#: src/print.c:593
+#: src/print.c:630
 msgid "Print from Measure"
 msgstr ""
 
-#: src/print.c:1214
+#: src/print.c:1068
+msgid "Possibly Invalid"
+msgstr ""
+
+#: src/print.c:1069
+msgid "Cursor not moved."
+msgstr ""
+
+#: src/print.c:1072
+msgid "Check Score."
+msgstr ""
+
+#: src/print.c:1073
+msgid "Cursor may have moved to error point in the score."
+msgstr ""
+
+#: src/print.c:1094 src/print.c:2015
+msgid "Current Movement"
+msgstr ""
+
+#: src/print.c:1096
+msgid "Excerpt Only"
+msgstr ""
+
+#: src/print.c:1298
 msgid "No selection to print"
 msgstr ""
 
-#: src/print.c:1817
+#: src/print.c:1913
+msgid "Manual Updates"
+msgstr ""
+
+#: src/print.c:1914
+msgid "Continuous"
+msgstr ""
+
+#: src/print.c:1974
+msgid "Measures before cursor:"
+msgstr ""
+
+#: src/print.c:1983
+msgid "Measures after cursor:"
+msgstr ""
+
+#: src/print.c:1994
+msgid "Staffs before cursor:"
+msgstr ""
+
+#: src/print.c:2002
+msgid "Staffs after cursor:"
+msgstr ""
+
+#: src/print.c:2017
+msgid "If checked the current layout is re-typeset at every change"
+msgstr ""
+
+#: src/print.c:2032
+msgid "Set background updats on/off."
+msgstr ""
+
+#: src/print.c:2035
+msgid "Range"
+msgstr ""
+
+#: src/print.c:2036
+msgid "Set how much of the score to re-draw."
+msgstr ""
+
+#: src/print.c:2044
+msgid "Manual"
+msgstr ""
+
+#: src/print.c:2045
+msgid "Set background updater on/off."
+msgstr ""
+
+#: src/print.c:2074
 msgid ""
 "Typesets the music from the current movement. This creates a score layout "
 "comprising one movement."
 msgstr ""
 
-#: src/print.c:1822
+#: src/print.c:2079
 msgid ""
 "Typesets the music from the current part for all movements. A part is all "
 "the music with the same staff-name. This creates a score layout with one "
 "part, all movements."
 msgstr ""
 
-#: src/print.c:1827
+#: src/print.c:2084
 msgid ""
 "Re-issues the last print command. Use this after modifying the file to "
 "repeat the typesetting."
 msgstr ""
 
-#: src/print.c:1836
+#: src/print.c:2096
 msgid ""
 "Shows pages side by side, so you can see page turns for back-to-back "
 "printing\n"
 msgstr ""
 
-#: src/print.c:1841
+#: src/print.c:2101
 msgid ""
 "Move to the next page - you can also scroll with the scroll-wheel, and zoom "
 "with control-wheel"
 msgstr ""
 
-#: src/print.c:1845
+#: src/print.c:2105
 msgid ""
 "Move to the previous page - you can also scroll with the scroll-wheel, and "
 "zoom with control-wheel"
 msgstr ""
 
-#: src/print.c:1873
+#: src/print.c:2133
 msgid ""
 "This window shows the final typeset score from which you can print or (via "
 "print to file) create a PDF document.\n"
@@ -6118,2061 +9166,6 @@ msgid ""
 "so take a break!\n"
 "If you just want to generate a score layout - e.g. for one part then you can "
 "kill off the actual typsetting by closing the Progress bar"
-msgstr ""
-
-#: src/register_commands.h:1
-msgid "Cursor Left"
-msgstr ""
-
-#: src/register_commands.h:1
-msgid "Moves the cursor one object left, altering the selection if any"
-msgstr ""
-
-#: src/register_commands.h:2
-msgid "Move Cursor Left"
-msgstr ""
-
-#: src/register_commands.h:2
-msgid "Moves the cursor one object left, without altering the selection"
-msgstr ""
-
-#: src/register_commands.h:3
-msgid "Cursor Down"
-msgstr ""
-
-#: src/register_commands.h:3
-msgid "Moves the cursor one scale step down"
-msgstr ""
-
-#: src/register_commands.h:4
-msgid "Cursor Up"
-msgstr ""
-
-#: src/register_commands.h:4
-msgid "Moves the cursor one scale step up"
-msgstr ""
-
-#: src/register_commands.h:5
-msgid "Cursor Right"
-msgstr ""
-
-#: src/register_commands.h:5
-msgid "Moves the cursor one object right, altering the selection if any"
-msgstr ""
-
-#: src/register_commands.h:6
-msgid "Move Cursor Right"
-msgstr ""
-
-#: src/register_commands.h:6
-msgid "Moves the cursor one object right, without altering the selection"
-msgstr ""
-
-#: src/register_commands.h:7
-msgid "To Mark"
-msgstr ""
-
-#: src/register_commands.h:7
-msgid "Moves the cursor to the Mark without altering the selection"
-msgstr ""
-
-#: src/register_commands.h:8
-msgid "Swap Ends of Selection"
-msgstr ""
-
-#: src/register_commands.h:8
-msgid "Swaps the active end of the selection"
-msgstr ""
-
-#: src/register_commands.h:9
-msgid "To Selection Start"
-msgstr ""
-
-#: src/register_commands.h:9
-msgid ""
-"Moves the cursor to the first object in the selection without altering the "
-"selection. returns #f if no selection"
-msgstr ""
-
-#: src/register_commands.h:10
-msgid "Push Position"
-msgstr ""
-
-#: src/register_commands.h:10
-msgid "Pushes the current cursor position onto a stack"
-msgstr ""
-
-#: src/register_commands.h:11
-msgid "Pop Position"
-msgstr ""
-
-#: src/register_commands.h:11
-msgid ""
-"Pops a position from the stack of cursor positions, moving the cursor there"
-msgstr ""
-
-#: src/register_commands.h:12
-msgid "Pop and Push Position"
-msgstr ""
-
-#: src/register_commands.h:12
-msgid ""
-"Pops a position from the stack of cursor positions, pushes the current "
-"position, then moves the cursor to the popped position"
-msgstr ""
-
-#: src/register_commands.h:13
-msgid "Hide/Show Menus"
-msgstr ""
-
-#: src/register_commands.h:13
-msgid ""
-"Hides/Shows menus, panes etc. The ones shown are those checked in the view "
-"menu."
-msgstr ""
-
-#: src/register_commands.h:14
-msgid "Staff Up"
-msgstr ""
-
-#: src/register_commands.h:14
-msgid "Moves the cursor to the staff above, extending selection if any"
-msgstr ""
-
-#: src/register_commands.h:15
-msgid "Staff Down"
-msgstr ""
-
-#: src/register_commands.h:15
-msgid "Moves the cursor to the staff below, extending selection if any"
-msgstr ""
-
-#: src/register_commands.h:16
-msgid "Move to Staff Up"
-msgstr ""
-
-#: src/register_commands.h:16
-msgid "Moves the cursor to the staff above without altering selection"
-msgstr ""
-
-#: src/register_commands.h:17
-msgid "Move to Staff Down"
-msgstr ""
-
-#: src/register_commands.h:17
-msgid "Moves the cursor to the staff below  without altering selection"
-msgstr ""
-
-#: src/register_commands.h:18
-msgid "Measure Left"
-msgstr ""
-
-#: src/register_commands.h:18
-msgid ""
-"Moves the cursor to the first object in the next measure, extending "
-"selection if any"
-msgstr ""
-
-#: src/register_commands.h:19
-msgid "Measure Right"
-msgstr ""
-
-#: src/register_commands.h:19
-msgid ""
-"Moves the cursor to the first object in the previous measure, extending "
-"selection if any"
-msgstr ""
-
-#: src/register_commands.h:20
-msgid "Move to Measure Left"
-msgstr ""
-
-#: src/register_commands.h:20
-msgid ""
-"Moves the cursor to the first object in the next measure leaving selection, "
-"if any, unchanged"
-msgstr ""
-
-#: src/register_commands.h:21
-msgid "Move to Measure Right"
-msgstr ""
-
-#: src/register_commands.h:21
-msgid ""
-"Moves the cursor to the first object in the previous measureleaving "
-"selection, if any, unchanged"
-msgstr ""
-
-#: src/register_commands.h:22
-msgid "A"
-msgstr ""
-
-#: src/register_commands.h:22
-msgid "Append/Edit  A"
-msgstr ""
-
-#: src/register_commands.h:23
-msgid "B"
-msgstr ""
-
-#: src/register_commands.h:23
-msgid "Append/Edit  B"
-msgstr ""
-
-#: src/register_commands.h:24
-msgid "C"
-msgstr ""
-
-#: src/register_commands.h:24
-msgid "Append/Edit  C"
-msgstr ""
-
-#: src/register_commands.h:25
-msgid "D"
-msgstr ""
-
-#: src/register_commands.h:25
-msgid "Append/Edit  D"
-msgstr ""
-
-#: src/register_commands.h:26
-msgid "E"
-msgstr ""
-
-#: src/register_commands.h:26
-msgid "Append/Edit  E"
-msgstr ""
-
-#: src/register_commands.h:27
-msgid "F"
-msgstr ""
-
-#: src/register_commands.h:27
-msgid "Append/Edit  F"
-msgstr ""
-
-#: src/register_commands.h:28
-msgid "G"
-msgstr ""
-
-#: src/register_commands.h:28
-msgid "Append/Edit  G"
-msgstr ""
-
-#: src/register_commands.h:31
-msgid "WholeNote"
-msgstr ""
-
-#: src/register_commands.h:31
-msgid "Insert 𝅝"
-msgstr ""
-
-#: src/register_commands.h:32
-msgid "HalfNote"
-msgstr ""
-
-#: src/register_commands.h:32
-msgid "Insert 𝅗𝅥"
-msgstr ""
-
-#: src/register_commands.h:33
-msgid "QuarterNote"
-msgstr ""
-
-#: src/register_commands.h:33
-msgid "Insert 𝅘𝅥"
-msgstr ""
-
-#: src/register_commands.h:34
-msgid "EighthNote"
-msgstr ""
-
-#: src/register_commands.h:34
-msgid "Insert 𝅘𝅥𝅮"
-msgstr ""
-
-#: src/register_commands.h:35
-msgid "SixteenthNote"
-msgstr ""
-
-#: src/register_commands.h:35
-msgid "Insert 𝅘𝅥𝅯"
-msgstr ""
-
-#: src/register_commands.h:36
-msgid "ThirtysecondNote"
-msgstr ""
-
-#: src/register_commands.h:36
-msgid "Insert 𝅘𝅥𝅰"
-msgstr ""
-
-#: src/register_commands.h:37
-msgid "SixtyfourthNote"
-msgstr ""
-
-#: src/register_commands.h:37
-msgid "Insert 𝅘𝅥𝅱"
-msgstr ""
-
-#: src/register_commands.h:38
-msgid "OneHundredTwentyEighthNote"
-msgstr ""
-
-#: src/register_commands.h:38
-msgid "Insert 𝅘𝅥𝅲"
-msgstr ""
-
-#: src/register_commands.h:39
-msgid "TwoHundredFiftySixthNote"
-msgstr ""
-
-#: src/register_commands.h:39
-msgid "Insert 𝅥"
-msgstr ""
-
-#: src/register_commands.h:40
-msgid "<span font_desc=\"Denemo\">𝄻</span>"
-msgstr ""
-
-#: src/register_commands.h:40
-msgid "Insert 𝄻 rest"
-msgstr ""
-
-#: src/register_commands.h:41
-msgid "<span font_desc=\"Denemo\">𝄼</span>"
-msgstr ""
-
-#: src/register_commands.h:41
-msgid "Insert 𝄼 rest"
-msgstr ""
-
-#: src/register_commands.h:42
-msgid "<span font_desc=\"Denemo\">𝄽</span>"
-msgstr ""
-
-#: src/register_commands.h:42
-msgid "Insert 𝄽 rest"
-msgstr ""
-
-#: src/register_commands.h:43
-msgid "<span font_desc=\"Denemo\">𝄾</span>"
-msgstr ""
-
-#: src/register_commands.h:43
-msgid "Insert 𝄾 rest"
-msgstr ""
-
-#: src/register_commands.h:44
-msgid "<span font_desc=\"Denemo\">𝄿</span>"
-msgstr ""
-
-#: src/register_commands.h:44
-msgid "Insert 𝄿 rest"
-msgstr ""
-
-#: src/register_commands.h:45
-msgid "<span font_desc=\"Denemo\">𝅀</span>"
-msgstr ""
-
-#: src/register_commands.h:45
-msgid "Insert 𝅀 rest"
-msgstr ""
-
-#: src/register_commands.h:46
-msgid "<span font_desc=\"Denemo\">𝅁</span>"
-msgstr ""
-
-#: src/register_commands.h:46
-msgid "Insert 𝅁 rest"
-msgstr ""
-
-#: src/register_commands.h:47
-msgid "InsertBlankWholeNote"
-msgstr ""
-
-#: src/register_commands.h:47
-msgid "Insert a non-printing 𝄻 rest"
-msgstr ""
-
-#: src/register_commands.h:48
-msgid "InsertBlankHalfNote"
-msgstr ""
-
-#: src/register_commands.h:48
-msgid "Insert a non-printing 𝄼 rest"
-msgstr ""
-
-#: src/register_commands.h:49
-msgid "InsertBlankQuarterNote"
-msgstr ""
-
-#: src/register_commands.h:49
-msgid "Insert a non-printing 𝄽 rest"
-msgstr ""
-
-#: src/register_commands.h:50
-msgid "InsertBlankEighthNote"
-msgstr ""
-
-#: src/register_commands.h:50
-msgid "Insert a non-printing 𝄾 rest"
-msgstr ""
-
-#: src/register_commands.h:51
-msgid "InsertBlankSixteenthNote"
-msgstr ""
-
-#: src/register_commands.h:51
-msgid "Insert a non-printing 𝄿 rest"
-msgstr ""
-
-#: src/register_commands.h:52
-msgid "InsertBlankThirtysecondNote"
-msgstr ""
-
-#: src/register_commands.h:52
-msgid "Insert a non-printing 𝅀 rest"
-msgstr ""
-
-#: src/register_commands.h:53
-msgid "InsertBlankSixtyfourthNote"
-msgstr ""
-
-#: src/register_commands.h:53
-msgid "Insert a non-printing 𝅁 rest"
-msgstr ""
-
-#: src/register_commands.h:54
-msgid "InsertBlankOneHundredTwentyEighthNote"
-msgstr ""
-
-#: src/register_commands.h:54
-msgid "Insert a non-printing 𝅂 rest"
-msgstr ""
-
-#: src/register_commands.h:55
-msgid "InsertBlankTwoHundredFiftySixthNote"
-msgstr ""
-
-#: src/register_commands.h:55
-msgid "Insert a non-printing 𝅃 rest"
-msgstr ""
-
-#: src/register_commands.h:56 src/register_commands.h:313
-msgid "Toggle Rest Mode"
-msgstr ""
-
-#: src/register_commands.h:57
-msgid "Toggle Blank Mode"
-msgstr ""
-
-#: src/register_commands.h:58
-msgid "Insert Duplet"
-msgstr ""
-
-#: src/register_commands.h:59
-msgid "Insert Triplet"
-msgstr ""
-
-#: src/register_commands.h:60
-msgid "Start Triplet"
-msgstr ""
-
-#: src/register_commands.h:61
-msgid "End Tuplet"
-msgstr ""
-
-#: src/register_commands.h:62
-msgid "Insert Quadtuplet"
-msgstr ""
-
-#: src/register_commands.h:63
-msgid "Insert Quintuplet"
-msgstr ""
-
-#: src/register_commands.h:64
-msgid "Insert Sextuplet"
-msgstr ""
-
-#: src/register_commands.h:65
-msgid "Insert Septuplet"
-msgstr ""
-
-#: src/register_commands.h:66
-msgid "Add note"
-msgstr ""
-
-#: src/register_commands.h:66
-msgid ""
-"Add a note to the current chord\n"
-"The cursor position determines which note to add"
-msgstr ""
-
-#: src/register_commands.h:67
-msgid "Remove note"
-msgstr ""
-
-#: src/register_commands.h:67
-msgid "Remove a note from the current chord"
-msgstr ""
-
-#: src/register_commands.h:68
-msgid "Sharpen"
-msgstr ""
-
-#: src/register_commands.h:69
-msgid "Flatten"
-msgstr ""
-
-#: src/register_commands.h:70
-msgid "Sharpen Next Note"
-msgstr ""
-
-#: src/register_commands.h:70
-msgid ""
-"Increases the sharpness of the next entered note. The status bar shows the "
-"current state."
-msgstr ""
-
-#: src/register_commands.h:71
-msgid "Flatten Next Note"
-msgstr ""
-
-#: src/register_commands.h:71
-msgid ""
-"Increases the flatness of the next entered note. The status bar shows the "
-"current state."
-msgstr ""
-
-#: src/register_commands.h:72
-msgid "StemUp"
-msgstr ""
-
-#: src/register_commands.h:72
-msgid "Alters a StemNeutral object to stem up."
-msgstr ""
-
-#: src/register_commands.h:73
-msgid "StemDown"
-msgstr ""
-
-#: src/register_commands.h:73
-msgid "Alters a StemNeutral object to stem down."
-msgstr ""
-
-#: src/register_commands.h:76
-msgid "Tied note"
-msgstr ""
-
-#: src/register_commands.h:76
-msgid "Inserts a duplicate of the current note, tied"
-msgstr ""
-
-#: src/register_commands.h:77
-msgid "Toggle Tie"
-msgstr ""
-
-#: src/register_commands.h:77
-msgid "Ties/unties the note at the cursor"
-msgstr ""
-
-#: src/register_commands.h:78
-msgid "Delete Object"
-msgstr ""
-
-#: src/register_commands.h:78
-msgid "Delete the object at the cursor"
-msgstr ""
-
-#: src/register_commands.h:79
-msgid "Delete Previous Object"
-msgstr ""
-
-#: src/register_commands.h:79
-msgid "Delete to the left of the cursor."
-msgstr ""
-
-#: src/register_commands.h:80
-msgid "Insert Measure Before"
-msgstr ""
-
-#: src/register_commands.h:80
-msgid "Insert a blank measure before the current one (in all staffs)"
-msgstr ""
-
-#: src/register_commands.h:81
-msgid "Insert Measure After"
-msgstr ""
-
-#: src/register_commands.h:81
-msgid "Insert a blank measure after the current one (in all staffs)"
-msgstr ""
-
-#: src/register_commands.h:82
-msgid "Staff Insert Measure Before"
-msgstr ""
-
-#: src/register_commands.h:82
-msgid "Insert a blank measure before the current one (in current staff)"
-msgstr ""
-
-#: src/register_commands.h:83
-msgid "Staff Insert Measure After"
-msgstr ""
-
-#: src/register_commands.h:83
-msgid "Insert a blank measure in current staff after the current measure"
-msgstr ""
-
-#: src/register_commands.h:84
-msgid "Staff Append Measure"
-msgstr ""
-
-#: src/register_commands.h:85
-msgid "Staff Delete Measure"
-msgstr ""
-
-#: src/register_commands.h:85
-msgid "Delete the current measure in this staff, leaving the staff short"
-msgstr ""
-
-#: src/register_commands.h:86
-msgid "Delete Measure All Staffs"
-msgstr ""
-
-#: src/register_commands.h:86
-msgid "Delete the current measure in all staffs"
-msgstr ""
-
-#: src/register_commands.h:87
-msgid "Shrink Measure"
-msgstr ""
-
-#: src/register_commands.h:88
-msgid "Widen Measures"
-msgstr ""
-
-#: src/register_commands.h:89
-msgid "Shorter Staffs"
-msgstr ""
-
-#: src/register_commands.h:90
-msgid "Taller Staffs"
-msgstr ""
-
-#: src/register_commands.h:91
-msgid "New Treble Clef"
-msgstr ""
-
-#: src/register_commands.h:92
-msgid "New Bass Clef"
-msgstr ""
-
-#: src/register_commands.h:93
-msgid "New G8 Clef"
-msgstr ""
-
-#: src/register_commands.h:94
-msgid "New Alto Clef"
-msgstr ""
-
-#: src/register_commands.h:95
-msgid "New Tenor Clef"
-msgstr ""
-
-#: src/register_commands.h:96
-msgid "New Soprano Clef"
-msgstr ""
-
-#: src/register_commands.h:97
-msgid "Set Treble Clef"
-msgstr ""
-
-#: src/register_commands.h:98
-msgid "Set Bass Clef"
-msgstr ""
-
-#: src/register_commands.h:99
-msgid "Set G8 Clef"
-msgstr ""
-
-#: src/register_commands.h:100
-msgid "Set Alto Clef"
-msgstr ""
-
-#: src/register_commands.h:101
-msgid "Set Tenor Clef"
-msgstr ""
-
-#: src/register_commands.h:102
-msgid "Set Soprano Clef"
-msgstr ""
-
-#: src/register_commands.h:103
-msgid "Insert 2/2 Time"
-msgstr ""
-
-#: src/register_commands.h:104
-msgid "Insert 3/2 Time"
-msgstr ""
-
-#: src/register_commands.h:105
-msgid "Insert 4/2 Time"
-msgstr ""
-
-#: src/register_commands.h:106
-msgid "Insert 4/4 Time"
-msgstr ""
-
-#: src/register_commands.h:107
-msgid "Insert 3/4 Time"
-msgstr ""
-
-#: src/register_commands.h:108
-msgid "Insert 2/4 Time"
-msgstr ""
-
-#: src/register_commands.h:109
-msgid "Insert 6/4 Time"
-msgstr ""
-
-#: src/register_commands.h:110
-msgid "Insert 3/8 Time"
-msgstr ""
-
-#: src/register_commands.h:111
-msgid "Insert 6/8 Time"
-msgstr ""
-
-#: src/register_commands.h:112
-msgid "Insert 12/8 Time"
-msgstr ""
-
-#: src/register_commands.h:113
-msgid "Insert 9/8 Time"
-msgstr ""
-
-#: src/register_commands.h:114
-msgid "Set 2/2 Time"
-msgstr ""
-
-#: src/register_commands.h:115
-msgid "Set 3/2 Time"
-msgstr ""
-
-#: src/register_commands.h:116
-msgid "Set 4/2 Time"
-msgstr ""
-
-#: src/register_commands.h:117
-msgid "Set 4/4 Time"
-msgstr ""
-
-#: src/register_commands.h:118
-msgid "Set 3/4 Time"
-msgstr ""
-
-#: src/register_commands.h:119
-msgid "Set 2/4 Time"
-msgstr ""
-
-#: src/register_commands.h:120
-msgid "Set 6/4 Time"
-msgstr ""
-
-#: src/register_commands.h:121
-msgid "Set 3/8 Time"
-msgstr ""
-
-#: src/register_commands.h:122
-msgid "Set 6/8 Time"
-msgstr ""
-
-#: src/register_commands.h:123
-msgid "Set 12/8 Time"
-msgstr ""
-
-#: src/register_commands.h:124
-msgid "Set 9/8 Time"
-msgstr ""
-
-#: src/register_commands.h:125
-msgid "Insert Cmaj"
-msgstr ""
-
-#: src/register_commands.h:126
-msgid "Insert Gmaj"
-msgstr ""
-
-#: src/register_commands.h:127
-msgid "Insert Dmaj"
-msgstr ""
-
-#: src/register_commands.h:128
-msgid "Insert Amaj"
-msgstr ""
-
-#: src/register_commands.h:129
-msgid "Insert Emaj"
-msgstr ""
-
-#: src/register_commands.h:130
-msgid "Insert Bmaj"
-msgstr ""
-
-#: src/register_commands.h:131
-msgid "Insert F# Major"
-msgstr ""
-
-#: src/register_commands.h:132
-msgid "Insert C# Major"
-msgstr ""
-
-#: src/register_commands.h:133
-msgid "Insert F Major"
-msgstr ""
-
-#: src/register_commands.h:134
-msgid "Insert Bb Major"
-msgstr ""
-
-#: src/register_commands.h:135
-msgid "Insert Eb Major"
-msgstr ""
-
-#: src/register_commands.h:136
-msgid "Insert Ab Major"
-msgstr ""
-
-#: src/register_commands.h:137
-msgid "Insert Db Major"
-msgstr ""
-
-#: src/register_commands.h:138
-msgid "Insert Gb Major"
-msgstr ""
-
-#: src/register_commands.h:139
-msgid "Insert Cb Major"
-msgstr ""
-
-#: src/register_commands.h:140
-msgid "Insert A Minor"
-msgstr ""
-
-#: src/register_commands.h:141
-msgid "Insert E Minor"
-msgstr ""
-
-#: src/register_commands.h:142
-msgid "Insert B Minor"
-msgstr ""
-
-#: src/register_commands.h:143
-msgid "Insert F# Minor"
-msgstr ""
-
-#: src/register_commands.h:144
-msgid "Insert C# Minor"
-msgstr ""
-
-#: src/register_commands.h:145
-msgid "Insert G# Minor"
-msgstr ""
-
-#: src/register_commands.h:146
-msgid "Insert D# Minor"
-msgstr ""
-
-#: src/register_commands.h:147
-msgid "Insert A# Minor"
-msgstr ""
-
-#: src/register_commands.h:148
-msgid "Insert D Minor"
-msgstr ""
-
-#: src/register_commands.h:149
-msgid "Insert G Minor"
-msgstr ""
-
-#: src/register_commands.h:150
-msgid "Insert C Minor"
-msgstr ""
-
-#: src/register_commands.h:151
-msgid "Insert F Minor"
-msgstr ""
-
-#: src/register_commands.h:152
-msgid "Insert Bb Minor"
-msgstr ""
-
-#: src/register_commands.h:153
-msgid "Insert Eb Minor"
-msgstr ""
-
-#: src/register_commands.h:154
-msgid "Insert Ab Minor"
-msgstr ""
-
-#: src/register_commands.h:155
-msgid "Set Initial Keysig to C Major"
-msgstr ""
-
-#: src/register_commands.h:156
-msgid "Set Initial Keysig to G Major"
-msgstr ""
-
-#: src/register_commands.h:157
-msgid "Set D Major as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:158
-msgid "Set A Major as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:159
-msgid "Set E Major as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:160
-msgid "Set B Major as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:161
-msgid "Set F# Major as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:162
-msgid "Set C# Major as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:163
-msgid "Set F Major as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:164
-msgid "Set Bb Major as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:165
-msgid "Set Eb Major as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:166
-msgid "Set Ab Major as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:167
-msgid "Set Db Major as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:168
-msgid "Set Gb Major as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:169
-msgid "Set Cb Major as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:170
-msgid "Set A Minor as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:171
-msgid "Set E Minor as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:172
-msgid "Set B Minor as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:173
-msgid "Set F# Minor as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:174
-msgid "Set C# Minor as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:175
-msgid "Set G# Minor as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:176
-msgid "Set D# Minor as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:177
-msgid "Set A# Minor as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:178
-msgid "Set D Minor as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:179
-msgid "Set G Minor as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:180
-msgid "Set C Minor as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:181
-msgid "Set F Minor as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:182
-msgid "Set Bb Minor as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:183
-msgid "Set Eb Minor as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:184
-msgid "Set Ab Minor as Initial Keysig"
-msgstr ""
-
-#: src/register_commands.h:185
-msgid "Set Mark"
-msgstr ""
-
-#: src/register_commands.h:185
-msgid ""
-"Sets the start point for a selection,\n"
-"the end point of the selection is unaltered"
-msgstr ""
-
-#: src/register_commands.h:186
-msgid "Unset Mark"
-msgstr ""
-
-#: src/register_commands.h:186
-msgid "Gets rid of the selection."
-msgstr ""
-
-#: src/register_commands.h:187
-msgid "Set Point"
-msgstr ""
-
-#: src/register_commands.h:187
-msgid "Extends the selection to the current cursor position"
-msgstr ""
-
-#: src/register_commands.h:188
-msgid "Begin Slur"
-msgstr ""
-
-#: src/register_commands.h:188
-msgid "Insert/delete begin slur on this note"
-msgstr ""
-
-#: src/register_commands.h:189
-msgid "End Slur"
-msgstr ""
-
-#: src/register_commands.h:189
-msgid "Insert/delete end slur on this note"
-msgstr ""
-
-#: src/register_commands.h:190
-msgid "Start Crescendo"
-msgstr ""
-
-#: src/register_commands.h:191
-msgid "End Crescendo"
-msgstr ""
-
-#: src/register_commands.h:192
-msgid "Start Diminuendo"
-msgstr ""
-
-#: src/register_commands.h:193
-msgid "End Diminuendo"
-msgstr ""
-
-#: src/register_commands.h:194
-msgid "Set Grace"
-msgstr ""
-
-#: src/register_commands.h:195
-msgid "Grace Note Off/On"
-msgstr ""
-
-#: src/register_commands.h:195
-msgid ""
-"Makes the note at the cursor a grace note, if it is one, makes it normal"
-msgstr ""
-
-#: src/register_commands.h:196
-msgid "Force Cautionary Accidental"
-msgstr ""
-
-#: src/register_commands.h:197
-msgid "Change Pitch"
-msgstr ""
-
-#: src/register_commands.h:198
-msgid "Insert Snippet"
-msgstr ""
-
-#: src/register_commands.h:199 src/view.c:2410
-msgid "Next Snippet"
-msgstr ""
-
-#: src/register_commands.h:199
-msgid ""
-"Make next snippet\n"
-"the current snippet.\n"
-"Notes entered will follow the rhythmic pattern of this snippet"
-msgstr ""
-
-#: src/register_commands.h:200
-msgid "Append Measure All Staffs"
-msgstr ""
-
-#: src/register_commands.h:200
-msgid "Appends a blank measure to every staff in this movement"
-msgstr ""
-
-#: src/register_commands.h:201
-msgid "Execute Scheme"
-msgstr ""
-
-#: src/register_commands.h:201
-msgid "Execute the scheme code from the scripting window"
-msgstr ""
-
-#: src/register_commands.h:202
-msgid "Shift Accidentals Sharpwise"
-msgstr ""
-
-#: src/register_commands.h:202
-msgid "Shifts the set of accidentals one step sharper"
-msgstr ""
-
-#: src/register_commands.h:203
-msgid "Shift Accidentals Flatwise"
-msgstr ""
-
-#: src/register_commands.h:203
-msgid "Shifts the set of accidentals one step flatter"
-msgstr ""
-
-#: src/register_commands.h:204
-msgid "Empty Score"
-msgstr ""
-
-#: src/register_commands.h:204
-msgid "Start a new musical score"
-msgstr ""
-
-#: src/register_commands.h:205
-msgid "New"
-msgstr ""
-
-#: src/register_commands.h:205
-msgid "Start a new musical score for a named instrument/voice."
-msgstr ""
-
-#: src/register_commands.h:206
-msgid "Open"
-msgstr ""
-
-#: src/register_commands.h:206
-msgid "Open a file containing a music score for editing"
-msgstr ""
-
-#: src/register_commands.h:207
-msgid "Import a Lilypond file"
-msgstr ""
-
-#: src/register_commands.h:208
-msgid "Import a Midi file"
-msgstr ""
-
-#: src/register_commands.h:209
-msgid "Import a MusicXml file"
-msgstr ""
-
-#: src/register_commands.h:210
-msgid "Add Staffs"
-msgstr ""
-
-#: src/register_commands.h:210
-msgid "Add staffs from a Denemo file"
-msgstr ""
-
-#: src/register_commands.h:211
-msgid "Add Movement"
-msgstr ""
-
-#: src/register_commands.h:211
-msgid "Add movements from a Denemo file"
-msgstr ""
-
-#: src/register_commands.h:212
-msgid "Change Properties"
-msgstr ""
-
-#: src/register_commands.h:212
-msgid "Change properties of this movement"
-msgstr ""
-
-#: src/register_commands.h:213
-msgid "Open In New"
-msgstr ""
-
-#: src/register_commands.h:213
-msgid ""
-"Open a file containing a music score for editing in a separate working area "
-"(tab"
-msgstr ""
-
-#: src/register_commands.h:214
-msgid "Save"
-msgstr ""
-
-#: src/register_commands.h:214
-msgid "Save the score. The score is saved to disk in XML format."
-msgstr ""
-
-#: src/register_commands.h:215
-msgid "Save the score under a new name"
-msgstr ""
-
-#: src/register_commands.h:216
-msgid "Create Copy"
-msgstr ""
-
-#: src/register_commands.h:216
-msgid "Save a copy of the score"
-msgstr ""
-
-#: src/register_commands.h:217
-msgid "Open Template"
-msgstr ""
-
-#: src/register_commands.h:217
-msgid "Start a new score from a built-in template file"
-msgstr ""
-
-#: src/register_commands.h:218
-msgid "Open Example"
-msgstr ""
-
-#: src/register_commands.h:218
-msgid "Start a new score from a built-in example"
-msgstr ""
-
-#: src/register_commands.h:219
-msgid "Open Custom Template"
-msgstr ""
-
-#: src/register_commands.h:219
-msgid "Start a new score from one of your own template files"
-msgstr ""
-
-#: src/register_commands.h:220
-msgid "Save Template"
-msgstr ""
-
-#: src/register_commands.h:220
-msgid ""
-"Save the score as a template for re-use as a starting point for new scores"
-msgstr ""
-
-#: src/register_commands.h:221
-msgid "New Tab"
-msgstr ""
-
-#: src/register_commands.h:221
-msgid "Create working area (tab with an empty score in it)"
-msgstr ""
-
-#: src/register_commands.h:222
-msgid "Insert Movement Before"
-msgstr ""
-
-#: src/register_commands.h:222
-msgid "Insert a new movement before the current one"
-msgstr ""
-
-#: src/register_commands.h:223
-msgid "Insert Movement After"
-msgstr ""
-
-#: src/register_commands.h:223
-msgid "Insert a new movement after the current one"
-msgstr ""
-
-#: src/register_commands.h:224
-msgid "New Movement"
-msgstr ""
-
-#: src/register_commands.h:224
-msgid "Create a new movement, usign any default template"
-msgstr ""
-
-#: src/register_commands.h:225
-msgid "Save Parts"
-msgstr ""
-
-#: src/register_commands.h:225
-msgid "Save Parts: each staff becomes a file in lilypond format"
-msgstr ""
-
-#: src/register_commands.h:226
-msgid "Export Lilypond"
-msgstr ""
-
-#: src/register_commands.h:226
-msgid "Export the score as a lilypond file"
-msgstr ""
-
-#: src/register_commands.h:227
-msgid "Export PDF"
-msgstr ""
-
-#: src/register_commands.h:227
-msgid "Export the score as a PDF document file"
-msgstr ""
-
-#: src/register_commands.h:228
-msgid "Export PNG"
-msgstr ""
-
-#: src/register_commands.h:228
-msgid "Export the score as a PNG image file"
-msgstr ""
-
-#: src/register_commands.h:229
-msgid "Export MIDI"
-msgstr ""
-
-#: src/register_commands.h:229
-msgid "Export the score as a MIDI file"
-msgstr ""
-
-#: src/register_commands.h:230 src/register_commands.h:231
-msgid "Print Preview"
-msgstr ""
-
-#: src/register_commands.h:230
-msgid "Displays the final finished score in your pd viewer"
-msgstr ""
-
-#: src/register_commands.h:231
-msgid ""
-"Typesets the score\n"
-"If you have a score layout selected it will use that\n"
-"otherwise all movements staffs and lyrics are typeset by default.\n"
-"Be patient! It takes time to create a beautifully laid out score.\n"
-"Once complete you can view and then send to your printer or to a file as a ."
-"pdf document."
-msgstr ""
-
-#: src/register_commands.h:232
-msgid "Print Selection"
-msgstr ""
-
-#: src/register_commands.h:232
-msgid "Displays selected music from score in your pdf viewer"
-msgstr ""
-
-#: src/register_commands.h:233
-msgid "Print Excerpt"
-msgstr ""
-
-#: src/register_commands.h:233
-msgid "Displays a musical excerpt in your image viewer"
-msgstr ""
-
-#: src/register_commands.h:234
-msgid "Print Movement"
-msgstr ""
-
-#: src/register_commands.h:234
-msgid "Typesets the current movement and opens a print dialog"
-msgstr ""
-
-#: src/register_commands.h:235
-msgid "Print"
-msgstr ""
-
-#: src/register_commands.h:235
-msgid "Typesets the score using LilyPond and opens a print dialog"
-msgstr ""
-
-#: src/register_commands.h:236
-msgid "Print Part"
-msgstr ""
-
-#: src/register_commands.h:236
-msgid "Typesets the current part (the one containing the cursor)."
-msgstr ""
-
-#: src/register_commands.h:237
-msgid "Close Score"
-msgstr ""
-
-#: src/register_commands.h:237
-msgid "Close the current score. Other scores (tabs) will stay open"
-msgstr ""
-
-#: src/register_commands.h:238
-msgid "Quit"
-msgstr ""
-
-#: src/register_commands.h:238
-msgid "Quit the Denemo program - closes tabs one at a time."
-msgstr ""
-
-#: src/register_commands.h:239
-msgid "Undo"
-msgstr ""
-
-#: src/register_commands.h:239
-msgid "Undoes one (more) step of your edits to the current score."
-msgstr ""
-
-#: src/register_commands.h:240
-msgid "Redo"
-msgstr ""
-
-#: src/register_commands.h:240
-msgid "Redoes the next of the steps you have Undone"
-msgstr ""
-
-#: src/register_commands.h:241
-msgid "Copy"
-msgstr ""
-
-#: src/register_commands.h:241
-msgid "Copy the music selected to the Denemo clipboard"
-msgstr ""
-
-#: src/register_commands.h:242
-msgid "Cut"
-msgstr ""
-
-#: src/register_commands.h:242
-msgid "Cut the music selected to the Denemo clipboard"
-msgstr ""
-
-#: src/register_commands.h:243
-msgid "Paste"
-msgstr ""
-
-#: src/register_commands.h:243
-msgid ""
-"Paste the Denemo clipboard into the score where the cursor is positioned"
-msgstr ""
-
-#: src/register_commands.h:244
-msgid "Paste LilyPond notes"
-msgstr ""
-
-#: src/register_commands.h:244
-msgid ""
-"Paste LilyPond notes from the text clipboard\n"
-"This will import music written as LilyPond syntax\n"
-"You open the LilyPond file in a texteditor, copy the stretch of notes "
-"(control-c command in your texteditor usually) and then use this command."
-msgstr ""
-
-#: src/register_commands.h:245
-msgid "Score Properties"
-msgstr ""
-
-#: src/register_commands.h:245
-msgid ""
-"Change some of the properties of the current score. This will start up a "
-"dialog window"
-msgstr ""
-
-#: src/register_commands.h:246
-msgid "Save Selection"
-msgstr ""
-
-#: src/register_commands.h:246
-msgid "Save the selected music. Not sure if this is working"
-msgstr ""
-
-#: src/register_commands.h:247
-msgid "Change Preferences"
-msgstr ""
-
-#: src/register_commands.h:247
-msgid ""
-"Set and save your preferences for how Denemo operates on startup.\n"
-"Advanced users can edit .denemo-XXXX/denemorc for missing ones"
-msgstr ""
-
-#: src/register_commands.h:248
-msgid "Save Command Set"
-msgstr ""
-
-#: src/register_commands.h:248
-msgid "Save the current commands and keyboard shortcuts as the default"
-msgstr ""
-
-#: src/register_commands.h:249
-msgid "Manage Command Set"
-msgstr ""
-
-#: src/register_commands.h:249
-msgid "View help, change and save keyboard shortcuts"
-msgstr ""
-
-#: src/register_commands.h:250
-msgid "Swap Staffs"
-msgstr ""
-
-#: src/register_commands.h:250
-msgid ""
-"Swap this staff with the one higher up.\n"
-"Be aware that if you have inserted directives to move a voice to another "
-"staff\n"
-"these may need re-making."
-msgstr ""
-
-#: src/register_commands.h:251
-msgid "Split Voices"
-msgstr ""
-
-#: src/register_commands.h:251
-msgid "Split off the next voice as a separate staff"
-msgstr ""
-
-#: src/register_commands.h:252
-msgid "Join Voices"
-msgstr ""
-
-#: src/register_commands.h:252
-msgid "Merge this staff as a voice on the previous staff"
-msgstr ""
-
-#: src/register_commands.h:253
-msgid "Swap Movements"
-msgstr ""
-
-#: src/register_commands.h:253
-msgid "Swap this movement with the one before"
-msgstr ""
-
-#: src/register_commands.h:254
-msgid "Voice Up"
-msgstr ""
-
-#: src/register_commands.h:254
-msgid "Go to the higher numbered voice on staff, extending selection if any"
-msgstr ""
-
-#: src/register_commands.h:255
-msgid "Voice Down"
-msgstr ""
-
-#: src/register_commands.h:255
-msgid ""
-"Go to the lower numbered voice on this staff, extending selection if any"
-msgstr ""
-
-#: src/register_commands.h:256
-msgid "Move to Voice Up"
-msgstr ""
-
-#: src/register_commands.h:256
-msgid "Go to the higher numbered voice on staff without altering selection"
-msgstr ""
-
-#: src/register_commands.h:257
-msgid "Move to Voice Down"
-msgstr ""
-
-#: src/register_commands.h:257
-msgid "Go to the lower numbered voice on this staff without altering selection"
-msgstr ""
-
-#: src/register_commands.h:258
-msgid "Add Staff Before"
-msgstr ""
-
-#: src/register_commands.h:258
-msgid "Inserts a new staff before the current staff"
-msgstr ""
-
-#: src/register_commands.h:259
-msgid "Add Staff After"
-msgstr ""
-
-#: src/register_commands.h:259
-msgid "Inserts/Adds a new staff after the current staff"
-msgstr ""
-
-#: src/register_commands.h:260
-msgid "Add Initial Staff"
-msgstr ""
-
-#: src/register_commands.h:260
-msgid "Inserts a new staff at the top of the score"
-msgstr ""
-
-#: src/register_commands.h:261
-msgid "Add Last Staff"
-msgstr ""
-
-#: src/register_commands.h:261
-msgid "Inserts a new staff at the end of the score"
-msgstr ""
-
-#: src/register_commands.h:262
-msgid "Delete Staff Before"
-msgstr ""
-
-#: src/register_commands.h:262
-msgid "Deletes the staff before the current staff"
-msgstr ""
-
-#: src/register_commands.h:263
-msgid "Delete Current Staff"
-msgstr ""
-
-#: src/register_commands.h:263
-msgid "Deletes the current staff"
-msgstr ""
-
-#: src/register_commands.h:264
-msgid "Delete Staff After"
-msgstr ""
-
-#: src/register_commands.h:264
-msgid "Deletes the staff after the current staff"
-msgstr ""
-
-#: src/register_commands.h:265
-msgid ""
-"Adds a new voice (part), to the current staff. It is tricky to switch "
-"between the voices. Suggest to use merge staffs"
-msgstr ""
-
-#: src/register_commands.h:266 src/staffpropdialog.c:357
-msgid "Staff Properties"
-msgstr ""
-
-#: src/register_commands.h:266
-msgid "Change the properties of the current staff"
-msgstr ""
-
-#: src/register_commands.h:267
-msgid "Initial Clef"
-msgstr ""
-
-#: src/register_commands.h:267
-msgid "Change the initial clef of the current staff"
-msgstr ""
-
-#: src/register_commands.h:268
-msgid "Clef Change"
-msgstr ""
-
-#: src/register_commands.h:268
-msgid "Insert/Edit a change of clef at the cursor"
-msgstr ""
-
-#: src/register_commands.h:269
-msgid "Initial Key"
-msgstr ""
-
-#: src/register_commands.h:269
-msgid "Set the initial key signature of the current staff"
-msgstr ""
-
-#: src/register_commands.h:270
-msgid "Insert/Edit a key change at the cursor position"
-msgstr ""
-
-#: src/register_commands.h:271
-msgid "Inital Time Signature"
-msgstr ""
-
-#: src/register_commands.h:271
-msgid "Set the initial time signature of the current staff"
-msgstr ""
-
-#: src/register_commands.h:272
-msgid "Time Signature Change"
-msgstr ""
-
-#: src/register_commands.h:272
-msgid "Edit/Insert a time signature change for the current measure"
-msgstr ""
-
-#: src/register_commands.h:273
-msgid "Set Notehead"
-msgstr ""
-
-#: src/register_commands.h:273
-msgid "Change the type of notehead for the current note"
-msgstr ""
-
-#: src/register_commands.h:274
-msgid "Auto Stemming"
-msgstr ""
-
-#: src/register_commands.h:274
-msgid ""
-"Inserts a stem neutral object. After this automatic stem directions are "
-"active. You can click on this tag and use Sharpen/StemUp etc commands to "
-"change stem direction"
-msgstr ""
-
-#: src/register_commands.h:275
-msgid "Add Lyric Verse"
-msgstr ""
-
-#: src/register_commands.h:275
-msgid "Add a verse of lyrics"
-msgstr ""
-
-#: src/register_commands.h:276
-msgid "Delete Verse"
-msgstr ""
-
-#: src/register_commands.h:276
-msgid "Deletes current verse of lyrics from current voice"
-msgstr ""
-
-#: src/register_commands.h:277
-msgid "Insert/Edit Figured Bass"
-msgstr ""
-
-#: src/register_commands.h:277
-msgid ""
-"Add a bass figure to the current note. Use | sign to split the duration of a "
-"note so as to have multiple figures on one note. See Lilypond docs for other "
-"notation"
-msgstr ""
-
-#: src/register_commands.h:278
-msgid "Delete Figures"
-msgstr ""
-
-#: src/register_commands.h:278
-msgid "Delete the figured bass on the current staff"
-msgstr ""
-
-#: src/register_commands.h:279
-msgid "Hide Figures (Print)"
-msgstr ""
-
-#: src/register_commands.h:279
-msgid "Hide the figured bass on the current staff on printing"
-msgstr ""
-
-#: src/register_commands.h:280
-msgid "Show Figures (Print)"
-msgstr ""
-
-#: src/register_commands.h:280
-msgid "Show the figured bass on the current staff on printing"
-msgstr ""
-
-#: src/register_commands.h:281
-msgid "Edit Chord Symbols"
-msgstr ""
-
-#: src/register_commands.h:281
-msgid ""
-"Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-"
-"sharp diminished 7th. See Lilypond docs for notation"
-msgstr ""
-
-#: src/register_commands.h:282
-msgid "Insert Dynamics"
-msgstr ""
-
-#: src/register_commands.h:282
-msgid "Inserts a dynamic marking at the cursor position"
-msgstr ""
-
-#: src/register_commands.h:283
-msgid "Edit Object"
-msgstr ""
-
-#: src/register_commands.h:283
-msgid "Edit the object at the cursor."
-msgstr ""
-
-#: src/register_commands.h:284
-msgid "Edit Directives"
-msgstr ""
-
-#: src/register_commands.h:284
-msgid "Edit any directives attached to chord/note at cursor."
-msgstr ""
-
-#: src/register_commands.h:285
-msgid "Edit Staff Directives"
-msgstr ""
-
-#: src/register_commands.h:285
-msgid "Edit any directives attached to staff."
-msgstr ""
-
-#: src/register_commands.h:286
-msgid "Edit Voice Directives"
-msgstr ""
-
-#: src/register_commands.h:286
-msgid "Edit any directives attached to voice."
-msgstr ""
-
-#: src/register_commands.h:287
-msgid "Edit Score Directives"
-msgstr ""
-
-#: src/register_commands.h:287
-msgid "Edit any directives attached to score."
-msgstr ""
-
-#: src/register_commands.h:288
-msgid "Edit Movement Directives"
-msgstr ""
-
-#: src/register_commands.h:288
-msgid "Edit any directives attached to movement."
-msgstr ""
-
-#: src/register_commands.h:289
-msgid "Edit Clef Directives"
-msgstr ""
-
-#: src/register_commands.h:289
-msgid "Edit any directives attached to clef."
-msgstr ""
-
-#: src/register_commands.h:290
-msgid "Edit Time Signature Directives"
-msgstr ""
-
-#: src/register_commands.h:290
-msgid "Edit any directives attached to time signature."
-msgstr ""
-
-#: src/register_commands.h:291
-msgid "Edit Key Signature Directives"
-msgstr ""
-
-#: src/register_commands.h:291
-msgid "Edit any directives attached to key signature."
-msgstr ""
-
-#: src/register_commands.h:292
-msgid "Delete a Directive"
-msgstr ""
-
-#: src/register_commands.h:292
-msgid "Delete a directive attached to chord/note at cursor."
-msgstr ""
-
-#: src/register_commands.h:293
-msgid "Attach Lilypond to Note"
-msgstr ""
-
-#: src/register_commands.h:293
-msgid ""
-"Attach or edit attached LilyPond text to the note at the cursor. This can be "
-"used for guitar fingerings, cautionary accidentals and much more. See "
-"LilyPond documentation."
-msgstr ""
-
-#: src/register_commands.h:294
-msgid "Attach Lilypond to Chord"
-msgstr ""
-
-#: src/register_commands.h:294
-msgid ""
-"Attach or edit attached LilyPond text to the chord at the cursor. This can "
-"be used for attaching and placing text and much more. See LilyPond "
-"documentation."
-msgstr ""
-
-#: src/register_commands.h:295
-msgid "Inserts specialized barline at the cursor position. Mostly not working"
-msgstr ""
-
-#: src/register_commands.h:296
-msgid "Go to Measure"
-msgstr ""
-
-#: src/register_commands.h:296
-msgid "Opens a dialog for going to a numbered measure"
-msgstr ""
-
-#: src/register_commands.h:297
-msgid "Go to Beginning"
-msgstr ""
-
-#: src/register_commands.h:297
-msgid "Cursor to start of staff/voice, extending selection if any"
-msgstr ""
-
-#: src/register_commands.h:298
-msgid "Go to End"
-msgstr ""
-
-#: src/register_commands.h:298
-msgid "Cursor to end of staff/voice, extending selection if any"
-msgstr ""
-
-#: src/register_commands.h:299
-msgid "Move to Staff/Voice Beginning"
-msgstr ""
-
-#: src/register_commands.h:299
-msgid "Cursor to start of staff/voice, without extending selection if any"
-msgstr ""
-
-#: src/register_commands.h:300
-msgid "Move to Staff/Voice End"
-msgstr ""
-
-#: src/register_commands.h:300
-msgid "Cursor to end of staff/voice, without extending selection if any"
-msgstr ""
-
-#: src/register_commands.h:301
-msgid "Next Movement"
-msgstr ""
-
-#: src/register_commands.h:301
-msgid "Go to the next movement"
-msgstr ""
-
-#: src/register_commands.h:302
-msgid "Previous Movement"
-msgstr ""
-
-#: src/register_commands.h:302
-msgid "Go to the previous movement"
-msgstr ""
-
-#: src/register_commands.h:303
-msgid "Delete Movement"
-msgstr ""
-
-#: src/register_commands.h:303
-msgid "Delete the current movement"
-msgstr ""
-
-#: src/register_commands.h:304
-msgid "Play"
-msgstr ""
-
-#: src/register_commands.h:305
-msgid "Stop"
-msgstr ""
-
-#: src/register_commands.h:306
-msgid "Playback Properties"
-msgstr ""
-
-#: src/register_commands.h:306
-msgid "Allows you to specify properties used in playing back (midi)"
-msgstr ""
-
-#: src/register_commands.h:307
-msgid "Browse Manual"
-msgstr ""
-
-#: src/register_commands.h:307
-msgid "Opens a browser on the user manual"
-msgstr ""
-
-#: src/register_commands.h:308
-msgid "About"
-msgstr ""
-
-#: src/register_commands.h:308
-msgid "Gives the version number etc of this program"
-msgstr ""
-
-#: src/register_commands.h:309
-msgid "More Commands"
-msgstr ""
-
-#: src/register_commands.h:309
-msgid "Allows choosing standard extra commands/menu items"
-msgstr ""
-
-#: src/register_commands.h:310
-msgid "My Commands"
-msgstr ""
-
-#: src/register_commands.h:310
-msgid ""
-"Allows choosing extra commands/menu items from your own collection of extras"
-msgstr ""
-
-#: src/register_commands.h:311
-msgid "Update Commands from Internet"
-msgstr ""
-
-#: src/register_commands.h:311
-msgid ""
-"Refreshes the set of commands available from Denemo.org.\n"
-"Use More Commands after this has finished"
-msgstr ""
-
-#: src/register_commands.h:312
-msgid "Toggle Edit Mode"
-msgstr ""
-
-#: src/register_commands.h:312
-msgid "Toggle between current mode and edit mode"
-msgstr ""
-
-#: src/register_commands.h:313
-msgid "Toggle between note entry and rest entry"
-msgstr ""
-
-#: src/register_commands.h:314
-msgid "Toggle Audible Feedback"
-msgstr ""
-
-#: src/register_commands.h:314
-msgid "Toggle audible feedback on/off"
-msgstr ""
-
-#: src/register_commands.h:315
-msgid "Clear Overlay"
-msgstr ""
-
-#: src/register_commands.h:315
-msgid "Clear the list of pitches that overlay the notes"
-msgstr ""
-
-#: src/register_commands.h:316
-msgid "Create Snippet"
-msgstr ""
-
-#: src/register_commands.h:316
-msgid ""
-"Copy selection as music snippet or rhythm pattern for notes to follow as "
-"they are entered"
-msgstr ""
-
-#: src/register_commands.h:317
-msgid "Delete Snippet"
-msgstr ""
-
-#: src/register_commands.h:317
-msgid "Delete the selected music snippet/rhythm pattern"
 msgstr ""
 
 #: src/register_commands.h:318
@@ -8978,10 +9971,6 @@ msgstr ""
 msgid "Create a layout from this standard layout that you can then modify."
 msgstr ""
 
-#: src/scorelayout.c:549 src/view.c:8728
-msgid "Edit"
-msgstr ""
-
 #: src/scorelayout.c:550
 msgid "Edit the voice directives for this layout"
 msgstr ""
@@ -9000,10 +9989,6 @@ msgstr ""
 #: src/scorelayout.c:563
 msgid ""
 "Click here to view and edit the clef, key and time signatures of this staff"
-msgstr ""
-
-#: src/scorelayout.c:568
-msgid "Clef"
 msgstr ""
 
 #: src/scorelayout.c:569
@@ -9148,25 +10133,25 @@ msgstr ""
 msgid "Create page breaks, blank pages ...for this layout"
 msgstr ""
 
-#: src/scorelayout.c:1035
+#: src/scorelayout.c:1036
 msgid ""
 "This brace connects together several staffs - you can delete it for a "
 "customized layout."
 msgstr ""
 
-#: src/scorelayout.c:1049
+#: src/scorelayout.c:1050
 msgid "Remove this staff brace from these staffs for a customized layout."
 msgstr ""
 
-#: src/scorelayout.c:1056
+#: src/scorelayout.c:1057
 msgid "Extend this staff group upwards for customized layout."
 msgstr ""
 
-#: src/scorelayout.c:1060
+#: src/scorelayout.c:1061
 msgid "Extend this staff group downwards for customized layout."
 msgstr ""
 
-#: src/scorelayout.c:1138
+#: src/scorelayout.c:1139
 msgid ""
 "This shows the clef in the Denemo score - the actual clef printed may be "
 "modified by Directives attached to it.\n"
@@ -9174,51 +10159,51 @@ msgid ""
 "the staff."
 msgstr ""
 
-#: src/scorelayout.c:1142
+#: src/scorelayout.c:1143
 msgid "Move this staff (with all its voices) above the preceding staff."
 msgstr ""
 
-#: src/scorelayout.c:1146
+#: src/scorelayout.c:1147
 msgid "Move this staff (with all its voices) after the following staff."
 msgstr ""
 
-#: src/scorelayout.c:1151
+#: src/scorelayout.c:1152
 msgid "Remove this staff (with all its voices) for customized layout."
 msgstr ""
 
-#: src/scorelayout.c:1180 src/scorelayout.c:1207
+#: src/scorelayout.c:1181 src/scorelayout.c:1208
 msgid "The Staff"
 msgstr ""
 
-#: src/scorelayout.c:1180
+#: src/scorelayout.c:1181
 msgid "The Staffs"
 msgstr ""
 
-#: src/scorelayout.c:1182
+#: src/scorelayout.c:1183
 msgid "This holds the staffs below which are the voices with the music."
 msgstr ""
 
-#: src/scorelayout.c:1198
+#: src/scorelayout.c:1199
 msgid "Chord Symbols"
 msgstr ""
 
-#: src/scorelayout.c:1207
+#: src/scorelayout.c:1208
 #, c-format
 msgid "Staff %d"
 msgstr ""
 
-#: src/scorelayout.c:1215
+#: src/scorelayout.c:1216
 msgid ""
 "Click for a menu to position the Denemo cursor on this staff\n"
 "or to alter this staff for a customized layout"
 msgstr ""
 
-#: src/scorelayout.c:1220
+#: src/scorelayout.c:1221
 msgid ""
 "This will move the Denemo Cursor to the start of this staff in this movement"
 msgstr ""
 
-#: src/scorelayout.c:1227
+#: src/scorelayout.c:1228
 msgid ""
 "Edit the properties of the staff to customize this layout\n"
 "Take care only alter the obvious bits, such as instrument name etc\n"
@@ -9227,98 +10212,98 @@ msgid ""
 "layout if you get stuck."
 msgstr ""
 
-#: src/scorelayout.c:1239
+#: src/scorelayout.c:1240
 msgid "Set the initial clef for this staff in the score"
 msgstr ""
 
-#: src/scorelayout.c:1269
+#: src/scorelayout.c:1270
 msgid ""
 "This holds the voice(s) of the staff - the clef, time signature, key "
 "signature and music are all here"
 msgstr ""
 
-#: src/scorelayout.c:1375
+#: src/scorelayout.c:1368
 msgid "Paper Block"
 msgstr ""
 
-#: src/scorelayout.c:1376
+#: src/scorelayout.c:1369
 msgid "Settings for whole score: includes overall staff size, paper size ...\n"
 msgstr ""
 
-#: src/scorelayout.c:1382
+#: src/scorelayout.c:1375
 msgid "the paper block contents"
 msgstr ""
 
-#: src/scorelayout.c:1387
+#: src/scorelayout.c:1380
 msgid "Global staff size"
 msgstr ""
 
-#: src/scorelayout.c:1393
+#: src/scorelayout.c:1386
 msgid "Score Titles"
 msgstr ""
 
-#: src/scorelayout.c:1396
+#: src/scorelayout.c:1389
 msgid ""
 "Titles, layout settings, preferences etc for the whole score.\n"
 "Includes main title, composer, date, instrumentation, tagline"
 msgstr ""
 
-#: src/scorelayout.c:1404
+#: src/scorelayout.c:1397
 msgid "Default tagline"
 msgstr ""
 
-#: src/scorelayout.c:1422
+#: src/scorelayout.c:1415
 msgid "Score Directives"
 msgstr ""
 
-#: src/scorelayout.c:1423
+#: src/scorelayout.c:1416
 msgid "Includes the indent before first measure, LilyPond include files ..."
 msgstr ""
 
-#: src/scorelayout.c:1443
+#: src/scorelayout.c:1436
 msgid "Score-wide Settings."
 msgstr ""
 
-#: src/scorelayout.c:1444
+#: src/scorelayout.c:1437
 msgid "Setting the score title, composer, headers and footers for this layout"
 msgstr ""
 
-#: src/scorelayout.c:1449
+#: src/scorelayout.c:1442
 msgid "Create Book Titles"
 msgstr ""
 
-#: src/scorelayout.c:1452
+#: src/scorelayout.c:1445
 msgid "Set book titles for the score"
 msgstr ""
 
-#: src/scorelayout.c:1491
+#: src/scorelayout.c:1484
 #, c-format
 msgid "Movement %d"
 msgstr ""
 
-#: src/scorelayout.c:1491 src/utils.c:1342
+#: src/scorelayout.c:1484 src/utils.c:1344
 msgid "Movement"
 msgstr ""
 
-#: src/scorelayout.c:1493
+#: src/scorelayout.c:1486
 msgid ""
 "This contains the layout of the movement- the movement title, and the actual "
 "music itself"
 msgstr ""
 
-#: src/scorelayout.c:1502
+#: src/scorelayout.c:1495
 msgid "Delete this movement from the score layout"
 msgstr ""
 
-#: src/scorelayout.c:1520
+#: src/scorelayout.c:1513
 msgid "Header block"
 msgstr ""
 
-#: src/scorelayout.c:1538
+#: src/scorelayout.c:1531
 msgid "Layout block"
 msgstr ""
 
-#: src/scorelayout.c:1784
+#: src/scorelayout.c:1777
 msgid ""
 "This a score layout - the brown buttons affect the score itself, not just "
 "the layout.\n"
@@ -9339,7 +10324,7 @@ msgid ""
 "that are for the layout will need refreshing"
 msgstr ""
 
-#: src/scorelayout.c:1920
+#: src/scorelayout.c:2063
 msgid ""
 "This is a customized layout, which has been transformed into instructions "
 "for the LilyPond music typesetter.\n"
@@ -9349,44 +10334,44 @@ msgid ""
 "Otherwise you can delete it and create a new one from a standard layout."
 msgstr ""
 
-#: src/scoreops.c:138
+#: src/scoreops.c:149
 msgid "This is the only movement"
 msgstr ""
 
-#: src/scoreops.c:139
+#: src/scoreops.c:150
 msgid "Delete it and start over?"
 msgstr ""
 
-#: src/scoreops.c:148
+#: src/scoreops.c:159
 #, c-format
 msgid "This is movement #%d"
 msgstr ""
 
-#: src/scoreops.c:149
+#: src/scoreops.c:160
 msgid "Delete entire movement?"
 msgstr ""
 
-#: src/scoreops.c:183
+#: src/scoreops.c:195
 msgid "No such movement"
 msgstr ""
 
-#: src/scoreops.c:195
+#: src/scoreops.c:207
 msgid "No such voice"
 msgstr ""
 
-#: src/scoreops.c:201
+#: src/scoreops.c:213
 msgid "No such measure"
 msgstr ""
 
-#: src/scoreops.c:295
+#: src/scoreops.c:307
 msgid "This is the last movement"
 msgstr ""
 
-#: src/scoreops.c:341
+#: src/scoreops.c:353
 msgid "This is the first movement"
 msgstr ""
 
-#: src/scoreops.c:444
+#: src/scoreops.c:456
 msgid ""
 "A button bar that can be populated by Movement titles and other user "
 "generated buttons.\n"
@@ -9488,11 +10473,11 @@ msgstr ""
 msgid "Denominator"
 msgstr ""
 
-#: src/utils.c:207
+#: src/utils.c:208
 msgid "Progress"
 msgstr ""
 
-#: src/utils.c:208
+#: src/utils.c:209
 msgid ""
 "This indicates the the LilyPond typsetter is still working on setting the "
 "Denemo score. This can take a long time, particularly for polyphony where "
@@ -9658,16 +10643,8 @@ msgstr ""
 msgid "Score Layout"
 msgstr ""
 
-#: src/view.c:8694
-msgid "Lyrics"
-msgstr ""
-
 #: src/view.c:8697
 msgid "Console"
-msgstr ""
-
-#: src/view.c:8700
-msgid "Score"
 msgstr ""
 
 #: src/view.c:8703
@@ -9704,10 +10681,6 @@ msgstr ""
 
 #: src/view.c:8724
 msgid "Classic"
-msgstr ""
-
-#: src/view.c:8726
-msgid "Insert"
 msgstr ""
 
 #: src/view.c:8726
