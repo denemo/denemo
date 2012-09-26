@@ -4598,6 +4598,9 @@ void  show_preferred_view(void) {
   if (!Denemo.prefs.rhythm_palette)
     activate_action("/MainMenu/ViewMenu/"ToggleRhythmToolbar_STRING);
 
+  if (!Denemo.prefs.manualtypeset)
+    activate_action("/MainMenu/ViewMenu/"TogglePrintView_STRING);
+
 
   if (!Denemo.prefs.object_palette)
     activate_action("/MainMenu/ViewMenu/"ToggleObjectMenu_STRING);
@@ -9473,7 +9476,7 @@ Really we should change the default for the class.*/
  //GTK bug now fixed gtk_widget_hide (gtk_ui_manager_get_widget (ui_manager, "/EntryToolBar")); //otherwise buttons only sensitive around their edges
 
 
-  g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
+  g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);  
 }   /* create window */
 
 
