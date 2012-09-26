@@ -124,6 +124,7 @@ initprefs ()
   ret->return_key_is_special = TRUE;
   ret->newbie = TRUE;
   ret->immediateplayback = TRUE;
+  ret->manualtypeset = FALSE;
 
   ret->audio_driver = g_string_new("default");
   ret->midi_driver = g_string_new("default");
@@ -321,6 +322,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       
       READBOOLXMLENTRY(createclones)
       READBOOLXMLENTRY(immediateplayback)
+      READBOOLXMLENTRY(manualtypeset)
       READINTXMLENTRY(pitchspellingchannel)
       READINTXMLENTRY(pitchspellingprogram)
       READBOOLXMLENTRY(modal) 
@@ -406,10 +408,10 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 gboolean get_bool_pref(gchar *prefname) {
   if(*prefname == 0)
     return FALSE;
-  GETBOOLPREF(immediateplayback)
       GETBOOLPREF(autosave)
       GETBOOLPREF(createclones)
       GETBOOLPREF(immediateplayback)
+			GETBOOLPREF(manualtypeset)
       GETBOOLPREF(modal) 
       GETBOOLPREF(persistence) 
       GETBOOLPREF(cursor_highlight) 
@@ -762,6 +764,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEBOOLXMLENTRY(createclones)
   WRITEBOOLXMLENTRY(lilyentrystyle)
   WRITEBOOLXMLENTRY(immediateplayback)
+  WRITEBOOLXMLENTRY(manualtypeset)
   WRITEINTXMLENTRY(pitchspellingchannel)
   WRITEINTXMLENTRY(pitchspellingprogram)
   WRITEBOOLXMLENTRY(modal)

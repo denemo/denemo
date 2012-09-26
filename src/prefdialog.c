@@ -45,6 +45,7 @@ struct callbackdata
   DenemoPrefs *prefs;
   GtkWidget *lilypath;
   GtkWidget *immediateplayback;
+  GtkWidget *manualtypeset;
   GtkWidget *pitchspellingchannel;
   GtkWidget *pitchspellingprogram;
   GtkWidget *modal;
@@ -273,6 +274,7 @@ set_preferences (struct callbackdata *cbdata)
 
 
   ASSIGNBOOLEAN(immediateplayback)
+  ASSIGNBOOLEAN(manualtypeset)
   ASSIGNINT(pitchspellingchannel)
   ASSIGNINT(pitchspellingprogram)
   ASSIGNBOOLEAN(modal)
@@ -422,7 +424,7 @@ preferences_change (GtkAction *action, gpointer param)
 
 #define BOOLEANENTRY(thelabel, field) \
   GtkWidget *field =\
-    gtk_check_button_new_with_label (thelabel); \
+    gtk_check_button_new_with_label (_(thelabel)); \
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (field),\
                                 (gboolean)Denemo.prefs.field);\
   gtk_box_pack_start (GTK_BOX (VBOX), field, FALSE, TRUE, 0);\
@@ -455,7 +457,7 @@ preferences_change (GtkAction *action, gpointer param)
 #define INTENTRY(thelabel, field) \
   hbox = gtk_hbox_new (FALSE, 8);\
   gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);\
-  label = gtk_label_new (thelabel);\
+  label = gtk_label_new (_(thelabel));\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
   field = gtk_spin_button_new_with_range (1, 50, 1.0);\
@@ -466,7 +468,7 @@ preferences_change (GtkAction *action, gpointer param)
 #define ENTRY_LIMITS(thelabel, field, min, max, step)   \
   hbox = gtk_hbox_new (FALSE, 8);\
   gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);\
-  label = gtk_label_new (thelabel);\
+  label = gtk_label_new (_(thelabel));\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
   GtkWidget *field = gtk_spin_button_new_with_range (min, max, step);\
@@ -533,9 +535,9 @@ preferences_change (GtkAction *action, gpointer param)
   BOOLEANENTRY("Display Music Snippets", rhythm_palette);
   BOOLEANENTRY("Display menu of objects toolbar", object_palette);
   //xgettext:no-c-format
-  INTENTRY_LIMITS(_("% Zoom"), zoom, 1, 100);
+  INTENTRY_LIMITS("% Zoom", zoom, 1, 100);
   //xgettext:no-c-format
-  INTENTRY_LIMITS(_("% of display height per system"), system_height, 1, 100);
+  INTENTRY_LIMITS("% of display height per system", system_height, 1, 100);
 
   /*
    * Pitch Entry Parameters
@@ -580,25 +582,27 @@ preferences_change (GtkAction *action, gpointer param)
    * Misc Menu
    */
   NEWPAGE("Miscellaneous");
-  BOOLEANENTRY("Use Denemo modally", modal);
+
+  
   BOOLEANENTRY("Re-use last settings on startup", persistence);
-  DOUBLEENTRY_LIMITS(_("Playback Display Refresh"), display_refresh, 0.001, 0.5, 0.002);
-  INTENTRY_LIMITS(_("Page Turn Steps"), animation_steps, 1, 200);
+  BOOLEANENTRY("Manually update the typeset score", manualtypeset);
+  DOUBLEENTRY_LIMITS("Playback Display Refresh", display_refresh, 0.001, 0.5, 0.002);
+  INTENTRY_LIMITS("Page Turn Steps", animation_steps, 1, 200);
 
-  INTENTRY_LIMITS(_("Tooltip timeout in ms. (0 to use system preference)"), tooltip_timeout, 0, 1000000);
-  INTENTRY_LIMITS(_("Tooltip browse timeout in ms"), tooltip_browse_timeout, 0, 1000000);
-  INTENTRY_LIMITS(_("Tooltip browse mode timeout in ms"), tooltip_browse_mode_timeout, 0, 1000000);
+  INTENTRY_LIMITS("Tooltip timeout in ms. (0 to use system preference)", tooltip_timeout, 0, 1000000);
+  INTENTRY_LIMITS("Tooltip browse timeout in ms", tooltip_browse_timeout, 0, 1000000);
+  INTENTRY_LIMITS("Tooltip browse mode timeout in ms", tooltip_browse_mode_timeout, 0, 1000000);
 
-  INTENTRY_LIMITS(_("Excerpt Resolution"), resolution, 72, 600);
+  INTENTRY_LIMITS("Excerpt Resolution", resolution, 72, 600);
   BOOLEANENTRY("Enable Thumbnails", enable_thumbnails);
-  INTENTRY(_("Max recent files"), maxhistory)
+  INTENTRY("Max recent files", maxhistory)
   TEXTENTRY("User Name", username)
   PASSWORDENTRY("Password for Denemo.org", password)
-
+	BOOLEANENTRY("Use Denemo modally", modal);
 
   hbox = gtk_hbox_new (FALSE, 8);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
-  autosave = gtk_check_button_new_with_label (_("Autosave every"));
+  autosave = gtk_check_button_new_with_label ("Autosave every");
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autosave),
                                 Denemo.prefs.autosave);
   gtk_box_pack_start (GTK_BOX (hbox), autosave, FALSE, FALSE, 0);
@@ -621,12 +625,12 @@ preferences_change (GtkAction *action, gpointer param)
   NEWPAGE("Audio/MIDI");
 
   BOOLEANENTRY("Play back entered notes immediately", immediateplayback);
-  INTENTRY_LIMITS(_("Pitch Spelling Channel"), pitchspellingchannel, 0, 15);
-  INTENTRY_LIMITS(_("Pitch Spelling Program"), pitchspellingprogram, 0, 127);
+  INTENTRY_LIMITS("Pitch Spelling Channel", pitchspellingchannel, 0, 15);
+  INTENTRY_LIMITS("Pitch Spelling Program", pitchspellingprogram, 0, 127);
 
   BOOLEANENTRY("Rhythm Entry for MIDI in", startmidiin);
 
-  INTENTRY_LIMITS(_("% MIDI-in Dynamic Compression"), dynamic_compression, 1, 100);
+  INTENTRY_LIMITS("% MIDI-in Dynamic Compression", dynamic_compression, 1, 100);
 
 
   GList *item = g_list_find_custom(cbdata.audio_backend_list, Denemo.prefs.audio_driver->str, (GCompareFunc)strcmp);
@@ -677,8 +681,8 @@ preferences_change (GtkAction *action, gpointer param)
   COMBOBOX("Output device", portaudio_device, devices, Denemo.prefs.portaudio_device->str, FALSE);
   free_portaudio_devices(devices);
 
-  INTENTRY_LIMITS(_("Sample rate"), portaudio_sample_rate, 0, 96000);
-  INTENTRY_LIMITS(_("Period size"), portaudio_period_size, 0, 2048);
+  INTENTRY_LIMITS("Sample rate", portaudio_sample_rate, 0, 96000);
+  INTENTRY_LIMITS("Period size", portaudio_period_size, 0, 2048);
 
 #undef VBOX
 #define VBOX main_vbox

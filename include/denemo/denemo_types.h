@@ -362,6 +362,7 @@ typedef struct DenemoPrefs
   GString *lilypath; /**< This is the executable or full path to the lilypond executable */
   GString *audioplayer; /**< This is used for playing audio files*/
   GString *fontspec; /**< Font specification usually Denemo as this has the required characters */
+  gboolean manualtypeset;/**< typeset on request, not continuously */
   gboolean immediateplayback; /**< This options sends audio directly to synth as notes 
 				are being entered */
   gint pitchspellingchannel; /**< channel to use for feedback when entering extreme intervals via MIDI in, that may indicate an enharmonic error, 0 means no pitch spelling*/

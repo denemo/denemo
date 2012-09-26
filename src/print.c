@@ -93,7 +93,7 @@ gint invalid;//set 1 if  lilypond reported problems or 2 if generating new pdf f
 unsigned mtime;//modification time of the last generated pdf
 } printstatus;
 
-static printstatus PrintStatus = {GPID_NONE, 0, 0, 4, 4, 4, 4};
+static printstatus PrintStatus = {GPID_NONE, 0, 0, 4, 4, 4, 4, ALL_MOVEMENTS};
 
 
 static gint output=-1;
@@ -1924,7 +1924,8 @@ static void typeset_action(GtkWidget *button, gpointer data) {
 static gboolean retypeset(void) {
 static gint firstmeasure, lastmeasure, firststaff, laststaff, movementnum;
  DenemoScore *si = Denemo.gui->si;
- if(PrintStatus.printpid==GPID_NONE) { 
+ if((PrintStatus.printpid==GPID_NONE) &&
+	 (gtk_widget_get_visible(gtk_widget_get_toplevel(Denemo.printarea)))) {
 	 if(PrintStatus.typeset_type==ALL_MOVEMENTS) {
 				if(changecount != Denemo.gui->changecount) {
 					PrintStatus.background = STATE_ON;
@@ -1960,9 +1961,13 @@ static void toggle_updates(GtkWidget *menu_item, GtkWidget *button) {
 	 g_source_remove(PrintStatus.updating_id);
 	 PrintStatus.updating_id = 0;
 	 gtk_button_set_label(GTK_BUTTON(button), MANUAL);
+	 if(Denemo.prefs.persistence)
+		Denemo.prefs.manualtypeset = TRUE;
  } else {
 	 PrintStatus.updating_id = g_idle_add( (GSourceFunc)retypeset, NULL);
 	 gtk_button_set_label(GTK_BUTTON(button), CONTINUOUS);
+	 if(Denemo.prefs.persistence)
+		Denemo.prefs.manualtypeset = FALSE;
  }
 }
 
@@ -1972,13 +1977,13 @@ toggle_print_all_continuous(GtkWidget *radiobutton) {
 		gint index = g_slist_index(gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton)), radiobutton);
 		//g_print("Get %s at %d\n", gtk_button_get_label(GTK_BUTTON(radiobutton)), index);
 		switch(index) {
-				case 2:
+				case 0:
 					PrintStatus.typeset_type = EXCERPT;
 					break;
 				case 1:
 					PrintStatus.typeset_type = MOVEMENT;
 					break;
-				case 0:
+				case 2:
 					PrintStatus.typeset_type= ALL_MOVEMENTS;
 		}
 	}
@@ -2040,9 +2045,9 @@ range_dialog(void) {
 			gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 0);
 			
 			
-			GtkWidget *button = gtk_radio_button_new_with_label_from_widget (NULL, _("Cursor Context"));
+			GtkWidget *button = gtk_radio_button_new_with_label_from_widget (NULL,  _("All Movements"));
 			g_signal_connect(G_OBJECT(button), "toggled", G_CALLBACK(toggle_print_all_continuous), NULL);
-			gtk_widget_set_tooltip_text(button, _("If checked the range around the current cursor position is re-typeset at every change or when the cursor moves out of range."));
+			gtk_widget_set_tooltip_text(button, _("If checked the current layout is re-typeset at every change"));
 			gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 0);
 			
 			button = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON(button), _("Current Movement"));
@@ -2050,19 +2055,20 @@ range_dialog(void) {
 			gtk_widget_set_tooltip_text(button, _("If checked the current movement is re-typeset at every change"));
 			gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 0);
 
-			button = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON(button), _("All Movements"));
+			button = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON(button),	_("Cursor Context"));
 			g_signal_connect(G_OBJECT(button), "toggled", G_CALLBACK(toggle_print_all_continuous), NULL);
-			gtk_widget_set_tooltip_text(button, _("If checked the current layout is re-typeset at every change"));
+			gtk_widget_set_tooltip_text(button, _("If checked the range around the current cursor position is re-typeset at every change or when the cursor moves out of range."));
 			gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 0);
-	
+			
 			g_signal_connect(dialog, "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), NULL);
 			gtk_widget_show_all(dialog);
 		} else
 		gtk_widget_show(dialog);
 	
 }
-updates_menu(GtkWidget *button) {
-	static GtkWidget *menu;
+
+static GtkWidget *get_updates_menu(GtkWidget *button) {
+		static GtkWidget *menu;
 	if(menu==NULL) {
 		GtkWidget *item;
 		menu = gtk_menu_new();
@@ -2071,17 +2077,23 @@ updates_menu(GtkWidget *button) {
 		gtk_widget_set_tooltip_text(item, _("Set background updats on/off."));
 		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(toggle_updates), button);
 		
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), !Denemo.prefs.manualtypeset);
 		item = gtk_menu_item_new_with_label(_("Range"));
 		gtk_widget_set_tooltip_text(item, _("Set how much of the score to re-draw."));	
 		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(range_dialog), NULL);
 		gtk_widget_show_all(menu);
 	}
-  gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+	return menu;
 }
-GtkWidget *get_updates_button(void) {
+
+static void updates_menu(GtkWidget *button) {	
+  gtk_menu_popup (GTK_MENU(get_updates_menu(button)), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+}
+
+static GtkWidget *get_updates_button(void) {
   GtkWidget *button = gtk_button_new_with_label(MANUAL);
-  gtk_widget_set_tooltip_text(button, _("Set background updater on/off."));
+  gtk_widget_set_tooltip_text(button, _("Set background updater on/off. This controls if typesetting is re-done after each change to the music."));
   g_signal_connect(button, "clicked", G_CALLBACK(updates_menu), NULL);
   return button;	
 }
@@ -2097,36 +2109,36 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
   gtk_box_pack_start (GTK_BOX (main_vbox), main_hbox,FALSE, TRUE, 0);
   GtkWidget *hbox =  gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (main_hbox), hbox,FALSE, TRUE, 0);
-  GtkWidget *button = gtk_button_new_with_label("Typeset");
+  GtkWidget *button = gtk_button_new_with_label(_("Typeset"));
   gtk_widget_set_tooltip_text(button, "Typesets the music using the current score layout. See View->Score Layouts to see which layouts you have created and which is currently selected.");
   g_signal_connect(button, "clicked", G_CALLBACK(typeset_action), create_all_pdf);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
-  button = gtk_button_new_with_label("Print");
+  button = gtk_button_new_with_label(_("Print"));
   gtk_widget_set_tooltip_text(button, "Pops up a Print dialog. From this you can send your typeset score to a printer or to a PDF file.");
   g_signal_connect(button, "clicked", G_CALLBACK(libevince_print), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
     
 
-  button = gtk_button_new_with_label("Movement");
+  button = gtk_button_new_with_label(_("Movement"));
   gtk_widget_set_tooltip_text(button, _("Typesets the music from the current movement. This creates a score layout comprising one movement."));
   g_signal_connect(button, "clicked", G_CALLBACK(typeset_action), create_movement_pdf);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
  
-  button = gtk_button_new_with_label("Part");
+  button = gtk_button_new_with_label(_("Part"));
   gtk_widget_set_tooltip_text(button, _("Typesets the music from the current part for all movements. A part is all the music with the same staff-name. This creates a score layout with one part, all movements."));
   g_signal_connect(button, "clicked", G_CALLBACK(typeset_action), create_part_pdf);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
-  button = gtk_button_new_with_label("Refresh");
+  button = gtk_button_new_with_label(_("Refresh"));
   gtk_widget_set_tooltip_text(button, _("Re-issues the last print command. Use this after modifying the file to repeat the typesetting."));
   g_signal_connect(button, "clicked", G_CALLBACK(typeset_action), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
   
   button = get_updates_button();
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-
+ (void)get_updates_menu(button);//this is to initialize the continuous/manual state
   hbox =  gtk_hbox_new (FALSE, 1);
   gtk_box_pack_end (GTK_BOX (main_hbox), hbox,FALSE, TRUE, 0);
 
@@ -2136,18 +2148,18 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
   g_signal_connect(button, "clicked", G_CALLBACK(dual_page), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
-  button = gtk_button_new_with_label("Next");
+  button = gtk_button_new_with_label(_("Next"));
   gtk_widget_set_tooltip_text(button, _("Move to the next page - you can also scroll with the scroll-wheel, and zoom with control-wheel"));
   g_signal_connect(button, "clicked", G_CALLBACK(page_display), (gpointer) 1);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-  button = gtk_button_new_with_label("Previous");
+  button = gtk_button_new_with_label(_("Previous"));
   gtk_widget_set_tooltip_text(button, _("Move to the previous page - you can also scroll with the scroll-wheel, and zoom with control-wheel"));
   g_signal_connect(button, "clicked", G_CALLBACK(page_display), (gpointer) -1);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
   
   top_vbox = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title(GTK_WINDOW(top_vbox), "Denemo Print View");
+  gtk_window_set_title(GTK_WINDOW(top_vbox),_( "Denemo Print View"));
   gtk_widget_set_size_request(GTK_WIDGET(top_vbox), 600, 750);
   g_signal_connect (G_OBJECT (top_vbox), "delete-event",
 		    G_CALLBACK (hide_printarea_on_delete), NULL);
@@ -2185,6 +2197,7 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
 
   g_signal_connect (G_OBJECT (Denemo.printarea), "motion_notify_event",
 		      G_CALLBACK (printarea_motion_notify), NULL);
+          
           
  //g_signal_connect (G_OBJECT (Denemo.printarea), "focus_in_event",
 	//	      G_CALLBACK (printarea_focus_in_event), NULL);
