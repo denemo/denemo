@@ -45,11 +45,11 @@ static GQueue midi_queue = G_QUEUE_INIT;
 static gint put_get_midiqueue(gint midi) {
   if(g_queue_is_empty(&midi_queue))
     return midi;
-  g_queue_push_tail(&midi_queue, (gpointer)midi);
+  g_queue_push_tail(&midi_queue, GINT_TO_POINTER(midi));
   return (gint)g_queue_pop_head(&midi_queue);
 }
 static void put_midiqueue(gint midi) {
-  g_queue_push_tail(&midi_queue, (gpointer)midi);
+  g_queue_push_tail(&midi_queue, GINT_TO_POINTER(midi));
 }
 
 static gint get_midiqueue(void) {
@@ -120,7 +120,7 @@ static gboolean update_playbutton_callback(gboolean paused) {
 
 void stop_playing() {
   update_position(NULL);
-  g_idle_add_full(G_PRIORITY_HIGH_IDLE, (GSourceFunc)update_playbutton_callback, (gpointer)is_paused(), NULL);
+  g_idle_add_full(G_PRIORITY_HIGH_IDLE, (GSourceFunc)update_playbutton_callback, GINT_TO_POINTER(is_paused()), NULL);
   playing = FALSE;
   play_until = -G_MAXDOUBLE;
   if(Denemo.gui->si && Denemo.gui->si->recorded_midi_track) {
