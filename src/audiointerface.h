@@ -227,7 +227,8 @@ int panic_all();
  */
 gboolean read_event_from_queue(backend_type_t backend, unsigned char *event_buffer, size_t *event_length,
                                double *event_time, double until_time);
-
+gboolean read_event_from_mixer_queue(backend_type_t backend, unsigned char *event_buffer, size_t *event_length,
+                               double *event_time, double until_time);
 /**
  * Called by a backend to notify the audio subsystem that the current playback
  * time changed. Usually this is called once per period during playback.

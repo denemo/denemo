@@ -13,6 +13,7 @@
 
 #include "eventqueue.h"
 #include "midi.h"
+#include "moveviewport.h"
 
 #include <glib.h>
 #include <string.h>

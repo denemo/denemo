@@ -14,7 +14,7 @@
 #include "audiointerface.h"
 #include "eventqueue.h"
 #include "dummybackend.h"
-
+#include "sourceaudio.h"
 #ifdef _HAVE_JACK_
   #include "jackbackend.h"
 #endif

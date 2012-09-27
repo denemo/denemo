@@ -16,6 +16,7 @@
 #include "portaudioutil.h"
 #include "midi.h"
 #include "fluid.h"
+#include "audiointerface.h"
 
 #include <portaudio.h>
 #include <glib.h>
