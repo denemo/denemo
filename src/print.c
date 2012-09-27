@@ -33,11 +33,11 @@
 #include "external.h"
 #include "scorelayout.h"
 
-//#ifdef G_OS_WIN32
-//#define FILE_LOCKING 1
-//#else
+#ifdef G_OS_WIN32
+#define FILE_LOCKING 1
+#else
 #define FILE_LOCKING 0
-//#endif
+#endif
 static gboolean retypeset(void);
 
 #if FILE_LOCKING
