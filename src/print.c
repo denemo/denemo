@@ -33,11 +33,11 @@
 #include "external.h"
 #include "scorelayout.h"
 
-#ifdef G_OS_WIN32
-#define FILE_LOCKING 1
-#else
+//#ifdef G_OS_WIN32
+//#define FILE_LOCKING 1
+//#else
 #define FILE_LOCKING 0
-#endif
+//#endif
 static gboolean retypeset(void);
 
 #if FILE_LOCKING
@@ -372,7 +372,7 @@ process_lilypond_errors(gchar *filename){
   if (lily_err != NULL)
     {
       if(*bytes)
-	console_output(bytes);
+				console_output(bytes);
       warningdialog("Could not execute lilypond - check Edit->preferences->externals->lilypond setting\nand lilypond installation");
       g_warning ("%s", lily_err->message);
       if(lily_err) g_error_free (lily_err);
@@ -573,7 +573,7 @@ static unsigned file_get_mtime(gchar *filename) {
 	struct stat thebuf;
   gint status =  g_stat(filename, &thebuf);
   unsigned mtime = thebuf.st_mtime;
-  g_print("the mt is %u\n", mtime);
+  g_print("the mt is %u %u\n", mtime, thebuf.st_mtim.tv_nsec);
 	return mtime;
 }
 static void set_mtime(gchar *basename) {
@@ -591,6 +591,7 @@ create_pdf (gboolean part_only, gboolean all_movements)
   gchar *filename = get_printfile_pathbasename();
   gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
   g_remove (lilyfile);
+  PrintStatus.invalid = 0;
   generate_lilypond(lilyfile, part_only, all_movements);
   set_mtime(filename);
   run_lilypond_for_pdf(filename, lilyfile);
@@ -1157,7 +1158,8 @@ set_printarea(GError **err) {
   GFile       *file;
   gchar *filename = g_strconcat((gchar *) get_printfile_pathbasename(), ".pdf", NULL);
   unsigned mtime = file_get_mtime(filename);
-	PrintStatus.invalid = (mtime == PrintStatus.mtime)?1:0;
+  if(PrintStatus.invalid==0)
+		PrintStatus.invalid = (mtime == PrintStatus.mtime)?1:0;
   file = g_file_new_for_commandline_arg (filename);
   g_free(filename);
   gchar *uri = g_file_get_uri (file);
@@ -1182,7 +1184,8 @@ set_printarea(GError **err) {
 static void
 printview_finished(GPid pid, gint status, gboolean print) {
   progressbar_stop();
-  if(PrintStatus.background==STATE_OFF) {
+  g_print("background %d\n", PrintStatus.background);
+  if(PrintStatus.background==STATE_NONE) {
 		call_out_to_guile("(FinalizeTypesetting)");
 		process_lilypond_errors((gchar *) get_printfile_pathbasename());
   }
