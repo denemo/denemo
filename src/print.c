@@ -33,16 +33,7 @@
 #include "external.h"
 #include "scorelayout.h"
 
-#ifdef G_OS_WIN32
-#define FILE_LOCKING 1
-#else
-#define FILE_LOCKING 0
-#endif
 static gboolean retypeset(void);
-
-#if FILE_LOCKING
-static gchar *printname="denemoprint";
-#endif
 
 #if GTK_MAJOR_VERSION==3
 typedef enum {
@@ -90,7 +81,10 @@ gint first_staff;
 gint last_staff;
 typeset_type typeset_type;
 gint invalid;//set 1 if  lilypond reported problems or 2 if generating new pdf failed 
-unsigned mtime;//modification time of the last generated pdf
+gint cycle;//alternate 0 1 to switch print file names
+gchar *printbasename[2];
+gchar *printname_pdf[2];
+gchar *printname_ly[2];
 } printstatus;
 
 static printstatus PrintStatus = {GPID_NONE, 0, 0, 4, 4, 4, 4, ALL_MOVEMENTS};
@@ -103,13 +97,22 @@ static   GError *lily_err = NULL;
 static
 void print_finished(GPid pid, gint status, GList *filelist);
 
-#if FILE_LOCKING
+
 static void advance_printname() {
-static counter = 0;
-printname = g_strdup_printf("denemoprint%d", counter++);
-g_print("Printname this time %s\n", printname);
+	if(PrintStatus.printbasename[0]==NULL) {
+		PrintStatus.printbasename[0] =  g_build_filename (locateprintdir (), "denemoprintA", NULL);
+		PrintStatus.printbasename[1] =  g_build_filename (locateprintdir (), "denemoprintB", NULL);
+		PrintStatus.printname_pdf[0] = g_strconcat(PrintStatus.printbasename[0], ".pdf", NULL);
+		PrintStatus.printname_ly[0] = g_strconcat(PrintStatus.printbasename[0], ".ly", NULL);
+		PrintStatus.printname_pdf[1] = g_strconcat(PrintStatus.printbasename[1], ".pdf", NULL);
+		PrintStatus.printname_ly[1] = g_strconcat(PrintStatus.printbasename[1], ".ly", NULL);	
+	}
+
+	PrintStatus.cycle = !PrintStatus.cycle;
+	gint success = g_unlink(PrintStatus.printname_pdf[PrintStatus.cycle]);
+	g_print("Removed old pdf file %s %d\n",PrintStatus.printname_pdf[PrintStatus.cycle], success);
 }
-#endif
+
 
 /*** 
  * make sure lilypond is in the path defined in the preferences
@@ -252,16 +255,9 @@ check_lily_version (gchar *version)
 */
    
 static gchar *get_printfile_pathbasename(void) {
-  gchar *filename = NULL;
-  if(filename==NULL)
-    filename = g_build_filename ( locateprintdir (),
-#if FILE_LOCKING
-    printname,
-#else
-    "denemoprint",
-#endif
-     NULL);
-  return filename;
+	if(PrintStatus.printbasename[0]==NULL)
+		advance_printname();
+  return PrintStatus.printbasename[PrintStatus.cycle];
 }       
 /* truncate epoint after 20 lines replacing the last three chars in that case with dots */
 static void truncate_lines(gchar *epoint) {
@@ -573,14 +569,10 @@ static unsigned file_get_mtime(gchar *filename) {
 	struct stat thebuf;
   gint status =  g_stat(filename, &thebuf);
   unsigned mtime = thebuf.st_mtime;
-  g_print("the mt is %u %u\n", mtime, thebuf.st_mtim.tv_nsec);
+ // g_print("the mt is %u %u\n", mtime, thebuf.st_mtim.tv_nsec);
 	return mtime;
 }
-static void set_mtime(gchar *basename) {
-	gchar *filename = g_strconcat(basename, ".pdf", NULL);
-	PrintStatus.mtime = file_get_mtime(filename);
-	g_free(filename);
-}
+
 /*  create pdf of current score, optionally restricted to voices/staffs whose name match the current one.
  *  generate the lilypond text (on disk)
  *  Fork and run lilypond
@@ -588,15 +580,13 @@ static void set_mtime(gchar *basename) {
 static void
 create_pdf (gboolean part_only, gboolean all_movements)
 {
-  gchar *filename = get_printfile_pathbasename();
-  gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
+	advance_printname();
+  gchar *filename = PrintStatus.printbasename[PrintStatus.cycle];
+  gchar *lilyfile = PrintStatus.printname_ly[PrintStatus.cycle];
   g_remove (lilyfile);
   PrintStatus.invalid = 0;
   generate_lilypond(lilyfile, part_only, all_movements);
-  set_mtime(filename);
   run_lilypond_for_pdf(filename, lilyfile);
-  // gui->lilysync = G_MAXUINT;in certain cases this may not be needed
-  g_free(lilyfile);
 }
 
 
@@ -754,7 +744,6 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoGUI * gui)
   texfile = g_strconcat (filename, "-systems.tex", NULL);
   texifile = g_strconcat (filename, "-systems.texi", NULL);
   countfile = g_strconcat (filename, "-systems.count", NULL);
-  g_free (basename);
  
   /* create a list of files that need to be deleted */ 
   filelist = g_list_append(filelist, lilyfile);
@@ -822,7 +811,7 @@ export_pdf (gchar * filename, DenemoGUI * gui)
   /* create list of files that will need to be deleted */
   filelist = g_list_append(filelist, lilyfile);
   filelist = g_list_append(filelist, psfile);
-  g_free (basename);
+ 
 
   /* generate the lilypond file */
   exportlilypond (lilyfile, gui, TRUE);
@@ -849,9 +838,7 @@ export_pdf (gchar * filename, DenemoGUI * gui)
 
 static void
 print_and_view(gchar **arguments) {
-#if FILE_LOCKING
-advance_printname();
-#endif
+
   run_lilypond(arguments);
   if(PrintStatus.printpid!=GPID_NONE) {
     g_child_watch_add (PrintStatus.printpid, (GChildWatchFunc)open_pdfviewer, (gchar *) get_printfile_pathbasename());
@@ -867,9 +854,7 @@ static gboolean initialize_typesetting(void) {
 
 //callback to print the LilyPond text in the LilyPond View window
 void print_lily_cb (GtkWidget *item, DenemoGUI *gui){
-#if FILE_LOCKING
-advance_printname();
-#endif
+
   if(initialize_typesetting()) {
     g_warning("InitializeTypesetting failed\n");
     return;
@@ -944,7 +929,7 @@ static gboolean
 libevince_print(void) {
   GError *err = NULL;
   GFile       *file;
-  gchar *filename = g_strconcat((gchar *) get_printfile_pathbasename(), ".pdf", NULL);
+  gchar *filename = PrintStatus.printname_pdf[PrintStatus.cycle];
   gchar *uri = g_filename_to_uri(filename, NULL, &err);
 
   if(err) {
@@ -1073,6 +1058,10 @@ static gboolean overdraw_print(cairo_t *cr) {
 			headline = _("Check Score.");
 			explanation = _("Cursor may have moved to error point in the score.");
 			break;
+		case 3:
+			headline = _("INVALID!");
+			explanation = _("LilyPond could not typeset this score.");
+			break;
 	}
   cairo_set_source_rgba( cr, 0.5, 0.0, 0.0 , 0.4);
   cairo_set_font_size( cr, 48.0 );
@@ -1156,26 +1145,24 @@ printarea_draw_event (GtkWidget * widget, GdkEventExpose * event)
 static void
 set_printarea(GError **err) {
   GFile       *file;
-  gchar *filename = g_strconcat((gchar *) get_printfile_pathbasename(), ".pdf", NULL);
-  unsigned mtime = file_get_mtime(filename);
+  gchar *filename = PrintStatus.printname_pdf[PrintStatus.cycle];
+  g_print("using %s\n", filename);
   if(PrintStatus.invalid==0)
-		PrintStatus.invalid = (mtime == PrintStatus.mtime)?1:0;
+		PrintStatus.invalid = (g_file_test(filename, G_FILE_TEST_EXISTS))?0:3;
   file = g_file_new_for_commandline_arg (filename);
-  g_free(filename);
+  //g_free(filename);
   gchar *uri = g_file_get_uri (file);
   g_object_unref (file);
   EvDocument *doc = ev_document_factory_get_document (uri, err);
   //gint x = 0, y = 0, hupper, hlower, vupper, vlower;//store current position for reloading
-
-
   //get_window_position(&x, &y, &hupper, &hlower, &vupper, &vlower);
-  if(*err)
+  if(*err) {
     g_warning ("Trying to read the pdf file %s gave an error: %s", uri, (*err)->message);
+    PrintStatus.invalid = 3;
+    gtk_widget_queue_draw(Denemo.printarea);
+	}
   else
     set_printarea_doc(doc);
-
-
-
 	//this will fail if the printarea is not visible, so it would need to be re-triggered on showing the printarea  
    set_denemo_pixbuf();
   return;
@@ -1202,9 +1189,7 @@ printview_finished(GPid pid, gint status, gboolean print) {
 /* callback to print current part (staff) of score */
 void
 printpart_cb (GtkAction *action, gpointer param) {
-#if FILE_LOCKING
-advance_printname();
-#endif
+
 
   DenemoGUI *gui = Denemo.gui;
   if(gui->si->markstaffnum)
@@ -1222,9 +1207,7 @@ advance_printname();
 
 
 static gboolean typeset(gboolean force) {
-#if FILE_LOCKING
-advance_printname();
-#endif
+
 if((force) || (changecount!=Denemo.gui->changecount)) {
   if(initialize_typesetting()) {
       g_warning("InitializeTypesetting failed\n");
@@ -1241,9 +1224,7 @@ return FALSE;
 }
 
 static gboolean typeset_movement(gboolean force) {
-#if FILE_LOCKING
-advance_printname();
-#endif
+
 if((force) || (changecount!=Denemo.gui->changecount)) {
   if(initialize_typesetting()) {
       g_warning("InitializeTypesetting failed\n");
@@ -1279,9 +1260,7 @@ void refresh_print_view (void) {
 
 static
 void print_from_print_view(gboolean all_movements) {
-#if FILE_LOCKING
-advance_printname();
-#endif
+
   busy_cursor();
   if(all_movements?typeset(FALSE):typeset_movement(FALSE)) {
     g_child_watch_add(PrintStatus.printpid, (GChildWatchFunc)printview_finished, (gpointer)(TRUE));
@@ -1495,25 +1474,19 @@ start_drag(GtkWidget *widget, gboolean *flag) {
   return TRUE;
 }
 static void create_all_pdf(void) {
-#if FILE_LOCKING
-advance_printname();
-#endif
+
 busy_cursor();
 create_pdf(FALSE, TRUE);
 g_child_watch_add(PrintStatus.printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
 }
 static void create_movement_pdf(void) {
-#if FILE_LOCKING
-advance_printname();
-#endif
+
 busy_cursor();
 create_pdf(FALSE, FALSE);
 g_child_watch_add(PrintStatus.printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
 }
 static void create_part_pdf(void) {
-#if FILE_LOCKING
-advance_printname();
-#endif
+
 busy_cursor();
 create_pdf(TRUE, TRUE);
 g_child_watch_add(PrintStatus.printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
