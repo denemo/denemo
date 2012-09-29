@@ -1587,21 +1587,25 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
       g_string_assign(staff_str,"");
       gint firstobj=1, lastobj= G_MAXINT-1;
       if(start && gui->si->markstaffnum) {//markstaffnum==0 means not set
-				firstobj = 1+MIN( gui->si->selection.firstobjmarked, gui->si->selection.lastobjmarked);
-				lastobj =  1+MAX( gui->si->selection.firstobjmarked, gui->si->selection.lastobjmarked);
+				firstobj = 1+gui->si->selection.firstobjmarked;
+				lastobj =  1+gui->si->selection.lastobjmarked;
       }
       //g_print("First last, %d %d %d\n", firstobj, lastobj, start);
       for (objnum=1, curobjnode = (objnode *) curmeasure->data;/* curobjnode NULL checked at end */;
 	   curobjnode = curobjnode->next, objnum++)
 	{
 	  curobj=NULL;//avoid random values for debugabililty
-	  if(objnum>=firstobj && objnum<=lastobj) {
+	  if( (measurenum>MAX(start,1) && (measurenum<end)) || 
+					(start==end && measurenum==start && objnum>=firstobj && objnum<=lastobj) ||
+				  (start!=end && 
+				    ((measurenum==MAX(start,1))&&objnum>=firstobj) || ((measurenum==end)&&(objnum<=lastobj))))
+				  {
 
-	  if(curobjnode) {
-	  curobj = (DenemoObject *) curobjnode->data;
-	  // if (curobj->type==CHORD||curobj->type==PARTIAL||curobj->type==LILYDIRECTIVE)
-	  if(curobj->durinticks||curobj->type==LILYDIRECTIVE)
-	    empty_measure=FALSE; 
+						if(curobjnode) {
+							curobj = (DenemoObject *) curobjnode->data;
+							// if (curobj->type==CHORD||curobj->type==PARTIAL||curobj->type==LILYDIRECTIVE)
+							if(curobj->durinticks||curobj->type==LILYDIRECTIVE)
+							empty_measure=FALSE; 
 
 
 
