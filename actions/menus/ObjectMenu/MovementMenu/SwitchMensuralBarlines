@@ -26,6 +26,7 @@
 		(d-DirectivePut-score-prefix "MensuralBarlines" "
 		EndMovementBarline = { \\once \\override Score.BarLine #'transparent = ##f \\bar \"|.\" }
 		")
+		(d-DirectivePut-score-override "MensuralBarlines" DENEMO_OVERRIDE_AFFIX)
 		(d-PushPosition)
 		; Surround all Staffs with a StaffGroup, which draws the barlines between the staffs. 
 		(while (d-StaffUp))
