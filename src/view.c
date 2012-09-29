@@ -7121,16 +7121,16 @@ static void insertScript(GtkWidget *widget, gchar *insertion_point) {
   if(myname==NULL)
     return;
   subst_illegals(myname);
-  mylabel = string_dialog_entry (gui, "Create a new menu item", "Give menu label: ", "My Label");
+  mylabel = string_dialog_entry (gui, _("Create a new menu item"), _("Give menu label: "), _("My Label"));
   if(mylabel==NULL)
     return;
 
-  mytooltip = string_dialog_entry (gui, "Create a new menu item", "Give explanation of what it does: ", "Prints my special effect");
+  mytooltip = string_dialog_entry (gui, _("Create a new menu item"), _("Give explanation of what it does: "), _("Prints my special effect"));
   if(mytooltip==NULL)
     return;
-  if(confirm("Create a new menu item", "Do you want the new menu item in a submenu?"))
+  if(confirm(_("Create a new menu item"), _("Do you want the new menu item in a submenu?")))
     {
-      submenu = string_dialog_entry (gui, "Create a new menu item", "Give a label for the Sub-Menu", "Sub Menu Label");
+      submenu = string_dialog_entry (gui, _("Create a new menu item"), _("Give a label for the Sub-Menu"), _("Sub Menu Label"));
       if(submenu) {
 	subst_illegals(submenu);
 	myposition = g_strdup_printf("%s/%s", myposition, submenu);
@@ -7143,17 +7143,17 @@ static void insertScript(GtkWidget *widget, gchar *insertion_point) {
   gchar *filename = g_build_filename(locatedotdenemo(), "actions", "menus", myposition, myname,  NULL);
   g_print("The filename built is %s from %s", filename, myposition);
   if((!g_file_test(filename, G_FILE_TEST_EXISTS))  || (g_file_test(filename, G_FILE_TEST_EXISTS) &&
-						       confirm("Duplicate Name", "A command of this name is already available in your custom menus; Overwrite?"))) {
+						       confirm(_("Duplicate Name"), _("A command of this name is already available in your custom menus; Overwrite?")))) {
     gchar *dirpath = g_path_get_dirname(filename);
     g_mkdir_with_parents(dirpath, 0770);
     g_free(dirpath);
     //g_file_set_contents(filename, text, -1, NULL);
     save_script_as_xml (filename, myname, myscheme, mylabel, mytooltip, idx<0?NULL:after);
     load_xml_keymap(filename, TRUE);
-    if(confirm("New Command Added", "Do you want to save this with your default commands?"))
+    if(confirm(_("New Command Added"), _("Do you want to save this with your default commands?")))
       save_accels ();								    
   } else
-    warningdialog("Operation cancelled");
+    warningdialog(_("Operation cancelled"));
   g_free(myposition);
   return;
 }
@@ -7204,16 +7204,16 @@ static void button_modifier_callback(GtkWidget *w, GdkEventButton *event,  Modif
   GString *str = g_string_new("Keyboard:");
   append_modifier_name(str, ma->modnum);
   if(!ma->modnum)
-    g_string_assign (str, "No keyboard modifier keys\nPress with modifier key to change");
+    g_string_assign (str, _("No keyboard modifier keys\nPress with modifier key to change"));
   else
-    g_string_append(str, "\nPress with modifier key to change");
+    g_string_append(str, _("\nPress with modifier key to change"));
   gtk_button_set_label (GTK_BUTTON(w), str->str);
   g_string_free(str,TRUE);
 }
 
 static void
 mouse_shortcut_dialog(ModifierAction *info){
-  GtkWidget *dialog = gtk_dialog_new_with_buttons ("Set Mouse Shortcut",
+  GtkWidget *dialog = gtk_dialog_new_with_buttons (_("Set Mouse Shortcut"),
                                         GTK_WINDOW (Denemo.window),
                                         (GtkDialogFlags) (GTK_DIALOG_MODAL |
                                                        GTK_DIALOG_DESTROY_WITH_PARENT),
@@ -7230,41 +7230,41 @@ mouse_shortcut_dialog(ModifierAction *info){
   gtk_container_add (GTK_CONTAINER (hbox), vbox);
  
   gchar *name = (gchar*)gtk_action_get_name(info->action);
-  gchar *prompt = g_strdup_printf("Setting mouse shortcut for %s", name);
+  gchar *prompt = g_strdup_printf(_("Setting mouse shortcut for %s"), name);
   GtkWidget *label = gtk_label_new(prompt);
   g_free(prompt);
   gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
-  GtkWidget *frame= gtk_frame_new( "Choose the mouse button");
+  GtkWidget *frame= gtk_frame_new( _("Choose the mouse button"));
   gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_IN);
   gtk_container_add (GTK_CONTAINER (vbox), frame);
   GtkWidget *vbox2 = gtk_vbox_new (FALSE, 8);
   gtk_container_add (GTK_CONTAINER (frame), vbox2);
 
   info->left = TRUE;
-  GtkWidget *widget =   gtk_radio_button_new_with_label(NULL, "Left");
+  GtkWidget *widget =   gtk_radio_button_new_with_label(NULL, _("Left"));
   g_signal_connect(G_OBJECT(widget), "toggled", G_CALLBACK(button_choice_callback), &info->left);
   gtk_box_pack_start (GTK_BOX (vbox2), widget, FALSE, TRUE, 0);
-  GtkWidget *widget2  =   gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON (widget), "Right");
+  GtkWidget *widget2  =   gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON (widget), _("Right"));
   gtk_box_pack_start (GTK_BOX (vbox2), widget2, FALSE, TRUE, 0);
   
 
-  frame= gtk_frame_new( "Choose mouse action");
+  frame= gtk_frame_new( _("Choose mouse action"));
   gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_IN);
   gtk_container_add (GTK_CONTAINER (vbox), frame);
   vbox2 = gtk_vbox_new (FALSE, 8);
   gtk_container_add (GTK_CONTAINER (frame), vbox2);
   info->gesture = GESTURE_PRESS;
-  widget =   gtk_radio_button_new_with_label(NULL, "Press Button");
+  widget =   gtk_radio_button_new_with_label(NULL, _("Press Button"));
   g_signal_connect(G_OBJECT(widget), "toggled", G_CALLBACK(button_press_callback), &info->gesture);
   gtk_box_pack_start (GTK_BOX (vbox2), widget, FALSE, TRUE, 0);
-  widget2  =   gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON (widget), "Release Button");
+  widget2  =   gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON (widget), _("Release Button"));
   g_signal_connect(G_OBJECT(widget2), "toggled", G_CALLBACK(button_release_callback), &info->gesture);
   gtk_box_pack_start (GTK_BOX (vbox2), widget2, FALSE, TRUE, 0);
-  widget2  =   gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON (widget), "Drag");
+  widget2  =   gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON (widget), _("Drag"));
   g_signal_connect(G_OBJECT(widget2), "toggled", G_CALLBACK(button_move_callback), &info->gesture);
   gtk_box_pack_start (GTK_BOX (vbox2), widget2, FALSE, TRUE, 0);
 
-  widget =   gtk_button_new_with_label("Hold Modifier Keys, Engage Caps or Num Lock\nand click here to set shorcut.");
+  widget =   gtk_button_new_with_label(_("Hold Modifier Keys, Engage Caps or Num Lock\nand click here to set shorcut."));
   g_signal_connect(G_OBJECT(widget), "button-release-event", G_CALLBACK(button_modifier_callback), info);
   gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
 
@@ -7321,20 +7321,20 @@ static void put_initialization_script (GtkWidget *widget, gchar *directory) {
   gchar *scheme;
   gchar *filename = g_build_filename(locatedotdenemo(), "actions", "menus", directory, INIT_SCM, NULL);
   if((!g_file_test(filename, G_FILE_TEST_EXISTS)) ||
-     confirm("There is already an initialization script here", "Do you want to replace it?")){
+     confirm(_("There is already an initialization script here"), _("Do you want to replace it?"))){
     gchar *scheme = getSchemeText();
     if(scheme && *scheme) {
       FILE *fp = fopen(filename, "w");
       if(fp) {
 	fprintf (fp, "%s", scheme);
 	fclose(fp);
-	if(confirm("Wrote init.scm", "Shall I execute it now?"))
+	if(confirm(_("Wrote init.scm"), _("Shall I execute it now?")))
 	  call_out_to_guile(scheme);
       }
       else {
-	warningdialog("Could not create init.scm;\n"
+	warningdialog(_("Could not create init.scm;\n"
 		      "you must create your scripted menu item in the menu\n"
-		      "before you create the initialization script for it, sorry.");
+		      "before you create the initialization script for it, sorry."));
       }
       g_free(scheme);
     }
@@ -7381,7 +7381,7 @@ static void saveMenuItem (GtkWidget *widget, GtkAction *action) {
   gchar *filename = g_build_filename (locatedotdenemo (), "actions","menus", menupath, name,
 				      NULL);
   gchar *scheme = getSchemeText();
-  if(scheme && *scheme && confirm("Save Script", g_strconcat("Over-write previous version of the script for ", name, " ?", NULL))) {
+  if(scheme && *scheme && confirm(_("Save Script"), g_strconcat(_("Over-write previous version of the script for "), name, _(" ?"), NULL))) {
     gchar *dirpath = g_path_get_dirname(filename);
     g_mkdir_with_parents(dirpath, 0770);
     g_free(dirpath);
@@ -7390,7 +7390,7 @@ static void saveMenuItem (GtkWidget *widget, GtkAction *action) {
     instantiate_script(action);
   }
   else
-    warningdialog("No script saved");
+    warningdialog(_("No script saved"));
 }
 
 
@@ -7863,19 +7863,19 @@ static gboolean menu_click (GtkWidget      *widget,
 
   /* "drag" menu item onto button bar */
 
-   item = gtk_menu_item_new_with_label("Place Command on Button Bar");
+   item = gtk_menu_item_new_with_label(_("Place Command on Button Bar"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(placeOnButtonBar), action);
 
 
   if(idx!=-1) {
-    item = gtk_menu_item_new_with_label("Create Mouse Shortcut");
+    item = gtk_menu_item_new_with_label(_("Create Mouse Shortcut"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(createMouseShortcut), action);
-    item = gtk_menu_item_new_with_label("Edit Shortcuts\nSet Mouse Pointers\nHide/Delete Menu Item");
+    item = gtk_menu_item_new_with_label(_("Edit Shortcuts\nSet Mouse Pointers\nHide/Delete Menu Item"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(configure_keyboard_idx), GINT_TO_POINTER(idx));
-    item = gtk_menu_item_new_with_label("Save Command Set");
+    item = gtk_menu_item_new_with_label(_("Save Command Set"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(save_default_keymap_file), action);
 
@@ -7911,31 +7911,31 @@ static gboolean menu_click (GtkWidget      *widget,
     if(*scheme==0)
       scheme = instantiate_script(action);
     if(scheme) {
-      item = gtk_menu_item_new_with_label("Get Script");
+      item = gtk_menu_item_new_with_label(_("Get Script"));
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
       g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(appendSchemeText_cb), scheme);
     }
-    item = gtk_menu_item_new_with_label("Save Script");
+    item = gtk_menu_item_new_with_label(_("Save Script"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(saveMenuItem), action);
     if(Denemo.gui->xbm) {
-      item = gtk_menu_item_new_with_label("Save Graphic");
+      item = gtk_menu_item_new_with_label(_("Save Graphic"));
       // GtkSettings* settings = gtk_settings_get_default();
       // gtk_settings_set_long_property  (settings,"gtk-menu-images",(glong)TRUE, "XProperty");
       //item = gtk_image_menu_item_new_from_stock("Save Graphic", gtk_accel_group_new());
-      item = gtk_image_menu_item_new_from_stock("Save Graphic"/*GTK_STOCK_OK*/, NULL);
+      item = gtk_image_menu_item_new_from_stock(_("Save Graphic")/*GTK_STOCK_OK*/, NULL);
       
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
       g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(saveGraphicItem), action);
     }
 #ifdef UPLOAD_TO_DENEMO_DOT_ORG
-    item = gtk_menu_item_new_with_label("Upload this Script to denemo.org");
+    item = gtk_menu_item_new_with_label(_("Upload this Script to denemo.org"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(uploadMenuItem), action);
 #endif
   }
   if (gtk_widget_get_visible(gtk_widget_get_toplevel(Denemo.ScriptView))) {
-    item = gtk_menu_item_new_with_label("Save Script as New Menu Item");
+    item = gtk_menu_item_new_with_label(_("Save Script as New Menu Item"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     static gchar *insertion_point;
     if(insertion_point)
@@ -7948,18 +7948,18 @@ static gboolean menu_click (GtkWidget      *widget,
 
   /* options for getting/putting init.scm */
 
-    item = gtk_menu_item_new_with_label("Get Initialization Script for this Menu");
+    item = gtk_menu_item_new_with_label(_("Get Initialization Script for this Menu"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(get_initialization_script), myposition);
 
-    item = gtk_menu_item_new_with_label("Put Script as Initialization Script for this Menu");
+    item = gtk_menu_item_new_with_label(_("Put Script as Initialization Script for this Menu"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(put_initialization_script), myposition);
 
 
 
   /* a check item for showing script window */
-  item = gtk_check_menu_item_new_with_label("Show Current Script");
+  item = gtk_check_menu_item_new_with_label(_("Show Current Script"));
   gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), gtk_widget_get_visible(gtk_widget_get_toplevel(Denemo.ScriptView)));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   //FIXME the next statement triggers a warning that ToggleScript is not a registered denemo commad - correct, since we do not make the toggles available as commands since using such a command would make the check boxes out of step, instead we install function that activate the menuitem.
@@ -8176,7 +8176,7 @@ static void
 change_input_type (GtkRadioAction * action, GtkRadioAction * current) {
   DenemoGUI *gui = Denemo.gui;
   if(gui->notsaved) {
-      warningdialog("You have unsaved work. Hardware problems may cause the program to exit during this task.\nPlease save first.");
+      warningdialog(_("You have unsaved work. Hardware problems may cause the program to exit during this task.\nPlease save first."));
       return;
   }
  gint val = gtk_radio_action_get_current_value (current);
@@ -8203,7 +8203,7 @@ change_input_type (GtkRadioAction * action, GtkRadioAction * current) {
    gui->input_source=INPUTAUDIO;
    if(setup_pitch_input()){
      fail = TRUE;
-     warningdialog("Could not start Audio input");
+     warningdialog(_("Could not start Audio input"));
      gtk_radio_action_set_current_value(current, INPUTKEYBOARD);
    } else
      start_pitch_input();
@@ -8921,10 +8921,10 @@ static void  proxy_connected (GtkUIManager *uimanager, GtkAction *action, GtkWid
   attach_right_click_callback(proxy, action);
   const gchar *tooltip = gtk_action_get_tooltip(action);
   const gchar *additional_text;
-  if(tooltip && g_str_has_prefix(tooltip, "Menu:"))
-    additional_text = "Click here then hover over the menu items to find out what they will do";
+  if(tooltip && g_str_has_prefix(tooltip, _("Menu:")))
+    additional_text = _("Click here then hover over the menu items to find out what they will do");
   else
-    additional_text = "Left click to execute the command, press a key to assign a keyboard shortcut to the command,\nRight click to get a menu from which you can\nCreate a button for this command, or a two-key keyboard shortcut or more options still";
+    additional_text = _("Left click to execute the command, press a key to assign a keyboard shortcut to the command,\nRight click to get a menu from which you can\nCreate a button for this command, or a two-key keyboard shortcut or more options still");
   gchar *tip = g_strconcat ( tooltip, "\n------------------------------------------------------------------\n", additional_text,  NULL);
    // unfortunately submenus seem not to be attached yet ... if((GTK_IS_IMAGE_MENU_ITEM(proxy)) && gtk_menu_item_get_submenu(proxy)) tip = g_strdup("test");
    // Denemo.map is not yet created either :(
@@ -9035,7 +9035,7 @@ create_window(void) {
   gchar *data_file;
 
   Denemo.window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (Denemo.window), "Denemo Main Window");
+  gtk_window_set_title (GTK_WINDOW (Denemo.window), _("Denemo Main Window"));
   loadWindowState(/* it accesses Denemo.window */);
 #ifdef G_OS_WIN32
   data_file = g_build_filename (get_data_dir (), "icons","denemo.png", NULL);

@@ -133,7 +133,7 @@ instantiate_menus(gchar *menupath) {
   GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
   GtkActionGroup *action_group = GTK_ACTION_GROUP(groups->data); //FIXME assuming the one we want is first
   if(NULL == gtk_action_group_get_action(action_group, name)) {
-    gchar *tooltip = g_strconcat("Menu:\nnamed \"", name, "\" located at ", menupath, " in the menu system", NULL);
+    gchar *tooltip = g_strconcat(_("Menu:\nnamed \""), name, _("\" located at "), menupath, _(" in the menu system"), NULL);
     GtkAction *action = gtk_action_new(name,name,tooltip,NULL);
     g_free(tooltip);
     gtk_action_group_add_action(action_group, action);
@@ -157,7 +157,7 @@ void set_visibility_for_action(GtkAction *action, gboolean visible) {
       else
 	gtk_widget_hide(h->data);
     }
-    g_object_set_data(G_OBJECT(action), "hidden", (gpointer)!visible);
+    g_object_set_data(G_OBJECT(action), "hidden", GINT_TO_POINTER(!visible));
   }
 
 }
@@ -255,7 +255,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	  name = name?name:(xmlChar*)"NoName";
 	  label = label?label:(xmlChar*)"No label";
 	  scheme = scheme?scheme:(xmlChar*)"";
-	  tooltip = tooltip?tooltip:(xmlChar*)"No indication what this done beyond the name and label :(";
+	  tooltip = tooltip?tooltip:(xmlChar*)_("No indication what this done beyond the name and label :(");
 	  GtkAction *action;
 	  gboolean new_command = FALSE;
 	  action = lookup_action_from_name(name);	     
@@ -804,8 +804,8 @@ save_xml_keymap (gchar * filename)//_!!! create a DEV version here, saving C-cod
       gpointer action = (gpointer)lookup_action_from_idx(the_keymap, i);
       gchar *scheme = action?g_object_get_data(action, "scheme"):NULL;
       gchar *after = action?g_object_get_data(action, "after"):NULL;
-      gboolean deleted = (gboolean) (action?g_object_get_data(action, "deleted"):NULL);
-      gboolean hidden = (gboolean) (action?g_object_get_data(action, "hidden"):NULL);
+      gboolean deleted = (gboolean) (action?GPOINTER_TO_INT(g_object_get_data(action, "deleted")):0);
+      gboolean hidden = (gboolean) (action?GPOINTER_TO_INT(g_object_get_data(action, "hidden")):0);
       //  if(deleted && scheme)
       //	continue;
 
@@ -883,8 +883,8 @@ save_xml_keybindings (gchar * filename)
     {
       gpointer action = (gpointer)lookup_action_from_idx(the_keymap, i);
       gchar *scheme = action?g_object_get_data(action, "scheme"):NULL;
-      gboolean deleted = (gboolean) (action?g_object_get_data(action, "deleted"):NULL);
-      gboolean hidden = (gboolean) (action?g_object_get_data(action, "hidden"):NULL);
+      gboolean deleted = (gboolean) (action?GPOINTER_TO_INT(g_object_get_data(action, "deleted")):0);
+      gboolean hidden = (gboolean) (action?GPOINTER_TO_INT(g_object_get_data(action, "hidden")):0);
       if(deleted && scheme)
 	continue;
       if(hidden || command_has_binding(i)) {

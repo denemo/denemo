@@ -444,12 +444,12 @@ swapmovements (GtkAction *action, gpointer param)
     this->prev = prevv;
     prev->next = next;
     prev->prev = this;
-    gchar *str = g_strdup_printf("This movement is now number %d in the score", 1+g_list_index(gui->movements, gui->si));
+    gchar *str = g_strdup_printf(_("This movement is now number %d in the score"), 1+g_list_index(gui->movements, gui->si));
     infodialog(str);
     g_free(str);
     return TRUE;
   } else
-    warningdialog("There is no previous movement to swap with");
+    warningdialog(_("There is no previous movement to swap with"));
   return FALSE;
 }
 /**
@@ -471,7 +471,7 @@ swapstaffs (GtkAction *action, gpointer param)
 
 	temp = gui->si->currentstaff->data;
 	if(temp->context==DENEMO_NONE ||
-	   confirm("A context is set on this staff", "You will need to alter the staff->properties->context of this and the previous staff; Proceed?")) {
+	   confirm(_("A context is set on this staff"), _("You will need to alter the staff->properties->context of this and the previous staff; Proceed?"))) {
 	  take_snapshot();
 	  gui->si->currentstaff->data = gui->si->currentstaff->prev->data;
 	  gui->si->currentstaff->prev->data = temp;
@@ -486,10 +486,10 @@ swapstaffs (GtkAction *action, gpointer param)
 	}
       }
       else
-	warningdialog("Split off voices from this staff first");
+	warningdialog(_("Split off voices from this staff first"));
     }
   else
-    warningdialog("There is no previous staff to swap with");
+    warningdialog(_("There is no previous staff to swap with"));
   return FALSE;
 }
 
@@ -510,7 +510,7 @@ splitstaffs (GtkAction *action, gpointer param)
       if((thestaff->voicecontrol&DENEMO_PRIMARY) && (nextstaff->voicecontrol==DENEMO_SECONDARY))
 	nextstaff->voicecontrol=DENEMO_SECONDARY|DENEMO_PRIMARY;
       else
-	warningdialog("There is no voice below this one on this staff");
+	warningdialog(_("There is no voice below this one on this staff"));
       setcurrentprimarystaff (gui->si);
       setcurrents (gui->si);
       move_viewport_up (gui);
@@ -519,7 +519,7 @@ splitstaffs (GtkAction *action, gpointer param)
       return TRUE;
     }
   else
-    warningdialog("There is no voice below this one to split from");
+    warningdialog(_("There is no voice below this one to split from"));
   return FALSE;
 }
 
@@ -547,7 +547,7 @@ joinstaffs (GtkAction *action, gpointer param)
       return TRUE;
     }
   else
-    warningdialog("There is no staff above to move this staff into");
+    warningdialog(_("There is no staff above to move this staff into"));
   return FALSE;
 }
 
@@ -580,7 +580,7 @@ govoiceup (DenemoScriptParam *param, gboolean extend_selection)
     return param->status = TRUE;
     } else
       if(param==&dummy)//is interactive
-	warningmessage("This is the first voice");
+	warningmessage(_("This is the first voice"));
   return param->status = FALSE;
 }
 
@@ -618,7 +618,7 @@ gostaffup (DenemoScriptParam *param, gboolean extend_selection)
       return param->status = TRUE;
     } else
       if(param==&dummy)//is interactive
-	warningmessage("This is the first staff");
+	warningmessage(_("This is the first staff"));
   return param->status = FALSE;
 }
 
@@ -652,7 +652,7 @@ govoicedown (DenemoScriptParam *param, gboolean extend_selection)
       return param->status = TRUE;
     } else
       if(param==&dummy)//is interactive
-      warningmessage("This is the last voice");
+      warningmessage(_("This is the last voice"));
   return param->status = FALSE;
 }
 
@@ -722,7 +722,7 @@ gostaffdown (DenemoScriptParam *param, gboolean extend_selection)
       return param->status = TRUE;
     } else
       if(param==&dummy)//is interactive
-      warningmessage("This is the last staff");
+      warningmessage(_("This is the last staff"));
   return param->status = FALSE;
 }
 
@@ -2081,7 +2081,7 @@ dnm_deleteobject (DenemoScore * si)
   }
 #endif
   if(curmudelaobj->type==LILYDIRECTIVE && ((lilydirective *)curmudelaobj->object)->locked)
-    if(!confirm("This LilyPond insert is locked","Really delete it?"))
+    if(!confirm(_("This LilyPond insert is locked"),_("Really delete it?")))
       return;
   DenemoUndoData *undo;
 
