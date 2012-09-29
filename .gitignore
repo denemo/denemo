@@ -35,3 +35,8 @@ src/lyparser.c
 stamp-h1
 tags
 actions/mxml2ly2denemo/mxml2ly2denemo.l.scm
+po/*.gmo
+*~
+src/*.cDEV
+utils/a.out
+
