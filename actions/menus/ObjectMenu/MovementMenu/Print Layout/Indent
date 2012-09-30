@@ -17,7 +17,7 @@
 	(display thematch)
 	(if (regexp-match? thematch)
 	    (set! current (match:substring thematch 1)))))
-  (set! amount (d-GetUserInput "Choose indent of first system" "Give amount as decimal" current))
+  (set! amount (d-GetUserInput (_ "Choose indent of first system") (_ "Give amount as decimal") current))
   (display amount)
   (d-DirectivePut-layout-postfix "MovementIndent" (string-append "indent = " amount "\n")))
 (d-SetSaved #f)

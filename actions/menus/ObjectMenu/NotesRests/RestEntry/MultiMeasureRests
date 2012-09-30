@@ -33,7 +33,7 @@
 		    (d-DirectivePut-standalone-gy "WholeMeasureRest" -2)
 		    (d-DirectivePut-standalone-postfix "WholeMeasureRest" "%{ grouped rest %}")
 		    (d-DirectivePut-standalone-override "WholeMeasureRest" DENEMO_OVERRIDE_LILYPOND)
-		    (d-DirectivePut-standalone-display "WholeMeasureRest" "grouped\nas mm rest")
+		    (d-DirectivePut-standalone-display "WholeMeasureRest" (_ "grouped\nas mm rest"))
 		    (d-DirectivePut-standalone-tx "WholeMeasureRest" 25)
 		    (d-DirectivePut-standalone-ty "WholeMeasureRest" -30)
 		    (loop))))))

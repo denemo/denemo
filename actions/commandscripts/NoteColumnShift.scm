@@ -2,7 +2,7 @@
 (let* ( (tag "NoteColumnShift") (val (d-DirectiveGet-chord-display tag)))
 (if (not val)
   (set! val "1.2"))
-(set! val (d-GetUserInput "Horizontal Shift" "Give amount (staff spaces)" val))
+(set! val (d-GetUserInput (_ "Horizontal Shift") (_ "Give amount (staff spaces)") val))
 (if val 
 	(begin
 		(if (string-null? val)

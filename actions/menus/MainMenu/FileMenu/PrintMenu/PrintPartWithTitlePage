@@ -19,7 +19,7 @@
       (d-DirectiveDelete-scoreheader "BookDate"))
   (d-SetSaved saved))
   (begin
-    (d-WarningDialog "No Book Title, see Score-&gt;Titles-&gt;Book Titles")))
+    (d-WarningDialog (_ "No Book Title, see Score-&gt;Titles-&gt;Book Titles"))))
   </scheme>
         <label>Print Part with Title Page</label>
         <tooltip>Prints part with part name on title page</tooltip>

@@ -7,7 +7,7 @@
       <row>
         <action>Chapter</action>
         <scheme>;;;Chapter
-         (MovementBookTitles::Do "Chapter" "chapter" "My Heading"  "Give heading or blank out to delete: ")
+         (MovementBookTitles::Do "Chapter" "chapter" "My Heading"  (_ "Give heading or blank out to delete: "))
 </scheme>
         <label>Heading</label>
         <tooltip>Prints a heading the current movement</tooltip>

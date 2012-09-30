@@ -1,11 +1,9 @@
-; Mensural Barlines // "Mensurstriche" layout for one movement
-; Consist of three, technically independent, Lilypond Directives.
-(if (and (d-DirectiveGet-layout-postfix "MensuralBarlines")  (d-DirectiveGet-score-prefix "MensuralBarlines")  (d-DirectiveGet-movementcontrol-postfix "MensuralBarlines"))
+; SwitchMensuralBarlines // "Mensurstriche" layout for one movement
+; Consist of two independent, Denemo Directives.
+(if  (d-DirectiveGet-layout-postfix "MensuralBarlines") 
 	(begin ;If there is a directive, delete all
 		(d-DirectiveDelete-layout "MensuralBarlines")
-		(d-DirectiveDelete-score "MensuralBarlines")
-		(d-DirectiveDelete-movementcontrol "MensuralBarlines")
-	)
+		(d-DirectiveDelete-score "MensuralBarlines"))
 	(begin   ;If there is no directive present, create one
 		; Make barlines transparent only within the staff-lines range
 		(d-DirectivePut-layout-postfix "MensuralBarlines" " 
@@ -20,9 +18,12 @@
 		(d-DirectivePut-score-prefix "MensuralBarlines" "
 		EndMovementBarline = { \\once \\override Score.BarLine #'transparent = ##f \\bar \"|.\" }
 		")
-		
+		(d-DirectivePut-score-override "MensuralBarlines" DENEMO_OVERRIDE_AFFIX)
+		(d-PushPosition)
 		; Surround all Staffs with a StaffGroup, which draws the barlines between the staffs. 
-		(d-DirectivePut-movementcontrol-postfix "MensuralBarlines" "\\score { \\new StaffGroup   \n")
-		(d-DirectivePut-movementcontrol-override "MensuralBarlines" DENEMO_OVERRIDE_LILYPOND)			
-	)
-)
+		(while (d-StaffUp))
+		(d-GroupStaffStart)
+		(while (d-StaffDown))
+		(d-GroupStaffEnd)
+		(d-PopPosition)))
+ (d-SetSaved #f)

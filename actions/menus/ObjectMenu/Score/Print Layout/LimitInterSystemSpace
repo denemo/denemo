@@ -19,9 +19,9 @@ page-limit-inter-system-space-factor = " value)))
 	(if (d-Directive-paper? "LimitInterSystemSpace")
 		(begin
 			(d-DirectiveDelete-paper "LimitInterSystemSpace")
-			(d-InfoDialog "Limit on space between systems removed"))
+			(d-InfoDialog (_ "Limit on space between systems removed")))
 		(let ((value
-		(d-GetUserInput "Spacing Between Systems" "Give spacing limit (1=no extra space)" "1.2")))
+		(d-GetUserInput (_ "Spacing Between Systems") (_ "Give spacing limit (1=no extra space)") "1.2")))
 		(disp "value is " value "\n")
 		(if (and (string? value) (string-&gt;number value))
 		 (LimitInterSystemSpace::set  value)))))		

@@ -1,2 +1,2 @@
 ;;;Chapter
-         (MovementBookTitles::Do "Chapter" "chapter" "My Heading"  "Give heading or blank out to delete: ")
+         (MovementBookTitles::Do "Chapter" "chapter" "My Heading"  (_ "Give heading or blank out to delete: "))

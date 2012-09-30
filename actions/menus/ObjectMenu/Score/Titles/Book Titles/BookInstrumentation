@@ -8,7 +8,7 @@
         <after>BookComposer</after>
         <action>BookInstrumentation</action>
         <scheme>;;BookInstrumentation
-        (BookTitles::Do "Instrumentation" "instrumentation" "Full Score"  "Give instrumentation for the default layout or blank out to delete: ")
+        (BookTitles::Do "Instrumentation" "instrumentation" "Full Score"  (_ "Give instrumentation for the default layout or blank out to delete: "))
 </scheme>
         <label>Instrumentation</label>
         <tooltip>Prints the instrumentation on the title page. This can be edited for layouts that print just one part or section.</tooltip>

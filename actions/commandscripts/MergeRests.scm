@@ -2,11 +2,11 @@
 (if (d-Directive-score? "MergeRests")
 	(begin
 		(if (not MergeRests::params)
-			(d-InfoDialog "Turning off merging of rests, use Merge Rests command to turn it on"))
+			(d-InfoDialog (_ "Turning off merging of rests, use Merge Rests command to turn it on")))
 		(d-DirectiveDelete-score "MergeRests")
 		(d-DirectiveDelete-layout "MergeRests"))
 	(begin
-		(d-DirectivePut-score-display "MergeRests" "Merge Rests")
+		(d-DirectivePut-score-display "MergeRests" (_ "Merge Rests"))
 		(d-DirectivePut-score-prefix "MergeRests" "
 #(define (rest-score r)
   (let ((score 0)

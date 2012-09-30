@@ -17,7 +17,7 @@
 			   (else
 			   	(d-RemoveDot)
 			   	(d-RemoveDot)))
-		(d-InfoDialog "Cursor must be on a chord/note/rest")))
+		(d-InfoDialog (_ "Cursor must be on a chord/note/rest"))))
 </scheme>
         <label>Dot</label>
         <tooltip>Adds a dot to the note/rest/chord at the cursor, or removes them if double dotted.</tooltip>

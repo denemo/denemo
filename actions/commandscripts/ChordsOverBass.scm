@@ -211,7 +211,7 @@
 	
 	(define (checkForContent)
 	  (if (not (None?))
-	      (if  (equal? "y" (d-GetUserInput"Non Empty Chords staff" "Remove the previous transcription from this measure on?" "y"))
+	      (if  (equal? (_ "y") (d-GetUserInput (_ "Non Empty Chords staff") (_ "Remove the previous transcription from this measure on?") (_ "y")))
 		   (deleteToEnd)
 		   (set! ChordsOverBass::active #f)))
 	  (d-MoveToStaffDown))

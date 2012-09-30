@@ -1,7 +1,7 @@
 ;;;InitialVoiceThree
 (let ((tag "InitialVoice") (move-right #f))
 (d-PushPosition)
-(d-DirectivePut-voice-display tag "Voice Three")
+(d-DirectivePut-voice-display tag (_ "Voice Three"))
 (d-DirectivePut-voice-postfix tag "\\voiceThree")
 (d-DirectivePut-voice-override tag DENEMO_OVERRIDE_GRAPHIC)
 (d-MoveToBeginning)

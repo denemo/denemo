@@ -13,7 +13,7 @@
     	(begin
      	 (d-SetSaved #f)
      	 (d-DirectivePut-score-postfix "HideBarlines" "\\override Score.BarLine #'stencil = ##f")
-     	 (d-DirectivePut-score-display "HideBarlines" "Hide Barlines")))
+     	 (d-DirectivePut-score-display "HideBarlines" (_ "Hide Barlines"))))
   </scheme>
         <label>(Print) Hide Barlines</label>
         <tooltip>Omits barlines when printing.</tooltip>

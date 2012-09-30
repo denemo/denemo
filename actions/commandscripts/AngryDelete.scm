@@ -4,7 +4,7 @@
       (note 0)
       (velocity 0)
       (loop 0))
-     (d-InputFilterNames "Angry Delete MIDI Filter")
+     (d-InputFilterNames (_ "Angry Delete MIDI Filter"))
      (d-SetMidiCapture #t)
      (set! loop  (lambda ()
 		(begin		  

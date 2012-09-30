@@ -10,7 +10,7 @@
                                      }"
 				     )
          (d-DirectivePut-score-override  "HideEmptyStaffs" DENEMO_OVERRIDE_GRAPHIC)
-	(d-DirectivePut-score-display  "HideEmptyStaffs" "Hide Empty Staffs"))
+	(d-DirectivePut-score-display  "HideEmptyStaffs" (_ "Hide Empty Staffs")))
       (d-DirectiveDelete-score "HideEmptyStaffs"))
   (d-RefreshDisplay))
 

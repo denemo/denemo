@@ -6,7 +6,7 @@
   (define EndTick #f)
   ;Upbeat is only for underful measures
   (define (warning)
-   (Help::TimedNotice "Upbeat/Short Measure can only be used in an underful, non-empty measures")   
+   (Help::TimedNotice (_ "Upbeat/Short Measure can only be used in an underful, non-empty measures"))   
    #f)
  
  ; Define Upbeat-Directive Subprogram
@@ -44,18 +44,18 @@
    	(d-DirectiveDelete-standalone upbeat))
    	
   (if (d-DirectiveGet-standalone-display upbeat); if upbeat is present
-   		(let ( (choice (d-GetOption  (string-append "Help" stop "Re-calculate" stop "Delete" stop "Advanced" stop))))
+   		(let ( (choice (d-GetOption  (string-append (_ "Help") stop (_ "Re-calculate") stop (_ "Delete") stop (_ "Advanced") stop))))
    		 (cond
     			 ((boolean? choice)
-    			 	 (d-WarningDialog "Operation cancelled"))
-    			 ((equal? choice "Help")      				
-      				(d-InfoDialog "This object fills up the duration of this measure, so that the notes in the measure form an upbeat. It needs to be renewed if you change the duration of the notes in the measure - use Re-calculate for this, or simply delete it and re-run the Upbeat command,"))
-      			((equal? choice "Re-calculate")
+    			 	 (d-WarningDialog (_ "Operation cancelled")))
+    			 ((equal? choice (_ "Help"))      				
+      				(d-InfoDialog (_ "This object fills up the duration of this measure, so that the notes in the measure form an upbeat. It needs to be renewed if you change the duration of the notes in the measure - use Re-calculate for this, or simply delete it and re-run the Upbeat command,")))
+      			((equal? choice (_ "Re-calculate"))
       				(d-DirectiveDelete-standalone upbeat)
       				(ComputeAndCreate))		
-			 ((equal? choice "Delete")
+			 ((equal? choice (_ "Delete"))
 	 			(d-DeleteObject))
-	 		((equal? choice "Advanced")
+	 		((equal? choice (_ "Advanced"))
 	 			(if (not (d-DirectiveTextEdit-standalone upbeat))
 	 				(d-DirectiveDelete-standalone upbeat))
 	 			)))

@@ -3,4 +3,4 @@
 	(begin
 		(FollowLink)
 		(d-MoveCursorRight))
-	(d-WarningDialog "There is no link here, open the source document and click on it to place one."))
+	(d-WarningDialog (_ "There is no link here, open the source document and click on it to place one.")))

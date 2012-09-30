@@ -12,7 +12,7 @@
 		(if (d-NextChord)
 		  (loop))
 		(begin
-		  (d-InfoDialog "Tied notes not the same")
+		  (d-InfoDialog (_ "Tied notes not the same"))
 		  (set! ok #f))))
 	    (begin
 	      (d-InfoDialog "No note to tie to")

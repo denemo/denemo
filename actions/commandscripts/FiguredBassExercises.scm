@@ -1,7 +1,7 @@
 ;;;FiguredBassExercises
  (define (FiguredBassExercises::help)
    (d-InfoDialog 
-  "The music below is the first of Handel's exercises for figured bass. The staff marked \"Chords\" at the top is a sample (inadequate) realization of the figures.
+  (_ "The music below is the first of Handel's exercises for figured bass. The staff marked \"Chords\" at the top is a sample (inadequate) realization of the figures.
  When you click Start you will be asked if you want to delete this version, and when you say yes you can start creating your own.
  The screen becomes green to remind you that your MIDI controller is now expecting you to play the ticked bass note plus chord.
  The bass note expected is marked with a tick, play this note plus the chord notes. You can hold down the bass note and change chords over the same bass note.
@@ -12,7 +12,7 @@ Putting pedal down before the bass note will tie the last chord to the one you e
 You can also use the sustain pedal  to place a chord on a rest before a bass note (depress the pedal before striking the bass note).
  You can click Start a second time to stop, and you can re-start from any bar you like.
  You can edit, playback etc while working, but don't remove or add staffs. You can also use the pitch bend wheel to stop entering chords.
-  " 
+  ") 
   ))
   
 (if (d-OpenExample "HandelFiguredBassExercises.denemo")
@@ -27,4 +27,4 @@ You can also use the sustain pedal  to place a chord on a rest before a bass not
 	(d-SetDirectiveTagActionScript "Next" "(if (not (d-NextMovement)) (d-InfoDialog \"This is the last one\"))")
 	(CreateButton "Prev" "<span font_desc=\"22\">Previous Exercise</span>")
 	(d-SetDirectiveTagActionScript "Prev" "(if (not (d-PreviousMovement)) (d-InfoDialog \"This is the first one\"))"))
-		(d-WarningDialog "You have unsaved work"))
+		(d-WarningDialog (_ "You have unsaved work")))

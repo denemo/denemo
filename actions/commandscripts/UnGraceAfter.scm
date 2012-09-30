@@ -26,4 +26,4 @@
        (d-SetSaved #f))
     (begin
       (d-PopPosition)
-      (d-WarningDialog  "The cursor is not on a grace note after a main note or chord\n")))
+      (d-WarningDialog  (_ "The cursor is not on a grace note after a main note or chord\n"))))

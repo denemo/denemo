@@ -17,7 +17,7 @@
 	(begin
 		(if (not (equal? TupletScaleFactor 1)) 
 			(begin
-				(d-InfoDialog "There are unclosed tuplets in this bar.\n Please fix.")
+				(d-InfoDialog (_ "There are unclosed tuplets in this bar.\n Please fix - see CheckTuplets command."))
 				#f	;terminate
 			)
 		)
@@ -310,10 +310,10 @@
 						(if (equal? (remainder 256 (denominator (/ Excess TupletScaleFactor))) 0)  ;if we don't have to start a tuplet, we're good.
 							(begin
 								;query the user: should we split the note, or let him/her do it?				
-								(if (not SplitAll) (set! Inquiry (d-GetOption (string-append "Split This Note" stop "Split All" stop "Stop Here" stop))) )
+								(if (not SplitAll) (set! Inquiry (d-GetOption (string-append (_ "Split This Note") stop (_ "Split All") stop (_ "Stop Here") stop))) )
 								;need to stop if we hit cancel
-								(if (equal? Inquiry "Split All") (set! SplitAll #t))
-								(if (or SplitAll (equal? Inquiry "Split This Note") (equal? Inquiry "Split All")) 
+								(if (equal? Inquiry (_ "Split All")) (set! SplitAll #t))
+								(if (or SplitAll (equal? Inquiry (_ "Split This Note")) (equal? Inquiry (_ "Split All"))) 
 									(begin	;we're going to split across the barline and march on.
 										(set! LeftOver (- (GetNoteBeat) Excess)) ;duration that stays in left measure.		
 										(if (d-NextObjectInMeasure) ;if there're more stuff after the current stuff, chop it off to deal with it next bar
@@ -342,7 +342,7 @@
 								)
 							)
 							(begin
-								(d-InfoDialog "This measure's discrepancy requires a tuplet.\nPlease adjust manually and run this script again.")
+								(d-InfoDialog (_ "This measure's discrepancy requires a tuplet.\nPlease adjust manually and run this script again."))
 								#f	;return false
 							)
 						)					
@@ -363,19 +363,19 @@
 	 (set! ReBar::return (AuditThisStaff (string->number (d-InsertTimeSig "query=timesigname")) #f #f #f))
     )
     (let ((Pad #f) (Blank #f)(MergeAndSplit #f))
-	(set! Input1 (d-GetOption (string-append "Search for under/overfull bars" stop 
-				"Pad underfull bars with rests" stop "Pad underfull bars with blank rests"  stop
-				"Rebar-Merge underfull, split overfull bars" stop)))
-	(set! Blank (equal? Input1 "Pad underfull bars with blank rests"))
-	(set! Pad (or (equal? Input1 "Pad underfull bars with rests")(equal? Input1 "Pad underfull bars with blank rests" )))
-	(set! MergeAndSplit (equal? Input1 "Rebar-Merge underfull, split overfull bars"))
-	(if Input1 (set! Input2  (d-GetOption (string-append  "Entire Staff" stop "This Point Onwards"  stop "Entire Movement" stop ))) )
+	(set! Input1 (d-GetOption (string-append (_ "Search for under/overfull bars") stop 
+				(_ "Pad underfull bars with rests" stop "Pad underfull bars with blank rests")  stop
+				(_ "Rebar-Merge underfull, split overfull bars") stop)))
+	(set! Blank (equal? Input1 (_ "Pad underfull bars with blank rests")))
+	(set! Pad (or (equal? Input1 (_ "Pad underfull bars with rests"))(equal? Input1 (_ "Pad underfull bars with blank rests") )))
+	(set! MergeAndSplit (equal? Input1 (_ "Rebar-Merge underfull, split overfull bars")))
+	(if Input1 (set! Input2  (d-GetOption (string-append  (_ "Entire Staff") stop (_ "This Point Onwards")  stop (_ "Entire Movement") stop ))) )
 	(if (and Input1 Input2)  ;don't go if user cancelled
 		(begin
-			(if (equal? Input2 "Entire Movement") (set! ScanAllStaffs #t))
+			(if (equal? Input2 (_ "Entire Movement")) (set! ScanAllStaffs #t))
 			(d-PushPosition)	;let's try to return cursor to here when done.
 			(if ScanAllStaffs (while (d-MoveToStaffUp)))	;Start at top staff, top voice
-			(if (not (equal? Input2 "This Point Onwards")) (d-MoveToBeginning))
+			(if (not (equal? Input2 (_ "This Point Onwards"))) (d-MoveToBeginning))
 			(set! InitialTimeSig (d-InsertTimeSig "query=timesigname"))
 			(set! InitialTimeSig (string->number InitialTimeSig))
 			(let ((AllOK #t))

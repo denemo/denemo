@@ -1,7 +1,7 @@
 ;;;TaglineLink
  (let ((tag "TaglineLink"))
- (define link (d-GetUserInput "Tagline with Link" "Give URL to link to" "http://www.denemo.org"))
- (define text (d-GetUserInput "Tagline with Link" "Give text for tagline" "Source file at http://denemo.org"))
+ (define link (d-GetUserInput (_ "Tagline with Link") (_ "Give URL to link to") "http://www.denemo.org"))
+ (define text (d-GetUserInput (_ "Tagline with Link") "(_ "Give text for tagline") (_ "Source file at http://denemo.org")))
  (if link
  	(begin
 		 (if (not text) 

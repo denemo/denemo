@@ -12,8 +12,8 @@
 	(if (not status)
 		(begin
 			(d-SetNewbie #t)
-			(d-InfoDialog "Newbie status is now on - re-start Denemo to see extra tooltips"))
-			(d-InfoDialog "Newbie status is now off - re-start Denemo to avoid excessive tooltips.\nNote you can also increase the time before the remaining ones appear via the Preferences")))</scheme>
+			(d-InfoDialog (_ "Newbie status is now on - re-start Denemo to see extra tooltips")))
+			(d-InfoDialog (_ "Newbie status is now off - re-start Denemo to avoid excessive tooltips.\nNote you can also increase the time before the remaining ones appear via the Preferences"))))</scheme>
         <label>Turn Excessive Tooltips (Off/On)</label>
         <tooltip>Sets your status as a newbie on or off. This affects the tooltips.
 	Note you can also independently delay tooltips, indefinitely if you wish, via the preferences dialog. See Edit-&gt;Change Preferences-&gt;Command Behavior</tooltip>

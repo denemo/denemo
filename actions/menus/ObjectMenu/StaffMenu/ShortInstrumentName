@@ -18,7 +18,7 @@
 	(if (regexp-match? thematch)
 	    (set! current (match:substring thematch 1))
 	    (set! current "Vln"))))
-  (set! current (d-GetUserInput "ShortInstrumentName" "Give Short Instrument Name:" current))
+  (set! current (d-GetUserInput (_ "Short Instrument Name") (_ "Give Short Instrument Name:") current))
   (if current
   	(begin 
   		(d-DirectivePut-staff-display "ShortInstrumentName" current)

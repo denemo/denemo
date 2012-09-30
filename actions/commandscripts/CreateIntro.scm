@@ -27,7 +27,7 @@
 	    (begin
 	      (set! firstmeasure #f);;we will not need to add an initial intro measure, as there will be one already
 	      (if (not (None?))
-		  (if  (equal? "y" (d-GetUserInput"Non Empty Intro staff" "Remove the previous transcription from this measure on?" "y"))
+		  (if  (equal? (_ "y") (d-GetUserInput (_ "Non Empty Intro staff") (_ "Remove the previous transcription from this measure on?") (_ "y")))
 		       (deleteToEnd)
 		       (set! firstmeasure 'abort))))
 	    (begin

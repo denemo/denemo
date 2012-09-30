@@ -45,10 +45,10 @@
 	    (d-SetSaved #f))
   	(begin
    	   (d-PopPosition)
-   	   (d-WarningDialog  "The cursor is not on a grace note after a main note or chord\nFirst create the main note, then then follow it with the grace note(s) then invoke this command with the cursor on the grace note"))))
+   	   (d-WarningDialog  (_ "The cursor is not on a grace note after a main note or chord\nFirst create the main note, then then follow it with the grace note(s) then invoke this command with the cursor on the grace note")))))
 	(begin
    	  	 (d-PopPosition)
-   	  	 (d-WarningDialog  "The cursor is not on a grace note after a main note or chord\nFirst create the main note, then then follow it with the grace note(s) then invoke this command with the cursor on the grace note")))</scheme>
+   	  	 (d-WarningDialog  (_ "The cursor is not on a grace note after a main note or chord\nFirst create the main note, then then follow it with the grace note(s) then invoke this command with the cursor on the grace note"))))</scheme>
         <label>Grace After</label>
         <tooltip>Print the grace note(s) at the cursor attached to the previous note. Beware! You must reissue this command if you change the notes in any way, only the pitch and duration when this command was issued will be printed.</tooltip>
       </row>

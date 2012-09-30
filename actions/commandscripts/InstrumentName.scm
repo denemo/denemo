@@ -12,7 +12,7 @@
 		(if (regexp-match? thematch)
 	   	 (set! current (match:substring thematch 1))
 	    	(set! current "myname"))))
- 		 (set! current (d-GetUserInput "InstrumentName" (_ "Give name of instrument/voice/part\nfor current staff:") current))))
+ 		 (set! current (d-GetUserInput (_ "InstrumentName") (_ "Give name of instrument/voice/part\nfor current staff:") current))))
  (if current
  	(begin
   		(d-DirectivePut-staff-display "InstrumentName" current)
@@ -33,5 +33,5 @@
  		 (set! indent (number->string (max (string->number indent) (* size (string-length current)))))
    	 (d-DirectivePut-score-prefix "ScoreIndent" (string-append "\\layout {indent = " indent "}\n"))
   	(d-DirectivePut-score-override "ScoreIndent"	DENEMO_OVERRIDE_GRAPHIC)
- 	 (d-DirectivePut-score-display "ScoreIndent" (string-append "indent=" indent))
+ 	 (d-DirectivePut-score-display "ScoreIndent" (string-append (_ "indent=") indent))
 	 (d-SetSaved #f))))

@@ -1,4 +1,4 @@
 ;;;SetCurrentVoiceAsStaff
 (if
  (not (d-VoiceToStaff))
- (d-WarningDialog "The current staff is not voice"))
+ (d-WarningDialog (_ "The current staff is not voice")))

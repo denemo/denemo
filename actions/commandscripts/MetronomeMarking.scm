@@ -1,6 +1,6 @@
  ;; ;;;;;;;;;;;;MetronomeMarking
  (let ((input "") (len 1) (dotted #f)(duration "4")(bpm 60)(midiBpm 60)(valid #f) )
-(set! input (d-GetUserInput "Metronome Marking" "Give unit beat duration \n(e.g., 4. for dotted-quarter):" "4" ))
+(set! input (d-GetUserInput (_ "Metronome Marking") (_ "Give unit beat duration \n(e.g., 4. for dotted-quarter):") "4" ))
 (set! len (string-length input) )
 (set! dotted (equal? "." (substring input (- len 1) len )) ) ;see if a dot at end
 (if (equal? dotted #t)

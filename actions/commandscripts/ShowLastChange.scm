@@ -1,5 +1,5 @@
 ;;;;ShowLastChange
 (let ((last (d-GetLastChange)))
   (if last
-    (d-InfoDialog (string-append "The last change was:\n" last))
-    (d-InfoDialog "No change recorded in Undo stack")))
+    (d-InfoDialog (string-append (_ "The last change was:\n") last))
+    (d-InfoDialog (_ "No change recorded in Undo stack"))))

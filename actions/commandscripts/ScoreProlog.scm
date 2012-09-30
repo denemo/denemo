@@ -4,10 +4,10 @@
   (if prolog 
       #t
       (set! prolog "%{Insert LilyPond syntax here %}\n"))
-(set! prolog (d-GetUserInput "LilyPond Score Prolog" "Give LilyPond:" prolog))
+(set! prolog (d-GetUserInput (_ "LilyPond Score Prolog") (_ "Give LilyPond:") prolog))
 (if prolog
     (begin
       (d-SetSaved #f)
       (d-DirectivePut-score-prefix "Prolog" prolog)
       (d-DirectivePut-score-display "Prolog" prolog))
-    (d-WarningDialog "Prolog unchanged")))
+    (d-WarningDialog (_ "Prolog unchanged"))))

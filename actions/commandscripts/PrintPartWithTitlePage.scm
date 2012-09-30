@@ -10,5 +10,5 @@
       (d-DirectiveDelete-scoreheader "BookDate"))
   (d-SetSaved saved))
   (begin
-    (d-WarningDialog "No Book Title, see Score->Titles->Book Titles")))
+    (d-WarningDialog (_ "No Book Title, see Score->Titles->Book Titles"))))
   

@@ -15,9 +15,9 @@
 	(let ((dotted #f)(defaultBPM "60") (len 1)(duration 1)(bpm 60))
 		
 		;if BaseBeat is not specified, must query the user as to what should be the first beat unit:
-		(if (equal? "" BaseBeat)  (set! BaseBeat (d-GetUserInput "Metronome Marking" "Give unit beat duration (e.g., 4. for dotted-quarter) \n or enter n for none:" "4" )))
+		(if (equal? "" BaseBeat)  (set! BaseBeat (d-GetUserInput (_ "Metronome Marking") (_ "Give unit beat duration (e.g., 4. for dotted-quarter) \n or enter n for none:") "4" )))
 		
-		(if (or (equal? BaseBeat "n" ) (equal? #f BaseBeat))
+		(if (or (equal? BaseBeat (_ "n") ) (equal? #f BaseBeat))
 		
 			;if user doesn't want to use BPM.
 			(set! ValidBPM? #f)	
@@ -31,7 +31,7 @@
 					(set! duration BaseBeat)  
 				)			
 				
-				(set! bpm (d-GetUserInput "Metronome Marking"  (string-append "Give number of these " BaseBeat " beats per minute:") defaultBPM ) )
+				(set! bpm (d-GetUserInput (_ "Metronome Marking")  (string-append (_ "Give number of these ") BaseBeat (_ " beats per minute:")) defaultBPM ) )
 				
 				
 				(set! ValidBPM?   (not (equal? (and (string-&gt;number duration) (string-&gt;number bpm) ) #f)))  ;don't go unless both are numbers.
@@ -53,10 +53,10 @@
 	;Begin of main function
 	
 	;Input from the user what kind of beat change they want:
-	(set! Input (d-GetUserInput "Beat Change" 
-		(string-append "Enter beat change as [beat1]=[beat2] with the beats in Lilypond syntax,"
-		"\ni.e. 4 for quarter, 4. for dotted quarter, etc."
-		"\nPlace immediately after a barline to center the beat change  over the barline.")
+	(set! Input (d-GetUserInput (_ "Beat Change") 
+		(string-append (_ "Enter beat change as [beat1]=[beat2] with the beats in Lilypond syntax,")
+		(_ "\ni.e. 4 for quarter, 4. for dotted quarter, etc.")
+		(_ "\nPlace immediately after a barline to center the beat change  over the barline."))
 	 "4=4."))
 	 
 	;remove spaces from Input:		

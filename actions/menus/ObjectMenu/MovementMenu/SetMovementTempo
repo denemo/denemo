@@ -9,7 +9,7 @@
         <action>SetMovementTempo</action>
         <scheme>;;;SetMovementTempo
 (define MovementTempo:value (number-&gt;string (d-MovementTempo)))
-(set! MovementTempo:value (d-GetUserInput "Tempo of Movement" "Give quarter notes per minute:" MovementTempo:value))
+(set! MovementTempo:value (d-GetUserInput (_ "Tempo of Movement") (_ "Give quarter notes per minute:") MovementTempo:value))
 (set!  MovementTempo:value (number-&gt;string (d-MovementTempo MovementTempo:value)))
 (d-RefreshDisplay)
 </scheme>

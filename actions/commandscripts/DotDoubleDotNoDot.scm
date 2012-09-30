@@ -8,4 +8,4 @@
 			   (else
 			   	(d-RemoveDot)
 			   	(d-RemoveDot)))
-		(d-InfoDialog "Cursor must be on a chord/note/rest")))
+		(d-InfoDialog (_ "Cursor must be on a chord/note/rest"))))

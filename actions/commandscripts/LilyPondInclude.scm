@@ -11,7 +11,7 @@
   (if include
       (setinclude include)
     (begin   
-      (set! include (d-GetUserInput "Include LilyPond File" "Give LilyPond file name:" "book-titling.ily"));;;FIXME get list of possible files
+      (set! include (d-GetUserInput (_ "Include LilyPond File") (_ "Give LilyPond file name:") "book-titling.ily"));;;FIXME get list of possible files
       (if include
 	(setinclude include)
-	(d-WarningDialog "LilyPondInclude unchanged")))))
+	(d-WarningDialog (_ "LilyPondInclude unchanged"))))))

@@ -4,5 +4,5 @@
     	(begin
      	 (d-SetSaved #f)
      	 (d-DirectivePut-score-postfix "HideBarlines" "\\override Score.BarLine #'stencil = ##f")
-     	 (d-DirectivePut-score-display "HideBarlines" "Hide Barlines")))
+     	 (d-DirectivePut-score-display "HideBarlines" (_ "Hide Barlines"))))
   

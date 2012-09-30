@@ -3,4 +3,4 @@
 	(d-New))
 (if (d-OpenMyTemplate "Default.denemo")
 		(d-SetSaved #t)
-		(d-WarningDialog "Failed to open Default.denemo in your custom templates directory\nHave you saved a template called Default yet?"))
+		(d-WarningDialog (_ "Failed to open Default.denemo in your custom templates directory\nHave you saved a template called Default yet?")))

@@ -61,7 +61,7 @@
     (if start
       (set! start (- (d-GetMidiOnTime) 0.0001))
       (set! start 0.0));;;FIXME warn or seek next note
-    (d-InputFilterNames "Checking Chords Filter")
+    (d-InputFilterNames (_ "Checking Chords Filter"))
 
     (d-SetBackground #xD0E0E0)
     (d-RewindMidi start)
@@ -92,7 +92,7 @@
 		      (nextnote)
 		      ))))))))
     
-(d-InputFilterNames "No active MIDI Filter")
+(d-InputFilterNames (_ "No active MIDI Filter"))
 (set! ToggleCheckChords::Active #f)
 (d-PutMidi 0);;; to swallow up the last d-GetMidi??
 (d-SetMidiCapture #f)	

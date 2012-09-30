@@ -5,8 +5,8 @@
 (let ((tag "TableOfContents") (title "Contents") (pb 3) (mc  " \\markuplines \\table-of-contents\n"))
 (if (d-Directive-paper? tag)
 	(set! title (d-DirectiveGet-paper-display tag)))
-(set! title (d-GetUserInput "Table of Contents Title" "Give title for the table of contents\nBlank to delete" title))
-(set! pb (d-GetUserInput "Table of Contents Page Break Control" "Give 0 - No page breaks\n1 - Page Break before Table of Contents\n2 - Page Break after\n3 - Both" pb))
+(set! title (d-GetUserInput (_ "Table of Contents Title") (_ "Give title for the table of contents\nBlank to delete") title))
+(set! pb (d-GetUserInput (_ "Table of Contents Page Break Control") (_ "Give 0 - No page breaks\n1 - Page Break before Table of Contents\n2 - Page Break after\n3 - Both") pb))
 
 (if pb
 	(cond ((equal? pb "1")

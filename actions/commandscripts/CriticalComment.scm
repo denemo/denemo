@@ -2,7 +2,7 @@
 (let ((tag  "CriticalComment") (lilypond ""))
 (define current (d-DirectiveGet-standalone-display tag))
 (define position (GetPosition))
-(let script ((answer (d-GetUserInputWithSnippets "Critical Comment" "Give Comment" (if current current "")  #f )))
+(let script ((answer (d-GetUserInputWithSnippets (_ "Critical Comment") (_ "Give Comment") (if current current "")  #f )))
 	(set! lilypond (cdr answer))
 	(set! answer (car answer))
 	(if (not (PositionEqual? position (GetPosition)))

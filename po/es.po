@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: denemo 0.7.3beta1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-25 10:44+0100\n"
+"POT-Creation-Date: 2012-09-30 16:39+0100\n"
 "PO-Revision-Date: 2005-02-11 23:18+0000\n"
 "Last-Translator:  <adam@ajtee.plus.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -155,6 +155,69 @@ msgstr ""
 
 #: src/clefdialog.c:137
 msgid "Select desired clef"
+msgstr ""
+
+#: src/commandfuncs.c:447
+#, c-format
+msgid "This movement is now number %d in the score"
+msgstr ""
+
+#: src/commandfuncs.c:452
+msgid "There is no previous movement to swap with"
+msgstr ""
+
+#: src/commandfuncs.c:474
+msgid "A context is set on this staff"
+msgstr ""
+
+#: src/commandfuncs.c:474
+msgid ""
+"You will need to alter the staff->properties->context of this and the "
+"previous staff; Proceed?"
+msgstr ""
+
+#: src/commandfuncs.c:489
+msgid "Split off voices from this staff first"
+msgstr ""
+
+#: src/commandfuncs.c:492
+msgid "There is no previous staff to swap with"
+msgstr ""
+
+#: src/commandfuncs.c:513
+msgid "There is no voice below this one on this staff"
+msgstr ""
+
+#: src/commandfuncs.c:522
+msgid "There is no voice below this one to split from"
+msgstr ""
+
+#: src/commandfuncs.c:550
+msgid "There is no staff above to move this staff into"
+msgstr ""
+
+#: src/commandfuncs.c:583
+msgid "This is the first voice"
+msgstr ""
+
+#: src/commandfuncs.c:621
+msgid "This is the first staff"
+msgstr ""
+
+#: src/commandfuncs.c:655
+msgid "This is the last voice"
+msgstr ""
+
+#: src/commandfuncs.c:725
+msgid "This is the last staff"
+msgstr ""
+
+#: src/commandfuncs.c:2084
+msgid "This LilyPond insert is locked"
+msgstr ""
+
+#: src/commandfuncs.c:2084
+msgid "Really delete it?"
 msgstr ""
 
 #: src/commands.c:9 src/commands.c:11
@@ -970,6 +1033,7 @@ msgid "Print Instrument name before staff at start of score,"
 msgstr ""
 
 #: src/commands.c:792 src/commands.c:795
+#: actions/commandscripts/ShortInstrumentName.scm:12
 #, no-c-format
 msgid "Short Instrument Name"
 msgstr ""
@@ -1026,6 +1090,7 @@ msgstr ""
 #: src/commands.c:851 src/commands.c:854 src/commands.c:2063
 #: src/commands.c:2065 src/commands.c:2118 src/commands.c:2121
 #: src/entries.h:403 src/scorelayout.c:435
+#: actions/commandscripts/Upbeat.scm:47 actions/commandscripts/Upbeat.scm:56
 #, no-c-format
 msgid "Delete"
 msgstr ""
@@ -1573,7 +1638,7 @@ msgstr ""
 msgid "Change the Program of the current channel/staff"
 msgstr ""
 
-#: src/commands.c:1462 src/commands.c:1465 src/view.c:9226
+#: src/commands.c:1462 src/commands.c:1465 src/view.c:9229
 #, no-c-format
 msgid "Volume"
 msgstr ""
@@ -2775,6 +2840,7 @@ msgid "Sets Prevailing Duration to Breve"
 msgstr ""
 
 #: src/commands.c:2900 src/commands.c:2903
+#: actions/commandscripts/ScoreProlog.scm:7
 #, no-c-format
 msgid "LilyPond Score Prolog"
 msgstr ""
@@ -4155,6 +4221,7 @@ msgid "Checks for wrongly tied notes in the current voice/staff."
 msgstr ""
 
 #: src/commands.c:4444 src/commands.c:4447
+#: actions/commandscripts/MergeRests.scm:9
 #, no-c-format
 msgid "Merge Rests"
 msgstr ""
@@ -4632,6 +4699,7 @@ msgid "Prints a piece name for the Movement"
 msgstr ""
 
 #: src/commands.c:4986 src/commands.c:4989
+#: actions/commandscripts/TocTitle.scm:8
 #, no-c-format
 msgid "Table of Contents Title"
 msgstr ""
@@ -4672,6 +4740,7 @@ msgid ""
 msgstr ""
 
 #: src/commands.c:5021 src/commands.c:5024
+#: actions/commandscripts/CriticalComment.scm:5
 #, no-c-format
 msgid "Critical Comment"
 msgstr ""
@@ -4801,6 +4870,8 @@ msgid "Prints the top two staffs on a single staff as cue."
 msgstr ""
 
 #: src/commands.c:5165 src/commands.c:5168
+#: actions/commandscripts/TaglineLink.scm:3
+#: actions/commandscripts/TaglineLink.scm:4
 #, no-c-format
 msgid "Tagline with Link"
 msgstr ""
@@ -6758,7 +6829,7 @@ msgstr ""
 msgid "Different keyboard and MIDI entry modes"
 msgstr ""
 
-#: src/entries.h:206 src/entries.h:366 src/scorelayout.c:549 src/view.c:8728
+#: src/entries.h:206 src/entries.h:366 src/scorelayout.c:549 src/view.c:8731
 msgid "Edit"
 msgstr ""
 
@@ -6816,7 +6887,8 @@ msgid ""
 "Any piece of continuous music."
 msgstr ""
 
-#: src/entries.h:211
+#: src/entries.h:211 actions/commandscripts/Upbeat.scm:47
+#: actions/commandscripts/Upbeat.scm:51
 msgid "Help"
 msgstr ""
 
@@ -7082,7 +7154,8 @@ msgstr ""
 msgid "Export the score as a MIDI file"
 msgstr ""
 
-#: src/entries.h:244 src/entries.h:250 src/register_commands.h:235
+#: src/entries.h:244 src/entries.h:250 src/print.c:2093
+#: src/register_commands.h:235
 msgid "Print"
 msgstr ""
 
@@ -7270,7 +7343,7 @@ msgstr ""
 msgid "Set actions to take in response to keypresses"
 msgstr ""
 
-#: src/entries.h:266 src/register_commands.h:248
+#: src/entries.h:266 src/register_commands.h:248 src/view.c:7878
 msgid "Save Command Set"
 msgstr ""
 
@@ -7429,7 +7502,7 @@ msgstr ""
 msgid "InsertMenu"
 msgstr ""
 
-#: src/entries.h:285 src/entries.h:347 src/entries.h:382 src/view.c:8726
+#: src/entries.h:285 src/entries.h:347 src/entries.h:382 src/view.c:8729
 msgid "Insert"
 msgstr ""
 
@@ -7815,7 +7888,10 @@ msgstr ""
 msgid "Gives the version number etc of this program"
 msgstr ""
 
-#: src/entries.h:332
+#: src/entries.h:332 actions/commandscripts/DynamicsDialog.scm:10
+#: actions/commandscripts/DynamicsDialog.scm:14
+#: actions/commandscripts/DynamicsDialog.scm:26
+#: actions/commandscripts/DynamicsDialog.scm:35
 msgid "More"
 msgstr ""
 
@@ -8025,7 +8101,7 @@ msgid ""
 "Grace Notes"
 msgstr ""
 
-#: src/entries.h:355 src/view.c:8700
+#: src/entries.h:355 src/view.c:8703
 msgid "Score"
 msgstr ""
 
@@ -8086,7 +8162,7 @@ msgid ""
 "Inserting the note ..."
 msgstr ""
 
-#: src/entries.h:361 src/view.c:8694
+#: src/entries.h:361 src/view.c:8697
 msgid "Lyrics"
 msgstr ""
 
@@ -8629,7 +8705,7 @@ msgstr ""
 msgid "A file with the name %s already exists"
 msgstr ""
 
-#: src/file.c:1111
+#: src/file.c:1111 src/view.c:7324
 msgid "Do you want to replace it?"
 msgstr ""
 
@@ -8768,6 +8844,24 @@ msgstr ""
 
 #: src/kbd-interface.c:383
 msgid "Load a Custom Command Set"
+msgstr ""
+
+#: src/keyboard.c:136
+msgid ""
+"Menu:\n"
+"named \""
+msgstr ""
+
+#: src/keyboard.c:136
+msgid "\" located at "
+msgstr ""
+
+#: src/keyboard.c:136
+msgid " in the menu system"
+msgstr ""
+
+#: src/keyboard.c:258
+msgid "No indication what this done beyond the name and label :("
 msgstr ""
 
 #: src/keyboard.c:754
@@ -8944,7 +9038,7 @@ msgstr ""
 msgid "Play from time"
 msgstr ""
 
-#: src/playback.c:133 src/print.c:639
+#: src/playback.c:133 src/print.c:630
 msgid "to"
 msgstr ""
 
@@ -8952,211 +9046,201 @@ msgstr ""
 msgid "Playback properties"
 msgstr ""
 
-#: src/prefdialog.c:404
+#: src/prefdialog.c:406
 msgid "Preferences - Denemo"
 msgstr ""
 
-#: src/prefdialog.c:536
-#, no-c-format
-msgid "% Zoom"
-msgstr ""
-
-#: src/prefdialog.c:538
-#, no-c-format
-msgid "% of display height per system"
-msgstr ""
-
-#: src/prefdialog.c:585
-msgid "Playback Display Refresh"
-msgstr ""
-
-#: src/prefdialog.c:586
-msgid "Page Turn Steps"
-msgstr ""
-
-#: src/prefdialog.c:588
-msgid "Tooltip timeout in ms. (0 to use system preference)"
-msgstr ""
-
-#: src/prefdialog.c:589
-msgid "Tooltip browse timeout in ms"
-msgstr ""
-
-#: src/prefdialog.c:590
-msgid "Tooltip browse mode timeout in ms"
-msgstr ""
-
-#: src/prefdialog.c:592
-msgid "Excerpt Resolution"
-msgstr ""
-
-#: src/prefdialog.c:594
-msgid "Max recent files"
-msgstr ""
-
-#: src/prefdialog.c:601
-msgid "Autosave every"
-msgstr ""
-
-#: src/prefdialog.c:612
+#: src/prefdialog.c:616
 msgid "minute(s)"
 msgstr ""
 
-#: src/prefdialog.c:624
-msgid "Pitch Spelling Channel"
-msgstr ""
-
-#: src/prefdialog.c:625
-msgid "Pitch Spelling Program"
-msgstr ""
-
-#: src/prefdialog.c:629
-msgid "% MIDI-in Dynamic Compression"
-msgstr ""
-
-#: src/prefdialog.c:680
-msgid "Sample rate"
-msgstr ""
-
-#: src/prefdialog.c:681
-msgid "Period size"
-msgstr ""
-
-#: src/prefdialog.c:757
+#: src/prefdialog.c:761
 msgid "Choose Soundfont"
 msgstr ""
 
-#: src/print.c:129
+#: src/print.c:132
 #, c-format
 msgid "Could not find %s"
 msgstr ""
 
-#: src/print.c:132
+#: src/print.c:135
 msgid "Please edit lilypond path in the preferences."
 msgstr ""
 
-#: src/print.c:615
+#: src/print.c:606
 msgid "Print Excerpt Range"
 msgstr ""
 
-#: src/print.c:630
+#: src/print.c:621
 msgid "Print from Measure"
 msgstr ""
 
-#: src/print.c:1068
+#: src/print.c:1054
 msgid "Possibly Invalid"
 msgstr ""
 
-#: src/print.c:1069
+#: src/print.c:1055
 msgid "Cursor not moved."
 msgstr ""
 
-#: src/print.c:1072
+#: src/print.c:1058
 msgid "Check Score."
 msgstr ""
 
-#: src/print.c:1073
+#: src/print.c:1059
 msgid "Cursor may have moved to error point in the score."
 msgstr ""
 
-#: src/print.c:1094 src/print.c:2015
+#: src/print.c:1062
+msgid "INVALID!"
+msgstr ""
+
+#: src/print.c:1063
+msgid "LilyPond could not typeset this score."
+msgstr ""
+
+#: src/print.c:1084 src/print.c:2029
 msgid "Current Movement"
 msgstr ""
 
-#: src/print.c:1096
+#: src/print.c:1086
 msgid "Excerpt Only"
 msgstr ""
 
-#: src/print.c:1298
+#: src/print.c:1280
 msgid "No selection to print"
 msgstr ""
 
-#: src/print.c:1913
+#: src/print.c:1893
 msgid "Manual Updates"
 msgstr ""
 
-#: src/print.c:1914
+#: src/print.c:1894
 msgid "Continuous"
 msgstr ""
 
-#: src/print.c:1974
+#: src/print.c:1981
 msgid "Measures before cursor:"
 msgstr ""
 
-#: src/print.c:1983
+#: src/print.c:1990
 msgid "Measures after cursor:"
 msgstr ""
 
-#: src/print.c:1994
+#: src/print.c:2001
 msgid "Staffs before cursor:"
 msgstr ""
 
-#: src/print.c:2002
+#: src/print.c:2009
 msgid "Staffs after cursor:"
 msgstr ""
 
-#: src/print.c:2017
+#: src/print.c:2024
+msgid "All Movements"
+msgstr ""
+
+#: src/print.c:2026
 msgid "If checked the current layout is re-typeset at every change"
 msgstr ""
 
-#: src/print.c:2032
-msgid "Set background updats on/off."
+#: src/print.c:2031
+msgid "If checked the current movement is re-typeset at every change"
 msgstr ""
 
-#: src/print.c:2035
-msgid "Range"
+#: src/print.c:2034
+msgid "Cursor Context"
 msgstr ""
 
 #: src/print.c:2036
+msgid ""
+"If checked the range around the current cursor position is re-typeset at "
+"every change or when the cursor moves out of range."
+msgstr ""
+
+#: src/print.c:2053
+msgid "Set background updats on/off."
+msgstr ""
+
+#: src/print.c:2057
+msgid "Range"
+msgstr ""
+
+#: src/print.c:2058
 msgid "Set how much of the score to re-draw."
 msgstr ""
 
-#: src/print.c:2044
-msgid "Manual"
+#: src/print.c:2072
+msgid ""
+"Set background updater on/off. This controls if typesetting is re-done after "
+"each change to the music."
 msgstr ""
 
-#: src/print.c:2045
-msgid "Set background updater on/off."
+#: src/print.c:2088 src/scorelayout.c:426
+msgid "Typeset"
 msgstr ""
 
-#: src/print.c:2074
+#: src/print.c:2100 src/scorelayout.c:1484 src/utils.c:1344
+msgid "Movement"
+msgstr ""
+
+#: src/print.c:2101
 msgid ""
 "Typesets the music from the current movement. This creates a score layout "
 "comprising one movement."
 msgstr ""
 
-#: src/print.c:2079
+#: src/print.c:2105
+msgid "Part"
+msgstr ""
+
+#: src/print.c:2106
 msgid ""
 "Typesets the music from the current part for all movements. A part is all "
 "the music with the same staff-name. This creates a score layout with one "
 "part, all movements."
 msgstr ""
 
-#: src/print.c:2084
+#: src/print.c:2110 src/scorelayout.c:440
+msgid "Refresh"
+msgstr ""
+
+#: src/print.c:2111
 msgid ""
 "Re-issues the last print command. Use this after modifying the file to "
 "repeat the typesetting."
 msgstr ""
 
-#: src/print.c:2096
+#: src/print.c:2123
 msgid ""
 "Shows pages side by side, so you can see page turns for back-to-back "
 "printing\n"
 msgstr ""
 
-#: src/print.c:2101
+#: src/print.c:2127
+msgid "Next"
+msgstr ""
+
+#: src/print.c:2128
 msgid ""
 "Move to the next page - you can also scroll with the scroll-wheel, and zoom "
 "with control-wheel"
 msgstr ""
 
-#: src/print.c:2105
+#: src/print.c:2131
+msgid "Previous"
+msgstr ""
+
+#: src/print.c:2132
 msgid ""
 "Move to the previous page - you can also scroll with the scroll-wheel, and "
 "zoom with control-wheel"
 msgstr ""
 
-#: src/print.c:2133
+#: src/print.c:2138
+msgid "Denemo Print View"
+msgstr ""
+
+#: src/print.c:2160
 msgid ""
 "This window shows the final typeset score from which you can print or (via "
 "print to file) create a PDF document.\n"
@@ -9932,10 +10016,6 @@ msgstr ""
 msgid "Set the prevailing duration to 𝅥"
 msgstr ""
 
-#: src/scorelayout.c:426
-msgid "Typeset"
-msgstr ""
-
 #: src/scorelayout.c:427
 msgid ""
 "Typeset the score using this layout to determine which movements, parts, "
@@ -9952,10 +10032,6 @@ msgstr ""
 
 #: src/scorelayout.c:436
 msgid "Discard this customized score layout."
-msgstr ""
-
-#: src/scorelayout.c:440
-msgid "Refresh"
 msgstr ""
 
 #: src/scorelayout.c:441
@@ -10281,10 +10357,6 @@ msgstr ""
 msgid "Movement %d"
 msgstr ""
 
-#: src/scorelayout.c:1484 src/utils.c:1344
-msgid "Movement"
-msgstr ""
-
 #: src/scorelayout.c:1486
 msgid ""
 "This contains the layout of the movement- the movement title, and the actual "
@@ -10407,11 +10479,12 @@ msgstr ""
 msgid "Lilypond Version"
 msgstr ""
 
-#: src/scoreprops.c:236
+#: src/scoreprops.c:236 actions/commandscripts/PaperSize.scm:5
+#: actions/commandscripts/PaperSize.scm:6
 msgid "Portrait"
 msgstr ""
 
-#: src/scoreprops.c:241
+#: src/scoreprops.c:241 actions/commandscripts/PaperSize.scm:5
 msgid "Landscape"
 msgstr ""
 
@@ -10508,182 +10581,379 @@ msgid ""
 "The one selected is in bold black."
 msgstr ""
 
-#: src/view.c:6313
+#: src/view.c:6316
 msgid "<span foreground=\"blue\">Recording + Play Along</span>"
 msgstr ""
 
-#: src/view.c:6315
+#: src/view.c:6318
 msgid "<span foreground=\"red\">Recording</span>"
 msgstr ""
 
-#: src/view.c:6317
+#: src/view.c:6320
 msgid "<span foreground=\"red\">Play Along</span>"
 msgstr ""
 
-#: src/view.c:6319
+#: src/view.c:6322
 msgid "Checking Pitches"
 msgstr ""
 
-#: src/view.c:6321
+#: src/view.c:6324
 msgid "Listening to Pitches"
 msgstr ""
 
-#: src/view.c:6324
+#: src/view.c:6327
 msgid "Adding to a Chord"
 msgstr ""
 
-#: src/view.c:6326
+#: src/view.c:6329
 msgid "Starting a Chord"
 msgstr ""
 
-#: src/view.c:6328 src/view.c:9304
+#: src/view.c:6331 src/view.c:9307
 msgid "Appending/Editing Pitches"
 msgstr ""
 
-#: src/view.c:6344
+#: src/view.c:6347
 msgid "Mouse Conductor ON"
 msgstr ""
 
-#: src/view.c:6346
+#: src/view.c:6349
 msgid "Mouse Conductor OFF"
 msgstr ""
 
-#: src/view.c:6354
+#: src/view.c:6357
 msgid "Switch to Normal Playback"
 msgstr ""
 
-#: src/view.c:6356 src/view.c:9309
+#: src/view.c:6359 src/view.c:9312
 msgid "Switch to Play Along Playback"
 msgstr ""
 
-#: src/view.c:8118
+#: src/view.c:7124 src/view.c:7128 src/view.c:7131 src/view.c:7133
+msgid "Create a new menu item"
+msgstr ""
+
+#: src/view.c:7124
+msgid "Give menu label: "
+msgstr ""
+
+#: src/view.c:7124
+msgid "My Label"
+msgstr ""
+
+#: src/view.c:7128
+msgid "Give explanation of what it does: "
+msgstr ""
+
+#: src/view.c:7128
+msgid "Prints my special effect"
+msgstr ""
+
+#: src/view.c:7131
+msgid "Do you want the new menu item in a submenu?"
+msgstr ""
+
+#: src/view.c:7133
+msgid "Give a label for the Sub-Menu"
+msgstr ""
+
+#: src/view.c:7133
+msgid "Sub Menu Label"
+msgstr ""
+
+#: src/view.c:7146
+msgid "Duplicate Name"
+msgstr ""
+
+#: src/view.c:7146
+msgid ""
+"A command of this name is already available in your custom menus; Overwrite?"
+msgstr ""
+
+#: src/view.c:7153
+msgid "New Command Added"
+msgstr ""
+
+#: src/view.c:7153
+msgid "Do you want to save this with your default commands?"
+msgstr ""
+
+#: src/view.c:7156 actions/commandscripts/Upbeat.scm:50
+msgid "Operation cancelled"
+msgstr ""
+
+#: src/view.c:7207
+msgid ""
+"No keyboard modifier keys\n"
+"Press with modifier key to change"
+msgstr ""
+
+#: src/view.c:7209
+msgid ""
+"\n"
+"Press with modifier key to change"
+msgstr ""
+
+#: src/view.c:7216
+msgid "Set Mouse Shortcut"
+msgstr ""
+
+#: src/view.c:7233
+#, c-format
+msgid "Setting mouse shortcut for %s"
+msgstr ""
+
+#: src/view.c:7237
+msgid "Choose the mouse button"
+msgstr ""
+
+#: src/view.c:7244
+msgid "Left"
+msgstr ""
+
+#: src/view.c:7247
+msgid "Right"
+msgstr ""
+
+#: src/view.c:7251
+msgid "Choose mouse action"
+msgstr ""
+
+#: src/view.c:7257
+msgid "Press Button"
+msgstr ""
+
+#: src/view.c:7260
+msgid "Release Button"
+msgstr ""
+
+#: src/view.c:7263
+msgid "Drag"
+msgstr ""
+
+#: src/view.c:7267
+msgid ""
+"Hold Modifier Keys, Engage Caps or Num Lock\n"
+"and click here to set shorcut."
+msgstr ""
+
+#: src/view.c:7324
+msgid "There is already an initialization script here"
+msgstr ""
+
+#: src/view.c:7331
+msgid "Wrote init.scm"
+msgstr ""
+
+#: src/view.c:7331
+msgid "Shall I execute it now?"
+msgstr ""
+
+#: src/view.c:7335
+msgid ""
+"Could not create init.scm;\n"
+"you must create your scripted menu item in the menu\n"
+"before you create the initialization script for it, sorry."
+msgstr ""
+
+#: src/view.c:7384 src/view.c:7918
+msgid "Save Script"
+msgstr ""
+
+#: src/view.c:7384
+msgid "Over-write previous version of the script for "
+msgstr ""
+
+#: src/view.c:7384
+msgid " ?"
+msgstr ""
+
+#: src/view.c:7393
+msgid "No script saved"
+msgstr ""
+
+#: src/view.c:7866
+msgid "Place Command on Button Bar"
+msgstr ""
+
+#: src/view.c:7872
+msgid "Create Mouse Shortcut"
+msgstr ""
+
+#: src/view.c:7875
+msgid ""
+"Edit Shortcuts\n"
+"Set Mouse Pointers\n"
+"Hide/Delete Menu Item"
+msgstr ""
+
+#: src/view.c:7914
+msgid "Get Script"
+msgstr ""
+
+#: src/view.c:7922 src/view.c:7926
+msgid "Save Graphic"
+msgstr ""
+
+#: src/view.c:7932
+msgid "Upload this Script to denemo.org"
+msgstr ""
+
+#: src/view.c:7938
+msgid "Save Script as New Menu Item"
+msgstr ""
+
+#: src/view.c:7951
+msgid "Get Initialization Script for this Menu"
+msgstr ""
+
+#: src/view.c:7955
+msgid "Put Script as Initialization Script for this Menu"
+msgstr ""
+
+#: src/view.c:7962
+msgid "Show Current Script"
+msgstr ""
+
+#: src/view.c:8121
 msgid "Browse"
 msgstr ""
 
-#: src/view.c:8118
+#: src/view.c:8121
 msgid "Opens a dialog for a new file"
 msgstr ""
 
-#: src/view.c:8663
-msgid "Tools"
+#: src/view.c:8179
+msgid ""
+"You have unsaved work. Hardware problems may cause the program to exit "
+"during this task.\n"
+"Please save first."
 msgstr ""
 
-#: src/view.c:8663
-msgid "Show/hide a toolbar for general operations on music files"
-msgstr ""
-
-#: src/view.c:8666 src/view.c:9151
-msgid "Playback Control"
+#: src/view.c:8206
+msgid "Could not start Audio input"
 msgstr ""
 
 #: src/view.c:8666
-msgid "Show/hide playback controls"
+msgid "Tools"
 msgstr ""
 
-#: src/view.c:8669 src/view.c:9287
-msgid "Midi In Control"
+#: src/view.c:8666
+msgid "Show/hide a toolbar for general operations on music files"
+msgstr ""
+
+#: src/view.c:8669 src/view.c:9154
+msgid "Playback Control"
 msgstr ""
 
 #: src/view.c:8669
+msgid "Show/hide playback controls"
+msgstr ""
+
+#: src/view.c:8672 src/view.c:9290
+msgid "Midi In Control"
+msgstr ""
+
+#: src/view.c:8672
 msgid "Show/hide Midi Input controls"
 msgstr ""
 
-#: src/view.c:8672
+#: src/view.c:8675
 msgid "Snippets"
 msgstr ""
 
-#: src/view.c:8672
+#: src/view.c:8675
 msgid ""
 "Show/hide a toolbar which allows\n"
 "you to store and enter snippets of music and to enter notes using rhythm "
 "pattern of a snippet"
 msgstr ""
 
-#: src/view.c:8675
+#: src/view.c:8678
 msgid "Note and Rest Entry"
 msgstr ""
 
-#: src/view.c:8675
+#: src/view.c:8678
 msgid ""
 "Show/hide a toolbar which allows\n"
 "you to enter notes and rests using the mouse"
 msgstr ""
 
-#: src/view.c:8678
+#: src/view.c:8681
 msgid "Object Menu"
 msgstr ""
 
-#: src/view.c:8678
+#: src/view.c:8681
 msgid ""
 "Show/hide a menu which is arranged by objects\n"
 "The actions available for note objects change with the mode"
 msgstr ""
 
-#: src/view.c:8681
+#: src/view.c:8684
 msgid "LilyPond"
 msgstr ""
 
-#: src/view.c:8681
+#: src/view.c:8684
 msgid "Show/hide the LilyPond music typesetting language window"
 msgstr ""
 
-#: src/view.c:8684
+#: src/view.c:8687
 msgid "Scheme Script"
 msgstr ""
 
-#: src/view.c:8684
+#: src/view.c:8687
 msgid "Show scheme script window"
 msgstr ""
 
-#: src/view.c:8688
+#: src/view.c:8691
 msgid "Typeset Music"
 msgstr ""
 
-#: src/view.c:8691
+#: src/view.c:8694
 msgid "Score Layout"
 msgstr ""
 
-#: src/view.c:8697
+#: src/view.c:8700
 msgid "Console"
 msgstr ""
 
-#: src/view.c:8703
+#: src/view.c:8706
 msgid "Titles, Buttons etc"
 msgstr ""
 
-#: src/view.c:8707
+#: src/view.c:8710
 msgid "Allow Quick Shortcut Edits"
 msgstr ""
 
-#: src/view.c:8709
+#: src/view.c:8712
 msgid "Record Scheme Script"
 msgstr ""
 
-#: src/view.c:8712
+#: src/view.c:8715
 msgid ""
 "Audible Feedback\n"
 "Insert Duration/Edit Note"
 msgstr ""
 
-#: src/view.c:8712
+#: src/view.c:8715
 msgid ""
 "Gives feedback as you enter durations. N.B. durations are entered in Edit "
 "mode"
 msgstr ""
 
-#: src/view.c:8714
+#: src/view.c:8717
 msgid "Read Only"
 msgstr ""
 
-#: src/view.c:8722
+#: src/view.c:8725
 msgid "No mode"
 msgstr ""
 
-#: src/view.c:8724
+#: src/view.c:8727
 msgid "Classic"
 msgstr ""
 
-#: src/view.c:8726
+#: src/view.c:8729
 msgid ""
 "Mode for inserting notes into the score at the cursor position\n"
 "Uses prevailing duration/rhythm\n"
@@ -10691,84 +10961,105 @@ msgid ""
 "Use the note names to insert the note"
 msgstr ""
 
-#: src/view.c:8728
+#: src/view.c:8731
 msgid ""
 "Mode for changing the note at cursor (name, duration)\n"
 "and to enter notes by duration (rhythms)\n"
 "Use the durations to insert notes"
 msgstr ""
 
-#: src/view.c:8734
+#: src/view.c:8737
 msgid "Note"
 msgstr ""
 
-#: src/view.c:8734
+#: src/view.c:8737
 msgid "Normal (note) entry"
 msgstr ""
 
-#: src/view.c:8735
+#: src/view.c:8738
 msgid "Rest"
 msgstr ""
 
-#: src/view.c:8735
+#: src/view.c:8738
 msgid "Entering rests not notes"
 msgstr ""
 
-#: src/view.c:8736
+#: src/view.c:8739
 msgid "Non printing rests"
 msgstr ""
 
-#: src/view.c:8736
+#: src/view.c:8739
 msgid ""
 "Enters rests which will not be printed (just take up space)\n"
 "Used for positioning polyphonic voice entries"
 msgstr ""
 
-#: src/view.c:8739
+#: src/view.c:8742
 msgid "Audible Feedback"
 msgstr ""
 
-#: src/view.c:8739
+#: src/view.c:8742
 msgid "Gives feedback as you enter durations"
 msgstr ""
 
-#: src/view.c:8744
+#: src/view.c:8747
 msgid "No External Input"
 msgstr ""
 
-#: src/view.c:8744
+#: src/view.c:8747
 msgid ""
 "Entry of notes via computer keyboard only\n"
 "Ignores connected MIDI or microphone devices."
 msgstr ""
 
-#: src/view.c:8747
+#: src/view.c:8750
 msgid "Audio Input"
 msgstr ""
 
-#: src/view.c:8747
+#: src/view.c:8750
 msgid "Enable pitch entry from microphone"
 msgstr ""
 
-#: src/view.c:8750
+#: src/view.c:8753
 msgid "Midi Input"
 msgstr ""
 
-#: src/view.c:8750
+#: src/view.c:8753
 msgid ""
 "Input from a MIDI source. Set up the source first using Edit->Change "
 "Preferences->Audio/Midi\n"
 "Use View->MIDI In Control to control what the input does.\n"
 msgstr ""
 
-#: src/view.c:9129
+#: src/view.c:8924
+msgid "Menu:"
+msgstr ""
+
+#: src/view.c:8925
+msgid "Click here then hover over the menu items to find out what they will do"
+msgstr ""
+
+#: src/view.c:8927
+msgid ""
+"Left click to execute the command, press a key to assign a keyboard shortcut "
+"to the command,\n"
+"Right click to get a menu from which you can\n"
+"Create a button for this command, or a two-key keyboard shortcut or more "
+"options still"
+msgstr ""
+
+#: src/view.c:9038
+msgid "Denemo Main Window"
+msgstr ""
+
+#: src/view.c:9132
 msgid ""
 "This is the Main Menu bar, where menus for the mostly non-musical aspects "
 "(saving, printing, setting up input sources etc) are placed. See the Object "
 "Menu bar for the commands that edit music"
 msgstr ""
 
-#: src/view.c:9133
+#: src/view.c:9136
 msgid ""
 "This is the Object Menu bar, where menus for the commands that edit music "
 "live. They are arranged in a hierarchy Score, Movement, Staff (which "
@@ -10777,7 +11068,7 @@ msgid ""
 "change the behavior from that point in the music."
 msgstr ""
 
-#: src/view.c:9134
+#: src/view.c:9137
 msgid ""
 "This bar has buttons for entering notes and rests. The highlighted duration "
 "is the <i>prevailing duration</i>, that is the duration which will be "
@@ -10786,7 +11077,7 @@ msgid ""
 "it using MainMenu->Edit->Change Preferences->Display Note/Rest entry toolbar"
 msgstr ""
 
-#: src/view.c:9136
+#: src/view.c:9139
 msgid ""
 "You can populate this bar with buttons holding a snippet of music. The "
 "highlighted snippet is the <i>prevailing duration</i>, that is the next note "
@@ -10800,7 +11091,7 @@ msgid ""
 "Preferences->Display Note/Rest entry toolbar"
 msgstr ""
 
-#: src/view.c:9141
+#: src/view.c:9144
 msgid ""
 "This tool bar contains a few conventional commands. You can hide it (to make "
 "more room on the screen) using the View menu. You can make it your "
@@ -10808,41 +11099,41 @@ msgid ""
 "general toolbar"
 msgstr ""
 
-#: src/view.c:9174
+#: src/view.c:9177
 msgid ""
 "Moves the playback start point (which shows as a green bar) earlier in time\n"
 "The red and green bars do not get drawn until you have started play, or at "
 "least created the time base."
 msgstr ""
 
-#: src/view.c:9176
+#: src/view.c:9179
 msgid ""
 "Sets the playback start point (green bar) to the note at the cursor.\n"
 "The red and green bars do not get drawn until you have started play, or at "
 "least created the time base."
 msgstr ""
 
-#: src/view.c:9177
+#: src/view.c:9180
 msgid ""
 "Moves the playback start point (which shows as a green bar) later in time\n"
 "The red and green bars do not get drawn until you have started play, or at "
 "least created the time base."
 msgstr ""
 
-#: src/view.c:9178
+#: src/view.c:9181
 msgid ""
 "Stops the playback. On pressing play after this playback will start where "
 "the green bar is, not where you stopped. Use the Play/Pause button for that."
 msgstr ""
 
-#: src/view.c:9179
+#: src/view.c:9182
 msgid ""
 "Starts playing back from the playback start (green bar) until the playback "
 "end (red bar).\n"
 "When playing it pauses the play, and continues when pressed again."
 msgstr ""
 
-#: src/view.c:9180
+#: src/view.c:9183
 msgid ""
 "Starts playing and simultaneously records from MIDI in.\n"
 "Once a recording is made it is played back with the score when you press "
@@ -10852,35 +11143,35 @@ msgid ""
 ".A MIDI recording is not saved with the Denemo score."
 msgstr ""
 
-#: src/view.c:9181
+#: src/view.c:9184
 msgid ""
 "Moves the playback end point (which shows as a red bar) earlier in time\n"
 "The red and green bars do not get drawn until you have started play, or at "
 "least created the time base."
 msgstr ""
 
-#: src/view.c:9182
+#: src/view.c:9185
 msgid ""
 "Sets the playback end point (red bar) to the note at the cursor.\n"
 "The red and green bars do not get drawn until you have started play, or at "
 "least created the time base."
 msgstr ""
 
-#: src/view.c:9184
+#: src/view.c:9187
 msgid ""
 "Moves the playback end point (which shows as a red bar) later in time\n"
 "The red and green bars do not get drawn until you have started play, or at "
 "least created the time base."
 msgstr ""
 
-#: src/view.c:9188
+#: src/view.c:9191
 msgid ""
 "The music between the red and green bars is played in a loop.\n"
 "You can edit the music while it is playing\n"
 "monitoring your changes."
 msgstr ""
 
-#: src/view.c:9190
+#: src/view.c:9193
 msgid ""
 "With the mouse conductor once you press play the playback progresses as you "
 "move the mouse around\n"
@@ -10888,46 +11179,46 @@ msgid ""
 "a certain passage\n"
 msgstr ""
 
-#: src/view.c:9198
+#: src/view.c:9201
 msgid "Resets the synthesizer, on JACK it sends a JACK panic."
 msgstr ""
 
-#: src/view.c:9201
+#: src/view.c:9204
 msgid "Sets the playback range (green and red bars) to the current selection."
 msgstr ""
 
-#: src/view.c:9202
+#: src/view.c:9205
 msgid "Pops up a dialog to get timings for start and end of playback."
 msgstr ""
 
-#: src/view.c:9211
+#: src/view.c:9214
 msgid "Tempo:"
 msgstr ""
 
-#: src/view.c:9243
+#: src/view.c:9246
 msgid "Audio Volume Cut"
 msgstr ""
 
-#: src/view.c:9256
+#: src/view.c:9259
 msgid "Audio Volume Boost"
 msgstr ""
 
-#: src/view.c:9268
+#: src/view.c:9271
 msgid "Audio Lead In "
 msgstr ""
 
-#: src/view.c:9272
+#: src/view.c:9275
 msgid ""
 "Set the number of seconds to clip from the audio, or if negative number of "
 "seconds silence before audio plays.\n"
 "This is useful when the audio track does not begin on a barline."
 msgstr ""
 
-#: src/view.c:9275
+#: src/view.c:9278
 msgid " secs."
 msgstr ""
 
-#: src/view.c:9285
+#: src/view.c:9288
 msgid ""
 "Controls for managing input from a MIDI controller (e.g. keyboard) attached "
 "to the computer. You may need to select your MIDI device first using "
@@ -10941,13 +11232,13 @@ msgid ""
 "chord fast or slow."
 msgstr ""
 
-#: src/view.c:9305
+#: src/view.c:9308
 msgid ""
 "This tells you what will happen to a MIDI in event from your controller. Use "
 "the Control Shift or ALT keys, or caps lock to affect what will happen."
 msgstr ""
 
-#: src/view.c:9309
+#: src/view.c:9312
 msgid ""
 "When in playalong mode, on clicking Play, the music plays until it reaches "
 "the Denemo cursor\n"
@@ -10958,15 +11249,15 @@ msgid ""
 "filling in the other parts and waiting if you play a wrong note."
 msgstr ""
 
-#: src/view.c:9311
+#: src/view.c:9314
 msgid "Delete the MIDI recording you have made."
 msgstr ""
 
-#: src/view.c:9313
+#: src/view.c:9316
 msgid "Convert the MIDI recording you have made to notation."
 msgstr ""
 
-#: src/view.c:9361
+#: src/view.c:9364
 msgid ""
 "This is the Denemo Display for the music you have entered. It doesn't show "
 "how the music will look when printed - to typeset the music really well "
@@ -10983,7 +11274,7 @@ msgid ""
 "+scroll-wheel on your mouse to zoom the display."
 msgstr ""
 
-#: src/view.c:9429
+#: src/view.c:9432
 msgid ""
 "This bar shows:\n"
 "Pending ♯ or ♭ sign (if the next note entered will be sharpened or "
@@ -10997,13 +11288,13 @@ msgid ""
 "continuations are shown here."
 msgstr ""
 
-#: src/view.c:9439
+#: src/view.c:9442
 msgid ""
 "This area shows which MIDI filters are active. It can also be used by "
 "commands to pass information to the user"
 msgstr ""
 
-#: src/view.c:9547
+#: src/view.c:9550
 msgid ""
 "A button bar that can be populated by titles and other user generated "
 "buttons.\n"
@@ -11023,6 +11314,115 @@ msgid ""
 "Or:  c' e' for a major third."
 msgstr ""
 
+#: actions/commandscripts/AngryDelete.scm:7
+msgid "Angry Delete MIDI Filter"
+msgstr ""
+
+#: actions/commandscripts/ArbitraryTextAbove.scm:3
+msgid "Give string"
+msgstr ""
+
+#: actions/commandscripts/ArbitraryTextAbove.scm:3
+msgid "give your text"
+msgstr ""
+
+#: actions/commandscripts/BeamingOff.scm:4
+msgid "No Beaming"
+msgstr ""
+
+#: actions/commandscripts/BeatChange.scm:9
+#: actions/commandscripts/BeatChange.scm:25
+#: actions/commandscripts/MetronomeMarking.scm:3
+#: actions/commandscripts/Tempo.scm:23 actions/commandscripts/Tempo.scm:39
+msgid "Metronome Marking"
+msgstr ""
+
+#: actions/commandscripts/BeatChange.scm:9 actions/commandscripts/Tempo.scm:23
+msgid ""
+"Give unit beat duration (e.g., 4. for dotted-quarter) \n"
+" or enter n for none:"
+msgstr ""
+
+#: actions/commandscripts/BeatChange.scm:11
+#: actions/commandscripts/Tempo.scm:25
+msgid "n"
+msgstr ""
+
+#: actions/commandscripts/BeatChange.scm:25
+#: actions/commandscripts/Tempo.scm:39
+msgid "Give number of these "
+msgstr ""
+
+#: actions/commandscripts/BeatChange.scm:25
+#: actions/commandscripts/Tempo.scm:39
+msgid " beats per minute:"
+msgstr ""
+
+#: actions/commandscripts/BeatChange.scm:47
+msgid "Beat Change"
+msgstr ""
+
+#: actions/commandscripts/BeatChange.scm:48
+msgid "Enter beat change as [beat1]=[beat2] with the beats in Lilypond syntax,"
+msgstr ""
+
+#: actions/commandscripts/BeatChange.scm:49
+msgid ""
+"\n"
+"i.e. 4 for quarter, 4. for dotted quarter, etc."
+msgstr ""
+
+#: actions/commandscripts/BeatChange.scm:50
+msgid ""
+"\n"
+"Place immediately after a barline to center the beat change  over the "
+"barline."
+msgstr ""
+
+#: actions/commandscripts/BookArranger.scm:2
+msgid "Give name for arranger etc or blank out to delete: "
+msgstr ""
+
+#: actions/commandscripts/BookComposer.scm:2
+msgid "Give name for composer or blank out to delete: "
+msgstr ""
+
+#: actions/commandscripts/BookCopyright.scm:2
+msgid "Give copyright notice or blank out to delete: "
+msgstr ""
+
+#: actions/commandscripts/BookDate.scm:4
+msgid "Give date for score or blank out to delete: "
+msgstr ""
+
+#: actions/commandscripts/BookInstrumentation.scm:2
+msgid "Give instrumentation for the default layout or blank out to delete: "
+msgstr ""
+
+#: actions/commandscripts/BookPoet.scm:4
+msgid "Give name for poet/lyricist/librettist etc or blank out to delete: "
+msgstr ""
+
+#: actions/commandscripts/BookTitle.scm:2
+msgid "Give a title for the whole score or blank out to delete: "
+msgstr ""
+
+#: actions/commandscripts/Chapter.scm:2
+msgid "Give heading or blank out to delete: "
+msgstr ""
+
+#: actions/commandscripts/CheckTiesInStaff.scm:15
+msgid "Tied notes not the same"
+msgstr ""
+
+#: actions/commandscripts/CheckTupletsInMeasure.scm:19
+msgid "End Tuplet with no start"
+msgstr ""
+
+#: actions/commandscripts/CheckTupletsInMeasure.scm:32
+msgid "Start Tuplet with no end"
+msgstr ""
+
 #: actions/commandscripts/ChordComment.scm:5
 msgid "Insert Comment"
 msgstr ""
@@ -11032,6 +11432,8 @@ msgid "Comment this chord"
 msgstr ""
 
 #: actions/commandscripts/ChordComment.scm:10
+#: actions/commandscripts/ChordsOverBass.scm:214
+#: actions/commandscripts/CreateIntro.scm:30
 #: actions/commandscripts/CriticalComment.scm:10
 #: actions/commandscripts/TextAbove.scm:16
 #: actions/commandscripts/TextAbove.scm:17
@@ -11046,6 +11448,204 @@ msgstr ""
 #: actions/commandscripts/ChordComment.scm:10
 #: actions/commandscripts/CriticalComment.scm:10
 msgid "Apply Command to new position of cursor?"
+msgstr ""
+
+#: actions/commandscripts/ChordsOverBass.scm:214
+msgid "Non Empty Chords staff"
+msgstr ""
+
+#: actions/commandscripts/ChordsOverBass.scm:214
+#: actions/commandscripts/CreateIntro.scm:30
+msgid "Remove the previous transcription from this measure on?"
+msgstr ""
+
+#: actions/commandscripts/CreateIntro.scm:30
+msgid "Non Empty Intro staff"
+msgstr ""
+
+#: actions/commandscripts/CriticalComment.scm:5
+msgid "Give Comment"
+msgstr ""
+
+#: actions/commandscripts/DenemoLink.scm:6
+msgid ""
+"There is no link here, open the source document and click on it to place one."
+msgstr ""
+
+#: actions/commandscripts/DesignateVoice.scm:3
+msgid "OneVoice:  Default-For a single voice on a staff"
+msgstr ""
+
+#: actions/commandscripts/DesignateVoice.scm:4
+msgid "VoiceOne:  Designate as upper voice"
+msgstr ""
+
+#: actions/commandscripts/DesignateVoice.scm:5
+msgid "VoiceTwo:  Designate as lower voice"
+msgstr ""
+
+#: actions/commandscripts/DesignateVoice.scm:5
+msgid ""
+"VoiceThree: \n"
+"Horizontally offset upper voice"
+msgstr ""
+
+#: actions/commandscripts/DesignateVoice.scm:7
+msgid "VoiceFour:  Horizontally offset lower voice"
+msgstr ""
+
+#: actions/commandscripts/DesignateVoice.scm:13
+msgid "Voice1"
+msgstr ""
+
+#: actions/commandscripts/DesignateVoice.scm:15
+msgid "Voice2"
+msgstr ""
+
+#: actions/commandscripts/DesignateVoice.scm:17
+msgid "Voice3"
+msgstr ""
+
+#: actions/commandscripts/DesignateVoice.scm:19
+msgid "Voice4"
+msgstr ""
+
+#: actions/commandscripts/DesignateVoice.scm:21
+msgid "1Voice"
+msgstr ""
+
+#: actions/commandscripts/DisplaceRestHorizontally.scm:2
+msgid "Horizontal shift"
+msgstr ""
+
+#: actions/commandscripts/DisplaceRestHorizontally.scm:2
+#: actions/commandscripts/ShiftNext.scm:4
+msgid "Give horizontal shift required"
+msgstr ""
+
+#: actions/commandscripts/DotDoubleDotNoDot.scm:11
+msgid "Cursor must be on a chord/note/rest"
+msgstr ""
+
+#: actions/commandscripts/DynamicsDialog.scm:48
+msgid "Custom dynamic"
+msgstr ""
+
+#: actions/commandscripts/DynamicsDialog.scm:48
+msgid "Enter dynamic text:"
+msgstr ""
+
+#: actions/commandscripts/DynamicsDialog.scm:53
+msgid "Dynamic setting"
+msgstr ""
+
+#: actions/commandscripts/DynamicsDialog.scm:53
+msgid "Enter loudness level (0-127):"
+msgstr ""
+
+#: actions/commandscripts/EditProlog.scm:5
+msgid "Edit Score Prolog"
+msgstr ""
+
+#: actions/commandscripts/EditProlog.scm:6
+msgid "Edit LilyPond to apply to whole score"
+msgstr ""
+
+#: actions/commandscripts/FiguredBassExercises.scm:4
+msgid ""
+"The music below is the first of Handel's exercises for figured bass. The "
+"staff marked \"Chords\" at the top is a sample (inadequate) realization of "
+"the figures.\n"
+" When you click Start you will be asked if you want to delete this version, "
+"and when you say yes you can start creating your own.\n"
+" The screen becomes green to remind you that your MIDI controller is now "
+"expecting you to play the ticked bass note plus chord.\n"
+" The bass note expected is marked with a tick, play this note plus the chord "
+"notes. You can hold down the bass note and change chords over the same bass "
+"note.\n"
+" Note, you must distinguish enharmonic differences (e.g. D-sharp from E-"
+"flat), check that the set of accidentals showing in the MIDI-in controls "
+"suits the piece you are working on. Press shift-sharpwise or flatwise as "
+"needed.\n"
+" You can hold down the chord while going on to the next bass note so as to "
+"carry the chord over.\n"
+"You can use the sustain pedal to tie the chord you are entering with the "
+"chord for the next bass note by putting the pedal down on the chord you want "
+"to tie and releasing it after going on to the next bass note.\n"
+"Putting pedal down before the bass note will tie the last chord to the one "
+"you enter next. \n"
+"You can also use the sustain pedal  to place a chord on a rest before a bass "
+"note (depress the pedal before striking the bass note).\n"
+" You can click Start a second time to stop, and you can re-start from any "
+"bar you like.\n"
+" You can edit, playback etc while working, but don't remove or add staffs. "
+"You can also use the pitch bend wheel to stop entering chords.\n"
+"  "
+msgstr ""
+
+#: actions/commandscripts/FiguredBassExercises.scm:30
+msgid "You have unsaved work"
+msgstr ""
+
+#: actions/commandscripts/GraceAfter.scm:40
+#: actions/commandscripts/GraceAfter.scm:43
+msgid ""
+"The cursor is not on a grace note after a main note or chord\n"
+"First create the main note, then then follow it with the grace note(s) then "
+"invoke this command with the cursor on the grace note"
+msgstr ""
+
+#: actions/commandscripts/HelpForReturnKey.scm:2
+msgid ""
+"The Return keypress can be used as a special instantly movable shortcut,\n"
+"you can set it to any menu action you wish by pressing it while you have the "
+"item selected\n"
+"Any one-key shortcut can be set this way, but with Return you do not get "
+"told if you are taking the shortcut away from another command.\n"
+"Also the setting is not saved.\n"
+"The idea is to set it for your current activity (e.g. applying tenuto "
+"marks).\n"
+"You can make it \"normal\" by setting a preference - see Edit->Preferences-"
+">Command Behavior.\n"
+"Note that the Enter key on the numeric keypad is a separate key (or should "
+"be!) and can be used as a shortcut independently"
+msgstr ""
+
+#: actions/commandscripts/HideBarlines.scm:7
+msgid "Hide Barlines"
+msgstr ""
+
+#: actions/commandscripts/HideEmptyStaffs.scm:13
+msgid "Hide Empty Staffs"
+msgstr ""
+
+#: actions/commandscripts/HideLilyPond.scm:4
+msgid "hide"
+msgstr ""
+
+#: actions/commandscripts/HideMovement.scm:8
+msgid "NO PRINT"
+msgstr ""
+
+#: actions/commandscripts/HideOssia.scm:4
+msgid "Hide"
+msgstr ""
+
+#: actions/commandscripts/Indent.scm:12
+#: actions/commandscripts/ScoreIndent.scm:11
+msgid "Choose indent of first system"
+msgstr ""
+
+#: actions/commandscripts/Indent.scm:12
+msgid "Give amount as decimal"
+msgstr ""
+
+#: actions/commandscripts/InitialVoiceFour.scm:4
+msgid "Voice Four"
+msgstr ""
+
+#: actions/commandscripts/InitialVoiceOne.scm:4
+msgid "Voice One"
 msgstr ""
 
 #: actions/commandscripts/InitialVoice.scm:2
@@ -11083,8 +11683,31 @@ msgstr ""
 msgid "Automatic Voice"
 msgstr ""
 
+#: actions/commandscripts/InitialVoiceThree.scm:4
+msgid "Voice Three"
+msgstr ""
+
+#: actions/commandscripts/InitialVoiceTwo.scm:4
+msgid "Voice Two"
+msgstr ""
+
+#: actions/commandscripts/InsertTwoGraceNotesBeamed.scm:2
+msgid "Press a duration key to get two, beamed, grace notes"
+msgstr ""
+
+#: actions/commandscripts/InsertTwoGraceNotesBeamed.scm:26
+msgid ""
+"To use this function correctly you need to give a duration.\n"
+"This will insert two grace notes, beamed together if needed, with the given "
+"duration"
+msgstr ""
+
 #: actions/commandscripts/InstrumentName.scm:8
 msgid "Violin"
+msgstr ""
+
+#: actions/commandscripts/InstrumentName.scm:15
+msgid "InstrumentName"
 msgstr ""
 
 #: actions/commandscripts/InstrumentName.scm:15
@@ -11093,14 +11716,308 @@ msgid ""
 "for current staff:"
 msgstr ""
 
+#: actions/commandscripts/InstrumentName.scm:36
+#: actions/commandscripts/ScoreIndent.scm:19
+msgid "indent="
+msgstr ""
+
+#: actions/commandscripts/IRC.scm:2
+msgid ""
+"Your browser may take a few moments to start - be patient!\n"
+" \tWhen it has started you have to type in some anti-spam words\n"
+" \tand click connect\n"
+" \tThen you get a page with a place to type your question at the bottom.\n"
+" \tType hello in there and hit Enter\n"
+" \tIf no one is there to help you can use the mailing list denemo-devel@gnu."
+"org"
+msgstr ""
+
+#: actions/commandscripts/LilyPondInclude.scm:14
+msgid "Include LilyPond File"
+msgstr ""
+
+#: actions/commandscripts/LilyPondInclude.scm:14
+msgid "Give LilyPond file name:"
+msgstr ""
+
+#: actions/commandscripts/LilyPondInclude.scm:17
+msgid "LilyPondInclude unchanged"
+msgstr ""
+
+#: actions/commandscripts/LimitInterSystemSpace.scm:13
+msgid "Limit on space between systems removed"
+msgstr ""
+
+#: actions/commandscripts/LimitInterSystemSpace.scm:15
+msgid "Spacing Between Systems"
+msgstr ""
+
+#: actions/commandscripts/LimitInterSystemSpace.scm:15
+msgid "Give spacing limit (1=no extra space)"
+msgstr ""
+
+#: actions/commandscripts/MergeRests.scm:5
+msgid "Turning off merging of rests, use Merge Rests command to turn it on"
+msgstr ""
+
+#: actions/commandscripts/MetronomeMarking.scm:3
+msgid ""
+"Give unit beat duration \n"
+"(e.g., 4. for dotted-quarter):"
+msgstr ""
+
+#: actions/commandscripts/MidiFilterOff.scm:3
+msgid "No MIDI filter active"
+msgstr ""
+
 #: actions/commandscripts/MouseInsertion.scm:61
 msgid ""
 "To insert notes hold down shift key while clicking the mouse. To add to a "
 "chord hold down Alt key, to delete hold down Control key while clicking."
 msgstr ""
 
+#: actions/commandscripts/MultiMeasureRests.scm:27
+msgid ""
+"grouped\n"
+"as mm rest"
+msgstr ""
+
+#: actions/commandscripts/MvntComment.scm:3
+#: actions/commandscripts/ScoreComment.scm:3
+#: actions/commandscripts/StaffComment.scm:3
+msgid "Click to edit comment"
+msgstr ""
+
+#: actions/commandscripts/NoteColumnShift.scm:5
+msgid "Horizontal Shift"
+msgstr ""
+
+#: actions/commandscripts/NoteColumnShift.scm:5
+msgid "Give amount (staff spaces)"
+msgstr ""
+
+#: actions/commandscripts/NotForLayout.scm:5
+msgid "Not for "
+msgstr ""
+
+#: actions/commandscripts/OnlyForLayout.scm:5
+msgid "for "
+msgstr ""
+
+#: actions/commandscripts/OpenMyDefaultTemplate.scm:6
+msgid ""
+"Failed to open Default.denemo in your custom templates directory\n"
+"Have you saved a template called Default yet?"
+msgstr ""
+
+#: actions/commandscripts/OpenOctaveDown.scm:4
+msgid "Down8va"
+msgstr ""
+
+#: actions/commandscripts/OpenOctaveUp.scm:4
+msgid "Up8va"
+msgstr ""
+
+#: actions/commandscripts/Ottava.scm:2
+msgid "Give -1 for ottava bassa, 1 for ottava alta and 0 for end ottava"
+msgstr ""
+
+#: actions/commandscripts/PaperSize.scm:11
+msgid "Paper Size ="
+msgstr ""
+
+#: actions/commandscripts/Piece.scm:2
+msgid ""
+"Give name for this piece of the current movement or blank out to delete: "
+msgstr ""
+
+#: actions/commandscripts/PitchShift.scm:2
+msgid "Pitch Change"
+msgstr ""
+
+#: actions/commandscripts/PitchShift.scm:2
+msgid "Give amount =/-"
+msgstr ""
+
 #: actions/commandscripts/PrintAllLayouts.scm:22
 msgid "No Layouts Visible - check View->Score Layout"
+msgstr ""
+
+#: actions/commandscripts/PrintPartWithTitlePage.scm:13
+msgid "No Book Title, see Score->Titles->Book Titles"
+msgstr ""
+
+#: actions/commandscripts/ReBar.scm:20
+msgid ""
+"There are unclosed tuplets in this bar.\n"
+" Please fix - see CheckTuplets command."
+msgstr ""
+
+#: actions/commandscripts/ReBar.scm:313 actions/commandscripts/ReBar.scm:316
+msgid "Split This Note"
+msgstr ""
+
+#: actions/commandscripts/ReBar.scm:313 actions/commandscripts/ReBar.scm:315
+#: actions/commandscripts/ReBar.scm:316
+msgid "Split All"
+msgstr ""
+
+#: actions/commandscripts/ReBar.scm:313
+msgid "Stop Here"
+msgstr ""
+
+#: actions/commandscripts/ReBar.scm:345
+msgid ""
+"This measure's discrepancy requires a tuplet.\n"
+"Please adjust manually and run this script again."
+msgstr ""
+
+#: actions/commandscripts/ReBar.scm:366
+msgid "Search for under/overfull bars"
+msgstr ""
+
+#: actions/commandscripts/ReBar.scm:367 actions/commandscripts/ReBar.scm:370
+msgid "Pad underfull bars with rests"
+msgstr ""
+
+#: actions/commandscripts/ReBar.scm:368 actions/commandscripts/ReBar.scm:371
+msgid "Rebar-Merge underfull, split overfull bars"
+msgstr ""
+
+#: actions/commandscripts/ReBar.scm:369 actions/commandscripts/ReBar.scm:370
+msgid "Pad underfull bars with blank rests"
+msgstr ""
+
+#: actions/commandscripts/ReBar.scm:372
+msgid "Entire Staff"
+msgstr ""
+
+#: actions/commandscripts/ReBar.scm:372 actions/commandscripts/ReBar.scm:378
+msgid "This Point Onwards"
+msgstr ""
+
+#: actions/commandscripts/ReBar.scm:372 actions/commandscripts/ReBar.scm:375
+msgid "Entire Movement"
+msgstr ""
+
+#: actions/commandscripts/ScoreIndent.scm:11
+msgid "Give amount in decimal"
+msgstr ""
+
+#: actions/commandscripts/ScoreProlog.scm:7
+msgid "Give LilyPond:"
+msgstr ""
+
+#: actions/commandscripts/ScoreProlog.scm:13
+msgid "Prolog unchanged"
+msgstr ""
+
+#: actions/commandscripts/Section.scm:2
+msgid "Give name for movement sub-title or blank out to delete: "
+msgstr ""
+
+#: actions/commandscripts/SetBarNumber.scm:2
+msgid "Change Barnumber in typeset score"
+msgstr ""
+
+#: actions/commandscripts/SetBarNumber.scm:2
+msgid ""
+"Please enter a number to set the current bar number. The typeset score will "
+"continue to count up from there."
+msgstr ""
+
+#: actions/commandscripts/SetBarNumber.scm:6
+msgid "BarNumber = "
+msgstr ""
+
+#: actions/commandscripts/SetCurrentStaffAsVoice.scm:4
+msgid "The current staff is already a voice"
+msgstr ""
+
+#: actions/commandscripts/SetCurrentVoiceAsStaff.scm:4
+msgid "The current staff is not voice"
+msgstr ""
+
+#: actions/commandscripts/SetMovementTempo.scm:3
+msgid "Tempo of Movement"
+msgstr ""
+
+#: actions/commandscripts/SetMovementTempo.scm:3
+msgid "Give quarter notes per minute:"
+msgstr ""
+
+#: actions/commandscripts/SetNewbieStatus.scm:6
+msgid "Newbie status is now on - re-start Denemo to see extra tooltips"
+msgstr ""
+
+#: actions/commandscripts/SetNewbieStatus.scm:7
+msgid ""
+"Newbie status is now off - re-start Denemo to avoid excessive tooltips.\n"
+"Note you can also increase the time before the remaining ones appear via the "
+"Preferences"
+msgstr ""
+
+#: actions/commandscripts/SetThumbnail.scm:5
+msgid "Returning to the first Movement for thumbnail selection"
+msgstr ""
+
+#: actions/commandscripts/SetThumbnail.scm:12
+msgid "Thumbnail Selection Complete"
+msgstr ""
+
+#: actions/commandscripts/SetThumbnail.scm:12
+msgid "Create thumbnail now?"
+msgstr ""
+
+#: actions/commandscripts/SetThumbnail.scm:15
+msgid ""
+"No Selection to set the thumbnail to\n"
+"Create a selection and re-run the command."
+msgstr ""
+
+#: actions/commandscripts/SetThumbnail.scm:16
+msgid "Save the score before trying to set the thumbnail"
+msgstr ""
+
+#: actions/commandscripts/SetTuningAllStaffs.scm:4
+msgid "All Staffs: "
+msgstr ""
+
+#: actions/commandscripts/SetTuningStaff.scm:4
+msgid "This Staff: "
+msgstr ""
+
+#: actions/commandscripts/ShiftNext.scm:4
+#: actions/commandscripts/ShiftNext.scm:5
+msgid "X-Y shift"
+msgstr ""
+
+#: actions/commandscripts/ShiftNext.scm:5
+msgid "Give vertical shift required"
+msgstr ""
+
+#: actions/commandscripts/ShiftOff.scm:6
+msgid "No Shift"
+msgstr ""
+
+#: actions/commandscripts/ShiftOn.scm:6
+msgid "Shift"
+msgstr ""
+
+#: actions/commandscripts/ShortInstrumentName.scm:12
+msgid "Give Short Instrument Name:"
+msgstr ""
+
+#: actions/commandscripts/ShowLastChange.scm:4
+msgid "The last change was:\n"
+msgstr ""
+
+#: actions/commandscripts/ShowLastChange.scm:5
+msgid "No change recorded in Undo stack"
+msgstr ""
+
+#: actions/commandscripts/ShowOssia.scm:4
+msgid "Show"
 msgstr ""
 
 #: actions/commandscripts/StaffSize.scm:2
@@ -11109,6 +12026,41 @@ msgstr ""
 
 #: actions/commandscripts/StaffSize.scm:2
 msgid "Give Staff Size (for printing), 0 for default"
+msgstr ""
+
+#: actions/commandscripts/StartTuplet.scm:3
+msgid "Enter tuplet numerator "
+msgstr ""
+
+#: actions/commandscripts/StartTuplet.scm:3
+msgid ""
+"Enter the fraction to multiply the duration by,\n"
+"numerator first. E.g., for triplets, enter 2, then 3. \n"
+"Numerator:"
+msgstr ""
+
+#: actions/commandscripts/StartTuplet.scm:4
+msgid "Enter tuplet denominator"
+msgstr ""
+
+#: actions/commandscripts/StartTuplet.scm:4
+msgid "Enter the fraction's denominator:"
+msgstr ""
+
+#: actions/commandscripts/TaglineLink.scm:3
+msgid "Give URL to link to"
+msgstr ""
+
+#: actions/commandscripts/Tempo.scm:51 actions/commandscripts/Tempo.scm:54
+msgid "BPM Printed"
+msgstr ""
+
+#: actions/commandscripts/Tempo.scm:51
+msgid "BPM Not Printed"
+msgstr ""
+
+#: actions/commandscripts/Tempo.scm:59
+msgid "Incorrect BPM syntax."
 msgstr ""
 
 #: actions/commandscripts/TextAbove.scm:6
@@ -11127,6 +12079,75 @@ msgstr ""
 msgid "Cancelled"
 msgstr ""
 
+#: actions/commandscripts/TitledPiece.scm:2
+msgid "Give title for the movement or blank out to delete: "
+msgstr ""
+
+#: actions/commandscripts/TocTitle.scm:8
+msgid ""
+"Give title for the table of contents\n"
+"Blank to delete"
+msgstr ""
+
+#: actions/commandscripts/TocTitle.scm:9
+msgid "Table of Contents Page Break Control"
+msgstr ""
+
+#: actions/commandscripts/TocTitle.scm:9
+msgid ""
+"Give 0 - No page breaks\n"
+"1 - Page Break before Table of Contents\n"
+"2 - Page Break after\n"
+"3 - Both"
+msgstr ""
+
+#: actions/commandscripts/ToggleCheckChords.scm:55
+msgid "Checking Chords Filter"
+msgstr ""
+
+#: actions/commandscripts/ToggleCheckChords.scm:86
+msgid "No active MIDI Filter"
+msgstr ""
+
+#: actions/commandscripts/TransposeOctaveUp.scm:2
+msgid "Print out 8va up"
+msgstr ""
+
+#: actions/commandscripts/TransposeScorePrint.scm:9
+#: actions/commandscripts/TransposeStaffPrint.scm:6
+msgid "Set Transpose Interval"
+msgstr ""
+
+#: actions/commandscripts/TransposeScorePrint.scm:9
+#: actions/commandscripts/TransposeStaffPrint.scm:6
+msgid ""
+"Give Interval to transpose by\n"
+"e.g. c ees means up minor third.\n"
+"es = flat, so e.g. bes means b-flat\n"
+"is = sharp so e.g fis means f-sharp\n"
+"Use commas for octave(s) down, \n"
+"single-quotes for octave(s) up\n"
+"e.g. c c' means octave up.\n"
+msgstr ""
+
+#: actions/commandscripts/TransposeStaffOutput.scm:7
+msgid "No Transposition Interval"
+msgstr ""
+
+#: actions/commandscripts/TransposeStaffOutput.scm:7
+msgid ""
+"To use this function you need to place the cursor/non the first of two notes "
+"which define /nthe transposition required"
+msgstr ""
+
+#: actions/commandscripts/TransposeStaffOutput.scm:7
+msgid "Ok"
+msgstr ""
+
+#: actions/commandscripts/TransposeStaffPrint.scm:15
+msgid "Print transposed:  "
+msgstr ""
+
 #: actions/commandscripts/Tremolo.scm:4
 msgid ""
 "To use this function correctly you need to press a keyboard shortcut for a "
@@ -11139,4 +12160,37 @@ msgstr ""
 msgid ""
 "Click on the display and press a shortcut key 3-7 for the duration into "
 "which the note at the cursor is to be divided"
+msgstr ""
+
+#: actions/commandscripts/UnGraceAfter.scm:29
+msgid "The cursor is not on a grace note after a main note or chord\n"
+msgstr ""
+
+#: actions/commandscripts/Upbeat.scm:9
+msgid ""
+"Upbeat/Short Measure can only be used in an underful, non-empty measures"
+msgstr ""
+
+#: actions/commandscripts/Upbeat.scm:47 actions/commandscripts/Upbeat.scm:53
+msgid "Re-calculate"
+msgstr ""
+
+#: actions/commandscripts/Upbeat.scm:47 actions/commandscripts/Upbeat.scm:58
+msgid "Advanced"
+msgstr ""
+
+#: actions/commandscripts/Upbeat.scm:52
+msgid ""
+"This object fills up the duration of this measure, so that the notes in the "
+"measure form an upbeat. It needs to be renewed if you change the duration of "
+"the notes in the measure - use Re-calculate for this, or simply delete it "
+"and re-run the Upbeat command,"
+msgstr ""
+
+#: actions/commandscripts/ZoomDialog.scm:3
+msgid "Scale Display"
+msgstr ""
+
+#: actions/commandscripts/ZoomDialog.scm:3
+msgid "Give % scaling required"
 msgstr ""

@@ -10,7 +10,7 @@
         <scheme>;;;InitialVoiceOne
 (let ((tag "InitialVoice") (move-right #f))
 (d-PushPosition)
-(d-DirectivePut-voice-display tag "Voice One")
+(d-DirectivePut-voice-display tag (_ "Voice One"))
 (d-DirectivePut-voice-postfix tag "\\voiceOne")
 (d-DirectivePut-voice-override tag DENEMO_OVERRIDE_GRAPHIC)
 (d-MoveToBeginning)

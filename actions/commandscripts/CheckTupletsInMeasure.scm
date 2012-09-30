@@ -16,7 +16,7 @@
       (if (null? start)
 	    (begin
 	      (set! CheckTupletsInMeasure::return #f)
-	      (d-InfoDialog (string-append "End Tuplet with no start" (get-pos)))    
+	      (d-InfoDialog (string-append (_ "End Tuplet with no start") (get-pos)))    
 	      )
 	    (begin
 	      (set! start (cdr start))
@@ -29,5 +29,5 @@
     (begin
       (apply d-GoToPosition (car start))
       (set! CheckTupletsInMeasure::return #f)
-      (d-InfoDialog (string-append "Start Tuplet with no end"  (get-pos))))))
+      (d-InfoDialog (string-append (_ "Start Tuplet with no end")  (get-pos))))))
     

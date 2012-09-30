@@ -28,9 +28,9 @@
 				(else "60" )
 			)
 		)
-		(if (equal? "" BaseBeat)  (set! BaseBeat (d-GetUserInput "Metronome Marking" "Give unit beat duration (e.g., 4. for dotted-quarter) \n or enter n for none:" "4" )))
+		(if (equal? "" BaseBeat)  (set! BaseBeat (d-GetUserInput (_ "Metronome Marking") (_ "Give unit beat duration (e.g., 4. for dotted-quarter) \n or enter n for none:") "4" )))
 		
-		(if (or (equal? BaseBeat "n" ) (equal? #f BaseBeat))
+		(if (or (equal? BaseBeat (_ "n") ) (equal? #f BaseBeat))
 			(begin
 				(set! ValidBPM? #f)	;if user doesn't want to use BPM.
 				(if (not BaseBeat) (set! Go? #f))
@@ -44,7 +44,7 @@
 				)
 				(if replace (set! defaultBPM (d-DirectiveGet-standalone-midibytes "Tempo" ))) ;use old BPM if there. Bug: Only good for 4=...   
 				
-				(set! bpm (d-GetUserInput "Metronome Marking"  (string-append "Give number of these " BaseBeat " beats per minute:") defaultBPM ) )
+				(set! bpm (d-GetUserInput (_ "Metronome Marking")  (string-append (_ "Give number of these ") BaseBeat (_ " beats per minute:")) defaultBPM ) )
 				
 				
 				(set! ValidBPM?   (not (equal? (and (string-&gt;number duration) (string-&gt;number bpm) ) #f)))  ;don't go unless both are numbers.
@@ -56,15 +56,15 @@
 						(if dotted (set! MidiBPM (number-&gt;string (floor (* (/ (string-&gt;number bpm) (string-&gt;number duration)) 6 ) ) ) ) 
 							(set! MidiBPM (number-&gt;string (floor (* (/ (string-&gt;number bpm) (string-&gt;number duration) ) 4))  ) )
 						);want * 3/2 for dotted,*4 since midi uses quarters and divide by duration,     
-						(if (not ShowBPM? ) (set! ShowBPM?  (d-GetOption (string-append "BPM Printed" stop "BPM Not Printed" stop))))
+						(if (not ShowBPM? ) (set! ShowBPM?  (d-GetOption (string-append (_ "BPM Printed") stop (_ "BPM Not Printed") stop))))
 						
 						(if (not ShowBPM?) (set! Go? #f))
-						(set! ShowBPM? (equal? ShowBPM? "BPM Printed"))
+						(set! ShowBPM? (equal? ShowBPM? (_ "BPM Printed")))
 
 						(set! BPMString (string-append  BaseBeat "=" bpm ))
 
 					) ;begin
-					(d-WarningDialog "Incorrect BPM syntax.")
+					(d-WarningDialog (_ "Incorrect BPM syntax."))
 				)
 			)
 		)

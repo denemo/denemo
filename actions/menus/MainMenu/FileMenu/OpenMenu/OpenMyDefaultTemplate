@@ -12,7 +12,7 @@
 	(d-New))
 (if (d-OpenMyTemplate "Default.denemo")
 		(d-SetSaved #t)
-		(d-WarningDialog "Failed to open Default.denemo in your custom templates directory\nHave you saved a template called Default yet?"))
+		(d-WarningDialog (_ "Failed to open Default.denemo in your custom templates directory\nHave you saved a template called Default yet?")))
 </scheme>
         <label>Open Default Template</label>
         <tooltip>Opens the template Default.denemo in the user's custom template folder.</tooltip>

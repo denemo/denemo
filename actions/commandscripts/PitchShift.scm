@@ -1,5 +1,5 @@
 ;;;PitchShift
-(let ((val (d-GetUserInput "Pitch Change" "Give amount =/-" "10")))
+(let ((val (d-GetUserInput (_ "Pitch Change") (_ "Give amount =/-") "10")))
 (if val
 	(begin 
 		(set! val (string->number val))

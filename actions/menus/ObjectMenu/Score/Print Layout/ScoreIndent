@@ -16,7 +16,7 @@
 	;;(display thematch)
 	(if (regexp-match? thematch)
 	    (set! current (match:substring thematch 1)))))
-  (set! amount (d-GetUserInput "Choose indent of first system" "Give amount in decimal" current))
+  (set! amount (d-GetUserInput (_ "Choose indent of first system") (_ "Give amount in decimal") current))
   ;;(display amount)
   (if amount
   	(begin
@@ -24,7 +24,7 @@
   			(begin
   				(d-DirectivePut-score-prefix "ScoreIndent" (string-append "\\layout {indent = " amount "}\n"))
   				(d-DirectivePut-score-override "ScoreIndent"	DENEMO_OVERRIDE_GRAPHIC)
-  				(d-DirectivePut-score-display "ScoreIndent" (string-append "indent=" amount)))
+  				(d-DirectivePut-score-display "ScoreIndent" (string-append (_ "indent=") amount)))
   		(d-DirectiveDelete-score "ScoreIndent"))))
   (d-RefreshDisplay))
 </scheme>

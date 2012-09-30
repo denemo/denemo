@@ -7,11 +7,11 @@
    ("sf" "" "sf") ("sff" "" "sff") ("sp" "" "sp" ) ("spp" "" "spp") ("sfz" "" "sfz") ("rfz" "" "rfz") ("Custom" "" "")))
   (define (firstmenu choices thelist)
       (if (and (not (null? thelist))
-	  (not (equal? (car (car thelist)) "More")))
+	  (not (equal? (car (car thelist)) (_ "More"))))
 	(begin
 	    (set! choices (string-append choices (car (car thelist)) stop))
 	    (firstmenu choices (cdr thelist)))
-	(set! choice (d-GetOption (string-append choices "More" stop)))))
+	(set! choice (d-GetOption (string-append choices (_ "More") stop)))))
    
   (if (d-Directive-standalone? tag)
     (set! replace #t))
@@ -23,7 +23,7 @@
 
   (firstmenu "" DynamicList)
   (let loop ()
-    (if (and choice (equal? choice "More") )
+    (if (and choice (equal? choice (_ "More")) )
       (begin
 	(if (not (equal? DenemoDynamicList DefaultDynamicList)) ;;we used a custom list, switch to using the Default list and try again
 	  (begin
@@ -32,7 +32,7 @@
 	    (firstmenu "" DynamicList)
 	    (loop))))))
 
- (if (and choice (equal? choice "More") )
+ (if (and choice (equal? choice (_ "More")) )
       (begin	    
 	(set! DynamicList DefaultDynamicList)
 	(set! choice (d-GetOption (string-append "ppppp" stop "pppp" stop  "ffff" stop "fp" stop "sf" stop  "sff" stop "sp"  stop "spp" stop "sfz" stop "rfz" stop "Custom" stop)))))
@@ -45,12 +45,12 @@
 	(set! level (car (cdr X)) )
 	(set! Graphic (car (cdr (cdr X) ) ) ) 
 	(if (equal? choice "Custom" ) (begin 
-   		(set! choice (d-GetUserInput "Custom dynamic" "Enter dynamic text:" "" ) )
+   		(set! choice (d-GetUserInput (_ "Custom dynamic") (_ "Enter dynamic text:") "" ) )
    		(if choice
         		(set! LilyString (string-append  "s8*0_\\markup  \\bold \\italic { " choice " } " )))))
     (if (equal? level "") 
       (begin
-	(set! level (d-GetUserInput "Dynamic setting" "Enter loudness level (0-127):" "63" ) ) 
+	(set! level (d-GetUserInput (_ "Dynamic setting") (_ "Enter loudness level (0-127):") "63" ) ) 
 	(let ( (a 0)) 
 	(set! a (string->number level) )
 	(if (or (boolean? a) (> a 127) (< a 0) )(set! level #f) ))))

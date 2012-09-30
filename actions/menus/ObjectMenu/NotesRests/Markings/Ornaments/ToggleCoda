@@ -10,7 +10,7 @@
 (ToggleChordDirective "Coda" LG-Coda "\\coda" DENEMO_OVERRIDE_ABOVE)
 </scheme>
         <label>Coda (Off/On)</label>
-        <tooltip>Adds/Removes a Mordent to the note</tooltip>
+        <tooltip>Adds/Removes a Coda to the note</tooltip>
       </row>
     </map>
   </merge>

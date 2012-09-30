@@ -7,7 +7,7 @@
       <row>
         <action>BookArranger</action>
         <scheme>;;BookArranger
-        (BookTitles::Do "Arranger" "arranger" "My Arranger"  "Give name for arranger etc or blank out to delete: ")
+        (BookTitles::Do "Arranger" "arranger" "My Arranger"  (_ "Give name for arranger etc or blank out to delete: "))
         </scheme>
         <label>Arranger</label>
         <tooltip>Prints the arranger name on title page</tooltip>
