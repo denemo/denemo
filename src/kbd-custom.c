@@ -1436,18 +1436,22 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event)
   keymap *the_keymap = Denemo.map;
   GtkMenu *menu = GTK_MENU(grab_widget);
 
+if(Denemo.prefs.strictshortcuts && ((event->keyval==0xFF1B)|| (event->keyval==0xFF51)||(event->keyval==0xFF52)||(event->keyval==0xFF53)||(event->keyval==0xFF54))){
+//Esc and arrows for navigating menus
+	return FALSE;
+}
   //If the KeyEvent is only a modifier, stop processing here
   if (isModifier(event))
       return TRUE;
   dnm_clean_event(event);
   modifiers = dnm_sanitize_key_state(event);
   keyval = event->keyval;
+  
 #if GTK_MAJOR_VERSION == 3
   action = gtk_activatable_get_related_action(gtk_menu_get_active(GTK_MENU(menu)));
 #else
   action = gtk_widget_get_action(GTK_MENU_SHELL(menu)->active_menu_item);//note this is not gtk_menu_get_active(menu) except after a selection has been made, we want the menu item that the pointer has moved to before it is selected.
 #endif
-
 
 
  //If this menu item has no action we give up
