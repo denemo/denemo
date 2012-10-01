@@ -46,6 +46,11 @@ struct callbackdata
   GtkWidget *lilypath;
   GtkWidget *immediateplayback;
   GtkWidget *manualtypeset;
+  GtkWidget *typesettype;
+  GtkWidget *firstmeasure;
+  GtkWidget *firststaff;
+  GtkWidget *lastmeasure;
+  GtkWidget *laststaff;
   GtkWidget *pitchspellingchannel;
   GtkWidget *pitchspellingprogram;
   GtkWidget *modal;
@@ -277,6 +282,11 @@ set_preferences (struct callbackdata *cbdata)
 
   ASSIGNBOOLEAN(immediateplayback)
   ASSIGNBOOLEAN(manualtypeset)
+  ASSIGNINT(typesettype)
+  ASSIGNINT(firstmeasure)
+  ASSIGNINT(firststaff)
+  ASSIGNINT(lastmeasure)
+  ASSIGNINT(laststaff)
   ASSIGNINT(pitchspellingchannel)
   ASSIGNINT(pitchspellingprogram)
   ASSIGNBOOLEAN(modal)
@@ -478,7 +488,7 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
   cbdata.field = field;
 
-#define INTENTRY_LIMITS(thelabel, field, min, max) ENTRY_LIMITS(thelabel, field, min, max, 0.1)
+#define INTENTRY_LIMITS(thelabel, field, min, max) ENTRY_LIMITS(thelabel, field, min, max, 1)
 
 #define DOUBLEENTRY_LIMITS  ENTRY_LIMITS
 
@@ -584,11 +594,21 @@ preferences_change (GtkAction *action, gpointer param)
    /*
    * Misc Menu
    */
-  NEWPAGE("Miscellaneous");
+  NEWPAGE("Auto-Typeset");
 
   
-  BOOLEANENTRY("Re-use last settings on startup", persistence);
+  
   BOOLEANENTRY("Manually update the typeset score", manualtypeset);
+  INTENTRY_LIMITS("Type: (0=Range, 1=Movement, 2=Whole Score", typesettype, TYPESET_EXCERPT, TYPESET_ALL_MOVEMENTS);
+  INTENTRY_LIMITS("Measures before cursor", firstmeasure, 0, 100);
+  INTENTRY_LIMITS("Measures after cursor", lastmeasure, 0, 100);
+  INTENTRY_LIMITS("Staffs before cursor", firststaff, 0, 100);
+  INTENTRY_LIMITS("Staffs after cursor", laststaff, 0, 100);
+    /*
+   * Misc Menu
+   */
+  NEWPAGE("Miscellaneous");
+  BOOLEANENTRY("Re-use last settings on startup", persistence);
   DOUBLEENTRY_LIMITS("Playback Display Refresh", display_refresh, 0.001, 0.5, 0.002);
   INTENTRY_LIMITS("Page Turn Steps", animation_steps, 1, 200);
 

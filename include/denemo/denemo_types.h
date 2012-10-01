@@ -350,6 +350,7 @@ typedef struct DenemoKeymap
 
 }keymap;
 
+typedef enum { TYPESET_EXCERPT, TYPESET_MOVEMENT, TYPESET_ALL_MOVEMENTS} typeset_type;
 
 /**
  * DenemoPrefs holds information on user preferences. 
@@ -363,6 +364,11 @@ typedef struct DenemoPrefs
   GString *audioplayer; /**< This is used for playing audio files*/
   GString *fontspec; /**< Font specification usually Denemo as this has the required characters */
   gboolean manualtypeset;/**< typeset on request, not continuously */
+  gint typesettype;/**< what to re-typeset when not manual typeset */
+  gint firstmeasure;/**< first measure to typeset relative to the cursor when not manual typset */
+  gint firststaff;/**< first staff to typeset relative to the cursor when not manual typset */
+  gint lastmeasure;/**< last measure to typeset relative to the cursor when not manual typset */
+  gint laststaff;/**< last staff to typeset relative to the cursor when not manual typset */
   gboolean immediateplayback; /**< This options sends audio directly to synth as notes 
 				are being entered */
   gint pitchspellingchannel; /**< channel to use for feedback when entering extreme intervals via MIDI in, that may indicate an enharmonic error, 0 means no pitch spelling*/

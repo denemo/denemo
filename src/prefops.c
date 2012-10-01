@@ -125,7 +125,13 @@ initprefs ()
   ret->newbie = TRUE;
   ret->immediateplayback = TRUE;
   ret->manualtypeset = FALSE;
-
+  ret->typesettype = TYPESET_ALL_MOVEMENTS;
+  ret->firstmeasure = 4;
+  ret->firststaff = 4;
+  ret->lastmeasure = 4;
+  ret->laststaff = 4;
+  
+  
   ret->audio_driver = g_string_new("default");
   ret->midi_driver = g_string_new("default");
 #ifdef _HAVE_PORTAUDIO_
@@ -323,6 +329,12 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READBOOLXMLENTRY(createclones)
       READBOOLXMLENTRY(immediateplayback)
       READBOOLXMLENTRY(manualtypeset)
+      READINTXMLENTRY(typesettype)
+      READINTXMLENTRY(firstmeasure)
+      READINTXMLENTRY(firststaff)
+      READINTXMLENTRY(lastmeasure)
+      READINTXMLENTRY(laststaff)
+      
       READINTXMLENTRY(pitchspellingchannel)
       READINTXMLENTRY(pitchspellingprogram)
       READBOOLXMLENTRY(modal) 
@@ -351,8 +363,8 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READBOOLXMLENTRY(lilyentrystyle)
       READBOOLXMLENTRY(toolbar)
       READBOOLXMLENTRY(notation_palette)
-	READBOOLXMLENTRY(midi_in_controls)
-	READBOOLXMLENTRY(playback_controls)
+	    READBOOLXMLENTRY(midi_in_controls)
+	    READBOOLXMLENTRY(playback_controls)
       READBOOLXMLENTRY(console_pane)
       READBOOLXMLENTRY(lyrics_pane)
       READBOOLXMLENTRY(visible_directive_buttons)
@@ -451,6 +463,11 @@ return FALSE;
 gint get_int_pref(gchar *prefname) {
   if(*prefname == 0)
     return 0;
+      GETINTPREF(typesettype)
+      GETINTPREF(firstmeasure)
+      GETINTPREF(firststaff)
+      GETINTPREF(lastmeasure)
+      GETINTPREF(laststaff)
       GETINTPREF(pitchspellingchannel)
       GETINTPREF(pitchspellingprogram)
       GETINTPREF(mode) 
@@ -767,6 +784,12 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEBOOLXMLENTRY(lilyentrystyle)
   WRITEBOOLXMLENTRY(immediateplayback)
   WRITEBOOLXMLENTRY(manualtypeset)
+  WRITEINTXMLENTRY(typesettype)
+  WRITEINTXMLENTRY(firstmeasure)
+  WRITEINTXMLENTRY(firststaff)
+  WRITEINTXMLENTRY(lastmeasure)
+  WRITEINTXMLENTRY(laststaff)
+  
   WRITEINTXMLENTRY(pitchspellingchannel)
   WRITEINTXMLENTRY(pitchspellingprogram)
   WRITEBOOLXMLENTRY(modal)
@@ -783,9 +806,9 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEINTXMLENTRY(resolution)
   WRITEDOUBLEXMLENTRY(display_refresh)
   WRITEINTXMLENTRY(animation_steps)
-    WRITEINTXMLENTRY(tooltip_timeout)
-    WRITEINTXMLENTRY(tooltip_browse_timeout)
-    WRITEINTXMLENTRY(tooltip_browse_mode_timeout)
+  WRITEINTXMLENTRY(tooltip_timeout)
+  WRITEINTXMLENTRY(tooltip_browse_timeout)
+  WRITEINTXMLENTRY(tooltip_browse_mode_timeout)
   WRITEBOOLXMLENTRY(overlays)
   WRITEBOOLXMLENTRY(enable_thumbnails)
   WRITEBOOLXMLENTRY(continuous)
