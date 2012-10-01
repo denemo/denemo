@@ -449,10 +449,7 @@ dnm_accelerator_name (guint           accelerator_key,
     if(name->len>3 && (*name->str=='K') && (*(name->str+1)=='P') && (*(name->str+2)=='_'))
       g_string_erase(name, 0, 3);//force numeric keypad KP_ names to normal
 
-    //g_print("label %s\nname %s\n", gtk_accelerator_get_label(accelerator_key, 0), 	    gdk_keyval_name(accelerator_key));
-
-
-
+    //g_print("label %s\nname %s\n", gtk_accelerator_get_label(accelerator_key, 0), gdk_keyval_name(accelerator_key));
     // g_print("mods were %x\n", accelerator_mods);
 #if 0
     //do not let caps lock affect shift of backspace etc
@@ -1436,7 +1433,7 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event)
   keymap *the_keymap = Denemo.map;
   GtkMenu *menu = GTK_MENU(grab_widget);
 
-if(Denemo.prefs.strictshortcuts && ((event->keyval==0xFF1B)|| (event->keyval==0xFF51)||(event->keyval==0xFF52)||(event->keyval==0xFF53)||(event->keyval==0xFF54))){
+if(Denemo.prefs.menunavigation && ((event->keyval==0xFF1B)|| (event->keyval==0xFF51)||(event->keyval==0xFF52)||(event->keyval==0xFF53)||(event->keyval==0xFF54))){
 //Esc and arrows for navigating menus
 	return FALSE;
 }

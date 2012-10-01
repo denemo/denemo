@@ -123,6 +123,7 @@ struct callbackdata
   GtkWidget *denemopath;
   GtkWidget *temperament;
   GtkWidget *strictshortcuts;
+  GtkWidget *menunavigation;
   GtkWidget *resolution;
   GtkWidget *overlays;
   GtkWidget *enable_thumbnails;
@@ -263,6 +264,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNINT(tooltip_browse_mode_timeout)
   ASSIGNTEXT(temperament)
   ASSIGNBOOLEAN(strictshortcuts)
+  ASSIGNBOOLEAN(menunavigation)
   ASSIGNBOOLEAN(overlays)
   ASSIGNBOOLEAN(enable_thumbnails)
   ASSIGNBOOLEAN(continuous)
@@ -559,6 +561,7 @@ preferences_change (GtkAction *action, gpointer param)
 
 
   BOOLEANENTRY("Strict Shortcuts", strictshortcuts);
+  BOOLEANENTRY("Menu Navigation by Keypress", menunavigation);
   BOOLEANENTRY("Treat Return key as movable shortcut", return_key_is_special);
   BOOLEANENTRY("Turn on all tooltips", newbie);
 

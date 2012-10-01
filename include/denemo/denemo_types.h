@@ -449,6 +449,7 @@ typedef struct DenemoPrefs
   GString *lilyversion; /**< Lilypoind Version */
   GString *temperament; /**< Preferred temperament for tuning to */
   gboolean strictshortcuts; /**< Classic shortcut scheme, now deprecated */
+  gboolean menunavigation; /**< arrows and Escape work for menu navigation*/
   gboolean verboseshortcuts; /**< whether shortcuts are known by their gdk name e.g. period for . */
   
   gint resolution; /**< Resolution of exported selection in dpi */
