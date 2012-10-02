@@ -2032,7 +2032,7 @@ static GtkWidget *get_updates_menu(GtkWidget *button) {
 		menu = gtk_menu_new();
 		item = gtk_check_menu_item_new_with_label(CONTINUOUS);
 		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-		gtk_widget_set_tooltip_text(item, _("Set background updats on/off."));
+		gtk_widget_set_tooltip_text(item, _("Set background updates on/off."));
 		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(toggle_updates), button);
 		
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), !Denemo.prefs.manualtypeset);
@@ -2051,7 +2051,7 @@ static void updates_menu(GtkWidget *button) {
 
 static GtkWidget *get_updates_button(void) {
   GtkWidget *button = gtk_button_new_with_label(MANUAL);
-  gtk_widget_set_tooltip_text(button, _("Set background updater on/off. This controls if typesetting is re-done after each change to the music."));
+  gtk_widget_set_tooltip_text(button, _("Set background updater on/off. This controls if typesetting is re-done after each change to the music. The amount of the score to be re-typeset can be set via this button."));
   g_signal_connect(button, "clicked", G_CALLBACK(updates_menu), NULL);
   return button;	
 }
@@ -2122,6 +2122,7 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
 
   
   top_vbox = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_keep_above (GTK_WINDOW(top_vbox), TRUE);
   gtk_window_set_title(GTK_WINDOW(top_vbox),_( "Denemo Print View"));
   gtk_widget_set_size_request(GTK_WIDGET(top_vbox), 600, 750);
   g_signal_connect (G_OBJECT (top_vbox), "delete-event",
@@ -2144,7 +2145,7 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
 
   gtk_container_add (GTK_CONTAINER(score_and_scroll_hbox), Denemo.printarea);
   if(Denemo.prefs.newbie)
-    gtk_widget_set_tooltip_markup(score_and_scroll_hbox, _("This window shows the final typeset score from which you can print or (via print to file) create a PDF document.\nWhen you have typeset the score you can click on a note to move to that place in the Denemo display.\n<b>Note</b>: It can take some time to generate a beautifully typeset score, so take a break!\nIf you just want to generate a score layout - e.g. for one part then you can kill off the actual typsetting by closing the Progress bar"));
+    gtk_widget_set_tooltip_markup(score_and_scroll_hbox, _("This window shows the final typeset score from which you can print or (via print to file) create a PDF document.\nThis will be continuously updated while you edit the music in the main window.\nIn this Print View window you can click on a note to move to that place in the main Denemo display window.\n<b>Note</b>: It can take some time to generate a beautifully typeset score, especially for a large score on a slow machine so choose just a range to be continually updated in that case."));
 
  g_signal_connect (G_OBJECT (Denemo.printarea), "external-link",
 		      G_CALLBACK (goto_position), NULL);
