@@ -689,7 +689,7 @@ gboolean intercept_midi_event(gint *midi) {
    // return FALSE;
     set_midi_capture(FALSE);
     g_queue_clear(&midi_queue);
-   
+   return FALSE;
   }
   if(g_queue_is_empty(&midi_queue)) {
   divert_midi_event = midi;
@@ -702,6 +702,7 @@ gboolean intercept_midi_event(gint *midi) {
     *midi =  (0xFFFFFF & get_midiqueue());
      //g_print("getting from queue %x\n", *midi);
   }
+  return TRUE;
 }
 
 
