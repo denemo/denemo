@@ -46,6 +46,7 @@ struct callbackdata
   GtkWidget *lilypath;
   GtkWidget *immediateplayback;
   GtkWidget *manualtypeset;
+  GtkWidget *typesetrefresh;
   GtkWidget *typesettype;
   GtkWidget *firstmeasure;
   GtkWidget *firststaff;
@@ -282,6 +283,7 @@ set_preferences (struct callbackdata *cbdata)
 
   ASSIGNBOOLEAN(immediateplayback)
   ASSIGNBOOLEAN(manualtypeset)
+  ASSIGNINT(typesetrefresh)
   ASSIGNINT(typesettype)
   ASSIGNINT(firstmeasure)
   ASSIGNINT(firststaff)
@@ -599,6 +601,7 @@ preferences_change (GtkAction *action, gpointer param)
   
   
   BOOLEANENTRY("Manually update the typeset score", manualtypeset);
+  INTENTRY_LIMITS("Rate of re-typeset in ms", typesetrefresh, 0, 10000);
   INTENTRY_LIMITS("Type: (0=Range, 1=Movement, 2=Whole Score", typesettype, TYPESET_EXCERPT, TYPESET_ALL_MOVEMENTS);
   INTENTRY_LIMITS("Measures before cursor", firstmeasure, 0, 100);
   INTENTRY_LIMITS("Measures after cursor", lastmeasure, 0, 100);

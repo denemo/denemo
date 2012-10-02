@@ -910,7 +910,10 @@ void printop_done(EvPrintOperation *printop, GtkPrintOperationResult arg1, GtkPr
     //g_print("Came away with uri %s\n", gtk_print_settings_get(*psettings, GTK_PRINT_SETTINGS_OUTPUT_URI));
     set_current_scoreblock_uri(g_strdup(gtk_print_settings_get(*psettings, GTK_PRINT_SETTINGS_OUTPUT_URI)));
     if(PrintStatus.background&STATE_PAUSED) {
-			PrintStatus.updating_id = g_idle_add( (GSourceFunc)retypeset, NULL);
+			if(Denemo.prefs.typesetrefresh)
+						PrintStatus.updating_id = g_timeout_add(Denemo.prefs.typesetrefresh, (GSourceFunc)retypeset, NULL);
+			else
+						PrintStatus.updating_id = g_idle_add( (GSourceFunc)retypeset, NULL);
 			PrintStatus.background &= ~STATE_PAUSED;
 		}
     call_out_to_guile("(FinalizePrint)");
@@ -1900,8 +1903,10 @@ static void toggle_updates(GtkWidget *menu_item, GtkWidget *button) {
 	 if(Denemo.prefs.persistence)
 		Denemo.prefs.manualtypeset = TRUE;
  } else {
-//	 PrintStatus.updating_id = g_idle_add( (GSourceFunc)retypeset, NULL);
-	 PrintStatus.updating_id = g_timeout_add(10, (GSourceFunc)retypeset, NULL);//!!!!!!!!!
+		if(Denemo.prefs.typesetrefresh)
+			PrintStatus.updating_id = g_timeout_add(Denemo.prefs.typesetrefresh, (GSourceFunc)retypeset, NULL);
+	 else
+	 	 PrintStatus.updating_id = g_idle_add( (GSourceFunc)retypeset, NULL);
 	 gtk_button_set_label(GTK_BUTTON(button), CONTINUOUS);
 	 if(Denemo.prefs.persistence)
 		Denemo.prefs.manualtypeset = FALSE;

@@ -364,6 +364,7 @@ typedef struct DenemoPrefs
   GString *audioplayer; /**< This is used for playing audio files*/
   GString *fontspec; /**< Font specification usually Denemo as this has the required characters */
   gboolean manualtypeset;/**< typeset on request, not continuously */
+  gint typesetrefresh;/**< ms between re-trying typeset */
   gint typesettype;/**< what to re-typeset when not manual typeset */
   gint firstmeasure;/**< first measure to typeset relative to the cursor when not manual typset */
   gint firststaff;/**< first staff to typeset relative to the cursor when not manual typset */

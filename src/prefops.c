@@ -125,6 +125,7 @@ initprefs ()
   ret->newbie = TRUE;
   ret->immediateplayback = TRUE;
   ret->manualtypeset = FALSE;
+  ret->typesetrefresh = 10;
   ret->typesettype = TYPESET_ALL_MOVEMENTS;
   ret->firstmeasure = 4;
   ret->firststaff = 4;
@@ -329,6 +330,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READBOOLXMLENTRY(createclones)
       READBOOLXMLENTRY(immediateplayback)
       READBOOLXMLENTRY(manualtypeset)
+      READINTXMLENTRY(typesetrefresh)
       READINTXMLENTRY(typesettype)
       READINTXMLENTRY(firstmeasure)
       READINTXMLENTRY(firststaff)
@@ -464,6 +466,7 @@ gint get_int_pref(gchar *prefname) {
   if(*prefname == 0)
     return 0;
       GETINTPREF(typesettype)
+      GETINTPREF(typesetrefresh)
       GETINTPREF(firstmeasure)
       GETINTPREF(firststaff)
       GETINTPREF(lastmeasure)
@@ -784,6 +787,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEBOOLXMLENTRY(lilyentrystyle)
   WRITEBOOLXMLENTRY(immediateplayback)
   WRITEBOOLXMLENTRY(manualtypeset)
+  WRITEINTXMLENTRY(typesetrefresh)
   WRITEINTXMLENTRY(typesettype)
   WRITEINTXMLENTRY(firstmeasure)
   WRITEINTXMLENTRY(firststaff)
