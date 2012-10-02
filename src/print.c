@@ -57,7 +57,7 @@ typedef struct lilyversion
 }lilyversion;
 
 
-static changecount = -1;//changecount when the printfile was last created FIXME multiple tabs are muddled
+static gint changecount = -1;//changecount when the printfile was last created FIXME multiple tabs are muddled
 #define GPID_NONE (-1)
 
 static GPid previewerpid = GPID_NONE;
@@ -90,7 +90,7 @@ gchar *printname_ly[2];
 static printstatus PrintStatus = {GPID_NONE, 0, 0, 4, 4, 4, 4, TYPESET_ALL_MOVEMENTS};
 
 
-static gint output=-1;
+
 static gint errors=-1;
 static   GError *lily_err = NULL;
 
@@ -209,8 +209,6 @@ get_lily_version_string (void)
 {
 #ifndef G_OS_WIN32
   GError *error = NULL;
-  gchar *version_string;
-  double d;
   int standard_output;
 #define NUMBER_OF_PARSED_CHAR 30
   gchar buf[NUMBER_OF_PARSED_CHAR]; /* characters needed to parse */
@@ -230,7 +228,7 @@ get_lily_version_string (void)
   NULL,	/*standard error*/
   &error);
   if(error==NULL) {
-    gint numbytes = read(standard_output, buf, sizeof(buf));
+    read(standard_output, buf, sizeof(buf));
     return regex_parse_version_number(buf);
   } else {
     g_warning ("%s", error->message);
@@ -381,7 +379,6 @@ static void
 open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
   if(PrintStatus.printpid==GPID_NONE)
     return;
-  DenemoGUI *gui = Denemo.gui;
   GError *err = NULL;
   gchar *printfile;
   gchar **arguments;
@@ -477,7 +474,6 @@ open_pdfviewer(GPid pid, gint status, gchar *filename){
 static gint 
 run_lilypond(gchar **arguments) {
   gint error = 0;
-  DenemoGUI *gui = Denemo.gui;
   if(PrintStatus.background==STATE_NONE)
 		progressbar("Denemo Typesetting");
   g_spawn_close_pid (get_lily_version_pid);
@@ -567,7 +563,7 @@ run_lilypond_for_pdf(gchar *filename, gchar *lilyfile) {
 }
 static unsigned file_get_mtime(gchar *filename) {
 	struct stat thebuf;
-  gint status =  g_stat(filename, &thebuf);
+  g_stat(filename, &thebuf);
   unsigned mtime = thebuf.st_mtime;
  // g_print("the mt is %u %u\n", mtime, thebuf.st_mtim.tv_nsec);
 	return mtime;
@@ -889,14 +885,8 @@ static gboolean selecting = FALSE;
 static gboolean offsetting = FALSE;
 static gboolean padding = FALSE;
 
-static gint offsetx, offsety;
-
 static gint curx, cury;// position of mouse pointer while during motion
 static gint pointx, pointy,  markx, marky;//coordinates defining a selected region in print preview pane. These are set by left button press/release, with pointx, pointy being set to top left
-
-
-static GtkPrintSettings *settings;
-
 
 static GdkCursor *busycursor;
 static GdkCursor *arrowcursor;
@@ -921,14 +911,13 @@ void printop_done(EvPrintOperation *printop, GtkPrintOperationResult arg1, GtkPr
     set_current_scoreblock_uri(g_strdup(gtk_print_settings_get(*psettings, GTK_PRINT_SETTINGS_OUTPUT_URI)));
     if(PrintStatus.background&STATE_PAUSED) {
 			PrintStatus.updating_id = g_idle_add( (GSourceFunc)retypeset, NULL);
-			PrintStatus.background != ~STATE_PAUSED;
+			PrintStatus.background &= ~STATE_PAUSED;
 		}
     call_out_to_guile("(FinalizePrint)");
 }
 static gboolean
 libevince_print(void) {
   GError *err = NULL;
-  GFile       *file;
   gchar *filename = PrintStatus.printname_pdf[PrintStatus.cycle];
   gchar *uri = g_filename_to_uri(filename, NULL, &err);
 
@@ -989,22 +978,6 @@ static void get_window_position(gint*x, gint* y) {
   *y = gtk_adjustment_get_value(adjust);
 }
 
-
-static void set_window_position(x, y) {
-  GtkAdjustment * adj = gtk_range_get_adjustment(GTK_RANGE(Denemo.printhscrollbar));
-  gint bound = gtk_adjustment_get_upper(adj);
-  if(x<bound) {
-  gtk_adjustment_set_value(adj, x);
-  gtk_adjustment_changed(adj);
-  } else g_print("out of horizontal range\n");
-
-  adj = gtk_range_get_adjustment(GTK_RANGE(Denemo.printvscrollbar));
-  bound = gtk_adjustment_get_upper(adj);
-  if(y<bound) {
-    gtk_adjustment_set_value(adj, y);
-    gtk_adjustment_changed(adj);
-  } else g_print("out of vertical range\n");
-}
    
 //setting up Denemo.pixbuf so that parts of the pdf can be dragged etc.
 static void set_denemo_pixbuf(void)  {
@@ -1031,7 +1004,7 @@ static gboolean overdraw_print(cairo_t *cr) {
     set_denemo_pixbuf();
    if(Denemo.pixbuf==NULL)
     return FALSE;
-  gint x, y, hupper, hlower, vupper, vlower;
+  gint x, y;
 
   get_window_position(&x, &y);
 
@@ -1239,11 +1212,6 @@ if((force) || (changecount!=Denemo.gui->changecount)) {
 return FALSE;
 }
 
-
-static void
-force_typeset(void) {
- changecount = -1;
-}
 void
 printpreview_cb (GtkAction *action, DenemoScriptParam* param) {
   (void)typeset(TRUE);
@@ -1462,17 +1430,18 @@ printmovement_cb (GtkAction *action, gpointer param) {
     changecount = Denemo.gui->changecount;
 }
 
-
-//static gint 
-//drag_selection(void) {
-//  offsetting = TRUE;
-//  return TRUE;
-//}
+#if 0
+static gint 
+drag_selection(void) {
+  offsetting = TRUE;
+  return TRUE;
+}
 static gint 
 start_drag(GtkWidget *widget, gboolean *flag) {
   *flag = TRUE;
   return TRUE;
 }
+#endif
 static void create_all_pdf(void) {
 
 busy_cursor();
@@ -1491,6 +1460,7 @@ busy_cursor();
 create_pdf(TRUE, TRUE);
 g_child_watch_add(PrintStatus.printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
 }
+#if 0
 static gint 
 popup_print_preview_menu(void) {
   GtkWidget *menu = gtk_menu_new();
@@ -1522,6 +1492,7 @@ popup_print_preview_menu(void) {
   gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
   return TRUE;
 }
+#endif
 
 static gint
 goto_position (EvView* view, EvLinkAction *obj)
@@ -1594,12 +1565,6 @@ static void normalize(void){
     pointy++;
 
 }
-static	gboolean within_area(gint x, gint y) {
-  return(x<=pointx &&
-	 y<=pointy &&
-	 x>=markx &&
-	 y>=marky);
-}
 
 #if 0
 static gint
@@ -1625,7 +1590,7 @@ g_print("release\n");
 
   return TRUE;
 }
-#endif
+
 static gint
 printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 {
@@ -1678,7 +1643,7 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 
   return TRUE;
 }
-
+#endif
 
 
 static gint
@@ -1748,12 +1713,6 @@ return TRUE;
   selecting = FALSE;
   return TRUE;
 }
-static void denemoprintf_sync(EvView  *evview, gpointer arg1, gpointer user_data) {
-g_print("Sync Signal Callback! Please report how you got this to fire\n");
-}
-
-
-
 
 // PrintStatus.mtime = file_get_mtime(filename); use in get_printfile_pathbasename
 
@@ -1877,6 +1836,7 @@ g_object_set_data(G_OBJECT(Denemo.printarea), "Duplex", GINT_TO_POINTER(!g_objec
   set_printarea(&err);
 }
 
+#if 0
 gint
 printarea_scroll_event (GtkWidget *widget, GdkEventScroll *event) {
   switch(event->direction) {
@@ -1889,7 +1849,7 @@ printarea_scroll_event (GtkWidget *widget, GdkEventScroll *event) {
   }
 return FALSE;
 }
-
+#endif
 #define MANUAL _("Manual Updates")
 #define CONTINUOUS _("Continuous")
 static void typeset_action(GtkWidget *button, gpointer data) {
@@ -1940,7 +1900,8 @@ static void toggle_updates(GtkWidget *menu_item, GtkWidget *button) {
 	 if(Denemo.prefs.persistence)
 		Denemo.prefs.manualtypeset = TRUE;
  } else {
-	 PrintStatus.updating_id = g_idle_add( (GSourceFunc)retypeset, NULL);
+//	 PrintStatus.updating_id = g_idle_add( (GSourceFunc)retypeset, NULL);
+	 PrintStatus.updating_id = g_timeout_add(10, (GSourceFunc)retypeset, NULL);//!!!!!!!!!
 	 gtk_button_set_label(GTK_BUTTON(button), CONTINUOUS);
 	 if(Denemo.prefs.persistence)
 		Denemo.prefs.manualtypeset = FALSE;
@@ -1977,7 +1938,7 @@ static void value_change(GtkWidget *spinner, gint *value) {
 			Denemo.prefs.laststaff = PrintStatus.last_staff;
 	}
 }
-range_dialog(void) {
+static void range_dialog(void) {
 	static GtkWidget *dialog;
 	if(dialog==NULL) {
 

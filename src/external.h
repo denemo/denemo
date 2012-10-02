@@ -7,9 +7,6 @@ void ext_quit (void);
 gchar* get_temp_filename (const gchar* name);
 GPid spawn_external(const GString* cmdline);
 
-/* ext_pidfiles is a shared pid list used by ext_* functions.*/
-static gchar* ext_pidfiles[] = {"midiplayer.pid", NULL};
-
 /* GPID_UNREF contains the default value for an unreferenced GPid*/
 #ifdef G_OS_WIN32
 static const GPid GPID_UNREF = NULL;
