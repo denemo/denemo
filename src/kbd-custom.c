@@ -1445,7 +1445,7 @@ if(Denemo.prefs.menunavigation && ((event->keyval==0xFF1B)|| (event->keyval==0xF
   keyval = event->keyval;
   
 #if GTK_MAJOR_VERSION == 3
-  action = gtk_activatable_get_related_action(gtk_menu_get_active(GTK_MENU(menu)));
+  action = gtk_activatable_get_related_action(gtk_menu_shell_get_selected_item( GTK_MENU_SHELL(menu)));
 #else
   action = gtk_widget_get_action(GTK_MENU_SHELL(menu)->active_menu_item);//note this is not gtk_menu_get_active(menu) except after a selection has been made, we want the menu item that the pointer has moved to before it is selected.
 #endif
