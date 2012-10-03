@@ -984,9 +984,11 @@ static void get_window_position(gint*x, gint* y) {
    
 //setting up Denemo.pixbuf so that parts of the pdf can be dragged etc.
 static void set_denemo_pixbuf(void)  {
+	GdkWindow *window;
 	if(!GTK_IS_LAYOUT(Denemo.printarea))
-		return;
-  GdkWindow *window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
+		window = gtk_widget_get_window (GTK_WIDGET(Denemo.printarea));
+  else 
+   window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
       if(window) {
       gint width, height;
 #if GTK_MAJOR_VERSION==2
