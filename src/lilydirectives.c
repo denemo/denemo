@@ -2502,20 +2502,20 @@ static
 DenemoDirective *select_header_directive(void) {
   if(Denemo.gui->si->header.directives==NULL)
     return NULL;
-  return select_directive("Select a movement header block directive", Denemo.gui->si->header.directives);
+  return select_directive(_("Select a movement header block directive"), Denemo.gui->si->header.directives);
 }
 static
 DenemoDirective *select_layout_directive(void) {
   if(Denemo.gui->si->layout.directives==NULL)
     return NULL;
-  return select_directive("Select a movement layout block directive", Denemo.gui->si->layout.directives);
+  return select_directive(_("Select a movement layout block directive"), Denemo.gui->si->layout.directives);
 }
 
 static
 DenemoDirective *select_movementcontrol_directive(void) {
   if(Denemo.gui->si->movementcontrol.directives==NULL)
     return NULL;
-  return select_directive("Select a movement control directive", Denemo.gui->si->movementcontrol.directives);
+  return select_directive(_("Select a movement control directive"), Denemo.gui->si->movementcontrol.directives);
 }
 
 static
@@ -2523,7 +2523,7 @@ DenemoDirective *select_clef_directive(void) {
   clef *curclef = get_clef();
   if(curclef==NULL || curclef->directives==NULL)
     return NULL;
-  return select_directive("Select a clef directive", curclef->directives);
+  return select_directive(_("Select a clef directive"), curclef->directives);
 }
 
 static
@@ -2531,7 +2531,7 @@ DenemoDirective *select_keysig_directive(void) {
   keysig *curkeysig = get_keysig();
   if(curkeysig==NULL || curkeysig->directives==NULL)
     return NULL;
-  return select_directive("Select a key signature directive", curkeysig->directives);
+  return select_directive(_("Select a key signature directive"), curkeysig->directives);
 }
 
 static
@@ -2539,7 +2539,7 @@ DenemoDirective *select_timesig_directive(void) {
   timesig *curtimesig = get_timesig();
   if(curtimesig==NULL || curtimesig->directives==NULL)
     return NULL;
-  return select_directive("Select a time signature directive", curtimesig->directives);
+  return select_directive(_("Select a time signature directive"), curtimesig->directives);
 }
 
 static
@@ -2547,7 +2547,7 @@ DenemoDirective *select_tuplet_directive(void) {
   tuplet *curtuplet = get_tuplet();
   if(curtuplet==NULL || curtuplet->directives==NULL)
     return NULL;
-  return select_directive("Select a time signature directive", curtuplet->directives);
+  return select_directive(_("Select a time signature directive"), curtuplet->directives);
 }
 
 static
@@ -2555,7 +2555,7 @@ DenemoDirective *select_stemdirective_directive(void) {
   stemdirective *curstemdirective = get_stemdirective();
   if(curstemdirective==NULL || curstemdirective->directives==NULL)
     return NULL;
-  return select_directive("Select a time signature directive", curstemdirective->directives);
+  return select_directive(_("Select a time signature directive"), curstemdirective->directives);
 }
 
 static
@@ -2566,7 +2566,7 @@ DenemoDirective *select_staff_directive(void) {
   //FIXME return NULL if not primary staff
   if(curstaff==NULL || curstaff->staff_directives==NULL)
     return NULL;
-  return select_directive("Select a staff directive", curstaff->staff_directives);
+  return select_directive(_("Select a staff directive"), curstaff->staff_directives);
 }
 static
 DenemoDirective *select_voice_directive(void) {
@@ -2575,7 +2575,7 @@ DenemoDirective *select_voice_directive(void) {
   DenemoStaff *curstaff = Denemo.gui->si->currentstaff->data;
   if(curstaff==NULL || curstaff->voice_directives==NULL)
     return NULL;
-  return select_directive("Select a voice directive", curstaff->voice_directives);
+  return select_directive(_("Select a voice directive"), curstaff->voice_directives);
 }
 
 
@@ -2585,7 +2585,7 @@ DenemoDirective *select_voice_directive(void) {
 void edit_voice_directive(GtkAction *action,  DenemoScriptParam *param) {
   //g_print("Edit directive called\n");
   DenemoDirective *directive = select_voice_directive();
-  g_print("Got directive %p\n", directive);
+  //g_print("Got directive %p\n", directive);
   if(directive==NULL)
     return;
   if(directive->tag == NULL)
@@ -2601,7 +2601,7 @@ void edit_voice_directive(GtkAction *action,  DenemoScriptParam *param) {
 void edit_staff_directive(GtkAction *action,  DenemoScriptParam *param) {
   //g_print("Edit directive called\n");
   DenemoDirective *directive = select_staff_directive();
-  g_print("Got directive %p\n", directive);
+  //g_print("Got directive %p\n", directive);
   if(directive==NULL)
     return;
   if(directive->tag == NULL)
@@ -2695,12 +2695,12 @@ void edit_stemdirective_directive(GtkAction *action,  DenemoScriptParam *param) 
  * callback for EditScoreDirective 
  */
 void edit_score_directive(GtkAction *action,  DenemoScriptParam *param) {
-#define ScoreDirectives  "ScoreDirectives"
-#define ScoreHeaderBlockDirectives  "Score Header Block Directives"
-#define ScorePaperBlockDirectives  "Score Paper Block Directives"
-#define HeaderBlockDirectives  "Movement Header Block Directives"
+#define ScoreDirectives  _("ScoreDirectives")
+#define ScoreHeaderBlockDirectives  _("Score Header Block Directives")
+#define ScorePaperBlockDirectives  _("Score Paper Block Directives")
+#define HeaderBlockDirectives  _("Movement Header Block Directives")
 
-#define STRINGAPPEND(field)  g_string_append_len(options, field"\0", 1+strlen(field))
+#define STRINGAPPEND(field)  g_string_append_printf(options,"%s%c", field,'\0')
   GString *options = g_string_new("");
   gchar *option;
   if(Denemo.gui->lilycontrol.directives)
@@ -2750,11 +2750,11 @@ void edit_score_directive(GtkAction *action,  DenemoScriptParam *param) {
  * callback for EditMovementDirective 
  */
 void edit_movement_directive(GtkAction *action,  DenemoScriptParam *param) {
-#define LayoutDirectives  "LayoutDirectives"
-#define MovementDirectives  "MovementDirectives"
-#define HeaderBlockDirectives  "Movement Header Block Directives"
+#define LayoutDirectives  _("Layout Directives")
+#define MovementDirectives  _("Movement Directives")
+#define HeaderBlockDirectives  _("Movement Header Block Directives")
 
-#define STRINGAPPEND(field)  g_string_append_len(options, field"\0", 1+strlen(field))
+#define STRINGAPPEND(field)  g_string_append_printf(options,"%s%c", field,'\0')
   GString *options = g_string_new("");
   gchar *option;
   if(Denemo.gui->si->layout.directives)

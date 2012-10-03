@@ -667,7 +667,7 @@ int main() {
          if(param.status && query) return scm_makfrom0str (gstr->str);\
          if(gstr) g_string_free(gstr, TRUE);\nreturn SCM_BOOL(param.status);\n}\n", ni, fi, !(mi&CMD_CATEGORY_DIRECT)?"_cb":"");
       /****************** install the command in the hash table of commands (keymap) **************/
-      fprintf(register_commands, "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"%s\"), \"%s\", N_(\"%s\"), N_(\"%s\"), %s);\n",ni,ni, ml?ml:ni, ti?ti:ni,fi);
+      fprintf(register_commands, "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"%s\"), \"%s\", _(\"%s\"), _(\"%s\"), %s);\n",ni,ni, ml?ml:ni, ti?ti:ni,fi);
       /****************** install the command as an action in the menu system **************************/
       fprintf(entries,
 	      "{\"%s\", %s, N_(\"%s\"), \"\","
@@ -919,19 +919,19 @@ int main() {
 
   for(i='A';i<='G';i++) {
     fprintf(register_commands,
-	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Insert%c\"), \"Insert%c\", N_(\"Insert %c\"),N_(\"Inserts note %c before note at cursor\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\"),  Insert%c);\n", i,i,i,i,i);
+	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Insert%c\"), \"Insert%c\", _(\"Insert %c\"),_(\"Inserts note %c before note at cursor\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\"),  Insert%c);\n", i,i,i,i,i);
       fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.map, \"Insert%c\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.
       fprintf(scheme, "SCM scheme_Insert%c(SCM optional);\ninstall_scm_function (\"d-Insert%c\", scheme_Insert%c);\n", i, i, i);// for direct callback via (scheme_xxx)
       fprintf(scheme_cb, "SCM scheme_Insert%c (SCM optional) {\nInsert%c (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i,  i);
     fprintf(register_commands,
-	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"AddNote%c\"), \"AddNote%c\", N_(\"Insert %c After\"),N_(\"Inserts note %c after note at cursor\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\"),  AddNote%c);\n", i,i,i,i,i);
+	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"AddNote%c\"), \"AddNote%c\", _(\"Insert %c After\"),_(\"Inserts note %c after note at cursor\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\"),  AddNote%c);\n", i,i,i,i,i);
       fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.map, \"AddNote%c\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.
       fprintf(scheme, "SCM scheme_AddNote%c(SCM optional);\ninstall_scm_function (\"d-AddNote%c\", scheme_AddNote%c);\n", i, i, i);// for direct callback via (scheme_xxx)
       fprintf(scheme_cb, "SCM scheme_AddNote%c (SCM optional) {\nAddNote%c (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i,  i);
 
 
     fprintf(register_commands,
-	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Add%c\"), \"Add%c\", N_(\"Add %c\"),N_(\"Adds note %c to the chord at cursor\\nCursor height determines which octave\"),  Add%c);\n", i,i,i,i,i);
+	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Add%c\"), \"Add%c\", _(\"Add %c\"),_(\"Adds note %c to the chord at cursor\\nCursor height determines which octave\"),  Add%c);\n", i,i,i,i,i);
       fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.map, \"Add%c\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.
       fprintf(scheme, "SCM scheme_Add%c(SCM optional);\ninstall_scm_function (\"d-Add%c\", scheme_Add%c);\n", i, i, i);// for direct callback via (scheme_xxx)
       fprintf(scheme_cb, "SCM scheme_Add%c (SCM optional) {\nAdd%c (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i,  i);
@@ -939,14 +939,14 @@ int main() {
 
 
     fprintf(register_commands,
-	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"ChangeTo%c\"), \"ChangeTo%c\", N_(\"Change to %c\"),N_(\"Changes note at cursor to nearest note %c\\nRhythm is unchanged\"),  ChangeTo%c);\n", i,i,i,i,i);
+	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"ChangeTo%c\"), \"ChangeTo%c\", _(\"Change to %c\"),_(\"Changes note at cursor to nearest note %c\\nRhythm is unchanged\"),  ChangeTo%c);\n", i,i,i,i,i);
       fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.map, \"ChangeTo%c\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.
       fprintf(scheme, "SCM scheme_ChangeTo%c(SCM optional);\ninstall_scm_function (\"d-ChangeTo%c\", scheme_ChangeTo%c);\n", i, i, i);// for direct callback via (scheme_xxx)
       fprintf(scheme_cb, "SCM scheme_ChangeTo%c (SCM optional) {\nChangeTo%c (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i,  i);
 
 
     fprintf(register_commands,
-	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"MoveTo%c\"), \"MoveTo%c\", N_(\"Move to %c\"),N_(\"Moves cursor to nearest note %c\"),  MoveTo%c);\n", i,i,i,i,i);
+	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"MoveTo%c\"), \"MoveTo%c\", _(\"Move to %c\"),_(\"Moves cursor to nearest note %c\"),  MoveTo%c);\n", i,i,i,i,i);
       fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.map, \"MoveTo%c\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.
       fprintf(scheme, "SCM scheme_MoveTo%c(SCM optional);\ninstall_scm_function (\"d-MoveTo%c\", scheme_MoveTo%c);\n", i, i, i);// for direct callback via (scheme_xxx)
       fprintf(scheme_cb, "SCM scheme_MoveTo%c (SCM optional) {\nMoveTo%c (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i,  i);
