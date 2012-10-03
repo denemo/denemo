@@ -398,6 +398,7 @@ static gboolean clone_scoreblock(DenemoScoreblock *sb, gchar *name) {
 			Denemo.gui->standard_scoreblocks = g_list_prepend(Denemo.gui->standard_scoreblocks, newsb);
 			Denemo.gui->lilysync = G_MAXUINT;
 			Denemo.gui->layout_id = 0;
+			gtk_window_present(GTK_WINDOW(gtk_widget_get_toplevel(GTK_WIDGET(Denemo.gui->score_layout))));
 			return TRUE;
 		} else {
 		g_free(partname);
