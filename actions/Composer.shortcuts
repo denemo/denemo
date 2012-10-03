@@ -827,12 +827,7 @@
       </row>  
       <row>
         <action>ToggleGrace</action>
-		<hidden>true</hidden>
-      </row>
-      
-      <row>
-        <action>ConfigureScore</action>
-  		<hidden>true</hidden>
+				<hidden>true</hidden>
       </row>
       <row> 
         <hidden>true</hidden>
