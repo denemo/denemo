@@ -1151,11 +1151,15 @@ set_printarea(GError **err) {
 static void
 printview_finished(GPid pid, gint status, gboolean print) {
   progressbar_stop();
-  g_print("background %d\n", PrintStatus.background);
+  //g_print("background %d\n", PrintStatus.background);
   if(PrintStatus.background==STATE_NONE) {
 		call_out_to_guile("(FinalizeTypesetting)");
 		process_lilypond_errors((gchar *) get_printfile_pathbasename());
-  }
+  } else {
+			if(errors != -1)
+				close(errors);
+			errors = -1;
+	}
   PrintStatus.printpid = GPID_NONE;
   GError *err = NULL;
   set_printarea(&err);
