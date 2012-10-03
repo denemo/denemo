@@ -984,11 +984,11 @@ static void get_window_position(gint*x, gint* y) {
    
 //setting up Denemo.pixbuf so that parts of the pdf can be dragged etc.
 static void set_denemo_pixbuf(void)  {
-	GdkWindow *window;
-	if(!GTK_IS_LAYOUT(Denemo.printarea))
-		window = gtk_widget_get_window (GTK_WIDGET(Denemo.printarea));
-  else 
-   window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
+			GdkWindow *window;
+			if(!GTK_IS_LAYOUT(Denemo.printarea))
+					window = gtk_widget_get_window (GTK_WIDGET(Denemo.printarea));
+			else 
+					window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
       if(window) {
       gint width, height;
 #if GTK_MAJOR_VERSION==2
@@ -1662,7 +1662,11 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
     return TRUE;
   gboolean left = (event->button != 3);
   if(left && ObjectLocated) {
-    GdkWindow *window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea)); 
+		 GdkWindow *window;
+		 if(!GTK_IS_LAYOUT(Denemo.printarea))
+		    window = gtk_widget_get_window (GTK_WIDGET(Denemo.printarea));
+     else 
+        window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
     gint x, y;
     //g_print("reading position of mark");
     get_window_position(&x, &y);
