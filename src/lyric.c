@@ -13,15 +13,6 @@
 
 static GtkWidget *DummyVerse;/* a non-existent verse */
 
-static gboolean lyric_keypress(GtkWidget *w, GdkEventKey *event) {
-DenemoGUI *gui = Denemo.gui;
- if(gtk_text_buffer_get_modified(gtk_text_view_get_buffer(GTK_TEXT_VIEW(w)))) {
-   score_status(Denemo.gui, TRUE);
-   gtk_widget_queue_draw (Denemo.scorearea);
-   gtk_text_buffer_set_modified(gtk_text_view_get_buffer(GTK_TEXT_VIEW(w)), FALSE);
- }
- return FALSE;
-}
 gboolean lyric_change(GtkTextBuffer *buffer) {
   DenemoGUI *gui = Denemo.gui;
   score_status(gui, TRUE);
@@ -146,7 +137,7 @@ static gchar *lyric_iterator(GtkWidget *textview, gint count) {
   static  const gchar *next;
   static gchar *lyrics;
   static GString *gs;
-  static start_count;
+  static gint start_count;
   if(gs==NULL)
     gs = g_string_new("");
   if(textview==NULL) {
@@ -195,17 +186,17 @@ void install_lyrics_preview(DenemoScore *si, GtkWidget *top_vbox){
 /* hide the notebook of verses for the current staff */
 void hide_lyrics(void) {
 DenemoGUI *gui = Denemo.gui;
-DenemoScore *si = gui->si;
- if(gui->si->currentstaff && ((DenemoStaff *)gui->si->currentstaff->data)->currentverse)
-   gtk_widget_hide(gtk_widget_get_parent(((DenemoStaff *)gui->si->currentstaff->data)->currentverse->data));
+ if(gui->si->currentstaff && ((DenemoStaff *)gui->si->currentstaff->data)->verses)
+   gtk_widget_hide(gtk_widget_get_parent(gtk_widget_get_parent(((DenemoStaff *)gui->si->currentstaff->data)->verses->data)));//hide the notebook
 }
 
-/* show the notebook of verses for the current staff */
+/* show the notebook of verses for the current staff hide all others*/
 void show_lyrics(void) {
 DenemoGUI *gui = Denemo.gui;
 DenemoScore *si = gui->si;
- if(si->currentstaff && ((DenemoStaff *)si->currentstaff->data)->currentverse)
-   gtk_widget_show(gtk_widget_get_parent(((DenemoStaff *)si->currentstaff->data)->currentverse->data));
+ if(si->currentstaff && ((DenemoStaff *)si->currentstaff->data)->verses)
+   gtk_widget_show(gtk_widget_get_parent(gtk_widget_get_parent(((DenemoStaff *)si->currentstaff->data)->verses->data)));//show the notebook
+  select_lyrics();
 }
 
 /* hide the notebooks of verses for the non-current staffs */
@@ -215,7 +206,7 @@ DenemoScore *si = gui->si;
  GList *current = si->thescore;
  for(;current;current = current->next) {
    if(current != si->currentstaff && ((DenemoStaff *)current->data)->verses)
-       gtk_widget_hide(gtk_widget_get_parent(((DenemoStaff *)current->data)->verses->data));
+       gtk_widget_hide(gtk_widget_get_parent(gtk_widget_get_parent(((DenemoStaff *)current->data)->verses->data)));//hide the notebook
  }
 }
 
