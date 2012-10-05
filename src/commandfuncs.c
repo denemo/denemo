@@ -610,7 +610,7 @@ gostaffup (DenemoScriptParam *param, gboolean extend_selection)
       setcurrentprimarystaff (gui->si);
       setcurrents (gui->si);
       if(extend_selection)
-	calcmarkboundaries (gui->si);
+				calcmarkboundaries (gui->si);
       show_lyrics();
       find_leftmost_allcontexts (si);
       update_drawing_cache();;
@@ -618,7 +618,7 @@ gostaffup (DenemoScriptParam *param, gboolean extend_selection)
       return param->status = TRUE;
     } else
       if(param==&dummy)//is interactive
-	warningmessage(_("This is the first staff"));
+				warningmessage(_("This is the first staff"));
   return param->status = FALSE;
 }
 

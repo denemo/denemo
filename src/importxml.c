@@ -1843,7 +1843,7 @@ parseScoreInfo (xmlNodePtr scoreInfoElem, xmlNsPtr ns, DenemoScore * si)
   gint bpm;
   // gchar *title, *subtitle, *composer, *poet, *meter, *arranger, *opus;
   // gchar *instrument, *dedication, *piece, *head, *copyright, *footer,
-  gchar *title, *tagline, *mvmnt_header, *markup_before, *markup_after, *layout_markup;
+  gchar *title, *mvmnt_header, *markup_before, *markup_after, *layout_markup;
 
   FOREACH_CHILD_ELEM (childElem, scoreInfoElem)
   {
@@ -3142,7 +3142,7 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
     case REPLACE_SCORE:
       free_score (gui);
       if(gui->movements)
-	g_list_free(gui->movements);/*FIXME free all the other si */
+			g_list_free(gui->movements);/*FIXME free all the other si */
       gui->movements = NULL;
       init_score(gui->si, gui);
       gui->si->currentstaffnum = 0;
@@ -3161,11 +3161,12 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
        gtk_widget_hide(gui->si->lyricsbox);
     prev_movement(NULL, NULL);
   }
-  if(gui->si->lyricsbox)
+  if(gui->si->lyricsbox) {
     if(!Denemo.prefs.lyrics_pane)
       gtk_widget_hide(gui->si->lyricsbox);
     else
       gtk_widget_show(gui->si->lyricsbox);
+	}
   score_status(gui, FALSE);
 
  cleanup:

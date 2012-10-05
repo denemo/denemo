@@ -452,7 +452,7 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
   g_string_free (curstaffstruct->denemo_name, FALSE);//FIXME these should all be TRUE??
   g_string_free (curstaffstruct->lily_name, FALSE);
   g_string_free (curstaffstruct->midi_instrument, FALSE);
-  g_list_foreach (curstaffstruct->verses, (GFunc)gtk_widget_destroy, NULL);
+  g_list_foreach (curstaffstruct->verses, (GFunc)gtk_widget_destroy, NULL);//FIXME it is enough to destroy the notebook, here we are only destroying the GtkTextViews
   g_free (curstaffstruct);
 
 
