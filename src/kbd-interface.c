@@ -31,7 +31,6 @@ validate_keymap_name (GtkEntry * entry, GtkDialog * dialog)
 static gboolean
 capture_add_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
-  guint keyval;
   GdkModifierType modifiers;
   guint command_idx;
   GtkTreeModel *model;
@@ -98,7 +97,6 @@ capture_add_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 static gboolean
 capture_look_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
-  guint keyval;
   GdkModifierType modifiers;
   GtkTreeModel *model;
   GtkTreeSelection *selection;
@@ -195,7 +193,6 @@ kbd_interface_add_2binding(GtkButton *button, gpointer user_data)
 static void
 kbd_interface_look_binding(GtkButton *button, gpointer user_data)
 {
-  GtkTreeSelection *selection;
   keyboard_dialog_data *cbdata = (keyboard_dialog_data *) user_data;
   gtk_statusbar_pop(cbdata->statusbar, cbdata->context_id);
   gtk_statusbar_push(cbdata->statusbar, cbdata->context_id,
@@ -213,7 +210,6 @@ kbd_interface_del_binding(GtkButton *button, gpointer user_data)
   gchar *binding;
   GtkTreeModel *model;
   GtkTreeIter iter;
-  guint command_idx;
   keyboard_dialog_data *cbdata = (keyboard_dialog_data *) user_data;
   gtk_statusbar_pop(cbdata->statusbar, cbdata->context_id);
   selection = gtk_tree_view_get_selection(cbdata->binding_view);
@@ -241,14 +237,15 @@ static void keyboard_modifier_callback(GtkWidget *w, GdkEventButton *event, Modi
  
   // show_type(w, "button mod callback: ");
   GString *str = g_string_new("");
-  g_string_append_printf(str, "Mouse Pointer number %d currently chosen for\n Mouse:-%s Keyboard:", cursor_number, mask?(mask&GDK_BUTTON1_MASK?"Left Button Drag":"Right Button Drag"):"No Button Press"); 
+  g_string_append_printf(str, "Cursor Shape:- %d\n Mouse:- %s\nKeyboard:", cursor_number, mask?(mask&GDK_BUTTON1_MASK?"Left Button Drag":"Right Button Drag"):"No Button Press"); 
   append_modifier_name(str, state);
-#define POINTER_PROMPT  "To change the Pointer for a mouse/keyboard state:\nSelect Mouse Pointer number\nChoose mouse state and then click here\nwhile holding modifier key\nand/or engaging Caps/Num lock for the keyboard state"
+#define POINTER_PROMPT  "To change the cursor shape for a mouse/keyboard state:\nSelect Cursor Shape number\nChoose mouse state and then click here\nwhile holding modifier key\nand/or engaging Caps/Num lock for the keyboard state. Finally save command set."
   gdk_window_set_cursor(gtk_widget_get_window(w), cursor);
-g_string_append(str, "\n");
-  g_string_append(str, POINTER_PROMPT);
+//g_string_append(str, "\n");
+//  g_string_append(str, POINTER_PROMPT);
   
   gtk_button_set_label ((GtkButton *)w,str->str);
+  //gtk_widget_set_tooltip(w, POINTER_PROMPT);
   assign_cursor(state, cursor_number);
   g_string_free(str, TRUE);
 }
@@ -288,13 +285,9 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
 { 
   GtkWidget *dialog;
   GtkWidget *frame;
-  GtkWidget *vbox;
+  GtkWidget *vbox, *outer_hbox;
   GtkWidget *table;
-  GtkWidget *hseparator;
   GtkWidget *label;
-  GtkWidget *category;
-  GtkWidget *command;
-  GtkWidget *button;
   GtkWidget *addbutton;
   GtkWidget *add2button;
   GtkWidget *delbutton;
@@ -304,21 +297,18 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   GtkWidget *button_save_as;
   GtkWidget *button_load;
   GtkWidget *button_load_from;
-  GtkWidget *scrolledwindow;
-  GtkWidget *treeview;
+
   GtkWidget *command_view;
   GtkWidget *binding_view;
   GtkWidget *command_tree_view;
   GtkWidget *binding_tree_view;
   GtkWidget *text_view;
   GtkWidget *scrolled_text_view;
-  GtkListStore *list_store = NULL;
-  GtkCellRenderer *renderer;
+
   GtkTreeSelection *selection;
   GtkTreeIter iter;
   GtkTreeModel *model;
   GtkTreePath *path;
-  gint i;
   guint context_id;
   keyboard_dialog_data cbdata;
 
@@ -337,20 +327,24 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
 					NULL);
   if(Denemo.prefs.newbie)
     gtk_widget_set_tooltip_text(dialog, _("This dialog allows you to set shortcuts for commands. As there are so many commands it is best to launch the dialog from the command that you wish to change.\n(Do this by right clicking on the menu item of the command\nthis dialog then comes up with the command highlighted).\nYou can set single-key or two-key shortcuts, or mouse shortcuts.\nYou can also hide commands, so they don't appear in the menus.\nWhen you are finished you can save the settings as your default command set, or as a command set which you may wish to load in the future.\nThis dialog is also where you can load such a stored command set."));
+
+  outer_hbox = gtk_hbox_new (FALSE, 8);
   vbox = gtk_vbox_new (FALSE, 8);
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-  gtk_container_add (GTK_CONTAINER (content_area), vbox);
+   gtk_container_add (GTK_CONTAINER (content_area), outer_hbox);
   gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
+  gtk_box_pack_start (GTK_BOX(outer_hbox), vbox, TRUE, TRUE, 0);
+  
  
-  frame= gtk_frame_new( "Help for Selected Command");
+  frame= gtk_frame_new( _("Help for Selected Command"));
   gtk_frame_set_shadow_type((GtkFrame *)frame, GTK_SHADOW_IN);
-  gtk_container_add (GTK_CONTAINER (vbox), frame);
+  gtk_box_pack_start (GTK_BOX  (vbox), frame, FALSE, TRUE, 0);
   text_view = gtk_text_view_new();
   gtk_text_view_set_editable(GTK_TEXT_VIEW(text_view), FALSE);
   scrolled_text_view = gtk_scrolled_window_new(NULL, NULL);
   gtk_container_add(GTK_CONTAINER(scrolled_text_view), text_view);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled_text_view),
-				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+				 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_container_add (GTK_CONTAINER (frame), scrolled_text_view);
 
   //  gtk_box_pack_start (GTK_BOX (vbox), scrolled_text_view, TRUE, TRUE, 0);
@@ -414,18 +408,23 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
 //		    (GtkAttachOptions) (GTK_FILL),
 //		    (GtkAttachOptions) (0), 0, 0);
 
+	vbox = gtk_vbox_new(FALSE, 8);
+	gtk_box_pack_end(GTK_BOX (outer_hbox), vbox, FALSE, TRUE, 0);
   addbutton = gtk_button_new_from_stock (GTK_STOCK_ADD);
-  gtk_button_set_label(GTK_BUTTON(addbutton), "Add One Key Shortcut");
+  gtk_button_set_label(GTK_BUTTON(addbutton), "Add 1-Key Shortcut");
+  gtk_widget_set_tooltip_text(addbutton, _("Create a single keypress (with modifier keys - Control, Shift ... - if needed) as a keyboard shortcut for the currently selected command."));
   gtk_box_pack_end (GTK_BOX (vbox), addbutton, FALSE, TRUE, 0);
 
 
 
   add2button = gtk_button_new_from_stock (GTK_STOCK_ADD);
-  gtk_button_set_label(GTK_BUTTON(add2button), "Add Two Key Shortcut");
+  gtk_button_set_label(GTK_BUTTON(add2button), _("Add 2-Key Shortcut"));
+  gtk_widget_set_tooltip_text(add2button, _("Create a two keypress sequence as a keyboard shortcut for the currently selected command."));
   gtk_box_pack_end (GTK_BOX (vbox), add2button, FALSE, TRUE, 0);
 
   lookbutton = gtk_button_new_from_stock (GTK_STOCK_FIND);
-  gtk_button_set_label(GTK_BUTTON(lookbutton), "Find Command for Keyboard Shortcut");
+  gtk_button_set_label(GTK_BUTTON(lookbutton), _("Find "));
+  gtk_widget_set_tooltip_text(lookbutton, _("Finds the command (if any) for a Keyboard Shortcut\nClick button then press the key shortcut you are looking for"));
   gtk_box_pack_end (GTK_BOX (vbox), lookbutton, FALSE, TRUE, 0);
 
   statusbar = gtk_statusbar_new();
@@ -461,42 +460,46 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
     gtk_tree_path_free(path);
   }
   gtk_tree_selection_select_iter(selection, &iter);
-  frame= gtk_frame_new( "Setting the mouse pointer");
+  frame= gtk_frame_new( _("Setting the Cursor Shape for Mouse Ops"));
   gtk_frame_set_shadow_type((GtkFrame *)frame, GTK_SHADOW_IN);
-  gtk_container_add (GTK_CONTAINER (vbox), frame);
+  //gtk_container_add (GTK_CONTAINER (vbox), frame);
+  gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, TRUE, 0);
   GtkWidget *hbox = gtk_hbox_new (FALSE, 8);
   gtk_container_add (GTK_CONTAINER (frame), hbox);
 
   vbox = gtk_vbox_new (FALSE, 8);
-  gtk_box_pack_end (GTK_BOX (hbox), vbox, FALSE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX (hbox), vbox, FALSE, TRUE, 0);
 
-  GtkWidget *cursor_button = gtk_button_new_with_label(POINTER_PROMPT);
+  GtkWidget *cursor_button = gtk_button_new_with_label(_("Cursor Shape 0.\nMouse Operation Right Drag.\nKeyboard: None."));
+  gtk_widget_set_tooltip_text(cursor_button, POINTER_PROMPT);
   static ModifierPointerInfo info;
   info.button_mask = GDK_BUTTON3_MASK;//radio button for left, right none
   g_signal_connect (G_OBJECT (cursor_button), "button-release-event",
 		      G_CALLBACK(keyboard_modifier_callback), &info);
   gtk_box_pack_end (GTK_BOX (hbox), cursor_button, FALSE, TRUE, 0);
 
-  GtkWidget *mouse_state = gtk_radio_button_new_with_label(NULL, "Right Drag");
-  gtk_box_pack_start (GTK_BOX (vbox), mouse_state, TRUE, TRUE, 0);
+  GtkWidget *mouse_state = gtk_radio_button_new_with_label(NULL, _("Right Drag"));
+  gtk_box_pack_start (GTK_BOX (vbox), mouse_state, FALSE, TRUE, 0);
   g_object_set_data((GObject *)mouse_state, "mask", (gpointer)GDK_BUTTON3_MASK);
   g_signal_connect(mouse_state, "toggled", (GCallback)button_choice_callback, &info.button_mask);
-  GtkWidget *mouse_state2 = gtk_radio_button_new_with_label_from_widget((GtkRadioButton *)mouse_state, "Mouse Move");
+  GtkWidget *mouse_state2 = gtk_radio_button_new_with_label_from_widget((GtkRadioButton *)mouse_state, _("Mouse Move"));
   g_signal_connect(mouse_state2, "toggled", (GCallback)button_choice_callback, &info.button_mask);
   g_object_set_data((GObject *)mouse_state2, "mask", 0);
-  gtk_box_pack_start (GTK_BOX (vbox), mouse_state2, TRUE, TRUE, 0);
-  mouse_state2 = gtk_radio_button_new_with_label_from_widget((GtkRadioButton *)mouse_state, "Left Drag");
+  gtk_box_pack_start (GTK_BOX (vbox), mouse_state2, FALSE, TRUE, 0);
+  mouse_state2 = gtk_radio_button_new_with_label_from_widget((GtkRadioButton *)mouse_state, _("Left Drag"));
   g_signal_connect(mouse_state2, "toggled", (GCallback)button_choice_callback, &info.button_mask);
   g_object_set_data((GObject *)mouse_state2, "mask", (gpointer)GDK_BUTTON1_MASK);
-  gtk_box_pack_start (GTK_BOX (vbox), mouse_state2, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox), mouse_state2, FALSE, TRUE, 0);
 
-  label = gtk_label_new("Mouse Pointer Number");
-  gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
+  GtkWidget *inner_hbox = gtk_hbox_new(FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (vbox), inner_hbox, FALSE, TRUE, 0);
+  label = gtk_label_new(_("Cursor Shape #"));
+  gtk_box_pack_start (GTK_BOX (inner_hbox), label, FALSE, TRUE, 0);
   GtkWidget *spinner_adj =
     (GtkWidget *) gtk_adjustment_new ( info.cursor_number, 0.0,(gdouble)GDK_LAST_CURSOR-1,
 					   1.0, 1.0, 1.0);
   GtkWidget *spinner = gtk_spin_button_new ((GtkAdjustment *)spinner_adj, 1.0, 0);
-  gtk_box_pack_start (GTK_BOX (hbox), spinner, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (inner_hbox), spinner, TRUE, TRUE, 0);
   g_signal_connect (G_OBJECT (spinner), "value-changed",
 		    G_CALLBACK (set_cursor_number), &info.cursor_number);
   //FIXME here use gdk_cursor_get_image() to show the cursor selected.
