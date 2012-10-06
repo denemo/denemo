@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-03 21:32+0100\n"
+"POT-Creation-Date: 2012-10-06 10:16+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -8792,23 +8792,23 @@ msgstr ""
 msgid "Shortcuts"
 msgstr ""
 
-#: src/kbd-interface.c:145
+#: src/kbd-interface.c:143
 msgid "No command has this keyboard shortcut"
 msgstr ""
 
-#: src/kbd-interface.c:180
+#: src/kbd-interface.c:178
 msgid "Press a shortcut sequence for this command"
 msgstr ""
 
-#: src/kbd-interface.c:202
+#: src/kbd-interface.c:199
 msgid "Press a shortcut sequence whose command you seek"
 msgstr ""
 
-#: src/kbd-interface.c:332
+#: src/kbd-interface.c:322
 msgid "Command Manager"
 msgstr ""
 
-#: src/kbd-interface.c:339
+#: src/kbd-interface.c:329
 msgid ""
 "This dialog allows you to set shortcuts for commands. As there are so many "
 "commands it is best to launch the dialog from the command that you wish to "
@@ -8822,11 +8822,15 @@ msgid ""
 "This dialog is also where you can load such a stored command set."
 msgstr ""
 
-#: src/kbd-interface.c:366
+#: src/kbd-interface.c:339
+msgid "Help for Selected Command"
+msgstr ""
+
+#: src/kbd-interface.c:360
 msgid "Save as Default Command Set"
 msgstr ""
 
-#: src/kbd-interface.c:370
+#: src/kbd-interface.c:364
 msgid ""
 "Use this to save the changes you have made so that they are used every time "
 "you start Denemo. The changes are stored under a directory (folder) called ."
@@ -8834,16 +8838,69 @@ msgid ""
 "commands"
 msgstr ""
 
-#: src/kbd-interface.c:372
+#: src/kbd-interface.c:366
 msgid "Save as a Custom Command Set"
 msgstr ""
 
-#: src/kbd-interface.c:377
+#: src/kbd-interface.c:371
 msgid "Load a Standard Command Set"
 msgstr ""
 
-#: src/kbd-interface.c:383
+#: src/kbd-interface.c:377
 msgid "Load a Custom Command Set"
+msgstr ""
+
+#: src/kbd-interface.c:415
+msgid ""
+"Create a single keypress (with modifier keys - Control, Shift ... - if "
+"needed) as a keyboard shortcut for the currently selected command."
+msgstr ""
+
+#: src/kbd-interface.c:421
+msgid "Add 2-Key Shortcut"
+msgstr ""
+
+#: src/kbd-interface.c:422
+msgid ""
+"Create a two keypress sequence as a keyboard shortcut for the currently "
+"selected command."
+msgstr ""
+
+#: src/kbd-interface.c:426
+msgid "Find "
+msgstr ""
+
+#: src/kbd-interface.c:427
+msgid ""
+"Finds the command (if any) for a Keyboard Shortcut\n"
+"Click button then press the key shortcut you are looking for"
+msgstr ""
+
+#: src/kbd-interface.c:463
+msgid "Setting the Cursor Shape for Mouse Ops"
+msgstr ""
+
+#: src/kbd-interface.c:473
+msgid ""
+"Cursor Shape 0.\n"
+"Mouse Operation Right Drag.\n"
+"Keyboard: None."
+msgstr ""
+
+#: src/kbd-interface.c:481
+msgid "Right Drag"
+msgstr ""
+
+#: src/kbd-interface.c:485
+msgid "Mouse Move"
+msgstr ""
+
+#: src/kbd-interface.c:489
+msgid "Left Drag"
+msgstr ""
+
+#: src/kbd-interface.c:496
+msgid "Cursor Shape #"
 msgstr ""
 
 #: src/keyboard.c:136
@@ -8980,7 +9037,7 @@ msgstr ""
 msgid "Movement Directives"
 msgstr ""
 
-#: src/lyric.c:41
+#: src/lyric.c:32
 msgid ""
 "The text of a verse can be typed or pasted here. The space between syllables "
 "determines which syllable goes beneath which note(s).\n"
