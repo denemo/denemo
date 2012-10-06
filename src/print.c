@@ -1914,6 +1914,7 @@ static void toggle_updates(GtkWidget *menu_item, GtkWidget *button) {
 	 gtk_button_set_label(GTK_BUTTON(button), MANUAL);
 	 if(Denemo.prefs.persistence)
 		Denemo.prefs.manualtypeset = TRUE;
+		gtk_window_set_transient_for (GTK_WINDOW(gtk_widget_get_toplevel(Denemo.printarea)), NULL);
  } else {
 		if(Denemo.prefs.typesetrefresh)
 			PrintStatus.updating_id = g_timeout_add(Denemo.prefs.typesetrefresh, (GSourceFunc)retypeset, NULL);
@@ -2134,7 +2135,8 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
 
   
   top_vbox = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_transient_for (GTK_WINDOW(top_vbox), GTK_WINDOW(Denemo.window));
+  if(!Denemo.prefs.manualtypeset)
+		gtk_window_set_transient_for (GTK_WINDOW(top_vbox), GTK_WINDOW(Denemo.window));
   gtk_window_set_title(GTK_WINDOW(top_vbox),_( "Denemo Print View"));
   gtk_window_set_default_size(GTK_WINDOW(top_vbox), 600, 750);
   g_signal_connect (G_OBJECT (top_vbox), "delete-event",
