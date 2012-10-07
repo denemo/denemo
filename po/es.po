@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: denemo 0.7.3beta1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-06 10:16+0100\n"
+"POT-Creation-Date: 2012-10-07 12:17+0100\n"
 "PO-Revision-Date: 2005-02-11 23:18+0000\n"
 "Last-Translator:  <adam@ajtee.plus.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -7024,7 +7024,7 @@ msgstr ""
 msgid "Save the score. The score is saved to disk in XML format."
 msgstr ""
 
-#: src/entries.h:228 src/file.c:1041 src/register_commands.h:215
+#: src/entries.h:228 src/file.c:1037 src/register_commands.h:215
 msgid "Save As"
 msgstr ""
 
@@ -7154,7 +7154,7 @@ msgstr ""
 msgid "Export the score as a MIDI file"
 msgstr ""
 
-#: src/entries.h:244 src/entries.h:250 src/print.c:2092
+#: src/entries.h:244 src/entries.h:250 src/print.c:2093
 #: src/register_commands.h:235
 msgid "Print"
 msgstr ""
@@ -7490,7 +7490,7 @@ msgid ""
 "between the voices. Suggest to use merge staffs"
 msgstr ""
 
-#: src/entries.h:284 src/register_commands.h:266 src/staffpropdialog.c:357
+#: src/entries.h:284 src/register_commands.h:266 src/staffpropdialog.c:338
 msgid "Staff Properties"
 msgstr ""
 
@@ -8624,6 +8624,265 @@ msgid ""
 "Choose between different ways of using the mouse."
 msgstr ""
 
+#: src/entries.h:409
+msgid "Print Transposed"
+msgstr ""
+
+#: src/entries.h:409
+msgid ""
+"Menu:\n"
+"Transposing the score when typesetting."
+msgstr ""
+
+#: src/entries.h:410
+msgid "Start/Stop Transposing"
+msgstr ""
+
+#: src/entries.h:410
+msgid ""
+"Menu:\n"
+"Inserting markers to start/stop transposition when typesetting. The markers "
+"affect only the music in the staff/voice they are placed in."
+msgstr ""
+
+#: src/entries.h:411
+msgid "Inserting Barlines"
+msgstr ""
+
+#: src/entries.h:411
+msgid ""
+"Menu:\n"
+"Different sorts of barline (repeat barlines, double bars, end of "
+"movement ...)"
+msgstr ""
+
+#: src/entries.h:412
+msgid "Seek"
+msgstr ""
+
+#: src/entries.h:412
+msgid ""
+"Menu:\n"
+"Moving the Denemo cursor forwards/backwards to find useful places in the "
+"score"
+msgstr ""
+
+#: src/entries.h:413
+msgid "Titles"
+msgstr ""
+
+#: src/entries.h:413
+msgid ""
+"Menu:\n"
+"Various titling schemes, (main title, movement titles, composer etc) and "
+"adding table of contents, critical commentary"
+msgstr ""
+
+#: src/entries.h:414
+msgid "Print Layout"
+msgstr ""
+
+#: src/entries.h:414
+msgid ""
+"Menu:\n"
+"Commands to affect the layout of the typeset score."
+msgstr ""
+
+#: src/entries.h:415
+msgid "Capture Score"
+msgstr ""
+
+#: src/entries.h:415
+msgid ""
+"Menu:\n"
+"Commands to embed images taken from original manuscripts etc into the score "
+"(one for each measure)"
+msgstr ""
+
+#: src/entries.h:416
+msgid "Ossia"
+msgstr ""
+
+#: src/entries.h:416
+msgid ""
+"Menu:\n"
+"Creating an Ossia staff, which appears with alternative interpretations for "
+"a bar or two on typesetting"
+msgstr ""
+
+#: src/entries.h:417
+msgid "Bar Numbering"
+msgstr ""
+
+#: src/entries.h:417
+msgid ""
+"Menu:\n"
+"Commands for setting how often bar numbers appear in the typeset version of "
+"this staff"
+msgstr ""
+
+#: src/entries.h:418
+msgid "Staff Groupings (Braces)"
+msgstr ""
+
+#: src/entries.h:418
+msgid ""
+"Menu:\n"
+"Various sorts of brace linking the staffs together. These may be nested, see "
+"the Score Lyout view for a display of the staff groups created."
+msgstr ""
+
+#: src/entries.h:419
+msgid "Add Note Anove Base of Chord"
+msgstr ""
+
+#: src/entries.h:419
+msgid ""
+"Menu:\n"
+"Adding notes to the chord at the cursor at various intervals above base note"
+msgstr ""
+
+#: src/entries.h:420
+msgid "Add Note Below Top of Chord"
+msgstr ""
+
+#: src/entries.h:420
+msgid ""
+"Menu:\n"
+"Adding notes to the chord at the cursor at various intervals below the top-"
+"most note"
+msgstr ""
+
+#: src/entries.h:421
+msgid "Change Duration of Note"
+msgstr ""
+
+#: src/entries.h:421
+msgid ""
+"Menu:\n"
+"Commands to include other durations in a chord (instead of polypony - this "
+"is specialized stuff!) The note at the cursor height is altered."
+msgstr ""
+
+#: src/entries.h:422
+msgid "RH Fingerings"
+msgstr ""
+
+#: src/entries.h:422
+msgid ""
+"Menu:\n"
+"Right hand fingerings to apply to notes"
+msgstr ""
+
+#: src/entries.h:423
+msgid "Transpose Music"
+msgstr ""
+
+#: src/entries.h:423
+msgid ""
+"Menu:\n"
+"Alters the note/chord at the cursor or the selection transposing it by the "
+"interval chosen. This alters the music in the score - see othe transpose "
+"options for transposing the printed output, leaving the music untouched."
+msgstr ""
+
+#: src/entries.h:424
+msgid "Make a Directive Conditional"
+msgstr ""
+
+#: src/entries.h:424
+msgid ""
+"Menu:\n"
+"Mark the directive at the cursor as applying to just the current score "
+"layout, or to exclude the current layout. Use this for example to exclude "
+"redundant first and second time markings in parts which don't need them."
+msgstr ""
+
+#: src/entries.h:425
+msgid "Single Random Note"
+msgstr ""
+
+#: src/entries.h:425
+msgid ""
+"Menu:\n"
+"To insert random notes at cursor"
+msgstr ""
+
+#: src/entries.h:426
+msgid "Generate Rhythm from String"
+msgstr ""
+
+#: src/entries.h:426
+msgid ""
+"Menu:\n"
+"Creating rhythms from a sequence of characters."
+msgstr ""
+
+#: src/entries.h:427
+msgid "Notation Magick"
+msgstr ""
+
+#: src/entries.h:427
+msgid ""
+"Menu:\n"
+"Methods of generating music of guided randomness"
+msgstr ""
+
+#: src/entries.h:428
+msgid "Display Zoom"
+msgstr ""
+
+#: src/entries.h:428
+msgid ""
+"Menu:\n"
+"Zooming the Denemo display. Usually Control and mouse wheel are used for "
+"this."
+msgstr ""
+
+#: src/entries.h:429
+msgid "Aural Training"
+msgstr ""
+
+#: src/entries.h:429
+msgid ""
+"Menu:\n"
+"Games for testing your musical ear"
+msgstr ""
+
+#: src/entries.h:430
+msgid "Note Reading"
+msgstr ""
+
+#: src/entries.h:430
+msgid ""
+"Menu:\n"
+"Games for testing your music reading ability. Notice there is (elsewhere) "
+"the Checking Pitches feature which lets you test your ability to play via "
+"Midi Controller."
+msgstr ""
+
+#: src/entries.h:431
+msgid "Simple Titling"
+msgstr ""
+
+#: src/entries.h:431
+msgid ""
+"Menu:\n"
+"Commands to place titles etc at the start of the music (and each movement if "
+"needed). Do not mix with Book Titles."
+msgstr ""
+
+#: src/entries.h:432
+msgid "Book Titling"
+msgstr ""
+
+#: src/entries.h:432
+msgid ""
+"Menu:\n"
+"Commands to create a title page, table of contents, commentaries, appendices "
+"etc."
+msgstr ""
+
 #: src/exportabc.c:86
 msgid "%{error. defaulting to%}C"
 msgstr ""
@@ -8651,61 +8910,70 @@ msgstr ""
 msgid "Could not parse command line: %s\n"
 msgstr ""
 
-#: src/file.c:75
+#: src/file.c:76
 msgid "Denemo XML format (*.denemo)"
 msgstr ""
 
-#: src/file.c:76
+#: src/file.c:77
 msgid "Denemo XML format (*.dnm)"
 msgstr ""
 
-#: src/file.c:77
+#: src/file.c:78
 msgid "Lilypond (*.ly)"
 msgstr ""
 
-#: src/file.c:78
+#: src/file.c:79
 msgid "PDF (*.pdf)"
 msgstr ""
 
-#: src/file.c:79
+#: src/file.c:80
 msgid "PNG Image format (*.png)"
 msgstr ""
 
-#: src/file.c:80
+#: src/file.c:81
 msgid "ABC (*.abc)"
 msgstr ""
 
-#: src/file.c:81
+#: src/file.c:82
 msgid "Midi (*.mid, *.midi)"
 msgstr ""
 
-#: src/file.c:82
+#: src/file.c:83
 msgid "CSound Score File (*.sco)"
 msgstr ""
 
-#: src/file.c:83
+#: src/file.c:84
 msgid "MusicXML file (*.mxml, *.xml)"
 msgstr ""
 
-#: src/file.c:190
+#: src/file.c:141
+msgid "Close without Saving"
+msgstr ""
+
+#: src/file.c:189
 #, c-format
 msgid "The score %s has unsaved changes"
 msgstr ""
 
-#: src/file.c:191
+#: src/file.c:190
 msgid "Save changes?"
 msgstr ""
 
-#: src/file.c:1026
+#: src/file.c:223
+#, c-format
+msgid "Load of recently used file %s failed"
+msgstr ""
+
+#: src/file.c:1022
 msgid "Export As "
 msgstr ""
 
-#: src/file.c:1110
+#: src/file.c:1106
 #, c-format
 msgid "A file with the name %s already exists"
 msgstr ""
 
-#: src/file.c:1111 src/view.c:7324
+#: src/file.c:1107 src/view.c:7324
 msgid "Do you want to replace it?"
 msgstr ""
 
@@ -9213,7 +9481,7 @@ msgstr ""
 msgid "LilyPond could not typeset this score."
 msgstr ""
 
-#: src/print.c:1064 src/print.c:2018
+#: src/print.c:1064 src/print.c:2019
 msgid "Current Movement"
 msgstr ""
 
@@ -9233,129 +9501,129 @@ msgstr ""
 msgid "Continuous"
 msgstr ""
 
-#: src/print.c:1970
+#: src/print.c:1971
 msgid "Measures before cursor:"
 msgstr ""
 
-#: src/print.c:1979
+#: src/print.c:1980
 msgid "Measures after cursor:"
 msgstr ""
 
-#: src/print.c:1990
+#: src/print.c:1991
 msgid "Staffs before cursor:"
 msgstr ""
 
-#: src/print.c:1998
+#: src/print.c:1999
 msgid "Staffs after cursor:"
 msgstr ""
 
-#: src/print.c:2013
+#: src/print.c:2014
 msgid "All Movements"
 msgstr ""
 
-#: src/print.c:2015
+#: src/print.c:2016
 msgid "If checked the current layout is re-typeset at every change"
 msgstr ""
 
-#: src/print.c:2020
+#: src/print.c:2021
 msgid "If checked the current movement is re-typeset at every change"
 msgstr ""
 
-#: src/print.c:2024
+#: src/print.c:2025
 msgid "Cursor Context"
 msgstr ""
 
-#: src/print.c:2026
+#: src/print.c:2027
 msgid ""
 "If checked the range around the current cursor position is re-typeset at "
 "every change or when the cursor moves out of range."
 msgstr ""
 
-#: src/print.c:2047
+#: src/print.c:2048
 msgid "Set background updates on/off."
 msgstr ""
 
-#: src/print.c:2051
+#: src/print.c:2052
 msgid "Range"
 msgstr ""
 
-#: src/print.c:2052
+#: src/print.c:2053
 msgid "Set how much of the score to re-draw."
 msgstr ""
 
-#: src/print.c:2066
+#: src/print.c:2067
 msgid ""
 "Set background updater on/off. This controls if typesetting is re-done after "
 "each change to the music. The amount of the score to be re-typeset can be "
 "set via this button."
 msgstr ""
 
-#: src/print.c:2087 src/scorelayout.c:427
+#: src/print.c:2088 src/scorelayout.c:427
 msgid "Typeset"
 msgstr ""
 
-#: src/print.c:2099 src/scorelayout.c:1485 src/utils.c:1344
+#: src/print.c:2100 src/scorelayout.c:1485 src/utils.c:1344
 msgid "Movement"
 msgstr ""
 
-#: src/print.c:2100
+#: src/print.c:2101
 msgid ""
 "Typesets the music from the current movement. This creates a score layout "
 "comprising one movement."
 msgstr ""
 
-#: src/print.c:2104
+#: src/print.c:2105
 msgid "Part"
 msgstr ""
 
-#: src/print.c:2105
+#: src/print.c:2106
 msgid ""
 "Typesets the music from the current part for all movements. A part is all "
 "the music with the same staff-name. This creates a score layout with one "
 "part, all movements."
 msgstr ""
 
-#: src/print.c:2109 src/scorelayout.c:441
+#: src/print.c:2110 src/scorelayout.c:441
 msgid "Refresh"
 msgstr ""
 
-#: src/print.c:2110
+#: src/print.c:2111
 msgid ""
 "Re-issues the last print command. Use this after modifying the file to "
 "repeat the typesetting."
 msgstr ""
 
-#: src/print.c:2122
+#: src/print.c:2123
 msgid ""
 "Shows pages side by side, so you can see page turns for back-to-back "
 "printing\n"
 msgstr ""
 
-#: src/print.c:2126
+#: src/print.c:2127
 msgid "Next"
 msgstr ""
 
-#: src/print.c:2127
+#: src/print.c:2128
 msgid ""
 "Move to the next page - you can also scroll with the scroll-wheel, and zoom "
 "with control-wheel"
 msgstr ""
 
-#: src/print.c:2130
+#: src/print.c:2131
 msgid "Previous"
 msgstr ""
 
-#: src/print.c:2131
+#: src/print.c:2132
 msgid ""
 "Move to the previous page - you can also scroll with the scroll-wheel, and "
 "zoom with control-wheel"
 msgstr ""
 
-#: src/print.c:2138
+#: src/print.c:2140
 msgid "Denemo Print View"
 msgstr ""
 
-#: src/print.c:2160
+#: src/print.c:2162
 msgid ""
 "This window shows the final typeset score from which you can print or (via "
 "print to file) create a PDF document.\n"

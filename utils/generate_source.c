@@ -609,7 +609,36 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nFor making directives apply only to one score layout or be omitted from one score layout", N_("Conditional Directives"), NULL, N_("Conditional Directives")},
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nFor affecting how MIDI in works. MIDI in refers to MIDI keyboards or other controllers connected to the computer. You may need to configure this using the Audio/MIDI section of the Preferences.", N_("MIDI"), NULL, N_("MIDI Keyboard")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nChoose between different ways of entering notes from the computer keyboard.", N_("Keyboard"), NULL, N_("PC Keyboard")}, 
- {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nChoose between different ways of using the mouse.", N_("Mouse"), NULL, N_("Mouse")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nChoose between different ways of using the mouse.", N_("Mouse"), NULL, N_("Mouse")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nTransposing the score when typesetting.", N_("PrintTranspositions"), NULL, N_("Print Transposed")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nInserting markers to start/stop transposition when typesetting. The markers affect only the music in the staff/voice they are placed in.", N_("Print Transpositions"), NULL, N_("Start/Stop Transposing")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nDifferent sorts of barline (repeat barlines, double bars, end of movement ...)", N_("Barlines"), NULL, N_("Inserting Barlines")}, 
+
+
+
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nMoving the Denemo cursor forwards/backwards to find useful places in the score", N_("Seek"), NULL, N_("Seek")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nVarious titling schemes, (main title, movement titles, composer etc) and adding table of contents, critical commentary", N_("Titles"), NULL, N_("Titles")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nCommands to affect the layout of the typeset score.", N_("PrintLayout"), NULL, N_("Print Layout")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nCommands to embed images taken from original manuscripts etc into the score (one for each measure)", N_("CaptureScore"), NULL, N_("Capture Score")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nCreating an Ossia staff, which appears with alternative interpretations for a bar or two on typesetting", N_("Ossia"), NULL, N_("Ossia")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nCommands for setting how often bar numbers appear in the typeset version of this staff", N_("Numbering"), NULL, N_("Bar Numbering")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nVarious sorts of brace linking the staffs together. These may be nested, see the Score Lyout view for a display of the staff groups created.", N_("StaffGroupings"), NULL, N_("Staff Groupings (Braces)")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nAdding notes to the chord at the cursor at various intervals above base note", N_("AddAboveBase"), NULL, N_("Add Note Anove Base of Chord")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nAdding notes to the chord at the cursor at various intervals below the top-most note", N_("AddBelowTop"), NULL, N_("Add Note Below Top of Chord")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nCommands to include other durations in a chord (instead of polypony - this is specialized stuff!) The note at the cursor height is altered.", N_("ChangePrintDuration"), NULL, N_("Change Duration of Note")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nRight hand fingerings to apply to notes", N_("Fingerings"), NULL, N_("RH Fingerings")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nAlters the note/chord at the cursor or the selection transposing it by the interval chosen. This alters the music in the score - see othe transpose options for transposing the printed output, leaving the music untouched.", N_("Transpose"), NULL, N_("Transpose Music")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nMark the directive at the cursor as applying to just the current score layout, or to exclude the current layout. Use this for example to exclude redundant first and second time markings in parts which don't need them.", N_("Conditional-Directives"), NULL, N_("Make a Directive Conditional")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nTo insert random notes at cursor", N_("SingleRandomNote"), NULL, N_("Single Random Note")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nCreating rhythms from a sequence of characters.", N_("GenerateRhythmFromString"), NULL, N_("Generate Rhythm from String")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nMethods of generating music of guided randomness", N_("NotationMagick"), NULL, N_("Notation Magick")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nZooming the Denemo display. Usually Control and mouse wheel are used for this.", N_("Zoom"), NULL, N_("Display Zoom")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nGames for testing your musical ear", N_("Aural Training"), NULL, N_("Aural Training")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nGames for testing your music reading ability. Notice there is (elsewhere) the Checking Pitches feature which lets you test your ability to play via Midi Controller.", N_("Note-Reading"), NULL, N_("Note Reading")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nCommands to place titles etc at the start of the music (and each movement if needed). Do not mix with Book Titles.", N_("Simple Titles"), NULL, N_("Simple Titling")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nCommands to create a title page, table of contents, commentaries, appendices etc.", N_("Book Titles"), NULL, N_("Book Titling")}, 
+ 
+ 
 
 };
 

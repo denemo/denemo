@@ -36,8 +36,9 @@
 #include <string.h>
 #include <sys/stat.h>		/* check existance and type of files */
 #include <dirent.h>		/* filter and sort filenames */
-
-
+#include "source.h"
+#include "sourceaudio.h"
+#include "pitchentry.h"
 
 static gint
 file_open (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *filename);
@@ -86,9 +87,7 @@ static struct FileFormatData supported_file_formats[] = {/* WARNING this array h
 static gchar* supported_denemo_file_extension[] = {
   "*.denemo", "*.DENEMO" 
 };
-static gchar *supported_dnm_file_extension[] = {
-  "*.dnm", "*.DNM" 
-};
+
 static gchar *supported_lilypond_file_extension[] = {
   "*.ly", "*.LY" 
 };
@@ -138,16 +137,16 @@ confirm_save (DenemoGUI *gui, gchar *primary, gchar *secondary)
 				   GTK_MESSAGE_QUESTION,
 				   GTK_BUTTONS_NONE,
 				   "%s", primary);
-  GtkWidget *d_save = gtk_dialog_add_button( (GtkDialog*)dialog, 
-                                          "Close without Saving",
+  (void) gtk_dialog_add_button( (GtkDialog*)dialog, 
+                                          _("Close without Saving"),
                                           GTK_RESPONSE_NO);
 	
-  GtkWidget *cancel = gtk_dialog_add_button( (GtkDialog*)dialog, 
-                                          GTK_STOCK_CANCEL,
+  (void) gtk_dialog_add_button( (GtkDialog*)dialog, 
+                                          _(GTK_STOCK_CANCEL),
                                           GTK_RESPONSE_CANCEL);
 	
-  GtkWidget *save = gtk_dialog_add_button( (GtkDialog*)dialog, 
-                                          GTK_STOCK_SAVE_AS,
+  (void)gtk_dialog_add_button( (GtkDialog*)dialog, 
+                                          _(GTK_STOCK_SAVE_AS),
                                           GTK_RESPONSE_YES);
 	
   gtk_dialog_set_default_response( (GtkDialog*)dialog, GTK_RESPONSE_YES);
@@ -221,7 +220,7 @@ openrecent (GtkWidget * widget, gchar *filename)
       // deletescore(NULL, gui);
       if(open_for_real (filename, gui, FALSE, FALSE))
 	{
-	  gchar *warning = g_strdup_printf("Load of recently used file %s failed", filename);
+	  gchar *warning = g_strdup_printf(_("Load of recently used file %s failed"), filename);
 	  warningdialog(warning);
 	  g_free(warning);
 	}
@@ -329,7 +328,7 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
         result = importMidi (filename, gui);
       else if(EXISTS(".pdf") || EXISTS(".PDF")) {// a .pdf file for transcribing from, does not affect the current score.
         g_signal_handlers_unblock_by_func(G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
-        return !open_source (filename, 0, 0);
+        return !open_source (filename, 0, 0, 0);
       }
 #undef EXISTS
     }
@@ -405,13 +404,13 @@ strip_filename_ext (const gchar * file_name, gint format_id)
 {
     gchar *ext = strrchr(file_name, '.');
     if (ext == NULL)
-      return file_name;
+      return g_strdup(file_name);
     gint i;
     GString *file_name_stripped = g_string_new ("");
     gint filename_size = strlen(file_name);
     gint ext_size = strlen(FORMAT_EXTENSION (format_id));
     if (strlen(ext) != ext_size)
-      return file_name;
+      return g_strdup(file_name);
     gint stripped_filename_size = filename_size - ext_size;
     for (i=0;i < stripped_filename_size;i++){
       g_string_append_c(file_name_stripped, file_name[i]);
@@ -505,7 +504,7 @@ filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, DenemoSa
   if (basename[0] != '.') // avoids empty filename
     {
       if (FORMAT_ASYNC(format_id))
-        save_in_format(format_id, gui, strip_filename_ext(file_name, format_id));
+        save_in_format(format_id, gui, strip_filename_ext(file_name, format_id));//FIXME strip_filename is not freed
       else
         save_in_format(format_id, gui, file);
  
@@ -727,7 +726,6 @@ set_current_folder(GtkWidget *file_selection, DenemoGUI *gui, DenemoSaveType tem
 gchar *
 file_dialog(gchar *message, gboolean type, gchar *location){
   GtkWidget *file_selection;
-  GtkFileFilter *filter;
   gchar *filename;
   file_selection = gtk_file_chooser_dialog_new (message,
 						GTK_WINDOW (Denemo.window),
@@ -983,8 +981,6 @@ file_dialog_response(GtkWidget *dialog, gint response_id, struct FileDialogData 
 
 #define FILE_SAVE_DIALOG(description)\
   GtkWidget *file_selection;\
-  GtkWidget *label;\
-  GtkWidget *hbox;\
   GtkFileFilter *filter;\
   file_selection = gtk_file_chooser_dialog_new (description,\
 						GTK_WINDOW (Denemo.window),\

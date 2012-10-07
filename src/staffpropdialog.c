@@ -17,6 +17,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "xmldefs.h"
+#include "midi.h"
+#include "selectops.h"
 /**
  * List of MIDI instrument names
  * 
@@ -166,24 +168,6 @@ static const gchar *context_strings[] = {
 };
 
 
-/**
- *  return GString with contexts contained in the passed DenemoContext
- *  caller must free the string.
- */
-static GString *context_string (DenemoContext c) {
-
-  GString *s = g_string_new("");
-#define  APPEND(A,B)  if(c & A) g_string_append_printf(s, ":%s", B)
-  APPEND(DENEMO_PIANO_START, PIANO_START_STRING);
-  APPEND(DENEMO_PIANO_END, PIANO_END_STRING);
-  APPEND(DENEMO_CHOIR_START, CHOIR_START_STRING);
-  APPEND(DENEMO_CHOIR_END, CHOIR_END_STRING);
-  APPEND(DENEMO_GROUP_START, GROUP_START_STRING);
-  APPEND(DENEMO_GROUP_END, GROUP_END_STRING);
-  if(s->len==0)
-    g_string_append(s, NONE_STRING);
-  return s;
-}
 
 /**
  * Callback data used for setting the staffs properties
@@ -221,9 +205,6 @@ set_properties (struct callbackdata *cbdata)
 {
 
   DenemoStaff *staffstruct = cbdata->staffstruct;
-  gint n;
-  gint err;
-
 #if GTK_MAJOR_VERSION==3
 #define ASSIGNTEXT(field) \
   if(cbdata->field)\
@@ -373,7 +354,6 @@ staff_properties_change (void)
 		                                       _(thelabel));
 
 #define TEXTENTRY(thelabel, field) \
-  GtkWidget *field;\
   hbox = gtk_hbox_new (FALSE, 8);\
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
   label = gtk_label_new (_(thelabel));\
@@ -389,7 +369,7 @@ staff_properties_change (void)
   GtkWidget *field;\
   hbox = gtk_hbox_new (FALSE, 8);\
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
-  label = gtk_label_new (thelabel);\
+  label = gtk_label_new (_(thelabel));\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
   field = gtk_spin_button_new_with_range (min, max, 1.0);\
@@ -401,7 +381,7 @@ staff_properties_change (void)
   GtkWidget *field;\
   hbox = gtk_hbox_new (FALSE, 8);\
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
-  label = gtk_label_new (thelabel);\
+  label = gtk_label_new (_(thelabel));\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
   field = gtk_spin_button_new_with_range (min, max, 1.0);\
@@ -412,7 +392,7 @@ staff_properties_change (void)
 #define BOOLEANENTRY(thelabel, field) \
   GtkWidget *field;\
   field =\
-    gtk_check_button_new_with_label (thelabel); \
+    gtk_check_button_new_with_label (_(thelabel)); \
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (field),\
 		                                    staffstruct->field);\
     gtk_box_pack_start (GTK_BOX (main_vbox), field, FALSE, TRUE, 0);\
