@@ -81,7 +81,7 @@ locateprintdir (void)
 void
 initprefs ()
 {
-  gchar *systemwide = g_build_filename (get_conf_dir (), "denemo.conf", NULL);
+  gchar *systemwide = g_build_filename (get_conf_dir (), "denemo", "denemo.conf", NULL);
   #define ret (&Denemo.prefs)
   gchar * dotdenemo = (gchar*)locatedotdenemo ();
   gchar *localrc = dotdenemo?g_build_filename (dotdenemo, PREFS_FILE, NULL):NULL;
