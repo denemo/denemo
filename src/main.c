@@ -415,7 +415,15 @@ main (int argc, char *argv[])
 #else
 
   gchar *prefix = g_build_filename (get_bin_dir(), "..", NULL); 
-  add_font_directory (DATAROOTDIR "/fonts");
+  add_font_directory (g_build_filename (get_data_dir(), "/fonts"));
+
+  gchar *fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "feta.ttf", NULL);
+  g_setenv ("LILYPOND_VERBOSE", "1", FALSE);
+  add_font_file(fontpath);
+  fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "Denemo.ttf", NULL);
+  add_font_file(fontpath);
+  fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "emmentaler.ttf", NULL);
+  add_font_file(fontpath);
 #endif /* end of not windows and not APPLE */
 
 
