@@ -391,4 +391,5 @@ AC_OUTPUT(
   soundfonts/Makefile
   libsmf/Makefile
   portmidi/Makefile
+  libsffile/Makefile
 ])
