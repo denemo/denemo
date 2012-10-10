@@ -67,6 +67,7 @@ localedir = $(datadir)/locale
 INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
  $(SMF_INCLUDE) \
  $(PORTMIDI_INCLUDE) \
+-I$(top_srcdir)/libsffile \
 -I$(top_srcdir)/pixmaps \
 -DLOCALEDIR=\"$(localedir)\" \
 -DSYSCONFDIR=\"$(sysconfdir)/\" \
@@ -75,7 +76,7 @@ INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
 -DPKGNAME=\"denemo\" 
 
 
-denemo_LDADD = $(INTLLIBS) $(SMF_LDD) libaudiobackend.a $(PORTMIDI_LDD) 
+denemo_LDADD = $(INTLLIBS) $(SMF_LDD) libaudiobackend.a $(PORTMIDI_LDD) ../libsffile/libsffile.a 
 AM_CPPFLAGS = $(BINRELOC_CFLAGS)
 
 pathconfig.h:  $(top_builddir)/config.status
