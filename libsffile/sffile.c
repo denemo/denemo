@@ -23,7 +23,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "sffile.h"
-#include "util.h"
+#include "sf_util.h"
 
 
 /*================================================================

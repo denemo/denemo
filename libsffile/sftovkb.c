@@ -24,7 +24,7 @@
 #include <sys/ioctl.h>
 #include <fcntl.h>
 #include <stdlib.h>
-#include "util.h"
+#include "sf_util.h"
 #include "sffile.h"
 
 /* parse soundfont file and give the preset list */
