@@ -236,8 +236,9 @@
 
 ; ExtraOffset
 ;; the parameter "what" is the LilyPond grob that is being tweaked - it may not be the tag of the DenemoDirective that is being edited
-(define* (ExtraOffset what  #:optional (type "chord") (context ""))
+(define* (ExtraOffset what  #:optional (type "chord") (context "") (offset '(0 . 0)))
   (let ((tag "")(oldstr #f) (start "") (end "") (get-command d-DirectiveGet-chord-prefix)  (put-command d-DirectivePut-chord-prefix))
+  (disp "Entered with " offset "and " type " and " context " ok")
     (cond
      ((string=? type "note")
       (begin (set! get-command d-DirectiveGet-note-prefix)
@@ -251,10 +252,10 @@
     (set! oldstr (get-command tag))
     (if (equal? oldstr "")
 	(set! oldstr #f))
-(display oldstr)
+(disp "The old prefix was " oldstr " with " tag " from running " get-command " ok???")
     (set! start (string-append "\\once \\override " context what " #'extra-offset = #'("))
     (set! end ")")
-    (put-command tag (ChangeOffset oldstr start end))))
+    (put-command tag (ChangeOffset oldstr start end offset))))
     
 ; SetRelativeFontSize
 (define* (SetRelativeFontSize what #:optional (type "chord") (context ""))
@@ -287,7 +288,7 @@
 ;; e.g.  (define prefixstring      "\\once \\override Fingering  #'extra-offset = #'(")
 ;; (define postfix ")")
 
-(define (ChangeOffset oldstr prefixstring postfixstring)
+(define (ChangeOffset oldstr prefixstring postfixstring offset)
   (let ((startbit "")
 	(endbit "")
 	(theregexp "")
@@ -301,8 +302,7 @@
 	(ynew "")
 	(xval 0)
 	(yval 0)
-	(xy " 0.0 . 0.0 ")
-	(offset ""))
+	(xy " 0.0 . 0.0 "))
     (begin
       (if (boolean? oldstr)
 	  (set! oldstr (string-append prefixstring " 0.0 . 0.0 " postfixstring)))
@@ -321,19 +321,29 @@
       (set! xold (string->number oldx))
       (set! yold (string->number oldy))
 ;;;add two values
-      (set! offset (d-GetOffset))
+      ;;;(set! offset (d-GetOffset))
+      (disp "Starting with " offset " which is a pair " (pair? offset) " ok?")
       (if (pair? offset)
-	  (begin
-	    (set! xnew (car offset))
-	    (set! ynew (cdr offset))
-	    (set! xval (string->number xnew))
-	    (set! yval (string->number ynew))
-	    (set! xnew (number->string (+ xval xold)))
-	    (set! ynew (number->string (+ yval yold)))
-	    (set! xy (string-append xnew " . " ynew)))
-	  (set! xy " 0.0 . 0.0 "))
+				(begin
+					(set! xnew (car offset))
+					(set! ynew (cdr offset))
+					(set! xval (string->number xnew))
+					(set! yval (string->number ynew))
+					(set! xnew (number->string (+ xval xold)))
+					(set! ynew (number->string (+ yval yold)))
+					(set! xy (string-append xnew " . " ynew)))
+				(set! xy " 0.0 . 0.0 "))
+				(disp "the new offset will be " xy " ok?")
 	  (regexp-substitute #f thematch 'pre (string-append prefixstring xy postfixstring) 'post))    
     ))));;;; end of function change offset
+
+;;;; TweakOffset
+;;;Changes the offset of the something at the cursor - at the moment assume standalone RehearsalMarkbut could be fingerings on notes etc or the notest themselves - user choice.
+(define (TweakOffset offsetx offsety)
+(ExtraOffset "RehearsalMark" "standalone" "Score." (cons offsetx offsety))
+(d-SetSaved #f)
+)
+
 
 ;;;;;;;; ChangePad
 (define (ChangePad oldstr prefixstring postfixstring)
