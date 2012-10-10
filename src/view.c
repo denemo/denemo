@@ -2608,61 +2608,6 @@ static void get_drag_pad(GtkWidget *dialog, gint response_id, GtkLabel *label) {
 
 
 
-/* return a pair x, y representing the offset desired for some lilypond graphic
- or #f if no printarea or user cancels*/
-SCM scheme_get_offset(void) {
-  SCM x, y, ret;
-  if(Denemo.printarea==NULL)
-    return SCM_BOOL(FALSE);
-  if(g_object_get_data(G_OBJECT(Denemo.printarea), "offset-dialog")){
-    warningdialog("Already in a padding dialog");
-    return SCM_BOOL_F;
-  }
-  gint offsetx = (intptr_t)g_object_get_data(G_OBJECT(Denemo.printarea), "offsetx");
-  gint offsety = (intptr_t)g_object_get_data(G_OBJECT(Denemo.printarea), "offsety");
-
-
-  GtkWidget *dialog = gtk_dialog_new_with_buttons ("Select Offset in Print Window",
-					GTK_WINDOW (Denemo.window),
-                                        (GtkDialogFlags) (GTK_DIALOG_DESTROY_WITH_PARENT),
-                                        GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-                                        GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
-                                        NULL);
-  g_object_set_data(G_OBJECT(Denemo.printarea), "offset-dialog", (gpointer)dialog);
-  GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
-
-  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-  gtk_container_add (GTK_CONTAINER (content_area), vbox);
-
-  gchar *text = g_strdup_printf("Current offset %d, %d\nDrag in print window to change this\nClick OK to apply the position shift to the directive", offsetx, -offsety);
-  GtkWidget *label = gtk_label_new(text);
-  g_free(text);
-  gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
-  gtk_widget_show_all (dialog);
-
-  gint val;
-
-  g_signal_connect(dialog, "response", G_CALLBACK(get_drag_offset), label);
-  gtk_widget_show_all(dialog);
-  gtk_main();
-  offsetx = (intptr_t) g_object_get_data(G_OBJECT(Denemo.printarea), "offsetx");
-  offsety = (intptr_t) g_object_get_data(G_OBJECT(Denemo.printarea), "offsety");
-  val =  (intptr_t)g_object_get_data(G_OBJECT(dialog), "offset-response");
-  g_object_set_data(G_OBJECT(Denemo.printarea), "offset-dialog", NULL);
-  gtk_widget_destroy(dialog);
-  if(val == GTK_RESPONSE_ACCEPT) {
-    gchar *offsetx_str = g_strdup_printf("%.1f", offsetx/10.0);
-    gchar *offsety_str = g_strdup_printf("%.1f", -offsety/10.0);  
-    x= scm_makfrom0str (offsetx_str);
-    y= scm_makfrom0str (offsety_str);
-    g_free(offsetx_str);
-    g_free(offsety_str);
-    ret = scm_cons(x, y);
-  } else
-    ret = SCM_BOOL(FALSE);//FIXME add a RESET button for which return TRUE to reset the overall offset to zero.
-  return ret;
-}
-
 /* return a string representing the relative font size the user wishes to use*/
 SCM scheme_get_relative_font_size(void) {
   if(Denemo.printarea==NULL)
@@ -4661,7 +4606,6 @@ static void create_scheme_identfiers(void) {
   INSTALL_SCM_FUNCTION1 ("create a dialog with the options & return the one chosen, of #f if the user cancels", DENEMO_SCHEME_PREFIX"GetOption", scheme_get_option);
   /* test with (display (d-GetOption "this\0and\0that\0")) */
   INSTALL_SCM_FUNCTION ("Returns the text on the clipboard",DENEMO_SCHEME_PREFIX"GetTextSelection",  scheme_get_text_selection);			
-  INSTALL_SCM_FUNCTION ("Returns the offset that has been set by dragging in the Print view window",DENEMO_SCHEME_PREFIX"GetOffset",  scheme_get_offset);			
   INSTALL_SCM_FUNCTION ("Returns the padding that has been set by dragging in the Print view window",DENEMO_SCHEME_PREFIX"GetPadding",  scheme_get_padding);
   INSTALL_SCM_FUNCTION ("Deprecated - gets an integer from the user via a dialog",DENEMO_SCHEME_PREFIX"GetRelativeFontSize",  scheme_get_relative_font_size);			
 			/* install the scheme functions for calling extra Denemo functions created for the scripting interface */

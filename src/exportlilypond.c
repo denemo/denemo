@@ -24,6 +24,8 @@
 #include "commandfuncs.h"
 #include "scorelayout.h"
 #include "contexts.h"
+#include "draw.h"
+#include "view.h"
 
 #define ENTER_NOTIFY_EVENT "focus-in-event"
 #define LEAVE_NOTIFY_EVENT "focus-out-event"
@@ -1623,7 +1625,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	  g_object_set_data(G_OBJECT(objanc), MEASURENUM, (gpointer)(intptr_t)measurenum);
 	  g_object_set_data(G_OBJECT(objanc), STAFFNUM, (gpointer)(intptr_t)ABS(voice_count));
 	  g_object_set_data(G_OBJECT(objanc), OBJECTNUM, (gpointer)(intptr_t)ABS(objnum));
-
+//g_print("marked anchor %p as %d %d %d %d\n", objanc, movement_count, measurenum, voice_count, objnum);
 	  GtkTextIter back;
 	  back = iter;
 	  (void)gtk_text_iter_backward_char(&back);
@@ -2433,10 +2435,14 @@ gboolean goto_lilypond_position(gint line, gint column) {
   gtk_text_iter_set_visible_line_offset (&iter, MIN(maxcol, column));
   gtk_text_buffer_place_cursor (gui->textbuffer, &iter);
   GtkTextChildAnchor *anchor = gtk_text_iter_get_child_anchor(&iter);
-  //if(anchor) g_print("At anchor <%c> ", gtk_text_iter_get_char (&iter));
+  //if(anchor) g_print("At anchor %x <%c> ", anchor, gtk_text_iter_get_char (&iter));
   //else g_print("Not at anchor <%c> ", gtk_text_iter_get_char (&iter));
+  if(anchor && (g_object_get_data(G_OBJECT(anchor), MOVEMENTNUM)==NULL))
+		anchor = NULL;
   while((anchor==NULL) && gtk_text_iter_backward_char(&iter)) {
     anchor = gtk_text_iter_get_child_anchor(&iter);
+    if(anchor && (g_object_get_data(G_OBJECT(anchor), MOVEMENTNUM)==NULL))
+			anchor=NULL;//ignore anchors without positional info
     //g_print("#%c#", gtk_text_iter_get_char (&iter));
   }
   if(anchor){
@@ -2453,8 +2459,9 @@ gboolean goto_lilypond_position(gint line, gint column) {
     if(!goto_movement_staff_obj (gui, movementnum, staffnum, measurenum, objnum))
       return FALSE;
     return TRUE;
-  } else g_warning("Anchor not found\n");
-  }
+  } else 
+		g_warning("Anchor not found\n");
+  }//if reasonable column and line number
   return FALSE;
 }
 

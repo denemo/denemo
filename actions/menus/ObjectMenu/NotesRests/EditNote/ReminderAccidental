@@ -11,6 +11,7 @@
 	(d-DirectiveDelete-note "WarnAccidental")
 	(d-DirectivePut-note-postfix "WarnAccidental" "?"))
 (d-RefreshDisplay)
+(d-SetSaved #f)
 </scheme>
         <label>Reminder Accidental</label>
         <tooltip>Shows the accidental in the print out inside (). Display shows accidental but plain.</tooltip>
