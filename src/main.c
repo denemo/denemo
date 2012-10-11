@@ -94,6 +94,7 @@ sigchld_handler (gint num)
         {
           exitstatus = WEXITSTATUS (status);
 
+
           fprintf (stderr,
                    _("Parent: child exited, pid = %d, exit status = %d\n"),
                    (int) pid, exitstatus);
@@ -415,7 +416,7 @@ main (int argc, char *argv[])
 #else
 
   gchar *prefix = g_build_filename (get_bin_dir(), "..", NULL); 
-  add_font_directory (g_build_filename (get_data_dir(), "/fonts"));
+  add_font_directory (g_build_filename (get_data_dir(), "/fonts", NULL));
 
   gchar *fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "feta.ttf", NULL);
   g_setenv ("LILYPOND_VERBOSE", "1", FALSE);
