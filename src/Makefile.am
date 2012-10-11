@@ -64,7 +64,8 @@ libaudiobackend_a_SOURCES += fluid.c
 
 
 localedir = $(datadir)/locale
-INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
+AM_CPPFLAGS = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
+ $(BINRELOC_CFLAGS) \
  $(SMF_INCLUDE) \
  $(PORTMIDI_INCLUDE) \
 -I$(top_srcdir)/libsffile \
@@ -78,7 +79,6 @@ INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
 
 
 denemo_LDADD = $(INTLLIBS) $(SMF_LDD) libaudiobackend.a $(PORTMIDI_LDD) ../libsffile/libsffile.a 
-AM_CPPFLAGS = $(BINRELOC_CFLAGS)
 
 pathconfig.h:  $(top_builddir)/config.status
 	-@rm pathconfig.tmp 
