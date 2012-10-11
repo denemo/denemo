@@ -995,9 +995,9 @@ get_conf_dir ()
 #else
 
 #ifndef ENABLE_BINRELOC
-  confdir = g_strdup (SYSCONFDIR);
+  confdir = g_build_filename (SYSCONFDIR, NULL);
 #else
-  confdir = gbr_find_etc_dir(SYSCONFDIR);
+  confdir = g_build_filename (gbr_find_etc_dir(SYSCONFDIR), "denemo", NULL);
 #endif //ENABLE_BINRELOC
 
 #endif //UNUSED__APPLE
