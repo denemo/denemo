@@ -69,6 +69,7 @@ INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
  $(PORTMIDI_INCLUDE) \
 -I$(top_srcdir)/libsffile \
 -I$(top_srcdir)/pixmaps \
+-DBINDIR=\"$(exec_prefix)/bin\" \
 -DLOCALEDIR=\"$(localedir)\" \
 -DSYSCONFDIR=\"$(sysconfdir)/\" \
 -DPKGDATADIR=\"$(pkgdatadir)/\" \
