@@ -915,8 +915,13 @@ get_data_dir ()
        g_print("OSX set data dir to %s\n", datadir);
       }
 #else
+#ifndef ENABLE_BINRELOC
+    datadir = g_strdup (PKGDATADIR);
+#else
     datadir = gbr_find_pkg_data_dir (PKGDATADIR, PKGNAME);
-#endif
+#endif //ENABLE_BINRELOC
+
+#endif //UNUSED__APPLE
 #endif /* not G_OS_WIN32 */
   }
   return datadir;
@@ -950,8 +955,14 @@ get_bin_dir (void)
        g_print("OSX set bin dir to %s\n", bindir);
       }
 #else
-    bindir = gbr_find_bin_dir ("/usr/local/bin");
-#endif
+
+#ifndef ENABLE_BINRELOC
+  bindir = g_strdup (BINDIR);
+#else
+  bindir = gbr_find_bin_dir (BINDIR);
+#endif //ENABLE_BINRELOC
+
+#endif //UNUSED__APPLE
 #endif /* not G_OS_WIN32 */
   }
   return bindir;
@@ -982,8 +993,14 @@ get_conf_dir ()
        g_print("OSX set conf dir to %s\n", confdir);
       }
 #else
+
+#ifndef ENABLE_BINRELOC
+  confdir = g_strdup (SYSCONFDIR);
+#else
   confdir = gbr_find_etc_dir(SYSCONFDIR);
-#endif
+#endif //ENABLE_BINRELOC
+
+#endif //UNUSED__APPLE
 #endif /* not G_OS_WIN32 */
   }
   return confdir;
