@@ -1098,9 +1098,9 @@ static gboolean overdraw_print(cairo_t *cr) {
       cairo_rectangle( cr, Ww.Mark.x-pad/2, Ww.Mark.y-pad/2, w+pad, h+pad);
 
       GdkWindow *window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
-      gdk_draw_pixbuf(window, NULL, GDK_PIXBUF(Denemo.pixbuf),
-		      Ww.Mark.x+x, Ww.Mark.y+y, Ww.Mark.x, Ww.Mark.y,/* x, y in pixbuf, x,y in window */
-          w,  h, GDK_RGB_DITHER_NONE,0,0);
+     // gdk_draw_pixbuf(window, NULL, GDK_PIXBUF(Denemo.pixbuf),
+		  //    Ww.Mark.x+x, Ww.Mark.y+y, Ww.Mark.x, Ww.Mark.y,/* x, y in pixbuf, x,y in window */
+      //    w,  h, GDK_RGB_DITHER_NONE,0,0);
     }
 return TRUE;
 }
