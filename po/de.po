@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Denemo 0.7.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-10 10:04+0100\n"
+"POT-Creation-Date: 2012-10-11 09:06+0100\n"
 "PO-Revision-Date: 2008-09-06 17:02+0200\n"
 "Last-Translator: Stefan Osswald <stefan129@users.sourceforge.net>\n"
 "Language-Team: German <none>\n"
@@ -767,7 +767,7 @@ msgstr "Vorzeichen erzwingen"
 msgid "Forces the accidental on the note to be printed."
 msgstr ""
 
-#: src/commands.c:493 src/commands.c:495 src/print.c:1514
+#: src/commands.c:493 src/commands.c:495 src/print.c:1521
 #, fuzzy, no-c-format
 msgid "Reminder Accidental"
 msgstr "Vorzeichen erzwingen"
@@ -1055,7 +1055,7 @@ msgid ""
 "for second and subsequent systems"
 msgstr ""
 
-#: src/commands.c:804 src/commands.c:806 src/print.c:1504
+#: src/commands.c:804 src/commands.c:806 src/print.c:1511
 #, no-c-format
 msgid "Line Break"
 msgstr ""
@@ -1065,7 +1065,7 @@ msgstr ""
 msgid "(Print) Start a new line (i.e. system) at this measure."
 msgstr ""
 
-#: src/commands.c:815 src/commands.c:818 src/print.c:1509
+#: src/commands.c:815 src/commands.c:818 src/print.c:1516
 #: src/scorelayout.c:754
 #, no-c-format
 msgid "Page Break"
@@ -7432,7 +7432,7 @@ msgstr "Als PDF exportieren"
 msgid "Export the score as a MIDI file"
 msgstr "Exportiert das Notenblatt als PDF-Dokument"
 
-#: src/entries.h:244 src/entries.h:250 src/print.c:2155
+#: src/entries.h:244 src/entries.h:250 src/print.c:2156
 #: src/register_commands.h:235
 msgid "Print"
 msgstr "Drucken"
@@ -9131,11 +9131,10 @@ msgid "Print Transposed"
 msgstr "Notenzeile transponieren"
 
 #: src/entries.h:409
-#, fuzzy
 msgid ""
 "Menu:\n"
 "Transposing the score when typesetting."
-msgstr "Bewege den Cursor und füge Noten oder Pausen dort ein"
+msgstr ""
 
 #: src/entries.h:410
 msgid "Start/Stop Transposing"
@@ -9165,12 +9164,11 @@ msgid "Seek"
 msgstr ""
 
 #: src/entries.h:412
-#, fuzzy
 msgid ""
 "Menu:\n"
 "Moving the Denemo cursor forwards/backwards to find useful places in the "
 "score"
-msgstr "Cursor bewegen"
+msgstr ""
 
 #: src/entries.h:413
 #, fuzzy
@@ -9317,11 +9315,10 @@ msgid "Single Random Note"
 msgstr ""
 
 #: src/entries.h:425
-#, fuzzy
 msgid ""
 "Menu:\n"
 "To insert random notes at cursor"
-msgstr "Cursor bewegen"
+msgstr ""
 
 #: src/entries.h:426
 msgid "Generate Rhythm from String"
@@ -9875,27 +9872,27 @@ msgid ""
 "hyphen - for extending syllables."
 msgstr ""
 
-#: src/main.c:98
+#: src/main.c:99
 #, c-format
 msgid "Parent: child exited, pid = %d, exit status = %d\n"
 msgstr ""
 
-#: src/main.c:106
+#: src/main.c:107
 #, c-format
 msgid "Parent: child terminated by signal %d, pid = %d\n"
 msgstr ""
 
-#: src/main.c:114
+#: src/main.c:115
 #, c-format
 msgid "Parent: child stopped by signal %d, pid = %d\n"
 msgstr ""
 
-#: src/main.c:120
+#: src/main.c:121
 #, c-format
 msgid "Parent: child exited magically, pid = %d\n"
 msgstr ""
 
-#: src/main.c:479 src/main.c:528
+#: src/main.c:480 src/main.c:529
 msgid ""
 "\n"
 "GNU Denemo version "
@@ -9903,7 +9900,7 @@ msgstr ""
 "\n"
 "GNU Denemo Version"
 
-#: src/main.c:480
+#: src/main.c:481
 #, fuzzy
 msgid ""
 "Usage: denemo [OPTION]... [FILE]\n"
@@ -9945,7 +9942,7 @@ msgstr ""
 "\n"
 "Report bugs to bug-denemo@gnu.org\n"
 
-#: src/main.c:497
+#: src/main.c:498
 #, fuzzy
 msgid ""
 "(c) 1999-2005, 2009 Matthew Hiller, Adam Tee, and others, 2010-2011 Richard "
@@ -9971,7 +9968,7 @@ msgstr ""
 "COPYING for details.\n"
 "\n"
 
-#: src/main.c:561
+#: src/main.c:562
 msgid ""
 "\n"
 "GNU Denemo, a free and open music notation editor\n"
@@ -10015,7 +10012,7 @@ msgstr ""
 msgid "Play from time"
 msgstr "Ab Cursor bis zum Ende abspielen"
 
-#: src/playback.c:133 src/print.c:626
+#: src/playback.c:133 src/print.c:635
 msgid "to"
 msgstr "bis"
 
@@ -10035,220 +10032,220 @@ msgstr "Minute(n)"
 msgid "Choose Soundfont"
 msgstr ""
 
-#: src/print.c:132
+#: src/print.c:141
 #, c-format
 msgid "Could not find %s"
 msgstr "Konnte %s nicht finden"
 
-#: src/print.c:135
+#: src/print.c:144
 msgid "Please edit lilypond path in the preferences."
 msgstr "Bitte ändern Sie den Pfad zu Lilypond in den Eigenschaften."
 
-#: src/print.c:602
+#: src/print.c:611
 msgid "Print Excerpt Range"
 msgstr "Drucke Taktbereich"
 
-#: src/print.c:617
+#: src/print.c:626
 msgid "Print from Measure"
 msgstr "Drucke von Takt"
 
-#: src/print.c:1035
+#: src/print.c:1042
 msgid "Possibly Invalid"
 msgstr ""
 
-#: src/print.c:1036
+#: src/print.c:1043
 #, fuzzy
 msgid "Cursor not moved."
 msgstr "Cursor nach links"
 
-#: src/print.c:1039
+#: src/print.c:1046
 #, fuzzy
 msgid "Check Score."
 msgstr "Notenblatt einrichten"
 
-#: src/print.c:1040
+#: src/print.c:1047
 msgid "Cursor may have moved to error point in the score."
 msgstr ""
 
-#: src/print.c:1043
+#: src/print.c:1050
 msgid "INVALID!"
 msgstr ""
 
-#: src/print.c:1044
+#: src/print.c:1051
 msgid "LilyPond could not typeset this score."
 msgstr ""
 
-#: src/print.c:1065 src/print.c:2081
+#: src/print.c:1072 src/print.c:2082
 #, fuzzy
 msgid "Current Movement"
 msgstr "Vorhergehender Satz"
 
-#: src/print.c:1067
+#: src/print.c:1074
 #, fuzzy
 msgid "Excerpt Only"
 msgstr "Drucke Taktbereich"
 
-#: src/print.c:1253
+#: src/print.c:1260
 msgid "No selection to print"
 msgstr ""
 
-#: src/print.c:1482
+#: src/print.c:1489
 msgid "Drag to desired offset"
 msgstr ""
 
-#: src/print.c:1505
+#: src/print.c:1512
 #, fuzzy
 msgid "Start a new line here"
 msgstr "Neues Notenblatt erstellen"
 
-#: src/print.c:1510
+#: src/print.c:1517
 #, fuzzy
 msgid "Start a new page here"
 msgstr "Neues Notenblatt erstellen"
 
-#: src/print.c:1515
+#: src/print.c:1522
 msgid "Set a reminder accidental on the note selected"
 msgstr ""
 
-#: src/print.c:1930
+#: src/print.c:1931
 msgid "Manual Updates"
 msgstr ""
 
-#: src/print.c:1931
+#: src/print.c:1932
 msgid "Continuous"
 msgstr ""
 
-#: src/print.c:2033
+#: src/print.c:2034
 msgid "Measures before cursor:"
 msgstr ""
 
-#: src/print.c:2042
+#: src/print.c:2043
 msgid "Measures after cursor:"
 msgstr ""
 
-#: src/print.c:2053
+#: src/print.c:2054
 #, fuzzy
 msgid "Staffs before cursor:"
 msgstr "Notenzeile darüber löschen"
 
-#: src/print.c:2061
+#: src/print.c:2062
 #, fuzzy
 msgid "Staffs after cursor:"
 msgstr "Notenzeile löschen"
 
-#: src/print.c:2076
+#: src/print.c:2077
 #, fuzzy
 msgid "All Movements"
 msgstr "Sätze einfügen"
 
-#: src/print.c:2078
+#: src/print.c:2079
 msgid "If checked the current layout is re-typeset at every change"
 msgstr ""
 
-#: src/print.c:2083
+#: src/print.c:2084
 msgid "If checked the current movement is re-typeset at every change"
 msgstr ""
 
-#: src/print.c:2087
+#: src/print.c:2088
 #, fuzzy
 msgid "Cursor Context"
 msgstr "Cursor nach links"
 
-#: src/print.c:2089
+#: src/print.c:2090
 msgid ""
 "If checked the range around the current cursor position is re-typeset at "
 "every change or when the cursor moves out of range."
 msgstr ""
 
-#: src/print.c:2110
+#: src/print.c:2111
 msgid "Set background updates on/off."
 msgstr ""
 
-#: src/print.c:2114
+#: src/print.c:2115
 #, fuzzy
 msgid "Range"
 msgstr "Bearbeiter"
 
-#: src/print.c:2115
+#: src/print.c:2116
 msgid "Set how much of the score to re-draw."
 msgstr ""
 
-#: src/print.c:2129
+#: src/print.c:2130
 msgid ""
 "Set background updater on/off. This controls if typesetting is re-done after "
 "each change to the music. The amount of the score to be re-typeset can be "
 "set via this button."
 msgstr ""
 
-#: src/print.c:2150 src/scorelayout.c:427
+#: src/print.c:2151 src/scorelayout.c:427
 msgid "Typeset"
 msgstr ""
 
-#: src/print.c:2162 src/scorelayout.c:1485 src/utils.c:1344
+#: src/print.c:2163 src/scorelayout.c:1485 src/utils.c:1361
 #, fuzzy
 msgid "Movement"
 msgstr "Sätze"
 
-#: src/print.c:2163
+#: src/print.c:2164
 msgid ""
 "Typesets the music from the current movement. This creates a score layout "
 "comprising one movement."
 msgstr ""
 
-#: src/print.c:2167
+#: src/print.c:2168
 msgid "Part"
 msgstr ""
 
-#: src/print.c:2168
+#: src/print.c:2169
 msgid ""
 "Typesets the music from the current part for all movements. A part is all "
 "the music with the same staff-name. This creates a score layout with one "
 "part, all movements."
 msgstr ""
 
-#: src/print.c:2172 src/scorelayout.c:441
+#: src/print.c:2173 src/scorelayout.c:441
 msgid "Refresh"
 msgstr ""
 
-#: src/print.c:2173
+#: src/print.c:2174
 msgid ""
 "Re-issues the last print command. Use this after modifying the file to "
 "repeat the typesetting."
 msgstr ""
 
-#: src/print.c:2185
+#: src/print.c:2186
 msgid ""
 "Shows pages side by side, so you can see page turns for back-to-back "
 "printing\n"
 msgstr ""
 
-#: src/print.c:2189
+#: src/print.c:2190
 msgid "Next"
 msgstr ""
 
-#: src/print.c:2190
+#: src/print.c:2191
 msgid ""
 "Move to the next page - you can also scroll with the scroll-wheel, and zoom "
 "with control-wheel"
 msgstr ""
 
-#: src/print.c:2193
+#: src/print.c:2194
 #, fuzzy
 msgid "Previous"
 msgstr "Vorhergehender Satz"
 
-#: src/print.c:2194
+#: src/print.c:2195
 msgid ""
 "Move to the previous page - you can also scroll with the scroll-wheel, and "
 "zoom with control-wheel"
 msgstr ""
 
-#: src/print.c:2202
+#: src/print.c:2203
 #, fuzzy
 msgid "Denemo Print View"
 msgstr "Denemo Webseite"
 
-#: src/print.c:2224
+#: src/print.c:2225
 msgid ""
 "This window shows the final typeset score from which you can print or (via "
 "print to file) create a PDF document.\n"

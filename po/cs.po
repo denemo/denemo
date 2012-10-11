@@ -6,17 +6,17 @@
 # Pavel Fric <pavelfric@seznam.cz>, 2011, 2012.
 msgid ""
 msgstr ""
-"Project-Id-Version: denemo 0.9.7c\n"
+"Project-Id-Version: denemo 0.9.7d\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-10 10:04+0100\n"
-"PO-Revision-Date: 2012-10-05 11:00+0200\n"
+"POT-Creation-Date: 2012-10-11 09:06+0100\n"
+"PO-Revision-Date: 2012-10-10 22:40+0200\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
 "X-Language: cs_CZ\n"
 "X-Source-Language: C\n"
@@ -454,7 +454,7 @@ msgstr ""
 #: src/commands.c:152 src/commands.c:154
 #, no-c-format
 msgid "(Print) Open { Octave Up"
-msgstr "(Tisk) Otevřít { Oktáva nahoru"
+msgstr "(Tisk) Otevřít { oktáva nahoru"
 
 #: src/commands.c:152 src/commands.c:154
 #, no-c-format
@@ -787,7 +787,7 @@ msgstr "Varovná posuvka"
 msgid "Forces the accidental on the note to be printed."
 msgstr "Vynutí posuvku u noty, která se má vytisknout."
 
-#: src/commands.c:493 src/commands.c:495 src/print.c:1514
+#: src/commands.c:493 src/commands.c:495 src/print.c:1521
 #, no-c-format
 msgid "Reminder Accidental"
 msgstr "Připomínající posuvka"
@@ -1091,7 +1091,7 @@ msgstr ""
 "Vytiskne zkrácenou podobu názvu nástroje před touto notovou osnovu\n"
 "pro druhou a následující osnovy."
 
-#: src/commands.c:804 src/commands.c:806 src/print.c:1504
+#: src/commands.c:804 src/commands.c:806 src/print.c:1511
 #, no-c-format
 msgid "Line Break"
 msgstr "Zalomení řádku"
@@ -1101,7 +1101,7 @@ msgstr "Zalomení řádku"
 msgid "(Print) Start a new line (i.e. system) at this measure."
 msgstr "(Tisk) Začít nový řádek (to jest velkou osnovu) na tomto taktu."
 
-#: src/commands.c:815 src/commands.c:818 src/print.c:1509
+#: src/commands.c:815 src/commands.c:818 src/print.c:1516
 #: src/scorelayout.c:754
 #, no-c-format
 msgid "Page Break"
@@ -1533,7 +1533,7 @@ msgstr ""
 #: src/commands.c:1267 src/commands.c:1270
 #, no-c-format
 msgid "(Print) Open { Octave Down"
-msgstr "(Tisk) Otevřít { Oktáva dolů"
+msgstr "(Tisk) Otevřít { oktáva dolů"
 
 #: src/commands.c:1267 src/commands.c:1270
 #, no-c-format
@@ -1584,7 +1584,7 @@ msgid ""
 "passages etc. Use Show Ossia and Hide Ossia to show specific measures."
 msgstr ""
 "Vytvoří malou osnovu nad nynější osnovou pro vkládání nápověd, pasáží ossia "
-"atd. Použijte Ukázat ossia a Skrýt ossia pro ukázání určitý taktů."
+"atd. Použijte Ukázat ossia a Skrýt ossia pro ukázání určitých taktů."
 
 #: src/commands.c:1325 src/commands.c:1328
 #, no-c-format
@@ -2517,7 +2517,7 @@ msgstr ""
 #: src/commands.c:2348 src/commands.c:2350
 #, no-c-format
 msgid "TypesettingOff"
-msgstr "SazbaVypnuta"
+msgstr "Vypnutí sazby"
 
 #: src/commands.c:2348 src/commands.c:2350
 #, no-c-format
@@ -2527,7 +2527,7 @@ msgstr "Vypne sazbu od toho bodu, dokud není zapnuta."
 #: src/commands.c:2359 src/commands.c:2362
 #, no-c-format
 msgid "TypesettingOn"
-msgstr "SazbaZapnuta"
+msgstr "Zapnutí sazby"
 
 #: src/commands.c:2359 src/commands.c:2362
 #, no-c-format
@@ -4177,7 +4177,7 @@ msgstr "Obrátit vybrané předměty"
 #: src/commands.c:4136 src/commands.c:4138
 #, no-c-format
 msgid "Revert selected objects"
-msgstr "Zvrátit vybrané předměty"
+msgstr "Obrátit vybrané předměty"
 
 #: src/commands.c:4147 src/commands.c:4150
 #, no-c-format
@@ -4207,7 +4207,7 @@ msgstr "Řadit výběr (vzestupně)"
 #: src/commands.c:4171 src/commands.c:4174
 #, no-c-format
 msgid "Sort all notes in the selection, ascending order."
-msgstr "Seřadit všechny noty ve výběru,  vzestupně."
+msgstr "Seřadit vzestupně všechny noty ve výběru."
 
 #: src/commands.c:4183 src/commands.c:4186
 #, no-c-format
@@ -4217,7 +4217,7 @@ msgstr "Řadit výběr (sestupně)"
 #: src/commands.c:4183 src/commands.c:4186
 #, no-c-format
 msgid "Sort all notes in the selection, descending order."
-msgstr "Seřadit všechny noty ve výběru,  sestupně."
+msgstr "Seřadit sestupně všechny noty ve výběru."
 
 #: src/commands.c:4195 src/commands.c:4197
 #, no-c-format
@@ -7654,7 +7654,7 @@ msgstr "Vyvést jako MIDI"
 msgid "Export the score as a MIDI file"
 msgstr "Vyvést notový zápis jako soubor MIDI"
 
-#: src/entries.h:244 src/entries.h:250 src/print.c:2155
+#: src/entries.h:244 src/entries.h:250 src/print.c:2156
 #: src/register_commands.h:235
 msgid "Print"
 msgstr "Tisk"
@@ -9353,22 +9353,20 @@ msgstr ""
 "Vybrat mezi různými způsoby používání myši."
 
 #: src/entries.h:409
-#, fuzzy
 msgid "Print Transposed"
-msgstr "(Tisk) Převedený notový zápis"
+msgstr "Vytisknout převedené"
 
 #: src/entries.h:409
-#, fuzzy
 msgid ""
 "Menu:\n"
 "Transposing the score when typesetting."
 msgstr ""
 "Nabídka:\n"
-"Pohybovat ukazovátkem k polohám not"
+"Převod notového zápisu při sazbě."
 
 #: src/entries.h:410
 msgid "Start/Stop Transposing"
-msgstr ""
+msgstr "Spustit/Zastavit převod"
 
 #: src/entries.h:410
 msgid ""
@@ -9376,11 +9374,13 @@ msgid ""
 "Inserting markers to start/stop transposition when typesetting. The markers "
 "affect only the music in the staff/voice they are placed in."
 msgstr ""
+"Nabídka:\n"
+"Vložení značek do spustit/zastavit převod při sazbě. Značky ovlivní jen noty "
+"v osnově/hlase, do které(ho) jsou umístěny."
 
 #: src/entries.h:411
-#, fuzzy
 msgid "Inserting Barlines"
-msgstr "Vložit taktovou čáru"
+msgstr "Vložení taktových čar"
 
 #: src/entries.h:411
 msgid ""
@@ -9388,25 +9388,27 @@ msgid ""
 "Different sorts of barline (repeat barlines, double bars, end of "
 "movement ...)"
 msgstr ""
+"Nabídka:\n"
+"Různé druhy taktových čar (taktové čáry pro opakování, dvojité taktové čáry, "
+"konec věty atd.)"
 
 #: src/entries.h:412
 msgid "Seek"
-msgstr ""
+msgstr "Hledání"
 
 #: src/entries.h:412
-#, fuzzy
 msgid ""
 "Menu:\n"
 "Moving the Denemo cursor forwards/backwards to find useful places in the "
 "score"
 msgstr ""
 "Nabídka:\n"
-"Přesun ukazovátka Denema v díle"
+"Přesun ukazovátka Denema dopředu/dozadu pro nalezení užitečných míst v "
+"notovém zápisu"
 
 #: src/entries.h:413
-#, fuzzy
 msgid "Titles"
-msgstr "Název"
+msgstr "Názvy"
 
 #: src/entries.h:413
 msgid ""
@@ -9414,25 +9416,25 @@ msgid ""
 "Various titling schemes, (main title, movement titles, composer etc) and "
 "adding table of contents, critical commentary"
 msgstr ""
+"Nabídka:\n"
+"Různá schémata názvů (hlavní název, názvy vět, skladatel atd.) a přidání "
+"obsahu, kritického komentáře"
 
 #: src/entries.h:414
-#, fuzzy
 msgid "Print Layout"
-msgstr "Vytiskne všechna rozvržení"
+msgstr "Rozvržení tisku"
 
 #: src/entries.h:414
-#, fuzzy
 msgid ""
 "Menu:\n"
 "Commands to affect the layout of the typeset score."
 msgstr ""
 "Nabídka:\n"
-" Příkazy pro řízení směru nožičky nahoru/dolů"
+"Příkazy pro ovlivnění rozvržení vysázeného notového zápisu."
 
 #: src/entries.h:415
-#, fuzzy
 msgid "Capture Score"
-msgstr "Zachytit takty (notový zápis)"
+msgstr "Zachytit notový zápis"
 
 #: src/entries.h:415
 msgid ""
@@ -9440,11 +9442,13 @@ msgid ""
 "Commands to embed images taken from original manuscripts etc into the score "
 "(one for each measure)"
 msgstr ""
+"Nabídka:\n"
+"Příkazy pro vložení obrázků vzatých z původních rukopisů atd. do notového "
+"zápisu (jeden pro každý takt)"
 
 #: src/entries.h:416
-#, fuzzy
 msgid "Ossia"
-msgstr "Ukázat ossia"
+msgstr "Ossia"
 
 #: src/entries.h:416
 msgid ""
@@ -9452,11 +9456,13 @@ msgid ""
 "Creating an Ossia staff, which appears with alternative interpretations for "
 "a bar or two on typesetting"
 msgstr ""
+"Nabídka:\n"
+"Vytvoření osnovy ossia, která se při sazbě objeví s alternativními "
+"interpretacemi pro takt nebo dva"
 
 #: src/entries.h:417
-#, fuzzy
 msgid "Bar Numbering"
-msgstr "Číslo taktu = "
+msgstr "Číslování taktů"
 
 #: src/entries.h:417
 msgid ""
@@ -9464,11 +9470,13 @@ msgid ""
 "Commands for setting how often bar numbers appear in the typeset version of "
 "this staff"
 msgstr ""
+"Nabídka:\n"
+"Příkazy pro nastavení toho, jak často se ve vysázené verzi této osnovy "
+"objeví čísla taktů"
 
 #: src/entries.h:418
-#, fuzzy
 msgid "Staff Groupings (Braces)"
-msgstr "Odstup mezi notovými řádky (v pixelech):"
+msgstr "Seskupování osnov (závorky)"
 
 #: src/entries.h:418
 msgid ""
@@ -9476,40 +9484,41 @@ msgid ""
 "Various sorts of brace linking the staffs together. These may be nested, see "
 "the Score Lyout view for a display of the staff groups created."
 msgstr ""
+"Nabídka:\n"
+"Různé druhy závorek spojujících osnovy dohromady. Tyto mohou být vnořeny. "
+"Podívejte se na rozvržení notového zápisu (Pohled->Rozvržení notového "
+"zápisu) na zobrazení vytvořených skupin osnov."
 
 #: src/entries.h:419
-#, fuzzy
 msgid "Add Note Anove Base of Chord"
-msgstr "Přidání do akordu"
+msgstr "Přidat notu nad základ akordu"
 
 #: src/entries.h:419
-#, fuzzy
 msgid ""
 "Menu:\n"
 "Adding notes to the chord at the cursor at various intervals above base note"
 msgstr ""
 "Nabídka:\n"
-"Přidat noty k notě nebo akordu v poloze ukazovátka kvůli vytvoření akordů"
+"Přidat noty do akordu v poloze ukazovátka v různých intervalech nad "
+"základovou notu"
 
 #: src/entries.h:420
-#, fuzzy
 msgid "Add Note Below Top of Chord"
-msgstr "Přidat H do akordu"
+msgstr "Přidat notu pod vrchol akordu"
 
 #: src/entries.h:420
-#, fuzzy
 msgid ""
 "Menu:\n"
 "Adding notes to the chord at the cursor at various intervals below the top-"
 "most note"
 msgstr ""
 "Nabídka:\n"
-"Přidat noty k notě nebo akordu v poloze ukazovátka kvůli vytvoření akordů"
+"Přidat noty do akordu v poloze ukazovátka v různých intervalech pod "
+"vrcholovou notu"
 
 #: src/entries.h:421
-#, fuzzy
 msgid "Change Duration of Note"
-msgstr "Změnit dobu trvání"
+msgstr "Změnit dobu trvání noty"
 
 #: src/entries.h:421
 msgid ""
@@ -9517,22 +9526,25 @@ msgid ""
 "Commands to include other durations in a chord (instead of polypony - this "
 "is specialized stuff!) The note at the cursor height is altered."
 msgstr ""
+"Nabídka:\n"
+"Příkazy k zahrnutí jiných dob trvání do akordu (namísto vícehlasosti - to je "
+"zvláštní osnova!). Nota ve výšce ukazovátka je změněna."
 
 #: src/entries.h:422
-#, fuzzy
 msgid "RH Fingerings"
-msgstr "Prstoklad"
+msgstr "Prstoklad pravé ruky"
 
 #: src/entries.h:422
 msgid ""
 "Menu:\n"
 "Right hand fingerings to apply to notes"
 msgstr ""
+"Nabídka:\n"
+"Prstoklad pro pravou ruku, který se použije na noty"
 
 #: src/entries.h:423
-#, fuzzy
 msgid "Transpose Music"
-msgstr "Sazba not"
+msgstr "Převedení not"
 
 #: src/entries.h:423
 msgid ""
@@ -9541,10 +9553,14 @@ msgid ""
 "interval chosen. This alters the music in the score - see othe transpose "
 "options for transposing the printed output, leaving the music untouched."
 msgstr ""
+"Nabídka:\n"
+"Změní notu/akord v poloze ukazovátka nebo výběr, převede ji/jej o zvolený "
+"interval. Tím jsou změněny noty v notovém zápisu. Podívejte se na další "
+"volby pro převod k převedení tiskového výstupu ponechaje noty nedotknuty."
 
 #: src/entries.h:424
 msgid "Make a Directive Conditional"
-msgstr ""
+msgstr "Udělat příkaz podmíněným"
 
 #: src/entries.h:424
 msgid ""
@@ -9553,44 +9569,51 @@ msgid ""
 "layout, or to exclude the current layout. Use this for example to exclude "
 "redundant first and second time markings in parts which don't need them."
 msgstr ""
+"Nabídka:\n"
+"Označit příkaz v poloze ukazovátka jako příkaz, který se používá jen na "
+"rozvržení nynějšího notového zápisu, nebo k vyloučení nynějšího rozvržení. "
+"Použijte to například na vyloučení nadbytečných označení pro první a druhé "
+"opakování v hlasech, které je nepotřebují."
 
 #: src/entries.h:425
 msgid "Single Random Note"
-msgstr ""
+msgstr "Jedna náhodná nota"
 
 #: src/entries.h:425
-#, fuzzy
 msgid ""
 "Menu:\n"
 "To insert random notes at cursor"
 msgstr ""
 "Nabídka:\n"
-"Pohnout ukazovátkem"
+"K vkládání náhodných not v poloze ukazovátka"
 
 #: src/entries.h:426
 msgid "Generate Rhythm from String"
-msgstr ""
+msgstr "Vytvořit rytmus ze řetězce"
 
 #: src/entries.h:426
 msgid ""
 "Menu:\n"
 "Creating rhythms from a sequence of characters."
 msgstr ""
+"Nabídka:\n"
+"Vytváření rytmů z řady znaků"
 
 #: src/entries.h:427
 msgid "Notation Magick"
-msgstr ""
+msgstr "Kouzelné noty"
 
 #: src/entries.h:427
 msgid ""
 "Menu:\n"
 "Methods of generating music of guided randomness"
 msgstr ""
+"Nabídka:\n"
+"Způsoby vytváření not pomocí řízené náhodnosti"
 
 #: src/entries.h:428
-#, fuzzy
 msgid "Display Zoom"
-msgstr "Zobrazit rozvržení"
+msgstr "Zvětšení zobrazení"
 
 #: src/entries.h:428
 msgid ""
@@ -9598,21 +9621,25 @@ msgid ""
 "Zooming the Denemo display. Usually Control and mouse wheel are used for "
 "this."
 msgstr ""
+"Nabídka:\n"
+"Změna přiblížení zobrazení not v Denemu. Obvykle k tomu slouží klávesa Ctrl "
+"a kolečko myši."
 
 #: src/entries.h:429
 msgid "Aural Training"
-msgstr ""
+msgstr "Procvičování sluchu"
 
 #: src/entries.h:429
 msgid ""
 "Menu:\n"
 "Games for testing your musical ear"
 msgstr ""
+"Nabídka:\n"
+"Hry k vyzkoušení vašeho hudebního sluchu"
 
 #: src/entries.h:430
-#, fuzzy
 msgid "Note Reading"
-msgstr "Záhlaví"
+msgstr "Čtení not"
 
 #: src/entries.h:430
 msgid ""
@@ -9621,10 +9648,14 @@ msgid ""
 "the Checking Pitches feature which lets you test your ability to play via "
 "Midi Controller."
 msgstr ""
+"Nabídka:\n"
+"Hry, které zkouší vaši dovednost ve čtení not. Všimněte si, že je tu (jinde) "
+"funkce Ověření výšek tónů, která vám umožní vyzkoušení vaší schopnosti hry "
+"přes ovladač MIDI."
 
 #: src/entries.h:431
 msgid "Simple Titling"
-msgstr ""
+msgstr "Jednoduché názvy"
 
 #: src/entries.h:431
 msgid ""
@@ -9632,11 +9663,13 @@ msgid ""
 "Commands to place titles etc at the start of the music (and each movement if "
 "needed). Do not mix with Book Titles."
 msgstr ""
+"Nabídka:\n"
+"Příkazy pro umístění názvů atd. na začátek not (a v případě potřeby každé "
+"věty). Nesměšovat s Názvy knih"
 
 #: src/entries.h:432
-#, fuzzy
 msgid "Book Titling"
-msgstr "Vytvořit názvy knih"
+msgstr "Názvy knih"
 
 #: src/entries.h:432
 msgid ""
@@ -9644,6 +9677,8 @@ msgid ""
 "Commands to create a title page, table of contents, commentaries, appendices "
 "etc."
 msgstr ""
+"Nabídka:\n"
+"Příkazy pro vytvoření titulní strany, obsahu, poznámek, dodatků atd."
 
 #: src/exportabc.c:86
 msgid "%{error. defaulting to%}C"
@@ -9710,7 +9745,7 @@ msgstr "Soubor Music XML (*.mxml, *.xml)"
 
 #: src/file.c:141
 msgid "Close without Saving"
-msgstr ""
+msgstr "Zavřít bez uložení"
 
 #: src/file.c:189
 #, c-format
@@ -9724,7 +9759,7 @@ msgstr "Uložit změny?"
 #: src/file.c:223
 #, c-format
 msgid "Load of recently used file %s failed"
-msgstr ""
+msgstr "Nahrání nedávno použitého souboru %s se nezdařilo"
 
 #: src/file.c:1022
 msgid "Export As "
@@ -9875,7 +9910,7 @@ msgstr ""
 
 #: src/kbd-interface.c:339
 msgid "Help for Selected Command"
-msgstr ""
+msgstr "Nápověda pro vybraný příkaz"
 
 #: src/kbd-interface.c:360
 msgid "Save as Default Command Set"
@@ -9910,31 +9945,37 @@ msgid ""
 "Create a single keypress (with modifier keys - Control, Shift ... - if "
 "needed) as a keyboard shortcut for the currently selected command."
 msgstr ""
+"Vytvořit jednoduché stisknutí klávesy (v případě potřeby s klávesami "
+"modifikátorů - Ctrl, Shift atd.) jako klávesovou zkratku pro nyní vybraný "
+"příkaz."
 
 #: src/kbd-interface.c:421
-#, fuzzy
 msgid "Add 2-Key Shortcut"
-msgstr "Nastavit zkratku myši"
+msgstr "Přidat dvojklávesovou zkratku"
 
 #: src/kbd-interface.c:422
 msgid ""
 "Create a two keypress sequence as a keyboard shortcut for the currently "
 "selected command."
 msgstr ""
+"Vytvořit posloupnost dvou stisknutí klávesy jako klávesovou zkratku pro nyní "
+"vybraný příkaz."
 
 #: src/kbd-interface.c:426
 msgid "Find "
-msgstr ""
+msgstr "Najít"
 
 #: src/kbd-interface.c:427
 msgid ""
 "Finds the command (if any) for a Keyboard Shortcut\n"
 "Click button then press the key shortcut you are looking for"
 msgstr ""
+"Najde příkaz (je-li jaký) pro klávesovou zkratku.\n"
+"Klepněte na tlačítko, a pak stiskněte klávesovou zkratku, již hledáte"
 
 #: src/kbd-interface.c:463
 msgid "Setting the Cursor Shape for Mouse Ops"
-msgstr ""
+msgstr "Nastavení tvaru ukazovátka pro operace myši"
 
 #: src/kbd-interface.c:473
 msgid ""
@@ -9942,26 +9983,25 @@ msgid ""
 "Mouse Operation Right Drag.\n"
 "Keyboard: None."
 msgstr ""
+"Tvar ukazovátka 0.\n"
+"Operace myši táhnutí doprava.\n"
+"Klávesnice: Žádná."
 
 #: src/kbd-interface.c:481
-#, fuzzy
 msgid "Right Drag"
-msgstr "Pravé"
+msgstr "Táhnutí doprava"
 
 #: src/kbd-interface.c:485
-#, fuzzy
 msgid "Mouse Move"
-msgstr "Myš"
+msgstr "Pohyb myši"
 
 #: src/kbd-interface.c:489
-#, fuzzy
 msgid "Left Drag"
-msgstr "Levé"
+msgstr "Táhnutí doleva"
 
 #: src/kbd-interface.c:496
-#, fuzzy
 msgid "Cursor Shape #"
-msgstr "Ukazovátko nahoru"
+msgstr "Tvar ukazovátka #"
 
 #: src/keyboard.c:136
 msgid ""
@@ -10123,27 +10163,27 @@ msgstr ""
 "tomu, že tyto noty berou jen jednu slabiku. Použijte znaku podtržítka _ na "
 "prázdné slabiky a spojovník - na rozšíření slabik."
 
-#: src/main.c:98
+#: src/main.c:99
 #, c-format
 msgid "Parent: child exited, pid = %d, exit status = %d\n"
 msgstr "Rodič: potomek ukončen, pid = %d, stav ukončení = %d\n"
 
-#: src/main.c:106
+#: src/main.c:107
 #, c-format
 msgid "Parent: child terminated by signal %d, pid = %d\n"
 msgstr "Rodič: potomek ukončen signálem %d, pid = %d\n"
 
-#: src/main.c:114
+#: src/main.c:115
 #, c-format
 msgid "Parent: child stopped by signal %d, pid = %d\n"
 msgstr "Rodič: potomek zastaven signálem %d, pid = %d\n"
 
-#: src/main.c:120
+#: src/main.c:121
 #, c-format
 msgid "Parent: child exited magically, pid = %d\n"
 msgstr "Rodič: potomek ukončen kouzelně, pid = %d\n"
 
-#: src/main.c:479 src/main.c:528
+#: src/main.c:480 src/main.c:529
 msgid ""
 "\n"
 "GNU Denemo version "
@@ -10151,7 +10191,7 @@ msgstr ""
 "\n"
 "GNU Denemo verze "
 
-#: src/main.c:480
+#: src/main.c:481
 msgid ""
 "Usage: denemo [OPTION]... [FILE]\n"
 "\n"
@@ -10196,7 +10236,7 @@ msgstr ""
 "\n"
 "Chyby hlaste na bug-denemo@gnu.org\n"
 
-#: src/main.c:497
+#: src/main.c:498
 msgid ""
 "(c) 1999-2005, 2009 Matthew Hiller, Adam Tee, and others, 2010-2011 Richard "
 "Shann, Jeremiah Benham, Nils Gey and others.\n"
@@ -10224,7 +10264,7 @@ msgstr ""
 "naleznete v souboru COPYING.\n"
 "\n"
 
-#: src/main.c:561
+#: src/main.c:562
 msgid ""
 "\n"
 "GNU Denemo, a free and open music notation editor\n"
@@ -10267,7 +10307,7 @@ msgstr "Přehrát rozsah v sekundách:"
 msgid "Play from time"
 msgstr "Přehrát od času"
 
-#: src/playback.c:133 src/print.c:626
+#: src/playback.c:133 src/print.c:635
 msgid "to"
 msgstr "po"
 
@@ -10287,119 +10327,119 @@ msgstr "minut(y)"
 msgid "Choose Soundfont"
 msgstr "Vybrat zvukovou banku"
 
-#: src/print.c:132
+#: src/print.c:141
 #, c-format
 msgid "Could not find %s"
 msgstr "Nepodařilo se najít %s"
 
-#: src/print.c:135
+#: src/print.c:144
 msgid "Please edit lilypond path in the preferences."
 msgstr "Změňte, prosím, cestu k Lilypondu v nastavení."
 
-#: src/print.c:602
+#: src/print.c:611
 msgid "Print Excerpt Range"
 msgstr "Tisk oblasti úryvku"
 
-#: src/print.c:617
+#: src/print.c:626
 msgid "Print from Measure"
 msgstr "Tisk od taktu"
 
-#: src/print.c:1035
+#: src/print.c:1042
 msgid "Possibly Invalid"
 msgstr "Možná neplatné"
 
-#: src/print.c:1036
+#: src/print.c:1043
 msgid "Cursor not moved."
 msgstr "Ukazovátko se nepřesunulo."
 
-#: src/print.c:1039
+#: src/print.c:1046
 msgid "Check Score."
 msgstr "Ověřit notový zápis."
 
-#: src/print.c:1040
+#: src/print.c:1047
 msgid "Cursor may have moved to error point in the score."
 msgstr "Ukazovátko se možná přesunulo na chybový bod v notovém zápisu."
 
-#: src/print.c:1043
+#: src/print.c:1050
 msgid "INVALID!"
 msgstr "NEPLATNÝ!"
 
-#: src/print.c:1044
+#: src/print.c:1051
 msgid "LilyPond could not typeset this score."
 msgstr "LilyPondu se tento notový zápis vysázet nepodařilo."
 
-#: src/print.c:1065 src/print.c:2081
+#: src/print.c:1072 src/print.c:2082
 msgid "Current Movement"
 msgstr "Nynější věta"
 
-#: src/print.c:1067
+#: src/print.c:1074
 msgid "Excerpt Only"
 msgstr "Pouze úryvek"
 
-#: src/print.c:1253
+#: src/print.c:1260
 msgid "No selection to print"
 msgstr "Žádný výběr pro tisk"
 
-#: src/print.c:1482
+#: src/print.c:1489
 msgid "Drag to desired offset"
 msgstr ""
 
-#: src/print.c:1505
+#: src/print.c:1512
 #, fuzzy
 msgid "Start a new line here"
 msgstr "Začít nový notový zápis"
 
-#: src/print.c:1510
+#: src/print.c:1517
 #, fuzzy
 msgid "Start a new page here"
 msgstr "Začít nový notový zápis"
 
-#: src/print.c:1515
+#: src/print.c:1522
 #, fuzzy
 msgid "Set a reminder accidental on the note selected"
 msgstr "Vynutí posuvku u noty, která se má vytisknout."
 
-#: src/print.c:1930
+#: src/print.c:1931
 msgid "Manual Updates"
 msgstr "Ruční aktualizace"
 
-#: src/print.c:1931
+#: src/print.c:1932
 msgid "Continuous"
 msgstr "Neustále"
 
-#: src/print.c:2033
+#: src/print.c:2034
 msgid "Measures before cursor:"
 msgstr "Takty před ukazovátkem:"
 
-#: src/print.c:2042
+#: src/print.c:2043
 msgid "Measures after cursor:"
 msgstr "Takty po ukazovátku:"
 
-#: src/print.c:2053
+#: src/print.c:2054
 msgid "Staffs before cursor:"
 msgstr "Osnovy před ukazovátkem:"
 
-#: src/print.c:2061
+#: src/print.c:2062
 msgid "Staffs after cursor:"
 msgstr "Osnovy po ukazovátku:"
 
-#: src/print.c:2076
+#: src/print.c:2077
 msgid "All Movements"
 msgstr "Všechny věty"
 
-#: src/print.c:2078
+#: src/print.c:2079
 msgid "If checked the current layout is re-typeset at every change"
 msgstr "Pokud zaškrtnuto, nynější rozvržení je znovu vysázeno při každé změně"
 
-#: src/print.c:2083
+#: src/print.c:2084
 msgid "If checked the current movement is re-typeset at every change"
 msgstr "Pokud zaškrtnuto, nynější věta je znovu vysázena při každé změně"
 
-#: src/print.c:2087
+#: src/print.c:2088
 msgid "Cursor Context"
 msgstr "Prostředí ukazovátka"
 
-#: src/print.c:2089
+#: src/print.c:2090
 msgid ""
 "If checked the range around the current cursor position is re-typeset at "
 "every change or when the cursor moves out of range."
@@ -10407,19 +10447,19 @@ msgstr ""
 "Pokud zaškrtnuto, je rozsah okolo nynější polohy ukazovátka znovu vysázen "
 "při každé změně, nebo když se ukazovátko přesune mimo rozsah."
 
-#: src/print.c:2110
+#: src/print.c:2111
 msgid "Set background updates on/off."
 msgstr "Nastavit aktualizace pozadí na zapnuto/vypnuto."
 
-#: src/print.c:2114
+#: src/print.c:2115
 msgid "Range"
 msgstr "Rozsah"
 
-#: src/print.c:2115
+#: src/print.c:2116
 msgid "Set how much of the score to re-draw."
 msgstr "Nastavit kolik z notového zápisu se má překreslit."
 
-#: src/print.c:2129
+#: src/print.c:2130
 msgid ""
 "Set background updater on/off. This controls if typesetting is re-done after "
 "each change to the music. The amount of the score to be re-typeset can be "
@@ -10429,15 +10469,15 @@ msgstr ""
 "každé změně v notách udělána znovu. Množství notového zápisu k přesázení lze "
 "nastavit pomocí tohoto tlačítka."
 
-#: src/print.c:2150 src/scorelayout.c:427
+#: src/print.c:2151 src/scorelayout.c:427
 msgid "Typeset"
 msgstr "Sazba"
 
-#: src/print.c:2162 src/scorelayout.c:1485 src/utils.c:1344
+#: src/print.c:2163 src/scorelayout.c:1485 src/utils.c:1361
 msgid "Movement"
 msgstr "Věta"
 
-#: src/print.c:2163
+#: src/print.c:2164
 msgid ""
 "Typesets the music from the current movement. This creates a score layout "
 "comprising one movement."
@@ -10445,11 +10485,11 @@ msgstr ""
 "Vysází noty z nynější věty. Vytvoří rozvržení notového zápisu sestávající z "
 "jedné věty."
 
-#: src/print.c:2167
+#: src/print.c:2168
 msgid "Part"
 msgstr "Hlas"
 
-#: src/print.c:2168
+#: src/print.c:2169
 msgid ""
 "Typesets the music from the current part for all movements. A part is all "
 "the music with the same staff-name. This creates a score layout with one "
@@ -10459,11 +10499,11 @@ msgstr ""
 "týmž názvem osnovy. Vytvoří rozvržení notového zápisu s jedním hlasem, všemi "
 "větami."
 
-#: src/print.c:2172 src/scorelayout.c:441
+#: src/print.c:2173 src/scorelayout.c:441
 msgid "Refresh"
 msgstr "Obnovit"
 
-#: src/print.c:2173
+#: src/print.c:2174
 msgid ""
 "Re-issues the last print command. Use this after modifying the file to "
 "repeat the typesetting."
@@ -10471,7 +10511,7 @@ msgstr ""
 "Vydá znovu poslední příkaz pro tisk. Použijte po úpravě souboru, aby "
 "opakoval sazbu."
 
-#: src/print.c:2185
+#: src/print.c:2186
 msgid ""
 "Shows pages side by side, so you can see page turns for back-to-back "
 "printing\n"
@@ -10479,11 +10519,11 @@ msgstr ""
 "Ukáže strany vedle sebe, takže můžete vidět otočení stran pro tisk, kdy jsou "
 "strany otočeny zadními stranami k sobě\n"
 
-#: src/print.c:2189
+#: src/print.c:2190
 msgid "Next"
 msgstr "Další"
 
-#: src/print.c:2190
+#: src/print.c:2191
 msgid ""
 "Move to the next page - you can also scroll with the scroll-wheel, and zoom "
 "with control-wheel"
@@ -10491,11 +10531,11 @@ msgstr ""
 "Přesunout se na další stranu - také můžete projíždět pomocí projížděcího "
 "kolečka myši, a zvětšovat ovládacím kolečkem"
 
-#: src/print.c:2193
+#: src/print.c:2194
 msgid "Previous"
 msgstr "Předchozí"
 
-#: src/print.c:2194
+#: src/print.c:2195
 msgid ""
 "Move to the previous page - you can also scroll with the scroll-wheel, and "
 "zoom with control-wheel"
@@ -10503,11 +10543,11 @@ msgstr ""
 "Přesunout se na předchozí stranu - také můžete projíždět pomocí projížděcího "
 "kolečka myši, a zvětšovat ovládacím kolečkem"
 
-#: src/print.c:2202
+#: src/print.c:2203
 msgid "Denemo Print View"
 msgstr "Pohled na tisk"
 
-#: src/print.c:2224
+#: src/print.c:2225
 msgid ""
 "This window shows the final typeset score from which you can print or (via "
 "print to file) create a PDF document.\n"
@@ -13306,6 +13346,35 @@ msgid ""
 "You can also use the pitch bend wheel to stop entering chords.\n"
 "  "
 msgstr ""
+"Noty níže jsou prvními z Händelových cvičení pro číslovaný bas. Notová "
+"osnova označená jako Akordy nahoře je ukázkovým (nedostačujícím) "
+"uskutečněním číselné.\n"
+" Když klepnete na Spustit, budete dotázán, zda tuto verzi chcete smazat, a "
+"když odpovíte Ano, budete moci začít vytvářet svou vlastní.\n"
+" Obrazovka zezelená na připomínku toho, že váš ovladač MIDI nyní očekává, že "
+"zahrajete zaškrtnutou basovou notu plus akord.\n"
+" Očekávaná basová nota je označena fajfkou. Zahrajte tuto notu plus noty "
+"akordu. Můžete podržet basovou notu a změnit akordy nad toutéž basovou "
+"notou.\n"
+" Všimněte si, že musíte odlišovat enharmonické rozdíly (např. Dis od Es). "
+"Ověřte, že soubor posuvek ukazující se v ovládání vstupu MIDI-in hodí ke "
+"kusu, na němž pracujete. Tiskněte shift-vytvoření křížku nebo béčka, jak je "
+"potřeba.\n"
+" Akord můžete držet, když jdete na další basovou notu, za účelem přenesení "
+"akordu.\n"
+"Můžete použít udržovací pedál ke spojení vámi zadávaného akordu s akordem "
+"pro další basovou notu položením pedálu na akord, který chcete spojit a jeho "
+"uvolněním po pokračování další basovou notou.\n"
+"Položení pedálu, předtím než basová nota spojí poslední akord s tou, již "
+"zadáte další. \n"
+"Také můžete použít udržovací pedál k umístění akordu na pomlku před basovou "
+"notou (stlačte pedál před zahráním basové noty).\n"
+" Můžete klepnout na Spustit podruhé kvůli zastavení, a můžete začít znovu od "
+"kteréhokoli taktu, jak se vám zamane.\n"
+" Můžete upravovat, přehrávat atd., zatímco pracujete, ale neodstraňujte nebo "
+"nepřidávejte osnovy. Také můžete použít kolečko pro změnu výšky tónu k "
+"zastavení zadávání akordů.\n"
+"  "
 
 #: actions/commandscripts/FiguredBassExercises.scm:30
 msgid "You have unsaved work"
@@ -14007,10 +14076,6 @@ msgstr "Změnit velikost zobrazení"
 #: actions/commandscripts/ZoomDialog.scm:3
 msgid "Give % scaling required"
 msgstr "Zadat požadované % velikosti"
-
-#, fuzzy
-#~ msgid "Place a line break here"
-#~ msgstr "Zalomení strany před"
 
 #~ msgid "% Zoom"
 #~ msgstr "% Zvětšení"
