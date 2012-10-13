@@ -19,8 +19,52 @@
 #include "xmldefs.h"
 #include "midi.h"
 #include "selectops.h"
+#include "libsffile/sf_util.h"
+#include "libsffile/sffile.h"
+
 /**
- * List of MIDI instrument names
+ * Convert illegal characters in soundfont
+ *
+ */
+
+static void ConvertIllegalChar(char *name){
+  gchar *p;
+  for (p = name; *p; p++) {
+    if (!isprint(*p) || *p == '{' || *p == '}')
+      *p = ' ';
+    else if (*p == '[')
+      *p = '(';
+    else if (*p == ']')
+      *p = ')';
+  }
+}
+
+/**
+ * parse soundfont file and give the preset list
+ *
+ */
+SFInfo ParseSoundfont() {
+  FILE *fp;
+  SFInfo sf;
+  int i;
+
+  if ((fp = fopen(Denemo.prefs.fluidsynth_soundfont->str, "r")) == NULL) {
+    printf("\ncan't open soundfont file\n");
+    return;
+  }
+  if (load_soundfont(&sf, fp, TRUE)) {
+    printf("\nfail to read soundfont file\n");
+    return;
+  }
+  fclose(fp);
+  for (i = 0; i < sf.npresets-1; i++) {
+    ConvertIllegalChar(sf.preset[i].hdr.name);
+  }
+  return sf;
+}
+
+/**
+ * List of General MIDI instrument names
  * 
  */
 static gchar *instruments[] = {
@@ -255,16 +299,25 @@ set_properties (struct callbackdata *cbdata)
   // ASSIGNBOOLEAN(midi_prognum_override);
   if(staffstruct->midi_instrument->len) {
     staffstruct->midi_prognum = get_midi_prognum(staffstruct);
+
     gint i;
-    for(i=0;instruments[i];i++) {
-      if(!strcmp(instruments[i],staffstruct->midi_instrument->str)) {
-	staffstruct->midi_prognum = i;
-	break;
+    SFInfo sf = ParseSoundfont();
+    for (i = 0; i < sf.npresets-1; i++) {
+      if(!strcmp(sf.preset[i].hdr.name, staffstruct->midi_instrument->str)) {
+	staffstruct->midi_prognum = sf.preset[i].preset;
+	printf("\nMIDI Instrument == %s \nMIDI PROGRAM == %d\n", 
+		staffstruct->midi_instrument->str, staffstruct->midi_prognum);
+        break;
       }
     }
-    if(staffstruct->midi_prognum != i)
-      ASSIGNNUMBER_1(midi_prognum);
+    free_soundfont(&sf);
+
+ //   if(staffstruct->midi_prognum != i) /* I am not sure why this was necessary and if it is still needed*/
+ //     ASSIGNNUMBER_1(midi_prognum);
     ASSIGNNUMBER_1(midi_channel);
+    printf("\nAssigned MIDI Instrument == %s \nAssigned MIDI PROGRAM == %d i == %d\n", 
+		staffstruct->midi_instrument->str, staffstruct->midi_prognum, i);
+
   } else {
     ASSIGNNUMBER_1(midi_prognum);
     ASSIGNNUMBER_1(midi_channel);
@@ -299,19 +352,20 @@ staff_properties_change (void)
   GList *instrument_list = NULL;
   GList *context_list = NULL;
   static struct callbackdata cbdata;
+  gint i;
   
   if (!instrument_list)
     {
-      int i=0;
-      instrument_list = g_list_append (instrument_list, "");
-      do {
-	   instrument_list = g_list_append (instrument_list, instruments[i++]);
-      } while (instruments[i]);
+      SFInfo sf = ParseSoundfont();
+      for (i = 0; i < sf.npresets-1; i++) {
+	instrument_list = g_list_append (instrument_list, g_strdup ((gchar *) sf.preset[i].hdr.name));
+      }
+      free_soundfont(&sf);
     }
 
   if (!context_list)
     {
-      int i=0;
+      i=0;
       while (context_strings[i++])
 	{
 	  context_list = g_list_append (context_list, (gpointer) (context_strings[i]?context_strings[i]:"None"));
@@ -334,7 +388,7 @@ staff_properties_change (void)
     {
       entrycontent = g_string_new (NULL);
     }
- 
+  
   dialog = gtk_dialog_new_with_buttons (_("Staff Properties"), GTK_WINDOW(Denemo.window),
 					(GtkDialogFlags)
 					(GTK_DIALOG_MODAL |
@@ -398,7 +452,7 @@ staff_properties_change (void)
     gtk_box_pack_start (GTK_BOX (main_vbox), field, FALSE, TRUE, 0);\
     cbdata.field = field;
 #if GTK_MAJOR_VERSION==3
- #define COMBOBOXENTRY(thelabel, field, thelist, index) \
+ #define COMBOBOXENTRY(thelabel, field, thelist, setstring) \
   GtkWidget *field;\
   hbox = gtk_hbox_new (FALSE, 8);\
   gtk_container_add (GTK_CONTAINER(main_vbox), hbox);	\
@@ -406,10 +460,14 @@ staff_properties_change (void)
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
   gtk_container_add (GTK_CONTAINER(hbox), label);   \
   field = gtk_combo_box_text_new ();\
-  gint i;\
-  for(i=0;i<G_N_ELEMENTS(thelist);i++)\
-    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(field), thelist[i]);\
-  gtk_combo_box_set_active(GTK_COMBO_BOX_TEXT (field),index);\
+  i=0;\
+  while (thelist){\
+    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(field), (gchar *) thelist->data);\
+      if (!g_strcmp0 (thelist->data, setstring->str))\
+	gtk_combo_box_set_active(GTK_COMBO_BOX_TEXT (field),i);\
+    i++;\
+    thelist=thelist->next;\
+  }\
   gtk_container_add (GTK_CONTAINER(hbox), field);\
   cbdata.field = field;
 #else
@@ -446,17 +504,7 @@ staff_properties_change (void)
  
   /* MIDI tab */
   NEWPAGE("MIDI");
-#if GTK_MAJOR_VERSION==3
-  // FIXME should probably be in seperate function 
-  gint index=0,z=0;
-  for(z=0;instruments[z];z++){
-    if (!g_strcmp0 (instruments[z], staffstruct->midi_instrument->str))\
-      index = z;
-  }
-  COMBOBOXENTRY("MIDI Instrument:", midi_instrument, instruments, index);
-#else
   COMBOBOXENTRY("MIDI Instrument:", midi_instrument, instrument_list, staffstruct->midi_instrument);
-#endif
   INTENTRY_LIMITS("Transposition:", transposition, -30, 30);
   BOOLEANENTRY("Mute", mute_volume);
   INTENTRY_LIMITS("Volume:", volume, 0, 127);
