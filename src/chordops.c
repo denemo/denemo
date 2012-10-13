@@ -550,12 +550,13 @@ clone_chord (DenemoObject * thechord)
   else
     clonedchord->figure = NULL;
   clonedchord->is_figure = curchord->is_figure;
-    if(curchord->fakechord)
+  if(curchord->fakechord)
     clonedchord->fakechord = g_string_new(((GString*)curchord->fakechord)->str);
   else
     clonedchord->fakechord = NULL;
   clonedchord->is_fakechord = curchord->is_fakechord;
-  
+
+
   clonedchord->lyric = NULL;
 
 /*   GList *g = curchord->directives; */
