@@ -27,6 +27,8 @@ freeobject (DenemoObject * mudobj)
     return;
   if(mudobj->midi_events)
     g_list_free(mudobj->midi_events);//do not free the data it belongs to libsmf
+  if(mudobj->lilypond)
+		g_free(mudobj->lilypond);
   switch (mudobj->type)
     {
     case CHORD:
@@ -358,8 +360,9 @@ dnm_clone_object (DenemoObject * orig)
 	      ret = lily_directive_new ("%unknown object\n");
 	      break;
 	    }
-  }
-  ret->midi_events = NULL;
+		}
+		ret->lilypond = NULL;
+		ret->midi_events = NULL;
   return ret;
 }
 
