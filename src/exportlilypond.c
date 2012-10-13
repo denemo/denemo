@@ -2422,7 +2422,7 @@ gboolean goto_lilypond_position(gint line, gint column) {
   gtk_text_buffer_get_start_iter (gui->textbuffer, &iter);
 
   line--;
-  column--;
+ // column--; apparently starts at 0
   if(column>0 && line>0) {
     gtk_text_buffer_get_iter_at_line_offset
       (gui->textbuffer,
