@@ -19,8 +19,8 @@
 #include "xmldefs.h"
 #include "midi.h"
 #include "selectops.h"
-#include "libsffile/sf_util.h"
-#include "libsffile/sffile.h"
+#include "sf_util.h"
+#include "sffile.h"
 
 /**
  * Convert illegal characters in soundfont
