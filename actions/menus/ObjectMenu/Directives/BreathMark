@@ -7,10 +7,10 @@
       <row>
         <action>BreathMark</action>
         <scheme>;;;BreathMark
-		(StandAloneDirectiveProto (cons "BreathMark" "\\breathe"))
+		(StandAloneDirectiveProto (cons "BreathingSign" "\\breathe"))
 		</scheme>
         <label>Breath Mark</label>
-        <tooltip>Insert a Breath Mark</tooltip>
+        <tooltip>Inserts a Breath Mark</tooltip>
       </row>
     </map>
   </merge>
