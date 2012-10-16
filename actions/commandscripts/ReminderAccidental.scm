@@ -3,3 +3,4 @@
 	(d-DirectiveDelete-note "WarnAccidental")
 	(d-DirectivePut-note-postfix "WarnAccidental" "?"))
 (d-RefreshDisplay)
+(d-SetSaved #f)

@@ -1,3 +1,3 @@
 ;;;BreathMark
-		(StandAloneDirectiveProto (cons "BreathMark" "\\breathe"))
+		(StandAloneDirectiveProto (cons "BreathingSign" "\\breathe"))
 		

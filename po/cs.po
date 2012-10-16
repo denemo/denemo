@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: denemo 0.9.7d\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-11 09:06+0100\n"
+"POT-Creation-Date: 2012-10-16 17:42+0100\n"
 "PO-Revision-Date: 2012-10-10 22:40+0200\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
@@ -787,7 +787,7 @@ msgstr "Varovná posuvka"
 msgid "Forces the accidental on the note to be printed."
 msgstr "Vynutí posuvku u noty, která se má vytisknout."
 
-#: src/commands.c:493 src/commands.c:495 src/print.c:1521
+#: src/commands.c:493 src/commands.c:495 src/print.c:1528
 #, no-c-format
 msgid "Reminder Accidental"
 msgstr "Připomínající posuvka"
@@ -1091,7 +1091,7 @@ msgstr ""
 "Vytiskne zkrácenou podobu názvu nástroje před touto notovou osnovu\n"
 "pro druhou a následující osnovy."
 
-#: src/commands.c:804 src/commands.c:806 src/print.c:1511
+#: src/commands.c:804 src/commands.c:806 src/print.c:1518
 #, no-c-format
 msgid "Line Break"
 msgstr "Zalomení řádku"
@@ -1101,7 +1101,7 @@ msgstr "Zalomení řádku"
 msgid "(Print) Start a new line (i.e. system) at this measure."
 msgstr "(Tisk) Začít nový řádek (to jest velkou osnovu) na tomto taktu."
 
-#: src/commands.c:815 src/commands.c:818 src/print.c:1516
+#: src/commands.c:815 src/commands.c:818 src/print.c:1523
 #: src/scorelayout.c:754
 #, no-c-format
 msgid "Page Break"
@@ -1139,6 +1139,9 @@ msgstr "Přidat označení mf k akordu"
 #: src/commands.c:851 src/commands.c:854 src/commands.c:2063
 #: src/commands.c:2065 src/commands.c:2118 src/commands.c:2121
 #: src/entries.h:403 src/scorelayout.c:436
+#: actions/commandscripts/EndVolta.scm:3 actions/commandscripts/EndVolta.scm:4
+#: actions/commandscripts/RehearsalMark.scm:7
+#: actions/commandscripts/RehearsalMark.scm:13
 #: actions/commandscripts/Upbeat.scm:47 actions/commandscripts/Upbeat.scm:56
 #, no-c-format
 msgid "Delete"
@@ -7283,7 +7286,8 @@ msgstr "Režim"
 msgid "Different keyboard and MIDI entry modes"
 msgstr "Různé režimy zadávání pomocí klávesnice a MIDI"
 
-#: src/entries.h:206 src/entries.h:366 src/scorelayout.c:550 src/view.c:8675
+#: src/entries.h:206 src/entries.h:366 src/scorelayout.c:550
+#: src/scorelayout.c:725 src/view.c:8675
 msgid "Edit"
 msgstr "Úpravy"
 
@@ -7321,7 +7325,7 @@ msgstr ""
 "Příkazy, které ovládají osnovy a hlasy v osnovách.\n"
 "Příkazy, které se použijí na nynější osnovu."
 
-#: src/entries.h:209
+#: src/entries.h:209 src/scorelayout.c:1269
 msgid "Voices"
 msgstr "Hlasy"
 
@@ -8023,7 +8027,7 @@ msgstr ""
 "Přidat nový hlas k nynější notové osnově. Změna mezi hlasy jeobtížná. "
 "Používejte \"Spojit hlasy\""
 
-#: src/entries.h:284 src/register_commands.h:266 src/staffpropdialog.c:338
+#: src/entries.h:284 src/register_commands.h:266 src/staffpropdialog.c:392
 msgid "Staff Properties"
 msgstr "Vlastnosti notové osnovy"
 
@@ -10344,102 +10348,106 @@ msgstr "Tisk oblasti úryvku"
 msgid "Print from Measure"
 msgstr "Tisk od taktu"
 
-#: src/print.c:1042
+#: src/print.c:1047
 msgid "Possibly Invalid"
 msgstr "Možná neplatné"
 
-#: src/print.c:1043
+#: src/print.c:1048
 msgid "Cursor not moved."
 msgstr "Ukazovátko se nepřesunulo."
 
-#: src/print.c:1046
+#: src/print.c:1051
 msgid "Check Score."
 msgstr "Ověřit notový zápis."
 
-#: src/print.c:1047
+#: src/print.c:1052
 msgid "Cursor may have moved to error point in the score."
 msgstr "Ukazovátko se možná přesunulo na chybový bod v notovém zápisu."
 
-#: src/print.c:1050
+#: src/print.c:1055
 msgid "INVALID!"
 msgstr "NEPLATNÝ!"
 
-#: src/print.c:1051
+#: src/print.c:1056
 msgid "LilyPond could not typeset this score."
 msgstr "LilyPondu se tento notový zápis vysázet nepodařilo."
 
-#: src/print.c:1072 src/print.c:2082
+#: src/print.c:1077 src/print.c:2081
 msgid "Current Movement"
 msgstr "Nynější věta"
 
-#: src/print.c:1074
+#: src/print.c:1079
 msgid "Excerpt Only"
 msgstr "Pouze úryvek"
 
-#: src/print.c:1260
+#: src/print.c:1266
 msgid "No selection to print"
 msgstr "Žádný výběr pro tisk"
 
-#: src/print.c:1489
+#: src/print.c:1495
 msgid "Drag to desired offset"
 msgstr ""
 
-#: src/print.c:1512
+#: src/print.c:1519
 #, fuzzy
 msgid "Start a new line here"
 msgstr "Začít nový notový zápis"
 
-#: src/print.c:1517
+#: src/print.c:1524
 #, fuzzy
 msgid "Start a new page here"
 msgstr "Začít nový notový zápis"
 
-#: src/print.c:1522
+#: src/print.c:1529
 #, fuzzy
 msgid "Set a reminder accidental on the note selected"
 msgstr "Vynutí posuvku u noty, která se má vytisknout."
 
-#: src/print.c:1931
+#: src/print.c:1653
+msgid "Now drag to point the object should move to"
+msgstr ""
+
+#: src/print.c:1930
 msgid "Manual Updates"
 msgstr "Ruční aktualizace"
 
-#: src/print.c:1932
+#: src/print.c:1931
 msgid "Continuous"
 msgstr "Neustále"
 
-#: src/print.c:2034
+#: src/print.c:2033
 msgid "Measures before cursor:"
 msgstr "Takty před ukazovátkem:"
 
-#: src/print.c:2043
+#: src/print.c:2042
 msgid "Measures after cursor:"
 msgstr "Takty po ukazovátku:"
 
-#: src/print.c:2054
+#: src/print.c:2053
 msgid "Staffs before cursor:"
 msgstr "Osnovy před ukazovátkem:"
 
-#: src/print.c:2062
+#: src/print.c:2061
 msgid "Staffs after cursor:"
 msgstr "Osnovy po ukazovátku:"
 
-#: src/print.c:2077
+#: src/print.c:2076
 msgid "All Movements"
 msgstr "Všechny věty"
 
-#: src/print.c:2079
+#: src/print.c:2078
 msgid "If checked the current layout is re-typeset at every change"
 msgstr "Pokud zaškrtnuto, nynější rozvržení je znovu vysázeno při každé změně"
 
-#: src/print.c:2084
+#: src/print.c:2083
 msgid "If checked the current movement is re-typeset at every change"
 msgstr "Pokud zaškrtnuto, nynější věta je znovu vysázena při každé změně"
 
-#: src/print.c:2088
+#: src/print.c:2087
 msgid "Cursor Context"
 msgstr "Prostředí ukazovátka"
 
-#: src/print.c:2090
+#: src/print.c:2089
 msgid ""
 "If checked the range around the current cursor position is re-typeset at "
 "every change or when the cursor moves out of range."
@@ -10447,19 +10455,19 @@ msgstr ""
 "Pokud zaškrtnuto, je rozsah okolo nynější polohy ukazovátka znovu vysázen "
 "při každé změně, nebo když se ukazovátko přesune mimo rozsah."
 
-#: src/print.c:2111
+#: src/print.c:2110
 msgid "Set background updates on/off."
 msgstr "Nastavit aktualizace pozadí na zapnuto/vypnuto."
 
-#: src/print.c:2115
+#: src/print.c:2114
 msgid "Range"
 msgstr "Rozsah"
 
-#: src/print.c:2116
+#: src/print.c:2115
 msgid "Set how much of the score to re-draw."
 msgstr "Nastavit kolik z notového zápisu se má překreslit."
 
-#: src/print.c:2130
+#: src/print.c:2129
 msgid ""
 "Set background updater on/off. This controls if typesetting is re-done after "
 "each change to the music. The amount of the score to be re-typeset can be "
@@ -11483,6 +11491,10 @@ msgstr ""
 msgid "Set the prevailing duration to 𝅥"
 msgstr "Nastaví převládající rytmus na 𝅥"
 
+#: src/scorelayout.c:423
+msgid "Actions for this Layout"
+msgstr ""
+
 #: src/scorelayout.c:428
 msgid ""
 "Typeset the score using this layout to determine which movements, parts, "
@@ -11616,6 +11628,26 @@ msgstr ""
 "Nahradit noty této osnovy notami jiné osnovy.\n"
 "Například změna \\MvmntIVoiceI na \\MvmntIVoiceII změní noty z první osnovy "
 "na druhou. Úprava ovlivní pouze toto rozvržení."
+
+#: src/scorelayout.c:726
+#, fuzzy
+msgid "Edit this element for this layout"
+msgstr "Upravit příkazy pro hlas pro toto rozvržení"
+
+#: src/scorelayout.c:730
+#, fuzzy
+msgid "Move this element upwards for this score layout"
+msgstr "Smazat tuto větu z rozvržení notového zápisu"
+
+#: src/scorelayout.c:734
+#, fuzzy
+msgid "Move this element downwards for this score layout"
+msgstr "Smazat tuto větu z rozvržení notového zápisu"
+
+#: src/scorelayout.c:738
+#, fuzzy
+msgid "Remove this element from this layout"
+msgstr "Smazat tuto větu z rozvržení notového zápisu"
 
 #: src/scorelayout.c:755
 msgid "This forces a new page, useful for avoiding page turns\n"
@@ -11817,6 +11849,24 @@ msgstr ""
 msgid "Set the initial clef for this staff in the score"
 msgstr "Nastavit začáteční klíč pro tuto osnovu v notovém zápisu"
 
+#: src/scorelayout.c:1243
+msgid "Set Staff Group Start/End"
+msgstr ""
+
+#: src/scorelayout.c:1246
+msgid ""
+"The braces { and [ binding staffs together can be set here. Set the start on "
+"one staff and the end on a later staff.\n"
+"This is editing the score, not just customizing a layout.\n"
+"Refresh the layout view (see under Options for this Layout button at the "
+"top) once you have made the changes."
+msgstr ""
+
+#: src/scorelayout.c:1269
+#, fuzzy
+msgid "Voice"
+msgstr "Hlasy"
+
 #: src/scorelayout.c:1271
 msgid ""
 "This holds the voice(s) of the staff - the clef, time signature, key "
@@ -11838,6 +11888,11 @@ msgstr ""
 #: src/scorelayout.c:1376
 msgid "the paper block contents"
 msgstr "Obsah bloku papíru"
+
+#: src/scorelayout.c:1379
+#, fuzzy
+msgid "paper size"
+msgstr "Velikost papíru"
 
 #: src/scorelayout.c:1381
 msgid "Global staff size"
@@ -13047,11 +13102,11 @@ msgstr ""
 "Obecně tlačítko můžete název nebo hodnotu upravovat klepnutím na tlačítko, "
 "nebo spuštěním činnosti svázané s tlačítkem"
 
-#: actions/denemo.scm:987
+#: actions/denemo.scm:1002
 msgid "Please enter a transpose interval"
 msgstr "Zadejte, prosím, transpoziční interval"
 
-#: actions/denemo.scm:987
+#: actions/denemo.scm:1002
 msgid ""
 "Please enter a transpose interval or two notes in Lilypond syntax.\n"
 "\n"
@@ -13315,6 +13370,11 @@ msgstr "Upravit úvod k notovému zápisu"
 msgid "Edit LilyPond to apply to whole score"
 msgstr "Upravit LilyPond k použití na celý notový zápis"
 
+#: actions/commandscripts/EndVolta.scm:3 actions/commandscripts/Upbeat.scm:47
+#: actions/commandscripts/Upbeat.scm:58
+msgid "Advanced"
+msgstr "Pokročilé"
+
 #: actions/commandscripts/FiguredBassExercises.scm:4
 msgid ""
 "The music below is the first of Handel's exercises for figured bass. The "
@@ -13441,6 +13501,25 @@ msgstr "ŽÁDNÝ TISK"
 msgid "Hide"
 msgstr "Skrýt"
 
+#: actions/commandscripts/IRC.scm:2
+msgid ""
+"Your browser may take a few moments to start - be patient!\n"
+" \tWhen it has started you have to type in some anti-spam words\n"
+" \tand click connect\n"
+" \tThen you get a page with a place to type your question at the bottom.\n"
+" \tType hello in there and hit Enter\n"
+" \tIf no one is there to help you can use the mailing list denemo-devel@gnu."
+"org"
+msgstr ""
+"Vašemu prohlížeči může chvíli trvat, než se spustí, proto buďte trpěliví.\n"
+" \tAž se spustí, musíte napsat nějaká slova, která poslouží jako ověření "
+"kvůli nevyžádané poště,\n"
+" \ta klepněte na tlačítko pro navázání spojení\n"
+" \tDostanete se na stránku s místem pro napsání vaší otázky dole.\n"
+" \tNapište tam hello a stiskněte klávesu Enter\n"
+" \tPokud se tam nebude nacházet nikdo, kdo by vám pomohl, můžete využít "
+"poštovní seznam denemo-devel@gnu.org"
+
 #: actions/commandscripts/Indent.scm:12
 #: actions/commandscripts/ScoreIndent.scm:11
 msgid "Choose indent of first system"
@@ -13449,14 +13528,6 @@ msgstr "Vybrat odsazení první osnovy"
 #: actions/commandscripts/Indent.scm:12
 msgid "Give amount as decimal"
 msgstr "Uvést množství jako desetinné číslo"
-
-#: actions/commandscripts/InitialVoiceFour.scm:4
-msgid "Voice Four"
-msgstr "Hlas čtyři"
-
-#: actions/commandscripts/InitialVoiceOne.scm:4
-msgid "Voice One"
-msgstr "Hlas jedna"
 
 #: actions/commandscripts/InitialVoice.scm:2
 #: actions/commandscripts/InitialVoice.scm:4
@@ -13492,6 +13563,14 @@ msgstr "Hlas 4"
 #: actions/commandscripts/VoiceSetting.scm:12
 msgid "Automatic Voice"
 msgstr "Automatický hlas"
+
+#: actions/commandscripts/InitialVoiceFour.scm:4
+msgid "Voice Four"
+msgstr "Hlas čtyři"
+
+#: actions/commandscripts/InitialVoiceOne.scm:4
+msgid "Voice One"
+msgstr "Hlas jedna"
 
 #: actions/commandscripts/InitialVoiceThree.scm:4
 msgid "Voice Three"
@@ -13537,25 +13616,6 @@ msgstr ""
 #: actions/commandscripts/ScoreIndent.scm:19
 msgid "indent="
 msgstr "Odsazení ="
-
-#: actions/commandscripts/IRC.scm:2
-msgid ""
-"Your browser may take a few moments to start - be patient!\n"
-" \tWhen it has started you have to type in some anti-spam words\n"
-" \tand click connect\n"
-" \tThen you get a page with a place to type your question at the bottom.\n"
-" \tType hello in there and hit Enter\n"
-" \tIf no one is there to help you can use the mailing list denemo-devel@gnu."
-"org"
-msgstr ""
-"Vašemu prohlížeči může chvíli trvat, než se spustí, proto buďte trpěliví.\n"
-" \tAž se spustí, musíte napsat nějaká slova, která poslouží jako ověření "
-"kvůli nevyžádané poště,\n"
-" \ta klepněte na tlačítko pro navázání spojení\n"
-" \tDostanete se na stránku s místem pro napsání vaší otázky dole.\n"
-" \tNapište tam hello a stiskněte klávesu Enter\n"
-" \tPokud se tam nebude nacházet nikdo, kdo by vám pomohl, můžete využít "
-"poštovní seznam denemo-devel@gnu.org"
 
 #: actions/commandscripts/LilyPondInclude.scm:14
 msgid "Include LilyPond File"
@@ -13620,6 +13680,10 @@ msgstr ""
 msgid "Click to edit comment"
 msgstr "Klepněte pro upravení poznámky"
 
+#: actions/commandscripts/NotForLayout.scm:5
+msgid "Not for "
+msgstr "Ne pro "
+
 #: actions/commandscripts/NoteColumnShift.scm:5
 msgid "Horizontal Shift"
 msgstr "Vodorovný posun"
@@ -13627,10 +13691,6 @@ msgstr "Vodorovný posun"
 #: actions/commandscripts/NoteColumnShift.scm:5
 msgid "Give amount (staff spaces)"
 msgstr "Uvést množství (mezery osnovy)"
-
-#: actions/commandscripts/NotForLayout.scm:5
-msgid "Not for "
-msgstr "Ne pro "
 
 #: actions/commandscripts/OnlyForLayout.scm:5
 msgid "for "
@@ -13721,13 +13781,14 @@ msgstr "Hledat nenaplněné/přeplněné takty"
 msgid "Pad underfull bars with rests"
 msgstr "Vyplnit nenaplněné takty pomlkami"
 
+#: actions/commandscripts/ReBar.scm:367 actions/commandscripts/ReBar.scm:369
+#: actions/commandscripts/ReBar.scm:370
+msgid "Pad underfull bars with blank rests"
+msgstr "Vyplnit nenaplněné takty prázdnými pomlkami"
+
 #: actions/commandscripts/ReBar.scm:368 actions/commandscripts/ReBar.scm:371
 msgid "Rebar-Merge underfull, split overfull bars"
 msgstr "Sloučit nenaplněné takty, rozdělit přeplněné takty"
-
-#: actions/commandscripts/ReBar.scm:369 actions/commandscripts/ReBar.scm:370
-msgid "Pad underfull bars with blank rests"
-msgstr "Vyplnit nenaplněné takty prázdnými pomlkami"
 
 #: actions/commandscripts/ReBar.scm:372
 msgid "Entire Staff"
@@ -13741,6 +13802,12 @@ msgstr "Od tohoto bodu dále"
 msgid "Entire Movement"
 msgstr "Celá věta"
 
+#: actions/commandscripts/RehearsalMark.scm:7
+#: actions/commandscripts/RehearsalMark.scm:15
+#, fuzzy
+msgid "Restore Position"
+msgstr "Hodit polohu"
+
 #: actions/commandscripts/ScoreIndent.scm:11
 msgid "Give amount in decimal"
 msgstr "Uvést množství jako desetinné číslo"
@@ -13752,6 +13819,11 @@ msgstr "Zadat LilyPond:"
 #: actions/commandscripts/ScoreProlog.scm:13
 msgid "Prolog unchanged"
 msgstr "Úvod nezměněn"
+
+#: actions/commandscripts/ScoreTitle.scm:3
+#, fuzzy
+msgid "Returning to the first Movement to set this title"
+msgstr "Návrat k první větě kvůli výběru náhledu"
 
 #: actions/commandscripts/Section.scm:2
 msgid "Give name for movement sub-title or blank out to delete: "
@@ -14053,10 +14125,6 @@ msgstr ""
 msgid "Re-calculate"
 msgstr "Spočítat znovu"
 
-#: actions/commandscripts/Upbeat.scm:47 actions/commandscripts/Upbeat.scm:58
-msgid "Advanced"
-msgstr "Pokročilé"
-
 #: actions/commandscripts/Upbeat.scm:52
 msgid ""
 "This object fills up the duration of this measure, so that the notes in the "
@@ -14076,6 +14144,9 @@ msgstr "Změnit velikost zobrazení"
 #: actions/commandscripts/ZoomDialog.scm:3
 msgid "Give % scaling required"
 msgstr "Zadat požadované % velikosti"
+
+#~ msgid "Externals"
+#~ msgstr "Programy"
 
 #~ msgid "% Zoom"
 #~ msgstr "% Zvětšení"
@@ -14828,9 +14899,6 @@ msgstr "Zadat požadované % velikosti"
 
 #~ msgid "playback after render"
 #~ msgstr "Přehrát po udělání"
-
-#~ msgid "Externals"
-#~ msgstr "Programy"
 
 #~ msgid "External midi player:"
 #~ msgstr "Vnější přehrávač MIDI:"

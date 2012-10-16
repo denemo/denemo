@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: denemo 0.9.7c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-11 09:06+0100\n"
+"POT-Creation-Date: 2012-10-16 17:42+0100\n"
 "PO-Revision-Date: 2012-10-06 07:14+0900\n"
 "Last-Translator: Takeshi Hamasaki <hmatrjp@users.sourceforge.jp>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -765,7 +765,7 @@ msgstr "臨時記号を強制する"
 msgid "Forces the accidental on the note to be printed."
 msgstr ""
 
-#: src/commands.c:493 src/commands.c:495 src/print.c:1521
+#: src/commands.c:493 src/commands.c:495 src/print.c:1528
 #, fuzzy, no-c-format
 msgid "Reminder Accidental"
 msgstr "臨時記号を強制する"
@@ -1053,7 +1053,7 @@ msgid ""
 "for second and subsequent systems"
 msgstr ""
 
-#: src/commands.c:804 src/commands.c:806 src/print.c:1511
+#: src/commands.c:804 src/commands.c:806 src/print.c:1518
 #, no-c-format
 msgid "Line Break"
 msgstr ""
@@ -1063,7 +1063,7 @@ msgstr ""
 msgid "(Print) Start a new line (i.e. system) at this measure."
 msgstr ""
 
-#: src/commands.c:815 src/commands.c:818 src/print.c:1516
+#: src/commands.c:815 src/commands.c:818 src/print.c:1523
 #: src/scorelayout.c:754
 #, no-c-format
 msgid "Page Break"
@@ -1099,6 +1099,9 @@ msgstr "和音にLilyPond 言語を追加"
 #: src/commands.c:851 src/commands.c:854 src/commands.c:2063
 #: src/commands.c:2065 src/commands.c:2118 src/commands.c:2121
 #: src/entries.h:403 src/scorelayout.c:436
+#: actions/commandscripts/EndVolta.scm:3 actions/commandscripts/EndVolta.scm:4
+#: actions/commandscripts/RehearsalMark.scm:7
+#: actions/commandscripts/RehearsalMark.scm:13
 #: actions/commandscripts/Upbeat.scm:47 actions/commandscripts/Upbeat.scm:56
 #, no-c-format
 msgid "Delete"
@@ -6913,7 +6916,8 @@ msgstr "モード"
 msgid "Different keyboard and MIDI entry modes"
 msgstr "キーボードとMIDI入力モードを変更する"
 
-#: src/entries.h:206 src/entries.h:366 src/scorelayout.c:550 src/view.c:8675
+#: src/entries.h:206 src/entries.h:366 src/scorelayout.c:550
+#: src/scorelayout.c:725 src/view.c:8675
 msgid "Edit"
 msgstr "編集"
 
@@ -6947,7 +6951,7 @@ msgid ""
 "Commands that apply to the current staff."
 msgstr ""
 
-#: src/entries.h:209
+#: src/entries.h:209 src/scorelayout.c:1269
 #, fuzzy
 msgid "Voices"
 msgstr "上の声部も操作対象にする"
@@ -7594,7 +7598,7 @@ msgstr ""
 "現在の五線に新しい声部（パート）を追加します。声部を行き来する操作は注意が必"
 "要なので、五線をマージした方がいいでしょう。"
 
-#: src/entries.h:284 src/register_commands.h:266 src/staffpropdialog.c:338
+#: src/entries.h:284 src/register_commands.h:266 src/staffpropdialog.c:392
 msgid "Staff Properties"
 msgstr "五線のプロパティ"
 
@@ -9764,130 +9768,134 @@ msgstr "引用範囲を印刷"
 msgid "Print from Measure"
 msgstr "指定した小節から印刷"
 
-#: src/print.c:1042
+#: src/print.c:1047
 msgid "Possibly Invalid"
 msgstr ""
 
-#: src/print.c:1043
+#: src/print.c:1048
 #, fuzzy
 msgid "Cursor not moved."
 msgstr "%s はディレクトリではありません!"
 
-#: src/print.c:1046
+#: src/print.c:1051
 #, fuzzy
 msgid "Check Score."
 msgstr "チェック・ボックス"
 
-#: src/print.c:1047
+#: src/print.c:1052
 msgid "Cursor may have moved to error point in the score."
 msgstr ""
 
-#: src/print.c:1050
+#: src/print.c:1055
 msgid "INVALID!"
 msgstr ""
 
-#: src/print.c:1051
+#: src/print.c:1056
 msgid "LilyPond could not typeset this score."
 msgstr ""
 
-#: src/print.c:1072 src/print.c:2082
+#: src/print.c:1077 src/print.c:2081
 #, fuzzy
 msgid "Current Movement"
 msgstr "現在のサイズ:"
 
-#: src/print.c:1074
+#: src/print.c:1079
 #, fuzzy
 msgid "Excerpt Only"
 msgstr "引用部分の解像度"
 
-#: src/print.c:1260
+#: src/print.c:1266
 msgid "No selection to print"
 msgstr "印刷する選択領域がありません"
 
-#: src/print.c:1489
+#: src/print.c:1495
 msgid "Drag to desired offset"
 msgstr ""
 
-#: src/print.c:1512
+#: src/print.c:1519
 #, fuzzy
 msgid "Start a new line here"
 msgstr "新しい楽譜を開始"
 
-#: src/print.c:1517
+#: src/print.c:1524
 #, fuzzy
 msgid "Start a new page here"
 msgstr "新しい楽譜を開始"
 
-#: src/print.c:1522
+#: src/print.c:1529
 msgid "Set a reminder accidental on the note selected"
 msgstr ""
 
-#: src/print.c:1931
+#: src/print.c:1653
+msgid "Now drag to point the object should move to"
+msgstr ""
+
+#: src/print.c:1930
 msgid "Manual Updates"
 msgstr ""
 
-#: src/print.c:1932
+#: src/print.c:1931
 msgid "Continuous"
 msgstr ""
 
-#: src/print.c:2034
+#: src/print.c:2033
 #, fuzzy
 msgid "Measures before cursor:"
 msgstr "カーソル位置に挿入"
 
-#: src/print.c:2043
+#: src/print.c:2042
 #, fuzzy
 msgid "Measures after cursor:"
 msgstr "カーソル位置に挿入"
 
-#: src/print.c:2054
+#: src/print.c:2053
 #, fuzzy
 msgid "Staffs before cursor:"
 msgstr "前の五線を削除"
 
-#: src/print.c:2062
+#: src/print.c:2061
 #, fuzzy
 msgid "Staffs after cursor:"
 msgstr "後ろの五線を削除"
 
-#: src/print.c:2077
+#: src/print.c:2076
 #, fuzzy
 msgid "All Movements"
 msgstr "楽章を追加"
 
-#: src/print.c:2079
+#: src/print.c:2078
 msgid "If checked the current layout is re-typeset at every change"
 msgstr ""
 
-#: src/print.c:2084
+#: src/print.c:2083
 msgid "If checked the current movement is re-typeset at every change"
 msgstr ""
 
-#: src/print.c:2088
+#: src/print.c:2087
 #, fuzzy
 msgid "Cursor Context"
 msgstr "カーソルを左へ"
 
-#: src/print.c:2090
+#: src/print.c:2089
 msgid ""
 "If checked the range around the current cursor position is re-typeset at "
 "every change or when the cursor moves out of range."
 msgstr ""
 
-#: src/print.c:2111
+#: src/print.c:2110
 msgid "Set background updates on/off."
 msgstr ""
 
-#: src/print.c:2115
+#: src/print.c:2114
 #, fuzzy
 msgid "Range"
 msgstr "編曲者"
 
-#: src/print.c:2116
+#: src/print.c:2115
 msgid "Set how much of the score to re-draw."
 msgstr ""
 
-#: src/print.c:2130
+#: src/print.c:2129
 msgid ""
 "Set background updater on/off. This controls if typesetting is re-done after "
 "each change to the music. The amount of the score to be re-typeset can be "
@@ -10931,6 +10939,10 @@ msgstr ""
 msgid "Set the prevailing duration to 𝅥"
 msgstr "「事前に指定した」されたリズムを指定"
 
+#: src/scorelayout.c:423
+msgid "Actions for this Layout"
+msgstr ""
+
 #: src/scorelayout.c:428
 msgid ""
 "Typeset the score using this layout to determine which movements, parts, "
@@ -11043,6 +11055,26 @@ msgid ""
 "from that of the first to the second staff. The editing affects only this "
 "layout."
 msgstr ""
+
+#: src/scorelayout.c:726
+#, fuzzy
+msgid "Edit this element for this layout"
+msgstr "声部の指示を編集"
+
+#: src/scorelayout.c:730
+#, fuzzy
+msgid "Move this element upwards for this score layout"
+msgstr "この楽章を楽譜のレイアウトから削除"
+
+#: src/scorelayout.c:734
+#, fuzzy
+msgid "Move this element downwards for this score layout"
+msgstr "この楽章を楽譜のレイアウトから削除"
+
+#: src/scorelayout.c:738
+#, fuzzy
+msgid "Remove this element from this layout"
+msgstr "この楽章を楽譜のレイアウトから削除"
 
 #: src/scorelayout.c:755
 msgid "This forces a new page, useful for avoiding page turns\n"
@@ -11220,6 +11252,24 @@ msgstr ""
 msgid "Set the initial clef for this staff in the score"
 msgstr "楽譜内の現在の五線の最初の音部記号を設定する"
 
+#: src/scorelayout.c:1243
+msgid "Set Staff Group Start/End"
+msgstr ""
+
+#: src/scorelayout.c:1246
+msgid ""
+"The braces { and [ binding staffs together can be set here. Set the start on "
+"one staff and the end on a later staff.\n"
+"This is editing the score, not just customizing a layout.\n"
+"Refresh the layout view (see under Options for this Layout button at the "
+"top) once you have made the changes."
+msgstr ""
+
+#: src/scorelayout.c:1269
+#, fuzzy
+msgid "Voice"
+msgstr "上の声部も操作対象にする"
+
 #: src/scorelayout.c:1271
 msgid ""
 "This holds the voice(s) of the staff - the clef, time signature, key "
@@ -11238,6 +11288,11 @@ msgstr ""
 #: src/scorelayout.c:1376
 msgid "the paper block contents"
 msgstr ""
+
+#: src/scorelayout.c:1379
+#, fuzzy
+msgid "paper size"
+msgstr "用紙サイズ"
 
 #: src/scorelayout.c:1381
 msgid "Global staff size"
@@ -12282,11 +12337,11 @@ msgid ""
 "the action of the button"
 msgstr ""
 
-#: actions/denemo.scm:987
+#: actions/denemo.scm:1002
 msgid "Please enter a transpose interval"
 msgstr ""
 
-#: actions/denemo.scm:987
+#: actions/denemo.scm:1002
 msgid ""
 "Please enter a transpose interval or two notes in Lilypond syntax.\n"
 "\n"
@@ -12552,6 +12607,12 @@ msgstr "楽譜の指示を編集"
 msgid "Edit LilyPond to apply to whole score"
 msgstr ""
 
+#: actions/commandscripts/EndVolta.scm:3 actions/commandscripts/Upbeat.scm:47
+#: actions/commandscripts/Upbeat.scm:58
+#, fuzzy
+msgid "Advanced"
+msgstr "<b>高度な設定</b>"
+
 #: actions/commandscripts/FiguredBassExercises.scm:4
 msgid ""
 "The music below is the first of Handel's exercises for figured bass. The "
@@ -12636,6 +12697,17 @@ msgstr "(名前無し)"
 msgid "Hide"
 msgstr "表示/隠す"
 
+#: actions/commandscripts/IRC.scm:2
+msgid ""
+"Your browser may take a few moments to start - be patient!\n"
+" \tWhen it has started you have to type in some anti-spam words\n"
+" \tand click connect\n"
+" \tThen you get a page with a place to type your question at the bottom.\n"
+" \tType hello in there and hit Enter\n"
+" \tIf no one is there to help you can use the mailing list denemo-devel@gnu."
+"org"
+msgstr ""
+
 #: actions/commandscripts/Indent.scm:12
 #: actions/commandscripts/ScoreIndent.scm:11
 msgid "Choose indent of first system"
@@ -12644,16 +12716,6 @@ msgstr ""
 #: actions/commandscripts/Indent.scm:12
 msgid "Give amount as decimal"
 msgstr ""
-
-#: actions/commandscripts/InitialVoiceFour.scm:4
-#, fuzzy
-msgid "Voice Four"
-msgstr "下の声部も操作対象にする"
-
-#: actions/commandscripts/InitialVoiceOne.scm:4
-#, fuzzy
-msgid "Voice One"
-msgstr "下の声部も操作対象にする"
 
 #: actions/commandscripts/InitialVoice.scm:2
 #: actions/commandscripts/InitialVoice.scm:4
@@ -12694,6 +12756,16 @@ msgstr "上の声部も操作対象にする"
 #, fuzzy
 msgid "Automatic Voice"
 msgstr "声部を結合"
+
+#: actions/commandscripts/InitialVoiceFour.scm:4
+#, fuzzy
+msgid "Voice Four"
+msgstr "下の声部も操作対象にする"
+
+#: actions/commandscripts/InitialVoiceOne.scm:4
+#, fuzzy
+msgid "Voice One"
+msgstr "下の声部も操作対象にする"
 
 #: actions/commandscripts/InitialVoiceThree.scm:4
 #, fuzzy
@@ -12736,17 +12808,6 @@ msgstr ""
 #, fuzzy
 msgid "indent="
 msgstr "モルデント"
-
-#: actions/commandscripts/IRC.scm:2
-msgid ""
-"Your browser may take a few moments to start - be patient!\n"
-" \tWhen it has started you have to type in some anti-spam words\n"
-" \tand click connect\n"
-" \tThen you get a page with a place to type your question at the bottom.\n"
-" \tType hello in there and hit Enter\n"
-" \tIf no one is there to help you can use the mailing list denemo-devel@gnu."
-"org"
-msgstr ""
 
 #: actions/commandscripts/LilyPondInclude.scm:14
 #, fuzzy
@@ -12807,6 +12868,11 @@ msgstr ""
 msgid "Click to edit comment"
 msgstr ""
 
+#: actions/commandscripts/NotForLayout.scm:5
+#, fuzzy
+msgid "Not for "
+msgstr "%s はディレクトリではありません!"
+
 #: actions/commandscripts/NoteColumnShift.scm:5
 #, fuzzy
 msgid "Horizontal Shift"
@@ -12815,11 +12881,6 @@ msgstr "  -W  --no-warn           警告を抑止する\n"
 #: actions/commandscripts/NoteColumnShift.scm:5
 msgid "Give amount (staff spaces)"
 msgstr ""
-
-#: actions/commandscripts/NotForLayout.scm:5
-#, fuzzy
-msgid "Not for "
-msgstr "%s はディレクトリではありません!"
 
 #: actions/commandscripts/OnlyForLayout.scm:5
 msgid "for "
@@ -12905,12 +12966,13 @@ msgstr ""
 msgid "Pad underfull bars with rests"
 msgstr ""
 
-#: actions/commandscripts/ReBar.scm:368 actions/commandscripts/ReBar.scm:371
-msgid "Rebar-Merge underfull, split overfull bars"
+#: actions/commandscripts/ReBar.scm:367 actions/commandscripts/ReBar.scm:369
+#: actions/commandscripts/ReBar.scm:370
+msgid "Pad underfull bars with blank rests"
 msgstr ""
 
-#: actions/commandscripts/ReBar.scm:369 actions/commandscripts/ReBar.scm:370
-msgid "Pad underfull bars with blank rests"
+#: actions/commandscripts/ReBar.scm:368 actions/commandscripts/ReBar.scm:371
+msgid "Rebar-Merge underfull, split overfull bars"
 msgstr ""
 
 #: actions/commandscripts/ReBar.scm:372
@@ -12928,6 +12990,12 @@ msgstr "%s: `%s' はマウントポイントではありません\n"
 msgid "Entire Movement"
 msgstr "楽章を印刷する"
 
+#: actions/commandscripts/RehearsalMark.scm:7
+#: actions/commandscripts/RehearsalMark.scm:15
+#, fuzzy
+msgid "Restore Position"
+msgstr "位置をポップ"
+
 #: actions/commandscripts/ScoreIndent.scm:11
 msgid "Give amount in decimal"
 msgstr ""
@@ -12939,6 +13007,10 @@ msgstr "Lilypond"
 
 #: actions/commandscripts/ScoreProlog.scm:13
 msgid "Prolog unchanged"
+msgstr ""
+
+#: actions/commandscripts/ScoreTitle.scm:3
+msgid "Returning to the first Movement to set this title"
 msgstr ""
 
 #: actions/commandscripts/Section.scm:2
@@ -13228,11 +13300,6 @@ msgstr ""
 msgid "Re-calculate"
 msgstr ""
 
-#: actions/commandscripts/Upbeat.scm:47 actions/commandscripts/Upbeat.scm:58
-#, fuzzy
-msgid "Advanced"
-msgstr "<b>高度な設定</b>"
-
 #: actions/commandscripts/Upbeat.scm:52
 msgid ""
 "This object fills up the duration of this measure, so that the notes in the "
@@ -13249,6 +13316,10 @@ msgstr "  VALUE     設定する値\n"
 #: actions/commandscripts/ZoomDialog.scm:3
 msgid "Give % scaling required"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Externals"
+#~ msgstr "外部入力なし"
 
 #, fuzzy
 #~ msgid "Insert Anacrusis"
@@ -14331,10 +14402,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "CSound Command:"
 #~ msgstr "コマンドセットを読み込む"
-
-#, fuzzy
-#~ msgid "Externals"
-#~ msgstr "外部入力なし"
 
 #, fuzzy
 #~ msgid "Moves the cursor to the staff below"

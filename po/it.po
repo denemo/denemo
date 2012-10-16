@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: denemo 0.7.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-11 09:06+0100\n"
+"POT-Creation-Date: 2012-10-16 17:42+0100\n"
 "PO-Revision-Date: 2012-07-19 12:35+0100\n"
 "Last-Translator: Richard Shann <richard.shann@virgin.net>\n"
 "Language-Team: Italian\n"
@@ -759,7 +759,7 @@ msgstr ""
 msgid "Forces the accidental on the note to be printed."
 msgstr ""
 
-#: src/commands.c:493 src/commands.c:495 src/print.c:1521
+#: src/commands.c:493 src/commands.c:495 src/print.c:1528
 #, no-c-format
 msgid "Reminder Accidental"
 msgstr ""
@@ -1045,7 +1045,7 @@ msgid ""
 "for second and subsequent systems"
 msgstr ""
 
-#: src/commands.c:804 src/commands.c:806 src/print.c:1511
+#: src/commands.c:804 src/commands.c:806 src/print.c:1518
 #, no-c-format
 msgid "Line Break"
 msgstr ""
@@ -1055,7 +1055,7 @@ msgstr ""
 msgid "(Print) Start a new line (i.e. system) at this measure."
 msgstr ""
 
-#: src/commands.c:815 src/commands.c:818 src/print.c:1516
+#: src/commands.c:815 src/commands.c:818 src/print.c:1523
 #: src/scorelayout.c:754
 #, no-c-format
 msgid "Page Break"
@@ -1091,6 +1091,9 @@ msgstr ""
 #: src/commands.c:851 src/commands.c:854 src/commands.c:2063
 #: src/commands.c:2065 src/commands.c:2118 src/commands.c:2121
 #: src/entries.h:403 src/scorelayout.c:436
+#: actions/commandscripts/EndVolta.scm:3 actions/commandscripts/EndVolta.scm:4
+#: actions/commandscripts/RehearsalMark.scm:7
+#: actions/commandscripts/RehearsalMark.scm:13
 #: actions/commandscripts/Upbeat.scm:47 actions/commandscripts/Upbeat.scm:56
 #, no-c-format
 msgid "Delete"
@@ -6830,7 +6833,8 @@ msgstr ""
 msgid "Different keyboard and MIDI entry modes"
 msgstr ""
 
-#: src/entries.h:206 src/entries.h:366 src/scorelayout.c:550 src/view.c:8675
+#: src/entries.h:206 src/entries.h:366 src/scorelayout.c:550
+#: src/scorelayout.c:725 src/view.c:8675
 msgid "Edit"
 msgstr ""
 
@@ -6861,7 +6865,7 @@ msgid ""
 "Commands that apply to the current staff."
 msgstr ""
 
-#: src/entries.h:209
+#: src/entries.h:209 src/scorelayout.c:1269
 msgid "Voices"
 msgstr ""
 
@@ -7491,7 +7495,7 @@ msgid ""
 "between the voices. Suggest to use merge staffs"
 msgstr ""
 
-#: src/entries.h:284 src/register_commands.h:266 src/staffpropdialog.c:338
+#: src/entries.h:284 src/register_commands.h:266 src/staffpropdialog.c:392
 msgid "Staff Properties"
 msgstr ""
 
@@ -9458,117 +9462,121 @@ msgstr ""
 msgid "Print from Measure"
 msgstr ""
 
-#: src/print.c:1042
+#: src/print.c:1047
 msgid "Possibly Invalid"
 msgstr ""
 
-#: src/print.c:1043
+#: src/print.c:1048
 msgid "Cursor not moved."
 msgstr ""
 
-#: src/print.c:1046
+#: src/print.c:1051
 msgid "Check Score."
 msgstr ""
 
-#: src/print.c:1047
+#: src/print.c:1052
 msgid "Cursor may have moved to error point in the score."
 msgstr ""
 
-#: src/print.c:1050
+#: src/print.c:1055
 msgid "INVALID!"
 msgstr ""
 
-#: src/print.c:1051
+#: src/print.c:1056
 msgid "LilyPond could not typeset this score."
 msgstr ""
 
-#: src/print.c:1072 src/print.c:2082
+#: src/print.c:1077 src/print.c:2081
 msgid "Current Movement"
 msgstr ""
 
-#: src/print.c:1074
+#: src/print.c:1079
 msgid "Excerpt Only"
 msgstr ""
 
-#: src/print.c:1260
+#: src/print.c:1266
 msgid "No selection to print"
 msgstr ""
 
-#: src/print.c:1489
+#: src/print.c:1495
 msgid "Drag to desired offset"
 msgstr ""
 
-#: src/print.c:1512
+#: src/print.c:1519
 msgid "Start a new line here"
 msgstr ""
 
-#: src/print.c:1517
+#: src/print.c:1524
 msgid "Start a new page here"
 msgstr ""
 
-#: src/print.c:1522
+#: src/print.c:1529
 msgid "Set a reminder accidental on the note selected"
 msgstr ""
 
-#: src/print.c:1931
+#: src/print.c:1653
+msgid "Now drag to point the object should move to"
+msgstr ""
+
+#: src/print.c:1930
 msgid "Manual Updates"
 msgstr ""
 
-#: src/print.c:1932
+#: src/print.c:1931
 msgid "Continuous"
 msgstr ""
 
-#: src/print.c:2034
+#: src/print.c:2033
 msgid "Measures before cursor:"
 msgstr ""
 
-#: src/print.c:2043
+#: src/print.c:2042
 msgid "Measures after cursor:"
 msgstr ""
 
-#: src/print.c:2054
+#: src/print.c:2053
 msgid "Staffs before cursor:"
 msgstr ""
 
-#: src/print.c:2062
+#: src/print.c:2061
 msgid "Staffs after cursor:"
 msgstr ""
 
-#: src/print.c:2077
+#: src/print.c:2076
 msgid "All Movements"
 msgstr ""
 
-#: src/print.c:2079
+#: src/print.c:2078
 msgid "If checked the current layout is re-typeset at every change"
 msgstr ""
 
-#: src/print.c:2084
+#: src/print.c:2083
 msgid "If checked the current movement is re-typeset at every change"
 msgstr ""
 
-#: src/print.c:2088
+#: src/print.c:2087
 msgid "Cursor Context"
 msgstr ""
 
-#: src/print.c:2090
+#: src/print.c:2089
 msgid ""
 "If checked the range around the current cursor position is re-typeset at "
 "every change or when the cursor moves out of range."
 msgstr ""
 
-#: src/print.c:2111
+#: src/print.c:2110
 msgid "Set background updates on/off."
 msgstr ""
 
-#: src/print.c:2115
+#: src/print.c:2114
 msgid "Range"
 msgstr ""
 
-#: src/print.c:2116
+#: src/print.c:2115
 msgid "Set how much of the score to re-draw."
 msgstr ""
 
-#: src/print.c:2130
+#: src/print.c:2129
 msgid ""
 "Set background updater on/off. This controls if typesetting is re-done after "
 "each change to the music. The amount of the score to be re-typeset can be "
@@ -10417,6 +10425,10 @@ msgstr ""
 msgid "Set the prevailing duration to 𝅥"
 msgstr ""
 
+#: src/scorelayout.c:423
+msgid "Actions for this Layout"
+msgstr ""
+
 #: src/scorelayout.c:428
 msgid ""
 "Typeset the score using this layout to determine which movements, parts, "
@@ -10524,6 +10536,22 @@ msgid ""
 "For example changing \\MvmntIVoiceI to \\MvmntIVoiceII will change the music "
 "from that of the first to the second staff. The editing affects only this "
 "layout."
+msgstr ""
+
+#: src/scorelayout.c:726
+msgid "Edit this element for this layout"
+msgstr ""
+
+#: src/scorelayout.c:730
+msgid "Move this element upwards for this score layout"
+msgstr ""
+
+#: src/scorelayout.c:734
+msgid "Move this element downwards for this score layout"
+msgstr ""
+
+#: src/scorelayout.c:738
+msgid "Remove this element from this layout"
 msgstr ""
 
 #: src/scorelayout.c:755
@@ -10693,6 +10721,23 @@ msgstr ""
 msgid "Set the initial clef for this staff in the score"
 msgstr ""
 
+#: src/scorelayout.c:1243
+msgid "Set Staff Group Start/End"
+msgstr ""
+
+#: src/scorelayout.c:1246
+msgid ""
+"The braces { and [ binding staffs together can be set here. Set the start on "
+"one staff and the end on a later staff.\n"
+"This is editing the score, not just customizing a layout.\n"
+"Refresh the layout view (see under Options for this Layout button at the "
+"top) once you have made the changes."
+msgstr ""
+
+#: src/scorelayout.c:1269
+msgid "Voice"
+msgstr ""
+
 #: src/scorelayout.c:1271
 msgid ""
 "This holds the voice(s) of the staff - the clef, time signature, key "
@@ -10709,6 +10754,10 @@ msgstr ""
 
 #: src/scorelayout.c:1376
 msgid "the paper block contents"
+msgstr ""
+
+#: src/scorelayout.c:1379
+msgid "paper size"
 msgstr ""
 
 #: src/scorelayout.c:1381
@@ -11703,11 +11752,11 @@ msgid ""
 "the action of the button"
 msgstr ""
 
-#: actions/denemo.scm:987
+#: actions/denemo.scm:1002
 msgid "Please enter a transpose interval"
 msgstr ""
 
-#: actions/denemo.scm:987
+#: actions/denemo.scm:1002
 msgid ""
 "Please enter a transpose interval or two notes in Lilypond syntax.\n"
 "\n"
@@ -11952,6 +12001,11 @@ msgstr ""
 msgid "Edit LilyPond to apply to whole score"
 msgstr ""
 
+#: actions/commandscripts/EndVolta.scm:3 actions/commandscripts/Upbeat.scm:47
+#: actions/commandscripts/Upbeat.scm:58
+msgid "Advanced"
+msgstr ""
+
 #: actions/commandscripts/FiguredBassExercises.scm:4
 msgid ""
 "The music below is the first of Handel's exercises for figured bass. The "
@@ -12032,6 +12086,17 @@ msgstr ""
 msgid "Hide"
 msgstr ""
 
+#: actions/commandscripts/IRC.scm:2
+msgid ""
+"Your browser may take a few moments to start - be patient!\n"
+" \tWhen it has started you have to type in some anti-spam words\n"
+" \tand click connect\n"
+" \tThen you get a page with a place to type your question at the bottom.\n"
+" \tType hello in there and hit Enter\n"
+" \tIf no one is there to help you can use the mailing list denemo-devel@gnu."
+"org"
+msgstr ""
+
 #: actions/commandscripts/Indent.scm:12
 #: actions/commandscripts/ScoreIndent.scm:11
 msgid "Choose indent of first system"
@@ -12039,14 +12104,6 @@ msgstr ""
 
 #: actions/commandscripts/Indent.scm:12
 msgid "Give amount as decimal"
-msgstr ""
-
-#: actions/commandscripts/InitialVoiceFour.scm:4
-msgid "Voice Four"
-msgstr ""
-
-#: actions/commandscripts/InitialVoiceOne.scm:4
-msgid "Voice One"
 msgstr ""
 
 #: actions/commandscripts/InitialVoice.scm:2
@@ -12082,6 +12139,14 @@ msgstr ""
 #: actions/commandscripts/VoiceSetting.scm:2
 #: actions/commandscripts/VoiceSetting.scm:12
 msgid "Automatic Voice"
+msgstr ""
+
+#: actions/commandscripts/InitialVoiceFour.scm:4
+msgid "Voice Four"
+msgstr ""
+
+#: actions/commandscripts/InitialVoiceOne.scm:4
+msgid "Voice One"
 msgstr ""
 
 #: actions/commandscripts/InitialVoiceThree.scm:4
@@ -12122,17 +12187,6 @@ msgstr ""
 #: actions/commandscripts/InstrumentName.scm:36
 #: actions/commandscripts/ScoreIndent.scm:19
 msgid "indent="
-msgstr ""
-
-#: actions/commandscripts/IRC.scm:2
-msgid ""
-"Your browser may take a few moments to start - be patient!\n"
-" \tWhen it has started you have to type in some anti-spam words\n"
-" \tand click connect\n"
-" \tThen you get a page with a place to type your question at the bottom.\n"
-" \tType hello in there and hit Enter\n"
-" \tIf no one is there to help you can use the mailing list denemo-devel@gnu."
-"org"
 msgstr ""
 
 #: actions/commandscripts/LilyPondInclude.scm:14
@@ -12191,16 +12245,16 @@ msgstr ""
 msgid "Click to edit comment"
 msgstr ""
 
+#: actions/commandscripts/NotForLayout.scm:5
+msgid "Not for "
+msgstr ""
+
 #: actions/commandscripts/NoteColumnShift.scm:5
 msgid "Horizontal Shift"
 msgstr ""
 
 #: actions/commandscripts/NoteColumnShift.scm:5
 msgid "Give amount (staff spaces)"
-msgstr ""
-
-#: actions/commandscripts/NotForLayout.scm:5
-msgid "Not for "
 msgstr ""
 
 #: actions/commandscripts/OnlyForLayout.scm:5
@@ -12283,12 +12337,13 @@ msgstr ""
 msgid "Pad underfull bars with rests"
 msgstr ""
 
-#: actions/commandscripts/ReBar.scm:368 actions/commandscripts/ReBar.scm:371
-msgid "Rebar-Merge underfull, split overfull bars"
+#: actions/commandscripts/ReBar.scm:367 actions/commandscripts/ReBar.scm:369
+#: actions/commandscripts/ReBar.scm:370
+msgid "Pad underfull bars with blank rests"
 msgstr ""
 
-#: actions/commandscripts/ReBar.scm:369 actions/commandscripts/ReBar.scm:370
-msgid "Pad underfull bars with blank rests"
+#: actions/commandscripts/ReBar.scm:368 actions/commandscripts/ReBar.scm:371
+msgid "Rebar-Merge underfull, split overfull bars"
 msgstr ""
 
 #: actions/commandscripts/ReBar.scm:372
@@ -12303,6 +12358,11 @@ msgstr ""
 msgid "Entire Movement"
 msgstr ""
 
+#: actions/commandscripts/RehearsalMark.scm:7
+#: actions/commandscripts/RehearsalMark.scm:15
+msgid "Restore Position"
+msgstr ""
+
 #: actions/commandscripts/ScoreIndent.scm:11
 msgid "Give amount in decimal"
 msgstr ""
@@ -12313,6 +12373,10 @@ msgstr ""
 
 #: actions/commandscripts/ScoreProlog.scm:13
 msgid "Prolog unchanged"
+msgstr ""
+
+#: actions/commandscripts/ScoreTitle.scm:3
+msgid "Returning to the first Movement to set this title"
 msgstr ""
 
 #: actions/commandscripts/Section.scm:2
@@ -12576,10 +12640,6 @@ msgstr ""
 
 #: actions/commandscripts/Upbeat.scm:47 actions/commandscripts/Upbeat.scm:53
 msgid "Re-calculate"
-msgstr ""
-
-#: actions/commandscripts/Upbeat.scm:47 actions/commandscripts/Upbeat.scm:58
-msgid "Advanced"
 msgstr ""
 
 #: actions/commandscripts/Upbeat.scm:52

@@ -364,7 +364,7 @@
     )
     (let ((Pad #f) (Blank #f)(MergeAndSplit #f))
 	(set! Input1 (d-GetOption (string-append (_ "Search for under/overfull bars") stop 
-				(_ "Pad underfull bars with rests" stop "Pad underfull bars with blank rests")  stop
+				(_ "Pad underfull bars with rests") stop (_ "Pad underfull bars with blank rests")  stop
 				(_ "Rebar-Merge underfull, split overfull bars") stop)))
 	(set! Blank (equal? Input1 (_ "Pad underfull bars with blank rests")))
 	(set! Pad (or (equal? Input1 (_ "Pad underfull bars with rests"))(equal? Input1 (_ "Pad underfull bars with blank rests") )))
