@@ -236,25 +236,34 @@
 
 ; ExtraOffset
 ;; the parameter "what" is the LilyPond grob that is being tweaked - it may not be the tag of the DenemoDirective that is being edited
-(define* (ExtraOffset what  #:optional (type "chord") (context "") (offset '(0 . 0)))
-  (let ((tag "")(oldstr #f) (start "") (end "") (get-command d-DirectiveGet-chord-prefix)  (put-command d-DirectivePut-chord-prefix))
+(define* (ExtraOffset what  #:optional (type "chord") (context "") (offset '(0 . 0)) (override #f))
+  (let ((tag "")(oldstr #f) (start "") (end "") (get-command d-DirectiveGet-chord-prefix)  (put-command d-DirectivePut-chord-prefix) (override-command d-DirectivePut-chord-override))
   (disp "Entered with " offset "and " type " and " context " ok")
     (cond
+     ((string=? type "chord")
+      (begin (set! get-command d-DirectiveGet-chord-prefix)
+	     (set! put-command d-DirectivePut-chord-prefix)
+	     (set! override-command d-DirectivePut-chord-override)
+	     ))
      ((string=? type "note")
       (begin (set! get-command d-DirectiveGet-note-prefix)
-	     (set! put-command d-DirectivePut-note-prefix)))
+	     (set! put-command d-DirectivePut-note-prefix)
+	     (set! override-command d-DirectivePut-note-override)))
      ((string=? type "standalone")
       (begin (set! get-command d-DirectiveGet-standalone-prefix)
-	     (set! put-command d-DirectivePut-standalone-prefix)))
+	     (set! put-command d-DirectivePut-standalone-prefix)
+	     (set! override-command d-DirectivePut-standalone-override)))
      )
 
     (set! tag what)
     (set! oldstr (get-command tag))
     (if (equal? oldstr "")
 	(set! oldstr #f))
-(disp "The old prefix was " oldstr " with " tag " from running " get-command " ok???")
+		;(disp "The old prefix was " oldstr " with " tag " from running " get-command " ok???")
     (set! start (string-append "\\once \\override " context what " #'extra-offset = #'("))
     (set! end ")")
+    (if override
+			(override-command tag override))
     (put-command tag (ChangeOffset oldstr start end offset))))
     
 ; SetRelativeFontSize
@@ -340,8 +349,14 @@
 ;;;; TweakOffset
 ;;;Changes the offset of the something at the cursor - at the moment assume standalone RehearsalMarkbut could be fingerings on notes etc or the notest themselves - user choice.
 (define (TweakOffset offsetx offsety)
-(ExtraOffset "RehearsalMark" "standalone" "Score." (cons offsetx offsety))
-(d-SetSaved #f)
+	(define tag (d-DirectiveGetForTag-standalone ""))
+	(if tag
+		(ExtraOffset tag "standalone" "Score." (cons offsetx offsety))
+		(begin
+			(if (Rest?)
+				(ExtraOffset "Rest" "chord" "Voice." (cons offsetx offsety) DENEMO_OVERRIDE_AFFIX)
+				(disp "Case not handled"))))
+	(d-SetSaved #f)
 )
 
 

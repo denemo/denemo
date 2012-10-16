@@ -119,7 +119,7 @@ static void advance_printname() {
 
 	PrintStatus.cycle = !PrintStatus.cycle;
 	gint success = g_unlink(PrintStatus.printname_pdf[PrintStatus.cycle]);
-	g_print("Removed old pdf file %s %d\n",PrintStatus.printname_pdf[PrintStatus.cycle], success);
+	//g_print("Removed old pdf file %s %d\n",PrintStatus.printname_pdf[PrintStatus.cycle], success);
 }
 
 
@@ -896,10 +896,15 @@ void print_lily_cb (GtkWidget *item, DenemoGUI *gui){
 static gint pointx, pointy,   marky;//coordinates defining a selected region in print preview pane. These are set by left button press/release, with pointx, pointy being set to top left
 
 static GdkCursor *busycursor;
+static GdkCursor *dragcursor;
 static GdkCursor *arrowcursor;
 static void busy_cursor(void) {
   if(gtk_widget_get_window(Denemo.printarea))
     gdk_window_set_cursor(gtk_widget_get_window(Denemo.printarea), busycursor);
+}
+static void drag_cursor(void) {
+  if(gtk_widget_get_window(Denemo.printarea))
+    gdk_window_set_cursor(gtk_widget_get_window(Denemo.printarea), dragcursor);
 }
 static void normal_cursor(void) {
   if(gtk_widget_get_window(Denemo.printarea))
@@ -1076,11 +1081,12 @@ static gboolean overdraw_print(cairo_t *cr) {
 	
 	cairo_restore(cr);
   if(Ww.selecting)
-    {gint w = ABS(Ww.Mark.x-Ww.curx);
-    gint h = ABS(Ww.Mark.y-Ww.cury);
-    cairo_set_source_rgb(cr, 0, 0, 1);
-    cairo_rectangle( cr, Ww.Mark.x, Ww.Mark.y, w, h );
-    cairo_fill( cr );
+    {
+		//gint w = ABS(Ww.Mark.x-Ww.curx);
+    //gint h = ABS(Ww.Mark.y-Ww.cury);
+    //cairo_set_source_rgb(cr, 0, 0, 1);
+    //cairo_rectangle( cr, Ww.Mark.x, Ww.Mark.y, w, h );
+    //cairo_fill( cr );
     }
   if(Ww.offsetting)
     {
@@ -1127,7 +1133,7 @@ static void
 set_printarea(GError **err) {
   GFile       *file;
   gchar *filename = PrintStatus.printname_pdf[PrintStatus.cycle];
-  g_print("using %s\n", filename);
+  //g_print("using %s\n", filename);
   if(PrintStatus.invalid==0)
 		PrintStatus.invalid = (g_file_test(filename, G_FILE_TEST_EXISTS))?0:3;
   file = g_file_new_for_commandline_arg (filename);
@@ -1506,6 +1512,7 @@ static gint
 popup_object_edit_menu(void) {
   static GtkWidget *note_menu;
   static GtkWidget *directive_menu;
+
   if(note_menu==NULL) {
 			note_menu = gtk_menu_new();
 		GtkWidget *item = gtk_menu_item_new_with_label(_("Line Break"));
@@ -1534,13 +1541,14 @@ popup_object_edit_menu(void) {
 		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(start_drag), &Ww.offsetting);
 
 		item = gtk_menu_item_new_with_label("Drag a space for padding");
-//		gtk_menu_shell_append(GTK_MENU_SHELL(directive_menu), item);
+//	gtk_menu_shell_append(GTK_MENU_SHELL(directive_menu), item);
 //  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(start_drag), &Ww.padding);
 
 		gtk_widget_show_all(directive_menu);
 	}
-	DenemoObject *obj = Denemo.gui->si->currentobject->data;
-	 switch(obj->type) {
+	if(Denemo.gui->si->currentobject) {
+		DenemoObject *obj = Denemo.gui->si->currentobject->data;
+		switch(obj->type) {
 			case CHORD:
 					gtk_menu_popup (GTK_MENU(note_menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time());
 					break;
@@ -1551,59 +1559,62 @@ popup_object_edit_menu(void) {
 				g_warning("Cannot handle type %d\n", obj->type);
 				break;
 			}
+		}
   return TRUE;
 }
 
 
 static gint
 action_for_link (EvView* view, EvLinkAction *obj) {
+	g_print("Link action Mark at %d, %d\n", Ww.Mark.x, Ww.Mark.y);
   gchar *uri = (gchar*)ev_link_action_get_uri(obj);
-  //g_print("external signal %s\n", uri);
-  gchar **vec = g_strsplit (uri, ":",5);
-  if(!strcmp(vec[0], "textedit") && vec[1] && vec[2] && vec[3]) {
+
+  if(Ww.selecting || Ww.offsetting) {
+		return TRUE;//?Better take over motion notify so as not to get this while working ...
+	}
+	//g_print("acting on external signal %s\n", uri);
+  if(uri) {
+		gchar **vec = g_strsplit (uri, ":",5);
+		if(!strcmp(vec[0], "textedit") && vec[1] && vec[2] && vec[3]) {
       Ww.ObjectLocated = goto_lilypond_position(atoi(vec[2]), atoi(vec[3]));
-      if(Ww.ObjectLocated && Ww.button!=1)
-				popup_object_edit_menu();
-  } else {
-  g_warning ("Cannot follow external link type %s\n", vec[0]);
-  }
-  g_strfreev(vec);
+		} else {
+			g_warning ("Cannot follow external link type %s\n", vec[0]);
+		}
+		g_strfreev(vec);
+	} 
 	return TRUE;//we do not want the evince widget to handle this.
 }
 static gint adjust_x=0;
 static gint adjust_y=0;
-
-#if 0
-static gint
-printarea_focus_in_event (GtkWidget * widget, GdkEventExpose * event)
-{
-  if((PrintStatus.printpid==GPID_NONE) && (changecount!=Denemo.gui->changecount)) {
-    refresh_print_view();
-    changecount = Denemo.gui->changecount;// keep track so we know if update is needed FIXME - different tabs etc
-  }
-  return TRUE;
+static gboolean in_selected_object(gint x, gint y) {
+	    gint xx, yy;
+    //g_print("reading position of mark");
+    get_window_position(&xx, &yy);
+    x += xx;
+    y += yy;
+	return (x>Ww.Mark.x && y>Ww.Mark.y && x<(Ww.Mark.x+Ww.Mark.width) && y<(Ww.Mark.y+Ww.Mark.height));
 }
-#endif
 
-
-
-//GdkBitmap *graphic = NULL; /* a selection from the print area */
-
-static gint
+static gboolean
 printarea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 {
   Ww.ObjectLocated = FALSE;
-   if(Denemo.pixbuf==NULL)
+  if(Denemo.pixbuf==NULL)
     set_denemo_pixbuf();
   if(Denemo.pixbuf==NULL)
-    return TRUE;
+    return FALSE;
   if(Ww.padding || Ww.offsetting || Ww.selecting) {
-    Ww.curx = (int)event->x;
-    Ww.cury = (int)event->y;
+		gint xx, yy;
+    get_window_position(&xx, &yy);
+    Ww.curx = xx + (gint)event->x;
+    Ww.cury = yy + (gint)event->y;
     gtk_widget_queue_draw (Denemo.printarea);
+    return TRUE;
   }
-
-  return FALSE;
+	if(in_selected_object((int)event->x, (int)event->x)) { 
+			return TRUE;//we have handled this.
+	}
+  return FALSE;//propagate further
 }
 
 
@@ -1627,68 +1638,36 @@ static void normalize(void){
 
 }
 
-#if 0
-static gint
-printarea_button_release (GtkWidget * widget, GdkEventButton * event)
-{
-g_print("release\n");
- if(Ww.padding) {
-    gint pad = ABS(Ww.curx - markx); 
 
-    GtkWidget *thedialog = g_object_get_data(G_OBJECT(Denemo.printarea), "pad-dialog");
-    g_object_set_data(G_OBJECT(Denemo.printarea), "padding", (gpointer)pad);
-    if(thedialog){
-      gtk_dialog_response(GTK_DIALOG(thedialog), 1/*DRAGGED*/);
-    } else { 
-      gchar *msg = g_strdup_printf("You have chosen a padding tweak of %d\nYour printed output will not change until you put this tweak into the corresponding Denemo directive\nUse Edit Directive to do this.", pad);
-      warningdialog(msg);
-      g_free(msg);
-    
-    Ww.padding = FALSE;
-    return TRUE;
- }
- }
-
-  return TRUE;
-}
-#endif
 
 static gint
 printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 {
+ gboolean left = (event->button == 1);
+ g_print("Button press %d, %d %d\n",(int)event->x , (int)event->y, left);
  Ww.button = event->button;
- gboolean left = (event->button != 3);
+
+ if(in_selected_object((gint)event->x, (gint)event->y)) {
+	if(left) {
+						g_print("inside an object");
+						gtk_widget_set_tooltip_markup(gtk_widget_get_parent(Denemo.printarea),  _("Now drag to point the object should move to"));
+						drag_cursor();
+						Ww.offsetting = TRUE;
+						
+	} else {
+			g_print("Popping up menu");
+			popup_object_edit_menu();
+	}
+  return TRUE;
+}
+ 
  if(!Ww.offsetting) {
 			Ww.curx = (int)event->x;
-			Ww.cury = (int)event->y;
-			g_print("Button press %d, %d\n", Ww.curx ,Ww.cury);
+			Ww.cury = (int)event->y;		
 	}
-  if((!left)) {
-   // if(PrintStatus.printpid==GPID_NONE)
-   //   popup_print_preview_menu();
-   
-   //if Ww.offsetting popup menu to cancel or to perform the offset tweak - could check that we are still at the same place if performing tweak.
-   g_warning("Tweak Abandoned\n");
-   Ww.offsetting = FALSE; 
-   gtk_widget_queue_draw (Denemo.printarea);
-   return TRUE;
-  }
-  /* creating an offset? */
-  if(Ww.offsetting) {
-		EvDocumentModel  *model;
-		model = g_object_get_data(G_OBJECT(Denemo.printarea), "model");//there is no ev_view_get_model(), when there is use it
-		gdouble scale = ev_document_model_get_scale(model);
-		gdouble staffsize = atof(Denemo.gui->lilycontrol.staffsize->str);
-		if(staffsize<1) staffsize = 20.0;
-		scale *= (staffsize/4);//5.43;//Trial and error value scaling evinces pdf display to the LilyPond units
-		gint offsetx = (Ww.curx - Ww.Mark.x)/scale;
-    gint offsety = -(Ww.cury - Ww.Mark.y)/scale;
-    gchar *script = g_strdup_printf("(TweakOffset \"%d\" \"%d\")", offsetx, offsety);
-    call_out_to_guile(script);
-    g_free(script);
-    Ww.offsetting = FALSE;
-    return TRUE;
-  } 
+	
+
+
 #if 0
   /*( creating a padding value? */
   if(Ww.padding) {
@@ -1717,16 +1696,34 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 
 }
 
-
-
 static gint
 printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 {
+	g_print("Button release %d, %d\n",(int)event->x , (int)event->y);
 	if(Denemo.pixbuf==NULL)
     set_denemo_pixbuf();
   if(Denemo.pixbuf==NULL)
     return TRUE;
-  gboolean left = (event->button != 3);
+  if(Ww.offsetting) {
+	 gtk_widget_set_tooltip_markup(gtk_widget_get_parent(Denemo.printarea), NULL);
+	 normal_cursor();
+
+		EvDocumentModel  *model;
+		model = g_object_get_data(G_OBJECT(Denemo.printarea), "model");//there is no ev_view_get_model(), when there is use it
+		gdouble scale = ev_document_model_get_scale(model);
+		gdouble staffsize = atof(Denemo.gui->lilycontrol.staffsize->str);
+		if(staffsize<1) staffsize = 20.0;
+		scale *= (staffsize/4);//5.43;//Trial and error value scaling evinces pdf display to the LilyPond units
+		gint offsetx = (Ww.curx - Ww.Mark.x)/scale;
+    gint offsety = -(Ww.cury - Ww.Mark.y)/scale;
+    gchar *script = g_strdup_printf("(TweakOffset \"%d\" \"%d\")", offsetx, offsety);
+    call_out_to_guile(script);
+    g_free(script);
+    Ww.offsetting = FALSE;
+    return TRUE;
+  } 
+  
+  gboolean left = (event->button == 1);
   if(left && Ww.ObjectLocated) {
 		 GdkWindow *window;
 		 if(!GTK_IS_LAYOUT(Denemo.printarea))
@@ -1736,9 +1733,10 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
     gint x, y;
     //g_print("reading position of mark");
     get_window_position(&x, &y);
+
     if(Ww.Mark.width) {
-      Ww.Mark.x -=x;
-      Ww.Mark.y -=y;
+			Ww.Mark.x -=x;
+			Ww.Mark.y -=y;
       gdk_window_invalidate_rect(window,&Ww.Mark,TRUE); 
     }
 
@@ -1748,8 +1746,9 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
     gdk_window_invalidate_rect(window,&Ww.Mark,TRUE);
     Ww.Mark.x +=x;
     Ww.Mark.y +=y;
-    g_print("Ww.Mark.x,y %d %d\n", Ww.Mark.x, Ww.Mark.y);
+    g_print("Setting Ww.Mark.x,y %d %d\n", Ww.Mark.x, Ww.Mark.y);
     switch_back_to_main_window();
+     Ww.ObjectLocated = FALSE;
     }
 return TRUE;
 
@@ -2141,6 +2140,7 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
 	PrintStatus.first_staff=Denemo.prefs.firststaff;
 	PrintStatus.last_staff=Denemo.prefs.laststaff;
   busycursor = gdk_cursor_new(GDK_WATCH);
+  dragcursor = gdk_cursor_new(GDK_CROSS);
   arrowcursor = gdk_cursor_new(GDK_RIGHT_PTR);
 
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);

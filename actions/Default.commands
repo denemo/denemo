@@ -1234,7 +1234,6 @@ Once complete you can view and then send to your printer or to a file as a .pdf 
       </row>
       <row>
         <action>Paste</action>
-        <scheme></scheme>
         <label>Paste</label>
         <tooltip>Paste the Denemo clipboard into the score where the cursor is positioned</tooltip>
       </row>
