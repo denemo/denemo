@@ -420,7 +420,7 @@ static void	mark_as_non_custom(GtkWidget *button) {
 
 
 static GtkWidget *get_options_button(DenemoScoreblock *sb, gboolean custom) {
-	GtkWidget *frame = gtk_frame_new("Actions for this Layout");
+	GtkWidget *frame = gtk_frame_new(_("Actions for this Layout"));
 	GtkWidget *hbox = gtk_hbox_new(FALSE, 8);
 	gtk_container_add (GTK_CONTAINER (frame), hbox);
 	
@@ -722,20 +722,20 @@ static void create_element(GtkWidget *vbox, GtkWidget *widget, gchar *lilypond) 
 			gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, TRUE, 0);
 			add_lilypond(hbox, lilypond, NULL);
 			gtk_box_pack_start(GTK_BOX(hbox), widget, FALSE, TRUE, 0);
-			GtkWidget *button = gtk_button_new_with_label("Edit");
-			gtk_widget_set_tooltip_text (button,"Edit this element for this layout");	
+			GtkWidget *button = gtk_button_new_with_label(_("Edit"));
+			gtk_widget_set_tooltip_text (button,_("Edit this element for this layout"));	
 			gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
 			g_signal_connect(button, "clicked", G_CALLBACK(prefix_edit_callback), hbox);
 			button = gtk_button_new_with_label("⬆");
-			gtk_widget_set_tooltip_text (button,"Move this element upwards for this score layout");
+			gtk_widget_set_tooltip_text (button,_("Move this element upwards for this score layout"));
 			gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
 			g_signal_connect(button, "clicked", G_CALLBACK(move_parent), (gpointer)TRUE);
 			button = gtk_button_new_with_label("⬇");
-			gtk_widget_set_tooltip_text (button,"Move this element downwards for this score layout");
+			gtk_widget_set_tooltip_text (button,_("Move this element downwards for this score layout"));
 			gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
 			g_signal_connect(button, "clicked", G_CALLBACK(move_parent), (gpointer)FALSE);
 			button = gtk_button_new_with_label("X");
-			gtk_widget_set_tooltip_text (button,"Remove this element from this layout");
+			gtk_widget_set_tooltip_text (button,_("Remove this element from this layout"));
 			gtk_box_pack_end(GTK_BOX (hbox), button, FALSE, TRUE, 0);
 			g_signal_connect(button, "clicked", G_CALLBACK(remove_element), NULL);
 			gtk_widget_show_all(hbox);
@@ -1240,10 +1240,10 @@ static GtkWidget *get_movement_widget(GList **pstaffs, gchar *partname, DenemoSc
 		gtk_box_pack_start(GTK_BOX (staff_hbox), button, FALSE, TRUE, 0);
 		gtk_widget_set_tooltip_text(button, _("Set the initial clef for this staff in the score"));
 #endif
-		button = gtk_button_new_with_label("Set Staff Group Start/End");
+		button = gtk_button_new_with_label(_("Set Staff Group Start/End"));
 		mark_as_non_custom(button);
 		gtk_box_pack_start(GTK_BOX (staff_hbox), button, FALSE, TRUE, 0);
-		gtk_widget_set_tooltip_text(button, "The braces { and [ binding staffs together can be set here. Set the start on one staff and the end on a later staff.\nThis is editing the score, not just customizing a layout.\nRefresh the layout view (see under Options for this Layout button at the top) once you have made the changes.");
+		gtk_widget_set_tooltip_text(button, _("The braces { and [ binding staffs together can be set here. Set the start on one staff and the end on a later staff.\nThis is editing the score, not just customizing a layout.\nRefresh the layout view (see under Options for this Layout button at the top) once you have made the changes."));
 		g_signal_connect(button, "button-press-event", G_CALLBACK(staff_groups_menu), GINT_TO_POINTER(get_location(movementnum, voice_count)));
 		
 		*pstaffs = g_list_append(*pstaffs, frame);
@@ -1266,7 +1266,7 @@ static GtkWidget *get_movement_widget(GList **pstaffs, gchar *partname, DenemoSc
 		gtk_container_add (GTK_CONTAINER (frame), hbox);
 		add_staff_widget(staff, hbox);
 		
-		label_text = (nextstaff && nextstaff->voicecontrol&DENEMO_SECONDARY)?"Voices":"Voice";
+		label_text = (nextstaff && nextstaff->voicecontrol&DENEMO_SECONDARY)?_("Voices"):_("Voice");
 		GtkWidget *expander  = gtk_expander_new(label_text);
 		gtk_widget_set_tooltip_text(expander, _("This holds the voice(s) of the staff - the clef, time signature, key signature and music are all here"));
 		//gtk_container_add (GTK_CONTAINER (frame), expander);
@@ -1376,7 +1376,7 @@ static void create_misc_scorewide(GtkWidget *inner_vbox) {
 	create_element(paper_box, gtk_button_new_with_label(_("the paper block contents")), get_lilypond_paper());
 
 	gchar *lily = g_strdup_printf("#(set-default-paper-size \"%s%s\")\n", gui->lilycontrol.papersize->str, gui->lilycontrol.orientation?"":" 'landscape");
-	create_element(inner_vbox, gtk_button_new_with_label("paper size"),lily);
+	create_element(inner_vbox, gtk_button_new_with_label(_("paper size")),lily);
   lily = g_strdup_printf("#(set-global-staff-size %s)\n",  gui->lilycontrol.staffsize->str);
 	create_element(inner_vbox, gtk_button_new_with_label(_("Global staff size")),lily);
 	}
