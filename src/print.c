@@ -87,9 +87,10 @@ gchar *printname_ly[2];
 } printstatus;
 
 static printstatus PrintStatus = {GPID_NONE, 0, 0, 4, 4, 4, 4, TYPESET_ALL_MOVEMENTS};
-
+typedef struct Rectangle {
+	gdouble x, y, width, height;} Rectangle;
 typedef struct ww {
-	GdkRectangle Mark;
+	Rectangle Mark;
 	gint curx, cury;// position of mouse pointer while during motion
   gboolean ObjectLocated;//TRUE when an external-link has just been followed back to a Denemo object
 	gint button;//which mouse button was last pressed
@@ -1035,9 +1036,9 @@ static gboolean overdraw_print(cairo_t *cr) {
   cairo_translate( cr, -x, -y );
   gdk_cairo_set_source_pixbuf( cr, GDK_PIXBUF(Denemo.pixbuf), -x, -y);
   cairo_save(cr);
-  if(Ww.Mark.width) {
+  if(Ww.Mark.width>0.0) {
     cairo_set_source_rgba( cr, 0.5, 0.5, 1.0 , 0.5);
-    cairo_rectangle (cr, Ww.Mark.x, Ww.Mark.y, MARKER, MARKER );
+    cairo_rectangle (cr, Ww.Mark.x-MARKER/2, Ww.Mark.y-MARKER/2, MARKER, MARKER );
     cairo_fill(cr);
   }
   if(PrintStatus.invalid/*!print_is_valid*/) {
@@ -1091,7 +1092,7 @@ static gboolean overdraw_print(cairo_t *cr) {
   if(Ww.offsetting)
     {
     cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 0.7);
-    cairo_move_to(cr, Ww.Mark.x+MARKER/2, Ww.Mark.y+MARKER/2);
+    cairo_move_to(cr, Ww.Mark.x, Ww.Mark.y);
     cairo_line_to(cr, Ww.curx, Ww.cury);   
     cairo_stroke(cr);
     }
@@ -1566,7 +1567,7 @@ popup_object_edit_menu(void) {
 
 static gint
 action_for_link (EvView* view, EvLinkAction *obj) {
-	g_print("Link action Mark at %d, %d\n", Ww.Mark.x, Ww.Mark.y);
+	g_print("Link action Mark at %f, %f\n", Ww.Mark.x, Ww.Mark.y);
   gchar *uri = (gchar*)ev_link_action_get_uri(obj);
 
   if(Ww.selecting || Ww.offsetting) {
@@ -1590,8 +1591,8 @@ static gboolean in_selected_object(gint x, gint y) {
 	    gint xx, yy;
     //g_print("reading position of mark");
     get_window_position(&xx, &yy);
-    x += xx;
-    y += yy;
+    x += (xx+MARKER/2);
+    y += (yy+MARKER/2);
 	return (x>Ww.Mark.x && y>Ww.Mark.y && x<(Ww.Mark.x+Ww.Mark.width) && y<(Ww.Mark.y+Ww.Mark.height));
 }
 
@@ -1622,12 +1623,12 @@ printarea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 
 static void normalize(void){
   if(pointx<Ww.Mark.x) {
-    gint temp=pointx;
+    gdouble temp=pointx;
     pointx=Ww.Mark.x;
     Ww.Mark.x=temp;
   }
   if(pointy<Ww.Mark.y) {
-    gint temp=pointy;
+    gdouble temp=pointy;
     pointy=Ww.Mark.y;
     Ww.Mark.y=temp;
   }
@@ -1662,8 +1663,10 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 }
  
  if(!Ww.offsetting) {
-			Ww.curx = (int)event->x;
-			Ww.cury = (int)event->y;		
+	 		gint xx, yy;
+			get_window_position(&xx, &yy);
+			Ww.curx = xx + (int)event->x;
+			Ww.cury = yy + (int)event->y;		
 	}
 	
 
@@ -1714,9 +1717,9 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 		gdouble staffsize = atof(Denemo.gui->lilycontrol.staffsize->str);
 		if(staffsize<1) staffsize = 20.0;
 		scale *= (staffsize/4);//5.43;//Trial and error value scaling evinces pdf display to the LilyPond units
-		gint offsetx = (Ww.curx - Ww.Mark.x)/scale;
-    gint offsety = -(Ww.cury - Ww.Mark.y)/scale;
-    gchar *script = g_strdup_printf("(TweakOffset \"%d\" \"%d\")", offsetx, offsety);
+		gdouble offsetx = (Ww.curx - Ww.Mark.x)/scale;
+    gdouble offsety = -(Ww.cury - Ww.Mark.y)/scale;
+    gchar *script = g_strdup_printf("(TweakOffset \"%.1f\" \"%.1f\")", offsetx, offsety);
     call_out_to_guile(script);
     g_free(script);
     Ww.offsetting = FALSE;
@@ -1734,19 +1737,20 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
     //g_print("reading position of mark");
     get_window_position(&x, &y);
 
-    if(Ww.Mark.width) {
-			Ww.Mark.x -=x;
-			Ww.Mark.y -=y;
-      gdk_window_invalidate_rect(window,&Ww.Mark,TRUE); 
-    }
+//    if(Ww.Mark.width>0.0) {
+//			Ww.Mark.x -= (x - MARKER/2);
+//			Ww.Mark.y -= (y - MARKER/2);
+//      gdk_window_invalidate_rect(window,&Ww.Mark,TRUE); 
+ //   }
 
-    Ww.Mark.x = (gint)event->x-MARKER/2;
-    Ww.Mark.y =  (gint)event->y-MARKER/2;
-    Ww.Mark.width = Ww.Mark.height = MARKER;
-    gdk_window_invalidate_rect(window,&Ww.Mark,TRUE);
-    Ww.Mark.x +=x;
-    Ww.Mark.y +=y;
-    g_print("Setting Ww.Mark.x,y %d %d\n", Ww.Mark.x, Ww.Mark.y);
+//    Ww.Mark.x = (gint)event->x-MARKER/2;
+//    Ww.Mark.y =  (gint)event->y-MARKER/2;
+   Ww.Mark.width = Ww.Mark.height = MARKER;
+//    gdk_window_invalidate_rect(window,&Ww.Mark,TRUE);
+		gtk_widget_queue_draw (Denemo.printarea);
+    Ww.Mark.x = event->x + x;
+    Ww.Mark.y = event->y + y;
+    g_print("Setting Ww.Mark.x,y %f %f\n", Ww.Mark.x, Ww.Mark.y);
     switch_back_to_main_window();
      Ww.ObjectLocated = FALSE;
     }
