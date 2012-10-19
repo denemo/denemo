@@ -12,15 +12,15 @@
 (if (d-Directive-standalone? "RehearsalMark")
  (let ((choice #f))
   (begin
-    (set! choice (d-GetOption  (string-append (_ "Delete") stop (_ "Restore Position") stop  cue-Advanced stop)))
+    (set! choice (d-GetOption  (string-append cue-Delete stop cue-RestorePosition stop  cue-Advanced stop)))
     (cond
      ((boolean? choice)
       (d-WarningDialog "Operation cancelled"))
      ((equal? choice  cue-Advanced)
       (d-DirectiveTextEdit-standalone "RehearsalMark"))
-     ((equal? choice (_ "Delete"))
+     ((equal? choice cue-Delete)
       (d-DirectiveDelete-standalone "RehearsalMark"))
-     ((equal? choice (_ "Restore Position"))
+     ((equal? choice cue-RestorePosition)
       (d-DirectivePut-standalone-prefix "RehearsalMark" "")))
     (if choice
 			(begin (d-SetSaved #f)
