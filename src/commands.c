@@ -335,17 +335,6 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* MetronomeMarking xgettext:no-c-format*/
-action = gtk_action_new("MetronomeMarking",_("Metronome Marking  \360\235\205\237 = ... bpm "),/* xgettext:no-c-format*/_("Prints a metronome. Adjusts playback tempo to this value."), get_icon_for_name("MetronomeMarking", "Metronome Marking  \360\235\205\237 = ... bpm "));
-/* xgettext:no-c-format*/
-register_command(Denemo.map, action, "MetronomeMarking", _("Metronome Marking  \360\235\205\237 = ... bpm "), /* xgettext:no-c-format*/_("Prints a metronome. Adjusts playback tempo to this value."), activate_script);
-gtk_action_group_add_action(Denemo.action_group, action);
-create_scheme_function_for_script("MetronomeMarking");
-add_ui("/ObjectMenu/Directives", NULL, "MetronomeMarking");
-g_object_set_data(G_OBJECT(action), "scheme", "");
-g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
-g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
-
 /* RepeatStart xgettext:no-c-format*/
 action = gtk_action_new("RepeatStart",_("Repeat Start Barline"),/* xgettext:no-c-format*/_("Insert a barline indicating the start of a repeated section."), get_icon_for_name("RepeatStart", "Repeat Start Barline"));
 /* xgettext:no-c-format*/
@@ -1379,13 +1368,13 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives/MIDI");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Tempo xgettext:no-c-format*/
-action = gtk_action_new("Tempo",_("Tempo"),/* xgettext:no-c-format*/_("Insert tempi and/or metronome marks, printed or not"), get_icon_for_name("Tempo", "Tempo"));
+/* MetronomeMark xgettext:no-c-format*/
+action = gtk_action_new("MetronomeMark",_("Tempi and Metronome Marks"),/* xgettext:no-c-format*/_("Insert tempi and/or metronome marks, printed or not, adjust playback tempo to suit"), get_icon_for_name("MetronomeMark", "Tempi and Metronome Marks"));
 /* xgettext:no-c-format*/
-register_command(Denemo.map, action, "Tempo", _("Tempo"), /* xgettext:no-c-format*/_("Insert tempi and/or metronome marks, printed or not"), activate_script);
+register_command(Denemo.map, action, "MetronomeMark", _("Tempi and Metronome Marks"), /* xgettext:no-c-format*/_("Insert tempi and/or metronome marks, printed or not, adjust playback tempo to suit"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
-create_scheme_function_for_script("Tempo");
-add_ui("/ObjectMenu/Directives", NULL, "Tempo");
+create_scheme_function_for_script("MetronomeMark");
+add_ui("/ObjectMenu/Directives", NULL, "MetronomeMark");
 g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
@@ -6042,5 +6031,29 @@ create_scheme_function_for_script("PrintAllLayouts");
 add_ui("/MainMenu/FileMenu/PrintMenu", "Print", "PrintAllLayouts");
 g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/FileMenu/PrintMenu");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* DalSegno xgettext:no-c-format*/
+action = gtk_action_new("DalSegno",_("Dal Segno"),/* xgettext:no-c-format*/_("Prints Dal Segno below the chord at the cursor."), get_icon_for_name("DalSegno", "Dal Segno"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"D.C.AlFine");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "DalSegno", _("Dal Segno"), /* xgettext:no-c-format*/_("Prints Dal Segno below the chord at the cursor."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("DalSegno");
+add_ui("/ObjectMenu/NotesRests/Markings/TextMarks", "D.C.AlFine", "DalSegno");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/TextMarks");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* WholeMeasureRepeat xgettext:no-c-format*/
+action = gtk_action_new("WholeMeasureRepeat",_("Whole Measure Repeat"),/* xgettext:no-c-format*/_("Inserts a whole measure repeat sign."), get_icon_for_name("WholeMeasureRepeat", "Whole Measure Repeat"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"ParenthesizeNote");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "WholeMeasureRepeat", _("Whole Measure Repeat"), /* xgettext:no-c-format*/_("Inserts a whole measure repeat sign."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("WholeMeasureRepeat");
+add_ui("/ObjectMenu/MeasureMenu", "ParenthesizeNote", "WholeMeasureRepeat");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MeasureMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 }

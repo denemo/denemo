@@ -42,7 +42,7 @@
 
 (CreateButton "SharpenNext" "&#x266F;")
 (d-SetDirectiveTagActionScript "SharpenNext" "(d-PendingSharpen)")
-
+;MouseInsertion
 (CreateButton "FlattenNext" "&#x266D;")
 (d-SetDirectiveTagActionScript "FlattenNext" "(d-PendingFlatten)")
 
@@ -63,7 +63,7 @@
 (CreateButton "Dynamics" "&lt;span font=\"times\" size=\"large\" font_style=\"italic\" font_weight=\"bold\"&gt;f p&lt;/span&gt;")
 (d-SetDirectiveTagActionScript "Dynamics" "(d-DynamicsDialog)")
 (CreateButton "Tempo" "&lt;span font=\"times\" size=\"large\" font_style=\"italic\" font_weight=\"bold\"&gt;Allegro&lt;/span&gt;")
-(d-SetDirectiveTagActionScript "Tempo" "(d-Tempo)")
+(d-SetDirectiveTagActionScript "Tempo" "(d-MetronomeMark)")
 
 (if DenemoPref_newbie
 	(d-InfoDialog (_ "To insert notes hold down shift key while clicking the mouse. To add to a chord hold down Alt key, to delete hold down Control key while clicking.")))

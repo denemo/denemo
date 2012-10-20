@@ -132,15 +132,16 @@
 (define MusicalSymbols-sharp "\xe2\x99\xaf") ;;;may need to specify Denemo font for windows
 (define MusicalSymbols-flat "\xe2\x99\xad")
 
-(define cue-Advanced "Advanced")
-(define cue-PlaceAbove "Place above staff")
-(define cue-PlaceBelow "Place below staff")
-(define cue-SetRelativeFontSize "Set Relative Font Size")
-(define cue-OffsetPositionAll "Offset Position (All)")
-(define cue-OffsetPositionOne "Offset Position (One)")
-(define cue-EditText "Edit Text")
-(define cue-SetPadding "Set Padding")
-(define cue-Delete "Delete")
+(define cue-Advanced (_ "Advanced"))
+(define cue-PlaceAbove (_ "Place above staff"))
+(define cue-PlaceBelow (_ "Place below staff"))
+(define cue-SetRelativeFontSize (_ "Set Relative Font Size"))
+(define cue-OffsetPositionAll (_ "Offset Position (All)"))
+(define cue-OffsetPositionOne (_ "Offset Position (One)"))
+(define cue-EditText (_ "Edit Text"))
+(define cue-SetPadding (_ "Set Padding"))
+(define cue-Delete (_ "Delete"))
+(define cue-RestorePosition (_ "Restore Position")) 
 ;(define cue- "")
 
 ;;;;;;;;;;;;;;;; Double-Stroke for sequencing keypresses. By Nils Gey June 2010
@@ -234,9 +235,10 @@
 		  (set! DenemoKeypressActivatedCommand #f))		  
 		 (doublestroke::invokegui))) ; if not DenemoKeypressActivated
 
-; ExtraOffset
+; ExtraAmount
 ;; the parameter "what" is the LilyPond grob that is being tweaked - it may not be the tag of the DenemoDirective that is being edited
-(define* (ExtraOffset what  #:optional (type "chord") (context "") (offset '(0 . 0)) (override #f))
+;; property is the (two values - a pair) lilypond property being altered
+(define* (ExtraAmount what property #:optional (type "chord") (context "") (offset '(0 . 0)) (override #f))
   (let ((tag "")(oldstr #f) (start "") (end "") (get-command d-DirectiveGet-chord-prefix)  (put-command d-DirectivePut-chord-prefix) (override-command d-DirectivePut-chord-override))
   (disp "Entered with " offset "and " type " and " context " ok")
     (cond
@@ -260,29 +262,40 @@
     (if (equal? oldstr "")
 	(set! oldstr #f))
 		;(disp "The old prefix was " oldstr " with " tag " from running " get-command " ok???")
-    (set! start (string-append "\\once \\override " context what " #'extra-offset = #'("))
+    (set! start (string-append "\\once \\override " context what " #'" property " = #'("))
     (set! end ")")
     (if override
 			(override-command tag override))
     (put-command tag (ChangeOffset oldstr start end offset))))
-    
+
+;;    
+(define* (ExtraOffset what  #:optional (type "chord") (context "") (offset '(0 . 0)) (override #f))
+	(ExtraAmount what "extra-offset" type context offset override))
+
+;;    
+(define* (AlterPositions what  #:optional (type "chord") (context "") (positions '(0 . 0)) (override #f))
+	(ExtraAmount what "positions" type context positions override))
+
+
 ; SetRelativeFontSize
-(define* (SetRelativeFontSize what #:optional (type "chord") (context ""))
-  (SetValue ChangeRelativeFontSize " #'font-size = #" what type context))
+(define* (SetRelativeFontSize what #:optional (type "chord") (context "") (override #f))
+  (SetValue ChangeRelativeFontSize " #'font-size = #" what type context override))
 
 ; SetPadding
 (define* (SetPadding what  #:optional (type "chord") (context ""))
   (SetValue ChangePad " #'padding = #" what type context))
 
 ; SetValue
-(define* (SetValue change-func change-str  what  #:optional (type "chord") (context ""))
-  (let ((tag "") (oldstr #f) (start "") (end "") (pad "")  (get-command d-DirectiveGet-chord-prefix) (put-command d-DirectivePut-chord-prefix))
+(define* (SetValue change-func change-str  what  #:optional (type "chord") (context "") (override #f))
+  (let ((tag "") (oldstr #f) (start "") (end "") (pad "")  (override-command d-DirectivePut-chord-override) (get-command d-DirectiveGet-chord-prefix) (put-command d-DirectivePut-chord-prefix))
     (cond
      ((string=? type "note")
       (begin (set! get-command d-DirectiveGet-note-prefix)
+       (set! override-command d-DirectivePut-note-override)
 	     (set! put-command d-DirectivePut-note-prefix)))
      ((string=? type "standalone")
       (begin (set! get-command d-DirectiveGet-standalone-prefix) 
+       (set! override-command d-DirectivePut-standalone-override)
 	     (set! put-command d-DirectivePut-standalone-prefix)))
      )
     (set! start (string-append "\\once \\override " context what change-str))
@@ -290,8 +303,10 @@
     (set! tag what)
     (set! oldstr (get-command tag))
     (if (equal? oldstr "")
-	(set! oldstr #f))
-    (put-command tag (change-func oldstr start end))))
+			(set! oldstr #f))
+    (put-command tag (change-func oldstr start end))
+    (if override
+			(override-command override))))
 
 ; ChangeOffset
 ;; e.g.  (define prefixstring      "\\once \\override Fingering  #'extra-offset = #'(")
@@ -347,7 +362,7 @@
     ))));;;; end of function change offset
 
 ;;;; TweakOffset
-;;;Changes the offset of the something at the cursor - at the moment assume standalone RehearsalMarkbut could be fingerings on notes etc or the notest themselves - user choice.
+;;;Changes the offset of the something at the cursor - at the moment assume standalone or rest
 (define (TweakOffset offsetx offsety)
 	(define tag (d-DirectiveGetForTag-standalone ""))
 	(if tag
@@ -355,7 +370,8 @@
 		(begin
 			(if (Rest?)
 				(ExtraOffset "Rest" "chord" "Voice." (cons offsetx offsety) DENEMO_OVERRIDE_AFFIX)
-				(disp "Case not handled"))))
+				(AlterPositions "Slur" "chord" "" (cons offsetx offsety) DENEMO_OVERRIDE_AFFIX)	
+				)))
 	(d-SetSaved #f)
 )
 
@@ -365,7 +381,7 @@
   (ChangeValue oldstr prefixstring postfixstring d-GetPadding "0"))
 ;;;;;;;; ChangeRelativeFontSize
 (define (ChangeRelativeFontSize oldstr prefixstring postfixstring)
-  (ChangeValue oldstr prefixstring postfixstring d-GetRelativeFontSize "0"))
+  (ChangeValue oldstr prefixstring postfixstring d-GetRelativeFontSize "0" DENEMO_OVERRIDE_AFFIX))
 
 
 ;   (let ((startbit "")

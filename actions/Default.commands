@@ -2357,13 +2357,6 @@ Sets prevailing rhythm to &#x1D165;</tooltip>
         <tooltip>Deletes the LilyPond attached to the chord at the cursor.</tooltip>
       </row>
       <row>
-        <action>MetronomeMarking</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Directives</menupath>
-        <label>Metronome Marking  &#x1D15F; = ... bpm </label>
-        <tooltip>Prints a metronome. Adjusts playback tempo to this value.</tooltip>
-      </row>
-      <row>
         <action>RepeatStart</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/Barlines</menupath>
@@ -3034,11 +3027,11 @@ for second and subsequent systems</tooltip>
         <tooltip>Send a Midi command to change the tempo to a new bpm. No printout.</tooltip>
       </row>
       <row>
-        <action>Tempo</action>
+        <action>MetronomeMark</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives</menupath>
-        <label>Tempo</label>
-        <tooltip>Insert tempi and/or metronome marks, printed or not</tooltip>
+        <label>Tempi and Metronome Marks</label>
+        <tooltip>Insert tempi and/or metronome marks, printed or not, adjust playback tempo to suit</tooltip>
       </row>
       <row>
         <action>DynamicsDialog</action>

@@ -5,7 +5,7 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>Tempo</action>
+        <action>MetronomeMark</action>
         <scheme>;Tempo-script by DW
 (let (
 		(TempoChoice #f) (replace #f) (input "")  (AboveBelow? "^")
@@ -206,14 +206,15 @@
 						(d-DirectivePut-standalone-midibytes "Tempo" MidiBPM)
 					)
 				)
+				(d-SetSaved #f)
 				(d-RefreshDisplay)
 				(d-MoveCursorRight)
 			)
 		)
 	)
 ))</scheme>
-        <label>Tempo</label>
-        <tooltip>Insert tempi and/or metronome marks, printed or not</tooltip>
+        <label>Tempi and Metronome marks</label>
+        <tooltip>Insert tempi and/or metronome marks, printed or not, adjust playback tempo to suit</tooltip>
       </row>
     </map>
   </merge>

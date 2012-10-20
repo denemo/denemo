@@ -89,14 +89,21 @@ gchar *printname_ly[2];
 static printstatus PrintStatus = {GPID_NONE, 0, 0, 4, 4, 4, 4, TYPESET_ALL_MOVEMENTS};
 typedef struct Rectangle {
 	gdouble x, y, width, height;} Rectangle;
+	
+typedef enum {STAGE_NONE,
+							Offsetting, 
+							Selecting, 
+							Padding,
+							SelectingEnd,
+							SelectingPositions,
+							} WwStage;
 typedef struct ww {
 	Rectangle Mark;
-	gint curx, cury;// position of mouse pointer while during motion
+	gint curx, cury;// position of mouse pointer during motion
+	gdouble pointx, pointy;
   gboolean ObjectLocated;//TRUE when an external-link has just been followed back to a Denemo object
 	gint button;//which mouse button was last pressed
-	gboolean selecting;
-	gboolean offsetting;
-	gboolean padding;
+	WwStage stage;
 } ww;
 
 static ww Ww; //Wysywyg information
@@ -894,7 +901,7 @@ void print_lily_cb (GtkWidget *item, DenemoGUI *gui){
 
 
 
-static gint pointx, pointy,   marky;//coordinates defining a selected region in print preview pane. These are set by left button press/release, with pointx, pointy being set to top left
+static gint  marky;//coordinates defining a selected region in print preview pane. These are set by left button press/release, with pointx, pointy being set to top left
 
 static GdkCursor *busycursor;
 static GdkCursor *dragcursor;
@@ -1081,26 +1088,33 @@ static gboolean overdraw_print(cairo_t *cr) {
 	}
 	
 	cairo_restore(cr);
-  if(Ww.selecting)
+  if(Ww.stage==SelectingPositions)
     {
+			
+			gdouble end = Ww.Mark.y-Ww.cury;
+			cairo_move_to(cr, Ww.Mark.x, Ww.Mark.y - Ww.pointx + Ww.curx);
+			cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 0.7);
+			cairo_line_to(cr, Ww.pointx, Ww.cury); 
+			cairo_stroke(cr);
+			g_print("end move %.1f\n", end);
 		//gint w = ABS(Ww.Mark.x-Ww.curx);
     //gint h = ABS(Ww.Mark.y-Ww.cury);
     //cairo_set_source_rgb(cr, 0, 0, 1);
     //cairo_rectangle( cr, Ww.Mark.x, Ww.Mark.y, w, h );
     //cairo_fill( cr );
     }
-  if(Ww.offsetting)
+  if(Ww.stage==Offsetting)
     {
     cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 0.7);
     cairo_move_to(cr, Ww.Mark.x, Ww.Mark.y);
     cairo_line_to(cr, Ww.curx, Ww.cury);   
     cairo_stroke(cr);
     }
-  if(Ww.padding)
+  if(Ww.stage==Padding)
     {
       gint pad = ABS(Ww.Mark.x-Ww.curx);
-      gint w = pointx-Ww.Mark.x;
-      gint h = pointy-Ww.Mark.y;
+      gint w = Ww.pointx-Ww.Mark.x;
+      gint h = Ww.pointy-Ww.Mark.y;
       cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
       cairo_rectangle( cr, Ww.Mark.x-pad/2, Ww.Mark.y-pad/2, w+pad, h+pad);
 
@@ -1451,8 +1465,8 @@ printmovement_cb (GtkAction *action, gpointer param) {
 
 
 static gint 
-start_drag(GtkWidget *widget, gboolean *flag) {
-  *flag = TRUE;
+start_stage(GtkWidget *widget, WwStage stage) {
+  Ww.stage = stage;
   return TRUE;
 }
 
@@ -1495,11 +1509,11 @@ popup_print_preview_menu(void) {
 #if 1
   item = gtk_menu_item_new_with_label(_("Drag to desired offset"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(start_drag), &Ww.offsetting);
+  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(start_stage), (GINT_TO_POINTER)Offsetting);
 
   item = gtk_menu_item_new_with_label("Drag a space for padding");
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(start_drag), &Ww.padding);
+  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(start_stage), (GINT_TO_POINTER)Padding);
 #endif
 
   gtk_widget_show_all(menu);
@@ -1508,30 +1522,48 @@ popup_print_preview_menu(void) {
 }
 #endif
 
+static void start_seeking_end(void) {
+	//here we should move the cursor back to the slur start
+	Ww.pointx = Ww.Mark.x;
+	Ww.pointy = Ww.Mark.y;
+	Ww.stage = SelectingEnd;
+}
 
 static gint 
 popup_object_edit_menu(void) {
   static GtkWidget *note_menu;
   static GtkWidget *directive_menu;
+  static GtkWidget *slur_position;
+  static GtkWidget *line_break;
+  static GtkWidget *page_break;
+  static GtkWidget *reminder_accidental;
+ // static GtkWidget *;
+ 
 
   if(note_menu==NULL) {
 			note_menu = gtk_menu_new();
-		GtkWidget *item = gtk_menu_item_new_with_label(_("Line Break"));
-		gtk_widget_set_tooltip_text(item, _("Start a new line here"));
-		gtk_menu_shell_append(GTK_MENU_SHELL(note_menu), item);
-		g_signal_connect_swapped(G_OBJECT(item), "activate", G_CALLBACK(call_out_to_guile), "(d-LineBreak)");
+		GtkWidget *line_break = gtk_menu_item_new_with_label(_("Line Break"));
+		gtk_widget_set_tooltip_text(line_break, _("Start a new line here"));
+		gtk_menu_shell_append(GTK_MENU_SHELL(note_menu), line_break);
+		g_signal_connect_swapped(G_OBJECT(line_break), "activate", G_CALLBACK(call_out_to_guile), "(d-LineBreak)");
 		
-		item = gtk_menu_item_new_with_label(_("Page Break"));
-		gtk_widget_set_tooltip_text(item, _("Start a new page here"));
-		gtk_menu_shell_append(GTK_MENU_SHELL(note_menu), item);
-		g_signal_connect_swapped(G_OBJECT(item), "activate", G_CALLBACK(call_out_to_guile), "(d-PageBreak)");
+		page_break = gtk_menu_item_new_with_label(_("Page Break"));
+		gtk_widget_set_tooltip_text(page_break, _("Start a new page here"));
+		gtk_menu_shell_append(GTK_MENU_SHELL(note_menu), page_break);
+		g_signal_connect_swapped(G_OBJECT(page_break), "activate", G_CALLBACK(call_out_to_guile), "(d-PageBreak)");
 		
-		item = gtk_menu_item_new_with_label(_("Reminder Accidental"));
-		gtk_widget_set_tooltip_text(item, _("Set a reminder accidental on the note selected"));
-		gtk_menu_shell_append(GTK_MENU_SHELL(note_menu), item);
-		g_signal_connect_swapped(G_OBJECT(item), "activate", G_CALLBACK(call_out_to_guile), "(d-ReminderAccidental)");
+		reminder_accidental = gtk_menu_item_new_with_label(_("Reminder Accidental"));
+		gtk_widget_set_tooltip_text(reminder_accidental, _("Set a reminder accidental on the note selected"));
+		gtk_menu_shell_append(GTK_MENU_SHELL(note_menu), reminder_accidental);
+		g_signal_connect_swapped(G_OBJECT(reminder_accidental), "activate", G_CALLBACK(call_out_to_guile), "(d-ReminderAccidental)");
 		
 		
+	//slur_position - ask for click on note where slur ends, the animate a slope finding	
+		slur_position = gtk_menu_item_new_with_label(_("Slur Position/Angle"));
+		gtk_widget_set_tooltip_text(slur_position, _("To move the ends of the slur, first click on the notehead where the slur ends, then position/angle with mouse movements\nUp/Down = start point, Left/Right = end point."));
+		gtk_menu_shell_append(GTK_MENU_SHELL(note_menu), slur_position);
+		g_signal_connect(G_OBJECT(slur_position), "activate", G_CALLBACK(start_seeking_end), NULL);
+	
 		gtk_widget_show_all(note_menu);
 	}
 
@@ -1539,11 +1571,11 @@ popup_object_edit_menu(void) {
 			directive_menu = gtk_menu_new();
 		GtkWidget *item = gtk_menu_item_new_with_label("Drag to desired offset");
 		gtk_menu_shell_append(GTK_MENU_SHELL(directive_menu), item);
-		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(start_drag), &Ww.offsetting);
+		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(start_stage), GINT_TO_POINTER(Offsetting));
 
 		item = gtk_menu_item_new_with_label("Drag a space for padding");
 //	gtk_menu_shell_append(GTK_MENU_SHELL(directive_menu), item);
-//  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(start_drag), &Ww.padding);
+//  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(start_stage), GINT_TO_POINTER(Padding));
 
 		gtk_widget_show_all(directive_menu);
 	}
@@ -1551,10 +1583,14 @@ popup_object_edit_menu(void) {
 		DenemoObject *obj = Denemo.gui->si->currentobject->data;
 		switch(obj->type) {
 			case CHORD:
-					gtk_menu_popup (GTK_MENU(note_menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time());
+					if(((chord*)obj->object)->notes)
+						gtk_widget_show(reminder_accidental);
+					else
+						gtk_widget_hide(reminder_accidental);
+					gtk_menu_popup (GTK_MENU(note_menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 					break;
 			case LILYDIRECTIVE:
-					gtk_menu_popup (GTK_MENU(directive_menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time());
+					gtk_menu_popup (GTK_MENU(directive_menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 					break;
 			default:
 				g_warning("Cannot handle type %d\n", obj->type);
@@ -1570,7 +1606,7 @@ action_for_link (EvView* view, EvLinkAction *obj) {
 	g_print("Link action Mark at %f, %f\n", Ww.Mark.x, Ww.Mark.y);
   gchar *uri = (gchar*)ev_link_action_get_uri(obj);
 
-  if(Ww.selecting || Ww.offsetting) {
+  if(Ww.stage==Offsetting) {
 		return TRUE;//?Better take over motion notify so as not to get this while working ...
 	}
 	//g_print("acting on external signal %s\n", uri);
@@ -1604,7 +1640,7 @@ printarea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     set_denemo_pixbuf();
   if(Denemo.pixbuf==NULL)
     return FALSE;
-  if(Ww.padding || Ww.offsetting || Ww.selecting) {
+  if((Ww.stage==Offsetting) || (Ww.stage==SelectingPositions)) {
 		gint xx, yy;
     get_window_position(&xx, &yy);
     Ww.curx = xx + (gint)event->x;
@@ -1612,6 +1648,7 @@ printarea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     gtk_widget_queue_draw (Denemo.printarea);
     return TRUE;
   }
+
 	if(in_selected_object((int)event->x, (int)event->x)) { 
 			return TRUE;//we have handled this.
 	}
@@ -1622,20 +1659,20 @@ printarea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 
 
 static void normalize(void){
-  if(pointx<Ww.Mark.x) {
-    gdouble temp=pointx;
-    pointx=Ww.Mark.x;
+  if(Ww.pointx<Ww.Mark.x) {
+    gdouble temp=Ww.pointx;
+    Ww.pointx=Ww.Mark.x;
     Ww.Mark.x=temp;
   }
-  if(pointy<Ww.Mark.y) {
-    gdouble temp=pointy;
-    pointy=Ww.Mark.y;
+  if(Ww.pointy<Ww.Mark.y) {
+    gdouble temp=Ww.pointy;
+    Ww.pointy=Ww.Mark.y;
     Ww.Mark.y=temp;
   }
-  if(Ww.Mark.x==pointx)
-    pointx++;
-  if(Ww.Mark.y==pointy)
-    pointy++;
+  if(Ww.Mark.x==Ww.pointx)
+    Ww.pointx++;
+  if(Ww.Mark.y==Ww.pointy)
+    Ww.pointy++;
 
 }
 
@@ -1650,19 +1687,40 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 
  if(in_selected_object((gint)event->x, (gint)event->y)) {
 	if(left) {
-						g_print("inside an object");
+		
+		/*
+						g_print("inside an object\
+						HERE look at current object - if standalone or rest do this offsetting code. If it is a note does it have a slur - do\
+						 	once override Slur #'positions = #'(2 . 2) code (this belongs in denemo.scm)\
+						 	if tie, similarly\
+						 	if it has directives see about offsetting them ...");
+HERE look at the chord at the cursor - if it has a slur start find the number of staff spaces the the note is above/below center staff, seek forward to slur end and do the same.
+these +1 are the start positions, that is heights of the slur. But we do not have the horizontal length of the slur.
+Perhaps we should do a dialog, "click on note where slur ends" then animate a slur between those points		
+* */				 	
 						gtk_widget_set_tooltip_markup(gtk_widget_get_parent(Denemo.printarea),  _("Now drag to point the object should move to"));
 						drag_cursor();
-						Ww.offsetting = TRUE;
+						Ww.stage = Offsetting;
 						
 	} else {
+		if(Ww.stage == SelectingEnd) {
+			g_print("Now adjust position/angle");
+				 		gint xx, yy;
+			get_window_position(&xx, &yy);
+			Ww.Mark.x = Ww.pointx;
+			Ww.Mark.y = Ww.pointy;
+			Ww.pointx = xx + event->x;
+			Ww.pointy = yy + event->y;
+			Ww.stage = SelectingPositions;			
+		} else {
 			g_print("Popping up menu");
 			popup_object_edit_menu();
+		}
 	}
   return TRUE;
 }
  
- if(!Ww.offsetting) {
+ if(Ww.stage != Offsetting) {
 	 		gint xx, yy;
 			get_window_position(&xx, &yy);
 			Ww.curx = xx + (int)event->x;
@@ -1691,8 +1749,8 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
   Ww.selecting = TRUE;
 //  if(Denemo.pixbuf==NULL)
 //    return TRUE;
-  pointx = markx=event->x;
-  pointy = marky=event->y;
+  Ww.pointx = markx=event->x;
+  Ww.pointy = marky=event->y;
 #endif
   return TRUE;
 
@@ -1707,7 +1765,7 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
     set_denemo_pixbuf();
   if(Denemo.pixbuf==NULL)
     return TRUE;
-  if(Ww.offsetting) {
+  if(Ww.stage == Offsetting) {
 	 gtk_widget_set_tooltip_markup(gtk_widget_get_parent(Denemo.printarea), NULL);
 	 normal_cursor();
 
@@ -1716,16 +1774,22 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 		gdouble scale = ev_document_model_get_scale(model);
 		gdouble staffsize = atof(Denemo.gui->lilycontrol.staffsize->str);
 		if(staffsize<1) staffsize = 20.0;
-		scale *= (staffsize/4);//5.43;//Trial and error value scaling evinces pdf display to the LilyPond units
+		scale *= (staffsize/4);//Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
 		gdouble offsetx = (Ww.curx - Ww.Mark.x)/scale;
     gdouble offsety = -(Ww.cury - Ww.Mark.y)/scale;
     gchar *script = g_strdup_printf("(TweakOffset \"%.1f\" \"%.1f\")", offsetx, offsety);
     call_out_to_guile(script);
     g_free(script);
-    Ww.offsetting = FALSE;
+    Ww.stage = STAGE_NONE;
     return TRUE;
   } 
-  
+    if(Ww.stage==SelectingPositions)
+    {
+		 gtk_widget_set_tooltip_markup(gtk_widget_get_parent(Denemo.printarea), NULL);
+	   normal_cursor();
+			g_print("Unfinished ... the actual setting of the slur or beam is not actually done.");
+			Ww.stage = STAGE_NONE;
+		}
   gboolean left = (event->button == 1);
   if(left && Ww.ObjectLocated) {
 		 GdkWindow *window;
@@ -1755,18 +1819,18 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
      Ww.ObjectLocated = FALSE;
     }
 return TRUE;
-
+#if 0
 //This code for use later when dragging an object
   g_print("Ww.selecting %d\n", Ww.selecting);
 
   if(Ww.selecting) {
-    pointx=event->x;
-    pointy=event->y;
+    Ww.pointx=event->x;
+    Ww.pointy=event->y;
     gint width, height;
     normalize();
 
-    width = pointx-Ww.Mark.x;
-    height = pointy-Ww.Mark.y;
+    width = Ww.pointx-Ww.Mark.x;
+    height = Ww.pointy-Ww.Mark.y;
     GtkIconFactory *icon_factory = gtk_icon_factory_new ();
     if(marky+adjust_y<0 || (Ww.Mark.y+adjust_y + height > gdk_pixbuf_get_height(Denemo.pixbuf)))
       return TRUE;
@@ -1792,6 +1856,7 @@ return TRUE;
     }
   }
   Ww.selecting = FALSE;
+#endif
   return TRUE;
 }
 
@@ -2249,7 +2314,7 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
 
   
 //g_print("Attaching signal...");
-//!!!not available in early versions of libevince
+// !!!not available in early versions of libevince
 //g_signal_connect (G_OBJECT (Denemo.printarea), "sync-source",
 //		      G_CALLBACK (denemoprintf_sync), NULL);
 //g_print("...Attached signal?\n");
