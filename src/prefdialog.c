@@ -434,11 +434,11 @@ preferences_change (GtkAction *action, gpointer param)
 #define NEWPAGE(thelabel) \
     main_vbox = gtk_vbox_new (FALSE, 1);\
     gtk_notebook_append_page (GTK_NOTEBOOK (notebook), main_vbox, NULL);\
-    gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), main_vbox, _(thelabel));
+    gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), main_vbox, thelabel);
 
 #define BOOLEANENTRY(thelabel, field) \
   GtkWidget *field =\
-    gtk_check_button_new_with_label (_(thelabel)); \
+    gtk_check_button_new_with_label (thelabel); \
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (field),\
                                 (gboolean)Denemo.prefs.field);\
   gtk_box_pack_start (GTK_BOX (VBOX), field, FALSE, TRUE, 0);\
@@ -447,7 +447,7 @@ preferences_change (GtkAction *action, gpointer param)
 #define TEXTENTRY(thelabel, field) \
   hbox = gtk_hbox_new (FALSE, 8);\
   gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);\
-  label = gtk_label_new (_(thelabel));\
+  label = gtk_label_new (thelabel);\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
   GtkWidget *field = gtk_entry_new ();\
@@ -458,7 +458,7 @@ preferences_change (GtkAction *action, gpointer param)
 #define PASSWORDENTRY(thelabel, field) \
   hbox = gtk_hbox_new (FALSE, 8);\
   gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);\
-  label = gtk_label_new (_(thelabel));\
+  label = gtk_label_new (thelabel);\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
   GtkWidget *field = gtk_entry_new ();\
@@ -471,7 +471,7 @@ preferences_change (GtkAction *action, gpointer param)
 #define INTENTRY(thelabel, field) \
   hbox = gtk_hbox_new (FALSE, 8);\
   gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);\
-  label = gtk_label_new (_(thelabel));\
+  label = gtk_label_new (thelabel);\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
   field = gtk_spin_button_new_with_range (1, 50, 1.0);\
@@ -482,7 +482,7 @@ preferences_change (GtkAction *action, gpointer param)
 #define ENTRY_LIMITS(thelabel, field, min, max, step)   \
   hbox = gtk_hbox_new (FALSE, 8);\
   gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);\
-  label = gtk_label_new (_(thelabel));\
+  label = gtk_label_new (thelabel);\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
   GtkWidget *field = gtk_spin_button_new_with_range (min, max, step);\
@@ -502,7 +502,7 @@ preferences_change (GtkAction *action, gpointer param)
   g_signal_connect (G_OBJECT (field), "clicked",\
   G_CALLBACK (thecallback), (gpointer) data);
 
-#define CBOX(thelable, field, thelist, settext)\
+#define CBOX(thelabel, field, thelist, settext)\
  GtkWidget *field = gtk_combo_box_text_new_with_entry ();\
  i=0;\
  for (g=thelist;g;g=g->next){\
@@ -533,102 +533,102 @@ preferences_change (GtkAction *action, gpointer param)
    * Note entry settings
    */
 
-  NEWPAGE("View");
-  BOOLEANENTRY("Highlight the cursor", cursor_highlight);
+  NEWPAGE(_("View"));
+  BOOLEANENTRY(_("Highlight the cursor"), cursor_highlight);
 
-  BOOLEANENTRY("Display general toolbar", toolbar);
-  BOOLEANENTRY("Display Note/Rest entry toolbar", notation_palette);
+  BOOLEANENTRY(_("Display general toolbar"), toolbar);
+  BOOLEANENTRY(_("Display Note/Rest entry toolbar"), notation_palette);
  
-  BOOLEANENTRY("Display Controls for Incoming MIDI signals", midi_in_controls);
-  BOOLEANENTRY("Display Controls for Playback", playback_controls);
+  BOOLEANENTRY(_("Display Controls for Incoming MIDI signals"), midi_in_controls);
+  BOOLEANENTRY(_("Display Controls for Playback"), playback_controls);
 
-  BOOLEANENTRY("Display console pane", console_pane);
-  BOOLEANENTRY("Display lyrics pane", lyrics_pane);
-  BOOLEANENTRY("Display Titles. Controls etc", visible_directive_buttons);
+  BOOLEANENTRY(_("Display console pane"), console_pane);
+  BOOLEANENTRY(_("Display lyrics pane"), lyrics_pane);
+  BOOLEANENTRY(_("Display Titles. Controls etc"), visible_directive_buttons);
 
-  BOOLEANENTRY("Display Music Snippets", rhythm_palette);
-  BOOLEANENTRY("Display menu of objects toolbar", object_palette);
+  BOOLEANENTRY(_("Display Music Snippets"), rhythm_palette);
+  BOOLEANENTRY(_("Display menu of objects toolbar"), object_palette);
   //xgettext:no-c-format
-  INTENTRY_LIMITS("% Zoom", zoom, 1, 100);
+  INTENTRY_LIMITS(_("% Zoom"), zoom, 1, 100);
   //xgettext:no-c-format
-  INTENTRY_LIMITS("% of display height per system", system_height, 1, 100);
+  INTENTRY_LIMITS(_("% of display height per system"), system_height, 1, 100);
 
   /*
    * Pitch Entry Parameters
    */
-  NEWPAGE("Pitch Entry");
+  NEWPAGE(_("Pitch Entry"));
 
-  TEXTENTRY("Temperament", temperament)
-  BOOLEANENTRY("Use Overlays", overlays);
-  BOOLEANENTRY("Continuous Entry", continuous);
+  TEXTENTRY(_("Temperament"), temperament)
+  BOOLEANENTRY(_("Use Overlays"), overlays);
+  BOOLEANENTRY(_("Continuous Entry"), continuous);
 
   /*
    * Preferences to do with commands
    */
-  NEWPAGE("Command Behavior");
-  TEXTENTRY("Profile", profile)
-  //  TEXTENTRY("Strict", strictshortcuts)
-  BOOLEANENTRY("Apply commands to selection if present", applytoselection);
-  BOOLEANENTRY("Allow Quick Setting of Shortcuts", quickshortcuts);
+  NEWPAGE(_("Command Behavior"));
+  TEXTENTRY(_("Profile"), profile)
+  //  TEXTENTRY(_("Strict"), strictshortcuts)
+  BOOLEANENTRY(_("Apply commands to selection if present"), applytoselection);
+  BOOLEANENTRY(_("Allow Quick Setting of Shortcuts"), quickshortcuts);
 
 
-  BOOLEANENTRY("Strict Shortcuts", strictshortcuts);
-  BOOLEANENTRY("Menu Navigation by Keypress", menunavigation);
-  BOOLEANENTRY("Treat Return key as movable shortcut", return_key_is_special);
-  BOOLEANENTRY("Turn on all tooltips", newbie);
+  BOOLEANENTRY(_("Strict Shortcuts"), strictshortcuts);
+  BOOLEANENTRY(_("Menu Navigation by Keypress"), menunavigation);
+  BOOLEANENTRY(_("Treat Return key as movable shortcut"), return_key_is_special);
+  BOOLEANENTRY(_("Turn on all tooltips"), newbie);
 
   /*
    * External (Helper) Programs
    */
-  NEWPAGE("Externals");
+  NEWPAGE(_("Externals"));
 
-  TEXTENTRY("Path to Lilypond", lilypath)
-  TEXTENTRY("Pdf Viewer", pdfviewer)
-  TEXTENTRY("File/Internet Browser", browser)
+  TEXTENTRY(_("Path to Lilypond"), lilypath)
+  TEXTENTRY(_("Pdf Viewer"), pdfviewer)
+  TEXTENTRY(_("File/Internet Browser"), browser)
 
-  TEXTENTRY("Image Viewer", imageviewer)
+  TEXTENTRY(_("Image Viewer"), imageviewer)
 
-  TEXTENTRY("Audio Player", audioplayer)
-  TEXTENTRY("Default Font Specification", fontspec)
+  TEXTENTRY(_("Audio Player"), audioplayer)
+  TEXTENTRY(_("Default Font Specification"), fontspec)
 
-  TEXTENTRY("Default Save Path", denemopath)
-  BOOLEANENTRY("Update the command set on startup", autoupdate);
+  TEXTENTRY(_("Default Save Path"), denemopath)
+  BOOLEANENTRY(_("Update the command set on startup"), autoupdate);
    /*
    * Misc Menu
    */
-  NEWPAGE("Auto-Typeset");
+  NEWPAGE(_("Auto-Typeset"));
 
   
   
-  BOOLEANENTRY("Manually update the typeset score", manualtypeset);
-  INTENTRY_LIMITS("Rate of re-typeset in ms", typesetrefresh, 0, 10000);
-  INTENTRY_LIMITS("Type: (0=Range, 1=Movement, 2=Whole Score", typesettype, TYPESET_EXCERPT, TYPESET_ALL_MOVEMENTS);
-  INTENTRY_LIMITS("Measures before cursor", firstmeasure, 0, 100);
-  INTENTRY_LIMITS("Measures after cursor", lastmeasure, 0, 100);
-  INTENTRY_LIMITS("Staffs before cursor", firststaff, 0, 100);
-  INTENTRY_LIMITS("Staffs after cursor", laststaff, 0, 100);
+  BOOLEANENTRY(_("Manually update the typeset score"), manualtypeset);
+  INTENTRY_LIMITS(_("Rate of re-typeset in ms"), typesetrefresh, 0, 10000);
+  INTENTRY_LIMITS(_("Type: (0=Range, 1=Movement, 2=Whole Score"), typesettype, TYPESET_EXCERPT, TYPESET_ALL_MOVEMENTS);
+  INTENTRY_LIMITS(_("Measures before cursor"), firstmeasure, 0, 100);
+  INTENTRY_LIMITS(_("Measures after cursor"), lastmeasure, 0, 100);
+  INTENTRY_LIMITS(_("Staffs before cursor"), firststaff, 0, 100);
+  INTENTRY_LIMITS(_("Staffs after cursor"), laststaff, 0, 100);
     /*
    * Misc Menu
    */
-  NEWPAGE("Miscellaneous");
-  BOOLEANENTRY("Re-use last settings on startup", persistence);
-  DOUBLEENTRY_LIMITS("Playback Display Refresh", display_refresh, 0.001, 0.5, 0.002);
-  INTENTRY_LIMITS("Page Turn Steps", animation_steps, 1, 200);
+  NEWPAGE(_("Miscellaneous"));
+  BOOLEANENTRY(_("Re-use last settings on startup"), persistence);
+  DOUBLEENTRY_LIMITS(_("Playback Display Refresh"), display_refresh, 0.001, 0.5, 0.002);
+  INTENTRY_LIMITS(_("Page Turn Steps"), animation_steps, 1, 200);
 
-  INTENTRY_LIMITS("Tooltip timeout in ms. (0 to use system preference)", tooltip_timeout, 0, 1000000);
-  INTENTRY_LIMITS("Tooltip browse timeout in ms", tooltip_browse_timeout, 0, 1000000);
-  INTENTRY_LIMITS("Tooltip browse mode timeout in ms", tooltip_browse_mode_timeout, 0, 1000000);
+  INTENTRY_LIMITS(_("Tooltip timeout in ms. (0 to use system preference)"), tooltip_timeout, 0, 1000000);
+  INTENTRY_LIMITS(_("Tooltip browse timeout in ms"), tooltip_browse_timeout, 0, 1000000);
+  INTENTRY_LIMITS(_("Tooltip browse mode timeout in ms"), tooltip_browse_mode_timeout, 0, 1000000);
 
-  INTENTRY_LIMITS("Excerpt Resolution", resolution, 72, 600);
-  BOOLEANENTRY("Enable Thumbnails", enable_thumbnails);
-  INTENTRY("Max recent files", maxhistory)
-  TEXTENTRY("User Name", username)
-  PASSWORDENTRY("Password for Denemo.org", password)
-	BOOLEANENTRY("Use Denemo modally", modal);
+  INTENTRY_LIMITS(_("Excerpt Resolution"), resolution, 72, 600);
+  BOOLEANENTRY(_("Enable Thumbnails"), enable_thumbnails);
+  INTENTRY(_("Max recent files"), maxhistory)
+  TEXTENTRY(_("User Name"), username)
+  PASSWORDENTRY(_("Password for Denemo.org"), password)
+	BOOLEANENTRY(_("Use Denemo modally"), modal);
 
   hbox = gtk_hbox_new (FALSE, 8);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
-  autosave = gtk_check_button_new_with_label ("Autosave every");
+  autosave = gtk_check_button_new_with_label (_("Autosave every"));
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autosave),
                                 Denemo.prefs.autosave);
   gtk_box_pack_start (GTK_BOX (hbox), autosave, FALSE, FALSE, 0);
@@ -644,19 +644,19 @@ preferences_change (GtkAction *action, gpointer param)
   g_signal_connect (G_OBJECT (autosave), "toggled",
     G_CALLBACK (toggle_autosave), autosave_timeout);
 
-  BOOLEANENTRY("Autosave Parts", saveparts);
+  BOOLEANENTRY(_("Autosave Parts"), saveparts);
 
   static struct audio_callback_data audio_cbdata;
 
-  NEWPAGE("Audio/MIDI");
+  NEWPAGE(_("Audio/MIDI"));
 
-  BOOLEANENTRY("Play back entered notes immediately", immediateplayback);
-  INTENTRY_LIMITS("Pitch Spelling Channel", pitchspellingchannel, 0, 15);
-  INTENTRY_LIMITS("Pitch Spelling Program", pitchspellingprogram, 0, 127);
+  BOOLEANENTRY(_("Play back entered notes immediately"), immediateplayback);
+  INTENTRY_LIMITS(_("Pitch Spelling Channel"), pitchspellingchannel, 0, 15);
+  INTENTRY_LIMITS(_("Pitch Spelling Program"), pitchspellingprogram, 0, 127);
 
-  BOOLEANENTRY("Rhythm Entry for MIDI in", startmidiin);
+  BOOLEANENTRY(_("Rhythm Entry for MIDI in"), startmidiin);
 
-  INTENTRY_LIMITS("% MIDI-in Dynamic Compression", dynamic_compression, 1, 100);
+  INTENTRY_LIMITS(_("% MIDI-in Dynamic Compression"), dynamic_compression, 1, 100);
 
 
   GList *item = g_list_find_custom(cbdata.audio_backend_list, Denemo.prefs.audio_driver->str, (GCompareFunc)strcmp);
@@ -681,8 +681,8 @@ preferences_change (GtkAction *action, gpointer param)
 
   GList *jack_audio_output_ports = get_jack_ports(FALSE, FALSE);
 
-  COMBOBOX("Connect to port (left)",  jack_connect_ports_l, jack_audio_output_ports, Denemo.prefs.jack_connect_ports_l->str, TRUE);
-  COMBOBOX("Connect to port (right)", jack_connect_ports_r, jack_audio_output_ports, Denemo.prefs.jack_connect_ports_r->str, TRUE);
+  COMBOBOX(_("Connect to port (left)"),  jack_connect_ports_l, jack_audio_output_ports, Denemo.prefs.jack_connect_ports_l->str, TRUE);
+  COMBOBOX(_("Connect to port (right)"), jack_connect_ports_r, jack_audio_output_ports, Denemo.prefs.jack_connect_ports_r->str, TRUE);
 
 #undef VBOX
 #define VBOX main_vbox
@@ -704,11 +704,11 @@ preferences_change (GtkAction *action, gpointer param)
   if((!strcmp(Denemo.prefs.portaudio_device->str, "default")) && (g_list_length(devices)>1))
     g_string_assign(Denemo.prefs.portaudio_device, (gchar*)(devices->next->data));
     
-  COMBOBOX("Output device", portaudio_device, devices, Denemo.prefs.portaudio_device->str, FALSE);
+  COMBOBOX(_("Output device"), portaudio_device, devices, Denemo.prefs.portaudio_device->str, FALSE);
   free_portaudio_devices(devices);
 
-  INTENTRY_LIMITS("Sample rate", portaudio_sample_rate, 0, 96000);
-  INTENTRY_LIMITS("Period size", portaudio_period_size, 0, 2048);
+  INTENTRY_LIMITS(_("Sample rate"), portaudio_sample_rate, 0, 96000);
+  INTENTRY_LIMITS(_("Period size"), portaudio_period_size, 0, 2048);
 
 #undef VBOX
 #define VBOX main_vbox
@@ -725,7 +725,7 @@ preferences_change (GtkAction *action, gpointer param)
   SEPARATOR();
 
 
-  COMBOBOX("MIDI backend", midi_driver, cbdata.midi_driver_option_list, driver, FALSE);
+  COMBOBOX(_("MIDI backend"), midi_driver, cbdata.midi_driver_option_list, driver, FALSE);
   g_signal_connect(G_OBJECT(GTK_COMBO_BOX(midi_driver)), "changed", G_CALLBACK(midi_audio_tab_update), &audio_cbdata);
   /*
    * JACK settings
@@ -739,8 +739,8 @@ preferences_change (GtkAction *action, gpointer param)
 
   GList *jack_midi_input_ports = get_jack_ports(TRUE, FALSE);
   GList *jack_midi_output_ports = get_jack_ports(TRUE, TRUE);
-  COMBOBOX("Connect input to port", jack_connect_midi_in_port, jack_midi_output_ports, Denemo.prefs.jack_connect_midi_in_port->str, TRUE);
-  COMBOBOX("Connect output to port", jack_connect_midi_out_port, jack_midi_input_ports, Denemo.prefs.jack_connect_midi_out_port->str, TRUE);
+  COMBOBOX(_("Connect input to port"), jack_connect_midi_in_port, jack_midi_output_ports, Denemo.prefs.jack_connect_midi_in_port->str, TRUE);
+  COMBOBOX(_("Connect output to port"), jack_connect_midi_out_port, jack_midi_input_ports, Denemo.prefs.jack_connect_midi_out_port->str, TRUE);
   free_jack_ports(jack_midi_output_ports);
   free_jack_ports(jack_midi_input_ports);
 
@@ -762,8 +762,8 @@ preferences_change (GtkAction *action, gpointer param)
   GList *input_devices = get_portmidi_devices(FALSE);
   GList *output_devices = get_portmidi_devices(TRUE);
 
-  COMBOBOX("Input device", portmidi_input_device, input_devices, Denemo.prefs.portmidi_input_device->str, FALSE);
-  COMBOBOX("Output device", portmidi_output_device, output_devices, Denemo.prefs.portmidi_output_device->str, FALSE);
+  COMBOBOX(_("Input device"), portmidi_input_device, input_devices, Denemo.prefs.portmidi_input_device->str, FALSE);
+  COMBOBOX(_("Output device"), portmidi_output_device, output_devices, Denemo.prefs.portmidi_output_device->str, FALSE);
 
   free_portmidi_devices(input_devices);
   free_portmidi_devices(output_devices);
@@ -780,7 +780,7 @@ preferences_change (GtkAction *action, gpointer param)
   /*
    * FluidSynth settings
    */
-  TEXTENTRY("Soundfont", fluidsynth_soundfont)
+  TEXTENTRY(_("Soundfont"), fluidsynth_soundfont)
 
   hbox = gtk_hbox_new(FALSE, 8);
   gtk_box_pack_start(GTK_BOX(VBOX), hbox, FALSE, TRUE, 0);
@@ -792,8 +792,8 @@ preferences_change (GtkAction *action, gpointer param)
 
   gtk_widget_show(button);
 
-  BOOLEANENTRY("Enable Reverb on soundfont", fluidsynth_reverb)
-  BOOLEANENTRY("Enable Chorus on soundfont", fluidsynth_chorus)
+  BOOLEANENTRY(_("Enable Reverb on soundfont"), fluidsynth_reverb)
+  BOOLEANENTRY(_("Enable Chorus on soundfont"), fluidsynth_chorus)
 #endif
 
   gtk_widget_show_all (dialog);
