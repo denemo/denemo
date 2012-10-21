@@ -284,6 +284,8 @@
 ; SetPadding
 (define* (SetPadding what  #:optional (type "chord") (context ""))
   (SetValue ChangePad " #'padding = #" what type context))
+  
+
 
 ; SetValue
 (define* (SetValue change-func change-str  what  #:optional (type "chord") (context "") (override #f))
@@ -375,7 +377,13 @@
 	(d-SetSaved #f)
 )
 
-
+; SetSlurPositions
+(define (SetSlurPositions near far)
+	(d-DirectivePut-chord-override "Slur" DENEMO_OVERRIDE_AFFIX)
+  (d-DirectivePut-chord-prefix "Slur" (string-append "\\once \\override Slur  #'positions = #'(" near " . " far ")"))
+  (d-SetSaved #f))
+  
+  
 ;;;;;;;; ChangePad
 (define (ChangePad oldstr prefixstring postfixstring)
   (ChangeValue oldstr prefixstring postfixstring d-GetPadding "0"))

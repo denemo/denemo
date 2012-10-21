@@ -104,6 +104,8 @@ typedef struct ww {
   gboolean ObjectLocated;//TRUE when an external-link has just been followed back to a Denemo object
 	gint button;//which mouse button was last pressed
 	WwStage stage;
+	DenemoPosition pos;
+	GtkWidget *dialog;//an info dialog to tell the user what to do next...
 } ww;
 
 static ww Ww; //Wysywyg information
@@ -1523,7 +1525,18 @@ popup_print_preview_menu(void) {
 #endif
 
 static void start_seeking_end(void) {
-	//here we should move the cursor back to the slur start
+	gchar *msg = _("Now select the notehead where the slur ends");
+	if(Ww.dialog==NULL) {
+		Ww.dialog = infodialog(msg);
+		g_signal_connect(Ww.dialog, "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), NULL); 
+		//to prevent this g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
+		g_signal_handlers_block_by_func(Ww.dialog, G_CALLBACK (gtk_widget_destroy), Ww.dialog);
+	}
+	else {
+		gtk_widget_show(Ww.dialog);
+		gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), msg);
+	}
+	get_position(Denemo.gui->si, &Ww.pos);
 	Ww.pointx = Ww.Mark.x;
 	Ww.pointy = Ww.Mark.y;
 	Ww.stage = SelectingEnd;
@@ -1705,13 +1718,18 @@ Perhaps we should do a dialog, "click on note where slur ends" then animate a sl
 	} else {
 		if(Ww.stage == SelectingEnd) {
 			g_print("Now adjust position/angle");
+			//here we move the cursor back to the slur start
+			goto_movement_staff_obj(NULL, -1, Ww.pos.staff, Ww.pos.measure, Ww.pos.object);
 				 		gint xx, yy;
 			get_window_position(&xx, &yy);
 			Ww.Mark.x = Ww.pointx;
 			Ww.Mark.y = Ww.pointy;
 			Ww.pointx = xx + event->x;
 			Ww.pointy = yy + event->y;
-			Ww.stage = SelectingPositions;			
+			Ww.stage = SelectingPositions;
+			gchar *msg = _("Drag to get position and slope required. Drag up/down for end of slur, left/right for start of slur.");
+			gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), msg);
+			gtk_widget_show(Ww.dialog);
 		} else {
 			g_print("Popping up menu");
 			popup_object_edit_menu();
@@ -1787,8 +1805,20 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
     {
 		 gtk_widget_set_tooltip_markup(gtk_widget_get_parent(Denemo.printarea), NULL);
 	   normal_cursor();
-			g_print("Unfinished ... the actual setting of the slur or beam is not actually done.");
+			
+		EvDocumentModel  *model;
+		model = g_object_get_data(G_OBJECT(Denemo.printarea), "model");//there is no ev_view_get_model(), when there is use it
+		gdouble scale = ev_document_model_get_scale(model);
+		gdouble staffsize = atof(Denemo.gui->lilycontrol.staffsize->str);
+		if(staffsize<1) staffsize = 20.0;
+		scale *= (staffsize/4);//Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
+		gdouble offsetx = -(Ww.curx - Ww.pointx)/scale;
+    gdouble offsety = -(Ww.cury - Ww.Mark.y)/scale;
+    gchar *script = g_strdup_printf("(SetSlurPositions \"%.1f\" \"%.1f\")", offsetx, offsety);
+    call_out_to_guile(script);
+    g_free(script);
 			Ww.stage = STAGE_NONE;
+			gtk_widget_hide(Ww.dialog);
 		}
   gboolean left = (event->button == 1);
   if(left && Ww.ObjectLocated) {
@@ -1798,25 +1828,20 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
      else 
         window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
     gint x, y;
-    //g_print("reading position of mark");
     get_window_position(&x, &y);
-
-//    if(Ww.Mark.width>0.0) {
-//			Ww.Mark.x -= (x - MARKER/2);
-//			Ww.Mark.y -= (y - MARKER/2);
-//      gdk_window_invalidate_rect(window,&Ww.Mark,TRUE); 
- //   }
-
-//    Ww.Mark.x = (gint)event->x-MARKER/2;
-//    Ww.Mark.y =  (gint)event->y-MARKER/2;
-   Ww.Mark.width = Ww.Mark.height = MARKER;
-//    gdk_window_invalidate_rect(window,&Ww.Mark,TRUE);
+    Ww.Mark.width = Ww.Mark.height = MARKER;
 		gtk_widget_queue_draw (Denemo.printarea);
     Ww.Mark.x = event->x + x;
     Ww.Mark.y = event->y + y;
-    g_print("Setting Ww.Mark.x,y %f %f\n", Ww.Mark.x, Ww.Mark.y);
     switch_back_to_main_window();
-     Ww.ObjectLocated = FALSE;
+    if(Ww.stage==SelectingEnd) {
+			gchar *msg = _("Now right click on the selected notehead and drag.");
+			gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), msg);	
+			gtk_widget_show(Ww.dialog);	
+		}
+    
+    
+    Ww.ObjectLocated = FALSE;
     }
 return TRUE;
 #if 0
