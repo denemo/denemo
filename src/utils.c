@@ -135,7 +135,7 @@ warningdialog (gchar * msg)
  * @param msg message to display
  * @return none
  */
-void
+GtkWidget *
 infodialog (gchar * msg)
 {
   GtkWidget *dialog;
@@ -147,6 +147,7 @@ infodialog (gchar * msg)
 			    dialog);
   gtk_window_set_keep_above(GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all(dialog);
+  return dialog;
 }
 
 /* data stucture to contain Progressbar 

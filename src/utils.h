@@ -119,7 +119,8 @@ warningmessage (gchar * msg);
 
 void
 warningdialog(gchar *msg);
-void
+
+GtkWidget *
 infodialog(gchar *msg);
 
 void
