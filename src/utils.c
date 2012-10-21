@@ -141,7 +141,7 @@ infodialog (gchar * msg)
   GtkWidget *dialog;
   dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window),
 				   GTK_DIALOG_DESTROY_WITH_PARENT,
-				   GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, "%s", msg);
+				   GTK_MESSAGE_INFO, GTK_BUTTONS_NONE, "%s", msg);
   g_signal_connect_swapped (dialog, "response",
 			    G_CALLBACK (gtk_widget_destroy),
 			    dialog);
