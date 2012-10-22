@@ -14,9 +14,11 @@
 		(d-DirectivePut-standalone-display tag "")
 		(d-DirectivePut-standalone-x tag 0)
 		(d-DirectivePut-standalone-y tag 0))))
-(d-RefreshDisplay)</scheme>
+(d-SetSaved #f)
+(d-RefreshDisplay)
+</scheme>
         <label>Reset for All Layouts</label>
-        <tooltip>Clears conditional behavior of this layout. The Directive will apply to all score layouts.</tooltip>
+        <tooltip>Clears conditional behaviour of this layout. The Directive will apply to all score layouts.</tooltip>
       </row>
     </map>
   </merge>
