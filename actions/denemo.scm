@@ -382,7 +382,12 @@
 	(d-DirectivePut-chord-override "Slur" DENEMO_OVERRIDE_AFFIX)
   (d-DirectivePut-chord-prefix "Slur" (string-append "\\once \\override Slur  #'positions = #'(" near " . " far ")"))
   (d-SetSaved #f))
-  
+; SetBeamPositions
+(define (SetBeamPositions near far)
+	(d-DirectivePut-chord-override "Beam" DENEMO_OVERRIDE_AFFIX)
+  (d-DirectivePut-chord-prefix "Beam" (string-append "\\once \\override Beam  #'positions = #'(" near " . " far ")"))
+  (d-SetSaved #f))
+   
   
 ;;;;;;;; ChangePad
 (define (ChangePad oldstr prefixstring postfixstring)

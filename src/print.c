@@ -94,9 +94,14 @@ typedef enum {STAGE_NONE,
 							Offsetting, 
 							Selecting, 
 							Padding,
-							SelectingEnd,
+							SelectingEnd,							
 							SelectingPositions,
 							} WwStage;
+							
+typedef enum {OBJ_NONE,
+							Beam,
+							Slur,
+						} WwGrob;
 typedef struct ww {
 	Rectangle Mark;
 	gint curx, cury;// position of mouse pointer during motion
@@ -104,6 +109,7 @@ typedef struct ww {
   gboolean ObjectLocated;//TRUE when an external-link has just been followed back to a Denemo object
 	gint button;//which mouse button was last pressed
 	WwStage stage;
+	WwGrob grob;
 	DenemoPosition pos;
 	GtkWidget *dialog;//an info dialog to tell the user what to do next...
 } ww;
@@ -1524,8 +1530,8 @@ popup_print_preview_menu(void) {
 }
 #endif
 
-static void start_seeking_end(void) {
-	gchar *msg = _("Now select the notehead where the slur ends");
+static void start_seeking_end(gboolean slur) {
+	gchar *msg = (Ww.grob==Slur)?_("Now select the notehead where the slur ends"):_("Now select the notehead where the beam ends");
 	if(Ww.dialog==NULL) {
 		Ww.dialog = infodialog(msg);
 		g_signal_connect(Ww.dialog, "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), NULL); 
@@ -1540,6 +1546,7 @@ static void start_seeking_end(void) {
 	Ww.pointx = Ww.Mark.x;
 	Ww.pointy = Ww.Mark.y;
 	Ww.stage = SelectingEnd;
+	Ww.grob = slur?Slur:Beam;
 }
 
 static gint 
@@ -1549,7 +1556,7 @@ popup_object_edit_menu(void) {
   static GtkWidget *slur_position;
   static GtkWidget *line_break;
   static GtkWidget *page_break;
-  static GtkWidget *reminder_accidental;
+  static GtkWidget *beam_position;
  // static GtkWidget *;
  
 
@@ -1565,17 +1572,17 @@ popup_object_edit_menu(void) {
 		gtk_menu_shell_append(GTK_MENU_SHELL(note_menu), page_break);
 		g_signal_connect_swapped(G_OBJECT(page_break), "activate", G_CALLBACK(call_out_to_guile), "(d-PageBreak)");
 		
-		reminder_accidental = gtk_menu_item_new_with_label(_("Reminder Accidental"));
-		gtk_widget_set_tooltip_text(reminder_accidental, _("Set a reminder accidental on the note selected"));
-		gtk_menu_shell_append(GTK_MENU_SHELL(note_menu), reminder_accidental);
-		g_signal_connect_swapped(G_OBJECT(reminder_accidental), "activate", G_CALLBACK(call_out_to_guile), "(d-ReminderAccidental)");
-		
+		beam_position = gtk_menu_item_new_with_label(_("Beam Position/Angle"));
+		gtk_widget_set_tooltip_text(beam_position, _("To move the ends of the beam, first click on the notehead where the beam ends, then position/angle with mouse movements\nUp/Down = start point, Left/Right = end point."));
+		gtk_menu_shell_append(GTK_MENU_SHELL(note_menu), beam_position);
+		g_signal_connect_swapped(G_OBJECT(beam_position), "activate", G_CALLBACK(start_seeking_end), GINT_TO_POINTER(FALSE));
+	
 		
 	//slur_position - ask for click on note where slur ends, the animate a slope finding	
 		slur_position = gtk_menu_item_new_with_label(_("Slur Position/Angle"));
 		gtk_widget_set_tooltip_text(slur_position, _("To move the ends of the slur, first click on the notehead where the slur ends, then position/angle with mouse movements\nUp/Down = start point, Left/Right = end point."));
 		gtk_menu_shell_append(GTK_MENU_SHELL(note_menu), slur_position);
-		g_signal_connect(G_OBJECT(slur_position), "activate", G_CALLBACK(start_seeking_end), NULL);
+		g_signal_connect_swapped(G_OBJECT(slur_position), "activate", G_CALLBACK(start_seeking_end), GINT_TO_POINTER(TRUE));
 	
 		gtk_widget_show_all(note_menu);
 	}
@@ -1596,12 +1603,17 @@ popup_object_edit_menu(void) {
 		DenemoObject *obj = Denemo.gui->si->currentobject->data;
 		switch(obj->type) {
 			case CHORD:
-					if(((chord*)obj->object)->notes)
-						gtk_widget_show(reminder_accidental);
-					else
-						gtk_widget_hide(reminder_accidental);
-					gtk_menu_popup (GTK_MENU(note_menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-					break;
+			{ 
+				chord *thechord = (chord*)obj->object;
+				if(thechord->notes && (thechord->baseduration>2))
+						gtk_widget_show(beam_position);
+				else
+						gtk_widget_hide(beam_position);
+				thechord->slur_begin_p?
+						gtk_widget_show(slur_position):gtk_widget_hide(slur_position);					
+				gtk_menu_popup (GTK_MENU(note_menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+			}
+				break;
 			case LILYDIRECTIVE:
 					gtk_menu_popup (GTK_MENU(directive_menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 					break;
@@ -1700,17 +1712,6 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 
  if(in_selected_object((gint)event->x, (gint)event->y)) {
 	if(left) {
-		
-		/*
-						g_print("inside an object\
-						HERE look at current object - if standalone or rest do this offsetting code. If it is a note does it have a slur - do\
-						 	once override Slur #'positions = #'(2 . 2) code (this belongs in denemo.scm)\
-						 	if tie, similarly\
-						 	if it has directives see about offsetting them ...");
-HERE look at the chord at the cursor - if it has a slur start find the number of staff spaces the the note is above/below center staff, seek forward to slur end and do the same.
-these +1 are the start positions, that is heights of the slur. But we do not have the horizontal length of the slur.
-Perhaps we should do a dialog, "click on note where slur ends" then animate a slur between those points		
-* */				 	
 						gtk_widget_set_tooltip_markup(gtk_widget_get_parent(Denemo.printarea),  _("Now drag to point the object should move to"));
 						drag_cursor();
 						Ww.stage = Offsetting;
@@ -1727,7 +1728,8 @@ Perhaps we should do a dialog, "click on note where slur ends" then animate a sl
 			Ww.pointx = xx + event->x;
 			Ww.pointy = yy + event->y;
 			Ww.stage = SelectingPositions;
-			gchar *msg = _("Drag to get position and slope required. Drag up/down for end of slur, left/right for start of slur.");
+			gchar *msg = (Ww.grob==Slur)?_("Drag to get position and slope required. Drag up/down for end of slur, left/right for start of slur."):
+			_("Drag to get position and slope required. Drag up/down for end of beam, left/right for start of beam.");
 			gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), msg);
 			gtk_widget_show(Ww.dialog);
 		} else {
@@ -1814,7 +1816,7 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 		scale *= (staffsize/4);//Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
 		gdouble offsetx = -(Ww.curx - Ww.pointx)/scale;
     gdouble offsety = -(Ww.cury - Ww.Mark.y)/scale;
-    gchar *script = g_strdup_printf("(SetSlurPositions \"%.1f\" \"%.1f\")", offsetx, offsety);
+    gchar *script = (Ww.grob==Slur)?g_strdup_printf("(SetSlurPositions \"%.1f\" \"%.1f\")", offsetx, offsety):g_strdup_printf("(SetBeamPositions \"%.1f\" \"%.1f\")", offsetx, offsety);
     call_out_to_guile(script);
     g_free(script);
 			Ww.stage = STAGE_NONE;
