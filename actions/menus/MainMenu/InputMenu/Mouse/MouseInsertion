@@ -62,8 +62,19 @@
 
 (CreateButton "Dynamics" "&lt;span font=\"times\" size=\"large\" font_style=\"italic\" font_weight=\"bold\"&gt;f p&lt;/span&gt;")
 (d-SetDirectiveTagActionScript "Dynamics" "(d-DynamicsDialog)")
+
 (CreateButton "Tempo" "&lt;span font=\"times\" size=\"large\" font_style=\"italic\" font_weight=\"bold\"&gt;Allegro&lt;/span&gt;")
 (d-SetDirectiveTagActionScript "Tempo" "(d-MetronomeMark)")
+
+(CreateButton "StartCresc" "&lt;span font=\"times\" size=\"large\" font_weight=\"bold\"&gt;&amp;lt;&lt;/span&gt;")
+(d-SetDirectiveTagActionScript "StartCresc" "(d-ToggleStartCrescendo)")
+(CreateButton "EndCresc" "&lt;span font=\"times\" size=\"large\" font_weight=\"bold\"&gt;&amp;lt;|&lt;/span&gt;")
+(d-SetDirectiveTagActionScript "EndCresc" "(d-ToggleEndCrescendo)")
+
+(CreateButton "StartDim" "&lt;span font=\"times\" size=\"large\" font_weight=\"bold\"&gt;&amp;gt;&lt;/span&gt;")
+(d-SetDirectiveTagActionScript "StartDim" "(d-ToggleStartDiminuendo)")
+(CreateButton "EndDim" "&lt;span font=\"times\" size=\"large\" font_weight=\"bold\"&gt;&amp;gt;|&lt;/span&gt;")
+(d-SetDirectiveTagActionScript "EndDim" "(d-ToggleEndDiminuendo)")
 
 (if DenemoPref_newbie
 	(d-InfoDialog (_ "To insert notes hold down shift key while clicking the mouse. To add to a chord hold down Alt key, to delete hold down Control key while clicking.")))

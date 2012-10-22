@@ -42,7 +42,13 @@
 (d-DirectiveDelete-score "Tie")
 (d-DirectiveDelete-score "Triplets")
 (d-DirectiveDelete-score "Dynamics")
-(d-DirectiveDelete-score "Tempo")</scheme>
+(d-DirectiveDelete-score "Tempo")
+(d-DirectiveDelete-score "StartCresc")
+(d-DirectiveDelete-score "EndCresc")
+(d-DirectiveDelete-score "StartDim")
+(d-DirectiveDelete-score "EndDim")
+
+</scheme>
         <label>Mouse Default Action</label>
         <tooltip>Mouse left click positions the cursor, right click edits, left-click with caps-lock does nothing..</tooltip>
       </row>
