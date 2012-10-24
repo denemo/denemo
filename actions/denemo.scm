@@ -384,6 +384,10 @@
   	"\\once \\override Slur #'direction = #" (if (or (> (string->number near) 0) (> (string->number far) 0)) "1" "-1") " "
   "\\once \\override Slur  #'positions = #'(" near " . " far ")"))
   (d-SetSaved #f))
+  
+  
+;;currently SetBeamPositions is just testing for offset with respect to 0, in fact it is the offset from the center staff line
+;;that should be used. This would require determining which clef is in use and what the notes at start and end of the beamed notes are  
 ; SetBeamPositions
 (define (SetBeamPositions near far)
 	(d-DirectivePut-chord-override "Beam" DENEMO_OVERRIDE_AFFIX)

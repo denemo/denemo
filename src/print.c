@@ -1736,7 +1736,7 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 			
 			//first post-insert a \stemNeutral if beaming
 			if(Ww.grob==Beam) {
-				call_out_to_guile("(d-MoveCursorRight)(d-InsertStem)");
+				call_out_to_guile("(d-MoveCursorRight)(if (not (StemDirective?))(d-InsertStem))");
 			}
 			goto_movement_staff_obj(NULL, -1, Ww.pos.staff, Ww.pos.measure, Ww.pos.object);
 				 		gint xx, yy;
