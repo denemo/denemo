@@ -380,14 +380,18 @@
 ; SetSlurPositions
 (define (SetSlurPositions near far)
 	(d-DirectivePut-chord-override "Slur" DENEMO_OVERRIDE_AFFIX)
-  (d-DirectivePut-chord-prefix "Slur" (string-append "\\once \\override Slur  #'positions = #'(" near " . " far ")"))
+  (d-DirectivePut-chord-prefix "Slur" (string-append 
+  	"\\once \\override Slur #'direction = #" (if (or (> (string->number near) 0) (> (string->number far) 0)) "1" "-1") " "
+  "\\once \\override Slur  #'positions = #'(" near " . " far ")"))
   (d-SetSaved #f))
 ; SetBeamPositions
 (define (SetBeamPositions near far)
 	(d-DirectivePut-chord-override "Beam" DENEMO_OVERRIDE_AFFIX)
-  (d-DirectivePut-chord-prefix "Beam" (string-append "\\once \\override Beam  #'positions = #'(" near " . " far ")"))
+  (d-DirectivePut-chord-prefix "Beam" (string-append 
+		 (if (or (> (string->number near) 0) (> (string->number far) 0)) "\\stemUp" "\\stemDown") " "
+			"\\once \\override Beam  #'positions = #'(" near " . " far ")"))
   (d-SetSaved #f))
-   
+
   
 ;;;;;;;; ChangePad
 (define (ChangePad oldstr prefixstring postfixstring)

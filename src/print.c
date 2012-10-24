@@ -104,7 +104,7 @@ typedef enum {OBJ_NONE,
 						} WwGrob;
 typedef struct ww {
 	Rectangle Mark;
-	gint curx, cury;// position of mouse pointer during motion
+	gdouble curx, cury;// position of mouse pointer during motion
 	gdouble pointx, pointy;
   gboolean ObjectLocated;//TRUE when an external-link has just been followed back to a Denemo object
 	gint button;//which mouse button was last pressed
@@ -1658,8 +1658,9 @@ static gboolean in_selected_object(gint x, gint y) {
 }
 
 static gboolean
-printarea_motion_notify (GtkWidget * widget, GdkEventButton * event)
+printarea_motion_notify (GtkWidget * widget, GdkEventMotion * event)
 {
+	gint state = event->state;
   Ww.ObjectLocated = FALSE;
   if(Denemo.pixbuf==NULL)
     set_denemo_pixbuf();
@@ -1673,7 +1674,19 @@ printarea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     gtk_widget_queue_draw (Denemo.printarea);
     return TRUE;
   }
-
+#if 0
+//code to move just one end of the slur at a time, chosen with shift and control keys.
+//this needs more work, the initial value when changing ends needs initializing
+  if((Ww.stage==SelectingPositions)) {
+		gint xx, yy;
+    get_window_position(&xx, &yy);
+    if(state & GDK_SHIFT_MASK) {
+			Ww.curx = yy + (gint)event->y;
+		} else  if(state & GDK_CONTROL_MASK) {
+			Ww.cury = yy + (gint)event->y;
+		}
+#endif
+ 
 	if(in_selected_object((int)event->x, (int)event->x)) { 
 			return TRUE;//we have handled this.
 	}
@@ -1720,6 +1733,11 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 		if(Ww.stage == SelectingEnd) {
 			g_print("Now adjust position/angle");
 			//here we move the cursor back to the slur start
+			
+			//first post-insert a \stemNeutral if beaming
+			if(Ww.grob==Beam) {
+				call_out_to_guile("(d-MoveCursorRight)(d-InsertStem)");
+			}
 			goto_movement_staff_obj(NULL, -1, Ww.pos.staff, Ww.pos.measure, Ww.pos.object);
 				 		gint xx, yy;
 			get_window_position(&xx, &yy);
@@ -1743,8 +1761,8 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
  if(Ww.stage != Offsetting) {
 	 		gint xx, yy;
 			get_window_position(&xx, &yy);
-			Ww.curx = xx + (int)event->x;
-			Ww.cury = yy + (int)event->y;		
+			Ww.curx = xx + event->x;
+			Ww.cury = yy + event->y;		
 	}
 	
 
@@ -1803,6 +1821,10 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
     Ww.stage = STAGE_NONE;
     return TRUE;
   } 
+  
+  // \once \override DynamicLineSpanner #'padding = #10 setting padding for cresc and dimin
+  // \once \override DynamicLineSpanner #'Y-offset = #-10 to move a cresc or dimin vertically downwards.
+  // \once \override DynamicLineSpanner #'direction = #1 to place above/below (-1)
     if(Ww.stage==SelectingPositions)
     {
 		 gtk_widget_set_tooltip_markup(gtk_widget_get_parent(Denemo.printarea), NULL);
@@ -1816,6 +1838,7 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 		scale *= (staffsize/4);//Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
 		gdouble offsetx = -(Ww.curx - Ww.pointx)/scale;
     gdouble offsety = -(Ww.cury - Ww.Mark.y)/scale;
+    //offsetx,y is staff spaces above center line of staff?
     gchar *script = (Ww.grob==Slur)?g_strdup_printf("(SetSlurPositions \"%.1f\" \"%.1f\")", offsetx, offsety):g_strdup_printf("(SetBeamPositions \"%.1f\" \"%.1f\")", offsetx, offsety);
     call_out_to_guile(script);
     g_free(script);
@@ -2318,7 +2341,7 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
 
   gtk_container_add (GTK_CONTAINER(score_and_scroll_hbox), Denemo.printarea);
   if(Denemo.prefs.newbie)
-    gtk_widget_set_tooltip_markup(score_and_scroll_hbox, _("This window shows the final typeset score from which you can print or (via print to file) create a PDF document.\nThis will be continuously updated while you edit the music in the main window.\nIn this Print View window you can click on a note to move to that place in the main Denemo display window.\n<b>Note</b>: It can take some time to generate a beautifully typeset score, especially for a large score on a slow machine so choose just a range to be continually updated in that case."));
+    gtk_widget_set_tooltip_markup(score_and_scroll_hbox, _("This window shows the final typeset score from which you can print or (via print to file) create a PDF document.\nThis will be continuously updated while you edit the music in the main window.\nIn this Print View window you can click on a note to move to that place in the main Denemo display window. The right-click to get a menu of \"tweaks\" which you can apply to drag slurs, beams etc if they are not quite right.\n<b>Note</b>: It can take some time to generate a beautifully typeset score, especially for a large score on a slow machine so choose just a range to be continually updated in that case, or turn off continuous update."));
 
  g_signal_connect (G_OBJECT (Denemo.printarea), "external-link",
 		      G_CALLBACK (action_for_link), NULL);
