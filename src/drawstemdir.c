@@ -24,13 +24,13 @@ draw_stem_directive (cairo_t *cr,
   switch (((stemdirective *) theobj->object)->type)
     {
     case DENEMO_STEMUP:
-      text = _("stem\nup");
+      text = _("⬆stem");
       break;
     case DENEMO_STEMBOTH:
-      text = _("auto\nstems");
+      text = _("⬆⬇stems");
       break;
     case DENEMO_STEMDOWN:
-      text = _("stem\ndown");
+      text = _("⬆stems");
       break;
     }
   if(((stemdirective *) theobj->object)->directives)
