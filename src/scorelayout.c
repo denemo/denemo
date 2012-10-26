@@ -1783,7 +1783,7 @@ static void create_standard_scoreblock(DenemoScoreblock **psb, gint movement, gc
 static void set_notebook_page(GtkWidget *w) {
 	GtkWidget *notebook = get_score_layout_notebook(Denemo.gui);
 	GList *g = gtk_container_get_children(GTK_CONTAINER(notebook));
-	gint position = g_list_index(g, w);g_print("pos %d", position);
+	gint position = g_list_index(g, w);//g_print("pos %d", position);
 	g_list_free(g);
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook), position);
 }
