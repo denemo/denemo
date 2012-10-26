@@ -1104,12 +1104,6 @@ static gboolean overdraw_print(cairo_t *cr) {
 			cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 0.7);
 			cairo_line_to(cr, Ww.pointx, Ww.cury); 
 			cairo_stroke(cr);
-			g_print("end move %.1f\n", end);
-		//gint w = ABS(Ww.Mark.x-Ww.curx);
-    //gint h = ABS(Ww.Mark.y-Ww.cury);
-    //cairo_set_source_rgb(cr, 0, 0, 1);
-    //cairo_rectangle( cr, Ww.Mark.x, Ww.Mark.y, w, h );
-    //cairo_fill( cr );
     }
   if(Ww.stage==Offsetting)
     {
@@ -1628,7 +1622,7 @@ popup_object_edit_menu(void) {
 
 static gint
 action_for_link (EvView* view, EvLinkAction *obj) {
-	g_print("Link action Mark at %f, %f\n", Ww.Mark.x, Ww.Mark.y);
+	//g_print("Link action Mark at %f, %f\n", Ww.Mark.x, Ww.Mark.y);
   gchar *uri = (gchar*)ev_link_action_get_uri(obj);
 
   if(Ww.stage==Offsetting) {
@@ -1644,7 +1638,7 @@ action_for_link (EvView* view, EvLinkAction *obj) {
 		}
 		g_strfreev(vec);
 	} 
-	return TRUE;//we do not want the evince widget to handle this.
+	return TRUE;//we do not want the evince widget to handle this. (chord*)
 }
 static gint adjust_x=0;
 static gint adjust_y=0;
@@ -1714,13 +1708,33 @@ static void normalize(void){
 
 }
 
-
+static gdouble get_center_staff_offset(void) {
+	gdouble yadjust = 0.0;
+	 if(Denemo.gui->si->currentobject) {
+				DenemoObject *obj = (DenemoObject*)Denemo.gui->si->currentobject->data;
+				if(obj->type==CHORD) {
+					chord *thechord = (chord*)obj->object;
+					beamandstemdirhelper (Denemo.gui->si);
+						if(thechord->notes) {
+							note *thenote = (note*)(thechord->notes->data);
+							gdouble staffsize = atof(Denemo.gui->lilycontrol.staffsize->str);
+							if(staffsize<1) staffsize = 20.0;
+							yadjust = -(4 -thenote->y/5) * staffsize/8;
+							EvDocumentModel  *model;
+							model = g_object_get_data(G_OBJECT(Denemo.printarea), "model");//there is no ev_view_get_model(), when there is use it
+							gdouble scale = ev_document_model_get_scale(model);
+						  yadjust *= scale;
+					}
+				}
+			}
+	return yadjust;
+}
 
 static gint
 printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 {
  gboolean left = (event->button == 1);
- g_print("Button press %d, %d %d\n",(int)event->x , (int)event->y, left);
+ //g_print("Button press %d, %d %d\n",(int)event->x , (int)event->y, left);
  Ww.button = event->button;
 
  if(in_selected_object((gint)event->x, (gint)event->y)) {
@@ -1731,20 +1745,33 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 						
 	} else {
 		if(Ww.stage == SelectingEnd) {
-			g_print("Now adjust position/angle");
-			//here we move the cursor back to the slur start
+			gdouble faradjust = 0.0, nearadjust = 0.0;
+			
+			// if beaming we need to find the center line of staff.
+			if(Ww.grob==Beam) 
+				faradjust = get_center_staff_offset();
 			
 			//first post-insert a \stemNeutral if beaming
 			if(Ww.grob==Beam) {
 				call_out_to_guile("(d-MoveCursorRight)(if (not (StemDirective?))(d-InsertStem))");
 			}
+			//g_print("yadjust %f %f\n", nearadjust, faradjust);
+			//here we move the cursor back to the slur start
 			goto_movement_staff_obj(NULL, -1, Ww.pos.staff, Ww.pos.measure, Ww.pos.object);
-				 		gint xx, yy;
+			if(Ww.grob==Beam) 
+				nearadjust = get_center_staff_offset();
+			gint xx, yy;
 			get_window_position(&xx, &yy);
 			Ww.Mark.x = Ww.pointx;
-			Ww.Mark.y = Ww.pointy;
+			Ww.Mark.y = Ww.pointy - nearadjust;
 			Ww.pointx = xx + event->x;
-			Ww.pointy = yy + event->y;
+			Ww.pointy = yy + event->y - faradjust;
+			
+			{ gdouble x_root, y_root;
+			gdk_event_get_root_coords ((GdkEvent*)event, &x_root, &y_root);
+			gdk_display_warp_pointer (gdk_display_get_default(), gdk_display_get_default_screen(gdk_display_get_default()), 
+			x_root, y_root-faradjust);
+		}
 			Ww.stage = SelectingPositions;
 			gchar *msg = (Ww.grob==Slur)?_("Drag to get position and slope required. Drag up/down for end of slur, left/right for start of slur."):
 			_("Drag to get position and slope required. Drag up/down for end of beam, left/right for start of beam.");
