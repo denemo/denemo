@@ -271,17 +271,19 @@ AC_ARG_ENABLE(
     fi
   ])
 
-AC_ARG_WITH(
-  x,
-  AC_HELP_STRING([--with-x], [use X @<:@default=check@:>@]),
-  [ ], [ withx=yes ])
+AC_ARG_ENABLE(
+  x11,
+  AC_HELP_STRING([--enable-x11], [use X11 @<:@default=yes@:>@]),
+  [
+    if test "x$enableval" != "xno"; then
+      enable_x11=yes
+    fi
+  ], [ enable_x11=yes ])
+AM_CONDITIONAL(WITH_X11, [test x$enable_x11 = xyes])
 
-if test "x$withx" = "xyes"; then
-  CFLAGS="$CFLAGS"
-  LIBS="$LIBS"
-else
-  CFLAGS="$CFLAGS -D_WITHOUT_X"
-  LIBS="$LIBS -D_WITHOUT_X"
+if test "x$enable_x11" = "xyes"; then
+  CFLAGS="$CFLAGS -D_HAVE_X11_"
+  LIBS="$LIBS -D_HAVE_X11_"
 fi
 
 dnl Memory debugging
