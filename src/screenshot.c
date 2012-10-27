@@ -1,4 +1,4 @@
-
+#ifdef _HAVE_X11_
 /* screenshot.c - Take a screenshot from user selected rectangle
  * Copyright (C) 2011 Richard Shann
  *
@@ -732,3 +732,4 @@ screenshot_get_pixbuf (GdkWindow    *window,
 }
 
 #endif //gtk2 version
+#endif //_HAVE_X11_

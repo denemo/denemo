@@ -1,3 +1,4 @@
+#ifdef _HAVE_X11_
 /* gtk-screenshot.h 
  *
  * Copyright (C) 2001-2006  Jonathan Blandford <jrb@alum.mit.edu>
@@ -21,3 +22,5 @@ screenshot_get_pixbuf (GdkWindow    *window,
                        GdkRectangle *rectangle);
 GdkRectangle *
 screenshot_find_rectangle (void);
+
+#endif //_HAVE_X11_
