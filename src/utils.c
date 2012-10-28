@@ -929,6 +929,23 @@ get_data_dir ()
 }
 
 const gchar *
+get_prefix_dir (void)
+{
+#ifdef G_OS_WIN32 //THis is going to need to be tested
+    gchar *prefix = g_win32_get_package_installation_directory (NULL, NULL);
+#else /* not G_OS_WIN32 */
+
+#ifndef ENABLE_BINRELOC
+  gchar *prefix = g_strdup (PREFIX);
+#else
+  gchar *prefix = gbr_find_prefix (PREFIX);
+#endif //ENABLE_BINRELOC
+#endif //G_OS_WIN32
+  g_print ("prefix=%s\n", prefix);
+  return prefix;
+}
+
+const gchar *
 get_bin_dir (void)
 {
   static gchar *bindir = NULL;

@@ -415,7 +415,7 @@ main (int argc, char *argv[])
       }
 #else
 
-  gchar *prefix = g_build_filename (get_bin_dir(), "..", NULL); 
+  gchar *prefix = g_build_filename (get_prefix_dir(), NULL);
   add_font_directory (g_build_filename (get_data_dir(), "/fonts", NULL));
 
   gchar *fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "feta.ttf", NULL);

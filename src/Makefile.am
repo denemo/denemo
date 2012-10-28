@@ -75,6 +75,7 @@ AM_CPPFLAGS = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
  $(PORTMIDI_INCLUDE) \
 -I$(top_srcdir)/libsffile \
 -I$(top_srcdir)/pixmaps \
+-DPREFIX=\"$(prefix)\" \
 -DBINDIR=\"$(exec_prefix)/bin\" \
 -DLOCALEDIR=\"$(localedir)\" \
 -DSYSCONFDIR=\"$(sysconfdir)/\" \
