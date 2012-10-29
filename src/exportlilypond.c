@@ -899,8 +899,8 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 	    } 
 	  else /* there are notes */
 	    {
-	      if (!curobj->isinvisible)
-		{
+	   
+		
 		  
 		  if (pchord->notes->next || pchord->chordize )//multinote chord
 		    {
@@ -997,13 +997,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 		
 		if (pchord->notes->next  || pchord->chordize) //multi-note chord
 		  g_string_append_printf (ret, ">");
-		
-	      } //end of note(s) that is(are) not invisible
-	    else //invisible note - rhythm only
-	      {
-		g_string_append_printf (ret, "s");
-		
-	      }
+
 	    if (duration != prevduration || numdots != prevnumdots || duration<0)
 	      {
 		/* only in this case do we explicitly note the duration */
@@ -1531,6 +1525,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   if (start)
     curmeasure = g_list_nth (curmeasure, start - 1);
   open_braces = 0;//keep track of excess open braces "{"
+  gboolean nonprintingnotes = FALSE;//no nonprinting notes found yet in this voice, once there are issue a cross-head directive
   for (measurenum = MAX (start, 1); curmeasure && measurenum <= end;
        curmeasure = curmeasure->next, measurenum++)
     {
@@ -1570,8 +1565,20 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 							// if (curobj->type==CHORD||curobj->type==PARTIAL||curobj->type==LILYDIRECTIVE)
 							if(curobj->durinticks||curobj->type==LILYDIRECTIVE)
 							empty_measure=FALSE; 
-
-
+						//Print rhythm notes with cross head. We ignore the case where someone reverts to real notes after rhythm only notes
+						if(curobj->type== CHORD && ((chord*)curobj->object)->notes && curobj->isinvisible && !nonprintingnotes) {
+								gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
+								gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter,  "\n"TAB"\\override NoteHead #'style = #'cross"
+								"\n\\override NoteHead #'color = #darkyellow"
+								"\n\\override Stem #'color = #darkyellow"
+								"\n\\override Flag #'color = #darkyellow"
+								"\n\\override Beam #'color = #darkyellow "
+								
+								,
+								
+											-1, INEDITABLE, NULL);
+								nonprintingnotes = TRUE;
+						}
 
  if(curobj->type==LILYDIRECTIVE){
    DenemoDirective *directive = ((lilydirective *) curobj->object);
