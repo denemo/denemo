@@ -13,7 +13,7 @@
 	  (begin
 		(d-PopPushPosition)
 		(d-PopPosition)
-		(exit))))
-	    (d-PopPosition)))
+		(exit)))))
+	(d-PopPosition))
 (d-SetSaved #t)
 (display "Simple Profile\n")
