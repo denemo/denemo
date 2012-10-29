@@ -2076,7 +2076,9 @@ return FALSE;
 #define MANUAL _("Manual Updates")
 #define CONTINUOUS _("Continuous")
 static void typeset_action(GtkWidget *button, gpointer data) {
-  initialize_typesetting();
+  if(initialize_typesetting()) {
+    g_warning("InitializeTypesetting failed\n");
+  } else
   typeset_control(NULL, data);
 }
 
