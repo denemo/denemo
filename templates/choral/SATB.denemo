@@ -37,26 +37,6 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <score-directives>
       <directive>
         <tag>ScoreBlockProlog</tag>
-        <postfix>
-#(score-override-auto-beam-setting '(end * * 3 4) 1 4)
-#(score-override-auto-beam-setting '(end * * 3 4) 2 4)
-#(score-override-auto-beam-setting '(end * * 4 4) 1 4)
-#(score-override-auto-beam-setting '(end * * 4 4) 2 4)
-#(score-override-auto-beam-setting '(end * * 4 4) 3 4)
-#(score-override-auto-beam-setting '(end 1 16 2 2) 1 4)
-#(score-override-auto-beam-setting '(end 1 16 2 2) 2 4)
-#(score-override-auto-beam-setting '(end 1 16 2 2) 3 4)
-</postfix>
-        <display>
-#(score-override-auto-beam-setting '(end * * 3 4) 1 4)
-#(score-override-auto-beam-setting '(end * * 3 4) 2 4)
-#(score-override-auto-beam-setting '(end * * 4 4) 1 4)
-#(score-override-auto-beam-setting '(end * * 4 4) 2 4)
-#(score-override-auto-beam-setting '(end * * 4 4) 3 4)
-#(score-override-auto-beam-setting '(end 1 16 2 2) 1 4)
-#(score-override-auto-beam-setting '(end 1 16 2 2) 2 4)
-#(score-override-auto-beam-setting '(end 1 16 2 2) 3 4)
-</display>
       </directive>
       <directive>
         <tag>ScoreIndent</tag>
@@ -72,13 +52,22 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <edit-info>
       <staffno>1</staffno>
       <measureno>1</measureno>
-      <cursorposition>0</cursorposition>
+      <cursorposition>-1</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
       <page-system-height>100</page-system-height>
     </edit-info>
+    <header-directives>
+      <directive>
+        <tag>ScoreTitle</tag>
+        <postfix>title = "Untitled"
+</postfix>
+        <display>Score Title: Untitled</display>
+        <override>36</override>
+      </directive>
+    </header-directives>
     <score-info>
       <tempo>
         <duration>
