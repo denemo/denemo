@@ -6,13 +6,13 @@
     <map>
       <row>
         <action>ScoreTagline</action>
-        <scheme>
-		(SetScoreHeaderField "tagline")
+        <scheme>;ScoreTagline
+		(SetScoreHeaderField "tagline" #f #f)
 		(DenemoPrintAllHeaders)
-		(d-RefreshDisplay)
-	</scheme>
+		(d-SetSaved #f)
+		(d-RefreshDisplay)</scheme>
         <label>Tagline</label>
-        <tooltip>Centered at the bottom of the last page.</tooltip>
+        <tooltip> Centered at the bottom of the last page.</tooltip>
       </row>
     </map>
   </merge>
