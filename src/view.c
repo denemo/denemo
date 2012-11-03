@@ -16,6 +16,8 @@
 #include "utils.h"
 #include <stdlib.h>
 #include <glib/gstdio.h>
+#include <cairo.h>
+#include <cairo-svg.h>
 #include <librsvg/rsvg.h>
 #include <librsvg/rsvg-cairo.h>
 
@@ -2220,6 +2222,7 @@ SCM scheme_increment_keysig(SCM amount) {
       set_basic_numticks (curObj);
       setpixelmin (curObj);
     }
+    score_status(Denemo.gui, TRUE);
     displayhelper(Denemo.gui);
     ret = SCM_BOOL_T;
   }
@@ -5517,10 +5520,8 @@ INSTALL_SCM_FUNCTION ("Generates the MIDI timings for the music of the current m
 
   INSTALL_SCM_FUNCTION ("Adjust end time for playback by passed number of seconds. Returns #f for bad parameter ", DENEMO_SCHEME_PREFIX"AdjustPlaybackEnd", scheme_adjust_playback_end);
 #ifdef _WITH_X11_
-#if 1// GTK3 Test
   INSTALL_SCM_FUNCTION1 ("Takes a parameter #t or #f and optional position: Get a screenshot from the user and append or insert it in a list (one per measure) either applying across the staffs or to the current staff.", DENEMO_SCHEME_PREFIX"UserScreenshot", scheme_user_screenshot);
   INSTALL_SCM_FUNCTION ("Takes a parameter #t or #f: Delete a screenshot for the current measure, either across staffs or for current staff.", DENEMO_SCHEME_PREFIX"DeleteScreenshot", scheme_delete_screenshot);
-#endif
 #endif _WITH_X11_
   INSTALL_SCM_FUNCTION ("Pushes the Denemo clipboard (cut/copy buffer) onto a stack; Use d-PopClipboard to retrieve it.", DENEMO_SCHEME_PREFIX"PushClipboard", scheme_push_clipboard);
 
@@ -7527,11 +7528,12 @@ loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm) {
   gchar *filename = g_strconcat(name, ".png", NULL);
   thesize.width = 40;
   thesize.height = 40;
-  cairo_surface_t *surface =  cairo_image_surface_create_from_png (filename);
+  cairo_surface_t *surface = cairo_image_surface_create_from_png (filename);
   if(cairo_surface_status(surface)!=CAIRO_STATUS_SUCCESS) {
     g_free(filename);
     filename = g_strconcat(name, ".svg", NULL);
     if(g_file_test(filename,  G_FILE_TEST_EXISTS)) { 
+#ifdef CAIRO_HAS_SVG_SURFACE
       RsvgHandle *handle = rsvg_handle_new_from_file(filename, &error);      
       if(handle==NULL) {
         if(error)
@@ -7541,13 +7543,17 @@ loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm) {
         return FALSE;
       }
       
-      rsvg_handle_get_dimensions(handle, &thesize); 
-      surface =   (cairo_surface_t *)cairo_svg_surface_create_for_stream (NULL, NULL, (gdouble)thesize.width,  (gdouble)thesize.height); 
+      rsvg_handle_get_dimensions(handle, &thesize);
+      surface = cairo_svg_surface_create_for_stream (NULL, NULL, (double)(thesize.width), (double)(thesize.height)); 
       cairo_t *cr = cairo_create(surface);
       rsvg_handle_render_cairo(handle, cr);
       rsvg_handle_close(handle, NULL);
       g_object_unref(handle);
       cairo_destroy(cr);
+#else
+			g_warning("Cairo svg backend not available\n");
+      return FALSE;
+#endif
     }
   }  else {
     FILE *fp = fopen(filename, "rb");
