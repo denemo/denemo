@@ -149,9 +149,9 @@ gchar* perform_command(const gchar *command_name, GdkEventKey *event) {
   execute_callback_from_name(Denemo.map, command_name);
   call_out_to_guile("(define DenemoKeypressActivatedCommand #f)");
   // note gui = Denemo.gui; may have changed as a result of executing the command
-#ifndef TESTING_REPEATED_XPOSITION_UPDATE
+#ifdef TESTING_REPEATED_XPOSITION_UPDATE
  if(Denemo.gui->si)
- displayhelper(Denemo.gui);
+  displayhelper(Denemo.gui);
 #endif
   return NULL;
 }
