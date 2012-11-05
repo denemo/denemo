@@ -6105,6 +6105,50 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <label>Whole Measure Repeat</label>
         <tooltip>Inserts a whole measure repeat sign.</tooltip>
       </row>
+      <row>
+        <action>BeamRightOne</action>
+        <after>NoBeam</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
+        <label>One Beam Right</label>
+        <tooltip>Prints with just one beam linking to the right.</tooltip>
+      </row>
+      <row>
+        <action>BeamLeftOne</action>
+        <after>BeamRightOne</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
+        <label>One Beam Left</label>
+        <tooltip>Prints with just one beam linking to left.</tooltip>
+      </row>
+      <row>
+        <action>BeamRightTwo</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
+        <label>Two Beams Right</label>
+        <tooltip>Prints with just two beams linking to the right.</tooltip>
+      </row>
+      <row>
+        <action>BeamLeftTwo</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
+        <label>Two Beams Left</label>
+        <tooltip>Prints with just two beams linking to the left.</tooltip>
+      </row>
+      <row>
+        <action>BeamRightThree</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
+        <label>Three Beams Right</label>
+        <tooltip>Prints with just three beams linking to the right.</tooltip>
+      </row>
+      <row>
+        <action>BeamLeftThree</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
+        <label>Three Beams Left</label>
+        <tooltip>Prints with just three beams linking to the left.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

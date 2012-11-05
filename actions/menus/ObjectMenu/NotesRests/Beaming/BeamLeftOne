@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>BeamRightOne</after>
+        <action>BeamLeftOne</action>
+        <scheme>;;; BeamLeftOne
+(let ((tag "BeamLeft"))
+(if (d-Directive-chord? tag)
+	(d-DirectiveDelete-chord tag)
+	(begin
+	(d-DirectivePut-chord-prefix tag "\\set stemLeftBeamCount = #1 ")
+	(d-DirectivePut-chord-override tag DENEMO_OVERRIDE_AFFIX)
+	(d-DirectivePut-chord-display tag  "]1")))
+(d-RefreshDisplay)
+(d-SetSaved #f))
+</scheme>
+        <label>One Beam Left</label>
+        <tooltip>Prints with just one beam linking to left.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
