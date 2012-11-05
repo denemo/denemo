@@ -21,7 +21,7 @@ static cursor_transition(void) {
 }
 
 static gboolean transition(void) {
-	g_print("Transition %d current bar= %d\n", transition_steps, transition_amount);
+	//g_print("Transition %d current bar= %d\n", transition_steps, transition_amount);
 	if(transition_steps==1) {
 		cursor_steps = 10;
 		g_timeout_add(20, (GSourceFunc)cursor_transition, NULL);
