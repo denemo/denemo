@@ -12,6 +12,39 @@
 #include "staffops.h"
 #include "utils.h"
 
+static gint transition_steps = 0;
+static gint transition_amount;//number of bars being moved to left, negative means to the right.
+static gint cursor_steps = 0;
+static cursor_transition(void) {
+	gtk_widget_queue_draw (Denemo.scorearea);
+	return --cursor_steps;
+}
+
+static gboolean transition(void) {
+	g_print("Transition %d current bar= %d\n", transition_steps, transition_amount);
+	if(transition_steps==1) {
+		cursor_steps = 10;
+		g_timeout_add(20, (GSourceFunc)cursor_transition, NULL);
+	}
+	gtk_widget_queue_draw (Denemo.scorearea);
+	return --transition_steps;
+}
+
+gdouble transition_offset(void) {
+	return (gdouble)transition_steps*transition_amount*Denemo.gui->si->measurewidth/10;
+}
+gdouble transition_cursor_scale(void) {
+	return cursor_steps?
+	(gdouble)cursor_steps:1.0;
+}
+ static void set_transition(gint amount) {
+	 if(transition_steps) return;
+	 if(amount) {
+	 transition_amount = amount;
+	 transition_steps = 10;
+	 g_timeout_add(20, (GSourceFunc)transition, NULL);
+ }
+}
 /**
  * update_hscrollbar should be called as a cleanup whenever
  * si->leftmeasurenum or si->rightmeasurenum may have been altered,
@@ -21,14 +54,16 @@
 void
 update_hscrollbar (DenemoGUI * gui)
 {
- GtkAdjustment *adj =
- GTK_ADJUSTMENT (Denemo.hadjustment);
+ GtkAdjustment *adj = GTK_ADJUSTMENT (Denemo.hadjustment);
  gdouble upper = g_list_length (gui->si->measurewidths) + 1.0, page_size = gui->si->rightmeasurenum - gui->si->leftmeasurenum + 1.0;
- gtk_adjustment_set_upper (adj, upper);   gtk_adjustment_set_page_size(adj,  page_size);
+ gdouble left = gtk_adjustment_get_value(adj);
+ gtk_adjustment_set_upper (adj, upper);   
+ gtk_adjustment_set_page_size(adj,  page_size);
  gtk_adjustment_set_page_increment(adj, page_size);
  gtk_adjustment_set_value(adj, gui->si->leftmeasurenum);
  gtk_adjustment_changed(adj);
-
+ //g_print("steps %d Difference %d\n",transition_steps, (gint)(left-gui->si->leftmeasurenum));
+ set_transition((gint)(gui->si->leftmeasurenum) - left);
 }
 
 /**
@@ -57,11 +92,13 @@ update_vscrollbar (DenemoGUI * gui)
 
 /**
  * Sets the si->rigthmeasurenum to use
- * all the space si->widthtoworkwith assumeing si->leftmeasurenum, as determined by the si->measurewidths
+ * all the space si->widthtoworkwith assuming si->leftmeasurenum, as determined by the si->measurewidths
+ * returns TRUE if si->rightmeasurenum is changed
  */
-void
+gboolean
 set_rightmeasurenum (DenemoScore * si)
 {
+	gint initial = si->rightmeasurenum;
   gint spaceleft = si->widthtoworkwith;
   GList *mwidthiterator =
     g_list_nth (si->measurewidths, si->leftmeasurenum - 1);
@@ -73,6 +110,7 @@ set_rightmeasurenum (DenemoScore * si)
        mwidthiterator = mwidthiterator->next, si->rightmeasurenum++)
     ;
   si->rightmeasurenum = MAX (si->rightmeasurenum - 1, si->leftmeasurenum);
+  return initial != si->rightmeasurenum;
 }
 
 /**
@@ -134,6 +172,8 @@ set_bottom_staff (DenemoGUI * gui)
 void
 isoffleftside (DenemoGUI * gui)
 {
+	if(gui->si->currentmeasurenum >= gui->si->leftmeasurenum)
+		return;
   while (gui->si->currentmeasurenum < gui->si->leftmeasurenum)
     {
       gui->si->leftmeasurenum
@@ -154,6 +194,8 @@ isoffleftside (DenemoGUI * gui)
 void
 isoffrightside (DenemoGUI * gui)
 {
+	if(gui->si->currentmeasurenum<=gui->si->rightmeasurenum)
+		return;
   while (gui->si->currentmeasurenum > gui->si->rightmeasurenum)
     {
       gui->si->leftmeasurenum
@@ -368,24 +410,22 @@ static void
 h_scroll (gdouble value, DenemoGUI * gui)
 {
   gint dest;
-
   if ((dest = (gint) (value + 0.5)) != gui->si->leftmeasurenum)
     {
+			set_transition(dest-gui->si->leftmeasurenum);
       gui->si->leftmeasurenum = dest;
       set_rightmeasurenum (gui->si);
       if (gui->si->currentmeasurenum > gui->si->rightmeasurenum)
-	{
-	  gui->si->currentmeasurenum = gui->si->rightmeasurenum;
+				{
+					gui->si->currentmeasurenum = gui->si->rightmeasurenum;
 
-	}
-      else if (gui->si->currentmeasurenum < gui->si->leftmeasurenum)
-	{
-	  gui->si->currentmeasurenum = gui->si->leftmeasurenum;
+				} else if (gui->si->currentmeasurenum < gui->si->leftmeasurenum)
+				{
+					gui->si->currentmeasurenum = gui->si->leftmeasurenum;
 
-	}
+				}
       find_leftmost_allcontexts (gui->si);
       setcurrents (gui->si);
-      //calcmarkboundaries (gui->si);
       gtk_widget_queue_draw (Denemo.scorearea);
     }
   update_hscrollbar (gui);

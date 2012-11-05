@@ -7,10 +7,10 @@
 #include <math.h>
 #include "drawingprims.h"
 #include "utils.h"
+#include "moveviewport.h"
 
-
-#define CURSOR_WIDTH 10
-#define CURSOR_HEIGHT 6
+#define CURSOR_WIDTH (10*scale)
+#define CURSOR_HEIGHT (6*scale)
 #define CURSOR_MINUS (CURSOR_HEIGHT/2)
 
 /**
@@ -23,7 +23,7 @@ draw_cursor (cairo_t *cr, DenemoScore * si,
 {
   if(!cr) return;
   gint height = calculateheight (si->cursor_y, dclef);
-
+	gdouble scale = transition_cursor_scale();
 
   cairo_save( cr );
 //  setcairocolor( cr, paintgc );

@@ -15,4 +15,3 @@ find_xes_in_measure (DenemoScore *si, gint measurenum,
 
 void find_xes_in_all_measures (DenemoScore *si);
 
-void set_rightmeasurenum (DenemoScore *si);

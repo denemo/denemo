@@ -163,14 +163,19 @@ setcurrents (DenemoScore * si)
 void
 nudgerightward (DenemoGUI * gui)
 {
-  set_rightmeasurenum (gui->si);
-  while (gui->si->currentmeasurenum > gui->si->rightmeasurenum)
-    {
-      gui->si->leftmeasurenum++;
-      set_rightmeasurenum (gui->si);
-    }
-  find_leftmost_allcontexts (gui->si);
-  update_hscrollbar (gui);
+  if(set_rightmeasurenum (gui->si) || (gui->si->currentmeasurenum > gui->si->rightmeasurenum))
+  {
+		if(gui->si->currentmeasurenum > gui->si->rightmeasurenum) {
+			while (gui->si->currentmeasurenum > gui->si->rightmeasurenum)
+				{
+					gui->si->leftmeasurenum++;
+					set_rightmeasurenum (gui->si);
+				}
+
+		}
+		find_leftmost_allcontexts (gui->si);
+		update_hscrollbar (gui);	
+	}
 }
 
 /**
@@ -2253,7 +2258,7 @@ gotoend (gpointer param, gboolean extend_selection)
 {
   DenemoGUI *gui = Denemo.gui;
   if(extend_selection && !gui->si->markstaffnum) set_mark(gui);
-  gint dest = gui->si->currentmeasurenum = 
+  gui->si->currentmeasurenum = 
     g_list_length (((DenemoStaff *) gui->si->currentstaff->data)->measures);
   setcurrents (gui->si);
   if(extend_selection)
@@ -2263,9 +2268,8 @@ gotoend (gpointer param, gboolean extend_selection)
     cursorright(param);
   else
     movecursorright(param);
-update_drawing_cache();;//refresh cached values, eg current timesig
-  find_leftmost_allcontexts (gui->si);
-  update_hscrollbar (gui);
+	update_drawing_cache();;//refresh cached values, eg current timesig
+  find_leftmost_allcontexts (gui->si);//FIXME is this done in displayhelper?
   displayhelper (gui);
 }
 
@@ -2280,15 +2284,12 @@ gotohome (gpointer param, gboolean extend_selection)
   DenemoGUI *gui = Denemo.gui;
   if(extend_selection && !gui->si->markstaffnum) set_mark(gui);
   gui->si->currentmeasurenum = gui->si->leftmeasurenum = 1;
-  set_rightmeasurenum (gui->si);
+  displayhelper (gui);
   setcurrents (gui->si);
   if(extend_selection)
     calcmarkboundaries (gui->si);
   find_leftmost_allcontexts (gui->si);
-  update_hscrollbar (gui);
-  /*gtk_widget_draw (Denemo.scorearea, NULL);*/
   update_drawing_cache();;//refresh cached values, eg current timesig
-  gtk_widget_queue_draw (Denemo.scorearea);
 }
 
 

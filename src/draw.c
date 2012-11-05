@@ -22,7 +22,7 @@
 #include "pitchentry.h"
 #include "lyric.h"
 #include "midi.h"
-
+#include "moveviewport.h"
 
 #define EXCL_WIDTH 3
 #define EXCL_HEIGHT 13
@@ -765,6 +765,15 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 
   // cairo_save(cr);
   }//if cr
+
+
+
+x += transition_offset();
+
+
+
+
+
 
   if((gui->si->smf) && (itp->startobj==NULL) && (itp->startposition<=0) && (si->leftmeasurenum==1))
     itp->startposition = x;

@@ -19,7 +19,7 @@ update_hscrollbar (DenemoGUI *si);
 void
 update_vscrollbar (DenemoGUI *si);
 
-void
+gboolean
 set_rightmeasurenum (DenemoScore *si);
 
 void
@@ -61,4 +61,8 @@ set_currentstaffnum(DenemoGUI *si, gint dest);
 gboolean
 moveto_currentstaffnum(DenemoGUI *si, gint dest);
 
+gdouble 
+transition_offset(void);
+gdouble 
+transition_cursor_scale(void);
 #endif
