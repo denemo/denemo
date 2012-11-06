@@ -1525,7 +1525,7 @@ popup_print_preview_menu(void) {
 #endif
 
 static void start_seeking_end(gboolean slur) {
-	gchar *msg = (Ww.grob==Slur)?_("Now select the notehead where the slur ends"):_("Now select the notehead where the beam ends");
+	gchar *msg = (slur)?_("Now select the notehead where the slur ends"):_("Now select the notehead where the beam ends");
 	if(Ww.dialog==NULL) {
 		Ww.dialog = infodialog(msg);
 		g_signal_connect(Ww.dialog, "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), NULL); 
@@ -1747,9 +1747,8 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 		if(Ww.stage == SelectingEnd) {
 			gdouble faradjust = 0.0, nearadjust = 0.0;
 			
-			// if beaming we need to find the center line of staff.
-			if(Ww.grob==Beam) 
-				faradjust = get_center_staff_offset();
+			// if beaming or slur we need to find offset to the center line of staff.			
+			faradjust = get_center_staff_offset();
 			
 			//first post-insert a \stemNeutral if beaming
 			if(Ww.grob==Beam) {
@@ -1758,8 +1757,8 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 			//g_print("yadjust %f %f\n", nearadjust, faradjust);
 			//here we move the cursor back to the slur start
 			goto_movement_staff_obj(NULL, -1, Ww.pos.staff, Ww.pos.measure, Ww.pos.object);
-			if(Ww.grob==Beam) 
-				nearadjust = get_center_staff_offset();
+			// if beaming or slur we need to find the offset to center line of staff.
+			nearadjust = get_center_staff_offset();
 			gint xx, yy;
 			get_window_position(&xx, &yy);
 			Ww.Mark.x = Ww.pointx;
