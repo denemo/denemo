@@ -2464,7 +2464,14 @@ if(scm_is_string(msg)){
    title = strdup("Script error, wrong parameter type to d-InfoDialog");
    msg = SCM_BOOL(FALSE);
  }
- infodialog (title);
+ static GtkWidget * dialog;
+ if(dialog) {
+	 gtk_widget_show(dialog);
+	 gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(dialog), title);
+	} else {
+  dialog = infodialog (title);
+  g_signal_connect(dialog, "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), NULL); 
+	}
  if(title) 
    free(title);
  return msg;
@@ -5522,7 +5529,7 @@ INSTALL_SCM_FUNCTION ("Generates the MIDI timings for the music of the current m
 #ifdef _WITH_X11_
   INSTALL_SCM_FUNCTION1 ("Takes a parameter #t or #f and optional position: Get a screenshot from the user and append or insert it in a list (one per measure) either applying across the staffs or to the current staff.", DENEMO_SCHEME_PREFIX"UserScreenshot", scheme_user_screenshot);
   INSTALL_SCM_FUNCTION ("Takes a parameter #t or #f: Delete a screenshot for the current measure, either across staffs or for current staff.", DENEMO_SCHEME_PREFIX"DeleteScreenshot", scheme_delete_screenshot);
-#endif _WITH_X11_
+#endif /*_WITH_X11_*/
   INSTALL_SCM_FUNCTION ("Pushes the Denemo clipboard (cut/copy buffer) onto a stack; Use d-PopClipboard to retrieve it.", DENEMO_SCHEME_PREFIX"PushClipboard", scheme_push_clipboard);
 
   INSTALL_SCM_FUNCTION ("Pops the Denemo clipboard (cut/copy buffer) from a stack created by d-PushClipboard. Returs #f if nothing on stack, else #t.", DENEMO_SCHEME_PREFIX"PopClipboard", scheme_pop_clipboard);

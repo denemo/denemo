@@ -141,9 +141,10 @@ infodialog (gchar * msg)
   GtkWidget *dialog;
   dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window),
 				   GTK_DIALOG_DESTROY_WITH_PARENT,
-				   GTK_MESSAGE_INFO, GTK_BUTTONS_NONE, "%s", msg);
+				   GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, "%s", msg);
+				   
   g_signal_connect_swapped (dialog, "response",
-			    G_CALLBACK (gtk_widget_destroy),
+			    G_CALLBACK (gtk_widget_hide),
 			    dialog);
   gtk_window_set_keep_above(GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all(dialog);
