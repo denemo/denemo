@@ -359,6 +359,7 @@ process_lilypond_errors(gchar *filename){
     g_free(bytes);
     return;
   }
+  g_print("\nLilyPond error messages\n8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8>< %s \n8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><\n", bytes);
   epoint = g_strstr_len (bytes, strlen(bytes), filename_colon);
   if(epoint) {
     gint line, column;
