@@ -31,6 +31,8 @@ static gboolean transition(void) {
 }
 
 gdouble transition_offset(void) {
+	if(Denemo.gui->view==DENEMO_PAGE_VIEW)
+		return 0.0;
 	return (gdouble)transition_steps*transition_amount*Denemo.gui->si->measurewidth/10;
 }
 gdouble transition_cursor_scale(void) {
