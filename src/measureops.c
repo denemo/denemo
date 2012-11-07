@@ -195,7 +195,7 @@ removemeasures (DenemoScore * si, guint pos, guint nummeasures, gboolean all)
 			  g_list_free_1 (temp);
 				}
 	  }
-	  set_measure_transition(20);
+	  set_measure_transition(20, all);
   } else {
       g_warning (_("removemeasures: received request to delete more measures\
                    than exist.  Junking request."));

@@ -847,7 +847,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 		      itp->source_displayed = TRUE;
 	    }
 	  }
-	  x += measure_transition_offset();
+	  x += measure_transition_offset(si->currentstaffnum==itp->staffnum);
 		x += GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE;
 
 	if((Denemo.gui->view!=DENEMO_PAGE_VIEW && itp->line_end && itp->measurenum > si->rightmeasurenum)

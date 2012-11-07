@@ -23,6 +23,7 @@ static gint transition_amount;//number of bars being moved to left, negative mea
 static gint cursor_steps = 0;
 static gint measure_transition_steps = 0;
 static gint measure_transition_amount = 0;
+static gboolean measure_all;
 static cursor_transition(void) {
 	gtk_widget_queue_draw (Denemo.scorearea);
 	return --cursor_steps;
@@ -51,10 +52,13 @@ gdouble transition_offset(void) {
 		return 0.0;
 	return (gdouble)transition_steps*transition_amount*Denemo.gui->si->measurewidth/10;
 }
-gdouble measure_transition_offset(void) {
+gdouble measure_transition_offset(gboolean current) {
 	if(Denemo.gui->view==DENEMO_PAGE_VIEW)
 		return 0.0;
-	return (gdouble)measure_transition_steps*measure_transition_amount;
+	if(current || measure_all)
+		return (gdouble)measure_transition_steps*measure_transition_amount;
+	else
+		return 0.0;
 }
 gdouble transition_cursor_scale(void) {
 	return cursor_steps?
@@ -69,11 +73,12 @@ void set_viewport_transition(gint amount) {
  }
 }
 
-void set_measure_transition(gint amount) {
+void set_measure_transition(gint amount, gboolean all) {
 	 if(measure_transition_steps) return;
 	 if(amount) {
 	 measure_transition_amount = amount;
 	 measure_transition_steps = 10;
+	 measure_all = all;
 	 g_timeout_add(20, (GSourceFunc)measure_transition, NULL);
  }
 }
