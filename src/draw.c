@@ -22,7 +22,7 @@
 #include "pitchentry.h"
 #include "lyric.h"
 #include "midi.h"
-#include "moveviewport.h"
+#include "displayanimation.h"
 
 #define EXCL_WIDTH 3
 #define EXCL_HEIGHT 13

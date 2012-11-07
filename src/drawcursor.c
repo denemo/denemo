@@ -7,7 +7,7 @@
 #include <math.h>
 #include "drawingprims.h"
 #include "utils.h"
-#include "moveviewport.h"
+#include "displayanimation.h"
 
 #define CURSOR_WIDTH (10*scale)
 #define CURSOR_HEIGHT (6*scale)

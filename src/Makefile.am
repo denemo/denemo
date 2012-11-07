@@ -41,7 +41,7 @@ denemo_SOURCES = denemo_types.c \
 	external.h source.h sourceaudio.h scorelayout.h fakechord.h \
 	parseinstruments.c parseinstruments.h keyboard.c \
 	pitchentry.c pitchrecog.c pitchentry.h audio.h \
-	drawlilydir.c lilydirectives.h lilydirectives.c keysigdialog.h \
+	drawlilydir.c lilydirectives.h lilydirectives.c displayanimation.c displayanimation.h keysigdialog.h \
 	callbacks.h entries.h \
 	scheme_cb.h scheme.h register_commands.h \
 	pathconfig.h \

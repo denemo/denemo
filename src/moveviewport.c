@@ -1,4 +1,4 @@
-/* moveviewport.cpp
+/* moveviewport.c
  *  functions that change leftmeasurenum, rightmeasurenum, top_measure,
  *  bottom_measure
  *
@@ -11,42 +11,8 @@
 #include "moveviewport.h"
 #include "staffops.h"
 #include "utils.h"
+#include "displayanimation.h"
 
-static gint transition_steps = 0;
-static gint transition_amount;//number of bars being moved to left, negative means to the right.
-static gint cursor_steps = 0;
-static cursor_transition(void) {
-	gtk_widget_queue_draw (Denemo.scorearea);
-	return --cursor_steps;
-}
-
-static gboolean transition(void) {
-	//g_print("Transition %d current bar= %d\n", transition_steps, transition_amount);
-	if(transition_steps==1) {
-		cursor_steps = 10;
-		g_timeout_add(20, (GSourceFunc)cursor_transition, NULL);
-	}
-	gtk_widget_queue_draw (Denemo.scorearea);
-	return --transition_steps;
-}
-
-gdouble transition_offset(void) {
-	if(Denemo.gui->view==DENEMO_PAGE_VIEW)
-		return 0.0;
-	return (gdouble)transition_steps*transition_amount*Denemo.gui->si->measurewidth/10;
-}
-gdouble transition_cursor_scale(void) {
-	return cursor_steps?
-	(gdouble)cursor_steps:1.0;
-}
- static void set_transition(gint amount) {
-	 if(transition_steps) return;
-	 if(amount) {
-	 transition_amount = amount;
-	 transition_steps = 10;
-	 g_timeout_add(20, (GSourceFunc)transition, NULL);
- }
-}
 /**
  * update_hscrollbar should be called as a cleanup whenever
  * si->leftmeasurenum or si->rightmeasurenum may have been altered,
@@ -65,7 +31,7 @@ update_hscrollbar (DenemoGUI * gui)
  gtk_adjustment_set_value(adj, gui->si->leftmeasurenum);
  gtk_adjustment_changed(adj);
  //g_print("steps %d Difference %d\n",transition_steps, (gint)(left-gui->si->leftmeasurenum));
- set_transition((gint)(gui->si->leftmeasurenum) - left);
+ set_viewport_transition((gint)(gui->si->leftmeasurenum) - left);
 }
 
 /**
@@ -414,7 +380,7 @@ h_scroll (gdouble value, DenemoGUI * gui)
   gint dest;
   if ((dest = (gint) (value + 0.5)) != gui->si->leftmeasurenum)
     {
-			set_transition(dest-gui->si->leftmeasurenum);
+			set_viewport_transition(dest-gui->si->leftmeasurenum);
       gui->si->leftmeasurenum = dest;
       set_rightmeasurenum (gui->si);
       if (gui->si->currentmeasurenum > gui->si->rightmeasurenum)
