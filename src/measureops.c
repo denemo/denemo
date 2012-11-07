@@ -172,47 +172,35 @@ removemeasures (DenemoScore * si, guint pos, guint nummeasures, gboolean all)
 	guint totalmeasures = 0;
   guint i;
 
-  if (nummeasures <=
-      g_list_length (firstmeasurenode ((staffnode *) si->currentstaff)) - pos)
-  {
-		for (i = 0; i < nummeasures; i++)
-		  {
-		    
-		    
-		    for (curstaff = si->thescore; curstaff;
-			 curstaff = curstaff->next)
+  if (nummeasures <= g_list_length (firstmeasurenode ((staffnode *) si->currentstaff)) - pos) {
+		for (i = 0; i < nummeasures; i++) {
+		    for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
 		      {
-			if (curstaff==si->currentstaff || all) {
-			  staffremovemeasures (curstaff, pos);
-			  if(!firstmeasurenode(curstaff)) {
-			    ((DenemoStaff *) curstaff->data)->measures =
-			      g_list_append (NULL, NULL);
-			    ((DenemoStaff *) curstaff->data)->nummeasures=1;
-			  } 	    
-			}
+						if (curstaff==si->currentstaff || all) {
+							staffremovemeasures (curstaff, pos);
+							if(!firstmeasurenode(curstaff)) {
+								((DenemoStaff *) curstaff->data)->measures = g_list_append (NULL, NULL);
+							((DenemoStaff *) curstaff->data)->nummeasures=1;
+							} 	    
+						}
 		      }
-		 
-		  
-			for(curstaff = si->thescore; curstaff; curstaff = curstaff->next)
-			{
-				totalmeasures = MAX(totalmeasures ,((DenemoStaff *)curstaff->data)->nummeasures);
-			}
+			for(curstaff = si->thescore; curstaff; curstaff = curstaff->next) {
+					totalmeasures = MAX(totalmeasures ,((DenemoStaff *)curstaff->data)->nummeasures);
+				}
 			
-		  if(totalmeasures <= (g_list_length(si->measurewidths) - 1))
-		  {
+		  if(totalmeasures <= (g_list_length(si->measurewidths) - 1))	{
 			  /* And get rid of the no-longer-needed width data too */
 			  temp = g_list_nth (si->measurewidths, pos);
 			  si->measurewidths = g_list_remove_link (si->measurewidths, temp);
 			  g_list_free_1 (temp);
-		  }
+				}
 	  }
-    }
-  else
-    {
+	  set_measure_transition(20);
+  } else {
       g_warning (_("removemeasures: received request to delete more measures\
                    than exist.  Junking request."));
       return si->currentmeasure;
-    }
+  }
   firstmeasure = firstmeasurenode (si->currentstaff);
   if (pos ==
       g_list_length (firstmeasurenode ((staffnode *) si->currentstaff)))
