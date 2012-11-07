@@ -348,7 +348,7 @@ process_lilypond_errors(gchar *filename){
   gchar *filename_colon = g_strdup_printf("%s.ly%s", basename, ":");
   g_free(basename);
   gchar *epoint = NULL;
-#define bufsize (1000)
+#define bufsize (100000)
   gchar *bytes = g_malloc0(bufsize);
   gint numbytes = read(errors, bytes, bufsize-1);
   close(errors);
