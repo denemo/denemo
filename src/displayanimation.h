@@ -12,6 +12,7 @@
 #define DISPLAYANIMATION_H
 
 void set_viewport_transition(gint amount);
+void set_staff_transition(gint amount);
 void set_measure_transition(gint amount, gboolean all);
 void set_cursor_transition(void);
 
@@ -23,4 +24,6 @@ transition_cursor_scale(void);
 gdouble
 measure_transition_offset(gboolean current);
 
+gdouble 
+staff_transition_offset(void);
 #endif

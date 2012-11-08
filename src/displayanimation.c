@@ -24,7 +24,9 @@ static gint transition_amount;//number of bars being moved to left, negative mea
 static gint cursor_steps = 0;
 static gint measure_transition_steps = 0;
 static gint measure_transition_amount = 0;
+static gint staff_transition_amount = 0;
 static gboolean measure_all = FALSE;
+static gint staff_transition_steps = 0;
 static cursor_transition(void) {
 	gtk_widget_queue_draw (Denemo.scorearea);
 	return --cursor_steps;
@@ -38,6 +40,14 @@ static gboolean transition(void) {
 	gtk_widget_queue_draw (Denemo.scorearea);
 	return --transition_steps;
 }
+static gboolean staff_transition(void) {
+	//g_print("Transition %d current bar= %d\n", transition_steps, transition_amount);
+	if(staff_transition_steps==1) {
+		set_cursor_transition();
+	}
+	gtk_widget_queue_draw (Denemo.scorearea);
+	return --staff_transition_steps;
+}
 static gboolean measure_transition(void) {
 	//g_print("Measure transition %d current bar= %d\n", measure_steps, measure_amount);
 	if(measure_transition_steps==1) {
@@ -50,6 +60,11 @@ gdouble transition_offset(void) {
 	if(Denemo.gui->view==DENEMO_PAGE_VIEW)
 		return 0.0;
 	return (gdouble)transition_steps*transition_amount*Denemo.gui->si->measurewidth/10;
+}
+gdouble staff_transition_offset(void) {
+	if(Denemo.gui->view==DENEMO_PAGE_VIEW)
+		return 0.0;
+	return (gdouble)staff_transition_steps*staff_transition_amount;
 }
 gdouble measure_transition_offset(gboolean current) {
 	if(Denemo.gui->view==DENEMO_PAGE_VIEW)
@@ -85,5 +100,12 @@ void set_cursor_transition(void) {
 	if(cursor_steps==0) {
 		cursor_steps = 10;
 		g_timeout_add(TRANSITION_MS, (GSourceFunc)cursor_transition, NULL);
+	}	
+}
+void set_staff_transition(gint amount) {
+	if(staff_transition_steps==0) {
+		staff_transition_steps = 10;
+		staff_transition_amount = amount;
+		g_timeout_add(TRANSITION_MS, (GSourceFunc)staff_transition, NULL);
 	}	
 }

@@ -1063,8 +1063,10 @@ draw_score (cairo_t *cr)
     DenemoStaff *staff = (DenemoStaff *) curstaff->data;
     itp.verse = staff->currentverse?staff->currentverse->data:NULL;
     GdkPixbuf *StaffDirectivesPixbuf = (si->currentstaffnum==itp.staffnum)?StaffPixbuf:StaffPixbufSmall;
-      
-
+   if (si->currentstaffnum==itp.staffnum)
+			y += staff_transition_offset();
+			
+		
     if (curstaff && staff->voicecontrol&DENEMO_PRIMARY)
       y += staff->space_above;
 
