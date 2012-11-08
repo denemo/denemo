@@ -18,12 +18,13 @@
 //      MA 02110-1301, USA.
 #include "displayanimation.h"
 
+#define TRANSITION_MS (20)
 static gint transition_steps = 0;
 static gint transition_amount;//number of bars being moved to left, negative means to the right.
 static gint cursor_steps = 0;
 static gint measure_transition_steps = 0;
 static gint measure_transition_amount = 0;
-static gboolean measure_all;
+static gboolean measure_all = FALSE;
 static cursor_transition(void) {
 	gtk_widget_queue_draw (Denemo.scorearea);
 	return --cursor_steps;
@@ -31,18 +32,16 @@ static cursor_transition(void) {
 
 static gboolean transition(void) {
 	//g_print("Transition %d current bar= %d\n", transition_steps, transition_amount);
-	if(transition_steps==1 && cursor_steps==0) {
-		cursor_steps = 10;
-		g_timeout_add(20, (GSourceFunc)cursor_transition, NULL);
+	if(transition_steps==1) {
+		set_cursor_transition();
 	}
 	gtk_widget_queue_draw (Denemo.scorearea);
 	return --transition_steps;
 }
 static gboolean measure_transition(void) {
 	//g_print("Measure transition %d current bar= %d\n", measure_steps, measure_amount);
-	if(measure_transition_steps==1 && cursor_steps==0) {
-		cursor_steps = 10;
-		g_timeout_add(20, (GSourceFunc)cursor_transition, NULL);
+	if(measure_transition_steps==1) {
+		set_cursor_transition();
 	}
 	gtk_widget_queue_draw (Denemo.scorearea);
 	return --measure_transition_steps;
@@ -69,7 +68,7 @@ void set_viewport_transition(gint amount) {
 	 if(amount) {
 	 transition_amount = amount;
 	 transition_steps = 10;
-	 g_timeout_add(20, (GSourceFunc)transition, NULL);
+	 g_timeout_add(TRANSITION_MS, (GSourceFunc)transition, NULL);
  }
 }
 
@@ -79,6 +78,12 @@ void set_measure_transition(gint amount, gboolean all) {
 	 measure_transition_amount = amount;
 	 measure_transition_steps = 10;
 	 measure_all = all;
-	 g_timeout_add(20, (GSourceFunc)measure_transition, NULL);
+	 g_timeout_add(TRANSITION_MS, (GSourceFunc)measure_transition, NULL);
  }
+}
+void set_cursor_transition(void) {
+	if(cursor_steps==0) {
+		cursor_steps = 10;
+		g_timeout_add(TRANSITION_MS, (GSourceFunc)cursor_transition, NULL);
+	}	
 }

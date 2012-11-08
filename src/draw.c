@@ -672,27 +672,25 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
   if(cr) {
 	  cairo_save(cr);
 	 
-  //Draw vertical lines to bind the staffs of the system together
-      if(curstaff->prev)
-	{
-	  DenemoStaff *prev = (DenemoStaff *)(curstaff->prev->data);	  
-	  cairo_set_source_rgb( cr, 0, 0, 0);
-	  cairo_rectangle (cr, LEFT_MARGIN, y - STAFF_HEIGHT - prev->space_below - thestaff->space_above, 2, 2*STAFF_HEIGHT + prev->space_below + thestaff->space_above);
-	  cairo_fill(cr);	 
-	}
-      if(curstaff->next)
-	{
-	  DenemoStaff *next = (DenemoStaff *)(curstaff->next->data);
-	  //cairo_save(cr);
-	  cairo_set_source_rgb( cr, 0, 0, 0);
-	  cairo_rectangle (cr, LEFT_MARGIN, y, 2, 2*STAFF_HEIGHT + next->space_above + thestaff->space_below);
-	  cairo_fill(cr);	 
-	}
+		//Draw vertical lines to bind the staffs of the system together
+		if(curstaff->prev) {
+			DenemoStaff *prev = (DenemoStaff *)(curstaff->prev->data);	  
+			cairo_set_source_rgb( cr, 0, 0, 0);
+			cairo_rectangle (cr, LEFT_MARGIN, y - STAFF_HEIGHT - prev->space_below - thestaff->space_above, 2, 2*STAFF_HEIGHT + prev->space_below + thestaff->space_above);
+			cairo_fill(cr);	 
+		}
+		if(curstaff->next) {
+			DenemoStaff *next = (DenemoStaff *)(curstaff->next->data);
+			//cairo_save(cr);
+			cairo_set_source_rgb( cr, 0, 0, 0);
+			cairo_rectangle (cr, LEFT_MARGIN, y, 2, 2*STAFF_HEIGHT + next->space_above + thestaff->space_below);
+			cairo_fill(cr);	 
+		}
 
-  if ((DenemoStaff *) si->currentstaff->data == thestaff)
-    cairo_set_source_rgb( cr, 0,0,0 );
-  else
-    cairo_set_source_rgb( cr, 0.3,0.3,0.3 );
+		if ((DenemoStaff *) si->currentstaff->data == thestaff)
+			cairo_set_source_rgb( cr, 0,0,0 );
+		else
+			cairo_set_source_rgb( cr, 0.3,0.3,0.3 );
   } //if cr
 
   if(!itp->line_end) {//not a continuation
@@ -706,7 +704,6 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
       draw_clef (cr, LEFT_MARGIN, y,
 	       itp->clef);
       cairo_restore(cr);
-
     }
 
     
@@ -722,19 +719,19 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
       thestaff->leftmost_timesig->time2;
     if(cr && !(thestaff->voicecontrol&DENEMO_SECONDARY)) {
       if(si->leftmeasurenum==1)  
-	draw_timesig (cr, x, y, itp->time1, itp->time2, thestaff->leftmost_timesig);
+				draw_timesig (cr, x, y, itp->time1, itp->time2, thestaff->leftmost_timesig);
       else {
-	guint width = gdk_pixbuf_get_width( GDK_PIXBUF(StaffGoBack));
-	guint height = gdk_pixbuf_get_height( GDK_PIXBUF(StaffGoBack));
-	cairo_save( cr );
-	gdk_cairo_set_source_pixbuf( cr, GDK_PIXBUF(StaffGoBack), x,y );
-	cairo_rectangle( cr,x,y, width, height );
-	cairo_fill( cr );
-	cairo_restore( cr );
+				guint width = gdk_pixbuf_get_width( GDK_PIXBUF(StaffGoBack));
+				guint height = gdk_pixbuf_get_height( GDK_PIXBUF(StaffGoBack));
+				cairo_save( cr );
+				gdk_cairo_set_source_pixbuf( cr, GDK_PIXBUF(StaffGoBack), x,y );
+				cairo_rectangle( cr,x,y, width, height );
+				cairo_fill( cr );
+				cairo_restore( cr );
       }
     }
     x += SPACE_FOR_TIME;
-  } else {
+  } else { // a continuation line
     if(cr && !(thestaff->voicecontrol&DENEMO_SECONDARY)) draw_clef (cr, LEFT_MARGIN, y, itp->clef);
     if(cr && !(thestaff->voicecontrol&DENEMO_SECONDARY)) draw_key (cr, x, y,
 		     itp->key, 0, itp->clef->type, TRUE, thestaff->leftmost_keysig);
@@ -750,20 +747,18 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
   itp->tickspermeasure = WHOLE_NUMTICKS * itp->time1 / itp->time2;
 
   if(cr) {
-  /* Draw staff name on first system */
-  if(!itp->line_end) {
-    gint staffname_offset = (thestaff->voicecontrol&DENEMO_PRIMARY) ? 24 :12;
-    drawnormaltext_cr( cr, thestaff->denemo_name->str, 0/*KEY_MARGIN*/, y - staffname_offset+10 );
-  } else {
-  cairo_save(cr);
-  gint staffname_offset = (thestaff->voicecontrol&DENEMO_PRIMARY) ? 24 : 12;
-  cairo_translate(cr, 2, (y - staffname_offset+30) );
-  cairo_rotate( cr,- M_PI/5.0 );
-  drawnormaltext_cr( cr, thestaff->denemo_name->str, 0,0 );
-  cairo_restore(cr);
-  }
-
-  // cairo_save(cr);
+		/* Draw staff name on first system */
+		if(!itp->line_end) {
+			gint staffname_offset = (thestaff->voicecontrol&DENEMO_PRIMARY) ? 24 :12;
+			drawnormaltext_cr( cr, thestaff->denemo_name->str, 0/*KEY_MARGIN*/, y - staffname_offset+10 );
+		} else {
+			cairo_save(cr);
+			gint staffname_offset = (thestaff->voicecontrol&DENEMO_PRIMARY) ? 24 : 12;
+			cairo_translate(cr, 2, (y - staffname_offset+30) );
+			cairo_rotate( cr,- M_PI/5.0 );
+			drawnormaltext_cr( cr, thestaff->denemo_name->str, 0,0 );
+			cairo_restore(cr);
+		}
   }//if cr
 
 
@@ -804,12 +799,12 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 
   if(!*itp->scale)
     *itp->scale=100;
- if(cr) {
+	if(cr) {
    cairo_scale(cr, 100.0/(*itp->scale),1.0);
 	    //cairo_scale(cr,(*itp->scale)/100.0,1.0);
- }
+	}
 
- gint scale_before=*itp->scale;
+	gint scale_before=*itp->scale;
   itp->line_end = FALSE;
   cairo_t *saved_cr = NULL;
   if(itp->source_displayed) {//We have displayed source material below the last staff, so do not draw anymore staff music. We cannot simply skip the drawing routines however, because they determine the rightmost bar for mouse positioning, so we save and restore it.
@@ -817,14 +812,16 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
     cr = NULL;
   }
     
-  while ( (!itp->line_end) 
-	 && itp->measurenum <= nummeasures)
-    {
-      if( x + GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE >
-	  (int)(get_widget_width(Denemo.scorearea)/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)))
-	  itp->line_end=TRUE;
+  while ( (!itp->line_end)  && itp->measurenum <= nummeasures) {
+
+     if( x + GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE >
+					(int)(get_widget_width(Denemo.scorearea)/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)))
+				itp->line_end=TRUE;
 
 	  itp->last_gap = 0;
+
+	  if(itp->measurenum == si->currentmeasurenum)
+			x += measure_transition_offset(si->currentstaffnum==itp->staffnum);
 	  draw_measure (cr, itp->curmeasure, x, y, gui, itp);
 	  if(cr && (Denemo.gui->view!=DENEMO_PAGE_VIEW) && (si->sources||thestaff->sources) && (si->currentstaffnum == itp->staffnum)) {
 	    GdkPixbuf* source = (GdkPixbuf*)g_list_nth_data(si->sources?gui->si->sources:thestaff->sources, itp->measurenum-1);
@@ -847,32 +844,38 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 		      itp->source_displayed = TRUE;
 	    }
 	  }
-	  x += measure_transition_offset(si->currentstaffnum==itp->staffnum);
+
 		x += GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE;
 
-	if((Denemo.gui->view!=DENEMO_PAGE_VIEW && itp->line_end && itp->measurenum > si->rightmeasurenum)
-	  ||(Denemo.gui->view==DENEMO_PAGE_VIEW && itp->line_end && itp->curmeasure->next))
-		*itp->scale = (int)(100*x/(get_widget_width(Denemo.scorearea)/gui->si->zoom));
-	else
-	  *itp->scale = 100;
 
-    itp->curmeasure = itp->curmeasure->next;
-    itp->mwidthiterator = itp->mwidthiterator->next;
+		if(
+#if 0
+/* do not scale the non page views as it perturbs the display animation and anyway does not add anything */
+		(Denemo.gui->view!=DENEMO_PAGE_VIEW && itp->line_end && itp->measurenum > si->rightmeasurenum)
+			||
+#endif			
+			(Denemo.gui->view==DENEMO_PAGE_VIEW && itp->line_end && itp->curmeasure->next))
+				*itp->scale = (int)(100*x/(get_widget_width(Denemo.scorearea)/gui->si->zoom));
+		else
+			*itp->scale = 100;
 
-    itp->measurenum++;
-    //g_print("line_end is %d, while itp->measurenum=%d and si->rightmeasurenum=%d\n",  itp->line_end, itp->measurenum, si->rightmeasurenum);
-    if(!itp->line_end) {
-	if(-itp->highy>itp->in_highy && -itp->highy<MAXEXTRASPACE) {
-	  //g_print("With %d to change %d\n", -itp->highy, itp->in_highy);
-	  thestaff->space_above = -itp->highy;
-	  repeat = TRUE;
-	}
-	if(itp->lowy>itp->in_lowy && itp->lowy<MAXEXTRASPACE){
-	  thestaff->space_below = itp->lowy;
-	  repeat = TRUE;
-	}
-      }			      
-    } // end of loop drawing each measure
+		itp->curmeasure = itp->curmeasure->next;
+		itp->mwidthiterator = itp->mwidthiterator->next;
+
+		itp->measurenum++;
+			//g_print("line_end is %d, while itp->measurenum=%d and si->rightmeasurenum=%d\n",  itp->line_end, itp->measurenum, si->rightmeasurenum);
+		if(!itp->line_end) {
+			if(-itp->highy>itp->in_highy && -itp->highy<MAXEXTRASPACE) {
+				//g_print("With %d to change %d\n", -itp->highy, itp->in_highy);
+				thestaff->space_above = -itp->highy;
+				repeat = TRUE;
+			}
+			if(itp->lowy>itp->in_lowy && itp->lowy<MAXEXTRASPACE){
+				thestaff->space_below = itp->lowy;
+				repeat = TRUE;
+			}
+		}			      
+  } // end of loop drawing each measure
   if(scale_before!=*itp->scale)
     repeat = TRUE;/* the first system is already drawn, so it is too late to discover that we needed to scale it */
   *itp->right = itp->measurenum-1;
@@ -898,7 +901,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 	     guint width = gdk_pixbuf_get_width( GDK_PIXBUF(StaffGoForward));
 	     guint height = gdk_pixbuf_get_height( GDK_PIXBUF(StaffGoForward));
 	     cairo_save( cr );
-             gint xx = get_widget_width(Denemo.scorearea)/gui->si->zoom -width;
+       gint xx = get_widget_width(Denemo.scorearea)/gui->si->zoom -width;
 	     gdk_cairo_set_source_pixbuf( cr, GDK_PIXBUF(StaffGoForward),xx,y );
 	     cairo_rectangle( cr,xx,y, width, height );
 	     cairo_fill( cr );
@@ -932,9 +935,11 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
     }
   if(saved_cr)
     cr = saved_cr;
-  
+ 
   return repeat;
 }
+
+
 static void
 print_system_separator (cairo_t *cr, gdouble position){
   //g_print("At %f for %d\n", position, Denemo.scorearea->allocation.height);

@@ -13,6 +13,7 @@
 
 void set_viewport_transition(gint amount);
 void set_measure_transition(gint amount, gboolean all);
+void set_cursor_transition(void);
 
 gdouble 
 transition_offset(void);
@@ -21,4 +22,5 @@ transition_cursor_scale(void);
 
 gdouble
 measure_transition_offset(gboolean current);
+
 #endif

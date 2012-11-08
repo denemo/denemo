@@ -75,7 +75,7 @@ addmeasures (DenemoScore * si, gint pos, guint nummeasures, gint all)
 
 
     }
-
+	set_measure_transition(-20*nummeasures, all);
   measurenode *ret =  g_list_nth (firstmeasurenode (si->currentstaff), pos);
 //check not returning NULL!!!!
   if(ret)
