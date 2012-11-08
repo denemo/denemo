@@ -582,6 +582,7 @@ govoiceup (DenemoScriptParam *param, gboolean extend_selection)
     setcurrents (gui->si);
     show_lyrics();
     move_viewport_down (gui);
+    set_cursor_transition();
     return param->status = TRUE;
     } else
       if(param==&dummy)//is interactive
@@ -620,6 +621,7 @@ gostaffup (DenemoScriptParam *param, gboolean extend_selection)
       find_leftmost_allcontexts (si);
       update_drawing_cache();;
       move_viewport_up (gui);
+      set_cursor_transition();
       return param->status = TRUE;
     } else
       if(param==&dummy)//is interactive
@@ -651,13 +653,15 @@ govoicedown (DenemoScriptParam *param, gboolean extend_selection)
       setcurrentprimarystaff (gui->si);
       setcurrents (gui->si);
       if(extend_selection)
-	calcmarkboundaries (gui->si);
+				calcmarkboundaries (gui->si);
       show_lyrics();
       move_viewport_down (gui);
+      set_cursor_transition();
       return param->status = TRUE;
     } else
       if(param==&dummy)//is interactive
       warningmessage(_("This is the last voice"));
+      
   return param->status = FALSE;
 }
 
@@ -718,16 +722,18 @@ gostaffdown (DenemoScriptParam *param, gboolean extend_selection)
       setcurrentprimarystaff (gui->si);
       setcurrents (gui->si);
       if(extend_selection)
-	calcmarkboundaries (gui->si);
+				calcmarkboundaries (gui->si);
       show_lyrics();
       find_leftmost_allcontexts (si);
       
       update_drawing_cache();;
       move_viewport_down (gui);
+      set_cursor_transition();
       return param->status = TRUE;
     } else
       if(param==&dummy)//is interactive
       warningmessage(_("This is the last staff"));
+ 
   return param->status = FALSE;
 }
 
