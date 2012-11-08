@@ -198,7 +198,7 @@ insert_staff (DenemoScore * si, DenemoStaff * thestaffstruct,
       setcurrentprimarystaff (si);
       find_leftmost_staffcontext (thestaffstruct, si);
     }
-
+	set_staff_transition(20);
 }
 
 
@@ -409,8 +409,6 @@ gboolean signal_structural_change(DenemoGUI *gui) {
   return TRUE;
 }
 
-
-
 /**
  * Remove the gui->si->currentstaff from the piece gui and reset si->currentstaff
  * if only one staff, inserts a new empty one
@@ -452,7 +450,10 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
   g_string_free (curstaffstruct->denemo_name, FALSE);//FIXME these should all be TRUE??
   g_string_free (curstaffstruct->lily_name, FALSE);
   g_string_free (curstaffstruct->midi_instrument, FALSE);
-  g_list_foreach (curstaffstruct->verses, (GFunc)gtk_widget_destroy, NULL);//FIXME it is enough to destroy the notebook, here we are only destroying the GtkTextViews
+ // g_list_foreach (curstaffstruct->verses, (GFunc)destroy_parent, NULL);//FIXME it is enough to destroy the notebook, here we are only destroying the GtkTextViews
+  if(curstaffstruct->verses) 
+		gtk_widget_destroy(gtk_widget_get_parent(gtk_widget_get_parent(curstaffstruct->verses->data)));
+  
   g_free (curstaffstruct);
 
 
@@ -460,6 +461,8 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
 
   if(si->currentstaff==g_list_last(si->thescore))
     si->currentstaffnum--;//deleting the last, so the currentstaffnum must decrease
+  else
+  	set_staff_transition(20);
   si->thescore = g_list_delete_link (si->thescore, si->currentstaff);
   if(si->thescore==NULL) {
     newstaff (gui, INITIAL, DENEMO_NONE);
@@ -479,6 +482,7 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
     calcmarkboundaries (si);
   if(gui->si->currentstaffnum < gui->si->top_staff)
     gui->si->top_staff = gui->si->currentstaffnum; 
+  show_lyrics();
   update_vscrollbar (gui);
 
   displayhelper (gui);
