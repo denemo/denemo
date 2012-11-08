@@ -1326,8 +1326,17 @@ void thumb_finished(GPid pid, gint status) {
   gchar *printname = get_thumb_printname();
     gchar *printpng = g_strconcat(printname, ".png", NULL);
     GdkPixbuf *pbN = gdk_pixbuf_new_from_file_at_scale   (printpng, 128, -1, TRUE, &err);
+    if(err) {
+			g_warning ("Thumbnail 128x128 file %s gave an error: %s", printpng, err->message);
+			g_error_free (err);
+			err = NULL;
+		}
     GdkPixbuf *pbL = gdk_pixbuf_new_from_file_at_scale   (printpng, 256, -1, TRUE, &err);
-    
+    if(err) {
+			g_warning ("Thumbnail 256x256 file %s gave an error: %s", printpng, err->message);
+			g_error_free (err);
+			err = NULL;
+		}
     //FIXME if pb->height>128 or 256 scale it down...
     if(pbN && pbL) {
       gchar *uri = g_strdup_printf("file://%s", Denemo.gui->filename->str);
