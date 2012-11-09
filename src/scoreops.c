@@ -16,6 +16,7 @@
 #include "lyric.h"
 #include "audiointerface.h"
 
+#define MOVEMENT_WIDTH (10)
 static remove_all_staffs(DenemoScore * si);
 
 
@@ -171,6 +172,8 @@ delete_movement(GtkAction *action, gpointer param) {
   reset_movement_numbers(gui);
   g_string_free(primary, TRUE);
   g_string_free(secondary, TRUE);
+  
+  set_movement_transition(-MOVEMENT_WIDTH);
   displayhelper(gui);
   score_status(gui, TRUE);
 }
@@ -327,6 +330,7 @@ next_movement (GtkAction *action, DenemoScriptParam *param)
   g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
   write_status(gui);
   //gtk_widget_draw (Denemo.scorearea, NULL);//KLUDGE FIXME see staffup/down
+  set_movement_transition(-MOVEMENT_WIDTH);
   gtk_widget_queue_draw (Denemo.scorearea);
   draw_score(NULL);
 }
@@ -373,6 +377,8 @@ prev_movement (GtkAction *action, DenemoScriptParam *param)
   g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
   write_status(gui);
   //gtk_widget_draw (Denemo.scorearea, NULL);//KLUDGE FIXME see staffup/down
+  set_movement_transition(MOVEMENT_WIDTH);
+
   gtk_widget_queue_draw (Denemo.scorearea);
   draw_score(NULL);
 }

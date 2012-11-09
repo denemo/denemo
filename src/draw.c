@@ -663,6 +663,8 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
   gboolean repeat = FALSE;
   DenemoScore *si = gui->si;
   gint x  = KEY_MARGIN, i;
+
+  
   //g_print("drawing staff %d at %d\n", itp->staffnum, y);
   gint nummeasures = g_list_length (thestaff->measures);
 
@@ -1038,7 +1040,7 @@ draw_score (cairo_t *cr)
   itp.startobj =  itp.endobj = NULL;
   itp.tupletstart = itp.tuplety = 0;
   y = 0;
-
+	
   if(gui->si->smf) {
     itp.startobj = Startobj;
     // g_print("start %p\n", itp.startobj);
@@ -1046,7 +1048,7 @@ draw_score (cairo_t *cr)
     itp.endobj = Endobj;
     //g_print("Start time %p %f end time %p %f\n", itp.startobj, si->start_time, itp.endobj, si->end_time);
   }
-
+if(cr) cairo_translate(cr, movement_transition_offset(), 0);
   /* The colour for staff lines and such is black. */
   if (cr) cairo_set_source_rgb( cr, 0, 0, 0 );
 
