@@ -6149,6 +6149,14 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <label>Three Beams Left</label>
         <tooltip>Prints with just three beams linking to the left.</tooltip>
       </row>
+      <row>
+        <action>Custos</action>
+        <after>MovementPageBreak</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <label>Custos (On/Off)</label>
+        <tooltip>Prints a custos at the end of each line for the current movement. Repeat command to turn custos off.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
