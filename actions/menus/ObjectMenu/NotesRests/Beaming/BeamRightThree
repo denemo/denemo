@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>BeamRightThree</action>
+        <scheme>;;; BeamRightThree
+(let ((tag "BeamRight"))
+(if (d-Directive-chord? tag)
+	(d-DirectiveDelete-chord tag)
+	(begin
+	(d-DirectivePut-chord-prefix tag "\\set stemRightBeamCount = #3 ")
+	(d-DirectivePut-chord-override tag DENEMO_OVERRIDE_AFFIX)
+	(d-DirectivePut-chord-display tag  "[3")))
+(d-RefreshDisplay)
+(d-SetSaved #f))
+</scheme>
+        <label>Three Beams Right</label>
+        <tooltip>Prints with just three beams linking to the right.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
