@@ -5,13 +5,16 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after/>
         <action>EndBeam</action>
         <scheme>;;; EndBeam
-(d-DirectivePut-chord-postfix "Beam" "]")
-(d-DirectivePut-chord-display "Beam"  "]")
-(d-SetSaved #f)
-(d-RefreshDisplay)
+(let ((tag "Beam"))
+	(if (d-Directive-chord? tag)
+		(d-DirectiveDelete-chord tag)
+		(begin
+			(d-DirectivePut-chord-postfix "Beam" "]")
+			(d-DirectivePut-chord-display "Beam"  "]")
+			(d-RefreshDisplay)
+			(d-SetSaved #f))))
 </scheme>
         <label>End Beam</label>
         <tooltip>Instructs LilyPond engraver to stop previously started manual beaming. Print effect only.</tooltip>

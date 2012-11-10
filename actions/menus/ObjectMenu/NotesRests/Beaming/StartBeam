@@ -5,13 +5,16 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after/>
         <action>StartBeam</action>
         <scheme>;;; StartBeam
-(d-DirectivePut-chord-postfix "Beam" "[")
-(d-DirectivePut-chord-display "Beam"  "[")
-(d-RefreshDisplay)
-(d-SetSaved #f)
+(let ((tag "Beam"))
+	(if (d-Directive-chord? tag)
+		(d-DirectiveDelete-chord tag)
+		(begin
+			(d-DirectivePut-chord-postfix "Beam" "[")
+			(d-DirectivePut-chord-display "Beam"  "[")
+			(d-RefreshDisplay)
+			(d-SetSaved #f))))
 </scheme>
         <label>Start Beam</label>
         <tooltip>Instructs the LilyPond engraver to start a beam here. (Print effect only)</tooltip>
