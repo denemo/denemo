@@ -1,13 +1,5 @@
 ;;;;;;;; NormalBeamEndings
-(d-ScoreBlockProlog "
-#(score-override-auto-beam-setting '(end * * 3 4) 1 4)
-#(score-override-auto-beam-setting '(end * * 3 4) 2 4)
-#(score-override-auto-beam-setting '(end * * 4 4) 1 4)
-#(score-override-auto-beam-setting '(end * * 4 4) 2 4)
-#(score-override-auto-beam-setting '(end * * 4 4) 3 4)
-#(score-override-auto-beam-setting '(end 1 16 2 2) 1 4)
-#(score-override-auto-beam-setting '(end 1 16 2 2) 2 4)
-#(score-override-auto-beam-setting '(end 1 16 2 2) 3 4)
-")
+        ;;removes old syntax no longer valid for current LilyPond version
+(d-ScoreBlockProlog "")
 (d-SetSaved #f)
 

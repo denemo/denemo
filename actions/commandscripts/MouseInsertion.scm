@@ -34,7 +34,7 @@
 
 (CreateButton "SharpenNext" "♯")
 (d-SetDirectiveTagActionScript "SharpenNext" "(d-PendingSharpen)")
-
+;MouseInsertion
 (CreateButton "FlattenNext" "♭")
 (d-SetDirectiveTagActionScript "FlattenNext" "(d-PendingFlatten)")
 
@@ -54,8 +54,19 @@
 
 (CreateButton "Dynamics" "<span font=\"times\" size=\"large\" font_style=\"italic\" font_weight=\"bold\">f p</span>")
 (d-SetDirectiveTagActionScript "Dynamics" "(d-DynamicsDialog)")
+
 (CreateButton "Tempo" "<span font=\"times\" size=\"large\" font_style=\"italic\" font_weight=\"bold\">Allegro</span>")
-(d-SetDirectiveTagActionScript "Tempo" "(d-Tempo)")
+(d-SetDirectiveTagActionScript "Tempo" "(d-MetronomeMark)")
+
+(CreateButton "StartCresc" "<span font=\"times\" size=\"large\" font_weight=\"bold\">&lt;</span>")
+(d-SetDirectiveTagActionScript "StartCresc" "(d-ToggleStartCrescendo)")
+(CreateButton "EndCresc" "<span font=\"times\" size=\"large\" font_weight=\"bold\">&lt;|</span>")
+(d-SetDirectiveTagActionScript "EndCresc" "(d-ToggleEndCrescendo)")
+
+(CreateButton "StartDim" "<span font=\"times\" size=\"large\" font_weight=\"bold\">&gt;</span>")
+(d-SetDirectiveTagActionScript "StartDim" "(d-ToggleStartDiminuendo)")
+(CreateButton "EndDim" "<span font=\"times\" size=\"large\" font_weight=\"bold\">&gt;|</span>")
+(d-SetDirectiveTagActionScript "EndDim" "(d-ToggleEndDiminuendo)")
 
 (if DenemoPref_newbie
 	(d-InfoDialog (_ "To insert notes hold down shift key while clicking the mouse. To add to a chord hold down Alt key, to delete hold down Control key while clicking.")))

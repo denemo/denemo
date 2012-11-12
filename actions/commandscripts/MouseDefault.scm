@@ -35,3 +35,8 @@
 (d-DirectiveDelete-score "Triplets")
 (d-DirectiveDelete-score "Dynamics")
 (d-DirectiveDelete-score "Tempo")
+(d-DirectiveDelete-score "StartCresc")
+(d-DirectiveDelete-score "EndCresc")
+(d-DirectiveDelete-score "StartDim")
+(d-DirectiveDelete-score "EndDim")
+

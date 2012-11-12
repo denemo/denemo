@@ -7,4 +7,5 @@
   		(d-DirectivePut-standalone-ty tag -50)
   		(d-DirectivePut-standalone-tx tag -30)
 		(d-DirectivePut-standalone-y tag id))))
+(d-SetSaved #f)
 (d-RefreshDisplay)
