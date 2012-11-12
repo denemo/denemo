@@ -6157,6 +6157,18 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <label>Custos (On/Off)</label>
         <tooltip>Prints a custos at the end of each line for the current movement. Repeat command to turn custos off.</tooltip>
       </row>
+      <row>
+        <action>Ficta</action>
+        <after>SuggestNatural</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
+        <label>Ficta Accidental</label>
+        <tooltip>Prints the accidental above rather than before the note.
+        In European music from before about 1600, singers were expected to
+chromatically alter notes at their own initiative according to certain
+rules. This is called musica ficta. In modern transcriptions, these
+accidentals are usually printed over the note.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
