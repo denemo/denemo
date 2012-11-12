@@ -2581,13 +2581,6 @@ Sets prevailing rhythm to &#x1D165;</tooltip>
         <tooltip>Hides the movement on printing.</tooltip>
       </row>
       <row>
-        <action>Beam1234</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
-        <label>Beam 4 Beats</label>
-        <tooltip>Beams end on each quarter note (up to 4).</tooltip>
-      </row>
-      <row>
         <action>ClosingBarline</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/Barlines</menupath>

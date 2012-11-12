@@ -687,17 +687,6 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* Beam1234 xgettext:no-c-format*/
-action = gtk_action_new("Beam1234",_("Beam 4 Beats"),/* xgettext:no-c-format*/_("Beams end on each quarter note (up to 4)."), get_icon_for_name("Beam1234", "Beam 4 Beats"));
-/* xgettext:no-c-format*/
-register_command(Denemo.map, action, "Beam1234", _("Beam 4 Beats"), /* xgettext:no-c-format*/_("Beams end on each quarter note (up to 4)."), activate_script);
-gtk_action_group_add_action(Denemo.action_group, action);
-create_scheme_function_for_script("Beam1234");
-add_ui("/ObjectMenu/NotesRests/Beaming", NULL, "Beam1234");
-g_object_set_data(G_OBJECT(action), "scheme", "");
-g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Beaming");
-g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
-
 /* ClosingBarline xgettext:no-c-format*/
 action = gtk_action_new("ClosingBarline",_("Closing Barline"),/* xgettext:no-c-format*/_("Inserts a closing barline (a double bar with last one thicker)."), get_icon_for_name("ClosingBarline", "Closing Barline"));
 /* xgettext:no-c-format*/
