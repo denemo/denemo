@@ -29,6 +29,8 @@ src/contexts.c
 src/contexts.h
 src/denemo_types.c
 src/dialogs.h
+src/displayanimation.c
+src/displayanimation.h
 src/draw.c
 src/draw.h
 src/drawaccidentals.c
@@ -249,6 +251,12 @@ actions/commandscripts/BassDrum.scm
 actions/commandscripts/Bb-Major.scm
 actions/commandscripts/Bb-Pentascale.scm
 actions/commandscripts/Beam1234.scm
+actions/commandscripts/BeamLeftOne.scm
+actions/commandscripts/BeamLeftThree.scm
+actions/commandscripts/BeamLeftTwo.scm
+actions/commandscripts/BeamRightOne.scm
+actions/commandscripts/BeamRightThree.scm
+actions/commandscripts/BeamRightTwo.scm
 actions/commandscripts/BeamingOff.scm
 actions/commandscripts/BeamingOn.scm
 actions/commandscripts/BeatChange.scm
@@ -333,6 +341,7 @@ actions/commandscripts/CriticalCommentary.scm
 actions/commandscripts/CriticalCommentaryIntro.scm
 actions/commandscripts/CursorToHighestNote.scm
 actions/commandscripts/CursorToLowestNote.scm
+actions/commandscripts/Custos.scm
 actions/commandscripts/D.C.AlFine.scm
 actions/commandscripts/DalSegno.scm
 actions/commandscripts/Db-Major.scm
@@ -376,6 +385,7 @@ actions/commandscripts/F-Pentascale.scm
 actions/commandscripts/F-sharp-Major.scm
 actions/commandscripts/F-sharp-Pentascale.scm
 actions/commandscripts/FermataSelectionSwitcher.scm
+actions/commandscripts/Ficta.scm
 actions/commandscripts/FiguredBassExercises.scm
 actions/commandscripts/FiguredBassFilterOn.scm
 actions/commandscripts/FindEditPoint.scm
@@ -476,6 +486,7 @@ actions/commandscripts/MakeGrace.scm
 actions/commandscripts/MarcatoSelectionSwitcher.scm
 actions/commandscripts/MergeRests.scm
 actions/commandscripts/MergeWithNextMeasure.scm
+actions/commandscripts/MetronomeMark.scm
 actions/commandscripts/MetronomeMarking.scm
 actions/commandscripts/MezzoForte.scm
 actions/commandscripts/MezzoPiano.scm
