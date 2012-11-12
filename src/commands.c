@@ -6056,4 +6056,96 @@ add_ui("/ObjectMenu/MeasureMenu", "ParenthesizeNote", "WholeMeasureRepeat");
 g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MeasureMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* BeamRightOne xgettext:no-c-format*/
+action = gtk_action_new("BeamRightOne",_("One Beam Right"),/* xgettext:no-c-format*/_("Prints with just one beam linking to the right."), get_icon_for_name("BeamRightOne", "One Beam Right"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"NoBeam");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "BeamRightOne", _("One Beam Right"), /* xgettext:no-c-format*/_("Prints with just one beam linking to the right."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("BeamRightOne");
+add_ui("/ObjectMenu/NotesRests/Beaming", "NoBeam", "BeamRightOne");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Beaming");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* BeamLeftOne xgettext:no-c-format*/
+action = gtk_action_new("BeamLeftOne",_("One Beam Left"),/* xgettext:no-c-format*/_("Prints with just one beam linking to left."), get_icon_for_name("BeamLeftOne", "One Beam Left"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"BeamRightOne");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "BeamLeftOne", _("One Beam Left"), /* xgettext:no-c-format*/_("Prints with just one beam linking to left."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("BeamLeftOne");
+add_ui("/ObjectMenu/NotesRests/Beaming", "BeamRightOne", "BeamLeftOne");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Beaming");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* BeamRightTwo xgettext:no-c-format*/
+action = gtk_action_new("BeamRightTwo",_("Two Beams Right"),/* xgettext:no-c-format*/_("Prints with just two beams linking to the right."), get_icon_for_name("BeamRightTwo", "Two Beams Right"));
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "BeamRightTwo", _("Two Beams Right"), /* xgettext:no-c-format*/_("Prints with just two beams linking to the right."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("BeamRightTwo");
+add_ui("/ObjectMenu/NotesRests/Beaming", NULL, "BeamRightTwo");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Beaming");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* BeamLeftTwo xgettext:no-c-format*/
+action = gtk_action_new("BeamLeftTwo",_("Two Beams Left"),/* xgettext:no-c-format*/_("Prints with just two beams linking to the left."), get_icon_for_name("BeamLeftTwo", "Two Beams Left"));
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "BeamLeftTwo", _("Two Beams Left"), /* xgettext:no-c-format*/_("Prints with just two beams linking to the left."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("BeamLeftTwo");
+add_ui("/ObjectMenu/NotesRests/Beaming", NULL, "BeamLeftTwo");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Beaming");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* BeamRightThree xgettext:no-c-format*/
+action = gtk_action_new("BeamRightThree",_("Three Beams Right"),/* xgettext:no-c-format*/_("Prints with just three beams linking to the right."), get_icon_for_name("BeamRightThree", "Three Beams Right"));
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "BeamRightThree", _("Three Beams Right"), /* xgettext:no-c-format*/_("Prints with just three beams linking to the right."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("BeamRightThree");
+add_ui("/ObjectMenu/NotesRests/Beaming", NULL, "BeamRightThree");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Beaming");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* BeamLeftThree xgettext:no-c-format*/
+action = gtk_action_new("BeamLeftThree",_("Three Beams Left"),/* xgettext:no-c-format*/_("Prints with just three beams linking to the left."), get_icon_for_name("BeamLeftThree", "Three Beams Left"));
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "BeamLeftThree", _("Three Beams Left"), /* xgettext:no-c-format*/_("Prints with just three beams linking to the left."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("BeamLeftThree");
+add_ui("/ObjectMenu/NotesRests/Beaming", NULL, "BeamLeftThree");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Beaming");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* Custos xgettext:no-c-format*/
+action = gtk_action_new("Custos",_("Custos (On/Off)"),/* xgettext:no-c-format*/_("Prints a custos at the end of each line for the current movement. Repeat command to turn custos off."), get_icon_for_name("Custos", "Custos (On/Off)"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"MovementPageBreak");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "Custos", _("Custos (On/Off)"), /* xgettext:no-c-format*/_("Prints a custos at the end of each line for the current movement. Repeat command to turn custos off."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("Custos");
+add_ui("/ObjectMenu/MovementMenu", "MovementPageBreak", "Custos");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/MovementMenu");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* Ficta xgettext:no-c-format*/
+action = gtk_action_new("Ficta",_("Ficta Accidental"),/* xgettext:no-c-format*/_("Prints the accidental above rather than before the note.\n        In European music from before about 1600, singers were expected to\nchromatically alter notes at their own initiative according to certain\nrules. This is called musica ficta. In modern transcriptions, these\naccidentals are usually printed over the note."), get_icon_for_name("Ficta", "Ficta Accidental"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"SuggestNatural");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "Ficta", _("Ficta Accidental"), /* xgettext:no-c-format*/_("Prints the accidental above rather than before the note.\n        In European music from before about 1600, singers were expected to\nchromatically alter notes at their own initiative according to certain\nrules. This is called musica ficta. In modern transcriptions, these\naccidentals are usually printed over the note."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("Ficta");
+add_ui("/ObjectMenu/NotesRests/EditNote", "SuggestNatural", "Ficta");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/EditNote");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 }
