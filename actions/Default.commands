@@ -3027,7 +3027,7 @@ for second and subsequent systems</tooltip>
         <tooltip>Insert tempi and/or metronome marks, printed or not, adjust playback tempo to suit</tooltip>
       </row>
       <row>
-        <action>DynamicsDialog</action>
+        <action>DynamicText</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives</menupath>
         <label>Dynamics</label>

@@ -1,12 +1,5 @@
-<?xml version="1.0"?>
-<Denemo>
-  <merge>
-    <title>A Denemo Keymap</title>
-    <author>AT, JRR, RTS</author>
-    <map>
-      <row>
-        <action>DynamicsDialog</action>
-        <scheme>;;;;DynamicsDialog Standalone Dynamics - by Dan Wilckens. Tweaked by RTS
+;;;;DynamicsText
+        ;; Standalone Dynamics - by Dan Wilckens. Tweaked by RTS. Note that for custom text the tag should be different.
  (if (not (defined? 'DenemoDynamicList))
   (define DenemoDynamicList #f))
 (let ((tag "DynamicText")(choice #f)(replace #f)(X 0) (level "63")(LilyString "")(Graphic "")  (DynamicList "") )
@@ -60,8 +53,8 @@
       (begin
 	(set! level (d-GetUserInput (_ "Dynamic setting") (_ "Enter loudness level (0-127):") "63" ) ) 
 	(let ( (a 0)) 
-	(set! a (string-&gt;number level) )
-	(if (or (boolean? a) (&gt; a 127) (&lt; a 0) )(set! level #f) ))))
+	(set! a (string->number level) )
+	(if (or (boolean? a) (> a 127) (< a 0) )(set! level #f) ))))
     (if choice
       (begin 
     	(if (not replace) (d-DirectivePut-standalone tag))
@@ -76,10 +69,4 @@
 	(d-DirectivePut-standalone-minpixels tag 10)
 	(d-SetSaved #f)
 	(d-MoveCursorRight))))))
-(d-RefreshDisplay)</scheme>
-        <label>Dynamics</label>
-        <tooltip>Choose dynamics and midi volume level.</tooltip>
-      </row>
-    </map>
-  </merge>
-</Denemo>
+(d-RefreshDisplay)

@@ -369,7 +369,7 @@ actions/commandscripts/DoubleBarline.scm
 actions/commandscripts/DownbowSelectionSwitcher.scm
 actions/commandscripts/DrumGM2Custom.scm
 actions/commandscripts/DuplicateChord.scm
-actions/commandscripts/DynamicsDialog.scm
+actions/commandscripts/DynamicText.scm
 actions/commandscripts/Eb-Major.scm
 actions/commandscripts/Eb-Pentascale.scm
 actions/commandscripts/EditProlog.scm

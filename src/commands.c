@@ -1368,13 +1368,13 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* DynamicsDialog xgettext:no-c-format*/
-action = gtk_action_new("DynamicsDialog",_("Dynamics"),/* xgettext:no-c-format*/_("Choose dynamics and midi volume level."), get_icon_for_name("DynamicsDialog", "Dynamics"));
+/* DynamicText xgettext:no-c-format*/
+action = gtk_action_new("DynamicText",_("Dynamics"),/* xgettext:no-c-format*/_("Choose dynamics and midi volume level."), get_icon_for_name("DynamicText", "Dynamics"));
 /* xgettext:no-c-format*/
-register_command(Denemo.map, action, "DynamicsDialog", _("Dynamics"), /* xgettext:no-c-format*/_("Choose dynamics and midi volume level."), activate_script);
+register_command(Denemo.map, action, "DynamicText", _("Dynamics"), /* xgettext:no-c-format*/_("Choose dynamics and midi volume level."), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
-create_scheme_function_for_script("DynamicsDialog");
-add_ui("/ObjectMenu/Directives", NULL, "DynamicsDialog");
+create_scheme_function_for_script("DynamicText");
+add_ui("/ObjectMenu/Directives", NULL, "DynamicText");
 g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);

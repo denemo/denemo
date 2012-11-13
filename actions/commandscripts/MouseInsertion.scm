@@ -53,7 +53,7 @@
 (d-SetDirectiveTagActionScript "Triplets" "(d-ToggleTripleting)")
 
 (CreateButton "Dynamics" "<span font=\"times\" size=\"large\" font_style=\"italic\" font_weight=\"bold\">f p</span>")
-(d-SetDirectiveTagActionScript "Dynamics" "(d-DynamicsDialog)")
+(d-SetDirectiveTagActionScript "Dynamics" "(d-DynamicText)")
 
 (CreateButton "Tempo" "<span font=\"times\" size=\"large\" font_style=\"italic\" font_weight=\"bold\">Allegro</span>")
 (d-SetDirectiveTagActionScript "Tempo" "(d-MetronomeMark)")

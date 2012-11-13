@@ -675,7 +675,7 @@
         <bind>Alt+Left</bind>
       </row>
       <row>
-        <action>DynamicsDialog</action>
+        <action>DynamicText</action>
         <bind>Ctrl+d</bind>
       </row>
       <row>
