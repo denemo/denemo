@@ -668,7 +668,7 @@ output_fakechord (DenemoScore * si, GString *fakechord, chord * pchord)
  * 
  */
 static void
-insert_editable (GString **pdirective, gchar *original, GtkTextIter *iter, DenemoGUI *gui, GString *staff_music) {
+insert_editable (GString **pdirective, gchar *original, GtkTextIter *iter, DenemoGUI *gui, GString *lily_for_obj) {
   GString *directive;
   if(pdirective) directive = *pdirective;
   GtkTextChildAnchor *lilyanc = gtk_text_buffer_create_child_anchor (gui->textbuffer, iter);
@@ -679,10 +679,15 @@ insert_editable (GString **pdirective, gchar *original, GtkTextIter *iter, Denem
   gtk_text_buffer_apply_tag_by_name(gui->textbuffer, "system_invisible", &back, iter);
   g_object_set_data(G_OBJECT(lilyanc), TARGET, (gpointer)pdirective);
   g_object_set_data(G_OBJECT(lilyanc), ORIGINAL, original);
+  
+//!!!!!!!!! by attaching the position to this anchor and something to say what sort of directive it is ????? LilyPond registers the position of things like fingerings etc
+
+//We would want to seek vertically (to the note within the chord) AND which directive.
+
 
   gui->anchors = g_list_prepend(gui->anchors, lilyanc);
   gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, g_strdup(original), -1, "bold", NULL);
-  if(staff_music) g_string_append(staff_music, original);
+  if(lily_for_obj) g_string_append(lily_for_obj, original);
   GtkTextChildAnchor *endanc  = gtk_text_buffer_create_child_anchor (gui->textbuffer, iter);
   back = *iter;
   (void)gtk_text_iter_backward_char(&back);
@@ -744,7 +749,7 @@ GET_AFFIX(postfix);
       
 
 #define DIRECTIVES_INSERT_EDITABLE_AFFIX(field) static void \
-directives_insert_##field##_editable (GList *directives, gint *popen_braces, gint *pprevduration, GtkTextIter *iter, gboolean override, GString *staff_music) {\
+directives_insert_##field##_editable (GList *directives, gint *popen_braces, gint *pprevduration, GtkTextIter *iter, gboolean override, GString *lily_for_obj) {\
   DenemoGUI *gui = Denemo.gui;\
   GList *g = directives;\
   for(;g;g=g->next) {\
@@ -756,7 +761,7 @@ directives_insert_##field##_editable (GList *directives, gint *popen_braces, gin
     if(directive->field && directive->field->len) {\
       if(pprevduration) *pprevduration = -1;		    \
       if(popen_braces) *popen_braces += brace_count(directive->field->str); \
-      insert_editable(&directive->field, directive->field->str, iter, gui, staff_music);\
+      insert_editable(&directive->field, directive->field->str, iter, gui, lily_for_obj);\
     }\
   }\
 }
@@ -765,7 +770,7 @@ DIRECTIVES_INSERT_EDITABLE_AFFIX(prefix);
 DIRECTIVES_INSERT_EDITABLE_AFFIX(postfix);
 
 static void
-directives_insert_affix_postfix_editable (GList *directives, gint *popen_braces, gint *pprevduration, GtkTextIter *iter, GString *staff_music) {
+directives_insert_affix_postfix_editable (GList *directives, gint *popen_braces, gint *pprevduration, GtkTextIter *iter, GString *lily_for_obj) {
  DenemoGUI *gui = Denemo.gui;
   GList *g = directives;
   for(;g;g=g->next) {
@@ -777,7 +782,7 @@ directives_insert_affix_postfix_editable (GList *directives, gint *popen_braces,
     if(directive->postfix && directive->postfix->len) {
       if(pprevduration) *pprevduration = -1;		    
       if(popen_braces) *popen_braces += brace_count(directive->postfix->str); 
-      insert_editable(&directive->postfix, directive->postfix->str, iter, gui, staff_music);
+      insert_editable(&directive->postfix, directive->postfix->str, iter, gui, lily_for_obj);
     }
   }
 }
@@ -803,14 +808,14 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 		       gchar ** pkeyname, gint * pcur_stime1,
 		       gint * pcur_stime2, gint *pgrace_status, GString *figures, GString *fakechords)
 {
-  GString *staff_music = g_string_new("");
+  GString *lily_for_obj = g_string_new("");
   GString *ret = g_string_new ("");//no longer returned, instead put into *music
 #define outputret gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, ret->str, -1, INEDITABLE, NULL), \
-    g_string_append(staff_music, ret->str);\
+    g_string_append(lily_for_obj, ret->str);\
     open_braces +=  brace_count(ret->str), \
     g_string_assign(ret, "")
 #define output(astring) (gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, astring, -1, INEDITABLE, NULL));\
-			g_string_append(staff_music, astring);
+			g_string_append(lily_for_obj, astring);
   gint prevduration = *pprevduration;
   gint prevnumdots = *pprevnumdots;
   chord *pchord;
@@ -831,7 +836,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 
 
     gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, " ", -1, INEDITABLE, HIGHLIGHT, NULL);
-    g_string_append(staff_music, " ");
+    g_string_append(lily_for_obj, " ");
     switch (curobj->type)
       {
       case CHORD: {
@@ -858,7 +863,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 	
 	
 	/* prefix is before duration unless AFFIX override is set */
-	directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, !lily_override, staff_music);
+	directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, !lily_override, lily_for_obj);
 	
 	if(!lily_override) { //all LilyPond is output for this chord
 	  if (!pchord->notes)
@@ -869,7 +874,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 		  g_string_append_printf (ret, "r");
 		  /* Duplicated code follows. I ought to fix that */
 		  outputret;
-		  directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, staff_music);
+		  directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, lily_for_obj);
 		  if (duration != prevduration || numdots != prevnumdots || duration<0)
 		    {
 		      /* only in this case do we explicitly note the duration */
@@ -885,7 +890,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 		{	/* non printing rest */
 		  g_string_append_printf (ret, "\\skip ");
 		  outputret;
-		  directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, staff_music);
+		  directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, lily_for_obj);
 		  if(duration>0)
 		    g_string_append_printf (ret, "%d", duration);
 		  prevduration = -1;
@@ -895,7 +900,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 		}
 	      
 	      outputret;
-	      directives_insert_postfix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, staff_music);
+	      directives_insert_postfix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, lily_for_obj);
 	    } 
 	  else /* there are notes */
 	    {
@@ -920,7 +925,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 			DenemoDirective *directive = (DenemoDirective *)g->data;
 			if(directive->prefix ) {
 			  prevduration = -1;
-			  insert_editable(&directive->prefix, directive->prefix->len?directive->prefix->str:" ", iter, gui, staff_music);
+			  insert_editable(&directive->prefix, directive->prefix->len?directive->prefix->str:" ", iter, gui, lily_for_obj);
 			}
 		      }
 		      
@@ -985,7 +990,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 			for(;g;g=g->next) {
 			  DenemoDirective *directive = (DenemoDirective *)g->data;
 			  if(directive->postfix && !(directive->override&DENEMO_OVERRIDE_HIDDEN)) {
-			    insert_editable(&directive->postfix, directive->postfix->len?directive->postfix->str:" ", iter, gui, staff_music);
+			    insert_editable(&directive->postfix, directive->postfix->len?directive->postfix->str:" ", iter, gui, lily_for_obj);
 			    prevduration = -1;
 			  }	else
 			    if (notenode->next)
@@ -1002,7 +1007,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 	      {
 		/* only in this case do we explicitly note the duration */
 		outputret;
-		directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, staff_music);
+		directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, lily_for_obj);
 		  if(duration>0)
 		    g_string_append_printf (ret, "%d", duration);
 		prevduration = duration;
@@ -1012,7 +1017,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 		outputret;
 	      }
 
-	    directives_insert_postfix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, staff_music);
+	    directives_insert_postfix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, lily_for_obj);
 
 	    if (pchord->dynamics && (pchord->notes->next==NULL))
 	      {
@@ -1045,7 +1050,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 	    /* do this in caller                    g_string_append_printf (ret, " "); */
 	  } /* End of else chord with note(s) */
 //now output the postfix field of directives that have AFFIX set, which are not emitted 
-	directives_insert_affix_postfix_editable (pchord->directives, &open_braces, &prevduration, iter, staff_music);
+	directives_insert_affix_postfix_editable (pchord->directives, &open_braces, &prevduration, iter, lily_for_obj);
 	  
       } /* End of outputting LilyPond for this chord because of LILYPOND_OVERRIDE not set in a chord directive*/
 	else {
@@ -1055,7 +1060,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 				if(directive->postfix && directive->postfix->len  && !(directive->override&DENEMO_OVERRIDE_HIDDEN)) {
 					prevduration = -1;
 					open_braces += brace_count(directive->postfix->str);
-					insert_editable(&directive->postfix, directive->postfix->str, iter, gui, staff_music);
+					insert_editable(&directive->postfix, directive->postfix->str, iter, gui, lily_for_obj);
 				}
 			}
 	}
@@ -1226,8 +1231,8 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
       
     outputret;
 
-    g_free(curobj->lilypond);//FIXME obsolete code
-    curobj->lilypond = g_string_free(staff_music, FALSE);
+    g_free(curobj->lilypond);
+    curobj->lilypond = g_string_free(lily_for_obj, FALSE);//There is a scheme command d-GetLilyPondthat retrieves the LilyPond text associated with the current object
     *pprevduration = prevduration;
     *pprevnumdots = prevnumdots;
 
@@ -1304,9 +1309,6 @@ outputHeader (GString *str, DenemoGUI * gui)
     g_string_append_printf (str, "\\version \"%s\"\n", gui->lilycontrol.lilyversion->str/*LILYPOND_VERSION*/);
   else
     g_string_append_printf (str, "\\version \"%s\"\n", get_lily_version_string());
-  
-
-  
 }
 
 gchar *get_lilypond_paper(void) {
