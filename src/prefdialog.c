@@ -576,7 +576,9 @@ preferences_change (GtkAction *action, gpointer param)
   BOOLEANENTRY(_("Menu Navigation by Keypress"), menunavigation);
   BOOLEANENTRY(_("Treat Return key as movable shortcut"), return_key_is_special);
   BOOLEANENTRY(_("Turn on all tooltips"), newbie);
-
+  INTENTRY_LIMITS(_("Tooltip timeout in ms. (0 to use system preference)"), tooltip_timeout, 0, 1000000);
+  INTENTRY_LIMITS(_("Tooltip browse timeout in ms"), tooltip_browse_timeout, 0, 1000000);
+  INTENTRY_LIMITS(_("Tooltip browse mode timeout in ms"), tooltip_browse_mode_timeout, 0, 1000000);
   /*
    * External (Helper) Programs
    */
@@ -615,9 +617,7 @@ preferences_change (GtkAction *action, gpointer param)
   DOUBLEENTRY_LIMITS(_("Playback Display Refresh"), display_refresh, 0.001, 0.5, 0.002);
   INTENTRY_LIMITS(_("Page Turn Steps"), animation_steps, 1, 200);
 
-  INTENTRY_LIMITS(_("Tooltip timeout in ms. (0 to use system preference)"), tooltip_timeout, 0, 1000000);
-  INTENTRY_LIMITS(_("Tooltip browse timeout in ms"), tooltip_browse_timeout, 0, 1000000);
-  INTENTRY_LIMITS(_("Tooltip browse mode timeout in ms"), tooltip_browse_mode_timeout, 0, 1000000);
+
 
   INTENTRY_LIMITS(_("Excerpt Resolution"), resolution, 72, 600);
   BOOLEANENTRY(_("Enable Thumbnails"), enable_thumbnails);
