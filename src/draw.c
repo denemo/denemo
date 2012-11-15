@@ -45,7 +45,7 @@ void set_start_and_end_objects_for_draw(void) {
     Startobj =
       get_obj_for_end_time(Denemo.gui->si->smf, Denemo.gui->si->start_time - 0.001);
     Endobj =
-      get_obj_for_start_time(Denemo.gui->si->smf, Denemo.gui->si->end_time - 0.001);
+     Denemo.gui->si->end_time<0.0?NULL: get_obj_for_start_time(Denemo.gui->si->smf, Denemo.gui->si->end_time - 0.001);
   }
 }
 
@@ -963,20 +963,27 @@ static void draw_playback_marker(cairo_t *cr, gint color, gint pos, gint yy, gin
   cairo_set_line_width( cr, 4.0 );
   switch(color) {
   case BLACK:
-    cairo_set_source_rgb( cr, 0.0, 0.0, 0.0 );
+    cairo_set_source_rgba(cr, 0.0, 0.0, 0.0, 0.5);
     break;
   case GREEN:
-    cairo_set_source_rgb( cr, 0.0, 1.0, 0.0 );
+    cairo_set_source_rgba(cr, 0.0, 1.0, 0.0, 0.5);
     break;
   case RED:
-    cairo_set_source_rgb( cr, 1.0, 0.0, 0.0 );
+    cairo_set_source_rgba(cr, 1.0, 0.0, 0.0, 0.5);
     break;
   }
-  cairo_move_to( cr, pos, yy-STAFF_HEIGHT );
-  cairo_line_to( cr, pos, yy-STAFF_HEIGHT+line_height);
-  cairo_stroke( cr );
+  cairo_move_to(cr, pos, yy-STAFF_HEIGHT);
+  cairo_line_to(cr, pos, yy-STAFF_HEIGHT+line_height);
+  cairo_stroke(cr);
+  switch(color) {
+    case GREEN:
+    drawlargetext_cr(cr, _("Playback Start"), pos - 100, yy);
+    break;
+  case RED:
+    drawlargetext_cr(cr, _("Playback End"), pos - 100, yy);
+    break;
+  }
   cairo_restore(cr);
-
 }
 
 static void draw_playback_markers(cairo_t *cr, struct infotopass *itp, gint yy, gint line_height) {
