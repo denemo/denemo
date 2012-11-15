@@ -2244,11 +2244,10 @@ toggle_tie (GtkAction *action, gpointer param)
       ((chord *) curmudelaobj->object)->notes)
     {
       store_for_undo_change (si, curmudelaobj);
-
-
       ((chord *) curmudelaobj->object)->is_tied ^= 1;
       gtk_widget_queue_draw (Denemo.scorearea);
     }
+   score_status(gui, TRUE);
 }
 
 
