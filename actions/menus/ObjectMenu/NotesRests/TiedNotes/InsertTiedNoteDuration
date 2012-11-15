@@ -6,7 +6,8 @@
     <map>
       <row>
         <action>InsertTiedNoteDuration</action>
-        <scheme>;InsertTiedNoteDuration  Insert tuplet into the score
+        <scheme>;InsertTiedNoteDuration 
+; Toggles a tie and moves right for insert with duration key. Gives audible feedback
 (d-ToggleTie)
 (if (d-IsTied)
 	(d-PendingMidi 75)
@@ -14,7 +15,7 @@
 (if (not (d-IsAppending))
 	(d-MoveCursorRight))</scheme>
         <label>Attach Tied Note</label>
-        <tooltip>Attaches a tied note: you must give the duration after invoking this function.</tooltip>
+        <tooltip>Toggles a tie on the note at the cursor and moves right for inserting a note to tie to with duration key. Gives audible feedback.</tooltip>
       </row>
     </map>
   </merge>

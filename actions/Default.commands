@@ -2199,7 +2199,7 @@ Sets prevailing rhythm to &#x1D165;</tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/TiedNotes</menupath>
         <label>Attach Tied Note</label>
-        <tooltip>Attaches a tied note: you must give the duration after invoking this function.</tooltip>
+        <tooltip>Toggles a tie on the note at the cursor and moves right for inserting a note to tie to with duration key. Gives audible feedback.</tooltip>
       </row>
       <row>
         <action>FiguredBassFilterOn</action>
