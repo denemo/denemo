@@ -240,7 +240,7 @@
 ;; property is the (two values - a pair) lilypond property being altered
 (define* (ExtraAmount what property #:optional (type "chord") (context "") (offset '(0 . 0)) (override #f))
   (let ((tag "")(oldstr #f) (start "") (end "") (get-command d-DirectiveGet-chord-prefix)  (put-command d-DirectivePut-chord-prefix) (override-command d-DirectivePut-chord-override))
-  (disp "Entered with " offset "and " type " and " context " ok")
+  ;(disp "Entered with " offset "and " type " and " context " ok")
     (cond
      ((string=? type "chord")
       (begin (set! get-command d-DirectiveGet-chord-prefix)
@@ -372,7 +372,7 @@
 		(begin
 			(if (Rest?)
 				(ExtraOffset "Rest" "chord" "Voice." (cons offsetx offsety) DENEMO_OVERRIDE_AFFIX)
-				(AlterPositions "Slur" "chord" "" (cons offsetx offsety) DENEMO_OVERRIDE_AFFIX)	
+				(disp "Doing Nothing") ;;(AlterPositions "Slur" "chord" "" (cons offsetx offsety) DENEMO_OVERRIDE_AFFIX)	
 				)))
 	(d-SetSaved #f)
 )
