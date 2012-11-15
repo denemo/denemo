@@ -2199,7 +2199,7 @@ Sets prevailing rhythm to &#x1D165;</tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/TiedNotes</menupath>
         <label>Attach Tied Note</label>
-        <tooltip>Toggles a tie on the note at the cursor and moves right for inserting a note to tie to with duration key. Gives audible feedback.</tooltip>
+        <tooltip>Attaches a tied note: you must give the duration after invoking this function.</tooltip>
       </row>
       <row>
         <action>FiguredBassFilterOn</action>
@@ -6161,6 +6161,14 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
 chromatically alter notes at their own initiative according to certain
 rules. This is called musica ficta. In modern transcriptions, these
 accidentals are usually printed over the note.</tooltip>
+      </row>
+      <row>
+        <action>ToggleNoteTie</action>
+        <after>InsertTiedNoteDuration</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/TiedNotes</menupath>
+        <label>Individual Note Tie (Off/On)</label>
+        <tooltip>Ties the note at the cursor leaving other notes in the current chord unchanged.</tooltip>
       </row>
     </map>
   </merge>
