@@ -151,6 +151,8 @@ staffremovemeasures (staffnode * curstaff, guint pos)
     
     ((DenemoStaff *) curstaff->data)->nummeasures--;
   }
+//if the removed measures have a clef change in them the noteheights may need to change so...  
+  fixnoteheights(curstaff->data);
 }
 
 /**
