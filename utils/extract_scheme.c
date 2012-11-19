@@ -36,7 +36,9 @@ extract_scheme (xmlDocPtr doc, xmlNodePtr cur, gchar *filename)
     if (0 == xmlStrcmp (cur->name, (const xmlChar *) "scheme")) {
 				gchar *scheme =  xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
         if(scheme && *scheme) {
+					scheme = g_strdup_printf("/* Warning!!! This file is derived from those in actions/menus/... do not edit here */\n%s", scheme);
           g_file_set_contents(filename, scheme, -1, NULL);
+          g_free(scheme);
           g_print("Written %s\n", filename);
         }  
       }

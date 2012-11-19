@@ -55,7 +55,8 @@ typedef struct note
   gint position_of_accidental; /**< Holds number of pixels to the left of the notehead that the
   				   accidental should be drawn at.  */
   gint y; /**< Holds y co-ordinate for drawing rather than recalculating it each
-  		   run through the drawing loop. see calculateheight  */
+  		   run through the drawing loop. see calculateheight. The coordinate is based on the top line of the staff = 0, above the staff is negative
+  		   * 	below is positive. The staff space is 10  */
   enum headtype noteheadtype; /**< Holds note head type.  */
   GList *directives;/**< list of DenemoDirective to apply to the note */
 }

@@ -32,15 +32,18 @@
 
 #define SIGNAL_WIDGET gui->textwindow /* Denemo.window */
 
-#define TARGET "target"
+#define GSTRINGP "gstring"
 #define MUSIC "music"
 #define START "start"
 #define SCOREBLOCK "scoreblock"
 #define CUSTOM "custom"
-#define OBJECT "object"
+#define OBJECTNODE "object"
 #define ORIGINAL "original"
 
 #define OBJECTNUM "objectnum"
+#define TARGETTYPE "type"
+#define MIDCOFFSET "midcoffset"
+#define DIRECTIVENUM "directivenum"
 #define MEASURENUM "measurenum"
 #define STAFFNUM "staffnum"
 #define MOVEMENTNUM "movementnum"
@@ -57,6 +60,33 @@ create_lilywindow(DenemoGUI *gui);
 static void
 output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname);
 static GtkTextTagTable *tagtable;
+
+/* inserts a navigation anchor into the lilypond textbuffer at curmark */
+static void	place_navigation_anchor(GtkTextMark *curmark, gpointer curobjnode, gint movement_count, 
+														gint measurenum, gint voice_count, gint objnum, DenemoTargetType type, gint mid_c_offset, gint directivenum) {
+															//GtkTextIter iter = *piter; 
+	  //put in an ineditable anchor to mark the start of the object
+	  GtkTextIter iter;
+	  gtk_text_buffer_get_iter_at_mark (Denemo.gui->textbuffer, &iter, curmark);
+	  GtkTextChildAnchor *objanc = gtk_text_buffer_create_child_anchor (Denemo.gui->textbuffer, &iter);
+	  g_object_set_data(G_OBJECT(objanc), OBJECTNODE, curobjnode);//store objnode here
+	  g_object_set_data(G_OBJECT(objanc), MOVEMENTNUM, GINT_TO_POINTER(movement_count));
+	  g_object_set_data(G_OBJECT(objanc), MEASURENUM, GINT_TO_POINTER(measurenum));
+	  g_object_set_data(G_OBJECT(objanc), STAFFNUM, GINT_TO_POINTER(voice_count));
+	  g_object_set_data(G_OBJECT(objanc), OBJECTNUM, GINT_TO_POINTER(objnum));
+	  g_object_set_data(G_OBJECT(objanc), TARGETTYPE, GINT_TO_POINTER(type));
+	  g_object_set_data(G_OBJECT(objanc), MIDCOFFSET, GINT_TO_POINTER(mid_c_offset));
+	  g_object_set_data(G_OBJECT(objanc), DIRECTIVENUM, GINT_TO_POINTER(directivenum));
+
+		//g_print("marked anchor %p as %d %d %d %d\n", objanc, movement_count, measurenum, voice_count, objnum);
+	  GtkTextIter back;
+	  back = iter;
+	  (void)gtk_text_iter_backward_char(&back);
+	  gtk_text_buffer_apply_tag_by_name(Denemo.gui->textbuffer, INEDITABLE, &back, &iter);
+#if 1 //0 makes anchors visible - but throws out locations
+	  gtk_text_buffer_apply_tag_by_name(Denemo.gui->textbuffer, "system_invisible", &back, &iter);
+#endif
+	}
 
 void
 highlight_lily_error(DenemoGUI *gui) {
@@ -133,7 +163,7 @@ static GtkTextChildAnchor * insert_section(GString **str, gchar *markname, gchar
 
   gtk_text_buffer_apply_tag_by_name(gui->textbuffer, "system_invisible", &back, iter); 
   g_object_set_data(G_OBJECT(objanc), "end", (gpointer)endanc);
-  g_object_set_data(G_OBJECT(objanc), TARGET, (gpointer)str);
+  g_object_set_data(G_OBJECT(objanc), GSTRINGP, (gpointer)str);
   if(str)
     gui->anchors = g_list_prepend(gui->anchors, objanc);
 
@@ -668,7 +698,8 @@ output_fakechord (DenemoScore * si, GString *fakechord, chord * pchord)
  * 
  */
 static void
-insert_editable (GString **pdirective, gchar *original, GtkTextIter *iter, DenemoGUI *gui, GString *lily_for_obj) {
+insert_editable (GString **pdirective, gchar *original, GtkTextIter *iter, DenemoGUI *gui, GString *lily_for_obj,
+		DenemoTargetType type, gint movement_count,	gint measurenum, gint voice_count, gint objnum, gint directivenum) {
   GString *directive;
   if(pdirective) directive = *pdirective;
   GtkTextChildAnchor *lilyanc = gtk_text_buffer_create_child_anchor (gui->textbuffer, iter);
@@ -677,12 +708,19 @@ insert_editable (GString **pdirective, gchar *original, GtkTextIter *iter, Denem
   (void)gtk_text_iter_backward_char(&back);
   gtk_text_buffer_apply_tag_by_name(gui->textbuffer, INEDITABLE, &back, iter);
   gtk_text_buffer_apply_tag_by_name(gui->textbuffer, "system_invisible", &back, iter);
-  g_object_set_data(G_OBJECT(lilyanc), TARGET, (gpointer)pdirective);
+  g_object_set_data(G_OBJECT(lilyanc), GSTRINGP, (gpointer)pdirective);
   g_object_set_data(G_OBJECT(lilyanc), ORIGINAL, original);
   
-//!!!!!!!!! by attaching the position to this anchor and something to say what sort of directive it is ????? LilyPond registers the position of things like fingerings etc
-
-//We would want to seek vertically (to the note within the chord) AND which directive.
+  	g_object_set_data(G_OBJECT(lilyanc), MOVEMENTNUM, GINT_TO_POINTER(movement_count));
+	  g_object_set_data(G_OBJECT(lilyanc), MEASURENUM, GINT_TO_POINTER(measurenum));
+	  g_object_set_data(G_OBJECT(lilyanc), STAFFNUM, GINT_TO_POINTER(voice_count));
+	  g_object_set_data(G_OBJECT(lilyanc), OBJECTNUM, GINT_TO_POINTER(objnum));
+	  
+	  if(directivenum)
+			g_object_set_data(G_OBJECT(lilyanc), DIRECTIVENUM, GINT_TO_POINTER(directivenum));
+		
+// NAVANC 
+//need also to receive DenemoTargetType DENEMO_CHORD_DIRECTIVE or DENEMO_NOTE_DIRECTIVE and midcoffset
 
 
   gui->anchors = g_list_prepend(gui->anchors, lilyanc);
@@ -748,11 +786,14 @@ GET_AFFIX(postfix);
  omit or include those with AFFIX override set. Skip any directive with HIDDEN attribute set */
       
 
+
+//NAVANC
 #define DIRECTIVES_INSERT_EDITABLE_AFFIX(field) static void \
-directives_insert_##field##_editable (GList *directives, gint *popen_braces, gint *pprevduration, GtkTextIter *iter, gboolean override, GString *lily_for_obj) {\
+directives_insert_##field##_editable (GList *directives, gint *popen_braces, gint *pprevduration, GtkTextIter *iter, gboolean override, GString *lily_for_obj,\
+						DenemoTargetType type, gint movement_count,	gint measurenum, gint voice_count, gint objnum) {\
   DenemoGUI *gui = Denemo.gui;\
-  GList *g = directives;\
-  for(;g;g=g->next) {\
+  GList *g = directives; gint num;\
+  for(num=0;g;g=g->next, num++) {\
     DenemoDirective *directive = (DenemoDirective *)g->data;\
     if(override == ((directive->override&DENEMO_OVERRIDE_AFFIX)==0))\
       continue;\
@@ -761,7 +802,8 @@ directives_insert_##field##_editable (GList *directives, gint *popen_braces, gin
     if(directive->field && directive->field->len) {\
       if(pprevduration) *pprevduration = -1;		    \
       if(popen_braces) *popen_braces += brace_count(directive->field->str); \
-      insert_editable(&directive->field, directive->field->str, iter, gui, lily_for_obj);\
+      insert_editable(&directive->field, directive->field->str, iter, gui, lily_for_obj\
+      , type, movement_count, measurenum, voice_count, objnum, num);\
     }\
   }\
 }
@@ -770,10 +812,11 @@ DIRECTIVES_INSERT_EDITABLE_AFFIX(prefix);
 DIRECTIVES_INSERT_EDITABLE_AFFIX(postfix);
 
 static void
-directives_insert_affix_postfix_editable (GList *directives, gint *popen_braces, gint *pprevduration, GtkTextIter *iter, GString *lily_for_obj) {
+directives_insert_affix_postfix_editable (GList *directives, gint *popen_braces, gint *pprevduration, GtkTextIter *iter, GString *lily_for_obj,
+			DenemoTargetType type, gint movement_count,	gint measurenum, gint voice_count, gint objnum) {
  DenemoGUI *gui = Denemo.gui;
-  GList *g = directives;
-  for(;g;g=g->next) {
+  GList *g = directives;; gint num;
+  for(num=0;g;g=g->next, num++) {
     DenemoDirective *directive = (DenemoDirective *)g->data;\
     if(!(directive->override&DENEMO_OVERRIDE_AFFIX))
       continue;
@@ -782,7 +825,8 @@ directives_insert_affix_postfix_editable (GList *directives, gint *popen_braces,
     if(directive->postfix && directive->postfix->len) {
       if(pprevduration) *pprevduration = -1;		    
       if(popen_braces) *popen_braces += brace_count(directive->postfix->str); 
-      insert_editable(&directive->postfix, directive->postfix->str, iter, gui, lily_for_obj);
+      insert_editable(&directive->postfix, directive->postfix->str, iter, gui, lily_for_obj
+      , type, movement_count, measurenum, voice_count, objnum, num);
     }
   }
 }
@@ -806,7 +850,9 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 		       gint * pprevduration, gint * pprevnumdots,
 		       gchar ** pclefname,
 		       gchar ** pkeyname, gint * pcur_stime1,
-		       gint * pcur_stime2, gint *pgrace_status, GString *figures, GString *fakechords)
+		       gint * pcur_stime2, gint *pgrace_status, GString *figures, GString *fakechords,
+						GtkTextMark *curmark, gpointer curobjnode, gint movement_count, gint measurenum, 
+														gint voice_count, gint objnum)
 {
   GString *lily_for_obj = g_string_new("");
   GString *ret = g_string_new ("");//no longer returned, instead put into *music
@@ -834,413 +880,425 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 
   GString *dynamic_string = NULL;
 
-
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, " ", -1, INEDITABLE, HIGHLIGHT, NULL);
-    g_string_append(lily_for_obj, " ");
-    switch (curobj->type)
-      {
+  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, " ", -1, INEDITABLE, HIGHLIGHT, NULL);//A gray blank between objects
+  g_string_append(lily_for_obj, " ");
+  
+  
+#define NAVANC(type, offset, index)  place_navigation_anchor(curmark, (gpointer)curobjnode, movement_count, measurenum, voice_count, objnum, type, offset, index);\
+								gtk_text_buffer_get_iter_at_mark (Denemo.gui->textbuffer, iter, curmark);
+  
+  
+  switch (curobj->type) {
       case CHORD: {
-	gint lily_override;
-	pchord = (chord *) curobj->object;
-	gchar *chord_prefix = get_prefix(pchord->directives);
-	duration = internaltomuduration (pchord->baseduration);
-	numdots = pchord->numdots;
-	is_chordmode = FALSE;
-	lily_override = get_lily_override (pchord->directives);
+									gint lily_override;
+									pchord = (chord *) curobj->object;
+									gchar *chord_prefix = get_prefix(pchord->directives);
+									duration = internaltomuduration (pchord->baseduration);
+									numdots = pchord->numdots;
+									is_chordmode = FALSE;
+									lily_override = get_lily_override (pchord->directives);
 
-	if(!lily_override)
-	if((!*pgrace_status) && pchord->is_grace) {
-	  *pgrace_status = TRUE;
-	  if(pchord->is_grace&GRACED_NOTE)
-		g_string_append_printf (ret,"\\grace {");
-	  else
-		g_string_append_printf (ret,"\\acciaccatura {");
-	  if(figures->len)
-	    g_string_append_printf (figures, "\\grace {");
-	  if(fakechords->len)
-	    g_string_append_printf (fakechords, "\\grace {");
-	} 
+									if(!lily_override)
+									if((!*pgrace_status) && pchord->is_grace) {
+											*pgrace_status = TRUE;
+											if(pchord->is_grace&GRACED_NOTE)
+													g_string_append_printf (ret,"\\grace {");
+											else
+													g_string_append_printf (ret,"\\acciaccatura {");
+											if(figures->len)
+													g_string_append_printf (figures, "\\grace {");
+											if(fakechords->len)
+													g_string_append_printf (fakechords, "\\grace {");
+									}
+								/* prefix is before duration unless AFFIX override is set */
+								GList *g;
+								directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, !lily_override, lily_for_obj
+								
+								, TARGET_CHORD, movement_count, measurenum, voice_count, objnum
+								);
 	
-	
-	/* prefix is before duration unless AFFIX override is set */
-	directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, !lily_override, lily_for_obj);
-	
-	if(!lily_override) { //all LilyPond is output for this chord
-	  if (!pchord->notes)
-	    {			/* A rest */
+								if(!lily_override) { //all LilyPond is output for this chord
+									if (!pchord->notes) {			/* A rest */
+										if (!curobj->isinvisible)	{
+												g_string_append_printf (ret, "r");
+												/* Duplicated code follows. I ought to fix that */
+//!!!!NAVANC
+NAVANC(0,0,0);
+												outputret;
+												directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, lily_for_obj
+												, TARGET_CHORD, movement_count, measurenum, voice_count, objnum
+												
+												);
+												if (duration != prevduration || numdots != prevnumdots || duration<0) {
+														/* only in this case do we explicitly note the duration */
+														if(duration>0)
+															g_string_append_printf (ret, "%d", duration);  
+														prevduration = duration;
+														prevnumdots = numdots;
+														for (j = 0; j < numdots; j++)
+																g_string_append_printf (ret, ".");
+												}
+									} else {	/* non printing rest */
+										g_string_append_printf (ret, "\\skip ");
+//!!!!NAVANC
+NAVANC(0,0,0);
+										outputret;
+										directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, lily_for_obj
+										, TARGET_CHORD, movement_count, measurenum, voice_count, objnum
+										);
+										if(duration>0)
+												g_string_append_printf (ret, "%d", duration);
+										prevduration = -1;
+										prevnumdots = -1;
+										for (j = 0; j < numdots; j++)
+													g_string_append_printf (ret, ".");
+								  }
 	      
-	      if (!curobj->isinvisible)
-		{
-		  g_string_append_printf (ret, "r");
-		  /* Duplicated code follows. I ought to fix that */
-		  outputret;
-		  directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, lily_for_obj);
-		  if (duration != prevduration || numdots != prevnumdots || duration<0)
-		    {
-		      /* only in this case do we explicitly note the duration */
-		      if(duration>0)
-			g_string_append_printf (ret, "%d", duration);  
-		      prevduration = duration;
-		      prevnumdots = numdots;
-		      for (j = 0; j < numdots; j++)
-			g_string_append_printf (ret, ".");
-		    }
-		}
-	      else
-		{	/* non printing rest */
-		  g_string_append_printf (ret, "\\skip ");
-		  outputret;
-		  directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, lily_for_obj);
-		  if(duration>0)
-		    g_string_append_printf (ret, "%d", duration);
-		  prevduration = -1;
-		  prevnumdots = -1;
-		  for (j = 0; j < numdots; j++)
-		    g_string_append_printf (ret, ".");
-		}
-	      
-	      outputret;
-	      directives_insert_postfix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, lily_for_obj);
-	    } 
-	  else /* there are notes */
-	    {
-	   
+									outputret;
+									directives_insert_postfix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, lily_for_obj
+									
+									, TARGET_CHORD, movement_count, measurenum, voice_count, objnum
+									);
+									}  else /* there are notes */ {  
+										if (pchord->notes->next || pchord->chordize ) {//multinote chord
+											is_chordmode = TRUE;
+											g_string_append_printf (ret, "<");
+										}
+										GList *notenode;
+										outputret;
+										for (notenode = pchord->notes; notenode; notenode = notenode->next) {
+											note *curnote = (note *) notenode->data;
+											noteheadtype = curnote->noteheadtype;	      
+											//As with chord-prefix, this is perhaps not a useful position, but until some other use is found for this field it is here...
+											GList *g = curnote->directives;
+											gint num = 0;
+											for(;g;g=g->next, num++) {
+												DenemoDirective *directive = (DenemoDirective *)g->data;
+												if(directive->prefix ) {
+														prevduration = -1;
+														insert_editable(&directive->prefix, directive->prefix->len?directive->prefix->str:" ", iter, gui, lily_for_obj
+														, TARGET_NOTE, movement_count, measurenum, voice_count, objnum, num);
+												}
+											}
+		      
+											if(!get_lily_override (curnote->directives)) { //not skip all LilyPond output for this note
+												switch (noteheadtype) {
+														case DENEMO_NORMAL_NOTEHEAD:
+															if (!is_normalnotehead) {
+																	g_string_append_printf (ret, "\n"TAB"\\revert NoteHead #'style ");
+																	is_normalnotehead = !is_normalnotehead;
+															}
+														break;
+														case DENEMO_CROSS_NOTEHEAD:
+																	g_string_append_printf(ret, "\n"TAB"\\once \\override NoteHead #'style = #'cross ");
+																	is_normalnotehead = FALSE;
+																	break;
+														case DENEMO_HARMONIC_NOTEHEAD:
+																	g_string_append_printf (ret,
+																			"\n"TAB"\\once \\override NoteHead #'style = #'harmonic ");
+																	is_normalnotehead = FALSE;
+																	break;
+														case DENEMO_DIAMOND_NOTEHEAD:
+																	g_string_append_printf (ret,
+															"\n"TAB"\\once \\override Voice.NoteHead #'style = #'diamond ");
+																is_normalnotehead = FALSE;
+														break;
+														default:
+															g_string_append_printf
+																		(ret, "\n"TAB"\\revert Voice.NoteHead #'style ");
+														break;
+														}
+												mid_c_offset = curnote->mid_c_offset;
+												g_string_append_printf (ret, "%c",	mid_c_offsettoname (mid_c_offset));
+												enshift = curnote->enshift;
+												if (enshift < 0)
+													for (k = enshift; k; k++)
+														g_string_append_printf (ret, "es");
+												else
+													for (k = enshift; k; k--)
+														g_string_append_printf (ret, "is");
+												octave = mid_c_offsettooctave (mid_c_offset);
+												if (octave < 0)
+													for (; octave; octave++)
+															g_string_append_printf (ret, ",");
+												else
+													for (; octave; octave--)
+															g_string_append_printf (ret, "\'");
+//!!!!NAVANC
+NAVANC(0,0,0);//we need to say which note this is
+												outputret;
+												g = curnote->directives;
+												if (!g && notenode->next)
+													output(" ");
+												for(num=0;g;g=g->next, num++) {
+													DenemoDirective *directive = (DenemoDirective *)g->data;
+													if(directive->postfix && !(directive->override&DENEMO_OVERRIDE_HIDDEN)) {
+													insert_editable(&directive->postfix, directive->postfix->len?directive->postfix->str:" ", iter, gui, lily_for_obj
+													, TARGET_NOTE, movement_count, measurenum, voice_count, objnum, num);
+													prevduration = -1;
+												}	else
+													if (notenode->next)
+													output(" ");
+												} //for directives
+											} /* End of LilyPond output for note, skipped if override set ie !get_lily_override (curnote->directives) */
+										}		/* End notes in chord loop */
 		
-		  
-		  if (pchord->notes->next || pchord->chordize )//multinote chord
-		    {
-		      is_chordmode = TRUE;
-		      g_string_append_printf (ret, "<");
-		    }
-		  GList *notenode;
-		  outputret;
-		  for (notenode = pchord->notes; notenode; notenode = notenode->next)
-		    {
-		      note *curnote = (note *) notenode->data;
-		      noteheadtype = curnote->noteheadtype;
-		      
-		      //As with chord-prefix, this is perhaps not a useful position, but until some other use is found for this field it is here...
-		      GList *g = curnote->directives;
-		      for(;g;g=g->next) {
-			DenemoDirective *directive = (DenemoDirective *)g->data;
-			if(directive->prefix ) {
-			  prevduration = -1;
-			  insert_editable(&directive->prefix, directive->prefix->len?directive->prefix->str:" ", iter, gui, lily_for_obj);
-			}
-		      }
-		      
-		      if(!get_lily_override (curnote->directives)) { //skip all LilyPond output for this note
-			switch (noteheadtype)
-			  {
-			  case DENEMO_NORMAL_NOTEHEAD:
-			    if (!is_normalnotehead)
-			      {
-				g_string_append_printf
-				  (ret, "\n"TAB"\\revert NoteHead #'style ");
-				is_normalnotehead = !is_normalnotehead;
-			      }
-			    break;
-			  case DENEMO_CROSS_NOTEHEAD:
-			    g_string_append_printf
-			      (ret,
-			       "\n"TAB"\\once \\override NoteHead #'style = #'cross ");
-			    is_normalnotehead = FALSE;
-			    break;
-			  case DENEMO_HARMONIC_NOTEHEAD:
-			    g_string_append_printf
-			      (ret,
-			       "\n"TAB"\\once \\override NoteHead #'style = #'harmonic ");
-			    is_normalnotehead = FALSE;
-			    break;
-			  case DENEMO_DIAMOND_NOTEHEAD:
-			    g_string_append_printf
-			      (ret,
-			       "\n"TAB"\\once \\override Voice.NoteHead #'style = #'diamond ");
-			    is_normalnotehead = FALSE;
-			    break;
-			  default:
-			    g_string_append_printf
-			      (ret, "\n"TAB"\\revert Voice.NoteHead #'style ");
-			    break;
-			  }
-		      
-			mid_c_offset = curnote->mid_c_offset;
-			g_string_append_printf (ret, "%c",
-						mid_c_offsettoname (mid_c_offset));
-			enshift = curnote->enshift;
-			if (enshift < 0)
-			  for (k = enshift; k; k++)
-			    g_string_append_printf (ret, "es");
-			else
-			  for (k = enshift; k; k--)
-			    g_string_append_printf (ret, "is");
-			octave = mid_c_offsettooctave (mid_c_offset);
-			if (octave < 0)
-			  for (; octave; octave++)
-			    g_string_append_printf (ret, ",");
-			else
-			  for (; octave; octave--)
-			    g_string_append_printf (ret, "\'");
-		      
-		      
-			outputret;
-			g = curnote->directives;
-			if (!g && notenode->next)
-			  output(" ");
-			for(;g;g=g->next) {
-			  DenemoDirective *directive = (DenemoDirective *)g->data;
-			  if(directive->postfix && !(directive->override&DENEMO_OVERRIDE_HIDDEN)) {
-			    insert_editable(&directive->postfix, directive->postfix->len?directive->postfix->str:" ", iter, gui, lily_for_obj);
-			    prevduration = -1;
-			  }	else
-			    if (notenode->next)
-			      output(" ");
-			
-			}
-		      } /* End of LilyPond output for note, skipped if override set */
-		    }		/* End notes in chord loop */
-		
-		if (pchord->notes->next  || pchord->chordize) //multi-note chord
-		  g_string_append_printf (ret, ">");
+										if (pchord->notes->next  || pchord->chordize) //multi-note chord
+											g_string_append_printf (ret, ">");
 
-	    if (duration != prevduration || numdots != prevnumdots || duration<0)
-	      {
-		/* only in this case do we explicitly note the duration */
-		outputret;
-		directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, lily_for_obj);
-		  if(duration>0)
-		    g_string_append_printf (ret, "%d", duration);
-		prevduration = duration;
-		prevnumdots = numdots;
-		for (j = 0; j < numdots; j++)
-		  g_string_append_printf (ret, ".");
-		outputret;
-	      }
+										if (duration != prevduration || numdots != prevnumdots || duration<0) {
+											/* only in this case do we explicitly note the duration */
+											outputret;
+											directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, lily_for_obj
+											, TARGET_CHORD, movement_count, measurenum, voice_count, objnum
+											);
+											if(duration>0)
+												g_string_append_printf (ret, "%d", duration);
+											prevduration = duration;
+											prevnumdots = numdots;
+											for (j = 0; j < numdots; j++)
+											g_string_append_printf (ret, ".");
+											outputret;
+										}
 
-	    directives_insert_postfix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, lily_for_obj);
+										directives_insert_postfix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, lily_for_obj
+										
+										, TARGET_CHORD, movement_count, measurenum, voice_count, objnum
+										);
+//!!! dynamics like \cr have their own positional info in LilyPond - how to tell Denemo????
+										if (pchord->dynamics && (pchord->notes->next==NULL)) {
+											dynamic_string = (GString *) pchord->dynamics->data;
+										if (is_chordmode)
+											g_string_append_printf (ret, "\\%s", dynamic_string->str);
+										else
+											g_string_append_printf (ret, "\\%s ", dynamic_string->str);
+										}
 
-	    if (pchord->dynamics && (pchord->notes->next==NULL))
-	      {
-		dynamic_string = (GString *) pchord->dynamics->data;
-		if (is_chordmode)
-		  g_string_append_printf (ret, "\\%s", dynamic_string->str);
-		else
-		  g_string_append_printf (ret, "\\%s ", dynamic_string->str);
-	      }
+//!! dynamics like \cr have their own positional info in LilyPond - how to tell Denemo????
+//We have to output the cresc/dim begin and the slur begin and tie with a NAVANC(type, 0) before each one.
+										if (pchord->crescendo_begin_p) {
+											NAVANC(TARGET_CRESC, 0, 0); 
+											g_string_append_printf (ret, " \\cr");
+											outputret;
+										}
+										if (pchord->diminuendo_begin_p) {
+												NAVANC(TARGET_DIM, 0, 0); 
+												g_string_append_printf (ret, " \\decr");
+												outputret;
+										}	
 
-
-
-	    if (pchord->crescendo_begin_p)
-	      g_string_append_printf (ret, " \\cr");
-	    else if (pchord->diminuendo_begin_p)
-	      g_string_append_printf (ret, " \\decr");
-	    if (pchord->crescendo_end_p)
-	      g_string_append_printf (ret, " \\!");
-	    else if (pchord->diminuendo_end_p)
-	      g_string_append_printf (ret, " \\!");
-	    if (pchord->slur_end_p)
-	      g_string_append_printf (ret, ")");
-	    if (pchord->slur_begin_p)
-	      g_string_append_printf (ret, "(");
-	    if (pchord->is_tied)
-	      g_string_append_printf (ret, " ~");
-	  
-	    outputret;
-
-	    /* do this in caller                    g_string_append_printf (ret, " "); */
-	  } /* End of else chord with note(s) */
-//now output the postfix field of directives that have AFFIX set, which are not emitted 
-	directives_insert_affix_postfix_editable (pchord->directives, &open_braces, &prevduration, iter, lily_for_obj);
-	  
-      } /* End of outputting LilyPond for this chord because of LILYPOND_OVERRIDE not set in a chord directive*/
-	else {
-			GList *g = pchord->directives;
-			for(;g;g=g->next) {
-				DenemoDirective *directive = (DenemoDirective *)g->data;
-				if(directive->postfix && directive->postfix->len  && !(directive->override&DENEMO_OVERRIDE_HIDDEN)) {
-					prevduration = -1;
-					open_braces += brace_count(directive->postfix->str);
-					insert_editable(&directive->postfix, directive->postfix->str, iter, gui, lily_for_obj);
-				}
-			}
-	}
+										if (pchord->slur_begin_p) {
+											NAVANC(TARGET_SLUR, 0, 0);
+										  g_string_append_printf (ret, "(");
+										  outputret;
+										}
+										if (pchord->is_tied){
+											NAVANC(TARGET_TIE, 0, 0);
+											g_string_append_printf (ret, " ~");
+											outputret;
+										}
+	  								if (pchord->crescendo_end_p)
+												g_string_append_printf (ret, " \\!");
+										if (pchord->diminuendo_end_p)
+											g_string_append_printf (ret, " \\!");
+										if (pchord->slur_end_p)
+											g_string_append_printf (ret, ")");
+										outputret;
+										} /* End of else chord with note(s) */
+										//now output the postfix field of directives that have AFFIX set, which are not emitted 
+										directives_insert_affix_postfix_editable (pchord->directives, &open_braces, &prevduration, iter, lily_for_obj
+										, TARGET_CHORD, movement_count, measurenum, voice_count, objnum
+										);
+								} /* End of outputting LilyPond for this chord because LILYPOND_OVERRIDE not set in a chord directive, ie !lily_override*/ else {
+								GList *g = pchord->directives;
+								gint num;
+								for(num=0;g;g=g->next, num++) {
+									DenemoDirective *directive = (DenemoDirective *)g->data;
+									if(directive->postfix && directive->postfix->len  && !(directive->override&DENEMO_OVERRIDE_HIDDEN)) {
+										prevduration = -1;
+										open_braces += brace_count(directive->postfix->str);
+										insert_editable(&directive->postfix, directive->postfix->str, iter, gui, lily_for_obj
+										, TARGET_CHORD, movement_count, measurenum, voice_count, objnum, num);
+									}
+								}
+							}
 	
-    if(!lily_override)
-	  if ((pchord->is_grace & ENDGRACE) && *pgrace_status) {
-	    *pgrace_status = FALSE, g_string_append_printf (ret,"} ");	  
-	  }
+							if(!lily_override) if ((pchord->is_grace & ENDGRACE) && *pgrace_status) {
+								*pgrace_status = FALSE, g_string_append_printf (ret,"} ");	  
+							}
 
-		g_free(chord_prefix);
-		} //end of case CHORD
-		break;
+							g_free(chord_prefix);
+						} //end of case CHORD
+						break;
       case CLEF: {
-	gboolean override = FALSE;
-	gchar *clef_string = "";
-	gchar *clef_prestring = "";
-	GList *directives =  ((clef *) curobj->object)->directives;
-	if(directives) {
-	  override = get_lily_override(directives);
-	  clef_string = get_postfix(directives);
-	  clef_prestring = get_prefix(directives);	 	 
-	}
-	if(override) 
-	  g_string_append_printf (ret,"%s", clef_string);
-	else {
-	    if(!curobj->isinvisible) {
-	    determineclef (((clef *) curobj->object)->type, &clefname);
-	    g_string_append_printf (ret, "%s\\clef %s%s", clef_prestring, clefname, clef_string);
-	    }
-	}
-      }
-	break;
+//				no NAVANC ??? but one for keysig
+						gboolean override = FALSE;
+						gchar *clef_string = "";
+						gchar *clef_prestring = "";
+						GList *directives =  ((clef *) curobj->object)->directives;
+						if(directives) {
+							override = get_lily_override(directives);
+							clef_string = get_postfix(directives);
+							clef_prestring = get_prefix(directives);	 	 
+						}
+						if(override) 
+							g_string_append_printf (ret,"%s", clef_string);
+						else {
+							if(!curobj->isinvisible) {
+								determineclef (((clef *) curobj->object)->type, &clefname);
+							g_string_append_printf (ret, "%s\\clef %s%s", clef_prestring, clefname, clef_string);
+							}
+						}
+					}
+					break;
       case KEYSIG: {
-	gboolean override = FALSE;
-	gchar *keysig_string = "";
-	gchar *keysig_prestring = "";
-	GList *directives =  ((keysig *) curobj->object)->directives;
-	if(directives) {
-	  override = get_lily_override(directives);
-	  keysig_string = get_postfix(directives);
-	  keysig_prestring = get_prefix(directives);	 	 
-	}
-	if(override) 
-	  g_string_append_printf (ret,"%s", keysig_string);
-	else {
-	  determinekey (((keysig *) curobj->object)->isminor ?
-			((keysig *) curobj->object)->number + 3 :
-			((keysig *) curobj->object)->number, &keyname);
-	  g_string_append_printf (ret, "%s\\key %s", keysig_prestring, keyname);
-	  if (((keysig *) curobj->object)->isminor)
-	    g_string_append_printf (ret, " \\minor%s", keysig_string);
-	  else
-	    g_string_append_printf (ret, " \\major%s", keysig_string);
-	}
-      }
-	break;
+					gboolean override = FALSE;
+					gchar *keysig_string = "";
+					gchar *keysig_prestring = "";
+					GList *directives =  ((keysig *) curobj->object)->directives;
+					if(directives) {
+						override = get_lily_override(directives);
+						keysig_string = get_postfix(directives);
+						keysig_prestring = get_prefix(directives);	 	 
+					}
+//!!!!NAVANC
+					NAVANC(0,0,0); //this could indicate keysig type, although that is clear from the object at the cursor.
+					if(override) 
+						g_string_append_printf (ret,"%s", keysig_string);
+					else {
+								determinekey (((keysig *) curobj->object)->isminor ?
+													((keysig *) curobj->object)->number + 3 :
+													((keysig *) curobj->object)->number, &keyname);
+								g_string_append_printf (ret, "%s\\key %s", keysig_prestring, keyname);
+								if (((keysig *) curobj->object)->isminor)
+										g_string_append_printf (ret, " \\minor%s", keysig_string);
+								else
+										g_string_append_printf (ret, " \\major%s", keysig_string);
+								}
+					}
+					break;
       case TIMESIG: {
-	gboolean override = FALSE;
-	gchar *timesig_string = "";
-	gchar *timesig_prestring = "";
+					gboolean override = FALSE;
+					gchar *timesig_string = "";
+					gchar *timesig_prestring = "";
 	
-	GList *directives =  ((timesig *) curobj->object)->directives;
-	if(directives) {
-	  override = get_lily_override(directives);
-	  timesig_string = get_postfix(directives);
-	  timesig_prestring = get_prefix(directives);	 
-	}
-	if(override) 
-	  g_string_append_printf (ret,"%s", timesig_string);
-	else 
-	  g_string_append_printf (ret, "%s\\time %d/%d%s", timesig_prestring,
-				  ((timesig *) curobj->object)->time1,
-				  ((timesig *) curobj->object)->time2, timesig_string);
-      }
-	cur_stime1 = ((timesig *) curobj->object)->time1;
-	cur_stime2 = ((timesig *) curobj->object)->time2;
-	break;
-      case TUPOPEN:
-	{
-	  gboolean override = FALSE;
-	  gchar *prestem_string = "";
-	  gchar *poststem_string = "";
-	  GList *directives =  ((tuplet *) curobj->object)->directives;
-	  if(directives) {
-	    override = get_lily_override(directives);
-	    poststem_string = get_postfix(directives);
-	    prestem_string = get_prefix(directives);	 
-	  }
-	  if(override) 
-	    g_string_append_printf (ret,"%s%s", prestem_string, poststem_string);
-	  else {
-	    g_string_append_printf (ret, "%s\\times %d/%d %s{", prestem_string,
-				    ((tupopen *) curobj->object)->numerator,
-				    ((tupopen *) curobj->object)->denominator, poststem_string);
-	    if(figures->len)
-	      g_string_append_printf (figures, " \\times %d/%d {",
-				      ((tupopen *) curobj->object)->numerator,
-				      ((tupopen *) curobj->object)->denominator);
-	    if(fakechords->len)
-	      g_string_append_printf (fakechords, " \\times %d/%d {",
-				      ((tupopen *) curobj->object)->numerator,
-				      ((tupopen *) curobj->object)->denominator);
-	  }
-	}
-	break;
-      case TUPCLOSE:
-	{
-	  gboolean override = FALSE;
-	  gchar *prestem_string = "";
-	  gchar *poststem_string = "";
-	  GList *directives =  ((tuplet *) curobj->object)->directives;
-	  if(directives) {
-	    override = get_lily_override(directives);
-	    poststem_string = get_postfix(directives);
-	    prestem_string = get_prefix(directives);	 
-	  }
-	  if(override) 
-	    g_string_append_printf (ret,"%s%s", prestem_string, poststem_string);
-	  else {
-	    g_string_append_printf (ret, "%s}%s", prestem_string, poststem_string);
-	    if(figures->len)
-	      g_string_append_printf (figures, "}");
-	    if(fakechords->len)
-	      g_string_append_printf (fakechords, "}");
-	  }
-	}
-	break;
+					GList *directives =  ((timesig *) curobj->object)->directives;
+					if(directives) {
+							override = get_lily_override(directives);
+							timesig_string = get_postfix(directives);
+							timesig_prestring = get_prefix(directives);	 
+					}
+					if(override) 
+						g_string_append_printf (ret,"%s", timesig_string);
+					else 
+						g_string_append_printf (ret, "%s\\time %d/%d%s", timesig_prestring,
+								((timesig *) curobj->object)->time1,
+								((timesig *) curobj->object)->time2, timesig_string);
+					}
+					cur_stime1 = ((timesig *) curobj->object)->time1;
+					cur_stime2 = ((timesig *) curobj->object)->time2;
+					break;
+      case TUPOPEN:	{
+					gboolean override = FALSE;
+					gchar *prestem_string = "";
+					gchar *poststem_string = "";
+					GList *directives =  ((tuplet *) curobj->object)->directives;
+					if(directives) {
+						override = get_lily_override(directives);
+						poststem_string = get_postfix(directives);
+						prestem_string = get_prefix(directives);	 
+					}
+//!!!!NAVANC
+NAVANC(0,0,0);
+					if(override) 
+						g_string_append_printf (ret,"%s%s", prestem_string, poststem_string);
+					else {
+						g_string_append_printf (ret, "%s\\times %d/%d %s{", prestem_string,
+							((tupopen *) curobj->object)->numerator,
+							((tupopen *) curobj->object)->denominator, poststem_string);
+							if(figures->len)
+								g_string_append_printf (figures, " \\times %d/%d {",
+									((tupopen *) curobj->object)->numerator,
+									((tupopen *) curobj->object)->denominator);
+						if(fakechords->len)
+								g_string_append_printf (fakechords, " \\times %d/%d {",
+									((tupopen *) curobj->object)->numerator,
+									((tupopen *) curobj->object)->denominator);
+						}
+					}
+					break;
+      case TUPCLOSE: {
+//	no NAVANC
+				gboolean override = FALSE;
+				gchar *prestem_string = "";
+				gchar *poststem_string = "";
+				GList *directives =  ((tuplet *) curobj->object)->directives;
+				if(directives) {
+					override = get_lily_override(directives);
+					poststem_string = get_postfix(directives);
+					prestem_string = get_prefix(directives);	 
+				}
+				if(override) 
+					g_string_append_printf (ret,"%s%s", prestem_string, poststem_string);
+				else {
+					g_string_append_printf (ret, "%s}%s", prestem_string, poststem_string);
+				if(figures->len)
+					g_string_append_printf (figures, "}");
+				if(fakechords->len)
+					g_string_append_printf (fakechords, "}");
+			}
+			}
+			break;
       case STEMDIRECTIVE: {
-	gboolean override = FALSE;
-	gchar *prestem_string = "";
-	gchar *poststem_string = "";
-	GList *directives =  ((stemdirective *) curobj->object)->directives;
-	if(directives) {
-	  override = get_lily_override(directives);
-	  poststem_string = get_postfix(directives);
-	  prestem_string = get_prefix(directives);	 
-	}
-	if(override) 
-	  g_string_append_printf (ret,"%s%s", prestem_string, poststem_string);
-	else 
-
-	switch (((stemdirective *) curobj->object)->type)
-	  {
-	  case DENEMO_STEMDOWN:
-	    g_string_append_printf (ret, "%s\\stemDown""%s", prestem_string, poststem_string);
-	    break;
-	  case DENEMO_STEMBOTH:
-	    g_string_append_printf (ret, "%s\\stemNeutral""%s", prestem_string, poststem_string);
-	    break;
-	  case DENEMO_STEMUP:
-	    g_string_append_printf (ret, "%s\\stemUp""%s", prestem_string, poststem_string);
-	    break;
-	  }
-	if(*poststem_string) 
-	  g_free(poststem_string);
-	if(*prestem_string) 
-	  g_free(prestem_string);
+//no NAVANC 
+				gboolean override = FALSE;
+				gchar *prestem_string = "";
+				gchar *poststem_string = "";
+				GList *directives =  ((stemdirective *) curobj->object)->directives;
+				if(directives) {
+					override = get_lily_override(directives);
+					poststem_string = get_postfix(directives);
+					prestem_string = get_prefix(directives);	 
+				}
+				if(override) 
+					g_string_append_printf (ret,"%s%s", prestem_string, poststem_string);
+				else 
+					switch (((stemdirective *) curobj->object)->type)	{
+						case DENEMO_STEMDOWN:
+							g_string_append_printf (ret, "%s\\stemDown""%s", prestem_string, poststem_string);
+							break;
+						case DENEMO_STEMBOTH:
+							g_string_append_printf (ret, "%s\\stemNeutral""%s", prestem_string, poststem_string);
+							break;
+						case DENEMO_STEMUP:
+							g_string_append_printf (ret, "%s\\stemUp""%s", prestem_string, poststem_string);
+						break;
+					}
+			if(*poststem_string) 
+				g_free(poststem_string);
+			if(*prestem_string) 
+				g_free(prestem_string);
       }
-	break;
-      case LILYDIRECTIVE:
-	; //handled in the if block
-	break; 
-
-
-   default:
-	break;
-      }
+				break;
+			case LILYDIRECTIVE:
+			; //handled in the if block
+			break; 
+			default:
+				break;
+  }
       
-    outputret;
+	outputret;
 
-    g_free(curobj->lilypond);
-    curobj->lilypond = g_string_free(lily_for_obj, FALSE);//There is a scheme command d-GetLilyPondthat retrieves the LilyPond text associated with the current object
-    *pprevduration = prevduration;
-    *pprevnumdots = prevnumdots;
+	g_free(curobj->lilypond);
+	curobj->lilypond = g_string_free(lily_for_obj, FALSE);//There is a scheme command d-GetLilyPondthat retrieves the LilyPond text associated with the current object
+	*pprevduration = prevduration;
+	*pprevnumdots = prevnumdots;
 
-    *pclefname = clefname;
-    *pkeyname = keyname;
-    *pcur_stime1 = cur_stime1;
-    *pcur_stime2 = cur_stime2;
-    return open_braces;
+	*pclefname = clefname;
+	*pkeyname = keyname;
+	*pcur_stime1 = cur_stime1;
+	*pcur_stime2 = cur_stime2;
+	return open_braces;
 }
 
 /* create and insertion point and button for the next piece of music */
@@ -1416,6 +1474,12 @@ gchar *get_lilypond_for_clef(clef *theclef) {
     g_free(clef_prefix);
     return ret;
 }
+
+
+
+	
+	
+	
 /**
  * Output a Denemo Staff in Lilypond syntax
  * A section is created in the gui->textbuffer and the music inserted into it.
@@ -1590,7 +1654,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
      ) {								\
 	  gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);\
 	  GtkTextChildAnchor *objanc = gtk_text_buffer_create_child_anchor (gui->textbuffer, &iter);\
-	  g_object_set_data(G_OBJECT(objanc), OBJECT, (gpointer)curobjnode);\
+	  g_object_set_data(G_OBJECT(objanc), OBJECTNODE, (gpointer)curobjnode);\
 	  g_object_set_data(G_OBJECT(objanc), MOVEMENTNUM, (gpointer)(intptr_t)ABS(movement_count));\
 	  g_object_set_data(G_OBJECT(objanc), MEASURENUM, (gpointer)(intptr_t)measurenum);\
 	  g_object_set_data(G_OBJECT(objanc), STAFFNUM, (gpointer)(intptr_t)ABS(voice_count));\
@@ -1610,7 +1674,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     gtk_text_buffer_apply_tag_by_name(gui->textbuffer, INEDITABLE, &back, &iter);\
     gtk_text_buffer_apply_tag_by_name(gui->textbuffer, "system_invisible", &back, &iter);\
     g_object_set_data(G_OBJECT(objanc), "end", (gpointer)endanc);\
-    g_object_set_data(G_OBJECT(objanc), TARGET, (gpointer)&((lilydirective *) curobj->object)->what);\
+    g_object_set_data(G_OBJECT(objanc), GSTRINGP, (gpointer)&((lilydirective *) curobj->object)->what);\
     gui->anchors = g_list_prepend(gui->anchors, objanc);\
   }
 
@@ -1626,28 +1690,22 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     prevduration = -1;
     prevnumdots = -1;// the LILYDIRECTIVE may have changed the duration
  }  else {
-	  //put in an invisible ineditable anchor to mark the start of the object
-	  gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
-	  GtkTextChildAnchor *objanc = gtk_text_buffer_create_child_anchor (gui->textbuffer, &iter);
-	  g_object_set_data(G_OBJECT(objanc), OBJECT, (gpointer)curobjnode);//store objnode here
-	  g_object_set_data(G_OBJECT(objanc), MOVEMENTNUM, (gpointer)(intptr_t)ABS(movement_count));
-	  g_object_set_data(G_OBJECT(objanc), MEASURENUM, (gpointer)(intptr_t)measurenum);
-	  g_object_set_data(G_OBJECT(objanc), STAFFNUM, (gpointer)(intptr_t)ABS(voice_count));
-	  g_object_set_data(G_OBJECT(objanc), OBJECTNUM, (gpointer)(intptr_t)ABS(objnum));
-//g_print("marked anchor %p as %d %d %d %d\n", objanc, movement_count, measurenum, voice_count, objnum);
-	  GtkTextIter back;
-	  back = iter;
-	  (void)gtk_text_iter_backward_char(&back);
-	  gtk_text_buffer_apply_tag_by_name(gui->textbuffer, INEDITABLE, &back, &iter);
-	  gtk_text_buffer_apply_tag_by_name(gui->textbuffer, "system_invisible", &back, &iter);
+	 
+#if 0 
+	 place_navigation_anchor(curmark, (gpointer)curobjnode, ABS(movement_count), measurenum, 
+														ABS(voice_count), ABS(objnum), 0, 0);
+#endif
 
-	  open_braces += generate_lily_for_obj (gui, &iter, curobj,  
+
+
+	 open_braces += generate_lily_for_obj (gui, &iter, curobj,  
 				 &prevduration, &prevnumdots, &clefname,
 				 &keyname,
-						&cur_stime1, &cur_stime2, &grace_status, figures, fakechords);
-	  
-
-
+						&cur_stime1, &cur_stime2, &grace_status, figures, fakechords,
+						curmark, (gpointer)curobjnode, ABS(movement_count), measurenum, 
+														ABS(voice_count), ABS(objnum)
+						
+						);
  }// end not lilydirective
 
 
@@ -1803,15 +1861,15 @@ void merge_lily_strings (DenemoGUI *gui) {
   }
   for(g = gui->anchors;g;g=g->next) {
     GtkTextChildAnchor *anchor = g->data;
-    GString **target = g_object_get_data(G_OBJECT(anchor), TARGET);
-    if(target) { 
+    GString **gstringp = g_object_get_data(G_OBJECT(anchor), GSTRINGP);
+    if(gstringp) { 
       gchar *lily = get_text(gui, anchor);   
       if(strcmp(lily, g_object_get_data(G_OBJECT(anchor),ORIGINAL))){
-	//	g_print("Compare %s\nwith %s for target %p\n", lily, g_object_get_data(anchor,ORIGINAL), *target);
-	if(!*target)
-	  *target = g_string_new(lily);
+	//	g_print("Compare %s\nwith %s for gstringp %p\n", lily, g_object_get_data(anchor,ORIGINAL), *gstringp);
+	if(!*gstringp)
+	  *gstringp = g_string_new(lily);
 	else
-	  g_string_assign(*target, lily);
+	  g_string_assign(*gstringp, lily);
 
 
 	//this does not prevent corruption!!!!! on deleting all the string...
@@ -1819,15 +1877,15 @@ void merge_lily_strings (DenemoGUI *gui) {
 	g_strstrip(lily);
 	if(*lily == '\0')
 	  {
-	    g_string_free(*target, TRUE);
-	    *target = g_string_new("");
+	    g_string_free(*gstringp, TRUE);
+	    *gstringp = g_string_new("");
 	  }
 #if 0
-	g_print("target %p at %p holds %s\n", *target, target, (*target)->str);
+	g_print("gstringp %p at %p holds %s\n", *gstringp, gstringp, (*gstringp)->str);
 #endif
 	/* this is    ((DenemoDirective*)((DenemoObject*)(Denemo.gui->si->currentobject->data))->object)->postfix */
 	g_free(g_object_get_data(G_OBJECT(anchor),ORIGINAL));
-	g_object_set_data(G_OBJECT(anchor),ORIGINAL, get_text(gui, anchor));
+	g_object_set_data(G_OBJECT(anchor), ORIGINAL, get_text(gui, anchor));
 	
 
 	score_status(gui, TRUE);
@@ -1879,7 +1937,6 @@ void delete_lily_cb (GtkAction *action, gpointer param) {
   GtkTextChildAnchor *endanc = g_object_get_data(G_OBJECT(anchor), "end");
   gtk_text_buffer_get_iter_at_child_anchor(gui->textbuffer, &end, endanc);
   gpointer sb = g_object_get_data(G_OBJECT(anchor), CUSTOM);
-  //g_print("retrieving %p %p\n",anchor, target);
   gui->anchors = g_list_remove(gui->anchors, anchor);
   gui->custom_scoreblocks = g_list_remove(gui->custom_scoreblocks, sb);
 
@@ -1921,21 +1978,20 @@ static void  place_cursor_cb(GtkAction *action, DenemoGUI *gui) {
     GList *curobjnode;
     GtkTextIter iter;
     gtk_text_buffer_get_start_iter (gui->textbuffer, &iter);
-    while (gtk_text_iter_forward_char (&iter))
-      {
-	GtkTextChildAnchor *anchor;
-	anchor = gtk_text_iter_get_child_anchor(&iter);
-	if (anchor && (curobjnode = g_object_get_data(G_OBJECT(anchor), OBJECT)) &&
-	    curobjnode->data == targetobj) {
-	  gtk_text_buffer_place_cursor(gui->textbuffer, &iter);
-	  gtk_text_view_scroll_mark_onscreen(GTK_TEXT_VIEW(gui->textview), gtk_text_buffer_get_insert(gui->textbuffer));
-gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW(gui->textview), 
-			      gtk_text_buffer_get_insert(gui->textbuffer), 0.0, TRUE, 0.5, 0.5);
-	  //g_print("placed cursor\n"); FIXME as well color in relevant objects
-	}
-      }
+    while (gtk_text_iter_forward_char (&iter)) {
+			GtkTextChildAnchor *anchor;
+			anchor = gtk_text_iter_get_child_anchor(&iter);
+			if (anchor && (curobjnode = g_object_get_data(G_OBJECT(anchor), OBJECTNODE)) &&
+								curobjnode->data == targetobj) {
+				gtk_text_buffer_place_cursor(gui->textbuffer, &iter);
+				gtk_text_view_scroll_mark_onscreen(GTK_TEXT_VIEW(gui->textview), gtk_text_buffer_get_insert(gui->textbuffer));
+				gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW(gui->textview), 
+			  gtk_text_buffer_get_insert(gui->textbuffer), 0.0, TRUE, 0.5, 0.5);
+				//g_print("placed cursor\n"); FIXME as well color in relevant objects
+			}
+     }
   }
-  }
+}
 
 #if 0  
 static void  print_cursor_cb(void) {
@@ -2086,10 +2142,13 @@ static void output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gcha
       //Default value for barline = barline check
       gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter,  "\nBarline = |\nEndMovementBarline = \\bar \"|.\"\n", -1, INEDITABLE, NULL, NULL);
   GList *g = gui->lilycontrol.directives;
+  /* num is not needed, as at the moment we can never get this location from LilyPond */
   for(;g;g=g->next) {
     DenemoDirective *directive = g->data;
     if(directive->prefix && (directive->override&(DENEMO_OVERRIDE_AFFIX))) //This used to be (mistakenly) DENEMO_ALT_OVERRIDE
-      insert_editable(&directive->prefix, directive->prefix->str, &iter, gui, NULL);
+      insert_editable(&directive->prefix, directive->prefix->str, &iter, gui, NULL
+      , TARGET_NONE, 0, 0, 0, 0, 0
+      );
     //insert_section(&directive->prefix, directive->tag->str, NULL, &iter, gui);
   }
   }
@@ -2257,7 +2316,7 @@ static void output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gcha
     GList *g;
     for(g=gui->anchors;g;g=g->next) {
       GtkTextChildAnchor *anchor = g->data;
-      GString **target = g_object_get_data(G_OBJECT(anchor), TARGET);
+      GString **target = g_object_get_data(G_OBJECT(anchor), GSTRINGP);
       if(target)
 	g_object_set_data(G_OBJECT(anchor), ORIGINAL, get_text(gui, anchor));
     }
@@ -2460,11 +2519,13 @@ gboolean goto_lilypond_position(gint line, gint column) {
     gint staffnum =  (intptr_t) g_object_get_data(G_OBJECT(anchor), STAFFNUM);
     gint movementnum =  (intptr_t) g_object_get_data(G_OBJECT(anchor), MOVEMENTNUM);
     //g_print("location %d %d %d %d\n", objnum, measurenum, staffnum, movementnum);
-    if(movementnum<1)
-      {
-	g_warning("Object %p has no location data\n", g_object_get_data(G_OBJECT(anchor), OBJECT));
-	return FALSE;
-      }
+    DenemoTargetType type = (intptr_t) g_object_get_data(G_OBJECT(anchor), TARGETTYPE);
+    gui->si->target.type = type;
+    
+    if(movementnum<1)  {
+			g_warning("Object %p has no location data\n", g_object_get_data(G_OBJECT(anchor), OBJECTNODE));
+			return FALSE;
+    }
     if(!goto_movement_staff_obj (gui, movementnum, staffnum, measurenum, objnum))
       return FALSE;
     return TRUE;
@@ -2519,7 +2580,7 @@ static gboolean lily_keypress(GtkWidget *w, GdkEventKey *event, DenemoGUI *gui) 
       switch(obj->type) {
       case LILYDIRECTIVE:
 	gtk_text_iter_forward_char (&cursor);// past anchor
-	GString **target = g_object_get_data(G_OBJECT(anchor), TARGET);
+	GString **target = g_object_get_data(G_OBJECT(anchor), GSTRINGP);
 	if(!*target ){
 	  *target = g_string_new(key);
 	  //g_print("new string %s (%x)\n", key, *key);

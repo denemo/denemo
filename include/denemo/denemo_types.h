@@ -726,6 +726,27 @@ typedef struct DenemoAudio {
   gdouble volume;
   gpointer sndfile; /**< sndfile handle */
 } DenemoAudio;
+
+typedef enum DenemoTargetType {
+	TARGET_NONE = 0,
+	TARGET_CHORD,
+	TARGET_NOTE,
+	TARGET_SLUR,
+	TARGET_TIE,		
+	TARGET_CRESC,		
+	TARGET_DIM,		
+	TARGET_OBJECT_DIRECTIVE,
+	TARGET_NOTE_DIRECTIVE,
+	//TARGET_,
+} DenemoTargetType;
+
+typedef struct DenemoTarget {
+  DenemoTargetType type;
+  gint mid_c_offset;
+  gint directivenum; 
+} DenemoTarget;
+
+
 /*
  *  DenemoScore structure representing a single movement of a piece of music.
  *  A movement corresponds with a single \score{} block in the LilyPond language
@@ -783,6 +804,7 @@ typedef struct DenemoScore
   staffnode *currentstaff;
   gint currentstaffnum;/**< start at 1 */
   measurenode *currentmeasure;
+  DenemoTarget target;/**< The target of a wysiwyg operation. This is currently only set by clicking on the print view window. */
   gint currentmeasurenum;/**< start at 1 */
   objnode *currentobject; /**< currentobject points to the note preceding the cursor when the
    * cursor is appending. == NULL only when currentmeasure is empty. */

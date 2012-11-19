@@ -209,15 +209,15 @@ string_to_lilyversion(char *string)
   return version;
 }
 
-gchar * 
-regex_parse_version_number (const gchar *string)
+static gchar * 
+regex_parse_version_number (const gchar *str)
 {
   GRegex *regex = NULL;
   GMatchInfo *match_info;
   GString *lilyversion = g_string_new ("");
 
   regex = g_regex_new("\\d.\\d\\d", 0, 0, NULL);
-  g_regex_match(regex, string, 0, &match_info);
+  g_regex_match(regex, str, 0, &match_info);
 
   if (g_match_info_matches (match_info))
   {
@@ -253,8 +253,11 @@ get_lily_version_string (void)
   NULL,	/*standard error*/
   &error);
   if(error==NULL) {
-    read(standard_output, buf, sizeof(buf));
-    return regex_parse_version_number(buf);
+		gint num = read(standard_output, buf, sizeof(buf));
+		if(num)
+			return regex_parse_version_number(buf);
+		else
+			g_warning ("Could not read stdout of lilypond -v call\n");
   } else {
     g_warning ("%s", error->message);
     g_error_free (error);
@@ -1386,6 +1389,10 @@ gchar * large_thumbnail_name(gchar *filepath) {
  */
 gboolean
 create_thumbnail(gboolean async) {
+#ifdef G_OS_WIN32
+	return FALSE;
+#endif	
+	
   GError *err = NULL;
   if(PrintStatus.printpid!=GPID_NONE)
     return FALSE;
@@ -1638,7 +1645,7 @@ action_for_link (EvView* view, EvLinkAction *obj) {
   if(Ww.stage==Offsetting) {
 		return TRUE;//?Better take over motion notify so as not to get this while working ...
 	}
-	//g_print("acting on external signal %s\n", uri);
+	g_print("acting on external signal %s\n", uri);
   if(uri) {
 		gchar **vec = g_strsplit (uri, ":",5);
 		if(!strcmp(vec[0], "textedit") && vec[1] && vec[2] && vec[3]) {
@@ -1749,6 +1756,12 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 
  if(in_selected_object((gint)event->x, (gint)event->y)) {
 	if(left) {
+		
+//		Here we have to decide what is at the cursor - at the moment it calls TweakOffset without seeing if there is anything at the cursor to offset
+//		perhaps TweakOffset should decide????
+//		well, we are purely dragging one end, so it should never do slur from here.
+		
+		
 						gtk_widget_set_tooltip_markup(gtk_widget_get_parent(Denemo.printarea),  _("Now drag to point the object should move to"));
 						drag_cursor();
 						Ww.stage = Offsetting;
