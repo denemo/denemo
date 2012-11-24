@@ -242,3 +242,46 @@ gboolean put_lyrics_for_current_verse(DenemoStaff *thestaff, gchar *text) {
   else
     return FALSE;
 }
+
+#ifdef VERSE_NAVIGATION_CODE
+//return the verse number for the current verse (starting at 1) or 0 if none
+gint get_current_verse_number(void) {
+DenemoGUI *gui = Denemo.gui;
+ if(gui->si->currentstaff) {
+	DenemoStaff *thestaff = ((DenemoStaff *)gui->si->currentstaff->data);
+	if(thestaff->verses)	
+		return 1+g_list_index(thestaff->verses, thestaff->currentverse);
+
+	}
+ }
+return 0;
+}
+
+gboolean set_current_verse(gint number) {
+DenemoGUI *gui = Denemo.gui;
+ if(gui->si->currentstaff) {
+	DenemoStaff *thestaff = ((DenemoStaff *)gui->si->currentstaff->data);
+	if(thestaff->verses) {
+		GList *g = g_list_nth(thestaff->verses, number-1);
+		if(g) {
+			thestaff->currentverse = g;
+			emit_signal("switch-page",....
+			return TRUE;
+			}		
+	}
+}
+#endif
+
+gchar *get_lyrics_for_verse_num(gint number) {
+	DenemoGUI *gui = Denemo.gui;
+  if(gui->si->currentstaff) {
+		DenemoStaff *thestaff = ((DenemoStaff *)gui->si->currentstaff->data);
+		if(thestaff->verses) {
+		GList * verse = g_list_nth(thestaff->verses, number-1);
+		if(verse)
+		return get_text_from_view(verse->data);
+		}
+	}
+ return NULL;
+}
+

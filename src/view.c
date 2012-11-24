@@ -1545,10 +1545,16 @@ static SCM scheme_get_menu_path(SCM command) {
   return scm_makfrom0str (menupath);
 }
 
-static SCM scheme_get_verse(void) {
+static SCM scheme_get_verse(SCM number) {
+  gchar *text = NULL;
   DenemoGUI *gui = Denemo.gui;
-  DenemoStaff *staff = (DenemoStaff *) gui->si->currentstaff->data;
-  gchar *text = get_lyrics_for_current_verse(staff);
+  if(scm_is_integer(number)) {
+	text = get_lyrics_for_verse_num(scm_to_int(number));
+
+  } else {
+   DenemoStaff *staff = (DenemoStaff *) gui->si->currentstaff->data;
+   text = get_lyrics_for_current_verse(staff);
+  }
   if(text) {
     SCM scm = scm_makfrom0str (text);
     //wrong!! g_free(text);
@@ -5583,7 +5589,7 @@ INSTALL_SCM_FUNCTION ("return a string giving the latest step available for Undo
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the menu path to that command or #f if none",DENEMO_SCHEME_PREFIX"GetMenuPath", scheme_get_menu_path);
   INSTALL_SCM_FUNCTION ("Takes a string and returns a string representing an MD5 checksum for the passed string.", DENEMO_SCHEME_PREFIX"GetChecksum", scheme_get_checksum);
   INSTALL_SCM_FUNCTION ("Sets the newbie status to the passed value",DENEMO_SCHEME_PREFIX"SetNewbie", scheme_set_newbie);
-  INSTALL_SCM_FUNCTION ("Gets the current verse of the current staff or #f if none",DENEMO_SCHEME_PREFIX"GetVerse", scheme_get_verse);
+  INSTALL_SCM_FUNCTION ("Gets the current verse of the current staff or #f if none, with an integer parameter, gets the nth verse",DENEMO_SCHEME_PREFIX"GetVerse", scheme_get_verse);
   INSTALL_SCM_FUNCTION ("Puts the passed string as the current verse of the current staff",DENEMO_SCHEME_PREFIX"PutVerse", scheme_put_verse);
   INSTALL_SCM_FUNCTION ("Appends the passed string to the current verse of the current staff",DENEMO_SCHEME_PREFIX"AppendToVerse", scheme_append_to_verse);
 
