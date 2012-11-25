@@ -1,5 +1,7 @@
-;Tempo-script by DW
-(let (
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
+;MetronomeMark
+;;Tempo-script by DW tweaked by RTS
+(let ( (tag "MetronomeMark")
 		(TempoChoice #f) (replace #f) (input "")  (AboveBelow? "^")
 		(MidiBPM 60) (ShowBPM? #f)(ValidBPM? #f) (BPMString "") (Go? #t)
 		(LilyString #f) (TempoAdjust #f)(DisplayString "") (InQuotes "")(duration "4") (bpm 60)  (OldLily  (not (d-CheckLilyVersion "2.12.0")))
@@ -34,7 +36,7 @@
 					(set! duration (substring BaseBeat 0 (- len 1)))  ;if there's a dot, cut it off from BaseBeat to get base duration.
 					(set! duration BaseBeat)  
 				)
-				(if replace (set! defaultBPM (d-DirectiveGet-standalone-midibytes "Tempo" ))) ;use old BPM if there. Bug: Only good for 4=...   
+				(if replace (set! defaultBPM (d-DirectiveGet-standalone-midibytes tag ))) ;use old BPM if there. Bug: Only good for 4=...   
 				
 				(set! bpm (d-GetUserInput (_ "Metronome Marking")  (string-append (_ "Give number of these ") BaseBeat (_ " beats per minute:")) defaultBPM ) )
 				
@@ -67,7 +69,7 @@
 ;Tempo script begins here.
 
 ;see if there's already one there:
-(if (d-Directive-standalone?  "Tempo")
+(if (d-Directive-standalone?  tag)
 	;if we want to REPLACE an existing directive...
 	(let ((choice #f))		
 		(set! replace 'edit)
@@ -78,9 +80,9 @@
 			((equal? choice "Change")
 				(set! replace #t ))
 			((equal? choice  cue-Advanced)
-				(d-DirectiveTextEdit-standalone "Tempo"))
+				(d-DirectiveTextEdit-standalone tag))
 			((equal? choice "Delete")
-				(d-DirectiveDelete-standalone "Tempo"))
+				(d-DirectiveDelete-standalone tag))
 			((equal? choice "Offset the Position")
 				(ExtraOffset "TextScript" "standalone"))
 			((equal? choice "Set Padding")
@@ -187,21 +189,17 @@
 		;now make the directive...
 		(if Go?
 			(begin
-				(if (not replace) (d-DirectivePut-standalone "Tempo" ) )
-				(if LilyString (d-DirectivePut-standalone-postfix "Tempo" LilyString ) )
-				(d-DirectivePut-standalone-display  "Tempo" DisplayString)
-				(d-DirectivePut-standalone-minpixels "Tempo" 10 )
-				(d-DirectivePut-standalone-ty "Tempo" 85 ) ;;try -40 instead of 85 for above-the-staff
+				(if (not replace) (d-DirectivePut-standalone tag ) )
+				(if LilyString (d-DirectivePut-standalone-postfix tag LilyString ) )
+				(d-DirectivePut-standalone-display  tag DisplayString)
+				(d-DirectivePut-standalone-minpixels tag 10 )
+				(d-DirectivePut-standalone-ty tag 85 ) ;;try -40 instead of 85 for above-the-staff
 				(if (equal? ValidBPM? #t)
 					(begin 
-						(d-DirectivePut-standalone-override "Tempo" (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_TEMPO DENEMO_OVERRIDE_STEP))
-						(d-DirectivePut-standalone-midibytes "Tempo" MidiBPM)
+						(d-DirectivePut-standalone-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_TEMPO DENEMO_OVERRIDE_STEP))
+						(d-DirectivePut-standalone-midibytes tag MidiBPM)
 					)
 				)
 				(d-SetSaved #f)
 				(d-RefreshDisplay)
-				(d-MoveCursorRight)
-			)
-		)
-	)
-))
+				(d-MoveCursorRight))))))

@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;; BeamLeftThree
 (let ((tag "BeamLeft"))
 (if (d-Directive-chord? tag)

@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;;;; CreateOssiaStaff
 (let ((current "voice 1"))
   (set! current (d-StaffProperties "query=denemo_name"))

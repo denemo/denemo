@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;HideTimesig
 ;(let ((lilycontext (d-GetOption  (string-append "Score" stop "Staff" stop "Voice" stop))))
 (let ((lilycontext "Staff"))

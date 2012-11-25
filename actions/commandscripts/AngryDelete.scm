@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;; Angry Delete filter
 (let ((midi 0)
       (command 0)

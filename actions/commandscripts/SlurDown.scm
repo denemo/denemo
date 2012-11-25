@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;Slur Down:
 (d-DirectivePut-standalone-display "SlurDirection" "SlurDown")
 (d-MoveCursorLeft)

@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;VoiceSetting
         (let ( (choice (d-GetOption (string-append (_ "Voice 1") stop  (_ "Voice 2") stop (_ "Voice 3") stop (_ "Voice 4") stop (_ "Automatic Voice") stop))))
           (if choice

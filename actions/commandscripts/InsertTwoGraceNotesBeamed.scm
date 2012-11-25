@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
  ;;;;;;;;;;;TwoGraceInsert with beaming into the score
  (Help::Push (cons 'doublestroketemp (_ "Press a duration key to get two, beamed, grace notes")))
 

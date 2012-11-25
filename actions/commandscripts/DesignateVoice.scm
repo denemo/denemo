@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;DesignateVoice
 (let ((choice #f)(label #f)
         (OneVoice (_ "OneVoice:  Default-For a single voice on a staff")) (VoiceOne

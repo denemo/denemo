@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;PitchShift
 (let ((val (d-GetUserInput (_ "Pitch Change") (_ "Give amount =/-") "10")))
 (if val

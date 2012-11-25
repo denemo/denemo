@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
  ;SlurNeutral:
 (d-DirectivePut-standalone-display "SlurDirection" "Auto Slur Direction")
 (d-MoveCursorLeft)

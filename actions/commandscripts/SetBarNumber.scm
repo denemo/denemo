@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 (let ()
 (define result (d-GetUserInput (_ "Change Barnumber in typeset score") (_ "Please enter a number to set the current bar number. The typeset score will continue to count up from there.") "1"))
 	(if result 

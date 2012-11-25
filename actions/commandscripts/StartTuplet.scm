@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;StartTuplet
 ( let ((top #f) (bottom #f) (DirectiveText #f) (DirectiveDisplay #f) )
 (set! top (d-GetUserInput (_ "Enter tuplet numerator ") (_ "Enter the fraction to multiply the duration by,\nnumerator first. E.g., for triplets, enter 2, then 3. \nNumerator:") "2" ) )

@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;InsertStandaloneDirective
 (let ()
 (define current (d-DirectiveGet-standalone-postfix (d-DirectiveGetTag-standalone)))

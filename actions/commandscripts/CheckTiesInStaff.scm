@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;CheckTiesInStaff
 (define CheckTiesInStaff::return #t)
 (d-PushPosition)

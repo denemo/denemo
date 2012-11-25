@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;StaffSize
 (let ((tag "StaffSize") (size (d-GetUserInput (_ "Setting Staff Size") (_ "Give Staff Size (for printing), 0 for default") "0")))
 (if (and size (string->number size))

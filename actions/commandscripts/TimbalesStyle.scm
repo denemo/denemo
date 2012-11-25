@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;;;;;;;; TimbalesStyle
 (d-DirectivePut-staff-prefix "TimbalesStyle" "<< { \\new DrumStaff \\with {\n
       drumStyleTable = #timbales-style

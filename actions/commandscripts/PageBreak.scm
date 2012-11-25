@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;;;;;;PageBreak
 (if (d-Directive-standalone?  "PageBreak")
 	(d-InfoDialog "This sign denotes a Page Break. The music after this point will start on new page. This page break must be on a bar line. Use the Conditional Directives menu to make the page break applicable only to specific layouts. Delete using Del or Backspace key.")

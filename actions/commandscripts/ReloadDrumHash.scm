@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;;Prepares a Hash Table from a .denemo file where a user can put his own drum notation. 
 ;;;;Format: Each drum instrument has its own staff. Two notes in each: First note/value=GM-note, second user-note
 ;;;;by Nils Gey, 01/2010

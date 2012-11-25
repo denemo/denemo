@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
  ;;;FirstTimeBar
  (d-Directive-standalone "Repeat")
 (d-DirectivePut-standalone-minpixels "Repeat" 30)

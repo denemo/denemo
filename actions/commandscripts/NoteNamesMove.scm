@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;NoteNamesMove
 (d-AddKeybinding "MoveToA" "a")
 (d-AddKeybinding "MoveToB" "b")

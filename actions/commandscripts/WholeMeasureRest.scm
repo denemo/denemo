@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
  ;;;WholeMeasureRest
  (let ((timesig #f))
 (set! timesig (d-InsertTimeSig "query=timesigname")) 

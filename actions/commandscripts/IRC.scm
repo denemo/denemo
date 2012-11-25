@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;; IRC on freenode
  (d-InfoDialog (_ "Your browser may take a few moments to start - be patient!
  	When it has started you have to type in some anti-spam words

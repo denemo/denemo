@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;TaglineLink
  (let ((tag "TaglineLink"))
  (define link (d-GetUserInput (_ "Tagline with Link") (_ "Give URL to link to") "http://www.denemo.org"))

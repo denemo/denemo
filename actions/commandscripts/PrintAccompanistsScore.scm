@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;PrintAccompanistsScore
 (let ((saved (d-GetSaved)) (response (d-GetUserInput "Print Accompanist's Score" "How many staffs to make small?" "1")))
   (if response

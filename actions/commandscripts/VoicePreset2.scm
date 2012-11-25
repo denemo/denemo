@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;VoicePreset2
 (if (string=? (d-GetType) "Appending")
   (d-MoveCursorLeft))

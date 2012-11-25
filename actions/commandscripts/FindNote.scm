@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;;;; FindNote
 (if (not (defined? 'FindNote::sought))
     (define FindNote::sought "des"))

@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;RehearsalMarkNonPrinting 
  ;;;Non Printing Bookmark 
 ;;;by Nils Gey RTS Modified to avoid poluting the global namespace with the variable user-input

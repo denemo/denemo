@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;;ChordsForBar
 ;;;allows you to play chords (over a bass) for the current bar - plays the bar first, goes on to next bar when you press space
 (if (not (defined? 'ChordsForBar::active))

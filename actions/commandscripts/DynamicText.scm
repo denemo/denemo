@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;;DynamicsText
         ;; Standalone Dynamics - by Dan Wilckens. Tweaked by RTS. Note that for custom text the tag should be different.
  (if (not (defined? 'DenemoDynamicList))
@@ -48,7 +49,7 @@
 	(if (equal? choice "Custom" ) (begin 
    		(set! choice (d-GetUserInput (_ "Custom dynamic") (_ "Enter dynamic text:") "" ) )
    		(if choice
-        		(set! LilyString (string-append  "s8*0_\\markup  \\bold \\italic { " choice " } " )))))
+        		(set! LilyString (string-append  "s8*0 #(make-dynamic-script (markup #:normal-text #:bold #:italic \"" choice "\")) " )))))
     (if (equal? level "") 
       (begin
 	(set! level (d-GetUserInput (_ "Dynamic setting") (_ "Enter loudness level (0-127):") "63" ) ) 

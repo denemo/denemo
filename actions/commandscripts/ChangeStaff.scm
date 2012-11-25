@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;Change staff-by DRW modified to avoid use of aliases by RTS
 (if (d-Directive-standalone? "StaffChange")
 	(d-DirectiveDelete-standalone "StaffChange")

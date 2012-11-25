@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
  ;;;;;;;; FindNextNoteHigher
  (d-MoveCursorRight)
 (let loop ((lowest (d-GetCursorNoteAsMidi)) (current 0))

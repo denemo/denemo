@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;CloseTransposingInstrument
 (d-Directive-standalone "transposing")
 (d-DirectivePut-standalone-postfix "transposing" "}")

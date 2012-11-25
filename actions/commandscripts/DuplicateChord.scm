@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
  ;;;Duplicate Note or Chord, not for rests
 (if (Note?) 
 	(begin

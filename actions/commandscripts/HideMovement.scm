@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;HideMovement
 (if (d-DirectiveGet-movementcontrol-display "HideMovement" )
 (begin

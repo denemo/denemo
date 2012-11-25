@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 	
 	(set-cdr! wrap:Op0 d-Set0)
 	(set-cdr! wrap:Op1 d-Set1)

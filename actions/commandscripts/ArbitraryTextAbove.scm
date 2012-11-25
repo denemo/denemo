@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;ArbitraryTextAbove
 (let ((thetext #f))
   (set! thetext (d-GetUserInput (_ "Give string") (_ "give your text") " "))

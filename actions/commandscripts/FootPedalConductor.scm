@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;;;;;;;;FootPedalConductor
 (define (FootPedalConductor::display text)
   (if (positive? (d-DirectiveGet-standalone-gy "Conductor"))

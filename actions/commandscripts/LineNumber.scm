@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 (define LineNumber::Scale (cons "1 2 3 4 5" "e' g' b' d'' f''"))
 (define LineNumber::notelist '())
 (define LineNumber::buttonlist '())

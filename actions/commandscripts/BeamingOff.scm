@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
  ;;;;;;;;BeamingOff
 (d-DirectivePut-standalone "BeamingOff")
 (d-DirectivePut-standalone-postfix "BeamingOff" "\\autoBeamOff")

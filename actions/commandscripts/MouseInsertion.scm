@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;MouseInsertion
 (d-AddKeybinding "InsertOneNote" "PrsL-Shift")
 (d-AddKeybinding "AddNoteToChord" "PrsL-Alt")

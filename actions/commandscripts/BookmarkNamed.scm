@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
  ;;; BookMarkRNamed
 ;;; Named RehearsalMark searchable as bookmark.
 ;;; by Nils Gey. RTS Modified to avoid poluting the global namespace with the variable user-input

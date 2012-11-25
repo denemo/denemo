@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;PrintPartWithTitlePage
 (if  (and (d-Directive-scoreheader? "BookTitle") (d-Directive-staff? "InstrumentName"))
   (let ((saved (d-GetSaved))

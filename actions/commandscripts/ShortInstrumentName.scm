@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;;;;;;;;;;;ShortInstrumentName
 (let ((current "") (thematch ""))
   (set! current (d-DirectiveGet-staff-postfix "ShortInstrumentName" ))

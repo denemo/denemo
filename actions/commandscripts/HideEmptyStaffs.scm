@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
   ;;;;;;;;;;;;;;;Toggle HideEmptyStaffs
 (let ((current "0.0"))
   (set! current (d-DirectiveGet-score-prefix "HideEmptyStaffs"))

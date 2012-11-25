@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
   ;;; ShowOssia
 (d-Directive-standalone "StartStaff")
 (d-DirectivePut-standalone-postfix "StartStaff" "\\startStaff ")

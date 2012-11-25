@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;TinyStaff
 (ToggleDirective "staff" "prefix" "StaffSize" "\\with {
      		   fontSize = #-7

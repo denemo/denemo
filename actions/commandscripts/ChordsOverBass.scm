@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;;ChordsOverBass (pure filter version)
 (if (not (defined? 'ChordsOverBass::active))
     (define ChordsOverBass::active #f))

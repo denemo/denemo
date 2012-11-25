@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 (define SpaceNumber::Scale (cons "1 2 3 4" "f' a' c'' e''"))
 (define SpaceNumber::notelist '())
 (define SpaceNumber::buttonlist '())

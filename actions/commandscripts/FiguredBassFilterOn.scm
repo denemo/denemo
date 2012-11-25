@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;; Figured Bass filter
 
 (if (not (defined? 'ToggleFiguredBassMode::Active))

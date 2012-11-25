@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;; Tempo Change, Midi only.
 (let ((DurationFromInput "1" ) (TempoFromInput "120"))
 (set! DurationFromInput (d-GetOption (string-append "Quarter" stop "Dotted Quarter" stop)))

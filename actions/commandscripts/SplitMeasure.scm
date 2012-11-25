@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;SplitMeasure:splits a measure 
 ;leave cursor at the beginning of the new measure (after the barline)
 (let split ()

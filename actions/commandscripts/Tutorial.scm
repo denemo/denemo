@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 (d-New)
 (d-InfoDialog "Tutorial:  Dismiss this box and hit a Duration key 0, 1, 2, 3,4,5,6\nOr hit some other key to get on with creating a score")
 (define thechar (d-GetChar))

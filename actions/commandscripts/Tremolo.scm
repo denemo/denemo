@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;Tremolo
 (let ((command #f) (duration #f) (dur #f)(stripes #f))
 (set! command (lambda ()

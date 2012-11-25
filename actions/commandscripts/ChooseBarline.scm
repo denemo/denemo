@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 (Doublestroke #f
 (cons "Double barline" d-DoubleBarline)  ;1
 (cons "Repeat start" d-RepeatStart)  ;2

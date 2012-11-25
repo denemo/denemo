@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;;;;;;;;;;; d-LHFinger
 (let ((num "0"))
 (set! num (d-GetKeypress))

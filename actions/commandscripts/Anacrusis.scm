@@ -43,18 +43,18 @@
 	(set! duration (* duration 128))	;number of 128ths in duration
 	(if (equal? 0 duration)
 		(begin
-			(d-WarningDialog "Put notes/rests in the first measure for the upbeat required\nThen issue this command"))
+			(d-WarningDialog (_ "Put notes/rests in the first measure for the upbeat required\nThen issue this command")))
 		(if (integer? duration)
 			(begin
 	                        (d-DirectivePut-standalone "Anacrusis")
 				(d-DirectivePut-standalone-postfix "Anacrusis" (string-append "\\partial 128*" (number->string duration) " " ))
 				(d-DirectivePut-standalone-override "Anacrusis" DENEMO_OVERRIDE_DYNAMIC) ;This allows scripts that notice it to re-run the command to refresh the anacrusis
 				(d-DirectivePut-standalone-minpixels "Anacrusis" 60)
-				(d-DirectivePut-standalone-display "Anacrusis" "Upbeat")
+				(d-DirectivePut-standalone-display "Anacrusis" (_ "Upbeat"))
 				(d-DirectivePut-standalone-ty "Anacrusis" 50)
 				(d-RefreshDisplay)
 			)
-			(d-WarningDialog "This measure's duration is too complex for this script.\nSimplify or insert the required lilypond manually.")
+			(d-WarningDialog (_ "This measure's duration is too complex for this script.\nSimplify or insert the required lilypond manually."))
 		)
 	)
 	(if (not (d-MoveToMeasureRight))

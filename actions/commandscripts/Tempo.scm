@@ -71,19 +71,19 @@
 	;if we want to REPLACE an existing directive...
 	(let ((choice #f))		
 		(set! replace 'edit)
-		(set! choice (d-GetOption  (string-append "Change"stop"Delete" stop "Offset the Position" stop "Set Padding" stop cue-Advanced stop)))
+		(set! choice (d-GetOption  (string-append (_ "Change") stop (_ "Delete") stop (_ "Offset the Position") stop (_ "Set Padding") stop cue-Advanced stop)))
 		(cond
 			;((boolean? choice)
-			;	(d-WarningDialog "Operation cancelled"))
-			((equal? choice "Change")
+			;	(d-WarningDialog (_ "Operation cancelled")))
+			((equal? choice (_ "Change"))
 				(set! replace #t ))
 			((equal? choice  cue-Advanced)
 				(d-DirectiveTextEdit-standalone "Tempo"))
-			((equal? choice "Delete")
+			((equal? choice (_ "Delete"))
 				(d-DirectiveDelete-standalone "Tempo"))
-			((equal? choice "Offset the Position")
+			((equal? choice (_ "Offset the Position"))
 				(ExtraOffset "TextScript" "standalone"))
-			((equal? choice "Set Padding")
+			((equal? choice (_ "Set Padding"))
 				(SetPadding "TextScript" "standalone"))
 		)
 	)
@@ -92,37 +92,37 @@
 (if (boolean? replace)	;as long as we're not just editing an existing directive, we continue from here.
 	(begin	
 		;get tempo text from user:
-		(set! TempoChoice (d-GetOption (string-append "Presto" stop "Vivace" stop "Allegro" stop 
-			"Moderato" stop "Andante" stop "Adagio" stop "Largo" stop  "Lento" stop "Tempo Adjust (ritardando, etc.)" stop 
-			"Custom tempo (e.g., Allegro assai)" stop "Beat Change (e.g., 4=4.)" stop "No Tempo Text-Metronome Only" stop)))
+		(set! TempoChoice (d-GetOption (string-append (_ "Presto") stop (_ "Vivace") stop (_ "Allegro") stop 
+			(_ "Moderato") stop (_ "Andante") stop (_ "Adagio") stop (_ "Largo") stop  (_ "Lento") stop (_ "Tempo Adjust (ritardando, etc.)") stop 
+			(_ "Custom tempo (e.g., Allegro assai)") stop (_ "Beat Change (e.g., 4=4.)") stop (_ "No Tempo Text-Metronome Only") stop)))
 		(if (not TempoChoice) (set! Go? #f))
 
-		(if (equal? TempoChoice "No Tempo Text-Metronome Only") (set! TempoChoice #f ) )
-		(if (equal? TempoChoice "Custom tempo (e.g., Allegro assai)") 	;read input if user wants custom:
+		(if (equal? TempoChoice (_ "No Tempo Text-Metronome Only")) (set! TempoChoice #f ) )
+		(if (equal? TempoChoice (_ "Custom tempo (e.g., Allegro assai)")) 	;read input if user wants custom:
 			(begin 
 				(set! InQuotes "\"")
-				(set! TempoChoice (d-GetUserInput "Tempo setting" "Enter tempo text:" "Allegro assai" ) )
+				(set! TempoChoice (d-GetUserInput (_ "Tempo setting") (_ "Enter tempo text:") (_ "Allegro assai") ) )
 				(if (not TempoChoice) (set! Go? #f))
 			)
 		)
-		(if (equal? TempoChoice  "Tempo Adjust (ritardando, etc.)") 	;for custom italic tempo adjustments
+		(if (equal? TempoChoice  (_ "Tempo Adjust (ritardando, etc.)")) 	;for custom italic tempo adjustments
 			(begin
 				(set! TempoAdjust #t)
 				(set! InQuotes "\"")
-				(set! TempoChoice (d-GetUserInput "Tempo adjust" "Enter text:" "rit." ))
+				(set! TempoChoice (d-GetUserInput (_ "Tempo adjust") (_ "Enter text:") (_ "rit.") ))
 				(if (not TempoChoice) (set! Go? #f))
-				(if Go? (set! AboveBelow? (d-GetOption (string-append "Neutral" stop "Above" stop  "Below" stop ))))
+				(if Go? (set! AboveBelow? (d-GetOption (string-append (_ "Neutral") stop (_ "Above") stop  (_ "Below") stop ))))
 				(if (not AboveBelow?) (set! Go? #f))
 				(set! AboveBelow? 
 					(cond
-						((equal? AboveBelow? "Above") "^" )
-						((equal? AboveBelow? "Below") "_" )
+						((equal? AboveBelow? (_ "Above")) "^" )
+						((equal? AboveBelow? (_ "Below")) "_" )
 						(else "-")
 					)
 				)
 			)
 		)
-		(if (equal? TempoChoice "Beat Change (e.g., 4=4.)" ) 
+		(if (equal? TempoChoice (_ "Beat Change (e.g., 4=4.)") ) 
 			(begin
 				(set! Go? #f)
 				(d-BeatChange)
@@ -189,7 +189,7 @@
 			(begin
 				(if (not replace) (d-DirectivePut-standalone "Tempo" ) )
 				(if LilyString (d-DirectivePut-standalone-postfix "Tempo" LilyString ) )
-				(d-DirectivePut-standalone-display  "Tempo" DisplayString)
+				(d-DirectivePut-standalone-display "Tempo" DisplayString)
 				(d-DirectivePut-standalone-minpixels "Tempo" 10 )
 				(d-DirectivePut-standalone-ty "Tempo" 85 ) ;;try -40 instead of 85 for above-the-staff
 				(if (equal? ValidBPM? #t)

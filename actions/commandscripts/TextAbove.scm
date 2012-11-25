@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;TextAbove
 (let ((text #f) (tag "TextAbove")(markup #f)(current #f))
 	(set! current (d-DirectiveGet-chord-display tag))

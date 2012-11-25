@@ -6,8 +6,8 @@
 (if (equal? dotted #t)
 (set! duration (substring input 0 (- len 1))) ;if there's a dot, cut it off from input to get base duration.
 (set! duration input) )
-(set! bpm (d-GetUserInput "Metronome Marking"
-"Give number of these beats per minute:" "60" ) )
+(set! bpm (d-GetUserInput (_ "Metronome Marking")
+(_ "Give number of these beats per minute:") "60" ) )
 (set! valid (not (equal? (and (string->number duration) (string->number bpm) ) #f))) ;don't go unless both are numbers.
 ;don't go unless base duration is valid lilypond: (could go higher if wanted):
 (if (and (equal? valid #t) (or (equal? duration "1")(equal? duration "2")(equal? duration "4")(equal? duration "8")(equal? duration "16")) )
@@ -25,5 +25,5 @@
 (d-DirectivePut-standalone-ty "MM" -5)
 (d-DirectivePut-standalone-minpixels "MM" 15)
 )
-(d-WarningDialog "Incorrect syntax.")
+(d-WarningDialog (_ "Incorrect syntax."))
 ))

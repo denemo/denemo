@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ; SwitchMensuralBarlines // "Mensurstriche" layout for one movement
 ; Consist of two independent, Denemo Directives.
 (if  (d-DirectiveGet-layout-postfix "MensuralBarlines") 

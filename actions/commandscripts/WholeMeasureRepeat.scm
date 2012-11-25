@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;WholeMeasureRepeat
 (d-WholeMeasureRest)
  (d-DirectivePut-chord-gx "WholeMeasureRest" 40)

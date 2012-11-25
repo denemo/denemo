@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;;;;;; score prolog
 (let ((prolog ""))
   (set! prolog (d-DirectiveGet-score-prefix "Prolog"))

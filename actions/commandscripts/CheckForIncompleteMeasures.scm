@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;; Warn about incomplete measures
 (d-PushPosition)
     ;;;;This will be MoveToFirstIncompleteMeasure

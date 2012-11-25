@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
  (Doublestroke #f
 (cons "Finger 1" d-Finger1)  ;1
 (cons "Finger 2" d-Finger2)  ;2

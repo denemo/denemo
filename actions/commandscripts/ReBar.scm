@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;RebarAmalgam2
 ;Rebar-repartitions the measures, searches for under/overfull, pad with rests, by DW, trivial mods by RTS
 ;FIXME-currently no support for nested tuplets

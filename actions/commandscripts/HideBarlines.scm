@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;HideBarlines
     (if (d-Directive-score? "HideBarlines")
     	(d-DirectiveDelete-score "HideBarlines")

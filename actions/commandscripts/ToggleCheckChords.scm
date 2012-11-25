@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;ToggleCheckChords
 (if (not (defined? 'ToggleCheckChords::Active))
     (define ToggleCheckChords::Active #f))

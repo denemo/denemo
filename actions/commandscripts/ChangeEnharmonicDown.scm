@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;enharmonic -
 ;; This script switches through enharmonic variants of the same sounding note in the direction of lower diatonic base notes
 (if (Note?)

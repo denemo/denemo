@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
  ;;;;;;;;;;OpenRepeat
 (d-Directive-standalone "Repeat")
 (d-DirectivePut-standalone-postfix "Repeat" " \\repeat volta 2 {\n") 

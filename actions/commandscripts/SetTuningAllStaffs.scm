@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;;;SetTuningAllStaffs
  (d-Directive-standalone "Tuning")
 (d-DirectivePut-standalone-midibytes "Tuning" (string-append "0xf0 0x7f 0x7f 0x08 0x08   0x03 0x7f 0x7f " (d-GetMidiTuning)  "0xf7"))

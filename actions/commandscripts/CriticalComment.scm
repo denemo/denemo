@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;; CriticalComment
 (let ((tag  "CriticalComment") (lilypond ""))
 (define current (d-DirectiveGet-standalone-display tag))

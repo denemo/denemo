@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;NoBeam
 (d-DirectivePut-chord-postfix "NoBeam" "\\noBeam")
 (d-DirectivePut-chord-display "NoBeam" "noBeam")

@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 (define (DrumGM2Custom)
 
 ;This is not very usefull currently.

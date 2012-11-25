@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
  ;;;HideOssia
 (d-Directive-standalone "StopStaff")
 (d-DirectivePut-standalone-postfix "StopStaff" "\\stopStaff ")

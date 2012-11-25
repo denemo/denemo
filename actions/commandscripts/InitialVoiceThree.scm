@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;InitialVoiceThree
 (let ((tag "InitialVoice") (move-right #f))
 (d-PushPosition)

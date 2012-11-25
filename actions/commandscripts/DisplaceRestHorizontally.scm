@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;DisplaceRestHorizontally
 (let	( (X (d-GetUserInput (_ "Horizontal shift") (_ "Give horizontal shift required") "1.5")))
 (if  X 

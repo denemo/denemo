@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;PrintBassWithoutFigures
 (let ((saved (d-GetSaved)) (response 1))
  (d-GoToPosition #f response 1 1)

@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;;;;;;;;;;;InstrumentName
 (let ((current "") (thematch "") (indent "0.0") (size 16.0))
  (if InstrumentName::params

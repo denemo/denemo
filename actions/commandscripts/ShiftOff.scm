@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;ShiftOff
 (if (d-Directive-standalone?  "ShiftForVoices")
 	(d-DirectiveDelete-standalone  "ShiftForVoices"))

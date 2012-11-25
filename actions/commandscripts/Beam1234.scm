@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;;;;;;Beam1234
 (if (d-Directive-standalone? "Beam1234")
 	(d-DirectiveDelete-standalone "Beam1234")

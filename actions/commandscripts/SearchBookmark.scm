@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 (let ((user-input (d-GetUserInput "Find Bookmark" "What are you after? Case insensitive" "X")))
 	(define start (GetPosition))
 	(define (test?) 

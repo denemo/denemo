@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;EndVolta
 (if (d-Directive-standalone? "EndVolta")
 	(let  ((choice (d-GetOption  (string-append (_ "Delete") stop (_ "Advanced") stop))))

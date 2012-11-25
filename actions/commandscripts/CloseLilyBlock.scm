@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;;CloseLilyBlock
  (d-Directive-standalone "CloseLilyBlock")
  (d-DirectivePut-standalone-postfix "CloseLilyBlock" "}")

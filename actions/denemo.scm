@@ -630,12 +630,12 @@
 	  (d-RecreateTimebase))
       (set! end (d-GetMidiOffTime))
       (if (boolean? end)
-	  (d-WarningDialog "End the selection at a note")
+	  (d-WarningDialog (_ "End the selection at a note"))
 	  (begin
 	    (d-GoToMark)
 	    (set! start (d-GetMidiOnTime))
 	    (if (boolean? start)
-		(d-WarningDialog "Start the selection at a note")
+		(d-WarningDialog (_ "Start the selection at a note"))
 		(begin
 		  (if (< end start)
 		      (d-SetPlaybackInterval end start)

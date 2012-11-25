@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;Glissando
 (d-DirectivePut-chord-display "Glissando"  "Gliss" )
 (d-DirectivePut-chord-postfix "Glissando"  "\\glissando")

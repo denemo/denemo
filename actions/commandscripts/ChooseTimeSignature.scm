@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 (Doublestroke #f
 (cons "4/4" (lambda () (d-InsertTimeSig "4/4"))) ; 1
 (cons "2/4" (lambda () (d-InsertTimeSig "2/4")))  ; 2

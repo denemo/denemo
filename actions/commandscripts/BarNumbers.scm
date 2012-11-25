@@ -1,1 +1,2 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 (ToggleDirective "staff" "postfix" "BarNumbers" "\\context Score \\applyContext #(set-bar-number-visibility 4000)" )

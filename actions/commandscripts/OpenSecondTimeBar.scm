@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
  ;;;OpenSecondTimeBar
 (d-Directive-standalone "Volta")
 (d-DirectivePut-standalone-minpixels  "Volta" 50)

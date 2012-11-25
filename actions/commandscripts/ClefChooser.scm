@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;;ClefChooser
 (let ((choice "Bass"))
 (set! choice (d-GetOption (string-append "Treble" stop "Bass" stop "Alto" stop "Tenor" stop "Treble Octava bassa" stop "Bass Octava bassa"stop "Soprano" stop "Drum" stop)))

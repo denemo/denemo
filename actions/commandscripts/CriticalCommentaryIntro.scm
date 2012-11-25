@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;;;;;;;;;;;;CriticalCommentaryIntro
 (if (not (d-Directive-score?  "CriticalCommentaryIntro"))
 	(begin

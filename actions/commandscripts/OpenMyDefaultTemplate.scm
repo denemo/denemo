@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;OpenMyDefaultTemplate
 (if (not (d-GetSaved))
 	(d-New))

@@ -1,3 +1,4 @@
+;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;NoteColumnShift
 (let* ( (tag "NoteColumnShift") (val (d-DirectiveGet-chord-display tag)))
 (if (not val)
