@@ -6170,6 +6170,14 @@ accidentals are usually printed over the note.</tooltip>
         <label>Individual Note Tie (Off/On)</label>
         <tooltip>Ties the note at the cursor leaving other notes in the current chord unchanged.</tooltip>
       </row>
+      <row>
+        <action>TypesetVersesAtEnd</action>
+        <after>DeleteVerse</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Lyrics</menupath>
+        <label>Typeset Verses at End</label>
+        <tooltip>Let's you choose a number of verses to print at the end of the piece (movement). Use a customized score layout to prevent them from appearing beneath the music in addition.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
