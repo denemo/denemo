@@ -1000,8 +1000,10 @@ set_printarea_doc(EvDocument *doc) {
     model = ev_document_model_new_with_document(doc);
     ev_view_set_model((EvView*)Denemo.printarea, model);
     g_object_set_data(G_OBJECT(Denemo.printarea), "model", model);//there is no ev_view_get_model(), when there is use it
-  } else
-  ev_document_model_set_document (model, doc);
+  } else {
+		g_object_unref(ev_document_model_get_document(model));//FIXME check if this releases the file lock on windows.s
+		ev_document_model_set_document (model, doc);
+	}
   ev_document_model_set_dual_page (model, GPOINTER_TO_INT(g_object_get_data(G_OBJECT(Denemo.printarea), "Duplex")));
   Ww.Mark.width=0;//indicate that there should no longer be any Mark placed on the score
 }
