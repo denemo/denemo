@@ -743,7 +743,10 @@ typedef enum DenemoTargetType {
 typedef struct DenemoTarget {
   DenemoTargetType type;
   gint mid_c_offset;
-  gint directivenum; 
+  gint directivenum;
+  gint staffnum;
+  gint measurenum;
+  gint objnum;
 } DenemoTarget;
 
 

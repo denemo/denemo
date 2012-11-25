@@ -1645,7 +1645,7 @@ action_for_link (EvView* view, EvLinkAction *obj) {
   if(Ww.stage==Offsetting) {
 		return TRUE;//?Better take over motion notify so as not to get this while working ...
 	}
-	g_print("acting on external signal %s\n", uri);
+	//g_print("acting on external signal %s\n", uri);
   if(uri) {
 		gchar **vec = g_strsplit (uri, ":",5);
 		if(!strcmp(vec[0], "textedit") && vec[1] && vec[2] && vec[3]) {
@@ -1847,7 +1847,7 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 static gint
 printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 {
-	g_print("Button release %d, %d\n",(int)event->x , (int)event->y);
+	//g_print("Button release %d, %d\n",(int)event->x , (int)event->y);
 	if(Denemo.pixbuf==NULL)
     set_denemo_pixbuf();
   if(Denemo.pixbuf==NULL)
