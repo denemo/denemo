@@ -166,21 +166,21 @@ attach_directive (attach_type attach, gchar *postfix, gchar *prefix, gchar *disp
   DenemoObject *curObj = get_object();
   if(curObj==NULL) {  
     if(interactive)
-      warningdialog("You must put the cursor on a chord to attach LilyPond");//FIXME find a note and ask
+      warningdialog(_("You must put the cursor on a chord to attach LilyPond"));//FIXME find a note and ask
     return;
   }
   chord *thechord = NULL;
   thechord = (chord *)curObj->object;
   if(curObj->type!=CHORD) {  
     if(interactive)
-      warningdialog("You must put the cursor on a chord to attach LilyPond");
+      warningdialog(_("You must put the cursor on a chord to attach LilyPond"));
     return;
   }
     
   curnote = findnote(curObj, gui->si->cursor_y);
   if(attach==ATTACH_NOTE && (curnote==NULL)) {  
     if(interactive)
-      warningdialog("You must put the cursor on a note to attach LilyPond to the note");//FIXME find a note and ask
+      warningdialog(_("You must put the cursor on a note to attach LilyPond to the note"));//FIXME find a note and ask
     return;
   }
  
@@ -216,7 +216,7 @@ attach_directive (attach_type attach, gchar *postfix, gchar *prefix, gchar *disp
       }
       break;
     default:
-      g_warning("Error in attach type");
+      g_warning(_("Error in attach type"));
       return;
     }
 
@@ -228,9 +228,9 @@ attach_directive (attach_type attach, gchar *postfix, gchar *prefix, gchar *disp
       if(directive->display)
 	displaystring = directive->display->str;
 
-    prefixstring = string_dialog_entry(gui, "Attach LilyPond", "Give text to place before the note", prefixstring);
-    postfixstring = string_dialog_entry(gui, curnote?"Attach LilyPond to Note":"Attach LilyPond to Chord", curnote?"Give LilyPond text to postfix to note of chord":"Give LilyPond text to postfix to chord", postfixstring);
-    displaystring =  string_dialog_entry(gui, "Attach LilyPond", "Give Display text if required", displaystring);
+    prefixstring = string_dialog_entry(gui, _("Attach LilyPond"), _("Give text to place before the note"), prefixstring);
+    postfixstring = string_dialog_entry(gui, curnote?_("Attach LilyPond to Note"):_("Attach LilyPond to Chord"), curnote? _("Give LilyPond text to postfix to note of chord"):_("Give LilyPond text to postfix to chord"), postfixstring);
+    displaystring =  string_dialog_entry(gui, _("Attach LilyPond"), _("Give Display text if required"), displaystring);
   } else {//not interactive
     if(prefix)
       prefixstring = g_strdup(prefix);
@@ -328,10 +328,10 @@ gboolean get_lily_directive(gchar **directive, gchar **display, gboolean *locked
   g_signal_connect(button, "toggled",  G_CALLBACK (toggle_locked), locked);
   if(*locked)
     gtk_toggle_button_set_active (button, *locked), *locked=TRUE;//FIXME how is this supposed to be done?
-  *directive = string_dialog_entry_with_widget(gui, "Insert LilyPond", "Give LilyPond text to insert", *directive, GTK_WIDGET(button));
+  *directive = string_dialog_entry_with_widget(gui, _("Insert LilyPond"), _("Give LilyPond text to insert"), *directive, GTK_WIDGET(button));
   if(!*directive)
     return FALSE;
-  *display =  string_dialog_entry(gui, "Insert LilyPond", "Give Display text if required", *display);
+  *display =  string_dialog_entry(gui, _("Insert LilyPond"), _("Give Display text if required"), *display);
   return TRUE;
 }
 
@@ -1280,7 +1280,7 @@ button_callback  (GtkWidget *widget, GdkEventButton *event, DenemoDirective *dir
                   if(directives)
                     delete_directive(directives, directive->tag->str);
                   else
-                    g_warning("Could not get directives list to delete from");
+                    g_warning(_("Could not get directives list to delete from"));
                 }
               }
             }
@@ -1299,7 +1299,7 @@ static void button_activate_callback(GtkWidget *w, DenemoDirective *d) {
 static GtkWidget * create_text_window(void) {
   GtkWidget *textview = gtk_text_view_new();
   GtkWidget *w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (w), "Denemo Editor:Newline to update, Esc for Advanced Edit");
+  gtk_window_set_title (GTK_WINDOW (w), _("Denemo Editor:Newline to update, Esc for Advanced Edit"));
   gtk_window_set_default_size(GTK_WINDOW (w), 600, 400);
   gtk_window_set_position(GTK_WINDOW (w),GTK_WIN_POS_MOUSE);
   g_signal_connect(G_OBJECT(w), "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), w);
@@ -1373,7 +1373,7 @@ static editor_keypress(GtkWidget *w, GdkEventKey *event, DenemoDirective *direct
       if(directives_ptr)
 	delete_directive(g_object_get_data(G_OBJECT(directive->widget), "directives-pointer"), directive->tag->str);
       else
-	warningdialog("Cannot delete via this mechanism, sorry");
+	warningdialog(_("Cannot delete via this mechanism, sorry"));
       return TRUE;
     }
   if(event->keyval==GDK_Return) {
@@ -1444,7 +1444,7 @@ widget_for_directive_menu(DenemoDirective *directive,  void fn(), GtkMenu *menu)
             if(box)  {
                       //g_print("Doing the score and movement cases starting from %p", directive->widget);
                       directive->widget = GTK_WIDGET(gtk_button_new_with_label(value));
-                      gchar *tooltip = g_strdup_printf("This button was created for the Denemo Directive whose tag is %s. Usually you click on it to alter the setting made or perform the action it is labelled with", directive->tag->str);//FIXME enable scripters to pass a tooltip in???
+                      gchar *tooltip = g_strdup_printf(_("This button was created for the Denemo Directive whose tag is %s. Usually you click on it to alter the setting made or perform the action it is labelled with"), directive->tag->str);//FIXME enable scripters to pass a tooltip in???
                       gtk_widget_set_tooltip_text(directive->widget, tooltip);
                       g_free(tooltip);
     
@@ -1869,7 +1869,7 @@ pack_buttons(GtkWidget *vbox, GList *directives, DenemoDirective **response) {
 static
 DenemoDirective *select_directive(gchar *instr, GList *directives) {
 
-  GtkWidget *dialog = gtk_dialog_new_with_buttons ("Select Directive",
+  GtkWidget *dialog = gtk_dialog_new_with_buttons (_("Select Directive"),
                                         GTK_WINDOW (Denemo.window),
                                         (GtkDialogFlags) (GTK_DIALOG_MODAL |
                                                        GTK_DIALOG_DESTROY_WITH_PARENT),
@@ -1911,7 +1911,7 @@ void user_select_directive_at_cursor(gchar **what, GList ***pdirectives, DenemoD
     return;//FIXME is this needed???? a return will be done anyway
 
   {
-    gchar *instr = "Select a directive attached to the tuplet marker";
+    gchar *instr = _("Select a directive attached to the tuplet marker");
     tuplet *curtuplet = get_tuplet();
     if(curtuplet && curtuplet->directives) {
       *pdirectives = &curtuplet->directives;
@@ -1921,7 +1921,7 @@ void user_select_directive_at_cursor(gchar **what, GList ***pdirectives, DenemoD
 
   }
   {
-    gchar *instr = "Select a directive attached to the stemdir marker";
+    gchar *instr = _("Select a directive attached to the stemdir marker");
     stemdirective *curstemdir = get_stemdirective();
     if(curstemdir && curstemdir->directives) {
       *pdirectives = &curstemdir->directives;
@@ -1939,7 +1939,7 @@ void user_select_directive_at_cursor(gchar **what, GList ***pdirectives, DenemoD
       if(curnote->directives) {
 	*pdirectives = &curnote->directives;
 	*what = "note";
-	gchar *instr = g_strdup_printf("Select a directive attached to the note \"%s\"", name);
+	gchar *instr = g_strdup_printf(_("Select a directive attached to the note \"%s\""), name);
 	*pdirective = select_directive(instr, **pdirectives);
 	g_free(instr);
 	if(*pdirective) {
@@ -1952,7 +1952,7 @@ void user_select_directive_at_cursor(gchar **what, GList ***pdirectives, DenemoD
 
   {
   // not exactly on a note, offer any chord directives
-    gchar *instr = "Select a directive attached to the chord";
+    gchar *instr = _("Select a directive attached to the chord");
     chord *curchord = get_chord();
     if(curchord && curchord->directives) {
       *pdirectives = &curchord->directives;
@@ -1964,16 +1964,16 @@ void user_select_directive_at_cursor(gchar **what, GList ***pdirectives, DenemoD
     if(curnote->directives && curnote->mid_c_offset != Denemo.gui->si->cursor_y) {
       *pdirectives = &curnote->directives;
       *what = "note";
-      gchar *instr = g_strdup_printf("Select a directive attached to the note \"%s\"", name);
+      gchar *instr = g_strdup_printf(_("Select a directive attached to the note \"%s\""), name);
       *pdirective = select_directive(instr, **pdirectives);
       g_free(instr);
       if(*pdirective && (g_list_length(**pdirectives)==1)) {
 	/* seek confirmation of the choice of this directive since it is on a note not pointed at and
 	   has been chosen automatically. */
 	gchar *name = mid_c_offsettolily(curnote->mid_c_offset, curnote->enshift);
-	gchar *msg = g_strdup_printf("Select the directive %s on note \"%s\"?", (*pdirective)->tag->str, name);
+	gchar *msg = g_strdup_printf(_("Select the directive %s on note \"%s\"?"), (*pdirective)->tag->str, name);
 
-	if(!confirm("Select Directive", msg))
+	if(!confirm(_("Select Directive"), msg))
 	  *pdirective = NULL;
 	g_free(name);
 	g_free(msg);
@@ -2019,7 +2019,7 @@ gboolean unpopulate_menu(GtkWidget *menu) {
 void edit_object(GtkAction *action,  DenemoScriptParam *param) {
   DenemoObject *obj = get_object();
   if(obj==NULL){
-      warningmessage("No object here to edit");
+      warningmessage(_("No object here to edit"));
     return;
   }
   switch(obj->type){
@@ -2078,7 +2078,7 @@ void edit_object(GtkAction *action,  DenemoScriptParam *param) {
     infodialog(_("This marks the end of a tuplet (that is triplets etc) - it should come in the same measure as the tuplet start marker.\nSee the Notes/Rests->Tuplets for control over how tuplets print"));
     return;
   default:
-    warningdialog("No method for editing this type of object");
+    warningdialog(_("No method for editing this type of object"));
     return;
   }
 }
@@ -2173,7 +2173,7 @@ static void get_edit_script (GtkWidget *widget, gchar *tag) {
     if(g_file_get_contents (filename, &script, NULL, &error))
       appendSchemeText(script);
     else
-      g_warning("Could not get contents of %s\n", filename);
+      g_warning(_("Could not get contents of %s\n"), filename);
     g_free(script);
     g_free(filename);
   }
@@ -2185,14 +2185,14 @@ static void put_edit_script (GtkWidget *widget, gchar *tag) {
   gchar *tagscm = g_strconcat(tag, ".scm", NULL);
   gchar *filename = g_build_filename(locatedotdenemo(), "actions", "editscripts", tagscm, NULL);
   if((!g_file_test(filename, G_FILE_TEST_EXISTS)) ||
-     confirm("There is already an edit script for this tag", "Do you want to replace it?")){
+     confirm(_("There is already an edit script for this tag"), _("Do you want to replace it?"))){
     gchar *scheme = (gchar*)getSchemeText();
     if(scheme && *scheme) {
       FILE *fp = fopen(filename, "w");
       if(fp) {
 	fprintf (fp, "%s", scheme);
 	fclose(fp);
-	infodialog("Wrote edit script file to ~/.denemo/editscripts");
+	infodialog(_("Wrote edit script file to ~/.denemo/editscripts"));
       }
       g_free(scheme);
     }
@@ -2221,15 +2221,15 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
 #define CREATE_SCRIPT (2)
   DenemoDirective *clone = clone_directive(directive);//for reset
  
-  GtkWidget *dialog = gtk_dialog_new_with_buttons ("Low Level Denemo Directive Edit",
+  GtkWidget *dialog = gtk_dialog_new_with_buttons (_("Low Level Denemo Directive Edit"),
                                         GTK_WINDOW (Denemo.window),
                                         (GtkDialogFlags) (GTK_DIALOG_MODAL |
                                                        GTK_DIALOG_DESTROY_WITH_PARENT),
                                         GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
                                         GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                                         NULL);
-  gtk_dialog_add_button (GTK_DIALOG(dialog), "Delete Directive", GTK_RESPONSE_REJECT);
-  gtk_dialog_add_button (GTK_DIALOG(dialog), "Create Script", CREATE_SCRIPT);
+  gtk_dialog_add_button (GTK_DIALOG(dialog), _("Delete Directive"), GTK_RESPONSE_REJECT);
+  gtk_dialog_add_button (GTK_DIALOG(dialog), _("Create Script"), CREATE_SCRIPT);
 
 
 
@@ -2296,34 +2296,34 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
   gtk_box_pack_start (GTK_BOX (hbox), entrywidget, TRUE, TRUE, 0);\
   g_signal_connect(G_OBJECT(entrywidget), "value-changed", G_CALLBACK(set_int), &directive->fieldy);
 
-  TEXTENTRY("Postfix", postfix);
-  TEXTENTRY("Prefix", prefix);
-  TEXTENTRY("Display text", display);
-  ADDINTENTRY("Text Position", tx, ty);
-  TEXTENTRY("Graphic", graphic_name);
-  ADDINTENTRY("Graphic Position", gx, gy);
-  TEXTENTRY("Tag", tag);
-  TEXTENTRY("MidiBytes", midibytes);
-  NEWINTENTRY("Override Mask", override);
-  NEWINTENTRY("Minimum pixel width", minpixels);
-  NEWUINTENTRY("Only Applies to Layout", y);
-  NEWUINTENTRY("Ignored by Layout", x);
+  TEXTENTRY(_("Postfix"), postfix);
+  TEXTENTRY(_("Prefix"), prefix);
+  TEXTENTRY(_("Display text"), display);
+  ADDINTENTRY(_("Text Position"), tx, ty);
+  TEXTENTRY(_("Graphic"), graphic_name);
+  ADDINTENTRY(_("Graphic Position"), gx, gy);
+  TEXTENTRY(_("Tag"), tag);
+  TEXTENTRY(_("MidiBytes"), midibytes);
+  NEWINTENTRY(_("Override Mask"), override);
+  NEWINTENTRY(_("Minimum pixel width"), minpixels);
+  NEWUINTENTRY(_("Only Applies to Layout"), y);
+  NEWUINTENTRY(_("Ignored by Layout"), x);
 #undef TEXTENTRY
   hbox = gtk_hbox_new (FALSE, 8);
   gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);
-  button = gtk_button_new_with_label("Get Edit Script");
+  button = gtk_button_new_with_label(_("Get Edit Script"));
   gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
   g_signal_connect(G_OBJECT(button),"clicked",  G_CALLBACK(get_edit_script), directive->tag->str);
-  button = gtk_button_new_with_label("Put Edit Script");
+  button = gtk_button_new_with_label(_("Put Edit Script"));
   gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
   g_signal_connect(G_OBJECT(button),"clicked",  G_CALLBACK(put_edit_script), directive->tag->str);
 #ifdef UPLOAD_TO_DENEMO_DOT_ORG
 //disabled until website can take uploading again
-  button = gtk_button_new_with_label("Upload Edit Script");
+  button = gtk_button_new_with_label(_("Upload Edit Script"));
   gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
   g_signal_connect(G_OBJECT(button),"clicked",  G_CALLBACK(upload_edit_script_cb), directive->tag->str);
 #endif  
-  button = gtk_check_button_new_with_label("Show Current Script");
+  button = gtk_check_button_new_with_label(_("Show Current Script"));
   gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
   gtk_activatable_set_related_action(GTK_ACTIVATABLE(button), gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"));
 
@@ -2408,7 +2408,7 @@ edit_directive(DenemoDirective *directive, gchar *what) {
     if(action && (Denemo.keyboard_state!=GDK_MOD2_MASK/*NumLock */))
       activate_script(action, NULL);
     else {
-      ret =( text_edit_directive(directive, what)  || !confirm("Directive Delete", "Are you sure you want to delete the directive?"));
+      ret =( text_edit_directive(directive, what)  || !confirm(_("Directive Delete"), _("Are you sure you want to delete the directive?")));
       score_status (Denemo.gui, TRUE);
     }
     return ret;
@@ -2432,7 +2432,7 @@ void edit_object_directive(GtkAction *action,  DenemoScriptParam *param) {
   user_select_directive_at_cursor(&what, &directives, &directive);
   //g_print("Got directive %p in list %p\n", directive, directives);
   if(directive==NULL) {
-    warningdialog("Use the ObjectMenu to modify this object - there are no directives here");
+    warningdialog(_("Use the ObjectMenu to modify this object - there are no directives here"));
     return;
   }
   if(directive->tag == NULL)
@@ -2459,19 +2459,19 @@ void delete_chord_or_note_directive(GtkAction *action,  DenemoScriptParam *param
   user_select_directive_at_cursor(&what, &directives, &directive);
   //g_print("Got directive %p in list %p\n", directive, directives);
   if(directives==NULL) {
-    warningdialog("No directives here");
+    warningdialog(_("No directives here"));
     return;
   }
   if(directive==NULL) {
-    warningdialog("No directive selected");
+    warningdialog(_("No directive selected"));
     return;
   }
   if(directive->tag == NULL)
     directive->tag = g_string_new(UNKNOWN_TAG);
-  if(confirm("Directive Delete", "Are you sure you want to delete the directive?"))
+  if(confirm(_("Directive Delete"), _("Are you sure you want to delete the directive?")))
     delete_directive(directives, directive->tag->str);
   else
-    warningdialog("Operation cancelled");
+    warningdialog(_("Operation cancelled"));
 }
 
 
@@ -2480,21 +2480,21 @@ static
 DenemoDirective *select_score_directive(void) {
   if(Denemo.gui->lilycontrol.directives==NULL)
     return NULL;
-  return select_directive("Select a score directive", Denemo.gui->lilycontrol.directives);
+  return select_directive(_("Select a score directive"), Denemo.gui->lilycontrol.directives);
 }
 
 static
 DenemoDirective *select_scoreheader_directive(void) {
   if(Denemo.gui->scoreheader.directives==NULL)
     return NULL;
-  return select_directive("Select a score header block directive", Denemo.gui->scoreheader.directives);
+  return select_directive(_("Select a score header block directive"), Denemo.gui->scoreheader.directives);
 }
 
 static
 DenemoDirective *select_paper_directive(void) {
   if(Denemo.gui->paper.directives==NULL)
     return NULL;
-  return select_directive("Select a score paper block directive", Denemo.gui->paper.directives);
+  return select_directive(_("Select a score paper block directive"), Denemo.gui->paper.directives);
 }
 
 

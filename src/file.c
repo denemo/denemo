@@ -186,7 +186,7 @@ confirm_save (DenemoGUI *gui, gchar *primary, gchar *secondary)
 gboolean
 confirmbox (DenemoGUI * gui) {
   gboolean ret;
-  gchar *primary = g_strdup_printf(_("The score %s has unsaved changes"), gui->filename->len?gui->filename->str:"(Untitled)");
+  gchar *primary = g_strdup_printf(_("The score %s has unsaved changes"), gui->filename->len?gui->filename->str:_("(Untitled)"));
   ret = confirm_save (gui, primary,  _("Save changes?"));
   g_free(primary);
   return ret;

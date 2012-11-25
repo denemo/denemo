@@ -292,7 +292,7 @@ static gchar *get_versename(gint movementnum, gint voice_count, gint versenum) {
 static gboolean name_scoreblock(DenemoScoreblock *sb, gchar * name) {
 	gchar *value;
   if(name==NULL)
-		value = string_dialog_entry (Denemo.gui, "New Score Layout", "Give a name for this new score layout", "Custom Layout");
+		value = string_dialog_entry (Denemo.gui, _("New Score Layout"), _("Give a name for this new score layout"), _("Custom Layout"));
 	else
 		value = name;
 	if(value) {
@@ -613,7 +613,7 @@ static GtkWidget *create_lyric_widget(gchar *context_text, gchar *name) {
 		GtkWidget *ret = gtk_hbox_new(FALSE, 8);
 	
 	GtkWidget *w = gtk_button_new_with_label("X");
-	gtk_widget_set_tooltip_text (w,"Drop this lyric part from the score layout");
+	gtk_widget_set_tooltip_text (w,_("Drop this lyric part from the score layout"));
 	g_signal_connect(w, "clicked", G_CALLBACK(remove_lyric_element), context_text);
 	gtk_box_pack_end(GTK_BOX (ret), w, FALSE, TRUE, 0);
 	w = gtk_button_new_with_label(name);
@@ -621,11 +621,11 @@ static GtkWidget *create_lyric_widget(gchar *context_text, gchar *name) {
 	gtk_box_pack_start(GTK_BOX (ret), w, FALSE, TRUE, 0);
 
 	w = gtk_button_new_with_label("⬆");
-	gtk_widget_set_tooltip_text (w,"Move this lyric part above the staff for this score layout");
+	gtk_widget_set_tooltip_text (w,_("Move this lyric part above the staff for this score layout"));
 	gtk_box_pack_start(GTK_BOX (ret), w, FALSE, TRUE, 0);
 	g_signal_connect(w, "clicked", G_CALLBACK(move_parent), (gpointer)TRUE);
 	w = gtk_button_new_with_label("⬇");
-	gtk_widget_set_tooltip_text (w,"Move this lyric part below the staff for this score layout");
+	gtk_widget_set_tooltip_text (w,_("Move this lyric part below the staff for this score layout"));
 	gtk_box_pack_start(GTK_BOX (ret), w, FALSE, TRUE, 0);
 	g_signal_connect(w, "clicked", G_CALLBACK(move_parent), (gpointer)FALSE);
 	return ret;
@@ -690,7 +690,7 @@ static void prefix_edit_callback(GtkWidget *widget, GtkWidget *frame) {
 	GList *g = g_object_get_data(G_OBJECT(frame), "prefix");
 	if(g) {
 			gchar *lily = (gchar*)g->data;
-			gchar *newval = string_dialog_editor_with_widget (Denemo.gui, "Edit LilyPond", "Edit this using LilyPond syntax\nThe editing applies just to this score layout", lily?lily:"", NULL);
+			gchar *newval = string_dialog_editor_with_widget (Denemo.gui, _("Edit LilyPond"), _("Edit this using LilyPond syntax\nThe editing applies just to this score layout"), lily?lily:"", NULL);
 			if(newval) {
 				edit_lilypond_prefix(frame, lily, newval);
 				score_status(Denemo.gui, TRUE);
@@ -1218,14 +1218,14 @@ static GtkWidget *get_movement_widget(GList **pstaffs, gchar *partname, DenemoSc
 
 
 			GtkWidget *menu = gtk_menu_new();
-			GtkWidget *menuitem = gtk_menu_item_new_with_label("Move Denemo Cursor to this staff");
+			GtkWidget *menuitem = gtk_menu_item_new_with_label(_("Move Denemo Cursor to this staff"));
 			gtk_widget_set_tooltip_text(menuitem, _("This will move the Denemo Cursor to the start of this staff in this movement"));
 			g_signal_connect(G_OBJECT(menuitem), "activate", G_CALLBACK(navigate_to_location), GINT_TO_POINTER(get_location(movementnum, voice_count))); 
 			gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
 
 
 	
-			menuitem = gtk_menu_item_new_with_label("Edit Staff Properties");
+			menuitem = gtk_menu_item_new_with_label(_("Edit Staff Properties"));
 			gtk_widget_set_tooltip_text(menuitem, _("Edit the properties of the staff to customize this layout\nTake care only alter the obvious bits, such as instrument name etc\nInjudicious deletion of the LilyPond typesetting characters {<<# etc can make the layout unreadable by the LilyPond typesetter. Just delete the layout if you get stuck."));
 			g_signal_connect(menuitem, "activate", G_CALLBACK(prefix_edit_callback), frame);
 			gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);

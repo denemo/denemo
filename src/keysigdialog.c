@@ -21,6 +21,7 @@
 
 #define KEYNAME_ARRAY_OFFSET 7
 
+//FIXME: Make those translatable
 static gchar *majorkeys[15] =
   { "C flat", "G flat", "D flat", "A flat", "E flat", "B flat", "F",
   "C", "G", "D", "A", "E", "B", "F sharp", "C sharp"

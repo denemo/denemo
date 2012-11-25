@@ -411,7 +411,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
 	vbox = gtk_vbox_new(FALSE, 8);
 	gtk_box_pack_end(GTK_BOX (outer_hbox), vbox, FALSE, TRUE, 0);
   addbutton = gtk_button_new_from_stock (GTK_STOCK_ADD);
-  gtk_button_set_label(GTK_BUTTON(addbutton), "Add 1-Key Shortcut");
+  gtk_button_set_label(GTK_BUTTON(addbutton), _("Add 1-Key Shortcut"));
   gtk_widget_set_tooltip_text(addbutton, _("Create a single keypress (with modifier keys - Control, Shift ... - if needed) as a keyboard shortcut for the currently selected command."));
   gtk_box_pack_end (GTK_BOX (vbox), addbutton, FALSE, TRUE, 0);
 

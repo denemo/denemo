@@ -2319,12 +2319,12 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
   GtkWidget *hbox =  gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (main_hbox), hbox,FALSE, TRUE, 0);
   GtkWidget *button = gtk_button_new_with_label(_("Typeset"));
-  gtk_widget_set_tooltip_text(button, "Typesets the music using the current score layout. See View->Score Layouts to see which layouts you have created and which is currently selected.");
+  gtk_widget_set_tooltip_text(button, _("Typesets the music using the current score layout. See View->Score Layouts to see which layouts you have created and which is currently selected."));
   g_signal_connect(button, "clicked", G_CALLBACK(typeset_action), create_all_pdf);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
   button = gtk_button_new_with_label(_("Print"));
-  gtk_widget_set_tooltip_text(button, "Pops up a Print dialog. From this you can send your typeset score to a printer or to a PDF file.");
+  gtk_widget_set_tooltip_text(button, _("Pops up a Print dialog. From this you can send your typeset score to a printer or to a PDF file."));
   g_signal_connect(button, "clicked", G_CALLBACK(libevince_print), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
@@ -2352,7 +2352,7 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
   gtk_box_pack_end (GTK_BOX (main_hbox), hbox,FALSE, TRUE, 0);
 
 
-  button = gtk_button_new_with_label("Duplex");
+  button = gtk_button_new_with_label(_("Duplex"));
   gtk_widget_set_tooltip_text(button, _("Shows pages side by side, so you can see page turns for back-to-back printing\n"));
   g_signal_connect(button, "clicked", G_CALLBACK(dual_page), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);

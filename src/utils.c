@@ -1236,7 +1236,7 @@ void  set_title_bar(DenemoGUI *gui) {
   if(gui->tabname && gui->tabname->len)
     title = gui->tabname->str;
   else
-    title = "(Untitled)";
+    title = _("(Untitled)");
   title = g_strdup_printf("%s%c", title, gui->notsaved?'*':' ');
   gtk_window_set_title (GTK_WINDOW (Denemo.window), title); 
   gchar *base = g_path_get_basename (title);
@@ -1257,7 +1257,7 @@ switch(enshift) {
     case 0: return " ";
     case 1: return "♯";
     case 2: return "𝄪";
-    default: return "Error";
+    default: return _("Error");
 }
 }
 /* set the status of the current musical score - its change count and
