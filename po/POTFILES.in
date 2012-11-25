@@ -751,6 +751,7 @@ actions/commandscripts/ToggleLongFermata.scm
 actions/commandscripts/ToggleLtoe.scm
 actions/commandscripts/ToggleMarcato.scm
 actions/commandscripts/ToggleMordent.scm
+actions/commandscripts/ToggleNoteTie.scm
 actions/commandscripts/TogglePlayAlongPlayback.scm
 actions/commandscripts/TogglePortato.scm
 actions/commandscripts/TogglePrall.scm
@@ -781,6 +782,7 @@ actions/commandscripts/Tremolo.scm
 actions/commandscripts/Trill+Above.scm
 actions/commandscripts/Trill+Below.scm
 actions/commandscripts/Tutorial.scm
+actions/commandscripts/TypesetVersesAtEnd.scm
 actions/commandscripts/TypesettingOff.scm
 actions/commandscripts/TypesettingOn.scm
 actions/commandscripts/UnGraceAfter.scm
