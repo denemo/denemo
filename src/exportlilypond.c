@@ -78,7 +78,7 @@ static void	place_navigation_anchor(GtkTextMark *curmark, gpointer curobjnode, g
 	  g_object_set_data(G_OBJECT(objanc), MIDCOFFSET, GINT_TO_POINTER(mid_c_offset));
 	  g_object_set_data(G_OBJECT(objanc), DIRECTIVENUM, GINT_TO_POINTER(directivenum));
 
-		g_print("marked anchor %p as %d %d %d %d type %d\n", objanc, movement_count, measurenum, voice_count, objnum, type);
+		//g_print("marked anchor %p as %d %d %d %d type %d\n", objanc, movement_count, measurenum, voice_count, objnum, type);
 	  GtkTextIter back;
 	  back = iter;
 	  (void)gtk_text_iter_backward_char(&back);
