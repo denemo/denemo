@@ -1647,7 +1647,7 @@ action_for_link (EvView* view, EvLinkAction *obj) {
   if(Ww.stage==Offsetting) {
 		return TRUE;//?Better take over motion notify so as not to get this while working ...
 	}
-	//g_print("acting on external signal %s\n", uri);
+	//g_print("acting on external signal %s type=%d directivenum=%d\n", uri, Denemo.gui->si->target.type, Denemo.gui->si->target.directivenum);
   if(uri) {
 		gchar **vec = g_strsplit (uri, ":",5);
 		if(!strcmp(vec[0], "textedit") && vec[1] && vec[2] && vec[3]) {

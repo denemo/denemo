@@ -63,7 +63,7 @@ static GtkTextTagTable *tagtable;
 
 /* inserts a navigation anchor into the lilypond textbuffer at curmark */
 static void	place_navigation_anchor(GtkTextMark *curmark, gpointer curobjnode, gint movement_count, 
-														gint measurenum, gint voice_count, gint objnum, DenemoTargetType type, gint mid_c_offset, gint directivenum) {
+														gint measurenum, gint voice_count, gint objnum, DenemoTargetType type, gint mid_c_offset) {
 															//GtkTextIter iter = *piter; 
 	  //put in an ineditable anchor to mark the start of the object
 	  GtkTextIter iter;
@@ -76,9 +76,9 @@ static void	place_navigation_anchor(GtkTextMark *curmark, gpointer curobjnode, g
 	  g_object_set_data(G_OBJECT(objanc), OBJECTNUM, GINT_TO_POINTER(objnum));
 	  g_object_set_data(G_OBJECT(objanc), TARGETTYPE, GINT_TO_POINTER(type));
 	  g_object_set_data(G_OBJECT(objanc), MIDCOFFSET, GINT_TO_POINTER(mid_c_offset));
-	  g_object_set_data(G_OBJECT(objanc), DIRECTIVENUM, GINT_TO_POINTER(directivenum));
+	
 
-		//g_print("marked anchor %p as %d %d %d %d type %d\n", objanc, movement_count, measurenum, voice_count, objnum, type);
+		//g_print("place nav anchor marked anchor %p as  type %d\n", objanc, type);
 	  GtkTextIter back;
 	  back = iter;
 	  (void)gtk_text_iter_backward_char(&back);
@@ -699,8 +699,9 @@ output_fakechord (DenemoScore * si, GString *fakechord, chord * pchord)
  */
 static void
 insert_editable (GString **pdirective, gchar *original, GtkTextIter *iter, DenemoGUI *gui, GString *lily_for_obj,
-		DenemoTargetType type, gint movement_count,	gint measurenum, gint voice_count, gint objnum, gint directivenum, gint midcoffset) {
+		DenemoTargetType type, gint movement_count,	gint measurenum, gint voice_count, gint objnum, gint directive_index, gint midcoffset) {
   GString *directive;
+  gint directivenum = directive_index + 1;
   if(pdirective) directive = *pdirective;
   GtkTextChildAnchor *lilyanc = gtk_text_buffer_create_child_anchor (gui->textbuffer, iter);
   GtkTextIter back;
@@ -718,7 +719,7 @@ insert_editable (GString **pdirective, gchar *original, GtkTextIter *iter, Denem
 	  
 	  if(directivenum)
 			g_object_set_data(G_OBJECT(lilyanc), DIRECTIVENUM, GINT_TO_POINTER(directivenum));
-		
+		//g_print("insert editable marked target anchor %p directivenum %d type %d\n", lilyanc, directivenum, type);
 		if(midcoffset)
 			g_object_set_data(G_OBJECT(lilyanc), MIDCOFFSET, GINT_TO_POINTER(midcoffset));
 // NAVANC 
@@ -887,7 +888,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
   g_string_append(lily_for_obj, " ");
   
   
-#define NAVANC(type, offset, index)  place_navigation_anchor(curmark, (gpointer)curobjnode, movement_count, measurenum, voice_count, objnum, type, offset, index);\
+#define NAVANC(type, offset)  place_navigation_anchor(curmark, (gpointer)curobjnode, movement_count, measurenum, voice_count, objnum, type, offset);\
 								gtk_text_buffer_get_iter_at_mark (Denemo.gui->textbuffer, iter, curmark);
   
   
@@ -925,8 +926,8 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 										if (!curobj->isinvisible)	{
 												g_string_append_printf (ret, "r");
 												/* Duplicated code follows. I ought to fix that */
-//!!!!NAVANC
-NAVANC(0,0,0);
+
+												NAVANC(TARGET_CHORD,0);
 												outputret;
 												directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, lily_for_obj
 												, TARGET_CHORD, movement_count, measurenum, voice_count, objnum, 0
@@ -943,8 +944,7 @@ NAVANC(0,0,0);
 												}
 									} else {	/* non printing rest */
 										g_string_append_printf (ret, "\\skip ");
-//!!!!NAVANC
-NAVANC(0,0,0);
+										NAVANC(TARGET_CHORD,0);
 										outputret;
 										directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, lily_for_obj
 										, TARGET_CHORD, movement_count, measurenum, voice_count, objnum, 0
@@ -1027,8 +1027,7 @@ NAVANC(0,0,0);
 												else
 													for (; octave; octave--)
 															g_string_append_printf (ret, "\'");
-//!!!!NAVANC
-NAVANC(TARGET_NOTE, mid_c_offset, 0);//we target the note
+												NAVANC(TARGET_NOTE, mid_c_offset);//we target the note
 												outputret;
 												g = curnote->directives;
 												if (!g && notenode->next)
@@ -1080,23 +1079,23 @@ NAVANC(TARGET_NOTE, mid_c_offset, 0);//we target the note
 //!! dynamics like \cr have their own positional info in LilyPond - how to tell Denemo????
 //We have to output the cresc/dim begin and the slur begin and tie with a NAVANC(type, 0) before each one.
 										if (pchord->crescendo_begin_p) {
-											NAVANC(TARGET_CRESC, 0, 0); 
+											NAVANC(TARGET_CRESC, 0); 
 											g_string_append_printf (ret, " \\cr");
 											outputret;
 										}
 										if (pchord->diminuendo_begin_p) {
-												NAVANC(TARGET_DIM, 0, 0); 
+												NAVANC(TARGET_DIM, 0); 
 												g_string_append_printf (ret, " \\decr");
 												outputret;
 										}	
 
 										if (pchord->slur_begin_p) {
-											NAVANC(TARGET_SLUR, 0, 0);
+											NAVANC(TARGET_SLUR, 0);
 										  g_string_append_printf (ret, "(");
 										  outputret;
 										}
 										if (pchord->is_tied){
-											NAVANC(TARGET_TIE, 0, 0);
+											NAVANC(TARGET_TIE, 0);
 											g_string_append_printf (ret, " ~");
 											outputret;
 										}
@@ -1164,8 +1163,7 @@ NAVANC(TARGET_NOTE, mid_c_offset, 0);//we target the note
 						keysig_string = get_postfix(directives);
 						keysig_prestring = get_prefix(directives);	 	 
 					}
-//!!!!NAVANC
-					NAVANC(0,0,0); //this could indicate keysig type, although that is clear from the object at the cursor.
+					NAVANC(0,0); //this could indicate keysig type, although that is clear from the object at the cursor.
 					if(override) 
 						g_string_append_printf (ret,"%s", keysig_string);
 					else {
@@ -1211,8 +1209,8 @@ NAVANC(TARGET_NOTE, mid_c_offset, 0);//we target the note
 						poststem_string = get_postfix(directives);
 						prestem_string = get_prefix(directives);	 
 					}
-//!!!!NAVANC
-NAVANC(0,0,0);
+
+					NAVANC(0,0);// 0 means we don't need to say what the target is, it is the object itself
 					if(override) 
 						g_string_append_printf (ret,"%s%s", prestem_string, poststem_string);
 					else {
@@ -2494,7 +2492,8 @@ gboolean goto_lilypond_position(gint line, gint column) {
   gtk_text_buffer_get_start_iter (gui->textbuffer, &iter);
 
   line--;
- // column--; apparently starts at 0
+ 
+	column++; //needed to avoid stepping back after anchor on directives
   if(column>0 && line>0) {
     gtk_text_buffer_get_iter_at_line_offset
       (gui->textbuffer,
@@ -2515,7 +2514,7 @@ gboolean goto_lilypond_position(gint line, gint column) {
 			anchor = gtk_text_iter_get_child_anchor(&iter);
 			if(anchor && (g_object_get_data(G_OBJECT(anchor), MOVEMENTNUM)==NULL))
 				anchor=NULL;//ignore anchors without positional info
-			//g_print("#%c#", gtk_text_iter_get_char (&iter));
+		//g_print("#%c#", gtk_text_iter_get_char (&iter));
 		}
 		if(anchor){
 			gint objnum =  (intptr_t) g_object_get_data(G_OBJECT(anchor), OBJECTNUM);
@@ -2530,7 +2529,7 @@ gboolean goto_lilypond_position(gint line, gint column) {
 			gui->si->target.measurenum = measurenum;
 			gui->si->target.staffnum = staffnum;
 			gui->si->target.type = type;
-			gui->si->target.directivenum = directivenum;
+			gui->si->target.directivenum = directivenum;g_print("Going to position anchor found %p directivenum %d\n", anchor, gui->si->target.directivenum);
 			if(movementnum<1)  {
 				g_warning("Object %p has no location data\n", g_object_get_data(G_OBJECT(anchor), OBJECTNODE));
 				return FALSE;
