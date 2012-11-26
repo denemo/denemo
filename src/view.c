@@ -2935,7 +2935,33 @@ PUTFUNC_DEF(staff, display)
 PUTFUNC_DEF(voice, display)
 PUTFUNC_DEF(score, display)
 PUTFUNC_DEF(movementcontrol, display)
-// end of block to clone
+// end of block to clone ??? there are now stem tuplet and keysigs as well - see grob
+
+GETFUNC_DEF(note, grob)
+GETFUNC_DEF(chord, grob)
+GETFUNC_DEF(standalone, grob)
+GETFUNC_DEF(staff, grob)
+GETFUNC_DEF(voice, grob)
+GETFUNC_DEF(score, grob)
+GETFUNC_DEF(movementcontrol, grob)
+GETFUNC_DEF(clef, grob)
+GETFUNC_DEF(timesig, grob)
+GETFUNC_DEF(tuplet, grob)
+GETFUNC_DEF(stemdirective, grob)
+GETFUNC_DEF(keysig, grob)
+
+PUTFUNC_DEF(note, grob)
+PUTFUNC_DEF(chord, grob)
+PUTFUNC_DEF(standalone, grob)
+//PUTFUNC_DEF(staff, grob)
+//PUTFUNC_DEF(voice, grob)
+PUTFUNC_DEF(score, grob)
+//PUTFUNC_DEF(movementcontrol, grob)
+PUTFUNC_DEF(clef, grob)
+PUTFUNC_DEF(timesig, grob)
+PUTFUNC_DEF(tuplet, grob)
+PUTFUNC_DEF(stemdirective, grob)
+PUTFUNC_DEF(keysig, grob)
 
 
 GETFUNC_DEF(note, midibytes)
@@ -4910,6 +4936,49 @@ static void create_scheme_identfiers(void) {
   INSTALL_PUT(movementcontrol, minpixels);
 
   //end block to repeat for new  directive fields 
+
+
+  INSTALL_GET(standalone, grob);
+  INSTALL_GET(chord, grob);
+  INSTALL_GET(note, grob);
+  INSTALL_GET(staff, grob);
+  INSTALL_GET(voice, grob);
+  INSTALL_GET(score, grob);
+  INSTALL_GET(clef, grob);
+  INSTALL_GET(timesig, grob);
+  INSTALL_GET(tuplet, grob);
+  INSTALL_GET(stemdirective, grob);
+  INSTALL_GET(keysig, grob);
+  INSTALL_GET(standalone, grob);
+
+ // INSTALL_GET(scoreheader, grob);
+ // INSTALL_GET(header, grob);
+ // INSTALL_GET(paper, grob);
+ // INSTALL_GET(layout, grob);
+ // INSTALL_GET(movementcontrol, grob);
+
+  INSTALL_PUT(standalone, grob);
+  INSTALL_PUT(chord, grob);
+  INSTALL_PUT(note, grob);
+  //INSTALL_PUT(staff, grob);
+  //INSTALL_PUT(voice, grob);
+  INSTALL_PUT(score, grob);
+  INSTALL_PUT(clef, grob);
+  INSTALL_PUT(timesig, grob);
+  INSTALL_PUT(tuplet, grob);
+  INSTALL_PUT(stemdirective, grob);
+  INSTALL_PUT(keysig, grob);
+
+
+ // INSTALL_PUT(scoreheader, grob);
+ // INSTALL_PUT(header, grob);
+ // INSTALL_PUT(paper, grob);
+ // INSTALL_PUT(layout, grob);
+ // INSTALL_PUT(movementcontrol, grob);
+  //end of grob
+
+
+
 
 
   INSTALL_GET(standalone, midibytes);

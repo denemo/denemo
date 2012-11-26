@@ -272,6 +272,7 @@ parseDirective (xmlNodePtr parentElem, xmlNsPtr ns,
     DO_DIREC(postfix);
     DO_DIREC(display); 
     DO_DIREC(midibytes);
+    DO_DIREC(grob);
     DO_INTDIREC(override);
     DO_INTDIREC(minpixels);
     DO_INTDIREC(x);
@@ -306,6 +307,7 @@ parseWidgetDirective (xmlNodePtr parentElem, xmlNsPtr ns, gpointer fn, DenemoDir
     DO_DIREC(graphic_name);
 
     DO_DIREC(midibytes);
+    DO_DIREC(grob);
     DO_INTDIREC(override);
     DO_INTDIREC(minpixels);
     DO_INTDIREC(x);
@@ -1455,6 +1457,7 @@ parseLilyDir (xmlNodePtr LilyDirectiveElem, xmlNsPtr ns, DenemoScore *si)
   GET_STR_FIELD(tag);
   GET_STR_FIELD(display);
   GET_STR_FIELD(midibytes);
+  GET_STR_FIELD(grob);
   GET_STR_FIELD(graphic_name);
   GET_STR_FIELD(prefix);
   if(thedirective->graphic_name && thedirective->graphic_name->len)

@@ -958,6 +958,39 @@ PUT_STR_FIELD_FUNC(note, midibytes)
 PUT_STR_FIELD_FUNC(chord, midibytes)
 
 
+
+//cloned for grob
+GET_STR_FIELD_FUNC(score, grob)
+GET_STR_FIELD_FUNC(movementcontrol, grob)
+GET_STR_FIELD_FUNC(note, grob)
+GET_STR_FIELD_FUNC(chord, grob)
+GET_STR_FIELD_FUNC(staff, grob)
+GET_STR_FIELD_FUNC(voice, grob)
+
+GET_STR_FIELD_FUNC(clef, grob)
+GET_STR_FIELD_FUNC(timesig, grob)
+GET_STR_FIELD_FUNC(keysig, grob)
+GET_STR_FIELD_FUNC(tuplet, grob)
+GET_STR_FIELD_FUNC(stemdirective, grob)
+GET_STR_FIELD_FUNC(standalone, grob)
+
+
+
+PUT_STR_FIELD_FUNC(score, grob)
+//PUT_STR_FIELD_FUNC(staff, grob)
+//PUT_STR_FIELD_FUNC(voice, grob)
+PUT_STR_FIELD_FUNC(note, grob)
+PUT_STR_FIELD_FUNC(chord, grob)
+PUT_STR_FIELD_FUNC(clef, grob)
+PUT_STR_FIELD_FUNC(timesig, grob)
+PUT_STR_FIELD_FUNC(keysig, grob)
+PUT_STR_FIELD_FUNC(tuplet, grob)
+PUT_STR_FIELD_FUNC(stemdirective, grob)
+//PUT_STR_FIELD_FUNC(standalone, grob)
+
+
+//end of clone for grob
+
 GET_STR_FIELD_FUNC(chord, prefix)
 GET_STR_FIELD_FUNC(chord, postfix)
 GET_STR_FIELD_FUNC(chord, display)
@@ -1774,6 +1807,7 @@ STANDALONE_PUT_STR_FIELD_FUNC(postfix);
 STANDALONE_PUT_STR_FIELD_FUNC(display);
 STANDALONE_PUT_STR_FIELD_FUNC(midibytes);
 
+STANDALONE_PUT_STR_FIELD_FUNC(grob);
 
 
 
@@ -2303,6 +2337,7 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
   TEXTENTRY(_("Graphic"), graphic_name);
   ADDINTENTRY(_("Graphic Position"), gx, gy);
   TEXTENTRY(_("Tag"), tag);
+  TEXTENTRY(_("LilyPond Grob Name"), grob);
   TEXTENTRY(_("MidiBytes"), midibytes);
   NEWINTENTRY(_("Override Mask"), override);
   NEWINTENTRY(_("Minimum pixel width"), minpixels);

@@ -364,6 +364,7 @@ newDirectivesElem(xmlNodePtr objElem, xmlNsPtr ns, GList *g, gchar *type) {
     DO_DIREC(postfix);
     DO_DIREC(display);
     DO_DIREC(midibytes);
+    DO_DIREC(grob);
     DO_DIREC(graphic_name);
     
     DO_INTDIREC(minpixels);
@@ -1403,6 +1404,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		    SETSTRING_PROP (tag);
 		    SETSTRING_PROP (display);
 		    SETSTRING_PROP (midibytes);
+		    SETSTRING_PROP (grob);
 		    SETSTRING_PROP (graphic_name);
 		    SETSTRING_PROP (prefix);//postfix done above, for backward compatibility
 #undef SETSTRING_PROP

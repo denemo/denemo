@@ -238,6 +238,7 @@ DenemoDirective *clone_directive(DenemoDirective *directive) {
   CLONE(postfix);
   CLONE(display);
   CLONE(graphic_name);
+  CLONE(grob);
   CLONE(midibytes);
 #undef CLONE
   if(directive->graphic) {
@@ -266,6 +267,7 @@ free_directive_data(DenemoDirective *directive) {
     DFREE(prefix);
     DFREE(postfix);
     DFREE(graphic_name);
+    DFREE(grob);    
 #undef DFREE
   
     if(directive->widget && !G_IS_OBJECT(directive->widget)) {

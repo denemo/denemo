@@ -86,19 +86,23 @@ DECL_PUT_GRAPHIC(standalone)
 DECL_GET_FIELD(note, prefix)
 DECL_GET_FIELD(note, postfix)
 DECL_GET_FIELD(note, display)
+DECL_GET_FIELD(note, grob)
 
 DECL_PUT_FIELD(note, prefix)
 DECL_PUT_FIELD(note, postfix)
 DECL_PUT_FIELD(note, display)
+DECL_PUT_FIELD(note, grob)
 
 
 DECL_GET_FIELD(chord, prefix)
 DECL_GET_FIELD(chord, postfix)
 DECL_GET_FIELD(chord, display)
+DECL_GET_FIELD(chord, grob)
 
 DECL_PUT_FIELD(chord, prefix)
 DECL_PUT_FIELD(chord, postfix)
 DECL_PUT_FIELD(chord, display)
+DECL_PUT_FIELD(chord, grob)
 
 DECL_GET_FIELD(standalone, prefix)
 DECL_GET_FIELD(standalone, postfix)
@@ -107,6 +111,7 @@ DECL_GET_FIELD(standalone, display)
 DECL_PUT_FIELD(standalone, prefix)
 DECL_PUT_FIELD(standalone, postfix)
 DECL_PUT_FIELD(standalone, display)
+DECL_PUT_FIELD(standalone, grob)
 
 
 DECL_GET_INT(note, minpixels)

@@ -476,6 +476,7 @@ typedef struct DenemoDirective
   GtkWidget *widget;  /**<  a button or menu item for accessing the directive for editing or actioning */
   gint gx, gy; /**< x and y offsets in pixels for the graphic */
   GString *graphic_name; /**< name of the graphic to be drawn the suffixes .svg or .png will be searched for */
+  GString *grob; /**<name of LilyPond grob which this directive creates. Use for tweaking positions, padding etc */
 
   /* warnings
      1) these values cannot be changed without bumping the denemo file format version
