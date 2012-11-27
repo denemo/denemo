@@ -99,6 +99,9 @@ static DenemoDirective *find_directive(GList *directives, gchar *tag) {
   return directive;
 }
 
+static  DenemoDirective *find_directive_number(GList *directives, gint num) {
+	return g_list_nth_data(directives, num-1);
+}
 
 static gboolean 
 delete_directive(GList **directives, gchar *tag) {
@@ -714,6 +717,14 @@ DenemoDirective *get_note_directive(gchar *tag) {
   if(curnote==NULL || (curnote->directives==NULL))
     return NULL;
   return find_directive(curnote->directives, tag);
+}
+
+
+DenemoDirective *get_note_directive_number(gint num) {
+  note *curnote = get_note();
+  if(curnote==NULL || (curnote->directives==NULL))
+    return NULL;
+  return find_directive_number(curnote->directives, num);
 }
 
 static
