@@ -71,23 +71,32 @@ fi
   AC_SUBST([SMF_LDD])
   AC_SUBST([SMF_INCLUDE])
 
-AC_ARG_ENABLE(
-  win32portmidi,
-  AC_HELP_STRING([--enable-win32portmidi], [use PORTMIDI @<:@default=no@:>@]),
-  [
-    if test "x$enableval" != "xno"; then
-      usewin32portmidi=yes
-    fi
-  ])
+dnl Options for configuration
+AC_ARG_WITH([pmidi-platform],
+	[AC_HELP_STRING([--with-pmidi-platform=linux|mingw|darwin|none],
+	[Setting up a static portmidi, Argument is the target platform::linux|mingw|darwin|none (default: none)])],
+ 
+   [case "$withval" in
+     linux|mingw|darwin|none) ;;
+     *) AC_MSG_ERROR([invalid argument "$withval" for --with-pmidi-platform]) ;;
+    esac],
+   [case "$host" in
+      *-*-linux*) with_pmidi_platform="linux" ;;
+      *-*-mingw*) with_pmidi_platform="mingw" ;;
+      *-*-darwin*) with_pmidi_platform="darwin" ;;
+      *-*-none*) with_pmidi_platform="none" ;;
+      *) with_platform=none ;;
+    esac])
 
-AM_CONDITIONAL(HAVE_PORTMIDI, [test x$usewin32portmidi = xyes])
+dnl maybe use later for debug/feedback AC_MSG_RESULT([$with_pmidi_platform])
+AM_CONDITIONAL([LINUX], [test "$with_pmidi_platform" = "linux"])
+AM_CONDITIONAL([MINGW], [test "$with_pmidi_platform" = "mingw"])
+AM_CONDITIONAL([DARWIN], [test "$with_pmidi_platform" = "darwin"])
 
-if test "x$usewin32portmidi" = "xyes"; then
-  CFLAGS="$CFLAGS -D_HAVE_PORTMIDI_ -DWIN32 -D_WINDOWS -D_DEBUG -DPM_CHECK_ERRORS=1 -DDEBUG"
+if test "$with_pmidi_platform" != "none"; then
   LIBS="$LIBS -D_HAVE_PORTMIDI_"
   WHICH_PORTMIDI='portmidi'
   PORTMIDI_LDD='../portmidi/libportmidi.a'
-  PORTMIDI_INCLUDE='-I$(top_srcdir)/portmidi'
 else
   WHICH_PORTMIDI=''
   PORTMIDI_LDD=''
@@ -393,5 +402,8 @@ AC_OUTPUT(
   soundfonts/Makefile
   libsmf/Makefile
   portmidi/Makefile
+  portmidi/pm_win/Makefile
+  portmidi/pm_linux/Makefile
+  portmidi/pm_mac/Makefile
   libsffile/Makefile
 ])
