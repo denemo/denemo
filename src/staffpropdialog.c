@@ -568,6 +568,16 @@ void staff_properties_change_cb (GtkAction *action, DenemoScriptParam * param) {
        g_string_printf(param->string, "%d", staff->transposition);
      param->status = TRUE;
    }
+   if(*query) if(!strcmp("midi_channel", query)) {
+       g_string_printf(param->string, "%d", staff->midi_channel);
+     param->status = TRUE;
+   }  
+   if(*query) if(!strcmp("midi_prognum", query)) {
+       g_string_printf(param->string, "%d", staff->midi_prognum);
+     param->status = TRUE;
+   }  
+ 
+   
    return;
  }
  take_snapshot();
