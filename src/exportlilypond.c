@@ -2529,7 +2529,7 @@ gboolean goto_lilypond_position(gint line, gint column) {
 			gui->si->target.measurenum = measurenum;
 			gui->si->target.staffnum = staffnum;
 			gui->si->target.type = type;
-			gui->si->target.directivenum = directivenum;g_print("Going to position anchor found %p directivenum %d\n", anchor, gui->si->target.directivenum);
+			gui->si->target.directivenum = directivenum;
 			if(movementnum<1)  {
 				g_warning("Object %p has no location data\n", g_object_get_data(G_OBJECT(anchor), OBJECTNODE));
 				return FALSE;
