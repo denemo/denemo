@@ -11,7 +11,6 @@
 (let ((channel (d-StaffProperties "query=midi_channel"))
  	  (prognum (d-StaffProperties "query=midi_prognum")))
  	  (define command (number-&gt;string (logior (string-&gt;number channel) #xC0)))
- 	  (disp "command will be " command "ok")
 		(d-OutputMidiBytes (string-append command  " " prognum))
 		(let loop ((count 1))
 			(define key (d-GetNoteFromTopAsMidi count))
