@@ -57,15 +57,15 @@ else
 endif
 
 noinst_LIBRARIES = libaudiobackend.a
-libaudiobackend_a_SOURCES = audiointerface.c eventqueue.c dummybackend.c
+libaudiobackend_a_SOURCES = audiointerface. audiointerface.h eventqueue.c eventqueue.h dummybackend.c dummybackend.h
 libaudiobackend_a_CFLAGS = -W -Wall -Wno-unused-parameter
 
-libaudiobackend_a_SOURCES += jackbackend.c jackutil.c
-libaudiobackend_a_SOURCES += ringbuffer.c
-libaudiobackend_a_SOURCES += portaudiobackend.c portaudioutil.c
-libaudiobackend_a_SOURCES += portmidibackend.c portmidiutil.c
-libaudiobackend_a_SOURCES += alsabackend.c
-libaudiobackend_a_SOURCES += fluid.c
+libaudiobackend_a_SOURCES += jackbackend.c jackbackend.h jackutil.c jackutil.h
+libaudiobackend_a_SOURCES += ringbuffer.c ringbuffer.h
+libaudiobackend_a_SOURCES += portaudiobackend.c portaudiobackend.h portaudioutil.c portaudioutil.h
+libaudiobackend_a_SOURCES += portmidibackend.c portmidibackend.h portmidiutil.c portmidiutil.h
+libaudiobackend_a_SOURCES += alsabackend.c alsabackend.h
+libaudiobackend_a_SOURCES += fluid.c fluid.h
 
 
 localedir = $(datadir)/locale
