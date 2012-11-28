@@ -32,6 +32,7 @@
 #include "view.h"
 #include "external.h"
 #include "scorelayout.h"
+#include "lilydirectives.h"
 
 static gboolean retypeset(void);
 
@@ -94,8 +95,13 @@ typedef enum {STAGE_NONE,
 							Offsetting, 
 							Selecting, 
 							Padding,
-							SelectingEnd,							
+							SelectingNearEnd,							
+							SelectingFarEnd,							
 							SelectingPositions,
+							DraggingNearEnd,
+							DraggingFarEnd,
+							
+							
 							} WwStage;
 							
 typedef enum {OBJ_NONE,
@@ -105,9 +111,11 @@ typedef enum {OBJ_NONE,
 typedef struct ww {
 	Rectangle Mark;
 	gdouble curx, cury;// position of mouse pointer during motion
-	gdouble pointx, pointy;
+	//gdouble pointx, pointy; becomes near.x,y
   gboolean ObjectLocated;//TRUE when an external-link has just been followed back to a Denemo object
 	gint button;//which mouse button was last pressed
+	GdkPoint near; //left hand end of slur, beam etc
+	GdkPoint far;//right hand end of slur, beam etc
 	WwStage stage;
 	WwGrob grob;
 	DenemoPosition pos;
@@ -1106,9 +1114,9 @@ static gboolean overdraw_print(cairo_t *cr) {
     {
 			
 			gdouble end = Ww.Mark.y-Ww.cury;
-			cairo_move_to(cr, Ww.Mark.x, Ww.Mark.y - Ww.pointx + Ww.curx);
+			cairo_move_to(cr, Ww.Mark.x, Ww.Mark.y - Ww.near.x + Ww.curx);
 			cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 0.7);
-			cairo_line_to(cr, Ww.pointx, Ww.cury); 
+			cairo_line_to(cr, Ww.near.x, Ww.cury); 
 			cairo_stroke(cr);
     }
   if(Ww.stage==Offsetting)
@@ -1121,8 +1129,8 @@ static gboolean overdraw_print(cairo_t *cr) {
   if(Ww.stage==Padding)
     {
       gint pad = ABS(Ww.Mark.x-Ww.curx);
-      gint w = Ww.pointx-Ww.Mark.x;
-      gint h = Ww.pointy-Ww.Mark.y;
+      gint w = Ww.near.x-Ww.Mark.x;
+      gint h = Ww.near.y-Ww.Mark.y;
       cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
       cairo_rectangle( cr, Ww.Mark.x-pad/2, Ww.Mark.y-pad/2, w+pad, h+pad);
 
@@ -1556,9 +1564,9 @@ static void start_seeking_end(gboolean slur) {
 		gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), msg);
 	}
 	get_position(Denemo.gui->si, &Ww.pos);
-	Ww.pointx = Ww.Mark.x;
-	Ww.pointy = Ww.Mark.y;
-	Ww.stage = SelectingEnd;
+	Ww.near.x = Ww.Mark.x;
+	Ww.near.y = Ww.Mark.y;
+	Ww.stage = SelectingFarEnd;
 	Ww.grob = slur?Slur:Beam;
 }
 
@@ -1647,11 +1655,52 @@ action_for_link (EvView* view, EvLinkAction *obj) {
   if(Ww.stage==Offsetting) {
 		return TRUE;//?Better take over motion notify so as not to get this while working ...
 	}
-	//g_print("acting on external signal %s type=%d directivenum=%d\n", uri, Denemo.gui->si->target.type, Denemo.gui->si->target.directivenum);
+	g_print("acting on external signal %s type=%d directivenum=%d\n", uri, Denemo.gui->si->target.type, Denemo.gui->si->target.directivenum);
   if(uri) {
 		gchar **vec = g_strsplit (uri, ":",5);
 		if(!strcmp(vec[0], "textedit") && vec[1] && vec[2] && vec[3]) {
       Ww.ObjectLocated = goto_lilypond_position(atoi(vec[2]), atoi(vec[3]));
+      
+    if(Ww.ObjectLocated && Denemo.gui->si->currentobject) {
+			DenemoDirective *directive = NULL;
+			DenemoObject *obj = (DenemoObject *)Denemo.gui->si->currentobject->data;
+			if(obj->type == LILYDIRECTIVE) {
+				directive = ((lilydirective *) obj->object);			
+			} else
+						switch (Denemo.gui->si->target.type) {
+							case TARGET_NONE:
+								break;
+							case TARGET_NOTE:
+								if(Denemo.gui->si->target.directivenum) {
+									if(Denemo.gui->si->target.type == TARGET_NOTE) {
+									directive = get_note_directive_number(Denemo.gui->si->target.directivenum);
+								}
+							}
+							break;	
+							case TARGET_CHORD:
+								g_print("Chord directives not done");
+								break;
+							case TARGET_SLUR:
+									g_print("Do the stuff as selected offset slur on menu on the slur star note SelectingPositions   start_seeking_end");
+									// this is half way through ...  start_seeking_end(TRUE);
+									Ww.stage = SelectingNearEnd;
+									
+									
+									
+								  break;
+									
+						}		
+			if(directive)
+						g_print("Found directive %s grob %s\n", directive->tag->str, directive->grob?directive->grob->str:"No Grob");
+			
+			
+		}
+      
+      
+      
+      
+      
+      
 		} else {
 			g_warning ("Cannot follow external link type %s\n", vec[0]);
 		}
@@ -1710,20 +1759,20 @@ printarea_motion_notify (GtkWidget * widget, GdkEventMotion * event)
 
 
 static void normalize(void){
-  if(Ww.pointx<Ww.Mark.x) {
-    gdouble temp=Ww.pointx;
-    Ww.pointx=Ww.Mark.x;
+  if(Ww.near.x<Ww.Mark.x) {
+    gdouble temp=Ww.near.x;
+    Ww.near.x=Ww.Mark.x;
     Ww.Mark.x=temp;
   }
-  if(Ww.pointy<Ww.Mark.y) {
-    gdouble temp=Ww.pointy;
-    Ww.pointy=Ww.Mark.y;
+  if(Ww.near.y<Ww.Mark.y) {
+    gdouble temp=Ww.near.y;
+    Ww.near.y=Ww.Mark.y;
     Ww.Mark.y=temp;
   }
-  if(Ww.Mark.x==Ww.pointx)
-    Ww.pointx++;
-  if(Ww.Mark.y==Ww.pointy)
-    Ww.pointy++;
+  if(Ww.Mark.x==Ww.near.x)
+    Ww.near.x++;
+  if(Ww.Mark.y==Ww.near.y)
+    Ww.near.y++;
 
 }
 
@@ -1769,7 +1818,7 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 						Ww.stage = Offsetting;
 						
 	} else {
-		if(Ww.stage == SelectingEnd) {
+		if(Ww.stage == SelectingFarEnd) {
 			gdouble faradjust = 0.0, nearadjust = 0.0;
 			
 			// if beaming or slur we need to find offset to the center line of staff.			
@@ -1786,10 +1835,10 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 			nearadjust = get_center_staff_offset();
 			gint xx, yy;
 			get_window_position(&xx, &yy);
-			Ww.Mark.x = Ww.pointx;
-			Ww.Mark.y = Ww.pointy - nearadjust;
-			Ww.pointx = xx + event->x;
-			Ww.pointy = yy + event->y - faradjust;
+			Ww.Mark.x = Ww.near.x;
+			Ww.Mark.y = Ww.near.y - nearadjust;
+			Ww.near.x = xx + event->x;
+			Ww.near.y = yy + event->y - faradjust;
 			
 			{ gdouble x_root, y_root;
 			gdk_event_get_root_coords ((GdkEvent*)event, &x_root, &y_root);
@@ -1838,8 +1887,8 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
   Ww.selecting = TRUE;
 //  if(Denemo.pixbuf==NULL)
 //    return TRUE;
-  Ww.pointx = markx=event->x;
-  Ww.pointy = marky=event->y;
+  Ww.near.x = markx=event->x;
+  Ww.near.y = marky=event->y;
 #endif
   return TRUE;
 
@@ -1887,7 +1936,7 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 		gdouble staffsize = atof(Denemo.gui->lilycontrol.staffsize->str);
 		if(staffsize<1) staffsize = 20.0;
 		scale *= (staffsize/4);//Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
-		gdouble offsetx = -(Ww.curx - Ww.pointx)/scale;
+		gdouble offsetx = -(Ww.curx - Ww.near.x)/scale;
     gdouble offsety = -(Ww.cury - Ww.Mark.y)/scale;
     //offsetx,y is staff spaces above center line of staff?
     gchar *script = (Ww.grob==Slur)?g_strdup_printf("(SetSlurPositions \"%.1f\" \"%.1f\")", offsetx, offsety):g_strdup_printf("(SetBeamPositions \"%.1f\" \"%.1f\")", offsetx, offsety);
@@ -1910,7 +1959,7 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
     Ww.Mark.x = event->x + x;
     Ww.Mark.y = event->y + y;
     switch_back_to_main_window();
-    if(Ww.stage==SelectingEnd) {
+    if(Ww.stage==SelectingFarEnd) {
 			gchar *msg = _("Now right click on the selected notehead and drag.");
 			gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), msg);	
 			gtk_widget_show(Ww.dialog);	
@@ -1925,13 +1974,13 @@ return TRUE;
   g_print("Ww.selecting %d\n", Ww.selecting);
 
   if(Ww.selecting) {
-    Ww.pointx=event->x;
-    Ww.pointy=event->y;
+    Ww.near.x=event->x;
+    Ww.near.y=event->y;
     gint width, height;
     normalize();
 
-    width = Ww.pointx-Ww.Mark.x;
-    height = Ww.pointy-Ww.Mark.y;
+    width = Ww.near.x-Ww.Mark.x;
+    height = Ww.near.y-Ww.Mark.y;
     GtkIconFactory *icon_factory = gtk_icon_factory_new ();
     if(marky+adjust_y<0 || (Ww.Mark.y+adjust_y + height > gdk_pixbuf_get_height(Denemo.pixbuf)))
       return TRUE;

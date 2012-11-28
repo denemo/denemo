@@ -11,6 +11,9 @@
 
 #include <denemo/denemo.h>
 
+DenemoDirective *get_note_directive_number(gint num);
+
+
 
 gboolean 
 unpopulate_menu(GtkWidget *menu);

@@ -446,7 +446,7 @@ static gint midiaction(gint notenum) {
 	    chord *thechord = (chord *)  curObj->object;
 	    is_tied = thechord->is_tied;
 	    
-#define check_midi_note(a,b,c,d) ((a->mid_c_offset==b)&&(a->enshift==c))?playnote(a,curstaffstruct->midi_channel):gdk_beep();
+//#define check_midi_note(a,b,c,d) ((a->mid_c_offset==b)&&(a->enshift==c))?playnote(a,curstaffstruct->midi_channel):gdk_beep();
 
 	    //g_print("check %d %d %d %d %d\n", a->mid_c_offset, a->enshift, b, c, d);
 	    if( (Denemo.keyboard_state&CHECKING_MASK) && thechord->notes) {

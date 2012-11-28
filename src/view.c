@@ -2062,6 +2062,36 @@ SCM scheme_get_note_from_top (SCM count) {
    
 }
 
+SCM scheme_get_note_from_top_as_midi (SCM count) {
+  gint index=1;
+  DenemoGUI *gui = Denemo.gui;
+  DenemoObject *curObj;
+  chord *thechord;
+  note *thenote;
+  if(scm_is_integer(count)) {
+    index =  scm_to_int(count);
+    if(index<1)
+      return SCM_BOOL_F;
+  }
+  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) )
+    return SCM_BOOL_F;
+  else {
+    SCM scm;
+    gint end = g_list_length(thechord->notes);
+    index = end - index;
+    if(index<0)
+      scm = SCM_BOOL_F;
+    else {
+      thenote = (note *) g_list_nth_data(thechord->notes, index);
+      gint midi = dia_to_midinote (thenote->mid_c_offset) + thenote->enshift;
+			scm = scm_int2num (midi);
+    }
+    return scm;
+ }
+   
+}
+
+
 SCM scheme_spell_check_midi_chord (SCM list) {
   SCM scm;
   GList *notes = NULL;
@@ -4719,7 +4749,8 @@ static void create_scheme_identfiers(void) {
     INSTALL_SCM_FUNCTION ("Insert a rests at the cursor in the prevailing duration, or if given a integer, in that duration, setting the prevailing duration", DENEMO_SCHEME_PREFIX"InsertRest",  scheme_insert_rest);
   INSTALL_SCM_FUNCTION ("Insert rests at the cursor to the value of the one whole measure in the key signature and return the number of rests inserted", DENEMO_SCHEME_PREFIX"PutWholeMeasureRests",  scheme_put_whole_measure_rests);
   INSTALL_SCM_FUNCTION ("Takes optional integer parameter n = 1..., returns LilyPond representation of the nth note of the chord at the cursor counting from the lowest, or #f if none",DENEMO_SCHEME_PREFIX"GetNote",  scheme_get_note);
-   INSTALL_SCM_FUNCTION ("Takes optional integer parameter n = 1..., returns LilyPond representation of the nth note of the chord at the cursor counting from the highest, or #f if none",DENEMO_SCHEME_PREFIX"GetNoteFromTop",  scheme_get_note_from_top);
+  INSTALL_SCM_FUNCTION ("Takes optional integer parameter n = 1..., returns LilyPond representation of the nth note of the chord at the cursor counting from the highest, or #f if none",DENEMO_SCHEME_PREFIX"GetNoteFromTop",  scheme_get_note_from_top);
+  INSTALL_SCM_FUNCTION ("Takes optional integer parameter n = 1..., returns MIDI key for the nth note of the chord at the cursor counting from the highest, or #f if none",DENEMO_SCHEME_PREFIX"GetNoteFromTopAsMidi",  scheme_get_note_from_top_as_midi);
   INSTALL_SCM_FUNCTION ("Returns a space separated string of LilyPond notes for the chord at the cursor position or #f if none",DENEMO_SCHEME_PREFIX"GetNotes",  scheme_get_notes);
   INSTALL_SCM_FUNCTION ("Returns the number of dots on the note at the cursor, or #f if no note",DENEMO_SCHEME_PREFIX"GetDots", scheme_get_dots);
   INSTALL_SCM_FUNCTION ("Returns the duration in LilyPond syntax of the note at the cursor, or #f if none",DENEMO_SCHEME_PREFIX"GetNoteDuration", scheme_get_note_duration);
