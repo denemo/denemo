@@ -57,7 +57,7 @@ else
 endif
 
 noinst_LIBRARIES = libaudiobackend.a
-libaudiobackend_a_SOURCES = audiointerface. audiointerface.h eventqueue.c eventqueue.h dummybackend.c dummybackend.h
+libaudiobackend_a_SOURCES = audiointerface.c audiointerface.h eventqueue.c eventqueue.h dummybackend.c dummybackend.h
 libaudiobackend_a_CFLAGS = -W -Wall -Wno-unused-parameter
 
 libaudiobackend_a_SOURCES += jackbackend.c jackbackend.h jackutil.c jackutil.h
