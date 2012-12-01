@@ -2485,6 +2485,7 @@ static gboolean populate_called(GtkWidget *view, GtkMenuShell *menu, DenemoGUI *
   return FALSE;
 }
 
+// moves cursor to position indicated by anchor found before line and column, and sets si->target to indicate type of construct there.
 gboolean goto_lilypond_position(gint line, gint column) {
   DenemoGUI *gui = Denemo.gui;
   GtkTextIter enditer, iter;
