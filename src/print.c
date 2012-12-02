@@ -97,7 +97,6 @@ typedef enum {STAGE_NONE,
 							TargetEstablished, //the Ww.grob has been set
 							SelectingNearEnd,							
 							SelectingFarEnd,							
-							SelectingPositions,
 							DraggingNearEnd,
 							DraggingFarEnd,
 							WaitingForDrag,
@@ -1078,7 +1077,8 @@ static gboolean overdraw_print(cairo_t *cr) {
   cairo_translate( cr, -x, -y );
   gdk_cairo_set_source_pixbuf( cr, GDK_PIXBUF(Denemo.pixbuf), -x, -y);
   cairo_save(cr);
-  if(Ww.Mark.width>0.0) {
+  
+  if((Ww.Mark.width>0.0) &&  (Ww.stage!=WaitingForDrag) && (Ww.stage!=DraggingNearEnd) && (Ww.stage!=DraggingFarEnd)){
     cairo_set_source_rgba( cr, 0.5, 0.5, 1.0 , 0.5);
     cairo_rectangle (cr, Ww.Mark.x-MARKER/2, Ww.Mark.y-MARKER/2, MARKER, MARKER );
     cairo_fill(cr);
@@ -1106,9 +1106,6 @@ static gboolean overdraw_print(cairo_t *cr) {
   cairo_set_font_size( cr, 18.0 );
   cairo_move_to( cr, 50,80 );
 	cairo_show_text( cr,explanation);
-
-	
-	
   }
   	if(PrintStatus.updating_id && (PrintStatus.background!=STATE_NONE)) {
 		cairo_set_source_rgba( cr, 0.5, 0.0, 0.5 , 0.3);
@@ -1124,15 +1121,21 @@ static gboolean overdraw_print(cairo_t *cr) {
 	
 	cairo_restore(cr);
 	
-	if( (Ww.stage == SelectingFarEnd)) {
-		 cairo_set_source_rgba( cr, 0.0, 0.7, 0.7, 0.7);
-		 cairo_rectangle (cr, Ww.near.x-MARKER/2, Ww.near.y-MARKER/2, MARKER, MARKER );
+	if(Ww.stage == SelectingFarEnd) {
+		 cairo_set_source_rgba( cr, 0.3, 0.3, 0.7, 0.9);
+		 //cairo_rectangle (cr, Ww.near.x-MARKER/2, Ww.near.y-MARKER/2, MARKER, MARKER );
+		 cairo_move_to(cr, Ww.near.x, Ww.near.y);
+		 cairo_arc( cr, Ww.near.x, Ww.near.y, 1.5, 0.0, 2*M_PI );
 		 cairo_fill(cr);
 	}
-		if( (Ww.stage == WaitingForDrag)) {
-		 cairo_set_source_rgba( cr, 0.0, 0.7, 0.7, 0.7);
-			cairo_rectangle (cr, Ww.far.x-MARKER/2, Ww.far.y-MARKER/2, MARKER, MARKER );
-			cairo_rectangle (cr, Ww.near.x-MARKER/2, Ww.near.y-MARKER/2, MARKER, MARKER );
+		if(Ww.stage == WaitingForDrag) {
+		 cairo_set_source_rgba( cr, 0.3, 0.3, 0.7, 0.9);
+			//cairo_rectangle (cr, Ww.far.x-MARKER/2, Ww.far.y-MARKER/2, MARKER, MARKER );
+			//cairo_rectangle (cr, Ww.near.x-MARKER/2, Ww.near.y-MARKER/2, MARKER, MARKER );
+			cairo_move_to(cr, Ww.far.x, Ww.far.y);
+			cairo_arc( cr, Ww.far.x, Ww.far.y, MARKER/4, 0.0, 2*M_PI );
+			cairo_move_to(cr, Ww.near.x, Ww.near.y);
+			cairo_arc( cr, Ww.near.x, Ww.near.y, MARKER/4, 0.0, 2*M_PI );
 			cairo_fill(cr);
 	}
 	 if((Ww.stage==WaitingForDrag) || (Ww.stage==DraggingNearEnd) || (Ww.stage==DraggingFarEnd)) {
@@ -1144,16 +1147,7 @@ static gboolean overdraw_print(cairo_t *cr) {
 	 }
 	
 	
-	
-  if(Ww.stage==SelectingPositions)
-    {
-			
-			gdouble end = Ww.Mark.y-Ww.cury;
-			cairo_move_to(cr, Ww.Mark.x, Ww.Mark.y - Ww.near.x + Ww.curx);
-			cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 0.7);
-			cairo_line_to(cr, Ww.near.x, Ww.cury); 
-			cairo_stroke(cr);
-    }
+
   if(Ww.stage==Offsetting)
     {
     cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 0.7);
@@ -1587,7 +1581,7 @@ popup_print_preview_menu(void) {
 #endif
 
 static void start_seeking_end(gboolean slur) {
-	gchar *msg = (slur)?_("Now select the notehead where the slur ends"):_("Now select the notehead where the beam ends");
+	gchar *msg = (slur)?_("Now select the notehead of the note where the slur ends"):_("Now select the notehead of the note where the beam ends");
 
 	if(Ww.repeatable && Ww.grob==(slur?Slur:Beam)) {
 		Ww.stage = WaitingForDrag;
@@ -1629,14 +1623,14 @@ popup_object_edit_menu(void) {
 		g_signal_connect_swapped(G_OBJECT(page_break), "activate", G_CALLBACK(call_out_to_guile), "(d-PageBreak)");
 		
 		beam_position = gtk_menu_item_new_with_label(_("Beam Position/Angle"));
-		gtk_widget_set_tooltip_text(beam_position, _("To move the ends of the beam, first click on the notehead where the beam ends, then position/angle with mouse movements\nUp/Down = start point, Left/Right = end point."));
+		gtk_widget_set_tooltip_text(beam_position, _("Allows you to drag the ends of the beaming, \nNote that you must click on the noteheads to start, not on the beam itself!"));
 		gtk_menu_shell_append(GTK_MENU_SHELL(note_menu), beam_position);
 		g_signal_connect_swapped(G_OBJECT(beam_position), "activate", G_CALLBACK(start_seeking_end), GINT_TO_POINTER(FALSE));
 	
 		
 	//slur_position - ask for click on note where slur ends, the animate a slope finding	
 		slur_position = gtk_menu_item_new_with_label(_("Slur Position/Angle"));
-		gtk_widget_set_tooltip_text(slur_position, _("To move the ends of the slur, first click on the notehead where the slur ends, then position/angle with mouse movements\nUp/Down = start point, Left/Right = end point."));
+		gtk_widget_set_tooltip_text(slur_position, _("Lets you hint to the typesetter where you would like the slur.\nNote you have to click on the noteheads to start, not on the slur ends."));
 		gtk_menu_shell_append(GTK_MENU_SHELL(note_menu), slur_position);
 		g_signal_connect_swapped(G_OBJECT(slur_position), "activate", G_CALLBACK(start_seeking_end), GINT_TO_POINTER(TRUE));
 	
@@ -1753,7 +1747,7 @@ action_for_link (EvView* view, EvLinkAction *obj) {
 									if(Ww.grob!=Slur)
 										Ww.repeatable = FALSE;
 									Ww.grob = Slur;
-									gchar *msg = _("Now select the notehead where the slur starts");
+									gchar *msg = _("Now select the notehead of the note where the slur starts");
 									gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), msg);
 									gtk_widget_show(Ww.dialog);
 									}
@@ -1837,7 +1831,7 @@ printarea_motion_notify (GtkWidget * widget, GdkEventMotion * event)
   get_window_position(&xx, &yy);
   Ww.curx = xx + (gint)event->x;
   Ww.cury = yy + (gint)event->y;  
-  if((Ww.stage==Offsetting) || (Ww.stage==SelectingPositions)) {
+  if((Ww.stage==Offsetting)) {
 
     gtk_widget_queue_draw (Denemo.printarea);
     return TRUE;
@@ -1893,24 +1887,8 @@ static gdouble get_center_staff_offset(void) {
 	return yadjust;
 }
 
-static gint
-printarea_button_press (GtkWidget * widget, GdkEventButton * event)
-{
- //DenemoTargetType type = Denemo.gui->si->target.type;
- gboolean left = (event->button == 1);
- gboolean right = !left;
- //g_print("Button press %d, %d %d\n",(int)event->x , (int)event->y, left);
- Ww.button = event->button;
- gint xx, yy;
- get_window_position(&xx, &yy);
- Ww.last_button_press.x = xx + event->x;
- Ww.last_button_press.y = yy + event->y;
- 
- 
- if(right && Ww.stage==WaitingForDrag) {
-	 	gtk_widget_set_tooltip_markup(gtk_widget_get_parent(Denemo.printarea), NULL);
+static void apply_tweak(void) {
 		normal_cursor();
-
 		EvDocumentModel  *model;
 		model = g_object_get_data(G_OBJECT(Denemo.printarea), "model");//there is no ev_view_get_model(), when there is use it
 		gdouble scale = ev_document_model_get_scale(model);
@@ -1932,23 +1910,101 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
     Ww.stage = STAGE_NONE;  
 		gtk_widget_hide(Ww.dialog);
     gtk_widget_queue_draw (Denemo.printarea);
+}
+static void cancel_tweak(void) {
+	//gtk_widget_set_tooltip_markup(gtk_widget_get_parent(Denemo.printarea), standard_tooltip);
+	gtk_widget_set_tooltip_markup(gtk_widget_get_parent(Denemo.printarea), NULL);
+  gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), _("Operation Cancelled"));
+	gtk_widget_show(Ww.dialog);
+	Ww.stage = STAGE_NONE;
+	gtk_widget_queue_draw (Denemo.printarea);
+}
+static void repeat_tweak(void) {
+	Ww.stage = WaitingForDrag;
+	  gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), _("Drag ..."));
+
+	gtk_widget_queue_draw (Denemo.printarea);
+}
+static void help_tweak(void) {
+	gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), _("To tweak the positions of objects (and more) move the mouse until the hand pointer appears\nClick on the object and follow the prompts.\nFor beams, click on the notehead of the note where the beam starts."));
+	gtk_widget_show(Ww.dialog);
+}
+static gint
+popup_tweak_menu(void) {
+  GtkWidget *menu = gtk_menu_new();
+  GtkWidget *item;
+  if(Ww.stage==WaitingForDrag) {
+		item = gtk_menu_item_new_with_label(_("Apply"));
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+		g_signal_connect_swapped(G_OBJECT(item), "activate", G_CALLBACK(apply_tweak), NULL);
+		item = gtk_menu_item_new_with_label(_("Cancel"));
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(cancel_tweak),NULL);
+	}
+	
+	
+	if(Ww.stage == STAGE_NONE) {
+		item = gtk_menu_item_new_with_label(_("Help for Tweaks"));
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(help_tweak),NULL);
+		
+		if(Ww.repeatable) {//never true 
+		item = gtk_menu_item_new_with_label(_("Repeat"));
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(repeat_tweak),NULL);
+	}
+	}
+  
+  
+
+  gtk_widget_show_all(menu);
+
+  gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
+  return TRUE;
+}
+
+
+
+static gint
+printarea_button_press (GtkWidget * widget, GdkEventButton * event)
+{
+ //DenemoTargetType type = Denemo.gui->si->target.type;
+ gboolean left = (event->button == 1);
+ gboolean right = !left;
+ //g_print("Button press %d, %d %d\n",(int)event->x , (int)event->y, left);
+ Ww.button = event->button;
+ gint xx, yy;
+ get_window_position(&xx, &yy);
+ Ww.last_button_press.x = xx + event->x;
+ Ww.last_button_press.y = yy + event->y;
+ gboolean hotspot = is_near((gint)event->x, (gint)event->y, Ww.near) || (is_near((gint)event->x, (gint)event->y, Ww.far));
+ //g_print("stage %d hotspot %d", Ww.stage, hotspot);
+ if(left && (Ww.stage==WaitingForDrag)  && !hotspot) {
+	popup_tweak_menu(); //other stages STAGE_NONE for example. And make the offer of Repeat if appropriate...
+	return TRUE;
  }
- if(left && Ww.stage==SelectingNearEnd) {
+
+ 
+ if(right && Ww.stage==WaitingForDrag && !hotspot) {
+	 apply_tweak();
+
+ }
+ if( /* left && */ Ww.stage==SelectingNearEnd) {
 			Ww.near_i = Ww.near = Ww.last_button_press;//struct copy
 			
 		//	Ww.stage=SelectingFarEnd; do this on release
-			gchar *msg = (Ww.grob==Slur)?_("Good (though Denemo hasn't checked that this is a slur start)\nNow select the notehead where the slur ends"):
+			gchar *msg = (Ww.grob==Slur)?_("Good (though Denemo hasn't checked that this is a slur start)\nNow select the notehead of the note where the slur ends"):
 				_("Do not recognize target, sorry");
 			gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), msg);
 			gtk_widget_show(Ww.dialog);
 			gtk_widget_queue_draw (Denemo.printarea);
 			return TRUE;
  }
- if(left && Ww.stage==SelectingFarEnd) {//handle on release, after cursor has moved to note
+ if( /* left && */ Ww.stage==SelectingFarEnd) {//handle on release, after cursor has moved to note
 	 return TRUE;
  }
 
- if(left && Ww.stage==WaitingForDrag) {
+ if( /* left && */ Ww.stage==WaitingForDrag) {
 		 if(is_near((gint)event->x, (gint)event->y, Ww.near)) { 
 			 Ww.stage = DraggingNearEnd;
 		 } else
@@ -1960,8 +2016,6 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 	return TRUE; 
  }
  
- 
-
  if(in_selected_object((gint)event->x, (gint)event->y)) {
 	if(left) {
 		
@@ -1970,8 +2024,8 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 //		well, we are purely dragging one end, so it should never do slur from here.
 		
 		
-						gtk_widget_set_tooltip_markup(gtk_widget_get_parent(Denemo.printarea),  _("Now drag to point the object should move to"));
-						drag_cursor();
+						//gtk_widget_set_tooltip_markup(gtk_widget_get_parent(Denemo.printarea),  _("Now drag to point the object should move to"));
+						//drag_cursor();
 						Ww.stage = Offsetting;
 						
 	} else {
@@ -1981,7 +2035,7 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 			popup_object_edit_menu();
 	}
   return TRUE;
-}
+ }
  
  if(Ww.stage != Offsetting) {
 	 		gint xx, yy;
@@ -2023,10 +2077,12 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 static gint
 printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 {
- //DenemoTargetType type = Denemo.gui->si->target.type;
+//g_print("stage %d\n", Ww.stage);
  gboolean left = (event->button == 1);
  gboolean right = !left;
-  gint xx, yy;
+ gboolean hotspot = is_near((gint)event->x, (gint)event->y, Ww.near) || (is_near((gint)event->x, (gint)event->y, Ww.far));
+ gboolean object_located_on_entry =  Ww.ObjectLocated;
+ gint xx, yy;
  get_window_position(&xx, &yy);
  Ww.last_button_release.x = xx + event->x;
  Ww.last_button_release.y = yy + event->y;
@@ -2036,16 +2092,28 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
     set_denemo_pixbuf();
   if(Denemo.pixbuf==NULL)
     return TRUE;
-  if(left && Ww.stage==TargetEstablished) {
+
+  
+  if( /* left && */ Ww.ObjectLocated || (Ww.stage==SelectingNearEnd)) {   
+    Ww.Mark.width = Ww.Mark.height = MARKER;
+		gtk_widget_queue_draw (Denemo.printarea);
+    Ww.Mark.x = event->x + xx;
+    Ww.Mark.y = event->y + yy;
+    switch_back_to_main_window();
+    Ww.ObjectLocated = FALSE;
+  }
+    
+    
+  if( /* left && */ Ww.stage==TargetEstablished) {
      Ww.stage=SelectingNearEnd; 
    	return TRUE;
  }  
-  if(left && Ww.stage==SelectingNearEnd) {
+  if( /* left && */ Ww.stage==SelectingNearEnd) {
      Ww.stage=SelectingFarEnd; 
    	return TRUE;
  }  
      
-  if(left && Ww.stage==SelectingFarEnd) {
+  if( /* left && */ Ww.stage==SelectingFarEnd) {
 			Ww.far_i = Ww.far = Ww.last_button_release;
 			Ww.stage=WaitingForDrag;
 			//first post-insert a \stemNeutral if beaming
@@ -2064,19 +2132,16 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 			gtk_widget_show(Ww.dialog);
 			return TRUE;
  }
-    if((Ww.stage == DraggingNearEnd) || (Ww.stage == DraggingFarEnd)) {
+ if((Ww.stage == DraggingNearEnd) || (Ww.stage == DraggingFarEnd)) {
 			Ww.stage=WaitingForDrag;
-		//	gchar *msg = _("Now drag the begin/end markers to suggest slur position/angle");
-		//	gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), msg);
-		//	gtk_widget_show(Ww.dialog);
 			return TRUE;
-		}
+ }
     
     
     
   if(Ww.stage == Offsetting) {
-	 gtk_widget_set_tooltip_markup(gtk_widget_get_parent(Denemo.printarea), NULL);
-	 normal_cursor();
+	// gtk_widget_set_tooltip_markup(gtk_widget_get_parent(Denemo.printarea), NULL);
+	// normal_cursor();
 
 		EvDocumentModel  *model;
 		model = g_object_get_data(G_OBJECT(Denemo.printarea), "model");//there is no ev_view_get_model(), when there is use it
@@ -2096,42 +2161,16 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
   // \once \override DynamicLineSpanner #'padding = #10 setting padding for cresc and dimin
   // \once \override DynamicLineSpanner #'Y-offset = #-10 to move a cresc or dimin vertically downwards.
   // \once \override DynamicLineSpanner #'direction = #1 to place above/below (-1)
-    if(Ww.stage==SelectingPositions)
-    {
-		 gtk_widget_set_tooltip_markup(gtk_widget_get_parent(Denemo.printarea), NULL);
-	   normal_cursor();
-			
-		EvDocumentModel  *model;
-		model = g_object_get_data(G_OBJECT(Denemo.printarea), "model");//there is no ev_view_get_model(), when there is use it
-		gdouble scale = ev_document_model_get_scale(model);
-		gdouble staffsize = atof(Denemo.gui->lilycontrol.staffsize->str);
-		if(staffsize<1) staffsize = 20.0;
-		scale *= (staffsize/4);//Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
-		gdouble offsetx = -(Ww.curx - Ww.near.x)/scale;
-    gdouble offsety = -(Ww.cury - Ww.Mark.y)/scale;
-    //offsetx,y is staff spaces above center line of staff?
-    gchar *script = (Ww.grob==Slur)?g_strdup_printf("(SetSlurPositions \"%.1f\" \"%.1f\")", offsetx, offsety):g_strdup_printf("(SetBeamPositions \"%.1f\" \"%.1f\")", offsetx, offsety);
-    call_out_to_guile(script);
-    g_free(script);
-			Ww.stage = STAGE_NONE;
-			gtk_widget_hide(Ww.dialog);
-		}
+g_print("Stage %d object loc %d left %d", Ww.stage, object_located_on_entry, left);
+ if( (Ww.stage==STAGE_NONE)) {
+	if(object_located_on_entry) //set by action_for_link
+	 popup_object_edit_menu();
+	else
+		popup_tweak_menu();
+	return TRUE;
+ }
   
-  if(left && Ww.ObjectLocated) {
-    gint x, y;
-    get_window_position(&x, &y);
-    Ww.Mark.width = Ww.Mark.height = MARKER;
-		gtk_widget_queue_draw (Denemo.printarea);
-    Ww.Mark.x = event->x + x;
-    Ww.Mark.y = event->y + y;
-    switch_back_to_main_window();
-   // if(Ww.stage==SelectingFarEnd) {
-		//	gchar *msg = _("Now right click on the selected notehead and drag.");
-	//		gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), msg);	
-	//		gtk_widget_show(Ww.dialog);	
-	//	}
-    Ww.ObjectLocated = FALSE;
-    }
+
 return TRUE;
 #if 0
 //This code for use later when dragging an object
