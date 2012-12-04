@@ -406,13 +406,68 @@ static SCM scheme_popup_menu(SCM list) {
 			}			
 		}
 		gtk_widget_show_all(menu);
-		//gtk_menu_shell_set_take_focus (GTK_MENU_SHELL(menu), TRUE); it seems it is already true, but does not happen...
-		//g_print("take focus is %d\n", gtk_menu_shell_get_take_focus (GTK_MENU_SHELL(menu)));
 		g_signal_connect(menu, "selection-done", gtk_main_quit, NULL);
 		gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 		gtk_main();
+		
 	}
 	return ReturnValue;
+}
+
+static SCM scheme_get_target(void) {
+	DenemoScore *si = Denemo.gui->si;
+	if(Denemo.gui->si->currentobject==NULL)
+		return SCM_BOOL_F;
+	SCM type=SCM_BOOL_F, grob=SCM_BOOL_F;
+	switch(si->target.type) {
+		case TARGET_NONE:
+			type=SCM_BOOL_F;
+			break;
+		case TARGET_CHORD:
+			type=scm_from_locale_string("Chord");
+			break;
+		case 	TARGET_NOTE:
+			type=scm_from_locale_string("Note");
+			break;
+		case TARGET_SLUR:
+			type=scm_from_locale_string("Slur");
+			break;
+		case TARGET_TIE:
+			type=scm_from_locale_string("Tie");
+			break;		
+		case TARGET_CRESC:
+			type=scm_from_locale_string("Cresc");
+			break;		
+		case TARGET_DIM:
+			type=scm_from_locale_string("Dim");
+			break;	
+		default:
+			g_warning("Unknown target type %d\n", si->target.type);
+			type = SCM_BOOL_F;
+			break;	
+	}
+	if(si->target.directivenum) {
+		DenemoDirective *directive=NULL;	
+		DenemoObject *obj = si->currentobject->data;
+		if(si->target.type==TARGET_CHORD) {
+			GList *directives = ((chord*)((DenemoObject*)obj->object))->directives;
+						if(directives) {
+							directive = (DenemoDirective*)g_list_nth_data(directives, si->target.directivenum-1);
+						}
+		} else {	
+			directive = get_note_directive_number(si->target.directivenum);		
+		}
+		if(directive) {
+			if(directive->grob) {
+					grob = scm_from_locale_string(directive->grob->str);
+				} else if(directive->tag) {
+					grob =  scm_from_locale_string(directive->tag->str);
+				} else
+				grob = SCM_BOOL_F;
+		} else 
+			grob = SCM_BOOL_F;
+	}
+	return scm_list_n (type, grob, SCM_UNDEFINED);
 }
 
 static SCM scheme_http(SCM hname, SCM page, SCM other, SCM poststr) {
@@ -4882,7 +4937,8 @@ static void create_scheme_identfiers(void) {
 
   INSTALL_SCM_FUNCTION ("Takes a script as a string, which will be stored. All the callbacks are called when the musical score is closed" ,DENEMO_SCHEME_PREFIX"AttachQuitCallback",  scheme_attach_quit_callback);
   INSTALL_SCM_FUNCTION ("Removes a callback from the current musical score",DENEMO_SCHEME_PREFIX"DetachQuitCallback",  scheme_detach_quit_callback);
-  INSTALL_SCM_FUNCTION ("Pops up a menu given by the list of pairs in the argument. Each pair should ba a symbol and a string symbol chosen is returned.",DENEMO_SCHEME_PREFIX"PopupMenu",  scheme_popup_menu);
+  INSTALL_SCM_FUNCTION ("Pops up a menu given by the list of pairs in the argument. Each pair should be a symbol and a string symbol chosen is returned. Alternatively a list of strings can be passed, the chosen string is returned.",DENEMO_SCHEME_PREFIX"PopupMenu",  scheme_popup_menu);
+  INSTALL_SCM_FUNCTION ("Returns a list of the target type and grob (if a directive). Target is set by clicking on the typeset version of the score at a link that LilyPond has inserted.",DENEMO_SCHEME_PREFIX"GetTarget",  scheme_get_target);
   
   INSTALL_SCM_FUNCTION4 ("Takes 4 parameters and makes http transaction with www.denemo.org", DENEMO_SCHEME_PREFIX"HTTP", scheme_http);
   
