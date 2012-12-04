@@ -1429,7 +1429,7 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event)
 {
   guint keyval;
   GdkModifierType modifiers;
-  GtkAction *action;
+  GtkAction *action = NULL;
   keymap *the_keymap = Denemo.map;
   GtkMenu *menu = GTK_MENU(grab_widget);
 
@@ -1437,23 +1437,29 @@ if(Denemo.prefs.menunavigation && ((event->keyval==0xFF1B)|| (event->keyval==0xF
 //Esc and arrows for navigating menus
 	return FALSE;
 }
-  //If the KeyEvent is only a modifier, stop processing here
-  if (isModifier(event))
-      return TRUE;
-  dnm_clean_event(event);
-  modifiers = dnm_sanitize_key_state(event);
-  keyval = event->keyval;
+
   
 #if GTK_MAJOR_VERSION == 3
-  action = gtk_activatable_get_related_action(gtk_menu_shell_get_selected_item( GTK_MENU_SHELL(menu)));
+//JEREMIAH PLEASE TEST!!	
+	if(GTK_IS_ACTIVATABLE(gtk_menu_shell_get_selected_item( GTK_MENU_SHELL(menu)))
+		action = gtk_activatable_get_related_action(gtk_menu_shell_get_selected_item( GTK_MENU_SHELL(menu)));
 #else
-  action = gtk_widget_get_action(GTK_MENU_SHELL(menu)->active_menu_item);//note this is not gtk_menu_get_active(menu) except after a selection has been made, we want the menu item that the pointer has moved to before it is selected.
+	if(GTK_MENU_SHELL(menu)->active_menu_item)
+		action = gtk_widget_get_action(GTK_MENU_SHELL(menu)->active_menu_item);//note this is not gtk_menu_get_active(menu) except after a selection has been made, we want the menu item that the pointer has moved to before it is selected.
 #endif
 
 
  //If this menu item has no action we give up
   if (!action)
-    return TRUE;
+    return FALSE;
+    
+   //If the KeyEvent is only a modifier, stop processing here
+  if (isModifier(event))
+      return TRUE;
+  dnm_clean_event(event);
+  modifiers = dnm_sanitize_key_state(event);
+  keyval = event->keyval;   
+    
   gint idx = lookup_command_from_name(the_keymap, gtk_action_get_name(action));
   //If this menu item  action is not registered in the
   //keymap, we give up
