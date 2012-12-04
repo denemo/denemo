@@ -1639,29 +1639,65 @@ popup_object_edit_menu(void) {
 
  if(directive_menu==NULL) {
 			directive_menu = gtk_menu_new();
-		GtkWidget *item = gtk_menu_item_new_with_label("Drag to desired offset");
+		GtkWidget *item = gtk_menu_item_new_with_label(_( "Drag to desired offset"));
 		gtk_menu_shell_append(GTK_MENU_SHELL(directive_menu), item);
 		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(start_stage), GINT_TO_POINTER(Offsetting));
 
-		item = gtk_menu_item_new_with_label("Drag a space for padding");
+		item = gtk_menu_item_new_with_label(_( "Drag a space for padding"));
 //	gtk_menu_shell_append(GTK_MENU_SHELL(directive_menu), item);
 //  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(start_stage), GINT_TO_POINTER(Padding));
 
 		gtk_widget_show_all(directive_menu);
 	}
+	
+	DenemoTarget *target = &Denemo.gui->si->target;
+	
 	if(Denemo.gui->si->currentobject) {
-		DenemoObject *obj = Denemo.gui->si->currentobject->data;
+		DenemoObject *obj = Denemo.gui->si->currentobject->data; g_print("type %d directivenum %d\n", obj->type, target->directivenum);
 		switch(obj->type) {
 			case CHORD:
 			{ 
-				chord *thechord = (chord*)obj->object;
-				if(thechord->notes && (thechord->baseduration>2))
-						gtk_widget_show(beam_position);
-				else
-						gtk_widget_hide(beam_position);
-				thechord->slur_begin_p?
-						gtk_widget_show(slur_position):gtk_widget_hide(slur_position);					
-				gtk_menu_popup (GTK_MENU(note_menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+				if(target->directivenum) {
+					DenemoDirective *directive;
+					if(target->type == TARGET_NOTE) {
+						//need to get directive at cursor note - there is a function ready for this
+						directive = get_note_directive_number(Denemo.gui->si->target.directivenum);
+						if(directive) {
+								g_print("Looking at directive %s\n", directive->tag->str);	//\once \override Fingering #'extra-offset = #'(0 . 0)
+								gtk_menu_popup (GTK_MENU(directive_menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+				  	} else {
+									warningdialog("Cursor has moved to a note with less directives");
+						}
+						g_print("Note directive not implemented yet");
+					}
+					else { //TARGET_CHORD
+						GList *directives = ((chord*)((DenemoObject*)obj->object))->directives;
+						if(directives) {
+							directive = (DenemoDirective*)g_list_nth_data(directives, target->directivenum-1);
+							if(directive) {
+								g_print("Looking at directive %s\n", directive->tag->str);	
+								gtk_menu_popup (GTK_MENU(directive_menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+								
+								
+								} else {
+									warningdialog("Cursor has moved to a chord with less directives");
+								}
+							} else {
+								warningdialog("Cursor has moved to a chord without directives!");							
+							}
+						g_print("Chord directive not implemented yet");
+					}
+					
+				} else {
+					chord *thechord = (chord*)obj->object;
+					if(thechord->notes && (thechord->baseduration>2))
+							gtk_widget_show(beam_position);
+					else
+							gtk_widget_hide(beam_position);
+					thechord->slur_begin_p?
+							gtk_widget_show(slur_position):gtk_widget_hide(slur_position);					
+					gtk_menu_popup (GTK_MENU(note_menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+				}
 			}
 				break;
 			case LILYDIRECTIVE:
@@ -1987,7 +2023,6 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
  
  if(right && Ww.stage==WaitingForDrag && !hotspot) {
 	 apply_tweak();
-
  }
  if( /* left && */ Ww.stage==SelectingNearEnd) {
 			Ww.near_i = Ww.near = Ww.last_button_press;//struct copy
