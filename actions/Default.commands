@@ -6186,6 +6186,22 @@ accidentals are usually printed over the note.</tooltip>
         <label>Play Chord at Cursor</label>
         <tooltip>Sounds the note or chord at the cursor, using the current staffs instrument.</tooltip>
       </row>
+      <row>
+        <action>ToggleStemSupport</action>
+        <after>StringNum</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings</menupath>
+        <label>Avoid Collisions with Stems</label>
+        <tooltip>Fingerings and String numbers will be moved to avoid colliding with stems on typesetting.</tooltip>
+      </row>
+      <row>
+        <action>RHFinger</action>
+        <after>LHFinger</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings</menupath>
+        <label>Right Hand Fingering</label>
+        <tooltip>Follow with a number keypress, the note at the cursor is typeset with the given number as right hand fingering. Use a non-number to delete.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
