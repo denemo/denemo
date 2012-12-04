@@ -5,7 +5,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -22,7 +22,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -39,7 +39,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -56,7 +56,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -73,7 +73,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -90,7 +90,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -107,7 +107,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -124,7 +124,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -141,7 +141,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -158,7 +158,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -175,7 +175,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -192,7 +192,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -209,7 +209,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -226,7 +226,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -243,7 +243,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -260,7 +260,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -277,7 +277,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -294,7 +294,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -311,7 +311,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -328,7 +328,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -345,7 +345,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -362,7 +362,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -379,7 +379,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -396,7 +396,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -413,7 +413,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -430,7 +430,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -447,7 +447,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -464,7 +464,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -481,7 +481,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -498,7 +498,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -515,7 +515,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -532,7 +532,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -549,7 +549,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -566,7 +566,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -583,7 +583,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -600,7 +600,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -617,7 +617,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -634,7 +634,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -651,7 +651,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -668,7 +668,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -685,7 +685,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -702,7 +702,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -719,7 +719,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -736,7 +736,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -753,7 +753,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -770,7 +770,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -787,7 +787,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -804,7 +804,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -821,7 +821,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -838,7 +838,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -855,7 +855,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -872,7 +872,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -889,7 +889,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -906,7 +906,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -923,7 +923,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -940,7 +940,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -957,7 +957,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -974,7 +974,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -991,7 +991,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1008,7 +1008,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1025,7 +1025,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1042,7 +1042,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1059,7 +1059,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1076,7 +1076,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1093,7 +1093,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1110,7 +1110,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1127,7 +1127,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1144,7 +1144,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1161,7 +1161,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1178,7 +1178,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1195,7 +1195,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1212,7 +1212,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1229,7 +1229,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1246,7 +1246,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1263,7 +1263,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1280,7 +1280,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1297,7 +1297,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1314,7 +1314,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1331,7 +1331,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1348,7 +1348,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1365,7 +1365,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1382,7 +1382,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1399,7 +1399,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1416,7 +1416,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1433,7 +1433,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1450,7 +1450,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1467,7 +1467,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1484,7 +1484,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1501,7 +1501,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1518,7 +1518,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1535,7 +1535,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1552,7 +1552,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1569,7 +1569,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1586,7 +1586,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1603,7 +1603,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1620,7 +1620,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1637,7 +1637,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1654,7 +1654,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1671,7 +1671,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1688,7 +1688,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1705,7 +1705,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1722,7 +1722,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1739,7 +1739,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1756,7 +1756,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1773,7 +1773,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1790,7 +1790,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1807,7 +1807,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1824,7 +1824,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1841,7 +1841,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1858,7 +1858,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1875,7 +1875,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1892,7 +1892,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1909,7 +1909,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1926,7 +1926,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1943,7 +1943,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1960,7 +1960,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1977,7 +1977,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -1994,7 +1994,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2011,7 +2011,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2028,7 +2028,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2045,7 +2045,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2062,7 +2062,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2079,7 +2079,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2096,7 +2096,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2113,7 +2113,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2130,7 +2130,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2147,7 +2147,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2164,7 +2164,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2181,7 +2181,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2198,7 +2198,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2215,7 +2215,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2232,7 +2232,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2249,7 +2249,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2266,7 +2266,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2283,7 +2283,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2300,7 +2300,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2317,7 +2317,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2334,7 +2334,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2351,7 +2351,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2368,7 +2368,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2385,7 +2385,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2402,7 +2402,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2419,7 +2419,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2436,7 +2436,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2453,7 +2453,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2470,7 +2470,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2487,7 +2487,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2504,7 +2504,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2521,7 +2521,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2538,7 +2538,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2555,7 +2555,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2572,7 +2572,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2589,7 +2589,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2606,7 +2606,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2623,7 +2623,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2640,7 +2640,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2657,7 +2657,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2674,7 +2674,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2691,7 +2691,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2708,7 +2708,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2725,7 +2725,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2742,7 +2742,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2759,7 +2759,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2776,7 +2776,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2793,7 +2793,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2810,7 +2810,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2827,7 +2827,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2844,7 +2844,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2861,7 +2861,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2878,7 +2878,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2895,7 +2895,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2912,7 +2912,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2929,7 +2929,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2946,7 +2946,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2963,7 +2963,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2980,7 +2980,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -2997,7 +2997,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3014,7 +3014,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3031,7 +3031,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3048,7 +3048,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3065,7 +3065,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3082,7 +3082,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3099,7 +3099,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3116,7 +3116,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3133,7 +3133,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3150,7 +3150,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3167,7 +3167,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3184,7 +3184,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3201,7 +3201,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3218,7 +3218,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3235,7 +3235,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3252,7 +3252,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3269,7 +3269,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3286,7 +3286,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3303,7 +3303,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3320,7 +3320,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3337,7 +3337,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3354,7 +3354,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3371,7 +3371,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3388,7 +3388,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3405,7 +3405,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3422,7 +3422,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3439,7 +3439,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3456,7 +3456,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3473,7 +3473,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3490,7 +3490,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3507,7 +3507,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3524,7 +3524,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3541,7 +3541,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3558,7 +3558,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3575,7 +3575,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3592,7 +3592,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3609,7 +3609,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3626,7 +3626,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3643,7 +3643,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3660,7 +3660,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3677,7 +3677,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3694,7 +3694,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3711,7 +3711,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3728,7 +3728,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3745,7 +3745,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3762,7 +3762,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3779,7 +3779,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3796,7 +3796,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3813,7 +3813,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3830,7 +3830,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3847,7 +3847,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3864,7 +3864,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3881,7 +3881,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3898,7 +3898,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3915,7 +3915,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3932,7 +3932,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3949,7 +3949,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3966,7 +3966,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -3983,7 +3983,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4000,7 +4000,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4017,7 +4017,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4034,7 +4034,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4051,7 +4051,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4068,7 +4068,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4085,7 +4085,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4102,7 +4102,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4119,7 +4119,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4136,7 +4136,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4153,7 +4153,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4170,7 +4170,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4187,7 +4187,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4204,7 +4204,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4221,7 +4221,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4238,7 +4238,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4255,7 +4255,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4272,7 +4272,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4289,7 +4289,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4306,7 +4306,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4323,7 +4323,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4340,7 +4340,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4357,7 +4357,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4374,7 +4374,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4391,7 +4391,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4408,7 +4408,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4425,7 +4425,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4442,7 +4442,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4459,7 +4459,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4476,7 +4476,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4493,7 +4493,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4510,7 +4510,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4527,7 +4527,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4544,7 +4544,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4561,7 +4561,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4578,7 +4578,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4595,7 +4595,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4612,7 +4612,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4629,7 +4629,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4646,7 +4646,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4663,7 +4663,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4680,7 +4680,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4697,7 +4697,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4714,7 +4714,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4731,7 +4731,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4748,7 +4748,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4765,7 +4765,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4782,7 +4782,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4799,7 +4799,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4816,7 +4816,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4833,7 +4833,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4850,7 +4850,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4867,7 +4867,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4884,7 +4884,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4901,7 +4901,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4918,7 +4918,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4935,7 +4935,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4952,7 +4952,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4969,7 +4969,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -4986,7 +4986,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -5003,7 +5003,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -5020,7 +5020,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -5037,7 +5037,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -5054,7 +5054,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -5071,7 +5071,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -5088,7 +5088,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -5105,7 +5105,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -5122,7 +5122,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -5139,7 +5139,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -5156,7 +5156,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -5173,7 +5173,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -5190,7 +5190,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -5207,7 +5207,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -5224,7 +5224,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -5241,7 +5241,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -5258,7 +5258,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -5275,7 +5275,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -5292,7 +5292,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -5309,7 +5309,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -5326,7 +5326,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -5343,7 +5343,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -5360,7 +5360,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
@@ -5377,7 +5377,7 @@ GString *gstr=NULL;
 int length;
    char *str=NULL;
 if(scm_is_string(optional)){
-str = scm_to_locale_stringn(optional, &length);
+str = scm_to_locale_stringn(optional, (size_t *)&length);
 gstr = g_string_new_len(str, length);
 if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;

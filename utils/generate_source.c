@@ -688,7 +688,7 @@ int main() {
       fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.map, \"%s\")), \"scm\", (gpointer)1);\n", ni); //define a property "scm" on the action to mean it scheme can call the action.
 
       /*******************   create a callback scheme_<name> for calling from a scheme procedure d-<name>  *******************/
-      fprintf(scheme_cb, "SCM scheme_%s (SCM optional) {\ngboolean query=FALSE;\nDenemoScriptParam param;\nGString *gstr=NULL;\nint length;\n   char *str=NULL;\nif(scm_is_string(optional)){\nstr = scm_to_locale_stringn(optional, &length);\ngstr = g_string_new_len(str, length);\nif(!strncmp(\"query\",str,5)) query = TRUE;\
+      fprintf(scheme_cb, "SCM scheme_%s (SCM optional) {\ngboolean query=FALSE;\nDenemoScriptParam param;\nGString *gstr=NULL;\nint length;\n   char *str=NULL;\nif(scm_is_string(optional)){\nstr = scm_to_locale_stringn(optional, (size_t *)&length);\ngstr = g_string_new_len(str, length);\nif(!strncmp(\"query\",str,5)) query = TRUE;\
           }\n\
          param.string = gstr;\n\
          param.status = FALSE;\n\
