@@ -406,7 +406,8 @@ static SCM scheme_popup_menu(SCM list) {
 			}			
 		}
 		gtk_widget_show_all(menu);
-		
+		//gtk_menu_shell_set_take_focus (GTK_MENU_SHELL(menu), TRUE); it seems it is already true, but does not happen...
+		//g_print("take focus is %d\n", gtk_menu_shell_get_take_focus (GTK_MENU_SHELL(menu)));
 		g_signal_connect(menu, "selection-done", gtk_main_quit, NULL);
 		gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 		gtk_main();
