@@ -626,7 +626,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nAdding notes to the chord at the cursor at various intervals above base note", N_("AddAboveBase"), NULL, N_("Add Note Anove Base of Chord")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nAdding notes to the chord at the cursor at various intervals below the top-most note", N_("AddBelowTop"), NULL, N_("Add Note Below Top of Chord")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nCommands to include other durations in a chord (instead of polypony - this is specialized stuff!) The note at the cursor height is altered.", N_("ChangePrintDuration"), NULL, N_("Change Duration of Note")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nRight hand fingerings to apply to notes", N_("Fingerings"), NULL, N_("RH Fingerings")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nFingerings (numbers) to typeset near to notes", N_("Fingerings"), NULL, N_("Fingerings")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nAlters the note/chord at the cursor or the selection transposing it by the interval chosen. This alters the music in the score - see othe transpose options for transposing the printed output, leaving the music untouched.", N_("Transpose"), NULL, N_("Transpose Music")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nMark the directive at the cursor as applying to just the current score layout, or to exclude the current layout. Use this for example to exclude redundant first and second time markings in parts which don't need them.", N_("Conditional-Directives"), NULL, N_("Make a Directive Conditional")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nTo insert random notes at cursor", N_("SingleRandomNote"), NULL, N_("Single Random Note")}, 

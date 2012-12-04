@@ -419,7 +419,7 @@
 {"AddAboveBase", NULL, N_("Add Note Anove Base of Chord"), "",N_("Menu:\nAdding notes to the chord at the cursor at various intervals above base note")},
 {"AddBelowTop", NULL, N_("Add Note Below Top of Chord"), "",N_("Menu:\nAdding notes to the chord at the cursor at various intervals below the top-most note")},
 {"ChangePrintDuration", NULL, N_("Change Duration of Note"), "",N_("Menu:\nCommands to include other durations in a chord (instead of polypony - this is specialized stuff!) The note at the cursor height is altered.")},
-{"Fingerings", NULL, N_("RH Fingerings"), "",N_("Menu:\nRight hand fingerings to apply to notes")},
+{"Fingerings", NULL, N_("Fingerings"), "",N_("Menu:\nFingerings (numbers) to typeset near to notes")},
 {"Transpose", NULL, N_("Transpose Music"), "",N_("Menu:\nAlters the note/chord at the cursor or the selection transposing it by the interval chosen. This alters the music in the score - see othe transpose options for transposing the printed output, leaving the music untouched.")},
 {"Conditional-Directives", NULL, N_("Make a Directive Conditional"), "",N_("Menu:\nMark the directive at the cursor as applying to just the current score layout, or to exclude the current layout. Use this for example to exclude redundant first and second time markings in parts which don't need them.")},
 {"SingleRandomNote", NULL, N_("Single Random Note"), "",N_("Menu:\nTo insert random notes at cursor")},
