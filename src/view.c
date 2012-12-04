@@ -130,8 +130,6 @@ typedef enum
 } AccelStatus;
 
 
-//FIXME remove these - use for the other way... scm_from_locale_stringn (const char *str, size_t len)
-
 static void save_accels (void);
 
 #include "callbacks.h" /* callback functions menuitems that can be called by scheme */
@@ -141,7 +139,9 @@ static void save_accels (void);
 #include "scheme_cb.h"
 
 
-
+static gboolean scm_is_list(SCM scm) {
+return scm_is_true(scm_list_p(scm));
+}
 
 #ifdef DEVELOPER
 static FILE *DEV_fp;
@@ -368,6 +368,51 @@ scm_c_define_gsubr (name, 0, 4, 0, callback);
 
 
 #undef DEV_CODE
+
+SCM ReturnValue = SCM_BOOL_F;
+static void set_return_value(SCM val) {
+	ReturnValue = val;
+}
+
+static SCM scheme_popup_menu(SCM list) {
+	
+	GtkWidget *menu = gtk_menu_new();
+  set_return_value(SCM_BOOL_F);
+	if(scm_is_list(list)) {
+		gint i;
+		gint length = scm_num2int(scm_length(list), 0, 0);
+		for(i=0;i<length;i++) {
+			SCM el = scm_list_ref(list, scm_int2num(i));
+			if(scm_is_pair(el)) {
+				//g_print("Note that %d is value and %d stringp\n", scm_pair_p(el), scm_string_p(el));
+				if(scm_is_string(scm_car(el))) {
+					g_print("label %s\n", scm_to_locale_string(scm_car(el)));
+					GtkWidget *item = gtk_menu_item_new_with_label(scm_to_locale_string(scm_car(el)));
+					gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+					g_signal_connect_swapped(G_OBJECT(item), "activate", G_CALLBACK(set_return_value), scm_cdr(el));
+					
+				} else {
+					set_return_value(SCM_BOOL_F);
+				  break;
+			  }
+				
+			} else if(scm_is_string(el)) {
+					GtkWidget *item = gtk_menu_item_new_with_label(scm_to_locale_string(el));
+					gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+					g_signal_connect_swapped(G_OBJECT(item), "activate", G_CALLBACK(set_return_value), el);	
+			} else {
+					set_return_value(SCM_BOOL_F);
+				  break;
+			}			
+		}
+		gtk_widget_show_all(menu);
+		
+		g_signal_connect(menu, "selection-done", gtk_main_quit, NULL);
+		gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+		gtk_main();
+	}
+	return ReturnValue;
+}
 
 static SCM scheme_http(SCM hname, SCM page, SCM other, SCM poststr) {
   char *name=NULL, *thepage=NULL, *oth=NULL, *post=NULL;
@@ -2096,10 +2141,10 @@ SCM scheme_spell_check_midi_chord (SCM list) {
   SCM scm;
   GList *notes = NULL;
   gboolean status;
-  if(scm_list_p(list)) {
+  if(scm_is_list(list)) {
   for(scm = list; !scm_is_null(scm); scm = scm_cdr(scm)) {
    gint note = scm_num2int(scm_car(scm), 0, 0);
-   notes = g_list_prepend(notes, (gpointer)note);
+   notes = g_list_prepend(notes, GINT_TO_POINTER(note));
   }
  status = check_midi_intervals(notes);
  g_list_free(notes);
@@ -3697,7 +3742,7 @@ static SCM scheme_create_timebase(SCM optional) {
 
 static SCM scheme_pending_midi(SCM scm) {
   guint key = scm_num2int(scm, 0, 0);
-  g_queue_push_head(Denemo.gui->pending_midi, (gpointer)key);
+  g_queue_push_head(Denemo.gui->pending_midi, GINT_TO_POINTER(key));
 }
 
 static SCM scheme_play_midi_note(SCM note, SCM volume, SCM channel, SCM duration) {
@@ -3781,7 +3826,7 @@ static SCM scheme_one_shot_timer(SCM duration_amount, SCM callback) {
   cb_scheme_and_id *scheme = g_malloc(sizeof(cb_scheme_and_id));
   scheme->scheme_code = scheme_code;
   scheme->id = Denemo.gui->id;
-  g_timeout_add(duration, (GSourceFunc)scheme_callback_one_shot_timer, (gpointer) scheme);
+  g_timeout_add(duration, (GSourceFunc)scheme_callback_one_shot_timer, GINT_TO_POINTER( scheme));
   return SCM_BOOL(TRUE);
 }
 
@@ -3805,7 +3850,7 @@ static SCM scheme_timer(SCM duration_amount, SCM callback) {
     cb_scheme_and_id *scheme = g_malloc(sizeof(cb_scheme_and_id));
     scheme->scheme_code = scheme_code;
     scheme->id = Denemo.gui->id;
-    g_timeout_add(duration, (GSourceFunc)scheme_callback_timer, (gpointer) scheme);
+    g_timeout_add(duration, (GSourceFunc)scheme_callback_timer, GINT_TO_POINTER( scheme));
     //if(scheme_code) free(scheme_code);
     return scm_int2num(GPOINTER_TO_INT(scheme));//FIXME pointer may not fit in int
   } else
@@ -4836,6 +4881,7 @@ static void create_scheme_identfiers(void) {
 
   INSTALL_SCM_FUNCTION ("Takes a script as a string, which will be stored. All the callbacks are called when the musical score is closed" ,DENEMO_SCHEME_PREFIX"AttachQuitCallback",  scheme_attach_quit_callback);
   INSTALL_SCM_FUNCTION ("Removes a callback from the current musical score",DENEMO_SCHEME_PREFIX"DetachQuitCallback",  scheme_detach_quit_callback);
+  INSTALL_SCM_FUNCTION ("Pops up a menu given by the list of pairs in the argument. Each pair should ba a symbol and a string symbol chosen is returned.",DENEMO_SCHEME_PREFIX"PopupMenu",  scheme_popup_menu);
   
   INSTALL_SCM_FUNCTION4 ("Takes 4 parameters and makes http transaction with www.denemo.org", DENEMO_SCHEME_PREFIX"HTTP", scheme_http);
   
@@ -4859,7 +4905,7 @@ static void create_scheme_identfiers(void) {
   INSTALL_SCM_FUNCTION ("Intercepts the next keypress and returns the name of the command invoked, before invoking the command. Returns #f if the keypress is not a shortcut for any command",DENEMO_SCHEME_PREFIX"GetCommand", scheme_get_command);
   INSTALL_SCM_FUNCTION ("Intercepts the next keyboard shortcut and returns the name of the command invoked, before invoking the command. Returns #f if the keypress(es) are not a shortcut for any command",DENEMO_SCHEME_PREFIX"GetCommandFromUser", scheme_get_command_from_user);
 
-  INSTALL_SCM_FUNCTION2("Sets an \"action script\" on the directive of the given tag", DENEMO_SCHEME_PREFIX"SetDirectiveTagActionScript", (gpointer) scheme_set_action_script_for_tag);
+  INSTALL_SCM_FUNCTION2("Sets an \"action script\" on the directive of the given tag", DENEMO_SCHEME_PREFIX"SetDirectiveTagActionScript", scheme_set_action_script_for_tag);
 
 #define INSTALL_GET_TAG(what)\
   INSTALL_SCM_FUNCTION1 ("Takes a optional tag. Returns that tag if a "#what" directive exists at the cursor, else returns the tag of the first such directive at the cursor, or #f if none", DENEMO_SCHEME_PREFIX"DirectiveGetForTag"  "-" #what, scheme_##what##_directive_get_tag);
@@ -5796,7 +5842,7 @@ void inner_main(void*closure, int argc, char **argv){
 
   /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
   for(i=0;i<G_N_ELEMENTS(activatable_commands);i++) {
-    install_scm_function (g_strdup_printf(DENEMO_SCHEME_PREFIX"%s", activatable_commands[i].str), (gpointer)activatable_commands[i].p);//FIXME possible memeory leak
+    install_scm_function (g_strdup_printf(DENEMO_SCHEME_PREFIX"%s", activatable_commands[i].str), activatable_commands[i].p);//FIXME possible memeory leak
   }
   //ensure (use-modules (ice-9 optargs)) is loaded first #:optional params
   call_out_to_guile("(use-modules (ice-9 optargs))");
