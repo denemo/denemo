@@ -736,8 +736,7 @@ typedef enum DenemoTargetType {
 	TARGET_TIE,		
 	TARGET_CRESC,		
 	TARGET_DIM,		
-	TARGET_OBJECT_DIRECTIVE,
-	TARGET_NOTE_DIRECTIVE,
+
 	//TARGET_,
 } DenemoTargetType;
 
