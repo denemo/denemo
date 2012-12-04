@@ -1441,7 +1441,7 @@ if(Denemo.prefs.menunavigation && ((event->keyval==0xFF1B)|| (event->keyval==0xF
   
 #if GTK_MAJOR_VERSION == 3
 //JEREMIAH PLEASE TEST!!	
-	if(GTK_IS_ACTIVATABLE(gtk_menu_shell_get_selected_item( GTK_MENU_SHELL(menu)))
+	if(GTK_IS_ACTIVATABLE(gtk_menu_shell_get_selected_item( GTK_MENU_SHELL(menu))))
 		action = gtk_activatable_get_related_action(gtk_menu_shell_get_selected_item( GTK_MENU_SHELL(menu)));
 #else
 	if(GTK_MENU_SHELL(menu)->active_menu_item)
