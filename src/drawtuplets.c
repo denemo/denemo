@@ -24,7 +24,7 @@ draw_tupbracket (cairo_t *cr,
   if (!tupopentext)
     tupopentext = g_string_new (NULL);
   if(((tuplet *) theobj->object)->directives)
-    draw_for_directives(cr, ((tuplet *) theobj->object)->directives, xx, y-4);
+    draw_for_directives(cr, ((tuplet *) theobj->object)->directives, xx, y-4, TRUE);
   else {
     if (theobj->type == TUPOPEN) {
       g_string_sprintf (tupopentext,

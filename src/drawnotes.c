@@ -79,7 +79,7 @@ draw_rest (cairo_t *cr,
 static void
 draw_notehead (cairo_t *cr,
 	       note * thenote, gint duration, gint numdots,
-	       gint xx, gint y, gint * accs, gint is_stemup, gboolean invisible, DenemoGraphic *override_notehead, gint gx, gint gy)
+	       gint xx, gint y, gint * accs, gint is_stemup, gboolean invisible, DenemoGraphic *override_notehead, gint gx, gint gy, gboolean at_cursor)
 {
   /* Adam's changed this code; it used to be that these arrays only had
      three elements.  The change has defeated what had been semi-elegance;
@@ -160,7 +160,7 @@ draw_notehead (cairo_t *cr,
   
   /* any display for note directives */
   if(cr)
-    maxwidth = MAX(draw_for_directives(cr, thenote->directives, xx, y+thenote->y), maxwidth);
+    maxwidth = MAX(draw_for_directives(cr, thenote->directives, xx, y+thenote->y, at_cursor), maxwidth);
   if(cr){
     /* Now draw any trailing dots */
     if ((height % LINE_SPACE) == 0)
@@ -330,15 +330,20 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	}
 	if(directive->display) {
 	  #define MAXLEN (8)
-	  gchar c=0;//if it is a long string only show it all when cursor is on it
-	  if((!at_cursor) && directive->display->len>MAXLEN) {
-	    c=*(directive->display->str+MAXLEN);
-	    *(directive->display->str+MAXLEN) = 0;
-	  }
+	  gchar c=0;//if it is a long string only show it all when cursor is on it also only display from first line
+    gchar *p;
+    for(p=directive->display->str;*p;p++) {
+			if(*p=='\n' || (!at_cursor && (p-directive->display->str)>MAXLEN)) {
+					c=*p;
+					*p=0;
+					break;
+				}	
+		}
+
 	  drawnormaltext_cr (cr, directive->display->str, xx+directive->tx, y + ((thechord.highesty>-10)?-10:thechord.highesty) - 8 +count+directive->ty );
 	  highest = y + ((thechord.highesty>-10)?-10:thechord.highesty) - 8 +count+directive->ty - 10/*for height of text */;
 	  if(c) {
-	  *(directive->display->str+MAXLEN) = c;
+	  *p = c;
 	  }
 	}
 	count += 16;
@@ -352,7 +357,7 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
       for (curnode = thechord.notes; curnode; curnode = curnode->next){
 	note *thenote = (note *)curnode->data;
 	draw_notehead (cr, thenote, duration,
-		       thechord.numdots, xx, y, accs, thechord.is_stemup, mudelaitem->isinvisible, override_notehead, gx, gy); 
+		       thechord.numdots, xx, y, accs, thechord.is_stemup, mudelaitem->isinvisible, override_notehead, gx, gy, at_cursor); 
       }
     }
   }

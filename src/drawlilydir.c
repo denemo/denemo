@@ -41,14 +41,18 @@ draw_lily_dir (cairo_t *cr,
   }
   if(lily->display) {  //store display position x,y as well
 #define MAXLEN (8)
-    gchar c=0;//if it is a long string only show it all when cursor is on it
-    if((!at_cursor) && lily->display->len>MAXLEN) {
-      c=*(lily->display->str+MAXLEN);
-      *(lily->display->str+MAXLEN) = 0;
-    }
+    gchar c=0;//if it is a long string only show it all when cursor is on it, also only display from first line
+    gchar *p;
+    for(p=lily->display->str;*p;p++) {
+			if(*p=='\n' ||  (!at_cursor && (p-lily->display->str)>MAXLEN)) {
+					c=*p;
+					*p=0;
+					break;
+				}	
+		}
     drawnormaltext_cr( cr, lily->display->str, xx+ lily->tx, y+lowy+lily->ty - 8);
     if(c) {
-    *(lily->display->str+MAXLEN) = c;
+    *p = c;
     }
   }
   else
