@@ -712,21 +712,20 @@ insert_editable (GString **pdirective, gchar *original, GtkTextIter *iter, Denem
   g_object_set_data(G_OBJECT(lilyanc), GSTRINGP, (gpointer)pdirective);
   g_object_set_data(G_OBJECT(lilyanc), ORIGINAL, original);
   
-  	g_object_set_data(G_OBJECT(lilyanc), MOVEMENTNUM, GINT_TO_POINTER(movement_count));
-	  g_object_set_data(G_OBJECT(lilyanc), MEASURENUM, GINT_TO_POINTER(measurenum));
-	  g_object_set_data(G_OBJECT(lilyanc), STAFFNUM, GINT_TO_POINTER(voice_count));
-	  g_object_set_data(G_OBJECT(lilyanc), OBJECTNUM, GINT_TO_POINTER(objnum));
-	  
-	  if(directivenum)
+  g_object_set_data(G_OBJECT(lilyanc), MOVEMENTNUM, GINT_TO_POINTER(movement_count));
+	g_object_set_data(G_OBJECT(lilyanc), MEASURENUM, GINT_TO_POINTER(measurenum));
+	g_object_set_data(G_OBJECT(lilyanc), STAFFNUM, GINT_TO_POINTER(voice_count));
+	g_object_set_data(G_OBJECT(lilyanc), OBJECTNUM, GINT_TO_POINTER(objnum));
+	g_object_set_data(G_OBJECT(lilyanc), TARGETTYPE, GINT_TO_POINTER(type));
+	if(directivenum)
 			g_object_set_data(G_OBJECT(lilyanc), DIRECTIVENUM, GINT_TO_POINTER(directivenum));
 		//g_print("insert editable marked target anchor %p directivenum %d type %d\n", lilyanc, directivenum, type);
-		if(midcoffset)
+	if(midcoffset)
 			g_object_set_data(G_OBJECT(lilyanc), MIDCOFFSET, GINT_TO_POINTER(midcoffset));
-// NAVANC 
-		if(type)
+
+	if(type)
 			g_object_set_data(G_OBJECT(lilyanc), TARGETTYPE, GINT_TO_POINTER(type));
-	
-//g_print("marked anchor %p as %d %d %d %d type %d\n", lilyanc, movement_count, measurenum, voice_count, objnum, type);
+	//g_print("marked anchor %p as %d %d %d %d type %d\n", lilyanc, movement_count, measurenum, voice_count, objnum, type);
   gui->anchors = g_list_prepend(gui->anchors, lilyanc);
   gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, g_strdup(original), -1, "bold", NULL);
   if(lily_for_obj) g_string_append(lily_for_obj, original);
@@ -1660,6 +1659,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	  g_object_set_data(G_OBJECT(objanc), MEASURENUM, (gpointer)(intptr_t)measurenum);\
 	  g_object_set_data(G_OBJECT(objanc), STAFFNUM, (gpointer)(intptr_t)ABS(voice_count));\
 	  g_object_set_data(G_OBJECT(objanc), OBJECTNUM, (gpointer)(intptr_t)ABS(objnum));\
+	  g_object_set_data(G_OBJECT(objanc), TARGETTYPE, (gpointer)(intptr_t)ABS(TARGET_OBJECT));\
 	  GtkTextIter back;\
 	  back = iter;\
 	  (void)gtk_text_iter_backward_char(&back);\
@@ -2148,7 +2148,7 @@ static void output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gcha
     DenemoDirective *directive = g->data;
     if(directive->prefix && (directive->override&(DENEMO_OVERRIDE_AFFIX))) //This used to be (mistakenly) DENEMO_ALT_OVERRIDE
       insert_editable(&directive->prefix, directive->prefix->str, &iter, gui, NULL
-      , TARGET_NONE, 0, 0, 0, 0, 0, 0
+      , TARGET_OBJECT, 0, 0, 0, 0, 0, 0
       );
     //insert_section(&directive->prefix, directive->tag->str, NULL, &iter, gui);
   }
@@ -2525,12 +2525,13 @@ gboolean goto_lilypond_position(gint line, gint column) {
 			gint directivenum =  (intptr_t) g_object_get_data(G_OBJECT(anchor), DIRECTIVENUM);
 			gint mid_c_offset = (intptr_t) g_object_get_data(G_OBJECT(anchor), MIDCOFFSET);
 			//g_print("location %d %d %d %d\n", objnum, measurenum, staffnum, movementnum);
-			DenemoTargetType type = (intptr_t) g_object_get_data(G_OBJECT(anchor), TARGETTYPE);
+			DenemoTargetType type = (intptr_t) g_object_get_data(G_OBJECT(anchor), TARGETTYPE);g_print("getting %d\n", type);
 			gui->si->target.objnum = objnum;
 			gui->si->target.measurenum = measurenum;
 			gui->si->target.staffnum = staffnum;
 			gui->si->target.type = type;
 			gui->si->target.directivenum = directivenum;
+
 			if(movementnum<1)  {
 				g_warning("Object %p has no location data\n", g_object_get_data(G_OBJECT(anchor), OBJECTNODE));
 				return FALSE;
