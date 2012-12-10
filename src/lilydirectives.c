@@ -83,15 +83,39 @@ static void  toggle_locked(GtkWidget *widget, gboolean *locked) {
 
 /* lookup a directive tagged with TAG in a list DIRECTIVES and return it.
    if TAG is NULL return the first directive
-   else return NULL */
+   else return NULL
+   * If TAG has two lines the first only is matched, while the second is
+   * interpreted as a number selecting which matching directive to return */
 static DenemoDirective *find_directive(GList *directives, gchar *tag) {
   DenemoDirective *directive = NULL;
   if(tag) {
     GList *g;
+    gchar *newline;
+    gint number=0; //number of matching directive required 1 is first matching
+    gint count=0;//count of directives with matching name
+    if(*tag=='\n') return NULL;
+    
+    for(newline=tag;*newline;newline++) {
+			if(*newline == '\n') {
+				number = atoi(newline+1);
+				if(number)
+					*newline = 0;
+				break;
+			}
+		}
+			
     for(g=directives;g;g=g->next){
       directive = (DenemoDirective *)g->data;
-      if(directive->tag && !strcmp(tag, directive->tag->str))
-	return directive;
+      if(directive->tag && number?g_str_has_prefix(directive->tag->str, tag) : !strcmp(tag, directive->tag->str)) {
+				if(number==0)
+					return directive;
+				count++;
+				if(number==count) {
+					if(newline!=tag)
+						*newline= '\n';
+					return directive;
+				}
+			}
       directive = NULL;
     }
   } else
