@@ -1731,9 +1731,9 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	    if((curobjnode!=NULL) && ((curobj == NULL) || curobj->type!=LILYDIRECTIVE)) /* if it ends in a lilydirective, the user may want to choose their own barline style, let them */
 	    {
 	      if (curmeasure->next)
-		g_string_append_printf(endstr,"%s", "\\Barline\n");
+		g_string_append_printf(endstr,"%s", "\\AutoBarline\n");
 	      else
-		g_string_append_printf(endstr, "%s"," \\EndMovementBarline\n");
+		g_string_append_printf(endstr, "%s"," \\AutoEndMovementBarline\n");
 	    }
 	    
 	    gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
@@ -2141,7 +2141,7 @@ static void output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gcha
 //    change this script to have DENEMO_OVERRIDE_AFFIX set and then move all others to the score layout section
     
       //Default value for barline = barline check
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter,  "\nBarline = |\nEndMovementBarline = \\bar \"|.\"\n", -1, INEDITABLE, NULL, NULL);
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter,  "\nAutoBarline = |\nAutoEndMovementBarline = \\bar \"|.\"\n", -1, INEDITABLE, NULL, NULL);
   GList *g = gui->lilycontrol.directives;
   /* num is not needed, as at the moment we can never get this location from LilyPond */
   for(;g;g=g->next) {
