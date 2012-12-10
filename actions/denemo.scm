@@ -377,6 +377,44 @@
 	(d-SetSaved #f)
 )
 
+(define (EditTarget)
+	(let ((target (d-GetTarget)) (target-type #f)(grob #f))	
+	
+	(define (do-offset)
+	(let ((offset #f))
+									(set! offset (d-GetOffset))
+									(if offset
+										(begin
+											(TweakOffset (number->string (car offset)) (number->string (cdr offset)))))))
+												
+;;; the procedure starts here			
+	(if target
+		(let ((choice #f))
+			(set! target-type (list-ref target 0))
+			(set! grob (list-ref target 1))
+			(disp "Looking at target " target-type " on grob " grob " ok?")
+			(cond 
+				((equal? target-type "Object")
+					(if (d-Directive-standalone?)
+						(begin				
+						 (set! choice (d-PopupMenu (list (cons "Offset Position" do-offset))))
+						  (if choice
+								(choice)
+								(disp "cancelled")))))
+				((equal? target-type "Note")
+					(if grob
+						(cond ((equal? grob "Fingering")
+							(set! choice (d-PopupMenu (list (cons (cons "Control Fingerings Positions" 
+									"Creates a directive before this chord which can be edited to position the finger indications for each note in the chord") 
+										d-FingeringPosition))))
+							(if choice
+								(choice)
+								(disp "cancelled"))		
+
+										)))))))))
+			
+			
+					
 ; SetSlurPositions
 (define (SetSlurPositions near far)
 	(d-DirectivePut-chord-override "Slur" DENEMO_OVERRIDE_AFFIX)
