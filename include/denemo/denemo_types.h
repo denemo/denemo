@@ -730,6 +730,7 @@ typedef struct DenemoAudio {
 
 typedef enum DenemoTargetType {
 	TARGET_NONE = 0,
+	TARGET_OBJECT,
 	TARGET_CHORD,
 	TARGET_NOTE,
 	TARGET_SLUR,
