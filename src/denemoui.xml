@@ -528,6 +528,10 @@
   </popup>
   <popup name="ClefEditPopup">
     <menuitem action="InsertClef"/>
+    <menuitem action="Cut"/>
+		<menuitem action="Copy"/>
+		<menuitem action="Paste"/>
+		<menuitem action="DeleteObject"/>
   </popup>
   <popup action="ScorePopup">
     <menuitem action="ScoreProperties"/>
@@ -543,80 +547,135 @@
   <popup name="KeyEditPopup">
     <menuitem action="InsertKey"/>
     <menuitem action="EditKeysigDirective"/>
+    <menuitem action="Cut"/>
+		<menuitem action="Copy"/>
+		<menuitem action="Paste"/>
+    <menuitem action="DeleteObject"/>
   </popup>
   <popup name="TimeEditPopup">
     <menuitem action="InsertTimeSig"/>
     <menuitem action="EditTimesigDirective"/>
+    <menuitem action="Cut"/>
+		<menuitem action="Copy"/>
+		<menuitem action="Paste"/>
+	  <menuitem action="DeleteObject"/>
   </popup>
   <popup name="TupletPopup">
     <menuitem action="DeleteObject"/>
+    <menuitem action="Cut"/>
+		<menuitem action="Copy"/>
+		<menuitem action="Paste"/>
   </popup>
   <popup name="NoteEditPopupDirectives">
     <menu action="EditDirectivesMenu">
-      <menuitem action="EditDirective"/>
-      <menuitem action="DeleteDirective"/>
+			<menuitem action="EditDirective"/>
+			<menuitem action="DeleteDirective"/>
     </menu>
     <menu action="ChangeNote">
         <menuitem action="ChangeToA"/>
-	<menuitem action="ChangeToB"/>
-	<menuitem action="ChangeToC"/>
-	<menuitem action="ChangeToD"/>
-	<menuitem action="ChangeToE"/>
-	<menuitem action="ChangeToF"/>
-	<menuitem action="ChangeToG"/>
-	<menuitem action="Sharpen"/>
-	<menuitem action="Flatten"/>	
+				<menuitem action="ChangeToB"/>
+				<menuitem action="ChangeToC"/>
+				<menuitem action="ChangeToD"/>
+				<menuitem action="ChangeToE"/>
+				<menuitem action="ChangeToF"/>
+				<menuitem action="ChangeToG"/>
+				<menuitem action="Sharpen"/>
+				<menuitem action="Flatten"/>
+				<menuitem action="OctaveUp"/>
+				<menuitem action="OctaveDown"/>	
       </menu>
-
       <menu action="ChangeDuration">
-	<menuitem action="Change0"/>
-	<menuitem action="Change1"/>
-	<menuitem action="Change2"/>
-	<menuitem action="Change3"/>
-	<menuitem action="Change4"/>
-	<menuitem action="Change5"/>
-	<menuitem action="Change6"/>
-	<menuitem action="Change7"/>
-	<menuitem action="AddDot"/>
-	<menuitem action="RemoveDot"/>
+				<menuitem action="Change0"/>
+				<menuitem action="Change1"/>
+				<menuitem action="Change2"/>
+				<menuitem action="Change3"/>
+				<menuitem action="Change4"/>
+				<menuitem action="Change5"/>
+				<menuitem action="Change6"/>
+				<menuitem action="Change7"/>
+				<menuitem action="AddDot"/>
+				<menuitem action="RemoveDot"/>
      </menu>
+     		<menu action="InsertDuration">
+			<menuitem action="Insert0"/>
+			<menuitem action="Insert1"/>
+			<menuitem action="Insert2"/>
+			<menuitem action="Insert3"/>
+			<menuitem action="Insert4"/>
+			<menuitem action="Insert5"/>
+			<menuitem action="Insert6"/>
+			<menuitem action="Insert7"/>     
+    </menu>
+     		<menuitem action="Cut"/>
+				<menuitem action="Copy"/>
+				<menuitem action="Paste"/>
      <menu action="Slurs">
-	<menuitem action="ToggleBeginSlur"/>
-	<menuitem action="ToggleEndSlur"/>
+				<menuitem action="ToggleBeginSlur"/>
+				<menuitem action="ToggleEndSlur"/>
     </menu>
       <menuitem action="ToggleTie"/>
   </popup>
   <popup name="NoteEditPopup">
-  <menu action="Ornaments"></menu>
       <menu action="ChangeNote">
         <menuitem action="ChangeToA"/>
-	<menuitem action="ChangeToB"/>
-	<menuitem action="ChangeToC"/>
-	<menuitem action="ChangeToD"/>
-	<menuitem action="ChangeToE"/>
-	<menuitem action="ChangeToF"/>
-	<menuitem action="ChangeToG"/>
-	<menuitem action="Sharpen"/>
-	<menuitem action="Flatten"/>	
+				<menuitem action="ChangeToB"/>
+				<menuitem action="ChangeToC"/>
+				<menuitem action="ChangeToD"/>
+				<menuitem action="ChangeToE"/>
+				<menuitem action="ChangeToF"/>
+				<menuitem action="ChangeToG"/>
+				<menuitem action="Sharpen"/>
+				<menuitem action="Flatten"/>	
+				<menuitem action="OctaveUp"/>
+				<menuitem action="OctaveDown"/>
       </menu>
 
       <menu action="ChangeDuration">
-	<menuitem action="Change0"/>
-	<menuitem action="Change1"/>
-	<menuitem action="Change2"/>
-	<menuitem action="Change3"/>
-	<menuitem action="Change4"/>
-	<menuitem action="Change5"/>
-	<menuitem action="Change6"/>
-	<menuitem action="Change7"/>
-	<menuitem action="AddDot"/>
-	<menuitem action="RemoveDot"/>
-     </menu>
-     <menu action="Slurs">
-	<menuitem action="ToggleBeginSlur"/>
-	<menuitem action="ToggleEndSlur"/>
-    </menu>
-      <menuitem action="ToggleTie"/>
-  </popup>
+				<menuitem action="Change0"/>
+				<menuitem action="Change1"/>
+				<menuitem action="Change2"/>
+				<menuitem action="Change3"/>
+				<menuitem action="Change4"/>
+				<menuitem action="Change5"/>
+				<menuitem action="Change6"/>
+				<menuitem action="Change7"/>
+				<menuitem action="AddDot"/>
+				<menuitem action="RemoveDot"/>
+			</menu>
+			<menu action="InsertDuration">
+			<menuitem action="Insert0"/>
+			<menuitem action="Insert1"/>
+			<menuitem action="Insert2"/>
+			<menuitem action="Insert3"/>
+			<menuitem action="Insert4"/>
+			<menuitem action="Insert5"/>
+			<menuitem action="Insert6"/>
+			<menuitem action="Insert7"/>     
+      </menu>
 
+			<menuitem action="Cut"/>
+			<menuitem action="Copy"/>
+			<menuitem action="Paste"/>
+    <menu action="Slurs">
+				<menuitem action="ToggleBeginSlur"/>
+				<menuitem action="ToggleEndSlur"/>
+    </menu>
+    <menuitem action="ToggleTie"/>
+  </popup>
+  <popup name="NoteAppendPopup">
+		<menu action="InsertDuration">
+			<menuitem action="Insert0"/>
+			<menuitem action="Insert1"/>
+			<menuitem action="Insert2"/>
+			<menuitem action="Insert3"/>
+			<menuitem action="Insert4"/>
+			<menuitem action="Insert5"/>
+			<menuitem action="Insert6"/>
+			<menuitem action="Insert7"/>     
+    </menu>
+ 
+				<menuitem action="Cut"/>
+				<menuitem action="Copy"/>
+				<menuitem action="Paste"/>
+  </popup>
 </ui>
