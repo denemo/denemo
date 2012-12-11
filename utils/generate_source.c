@@ -551,7 +551,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nInstruments", N_("Instruments"), NULL, N_("Instruments")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nMarkings to be applied to the note at the cursor.\\nIncludes articulations, string numbers, chord symbols, arbitrary text ...", N_("Markings"), NULL, N_("Markings")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nText and symbol Markings", N_("TextMarks"), NULL, N_("Text/Symbol")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nCommands for Stringed Instruments", "Strings", NULL, N_("Strings")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nMarkings on scores for Instruments", "Strings", NULL, N_("Fingerings etc for Instruments")}, 
 
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nInserting the note ...", N_("InsertNote"), NULL, "Note Insertion" , N_("Note Insertion")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nLyrics consist of syllables which are placed under or above the notes of the voice they are attached to\\nYou can use the hyphen - and underscore _ to affect the placement\\nas well as slurs placed over notes. Spaces, tabs or new lines can serve to separate the syllables, it makes no difference which.", N_("Lyrics"), NULL, N_("Lyrics")}, 
