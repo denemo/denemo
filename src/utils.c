@@ -304,12 +304,13 @@ drawfetachar_cr (cairo_t * cr, gunichar uc, double x, double y)
 
 void drawtext_cr (cairo_t *cr, const char *text, double x, double y, double size)
 {
+	if(*text) {
   //use the FreeSerif font as it has music symbols - there is no font substitution done by cairo here
   cairo_select_font_face( cr, "Denemo", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL );
   cairo_set_font_size( cr, size );
   cairo_move_to( cr, x,y );
-  cairo_show_text( cr, text );
-
+  cairo_show_text( cr, text);
+ }
 }
 void drawnormaltext_cr (cairo_t *cr, const char *text, double x, double y)
 {
@@ -322,7 +323,7 @@ void drawlargetext_cr (cairo_t *cr, const char *text, double x, double y)
 
 /* draw display text and or graphics for directives
  return the widest graphic width*/
-gint   draw_for_directives(cairo_t * cr, GList *directives, gint x, gint y) {
+gint   draw_for_directives(cairo_t * cr, GList *directives, gint x, gint y, gboolean at_cursor) {
  gint count=10;
  gint maxwidth=0;
   for(;directives;directives=directives->next, count+=10) {
@@ -339,8 +340,21 @@ gint   draw_for_directives(cairo_t * cr, GList *directives, gint x, gint y) {
       
     }
     if(directive->display) {
+#define MAXLEN (8)
+			gchar c=0;//if it is a long string only show it all when cursor is on it also only display from first line
+			gchar *p;
+			for(p=directive->display->str;*p;p++) {
+				if(*p=='\n' || (!at_cursor && (p-directive->display->str)>MAXLEN)) {
+					c=*p;
+					*p=0;
+					break;
+				}
+			}
       drawnormaltext_cr (cr, directive->display->str, x+directive->tx+count, y+directive->ty ); 
-    }
+			if(c) {
+			*p = c;      
+			}
+		}
   }
 
   return maxwidth;

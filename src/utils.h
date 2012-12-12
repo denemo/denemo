@@ -67,7 +67,7 @@ drawlargetext_cr (cairo_t *cr, const char *text, double x, double y);
 void 
 drawtext_cr (cairo_t *cr, const char *text, double x, double y, double size);
 
-gint draw_for_directives(cairo_t *cr, GList *directives, gint x, gint y);
+gint draw_for_directives(cairo_t *cr, GList *directives, gint x, gint y, gboolean at_cursor);
 
 /* Gives space after a note or rest */
 
@@ -281,7 +281,7 @@ gint get_override(GList *g);
 
 void add_font_directory(gchar *fontpath);
 void add_font_file(gchar *fontpath);
-
+const gchar *get_prefix_dir (void);
 gboolean run_file_association(gchar *filenam);
 gchar *make_temp_dir(void);
 gchar *remove_extension(gchar *name);
