@@ -390,17 +390,6 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 
-/* LHFinger xgettext:no-c-format*/
-action = gtk_action_new("LHFinger",_("Left Hand Fingering"),/* xgettext:no-c-format*/_("Followed by a number, print Left Hand fingering on note"), get_icon_for_name("LHFinger", "Left Hand Fingering"));
-/* xgettext:no-c-format*/
-register_command(Denemo.map, action, "LHFinger", _("Left Hand Fingering"), /* xgettext:no-c-format*/_("Followed by a number, print Left Hand fingering on note"), activate_script);
-gtk_action_group_add_action(Denemo.action_group, action);
-create_scheme_function_for_script("LHFinger");
-add_ui("/ObjectMenu/NotesRests/Markings/Strings", NULL, "LHFinger");
-g_object_set_data(G_OBJECT(action), "scheme", "");
-g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Strings");
-g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
-
 /* StringNum xgettext:no-c-format*/
 action = gtk_action_new("StringNum",_("String Number"),/* xgettext:no-c-format*/_("Followed by a number, places string number on note."), get_icon_for_name("StringNum", "String Number"));
 /* xgettext:no-c-format*/
@@ -6136,5 +6125,76 @@ create_scheme_function_for_script("Ficta");
 add_ui("/ObjectMenu/NotesRests/EditNote", "SuggestNatural", "Ficta");
 g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/EditNote");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* ToggleNoteTie xgettext:no-c-format*/
+action = gtk_action_new("ToggleNoteTie",_("Individual Note Tie (Off/On)"),/* xgettext:no-c-format*/_("Ties the note at the cursor leaving other notes in the current chord unchanged."), get_icon_for_name("ToggleNoteTie", "Individual Note Tie (Off/On)"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"InsertTiedNoteDuration");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "ToggleNoteTie", _("Individual Note Tie (Off/On)"), /* xgettext:no-c-format*/_("Ties the note at the cursor leaving other notes in the current chord unchanged."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("ToggleNoteTie");
+add_ui("/ObjectMenu/NotesRests/TiedNotes", "InsertTiedNoteDuration", "ToggleNoteTie");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/TiedNotes");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* TypesetVersesAtEnd xgettext:no-c-format*/
+action = gtk_action_new("TypesetVersesAtEnd",_("Typeset Verses at End"),/* xgettext:no-c-format*/_("Let's you choose a number of verses to print at the end of the piece (movement). Use a customized score layout to prevent them from appearing beneath the music in addition."), get_icon_for_name("TypesetVersesAtEnd", "Typeset Verses at End"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"DeleteVerse");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "TypesetVersesAtEnd", _("Typeset Verses at End"), /* xgettext:no-c-format*/_("Let's you choose a number of verses to print at the end of the piece (movement). Use a customized score layout to prevent them from appearing beneath the music in addition."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("TypesetVersesAtEnd");
+add_ui("/ObjectMenu/Lyrics", "DeleteVerse", "TypesetVersesAtEnd");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Lyrics");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* PlayAtCursor xgettext:no-c-format*/
+action = gtk_action_new("PlayAtCursor",_("Play Chord at Cursor"),/* xgettext:no-c-format*/_("Sounds the note or chord at the cursor, using the current staffs instrument."), get_icon_for_name("PlayAtCursor", "Play Chord at Cursor"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"DenemoPlayCursorToEnd");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "PlayAtCursor", _("Play Chord at Cursor"), /* xgettext:no-c-format*/_("Sounds the note or chord at the cursor, using the current staffs instrument."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("PlayAtCursor");
+add_ui("/MainMenu/PlaybackMenu", "DenemoPlayCursorToEnd", "PlayAtCursor");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/PlaybackMenu");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* ToggleStemSupport xgettext:no-c-format*/
+action = gtk_action_new("ToggleStemSupport",_("Avoid Collisions with Stems"),/* xgettext:no-c-format*/_("Fingerings and String numbers will be moved to avoid colliding with stems on typesetting."), get_icon_for_name("ToggleStemSupport", "Avoid Collisions with Stems"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"StringNum");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "ToggleStemSupport", _("Avoid Collisions with Stems"), /* xgettext:no-c-format*/_("Fingerings and String numbers will be moved to avoid colliding with stems on typesetting."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("ToggleStemSupport");
+add_ui("/ObjectMenu/NotesRests/Markings/Strings", "StringNum", "ToggleStemSupport");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Strings");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* FingeringPosition xgettext:no-c-format*/
+action = gtk_action_new("FingeringPosition",_("Fingering Position"),/* xgettext:no-c-format*/_("Allows you to specify the position of the fingering relative to the note at the cursor."), get_icon_for_name("FingeringPosition", "Fingering Position"));
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "FingeringPosition", _("Fingering Position"), /* xgettext:no-c-format*/_("Allows you to specify the position of the fingering relative to the note at the cursor."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("FingeringPosition");
+add_ui("/ObjectMenu/NotesRests/Markings/Strings", NULL, "FingeringPosition");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Strings");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* RHFinger xgettext:no-c-format*/
+action = gtk_action_new("RHFinger",_("Right Hand Fingering"),/* xgettext:no-c-format*/_("Follow with a number keypress, the note at the cursor is typeset with the given number as right hand fingering. Use a non-number to delete."), get_icon_for_name("RHFinger", "Right Hand Fingering"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"LHFinger");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "RHFinger", _("Right Hand Fingering"), /* xgettext:no-c-format*/_("Follow with a number keypress, the note at the cursor is typeset with the given number as right hand fingering. Use a non-number to delete."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("RHFinger");
+add_ui("/ObjectMenu/NotesRests/Markings/Strings", "LHFinger", "RHFinger");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Strings");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 }
