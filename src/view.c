@@ -384,18 +384,32 @@ static SCM scheme_popup_menu(SCM list) {
 		for(i=0;i<length;i++) {
 			SCM el = scm_list_ref(list, scm_int2num(i));
 			if(scm_is_pair(el)) {
+				gchar *label=NULL;
+				gchar *tooltip=NULL;
+				SCM sym;
 				//g_print("Note that %d is value and %d stringp\n", scm_pair_p(el), scm_string_p(el));
 				if(scm_is_string(scm_car(el))) {
-					g_print("label %s\n", scm_to_locale_string(scm_car(el)));
-					GtkWidget *item = gtk_menu_item_new_with_label(scm_to_locale_string(scm_car(el)));
-					gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-					g_signal_connect_swapped(G_OBJECT(item), "activate", G_CALLBACK(set_return_value), scm_cdr(el));
 					
-				} else {
+					label = scm_to_locale_string(scm_car(el));
+					sym = scm_cdr(el);
+
+					
+				} else if(scm_is_pair(scm_car(el))) {	
+					label = scm_to_locale_string(scm_caar(el));
+					tooltip = scm_to_locale_string(scm_cdar(el));
+					sym = scm_cdr(el);
+				}
+				if(label) {
+					GtkWidget *item = gtk_menu_item_new_with_label(label);
+					if(tooltip)
+						gtk_widget_set_tooltip_text(item, tooltip);
+					gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+					g_signal_connect_swapped(G_OBJECT(item), "activate", G_CALLBACK(set_return_value), sym);
+				}
+					else {
 					set_return_value(SCM_BOOL_F);
 				  break;
-			  }
-				
+			  }			
 			} else if(scm_is_string(el)) {
 					GtkWidget *item = gtk_menu_item_new_with_label(scm_to_locale_string(el));
 					gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
@@ -413,8 +427,25 @@ static SCM scheme_popup_menu(SCM list) {
 	}
 	return ReturnValue;
 }
+static SCM scheme_get_offset(void) {
+	gdouble offsetx, offsety;
+	if(get_offset(&offsetx, &offsety)) {
+		return scm_cons(scm_double2num(offsetx), scm_double2num(offsety));
+	} else
+	return SCM_BOOL_F;
+}
+static SCM scheme_get_positions(SCM is_slur) {
+	gdouble neary, fary;
+	if(get_positions(&neary, &fary, scm_is_true(is_slur))) {
+		return  scm_cons(scm_double2num(neary), scm_double2num(fary));
+	} else
+	return SCM_BOOL_F;
+}
+static SCM scheme_get_new_target(void) {
+	return scm_from_bool(get_new_target());
+}
 
-static SCM scheme_get_target(void) {
+static SCM scheme_get_target_info(void) {
 	DenemoScore *si = Denemo.gui->si;
 	if(Denemo.gui->si->currentobject==NULL)
 		return SCM_BOOL_F;
@@ -422,6 +453,9 @@ static SCM scheme_get_target(void) {
 	switch(si->target.type) {
 		case TARGET_NONE:
 			type=SCM_BOOL_F;
+			break;
+		case TARGET_OBJECT:
+			type=scm_from_locale_string("Object");
 			break;
 		case TARGET_CHORD:
 			type=scm_from_locale_string("Chord");
@@ -446,7 +480,7 @@ static SCM scheme_get_target(void) {
 			type = SCM_BOOL_F;
 			break;	
 	}
-	if(si->target.directivenum) {
+	if(si->target.directivenum || (si->target.type==TARGET_OBJECT)) {
 		DenemoDirective *directive=NULL;	
 		DenemoObject *obj = si->currentobject->data;
 		if(si->target.type==TARGET_CHORD) {
@@ -454,8 +488,11 @@ static SCM scheme_get_target(void) {
 						if(directives) {
 							directive = (DenemoDirective*)g_list_nth_data(directives, si->target.directivenum-1);
 						}
-		} else {	
+		} else 	if(si->target.type==TARGET_NOTE) {	
 			directive = get_note_directive_number(si->target.directivenum);		
+		} else 	if(si->target.type==TARGET_OBJECT) {	
+			if(obj->type==LILYDIRECTIVE)
+				directive = (DenemoDirective*)obj->object;		
 		}
 		if(directive) {
 			if(directive->grob) {
@@ -1999,6 +2036,16 @@ SCM scheme_get_dots(void){
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object))
    return  SCM_BOOL_F;
  return scm_int2num(thechord->numdots);
+}
+SCM scheme_get_note_base_duration(void){
+ DenemoGUI *gui = Denemo.gui;
+ DenemoObject *curObj;
+ chord *thechord;
+ note *thenote;
+ gint duration;
+ if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object))
+   return  SCM_BOOL_F;
+ scm_int2num(thechord->baseduration);
 }
 
 SCM scheme_get_note_duration(void){
@@ -4141,7 +4188,7 @@ static SCM scheme_set_tuplet (SCM ratio) {
  char *theratio;
  theratio = scm_to_locale_string(ratio);
  sscanf(theratio, "%d/%d", &((tupopen*)curObj->object)->numerator, &((tupopen*)curObj->object)->denominator);
- g_print("Set %d/%d\n", (((tupopen*)curObj->object)->numerator), (((tupopen*)curObj->object)->denominator));
+ //g_print("Set %d/%d\n", (((tupopen*)curObj->object)->numerator), (((tupopen*)curObj->object)->denominator));
  if(theratio) free(theratio);
    if(((tupopen*)curObj->object)->denominator){
      return  SCM_BOOL_T;
@@ -4854,6 +4901,7 @@ static void create_scheme_identfiers(void) {
   INSTALL_SCM_FUNCTION ("Takes optional integer parameter n = 1..., returns MIDI key for the nth note of the chord at the cursor counting from the highest, or #f if none",DENEMO_SCHEME_PREFIX"GetNoteFromTopAsMidi",  scheme_get_note_from_top_as_midi);
   INSTALL_SCM_FUNCTION ("Returns a space separated string of LilyPond notes for the chord at the cursor position or #f if none",DENEMO_SCHEME_PREFIX"GetNotes",  scheme_get_notes);
   INSTALL_SCM_FUNCTION ("Returns the number of dots on the note at the cursor, or #f if no note",DENEMO_SCHEME_PREFIX"GetDots", scheme_get_dots);
+  INSTALL_SCM_FUNCTION ("Returns the base duration of the note at the cursor number=0, 1, 2 for whole half quarter note etc, or #f if none",DENEMO_SCHEME_PREFIX"GetNoteBaseDuration", scheme_get_note_base_duration);
   INSTALL_SCM_FUNCTION ("Returns the duration in LilyPond syntax of the note at the cursor, or #f if none",DENEMO_SCHEME_PREFIX"GetNoteDuration", scheme_get_note_duration);
   INSTALL_SCM_FUNCTION ("Returns start time for the object at the cursor, or #f if it has not been calculated",DENEMO_SCHEME_PREFIX"GetOnsetTime", scheme_get_onset_time);
 
@@ -4937,8 +4985,11 @@ static void create_scheme_identfiers(void) {
 
   INSTALL_SCM_FUNCTION ("Takes a script as a string, which will be stored. All the callbacks are called when the musical score is closed" ,DENEMO_SCHEME_PREFIX"AttachQuitCallback",  scheme_attach_quit_callback);
   INSTALL_SCM_FUNCTION ("Removes a callback from the current musical score",DENEMO_SCHEME_PREFIX"DetachQuitCallback",  scheme_detach_quit_callback);
-  INSTALL_SCM_FUNCTION ("Pops up a menu given by the list of pairs in the argument. Each pair should be a symbol and a string symbol chosen is returned. Alternatively a list of strings can be passed, the chosen string is returned.",DENEMO_SCHEME_PREFIX"PopupMenu",  scheme_popup_menu);
-  INSTALL_SCM_FUNCTION ("Returns a list of the target type and grob (if a directive). Target is set by clicking on the typeset version of the score at a link that LilyPond has inserted.",DENEMO_SCHEME_PREFIX"GetTarget",  scheme_get_target);
+  INSTALL_SCM_FUNCTION ("Pops up a menu given by the list of pairs in the argument. Each pair should be a label string and an expression, the expression for the chosen label is returned. Alternatively the label string can be replaced by a pair of strings, label . tooltip. The third syntax is just a list of string labels, the chosen string is returned.",DENEMO_SCHEME_PREFIX"PopupMenu",  scheme_popup_menu);
+  INSTALL_SCM_FUNCTION ("Returns a list of the target type and grob (if a directive). Target is set by clicking on the typeset version of the score at a link that LilyPond has inserted.",DENEMO_SCHEME_PREFIX"GetTargetInfo",  scheme_get_target_info);
+  INSTALL_SCM_FUNCTION ("Interactively gets a target (a click on a LilyPond link in the printview window) from the user ",DENEMO_SCHEME_PREFIX"GetNewTarget",  scheme_get_new_target);
+  INSTALL_SCM_FUNCTION ("Interactively gets an offset from the user in the print view window. Returns pair of numbers.",DENEMO_SCHEME_PREFIX"GetOffset",  scheme_get_offset);
+  INSTALL_SCM_FUNCTION ("Interactively gets two positions from the user in the print view window. Returns pair of pairs numbers.",DENEMO_SCHEME_PREFIX"GetPositions",  scheme_get_positions);
   
   INSTALL_SCM_FUNCTION4 ("Takes 4 parameters and makes http transaction with www.denemo.org", DENEMO_SCHEME_PREFIX"HTTP", scheme_http);
   
