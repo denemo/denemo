@@ -86,14 +86,6 @@
 (define (d-Directive-score tag)
       (d-DirectivePut-score tag))
 
-(define* (d-Directive-score?  #:optional (tag #f))
-  (if (equal? tag #f)
-      (string? (d-DirectiveGetForTag-score ""))
-      (equal? tag (d-DirectiveGetForTag-score tag))))
-
-(define (d-DirectiveGetTag-score)
-  (d-DirectiveGetForTag-score ""))
-
 
 
   
@@ -113,9 +105,10 @@
   (d-DirectiveGetForTag-note ""))
 
 (define* (d-Directive-score?  #:optional (tag #f))
-  (if (equal? tag #f)
-      (string? (d-DirectiveGetForTag-score ""))
-      (equal? tag (d-DirectiveGetForTag-score tag))))
+  (if tag   
+    (d-DirectiveGetForTag-score tag)
+		(d-DirectiveGetForTag-score "")))
+
 (define (d-DirectiveGetTag-score)
   (d-DirectiveGetForTag-score ""))
 

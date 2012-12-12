@@ -377,16 +377,35 @@
 	(d-SetSaved #f)
 )
 
+(define (GetSlurPositions)
+(let ((yvals #f))
+			(set! yvals (d-GetPositions #t))
+			(if yvals
+				(SetSlurPositions (number->string (car yvals)) (number->string (cdr yvals))))))
+
+(define (GetSlurStart)
+	(if (d-GetNewTarget) 
+		(if (d-IsSlurStart)
+			(GetSlurPositions)
+			(d-InfoDialog (_ "Not a slur start - cancelled")))
+		(d-InfoDialog (_ "Cancelled"))));
+
 (define (EditTarget)
-	(let ((target (d-GetTarget)) (target-type #f)(grob #f))	
+	(let ((target (d-GetTargetInfo)) (target-type #f)(grob #f))	
 	
 	(define (do-offset)
-	(let ((offset #f))
-									(set! offset (d-GetOffset))
-									(if offset
-										(begin
-											(TweakOffset (number->string (car offset)) (number->string (cdr offset)))))))
-												
+		(let ((offset #f))
+					(set! offset (d-GetOffset))
+					(if offset
+						(begin
+							(TweakOffset (number->string (car offset)) (number->string (cdr offset)))))))
+					
+	(define (do-beam-positions)
+		(let ((yvals #f))
+			(set! yvals (d-GetPositions #f))
+			(if yvals
+				(SetBeamPositions (number->string (car yvals)) (number->string (cdr yvals))))))
+			
 ;;; the procedure starts here			
 	(if target
 		(let ((choice #f))
@@ -411,7 +430,24 @@
 								(choice)
 								(disp "cancelled"))		
 
-										)))))))))
+										))
+						(let ((menu '()))
+									(set! menu (cons (cons (cons (_ "Line Break") (_ "Start a new line here"))	d-LineBreak) menu))
+									(set! menu (cons (cons (cons (_"Page Break") (_"Start a new page here"))	d-PageBreak) menu))
+										
+									(if (d-IsSlurStart)
+										(set! menu (cons (cons (cons (_"Hint Slur Angle/Position") (_"Allows you to drag the ends of the slur")) GetSlurPositions) menu )))
+									(if (> (d-GetNoteBaseDuration) 2)
+										(set! menu (cons (cons (cons (_"Change beam angle/position") (_"Allows you to drag the ends of the beam")) do-beam-positions) menu)))
+									(set! choice (d-PopupMenu menu))
+									(if choice
+										(choice)
+										(disp "cancelled"))))))))))		
+										
+						
+										
+										
+										;)))))))
 			
 			
 					

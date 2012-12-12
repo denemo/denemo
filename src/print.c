@@ -1521,6 +1521,58 @@ printmovement_cb (GtkAction *action, gpointer param) {
     changecount = Denemo.gui->changecount;
 }
 
+gboolean get_offset(gdouble *offsetx, gdouble *offsety) {
+	Ww.stage = Offsetting;
+	gtk_main();
+	if(Ww.stage==Offsetting) {
+		EvDocumentModel  *model;
+		model = g_object_get_data(G_OBJECT(Denemo.printarea), "model");//there is no ev_view_get_model(), when there is use it
+		gdouble scale = ev_document_model_get_scale(model);
+		gdouble staffsize = atof(Denemo.gui->lilycontrol.staffsize->str);
+		if(staffsize<1) staffsize = 20.0;
+		scale *= (staffsize/4);//Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
+		*offsetx = (Ww.curx - Ww.Mark.x)/scale;
+    *offsety = -(Ww.cury - Ww.Mark.y)/scale; 
+    Ww.stage = STAGE_NONE;
+    gtk_widget_queue_draw(Denemo.printarea);
+		return TRUE;
+	} else
+	return FALSE;	
+}
+static void start_seeking_end(gboolean slur);
+static gdouble get_center_staff_offset(void);
+gboolean get_positions(gdouble *neary, gdouble *fary, gboolean for_slur) {
+	start_seeking_end(for_slur);//goes to WaitingForDrag
+	gtk_main();
+	if(Ww.stage==WaitingForDrag) {
+		EvDocumentModel  *model = g_object_get_data(G_OBJECT(Denemo.printarea), "model");//there is no ev_view_get_model(), when there is use it
+		gdouble scale = ev_document_model_get_scale(model);
+		gdouble staffsize = atof(Denemo.gui->lilycontrol.staffsize->str);
+		if(staffsize<1) staffsize = 20.0;
+		scale *= (staffsize/4);//Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
+		goto_movement_staff_obj(NULL, -1, Ww.pos.staff, Ww.pos.measure, Ww.pos.object);//the cursor to the slur-begin note.
+		gdouble nearadjust = get_center_staff_offset();
+
+		*neary = -(Ww.near.y - Ww.near_i.y + nearadjust)/scale;
+    *fary = -(Ww.far.y - Ww.near_i.y  + nearadjust)/scale;//sic! the value of far_i.y is irrelevant
+    Ww.stage = STAGE_NONE;  
+		gtk_widget_hide(Ww.dialog);
+    gtk_widget_queue_draw (Denemo.printarea);
+	return TRUE;	
+	} else {
+	return FALSE;
+	}
+}
+
+gboolean get_new_target(void) {
+	Ww.stage = SelectingNearEnd;
+	g_print("Starting main");
+	gtk_main();
+	if(Ww.stage==SelectingFarEnd)
+		return TRUE;
+	else
+		return FALSE;
+}
 
 static gint 
 start_stage(GtkWidget *widget, WwStage stage) {
@@ -1601,6 +1653,8 @@ static void start_seeking_end(gboolean slur) {
 
 static gint 
 popup_object_edit_menu(void) {
+	call_out_to_guile("(EditTarget)");
+	return;
   static GtkWidget *note_menu;
   static GtkWidget *directive_menu;
   static GtkWidget *slur_position;
@@ -1653,7 +1707,7 @@ popup_object_edit_menu(void) {
 	DenemoTarget *target = &Denemo.gui->si->target;
 	
 	if(Denemo.gui->si->currentobject) {
-		DenemoObject *obj = Denemo.gui->si->currentobject->data; g_print("type %d directivenum %d\n", obj->type, target->directivenum);
+		DenemoObject *obj = Denemo.gui->si->currentobject->data; //g_print("type %d directivenum %d\n", obj->type, target->directivenum);
 		switch(obj->type) {
 			case CHORD:
 			{ 
@@ -1663,7 +1717,7 @@ popup_object_edit_menu(void) {
 						//need to get directive at cursor note - there is a function ready for this
 						directive = get_note_directive_number(Denemo.gui->si->target.directivenum);
 						if(directive) {
-								g_print("Looking at directive %s\n", directive->tag->str);	//\once \override Fingering #'extra-offset = #'(0 . 0)
+								//g_print("Looking at directive %s\n", directive->tag->str);	//\once \override Fingering #'extra-offset = #'(0 . 0)
 								gtk_menu_popup (GTK_MENU(directive_menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 				  	} else {
 									warningdialog("Cursor has moved to a note with less directives");
@@ -1675,7 +1729,7 @@ popup_object_edit_menu(void) {
 						if(directives) {
 							directive = (DenemoDirective*)g_list_nth_data(directives, target->directivenum-1);
 							if(directive) {
-								g_print("Looking at directive %s\n", directive->tag->str);	
+								//g_print("Looking at directive %s\n", directive->tag->str);	
 								gtk_menu_popup (GTK_MENU(directive_menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 								
 								
@@ -1728,7 +1782,7 @@ action_for_link (EvView* view, EvLinkAction *obj) {
   //g_print("Stage %d\n", Ww.stage);
 
   if((Ww.stage == WaitingForDrag) ||    
-   (Ww.stage == SelectingNearEnd)  || 
+   
    (Ww.grob==Slur && (Ww.stage == SelectingFarEnd))) {
 			return TRUE;
 	}
@@ -1751,6 +1805,10 @@ action_for_link (EvView* view, EvLinkAction *obj) {
 			} else
 			Ww.repeatable = FALSE;
      //g_print("Target type %d\n", Denemo.gui->si->target.type); 
+     
+    if (Ww.stage == SelectingNearEnd)
+			return TRUE;
+   
     if(Ww.ObjectLocated && Denemo.gui->si->currentobject) {
 			DenemoDirective *directive = NULL;
 			DenemoObject *obj = (DenemoObject *)Denemo.gui->si->currentobject->data;
@@ -1774,16 +1832,13 @@ action_for_link (EvView* view, EvLinkAction *obj) {
 									g_print("taking action on slur...");
 									if(Ww.repeatable && Ww.task==Positions) {
 										Ww.stage = WaitingForDrag;
-										gchar *msg = _("(Repeat) Drag the begin/end markers to suggest slur position/angle");
-										gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), msg);
-										gtk_widget_show(Ww.dialog);
+										call_out_to_guile("(GetSlurPositions)");
 									}	else {
 									Ww.task = Positions;
 									Ww.stage = TargetEstablished;
 									if(Ww.grob!=Slur)
 										Ww.repeatable = FALSE;
-									Ww.grob = Slur;
-									gchar *msg = _("Now select the notehead of the note where the slur starts");
+									gchar *msg = _("First click on the notehead of the note where the slur starts");
 									gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), msg);
 									gtk_widget_show(Ww.dialog);
 									}
@@ -1792,8 +1847,8 @@ action_for_link (EvView* view, EvLinkAction *obj) {
 								  break;
 									
 						}		
-			if(directive)
-						g_print("Found directive %s grob %s\n", directive->tag->str, directive->grob?directive->grob->str:"No Grob");
+		//	if(directive)
+			//			g_print("Found directive %s grob %s\n", directive->tag->str, directive->grob?directive->grob->str:"No Grob");
 			
 			
 		}
@@ -1924,6 +1979,12 @@ static gdouble get_center_staff_offset(void) {
 }
 
 static void apply_tweak(void) {
+	g_print("Apply tweak Quitting with %d %d", Ww.stage, Ww.grob);
+		gtk_main_quit();
+		return;
+	if(Ww.stage==Offsetting) {
+		gtk_main_quit();
+	} else {
 		normal_cursor();
 		EvDocumentModel  *model;
 		model = g_object_get_data(G_OBJECT(Denemo.printarea), "model");//there is no ev_view_get_model(), when there is use it
@@ -1946,6 +2007,8 @@ static void apply_tweak(void) {
     Ww.stage = STAGE_NONE;  
 		gtk_widget_hide(Ww.dialog);
     gtk_widget_queue_draw (Denemo.printarea);
+	}
+	
 }
 static void cancel_tweak(void) {
 	//gtk_widget_set_tooltip_markup(gtk_widget_get_parent(Denemo.printarea), standard_tooltip);
@@ -1954,12 +2017,13 @@ static void cancel_tweak(void) {
 	gtk_widget_show(Ww.dialog);
 	Ww.stage = STAGE_NONE;
 	gtk_widget_queue_draw (Denemo.printarea);
+	gtk_main_quit();
 }
 static void repeat_tweak(void) {
-	Ww.stage = WaitingForDrag;
-	  gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), _("Drag ..."));
-
-	gtk_widget_queue_draw (Denemo.printarea);
+	if(Ww.grob==Slur)
+		call_out_to_guile("(GetSlurPositions)");
+	else
+		warningdialog("Do not know what to repeat");
 }
 static void help_tweak(void) {
 	gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), _("To tweak the positions of objects (and more) move the mouse until the hand pointer appears\nClick on the object and follow the prompts.\nFor beams, click on the notehead of the note where the beam starts."));
@@ -1969,7 +2033,7 @@ static gint
 popup_tweak_menu(void) {
   GtkWidget *menu = gtk_menu_new();
   GtkWidget *item;
-  if(Ww.stage==WaitingForDrag) {
+  if(Ww.stage==WaitingForDrag || Ww.stage==Offsetting) {
 		item = gtk_menu_item_new_with_label(_("Apply"));
 		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 		g_signal_connect_swapped(G_OBJECT(item), "activate", G_CALLBACK(apply_tweak), NULL);
@@ -2028,11 +2092,11 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 			Ww.near_i = Ww.near = Ww.last_button_press;//struct copy
 			
 		//	Ww.stage=SelectingFarEnd; do this on release
-			gchar *msg = (Ww.grob==Slur)?_("Good (though Denemo hasn't checked that this is a slur start)\nNow select the notehead of the note where the slur ends"):
-				_("Do not recognize target, sorry");
-			gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), msg);
-			gtk_widget_show(Ww.dialog);
-			gtk_widget_queue_draw (Denemo.printarea);
+		//	gchar *msg = (Ww.grob==Slur)?_("Good (though Denemo hasn't checked that this is a slur start)\nNow select the notehead of the note where the slur ends"):
+		//		_("Do not recognize target, sorry");
+		//	gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), msg);
+		//	gtk_widget_show(Ww.dialog);
+		//	gtk_widget_queue_draw (Denemo.printarea);
 			return TRUE;
  }
  if( /* left && */ Ww.stage==SelectingFarEnd) {//handle on release, after cursor has moved to note
@@ -2052,23 +2116,8 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
  }
  
  if(in_selected_object((gint)event->x, (gint)event->y)) {
-	if(left) {
-		
-//		Here we have to decide what is at the cursor - at the moment it calls TweakOffset without seeing if there is anything at the cursor to offset
-//		perhaps TweakOffset should decide????
-//		well, we are purely dragging one end, so it should never do slur from here.
-		
-		
-						//gtk_widget_set_tooltip_markup(gtk_widget_get_parent(Denemo.printarea),  _("Now drag to point the object should move to"));
-						//drag_cursor();
-						Ww.stage = Offsetting;
-						
-	} else {
-
-			g_print("Popping up menu");
-	
-			popup_object_edit_menu();
-	}
+	//g_print("Popping up menu");
+	popup_object_edit_menu();
   return TRUE;
  }
  
@@ -2078,35 +2127,7 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 			Ww.curx = xx + event->x;
 			Ww.cury = yy + event->y;		
 	}
-	
-
-
-#if 0
-  /*( creating a padding value? */
-  if(Ww.padding) {
-    gint pad = ABS(Ww.curx - markx); 
-
-    GtkWidget *thedialog = g_object_get_data(G_OBJECT(Denemo.printarea), "pad-dialog");
-    g_object_set_data(G_OBJECT(Denemo.printarea), "padding", GINT_TO_POINTER(pad));
-    if(thedialog){
-      gtk_dialog_response(GTK_DIALOG(thedialog), 1/*DRAGGED*/);
-    } else { 
-      gchar *msg = g_strdup_printf("You have chosen a padding tweak of %d\nYour printed output will not change until you put this tweak into the corresponding Denemo directive\nUse Edit Directive to do this.", pad);
-      warningdialog(msg);
-      g_free(msg);
-    }
-    Ww.padding = FALSE;
-    return TRUE;
-  }
-  Ww.selecting = TRUE;
-//  if(Denemo.pixbuf==NULL)
-//    return TRUE;
-  Ww.near.x = markx=event->x;
-  Ww.near.y = marky=event->y;
-#endif
-  return TRUE;
-
-
+	  return TRUE;
 }
 
 static gint
@@ -2137,14 +2158,31 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
     switch_back_to_main_window();
     Ww.ObjectLocated = FALSE;
   }
-    
-    
-  if( /* left && */ Ww.stage==TargetEstablished) {
-     Ww.stage=SelectingNearEnd; 
+
+  if( /* left && */ Ww.stage==TargetEstablished) { 
+	//	g_print("Popping up object edit menu from TargetEstablished stage");
+	//	popup_object_edit_menu();
+		
+		//instead EditTarget
+    // Ww.stage=SelectingNearEnd; 
+  //  This call is for when near end is already set up, not here!!!
+  // call_out_to_guile("(let ((yvals #f))(set! yvals (d-GetPositions #t))(if yvals (SetSlurPositions (number->string (car yvals)) (number->string (cdr yvals)))))");
+		Ww.grob=Slur;
+		call_out_to_guile("(GetSlurStart)");
+		//call_out_to_guile("(if (d-GetNewTarget) (GetSlurPositions)(d-WarningDialog (_ \"Cancelled\")))");
+	//	call_out_to_guile("(disp \"should now get the positions \")");
+	//	call_out_to_guile("(let ((yvals #f)) (set! yvals (d-GetPositions #t))	(if yvals	(SetSlurPositions (number->string (car yvals)) (number->string (cdr yvals)))))");
+		//		pull that routine out as separate thing... in denemo.scm... do (if (d-GetNewTarget) new routine name)
+			Ww.stage=STAGE_NONE;
+				
+				
+		//Ww.stage=SelectingNearEnd; instead run a routine that gets a target and then checks if it is begin slur and if so runs get positions. then set Ww.stage=none
+		//gtk_main(); 
    	return TRUE;
  }  
   if( /* left && */ Ww.stage==SelectingNearEnd) {
      Ww.stage=SelectingFarEnd; 
+     gtk_main_quit();
    	return TRUE;
  }  
      
@@ -2175,28 +2213,19 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
     
     
   if(Ww.stage == Offsetting) {
-	// gtk_widget_set_tooltip_markup(gtk_widget_get_parent(Denemo.printarea), NULL);
-	// normal_cursor();
-
-		EvDocumentModel  *model;
-		model = g_object_get_data(G_OBJECT(Denemo.printarea), "model");//there is no ev_view_get_model(), when there is use it
-		gdouble scale = ev_document_model_get_scale(model);
-		gdouble staffsize = atof(Denemo.gui->lilycontrol.staffsize->str);
-		if(staffsize<1) staffsize = 20.0;
-		scale *= (staffsize/4);//Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
-		gdouble offsetx = (Ww.curx - Ww.Mark.x)/scale;
-    gdouble offsety = -(Ww.cury - Ww.Mark.y)/scale;
-    gchar *script = g_strdup_printf("(TweakOffset \"%.1f\" \"%.1f\")", offsetx, offsety);
-    call_out_to_guile(script);
-    g_free(script);
-    Ww.stage = STAGE_NONE;
-    return TRUE;
+		if(right)
+			popup_tweak_menu();
+		else {
+			g_print("Offsetting quitting with %d %d", Ww.stage, Ww.grob);
+			gtk_main_quit();
+		}
+   return TRUE;
   } 
   
   // \once \override DynamicLineSpanner #'padding = #10 setting padding for cresc and dimin
   // \once \override DynamicLineSpanner #'Y-offset = #-10 to move a cresc or dimin vertically downwards.
   // \once \override DynamicLineSpanner #'direction = #1 to place above/below (-1)
-g_print("Stage %d object loc %d left %d", Ww.stage, object_located_on_entry, left);
+	g_print("Stage %d object loc %d left %d", Ww.stage, object_located_on_entry, left);
  if( (Ww.stage==STAGE_NONE)) {
 	if(object_located_on_entry) //set by action_for_link
 	 popup_object_edit_menu();
@@ -2375,10 +2404,10 @@ gint
 printarea_scroll_event (GtkWidget *widget, GdkEventScroll *event) {
   switch(event->direction) {
     case GDK_SCROLL_UP:
-      g_print("scroll up event\n");
+      //g_print("scroll up event\n");
       break;
     case GDK_SCROLL_DOWN:
-      g_print("scroll down event\n");
+      //g_print("scroll down event\n");
       break;
   }
 return FALSE;
@@ -2452,7 +2481,7 @@ set_typeset_type(GtkWidget *radiobutton) {
 	if(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(radiobutton))) {
 		changecount = 0;//reset so that a retype occurs
 		gint index = g_slist_index(gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton)), radiobutton);
-		g_print("Get %s at %d\n", gtk_button_get_label(GTK_BUTTON(radiobutton)), index);
+		//g_print("Get %s at %d\n", gtk_button_get_label(GTK_BUTTON(radiobutton)), index);
 		switch(index) {
 				case 0:
 					PrintStatus.typeset_type = TYPESET_EXCERPT;

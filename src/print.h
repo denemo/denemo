@@ -36,4 +36,8 @@ large_thumbnail_name(gchar *filepath);
 gboolean
 stop_lilypond();
 void show_print_view(GtkAction *action, gpointer param);
+
+gboolean get_offset(gdouble *x, gdouble *y);
+gboolean get_positions(gdouble *neary, gdouble *fary, gboolean for_slur);
+gboolean get_new_target(void);
 #endif /*PRINT_H*/	
