@@ -356,7 +356,7 @@
 {"Instruments", NULL, N_("Instruments"), "",N_("Menu:\nInstruments")},
 {"Markings", NULL, N_("Markings"), "",N_("Menu:\nMarkings to be applied to the note at the cursor.\nIncludes articulations, string numbers, chord symbols, arbitrary text ...")},
 {"TextMarks", NULL, N_("Text/Symbol"), "",N_("Menu:\nText and symbol Markings")},
-{"Strings", NULL, N_("Strings"), "",N_("Menu:\nCommands for Stringed Instruments")},
+{"Strings", NULL, N_("Fingerings etc for Instruments"), "",N_("Menu:\nMarkings on scores for Instruments")},
 {"InsertNote", NULL, N_("Note Insertion"), "",N_("Menu:\nInserting the note ...")},
 {"Lyrics", NULL, N_("Lyrics"), "",N_("Menu:\nLyrics consist of syllables which are placed under or above the notes of the voice they are attached to\nYou can use the hyphen - and underscore _ to affect the placement\nas well as slurs placed over notes. Spaces, tabs or new lines can serve to separate the syllables, it makes no difference which.")},
 {"Directives", NULL, N_("Directives"), "",N_("Menu:\nDirectives tell Denemo to do something special with the object they are attached to\nor at the point in the music they are placed\nThis can be directing the typesetter to do something special\nor issuing MIDI instructions to alter the playback\nor even take an action, such as linking to source manuscript when clicked")},
