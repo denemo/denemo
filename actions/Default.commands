@@ -2392,13 +2392,6 @@ Sets prevailing rhythm to &#x1D165;</tooltip>
         <tooltip>Choose the font size of for the score, and hence how much space it takes up.</tooltip>
       </row>
       <row>
-        <action>LHFinger</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Markings/Strings</menupath>
-        <label>Left Hand Fingering</label>
-        <tooltip>Followed by a number, print Left Hand fingering on note</tooltip>
-      </row>
-      <row>
         <action>StringNum</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Markings/Strings</menupath>
@@ -6195,12 +6188,35 @@ accidentals are usually printed over the note.</tooltip>
         <tooltip>Fingerings and String numbers will be moved to avoid colliding with stems on typesetting.</tooltip>
       </row>
       <row>
+        <action>FingeringPosition</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings</menupath>
+        <label>Fingering Position</label>
+        <tooltip>Allows you to specify the position of the fingering relative to the note at the cursor.</tooltip>
+      </row>
+      <row>
         <action>RHFinger</action>
         <after>LHFinger</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Markings/Strings</menupath>
         <label>Right Hand Fingering</label>
         <tooltip>Follow with a number keypress, the note at the cursor is typeset with the given number as right hand fingering. Use a non-number to delete.</tooltip>
+      </row>
+      <row>
+        <action>LilyPondDefinition</action>
+        <after>LilyPondInclude</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>LilyPond Definition</label>
+        <tooltip>Create a definition at the head of the LilyPond output. This can then be referenced in the music. See LilyPond documentation.</tooltip>
+      </row>
+      <row>
+        <action>InsertDefinedLilyPond</action>
+        <after>InsertStandaloneDirective</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Menu of Objects to Insert</label>
+        <tooltip>Gives a menu of previously created LilyPondDefinition commands (see Score-&gt;LilyPond Definition  menu for this)</tooltip>
       </row>
     </map>
   </merge>
