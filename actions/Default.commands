@@ -6218,6 +6218,14 @@ accidentals are usually printed over the note.</tooltip>
         <label>Menu of Objects to Insert</label>
         <tooltip>Gives a menu of previously created LilyPondDefinition commands (see Score-&gt;LilyPond Definition  menu for this)</tooltip>
       </row>
+      <row>
+        <action>TextAnnotation</action>
+        <after>CriticalComment</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Textual Annotation</label>
+        <tooltip>Allows placing arbitrary text on the score which can then be dragged in the final typeset view for fine control over positioning.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
