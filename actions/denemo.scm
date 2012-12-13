@@ -363,20 +363,49 @@
 	  (regexp-substitute #f thematch 'pre (string-append prefixstring xy postfixstring) 'post))    
     ))));;;; end of function change offset
 
+;; current values of offset are stored in display field on second and third lines
+; new values are relative to those
+(define (TweakRelativeOffset tag offsetx offsety)
+	(define text (d-DirectiveGet-standalone-display tag))
+	(define (get-nth-line text n)
+		(let ((thelist (string-split text #\newline)))
+			(if (> (length thelist) n)
+				(list-ref thelist n)
+				"")))
+	(define curx #f)
+	(define cury #f)
+	(set! curx (string->number (get-nth-line text 1)))
+	(set! cury (string->number (get-nth-line text 2)))
+	(if curx
+		(begin
+			(set! offsetx (number->string (+ (string->number offsetx) curx)))
+			(set! offsety (number->string (+ (string->number offsety) cury)))))
+	(d-DirectivePut-standalone-display tag (string-append (get-nth-line text 0) "\n" offsetx "\n" offsety))
+	(d-DirectivePut-standalone-prefix tag (string-append "<>-\\tweak #'extra-offset #'(" offsetx " . " offsety ") -")))
+	
 ;;;; TweakOffset
 ;;;Changes the offset of the something at the cursor - at the moment assume standalone or rest
 (define (TweakOffset offsetx offsety)
 	(define tag (d-DirectiveGetForTag-standalone ""))
-	(if tag
-		(ExtraOffset tag "standalone" "Score." (cons offsetx offsety))
+	(if tag		
+			(let ((grob (d-DirectiveGet-standalone-grob tag)))
+				(if grob
+					(cond ((or (equal? grob "RehearsalMark") (equal? grob "BreathingSign"))
+							(ExtraOffset tag "standalone" "Score." (cons offsetx offsety)))
+						(#t
+							(TweakRelativeOffset tag offsetx offsety)))
+					(ExtraOffset tag "standalone" "Score." (cons offsetx offsety)))
+			
+			)
+		;;; not a standalone directive				
 		(begin
 			(if (Rest?)
 				(ExtraOffset "Rest" "chord" "Voice." (cons offsetx offsety) DENEMO_OVERRIDE_AFFIX)
 				(disp "Doing Nothing") ;;(AlterPositions "Slur" "chord" "" (cons offsetx offsety) DENEMO_OVERRIDE_AFFIX)	
 				)))
-	(d-SetSaved #f)
-)
+	(d-SetSaved #f))
 
+;;;;;;;;;;;
 (define (GetSlurPositions)
 (let ((yvals #f))
 			(set! yvals (d-GetPositions #t))
