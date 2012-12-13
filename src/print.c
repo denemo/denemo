@@ -1654,114 +1654,6 @@ static void start_seeking_end(gboolean slur) {
 static gint 
 popup_object_edit_menu(void) {
 	call_out_to_guile("(EditTarget)");
-	return;
-  static GtkWidget *note_menu;
-  static GtkWidget *directive_menu;
-  static GtkWidget *slur_position;
-  static GtkWidget *line_break;
-  static GtkWidget *page_break;
-  static GtkWidget *beam_position;
- // static GtkWidget *;
- 
-
-  if(note_menu==NULL) {
-			note_menu = gtk_menu_new();
-		GtkWidget *line_break = gtk_menu_item_new_with_label(_("Line Break"));
-		gtk_widget_set_tooltip_text(line_break, _("Start a new line here"));
-		gtk_menu_shell_append(GTK_MENU_SHELL(note_menu), line_break);
-		g_signal_connect_swapped(G_OBJECT(line_break), "activate", G_CALLBACK(call_out_to_guile), "(d-LineBreak)");
-		
-		page_break = gtk_menu_item_new_with_label(_("Page Break"));
-		gtk_widget_set_tooltip_text(page_break, _("Start a new page here"));
-		gtk_menu_shell_append(GTK_MENU_SHELL(note_menu), page_break);
-		g_signal_connect_swapped(G_OBJECT(page_break), "activate", G_CALLBACK(call_out_to_guile), "(d-PageBreak)");
-		
-		beam_position = gtk_menu_item_new_with_label(_("Beam Position/Angle"));
-		gtk_widget_set_tooltip_text(beam_position, _("Allows you to drag the ends of the beaming, \nNote that you must click on the noteheads to start, not on the beam itself!"));
-		gtk_menu_shell_append(GTK_MENU_SHELL(note_menu), beam_position);
-		g_signal_connect_swapped(G_OBJECT(beam_position), "activate", G_CALLBACK(start_seeking_end), GINT_TO_POINTER(FALSE));
-	
-		
-	//slur_position - ask for click on note where slur ends, the animate a slope finding	
-		slur_position = gtk_menu_item_new_with_label(_("Slur Position/Angle"));
-		gtk_widget_set_tooltip_text(slur_position, _("Lets you hint to the typesetter where you would like the slur.\nNote you have to click on the noteheads to start, not on the slur ends."));
-		gtk_menu_shell_append(GTK_MENU_SHELL(note_menu), slur_position);
-		g_signal_connect_swapped(G_OBJECT(slur_position), "activate", G_CALLBACK(start_seeking_end), GINT_TO_POINTER(TRUE));
-	
-		gtk_widget_show_all(note_menu);
-	}
-
- if(directive_menu==NULL) {
-			directive_menu = gtk_menu_new();
-		GtkWidget *item = gtk_menu_item_new_with_label(_( "Drag to desired offset"));
-		gtk_menu_shell_append(GTK_MENU_SHELL(directive_menu), item);
-		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(start_stage), GINT_TO_POINTER(Offsetting));
-
-		item = gtk_menu_item_new_with_label(_( "Drag a space for padding"));
-//	gtk_menu_shell_append(GTK_MENU_SHELL(directive_menu), item);
-//  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(start_stage), GINT_TO_POINTER(Padding));
-
-		gtk_widget_show_all(directive_menu);
-	}
-	
-	DenemoTarget *target = &Denemo.gui->si->target;
-	
-	if(Denemo.gui->si->currentobject) {
-		DenemoObject *obj = Denemo.gui->si->currentobject->data; //g_print("type %d directivenum %d\n", obj->type, target->directivenum);
-		switch(obj->type) {
-			case CHORD:
-			{ 
-				if(target->directivenum) {
-					DenemoDirective *directive;
-					if(target->type == TARGET_NOTE) {
-						//need to get directive at cursor note - there is a function ready for this
-						directive = get_note_directive_number(Denemo.gui->si->target.directivenum);
-						if(directive) {
-								//g_print("Looking at directive %s\n", directive->tag->str);	//\once \override Fingering #'extra-offset = #'(0 . 0)
-								gtk_menu_popup (GTK_MENU(directive_menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-				  	} else {
-									warningdialog("Cursor has moved to a note with less directives");
-						}
-						g_print("Note directive not implemented yet");
-					}
-					else { //TARGET_CHORD
-						GList *directives = ((chord*)((DenemoObject*)obj->object))->directives;
-						if(directives) {
-							directive = (DenemoDirective*)g_list_nth_data(directives, target->directivenum-1);
-							if(directive) {
-								//g_print("Looking at directive %s\n", directive->tag->str);	
-								gtk_menu_popup (GTK_MENU(directive_menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-								
-								
-								} else {
-									warningdialog("Cursor has moved to a chord with less directives");
-								}
-							} else {
-								warningdialog("Cursor has moved to a chord without directives!");							
-							}
-						g_print("Chord directive not implemented yet");
-					}
-					
-				} else {
-					chord *thechord = (chord*)obj->object;
-					if(thechord->notes && (thechord->baseduration>2))
-							gtk_widget_show(beam_position);
-					else
-							gtk_widget_hide(beam_position);
-					thechord->slur_begin_p?
-							gtk_widget_show(slur_position):gtk_widget_hide(slur_position);					
-					gtk_menu_popup (GTK_MENU(note_menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-				}
-			}
-				break;
-			case LILYDIRECTIVE:
-					gtk_menu_popup (GTK_MENU(directive_menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-					break;
-			default:
-				g_warning("Cannot handle type %d\n", obj->type);
-				break;
-			}
-		}
   return TRUE;
 }
 
@@ -1829,7 +1721,7 @@ action_for_link (EvView* view, EvLinkAction *obj) {
 								g_print("Chord directives not done");
 								break;
 							case TARGET_SLUR:
-									g_print("taking action on slur...");
+									//g_print("taking action on slur...");
 									if(Ww.repeatable && Ww.task==Positions) {
 										Ww.stage = WaitingForDrag;
 										call_out_to_guile("(GetSlurPositions)");
