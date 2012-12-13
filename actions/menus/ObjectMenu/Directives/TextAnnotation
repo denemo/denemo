@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>CriticalComment</after>
+        <action>TextAnnotation</action>
+        <scheme>;;TextAnnotation
+(let ((tag "TextAnnotation") (text "pizz."))
+	(set! text (d-GetUserInput (_ "Text Annotation") (_ "Give text to be placed in score at cursor\n(it can be dragged in the typeset view)") text))
+	(if text
+		(begin
+			(set! tag (string-append tag "\n" text))
+			(d-Directive-standalone tag)
+			(d-DirectivePut-standalone-prefix tag "&lt;&gt;-")
+			(d-DirectivePut-standalone-postfix tag (string-append "\\markup {" (scheme-escape text) " }"))
+			(d-DirectivePut-standalone-grob tag "Text")
+			(d-DirectivePut-standalone-display tag text)
+			(d-DirectivePut-standalone-minpixels tag 30)
+			(d-RefreshDisplay)
+			(d-SetSaved #f))))
+</scheme>
+        <label>Textual Annotation</label>
+        <tooltip>Allows placing arbitrary text on the score which can then be dragged in the final typeset view for fine control over positioning.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
