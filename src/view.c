@@ -2649,13 +2649,19 @@ if(scm_is_string(msg)){
    msg = SCM_BOOL(FALSE);
  }
  static GtkWidget * dialog;
- if(dialog) {
-	 gtk_widget_show(dialog);
-	 gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(dialog), title);
-	} else {
-  dialog = infodialog (title);
-  g_signal_connect(dialog, "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), NULL); 
-	}
+ 
+	if(dialog) {
+		gtk_widget_show(dialog);
+		gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(dialog), title);
+		} else {
+		dialog = infodialog (title);
+		g_signal_connect(dialog, "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), NULL); 
+		}
+		if(*title) {
+				gtk_widget_show(dialog);
+		} else {
+			gtk_widget_hide(dialog);
+		}
  if(title) 
    free(title);
  return msg;
