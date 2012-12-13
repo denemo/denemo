@@ -1646,7 +1646,7 @@ static void start_seeking_end(gboolean slur) {
 	if(Ww.grob != (slur?Slur:Beam))
 		Ww.repeatable = FALSE;
 	Ww.grob = slur?Slur:Beam;
-		gtk_widget_show(Ww.dialog);
+	gtk_widget_show(Ww.dialog);
 	gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), msg);
 	gtk_widget_queue_draw (Denemo.printarea);
 }
@@ -1730,23 +1730,13 @@ action_for_link (EvView* view, EvLinkAction *obj) {
 									Ww.stage = TargetEstablished;
 									if(Ww.grob!=Slur)
 										Ww.repeatable = FALSE;
-									gchar *msg = _("First click on the notehead of the note where the slur starts");
-									gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), msg);
-									gtk_widget_show(Ww.dialog);
 									}
 									
 									
 								  break;
 									
-						}		
-		//	if(directive)
-			//			g_print("Found directive %s grob %s\n", directive->tag->str, directive->grob?directive->grob->str:"No Grob");
-			
-			
+						}			
 		}
-      
-      
-      
       
       
       
@@ -1912,10 +1902,12 @@ static void cancel_tweak(void) {
 	gtk_main_quit();
 }
 static void repeat_tweak(void) {
-	if(Ww.grob==Slur)
+	if(Ww.grob==Slur)           //if(Ww.repeatable && Ww.grob==(slur?Slur:Beam))
 		call_out_to_guile("(GetSlurPositions)");
-	else
-		warningdialog("Do not know what to repeat");
+	else if(Ww.grob==Beam)           //if(Ww.repeatable && Ww.grob==(slur?Slur:Beam))
+		call_out_to_guile("(GetBeamPositions)");
+		else
+			warningdialog("Do not know what to repeat");
 }
 static void help_tweak(void) {
 	gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), _("To tweak the positions of objects (and more) move the mouse until the hand pointer appears\nClick on the object and follow the prompts.\nFor beams, click on the notehead of the note where the beam starts."));
@@ -1982,13 +1974,6 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
  }
  if( /* left && */ Ww.stage==SelectingNearEnd) {
 			Ww.near_i = Ww.near = Ww.last_button_press;//struct copy
-			
-		//	Ww.stage=SelectingFarEnd; do this on release
-		//	gchar *msg = (Ww.grob==Slur)?_("Good (though Denemo hasn't checked that this is a slur start)\nNow select the notehead of the note where the slur ends"):
-		//		_("Do not recognize target, sorry");
-		//	gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), msg);
-		//	gtk_widget_show(Ww.dialog);
-		//	gtk_widget_queue_draw (Denemo.printarea);
 			return TRUE;
  }
  if( /* left && */ Ww.stage==SelectingFarEnd) {//handle on release, after cursor has moved to note
@@ -2052,25 +2037,10 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
   }
 
   if( /* left && */ Ww.stage==TargetEstablished) { 
-	//	g_print("Popping up object edit menu from TargetEstablished stage");
-	//	popup_object_edit_menu();
-		
-		//instead EditTarget
-    // Ww.stage=SelectingNearEnd; 
-  //  This call is for when near end is already set up, not here!!!
-  // call_out_to_guile("(let ((yvals #f))(set! yvals (d-GetPositions #t))(if yvals (SetSlurPositions (number->string (car yvals)) (number->string (cdr yvals)))))");
 		Ww.grob=Slur;
 		call_out_to_guile("(GetSlurStart)");
-		//call_out_to_guile("(if (d-GetNewTarget) (GetSlurPositions)(d-WarningDialog (_ \"Cancelled\")))");
-	//	call_out_to_guile("(disp \"should now get the positions \")");
-	//	call_out_to_guile("(let ((yvals #f)) (set! yvals (d-GetPositions #t))	(if yvals	(SetSlurPositions (number->string (car yvals)) (number->string (cdr yvals)))))");
-		//		pull that routine out as separate thing... in denemo.scm... do (if (d-GetNewTarget) new routine name)
-			Ww.stage=STAGE_NONE;
-				
-				
-		//Ww.stage=SelectingNearEnd; instead run a routine that gets a target and then checks if it is begin slur and if so runs get positions. then set Ww.stage=none
-		//gtk_main(); 
-   	return TRUE;
+		Ww.stage=STAGE_NONE;
+  	return TRUE;
  }  
   if( /* left && */ Ww.stage==SelectingNearEnd) {
      Ww.stage=SelectingFarEnd; 

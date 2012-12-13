@@ -411,11 +411,20 @@
 			(set! yvals (d-GetPositions #t))
 			(if yvals
 				(SetSlurPositions (number->string (car yvals)) (number->string (cdr yvals))))))
+				
+(define (GetBeamPositions)
+		(let ((yvals #f))
+			(set! yvals (d-GetPositions #f))
+			(if yvals
+				(SetBeamPositions (number->string (car yvals)) (number->string (cdr yvals))))))
 
 (define (GetSlurStart)
+ 	(d-InfoDialog (_"First click on the notehead of the note where the slur starts"))
 	(if (d-GetNewTarget) 
 		(if (d-IsSlurStart)
-			(GetSlurPositions)
+			(begin 
+				(d-InfoDialog "") 
+				(GetSlurPositions))
 			(d-InfoDialog (_ "Not a slur start - cancelled")))
 		(d-InfoDialog (_ "Cancelled"))));
 
@@ -428,12 +437,7 @@
 					(if offset
 						(begin
 							(TweakOffset (number->string (car offset)) (number->string (cdr offset)))))))
-					
-	(define (do-beam-positions)
-		(let ((yvals #f))
-			(set! yvals (d-GetPositions #f))
-			(if yvals
-				(SetBeamPositions (number->string (car yvals)) (number->string (cdr yvals))))))
+
 			
 ;;; the procedure starts here			
 	(if target
@@ -467,7 +471,7 @@
 									(if (d-IsSlurStart)
 										(set! menu (cons (cons (cons (_"Hint Slur Angle/Position") (_"Allows you to drag the ends of the slur")) GetSlurPositions) menu )))
 									(if (> (d-GetNoteBaseDuration) 2)
-										(set! menu (cons (cons (cons (_"Change beam angle/position") (_"Allows you to drag the ends of the beam")) do-beam-positions) menu)))
+										(set! menu (cons (cons (cons (_"Change beam angle/position") (_"Allows you to drag the ends of the beam")) GetBeamPositions) menu)))
 									(set! choice (d-PopupMenu menu))
 									(if choice
 										(choice)
