@@ -6226,6 +6226,14 @@ accidentals are usually printed over the note.</tooltip>
         <label>Textual Annotation</label>
         <tooltip>Allows placing arbitrary text on the score which can then be dragged in the final typeset view for fine control over positioning.</tooltip>
       </row>
+      <row>
+        <action>EnableAccordion16v</action>
+        <after>InsertDefinedLilyPond</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Enable Accordion 16'</label>
+        <tooltip>Defines the accordions shifts for this score. The command Menu of Objects to Insert will allow them to be inserted.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
