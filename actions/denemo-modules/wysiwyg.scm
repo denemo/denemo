@@ -250,14 +250,34 @@
 								(disp "cancelled"))		
 
 										))
-						(let ((menu '()))
+						(let ((menu '()) (base-duration (d-GetNoteBaseDuration)))
 									(set! menu (cons (cons (cons (_ "Line Break") (_ "Start a new line here"))	d-LineBreak) menu))
 									(set! menu (cons (cons (cons (_"Page Break") (_"Start a new page here"))	d-PageBreak) menu))
-										
+									(if (> base-duration 5)
+										(begin
+											(set! menu (cons (cons (cons (_"Three Beams Right (Off/On)") (_"Put just three beams to the right or undo a previous invocation of this command")) d-BeamRightThree) menu))
+											(set! menu (cons (cons (cons (_"Three Beams Left (Off/On)") (_"Put just three beams to the left or undo a previous invocation of this command")) d-BeamLeftThree) menu))))										
+									(if (> base-duration 4)
+										(begin
+											(set! menu (cons (cons (cons (_"Two Beams Right (Off/On)") (_"Put just two beams to the right or undo a previous invocation of this command")) d-BeamRightTwo) menu))
+											(set! menu (cons (cons (cons (_"Two Beams Left (Off/On)") (_"Put just two beams to the left or undo a previous invocation of this command")) d-BeamLeftTwo) menu))))
+																					
+									(if (> base-duration 3)
+										(begin
+											(set! menu (cons (cons (cons (_"One Beam Right (Off/On)") (_"Put just one beam to the right or undo a previous invocation of this command")) d-BeamRightOne) menu))
+											(set! menu (cons (cons (cons (_"One Beam Left (Off/On)") (_"Put just one beam to the left or undo a previous invocation of this command")) d-BeamLeftOne) menu))))
+									(if (> base-duration 2)
+									  (begin
+									   (set! menu (cons (cons (cons (_"No Beam (Off/On)") (_"Leave note/chord un-beamed or undo a previous invocation of this command")) d-NoBeam) menu))
+										 (set! menu (cons (cons (cons (_"Change beam angle/position") (_"Allows you to drag the ends of the beam")) GetBeamPositions) menu))))
+			
 									(if (d-IsSlurStart)
 										(set! menu (cons (cons (cons (_"Hint Slur Angle/Position") (_"Allows you to drag the ends of the slur")) GetSlurPositions) menu )))
-									(if (> (d-GetNoteBaseDuration) 2)
-										(set! menu (cons (cons (cons (_"Change beam angle/position") (_"Allows you to drag the ends of the beam")) GetBeamPositions) menu)))
+									
+										
+										
+										
+										
 									(set! choice (d-PopupMenu menu))
 									(if choice
 										(choice)
