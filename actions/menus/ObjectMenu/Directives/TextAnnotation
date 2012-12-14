@@ -7,9 +7,19 @@
       <row>
         <after>CriticalComment</after>
         <action>TextAnnotation</action>
-        <scheme>;;TextAnnotation
-(let ((tag "TextAnnotation") (text "pizz."))
+        <scheme>;TextAnnotation
+(let ((tag "TextAnnotation") (text "pizz.") (oldtext #f) (oldtag #f))
+	(if (and (defined? 'TextAnnotation::params) (equal? TextAnnotation::params 'edit))
+		(begin
+			(set! oldtag (d-DirectiveGetTag-standalone))
+			(set! oldtext (d-DirectiveGet-standalone-display oldtag))
+			(d-DeleteObject)
+			(set! text (GetNthLine oldtext 0))
+			;;;get the rest here too
+			))
 	(set! text (d-GetUserInput (_ "Text Annotation") (_ "Give text to be placed in score at cursor\n(it can be dragged in the typeset view)") text))
+	(if (not text)
+		(set! text oldtext))
 	(if text
 		(begin
 			(set! tag (string-append tag "\n" text))
@@ -20,8 +30,7 @@
 			(d-DirectivePut-standalone-display tag text)
 			(d-DirectivePut-standalone-minpixels tag 30)
 			(d-RefreshDisplay)
-			(d-SetSaved #f))))
-</scheme>
+			(d-SetSaved #f))))</scheme>
         <label>Textual Annotation</label>
         <tooltip>Allows placing arbitrary text on the score which can then be dragged in the final typeset view for fine control over positioning.</tooltip>
       </row>
