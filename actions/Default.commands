@@ -6234,6 +6234,14 @@ accidentals are usually printed over the note.</tooltip>
         <label>Enable Accordion 16'</label>
         <tooltip>Defines the accordions shifts for this score. The command Menu of Objects to Insert will allow them to be inserted.</tooltip>
       </row>
+      <row>
+        <action>NoLineBreak</action>
+        <after>LineBreak</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>No Line Break</label>
+        <tooltip>Disallow a line break at this measure.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
