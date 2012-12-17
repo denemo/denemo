@@ -153,7 +153,7 @@
 	(if tag		
 			(let ((grob (d-DirectiveGet-standalone-grob tag)))
 				(if grob
-					(cond ((or (equal? grob "RehearsalMark") (equal? grob "BreathingSign"))
+					(cond ((or (equal? grob "RehearsalMark") (equal? grob "BreathingSign")   (equal? grob "MetronomeMark")    )
 							(ExtraOffset tag tag "standalone" "Score." (cons offsetx offsety)))
 						(#t
 							(TweakRelativeOffset tag offsetx offsety)))
