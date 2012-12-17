@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>AdjustBassFigureHeight</after>
+        <action>AdjustFiguredBassHeights</action>
+        <scheme>;;;AdjustBassFigureHeights
+(let ((tagbase "FBHeight")(number #f))
+	(define offset #f)
+	(set! number (d-GetUserInput (_ "Figured Bass Height")  (_ "Give number of groups: ") "2"))
+	(if (and (string? number) (string-&gt;number number))
+		(let ()
+				(set! number (string-&gt;number number))
+				(let loop ((count 1))
+					(define tag (string-append tagbase (number-&gt;string count)))
+					(set! offset (d-GetUserInput (_ "Figured Bass Height") (_ "Give height adjustment (unit = staff space): ") "1.0"))
+					(if (and (string? offset) (string-&gt;number offset))
+						(begin
+							(d-DirectivePut-note-prefix tag (string-append "\\once \\override Staff.BassFigureAlignmentPositioning #'Y-offset = #'" offset " "))
+							(d-DirectivePut-note-override tag DENEMO_ALT_OVERRIDE)
+							(d-DirectivePut-note-display tag "^")
+							(d-DirectivePut-note-ty tag -10)
+							(if (&lt; count number)
+								(loop (1+ count))))))))					
+	(d-RefreshDisplay)
+	(d-SetSaved #f))	</scheme>
+        <label>Heights of Groups</label>
+        <tooltip>Allows several groups of figures to be individually adjusted for height.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
