@@ -6242,6 +6242,22 @@ accidentals are usually printed over the note.</tooltip>
         <label>No Line Break</label>
         <tooltip>Disallow a line break at this measure.</tooltip>
       </row>
+      <row>
+        <action>AdjustBassFigureHeight</action>
+        <after>EditFiguredBass</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/FiguredBass</menupath>
+        <label>Height of Bass Figure</label>
+        <tooltip>Sets the height of the bass figure above the note. The unit is the distance between adjacent lines in the staff.</tooltip>
+      </row>
+      <row>
+        <action>AdjustFiguredBassHeights</action>
+        <after>AdjustBassFigureHeight</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/FiguredBass</menupath>
+        <label>Heights of Groups</label>
+        <tooltip>Allows several groups of figures to be individually adjusted for height.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

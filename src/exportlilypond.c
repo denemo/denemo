@@ -332,7 +332,10 @@ append_duration (GString * figures, gint duration, gint numdots)
     return figures;
 }
 
-
+static void output_figured_bass_prefix(GString *figures, DenemoDirective *directive) {
+	if( (directive->override&DENEMO_ALT_OVERRIDE) && directive->prefix)
+				g_string_append(figures, directive->prefix->str);
+}
 
 /**
  * add figures to *pfigures for *pchord  
@@ -349,6 +352,17 @@ output_figured_bass (DenemoScore * si, GString *figures, chord * pchord, gint ti
   char *str;			/* pointer into the figure string fig_str */
   gint num_groups = 1;		/* number of groups of figures */
   gchar *duration_string=NULL;//whole measure rests etc
+  
+  //First any override (e.g. to tweak position of figures) 
+  //This is stored in note-directives with DENEMO_ALT_OVERRIDE set.
+  // This does mean that figures on rests can only be tweaked with a postfix on the previous note.
+  DenemoDirective *directive;
+  if(pchord->notes && (note*)(pchord->notes->data) && ((note*)(pchord->notes->data))->directives &&
+		(directive=((note*)(pchord->notes->data))->directives->data)) {
+			output_figured_bass_prefix(figures, directive);
+		}
+  
+  
   if(duration<0) {
       gchar *lily = get_postfix(pchord->directives);
       if(lily) {
@@ -459,6 +473,16 @@ output_figured_bass (DenemoScore * si, GString *figures, chord * pchord, gint ti
 	figures = g_string_append (figures, str);
 	figures = g_string_append (figures, ">");
 	APPEND_DUR (figures, first_duration, 0);
+	
+	
+	  if(pchord->notes && (note*)(pchord->notes->data) && 
+												((note*)(pchord->notes->data))->directives &&
+												((note*)(pchord->notes->data))->directives->next &&
+												(directive=((note*)(pchord->notes->data))->directives->next->data)) {
+			output_figured_bass_prefix(figures, directive);
+		}
+	
+	
 	figures = g_string_append (figures, "<");
 	str = strtok (NULL, FIGURES_SEP);
 	figures = g_string_append (figures, str);
@@ -488,11 +512,23 @@ output_figured_bass (DenemoScore * si, GString *figures, chord * pchord, gint ti
 	figures = g_string_append (figures, str);
 	figures = g_string_append (figures, ">");
 	APPEND_DUR (figures, first_duration, 0);
+		  if(pchord->notes && (note*)(pchord->notes->data) &&
+													((note*)(pchord->notes->data))->directives   &&
+													((note*)(pchord->notes->data))->directives->next   &&
+													(directive=((note*)(pchord->notes->data))->directives->next->data)) {
+			output_figured_bass_prefix(figures, directive);
+		}
 	figures = g_string_append (figures, "<");
 	str = strtok (NULL, FIGURES_SEP);
 	figures = g_string_append (figures, str);
 	figures = g_string_append (figures, ">");
 	APPEND_DUR (figures, second_duration, 0);
+		  if(pchord->notes && (note*)(pchord->notes->data) && ((note*)(pchord->notes->data))->directives &&
+													((note*)(pchord->notes->data))->directives->next&&
+													((note*)(pchord->notes->data))->directives->next->next &&
+													(directive=((note*)(pchord->notes->data))->directives->next->next->data)) {
+			output_figured_bass_prefix(figures, directive);
+		}
 	str = strtok (NULL, FIGURES_SEP);
 	figures = g_string_append (figures, "<");
 	figures = g_string_append (figures, str);
@@ -524,16 +560,34 @@ output_figured_bass (DenemoScore * si, GString *figures, chord * pchord, gint ti
 	figures = g_string_append (figures, str);
 	figures = g_string_append (figures, ">");
 	APPEND_DUR (figures, first_duration, 0);
+	if(pchord->notes && (note*)(pchord->notes->data) &&
+													((note*)(pchord->notes->data))->directives   &&
+													((note*)(pchord->notes->data))->directives->next   &&
+													(directive=((note*)(pchord->notes->data))->directives->next->data)) {
+			output_figured_bass_prefix(figures, directive);
+	}
 	figures = g_string_append (figures, "<");
 	str = strtok (NULL, FIGURES_SEP);
 	figures = g_string_append (figures, str);
 	figures = g_string_append (figures, ">");
 	APPEND_DUR (figures, second_duration, 0);
+	if(pchord->notes && (note*)(pchord->notes->data) && ((note*)(pchord->notes->data))->directives &&
+													((note*)(pchord->notes->data))->directives->next&&
+													((note*)(pchord->notes->data))->directives->next->next &&
+													(directive=((note*)(pchord->notes->data))->directives->next->next->data)) {
+			output_figured_bass_prefix(figures, directive);
+	}
 	str = strtok (NULL, FIGURES_SEP);
 	figures = g_string_append (figures, "<");
 	figures = g_string_append (figures, str);
 	figures = g_string_append (figures, ">");
 	APPEND_DUR (figures, third_duration, 0);
+	if(pchord->notes && (note*)(pchord->notes->data) && ((note*)(pchord->notes->data))->directives &&
+													((note*)(pchord->notes->data))->directives->next&&
+													((note*)(pchord->notes->data))->directives->next->next &&
+													(directive=((note*)(pchord->notes->data))->directives->next->next->data)) {
+			output_figured_bass_prefix(figures, directive);
+	}
 	str = strtok (NULL, FIGURES_SEP);
 	figures = g_string_append (figures, "<");
 	figures = g_string_append (figures, str);
@@ -976,7 +1030,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 											gint num = 0;
 											for(;g;g=g->next, num++) {
 												DenemoDirective *directive = (DenemoDirective *)g->data;
-												if(directive->prefix ) {
+												if(directive->prefix && !(directive->override&DENEMO_ALT_OVERRIDE) ) {
 														prevduration = -1;
 														insert_editable(&directive->prefix, directive->prefix->len?directive->prefix->str:" ", iter, gui, lily_for_obj
 														, TARGET_NOTE, movement_count, measurenum, voice_count, objnum, num, curnote->mid_c_offset);
@@ -1033,7 +1087,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 													output(" ");
 												for(num=0;g;g=g->next, num++) {
 													DenemoDirective *directive = (DenemoDirective *)g->data;
-													if(directive->postfix && !(directive->override&DENEMO_OVERRIDE_HIDDEN)) {
+													if(directive->postfix && !(directive->override&DENEMO_OVERRIDE_HIDDEN) && !(directive->override&DENEMO_ALT_OVERRIDE) ) {
 													insert_editable(&directive->postfix, directive->postfix->len?directive->postfix->str:" ", iter, gui, lily_for_obj
 													, TARGET_NOTE, movement_count, measurenum, voice_count, objnum, num, curnote->mid_c_offset);
 													prevduration = -1;

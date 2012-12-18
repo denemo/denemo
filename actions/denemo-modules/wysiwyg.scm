@@ -9,21 +9,15 @@
 
 
 
-;; current values of offset are stored in display field on second and third lines
-; new values are relative to those
+	
 (define (TweakRelativeOffset tag offsetx offsety)
-	(define text (d-DirectiveGet-standalone-display tag))
-
-	(define curx #f)
-	(define cury #f)
-	(set! curx (string->number (GetNthLine text 1)))
-	(set! cury (string->number (GetNthLine text 2)))
-	(if curx
-		(begin
-			(set! offsetx (number->string (+ (string->number offsetx) curx)))
-			(set! offsety (number->string (+ (string->number offsety) cury)))))
-	(d-DirectivePut-standalone-display tag (string-append (GetNthLine text 0) "\n" offsetx "\n" offsety))
-	(d-DirectivePut-standalone-prefix tag (string-append "<>-\\tweak #'extra-offset #'(" offsetx " . " offsety ") -")))
+		(define newvalue (ChangeOffset (d-DirectiveGet-standalone-prefix tag) "-\\tweak #'extra-offset #'("  ")" (cons offsetx offsety)))
+	(d-DirectivePut-standalone-prefix tag newvalue))
+	
+(define (TweakRelativeFontSize tag size)
+		(define newvalue (ChangeValue (d-DirectiveGet-standalone-prefix tag) "-\\tweak #'font-size #" " " size))
+	(d-DirectivePut-standalone-prefix tag newvalue))
+	
 ; ExtraAmount
 ;; the parameter "what" is the LilyPond grob that is being tweaked - it may not be the tag of the DenemoDirective that is being edited
 ;; property is the (two values - a pair) lilypond property being altered
@@ -101,7 +95,7 @@
 ; ChangeOffset
 ;; e.g.  (define prefixstring      "\\once \\override Fingering  #'extra-offset = #'(")
 ;; (define postfix ")")
-
+;; (ChangeOffset "something first hello 12.6 . 13.8 etc and something after"  "hello " " etc" (cons "14.2" "55.5") )
 (define (ChangeOffset oldstr prefixstring postfixstring offset)
   (let ((startbit "")
 	(endbit "")
@@ -116,7 +110,8 @@
 	(ynew "")
 	(xval 0)
 	(yval 0)
-	(xy " 0.0 . 0.0 "))
+	(xy (string-append " " (car offset) " . " (cdr offset) " ")))
+	(disp "Change offset")
     (begin
       (if (boolean? oldstr)
 	  (set! oldstr (string-append prefixstring " 0.0 . 0.0 " postfixstring)))
@@ -158,7 +153,7 @@
 	(if tag		
 			(let ((grob (d-DirectiveGet-standalone-grob tag)))
 				(if grob
-					(cond ((or (equal? grob "RehearsalMark") (equal? grob "BreathingSign"))
+					(cond ((or (equal? grob "RehearsalMark") (equal? grob "BreathingSign")   (equal? grob "MetronomeMark")    )
 							(ExtraOffset tag tag "standalone" "Score." (cons offsetx offsety)))
 						(#t
 							(TweakRelativeOffset tag offsetx offsety)))
@@ -205,8 +200,13 @@
 					(if offset
 						(begin
 							(TweakOffset (number->string (car offset)) (number->string (cdr offset)))))))
-			(define (alter-text)
+	(define (alter-text)
 				(d-TextAnnotation 'edit))
+	(define (alter-font-size)
+		(define size (d-GetUserInput (_ "Font Size") (_ "Give relative font size: ") "8.0"))
+			(if size
+					(d-TextAnnotation (cons 'fontsize size))))
+				
 	(define (chop-beam)
 				(if (d-MoveCursorLeft)
 					(if (> (d-GetNoteBaseDuration) 2)
@@ -235,6 +235,7 @@
 						 (set! menu (list (cons "Offset Position" do-offset)))
 						 (if (equal? ta-tag  (GetNthLine (d-DirectiveGetTag-standalone) 0))
 								(begin
+									(set! menu (cons  (cons "Set Font Size"  alter-font-size)  menu))
 									(set! menu (cons  (cons "Alter Text"  alter-text)  menu))))
 						 
 						 
@@ -358,25 +359,20 @@
 ;     )));;;; end of function change pad
 
 ;;;;;;;; ChangeValue
-(define (ChangeValue oldstr prefixstring postfixstring get-func default-val)
+(define (ChangeValue oldstr prefixstring postfixstring val)
   (let ((startbit "")
 	(endbit "")
 	(theregexp "")
 	(thematch "")
-	(pad "")
 	)
     (begin
-      (if (boolean? oldstr)
-	  (set! oldstr (string-append prefixstring default-val postfixstring)))
       (set! startbit (regexp-quote prefixstring))
       (set! endbit  (regexp-quote postfixstring))
       (set! theregexp (string-append  startbit "([-0-9]+)" endbit))
       (set! thematch (string-match theregexp oldstr))
-      (set! pad (get-func))
-      (if (boolean? pad)
-	  (set! pad default-val))
+      
       (if (boolean? thematch)
 	  (begin
-	    (string-append oldstr prefixstring pad postfixstring))
-	  (regexp-substitute #f thematch 'pre (string-append prefixstring pad postfixstring) 'post))    
-    )));;;; end of function change pad
+	    (string-append oldstr prefixstring val postfixstring))
+	  (regexp-substitute #f thematch 'pre (string-append prefixstring val postfixstring) 'post))    
+    )));;;; end of function change value
