@@ -6258,6 +6258,14 @@ accidentals are usually printed over the note.</tooltip>
         <label>Heights of Groups</label>
         <tooltip>Allows several groups of figures to be individually adjusted for height.</tooltip>
       </row>
+      <row>
+        <action>TimesigWithBeatStructure</action>
+        <after>InsertTimeSig</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/TimeSig</menupath>
+        <label>Time Signature with Beat Structure</label>
+        <tooltip>Inserts a time signature with indication for how to beam the notes. Insert at beginning of staff in order to replace the initial time signature.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
