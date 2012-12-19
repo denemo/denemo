@@ -2046,7 +2046,7 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 		gtk_widget_queue_draw (Denemo.printarea);
     Ww.Mark.x = event->x + xx;
     Ww.Mark.y = event->y + yy;
-    switch_back_to_main_window();
+   // switch_back_to_main_window();
     Ww.ObjectLocated = FALSE;
   }
 
