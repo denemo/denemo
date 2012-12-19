@@ -1744,8 +1744,18 @@ action_for_link (EvView* view, EvLinkAction *obj) {
       
       
       
-		} else {
-			g_warning ("Cannot follow external link type %s\n", vec[0]);
+		} else 	if(!strcmp(vec[0], "http")) {
+						gchar *text = g_strdup_printf("(d-Help \"%s\")", uri);
+						call_out_to_guile(text);
+						g_free(text);
+						}
+		 else if(!strcmp(vec[0], "scheme")) {
+						gchar *text = uri+strlen("scheme")+1;
+						if(*text)
+							call_out_to_guile(text);
+						else g_warning("No script given after scheme:");
+						} else {
+				g_warning ("Cannot follow link type %s\n", vec[0]);
 		}
 		g_strfreev(vec);
 	} 
