@@ -1669,6 +1669,7 @@ static gboolean same_target(DenemoTarget *pos1, DenemoTarget *pos2) {
 
 static gint
 action_for_link (EvView* view, EvLinkAction *obj) {
+	mswin("Signal from evince widget received %d %d\n", Ww.grob, Ww.stage);
 	//g_print("Link action Mark at %f, %f\n", Ww.Mark.x, Ww.Mark.y);
   gchar *uri = (gchar*)ev_link_action_get_uri(obj);
   //g_print("Stage %d\n", Ww.stage);
@@ -1681,12 +1682,15 @@ action_for_link (EvView* view, EvLinkAction *obj) {
   if(Ww.stage==Offsetting) {
 		return TRUE;//?Better take over motion notify so as not to get this while working ...
 	}
+	mswin("action_for_link: uri %s\n", uri);
 	//g_print("acting on external signal %s type=%d directivenum=%d\n", uri, Denemo.gui->si->target.type, Denemo.gui->si->target.directivenum);
   if(uri) {
 		gchar **vec = g_strsplit (uri, ":",5);
+		mswin("action_for_link: %s %s %s %s", vec[0],  vec[1],  vec[2],  vec[3]);
 		if(!strcmp(vec[0], "textedit") && vec[1] && vec[2] && vec[3]) {
 			DenemoTarget old_target = Denemo.gui->si->target;
       Ww.ObjectLocated = goto_lilypond_position(atoi(vec[2]), atoi(vec[3]));//sets si->target
+      mswin("action_for_link: object located %d\n", Ww.ObjectLocated);
       if(Ww.ObjectLocated) { 
 				if(!(Ww.grob==Beam && (Ww.stage == SelectingFarEnd))) {
 					get_position(Denemo.gui->si, &Ww.pos);
@@ -1740,8 +1744,18 @@ action_for_link (EvView* view, EvLinkAction *obj) {
       
       
       
-		} else {
-			g_warning ("Cannot follow external link type %s\n", vec[0]);
+		} else 	if(!strcmp(vec[0], "http")) {
+						gchar *text = g_strdup_printf("(d-Help \"%s\")", uri);
+						call_out_to_guile(text);
+						g_free(text);
+						}
+		 else if(!strcmp(vec[0], "scheme")) {
+						gchar *text = uri+strlen("scheme")+1;
+						if(*text)
+							call_out_to_guile(text);
+						else g_warning("No script given after scheme:");
+						} else {
+				g_warning ("Cannot follow link type %s\n", vec[0]);
 		}
 		g_strfreev(vec);
 	} 
@@ -2032,7 +2046,7 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 		gtk_widget_queue_draw (Denemo.printarea);
     Ww.Mark.x = event->x + xx;
     Ww.Mark.y = event->y + yy;
-    switch_back_to_main_window();
+   // switch_back_to_main_window();
     Ww.ObjectLocated = FALSE;
   }
 
@@ -2549,7 +2563,7 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
   
   top_vbox = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   if(!Denemo.prefs.manualtypeset)
-		gtk_window_set_transient_for (GTK_WINDOW(top_vbox), GTK_WINDOW(Denemo.window));
+		gtk_window_set_urgency_hint (GTK_WINDOW(Denemo.window), TRUE);//gtk_window_set_transient_for (GTK_WINDOW(top_vbox), GTK_WINDOW(Denemo.window));
   gtk_window_set_title(GTK_WINDOW(top_vbox),_( "Denemo Print View"));
   gtk_window_set_default_size(GTK_WINDOW(top_vbox), 600, 750);
   g_signal_connect (G_OBJECT (top_vbox), "delete-event",

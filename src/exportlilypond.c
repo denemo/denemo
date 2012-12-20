@@ -2543,6 +2543,7 @@ static gboolean populate_called(GtkWidget *view, GtkMenuShell *menu, DenemoGUI *
 gboolean goto_lilypond_position(gint line, gint column) {
   DenemoGUI *gui = Denemo.gui;
   GtkTextIter enditer, iter;
+  mswin("goto_lilypond_position called for line %d column %d\n", line, column);
   gtk_text_buffer_get_end_iter (gui->textbuffer, &enditer);
   gtk_text_buffer_get_start_iter (gui->textbuffer, &iter);
 
@@ -2585,6 +2586,7 @@ gboolean goto_lilypond_position(gint line, gint column) {
 			gui->si->target.staffnum = staffnum;
 			gui->si->target.type = type;
 			gui->si->target.directivenum = directivenum;
+			mswin("goto_lilypond_position: anchor located and target set %d %d\n", measurenum, objnum);
 
 			if(movementnum<1)  {
 				g_warning("Object %p has no location data\n", g_object_get_data(G_OBJECT(anchor), OBJECTNODE));
@@ -2604,6 +2606,7 @@ gboolean goto_lilypond_position(gint line, gint column) {
 				}
 				gui->si->target.mid_c_offset = midcoffset;
 			}
+			mswin("goto_lilypond_position: Success\n");
 			return TRUE;
 		} else 
 		g_warning("Anchor not found\n");

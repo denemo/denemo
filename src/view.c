@@ -9588,7 +9588,15 @@ get_data_dir (),
  {
   Denemo.scorearea = gtk_drawing_area_new ();
   if(Denemo.prefs.newbie)
-    gtk_widget_set_tooltip_text(Denemo.scorearea, _("This is the Denemo Display for the music you have entered. It doesn't show how the music will look when printed - to typeset the music really well without you having to make adjustments is a time-consuming task. The green box is the Denemo Cursor - it turns Red when when the bar is full or blue if you are appending at the end of an underfull bar. Many commands operate on the object at the Denemo cursor\nOverfull/Underfull bars are colored red/blue, use the Upbeat (Anacrusis, Pickup) command if that is intentional.\nYou can switch to a menu-less view or a page-view using the Esc key. For the paged view you drag the red bar up the page to set how many systems you want showing.\nFor the paged view you will probably want a smaller zoom - use Control+scroll-wheel on your mouse to zoom the display."));
+    gtk_widget_set_tooltip_text(Denemo.scorearea, _("This is the Denemo Display for the music you have entered."
+    " See the print view window for the typeset appearance. "
+    " The blue lozenge is the Denemo Cursor - it turns Red when when the bar is full or green if you are inserting in a bar."
+    " Many commands operate on the object at the Denemo cursor\nOverfull/Underfull bars are colored red/blue,"
+    " use the Upbeat (Anacrusis, Pickup) command if that is intentional."
+    "\nYou can switch to a menu-less view or a page-view using the Esc key."
+    " For the paged view you drag the red bar up the page to set how many systems you want showing."
+    "\nFor the paged view you will probably want a smaller zoom - use Control+scroll-wheel on your mouse to zoom the display."
+    "Right-click on an object to get a short menu of actions or set the mouse input mode."));
   GtkWidget *scorearea_topbox = gtk_vbox_new(FALSE, 1);
   gtk_container_add (GTK_CONTAINER(main_vbox), scorearea_topbox);
   
