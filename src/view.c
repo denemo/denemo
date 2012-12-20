@@ -6034,7 +6034,7 @@ void inner_main(void*closure, int argc, char **argv){
    (void)open_for_real (initial_file, Denemo.gui, FALSE, REPLACE_SCORE);
    else {
       if(!Denemo.scheme_commands) {
-        call_out_to_guile("(d-InstrumentName \"Violino\")");
+        call_out_to_guile("(d-InstrumentName  (_ \"Unnamed\"))");
         denemo_scheme_init();
       }
    }
@@ -9732,7 +9732,7 @@ void new_score_cb(GtkAction * action, DenemoScriptParam *param)
     param = &dummy;
   file_newwrapper (action, param);
   if(param->status) {
-    call_out_to_guile("(d-InstrumentName)");
+    call_out_to_guile("(d-InstrumentName  (_ \"Unnamed\"))");
     denemo_scheme_init();
   }
 }
