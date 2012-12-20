@@ -9,7 +9,7 @@
         <scheme>;;;ScoreTitle
 (d-PushPosition)
 (while (d-PreviousMovement))
-(SetHeaderField "title")
+(SetHeaderField "title" ScoreTitle::params)
 (DenemoPrintAllHeaders)
 (d-SetSaved #f)
 (d-PopPosition)    </scheme>
