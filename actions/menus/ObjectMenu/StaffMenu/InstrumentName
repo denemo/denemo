@@ -7,29 +7,35 @@
       <row>
         <after>SmallerStaff</after>
         <action>InstrumentName</action>
-        <scheme>;;;;;;;;;;;;;InstrumentName
+        <scheme>;;;InstrumentName
 (let ((tag  "InstrumentName") (current "") (thematch "") (indent "0.0") (size 16.0))
   (if InstrumentName::params
- 	(set! current InstrumentName::params)
+		(set! current InstrumentName::params)
   	(begin
   	    (set! current (d-DirectiveGet-staff-display tag ))
   	    (if (not current)
   	    	(set! current "Violin"))
  	   (set! current (d-GetUserInput (_ "InstrumentName") (_ "Give name of instrument/voice/part\nfor current staff:") current))))
   (if current
- 	 (begin
-  		(d-DirectivePut-staff-display tag current)
-  		(d-DirectivePut-staff-override tag  DENEMO_OVERRIDE_GRAPHIC)
-  		(d-DirectivePut-staff-postfix tag  (string-append "\\set Staff.instrumentName = \\markup {  \\with-url #'\"scheme:
+ 	 (let ((transparent-start "") (transparent-end ""))
+  	(d-DirectivePut-staff-display tag current)
+  	(d-DirectivePut-staff-override tag  DENEMO_OVERRIDE_GRAPHIC)
+  	(if (equal?  current (_ "Unnamed"))
+			(begin
+				(set! transparent-start "\\transparent {")
+				(set! transparent-end "}")))
+				
+  	
+  	(d-DirectivePut-staff-postfix tag  (string-append "\\set Staff.instrumentName = \\markup {  \\with-url #'\"scheme:
   		
   		(let ((choice (d-PopupMenu (list (cons (_ \\\"Change Name\\\") d-InstrumentName)   (cons (_ \\\"Change Indent\\\") d-ScoreIndent)))))
-				(if choice (choice)))    \"   \"" current "\"}"))
-  		(if (&gt; (string-length current) 0)
+				(if choice (choice)))    \" " transparent-start "\"" current "\" " transparent-end"}"))
+  	(if (&gt; (string-length current) 0)
   				(d-StaffProperties (string-append "denemo_name=" current))
   				(d-StaffProperties "denemo_name=unnamed"))
  		(set! size (/ (string-&gt;number (d-ScoreProperties "query=fontsize")) 10.0))
  		(set! indent (d-DirectiveGet-score-prefix "ScoreIndent"))
-  		(if indent
+  	(if indent
      			 (begin
 				(set! thematch (string-match "\\layout \\{indent = ([-0-9.]+)" indent))
 				;;(display thematch)
