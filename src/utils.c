@@ -28,7 +28,7 @@
 #endif
 #include "pitchentry.h"
 
-#ifdef UNUSED__APPLE
+#ifdef __APPLE__
 #include <mach-o/dyld.h>
 #endif
 
@@ -917,7 +917,7 @@ get_data_dir ()
     g_free (rootdir);
 #else /* not G_OS_WIN32 */
 
-#ifdef UNUSED__APPLE
+#ifdef __APPLE__
      
       {char path[1024];
        guint size = sizeof(path);
@@ -937,7 +937,7 @@ get_data_dir ()
     datadir = gbr_find_pkg_data_dir (PKGDATADIR, PKGNAME);
 #endif //ENABLE_BINRELOC
 
-#endif //UNUSED__APPLE
+#endif //__APPLE__
 #endif /* not G_OS_WIN32 */
   }
   return datadir;
@@ -974,7 +974,7 @@ get_bin_dir (void)
     g_free (rootdir);
 #else /* not G_OS_WIN32 */
 
-#ifdef UNUSED__APPLE
+#ifdef __APPLE__
      
       {char path[1024];
        guint size = sizeof(path);
@@ -995,7 +995,7 @@ get_bin_dir (void)
   bindir = gbr_find_bin_dir (BINDIR);
 #endif //ENABLE_BINRELOC
 
-#endif //UNUSED__APPLE
+#endif //__APPLE__
 #endif /* not G_OS_WIN32 */
   }
   return bindir;
@@ -1012,7 +1012,7 @@ get_conf_dir ()
   confdir = g_build_filename (rootdir, "etc", "denemo", NULL);
   g_free (rootdir);
 #else /* not G_OS_WIN32 */
-#ifdef UNUSED__APPLE
+#ifdef __APPLE__
      
       {char path[1024];
        guint size = sizeof(path);
@@ -1033,7 +1033,7 @@ get_conf_dir ()
   confdir = g_build_filename (gbr_find_etc_dir(SYSCONFDIR), "denemo", NULL);
 #endif //ENABLE_BINRELOC
 
-#endif //UNUSED__APPLE
+#endif //__APPLE__
 #endif /* not G_OS_WIN32 */
   }
   return confdir;
@@ -1050,7 +1050,7 @@ get_locale_dir ()
     localedir = g_build_filename (rootdir, "share", "locale", NULL);
     g_free (rootdir);
 #else /* not G_OS_WIN32 */
-#ifdef UNUSED__APPLE
+#ifdef __APPLE__
      
       {char path[1024];
        guint size = sizeof(path);

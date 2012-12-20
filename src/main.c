@@ -348,7 +348,7 @@ main (int argc, char *argv[])
 #else
 
 
-#ifdef UNUSED__APPLE
+#ifdef __APPLE__
   //FIXME if this works, remove the duplication with windows case
  {
   gchar *prefix = g_build_filename (g_path_get_dirname(get_bin_dir()), "..", NULL);      
