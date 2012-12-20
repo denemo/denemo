@@ -9,8 +9,9 @@
    (begin
      (d-SetSaved #f)
      (if (string-null? chapter)
-  	(d-DirectiveDelete-movementcontrol field)
+				(d-DirectiveDelete-movementcontrol field)
       	(begin 
       		(d-DirectivePut-movementcontrol-display field  chapter)
       		(d-DirectivePut-movementcontrol-override field  (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
-      		(d-DirectivePut-movementcontrol-prefix field (string-append "\\" lilyfield " \"" chapter "\"\n"))))))))
+					(d-DirectivePut-movementcontrol-prefix field (string-append "\\" lilyfield " \\markup { \\with-url #'\"scheme:(d-" field   ")\" "  "\"" chapter "\"}\n"))))))))
+

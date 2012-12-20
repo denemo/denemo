@@ -5,19 +5,16 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after/>
         <action>ScoreTitle</action>
         <scheme>;;;ScoreTitle
-	(if (d-PreviousMovement)
-		(d-WarningDialog (_ "Returning to the first Movement to set this title")))
-	(while (d-PreviousMovement)
-		(display "Seeking first movement"))
-        (SetHeaderField "title")
-        (DenemoPrintAllHeaders)
-        (d-RefreshDisplay)
-        </scheme>
+(d-PushPosition)
+(while (d-PreviousMovement))
+(SetHeaderField "title")
+(DenemoPrintAllHeaders)
+(d-SetSaved #f)
+(d-PopPosition)    </scheme>
         <label>Title</label>
-        <tooltip>The title of the music, centered just below the dedication.</tooltip>
+        <tooltip>Prints the name given as a title centered at the start of the score.</tooltip>
       </row>
     </map>
   </merge>

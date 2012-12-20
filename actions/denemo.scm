@@ -246,39 +246,35 @@
      (begin
        (set! type "Movement")
        (if (equal? field "subtitle")
-	   (set! fieldname "Title"))
-        (if (equal? field "subsubtitle")
-	   (set! fieldname "Subtitle"))
-	(if (equal? field "piece")
-	   (set! fieldname "Piece")))
+					(set! fieldname "Title"))
+       (if (equal? field "subsubtitle")
+					(set! fieldname "Subtitle"))
+			 (if (equal? field "piece")
+					(set! fieldname "Piece")))
      (begin
        (set! type "Score")
        (set! fieldname (string-capitalize field))))
      
     (set! tag (string-append type fieldname)) 
-    (set! current (d-DirectiveGet-header-postfix tag))
-    (if (boolean? current)
-	(set! current "") 
-	(begin
-	  ;;(display current)
-	  (set! thematch (string-match (string-append field " = \"([^\"]*)\"\n") current))
-	  ;;(display thematch)
-	  (if (regexp-match? thematch)
-	      (set! current (match:substring thematch 1)))))
+
+    (set! current (d-DirectiveGet-header-display tag))
+    (if (not current)
+			(set! current ""))		
+					
     (if (not title)
-	(set! title (d-GetUserInput (string-append type " " fieldname)
+			(set! title (d-GetUserInput (string-append type " " fieldname)
 				    (string-append "Give a name for the " fieldname " of the " type) current #f)))
     (if title
       (begin
-	  (d-SetSaved #f)
-	  (if (string-null? title)
-	      (d-DirectiveDelete-header tag)
-	      (begin
-		(if escape (set! title (scheme-escape title )))
-		(d-DirectivePut-header-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
-		(d-DirectivePut-header-display tag (string-append type " " fieldname ": " (html-escape title)))
-		(d-DirectivePut-header-postfix tag (string-append field " = \"" title "\"\n")))))
-      (disp "Cancelled\n"))))
+				(d-SetSaved #f)
+				(if (string-null? title)
+					(d-DirectiveDelete-header tag)
+					(begin
+						(if escape (set! title (scheme-escape title )))
+							(d-DirectivePut-header-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
+							(d-DirectivePut-header-display tag (html-escape title))
+							(d-DirectivePut-header-postfix tag (string-append field " = \\markup { \\with-url #'\"scheme:(d-" type fieldname ")\" "  "\"" title "\"}\n")))))
+			(disp "Cancelled\n"))))
 
 ; SetScoreHeaderField sets a field in the score header
 (define* (SetScoreHeaderField field  #:optional (title #f) (escape #t))
@@ -569,9 +565,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (DenemoPrintAllHeaders)
-  (let ((lily "printallheaders"))
+  (let ((lily "\nprintallheaders"))
     (if (d-CheckLilyVersion "2.11.59")
-	(set! lily "print-all-headers"))
+	(set! lily "\nprint-all-headers"))
      (d-DirectivePut-paper-postfix "PrintAllHeaders" (string-append lily " = ##t\n"))))
      
 (define* (SetQuarterCommaMeanTone #:optional (thestep 0))
