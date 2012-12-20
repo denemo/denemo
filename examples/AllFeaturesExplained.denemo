@@ -9,7 +9,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     </directive>
     <directive>
       <tag>PrintAllHeaders</tag>
-      <postfix>print-all-headers = ##t
+      <postfix>
+print-all-headers = ##t
 </postfix>
     </directive>
   </paper-directives>
@@ -213,7 +214,7 @@ accGeige</tag>
       </directive>
     </score-directives>
   </lilycontrol>
-  <movement-number>2</movement-number>
+  <movement-number>1</movement-number>
   <movement>
     <edit-info>
       <staffno>1</staffno>
@@ -228,16 +229,16 @@ accGeige</tag>
     <header-directives>
       <directive>
         <tag>MovementTitle</tag>
-        <postfix>subtitle = "Upbeat - Pickup - Anacrusis"
+        <postfix>subtitle = \markup { \with-url #'"scheme:(d-MovementTitle)" "Upbeat - Pickup - Anacrusis"}
 </postfix>
-        <display>Movement Title: Upbeat - Pickup - Anacrusis</display>
+        <display>Upbeat - Pickup - Anacrusis</display>
         <override>36</override>
       </directive>
       <directive>
         <tag>ScoreTitle</tag>
-        <postfix>title = "Click on Explanation ..."
+        <postfix>title = \markup { \with-url #'"scheme:(d-ScoreTitle)" "Click on Explanation ..."}
 </postfix>
-        <display>Score Title: Click on Explanation ...</display>
+        <display>Click on Explanation ...</display>
         <override>36</override>
       </directive>
     </header-directives>
@@ -295,8 +296,8 @@ accGeige</tag>
         <measures>
           <measure>
             <lily-directive tag="Upbeat" display="Upbeat" minpixels="30" override="512" ticks="1152">\partial 256*64 </lily-directive>
-            <lily-directive tag="TextAnnotation&#10;Explanation &#x2B0A;" display="Explanation" grob="Text" prefix="&lt;&gt;-\tweak #'extra-offset #'( 2 . 0 )" minpixels="30">-\markup {    \with-url #'"scheme:(d-InfoDialog \"To tell Denemo that a bar is complete use 
-Measures-&gt;Anacrusis command after putting the amount of notes you need. If you change the duration of the upbeat, repeat the command.
+            <lily-directive tag="TextAnnotation&#10;Explanation &#x2B0A;" display="Explanation" grob="Text" prefix="&lt;&gt;-\tweak #'extra-offset #'( 2 . 0 )" minpixels="30">-\markup {    \with-url #'"scheme:(d-InfoDialog \"This piece starts with an up-beat. To tell Denemo that a bar is complete use the 
+Measures-&gt;Anacrusis command after putting in the notes you need. If you change the duration of the upbeat, repeat the command.
 Usually the shortcut is u for this.\")"             &#x2B06;Explanation }</lily-directive>
             <chord show="true" id="id2">
               <duration base="eighth">
@@ -330,7 +331,7 @@ Usually the shortcut is u for this.\")"             &#x2B06;Explanation }</lily-
               <duration base="sixteenth"/>
               <notes>
                 <note id="id9">
-                  <middle-c-offset>1</middle-c-offset>
+                  <middle-c-offset>2</middle-c-offset>
                 </note>
               </notes>
             </chord>
@@ -338,7 +339,8 @@ Usually the shortcut is u for this.\")"             &#x2B06;Explanation }</lily-
               <duration base="sixteenth"/>
               <notes>
                 <note id="id11">
-                  <middle-c-offset>1</middle-c-offset>
+                  <middle-c-offset>3</middle-c-offset>
+                  <accidental name="double-sharp" show="true"/>
                 </note>
               </notes>
             </chord>
@@ -346,15 +348,19 @@ Usually the shortcut is u for this.\")"             &#x2B06;Explanation }</lily-
               <duration base="sixteenth"/>
               <notes>
                 <note id="id13">
-                  <middle-c-offset>1</middle-c-offset>
+                  <middle-c-offset>4</middle-c-offset>
+                  <accidental name="sharp" show="true"/>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id14">
-              <duration base="quarter"/>
+            <chord show="true" id="id14" grace="acciaccatura">
+              <duration base="eighth"/>
+              <slurs>
+                <slur to="id16"/>
+              </slurs>
               <notes>
                 <note id="id15">
-                  <middle-c-offset>1</middle-c-offset>
+                  <middle-c-offset>2</middle-c-offset>
                 </note>
               </notes>
             </chord>
@@ -366,11 +372,15 @@ Usually the shortcut is u for this.\")"             &#x2B06;Explanation }</lily-
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id18">
+            <chord show="true" id="id18" grace="true">
               <duration base="eighth"/>
+              <slurs>
+                <slur to="id20"/>
+              </slurs>
               <notes>
                 <note id="id19">
                   <middle-c-offset>1</middle-c-offset>
+                  <accidental name="flat" show="true"/>
                 </note>
               </notes>
             </chord>
@@ -378,7 +388,254 @@ Usually the shortcut is u for this.\")"             &#x2B06;Explanation }</lily-
               <duration base="eighth"/>
               <notes>
                 <note id="id21">
+                  <middle-c-offset>0</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id22">
+              <duration base="eighth"/>
+              <notes>
+                <note id="id23">
+                  <middle-c-offset>2</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id24">
+              <duration base="quarter"/>
+              <tie to="id27"/>
+              <notes>
+                <note id="id25">
+                  <middle-c-offset>2</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+          </measure>
+          <measure>
+            <tuplet-start id="id26">
+              <multiplier>
+                <numerator>2</numerator>
+                <denominator>3</denominator>
+              </multiplier>
+            </tuplet-start>
+            <chord show="true" id="id27">
+              <duration base="eighth"/>
+              <notes>
+                <note id="id28">
+                  <middle-c-offset>2</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id29">
+              <duration base="eighth"/>
+              <notes>
+                <note id="id30">
+                  <middle-c-offset>4</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id31">
+              <duration base="eighth"/>
+              <notes>
+                <note id="id32">
+                  <middle-c-offset>7</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <tuplet-end tuplet="id26"/>
+            <lily-directive tag="TextAnnotation&#10;Explanation &#x2B0A;" display="Explanation" grob="Text" prefix="&lt;&gt;-\tweak #'extra-offset #'( 2 . 0 )" gx="-44" minpixels="30">-\markup {    \with-url #'"scheme:(d-InfoDialog \"Tuplets are represented in the input by two objects, marking the start and end. For the quickest entry of triplets try the Tab key, which alternately inserts triplet start and tuplet end objects
+See the Notes/Rests-&gt;Tuplets menu for other tuplet manipulating commands.\")"             &#x2B06;Explanation }</lily-directive>
+            <tuplet-start id="id33">
+              <multiplier>
+                <numerator>4</numerator>
+                <denominator>7</denominator>
+              </multiplier>
+            </tuplet-start>
+            <chord show="true" id="id34">
+              <duration base="sixteenth"/>
+              <notes>
+                <note id="id35">
+                  <middle-c-offset>7</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id36">
+              <duration base="sixteenth"/>
+              <notes>
+                <note id="id37">
                   <middle-c-offset>1</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id38">
+              <duration base="sixteenth"/>
+              <notes>
+                <note id="id39">
+                  <middle-c-offset>2</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id40">
+              <duration base="sixteenth"/>
+              <notes>
+                <note id="id41">
+                  <middle-c-offset>3</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id42">
+              <duration base="sixteenth"/>
+              <notes>
+                <note id="id43">
+                  <middle-c-offset>5</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id44">
+              <duration base="sixteenth"/>
+              <notes>
+                <note id="id45">
+                  <middle-c-offset>5</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id46">
+              <duration base="sixteenth"/>
+              <notes>
+                <note id="id47">
+                  <middle-c-offset>4</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <tuplet-end tuplet="id33"/>
+            <chord show="true" id="id48">
+              <duration base="quarter"/>
+              <notes>
+                <note id="id49">
+                  <middle-c-offset>6</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id50">
+              <duration base="quarter"/>
+              <notes>
+                <note id="id51">
+                  <middle-c-offset>6</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+          </measure>
+          <measure>
+            <lily-directive tag="TextAnnotation&#10;Explanation &#x2B0A;" display="Explanation" grob="Text" prefix="&lt;&gt;-\tweak #'extra-offset #'( 2 . 0 )" gx="-44" minpixels="30">-\markup {    \with-url #'"scheme:(d-InfoDialog \"Reducing the beams is the purpose of the Chop to One Beam command. This can be found by right clicking at the notehead where the beams should reduce
+Alternatively in the Notes/Rests-&gt;Beaming menu.\")"             &#x2B06;Explanation }</lily-directive>
+            <chord show="true" id="id52">
+              <duration base="thirty-second"/>
+              <notes>
+                <note id="id53">
+                  <middle-c-offset>6</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id54">
+              <duration base="thirty-second"/>
+              <notes>
+                <note id="id55">
+                  <middle-c-offset>6</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id56">
+              <duration base="thirty-second"/>
+              <notes>
+                <note id="id57">
+                  <middle-c-offset>6</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id58">
+              <duration base="thirty-second"/>
+              <directives>
+                <directive>
+                  <tag>BeamRight</tag>
+                  <prefix>\set stemRightBeamCount = #1 </prefix>
+                  <display>[1</display>
+                  <override>16</override>
+                </directive>
+              </directives>
+              <notes>
+                <note id="id59">
+                  <middle-c-offset>6</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id60">
+              <duration base="thirty-second"/>
+              <directives>
+                <directive>
+                  <tag>BeamLeft</tag>
+                  <prefix>\set stemLeftBeamCount = #1 </prefix>
+                  <display>]1</display>
+                  <override>16</override>
+                </directive>
+              </directives>
+              <notes>
+                <note id="id61">
+                  <middle-c-offset>6</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id62">
+              <duration base="thirty-second"/>
+              <notes>
+                <note id="id63">
+                  <middle-c-offset>6</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id64">
+              <duration base="thirty-second"/>
+              <notes>
+                <note id="id65">
+                  <middle-c-offset>6</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id66">
+              <duration base="thirty-second"/>
+              <notes>
+                <note id="id67">
+                  <middle-c-offset>6</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id68">
+              <duration base="eighth"/>
+              <notes>
+                <note id="id69">
+                  <middle-c-offset>6</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id70">
+              <duration base="eighth"/>
+              <notes>
+                <note id="id71">
+                  <middle-c-offset>6</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id72">
+              <duration base="eighth"/>
+              <notes>
+                <note id="id73">
+                  <middle-c-offset>6</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id74">
+              <duration base="eighth"/>
+              <notes>
+                <note id="id75">
+                  <middle-c-offset>6</middle-c-offset>
                 </note>
               </notes>
             </chord>
@@ -389,21 +646,21 @@ Usually the shortcut is u for this.\")"             &#x2B06;Explanation }</lily-
   </movement>
   <movement>
     <edit-info>
-      <staffno>1</staffno>
+      <staffno>2</staffno>
       <measureno>1</measureno>
-      <cursorposition>-1</cursorposition>
+      <cursorposition>10</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
-      <page-zoom>0</page-zoom>
-      <page-system-height>0</page-system-height>
+      <page-zoom>100</page-zoom>
+      <page-system-height>100</page-system-height>
     </edit-info>
     <header-directives>
       <directive>
         <tag>MovementTitle</tag>
-        <postfix>subtitle = "Piano Notation"
+        <postfix>subtitle = \markup { \with-url #'"scheme:(d-MovementTitle)" "Piano Notation"}
 </postfix>
-        <display>Movement Title: Piano Notation</display>
+        <display>Piano Notation</display>
         <override>36</override>
       </directive>
     </header-directives>
@@ -417,17 +674,17 @@ Usually the shortcut is u for this.\")"             &#x2B06;Explanation }</lily-
       </tempo>
     </score-info>
     <staves>
-      <staff id="id22"/>
-      <staff id="id23"/>
+      <staff id="id76"/>
+      <staff id="id77"/>
     </staves>
     <voices>
-      <voice id="id24">
+      <voice id="id78">
         <voice-info>
           <voice-name>Piano RH</voice-name>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id22"/>
+          <staff-ref staff="id76"/>
           <clef name="treble"/>
           <key-signature>
             <modal-key-signature note-name="C" mode="major"/>
@@ -468,10 +725,10 @@ Usually the shortcut is u for this.\")"             &#x2B06;Explanation }</lily-
         <measures>
           <measure>
             <lily-directive tag="TextAnnotation&#10;Explanation &#x2B0A;" display="Explanation" grob="Text" prefix="&lt;&gt;-\tweak #'extra-offset #'( -26 . -2 )" minpixels="30">-\markup {    \with-url #'"scheme:(d-InfoDialog \"The braces are created using Staff-&gt;Staff Groupings command. Put the cursor on the upper staff and click Piano Group Start then on the lower and use Piano Group End. Or use a template.\")"             "Explanation  &gt; "}</lily-directive>
-            <chord show="true" id="id25">
+            <chord show="true" id="id79">
               <duration base="half"/>
               <notes>
-                <note id="id26">
+                <note id="id80">
                   <middle-c-offset>9</middle-c-offset>
                 </note>
               </notes>
@@ -479,10 +736,10 @@ Usually the shortcut is u for this.\")"             &#x2B06;Explanation }</lily-
             <lily-directive tag="TextAnnotation&#10;Explanation &#x2B0A;" display="Explanation" grob="Text" prefix="&lt;&gt;-\tweak #'extra-offset #'( -7 . 0 )" minpixels="30">-\markup {    \with-url #'"scheme:(d-InfoDialog \"To change the staff on which the music appears use the command 
 Staff-&gt;Change Staff command, giving the name of the staff to move to.
 The input Denemo Display gives you an indicator of what you have done. If you want to see the music in the display show itself in the clef of the staff you have moved it to insert a Display Only clef change. See the Clef menu for this.\")"             &#x2B06;Explanation }</lily-directive>
-            <chord show="true" id="id27">
+            <chord show="true" id="id81">
               <duration base="half"/>
               <notes>
-                <note id="id28">
+                <note id="id82">
                   <middle-c-offset>9</middle-c-offset>
                 </note>
               </notes>
@@ -490,13 +747,13 @@ The input Denemo Display gives you an indicator of what you have done. If you wa
           </measure>
         </measures>
       </voice>
-      <voice id="id29">
+      <voice id="id83">
         <voice-info>
           <voice-name>Piano LH</voice-name>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id23"/>
+          <staff-ref staff="id77"/>
           <clef name="bass"/>
           <key-signature>
             <modal-key-signature note-name="C" mode="major"/>
@@ -536,64 +793,64 @@ The input Denemo Display gives you an indicator of what you have done. If you wa
         </voice-props>
         <measures>
           <measure>
-            <chord show="true" id="id30">
+            <chord show="true" id="id84">
               <duration base="eighth"/>
               <notes>
-                <note id="id31">
+                <note id="id85">
                   <middle-c-offset>-5</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id32">
+            <chord show="true" id="id86">
               <duration base="eighth"/>
               <notes>
-                <note id="id33">
+                <note id="id87">
                   <middle-c-offset>-5</middle-c-offset>
                 </note>
               </notes>
             </chord>
             <lily-directive tag="StaffChange" graphic_name="&#10;&#x21D2;Piano RH&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="Piano RH" </lily-directive>
             <clef name="treble" show="false"/>
-            <chord show="true" id="id34">
+            <chord show="true" id="id88">
               <duration base="eighth"/>
               <notes>
-                <note id="id35">
+                <note id="id89">
                   <middle-c-offset>3</middle-c-offset>
                 </note>
               </notes>
             </chord>
             <lily-directive tag="StaffChange" graphic_name="&#10;&#x21D2;Piano LH&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="Piano LH" </lily-directive>
             <clef name="bass" show="false"/>
-            <chord show="true" id="id36">
+            <chord show="true" id="id90">
               <duration base="eighth"/>
               <notes>
-                <note id="id37">
+                <note id="id91">
                   <middle-c-offset>-3</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id38">
+            <chord show="true" id="id92">
               <duration base="eighth">
                 <dots>1</dots>
               </duration>
               <notes>
-                <note id="id39">
+                <note id="id93">
                   <middle-c-offset>-3</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id40">
+            <chord show="true" id="id94">
               <duration base="sixteenth"/>
               <notes>
-                <note id="id41">
+                <note id="id95">
                   <middle-c-offset>-3</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id42">
+            <chord show="true" id="id96">
               <duration base="quarter"/>
               <notes>
-                <note id="id43">
+                <note id="id97">
                   <middle-c-offset>-3</middle-c-offset>
                 </note>
               </notes>
@@ -606,8 +863,8 @@ The input Denemo Display gives you an indicator of what you have done. If you wa
   <movement>
     <edit-info>
       <staffno>1</staffno>
-      <measureno>5</measureno>
-      <cursorposition>4</cursorposition>
+      <measureno>3</measureno>
+      <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -617,9 +874,9 @@ The input Denemo Display gives you an indicator of what you have done. If you wa
     <header-directives>
       <directive>
         <tag>MovementTitle</tag>
-        <postfix>subtitle = "1st &amp; 2nd Time bars and Repeat Barlines."
+        <postfix>subtitle = \markup { \with-url #'"scheme:(d-MovementTitle)" "1st &amp; 2nd Time bars and Repeat Barlines."}
 </postfix>
-        <display>Movement Title: 1st &amp;amp; 2nd Time bars and Repeat Barlines.</display>
+        <display>1st &amp;amp; 2nd Time bars and Repeat Barlines.</display>
         <override>36</override>
       </directive>
     </header-directives>
@@ -633,16 +890,16 @@ The input Denemo Display gives you an indicator of what you have done. If you wa
       </tempo>
     </score-info>
     <staves>
-      <staff id="id44"/>
+      <staff id="id98"/>
     </staves>
     <voices>
-      <voice id="id45">
+      <voice id="id99">
         <voice-info>
           <voice-name> </voice-name>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id44"/>
+          <staff-ref staff="id98"/>
           <clef name="treble"/>
           <key-signature>
             <modal-key-signature note-name="C" mode="major"/>
@@ -676,36 +933,36 @@ The input Denemo Display gives you an indicator of what you have done. If you wa
         </voice-props>
         <measures>
           <measure>
-            <chord show="true" id="id46">
+            <chord show="true" id="id100">
               <duration base="quarter"/>
               <notes>
-                <note id="id47">
+                <note id="id101">
                   <middle-c-offset>5</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id48">
+            <chord show="true" id="id102">
               <duration base="quarter"/>
               <notes>
-                <note id="id49">
+                <note id="id103">
                   <middle-c-offset>6</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id50">
+            <chord show="true" id="id104">
               <duration base="quarter"/>
               <notes>
-                <note id="id51">
+                <note id="id105">
                   <middle-c-offset>7</middle-c-offset>
                 </note>
               </notes>
             </chord>
             <lily-directive tag="TextAnnotation&#10;Explanation &#x2B0A;" display="Explanation &#x2B0A;" grob="Text" prefix="&lt;&gt;-\tweak #'extra-offset #'( -13.4384197530864 . 9.65886419753087 )" minpixels="30">-\markup {    \with-url #'"scheme:(d-InfoDialog \"To put in the start of a first time bar use the command Directives-&gt;Start a first time bar.
 Usually the shortcut is r,1 for this.\")"              Explanation &#x2B0A; }</lily-directive>
-            <chord show="true" id="id52">
+            <chord show="true" id="id106">
               <duration base="quarter"/>
               <notes>
-                <note id="id53">
+                <note id="id107">
                   <middle-c-offset>8</middle-c-offset>
                 </note>
               </notes>
@@ -715,34 +972,34 @@ Usually the shortcut is r,1 for this.\")"              Explanation &#x2B0A; }</l
 </lily-directive>
           </measure>
           <measure>
-            <chord show="true" id="id54">
+            <chord show="true" id="id108">
               <duration base="quarter"/>
               <notes>
-                <note id="id55">
+                <note id="id109">
                   <middle-c-offset>9</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id56">
+            <chord show="true" id="id110">
               <duration base="quarter"/>
               <notes>
-                <note id="id57">
+                <note id="id111">
                   <middle-c-offset>10</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id58">
+            <chord show="true" id="id112">
               <duration base="quarter"/>
               <notes>
-                <note id="id59">
+                <note id="id113">
                   <middle-c-offset>11</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id60">
+            <chord show="true" id="id114">
               <duration base="quarter"/>
               <notes>
-                <note id="id61">
+                <note id="id115">
                   <middle-c-offset>12</middle-c-offset>
                 </note>
               </notes>
@@ -756,18 +1013,18 @@ Usually the shortcut is r,1 for this.\")"              Explanation &#x2B0A; }</l
 </lily-directive>
           </measure>
           <measure>
-            <chord show="true" id="id62">
+            <chord show="true" id="id116">
               <duration base="half"/>
               <notes>
-                <note id="id63">
+                <note id="id117">
                   <middle-c-offset>12</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id64">
+            <chord show="true" id="id118">
               <duration base="half"/>
               <notes>
-                <note id="id65">
+                <note id="id119">
                   <middle-c-offset>12</middle-c-offset>
                 </note>
               </notes>
@@ -780,68 +1037,68 @@ Usually the shortcut is r,1 for this.\")"              Explanation &#x2B0A; }</l
             <lily-directive tag="RepeatStart" graphic_name="RepeatStart" minpixels="30" override="4">\bar "|:"</lily-directive>
             <lily-directive tag="TextAnnotation&#10;Explanation &#x2B0A;" display="   &#x2B0B;Explanation" grob="Text" prefix="&lt;&gt;-\tweak #'extra-offset #'( -2 . 0 )" minpixels="30">-\markup {    \with-url #'"scheme:(d-InfoDialog \"To put a special barline like this use the command Directives-&gt;Barlines-&gt;Repeat start.
 Usually the shortcut is Shift-B,s for this.\")"             &#x2B09;Explanation }</lily-directive>
-            <chord show="true" id="id66">
+            <chord show="true" id="id120">
               <duration base="quarter"/>
               <notes>
-                <note id="id67">
+                <note id="id121">
                   <middle-c-offset>12</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id68">
+            <chord show="true" id="id122">
               <duration base="quarter"/>
               <notes>
-                <note id="id69">
+                <note id="id123">
                   <middle-c-offset>5</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id70">
+            <chord show="true" id="id124">
               <duration base="quarter"/>
               <notes>
-                <note id="id71">
+                <note id="id125">
                   <middle-c-offset>6</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id72">
+            <chord show="true" id="id126">
               <duration base="quarter"/>
               <notes>
-                <note id="id73">
+                <note id="id127">
                   <middle-c-offset>8</middle-c-offset>
                 </note>
               </notes>
             </chord>
           </measure>
           <measure>
-            <chord show="true" id="id74">
+            <chord show="true" id="id128">
               <duration base="quarter"/>
               <notes>
-                <note id="id75">
+                <note id="id129">
                   <middle-c-offset>9</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id76">
+            <chord show="true" id="id130">
               <duration base="quarter"/>
               <notes>
-                <note id="id77">
+                <note id="id131">
                   <middle-c-offset>10</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id78">
+            <chord show="true" id="id132">
               <duration base="quarter"/>
               <notes>
-                <note id="id79">
+                <note id="id133">
                   <middle-c-offset>12</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id80">
+            <chord show="true" id="id134">
               <duration base="quarter"/>
               <notes>
-                <note id="id81">
+                <note id="id135">
                   <middle-c-offset>9</middle-c-offset>
                 </note>
               </notes>
@@ -866,9 +1123,9 @@ Usually the shortcut is Shift-B,s for this.\")"             &#x2B09;Explanation 
     <header-directives>
       <directive>
         <tag>MovementTitle</tag>
-        <postfix>subtitle = "Accordion Notation"
+        <postfix>subtitle = \markup { \with-url #'"scheme:(d-MovementTitle)" "Accordion Notation"}
 </postfix>
-        <display>Movement Title: Accordion Notation</display>
+        <display>Accordion Notation</display>
         <override>36</override>
       </directive>
     </header-directives>
@@ -882,16 +1139,16 @@ Usually the shortcut is Shift-B,s for this.\")"             &#x2B09;Explanation 
       </tempo>
     </score-info>
     <staves>
-      <staff id="id82"/>
+      <staff id="id136"/>
     </staves>
     <voices>
-      <voice id="id83">
+      <voice id="id137">
         <voice-info>
           <voice-name>Accordion</voice-name>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id82"/>
+          <staff-ref staff="id136"/>
           <clef name="treble"/>
           <key-signature>
             <modal-key-signature note-name="C" mode="major"/>
@@ -925,18 +1182,18 @@ Usually the shortcut is Shift-B,s for this.\")"             &#x2B09;Explanation 
         </voice-props>
         <measures>
           <measure>
-            <chord show="true" id="id84">
+            <chord show="true" id="id138">
               <duration base="quarter"/>
               <notes>
-                <note id="id85">
+                <note id="id139">
                   <middle-c-offset>-2</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id86">
+            <chord show="true" id="id140">
               <duration base="quarter"/>
               <notes>
-                <note id="id87">
+                <note id="id141">
                   <middle-c-offset>-1</middle-c-offset>
                 </note>
               </notes>
@@ -944,18 +1201,18 @@ Usually the shortcut is Shift-B,s for this.\")"             &#x2B09;Explanation 
             <lily-directive tag="accOboe" display="accOboe" prefix="&lt;&gt;-\tweak #'extra-offset #'(-1.12315367745434 . 0.663778683804964) -" minpixels="30">\accOboe ^\markup { \with-url #'"scheme:(d-InfoDialog \"This is an accordion shift symbol.
 To make accordion shifts available in a score use the command Directives-&gt;Enable Accordion Shifts.
 To put in a shift use Directives-&gt;Menu of Objects to Insert\")"   "&#x2B0B;Explanation"}</lily-directive>
-            <chord show="true" id="id88">
+            <chord show="true" id="id142">
               <duration base="quarter"/>
               <notes>
-                <note id="id89">
+                <note id="id143">
                   <middle-c-offset>0</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id90">
+            <chord show="true" id="id144">
               <duration base="quarter"/>
               <notes>
-                <note id="id91">
+                <note id="id145">
                   <middle-c-offset>1</middle-c-offset>
                 </note>
               </notes>
