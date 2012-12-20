@@ -1685,9 +1685,12 @@ action_for_link (EvView* view, EvLinkAction *obj) {
 	mswin("action_for_link: uri %s\n", uri);
 	//g_print("acting on external signal %s type=%d directivenum=%d\n", uri, Denemo.gui->si->target.type, Denemo.gui->si->target.directivenum);
   if(uri) {
-		gchar **vec = g_strsplit (uri, ":",5);
+		gchar **orig_vec = g_strsplit (uri, ":",6);
+		gchar **vec = orig_vec;
+		if(vec[0] && vec[1] && vec[2] && vec[3] && vec[4] && vec[5] && *vec[5])
+			vec++;
 		mswin("action_for_link: %s %s %s %s", vec[0],  vec[1],  vec[2],  vec[3]);
-		if(!strcmp(vec[0], "textedit") && vec[1] && vec[2] && vec[3]) {
+		if(!strcmp(orig_vec[0], "textedit") && vec[1] && vec[2] && vec[3]) {
 			DenemoTarget old_target = Denemo.gui->si->target;
       Ww.ObjectLocated = goto_lilypond_position(atoi(vec[2]), atoi(vec[3]));//sets si->target
       mswin("action_for_link: object located %d\n", Ww.ObjectLocated);
@@ -1757,7 +1760,7 @@ action_for_link (EvView* view, EvLinkAction *obj) {
 						} else {
 				g_warning ("Cannot follow link type %s\n", vec[0]);
 		}
-		g_strfreev(vec);
+		g_strfreev(orig_vec);
 	} 
 	return TRUE;//we do not want the evince widget to handle this. (chord*)
 }
