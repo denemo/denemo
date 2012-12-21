@@ -1689,8 +1689,7 @@ action_for_link (EvView* view, EvLinkAction *obj) {
 		gchar **vec = orig_vec;
 		if(vec[0] && vec[1] && vec[2] && vec[3] && vec[4] && vec[5] && *vec[5])
 			vec++;
-		mswin("action_for_link: %s %s %s %s", vec[0],  vec[1],  vec[2],  vec[3]);
-		if(!strcmp(orig_vec[0], "textedit") && vec[1] && vec[2] && vec[3]) {
+		if(g_str_has_prefix(uri, "textedit:") && vec[1] && vec[2] && vec[3]) {
 			DenemoTarget old_target = Denemo.gui->si->target;
       Ww.ObjectLocated = goto_lilypond_position(atoi(vec[2]), atoi(vec[3]));//sets si->target
       mswin("action_for_link: object located %d\n", Ww.ObjectLocated);
@@ -1747,22 +1746,22 @@ action_for_link (EvView* view, EvLinkAction *obj) {
       
       
       
-		} else 	if(!strcmp(vec[0], "http")) {
+		} else 	if(g_str_has_prefix(uri, "http:")) {
 						gchar *text = g_strdup_printf("(d-Help \"%s\")", uri);
 						call_out_to_guile(text);
 						g_free(text);
 						}
-		 else if(!strcmp(vec[0], "scheme")) {
-						gchar *text = uri+strlen("scheme")+1;
+		 else if(g_str_has_prefix(uri, "scheme:")) {
+						gchar *text = uri+strlen("scheme:");
 						if(*text)
 							call_out_to_guile(text);
 						else g_warning("No script given after scheme:");
 						} else {
-				g_warning ("Cannot follow link type %s\n", vec[0]);
+				g_warning ("Cannot follow link type %s\n", orig_vec[0]);
 		}
 		g_strfreev(orig_vec);
 	} 
-	return TRUE;//we do not want the evince widget to handle this. (chord*)
+	return TRUE;//we do not want the evince widget to handle this.
 }
 static gint adjust_x=0;
 static gint adjust_y=0;
@@ -2565,8 +2564,8 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
 
   
   top_vbox = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  if(!Denemo.prefs.manualtypeset)
-		gtk_window_set_urgency_hint (GTK_WINDOW(Denemo.window), TRUE);//gtk_window_set_transient_for (GTK_WINDOW(top_vbox), GTK_WINDOW(Denemo.window));
+ // if(!Denemo.prefs.manualtypeset)
+	//	gtk_window_set_urgency_hint (GTK_WINDOW(Denemo.window), TRUE);//gtk_window_set_transient_for (GTK_WINDOW(top_vbox), GTK_WINDOW(Denemo.window));
   gtk_window_set_title(GTK_WINDOW(top_vbox),_( "Denemo Print View"));
   gtk_window_set_default_size(GTK_WINDOW(top_vbox), 600, 750);
   g_signal_connect (G_OBJECT (top_vbox), "delete-event",
