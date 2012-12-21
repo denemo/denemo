@@ -142,7 +142,9 @@ infodialog (gchar * msg)
   dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window),
 				   GTK_DIALOG_DESTROY_WITH_PARENT,
 				   GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, "%s", msg);
-				   
+#ifdef G_OS_WIN32
+	gtk_window_set_resizable(GTK_WINDOW(dialog), TRUE);	//needed on windows because of a bug, not all text can be seen.	
+#endif	   
   g_signal_connect_swapped (dialog, "response",
 			    G_CALLBACK (gtk_widget_hide),
 			    dialog);
@@ -1497,7 +1499,6 @@ string_dialog_entry_with_widget_opt (DenemoGUI *gui, gchar *wlabel, gchar *direc
                                         (GtkDialogFlags) (GTK_DIALOG_DESTROY_WITH_PARENT),
                                         GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
                                         NULL);
-
 	label = gtk_label_new (direction);
 	GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 	gtk_container_add(GTK_CONTAINER(content_area), label);
