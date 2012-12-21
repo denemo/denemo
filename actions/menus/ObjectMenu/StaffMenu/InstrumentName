@@ -44,7 +44,7 @@
   	
   ;;if this is the first of several movements, ask to set the rest.		 	
 	 (if (equal? nextmovement 2)
-			(let ((do-all (d-GetUserInput (_ "Instrument Name") (_ "Set this name for the same staff in other movements?") (_ "y"))))
+			(let ((do-all (d-GetUserInput (_ "Instrument Name") (_ "This sets the name in Movement 1\nSet this name for the same staff in other movements?") (_ "y"))))
 				(if (equal? do-all (_ "y"))
 					(let ((staffnum (d-GetStaff)))
 						(d-PushPosition)
