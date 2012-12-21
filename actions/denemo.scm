@@ -269,11 +269,11 @@
 				(d-SetSaved #f)
 				(if (string-null? title)
 					(d-DirectiveDelete-header tag)
-					(begin
+					(let ((movement (number->string (d-GetMovement))))
 						(if escape (set! title (scheme-escape title )))
 							(d-DirectivePut-header-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
 							(d-DirectivePut-header-display tag (html-escape title))
-							(d-DirectivePut-header-postfix tag (string-append field " = \\markup { \\with-url #'\"scheme:(d-" type fieldname ")\" "  "\"" title "\"}\n")))))
+							(d-DirectivePut-header-postfix tag (string-append field " = \\markup { \\with-url #'\"scheme:(d-GoToPosition " movement " 1 1 1)(d-" type fieldname ")\" "  "\"" title "\"}\n")))))
 			(disp "Cancelled\n"))))
 
 ; SetScoreHeaderField sets a field in the score header

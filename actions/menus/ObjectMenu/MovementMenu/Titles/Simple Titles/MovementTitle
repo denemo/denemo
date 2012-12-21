@@ -8,9 +8,9 @@
         <action>MovementTitle</action>
         <scheme>(SetHeaderField "subtitle")
 (DenemoPrintAllHeaders)
-(d-RefreshDisplay)</scheme>
+(d-SetSaved #f)</scheme>
         <label>Title</label>
-        <tooltip>Prints the name given as a title above this movement. </tooltip>
+        <tooltip>Prints the name given as a title above the current movement.</tooltip>
       </row>
     </map>
   </merge>
