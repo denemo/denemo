@@ -2510,7 +2510,7 @@ SCM scheme_get_user_input(SCM label, SCM prompt, SCM init, SCM modal) {
  else initial_value = strdup(" ");
  
  gchar * ret =  string_dialog_entry_with_widget_opt (Denemo.gui, title, instruction, initial_value, NULL, (modal==SCM_UNDEFINED)||scm_is_true(modal));
- SCM scm = scm_makfrom0str (ret);
+ SCM scm = ret?scm_makfrom0str (ret):SCM_BOOL_F;
 
  if (title) free(title);
  if (instruction) free(instruction);

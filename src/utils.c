@@ -1520,24 +1520,25 @@ string_dialog_entry_with_widget_opt (DenemoGUI *gui, gchar *wlabel, gchar *direc
   
   if(modal) {
     gtk_widget_grab_focus (entry);
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT){ 
-		entry_string = (gchar *) gtk_entry_get_text (GTK_ENTRY (entry));
-		string = g_string_new(entry_string);
-		gtk_widget_destroy (dialog);
-		return g_string_free(string, FALSE);
-	}
-	else {  
-		gtk_widget_destroy (dialog);
+		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT){ 
+			entry_string = (gchar *) gtk_entry_get_text (GTK_ENTRY (entry));
+			string = g_string_new(entry_string);
+			gtk_widget_destroy (dialog);
+			return g_string_free(string, FALSE);
+		}	else {  
+			gtk_widget_destroy (dialog);
+			return NULL;
+		}
 		return NULL;
-	}
-  return NULL;
   } else {
     g_signal_connect_swapped (dialog,"response", G_CALLBACK (gtk_main_quit), entry);
     gtk_main();
-    entry_string = (gchar *) gtk_entry_get_text (GTK_ENTRY (entry));
-		string = g_string_new(entry_string);
-    gtk_widget_destroy (dialog);
-		return g_string_free(string, FALSE);
+    if( GTK_IS_WIDGET(entry)) {
+			entry_string = GTK_IS_WIDGET(entry)?	g_strdup((gchar *) gtk_entry_get_text (GTK_ENTRY (entry))):NULL;
+			gtk_widget_destroy (dialog);
+			return entry_string;
+		}
+		return NULL;
   }
 }
 
