@@ -111,7 +111,7 @@
 	(xval 0)
 	(yval 0)
 	(xy (string-append " " (car offset) " . " (cdr offset) " ")))
-	(disp "Change offset")
+	;(disp "Change offset")
     (begin
       (if (boolean? oldstr)
 	  (set! oldstr (string-append prefixstring " 0.0 . 0.0 " postfixstring)))
@@ -131,7 +131,7 @@
       (set! yold (string->number oldy))
 ;;;add two values
       ;;;(set! offset (d-GetOffset))
-      (disp "Starting with " offset " which is a pair " (pair? offset) " ok?")
+      ;(disp "Starting with " offset " which is a pair " (pair? offset) " ok?")
       (if (pair? offset)
 				(begin
 					(set! xnew (car offset))
@@ -142,7 +142,7 @@
 					(set! ynew (number->string (+ yval yold)))
 					(set! xy (string-append xnew " . " ynew)))
 				(set! xy " 0.0 . 0.0 "))
-				(disp "the new offset will be " xy " ok?")
+				;(disp "the new offset will be " xy " ok?")
 	  (regexp-substitute #f thematch 'pre (string-append prefixstring xy postfixstring) 'post))    
     ))));;;; end of function change offset
 	
@@ -227,7 +227,7 @@
 		(let ((choice #f))
 			(set! target-type (list-ref target 0))
 			(set! grob (list-ref target 1))
-			(disp "Looking at target " target-type " on grob " grob " ok?")
+			;(disp "Looking at target " target-type " on grob " grob " ok?")
 			(cond 
 				((equal? target-type "Object")
 					(if (d-Directive-standalone?)
