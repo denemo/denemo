@@ -1877,7 +1877,7 @@ static gdouble get_center_staff_offset(void) {
 }
 
 static void apply_tweak(void) {
-	g_print("Apply tweak Quitting with %d %d", Ww.stage, Ww.grob);
+	//g_print("Apply tweak Quitting with %d %d", Ww.stage, Ww.grob);
 		gtk_main_quit();
 		return;
 	if(Ww.stage==Offsetting) {
@@ -2094,7 +2094,7 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 		if(right)
 			popup_tweak_menu();
 		else {
-			g_print("Offsetting quitting with %d %d", Ww.stage, Ww.grob);
+			//g_print("Offsetting quitting with %d %d", Ww.stage, Ww.grob);
 			gtk_main_quit();
 		}
    return TRUE;
@@ -2103,7 +2103,7 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
   // \once \override DynamicLineSpanner #'padding = #10 setting padding for cresc and dimin
   // \once \override DynamicLineSpanner #'Y-offset = #-10 to move a cresc or dimin vertically downwards.
   // \once \override DynamicLineSpanner #'direction = #1 to place above/below (-1)
-	g_print("Stage %d object loc %d left %d", Ww.stage, object_located_on_entry, left);
+	//g_print("Stage %d object loc %d left %d", Ww.stage, object_located_on_entry, left);
  if( (Ww.stage==STAGE_NONE)) {
 	if(object_located_on_entry) //set by action_for_link
 	 popup_object_edit_menu();
