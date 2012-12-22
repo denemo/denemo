@@ -2580,7 +2580,7 @@ gboolean goto_lilypond_position(gint line, gint column) {
 			gint directivenum =  (intptr_t) g_object_get_data(G_OBJECT(anchor), DIRECTIVENUM);
 			gint mid_c_offset = (intptr_t) g_object_get_data(G_OBJECT(anchor), MIDCOFFSET);
 			//g_print("location %d %d %d %d\n", objnum, measurenum, staffnum, movementnum);
-			DenemoTargetType type = (intptr_t) g_object_get_data(G_OBJECT(anchor), TARGETTYPE);g_print("getting %d\n", type);
+			DenemoTargetType type = (intptr_t) g_object_get_data(G_OBJECT(anchor), TARGETTYPE);
 			gui->si->target.objnum = objnum;
 			gui->si->target.measurenum = measurenum;
 			gui->si->target.staffnum = staffnum;
