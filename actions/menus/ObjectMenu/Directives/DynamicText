@@ -56,7 +56,7 @@
 	(if (equal? choice "Custom" ) (begin 
    		(set! choice (d-GetUserInput (_ "Custom dynamic") (_ "Enter dynamic text:") "" ) )
    		(if choice
-        		(set! LilyString (string-append  " #(make-dynamic-script (markup #:normal-text #:bold #:italic \"" choice "\")) " )))))
+        		(set! LilyString (string-append  " $(make-dynamic-script (markup #:normal-text #:bold #:italic \"" choice "\")) " )))))
     (if (equal? level "") 
       (begin
 				(set! level (d-GetUserInput (_ "Dynamic setting") (_ "Enter loudness level (0-127):") "63" ) ) 
