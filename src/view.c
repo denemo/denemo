@@ -430,6 +430,13 @@ static SCM scheme_popup_menu(SCM list) {
 static SCM scheme_get_offset(void) {
 	gdouble offsetx, offsety;
 	if(get_offset(&offsetx, &offsety)) {
+		offsetx *= 100;
+		offsety *= 100;
+		offsetx = floor(offsetx);
+		offsety = floor(offsety);
+		offsetx /=100;
+		offsety /=100;
+		
 		return scm_cons(scm_double2num(offsetx), scm_double2num(offsety));
 	} else
 	return SCM_BOOL_F;
