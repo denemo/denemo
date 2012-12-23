@@ -690,6 +690,7 @@ typedef struct DenemoScoreblock {
   guint32 id;/**< an id for this scoreblock generated from name, as a quick identifier */
   gint movement;/**< Which movement the scoreblock outputs, 0 = all movements. Only used for standard scoreblocks */
   gchar *partname; /**< Which part the scoreblock outputs, NULL = all parts. Only used for standard scoreblocks */
+  gboolean text_only;/**< TRUE if only the lilypond text exists for this widget - no widget structure to be refreshed */
 } DenemoScoreblock;
 
 
