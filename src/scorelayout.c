@@ -2068,12 +2068,13 @@ static text_modified(GtkTextBuffer *textbuffer, DenemoScoreblock *sb) {
 
     
 DenemoScoreblock *get_scoreblock_for_lilypond(gchar *lily) {
+	gchar *text = _( "The LilyPond text for this layout can be edited in the LilyPond view window.");
 	  gchar *name = NULL;
 		GtkWidget *frame = gtk_frame_new(LILYPOND_TEXT_EDITOR);
 		DenemoScoreblock *sb = g_malloc0 (sizeof(DenemoScoreblock));
 		sb->text_only = TRUE;
 		sb->widget = frame;
-		gtk_widget_set_tooltip_text(frame, _("This is a customized layout, which has been transformed into instructions for the LilyPond music typesetter.\nThis is the form in which customized layouts are stored in a Denemo score on disk - the graphical interface is no longer available. You can, however still edit the layout with care (and some understanding of LilyPond).\nOtherwise you can delete it and create a new one from a standard layout."));
+		gtk_widget_set_tooltip_text(frame, _("This is a customized layout, which has been transformed into instructions for the LilyPond music typesetter.\nThis is the form in which customized layouts are stored in a Denemo score on disk - the graphical interface is no longer available. You can, however still edit the layout with care (and some understanding of LilyPond).\nUse the View->LilyPond window to do this.\nOtherwise you can delete it and create a new one from a standard layout."));
 		GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
 		gtk_container_add (GTK_CONTAINER (sb->widget), vbox);
 		GtkWidget *options = get_options_button(sb, TRUE);
@@ -2082,7 +2083,7 @@ DenemoScoreblock *get_scoreblock_for_lilypond(gchar *lily) {
 		gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(textview), TRUE);
 		//g_print("Value %d\n", gtk_text_view_get_cursor_visible(GTK_TEXT_VIEW(textview)));
 		GtkTextBuffer *textbuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview));
-		gtk_text_buffer_set_text(textbuffer, lily, -1);
+		gtk_text_buffer_set_text(textbuffer, text, -1);
 
 		GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
 		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
@@ -2100,8 +2101,7 @@ DenemoScoreblock *get_scoreblock_for_lilypond(gchar *lily) {
 		sb->name = g_strdup("Custom Scoreblock");
 		sb->id = crc32(sb->name);
 		sb->lilypond = g_string_new(lily);
-		g_signal_connect_after (G_OBJECT (textbuffer), "changed",
-		      G_CALLBACK (text_modified), sb);
+
 
 		refresh_lilypond(sb);
     return sb;
