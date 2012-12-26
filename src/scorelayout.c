@@ -397,6 +397,7 @@ static DenemoScoreblock *clone_scoreblock(DenemoScoreblock *sb, gchar *name) {
 		gtk_box_pack_start(GTK_BOX(vbox), options, FALSE, FALSE, 0);
 		gtk_box_reorder_child (GTK_BOX(vbox), options, 0);
 		if(customize_scoreblock(sb, name)) {
+			#if 0
 			DenemoScoreblock *newsb = g_malloc0(sizeof(DenemoScoreblock));
 			create_standard_scoreblock(&newsb, movement, partname);
 			Denemo.gui->standard_scoreblocks = g_list_prepend(Denemo.gui->standard_scoreblocks, newsb);
@@ -404,6 +405,9 @@ static DenemoScoreblock *clone_scoreblock(DenemoScoreblock *sb, gchar *name) {
 			Denemo.gui->layout_id = 0;
 			gtk_window_present(GTK_WINDOW(gtk_widget_get_toplevel(GTK_WIDGET(Denemo.gui->score_layout))));
 			return newsb;
+			#else
+			return sb;
+			#endif
 		} else {
 		g_free(partname);
 		return NULL;
@@ -2050,10 +2054,27 @@ DenemoScoreblock *select_layout(gboolean all_movements, gchar *partname) {
 		return sb;
 	}
 	//NOT REACHED
-	g_warning("Error in logic: the default standard scoreblock should exist abd be returned ");
+	g_warning("Error in logic: the default standard scoreblock should exist and be returned ");
 	return sb;//this is the last in the list of standard scoreblocks but cannot be reached
 }
 
+void select_standard_layout(DenemoScoreblock *sb) {
+	if(Denemo.gui->standard_scoreblocks==NULL) {
+		create_default_scoreblock();
+		//creating a scoreblock does *not* include generating the lilypond from its widgets.
+		sb = (DenemoScoreblock*)(Denemo.gui->standard_scoreblocks->data);
+	}
+	refresh_lilypond(sb);
+	set_notebook_page(sb->widget);
+}
+void select_custom_layout(DenemoScoreblock *sb) {
+	if(Denemo.gui->custom_scoreblocks==NULL) {
+		return;
+	}
+	set_notebook_page(sb->widget);
+}
+		
+	
 static text_modified(GtkTextBuffer *textbuffer, DenemoScoreblock *sb) {
   GtkTextIter startiter, enditer;
   gtk_text_buffer_get_start_iter (textbuffer, &startiter);
@@ -2108,26 +2129,27 @@ DenemoScoreblock *get_scoreblock_for_lilypond(gchar *lily) {
 }
 
 //if the score_layout window is visible and a standard scoreblock is selected, create a custom one cloned from it with the passed name
-DenemoScoreblock *create_custom_scoreblock (gchar *layout_name) {
+DenemoScoreblock *create_custom_scoreblock (gchar *layout_name, gboolean force) {
 	GList *g;
-	if(!gtk_widget_get_visible(Denemo.gui->score_layout))
-		return FALSE;
+	if(!force && !gtk_widget_get_visible(Denemo.gui->score_layout))
+		return NULL;
 	for(g=Denemo.gui->custom_scoreblocks;g;g=g->next) {
 		DenemoScoreblock *sb = (DenemoScoreblock *)g->data;
 		if(!strcmp(layout_name, sb->name))
-			return FALSE;
+			return NULL;
 	}
 	for(g=Denemo.gui->standard_scoreblocks;g;g=g->next) {
 		DenemoScoreblock *sb = (DenemoScoreblock *)g->data;
 		if(sb->visible) {
-			return clone_scoreblock(sb, layout_name);
+			if( clone_scoreblock(sb, layout_name))
+				return sb;
 		}
 	}
 	return NULL;
 }
 
 DenemoScoreblock *create_custom_lilypond_scoreblock(void) {
-	DenemoScoreblock *sb = create_custom_scoreblock (_("Custom Scoreblock"));
+	DenemoScoreblock *sb = create_custom_scoreblock (_("Custom Scoreblock"), FALSE);
 	if(sb) {
 		convert_to_lilypond_callback(NULL, sb);
 	}

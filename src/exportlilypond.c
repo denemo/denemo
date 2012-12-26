@@ -53,7 +53,6 @@
 #define ERRORTEXT "error text"
 
 
-
  gchar *get_postfix(GList *g);
 static void 
 create_lilywindow(DenemoGUI *gui);
@@ -141,9 +140,44 @@ set_lily_error(gint line, gint column, DenemoGUI *gui) {
 }
 
 
-static gboolean make_scoreblock_editable( GtkButton*button, GdkEvent*event, GtkTextChildAnchor *anchor){
-		create_custom_lilypond_scoreblock ();//gui->lilysync =
-		refresh_lily_cb(NULL, Denemo.gui);
+GtkWidget *popup_score_layout_options(void) {
+	GtkWidget *menu =  gtk_menu_new();
+	GtkWidget *item;
+	GList *g;
+	for(g=Denemo.gui->standard_scoreblocks;g;g=g->next) {
+			DenemoScoreblock *sb = g->data;
+			gchar *text = g_strdup_printf (_("Switch to Layout \"%s\""), sb->name);
+			item = gtk_menu_item_new_with_label(text);
+			g_free(text);
+			gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+			g_signal_connect_swapped(G_OBJECT(item), "activate", G_CALLBACK(select_standard_layout), sb);
+	}
+		for(g=Denemo.gui->custom_scoreblocks;g;g=g->next) {
+			DenemoScoreblock *sb = g->data;
+			gchar *text = g_strdup_printf (_("Switch to Layout \"%s\""), sb->name);
+			item = gtk_menu_item_new_with_label(text);
+			g_free(text);
+			gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+			g_signal_connect_swapped(G_OBJECT(item), "activate", G_CALLBACK(select_custom_layout), sb);
+	}
+	
+	
+  if(Denemo.gui->standard_scoreblocks==NULL) {
+			item = gtk_menu_item_new_with_label(_("Create Standard Score Layout"));
+			gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+			g_signal_connect_swapped(G_OBJECT(item), "activate", G_CALLBACK(select_standard_layout), NULL);
+	}
+  item = gtk_menu_item_new_with_label("Customize Score Layout");
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  g_signal_connect_swapped(G_OBJECT(item), "activate", G_CALLBACK(make_scoreblock_editable), NULL);
+  gtk_widget_show_all(menu);
+  
+  gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+}
+
+void make_scoreblock_editable(void) {
+		create_custom_lilypond_scoreblock();
+		force_lily_refresh(Denemo.gui);
 }
 
 /* insert a pair of anchors and a mark to denote a section.
@@ -174,11 +208,13 @@ static GtkTextChildAnchor * insert_section(GString **str, gchar *markname, gchar
 
   if(name) {
 		 if(!strcmp(markname, "standard scoreblock")) {
-			GtkWidget *button = gtk_button_new_with_label (_("Edit Score Layout"));
-			gtk_text_view_add_child_at_anchor (GTK_TEXT_VIEW(gui->textview), button, objanc);
+			GtkWidget *button = gtk_button_new();
+			gtk_button_set_label (GTK_BUTTON(button), _("Score Layout Options"));
+			
 			g_signal_connect (G_OBJECT (button), "button-press-event",
-						G_CALLBACK (make_scoreblock_editable), NULL);
+						G_CALLBACK (popup_score_layout_options), NULL);
 			gtk_widget_show_all(button);
+			gtk_text_view_add_child_at_anchor (GTK_TEXT_VIEW(gui->textview), button, objanc);
 		} else {
 			char *markup = g_markup_printf_escaped ("<tt><big>%% %s</big></tt>\n", name);//monospace label to get serifs
 			GtkWidget *label = gtk_label_new ("");
@@ -2103,7 +2139,11 @@ void set_voice_termination(GString *str, DenemoStaff *curstaffstruct){
 		g_string_assign(str, TAB TAB"} %End of voice\n");
 		}
 }
-	    
+	 
+void generate_lilypond_part(void) {
+	output_score_to_buffer(Denemo.gui,  TRUE, ((DenemoStaff*)(Denemo.gui->si->currentstaff->data))->lily_name->str);	
+}	 
+   
 /*
  *writes the current score in LilyPond format to the textbuffer.
  *sets gui->lilysync equal to gui->changecount

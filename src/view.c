@@ -1108,13 +1108,28 @@ static SCM scheme_exit(SCM optional) {
 exit(0);
 }
 
-static SCM scheme_create_layout(SCM name) {
+static SCM scheme_create_layout(SCM name, SCM force) {
 if(scm_is_string(name)) {
   gchar *layout_name = scm_to_locale_string(name);
- if(create_custom_scoreblock(layout_name))
+ if(create_custom_scoreblock(layout_name, scm_is_true(force)))
   return SCM_BOOL_T;
   }
 return SCM_BOOL_F;
+}
+static SCM scheme_lilypond_for_part(void) {
+	gint save = Denemo.gui->si->markstaffnum;
+	Denemo.gui->si->markstaffnum = 0;
+	generate_lilypond_part();
+	Denemo.gui->si->markstaffnum = save;
+	return SCM_BOOL_T;
+}
+static SCM scheme_typeset_part(void) {
+	typeset_part();
+	return SCM_BOOL_T;
+}
+static SCM scheme_reduce_layout_to_lilypond(void) {
+	make_scoreblock_editable();
+	return SCM_BOOL_T;
 }
 
 static SCM scheme_get_layout_id(void) {
@@ -5817,8 +5832,11 @@ INSTALL_SCM_FUNCTION ("Generates the MIDI timings for the music of the current m
 
   INSTALL_SCM_FUNCTION ("Snapshots the current movement putting it in the undo queue returns #f if no snapshot was taken because of a guard", DENEMO_SCHEME_PREFIX"TakeSnapshot", scheme_take_snapshot);
 
-  INSTALL_SCM_FUNCTION ("Creates a custom layout from the currently selected (standard) layout if the score layouts window is open. Uses the passed name for the new layout. Returns #f if nothing happened.", DENEMO_SCHEME_PREFIX"CreateLayout", scheme_create_layout);
+  INSTALL_SCM_FUNCTION1 ("Creates a custom layout from the currently selected (standard) layout if the score layouts window is open. Uses the passed name for the new layout. Returns #f if nothing happened. An additional parameter #t can force creation of the layout while score layout window is closed.", DENEMO_SCHEME_PREFIX"CreateLayout", scheme_create_layout);
   INSTALL_SCM_FUNCTION ("Returns the id of the currently selected score layout (see View->Score Layout). Returns #f if no layout is selected.", DENEMO_SCHEME_PREFIX"GetLayoutId", scheme_get_layout_id);
+  INSTALL_SCM_FUNCTION ("Generates LilyPond layout for the current part (ie staffs with the name of the staff with the cursor), all movements and staffs with that staff name are generated.", DENEMO_SCHEME_PREFIX"LilyPondForPart", scheme_lilypond_for_part);
+  INSTALL_SCM_FUNCTION ("Typesets the current part (ie the staff with the cursor), all movements and staffs with that staff name are typeset.", DENEMO_SCHEME_PREFIX"TypesetPart", scheme_typeset_part);
+  INSTALL_SCM_FUNCTION ("Converts the current score layout to editable LilyPond text. After this the score layout is only affected by editing the LilyPond syntax.", DENEMO_SCHEME_PREFIX"ReduceLayoutToLilyPond", scheme_reduce_layout_to_lilypond);
   INSTALL_SCM_FUNCTION ("Returns the name of the currently selected score layout (see View->Score Layout). Returns #f if no layout is selected.", DENEMO_SCHEME_PREFIX"GetLayoutName", scheme_get_layout_name);
   INSTALL_SCM_FUNCTION ("Selects the next score layout. If the current layout is the last, returns #f otherwise #t.", DENEMO_SCHEME_PREFIX"SelectNextLayout", scheme_select_next_layout);
   INSTALL_SCM_FUNCTION ("Selects the first score layout.", DENEMO_SCHEME_PREFIX"SelectFirstLayout", scheme_select_first_layout);
@@ -5833,7 +5851,7 @@ INSTALL_SCM_FUNCTION ("Generates the MIDI timings for the music of the current m
 
   INSTALL_SCM_FUNCTION ("Plays audio allowing timings to be entered via keypresses if passed #t as parameter. ", DENEMO_SCHEME_PREFIX"StartAudioPlay", scheme_start_audio_play);
   INSTALL_SCM_FUNCTION ("Stops audio playback", DENEMO_SCHEME_PREFIX"StopAudioPlay", scheme_stop_audio_play);
-    INSTALL_SCM_FUNCTION ("Takes a number of seconds to be used as lead-in for audio. If negative clips that much from the start of the audio. ", DENEMO_SCHEME_PREFIX"SetAudioLeadIn", scheme_set_audio_lead_in);
+  INSTALL_SCM_FUNCTION ("Takes a number of seconds to be used as lead-in for audio. If negative clips that much from the start of the audio. ", DENEMO_SCHEME_PREFIX"SetAudioLeadIn", scheme_set_audio_lead_in);
   INSTALL_SCM_FUNCTION ("returns #f if audio is not playing else #t", DENEMO_SCHEME_PREFIX"AudioIsPlaying", scheme_audio_is_playing);
 
   INSTALL_SCM_FUNCTION ("Returns the next in the list of timings registered by the user during audio play.", DENEMO_SCHEME_PREFIX"NextAudioTiming", scheme_next_audio_timing);

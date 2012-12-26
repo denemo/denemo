@@ -40,4 +40,6 @@ void show_print_view(GtkAction *action, gpointer param);
 gboolean get_offset(gdouble *x, gdouble *y);
 gboolean get_positions(gdouble *neary, gdouble *fary, gboolean for_slur);
 gboolean get_new_target(void);
+
+void typeset_part(void);
 #endif /*PRINT_H*/	

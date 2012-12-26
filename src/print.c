@@ -2163,6 +2163,10 @@ void typeset_control(GtkWidget*dummy, gpointer data) {
   static GString *last_script=NULL;
   gint markstaff = Denemo.gui->si->markstaffnum;
   Denemo.gui->si->markstaffnum = 0;
+  
+  g_print("typeset control with %d : print view is %d\n",  Denemo.gui->textwindow && gtk_widget_get_visible(Denemo.gui->textwindow), PrintStatus.background==STATE_ON);
+  if(Denemo.gui->textwindow && gtk_widget_get_visible(Denemo.gui->textwindow) && (PrintStatus.background==STATE_ON) && PrintStatus.typeset_type!=TYPESET_ALL_MOVEMENTS)
+			return;
  	if(PrintStatus.background!=STATE_ON)
 		PrintStatus.background=0; //STATE_NONE
   if(last_script==NULL)
@@ -2298,6 +2302,10 @@ static void typeset_action(GtkWidget *button, gpointer data) {
     g_warning("InitializeTypesetting failed\n");
   } else
   typeset_control(NULL, data);
+}
+
+void typeset_part(void) {
+	typeset_control(NULL,create_part_pdf);
 }
 
 static gboolean retypeset(void) {
