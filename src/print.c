@@ -1210,6 +1210,11 @@ set_printarea(GError **err) {
 	}
   else
     set_printarea_doc(doc);
+   static gboolean shown_once = FALSE;//Make sure the user knows that the printarea is on screen
+   if(!shown_once) { 
+		 shown_once = TRUE;
+    gtk_window_present(GTK_WINDOW(gtk_widget_get_toplevel(Denemo.printarea)));
+	}
 	//this will fail if the printarea is not visible, so it would need to be re-triggered on showing the printarea  
    set_denemo_pixbuf();
   return;
@@ -2035,7 +2040,8 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
  get_window_position(&xx, &yy);
  Ww.last_button_release.x = xx + event->x;
  Ww.last_button_release.y = yy + event->y;
-
+ if(Ww.ObjectLocated)
+	gtk_window_present(gtk_widget_get_toplevel(Denemo.scorearea));
 	//g_print("Button release %d, %d\n",(int)event->x , (int)event->y);
 	if(Denemo.pixbuf==NULL)
     set_denemo_pixbuf();
