@@ -1774,7 +1774,9 @@ gboolean iterate_custom_layout(gboolean init) {//!!!!!!!!problem for lilypondize
 			current++;
 			sb = (DenemoScoreblock*)g_list_nth_data(Denemo.gui->custom_scoreblocks, current);
 	}
-	if(sb && sb->widget) {	g_print("Returning layout %d\n", current);
+	if(sb && sb->widget) {
+		if(!gtk_widget_get_visible(Denemo.gui->score_layout))
+			activate_action("/MainMenu/ViewMenu/ToggleScoreLayout");
 		set_notebook_page(sb->widget);
 		return TRUE;
 	} else {g_print("No custom layout %d sb = %p\n", current, sb);
