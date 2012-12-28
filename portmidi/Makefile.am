@@ -12,7 +12,7 @@ endif
 
 if MINGW
   libportmidi_a_LIBADD = pm_win/libpm_win.a
-  libportmidi_a_CFLAGS = $(GLIB_CFLAGS) -I$(top_srcdir)/portmidi -I$(top_srcdir)/portmidi/pm_win -DWIN32 -D_WINDOWS -D_DEBUG -DPM_CHECK_ERRORS=0 -DDEBUG
+  libportmidi_a_CFLAGS = $(GLIB_CFLAGS) -I$(top_srcdir)/portmidi -I$(top_srcdir)/portmidi/pm_win -D_HAVE_PORTMIDI_ -DWIN32 -D_WINDOWS -D_DEBUG -DPM_CHECK_ERRORS=0 -DDEBUG
   SUBDIRS = pm_win
 endif
 
