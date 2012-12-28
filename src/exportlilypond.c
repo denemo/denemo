@@ -53,7 +53,6 @@
 #define ERRORTEXT "error text"
 
 
-
  gchar *get_postfix(GList *g);
 static void 
 create_lilywindow(DenemoGUI *gui);
@@ -141,6 +140,46 @@ set_lily_error(gint line, gint column, DenemoGUI *gui) {
 }
 
 
+GtkWidget *popup_score_layout_options(void) {
+	GtkWidget *menu =  gtk_menu_new();
+	GtkWidget *item;
+	GList *g;
+	for(g=Denemo.gui->standard_scoreblocks;g;g=g->next) {
+			DenemoScoreblock *sb = g->data;
+			gchar *text = g_strdup_printf (_("Switch to Layout \"%s\""), sb->name);
+			item = gtk_menu_item_new_with_label(text);
+			g_free(text);
+			gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+			g_signal_connect_swapped(G_OBJECT(item), "activate", G_CALLBACK(select_standard_layout), sb);
+	}
+		for(g=Denemo.gui->custom_scoreblocks;g;g=g->next) {
+			DenemoScoreblock *sb = g->data;
+			gchar *text = g_strdup_printf (_("Switch to Layout \"%s\""), sb->name);
+			item = gtk_menu_item_new_with_label(text);
+			g_free(text);
+			gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+			g_signal_connect_swapped(G_OBJECT(item), "activate", G_CALLBACK(select_custom_layout), sb);
+	}
+	
+	
+  if(Denemo.gui->standard_scoreblocks==NULL) {
+			item = gtk_menu_item_new_with_label(_("Create Standard Score Layout"));
+			gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+			g_signal_connect_swapped(G_OBJECT(item), "activate", G_CALLBACK(select_standard_layout), NULL);
+	}
+  item = gtk_menu_item_new_with_label("Customize Score Layout");
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  g_signal_connect_swapped(G_OBJECT(item), "activate", G_CALLBACK(make_scoreblock_editable), NULL);
+  gtk_widget_show_all(menu);
+  
+  gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+}
+
+void make_scoreblock_editable(void) {
+		create_custom_lilypond_scoreblock();
+		force_lily_refresh(Denemo.gui);
+}
+
 /* insert a pair of anchors and a mark to denote a section.
    if str is non-null it is a target for saving edited versions of the section to, in this
    case the start anchor of the section is prepended to the list gui->anchors 
@@ -168,17 +207,21 @@ static GtkTextChildAnchor * insert_section(GString **str, gchar *markname, gchar
     gui->anchors = g_list_prepend(gui->anchors, objanc);
 
   if(name) {
-    GtkWidget *button = gtk_button_new ();
-    char *markup = g_markup_printf_escaped ("<tt>%s</tt>", name);//monospace label to get serifs
-    GtkWidget *label = gtk_label_new ("");
-    gtk_label_set_markup (GTK_LABEL (label), markup);
-    g_free (markup);
-    gtk_container_add (GTK_CONTAINER(button), label);
-    gtk_text_view_add_child_at_anchor (GTK_TEXT_VIEW(gui->textview), button, objanc);
-    g_object_set_data(G_OBJECT(button), "anchor", (gpointer)objanc);
-   // g_signal_connect (G_OBJECT (button), "button-press-event",
-//		      G_CALLBACK (popup_menu_for_button), gui);
-    gtk_widget_show_all(button);
+		 if(!strcmp(markname, "standard scoreblock")) {
+			GtkWidget *button = gtk_button_new();
+			gtk_button_set_label (GTK_BUTTON(button), _("Score Layout Options"));
+			
+			g_signal_connect (G_OBJECT (button), "button-press-event",
+						G_CALLBACK (popup_score_layout_options), NULL);
+			gtk_widget_show_all(button);
+			gtk_text_view_add_child_at_anchor (GTK_TEXT_VIEW(gui->textview), button, objanc);
+		} else {
+			char *markup = g_markup_printf_escaped ("<tt><big>%% %s</big></tt>\n", name);//monospace label to get serifs
+			GtkWidget *label = gtk_label_new ("");
+			gtk_label_set_markup (GTK_LABEL (label), markup);
+			gtk_text_view_add_child_at_anchor (GTK_TEXT_VIEW(gui->textview), label, objanc);
+			gtk_widget_show_all(label);
+		}
   }
   (void)gtk_text_iter_backward_char(iter);
   (void)gtk_text_iter_backward_char(iter);
@@ -2096,7 +2139,11 @@ void set_voice_termination(GString *str, DenemoStaff *curstaffstruct){
 		g_string_assign(str, TAB TAB"} %End of voice\n");
 		}
 }
-	    
+	 
+void generate_lilypond_part(void) {
+	output_score_to_buffer(Denemo.gui,  TRUE, ((DenemoStaff*)(Denemo.gui->si->currentstaff->data))->lily_name->str);	
+}	 
+   
 /*
  *writes the current score in LilyPond format to the textbuffer.
  *sets gui->lilysync equal to gui->changecount
@@ -2217,9 +2264,17 @@ static void output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gcha
   {
 	insert_scoreblock_section(gui, "standard scoreblock", sb);
 	gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, "standard scoreblock"));
-/* FIXME make the text editable if the custom scoreblock has been reduced to text */
-	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, (sb->lilypond)->str, -1, INEDITABLE, NULL);
-
+		/* FIXME make the text editable if the custom scoreblock has been reduced to text */
+	//something like	insert_editable( &sb->lilypond, (sb->lilypond)->str, &iter, gui, 0,0,0,0,0,0,0,0);
+	//but where is the write-back to sb->lilypond (which must be the only copy of course).
+	//well gui->anchors is the list of anchors and original text needs attaching. merge_lily_strings() does the writing back
+	// GSTRINGP is the name of the g_object tag holding the name of the string to write back to...
+	//it looks like both the insert_scoreblock_section and the insert_editable add to the anchors...
+	//
+	if(sb->text_only)
+		insert_editable( &sb->lilypond, (sb->lilypond)->str, &iter, gui, 0,0,0,0,0,0,0,0);
+	else 
+		gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, (sb->lilypond)->str, -1, INEDITABLE, NULL);
   }
   /* insert standard scoreblock section*/
   //insert_scoreblock_section(gui, STANDARD_SCOREBLOCK, NULL);
@@ -2580,7 +2635,7 @@ gboolean goto_lilypond_position(gint line, gint column) {
 			gint directivenum =  (intptr_t) g_object_get_data(G_OBJECT(anchor), DIRECTIVENUM);
 			gint mid_c_offset = (intptr_t) g_object_get_data(G_OBJECT(anchor), MIDCOFFSET);
 			//g_print("location %d %d %d %d\n", objnum, measurenum, staffnum, movementnum);
-			DenemoTargetType type = (intptr_t) g_object_get_data(G_OBJECT(anchor), TARGETTYPE);g_print("getting %d\n", type);
+			DenemoTargetType type = (intptr_t) g_object_get_data(G_OBJECT(anchor), TARGETTYPE);
 			gui->si->target.objnum = objnum;
 			gui->si->target.measurenum = measurenum;
 			gui->si->target.staffnum = staffnum;

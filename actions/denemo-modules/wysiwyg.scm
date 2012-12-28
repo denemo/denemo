@@ -111,7 +111,7 @@
 	(xval 0)
 	(yval 0)
 	(xy (string-append " " (car offset) " . " (cdr offset) " ")))
-	(disp "Change offset")
+	;(disp "Change offset")
     (begin
       (if (boolean? oldstr)
 	  (set! oldstr (string-append prefixstring " 0.0 . 0.0 " postfixstring)))
@@ -131,7 +131,7 @@
       (set! yold (string->number oldy))
 ;;;add two values
       ;;;(set! offset (d-GetOffset))
-      (disp "Starting with " offset " which is a pair " (pair? offset) " ok?")
+      ;(disp "Starting with " offset " which is a pair " (pair? offset) " ok?")
       (if (pair? offset)
 				(begin
 					(set! xnew (car offset))
@@ -142,7 +142,7 @@
 					(set! ynew (number->string (+ yval yold)))
 					(set! xy (string-append xnew " . " ynew)))
 				(set! xy " 0.0 . 0.0 "))
-				(disp "the new offset will be " xy " ok?")
+				;(disp "the new offset will be " xy " ok?")
 	  (regexp-substitute #f thematch 'pre (string-append prefixstring xy postfixstring) 'post))    
     ))));;;; end of function change offset
 	
@@ -227,7 +227,7 @@
 		(let ((choice #f))
 			(set! target-type (list-ref target 0))
 			(set! grob (list-ref target 1))
-			(disp "Looking at target " target-type " on grob " grob " ok?")
+			;(disp "Looking at target " target-type " on grob " grob " ok?")
 			(cond 
 				((equal? target-type "Object")
 					(if (d-Directive-standalone?)
@@ -281,11 +281,12 @@
 									(if (> base-duration 3)
 										(begin
 											(set! menu (cons (cons (cons (_"One Beam Right (Off/On)") (_"Put just one beam to the right or undo a previous invocation of this command")) d-BeamRightOne) menu))
-											(set! menu (cons (cons (cons (_"One Beam Left (Off/On)") (_"Put just one beam to the left or undo a previous invocation of this command")) d-BeamLeftOne) menu))))
-									(if (> base-duration 2)
-									  (begin
+											(set! menu (cons (cons (cons (_"One Beam Left (Off/On)") (_"Put just one beam to the left or undo a previous invocation of this command")) d-BeamLeftOne) menu))
+											(set! menu (cons (cons (cons (_"Chop to One Beam") (_"Reduce the beaming between this and the next note to just one beam")) chop-beam) menu))
 											
-									   (set! menu (cons (cons (cons (_"Chop to One Beam") (_"Reduce the beaming between this and the next note to just one beam")) chop-beam) menu))
+											))
+									(if (> base-duration 2)
+									  (begin 
 									   (set! menu (cons (cons (cons (_"No Beam (Off/On)") (_"Leave note/chord un-beamed or undo a previous invocation of this command")) d-NoBeam) menu))
 										 (set! menu (cons (cons (cons (_"Change beam angle/position") (_"Allows you to drag the ends of the beam")) GetBeamPositions) menu))))
 			
