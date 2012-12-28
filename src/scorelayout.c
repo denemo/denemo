@@ -2149,6 +2149,13 @@ DenemoScoreblock *create_custom_scoreblock (gchar *layout_name, gboolean force) 
 }
 
 DenemoScoreblock *create_custom_lilypond_scoreblock(void) {
+#if 0
+	this is wrong - it is called for
+	make_scoreblock_editable(); in view.c
+	should take the name from the current (standard)???? no - surely, a customised one??? scoreblock and convert it.
+	the function should be called convert_scoreblock_to_lilypond()
+#endif
+
 	DenemoScoreblock *sb = create_custom_scoreblock (_("Custom Scoreblock"), FALSE);
 	if(sb) {
 		convert_to_lilypond_callback(NULL, sb);
