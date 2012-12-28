@@ -6073,7 +6073,7 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <scheme></scheme>
         <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
         <label>Prints All Layouts</label>
-        <tooltip>Prints the score using all the defined score layouts.</tooltip>
+        <tooltip>Prints the score using all the customized score layouts.</tooltip>
       </row>
       <row>
         <action>DalSegno</action>
