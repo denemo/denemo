@@ -36,6 +36,7 @@ DenemoScoreblock *selected_scoreblock(void);
 guint selected_layout_id(void);
 DenemoScoreblock *get_next_scoreblock(void);
 DenemoScoreblock *get_first_scoreblock(void);
+gboolean iterate_custom_layout(gboolean init);
 gchar *get_output_uri_from_scoreblock(void);
 void set_current_scoreblock_uri(gchar *uri);
 void select_standard_layout(DenemoScoreblock *sb);

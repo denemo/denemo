@@ -123,6 +123,7 @@ static cairo_path_t piano_brace_path = {0, piano_brace_data, 92};
 
 #define LILYPOND_TEXT_EDITOR "LilyPond text editor"
 
+static void set_notebook_page(GtkWidget *w);
 static void prefix_edit_callback(GtkWidget *widget, GtkWidget *frame);
 static void create_element(GtkWidget *vbox, GtkWidget *widget, gchar *lilypond);
 static void create_standard_scoreblock(DenemoScoreblock **psb, gint movement, gchar *partname);
@@ -1759,6 +1760,30 @@ DenemoScoreblock *get_first_scoreblock(void) {
 	return NULL;
 }
 
+
+gboolean iterate_custom_layout(gboolean init) {//!!!!!!!!problem for lilypondized ones is widget NULL????
+	static gint current;
+	DenemoScoreblock *sb;
+	if(Denemo.gui->custom_scoreblocks==NULL) {
+		return FALSE;
+	}
+	if(init) {
+		current=0;
+		sb = (DenemoScoreblock*)(Denemo.gui->custom_scoreblocks->data);
+	} else {
+			current++;
+			sb = (DenemoScoreblock*)g_list_nth_data(Denemo.gui->custom_scoreblocks, current);
+	}
+	if(sb && sb->widget) {	g_print("Returning layout %d\n", current);
+		set_notebook_page(sb->widget);
+		return TRUE;
+	} else {g_print("No custom layout %d sb = %p\n", current, sb);
+		return FALSE;
+	}
+}
+
+
+
 guint selected_layout_id(void) {
 	if(Denemo.gui->layout_id==0) {
 		DenemoScoreblock *sb = selected_scoreblock();
@@ -2149,17 +2174,22 @@ DenemoScoreblock *create_custom_scoreblock (gchar *layout_name, gboolean force) 
 }
 
 DenemoScoreblock *create_custom_lilypond_scoreblock(void) {
-#if 0
-	this is wrong - it is called for
-	make_scoreblock_editable(); in view.c
-	should take the name from the current (standard)???? no - surely, a customised one??? scoreblock and convert it.
-	the function should be called convert_scoreblock_to_lilypond()
-#endif
-
-	DenemoScoreblock *sb = create_custom_scoreblock (_("Custom Scoreblock"), FALSE);
-	if(sb) {
+	//called for
+	//make_scoreblock_editable(); in view.c
+	GList *g;
+	for(g=Denemo.gui->custom_scoreblocks;g;g=g->next) {
+		DenemoScoreblock *sb = (DenemoScoreblock *)g->data;
+		if(sb->visible) {
 		convert_to_lilypond_callback(NULL, sb);
+		return sb;
+		}
+	}		
+	for(g=Denemo.gui->standard_scoreblocks;g;g=g->next) {
+		DenemoScoreblock *sb = (DenemoScoreblock *)g->data;
+		if(sb->visible) {
+		convert_to_lilypond_callback(NULL, sb);
+		return sb;
+		}
 	}
-	return sb;
-	
+	return NULL;
 }

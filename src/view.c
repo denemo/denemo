@@ -1161,6 +1161,21 @@ static SCM scheme_select_first_layout(void) {
 return SCM_BOOL_F;
 }
 
+
+static SCM scheme_select_next_custom_layout(void) {
+	DenemoScoreblock *sb = iterate_custom_layout(FALSE);	
+	if(sb)
+		return SCM_BOOL_T;
+	return SCM_BOOL_F;
+}
+
+static SCM scheme_select_first_custom_layout(void) {	
+ DenemoScoreblock *sb = iterate_custom_layout(TRUE);	
+ if(sb)
+	return SCM_BOOL_T;
+ return SCM_BOOL_F;
+}
+
 static SCM scheme_open_source (SCM link) {   
   SCM ret = SCM_BOOL_F;
   if(scm_is_string(link)) {
@@ -5840,7 +5855,9 @@ INSTALL_SCM_FUNCTION ("Generates the MIDI timings for the music of the current m
   INSTALL_SCM_FUNCTION ("Returns the name of the currently selected score layout (see View->Score Layout). Returns #f if no layout is selected.", DENEMO_SCHEME_PREFIX"GetLayoutName", scheme_get_layout_name);
   INSTALL_SCM_FUNCTION ("Selects the next score layout. If the current layout is the last, returns #f otherwise #t.", DENEMO_SCHEME_PREFIX"SelectNextLayout", scheme_select_next_layout);
   INSTALL_SCM_FUNCTION ("Selects the first score layout.", DENEMO_SCHEME_PREFIX"SelectFirstLayout", scheme_select_first_layout);
-  
+    INSTALL_SCM_FUNCTION ("Selects the next custom score layout. If the current layout is the last, returns #f otherwise #t.", DENEMO_SCHEME_PREFIX"SelectNextCustomLayout", scheme_select_next_custom_layout);
+  INSTALL_SCM_FUNCTION ("Selects the first custom score layout.", DENEMO_SCHEME_PREFIX"SelectFirstCustomLayout", scheme_select_first_custom_layout);
+ 
 
   INSTALL_SCM_FUNCTION ("Follows a link to a source file of form string \"filename:x:y:page\". It opens the file and places a marker there. ", DENEMO_SCHEME_PREFIX"OpenSource", scheme_open_source);
 
