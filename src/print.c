@@ -2171,8 +2171,8 @@ void typeset_control(GtkWidget*dummy, gpointer data) {
   Denemo.gui->si->markstaffnum = 0;
   
   //g_print("typeset control with %d : print view is %d\n",  Denemo.gui->textwindow && gtk_widget_get_visible(Denemo.gui->textwindow), PrintStatus.background==STATE_ON);
-  if(Denemo.gui->textwindow && gtk_widget_get_visible(Denemo.gui->textwindow) && (PrintStatus.background==STATE_ON) && PrintStatus.typeset_type!=TYPESET_ALL_MOVEMENTS)
-			return;
+//  if(Denemo.gui->textwindow && gtk_widget_get_visible(Denemo.gui->textwindow) && (PrintStatus.background==STATE_ON) && PrintStatus.typeset_type!=TYPESET_ALL_MOVEMENTS)
+//			return;
  	if(PrintStatus.background!=STATE_ON)
 		PrintStatus.background=0; //STATE_NONE
   if(last_script==NULL)
@@ -2650,6 +2650,8 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
 	gtk_widget_hide(Ww.dialog);
 }
 
-
+gboolean continuous_typesetting(void) {
+	return (PrintStatus.background==STATE_ON);
+}
 
 #endif /* PRINT_H */
