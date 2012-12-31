@@ -818,4 +818,5 @@ actions/commandscripts/ZoomDialog.scm
 actions/commandscripts/ZoomIn.scm
 actions/commandscripts/ZoomOut.scm
 actions/commandscripts/ZoomReset.scm
-actions/init.scm
+actions/commandscripts/init.scm
+actions/commandscripts/init.scm
