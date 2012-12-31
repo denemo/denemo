@@ -19,4 +19,5 @@
   				(d-DirectivePut-score-override "ScoreIndent"	DENEMO_OVERRIDE_GRAPHIC)
   				(d-DirectivePut-score-display "ScoreIndent" (string-append (_ "indent=") amount)))
   		(d-DirectiveDelete-score "ScoreIndent"))))
+  (d-SetSaved #f)
   (d-RefreshDisplay))

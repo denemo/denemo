@@ -23,4 +23,5 @@ e.g. c c' means octave up.
  	 (if (d-MoveToVoiceDown)
  		 (loop)))
   (d-PopPosition)
+  (d-SetSaved #f)
   (d-RefreshDisplay))
