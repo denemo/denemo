@@ -2101,7 +2101,25 @@ void select_custom_layout(DenemoScoreblock *sb) {
 	set_notebook_page(sb->widget);
 }
 		
+gboolean select_layout_id(gint id) {
+	GList *g = Denemo.gui->custom_scoreblocks;
+	for(;g;g=g->next) {
+		DenemoScoreblock *sb = g->data;
+		if(sb->id==id) {
+			set_notebook_page(sb->widget);
+			return TRUE;
+		}
+	}
 	
+		for(g=Denemo.gui->standard_scoreblocks;g;g=g->next) {
+		DenemoScoreblock *sb = g->data;
+		if(sb->id==id) {
+			set_notebook_page(sb->widget);
+			return TRUE;
+		}
+	}
+return FALSE;
+}	
 static text_modified(GtkTextBuffer *textbuffer, DenemoScoreblock *sb) {
   GtkTextIter startiter, enditer;
   gtk_text_buffer_get_start_iter (textbuffer, &startiter);

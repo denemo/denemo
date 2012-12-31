@@ -1138,6 +1138,15 @@ DenemoScoreblock *sb = selected_scoreblock();
     return scm_int2num(sb->id);
 return SCM_BOOL_F;
 }
+static SCM scheme_select_layout_id(SCM the_id) {
+if(scm_is_integer(the_id)) {
+	gint id = scm_to_int(the_id);
+	return SCM_BOOL(select_layout_id(id));
+}
+return SCM_BOOL_F;
+}
+
+
 static SCM scheme_get_layout_name(void) {
 DenemoScoreblock *sb = selected_scoreblock();
   if(sb && sb->name)
@@ -5849,6 +5858,7 @@ INSTALL_SCM_FUNCTION ("Generates the MIDI timings for the music of the current m
 
   INSTALL_SCM_FUNCTION1 ("Creates a custom layout from the currently selected (standard) layout if the score layouts window is open. Uses the passed name for the new layout. Returns #f if nothing happened. An additional parameter #t can force creation of the layout while score layout window is closed.", DENEMO_SCHEME_PREFIX"CreateLayout", scheme_create_layout);
   INSTALL_SCM_FUNCTION ("Returns the id of the currently selected score layout (see View->Score Layout). Returns #f if no layout is selected.", DENEMO_SCHEME_PREFIX"GetLayoutId", scheme_get_layout_id);
+  INSTALL_SCM_FUNCTION ("Selects the score layout with the passed id. Returns #f if there is no such layout.", DENEMO_SCHEME_PREFIX"SelectLayoutId", scheme_select_layout_id);
   INSTALL_SCM_FUNCTION ("Generates LilyPond layout for the current part (ie staffs with the name of the staff with the cursor), all movements and staffs with that staff name are generated.", DENEMO_SCHEME_PREFIX"LilyPondForPart", scheme_lilypond_for_part);
   INSTALL_SCM_FUNCTION ("Typesets the current part (ie the staff with the cursor), all movements and staffs with that staff name are typeset.", DENEMO_SCHEME_PREFIX"TypesetPart", scheme_typeset_part);
   INSTALL_SCM_FUNCTION ("Converts the current score layout to editable LilyPond text. After this the score layout is only affected by editing the LilyPond syntax.", DENEMO_SCHEME_PREFIX"ReduceLayoutToLilyPond", scheme_reduce_layout_to_lilypond);
