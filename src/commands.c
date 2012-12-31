@@ -6197,4 +6197,124 @@ add_ui("/ObjectMenu/NotesRests/Markings/Strings", "LHFinger", "RHFinger");
 g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Strings");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* LilyPondDefinition xgettext:no-c-format*/
+action = gtk_action_new("LilyPondDefinition",_("LilyPond Definition"),/* xgettext:no-c-format*/_("Create a definition at the head of the LilyPond output. This can then be referenced in the music. See LilyPond documentation."), get_icon_for_name("LilyPondDefinition", "LilyPond Definition"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"LilyPondInclude");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "LilyPondDefinition", _("LilyPond Definition"), /* xgettext:no-c-format*/_("Create a definition at the head of the LilyPond output. This can then be referenced in the music. See LilyPond documentation."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("LilyPondDefinition");
+add_ui("/ObjectMenu/Score", "LilyPondInclude", "LilyPondDefinition");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* InsertDefinedLilyPond xgettext:no-c-format*/
+action = gtk_action_new("InsertDefinedLilyPond",_("Menu of Objects to Insert"),/* xgettext:no-c-format*/_("Gives a menu of previously created LilyPondDefinition commands (see Score->LilyPond Definition  menu for this)"), get_icon_for_name("InsertDefinedLilyPond", "Menu of Objects to Insert"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"InsertStandaloneDirective");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "InsertDefinedLilyPond", _("Menu of Objects to Insert"), /* xgettext:no-c-format*/_("Gives a menu of previously created LilyPondDefinition commands (see Score->LilyPond Definition  menu for this)"), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("InsertDefinedLilyPond");
+add_ui("/ObjectMenu/Directives", "InsertStandaloneDirective", "InsertDefinedLilyPond");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* TextAnnotation xgettext:no-c-format*/
+action = gtk_action_new("TextAnnotation",_("Textual Annotation"),/* xgettext:no-c-format*/_("Allows placing arbitrary text on the score which can then be dragged in the final typeset view for fine control over positioning."), get_icon_for_name("TextAnnotation", "Textual Annotation"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"CriticalComment");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "TextAnnotation", _("Textual Annotation"), /* xgettext:no-c-format*/_("Allows placing arbitrary text on the score which can then be dragged in the final typeset view for fine control over positioning."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("TextAnnotation");
+add_ui("/ObjectMenu/Directives", "CriticalComment", "TextAnnotation");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* EnableAccordion16v xgettext:no-c-format*/
+action = gtk_action_new("EnableAccordion16v",_("Enable Accordion 16'"),/* xgettext:no-c-format*/_("Defines the accordions shifts for this score. The command Menu of Objects to Insert will allow them to be inserted."), get_icon_for_name("EnableAccordion16v", "Enable Accordion 16'"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"InsertDefinedLilyPond");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "EnableAccordion16v", _("Enable Accordion 16'"), /* xgettext:no-c-format*/_("Defines the accordions shifts for this score. The command Menu of Objects to Insert will allow them to be inserted."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("EnableAccordion16v");
+add_ui("/ObjectMenu/Directives", "InsertDefinedLilyPond", "EnableAccordion16v");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* NoLineBreak xgettext:no-c-format*/
+action = gtk_action_new("NoLineBreak",_("No Line Break"),/* xgettext:no-c-format*/_("Disallow a line break at this measure."), get_icon_for_name("NoLineBreak", "No Line Break"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"LineBreak");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "NoLineBreak", _("No Line Break"), /* xgettext:no-c-format*/_("Disallow a line break at this measure."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("NoLineBreak");
+add_ui("/ObjectMenu/Directives", "LineBreak", "NoLineBreak");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* AdjustBassFigureHeight xgettext:no-c-format*/
+action = gtk_action_new("AdjustBassFigureHeight",_("Height of Bass Figure"),/* xgettext:no-c-format*/_("Sets the height of the bass figure above the note. The unit is the distance between adjacent lines in the staff."), get_icon_for_name("AdjustBassFigureHeight", "Height of Bass Figure"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"EditFiguredBass");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "AdjustBassFigureHeight", _("Height of Bass Figure"), /* xgettext:no-c-format*/_("Sets the height of the bass figure above the note. The unit is the distance between adjacent lines in the staff."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("AdjustBassFigureHeight");
+add_ui("/ObjectMenu/NotesRests/Markings/FiguredBass", "EditFiguredBass", "AdjustBassFigureHeight");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/FiguredBass");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* AdjustFiguredBassHeights xgettext:no-c-format*/
+action = gtk_action_new("AdjustFiguredBassHeights",_("Heights of Groups"),/* xgettext:no-c-format*/_("Allows several groups of figures to be individually adjusted for height."), get_icon_for_name("AdjustFiguredBassHeights", "Heights of Groups"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"AdjustBassFigureHeight");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "AdjustFiguredBassHeights", _("Heights of Groups"), /* xgettext:no-c-format*/_("Allows several groups of figures to be individually adjusted for height."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("AdjustFiguredBassHeights");
+add_ui("/ObjectMenu/NotesRests/Markings/FiguredBass", "AdjustBassFigureHeight", "AdjustFiguredBassHeights");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/FiguredBass");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* TimesigWithBeatStructure xgettext:no-c-format*/
+action = gtk_action_new("TimesigWithBeatStructure",_("Time Signature with Beat Structure"),/* xgettext:no-c-format*/_("Inserts a time signature with indication for how to beam the notes. Insert at beginning of staff in order to replace the initial time signature."), get_icon_for_name("TimesigWithBeatStructure", "Time Signature with Beat Structure"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"InsertTimeSig");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "TimesigWithBeatStructure", _("Time Signature with Beat Structure"), /* xgettext:no-c-format*/_("Inserts a time signature with indication for how to beam the notes. Insert at beginning of staff in order to replace the initial time signature."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("TimesigWithBeatStructure");
+add_ui("/ObjectMenu/TimeSig", "InsertTimeSig", "TimesigWithBeatStructure");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/TimeSig");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* HelpAllFeatures xgettext:no-c-format*/
+action = gtk_action_new("HelpAllFeatures",_("Help for All Features"),/* xgettext:no-c-format*/_("Opens a score with examples of many things you can create with Denemo with Explanations attached. Click on the explanations in the Print View window."), get_icon_for_name("HelpAllFeatures", "Help for All Features"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"Help");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "HelpAllFeatures", _("Help for All Features"), /* xgettext:no-c-format*/_("Opens a score with examples of many things you can create with Denemo with Explanations attached. Click on the explanations in the Print View window."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("HelpAllFeatures");
+add_ui("/MainMenu/HelpMenu", "Help", "HelpAllFeatures");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/HelpMenu");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* PrintScoreAndParts xgettext:no-c-format*/
+action = gtk_action_new("PrintScoreAndParts",_("Print Score and Parts"),/* xgettext:no-c-format*/_("Creates score layouts for the current layout (full score) and parts (named after instrument name). Set instrument names before use."), get_icon_for_name("PrintScoreAndParts", "Print Score and Parts"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"Print");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "PrintScoreAndParts", _("Print Score and Parts"), /* xgettext:no-c-format*/_("Creates score layouts for the current layout (full score) and parts (named after instrument name). Set instrument names before use."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("PrintScoreAndParts");
+add_ui("/MainMenu/FileMenu/PrintMenu", "Print", "PrintScoreAndParts");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/FileMenu/PrintMenu");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 }
