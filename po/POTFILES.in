@@ -818,14 +818,4 @@ actions/commandscripts/ZoomDialog.scm
 actions/commandscripts/ZoomIn.scm
 actions/commandscripts/ZoomOut.scm
 actions/commandscripts/ZoomReset.scm
-actions/menus/ObjectMenu/Directives/MIDI/init.scm
-actions/menus/ObjectMenu/ChordMenu/ChangePrintDuration/init.scm
-actions/menus/ObjectMenu/MovementMenu/Titles/Book Titles/init.scm
-actions/menus/ObjectMenu/Score/Titles/Book Titles/init.scm
-actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/init.scm
-actions/menus/ObjectMenu/NotesRests/init.scm
-actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Dynamic Markings/init.scm
-actions/menus/MainMenu/Educational/Note-Reading/init.scm
-actions/menus/MainMenu/Educational/Aural Training/Chord-Comparison/init.scm
-actions/menus/MainMenu/Educational/Aural Training/Identify-Scale-Note/init.scm
-actions/menus/MainMenu/NavigationMenu/Cursor/init.scm
+actions/init.scm
