@@ -98,6 +98,7 @@ if test "$with_pmidi_platform" != "none"; then
   LIBS="$LIBS -lportmidi"
   WHICH_PORTMIDI='portmidi'
   PORTMIDI_LDD='../portmidi/libportmidi.a'
+  PORTMIDI_INCLUDE='-I$(top_srcdir)/portmidi'
 else
   WHICH_PORTMIDI=''
   PORTMIDI_LDD=''
