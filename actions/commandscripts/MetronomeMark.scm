@@ -73,7 +73,7 @@
 	;if we want to REPLACE an existing directive...
 	(let ((choice #f))		
 		(set! replace 'edit)
-		(set! choice (d-GetOption  (string-append "Change"stop"Delete" stop "Offset the Position" stop "Set Padding" stop cue-Advanced stop)))
+		(set! choice (d-GetOption  (string-append "Change"stop"Delete" stop cue-Advanced stop)))
 		(cond
 			;((boolean? choice)
 			;	(d-WarningDialog "Operation cancelled"))
@@ -83,10 +83,6 @@
 				(d-DirectiveTextEdit-standalone tag))
 			((equal? choice "Delete")
 				(d-DirectiveDelete-standalone tag))
-			((equal? choice "Offset the Position")
-				(ExtraOffset "TextScript" "standalone"))
-			((equal? choice "Set Padding")
-				(SetPadding "TextScript" "standalone"))
 		)
 	)
 )
@@ -191,6 +187,7 @@
 			(begin
 				(if (not replace) (d-DirectivePut-standalone tag ) )
 				(if LilyString (d-DirectivePut-standalone-postfix tag LilyString ) )
+				(d-DirectivePut-standalone-grob  tag "MetronomeMark")
 				(d-DirectivePut-standalone-display  tag DisplayString)
 				(d-DirectivePut-standalone-minpixels tag 10 )
 				(d-DirectivePut-standalone-ty tag 85 ) ;;try -40 instead of 85 for above-the-staff

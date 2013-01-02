@@ -6274,6 +6274,14 @@ accidentals are usually printed over the note.</tooltip>
         <label>Help for All Features</label>
         <tooltip>Opens a score with examples of many things you can create with Denemo with Explanations attached. Click on the explanations in the Print View window.</tooltip>
       </row>
+      <row>
+        <action>PrintScoreAndParts</action>
+        <after>Print</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
+        <label>Print Score and Parts</label>
+        <tooltip>Creates score layouts for the current layout (full score) and parts (named after instrument name). Set instrument names before use.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

@@ -21,7 +21,8 @@
 ;;not present already
  (begin
 		(d-Directive-standalone "RehearsalMark")
-		(d-DirectivePut-standalone-display "RehearsalMark" "")
+		;(d-DirectivePut-standalone-display "RehearsalMark" "")
+		(d-DirectivePut-standalone-grob "RehearsalMark" "RehearsalMark")
 		(d-DirectivePut-standalone-postfix "RehearsalMark"  " \\mark \\default" )
 		(d-DirectivePut-standalone-gx  "RehearsalMark"  14)
 		(d-DirectivePut-standalone-gy  "RehearsalMark"  -35)

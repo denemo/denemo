@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>Print</after>
+        <action>PrintScoreAndParts</action>
+        <scheme>;;;;;;;PrintScoreAndParts
+(let ((initial #f) (id (d-GetLayoutId)))
+(d-PushPosition)
+(if (not (d-Directive-scoreheader? "BookInstrumentation"))
+        (d-BookInstrumentation (_ "Full Score")))
+(d-ReduceLayoutToLilyPond)       
+(set! initial (d-DirectiveGet-scoreheader-display "BookInstrumentation"))
+(while (d-MoveToStaffUp))
+(let loop1 ()
+	(if (not (d-DirectiveGet-staff-display "InstrumentName"))
+		(d-InstrumentName))
+	(if (d-MoveToStaffDown)
+		(loop1)))
+(let loop2 ()       
+	(let ((thename (scheme-escape (GetNthLine (d-DirectiveGet-staff-display "InstrumentName") 0))))
+		(d-BookInstrumentation thename)
+		(d-LilyPondForPart)
+		(d-ReduceLayoutToLilyPond);this fixes the instrumentation for this layout
+		)		
+	(if (d-MoveToStaffUp)
+			(loop2)))
+(d-PrintAllLayouts)
+(d-SelectLayoutId id)
+(d-BookInstrumentation initial)
+(d-PopPosition))</scheme>
+        <label>Print Score and Parts</label>
+        <tooltip>Creates score layouts for the current layout (full score) and parts (named after instrument name). Set instrument names before use.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -200,6 +200,7 @@ actions/denemo-modules/rhythmandmeter.scm
 actions/denemo-modules/scheme.scm
 actions/denemo-modules/selection.scm
 actions/denemo-modules/types.scm
+actions/denemo-modules/wysiwyg.scm
 actions/commandscripts/Ab-Major.scm
 actions/commandscripts/Ab-Pentascale.scm
 actions/commandscripts/AccentSelectionSwitcher.scm
@@ -232,6 +233,8 @@ actions/commandscripts/AddLowestUpMinor7.scm
 actions/commandscripts/AddLowestUpPerfect1.scm
 actions/commandscripts/AddLowestUpPerfect4.scm
 actions/commandscripts/AddLowestUpPerfect5.scm
+actions/commandscripts/AdjustBassFigureHeight.scm
+actions/commandscripts/AdjustFiguredBassHeights.scm
 actions/commandscripts/Allegro.scm
 actions/commandscripts/AllegroAssai.scm
 actions/commandscripts/AllowLineBreak.scm
@@ -373,6 +376,7 @@ actions/commandscripts/DynamicText.scm
 actions/commandscripts/Eb-Major.scm
 actions/commandscripts/Eb-Pentascale.scm
 actions/commandscripts/EditProlog.scm
+actions/commandscripts/EnableAccordion16v.scm
 actions/commandscripts/EndBeam.scm
 actions/commandscripts/EndPhrasingSlur.scm
 actions/commandscripts/EndSecondTimeBar.scm
@@ -397,6 +401,7 @@ actions/commandscripts/Finger2.scm
 actions/commandscripts/Finger3.scm
 actions/commandscripts/Finger4.scm
 actions/commandscripts/Finger5.scm
+actions/commandscripts/FingeringPosition.scm
 actions/commandscripts/FingeringsDoublestroke.scm
 actions/commandscripts/FinishCadenza.scm
 actions/commandscripts/FirstTimeBar.scm
@@ -421,6 +426,7 @@ actions/commandscripts/GroupStaffStart.scm
 actions/commandscripts/HalfBarline.scm
 actions/commandscripts/HalfDiminished7OrDiminshed7.scm
 actions/commandscripts/HarmonicSelectionSwitcher.scm
+actions/commandscripts/HelpAllFeatures.scm
 actions/commandscripts/HelpForReturnKey.scm
 actions/commandscripts/HiHat.scm
 actions/commandscripts/HiHatFoot.scm
@@ -451,6 +457,7 @@ actions/commandscripts/InsertBreve.scm
 actions/commandscripts/InsertBreveRest.scm
 actions/commandscripts/InsertCaptureMeasure.scm
 actions/commandscripts/InsertCaptureMeasureForStaff.scm
+actions/commandscripts/InsertDefinedLilyPond.scm
 actions/commandscripts/InsertLonga.scm
 actions/commandscripts/InsertLongaRest.scm
 actions/commandscripts/InsertOneNote.scm
@@ -469,6 +476,7 @@ actions/commandscripts/JumpUpOctave.scm
 actions/commandscripts/LHFinger.scm
 actions/commandscripts/Largo.scm
 actions/commandscripts/LheelSelectionSwitcher.scm
+actions/commandscripts/LilyPondDefinition.scm
 actions/commandscripts/LilyPondInclude.scm
 actions/commandscripts/LimitInterSystemSpace.scm
 actions/commandscripts/LineBreak.scm
@@ -527,6 +535,7 @@ actions/commandscripts/NextBookmark.scm
 actions/commandscripts/NextHigher.scm
 actions/commandscripts/NoBarline.scm
 actions/commandscripts/NoBeam.scm
+actions/commandscripts/NoLineBreak.scm
 actions/commandscripts/NoOp.scm
 actions/commandscripts/NoTupletNumbers.scm
 actions/commandscripts/NonPrintingStaff.scm
@@ -581,6 +590,7 @@ actions/commandscripts/PianoStaffStart.scm
 actions/commandscripts/Piece.scm
 actions/commandscripts/PitchShift.scm
 actions/commandscripts/PlaceFiguredBassBelow.scm
+actions/commandscripts/PlayAtCursor.scm
 actions/commandscripts/PointAndClick.scm
 actions/commandscripts/PortatoSelectionSwitcher.scm
 actions/commandscripts/Presto.scm
@@ -590,9 +600,11 @@ actions/commandscripts/PrintAccompanistsScore.scm
 actions/commandscripts/PrintAllLayouts.scm
 actions/commandscripts/PrintBassPartWithoutFigures.scm
 actions/commandscripts/PrintPartWithTitlePage.scm
+actions/commandscripts/PrintScoreAndParts.scm
 actions/commandscripts/PrintThreeReduced.scm
 actions/commandscripts/PrintTwoReduced.scm
 actions/commandscripts/PrintWithAmbitus.scm
+actions/commandscripts/RHFinger.scm
 actions/commandscripts/ReBar.scm
 actions/commandscripts/ReadingNoteNames.scm
 actions/commandscripts/ReadingNoteNamesSolfege.scm
@@ -726,8 +738,10 @@ actions/commandscripts/TaglineLink.scm
 actions/commandscripts/Tempo.scm
 actions/commandscripts/TenutoSelectionSwitcher.scm
 actions/commandscripts/TextAbove.scm
+actions/commandscripts/TextAnnotation.scm
 actions/commandscripts/ThumbSelectionSwitcher.scm
 actions/commandscripts/TimbalesStyle.scm
+actions/commandscripts/TimesigWithBeatStructure.scm
 actions/commandscripts/TinyNotehead.scm
 actions/commandscripts/TinyStaff.scm
 actions/commandscripts/TinyStaffAllMovements.scm
@@ -764,6 +778,7 @@ actions/commandscripts/ToggleShortFermata.scm
 actions/commandscripts/ToggleSignumcongruentiae.scm
 actions/commandscripts/ToggleStaccatissimo.scm
 actions/commandscripts/ToggleStaccato.scm
+actions/commandscripts/ToggleStemSupport.scm
 actions/commandscripts/ToggleStopped.scm
 actions/commandscripts/ToggleTenuto.scm
 actions/commandscripts/ToggleThumb.scm
@@ -803,3 +818,5 @@ actions/commandscripts/ZoomDialog.scm
 actions/commandscripts/ZoomIn.scm
 actions/commandscripts/ZoomOut.scm
 actions/commandscripts/ZoomReset.scm
+actions/commandscripts/init.scm
+actions/commandscripts/init.scm

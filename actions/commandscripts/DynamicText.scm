@@ -42,32 +42,33 @@
 
   (if choice
     (begin
- 	(set! LilyString (string-append "s8*0 \\" choice  ))
+ 	(set! LilyString (string-append " \\" choice  ))
 	(set! X (assoc choice DynamicList) )
 	(set! level (car (cdr X)) )
 	(set! Graphic (car (cdr (cdr X) ) ) ) 
 	(if (equal? choice "Custom" ) (begin 
    		(set! choice (d-GetUserInput (_ "Custom dynamic") (_ "Enter dynamic text:") "" ) )
    		(if choice
-        		(set! LilyString (string-append  "s8*0 #(make-dynamic-script (markup #:normal-text #:bold #:italic \"" choice "\")) " )))))
+        		(set! LilyString (string-append  " $(make-dynamic-script (markup #:normal-text #:bold #:italic \"" choice "\")) " )))))
     (if (equal? level "") 
       (begin
-	(set! level (d-GetUserInput (_ "Dynamic setting") (_ "Enter loudness level (0-127):") "63" ) ) 
-	(let ( (a 0)) 
-	(set! a (string->number level) )
-	(if (or (boolean? a) (> a 127) (< a 0) )(set! level #f) ))))
+				(set! level (d-GetUserInput (_ "Dynamic setting") (_ "Enter loudness level (0-127):") "63" ) ) 
+				(let ( (a 0)) 
+					(set! a (string->number level) )	
+					(if (or (boolean? a) (> a 127) (< a 0) )(set! level #f) ))))
     (if choice
       (begin 
     	(if (not replace) (d-DirectivePut-standalone tag))
-	(d-DirectivePut-standalone-postfix tag  LilyString)	   
-	(d-DirectivePut-standalone-graphic  tag (string-append "\n" choice "\nSerif\n24\n1\n1"))
-	(d-DirectivePut-standalone-gy tag 40)
-	(d-DirectivePut-standalone-gx tag 12)
-	(if level
+    	(d-DirectivePut-standalone-prefix tag  "<>")	
+			(d-DirectivePut-standalone-postfix tag  LilyString)	   
+			(d-DirectivePut-standalone-graphic  tag (string-append "\n" choice "\nSerif\n24\n1\n1"))
+			(d-DirectivePut-standalone-gy tag 40)
+			(d-DirectivePut-standalone-gx tag 12)
+			(if level
            (begin
-	    (d-DirectivePut-standalone-override tag (logior DENEMO_OVERRIDE_STEP DENEMO_OVERRIDE_VOLUME))
-	    (d-DirectivePut-standalone-midibytes tag level)))
-	(d-DirectivePut-standalone-minpixels tag 10)
-	(d-SetSaved #f)
-	(d-MoveCursorRight))))))
+						(d-DirectivePut-standalone-override tag (logior DENEMO_OVERRIDE_STEP DENEMO_OVERRIDE_VOLUME))
+						(d-DirectivePut-standalone-midibytes tag level)))
+			(d-DirectivePut-standalone-minpixels tag 10)
+			(d-SetSaved #f)
+			(d-MoveCursorRight))))))
 (d-RefreshDisplay)

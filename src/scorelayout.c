@@ -123,6 +123,7 @@ static cairo_path_t piano_brace_path = {0, piano_brace_data, 92};
 
 #define LILYPOND_TEXT_EDITOR "LilyPond text editor"
 
+static void set_notebook_page(GtkWidget *w);
 static void prefix_edit_callback(GtkWidget *widget, GtkWidget *frame);
 static void create_element(GtkWidget *vbox, GtkWidget *widget, gchar *lilypond);
 static void create_standard_scoreblock(DenemoScoreblock **psb, gint movement, gchar *partname);
@@ -351,6 +352,10 @@ static void delete_custom_scoreblock_callback(GtkWidget *widget, DenemoScorebloc
 	Denemo.gui->custom_scoreblocks = g_list_remove(Denemo.gui->custom_scoreblocks, sb);
 	gtk_widget_destroy(sb->widget);
 }
+static void delete_standard_scoreblock_callback(GtkWidget *widget, DenemoScoreblock *sb) {
+	Denemo.gui->standard_scoreblocks = g_list_remove(Denemo.gui->standard_scoreblocks, sb);
+	gtk_widget_destroy(sb->widget);
+}
 static void recreate_standard_scoreblock_callback(GtkWidget *widget, DenemoScoreblock *psb) {
 	recreate_standard_scoreblock (&psb);
 }
@@ -462,6 +467,10 @@ static GtkWidget *get_options_button(DenemoScoreblock *sb, gboolean custom) {
 		gtk_widget_set_tooltip_text(button, _("Create a layout from this standard layout that you can then modify."));
 		gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);		
 		g_signal_connect(button, "clicked",  G_CALLBACK(customize_standard_scoreblock_callback), sb);
+		button = gtk_button_new_with_label(_("Delete"));
+		gtk_widget_set_tooltip_text(button, _("Discard this standard score layout."));
+		gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
+		g_signal_connect(button, "clicked",  G_CALLBACK(delete_standard_scoreblock_callback), sb);
 	}
 
 
@@ -475,8 +484,7 @@ static gboolean clone_scoreblock_if_needed(GtkWidget *widget) {
 	DenemoScoreblock *default_sb;
 	if((default_sb=get_standard_scoreblock(widget))) {
 		//the button widget was on the default scoreblock, so we convert this to a custom scoreblock
-		//and create a new default scoreblock
-		return (gboolean)clone_scoreblock(default_sb, NULL);
+		return clone_scoreblock(default_sb, NULL) != NULL;
 	}
 	return TRUE;
 }
@@ -1759,6 +1767,32 @@ DenemoScoreblock *get_first_scoreblock(void) {
 	return NULL;
 }
 
+
+gboolean iterate_custom_layout(gboolean init) {//!!!!!!!!problem for lilypondized ones is widget NULL????
+	static gint current;
+	DenemoScoreblock *sb;
+	if(Denemo.gui->custom_scoreblocks==NULL) {
+		return FALSE;
+	}
+	if(init) {
+		current=0;
+		sb = (DenemoScoreblock*)(Denemo.gui->custom_scoreblocks->data);
+	} else {
+			current++;
+			sb = (DenemoScoreblock*)g_list_nth_data(Denemo.gui->custom_scoreblocks, current);
+	}
+	if(sb && sb->widget) {
+		if(!gtk_widget_get_visible(Denemo.gui->score_layout))
+			activate_action("/MainMenu/ViewMenu/ToggleScoreLayout");
+		set_notebook_page(sb->widget);
+		return TRUE;
+	} else {g_print("No custom layout %d sb = %p\n", current, sb);
+		return FALSE;
+	}
+}
+
+
+
 guint selected_layout_id(void) {
 	if(Denemo.gui->layout_id==0) {
 		DenemoScoreblock *sb = selected_scoreblock();
@@ -2073,8 +2107,35 @@ void select_custom_layout(DenemoScoreblock *sb) {
 	}
 	set_notebook_page(sb->widget);
 }
+gboolean select_custom_layout_for_name(gchar *name) {
+	GList *g = Denemo.gui->custom_scoreblocks;
+	for(;g;g=g->next) {
+		DenemoScoreblock *sb = g->data;
 		
+		if(sb->name && !strcmp(name, sb->name))
+			return TRUE;	
+	}
+	return FALSE;
+}		
+gboolean select_layout_id(gint id) {
+	GList *g = Denemo.gui->custom_scoreblocks;
+	for(;g;g=g->next) {
+		DenemoScoreblock *sb = g->data;
+		if(sb->id==id) {
+			set_notebook_page(sb->widget);
+			return TRUE;
+		}
+	}
 	
+		for(g=Denemo.gui->standard_scoreblocks;g;g=g->next) {
+		DenemoScoreblock *sb = g->data;
+		if(sb->id==id) {
+			set_notebook_page(sb->widget);
+			return TRUE;
+		}
+	}
+return FALSE;
+}	
 static text_modified(GtkTextBuffer *textbuffer, DenemoScoreblock *sb) {
   GtkTextIter startiter, enditer;
   gtk_text_buffer_get_start_iter (textbuffer, &startiter);
@@ -2149,10 +2210,22 @@ DenemoScoreblock *create_custom_scoreblock (gchar *layout_name, gboolean force) 
 }
 
 DenemoScoreblock *create_custom_lilypond_scoreblock(void) {
-	DenemoScoreblock *sb = create_custom_scoreblock (_("Custom Scoreblock"), FALSE);
-	if(sb) {
+	//called for
+	//make_scoreblock_editable(); in view.c
+	GList *g;
+	for(g=Denemo.gui->custom_scoreblocks;g;g=g->next) {
+		DenemoScoreblock *sb = (DenemoScoreblock *)g->data;
+		if(sb->visible) {
 		convert_to_lilypond_callback(NULL, sb);
+		return sb;
+		}
+	}		
+	for(g=Denemo.gui->standard_scoreblocks;g;g=g->next) {
+		DenemoScoreblock *sb = (DenemoScoreblock *)g->data;
+		if(sb->visible) {
+		convert_to_lilypond_callback(NULL, sb);
+		return sb;
+		}
 	}
-	return sb;
-	
+	return NULL;
 }

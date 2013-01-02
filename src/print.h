@@ -42,4 +42,5 @@ gboolean get_positions(gdouble *neary, gdouble *fary, gboolean for_slur);
 gboolean get_new_target(void);
 
 void typeset_part(void);
+gboolean continuous_typesetting(void);
 #endif /*PRINT_H*/	

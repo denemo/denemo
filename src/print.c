@@ -382,7 +382,7 @@ process_lilypond_errors(gchar *filename){
     g_free(bytes);
     return;
   }
-  g_print("\nLilyPond error messages\n8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8>< %s \n8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><\n", bytes);
+  //g_print("\nLilyPond error messages\n8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8>< %s \n8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><\n", bytes);
   epoint = g_strstr_len (bytes, strlen(bytes), filename_colon);
   if(epoint) {
     gint line, column;
@@ -570,7 +570,7 @@ run_lilypond(gchar **arguments) {
     error = -1;
   }
   if(!lilypond_launch_success) {
-    warningdialog("Error executing lilypond. Perhaps Lilypond is not installed");
+    g_warning("Error executing lilypond. Perhaps Lilypond is not installed");
     error = -1;
   }
   if(error)
@@ -2041,7 +2041,7 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
  Ww.last_button_release.x = xx + event->x;
  Ww.last_button_release.y = yy + event->y;
  if(Ww.ObjectLocated)
-	gtk_window_present(gtk_widget_get_toplevel(Denemo.scorearea));
+	gtk_window_present(GTK_WINDOW(gtk_widget_get_toplevel(Denemo.scorearea)));
 	//g_print("Button release %d, %d\n",(int)event->x , (int)event->y);
 	if(Denemo.pixbuf==NULL)
     set_denemo_pixbuf();
@@ -2170,9 +2170,9 @@ void typeset_control(GtkWidget*dummy, gpointer data) {
   gint markstaff = Denemo.gui->si->markstaffnum;
   Denemo.gui->si->markstaffnum = 0;
   
-  g_print("typeset control with %d : print view is %d\n",  Denemo.gui->textwindow && gtk_widget_get_visible(Denemo.gui->textwindow), PrintStatus.background==STATE_ON);
-  if(Denemo.gui->textwindow && gtk_widget_get_visible(Denemo.gui->textwindow) && (PrintStatus.background==STATE_ON) && PrintStatus.typeset_type!=TYPESET_ALL_MOVEMENTS)
-			return;
+  //g_print("typeset control with %d : print view is %d\n",  Denemo.gui->textwindow && gtk_widget_get_visible(Denemo.gui->textwindow), PrintStatus.background==STATE_ON);
+//  if(Denemo.gui->textwindow && gtk_widget_get_visible(Denemo.gui->textwindow) && (PrintStatus.background==STATE_ON) && PrintStatus.typeset_type!=TYPESET_ALL_MOVEMENTS)
+//			return;
  	if(PrintStatus.background!=STATE_ON)
 		PrintStatus.background=0; //STATE_NONE
   if(last_script==NULL)
@@ -2650,6 +2650,8 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
 	gtk_widget_hide(Ww.dialog);
 }
 
-
+gboolean continuous_typesetting(void) {
+	return (PrintStatus.background==STATE_ON);
+}
 
 #endif /* PRINT_H */

@@ -139,8 +139,10 @@ set_lily_error(gint line, gint column, DenemoGUI *gui) {
   }
 }
 
-
-GtkWidget *popup_score_layout_options(void) {
+static void explain_temporary_scoreblock(void) {
+	infodialog("This scorelayout is purely for continuous typesetting, and will change as you edit the score");
+}
+static void popup_score_layout_options(void) {
 	GtkWidget *menu =  gtk_menu_new();
 	GtkWidget *item;
 	GList *g;
@@ -176,6 +178,8 @@ GtkWidget *popup_score_layout_options(void) {
 }
 
 void make_scoreblock_editable(void) {
+	if(!gtk_widget_get_visible(Denemo.gui->score_layout))
+			activate_action("/MainMenu/ViewMenu/ToggleScoreLayout");
 		create_custom_lilypond_scoreblock();
 		force_lily_refresh(Denemo.gui);
 }
@@ -213,6 +217,14 @@ static GtkTextChildAnchor * insert_section(GString **str, gchar *markname, gchar
 			
 			g_signal_connect (G_OBJECT (button), "button-press-event",
 						G_CALLBACK (popup_score_layout_options), NULL);
+			gtk_widget_show_all(button);
+			gtk_text_view_add_child_at_anchor (GTK_TEXT_VIEW(gui->textview), button, objanc);
+		} else 		 if(!strcmp(markname, "temporary scoreblock")) {
+			GtkWidget *button = gtk_button_new();
+			gtk_button_set_label (GTK_BUTTON(button), _("Temporary Score Layout"));
+			
+			g_signal_connect (G_OBJECT (button), "button-press-event",
+						G_CALLBACK (explain_temporary_scoreblock), NULL);
 			gtk_widget_show_all(button);
 			gtk_text_view_add_child_at_anchor (GTK_TEXT_VIEW(gui->textview), button, objanc);
 		} else {
@@ -2262,15 +2274,14 @@ static void output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gcha
   
   /* output scoreblock */
   {
-	insert_scoreblock_section(gui, "standard scoreblock", sb);
-	gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, "standard scoreblock"));
-		/* FIXME make the text editable if the custom scoreblock has been reduced to text */
-	//something like	insert_editable( &sb->lilypond, (sb->lilypond)->str, &iter, gui, 0,0,0,0,0,0,0,0);
-	//but where is the write-back to sb->lilypond (which must be the only copy of course).
-	//well gui->anchors is the list of anchors and original text needs attaching. merge_lily_strings() does the writing back
-	// GSTRINGP is the name of the g_object tag holding the name of the string to write back to...
-	//it looks like both the insert_scoreblock_section and the insert_editable add to the anchors...
-	//
+			gchar * scoreblock_tag;
+		if (continuous_typesetting())
+			scoreblock_tag = "temporary scoreblock";
+		else
+			scoreblock_tag = "standard scoreblock";
+
+	insert_scoreblock_section(gui, scoreblock_tag, sb);
+	gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, scoreblock_tag));
 	if(sb->text_only)
 		insert_editable( &sb->lilypond, (sb->lilypond)->str, &iter, gui, 0,0,0,0,0,0,0,0);
 	else 
