@@ -95,7 +95,6 @@ AM_CONDITIONAL([DARWIN], [test "$with_pmidi_platform" = "darwin"])
 
 if test "$with_pmidi_platform" != "none"; then
   CFLAGS="$CFLAGS -D_HAVE_PORTMIDI_"
-  LIBS="$LIBS -lportmidi"
   WHICH_PORTMIDI='portmidi'
   PORTMIDI_LDD='../portmidi/libportmidi.a'
   PORTMIDI_INCLUDE='-I$(top_srcdir)/portmidi'
