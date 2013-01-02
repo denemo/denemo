@@ -94,7 +94,8 @@ AM_CONDITIONAL([MINGW], [test "$with_pmidi_platform" = "mingw"])
 AM_CONDITIONAL([DARWIN], [test "$with_pmidi_platform" = "darwin"])
 
 if test "$with_pmidi_platform" != "none"; then
-  LIBS="$LIBS -D_HAVE_PORTMIDI_"
+  CFLAGS="$CFLAGS -D_HAVE_PORTMIDI_"
+  LIBS="$LIBS -lportmidi"
   WHICH_PORTMIDI='portmidi'
   PORTMIDI_LDD='../portmidi/libportmidi.a'
 else
