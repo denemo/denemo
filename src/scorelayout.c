@@ -2212,20 +2212,24 @@ DenemoScoreblock *create_custom_scoreblock (gchar *layout_name, gboolean force) 
 DenemoScoreblock *create_custom_lilypond_scoreblock(void) {
 	//called for
 	//make_scoreblock_editable(); in view.c
+	DenemoScoreblock *sb = NULL;
 	GList *g;
 	for(g=Denemo.gui->custom_scoreblocks;g;g=g->next) {
-		DenemoScoreblock *sb = (DenemoScoreblock *)g->data;
+		sb = (DenemoScoreblock *)g->data;
 		if(sb->visible) {
 		convert_to_lilypond_callback(NULL, sb);
 		return sb;
 		}
 	}		
 	for(g=Denemo.gui->standard_scoreblocks;g;g=g->next) {
-		DenemoScoreblock *sb = (DenemoScoreblock *)g->data;
+		sb = (DenemoScoreblock *)g->data;
 		if(sb->visible) {
 		convert_to_lilypond_callback(NULL, sb);
 		return sb;
 		}
 	}
-	return NULL;
+	create_default_scoreblock();
+	sb = (DenemoScoreblock *)(Denemo.gui->standard_scoreblocks->data);
+	convert_to_lilypond_callback(NULL, sb);
+	return sb;
 }
