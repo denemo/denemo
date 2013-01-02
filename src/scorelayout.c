@@ -352,6 +352,10 @@ static void delete_custom_scoreblock_callback(GtkWidget *widget, DenemoScorebloc
 	Denemo.gui->custom_scoreblocks = g_list_remove(Denemo.gui->custom_scoreblocks, sb);
 	gtk_widget_destroy(sb->widget);
 }
+static void delete_standard_scoreblock_callback(GtkWidget *widget, DenemoScoreblock *sb) {
+	Denemo.gui->standard_scoreblocks = g_list_remove(Denemo.gui->standard_scoreblocks, sb);
+	gtk_widget_destroy(sb->widget);
+}
 static void recreate_standard_scoreblock_callback(GtkWidget *widget, DenemoScoreblock *psb) {
 	recreate_standard_scoreblock (&psb);
 }
@@ -463,6 +467,10 @@ static GtkWidget *get_options_button(DenemoScoreblock *sb, gboolean custom) {
 		gtk_widget_set_tooltip_text(button, _("Create a layout from this standard layout that you can then modify."));
 		gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);		
 		g_signal_connect(button, "clicked",  G_CALLBACK(customize_standard_scoreblock_callback), sb);
+		button = gtk_button_new_with_label(_("Delete"));
+		gtk_widget_set_tooltip_text(button, _("Discard this standard score layout."));
+		gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
+		g_signal_connect(button, "clicked",  G_CALLBACK(delete_standard_scoreblock_callback), sb);
 	}
 
 
@@ -476,8 +484,7 @@ static gboolean clone_scoreblock_if_needed(GtkWidget *widget) {
 	DenemoScoreblock *default_sb;
 	if((default_sb=get_standard_scoreblock(widget))) {
 		//the button widget was on the default scoreblock, so we convert this to a custom scoreblock
-		//and create a new default scoreblock
-		return (gboolean)clone_scoreblock(default_sb, NULL);
+		return clone_scoreblock(default_sb, NULL) != NULL;
 	}
 	return TRUE;
 }
@@ -2100,7 +2107,16 @@ void select_custom_layout(DenemoScoreblock *sb) {
 	}
 	set_notebook_page(sb->widget);
 }
+gboolean select_custom_layout_for_name(gchar *name) {
+	GList *g = Denemo.gui->custom_scoreblocks;
+	for(;g;g=g->next) {
+		DenemoScoreblock *sb = g->data;
 		
+		if(sb->name && !strcmp(name, sb->name))
+			return TRUE;	
+	}
+	return FALSE;
+}		
 gboolean select_layout_id(gint id) {
 	GList *g = Denemo.gui->custom_scoreblocks;
 	for(;g;g=g->next) {

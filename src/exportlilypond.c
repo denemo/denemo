@@ -2282,13 +2282,6 @@ static void output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gcha
 
 	insert_scoreblock_section(gui, scoreblock_tag, sb);
 	gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, scoreblock_tag));
-		/* FIXME make the text editable if the custom scoreblock has been reduced to text */
-	//something like	insert_editable( &sb->lilypond, (sb->lilypond)->str, &iter, gui, 0,0,0,0,0,0,0,0);
-	//but where is the write-back to sb->lilypond (which must be the only copy of course).
-	//well gui->anchors is the list of anchors and original text needs attaching. merge_lily_strings() does the writing back
-	// GSTRINGP is the name of the g_object tag holding the name of the string to write back to...
-	//it looks like both the insert_scoreblock_section and the insert_editable add to the anchors...
-	//
 	if(sb->text_only)
 		insert_editable( &sb->lilypond, (sb->lilypond)->str, &iter, gui, 0,0,0,0,0,0,0,0);
 	else 

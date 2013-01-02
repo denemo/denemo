@@ -1119,7 +1119,8 @@ return SCM_BOOL_F;
 static SCM scheme_lilypond_for_part(void) {
 	gint save = Denemo.gui->si->markstaffnum;
 	Denemo.gui->si->markstaffnum = 0;
-	generate_lilypond_part();
+	if(!select_custom_layout_for_name(((DenemoStaff*)(Denemo.gui->si->currentstaff->data))->lily_name->str))
+		generate_lilypond_part();
 	Denemo.gui->si->markstaffnum = save;
 	return SCM_BOOL_T;
 }
