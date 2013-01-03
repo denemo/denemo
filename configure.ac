@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script. 
-AC_INIT([denemo], [1.0.0~rc4], [denemo-devel@gnu.org])
+AC_INIT([denemo], [1.0.0~rc5], [denemo-devel@gnu.org])
 AC_CONFIG_SRCDIR([src/main.c])
 AM_INIT_AUTOMAKE([tar-pax]) 
 dnl AM_INIT_AUTOMAKE([foreign -Wall -Werror gnu tar-pax])
@@ -94,9 +94,10 @@ AM_CONDITIONAL([MINGW], [test "$with_pmidi_platform" = "mingw"])
 AM_CONDITIONAL([DARWIN], [test "$with_pmidi_platform" = "darwin"])
 
 if test "$with_pmidi_platform" != "none"; then
-  LIBS="$LIBS -D_HAVE_PORTMIDI_"
+  CFLAGS="$CFLAGS -D_HAVE_PORTMIDI_"
   WHICH_PORTMIDI='portmidi'
   PORTMIDI_LDD='../portmidi/libportmidi.a'
+  PORTMIDI_INCLUDE='-I$(top_srcdir)/portmidi'
 else
   WHICH_PORTMIDI=''
   PORTMIDI_LDD=''
