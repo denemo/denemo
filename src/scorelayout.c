@@ -122,7 +122,7 @@ static cairo_path_data_t piano_brace_data[] = {
 static cairo_path_t piano_brace_path = {0, piano_brace_data, 92};
 
 #define LILYPOND_TEXT_EDITOR "LilyPond text editor"
-
+#define DEFAULT_SCORE_LAYOUT "Default Score Layout"
 static void set_notebook_page(GtkWidget *w);
 static void prefix_edit_callback(GtkWidget *widget, GtkWidget *frame);
 static void create_element(GtkWidget *vbox, GtkWidget *widget, gchar *lilypond);
@@ -297,6 +297,7 @@ static gboolean name_scoreblock(DenemoScoreblock *sb, gchar * name) {
 	else
 		value = name;
 	if(value) {
+		sb->name = g_strdup(value);
 		gtk_notebook_set_tab_label_text (GTK_NOTEBOOK(get_score_layout_notebook(Denemo.gui)), sb->widget, value);
 		//FIXME if name==NULL g_free(value) I think.
 		return TRUE;
@@ -338,9 +339,11 @@ static void convert_to_lilypond_callback(GtkWidget *widget, DenemoScoreblock *sb
 				refresh_lilypond(sb);
 				DenemoScoreblock *newsb = get_scoreblock_for_lilypond(sb->lilypond->str);
 				Denemo.gui->custom_scoreblocks = g_list_remove(Denemo.gui->custom_scoreblocks, sb);
+				Denemo.gui->standard_scoreblocks = g_list_remove(Denemo.gui->standard_scoreblocks, sb);
 				GtkWidget *notebook = get_score_layout_notebook(Denemo.gui);
 				GtkWidget *label = gtk_label_new(sb->name);
-				gtk_widget_destroy(sb->widget);
+				if(sb->widget)
+					gtk_widget_destroy(sb->widget);
 				gtk_widget_show_all(newsb->widget);
 				gtk_notebook_prepend_page(GTK_NOTEBOOK(notebook), newsb->widget, label);
 				gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook), 0);
@@ -1372,10 +1375,10 @@ static gchar *movement_part_name(gint movement, gchar *partname) {
 if(movement && partname)
 	return g_strdup_printf("%s M%d", partname, movement);
 if(movement)
-	return g_strdup_printf("Movement %d", movement);
+	return g_strdup_printf(_("Movement %d"), movement);
 if(partname)
 	return g_strdup_printf("%s", partname);
-return g_strdup("Default Score Layout");
+return g_strdup(_(DEFAULT_SCORE_LAYOUT));
 }
 
 static GtkWidget *get_colored_event_box(GtkWidget *vbox, gchar *colorstring) {
@@ -1644,8 +1647,10 @@ static gboolean change_tab (GtkNotebook *notebook, GtkWidget *page, gint pagenum
 void refresh_lilypond(DenemoScoreblock *sb) {
 	if(sb->widget) {
 		if(!is_lilypond_text_layout(sb)) {
-			g_free(sb->name);
-			sb->name = g_strdup(scoreblock_name(sb));
+			//g_print("Changing %s\n", sb->name);
+			//g_free(sb->name);
+			//sb->name = g_strdup(scoreblock_name(sb));
+			//g_print("To new value %s\n", sb->name);
 			sb->id = crc32(sb->name);
 			if(sb->lilypond==NULL)
 				sb->lilypond = g_string_new(sb->name);
@@ -1821,12 +1826,12 @@ static void create_standard_scoreblock(DenemoScoreblock **psb, gint movement, gc
 	set_default_scoreblock(psb, movement, partname);
 	
 	gchar *label_text = movement_part_name(movement, partname);
+	(*psb)->name = g_strdup(label_text);
 	GtkWidget *label = gtk_label_new(label_text);
 	g_free(label_text);
 	gtk_notebook_prepend_page(GTK_NOTEBOOK(notebook), (*psb)->widget, label);
 	gtk_widget_set_tooltip_markup((*psb)->widget, _("This a score layout - the brown buttons affect the score itself, not just the layout.\nThe other buttons will customize the layout\nYou can have several layouts and use them to print different versions of your score.\nOnce customized e.g. by adding page breaks, deleting certain parts etc the layout will be saved with your score and can be used for printing from even though you may have made corrections to the music.\nStandard layouts are created by invoking the standard print commands - print, print part, print movement etc.\nThese standard layouts provide a convenient starting point for your customized layouts.<b>Note 1</b>Custom layouts are not saved for further graphical editing, only the typesetting commands are saved, so, unless you are familiar with LilyPond do all your work on the layout in one session.<b>Note 2</b>The first comment holds in the LilyPond text of the layout holds the name of the layout. If you change it any conditional directives that are for the layout will need refreshing"));
 	gtk_widget_show_all(notebook);
-	
 }
 
 static void set_notebook_page(GtkWidget *w) {
@@ -1836,11 +1841,19 @@ static void set_notebook_page(GtkWidget *w) {
 	g_list_free(g);
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook), position);
 }
-//creates the all parts all movements standard scoreblock 
+
 void create_default_scoreblock(void) {
 	DenemoGUI *gui = Denemo.gui;
-	if(gui->standard_scoreblocks)
-		g_warning("create_default_scoreblock called with standard scoreblocks already present\n");
+	if(gui->standard_scoreblocks) {
+		GList *g;
+		for(g=gui->standard_scoreblocks;g;g=g->next) {
+			DenemoScoreblock *sb =g->data;
+			if(!strcmp(sb->name, DEFAULT_SCORE_LAYOUT)) {
+				set_notebook_page(sb->widget);
+				return;
+			}
+		}
+	}
 	DenemoScoreblock *sb = g_malloc0(sizeof(DenemoScoreblock));
 	(void)create_standard_scoreblock(&sb, 0, NULL);
 	gui->standard_scoreblocks = g_list_prepend(gui->standard_scoreblocks, (gpointer)sb);
@@ -2152,7 +2165,7 @@ static text_modified(GtkTextBuffer *textbuffer, DenemoScoreblock *sb) {
 DenemoScoreblock *get_scoreblock_for_lilypond(gchar *lily) {
 	gchar *text = _( "The LilyPond text for this layout can be edited in the LilyPond view window.");
 	  gchar *name = NULL;
-		GtkWidget *frame = gtk_frame_new(LILYPOND_TEXT_EDITOR);
+		GtkWidget *frame = gtk_frame_new(_(LILYPOND_TEXT_EDITOR));
 		DenemoScoreblock *sb = g_malloc0 (sizeof(DenemoScoreblock));
 		sb->text_only = TRUE;
 		sb->widget = frame;
@@ -2180,7 +2193,7 @@ DenemoScoreblock *get_scoreblock_for_lilypond(gchar *lily) {
 			sb->id = crc32(sb->name);
 			g_free(name);
 		} else
-		sb->name = g_strdup("Custom Scoreblock");
+		sb->name = g_strdup(_("Custom Scoreblock"));
 		sb->id = crc32(sb->name);
 		sb->lilypond = g_string_new(lily);
 
@@ -2228,6 +2241,7 @@ DenemoScoreblock *create_custom_lilypond_scoreblock(void) {
 		return sb;
 		}
 	}
+	//if none, create the default and convert that to lilypoond.
 	create_default_scoreblock();
 	sb = (DenemoScoreblock *)(Denemo.gui->standard_scoreblocks->data);
 	convert_to_lilypond_callback(NULL, sb);

@@ -7,9 +7,10 @@
       <row>
         <after>Print</after>
         <action>PrintScoreAndParts</action>
-        <scheme>;;;;;;;PrintScoreAndParts
+        <scheme>;;PrintScoreAndParts
 (let ((initial #f) (id (d-GetLayoutId)))
 (d-PushPosition)
+(d-SelectDefaultLayout)
 (if (not (d-Directive-scoreheader? "BookInstrumentation"))
         (d-BookInstrumentation (_ "Full Score")))
 (d-ReduceLayoutToLilyPond)       

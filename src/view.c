@@ -1146,7 +1146,10 @@ if(scm_is_integer(the_id)) {
 }
 return SCM_BOOL_F;
 }
-
+static SCM scheme_select_default_layout(void) {
+	create_default_scoreblock();
+return SCM_BOOL_T;
+}
 
 static SCM scheme_get_layout_name(void) {
 DenemoScoreblock *sb = selected_scoreblock();
@@ -1173,17 +1176,11 @@ return SCM_BOOL_F;
 
 
 static SCM scheme_select_next_custom_layout(void) {
-	DenemoScoreblock *sb = iterate_custom_layout(FALSE);	
-	if(sb)
-		return SCM_BOOL_T;
-	return SCM_BOOL_F;
+	return SCM_BOOL( iterate_custom_layout(FALSE));	
 }
 
 static SCM scheme_select_first_custom_layout(void) {	
- DenemoScoreblock *sb = iterate_custom_layout(TRUE);	
- if(sb)
-	return SCM_BOOL_T;
- return SCM_BOOL_F;
+	return SCM_BOOL( iterate_custom_layout(TRUE));
 }
 
 static SCM scheme_open_source (SCM link) {   
@@ -5857,6 +5854,7 @@ INSTALL_SCM_FUNCTION ("Generates the MIDI timings for the music of the current m
 
   INSTALL_SCM_FUNCTION ("Snapshots the current movement putting it in the undo queue returns #f if no snapshot was taken because of a guard", DENEMO_SCHEME_PREFIX"TakeSnapshot", scheme_take_snapshot);
 
+  INSTALL_SCM_FUNCTION ("Creates the default layout.", DENEMO_SCHEME_PREFIX"SelectDefaultLayout", scheme_select_default_layout);
   INSTALL_SCM_FUNCTION1 ("Creates a custom layout from the currently selected (standard) layout if the score layouts window is open. Uses the passed name for the new layout. Returns #f if nothing happened. An additional parameter #t can force creation of the layout while score layout window is closed.", DENEMO_SCHEME_PREFIX"CreateLayout", scheme_create_layout);
   INSTALL_SCM_FUNCTION ("Returns the id of the currently selected score layout (see View->Score Layout). Returns #f if no layout is selected.", DENEMO_SCHEME_PREFIX"GetLayoutId", scheme_get_layout_id);
   INSTALL_SCM_FUNCTION ("Selects the score layout with the passed id. Returns #f if there is no such layout.", DENEMO_SCHEME_PREFIX"SelectLayoutId", scheme_select_layout_id);
