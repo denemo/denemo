@@ -1107,7 +1107,7 @@ static gboolean overdraw_print(cairo_t *cr) {
   cairo_move_to( cr, 50,80 );
 	cairo_show_text( cr,explanation);
   }
-  	if(PrintStatus.updating_id && (PrintStatus.background!=STATE_NONE)) {
+  if(PrintStatus.updating_id && (PrintStatus.background!=STATE_NONE)) {
 		cairo_set_source_rgba( cr, 0.5, 0.0, 0.5 , 0.3);
 		cairo_set_font_size( cr, 64.0 );
 		cairo_move_to( cr, 0, 0);
