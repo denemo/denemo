@@ -1147,7 +1147,7 @@ if(scm_is_integer(the_id)) {
 return SCM_BOOL_F;
 }
 static SCM scheme_select_default_layout(void) {
-	create_default_scoreblock();
+	select_default_scoreblock();
 return SCM_BOOL_T;
 }
 

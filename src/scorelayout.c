@@ -1859,6 +1859,32 @@ void create_default_scoreblock(void) {
 	gui->standard_scoreblocks = g_list_prepend(gui->standard_scoreblocks, (gpointer)sb);
 }
 
+/* select the scoreblock with the standard default scoreblock name, choosing a customized
+ * version over any standard version. Create one if it does not exist.
+ */
+void select_default_scoreblock(void) {
+	DenemoGUI *gui = Denemo.gui;
+		if(gui->custom_scoreblocks) {
+		GList *g;
+		for(g=gui->custom_scoreblocks;g;g=g->next) {
+			DenemoScoreblock *sb =g->data;
+			if(!strcmp(sb->name, DEFAULT_SCORE_LAYOUT)) {
+				set_notebook_page(sb->widget);
+				return;
+			}
+		}
+	}
+	if(gui->standard_scoreblocks) {
+		GList *g;
+		for(g=gui->standard_scoreblocks;g;g=g->next) {
+			DenemoScoreblock *sb =g->data;
+			if(!strcmp(sb->name, DEFAULT_SCORE_LAYOUT)) {
+				set_notebook_page(sb->widget);
+				return;
+			}
+		}
+	}
+}
 void selection_install_voice(DenemoStaff *staff, gint movementnum, gint voice_count, GString *lilypond, GString *tail) {
 	gchar *voicetag = get_voicetag(movementnum, voice_count);
 	gchar *voicename = get_voicename(movementnum, voice_count);
@@ -2230,15 +2256,17 @@ DenemoScoreblock *create_custom_lilypond_scoreblock(void) {
 	for(g=Denemo.gui->custom_scoreblocks;g;g=g->next) {
 		sb = (DenemoScoreblock *)g->data;
 		if(sb->visible) {
-		convert_to_lilypond_callback(NULL, sb);
-		return sb;
+			if(!sb->text_only)
+				convert_to_lilypond_callback(NULL, sb);
+			return sb;
 		}
 	}		
 	for(g=Denemo.gui->standard_scoreblocks;g;g=g->next) {
 		sb = (DenemoScoreblock *)g->data;
 		if(sb->visible) {
-		convert_to_lilypond_callback(NULL, sb);
-		return sb;
+			if(!sb->text_only)
+				convert_to_lilypond_callback(NULL, sb);
+			return sb;
 		}
 	}
 	//if none, create the default and convert that to lilypoond.
