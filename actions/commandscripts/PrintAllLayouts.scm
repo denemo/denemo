@@ -11,6 +11,7 @@
 	(d-TypesetForScript "(d-PrintView)"))
       (begin
 	(set!  PrintAllLayouts::Finished #f)
+	(d-SelectDefaultLayout)
 	(set! FinalizePrint DefaultFinalizePrint))))
   (begin
     (if (d-SelectFirstCustomLayout)
