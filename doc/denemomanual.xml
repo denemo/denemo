@@ -12,7 +12,7 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
 </legalnotice>
 
     <copyright>
-      <year>2009, 2010, 2011, 2012</year>
+      <year>2009, 2010, 2011, 2012, 2013</year>
 
       <holder>Denemo Project</holder>
     </copyright><author>
@@ -25,18 +25,19 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
     
     <productname>Denemo <productnumber>1</productnumber></productname>
 
-    <releaseinfo>0.9.4</releaseinfo>
+    <releaseinfo>Version 0.9.4 mostly with some updates for 1.0</releaseinfo>
   </articleinfo>
 
   <sect1>
     <title>Introduction</title>
 
     <para>Denemo lets you create musical scores. You can type music in using the keyboard 
-    or play it in using a MIDI contoller or the microphone input. You can edit your music - the display shows you what you
+    or play it in using a MIDI contoller or the microphone input. You can edit your music - the input display window shows you what you
     are working on in music notation - and you can playback to check how it sounds. 
-    You can preview and print the score or parts to the highest standards used in the music publishing industry 
+    The typeset display window shows the final printed score and typeset to the highest standards used in the music publishing industry 
     - thanks to the Lilypond music typesetting program.</para>
-    <para>Denemo does not attempt to show the appearance of the finished score, it just shows you enough to enable you to enter the music efficiently. To see the finished score you press Print Preview.</para>
+    <para>This separation of the final typesetting window from the input display avoids the constant dragging about of overlapping notation which is typical of music notation programs.
+     Nevertheless, if you do wish to tweak the appearance dragging and re-positioning of notation is possible on the final typeset display.</para>
 
   <sect1>
     <title>Obtaining and Installing Denemo</title>
@@ -62,7 +63,7 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
       <title>Dependencies</title>
 
       <para>To build Denemo from a source package, the following  !!out of date!!
-      dependent packages should be installed first. Remember to install the
+      dependent packages should be installed first. (See website for up-to-date list). Remember to install the
       development packages as well (check your distribution for the specific
       package name):<note>
           <title>For Debian Users</title>
@@ -262,7 +263,7 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
  </sect2>
  <sect2>
 <title>Some Common Mouse Shortcuts</title>
-<para>Here are a few of the mouse shortcuts that are commonly used in Denemo (keyboards may vary, for control, shift, alt etc modifiers).
+<para>Here are a few of the mouse shortcuts that are commonly used in Denemo (keyboards may vary, for control, shift, alt etc modifiers). Note that under the Input menu is an option to turn on more mouse-friendly buttons, this is the default for Windows users.
     <itemizedlist>
             <listitem>
       Scroll Wheel pans up/down to bring staffs out of view into the window.
@@ -290,7 +291,10 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
  </sect2>
  <sect2>
 <title>Some Common Uses of MIDI in</title>
-<para>The MIDI keyboard too can be customized to perform different actions. Usually, playing notes adds or edits the score (like hitting note names at the pc-keyboard). With the sustain pedal pressed chords are generated (the Alt key can be used for this too). By holding down the Control key a score can be checked by playing the notes - the cursor only advances if the right note is played, and the Shift key can be held down to route the MIDI keyboard straight to the synth (e.g. to check a phrase before playing it in). The Pitch Bend controller can be used to set the range of sharps and flats to be used, and the modulation controller can be used to mark sections of the music. When the Pitch Bend controller is used to set the range of sharps and flats the tuning is altered so that it is possible to distinguish enharmonic equivalents (so, for example, E-flat is distinctly sharper than D-sharp, making a clear major third with G and a horrible one B-natural while D-sharp makes a clear major third with B-natural and a horrible one with G.). With the MIDI controller set as Input source (Input menu) the duration keys create pure durations (notes colored yellow/brown) - you can enter as much of the rhythm as you wish, and then play the notes on top.
+<para>The MIDI keyboard too can be customized to perform different actions. Usually, playing notes adds or edits the score (like hitting note names at the pc-keyboard). 
+With the sustain pedal pressed chords are generated (the Alt key can be used for this too). 
+If the interval between the notes played is augmented or diminished it is played on a different channel, so that you are
+alerted to possible pitch spelling errors (e.g. inputting A-sharp for B-flat). By holding down the Control key a score can be checked by playing the notes - the cursor only advances if the right note is played, and the Shift key can be held down to route the MIDI keyboard straight to the output (e.g. to check a phrase before playing it in). The Pitch Bend controller can be used to set the range of sharps and flats to be used, and the modulation controller can be used to mark sections of the music. With the MIDI controller set as Input source (Input menu) the duration keys create pure durations (notes colored yellow/brown) - you can enter as much of the rhythm as you wish, and then play the notes on top.
 </para>
  </sect2>
 
@@ -306,27 +310,30 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
     <para>
     One score may contain several movements, which you can move between, insert and delete with the Movements menu. A movement is a continuous piece of music with titles etc.
 <note>
-  It is not all that easy to tell that you have several movements; the first thing on the status bar is the movement number. If you try to move to a new movement which isn't there the bell sounds (if enabled), so you can hit the key to do that to check out how many movements there are
+  It is not all that easy to tell that you have several movements; the first thing on the status bar is the movement number. If you try to move to a new movement which isn't there the bell sounds (if enabled).
 </note>
  </para>
     <para>
     Within a movement there are staffs (arranged vertically) and within the staffs Denemo Objects. These can be notes, chords and Denemo Directives (see  <xref linkend="DenemoDirectives" />). The notes and chords are displayed in conventional format (though not fully typeset). The Denemo Directives are used for most things that are not chords or notes: Metronome marks, repeat barlines etc are good examples. They can also be attached to chords, individual notes in a chord, to a staff as a whole and to the score as a whole; in this case the directive can be thought of as an attribute of the object it is attached to. Each Denemo Directive carries its own display method. For example the Close Repeat barline appears as a Denemo Object in the converional music notation, while a Directive attached to a staff (e.g. Smaller Staff) may appear in a menu under a tools icon to the right of the staff. In the case of "Smaller Staff" the directive directs the LilyPond typesetter to make the staff smaller, and it can be edited from the menu under the tools icon to the left of the clef. Another tools icon appears if directives are attached to voices within a staff, again to the left of the clef, below the staff one.
 </para>
     <para>
-    The command Edit Object gives access to editing Denemo Directives, which generally have their own edit methods. You can use the Print View to indicate the padding that you wish to apply to some item, or to show where you want to drag it to.
+    If there is more than one voice on a staff it is best displayed on a separate staff in the Denemo Display, for ease of editing - the clef is drawn pale and there is no timesignature for such extra voices so it is easy to understand what is going on. The Print Preview window as usual shows the final typeset appearance.
     </para>
     <para>
-    The titles of the current movement can be set in the movement menu, and for the whole score in the score menu. In the movement menu you can cause a page break before the movement.
+    In the Denemo display a cursor shows where the next note will be entered/edited. It is red for an over-full bar, blue for appending into an under-full one and green when editing (i.e. on an already entered object).
     </para>
-
-
-         <note>
-            <para>When a file is loaded it opens at the point where you left off editing it.</para>
-          </note>
+    <para>
+        There are two sorts of titles. Book titles have a separate title page with titles for individual movements which can be listed in an automatically generated
+table of contents. Simple titles give a Title and (optionally) movement titles on the same page. Comments can be place on chords in the score and these can be automatically collected into an appendix.
+    </para>    
+    <para>When a file is loaded it opens at the point where you left off editing it. 
+ The position and size of the window is restored as well as the position and size of the source pdf you are transcribing from.
+    </para>
+          
   </sect2>
   </sect1>
   <sect1>
-    <title>The Denemo Window</title>
+    <title>The Denemo Input Window</title>
     <figure>
       <title>Main Window</title>
 
@@ -337,17 +344,15 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
       </mediaobject>
     </figure>
 <para>
-The main window has menus and toolbars at the top. The Titles Etc appear next, along with any extra menu items which you may have placed there (e.g. the Print Part button). With View->Score View checked there is next the drawing area where the music input is displayed. When zoomed out you see just the few measures you are working on. By dragging the red bar at the bottom of the score upwards you get space for more of the music. If you have many staffs they may not all fit: you can still drag the red bar upwards to see several lines of just one or two staffs for instance. With View->Print View checked there is another pane showing the print preview of your score. Below this is a "Console Pane" showing any LilyPond messages while typesetting the music. At the bottom is a status line showing which movement you are in and what sort of object the cursor is on. If there are any MIDI filters that active they will be noted at the right in the status bar. The small colored rectangle is the Denemo Cursor , which shows where notes etc will be added/edited next - the insertion point is marked as a blue vertical bar. Selected music is indicated by a blue background.
+The main window has menus and toolbars at the top. The Titles Etc appear next, along with any extra menu items which you may have placed there (e.g. the Print Part button). With View->Score View checked there is next the drawing area where the music input is displayed. When zoomed out you see just the few measures you are working on. By dragging the red bar at the bottom of the score upwards you get space for more of the music. If you have many staffs they may not all fit: you can still drag the red bar upwards to see several lines of just one or two staffs for instance.
+Below this is a "Console Pane" showing any LilyPond messages while typesetting the music. At the bottom is a status line showing which movement you are in and what sort of object the cursor is on. If there are any MIDI filters that active they will be noted at the right in the status bar. The small colored rectangle is the Denemo Cursor, which shows where notes etc will be added/edited next - the insertion point is marked as a blue vertical bar. Selected music is indicated by a green background.
 </para>
 <para>
-The menus in Denemo are unusual: they not only let you do some particular action, but also each menu item lets you enquire what the action does in more detail and lets you set keyboard/mouse shortcuts for the actions. A single keystroke can be set as a shortcut simply by pressing the key while the menu item is selected. You are warned if you are stealing this shortcut from something else. All the extra functionality of menu items can be accessed by right-clicking the menu item, while the usual left click is for executing the action itself. The menus can always be torn off for working with particular items (e.g. working with different movements or with measures, dynamics etc.). Also available by right-clicking is creating new actions - often by modifying ones that are already there.
+The menus in Denemo are unusual: they not only let you do some particular action, but also each menu item lets you enquire what the action does in more detail and lets you see or set keyboard/mouse shortcuts for the action. A single keystroke can be set as a shortcut simply by pressing the key while the menu item is selected. You are warned if you are stealing this shortcut from something else. All the extra functionality of menu items can be accessed by right-clicking the menu item, while the usual left click is for executing the action itself. The menus can always be torn off for working with particular items (e.g. working with different movements or with measures, dynamics etc.).
+ Also available by right-clicking is creating new actions - often by modifying ones that are already there.
 </para>
   </sect1>
-  <sect1>
-    <title>The Print Preview Window</title>
- <para>The print preview window is shown by checking View->Print View. Right clicking in this pane allows you to refresh the print preview (the program hangs waiting for LilyPond to finish). The mouse scroll buttons enable vertical panning and with Control pressed, zooming. Use Ctrl+Shft for finer control zoom</para>
- <para> Right clicking in this pane also allows you to choose offsets to apply to items that LilyPond has positioned badly. Or you can select an amount of padding to apply to some object. This is generally a better way of indicating that it is too close to something else, since other objects will move away from it as needed - that is, if you later edit something it will behave more intelligently. The actual editing is always done in the Score View pane, choosing Edit Object while the cursor is on the offending object and then dragging in the Print Preview window to indicate the amount of change required.</para>
-  </sect1>
+
   <sect1>
     <title>The Main Menubar</title>
 
@@ -1304,25 +1309,9 @@ Update Commands from the Internet allows you to get the latest versions of comma
   <sect2 revision="0.75">
     <title>Adding Markings</title>
 
-    <para>Dynamics, Slurs, Trills, Tempo Indications, and much more a found in the Markings menu </para>
+    <para>Dynamics, Slurs, Trills, Tempo Indications etc are in the Notes/Rests menu (if attached to a note or chord) or Directives menu (if standalone objects) </para>
     <para>You can collect together your favorite ones, either by assigning shortcuts, or creating a menu of favorite commands which just invoke the action you use. </para>
    
-    <procedure> 
-      <title>Adding Markings using the Articulation palette</title>
-       <para>Some ornaments and articulations have been collected together as a palette. </para>
-      
-      <example id="expressions_palette">
-        <title></title>
-
-        <mediaobject>
-          <imageobject>
-            <imagedata fileref="images/expressions_palette.png" />
-          </imageobject>
-        </mediaobject>
-      </example>
-
-     
-  </procedure> 
  
   </sect2>
 
@@ -1340,7 +1329,37 @@ Update Commands from the Internet allows you to get the latest versions of comma
 </para>
 
   </sect1>
-
+  <sect1>
+    <title>The Print View Window</title>
+ <para>The print view window is shown by checking View->Print View. At the top are buttons to turn continuous typesetting off or on, and to select Full score or Parts. The mouse scroll buttons enable vertical panning and with Control pressed, zooming. Use Ctrl+Shft for finer control zoom. Right click for help with tweaking beam angles, slurs etc.</para>
+ <para> Right clicking in this pane also allows you to drag offsets to apply to items that LilyPond has positioned badly. 
+ Slurs and beaming can be altered here, and page or line breaks added.
+ Or you can select an amount of padding to apply to some object. 
+ This is generally a better way of indicating that it is too close to something else, 
+ since other objects will move away from it as needed - that is, if you later edit something it will behave more intelligently.
+ </para>
+  </sect1>
+  
+    <sect1>
+    <title>The Score Layouts Window</title>
+ <para>The score layouts window is shown by checking View->Score Layout. 
+ You can use layouts to print the music in different ways. 
+ For example, one layout may have the score transposed, or be for just two parts printed together.
+ </para>
+ <para>
+ You can customize any layout in this window - positioning lyrics above the staff rather than below for example, or setting the staff groupings.
+ </para>
+ <para>You can make Denemo Directives conditional on the score layout, 
+so that for example a page break only applies when printing the full score, or is just for printing one part. 
+In this way if, for example, one part does not need separate first and second time bars, then these can be marked as not being for that layout.
+See Directives->Conditional Directives for setting this.</para>
+<note>
+The score layout can only be edited graphically when first created. Once re-loaded from disk it is reduced to its LilyPond text form and can then only
+be edited in the LilyPond view.
+</note>
+  </sect1>
+  
+  
   <sect1>
       <title>A Survey of the Input Methods</title>
     <sect2>
@@ -1349,8 +1368,12 @@ Update Commands from the Internet allows you to get the latest versions of comma
       <subtitle>Introduction</subtitle>
       <para>
       Denemo allows you to explore all the actions (insert/delete/edit/navigate...) using the menus. So, for example, inserting notes can be found under Notes/Rests while inserting a Staff comes under Staffs/Voices.
-<note> When you have found the action you need you can right click on the menu item to get an explanation of the action and to view/set a key press- a keyboard shortcut - to activate the action. If you are setting a lot of keyboard shortcuts for menu items you can check the Edit->Keyboard Setup->Allow Quick Shortcut Edits button, whereupon you can set the keyboard shortcut just by pressing the desired key while the menu item is selected. In addition you can customize the mouse actions to initiate commands, and set the cursor that will show while certain mouse conditions apply.
-</note>
+ When you have found the action you need hovering over the item will give an explanation of what it does.
+The keyboard or mouse shortcut to use for the command is in blue on the right.
+ You can set the keyboard shortcut just by pressing the desired key while the menu item is selected. 
+ You can right click on the menu item to set a a two-key keyboard shortcut or mouse shortcut to activate the action.
+ In addition you can customize the mouse actions to initiate commands, and set the cursor that will show while certain mouse conditions apply.
+
       </para>
       <para>Denemo offers several ways of entering music: typing at the keyboard, playing in via a MIDI keyboard (controller), playing in acoustically using a microphone or choosing items from the menu system. </para>
       <para>Using the menus for everything would be very slow, but next to each menu item is the keypress that you can use instead. If there is no keypress shown, and you want to use that item often, then right click on the menu item and you can set a key combination for that menu action. Right clicking is also useful for getting a description of what the menu action is. </para>
@@ -1388,6 +1411,10 @@ Update Commands from the Internet allows you to get the latest versions of comma
    </listitem>
    <listitem>
      Holding down the Shift key lets you listen to the MIDI keyboard without affecting the score.
+   </listitem>
+     <listitem>
+     The problem of entering the wrong enharmonic is largely avoided by Denemo's simple pitch-spelling strategy.
+     The more extreme intervals are played in a separate MIDI channel so that if, for example you enter F - A-sharp it sounds quite distinct from F - B-flat
    </listitem>
  </itemizedlist>
 </para>

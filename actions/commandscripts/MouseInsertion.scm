@@ -70,4 +70,6 @@
 (d-SetDirectiveTagActionScript "EndDim" "(d-ToggleEndDiminuendo)")
 
 (if DenemoPref_newbie
-	(d-InfoDialog (_ "To insert notes hold down shift key while clicking the mouse. To add to a chord hold down Alt key, to delete hold down Control key while clicking.")))
+	(d-InfoDialog (_ "To insert notes hold down shift key while clicking the mouse. To add to a chord hold down Alt key, to delete hold down Control key while clicking.
+	Or use keys a,b,c,d,e,f,g, 0,1,2,3,4 (with Shift, Control or Alt).
+	To cut out excessive messages like this use Help menu ->Turn Excessive Tooltips Off/On.")))

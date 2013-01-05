@@ -32,6 +32,7 @@ DenemoScoreblock *get_scoreblock_for_lilypond(gchar *lily);
 GtkWidget *get_score_layout_notebook(DenemoGUI *gui);
 DenemoScoreblock *create_custom_scoreblock (gchar *layout_name, gboolean force);
 DenemoScoreblock *create_custom_lilypond_scoreblock (void);
+void select_default_scoreblock(void);
 DenemoScoreblock *selected_scoreblock(void);
 guint selected_layout_id(void);
 DenemoScoreblock *get_next_scoreblock(void);
