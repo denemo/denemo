@@ -1353,6 +1353,10 @@ Update Commands from the Internet allows you to get the latest versions of comma
 so that for example a page break only applies when printing the full score, or is just for printing one part. 
 In this way if, for example, one part does not need separate first and second time bars, then these can be marked as not being for that layout.
 See Directives->Conditional Directives for setting this.</para>
+<note>
+The score layout can only be edited graphically when first created. Once re-loaded from disk it is reduced to its LilyPond text form and can then only
+be edited in the LilyPond view.
+</note>
   </sect1>
   
   
