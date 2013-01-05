@@ -1309,7 +1309,7 @@ Update Commands from the Internet allows you to get the latest versions of comma
   <sect2 revision="0.75">
     <title>Adding Markings</title>
 
-    <para>Dynamics, Slurs, Trills, Tempo Indications etc are in the Notes/Rests or Directives </para>
+    <para>Dynamics, Slurs, Trills, Tempo Indications etc are in the Notes/Rests menu (if attached to a note or chord) or Directives menu (if standalone objects) </para>
     <para>You can collect together your favorite ones, either by assigning shortcuts, or creating a menu of favorite commands which just invoke the action you use. </para>
    
  
@@ -1330,10 +1330,32 @@ Update Commands from the Internet allows you to get the latest versions of comma
 
   </sect1>
   <sect1>
-    <title>The Print Preview Window</title>
- <para>The print preview window is shown by checking View->Print View. At the top are buttons to turn continuous typesetting off or on, and to select Full score or Parts. The mouse scroll buttons enable vertical panning and with Control pressed, zooming. Use Ctrl+Shft for finer control zoom. Right click for help with tweaking beam angles, slurs etc.</para>
- <para> Right clicking in this pane also allows you to drag offsets to apply to items that LilyPond has positioned badly. Or you can select an amount of padding to apply to some object. This is generally a better way of indicating that it is too close to something else, since other objects will move away from it as needed - that is, if you later edit something it will behave more intelligently.</para>
+    <title>The Print View Window</title>
+ <para>The print view window is shown by checking View->Print View. At the top are buttons to turn continuous typesetting off or on, and to select Full score or Parts. The mouse scroll buttons enable vertical panning and with Control pressed, zooming. Use Ctrl+Shft for finer control zoom. Right click for help with tweaking beam angles, slurs etc.</para>
+ <para> Right clicking in this pane also allows you to drag offsets to apply to items that LilyPond has positioned badly. 
+ Slurs and beaming can be altered here, and page or line breaks added.
+ Or you can select an amount of padding to apply to some object. 
+ This is generally a better way of indicating that it is too close to something else, 
+ since other objects will move away from it as needed - that is, if you later edit something it will behave more intelligently.
+ </para>
   </sect1>
+  
+    <sect1>
+    <title>The Score Layouts Window</title>
+ <para>The score layouts window is shown by checking View->Score Layout. 
+ You can use layouts to print the music in different ways. 
+ For example, one layout may have the score transposed, or be for just two parts printed together.
+ </para>
+ <para>
+ You can customize any layout in this window - positioning lyrics above the staff rather than below for example, or setting the staff groupings.
+ </para>
+ <para>You can make Denemo Directives conditional on the score layout, 
+so that for example a page break only applies when printing the full score, or is just for printing one part. 
+In this way if, for example, one part does not need separate first and second time bars, then these can be marked as not being for that layout.
+See Directives->Conditional Directives for setting this.</para>
+  </sect1>
+  
+  
   <sect1>
       <title>A Survey of the Input Methods</title>
     <sect2>
