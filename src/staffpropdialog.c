@@ -43,173 +43,25 @@ static void ConvertIllegalChar(char *name){
  * parse soundfont file and give the preset list
  *
  */
-SFInfo ParseSoundfont() {
+SFInfo *ParseSoundfont() {
   FILE *fp;
-  SFInfo sf;
+  static SFInfo sf;
   int i;
 
   if ((fp = fopen(Denemo.prefs.fluidsynth_soundfont->str, "r")) == NULL) {
     printf("\ncan't open soundfont file\n");
-    return;
+    return NULL;
   }
   if (load_soundfont(&sf, fp, TRUE)) {
     printf("\nfail to read soundfont file\n");
-    return;
+    return NULL;
   }
   fclose(fp);
   for (i = 0; i < sf.npresets-1; i++) {
     ConvertIllegalChar(sf.preset[i].hdr.name);
   }
-  return sf;
+  return &sf;
 }
-
-/**
- * List of General MIDI instrument names
- * 
- */
-static gchar *instruments[] = {
-  "acoustic grand",
-  "bright acoustic",
-  "electric grand",
-  "honky-tonk",
-  "electric piano 1",
-  "electric piano 2",
-  "harpsichord",
-  "clav",
-  "celesta",
-  "glockenspiel",
-  "music box",
-  "vibraphone",
-  "marimba",
-  "xylophone",
-  "tubular bells",
-  "dulcimer",
-  "drawbar organ",
-  "percussive organ",
-  "rock organ",
-  "church organ",
-  "reed organ",
-  "accordion",
-  "harmonica",
-  "concertina",
-  "acoustic guitar (nylon)",
-  "acoustic guitar (steel)",
-  "electric guitar (jazz)",
-  "electric guitar (clean)",
-  "electric guitar (muted)",
-  "overdriven guitar",
-  "distorted guitar",
-  "guitar harmo(dinics",
-  "acoustic bass",
-  "electric bass (finger)",
-  "electric bass (pick)",
-  "fretless bass",
-  "slap bass 1",
-  "slap bass 2",
-  "synth bass 1",
-  "synth bass 2",
-  "violin",
-  "viola",
-  "cello",
-  "contrabass",
-  "tremolo strings",
-  "pizzicato strings",
-  "orchestral harp",
-  "timpani",
-  "string ensemble 1",
-  "string ensemble 2",
-  "synthstrings 1",
-  "synthstrings 2",
-  "choir aahs",
-  "voice oohs",
-  "synth voice",
-  "orchestra hit",
-  "trumpet",
-  "trombone",
-  "tuba",
-  "muted trumpet",
-  "french horn",
-  "brass section",
-  "synthbrass 1",
-  "synthbrass 2",
-  "soprano sax",
-  "alto sax",
-  "tenor sax",
-  "baritone sax",
-  "oboe",
-  "english horn",
-  "bassoon",
-  "clarinet",
-  "piccolo",
-  "flute",
-  "recorder",
-  "pan flute",
-  "blown bottle",
-  "skakuhachi",
-  "whistle",
-  "ocarina",
-  "lead 1 (square)",
-  "lead 2 (sawtooth)",
-  "lead 3 (calliope)",
-  "lead 4 (chiff)",
-  "lead 5 (charang)",
-  "lead 6 (voice)",
-  "lead 7 (fifths)",
-  "lead 8 (bass+lead)",
-  "pad 1 (new age)",
-  "pad 2 (warm)",
-  "pad 3 (polysynth)",
-  "pad 4 (choir)",
-  "pad 5 (bowed)",
-  "pad 6 (metallic)",
-  "pad 7 (halo)",
-  "pad 8 (sweep)",
-  "fx 1 (rain)",
-  "fx 2 (soundtrack)",
-  "fx 3 (crystal)",
-  "fx 4 (atmosphere)",
-  "fx 5 (brightness)",
-  "fx 6 (goblins)",
-  "fx 7 (echoes)",
-  "fx 8 (sci-fi)",
-  "sitar",
-  "banjo",
-  "shamisen",
-  "koto",
-  "kalimba",
-  "bagpipe",
-  "fiddle",
-  "shanai",
-  "tinkle bell",
-  "agogo",
-  "steel drums",
-  "woodblock",
-  "taiko drum",
-  "melodic tom",
-  "synth drum",
-  "reverse cymbal",
-  "guitar fret noise",
-  "breath noise",
-  "seashore",
-  "bird tweet",
-  "telephone ring",
-  "helicopter",
-  "applause",
-  "gunshot",
-  NULL
-};
-
-
-static const gchar *context_strings[] = {
-  NONE_STRING,
-  PIANO_START_STRING,
-  PIANO_END_STRING,
-  CHOIR_START_STRING,
-  CHOIR_END_STRING,
-  GROUP_START_STRING,
-  GROUP_END_STRING,
-  NULL
-};
 
 
 
@@ -233,9 +85,6 @@ struct callbackdata
   GtkWidget *transposition;
   GtkWidget *volume;
   GtkWidget *mute_volume;
- 
-  
-
 };
 
 
@@ -299,19 +148,19 @@ set_properties (struct callbackdata *cbdata)
   // ASSIGNBOOLEAN(midi_prognum_override);
   if(staffstruct->midi_instrument->len) {
     staffstruct->midi_prognum = get_midi_prognum(staffstruct);
-
     gint i;
-    SFInfo sf = ParseSoundfont();
-    for (i = 0; i < sf.npresets-1; i++) {
-      if(!strcmp(sf.preset[i].hdr.name, staffstruct->midi_instrument->str)) {
-	staffstruct->midi_prognum = sf.preset[i].preset;
-	printf("\nMIDI Instrument == %s \nMIDI PROGRAM == %d\n", 
-		staffstruct->midi_instrument->str, staffstruct->midi_prognum);
-        break;
-      }
-    }
-    free_soundfont(&sf);
-
+    SFInfo *sf = ParseSoundfont();
+    if(sf) {
+			for (i = 0; i < sf->npresets-1; i++) {
+				if(!strcmp(sf->preset[i].hdr.name, staffstruct->midi_instrument->str)) {
+					staffstruct->midi_prognum = sf->preset[i].preset;
+					printf("\nMIDI Instrument == %s \nMIDI PROGRAM == %d\n", 
+					staffstruct->midi_instrument->str, staffstruct->midi_prognum);
+					break;
+				}
+			}
+    free_soundfont(sf);
+	}
  //   if(staffstruct->midi_prognum != i) /* I am not sure why this was necessary and if it is still needed*/
  //     ASSIGNNUMBER_1(midi_prognum);
     ASSIGNNUMBER_1(midi_channel);
@@ -350,27 +199,21 @@ staff_properties_change (void)
   GtkWidget *entrywidget;
   static GString *entrycontent;
   GList *instrument_list = NULL;
-  GList *context_list = NULL;
   static struct callbackdata cbdata;
   gint i;
   
   if (!instrument_list)
     {
-      SFInfo sf = ParseSoundfont();
-      for (i = 0; i < sf.npresets-1; i++) {
-	instrument_list = g_list_append (instrument_list, g_strdup ((gchar *) sf.preset[i].hdr.name));
-      }
-      free_soundfont(&sf);
-    }
+      SFInfo *sf = ParseSoundfont();
+      if(sf) {
+				for (i = 0; i < sf->npresets-1; i++) {
+					instrument_list = g_list_append (instrument_list, g_strdup ((gchar *) sf->preset[i].hdr.name));
+				}
+      free_soundfont(sf);
+			}
+		}
 
-  if (!context_list)
-    {
-      i=0;
-      while (context_strings[i++])
-	{
-	  context_list = g_list_append (context_list, (gpointer) (context_strings[i]?context_strings[i]:"None"));
-	}
-    }
+
 
     {
       gui = Denemo.gui;
@@ -492,15 +335,6 @@ staff_properties_change (void)
   INTENTRY_LIMITS("Space below:", space_below, 0, MAXEXTRASPACE); 
   INTENTRY_LIMITS("Number of Lines:", no_of_lines, 1, 5);
 
-  
-  /*print appearance tab */
-  // NEWPAGE("Printout Appearance");
-
-  
-  //GString *s = context_string(staffstruct->context);
-  // g_print("\ncontext string = %s\n",s->str);
-  //  COMBOBOXENTRY("Context:", context, context_list, s);
-  // g_string_free(s, TRUE); 
  
   /* MIDI tab */
   NEWPAGE("MIDI");
