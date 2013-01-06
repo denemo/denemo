@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script. 
-AC_INIT([denemo], [1.0.0~rc5], [denemo-devel@gnu.org])
+AC_INIT([denemo], [1.0.0~rc6], [denemo-devel@gnu.org])
 AC_CONFIG_SRCDIR([src/main.c])
 AM_INIT_AUTOMAKE([tar-pax]) 
 dnl AM_INIT_AUTOMAKE([foreign -Wall -Werror gnu tar-pax])
@@ -88,24 +88,41 @@ AC_ARG_WITH([pmidi-platform],
       *) with_platform=none ;;
     esac])
 
+if test "$with_pmidi_platform" = "linux"; then
+  PLATFORM_SUBDIR='pm_linux'
+  PLATFORM_CFLAGS='$(GLIB_CFLAGS) -I$(top_srcdir)/portmidi -I$(top_srcdir)/portmidi/pm_linux -DPMALSA -D_HAVE_PORTMIDI_ -D_DEBUG -DPM_CHECK_ERRORS=0 -DDEBUG'
+fi
+if test "$with_pmidi_platform" = "mingw"; then
+  PLATFORM_SUBDIR='pm_win'
+  PLATFORM_CFLAGS='$(GLIB_CFLAGS) -I$(top_srcdir)/portmidi -I$(top_srcdir)/portmidi/pm_win -D_HAVE_PORTMIDI_ -DWIN32 -D_WINDOWS -D_DEBUG -DPM_CHECK_ERRORS=0 -DDEBUG'
+fi
+if test "$with_pmidi_platform" = "darwin"; then
+  PLATFORM_SUBDIR='pm_mac'
+  PLATFORM_CFLAGS='$(GLIB_CFLAGS) -I$(top_srcdir)/portmidi -I$(top_srcdir)/portmidi/pm_mac -D_HAVE_PORTMIDI_ -D_DEBUG -DPM_CHECK_ERRORS=0 -DDEBUG'
+fi
+
+AC_MSG_RESULT([Statically compiling PORTMIDI for... $with_pmidi_platform])
 dnl maybe use later for debug/feedback AC_MSG_RESULT([$with_pmidi_platform])
-AM_CONDITIONAL([LINUX], [test "$with_pmidi_platform" = "linux"])
-AM_CONDITIONAL([MINGW], [test "$with_pmidi_platform" = "mingw"])
-AM_CONDITIONAL([DARWIN], [test "$with_pmidi_platform" = "darwin"])
+dnl AM_CONDITIONAL([LINUX], [test "$with_pmidi_platform" = "linux"])
+dnl AM_CONDITIONAL([MINGW], [test "$with_pmidi_platform" = "mingw"])
+dnl AM_CONDITIONAL([DARWIN], [test "$with_pmidi_platform" = "darwin"])
 
 if test "$with_pmidi_platform" != "none"; then
-  CFLAGS="$CFLAGS -D_HAVE_PORTMIDI_"
   WHICH_PORTMIDI='portmidi'
   PORTMIDI_LDD='../portmidi/libportmidi.a'
-  PORTMIDI_INCLUDE='-I$(top_srcdir)/portmidi'
+  PORTMIDI_INCLUDE='-I$(top_srcdir)/portmidi -I$(top_srcdir)/portmidi/$(PLATFORM_SUBDIR)'
 else
   WHICH_PORTMIDI=''
   PORTMIDI_LDD=''
   PORTMIDI_INCLUDE=''
+  PLATFORM_SUBDIR=''
+  PLATFORM_CFLAGS=''
 fi
   AC_SUBST([WHICH_PORTMIDI])
   AC_SUBST([PORTMIDI_LDD])
   AC_SUBST([PORTMIDI_INCLUDE])
+  AC_SUBST([PLATFORM_SUBDIR])
+  AC_SUBST([PLATFORM_CFLAGS])
 
 AC_ARG_ENABLE(
   jack,
