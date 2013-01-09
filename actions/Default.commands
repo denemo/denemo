@@ -6282,6 +6282,14 @@ accidentals are usually printed over the note.</tooltip>
         <label>Print Score and Parts</label>
         <tooltip>Creates score layouts for the current layout (full score) and parts (named after instrument name). Set instrument names before use.</tooltip>
       </row>
+      <row>
+        <action>AttachedText</action>
+        <after>TextAbove</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings</menupath>
+        <label>Text with Positioning</label>
+        <tooltip>Prints text you give above/below/auto-positioned.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
