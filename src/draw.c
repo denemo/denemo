@@ -597,7 +597,7 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
        (si->selection.firstmeasuremarked <= itp->measurenum) &&
        (si->selection.lastmeasuremarked > itp->measurenum))      {
 	  cairo_set_source_rgb( cr, 0.5, 0.5, 1.0 );
-	  cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y, 20, STAFF_HEIGHT+1); 
+	  cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data) - 10, y, 20, STAFF_HEIGHT+1); 
 	  
 	  cairo_fill(cr);
     } 
