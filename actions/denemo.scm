@@ -898,4 +898,11 @@
 
 (define (DenemoAudioAnnotate)
     (DenemoAudioAnnotation  (d-NextAudioTiming)))
-;;;;
+;;;; Updates a standalone directive at the cursor if it is marked as DYNAMIC. Updating is by running the tag with parameter 'recalculate
+(define (UpdateStandaloneDirective)
+   (define tag (d-DirectiveGetTag-standalone))
+	(if tag 
+	    (let ((override
+		(d-DirectiveGet-standalone-override tag)))
+		(if (not (zero? (logand override DENEMO_OVERRIDE_DYNAMIC)))
+		    (eval-string (string-append "(d-" tag " 'recalculate)"))))))
