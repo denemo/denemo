@@ -169,15 +169,15 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert "RESTCHAR5" rest",  N_("InsertThirtysecondRest"), "insert_rest_5key",REST5, NULL},
   {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert "RESTCHAR6" rest",  N_("InsertSixtyfourthRest"), "insert_rest_6key",REST6, NULL},
   
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR0" rest",  N_("InsertBlankWholeNote"), "insert_blankchord_0key", NULL},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR1" rest",  N_("InsertBlankHalfNote"), "insert_blankchord_1key", NULL},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR2" rest",  N_("InsertBlankQuarterNote"), "insert_blankchord_2key", NULL},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR3" rest",  N_("InsertBlankEighthNote"), "insert_blankchord_3key", NULL},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR4" rest",  N_("InsertBlankSixteenthNote"), "insert_blankchord_4key", NULL},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR5" rest",  N_("InsertBlankThirtysecondNote"), "insert_blankchord_5key", NULL},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR6" rest",  N_("InsertBlankSixtyfourthNote"), "insert_blankchord_6key", NULL},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR7" rest",  N_("InsertBlankOneHundredTwentyEighthNote"), "insert_blankchord_7key", NULL},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR8" rest",  N_("InsertBlankTwoHundredFiftySixthNote"), "insert_blankchord_8key", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR0" rest",  N_("InsertBlankWholeNote"), "insert_blankchord_0key", RESTCHAR0" Spacer", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR1" rest",  N_("InsertBlankHalfNote"), "insert_blankchord_1key", RESTCHAR1" Spacer", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR2" rest",  N_("InsertBlankQuarterNote"), "insert_blankchord_2key", RESTCHAR2" Spacer", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR3" rest",  N_("InsertBlankEighthNote"), "insert_blankchord_3key", RESTCHAR3" Spacer", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR4" rest",  N_("InsertBlankSixteenthNote"), "insert_blankchord_4key", RESTCHAR4" Spacer", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR5" rest",  N_("InsertBlankThirtysecondNote"), "insert_blankchord_5key", RESTCHAR5" Spacer", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR6" rest",  N_("InsertBlankSixtyfourthNote"), "insert_blankchord_6key", RESTCHAR6" Spacer", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR7" rest",  N_("InsertBlankOneHundredTwentyEighthNote"), "insert_blankchord_7key", RESTCHAR7" Spacer", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR8" rest",  N_("InsertBlankTwoHundredFiftySixthNote"), "insert_blankchord_8key", RESTCHAR8" Spacer", NULL},
 
 
 
