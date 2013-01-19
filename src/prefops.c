@@ -102,15 +102,15 @@ initprefs ()
   ret->lilypath = g_string_new (g_build_filename(get_bin_dir(), "lilypond-windows.exe", NULL));//We don't assume the file assoc works - we are installing this anyway to a known place,the option  neither lilypond-windows.exe nor the -dgui option are used
   ret->pdfviewer = g_string_new ("");
   ret->imageviewer = g_string_new ("");
-  ret->profile = g_string_new("Simple");
 #else /* !G_OS_WIN32 */
   ret->browser = g_string_new ("firefox");
   ret->audioplayer = g_string_new ("play");
   ret->lilypath = g_string_new ("lilypond");
   ret->pdfviewer = g_string_new ("evince");
   ret->imageviewer = g_string_new ("eog");
-  ret->profile = g_string_new("Arranger");
 #endif /* !G_OS_WIN32 */
+
+  ret->profile = g_string_new("Arranger");
   ret->denemopath = g_string_new (g_get_home_dir());
   ret->lilyversion = g_string_new ("");//meaning use installed LilyPond version
   ret->temperament = g_string_new("Equal");
