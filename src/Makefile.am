@@ -58,7 +58,7 @@ endif
 
 noinst_LIBRARIES = libaudiobackend.a
 libaudiobackend_a_SOURCES = audiointerface.c audiointerface.h eventqueue.c eventqueue.h dummybackend.c dummybackend.h
-libaudiobackend_a_CFLAGS = -W -Wall -Wno-unused-parameter
+libaudiobackend_a_CFLAGS = -W -Wall -Wno-unused-parameter $(PLATFORM_CFLAGS) 
 
 libaudiobackend_a_SOURCES += jackbackend.c jackbackend.h jackutil.c jackutil.h
 libaudiobackend_a_SOURCES += ringbuffer.c ringbuffer.h

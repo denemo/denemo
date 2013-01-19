@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script. 
-AC_INIT([denemo], [1.0.0~rc6], [denemo-devel@gnu.org])
+AC_INIT([denemo], [1.0.0~rc8], [denemo-devel@gnu.org])
 AC_CONFIG_SRCDIR([src/main.c])
 AM_INIT_AUTOMAKE([tar-pax]) 
 dnl AM_INIT_AUTOMAKE([foreign -Wall -Werror gnu tar-pax])
@@ -90,7 +90,7 @@ AC_ARG_WITH([pmidi-platform],
 
 if test "$with_pmidi_platform" = "linux"; then
   PLATFORM_SUBDIR='pm_linux'
-  PLATFORM_CFLAGS='$(GLIB_CFLAGS) -I$(top_srcdir)/portmidi -I$(top_srcdir)/portmidi/pm_linux -DPMALSA -D_HAVE_PORTMIDI_ -D_DEBUG -DPM_CHECK_ERRORS=0 -DDEBUG'
+  PLATFORM_CFLAGS='$(GLIB_CFLAGS) -I$(top_srcdir)/portmidi -I$(top_srcdir)/portmidi/pm_linux -D_HAVE_PORTMIDI_ -DPMALSA -D_DEBUG -DPM_CHECK_ERRORS=0 -DDEBUG'
 fi
 if test "$with_pmidi_platform" = "mingw"; then
   PLATFORM_SUBDIR='pm_win'
@@ -110,7 +110,7 @@ dnl AM_CONDITIONAL([DARWIN], [test "$with_pmidi_platform" = "darwin"])
 if test "$with_pmidi_platform" != "none"; then
   WHICH_PORTMIDI='portmidi'
   PORTMIDI_LDD='../portmidi/libportmidi.a'
-  PORTMIDI_INCLUDE='-I$(top_srcdir)/portmidi -I$(top_srcdir)/portmidi/$(PLATFORM_SUBDIR)'
+  PORTMIDI_INCLUDE='-I$(top_srcdir)/portmidi -I$(top_srcdir)/portmidi/$(PLATFORM_SUBDIR) -D_HAVE_PORTMIDI_'
 else
   WHICH_PORTMIDI=''
   PORTMIDI_LDD=''

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: denemo 0.7.3beta1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-04 16:08+0000\n"
+"POT-Creation-Date: 2013-01-10 08:20+0000\n"
 "PO-Revision-Date: 2005-02-11 23:18+0000\n"
 "Last-Translator:  <adam@ajtee.plus.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -7766,7 +7766,7 @@ msgid ""
 "between the voices. Suggest to use merge staffs"
 msgstr ""
 
-#: src/entries.h:284 src/register_commands.h:266 src/staffpropdialog.c:392
+#: src/entries.h:284 src/register_commands.h:266 src/staffpropdialog.c:235
 msgid "Staff Properties"
 msgstr ""
 
