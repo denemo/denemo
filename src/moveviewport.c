@@ -120,11 +120,11 @@ set_bottom_staff (DenemoGUI * gui)
   staff_number = gui->si->top_staff;
 
   space_left = get_widget_height(Denemo.scorearea)*gui->si->system_height/gui->si->zoom;
-   space_left -= 2*LINE_SPACE;
+  // space_left -= 2*LINE_SPACE;
   do
     {
      DenemoStaff *staff = staff_iterator->data;
-     space_left -= (staff->space_above + staff->space_below + 2*STAFF_HEIGHT);
+     space_left -= (staff->space_above + staff->space_below + gui->si->staffspace);//2*STAFF_HEIGHT);
      to_next_primary_voice (&staff_number, &staff_iterator);
     }
   while (staff_iterator && space_left >= 0);
