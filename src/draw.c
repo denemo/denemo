@@ -427,12 +427,12 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 	  (mudelaitem->starttickofnextnote > itp->tickspermeasure);
       if (si->cursor_appending)
 	{
-	  draw_cursor (cr, si, x + mudelaitem->x + extra, y, ((itp->curmeasure->next!=NULL) && (objnode *) itp->curmeasure->next->data)?-1:0 /*itp->last_gap */, gui->mode, si->cursorclef);
+	  draw_cursor (cr, si, x + mudelaitem->x + extra, y, ((itp->curmeasure->next!=NULL) && (objnode *) itp->curmeasure->next->data)?-1:0 /*itp->last_gap */, 0, si->cursorclef);
 	  memcpy (si->cursoraccs, itp->curaccs, SEVENGINTS);
 	}
       else
 	{
-	  draw_cursor (cr, si, x + mudelaitem->x, y, itp->last_gap, gui->mode,
+	  draw_cursor (cr, si, x + mudelaitem->x, y, itp->last_gap, mudelaitem->type == CHORD?0:mudelaitem->minpixelsalloted,
 		       si->cursorclef);
 	}
     }
@@ -511,7 +511,7 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
   }
 
 
-  // draw the cursor and set the side effects up if this didn't happen when drawing the currentobject
+  // draw the cursor and set the side effects up if this didn't happen when drawing the currentobject because there isn't one - a blank measure
   if (!si->currentobject && (si->currentstaffnum == itp->staffnum && si->currentmeasurenum == itp->measurenum))
     {
       /* That is, the cursor's at the beginning of this blank measure */

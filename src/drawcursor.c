@@ -16,23 +16,38 @@
 /**
  * Draw the cursor on the canvas at the given position
  * insert_control is the last gap from the previous note except when the cursor is on a measure boundary in which case it is +1 or -1 to indicate where next inserted note will go.
+minpixels is width of rectangle to draw indicating object position
  */
 void
 draw_cursor (cairo_t *cr, DenemoScore * si,
-	     gint xx, gint y, gint insert_control, input_mode mode, gint dclef)
+	     gint xx, gint y, gint insert_control, gint minpixels, gint dclef)
 {
   if(!cr) return;
   gint height = calculateheight (si->cursor_y, dclef);
 	gdouble scale = transition_cursor_scale();
 
   cairo_save( cr );
-//  setcairocolor( cr, paintgc );
   cairo_set_source_rgb(cr, 255*(si->cursoroffend), (!si->cursoroffend)*(!si->cursor_appending)*255, (!si->cursoroffend)*(si->cursor_appending)*255);
-  if(si->cursor_appending)
-    cairo_rectangle( cr, xx-(si->cursoroffend?CURSOR_WIDTH:0), height + y - CURSOR_HEIGHT, 2*CURSOR_WIDTH, 2*CURSOR_HEIGHT );
+  if(si->cursor_appending) {
+   	 cairo_rectangle( cr, xx-(si->cursoroffend?CURSOR_WIDTH:0), height + y - CURSOR_HEIGHT, 2*CURSOR_WIDTH, 2*CURSOR_HEIGHT );
+
+ 	cairo_fill( cr );
+	}
   else
-    cairo_rectangle( cr, xx, height + y - CURSOR_MINUS, CURSOR_WIDTH, CURSOR_HEIGHT );
-  cairo_fill( cr );
+	if(minpixels) {
+		cairo_set_line_width (cr, 4);
+		
+		cairo_rectangle( cr, xx, y, minpixels, STAFF_HEIGHT);
+		cairo_move_to( cr, xx + CURSOR_WIDTH, height + y - 2*CURSOR_HEIGHT);
+		
+		cairo_rel_line_to( cr, - CURSOR_WIDTH, CURSOR_HEIGHT);
+		cairo_rel_line_to( cr, CURSOR_WIDTH, CURSOR_HEIGHT);
+      		cairo_stroke( cr );
+		} else {
+    		cairo_rectangle( cr, xx, height + y - CURSOR_MINUS, CURSOR_WIDTH, CURSOR_HEIGHT );
+ 		cairo_fill( cr );
+		}
+ 
 
   {
     gdouble length = 20/si->zoom;

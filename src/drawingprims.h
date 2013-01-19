@@ -37,7 +37,7 @@ draw_tupbracket (cairo_t *cr,
 
 void
 draw_cursor (cairo_t *cr, DenemoScore *si,
-	     gint xx, gint y, gint last_gap, input_mode mode, gint dclef);
+	     gint xx, gint y, gint last_gap, gint minpixels, gint dclef);
 
 void
 draw_accidental (cairo_t *cr,
