@@ -188,11 +188,11 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
   DenemoObject *mudelaitem = (DenemoObject *) curobj->data;
 
   //g_print("draw obj %d %d\n", mudelaitem->x, y);
-  //this is the selection being given a green background
+  //this is the selection being given a colored background
   if(cr) if(itp->mark) {
     cairo_save(cr);
-    cairo_set_source_rgb( cr, 0.5, 1.0, 0.5 );
-    cairo_rectangle (cr, x+mudelaitem->x, y, 20, 80 );
+    cairo_set_source_rgba( cr, 0.8, 0.8, 0.4, 0.7);
+    cairo_rectangle (cr, x+mudelaitem->x, y, mudelaitem->minpixelsalloted, 80 );
     cairo_fill(cr);
     cairo_restore(cr);
   }
@@ -596,7 +596,7 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
        (si->selection.laststaffmarked >= itp->staffnum) &&
        (si->selection.firstmeasuremarked <= itp->measurenum) &&
        (si->selection.lastmeasuremarked > itp->measurenum))      {
-	  cairo_set_source_rgb( cr, 0.5, 0.5, 1.0 );
+	  cairo_set_source_rgba( cr, 0.8, 0.8, 0.4, 0.7);
 	  cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data) - 10, y, 20, STAFF_HEIGHT+1); 
 	  
 	  cairo_fill(cr);
