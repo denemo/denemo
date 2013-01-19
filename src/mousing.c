@@ -247,7 +247,8 @@ pi->measure_number >= rightmeasurenum);
 		  /* The below makes clicking to get the object at the end of
 		     a measure (instead of appending after it) require
 		     precision.  This may be bad; tweak me if necessary.  */
-		  if (x_to_explain > current->x + current->minpixelsalloted)
+		  if ((x_to_explain > current->x + current->minpixelsalloted) ||
+			(x_to_explain > GPOINTER_TO_INT (mwidthiterator->data) - current->minpixelsalloted/3))//if closer to barline than object center
 		    pi->offend = TRUE, pi->cursor_x++;
 		}
 	    }
