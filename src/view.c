@@ -1884,6 +1884,21 @@ static SCM scheme_get_horizontal_position(void) {
 return  scm_int2num(1 + Denemo.gui->si->cursor_x);
 }
 
+static SCM scheme_set_object_display_width(SCM value) {
+	 if(!scm_is_integer(value))
+    return SCM_BOOL_F;
+	if(Denemo.gui->si->currentobject) {
+		DenemoObject *obj = Denemo.gui->si->currentobject->data;
+		gint minpixels = scm_num2int(value, 0, 0);
+		obj->minpixelsalloted = minpixels;
+		return  SCM_BOOL_T;
+	}
+return  SCM_BOOL_F;
+}
+
+
+
+
 static SCM scheme_get_movement(void) {
   gint num = g_list_index(Denemo.gui->movements, Denemo.gui->si)+1;
   return  scm_int2num(num);
@@ -4935,6 +4950,7 @@ static void create_scheme_identfiers(void) {
   INSTALL_SCM_FUNCTION ("Returns the movement number counting from 1",DENEMO_SCHEME_PREFIX"GetMovement",  scheme_get_movement);
   INSTALL_SCM_FUNCTION ("Returns the staff/voice number counting from 1",DENEMO_SCHEME_PREFIX"GetStaff",  scheme_get_staff);
   INSTALL_SCM_FUNCTION ("Returns the measure number counting from 1",DENEMO_SCHEME_PREFIX"GetMeasure",  scheme_get_measure);
+  INSTALL_SCM_FUNCTION ("Sets the display width of the object at the cursor to the value passed (in pixels)",DENEMO_SCHEME_PREFIX"SetObjectDisplayWidth",  scheme_set_object_display_width);
   INSTALL_SCM_FUNCTION ("Returns the cursor horizontal position in current measure.\n 1 = first position in measure, n+1 is appending position where n is the number of objects in current measure",DENEMO_SCHEME_PREFIX"GetHorizontalPosition",  scheme_get_horizontal_position);
 
   INSTALL_SCM_FUNCTION ("Returns the note name for the line or space where the cursor is",DENEMO_SCHEME_PREFIX"GetCursorNote",  scheme_get_cursor_note);
