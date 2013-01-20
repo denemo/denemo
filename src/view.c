@@ -8162,15 +8162,15 @@ static gboolean menu_click (GtkWidget      *widget,
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   }//idx!=-1
 
-  gchar *myposition = g_object_get_data(G_OBJECT(widget), "menupath");// applies if it is a built-in command
- g_print("position from built in is %s\n", myposition);
+  gchar *myposition = g_object_get_data(G_OBJECT(widget), "menupath");// applies if it is a built-in command: FIXME not set for the popup menus though
+ //g_print("position from built in is %s\n", myposition);
   if(!myposition)
     myposition = g_object_get_data(G_OBJECT(action), "menupath");//menu item runs a script
   //g_print("Connecting to %s\n", g_object_get_data(G_OBJECT(widget), "menupath"));
 
   //g_print("position is %s\n", myposition);
   if(myposition == NULL) {
-    g_warning("Cannot find the position of this menu item %s in the menu system\n", func_name);
+   // g_warning("Cannot find the position of this menu item %s in the menu system\n", func_name);
     return TRUE;
   }
   static gchar *filepath;// static so that we can free it next time we are here.
