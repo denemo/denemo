@@ -234,6 +234,10 @@
       <row>
         <action>DeleteMeasure</action>
         <bind>Delete,m</bind>
+      </row>      
+      <row>
+        <action>SetPoint</action>
+        <bind>PrsL-Shift</bind>
       </row>
       <row>
         <action>DeleteMeasureAllStaffs</action>
