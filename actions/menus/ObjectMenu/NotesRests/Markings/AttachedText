@@ -12,7 +12,7 @@
 			(position (d-PopupMenu (list (cons (_ "Above") "^")  (cons (_ "Below") "_") (cons (_ "Auto Position") "-")))))
 	(set! current (d-DirectiveGet-chord-display tag))
 	(if (not current)
-		(set! current "Tutti"))
+		(set! current ""))
 	(set! text (d-GetUserInputWithSnippets (_ "Text") (_ "Give text to appear with note/chord: ") current));;cannot popup menu after this, it runs gtk_main
 	(if text 
 	  (begin 

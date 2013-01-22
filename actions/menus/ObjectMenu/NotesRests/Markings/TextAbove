@@ -10,7 +10,7 @@
 (let ((text #f) (tag "TextAbove")(markup #f)(current #f))
 	(set! current (d-DirectiveGet-chord-display tag))
 	(if (not current)
-		(set! current "Tutti"))
+		(set! current ""))
 	(set! text (d-GetUserInputWithSnippets (_ "Text") (_ "Give text to appear above music: ") current))
 	(if text 
 	  (begin
