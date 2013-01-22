@@ -2040,7 +2040,7 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
  get_window_position(&xx, &yy);
  Ww.last_button_release.x = xx + event->x;
  Ww.last_button_release.y = yy + event->y;
- if(Ww.ObjectLocated)
+ if(left && Ww.ObjectLocated)
 	gtk_window_present(GTK_WINDOW(gtk_widget_get_toplevel(Denemo.scorearea)));
 	//g_print("Button release %d, %d\n",(int)event->x , (int)event->y);
 	if(Denemo.pixbuf==NULL)
@@ -2110,7 +2110,7 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
   // \once \override DynamicLineSpanner #'Y-offset = #-10 to move a cresc or dimin vertically downwards.
   // \once \override DynamicLineSpanner #'direction = #1 to place above/below (-1)
 	//g_print("Stage %d object loc %d left %d", Ww.stage, object_located_on_entry, left);
- if( (Ww.stage==STAGE_NONE)) {
+ if(right &&  (Ww.stage==STAGE_NONE)) {
 	if(object_located_on_entry) //set by action_for_link
 	 popup_object_edit_menu();
 	else
