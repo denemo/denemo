@@ -246,47 +246,47 @@
       </row>
       <row>
         <action>InsertBlankWholeNote</action>
-        <label>InsertBlankWholeNote</label>
+        <label>&#x1D13B; Spacer</label>
         <tooltip>Insert a non-printing &#x1D13B; rest</tooltip>
       </row>
       <row>
         <action>InsertBlankHalfNote</action>
-        <label>InsertBlankHalfNote</label>
+        <label>&#x1D13C; Spacer</label>
         <tooltip>Insert a non-printing &#x1D13C; rest</tooltip>
       </row>
       <row>
         <action>InsertBlankQuarterNote</action>
-        <label>InsertBlankQuarterNote</label>
+        <label>&#x1D13D; Spacer</label>
         <tooltip>Insert a non-printing &#x1D13D; rest</tooltip>
       </row>
       <row>
         <action>InsertBlankEighthNote</action>
-        <label>InsertBlankEighthNote</label>
+        <label>&#x1D13E; Spacer</label>
         <tooltip>Insert a non-printing &#x1D13E; rest</tooltip>
       </row>
       <row>
         <action>InsertBlankSixteenthNote</action>
-        <label>InsertBlankSixteenthNote</label>
+        <label>&#x1D13F; Spacer</label>
         <tooltip>Insert a non-printing &#x1D13F; rest</tooltip>
       </row>
       <row>
         <action>InsertBlankThirtysecondNote</action>
-        <label>InsertBlankThirtysecondNote</label>
+        <label>&#x1D140; Spacer</label>
         <tooltip>Insert a non-printing &#x1D140; rest</tooltip>
       </row>
       <row>
         <action>InsertBlankSixtyfourthNote</action>
-        <label>InsertBlankSixtyfourthNote</label>
+        <label>&#x1D141; Spacer</label>
         <tooltip>Insert a non-printing &#x1D141; rest</tooltip>
       </row>
       <row>
         <action>InsertBlankOneHundredTwentyEighthNote</action>
-        <label>InsertBlankOneHundredTwentyEighthNote</label>
+        <label>&#x1D142; Spacer</label>
         <tooltip>Insert a non-printing &#x1D142; rest</tooltip>
       </row>
       <row>
         <action>InsertBlankTwoHundredFiftySixthNote</action>
-        <label>InsertBlankTwoHundredFiftySixthNote</label>
+        <label>&#x1D143; Spacer</label>
         <tooltip>Insert a non-printing &#x1D143; rest</tooltip>
       </row>
       <row>
