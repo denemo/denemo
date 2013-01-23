@@ -213,7 +213,7 @@ string_to_lilyversion(char *string)
   lilyversion version = { 2, 0};
   char **token;
   const char delimiters[] = ".";
-  if(string==NULL)
+  if(string==NULL || *string==0)
     return version;
   /* split string */
   token = g_strsplit(string, delimiters, 2);
@@ -257,7 +257,6 @@ get_lily_version_string (void)
   int standard_output;
 #define NUMBER_OF_PARSED_CHAR 30
   gchar buf[NUMBER_OF_PARSED_CHAR]; /* characters needed to parse */
-
   gchar *arguments[] = {
   "lilypond",
   "-v",
