@@ -9332,11 +9332,13 @@ create_window(void) {
   gtk_window_set_title (GTK_WINDOW (Denemo.window), _("Denemo Main Window"));
   loadWindowState(/* it accesses Denemo.window */);
 #ifdef G_OS_WIN32
-  data_file = g_build_filename (get_data_dir (), "icons","denemo.png", NULL);
+		g_print("Denemo icon not used");
+  //not installed on windows ... data_file = g_build_filename (get_data_dir (), "icons","denemo.png", NULL);
 #else
   data_file = g_strconcat (get_data_dir (), "/../pixmaps/denemo.png", NULL);//FIXME installed in wrong place?
-#endif
   gtk_window_set_default_icon_from_file (data_file, NULL);
+#endif
+
   g_signal_connect (G_OBJECT (Denemo.window), "delete_event",
 		    G_CALLBACK (delete_callback), NULL);
   g_free (data_file);
