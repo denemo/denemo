@@ -1589,7 +1589,8 @@ string_dialog_editor_with_widget_opt (DenemoGUI *gui, gchar *wlabel, gchar *dire
   
 	gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER);
 	gtk_window_set_keep_above(GTK_WINDOW (dialog), TRUE);
-  gtk_widget_show_all (dialog);
+  gtk_widget_show_all (dialog); 
+  gtk_widget_grab_focus (textview);  
   if(modal) {
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT){
       GtkTextIter startiter, enditer;
