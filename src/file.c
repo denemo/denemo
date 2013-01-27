@@ -977,7 +977,7 @@ file_dialog_response(GtkWidget *dialog, gint response_id, struct FileDialogData 
 }
 
 
-#define FILE_SAVE_DIALOG(description)\
+#define FILE_SAVE_DIALOG(description, template)\
   GtkWidget *file_selection;\
   GtkFileFilter *filter;\
   file_selection = gtk_file_chooser_dialog_new (description,\
@@ -988,7 +988,7 @@ file_dialog_response(GtkWidget *dialog, gint response_id, struct FileDialogData 
 						GTK_STOCK_SAVE,\
 						GTK_RESPONSE_ACCEPT, NULL);\
   /*set default folder for saving */\
-  set_current_folder(file_selection, gui, SAVE_NORMAL);\
+  set_current_folder(file_selection, gui, template?SAVE_TEMPLATE:SAVE_NORMAL);\
   \
   /* assign title */ \
   gchar *title = get_scoretitle();\
@@ -1019,7 +1019,7 @@ file_export (DenemoGUI * gui, FileFormatNames format_id)
 {
   gchar *description = g_strconcat(_("Export As "), FORMAT_DESCRIPTION(format_id), NULL);
   DenemoSaveType  template = FALSE;
-  FILE_SAVE_DIALOG(description)
+  FILE_SAVE_DIALOG(description, template)
   g_free(description);
 }
 
@@ -1032,7 +1032,7 @@ void
 file_saveas (DenemoGUI * gui, DenemoSaveType  template)
 {
   gint format_id = DENEMO_FORMAT;
-  FILE_SAVE_DIALOG(_("Save As"))
+  FILE_SAVE_DIALOG(_("Save As"), template)
 }
 
 /**
