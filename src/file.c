@@ -307,8 +307,7 @@ lyinput(gchar *filename, DenemoGUI *gui) {
  * @return 0 for success non zero for failure
  */
 gint
-open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, ImportType type)
-{
+open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, ImportType type) {
   g_signal_handlers_block_by_func(G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
   gint result;
   gboolean xml = FALSE;
@@ -333,51 +332,50 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
 #undef EXISTS
     }
   //printf("\nResult == %d type == %d template == %d xml == %d\n",result,type,template,(int)xml);
-  if (result == 0)
-    {
-      if(!template) 
-	{// not a template
-	  update_file_selection_path (filename);
-	  if(type==REPLACE_SCORE)
-	    {
-	      if (xml)
-	        set_gui_filename (gui, filename);
-	      else 
-	        {
-		  gchar *sname = strip_path_and_extension (filename);
-		  set_gui_tabname (gui, sname);
-		  g_free(sname);
-	        }
-	    }
-
-	  if(type==ADD_STAFFS || type==ADD_MOVEMENTS)
-	    score_status(gui, TRUE);
-        } else 
-	  g_string_assign (gui->filename, "");
+  if (result == 0) {
+      if(!template) {// not a template
+					update_file_selection_path (filename);
+					if(type==REPLACE_SCORE) {
+						if (xml)
+							set_gui_filename (gui, filename);
+						else 
+							{
+								gchar *sname = strip_path_and_extension (filename);
+								set_gui_tabname (gui, sname);
+								g_free(sname);
+							}
+					}
+					if(type==ADD_STAFFS || type==ADD_MOVEMENTS)
+						score_status(gui, TRUE);						
+			} else {
+				g_string_assign (gui->filename, "");
+			}
       if(Denemo.printarea) 
-	g_object_set_data(G_OBJECT(Denemo.printarea), "printviewupdate", (gpointer)G_MAXUINT);
+				g_object_set_data(G_OBJECT(Denemo.printarea), "printviewupdate", (gpointer)G_MAXUINT);
       if(!xml)
-	updatescoreinfo (gui);
-      set_rightmeasurenum (gui->si);
-      select_lyrics();
-      set_bottom_staff (gui);
-      update_hscrollbar (gui);
-      update_vscrollbar (gui);
-      gtk_widget_queue_draw (Denemo.scorearea);
-      g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
-      g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
-      force_lily_refresh(gui);
-    } else /*file load failed - gui may not be valid */
+				updatescoreinfo (gui);
+			else {
+				if(getNumCharsSchemeText())
+						executeScript();
+				
+			}
+			set_rightmeasurenum (gui->si);
+			select_lyrics();
+			set_bottom_staff (gui);
+			update_hscrollbar (gui);
+			update_vscrollbar (gui);
+			gtk_widget_queue_draw (Denemo.scorearea);
+			g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
+			g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
+			force_lily_refresh(gui);
+  } else /*file load failed - gui may not be valid */ {
     deletescore(NULL, gui);
-      
+  }   
   g_signal_handlers_unblock_by_func(G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
   gui->si->undo_guard=1;
-
-
   denemo_scheme_init();//to re-instate any user defined directives for whole score
   if(!(type==ADD_STAFFS || type==ADD_MOVEMENTS))
 	    score_status(gui, FALSE);
-
   rewind_audio();
   gui->si->undo_guard=Denemo.prefs.disable_undo;//user pref to (dis)allow undo information to be collected
   return result;
@@ -842,8 +840,7 @@ static gint
 file_open (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *filename)
 {
   FILE_OPEN_DIALOG("Open", denemo, DENEMO_FORMAT)
-  if(getNumCharsSchemeText())
-	  executeScript(); 
+
 }
 
 gint open_source_file(void){
