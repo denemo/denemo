@@ -3050,6 +3050,7 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
     case REPLACE_SCORE:
       free_movements(gui);
       deleteSchemeText();
+      gui->has_script = FALSE;
       /* this is dependent on the order of elements, which is not strictly correct */
       FOREACH_CHILD_ELEM(childElem, rootElem){
 	

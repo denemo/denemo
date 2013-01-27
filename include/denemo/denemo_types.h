@@ -926,7 +926,7 @@ typedef struct DenemoGUI
   scoreheader scoreheader;/*< Directives for the header block at the start of the score */
   paper paper;/*< Directives for the paper block of the score */
   GList *midi_events;/*< midi_events to be output at start of first track of each movement */
-
+	gboolean has_script;/*< true if there is a script to be run on loading the DenemoGUI from disk */
   GList *standard_scoreblocks; /**< List of automatically generated \score blocks for LilyPond output elements are DenemoScoreblock * */
   GList *custom_scoreblocks; /**< List of customized  \score blocks for LilyPond output, elements are DenemoScoreblock * */
   GtkWidget *score_layout; /**< The window in which custom_scoreblock widgets are placed */

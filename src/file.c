@@ -355,9 +355,10 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
       if(!xml)
 				updatescoreinfo (gui);
 			else {
-				if(getNumCharsSchemeText())
+				if(getNumCharsSchemeText()) {
+						gui->has_script = TRUE;
 						executeScript();
-				
+				}
 			}
 			set_rightmeasurenum (gui->si);
 			select_lyrics();
@@ -435,7 +436,7 @@ save_in_format(gint format_id, DenemoGUI * gui, gchar *filename) {
          * delete the script.
 	 */
 	    
-	if(getNumCharsSchemeText())
+	if((!gui->has_script) && getNumCharsSchemeText())
 	  if(!confirm("You have a Script defined", 
 		      "Use this script every time this file is opened?")) 
 	  {
@@ -1060,6 +1061,8 @@ file_newwrapper (GtkAction * action, DenemoScriptParam *param)
   else {
       deletescore(NULL, gui);
   }
+  deleteSchemeText();
+  gui->has_script = FALSE;
   set_enharmonic_position(0);
   if(Denemo.printarea) 
     g_object_set_data(G_OBJECT(Denemo.printarea), "printviewupdate", (gpointer)G_MAXUINT);
