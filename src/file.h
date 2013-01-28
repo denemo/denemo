@@ -51,7 +51,7 @@ file_newwrapper (GtkAction *action, DenemoScriptParam *param);
 void
 new_score_cb(GtkAction * action, DenemoScriptParam *param);
 
-void
+gint
 file_save (GtkWidget * widget, DenemoGUI *gui);
 
 void
