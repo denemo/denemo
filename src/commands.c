@@ -6317,4 +6317,16 @@ add_ui("/MainMenu/FileMenu/PrintMenu", "Print", "PrintScoreAndParts");
 g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/MainMenu/FileMenu/PrintMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
+
+/* AttachedText xgettext:no-c-format*/
+action = gtk_action_new("AttachedText",_("Text with Positioning"),/* xgettext:no-c-format*/_("Prints text you give above/below/auto-positioned."), get_icon_for_name("AttachedText", "Text with Positioning"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"TextAbove");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "AttachedText", _("Text with Positioning"), /* xgettext:no-c-format*/_("Prints text you give above/below/auto-positioned."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("AttachedText");
+add_ui("/ObjectMenu/NotesRests/Markings", "TextAbove", "AttachedText");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
 }

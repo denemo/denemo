@@ -319,8 +319,9 @@ int pa_main(AubioCallback *fn)
 	static PaStream *stream;
 	PaStreamParameters  inputParameters;
 #endif
-	PaError    err;
-
+	PaError    err = -1;
+	static int last_tried;
+	static int succeeded = 0;
 	int        i;
 	int        totalFrames;
 	int        numSamples;
@@ -351,11 +352,16 @@ int pa_main(AubioCallback *fn)
 #ifdef PA_VERSION_19
        inputParameters.device = Pa_GetDefaultInputDevice(); /* default input device */
        if (inputParameters.device == paNoDevice) {
-    	      inputParameters.device = 1; // guess
+				
+				// g_print("Number of devices %d now trying = %d\n", Pa_GetDeviceCount(), last_tried);
+    	      inputParameters.device = last_tried++; // guess
    	}
        inputParameters.channelCount = 1;                    /* mono input */
        inputParameters.sampleFormat = PA_SAMPLE_TYPE;
-       inputParameters.suggestedLatency = Pa_GetDeviceInfo( inputParameters.device )->defaultLowInputLatency;
+       const PaDeviceInfo *info = Pa_GetDeviceInfo( inputParameters.device );
+       if(info)
+				inputParameters.suggestedLatency = info->defaultLowInputLatency;
+			 else goto error;
        inputParameters.hostApiSpecificStreamInfo = NULL;
 #endif
 
@@ -392,6 +398,8 @@ int pa_main(AubioCallback *fn)
 
 	err = Pa_StartStream( stream );
 	if( err != paNoError ) goto error;
+	succeeded = 1;
+	last_tried--;
 	printf("Now recording!!\n"); fflush(stdout);
 	return 0;
 

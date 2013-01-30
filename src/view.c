@@ -8469,12 +8469,14 @@ GtkAction *activate_action(gchar *path) {
 static void
 change_input_type (GtkRadioAction * action, GtkRadioAction * current) {
   DenemoGUI *gui = Denemo.gui;
-  if(gui->notsaved) {
-      warningdialog(_("You have unsaved work. Hardware problems may cause the program to exit during this task.\nPlease save first."));
-      return;
-  }
+
  gint val = gtk_radio_action_get_current_value (current);
  gboolean fail=FALSE;
+ if(gui->notsaved) {
+      warningdialog(_("You have unsaved work. Hardware problems may cause the program to exit during this task.\nPlease save first."));
+      gtk_radio_action_set_current_value(current, gui->input_source);
+     return;
+ }
  switch(val) {
  case INPUTKEYBOARD:
    if(gui->input_source==INPUTAUDIO) {
