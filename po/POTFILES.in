@@ -245,6 +245,7 @@ actions/commandscripts/AngryDelete.scm
 actions/commandscripts/ApplyToSelection.scm
 actions/commandscripts/ArbitraryTextAbove.scm
 actions/commandscripts/ArpeggioSelectionSwitcher.scm
+actions/commandscripts/AttachedText.scm
 actions/commandscripts/AudioPlay.scm
 actions/commandscripts/Augment.scm
 actions/commandscripts/AutoAccidentals.scm

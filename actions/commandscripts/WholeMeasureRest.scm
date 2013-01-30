@@ -1,5 +1,5 @@
 ;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
- ;;;WholeMeasureRest
+;;;WholeMeasureRest
  (let ((timesig #f))
 (set! timesig (d-InsertTimeSig "query=timesigname")) 
 (if (not (d-Directive-chord? "WholeMeasureRest"))
@@ -11,7 +11,8 @@
  (d-DirectivePut-chord-display "WholeMeasureRest" "1")
  (d-DirectivePut-chord-tx "WholeMeasureRest" 76)
   (d-DirectivePut-chord-ty"WholeMeasureRest" 15)
-
+ (d-DirectivePut-chord-minpixels"WholeMeasureRest" 100)
 (d-DirectivePut-chord-override "WholeMeasureRest" (logior DENEMO_OVERRIDE_LILYPOND DENEMO_OVERRIDE_GRAPHIC DENEMO_ALT_OVERRIDE))
 (d-DirectivePut-chord-postfix "WholeMeasureRest" (string-append "R1*" timesig))
+(d-SetObjectDisplayWidth 100)
 (d-SetSaved #f))

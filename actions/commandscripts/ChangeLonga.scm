@@ -4,10 +4,14 @@
 (if (Music?)
   (begin ; its a chord, means note or rest!
 	(if (Rest?) ; Test if its a note with a name or not, then its a rest
-		(d-DirectivePut-chord-graphic "Duration" "rests_M2neomensural") ;rest
+		(d-DirectivePut-chord-graphic "Duration" "
+
+emmentaler") ;rest
 		(begin ;note
 			(d-Change0) ; Change to a full note first to get rid of note-stems 
-			(d-DirectivePut-chord-graphic "Duration" "noteheads_sM2neomensural")	
+			(d-DirectivePut-chord-graphic "Duration" "
+
+emmentaler")	
 		)	
 	)
 	(d-DirectivePut-chord-prefix "Duration" "\\longa ")

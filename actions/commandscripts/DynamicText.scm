@@ -17,6 +17,16 @@
    
   (if (d-Directive-standalone? tag)
     (set! replace #t))
+   (d-PushPosition)
+   (if (d-MoveCursorLeft)
+    	(if (d-Directive-standalone? tag)
+    		(begin
+    			(d-PopPosition)
+    			(d-MoveCursorLeft)
+    			(set! replace #t))
+    		(begin
+    			(d-PopPosition))))
+    		
 
   (if DenemoDynamicList
       (set! DynamicList DenemoDynamicList)

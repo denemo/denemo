@@ -1,5 +1,6 @@
 ;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
-;RebarAmalgam2
+;Rebar
+;Fixed for tuplets giving inexact numbers of ticks
 ;Rebar-repartitions the measures, searches for under/overfull, pad with rests, by DW, trivial mods by RTS
 ;FIXME-currently no support for nested tuplets
 ;notes: (d-GetType) returns CHORD TIMESIG LILYDIRECTIVE TUPOPEN TUPCLOSE (tuplets) Appending
@@ -209,7 +210,7 @@
 				(if (not (d-ToggleGrace "query="))	;if it's not a grace, continue; otherwise, leave it as 0.					
 						(set! NoteBeat (/ (d-GetDurationInTicks) 1536))					
 				)
-			)
+			) 
 			 NoteBeat	;return NoteBeat
 			)
 		)
@@ -238,8 +239,12 @@
 	(set! Counter (+ Counter (GetNoteBeat)) );read the first note in to get started...NOTE: if GetNoteBeat= #f this will terminate execution.
 	(LoopThroughBar)	;then loop through the rest of the bar until counter equals or overshoots the measure size in TimeSig,
 					; or the measure's done being processed
-
-	
+;(disp "check Counter " Counter " and time sig " TimeSig "ok")
+;;ticks have granularity of 1 so we cannot accept a 1 discrepancy as meaning anything
+	(let ((top (numerator Counter)) (bottom (denominator Counter)))
+		(if  (equal? TimeSig (/ (1+ top) bottom))
+			(set! Counter (/ (1+ top) bottom))))
+;(disp "Set Counter " Counter "\n")			
 		  (if (< Counter TimeSig) ;if measure too small, (going back first)
 			(if Pad? 	; and the user wants us to pad,
 				(begin
