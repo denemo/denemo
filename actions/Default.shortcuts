@@ -289,11 +289,6 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>UnsetMark</action>
-        <bind>return</bind>
-        <bind>space</bind>
-      </row>
-      <row>
         <action>SetPoint</action>
         <hidden>true</hidden>
       </row>
@@ -1789,10 +1784,6 @@
       <row>
         <action>ChordsOverBass</action>
         <hidden>true</hidden>
-      </row>
-      <row>
-        <action>InsertOneNote</action>
-        <bind>Return</bind>
       </row>
       <row>
         <action>JoinChordsToMergedChord</action>
