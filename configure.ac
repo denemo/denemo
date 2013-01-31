@@ -71,59 +71,6 @@ fi
   AC_SUBST([SMF_LDD])
   AC_SUBST([SMF_INCLUDE])
 
-dnl Options for configuration
-AC_ARG_WITH([pmidi-platform],
-	[AC_HELP_STRING([--with-pmidi-platform=linux|mingw|darwin|none],
-	[Setting up a static portmidi, Argument is the target platform::linux|mingw|darwin|none (default: none)])],
- 
-   [case "$withval" in
-     linux|mingw|darwin|none) ;;
-     *) AC_MSG_ERROR([invalid argument "$withval" for --with-pmidi-platform]) ;;
-    esac],
-   [case "$host" in
-      *-*-linux*) with_pmidi_platform="linux" ;;
-      *-*-mingw*) with_pmidi_platform="mingw" ;;
-      *-*-darwin*) with_pmidi_platform="darwin" ;;
-      *-*-none*) with_pmidi_platform="none" ;;
-      *) with_platform=none ;;
-    esac])
-
-if test "$with_pmidi_platform" = "linux"; then
-  PLATFORM_SUBDIR='pm_linux'
-  PLATFORM_CFLAGS='$(GLIB_CFLAGS) -I$(top_srcdir)/portmidi -I$(top_srcdir)/portmidi/pm_linux -D_HAVE_PORTMIDI_ -DPMALSA -D_DEBUG -DPM_CHECK_ERRORS=0 -DDEBUG'
-fi
-if test "$with_pmidi_platform" = "mingw"; then
-  PLATFORM_SUBDIR='pm_win'
-  PLATFORM_CFLAGS='$(GLIB_CFLAGS) -I$(top_srcdir)/portmidi -I$(top_srcdir)/portmidi/pm_win -D_HAVE_PORTMIDI_ -DWIN32 -D_WINDOWS -D_DEBUG -DPM_CHECK_ERRORS=0 -DDEBUG'
-fi
-if test "$with_pmidi_platform" = "darwin"; then
-  PLATFORM_SUBDIR='pm_mac'
-  PLATFORM_CFLAGS='$(GLIB_CFLAGS) -I$(top_srcdir)/portmidi -I$(top_srcdir)/portmidi/pm_mac -D_HAVE_PORTMIDI_ -D_DEBUG -DPM_CHECK_ERRORS=0 -DDEBUG'
-fi
-
-AC_MSG_RESULT([Statically compiling PORTMIDI for... $with_pmidi_platform])
-dnl maybe use later for debug/feedback AC_MSG_RESULT([$with_pmidi_platform])
-dnl AM_CONDITIONAL([LINUX], [test "$with_pmidi_platform" = "linux"])
-dnl AM_CONDITIONAL([MINGW], [test "$with_pmidi_platform" = "mingw"])
-dnl AM_CONDITIONAL([DARWIN], [test "$with_pmidi_platform" = "darwin"])
-
-if test "$with_pmidi_platform" != "none"; then
-  WHICH_PORTMIDI='portmidi'
-  PORTMIDI_LDD='../portmidi/libportmidi.a'
-  PORTMIDI_INCLUDE='-I$(top_srcdir)/portmidi -I$(top_srcdir)/portmidi/$(PLATFORM_SUBDIR) -D_HAVE_PORTMIDI_'
-else
-  WHICH_PORTMIDI=''
-  PORTMIDI_LDD=''
-  PORTMIDI_INCLUDE=''
-  PLATFORM_SUBDIR=''
-  PLATFORM_CFLAGS=''
-fi
-  AC_SUBST([WHICH_PORTMIDI])
-  AC_SUBST([PORTMIDI_LDD])
-  AC_SUBST([PORTMIDI_INCLUDE])
-  AC_SUBST([PLATFORM_SUBDIR])
-  AC_SUBST([PLATFORM_CFLAGS])
-
 AC_ARG_ENABLE(
   jack,
   AC_HELP_STRING([--enable-jack], [use JACK @<:@default=no@:>@]),
@@ -419,9 +366,5 @@ AC_OUTPUT(
   fonts/Makefile
   soundfonts/Makefile
   libsmf/Makefile
-  portmidi/Makefile
-  portmidi/pm_win/Makefile
-  portmidi/pm_linux/Makefile
-  portmidi/pm_mac/Makefile
   libsffile/Makefile
 ])
