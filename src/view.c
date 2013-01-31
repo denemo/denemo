@@ -7915,7 +7915,7 @@ loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm) {
       graphic->type = DENEMO_PATTERN;
       graphic->width = thesize.width;
       graphic->height = thesize.height;
-      g_print("size %d x %d", thesize.width, thesize.height);
+      //g_print("size %d x %d", thesize.width, thesize.height);
 
       graphic->graphic = pattern;
       bitmap_table_insert(basename, graphic);
