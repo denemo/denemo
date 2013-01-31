@@ -364,7 +364,20 @@ static void recreate_standard_scoreblock_callback(GtkWidget *widget, DenemoScore
 }
 
 static gboolean customize_scoreblock(DenemoScoreblock *sb, gchar *name) {
-	if(name_scoreblock(sb, name)) {
+	if(is_lilypond_text_layout(sb)) {
+				DenemoScoreblock *newsb = get_scoreblock_for_lilypond(sb->lilypond->str);
+				GtkWidget *notebook = get_score_layout_notebook(Denemo.gui);
+				name_scoreblock(newsb, name);
+				GtkWidget *label = gtk_label_new(newsb->name);
+				gtk_widget_show_all(newsb->widget);
+				gtk_notebook_prepend_page(GTK_NOTEBOOK(notebook), newsb->widget, label);
+				gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook), 0);
+				Denemo.gui->custom_scoreblocks = g_list_append(Denemo.gui->custom_scoreblocks, newsb);
+				Denemo.gui->layout_id = 0;	
+		
+		
+		score_status(Denemo.gui, TRUE);
+	} else	if(name_scoreblock(sb, name)) {
 		g_free(sb->partname);
 		sb->partname = NULL;
 		sb->movement = 0;
@@ -374,9 +387,10 @@ static gboolean customize_scoreblock(DenemoScoreblock *sb, gchar *name) {
 		Denemo.gui->standard_scoreblocks = g_list_remove(Denemo.gui->standard_scoreblocks, sb);
 		Denemo.gui->custom_scoreblocks = g_list_append(Denemo.gui->custom_scoreblocks, sb);
 		score_status(Denemo.gui, TRUE);
-		return TRUE;
-	} else
-	return FALSE;
+	} else {
+		return FALSE;
+	}
+ return TRUE;
 }
 /* go through the layout deleting score block elements that are marked standard as they are not needed for a custom scoreblock*/
 static void prune_layout(GtkWidget *layout) {
@@ -425,7 +439,9 @@ static DenemoScoreblock *clone_scoreblock(DenemoScoreblock *sb, gchar *name) {
 static void customize_standard_scoreblock_callback(GtkWidget *widget, DenemoScoreblock *sb) {
 	clone_scoreblock (sb, NULL);
 }
-
+static void duplicate_lilypond_scoreblock_callback(GtkWidget *widget, DenemoScoreblock *sb) {
+	customize_scoreblock (sb, NULL);
+}
 //Mark the passed widget as being for standard layouts only
 static void	mark_as_non_custom(GtkWidget *button) {
 	GdkColor color;
@@ -450,11 +466,18 @@ static GtkWidget *get_options_button(DenemoScoreblock *sb, gboolean custom) {
 			gtk_widget_set_tooltip_text(button, _("Opens the LilyPond window for further editing."));
 			gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
 			g_signal_connect(button, "clicked",  G_CALLBACK(open_lilypond_window_callback), sb);
+					button = gtk_button_new_with_label(_("Duplicate"));
+			gtk_widget_set_tooltip_text(button, _("Create a duplicate of this layout."));
+			gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);		
+			g_signal_connect(button, "clicked",  G_CALLBACK(duplicate_lilypond_scoreblock_callback), sb);
+		
+		
 		} else {
 			button = gtk_button_new_with_label(_("Convert to LilyPond Text"));
 			gtk_widget_set_tooltip_text(button, _("Converts this layout to LilyPond text for further editing."));
 			gtk_box_pack_start(GTK_BOX (hbox), button, FALSE, TRUE, 0);
 			g_signal_connect(button, "clicked",  G_CALLBACK(convert_to_lilypond_callback), sb);
+	
 		}
 		button = gtk_button_new_with_label(_("Delete"));
 		gtk_widget_set_tooltip_text(button, _("Discard this customized score layout."));
