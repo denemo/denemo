@@ -16,5 +16,9 @@
 (d-LimitInterSystemSpace 1.2)
 ;;(d-NormalBeamEndings)
 ;(d-PointAndClick)
+
+(if DenemoPref_newbie
+	(d-MouseInsertion))
+
 (display "Arranger Profile\n")
 (d-SetSaved #t)
