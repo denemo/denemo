@@ -12,7 +12,7 @@
 (if (boolean? SetScoreSize::Size)		
 	(set! SetScoreSize::Size (d-ScoreProperties "query=fontsize")))						       
 (d-ScoreProperties (string-append "fontsize="   SetScoreSize::Size))		
-(d-RefreshDisplay)</scheme>
+(d-SetSaved #f)</scheme>
         <label>(Print)Set Overall Score Size</label>
         <tooltip>Choose the font size of for the score, and hence how much space it takes up.</tooltip>
       </row>

@@ -1929,10 +1929,15 @@ static void repeat_tweak(void) {
 		else
 			warningdialog("Do not know what to repeat");
 }
+static void set_score_size(void) {
+	call_out_to_guile("(d-SetFontSize)");
+}
 static void help_tweak(void) {
 	gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), _("To tweak the positions of objects (and more) move the mouse until the hand pointer appears\nClick on the object and follow the prompts.\nFor beams, click on the notehead of the note where the beam starts."));
 	gtk_widget_show(Ww.dialog);
 }
+
+
 static gint
 popup_tweak_menu(void) {
   GtkWidget *menu = gtk_menu_new();
@@ -1951,6 +1956,10 @@ popup_tweak_menu(void) {
 		item = gtk_menu_item_new_with_label(_("Help for Tweaks"));
 		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(help_tweak),NULL);
+			
+		item = gtk_menu_item_new_with_label(_("Score Size"));
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(set_score_size),NULL);
 		
 		if(Ww.repeatable) {//never true 
 		item = gtk_menu_item_new_with_label(_("Repeat"));
