@@ -389,8 +389,8 @@ parseWidgetDirectives (xmlNodePtr parentElem, xmlNsPtr ns, gpointer fn, GtkMenu*
     DenemoDirective *directive = (DenemoDirective*)g_malloc0(sizeof(DenemoDirective));
     parseWidgetDirective(childElem, ns, fn, directive, menu);
     directives = g_list_append(directives, directive);
-    if(menu)
-	g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", (gpointer)directives_pointer);//FIXME this const string has to match with lilydirectives.c
+    if(directives_pointer)
+			g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", (gpointer)directives_pointer);//FIXME this const string has to match with lilydirectives.c
   }
   return directives;
 }
@@ -2830,15 +2830,15 @@ parseScore (xmlNodePtr scoreElem, xmlNsPtr ns, DenemoGUI * gui, ImportType type)
 
   childElem = getXMLChild (scoreElem, "header-directives", ns);
   if (childElem != 0)
-    si->header.directives = parseWidgetDirectives(childElem, ns, (gpointer)header_directive_put_graphic, NULL, NULL);
+    si->header.directives = parseWidgetDirectives(childElem, ns, (gpointer)header_directive_put_graphic, NULL, &(si->header.directives));
 
   childElem = getXMLChild (scoreElem, "layout-directives", ns);
   if (childElem != 0)
-    si->layout.directives = parseWidgetDirectives(childElem, ns, (gpointer)layout_directive_put_graphic, NULL, NULL);
+    si->layout.directives = parseWidgetDirectives(childElem, ns, (gpointer)layout_directive_put_graphic, NULL, &(si->layout.directives));
 
   childElem = getXMLChild (scoreElem, "movementcontrol-directives", ns);
   if (childElem != 0)
-    si->movementcontrol.directives = parseWidgetDirectives(childElem, ns, (gpointer)movementcontrol_directive_put_graphic, NULL, NULL);
+    si->movementcontrol.directives = parseWidgetDirectives(childElem, ns, (gpointer)movementcontrol_directive_put_graphic, NULL, &(si->movementcontrol.directives));
 
   childElem = getXMLChild (scoreElem, "sources", ns);
   if (childElem != 0)
@@ -3084,10 +3084,10 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
 	      parseSourceFileElem (childElem, ns, gui);
 	    } else
 	      if (ELEM_NAME_EQ (childElem, "scoreheader-directives")){
-		gui->scoreheader.directives = parseWidgetDirectives(childElem, ns, (gpointer)scoreheader_directive_put_graphic, NULL, NULL);
+					gui->scoreheader.directives = parseWidgetDirectives(childElem, ns, (gpointer)scoreheader_directive_put_graphic, NULL, &(gui->scoreheader.directives));
 	      } else
 		if (ELEM_NAME_EQ (childElem, "paper-directives")){
-		  gui->paper.directives = parseWidgetDirectives(childElem, ns, (gpointer)paper_directive_put_graphic, NULL, NULL);
+		  gui->paper.directives = parseWidgetDirectives(childElem, ns, (gpointer)paper_directive_put_graphic, NULL, &(gui->paper.directives));
 		} else
 		  if (ELEM_NAME_EQ (childElem, "custom_scoreblock")){
 		    gchar *tmp = (gchar *) xmlNodeListGetString (childElem->doc,
