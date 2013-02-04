@@ -6290,6 +6290,14 @@ accidentals are usually printed over the note.</tooltip>
         <label>Text with Positioning</label>
         <tooltip>Prints text you give above/below/auto-positioned.</tooltip>
       </row>
+      <row>
+        <action>MovementComposer</action>
+        <after>MovementPiece</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/Titles/Simple Titles</menupath>
+        <label>Composer</label>
+        <tooltip>Prints a composer name for current movement.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
