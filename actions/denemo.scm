@@ -292,15 +292,15 @@
   (if (not title)
     (begin 
       (set! title  (d-GetUserInput (string-append "Score " field) 
-			      (string-append "Give a name for the " field " of the whole score") current #f))
-      (if title
-	(set! title (string-append "\"" title "\"")))))
+			      (string-append "Give a name for the " field " of the whole score") current #f))))
   (if title
     (begin
       (d-SetSaved #f)
       (if (string-null? title)
 	      (d-DirectiveDelete-scoreheader tag)
 	      (begin
+	  (if title
+					(set! title (string-append "\"" title "\"")))    
 		(if escape (set! title (scheme-escape title )))
 		(d-DirectivePut-scoreheader-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
 		(d-DirectivePut-scoreheader-display tag (string-append field ": " (html-escape title)))
