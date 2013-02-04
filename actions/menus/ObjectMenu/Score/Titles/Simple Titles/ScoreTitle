@@ -7,12 +7,20 @@
       <row>
         <action>ScoreTitle</action>
         <scheme>;;;ScoreTitle
-(d-PushPosition)
-(while (d-PreviousMovement))
-(SetHeaderField "title" ScoreTitle::params)
-(DenemoPrintAllHeaders)
-(d-SetSaved #f)
-(d-PopPosition)    </scheme>
+(let ((tag "ScoreTitle") (title ScoreTitle::params))
+	(define (blank-title)
+			(if (not (d-DirectiveGet-header-postfix tag))
+				(begin 
+					(d-DirectivePut-header-override tag 0) 
+					(d-DirectivePut-header-postfix tag "title = \"\""))))
+	(SetScoreHeaderField "title" title)
+	(DenemoPrintAllHeaders)		
+	(d-PushPosition)
+	(blank-title)
+	(while (d-NextMovement)
+		(blank-title))
+	(d-PopPosition))
+		</scheme>
         <label>Title</label>
         <tooltip>Prints the name given as a title centered at the start of the score.</tooltip>
       </row>

@@ -278,34 +278,24 @@
 
 ; SetScoreHeaderField sets a field in the score header
 (define* (SetScoreHeaderField field  #:optional (title #f) (escape #t))
-(let ((current "") (thematch #f) (tag ""))
+(let ((current "") (tag ""))
   (set! tag (string-append "Score" (string-capitalize field)))
-  (set! current (d-DirectiveGet-scoreheader-postfix tag))
-  (if (boolean? current)
-      (set! current "") 
-      (begin
-	;;(display current)
-	(set! thematch (string-match (string-append field " = \"([^\"]*)\"\n") current))
-	;;(display thematch)
-	(if (regexp-match? thematch)
-	    (set! current (match:substring thematch 1)))))
+  (set! current (d-DirectiveGet-scoreheader-display tag))
+  (if (not current)
+      (set! current ""))
   (if (not title)
-    (begin 
       (set! title  (d-GetUserInput (string-append "Score " field) 
-			      (string-append "Give a name for the " field " of the whole score") current #f))))
+			      (_ "Give a name applying to the whole score") current #f)))
   (if title
     (begin
-      (d-SetSaved #f)
-      (if (string-null? title)
-	      (d-DirectiveDelete-scoreheader tag)
-	      (begin
-	  (if title
-					(set! title (string-append "\"" title "\"")))    
-		(if escape (set! title (scheme-escape title )))
-		(d-DirectivePut-scoreheader-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
-		(d-DirectivePut-scoreheader-display tag (string-append field ": " (html-escape title)))
-		(d-DirectivePut-scoreheader-postfix tag (string-append field " = " title "\n")))))
-	(disp "Cancelled\n"))))	
+      (d-SetSaved #f)	   
+			(if escape (set! title (scheme-escape title )))
+			(if (string-null? title)
+					(d-DirectivePut-scoreheader-override tag 0)
+					(begin
+							(d-DirectivePut-scoreheader-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
+							(d-DirectivePut-scoreheader-display tag (html-escape title))))
+			(d-DirectivePut-scoreheader-postfix tag (string-append field " = \\markup { \\with-url #'\"scheme:(d-" tag ")\"  "  "\"" title "\"}\n"))))))
 
 (define (CreateButton tag label)
   (d-DirectivePut-score-override tag (logior DENEMO_OVERRIDE_MARKUP DENEMO_OVERRIDE_GRAPHIC))

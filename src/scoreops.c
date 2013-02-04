@@ -85,6 +85,7 @@ append_movement(GtkAction *action, gpointer param,  gboolean populate) {
   gui->movements = g_list_append(gui->movements, gui->si);
   gui->si->currentmovementnum = 1+g_list_index(gui->movements, gui->si);
   gui->si->undo_guard = Denemo.prefs.disable_undo;
+  call_out_to_guile("(d-DirectivePut-header-postfix \"ScoreTitle\" \"title = \\\"\\\"\")");
   set_width_to_work_with(gui);
   //FIXME duplicate code
   set_rightmeasurenum (gui->si);
