@@ -13,14 +13,16 @@
 (define position (GetPosition))
 (if current
 	(set! current (substring current (string-length (GetNthLine current 0)))))
-(disp "we have " current " now\n\n")
+;(disp "we have " current " now\n\n")
 (let script ((answer (d-GetUserInputWithSnippets (_ "Critical Comment") (_ "Give Comment") (if current current "")  #f )))
+    (if answer
+    	(begin
 	(set! lilypond (cdr answer))
 	(set! answer (car answer))
 	(if (not (PositionEqual? position (GetPosition)))
 		(begin
 			(if (not (equal? (_ "y") (d-GetUserInput (_ "Cursor has Moved") (_ "Apply Command to new position of cursor?")  (_ "y"))))
-			(apply d-GoToPosition position))))
+			(apply d-GoToPosition position))))))
 	(if (and answer (not (string=? answer "")))
 		(begin
 			(d-Directive-score "CriticalCommentsAmended")
