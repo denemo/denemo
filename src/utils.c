@@ -1592,28 +1592,32 @@ string_dialog_editor_with_widget_opt (DenemoGUI *gui, gchar *wlabel, gchar *dire
   gtk_widget_show_all (dialog); 
   gtk_widget_grab_focus (textview);  
   if(modal) {
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT){
+		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT){
       GtkTextIter startiter, enditer;
       gtk_text_buffer_get_start_iter (textbuffer, &startiter);
       gtk_text_buffer_get_end_iter (textbuffer, &enditer);
       gchar *text = gtk_text_buffer_get_text (textbuffer, &startiter, &enditer, FALSE);
       gtk_widget_destroy (dialog);
       return  text;
-	}
-	else {  
+		}
+		else {  
 		gtk_widget_destroy (dialog);
 		return NULL;
-	}
-  return NULL;
+		}
+		return NULL;
   } else {
     g_signal_connect_swapped (dialog,"response", G_CALLBACK (gtk_main_quit), NULL);
     gtk_main();
-    GtkTextIter startiter, enditer;
-    gtk_text_buffer_get_start_iter (textbuffer, &startiter);
-    gtk_text_buffer_get_end_iter (textbuffer, &enditer);
-    gchar *text = gtk_text_buffer_get_text (textbuffer, &startiter, &enditer, FALSE);
-    gtk_widget_destroy (dialog);
-		return text;
+    if(GTK_IS_TEXT_BUFFER(textbuffer)) {
+			GtkTextIter startiter, enditer;
+			gtk_text_buffer_get_start_iter (textbuffer, &startiter);
+			gtk_text_buffer_get_end_iter (textbuffer, &enditer);
+			gchar *text = gtk_text_buffer_get_text (textbuffer, &startiter, &enditer, FALSE);
+			gtk_widget_destroy (dialog);
+			return text;
+		} else {
+			return NULL;
+		}
   }
 }
 
