@@ -277,7 +277,7 @@
 			(disp "Cancelled\n"))))
 
 ; SetScoreHeaderField sets a field in the score header
-(define* (SetScoreHeaderField field  #:optional (title #f) (escape #t))
+(define* (SetScoreHeaderField field  #:optional (title #f) (escape #t) (full-title #f))
 (let ((current "") (tag ""))
   (set! tag (string-append "Score" (string-capitalize field)))
   (set! current (d-DirectiveGet-scoreheader-display tag))
@@ -295,7 +295,9 @@
 					(begin
 							(d-DirectivePut-scoreheader-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
 							(d-DirectivePut-scoreheader-display tag (html-escape title))))
-			(d-DirectivePut-scoreheader-postfix tag (string-append field " = \\markup { \\with-url #'\"scheme:(d-" tag ")\"  "  "\"" title "\"}\n"))))))
+			(if (not full-title)
+				(set! full-title (string-append " = \\markup { \\with-url #'\"scheme:(d-" tag ")\"  "  "\"" title "\"}\n")))
+			(d-DirectivePut-scoreheader-postfix tag (string-append field " = " full-title "\n"))))))
 
 (define (CreateButton tag label)
   (d-DirectivePut-score-override tag (logior DENEMO_OVERRIDE_MARKUP DENEMO_OVERRIDE_GRAPHIC))
