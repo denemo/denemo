@@ -130,9 +130,14 @@ if test "x$usegtk2" = "xyes"; then
   LIBS="$LIBS $EVINCE_2_0_LIBS"
   
   if test "x$have_evince2" = "xno"; then
-    PKG_CHECK_MODULES(EVINCE_2_30, evince-view-2.30 >= 2.0)
+    PKG_CHECK_MODULES(EVINCE_2_30, evince-view-2.30 >= 2.0, have_evince2_3=yes, have_evince2_3=no)
     CFLAGS="$CFLAGS $EVINCE_2_30_CFLAGS"
     LIBS="$LIBS $EVINCE_2_30_LIBS"
+  fi
+  if test "x$have_evince2_3" = "xno"; then
+    PKG_CHECK_MODULES(EVINCE_2_32, evince-view-2.32 >= 2.0)
+    CFLAGS="$CFLAGS $EVINCE_2_32_CFLAGS"
+    LIBS="$LIBS $EVINCE_2_32_LIBS"
   fi
 fi
 
