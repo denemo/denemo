@@ -10,7 +10,7 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
 #define TAB "        "
-
+void create_lilywindow(void);
 void exportlilypond (gchar * thefilename,  DenemoGUI *gui, gboolean all_movements);
 
 void export_lilypond_parts(char *filename, DenemoGUI *gui);

@@ -905,9 +905,8 @@ typedef struct DenemoGUI
 
   gchar *xbm; /**< xbm representation of graphic bitmap from selected rectangle in print preview area*/
   gint xbm_width, xbm_height;/**< width and height of the xbm data */
-  GtkWidget *textwindow; /**< LilyPond output window */
-  GtkTextBuffer *textbuffer;   /**< buffer for LilyPond text */
-  GtkTextView *textview; /**< LilyPond output text view */
+
+  
   gchar *namespec;/**< A spec of which parts/movements to print */
   
 
@@ -1023,6 +1022,9 @@ struct DenemoRoot
   GtkWidget *printvscrollbar;/**< scrollbar widget for printarea */
   GtkWidget *printhscrollbar;/**< scrollbar widget for printarea */
   GdkPixbuf *pixbuf;/**< print preview pixbuf */
+  GtkWidget *textwindow; /**< LilyPond output window */
+  GtkTextView *textview; /**< LilyPond output text view */
+  GtkTextBuffer *textbuffer;   /**< buffer for LilyPond text */
   /* window state */
   gint width;
   gint height;

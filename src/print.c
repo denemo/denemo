@@ -389,12 +389,12 @@ process_lilypond_errors(gchar *filename){
     truncate_lines(epoint);/* truncate epoint if it has too many lines */
     if(cnv==2) {
       line--;/* make this 0 based */
-      if(line >= gtk_text_buffer_get_line_count(gui->textbuffer))
+      if(line >= gtk_text_buffer_get_line_count(Denemo.textbuffer))
 	warningdialog("Spurious line number"), line = 0;
       /* gchar *errmsg = g_strdup_printf("Error at line %d column %d %d", line,column, cnv); */
       /*     warningdialog(errmsg); */
       console_output(epoint);
-      if(gui->textbuffer) {
+      if(Denemo.textbuffer) {
         set_lily_error(line+1, column, gui);
       }
       goto_lilypond_position (line+1, column);
@@ -909,9 +909,9 @@ void print_lily_cb (GtkWidget *item, DenemoGUI *gui){
   FILE *fp = fopen(lilyfile, "w");
   if(fp){
     GtkTextIter startiter, enditer;
-    gtk_text_buffer_get_start_iter (gui->textbuffer, &startiter);
-    gtk_text_buffer_get_end_iter (gui->textbuffer, &enditer);
-    gchar *lily = gtk_text_buffer_get_text (gui->textbuffer, &startiter, &enditer, FALSE);
+    gtk_text_buffer_get_start_iter (Denemo.textbuffer, &startiter);
+    gtk_text_buffer_get_end_iter (Denemo.textbuffer, &enditer);
+    gchar *lily = gtk_text_buffer_get_text (Denemo.textbuffer, &startiter, &enditer, FALSE);
     fprintf(fp, "%s", lily);
     fclose(fp);
     /* create arguments to pass to lilypond to create a pdf for printing */
