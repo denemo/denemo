@@ -298,9 +298,10 @@ main (int argc, char *argv[])
   gchar *guile = g_build_filename (prefix, "share", "guile", NULL);
   gchar *guile_1_8 = g_build_filename (guile, "1.8", NULL);
   gchar *lilypond_current_scm = g_build_filename (prefix, "share", "lilypond", "current", "scm", NULL);
+  gchar *denemo_scm = g_build_filename (prefix, "share", "denemo", "actions", NULL);
   if (g_file_test (guile, G_FILE_TEST_EXISTS))
     {
-      gchar *guile_path = g_strconcat (guile, ";", guile_1_8, ";", lilypond_current_scm, NULL);
+      gchar *guile_path = g_strconcat (guile, ";", guile_1_8, ";", denemo_scm, ";",lilypond_current_scm, NULL);
       g_setenv ("GUILE_LOAD_PATH", guile_path, TRUE);//FIXME TRUE means we overwrite any installed version of lilyponds scm, FALSE risks not putting denemos scm in the path...
       g_print ("Setting GUILE_LOAD_PATH=%s\n", guile_path);
     }
