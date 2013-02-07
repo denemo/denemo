@@ -801,7 +801,7 @@ void toggle_to_drawing_area(gboolean show) {
   TOG2("/EntryToolBar", entrymenu);
   TOG2("/MainMenu", mainmenu);
 
-  TOG3(gtk_widget_get_parent(Denemo.console), console_view, "/MainMenu/ViewMenu/"ToggleConsoleView_STRING);
+ // TOG3(gtk_widget_get_parent(Denemo.console), console_view, "/MainMenu/ViewMenu/"ToggleConsoleView_STRING);
   //TOG3(gtk_widget_get_parent(gtk_widget_get_parent(Denemo.printarea)), print_view, "/MainMenu/ViewMenu/"TogglePrintView_STRING);
   TOG3(Denemo.gui->buttonboxes, scoretitles, "/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
   TOG3(Denemo.playback_control, playback_control, "/MainMenu/ViewMenu/"TogglePlaybackControls_STRING);
@@ -6233,7 +6233,7 @@ close_gui (void)
     g_source_remove(Denemo.autosaveid);
     Denemo.autosaveid = 0;
   }
-  if(Denemo.gui->textwindow && gtk_widget_get_visible(Denemo.gui->textwindow)) {
+  if(Denemo.textwindow && gtk_widget_get_visible(Denemo.textwindow)) {
     activate_action("/MainMenu/ViewMenu/"ToggleLilyText_STRING);
     //FIXME there is a handler in exportlilypond.c for the delete signal. It would need to be disabled to get the memory freed.
   }
@@ -8640,10 +8640,10 @@ toggle_lilytext (GtkAction * action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   //if(!gui->textview)
    refresh_lily_cb(action, gui);
- if(!gtk_widget_get_visible(gui->textwindow))
-   gtk_widget_show/*_all*/(gui->textwindow);
+ if(!gtk_widget_get_visible(Denemo.textwindow))
+   gtk_widget_show/*_all*/(Denemo.textwindow);
  else
-   gtk_widget_hide(gui->textwindow);
+   gtk_widget_hide(Denemo.textwindow);
  //g_print("toggling lily window");
 }
 
@@ -9088,7 +9088,7 @@ populate_opened_recent (void)
 static gchar *get_most_recent_file(void) {
   if(Denemo.prefs.history) {
     gchar *filename = (gchar *) g_queue_peek_tail(Denemo.prefs.history);
-    if(g_file_test(filename, G_FILE_TEST_EXISTS))
+    if(filename && g_file_test(filename, G_FILE_TEST_EXISTS))
       return filename;
   }
   return NULL;
@@ -9136,7 +9136,7 @@ switch_page (GtkNotebook *notebook, GtkWidget *page,  guint pagenum) {
    it would be nice to keep a record of whether it was open for re-opening
    on return to this tab FIXME*/
    
-   if(Denemo.gui->textwindow && gtk_widget_get_visible(Denemo.gui->textwindow))
+   if(Denemo.textwindow && gtk_widget_get_visible(Denemo.textwindow))
     activate_action("/MainMenu/ViewMenu/"ToggleLilyText_STRING);
   
   if(gtk_widget_get_visible( Denemo.gui->score_layout))
@@ -9256,21 +9256,7 @@ static void  proxy_connected (GtkUIManager *uimanager, GtkAction *action, GtkWid
 
 
 
-static void create_console(GtkBox *box) {
-  //GtkWidget *vpaned = gtk_vpaned_new ();
-  //gtk_container_set_border_width (GTK_CONTAINER(vpaned), 5);
-  //gtk_box_pack_start (GTK_BOX (box), vpaned, FALSE, TRUE, 0);
-  Denemo.console = gtk_text_view_new ();
-  GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
-  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
-				  GTK_POLICY_AUTOMATIC,
-				  GTK_POLICY_AUTOMATIC);
-  //gtk_paned_add1 (GTK_PANED (vpaned), sw);
-gtk_box_pack_start (GTK_BOX (box), sw, FALSE, TRUE, 0);
-  gtk_container_add (GTK_CONTAINER (sw), Denemo.console);
-  // gtk_widget_show_all(vpaned);
- gtk_widget_show_all(sw);
-}
+
 
 static GtkWidget* create_playbutton(GtkWidget *box, gchar *thelabel, gpointer callback, gchar *image, gchar *tooltip) {
   GtkWidget *button;
@@ -9732,8 +9718,8 @@ get_data_dir (),
   }
 
 
-
-  create_console(GTK_BOX(main_vbox));
+	create_lilywindow();
+ // create_console(GTK_BOX(main_vbox));
   Denemo.statusbar = gtk_statusbar_new ();
   gtk_widget_set_tooltip_text(Denemo.statusbar, _("This bar shows:\nPending ♯ or ♭ sign (if the next note entered will be sharpened or flattened)\nThe movement number\nDescription of the object at the Denemo cursor\nPosition and status (appending or inserting) of the cursor.\nIf the Playback Controls are visible then the timing of the object at the cursor is shown.\nWhen the first key of a two-key shortcut is pressed the possible continuations are shown here."));
   hbox = gtk_hbox_new (FALSE, 1);
@@ -9818,7 +9804,7 @@ static void
 newtab (GtkAction *action, gpointer param) {
   if(Denemo.gui && gtk_widget_get_visible( Denemo.gui->score_layout))
     activate_action("/MainMenu/ViewMenu/"ToggleScoreLayout_STRING);
-  if(Denemo.gui && gtk_widget_get_visible( Denemo.gui->textwindow))
+  if(Denemo.gui && gtk_widget_get_visible( Denemo.textwindow))
     activate_action("/MainMenu/ViewMenu/"ToggleLilyText_STRING);
     
   static gint id=1;

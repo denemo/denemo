@@ -332,7 +332,7 @@ static gboolean is_lilypond_text_layout(DenemoScoreblock *sb) {
 }
 
 static void open_lilypond_window_callback(void) {
-	if(Denemo.gui->textwindow && !gtk_widget_get_visible(Denemo.gui->textwindow))
+	if(Denemo.textwindow && !gtk_widget_get_visible(Denemo.textwindow))
     activate_action("/MainMenu/ViewMenu/ToggleLilyText");
 }
 static void convert_to_lilypond_callback(GtkWidget *widget, DenemoScoreblock *sb) {

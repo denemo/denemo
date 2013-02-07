@@ -420,21 +420,21 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
     {				/* Draw the cursor */
       /* Determine if it needs to be red or not */
       if (si->cursor_appending || mudelaitem->type != CHORD)
-	si->cursoroffend =
-	  (mudelaitem->starttickofnextnote >= itp->tickspermeasure);
+				si->cursoroffend =
+						(mudelaitem->starttickofnextnote >= itp->tickspermeasure);
       else
-	si->cursoroffend =
-	  (mudelaitem->starttickofnextnote > itp->tickspermeasure);
+				si->cursoroffend =
+						(mudelaitem->starttickofnextnote > itp->tickspermeasure);
       if (si->cursor_appending)
-	{
-	  draw_cursor (cr, si, x + mudelaitem->x + extra, y, ((itp->curmeasure->next!=NULL) && (objnode *) itp->curmeasure->next->data)?-1:0 /*itp->last_gap */, 0, si->cursorclef);
-	  memcpy (si->cursoraccs, itp->curaccs, SEVENGINTS);
-	}
+				{
+					draw_cursor (cr, si, x + mudelaitem->x + extra, y, ((itp->curmeasure->next!=NULL) && (objnode *) itp->curmeasure->next->data)?-1:0 /*itp->last_gap */, 0, si->cursorclef);
+					memcpy (si->cursoraccs, itp->curaccs, SEVENGINTS);
+				}
       else
-	{
-	  draw_cursor (cr, si, x + mudelaitem->x, y, itp->last_gap, mudelaitem->type == CHORD?0:mudelaitem->minpixelsalloted,
+				{
+					draw_cursor (cr, si, x + mudelaitem->x, y, itp->last_gap, mudelaitem->type == CHORD?0:mudelaitem->minpixelsalloted,
 		       si->cursorclef);
-	}
+				}
     }
       /* End cursor drawing */
 
