@@ -42,7 +42,8 @@
 #include "audiointerface.h"
 #include "sourceaudio.h"
 #include "scorelayout.h"
-
+#include "libguile.h"
+#include "guile/srfi/srfi-1.h"
 #define INIT_SCM "init.scm"
 
 //#include "pathconfig.h"
@@ -5964,7 +5965,7 @@ void inner_main(void*closure, int argc, char **argv){
       scm_variable_set_x(load_path, 
                          scm_cons(scm_from_locale_string(DENEMO_LOAD_PATH), 
                                     scm_variable_ref(load_path)));
-      
+ 
       /* consider user-specified path extension */
       user_path = getenv("DENEMO_LOAD_PATH");
       if (user_path) {
@@ -5975,6 +5976,10 @@ void inner_main(void*closure, int argc, char **argv){
   }
 #endif
 
+#ifdef G_OS_WIN32
+  scm_c_register_extension ("libguile-srfi-srfi-1-v-3", "scm_init_srfi_1",
+                             scm_init_srfi_1, NULL);
+#endif
   rsvg_init();
 
 
