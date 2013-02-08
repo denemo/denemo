@@ -6,8 +6,7 @@
 (use-modules (ice-9 q)) ; queue module
 
 (define (use-denemo string)
-	;(use-modules (actions denemo-modules (string->symbol string)))) ; maybe not (string->symbol) but (eval)
-	(load (string-append "denemo-modules/" string ".scm")))
+	(load-from-path (string-append string ".scm")))
 
 
 ;(bindtextdomain "denemo" "/usr/local/share/locale") find prefix!!!
