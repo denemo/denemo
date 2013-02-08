@@ -36,7 +36,7 @@
       \when-property #'header:date \vspace #6
       \when-property #'header:instrumentation 
           \fill-line { \fontsize #5 \italic \fromproperty #'header:instrumentation }
-
+			\when-property #'header:instrumentation \vspace #4
       \when-property #'header:incipit 
           \fill-line { \fontsize #5 \italic \fromproperty #'header:incipit }
       
