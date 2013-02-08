@@ -6695,22 +6695,23 @@ select_rhythm_pattern(RhythmPattern *r) {
   if(gui->currhythm && (CURRP != r)) {//Change the highlighting
     if(CURRP)
       unhighlight_rhythm(CURRP);
-    else
-      if(gui->rstep)
-	unhighlight_rhythm(((RhythmElement*)gui->rstep->data)->rhythm_pattern);
+    else if(gui->rstep)
+			unhighlight_rhythm(((RhythmElement*)gui->rstep->data)->rhythm_pattern);
   }
   
   gui->currhythm = g_list_find(gui->rhythms, r);
-  gui->rstep = r->rsteps;
-  gui->cstep = r->clipboard->data;
+  if(gui->currhythm != NULL) {
+		gui->rstep = r->rsteps;
+		gui->cstep = r->clipboard->data;
   
-  gchar *text = ((RhythmElement*)gui->rstep->data)->icon;
-  if(text) {
-    GtkWidget *label = LABEL(CURRP->button);
-    //g_print("markup is %s\n", ((RhythmElement*)g->data)->icon);
-    gtk_label_set_markup(GTK_LABEL(label), text);
-  }
-  highlight_rhythm(CURRP);
+		gchar *text = ((RhythmElement*)gui->rstep->data)->icon;
+		if(text) {
+			GtkWidget *label = LABEL(CURRP->button);
+			//g_print("markup is %s\n", ((RhythmElement*)g->data)->icon);
+			gtk_label_set_markup(GTK_LABEL(label), text);
+		}
+		highlight_rhythm(CURRP);
+	}
 #undef CURRP
 }
 
