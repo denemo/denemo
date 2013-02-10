@@ -5942,7 +5942,32 @@ INSTALL_SCM_FUNCTION ("return a string giving the latest step available for Undo
 
 
 
+#ifdef G_OS_WIN32
+// For static linking of guile modules that are normally dynamically linked.
+// From Mark Weaver in the thread Re: statically linking in srfi modules on guile-user@gnu.org
+// Requires srfi-1.scm and srfi-60.scm to be modified to call %init-srfi-1, 60 instead of the dynamic load call.
+  static SCM
+  init_srfi_1 (void)
+  {
+    scm_init_srfi_1 ();
+    return SCM_UNSPECIFIED;
+  }
 
+  static SCM
+  init_srfi_60 (void)
+  {
+    scm_init_srfi_60 ();
+    return SCM_UNSPECIFIED;
+  }
+
+  static SCM
+  bind_srfi_initializers (void *dummy)
+  {
+    scm_c_define_gsubr ("%init-srfi-1",  0, 0, 0, init_srfi_1);
+    scm_c_define_gsubr ("%init-srfi-60", 0, 0, 0, init_srfi_60);
+    return SCM_UNSPECIFIED;
+  }
+#endif
 
 /* Called from main for scheme initialization reasons.
    calls back to finish command line processing
@@ -5977,8 +6002,10 @@ void inner_main(void*closure, int argc, char **argv){
 #endif
 
 #ifdef G_OS_WIN32
-  scm_c_register_extension ("libguile-srfi-srfi-1-v-3", "scm_init_srfi_1",
-                             scm_init_srfi_1, NULL);
+
+  scm_c_call_with_current_module (scm_c_resolve_module ("guile"),
+                                  bind_srfi_initializers, NULL);
+
 #endif
   rsvg_init();
 
