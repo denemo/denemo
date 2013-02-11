@@ -43,7 +43,9 @@
 #include "sourceaudio.h"
 #include "scorelayout.h"
 #include "libguile.h"
+#ifdef STATIC_LINK_GUILE
 #include "guile/srfi/srfi-1.h"
+#endif
 #define INIT_SCM "init.scm"
 
 //#include "pathconfig.h"

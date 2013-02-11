@@ -31,6 +31,17 @@ PKG_CHECK_MODULES(GUILE, guile-1.8 >= 1.8)
 LIBS="$LIBS $GUILE_LIBS"
 CFLAGS="$CFLAGS $GUILE_CFLAGS"
 
+AC_ARG_ENABLE(
+  static-link-guile,
+  AC_HELP_STRING([--enable-static-link-guile], [use STATIC_LINK_GUILE @<:@default=no@:>@]),
+  [
+    if test "x$enableval" != "xno"; then
+      CFLAGS="$CFLAGS -DSTATIC_LINK_GUILE"
+      GUILE_LDD='libguile-srfi-srfi-1-v-3.a libguile-srfi-srfi-60-v-2.a'
+    fi
+  ])
+  AC_SUBST([GUILE_LDD])
+
 PKG_CHECK_MODULES(XML2, libxml-2.0 >= 2.3.10)
 CFLAGS="$CFLAGS $XML2_CFLAGS"
 LIBS="$LIBS $XML2_LIBS"

@@ -84,7 +84,7 @@ AM_CPPFLAGS = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
 -DPKGNAME=\"denemo\" 
 
 
-denemo_LDADD = $(INTLLIBS) $(SMF_LDD) libaudiobackend.a ../libsffile/libsffile.a
+denemo_LDADD = $(INTLLIBS) $(SMF_LDD) libaudiobackend.a ../libsffile/libsffile.a $(GUILE_LDD)
 
 pathconfig.h:  $(top_builddir)/config.status
 	-@rm pathconfig.tmp 
