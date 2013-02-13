@@ -1590,6 +1590,13 @@ busy_cursor();
 create_pdf(FALSE, TRUE);
 g_child_watch_add(PrintStatus.printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
 }
+static void create_full_score_pdf(void) {
+busy_cursor();
+create_default_scoreblock();
+create_pdf(FALSE, TRUE); 
+g_child_watch_add(PrintStatus.printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
+}
+
 static void create_movement_pdf(void) {
 
 busy_cursor();
@@ -1602,39 +1609,7 @@ busy_cursor();
 create_pdf(TRUE, TRUE);
 g_child_watch_add(PrintStatus.printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
 }
-#if 0
-static gint 
-popup_print_preview_menu(void) {
-  GtkWidget *menu = gtk_menu_new();
-  GtkWidget *item = gtk_menu_item_new_with_label("Print");
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect_swapped(G_OBJECT(item), "activate", G_CALLBACK(print_from_print_view), GINT_TO_POINTER(TRUE));
-  item = gtk_menu_item_new_with_label("Refresh Typesetting");
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(force_typeset),NULL);
 
-  item = gtk_menu_item_new_with_label("Typeset Score");
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(create_all_pdf),NULL);
-  item = gtk_menu_item_new_with_label("Typeset Part");
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(create_part_pdf),NULL);
-
-#if 1
-  item = gtk_menu_item_new_with_label(_("Drag to desired offset"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(start_stage), (GINT_TO_POINTER)Offsetting);
-
-  item = gtk_menu_item_new_with_label("Drag a space for padding");
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(start_stage), (GINT_TO_POINTER)Padding);
-#endif
-
-  gtk_widget_show_all(menu);
-  gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
-  return TRUE;
-}
-#endif
 
 static void start_seeking_end(gboolean slur) {
 	gchar *msg = (slur)?_("Now select the notehead of the note where the slur ends"):_("Now select the notehead of the note where the beam ends");
@@ -2187,7 +2162,9 @@ void typeset_control(GtkWidget*dummy, gpointer data) {
     last_script=g_string_new("(d-PrintView)");
    
   if(data==create_all_pdf)
-    create_all_pdf();
+    create_all_pdf();  
+  else if(data==create_full_score_pdf)
+    create_full_score_pdf();
   else if(data==create_movement_pdf)
     create_movement_pdf();
   else if(data==create_part_pdf)
@@ -2536,17 +2513,17 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
   gtk_box_pack_start (GTK_BOX (main_vbox), main_hbox,FALSE, TRUE, 0);
   GtkWidget *hbox =  gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (main_hbox), hbox,FALSE, TRUE, 0);
-  GtkWidget *button = gtk_button_new_with_label(_("Typeset"));
-  gtk_widget_set_tooltip_text(button, _("Typesets the music using the current score layout. See View->Score Layouts to see which layouts you have created and which is currently selected."));
-  g_signal_connect(button, "clicked", G_CALLBACK(typeset_action), create_all_pdf);
-  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-
-  button = gtk_button_new_with_label(_("Print"));
+  GtkWidget *  button = gtk_button_new_with_label(_("Print"));
   gtk_widget_set_tooltip_text(button, _("Pops up a Print dialog. From this you can send your typeset score to a printer or to a PDF file."));
   g_signal_connect(button, "clicked", G_CALLBACK(libevince_print), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
-    
+  button = gtk_button_new_with_label(_("Full Score"));
+  gtk_widget_set_tooltip_text(button, _("Typesets the music using the default score layout. See View->Score Layouts to see other layouts you have created."));
+  g_signal_connect(button, "clicked", G_CALLBACK(typeset_action), create_full_score_pdf);
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+
+
 
   button = gtk_button_new_with_label(_("Movement"));
   gtk_widget_set_tooltip_text(button, _("Typesets the music from the current movement. This creates a score layout comprising one movement."));
