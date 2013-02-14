@@ -295,7 +295,7 @@
 							(d-DirectivePut-scoreheader-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
 							(d-DirectivePut-scoreheader-display tag (html-escape title))))
 			(if (not full-title)
-				(set! full-title (string-append " = \\markup { \\with-url #'\"scheme:(d-" tag ")\"  "  "\"" title "\"}\n")))
+				(set! full-title (string-append " \\markup { \\with-url #'\"scheme:(d-" tag ")\"  "  "\"" title "\"}\n")))
 			(d-DirectivePut-scoreheader-postfix tag (string-append field " = " full-title "\n"))))))
 
 (define (CreateButton tag label)
