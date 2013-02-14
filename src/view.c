@@ -9028,7 +9028,7 @@ GtkToggleActionEntry toggle_menu_entries[] = {
    {ToggleLyricsView_STRING, NULL, N_("Lyrics"), NULL, NULL,
    G_CALLBACK (toggle_lyrics_view), TRUE},
 
-  {ToggleConsoleView_STRING, NULL, N_("Console"), NULL, NULL,
+  {ToggleConsoleView_STRING, NULL, N_("LilyPond Errors"), NULL, NULL,
    G_CALLBACK (toggle_console_view), TRUE},
 
   {ToggleScoreView_STRING, NULL, N_("Score"), NULL, NULL,
