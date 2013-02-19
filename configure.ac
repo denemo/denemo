@@ -224,7 +224,7 @@ AC_ARG_ENABLE(
 AM_CONDITIONAL(HAVE_PORTMIDI, [test x$useportmidi = xyes])
 
 if test "x$useportmidi" = "xyes"; then
-  AC_SEARCH_LIBS([Pm_Initialize], [portmidi], [],
+  AC_CHECK_HEADER([portmidi.h], [],
   [
     AC_MSG_ERROR([Library 'portmidi' not found])
   ])
