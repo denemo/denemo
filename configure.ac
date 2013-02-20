@@ -231,9 +231,9 @@ if test "x$useportmidi" = "xyes"; then
   CFLAGS="$CFLAGS -D_HAVE_PORTMIDI_"
   LIBS="$LIBS -lportmidi"
 
-  AC_SEARCH_LIBS([Pt_Start], [portmidi porttime], [],
+  AC_CHECK_HEADER([porttime.h], [],
   [
-    AC_MSG_ERROR([Library containing function 'Pt_Start' not found])
+    AC_MSG_ERROR([Library 'porttime' not found])
   ])
 fi
 
