@@ -600,13 +600,10 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 
 
 
-  if(left && !(GDK_SHIFT_MASK&event->state)) {
-    // if(!(GDK_CONTROL_MASK&event->state))
+  if(left) {
+     if(!(GDK_SHIFT_MASK&event->state))
       gui->si->markstaffnum = 0;
-    //    else
-    //  calcmarkboundaries (gui->si);
      lh_down = TRUE;
- 
   } else {
     if(gui->si->cursor_appending) {
 			popup_menu("/NoteAppendPopup");
