@@ -229,7 +229,7 @@ if test "x$useportmidi" = "xyes"; then
     AC_MSG_ERROR([Library 'portmidi' not found])
   ])
   CFLAGS="$CFLAGS -D_HAVE_PORTMIDI_"
-  LIBS="$LIBS -lportmidi"
+  LIBS="$LIBS -lportmidi -lporttime"
 
   AC_CHECK_HEADER([porttime.h], [],
   [
