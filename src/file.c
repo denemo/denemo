@@ -1076,6 +1076,7 @@ file_newwrapper (GtkAction * action, DenemoScriptParam *param)
       }
       else {
         param->status = FALSE;
+        g_signal_handlers_unblock_by_func(G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
         return;
       }
     }
