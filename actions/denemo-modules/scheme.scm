@@ -64,12 +64,7 @@
 				(begin (proc) #t); this is a dumb script. It will try to execute proc again even if proc itself returned #f. 	
 				#f )))) ; test failed, let RepeatUntilFail fail.
 				
-;Replace a part of a string
-(define (Replace-nth list n elem)
-  (cond 
-    ((null? list) ())
-    ((eq? n 0) (cons elem (cdr list)))
-    (#t (cons(car list) (replace-nth (cdr list) (- n 1) elem)))))
+
     
 ; String Escaper
 ;; Escapes Strings
@@ -267,8 +262,7 @@
               (loop (+ i 1) (cdr l)))))))
 
 ; from http://www.ccs.neu.edu/home/dorai/t-y-scheme/t-y-scheme-Z-H-11.html#node_sec_9.2
-(define-macro defstruct
-  (lambda (s . ff)
+(define-macro (defstruct s . ff)
     (let ((s-s (symbol->string s)) (n (length ff)))
       (let* ((n+1 (+ n 1))
              (vv (make-vector n+1)))
@@ -321,7 +315,7 @@
              (define ,(string->symbol (string-append s-s "?"))
                (lambda (x)
                  (and (vector? x)
-                      (eqv? (vector-ref x 0) ',s))))))))))
+                      (eqv? (vector-ref x 0) ',s)))))))))
                       
 ;InvertedMap takes a list of functions and applies each to a single value and returns a list of returnvalues.
 (define (InvertedMap val . funcs)
