@@ -26,8 +26,36 @@ GUILE_FLAGS
 
 AM_PROG_LIBTOOL
 
+AC_ARG_ENABLE(
+  guile_1_8,
+  AC_HELP_STRING([--enable-guile_1_8], [use GUILE_1_8 @<:@default=no@:>@]),
+  [
+    if test "x$enableval" != "xno"; then
+      useguile_1_8=yes
+      PKG_CHECK_MODULES(GUILE_1_8, guile-1.8 >= 1.8)
+    fi
+  ], [ useguile_1_8=no ])
 
-PKG_CHECK_MODULES(GUILE, guile-1.8 >= 1.8)
+AC_ARG_ENABLE(
+  guile_2_0,
+  AC_HELP_STRING([--enable-guile_2_0], [use GUILE_2_0 @<:@default=no@:>@]),
+  [
+    if test "x$enableval" != "xno"; then
+      useguile_2_0=yes
+      PKG_CHECK_MODULES([GUILE_2], [guile-2.0])
+    fi
+  ], [ useguile_2_0=no ])
+
+if [test "x$useguile_1_8" = "xno"] && [test "x$useguile_2_0" = "xno"]; then
+  PKG_CHECK_MODULES([GUILE_2], [guile-2.0], useguile_2_0=yes, useguile_2_0=no)
+  if test "x$useguile_2_0" = "xno"; then
+    PKG_CHECK_MODULES(GUILE_1_8, guile-1.8 >= 1.8)
+    useguile_1_8=yes
+  else
+    useguile_2_0=yes
+  fi
+fi
+
 LIBS="$LIBS $GUILE_LIBS"
 CFLAGS="$CFLAGS $GUILE_CFLAGS"
 
