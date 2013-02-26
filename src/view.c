@@ -209,7 +209,7 @@ void define_scheme_int_variable(gchar *varname, gint value, gchar *tooltip) {
 }
 
 void define_scheme_double_variable(gchar *varname, gdouble value, gchar *tooltip) {
-  scm_c_define(varname, scm_double2num(value));
+  scm_c_define(varname, scm_from_double(value));
 }
 
 
@@ -437,14 +437,14 @@ static SCM scheme_get_offset(void) {
 		offsetx /=100;
 		offsety /=100;
 		
-		return scm_cons(scm_double2num(offsetx), scm_double2num(offsety));
+		return scm_cons(scm_from_double(offsetx), scm_from_double(offsety));
 	} else
 	return SCM_BOOL_F;
 }
 static SCM scheme_get_positions(SCM is_slur) {
 	gdouble neary, fary;
 	if(get_positions(&neary, &fary, scm_is_true(is_slur))) {
-		return  scm_cons(scm_double2num(neary), scm_double2num(fary));
+		return  scm_cons(scm_from_double(neary), scm_from_double(fary));
 	} else
 	return SCM_BOOL_F;
 }
@@ -1247,7 +1247,7 @@ static SCM scheme_next_audio_timing(SCM optional) {
   if(Denemo.gui->si->audio) {    
     gdouble timing = get_audio_timing();
     if(timing>0.0)
-    return scm_double2num(timing);
+    return scm_from_double(timing);
   }
 return SCM_BOOL_F;
 }
@@ -1318,7 +1318,7 @@ static SCM scheme_zoom (SCM factor) {
       free(name);
     }
   } else {
-    return scm_double2num(Denemo.gui->si->zoom);
+    return scm_from_double(Denemo.gui->si->zoom);
   }   
   scorearea_configure_event(Denemo.scorearea, NULL);
   if(Denemo.gui->si->zoom > 0.01){
@@ -1344,13 +1344,13 @@ static SCM scheme_master_tempo (SCM factor) {
      free(name);
     }
   } else {
-      return scm_double2num(si->master_tempo);
+      return scm_from_double(si->master_tempo);
     }
   if(si->master_tempo < 0.0)
     si->master_tempo =  1.0;
   
   si->tempo_change_time = request_time;
-  return scm_double2num(si->master_tempo);
+  return scm_from_double(si->master_tempo);
 }
 
 static SCM scheme_movement_tempo (SCM bpm) {
@@ -1385,7 +1385,7 @@ static SCM scheme_master_volume (SCM factor) {
   }
   if(si->master_volume < 0.0)
     si->master_volume =  1.0;
-  return scm_double2num(si->master_volume);
+  return scm_from_double(si->master_volume);
 }
 
 static SCM scheme_get_midi_tuning(void) {
@@ -1483,7 +1483,7 @@ static SCM scheme_next_midi_notes(SCM interval) {
         }        
       }
     }
-    scm = scm_cons(scm, scm_double2num(start));  
+    scm = scm_cons(scm, scm_from_double(start));
     return scm;
   }
   return SCM_BOOL_F;
@@ -1495,7 +1495,7 @@ static SCM scheme_get_midi_on_time(void) {
   DenemoObject *curobj = Denemo.gui->si->currentobject->data;
   if(!curobj->midi_events)
     return SCM_BOOL_F;
-  return scm_double2num(get_midi_on_time(curobj->midi_events));
+  return scm_from_double(get_midi_on_time(curobj->midi_events));
 }
 
 static SCM scheme_get_midi_off_time(void) {
@@ -1504,7 +1504,7 @@ static SCM scheme_get_midi_off_time(void) {
   DenemoObject *curobj = Denemo.gui->si->currentobject->data;
   if(!curobj->midi_events)
     return SCM_BOOL_F;
-  return scm_double2num(get_midi_off_time(curobj->midi_events));
+  return scm_from_double(get_midi_off_time(curobj->midi_events));
 }
 
 static SCM scheme_restart_play(void) {
@@ -2165,7 +2165,7 @@ static SCM scheme_get_onset_time(void){
      if(curObj->midi_events) {
        smf_event_t *event = (smf_event_t*)curObj->midi_events->data;
        gdouble time = event->time_seconds;
-       return scm_double2num(time);
+       return scm_from_double(time);
      }
    }
  return SCM_BOOL_F;
@@ -6541,13 +6541,13 @@ static void pb_tempo (GtkAdjustment *adjustment) {
   gdouble bpm =  gtk_adjustment_get_value(adjustment);
   tempo = (Denemo.gui->si->tempo>0)?
     bpm/Denemo.gui->si->tempo:1.0;
-  scm_c_define("DenemoTempo::Value", scm_double2num(tempo));
+  scm_c_define("DenemoTempo::Value", scm_from_double(tempo));
   call_out_to_guile("(DenemoTempo)");
  
 }
 static void pb_volume (GtkAdjustment *adjustment) {
   gdouble volume = gtk_adjustment_get_value(adjustment);
-  scm_c_define("DenemoVolume::Value", scm_double2num(volume));
+  scm_c_define("DenemoVolume::Value", scm_from_double(volume));
   call_out_to_guile("(DenemoVolume)");
 }
 static void audio_volume_cut (GtkAdjustment *adjustment) {
