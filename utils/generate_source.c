@@ -693,7 +693,7 @@ int main() {
          param.string = gstr;\n\
          param.status = FALSE;\n\
          \n%s%s (NULL, &param);\n\
-         if(param.status && query) return scm_makfrom0str (gstr->str);\
+         if(param.status && query) return scm_from_locale_string (gstr->str);\
          if(gstr) g_string_free(gstr, TRUE);\nreturn SCM_BOOL(param.status);\n}\n", ni, fi, !(mi&CMD_CATEGORY_DIRECT)?"_cb":"");
       /****************** install the command in the hash table of commands (keymap) **************/
       fprintf(register_commands, "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"%s\"), \"%s\", _(\"%s\"), _(\"%s\"), %s);\n",ni,ni, ml?ml:ni, ti?ti:ni,fi);
