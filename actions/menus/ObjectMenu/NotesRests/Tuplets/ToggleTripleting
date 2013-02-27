@@ -8,8 +8,6 @@
         <after>ToggleTupletNumbering</after>
         <action>ToggleTripleting</action>
         <scheme>;;;;ToggleTripleting
-(if (not (defined? 'ToggleTripleting::InsideTriplet))
-    (define ToggleTripleting::InsideTriplet #t))
 (if  ToggleTripleting::InsideTriplet
        (begin 
        		(d-PendingMidi 72)
