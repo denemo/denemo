@@ -5,6 +5,16 @@
 (use-modules (ice-9 optargs)) ; optional (define* ) arguments
 (use-modules (ice-9 q)) ; queue module
 
+;;; for guile 2.0 compatibility define the define-once procedure to work in guile 1.8
+(cond-expand
+   (guile-2) ; nothing
+   (else ; guile < 2.0
+    (define-macro (define-once sym exp)
+      `(define ,sym
+         (if (module-locally-bound? (current-module) ',sym)
+             ,sym
+             ,exp)))))
+             
 (define (use-denemo string)
 	(load-from-path (string-append string ".scm")))
 
