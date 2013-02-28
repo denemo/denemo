@@ -1,1 +1,1 @@
-(define ToggleTripleting::InsideTriplet #t)
+(define-once ToggleTripleting::InsideTriplet #t)
