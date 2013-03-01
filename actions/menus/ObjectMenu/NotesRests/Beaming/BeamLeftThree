@@ -7,16 +7,7 @@
       <row>
         <action>BeamLeftThree</action>
         <scheme>;;; BeamLeftThree
-(let ((tag "BeamLeft"))
-(if (d-Directive-chord? tag)
-	(d-DirectiveDelete-chord tag)
-	(begin
-	(d-DirectivePut-chord-prefix tag "\\set stemLeftBeamCount = #3 ")
-	(d-DirectivePut-chord-override tag DENEMO_OVERRIDE_AFFIX)
-	(d-DirectivePut-chord-display tag  "]3")))
-(d-RefreshDisplay)
-(d-SetSaved #f))
-</scheme>
+(BeamCount "Left" 3)</scheme>
         <label>Three Beams Left</label>
         <tooltip>Prints with just three beams linking to the left.</tooltip>
       </row>

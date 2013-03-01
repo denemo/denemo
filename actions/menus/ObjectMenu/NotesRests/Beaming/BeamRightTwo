@@ -7,16 +7,7 @@
       <row>
         <action>BeamRightTwo</action>
         <scheme>;;; BeamRightTwo
-(let ((tag "BeamRight"))
-(if (d-Directive-chord? tag)
-	(d-DirectiveDelete-chord tag)
-	(begin
-	(d-DirectivePut-chord-prefix tag "\\set stemRightBeamCount = #2 ")
-	(d-DirectivePut-chord-override tag DENEMO_OVERRIDE_AFFIX)
-	(d-DirectivePut-chord-display tag  "[2")))
-(d-RefreshDisplay)
-(d-SetSaved #f))
-</scheme>
+(BeamCount "Right" 2)</scheme>
         <label>Two Beams Right</label>
         <tooltip>Prints with just two beams linking to the right.</tooltip>
       </row>

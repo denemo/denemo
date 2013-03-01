@@ -8,6 +8,44 @@
 		"")))
 
 
+;;BeamCount
+(define (BeamCount direction n)
+	(define tag (string-append "Beam" direction))
+	(if n
+		(begin
+			(set! n (number->string n))
+			(d-DirectivePut-chord-prefix tag (string-append "\\set stem" direction "BeamCount = #" n " "))
+			(d-DirectivePut-chord-override tag DENEMO_OVERRIDE_AFFIX)
+			(d-DirectivePut-chord-display tag  (string-append (if (equal? direction "Left") "[" "]") n )))
+		(d-DirectiveDelete-chord tag))
+	(d-RefreshDisplay)
+	(d-SetSaved #f))
+
+
+;;ChopBeaming
+(define (ChopBeaming n)
+	(define (chop-beam-right)
+		(if (and (Music?) (not (Rest?)))
+			(if (> (d-GetNoteBaseDuration) (+ 2 0))
+				(begin
+					(BeamCount "Left" n)
+					#t)
+			(if (and (not (Music?)) (d-MoveCursorRight))
+				(chop-beam-right)
+				#f))
+			(if (and (not (Music?)) (d-MoveCursorRight))
+				(chop-beam-right)
+				#f)))
+ (if (and (Music?) (not (Rest?)) (> (d-GetNoteBaseDuration) (+ 2 0)))
+	(begin
+		(d-PushPosition)
+		(d-MoveCursorRight)
+		(if (chop-beam-right)
+			(begin
+				(d-PopPosition)
+				(BeamCount "Right" n))
+			(d-PopPosition)))))
+
 
 	
 (define (TweakRelativeOffset tag offsetx offsety)
@@ -207,20 +245,11 @@
 			(if size
 					(d-TextAnnotation (cons 'fontsize size))))
 				
-	(define (chop-beam)
-				(if (d-MoveCursorLeft)
-					(if (> (d-GetNoteBaseDuration) 2)
-						(if (d-MoveCursorRight)
-							(if (d-MoveCursorRight)
-								(if (> (d-GetNoteBaseDuration) 2)
-									(if (d-MoveCursorRight)
-										(if (> (d-GetNoteBaseDuration) 2)
-											(if (d-MoveCursorLeft)
-												(begin
-													(d-BeamLeftOne)
-													(d-MoveCursorLeft)
-													(d-BeamRightOne)))))))))))
-				
+	(define (chop-beam0)
+				(ChopBeaming 0))
+		(define (chop-beam1)
+				(ChopBeaming 1))
+					
 				
 ;;; the procedure starts here			
 	(if target
@@ -276,17 +305,19 @@
 									(if (> base-duration 4)
 										(begin
 											(set! menu (cons (cons (cons (_"Two Beams Right (Off/On)") (_"Put just two beams to the right or undo a previous invocation of this command")) d-BeamRightTwo) menu))
-											(set! menu (cons (cons (cons (_"Two Beams Left (Off/On)") (_"Put just two beams to the left or undo a previous invocation of this command")) d-BeamLeftTwo) menu))))
+											(set! menu (cons (cons (cons (_"Two Beams Left (Off/On)") (_"Put just two beams to the left or undo a previous invocation of this command")) d-BeamLeftTwo) menu))					
+										))
 																					
 									(if (> base-duration 3)
 										(begin
 											(set! menu (cons (cons (cons (_"One Beam Right (Off/On)") (_"Put just one beam to the right or undo a previous invocation of this command")) d-BeamRightOne) menu))
 											(set! menu (cons (cons (cons (_"One Beam Left (Off/On)") (_"Put just one beam to the left or undo a previous invocation of this command")) d-BeamLeftOne) menu))
-											(set! menu (cons (cons (cons (_"Chop to One Beam") (_"Reduce the beaming between this and the next note to just one beam")) chop-beam) menu))
+											(set! menu (cons (cons (cons (_"Chop to One Beam") (_"Reduce the beaming between this and the next note to just one beam")) chop-beam1) menu))
 											
 											))
 									(if (> base-duration 2)
 									  (begin 
+									   (set! menu (cons (cons (cons (_"Chop Gap in Beam") (_"Remove the beaming between this and the next note")) chop-beam0) menu))
 									   (set! menu (cons (cons (cons (_"No Beam (Off/On)") (_"Leave note/chord un-beamed or undo a previous invocation of this command")) d-NoBeam) menu))
 										 (set! menu (cons (cons (cons (_"Change beam angle/position") (_"Allows you to drag the ends of the beam")) GetBeamPositions) menu))))
 			
@@ -377,3 +408,4 @@
 	    (string-append oldstr prefixstring val postfixstring))
 	  (regexp-substitute #f thematch 'pre (string-append prefixstring val postfixstring) 'post))    
     )));;;; end of function change value
+

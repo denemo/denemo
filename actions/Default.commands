@@ -6298,6 +6298,22 @@ accidentals are usually printed over the note.</tooltip>
         <label>Composer</label>
         <tooltip>Prints a composer name for current movement.</tooltip>
       </row>
+      <row>
+        <action>BeamRightNone</action>
+        <after>NoBeam</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
+        <label>No Beam Right</label>
+        <tooltip>Typeset the note at the cursor with no beam to the right.</tooltip>
+      </row>
+      <row>
+        <action>BeamLeftNone</action>
+        <after>BeamRightNone</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
+        <label>No Beam Left</label>
+        <tooltip>Typeset the note at the cursor with no beam to the left.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
