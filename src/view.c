@@ -380,7 +380,7 @@ static SCM scheme_popup_menu(SCM list) {
   set_return_value(SCM_BOOL_F);
 	if(scm_is_list(list)) {
 		gint i;
-		gint length = scm_num2int(scm_length(list), 0, 0);
+		gint length = scm_to_int(scm_length(list));
 		for(i=0;i<length;i++) {
 			SCM el = scm_list_ref(list, scm_from_int(i));
 			if(scm_is_pair(el)) {
@@ -1001,7 +1001,7 @@ SCM scheme_user_screenshot(SCM type, SCM position) {
   SCM ret = SCM_BOOL_F;
   gint pos = -1;
   if((!SCM_UNBNDP(position)) && scm_is_integer(position))
-    pos = scm_num2int(position,0,0);
+    pos = scm_to_int(position);
 
   if(scm_is_false(type))
    sources = &Denemo.gui->si->sources;
@@ -1433,7 +1433,7 @@ scm_call_1(func, thestep);
 
 static SCM scheme_set_enharmonic_position(SCM position) {
   if(scm_is_integer(position)) {
-     gint pos = scm_num2int(position, 0, 0);
+     gint pos = scm_to_int(position);
      set_enharmonic_position(pos);
      return SCM_BOOL_T;
     }
@@ -1864,7 +1864,7 @@ SCM scheme_goto_position (SCM movement, SCM staff, SCM measure, SCM object) {
 SCM scheme_shift_cursor (SCM value) {
   if(!scm_is_integer(value))
     return SCM_BOOL_F;
-  gint shift = scm_num2int(value, 0, 0);
+  gint shift = scm_to_int(value);
   Denemo.gui->si->cursor_y += shift;
   Denemo.gui->si->staffletter_y = offsettonumber(Denemo.gui->si->staffletter_y + shift);
   return SCM_BOOL_T;
@@ -1889,7 +1889,7 @@ static SCM scheme_set_object_display_width(SCM value) {
     return SCM_BOOL_F;
 	if(Denemo.gui->si->currentobject) {
 		DenemoObject *obj = Denemo.gui->si->currentobject->data;
-		gint minpixels = scm_num2int(value, 0, 0);
+		gint minpixels = scm_to_int(value);
 		obj->minpixelsalloted = minpixels;
 		return  SCM_BOOL_T;
 	}
@@ -2305,7 +2305,7 @@ SCM scheme_spell_check_midi_chord (SCM list) {
   gboolean status;
   if(scm_is_list(list)) {
   for(scm = list; !scm_is_null(scm); scm = scm_cdr(scm)) {
-   gint note = scm_num2int(scm_car(scm), 0, 0);
+   gint note = scm_to_int(scm_car(scm));
    notes = g_list_prepend(notes, GINT_TO_POINTER(note));
   }
  status = check_midi_intervals(notes);
@@ -2449,7 +2449,7 @@ SCM scheme_increment_keysig(SCM amount) {
   SCM ret = SCM_BOOL_F;
   gint inc=1;
   if(scm_is_integer(amount))
-    inc = scm_num2int(amount, 0, 0);
+    inc = scm_to_int(amount);
   keysig *sig = &curstaff->keysig;
  if((Denemo.gui->si->currentobject) && (curObj = Denemo.gui->si->currentobject->data) && (curObj->type==KEYSIG)) {
   sig = curObj->object;
@@ -3265,7 +3265,7 @@ static SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
   }\
   char *tagname;\
   tagname = scm_to_locale_string(tag);\
-  gint valuename = scm_num2int(value, 0, 0);\
+  gint valuename = scm_to_int(value);\
   extern  gboolean  what##_directive_put_##field (gchar *tag, gint value);\
   gboolean ret = what##_directive_put_##field ((gchar*)tagname, valuename);\
   if(tagname) free(tagname);\
@@ -3809,7 +3809,7 @@ SCM scheme_rewind_recorded_midi(void) {
 static SCM scheme_get_note_for_midi_key (SCM scm) {
   gint notenum = 0, offset, enshift, octave;      
   if(scm_is_integer(scm))
-      notenum = scm_num2int(scm, 0, 0);
+      notenum = scm_to_int(scm);
   if(notenum>0 && notenum<256) {
     notenum2enharmonic (notenum, &offset, &enshift, &octave);
     gchar *name =  mid_c_offsettolily (offset+7*octave, enshift);
@@ -3836,7 +3836,7 @@ SCM scheme_get_midi(void) {
 //Simulates a midi event, with no capture by any calling scheme script unless midi==0
 static SCM scheme_put_midi (SCM scm) {
   gchar buf[3];
-  gint midi = scm_num2int(scm, 0, 0);
+  gint midi = scm_to_int(scm);
 
   buf[0] = midi & 0xFF;
   buf[1] = (midi>>8)&0xFF;
@@ -3853,7 +3853,7 @@ static SCM scheme_put_midi (SCM scm) {
 
 static SCM scheme_output_midi(SCM scm) {
   gchar buf[3];
-  gint midi = scm_num2int(scm, 0, 0);
+  gint midi = scm_to_int(scm);
 
   buf[0] = midi & 0xFF;
   buf[1] = (midi>>8)&0xFF;
@@ -3909,22 +3909,22 @@ static SCM scheme_create_timebase(SCM optional) {
 }
 
 static SCM scheme_pending_midi(SCM scm) {
-  guint key = scm_num2int(scm, 0, 0);
+  guint key = scm_to_int(scm);
   g_queue_push_head(Denemo.gui->pending_midi, GINT_TO_POINTER(key));
 }
 
 static SCM scheme_play_midi_note(SCM note, SCM volume, SCM channel, SCM duration) {
-    guint vol = scm_num2int(volume, 0, 0);
-    gint key =  scm_num2int(note, 0, 0);
-    gint chan = scm_num2int(channel, 0, 0);
-    gint dur = scm_num2int(duration, 0, 0);
+    guint vol = scm_to_int(volume);
+    gint key =  scm_to_int(note);
+    gint chan = scm_to_int(channel);
+    gint dur = scm_to_int(duration);
     
     //g_print("Playing %x at %f volume, %d channel for %dms\n", key, vol/255.0, channel, dur);
     play_note(DEFAULT_BACKEND, 0 /*port*/, chan, key, dur, vol);
  return SCM_BOOL(TRUE);
 }
 static SCM scheme_play_midikey(SCM scm) {
-    guint midi = scm_num2int(scm, 0, 0);
+    guint midi = scm_to_int(scm);
     gint key =  (midi>>8)&0xFF;
     gint channel = midi&0xF;
     gint volume = ((midi>>16)&0x7F);
@@ -3938,7 +3938,7 @@ static SCM scheme_play_midikey(SCM scm) {
 SCM scheme_put_rest (SCM optional_duration) {
   gint duration;
   if(scm_is_integer(optional_duration)) {
-    duration = scm_num2int(optional_duration, 0, 0);
+    duration = scm_to_int(optional_duration);
   } else {
     duration = get_prevailing_duration();
   }
@@ -3953,7 +3953,7 @@ SCM scheme_put_rest (SCM optional_duration) {
 static SCM scheme_insert_rest(SCM optional) {
   SCM ret = scheme_put_rest(optional);
   if(scm_is_integer(optional)) {
-   gint duration = scm_num2int(optional, 0, 0);
+   gint duration = scm_to_int(optional);
    highlight_duration(Denemo.gui, duration);
   }
   return ret;
@@ -3990,7 +3990,7 @@ static gboolean scheme_callback_one_shot_timer(cb_scheme_and_id *scheme){
 static SCM scheme_one_shot_timer(SCM duration_amount, SCM callback) {
   char *scheme_code; 
   scheme_code = scm_to_locale_string(callback);  
-  gint duration = scm_num2int(duration_amount, 0, 0);
+  gint duration = scm_to_int(duration_amount);
   cb_scheme_and_id *scheme = g_malloc(sizeof(cb_scheme_and_id));
   scheme->scheme_code = scheme_code;
   scheme->id = Denemo.gui->id;
@@ -4013,7 +4013,7 @@ static SCM scheme_timer(SCM duration_amount, SCM callback) {
   char *scheme_code;
   if(scm_is_string(callback)) {
     scheme_code = scm_to_locale_string(callback);  //FIXME check that type of callback is tring
-    gint duration = scm_num2int(duration_amount, 0, 0);
+    gint duration = scm_to_int(duration_amount);
     //g_print("setting timer for %s after %d ms", scheme_code, duration);
     cb_scheme_and_id *scheme = g_malloc(sizeof(cb_scheme_and_id));
     scheme->scheme_code = scheme_code;
@@ -4027,7 +4027,7 @@ static SCM scheme_timer(SCM duration_amount, SCM callback) {
 
 static SCM scheme_kill_timer(SCM id) {
   if(scm_is_integer(id)) {
-    cb_scheme_and_id *scheme = (cb_scheme_and_id *)scm_num2int(id, 0, 0);//FIXME the int may not be large enough for a pointer
+    cb_scheme_and_id *scheme = (cb_scheme_and_id *)scm_to_int(id);//FIXME the int may not be large enough for a pointer
     if(scheme) {
       g_source_remove_by_user_data(scheme);
       free(scheme->scheme_code);
@@ -4044,8 +4044,8 @@ static SCM scheme_kill_timer(SCM id) {
 static SCM scheme_bass_figure(SCM bass, SCM harmony) {
   SCM ret = SCM_BOOL_F;
   gboolean status=FALSE;
-  gint bassnum = scm_num2int(bass, 0, 0);
-  gint harmonynum = scm_num2int(harmony, 0, 0);
+  gint bassnum = scm_to_int(bass);
+  gint harmonynum = scm_to_int(harmony);
   gchar *interval = determine_interval(bassnum, harmonynum, &status);
   if(interval) {
     ret= scm_cons(status?SCM_BOOL_T:SCM_BOOL_F, scm_from_locale_string(interval));
@@ -4159,7 +4159,7 @@ static SCM scheme_insert_note_in_chord (SCM lily) {
 
 //return the number of objects in the copybuffer at staff m
 static SCM scheme_get_clip_objects(SCM m) {
- gint staff = scm_num2int(m, 0, 0);
+ gint staff = scm_to_int(m);
  gint num = get_clip_objs(staff);
  if(num==-1)
    return SCM_BOOL_F;
@@ -4169,8 +4169,8 @@ static SCM scheme_get_clip_objects(SCM m) {
 
 //return the type of the nth object in the copybuffer
 static SCM scheme_get_clip_obj_type(SCM m, SCM n) {
- gint value = scm_num2int(n, 0, 0); 
- gint staff = scm_num2int(m, 0, 0);
+ gint value = scm_to_int(n); 
+ gint staff = scm_to_int(m);
  DenemoObjType type = get_clip_obj_type(staff, value);
  if(type==-1)
    return SCM_BOOL_F;
@@ -4181,8 +4181,8 @@ static SCM scheme_get_clip_obj_type(SCM m, SCM n) {
 
 //insert the nth object from the denemo copybuffer
 static SCM scheme_put_clip_obj(SCM m, SCM n) {
- gint value = scm_num2int(n, 0, 0);
- gint staff = scm_num2int(m, 0, 0);
+ gint value = scm_to_int(n);
+ gint staff = scm_to_int(m);
  return SCM_BOOL(insert_clip_obj(staff, value));
 }
 
@@ -4263,7 +4263,7 @@ static SCM scheme_set_tuplet (SCM ratio) {
 }
 static SCM scheme_set_background (SCM color) {
   if(scm_is_integer(color)) {
-   gint value = scm_num2int(color, 0, 0);
+   gint value = scm_to_int(color);
    Denemo.color = value;
    gtk_widget_queue_draw (Denemo.scorearea);
    draw_score(NULL);
@@ -4583,7 +4583,7 @@ static SCM scheme_create_snippet_from_object (SCM name) {
 
 static SCM scheme_select_snippet (SCM number) {
   if(scm_is_integer(number)) {
-     gint position = scm_num2int(number, 0, 0);
+     gint position = scm_to_int(number);
      GList *g = g_list_nth(Denemo.gui->rhythms, position-1);
      if(g) {
        RhythmPattern *r = g->data;
@@ -4601,7 +4601,7 @@ static SCM scheme_select_snippet (SCM number) {
 
 static SCM scheme_insert_snippet (SCM number) {
   if(scm_is_integer(number)) {
-     gint position = scm_num2int(number, 0, 0);
+     gint position = scm_to_int(number);
      GList *g = g_list_nth(Denemo.gui->rhythms, position-1);
      if(g) {
        RhythmPattern *r = g->data;
