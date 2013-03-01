@@ -6314,6 +6314,14 @@ accidentals are usually printed over the note.</tooltip>
         <label>No Beam Left</label>
         <tooltip>Typeset the note at the cursor with no beam to the left.</tooltip>
       </row>
+      <row>
+        <action>ToggleTupletBracketsIfBeamed</action>
+        <after>ToggleTupletNumbering</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
+        <label>Tuplet Brackets (On/Off)</label>
+        <tooltip>Turns tuplet brackets off/on for beamed notes (when printed)</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
