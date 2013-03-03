@@ -586,9 +586,9 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
     }  else  if(event->x<KEY_MARGIN+key+cmajor) {
       if(left) {
 	if(offset<STAFF_HEIGHT/2)
-	  call_out_to_guile("(d-IncrementKeysig 1)");
+	  call_out_to_guile("(d-SharpenInitialKeysigs)");
 	else
-	  call_out_to_guile("(d-IncrementKeysig -1)");
+	  call_out_to_guile("(d-FlattenInitialKeysigs)");
       } else
       popup_menu("/InitialKeyEditPopup");
       return TRUE;
