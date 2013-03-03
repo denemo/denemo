@@ -9,7 +9,7 @@
         <action>ChangeExpression</action>
         <scheme>(ChangeExpression::Set)</scheme>
         <label>11 Expression</label>
-        <tooltip>Aka "Sub Volume" or "Percent Volume". The "real" volume. Use Volume as initial value for each staff/channel and change further cresc/desc with expression. </tooltip>
+        <tooltip>AKA "Sub Volume" or "Percent Volume". The "real" volume. Use Volume as initial value for each staff/channel and change further cresc/dim with expression. </tooltip>
       </row>
     </map>
   </merge>

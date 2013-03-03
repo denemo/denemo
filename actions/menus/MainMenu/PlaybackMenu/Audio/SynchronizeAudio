@@ -21,7 +21,7 @@
 
 </scheme>
         <label>Synchronize Audio</label>
-        <tooltip>Plays the audio attached to the current movment. Creates a timing bar for each space bar press. Music written in the staffs below will synchronize with the audio.</tooltip>
+        <tooltip>Plays the audio attached to the current movement. Creates a timing bar for each space bar press. Music written in the staffs below will synchronize with the audio.</tooltip>
       </row>
     </map>
   </merge>

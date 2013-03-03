@@ -38,7 +38,7 @@ You can also use the sustain pedal  to place a chord on a rest before a bass not
 		(d-WarningDialog (_ "You have unsaved work")))
 </scheme>
         <label>Handel's Figured Bass Exercises</label>
-        <tooltip>Allows you to play in chords to Handel's continuo practice material</tooltip>
+        <tooltip>Allows you to play in chords - a continuo realization - to Handel's continuo-practice exercises. Your continuo realization can optionally be marked to show consecutives.</tooltip>
       </row>
     </map>
   </merge>

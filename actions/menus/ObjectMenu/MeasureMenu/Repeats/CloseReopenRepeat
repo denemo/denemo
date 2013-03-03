@@ -18,7 +18,7 @@
 (d-RefreshDisplay)
 </scheme>
         <label>Close and Reopen Repeat</label>
-        <tooltip>Closes and open repeat block and opens a new one.</tooltip>
+        <tooltip>Closes an open repeat block and opens a new one.</tooltip>
       </row>
     </map>
   </merge>

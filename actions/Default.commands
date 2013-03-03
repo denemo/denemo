@@ -3109,7 +3109,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/MIDI</menupath>
         <label>11 Expression</label>
-        <tooltip>Aka "Sub Volume" or "Percent Volume". The "real" volume. Use Volume as initial value for each staff/channel and change further cresc/desc with expression. </tooltip>
+        <tooltip>AKA "Sub Volume" or "Percent Volume". The "real" volume. Use Volume as initial value for each staff/channel and change further cresc/dim with expression. </tooltip>
       </row>
       <row>
         <action>ChangeHoldPedal</action>
@@ -3132,8 +3132,8 @@ for second and subsequent systems</tooltip>
         <after>ChangePortamento</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/MIDI</menupath>
-        <label>66 Sustenuto Pedal (On/Off) (Middle Grand Piano Pedal)</label>
-        <tooltip>Middle Grand Piano Pedal. All Notes currently active (without a note off) will not have a note-off until Sustenuto Off.</tooltip>
+        <label>66 Sostenuto Pedal (On/Off) (Middle Grand Piano Pedal)</label>
+        <tooltip>Middle Grand Piano Pedal. All Notes currently active (without a note off) will not have a note-off until Sostenuto Off.</tooltip>
       </row>
       <row>
         <action>ChangeSoftPedal</action>
@@ -4322,7 +4322,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/MainMenu/PlaybackMenu</menupath>
         <label>Record and Convert</label>
-        <tooltip>Starts playing the score and recording from MIDI in, When finished it converts the recording to notation.</tooltip>
+        <tooltip>Starts playing the score and recording from MIDI-in. When finished it converts the recording to notation.</tooltip>
       </row>
       <row>
         <action>CreateIntro</action>
@@ -4812,7 +4812,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests</menupath>
         <label>Join music objects to new chord</label>
-        <tooltip>Joins all notes, chords and rests in the selection and inserts a all selected notes as chord. May create tied notes.</tooltip>
+        <tooltip>Joins all notes, chords and rests in the selection and inserts all selected notes as chord. May create tied notes.</tooltip>
       </row>
       <row>
         <action>NotationMagick-ReverseSelectedObjects</action>
@@ -4858,7 +4858,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/MainMenu/Educational/MIDI</menupath>
         <label>Handel's Figured Bass Exercises</label>
-        <tooltip>Allows you to play in chords to Handel's continuo practice material</tooltip>
+				<tooltip>Allows you to play in chords - a continuo realization - to Handel's continuo-practice exercises. Your continuo realization can optionally be marked to show consecutives.</tooltip>
       </row>
       <row>
         <action>CreateParts</action>
@@ -5278,7 +5278,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/Score</menupath>
         <label>Point and Click (Off/On)</label>
-        <tooltip>When on, clicking on a note in the Print Preview window takes the cursor to that note. This works also for Rehearsal Marks and many other objects in the score. The only reason to turn it off is for export to PDF file via the Export menu. However, using print to file is a better way of doing this as thenit is not needed.</tooltip>
+        <tooltip>When on, clicking on a note in the Print Preview window takes the cursor to that note. This works also for Rehearsal Marks and many other objects in the score. The only reason to turn it off is for export to PDF file via the Export menu. However, using print to file is a better way of doing this as then it is not needed.</tooltip>
       </row>
       <row>
         <action>ShiftNext</action>
@@ -5390,7 +5390,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/ClefMenu</menupath>
         <label>Display Only Clef</label>
-        <tooltip>Inserts a clef that affects only the display, not the printed form. Use this after ChangeStaff in the staff the voice will be on is in a different clef. Also useful to display in a familiar clef music which you want to be printed in a less familiar one (e.g. display in treble or bass music to be printed for viola</tooltip>
+        <tooltip>Inserts a clef that affects only the display, not the printed form. Use this if, after a Change Staff, the staff the voice will be on is in a different clef (avoiding too many ledger lines in the display, making it hard to read). Also useful to display in a familiar clef music which you want to be printed in a less familiar one (e.g. display in treble or bass clef music to be printed for viola).</tooltip>
       </row>
       <row>
         <action>CriticalCommentary</action>
@@ -5682,7 +5682,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
         <label>Harmonic (Off/On)</label>
-        <tooltip>Mark/Unmark current selection of object with a harmonic</tooltip>
+        <tooltip>Mark/Unmark current selection or object with a harmonic</tooltip>
       </row>
       <row>
         <action>FermataSelectionSwitcher</action>
@@ -5863,7 +5863,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/MainMenu/PlaybackMenu/Audio</menupath>
         <label>Synchronize Audio</label>
-        <tooltip>Plays the audio attached to the current movment. Creates a timing bar for each space bar press. Music written in the staffs below will synchronize with the audio.</tooltip>
+        <tooltip>Plays the audio attached to the current movement. Creates a timing bar for each space bar press. Music written in the staffs below will synchronize with the audio.</tooltip>
       </row>
       <row>
         <action>CloseSourceAudioFile</action>
@@ -5887,7 +5887,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/MainMenu/InputMenu/MIDI</menupath>
         <label>Chords for Bar</label>
-        <tooltip>Plays the context of the current bar. Then listens for you to play each note in current bar the bar with added chord(s), notates the chords on a staff above. When finished re-plays the bar. Allows you to repeat (pitch bend down) or go on to next bar (pitch bend up).</tooltip>
+        <tooltip>Plays the context of the current bar. Then listens for you to play each note in current bar with added chord(s). As you do this it notates the chords on a staff above. When the bar is finished it re-plays the bar. Allows you to repeat (pitch bend down) or go on to next bar (pitch bend up).</tooltip>
       </row>
       <row>
         <action>MakeGrace</action>
