@@ -33,6 +33,8 @@ AC_ARG_ENABLE(
     if test "x$enableval" != "xno"; then
       useguile_1_8=yes
       PKG_CHECK_MODULES(GUILE_1_8, guile-1.8 >= 1.8)
+      LIBS="$LIBS $GUILE_1_8_LIBS"
+      CFLAGS="$CFLAGS $GUILE_1_8_CFLAGS"
     fi
   ], [ useguile_1_8=no ])
 
@@ -43,21 +45,24 @@ AC_ARG_ENABLE(
     if test "x$enableval" != "xno"; then
       useguile_2_0=yes
       PKG_CHECK_MODULES([GUILE_2], [guile-2.0])
+      LIBS="$LIBS $GUILE_2_LIBS"
+      CFLAGS="$CFLAGS $GUILE_2_CFLAGS"
     fi
   ], [ useguile_2_0=no ])
 
 if [test "x$useguile_1_8" = "xno"] && [test "x$useguile_2_0" = "xno"]; then
   PKG_CHECK_MODULES([GUILE_2], [guile-2.0], useguile_2_0=yes, useguile_2_0=no)
+  LIBS="$LIBS $GUILE_2_LIBS"
+  CFLAGS="$CFLAGS $GUILE_2_CFLAGS"
   if test "x$useguile_2_0" = "xno"; then
     PKG_CHECK_MODULES(GUILE_1_8, guile-1.8 >= 1.8)
+    LIBS="$LIBS $GUILE_1_8_LIBS"
+    CFLAGS="$CFLAGS $GUILE_1_8_CFLAGS"
     useguile_1_8=yes
   else
     useguile_2_0=yes
   fi
 fi
-
-LIBS="$LIBS $GUILE_LIBS"
-CFLAGS="$CFLAGS $GUILE_CFLAGS"
 
 PKG_CHECK_MODULES(XML2, libxml-2.0 >= 2.3.10)
 CFLAGS="$CFLAGS $XML2_CFLAGS"
