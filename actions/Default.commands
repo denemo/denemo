@@ -6330,6 +6330,22 @@ accidentals are usually printed over the note.</tooltip>
         <label>Part Combine Two Voices</label>
         <tooltip>The two voices will be printed only once when they are the same, otherwise they will be printed as parts. (Off/On)</tooltip>
       </row>
+      <row>
+        <action>SharpenInitialKeysigs</action>
+        <after>InitialKey</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Key</menupath>
+        <label>&#x266F; Initial</label>
+        <tooltip>Sharpens the inital key signature by one degree on all staffs/voices.</tooltip>
+      </row>
+      <row>
+        <action>FlattenInitialKeysigs</action>
+        <after>SharpenInitialKeysigs</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Key</menupath>
+        <label>&#x266D; Initial</label>
+        <tooltip>Flattens the inital key signature by one degree on all staffs/voices.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
