@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: denemo 1.0.0-rc7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-26 14:22+0000\n"
+"POT-Creation-Date: 2013-03-03 17:46+0000\n"
 "PO-Revision-Date: 2013-02-26 14:56+0100\n"
 "Last-Translator: Éloir Rivard <azmeuk@gmail.com>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -809,7 +809,7 @@ msgid "Name of the arranger, flush-right below the composer."
 msgstr "Nom de l'arrangeur, à droite du composeur."
 
 #: src/commands.c:504 src/commands.c:506 src/commands.c:4887
-#: src/commands.c:4889
+#: src/commands.c:4889 src/commands.c:6334 src/commands.c:6337
 #, no-c-format
 msgid "Composer"
 msgstr "Compositeur"
@@ -1058,7 +1058,7 @@ msgstr ""
 "système, et suivants."
 
 #: src/commands.c:771 src/commands.c:773
-#: actions/denemo-modules/wysiwyg.scm:270
+#: actions/denemo-modules/wysiwyg.scm:299
 #, no-c-format
 msgid "Line Break"
 msgstr "Saut de ligne"
@@ -1070,7 +1070,7 @@ msgstr ""
 "(Rendu) Démarrer une nouvelle ligne (c.à.d. un système) à cette mesure."
 
 #: src/commands.c:782 src/commands.c:785 src/scorelayout.c:803
-#: actions/denemo-modules/wysiwyg.scm:271
+#: actions/denemo-modules/wysiwyg.scm:300
 #, no-c-format
 msgid "Page Break"
 msgstr "Saut de page"
@@ -1107,7 +1107,7 @@ msgstr "Applique la marque « mf » à un accord."
 #: src/commands.c:818 src/commands.c:821 src/commands.c:2030
 #: src/commands.c:2032 src/commands.c:2085 src/commands.c:2088
 #: src/entries.h:403 src/scorelayout.c:482 src/scorelayout.c:496
-#: actions/denemo.scm:142 actions/commandscripts/EndVolta.scm:4
+#: actions/denemo.scm:152 actions/commandscripts/EndVolta.scm:4
 #: actions/commandscripts/EndVolta.scm:5 actions/commandscripts/Tempo.scm:74
 #: actions/commandscripts/Tempo.scm:82 actions/commandscripts/Upbeat.scm:48
 #: actions/commandscripts/Upbeat.scm:57
@@ -1694,7 +1694,7 @@ msgstr "Programme"
 msgid "Change the Program of the current channel/staff"
 msgstr "Changer le programme de la portée/cannal courant."
 
-#: src/commands.c:1429 src/commands.c:1432 src/view.c:9511
+#: src/commands.c:1429 src/commands.c:1432 src/view.c:9527
 #, no-c-format
 msgid "Volume"
 msgstr "Volume"
@@ -1755,10 +1755,10 @@ msgid "11 Expression"
 msgstr "11 Expression"
 
 #: src/commands.c:1489 src/commands.c:1492
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "Aka \"Sub Volume\" or \"Percent Volume\". The \"real\" volume. Use Volume as "
-"initial value for each staff/channel and change further cresc/desc with "
+"initial value for each staff/channel and change further cresc/dim with "
 "expression. "
 msgstr ""
 "Ou « Sub Volume » ou encore « Percent Volume ». Le volume « réel ». Utilisez "
@@ -1790,15 +1790,15 @@ msgid "Slides between 2 notes. Can be adjusted with 5 - Portamento Time"
 msgstr "Glisse entre deux notes. Peut être ajusté avec « Portamento time »."
 
 #: src/commands.c:1525 src/commands.c:1528
-#, no-c-format
-msgid "66 Sustenuto Pedal (On/Off) (Middle Grand Piano Pedal)"
+#, fuzzy, no-c-format
+msgid "66 Sostenuto Pedal (On/Off) (Middle Grand Piano Pedal)"
 msgstr "66 Pédale de sustain (On/Off) (au centre au piano)"
 
 #: src/commands.c:1525 src/commands.c:1528
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "Middle Grand Piano Pedal. All Notes currently active (without a note off) "
-"will not have a note-off until Sustenuto Off."
+"will not have a note-off until Sostenuto Off."
 msgstr ""
 "Pédale de sustain. Toutes les notes couramment actives (sans fin de note) ne "
 "finiront pas tant qu'activé."
@@ -3465,9 +3465,9 @@ msgid "Record and Convert"
 msgstr "Enregistrer et convertir"
 
 #: src/commands.c:3353 src/commands.c:3356
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"Starts playing the score and recording from MIDI in, When finished it "
+"Starts playing the score and recording from MIDI-in. When finished it "
 "converts the recording to notation."
 msgstr ""
 "Début de la lecture de la partition et enregistrement à partir de l'entrée "
@@ -4187,10 +4187,10 @@ msgid "Join music objects to new chord"
 msgstr "Rassembler les objets en nouvel accord"
 
 #: src/commands.c:4091 src/commands.c:4094
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"Joins all notes, chords and rests in the selection and inserts a all "
-"selected notes as chord. May create tied notes."
+"Joins all notes, chords and rests in the selection and inserts all selected "
+"notes as chord. May create tied notes."
 msgstr ""
 "Rassembler toutes les notes, accords et silences de la sélection en un "
 "nouvel accord. Peut créer des notes liées."
@@ -4252,10 +4252,11 @@ msgstr "Exercices de basse continue de Hendel"
 
 #: src/commands.c:4162 src/commands.c:4164
 #, no-c-format
-msgid "Allows you to play in chords to Handel's continuo practice material"
+msgid ""
+"Allows you to play in chords - a continuo realization - to Handel's continuo-"
+"practice exercises. Your continuo realization can optionally be marked to "
+"show consecutives."
 msgstr ""
-"Vous permet de jouer des accords du manuel d'entraînement de basse continue "
-"Handel."
 
 #: src/commands.c:4173 src/commands.c:4176
 #, no-c-format
@@ -4922,13 +4923,13 @@ msgid "Point and Click (Off/On)"
 msgstr "Viser et cliquer (Off/On)"
 
 #: src/commands.c:4793 src/commands.c:4796
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "When on, clicking on a note in the Print Preview window takes the cursor to "
 "that note. This works also for Rehearsal Marks and many other objects in the "
 "score. The only reason to turn it off is for export to PDF file via the "
 "Export menu. However, using print to file is a better way of doing this as "
-"thenit is not needed."
+"then it is not needed."
 msgstr ""
 "Quand l'on clique sur une note dans la fenêtre d'aperçu, le curseur est "
 "amené à cette note. Cela fonctionne aussi pour les marques de répétitions "
@@ -5072,13 +5073,14 @@ msgid "Display Only Clef"
 msgstr "Clé invisible"
 
 #: src/commands.c:4965 src/commands.c:4968
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "Inserts a clef that affects only the display, not the printed form. Use this "
-"after ChangeStaff in the staff the voice will be on is in a different clef. "
-"Also useful to display in a familiar clef music which you want to be printed "
-"in a less familiar one (e.g. display in treble or bass music to be printed "
-"for viola"
+"if, after a Change Staff, the staff the voice will be on is in a different "
+"clef (avoiding too many ledger lines in the display, making it hard to "
+"read). Also useful to display in a familiar clef music which you want to be "
+"printed in a less familiar one (e.g. display in treble or bass clef music to "
+"be printed for viola)."
 msgstr ""
 "Insertion d'une clé qui n'a d'effet qu'à l'affichage, pas au rendu. À "
 "utiliser après « ChangeStaff » dans la portée où sera la voix dans une clé "
@@ -5481,8 +5483,8 @@ msgid "Mark/Unmark selection or current object"
 msgstr "Afficher ou masquer la marque sur la sélection ou l'objet courant"
 
 #: src/commands.c:5409 src/commands.c:5412
-#, no-c-format
-msgid "Mark/Unmark current selection of object with a harmonic"
+#, fuzzy, no-c-format
+msgid "Mark/Unmark current selection or object with a harmonic"
 msgstr "Afficher ou masquer la marque d'harmonique sur la sélection"
 
 #: src/commands.c:5421 src/commands.c:5424
@@ -5727,9 +5729,9 @@ msgid "Synchronize Audio"
 msgstr "Synchroniser la piste audio"
 
 #: src/commands.c:5686 src/commands.c:5689
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"Plays the audio attached to the current movment. Creates a timing bar for "
+"Plays the audio attached to the current movement. Creates a timing bar for "
 "each space bar press. Music written in the staffs below will synchronize "
 "with the audio."
 msgstr ""
@@ -5767,12 +5769,12 @@ msgid "Chords for Bar"
 msgstr "Accords de la mesure"
 
 #: src/commands.c:5722 src/commands.c:5725
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "Plays the context of the current bar. Then listens for you to play each note "
-"in current bar the bar with added chord(s), notates the chords on a staff "
-"above. When finished re-plays the bar. Allows you to repeat (pitch bend "
-"down) or go on to next bar (pitch bend up)."
+"in current bar with added chord(s). As you do this it notates the chords on "
+"a staff above. When the bar is finished it re-plays the bar. Allows you to "
+"repeat (pitch bend down) or go on to next bar (pitch bend up)."
 msgstr ""
 "Joue le contexte de la mesure courante. Puis vous écoute jouer chaque note "
 "de la mesure courante avec les accords ajoutés, note les accords sur une "
@@ -6469,6 +6471,73 @@ msgstr "Texte avec positionnement"
 msgid "Prints text you give above/below/auto-positioned."
 msgstr ""
 "Affiche le texte entrée positionné au dessus, au dessous ou automatiquement."
+
+#: src/commands.c:6334 src/commands.c:6337
+#, fuzzy, no-c-format
+msgid "Prints a composer name for current movement."
+msgstr "Donne un nom de pièce au morceau"
+
+#: src/commands.c:6346 src/commands.c:6349
+#, fuzzy, no-c-format
+msgid "No Beam Right"
+msgstr "Deux ligatures à droite"
+
+#: src/commands.c:6346 src/commands.c:6349
+#, fuzzy, no-c-format
+msgid "Typeset the note at the cursor with no beam to the right."
+msgstr "Met la note entre parenthèses au rendu."
+
+#: src/commands.c:6358 src/commands.c:6361
+#, fuzzy, no-c-format
+msgid "No Beam Left"
+msgstr "Deux ligatures à gauche"
+
+#: src/commands.c:6358 src/commands.c:6361
+#, fuzzy, no-c-format
+msgid "Typeset the note at the cursor with no beam to the left."
+msgstr "Met la note entre parenthèses au rendu."
+
+#: src/commands.c:6370 src/commands.c:6373
+#, fuzzy, no-c-format
+msgid "Tuplet Brackets (On/Off)"
+msgstr "Numérotation des n-olet (On/Off)"
+
+#: src/commands.c:6370 src/commands.c:6373
+#, no-c-format
+msgid "Turns tuplet brackets off/on for beamed notes (when printed)"
+msgstr ""
+
+#: src/commands.c:6382 src/commands.c:6385
+#, no-c-format
+msgid "Part Combine Two Voices"
+msgstr ""
+
+#: src/commands.c:6382 src/commands.c:6385
+#, no-c-format
+msgid ""
+"The two voices will be printed only once when they are the same, otherwise "
+"they will be printed as parts. (Off/On)"
+msgstr ""
+
+#: src/commands.c:6394 src/commands.c:6397
+#, fuzzy, no-c-format
+msgid "♯ Initial"
+msgstr "Armure initiale"
+
+#: src/commands.c:6394 src/commands.c:6397
+#, fuzzy, no-c-format
+msgid "Sharpens the inital key signature by one degree on all staffs/voices."
+msgstr "Définit l'armure initiale de la portée courante"
+
+#: src/commands.c:6406 src/commands.c:6409
+#, fuzzy, no-c-format
+msgid "♭ Initial"
+msgstr "Armure initiale"
+
+#: src/commands.c:6406 src/commands.c:6409
+#, fuzzy, no-c-format
+msgid "Flattens the inital key signature by one degree on all staffs/voices."
+msgstr "Définit l'armure initiale de la portée courante"
 
 #: src/draw.c:980
 msgid "Playback Start"
@@ -7630,7 +7699,7 @@ msgstr "Éditer la hauteur"
 msgid "Insert Snippet"
 msgstr "Insérer un fragment"
 
-#: src/entries.h:200 src/register_commands.h:199 src/view.c:2658
+#: src/entries.h:200 src/register_commands.h:199 src/view.c:2673
 msgid "Next Snippet"
 msgstr "Fragment suivant"
 
@@ -7690,7 +7759,7 @@ msgid "Different keyboard and MIDI entry modes"
 msgstr "Différents claviers et modes d'entrées MIDI"
 
 #: src/entries.h:206 src/entries.h:366 src/scorelayout.c:599
-#: src/scorelayout.c:774 src/view.c:9025
+#: src/scorelayout.c:774 src/view.c:9041
 msgid "Edit"
 msgstr "Édition"
 
@@ -8272,7 +8341,7 @@ msgid "Set actions to take in response to keypresses"
 msgstr ""
 "Définit les actions à effectuer lorsque des touches du clavier sont activées."
 
-#: src/entries.h:266 src/register_commands.h:248 src/view.c:8170
+#: src/entries.h:266 src/register_commands.h:248 src/view.c:8186
 msgid "Save Command Set"
 msgstr "Sauvegarder le jeu de commandes"
 
@@ -8447,7 +8516,7 @@ msgstr "Éditer les propriétés de la mesure"
 msgid "InsertMenu"
 msgstr "Menu insertion"
 
-#: src/entries.h:285 src/entries.h:347 src/entries.h:382 src/view.c:9023
+#: src/entries.h:285 src/entries.h:347 src/entries.h:382 src/view.c:9039
 msgid "Insert"
 msgstr "Insérer"
 
@@ -9118,7 +9187,7 @@ msgstr ""
 "Menu :\n"
 "Petites notes"
 
-#: src/entries.h:355 src/view.c:8997
+#: src/entries.h:355 src/view.c:9013
 msgid "Score"
 msgstr "Partition"
 
@@ -9192,7 +9261,7 @@ msgstr ""
 "Menu :\n"
 "Insérer la note."
 
-#: src/entries.h:361 src/view.c:8991
+#: src/entries.h:361 src/view.c:9007
 msgid "Lyrics"
 msgstr "Paroles"
 
@@ -10199,7 +10268,7 @@ msgstr "Exporter"
 msgid "A file with the name %s already exists"
 msgstr "Un fichier portant le nom %s existe déjà."
 
-#: src/file.c:1132 src/lilydirectives.c:2257 src/view.c:7611
+#: src/file.c:1132 src/lilydirectives.c:2257 src/view.c:7627
 msgid "Do you want to replace it?"
 msgstr "Voulez-vous le remplacer ?"
 
@@ -10724,7 +10793,7 @@ msgstr "Définir un script d'édition"
 msgid "Upload Edit Script"
 msgstr "Téléverser un script d'édition"
 
-#: src/lilydirectives.c:2396 src/view.c:8254
+#: src/lilydirectives.c:2396 src/view.c:8270
 msgid "Show Current Script"
 msgstr "Afficher le script courant"
 
@@ -10750,7 +10819,7 @@ msgstr "Pas d'instruction ici"
 msgid "No directive selected"
 msgstr "Pas d'instruction sélectionnée"
 
-#: src/lilydirectives.c:2544 src/view.c:7443
+#: src/lilydirectives.c:2544 src/view.c:7459
 #: actions/commandscripts/Upbeat.scm:51
 msgid "Operation cancelled"
 msgstr "Opération annulée"
@@ -13219,7 +13288,7 @@ msgstr "Espacement des portées (pixels) :"
 msgid "Paper Size"
 msgstr "Taille du papier"
 
-#: src/scoreprops.c:222 actions/denemo-modules/wysiwyg.scm:206
+#: src/scoreprops.c:222 actions/denemo-modules/wysiwyg.scm:244
 msgid "Font Size"
 msgstr "Taille de la police"
 
@@ -13318,11 +13387,11 @@ msgstr ""
 msgid "Error"
 msgstr "Erreur"
 
-#: src/view.c:2652
+#: src/view.c:2667
 msgid "Paste Current Snippet"
 msgstr "Coller le fragment courant"
 
-#: src/view.c:2653
+#: src/view.c:2668
 msgid ""
 "Pastes the music captured in the currently selected Snippet into the text at "
 "the cursor. The music appears here in the LilyPond typesetter syntax between "
@@ -13338,7 +13407,7 @@ msgstr ""
 "en place. Si vous supprimez un marqueur, n'oubliez pas de supprimer le "
 "marqueur correspondant.\n"
 
-#: src/view.c:2659
+#: src/view.c:2674
 msgid ""
 "Makes the next Snippet the one that can be pasted. To see the music snippets "
 "you need to check View->Snippets\n"
@@ -13348,106 +13417,106 @@ msgstr ""
 "allez dans « Affichage → Fragments >\n"
 ".Le fragment sélectionné est en grave noir."
 
-#: src/view.c:6602
+#: src/view.c:6618
 msgid "<span foreground=\"blue\">Recording + Play Along</span>"
 msgstr "<span foreground=\"blue\">Enregistrez + Jouez Avec</span>"
 
-#: src/view.c:6604
+#: src/view.c:6620
 msgid "<span foreground=\"red\">Recording</span>"
 msgstr "<span foreground=\"red\">Enregistrer</span>"
 
-#: src/view.c:6606
+#: src/view.c:6622
 msgid "<span foreground=\"red\">Play Along</span>"
 msgstr "<span foreground=\"red\">Lecture accompagnée</span>"
 
-#: src/view.c:6608
+#: src/view.c:6624
 msgid "Checking Pitches"
 msgstr "Vérification des hauteurs"
 
-#: src/view.c:6610
+#: src/view.c:6626
 msgid "Listening to Pitches"
 msgstr "Écoute de hauteurs"
 
-#: src/view.c:6613
+#: src/view.c:6629
 msgid "Adding to a Chord"
 msgstr "Ajout à un accord"
 
-#: src/view.c:6615
+#: src/view.c:6631
 msgid "Starting a Chord"
 msgstr "Commence un accord"
 
-#: src/view.c:6617 src/view.c:9589
+#: src/view.c:6633 src/view.c:9605
 msgid "Appending/Editing Pitches"
 msgstr "Ajout/Édition de hauteurs"
 
-#: src/view.c:6633
+#: src/view.c:6649
 msgid "Mouse Conductor ON"
 msgstr "Conducteur souris activé"
 
-#: src/view.c:6635
+#: src/view.c:6651
 msgid "Mouse Conductor OFF"
 msgstr "Conducteur souris désactivé"
 
-#: src/view.c:6643
+#: src/view.c:6659
 msgid "Switch to Normal Playback"
 msgstr "Passer en lecture normale"
 
-#: src/view.c:6645 src/view.c:9594
+#: src/view.c:6661 src/view.c:9610
 msgid "Switch to Play Along Playback"
 msgstr "Passer en lecture accompagnée"
 
-#: src/view.c:7411 src/view.c:7415 src/view.c:7418 src/view.c:7420
+#: src/view.c:7427 src/view.c:7431 src/view.c:7434 src/view.c:7436
 msgid "Create a new menu item"
 msgstr "Création d'un nouvel élément de menu"
 
-#: src/view.c:7411
+#: src/view.c:7427
 msgid "Give menu label: "
 msgstr "Entrer une étiquette pour le menu :"
 
-#: src/view.c:7411
+#: src/view.c:7427
 msgid "My Label"
 msgstr "Mon étiquette"
 
-#: src/view.c:7415
+#: src/view.c:7431
 msgid "Give explanation of what it does: "
 msgstr "Explication de ce que ça fait : "
 
-#: src/view.c:7415
+#: src/view.c:7431
 msgid "Prints my special effect"
 msgstr "Affiche mon effet spécial"
 
-#: src/view.c:7418
+#: src/view.c:7434
 msgid "Do you want the new menu item in a submenu?"
 msgstr "Voulez-vous le nouvel élément de menu dans un sous menu ?"
 
-#: src/view.c:7420
+#: src/view.c:7436
 msgid "Give a label for the Sub-Menu"
 msgstr "Entrez une étiquette pour le sous-menu"
 
-#: src/view.c:7420
+#: src/view.c:7436
 msgid "Sub Menu Label"
 msgstr "Étiquette de sous menu"
 
-#: src/view.c:7433
+#: src/view.c:7449
 msgid "Duplicate Name"
 msgstr "Nom dupliqué"
 
-#: src/view.c:7433
+#: src/view.c:7449
 msgid ""
 "A command of this name is already available in your custom menus; Overwrite?"
 msgstr ""
 "Une commande portant ce nom est déjà disponible dans vos menus "
 "personnalisés. Écraser ?"
 
-#: src/view.c:7440
+#: src/view.c:7456
 msgid "New Command Added"
 msgstr "Nouvelle commande ajoutée"
 
-#: src/view.c:7440
+#: src/view.c:7456
 msgid "Do you want to save this with your default commands?"
 msgstr "Voulez vous l'enregistrer avec vos commandes par défaut ?"
 
-#: src/view.c:7494
+#: src/view.c:7510
 msgid ""
 "No keyboard modifier keys\n"
 "Press with modifier key to change"
@@ -13455,7 +13524,7 @@ msgstr ""
 "Pas de touches modificatrices.\n"
 "Appuyez avec une touche modificatrice pour éditer."
 
-#: src/view.c:7496
+#: src/view.c:7512
 msgid ""
 "\n"
 "Press with modifier key to change"
@@ -13463,44 +13532,44 @@ msgstr ""
 "\n"
 "Appuyez avec une touche modificatrice pour éditer."
 
-#: src/view.c:7503
+#: src/view.c:7519
 msgid "Set Mouse Shortcut"
 msgstr "Définir un raccourci souris"
 
-#: src/view.c:7520
+#: src/view.c:7536
 #, c-format
 msgid "Setting mouse shortcut for %s"
 msgstr "Définition du raccourci souris pour %s"
 
-#: src/view.c:7524
+#: src/view.c:7540
 msgid "Choose the mouse button"
 msgstr "Choisir le bouton de souris"
 
-#: src/view.c:7531 actions/commandscripts/FingeringPosition.scm:58
+#: src/view.c:7547 actions/commandscripts/FingeringPosition.scm:58
 msgid "Left"
 msgstr "Gauche"
 
-#: src/view.c:7534 actions/commandscripts/FingeringPosition.scm:59
+#: src/view.c:7550 actions/commandscripts/FingeringPosition.scm:59
 msgid "Right"
 msgstr "Droite"
 
-#: src/view.c:7538
+#: src/view.c:7554
 msgid "Choose mouse action"
 msgstr "Choisir une action de la souris"
 
-#: src/view.c:7544
+#: src/view.c:7560
 msgid "Press Button"
 msgstr "Appuyer sur le bouton"
 
-#: src/view.c:7547
+#: src/view.c:7563
 msgid "Release Button"
 msgstr "Relâcher le bouton"
 
-#: src/view.c:7550
+#: src/view.c:7566
 msgid "Drag"
 msgstr "Tirer"
 
-#: src/view.c:7554
+#: src/view.c:7570
 msgid ""
 "Hold Modifier Keys, Engage Caps or Num Lock\n"
 "and click here to set shorcut."
@@ -13508,19 +13577,19 @@ msgstr ""
 "Maintenez appuyée une touche modificatrice, Caps Lock ou Num Lock et cliquez "
 "ici pour définir un raccourci."
 
-#: src/view.c:7611
+#: src/view.c:7627
 msgid "There is already an initialization script here"
 msgstr "Il y a déjà un script d'initialisation ici."
 
-#: src/view.c:7618
+#: src/view.c:7634
 msgid "Wrote init.scm"
 msgstr "Init.scm a été écrit"
 
-#: src/view.c:7618
+#: src/view.c:7634
 msgid "Shall I execute it now?"
 msgstr "Dois-je l'exécuter maintenant ?"
 
-#: src/view.c:7622
+#: src/view.c:7638
 msgid ""
 "Could not create init.scm;\n"
 "you must create your scripted menu item in the menu\n"
@@ -13530,31 +13599,31 @@ msgstr ""
 "Vous devez créer votre élément de menu scripté dans le menu avant de pouvoir "
 "créer le script d'initialisation pour lui."
 
-#: src/view.c:7671 src/view.c:8210
+#: src/view.c:7687 src/view.c:8226
 msgid "Save Script"
 msgstr "Enregistrer le script"
 
-#: src/view.c:7671
+#: src/view.c:7687
 msgid "Over-write previous version of the script for "
 msgstr "Écraser la version précédente du script pour "
 
-#: src/view.c:7671
+#: src/view.c:7687
 msgid " ?"
 msgstr "?"
 
-#: src/view.c:7680
+#: src/view.c:7696
 msgid "No script saved"
 msgstr "Aucun script enregistré"
 
-#: src/view.c:8158
+#: src/view.c:8174
 msgid "Place Command on Button Bar"
 msgstr "Placer la commande dans la barre de boutons"
 
-#: src/view.c:8164
+#: src/view.c:8180
 msgid "Create Mouse Shortcut"
 msgstr "Créer un raccourci souris"
 
-#: src/view.c:8167
+#: src/view.c:8183
 msgid ""
 "Edit Shortcuts\n"
 "Set Mouse Pointers\n"
@@ -13564,39 +13633,39 @@ msgstr ""
 "Définition des pointeurs de souris\n"
 "Masquage/Suppression des éléments de menu"
 
-#: src/view.c:8206
+#: src/view.c:8222
 msgid "Get Script"
 msgstr "Obtenir le script"
 
-#: src/view.c:8214 src/view.c:8218
+#: src/view.c:8230 src/view.c:8234
 msgid "Save Graphic"
 msgstr "Enregistrer le graphique"
 
-#: src/view.c:8224
+#: src/view.c:8240
 msgid "Upload this Script to denemo.org"
 msgstr "Téléverser ce script sur denemo.org"
 
-#: src/view.c:8230
+#: src/view.c:8246
 msgid "Save Script as New Menu Item"
 msgstr "Enregistrer le script comme un nouvel élément de menu"
 
-#: src/view.c:8243
+#: src/view.c:8259
 msgid "Get Initialization Script for this Menu"
 msgstr "Obtenir le script d'initialisation de ce menu"
 
-#: src/view.c:8247
+#: src/view.c:8263
 msgid "Put Script as Initialization Script for this Menu"
 msgstr "Faire de ce script le script d'initialisation de ce menu"
 
-#: src/view.c:8413
+#: src/view.c:8429
 msgid "Browse"
 msgstr "Parcourir"
 
-#: src/view.c:8413
+#: src/view.c:8429
 msgid "Opens a dialog for a new file"
 msgstr "Ouvre une fenêtre de création de nouveau fichier."
 
-#: src/view.c:8474
+#: src/view.c:8490
 msgid ""
 "You have unsaved work. Hardware problems may cause the program to exit "
 "during this task.\n"
@@ -13606,41 +13675,41 @@ msgstr ""
 "forcer le programme à s'arrêter durant cette tâche.\n"
 "Veuillez enregistrer vos travaux d'abord."
 
-#: src/view.c:8500
+#: src/view.c:8516
 msgid "Could not start Audio input"
 msgstr "Impossible de démarrer l'entrée audio"
 
-#: src/view.c:8960
+#: src/view.c:8976
 msgid "Tools"
 msgstr "Barre d'outils"
 
-#: src/view.c:8960
+#: src/view.c:8976
 msgid "Show/hide a toolbar for general operations on music files"
 msgstr ""
 "Afficher ou masquer une barre d'outils pour les opérations générales sur les "
 "fichiers musicaux."
 
-#: src/view.c:8963 src/view.c:9436
+#: src/view.c:8979 src/view.c:9452
 msgid "Playback Control"
 msgstr "Contrôles de lecture"
 
-#: src/view.c:8963
+#: src/view.c:8979
 msgid "Show/hide playback controls"
 msgstr "Afficher ou masquer les contrôles de lecture."
 
-#: src/view.c:8966 src/view.c:9572
+#: src/view.c:8982 src/view.c:9588
 msgid "Midi In Control"
 msgstr "Contrôles de l'entrée MIDI"
 
-#: src/view.c:8966
+#: src/view.c:8982
 msgid "Show/hide Midi Input controls"
 msgstr "Afficher ou masquer les contrôles de l'entrée MIDI."
 
-#: src/view.c:8969
+#: src/view.c:8985
 msgid "Snippets"
 msgstr "Fragments"
 
-#: src/view.c:8969
+#: src/view.c:8985
 msgid ""
 "Show/hide a toolbar which allows\n"
 "you to store and enter snippets of music and to enter notes using rhythm "
@@ -13649,11 +13718,11 @@ msgstr ""
 "Afficher ou masquer la barre d'outils qui vous permet d'enregistrer des "
 "fragments de musique, et entrer des notes en suivant un modèle rythmique."
 
-#: src/view.c:8972
+#: src/view.c:8988
 msgid "Note and Rest Entry"
 msgstr "Notes et silences"
 
-#: src/view.c:8972
+#: src/view.c:8988
 msgid ""
 "Show/hide a toolbar which allows\n"
 "you to enter notes and rests using the mouse"
@@ -13661,11 +13730,11 @@ msgstr ""
 "Afficher ou masquer une barre d'outils permettant l'utilisation de la souris "
 "pour entrer notes et silences."
 
-#: src/view.c:8975
+#: src/view.c:8991
 msgid "Object Menu"
 msgstr "Menu objet"
 
-#: src/view.c:8975
+#: src/view.c:8991
 msgid ""
 "Show/hide a menu which is arranged by objects\n"
 "The actions available for note objects change with the mode"
@@ -13673,54 +13742,54 @@ msgstr ""
 "Afficher ou masquer un menu fait pour les objets…nLes actions disponibles "
 "pour les objets « notes » changent en fonction du mode."
 
-#: src/view.c:8978
+#: src/view.c:8994
 msgid "LilyPond"
 msgstr "LilyPond"
 
-#: src/view.c:8978
+#: src/view.c:8994
 msgid "Show/hide the LilyPond music typesetting language window"
 msgstr "Afficher ou masquer la fenêtre de langage de rendu LilyPond"
 
-#: src/view.c:8981
+#: src/view.c:8997
 msgid "Scheme Script"
 msgstr "Script Scheme"
 
-#: src/view.c:8981
+#: src/view.c:8997
 msgid "Show scheme script window"
 msgstr "Afficher la fenêtre de script Scheme"
 
-#: src/view.c:8985
+#: src/view.c:9001
 msgid "Typeset Music"
 msgstr "Calculer le rendu"
 
-#: src/view.c:8988
+#: src/view.c:9004
 msgid "Score Layout"
 msgstr "Mise en page de la partition"
 
-#: src/view.c:8994
+#: src/view.c:9010
 #, fuzzy
 msgid "LilyPond Errors"
 msgstr "LilyPond"
 
-#: src/view.c:9000
+#: src/view.c:9016
 msgid "Titles, Buttons etc"
 msgstr "Titres, boutons, etc."
 
-#: src/view.c:9004
+#: src/view.c:9020
 msgid "Allow Quick Shortcut Edits"
 msgstr "Édition rapide des raccourcis clavier"
 
-#: src/view.c:9006
+#: src/view.c:9022
 msgid "Record Scheme Script"
 msgstr "Enregistrer un script Scheme"
 
-#: src/view.c:9009
+#: src/view.c:9025
 msgid ""
 "Audible Feedback\n"
 "Insert Duration/Edit Note"
 msgstr "Retour audio à l'insertion ou l'édition de note"
 
-#: src/view.c:9009
+#: src/view.c:9025
 msgid ""
 "Gives feedback as you enter durations. N.B. durations are entered in Edit "
 "mode"
@@ -13728,19 +13797,19 @@ msgstr ""
 "Donne un retour quand vous entrez des durées. N.B. Les durées sont entrée en "
 "mode « Édition »."
 
-#: src/view.c:9011
+#: src/view.c:9027
 msgid "Read Only"
 msgstr "Lecture seule"
 
-#: src/view.c:9019
+#: src/view.c:9035
 msgid "No mode"
 msgstr "Pas de mode"
 
-#: src/view.c:9021
+#: src/view.c:9037
 msgid "Classic"
 msgstr "Classique"
 
-#: src/view.c:9023
+#: src/view.c:9039
 msgid ""
 "Mode for inserting notes into the score at the cursor position\n"
 "Uses prevailing duration/rhythm\n"
@@ -13753,7 +13822,7 @@ msgstr ""
 "Utilisez les durées pour régler la durée de référence.\n"
 "Utilisez le nom des notes pour insérer une note."
 
-#: src/view.c:9025
+#: src/view.c:9041
 msgid ""
 "Mode for changing the note at cursor (name, duration)\n"
 "and to enter notes by duration (rhythms)\n"
@@ -13763,27 +13832,27 @@ msgstr ""
 "et d'entrer des notes par durée (rythmes)\n"
 "Utilisez les durées pour insérer des notes"
 
-#: src/view.c:9031
+#: src/view.c:9047
 msgid "Note"
 msgstr "Note"
 
-#: src/view.c:9031
+#: src/view.c:9047
 msgid "Normal (note) entry"
 msgstr "Entrée normale de note"
 
-#: src/view.c:9032
+#: src/view.c:9048
 msgid "Rest"
 msgstr "Silence"
 
-#: src/view.c:9032
+#: src/view.c:9048
 msgid "Entering rests not notes"
 msgstr "Entrée de silences ou de notes"
 
-#: src/view.c:9033
+#: src/view.c:9049
 msgid "Non printing rests"
 msgstr "Silences cachés"
 
-#: src/view.c:9033
+#: src/view.c:9049
 msgid ""
 "Enters rests which will not be printed (just take up space)\n"
 "Used for positioning polyphonic voice entries"
@@ -13792,19 +13861,19 @@ msgstr ""
 "l'espace)\n"
 "Utilisé pour le positionnement de voix multiples"
 
-#: src/view.c:9036
+#: src/view.c:9052
 msgid "Audible Feedback"
 msgstr "Retour audio"
 
-#: src/view.c:9036
+#: src/view.c:9052
 msgid "Gives feedback as you enter durations"
 msgstr "Donne un retour quand vous entrez des durées."
 
-#: src/view.c:9041
+#: src/view.c:9057
 msgid "No External Input"
 msgstr "Pas d'entrée extérieure"
 
-#: src/view.c:9041
+#: src/view.c:9057
 msgid ""
 "Entry of notes via computer keyboard only\n"
 "Ignores connected MIDI or microphone devices."
@@ -13812,19 +13881,19 @@ msgstr ""
 "Entrée des notes via le clavier de l'ordinateur seulement.\n"
 "Ignore les périphériques MIDI et microphones."
 
-#: src/view.c:9044
+#: src/view.c:9060
 msgid "Audio Input"
 msgstr "Entrée audio"
 
-#: src/view.c:9044
+#: src/view.c:9060
 msgid "Enable pitch entry from microphone"
 msgstr "Activer la capture de la hauteur via le microphone"
 
-#: src/view.c:9047
+#: src/view.c:9063
 msgid "Midi Input"
 msgstr "Entrée Midi"
 
-#: src/view.c:9047
+#: src/view.c:9063
 msgid ""
 "Input from a MIDI source. Set up the source first using Edit->Change "
 "Preferences->Audio/Midi\n"
@@ -13835,17 +13904,17 @@ msgstr ""
 "Utilisez « Affichage → Contrôle de l'entrée MIDI » pour contrôler ce que "
 "fait l'entrée.\n"
 
-#: src/view.c:9218
+#: src/view.c:9234
 msgid "Menu:"
 msgstr "Menu :"
 
-#: src/view.c:9219
+#: src/view.c:9235
 msgid "Click here then hover over the menu items to find out what they will do"
 msgstr ""
 "Cliquez ici puis survolez les éléments du menu pour connaître leur "
 "fonctionnement."
 
-#: src/view.c:9221
+#: src/view.c:9237
 msgid ""
 "Left click to execute the command, press a key to assign a keyboard shortcut "
 "to the command,\n"
@@ -13858,11 +13927,11 @@ msgstr ""
 "partir duquel vous pouvez créer un bouton pour cette commande, un raccourci "
 "clavier double, et d'autres options."
 
-#: src/view.c:9318
+#: src/view.c:9334
 msgid "Denemo Main Window"
 msgstr "Fenêtre principale Denemo"
 
-#: src/view.c:9414
+#: src/view.c:9430
 msgid ""
 "This is the Main Menu bar, where menus for the mostly non-musical aspects "
 "(saving, printing, setting up input sources etc) are placed. See the Object "
@@ -13872,7 +13941,7 @@ msgstr ""
 "aspects non musicaux (sauvegarde, impression, mise en page, sources d'entrée "
 "etc.). Voir le menu objet pour les commandes d'édition de musique."
 
-#: src/view.c:9418
+#: src/view.c:9434
 msgid ""
 "This is the Object Menu bar, where menus for the commands that edit music "
 "live. They are arranged in a hierarchy Score, Movement, Staff (which "
@@ -13886,7 +13955,7 @@ msgstr ""
 "etc. Les instructions couvrent tout ce que vous pouvez entrer entre les "
 "notes pour modifier le comportement à un endroit de la partition."
 
-#: src/view.c:9419
+#: src/view.c:9435
 msgid ""
 "This bar has buttons for entering notes and rests. The highlighted duration "
 "is the <i>prevailing duration</i>, that is the duration which will be "
@@ -13901,7 +13970,7 @@ msgstr ""
 "« Affichage ». Vous pouvez régler vos préférences afin de ne jamais "
 "l'afficher."
 
-#: src/view.c:9421
+#: src/view.c:9437
 msgid ""
 "You can populate this bar with buttons holding a snippet of music. The "
 "highlighted snippet is the <i>prevailing duration</i>, that is the next note "
@@ -13926,7 +13995,7 @@ msgstr ""
 "masquer via « Menu Édition → Préférences → Afficher la barre d'outils de "
 "notes et silences »."
 
-#: src/view.c:9426
+#: src/view.c:9442
 msgid ""
 "This tool bar contains a few conventional commands. You can hide it (to make "
 "more room on the screen) using the View menu. You can make it your "
@@ -13938,7 +14007,7 @@ msgstr ""
 "menu « Affichage ». Vous pouvez en faire votre préférence via « Édition → "
 "Préférences → Afficher la barre d'outils principale »."
 
-#: src/view.c:9459
+#: src/view.c:9475
 msgid ""
 "Moves the playback start point (which shows as a green bar) earlier in time\n"
 "The red and green bars do not get drawn until you have started play, or at "
@@ -13949,7 +14018,7 @@ msgstr ""
 "Les barres rouges et vertes ne sont pas affichées avant le commencement de "
 "la lecture, ou que vous ayez défini la métrique."
 
-#: src/view.c:9461
+#: src/view.c:9477
 msgid ""
 "Sets the playback start point (green bar) to the note at the cursor.\n"
 "The red and green bars do not get drawn until you have started play, or at "
@@ -13960,7 +14029,7 @@ msgstr ""
 "Les barres rouges et vertes ne sont pas affichées avant le commencement de "
 "la lecture, ou que vous ayez défini la métrique."
 
-#: src/view.c:9462
+#: src/view.c:9478
 msgid ""
 "Moves the playback start point (which shows as a green bar) later in time\n"
 "The red and green bars do not get drawn until you have started play, or at "
@@ -13971,7 +14040,7 @@ msgstr ""
 "Les barres rouges et vertes ne sont pas affichées avant le commencement de "
 "la lecture, ou que vous ayez défini la métrique."
 
-#: src/view.c:9463
+#: src/view.c:9479
 msgid ""
 "Stops the playback. On pressing play after this playback will start where "
 "the green bar is, not where you stopped. Use the Play/Pause button for that."
@@ -13980,7 +14049,7 @@ msgstr ""
 "barre verte, qui n'est pas là où vous l'avez arrêtée. Utilisez le bouton "
 "« Lecture / Pause » pour ceci."
 
-#: src/view.c:9464
+#: src/view.c:9480
 msgid ""
 "Starts playing back from the playback start (green bar) until the playback "
 "end (red bar).\n"
@@ -13990,7 +14059,7 @@ msgstr ""
 "(barre rouge).\n"
 "Met en pause la lecture quand elle est en cours, et la continue sinon."
 
-#: src/view.c:9465
+#: src/view.c:9481
 msgid ""
 "Starts playing and simultaneously records from MIDI in.\n"
 "Once a recording is made it is played back with the score when you press "
@@ -14006,7 +14075,7 @@ msgstr ""
 "« Convertir ».\n"
 "Les enregistrement MIDI ne sont pas sauvegardés dans les partitions Denemo."
 
-#: src/view.c:9466
+#: src/view.c:9482
 msgid ""
 "Moves the playback end point (which shows as a red bar) earlier in time\n"
 "The red and green bars do not get drawn until you have started play, or at "
@@ -14017,7 +14086,7 @@ msgstr ""
 "Les barres rouges et vertes ne sont pas affichées avant le commencement de "
 "la lecture, ou que vous ayez défini la métrique."
 
-#: src/view.c:9467
+#: src/view.c:9483
 msgid ""
 "Sets the playback end point (red bar) to the note at the cursor.\n"
 "The red and green bars do not get drawn until you have started play, or at "
@@ -14028,7 +14097,7 @@ msgstr ""
 "Les barres rouges et vertes ne sont pas affichées avant le commencement de "
 "la lecture, ou que vous ayez défini la métrique."
 
-#: src/view.c:9469
+#: src/view.c:9485
 msgid ""
 "Moves the playback end point (which shows as a red bar) later in time\n"
 "The red and green bars do not get drawn until you have started play, or at "
@@ -14039,7 +14108,7 @@ msgstr ""
 "Les barres rouges et vertes ne sont pas affichées avant le commencement de "
 "la lecture, ou que vous ayez défini la métrique."
 
-#: src/view.c:9473
+#: src/view.c:9489
 msgid ""
 "The music between the red and green bars is played in a loop.\n"
 "You can edit the music while it is playing\n"
@@ -14048,7 +14117,7 @@ msgstr ""
 "La musique entre les barres vertes et rouge est jouée en boucle.\n"
 "Vous pouvez l'éditer pendant la lecture."
 
-#: src/view.c:9475
+#: src/view.c:9491
 msgid ""
 "With the mouse conductor once you press play the playback progresses as you "
 "move the mouse around\n"
@@ -14060,40 +14129,40 @@ msgstr ""
 "Avec ceci vous pouvez accélérer et ralentir la lecture et écouter en détail "
 "certains passages.\n"
 
-#: src/view.c:9483
+#: src/view.c:9499
 msgid "Resets the synthesizer, on JACK it sends a JACK panic."
 msgstr ""
 "Redémarre le synthétiseur. Quand JACK est lancé, envoie un signal « JACK "
 "panic »."
 
-#: src/view.c:9486
+#: src/view.c:9502
 msgid "Sets the playback range (green and red bars) to the current selection."
 msgstr ""
 "Définition de l'étendue de la lecture (barres verte et rouge) a la sélection "
 "courante."
 
-#: src/view.c:9487
+#: src/view.c:9503
 msgid "Pops up a dialog to get timings for start and end of playback."
 msgstr ""
 "Affiche une fenêtre pour obtenir les temps de départ et de fin de la lecture."
 
-#: src/view.c:9496
+#: src/view.c:9512
 msgid "Tempo:"
 msgstr "Tempo :"
 
-#: src/view.c:9528
+#: src/view.c:9544
 msgid "Audio Volume Cut"
 msgstr "Sourdine du volume audio"
 
-#: src/view.c:9541
+#: src/view.c:9557
 msgid "Audio Volume Boost"
 msgstr "Boost du volume audio"
 
-#: src/view.c:9553
+#: src/view.c:9569
 msgid "Audio Lead In "
 msgstr "Entrée audio principale"
 
-#: src/view.c:9557
+#: src/view.c:9573
 msgid ""
 "Set the number of seconds to clip from the audio, or if negative number of "
 "seconds silence before audio plays.\n"
@@ -14103,11 +14172,11 @@ msgstr ""
 "nombre négatif de secondes de silence avant le démarrage audio.\n"
 "Utile quand la piste audio ne démarre pas sur une barre de mesure."
 
-#: src/view.c:9560
+#: src/view.c:9576
 msgid " secs."
 msgstr " secondes."
 
-#: src/view.c:9570
+#: src/view.c:9586
 msgid ""
 "Controls for managing input from a MIDI controller (e.g. keyboard) attached "
 "to the computer. You may need to select your MIDI device first using "
@@ -14131,7 +14200,7 @@ msgstr ""
 "pour les accords. Relâchez la touche Alt et rappuyez dessus pour commencer "
 "un nouvel accord. Le timing n'est pas important, jouez l'accord vite ou non."
 
-#: src/view.c:9590
+#: src/view.c:9606
 msgid ""
 "This tells you what will happen to a MIDI in event from your controller. Use "
 "the Control Shift or ALT keys, or caps lock to affect what will happen."
@@ -14140,7 +14209,7 @@ msgstr ""
 "l'entrée MIDI produit par votre contrôleur. Utilisez les touches Ctrl, "
 "Shift, Alt ou Caps Lock pour éditer la réaction."
 
-#: src/view.c:9594
+#: src/view.c:9610
 msgid ""
 "When in playalong mode, on clicking Play, the music plays until it reaches "
 "the Denemo cursor\n"
@@ -14159,15 +14228,15 @@ msgstr ""
 "Denemo. Denemo jouera les autres voix et vous attendra si vous jouez une "
 "fausse note."
 
-#: src/view.c:9596
+#: src/view.c:9612
 msgid "Delete the MIDI recording you have made."
 msgstr "Supprimer l'enregistrement MIDI que vous avec effectué."
 
-#: src/view.c:9598
+#: src/view.c:9614
 msgid "Convert the MIDI recording you have made to notation."
 msgstr "Convertir votre enregistrement MIDI en notation musicale."
 
-#: src/view.c:9646
+#: src/view.c:9662
 msgid ""
 "This is the Denemo Display for the music you have entered. See the print "
 "view window for the typeset appearance.  The blue lozenge is the Denemo "
@@ -14197,7 +14266,7 @@ msgstr ""
 "la molette de la souris pour le modifier. Un clic droit sur un menu vous "
 "affiche un court menu des actions que vous pouvez effectuer sur cet objet."
 
-#: src/view.c:9722
+#: src/view.c:9738
 msgid ""
 "This bar shows:\n"
 "Pending ♯ or ♭ sign (if the next note entered will be sharpened or "
@@ -14220,7 +14289,7 @@ msgstr ""
 "Quand la première moitié d'un raccourci clavier double est entrée, les "
 "continuations possibles sont affichées."
 
-#: src/view.c:9732
+#: src/view.c:9748
 msgid ""
 "This area shows which MIDI filters are active. It can also be used by "
 "commands to pass information to the user"
@@ -14228,7 +14297,7 @@ msgstr ""
 "Cette zone affiche quels filtres MIDI sont actifs. Des commandes peuvent "
 "aussi l'utiliser pour transmettre des informations à l'utilisateur."
 
-#: src/view.c:9841
+#: src/view.c:9857
 msgid ""
 "A button bar that can be populated by titles and other user generated "
 "buttons.\n"
@@ -14240,62 +14309,62 @@ msgstr ""
 "Généralement, en cliquant sur le bouton vous pouvez éditer le titre ou la "
 "valeur pour l'action du bouton."
 
-#: actions/denemo.scm:134 actions/commandscripts/EndVolta.scm:4
+#: actions/denemo.scm:144 actions/commandscripts/EndVolta.scm:4
 #: actions/commandscripts/Upbeat.scm:48 actions/commandscripts/Upbeat.scm:59
 msgid "Advanced"
 msgstr "Avancé"
 
-#: actions/denemo.scm:135
+#: actions/denemo.scm:145
 msgid "Place above staff"
 msgstr "Placez en dessus de la portée"
 
-#: actions/denemo.scm:136
+#: actions/denemo.scm:146
 msgid "Place below staff"
 msgstr "Placez en dessous de la portée"
 
-#: actions/denemo.scm:137
+#: actions/denemo.scm:147
 msgid "Set Relative Font Size"
 msgstr "Entrez la taille de police relative"
 
-#: actions/denemo.scm:138
+#: actions/denemo.scm:148
 msgid "Offset Position (All)"
 msgstr "Position de décalage (toutes)"
 
-#: actions/denemo.scm:139
+#: actions/denemo.scm:149
 msgid "Offset Position (One)"
 msgstr "Position de décalage (une)"
 
-#: actions/denemo.scm:140
+#: actions/denemo.scm:150
 msgid "Edit Text"
 msgstr "Éditer le texte"
 
-#: actions/denemo.scm:141 actions/commandscripts/Tempo.scm:74
+#: actions/denemo.scm:151 actions/commandscripts/Tempo.scm:74
 #: actions/commandscripts/Tempo.scm:86
 msgid "Set Padding"
 msgstr "Définir le remplissage"
 
-#: actions/denemo.scm:143
+#: actions/denemo.scm:153
 msgid "Restore Position"
 msgstr "Restaurer la position"
 
-#: actions/denemo.scm:287
+#: actions/denemo.scm:297
 #, fuzzy
 msgid "Give a name applying to the whole score"
 msgstr "Édition de code LilyPond à appliquer à toute la partition"
 
-#: actions/denemo.scm:406
+#: actions/denemo.scm:416
 msgid "End the selection at a note"
 msgstr "Terminer la sélection à la note"
 
-#: actions/denemo.scm:411
+#: actions/denemo.scm:421
 msgid "Start the selection at a note"
 msgstr "Démarrer la sélection à la note"
 
-#: actions/denemo.scm:812
+#: actions/denemo.scm:822
 msgid "Please enter a transpose interval"
 msgstr "Entrez un intervalle de transposition"
 
-#: actions/denemo.scm:812
+#: actions/denemo.scm:822
 msgid ""
 "Please enter a transpose interval or two notes in Lilypond syntax.\n"
 "\n"
@@ -14308,38 +14377,38 @@ msgstr ""
 "Par exemple : m2 minor second, M2 major second, p5 fifth, T tritone.\n"
 "Ou bien : c' e' pour une tierce majeure."
 
-#: actions/denemo-modules/wysiwyg.scm:185
+#: actions/denemo-modules/wysiwyg.scm:223
 msgid "First click on the notehead of the note where the slur starts"
 msgstr "D'abord, cliquez sur la tête de la note où commence la liaison"
 
-#: actions/denemo-modules/wysiwyg.scm:191
+#: actions/denemo-modules/wysiwyg.scm:229
 msgid "Not a slur start - cancelled"
 msgstr "Pas sur un début le liaison. Annulation."
 
-#: actions/denemo-modules/wysiwyg.scm:192
+#: actions/denemo-modules/wysiwyg.scm:230
 #: actions/commandscripts/AttachedText.scm:25
 #: actions/commandscripts/TextAbove.scm:24
 #: actions/commandscripts/TypesetVersesAtEnd.scm:31
 msgid "Cancelled"
 msgstr "Annulé"
 
-#: actions/denemo-modules/wysiwyg.scm:206
+#: actions/denemo-modules/wysiwyg.scm:244
 msgid "Give relative font size: "
 msgstr "Entrez la taille de police relative :"
 
-#: actions/denemo-modules/wysiwyg.scm:270
+#: actions/denemo-modules/wysiwyg.scm:299
 msgid "Start a new line here"
 msgstr "Commencer une nouvelle ligne ici"
 
-#: actions/denemo-modules/wysiwyg.scm:271
+#: actions/denemo-modules/wysiwyg.scm:300
 msgid "Start a new page here"
 msgstr "Commencer une nouvelle ligne ici"
 
-#: actions/denemo-modules/wysiwyg.scm:274
+#: actions/denemo-modules/wysiwyg.scm:303
 msgid "Three Beams Right (Off/On)"
 msgstr "Trois ligatures à droite (Off/On)"
 
-#: actions/denemo-modules/wysiwyg.scm:274
+#: actions/denemo-modules/wysiwyg.scm:303
 msgid ""
 "Put just three beams to the right or undo a previous invocation of this "
 "command"
@@ -14347,11 +14416,11 @@ msgstr ""
 "Place trois ligatures à droite, ou révoque un précédent appel à cette "
 "commande."
 
-#: actions/denemo-modules/wysiwyg.scm:275
+#: actions/denemo-modules/wysiwyg.scm:304
 msgid "Three Beams Left (Off/On)"
 msgstr "Trois ligatures à gauche (Off/On)"
 
-#: actions/denemo-modules/wysiwyg.scm:275
+#: actions/denemo-modules/wysiwyg.scm:304
 msgid ""
 "Put just three beams to the left or undo a previous invocation of this "
 "command"
@@ -14359,80 +14428,90 @@ msgstr ""
 "Place trois ligatures à gauche, ou révoque un précédent appel à cette "
 "commande."
 
-#: actions/denemo-modules/wysiwyg.scm:278
+#: actions/denemo-modules/wysiwyg.scm:307
 msgid "Two Beams Right (Off/On)"
 msgstr "Deux ligatures à droite (Off/On)"
 
-#: actions/denemo-modules/wysiwyg.scm:278
+#: actions/denemo-modules/wysiwyg.scm:307
 msgid ""
 "Put just two beams to the right or undo a previous invocation of this command"
 msgstr ""
 "Place deux ligatures à droite, ou révoque un précédent appel à cette "
 "commande."
 
-#: actions/denemo-modules/wysiwyg.scm:279
+#: actions/denemo-modules/wysiwyg.scm:308
 msgid "Two Beams Left (Off/On)"
 msgstr "Deux ligatures à gauche (Off/On)"
 
-#: actions/denemo-modules/wysiwyg.scm:279
+#: actions/denemo-modules/wysiwyg.scm:308
 msgid ""
 "Put just two beams to the left or undo a previous invocation of this command"
 msgstr ""
 "Place deux ligatures à gauche, ou révoque un précédent appel à cette "
 "commande."
 
-#: actions/denemo-modules/wysiwyg.scm:283
+#: actions/denemo-modules/wysiwyg.scm:313
 msgid "One Beam Right (Off/On)"
 msgstr "Une ligature à droite (Off/On)"
 
-#: actions/denemo-modules/wysiwyg.scm:283
+#: actions/denemo-modules/wysiwyg.scm:313
 msgid ""
 "Put just one beam to the right or undo a previous invocation of this command"
 msgstr ""
 "Place une ligature à droite, ou révoque un précédent appel à cette commande."
 
-#: actions/denemo-modules/wysiwyg.scm:284
+#: actions/denemo-modules/wysiwyg.scm:314
 msgid "One Beam Left (Off/On)"
 msgstr "Une ligature à gauche (Off/On)"
 
-#: actions/denemo-modules/wysiwyg.scm:284
+#: actions/denemo-modules/wysiwyg.scm:314
 msgid ""
 "Put just one beam to the left or undo a previous invocation of this command"
 msgstr ""
 "Place une ligature à gauche, ou révoque un précédent appel à cette commande."
 
-#: actions/denemo-modules/wysiwyg.scm:285
+#: actions/denemo-modules/wysiwyg.scm:315
 msgid "Chop to One Beam"
 msgstr "Pas de ligature"
 
-#: actions/denemo-modules/wysiwyg.scm:285
+#: actions/denemo-modules/wysiwyg.scm:315
 msgid "Reduce the beaming between this and the next note to just one beam"
 msgstr "Réduit la ligature entre cette note et la suivante à une ligature."
 
-#: actions/denemo-modules/wysiwyg.scm:290
+#: actions/denemo-modules/wysiwyg.scm:320
+#, fuzzy
+msgid "Chop Gap in Beam"
+msgstr "Pas de ligature"
+
+#: actions/denemo-modules/wysiwyg.scm:320
+#, fuzzy
+msgid "Remove the beaming between this and the next note"
+msgstr "Réduit la ligature entre cette note et la suivante à une ligature."
+
+#: actions/denemo-modules/wysiwyg.scm:321
 msgid "No Beam (Off/On)"
 msgstr "Pas de ligature (Off/On)"
 
-#: actions/denemo-modules/wysiwyg.scm:290
+#: actions/denemo-modules/wysiwyg.scm:321
 msgid ""
 "Leave note/chord un-beamed or undo a previous invocation of this command"
 msgstr ""
 "Laisse la note ou accord sans ligature, ou défait un appel précédent à cette "
 "commande."
 
-#: actions/denemo-modules/wysiwyg.scm:291
+#: actions/denemo-modules/wysiwyg.scm:322
 msgid "Change beam angle/position"
 msgstr "Éditer la position et l'angle de la ligature"
 
-#: actions/denemo-modules/wysiwyg.scm:291
+#: actions/denemo-modules/wysiwyg.scm:322
 msgid "Allows you to drag the ends of the beam"
 msgstr "Vous permet de tirer les extrémités de la ligature"
 
-#: actions/denemo-modules/wysiwyg.scm:294
+#: actions/denemo-modules/wysiwyg.scm:325
 msgid "Hint Slur Angle/Position"
 msgstr "Indiquer les"
 
-#: actions/denemo-modules/wysiwyg.scm:294
+#: actions/denemo-modules/wysiwyg.scm:325
 msgid "Allows you to drag the ends of the slur"
 msgstr "Permet de tirer la fin d'une liaison"
 
@@ -15805,6 +15884,11 @@ msgstr "Échelle d'affichage"
 #: actions/commandscripts/ZoomDialog.scm:4
 msgid "Give % scaling required"
 msgstr "Entrez l'échelle requise"
+
+#~ msgid "Allows you to play in chords to Handel's continuo practice material"
+#~ msgstr ""
+#~ "Vous permet de jouer des accords du manuel d'entraînement de basse "
+#~ "continue Handel."
 
 #~ msgid "Drag to desired offset"
 #~ msgstr "Glissez jusqu'au décalage désiré"
