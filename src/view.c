@@ -2441,7 +2441,22 @@ SCM scheme_set_prevailing_keysig(SCM keyaccs) {
   return SCM_BOOL_T;
 }
 
-
+SCM scheme_increment_initial_keysig(SCM amount) {
+  DenemoStaff *curstaff = Denemo.gui->si->currentstaff->data;
+  DenemoObject *curObj = NULL;
+  SCM ret = SCM_BOOL_F;
+  gint inc=1;
+  if(scm_is_integer(amount))
+    inc = scm_to_int(amount);
+  keysig *sig = &curstaff->keysig;
+  inc += sig->number;
+	if(inc<8 && inc>-8) {
+    dnm_setinitialkeysig (curstaff, inc,  curstaff->keysig.isminor);
+    score_status(Denemo.gui, TRUE);
+    ret = SCM_BOOL_T;
+  }
+  return ret;
+}
 
 SCM scheme_increment_keysig(SCM amount) {
   DenemoStaff *curstaff = Denemo.gui->si->currentstaff->data;
@@ -2451,9 +2466,9 @@ SCM scheme_increment_keysig(SCM amount) {
   if(scm_is_integer(amount))
     inc = scm_to_int(amount);
   keysig *sig = &curstaff->keysig;
- if((Denemo.gui->si->currentobject) && (curObj = Denemo.gui->si->currentobject->data) && (curObj->type==KEYSIG)) {
-  sig = curObj->object;
- }
+	if((Denemo.gui->si->currentobject) && (curObj = Denemo.gui->si->currentobject->data) && (curObj->type==KEYSIG)) {
+		sig = curObj->object;
+	}
     
   inc += sig->number;
   if(inc<8 && inc>-8) {
@@ -4996,7 +5011,8 @@ static void create_scheme_identfiers(void) {
  
  //more work needed, see above INSTALL_SCM_FUNCTION ("Sets the prevailing keysignature at the cursor to the string of 7 steps passed. Each step can be -1, 0 or 1",DENEMO_SCHEME_PREFIX"SetPrevailingKeysig", scheme_set_prevailing_keysig);
 
-  INSTALL_SCM_FUNCTION ("Makes the keysig sharper/flatter, affects keysig change when cursor is on one, otherwise affects initial keysig",DENEMO_SCHEME_PREFIX"IncrementKeysig", scheme_increment_keysig);
+  INSTALL_SCM_FUNCTION ("Makes the initial keysig sharper/flatter",DENEMO_SCHEME_PREFIX"IncrementInitialKeysig", scheme_increment_initial_keysig);
+  INSTALL_SCM_FUNCTION ("Makes the keysig sharper/flatter, affects keysig change when cursor is on one or appending after one, otherwise affects initial keysig",DENEMO_SCHEME_PREFIX"IncrementKeysig", scheme_increment_keysig);
   INSTALL_SCM_FUNCTION ("Appends a new movement without copying staff structure.",DENEMO_SCHEME_PREFIX"AddMovement", scheme_add_movement);
  
 
