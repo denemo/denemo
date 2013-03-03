@@ -17,7 +17,9 @@
 				(d-DirectiveDelete-voice tag)
 				(d-InfoDialog (_ "Parts are now uncombined")))
 			(begin
-				(d-DirectivePut-voice-prefix tag "\\partcombine { ")
+				(d-DirectivePut-voice-prefix tag " \\set Staff.soloText = #\"\"
+  \\set Staff.soloIIText = #\"\"
+  \\set Staff.aDueText = #\"\" \\partcombine { ")
 				(d-DirectivePut-voice-display tag (_ "Part Combine "))
 				(d-DirectivePut-voice-override tag (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_LILYPOND))
 				(d-MoveToVoiceDown)
