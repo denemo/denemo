@@ -556,7 +556,7 @@ run_lilypond(gchar **arguments) {
 		&PrintStatus.printpid,
 	        NULL,
 		NULL,		/* stdout */
-#ifdef G_OS_WIN32
+#ifdef XG_OS_WIN32
 		NULL,
 #else
 		&errors,	/* stderr */
