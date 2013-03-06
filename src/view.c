@@ -6458,6 +6458,7 @@ close_gui_with_check (GtkAction *action, gpointer param)
     writeXMLPrefs(&Denemo.prefs);
 #ifdef G_OS_WIN32
     CoUninitialize();
+    g_print("\n\n\nWindows - Exiting without shutting down audio\n\n\n");
     exit(0);//audio shutdown can hang
 #endif
 
