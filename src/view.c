@@ -6458,6 +6458,7 @@ close_gui_with_check (GtkAction *action, gpointer param)
     writeXMLPrefs(&Denemo.prefs);
 #ifdef G_OS_WIN32
     CoUninitialize();
+    exit(0);//audio shutdown can hang
 #endif
 
     /* ext_quit ();  clean players pidfiles (see external.c) DISUSED */
