@@ -1595,7 +1595,22 @@ static void set_default_scoreblock(DenemoScoreblock **psb, gint movement, gchar 
 				}
 			}
 		}
-			
+		if(si->movementcontrol.directives) {
+			GtkWidget *frame = gtk_frame_new(_("Movement Epilog"));
+			gtk_box_pack_start(GTK_BOX(outer_vbox), frame, FALSE, TRUE, 0);
+			GtkWidget *innerbox = gtk_vbox_new(FALSE, 8);
+			gtk_container_add(GTK_CONTAINER(frame), innerbox);
+			GList *g;
+			for(g=si->movementcontrol.directives;g;g=g->next) {
+				DenemoDirective *d=(DenemoDirective*)g->data;
+				if(d->postfix) {
+					gchar * text = label_for_directive(d);
+					GtkWidget *label = gtk_label_new(text);
+					g_free(text);
+					create_element(innerbox, label, g_strdup(d->postfix->str));
+					}		
+				}	
+			}
 		}	//if movement is wanted
 	} //for all movements
 
