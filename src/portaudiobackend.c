@@ -101,6 +101,17 @@ static int stream_callback(const void * input_buffer,
 }
 
 static int actual_portaudio_initialize(DenemoPrefs *config) {
+
+
+#ifdef _HAVE_FLUIDSYNTH_
+	g_print("Initializing Fluidsynth\n");
+  if (fluidsynth_init(config, sample_rate)) {
+		g_warning("Initializing Fluidsynth FAILED!\n");
+    return -1;
+  }
+#endif
+
+	
   g_print("initializing PortAudio backend\n");
 
   PaStreamParameters output_parameters;
@@ -115,9 +126,7 @@ static int actual_portaudio_initialize(DenemoPrefs *config) {
   output_parameters.device = get_portaudio_device_index(config->portaudio_device->str);
 
   if (output_parameters.device == paNoDevice) {
-    g_warning("no output device, gueesing device 1\n");
-   // return -1;
-   output_parameters.device = 1;
+		return -1;
   }
 
   PaDeviceInfo const *info = Pa_GetDeviceInfo(output_parameters.device);
@@ -145,11 +154,6 @@ static int actual_portaudio_initialize(DenemoPrefs *config) {
 
   sample_rate = config->portaudio_sample_rate;
 
-#ifdef _HAVE_FLUIDSYNTH_
-  if (fluidsynth_init(config, sample_rate)) {
-    return -1;
-  }
-#endif
 
   err = Pa_StartStream(stream);
   if (err != paNoError) {
