@@ -700,10 +700,12 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_box_pack_start(GTK_BOX(main_vbox), portaudio_settings, FALSE, TRUE, 0);
 
   GList *devices = get_portaudio_devices();
+  
+#ifndef G_OS_WIN32  
   /* if default is requested choose first in portaudio list, rather than rely on portaudio which fails to select a default */
   if((!strcmp(Denemo.prefs.portaudio_device->str, "default")) && (g_list_length(devices)>1))
     g_string_assign(Denemo.prefs.portaudio_device, (gchar*)(devices->next->data));
-    
+#endif    
   COMBOBOX(_("Output device"), portaudio_device, devices, Denemo.prefs.portaudio_device->str, FALSE);
   free_portaudio_devices(devices);
 
