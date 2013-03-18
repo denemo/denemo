@@ -3109,7 +3109,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/MIDI</menupath>
         <label>11 Expression</label>
-        <tooltip>AKA "Sub Volume" or "Percent Volume". The "real" volume. Use Volume as initial value for each staff/channel and change further cresc/dim with expression. </tooltip>
+        <tooltip>Aka "Sub Volume" or "Percent Volume". The "real" volume. Use Volume as initial value for each staff/channel and change further cresc/dim with expression. </tooltip>
       </row>
       <row>
         <action>ChangeHoldPedal</action>
@@ -4858,7 +4858,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/MainMenu/Educational/MIDI</menupath>
         <label>Handel's Figured Bass Exercises</label>
-				<tooltip>Allows you to play in chords - a continuo realization - to Handel's continuo-practice exercises. Your continuo realization can optionally be marked to show consecutives.</tooltip>
+        <tooltip>Allows you to play in chords - a continuo realization - to Handel's continuo-practice exercises. Your continuo realization can optionally be marked to show consecutives.</tooltip>
       </row>
       <row>
         <action>CreateParts</action>
@@ -6345,6 +6345,14 @@ accidentals are usually printed over the note.</tooltip>
         <menupath>/ObjectMenu/Key</menupath>
         <label>&#x266D; Initial</label>
         <tooltip>Flattens the inital key signature by one degree on all staffs/voices.</tooltip>
+      </row>
+      <row>
+        <action>TrillIsPlus</action>
+        <after>LilyPondDefinition</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>Set Trill Style as +</label>
+        <tooltip>Prints trills with the common 18th c. notation: a plus sign.</tooltip>
       </row>
     </map>
   </merge>

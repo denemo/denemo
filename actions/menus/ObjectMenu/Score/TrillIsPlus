@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>LilyPondDefinition</after>
+        <action>TrillIsPlus</action>
+        <scheme>;;;TrillIsPlus
+(d-LilyPondDefinition (cons
+"trill" "#(make-articulation \"stopped\") "))
+</scheme>
+        <label>Set Trill Style as +</label>
+        <tooltip>Prints trills with the common 18th c. notation: a plus sign.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
