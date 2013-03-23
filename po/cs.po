@@ -6,17 +6,17 @@
 # Pavel Fric <pavelfric@seznam.cz>, 2011, 2012, 2013.
 msgid ""
 msgstr ""
-"Project-Id-Version: denemo 1.0.0-rc7\n"
+"Project-Id-Version: denemo 1.0.0-rc10\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-12 09:26+0000\n"
-"PO-Revision-Date: 2013-02-07 20:46+0100\n"
+"PO-Revision-Date: 2013-03-22 16:06+0100\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 1.4\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
 "X-Language: cs_CZ\n"
 "X-Source-Language: C\n"
@@ -1758,7 +1758,7 @@ msgid "11 Expression"
 msgstr "11 Výraz"
 
 #: src/commands.c:1489 src/commands.c:1492
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Aka \"Sub Volume\" or \"Percent Volume\". The \"real\" volume. Use Volume as "
 "initial value for each staff/channel and change further cresc/dim with "
@@ -1766,7 +1766,7 @@ msgid ""
 msgstr ""
 "Také jinak označováno jako Vedlejší hlasitost nebo Procentní hlasitost. "
 "Skutečná hlasitost. Použijte hlasitost jako počáteční hodnotu pro každou "
-"osnovu/kanál a dále měňte  crescendo/decrescendo pomocí výrazu. "
+"osnovu/kanál a dále měňte crescendo/decrescendo pomocí výrazu. "
 
 #: src/commands.c:1501 src/commands.c:1504
 #, no-c-format
@@ -1793,13 +1793,13 @@ msgid "Slides between 2 notes. Can be adjusted with 5 - Portamento Time"
 msgstr "Vázání tónů mezi dvěma notami. Lze upravit dobou 5 - Portamento"
 
 #: src/commands.c:1525 src/commands.c:1528
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "66 Sostenuto Pedal (On/Off) (Middle Grand Piano Pedal)"
 msgstr ""
 "66 Sustenuto pedál (zapnuto/vypnuto) (prostřední pedál koncertního křídla)"
 
 #: src/commands.c:1525 src/commands.c:1528
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Middle Grand Piano Pedal. All Notes currently active (without a note off) "
 "will not have a note-off until Sostenuto Off."
@@ -3450,7 +3450,7 @@ msgid "Record and Convert"
 msgstr "Nahrát a převést"
 
 #: src/commands.c:3353 src/commands.c:3356
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Starts playing the score and recording from MIDI-in. When finished it "
 "converts the recording to notation."
@@ -4137,7 +4137,7 @@ msgid "Join music objects to new chord"
 msgstr "Spojit předměty not do nového akordu"
 
 #: src/commands.c:4091 src/commands.c:4094
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Joins all notes, chords and rests in the selection and inserts all selected "
 "notes as chord. May create tied notes."
@@ -4207,6 +4207,10 @@ msgid ""
 "practice exercises. Your continuo realization can optionally be marked to "
 "show consecutives."
 msgstr ""
+"Umožní vám hrát akordy - realizace generálního basu - v Händlových basových "
+"cvičeních na procvičování generálního basu. Vaše realizace generálního basu "
+"(basso continuo) může být volitelně označena, aby ukazovala po sobě jdoucí "
+"noty."
 
 #: src/commands.c:4173 src/commands.c:4176
 #, no-c-format
@@ -4869,7 +4873,7 @@ msgid "Point and Click (Off/On)"
 msgstr "Ukázat a klepnout (zapnuto/vypnuto)"
 
 #: src/commands.c:4793 src/commands.c:4796
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "When on, clicking on a note in the Print Preview window takes the cursor to "
 "that note. This works also for Rehearsal Marks and many other objects in the "
@@ -5015,7 +5019,7 @@ msgid "Display Only Clef"
 msgstr "Zobrazit jen klíč"
 
 #: src/commands.c:4965 src/commands.c:4968
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Inserts a clef that affects only the display, not the printed form. Use this "
 "if, after a Change Staff, the staff the voice will be on is in a different "
@@ -5024,11 +5028,12 @@ msgid ""
 "printed in a less familiar one (e.g. display in treble or bass clef music to "
 "be printed for viola)."
 msgstr ""
-"Vloží klíč, který ovlivní jen zobrazení, ne tištěnou podobu. Použijte po "
-"ChangeStaff. V osnově, ve které hlas bude, je v jiném klíči. Také je to "
-"užitečné pro zobrazení ve srozumitelném klíči u not, které chcete vytisknout "
-"v méně srozumitelném klíči (např. zobrazení v notách se sopránem nebo basem, "
-"který se má vytisknout pro violu)"
+"Vloží klíč, který ovlivní jen zobrazení, ne tištěnou podobu. Použijte, pokud "
+"po změně osnovy, osnova, ve které hlas bude, je v jiném klíči (vyhnutí se "
+"příliš mnoha horních rámových příčných čar v zobrazení, jež vedou k horší "
+"čitelnosti). Také je to užitečné pro zobrazení ve srozumitelném klíči u not, "
+"které chcete vytisknout v méně srozumitelném klíči (např. zobrazení v notách "
+"se sopránem nebo basem, který se má vytisknout pro violu)"
 
 #: src/commands.c:4977 src/commands.c:4979
 #, no-c-format
@@ -5400,7 +5405,7 @@ msgid "Mark/Unmark selection or current object"
 msgstr "Označit/Zrušit označení výběru nebo nynějšího předmětu"
 
 #: src/commands.c:5409 src/commands.c:5412
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Mark/Unmark current selection or object with a harmonic"
 msgstr ""
 "Označit/Zrušit označení nynějšího výběru nebo předmětu jako harmonického"
@@ -5646,7 +5651,7 @@ msgid "Synchronize Audio"
 msgstr "Seřídit zvuk"
 
 #: src/commands.c:5686 src/commands.c:5689
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Plays the audio attached to the current movement. Creates a timing bar for "
 "each space bar press. Music written in the staffs below will synchronize "
@@ -5687,7 +5692,7 @@ msgid "Chords for Bar"
 msgstr "Akordy pro takt"
 
 #: src/commands.c:5722 src/commands.c:5725
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Plays the context of the current bar. Then listens for you to play each note "
 "in current bar with added chord(s). As you do this it notates the chords on "
@@ -5695,9 +5700,10 @@ msgid ""
 "repeat (pitch bend down) or go on to next bar (pitch bend up)."
 msgstr ""
 "Přehrává prostředí nynějšího taktu. Pak poslouchá, jak hrajete každou notu v "
-"nynějším taktu s přidaným akordem/akordy. Zapíše akordy do osnovy nahoře. "
-"Hdyž skončí, takt přehraje znovu. Umožní vám opakovat (změna výšky tónu "
-"dolů), nebo jít na další takt (změna výšky tónu nahoru)."
+"nynějším taktu s přidaným akordem/akordy. Když to děláte, zapisuje akordy do "
+"osnovy nahoře. Když je takt skončen, takt přehraje znovu. Umožní vám "
+"opakovat (změna výšky tónu dolů), nebo jít na další takt (změna výšky tónu "
+"nahoru)."
 
 #: src/commands.c:5734 src/commands.c:5737
 #, no-c-format
@@ -6384,44 +6390,45 @@ msgid "Prints text you give above/below/auto-positioned."
 msgstr "Vytiskne text, který zadáte, nad/pod/umístěný automaticky."
 
 #: src/commands.c:6334 src/commands.c:6337
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Prints a composer name for current movement."
-msgstr "Vytiskne název kusu nynější věty"
+msgstr "Vytiskne jméno skladatele nynější věty"
 
 #: src/commands.c:6346 src/commands.c:6349
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "No Beam Right"
-msgstr "Dva trámce doprava"
+msgstr "Žádný trámec doprava"
 
 #: src/commands.c:6346 src/commands.c:6349
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Typeset the note at the cursor with no beam to the right."
-msgstr "Dát při tisku notu v poloze ukazatele do závorek ( )."
+msgstr "Vysázet notu v poloze ukazatele s žádným trámcem doprava."
 
 #: src/commands.c:6358 src/commands.c:6361
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "No Beam Left"
-msgstr "Dva trámce doleva"
+msgstr "Žádný trámec doleva"
 
 #: src/commands.c:6358 src/commands.c:6361
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Typeset the note at the cursor with no beam to the left."
-msgstr "Dát při tisku notu v poloze ukazatele do závorek ( )."
+msgstr "Vysázet notu v poloze ukazatele s žádným trámcem doleva."
 
 #: src/commands.c:6370 src/commands.c:6373
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Tuplet Brackets (On/Off)"
-msgstr "Číslování rytmické notové skupiny (zapnuto/vypnuto)"
+msgstr "Závorky rytmické notové skupiny (zapnuto/vypnuto)"
 
 #: src/commands.c:6370 src/commands.c:6373
 #, no-c-format
 msgid "Turns tuplet brackets off/on for beamed notes (when printed)"
 msgstr ""
+"Zapne/Vypne závorky rytmických notových skupin pro noty s trámcem (při tisku)"
 
 #: src/commands.c:6382 src/commands.c:6385
 #, no-c-format
 msgid "Part Combine Two Voices"
-msgstr ""
+msgstr "Hlas slučuje dva hlasy"
 
 #: src/commands.c:6382 src/commands.c:6385
 #, no-c-format
@@ -6429,26 +6436,28 @@ msgid ""
 "The two voices will be printed only once when they are the same, otherwise "
 "they will be printed as parts. (Off/On)"
 msgstr ""
+"Dva hlasy budou vytištěny jen jednou, jestliže jsou stejné. Jinak budou "
+"tištěny jako hlasy. (zapnuto/vypnuto)"
 
 #: src/commands.c:6394 src/commands.c:6397
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "♯ Initial"
-msgstr "Předznamenání (tónina) na začátku"
+msgstr "♯ Počáteční"
 
 #: src/commands.c:6394 src/commands.c:6397
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Sharpens the inital key signature by one degree on all staffs/voices."
-msgstr "Nastavit předznamenání (tóninu) na začátku nynější notové osnovy"
+msgstr "Zvýší počáteční předznamenání o půltón na všech osnovách/hlasech."
 
 #: src/commands.c:6406 src/commands.c:6409
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "♭ Initial"
-msgstr "Předznamenání (tónina) na začátku"
+msgstr "♭ Počáteční"
 
 #: src/commands.c:6406 src/commands.c:6409
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Flattens the inital key signature by one degree on all staffs/voices."
-msgstr "Nastavit předznamenání (tóninu) na začátku nynější notové osnovy"
+msgstr "Sníží počáteční předznamenání o půltón na všech osnovách/hlasech."
 
 #: src/draw.c:980
 msgid "Playback Start"
@@ -11370,9 +11379,8 @@ msgid "Help for Tweaks"
 msgstr "Nápověda k úpravám"
 
 #: src/print.c:1935
-#, fuzzy
 msgid "Score Size"
-msgstr "Názvy notového zápisu"
+msgstr "Velikost notového zápisu"
 
 #: src/print.c:1940
 msgid "Repeat"
@@ -11461,14 +11469,13 @@ msgid "Full Score"
 msgstr "Celý notový zápis"
 
 #: src/print.c:2522
-#, fuzzy
 msgid ""
 "Typesets the music using the default score layout. See View->Score Layouts "
 "to see other layouts you have created."
 msgstr ""
-"Vysází noty za použití nynějšího rozvržení notového zápisu. Podívejte se na "
-"Pohled -> Rozvržení notového zápisu, abyste viděli, která rozvržení jste "
-"vytvořil, a které je v současnosti vybráno."
+"Vysází noty za použití výchozího rozvržení notového zápisu. Podívejte se na "
+"Pohled -> Rozvržení notového zápisu, abyste viděli další rozvržení, jež jste "
+"vytvořili."
 
 #: src/print.c:2528 src/scorelayout.c:1534 src/utils.c:1396
 msgid "Movement"
@@ -12524,14 +12531,12 @@ msgid "Opens the LilyPond window for further editing."
 msgstr "Otevře okno s Lilypondem pro další úpravy."
 
 #: src/scorelayout.c:469
-#, fuzzy
 msgid "Duplicate"
-msgstr "Zdvojit název"
+msgstr "Zdvojit"
 
 #: src/scorelayout.c:470
-#, fuzzy
 msgid "Create a duplicate of this layout."
-msgstr "Vytvořit vlastní verzi tohoto bloku"
+msgstr "Vytvořit kopii tohoto rozvržení"
 
 #: src/scorelayout.c:476
 msgid "Convert to LilyPond Text"
@@ -13641,9 +13646,8 @@ msgid "Score Layout"
 msgstr "Rozvržení notového zápisu"
 
 #: src/view.c:9012
-#, fuzzy
 msgid "LilyPond Errors"
-msgstr "LilyPond"
+msgstr "Chyby LilyPondu"
 
 #: src/view.c:9018
 msgid "Titles, Buttons etc"
@@ -14222,9 +14226,8 @@ msgid "Restore Position"
 msgstr "Obnovit polohu"
 
 #: actions/denemo.scm:297
-#, fuzzy
 msgid "Give a name applying to the whole score"
-msgstr "Upravit LilyPond k použití na celý notový zápis"
+msgstr "Uvést název k použití na celý notový zápis"
 
 #: actions/denemo.scm:416
 msgid "End the selection at a note"
@@ -14353,17 +14356,15 @@ msgstr "Zkrouhnout na jeden trámec"
 
 #: actions/denemo-modules/wysiwyg.scm:315
 msgid "Reduce the beaming between this and the next note to just one beam"
-msgstr "Omezit trámec mezi tímto a další notou na jen jeden trámec"
+msgstr "Omezit trámec mezi touto a další notou na jen jeden trámec"
 
 #: actions/denemo-modules/wysiwyg.scm:320
-#, fuzzy
 msgid "Chop Gap in Beam"
-msgstr "Zkrouhnout na jeden trámec"
+msgstr "Zkrouhnout mezeru v trámci"
 
 #: actions/denemo-modules/wysiwyg.scm:320
-#, fuzzy
 msgid "Remove the beaming between this and the next note"
-msgstr "Omezit trámec mezi tímto a další notou na jen jeden trámec"
+msgstr "Odstranit trámec mezi touto a další notou"
 
 #: actions/denemo-modules/wysiwyg.scm:321
 msgid "No Beam (Off/On)"
