@@ -6354,6 +6354,14 @@ accidentals are usually printed over the note.</tooltip>
         <label>Set Trill Style as +</label>
         <tooltip>Prints trills with the common 18th c. notation: a plus sign.</tooltip>
       </row>
+      <row>
+        <action>Footnote</action>
+        <after>D.C.AlFine</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/TextMarks</menupath>
+        <label>Footnote</label>
+        <tooltip>Prints a footnote at the bottom of the current page. The mark is placed above the note at the cursor.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
