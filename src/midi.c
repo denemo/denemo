@@ -25,7 +25,9 @@
 #include <assert.h>
 
 
-
+#define SYS_EXCLUSIVE_MESSAGE1  0xF0
+#define NOTE_ON                 0x90
+#define NOTE_OFF                0x80
 
 
 static volatile gboolean playing = FALSE;
@@ -636,9 +638,19 @@ static void advance_until_time(gchar *buf) {
     g_warning("Not on an object");
 }
 
+static void adjust_midi_channel(gchar *buf) {
+	 DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
+   gint channel = curstaffstruct->midi_channel;
+	if((buf[0] & SYS_EXCLUSIVE_MESSAGE1)==NOTE_ON) {
+		buf[0] = NOTE_ON | channel;	
+	} else if((buf[0] & SYS_EXCLUSIVE_MESSAGE1)==NOTE_OFF) {
+		buf[0] = NOTE_OFF | channel;	
+	}
+}
 //adjusts the note-on volume by preferred dynamic compression and plays the passed event on default backend
 void play_adjusted_midi_event(gchar *buf) {
     adjust_midi_velocity(buf, 100 - Denemo.prefs.dynamic_compression);
+		adjust_midi_channel(buf);
     play_midi_event(DEFAULT_BACKEND, 0, buf);
 }
 
@@ -766,8 +778,7 @@ void change_tuning(gdouble *cents) {
 }
 
 //return the midi key of the passed event if note on, else 0 
-#define SYS_EXCLUSIVE_MESSAGE1  0xF0
-#define NOTE_ON                 0x90
+
 int noteon_key(smf_event_t *event) {
 if((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1)==NOTE_ON)
   return event->midi_buffer[1];
