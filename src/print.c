@@ -113,6 +113,7 @@ typedef enum {TASK_NONE,
 typedef enum {OBJ_NONE,
 							Beam,
 							Slur,
+							Articulation,
 						} WwGrob;
 typedef struct ww {
 	Rectangle Mark;
@@ -1703,7 +1704,23 @@ action_for_link (EvView* view, EvLinkAction *obj) {
 							}
 							break;	
 							case TARGET_CHORD:
-								g_print("Chord directives not done");
+								g_print("Chord directives may be not done");
+								if(Denemo.gui->si->target.directivenum) {
+									//directive = get_chord_directive_number(Denemo.gui->si->target.directivenum);
+									if(obj->type == CHORD) {
+										chord *thechord = (chord *) obj->object;
+										directive = (DenemoDirective*)g_list_nth_data(thechord->directives, Denemo.gui->si->target.directivenum - 1);
+										if(directive && directive->tag) {
+											g_print("Found %s\n", directive->tag->str);
+											Ww.grob = Articulation;
+										}
+									
+									}
+								}
+								
+								
+								
+								
 								break;
 							case TARGET_SLUR:
 									//g_print("taking action on slur...");
