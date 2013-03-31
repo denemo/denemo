@@ -1922,6 +1922,7 @@ static SCM scheme_get_cursor_note (SCM optional) {
 static SCM scheme_get_cursor_note_with_octave (SCM optional) {
   DenemoGUI *gui = Denemo.gui;
   scm_from_locale_string(mid_c_offsettolily(gui->si->cursor_y, 0));
+  return SCM_BOOL_T;
 }
 
 
@@ -2104,7 +2105,7 @@ SCM scheme_get_note_base_duration(void){
  gint duration;
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object))
    return  SCM_BOOL_F;
- scm_from_int(thechord->baseduration);
+ return scm_from_int(thechord->baseduration);
 }
 
 SCM scheme_get_note_duration(void){
@@ -3924,8 +3925,12 @@ static SCM scheme_create_timebase(SCM optional) {
 }
 
 static SCM scheme_pending_midi(SCM scm) {
-  guint key = scm_to_int(scm);
-  g_queue_push_head(Denemo.gui->pending_midi, GINT_TO_POINTER(key));
+	if(scm_is_integer(scm)) {
+		guint key = scm_to_int(scm);
+		g_queue_push_head(Denemo.gui->pending_midi, GINT_TO_POINTER(key));
+		return SCM_BOOL_T;
+	} else 
+	return SCM_BOOL_F;
 }
 
 static SCM scheme_play_midi_note(SCM note, SCM volume, SCM channel, SCM duration) {

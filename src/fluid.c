@@ -18,7 +18,7 @@
 
 #include <fluidsynth.h>
 #include <glib.h>
-
+#include "utils.h"
 
 static fluid_settings_t* settings = NULL;
 static fluid_synth_t* synth = NULL;

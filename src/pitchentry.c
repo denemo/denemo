@@ -6,6 +6,7 @@
  */
 #include <math.h>
 #include <string.h> /* for strcmp() */
+#include <stdlib.h> /* for abs() */
 #include "audio.h"
 #include "pitchentry.h"
 #include "view.h"

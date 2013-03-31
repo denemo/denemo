@@ -50,7 +50,7 @@ score_mwidth_change (GtkAction *action, gpointer param)
   GtkWidget *label;
   GtkWidget *textentry;
   GtkWidget *okbutton;
-  GtkWidget *cancelbutton;
+//  GtkWidget *cancelbutton;
   static GString *entrycontent = NULL;
   static struct callbackdata cbdata;
 
@@ -95,7 +95,7 @@ score_mwidth_change (GtkAction *action, gpointer param)
 //  gtk_signal_connect_object (G_OBJECT (cancelbutton), "clicked",
 //			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
 //			     G_OBJECT (dialog));
-  gtk_widget_show (cancelbutton);
+//  gtk_widget_show (cancelbutton);
 
   gtk_widget_grab_focus (textentry);
   gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);

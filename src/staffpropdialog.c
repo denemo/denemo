@@ -84,7 +84,7 @@ struct callbackdata
   GtkWidget *no_of_lines;
   GtkWidget *transposition;
   GtkWidget *volume;
-  GtkWidget *mute_volume;
+  GtkWidget *override_volume;
 };
 
 
@@ -143,7 +143,7 @@ set_properties (struct callbackdata *cbdata)
   /* set MIDI channel/prognum */
   ASSIGNTEXT(midi_instrument);
   ASSIGNTEXT(device_port);
-  ASSIGNBOOLEAN(mute_volume);
+	ASSIGNBOOLEAN(override_volume);
   ASSIGNNUMBER(volume);
   // ASSIGNBOOLEAN(midi_prognum_override);
   if(staffstruct->midi_instrument->len) {
@@ -337,14 +337,14 @@ staff_properties_change (void)
 
  
   /* MIDI tab */
-  NEWPAGE("MIDI");
-  COMBOBOXENTRY("MIDI Instrument:", midi_instrument, instrument_list, staffstruct->midi_instrument);
-  INTENTRY_LIMITS("Transposition:", transposition, -30, 30);
-  BOOLEANENTRY("Mute", mute_volume);
-  INTENTRY_LIMITS("Volume:", volume, 0, 127);
+  NEWPAGE(_("MIDI"));
+  COMBOBOXENTRY(_("MIDI Instrument:"), midi_instrument, instrument_list, staffstruct->midi_instrument);
+  INTENTRY_LIMITS(_("Transposition:"), transposition, -30, 30);
+  BOOLEANENTRY(_("Always Full Volume"), override_volume);
+  INTENTRY_LIMITS(_( "Master Volume:"), volume, 0, 127);
   // BOOLEANENTRY("Override MIDI Channel/Program", midi_prognum_override);  
-  INTENTRY_LIMITS_1("Channel:", midi_channel, 1, 16);
-  INTENTRY_LIMITS_1("Program:", midi_prognum, 1, 128);
+  INTENTRY_LIMITS_1(_("Channel:"), midi_channel, 1, 16);
+  INTENTRY_LIMITS_1(_("Program:"), midi_prognum, 1, 128);
   g_print("chan prog %d %d\n", staffstruct->midi_channel, staffstruct->midi_prognum); 
 
   // FIXME

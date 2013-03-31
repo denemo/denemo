@@ -17,7 +17,7 @@
 //      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //      MA 02110-1301, USA.
 
-
+#include <string.h>
 #include "scorelayout.h"
 #include "exportlilypond.h"
 #include "utils.h"
@@ -177,7 +177,7 @@ static void navigate_to_location(GtkWidget *w, guint location) {
 	goto_movement_staff_obj (NULL, movementnum, staffnum, 1, 0);
 }
 
-static popup_staff_groups_menu(GtkWidget *button) { 
+static void popup_staff_groups_menu(GtkWidget *button) { 
 	GtkWidget *menuitem = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/StaffMenu/StaffGroupings");
 	if(get_standard_scoreblock(button)) {
 		if(menuitem)
@@ -858,11 +858,11 @@ static gchar *label_for_directive(DenemoDirective *d) {
 					return etext;
 }
 
-static popup_movement_menu(GtkWidget *w, GtkWidget *vbox) {
+static void popup_movement_menu(GtkWidget *w, GtkWidget *vbox) {
 gtk_menu_popup (GTK_MENU(get_titles_menu(vbox)), NULL, NULL, NULL, NULL, 0,  GDK_CURRENT_TIME);	
 }
 
-static popup_movement_titles_menu(GtkWidget *button) { 
+static void popup_movement_titles_menu(GtkWidget *button) { 
 	GtkWidget *menuitem = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/MovementMenu/Titles/Book Titles");
 	if(get_standard_scoreblock(button)) {
 	if(menuitem)
@@ -913,7 +913,7 @@ static void install_pre_movement_widgets(GtkWidget *vbox, DenemoScore *si) {
 		}
 }
 
-static popup_score_titles_menu(GtkWidget *button) { 
+static void popup_score_titles_menu(GtkWidget *button) { 
 	GtkWidget *menuitem = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/Score/Titles/Book Titles");
 	if(get_standard_scoreblock(button)) {
 	if(menuitem)
