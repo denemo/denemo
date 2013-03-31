@@ -1096,8 +1096,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
   long ticks_written;
   long ticks_at_bar = 0;
   int cur_volume;
-  gboolean mute_volume;
-
+  gdouble master_volume;
+	gboolean override_volume;
   int cur_transposition;
 
   int midi_channel = (-1);
@@ -1239,12 +1239,9 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 
       /* set a default velocity value */
       cur_volume = curstaffstruct->volume;
-      /* mute output if set */
-      mute_volume = curstaffstruct->mute_volume;
-      if(cur_volume==0 && mute_volume!=TRUE) {
-	g_warning("volume set to zero but not muted\nResetting volume\n");
-	cur_volume = 65;
-      }
+     
+      master_volume = curstaffstruct->volume/127.0; /* new semantic for staff volume as fractional master volume */
+			override_volume = curstaffstruct->override_volume; /* force full volume output if set */
       cur_transposition = curstaffstruct->transposition;
 
 
@@ -1616,11 +1613,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			    {
 			      // int mix = cur_volume? compress(128, cur_volume + rand_delta + beat) : 0;
 			      // FIXME the function compress is returning large values.
-			      event = smf_event_new_from_bytes (MIDI_NOTE_ON | midi_channel, n, (mute_volume ? 0:cur_volume/*FIXME as above, mix*/));
+			      event = smf_event_new_from_bytes (MIDI_NOTE_ON | midi_channel, n, override_volume?127:(gint)(master_volume*cur_volume/*FIXME as above, mix*/));
 			      smf_track_add_event_delta_pulses(track, event, mididelta);
-			      //g_print("Note  on for track %x at delta (%d) %.1f for cur_tempo %d\n", track, mididelta, event->time_seconds, cur_tempo);
-			      //g_print("Note on %x %x %x\n", MIDI_NOTE_ON | midi_channel, n, (mute_volume ? 0:cur_volume/*FIXME as above, mix*/));
-			      //g_print("event on %f\n", event->time_seconds);
 			      event->user_pointer = curobj;
 			      curobj->midi_events = g_list_append(curobj->midi_events, event);
 			      curobj->earliest_time = event->time_seconds;
@@ -1629,7 +1623,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 
 #if DEBUG
 			      g_print("'%d len %d'", event->event_number, event->midi_buffer_length);
-			      //printf ("volume = %i\n", (mute_volume ? 0:mix));
+			      //printf ("volume = %i\n", (override_volume ? 0:mix));
 #endif
 			    }
 			  else if (slur_kill_p (note_status, n))

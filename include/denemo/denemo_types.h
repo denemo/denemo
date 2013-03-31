@@ -276,8 +276,8 @@ typedef struct
   gint no_of_lines; /**< Number of lines on the staff */
   gint transposition; /**< Determines if the notes are to be played back at pitch or not */
 
-  gint volume;	/**< Volume used for midi playback */
-  gboolean mute_volume; /**< mute Volume of voices playback */
+  gint volume;	/**< Master Volume used to scale midi playback */
+  gboolean override_volume; /**< when true staff plays full Volume always */
   /* Back to Hiller stuff */
   //  GString *staff_name;
 
