@@ -7,7 +7,8 @@
       <row>
         <action>FreeFermata</action>
         <scheme>;;;Fermata attached to the next object, for example a barline. But shown between notes
-		(StandAloneDirectiveProto (cons "FreeFermata" "\\mark \\markup { \\musicglyph #\"scripts.ufermata\" } "))
+		(StandAloneDirectiveProto (cons "FreeFermata" "\\once \\override Score.RehearsalMark #'break-visibility =
+#begin-of-line-invisible \\mark \\markup { \\musicglyph #\"scripts.ufermata\" } "))
 		</scheme>
         <label>(Print) Standalone Fermata (for Barlines)</label>
         <tooltip>Adds a standalone fermata which has no playback effect. Can be used to place a Fermata on a barline.</tooltip>
