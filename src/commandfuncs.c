@@ -2091,20 +2091,25 @@ dnm_deleteobject (DenemoScore * si)
     }
   }
 #endif
-  if(curmudelaobj->type==LILYDIRECTIVE && ((lilydirective *)curmudelaobj->object)->locked)
-    if(!confirm(_("This LilyPond insert is locked"),_("Really delete it?")))
-      return;
+  if(curmudelaobj->type==LILYDIRECTIVE && ((lilydirective *)curmudelaobj->object)->locked) {	
+		DenemoDirective *directive = (lilydirective *)curmudelaobj->object;
+		DenemoScriptParam param;
+		param.string = g_string_new("delete");
+    GtkAction *action = lookup_action_from_name (directive->tag->str);
+    if(action && (Denemo.keyboard_state!=GDK_MOD2_MASK/*NumLock */))
+      {
+				activate_script(action, &param);
+				g_string_free(param.string, TRUE);
+				return;
+			}
+		}
   DenemoUndoData *undo;
-
   if (!si->undo_guard)
     {
       undo = (DenemoUndoData *) g_malloc (sizeof (DenemoUndoData));      
       undo->object = dnm_clone_object (curmudelaobj);
       //get position after delete
     }
-
-
-
   if (!si->cursor_appending)
     {
       switch (curmudelaobj->type)
