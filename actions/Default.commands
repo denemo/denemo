@@ -4022,14 +4022,6 @@ for second and subsequent systems</tooltip>
         <tooltip>Sets Longa as the prevailing duration, installing it as a musical snippet.</tooltip>
       </row>
       <row>
-        <action>SetInitialVolumeToZero</action>
-        <after>MoveToVoiceDown</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu/Playback</menupath>
-        <label>Mute</label>
-        <tooltip>Mutes playback on this staff by placing a volume=zero directive at the start.</tooltip>
-      </row>
-      <row>
         <action>TinyStaff</action>
         <after>SmallerStaff</after>
         <scheme></scheme>
@@ -6369,6 +6361,21 @@ accidentals are usually printed over the note.</tooltip>
         <menupath>/ObjectMenu/Score/Titles</menupath>
         <label>Score Version</label>
         <tooltip>Prints a tiny text in top right corner of the first page.</tooltip>
+      </row>
+      <row>
+        <action>HideAccidental</action>
+        <after>Ficta</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
+        <label>Hide Accidental</label>
+        <tooltip>Hides the accidental on the note at the cursor on printing. Does not affect the pitch.</tooltip>
+      </row>
+      <row>
+        <action>MuteStaff</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Playback</menupath>
+        <label>Mute</label>
+        <tooltip>Mutes the current staff. Affects only playback.</tooltip>
       </row>
     </map>
   </merge>
