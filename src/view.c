@@ -884,19 +884,19 @@ static SCM scheme_script_callback(SCM script, SCM params) {
      if(name) {
        GtkAction *action = lookup_action_from_name (name);
        if(action){
-	 gchar *paramvar = g_strdup_printf("%s::params", name);
-	 scm_c_define(paramvar, params);
+					gchar *paramvar = g_strdup_printf("%s::params", name);
+					scm_c_define(paramvar, params);
 	 
-	 gchar *text = g_object_get_data(G_OBJECT(action), "scheme");
-	 if(text && *text) {
-	   stage_undo(Denemo.gui->si, ACTION_STAGE_END);//undo is a queue so this is the end :)
-	   ret= SCM_BOOL(!call_out_to_guile(text));
-	   stage_undo(Denemo.gui->si, ACTION_STAGE_START);
-	 }
-	 else
-	   ret= SCM_BOOL(activate_script(action, NULL));
-	 scm_c_define(paramvar, SCM_BOOL_F);
-	 g_free(paramvar);
+					gchar *text = g_object_get_data(G_OBJECT(action), "scheme");
+					if(text && *text) {
+						stage_undo(Denemo.gui->si, ACTION_STAGE_END);//undo is a queue so this is the end :)
+						ret= SCM_BOOL(!call_out_to_guile(text));
+						stage_undo(Denemo.gui->si, ACTION_STAGE_START);
+					}
+						else
+					ret= SCM_BOOL(activate_script(action, NULL));
+					scm_c_define(paramvar, SCM_BOOL_F);
+					g_free(paramvar);
        }
        if(name) free(name);
      }
@@ -1386,6 +1386,19 @@ static SCM scheme_master_volume (SCM factor) {
   if(si->master_volume < 0.0)
     si->master_volume =  1.0;
   return scm_from_double(si->master_volume);
+}
+
+static SCM scheme_staff_master_volume (SCM level) {
+	DenemoStaff *thestaff = (DenemoStaff*)Denemo.gui->si->currentstaff->data;
+  if(scm_is_real(level)) {
+		gdouble master_volume = scm_to_double(level);
+		thestaff->volume = (gint)(master_volume * 127);
+		if(thestaff->volume>127)
+			thestaff->volume = 127;
+		if(thestaff->volume<0)
+			thestaff->volume = 0;
+	}
+	return scm_from_double(thestaff->volume/127.0);
 }
 
 static SCM scheme_get_midi_tuning(void) {
@@ -3001,8 +3014,21 @@ SCM scheme_get_option(SCM options) {
 
 
 /* Scheme interface to DenemoDirectives (formerly LilyPond directives attached to notes/chords) */
+
+
+static SCM scheme_lock_directive(SCM lock) {
+	 DenemoObject *curObj;
+	 DenemoDirective *directive;
+	if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data)
+	 || (curObj->type!=LILYDIRECTIVE) || !(directive = (DenemoDirective *)  curObj->object))
+		return SCM_BOOL(FALSE);
+	 directive->locked = scm_is_true(lock);
+	 return SCM_BOOL_T;
+}
+
+
 /* store the script to be invoked as an action for a directive tagged with tag */
-SCM scheme_set_action_script_for_tag(SCM tag, SCM script) {
+static SCM scheme_set_action_script_for_tag(SCM tag, SCM script) {
   if(scm_is_string(tag)){
     char *the_tag; 
     the_tag = scm_to_locale_string(tag);    
@@ -5099,6 +5125,7 @@ static void create_scheme_identfiers(void) {
 
   INSTALL_SCM_FUNCTION ("Intercepts the next keypress and returns the name of the command invoked, before invoking the command. Returns #f if the keypress is not a shortcut for any command",DENEMO_SCHEME_PREFIX"GetCommand", scheme_get_command);
   INSTALL_SCM_FUNCTION ("Intercepts the next keyboard shortcut and returns the name of the command invoked, before invoking the command. Returns #f if the keypress(es) are not a shortcut for any command",DENEMO_SCHEME_PREFIX"GetCommandFromUser", scheme_get_command_from_user);
+  INSTALL_SCM_FUNCTION ("Locks the standalone directive at the cursor so that it runs its delete action when deleted. The tag should be the name of a command that responds to the delete parameter.",DENEMO_SCHEME_PREFIX"LockDirective", scheme_lock_directive);
 
   INSTALL_SCM_FUNCTION2("Sets an \"action script\" on the directive of the given tag", DENEMO_SCHEME_PREFIX"SetDirectiveTagActionScript", scheme_set_action_script_for_tag);
 
@@ -5851,6 +5878,7 @@ INSTALL_SCM_FUNCTION ("Generates the MIDI timings for the music of the current m
 
 
   INSTALL_SCM_FUNCTION ("Takes a double or string and scales the volume; returns the volume set ", DENEMO_SCHEME_PREFIX"MasterVolume", scheme_master_volume);
+  INSTALL_SCM_FUNCTION ("Takes a double 0-1 and sets the staff master volume for the current staff, returns the value. With no (or bad) parameter returns the current value.", DENEMO_SCHEME_PREFIX"StaffMasterVolume", scheme_staff_master_volume);
 
   INSTALL_SCM_FUNCTION ("Takes a integer sets the enharmonic range to use 0 = E-flat to G-sharp ", DENEMO_SCHEME_PREFIX"SetEnharmonicPosition", scheme_set_enharmonic_position);
 
@@ -7298,7 +7326,7 @@ The script may be empty, in which case it is fetched from actions/menus...
 This call also ensures that the right-click callback is attached to all the proxies of the action, as there are problems trying to do this earlier, and it defines a scheme variable to give the name of the script being executed.
 */
 gboolean
-activate_script (GtkAction *action, gpointer param)
+activate_script (GtkAction *action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
   // the proxy list is NULL until the menu item is first called...
@@ -7307,18 +7335,25 @@ activate_script (GtkAction *action, gpointer param)
     if(!g_object_get_data(G_OBJECT(action), "signal_attached")) {
       GSList *h = gtk_action_get_proxies (action);
       for(;h;h=h->next) {
-	attach_right_click_callback(h->data, action);
-	show_type(h->data, "type is ");
+				attach_right_click_callback(h->data, action);
+				show_type(h->data, "type is ");
       }
     }
     gchar *text = (gchar*)g_object_get_data(G_OBJECT(action), "scheme");
 
-
     //FIXME use define_scheme_variable for this
     //define a global variable in Scheme (CurrentScript) to give the name of the currently executing script
-    gchar *current_script = g_strdup_printf("(define CurrentScript \"%s\")\n", gtk_action_get_name(action));
+    const gchar *name = gtk_action_get_name(action);
+    gchar *current_script = g_strdup_printf("(define CurrentScript \"%s\")\n", name);
+    
     /*note that scripts must copy their name from CurrentScript into local storage before calling other scripts if they
       need it */
+    gchar *paramvar = NULL;
+    if(param && param->string) {
+			paramvar = g_strdup_printf("%s::params", name);
+			scm_c_define(paramvar, scm_from_locale_string(param->string->str));
+		}
+
     scm_c_eval_string(current_script);
     g_free(current_script);
 
@@ -7336,6 +7371,9 @@ activate_script (GtkAction *action, gpointer param)
       }
       return ret; 
     }
+    if(paramvar)
+			scm_c_define(paramvar, SCM_BOOL_F);
+		g_free(paramvar);
   }
   else
     warningdialog("Have no way of getting the script, sorry");
