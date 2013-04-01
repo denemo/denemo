@@ -328,8 +328,8 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	  if(fp && new_command && menupath)
 	    fprintf(fp, "g_object_set_data(G_OBJECT(action), \"menupath\", \"%s\");\n", g_strescape(menupath, "\\"));
 	  if(new_command) {
-	    g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), gui);
-	    if(fp)fprintf(fp, "g_signal_connect (G_OBJECT (action), \"activate\", G_CALLBACK (activate_script), gui);\n");	    
+	    g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
+	    if(fp)fprintf(fp, "g_signal_connect (G_OBJECT (action), \"activate\", G_CALLBACK (activate_script), NULL);\n");	    
 	  //g_print("Signal activate is set on action %p %s scheme is %s\n", action, name, scheme);
 	  }
 
