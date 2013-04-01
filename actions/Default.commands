@@ -6362,6 +6362,14 @@ accidentals are usually printed over the note.</tooltip>
         <label>Footnote</label>
         <tooltip>Prints a footnote at the bottom of the current page. The mark is placed above the note at the cursor.</tooltip>
       </row>
+      <row>
+        <action>ScoreVersion</action>
+        <after>ScoreTagline</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles</menupath>
+        <label>Score Version</label>
+        <tooltip>Prints a tiny text in top right corner of the first page.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
