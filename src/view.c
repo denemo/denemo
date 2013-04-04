@@ -4411,6 +4411,7 @@ static SCM scheme_staff_to_voice(SCM optional) {
     setcurrentprimarystaff(Denemo.gui->si);
     ret = SCM_BOOL_T;
     gtk_widget_queue_draw(Denemo.scorearea);
+    score_status(Denemo.gui, TRUE);
     draw_score(NULL);
   }
   return ret;
@@ -4421,6 +4422,7 @@ static SCM scheme_voice_to_staff(SCM optional) {
     ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->voicecontrol = DENEMO_PRIMARY;
     setcurrentprimarystaff(Denemo.gui->si);
     ret = SCM_BOOL_T;
+    score_status(Denemo.gui, TRUE);
     gtk_widget_queue_draw(Denemo.scorearea);
   }
   return ret;
