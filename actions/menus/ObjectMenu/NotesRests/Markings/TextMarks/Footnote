@@ -10,7 +10,7 @@
         <scheme>;;;Footnote
 (let ((tag "Footnote"))
 	(define (set-footnote mark text)
-		(d-DirectivePut-note-prefix tag (string-append "\\override Score.FootnoteItem #'annotation-line = ##f \\footnote \"" mark "\" #'(-1 . 3.5) \\markup \\teeny \"" text "\" "))
+		(d-DirectivePut-note-prefix tag (string-append "\\override Score.FootnoteItem #'annotation-line = ##f \\footnote \"" mark "\" #'(-1 . 3.5) \\markup { \\super \"" mark "\" \\teeny \"" text "\"} "))
 		(d-DirectivePut-note-display tag (string-append (_ "Fn") "\n" mark "\n" text))
 		(d-DirectivePut-note-ty tag -30) 
 		(d-RefreshDisplay)
@@ -26,14 +26,16 @@
 				(define mark (GetNthLine current 1))
 				(define text (GetNthLine current 2))
 				;;; menu here to offer d-DirectiveTextEdit tag 
-				(set! choice (d-PopupMenu (list (cons (_ "Edit") 'edit)  (cons (_ "Delete") 'delete) (cons (_ "Advanced") 'advanced))))
+				(disp "About to ask for choice " choice " at start")
+				(set! choice (GetEditOption))
+				(disp "Now got choice " choice " ok\n")
 				(case choice
 					((edit) (choose-footnote mark text))
 					((delete) (d-DirectiveDelete-note tag))
 					((advanced) (d-DirectiveTextEdit-note tag))
 					(else (disp "A problem with eqv ..."))))
 			(let ()
-				(choose-footnote "(*)"(_ "Orig. "))))
+				(choose-footnote "*"(_ "Orig. "))))
 			(d-InfoDialog (_ "No note or chord at cursor to attach footnote to"))))
 			</scheme>
         <label>Footnote</label>
