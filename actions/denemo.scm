@@ -150,6 +150,7 @@
 (define cue-EditText (_ "Edit Text"))
 (define cue-SetPadding (_ "Set Padding"))
 (define cue-Delete (_ "Delete"))
+(define cue-Edit (_ "Edit"))
 (define cue-RestorePosition (_ "Restore Position")) 
 ;(define cue- "")
 
@@ -907,3 +908,15 @@
 		(d-DirectiveGet-standalone-override tag)))
 		(if (not (zero? (logand override DENEMO_OVERRIDE_DYNAMIC)))
 		    (eval-string (string-append "(d-" tag " 'recalculate)"))))))
+;;;;;;
+(define (GetEditOption)
+	(define  choice (d-GetOption  (string-append cue-Edit stop  cue-Delete stop cue-Advanced stop)))
+   (cond
+     ((boolean? choice)
+      'cancel)
+     ((equal? choice  cue-Advanced)
+      'advanced)
+     ((equal? choice cue-Delete)
+      'delete)
+     ((equal? choice cue-Edit)
+      'edit)))
