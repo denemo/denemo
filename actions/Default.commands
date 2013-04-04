@@ -6377,6 +6377,22 @@ accidentals are usually printed over the note.</tooltip>
         <label>Mute</label>
         <tooltip>Mutes the current staff. Affects only playback.</tooltip>
       </row>
+      <row>
+        <action>ToggleNoteUpTie</action>
+        <after>ToggleNoteTie</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/TiedNotes</menupath>
+        <label>Individual Note Up-Tie (Off/On)</label>
+        <tooltip>Ties the individual note in a chord the tie being above; repeat command to remove.</tooltip>
+      </row>
+      <row>
+        <action>ToggleNoteDownTie</action>
+        <after>ToggleNoteTie</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/TiedNotes</menupath>
+        <label>Individual Note Down-Tie (Off/On)</label>
+        <tooltip>Ties the individual note at the cursor the tie going down; repeat to remove.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
