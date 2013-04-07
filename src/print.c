@@ -1598,6 +1598,56 @@ create_pdf(FALSE, TRUE);
 g_child_watch_add(PrintStatus.printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
 }
 
+static void copy_pdf(void) {
+	//copy file PrintStatus.printname_pdf[PrintStatus.cycle] to user pdf name 
+	//use get_output_uri_from_scoreblock() as default name.
+	//use a gtk_file_chooser like this:
+	gchar *filename;
+	gchar *outuri = get_output_uri_from_scoreblock();
+	gchar *outpath;
+	gchar *outname;
+	outuri += strlen("file://");//skip the uri bit of it
+	outpath = g_path_get_dirname(outuri);
+	outname = g_path_get_basename(outuri);
+	GtkWidget *chooser = gtk_file_chooser_dialog_new (_("PDF creation"),
+						GTK_WINDOW (Denemo.window),
+						GTK_FILE_CHOOSER_ACTION_SAVE,
+						GTK_STOCK_CANCEL,
+						GTK_RESPONSE_REJECT,
+						GTK_STOCK_SAVE,
+						GTK_RESPONSE_ACCEPT, NULL);
+	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (chooser), outpath );
+  gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (chooser),  outname);
+  gtk_widget_show_all (chooser);
+  if (gtk_dialog_run (GTK_DIALOG (chooser)) == GTK_RESPONSE_ACCEPT)
+    filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (chooser));
+  else
+    filename = NULL;
+  gtk_widget_destroy (chooser);
+  
+  if(filename) {
+		gchar *contents;	
+    gssize length;
+		if(g_file_get_contents (PrintStatus.printname_pdf[PrintStatus.cycle], &contents,&length, NULL)) {	
+			if(!g_file_set_contents (filename, contents, length, NULL)) {
+			gchar *msg = g_strdup_printf(_("Errno %d:\nCould not copy %s to %s. Perhaps because some other process is using the destination file. Try again with a new location\n"), 
+			errno,
+			PrintStatus.printname_pdf[PrintStatus.cycle],
+			filename);
+			warningdialog(msg);
+			g_free(msg);
+			} else {
+				g_print("I have copied %s to %s (default was %s)\n",PrintStatus.printname_pdf[PrintStatus.cycle], filename, outname);
+			}
+			g_free(contents);
+		}
+		g_free(outpath);
+		g_free(outname);
+		g_free(filename);
+	}	
+  
+}
+
 static void create_movement_pdf(void) {
 
 busy_cursor();
@@ -2533,6 +2583,11 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
   GtkWidget *  button = gtk_button_new_with_label(_("Print"));
   gtk_widget_set_tooltip_text(button, _("Pops up a Print dialog. From this you can send your typeset score to a printer or to a PDF file."));
   g_signal_connect(button, "clicked", G_CALLBACK(libevince_print), NULL);
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+
+  button = gtk_button_new_with_label(_("PDF"));
+  gtk_widget_set_tooltip_text(button, _("Exports a pdf file for this layout"));
+  g_signal_connect(button, "clicked", G_CALLBACK(copy_pdf), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
   button = gtk_button_new_with_label(_("Full Score"));
