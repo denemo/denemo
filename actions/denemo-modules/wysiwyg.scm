@@ -186,26 +186,24 @@
 	
 ;;;; TweakOffset
 ;;;Changes the offset of the something at the cursor - at the moment assume standalone or rest
-(define (TweakOffset offsetx offsety)
-	(define tag (d-DirectiveGetForTag-standalone ""))
-	(if tag		
-			(let ((grob (d-DirectiveGet-standalone-grob tag)))
+(define (TweakOffset grob tag offsetx offsety)
+	(define sa-tag (d-DirectiveGetForTag-standalone ""))
+	(if sa-tag		
+		(let ((grob (d-DirectiveGet-standalone-grob sa-tag))) ;;; FIXME can we just use the passed in grob
 				(if grob
 					(cond ((or (equal? grob "RehearsalMark") (equal? grob "BreathingSign")   (equal? grob "MetronomeMark")    )
-							(ExtraOffset tag tag "standalone" "Score." (cons offsetx offsety)))
+							(ExtraOffset sa-tag sa-tag "standalone" "Score." (cons offsetx offsety)))
 						(#t
-							(TweakRelativeOffset tag offsetx offsety)))
-					(TweakRelativeOffset tag offsetx offsety))
-			
-			)
+							(TweakRelativeOffset sa-tag offsetx offsety)))
+					(TweakRelativeOffset sa-tag offsetx offsety)))
 		;;; not a standalone directive				
 		(begin
+			(if tag
+				(eval-string (string-append "(d-" tag " (list (cons 'offsety \"" offsety "\")))")))
 			(if (Rest?)
 				(ExtraOffset "RestOffset" "Rest" "chord" "Voice." (cons offsetx offsety) DENEMO_OVERRIDE_AFFIX)
-				(disp "Doing Nothing") ;;(AlterPositions "Slur" "chord" "" (cons offsetx offsety) DENEMO_OVERRIDE_AFFIX)	
-				)))
+				(disp "Doing Nothing"))))
 	(d-SetSaved #f))
-
 ;;;;;;;;;;;
 (define (GetSlurPositions)
 (let ((yvals #f))
@@ -230,14 +228,14 @@
 		(d-InfoDialog (_ "Cancelled"))))
 
 (define (EditTarget)
-	(let ((target (d-GetTargetInfo)) (target-type #f)(grob #f))	
+	(let ((target (d-GetTargetInfo)) (target-type #f)(grob #f)(tag #f))	
 	(define ta-tag "TextAnnotation")
 	(define (do-offset)
 		(let ((offset #f))
 					(set! offset (d-GetOffset))
 					(if offset
 						(begin
-							(TweakOffset (number->string (car offset)) (number->string (cdr offset)))))))
+							(TweakOffset grob tag (number->string (car offset)) (number->string (cdr offset)))))))
 	(define (alter-text)
 				(d-TextAnnotation 'edit))
 	(define (alter-font-size)
@@ -251,12 +249,13 @@
 				(ChopBeaming 1))
 					
 				
-;;; the procedure starts here			
+	;;; the procedure starts here			
 	(if target
 		(let ((choice #f))
 			(set! target-type (list-ref target 0))
 			(set! grob (list-ref target 1))
-			;(disp "Looking at target " target-type " on grob " grob " ok?")
+			(set! tag (list-ref target 2))
+			(disp "Looking at target " target-type " on grob " grob "with tag " tag " ok?")
 			(cond 
 				((equal? target-type "Object")
 					(if (d-Directive-standalone?)
@@ -285,7 +284,7 @@
 								
 								
 				((equal? target-type "Note")
-					(if grob
+					(if grob   ;;; is grob defined for Fingering, or should this be tag? FIXME
 						(cond ((equal? grob "Fingering")
 							(set! choice (d-PopupMenu (list (cons (cons "Control Fingerings Positions" 
 									"Creates a directive before this chord which can be edited to position the finger indications for each note in the chord") 
