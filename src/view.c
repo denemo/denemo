@@ -456,7 +456,7 @@ static SCM scheme_get_target_info(void) {
 	DenemoScore *si = Denemo.gui->si;
 	if(Denemo.gui->si->currentobject==NULL)
 		return SCM_BOOL_F;
-	SCM type=SCM_BOOL_F, grob=SCM_BOOL_F;
+	SCM type=SCM_BOOL_F, grob=SCM_BOOL_F, tag=SCM_BOOL_F;
 	switch(si->target.type) {
 		case TARGET_NONE:
 			type=SCM_BOOL_F;
@@ -504,14 +504,14 @@ static SCM scheme_get_target_info(void) {
 		if(directive) {
 			if(directive->grob) {
 					grob = scm_from_locale_string(directive->grob->str);
-				} else if(directive->tag) {
-					grob =  scm_from_locale_string(directive->tag->str);
 				} else
 				grob = SCM_BOOL_F;
-		} else 
-			grob = SCM_BOOL_F;
+		}
+		if(directive->tag) {
+					tag =  scm_from_locale_string(directive->tag->str);
+				} 
 	}
-	return scm_list_n (type, grob, SCM_UNDEFINED);
+	return scm_list_n (type, grob, tag, SCM_UNDEFINED);
 }
 
 static SCM scheme_http(SCM hname, SCM page, SCM other, SCM poststr) {
