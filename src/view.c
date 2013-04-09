@@ -5103,7 +5103,7 @@ static void create_scheme_identfiers(void) {
   INSTALL_SCM_FUNCTION ("Pops up a menu given by the list of pairs in the argument. Each pair should be a label string and an expression, the expression for the chosen label is returned. Alternatively the label string can be replaced by a pair of strings, label . tooltip. The third syntax is just a list of string labels, the chosen string is returned.",DENEMO_SCHEME_PREFIX"PopupMenu",  scheme_popup_menu);
   INSTALL_SCM_FUNCTION ("Returns a list of the target type and grob (if a directive). Target is set by clicking on the typeset version of the score at a link that LilyPond has inserted.",DENEMO_SCHEME_PREFIX"GetTargetInfo",  scheme_get_target_info);
   INSTALL_SCM_FUNCTION ("Interactively gets a target (a click on a LilyPond link in the printview window) from the user ",DENEMO_SCHEME_PREFIX"GetNewTarget",  scheme_get_new_target);
-  INSTALL_SCM_FUNCTION ("Interactively gets an offset from the user in the print view window. Returns pair of numbers.",DENEMO_SCHEME_PREFIX"GetOffset",  scheme_get_offset);
+  INSTALL_SCM_FUNCTION ("Interactively gets an offset from the user in the print view window. The offset is from the last clicked object in the print view window. Returns pair of numbers x is positive to the right, y is positive upwards.",DENEMO_SCHEME_PREFIX"GetOffset",  scheme_get_offset);
   INSTALL_SCM_FUNCTION ("Interactively gets two positions from the user in the print view window. Returns pair of pairs numbers.",DENEMO_SCHEME_PREFIX"GetPositions",  scheme_get_positions);
   
   INSTALL_SCM_FUNCTION4 ("Takes 4 parameters and makes http transaction with www.denemo.org", DENEMO_SCHEME_PREFIX"HTTP", scheme_http);
@@ -6494,10 +6494,11 @@ close_gui_with_check (GtkAction *action, gpointer param)
 #ifdef G_OS_WIN32
     CoUninitialize();
     g_print("\n\n\nWindows - Exiting without shutting down audio\n\n\n");
-    exit(0);//audio shutdown can hang
+    if(gui->input_source==INPUTMIDI) {
+			if(confirm(_("MIDI Controller Active?"), _("Please turn off your MIDI keyboard\nif you have not already done so")))
+				_exit(0);//audio shutdown can hang
+		} else _exit(0);
 #endif
-
-    /* ext_quit ();  clean players pidfiles (see external.c) DISUSED */
 
     audio_shutdown();
 

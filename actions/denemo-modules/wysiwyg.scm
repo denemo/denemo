@@ -199,7 +199,7 @@
 		;;; not a standalone directive				
 		(begin
 			(if tag
-				(eval-string (string-append "(d-" tag " (list (cons 'offsety \"" offsety "\")))")))
+				(eval-string (string-append "(d-" tag "  (list (cons 'offsetx \"" offsetx "\")  (cons 'offsety \"" offsety "\")))")))
 			(if (Rest?)
 				(ExtraOffset "RestOffset" "Rest" "chord" "Voice." (cons offsetx offsety) DENEMO_OVERRIDE_AFFIX)
 				(disp "Doing Nothing"))))
@@ -236,6 +236,22 @@
 					(if offset
 						(begin
 							(TweakOffset grob tag (number->string (car offset)) (number->string (cdr offset)))))))
+							
+							
+(define (do-center-relative-offset)
+	(let ((offset #f))
+				(d-InfoDialog (_"First click on the center line of the staff\n(Positioning will be done with respect to this height)"))
+				(d-GetNewTarget)
+				(d-InfoDialog (_"Now click on the position desired for the object"))
+				(set! offset (d-GetOffset))
+				(if offset
+						(begin
+							(d-InfoDialog (_ "Re-positioned"))
+							(TweakOffset grob tag (number->string (car offset)) (number->string (cdr offset)))))))
+							
+							
+							
+							
 	(define (alter-text)
 				(d-TextAnnotation 'edit))
 	(define (alter-font-size)
@@ -273,9 +289,14 @@
 								(choice)
 								(disp "cancelled")))))
 								
-					((equal? target-type "Chord")			
+					((equal? target-type "Chord")
 							(let ((menu ""))
-								(set! menu (list (cons "Offset Position" do-offset)))
+								(set! menu (list (cons "Offset Position" do-center-relative-offset)))   
+								;;; FIXME the value is relative to the centre line of the staff, this gets relative to the tr sign.
+								;;;need to use d-GetNewTarget to find the notehead position, then use its mid_c_offset to get the centre line value
+								;;; beaming does this
+								
+								
 								(set! choice (d-PopupMenu menu))
 								(if choice
 										(choice)

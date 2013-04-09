@@ -1546,6 +1546,9 @@ gboolean get_offset(gdouble *offsetx, gdouble *offsety) {
 }
 static void start_seeking_end(gboolean slur);
 static gdouble get_center_staff_offset(void);
+
+// get_postions gets two y-heights interactively, giving prompts either for slur or beam
+// 
 gboolean get_positions(gdouble *neary, gdouble *fary, gboolean for_slur) {
 	start_seeking_end(for_slur);//goes to WaitingForDrag
 	gtk_main();
@@ -1563,9 +1566,9 @@ gboolean get_positions(gdouble *neary, gdouble *fary, gboolean for_slur) {
     Ww.stage = STAGE_NONE;  
 		gtk_widget_hide(Ww.dialog);
     gtk_widget_queue_draw (Denemo.printarea);
-	return TRUE;	
+		return TRUE;	
 	} else {
-	return FALSE;
+		return FALSE;
 	}
 }
 
@@ -1661,7 +1664,9 @@ create_pdf(TRUE, TRUE);
 g_child_watch_add(PrintStatus.printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
 }
 
-
+// start_seeking_end 
+//if repeatable and grob is slur or beam and request matches gives prompt for slur or beam and goes to Waiting for drag
+//else sets up near point to last button press and goes to selecting far end.
 static void start_seeking_end(gboolean slur) {
 	gchar *msg = (slur)?_("Now select the notehead of the note where the slur ends"):_("Now select the notehead of the note where the beam ends");
 
