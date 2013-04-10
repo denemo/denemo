@@ -6,27 +6,31 @@
     <map>
       <row>
         <action>ToggleTrill</action>
-        <scheme>;;;Trill
-        	(disp "We have params " ToggleTrill::params (list? ToggleTrill::params)  " ok" )
-                    
-             (let ((tag "ToggleTrill"))
-								(if (and (d-Directive-chord? tag) (not ToggleTrill::params))
-									(case (GetEditOption)
-										((cancel) #f)
-										((advanced) (d-DirectiveTextEdit-chord tag))
-										((delete) (d-DirectiveDelete-chord tag))
-										(else #f))
-									(if ToggleTrill::params
-										(begin ;;;FIXME check on a trill, check params    
-											(d-DirectivePut-chord-postfix tag (string-append "^\\tweak #'X-offset #'" (cdr (list-ref ToggleTrill::params 0))
-																																			" ^\\tweak #'Y-offset #'" (cdr (list-ref ToggleTrill::params 1)) " \\trill "))
-										)
-										(begin
+        <scheme>;;;Trill                   
+(let ((tag "ToggleTrill"))
+		(define (set-option option)
+					(case (car option)
+							((direction) (cdr option))
+							((offsetx) (string-append " ^\\tweak #'X-offset #'" (cdr option)))
+							((offsety)  (string-append " ^\\tweak #'Y-offset #'" (cdr option)))))
+		
+				(if (and (d-Directive-chord? tag) (not ToggleTrill::params))
+						(case (GetEditOption)
+								((cancel) #f)
+								((advanced) (d-DirectiveTextEdit-chord tag))
+								((delete) (d-DirectiveDelete-chord tag))
+								(else #f))
+						(if ToggleTrill::params
+							(begin 
+								(if (and (d-Directive-chord? tag) (list? ToggleTrill::params))
+									(let ()
+										(d-SetSaved #f)
+										(map set-option ToggleTrill::params)
+										(d-DirectivePut-chord-postfix tag (string-append  (string-join (map set-option ToggleTrill::params)) " \\trill ")))
+									(d-WarningDialog "Cannot complete operation - cursor moved or bad parameter list")))
+							(begin  ;;;no parameters, toggle trill off/on
 											(d-PlayMidiNote 78  255 9 100)
-											(ToggleChordDirective tag LG-Trill "\\trill" DENEMO_OVERRIDE_ABOVE)))))
-
-
-				</scheme>
+											(ToggleChordDirective tag LG-Trill "\\trill" DENEMO_OVERRIDE_ABOVE)))))</scheme>
         <label>Trill (Off/On)</label>
         <tooltip>Adds/Removes a trill to the note</tooltip>
       </row>

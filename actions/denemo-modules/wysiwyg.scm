@@ -249,7 +249,14 @@
 							(d-InfoDialog (_ "Re-positioned"))
 							(TweakOffset grob tag (number->string (car offset)) (number->string (cdr offset)))))))
 							
-							
+(define (do-direction)
+	(let ((direction #f)
+				(choice #f)
+				(menu (list (cons (_ "Up")  "^")  (cons (_ "Down")  "_") (cons (_ "Auto")  "-") )) )
+						 (set! choice (d-PopupMenu menu))
+						  (if choice
+								(eval-string (string-append "(d-" tag " (list (cons 'direction \"" choice "\")))")))))
+	
 							
 							
 	(define (alter-text)
@@ -261,7 +268,7 @@
 				
 	(define (chop-beam0)
 				(ChopBeaming 0))
-		(define (chop-beam1)
+	(define (chop-beam1)
 				(ChopBeaming 1))
 					
 				
@@ -291,7 +298,7 @@
 								
 					((equal? target-type "Chord")
 							(let ((menu ""))
-								(set! menu (list (cons "Offset Position" do-center-relative-offset)))   
+								(set! menu (list  (cons (_ "Up/Down") do-direction) (cons (_ "Offset Position") do-center-relative-offset)))   
 								;;; FIXME the value is relative to the centre line of the staff, this gets relative to the tr sign.
 								;;;need to use d-GetNewTarget to find the notehead position, then use its mid_c_offset to get the centre line value
 								;;; beaming does this
@@ -312,10 +319,8 @@
 										d-FingeringPosition))))
 							(if choice
 								(choice)
-								(disp "cancelled"))		
-
-										))
-						(let ((menu '()) (base-duration (d-GetNoteBaseDuration)))
+								(disp "cancelled"))))
+							(let ((menu '()) (base-duration (d-GetNoteBaseDuration)))
 									(set! menu (cons (cons (cons (_ "Line Break") (_ "Start a new line here"))	d-LineBreak) menu))
 									(set! menu (cons (cons (cons (_"Page Break") (_"Start a new page here"))	d-PageBreak) menu))
 									(if (> base-duration 5)
@@ -351,14 +356,8 @@
 									(set! choice (d-PopupMenu menu))
 									(if choice
 										(choice)
-										(disp "cancelled"))))))))))		
-										
-						
-										
-										
-										;)))))))
-			
-			
+										(disp "cancelled"))))))))))  ;EditTarget end		
+											
 					
 ; SetSlurPositions
 (define (SetSlurPositions near far)
