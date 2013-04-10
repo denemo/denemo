@@ -1168,6 +1168,12 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 											for (j = 0; j < numdots; j++)
 											g_string_append_printf (ret, ".");
 											outputret;
+										} else {
+											outputret;
+											directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, lily_for_obj
+											, TARGET_CHORD, movement_count, measurenum, voice_count, objnum, 0
+											);
+											outputret;
 										}
 
 										directives_insert_postfix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, lily_for_obj
