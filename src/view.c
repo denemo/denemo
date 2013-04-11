@@ -7332,6 +7332,7 @@ gboolean
 activate_script (GtkAction *action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
+  gboolean ret = FALSE;
   // the proxy list is NULL until the menu item is first called...
   //BUT if you first activate it with right button ....
   if(GTK_IS_ACTION(action)) {
@@ -7361,7 +7362,7 @@ activate_script (GtkAction *action, DenemoScriptParam *param)
     g_free(current_script);
 
    if(text) {
-      gboolean ret;
+      
       if(*text==0)
         text = instantiate_script(action);
       if(text && *text) {
@@ -7372,15 +7373,14 @@ activate_script (GtkAction *action, DenemoScriptParam *param)
         g_warning("Could not get script for %s\n", gtk_action_get_name(action));
         ret = FALSE;
       }
-      return ret; 
-    }
-    if(paramvar)
+   }
+   if(paramvar)
 			scm_c_define(paramvar, SCM_BOOL_F);
-		g_free(paramvar);
+	 g_free(paramvar);
   }
   else
     warningdialog("Have no way of getting the script, sorry");
-  return FALSE;
+  return ret;
 }
 
 
