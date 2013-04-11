@@ -358,7 +358,44 @@
 										(choice)
 										(disp "cancelled"))))))))))  ;EditTarget end		
 											
+;;;; Toggles a postfix annotation on a chord, with editing for direction or offset
+(define (ChordAnnotation tag lilypond params graphic)
+	(define (set-option option)
+					(case (car option)
+							((direction) (cdr option))
+							((offsetx) (string-append " ^\\tweak #'X-offset #'" (cdr option)))
+							((offsety)  (string-append " ^\\tweak #'Y-offset #'" (cdr option)))))
+	(define (direction-edit)
+		(let ((choice #f))
+		(set! choice (d-GetOption  (string-append (_ "Up") stop (_ "Down") stop (_ "Auto") stop)))
+		(if choice
+				(begin
+					(set! choice (cond 	((equal? choice (_ "Up")) "^")
+															((equal? choice (_ "Down")) "_")
+															((equal? choice (_ "Auto")) "-")))
+					(d-DirectivePut-chord-postfix tag (string-append  (string-append choice " " lilypond " ")))
+					(d-SetSaved #f)))))
 					
+	(if (and (d-Directive-chord? tag) (equal? params "edit"))
+						(case (GetEditOption)
+								((edit) (direction-edit))
+								((cancel) #f)
+								((advanced) (d-DirectiveTextEdit-chord tag))
+								((delete) (d-DirectiveDelete-chord tag))
+								(else #f))
+						(if params
+							(begin 
+								(if (and (d-Directive-chord? tag) (list? params))
+									(begin
+										(d-SetSaved #f)
+										(d-DirectivePut-chord-postfix tag (string-append  (string-join (map set-option params)) " " lilypond " ")))
+									(d-WarningDialog "Cannot complete operation - cursor moved or bad parameter list")))
+							(begin  ;;;no parameters, toggle annotation off/on
+											
+											(ToggleChordDirective tag graphic lilypond DENEMO_OVERRIDE_ABOVE)))))
+											
+											
+																
 ; SetSlurPositions
 (define (SetSlurPositions near far)
 	(d-DirectivePut-chord-override "Slur" DENEMO_OVERRIDE_AFFIX)
