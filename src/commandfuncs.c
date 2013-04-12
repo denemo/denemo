@@ -472,28 +472,27 @@ swapstaffs (GtkAction *action, gpointer param)
       //if this is a staff with no voices extra voices on it then swap
       if( ((DenemoStaff *)gui->si->currentstaff->data)->voicecontrol==DENEMO_PRIMARY &&
 	  ( (gui->si->currentstaff->next==NULL) || 
-	    !((DenemoStaff *)gui->si->currentstaff->next->data)->voicecontrol&DENEMO_SECONDARY)) {
-
-	temp = gui->si->currentstaff->data;
-	if(temp->context==DENEMO_NONE ||
-	   confirm(_("A context is set on this staff"), _("You will need to alter the staff->properties->context of this and the previous staff; Proceed?"))) {
-	  take_snapshot();
-	  gui->si->currentstaff->data = gui->si->currentstaff->prev->data;
-	  gui->si->currentstaff->prev->data = temp;
-	  gui->si->currentstaffnum--;
-	  gui->si->currentstaff = gui->si->currentstaff->prev;
-	  setcurrentprimarystaff (gui->si);
-	  setcurrents (gui->si);
-	  move_viewport_up (gui);
-	  score_status(gui, TRUE);
-	  displayhelper(gui);
-	  return TRUE;
-	}
+	    !(((DenemoStaff *)gui->si->currentstaff->next->data)->voicecontrol&DENEMO_SECONDARY))) {
+				temp = gui->si->currentstaff->data;
+				if(temp->context==DENEMO_NONE ||
+					confirm(_("A context is set on this staff"), 
+					_("You will need to alter the staff->properties->context of this and the previous staff; Proceed?"))) {
+					take_snapshot();
+					gui->si->currentstaff->data = gui->si->currentstaff->prev->data;
+					gui->si->currentstaff->prev->data = temp;
+					gui->si->currentstaffnum--;
+					gui->si->currentstaff = gui->si->currentstaff->prev;
+					setcurrentprimarystaff (gui->si);
+					setcurrents (gui->si);
+					move_viewport_up (gui);
+					score_status(gui, TRUE);
+					displayhelper(gui);
+					return TRUE;
+				}
       }
       else
-	warningdialog(_("Split off voices from this staff first"));
-    }
-  else
+			warningdialog(_("Split off voices from this staff first"));
+    } else
     warningdialog(_("There is no previous staff to swap with"));
   return FALSE;
 }
