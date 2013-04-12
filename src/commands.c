@@ -4587,17 +4587,6 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Directives");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
 
-/* Upprall xgettext:no-c-format*/
-action = gtk_action_new("Upprall",_("Up Prall"),/* xgettext:no-c-format*/_("Adds/Removes Up Prall ornament"), get_icon_for_name("Upprall", "Up Prall"));
-/* xgettext:no-c-format*/
-register_command(Denemo.map, action, "Upprall", _("Up Prall"), /* xgettext:no-c-format*/_("Adds/Removes Up Prall ornament"), activate_script);
-gtk_action_group_add_action(Denemo.action_group, action);
-create_scheme_function_for_script("Upprall");
-add_ui("/ObjectMenu/NotesRests/Markings/Ornaments", NULL, "Upprall");
-g_object_set_data(G_OBJECT(action), "scheme", "");
-g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Ornaments");
-g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
-
 /* MoveRest xgettext:no-c-format*/
 action = gtk_action_new("MoveRest",_("Displace Rest Vertically"),/* xgettext:no-c-format*/_("Turns the rest at the cursor into a polyphonic rest at the cursor height."), get_icon_for_name("MoveRest", "Displace Rest Vertically"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"InsertLongaRest");
@@ -5461,13 +5450,13 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Ornaments");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
 
-/* ToggleUpprall xgettext:no-c-format*/
-action = gtk_action_new("ToggleUpprall",_("Up Prall (Off/On)"),/* xgettext:no-c-format*/_("Adds/Removes Up Prall ornament"), get_icon_for_name("ToggleUpprall", "Up Prall (Off/On)"));
+/* ToggleUpPrall xgettext:no-c-format*/
+action = gtk_action_new("ToggleUpPrall",_("Up Prall (Off/On)"),/* xgettext:no-c-format*/_("Adds/Removes Up Prall ornament"), get_icon_for_name("ToggleUpPrall", "Up Prall (Off/On)"));
 /* xgettext:no-c-format*/
-register_command(Denemo.map, action, "ToggleUpprall", _("Up Prall (Off/On)"), /* xgettext:no-c-format*/_("Adds/Removes Up Prall ornament"), activate_script);
+register_command(Denemo.map, action, "ToggleUpPrall", _("Up Prall (Off/On)"), /* xgettext:no-c-format*/_("Adds/Removes Up Prall ornament"), activate_script);
 gtk_action_group_add_action(Denemo.action_group, action);
-create_scheme_function_for_script("ToggleUpprall");
-add_ui("/ObjectMenu/NotesRests/Markings/Ornaments", NULL, "ToggleUpprall");
+create_scheme_function_for_script("ToggleUpPrall");
+add_ui("/ObjectMenu/NotesRests/Markings/Ornaments", NULL, "ToggleUpPrall");
 g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Markings/Ornaments");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
@@ -6459,5 +6448,29 @@ create_scheme_function_for_script("MuteStaff");
 add_ui("/ObjectMenu/StaffMenu/Playback", NULL, "MuteStaff");
 g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/Playback");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
+
+/* ToggleNoteUpTie xgettext:no-c-format*/
+action = gtk_action_new("ToggleNoteUpTie",_("Individual Note Up-Tie (Off/On)"),/* xgettext:no-c-format*/_("Ties the individual note in a chord the tie being above; repeat command to remove."), get_icon_for_name("ToggleNoteUpTie", "Individual Note Up-Tie (Off/On)"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"ToggleNoteTie");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "ToggleNoteUpTie", _("Individual Note Up-Tie (Off/On)"), /* xgettext:no-c-format*/_("Ties the individual note in a chord the tie being above; repeat command to remove."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("ToggleNoteUpTie");
+add_ui("/ObjectMenu/NotesRests/TiedNotes", "ToggleNoteTie", "ToggleNoteUpTie");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/TiedNotes");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
+
+/* ToggleNoteDownTie xgettext:no-c-format*/
+action = gtk_action_new("ToggleNoteDownTie",_("Individual Note Down-Tie (Off/On)"),/* xgettext:no-c-format*/_("Ties the individual note at the cursor the tie going down; repeat to remove."), get_icon_for_name("ToggleNoteDownTie", "Individual Note Down-Tie (Off/On)"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"ToggleNoteTie");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "ToggleNoteDownTie", _("Individual Note Down-Tie (Off/On)"), /* xgettext:no-c-format*/_("Ties the individual note at the cursor the tie going down; repeat to remove."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("ToggleNoteDownTie");
+add_ui("/ObjectMenu/NotesRests/TiedNotes", "ToggleNoteTie", "ToggleNoteDownTie");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/TiedNotes");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
 }

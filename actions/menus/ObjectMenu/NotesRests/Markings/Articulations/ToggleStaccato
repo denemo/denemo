@@ -8,7 +8,7 @@
         <after>ToggleAccent</after>
         <action>ToggleStaccato</action>
         <scheme>;;;ToggleStaccato
-(ToggleChordDirective "Staccato" LG-Staccato "\\staccato" DENEMO_ALT_OVERRIDE)
+        (ChordAnnotation "ToggleStaccato" "\\staccato"    ToggleStaccato::params    LG-Staccato)
 </scheme>
         <label>Staccato (Off/On)</label>
         <tooltip>Mark/Unmark the chord staccato</tooltip>

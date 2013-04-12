@@ -5,8 +5,8 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <scheme>;;;Rtoe
-(ToggleChordDirective "Rtoe" LG-Rtoe "\\rtoe" DENEMO_ALT_OVERRIDE)
+        <scheme>;;;ToggleRtoe
+        (ChordAnnotation "ToggleRtoe" "\\rtoe"    ToggleRtoe::params    LG-Rtoe)
 </scheme>
         <label>Rtoe (Off/On)</label>
         <tooltip>Mark/Unmark the current note rtoe</tooltip>

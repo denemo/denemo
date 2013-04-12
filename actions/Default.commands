@@ -5139,13 +5139,6 @@ for second and subsequent systems</tooltip>
         <tooltip>Inserts an 8va mark (transposing the notes accordingly) or terminates one already started.</tooltip>
       </row>
       <row>
-        <action>Upprall</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
-        <label>Up Prall</label>
-        <tooltip>Adds/Removes Up Prall ornament</tooltip>
-      </row>
-      <row>
         <action>MoveRest</action>
         <after>InsertLongaRest</after>
         <scheme></scheme>
@@ -5713,7 +5706,7 @@ for second and subsequent systems</tooltip>
         <tooltip>Adds/Removes a prall to the note</tooltip>
       </row>
       <row>
-        <action>ToggleUpprall</action>
+        <action>ToggleUpPrall</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
         <label>Up Prall (Off/On)</label>

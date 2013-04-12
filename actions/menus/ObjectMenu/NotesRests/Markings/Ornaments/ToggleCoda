@@ -6,8 +6,8 @@
     <map>
       <row>
         <action>ToggleCoda</action>
-        <scheme>;;;Coda
-(ToggleChordDirective "Coda" LG-Coda "\\coda" DENEMO_OVERRIDE_ABOVE)
+        <scheme>;;;ToggleCoda
+        (ChordAnnotation "ToggleCoda" "\\coda"    ToggleCoda::params    LG-Coda)
 </scheme>
         <label>Coda (Off/On)</label>
         <tooltip>Adds/Removes a Coda to the note</tooltip>

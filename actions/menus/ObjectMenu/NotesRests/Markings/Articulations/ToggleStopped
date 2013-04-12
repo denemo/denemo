@@ -6,8 +6,8 @@
     <map>
       <row>
         <action>ToggleStopped</action>
-        <scheme>;;;Stopped
-(ToggleChordDirective "Stopped" LG-Stopped "\\stopped" DENEMO_ALT_OVERRIDE)
+        <scheme>;;;ToggleStopped
+        (ChordAnnotation "ToggleStopped" "\\stopped"    ToggleStopped::params    LG-Stopped)
 </scheme>
         <label>Stopped (Off/On)</label>
         <tooltip>Mark/Unmark the current chord stopped</tooltip>
