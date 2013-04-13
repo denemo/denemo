@@ -958,6 +958,7 @@ print_system_separator (cairo_t *cr, gdouble position){
 
 typedef enum colors {BLACK, RED, GREEN} colors;
 static void draw_playback_marker(cairo_t *cr, gint color, gint pos, gint yy, gint line_height) {
+	if(!Denemo.prefs.playback_controls) return;
   //g_print("drawing marker %x at %d %d %d\n", color, pos, yy, line_height);
   cairo_save(cr);
   cairo_set_line_width( cr, 4.0 );
