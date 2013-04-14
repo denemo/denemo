@@ -252,35 +252,37 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
   DenemoGraphic *override_notehead = NULL;//overriding notehead to be used for all notes of chord unless built-in or overriden
   gint gx=0, gy=0;//positioning for overriding notehead
   if(cr) {
-  cairo_save(cr);
-  cairo_set_line_width( cr, 1.0 );
+		cairo_save(cr);
+		cairo_set_line_width( cr, 1.0 );
+		if(is_grace) {
+			note *thenote = (note *) thechord.notes->data;
+			cairo_translate( cr, xx, y+thenote->y);
+			cairo_scale( cr, 0.8, 0.8);
+			cairo_translate( cr, -xx, -(y+thenote->y));
+		}
+		//  g_print("Invisible is %d\n", mudelaitem->isinvisible); 
+		if (mudelaitem->isinvisible) {
+			if (selected)
+				cairo_set_source_rgb( cr, 231.0/255 , 1, 39.0/255 ); 
+			else
+				cairo_set_source_rgb( cr, 180.0/255, 160.0/255, 32.0/255 );// yellow for non printing
+		}
+  
+		if (thechord.slur_begin_p)
+			draw_slur_start(cr, xx, y);
 
+		if (thechord.slur_end_p)
+			draw_slur_end(cr, xx, y);
 
+		if (thechord.crescendo_begin_p)
+			drawlargetext_cr (cr,"𝆒", xx - 10, y+STAFF_HEIGHT+10);//FIXME the cresc musical sign is too small, hence largetext, but | is then too large
+		if (thechord.crescendo_end_p)
+			drawlargetext_cr (cr,"𝆒.", xx + 10, y+STAFF_HEIGHT+10);
 
- if (thechord.slur_begin_p)
-   draw_slur_start(cr, xx, y);
-
- if (thechord.slur_end_p)
-   draw_slur_end(cr, xx, y);
-
-
-
-
-
-  if(is_grace) {
-    note *thenote = (note *) thechord.notes->data;
-    cairo_translate( cr, xx, y+thenote->y);
-    cairo_scale( cr, 0.8, 0.8);
-    cairo_translate( cr, -xx, -(y+thenote->y));
-  }
-  //  g_print("Invisble is %d\n", mudelaitem->isinvisible); 
-  if (mudelaitem->isinvisible) {
-    if (selected)
-      cairo_set_source_rgb( cr, 231.0/255 , 1, 39.0/255 ); 
-    else
-      cairo_set_source_rgb( cr, 180.0/255, 160.0/255, 32.0/255 );// yellow for non printing
-  }
-
+		if (thechord.diminuendo_begin_p)
+			drawlargetext_cr (cr,"𝆓", xx - 10, y+STAFF_HEIGHT+10);
+		if (thechord.diminuendo_end_p)
+			drawlargetext_cr (cr,"𝆓·", xx + 10, y+STAFF_HEIGHT+10);
   }
 
   gboolean override_chord_graphic = FALSE;
@@ -564,7 +566,8 @@ if(!override_chord_graphic) {
   
   }				/* end if not a rest draw stems etc */
 
-cairo_restore (cr);
+  if(cr)
+   cairo_restore (cr);
 return highest;
 }
 
