@@ -4361,7 +4361,8 @@ static SCM scheme_is_slur_start (SCM optional) {
   DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   chord *thechord;
-  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD)  || !(thechord = (chord *)  curObj->object) || !(thechord->slur_begin_p))
+  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD)  || !(thechord = (chord *)  curObj->object) ||
+   !(thechord->slur_begin_p))
     return SCM_BOOL_F;
   return SCM_BOOL_T;
 }
@@ -4371,6 +4372,43 @@ static SCM scheme_is_slur_end (SCM optional) {
   DenemoObject *curObj;
   chord *thechord;
   if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD)  || !(thechord = (chord *)  curObj->object) || !(thechord->slur_end_p))
+    return SCM_BOOL_F;
+  return SCM_BOOL_T;
+}
+
+static SCM scheme_is_cresc_start (SCM optional) {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoObject *curObj;
+  chord *thechord;
+  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD)  || !(thechord = (chord *)  curObj->object) ||
+   !(thechord->crescendo_begin_p))
+    return SCM_BOOL_F;
+  return SCM_BOOL_T;
+}
+static SCM scheme_is_cresc_end (SCM optional) {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoObject *curObj;
+  chord *thechord;
+  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD)  || !(thechord = (chord *)  curObj->object) ||
+   !(thechord->crescendo_end_p))
+    return SCM_BOOL_F;
+  return SCM_BOOL_T;
+}
+static SCM scheme_is_dim_start (SCM optional) {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoObject *curObj;
+  chord *thechord;
+  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD)  || !(thechord = (chord *)  curObj->object) ||
+   !(thechord->diminuendo_begin_p))
+    return SCM_BOOL_F;
+  return SCM_BOOL_T;
+}
+static SCM scheme_is_dim_end (SCM optional) {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoObject *curObj;
+  chord *thechord;
+  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD)  || !(thechord = (chord *)  curObj->object) ||
+   !(thechord->diminuendo_end_p))
     return SCM_BOOL_F;
   return SCM_BOOL_T;
 }
@@ -4987,6 +5025,14 @@ static void create_scheme_identfiers(void) {
   INSTALL_SCM_FUNCTION ("Returns #t if there is a chord with slur starting at cursor, else #f",DENEMO_SCHEME_PREFIX"IsSlurStart",  scheme_is_slur_start);
 
   INSTALL_SCM_FUNCTION ("Returns #t if there is a chord with slur ending at cursor, else #f",DENEMO_SCHEME_PREFIX"IsSlurEnd",  scheme_is_slur_end);
+
+  INSTALL_SCM_FUNCTION ("Returns #t if there is a chord with crescendo starting at cursor, else #f",DENEMO_SCHEME_PREFIX"IsCrescStart",  scheme_is_cresc_start);
+  INSTALL_SCM_FUNCTION ("Returns #t if there is a chord with crescendo ending at cursor, else #f",DENEMO_SCHEME_PREFIX"IsCrescEnd",  scheme_is_cresc_end);
+
+  INSTALL_SCM_FUNCTION ("Returns #t if there is a chord with diminuendo starting at cursor, else #f",DENEMO_SCHEME_PREFIX"IsDimStart",  scheme_is_dim_start);
+  INSTALL_SCM_FUNCTION ("Returns #t if there is a chord with diminuendo ending at cursor, else #f",DENEMO_SCHEME_PREFIX"IsDimEnd",  scheme_is_dim_end);
+
+
 
   INSTALL_SCM_FUNCTION ("Returns #t if the cursor is in the selection area, else #f",DENEMO_SCHEME_PREFIX"IsInSelection",  scheme_is_in_selection);
 
