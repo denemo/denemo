@@ -2956,6 +2956,8 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
   xmlNsPtr ns;
   /*  xmlNodePtr rootElem, childElem; */
   xmlNodePtr rootElem;
+  /* ignore blanks between nodes that appear as "text" */
+  xmlKeepBlanksDefault(0);
   gchar *version = NULL;
   current_movement = 0, current_staff=0, current_measure=0, current_position = 0;//0 means is not set.
 
