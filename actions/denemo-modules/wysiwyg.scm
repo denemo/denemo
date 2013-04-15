@@ -240,8 +240,8 @@
 							
 (define (do-center-relative-offset)
 	(let ((offset #f))
-				(d-InfoDialog (_"First click on the center line of the staff\n(Positioning will be done with respect to this height)"))
-				(d-GetNewTarget)
+				(d-InfoDialog (_"First click on the center line of the staff aligning with notehead/rest\n(Positioning will be done with respect to this height)"))
+				(d-GetNewTarget #f)
 				(d-InfoDialog (_"Now click on the position desired for the object"))
 				(set! offset (d-GetOffset))
 				(if offset

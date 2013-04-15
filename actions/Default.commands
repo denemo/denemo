@@ -6386,6 +6386,14 @@ accidentals are usually printed over the note.</tooltip>
         <label>Individual Note Down-Tie (Off/On)</label>
         <tooltip>Ties the individual note at the cursor the tie going down; repeat to remove.</tooltip>
       </row>
+      <row>
+        <action>ToggleWysiwygMarks</action>
+        <after>LilyPondDefinition</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>Typeset Red Dots (Off/On)</label>
+        <tooltip>Typesets with red dots on the graphical objects. Use these for accurate tweaking of positions via clicking and dragging with mouse on final typeset score.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

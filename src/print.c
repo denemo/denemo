@@ -100,14 +100,14 @@ typedef enum {STAGE_NONE,
 							DraggingNearEnd,
 							DraggingFarEnd,
 							WaitingForDrag,
-							
+							SelectingReference,
 							} WwStage;
 							
 typedef enum {TASK_NONE,
 							Positions, 
 							Padding,
 							Offset,
-											
+							Reference				
 							} WwTask;
 							
 typedef enum {OBJ_NONE,
@@ -1035,47 +1035,86 @@ static void get_window_position(gint*x, gint* y) {
   *y = gtk_adjustment_get_value(adjust);
 }
 
-   
 //setting up Denemo.pixbuf so that parts of the pdf can be dragged etc.
-static void set_denemo_pixbuf(void)  {
-			GdkWindow *window;
-			if(!GTK_IS_LAYOUT(Denemo.printarea))
+static void get_window_size(gint *w, gint *h)  {
+	GdkWindow *window;
+	if(!GTK_IS_LAYOUT(Denemo.printarea))
 					window = gtk_widget_get_window (GTK_WIDGET(Denemo.printarea));
-			else 
+	else 
 					window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
-      if(window) {
-      gint width, height;
+  if(window) {
+		EvDocumentModel  *model;
+		model = g_object_get_data(G_OBJECT(Denemo.printarea), "model");//there is no ev_view_get_model(), when there is use it
+		gdouble scale = ev_document_model_get_scale(model);
+	//	gdouble staffsize = atof(Denemo.gui->lilycontrol.staffsize->str);
+	//	if(staffsize<1) staffsize = 20.0;
+	//	scale *= (staffsize/4);//Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit	
 #if GTK_MAJOR_VERSION==2
-      gdk_drawable_get_size(window, &width, &height);
+			gdk_drawable_get_size(window, w, h);
+#else		
+     *w = gdk_window_get_width(window);
+     *h = gdk_window_get_height(window);
+#endif 
+		*w *= scale;
+		*h *= scale;
+		
+}    
+}  
       
-      Denemo.pixbuf = gdk_pixbuf_get_from_drawable(NULL, window, 
-                                                   NULL/*gdk_colormap_get_system ()*/, 0, 0, 0, 0,
-                                                  width, height);
+//setting up Denemo.pixbuf so that parts of the pdf can be dragged etc.
+static void set_denemo_pixbuf(gint x, gint y)  {
+	GdkWindow *window;
+	GdkPixbuf *pixbuf;
+	if(!GTK_IS_LAYOUT(Denemo.printarea))
+					window = gtk_widget_get_window (GTK_WIDGET(Denemo.printarea));
+	else 
+					window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
+  if(window) {
+      gint width, height;
+     	gint xx, yy;
+			get_window_position(&xx, &yy);
+			x -= xx;
+			y -= yy;
+#define GROB_SIZE 20 // a rough amount to drag grobs around recognizably
+
+#if GTK_MAJOR_VERSION==2
+    gdk_drawable_get_size(window, &width, &height);
+    EvDocumentModel  *model;
+		model = g_object_get_data(G_OBJECT(Denemo.printarea), "model");//there is no ev_view_get_model(), when there is use it
+		gdouble scale = ev_document_model_get_scale(model);
+		gdouble staffsize = atof(Denemo.gui->lilycontrol.staffsize->str);
+		if(staffsize<1) staffsize = 20.0;
+		gint grob_size = GROB_SIZE * (staffsize/20.0);
+
+    pixbuf = gdk_pixbuf_get_from_drawable(NULL, window, 
+                                                   NULL/*gdk_colormap_get_system ()*/, 
+                                                   (gint)(x - scale*grob_size/2), (gint)(y - scale*grob_size/2), 0, 0, scale*grob_size, scale*grob_size);
+
 #else
       width = gdk_window_get_width(window);
       height = gdk_window_get_height(window);
-      Denemo.pixbuf = gdk_pixbuf_get_from_window(window, 0,0, width,height);
+      pixbuf = gdk_pixbuf_get_from_window(window, (gint)(x - scale*grob_size/2), (gint)(y - scale*grob_size/2), scale*grob_size, scale*grob_size);
 #endif
+		if(Denemo.pixbuf)
+			g_object_unref(Denemo.pixbuf);
+		Denemo.pixbuf = gdk_pixbuf_add_alpha (pixbuf, TRUE, 255, 255, 255);
+		g_object_unref(pixbuf);
 	}
 }
  
 //over-draw the evince widget with padding etc ...
 static gboolean overdraw_print(cairo_t *cr) {
-   if(Denemo.pixbuf==NULL)
-    set_denemo_pixbuf();
-   if(Denemo.pixbuf==NULL)
-    return FALSE;
   gint x, y;
 
   get_window_position(&x, &y);
 
-  gint width, height;
-  width = gdk_pixbuf_get_width( GDK_PIXBUF(Denemo.pixbuf));
-  height = gdk_pixbuf_get_height( GDK_PIXBUF(Denemo.pixbuf));
+ // gint width, height;
+//  width = gdk_pixbuf_get_width( GDK_PIXBUF(Denemo.pixbuf));
+ // height = gdk_pixbuf_get_height( GDK_PIXBUF(Denemo.pixbuf));
 
  // cairo_scale( cr, Denemo.gui->si->preview_zoom, Denemo.gui->si->preview_zoom );
   cairo_translate( cr, -x, -y );
-  gdk_cairo_set_source_pixbuf( cr, GDK_PIXBUF(Denemo.pixbuf), -x, -y);
+//  gdk_cairo_set_source_pixbuf( cr, GDK_PIXBUF(Denemo.pixbuf), -x, -y);
   cairo_save(cr);
   
   if((Ww.Mark.width>0.0) &&  (Ww.stage!=WaitingForDrag) && (Ww.stage!=DraggingNearEnd) && (Ww.stage!=DraggingFarEnd)){
@@ -1145,7 +1184,15 @@ static gboolean overdraw_print(cairo_t *cr) {
 			cairo_stroke(cr);
 			return TRUE;
 	 }
-	
+	 if(Ww.stage==SelectingReference) {gint w, h;
+		get_window_size(&w, &h);	
+		cairo_set_source_rgba( cr, 0.0, 0.0, 1.0, 0.7);
+		cairo_move_to(cr, Ww.curx, 0);
+    cairo_line_to(cr, Ww.curx, h); 
+    cairo_move_to(cr, 0, Ww.cury);
+    cairo_line_to(cr, w, Ww.cury);   
+    cairo_stroke(cr);
+	 }
 	
 
   if(Ww.stage==Offsetting)
@@ -1154,6 +1201,18 @@ static gboolean overdraw_print(cairo_t *cr) {
     cairo_move_to(cr, Ww.Mark.x, Ww.Mark.y);
     cairo_line_to(cr, Ww.curx, Ww.cury);   
     cairo_stroke(cr);
+ 
+		if(Denemo.pixbuf) {  
+    	  guint width = gdk_pixbuf_get_width( GDK_PIXBUF(Denemo.pixbuf));
+				guint height = gdk_pixbuf_get_height( GDK_PIXBUF(Denemo.pixbuf));
+				cairo_save( cr );	
+				gdk_cairo_set_source_pixbuf( cr, GDK_PIXBUF(Denemo.pixbuf), Ww.curx-width/2, Ww.cury-height/2);
+				cairo_rectangle( cr, Ww.curx-width/2, Ww.cury-height/2, width, height);
+				
+				cairo_fill( cr );
+				cairo_restore( cr );
+    } else 
+    g_warning("No pixbuf");   
     }
   if(Ww.stage==Padding)
     {
@@ -1215,8 +1274,6 @@ set_printarea(GError **err) {
 		 shown_once = TRUE;
     gtk_window_present(GTK_WINDOW(gtk_widget_get_toplevel(Denemo.printarea)));
 	}
-	//this will fail if the printarea is not visible, so it would need to be re-triggered on showing the printarea  
-   set_denemo_pixbuf();
   return;
 }
 
@@ -1572,14 +1629,16 @@ gboolean get_positions(gdouble *neary, gdouble *fary, gboolean for_slur) {
 	}
 }
 
-gboolean get_new_target(void) {
-	Ww.stage = SelectingNearEnd;
+gboolean get_new_target(gboolean reference_point) {
+	gint initial = Ww.stage =
+	(reference_point?
+		SelectingReference:SelectingNearEnd);
 	g_print("Starting main");
 	gtk_main();
-	if(Ww.stage==SelectingFarEnd)
-		return TRUE;
-	else
+	if(Ww.stage==initial)
 		return FALSE;
+	else
+		return TRUE;
 }
 
 static gint 
@@ -1739,7 +1798,7 @@ action_for_link (EvView* view, EvLinkAction *obj) {
 			Ww.repeatable = FALSE;
      //g_print("Target type %d\n", Denemo.gui->si->target.type); 
      
-    if (Ww.stage == SelectingNearEnd)
+    if ((Ww.stage == SelectingNearEnd) || (Ww.stage == SelectingReference))
 			return TRUE;
    
     if(Ww.ObjectLocated && Denemo.gui->si->currentobject) {
@@ -1767,6 +1826,7 @@ action_for_link (EvView* view, EvLinkAction *obj) {
 										directive = (DenemoDirective*)g_list_nth_data(thechord->directives, Denemo.gui->si->target.directivenum - 1);
 										if(directive && directive->tag) {
 											g_print("Found %s\n", directive->tag->str);
+											//This is things like ToggleTrill ToggleCoda which require different offsets to their center
 											Ww.grob = Articulation;
 										}
 									
@@ -1812,6 +1872,9 @@ action_for_link (EvView* view, EvLinkAction *obj) {
 		}
 		g_strfreev(orig_vec);
 	} 
+	//!!!! do we want to set_denemo_pixbuf() here if the object is located ???? that is what we are going to drag ....
+	g_print("Have Ww.ObjectLocated (%.2f, %.2f) (%.2f, %.2f)\n", Ww.Mark.x, Ww.Mark.y, Ww.curx, Ww.cury);
+	set_denemo_pixbuf((gint) Ww.curx, (gint)Ww.cury);
 	return TRUE;//we do not want the evince widget to handle this.
 }
 static gint adjust_x=0;
@@ -1836,12 +1899,7 @@ printarea_motion_notify (GtkWidget * widget, GdkEventMotion * event)
 {
 	gint state = event->state;
   Ww.ObjectLocated = FALSE;
-  if(Denemo.pixbuf==NULL)
-    set_denemo_pixbuf();
-  if(Denemo.pixbuf==NULL)
-    return FALSE;
-  
-     
+
    if(Ww.stage == WaitingForDrag) {
 			if( (is_near((gint)event->x, (gint)event->y, Ww.far)) ||(is_near((gint)event->x, (gint)event->y, Ww.near))) { 		
 			gtk_widget_queue_draw (Denemo.printarea);
@@ -1871,7 +1929,7 @@ printarea_motion_notify (GtkWidget * widget, GdkEventMotion * event)
   get_window_position(&xx, &yy);
   Ww.curx = xx + (gint)event->x;
   Ww.cury = yy + (gint)event->y;  
-  if((Ww.stage==Offsetting)) {
+  if((Ww.stage==Offsetting) ||(Ww.stage==SelectingReference) ) {
 
     gtk_widget_queue_draw (Denemo.printarea);
     return TRUE;
@@ -2048,7 +2106,7 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
  if(right && Ww.stage==WaitingForDrag && !hotspot) {
 	 apply_tweak();
  }
- if( /* left && */ Ww.stage==SelectingNearEnd) {
+ if((Ww.stage == SelectingNearEnd) || (Ww.stage == SelectingReference)) {
 			Ww.near_i = Ww.near = Ww.last_button_press;//struct copy
 			return TRUE;
  }
@@ -2098,13 +2156,9 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
  if(left && Ww.ObjectLocated)
 	gtk_window_present(GTK_WINDOW(gtk_widget_get_toplevel(Denemo.scorearea)));
 	//g_print("Button release %d, %d\n",(int)event->x , (int)event->y);
-	if(Denemo.pixbuf==NULL)
-    set_denemo_pixbuf();
-  if(Denemo.pixbuf==NULL)
-    return TRUE;
 
   
-  if( /* left && */ Ww.ObjectLocated || (Ww.stage==SelectingNearEnd)) {   
+  if( Ww.ObjectLocated || (Ww.stage == SelectingNearEnd) || (Ww.stage == SelectingReference)) {   
     Ww.Mark.width = Ww.Mark.height = MARKER;
 		gtk_widget_queue_draw (Denemo.printarea);
     Ww.Mark.x = event->x + xx;
@@ -2119,8 +2173,13 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 		Ww.stage=STAGE_NONE;
   	return TRUE;
  }  
-  if( /* left && */ Ww.stage==SelectingNearEnd) {
+  if( Ww.stage == SelectingNearEnd) {
      Ww.stage=SelectingFarEnd; 
+     gtk_main_quit();
+   	return TRUE;
+ }  
+  if( Ww.stage == SelectingReference) {
+     Ww.stage=STAGE_NONE; 
      gtk_main_quit();
    	return TRUE;
  }  
@@ -2155,7 +2214,13 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 		if(right)
 			popup_tweak_menu();
 		else {
-			//g_print("Offsetting quitting with %d %d", Ww.stage, Ww.grob);
+		g_print("Offsetting quitting with %d %d", Ww.stage, Ww.grob);
+					//The offset depends on the object being dragged. ToogleTrill sign uses bottom right, ToggleCoda uses center left.
+	//	Ww.curx +=18;//for trill
+	//	Ww.cury +=18;//for coda, mordent ...
+	//	???
+		
+
 			gtk_main_quit();
 		}
    return TRUE;
