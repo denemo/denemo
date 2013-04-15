@@ -1076,20 +1076,17 @@ static void set_denemo_pixbuf(gint x, gint y)  {
 			x -= xx;
 			y -= yy;
 #define GROB_SIZE 20 // a rough amount to drag grobs around recognizably
-
-#if GTK_MAJOR_VERSION==2
-    gdk_drawable_get_size(window, &width, &height);
     EvDocumentModel  *model;
 		model = g_object_get_data(G_OBJECT(Denemo.printarea), "model");//there is no ev_view_get_model(), when there is use it
 		gdouble scale = ev_document_model_get_scale(model);
 		gdouble staffsize = atof(Denemo.gui->lilycontrol.staffsize->str);
 		if(staffsize<1) staffsize = 20.0;
 		gint grob_size = GROB_SIZE * (staffsize/20.0);
-
+#if GTK_MAJOR_VERSION==2
+    gdk_drawable_get_size(window, &width, &height);
     pixbuf = gdk_pixbuf_get_from_drawable(NULL, window, 
                                                    NULL/*gdk_colormap_get_system ()*/, 
                                                    (gint)(x - scale*grob_size/2), (gint)(y - scale*grob_size/2), 0, 0, scale*grob_size, scale*grob_size);
-
 #else
       width = gdk_window_get_width(window);
       height = gdk_window_get_height(window);
@@ -2041,7 +2038,9 @@ static void help_tweak(void) {
 	gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), _("To tweak the positions of objects (and more) move the mouse until the hand pointer appears\nClick on the object and follow the prompts.\nFor beams, click on the notehead of the note where the beam starts."));
 	gtk_widget_show(Ww.dialog);
 }
-
+static void red_dots(void) {
+	call_out_to_guile("(d-ToggleWysiwygMarks)");
+}
 
 static gint
 popup_tweak_menu(void) {
@@ -2059,8 +2058,14 @@ popup_tweak_menu(void) {
 	
 	if(Ww.stage == STAGE_NONE) {
 		item = gtk_menu_item_new_with_label(_("Help for Tweaks"));
+		gtk_widget_set_tooltip_markup(item, _("This window can be used to tweak the typesetting that LilyPond does in the case that it is not optimal"));
 		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(help_tweak),NULL);
+		
+		item = gtk_menu_item_new_with_label(_("Red Dots (Off/On)"));
+		gtk_widget_set_tooltip_markup(item, _("The exact positions of the graphical components of the score can be labelled with red dots for accurate tweaks\nTurn these off before printing!"));
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(red_dots),NULL);
 			
 		item = gtk_menu_item_new_with_label(_("Score Size"));
 		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
