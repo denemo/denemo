@@ -8,7 +8,7 @@
         <after>ToggleUpBow</after>
         <action>ToggleDownBow</action>
         <scheme>;;;ToggleDownBow
-(ToggleChordDirective "DownBow" LG-DownBow "\\downbow" DENEMO_OVERRIDE_ABOVE)
+        (ChordAnnotation "ToggleDownBow" "\\downbow"    ToggleDownBow::params    LG-DownBow)
 </scheme>
         <label>DownBow (Off/On)</label>
         <tooltip>Mark/Unmark chord with a Down Bow</tooltip>

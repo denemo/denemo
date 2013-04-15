@@ -7,8 +7,8 @@
       <row>
         <action>MuteStaff</action>
         <scheme>;;;MuteStaff
-(let ((tag "MuteStaff"))
-	(if MuteStaff::params
+(let ((tag "MuteStaff")) 
+	(if (equal? MuteStaff::params "delete")
 		(begin
 			(d-LockDirective #f)
 			(set! MuteStaff::params #f)
@@ -32,7 +32,7 @@
 					(d-DirectivePut-standalone-graphic tag "Speaker_Icon")))
 			(d-SetSaved #f)
 			(d-PopPosition)))
-(d-RefreshDisplay))</scheme>
+   (d-RefreshDisplay))</scheme>
         <label>Mute</label>
         <tooltip>Mutes the current staff. Affects only playback.</tooltip>
       </row>

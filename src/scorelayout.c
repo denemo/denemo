@@ -2014,9 +2014,10 @@ DenemoScoreblock *selection_layout(void) {
 				//selection_do_verses(staff, vbox, movementnum, this is repeated above
 			}
 		}			
-	
-	g_string_append(sb->lilypond, g_string_free(tail, FALSE));
-	
+	if(tail->len)
+		g_string_append(sb->lilypond, g_string_free(tail, FALSE));
+	else
+		g_string_free(tail, FALSE);
 	} // end of for each staff Now loop back for all the staffs in firststaffnum -  laststaffnum
 	g_string_append(sb->lilypond, movement_tail->str); 
 	g_string_free(movement_tail, TRUE);

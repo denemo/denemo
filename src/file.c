@@ -989,7 +989,7 @@ file_dialog_response(GtkWidget *dialog, gint response_id, struct FileDialogData 
 				filesel_save (gui, file_name, data->format_id, data->template);
 			if(status==0)
 				 score_status(gui, FALSE);
-      force_lily_refresh(gui);
+      force_lily_refresh(gui);//FIXME why is this here???
     }
     g_free (file_name);
   }

@@ -2475,8 +2475,13 @@ edit_directive(DenemoDirective *directive, gchar *what) {
   gchar* filename = get_editscript_filename(directive->tag->str);
   if(filename == NULL) {
     GtkAction *action = lookup_action_from_name (directive->tag->str);
-    if(action && (Denemo.keyboard_state!=GDK_MOD2_MASK/*NumLock */))
-      activate_script(action, NULL);
+    if(action && (Denemo.keyboard_state!=GDK_MOD2_MASK/*NumLock */)) {//FIXME this should be detecting shift click surely????
+				DenemoScriptParam param;
+				gchar *paramvar;
+				param.string = g_string_new("edit");g_print("Script can look for params \"edit\" - a string to catch this\n");
+				activate_script(action, &param); 
+				g_string_free(param.string, TRUE);
+		}
     else {
       ret =( text_edit_directive(directive, what)  || !confirm(_("Directive Delete"), _("Are you sure you want to delete the directive?")));
       score_status (Denemo.gui, TRUE);

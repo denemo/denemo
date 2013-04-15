@@ -7,7 +7,7 @@
       <row>
         <action>ToggleLongFermata</action>
         <scheme>;;;LongFermata
-(ToggleChordDirective "LongFermata" LG-LongFermata "\\longfermata" DENEMO_ALT_OVERRIDE)
+        (ChordAnnotation "ToggleLongFermata" "\\longfermata"    ToggleLongFermata::params    LG-LongFermata)
 </scheme>
         <label>LongFermata (Off/On)</label>
         <tooltip>Mark/Unmark the current chord longfermata</tooltip>

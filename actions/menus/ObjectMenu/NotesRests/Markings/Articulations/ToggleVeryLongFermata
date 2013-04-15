@@ -7,10 +7,10 @@
       <row>
         <action>ToggleVeryLongFermata</action>
         <scheme>;;;VeryLongFermata
-(ToggleChordDirective "VeryLongFermata" LG-VeryLongFermata "\\verylongfermata" DENEMO_ALT_OVERRIDE)
+        (ChordAnnotation "ToggleVeryLongFermata" "\\verylongfermata"    ToggleVeryLongFermata::params    LG-VeryLongFermata)
 </scheme>
         <label>VeryLongFermata (Off/On)</label>
-        <tooltip>Mark/Unmark the current chord verylongfermata</tooltip>
+        <tooltip>Mark/Unmark the current chord with very long fermata</tooltip>
       </row>
     </map>
   </merge>

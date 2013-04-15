@@ -261,41 +261,37 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 			  y - 45,
 			  mudelaitem);
 	
-       if (si->currentstaffnum==itp->staffnum 
+  if (si->currentstaffnum==itp->staffnum 
 	   && itp->verse && thechord->notes   
 	   && !itp->slur_stack
-	   && !thechord->is_tied)
-	{
-	  gchar *syllable = (gchar *) next_syllable(0);
-	  	if(cr) if(syllable)
-	    draw_lyric (cr,
-			x + mudelaitem->x,
-			y + itp->in_lowy,
-			syllable);
-	}
+	   && !thechord->is_tied)	{
+			gchar *syllable = (gchar *) next_syllable(0);
+				if(cr) if(syllable)
+				draw_lyric (cr,
+				x + mudelaitem->x,
+				y + itp->in_lowy,
+				syllable);
+		}
 
-      	if(cr) if (thechord->dynamics)
-	draw_dynamic (cr,
-		      x + mudelaitem->x, y, mudelaitem);
+   if(cr) if (thechord->dynamics)
+			draw_dynamic (cr, x + mudelaitem->x, y, mudelaitem);
 
-      	if(cr) if (thechord->slur_end_p)
-	draw_slur (cr, &(itp->slur_stack),
-		   x + mudelaitem->x, y);
-      if (thechord->slur_begin_p)
-	itp->slur_stack =
-	  push_slur_stack (itp->slur_stack, x + mudelaitem->x);
+   if(cr) if (thechord->slur_end_p)
+					draw_slur (cr, &(itp->slur_stack), x + mudelaitem->x, y);
+   if (thechord->slur_begin_p)
+				itp->slur_stack =
+					push_slur_stack (itp->slur_stack, x + mudelaitem->x);
 
-      if (thechord->crescendo_begin_p)
-	itp->hairpin_stack =
-	  push_hairpin_stack (itp->hairpin_stack, x + mudelaitem->x);
-      else if (thechord->diminuendo_begin_p)
-	itp->hairpin_stack =
-	  push_hairpin_stack (itp->hairpin_stack, x + mudelaitem->x);
-      if(cr) {
-      if (thechord->crescendo_end_p)
-	{
-	  if (top_hairpin_stack (itp->hairpin_stack) <= -1)
-	    {
+   if (thechord->crescendo_begin_p) {
+				itp->hairpin_stack =	push_hairpin_stack (itp->hairpin_stack, x + mudelaitem->x);
+      } else if (thechord->diminuendo_begin_p) {
+									itp->hairpin_stack =
+									push_hairpin_stack (itp->hairpin_stack, x + mudelaitem->x);
+			}
+			
+   if(cr) {
+      if (thechord->crescendo_end_p) {
+				if (top_hairpin_stack (itp->hairpin_stack) <= -1) {
 #if 0
 	      //this is only the visible part of the cresc, the start may be off screen
 	      thechord->crescendo_end_p = FALSE;
@@ -304,13 +300,9 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 		 "removing the crescendo end");
 #endif
 	    }
-	  draw_hairpin (cr, &(itp->hairpin_stack),
-			x + mudelaitem->x, y, 1);
-	}
-      else if (thechord->diminuendo_end_p)
-	{
-	  if (top_hairpin_stack (itp->hairpin_stack) <= -1)
-	    {
+	  draw_hairpin (cr, &(itp->hairpin_stack), x + mudelaitem->x, y, 1);
+		} else if (thechord->diminuendo_end_p) {
+	  if (top_hairpin_stack (itp->hairpin_stack) <= -1) {
 #if 0
 	      //this is only the visible part of the dim, the start may be off screen
 	      thechord->diminuendo_end_p = FALSE;
@@ -318,11 +310,13 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 		("Diminuendo end without a corresponding start\n"
 		 "removing the diminuendo end");
 #endif
-	    }
-	  draw_hairpin (cr, &(itp->hairpin_stack),
-			x + mudelaitem->x, y, 0);
+	  }
+	  draw_hairpin (cr, &(itp->hairpin_stack), x + mudelaitem->x, y, 0);
 	}
-      } // if cr
+  } // if cr
+  
+  
+  
 	/* notice the following does not check is_figure but checks if figure is not VOID) */      
       //if (!thechord->is_figure && thechord->figure)
       	if(cr) if (thechord->figure)
@@ -958,6 +952,7 @@ print_system_separator (cairo_t *cr, gdouble position){
 
 typedef enum colors {BLACK, RED, GREEN} colors;
 static void draw_playback_marker(cairo_t *cr, gint color, gint pos, gint yy, gint line_height) {
+	if(!Denemo.prefs.playback_controls) return;
   //g_print("drawing marker %x at %d %d %d\n", color, pos, yy, line_height);
   cairo_save(cr);
   cairo_set_line_width( cr, 4.0 );

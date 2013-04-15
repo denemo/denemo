@@ -6,8 +6,8 @@
     <map>
       <row>
         <action>TogglePrallPrall</action>
-        <scheme>;;;PrallPrall
-(ToggleChordDirective "PrallPrall" LG-PrallPrall "\\prallprall" DENEMO_OVERRIDE_ABOVE)
+        <scheme>;;;TogglePrallPrall
+        (ChordAnnotation "TogglePrallPrall" "\\prallprall"    TogglePrallPrall::params    LG-PrallPrall)
 </scheme>
         <label>PrallPrall (Off/On)</label>
         <tooltip>Adds/Removes a PrallPrall to the note</tooltip>

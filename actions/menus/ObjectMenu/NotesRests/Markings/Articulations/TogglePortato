@@ -7,7 +7,7 @@
       <row>
         <action>TogglePortato</action>
         <scheme>;;;TogglePortato
-(ToggleChordDirective "Portato" LG-Portato "\\portato" DENEMO_ALT_OVERRIDE)
+        (ChordAnnotation "TogglePortato" "\\portato"    TogglePortato::params    LG-Portato)
 </scheme>
         <label>Portato (Off/On)</label>
         <tooltip>Mark/Unmark the chord Portato</tooltip>

@@ -5139,13 +5139,6 @@ for second and subsequent systems</tooltip>
         <tooltip>Inserts an 8va mark (transposing the notes accordingly) or terminates one already started.</tooltip>
       </row>
       <row>
-        <action>Upprall</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
-        <label>Up Prall</label>
-        <tooltip>Adds/Removes Up Prall ornament</tooltip>
-      </row>
-      <row>
         <action>MoveRest</action>
         <after>InsertLongaRest</after>
         <scheme></scheme>
@@ -5713,7 +5706,7 @@ for second and subsequent systems</tooltip>
         <tooltip>Adds/Removes a prall to the note</tooltip>
       </row>
       <row>
-        <action>ToggleUpprall</action>
+        <action>ToggleUpPrall</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
         <label>Up Prall (Off/On)</label>
@@ -6392,6 +6385,14 @@ accidentals are usually printed over the note.</tooltip>
         <menupath>/ObjectMenu/NotesRests/TiedNotes</menupath>
         <label>Individual Note Down-Tie (Off/On)</label>
         <tooltip>Ties the individual note at the cursor the tie going down; repeat to remove.</tooltip>
+      </row>
+      <row>
+        <action>ToggleWysiwygMarks</action>
+        <after>LilyPondDefinition</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>Typeset Red Dots (Off/On)</label>
+        <tooltip>Typesets with red dots on the graphical objects. Use these for accurate tweaking of positions via clicking and dragging with mouse on final typeset score.</tooltip>
       </row>
     </map>
   </merge>
