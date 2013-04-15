@@ -448,8 +448,8 @@ static SCM scheme_get_positions(SCM is_slur) {
 	} else
 	return SCM_BOOL_F;
 }
-static SCM scheme_get_new_target(void) {
-	return scm_from_bool(get_new_target());
+static SCM scheme_get_new_target(SCM ref) {
+	return scm_from_bool(get_new_target(scm_is_false(ref)));
 }
 
 static SCM scheme_get_target_info(void) {
