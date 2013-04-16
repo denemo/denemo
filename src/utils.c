@@ -948,17 +948,32 @@ get_data_dir ()
 const gchar *
 get_prefix_dir (void)
 {
-#ifdef G_OS_WIN32 //THis is going to need to be tested
-    gchar *prefix = g_win32_get_package_installation_directory (NULL, NULL);
+  gchar *prefix;
+#ifdef G_OS_WIN32
+  prefix  = g_win32_get_package_installation_directory (NULL, NULL);
 #else /* not G_OS_WIN32 */
-
-#ifndef ENABLE_BINRELOC
-  gchar *prefix = g_strdup (PREFIX);
+#ifdef _MACH_O_
+      {char path[1024];
+       guint size = sizeof(path);
+       _NSGetExecutablePath(path, &size);
+       gchar * bindir = (gchar*)g_malloc(size);
+       if (_NSGetExecutablePath(bindir, &size) == 0){
+	 prefix = g_build_filename (bindir, "..", "..", NULL);
+	 g_print("OSX set data prefix to %s\n", prefix);
+       }
+	else
+	 g_critical("Cannot get bin dir\n");
+      }
 #else
-  gchar *prefix = gbr_find_prefix (PREFIX);
-#endif //ENABLE_BINRELOC
+
+ #ifndef ENABLE_BINRELOC
+   prefix = g_strdup (PREFIX);
+ #else
+  prefix = gbr_find_prefix (PREFIX);
+ #endif //ENABLE_BINRELOC
+
+#endif //_MACH_O_
 #endif //G_OS_WIN32
-  g_print ("prefix=%s\n", prefix);
   return prefix;
 }
 
@@ -981,9 +996,11 @@ get_bin_dir (void)
       {char path[1024];
        guint size = sizeof(path);
        _NSGetExecutablePath(path, &size);
-       bindir = (gchar*)g_malloc(size);
-       if (_NSGetExecutablePath(bindir, &size) == 0)
+       gchar * bin = (gchar*)g_malloc(size);
+       if (_NSGetExecutablePath(bin, &size) == 0){
+	 bindir = g_build_filename (bin, "..", NULL);
 	 g_print("using bin path %s\n", bindir);
+       }
        else
 	 g_critical("Cannot get bin dir\n");
        
