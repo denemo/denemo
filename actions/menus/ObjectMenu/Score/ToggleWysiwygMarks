@@ -22,7 +22,7 @@
   }
   "
      		)
-     		 (d-DirectivePut-score-display "tag" (_ "Wysiwyg Marks On"))
+     		 (d-DirectivePut-score-display tag (_ "Wysiwyg Marks On"))
      		 (d-InfoDialog (_ "Typeset score will have graphical objects marked with red dots\nUse these for accurate tweaking of positions via wysiwyg operations on the typeset score with mouse")))))
    </scheme>
         <label>Typeset Red Dots (Off/On)</label>

@@ -441,6 +441,29 @@ static SCM scheme_get_offset(void) {
 	} else
 	return SCM_BOOL_F;
 }
+
+static SCM scheme_get_control_point(SCM pt) {
+	if(scm_is_integer(pt)) {
+		gint which = scm_to_int(pt);
+		if(which>0 && which<5)
+			return SCM_BOOL(get_control_point(which));
+	}
+	return SCM_BOOL_F;
+}
+
+static SCM scheme_get_curve(void) {
+	gdouble x1, y1, x2, y2, x3, y3, x4, y4;
+	if(get_curve(&x1, &y1, &x2, &y2, &x3, &y3, &x4, &y4))
+		{
+			return scm_list_n (scm_cons(scm_from_double(x1), scm_from_double(y1)),
+													scm_cons(scm_from_double(x2), scm_from_double(y2)),
+													scm_cons(scm_from_double(x3), scm_from_double(y3)),
+													scm_cons(scm_from_double(x4), scm_from_double(y4)),
+													SCM_UNDEFINED);
+		}
+	return SCM_BOOL_F;
+}
+
 static SCM scheme_get_positions(SCM is_slur) {
 	gdouble neary, fary;
 	if(get_positions(&neary, &fary, scm_is_true(is_slur))) {
@@ -5150,6 +5173,8 @@ static void create_scheme_identfiers(void) {
   INSTALL_SCM_FUNCTION ("Returns a list of the target type and grob (if a directive). Target is set by clicking on the typeset version of the score at a link that LilyPond has inserted.",DENEMO_SCHEME_PREFIX"GetTargetInfo",  scheme_get_target_info);
   INSTALL_SCM_FUNCTION ("Interactively gets a target (a click on a LilyPond link in the printview window) from the user ",DENEMO_SCHEME_PREFIX"GetNewTarget",  scheme_get_new_target);
   INSTALL_SCM_FUNCTION ("Interactively gets an offset from the user in the print view window. The offset is from the last clicked object in the print view window. Returns pair of numbers x is positive to the right, y is positive upwards.",DENEMO_SCHEME_PREFIX"GetOffset",  scheme_get_offset);
+  INSTALL_SCM_FUNCTION ("Interactively sets a control point for a curve in the print view window. Takes one parameter the number 1-4 of the control point to set.",DENEMO_SCHEME_PREFIX"GetControlPoint",  scheme_get_control_point);
+  INSTALL_SCM_FUNCTION ("Interactively gets a curve from the user in the print view window. Returns a list of pairs of numbers, the control points of the curve.",DENEMO_SCHEME_PREFIX"GetCurve",  scheme_get_curve);
   INSTALL_SCM_FUNCTION ("Interactively gets two positions from the user in the print view window. Returns pair of pairs numbers.",DENEMO_SCHEME_PREFIX"GetPositions",  scheme_get_positions);
   
   INSTALL_SCM_FUNCTION4 ("Takes 4 parameters and makes http transaction with www.denemo.org", DENEMO_SCHEME_PREFIX"HTTP", scheme_http);

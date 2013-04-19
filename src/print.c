@@ -91,6 +91,9 @@ static printstatus PrintStatus = {GPID_NONE, 0, 0, 4, 4, 4, 4, TYPESET_ALL_MOVEM
 typedef struct Rectangle {
 	gdouble x, y, width, height;} Rectangle;
 	
+typedef struct Curve {
+	GdkPoint p1, p2, p3, p4;} Curve;
+		
 typedef enum {STAGE_NONE,
 							Offsetting, 
 							Selecting, 
@@ -101,13 +104,21 @@ typedef enum {STAGE_NONE,
 							DraggingFarEnd,
 							WaitingForDrag,
 							SelectingReference,
+							WaitingForCurveDrag,
+							Dragging1,
+							Dragging2,
+							Dragging3,
+							Dragging4,
+							
+							
+							
 							} WwStage;
 							
 typedef enum {TASK_NONE,
 							Positions, 
 							Padding,
-							Offset,
-							Reference				
+							Offset,	
+							Shape		
 							} WwTask;
 							
 typedef enum {OBJ_NONE,
@@ -117,6 +128,8 @@ typedef enum {OBJ_NONE,
 						} WwGrob;
 typedef struct ww {
 	Rectangle Mark;
+	Rectangle Reference; //reference is origin for LilyPond offsets, set by the user with blue cross wires.
+	Curve Curve;
 	gdouble curx, cury;// position of mouse pointer during motion
 	//gdouble pointx, pointy; becomes near.x,y
   gboolean ObjectLocated;//TRUE when an external-link has just been followed back to a Denemo object
@@ -1098,7 +1111,13 @@ static void set_denemo_pixbuf(gint x, gint y)  {
 		g_object_unref(pixbuf);
 	}
 }
- 
+
+//draw a circle to mark a dragging point
+static	void	place_spot(cairo_t *cr, gint x, gint y) {
+			cairo_move_to(cr, x, y);
+			cairo_arc( cr, x, y, MARKER/4, 0.0, 2*M_PI );
+			cairo_fill(cr);
+		}		
 //over-draw the evince widget with padding etc ...
 static gboolean overdraw_print(cairo_t *cr) {
   gint x, y;
@@ -1164,23 +1183,47 @@ static gboolean overdraw_print(cairo_t *cr) {
 		 cairo_arc( cr, Ww.near.x, Ww.near.y, 1.5, 0.0, 2*M_PI );
 		 cairo_fill(cr);
 	}
-		if(Ww.stage == WaitingForDrag) {
+	if(Ww.stage == WaitingForDrag) {
 		 cairo_set_source_rgba( cr, 0.3, 0.3, 0.7, 0.9);
-			//cairo_rectangle (cr, Ww.far.x-MARKER/2, Ww.far.y-MARKER/2, MARKER, MARKER );
-			//cairo_rectangle (cr, Ww.near.x-MARKER/2, Ww.near.y-MARKER/2, MARKER, MARKER );
-			cairo_move_to(cr, Ww.far.x, Ww.far.y);
-			cairo_arc( cr, Ww.far.x, Ww.far.y, MARKER/4, 0.0, 2*M_PI );
-			cairo_move_to(cr, Ww.near.x, Ww.near.y);
-			cairo_arc( cr, Ww.near.x, Ww.near.y, MARKER/4, 0.0, 2*M_PI );
-			cairo_fill(cr);
+			place_spot(cr, Ww.far.x, Ww.far.y);
+
+			place_spot(cr, Ww.near.x, Ww.near.y);
+		
 	}
-	 if((Ww.stage==WaitingForDrag) || (Ww.stage==DraggingNearEnd) || (Ww.stage==DraggingFarEnd)) {
+	if((Ww.stage==WaitingForDrag) || (Ww.stage==DraggingNearEnd) || (Ww.stage==DraggingFarEnd)) {
 			cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 0.7);
 			cairo_move_to(cr, Ww.near.x, Ww.near.y);
 			cairo_line_to(cr, Ww.far.x, Ww.far.y); 
 			cairo_stroke(cr);
 			return TRUE;
-	 }
+	}
+
+	if((Ww.stage==WaitingForCurveDrag) || (Ww.stage==Dragging1)||(Ww.stage==Dragging2)||(Ww.stage==Dragging3)||(Ww.stage==Dragging4)) {	
+		//place_spot for all non-null points Curve.p1...
+		if( Ww.Curve.p1.x) {
+					place_spot(cr, Ww.Curve.p1.x, Ww.Curve.p1.y);g_print("placed spot at x1 =%d\n", Ww.Curve.p1.x);
+			}
+		if( Ww.Curve.p2.x) {
+					place_spot(cr, Ww.Curve.p2.x, Ww.Curve.p2.y);
+			}
+		if( Ww.Curve.p1.x) {
+					place_spot(cr, Ww.Curve.p3.x, Ww.Curve.p3.y);
+			}
+		
+		if( Ww.Curve.p4.x) {//all control points initialized
+			place_spot(cr, Ww.Curve.p4.x, Ww.Curve.p4.y);
+		
+			cairo_set_source_rgba( cr, 0.5, 0.8, 0.0, 0.7);
+			cairo_move_to(cr, Ww.Curve.p1.x, Ww.Curve.p1.y);
+			cairo_curve_to (cr, 
+				Ww.Curve.p2.x, Ww.Curve.p2.y,
+				Ww.Curve.p3.x, Ww.Curve.p3.y,
+				Ww.Curve.p4.x, Ww.Curve.p4.y);
+			cairo_stroke(cr);
+		}
+    return TRUE;
+	}
+    
 	 if(Ww.stage==SelectingReference) {gint w, h;
 		get_window_size(&w, &h);	
 		cairo_set_source_rgba( cr, 0.0, 0.0, 1.0, 0.7);
@@ -1189,9 +1232,7 @@ static gboolean overdraw_print(cairo_t *cr) {
     cairo_move_to(cr, 0, Ww.cury);
     cairo_line_to(cr, w, Ww.cury);   
     cairo_stroke(cr);
-	 }
-	
-
+	 }                                             
   if(Ww.stage==Offsetting)
     {
     cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 0.7);
@@ -1580,6 +1621,8 @@ printmovement_cb (GtkAction *action, gpointer param) {
     changecount = Denemo.gui->changecount;
 }
 
+//This gets an offset relative to Ww.Mark which must be already setup on entry.
+//A patch of the score around the target is dragged over the image with white showing as transparent and a line connects the original and new positions.
 gboolean get_offset(gdouble *offsetx, gdouble *offsety) {
 	Ww.stage = Offsetting;
 	gtk_main();
@@ -1590,7 +1633,7 @@ gboolean get_offset(gdouble *offsetx, gdouble *offsety) {
 		gdouble staffsize = atof(Denemo.gui->lilycontrol.staffsize->str);
 		if(staffsize<1) staffsize = 20.0;
 		scale *= (staffsize/4);//Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
-		*offsetx = (Ww.curx - Ww.Mark.x)/scale;
+		*offsetx = (Ww.curx - Ww.Mark.x)/scale; //Could/Should this better be Ww.Reference????
     *offsety = -(Ww.cury - Ww.Mark.y)/scale; 
     Ww.stage = STAGE_NONE;
     gtk_widget_queue_draw(Denemo.printarea);
@@ -1603,7 +1646,9 @@ static gdouble get_center_staff_offset(void);
 
 // get_postions gets two y-heights interactively, giving prompts either for slur or beam
 // 
+ 
 gboolean get_positions(gdouble *neary, gdouble *fary, gboolean for_slur) {
+	Ww.task = Positions;
 	start_seeking_end(for_slur);//goes to WaitingForDrag
 	gtk_main();
 	if(Ww.stage==WaitingForDrag) {
@@ -1626,17 +1671,90 @@ gboolean get_positions(gdouble *neary, gdouble *fary, gboolean for_slur) {
 	}
 }
 
+gboolean get_curve(gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2, gdouble *x3, gdouble *y3, gdouble *x4, gdouble *y4) {
+	//FIXME check for stage, to avoid re-entering
+	Ww.task = Shape;
+	Ww.stage = WaitingForCurveDrag;
+	gtk_main();
+	if(Ww.stage==WaitingForCurveDrag) {
+		EvDocumentModel  *model = g_object_get_data(G_OBJECT(Denemo.printarea), "model");//there is no ev_view_get_model(), when there is use it
+		gdouble scale = ev_document_model_get_scale(model);
+		gdouble staffsize = atof(Denemo.gui->lilycontrol.staffsize->str);
+		if(staffsize<1) staffsize = 20.0;
+		scale *= (staffsize/4);//Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
+		goto_movement_staff_obj(NULL, -1, Ww.pos.staff, Ww.pos.measure, Ww.pos.object);//the cursor to the slur-begin note.
+		//!!! is pos set up?
+		g_print("Reference is %f %f %d %d\n", Ww.Reference.x, Ww.Reference.y, Ww.Curve.p4.x, Ww.Curve.p4.y);
+		*x1 = (Ww.Curve.p1.x - Ww.Reference.x)/scale;
+		*y1 = -(Ww.Curve.p1.y - Ww.Reference.y)/scale;
+    
+  	*x2 = (Ww.Curve.p2.x - Ww.Reference.x)/scale;
+		*y2 = -(Ww.Curve.p2.y - Ww.Reference.y)/scale;
+		*x3 = (Ww.Curve.p3.x - Ww.Reference.x)/scale;
+		*y3 = -(Ww.Curve.p3.y - Ww.Reference.y)/scale;
+		*x4 = (Ww.Curve.p4.x - Ww.Reference.x)/scale;
+		*y4 = -(Ww.Curve.p4.y - Ww.Reference.y)/scale;
+  
+    
+    Ww.repeatable = TRUE;
+    
+    Ww.stage = STAGE_NONE;  
+		gtk_widget_hide(Ww.dialog);
+    gtk_widget_queue_draw (Denemo.printarea);
+		return TRUE;	
+	} else {
+		return FALSE;
+	}
+}
+
+
+
 gboolean get_new_target(gboolean reference_point) {
 	gint initial = Ww.stage =
 	(reference_point?
 		SelectingReference:SelectingNearEnd);
 	g_print("Starting main");
 	gtk_main();
+	if(reference_point)
+		Ww.Reference = Ww.Mark;
 	if(Ww.stage==initial)
 		return FALSE;
 	else
 		return TRUE;
 }
+
+gboolean get_control_point(gint which) {
+	gboolean ret = TRUE;
+	if(get_new_target(FALSE)) {//FIXME instead make purpose of get_new_target() the argument to it, and use that in the call
+		switch (which) {
+			case 1:
+			Ww.Curve.p1.x = Ww.Mark.x;
+			Ww.Curve.p1.y = Ww.Mark.y;
+			break;
+			case 2:
+			Ww.Curve.p2.x = Ww.Mark.x;
+			Ww.Curve.p2.y = Ww.Mark.y;
+			break;
+			case 3:
+			Ww.Curve.p3.x = Ww.Mark.x;
+			Ww.Curve.p3.y = Ww.Mark.y;
+			break;
+			case 4:
+			Ww.Curve.p4.x = Ww.Mark.x;
+			Ww.Curve.p4.y = Ww.Mark.y;
+			break;
+			default:
+				g_warning("Wrong call to get_control_point, no point %d possible", which);
+				ret = FALSE;
+				break;
+			}
+			
+	}	else ret = FALSE;
+
+	Ww.stage = (ret? WaitingForCurveDrag:STAGE_NONE);
+	return ret;
+}
+
 
 static gint 
 start_stage(GtkWidget *widget, WwStage stage) {
@@ -1645,7 +1763,6 @@ start_stage(GtkWidget *widget, WwStage stage) {
 }
 
 static void create_all_pdf(void) {
-
 busy_cursor();
 create_pdf(FALSE, TRUE);
 g_child_watch_add(PrintStatus.printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
@@ -1770,6 +1887,9 @@ action_for_link (EvView* view, EvLinkAction *obj) {
    (Ww.grob==Slur && (Ww.stage == SelectingFarEnd))) {
 			return TRUE;
 	}
+	if(Ww.stage == WaitingForCurveDrag)
+	  return TRUE;
+	
   if(Ww.stage==Offsetting) {
 		return TRUE;//?Better take over motion notify so as not to get this while working ...
 	}
@@ -1836,19 +1956,26 @@ action_for_link (EvView* view, EvLinkAction *obj) {
 								break;
 							case TARGET_SLUR:
 									//g_print("taking action on slur...");
-									if(Ww.repeatable && Ww.task==Positions) {
+									if(Ww.repeatable && Ww.task==Positions) {						
 										Ww.stage = WaitingForDrag;
+										gtk_widget_queue_draw(Denemo.printarea);
 										call_out_to_guile("(GetSlurPositions)");
+									}	else 	if(Ww.repeatable && Ww.task==Shape) {						
+										Ww.stage = WaitingForCurveDrag;
+										gtk_widget_queue_draw(Denemo.printarea);
+										call_out_to_guile("(ReshapeSlur)");
 									}	else {
-									Ww.task = Positions;
-									Ww.stage = TargetEstablished;
-									if(Ww.grob!=Slur)
-										Ww.repeatable = FALSE;
-									}
-									
-									
-								  break;
-									
+										Ww.stage = TargetEstablished;
+										if(Ww.grob!=Slur)
+											Ww.repeatable = FALSE;
+									}	
+								  break;	
+							case TARGET_TIE:
+								g_warning("Not yet done!!");
+								break;
+							default:
+								g_warning("Target type %d not yet done!!", Denemo.gui->si->target.type);
+								break;
 						}			
 		}
       
@@ -1884,7 +2011,9 @@ static gboolean in_selected_object(gint x, gint y) {
     y += (yy+MARKER/2);
 	return (x>Ww.Mark.x && y>Ww.Mark.y && x<(Ww.Mark.x+Ww.Mark.width) && y<(Ww.Mark.y+Ww.Mark.height));
 }
-gboolean is_near(gint x, gint y, GdkPoint p) {
+
+
+static gboolean is_near(gint x, gint y, GdkPoint p) {
 	gint xx, yy;
 	get_window_position(&xx, &yy);
   x += (xx+MARKER/2);
@@ -1922,17 +2051,57 @@ printarea_motion_notify (GtkWidget * widget, GdkEventMotion * event)
 		return TRUE;
 	} 
  
+  if(Ww.stage == Dragging1) {
+		gint xx, yy;
+    get_window_position(&xx, &yy);  
+    Ww.Curve.p1.x = xx + (gint)event->x;
+    Ww.Curve.p1.y = yy + (gint)event->y;
+    gtk_widget_queue_draw (Denemo.printarea);
+		return TRUE;
+	} 
+ 
+  if(Ww.stage == Dragging2) {
+		gint xx, yy;
+    get_window_position(&xx, &yy);  
+    Ww.Curve.p2.x = xx + (gint)event->x;
+    Ww.Curve.p2.y = yy + (gint)event->y;
+    gtk_widget_queue_draw (Denemo.printarea);
+		return TRUE;
+	} 
+ 
+  if(Ww.stage == Dragging3) {
+		gint xx, yy;
+    get_window_position(&xx, &yy);  
+    Ww.Curve.p3.x = xx + (gint)event->x;
+    Ww.Curve.p3.y = yy + (gint)event->y;
+    gtk_widget_queue_draw (Denemo.printarea);
+		return TRUE;
+	} 
+ 
+  if(Ww.stage == Dragging4) {
+		gint xx, yy;
+    get_window_position(&xx, &yy);  
+    Ww.Curve.p4.x = xx + (gint)event->x;
+    Ww.Curve.p4.y = yy + (gint)event->y;
+    gtk_widget_queue_draw (Denemo.printarea);
+		return TRUE;
+	} 
+ 
+ 
+ 
+ 
+ 
   gint xx, yy;
   get_window_position(&xx, &yy);
   Ww.curx = xx + (gint)event->x;
-  Ww.cury = yy + (gint)event->y;  
+  Ww.cury = yy + (gint)event->y; 
+  
+   
   if((Ww.stage==Offsetting) ||(Ww.stage==SelectingReference) ) {
-
     gtk_widget_queue_draw (Denemo.printarea);
     return TRUE;
   }
-
- 
+  
 	if(in_selected_object((int)event->x, (int)event->x)) { 
 			return TRUE;//we have handled this.
 	}
@@ -2025,7 +2194,8 @@ static void cancel_tweak(void) {
 }
 static void repeat_tweak(void) {
 	if(Ww.grob==Slur)           //if(Ww.repeatable && Ww.grob==(slur?Slur:Beam))
-		call_out_to_guile("(GetSlurPositions)");
+		//call_out_to_guile("(GetSlurPositions)");
+		call_out_to_guile("(EditSlur)");
 	else if(Ww.grob==Beam)           //if(Ww.repeatable && Ww.grob==(slur?Slur:Beam))
 		call_out_to_guile("(GetBeamPositions)");
 		else
@@ -2041,12 +2211,15 @@ static void help_tweak(void) {
 static void red_dots(void) {
 	call_out_to_guile("(d-ToggleWysiwygMarks)");
 }
+static void red_crosses(void) {
+	call_out_to_guile("(d-ToggleCurveControl)");
+}
 
 static gint
 popup_tweak_menu(void) {
   GtkWidget *menu = gtk_menu_new();
   GtkWidget *item;
-  if(Ww.stage==WaitingForDrag || Ww.stage==Offsetting) {
+  if(Ww.stage==WaitingForDrag || Ww.stage==WaitingForCurveDrag || Ww.stage==Offsetting) {
 		item = gtk_menu_item_new_with_label(_("Apply"));
 		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 		g_signal_connect_swapped(G_OBJECT(item), "activate", G_CALLBACK(apply_tweak), NULL);
@@ -2066,6 +2239,11 @@ popup_tweak_menu(void) {
 		gtk_widget_set_tooltip_markup(item, _("The exact positions of the graphical components of the score can be labelled with red dots for accurate tweaks\nTurn these off before printing!"));
 		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(red_dots),NULL);
+
+		item = gtk_menu_item_new_with_label(_("Slur and Tie markers (Off/On)"));
+		gtk_widget_set_tooltip_markup(item, _("The control points for curves can be marked with red crosses for shape modification\nTurn these off before printing!"));
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(red_crosses),NULL);
 			
 		item = gtk_menu_item_new_with_label(_("Score Size"));
 		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
@@ -2107,7 +2285,23 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 	return TRUE;
  }
 
- 
+ if(Ww.stage==WaitingForCurveDrag) {
+		if(is_near((gint)event->x, (gint)event->y, Ww.Curve.p1)) {
+			Ww.stage=Dragging1;//gtk_widget_queue_draw (Denemo.printarea);
+			return TRUE;
+		} else if(is_near((gint)event->x, (gint)event->y, Ww.Curve.p2)) {
+			Ww.stage=Dragging2;
+			return TRUE;
+		} else if(is_near((gint)event->x, (gint)event->y, Ww.Curve.p3)) {
+			Ww.stage=Dragging3;
+			return TRUE;
+		} else if(is_near((gint)event->x, (gint)event->y, Ww.Curve.p4)) {
+			Ww.stage=Dragging4;
+			return TRUE;
+		}
+		popup_tweak_menu();
+		return TRUE;
+ }
  if(right && Ww.stage==WaitingForDrag && !hotspot) {
 	 apply_tweak();
  }
@@ -2115,11 +2309,11 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 			Ww.near_i = Ww.near = Ww.last_button_press;//struct copy
 			return TRUE;
  }
- if( /* left && */ Ww.stage==SelectingFarEnd) {//handle on release, after cursor has moved to note
+ if( Ww.stage==SelectingFarEnd) {//handle on release, after cursor has moved to note
 	 return TRUE;
  }
 
- if( /* left && */ Ww.stage==WaitingForDrag) {
+ if( Ww.stage==WaitingForDrag) {
 		 if(is_near((gint)event->x, (gint)event->y, Ww.near)) { 
 			 Ww.stage = DraggingNearEnd;
 		 } else
@@ -2130,6 +2324,9 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 	gtk_widget_queue_draw (Denemo.printarea);
 	return TRUE; 
  }
+ 
+ 
+ 
  
  if(in_selected_object((gint)event->x, (gint)event->y)) {
 	//g_print("Popping up menu");
@@ -2162,7 +2359,36 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 	gtk_window_present(GTK_WINDOW(gtk_widget_get_toplevel(Denemo.scorearea)));
 	//g_print("Button release %d, %d\n",(int)event->x , (int)event->y);
 
-  
+  if(Ww.stage==Dragging1) {
+		Ww.Curve.p1.x = Ww.last_button_release.x;
+		Ww.Curve.p1.y = Ww.last_button_release.y;
+		Ww.stage=WaitingForCurveDrag;gtk_widget_queue_draw (Denemo.printarea);
+		return TRUE;
+	} else  if(Ww.stage==Dragging2) {
+		Ww.Curve.p2.x = Ww.last_button_release.x;
+		Ww.Curve.p2.y = Ww.last_button_release.y;
+		Ww.stage=WaitingForCurveDrag;gtk_widget_queue_draw (Denemo.printarea);
+		return TRUE;
+	} else  if(Ww.stage==Dragging3) {
+		Ww.Curve.p3.x = Ww.last_button_release.x;
+		Ww.Curve.p3.y = Ww.last_button_release.y;
+		Ww.stage=WaitingForCurveDrag;gtk_widget_queue_draw (Denemo.printarea);
+		return TRUE;
+	} else  if(Ww.stage==Dragging4) {
+		Ww.Curve.p4.x = Ww.last_button_release.x;
+		Ww.Curve.p4.y = Ww.last_button_release.y;
+		Ww.stage=WaitingForCurveDrag;gtk_widget_queue_draw (Denemo.printarea);
+		return TRUE;
+	}
+	
+  if(Ww.stage==WaitingForCurveDrag) {
+		g_print("End of curve drag - should give menu if right click\n");
+		g_print("Check level > 1  %d", gtk_main_level());
+		gtk_main_quit();
+		return TRUE;
+	}
+	
+	
   if( Ww.ObjectLocated || (Ww.stage == SelectingNearEnd) || (Ww.stage == SelectingReference)) {   
     Ww.Mark.width = Ww.Mark.height = MARKER;
 		gtk_widget_queue_draw (Denemo.printarea);
@@ -2172,11 +2398,13 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
     Ww.ObjectLocated = FALSE;
   }
 
-  if( /* left && */ Ww.stage==TargetEstablished) { 
-		Ww.grob=Slur;
-		call_out_to_guile("(GetSlurStart)");
-		Ww.stage=STAGE_NONE;
-  	return TRUE;
+  if( /* left && */ Ww.stage==TargetEstablished) {
+		if(Denemo.gui->si->target.type==TARGET_SLUR) {
+			Ww.grob=Slur;
+			call_out_to_guile("(EditSlur)");
+			Ww.stage=STAGE_NONE;
+			return TRUE;
+		}
  }  
   if( Ww.stage == SelectingNearEnd) {
      Ww.stage=SelectingFarEnd; 
@@ -2229,7 +2457,7 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 			gtk_main_quit();
 		}
    return TRUE;
-  } 
+  }
   
   // \once \override DynamicLineSpanner #'padding = #10 setting padding for cresc and dimin
   // \once \override DynamicLineSpanner #'Y-offset = #-10 to move a cresc or dimin vertically downwards.

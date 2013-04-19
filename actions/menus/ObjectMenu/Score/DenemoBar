@@ -9,6 +9,11 @@
         <action>DenemoBar</action>
         <scheme>
         ;;;DenemoBar
+        (if (d-Directive-score? "DenemoBar")
+					(begin
+						(d-DirectiveDelete-score "DenemoBar")
+						(d-DirectiveDelete-score "ScoreTiming")) 
+					(begin
         (d-DirectivePut-score-prefix "DenemoBar" "\n
 increaseBarNumber = \\applyContext
 #(lambda (x)
@@ -42,7 +47,8 @@ nibar = #(define-music-function (parser location x) (string?)
 #})
 Barline =   \\nibar \"|\"\n")
 (d-DirectivePut-score-override "DenemoBar" DENEMO_OVERRIDE_AFFIX)
-(d-DirectivePut-score-postfix "ScoreTiming" " \\set Score.timing = ##f \n")
+(d-DirectivePut-score-postfix "ScoreTiming" " \\set Score.timing = ##f \n")))
+(d-SetSaved #f)
 </scheme>
         <label>Typeset Barlines Literally</label>
         <tooltip>Typesets the Denemo barlines, regardless of the timing.</tooltip>

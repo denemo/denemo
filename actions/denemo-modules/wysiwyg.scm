@@ -205,6 +205,22 @@
 				(disp "Doing Nothing"))))
 	(d-SetSaved #f))
 ;;;;;;;;;;;
+(define (SetSlur control-points)
+	(define x1 (number->string (car (list-ref control-points 0))))
+	(define y1 (number->string (cdr (list-ref control-points 0))))
+	(define x2 (number->string (car (list-ref control-points 1))))
+	(define y2 (number->string (cdr (list-ref control-points 1))))
+	(define x3 (number->string (car (list-ref control-points 2))))
+	(define y3 (number->string (cdr (list-ref control-points 2))))
+	(define x4 (number->string (car (list-ref control-points 3))))
+	(define y4 (number->string (cdr (list-ref control-points 3))))
+	(d-DirectivePut-chord-prefix "SlurShape" 			
+					(string-append "\\once \\override Slur
+      #'control-points = #'((" x1 " . " y1 ") (" x2 " . " y2 ") (" x3 " . " y3 ") (" x4 " . " y4 ")) "))
+  (d-DirectivePut-chord-display "SlurShape" "(")    
+  (d-DirectivePut-chord-override "SlurShape" DENEMO_OVERRIDE_AFFIX)    
+)
+;;;;;;;;;
 (define (GetSlurPositions)
 (let ((yvals #f))
 			(set! yvals (d-GetPositions #t))
@@ -217,15 +233,52 @@
 			(if yvals
 				(SetBeamPositions (number->string (car yvals)) (number->string (cdr yvals))))))
 
-(define (GetSlurStart)
- 	(d-InfoDialog (_"First click on the notehead of the note where the slur starts"))
-	(if (d-GetNewTarget) 
-		(if (d-IsSlurStart)
-			(begin 
-				(d-InfoDialog "") 
-				(GetSlurPositions))
-			(d-InfoDialog (_ "Not a slur start - cancelled")))
-		(d-InfoDialog (_ "Cancelled"))))
+(define (ReshapeSlur)
+	(let ((vals #f))
+						(d-InfoDialog (_"Now drag the control points to make the shape desired - when finished click away from a control point"))
+						(set! vals (d-GetCurve)) 
+							(if vals
+									(begin
+										(d-InfoDialog (_"Slur Re-shaped"))
+										(SetSlur vals)
+										(d-SetSaved #f)))))
+				
+(define (GetSlurShape)
+		(let ()
+			(define (get-control-point n)
+				(case n
+					((1) (d-InfoDialog (_"Now click on the control point at the left end the slur\nControl points are marked by red crosses"))(d-GetControlPoint 1) )
+					((2) (d-InfoDialog (_"Now click second control point of the slur, the next red cross to the right"))(d-GetControlPoint 2))
+					((3) (d-InfoDialog (_"Now click third control point of the slur, the next red cross to the right"))(d-GetControlPoint 3))
+					((4) (d-InfoDialog (_"Now click last control point at the end of the slur, the last red cross to the right"))(d-GetControlPoint 4))))
+			(if (d-Directive-score? "ToggleCurveControl")
+					(begin
+						(d-InfoDialog (_"First click on the center line of the staff aligning with notehead/rest\n(Positioning will be done with respect to this height)"))
+						(if (d-GetNewTarget #f)
+							(begin		
+								(if (and (get-control-point 1)
+										(get-control-point 2)
+										(get-control-point 3)
+										(get-control-point 4))
+										(ReshapeSlur)))))
+					(d-InfoDialog (_"To re-shape slurs you need to have the control points marked.
+Use the right click menu to turn these on before invoking this command")))))
+				
+				
+
+(define (EditSlur)
+	(let ((choice (d-PopupMenu (list (cons (_ "Hint Slur Position")  'position) (cons (_ "Edit Slur Shape") 'shape)))))
+		(case choice 
+			((position)
+				(d-InfoDialog (_"First click on the notehead of the note where the slur starts"))
+				(if (d-GetNewTarget) 
+					(if (d-IsSlurStart)
+						(begin 
+							(d-InfoDialog "") 
+							(GetSlurPositions))
+							(d-InfoDialog (_ "Not a slur start - cancelled")))
+							(d-InfoDialog (_ "Cancelled"))))
+			((shape) (GetSlurShape)))))
 
 (define (EditTarget)
 	(let ((target (d-GetTargetInfo)) (target-type #f)(grob #f)(tag #f))	
@@ -347,7 +400,9 @@
 										 (set! menu (cons (cons (cons (_"Change beam angle/position") (_"Allows you to drag the ends of the beam")) GetBeamPositions) menu))))
 			
 									(if (d-IsSlurStart)
-										(set! menu (cons (cons (cons (_"Hint Slur Angle/Position") (_"Allows you to drag the ends of the slur")) GetSlurPositions) menu )))
+										(begin
+											(set! menu (cons (cons (cons (_"Hint Slur Angle/Position") (_"Allows you to drag the ends of the slur")) GetSlurPositions) menu ))
+											(set! menu (cons (cons (cons (_"Change Slur Shape") (_"Allows you to drag the control points of the slur")) GetSlurShape) menu ))))
 									
 										
 										
