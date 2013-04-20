@@ -102,6 +102,7 @@ static int stream_callback(const void * input_buffer,
 
 static int actual_portaudio_initialize(DenemoPrefs *config) {
 
+  sample_rate = config->portaudio_sample_rate;
 
 #ifdef _HAVE_FLUIDSYNTH_
 	g_print("Initializing Fluidsynth\n");
@@ -152,7 +153,6 @@ static int actual_portaudio_initialize(DenemoPrefs *config) {
     return -1;
   }
 
-  sample_rate = config->portaudio_sample_rate;
 
 
   err = Pa_StartStream(stream);
