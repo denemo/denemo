@@ -2230,10 +2230,8 @@ static void help_tweak(void) {
 	gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), _("To tweak the positions of objects (and more) move the mouse until the hand pointer appears\nClick on the object and follow the prompts.\nFor beams, click on the notehead of the note where the beam starts."));
 	gtk_widget_show(Ww.dialog);
 }
-static void red_dots(void) {
+static void toggle_lilypond_structure_markers(void) {
 	call_out_to_guile("(d-ToggleWysiwygMarks)");
-}
-static void red_crosses(void) {
 	call_out_to_guile("(d-ToggleCurveControl)");
 }
 
@@ -2257,16 +2255,12 @@ popup_tweak_menu(void) {
 		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(help_tweak),NULL);
 		
-		item = gtk_menu_item_new_with_label(_("Red Dots (Off/On)"));
-		gtk_widget_set_tooltip_markup(item, _("The exact positions of the graphical components of the score can be labelled with red dots for accurate tweaks\nTurn these off before printing!"));
+		item = gtk_menu_item_new_with_label(_("Red dots and crosses (Off/On)"));
+		gtk_widget_set_tooltip_markup(item, _("The exact positions of the graphical components of the score will be labelled with red dots\n"
+		"and the control points for curves with red crosses for accurate tweaks\nTurn these off before printing!"));
 		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(red_dots),NULL);
-
-		item = gtk_menu_item_new_with_label(_("Slur and Tie markers (Off/On)"));
-		gtk_widget_set_tooltip_markup(item, _("The control points for curves can be marked with red crosses for shape modification\nTurn these off before printing!"));
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(red_crosses),NULL);
-			
+		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(toggle_lilypond_structure_markers),NULL);
+	
 		item = gtk_menu_item_new_with_label(_("Score Size"));
 		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(set_score_size),NULL);
