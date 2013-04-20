@@ -287,10 +287,12 @@ Use the right click menu to turn these on before invoking this command")))))
 							(d-InfoDialog (_ "Not a slur start - cancelled")))
 							(d-InfoDialog (_ "Cancelled"))))
 			((shape) (GetSlurShape)))))
-
+			
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (define (EditTarget)
 	(let ((target (d-GetTargetInfo)) (target-type #f)(grob #f)(tag #f))	
 	(define ta-tag "TextAnnotation")
+
 	(define (do-offset)
 		(let ((offset #f))
 					(set! offset (d-GetOffset))
@@ -299,19 +301,23 @@ Use the right click menu to turn these on before invoking this command")))))
 							(TweakOffset grob tag (number->string (car offset)) (number->string (cdr offset)))))))
 							
 							
-(define (do-center-relative-offset)
-	(let ((offset #f))
-				(d-InfoDialog (_"First click on the center line of the staff aligning with notehead/rest\n(Positioning will be done with respect to this height)"))
-				(d-GetReferencePoint)
-				(d-InfoDialog (_"Now click on the position desired for the object"))
-				(set! offset (d-GetOffset))
-				(if offset
+	(define (do-center-relative-offset)
+		(let ((offset #f))
+			(if (d-Directive-score? "ToggleWysiwygMarks")
+				(begin
+					(d-InfoDialog (_"First click on the center line of the staff aligning with notehead/rest\n(Positioning will be done with respect to this height)"))
+					(d-GetReferencePoint)
+					(d-InfoDialog (_"Now click on the position desired for the object"))
+					(set! offset (d-GetOffset))
+					(if offset
 						(begin
 							(d-InfoDialog (_ "Re-positioned"))
-							(TweakOffset grob tag (number->string (car offset)) (number->string (cdr offset)))))))
+							(TweakOffset grob tag (number->string (car offset)) (number->string (cdr offset))))))
+				(d-InfoDialog (_"To re-position stuff attached to notes you need to have the locations of the notes marked with red dots.
+Use the right click menu to turn these on before invoking this command")))))
 							
-(define (do-direction)
-	(let ((direction #f)
+	(define (do-direction)
+		(let ((direction #f)
 				(choice #f)
 				(menu (list (cons (_ "Up")  "^")  (cons (_ "Down")  "_") (cons (_ "Auto")  "-") )) )
 						 (set! choice (d-PopupMenu menu))
