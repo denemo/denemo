@@ -39,7 +39,8 @@ void show_print_view(GtkAction *action, gpointer param);
 
 gboolean get_offset(gdouble *x, gdouble *y);
 gboolean get_positions(gdouble *neary, gdouble *fary, gboolean for_slur);
-gboolean get_new_target(gboolean reference);
+gboolean get_new_target(void);
+gboolean get_reference_point(void);
 gboolean get_control_point(gint which);
 gboolean get_curve(gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2,gdouble *x3, gdouble *y3,gdouble *x4, gdouble *y4);
 

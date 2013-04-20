@@ -471,8 +471,14 @@ static SCM scheme_get_positions(SCM is_slur) {
 	} else
 	return SCM_BOOL_F;
 }
-static SCM scheme_get_new_target(SCM ref) {
-	return scm_from_bool(get_new_target(scm_is_false(ref)));
+static SCM scheme_get_new_target(void) {
+	return scm_from_bool(get_new_target());
+}
+static SCM scheme_get_new_point(void) {
+	return scm_from_bool(get_new_point());
+}
+static SCM scheme_get_reference_point(void) {
+	return scm_from_bool(get_reference_point());
 }
 
 static SCM scheme_get_target_info(void) {
@@ -5171,7 +5177,9 @@ static void create_scheme_identfiers(void) {
   INSTALL_SCM_FUNCTION ("Removes a callback from the current musical score",DENEMO_SCHEME_PREFIX"DetachQuitCallback",  scheme_detach_quit_callback);
   INSTALL_SCM_FUNCTION ("Pops up a menu given by the list of pairs in the argument. Each pair should be a label string and an expression, the expression for the chosen label is returned. Alternatively the label string can be replaced by a pair of strings, label . tooltip. The third syntax is just a list of string labels, the chosen string is returned.",DENEMO_SCHEME_PREFIX"PopupMenu",  scheme_popup_menu);
   INSTALL_SCM_FUNCTION ("Returns a list of the target type and grob (if a directive). Target is set by clicking on the typeset version of the score at a link that LilyPond has inserted.",DENEMO_SCHEME_PREFIX"GetTargetInfo",  scheme_get_target_info);
-  INSTALL_SCM_FUNCTION ("Interactively gets a target (a click on a LilyPond link in the printview window) from the user ",DENEMO_SCHEME_PREFIX"GetNewTarget",  scheme_get_new_target);
+  INSTALL_SCM_FUNCTION ("Interactively sets a target (a click on a LilyPond link in the printview window) from the user ",DENEMO_SCHEME_PREFIX"GetNewTarget",  scheme_get_new_target);
+  INSTALL_SCM_FUNCTION ("Interactively sets a point in the printview window from the user",DENEMO_SCHEME_PREFIX"GetNewPoint",  scheme_get_new_point);
+  INSTALL_SCM_FUNCTION ("Interactively sets a reference point (a click on a point in the printview window) from the user showing a cross hairs prompt ",DENEMO_SCHEME_PREFIX"GetReferencePoint",  scheme_get_reference_point);
   INSTALL_SCM_FUNCTION ("Interactively gets an offset from the user in the print view window. The offset is from the last clicked object in the print view window. Returns pair of numbers x is positive to the right, y is positive upwards.",DENEMO_SCHEME_PREFIX"GetOffset",  scheme_get_offset);
   INSTALL_SCM_FUNCTION ("Interactively sets a control point for a curve in the print view window. Takes one parameter the number 1-4 of the control point to set.",DENEMO_SCHEME_PREFIX"GetControlPoint",  scheme_get_control_point);
   INSTALL_SCM_FUNCTION ("Interactively gets a curve from the user in the print view window. Returns a list of pairs of numbers, the control points of the curve.",DENEMO_SCHEME_PREFIX"GetCurve",  scheme_get_curve);

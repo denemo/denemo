@@ -89,7 +89,7 @@ gchar *printname_ly[2];
 
 static printstatus PrintStatus = {GPID_NONE, 0, 0, 4, 4, 4, 4, TYPESET_ALL_MOVEMENTS};
 typedef struct Rectangle {
-	gdouble x, y, width, height;} Rectangle;
+	gdouble x, y, width, height;} Rectangle; //Width=0 means no rectangle set
 	
 typedef struct Curve {
 	GdkPoint p1, p2, p3, p4;} Curve;
@@ -105,6 +105,7 @@ typedef enum {STAGE_NONE,
 							WaitingForDrag,
 							SelectingReference,
 							WaitingForCurveDrag,
+							SelectingPoint,
 							Dragging1,
 							Dragging2,
 							Dragging3,
@@ -1198,7 +1199,7 @@ static gboolean overdraw_print(cairo_t *cr) {
 			return TRUE;
 	}
 
-	if((Ww.stage==WaitingForCurveDrag) || (Ww.stage==Dragging1)||(Ww.stage==Dragging2)||(Ww.stage==Dragging3)||(Ww.stage==Dragging4)) {	
+	if((Ww.stage==SelectingPoint) || (Ww.stage==WaitingForCurveDrag) || (Ww.stage==Dragging1)||(Ww.stage==Dragging2)||(Ww.stage==Dragging3)||(Ww.stage==Dragging4)) {	
 		//place_spot for all non-null points Curve.p1...
 		if( Ww.Curve.p1.x) {
 					place_spot(cr, Ww.Curve.p1.x, Ww.Curve.p1.y);g_print("placed spot at x1 =%d\n", Ww.Curve.p1.x);
@@ -1708,24 +1709,45 @@ gboolean get_curve(gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2, gdouble *
 }
 
 
-
-gboolean get_new_target(gboolean reference_point) {
-	gint initial = Ww.stage =
-	(reference_point?
-		SelectingReference:SelectingNearEnd);
+//Gets a new value into Ww.Mark.x,y and changes to SelectingFarEnd
+gboolean get_new_target(void) {
+	Ww.stage = SelectingNearEnd;
 	g_print("Starting main");
 	gtk_main();
-	if(reference_point)
-		Ww.Reference = Ww.Mark;
-	if(Ww.stage==initial)
+	if(Ww.stage==SelectingNearEnd) //should have changed, but user cancelled
 		return FALSE;
 	else
 		return TRUE;
 }
 
+//Gets a new value into Ww.Mark.x,y and changes to STAGE_NONE
+gboolean get_new_point(void) {
+	Ww.stage = SelectingPoint;
+	g_print("Starting main");
+	gtk_main();
+	if(Ww.stage==SelectingPoint) //should have changed, but user cancelled
+		return FALSE;
+	else
+		return TRUE;
+}
+
+
+gboolean get_reference_point(void) {
+	Ww.stage = SelectingReference;
+	memset(&Ww.Curve, 0, sizeof(Curve));
+	gtk_main();
+	if(Ww.stage==SelectingReference) {//should have changed, but the user cancelled
+		return FALSE;
+	}
+	else {
+		Ww.Reference = Ww.Mark;
+		return TRUE;
+	}
+}
+
 gboolean get_control_point(gint which) {
 	gboolean ret = TRUE;
-	if(get_new_target(FALSE)) {//FIXME instead make purpose of get_new_target() the argument to it, and use that in the call
+	if(get_new_point()) {//FIXME ... instead make purpose of get_new_target() the argument to it, and use that in the call
 		switch (which) {
 			case 1:
 			Ww.Curve.p1.x = Ww.Mark.x;
@@ -1750,7 +1772,7 @@ gboolean get_control_point(gint which) {
 			}
 			
 	}	else ret = FALSE;
-
+	gtk_widget_queue_draw (Denemo.printarea);
 	Ww.stage = (ret? WaitingForCurveDrag:STAGE_NONE);
 	return ret;
 }
@@ -1881,13 +1903,17 @@ action_for_link (EvView* view, EvLinkAction *obj) {
 	//g_print("Link action Mark at %f, %f\n", Ww.Mark.x, Ww.Mark.y);
   gchar *uri = (gchar*)ev_link_action_get_uri(obj);
   //g_print("Stage %d\n", Ww.stage);
-
+	if((Ww.stage == SelectingPoint) ||
+		 (Ww.stage == Dragging1) ||
+		 (Ww.stage == Dragging2) ||
+		 (Ww.stage == Dragging3) ||
+		 (Ww.stage == Dragging4))
+		return TRUE;
   if((Ww.stage == WaitingForDrag) ||    
-   
-   (Ww.grob==Slur && (Ww.stage == SelectingFarEnd))) {
+			(Ww.grob==Slur && (Ww.stage == SelectingFarEnd))) {
 			return TRUE;
 	}
-	if(Ww.stage == WaitingForCurveDrag)
+	if(Ww.stage == WaitingForCurveDrag || (Ww.stage == SelectingReference))
 	  return TRUE;
 	
   if(Ww.stage==Offsetting) {
@@ -1915,7 +1941,7 @@ action_for_link (EvView* view, EvLinkAction *obj) {
 			Ww.repeatable = FALSE;
      //g_print("Target type %d\n", Denemo.gui->si->target.type); 
      
-    if ((Ww.stage == SelectingNearEnd) || (Ww.stage == SelectingReference))
+    if ((Ww.stage == SelectingNearEnd))
 			return TRUE;
    
     if(Ww.ObjectLocated && Denemo.gui->si->currentobject) {
@@ -1949,25 +1975,21 @@ action_for_link (EvView* view, EvLinkAction *obj) {
 									
 									}
 								}
-								
-								
-								
-								
+					
 								break;
 							case TARGET_SLUR:
 									//g_print("taking action on slur...");
-									if(Ww.repeatable && Ww.task==Positions) {						
+									if(Ww.repeatable && Ww.task==Positions && confirm("Slur Angle/Position", "Repeat Slur Positioning Hint?")) {						
 										Ww.stage = WaitingForDrag;
 										gtk_widget_queue_draw(Denemo.printarea);
 										call_out_to_guile("(GetSlurPositions)");
-									}	else 	if(Ww.repeatable && Ww.task==Shape) {						
+									}	else 	if(Ww.stage==STAGE_NONE && Ww.repeatable && Ww.task==Shape && confirm("Slur Shape", "Repeat Shaping Slur?")) {						
 										Ww.stage = WaitingForCurveDrag;
 										gtk_widget_queue_draw(Denemo.printarea);
 										call_out_to_guile("(ReshapeSlur)");
 									}	else {
 										Ww.stage = TargetEstablished;
-										if(Ww.grob!=Slur)
-											Ww.repeatable = FALSE;
+										Ww.repeatable = FALSE;
 									}	
 								  break;	
 							case TARGET_TIE:
@@ -2309,6 +2331,10 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 			Ww.near_i = Ww.near = Ww.last_button_press;//struct copy
 			return TRUE;
  }
+  if( Ww.stage==SelectingPoint) {//handle on release as user may move before releasing
+	 return TRUE;
+ }
+ 
  if( Ww.stage==SelectingFarEnd) {//handle on release, after cursor has moved to note
 	 return TRUE;
  }
@@ -2411,13 +2437,22 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
      gtk_main_quit();
    	return TRUE;
  }  
+
   if( Ww.stage == SelectingReference) {
      Ww.stage=STAGE_NONE; 
      gtk_main_quit();
    	return TRUE;
  }  
-     
-  if( /* left && */ Ww.stage==SelectingFarEnd) {
+  if(Ww.stage==SelectingPoint) {
+		Ww.stage=STAGE_NONE;   
+		Ww.Mark.width = Ww.Mark.height = MARKER;//width=0 means no mark
+		Ww.Mark.x = event->x + xx;
+    Ww.Mark.y = event->y + yy;
+		g_print("Selected point, %f %f \n", Ww.Mark.x, Ww.Mark.y);
+		gtk_main_quit();
+		return TRUE;
+	}
+  if(Ww.stage==SelectingFarEnd) {
 			Ww.far_i = Ww.far = Ww.last_button_release;
 			Ww.stage=WaitingForDrag;
 			//first post-insert a \stemNeutral if beaming

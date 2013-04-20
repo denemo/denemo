@@ -214,11 +214,11 @@
 	(define y3 (number->string (cdr (list-ref control-points 2))))
 	(define x4 (number->string (car (list-ref control-points 3))))
 	(define y4 (number->string (cdr (list-ref control-points 3))))
-	(d-DirectivePut-chord-prefix "SlurShape" 			
+	(d-DirectivePut-chord-prefix "Slur" 			
 					(string-append "\\once \\override Slur
       #'control-points = #'((" x1 " . " y1 ") (" x2 " . " y2 ") (" x3 " . " y3 ") (" x4 " . " y4 ")) "))
-  (d-DirectivePut-chord-display "SlurShape" "(")    
-  (d-DirectivePut-chord-override "SlurShape" DENEMO_OVERRIDE_AFFIX)    
+  (d-DirectivePut-chord-display "Slur" "(")    
+  (d-DirectivePut-chord-override "Slur" DENEMO_OVERRIDE_AFFIX)    
 )
 ;;;;;;;;;
 (define (GetSlurPositions)
@@ -254,7 +254,7 @@
 			(if (d-Directive-score? "ToggleCurveControl")
 					(begin
 						(d-InfoDialog (_"First click on the center line of the staff aligning with notehead/rest\n(Positioning will be done with respect to this height)"))
-						(if (d-GetNewTarget #f)
+						(if (d-GetReferencePoint)
 							(begin		
 								(if (and (get-control-point 1)
 										(get-control-point 2)
@@ -264,11 +264,19 @@
 					(d-InfoDialog (_"To re-shape slurs you need to have the control points marked.
 Use the right click menu to turn these on before invoking this command")))))
 				
-				
+
+(define RestoreSlurPrompt (cons	(_ "Restore Default Slur Shape/Position")	(_"Removes your customization of this slur")))
 
 (define (EditSlur)
-	(let ((choice (d-PopupMenu (list (cons (_ "Hint Slur Position")  'position) (cons (_ "Edit Slur Shape") 'shape)))))
+	(let ((choice #f) (menu #f))
+		(set! menu (list 
+							(cons (_ "Hint Slur Position")  'position) (cons (_ "Edit Slur Shape") 'shape)))
+		(if (d-Directive-chord? "Slur")
+			(set! menu (cons (cons RestoreSlurPrompt 'restore) menu)))	
+		(set! choice (d-PopupMenu menu))
 		(case choice 
+			((restore)
+				(d-DirectiveDelete-chord "Slur"))
 			((position)
 				(d-InfoDialog (_"First click on the notehead of the note where the slur starts"))
 				(if (d-GetNewTarget) 
@@ -294,7 +302,7 @@ Use the right click menu to turn these on before invoking this command")))))
 (define (do-center-relative-offset)
 	(let ((offset #f))
 				(d-InfoDialog (_"First click on the center line of the staff aligning with notehead/rest\n(Positioning will be done with respect to this height)"))
-				(d-GetNewTarget #f)
+				(d-GetReferencePoint)
 				(d-InfoDialog (_"Now click on the position desired for the object"))
 				(set! offset (d-GetOffset))
 				(if offset
@@ -323,7 +331,8 @@ Use the right click menu to turn these on before invoking this command")))))
 				(ChopBeaming 0))
 	(define (chop-beam1)
 				(ChopBeaming 1))
-					
+	(define (remove-slur-shaping)
+						(d-DirectiveDelete-chord "Slur"))
 				
 	;;; the procedure starts here			
 	(if target
@@ -402,12 +411,10 @@ Use the right click menu to turn these on before invoking this command")))))
 									(if (d-IsSlurStart)
 										(begin
 											(set! menu (cons (cons (cons (_"Hint Slur Angle/Position") (_"Allows you to drag the ends of the slur")) GetSlurPositions) menu ))
-											(set! menu (cons (cons (cons (_"Change Slur Shape") (_"Allows you to drag the control points of the slur")) GetSlurShape) menu ))))
-									
-										
-										
-										
-										
+											(set! menu (cons (cons (cons (_"Change Slur Shape") (_"Allows you to drag the control points of the slur")) GetSlurShape) menu ))
+											(if (d-Directive-chord? "Slur")										
+												(set! menu (cons (cons RestoreSlurPrompt 
+																									remove-slur-shaping) menu )))))
 									(set! choice (d-PopupMenu menu))
 									(if choice
 										(choice)
