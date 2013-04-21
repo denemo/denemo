@@ -1202,7 +1202,7 @@ static gboolean overdraw_print(cairo_t *cr) {
 	if((Ww.stage==SelectingPoint) || (Ww.stage==WaitingForCurveDrag) || (Ww.stage==Dragging1)||(Ww.stage==Dragging2)||(Ww.stage==Dragging3)||(Ww.stage==Dragging4)) {	
 		//place_spot for all non-null points Curve.p1...
 		if( Ww.Curve.p1.x) {
-					place_spot(cr, Ww.Curve.p1.x, Ww.Curve.p1.y);g_print("placed spot at x1 =%d\n", Ww.Curve.p1.x);
+					place_spot(cr, Ww.Curve.p1.x, Ww.Curve.p1.y);
 			}
 		if( Ww.Curve.p2.x) {
 					place_spot(cr, Ww.Curve.p2.x, Ww.Curve.p2.y);
@@ -1979,14 +1979,20 @@ action_for_link (EvView* view, EvLinkAction *obj) {
 								break;
 							case TARGET_SLUR:
 									//g_print("taking action on slur...");
-									if(Ww.repeatable && Ww.task==Positions && confirm("Slur Angle/Position", "Repeat Slur Positioning Hint?")) {						
-										Ww.stage = WaitingForDrag;
-										gtk_widget_queue_draw(Denemo.printarea);
-										call_out_to_guile("(GetSlurPositions)");
-									}	else 	if(Ww.stage==STAGE_NONE && Ww.repeatable && Ww.task==Shape && confirm("Slur Shape", "Repeat Shaping Slur?")) {						
-										Ww.stage = WaitingForCurveDrag;
-										gtk_widget_queue_draw(Denemo.printarea);
-										call_out_to_guile("(ReshapeSlur)");
+									if(Ww.repeatable && Ww.task==Positions) {
+										if(confirm(_("Slur Angle/Position"), _("Repeat Slur Positioning Hint?"))) {		
+												Ww.stage = WaitingForDrag;
+												gtk_widget_queue_draw(Denemo.printarea);
+												call_out_to_guile("(GetSlurPositions)");
+											} else 
+										Ww.task=TASK_NONE;
+									}	else 	if(Ww.stage==STAGE_NONE && Ww.repeatable && Ww.task==Shape) {		
+										if(confirm(_("Slur Shape"), _("Repeat Shaping Slur?")))	{
+											Ww.stage = WaitingForCurveDrag;
+											gtk_widget_queue_draw(Denemo.printarea);
+											call_out_to_guile("(ReshapeSlur)");
+										} else
+										Ww.task=TASK_NONE;
 									}	else {
 										Ww.stage = TargetEstablished;
 										Ww.repeatable = FALSE;
