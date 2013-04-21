@@ -261,7 +261,7 @@
 										(get-control-point 3)
 										(get-control-point 4))
 										(ReshapeSlur)))))
-					(d-InfoDialog (_"To re-shape slurs you need to have the control points marked.
+					(d-WarningDialog (_"To re-shape slurs you need to have the control points marked.
 Use the right click menu to turn these on before invoking this command")))))
 				
 
@@ -313,7 +313,7 @@ Use the right click menu to turn these on before invoking this command")))))
 						(begin
 							(d-InfoDialog (_ "Re-positioned"))
 							(TweakOffset grob tag (number->string (car offset)) (number->string (cdr offset))))))
-				(d-InfoDialog (_"To re-position stuff attached to notes you need to have the locations of the notes marked with red dots.
+				(d-WarningDialog (_"To re-position stuff attached to notes you need to have the locations of the notes marked with red dots.
 Use the right click menu to turn these on before invoking this command")))))
 							
 	(define (do-direction)
