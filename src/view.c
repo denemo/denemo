@@ -450,11 +450,14 @@ static SCM scheme_get_control_point(SCM pt) {
 	}
 	return SCM_BOOL_F;
 }
-
+static void prec(gdouble *val) {
+	*val = round((*val)*100.0)/100;
+}
 static SCM scheme_get_curve(void) {
 	gdouble x1, y1, x2, y2, x3, y3, x4, y4;
 	if(get_curve(&x1, &y1, &x2, &y2, &x3, &y3, &x4, &y4))
 		{
+			prec(&x1);prec(&y1);prec(&x2);prec(&y2);prec(&x3);prec(&y3);prec(&x4);prec(&y4);
 			return scm_list_n (scm_cons(scm_from_double(x1), scm_from_double(y1)),
 													scm_cons(scm_from_double(x2), scm_from_double(y2)),
 													scm_cons(scm_from_double(x3), scm_from_double(y3)),
