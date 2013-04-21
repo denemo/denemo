@@ -163,7 +163,7 @@ staff_properties_change (void)
   static GString *entrycontent;
   GList *instrument_list = NULL;
   static struct callbackdata cbdata;
-
+	gint i;
   
   if (!instrument_list)
     {
