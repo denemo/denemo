@@ -18,6 +18,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *================================================================*/
+//Interface to Denemo License:  FSF GPL version 3 or later
 
 #include <stdio.h>
 #include <string.h>
@@ -25,6 +26,61 @@
 #include "sffile.h"
 #include "sf_util.h"
 
+
+/**
+ * Convert illegal characters in soundfont
+ *
+ */
+
+static void ConvertIllegalChar(char *name){
+  char *p;
+  for (p = name; *p; p++) {
+    if (!isprint(*p) || *p == '{' || *p == '}')
+      *p = ' ';
+    else if (*p == '[')
+      *p = '(';
+    else if (*p == ']')
+      *p = ')';
+  }
+}
+
+/**
+ * parse soundfont file "soundfont" and return number of presets. If "soundfont" is NULL use previously loaded soundfont
+ * if name or preset are Non-null, fill in the values for the given index (counting from 0).
+ */
+int  ParseSoundfont(char *soundfont, int index, char **name, int *preset) {
+  FILE *fp;
+  static SFInfo sf;
+  static initialized = FALSE;
+  int i;
+  int number = 0;
+  if(soundfont) {
+		if(initialized)
+			free_soundfont(&sf);
+		if ((fp = fopen(soundfont, "r")) == NULL) {
+			printf("\ncan't open soundfont file\n");
+			return 0;
+		} else if (load_soundfont(&sf, fp, TRUE)) {
+			return 0;
+		} else {
+			initialized = TRUE;
+			fclose(fp);
+		}
+		for (i = 0; i < sf.npresets-1; i++) {
+			ConvertIllegalChar(sf.preset[i].hdr.name);
+		}
+	}
+	if(initialized) {
+		number = sf.npresets;
+		if(index<number) {
+			if(name)
+				*name = sf.preset[index].hdr.name;
+			if(preset)
+				*preset = sf.preset[index].preset;
+		}
+	}
+	return number;
+}
 
 /*================================================================
  * preset / instrument bag record

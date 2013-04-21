@@ -19,49 +19,10 @@
 #include "xmldefs.h"
 #include "midi.h"
 #include "selectops.h"
-#include "sf_util.h"
-#include "sffile.h"
 
-/**
- * Convert illegal characters in soundfont
- *
- */
 
-static void ConvertIllegalChar(char *name){
-  gchar *p;
-  for (p = name; *p; p++) {
-    if (!isprint(*p) || *p == '{' || *p == '}')
-      *p = ' ';
-    else if (*p == '[')
-      *p = '(';
-    else if (*p == ']')
-      *p = ')';
-  }
-}
+extern int  ParseSoundfont(gchar *soundfont, gint index, gchar **name, gint *preset);//in "external" code libsffile/sfile.c
 
-/**
- * parse soundfont file and give the preset list
- *
- */
-SFInfo *ParseSoundfont() {
-  FILE *fp;
-  static SFInfo sf;
-  int i;
-
-  if ((fp = fopen(Denemo.prefs.fluidsynth_soundfont->str, "r")) == NULL) {
-    printf("\ncan't open soundfont file\n");
-    return NULL;
-  }
-  if (load_soundfont(&sf, fp, TRUE)) {
-    printf("\nfail to read soundfont file\n");
-    return NULL;
-  }
-  fclose(fp);
-  for (i = 0; i < sf.npresets-1; i++) {
-    ConvertIllegalChar(sf.preset[i].hdr.name);
-  }
-  return &sf;
-}
 
 
 
@@ -149,17 +110,19 @@ set_properties (struct callbackdata *cbdata)
   if(staffstruct->midi_instrument->len) {
     staffstruct->midi_prognum = get_midi_prognum(staffstruct);
     gint i;
-    SFInfo *sf = ParseSoundfont();
-    if(sf) {
-			for (i = 0; i < sf->npresets-1; i++) {
-				if(!strcmp(sf->preset[i].hdr.name, staffstruct->midi_instrument->str)) {
-					staffstruct->midi_prognum = sf->preset[i].preset;
+    gchar *name;
+    gint preset;
+    gint npresets = ParseSoundfont(Denemo.prefs.fluidsynth_soundfont->str, 0, NULL, NULL);
+    if(npresets) {
+			for (i = 0; i < npresets-1; i++) {
+				(void)ParseSoundfont(NULL, i, &name, &preset);
+				if(!strcmp(name, staffstruct->midi_instrument->str)) {
+					staffstruct->midi_prognum = preset;
 					printf("\nMIDI Instrument == %s \nMIDI PROGRAM == %d\n", 
 					staffstruct->midi_instrument->str, staffstruct->midi_prognum);
 					break;
 				}
-			}
-    free_soundfont(sf);
+			}  
 	}
  //   if(staffstruct->midi_prognum != i) /* I am not sure why this was necessary and if it is still needed*/
  //     ASSIGNNUMBER_1(midi_prognum);
@@ -200,16 +163,19 @@ staff_properties_change (void)
   static GString *entrycontent;
   GList *instrument_list = NULL;
   static struct callbackdata cbdata;
-  gint i;
+
   
   if (!instrument_list)
     {
-      SFInfo *sf = ParseSoundfont();
-      if(sf) {
-				for (i = 0; i < sf->npresets-1; i++) {
-					instrument_list = g_list_append (instrument_list, g_strdup ((gchar *) sf->preset[i].hdr.name));
+		gint i;
+	  gchar *name;
+    gint preset;
+    gint npresets = ParseSoundfont(Denemo.prefs.fluidsynth_soundfont->str, 0, NULL, NULL);
+    if(npresets) {
+			for (i = 0; i < npresets-1; i++) {
+					(void)ParseSoundfont(NULL, i, &name, NULL);
+					instrument_list = g_list_append (instrument_list, g_strdup ((gchar *) name));
 				}
-      free_soundfont(sf);
 			}
 		}
 
