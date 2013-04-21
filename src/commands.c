@@ -883,17 +883,6 @@ g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/Tuplets");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
 
-/* NonPrintingStaff xgettext:no-c-format*/
-action = gtk_action_new("NonPrintingStaff",_("Non-Printing Staff"),/* xgettext:no-c-format*/_("Hides the staff in LilyPond print out."), get_icon_for_name("NonPrintingStaff", "Non-Printing Staff"));
-/* xgettext:no-c-format*/
-register_command(Denemo.map, action, "NonPrintingStaff", _("Non-Printing Staff"), /* xgettext:no-c-format*/_("Hides the staff in LilyPond print out."), activate_script);
-gtk_action_group_add_action(Denemo.action_group, action);
-create_scheme_function_for_script("NonPrintingStaff");
-add_ui("/ObjectMenu/StaffMenu", NULL, "NonPrintingStaff");
-g_object_set_data(G_OBJECT(action), "scheme", "");
-g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu");
-g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
-
 /* Largo xgettext:no-c-format*/
 action = gtk_action_new("Largo",_("Largo"),/* xgettext:no-c-format*/_("Attaches Largo to chord"), get_icon_for_name("Largo", "Largo"));
 g_object_set_data(G_OBJECT(action), "after", (gpointer)"Andante");
@@ -1181,18 +1170,6 @@ create_scheme_function_for_script("ClefChooser");
 add_ui("/ObjectMenu/ClefMenu", "InsertClef", "ClefChooser");
 g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ClefMenu");
-g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
-
-/* HideLilyPond xgettext:no-c-format*/
-action = gtk_action_new("HideLilyPond",_("Hide on Printing"),/* xgettext:no-c-format*/_("Comments out the chord in the LilyPond output."), get_icon_for_name("HideLilyPond", "Hide on Printing"));
-g_object_set_data(G_OBJECT(action), "after", (gpointer)"ParenthesizeChord");
-/* xgettext:no-c-format*/
-register_command(Denemo.map, action, "HideLilyPond", _("Hide on Printing"), /* xgettext:no-c-format*/_("Comments out the chord in the LilyPond output."), activate_script);
-gtk_action_group_add_action(Denemo.action_group, action);
-create_scheme_function_for_script("HideLilyPond");
-add_ui("/ObjectMenu/ChordMenu", "ParenthesizeChord", "HideLilyPond");
-g_object_set_data(G_OBJECT(action), "scheme", "");
-g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/ChordMenu");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
 
 /* MezzoPiano xgettext:no-c-format*/
@@ -6472,5 +6449,29 @@ create_scheme_function_for_script("ToggleNoteDownTie");
 add_ui("/ObjectMenu/NotesRests/TiedNotes", "ToggleNoteTie", "ToggleNoteDownTie");
 g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/NotesRests/TiedNotes");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
+
+/* ToggleWysiwygMarks xgettext:no-c-format*/
+action = gtk_action_new("ToggleWysiwygMarks",_("Typeset Red Dots (Off/On)"),/* xgettext:no-c-format*/_("Typesets with red dots on the graphical objects. Use these for accurate tweaking of positions via clicking and dragging with mouse on final typeset score."), get_icon_for_name("ToggleWysiwygMarks", "Typeset Red Dots (Off/On)"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"LilyPondDefinition");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "ToggleWysiwygMarks", _("Typeset Red Dots (Off/On)"), /* xgettext:no-c-format*/_("Typesets with red dots on the graphical objects. Use these for accurate tweaking of positions via clicking and dragging with mouse on final typeset score."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("ToggleWysiwygMarks");
+add_ui("/ObjectMenu/Score", "LilyPondDefinition", "ToggleWysiwygMarks");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
+
+/* ToggleCurveControl xgettext:no-c-format*/
+action = gtk_action_new("ToggleCurveControl",_("Typeset Curve Control Points (Off/On)"),/* xgettext:no-c-format*/_("Typesets with curve control points marked. Use these for accurate tweaking of shape via clicking and dragging with mouse on final typeset score."), get_icon_for_name("ToggleCurveControl", "Typeset Curve Control Points (Off/On)"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"LilyPondDefinition");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "ToggleCurveControl", _("Typeset Curve Control Points (Off/On)"), /* xgettext:no-c-format*/_("Typesets with curve control points marked. Use these for accurate tweaking of shape via clicking and dragging with mouse on final typeset score."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("ToggleCurveControl");
+add_ui("/ObjectMenu/Score", "LilyPondDefinition", "ToggleCurveControl");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
 }
