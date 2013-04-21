@@ -57,7 +57,7 @@ int  ParseSoundfont(char *soundfont, int index, char **name, int *preset) {
   if(soundfont) {
 		if(initialized)
 			free_soundfont(&sf);
-		if ((fp = fopen(soundfont, "r")) == NULL) {
+		if ((fp = fopen(soundfont, "rb")) == NULL) {
 			printf("\ncan't open soundfont file\n");
 			return 0;
 		} else if (load_soundfont(&sf, fp, TRUE)) {
