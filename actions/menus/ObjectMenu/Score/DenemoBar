@@ -45,7 +45,7 @@ nibar = #(define-music-function (parser location x) (string?)
   \\bar $x
   \\increaseBarNumber
 #})
-Barline =   \\nibar \"|\"\n")
+AutoBarline =   \\nibar \"|\"\n")
 (d-DirectivePut-score-override "DenemoBar" DENEMO_OVERRIDE_AFFIX)
 (d-DirectivePut-score-postfix "ScoreTiming" " \\set Score.timing = ##f \n")))
 (d-SetSaved #f)
