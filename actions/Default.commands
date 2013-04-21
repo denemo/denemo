@@ -2710,13 +2710,6 @@ for second and subsequent systems</tooltip>
         <tooltip>Inserts a start triplet or end tuple alternately.</tooltip>
       </row>
       <row>
-        <action>NonPrintingStaff</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
-        <label>Non-Printing Staff</label>
-        <tooltip>Hides the staff in LilyPond print out.</tooltip>
-      </row>
-      <row>
         <action>Largo</action>
         <after>Andante</after>
         <scheme></scheme>
@@ -2904,14 +2897,6 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/ClefMenu</menupath>
         <label>Clef Chooser</label>
         <tooltip>Choose any sort of clef. If the cursor is at the start change initial clef, else insert chosen clef.</tooltip>
-      </row>
-      <row>
-        <action>HideLilyPond</action>
-        <after>ParenthesizeChord</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/ChordMenu</menupath>
-        <label>Hide on Printing</label>
-        <tooltip>Comments out the chord in the LilyPond output.</tooltip>
       </row>
       <row>
         <action>MezzoPiano</action>
