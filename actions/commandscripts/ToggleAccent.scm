@@ -1,3 +1,3 @@
 ;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;ToggleAccent
-	(ToggleChordDirective "Accent" LG-Accent "\\accent" DENEMO_ALT_OVERRIDE)
+        (ChordAnnotation "ToggleAccent" "\\accent"    ToggleAccent::params    LG-Accent)

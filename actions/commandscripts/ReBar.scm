@@ -139,8 +139,8 @@
 
 (define (InsertOn Side Duration) ;inserts a note of duration TryDuration, and makes it tied. denom of Duration must be power of 2.
 
-		(d-Paste)  ;paste, but then must get on top of the notes just pasted...
-		(d-MoveCursorLeft)  ;now we're on it. 
+	(d-Paste)  ;paste, but then must get on top of the notes just pasted...
+	(d-MoveCursorLeft)  ;now we're on it. 
 	(d-Change0) ;start with whole, 
 	(while (> Duration 0) ;and keep diminishing until we got it.
 		(begin
@@ -239,10 +239,13 @@
 	(set! Counter (+ Counter (GetNoteBeat)) );read the first note in to get started...NOTE: if GetNoteBeat= #f this will terminate execution.
 	(LoopThroughBar)	;then loop through the rest of the bar until counter equals or overshoots the measure size in TimeSig,
 					; or the measure's done being processed
-;(disp "check Counter " Counter " and time sig " TimeSig "ok")
-;;ticks have granularity of 1 so we cannot accept a 1 discrepancy as meaning anything
+		;(disp "check Counter " Counter " and time sig " TimeSig "ok")
+		;;ticks have granularity of 1 so we cannot accept a 1 discrepancy as meaning anything once we have reached a certain number of ticks - how many I am not sure, but try 383
+	(if (and (None?) (not Pad?))
+		(set! Counter TimeSig))
 	(let ((top (numerator Counter)) (bottom (denominator Counter)))
-		(if  (equal? TimeSig (/ (1+ top) bottom))
+		;(disp "We have top " top " bottom " bottom " div "  (/ (1+ top) bottom) " ok")
+		(if  (and (> top 382) (equal? TimeSig (/ (1+ top) bottom)))
 			(set! Counter (/ (1+ top) bottom))))
 ;(disp "Set Counter " Counter "\n")			
 		  (if (< Counter TimeSig) ;if measure too small, (going back first)
@@ -295,8 +298,8 @@
 							; this bar is over-full, user will fix.
 					)
 					(begin	;if there's NOT extra stuff in this measure...
-
-						(d-MoveCursorRight)
+						(if (not (None?))
+							(d-MoveCursorRight))
 						(if (not (= TupletScaleFactor 1)) (d-EndTuplet)) ;if need be, end the tuplet in this bar, then restart it in next
 		
 						(if (d-MoveToMeasureRight) ;if there's another measure...
@@ -377,9 +380,9 @@
 	(set! MergeAndSplit (equal? Input1 (_ "Rebar-Merge underfull, split overfull bars")))
 	(if Input1 (set! Input2  (d-GetOption (string-append  (_ "Entire Staff") stop (_ "This Point Onwards")  stop (_ "Entire Movement") stop ))) )
 	(if (and Input1 Input2)  ;don't go if user cancelled
-		(begin
+		(let ((position #f))
 			(if (equal? Input2 (_ "Entire Movement")) (set! ScanAllStaffs #t))
-			(d-PushPosition)	;let's try to return cursor to here when done.
+			(set! position (GetPosition))	;let's try to return cursor to here when done.
 			(if ScanAllStaffs (while (d-MoveToStaffUp)))	;Start at top staff, top voice
 			(if (not (equal? Input2 (_ "This Point Onwards"))) (d-MoveToBeginning))
 			(set! InitialTimeSig (d-InsertTimeSig "query=timesigname"))
@@ -394,6 +397,6 @@
 					)
 				(set! ReBar::return AllOK)
 				(if AllOK 
-					(d-PopPosition)	;end where we began, unless there were problems.
+					(apply d-GoToPosition position)	;end where we began, unless there were problems.
 					))))))
 )	;let

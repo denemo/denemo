@@ -1,6 +1,11 @@
 ;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 
         ;;;DenemoBar
+        (if (d-Directive-score? "DenemoBar")
+					(begin
+						(d-DirectiveDelete-score "DenemoBar")
+						(d-DirectiveDelete-score "ScoreTiming")) 
+					(begin
         (d-DirectivePut-score-prefix "DenemoBar" "\n
 increaseBarNumber = \\applyContext
 #(lambda (x)
@@ -32,6 +37,7 @@ nibar = #(define-music-function (parser location x) (string?)
   \\bar $x
   \\increaseBarNumber
 #})
-Barline =   \\nibar \"|\"\n")
+AutoBarline =   \\nibar \"|\"\n")
 (d-DirectivePut-score-override "DenemoBar" DENEMO_OVERRIDE_AFFIX)
-(d-DirectivePut-score-postfix "ScoreTiming" " \\set Score.timing = ##f \n")
+(d-DirectivePut-score-postfix "ScoreTiming" " \\set Score.timing = ##f \n")))
+(d-SetSaved #f)

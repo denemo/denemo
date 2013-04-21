@@ -1,3 +1,3 @@
 ;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;ToggleStaccatissimo
-(ToggleChordDirective "Staccatissimo" LG-Staccatissimo "\\staccatissimo" DENEMO_ALT_OVERRIDE)
+        (ChordAnnotation "ToggleStaccatissimo" "\\staccatissimo"    ToggleStaccatissimo::params    LG-Staccatissimo)

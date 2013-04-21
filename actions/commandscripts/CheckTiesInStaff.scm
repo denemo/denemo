@@ -3,23 +3,24 @@
 (define CheckTiesInStaff::return #t)
 (d-PushPosition)
 (d-MoveToBeginning)
-(let ((ok #t))
+(let ((ok #t))	
   (let loop ()
-    (if (d-IsTied)
+    (if (and (d-IsTied) (Singlenote?))
       (let ((note (d-GetNote)))
-	  (if (d-NextChord)
-	    (let ((nextnote (d-GetNote)))
-	      (if (equal? note nextnote)
-		(if (d-NextChord)
-		  (loop))
-		(begin
-		  (d-InfoDialog (_ "Tied notes not the same"))
-		  (set! ok #f))))
-	    (begin
-	      (d-InfoDialog "No note to tie to")
-	      (set! ok #f)))))
-      (if (and ok (d-NextChord))
-	(loop)))
+				(if (and (d-NextChord) (Singlenote?))
+					(let ((nextnote (d-GetNote)))
+						(if (equal? note nextnote)
+							(if (d-NextChord)
+								(loop))
+							(begin
+								(d-InfoDialog (_ "Tied notes not the same"))
+								(set! ok #f))))
+					(if (Singlenote?)
+						(begin
+							(d-InfoDialog "No note to tie to")
+							(set! ok #f))))))
+		(if (and ok (d-NextChord))
+			(loop)))
 
  (if ok
    (d-PopPosition)
@@ -27,4 +28,5 @@
      (set! CheckTiesInStaff::return #f)
      (d-PopPosition)
      (apply d-GoToPosition position))))
-      
+     
+     

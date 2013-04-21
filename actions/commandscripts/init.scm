@@ -169,7 +169,8 @@
 (begin
   (d-DirectivePut-chord-override "Dynamic" (logior DENEMO_OVERRIDE_VOLUME DENEMO_OVERRIDE_STEP))
   (d-DirectivePut-chord-midibytes "Dynamic" midi-vol)))
-(d-RefreshDisplay))(use-modules (ice-9 rdelim))
+(d-RefreshDisplay))(define-once ToggleTripleting::InsideTriplet #t)
+(use-modules (ice-9 rdelim))
 
 ;; set the random seed up using time of day
 (let ((time (gettimeofday)))

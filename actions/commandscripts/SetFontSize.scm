@@ -5,4 +5,4 @@
 (if (boolean? SetScoreSize::Size)		
 	(set! SetScoreSize::Size (d-ScoreProperties "query=fontsize")))						       
 (d-ScoreProperties (string-append "fontsize="   SetScoreSize::Size))		
-(d-RefreshDisplay)
+(d-SetSaved #f)

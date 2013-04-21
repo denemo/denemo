@@ -255,9 +255,11 @@ actions/commandscripts/BassDrum.scm
 actions/commandscripts/Bb-Major.scm
 actions/commandscripts/Bb-Pentascale.scm
 actions/commandscripts/Beam1234.scm
+actions/commandscripts/BeamLeftNone.scm
 actions/commandscripts/BeamLeftOne.scm
 actions/commandscripts/BeamLeftThree.scm
 actions/commandscripts/BeamLeftTwo.scm
+actions/commandscripts/BeamRightNone.scm
 actions/commandscripts/BeamRightOne.scm
 actions/commandscripts/BeamRightThree.scm
 actions/commandscripts/BeamRightTwo.scm
@@ -408,8 +410,10 @@ actions/commandscripts/FinishCadenza.scm
 actions/commandscripts/FirstTimeBar.scm
 actions/commandscripts/FixSlursInStaff.scm
 actions/commandscripts/FlageoletSelectionSwitcher.scm
+actions/commandscripts/FlattenInitialKeysigs.scm
 actions/commandscripts/FlattenKeysig.scm
 actions/commandscripts/FootPedalConductor.scm
+actions/commandscripts/Footnote.scm
 actions/commandscripts/ForAllLayouts.scm
 actions/commandscripts/ForceBarline.scm
 actions/commandscripts/Forte.scm
@@ -433,6 +437,7 @@ actions/commandscripts/HiHat.scm
 actions/commandscripts/HiHatFoot.scm
 actions/commandscripts/HiTom.scm
 actions/commandscripts/Hide.scm
+actions/commandscripts/HideAccidental.scm
 actions/commandscripts/HideBarlines.scm
 actions/commandscripts/HideClef.scm
 actions/commandscripts/HideEmptyStaffs.scm
@@ -509,6 +514,7 @@ actions/commandscripts/MoveRest.scm
 actions/commandscripts/MoveToMovementBeginning.scm
 actions/commandscripts/MoveToMovementEnd.scm
 actions/commandscripts/MoveToPreviousEmptyMeasure.scm
+actions/commandscripts/MovementComposer.scm
 actions/commandscripts/MovementNoteheadsBaroque.scm
 actions/commandscripts/MovementNoteheadsCross.scm
 actions/commandscripts/MovementNoteheadsDefault.scm
@@ -527,6 +533,7 @@ actions/commandscripts/MovementPiece.scm
 actions/commandscripts/MovementSubtitle.scm
 actions/commandscripts/MovementTitle.scm
 actions/commandscripts/MultiMeasureRests.scm
+actions/commandscripts/MuteStaff.scm
 actions/commandscripts/MvntComment.scm
 actions/commandscripts/NeoMensuralNotehead.scm
 actions/commandscripts/NewStaffAfter.scm
@@ -585,6 +592,7 @@ actions/commandscripts/PageBreak.scm
 actions/commandscripts/PaperSize.scm
 actions/commandscripts/ParenthesizeChord.scm
 actions/commandscripts/ParenthesizeNote.scm
+actions/commandscripts/PartCombine.scm
 actions/commandscripts/PasteReplaceSelection.scm
 actions/commandscripts/PianoStaffEnd.scm
 actions/commandscripts/PianoStaffStart.scm
@@ -644,6 +652,7 @@ actions/commandscripts/ScoreSubsubtitle.scm
 actions/commandscripts/ScoreSubtitle.scm
 actions/commandscripts/ScoreTagline.scm
 actions/commandscripts/ScoreTitle.scm
+actions/commandscripts/ScoreVersion.scm
 actions/commandscripts/SearchBookmark.scm
 actions/commandscripts/SecondTimeBar.scm
 actions/commandscripts/Section.scm
@@ -667,6 +676,7 @@ actions/commandscripts/SetNewbieStatus.scm
 actions/commandscripts/SetThumbnail.scm
 actions/commandscripts/SetTuningAllStaffs.scm
 actions/commandscripts/SetTuningStaff.scm
+actions/commandscripts/SharpenInitialKeysigs.scm
 actions/commandscripts/SharpenKeysig.scm
 actions/commandscripts/ShiftDown.scm
 actions/commandscripts/ShiftNext.scm
@@ -755,6 +765,7 @@ actions/commandscripts/ToggleCheckChords.scm
 actions/commandscripts/ToggleCoda.scm
 actions/commandscripts/ToggleConduct.scm
 actions/commandscripts/ToggleCursorHighlight.scm
+actions/commandscripts/ToggleCurveControl.scm
 actions/commandscripts/ToggleDownBow.scm
 actions/commandscripts/ToggleEndPhrasingSlur.scm
 actions/commandscripts/ToggleFermata.scm
@@ -766,7 +777,9 @@ actions/commandscripts/ToggleLongFermata.scm
 actions/commandscripts/ToggleLtoe.scm
 actions/commandscripts/ToggleMarcato.scm
 actions/commandscripts/ToggleMordent.scm
+actions/commandscripts/ToggleNoteDownTie.scm
 actions/commandscripts/ToggleNoteTie.scm
+actions/commandscripts/ToggleNoteUpTie.scm
 actions/commandscripts/TogglePlayAlongPlayback.scm
 actions/commandscripts/TogglePortato.scm
 actions/commandscripts/TogglePrall.scm
@@ -786,10 +799,12 @@ actions/commandscripts/ToggleThumb.scm
 actions/commandscripts/ToggleTrill.scm
 actions/commandscripts/ToggleTripleting.scm
 actions/commandscripts/ToggleTupletBrackets.scm
+actions/commandscripts/ToggleTupletBracketsIfBeamed.scm
 actions/commandscripts/ToggleTupletNumbering.scm
 actions/commandscripts/ToggleUpBow.scm
 actions/commandscripts/ToggleUpPrall.scm
 actions/commandscripts/ToggleVeryLongFermata.scm
+actions/commandscripts/ToggleWysiwygMarks.scm
 actions/commandscripts/TransposeOctaveUp.scm
 actions/commandscripts/TransposeScorePrint.scm
 actions/commandscripts/TransposeStaffOutput.scm
@@ -797,6 +812,7 @@ actions/commandscripts/TransposeStaffPrint.scm
 actions/commandscripts/Tremolo.scm
 actions/commandscripts/Trill+Above.scm
 actions/commandscripts/Trill+Below.scm
+actions/commandscripts/TrillIsPlus.scm
 actions/commandscripts/Tutorial.scm
 actions/commandscripts/TypesetVersesAtEnd.scm
 actions/commandscripts/TypesettingOff.scm

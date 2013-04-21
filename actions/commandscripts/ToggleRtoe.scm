@@ -1,3 +1,3 @@
 ;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
-;;;Rtoe
-(ToggleChordDirective "Rtoe" LG-Rtoe "\\rtoe" DENEMO_ALT_OVERRIDE)
+;;;ToggleRtoe
+        (ChordAnnotation "ToggleRtoe" "\\rtoe"    ToggleRtoe::params    LG-Rtoe)

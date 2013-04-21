@@ -1,5 +1,4 @@
 ;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
-;;;Upprall
-;(d-DirectivePut-chord-graphic "UpPrall" "\xEE\x86\x90 Emmentaler 28")
-(ToggleChordDirective "UpPrall" LG-UpPrall "\\upprall" DENEMO_OVERRIDE_ABOVE)
-(d-DirectivePut-chord-gy "UpPrall" -100)
+;;;ToggleUpPrall
+        (ChordAnnotation "ToggleUpPrall" "\\upprall"    ToggleUpPrall::params    LG-UpPrall)
+;;(d-DirectivePut-chord-gy "UpPrall" -100)
