@@ -1179,7 +1179,7 @@ selection_received (GtkClipboard *clipboard, const gchar *text, gpointer data) {
       return;
     }
     dnm_setinitialclef(Denemo.gui->si, (DenemoStaff*)Denemo.gui->si->currentstaff->data, theclef);
-    call_out_to_guile("(while (None?) (d-DeleteStaff))");
+    call_out_to_guile("(while (and (None?) (d-MoveToStaffDown)) (begin (d-MoveToStaffUp)(d-DeleteStaff)))");
     if(confirm("Paste from Selection", "Paste this music into your score?")) {
       DenemoGUI *gui = Denemo.gui;
       tohome(NULL, NULL);
