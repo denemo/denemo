@@ -6387,6 +6387,14 @@ accidentals are usually printed over the note.</tooltip>
         <label>Typeset Curve Control Points (Off/On)</label>
         <tooltip>Typesets with curve control points marked. Use these for accurate tweaking of shape via clicking and dragging with mouse on final typeset score.</tooltip>
       </row>
+      <row>
+        <action>PianoStaffName</action>
+        <after>DeleteStaffGroupings</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
+        <label>Piano Staff Name</label>
+        <tooltip>Prints the name given at the start of the Piano staff which must be where the cursor is. Remove instrument names on the individual staffs by setting them blank.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
