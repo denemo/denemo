@@ -62,7 +62,7 @@ make_temp_dir(void) {
   gchar buf[1024] = "C:\\TMP\\\0";
   gint length = 1024;
   (void) GetTempPath(length, buf);
-  gint integer = g_rand_int(g_rand_new());
+  gint integer = 0;//Windows does not delete the temp directory, use a constant one. g_rand_int(g_rand_new());
   ret = g_strdup_printf("%sDenemo%d", buf, integer);
   
   gint fail = g_mkdir_with_parents(ret, 0700);
