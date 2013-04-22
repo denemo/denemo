@@ -6395,6 +6395,14 @@ accidentals are usually printed over the note.</tooltip>
         <label>Piano Staff Name</label>
         <tooltip>Prints the name given at the start of the Piano staff which must be where the cursor is. Remove instrument names on the individual staffs by setting them blank.</tooltip>
       </row>
+      <row>
+        <action>PianoStaff</action>
+        <after>NewStaffBefore</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/InsertStaff</menupath>
+        <label>Add Piano Staff</label>
+        <tooltip>Adds two staff braced together for keyboard instrument.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
