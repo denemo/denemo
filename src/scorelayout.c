@@ -1882,6 +1882,16 @@ static void set_notebook_page(GtkWidget *w) {
 
 void create_default_scoreblock(void) {
 	DenemoGUI *gui = Denemo.gui;
+		if(gui->custom_scoreblocks) {
+		GList *g;
+		for(g=gui->custom_scoreblocks;g;g=g->next) {
+			DenemoScoreblock *sb =g->data;
+			if(!strcmp(sb->name, DEFAULT_SCORE_LAYOUT)) {
+				set_notebook_page(sb->widget);
+				return;
+			}
+		}
+	}
 	if(gui->standard_scoreblocks) {
 		GList *g;
 		for(g=gui->standard_scoreblocks;g;g=g->next) {
@@ -2079,10 +2089,17 @@ DenemoScoreblock *select_layout(gboolean all_movements, gchar *partname) {
 	DenemoScoreblock *sb;
 	if(Denemo.gui->si->markstaffnum)
 		return selection_layout();
-	//make sure at least the default scoreblock has been created
+	//make sure at least the default scoreblock has been created, this can now be a custom version named with default scoreblock name
 	if(Denemo.gui->standard_scoreblocks==NULL) {
 		create_default_scoreblock();
-		sb = (DenemoScoreblock*)(Denemo.gui->standard_scoreblocks->data);
+		if(Denemo.gui->standard_scoreblocks)
+			sb = (DenemoScoreblock*)(Denemo.gui->standard_scoreblocks->data);
+		else if (Denemo.gui->custom_scoreblocks)
+			sb = (DenemoScoreblock*)(Denemo.gui->custom_scoreblocks->data);
+		else {
+			g_critical("No score layout available");
+			return NULL;
+		}
 		refresh_lilypond(sb);//creating a scoreblock does *not* include generating the lilypond from its widgets.
 	}
 
@@ -2096,7 +2113,7 @@ DenemoScoreblock *select_layout(gboolean all_movements, gchar *partname) {
 				refresh_lilypond(sb);
 			}
 			set_notebook_page(sb->widget);
-			return sb; //!!! this is the only case where a custom scoreblock can be returned.
+			return sb; 
 		}
 	}
 
@@ -2121,7 +2138,11 @@ DenemoScoreblock *select_layout(gboolean all_movements, gchar *partname) {
 				return sb;
 			}
 		}
-		g_warning("Error in logic: the default standard scoreblock should exist ");
+	if (Denemo.gui->custom_scoreblocks) {
+			sb = (DenemoScoreblock*)(Denemo.gui->custom_scoreblocks->data);
+			return sb;
+		}
+	g_warning("Error in logic: the default standard scoreblock should exist or a custom one of that name ");
 	}	else { //Not a whole score print
 			for(g=Denemo.gui->standard_scoreblocks;g;g=g->next) {
 				sb = (DenemoScoreblock*)g->data;
