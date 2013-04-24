@@ -1,10 +1,11 @@
 <?xml version="1.0"?>
-<score xmlns="http://denemo.sourceforge.net/xmlns/Denemo" version="3">
+<score xmlns="http://denemo.org/xmlns/Denemo" version="6">
   <scoreheader-directives>
     <directive>
       <tag>ScoreTagline</tag>
       <postfix>tagline=""
 </postfix>
+      <override>32</override>
     </directive>
   </scoreheader-directives>
   <paper-directives>
@@ -12,160 +13,205 @@
       <tag>PrintAllHeaders</tag>
       <postfix>print-all-headers = ##t
 </postfix>
+      <override>32</override>
+    </directive>
+    <directive>
+      <tag>LimitInterSystemSpace</tag>
+      <postfix>
+page-limit-inter-system-space = ##t
+page-limit-inter-system-space-factor = 1.2</postfix>
     </directive>
   </paper-directives>
+  <thumbnail>
+    <first-staff>1</first-staff>
+    <last-staff>3</last-staff>
+    <first-measure>1</first-measure>
+    <last-measure>3</last-measure>
+    <first-obj>0</first-obj>
+    <last-obj>2147483647</last-obj>
+  </thumbnail>
   <lilycontrol>
     <papersize>a4</papersize>
     <fontsize>20</fontsize>
     <orientation>1</orientation>
     <score-directives>
       <directive>
-        <tag>Prolog</tag>
+        <tag>Allow
+Diskant</tag>
         <prefix>Diskant = \markup {
-  \musicglyph #"accordion.accDiscant"
+  \musicglyph #"accordion.discant"
 }
-punkt = \markup {
-  \musicglyph #"accordion.accDot"
+</prefix>
+        <display>Diskant</display>
+        <override>16</override>
+      </directive>
+      <directive>
+        <tag>Allow
+punkt</tag>
+        <prefix>punkt = \markup {
+  \musicglyph #"accordion.dot"
 }
-
-\layout { ragged-right = ##t }
-
-% 16 voets Register
-accBasson = ^\markup {
+</prefix>
+        <display>punkt</display>
+        <override>16</override>
+      </directive>
+      <directive>
+        <tag>Allow
+accBasson</tag>
+        <prefix>accBasson = ^\markup {
   \combine
   \Diskant
   \raise #0.5 \punkt
 }
-
-% een&#xB7;korig&#xB7;8&#xB7;en&#xB7;16&#xB7;voets&#xB7;register
-accBandon = ^\markup {
-  \combine
-    \Diskant
-    \combine
-      \raise #0.5 \punkt
-      \raise #1.5 \punkt
-}
-
-accVCello = ^\markup {
-  \combine
-    \Diskant
-    \combine
-      \raise #0.5 \punkt
-      \combine
-        \raise #1.5 \punkt
-        \translate #'(1 . 0) \raise #1.5 \punkt
-}
-
-% 4-8-16&#xB7;voets&#xB7;register
-accHarmon = ^\markup {
-  \combine
-    \Diskant
-    \combine
-      \raise #0.5 \punkt
-      \combine
-        \raise #1.5 \punkt
-        \raise #2.5 \punkt
-}
-
-accPosaune = ^\markup {
-  \combine
-    \Diskant
-    \combine
-      \raise #0.5 \punkt
-      \combine
-        \raise #1.5 \punkt
-        \combine
-          \translate #'(1 . 0) \raise #1.5 \punkt
-          \translate #'(-1 . 0) \raise #1.5 \punkt
-}
-
-% eenkorig&#xB7;4&#xB7;en&#xB7;16&#xB7;voets&#xB7;register
-accOrgel = ^\markup {
-  \combine
-    \Diskant
-    \combine
-      \raise #0.5 \punkt
-      \raise #2.5 \punkt
-}
-
-accHaupt = ^\markup {
-  \combine
-    \Diskant
-    \combine
-      \raise #0.5 \punkt
-      \combine
-        \raise #1.5 \punkt
-        \combine
-          \translate #'(1 . 0) \raise #1.5 \punkt
-          \combine
-            \translate #'(-1 . 0) \raise #1.5 \punkt
-            \raise #2.5 \punkt
-}
-
-accAkkord = ^\markup {
-  \combine
-    \Diskant
-    \combine
-      \raise #1.5 \punkt
-      \combine
-        \translate #'(1 . 0) \raise #1.5 \punkt
-        \combine
-          \translate #'(-1 . 0) \raise #1.5 \punkt
-          \raise #2.5 \punkt
-}
-
-accMusette = ^\markup {
-  \combine
-    \Diskant
-    \combine
-      \raise #1.5 \punkt
-      \combine
-        \translate #'(1 . 0) \raise #1.5 \punkt
-        \translate #'(-1 . 0) \raise #1.5 \punkt
-}
-
-accCelesta = ^\markup {
-  \combine
-    \Diskant
-    \combine
-      \raise #1.5 \punkt
-      \translate #'(-1 . 0) \raise #1.5 \punkt
-}
-
-accOboe = ^\markup {
-  \combine
-    \Diskant
-    \combine
-      \raise #1.5 \punkt
-      \raise #2.5 \punkt
-}
-
-accClarin = ^\markup {
-  \combine
-    \Diskant
-    \raise #1.5 \punkt
-}
-
-accPiccolo = ^\markup {
+</prefix>
+        <display>accBasson</display>
+        <override>16</override>
+      </directive>
+      <directive>
+        <tag>Allow
+accPiccolo</tag>
+        <prefix>accPiccolo = ^\markup {
     \combine
        \Diskant
        \raise #2.5 \punkt
 }
-
-accGeige = ^\markup {
+</prefix>
+        <display>accPiccolo</display>
+        <override>16</override>
+      </directive>
+      <directive>
+        <tag>Allow
+accBandon</tag>
+        <prefix>accBandon = ^\markup {
+  \combine
+    \Diskant
+    \combine
+      \raise #0.5 \punkt
+      \raise #1.5 \punkt
+}
+</prefix>
+        <display>accBandon</display>
+        <override>16</override>
+      </directive>
+      <directive>
+        <tag>Allow
+accVCello</tag>
+        <prefix>accVCello = ^\markup {
+  \combine
+    \Diskant
+    \combine
+      \raise #0.5 \punkt
+      \combine
+        \translate #'(-0.6 . 0) \raise #1.5 \punkt
+        \translate #'(0.6 . 0) \raise #1.5 \punkt
+}
+</prefix>
+        <display>accVCello</display>
+        <override>16</override>
+      </directive>
+      <directive>
+        <tag>Allow
+accHarmon</tag>
+        <prefix>accHarmon = ^\markup {
+  \combine
+    \Diskant
+    \combine
+      \raise #0.5 \punkt
+      \combine
+        \raise #1.5 \punkt
+        \raise #2.5 \punkt
+}
+</prefix>
+        <display>accHarmon</display>
+        <override>16</override>
+      </directive>
+      <directive>
+        <tag>Allow
+accOrgel</tag>
+        <prefix>accOrgel = ^\markup {
+  \combine
+   \Diskant
+    \combine
+      \raise #0.5 \punkt
+      \raise #2.5 \punkt
+}
+</prefix>
+        <display>accOrgel</display>
+        <override>16</override>
+      </directive>
+      <directive>
+        <tag>Allow
+accHaupt</tag>
+        <prefix>accHaupt = ^\markup {
+  \combine
+    \Diskant
+    \combine
+      \raise #0.5 \punkt
+      \combine
+          \translate #'(0.6 . 0) \raise #1.5 \punkt
+          \combine
+            \translate #'(-0.6 . 0) \raise #1.5 \punkt
+            \raise #2.5 \punkt
+}
+</prefix>
+        <display>accHaupt</display>
+        <override>16</override>
+      </directive>
+      <directive>
+        <tag>Allow
+accCelesta</tag>
+        <prefix>accCelesta = ^\markup {
+  \combine
+    \Diskant
+    \combine
+       \translate #'(0.6 . 0)  \raise #1.5 \punkt
+      \translate #'(-0.6 . 0) \raise #1.5 \punkt
+}
+</prefix>
+        <display>accCelesta</display>
+        <override>16</override>
+      </directive>
+      <directive>
+        <tag>Allow
+accOboe</tag>
+        <prefix>accOboe = ^\markup {
   \combine
     \Diskant
     \combine
       \raise #1.5 \punkt
+      \raise #2.5 \punkt
+}
+</prefix>
+        <display>accOboe</display>
+        <override>16</override>
+      </directive>
+      <directive>
+        <tag>Allow
+accClarin</tag>
+        <prefix>accClarin = ^\markup {
+  \combine
+    \Diskant
+    \raise #1.5 \punkt
+}
+</prefix>
+        <display>accClarin</display>
+        <override>16</override>
+      </directive>
+      <directive>
+        <tag>Allow
+accGeige</tag>
+        <prefix>accGeige = ^\markup {
+  \combine
+    \Diskant
+    \combine
+     \translate #'(-0.6 . 0)  \raise #1.5 \punkt
       \combine
-        \translate #'(1 . 0) \raise #1.5 \punkt
+        \translate #'(0.6 . 0) \raise #1.5 \punkt
         \raise #2.5 \punkt
 }
-
-
 </prefix>
-        <display>%{Insert LilyPond syntax here %}
-</display>
+        <display>accGeige</display>
+        <override>16</override>
       </directive>
     </score-directives>
   </lilycontrol>
@@ -175,6 +221,7 @@ accGeige = ^\markup {
       <staffno>1</staffno>
       <measureno>1</measureno>
       <cursorposition>-1</cursorposition>
+      <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
@@ -190,19 +237,7 @@ accGeige = ^\markup {
       </tempo>
     </score-info>
     <staves>
-      <staff id="id0">
-        <staff-info>
-          <number-of-lines>5</number-of-lines>
-          <transpose>0</transpose>
-          <instrument></instrument>
-          <device-port>NONE</device-port>
-          <volume>127</volume>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
-          <hasfigures>0</hasfigures>
-          <hasfakechords>0</hasfakechords>
-        </staff-info>
-      </staff>
+      <staff id="id0"/>
     </staves>
     <voices>
       <voice id="id1">
@@ -223,6 +258,18 @@ accGeige = ^\markup {
             </simple-time-signature>
           </time-signature>
         </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
         <measures>
           <measure>
             <chord show="true" id="id2">
@@ -231,6 +278,7 @@ accGeige = ^\markup {
                 <directive>
                   <postfix>\accBasson</postfix>
                   <display>Basson</display>
+                  <override>32</override>
                 </directive>
               </directives>
               <notes>
