@@ -6403,6 +6403,14 @@ accidentals are usually printed over the note.</tooltip>
         <label>Add Piano Staff</label>
         <tooltip>Adds two staff braced together for keyboard instrument.</tooltip>
       </row>
+      <row>
+        <action>ChordStaff</action>
+        <after>TabStaff</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Chord Symbols</label>
+        <tooltip>Typesets the music on this staff as chord symbols. Normally you will use this on a voice, so that the chord symbols print on the melody staff.</tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

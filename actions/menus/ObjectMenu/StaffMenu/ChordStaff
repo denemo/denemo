@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>TabStaff</after>
+        <action>ChordStaff</action>
+        <scheme>;;;;;;;;;;;;ChordStaff
+(let ((tag "ChordStaff"))
+(ToggleDirective "voice" "prefix" tag "\\new ChordNames \n"  DENEMO_OVERRIDE_LILYPOND)
+(ToggleDirective "clef" "postfix" tag "\n"  DENEMO_OVERRIDE_LILYPOND)
+(ToggleDirective "keysig" "postfix" tag "\n"  DENEMO_OVERRIDE_LILYPOND)
+(ToggleDirective "timesig" "postfix" tag "\n"  DENEMO_OVERRIDE_LILYPOND))
+</scheme>
+        <label>Chord Symbols</label>
+        <tooltip>Typesets the music on this staff as chord symbols. Normally you will use this on a voice, so that the chord symbols print on the melody staff.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
