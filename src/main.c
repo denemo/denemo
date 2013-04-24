@@ -206,7 +206,7 @@ denemo_signal_handler (int sig)
     already_in_segfault = 1;
 
 
-  g_print ("\nNo of displays : %d\n", g_list_length (Denemo.guis));
+  g_print ("\nNo of tabs : %d this code only saves one of them however\n", g_list_length (Denemo.guis));
 
   if (g_list_length (Denemo.guis) == 1)
     {
@@ -497,7 +497,7 @@ Report bugs to http://www.denemo.org\n"), NULL) ;
 
   /* Set up the signal handlers */
 
-    signal (SIGSEGV, denemo_signal_handler);
+  //  signal (SIGSEGV, denemo_signal_handler);
 #if 0
 //it seems that GtkPrintOperation uses this signal (SIGUSR1) so this code interferes with printing
     {
