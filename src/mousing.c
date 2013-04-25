@@ -445,19 +445,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     return TRUE;
 
 
-  if(event->x<LEFT_MARGIN) {
-    struct placement_info pi; //FIXME duplicate code
-    get_placement_from_coordinates (&pi, event->x, event->y, gui->lefts[line_num],gui->rights[line_num],gui->scales[line_num]);
-    if(pi.staff_number==gui->si->currentstaffnum) {
-      gint offset = (gint)get_click_height(gui, event->y);
-      if(offset<STAFF_HEIGHT/2) {
-	if(((DenemoStaff*)gui->si->currentstaff->data)->staff_directives)
-	  gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->staffmenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
-      } else
-	  if(((DenemoStaff*)gui->si->currentstaff->data)->voice_directives)
-	    gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->voicemenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
-    }
-  }
+
 
     if (lh_down || (selecting && gui->si->markstaffnum)){
       struct placement_info pi;
@@ -579,26 +567,38 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 
 
   gint offset = (gint)get_click_height(gui, event->y);
-  if(gui->si->leftmeasurenum==1) {
+  if((gui->si->leftmeasurenum==1) && (event->x>LEFT_MARGIN)) {
     if(event->x<KEY_MARGIN-cmajor) {
       popup_menu("/InitialClefEditPopup");
       return TRUE;
     }  else  if(event->x<KEY_MARGIN+key+cmajor) {
       if(left) {
-	if(offset<STAFF_HEIGHT/2)
-	  call_out_to_guile("(d-SharpenInitialKeysigs)");
-	else
-	  call_out_to_guile("(d-FlattenInitialKeysigs)");
-      } else
-      popup_menu("/InitialKeyEditPopup");
-      return TRUE;
-    } else  if(event->x<KEY_MARGIN+SPACE_FOR_TIME+key) {
-      popup_menu("/InitialTimeEditPopup");
-      return TRUE;
+								if(offset<STAFF_HEIGHT/2)
+										call_out_to_guile("(d-SharpenInitialKeysigs)");
+								else
+										call_out_to_guile("(d-FlattenInitialKeysigs)");
+								} else
+								popup_menu("/InitialKeyEditPopup");
+								return TRUE;
+			} else  if(event->x<KEY_MARGIN+SPACE_FOR_TIME+key) {
+				popup_menu("/InitialTimeEditPopup");
+				return TRUE;
+			}
+		}
+
+  if(event->x<LEFT_MARGIN) {
+    if(pi.staff_number==gui->si->currentstaffnum) {
+      gint offset = (gint)get_click_height(gui, event->y);
+      if(offset<STAFF_HEIGHT/2) {
+				if(((DenemoStaff*)gui->si->currentstaff->data)->staff_directives)
+				gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->staffmenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time());
+				return TRUE;
+				} else	if(((DenemoStaff*)gui->si->currentstaff->data)->voice_directives) {
+					gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->voicemenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time());
+					return TRUE;
+				}	
     }
   }
-
-
 
   if(left) {
      if(!(GDK_SHIFT_MASK&event->state))
