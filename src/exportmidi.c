@@ -66,7 +66,7 @@
  * only for developers
  */
 
-int debug = 0;
+static int debug = 0;
 
 /****************************************************************/
 
@@ -103,7 +103,7 @@ enum dynamics
   DYN_MAX
 };
 
-char *dyn_strings[DYN_MAX] = {
+static char *dyn_strings[DYN_MAX] = {
   "tacet",
   "ppp",
   "pp",
@@ -115,13 +115,13 @@ char *dyn_strings[DYN_MAX] = {
   "fff",
 };
 
-int dyn_vol[DYN_MAX] = { 1, 16, 32, 48, 64, 80, 96, 112, 127 };
+static int dyn_vol[DYN_MAX] = { 1, 16, 32, 48, 64, 80, 96, 112, 127 };
 
 /**
  * convert dynamic string to midi velocity 0 .. 127
  */
 
-int
+static int
 string_to_vol (char *dynamic, int default_vol)
 {
   int i;
@@ -144,7 +144,7 @@ string_to_vol (char *dynamic, int default_vol)
  *	returns a value within +- maxdev
  */
 
-int
+static int
 i_random (int *accumulate, int maxdev)
 {
   int rnd;
@@ -168,7 +168,7 @@ i_random (int *accumulate, int maxdev)
  *	(simple first approach)
  */
 
-int
+static int
 compress (int range, int invalue)
 {
   int outvalue;
@@ -194,7 +194,7 @@ compress (int range, int invalue)
  * integer base 2 logarithm used in time-sig code
  */
 
-int
+static int
 twolog (int x)
 {
   int answer = 0;
@@ -349,7 +349,7 @@ dia_to_midinote (int offs)
  * debug print-out of slur table
  */
 
-char *
+static char *
 fmt_ticks (long t)
 {
   static char answer[12];
@@ -367,7 +367,7 @@ fmt_ticks (long t)
  * Output slur descriptions to the given file
  * 
  */
-int
+static int
 print_slurs (FILE * fd, int *tab, int status,
 	     int t_read, int t_written, char *txt)
 {
@@ -411,7 +411,7 @@ print_slurs (FILE * fd, int *tab, int status,
  * called once before each track
  */
 
-void
+static void
 slur_erase (int *table, int *state)
 {
   int i;
@@ -431,7 +431,7 @@ slur_erase (int *table, int *state)
  * called once after each chord
  */
 
-void
+static void
 slur_shift (int *table)
 {
   int i;
@@ -462,7 +462,7 @@ slur_shift (int *table)
  * update slur status (begin/middle/end of slurs, or no slur)
  */
 
-void
+static void
 slur_update (int *state, int begin, int end)
 {
   /* prepare flag bits */
@@ -548,7 +548,7 @@ slur_update (int *state, int begin, int end)
  * insert a note and its properties in the table
  */
 
-void
+static void
 slur_note (int *table, int state, int notenum,
 	   int staccato, int staccatissimo, int tied)
 {
@@ -626,13 +626,13 @@ slur_note (int *table, int state, int notenum,
  * some predicates used in exportmidi
  */
 
-int
+static int
 slur_on_p (int *table, int notenum)
 {
   return (table[notenum] & FLG_NOTE_ON) && !(table[notenum] & FLG_TIED_B);
 }
 
-int
+static int
 slur_kill_p (int *table, int notenum)
 {
   return
@@ -640,19 +640,19 @@ slur_kill_p (int *table, int notenum)
     || ((table[notenum] & FLG_TIED_B) && !(table[notenum] & FLG_NOTE_ON));
 }
 
-int
+static int
 slur_off_p (int *table, int notenum)
 {
   return (table[notenum] & FLG_NOTE_OFF);
 }
 
-int
+static int
 slur_staccato_p (int *table, int notenum)
 {
   return !(table[notenum] & FLG_STACCATO);
 }
 
-int
+static int
 slur_staccatissimo_p (int *table, int notenum)
 {
   return !(table[notenum] & FLG_STACCATISSIMO);
@@ -664,7 +664,7 @@ slur_staccatissimo_p (int *table, int notenum)
  * compute the amount of extra velocity to be added to a note
  */
 
-int
+static int
 compute_beat (long ticks, long ticks_in_a_beat,
 	      long ticks_in_a_measure, int length, int factor)
 {
