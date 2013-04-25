@@ -9,10 +9,16 @@
         <action>ChordStaff</action>
         <scheme>;;;;;;;;;;;;ChordStaff
 (let ((tag "ChordStaff"))
-(ToggleDirective "voice" "prefix" tag "\\new ChordNames \n"  DENEMO_OVERRIDE_LILYPOND)
-(ToggleDirective "clef" "postfix" tag "\n"  DENEMO_OVERRIDE_LILYPOND)
-(ToggleDirective "keysig" "postfix" tag "\n"  DENEMO_OVERRIDE_LILYPOND)
-(ToggleDirective "timesig" "postfix" tag "\n"  DENEMO_OVERRIDE_LILYPOND))
+(if (and ChordStaff::params (d-Directive-voice? tag))
+	(begin (d-InfoDialog "Use the Staffs/Voices Chord Names command to turn off the typestting of chord names for this staff"))
+	(begin
+		(ToggleDirective "voice" "prefix" tag "\\new ChordNames \n"  DENEMO_OVERRIDE_LILYPOND)
+		(ToggleDirective "clef" "postfix" tag "\n"  DENEMO_OVERRIDE_LILYPOND)
+		(if (d-Directive-clef? tag) (d-DirectivePut-clef-display tag "&#x22C2;"))
+		(ToggleDirective "keysig" "postfix" tag "\n"  DENEMO_OVERRIDE_LILYPOND)
+		(if (d-Directive-keysig? tag) (d-DirectivePut-keysig-display tag "&#x22C2;"))
+		(ToggleDirective "timesig" "postfix" tag "\n"  DENEMO_OVERRIDE_LILYPOND)
+		(if (d-Directive-timesig? tag) (d-DirectivePut-timesig-display tag  "&#x22C2;")))))
 </scheme>
         <label>Chord Symbols</label>
         <tooltip>Typesets the music on this staff as chord symbols. Normally you will use this on a voice, so that the chord symbols print on the melody staff.</tooltip>
