@@ -19,9 +19,10 @@
 			(d-DirectivePut-note-prefix tag (string-append "\\once \\override Staff.BassFigureAlignmentPositioning #'Y-offset = #'" offset " "))
 			(d-DirectivePut-note-override tag DENEMO_ALT_OVERRIDE)
 			(d-DirectivePut-note-display tag "^")
-			(d-DirectivePut-note-ty tag -10)
-			(d-RefreshDisplay)
-			(d-SetSaved #f))))</scheme>
+			(d-DirectivePut-note-ty tag -10))	
+		(d-DirectiveDelete-note tag))	
+	(d-RefreshDisplay)
+	(d-SetSaved #f))</scheme>
         <label>Height of Bass Figure</label>
         <tooltip>Sets the height of the bass figure above the note. The unit is the distance between adjacent lines in the staff.</tooltip>
       </row>
