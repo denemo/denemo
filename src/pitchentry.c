@@ -1018,11 +1018,10 @@ static gint draw_indicator (GtkWidget * widget, GdkEventExpose * event, gpointer
     
     if(iCent<380)
       cairo_set_source_rgb (cr, 1, 0, 0);
+    else if(iCent>420)
+			cairo_set_source_rgb (cr, 0, 0, 1);
     else
-      if(iCent>420)
-	cairo_set_source_rgb (cr, 0, 1, 0);
-      else
-	cairo_set_source_rgb (cr, 0, 0, 1);
+			cairo_set_source_rgb (cr, 0, 1, 0);
     cairo_rectangle (cr, iCent-barwidth/2,0,barwidth,320);
     cairo_fill(cr);
     cairo_set_source_rgb (cr, 0, 0, 0);
