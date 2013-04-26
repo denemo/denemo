@@ -2158,7 +2158,8 @@ void set_voice_termination(GString *str, DenemoStaff *curstaffstruct){
 }
 	 
 void set_staff_termination(GString *str, DenemoStaff *curstaffstruct){
-		gint staff_override = get_lily_override(curstaffstruct->staff_directives);
+		gint staff_override = (DENEMO_OVERRIDE_LILYPOND|DENEMO_OVERRIDE_AFFIX) == 
+			(get_override(curstaffstruct->staff_directives)&(DENEMO_OVERRIDE_LILYPOND|DENEMO_OVERRIDE_AFFIX));
 		gchar *staff_epilog_insert =  get_postfix(curstaffstruct->staff_directives);		
 		if(staff_override) {
 		  g_string_append_printf(str, "%s", staff_epilog_insert);
