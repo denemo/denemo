@@ -7,11 +7,15 @@
       <row>
         <after>TabStaff</after>
         <action>ChordStaff</action>
-        <scheme>;;;;;;;;;;;;ChordStaff
+        <scheme>;;;;;ChordStaff
 (let ((tag "ChordStaff"))
 (if (and ChordStaff::params (d-Directive-voice? tag))
 	(begin (d-InfoDialog "Use the Staffs/Voices Chord Names command to turn off the typestting of chord names for this staff"))
 	(begin
+
+		(ToggleDirective "staff" "prefix" tag "" DENEMO_OVERRIDE_LILYPOND)
+		(ToggleDirective "staff" "postfix" tag "" DENEMO_OVERRIDE_LILYPOND)
+		(d-DirectiveDelete-staff "InstrumentName")
 		(ToggleDirective "voice" "prefix" tag "\\new ChordNames \n"  DENEMO_OVERRIDE_LILYPOND)
 		(ToggleDirective "clef" "postfix" tag "\n"  DENEMO_OVERRIDE_LILYPOND)
 		(if (d-Directive-clef? tag) (d-DirectivePut-clef-display tag "&#x22C2;"))
