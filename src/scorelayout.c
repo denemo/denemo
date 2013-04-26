@@ -1305,7 +1305,12 @@ static GtkWidget *get_movement_widget(GList **pstaffs, gchar *partname, DenemoSc
 	  if (staff->no_of_lines != 5)
 			g_string_append_printf(staffprefix, TAB"\\override Staff.StaffSymbol  #'line-count = #%d\n", staff->no_of_lines);//FIXME create_element
    
-		add_lilypond(frame, g_string_free(staffprefix, FALSE), g_strdup("\n>>\n%End of Staff\n"));
+		GString *stafftext = g_string_new("");
+    g_string_assign(stafftext, "");
+		set_staff_termination(stafftext, staff); // "\n>>\n%End of Staff\n"
+
+
+		add_lilypond(frame, g_string_free(staffprefix, FALSE), g_string_free(stafftext, FALSE));
 
 
 		
@@ -1993,6 +1998,7 @@ DenemoScoreblock *selection_layout(void) {
 	for(voice_count = 1, staff_count = 1, g = gui->si->thescore;g;g=g->next, voice_count++, staff_count++) {
 		DenemoStaff *staff = g->data;
 		DenemoStaff *nextstaff = g->next?g->next->data:NULL;
+		GString *stafftext = g_string_new("");
 		if(!(voice_count>=gui->si->selection.firststaffmarked && voice_count<=gui->si->selection.laststaffmarked))
 			continue;
 		if(staff->hasfakechords) {//the reason these are outside the staff frame is it makes them appear above the staff
@@ -2003,7 +2009,11 @@ DenemoScoreblock *selection_layout(void) {
 	  if (staff->no_of_lines != 5)
 			g_string_append_printf(sb->lilypond, TAB"\\override Staff.StaffSymbol  #'line-count = #%d\n", staff->no_of_lines);//FIXME create_element
     GString *tail = g_string_new("");
-		g_string_prepend(tail,"\n>>\n%End of Staff\n");
+    
+    g_string_assign(stafftext, "");
+		set_staff_termination(stafftext, staff); // "\n>>\n%End of Staff\n"
+
+		g_string_prepend(tail, g_string_free(stafftext, FALSE));
 
 		if(staff->hasfigures) {
 		g_string_append_printf(sb->lilypond, "\n"TAB TAB"\\context Staff \\with {implicitBassFigures = #'(0) } \\%sBassFiguresLine %%End of bass figures\n",

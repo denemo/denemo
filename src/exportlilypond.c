@@ -2153,7 +2153,17 @@ void set_voice_termination(GString *str, DenemoStaff *curstaffstruct){
 		if(voice_override) {
 		  g_string_append_printf(str, "%s", voice_epilog_insert);
 		} else {
-		g_string_assign(str, TAB TAB"} %End of voice\n");
+			g_string_assign(str, TAB TAB"} %End of voice\n");
+		}
+}
+	 
+void set_staff_termination(GString *str, DenemoStaff *curstaffstruct){
+		gint staff_override = get_lily_override(curstaffstruct->staff_directives);
+		gchar *staff_epilog_insert =  get_postfix(curstaffstruct->staff_directives);		
+		if(staff_override) {
+		  g_string_append_printf(str, "%s", staff_epilog_insert);
+		} else {
+			g_string_assign(str, TAB TAB"\n>>\n%End of Staff\n");
 		}
 }
 	 

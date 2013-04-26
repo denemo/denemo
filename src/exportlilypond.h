@@ -42,4 +42,7 @@ gchar *get_lilypond_paper(void);
 const gchar *get_prevailing_clef_as_lilypond(void);
 const gchar *get_prevailing_keysig_as_lilypond(void);
 const gchar *get_prevailing_timesig_as_lilypond(void);
+void set_voice_termination(GString *str, DenemoStaff *curstaffstruct);
+void set_staff_termination(GString *str, DenemoStaff *curstaffstruct);
+
 #endif
