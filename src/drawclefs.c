@@ -38,25 +38,23 @@ draw_clef (cairo_t *cr, gint xx, gint y, clef *clef)
     { 0xc9, 0xc7, 0xc5, 0xc9, 0xc5, 0xc5, 0xc7, 0xc9 
   };
 
-  gboolean override = FALSE;
+  gint override = 0;
   if(clef->directives) {
     gint count=0;
     GList *g=clef->directives;
     for(;g;g=g->next, count++) {
       DenemoDirective* directive = g->data;
-      override = override || directive->override;
+      override = override | directive->override;
       if(directive->display) { 
-	drawnormaltext_cr( cr, directive->display->str, xx + directive->tx, y+count*10 );
+				drawnormaltext_cr( cr, directive->display->str, xx + directive->tx, y+count*10 );
       }
       if(directive->graphic) {
-	//	gint width, height;
-	//gdk_drawable_get_size(GDK_DRAWABLE(directive->graphic), &width, &height);
-	drawbitmapinverse_cr (cr, directive->graphic,
-			   xx+directive->gx+count,  y+directive->gy, FALSE);
+				drawbitmapinverse_cr (cr, directive->graphic,
+					xx+directive->gx+count,  y+directive->gy, FALSE);
       }
     }
   }
-  if(!override) {
+  if(!(DENEMO_OVERRIDE_GRAPHIC & override)) {
     drawfetachar_cr( cr, clef_char[type], xx, y+clefoffsets[type] );
     if(type==DENEMO_G_8_CLEF)
       drawnormaltext_cr( cr, "8", xx+8,  y+65 );

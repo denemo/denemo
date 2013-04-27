@@ -43,13 +43,13 @@ draw_key (cairo_t *cr, gint xx, gint y,
   gint startindex, endindex;
   gint origx = xx;
   
-  gboolean override = FALSE;
+  gint override = 0;
   if(wetrun && keysig->directives) {
     gint count=0;
     GList *g=keysig->directives;
     for(;g;g=g->next, count++) {
       DenemoDirective* directive = g->data;
-      override = override || directive->override;
+      override = override | directive->override;
       if(directive->display) { 
         drawnormaltext_cr( cr, directive->display->str, xx + directive->tx, y+count*10 );
       }
@@ -59,7 +59,7 @@ draw_key (cairo_t *cr, gint xx, gint y,
       }
     }
   }
-  if(!override) { 
+ if(!(DENEMO_OVERRIDE_GRAPHIC & override)) { 
   /* first, set the arrays we're using to something useful */
   if (wetrun)
     {

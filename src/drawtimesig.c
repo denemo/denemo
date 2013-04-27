@@ -27,13 +27,13 @@ draw_timesig (cairo_t *cr, gint xx, gint y,
   g_string_sprintf (timesigtop, "%d", time1);
   g_string_sprintf (timesigbottom, "%d", time2);
 
-  gboolean override = FALSE;
+  gint override = 0;
   if(timesig->directives) {
     gint count=0;
     GList *g=timesig->directives;
     for(;g;g=g->next, count++) {
       DenemoDirective* directive = g->data;
-      override = override || directive->override;
+      override = override | directive->override;
       if(directive->display) { 
         drawnormaltext_cr( cr, directive->display->str, xx + directive->tx, y+count*10 );
       }
@@ -43,7 +43,7 @@ draw_timesig (cairo_t *cr, gint xx, gint y,
       }
     }
   }
-  if(!override) {
+   if(!(DENEMO_OVERRIDE_GRAPHIC & override)) {
     gint extra = LINE_SPACE / 2;
     cairo_select_font_face( cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL );
     cairo_set_font_size( cr, 24.0 );
