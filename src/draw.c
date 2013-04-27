@@ -500,8 +500,10 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
        */
 
   if(cr) {
-    g_string_sprintf (mstring, "%d", itp->measurenum);
-    drawnormaltext_cr (cr, mstring->str, x - SPACE_FOR_BARLINE - 5, y - 3);
+		if(itp->measurenum>1) {//don't draw meassure number 1, as it collides and is obvious anyway and is never typeset thus
+			g_string_sprintf (mstring, "%d", itp->measurenum);
+			drawnormaltext_cr (cr, mstring->str, x - SPACE_FOR_BARLINE - 5, y - 3);
+		}
   }
 
 
