@@ -27,7 +27,7 @@
 		(d-DirectivePut-score-override tag DENEMO_OVERRIDE_AFFIX)
 		(d-SetSaved #f))))</scheme>
         <label>LilyPond Definition</label>
-        <tooltip>Create a definition at the head of the LilyPond output. This can then be referenced in the music. See LilyPond documentation.</tooltip>
+        <tooltip>Create a definition at the head of the LilyPond text. This can then be referenced in the music. See LilyPond documentation.</tooltip>
       </row>
     </map>
   </merge>

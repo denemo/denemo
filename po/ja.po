@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: denemo 1.0.0-rc5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-21 18:20+0100\n"
+"POT-Creation-Date: 2013-04-28 17:57+0100\n"
 "PO-Revision-Date: 2013-01-06 21:42+0900\n"
 "Last-Translator: Takeshi Hamasaki <hmatrjp@users.sourceforge.jp>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -995,6 +995,7 @@ msgstr ""
 
 #: src/commands.c:747 src/commands.c:750
 #: actions/commandscripts/InstrumentName.scm:39
+#: actions/commandscripts/PianoStaffName.scm:6
 #, no-c-format
 msgid "Instrument Name"
 msgstr "楽器名"
@@ -6080,11 +6081,46 @@ msgid ""
 "of shape via clicking and dragging with mouse on final typeset score."
 msgstr ""
 
-#: src/draw.c:975
+#: src/commands.c:6479 src/commands.c:6482
+#, fuzzy, no-c-format
+msgid "Piano Staff Name"
+msgstr "ピアノ五線開始"
+
+#: src/commands.c:6479 src/commands.c:6482
+#, no-c-format
+msgid ""
+"Prints the name given at the start of the Piano staff which must be where "
+"the cursor is. Remove instrument names on the individual staffs by setting "
+"them blank."
+msgstr ""
+
+#: src/commands.c:6491 src/commands.c:6494
+#, fuzzy, no-c-format
+msgid "Add Piano Staff"
+msgstr "最後に五線を追加"
+
+#: src/commands.c:6491 src/commands.c:6494
+#, no-c-format
+msgid "Adds two staff braced together for keyboard instrument."
+msgstr ""
+
+#: src/commands.c:6503 src/commands.c:6506 src/scorelayout.c:1249
+#, no-c-format
+msgid "Chord Symbols"
+msgstr "和音記号"
+
+#: src/commands.c:6503 src/commands.c:6506
+#, no-c-format
+msgid ""
+"Typesets the music on this staff as chord symbols. Normally you will use "
+"this on a voice, so that the chord symbols print on the melody staff."
+msgstr ""
+
+#: src/draw.c:977
 msgid "Playback Start"
 msgstr "再生開始"
 
-#: src/draw.c:978
+#: src/draw.c:980
 msgid "Playback End"
 msgstr "再生終了"
 
@@ -6288,8 +6324,9 @@ msgid "Move to Measure Right"
 msgstr "右の小節へ"
 
 #: src/entries.h:22 src/register_commands.h:21
+#, fuzzy
 msgid ""
-"Moves the cursor to the first object in the previous measureleaving "
+"Moves the cursor to the first object in the previous measure leaving "
 "selection, if any, unchanged"
 msgstr ""
 "カーソルを前の小節の最初のオブジェクトへ移動、選択範囲があっても変更しない"
@@ -6601,7 +6638,8 @@ msgid "End Tuplet"
 msgstr "連符を終了"
 
 #: src/entries.h:63 src/register_commands.h:62
-msgid "Insert Quadtuplet"
+#, fuzzy
+msgid "Insert Quadruplet"
 msgstr "4連符を挿入"
 
 #: src/entries.h:64 src/register_commands.h:63
@@ -7345,7 +7383,7 @@ msgid ""
 "Commands that apply to the current staff."
 msgstr ""
 
-#: src/entries.h:209 src/scorelayout.c:1318
+#: src/entries.h:209 src/scorelayout.c:1323
 #, fuzzy
 msgid "Voices"
 msgstr "上の声部も操作対象にする"
@@ -7423,7 +7461,7 @@ msgid ""
 "playback end (red bar).\n"
 "There are playback controls (See View->Playback Controls) which make it easy "
 "to set and re-set these and also to loop-play, choose the temperament to "
-"play in etc. Or use items in this menu to play the whole piece of from the "
+"play in etc. Or use items in this menu to play the whole piece from the "
 "cursor to the end."
 msgstr ""
 
@@ -7499,9 +7537,10 @@ msgid "Open In New"
 msgstr "新規ファイルで開く"
 
 #: src/entries.h:226 src/register_commands.h:213
+#, fuzzy
 msgid ""
 "Open a file containing a music score for editing in a separate working area "
-"(tab"
+"(tab)"
 msgstr "楽譜を含むファイルを編集するために、別のタブで開く"
 
 #: src/entries.h:227 src/entries.h:238 src/register_commands.h:214
@@ -7663,7 +7702,7 @@ msgstr "印刷プレビュー"
 
 #: src/entries.h:245 src/register_commands.h:230
 #, fuzzy
-msgid "Displays the final finished score in your pd viewer"
+msgid "Displays the final finished score in your PDF viewer"
 msgstr "清書した楽譜をPDF ビュアーで表示"
 
 #: src/entries.h:246 src/register_commands.h:231
@@ -9345,12 +9384,12 @@ msgstr "五線の間隔 (ピクセル):"
 msgid ""
 "Menu:\n"
 "Various sorts of brace linking the staffs together. These may be nested, see "
-"the Score Lyout view for a display of the staff groups created."
+"the Score Layout view for a display of the staff groups created."
 msgstr ""
 
 #: src/entries.h:419
 #, fuzzy
-msgid "Add Note Anove Base of Chord"
+msgid "Add Note Above Base of Chord"
 msgstr "和音を追加"
 
 #: src/entries.h:419
@@ -9379,7 +9418,7 @@ msgstr "どの設定を変更しますか?"
 #: src/entries.h:421
 msgid ""
 "Menu:\n"
-"Commands to include other durations in a chord (instead of polypony - this "
+"Commands to include other durations in a chord (instead of polyphony - this "
 "is specialized stuff!) The note at the cursor height is altered."
 msgstr ""
 
@@ -9398,7 +9437,7 @@ msgstr "印刷される譜面"
 msgid ""
 "Menu:\n"
 "Alters the note/chord at the cursor or the selection transposing it by the "
-"interval chosen. This alters the music in the score - see othe transpose "
+"interval chosen. This alters the music in the score - see other transpose "
 "options for transposing the printed output, leaving the music untouched."
 msgstr ""
 
@@ -9680,9 +9719,10 @@ msgid "Keyboard shortcuts could not be found"
 msgstr "キーボードショートカットが見付かりません"
 
 #: src/kbd-custom.c:638
+#, fuzzy
 msgid ""
 "No commands file was found in either the systemwide Denemo directory or in ."
-"denemo directory within your home directory. This is an intallation error. "
+"denemo directory within your home directory. This is an installation error. "
 "You can use Edit/Command Management to construct a custom interface or to "
 "load one from a commandset file."
 msgstr ""
@@ -10382,17 +10422,17 @@ msgstr "小節の幅を最小にする"
 msgid "Enter width (in pixels) of measures:"
 msgstr "小節の幅を(ピクセル単位で)入力"
 
-#: src/pitchentry.c:1132
+#: src/pitchentry.c:1131
 #, fuzzy
 msgid "flatten "
 msgstr "半音下げる"
 
-#: src/pitchentry.c:1143
+#: src/pitchentry.c:1142
 #, fuzzy
 msgid "sharpen"
 msgstr "半音上げる"
 
-#: src/pitchentry.c:1162
+#: src/pitchentry.c:1161
 msgid "Set the musical temperament (tuning) to be used for playback."
 msgstr ""
 
@@ -10449,8 +10489,9 @@ msgid "Display lyrics pane"
 msgstr "歌詞ペインを表示"
 
 #: src/prefdialog.c:547
-msgid "Display Titles. Controls etc"
-msgstr ""
+#, fuzzy
+msgid "Display titles, controls etc"
+msgstr "コンソールペインを表示"
 
 #: src/prefdialog.c:549
 msgid "Display Music Snippets"
@@ -10593,7 +10634,7 @@ msgid "Rate of re-typeset in ms"
 msgstr ""
 
 #: src/prefdialog.c:607
-msgid "Type: (0=Range, 1=Movement, 2=Whole Score"
+msgid "Type: (0=Range, 1=Movement, 2=Whole Score)"
 msgstr ""
 
 #: src/prefdialog.c:608
@@ -11014,7 +11055,7 @@ msgid ""
 "to see other layouts you have created."
 msgstr ""
 
-#: src/print.c:2938 src/scorelayout.c:1534 src/utils.c:1413
+#: src/print.c:2938 src/scorelayout.c:1539 src/utils.c:1413
 msgid "Movement"
 msgstr "楽章"
 
@@ -12376,10 +12417,6 @@ msgstr "五線を高くする"
 msgid "This holds the staffs below which are the voices with the music."
 msgstr ""
 
-#: src/scorelayout.c:1249
-msgid "Chord Symbols"
-msgstr "和音記号"
-
 #: src/scorelayout.c:1258
 #, c-format
 msgid "Staff %d"
@@ -12431,112 +12468,112 @@ msgid ""
 "top) once you have made the changes."
 msgstr ""
 
-#: src/scorelayout.c:1318
+#: src/scorelayout.c:1323
 #, fuzzy
 msgid "Voice"
 msgstr "上の声部も操作対象にする"
 
-#: src/scorelayout.c:1320
+#: src/scorelayout.c:1325
 msgid ""
 "This holds the voice(s) of the staff - the clef, time signature, key "
 "signature and music are all here"
 msgstr ""
 
-#: src/scorelayout.c:1401 src/scorelayout.c:1534
+#: src/scorelayout.c:1406 src/scorelayout.c:1539
 #, c-format
 msgid "Movement %d"
 msgstr "楽章 %d"
 
-#: src/scorelayout.c:1418
+#: src/scorelayout.c:1423
 #, fuzzy
 msgid "Paper Block"
 msgstr "ブロック削除"
 
-#: src/scorelayout.c:1419
+#: src/scorelayout.c:1424
 msgid "Settings for whole score: includes overall staff size, paper size ...\n"
 msgstr ""
 
-#: src/scorelayout.c:1425
+#: src/scorelayout.c:1430
 msgid "the paper block contents"
 msgstr ""
 
-#: src/scorelayout.c:1428
+#: src/scorelayout.c:1433
 msgid "paper size"
 msgstr "用紙のサイズ"
 
-#: src/scorelayout.c:1430
+#: src/scorelayout.c:1435
 #, fuzzy
 msgid "Global staff size"
 msgstr " K - ヒストリ領域サイズ     :"
 
-#: src/scorelayout.c:1436
+#: src/scorelayout.c:1441
 msgid "Score Titles"
 msgstr "楽譜のタイトル"
 
-#: src/scorelayout.c:1439
+#: src/scorelayout.c:1444
 msgid ""
 "Titles, layout settings, preferences etc for the whole score.\n"
 "Includes main title, composer, date, instrumentation, tagline"
 msgstr ""
 
-#: src/scorelayout.c:1447
+#: src/scorelayout.c:1452
 #, fuzzy
 msgid "Default tagline"
 msgstr "デフォルトのサウンド"
 
-#: src/scorelayout.c:1465
+#: src/scorelayout.c:1470
 msgid "Score Directives"
 msgstr "楽譜の指示を編集"
 
-#: src/scorelayout.c:1466
+#: src/scorelayout.c:1471
 msgid "Includes the indent before first measure, LilyPond include files ..."
 msgstr ""
 
-#: src/scorelayout.c:1486
+#: src/scorelayout.c:1491
 msgid "Score-wide Settings."
 msgstr "楽譜全体の設定"
 
-#: src/scorelayout.c:1487
+#: src/scorelayout.c:1492
 msgid "Setting the score title, composer, headers and footers for this layout"
 msgstr ""
 
-#: src/scorelayout.c:1492
+#: src/scorelayout.c:1497
 #, fuzzy
 msgid "Create Book Titles"
 msgstr "%s/linux シンボリックリンクを作成できませんでした!"
 
-#: src/scorelayout.c:1495
+#: src/scorelayout.c:1500
 #, fuzzy
 msgid "Set book titles for the score"
 msgstr "楽譜のあちこちへ移動する"
 
-#: src/scorelayout.c:1536
+#: src/scorelayout.c:1541
 msgid ""
 "This contains the layout of the movement- the movement title, and the actual "
 "music itself"
 msgstr ""
 
-#: src/scorelayout.c:1545
+#: src/scorelayout.c:1550
 msgid "Delete this movement from the score layout"
 msgstr "この楽章を楽譜のレイアウトから削除"
 
-#: src/scorelayout.c:1563
+#: src/scorelayout.c:1568
 #, fuzzy
 msgid "Header block"
 msgstr "列ヘッダー"
 
-#: src/scorelayout.c:1581
+#: src/scorelayout.c:1586
 msgid "Layout block"
 msgstr "ブロックのレイアウト"
 
-#: src/scorelayout.c:1599
+#: src/scorelayout.c:1604
 #, fuzzy
 msgid "Movement Epilog"
 msgstr "楽章"
 
-#: src/scorelayout.c:1871
+#: src/scorelayout.c:1876
 msgid ""
-"This a score layout - the brown buttons affect the score itself, not just "
+"This is a score layout - the brown buttons affect the score itself, not just "
 "the layout.\n"
 "The other buttons will customize the layout\n"
 "You can have several layouts and use them to print different versions of "
@@ -12550,17 +12587,17 @@ msgid ""
 "customized layouts.<b>Note 1</b>Custom layouts are not saved for further "
 "graphical editing, only the typesetting commands are saved, so, unless you "
 "are familiar with LilyPond do all your work on the layout in one session."
-"<b>Note 2</b>The first comment holds in the LilyPond text of the layout "
-"holds the name of the layout. If you change it any conditional directives "
-"that are for the layout will need refreshing"
+"<b>Note 2</b>The first comment in the LilyPond text of the layout holds the "
+"name of the layout. If you change it any conditional directives that are for "
+"the layout will need refreshing"
 msgstr ""
 
-#: src/scorelayout.c:2231
+#: src/scorelayout.c:2262
 msgid ""
 "The LilyPond text for this layout can be edited in the LilyPond view window."
 msgstr ""
 
-#: src/scorelayout.c:2237
+#: src/scorelayout.c:2268
 msgid ""
 "This is a customized layout, which has been transformed into instructions "
 "for the LilyPond music typesetter.\n"
@@ -12571,7 +12608,7 @@ msgid ""
 "Otherwise you can delete it and create a new one from a standard layout."
 msgstr ""
 
-#: src/scorelayout.c:2261
+#: src/scorelayout.c:2292
 #, fuzzy
 msgid "Custom Scoreblock"
 msgstr "カスタム設定"
@@ -13637,7 +13674,7 @@ msgstr ""
 
 #: actions/denemo-modules/wysiwyg.scm:250
 msgid ""
-"Now click on the control point at the left end the slur\n"
+"Now click on the control point at the left end of the slur\n"
 "Control points are marked by red crosses"
 msgstr ""
 
@@ -14129,7 +14166,7 @@ msgid "Give new text"
 msgstr "コマンド起動キーの設定"
 
 #: actions/commandscripts/D.C.AlFine.scm:10
-msgid "D.C.Al Fine"
+msgid "D.C. Al Fine"
 msgstr ""
 
 #: actions/commandscripts/D.C.AlFine.scm:52
@@ -14310,6 +14347,12 @@ msgid "No note or chord at cursor to attach footnote to"
 msgstr "カーソル位置に挿入"
 
 #: actions/commandscripts/GraceAfter.scm:41
+msgid ""
+"The cursor is not on a grace note after a main note or chord\n"
+"First create the main note, then follow it with the grace note(s) then "
+"invoke this command with the cursor on the grace note"
+msgstr ""
+
 #: actions/commandscripts/GraceAfter.scm:44
 msgid ""
 "The cursor is not on a grace note after a main note or chord\n"
@@ -14670,6 +14713,18 @@ msgstr ""
 
 #: actions/commandscripts/PartCombine.scm:34
 msgid "Must be on a staff with two voices"
+msgstr ""
+
+#: actions/commandscripts/PianoStaff.scm:6
+msgid "RH"
+msgstr ""
+
+#: actions/commandscripts/PianoStaff.scm:11
+msgid "LH"
+msgstr ""
+
+#: actions/commandscripts/PianoStaffName.scm:6
+msgid "Give name of instrument for staff group starting here:"
 msgstr ""
 
 #: actions/commandscripts/Piece.scm:3
@@ -15133,8 +15188,9 @@ msgstr " J - 非接続時の文字列....."
 
 #: actions/commandscripts/TransposeStaffOutput.scm:8
 msgid ""
-"To use this function you need to place the cursor/non the first of two notes "
-"which define /nthe transposition required"
+"To use this function you need to place the cursor\n"
+"on the first of two notes which define\n"
+"the transposition required"
 msgstr ""
 
 #: actions/commandscripts/TransposeStaffOutput.scm:8
@@ -15208,7 +15264,7 @@ msgid ""
 "This object fills up the duration of this measure, so that the notes in the "
 "measure form an upbeat. It needs to be renewed if you change the duration of "
 "the notes in the measure - use Re-calculate for this, or simply delete it "
-"and re-run the Upbeat command,"
+"and re-run the Upbeat command."
 msgstr ""
 
 #: actions/commandscripts/ZoomDialog.scm:4

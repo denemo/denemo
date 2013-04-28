@@ -1,5 +1,5 @@
 ;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
-;;;;ClefChooser
+;;;ClefChooser
 (let ((choice "Bass"))
 (set! choice (d-GetOption (string-append "Treble" stop "Bass" stop "Alto" stop "Tenor" stop "Treble Octava bassa" stop "Bass Octava bassa"stop "Soprano" stop "Drum" stop)))
 (cond
@@ -8,7 +8,7 @@
 (begin
 ;(d-MoveCursorRight)
 (d-InitialClef "Bass")
-(d-DirectivePut-clef-override "DrumClef" DENEMO_OVERRIDE_LILYPOND)
+(d-DirectivePut-clef-override "DrumClef" (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_LILYPOND))
 (d-DirectivePut-clef-postfix "DrumClef" "\\clef percussion\n ")
 (d-DirectivePut-clef-graphic "DrumClef" "DrumClef")
 (d-StaffProperties "midi_channel=9")

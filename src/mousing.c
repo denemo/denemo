@@ -590,13 +590,13 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
     if(pi.staff_number==gui->si->currentstaffnum) {
       gint offset = (gint)get_click_height(gui, event->y);
       if(offset<STAFF_HEIGHT/2) {
-				if(((DenemoStaff*)gui->si->currentstaff->data)->staff_directives)
-				gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->staffmenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time());
-				return TRUE;
-				} else	if(((DenemoStaff*)gui->si->currentstaff->data)->voice_directives) {
-					gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->voicemenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time());
-					return TRUE;
-				}	
+																	if(((DenemoStaff*)gui->si->currentstaff->data)->staff_directives)
+																			gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->staffmenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time());
+																	return TRUE;
+																} else	if(((DenemoStaff*)gui->si->currentstaff->data)->voice_directives) {
+																			gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->voicemenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time());
+																			return TRUE;
+																}	
     }
   }
 

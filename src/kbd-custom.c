@@ -638,7 +638,7 @@ no_map_dialog ()
 					    ("No commands file was found in either"
 					     " the systemwide Denemo directory"
 					     " or in .denemo directory within your "
-					     "home directory. This is an intallation error. You can use"
+					     "home directory. This is an installation error. You can use"
 					     " Edit/Command Management to construct a custom "
 					     "interface or to load one from"
 					     " a commandset file."));

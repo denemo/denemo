@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: denemo 1.0.0-rc10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-21 18:20+0100\n"
+"POT-Creation-Date: 2013-04-28 17:57+0100\n"
 "PO-Revision-Date: 2013-03-06 23:11+0100\n"
 "Last-Translator: Éloi Rivard <azmeuk@gmail.com>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -1024,6 +1024,7 @@ msgstr "Contrôle l'affichage des portées ne contenant que des silences."
 
 #: src/commands.c:747 src/commands.c:750
 #: actions/commandscripts/InstrumentName.scm:39
+#: actions/commandscripts/PianoStaffName.scm:6
 #, no-c-format
 msgid "Instrument Name"
 msgstr "Nom de l'instrument"
@@ -6605,11 +6606,46 @@ msgid ""
 "of shape via clicking and dragging with mouse on final typeset score."
 msgstr ""
 
-#: src/draw.c:975
+#: src/commands.c:6479 src/commands.c:6482
+#, fuzzy, no-c-format
+msgid "Piano Staff Name"
+msgstr "Début de portée piano"
+
+#: src/commands.c:6479 src/commands.c:6482
+#, no-c-format
+msgid ""
+"Prints the name given at the start of the Piano staff which must be where "
+"the cursor is. Remove instrument names on the individual staffs by setting "
+"them blank."
+msgstr ""
+
+#: src/commands.c:6491 src/commands.c:6494
+#, fuzzy, no-c-format
+msgid "Add Piano Staff"
+msgstr "Ajouter une portée en fin de partition"
+
+#: src/commands.c:6491 src/commands.c:6494
+#, no-c-format
+msgid "Adds two staff braced together for keyboard instrument."
+msgstr ""
+
+#: src/commands.c:6503 src/commands.c:6506 src/scorelayout.c:1249
+#, no-c-format
+msgid "Chord Symbols"
+msgstr "Symboles d'accord"
+
+#: src/commands.c:6503 src/commands.c:6506
+#, no-c-format
+msgid ""
+"Typesets the music on this staff as chord symbols. Normally you will use "
+"this on a voice, so that the chord symbols print on the melody staff."
+msgstr ""
+
+#: src/draw.c:977
 msgid "Playback Start"
 msgstr "Début de lecture"
 
-#: src/draw.c:978
+#: src/draw.c:980
 msgid "Playback End"
 msgstr "Fin de lecture"
 
@@ -6823,8 +6859,9 @@ msgid "Move to Measure Right"
 msgstr "Aller à la mesure suivante"
 
 #: src/entries.h:22 src/register_commands.h:21
+#, fuzzy
 msgid ""
-"Moves the cursor to the first object in the previous measureleaving "
+"Moves the cursor to the first object in the previous measure leaving "
 "selection, if any, unchanged"
 msgstr ""
 "Déplace le curseur au premier objet de la mesure précédente, en n'altérant "
@@ -7112,7 +7149,8 @@ msgid "End Tuplet"
 msgstr "Fin de n-olet"
 
 #: src/entries.h:63 src/register_commands.h:62
-msgid "Insert Quadtuplet"
+#, fuzzy
+msgid "Insert Quadruplet"
 msgstr "Insérer un quartolet"
 
 #: src/entries.h:64 src/register_commands.h:63
@@ -7863,7 +7901,7 @@ msgstr ""
 "Commandes de manipulation des portées et voix.\n"
 "Commandes n'agissant que sur la portée courante."
 
-#: src/entries.h:209 src/scorelayout.c:1318
+#: src/entries.h:209 src/scorelayout.c:1323
 msgid "Voices"
 msgstr "Voix"
 
@@ -7949,12 +7987,13 @@ msgid "Playback"
 msgstr "Lecture"
 
 #: src/entries.h:215
+#, fuzzy
 msgid ""
 "Music playback. Music is played between the playback start (green bar) and "
 "playback end (red bar).\n"
 "There are playback controls (See View->Playback Controls) which make it easy "
 "to set and re-set these and also to loop-play, choose the temperament to "
-"play in etc. Or use items in this menu to play the whole piece of from the "
+"play in etc. Or use items in this menu to play the whole piece from the "
 "cursor to the end."
 msgstr ""
 "Lecture musicale. La musique est lue du marqueur de début (barre verte) au "
@@ -8037,9 +8076,10 @@ msgid "Open In New"
 msgstr "Ouvrir dans un nouvel onglet"
 
 #: src/entries.h:226 src/register_commands.h:213
+#, fuzzy
 msgid ""
 "Open a file containing a music score for editing in a separate working area "
-"(tab"
+"(tab)"
 msgstr "Ouvre un fichier de partition musicale dans un nouvel onglet."
 
 #: src/entries.h:227 src/entries.h:238 src/register_commands.h:214
@@ -8215,7 +8255,8 @@ msgid "Print Preview"
 msgstr "Rendu final"
 
 #: src/entries.h:245 src/register_commands.h:230
-msgid "Displays the final finished score in your pd viewer"
+#, fuzzy
+msgid "Displays the final finished score in your PDF viewer"
 msgstr "Affiche le rendu final de la partition dans le lecteur PDF."
 
 #: src/entries.h:246 src/register_commands.h:231
@@ -10025,10 +10066,11 @@ msgid "Staff Groupings (Braces)"
 msgstr "Groupement de mesures (accolade)"
 
 #: src/entries.h:418
+#, fuzzy
 msgid ""
 "Menu:\n"
 "Various sorts of brace linking the staffs together. These may be nested, see "
-"the Score Lyout view for a display of the staff groups created."
+"the Score Layout view for a display of the staff groups created."
 msgstr ""
 "Menu :\n"
 "Différents types de parenthèses liant les portées ensemble. Elles peuvent "
@@ -10036,7 +10078,8 @@ msgstr ""
 "créés."
 
 #: src/entries.h:419
-msgid "Add Note Anove Base of Chord"
+#, fuzzy
+msgid "Add Note Above Base of Chord"
 msgstr "Ajouter une note au dessus de la fondamentale"
 
 #: src/entries.h:419
@@ -10067,9 +10110,10 @@ msgid "Change Duration of Note"
 msgstr "Modifier la durée de la note"
 
 #: src/entries.h:421
+#, fuzzy
 msgid ""
 "Menu:\n"
-"Commands to include other durations in a chord (instead of polypony - this "
+"Commands to include other durations in a chord (instead of polyphony - this "
 "is specialized stuff!) The note at the cursor height is altered."
 msgstr ""
 "Menu :\n"
@@ -10090,10 +10134,11 @@ msgid "Transpose Music"
 msgstr "Transposer"
 
 #: src/entries.h:423
+#, fuzzy
 msgid ""
 "Menu:\n"
 "Alters the note/chord at the cursor or the selection transposing it by the "
-"interval chosen. This alters the music in the score - see othe transpose "
+"interval chosen. This alters the music in the score - see other transpose "
 "options for transposing the printed output, leaving the music untouched."
 msgstr ""
 "Menu :\n"
@@ -10397,9 +10442,10 @@ msgid "Keyboard shortcuts could not be found"
 msgstr "Impossible de trouver les raccourcis clavier"
 
 #: src/kbd-custom.c:638
+#, fuzzy
 msgid ""
 "No commands file was found in either the systemwide Denemo directory or in ."
-"denemo directory within your home directory. This is an intallation error. "
+"denemo directory within your home directory. This is an installation error. "
 "You can use Edit/Command Management to construct a custom interface or to "
 "load one from a commandset file."
 msgstr ""
@@ -11098,15 +11144,15 @@ msgstr "Largeur minimale des mesures"
 msgid "Enter width (in pixels) of measures:"
 msgstr "Largeur des mesures (en pixels) :"
 
-#: src/pitchentry.c:1132
+#: src/pitchentry.c:1131
 msgid "flatten "
 msgstr "bémol"
 
-#: src/pitchentry.c:1143
+#: src/pitchentry.c:1142
 msgid "sharpen"
 msgstr "dièse"
 
-#: src/pitchentry.c:1162
+#: src/pitchentry.c:1161
 msgid "Set the musical temperament (tuning) to be used for playback."
 msgstr "Définissez le tempérament musical à utiliser à la lecture."
 
@@ -11159,7 +11205,8 @@ msgid "Display lyrics pane"
 msgstr "Afficher les paroles"
 
 #: src/prefdialog.c:547
-msgid "Display Titles. Controls etc"
+#, fuzzy
+msgid "Display titles, controls etc"
 msgstr "Afficher les titres, contrôles etc."
 
 #: src/prefdialog.c:549
@@ -11289,7 +11336,8 @@ msgid "Rate of re-typeset in ms"
 msgstr "Fréquence de mise à jour en ms"
 
 #: src/prefdialog.c:607
-msgid "Type: (0=Range, 1=Movement, 2=Whole Score"
+#, fuzzy
+msgid "Type: (0=Range, 1=Movement, 2=Whole Score)"
 msgstr "Type: (0=Gamme, 1=Morceau, 2=Partition)"
 
 #: src/prefdialog.c:608
@@ -11701,7 +11749,7 @@ msgstr ""
 "Calcule le rendu de la musique en utilisant la mise en page par défaut. Voir "
 "« Affichage → Mises en page » pour voir quelles mises en page vous avez créé."
 
-#: src/print.c:2938 src/scorelayout.c:1534 src/utils.c:1413
+#: src/print.c:2938 src/scorelayout.c:1539 src/utils.c:1413
 msgid "Movement"
 msgstr "Morceau"
 
@@ -13100,10 +13148,6 @@ msgstr "Portées"
 msgid "This holds the staffs below which are the voices with the music."
 msgstr "Cela maintient les portées en dessous qui sont des voix de la musique."
 
-#: src/scorelayout.c:1249
-msgid "Chord Symbols"
-msgstr "Symboles d'accord"
-
 #: src/scorelayout.c:1258
 #, c-format
 msgid "Staff %d"
@@ -13169,11 +13213,11 @@ msgstr ""
 "Rafraîchissez la vue de mise en page (voir le bouton « Options de cette mise "
 "en page » en haut) une fois les changements effectués."
 
-#: src/scorelayout.c:1318
+#: src/scorelayout.c:1323
 msgid "Voice"
 msgstr "Voix"
 
-#: src/scorelayout.c:1320
+#: src/scorelayout.c:1325
 msgid ""
 "This holds the voice(s) of the staff - the clef, time signature, key "
 "signature and music are all here"
@@ -13181,36 +13225,36 @@ msgstr ""
 "Cela maintient les voix ou les portées, clé, métrique, armure et musique "
 "sont tous là."
 
-#: src/scorelayout.c:1401 src/scorelayout.c:1534
+#: src/scorelayout.c:1406 src/scorelayout.c:1539
 #, c-format
 msgid "Movement %d"
 msgstr "Morceau %d"
 
-#: src/scorelayout.c:1418
+#: src/scorelayout.c:1423
 msgid "Paper Block"
 msgstr "Bloc de papier"
 
-#: src/scorelayout.c:1419
+#: src/scorelayout.c:1424
 msgid "Settings for whole score: includes overall staff size, paper size ...\n"
 msgstr "Propriétés de la partition : taille des portées, taille du papier…\n"
 
-#: src/scorelayout.c:1425
+#: src/scorelayout.c:1430
 msgid "the paper block contents"
 msgstr "Le contenu du bloc papier"
 
-#: src/scorelayout.c:1428
+#: src/scorelayout.c:1433
 msgid "paper size"
 msgstr "Taille du papier"
 
-#: src/scorelayout.c:1430
+#: src/scorelayout.c:1435
 msgid "Global staff size"
 msgstr "Taille globale de portée"
 
-#: src/scorelayout.c:1436
+#: src/scorelayout.c:1441
 msgid "Score Titles"
 msgstr "Titres de la partition"
 
-#: src/scorelayout.c:1439
+#: src/scorelayout.c:1444
 msgid ""
 "Titles, layout settings, preferences etc for the whole score.\n"
 "Includes main title, composer, date, instrumentation, tagline"
@@ -13218,39 +13262,39 @@ msgstr ""
 "Titres, réglages de mise en page, préférences etc. pour la partition.\n"
 "Cela inclut le titre principal, le compositeur, la date, l'instrumentation."
 
-#: src/scorelayout.c:1447
+#: src/scorelayout.c:1452
 msgid "Default tagline"
 msgstr "Sous-titre par défaut"
 
-#: src/scorelayout.c:1465
+#: src/scorelayout.c:1470
 msgid "Score Directives"
 msgstr "Instructions de partition"
 
-#: src/scorelayout.c:1466
+#: src/scorelayout.c:1471
 msgid "Includes the indent before first measure, LilyPond include files ..."
 msgstr ""
 "Inclusions de l'indentation avant la première mesure, inclusions de fichiers "
 "LilyPond …"
 
-#: src/scorelayout.c:1486
+#: src/scorelayout.c:1491
 msgid "Score-wide Settings."
 msgstr "Propriétés de la partition."
 
-#: src/scorelayout.c:1487
+#: src/scorelayout.c:1492
 msgid "Setting the score title, composer, headers and footers for this layout"
 msgstr ""
 "Définit le titre de la partition, le compositeur, les entêtes et pieds de "
 "page pour cette mise en page."
 
-#: src/scorelayout.c:1492
+#: src/scorelayout.c:1497
 msgid "Create Book Titles"
 msgstr "Couverture de livre"
 
-#: src/scorelayout.c:1495
+#: src/scorelayout.c:1500
 msgid "Set book titles for the score"
 msgstr "Définit la couverture de livre de la partition"
 
-#: src/scorelayout.c:1536
+#: src/scorelayout.c:1541
 msgid ""
 "This contains the layout of the movement- the movement title, and the actual "
 "music itself"
@@ -13258,26 +13302,27 @@ msgstr ""
 "Contient la mise en page de ce morceau - le titre du morceau, ainsi que les "
 "notes."
 
-#: src/scorelayout.c:1545
+#: src/scorelayout.c:1550
 msgid "Delete this movement from the score layout"
 msgstr "Supprime ce morceau de la mise en page de la partition."
 
-#: src/scorelayout.c:1563
+#: src/scorelayout.c:1568
 msgid "Header block"
 msgstr "Bloc d'entête"
 
-#: src/scorelayout.c:1581
+#: src/scorelayout.c:1586
 msgid "Layout block"
 msgstr "Bloc de mise en page"
 
-#: src/scorelayout.c:1599
+#: src/scorelayout.c:1604
 #, fuzzy
 msgid "Movement Epilog"
 msgstr "Morceau"
 
-#: src/scorelayout.c:1871
+#: src/scorelayout.c:1876
+#, fuzzy
 msgid ""
-"This a score layout - the brown buttons affect the score itself, not just "
+"This is a score layout - the brown buttons affect the score itself, not just "
 "the layout.\n"
 "The other buttons will customize the layout\n"
 "You can have several layouts and use them to print different versions of "
@@ -13291,9 +13336,9 @@ msgid ""
 "customized layouts.<b>Note 1</b>Custom layouts are not saved for further "
 "graphical editing, only the typesetting commands are saved, so, unless you "
 "are familiar with LilyPond do all your work on the layout in one session."
-"<b>Note 2</b>The first comment holds in the LilyPond text of the layout "
-"holds the name of the layout. If you change it any conditional directives "
-"that are for the layout will need refreshing"
+"<b>Note 2</b>The first comment in the LilyPond text of the layout holds the "
+"name of the layout. If you change it any conditional directives that are for "
+"the layout will need refreshing"
 msgstr ""
 "Mise en page de la partition - les boutons marrons affectent la partition "
 "elle-même, pas simplement la mise en page.\n"
@@ -13316,14 +13361,14 @@ msgstr ""
 "mise en page. Si vous le modifiez, toutes les instructions conditionnelles "
 "de la mise en page nécessiteront une mise à jour. "
 
-#: src/scorelayout.c:2231
+#: src/scorelayout.c:2262
 msgid ""
 "The LilyPond text for this layout can be edited in the LilyPond view window."
 msgstr ""
 "Le texte LilyPond pour cette mise en page peut être éditée dans la fenêtre "
 "LilyPond."
 
-#: src/scorelayout.c:2237
+#: src/scorelayout.c:2268
 msgid ""
 "This is a customized layout, which has been transformed into instructions "
 "for the LilyPond music typesetter.\n"
@@ -13342,7 +13387,7 @@ msgstr ""
 "Sinon vous pouvez supprimer cette mise en page et en recréer une à partir "
 "d'une mise en page par défaut."
 
-#: src/scorelayout.c:2261
+#: src/scorelayout.c:2292
 msgid "Custom Scoreblock"
 msgstr "Bloc de partition personnalisé"
 
@@ -14558,7 +14603,7 @@ msgstr ""
 
 #: actions/denemo-modules/wysiwyg.scm:250
 msgid ""
-"Now click on the control point at the left end the slur\n"
+"Now click on the control point at the left end of the slur\n"
 "Control points are marked by red crosses"
 msgstr ""
 
@@ -15060,7 +15105,8 @@ msgid "Give new text"
 msgstr "Entrez un nouveau texte"
 
 #: actions/commandscripts/D.C.AlFine.scm:10
-msgid "D.C.Al Fine"
+#, fuzzy
+msgid "D.C. Al Fine"
 msgstr "D.C.Al Fine"
 
 #: actions/commandscripts/D.C.AlFine.scm:52
@@ -15260,6 +15306,17 @@ msgid "No note or chord at cursor to attach footnote to"
 msgstr "Pas de note ou silence sélectionné"
 
 #: actions/commandscripts/GraceAfter.scm:41
+#, fuzzy
+msgid ""
+"The cursor is not on a grace note after a main note or chord\n"
+"First create the main note, then follow it with the grace note(s) then "
+"invoke this command with the cursor on the grace note"
+msgstr ""
+"Le curseur n'est pas sur une petite note suivant une normale, ni un "
+"accorde.\n"
+"Veuillez d'abord créer une note normale, puis la faire suivre d'une petite "
+"note, et enfin appeler cette commande avec le curseur sur la petite note."
+
 #: actions/commandscripts/GraceAfter.scm:44
 msgid ""
 "The cursor is not on a grace note after a main note or chord\n"
@@ -15663,6 +15720,19 @@ msgstr ""
 #: actions/commandscripts/PartCombine.scm:34
 msgid "Must be on a staff with two voices"
 msgstr ""
+
+#: actions/commandscripts/PianoStaff.scm:6
+msgid "RH"
+msgstr ""
+
+#: actions/commandscripts/PianoStaff.scm:11
+msgid "LH"
+msgstr ""
+
+#: actions/commandscripts/PianoStaffName.scm:6
+#, fuzzy
+msgid "Give name of instrument for staff group starting here:"
+msgstr "Entrez le nom de l'instrument, voix ou partie de la portée courante :"
 
 #: actions/commandscripts/Piece.scm:3
 msgid ""
@@ -16153,9 +16223,11 @@ msgid "No Transposition Interval"
 msgstr "Pas d'intervalle de transposition"
 
 #: actions/commandscripts/TransposeStaffOutput.scm:8
+#, fuzzy
 msgid ""
-"To use this function you need to place the cursor/non the first of two notes "
-"which define /nthe transposition required"
+"To use this function you need to place the cursor\n"
+"on the first of two notes which define\n"
+"the transposition required"
 msgstr ""
 "Pour utiliser cette fonction vous devez placer le curseur sur la première de "
 "deux notes qui définissent l'intervalle de transposition requis."
@@ -16238,11 +16310,12 @@ msgid "Re-calculate"
 msgstr "Recalculer"
 
 #: actions/commandscripts/Upbeat.scm:53
+#, fuzzy
 msgid ""
 "This object fills up the duration of this measure, so that the notes in the "
 "measure form an upbeat. It needs to be renewed if you change the duration of "
 "the notes in the measure - use Re-calculate for this, or simply delete it "
-"and re-run the Upbeat command,"
+"and re-run the Upbeat command."
 msgstr ""
 "Cet objet remplit la durée de cette mesure, pour que les notes de la mesure "
 "forment une levée. Cette commande doit être rappelée si vous changez la "

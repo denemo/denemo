@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Denemo-0.9.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-21 18:20+0100\n"
+"POT-Creation-Date: 2013-04-28 17:57+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Richard Shann <richard.shann@virgin.net>\n"
 "Language-Team: \n"
@@ -997,6 +997,7 @@ msgstr ""
 
 #: src/commands.c:747 src/commands.c:750
 #: actions/commandscripts/InstrumentName.scm:39
+#: actions/commandscripts/PianoStaffName.scm:6
 #, no-c-format
 msgid "Instrument Name"
 msgstr ""
@@ -6096,11 +6097,46 @@ msgid ""
 "of shape via clicking and dragging with mouse on final typeset score."
 msgstr ""
 
-#: src/draw.c:975
+#: src/commands.c:6479 src/commands.c:6482
+#, no-c-format
+msgid "Piano Staff Name"
+msgstr ""
+
+#: src/commands.c:6479 src/commands.c:6482
+#, no-c-format
+msgid ""
+"Prints the name given at the start of the Piano staff which must be where "
+"the cursor is. Remove instrument names on the individual staffs by setting "
+"them blank."
+msgstr ""
+
+#: src/commands.c:6491 src/commands.c:6494
+#, no-c-format
+msgid "Add Piano Staff"
+msgstr ""
+
+#: src/commands.c:6491 src/commands.c:6494
+#, no-c-format
+msgid "Adds two staff braced together for keyboard instrument."
+msgstr ""
+
+#: src/commands.c:6503 src/commands.c:6506 src/scorelayout.c:1249
+#, no-c-format
+msgid "Chord Symbols"
+msgstr ""
+
+#: src/commands.c:6503 src/commands.c:6506
+#, no-c-format
+msgid ""
+"Typesets the music on this staff as chord symbols. Normally you will use "
+"this on a voice, so that the chord symbols print on the melody staff."
+msgstr ""
+
+#: src/draw.c:977
 msgid "Playback Start"
 msgstr ""
 
-#: src/draw.c:978
+#: src/draw.c:980
 msgid "Playback End"
 msgstr ""
 
@@ -6307,7 +6343,7 @@ msgstr "Go to bar:"
 
 #: src/entries.h:22 src/register_commands.h:21
 msgid ""
-"Moves the cursor to the first object in the previous measureleaving "
+"Moves the cursor to the first object in the previous measure leaving "
 "selection, if any, unchanged"
 msgstr ""
 
@@ -6593,7 +6629,7 @@ msgid "End Tuplet"
 msgstr ""
 
 #: src/entries.h:63 src/register_commands.h:62
-msgid "Insert Quadtuplet"
+msgid "Insert Quadruplet"
 msgstr ""
 
 #: src/entries.h:64 src/register_commands.h:63
@@ -7330,7 +7366,7 @@ msgid ""
 "Commands that apply to the current staff."
 msgstr ""
 
-#: src/entries.h:209 src/scorelayout.c:1318
+#: src/entries.h:209 src/scorelayout.c:1323
 #, fuzzy
 msgid "Voices"
 msgstr "Stems Down"
@@ -7407,7 +7443,7 @@ msgid ""
 "playback end (red bar).\n"
 "There are playback controls (See View->Playback Controls) which make it easy "
 "to set and re-set these and also to loop-play, choose the temperament to "
-"play in etc. Or use items in this menu to play the whole piece of from the "
+"play in etc. Or use items in this menu to play the whole piece from the "
 "cursor to the end."
 msgstr ""
 
@@ -7484,7 +7520,7 @@ msgstr ""
 #: src/entries.h:226 src/register_commands.h:213
 msgid ""
 "Open a file containing a music score for editing in a separate working area "
-"(tab"
+"(tab)"
 msgstr ""
 
 #: src/entries.h:227 src/entries.h:238 src/register_commands.h:214
@@ -7644,7 +7680,7 @@ msgid "Print Preview"
 msgstr ""
 
 #: src/entries.h:245 src/register_commands.h:230
-msgid "Displays the final finished score in your pd viewer"
+msgid "Displays the final finished score in your PDF viewer"
 msgstr ""
 
 #: src/entries.h:246 src/register_commands.h:231
@@ -9221,11 +9257,11 @@ msgstr ""
 msgid ""
 "Menu:\n"
 "Various sorts of brace linking the staffs together. These may be nested, see "
-"the Score Lyout view for a display of the staff groups created."
+"the Score Layout view for a display of the staff groups created."
 msgstr ""
 
 #: src/entries.h:419
-msgid "Add Note Anove Base of Chord"
+msgid "Add Note Above Base of Chord"
 msgstr ""
 
 #: src/entries.h:419
@@ -9252,7 +9288,7 @@ msgstr ""
 #: src/entries.h:421
 msgid ""
 "Menu:\n"
-"Commands to include other durations in a chord (instead of polypony - this "
+"Commands to include other durations in a chord (instead of polyphony - this "
 "is specialized stuff!) The note at the cursor height is altered."
 msgstr ""
 
@@ -9270,7 +9306,7 @@ msgstr ""
 msgid ""
 "Menu:\n"
 "Alters the note/chord at the cursor or the selection transposing it by the "
-"interval chosen. This alters the music in the score - see othe transpose "
+"interval chosen. This alters the music in the score - see other transpose "
 "options for transposing the printed output, leaving the music untouched."
 msgstr ""
 
@@ -9538,7 +9574,7 @@ msgstr ""
 #: src/kbd-custom.c:638
 msgid ""
 "No commands file was found in either the systemwide Denemo directory or in ."
-"denemo directory within your home directory. This is an intallation error. "
+"denemo directory within your home directory. This is an installation error. "
 "You can use Edit/Command Management to construct a custom interface or to "
 "load one from a commandset file."
 msgstr ""
@@ -10161,15 +10197,15 @@ msgstr ""
 msgid "Enter width (in pixels) of measures:"
 msgstr ""
 
-#: src/pitchentry.c:1132
+#: src/pitchentry.c:1131
 msgid "flatten "
 msgstr ""
 
-#: src/pitchentry.c:1143
+#: src/pitchentry.c:1142
 msgid "sharpen"
 msgstr ""
 
-#: src/pitchentry.c:1162
+#: src/pitchentry.c:1161
 msgid "Set the musical temperament (tuning) to be used for playback."
 msgstr ""
 
@@ -10222,7 +10258,7 @@ msgid "Display lyrics pane"
 msgstr ""
 
 #: src/prefdialog.c:547
-msgid "Display Titles. Controls etc"
+msgid "Display titles, controls etc"
 msgstr ""
 
 #: src/prefdialog.c:549
@@ -10352,7 +10388,7 @@ msgid "Rate of re-typeset in ms"
 msgstr ""
 
 #: src/prefdialog.c:607
-msgid "Type: (0=Range, 1=Movement, 2=Whole Score"
+msgid "Type: (0=Range, 1=Movement, 2=Whole Score)"
 msgstr ""
 
 #: src/prefdialog.c:608
@@ -10740,7 +10776,7 @@ msgid ""
 "to see other layouts you have created."
 msgstr ""
 
-#: src/print.c:2938 src/scorelayout.c:1534 src/utils.c:1413
+#: src/print.c:2938 src/scorelayout.c:1539 src/utils.c:1413
 msgid "Movement"
 msgstr ""
 
@@ -11900,10 +11936,6 @@ msgstr ""
 msgid "This holds the staffs below which are the voices with the music."
 msgstr ""
 
-#: src/scorelayout.c:1249
-msgid "Chord Symbols"
-msgstr ""
-
 #: src/scorelayout.c:1258
 #, fuzzy, c-format
 msgid "Staff %d"
@@ -11955,105 +11987,105 @@ msgid ""
 "top) once you have made the changes."
 msgstr ""
 
-#: src/scorelayout.c:1318
+#: src/scorelayout.c:1323
 #, fuzzy
 msgid "Voice"
 msgstr "Stems Down"
 
-#: src/scorelayout.c:1320
+#: src/scorelayout.c:1325
 msgid ""
 "This holds the voice(s) of the staff - the clef, time signature, key "
 "signature and music are all here"
 msgstr ""
 
-#: src/scorelayout.c:1401 src/scorelayout.c:1534
+#: src/scorelayout.c:1406 src/scorelayout.c:1539
 #, c-format
 msgid "Movement %d"
 msgstr ""
 
-#: src/scorelayout.c:1418
+#: src/scorelayout.c:1423
 msgid "Paper Block"
 msgstr ""
 
-#: src/scorelayout.c:1419
+#: src/scorelayout.c:1424
 msgid "Settings for whole score: includes overall staff size, paper size ...\n"
 msgstr ""
 
-#: src/scorelayout.c:1425
+#: src/scorelayout.c:1430
 msgid "the paper block contents"
 msgstr ""
 
-#: src/scorelayout.c:1428
+#: src/scorelayout.c:1433
 msgid "paper size"
 msgstr ""
 
-#: src/scorelayout.c:1430
+#: src/scorelayout.c:1435
 msgid "Global staff size"
 msgstr ""
 
-#: src/scorelayout.c:1436
+#: src/scorelayout.c:1441
 msgid "Score Titles"
 msgstr ""
 
-#: src/scorelayout.c:1439
+#: src/scorelayout.c:1444
 msgid ""
 "Titles, layout settings, preferences etc for the whole score.\n"
 "Includes main title, composer, date, instrumentation, tagline"
 msgstr ""
 
-#: src/scorelayout.c:1447
+#: src/scorelayout.c:1452
 msgid "Default tagline"
 msgstr ""
 
-#: src/scorelayout.c:1465
+#: src/scorelayout.c:1470
 msgid "Score Directives"
 msgstr ""
 
-#: src/scorelayout.c:1466
+#: src/scorelayout.c:1471
 msgid "Includes the indent before first measure, LilyPond include files ..."
 msgstr "Includes the indent before first bar, LilyPond include files ..."
 
-#: src/scorelayout.c:1486
+#: src/scorelayout.c:1491
 msgid "Score-wide Settings."
 msgstr ""
 
-#: src/scorelayout.c:1487
+#: src/scorelayout.c:1492
 msgid "Setting the score title, composer, headers and footers for this layout"
 msgstr ""
 
-#: src/scorelayout.c:1492
+#: src/scorelayout.c:1497
 msgid "Create Book Titles"
 msgstr ""
 
-#: src/scorelayout.c:1495
+#: src/scorelayout.c:1500
 msgid "Set book titles for the score"
 msgstr ""
 
-#: src/scorelayout.c:1536
+#: src/scorelayout.c:1541
 msgid ""
 "This contains the layout of the movement- the movement title, and the actual "
 "music itself"
 msgstr ""
 
-#: src/scorelayout.c:1545
+#: src/scorelayout.c:1550
 msgid "Delete this movement from the score layout"
 msgstr ""
 
-#: src/scorelayout.c:1563
+#: src/scorelayout.c:1568
 msgid "Header block"
 msgstr ""
 
-#: src/scorelayout.c:1581
+#: src/scorelayout.c:1586
 msgid "Layout block"
 msgstr ""
 
-#: src/scorelayout.c:1599
+#: src/scorelayout.c:1604
 msgid "Movement Epilog"
 msgstr ""
 
-#: src/scorelayout.c:1871
+#: src/scorelayout.c:1876
 msgid ""
-"This a score layout - the brown buttons affect the score itself, not just "
+"This is a score layout - the brown buttons affect the score itself, not just "
 "the layout.\n"
 "The other buttons will customize the layout\n"
 "You can have several layouts and use them to print different versions of "
@@ -12067,17 +12099,17 @@ msgid ""
 "customized layouts.<b>Note 1</b>Custom layouts are not saved for further "
 "graphical editing, only the typesetting commands are saved, so, unless you "
 "are familiar with LilyPond do all your work on the layout in one session."
-"<b>Note 2</b>The first comment holds in the LilyPond text of the layout "
-"holds the name of the layout. If you change it any conditional directives "
-"that are for the layout will need refreshing"
+"<b>Note 2</b>The first comment in the LilyPond text of the layout holds the "
+"name of the layout. If you change it any conditional directives that are for "
+"the layout will need refreshing"
 msgstr ""
 
-#: src/scorelayout.c:2231
+#: src/scorelayout.c:2262
 msgid ""
 "The LilyPond text for this layout can be edited in the LilyPond view window."
 msgstr ""
 
-#: src/scorelayout.c:2237
+#: src/scorelayout.c:2268
 msgid ""
 "This is a customized layout, which has been transformed into instructions "
 "for the LilyPond music typesetter.\n"
@@ -12088,7 +12120,7 @@ msgid ""
 "Otherwise you can delete it and create a new one from a standard layout."
 msgstr ""
 
-#: src/scorelayout.c:2261
+#: src/scorelayout.c:2292
 msgid "Custom Scoreblock"
 msgstr ""
 
@@ -13117,7 +13149,7 @@ msgstr ""
 
 #: actions/denemo-modules/wysiwyg.scm:250
 msgid ""
-"Now click on the control point at the left end the slur\n"
+"Now click on the control point at the left end of the slur\n"
 "Control points are marked by red crosses"
 msgstr ""
 
@@ -13588,7 +13620,7 @@ msgstr ""
 
 #: actions/commandscripts/D.C.AlFine.scm:10
 #, fuzzy
-msgid "D.C.Al Fine"
+msgid "D.C. Al Fine"
 msgstr "D.C. al fine"
 
 #: actions/commandscripts/D.C.AlFine.scm:52
@@ -13759,6 +13791,12 @@ msgid "No note or chord at cursor to attach footnote to"
 msgstr ""
 
 #: actions/commandscripts/GraceAfter.scm:41
+msgid ""
+"The cursor is not on a grace note after a main note or chord\n"
+"First create the main note, then follow it with the grace note(s) then "
+"invoke this command with the cursor on the grace note"
+msgstr ""
+
 #: actions/commandscripts/GraceAfter.scm:44
 msgid ""
 "The cursor is not on a grace note after a main note or chord\n"
@@ -14108,6 +14146,18 @@ msgstr ""
 
 #: actions/commandscripts/PartCombine.scm:34
 msgid "Must be on a staff with two voices"
+msgstr ""
+
+#: actions/commandscripts/PianoStaff.scm:6
+msgid "RH"
+msgstr ""
+
+#: actions/commandscripts/PianoStaff.scm:11
+msgid "LH"
+msgstr ""
+
+#: actions/commandscripts/PianoStaffName.scm:6
+msgid "Give name of instrument for staff group starting here:"
 msgstr ""
 
 #: actions/commandscripts/Piece.scm:3
@@ -14551,8 +14601,9 @@ msgstr ""
 
 #: actions/commandscripts/TransposeStaffOutput.scm:8
 msgid ""
-"To use this function you need to place the cursor/non the first of two notes "
-"which define /nthe transposition required"
+"To use this function you need to place the cursor\n"
+"on the first of two notes which define\n"
+"the transposition required"
 msgstr ""
 
 #: actions/commandscripts/TransposeStaffOutput.scm:8
@@ -14623,7 +14674,7 @@ msgid ""
 "This object fills up the duration of this measure, so that the notes in the "
 "measure form an upbeat. It needs to be renewed if you change the duration of "
 "the notes in the measure - use Re-calculate for this, or simply delete it "
-"and re-run the Upbeat command,"
+"and re-run the Upbeat command."
 msgstr ""
 
 #: actions/commandscripts/ZoomDialog.scm:4

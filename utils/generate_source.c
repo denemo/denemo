@@ -137,7 +137,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor to the first object in the previous measure, extending selection if any",	N_("MeasureRight"), "measureright", N_("Measure Right")},
 
   {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor to the first object in the next measure leaving selection, if any, unchanged",	N_("MoveToMeasureLeft"), "movetomeasureleft", N_("Move to Measure Left")},
-  {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor to the first object in the previous measureleaving selection, if any, unchanged",	N_("MoveToMeasureRight"), "movetomeasureright", N_("Move to Measure Right")},
+  {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor to the first object in the previous measure leaving selection, if any, unchanged",	N_("MoveToMeasureRight"), "movetomeasureright", N_("Move to Measure Right")},
 
 
 
@@ -191,7 +191,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertTriplet"), "insert_triplet", N_("Insert Triplet")},
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("StartTriplet"), "start_triplet", N_("Start Triplet")},
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("EndTuplet"), "end_tuplet", N_("End Tuplet")},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertQuadtuplet"), "insert_quadtuplet", N_("Insert Quadtuplet")},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertQuadtuplet"), "insert_quadtuplet", N_("Insert Quadruplet")},
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertQuintuplet"), "insert_quintuplet", N_("Insert Quintuplet")},
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertSextuplet"), "insert_sextuplet", N_("Insert Sextuplet")},
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertSeptuplet"), "insert_septuplet", N_("Insert Septuplet")},
@@ -372,7 +372,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nChoose whether to get input audio (e.g. microphone) or MIDI controller (e.g. MIDI keyboard)\\nor just from the pc keyboard.", N_("InputMenu"), NULL, "Input", N_("Input Menu")},
  {CMD_CATEGORY_DIRECT, NULL, "Shifts the set of accidentals one step sharper", N_("SharpenEnharmonicSet"), "set_sharper", N_("Shift Accidentals Sharpwise")}, 
  {CMD_CATEGORY_DIRECT, NULL, "Shifts the set of accidentals one step flatter", N_("FlattenEnharmonicSet"), "set_flatter", N_("Shift Accidentals Flatwise")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Music playback. Music is played between the playback start (green bar) and playback end (red bar).\\nThere are playback controls (See View->Playback Controls) which make it easy to set and re-set these and also to loop-play, choose the temperament to play in etc. Or use items in this menu to play the whole piece of from the cursor to the end.", N_("PlaybackMenu"), NULL, "Playback", N_("Playback Menu")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Music playback. Music is played between the playback start (green bar) and playback end (red bar).\\nThere are playback controls (See View->Playback Controls) which make it easy to set and re-set these and also to loop-play, choose the temperament to play in etc. Or use items in this menu to play the whole piece from the cursor to the end.", N_("PlaybackMenu"), NULL, "Playback", N_("Playback Menu")}, 
 
 
 
@@ -386,7 +386,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Add staffs from a Denemo file", N_("AddStaffs"), "file_add_staffs", N_("Add Staffs")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Add movements from a Denemo file", N_("AddMovements"), "file_add_movements", N_("Add Movement")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PROPERTIES", "Change properties of this movement", N_("MovementProps"), "movement_props_dialog", N_("Change Properties")}, 
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Open a file containing a music score for editing in a separate working area (tab", N_("OpenNewWindow"), "openinnew", N_("Open In New")}, 
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Open a file containing a music score for editing in a separate working area (tab)", N_("OpenNewWindow"), "openinnew", N_("Open In New")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE", "Save the score. The score is saved to disk in XML format.", N_("Save"), "file_savewrapper", N_("Save")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Save the score under a new name", N_("SaveAs"), "file_saveaswrapper", N_("Save As")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Save a copy of the score", N_("SaveCopy"), "file_copy_save", N_("Create Copy")}, 
@@ -405,7 +405,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Export the score as a PNG image file", N_("ExportPNG"), "export_png_action", N_("Export PNG")},
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Export the score as a MIDI file", N_("ExportMIDI"), "export_midi_action", N_("Export MIDI")},
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT", "Menu:\\nCommands for typesetting and then printing the music.\\nA part, movement, full score or various reduced scores can be typeset.\\n See also the Score Layout view for further options.", N_("PrintMenu"), NULL, N_("Print")}, 
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT_PREVIEW", "Displays the final finished score in your pd viewer", N_("PrintPreview"), "printpreview_cb", N_("Print Preview")},
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT_PREVIEW", "Displays the final finished score in your PDF viewer", N_("PrintPreview"), "printpreview_cb", N_("Print Preview")},
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT_PREVIEW", "Typesets the score\\nIf you have a score layout selected it will use that\\notherwise all movements staffs and lyrics are typeset by default.\\nBe patient! It takes time to create a beautifully laid out score.\\nOnce complete you can view and then send to your printer or to a file as a .pdf document.", N_("PrintView"), "show_print_view", N_("Print Preview")},
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT", "Displays selected music from score in your pdf viewer", N_("PrintSelection"), "printselection_cb", N_("Print Selection")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT_PREVIEW", "Displays a musical excerpt in your image viewer", N_("PrintExcerptPreview"), "printexcerptpreview_cb", N_("Print Excerpt")}, 
@@ -622,12 +622,12 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nCommands to embed images taken from original manuscripts etc into the score (one for each measure)", N_("CaptureScore"), NULL, N_("Capture Score")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nCreating an Ossia staff, which appears with alternative interpretations for a bar or two on typesetting", N_("Ossia"), NULL, N_("Ossia")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nCommands for setting how often bar numbers appear in the typeset version of this staff", N_("Numbering"), NULL, N_("Bar Numbering")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nVarious sorts of brace linking the staffs together. These may be nested, see the Score Lyout view for a display of the staff groups created.", N_("StaffGroupings"), NULL, N_("Staff Groupings (Braces)")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nAdding notes to the chord at the cursor at various intervals above base note", N_("AddAboveBase"), NULL, N_("Add Note Anove Base of Chord")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nVarious sorts of brace linking the staffs together. These may be nested, see the Score Layout view for a display of the staff groups created.", N_("StaffGroupings"), NULL, N_("Staff Groupings (Braces)")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nAdding notes to the chord at the cursor at various intervals above base note", N_("AddAboveBase"), NULL, N_("Add Note Above Base of Chord")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nAdding notes to the chord at the cursor at various intervals below the top-most note", N_("AddBelowTop"), NULL, N_("Add Note Below Top of Chord")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nCommands to include other durations in a chord (instead of polypony - this is specialized stuff!) The note at the cursor height is altered.", N_("ChangePrintDuration"), NULL, N_("Change Duration of Note")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nCommands to include other durations in a chord (instead of polyphony - this is specialized stuff!) The note at the cursor height is altered.", N_("ChangePrintDuration"), NULL, N_("Change Duration of Note")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nFingerings (numbers) to typeset near to notes", N_("Fingerings"), NULL, N_("Fingerings")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nAlters the note/chord at the cursor or the selection transposing it by the interval chosen. This alters the music in the score - see othe transpose options for transposing the printed output, leaving the music untouched.", N_("Transpose"), NULL, N_("Transpose Music")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nAlters the note/chord at the cursor or the selection transposing it by the interval chosen. This alters the music in the score - see other transpose options for transposing the printed output, leaving the music untouched.", N_("Transpose"), NULL, N_("Transpose Music")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nMark the directive at the cursor as applying to just the current score layout, or to exclude the current layout. Use this for example to exclude redundant first and second time markings in parts which don't need them.", N_("Conditional-Directives"), NULL, N_("Make a Directive Conditional")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nTo insert random notes at cursor", N_("SingleRandomNote"), NULL, N_("Single Random Note")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nCreating rhythms from a sequence of characters.", N_("GenerateRhythmFromString"), NULL, N_("Generate Rhythm from String")}, 

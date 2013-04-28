@@ -7,7 +7,7 @@
 	  (begin
    		 (set! edit-text (lambda ()
 		      (begin
-			(set! newtext (d-GetUserInput (_ "Replacing Text") (_ "Give new text") (_ "D.C.Al Fine") ))
+			(set! newtext (d-GetUserInput (_ "Replacing Text") (_ "Give new text") (_ "D.C. Al Fine") ))
 			(d-DirectivePut-chord-postfix   tag  (string-append "^\\markup \\italic \\bold {" newtext "}"))
 			(d-DirectivePut-chord-display  tag newtext)
 			)))

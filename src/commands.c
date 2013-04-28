@@ -6474,4 +6474,40 @@ add_ui("/ObjectMenu/Score", "LilyPondDefinition", "ToggleCurveControl");
 g_object_set_data(G_OBJECT(action), "scheme", "");
 g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/Score");
 g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
+
+/* PianoStaffName xgettext:no-c-format*/
+action = gtk_action_new("PianoStaffName",_("Piano Staff Name"),/* xgettext:no-c-format*/_("Prints the name given at the start of the Piano staff which must be where the cursor is. Remove instrument names on the individual staffs by setting them blank."), get_icon_for_name("PianoStaffName", "Piano Staff Name"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"DeleteStaffGroupings");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "PianoStaffName", _("Piano Staff Name"), /* xgettext:no-c-format*/_("Prints the name given at the start of the Piano staff which must be where the cursor is. Remove instrument names on the individual staffs by setting them blank."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("PianoStaffName");
+add_ui("/ObjectMenu/StaffMenu/StaffGroupings", "DeleteStaffGroupings", "PianoStaffName");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/StaffGroupings");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
+
+/* PianoStaff xgettext:no-c-format*/
+action = gtk_action_new("PianoStaff",_("Add Piano Staff"),/* xgettext:no-c-format*/_("Adds two staff braced together for keyboard instrument."), get_icon_for_name("PianoStaff", "Add Piano Staff"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"NewStaffBefore");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "PianoStaff", _("Add Piano Staff"), /* xgettext:no-c-format*/_("Adds two staff braced together for keyboard instrument."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("PianoStaff");
+add_ui("/ObjectMenu/StaffMenu/InsertStaff", "NewStaffBefore", "PianoStaff");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu/InsertStaff");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
+
+/* ChordStaff xgettext:no-c-format*/
+action = gtk_action_new("ChordStaff",_("Chord Symbols"),/* xgettext:no-c-format*/_("Typesets the music on this staff as chord symbols. Normally you will use this on a voice, so that the chord symbols print on the melody staff."), get_icon_for_name("ChordStaff", "Chord Symbols"));
+g_object_set_data(G_OBJECT(action), "after", (gpointer)"TabStaff");
+/* xgettext:no-c-format*/
+register_command(Denemo.map, action, "ChordStaff", _("Chord Symbols"), /* xgettext:no-c-format*/_("Typesets the music on this staff as chord symbols. Normally you will use this on a voice, so that the chord symbols print on the melody staff."), activate_script);
+gtk_action_group_add_action(Denemo.action_group, action);
+create_scheme_function_for_script("ChordStaff");
+add_ui("/ObjectMenu/StaffMenu", "TabStaff", "ChordStaff");
+g_object_set_data(G_OBJECT(action), "scheme", "");
+g_object_set_data(G_OBJECT(action), "menupath", "/ObjectMenu/StaffMenu");
+g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
 }

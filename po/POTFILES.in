@@ -63,6 +63,7 @@ src/exportlilypond.c
 src/exportlilypond.h
 src/exportmidi.c
 src/exportmidi.h
+src/exportmidiPROPERVOLUMEONTOPSTAFF.c
 src/exportxml.c
 src/exportxml.h
 src/external.c
@@ -124,6 +125,7 @@ src/objops.c
 src/objops.h
 src/parseinstruments.c
 src/parseinstruments.h
+src/pathconfig.h
 src/pitchentry.c
 src/pitchentry.h
 src/pitchrecog.c
@@ -320,6 +322,7 @@ actions/commandscripts/ChoirStaffStart.scm
 actions/commandscripts/ChooseBarline.scm
 actions/commandscripts/ChooseTimeSignature.scm
 actions/commandscripts/ChordComment.scm
+actions/commandscripts/ChordStaff.scm
 actions/commandscripts/ChordsForBar.scm
 actions/commandscripts/ChordsOverBass.scm
 actions/commandscripts/ClarinetInA.scm
@@ -594,7 +597,9 @@ actions/commandscripts/ParenthesizeChord.scm
 actions/commandscripts/ParenthesizeNote.scm
 actions/commandscripts/PartCombine.scm
 actions/commandscripts/PasteReplaceSelection.scm
+actions/commandscripts/PianoStaff.scm
 actions/commandscripts/PianoStaffEnd.scm
+actions/commandscripts/PianoStaffName.scm
 actions/commandscripts/PianoStaffStart.scm
 actions/commandscripts/Piece.scm
 actions/commandscripts/PitchShift.scm

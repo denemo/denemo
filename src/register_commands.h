@@ -18,7 +18,7 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "MoveToSt
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "MeasureLeft"), "MeasureLeft", _("Measure Left"), _("Moves the cursor to the first object in the next measure, extending selection if any"), measureleft);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "MeasureRight"), "MeasureRight", _("Measure Right"), _("Moves the cursor to the first object in the previous measure, extending selection if any"), measureright);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "MoveToMeasureLeft"), "MoveToMeasureLeft", _("Move to Measure Left"), _("Moves the cursor to the first object in the next measure leaving selection, if any, unchanged"), movetomeasureleft);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "MoveToMeasureRight"), "MoveToMeasureRight", _("Move to Measure Right"), _("Moves the cursor to the first object in the previous measureleaving selection, if any, unchanged"), movetomeasureright);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "MoveToMeasureRight"), "MoveToMeasureRight", _("Move to Measure Right"), _("Moves the cursor to the first object in the previous measure leaving selection, if any, unchanged"), movetomeasureright);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "A"), "A", _("A"), _("Append/Edit  A"), go_to_A_key);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "B"), "B", _("B"), _("Append/Edit  B"), go_to_B_key);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "C"), "C", _("C"), _("Append/Edit  C"), go_to_C_key);
@@ -59,7 +59,7 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertDu
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertTriplet"), "InsertTriplet", _("Insert Triplet"), _("No Tooltip yet"), insert_triplet);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "StartTriplet"), "StartTriplet", _("Start Triplet"), _("No Tooltip yet"), start_triplet);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "EndTuplet"), "EndTuplet", _("End Tuplet"), _("No Tooltip yet"), end_tuplet);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertQuadtuplet"), "InsertQuadtuplet", _("Insert Quadtuplet"), _("No Tooltip yet"), insert_quadtuplet);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertQuadtuplet"), "InsertQuadtuplet", _("Insert Quadruplet"), _("No Tooltip yet"), insert_quadtuplet);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertQuintuplet"), "InsertQuintuplet", _("Insert Quintuplet"), _("No Tooltip yet"), insert_quintuplet);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertSextuplet"), "InsertSextuplet", _("Insert Sextuplet"), _("No Tooltip yet"), insert_sextuplet);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertSeptuplet"), "InsertSeptuplet", _("Insert Septuplet"), _("No Tooltip yet"), insert_septuplet);
@@ -210,7 +210,7 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "ImportMu
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "AddStaffs"), "AddStaffs", _("Add Staffs"), _("Add staffs from a Denemo file"), file_add_staffs);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "AddMovements"), "AddMovements", _("Add Movement"), _("Add movements from a Denemo file"), file_add_movements);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "MovementProps"), "MovementProps", _("Change Properties"), _("Change properties of this movement"), movement_props_dialog);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "OpenNewWindow"), "OpenNewWindow", _("Open In New"), _("Open a file containing a music score for editing in a separate working area (tab"), openinnew);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "OpenNewWindow"), "OpenNewWindow", _("Open In New"), _("Open a file containing a music score for editing in a separate working area (tab)"), openinnew);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Save"), "Save", _("Save"), _("Save the score. The score is saved to disk in XML format."), file_savewrapper);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "SaveAs"), "SaveAs", _("Save As"), _("Save the score under a new name"), file_saveaswrapper);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "SaveCopy"), "SaveCopy", _("Create Copy"), _("Save a copy of the score"), file_copy_save);
@@ -227,7 +227,7 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "ExportMU
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ExportPDF"), "ExportPDF", _("Export PDF"), _("Export the score as a PDF document file"), export_pdf_action);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ExportPNG"), "ExportPNG", _("Export PNG"), _("Export the score as a PNG image file"), export_png_action);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ExportMIDI"), "ExportMIDI", _("Export MIDI"), _("Export the score as a MIDI file"), export_midi_action);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintPreview"), "PrintPreview", _("Print Preview"), _("Displays the final finished score in your pd viewer"), printpreview_cb);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintPreview"), "PrintPreview", _("Print Preview"), _("Displays the final finished score in your PDF viewer"), printpreview_cb);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintView"), "PrintView", _("Print Preview"), _("Typesets the score\nIf you have a score layout selected it will use that\notherwise all movements staffs and lyrics are typeset by default.\nBe patient! It takes time to create a beautifully laid out score.\nOnce complete you can view and then send to your printer or to a file as a .pdf document."), show_print_view);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintSelection"), "PrintSelection", _("Print Selection"), _("Displays selected music from score in your pdf viewer"), printselection_cb);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintExcerptPreview"), "PrintExcerptPreview", _("Print Excerpt"), _("Displays a musical excerpt in your image viewer"), printexcerptpreview_cb);

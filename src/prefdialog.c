@@ -544,7 +544,7 @@ preferences_change (GtkAction *action, gpointer param)
 
   BOOLEANENTRY(_("Display console pane"), console_pane);
   BOOLEANENTRY(_("Display lyrics pane"), lyrics_pane);
-  BOOLEANENTRY(_("Display Titles. Controls etc"), visible_directive_buttons);
+  BOOLEANENTRY(_("Display titles, controls etc"), visible_directive_buttons);
 
   BOOLEANENTRY(_("Display Music Snippets"), rhythm_palette);
   BOOLEANENTRY(_("Display menu of objects toolbar"), object_palette);
@@ -604,7 +604,7 @@ preferences_change (GtkAction *action, gpointer param)
   
   BOOLEANENTRY(_("Manually update the typeset score"), manualtypeset);
   INTENTRY_LIMITS(_("Rate of re-typeset in ms"), typesetrefresh, 0, 10000);
-  INTENTRY_LIMITS(_("Type: (0=Range, 1=Movement, 2=Whole Score"), typesettype, TYPESET_EXCERPT, TYPESET_ALL_MOVEMENTS);
+  INTENTRY_LIMITS(_("Type: (0=Range, 1=Movement, 2=Whole Score)"), typesettype, TYPESET_EXCERPT, TYPESET_ALL_MOVEMENTS);
   INTENTRY_LIMITS(_("Measures before cursor"), firstmeasure, 0, 100);
   INTENTRY_LIMITS(_("Measures after cursor"), lastmeasure, 0, 100);
   INTENTRY_LIMITS(_("Staffs before cursor"), firststaff, 0, 100);

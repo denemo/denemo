@@ -247,7 +247,7 @@
 		(let ()
 			(define (get-control-point n)
 				(case n
-					((1) (d-InfoDialog (_"Now click on the control point at the left end the slur\nControl points are marked by red crosses"))(d-GetControlPoint 1) )
+					((1) (d-InfoDialog (_"Now click on the control point at the left end of the slur\nControl points are marked by red crosses"))(d-GetControlPoint 1) )
 					((2) (d-InfoDialog (_"Now click second control point of the slur, the next red cross to the right"))(d-GetControlPoint 2))
 					((3) (d-InfoDialog (_"Now click third control point of the slur, the next red cross to the right"))(d-GetControlPoint 3))
 					((4) (d-InfoDialog (_"Now click last control point at the end of the slur, the last red cross to the right"))(d-GetControlPoint 4))))
