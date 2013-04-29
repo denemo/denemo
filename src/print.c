@@ -1096,15 +1096,19 @@ static void set_denemo_pixbuf(gint x, gint y)  {
 		gdouble staffsize = atof(Denemo.gui->lilycontrol.staffsize->str);
 		if(staffsize<1) staffsize = 20.0;
 		gint grob_size = GROB_SIZE * (staffsize/20.0);
+		x -= scale*grob_size/2;
+		y -= scale*grob_size/2;
+		if(x<0) x = 0;
+		if(y<0) y = 0;
 #if GTK_MAJOR_VERSION==2
     gdk_drawable_get_size(window, &width, &height);
     pixbuf = gdk_pixbuf_get_from_drawable(NULL, window, 
                                                    NULL/*gdk_colormap_get_system ()*/, 
-                                                   (gint)(x - scale*grob_size/2), (gint)(y - scale*grob_size/2), 0, 0, scale*grob_size, scale*grob_size);
+                                                   (gint)(x), (gint)(y), 0, 0, scale*grob_size, scale*grob_size);
 #else
       width = gdk_window_get_width(window);
       height = gdk_window_get_height(window);
-      pixbuf = gdk_pixbuf_get_from_window(window, (gint)(x - scale*grob_size/2), (gint)(y - scale*grob_size/2), scale*grob_size, scale*grob_size);
+      pixbuf = gdk_pixbuf_get_from_window(window, (gint)(x), (gint)(y), scale*grob_size, scale*grob_size);
 #endif
 		if(Denemo.pixbuf)
 			g_object_unref(Denemo.pixbuf);
