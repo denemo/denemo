@@ -5547,10 +5547,6 @@ SCM scheme_InsertRest0 (SCM optional) {
 InsertRest0 (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
-SCM scheme_ChangeRest0 (SCM optional) {
-ChangeRest0 (NULL, NULL);
-return SCM_BOOL(TRUE);
-}
 SCM scheme_1 (SCM optional) {
 Dur1 (NULL, NULL);
 return SCM_BOOL(TRUE);
@@ -5569,10 +5565,6 @@ return SCM_BOOL(TRUE);
 }
 SCM scheme_InsertRest1 (SCM optional) {
 InsertRest1 (NULL, NULL);
-return SCM_BOOL(TRUE);
-}
-SCM scheme_ChangeRest1 (SCM optional) {
-ChangeRest1 (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
 SCM scheme_2 (SCM optional) {
@@ -5595,10 +5587,6 @@ SCM scheme_InsertRest2 (SCM optional) {
 InsertRest2 (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
-SCM scheme_ChangeRest2 (SCM optional) {
-ChangeRest2 (NULL, NULL);
-return SCM_BOOL(TRUE);
-}
 SCM scheme_3 (SCM optional) {
 Dur3 (NULL, NULL);
 return SCM_BOOL(TRUE);
@@ -5617,10 +5605,6 @@ return SCM_BOOL(TRUE);
 }
 SCM scheme_InsertRest3 (SCM optional) {
 InsertRest3 (NULL, NULL);
-return SCM_BOOL(TRUE);
-}
-SCM scheme_ChangeRest3 (SCM optional) {
-ChangeRest3 (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
 SCM scheme_4 (SCM optional) {
@@ -5643,10 +5627,6 @@ SCM scheme_InsertRest4 (SCM optional) {
 InsertRest4 (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
-SCM scheme_ChangeRest4 (SCM optional) {
-ChangeRest4 (NULL, NULL);
-return SCM_BOOL(TRUE);
-}
 SCM scheme_5 (SCM optional) {
 Dur5 (NULL, NULL);
 return SCM_BOOL(TRUE);
@@ -5665,10 +5645,6 @@ return SCM_BOOL(TRUE);
 }
 SCM scheme_InsertRest5 (SCM optional) {
 InsertRest5 (NULL, NULL);
-return SCM_BOOL(TRUE);
-}
-SCM scheme_ChangeRest5 (SCM optional) {
-ChangeRest5 (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
 SCM scheme_6 (SCM optional) {
@@ -5691,10 +5667,6 @@ SCM scheme_InsertRest6 (SCM optional) {
 InsertRest6 (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
-SCM scheme_ChangeRest6 (SCM optional) {
-ChangeRest6 (NULL, NULL);
-return SCM_BOOL(TRUE);
-}
 SCM scheme_7 (SCM optional) {
 Dur7 (NULL, NULL);
 return SCM_BOOL(TRUE);
@@ -5715,10 +5687,6 @@ SCM scheme_InsertRest7 (SCM optional) {
 InsertRest7 (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
-SCM scheme_ChangeRest7 (SCM optional) {
-ChangeRest7 (NULL, NULL);
-return SCM_BOOL(TRUE);
-}
 SCM scheme_8 (SCM optional) {
 Dur8 (NULL, NULL);
 return SCM_BOOL(TRUE);
@@ -5737,9 +5705,5 @@ return SCM_BOOL(TRUE);
 }
 SCM scheme_InsertRest8 (SCM optional) {
 InsertRest8 (NULL, NULL);
-return SCM_BOOL(TRUE);
-}
-SCM scheme_ChangeRest8 (SCM optional) {
-ChangeRest8 (NULL, NULL);
 return SCM_BOOL(TRUE);
 }

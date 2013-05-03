@@ -141,15 +141,15 @@ struct name_and_function denemo_commands[] = {
 
 
 
-  {CMD_CATEGORY_NAVIGATION, NULL, "Append/Edit  A",	N_("A"), "go_to_A_key", N_("A")},
-  {CMD_CATEGORY_NAVIGATION, NULL, "Append/Edit  B",	N_("B"), "go_to_B_key", N_("B")},
-  {CMD_CATEGORY_NAVIGATION, NULL, "Append/Edit  C",	N_("C"), "go_to_C_key", N_("C")},
-  {CMD_CATEGORY_NAVIGATION, NULL, "Append/Edit  D",	N_("D"), "go_to_D_key", N_("D")},
-  {CMD_CATEGORY_NAVIGATION, NULL, "Append/Edit  E",	N_("E"), "go_to_E_key", N_("E")},
-  {CMD_CATEGORY_NAVIGATION, NULL, "Append/Edit  F",	N_("F"), "go_to_F_key", N_("F")},
-  {CMD_CATEGORY_NAVIGATION, NULL, "Append/Edit  G",	N_("G"), "go_to_G_key", N_("G")},
-  {CMD_CATEGORY_NAVIGATION, NULL, "Octave Up",	N_("OctaveUp"), "octave_up_key", N_("Octave Up")},
-  {CMD_CATEGORY_NAVIGATION, NULL, "Octave Down",	N_("OctaveDown"), "octave_down_key", N_("Octave Down")},
+  {CMD_CATEGORY_NAVIGATION, NULL, "Changes the note the cursor is on to the note A.\\nIf the cursor is in the appending position, appends a note using the prevailing duration.",	N_("A"), "go_to_A_key", N_("Change/Append A")},
+  {CMD_CATEGORY_NAVIGATION, NULL, "Changes the note the cursor is on to the note B.\\nIf the cursor is in the appending position, appends a note using the prevailing duration.",	N_("B"), "go_to_B_key", N_("Change/Append B")},
+  {CMD_CATEGORY_NAVIGATION, NULL, "Changes the note the cursor is on to the note C.\\nIf the cursor is in the appending position, appends a note using the prevailing duration.",	N_("C"), "go_to_C_key", N_("Change/Append C")},
+  {CMD_CATEGORY_NAVIGATION, NULL, "Changes the note the cursor is on to the note D.\\nIf the cursor is in the appending position, appends a note using the prevailing duration.",	N_("D"), "go_to_D_key", N_("Change/Append D")},
+  {CMD_CATEGORY_NAVIGATION, NULL, "Changes the note the cursor is on to the note E.\\nIf the cursor is in the appending position, appends a note using the prevailing duration.",	N_("E"), "go_to_E_key", N_("Change/Append E")},
+  {CMD_CATEGORY_NAVIGATION, NULL, "Changes the note the cursor is on to the note F.\\nIf the cursor is in the appending position, appends a note using the prevailing duration.",	N_("F"), "go_to_F_key", N_("Change/Append F")},
+  {CMD_CATEGORY_NAVIGATION, NULL, "Changes the note the cursor is on to the note G.\\nIf the cursor is in the appending position, appends a note using the prevailing duration.",	N_("G"), "go_to_G_key", N_("Change/Append G")},
+  {CMD_CATEGORY_NAVIGATION, NULL, "Changes the note at the cursor to an octave higher",	N_("OctaveUp"), "octave_up_key", N_("Octave Up")},
+  {CMD_CATEGORY_NAVIGATION, NULL, "Changes the note at the cursor to an octave lower",	N_("OctaveDown"), "octave_down_key", N_("Octave Down")},
 
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert "NOTECHAR0,	N_("WholeNote"), "insert_chord_0key",  NULL},
   {CMD_CATEGORY_NOTE_ENTRY,NULL , "Insert "NOTECHAR1,	N_("HalfNote"), "insert_chord_1key",   NULL},
@@ -161,23 +161,23 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_NOTE_ENTRY,NULL , "Insert "NOTECHAR7,	N_("OneHundredTwentyEighthNote"), "insert_chord_7key", NULL},
   {CMD_CATEGORY_NOTE_ENTRY,NULL , "Insert "NOTECHAR8,	N_("TwoHundredFiftySixthNote"), "insert_chord_8key",  NULL},
   
-  {CMD_CATEGORY_REST_ENTRY, NULL, "Insert "RESTCHAR0" rest",  N_("InsertWholeRest"), "insert_rest_0key", REST0, NULL},
-  {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert "RESTCHAR1" rest",  N_("InsertHalfRest"), "insert_rest_1key",REST1, NULL},
-  {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert "RESTCHAR2" rest",  N_("InsertQuarterRest"), "insert_rest_2key",REST2, NULL},
-  {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert "RESTCHAR3" rest",  N_("InsertEighthRest"), "insert_rest_3key",REST3, NULL},
-  {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert "RESTCHAR4" rest",  N_("InsertSixteenthRest"), "insert_rest_4key",REST4, NULL},
-  {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert "RESTCHAR5" rest",  N_("InsertThirtysecondRest"), "insert_rest_5key",REST5, NULL},
-  {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert "RESTCHAR6" rest",  N_("InsertSixtyfourthRest"), "insert_rest_6key",REST6, NULL},
+  {CMD_CATEGORY_REST_ENTRY, NULL, "Insert "RESTCHAR0" rest",  N_("InsertWholeRest"), "insert_rest_0key", "Insert a "REST0, NULL},
+  {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert "RESTCHAR1" rest",  N_("InsertHalfRest"), "insert_rest_1key","Insert a "REST1, NULL},
+  {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert "RESTCHAR2" rest",  N_("InsertQuarterRest"), "insert_rest_2key","Insert a "REST2, NULL},
+  {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert "RESTCHAR3" rest",  N_("InsertEighthRest"), "insert_rest_3key","Insert a "REST3, NULL},
+  {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert "RESTCHAR4" rest",  N_("InsertSixteenthRest"), "insert_rest_4key","Insert a "REST4, NULL},
+  {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert "RESTCHAR5" rest",  N_("InsertThirtysecondRest"), "insert_rest_5key","Insert a "REST5, NULL},
+  {CMD_CATEGORY_REST_ENTRY,  NULL, "Insert "RESTCHAR6" rest",  N_("InsertSixtyfourthRest"), "insert_rest_6key","Insert a "REST6, NULL},
   
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR0" rest",  N_("InsertBlankWholeNote"), "insert_blankchord_0key", RESTCHAR0" Spacer", NULL},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR1" rest",  N_("InsertBlankHalfNote"), "insert_blankchord_1key", RESTCHAR1" Spacer", NULL},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR2" rest",  N_("InsertBlankQuarterNote"), "insert_blankchord_2key", RESTCHAR2" Spacer", NULL},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR3" rest",  N_("InsertBlankEighthNote"), "insert_blankchord_3key", RESTCHAR3" Spacer", NULL},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR4" rest",  N_("InsertBlankSixteenthNote"), "insert_blankchord_4key", RESTCHAR4" Spacer", NULL},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR5" rest",  N_("InsertBlankThirtysecondNote"), "insert_blankchord_5key", RESTCHAR5" Spacer", NULL},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR6" rest",  N_("InsertBlankSixtyfourthNote"), "insert_blankchord_6key", RESTCHAR6" Spacer", NULL},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR7" rest",  N_("InsertBlankOneHundredTwentyEighthNote"), "insert_blankchord_7key", RESTCHAR7" Spacer", NULL},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR8" rest",  N_("InsertBlankTwoHundredFiftySixthNote"), "insert_blankchord_8key", RESTCHAR8" Spacer", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR0" rest",  N_("InsertBlankWholeNote"), "insert_blankchord_0key", "Insert a "RESTCHAR0" Spacer", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR1" rest",  N_("InsertBlankHalfNote"), "insert_blankchord_1key", "Insert a "RESTCHAR1" Spacer", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR2" rest",  N_("InsertBlankQuarterNote"), "insert_blankchord_2key", "Insert a "RESTCHAR2" Spacer", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR3" rest",  N_("InsertBlankEighthNote"), "insert_blankchord_3key", "Insert a "RESTCHAR3" Spacer", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR4" rest",  N_("InsertBlankSixteenthNote"), "insert_blankchord_4key", "Insert a "RESTCHAR4" Spacer", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR5" rest",  N_("InsertBlankThirtysecondNote"), "insert_blankchord_5key", "Insert a "RESTCHAR5" Spacer", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR6" rest",  N_("InsertBlankSixtyfourthNote"), "insert_blankchord_6key", "Insert a "RESTCHAR6" Spacer", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR7" rest",  N_("InsertBlankOneHundredTwentyEighthNote"), "insert_blankchord_7key", "Insert a "RESTCHAR7" Spacer", NULL},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Insert a non-printing "RESTCHAR8" rest",  N_("InsertBlankTwoHundredFiftySixthNote"), "insert_blankchord_8key", "Insert a "RESTCHAR8" Spacer", NULL},
 
 
 
@@ -188,25 +188,25 @@ struct name_and_function denemo_commands[] = {
   
 
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertDuplet"), "insert_duplet", N_("Insert Duplet")},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertTriplet"), "insert_triplet", N_("Insert Triplet")},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("StartTriplet"), "start_triplet", N_("Start Triplet")},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("EndTuplet"), "end_tuplet", N_("End Tuplet")},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Inserts a Start Triplet object and an End Tuplet object and places the cursor between these two",	N_("InsertTriplet"), "insert_triplet", N_("Insert Triplet")},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Inserts an Start Triplet object, which makes the notes following take 2/3 of their written duration. Later in this measure there should be an End Tuplet object.",	N_("StartTriplet"), "start_triplet", N_("Start Triplet")},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Inserts an End Tuplet object, which terminates a tuplet started earlier in this measure.",	N_("EndTuplet"), "end_tuplet", N_("End Tuplet")},
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertQuadtuplet"), "insert_quadtuplet", N_("Insert Quadruplet")},
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertQuintuplet"), "insert_quintuplet", N_("Insert Quintuplet")},
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertSextuplet"), "insert_sextuplet", N_("Insert Sextuplet")},
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertSeptuplet"), "insert_septuplet", N_("Insert Septuplet")},
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "Add a note to the current chord\\nThe cursor position determines which note to add",	N_("AddNoteToChord"), "add_tone_key","Add note", N_("Add Tone")},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Remove a note from the current chord",	N_("RemoveNoteFromChord"), "remove_tone_key","Remove note", N_("Remove Tone")},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Remove a note from the current chord, based on the cursor position",	N_("RemoveNoteFromChord"), "remove_tone_key","Remove note", N_("Remove Tone")},
 
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("Sharpen"), "sharpen_key", "Sharpen", N_("Sharpen Note")},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("Flatten"), "flatten_key", "Flatten", N_("Flatten Note")},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Sharpen the note at the cursor",	N_("Sharpen"), "sharpen_key", "Sharpen", N_("Sharpen Note")},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Flatten the note at the cursor",	N_("Flatten"), "flatten_key", "Flatten", N_("Flatten Note")},
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "Increases the sharpness of the next entered note. The status bar shows the current state.",	N_("PendingSharpen"), "pending_sharpen", "Sharpen Next Note", NULL},
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "Increases the flatness of the next entered note. The status bar shows the current state.",	N_("PendingFlatten"), "pending_flatten", "Flatten Next Note", NULL},
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "Alters a StemNeutral object to stem up.",	N_("StemUp"), "stem_up", "StemUp", N_("Stem Up")},
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "Alters a StemNeutral object to stem down.",	N_("StemDown"), "stem_down", "StemDown", N_("Stem Down")},
 
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("AddDot"), "add_dot_key", N_("Add Dot")},
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("RemoveDot"), "remove_dot_key", N_("Remove Dot")},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Lengthen the chord, note or rest at the cursor by dotting it.",	N_("AddDot"), "add_dot_key", N_("Add Dot")},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Reduce the dotting of the chord note or rest at the cursor.",	N_("RemoveDot"), "remove_dot_key", N_("Remove Dot")},
 
   {CMD_CATEGORY_ARTICULATION,  NULL, "Inserts a duplicate of the current note, tied",	N_("InsertTiedNote"), "tie_notes_key","Tied note", N_("Insert Tied Note")},
   {CMD_CATEGORY_ARTICULATION|CMD_CATEGORY_DIRECT,  NULL, "Ties/unties the note at the cursor",	N_("ToggleTie"), "toggle_tie","Toggle Tie", N_("Toggle Tied Note")},
@@ -223,7 +223,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_MEASURE, NULL, "Insert a blank measure in current staff after the current measure",	N_("InsertMeasureAfter"), "insertmeasureafter", N_("Staff Insert Measure After")},
 
 
-  {CMD_CATEGORY_MEASURE, NULL, "No Tooltip yet",	N_("AppendMeasure"), "append_measure_key", N_("Staff Append Measure")},
+  {CMD_CATEGORY_MEASURE, NULL, "Append an empty measure at the end of the current staff",	N_("AppendMeasure"), "append_measure_key", N_("Staff Append Measure")},
   {CMD_CATEGORY_MEASURE, NULL, "Delete the current measure in this staff, leaving the staff short",	N_("DeleteMeasure"), "deletemeasure", N_("Staff Delete Measure")},
   {CMD_CATEGORY_MEASURE, NULL, "Delete the current measure in all staffs",	N_("DeleteMeasureAllStaffs"), "deletemeasureallstaffs", N_("Delete Measure All Staffs")},
   {CMD_CATEGORY_MEASURE, NULL, "No Tooltip yet",	N_("ShrinkMeasures"), "adjust_measure_less_width_key", N_("Shrink Measure")},
@@ -338,23 +338,23 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_ARTICULATION, NULL, "Insert/delete begin slur on this note",	N_("ToggleBeginSlur"), "toggle_begin_slur", N_("Begin Slur")},
   {CMD_CATEGORY_ARTICULATION, NULL, "Insert/delete end slur on this note",	N_("ToggleEndSlur"), "toggle_end_slur", N_("End Slur")},
 
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleStartCrescendo"), "toggle_start_crescendo", N_("Start Crescendo")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleEndCrescendo"), "toggle_end_crescendo", N_("End Crescendo")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleStartDiminuendo"), "toggle_start_diminuendo", N_("Start Diminuendo")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleEndDiminuendo"), "toggle_end_diminuendo", N_("End Diminuendo")},
+  {CMD_CATEGORY_ARTICULATION, NULL, "Marks/Unmarks the chord or note at the cursor as the start of a crescendo.",	N_("ToggleStartCrescendo"), "toggle_start_crescendo", N_("Start Crescendo (Off/On)")},
+  {CMD_CATEGORY_ARTICULATION, NULL, "Marks/Unmarks the chord or note at the cursor as the end of a crescendo.",	N_("ToggleEndCrescendo"), "toggle_end_crescendo", N_("End Crescendo (Off/On)")},
+  {CMD_CATEGORY_ARTICULATION, NULL, "Marks/Unmarks the chord or note at the cursor as the start of a diminuendo.",	N_("ToggleStartDiminuendo"), "toggle_start_diminuendo", N_("Start Diminuendo (Off/On)")},
+  {CMD_CATEGORY_ARTICULATION, NULL, "Marks/Unmarks the chord or note at the cursor as the end of a diminuendo.",	N_("ToggleEndDiminuendo"), "toggle_end_diminuendo", N_("End Diminuendo (Off/On)")},
   {CMD_CATEGORY_ARTICULATION|CMD_CATEGORY_DIRECT, NULL, "Makes the note at the cursor an appogiatura grace note, if it is one, makes it normal",	N_("ToggleGrace"), "toggle_grace", N_("Grace Note Off/On")},
   {CMD_CATEGORY_ARTICULATION|CMD_CATEGORY_DIRECT, NULL, "Makes the note at the cursor an acciaccatura grace note, if it is one, makes it normal",	N_("ToggleAcciaccatura"), "toggle_acciaccatura", N_("Acciaccatura Off/On")},
 
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ForceCaution"), "force_cautionary", N_("Force Cautionary Accidental")},
+  {CMD_CATEGORY_ARTICULATION, NULL, "Give a cautionary accidental to the note at the cursor",	N_("ForceCaution"), "force_cautionary", N_("Force Cautionary Accidental")},
 
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("ChangePitch"), "change_pitch", N_("Change Pitch")},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "Changes the pitch of the note at the cursor to the cursor height",	N_("ChangePitch"), "change_pitch", N_("Change Pitch")},
 
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertRhythm"), "insert_rhythm_pattern", N_("Insert Snippet")},
   {CMD_CATEGORY_OTHER, NULL, "Make next snippet\\nthe current snippet.\\nNotes entered will follow the rhythmic pattern of this snippet",	N_("NextRhythm"), "nextrhythm", N_("Next Snippet")},
   {CMD_CATEGORY_MEASURE, NULL, "Appends a blank measure to every staff in this movement",	N_("AppendMeasureAllStaffs"), "append_measure_score", N_("Append Measure All Staffs")},
   
 
- {CMD_CATEGORY_DIRECT, NULL, "Execute the scheme code from the scripting window",	N_("ExecuteScheme"), "execute_scheme", N_("Execute Scheme")},
+  {CMD_CATEGORY_DIRECT, NULL, "Execute the scheme code from the scripting window",	N_("ExecuteScheme"), "execute_scheme", N_("Execute Scheme")},
 
 
 
@@ -370,8 +370,8 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nCommands that apply to the current movement in your score.\\nMovements in a score could be songs in a song book etc\\nAny piece of continuous music.", N_("MovementMenu"), NULL,"Movements", N_("Movement Menu")},
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nInformation and help for Denemo", N_("HelpMenu"), NULL, "Help", N_("Help Menu")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nChoose whether to get input audio (e.g. microphone) or MIDI controller (e.g. MIDI keyboard)\\nor just from the pc keyboard.", N_("InputMenu"), NULL, "Input", N_("Input Menu")},
- {CMD_CATEGORY_DIRECT, NULL, "Shifts the set of accidentals one step sharper", N_("SharpenEnharmonicSet"), "set_sharper", N_("Shift Accidentals Sharpwise")}, 
- {CMD_CATEGORY_DIRECT, NULL, "Shifts the set of accidentals one step flatter", N_("FlattenEnharmonicSet"), "set_flatter", N_("Shift Accidentals Flatwise")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Shifts the set of accidentals one step sharper", N_("SharpenEnharmonicSet"), "set_sharper", N_("Shift Accidentals Sharpwise")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Shifts the set of accidentals one step flatter", N_("FlattenEnharmonicSet"), "set_flatter", N_("Shift Accidentals Flatwise")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Music playback. Music is played between the playback start (green bar) and playback end (red bar).\\nThere are playback controls (See View->Playback Controls) which make it easy to set and re-set these and also to loop-play, choose the temperament to play in etc. Or use items in this menu to play the whole piece from the cursor to the end.", N_("PlaybackMenu"), NULL, "Playback", N_("Playback Menu")}, 
 
 
@@ -719,7 +719,7 @@ int main() {
  //     }
  
   for(i=0;i<9;i++) {
-    /* callbacks for mode independent duration actions InsertRest0,1,2... ChangeRest0,1,2... InsertDur,ChangeDur0,1,2... SetDur0,1,2... */
+    /* callbacks for mode independent duration actions InsertRest0,1,2... InsertDur,ChangeDur0,1,2... SetDur0,1,2... */
     fprintf(callbacks, 
 "static void InsertRest%d(GtkAction *action, gpointer param){\n"
 "  DenemoGUI *gui = Denemo.gui;\n"
@@ -732,7 +732,7 @@ int main() {
 "  displayhelper(gui);\n"
 "}\n"
 
-"static void ChangeRest%d(GtkAction *action, gpointer param){\n"
+"static void Dummy%d(GtkAction *action, gpointer param){\n"
 "  DenemoGUI *gui = Denemo.gui;\n"
 "  gint mode = gui->mode;\n"
 "  gboolean appending = gui->si->cursor_appending;\n"
@@ -810,18 +810,18 @@ int main() {
 
     /* menu_entries for the mode sensitive duration actions, Dur0,1,2 ... */
     fprintf(entries,
-  "{\"%d\", \"NULL\", NOTE%d, NULL, \"Edits the note at the cursor to have the duration \"NOTE%d\", or \\n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration\",\n"
+  "{\"%d\", \"NULL\", NOTE%d, NULL, \"Inserts a note at the cursor with duration \"NOTE%d\", or \\n(if appending) appends this duration\\nIf MIDI-in is active the note will be pitchless (displays yellow, percussion-sounding)\\n - the MIDI keyboard will provide the pitch. Changes prevailing duration.\",\n"
 	    "G_CALLBACK (Dur%d)},\n"
       
   "{\"Change%d\", \"NULL\", NOTE%d, NULL, \"Change current note to a \"NOTE%d,\n"
 	    "G_CALLBACK (ChangeDur%d)},\n"
-  "{\"ChangeRest%d\", NULL, \"Change duration\", NULL, \"Change duration of current rest\",\n"
-    "G_CALLBACK (ChangeRest%d)},\n"
- "{\"Insert%d\", NULL, \"Insert a \"NOTE%d\"\", NULL, \"Inserts a \"NOTE%d\" at cursor position\\nSets prevailing rhythm to \"NOTE%d,\n"
+  //"{\"ChangeRest%d\", NULL, \"Change duration\", NULL, \"Change duration of current rest\",\n"
+   // "G_CALLBACK (ChangeRest%d)},\n"
+ "{\"Insert%d\", NULL, \"Insert a \"NOTE%d\"\", NULL, \"Inserts a \"NOTE%d\" at cursor position\\nSets prevailing duration to \"NOTE%d,\n"
   "G_CALLBACK (InsertDur%d)},\n"
- "{\"InsertRest%d\", NULL, \"Insert a \"REST%d\"rest\", NULL, \"Inserts a rest at cursor position\\nSets prevailing rhythm to \"NOTE%d,\n"
+ "{\"InsertRest%d\", NULL, \"Insert a \"REST%d\"rest\", NULL, \"Inserts a rest at cursor position\\nSets prevailing duration to \"NOTE%d,\n"
 	    "G_CALLBACK (InsertRest%d)},\n"
- "{\"Set%d\", NULL, \"Set Duration to \"NOTE%d\"\", NULL, \"Sets prevailing rhythm to \"NOTE%d,\n"
+ "{\"Set%d\", NULL, \"Set Duration to \"NOTE%d\"\", NULL, \"Sets prevailing duration to \"NOTE%d\" (subsequent notes entered will have this duration)\", \n"
   "G_CALLBACK (SetDur%d)},\n"
 	    /* ,i, i, i*/, i
 
@@ -837,8 +837,8 @@ int main() {
     fprintf(xml, "<menuitem action=\"Change%d\"/>\n", i);
   for(i=0;i<9;i++) 
     fprintf(xml, "<menuitem action=\"Insert%d\"/>\n", i);
-  for(i=0;i<9;i++) 
-    fprintf(xml, "<menuitem action=\"ChangeRest%d\"/>\n", i);
+ // for(i=0;i<9;i++) 
+  //  fprintf(xml, "<menuitem action=\"ChangeRest%d\"/>\n", i);
   for(i=0;i<9;i++) 
     fprintf(xml, "<menuitem action=\"InsertRest%d\"/>\n", i);
   
@@ -984,23 +984,16 @@ int main() {
 
 
 
-  for(i=0;i<9;i++) {
-    // fprintf(register_commands, "/* putting %d things ..*/\n", i );
-    //fprintf(register_commands, "\n#define NOTE%d \"%s\"\n", i,  NOTES[i]);
-   // fprintf(register_commands, "\n#define REST%d \"%s\"\n", i, RESTS[i]);
-   // fprintf(register_commands, "\n#define NOTECHAR%d \"%s\"\n", i,  NOTECHARS[i]);
-    //fprintf(register_commands, "\n#define RESTCHAR%d \"%s\"\n", i, RESTCHARS[i]);
-
-    
+  for(i=0;i<9;i++) {  
     /* registering commands for mode independent duration actions InsertRest0,1,2... ChangeRest0,1,2... InsertDur,ChangeDur0,1,2...
      *
-     * !!! FIXME what is ChangeRestn???? seems to be Changen ... */
+     * !!! FIXME what is ChangeRestn???? seems to be Changen ... now dropped. */
      
     fprintf(register_commands, 
-	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"%d\"), \"%d\", _(\"%s\"), _(\"When appending, appends a %s \\nWith the cursor on a note inserts a %s  before the current note\\nThe note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active\\n - the MIDI keyboard will provide the pitch\"), Dur%d);\n", i, i, NOTECHARS[i], NOTECHARS[i], NOTECHARS[i], i);
+	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"%d\"), \"%d\", _(\"Insert/Append a %s\"), _(\"When appending, appends a %s \\nWith the cursor on a note inserts a %s  before the current note\\nIf MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)\\n - the MIDI keyboard will provide the pitch. Changes prevailing duration.\"), Dur%d);\n", i, i, NOTECHARS[i], NOTECHARS[i], NOTECHARS[i], i);
 
     fprintf(register_commands,
-	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Change%d\"), \"Change%d\", _(\"%s\"), _(\"Change the current note to a %s\"), ChangeDur%d);\n", i, i, NOTECHARS[i], NOTECHARS[i], i);
+	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Change%d\"), \"Change%d\", _(\"Change to %s\"), _(\"Change the current note to a %s\"), ChangeDur%d);\n", i, i, NOTECHARS[i], NOTECHARS[i], i);
 
     fprintf(register_commands, 
 	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Insert%d\"), \"Insert%d\", _(\"%s\"), _(\"Insert a %s\"), InsertDur%d);\n", i, i, NOTECHARS[i], NOTECHARS[i], i);
@@ -1008,11 +1001,11 @@ int main() {
     fprintf(register_commands, 
 	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"InsertRest%d\"), \"InsertRest%d\",  _(\"Insert a %s\") ,  _(\"Inserts a rest at cursor position\\nSets prevailing rhythm to %s\"), InsertRest%d);\n", i, i, RESTCHARS[i], NOTECHARS[i], i);
 
-    fprintf(register_commands, 
-	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"ChangeRest%d\"), \"ChangeRest%d\",  _(\"Change a %s\") ,  _(\"Changes a rest at cursor position\\nSets prevailing rhythm to %s\"), ChangeRest%d);\n", i, i, RESTCHARS[i], NOTECHARS[i], i);
+  //  fprintf(register_commands, 
+	//    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"ChangeRest%d\"), \"ChangeRest%d\",  _(\"Change a %s\") ,  _(\"Changes a rest at cursor position\\nSets prevailing rhythm to %s\"), ChangeRest%d);\n", i, i, RESTCHARS[i], NOTECHARS[i], i);
 
     fprintf(register_commands, 
-	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Set%d\"), \"Set%d\", _(\"%s\"), _(\"Set the prevailing duration to %s\"), SetDur%d);\n", i, i, NOTECHARS[i], NOTECHARS[i], i); 
+	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Set%d\"), \"Set%d\", _(\"Set Prevailing Duration to %s\"), _(\"Set the prevailing duration to %s (subsequent notes entered will have this duration)\"), SetDur%d);\n", i, i, NOTECHARS[i], NOTECHARS[i], i); 
 
     fprintf(register_commands, "\n#undef NOTE%d\n", i);
     fprintf(register_commands, "\n#undef REST%d\n", i);
@@ -1045,9 +1038,9 @@ int main() {
       fprintf(scheme, "SCM scheme_InsertRest%d(SCM optional);\ninstall_scm_function (\"d-InsertRest%d\", scheme_InsertRest%d);\n", i, i, i);// for direct callback via (scheme_xxx)
       fprintf(scheme_cb, "SCM scheme_InsertRest%d (SCM optional) {\nInsertRest%d (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i,  i);
 
-      fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.map, \"ChangeRest%d\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.
-      fprintf(scheme, "SCM scheme_ChangeRest%d(SCM optional);\ninstall_scm_function (\"d-ChangeRest%d\", scheme_ChangeRest%d);\n", i, i, i);// for direct callback via (scheme_xxx)
-      fprintf(scheme_cb, "SCM scheme_ChangeRest%d (SCM optional) {\nChangeRest%d (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i,  i);
+      //fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.map, \"ChangeRest%d\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.
+     // fprintf(scheme, "SCM scheme_ChangeRest%d(SCM optional);\ninstall_scm_function (\"d-ChangeRest%d\", scheme_ChangeRest%d);\n", i, i, i);// for direct callback via (scheme_xxx)
+     // fprintf(scheme_cb, "SCM scheme_ChangeRest%d (SCM optional) {\nChangeRest%d (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i,  i);
   }
 
 

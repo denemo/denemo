@@ -1388,9 +1388,6 @@ install_scm_function ("d-Set0", scheme_SetDur0);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertRest0")), "scm", (gpointer)1);
 SCM scheme_InsertRest0(SCM optional);
 install_scm_function ("d-InsertRest0", scheme_InsertRest0);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ChangeRest0")), "scm", (gpointer)1);
-SCM scheme_ChangeRest0(SCM optional);
-install_scm_function ("d-ChangeRest0", scheme_ChangeRest0);
 /*1 */
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "1")), "scm", (gpointer)1);
 SCM scheme_1(SCM optional);
@@ -1407,9 +1404,6 @@ install_scm_function ("d-Set1", scheme_SetDur1);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertRest1")), "scm", (gpointer)1);
 SCM scheme_InsertRest1(SCM optional);
 install_scm_function ("d-InsertRest1", scheme_InsertRest1);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ChangeRest1")), "scm", (gpointer)1);
-SCM scheme_ChangeRest1(SCM optional);
-install_scm_function ("d-ChangeRest1", scheme_ChangeRest1);
 /*2 */
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "2")), "scm", (gpointer)1);
 SCM scheme_2(SCM optional);
@@ -1426,9 +1420,6 @@ install_scm_function ("d-Set2", scheme_SetDur2);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertRest2")), "scm", (gpointer)1);
 SCM scheme_InsertRest2(SCM optional);
 install_scm_function ("d-InsertRest2", scheme_InsertRest2);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ChangeRest2")), "scm", (gpointer)1);
-SCM scheme_ChangeRest2(SCM optional);
-install_scm_function ("d-ChangeRest2", scheme_ChangeRest2);
 /*3 */
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "3")), "scm", (gpointer)1);
 SCM scheme_3(SCM optional);
@@ -1445,9 +1436,6 @@ install_scm_function ("d-Set3", scheme_SetDur3);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertRest3")), "scm", (gpointer)1);
 SCM scheme_InsertRest3(SCM optional);
 install_scm_function ("d-InsertRest3", scheme_InsertRest3);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ChangeRest3")), "scm", (gpointer)1);
-SCM scheme_ChangeRest3(SCM optional);
-install_scm_function ("d-ChangeRest3", scheme_ChangeRest3);
 /*4 */
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "4")), "scm", (gpointer)1);
 SCM scheme_4(SCM optional);
@@ -1464,9 +1452,6 @@ install_scm_function ("d-Set4", scheme_SetDur4);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertRest4")), "scm", (gpointer)1);
 SCM scheme_InsertRest4(SCM optional);
 install_scm_function ("d-InsertRest4", scheme_InsertRest4);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ChangeRest4")), "scm", (gpointer)1);
-SCM scheme_ChangeRest4(SCM optional);
-install_scm_function ("d-ChangeRest4", scheme_ChangeRest4);
 /*5 */
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "5")), "scm", (gpointer)1);
 SCM scheme_5(SCM optional);
@@ -1483,9 +1468,6 @@ install_scm_function ("d-Set5", scheme_SetDur5);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertRest5")), "scm", (gpointer)1);
 SCM scheme_InsertRest5(SCM optional);
 install_scm_function ("d-InsertRest5", scheme_InsertRest5);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ChangeRest5")), "scm", (gpointer)1);
-SCM scheme_ChangeRest5(SCM optional);
-install_scm_function ("d-ChangeRest5", scheme_ChangeRest5);
 /*6 */
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "6")), "scm", (gpointer)1);
 SCM scheme_6(SCM optional);
@@ -1502,9 +1484,6 @@ install_scm_function ("d-Set6", scheme_SetDur6);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertRest6")), "scm", (gpointer)1);
 SCM scheme_InsertRest6(SCM optional);
 install_scm_function ("d-InsertRest6", scheme_InsertRest6);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ChangeRest6")), "scm", (gpointer)1);
-SCM scheme_ChangeRest6(SCM optional);
-install_scm_function ("d-ChangeRest6", scheme_ChangeRest6);
 /*7 */
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "7")), "scm", (gpointer)1);
 SCM scheme_7(SCM optional);
@@ -1521,9 +1500,6 @@ install_scm_function ("d-Set7", scheme_SetDur7);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertRest7")), "scm", (gpointer)1);
 SCM scheme_InsertRest7(SCM optional);
 install_scm_function ("d-InsertRest7", scheme_InsertRest7);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ChangeRest7")), "scm", (gpointer)1);
-SCM scheme_ChangeRest7(SCM optional);
-install_scm_function ("d-ChangeRest7", scheme_ChangeRest7);
 /*8 */
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "8")), "scm", (gpointer)1);
 SCM scheme_8(SCM optional);
@@ -1540,6 +1516,3 @@ install_scm_function ("d-Set8", scheme_SetDur8);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertRest8")), "scm", (gpointer)1);
 SCM scheme_InsertRest8(SCM optional);
 install_scm_function ("d-InsertRest8", scheme_InsertRest8);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ChangeRest8")), "scm", (gpointer)1);
-SCM scheme_ChangeRest8(SCM optional);
-install_scm_function ("d-ChangeRest8", scheme_ChangeRest8);
