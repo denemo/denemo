@@ -58,6 +58,7 @@ struct callbackdata
   GtkWidget *cursor_highlight;
   GtkWidget *return_key_is_special;
   GtkWidget *newbie;
+  GtkWidget *learning;
   GtkWidget *persistence;
   GtkWidget *startmidiin;
   GtkWidget *applytoselection;
@@ -296,6 +297,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNBOOLEAN(cursor_highlight)
   ASSIGNBOOLEAN(return_key_is_special)
   ASSIGNBOOLEAN(newbie)
+  ASSIGNBOOLEAN(learning)
   ASSIGNBOOLEAN(startmidiin)
   ASSIGNBOOLEAN(applytoselection)
   ASSIGNBOOLEAN(quickshortcuts)
@@ -318,6 +320,8 @@ set_preferences (struct callbackdata *cbdata)
     Denemo.gui->input_source = INPUTMIDI;
     prefs->startmidiin = TRUE;
   }
+  if(prefs->learning)
+		initialize_keystroke_help();
   /* Now write it all to denemorc */
   writeXMLPrefs (prefs);
 }
@@ -574,8 +578,9 @@ preferences_change (GtkAction *action, gpointer param)
 
   BOOLEANENTRY(_("Strict Shortcuts"), strictshortcuts);
   BOOLEANENTRY(_("Menu Navigation by Keypress"), menunavigation);
-  BOOLEANENTRY(_("Treat Return key as movable shortcut"), return_key_is_special);
-  BOOLEANENTRY(_("Turn on all tooltips"), newbie);
+  BOOLEANENTRY(_("Treat Return key as Movable Shortcut"), return_key_is_special);
+  BOOLEANENTRY(_("Turn on all Tooltips"), newbie);
+  BOOLEANENTRY(_("Show Shortcuts Used"), learning);
   INTENTRY_LIMITS(_("Tooltip timeout in ms. (0 to use system preference)"), tooltip_timeout, 0, 1000000);
   INTENTRY_LIMITS(_("Tooltip browse timeout in ms"), tooltip_browse_timeout, 0, 1000000);
   INTENTRY_LIMITS(_("Tooltip browse mode timeout in ms"), tooltip_browse_mode_timeout, 0, 1000000);

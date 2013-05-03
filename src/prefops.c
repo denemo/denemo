@@ -123,6 +123,7 @@ initprefs ()
   ret->cursor_highlight = TRUE;
   ret->return_key_is_special = TRUE;
   ret->newbie = TRUE;
+  ret->learning = TRUE;
   ret->immediateplayback = TRUE;
   ret->manualtypeset = FALSE;
   ret->typesetrefresh = 10;
@@ -344,7 +345,8 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READBOOLXMLENTRY(cursor_highlight) 
 
       READBOOLXMLENTRY(return_key_is_special) 
-      READBOOLXMLENTRY(newbie) 
+      READBOOLXMLENTRY(newbie)  
+      READBOOLXMLENTRY(learning)  
       READBOOLXMLENTRY(applytoselection) 
       READBOOLXMLENTRY(quickshortcuts) 
       READBOOLXMLENTRY(startmidiin) 
@@ -432,6 +434,7 @@ gboolean get_bool_pref(gchar *prefname) {
       GETBOOLPREF(cursor_highlight) 
       GETBOOLPREF(return_key_is_special) 
       GETBOOLPREF(newbie) 
+      GETBOOLPREF(learning) 
       GETBOOLPREF(applytoselection) 
       GETBOOLPREF(quickshortcuts) 
       GETBOOLPREF(startmidiin) 
@@ -802,6 +805,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEBOOLXMLENTRY(cursor_highlight)
   WRITEBOOLXMLENTRY(return_key_is_special)
   WRITEBOOLXMLENTRY(newbie)
+  WRITEBOOLXMLENTRY(learning)
   WRITEBOOLXMLENTRY(applytoselection)
   WRITEBOOLXMLENTRY(quickshortcuts)
   WRITEBOOLXMLENTRY(startmidiin)

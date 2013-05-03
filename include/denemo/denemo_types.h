@@ -389,6 +389,7 @@ typedef struct DenemoPrefs
   gboolean cursor_highlight; /** Should the cursor be highlighted */
   gboolean return_key_is_special; /** Should the Return key be treated as movable shortcut */
   gboolean newbie; /** Give maximum help */
+  gboolean learning; /** Show which keypresses have been used */
   gboolean progressbardecorations; /** TRUE if you want window decorations on progressbar */
   gboolean toolbar; /**< makes the toolbar visible */
   gboolean playback_controls; /**< makes the playback controls visible */
