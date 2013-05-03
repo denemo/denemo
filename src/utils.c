@@ -18,6 +18,7 @@
 #include "utils.h"
 #include "smf.h"
 #include "print.h"
+#include "kbd-custom.h"
 #include <signal.h> /*for SIGTERM */
 
 #include "config.h"
@@ -1795,3 +1796,72 @@ void use_markup(GtkWidget *widget)
     }
  }
 }
+
+// Help for beginners using keyboard shortcuts
+static GtkWidget *KeyStrokes;
+static GtkWidget *KeyStrokeLabel;
+static GtkWidget *KeyStrokeHelp;
+extern void KeyStrokeShow(gchar *str, gint command_idx, gboolean single);
+
+void KeyStrokeAwait(gchar *first_keypress) {
+	KeyStrokeShow(first_keypress, 0, 0);
+}
+void KeyStrokeDecline(gchar *first_keypress) {
+	KeyStrokeShow(first_keypress, 0, 1);
+}
+void KeyStrokeShow(gchar *str, gint command_idx, gboolean single) {
+	if(str!=NULL) {
+			gchar *text;
+			if(command_idx) {
+				const gchar *label = lookup_label_from_idx(Denemo.map, command_idx);
+				const gchar *tooltip = lookup_tooltip_from_idx(Denemo.map, command_idx);
+				if(single) {
+					text = g_strdup_printf(_("Key Press <span font_desc=\"40\" foreground=\"blue\">%s</span>"
+									" invokes command <span font_desc=\"40\" foreground=\"dark red\">%s</span>"), str, label);
+
+				} else {
+					text = g_strdup_printf(_("Key Presses <span font_desc=\"40\" foreground=\"blue\">%s</span>"
+						" invoke command <span font_desc=\"40\" foreground=\"dark red\">%s</span>"), str, label);
+				}
+				gtk_window_set_title(GTK_WINDOW(KeyStrokes), single?_("Single Key Press"):_("Two Key Presses"));
+				gtk_label_set_markup(GTK_LABEL(KeyStrokeLabel), text);
+				gtk_label_set_text(GTK_LABEL(KeyStrokeHelp), tooltip);
+				g_free(text);
+			} else {
+				if(single)
+					text = g_strdup_printf(_("Key Press <span font_desc=\"40\" foreground=\"blue\">%s</span>"
+									" Is not a shortcut."), str);
+				else
+					text = g_strdup_printf(_("Key Press <span font_desc=\"40\" foreground=\"blue\">%s</span>"
+									" Awaiting continuation"), str);
+				gtk_window_set_title(GTK_WINDOW(KeyStrokes), _("First Key Press"));
+				gtk_label_set_markup(GTK_LABEL(KeyStrokeLabel), text);
+				gtk_label_set_text(GTK_LABEL(KeyStrokeHelp), "");
+				g_free(text);
+			}
+
+	}
+}
+static gboolean toggle_show_keystroke_preference(void) {
+	Denemo.prefs.learning = FALSE;
+	gtk_widget_hide(KeyStrokes);// = NULL;
+	return TRUE;
+}
+void initialize_keystroke_help(void) {
+	if(KeyStrokes==NULL) {
+					KeyStrokes = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+					g_signal_connect (G_OBJECT (KeyStrokes), "delete-event", G_CALLBACK (toggle_show_keystroke_preference), NULL);
+					gtk_window_set_keep_above(GTK_WINDOW(KeyStrokes), TRUE);
+					gtk_window_set_accept_focus(GTK_WINDOW(KeyStrokes), FALSE);
+					KeyStrokeLabel = gtk_label_new("");
+					KeyStrokeHelp = gtk_label_new("");
+					GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
+					gtk_container_add (GTK_CONTAINER(KeyStrokes), vbox);
+					gtk_box_pack_start (GTK_BOX(vbox), KeyStrokeLabel, FALSE, TRUE, 0);
+					gtk_box_pack_start (GTK_BOX(vbox), KeyStrokeHelp, FALSE, TRUE, 0);
+					gtk_label_set_use_markup(GTK_LABEL(KeyStrokeLabel), TRUE);
+					gtk_widget_show_all(KeyStrokes);
+	} else
+	gtk_widget_show(KeyStrokes);
+}
+
