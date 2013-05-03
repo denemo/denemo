@@ -117,42 +117,49 @@
       <row>
         <action>MoveToMeasureRight</action>
         <label>Move to Measure Right</label>
-        <tooltip>Moves the cursor to the first object in the previous measureleaving selection, if any, unchanged</tooltip>
+        <tooltip>Moves the cursor to the first object in the previous measure leaving selection, if any, unchanged</tooltip>
       </row>
       <row>
         <action>A</action>
         <label>A</label>
-        <tooltip>Append/Edit  A</tooltip>
+        <tooltip>Changes the note the cursor is on to the note A.
+If the cursor is in the appending position, appends a note using the prevailing duration.</tooltip>
       </row>
       <row>
         <action>B</action>
         <label>B</label>
-        <tooltip>Append/Edit  B</tooltip>
+        <tooltip>Changes the note the cursor is on to the note B.
+If the cursor is in the appending position, appends a note using the prevailing duration.</tooltip>
       </row>
       <row>
         <action>C</action>
         <label>C</label>
-        <tooltip>Append/Edit  C</tooltip>
+        <tooltip>Changes the note the cursor is on to the note C.
+If the cursor is in the appending position, appends a note using the prevailing duration.</tooltip>
       </row>
       <row>
         <action>D</action>
         <label>D</label>
-        <tooltip>Append/Edit  D</tooltip>
+        <tooltip>Changes the note the cursor is on to the note D.
+If the cursor is in the appending position, appends a note using the prevailing duration.</tooltip>
       </row>
       <row>
         <action>E</action>
         <label>E</label>
-        <tooltip>Append/Edit  E</tooltip>
+        <tooltip>Changes the note the cursor is on to the note E.
+If the cursor is in the appending position, appends a note using the prevailing duration.</tooltip>
       </row>
       <row>
         <action>F</action>
         <label>F</label>
-        <tooltip>Append/Edit  F</tooltip>
+        <tooltip>Changes the note the cursor is on to the note F.
+If the cursor is in the appending position, appends a note using the prevailing duration.</tooltip>
       </row>
       <row>
         <action>G</action>
         <label>G</label>
-        <tooltip>Append/Edit  G</tooltip>
+        <tooltip>Changes the note the cursor is on to the note G.
+If the cursor is in the appending position, appends a note using the prevailing duration.</tooltip>
       </row>
       <row>
         <action>OctaveUp</action>
@@ -321,7 +328,7 @@
       </row>
       <row>
         <action>InsertQuadtuplet</action>
-        <label>Insert Quadtuplet</label>
+        <label>Insert Quadruplet</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
@@ -1081,7 +1088,7 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
       <row>
         <action>OpenNewWindow</action>
         <label>Open In New</label>
-        <tooltip>Open a file containing a music score for editing in a separate working area (tab</tooltip>
+        <tooltip>Open a file containing a music score for editing in a separate working area (tab)</tooltip>
       </row>
       <row>
         <action>Save</action>
@@ -1166,7 +1173,7 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
       <row>
         <action>PrintPreview</action>
         <label>Print Preview</label>
-        <tooltip>Displays the final finished score in your pd viewer</tooltip>
+        <tooltip>Displays the final finished score in your PDF viewer</tooltip>
       </row>
       <row>
         <action>PrintView</action>
