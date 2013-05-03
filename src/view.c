@@ -6110,7 +6110,7 @@ void inner_main(void*closure, int argc, char **argv){
 
   /* Initialize preferences */
   initprefs();
-
+	initialize_keystroke_help();
 
   gchar *initial_file = process_command_line(argc, argv);
 
@@ -8629,10 +8629,11 @@ change_input_type (GtkRadioAction * action, GtkRadioAction * current) {
    }
    if(gui->input_source==INPUTMIDI) {
      // g_print("Stopping midi\n");
-     stop_pitch_input();
+     stop_pitch_input(); 
    }
    gui->input_source=INPUTKEYBOARD;
-   g_print("Input keyboard");
+   Denemo.gui->last_source=INPUTKEYBOARD;
+   g_print("Input keyboard %d", Denemo.gui->last_source);
    break;
  case INPUTAUDIO:
    //g_print("Starting audio\n");
