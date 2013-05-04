@@ -9617,21 +9617,21 @@ get_data_dir (),
 
     //create_playbutton(inner,NULL, pb_forward, GTK_STOCK_MEDIA_FORWARD);
  
-    create_playbutton(inner,"Loop", pb_loop, NULL, _("The music between the red and green bars is played in a loop.\nYou can edit the music while it is playing\nmonitoring your changes."));
+    create_playbutton(inner, _("Loop"), pb_loop, NULL, _("The music between the red and green bars is played in a loop.\nYou can edit the music while it is playing\nmonitoring your changes."));
     
-    midiconductbutton = create_playbutton(inner,"Conductor", pb_conduct, NULL, _("With the mouse conductor once you press play the playback progresses as you move the mouse around\nWith this you can speed up and slow down the playback to listen in detail to a certain passage\n"));
+    midiconductbutton = create_playbutton(inner, _("Conductor"), pb_conduct, NULL, _("With the mouse conductor once you press play the playback progresses as you move the mouse around\nWith this you can speed up and slow down the playback to listen in detail to a certain passage\n"));
     
     create_playbutton(inner,
 #ifdef _HAVE_JACK_
-    "Panic"
+     _("Panic")
 #else
-    "Reset"
+     _("Reset")
 #endif
     , pb_panic, NULL, _("Resets the synthesizer, on JACK it sends a JACK panic."));
 
       
-    create_playbutton(inner, "Set From Selection", pb_set_range, NULL, _("Sets the playback range (green and red bars) to the current selection."));
-    create_playbutton(inner, "Playback Range", pb_range, NULL, _("Pops up a dialog to get timings for start and end of playback."));
+    create_playbutton(inner,  _("Set From Selection"), pb_set_range, NULL, _("Sets the playback range (green and red bars) to the current selection."));
+    create_playbutton(inner,  _("Playback Range"), pb_range, NULL, _("Pops up a dialog to get timings for start and end of playback."));
     GtkWidget *temperament_control = get_temperament_combo();
     if(!gtk_widget_get_parent(temperament_control))
       //gtk_container_add (GTK_CONTAINER (inner), temperament_control);
