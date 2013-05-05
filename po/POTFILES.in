@@ -63,7 +63,7 @@ src/exportlilypond.c
 src/exportlilypond.h
 src/exportmidi.c
 src/exportmidi.h
-src/exportmidiPROPERVOLUMEONTOPSTAFF.c
+src/exportmidi.c
 src/exportxml.c
 src/exportxml.h
 src/external.c
