@@ -1291,7 +1291,7 @@ set_printarea(GError **err) {
 static void
 printview_finished(GPid pid, gint status, gboolean print) {
   progressbar_stop();
-  g_spawn_close_pid(PrintStatus.printpid);g_print("this was missing");
+  g_spawn_close_pid(PrintStatus.printpid);
   //g_print("background %d\n", PrintStatus.background);
   if(PrintStatus.background==STATE_NONE) {
 		call_out_to_guile("(FinalizeTypesetting)");
