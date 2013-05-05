@@ -61,7 +61,7 @@ static gint changecount = -1;//changecount when the printfile was last created F
 #define GPID_NONE (-1)
 
 static GPid previewerpid = GPID_NONE;
-static GPid get_lily_version_pid = GPID_NONE;
+
 
 typedef enum { STATE_NONE = 0, //not a background typeset
 							 STATE_OFF = 1<<0, //background typeset complete
@@ -151,7 +151,7 @@ typedef struct ww {
 
 static ww Ww; //Wysywyg information
 
-static gint errors=-1;
+static gint LilyPond_stderr=-1; //A file descriptor to pipe for LilyPond's stderr
 static   GError *lily_err = NULL;
 
 static
@@ -263,40 +263,10 @@ regex_parse_version_number (const gchar *str)
   g_regex_unref (regex);
   return g_string_free(lilyversion, FALSE); 	  
 }
-#define INSTALLED_LILYPOND_VERSION "2.13" /* FIXME set via gub */
+#define INSTALLED_LILYPOND_VERSION "2.16" /* FIXME set via gub */
 gchar *
 get_lily_version_string (void)
 {
-#ifndef G_OS_WIN32
-  GError *error = NULL;
-  int standard_output;
-#define NUMBER_OF_PARSED_CHAR 30
-  gchar buf[NUMBER_OF_PARSED_CHAR]; /* characters needed to parse */
-  gchar *arguments[] = {
-  "lilypond",
-  "-v",
-  NULL
-  };
-  g_spawn_async_with_pipes (NULL,            /* dir */
-  arguments, NULL,       /* env */
-  G_SPAWN_SEARCH_PATH | G_SPAWN_DO_NOT_REAP_CHILD, NULL, /* child setup func */
-  NULL,          /* user data */
-  &get_lily_version_pid,	/*pid*/
-  NULL, 	/*standard_input*/
-  &standard_output,	/*standard output*/
-  NULL,	/*standard error*/
-  &error);
-  if(error==NULL) {
-		gint num = read(standard_output, buf, sizeof(buf));
-		if(num)
-			return regex_parse_version_number(buf);
-		else
-			g_warning ("Could not read stdout of lilypond -v call\n");
-  } else {
-    g_warning ("%s", error->message);
-    g_error_free (error);
-  }
-#endif
 return INSTALLED_LILYPOND_VERSION;
 }
 int
@@ -379,7 +349,7 @@ static void
 process_lilypond_errors(gchar *filename){
   DenemoGUI *gui = Denemo.gui;
   PrintStatus.invalid = 0;
-  if (errors == -1)
+  if (LilyPond_stderr == -1)
     return;
   gchar *basename = g_path_get_basename(filename);
   gchar *filename_colon = g_strdup_printf("%s.ly%s", basename, ":");
@@ -387,9 +357,9 @@ process_lilypond_errors(gchar *filename){
   gchar *epoint = NULL;
 #define bufsize (100000)
   gchar *bytes = g_malloc0(bufsize);
-  gint numbytes = read(errors, bytes, bufsize-1);
-  close(errors);
-  errors = -1;
+  gint numbytes = read(LilyPond_stderr, bytes, bufsize-1);
+  close(LilyPond_stderr);
+  LilyPond_stderr = -1;
 #undef bufsize
 
   if(numbytes==-1) {
@@ -539,8 +509,6 @@ run_lilypond(gchar **arguments) {
   gint error = 0;
   if(PrintStatus.background==STATE_NONE)
 		progressbar("Denemo Typesetting");
-  g_spawn_close_pid (get_lily_version_pid);
-  get_lily_version_pid = GPID_NONE;
 
   if(PrintStatus.printpid!=GPID_NONE) {
     if(confirm("Already doing a print", "Kill that one off and re-start?")) {
@@ -574,7 +542,7 @@ run_lilypond(gchar **arguments) {
 #ifdef G_OS_WIN32
 		NULL,
 #else
-		&errors,	/* stderr */
+		&LilyPond_stderr,	/* stderr */
 #endif
 		&lily_err);
   if(lily_err) {
@@ -738,7 +706,7 @@ void print_finished(GPid pid, gint status, GList *filelist) {
   open_pdfviewer (pid,status, (gchar *) get_printfile_pathbasename());
   g_debug("print finished\n");
   changecount = Denemo.gui->changecount;
-  progressbar_stop();
+  progressbar_stop();//FIXME this is already done in open_pdfviewer()
 }
 
 
@@ -1323,14 +1291,15 @@ set_printarea(GError **err) {
 static void
 printview_finished(GPid pid, gint status, gboolean print) {
   progressbar_stop();
+  g_spawn_close_pid(PrintStatus.printpid);g_print("this was missing");
   //g_print("background %d\n", PrintStatus.background);
   if(PrintStatus.background==STATE_NONE) {
 		call_out_to_guile("(FinalizeTypesetting)");
 		process_lilypond_errors((gchar *) get_printfile_pathbasename());
   } else {
-			if(errors != -1)
-				close(errors);
-			errors = -1;
+			if(LilyPond_stderr != -1)
+				close(LilyPond_stderr);
+			LilyPond_stderr = -1;
 	}
   PrintStatus.printpid = GPID_NONE;
   GError *err = NULL;
