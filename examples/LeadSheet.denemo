@@ -51,9 +51,9 @@ page-limit-inter-system-space-factor = 1.2</postfix>
   <movement-number>1</movement-number>
   <movement>
     <edit-info>
-      <staffno>1</staffno>
-      <measureno>15</measureno>
-      <cursorposition>0</cursorposition>
+      <staffno>2</staffno>
+      <measureno>20</measureno>
+      <cursorposition>1</cursorposition>
       <tonalcenter>1</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -1643,10 +1643,7 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <rest show="true" id="id340">
-              <duration base="eighth"/>
-            </rest>
-            <rest show="true" id="id341">
-              <duration base="eighth"/>
+              <duration base="quarter"/>
             </rest>
           </measure>
         </measures>
