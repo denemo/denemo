@@ -2113,7 +2113,7 @@ DenemoScoreblock *select_layout(gboolean all_movements, gchar *partname) {
 		refresh_lilypond(sb);//creating a scoreblock does *not* include generating the lilypond from its widgets.
 	}
 
-	gboolean layout_selected = gtk_widget_get_visible(Denemo.gui->score_layout);
+	gboolean layout_selected = 1;//gtk_widget_get_visible(Denemo.gui->score_layout);
 
 	if(layout_selected && (all_movements && partname==NULL)) {
 		sb =  selected_scoreblock();
@@ -2344,4 +2344,43 @@ DenemoScoreblock *create_custom_lilypond_scoreblock(void) {
 	sb = (DenemoScoreblock *)(Denemo.gui->standard_scoreblocks->data);
 	convert_to_lilypond_callback(NULL, sb);
 	return sb;
+}
+
+
+static GtkWidget *LayoutMenu;//a menu for the default layout and all created layouts
+static void typeset_layout(DenemoScoreblock *sb) {
+	
+	set_notebook_page(sb->widget);
+	g_print("Switched to %s\n", sb->name);
+	typeset_current_layout();
+}
+static void remove_menuitem(GtkWidget *menuitem, GtkContainer *container) {
+	gtk_container_remove(container, menuitem);
+}
+static void attach_item(DenemoScoreblock *sb) {
+	GtkWidget *menuitem = gtk_menu_item_new_with_label(sb->name);
+		gtk_widget_set_tooltip_text(menuitem, _("Typesets this layout"));
+		g_signal_connect_swapped(menuitem, "activate", G_CALLBACK(typeset_layout), sb);
+		gtk_menu_shell_append(GTK_MENU_SHELL(LayoutMenu), menuitem);
+}
+GtkWidget *GetLayoutMenu(void) {
+	GList *g;
+	if(LayoutMenu==NULL) {
+		LayoutMenu = gtk_menu_new();	
+	} else {
+		gtk_container_foreach(GTK_CONTAINER(LayoutMenu), (GtkCallback)remove_menuitem, LayoutMenu);
+	}
+	if(Denemo.gui->standard_scoreblocks==NULL)
+		create_default_scoreblock();
+	for(g=Denemo.gui->standard_scoreblocks;g;g=g->next) {		
+		DenemoScoreblock *sb = (DenemoScoreblock *)g->data;
+		attach_item(sb);
+	}
+	for(g=Denemo.gui->custom_scoreblocks;g;g=g->next) {		
+		DenemoScoreblock *sb = (DenemoScoreblock *)g->data;
+		attach_item(sb);
+	}
+	
+	gtk_widget_show_all(LayoutMenu);
+	return LayoutMenu;
 }

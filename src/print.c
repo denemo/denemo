@@ -2651,12 +2651,14 @@ void show_print_view(GtkAction *action, gpointer param) {
   else
     gtk_widget_show(w);
   if(action && (changecount!=Denemo.gui->changecount || Denemo.gui->lilysync != Denemo.gui->changecount) ) {
-
     if(!initialize_typesetting())
       typeset_control(NULL, create_all_pdf);	
   }
 }
 
+void typeset_current_layout(void) {
+	typeset_control(NULL, create_all_pdf);	
+}
 /* typeset the score, and store the passed script for refresh purposes*/
 gboolean typeset_for_script(gchar *script) {
 typeset_control(NULL, script);
@@ -2905,6 +2907,10 @@ static GtkWidget *get_updates_button(void) {
   return button;	
 }
 
+static popup_layouts_menu(){
+	GtkWidget *menu = GetLayoutMenu();
+	gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL, 0,  GDK_CURRENT_TIME);
+}
 void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){ 
   if(Denemo.printarea)
     return;
@@ -2932,11 +2938,11 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
   g_signal_connect(button, "clicked", G_CALLBACK(copy_pdf), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
-  button = gtk_button_new_with_label(_("Full Score"));
-  gtk_widget_set_tooltip_text(button, _("Typesets the music using the default score layout. See View->Score Layouts to see other layouts you have created."));
-  g_signal_connect(button, "clicked", G_CALLBACK(typeset_action), create_full_score_pdf);
+  button = gtk_button_new_with_label(_("Typeset"));
+  
+	gtk_widget_set_tooltip_text(button, _("Typesets the music using the one of the created layouts. See View->Score Layouts to see the layouts you have created."));
+	g_signal_connect(button, "clicked", G_CALLBACK(popup_layouts_menu), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-
 
 
   button = gtk_button_new_with_label(_("Movement"));

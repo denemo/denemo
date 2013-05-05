@@ -43,4 +43,5 @@ void set_current_scoreblock_uri(gchar *uri);
 void select_standard_layout(DenemoScoreblock *sb);
 void select_custom_layout(DenemoScoreblock *sb);
 gboolean select_custom_layout_for_name(gchar *name);
+GtkWidget *GetLayoutMenu(void);
 #endif
