@@ -197,164 +197,126 @@ add_ui(gchar *menupath, gchar *after, gchar *name) {
 }
 
 static void
-parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallback, gint merge, FILE *fp)
+parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar *fallback, gint merge)
 {
   xmlChar *name=NULL, *menupath=NULL, *label=NULL, *tooltip=NULL, *scheme=NULL, *after=NULL;
   GList *menupaths = NULL;
   cur = cur->xmlChildrenNode;
   gboolean is_script = FALSE;
-  DenemoGUI *gui = Denemo.gui;
   gboolean hidden=FALSE;
 
   for ( ;cur; cur = cur->next)
-    {
-      if (0 == xmlStrcmp (cur->name, (const xmlChar *) "action")) {
-	if (cur->xmlChildrenNode == NULL)
-	  {
-	    g_warning ("Empty action node found in keymap file\n");
-	  }
-	else
-	  {
-	    name = 
-	      xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-	    menupaths = NULL;//We allow multiple menupaths for a given action, all are added to the gtk_ui when this command is processed after the tooltip node. This is very bad xml, as the action should have all the others as children, and not depend on the order.FIXME
+  {
+    if (0 == xmlStrcmp (cur->name, (const xmlChar *) "action")) {
+      if (cur->xmlChildrenNode == NULL)
+      {
+        g_warning ("Empty action node found in keymap file\n");
+      }
+      else
+      {
+        name = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+        menupaths = NULL;//We allow multiple menupaths for a given action, all are added to the gtk_ui when this command is processed after the tooltip node. This is very bad xml, as the action should have all the others as children, and not depend on the order.FIXME
 #if 0
-	    g_print ("Action %s\n", (gchar *) name);
+        g_print ("Action %s\n", (gchar *) name);
 #endif
-	  }
-      } else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "scheme")) {
-	scheme = 
-	  xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+      }
+    } else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "scheme")) {
+      scheme = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+      is_script = TRUE;
+    } else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "hidden")) {
+      hidden = TRUE; 
+    }
 
-	is_script = TRUE;
-      }    else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "hidden")) {
-	hidden = TRUE; 
+    else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "menupath")) {
+      menupath = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+      menupaths = g_list_append(menupaths, menupath);
+    }
+    else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "label")) {
+      label = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+    }
+    else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "after")) {
+      after = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+    }
+    else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "tooltip")) {
+      tooltip = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+      /* by convention this is the last of the fields defining a scheme script menu item */
+      if(is_script) {
+        name = name?name:(xmlChar*)"NoName";
+        label = label?label:(xmlChar*)"No label";
+        scheme = scheme?scheme:(xmlChar*)"";
+        tooltip = tooltip?tooltip:(xmlChar*)_("No indication what this done beyond the name and label :(");
+        GtkAction *action;
+        gboolean new_command = FALSE;
+        action = lookup_action_from_name((gchar *)name);	     
+        if(action==NULL) {
+          new_command = TRUE;
+          gchar *icon_name = get_icon_for_name((gchar *)name, (gchar *)label);
+          action = gtk_action_new((const gchar *)name, (const gchar *)label,(const gchar *)tooltip, icon_name);
+
+          if(hidden)
+            g_object_set_data(G_OBJECT(action), "hidden",  (gpointer)TRUE);
+          if(after)
+            g_object_set_data(G_OBJECT(action), "after", (gpointer)after);
+          register_command(Denemo.map, action, (const gchar *)name, (const gchar *)label, (const gchar *)tooltip, activate_script);
+          GtkActionGroup *action_group;
+          //GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
+          action_group = Denemo.action_group; 
+          gtk_action_group_add_action(action_group, action);
+          /* create a scheme function to call this script */
+          create_scheme_function_for_script((gchar *)name);
+        }
+        if(menupath) {
+          GList *g;
+          for(g=menupaths;g;g=g->next){
+            menupath = (xmlChar *)g->data;
+            menupath = menupath?menupath:(xmlChar*)"/MainMenu/Other";
+            add_ui((gchar *)menupath, (gchar *)after, (gchar *)name);
+
+          }
+        } else {
+          if(fallback) {/* no path given, use fallback */
+            menupath = (xmlChar*) fallback;
+            add_ui((gchar*) menupath, (gchar*) after, (gchar*) name);  
+          }
+        }
+        if((merge&DENEMO_INTERACTIVE)
+           && (merge&DENEMO_MERGING)
+           && new_command) {
+          gchar *msg = g_strdup_printf("Installed a command in the menu system\nat %s\n", menupath);
+          infodialog(msg);
+          g_free(msg);
+        }
+        /*FIXME free?	  gchar *old_scheme = (gchar *)g_object_get_data(G_OBJECT(action), "scheme");*/
+        //g_print("Setting scheme %s\n", scheme);
+        g_object_set_data(G_OBJECT(action), "scheme", scheme);
+        g_object_set_data(G_OBJECT(action), "menupath", menupath);
+        if(new_command) {
+          g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);   
+          //g_print("Signal activate is set on action %p %s scheme is %s\n", action, name, scheme);
+        }
+
+        //g_print("scheme now %s", scheme);
+        // Note the script should *not* be in Default.cmdset
+        // to delay loading it, but we should set the signal initally and we should not repeat setting the signal later.
+        // the signal does not specify which script will be run, that is decided lazily, when the action is invoked for the first time
+
+        if(hidden)
+          g_object_set_data(G_OBJECT(action), "deleted", (gpointer)TRUE);//Mark hidden items as deleted on loading them
+      } // is_script
+      // we are not as yet re-writing tooltips etc on builtin commands
+      else if(hidden) {
+
+        hide_action_of_name((gchar *)name); 
+        hidden = FALSE;
+        g_print("Hiding Builtin %s\n", name);
       }
 
-      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "menupath")) {
-	menupath = 
-	  xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-	menupaths = g_list_append(menupaths, menupath);
-      }
-      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "label")) {
-	label = 
-	  xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-      }
-      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "after")) {
-	after = 
-	  xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-      }
-      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "tooltip")) {
-	tooltip = 
-	  xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-	/* by convention this is the last of the fields defining a scheme script menu item */
-	if(is_script) {
-	  name = name?name:(xmlChar*)"NoName";
-	  label = label?label:(xmlChar*)"No label";
-	  scheme = scheme?scheme:(xmlChar*)"";
-	  tooltip = tooltip?tooltip:(xmlChar*)_("No indication what this done beyond the name and label :(");
-	  GtkAction *action;
-	  gboolean new_command = FALSE;
-	  action = lookup_action_from_name((gchar *)name);	     
-	  if(action==NULL) {
-	    new_command = TRUE;
-	    gchar *icon_name = get_icon_for_name((gchar *)name, (gchar *)label);
-	    action = gtk_action_new((const gchar *)name, (const gchar *)label,(const gchar *)tooltip, icon_name);
-	   
-
-	    if(fp)fprintf(fp, "\n/* %s xgettext:no-c-format*/\n", name);
-	    if(fp)fprintf(fp, "action = gtk_action_new(\"%s\",_(\"%s\"),/* xgettext:no-c-format*/_(\"%s\"), ", g_strescape((const gchar *)name, "\\"), g_strescape((const gchar *)label, "\\"), g_strescape((const gchar *)tooltip, "\\"));	    
-	    if(fp)fprintf(fp, "get_icon_for_name(\"%s\", \"%s\"));\n", g_strescape((const gchar *)name, "\\"), g_strescape((const gchar *)label, "\\"));
-	    if(after)
-	      if(fp)fprintf(fp, "g_object_set_data(G_OBJECT(action), \"after\", (gpointer)\"%s\");\n", g_strescape((const gchar *)after, "\\"));
-	    if(hidden)
-	      if(fp)fprintf(fp, "g_object_set_data(G_OBJECT(action), \"hidden\",  (gpointer)TRUE) );\n");
-	    if(fp)fprintf(fp, "/* xgettext:no-c-format*/\nregister_command(Denemo.map, action, \"%s\", _(\"%s\"), /* xgettext:no-c-format*/_(\"%s\"), activate_script);\n", g_strescape((const gchar *)name, "\\"), g_strescape((const gchar *)label, "\\"), g_strescape((const gchar *)tooltip, "\\"));
-	    if(fp)fprintf(fp, "gtk_action_group_add_action(Denemo.action_group, action);\n");
-	    if(fp)fprintf(fp, "create_scheme_function_for_script(\"%s\");\n", g_strescape((const gchar *)name, "\\"));
-
-
-	     
-	    if(hidden)
-	      g_object_set_data(G_OBJECT(action), "hidden",  (gpointer)TRUE);
-	    if(after)
-	      g_object_set_data(G_OBJECT(action), "after", (gpointer)after);
-	    register_command(Denemo.map, action, (const gchar *)name, (const gchar *)label, (const gchar *)tooltip, activate_script);
-	    GtkActionGroup *action_group;
-	    //GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
-	    action_group = Denemo.action_group; 
-	    gtk_action_group_add_action(action_group, action);
-	    /* create a scheme function to call this script */
-	    create_scheme_function_for_script((gchar *)name);
-	  }
-	  if(menupath) {
-	      GList *g;
-	      for(g=menupaths;g;g=g->next){
-		menupath = (gchar *)g->data;
-		menupath = menupath?menupath:(xmlChar*)"/MainMenu/Other";
-		add_ui((gchar *)menupath, (gchar *)after, (gchar *)name);
-		
-		if(fp && new_command) {
-		  if(after)
-		    fprintf(fp, "add_ui(\"%s\", \"%s\", \"%s\");\n", g_strescape((const gchar *)menupath, "\\"), g_strescape((const gchar *)after, "\\"), g_strescape((const gchar *)name, "\\"));
-		  else
-		    fprintf(fp, "add_ui(\"%s\", NULL, \"%s\");\n", g_strescape((const gchar *)menupath, "\\"),  g_strescape((const gchar *)name, "\\"));
-		}
-	      }
-	  } else {
-	    if(fallback) {/* no path given, use fallback */
-	      menupath = fallback;
-	      add_ui(menupath, after, name);
-	      if(fp && new_command) {
-		if(after)
-		  fprintf(fp, "add_ui(\"%s\", \"%s\", \"%s\");\n", g_strescape((const gchar *)menupath, "\\"), g_strescape((const gchar *)after, "\\"), g_strescape((const gchar *)name, "\\"));
-		else
-		  fprintf(fp, "add_ui(\"%s\", NULL, \"%s\");\n", g_strescape((const gchar *)menupath, "\\"), g_strescape((const gchar *)name, "\\"));
-	      }
-	    }
-	  }
-	  if((merge&DENEMO_INTERACTIVE)
-	     && (merge&DENEMO_MERGING)
-	     && new_command) {
-	    gchar *msg = g_strdup_printf("Installed a command in the menu system\nat %s\n", menupath);
-	    infodialog(msg);
-	    g_free(msg);
-	  }
-	  /*FIXME free?	  gchar *old_scheme = (gchar *)g_object_get_data(G_OBJECT(action), "scheme");*/
-	  //g_print("Setting scheme %s\n", scheme);
-	  g_object_set_data(G_OBJECT(action), "scheme", scheme);
-	  if(fp && new_command)fprintf(fp, "g_object_set_data(G_OBJECT(action), \"scheme\", \"%s\");\n", g_strescape(scheme, "\\"));
-	  g_object_set_data(G_OBJECT(action), "menupath", menupath);
-	  if(fp && new_command && menupath)
-	    fprintf(fp, "g_object_set_data(G_OBJECT(action), \"menupath\", \"%s\");\n", g_strescape(menupath, "\\"));
-	  if(new_command) {
-	    g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
-	    if(fp)fprintf(fp, "g_signal_connect (G_OBJECT (action), \"activate\", G_CALLBACK (activate_script), NULL);\n");	    
-	  //g_print("Signal activate is set on action %p %s scheme is %s\n", action, name, scheme);
-	  }
-
-	  //g_print("scheme now %s", scheme);
-	  // Note the script should *not* be in Default.cmdset
-	  // to delay loading it, but we should set the signal initally and we should not repeat setting the signal later.
-	  // the signal does not specify which script will be run, that is decided lazily, when the action is invoked for the first time
-
-	  if(hidden)
-	    g_object_set_data(G_OBJECT(action), "deleted", (gpointer)TRUE);//Mark hidden items as deleted on loading them
-	} // is_script
-	// we are not as yet re-writing tooltips etc on builtin commands
-	else if(hidden) {
-
-	  hide_action_of_name((gchar *)name); 
-	  hidden = FALSE;
-	  g_print("Hiding Builtin %s\n", name);
-	}
-
-      }// tooltip found, assumed last field
-    } // for all nodes
+    }// tooltip found, assumed last field
+  } // for all nodes
   //alphabeticalize_commands(Denemo.map);
 
 
-  
+
 }/* end of parseScripts */
 
 
@@ -362,12 +324,10 @@ static void
 parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
 {
 	
-  xmlChar *name, *menupath, *label, *tooltip, *scheme; //keyval variables
+  xmlChar *name; //keyval variables
   gint command_number = -1;
   guint keyval = 0;
-  gboolean is_script = FALSE;
   GdkModifierType state = 0;
-  DenemoGUI *gui = Denemo.gui;
   name = 0;//defend against corrupt files.
   for (cur = cur->xmlChildrenNode ;cur != NULL;cur = cur->next)
     {
@@ -477,7 +437,6 @@ parseCursorBinding (xmlDocPtr doc, xmlNodePtr cur) {
 
 static void
 parseCursors (xmlDocPtr doc, xmlNodePtr cur) {
-  xmlChar *tmp;
   for (cur = cur->xmlChildrenNode;cur != NULL; cur = cur->next)
     {
       if (0 == xmlStrcmp (cur->name, (const xmlChar *) "cursor-binding")) {
@@ -493,47 +452,25 @@ parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *menupa
 {
   xmlNodePtr ncur = cur->xmlChildrenNode;
   int i;
-//#define GENERATE_SOURCE_CODE 1
-#ifndef GENERATE_SOURCE_CODE
-static commands_installed = FALSE;
-if(!commands_installed) {
-  install_commands();
-  commands_installed = TRUE;
-} 
-#endif
-  for(i=0;i<2;i++) {//Two passes, as all Commands have to be added before bindings
-    FILE *fp = NULL;
-#ifdef GENERATE_SOURCE_CODE
-    if(i==0) {
-      fp = fopen("../../denemo/src/commands.c", "w");
-      if(fp) {
-	fprintf(fp, "//Automatically Generated by Denemo itself, when compiled with GENERATE_SOURCE_CODE defined\n#include \"view.h\"\n#include \"keyboard.h\"\nvoid install_commands(void) {\n"
-	"DenemoGUI *gui = Denemo.gui;\n"
-	"GtkAction *action;\n");
-      } else
-      g_warning("Could not write to commands.c");
-    }
-#endif
+  static commands_installed = FALSE;
   
+  if(!commands_installed) {
+    install_commands();
+    commands_installed = TRUE;
+  } 
+  
+  for(i=0;i<2;i++) {//Two passes, as all Commands have to be added before bindings
     for (ncur = cur->xmlChildrenNode; ncur; ncur = ncur->next) {
-      if ((0 == xmlStrcmp (ncur->name, (const xmlChar *) "row")))
-	{
-	  i?parseBindings (doc, ncur, the_keymap):parseScripts (doc, ncur, the_keymap, menupath, merge, fp);
-	} else 
-	  if (i && (0 == xmlStrcmp (ncur->name, (const xmlChar *) "cursors"))) {
-	      parseCursors(doc, ncur);
-	  }
-    }
-    if(fp) {
-      fprintf(fp, "}\n");
-      fclose(fp);
+      if ((0 == xmlStrcmp (ncur->name, (const xmlChar *) "row"))) {
+        i 
+          ? parseBindings (doc, ncur, the_keymap)
+          : parseScripts (doc, ncur, menupath, merge);
+      } 
+      else if (i && (0 == xmlStrcmp (ncur->name, (const xmlChar *) "cursors"))) {
+        parseCursors(doc, ncur);
+      }
     }
   }
-#ifdef GENERATE_SOURCE_CODE
-g_print("The new source code file ../../denemo/src/commands.c has been created\n");
-exit(0);
-#endif
-  
 }
 
 static void
@@ -553,7 +490,6 @@ parseKeymap (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *menupath
 */
 gchar *extract_menupath(gchar *filename) {
   gchar *head = g_strdup_printf("%c%s", G_DIR_SEPARATOR, "menus");
-  GString *str = g_string_new("");
   gchar *base = g_strrstr(filename, head);
   if(base) {
     base += strlen(head);
@@ -565,11 +501,6 @@ gchar *extract_menupath(gchar *filename) {
     //g_print("got base as %s\n", base);
   }
   g_free(head);
-
-
- 
-
-
 
   return base;
 }
@@ -589,7 +520,6 @@ gchar *extract_menupath(gchar *filename) {
 gint
 load_xml_keymap (gchar * filename, gboolean interactive)
 {
-  keymap *the_keymap = Denemo.map; 
   gint ret = -1;
   xmlDocPtr doc;
   //xmlNsPtr ns;
@@ -670,7 +600,6 @@ load_xml_keymap (gchar * filename, gboolean interactive)
 gint
 load_xml_keybindings (gchar * filename)
 {
-  keymap *the_keymap = Denemo.map; 
   gint ret = -1;
   xmlDocPtr doc;
   //xmlNsPtr ns;
@@ -720,26 +649,6 @@ load_xml_keybindings (gchar * filename)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 static void
 write_xml_keybinding_info (gchar *kb_name, xmlNodePtr node)
 {
@@ -774,7 +683,7 @@ save_xml_keymap (gchar * filename)//_!!! create a DEV version here, saving C-cod
   gint i, ret = -1;
   xmlDocPtr doc;
   //xmlNsPtr ns;
-  xmlNodePtr parent, child, command;
+  xmlNodePtr parent, child;
 
   doc = xmlNewDoc ((xmlChar *) "1.0");
   doc->xmlRootNode = parent = xmlNewDocNode (doc, NULL, (xmlChar *) "Denemo",
@@ -801,7 +710,6 @@ save_xml_keymap (gchar * filename)//_!!! create a DEV version here, saving C-cod
       gchar *scheme = action?g_object_get_data(action, "scheme"):NULL;
       gchar *after = action?g_object_get_data(action, "after"):NULL;
       gboolean deleted = (gboolean) (action?GPOINTER_TO_INT(g_object_get_data(action, "deleted")):0);
-      gboolean hidden = (gboolean) (action?GPOINTER_TO_INT(g_object_get_data(action, "hidden")):0);
       //  if(deleted && scheme)
       //	continue;
 
@@ -858,7 +766,7 @@ save_xml_keybindings (gchar * filename)
   gint i, ret = -1;
   xmlDocPtr doc;
   //xmlNsPtr ns;
-  xmlNodePtr parent, child, command;
+  xmlNodePtr parent, child;
 
   doc = xmlNewDoc ((xmlChar *) "1.0");
   doc->xmlRootNode = parent = xmlNewDocNode (doc, NULL, (xmlChar *) "Denemo",
