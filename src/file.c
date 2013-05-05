@@ -1212,7 +1212,7 @@ paste_clipboard(GtkAction * action, DenemoScriptParam *param) {
   if (filename==NULL) \
     file_export(gui, format_id); \
   else \
-    if (replace_existing_file_dialog \
+    if (action==NULL || replace_existing_file_dialog \
        (filename, GTK_WINDOW (Denemo.window), format_id)){ \
       filesel_save (gui, filename, format_id, SAVE_COPY); \
       force_lily_refresh(gui); \
