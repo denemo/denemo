@@ -46,7 +46,13 @@
     					(outer-loop))
     				(if (d-NextObjectInMeasure)
     					(loop)))))))
-    
+  (define (next-chord-good)
+  	(let loop ()
+  		(if  (and (d-NextObject) (not (d-Directive-standalone?)) (not (Timesignature?)) (not (Music?)))
+  			(loop)
+  			(Music?))))
+  
+  ;;; procedure starts here  
     (cond ((d-Directive-chord? WMRtag)
       		(set! count 1)
      		(d-DeleteObject)
@@ -56,7 +62,7 @@
       		(d-DirectivePut-standalone-gy MMRtag  -2)
      		(d-PushPosition)
       		(let loop ()
-			(if (d-NextChord)
+			(if (next-chord-good)
 	   		 	(begin	    
 	      				(if (d-Directive-chord? WMRtag)
 		  				(begin
@@ -82,12 +88,14 @@
 	    			(d-DirectivePut-standalone-ty MMRtag -28)  
 	    			(d-DirectivePut-standalone-postfix MMRtag (string-append "\\set Score.skipBars = ##t R1*" (d-InsertTimeSig "query=timesigname") "*" (number-&gt;string count)))))
 	       (d-SetSaved #f))
+	       
+	       
 	 ((d-Directive-standalone? MMRtag)
 	 	(if (equal? (d-DirectiveGet-standalone-postfix MMRtag) "%{ grouped rest %}")
 	 		(begin
 	 			(d-InfoDialog (_ "This whole measure rest is grouped with adjacent ones to form a multi-measure rest.\nThe first of the group should be the multi-measure rest itself.")))
 	 		(begin
-	 			(if MultiMeasureRests::params
+	 			(if (not (equal? MultiMeasureRests::params "edit"))
 	 				(re-calculate)
 	 				(let ((choice (d-PopupMenu (list (cons (_ "Help") 'help) (cons (_ "Recalculate") 'recalculate) (cons (_ "Un-group") 'ungroup)))))
 	 				
