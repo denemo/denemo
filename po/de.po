@@ -6012,11 +6012,11 @@ msgid "Hide Accidental"
 msgstr "Vorzeichen erzwingen"
 
 #: src/commands.c:6408 src/commands.c:6411
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Hides the accidental on the note at the cursor on printing. Does not affect "
 "the pitch."
-msgstr "Ändere die Note beim Cursur zum nächsten ..."
+msgstr ""
 
 #: src/commands.c:6420 src/commands.c:6422
 #, no-c-format
@@ -6046,10 +6046,10 @@ msgid "Individual Note Down-Tie (Off/On)"
 msgstr ""
 
 #: src/commands.c:6443 src/commands.c:6446
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Ties the individual note at the cursor the tie going down; repeat to remove."
-msgstr "Ändere die Note beim Cursur zum nächsten ..."
+msgstr ""
 
 #: src/commands.c:6455 src/commands.c:6458
 #, fuzzy, no-c-format
@@ -10778,9 +10778,8 @@ msgid "Display lyrics pane"
 msgstr "Artikulations-Werkzeugleiste anzeigen"
 
 #: src/prefdialog.c:547
-#, fuzzy
 msgid "Display titles, controls etc"
-msgstr "Artikulations-Werkzeugleiste anzeigen"
+msgstr ""
 
 #: src/prefdialog.c:549
 msgid "Display Music Snippets"
@@ -11165,18 +11164,16 @@ msgid ""
 msgstr ""
 
 #: src/print.c:1983
-#, fuzzy
 msgid "Slur Angle/Position"
-msgstr "Transposition:"
+msgstr ""
 
 #: src/print.c:1983
 msgid "Repeat Slur Positioning Hint?"
 msgstr ""
 
 #: src/print.c:1990
-#, fuzzy
 msgid "Slur Shape"
-msgstr "Cursor nach oben"
+msgstr ""
 
 #: src/print.c:1990
 #, fuzzy
@@ -11313,9 +11310,8 @@ msgid "PDF"
 msgstr ""
 
 #: src/print.c:2927
-#, fuzzy
 msgid "Exports a pdf file for this layout"
-msgstr "Zu einem Lesezeichen in der Partitur springen"
+msgstr ""
 
 #: src/print.c:2931 actions/commandscripts/PrintScoreAndParts.scm:9
 #, fuzzy
@@ -13057,7 +13053,7 @@ msgstr "MIDI-Instrument:"
 #: src/staffpropdialog.c:308
 #, fuzzy
 msgid "Transposition:"
-msgstr "Transposition:"
+msgstr "Notenzeile transponieren"
 
 #: src/staffpropdialog.c:309
 msgid "Always Full Volume"
@@ -14041,18 +14037,18 @@ msgid ""
 msgstr ""
 
 #: actions/denemo-modules/wysiwyg.scm:268
-#, fuzzy
 msgid "Restore Default Slur Shape/Position"
-msgstr "Transposition:"
+msgstr ""
 
 #: actions/denemo-modules/wysiwyg.scm:268
+#, fuzzy
 msgid "Removes your customization of this slur"
-msgstr ""
+msgstr "Erstelle eine benutzerdefinierte Version dieses Blocks"
 
 #: actions/denemo-modules/wysiwyg.scm:273
 #, fuzzy
 msgid "Hint Slur Position"
-msgstr "Tastenkombinationen"
+msgstr "Auswahl erweitern"
 
 #: actions/denemo-modules/wysiwyg.scm:273
 #, fuzzy
@@ -14103,7 +14099,7 @@ msgstr ""
 #: actions/denemo-modules/wysiwyg.scm:442
 #, fuzzy
 msgid "Down"
-msgstr "Hals nach unten"
+msgstr "Bogen nach unten"
 
 #: actions/denemo-modules/wysiwyg.scm:322
 #: actions/denemo-modules/wysiwyg.scm:438
@@ -14243,12 +14239,11 @@ msgstr "Gehe zum nächsten Satz"
 #: actions/denemo-modules/wysiwyg.scm:420
 #, fuzzy
 msgid "Change Slur Shape"
-msgstr "Notenlänge ändern zu"
+msgstr "Notenlänge ändern"
 
 #: actions/denemo-modules/wysiwyg.scm:420
-#, fuzzy
 msgid "Allows you to drag the control points of the slur"
-msgstr "Gehe zum nächsten Satz"
+msgstr ""
 
 #: actions/commandscripts/AdjustBassFigureHeight.scm:8
 #: actions/commandscripts/AdjustFiguredBassHeights.scm:5
@@ -14666,9 +14661,8 @@ msgid "Orig. "
 msgstr ""
 
 #: actions/commandscripts/Footnote.scm:31
-#, fuzzy
 msgid "No note or chord at cursor to attach footnote to"
-msgstr "Notenzeile relativ zur aktuellen Notenzeile einfügen"
+msgstr ""
 
 #: actions/commandscripts/GraceAfter.scm:41
 msgid ""
@@ -15597,20 +15591,20 @@ msgid "Give % scaling required"
 msgstr ""
 
 #, fuzzy
-#~ msgid "Non-Printing Staff"
-#~ msgstr "unsichtbare Pause"
-
-#, fuzzy
-#~ msgid "Up Prall"
-#~ msgstr "Doppelschlag und Triller"
-
-#, fuzzy
 #~ msgid "Insert Anacrusis"
 #~ msgstr "Lautstärkezeichen einfügen"
 
 #, fuzzy
+#~ msgid "Non-Printing Staff"
+#~ msgstr "unsichtbare Pause"
+
+#, fuzzy
 #~ msgid "Tempo"
 #~ msgstr "Tempo"
+
+#, fuzzy
+#~ msgid "Up Prall"
+#~ msgstr "Doppelschlag und Triller"
 
 #, fuzzy
 #~ msgid ""
@@ -15659,9 +15653,6 @@ msgstr ""
 
 #~ msgid "Up bow"
 #~ msgstr "Bogen nach oben"
-
-#~ msgid "Down bow"
-#~ msgstr "Bogen nach unten"
 
 #~ msgid "Right heel"
 #~ msgstr "Rechter Absatz"
@@ -16081,6 +16072,9 @@ msgstr ""
 
 #~ msgid "In insert mode, changes prevailing rhythm to "
 #~ msgstr "Ändert den aktuellen Rhythmus im Einfügemodus zu "
+
+#~ msgid "Change duration"
+#~ msgstr "Notenlänge ändern zu"
 
 #~ msgid "Change durtion of current rest"
 #~ msgstr "Ändert die Länge der aktuellen Pause"

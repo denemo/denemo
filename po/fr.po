@@ -8,10 +8,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: denemo 1.0.0-rc10\n"
+"Project-Id-Version: denemo 1.0.2-rc1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-04-28 17:57+0100\n"
-"PO-Revision-Date: 2013-03-06 23:11+0100\n"
+"PO-Revision-Date: 2013-05-04 12:46+0100\n"
 "Last-Translator: Éloi Rivard <azmeuk@gmail.com>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "Language: fr\n"
@@ -6504,49 +6504,52 @@ msgstr "Bémolise l'armure initiale de toutes les voix d'un degré."
 #: src/commands.c:6372 src/commands.c:6375
 #, no-c-format
 msgid "Set Trill Style as +"
-msgstr ""
+msgstr "Trilles en croix"
 
 #: src/commands.c:6372 src/commands.c:6375
 #, no-c-format
 msgid "Prints trills with the common 18th c. notation: a plus sign."
-msgstr ""
+msgstr "Affichage des trilles dans le style du 18e siècle : « + »."
 
 #: src/commands.c:6384 src/commands.c:6387
 #: actions/commandscripts/Footnote.scm:11
 #: actions/commandscripts/Footnote.scm:12
 #, no-c-format
 msgid "Footnote"
-msgstr ""
+msgstr "Annotation en pied de page"
 
 #: src/commands.c:6384 src/commands.c:6387
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Prints a footnote at the bottom of the current page. The mark is placed "
 "above the note at the cursor."
 msgstr ""
-"Vous permet d'indiquer la position du doigté par rapport à la note ou accord."
+"Affiche un annotation au pied de la page courante. La marque est placée au "
+"dessus de la note sélectionnée."
 
 #: src/commands.c:6396 src/commands.c:6399
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Score Version"
-msgstr "Titres de la partition"
+msgstr "Version de la partition"
 
 #: src/commands.c:6396 src/commands.c:6399
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Prints a tiny text in top right corner of the first page."
-msgstr "Affichage de la note de copyright sur la page de titre."
+msgstr "Affiche un petit texte dans le coin haut-droit de la première page"
 
 #: src/commands.c:6408 src/commands.c:6411
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Hide Accidental"
-msgstr "Altération de précaution aide mémoire"
+msgstr "Masquer l'altération"
 
 #: src/commands.c:6408 src/commands.c:6411
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Hides the accidental on the note at the cursor on printing. Does not affect "
 "the pitch."
-msgstr "Afficher la note sélectionnée sans ligature à droite."
+msgstr ""
+"Masque l'altération de la note sélectionnée à l'impression. Ne change pas le "
+"pitch."
 
 #: src/commands.c:6420 src/commands.c:6422
 #, no-c-format
@@ -6556,35 +6559,35 @@ msgstr "Sourdine"
 #: src/commands.c:6420 src/commands.c:6422
 #, no-c-format
 msgid "Mutes the current staff. Affects only playback."
-msgstr ""
+msgstr "Sourdine sur la portée courante. N'affecte que la lecture."
 
 #: src/commands.c:6431 src/commands.c:6434
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Individual Note Up-Tie (Off/On)"
-msgstr "Liaison de note individuelle (Off/On)"
+msgstr "Lier la note vers le haut (Off/On)"
 
 #: src/commands.c:6431 src/commands.c:6434
 #, no-c-format
 msgid ""
 "Ties the individual note in a chord the tie being above; repeat command to "
 "remove."
-msgstr ""
+msgstr "Lie la note à un accord, le lien vers le haut. Répéter pour annuler."
 
 #: src/commands.c:6443 src/commands.c:6446
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Individual Note Down-Tie (Off/On)"
-msgstr "Liaison de note individuelle (Off/On)"
+msgstr "Lier la note vers le bas (Off/On)"
 
 #: src/commands.c:6443 src/commands.c:6446
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Ties the individual note at the cursor the tie going down; repeat to remove."
-msgstr "Afficher la note sélectionnée sans ligature à gauche."
+msgstr "Lie la note à un accord, le lien vers le haut. Répéter pour annuler."
 
 #: src/commands.c:6455 src/commands.c:6458
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Typeset Red Dots (Off/On)"
-msgstr "Tenuto (Off/On)"
+msgstr "Rendu des points rouges (Off/On)"
 
 #: src/commands.c:6455 src/commands.c:6458
 #, no-c-format
@@ -6593,11 +6596,14 @@ msgid ""
 "tweaking of positions via clicking and dragging with mouse on final typeset "
 "score."
 msgstr ""
+"Le rendu comportera des objets marqués par des points rouges.\n"
+"À utiliser pour des réglages précis des positions en cliquant et tirant sur "
+"le rendu final."
 
 #: src/commands.c:6467 src/commands.c:6470
 #, no-c-format
 msgid "Typeset Curve Control Points (Off/On)"
-msgstr ""
+msgstr "Rendu des points de contrôle des courbes (Off/On)"
 
 #: src/commands.c:6467 src/commands.c:6470
 #, no-c-format
@@ -6605,6 +6611,9 @@ msgid ""
 "Typesets with curve control points marked. Use these for accurate tweaking "
 "of shape via clicking and dragging with mouse on final typeset score."
 msgstr ""
+"Le rendu comportera les points de contrôle des courbes.\n"
+"À utiliser pour des réglages précis des positions en cliquant et tirant sur "
+"le rendu final."
 
 #: src/commands.c:6479 src/commands.c:6482
 #, fuzzy, no-c-format
@@ -11539,9 +11548,8 @@ msgid "No selection to print"
 msgstr "Pas de sélection à imprimer"
 
 #: src/print.c:1810
-#, fuzzy
 msgid "PDF creation"
-msgstr "Dédicace"
+msgstr "Création de fichiers PDF"
 
 #: src/print.c:1831
 #, c-format
@@ -11550,6 +11558,9 @@ msgid ""
 "Could not copy %s to %s. Perhaps because some other process is using the "
 "destination file. Try again with a new location\n"
 msgstr ""
+"Erreur n°%d :\n"
+"Impossible de copier %s vers %s. Un autre processus utilise peut-être le "
+"fichier de destination. Réessayez à un autre endroit.\n"
 
 #: src/print.c:1866
 msgid "Now select the notehead of the note where the slur ends"
@@ -11579,24 +11590,20 @@ msgstr ""
 "Clic droit quand terminé"
 
 #: src/print.c:1983
-#, fuzzy
 msgid "Slur Angle/Position"
-msgstr "Indiquer les"
+msgstr "Angle et position de la liaison"
 
 #: src/print.c:1983
-#, fuzzy
 msgid "Repeat Slur Positioning Hint?"
-msgstr "Texte avec positionnement"
+msgstr "Répéter le paramétrage des positions des liaisons ?"
 
 #: src/print.c:1990
-#, fuzzy
 msgid "Slur Shape"
-msgstr "Forme du curseur #"
+msgstr "Forme de la liaison"
 
 #: src/print.c:1990
-#, fuzzy
 msgid "Repeat Shaping Slur?"
-msgstr "Début de liaison de phrasé"
+msgstr "Répéter la mise en forme de la liaison ?"
 
 #: src/print.c:2217
 msgid "Operation Cancelled"
@@ -11627,11 +11634,12 @@ msgid ""
 "This window can be used to tweak the typesetting that LilyPond does in the "
 "case that it is not optimal"
 msgstr ""
+"Cette fenêtre peut être utilisée pour paramétrer le rendu LilyPond dans le "
+"cas non optimal."
 
 #: src/print.c:2264
-#, fuzzy
 msgid "Red dots and crosses (Off/On)"
-msgstr "Viser et cliquer (Off/On)"
+msgstr "Points et croix rouges (Off/On)"
 
 #: src/print.c:2265
 msgid ""
@@ -11640,6 +11648,10 @@ msgid ""
 "and the control points for curves with red crosses for accurate tweaks\n"
 "Turn these off before printing!"
 msgstr ""
+"La position exacte des éléments graphiques sera annotée de points rouges et "
+"des points de contrôle des courbes, avec des croix rouges, pour un "
+"paramétrage précis.\n"
+"À désactiver avant impression"
 
 #: src/print.c:2270
 msgid "Score Size"
@@ -11730,12 +11742,11 @@ msgstr ""
 
 #: src/print.c:2926
 msgid "PDF"
-msgstr ""
+msgstr "PDF"
 
 #: src/print.c:2927
-#, fuzzy
 msgid "Exports a pdf file for this layout"
-msgstr "Éditer l'élément pour cette mise en page"
+msgstr "Exporter un fichier PDF de cette mise en page"
 
 #: src/print.c:2931 actions/commandscripts/PrintScoreAndParts.scm:9
 msgid "Full Score"
@@ -13315,9 +13326,8 @@ msgid "Layout block"
 msgstr "Bloc de mise en page"
 
 #: src/scorelayout.c:1604
-#, fuzzy
 msgid "Movement Epilog"
-msgstr "Morceau"
+msgstr "Épilogue du morceau"
 
 #: src/scorelayout.c:1876
 #, fuzzy
@@ -13501,36 +13511,31 @@ msgstr "voix %d"
 
 #: src/staffpropdialog.c:306
 msgid "MIDI"
-msgstr ""
+msgstr "MIDI"
 
 #: src/staffpropdialog.c:307
-#, fuzzy
 msgid "MIDI Instrument:"
-msgstr "Instrument"
+msgstr "Instrument MIDI :"
 
 #: src/staffpropdialog.c:308
-#, fuzzy
 msgid "Transposition:"
-msgstr "Pas d'intervalle de transposition"
+msgstr "Transposition :"
 
 #: src/staffpropdialog.c:309
 msgid "Always Full Volume"
-msgstr ""
+msgstr "Toujours plein volume"
 
 #: src/staffpropdialog.c:310
-#, fuzzy
 msgid "Master Volume:"
-msgstr "Volume"
+msgstr "Volume maître :"
 
 #: src/staffpropdialog.c:312
-#, fuzzy
 msgid "Channel:"
-msgstr "Cannal"
+msgstr "Canal :"
 
 #: src/staffpropdialog.c:313
-#, fuzzy
 msgid "Program:"
-msgstr "Programme"
+msgstr "Programme :"
 
 #: src/timedialog.c:228
 msgid "Change initial time signature"
@@ -13623,15 +13628,14 @@ msgstr ""
 ".Le fragment sélectionné est en grave noir."
 
 #: src/view.c:6580
-#, fuzzy
 msgid "MIDI Controller Active?"
-msgstr "Pas de filtre MIDI actif"
+msgstr "Contrôleur MIDI actif ?"
 
 #: src/view.c:6580
 msgid ""
 "Please turn off your MIDI keyboard\n"
 "if you have not already done so"
-msgstr ""
+msgstr "Veuillez éteindre votre clavier MIDI si ce n'est pas déjà fait."
 
 #: src/view.c:6738
 msgid "<span foreground=\"blue\">Recording + Play Along</span>"
@@ -14596,32 +14600,43 @@ msgid ""
 "Now drag the control points to make the shape desired - when finished click "
 "away from a control point"
 msgstr ""
+"Tirez le point de contrôle pour obtenir la forme désirée. Cliquez ailleurs "
+"pour valider."
 
 #: actions/denemo-modules/wysiwyg.scm:242
 msgid "Slur Re-shaped"
-msgstr ""
+msgstr "Liaison remodelée"
 
 #: actions/denemo-modules/wysiwyg.scm:250
+#, fuzzy
 msgid ""
 "Now click on the control point at the left end of the slur\n"
 "Control points are marked by red crosses"
 msgstr ""
+"Sélectionnez le point de contrôle à l'extrémité gauche de la liaison.\n"
+"Les points de contrôle sont représentés par des croix rouges"
 
 #: actions/denemo-modules/wysiwyg.scm:251
 msgid ""
 "Now click second control point of the slur, the next red cross to the right"
 msgstr ""
+"Sélectionnez le second point de contrôle de la liaison, la croix rouge "
+"suivante à droite."
 
 #: actions/denemo-modules/wysiwyg.scm:252
 msgid ""
 "Now click third control point of the slur, the next red cross to the right"
 msgstr ""
+"Sélectionnez le troisième point de contrôle de la liaison, la croix rouge "
+"suivante à droite."
 
 #: actions/denemo-modules/wysiwyg.scm:253
 msgid ""
 "Now click last control point at the end of the slur, the last red cross to "
 "the right"
 msgstr ""
+"Sélectionnez le dernier point de contrôle de la liaison, la dernière croix "
+"rouge à droite."
 
 #: actions/denemo-modules/wysiwyg.scm:256
 #: actions/denemo-modules/wysiwyg.scm:308
@@ -14629,31 +14644,34 @@ msgid ""
 "First click on the center line of the staff aligning with notehead/rest\n"
 "(Positioning will be done with respect to this height)"
 msgstr ""
+"Cliquez d'abord la ligne centrale de la portée s'alignant avec les têtes de "
+"notes et silences.\n"
+"(Le positionnement sera effectué en respectant cette hauteur)"
 
 #: actions/denemo-modules/wysiwyg.scm:264
 msgid ""
 "To re-shape slurs you need to have the control points marked.\n"
 "Use the right click menu to turn these on before invoking this command"
 msgstr ""
+"Pour remodeler les liaisons vous avez besoin d'afficher les points de "
+"contrôle.\n"
+"Utilisez le menu contextuel pour les activer avant d'appeler cette commande."
 
 #: actions/denemo-modules/wysiwyg.scm:268
-#, fuzzy
 msgid "Restore Default Slur Shape/Position"
-msgstr "Restaurer la position"
+msgstr "Restaurer la forme et la position de la liaison"
 
 #: actions/denemo-modules/wysiwyg.scm:268
 msgid "Removes your customization of this slur"
-msgstr ""
+msgstr "Supprimer les paramètre personnalisés de cette liaison"
 
 #: actions/denemo-modules/wysiwyg.scm:273
-#, fuzzy
 msgid "Hint Slur Position"
-msgstr "Indiquer les"
+msgstr "Paramétrage des positions de liaisons"
 
 #: actions/denemo-modules/wysiwyg.scm:273
-#, fuzzy
 msgid "Edit Slur Shape"
-msgstr "Fin de liaison de phrasé"
+msgstr "Éditer la forme de la note"
 
 #: actions/denemo-modules/wysiwyg.scm:281
 msgid "First click on the notehead of the note where the slur starts"
@@ -14672,12 +14690,11 @@ msgstr "Annulé"
 
 #: actions/denemo-modules/wysiwyg.scm:310
 msgid "Now click on the position desired for the object"
-msgstr ""
+msgstr "Sélectionnez la position désirée pour l'objet."
 
 #: actions/denemo-modules/wysiwyg.scm:314
-#, fuzzy
 msgid "Re-positioned"
-msgstr "Dépiler la position"
+msgstr "Re-positionné"
 
 #: actions/denemo-modules/wysiwyg.scm:316
 msgid ""
@@ -14685,25 +14702,28 @@ msgid ""
 "notes marked with red dots.\n"
 "Use the right click menu to turn these on before invoking this command"
 msgstr ""
+"Afin de repositionner les objets attachés au notes, vous devez marquer les "
+"positions des notes avec des points rouges.\n"
+"Utilisez le menu contextuel pour afficher les positions avant d'appeler "
+"cette commande."
 
 #: actions/denemo-modules/wysiwyg.scm:322
 #: actions/denemo-modules/wysiwyg.scm:438
 #: actions/denemo-modules/wysiwyg.scm:441
 msgid "Up"
-msgstr ""
+msgstr "Haut"
 
 #: actions/denemo-modules/wysiwyg.scm:322
 #: actions/denemo-modules/wysiwyg.scm:438
 #: actions/denemo-modules/wysiwyg.scm:442
-#, fuzzy
 msgid "Down"
-msgstr "Octave inférieure"
+msgstr "Vers le bas"
 
 #: actions/denemo-modules/wysiwyg.scm:322
 #: actions/denemo-modules/wysiwyg.scm:438
 #: actions/denemo-modules/wysiwyg.scm:443
 msgid "Auto"
-msgstr ""
+msgstr "Auto"
 
 #: actions/denemo-modules/wysiwyg.scm:332
 msgid "Give relative font size: "
@@ -14711,12 +14731,11 @@ msgstr "Entrez la taille de police relative :"
 
 #: actions/denemo-modules/wysiwyg.scm:369
 msgid "Up/Down"
-msgstr ""
+msgstr "Haut/Bas"
 
 #: actions/denemo-modules/wysiwyg.scm:369
-#, fuzzy
 msgid "Offset Position"
-msgstr "Décaler la position"
+msgstr "Position décalée"
 
 #: actions/denemo-modules/wysiwyg.scm:392
 msgid "Start a new line here"
@@ -14836,14 +14855,12 @@ msgid "Allows you to drag the ends of the slur"
 msgstr "Permet de tirer la fin d'une liaison"
 
 #: actions/denemo-modules/wysiwyg.scm:420
-#, fuzzy
 msgid "Change Slur Shape"
-msgstr "Changer de portée"
+msgstr "Changer la forme de la liaison"
 
 #: actions/denemo-modules/wysiwyg.scm:420
-#, fuzzy
 msgid "Allows you to drag the control points of the slur"
-msgstr "Permet de tirer la fin d'une liaison"
+msgstr "Permet de tirer le point de contrôle de la liaison."
 
 #: actions/commandscripts/AdjustBassFigureHeight.scm:8
 #: actions/commandscripts/AdjustFiguredBassHeights.scm:5
@@ -15283,27 +15300,24 @@ msgid "Places the fingering to the right of the chord"
 msgstr "Écrit le doigté à la droite de l'accord"
 
 #: actions/commandscripts/Footnote.scm:6
-#, fuzzy
 msgid "Fn"
-msgstr "Fa"
+msgstr "Fn"
 
 #: actions/commandscripts/Footnote.scm:11
 msgid "Give footnote marker"
-msgstr ""
+msgstr "Entrez un marqueur d'annotation en pied de page"
 
 #: actions/commandscripts/Footnote.scm:12
-#, fuzzy
 msgid "Give footnote text"
-msgstr "Entrez un nouveau texte"
+msgstr "Entrez une annotation en pied de page"
 
 #: actions/commandscripts/Footnote.scm:30
 msgid "Orig. "
-msgstr ""
+msgstr "Orig."
 
 #: actions/commandscripts/Footnote.scm:31
-#, fuzzy
 msgid "No note or chord at cursor to attach footnote to"
-msgstr "Pas de note ou silence sélectionné"
+msgstr "Pas de note ou accord auquel attacher une annotation en pied de page"
 
 #: actions/commandscripts/GraceAfter.scm:41
 #, fuzzy
@@ -15397,7 +15411,7 @@ msgstr ""
 
 #: actions/commandscripts/IncipitFromSelection.scm:22
 msgid "Incipit"
-msgstr ""
+msgstr "Incipit"
 
 #: actions/commandscripts/Indent.scm:13
 #: actions/commandscripts/ScoreIndent.scm:12
@@ -15700,26 +15714,24 @@ msgstr "Taille du papier :"
 
 #: actions/commandscripts/PartCombine.scm:10
 msgid "Parts are now uncombined"
-msgstr ""
+msgstr "Les parties sont maintenant unifiées"
 
 #: actions/commandscripts/PartCombine.scm:15
 #: actions/commandscripts/PartCombine.scm:19
-#, fuzzy
 msgid "Part Combine "
-msgstr "Combiner les deux voix"
+msgstr "Combiner partiellement"
 
 #: actions/commandscripts/PartCombine.scm:26
-#, fuzzy
 msgid "Can only part-combine two voices"
-msgstr "Combiner les deux voix"
+msgstr "Seules deux voix peuvent être combinées partiellement."
 
 #: actions/commandscripts/PartCombine.scm:32
 msgid "Only two voices can be part-combined"
-msgstr ""
+msgstr "Seules deux voix peuvent être unifiées."
 
 #: actions/commandscripts/PartCombine.scm:34
 msgid "Must be on a staff with two voices"
-msgstr ""
+msgstr "Nécessite d'être sur une portée comprenant deux voix"
 
 #: actions/commandscripts/PianoStaff.scm:6
 msgid "RH"
@@ -15854,17 +15866,15 @@ msgstr "Prologue inchangé"
 #: actions/commandscripts/ScoreVersion.scm:6
 #: actions/commandscripts/ScoreVersion.scm:11
 msgid "v 1.0"
-msgstr ""
+msgstr "v 1.0"
 
 #: actions/commandscripts/ScoreVersion.scm:12
-#, fuzzy
 msgid "Version"
-msgstr "Version de LilyPond"
+msgstr "Version"
 
 #: actions/commandscripts/ScoreVersion.scm:12
-#, fuzzy
 msgid "Give a version for this edition:"
-msgstr "Entrez une syntaxe LilyPond valide pour cette définition :"
+msgstr "Entrez une version pour cette édition :"
 
 #: actions/commandscripts/Section.scm:3
 msgid "Give name for movement sub-title or blank out to delete: "
@@ -16166,7 +16176,7 @@ msgstr "Pas de filtre MIDI actif"
 
 #: actions/commandscripts/ToggleCurveControl.scm:16
 msgid "Curve Control Points On"
-msgstr ""
+msgstr "Points de contrôle des courbes"
 
 #: actions/commandscripts/ToggleCurveControl.scm:17
 msgid ""
@@ -16174,10 +16184,12 @@ msgid ""
 "Use these for accurate reshaping of curves via wysiwyg operations on the "
 "typeset score with mouse"
 msgstr ""
+"Le rendu comportera des courbes et des points de contrôle.\n"
+"À utiliser pour une mise en forme précise des courbes via l'éditeur WYSIWYG."
 
 #: actions/commandscripts/ToggleWysiwygMarks.scm:17
 msgid "Wysiwyg Marks On"
-msgstr ""
+msgstr "Marques WYSIWIG"
 
 #: actions/commandscripts/ToggleWysiwygMarks.scm:18
 msgid ""
@@ -16185,6 +16197,8 @@ msgid ""
 "Use these for accurate tweaking of positions via wysiwyg operations on the "
 "typeset score with mouse"
 msgstr ""
+"Le rendu comportera des objets marqués par des points rouges.\n"
+"À utiliser pour des réglages précis des positions via l'éditeur WYSIWYG."
 
 #: actions/commandscripts/TransposeOctaveUp.scm:3
 msgid "Print out 8va up"

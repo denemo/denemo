@@ -6017,11 +6017,11 @@ msgid "Hide Accidental"
 msgstr "臨時記号を強制する"
 
 #: src/commands.c:6408 src/commands.c:6411
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Hides the accidental on the note at the cursor on printing. Does not affect "
 "the pitch."
-msgstr "カーソル位置に一番近い音符を編集..."
+msgstr ""
 
 #: src/commands.c:6420 src/commands.c:6422
 #, no-c-format
@@ -10894,9 +10894,8 @@ msgid "Slur Angle/Position"
 msgstr "位置をプッシュする"
 
 #: src/print.c:1983
-#, fuzzy
 msgid "Repeat Slur Positioning Hint?"
-msgstr "位置をポップ"
+msgstr ""
 
 #: src/print.c:1990
 #, fuzzy
@@ -13713,8 +13712,9 @@ msgid "Restore Default Slur Shape/Position"
 msgstr "位置をポップ"
 
 #: actions/denemo-modules/wysiwyg.scm:268
+#, fuzzy
 msgid "Removes your customization of this slur"
-msgstr ""
+msgstr "このブロックのカスタムバージョンを作成する"
 
 #: actions/denemo-modules/wysiwyg.scm:273
 #, fuzzy

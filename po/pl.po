@@ -5999,7 +5999,7 @@ msgstr ""
 #: src/commands.c:6396 src/commands.c:6399
 #, fuzzy, no-c-format
 msgid "Score Version"
-msgstr "Tytuły partytury"
+msgstr "Widok partytury"
 
 #: src/commands.c:6396 src/commands.c:6399
 #, no-c-format
@@ -6012,11 +6012,11 @@ msgid "Hide Accidental"
 msgstr "Znak chromatyczny przypominający (wymuś)"
 
 #: src/commands.c:6408 src/commands.c:6411
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Hides the accidental on the note at the cursor on printing. Does not affect "
 "the pitch."
-msgstr "Zamiana nuty w pozycji kursora na najbliższą..."
+msgstr ""
 
 #: src/commands.c:6420 src/commands.c:6422
 #, no-c-format
@@ -6046,10 +6046,10 @@ msgid "Individual Note Down-Tie (Off/On)"
 msgstr ""
 
 #: src/commands.c:6443 src/commands.c:6446
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Ties the individual note at the cursor the tie going down; repeat to remove."
-msgstr "Zamiana nuty w pozycji kursora na najbliższą..."
+msgstr ""
 
 #: src/commands.c:6455 src/commands.c:6458
 #, fuzzy, no-c-format
@@ -10904,18 +10904,16 @@ msgid ""
 msgstr ""
 
 #: src/print.c:1983
-#, fuzzy
 msgid "Slur Angle/Position"
-msgstr "Autmatyczne ustawianie laskowania"
+msgstr ""
 
 #: src/print.c:1983
 msgid "Repeat Slur Positioning Hint?"
 msgstr ""
 
 #: src/print.c:1990
-#, fuzzy
 msgid "Slur Shape"
-msgstr "Kursor do góry"
+msgstr ""
 
 #: src/print.c:1990
 #, fuzzy
@@ -11051,9 +11049,8 @@ msgid "PDF"
 msgstr ""
 
 #: src/print.c:2927
-#, fuzzy
 msgid "Exports a pdf file for this layout"
-msgstr "Idź do miejsca z zakładką w partyturze"
+msgstr ""
 
 #: src/print.c:2931 actions/commandscripts/PrintScoreAndParts.scm:9
 #, fuzzy
@@ -13748,13 +13745,14 @@ msgid "Restore Default Slur Shape/Position"
 msgstr ""
 
 #: actions/denemo-modules/wysiwyg.scm:268
+#, fuzzy
 msgid "Removes your customization of this slur"
-msgstr ""
+msgstr "Stwórz wersję użytkownika dla tego bloku"
 
 #: actions/denemo-modules/wysiwyg.scm:273
 #, fuzzy
 msgid "Hint Slur Position"
-msgstr "Autmatyczne ustawianie laskowania"
+msgstr "Rozszerz zaznaczenie"
 
 #: actions/denemo-modules/wysiwyg.scm:273
 #, fuzzy
@@ -13804,7 +13802,7 @@ msgstr ""
 #: actions/denemo-modules/wysiwyg.scm:442
 #, fuzzy
 msgid "Down"
-msgstr "LaseczkaNaDół"
+msgstr "Smyczek w dół"
 
 #: actions/denemo-modules/wysiwyg.scm:322
 #: actions/denemo-modules/wysiwyg.scm:438
@@ -13821,9 +13819,8 @@ msgid "Up/Down"
 msgstr ""
 
 #: actions/denemo-modules/wysiwyg.scm:369
-#, fuzzy
 msgid "Offset Position"
-msgstr "Autmatyczne ustawianie laskowania"
+msgstr ""
 
 #: actions/denemo-modules/wysiwyg.scm:392
 #, fuzzy
@@ -13947,9 +13944,8 @@ msgid "Change Slur Shape"
 msgstr "Zmień długość"
 
 #: actions/denemo-modules/wysiwyg.scm:420
-#, fuzzy
 msgid "Allows you to drag the control points of the slur"
-msgstr "Przesuwa kursor do pierwszego objektu w następnym takcie"
+msgstr ""
 
 #: actions/commandscripts/AdjustBassFigureHeight.scm:8
 #: actions/commandscripts/AdjustFiguredBassHeights.scm:5
@@ -14367,9 +14363,8 @@ msgid "Orig. "
 msgstr ""
 
 #: actions/commandscripts/Footnote.scm:31
-#, fuzzy
 msgid "No note or chord at cursor to attach footnote to"
-msgstr "Edytuj objekt w miejscu kursora"
+msgstr ""
 
 #: actions/commandscripts/GraceAfter.scm:41
 msgid ""
@@ -15296,20 +15291,20 @@ msgid "Give % scaling required"
 msgstr ""
 
 #, fuzzy
-#~ msgid "Non-Printing Staff"
-#~ msgstr "Pauzy niewidoczne"
-
-#, fuzzy
-#~ msgid "Up Prall"
-#~ msgstr "Mordent"
-
-#, fuzzy
 #~ msgid "Insert Anacrusis"
 #~ msgstr "Wstaw dynamikę"
 
 #, fuzzy
+#~ msgid "Non-Printing Staff"
+#~ msgstr "Pauzy niewidoczne"
+
+#, fuzzy
 #~ msgid "Tempo"
 #~ msgstr "Tempo"
+
+#, fuzzy
+#~ msgid "Up Prall"
+#~ msgstr "Mordent"
 
 #~ msgid "\\"
 #~ msgstr "\\"
@@ -15364,9 +15359,6 @@ msgstr ""
 
 #~ msgid "Up bow"
 #~ msgstr "Smyczek w górę"
-
-#~ msgid "Down bow"
-#~ msgstr "Smyczek w dół"
 
 #~ msgid "Right heel"
 #~ msgstr "Prawy obcas"
@@ -15873,6 +15865,9 @@ msgstr ""
 
 #~ msgid "In insert mode, changes prevailing rhythm to "
 #~ msgstr "W Trybie wstawiania, zmienia nadrzędny rytm na "
+
+#~ msgid "Change duration"
+#~ msgstr "Zmień długość"
 
 #~ msgid "Change durtion of current rest"
 #~ msgstr "Zmień długość danej pauzy"

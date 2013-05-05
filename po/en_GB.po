@@ -6033,11 +6033,11 @@ msgid "Hide Accidental"
 msgstr ""
 
 #: src/commands.c:6408 src/commands.c:6411
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Hides the accidental on the note at the cursor on printing. Does not affect "
 "the pitch."
-msgstr "Moves the nearest note to join the cursor"
+msgstr ""
 
 #: src/commands.c:6420 src/commands.c:6422
 #, no-c-format
@@ -6067,10 +6067,10 @@ msgid "Individual Note Down-Tie (Off/On)"
 msgstr ""
 
 #: src/commands.c:6443 src/commands.c:6446
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Ties the individual note at the cursor the tie going down; repeat to remove."
-msgstr "Moves the nearest note to join the cursor"
+msgstr ""
 
 #: src/commands.c:6455 src/commands.c:6458
 #, fuzzy, no-c-format
@@ -10631,9 +10631,8 @@ msgid "Repeat Slur Positioning Hint?"
 msgstr ""
 
 #: src/print.c:1990
-#, fuzzy
 msgid "Slur Shape"
-msgstr "To Cursor"
+msgstr ""
 
 #: src/print.c:1990
 msgid "Repeat Shaping Slur?"
@@ -12249,9 +12248,8 @@ msgid "Master Volume:"
 msgstr ""
 
 #: src/staffpropdialog.c:312
-#, fuzzy
 msgid "Channel:"
-msgstr "Check Note Pitches"
+msgstr ""
 
 #: src/staffpropdialog.c:313
 msgid "Program:"
@@ -12333,9 +12331,8 @@ msgid ""
 msgstr ""
 
 #: src/view.c:6580
-#, fuzzy
 msgid "MIDI Controller Active?"
-msgstr "MIDI Filter Off"
+msgstr ""
 
 #: src/view.c:6580
 msgid ""
@@ -13378,9 +13375,8 @@ msgid "Change Slur Shape"
 msgstr ""
 
 #: actions/denemo-modules/wysiwyg.scm:420
-#, fuzzy
 msgid "Allows you to drag the control points of the slur"
-msgstr "Moves the nearest note to join the cursor"
+msgstr ""
 
 #: actions/commandscripts/AdjustBassFigureHeight.scm:8
 #: actions/commandscripts/AdjustFiguredBassHeights.scm:5
