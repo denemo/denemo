@@ -20,4 +20,3 @@ extern backend_t alsa_seq_midi_backend;
 
 
 #endif // ALSABACKEND_H
-

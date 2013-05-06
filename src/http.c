@@ -31,10 +31,11 @@
 #include <denemo/denemo.h>
 
 #ifdef G_OS_WIN32
-gchar *post_denemodotorg(char *hname, char *page, char* poststr)
+gchar *
+post_denemodotorg (char *hname, char *page, char *poststr)
 {
-  g_warning("Not implented on windows");
-  return g_strdup("");
+  g_warning ("Not implented on windows");
+  return g_strdup ("");
 }
 
 #else
@@ -61,65 +62,65 @@ gchar *post_denemodotorg(char *hname, char *page, char* poststr)
 #define LISTENQ         1024
 
 extern int h_errno;
-static 
-gchar * process_http(int sockfd, char *host, char *page, gchar *other, char *poststr)
+static gchar *
+process_http (int sockfd, char *host, char *page, gchar * other, char *poststr)
 {
   GString *gstr = g_string_new ("");
-	char sendline[MAXLINE + 1], recvline[MAXLINE + 1];
-	ssize_t n;
+  char sendline[MAXLINE + 1], recvline[MAXLINE + 1];
+  ssize_t n;
 
-	GString *out = g_string_new("");
-	g_string_append_printf(out, "POST %s HTTP/1.0\r\n"
-			       "Host: %s\r\n%s"
-		 "Content-type: application/x-www-form-urlencoded\r\n"
-		 "Content-length: %d\r\n\r\n"
-			       "%s", page, host, other, strlen(poststr), poststr);
+  GString *out = g_string_new ("");
+  g_string_append_printf (out, "POST %s HTTP/1.0\r\n" "Host: %s\r\n%s" "Content-type: application/x-www-form-urlencoded\r\n" "Content-length: %d\r\n\r\n" "%s", page, host, other, strlen (poststr), poststr);
 
-	//g_print("about to write %s\n", out->str);
-	gint error = write(sockfd, out->str, out->len);
-	g_string_free(out, TRUE);
+  //g_print("about to write %s\n", out->str);
+  gint error = write (sockfd, out->str, out->len);
+  g_string_free (out, TRUE);
 
-	while ((n = read(sockfd, recvline, MAXLINE)) > 0) {
-		recvline[n] = '\0';
-		g_string_append(gstr,  recvline);
-	}
-	return g_string_free(gstr, FALSE);
+  while ((n = read (sockfd, recvline, MAXLINE)) > 0)
+    {
+      recvline[n] = '\0';
+      g_string_append (gstr, recvline);
+    }
+  return g_string_free (gstr, FALSE);
 
 }
-gchar *post_denemodotorg(char *hname, char *page, gchar*other,  char* poststr)
+
+gchar *
+post_denemodotorg (char *hname, char *page, gchar * other, char *poststr)
 {
-	int sockfd;
-	struct sockaddr_in servaddr;
-	char *ret;
-	char **pptr;
+  int sockfd;
+  struct sockaddr_in servaddr;
+  char *ret;
+  char **pptr;
 
-	char str[50];
-	struct hostent *hptr;
-	if ((hptr = gethostbyname(hname)) == NULL) {
-		fprintf(stderr, " gethostbyname error for host: %s: %s",
-			hname, hstrerror(h_errno));
-		return g_strdup_printf("ERROR");
-	}
-	printf("hostname: %s\n", hptr->h_name);
-	if (hptr->h_addrtype == AF_INET
-	    && (pptr = hptr->h_addr_list) != NULL) {
-	  inet_ntop(hptr->h_addrtype, *pptr, str,
-		    sizeof(str));
-	} else {
-		fprintf(stderr, "Error call inet_ntop \n");
-	}
+  char str[50];
+  struct hostent *hptr;
+  if ((hptr = gethostbyname (hname)) == NULL)
+    {
+      fprintf (stderr, " gethostbyname error for host: %s: %s", hname, hstrerror (h_errno));
+      return g_strdup_printf ("ERROR");
+    }
+  printf ("hostname: %s\n", hptr->h_name);
+  if (hptr->h_addrtype == AF_INET && (pptr = hptr->h_addr_list) != NULL)
+    {
+      inet_ntop (hptr->h_addrtype, *pptr, str, sizeof (str));
+    }
+  else
+    {
+      fprintf (stderr, "Error call inet_ntop \n");
+    }
 
-	sockfd = socket(AF_INET, SOCK_STREAM, 0);
-	bzero(&servaddr, sizeof(servaddr));
-	servaddr.sin_family = AF_INET;
-	servaddr.sin_port = htons(80);
-	inet_pton(AF_INET, str, &servaddr.sin_addr);
+  sockfd = socket (AF_INET, SOCK_STREAM, 0);
+  bzero (&servaddr, sizeof (servaddr));
+  servaddr.sin_family = AF_INET;
+  servaddr.sin_port = htons (80);
+  inet_pton (AF_INET, str, &servaddr.sin_addr);
 
-	connect(sockfd, (SA *) & servaddr, sizeof(servaddr));
-	ret = process_http(sockfd, hname, page, other, poststr);
-	close(sockfd);
+  connect (sockfd, (SA *) & servaddr, sizeof (servaddr));
+  ret = process_http (sockfd, hname, page, other, poststr);
+  close (sockfd);
 
-	return ret;
+  return ret;
 }
 
 #endif

@@ -42,37 +42,44 @@ static ClefInfo clef_info[] = {
   {DENEMO_FRENCH_CLEF, N_("French")},
 };
 
-const gchar *get_clef_name(gint type) {
-  if(type>=0 && (type<G_N_ELEMENTS(clef_info)))
-    return  clef_info[type].name;
+const gchar *
+get_clef_name (gint type)
+{
+  if (type >= 0 && (type < G_N_ELEMENTS (clef_info)))
+    return clef_info[type].name;
   return NULL;
 }
 
-static enum clefs get_clef_from_name(gchar *name) {
+static enum clefs
+get_clef_from_name (gchar * name)
+{
   gint i;
-  for(i=0;i<G_N_ELEMENTS(clef_info);i++) {
-    if(!g_ascii_strcasecmp(name, clef_info[i].name))
-      return clef_info[i].clef;
-  }
+  for (i = 0; i < G_N_ELEMENTS (clef_info); i++)
+    {
+      if (!g_ascii_strcasecmp (name, clef_info[i].name))
+        return clef_info[i].clef;
+    }
   return DENEMO_INVALID_CLEF;
 }
+
 /**
  * Callback to insert a clef change 
  * calls clef change with the INSERT argument
  */
 void
-clef_change_insert (GtkAction *action, DenemoScriptParam * param)
+clef_change_insert (GtkAction * action, DenemoScriptParam * param)
 {
-  GET_1PARAM(action, param, clefname);
+  GET_1PARAM (action, param, clefname);
   DenemoGUI *gui = Denemo.gui;
-  if(clefname==NULL)
+  if (clefname == NULL)
     clef_change (gui, INSERT);
- else {
-   enum clefs clef = get_clef_from_name(clefname);
-   if(clef!=DENEMO_INVALID_CLEF)
-     object_insert (gui, dnm_newclefobj (clef));
-   displayhelper (gui);
- }
+  else
+    {
+      enum clefs clef = get_clef_from_name (clefname);
+      if (clef != DENEMO_INVALID_CLEF)
+        object_insert (gui, dnm_newclefobj (clef));
+      displayhelper (gui);
+    }
 }
 
 /**
@@ -82,21 +89,21 @@ clef_change_insert (GtkAction *action, DenemoScriptParam * param)
 void
 clef_change_initial (GtkAction * action, DenemoScriptParam * param)
 {
-  GET_1PARAM(action, param, clefname);
+  GET_1PARAM (action, param, clefname);
   DenemoGUI *gui = Denemo.gui;
-  if(clefname==NULL)
+  if (clefname == NULL)
     clef_change (gui, CHANGEINITIAL);
-  else {
-    enum clefs clef = get_clef_from_name(clefname);
-   if(clef!=DENEMO_INVALID_CLEF)
-     dnm_setinitialclef (gui->si, gui->si->currentstaff->data, clef);
-   displayhelper (gui);
-  }
+  else
+    {
+      enum clefs clef = get_clef_from_name (clefname);
+      if (clef != DENEMO_INVALID_CLEF)
+        dnm_setinitialclef (gui->si, gui->si->currentstaff->data, clef);
+      displayhelper (gui);
+    }
 }
 
 void
-dnm_setinitialclef (DenemoScore * si, DenemoStaff * curstaffstruct,
-		    enum clefs clef)
+dnm_setinitialclef (DenemoScore * si, DenemoStaff * curstaffstruct, enum clefs clef)
 {
   curstaffstruct->clef.type = clef;
   find_leftmost_staffcontext (curstaffstruct, si);
@@ -120,17 +127,9 @@ clef_change (DenemoGUI * gui, actiontype action)
   GtkCellRenderer *renderer;
   DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
   int i;
-   
-  dialog = 
-    gtk_dialog_new_with_buttons (((action == CHANGEINITIAL) ? 
-				  _("Set Clef") : _("Insert clef change")), 
-				 NULL,	/* parent window */
-				 (GtkDialogFlags)
-				 (GTK_DIALOG_MODAL |
-				  GTK_DIALOG_DESTROY_WITH_PARENT),
-				 GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-				 GTK_STOCK_CANCEL, GTK_STOCK_CANCEL,
-				 NULL);
+
+  dialog = gtk_dialog_new_with_buttons (((action == CHANGEINITIAL) ? _("Set Clef") : _("Insert clef change")), NULL,    /* parent window */
+                                        (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_STOCK_CANCEL, NULL);
 
 
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
@@ -138,27 +137,24 @@ clef_change (DenemoGUI * gui, actiontype action)
   gtk_container_add (GTK_CONTAINER (content_area), label);
 
   list_store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_INT);
-  combobox = gtk_combo_box_new_with_model (GTK_TREE_MODEL (list_store));//FIXME This looks like it could be made more simple to read by using someting like gtk_combo_text_box or something
+  combobox = gtk_combo_box_new_with_model (GTK_TREE_MODEL (list_store));        //FIXME This looks like it could be made more simple to read by using someting like gtk_combo_text_box or something
 
   for (i = 0; i < (gint) G_N_ELEMENTS (clef_info); i++)
     {
       gtk_list_store_append (list_store, &iter);
-      gtk_list_store_set (list_store, &iter,
-			  COLUMN_NAME, _(clef_info[i].name),
-			  COLUMN_ID, clef_info[i].clef, -1);
+      gtk_list_store_set (list_store, &iter, COLUMN_NAME, _(clef_info[i].name), COLUMN_ID, clef_info[i].clef, -1);
 
       if (clef_info[i].clef == curstaffstruct->clef.type)
-	{
-	  gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combobox), &iter);
-	}
+        {
+          gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combobox), &iter);
+        }
     }
 
 
   renderer = gtk_cell_renderer_text_new ();
   gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combobox), renderer, TRUE);
-  gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (combobox),
-				 renderer, "text", COLUMN_NAME);
-  
+  gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (combobox), renderer, "text", COLUMN_NAME);
+
   gtk_container_add (GTK_CONTAINER (content_area), combobox);
 
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
@@ -168,21 +164,20 @@ clef_change (DenemoGUI * gui, actiontype action)
     {
       enum clefs clef;
       gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combobox), &iter);
-      gtk_tree_model_get (GTK_TREE_MODEL (list_store), &iter,
-			  COLUMN_ID, &clef, -1);
+      gtk_tree_model_get (GTK_TREE_MODEL (list_store), &iter, COLUMN_ID, &clef, -1);
 
       if (action == CHANGEINITIAL)
-	{
-	  dnm_setinitialclef (gui->si, curstaffstruct, clef);
-	}
+        {
+          dnm_setinitialclef (gui->si, curstaffstruct, clef);
+        }
       else
-	{
-	  if(gui->si->currentobject && ((DenemoObject*)gui->si->currentobject->data)->type==CLEF)
-	    deleteobject(gui);
-	  object_insert (gui, dnm_newclefobj (clef));
+        {
+          if (gui->si->currentobject && ((DenemoObject *) gui->si->currentobject->data)->type == CLEF)
+            deleteobject (gui);
+          object_insert (gui, dnm_newclefobj (clef));
 
-	}
-      score_status(gui, TRUE);
+        }
+      score_status (gui, TRUE);
       displayhelper (gui);
     }
   gtk_widget_destroy (dialog);

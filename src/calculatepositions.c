@@ -29,7 +29,7 @@ music_remains_p (objnode ** cur_obj_nodes, gint num_staffs)
   for (i = 0; i < num_staffs; i++)
     {
       if (cur_obj_nodes[i])
-	return TRUE;
+        return TRUE;
     }
   return FALSE;
 }
@@ -51,15 +51,15 @@ all_tickcounts_equal_p (objnode ** cur_obj_nodes, gint num_staffs)
   for (i = 0; i < num_staffs; i++)
     {
       if (cur_obj_nodes[i])
-	{
-	  curobj = (DenemoObject *) cur_obj_nodes[i]->data;
-	  if (compare == -1)
-	    compare = curobj->starttickofnextnote;
-	  else if (curobj->starttickofnextnote != compare)
-	    return FALSE;
-	  else if (curobj->type != CHORD)
-	    return FALSE;
-	}
+        {
+          curobj = (DenemoObject *) cur_obj_nodes[i]->data;
+          if (compare == -1)
+            compare = curobj->starttickofnextnote;
+          else if (curobj->starttickofnextnote != compare)
+            return FALSE;
+          else if (curobj->type != CHORD)
+            return FALSE;
+        }
     }
   return TRUE;
 }
@@ -128,11 +128,10 @@ prune_list (GList * source)
     current = NULL;
   while (current)
     {
-      if (((list_info *) current->data)->start_position
-	  != ((list_info *) previous->data)->start_position)
-	sink = g_list_append (sink, current->data);
+      if (((list_info *) current->data)->start_position != ((list_info *) previous->data)->start_position)
+        sink = g_list_append (sink, current->data);
       else
-	g_free (current->data);
+        g_free (current->data);
       previous = current;
       current = current->next;
     }
@@ -159,11 +158,7 @@ prune_list (GList * source)
  * 
  */
 static void
-allocate_xes (objnode ** block_start_obj_nodes,
-	      objnode ** block_end_obj_nodes, gint num_staffs,
-	      gint furthest_tick_advance, gint * base_x, gint * base_tick,
-	      gint shortest_chord_duration, gint shortest_chord_pixels,
-	      gint whole_note_width, GList * non_chords)
+allocate_xes (objnode ** block_start_obj_nodes, objnode ** block_end_obj_nodes, gint num_staffs, gint furthest_tick_advance, gint * base_x, gint * base_tick, gint shortest_chord_duration, gint shortest_chord_pixels, gint whole_note_width, GList * non_chords)
 {
   gint ticks_in_block, shortest_chords_in_block, block_width, starts_at_tick;
   gint extra_advance = 0, non_chord_pixels, i;
@@ -178,12 +173,8 @@ allocate_xes (objnode ** block_start_obj_nodes,
   /* Set the block width */
 
   ticks_in_block = furthest_tick_advance - *base_tick;
-  shortest_chords_in_block =
-    ticks_in_block % shortest_chord_duration
-    ? ticks_in_block / shortest_chord_duration + 1
-    : ticks_in_block / shortest_chord_duration;
-  block_width = MAX (shortest_chords_in_block * shortest_chord_pixels,
-		     ticks_in_block * whole_note_width / WHOLE_NUMTICKS);
+  shortest_chords_in_block = ticks_in_block % shortest_chord_duration ? ticks_in_block / shortest_chord_duration + 1 : ticks_in_block / shortest_chord_duration;
+  block_width = MAX (shortest_chords_in_block * shortest_chord_pixels, ticks_in_block * whole_note_width / WHOLE_NUMTICKS);
 
   /* Now go through staff-by-staff and set the xes within the block
    * only.  This code would be simpler if each mudela object stored its
@@ -193,48 +184,38 @@ allocate_xes (objnode ** block_start_obj_nodes,
     {
       this_staff_obj_node = block_start_obj_nodes[i];
       if (this_staff_obj_node)
-	{
-	  starts_at_tick = *base_tick;
-	  non_chords_node = non_chords;
-	  extra_advance = 0;
-	  non_chord_pixels = 0;// if there are two non-chords in succession the minpixelsalloted is used
-	  while (this_staff_obj_node)
-	    {
-	      curobj = (DenemoObject *) this_staff_obj_node->data;
+        {
+          starts_at_tick = *base_tick;
+          non_chords_node = non_chords;
+          extra_advance = 0;
+          non_chord_pixels = 0; // if there are two non-chords in succession the minpixelsalloted is used
+          while (this_staff_obj_node)
+            {
+              curobj = (DenemoObject *) this_staff_obj_node->data;
 
-	      while (non_chords_node && 
-		     !CHORDTEST(this_staff_obj_node)
-		     && (starts_at_tick
-			 >=
-			 ((list_info *) non_chords_node->data)->
-			 start_position))
-		{
-		  extra_advance +=
-		    ((list_info *) non_chords_node->data)->pixels;
-		  non_chords_node = non_chords_node->next;
-		}
-		if (CHORDTEST(this_staff_obj_node))
-		{
-		  curobj->x = *base_x + extra_advance + non_chord_pixels
-		    + ((starts_at_tick - *base_tick) * block_width
-		       / (ticks_in_block ? ticks_in_block : 1));
-		  non_chord_pixels += curobj->minpixelsalloted;
-		}
-	      else
-		{
-		  curobj->x = *base_x + extra_advance
-		    + ((starts_at_tick - *base_tick) * block_width
-		       / (ticks_in_block ? ticks_in_block : 1));
-		  non_chord_pixels = 0;
-		}
-	      starts_at_tick = curobj->starttickofnextnote;
+              while (non_chords_node && !CHORDTEST (this_staff_obj_node) && (starts_at_tick >= ((list_info *) non_chords_node->data)->start_position))
+                {
+                  extra_advance += ((list_info *) non_chords_node->data)->pixels;
+                  non_chords_node = non_chords_node->next;
+                }
+              if (CHORDTEST (this_staff_obj_node))
+                {
+                  curobj->x = *base_x + extra_advance + non_chord_pixels + ((starts_at_tick - *base_tick) * block_width / (ticks_in_block ? ticks_in_block : 1));
+                  non_chord_pixels += curobj->minpixelsalloted;
+                }
+              else
+                {
+                  curobj->x = *base_x + extra_advance + ((starts_at_tick - *base_tick) * block_width / (ticks_in_block ? ticks_in_block : 1));
+                  non_chord_pixels = 0;
+                }
+              starts_at_tick = curobj->starttickofnextnote;
 
-	      if (this_staff_obj_node == block_end_obj_nodes[i])
-		break;
-	      else
-		this_staff_obj_node = this_staff_obj_node->next;
-	    }
-	}
+              if (this_staff_obj_node == block_end_obj_nodes[i])
+                break;
+              else
+                this_staff_obj_node = this_staff_obj_node->next;
+            }
+        }
     }
 
   /* This while loop takes care of any more additions needed to
@@ -249,7 +230,7 @@ allocate_xes (objnode ** block_start_obj_nodes,
   /* Now increase the values of *base_x and *base_tick as a side-effect. */
 
   *base_x += block_width + extra_advance;
-  *base_tick = furthest_tick_advance; //this is growing....
+  *base_tick = furthest_tick_advance;   //this is growing....
   //g_print("furthest %d\n", furthest_tick_advance);
   /* Free non_chords and we're done */
 
@@ -324,8 +305,7 @@ allocate_xes (objnode ** block_start_obj_nodes,
  * @return structure containing the nominator and denominator of a timesig
  */
 struct twoints
-find_xes_in_measure (DenemoScore * si, gint measurenum,
-		     gint time1, gint time2)
+find_xes_in_measure (DenemoScore * si, gint measurenum, gint time1, gint time2)
 {
   gint num_staffs = g_list_length (si->thescore);
   gint base_x = 0;
@@ -345,25 +325,21 @@ find_xes_in_measure (DenemoScore * si, gint measurenum,
 
   ret.a = time1;
   ret.b = time2;
-  block_start_obj_nodes =
-    (objnode **) g_malloc (sizeof (objnode *) * num_staffs);
+  block_start_obj_nodes = (objnode **) g_malloc (sizeof (objnode *) * num_staffs);
   cur_obj_nodes = (objnode **) g_malloc (sizeof (objnode *) * num_staffs);
 
 
-  for (i = 0, cur_staff = si->thescore;
-       cur_staff; i++, cur_staff = cur_staff->next)
+  for (i = 0, cur_staff = si->thescore; cur_staff; i++, cur_staff = cur_staff->next)
     {
 
       if (((DenemoStaff *) cur_staff->data)->nummeasures >= measurenum)
-	{
-	  block_start_obj_nodes[i] = cur_obj_nodes[i] =
-	    firstobjnode (g_list_nth
-			  (firstmeasurenode (cur_staff), measurenum - 1));
-	}
+        {
+          block_start_obj_nodes[i] = cur_obj_nodes[i] = firstobjnode (g_list_nth (firstmeasurenode (cur_staff), measurenum - 1));
+        }
       else
-	{
-	  block_start_obj_nodes[i] = cur_obj_nodes[i] = NULL;
-	}
+        {
+          block_start_obj_nodes[i] = cur_obj_nodes[i] = NULL;
+        }
 
 
       fxim_utility;
@@ -372,55 +348,42 @@ find_xes_in_measure (DenemoScore * si, gint measurenum,
   while (non_chords != NULL || music_remains_p (cur_obj_nodes, num_staffs))
     {
       if (all_tickcounts_equal_p (cur_obj_nodes, num_staffs))
-	{
-	  /* A-ha!  We've found a block.  Now go set the x positions
-	   * of all the objects within it appropriately */
-	  //g_print("*******Max advance ticks %d\n", max_advance_ticks);
-	  allocate_xes (block_start_obj_nodes, cur_obj_nodes, num_staffs,
-			max_advance_ticks, &base_x, &base_tick,
-			shortest_chord_duration?shortest_chord_duration:1                  , shortest_chord_pixels,
-			whole_note_width, non_chords);
+        {
+          /* A-ha!  We've found a block.  Now go set the x positions
+           * of all the objects within it appropriately */
+          //g_print("*******Max advance ticks %d\n", max_advance_ticks);
+          allocate_xes (block_start_obj_nodes, cur_obj_nodes, num_staffs, max_advance_ticks, &base_x, &base_tick, shortest_chord_duration ? shortest_chord_duration : 1, shortest_chord_pixels, whole_note_width, non_chords);
 
-	  /* And do setup work for the next block */
+          /* And do setup work for the next block */
 
-	  non_chords = NULL;
-	  shortest_chord_duration = G_MAXINT;
-	  shortest_chord_pixels = 0;
-	  for (i = 0; i < num_staffs; i++)
-	    {
-	      block_start_obj_nodes[i] =
-		cur_obj_nodes[i] =
-		(cur_obj_nodes[i] ? cur_obj_nodes[i]->next : NULL);
-	      fxim_utility;
-	    }
-	}			/* end if */
+          non_chords = NULL;
+          shortest_chord_duration = G_MAXINT;
+          shortest_chord_pixels = 0;
+          for (i = 0; i < num_staffs; i++)
+            {
+              block_start_obj_nodes[i] = cur_obj_nodes[i] = (cur_obj_nodes[i] ? cur_obj_nodes[i]->next : NULL);
+              fxim_utility;
+            }
+        }                       /* end if */
       else
-	{
-	  /* We haven't found a block yet; move a single element of
-	   * cur_obj_nodes "ahead" */
-	  for (i = 0; i < num_staffs; i++)
-	    {
-	      if (cur_obj_nodes[i]
-		  && ((mudobj (cur_obj_nodes[i])->starttickofnextnote
-		       < max_advance_ticks)
-		      || CHORDTEST(cur_obj_nodes[i])
+        {
+          /* We haven't found a block yet; move a single element of
+           * cur_obj_nodes "ahead" */
+          for (i = 0; i < num_staffs; i++)
+            {
+              if (cur_obj_nodes[i] && ((mudobj (cur_obj_nodes[i])->starttickofnextnote < max_advance_ticks) || CHORDTEST (cur_obj_nodes[i])
+                                       //mudobj (cur_obj_nodes[i])->type != CHORD
+                  ))
+                {
+                  cur_obj_nodes[i] = cur_obj_nodes[i]->next;
+                  fxim_utility;
+                  break;
+                }
+            }
+        }                       /* End else */
+    }                           /* End while */
 
-
-		      //mudobj (cur_obj_nodes[i])->type != CHORD
-
-
-))
-		{
-		  cur_obj_nodes[i] = cur_obj_nodes[i]->next;
-		  fxim_utility;
-		  break;
-		}
-	    }
-	}			/* End else */
-    }				/* End while */
-
-  g_list_nth (si->measurewidths, measurenum - 1)->data =
-    GINT_TO_POINTER (MAX (base_x, si->measurewidth));
+  g_list_nth (si->measurewidths, measurenum - 1)->data = GINT_TO_POINTER (MAX (base_x, si->measurewidth));
 
   g_free (block_start_obj_nodes);
   g_free (cur_obj_nodes);

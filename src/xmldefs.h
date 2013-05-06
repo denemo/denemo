@@ -24,7 +24,7 @@
 #define    GROUP_START_STRING "StaffGroupStart"
 #define    GROUP_END_STRING "StaffGroupEnd"
 
-#define CURRENT_XML_VERSION (6)/* the highest version of the .denemo xml format supported */
+#define CURRENT_XML_VERSION (6) /* the highest version of the .denemo xml format supported */
 
 
 #endif

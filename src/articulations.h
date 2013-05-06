@@ -8,5 +8,5 @@
 
 #ifndef ARTICULATIONS_H
 #define ARTICULATIONS_H
-GList* insert_ornament_list(enum ornament orn, GList *list);
+GList *insert_ornament_list (enum ornament orn, GList * list);
 #endif

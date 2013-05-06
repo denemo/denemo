@@ -20,13 +20,13 @@
 #ifndef SOURCE_H
 #define SOURCE_H
 
-#include <denemo/denemo.h> 
+#include <denemo/denemo.h>
 
 //Opens a window with an evince widget displaying filename marked scrolled to the internal position x, y
 //keeps a list of opened files and re-uses the already opened file if there is one.
-gboolean open_source(gchar *filename, gint x, gint y, gint page);
+gboolean open_source (gchar * filename, gint x, gint y, gint page);
 
 //gets the position in root coordinates, width and height of the source window and document scale of the (first) source file, returning FALSE if none
-gboolean source_position (gint *x, gint *y, gint *width, gint *height, gint *scale);
+gboolean source_position (gint * x, gint * y, gint * width, gint * height, gint * scale);
 
 #endif

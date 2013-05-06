@@ -8,7 +8,7 @@
  */
 
 #include <glib.h>
-#include <denemo/denemo.h> 
+#include <denemo/denemo.h>
 #ifndef CHORDOPSH
 #define CHORDOPSH
 
@@ -20,17 +20,15 @@ DenemoObject *newchord (gint baseduration, gint numdots, int tied);
 
 objnode *nearestnote (DenemoObject * thechord, gint mid_c_offset);
 
-void modify_note (chord *thechord,  gint mid_c_offset, gint enshift, gint dclef);
+void modify_note (chord * thechord, gint mid_c_offset, gint enshift, gint dclef);
 
-note* addtone (DenemoObject * mudelaobj, gint mid_c_offset, gint enshift,
-	      gint dclef);
+note *addtone (DenemoObject * mudelaobj, gint mid_c_offset, gint enshift, gint dclef);
 
 void addornament (DenemoObject * obj, Ornament orn);
 
 gboolean removetone (DenemoObject * mudelaobj, gint mid_c_offset, gint dclef);
 
-void shiftpitch (DenemoObject * mudelaobj, gint mid_c_offset,
-		 gint is_sharpening);
+void shiftpitch (DenemoObject * mudelaobj, gint mid_c_offset, gint is_sharpening);
 
 void changenote (DenemoObject * thechord, gint mid_c_offset, gint new_offset, gint dclef);
 

@@ -24,30 +24,21 @@
 #ifndef SOURCEAUDIO_H
 #define SOURCEAUDIO_H
 
-#include <denemo/denemo.h> 
+#include <denemo/denemo.h>
 
 //Opens the audio file filename for mixing with the current score. Closes any previously opened audio for this score.
-gboolean
-open_source_audio(gchar *filename);
-gboolean
-close_source_audio(void);
+gboolean open_source_audio (gchar * filename);
+gboolean close_source_audio (void);
 
-void
-rewind_audio(void);
+void rewind_audio (void);
 
-gboolean
-get_audio_sample(float *sample);
+gboolean get_audio_sample (float *sample);
 
-gboolean
-audio_is_playing();
-void
-start_audio_playing(gboolean annotate);
-void
-stop_audio_playing(void);
+gboolean audio_is_playing ();
+void start_audio_playing (gboolean annotate);
+void stop_audio_playing (void);
 
 //get the timing of the next measure, removing it from the list
-gdouble
-get_audio_timing(void);
-gboolean
-set_lead_in(gdouble secs);
+gdouble get_audio_timing (void);
+gboolean set_lead_in (gdouble secs);
 #endif

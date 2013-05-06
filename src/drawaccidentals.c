@@ -5,7 +5,7 @@
  * (c) 1999, 2000, 2001, 2002 Matthew Hiller, Adam Tee
  */
 
-#include "utils.h"		/* Includes gtk.h */
+#include "utils.h"              /* Includes gtk.h */
 #include <denemo/denemo.h>
 
 /* Include the pixmaps; they'll actually be made into GdkPixmaps with the
@@ -15,13 +15,11 @@
 
 #include "accwidths.h"
 
-gint accwidths[NUMACCTYPES] =
-  { DOUBLEFLAT_WIDTH, FLAT_WIDTH, NATURAL_WIDTH, SHARP_WIDTH,
+gint accwidths[NUMACCTYPES] = { DOUBLEFLAT_WIDTH, FLAT_WIDTH, NATURAL_WIDTH, SHARP_WIDTH,
   DOUBLESHARP_WIDTH
 };
 
-gunichar acc_char[NUMACCTYPES] =
-  { 0x43, 0x3a, 0x36, 0x2e, 0x45
+gunichar acc_char[NUMACCTYPES] = { 0x43, 0x3a, 0x36, 0x2e, 0x45
 };
 
 /**
@@ -29,11 +27,9 @@ gunichar acc_char[NUMACCTYPES] =
  *
  */
 void
-draw_accidental (cairo_t *cr, gint xx, gint aggheight,
-		 gint enshift)
+draw_accidental (cairo_t * cr, gint xx, gint aggheight, gint enshift)
 {
-  gint n = enshift + 2;		/* convenient index into arrays */
+  gint n = enshift + 2;         /* convenient index into arrays */
 
-  drawfetachar_cr (cr, acc_char[n],
-		     xx, aggheight);
+  drawfetachar_cr (cr, acc_char[n], xx, aggheight);
 }

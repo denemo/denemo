@@ -7,11 +7,8 @@
  */
 
 
-void
-insert_dynamic (GtkAction *action, gpointer param);
+void insert_dynamic (GtkAction * action, gpointer param);
 
-void
-insertdynamic (GtkWidget *widget, gpointer data);
+void insertdynamic (GtkWidget * widget, gpointer data);
 
-void add_dynamic(DenemoObject *mudelaobj, GString *dynamic);
-  
+void add_dynamic (DenemoObject * mudelaobj, GString * dynamic);

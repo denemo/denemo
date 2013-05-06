@@ -20,18 +20,17 @@
 /**
  * Returns a list of available PortAudio device names.
  */
-GList *get_portaudio_devices();
+GList *get_portaudio_devices ();
 
 /**
  * Frees a list returned by get_portaudio_devices()
  */
-void free_portaudio_devices(GList *list);
+void free_portaudio_devices (GList * list);
 
 /**
  * Returns the device index for the given device name.
  */
-PaDeviceIndex get_portaudio_device_index(char const *name);
+PaDeviceIndex get_portaudio_device_index (char const *name);
 
 
 #endif // PORTAUDIOUTIL_H
-

@@ -4,8 +4,8 @@
 void ext_init (void);
 void ext_quit (void);
 /*gboolean exists_temp_filename (const gchar* name);*/
-gchar* get_temp_filename (const gchar* name);
-GPid spawn_external(const GString* cmdline);
+gchar *get_temp_filename (const gchar * name);
+GPid spawn_external (const GString * cmdline);
 
 /* GPID_UNREF contains the default value for an unreferenced GPid*/
 #ifdef G_OS_WIN32
@@ -25,4 +25,3 @@ static const GPid GPID_UNREF = -1;
 //#define EXT_CSOUND 1
 
 #endif
-

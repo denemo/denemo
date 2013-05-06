@@ -7,7 +7,7 @@
  */
 
 #include <denemo/denemo.h>
-#include "utils.h"		/* Includes <gdk.h> */
+#include "utils.h"              /* Includes <gdk.h> */
 
 /**
  * Push elemnet onto hairpin stack
@@ -57,8 +57,7 @@ pop_hairpin_stack (GSList * hairpin_stack)
  *
  */
 void
-draw_hairpin (cairo_t *cr, GSList ** hairpin_stack,
-	      gint x2, gint y, gint dir)
+draw_hairpin (cairo_t * cr, GSList ** hairpin_stack, gint x2, gint y, gint dir)
 {
   gint x1 = top_hairpin_stack (*hairpin_stack);
 
@@ -66,20 +65,20 @@ draw_hairpin (cairo_t *cr, GSList ** hairpin_stack,
     {
       *hairpin_stack = pop_hairpin_stack (*hairpin_stack);
       if (x1 == x2)
-	x2 += 5;
+        x2 += 5;
       if (dir)
-	{
-	  cairo_move_to( cr, x2, y-20 );
-	  cairo_line_to( cr, x1, y-15 );
-	  cairo_line_to( cr, x2, y-10 );
-	  cairo_stroke( cr );
-	}
+        {
+          cairo_move_to (cr, x2, y - 20);
+          cairo_line_to (cr, x1, y - 15);
+          cairo_line_to (cr, x2, y - 10);
+          cairo_stroke (cr);
+        }
       else
-	{
-	  cairo_move_to( cr, x1, y-20 );
-	  cairo_line_to( cr, x2, y-15 );
-	  cairo_line_to( cr, x1, y-10 );
-	  cairo_stroke( cr );
-	}
+        {
+          cairo_move_to (cr, x1, y - 20);
+          cairo_line_to (cr, x2, y - 15);
+          cairo_line_to (cr, x1, y - 10);
+          cairo_stroke (cr);
+        }
     }
 }

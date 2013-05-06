@@ -33,6 +33,7 @@ newfakechord (gint baseduration, gint numdots, gchar * figs)
 
   return thefakechord;
 }
+
 /**
  * Apply the fakechord to the given chord if it does not already have one
  * otherwise assign to the chords existing fakechord
@@ -43,8 +44,7 @@ apply_fakechord (chord * ch, gchar * fig)
 
   if (!ch->fakechord)
     {
-      ch->fakechord =
-	g_list_append (NULL, newfakechord (ch->baseduration, ch->numdots, fig));
+      ch->fakechord = g_list_append (NULL, newfakechord (ch->baseduration, ch->numdots, fig));
       ch->is_fakechord = FALSE;
     }
   else
@@ -52,7 +52,7 @@ apply_fakechord (chord * ch, gchar * fig)
       DenemoObject *mud = (DenemoObject *) (((GList *) ch->fakechord)->data);
       chord *mych = (chord *) mud->object;
       GString *mygstr = (GString *) mych->fakechord;
-      g_string_assign (mygstr, fig);	/* FIXME g_free(mygstr->str) first ? */
+      g_string_assign (mygstr, fig);    /* FIXME g_free(mygstr->str) first ? */
     }
 }
 
@@ -80,41 +80,44 @@ get_fakechord (chord * ch)
 }
 
 void
-separate_fakechord_elements (gchar *fakechord, DenemoObject *curObj)
+separate_fakechord_elements (gchar * fakechord, DenemoObject * curObj)
 {
   gboolean has_extension = FALSE;
   gboolean has_pedal_bass = FALSE;
   gchar tmp2;
 
-  GString *base = g_string_new("");
-  GString *extension = g_string_new("");
+  GString *base = g_string_new ("");
+  GString *extension = g_string_new ("");
 
-  do {
-    if ((*fakechord != ':') && (has_extension == FALSE))
-      g_string_sprintfa(base, "%c", *fakechord);
-    if (*fakechord == ':')
-      has_extension = TRUE;
-    if (has_extension)
-      g_string_sprintfa(extension, "%c", *fakechord);
-    if (*fakechord = '/')
-      has_pedal_bass = TRUE;// not used!!!
-  } while (*++fakechord);
-	
+  do
+    {
+      if ((*fakechord != ':') && (has_extension == FALSE))
+        g_string_sprintfa (base, "%c", *fakechord);
+      if (*fakechord == ':')
+        has_extension = TRUE;
+      if (has_extension)
+        g_string_sprintfa (extension, "%c", *fakechord);
+      if (*fakechord = '/')
+        has_pedal_bass = TRUE;  // not used!!!
+    }
+  while (*++fakechord);
+
   //g_print("\nthe base chord is %s\n", base->str);
   //g_print("\nthe chord extension is %s\n", extension->str);
 
- 
-  if (curObj && curObj->type == CHORD) {
-    ((chord *) curObj->object)->is_fakechord = TRUE;
-    ((chord *) curObj->object)->fakechord = base;
-    //if (has_extension)
-    //((chord *) curObj->object)->fakechord_extension = extension;
-    //else {
-      g_string_free(extension, TRUE);
+
+  if (curObj && curObj->type == CHORD)
+    {
+      ((chord *) curObj->object)->is_fakechord = TRUE;
+      ((chord *) curObj->object)->fakechord = base;
+      //if (has_extension)
+      //((chord *) curObj->object)->fakechord_extension = extension;
+      //else {
+      g_string_free (extension, TRUE);
       //((chord *) curObj->object)->fakechord_extension = NULL;
       //}
-  }
-  
+    }
+
 }
 
 
@@ -130,38 +133,40 @@ insertfakechord (GtkWidget * widget, gpointer data)
   DenemoScore *si = gui->si;
   static staff_info null_info;
   GString *current_fakechord;
-  if(cbdata->string==NULL)
+  if (cbdata->string == NULL)
     return FALSE;
-  if (si->currentobject != NULL) {
-	  DenemoObject *curObj =  (DenemoObject *) si->currentobject->data;
-	  //gchar *fakechord = cbdata->string;
-	  //separate_fakechord_elements(fakechord, curObj);
-	  if(((chord *) curObj->object)->fakechord)
-	    g_string_assign(((chord *) curObj->object)->fakechord, cbdata->string);
-	  else
-	    ((chord *) curObj->object)->fakechord = g_string_new(cbdata->string);
-	  do
-	    {
-	      if (si->currentobject->next)
-		movecursorright (NULL);
-	      else if (gui->si->currentmeasure->next)
-		movetomeasureright (NULL);
-	      else 
-		break;
-	      curObj =
-		si->currentobject ? (DenemoObject *) si->currentobject->data : NULL;
-	    }
-	  while ((curObj != NULL) && (curObj->type != CHORD));
-	  if(!si->has_fakechords) {
-	    si->has_fakechords = (gpointer)TRUE;
-	    signal_structural_change(gui);
-	  }
-	  score_status(gui, TRUE);
-	  return TRUE;
-  }
-  else {
-	warningdialog("There is no object here to attach a fakechord to.");	 
-  }
+  if (si->currentobject != NULL)
+    {
+      DenemoObject *curObj = (DenemoObject *) si->currentobject->data;
+      //gchar *fakechord = cbdata->string;
+      //separate_fakechord_elements(fakechord, curObj);
+      if (((chord *) curObj->object)->fakechord)
+        g_string_assign (((chord *) curObj->object)->fakechord, cbdata->string);
+      else
+        ((chord *) curObj->object)->fakechord = g_string_new (cbdata->string);
+      do
+        {
+          if (si->currentobject->next)
+            movecursorright (NULL);
+          else if (gui->si->currentmeasure->next)
+            movetomeasureright (NULL);
+          else
+            break;
+          curObj = si->currentobject ? (DenemoObject *) si->currentobject->data : NULL;
+        }
+      while ((curObj != NULL) && (curObj->type != CHORD));
+      if (!si->has_fakechords)
+        {
+          si->has_fakechords = (gpointer) TRUE;
+          signal_structural_change (gui);
+        }
+      score_status (gui, TRUE);
+      return TRUE;
+    }
+  else
+    {
+      warningdialog ("There is no object here to attach a fakechord to.");
+    }
   return FALSE;
 }
 
@@ -171,37 +176,36 @@ insertfakechord (GtkWidget * widget, gpointer data)
  *
  */
 void
-fakechord_insert (GtkAction *action, gpointer param)
+fakechord_insert (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   gchar *string;
   gchar *PreValue = NULL;
-  GString *temp = g_string_new("");
+  GString *temp = g_string_new ("");
   DenemoScore *si = gui->si;
   static struct callbackdata cbdata;
-  DenemoObject *curObj = (DenemoObject *) si->currentobject ?
-    (DenemoObject *) si->currentobject->data : NULL;
- 
+  DenemoObject *curObj = (DenemoObject *) si->currentobject ? (DenemoObject *) si->currentobject->data : NULL;
+
   if (curObj && curObj->type == CHORD && ((chord *) curObj->object)->fakechord)
-	{
-		
-		PreValue = (((GString *) ((chord *) curObj->object)->fakechord)->str);
+    {
 
-	}
-	
+      PreValue = (((GString *) ((chord *) curObj->object)->fakechord)->str);
+
+    }
 
 
-  string = string_dialog_entry(gui, "Insert/Edit Fake Chord", "Give Chords followed by Enter key", PreValue);
+
+  string = string_dialog_entry (gui, "Insert/Edit Fake Chord", "Give Chords followed by Enter key", PreValue);
 
   cbdata.gui = gui;
   cbdata.string = string;
-  
+
   if (string)
     {
-      if(insertfakechord (NULL, &cbdata))
-	((DenemoStaff*)si->currentstaff->data)->hasfakechords=TRUE;
+      if (insertfakechord (NULL, &cbdata))
+        ((DenemoStaff *) si->currentstaff->data)->hasfakechords = TRUE;
       displayhelper (gui);
     }
-  g_string_free(temp, TRUE);
-  g_free(string);
+  g_string_free (temp, TRUE);
+  g_free (string);
 }

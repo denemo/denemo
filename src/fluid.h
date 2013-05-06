@@ -17,29 +17,28 @@
 #include <denemo/denemo_types.h>
 
 
-int fluidsynth_init(DenemoPrefs *config, unsigned int samplerate);
-void fluidsynth_shutdown();
+int fluidsynth_init (DenemoPrefs * config, unsigned int samplerate);
+void fluidsynth_shutdown ();
 
 
 /**
  * Feeds a MIDI event to the synth engine.
  */
-void fluidsynth_feed_midi(unsigned char *event_data, size_t event_length);
+void fluidsynth_feed_midi (unsigned char *event_data, size_t event_length);
 
 /**
  * Sends an all-notes-off event to the synth engine.
  */
-void fluidsynth_all_notes_off();
+void fluidsynth_all_notes_off ();
 
 /**
  * Renders the given number of audio frames into a buffer.
  */
-void fluidsynth_render_audio(unsigned int nframes, float *left_channel, float *right_channel);
+void fluidsynth_render_audio (unsigned int nframes, float *left_channel, float *right_channel);
 
 /**
  * Select the soundfont to use for playback
  */
-void
-choose_sound_font (GtkWidget * widget, GtkWidget *fluidsynth_soundfont);
+void choose_sound_font (GtkWidget * widget, GtkWidget * fluidsynth_soundfont);
 
 #endif // FLUID_H

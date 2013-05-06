@@ -11,16 +11,12 @@
 #define __CONTEXTS_H__
 #include <denemo/denemo.h>
 
-void find_leftmost_staffcontext (DenemoStaff * curstaffstruct,
-				 DenemoScore *si);
+void find_leftmost_staffcontext (DenemoStaff * curstaffstruct, DenemoScore * si);
 
-void find_leftmost_allcontexts (DenemoScore *si);
-gint 
-find_prevailing_clef(DenemoScore *si);
-DenemoObject *
-get_clef_before_object(objnode *curobj);
+void find_leftmost_allcontexts (DenemoScore * si);
+gint find_prevailing_clef (DenemoScore * si);
+DenemoObject *get_clef_before_object (objnode * curobj);
 
-gpointer 
-get_prevailing_context(DenemoObjType type);
+gpointer get_prevailing_context (DenemoObjType type);
 
 #endif /* __CONTEXTS_H__ */

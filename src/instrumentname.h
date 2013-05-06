@@ -3,4 +3,4 @@
  * (c) 2001-2005 Per Andersson
  */
 
-int select_program( char * instrname );
+int select_program (char *instrname);

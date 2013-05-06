@@ -24,7 +24,7 @@
 #ifndef commands_H
 #define commands_H
 
-#include <denemo/denemo.h> 
-void  install_commands(void);
+#include <denemo/denemo.h>
+void install_commands (void);
 
 #endif

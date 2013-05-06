@@ -15,22 +15,14 @@ struct fourints
   gint stem_directive;
 };
 
-measurenode *
-addmeasures (DenemoScore *si, gint pos, guint nummeasures, gint all);
+measurenode *addmeasures (DenemoScore * si, gint pos, guint nummeasures, gint all);
 
-void
-freeobjlist (gpointer data, gpointer user_data);
+void freeobjlist (gpointer data, gpointer user_data);
 
-measurenode *
-removemeasures (DenemoScore *si, guint pos, guint nummeasures,
-		gboolean all);
+measurenode *removemeasures (DenemoScore * si, guint pos, guint nummeasures, gboolean all);
 
-void
-calculatebeamsandstemdirs (objnode *theobjs, gint *clef, gint *time1,
-			   gint *time2, gint *stemdirs);
+void calculatebeamsandstemdirs (objnode * theobjs, gint * clef, gint * time1, gint * time2, gint * stemdirs);
 
-gint
-showwhichaccidentals (objnode *theobjs, gint initialnum, gint *initialaccs);
+gint showwhichaccidentals (objnode * theobjs, gint initialnum, gint * initialaccs);
 
-void
-forceaccidentals (DenemoObject *theobj);
+void forceaccidentals (DenemoObject * theobj);

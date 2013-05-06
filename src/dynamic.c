@@ -18,8 +18,7 @@
 #include "utils.h"
 
 
-static gchar *directives[15] =
-  { "ppp", "pp", "p", "mp", "mf", "f", "ff", "fff",
+static gchar *directives[15] = { "ppp", "pp", "p", "mp", "mf", "f", "ff", "fff",
   "sf", "fp", "sfz", "cr", "rc", "dr", "rd"
 };
 
@@ -29,8 +28,7 @@ add_dynamic (DenemoObject * mudelaobj, GString * dynamic)
 {
   if (mudelaobj && mudelaobj->type == CHORD)
     {
-      ((chord *) mudelaobj->object)->dynamics =
-	g_list_append (((chord *) mudelaobj->object)->dynamics, dynamic);
+      ((chord *) mudelaobj->object)->dynamics = g_list_append (((chord *) mudelaobj->object)->dynamics, dynamic);
       ((chord *) mudelaobj->object)->has_dynamic = TRUE;
     }
 }
@@ -42,14 +40,13 @@ insert_it (gint num)
   GString *directivestring = NULL;
 
   directivestring = g_string_new (directives[num]);
-  mudelaobj = (DenemoObject *)
-    (Denemo.gui->si->currentobject ? Denemo.gui->si->currentobject->data : NULL);
+  mudelaobj = (DenemoObject *) (Denemo.gui->si->currentobject ? Denemo.gui->si->currentobject->data : NULL);
 
   add_dynamic (mudelaobj, directivestring);
 }
 
 void
-insert_dynamic (GtkAction *action, gpointer param)
+insert_dynamic (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   GtkWidget *dialog;
@@ -59,30 +56,24 @@ insert_dynamic (GtkAction *action, gpointer param)
   GList *directivelist = NULL;
   gint i;
 
-  dialog = gtk_dialog_new_with_buttons (_("Insert Dynamic"), NULL,
-                                 		(GtkDialogFlags) 
-						(GTK_DIALOG_MODAL |
-                                                 GTK_DIALOG_DESTROY_WITH_PARENT),
-                                 		GTK_STOCK_OK, 
-						GTK_RESPONSE_ACCEPT,
-                                 GTK_STOCK_CANCEL, GTK_STOCK_CANCEL, NULL);
-	
+  dialog = gtk_dialog_new_with_buttons (_("Insert Dynamic"), NULL, (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_STOCK_CANCEL, NULL);
+
 
   content = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   label = gtk_label_new (_("Insert Dynamic"));
   gtk_container_add (GTK_CONTAINER (content), label);
 #if GTK_MAJOR_VERSION==3
   combo = gtk_combo_box_text_new ();
-  for(i=0;i<G_N_ELEMENTS(directives);i++)
-    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(combo), directives[i]);
+  for (i = 0; i < G_N_ELEMENTS (directives); i++)
+    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo), directives[i]);
 
-  gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
+  gtk_combo_box_set_active (GTK_COMBO_BOX (combo), 0);
 #else
   combo = gtk_combo_new ();
   if (!directivelist)
     for (i = 0; i < 15; i++)
       {
-	directivelist = g_list_append (directivelist, directives[i]);
+        directivelist = g_list_append (directivelist, directives[i]);
       }
 
   gtk_combo_set_popdown_strings (GTK_COMBO (combo), directivelist);
@@ -95,17 +86,13 @@ insert_dynamic (GtkAction *action, gpointer param)
 
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
-      gint num =
-        gtk_combo_box_get_active (GTK_COMBO_BOX (combo));
-      
+      gint num = gtk_combo_box_get_active (GTK_COMBO_BOX (combo));
+
       insert_it (num);
     }
 
-  g_signal_connect_swapped (dialog,
-                             "response",
-                             G_CALLBACK (gtk_widget_destroy),
-                             dialog);
-  
+  g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
+
   gtk_widget_destroy (dialog);
   displayhelper (gui);
 }

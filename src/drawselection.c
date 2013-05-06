@@ -13,9 +13,8 @@
  *
  */
 void
-draw_selection (cairo_t *cr, gint x1, gint y1,
-		gint x2, gint y2)
+draw_selection (cairo_t * cr, gint x1, gint y1, gint x2, gint y2)
 {
-  cairo_rectangle (cr, x1-5, y1-20, x2 - x1, y2 - y1+40);
-  cairo_stroke(cr);
+  cairo_rectangle (cr, x1 - 5, y1 - 20, x2 - x1, y2 - y1 + 40);
+  cairo_stroke (cr);
 }

@@ -40,10 +40,10 @@ DenemoObject *
 newtupclose ()
 {
   DenemoObject *tuplet;
-  tupopen *newtup = (tupopen *) g_malloc (sizeof (tupopen));//avoids a null object
+  tupopen *newtup = (tupopen *) g_malloc (sizeof (tupopen));    //avoids a null object
   tuplet = (DenemoObject *) g_malloc (sizeof (DenemoObject));
   tuplet->type = TUPCLOSE;
-  tuplet->object = newtup;//avoids a null object
+  tuplet->object = newtup;      //avoids a null object
   set_basic_numticks (tuplet);
   setpixelmin (tuplet);
   return tuplet;
@@ -67,12 +67,7 @@ tupletchangedialog (DenemoObject * theobj, GtkWidget * scorearea)
 
   GString *entrycontent = NULL;
 
-  dialog =
-    gtk_dialog_new_with_buttons (_("Customize tuplet multiplier"), NULL,
-				 (GtkDialogFlags) (GTK_DIALOG_MODAL |
-						   GTK_DIALOG_DESTROY_WITH_PARENT),
-				 GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-				 GTK_STOCK_CANCEL, GTK_STOCK_CANCEL, NULL);
+  dialog = gtk_dialog_new_with_buttons (_("Customize tuplet multiplier"), NULL, (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_STOCK_CANCEL, NULL);
   if (!entrycontent)
     entrycontent = g_string_new (NULL);
 
@@ -81,18 +76,16 @@ tupletchangedialog (DenemoObject * theobj, GtkWidget * scorearea)
   gtk_container_add (GTK_CONTAINER (content_area), label);
 
   numerator = gtk_entry_new ();
-  g_string_sprintf (entrycontent, "%d",
-		    ((tupopen *) theobj->object)->numerator);
+  g_string_sprintf (entrycontent, "%d", ((tupopen *) theobj->object)->numerator);
   gtk_entry_set_text (GTK_ENTRY (numerator), entrycontent->str);
-  
+
   gtk_container_add (GTK_CONTAINER (content_area), numerator);
 
   label = gtk_label_new (_("Denominator"));
   gtk_container_add (GTK_CONTAINER (content_area), label);
 
   denominator = gtk_entry_new ();
-  g_string_sprintf (entrycontent, "%d",
-		    ((tupopen *) theobj->object)->denominator);
+  g_string_sprintf (entrycontent, "%d", ((tupopen *) theobj->object)->denominator);
   gtk_entry_set_text (GTK_ENTRY (denominator), entrycontent->str);
 
   gtk_container_add (GTK_CONTAINER (content_area), denominator);
@@ -107,10 +100,8 @@ tupletchangedialog (DenemoObject * theobj, GtkWidget * scorearea)
 
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
-      ((tupopen *) theobj->object)->numerator =
-	atoi (gtk_entry_get_text (GTK_ENTRY (numerator)));
-      ((tupopen *) theobj->object)->denominator =
-	atoi (gtk_entry_get_text (GTK_ENTRY (denominator)));
+      ((tupopen *) theobj->object)->numerator = atoi (gtk_entry_get_text (GTK_ENTRY (numerator)));
+      ((tupopen *) theobj->object)->denominator = atoi (gtk_entry_get_text (GTK_ENTRY (denominator)));
     }
 
   gtk_widget_destroy (dialog);

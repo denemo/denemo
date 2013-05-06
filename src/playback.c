@@ -30,13 +30,15 @@
 #endif
 #include <errno.h>
 
-static gint timeout_id = 0, kill_id=0;
+static gint timeout_id = 0, kill_id = 0;
 static gdouble duration = 0.0;
 
 
-void set_tempo (void) {
+void
+set_tempo (void)
+{
   gdouble tempo = Denemo.gui->si->master_tempo;
-  if(tempo<0.001 || (tempo>0.999 && tempo<1.001))
+  if (tempo < 0.001 || (tempo > 0.999 && tempo < 1.001))
     return;
   Denemo.gui->si->tempo *= tempo;
   Denemo.gui->si->start_time /= tempo;
@@ -44,7 +46,7 @@ void set_tempo (void) {
 
   Denemo.gui->si->master_tempo = 1.0;
   score_status (Denemo.gui, TRUE);
-  exportmidi(NULL, Denemo.gui->si, 0, 0);
+  exportmidi (NULL, Denemo.gui->si, 0, 0);
 }
 
 
@@ -52,43 +54,49 @@ void set_tempo (void) {
  * the name ext_... is anachronistic, Fluidsynth or Jack are normally used.
  */
 void
-ext_midi_playback (GtkAction * action, DenemoScriptParam *param) {
-  GET_1PARAM(action, param, callback);
-  
-  set_playbutton(is_paused());
-  if(is_playing()) {
-    toggle_paused();
-    return;
-  }
-  set_tempo();
-  
+ext_midi_playback (GtkAction * action, DenemoScriptParam * param)
+{
+  GET_1PARAM (action, param, callback);
+
+  set_playbutton (is_paused ());
+  if (is_playing ())
+    {
+      toggle_paused ();
+      return;
+    }
+  set_tempo ();
+
   //rewind_audio(); done in start_audio_playing()
-  start_audio_playing(FALSE);
-  midi_play(callback);
+  start_audio_playing (FALSE);
+  midi_play (callback);
 }
 
 
 // a function that stops any play in progress, and starts play again.
-void restart_play(void) {
-stop_midi_playback(NULL, NULL);
-ext_midi_playback (NULL, NULL);
-}
-
-void stop_midi_playback (GtkAction * action, gpointer param) {
-  
-  if(is_paused())
-    toggle_paused();
-  else
-    set_playbutton(TRUE);
-  midi_stop();
-  
-  gtk_widget_queue_draw (Denemo.scorearea);//update playhead on screen
+void
+restart_play (void)
+{
+  stop_midi_playback (NULL, NULL);
+  ext_midi_playback (NULL, NULL);
 }
 
 void
-playback_panic()
+stop_midi_playback (GtkAction * action, gpointer param)
 {
-  panic_all();
+
+  if (is_paused ())
+    toggle_paused ();
+  else
+    set_playbutton (TRUE);
+  midi_stop ();
+
+  gtk_widget_queue_draw (Denemo.scorearea);     //update playhead on screen
+}
+
+void
+playback_panic ()
+{
+  panic_all ();
 }
 
 /** 
@@ -97,23 +105,19 @@ playback_panic()
  */
 
 void
-PlaybackRangeDialog(){
-  DenemoGUI *gui = Denemo.gui;	
+PlaybackRangeDialog ()
+{
+  DenemoGUI *gui = Denemo.gui;
   GtkWidget *dialog;
   GtkWidget *label;
   GtkWidget *hbox;
   GtkWidget *from_time;
   GtkWidget *to_time;
-  
-  dialog = gtk_dialog_new_with_buttons (_("Play range in seconds:"),
-	 GTK_WINDOW (Denemo.window),
-	 (GtkDialogFlags) (GTK_DIALOG_MODAL |
-	      GTK_DIALOG_DESTROY_WITH_PARENT),
-	 GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-	 GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+
+  dialog = gtk_dialog_new_with_buttons (_("Play range in seconds:"), GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
 
   hbox = gtk_hbox_new (FALSE, 8);
-  
+
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   gtk_container_add (GTK_CONTAINER (content_area), hbox);
 
@@ -123,22 +127,18 @@ PlaybackRangeDialog(){
 
   label = gtk_label_new (_("Play from time"));
   gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
- 
-  from_time =
-  gtk_spin_button_new_with_range (0.0, max_end_time, 0.1);
+
+  from_time = gtk_spin_button_new_with_range (0.0, max_end_time, 0.1);
   gtk_box_pack_start (GTK_BOX (hbox), from_time, TRUE, TRUE, 0);
-  gtk_spin_button_set_value (GTK_SPIN_BUTTON (from_time),
-	     (gdouble) gui->si->start_time);
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (from_time), (gdouble) gui->si->start_time);
 
   label = gtk_label_new (_("to"));
   gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
 
-  to_time =
-  gtk_spin_button_new_with_range (0.0, max_end_time, 0.1);
+  to_time = gtk_spin_button_new_with_range (0.0, max_end_time, 0.1);
   gtk_box_pack_start (GTK_BOX (hbox), to_time, TRUE, TRUE, 0);
 
-  gtk_spin_button_set_value (GTK_SPIN_BUTTON (to_time),
-	      (gdouble) gui->si->end_time);
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (to_time), (gdouble) gui->si->end_time);
 
   gtk_widget_show (hbox);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
@@ -147,12 +147,10 @@ PlaybackRangeDialog(){
 
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
-      gui->si->start_time =
-	gtk_spin_button_get_value (GTK_SPIN_BUTTON (from_time));
-      gui->si->end_time =
-	gtk_spin_button_get_value (GTK_SPIN_BUTTON (to_time));
+      gui->si->start_time = gtk_spin_button_get_value (GTK_SPIN_BUTTON (from_time));
+      gui->si->end_time = gtk_spin_button_get_value (GTK_SPIN_BUTTON (to_time));
       //gtk_widget_destroy (dialog);
     }
-  
+
   gtk_widget_destroy (dialog);
 }

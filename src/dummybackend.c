@@ -31,147 +31,181 @@ static gboolean dummy_midi = FALSE;
 static double playback_start_time;
 
 
-static gpointer process_thread_func(gpointer data) {
-  GMutex *mutex = g_mutex_new();
+static gpointer
+process_thread_func (gpointer data)
+{
+  GMutex *mutex = g_mutex_new ();
 
-  for (;;) {
-    // FIXME: GTimeVals are not monotonic
-    GTimeVal timeval;
-    g_get_current_time(&timeval);
-    g_time_val_add(&timeval, PLAYBACK_INTERVAL);
+  for (;;)
+    {
+      // FIXME: GTimeVals are not monotonic
+      GTimeVal timeval;
+      g_get_current_time (&timeval);
+      g_time_val_add (&timeval, PLAYBACK_INTERVAL);
 
-    g_cond_timed_wait(process_cond, mutex, &timeval);
+      g_cond_timed_wait (process_cond, mutex, &timeval);
 
-    if (g_atomic_int_get(&quit_thread)) {
-      break;
+      if (g_atomic_int_get (&quit_thread))
+        {
+          break;
+        }
+
+      GTimeVal tv;
+      g_get_current_time (&tv);
+      double now = (double) tv.tv_sec + tv.tv_usec / 1000000.0;
+      double playback_time = now - playback_start_time;
+
+      unsigned char event_data[3];
+      size_t event_length;
+      double event_time;
+
+      double until_time = playback_time + PLAYBACK_INTERVAL / 1000000.0;
+
+      if (g_atomic_int_get (&dummy_audio))
+        {
+          // clear the audio event queue
+          while (read_event_from_queue (AUDIO_BACKEND, event_data, &event_length, &event_time, until_time))
+            {
+              // do nothing. this is the dummy backend after all
+            }
+        }
+
+      if (g_atomic_int_get (&dummy_midi))
+        {
+          // clear the MIDI event queue
+          while (read_event_from_queue (MIDI_BACKEND, event_data, &event_length, &event_time, until_time))
+            {
+              // do nothing. this is the dummy backend after all
+            }
+        }
+
+      if (is_playing ())
+        {
+          update_playback_time (TIMEBASE_PRIO_DUMMY, playback_time);
+        }
     }
 
-    GTimeVal tv;
-    g_get_current_time(&tv);
-    double now = (double)tv.tv_sec + tv.tv_usec / 1000000.0;
-    double playback_time = now - playback_start_time;
-
-    unsigned char event_data[3];
-    size_t event_length;
-    double event_time;
-
-    double until_time = playback_time + PLAYBACK_INTERVAL / 1000000.0;
-
-    if (g_atomic_int_get(&dummy_audio)) {
-      // clear the audio event queue
-      while (read_event_from_queue(AUDIO_BACKEND, event_data, &event_length, &event_time, until_time)) {
-        // do nothing. this is the dummy backend after all
-      }
-    }
-
-    if (g_atomic_int_get(&dummy_midi)) {
-      // clear the MIDI event queue
-      while (read_event_from_queue(MIDI_BACKEND, event_data, &event_length, &event_time, until_time)) {
-        // do nothing. this is the dummy backend after all
-      }
-    }
-
-    if (is_playing()) {
-      update_playback_time(TIMEBASE_PRIO_DUMMY, playback_time);
-    }
-  }
-
-  g_mutex_free(mutex);
+  g_mutex_free (mutex);
   return NULL;
 }
 
 
-static void start_process_thread() {
-  if (!process_thread) {
-    process_cond = g_cond_new();
-    process_thread = g_thread_create_full(process_thread_func, NULL, 262144, TRUE, FALSE, G_THREAD_PRIORITY_NORMAL, NULL);
-  }
+static void
+start_process_thread ()
+{
+  if (!process_thread)
+    {
+      process_cond = g_cond_new ();
+      process_thread = g_thread_create_full (process_thread_func, NULL, 262144, TRUE, FALSE, G_THREAD_PRIORITY_NORMAL, NULL);
+    }
 }
 
 
-static void stop_process_thread() {
-  if (dummy_audio || dummy_midi) {
-    return;
-  }
+static void
+stop_process_thread ()
+{
+  if (dummy_audio || dummy_midi)
+    {
+      return;
+    }
 
-  if (process_thread) {
-    g_atomic_int_set(&quit_thread, TRUE);
-    g_cond_signal(process_cond);
-    g_thread_join(process_thread);
+  if (process_thread)
+    {
+      g_atomic_int_set (&quit_thread, TRUE);
+      g_cond_signal (process_cond);
+      g_thread_join (process_thread);
 
-    process_thread = NULL;
-  }
+      process_thread = NULL;
+    }
 }
 
 
-static int dummy_audio_initialize(DenemoPrefs *config) {
-  g_print("initializing dummy audio backend\n");
+static int
+dummy_audio_initialize (DenemoPrefs * config)
+{
+  g_print ("initializing dummy audio backend\n");
 
-  start_process_thread();
+  start_process_thread ();
 
-  g_atomic_int_set(&dummy_audio, TRUE);
+  g_atomic_int_set (&dummy_audio, TRUE);
 
   return 0;
 }
 
-static int dummy_midi_initialize(DenemoPrefs *config) {
-  g_print("initializing dummy MIDI backend\n");
+static int
+dummy_midi_initialize (DenemoPrefs * config)
+{
+  g_print ("initializing dummy MIDI backend\n");
 
-  start_process_thread();
+  start_process_thread ();
 
-  g_atomic_int_set(&dummy_midi, TRUE);
-
-  return 0;
-}
-
-
-static int dummy_audio_destroy() {
-  g_print("destroying dummy audio backend\n");
-
-  g_atomic_int_set(&dummy_audio, FALSE);
-
-  stop_process_thread();
-
-  return 0;
-}
-
-static int dummy_midi_destroy() {
-  g_print("destroying dummy MIDI backend\n");
-
-  g_atomic_int_set(&dummy_midi, FALSE);
-
-  stop_process_thread();
+  g_atomic_int_set (&dummy_midi, TRUE);
 
   return 0;
 }
 
 
-static int dummy_audio_reconfigure(DenemoPrefs *config) {
-  dummy_audio_destroy();
-  return dummy_audio_initialize(config);
+static int
+dummy_audio_destroy ()
+{
+  g_print ("destroying dummy audio backend\n");
+
+  g_atomic_int_set (&dummy_audio, FALSE);
+
+  stop_process_thread ();
+
+  return 0;
 }
 
-static int dummy_midi_reconfigure(DenemoPrefs *config) {
-  dummy_midi_destroy();
-  return dummy_midi_initialize(config);
+static int
+dummy_midi_destroy ()
+{
+  g_print ("destroying dummy MIDI backend\n");
+
+  g_atomic_int_set (&dummy_midi, FALSE);
+
+  stop_process_thread ();
+
+  return 0;
 }
 
 
-static int dummy_start_playing() {
+static int
+dummy_audio_reconfigure (DenemoPrefs * config)
+{
+  dummy_audio_destroy ();
+  return dummy_audio_initialize (config);
+}
+
+static int
+dummy_midi_reconfigure (DenemoPrefs * config)
+{
+  dummy_midi_destroy ();
+  return dummy_midi_initialize (config);
+}
+
+
+static int
+dummy_start_playing ()
+{
   GTimeVal tv;
-  g_get_current_time(&tv);
-  playback_start_time = (double)tv.tv_sec + tv.tv_usec / 1000000.0;
-  playback_start_time -= get_playback_time();
+  g_get_current_time (&tv);
+  playback_start_time = (double) tv.tv_sec + tv.tv_usec / 1000000.0;
+  playback_start_time -= get_playback_time ();
   return 0;
 }
 
 
-static int dummy_stop_playing() {
+static int
+dummy_stop_playing ()
+{
   return 0;
 }
 
 
-static int dummy_panic() {
+static int
+dummy_panic ()
+{
   return 0;
 }
 

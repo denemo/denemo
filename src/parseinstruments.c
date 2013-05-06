@@ -78,52 +78,49 @@ ParseInstruments (xmlDocPtr doc, xmlNodePtr cur, GList * list)
     {
 
       if (0 == xmlStrcmp (cur->name, (const xmlChar *) "Instrument"))
-	{
-	  g_print ("%s\n", cur->name);
-	  InstrumentConfig *config =
-	    (InstrumentConfig *) g_malloc0 (sizeof (InstrumentConfig));
-	  gchar *tmpname = (gchar *) xmlGetProp (cur, (xmlChar *) "name");
-	  if (tmpname)
-	    {
-	      config->name = g_string_new (tmpname);
-	      g_free (tmpname);
-	      tmpname = NULL;
-	    }
-	  gchar *tmpmidi = (gchar *) xmlGetProp (cur, (xmlChar *) "midiName");
-	  if (tmpmidi)
-	    {
-	      config->midiinstrument = g_string_new (tmpmidi);
-	      g_free (tmpmidi);
-	      tmpmidi = NULL;
-	    }
-	  gchar *tmptrans =
-	    (gchar *) xmlGetProp (cur, (xmlChar *) "transposing");
-	  if (tmptrans)
-	    {
-	      config->transposition = atoi (tmptrans);
-	      g_free (tmptrans);
-	      tmptrans = NULL;
-	    }
-	  gchar *tmpclef = (gchar *) xmlGetProp (cur, (xmlChar *) "clef");
-	  if (tmpclef)
-	    {
-	      config->sclef = cleftypefromname (tmpclef);
-	      //g_free(tmpclef);
-	      //tmpclef = NULL;
-	    }
-	  gchar *tmpstaff =
-	    (gchar *) xmlGetProp (cur, (xmlChar *) "staffType");
-	  if (tmpstaff)
-	    {
-	      config->numstaffs = lookupnumstaffs (tmpstaff);
-	      g_free (tmpstaff);
-	      tmpstaff = NULL;
-	    }
+        {
+          g_print ("%s\n", cur->name);
+          InstrumentConfig *config = (InstrumentConfig *) g_malloc0 (sizeof (InstrumentConfig));
+          gchar *tmpname = (gchar *) xmlGetProp (cur, (xmlChar *) "name");
+          if (tmpname)
+            {
+              config->name = g_string_new (tmpname);
+              g_free (tmpname);
+              tmpname = NULL;
+            }
+          gchar *tmpmidi = (gchar *) xmlGetProp (cur, (xmlChar *) "midiName");
+          if (tmpmidi)
+            {
+              config->midiinstrument = g_string_new (tmpmidi);
+              g_free (tmpmidi);
+              tmpmidi = NULL;
+            }
+          gchar *tmptrans = (gchar *) xmlGetProp (cur, (xmlChar *) "transposing");
+          if (tmptrans)
+            {
+              config->transposition = atoi (tmptrans);
+              g_free (tmptrans);
+              tmptrans = NULL;
+            }
+          gchar *tmpclef = (gchar *) xmlGetProp (cur, (xmlChar *) "clef");
+          if (tmpclef)
+            {
+              config->sclef = cleftypefromname (tmpclef);
+              //g_free(tmpclef);
+              //tmpclef = NULL;
+            }
+          gchar *tmpstaff = (gchar *) xmlGetProp (cur, (xmlChar *) "staffType");
+          if (tmpstaff)
+            {
+              config->numstaffs = lookupnumstaffs (tmpstaff);
+              g_free (tmpstaff);
+              tmpstaff = NULL;
+            }
 
-	  g_print ("Names %s\n", config->name->str);
+          g_print ("Names %s\n", config->name->str);
 
-	  list = g_list_append (list, config);
-	}
+          list = g_list_append (list, config);
+        }
       cur = cur->next;
     }
   return list;
@@ -144,7 +141,7 @@ parseInstruments (GList * instruments)
   xmlNodePtr rootElem;
 
   static gchar *filename = NULL;
-  if(filename == NULL)
+  if (filename == NULL)
     filename = g_build_filename (get_data_dir (), "instruments.xml", NULL);
 
   doc = xmlParseFile (filename);
@@ -174,17 +171,14 @@ parseInstruments (GList * instruments)
   while (rootElem != NULL)
     {
       g_print ("RootElem %s\n", rootElem->name);
-      if (0 == xmlStrcmp (rootElem->name,
-                          (const xmlChar *) "InstrumentType"))
+      if (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "InstrumentType"))
         {
-          InstrumentList *list =
-            (InstrumentList *) g_malloc0 (sizeof (InstrumentList));
+          InstrumentList *list = (InstrumentList *) g_malloc0 (sizeof (InstrumentList));
 
           gchar *tmp = (gchar *) xmlGetProp (rootElem, (xmlChar *) "name");
           list->type = lookuptype (tmp);
           g_print ("Type %s\n", tmp);
-          list->instruments =
-            ParseInstruments (doc, rootElem, list->instruments);
+          list->instruments = ParseInstruments (doc, rootElem, list->instruments);
           instruments = g_list_append (instruments, list);
         }
       rootElem = rootElem->next;

@@ -4,8 +4,8 @@
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 2000-2005 Adam Tee, Matthew Hiller
- */ 
- 
+ */
+
 
 
 #include <denemo/denemo.h>

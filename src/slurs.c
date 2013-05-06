@@ -7,7 +7,7 @@
  */
 
 #include <denemo/denemo.h>
-#include "utils.h"		/* Includes <gdk.h> */
+#include "utils.h"              /* Includes <gdk.h> */
 
 GSList *
 push_slur_stack (GSList * slur_stack, gint x)
@@ -41,45 +41,45 @@ pop_slur_stack (GSList * slur_stack)
 }
 
 void
-draw_slur (cairo_t * cr, GSList ** slur_stack,
-	   gint x2, gint y)
+draw_slur (cairo_t * cr, GSList ** slur_stack, gint x2, gint y)
 {
   gint x1 = top_slur_stack (*slur_stack);
   if (x1 != -1)
     {
       *slur_stack = pop_slur_stack (*slur_stack);
 
-      cairo_set_line_width( cr, 1.0 );
-      cairo_move_to( cr, x1, y - 15 );
-      cairo_rel_curve_to( cr, (x2-x1)/3, -8, (x2-x1)*2/3, -8, (x2-x1), 0 );
-      cairo_stroke( cr );
-    } else {
-    cairo_set_line_width( cr, 1.0 );
-    cairo_move_to( cr, 0, y - 15 );
-    cairo_rel_curve_to( cr, (x2)/3, -8, (x2)*2/3, -8, (x2), 0 );
-    cairo_stroke( cr );
-  }
+      cairo_set_line_width (cr, 1.0);
+      cairo_move_to (cr, x1, y - 15);
+      cairo_rel_curve_to (cr, (x2 - x1) / 3, -8, (x2 - x1) * 2 / 3, -8, (x2 - x1), 0);
+      cairo_stroke (cr);
+    }
+  else
+    {
+      cairo_set_line_width (cr, 1.0);
+      cairo_move_to (cr, 0, y - 15);
+      cairo_rel_curve_to (cr, (x2) / 3, -8, (x2) * 2 / 3, -8, (x2), 0);
+      cairo_stroke (cr);
+    }
 }
 
 void
-draw_slur_start (cairo_t * cr,
-	   gint x, gint y)
+draw_slur_start (cairo_t * cr, gint x, gint y)
 {
 
-    cairo_set_line_width( cr, 1.0 );
-    cairo_move_to( cr, x, y - 15 );
-    cairo_rel_line_to( cr, 8, -4 );
-    cairo_stroke( cr );
- 
+  cairo_set_line_width (cr, 1.0);
+  cairo_move_to (cr, x, y - 15);
+  cairo_rel_line_to (cr, 8, -4);
+  cairo_stroke (cr);
+
 }
+
 void
-draw_slur_end (cairo_t * cr,
-	   gint x, gint y)
+draw_slur_end (cairo_t * cr, gint x, gint y)
 {
 
-    cairo_set_line_width( cr, 1.0 );
-    cairo_move_to( cr, x, y - 15 );
-    cairo_rel_line_to( cr, -8, -4 );
-    cairo_stroke( cr );
- 
+  cairo_set_line_width (cr, 1.0);
+  cairo_move_to (cr, x, y - 15);
+  cairo_rel_line_to (cr, -8, -4);
+  cairo_stroke (cr);
+
 }

@@ -114,12 +114,12 @@ determineclef (gint type, gchar ** clefname, gint * octaveshift)
       *octaveshift = 1;
       break;
     case DENEMO_TENOR_CLEF:
-      *clefname = "tenor";	/* FIXME: highly nonstandard */
-      *octaveshift = 1;		/* FIXME: ditto */
+      *clefname = "tenor";      /* FIXME: highly nonstandard */
+      *octaveshift = 1;         /* FIXME: ditto */
       break;
     case DENEMO_SOPRANO_CLEF:
-      *clefname = "soprano";	/* FIXME: highly nonstandard */
-      *octaveshift = 0;		/* FIXME: ditto */
+      *clefname = "soprano";    /* FIXME: highly nonstandard */
+      *octaveshift = 0;         /* FIXME: ditto */
       break;
     default:
       *clefname = _("%{error. defaulting to%}treble");
@@ -151,8 +151,7 @@ determinedefaultlength (struct twoints *timesig)
  * dots, and the ABC length is returned in length.
  */
 static void
-determinelength (gint duration, gint numdots, gint defaultlength,
-		 struct twoints *length)
+determinelength (gint duration, gint numdots, gint defaultlength, struct twoints *length)
 {
   /* ABC duration is:
 
@@ -166,7 +165,7 @@ determinelength (gint duration, gint numdots, gint defaultlength,
    */
 
   //gint i;
-  gint num = 1;			/* so far */
+  gint num = 1;                 /* so far */
   gint denom = 1 << (numdots + duration);
 
   while (denom > 1 && defaultlength > 1)
@@ -198,7 +197,7 @@ printlength (FILE * fp, struct twoints *length)
     {
       fprintf (fp, "/");
       if (length->b > 2)
-	fprintf (fp, "%d", length->b);
+        fprintf (fp, "%d", length->b);
     }
 }
 
@@ -212,10 +211,9 @@ printchord (FILE * fp, chord * chordptr, gint octaveshift, gint defaultlength)
   gint i;
   struct twoints length;
 
-  determinelength (chordptr->baseduration, chordptr->numdots, defaultlength,
-		   &length);
+  determinelength (chordptr->baseduration, chordptr->numdots, defaultlength, &length);
 
-  if (chordptr->notes)		/* it's a note or chord, not a rest */
+  if (chordptr->notes)          /* it's a note or chord, not a rest */
     {
       /* If there's only one note, it's a note, not a chord. */
 
@@ -228,73 +226,71 @@ printchord (FILE * fp, chord * chordptr, gint octaveshift, gint defaultlength)
       /* Print out the decorations and beginning of the slur (if any). */
 
       if (chordptr->slur_begin_p)
-	fprintf (fp, "(");
+        fprintf (fp, "(");
 
       if (ischord)
-	fprintf (fp, "[");
+        fprintf (fp, "[");
 
-      for (curnotenode = chordptr->notes;
-	   curnotenode != NULL; curnotenode = curnotenode->next)
-	{
-	  curnote = (note *) curnotenode->data;
-	  notename = mid_c_offsettoname (curnote->mid_c_offset);
-	  octave =
-	    mid_c_offsettooctave (curnote->mid_c_offset) + octaveshift - 2;
+      for (curnotenode = chordptr->notes; curnotenode != NULL; curnotenode = curnotenode->next)
+        {
+          curnote = (note *) curnotenode->data;
+          notename = mid_c_offsettoname (curnote->mid_c_offset);
+          octave = mid_c_offsettooctave (curnote->mid_c_offset) + octaveshift - 2;
 
-	  /* Print accidentals. */
+          /* Print accidentals. */
 
-	  if (curnote->showaccidental)
-	    {
-	      if (curnote->enshift > 0)
-		{
-		  for (i = 0; i < curnote->enshift; i++)
-		    fprintf (fp, "^");
-		}
-	      else if (curnote->enshift < 0)
-		{
-		  for (i = 0; i > curnote->enshift; i--)
-		    fprintf (fp, "_");
-		}
-	      else
-		{
-		  fprintf (fp, "=");
-		}
-	    }
+          if (curnote->showaccidental)
+            {
+              if (curnote->enshift > 0)
+                {
+                  for (i = 0; i < curnote->enshift; i++)
+                    fprintf (fp, "^");
+                }
+              else if (curnote->enshift < 0)
+                {
+                  for (i = 0; i > curnote->enshift; i--)
+                    fprintf (fp, "_");
+                }
+              else
+                {
+                  fprintf (fp, "=");
+                }
+            }
 
-	  /* Print the note name. */
+          /* Print the note name. */
 
-	  if (octave < 0)
-	    {
-	      octave += 1;
-	      notename = toupper (notename);
-	    }
-	  fprintf (fp, "%c", notename);
+          if (octave < 0)
+            {
+              octave += 1;
+              notename = toupper (notename);
+            }
+          fprintf (fp, "%c", notename);
 
-	  /* Print the correct number of "'" or "," marks. */
+          /* Print the correct number of "'" or "," marks. */
 
-	  if (octave > 0)
-	    {
-	      for (i = 0; i < octave; i++)
-		fprintf (fp, "'");
-	    }
-	  else
-	    {
-	      for (i = 0; i > octave; i--)
-		fprintf (fp, ",");
-	    }
+          if (octave > 0)
+            {
+              for (i = 0; i < octave; i++)
+                fprintf (fp, "'");
+            }
+          else
+            {
+              for (i = 0; i > octave; i--)
+                fprintf (fp, ",");
+            }
 
-	  printlength (fp, &length);
-	}
+          printlength (fp, &length);
+        }
 
       if (ischord)
-	fprintf (fp, "]");
+        fprintf (fp, "]");
 
       if (chordptr->slur_end_p)
-	fprintf (fp, ")");
+        fprintf (fp, ")");
       if (chordptr->is_tied)
-	fprintf (fp, "-");
+        fprintf (fp, "-");
     }
-  else				/* it's a rest */
+  else                          /* it's a rest */
     {
       fprintf (fp, "z");
       printlength (fp, &length);
@@ -311,7 +307,7 @@ printchord (FILE * fp, chord * chordptr, gint octaveshift, gint defaultlength)
 void
 exportabc (gchar * thefilename, DenemoGUI * gui, gint start, gint end)
 {
-  DenemoScore * si = gui->si;
+  DenemoScore *si = gui->si;
   gchar *clefname;
   gchar *basekeyname;
   FILE *fp;
@@ -365,18 +361,15 @@ exportabc (gchar * thefilename, DenemoGUI * gui, gint start, gint end)
    *   - K: (key signature)
    */
 
-  determinebasekey (firststaffstruct->keysig.isminor ?
-		    firststaffstruct->keysig.number + 3 :
-		    firststaffstruct->keysig.number, &basekeyname);
+  determinebasekey (firststaffstruct->keysig.isminor ? firststaffstruct->keysig.number + 3 : firststaffstruct->keysig.number, &basekeyname);
   curtime.a = firststaffstruct->timesig.time1;
   curtime.b = firststaffstruct->timesig.time2;
   defaultlength = determinedefaultlength (&curtime);
 
   fprintf (fp, "X:1\n");
-  fprintf (fp, "T:%s\n","No title");
+  fprintf (fp, "T:%s\n", "No title");
   fprintf (fp, "Q:1/4=%d\n", si->tempo);
-  fprintf (fp, "M:%d/%d\n", firststaffstruct->timesig.time1,
-	   firststaffstruct->timesig.time2);
+  fprintf (fp, "M:%d/%d\n", firststaffstruct->timesig.time1, firststaffstruct->timesig.time2);
   fprintf (fp, "L:1/%d\n", defaultlength);
 
   fraction = 1.0 / (gdouble) g_list_length (si->thescore);
@@ -391,39 +384,32 @@ exportabc (gchar * thefilename, DenemoGUI * gui, gint start, gint end)
    *   and () denotes two voices on the same staff.
    */
   fprintf (fp, "%%%%staves [");
-  for (curstaff = si->thescore, curvoicenum = 1;
-       curstaff != NULL; curstaff = curstaff->next, curvoicenum++)
+  for (curstaff = si->thescore, curvoicenum = 1; curstaff != NULL; curstaff = curstaff->next, curvoicenum++)
     {
       curstaffstruct = (DenemoStaff *) curstaff->data;
 
-      nextisnonprimary =
-	(curstaff->next != NULL &&
-	 ((DenemoStaff *) curstaff->next->data)->voicecontrol&DENEMO_SECONDARY);
-      curisnonprimary = (curstaffstruct->voicecontrol&DENEMO_SECONDARY);
+      nextisnonprimary = (curstaff->next != NULL && ((DenemoStaff *) curstaff->next->data)->voicecontrol & DENEMO_SECONDARY);
+      curisnonprimary = (curstaffstruct->voicecontrol & DENEMO_SECONDARY);
 
       if (curvoicenum != 1)
-	fprintf (fp, " ");
+        fprintf (fp, " ");
       if (!curisnonprimary && nextisnonprimary)
-	fprintf (fp, "(");
+        fprintf (fp, "(");
       fprintf (fp, "%d", curvoicenum);
       if (curisnonprimary && !nextisnonprimary)
-	fprintf (fp, ")");
+        fprintf (fp, ")");
     }
   fprintf (fp, "]\n");
 
-  fprintf (fp, "K:%s%s\n", basekeyname,
-	   firststaffstruct->keysig.isminor ? "m" : "");
+  fprintf (fp, "K:%s%s\n", basekeyname, firststaffstruct->keysig.isminor ? "m" : "");
 
   /* Now we output each voice in turn. */
 
-  for (curstaff = si->thescore, curvoicenum = 1;
-       curstaff != NULL; curstaff = curstaff->next, curvoicenum++)
+  for (curstaff = si->thescore, curvoicenum = 1; curstaff != NULL; curstaff = curstaff->next, curvoicenum++)
     {
       curstaffstruct = (DenemoStaff *) curstaff->data;
       determineclef (curstaffstruct->clef.type, &clefname, &octaveshift);
-      determinebasekey (curstaffstruct->keysig.isminor ?
-			curstaffstruct->keysig.number + 3 :
-			curstaffstruct->keysig.number, &basekeyname);
+      determinebasekey (curstaffstruct->keysig.isminor ? curstaffstruct->keysig.number + 3 : curstaffstruct->keysig.number, &basekeyname);
       curtime.a = curstaffstruct->timesig.time1;
       curtime.b = curstaffstruct->timesig.time2;
       defaultlength = determinedefaultlength (&curtime);
@@ -431,166 +417,137 @@ exportabc (gchar * thefilename, DenemoGUI * gui, gint start, gint end)
       /* First, the V: header. FIXME: Output name="..." too. */
 
       fprintf (fp, "%%\n%%\nV:%d clef=%s\n", curvoicenum, clefname);
-      fprintf (fp, "I:octave=%d\n", -octaveshift);	/* FIXME: nonstandard */
-      fprintf (fp, "M:%d/%d\n", curstaffstruct->timesig.time1,
-	       curstaffstruct->timesig.time2);
+      fprintf (fp, "I:octave=%d\n", -octaveshift);      /* FIXME: nonstandard */
+      fprintf (fp, "M:%d/%d\n", curstaffstruct->timesig.time1, curstaffstruct->timesig.time2);
       fprintf (fp, "L:1/%d\n", defaultlength);
-      fprintf (fp, "K:%s%s\n", basekeyname,
-	       curstaffstruct->keysig.isminor ? "m" : "");
+      fprintf (fp, "K:%s%s\n", basekeyname, curstaffstruct->keysig.isminor ? "m" : "");
 
       /* Then the actual notes, measure for measure (sorry, excuse the bad
        * Shakespeare pun). */
 
-      for (curmeasure = curstaffstruct->measures,
-	   internalmeasurenum = MAX (start, 1),
-	   externalmeasurenum = 1;
-	   curmeasure != NULL && (end == 0 || internalmeasurenum <= end);
-	   curmeasure = curmeasure->next,
-	   externalmeasurenum++, internalmeasurenum++)
-	{
-	  /* Print the measure number every 5 measures. */
+      for (curmeasure = curstaffstruct->measures, internalmeasurenum = MAX (start, 1), externalmeasurenum = 1; curmeasure != NULL && (end == 0 || internalmeasurenum <= end); curmeasure = curmeasure->next, externalmeasurenum++, internalmeasurenum++)
+        {
+          /* Print the measure number every 5 measures. */
 
-	  if (externalmeasurenum % 5 == 0)
-	    fprintf (fp, "%%%d\n", externalmeasurenum);
+          if (externalmeasurenum % 5 == 0)
+            fprintf (fp, "%%%d\n", externalmeasurenum);
 
-	  emptymeasure = TRUE;
+          emptymeasure = TRUE;
 
-	  /* Print out everything in this measure. */
+          /* Print out everything in this measure. */
 
-	  for (curobjnode = (objnode *) curmeasure->data; curobjnode;
-	       curobjnode = curobjnode->next)
-	    {
-	      curobj = (DenemoObject *) curobjnode->data;
+          for (curobjnode = (objnode *) curmeasure->data; curobjnode; curobjnode = curobjnode->next)
+            {
+              curobj = (DenemoObject *) curobjnode->data;
 
-	      switch (curobj->type)
-		{
-		case CHORD:
-		  emptymeasure = FALSE;
-		  printchord (fp, (chord *) curobj->object, octaveshift,
-			      defaultlength);
-		  if (curobj->isend_beamgroup)
-		    fprintf (fp, " ");
-		  break;
+              switch (curobj->type)
+                {
+                case CHORD:
+                  emptymeasure = FALSE;
+                  printchord (fp, (chord *) curobj->object, octaveshift, defaultlength);
+                  if (curobj->isend_beamgroup)
+                    fprintf (fp, " ");
+                  break;
 
-		case CLEF:
-		  type = ((clef *) curobj->object)->type;
-		  determineclef (type, &clefname, &octaveshift);
-		  fprintf (fp, "[K:%s][I:octave=%d]", clefname, -octaveshift);
-		  break;
+                case CLEF:
+                  type = ((clef *) curobj->object)->type;
+                  determineclef (type, &clefname, &octaveshift);
+                  fprintf (fp, "[K:%s][I:octave=%d]", clefname, -octaveshift);
+                  break;
 
-		case KEYSIG:
-		  determinebasekey (((keysig *) curobj->object)->isminor ?
-				    ((keysig *) curobj->object)->number + 3 :
-				    ((keysig *) curobj->object)->number,
-				    &basekeyname);
-		  fprintf (fp, "[K:%s%s]", basekeyname,
-			   ((keysig *) curobj->object)->isminor ? "m" : "");
-		  break;
+                case KEYSIG:
+                  determinebasekey (((keysig *) curobj->object)->isminor ? ((keysig *) curobj->object)->number + 3 : ((keysig *) curobj->object)->number, &basekeyname);
+                  fprintf (fp, "[K:%s%s]", basekeyname, ((keysig *) curobj->object)->isminor ? "m" : "");
+                  break;
 
-		case TIMESIG:
-		  curtime.a = ((timesig *) curobj->object)->time1;
-		  curtime.b = ((timesig *) curobj->object)->time2;
-		  defaultlength = determinedefaultlength (&curtime);
-		  fprintf (fp, "[M:%d/%d][L:1/%d]", curtime.a, curtime.b,
-			   defaultlength);
-		  break;
+                case TIMESIG:
+                  curtime.a = ((timesig *) curobj->object)->time1;
+                  curtime.b = ((timesig *) curobj->object)->time2;
+                  defaultlength = determinedefaultlength (&curtime);
+                  fprintf (fp, "[M:%d/%d][L:1/%d]", curtime.a, curtime.b, defaultlength);
+                  break;
 
-		case TUPOPEN:
-		  /* Count the number of chords in the tuplet, and determine
-		   * whether they are all of the same length.
-		   *
-		   * Note: This could eventually cross measures, maybe, and
-		   *       the current algorithm doesn't take that into
-		   *       account. */
+                case TUPOPEN:
+                  /* Count the number of chords in the tuplet, and determine
+                   * whether they are all of the same length.
+                   *
+                   * Note: This could eventually cross measures, maybe, and
+                   *       the current algorithm doesn't take that into
+                   *       account. */
 
-		  notesintuple = 0;
-		  ishomogenoustuple = TRUE;
-		  prevduration = G_MAXINT;
-		  prevnumdots = G_MAXINT;
-		  for (tupleobjnode = curobjnode->next;
-		       tupleobjnode != NULL;
-		       tupleobjnode = tupleobjnode->next)
-		    {
-		      tupleobj = (DenemoObject *) tupleobjnode->data;
-		      if (tupleobj->type == TUPCLOSE)
-			break;
-		      if (tupleobj->type == CHORD)
-			{
-			  notesintuple++;
-			  if (ishomogenoustuple)
-			    {
-			      if ((prevduration != G_MAXINT &&
-				   prevduration !=
-				   ((chord *) tupleobj->object)->baseduration)
-				  ||
-				  (prevnumdots != G_MAXINT &&
-				   prevnumdots !=
-				   ((chord *) tupleobj->object)->numdots))
-				{
-				  ishomogenoustuple = FALSE;
-				}
-			      else
-				{
-				  prevduration =
-				    ((chord *) tupleobj->object)->
-				    baseduration;
-				  prevnumdots =
-				    ((chord *) tupleobj->object)->numdots;
-				}
-			    }	/* End if ishomogenoustuple */
-			}	/* End if tuple object is a chord */
-		    }		/* End for each object in tuple */
+                  notesintuple = 0;
+                  ishomogenoustuple = TRUE;
+                  prevduration = G_MAXINT;
+                  prevnumdots = G_MAXINT;
+                  for (tupleobjnode = curobjnode->next; tupleobjnode != NULL; tupleobjnode = tupleobjnode->next)
+                    {
+                      tupleobj = (DenemoObject *) tupleobjnode->data;
+                      if (tupleobj->type == TUPCLOSE)
+                        break;
+                      if (tupleobj->type == CHORD)
+                        {
+                          notesintuple++;
+                          if (ishomogenoustuple)
+                            {
+                              if ((prevduration != G_MAXINT && prevduration != ((chord *) tupleobj->object)->baseduration) || (prevnumdots != G_MAXINT && prevnumdots != ((chord *) tupleobj->object)->numdots))
+                                {
+                                  ishomogenoustuple = FALSE;
+                                }
+                              else
+                                {
+                                  prevduration = ((chord *) tupleobj->object)->baseduration;
+                                  prevnumdots = ((chord *) tupleobj->object)->numdots;
+                                }
+                            }   /* End if ishomogenoustuple */
+                        }       /* End if tuple object is a chord */
+                    }           /* End for each object in tuple */
 
-		  if (notesintuple == 3 && ishomogenoustuple && ((tupopen *) curobj->object)->numerator == 2 && ((tupopen *) curobj->object)->denominator == 3)	/* a simple triplet */
-		    fprintf (fp, "(3");
-		  else
-		    fprintf (fp, "(%d:%d:%d",
-			     ((tupopen *) curobj->object)->denominator,
-			     ((tupopen *) curobj->object)->numerator,
-			     notesintuple);
-		  break;
+                  if (notesintuple == 3 && ishomogenoustuple && ((tupopen *) curobj->object)->numerator == 2 && ((tupopen *) curobj->object)->denominator == 3) /* a simple triplet */
+                    fprintf (fp, "(3");
+                  else
+                    fprintf (fp, "(%d:%d:%d", ((tupopen *) curobj->object)->denominator, ((tupopen *) curobj->object)->numerator, notesintuple);
+                  break;
 
-		case GRACE_START:
-		  fprintf (fp, "{");
-		  break;
+                case GRACE_START:
+                  fprintf (fp, "{");
+                  break;
 
-		case GRACE_END:
-		  fprintf (fp, "}");
-		  break;
+                case GRACE_END:
+                  fprintf (fp, "}");
+                  break;
 
-		case TUPCLOSE:
-		case STEMDIRECTIVE:
-		case DYNAMIC:
-		  /* Do nothing at present.
+                case TUPCLOSE:
+                case STEMDIRECTIVE:
+                case DYNAMIC:
+                  /* Do nothing at present.
 
-		   * FIXME: I should probably do the !pp! thing for dynamics
-		   *        at some point, when it becomes mainstream in ABC
-		   *        parsers.
-		   */
-		  break;
+                   * FIXME: I should probably do the !pp! thing for dynamics
+                   *        at some point, when it becomes mainstream in ABC
+                   *        parsers.
+                   */
+                  break;
 
-		default:
-		  /* Danger, Will Robinson! */
-		  g_warning ("Warning: unknown DenemoObject type \"%d\" "
-			     "found, ignoring", curobj->type);
-		  break;
-		}		/* End switch on object type */
-	    }			/* End for each note */
+                default:
+                  /* Danger, Will Robinson! */
+                  g_warning ("Warning: unknown DenemoObject type \"%d\" " "found, ignoring", curobj->type);
+                  break;
+                }               /* End switch on object type */
+            }                   /* End for each note */
 
-	  /* Print out (e.g.) "x3" for an empty measure. */
+          /* Print out (e.g.) "x3" for an empty measure. */
 
-	  if (emptymeasure)
-	    fprintf (fp, "x%d ", curtime.a * (defaultlength / curtime.b));
+          if (emptymeasure)
+            fprintf (fp, "x%d ", curtime.a * (defaultlength / curtime.b));
 
-	  /* And finally, of course, the barline. */
+          /* And finally, of course, the barline. */
 
-	  if (curmeasure->next)
-	    fprintf (fp, "|\n");
-	  else
-	    fprintf (fp, "|]\n");
-	}			/* End for each measure */
+          if (curmeasure->next)
+            fprintf (fp, "|\n");
+          else
+            fprintf (fp, "|]\n");
+        }                       /* End for each measure */
 
-    }				/* End for each staff (voice) */
+    }                           /* End for each staff (voice) */
 
   /* Clean up and go home. */
 

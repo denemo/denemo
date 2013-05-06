@@ -21,12 +21,12 @@
 /**
  * A wrapper around Pm_Initialize() that may be called more than once.
  */
-PmError Pm_InitializeWrapper();
+PmError Pm_InitializeWrapper ();
 
 /**
  * A wrapper around Pm_Terminate() that may be called more than once.
  */
-PmError Pm_TerminateWrapper();
+PmError Pm_TerminateWrapper ();
 
 
 /**
@@ -34,19 +34,17 @@ PmError Pm_TerminateWrapper();
  *
  * @param output  if TRUE returns output ports, otherwise input ports.
  */
-GList *get_portmidi_devices(gboolean output);
+GList *get_portmidi_devices (gboolean output);
 
 /**
  * Frees a list returned by get_portmidi_devices()
  */
-void free_portmidi_devices(GList *list);
+void free_portmidi_devices (GList * list);
 
 /**
  * Returns the device id for the given device name.
  */
-PmDeviceID get_portmidi_device_id(char const *name, gboolean output);
+PmDeviceID get_portmidi_device_id (char const *name, gboolean output);
 
 
 #endif // PORTMIDIUTIL_H
-
-

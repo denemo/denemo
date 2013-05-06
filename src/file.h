@@ -8,70 +8,49 @@
 #ifndef FILE_H
 #define FILE_H
 
-gboolean confirmbox (DenemoGUI *gui);
+gboolean confirmbox (DenemoGUI * gui);
 
-void 
-file_savepartswrapper(GtkAction *action, DenemoScriptParam *param);
+void file_savepartswrapper (GtkAction * action, DenemoScriptParam * param);
 
-void
-file_open_with_check (GtkAction *action, DenemoScriptParam * param);
-void
-file_import_lilypond_with_check (GtkAction *action, DenemoScriptParam * param);
-void
-file_import_midi_with_check (GtkAction *action, DenemoScriptParam * param);
-void
-file_import_musicxml_with_check (GtkAction *action, DenemoScriptParam * param);
+void file_open_with_check (GtkAction * action, DenemoScriptParam * param);
+void file_import_lilypond_with_check (GtkAction * action, DenemoScriptParam * param);
+void file_import_midi_with_check (GtkAction * action, DenemoScriptParam * param);
+void file_import_musicxml_with_check (GtkAction * action, DenemoScriptParam * param);
 
-void
-file_add_staffs (GtkAction *action, DenemoScriptParam * param);
+void file_add_staffs (GtkAction * action, DenemoScriptParam * param);
 
-void
-file_add_movements (GtkAction *action, DenemoScriptParam * param);
+void file_add_movements (GtkAction * action, DenemoScriptParam * param);
 
-gint
-open_user_default_template(ImportType type);
+gint open_user_default_template (ImportType type);
 
-void
-system_template_open_with_check (GtkAction *action, DenemoScriptParam * param);
+void system_template_open_with_check (GtkAction * action, DenemoScriptParam * param);
 
-void
-system_example_open_with_check (GtkAction *action, DenemoScriptParam * param);
-void
-local_template_open_with_check (GtkAction *action, DenemoScriptParam * param);
+void system_example_open_with_check (GtkAction * action, DenemoScriptParam * param);
+void local_template_open_with_check (GtkAction * action, DenemoScriptParam * param);
 
-void
-file_savewrapper (GtkAction *action, DenemoScriptParam *param);
+void file_savewrapper (GtkAction * action, DenemoScriptParam * param);
 
-void
-file_saveaswrapper (GtkAction *action, DenemoScriptParam *param);
+void file_saveaswrapper (GtkAction * action, DenemoScriptParam * param);
 
-void
-file_newwrapper (GtkAction *action, DenemoScriptParam *param);
+void file_newwrapper (GtkAction * action, DenemoScriptParam * param);
 
-void
-new_score_cb(GtkAction * action, DenemoScriptParam *param);
+void new_score_cb (GtkAction * action, DenemoScriptParam * param);
 
-gint
-file_save (GtkWidget * widget, DenemoGUI *gui);
+gint file_save (GtkWidget * widget, DenemoGUI * gui);
 
-void
-file_saveas (DenemoGUI *gui,  DenemoSaveType as_template);
+void file_saveas (DenemoGUI * gui, DenemoSaveType as_template);
 
-void
-template_save (GtkAction * action, DenemoScriptParam *param);
-void
-file_copy_save (GtkAction * action, DenemoScriptParam *param); 
-void export_mudela_action (GtkAction *action, DenemoScriptParam *param);
-void export_pdf_action (GtkAction *action, DenemoScriptParam *param);
-void export_png_action (GtkAction *action, DenemoScriptParam *param);
-void export_midi_action (GtkAction *action, DenemoScriptParam *param);
-void paste_clipboard(GtkAction * action, DenemoScriptParam *param);
-void openrecent (GtkWidget * widget, gchar *filename);
+void template_save (GtkAction * action, DenemoScriptParam * param);
+void file_copy_save (GtkAction * action, DenemoScriptParam * param);
+void export_mudela_action (GtkAction * action, DenemoScriptParam * param);
+void export_pdf_action (GtkAction * action, DenemoScriptParam * param);
+void export_png_action (GtkAction * action, DenemoScriptParam * param);
+void export_midi_action (GtkAction * action, DenemoScriptParam * param);
+void paste_clipboard (GtkAction * action, DenemoScriptParam * param);
+void openrecent (GtkWidget * widget, gchar * filename);
 gint open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, ImportType type);
 
-gchar *
-file_dialog(gchar *message, gboolean type, gchar *location);
+gchar *file_dialog (gchar * message, gboolean type, gchar * location);
 
-gint
-lyinput (gchar *filename, DenemoGUI *gui);
-#endif /*FILE_H*/
+gint lyinput (gchar * filename, DenemoGUI * gui);
+#endif /*FILE_H */

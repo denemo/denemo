@@ -5,45 +5,33 @@
  * (c) 1999-2005 Matthew Hiller
  */
 #ifndef OBJOPS_H
-#define OBJOPS_H 
+#define OBJOPS_H
 
 #include <denemo/denemo.h>
 
-void
-freeobject (DenemoObject *mudobj);
+void freeobject (DenemoObject * mudobj);
 
-void
-initkeyaccs (gint *accs, gint number);
+void initkeyaccs (gint * accs, gint number);
 
 //void dnm_setinitialkeysig (DenemoStaff * curstaff, gint tokey, gint type);
-	
-DenemoObject *
-newmeasurebreakobject ();
 
-DenemoObject *
-newstaffbreakobject ();
+DenemoObject *newmeasurebreakobject ();
 
-DenemoObject *
-lily_directive_new (gchar* type);
+DenemoObject *newstaffbreakobject ();
 
-DenemoObject *
-directive_object_new(DenemoDirective *directive);
+DenemoObject *lily_directive_new (gchar * type);
 
-DenemoObject *
-dynamic_new (gchar *type);
+DenemoObject *directive_object_new (DenemoDirective * directive);
 
-DenemoDirective *
-clone_directive(DenemoDirective *directive);
+DenemoObject *dynamic_new (gchar * type);
 
-GList *
-clone_directives(GList *directives);
+DenemoDirective *clone_directive (DenemoDirective * directive);
 
-void
-free_directives(GList *directives);
+GList *clone_directives (GList * directives);
 
-void
-free_directive(DenemoDirective *directive);
+void free_directives (GList * directives);
 
-void
-free_directive_data(DenemoDirective *directive);
+void free_directive (DenemoDirective * directive);
+
+void free_directive_data (DenemoDirective * directive);
 #endif

@@ -21,6 +21,6 @@
 
 
 
-GList *parseInstruments(GList *instruments);
-InstrumentType lookuptype(gchar *string);
+GList *parseInstruments (GList * instruments);
+InstrumentType lookuptype (gchar * string);
 #endif

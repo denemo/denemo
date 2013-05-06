@@ -129,9 +129,9 @@ string_to_vol (char *dynamic, int default_vol)
   for (i = 0; i < DYN_MAX; i++)
     {
       if (!strcmp (dynamic, dyn_strings[i]))
-	{
-	  return dyn_vol[i];
-	}
+        {
+          return dyn_vol[i];
+        }
     }
   return default_vol;
 }
@@ -223,8 +223,8 @@ twolog (int x)
 static smf_event_t *
 midi_change_event (int type, int chan, int val)
 {
-  smf_event_t *event = smf_event_new();
-  gchar *buffer = malloc(2);
+  smf_event_t *event = smf_event_new ();
+  gchar *buffer = malloc (2);
   event->midi_buffer = buffer;
   event->midi_buffer_length = 2;
   *buffer++ = type | chan;
@@ -240,20 +240,21 @@ midi_change_event (int type, int chan, int val)
 static smf_event_t *
 midi_timesig (int upper, int lower)
 {
-  smf_event_t *event = smf_event_new();
-  gchar *buffer = malloc(7);
+  smf_event_t *event = smf_event_new ();
+  gchar *buffer = malloc (7);
   event->midi_buffer = buffer;
   event->midi_buffer_length = 7;
-  div_t n;	
+  div_t n;
   int click = 24;
 
-  if (lower !=0){
-    n = div(4, lower);
-    click = 24 * ((float) n.quot + (float) n.rem);
-  }
+  if (lower != 0)
+    {
+      n = div (4, lower);
+      click = 24 * ((float) n.quot + (float) n.rem);
+    }
 
-  *buffer++ =0xff, *buffer++ =0x58, *buffer++ =4;
-  *buffer++ =upper, *buffer++ =twolog (lower), *buffer++ =click, *buffer++ =8;
+  *buffer++ = 0xff, *buffer++ = 0x58, *buffer++ = 4;
+  *buffer++ = upper, *buffer++ = twolog (lower), *buffer++ = click, *buffer++ = 8;
   return event;
 }
 
@@ -264,15 +265,15 @@ midi_timesig (int upper, int lower)
 static smf_event_t *
 midi_keysig (gint key, gint isminor)
 {
-  smf_event_t *event = smf_event_new();
-  gchar *buffer = malloc(5);
+  smf_event_t *event = smf_event_new ();
+  gchar *buffer = malloc (5);
   event->midi_buffer = buffer;
   event->midi_buffer_length = 5;
   *buffer++ = 0xff;
   *buffer++ = 0x59;
-  *buffer++ =2;
+  *buffer++ = 2;
   *buffer++ = key;
-  *buffer++ =isminor;
+  *buffer++ = isminor;
   return event;
 }
 
@@ -284,8 +285,8 @@ static smf_event_t *
 midi_tempo (long tempo)
 {
   long midi_tempo;
-  smf_event_t *event = smf_event_new();
-  gchar *buffer = malloc(6);
+  smf_event_t *event = smf_event_new ();
+  gchar *buffer = malloc (6);
   event->midi_buffer = buffer;
   event->midi_buffer_length = 6;
   if (tempo == 0)
@@ -294,11 +295,11 @@ midi_tempo (long tempo)
     }
   *buffer++ = 0xff;
   *buffer++ = 0x51;
-  *buffer++ =  3;
+  *buffer++ = 3;
   midi_tempo = 60000000 / tempo;
   *buffer++ = (midi_tempo >> 16) & 255;
   *buffer++ = (midi_tempo >> 8) & 255, (midi_tempo >> 0) & 255;
-return event;
+  return event;
 }
 
 /**
@@ -368,8 +369,7 @@ fmt_ticks (long t)
  * 
  */
 static int
-print_slurs (FILE * fd, int *tab, int status,
-	     int t_read, int t_written, char *txt)
+print_slurs (FILE * fd, int *tab, int status, int t_read, int t_written, char *txt)
 {
   int i;
 
@@ -380,20 +380,10 @@ print_slurs (FILE * fd, int *tab, int status,
   for (i = 0; i < 128; i++)
     {
       if (tab[i])
-	{
-	  fprintf (fd, "%2d: %3x  %s%s%s%s%s%s%s%s%s%s\n",
-		   i, tab[i],
-		   tab[i] & FLG_CONNECT_B ? "connect-backward " : "",
-		   tab[i] & FLG_CONNECT_F ? "connect-forward " : "",
-		   tab[i] & FLG_SLUR_BEGIN ? "begin " : "",
-		   tab[i] & FLG_SLUR_END ? "end " : "",
-		   tab[i] & FLG_STACCATO ? "staccato " : "",
-		   tab[i] & FLG_STACCATISSIMO ? "staccatissimo " : "",
-		   tab[i] & FLG_NOTE_ON ? "note_is_on " : "",
-		   tab[i] & FLG_NOTE_OFF ? "note_is_off " : "",
-		   tab[i] & FLG_TIED_B ? "tied_backward " : "",
-		   tab[i] & FLG_TIED_F ? "tied_forward " : "");
-	}
+        {
+          fprintf (fd, "%2d: %3x  %s%s%s%s%s%s%s%s%s%s\n",
+                   i, tab[i], tab[i] & FLG_CONNECT_B ? "connect-backward " : "", tab[i] & FLG_CONNECT_F ? "connect-forward " : "", tab[i] & FLG_SLUR_BEGIN ? "begin " : "", tab[i] & FLG_SLUR_END ? "end " : "", tab[i] & FLG_STACCATO ? "staccato " : "", tab[i] & FLG_STACCATISSIMO ? "staccatissimo " : "", tab[i] & FLG_NOTE_ON ? "note_is_on " : "", tab[i] & FLG_NOTE_OFF ? "note_is_off " : "", tab[i] & FLG_TIED_B ? "tied_backward " : "", tab[i] & FLG_TIED_F ? "tied_forward " : "");
+        }
     }
 
   /* not used */
@@ -439,21 +429,21 @@ slur_shift (int *table)
   for (i = 0; i < 128; i++)
     {
       if (table[i] & FLG_CONNECT_F)
-	{
-	  table[i] |= FLG_CONNECT_B;
-	}
+        {
+          table[i] |= FLG_CONNECT_B;
+        }
       else
-	{
-	  table[i] &= ~FLG_CONNECT_B;
-	}
+        {
+          table[i] &= ~FLG_CONNECT_B;
+        }
       if (table[i] & FLG_TIED_F)
-	{
-	  table[i] |= FLG_TIED_B;
-	}
+        {
+          table[i] |= FLG_TIED_B;
+        }
       else
-	{
-	  table[i] &= ~FLG_TIED_B;
-	}
+        {
+          table[i] &= ~FLG_TIED_B;
+        }
       table[i] &= (FLG_TIED_B | FLG_CONNECT_B);
     }
 }
@@ -474,72 +464,72 @@ slur_update (int *state, int begin, int end)
     {
     case STATE_FIRST:
       switch (begin + end)
-	{
-	case FLG_SLUR_BEGIN:
-	  fprintf (stderr, "warning: strange slur: extra begin\n");
-	  *state = STATE_THROUGH;
-	  break;
-	case 0:
-	case FLG_SLUR_BEGIN + FLG_SLUR_END:
-	  *state = STATE_THROUGH;
-	  break;
-	case FLG_SLUR_END:
-	  *state = STATE_LAST;
-	  break;
-	}
+        {
+        case FLG_SLUR_BEGIN:
+          fprintf (stderr, "warning: strange slur: extra begin\n");
+          *state = STATE_THROUGH;
+          break;
+        case 0:
+        case FLG_SLUR_BEGIN + FLG_SLUR_END:
+          *state = STATE_THROUGH;
+          break;
+        case FLG_SLUR_END:
+          *state = STATE_LAST;
+          break;
+        }
       break;
     case STATE_LAST:
       switch (begin + end)
-	{
-	case FLG_SLUR_BEGIN:
-	  *state = STATE_FIRST;
-	  break;
-	case FLG_SLUR_BEGIN + FLG_SLUR_END:
-	  *state = STATE_THROUGH;
-	  fprintf (stderr, "strange slur: extra end\n");
-	  break;
-	case 0:
-	  *state = STATE_NONE;
-	  break;
-	case FLG_SLUR_END:
-	  fprintf (stderr, "strange slur: extra end\n");
-	  *state = STATE_LAST;
-	  break;
-	}
+        {
+        case FLG_SLUR_BEGIN:
+          *state = STATE_FIRST;
+          break;
+        case FLG_SLUR_BEGIN + FLG_SLUR_END:
+          *state = STATE_THROUGH;
+          fprintf (stderr, "strange slur: extra end\n");
+          break;
+        case 0:
+          *state = STATE_NONE;
+          break;
+        case FLG_SLUR_END:
+          fprintf (stderr, "strange slur: extra end\n");
+          *state = STATE_LAST;
+          break;
+        }
       break;
     case STATE_NONE:
       switch (begin + end)
-	{
-	case FLG_SLUR_BEGIN:
-	  *state = STATE_FIRST;
-	  break;
-	case 0:
-	  *state = STATE_NONE;
-	  break;
-	case FLG_SLUR_BEGIN + FLG_SLUR_END:
-	  fprintf (stderr, "strange slur: missing begin\n");
-	  *state = STATE_THROUGH;
-	  break;
-	case FLG_SLUR_END:
-	  *state = STATE_LAST;
-	  break;
-	}
+        {
+        case FLG_SLUR_BEGIN:
+          *state = STATE_FIRST;
+          break;
+        case 0:
+          *state = STATE_NONE;
+          break;
+        case FLG_SLUR_BEGIN + FLG_SLUR_END:
+          fprintf (stderr, "strange slur: missing begin\n");
+          *state = STATE_THROUGH;
+          break;
+        case FLG_SLUR_END:
+          *state = STATE_LAST;
+          break;
+        }
       break;
     case STATE_THROUGH:
       switch (begin + end)
-	{
-	case FLG_SLUR_BEGIN:
-	  fprintf (stderr, "strange slur: extra begin\n");
-	  *state = STATE_THROUGH;
-	  break;
-	case 0:
-	case FLG_SLUR_BEGIN + FLG_SLUR_END:
-	  *state = STATE_THROUGH;
-	  break;
-	case FLG_SLUR_END:
-	  *state = STATE_LAST;
-	  break;
-	}
+        {
+        case FLG_SLUR_BEGIN:
+          fprintf (stderr, "strange slur: extra begin\n");
+          *state = STATE_THROUGH;
+          break;
+        case 0:
+        case FLG_SLUR_BEGIN + FLG_SLUR_END:
+          *state = STATE_THROUGH;
+          break;
+        case FLG_SLUR_END:
+          *state = STATE_LAST;
+          break;
+        }
       break;
     }
 }
@@ -549,8 +539,7 @@ slur_update (int *state, int begin, int end)
  */
 
 static void
-slur_note (int *table, int state, int notenum,
-	   int staccato, int staccatissimo, int tied)
+slur_note (int *table, int state, int notenum, int staccato, int staccatissimo, int tied)
 {
   int running;
 
@@ -568,44 +557,44 @@ slur_note (int *table, int state, int notenum,
     {
     case STATE_LAST:
       if (!running)
-	{
-	  table[notenum] |= FLG_NOTE_ON + FLG_NOTE_OFF;
-	}
+        {
+          table[notenum] |= FLG_NOTE_ON + FLG_NOTE_OFF;
+        }
       else
-	{
-	  table[notenum] |= FLG_NOTE_OFF;
-	}
+        {
+          table[notenum] |= FLG_NOTE_OFF;
+        }
       break;
     case STATE_NONE:
       /* normal note, no slur */
       if (running)
-	{
-	  fprintf (stderr, "warning: note should not be on (0)\n");
-	}
+        {
+          fprintf (stderr, "warning: note should not be on (0)\n");
+        }
       table[notenum] |= FLG_NOTE_ON + FLG_NOTE_OFF;
       break;
     case STATE_THROUGH:
       /* note may be started before */
       if (!running)
-	{
-	  table[notenum] |= FLG_NOTE_ON + FLG_CONNECT_F;
-	}
+        {
+          table[notenum] |= FLG_NOTE_ON + FLG_CONNECT_F;
+        }
       else
-	{
-	  table[notenum] |= FLG_CONNECT_F;
-	}
+        {
+          table[notenum] |= FLG_CONNECT_F;
+        }
       break;
     case STATE_FIRST:
       /* first note of slur */
       if (running)
-	{
-	  fprintf (stderr, "warning: note should not be on (1)\n");
-	  table[notenum] |= FLG_CONNECT_F;
-	}
+        {
+          fprintf (stderr, "warning: note should not be on (1)\n");
+          table[notenum] |= FLG_CONNECT_F;
+        }
       else
-	{
-	  table[notenum] |= FLG_NOTE_ON + FLG_CONNECT_F;
-	}
+        {
+          table[notenum] |= FLG_NOTE_ON + FLG_CONNECT_F;
+        }
       break;
     default:
       fprintf (stderr, "this shouldn't happen!\n");
@@ -635,9 +624,7 @@ slur_on_p (int *table, int notenum)
 static int
 slur_kill_p (int *table, int notenum)
 {
-  return
-    ((table[notenum] & FLG_CONNECT_B) && !(table[notenum] & FLG_NOTE_ON))
-    || ((table[notenum] & FLG_TIED_B) && !(table[notenum] & FLG_NOTE_ON));
+  return ((table[notenum] & FLG_CONNECT_B) && !(table[notenum] & FLG_NOTE_ON)) || ((table[notenum] & FLG_TIED_B) && !(table[notenum] & FLG_NOTE_ON));
 }
 
 static int
@@ -665,27 +652,26 @@ slur_staccatissimo_p (int *table, int notenum)
  */
 
 static int
-compute_beat (long ticks, long ticks_in_a_beat,
-	      long ticks_in_a_measure, int length, int factor)
+compute_beat (long ticks, long ticks_in_a_beat, long ticks_in_a_measure, int length, int factor)
 {
   /* give extra beat only to short notes */
   if (length < ticks_in_a_measure / 2)
     {
       if (ticks == 0)
-	{
-	  /* put more emphasis on the first beat */
-	  return factor;
-	}
+        {
+          /* put more emphasis on the first beat */
+          return factor;
+        }
       else if (ticks % ticks_in_a_beat)
-	{
-	  /* put less emphasis on off beat notes */
-	  return -factor;
-	}
+        {
+          /* put less emphasis on off beat notes */
+          return -factor;
+        }
       else
-	{
-	  /* leave the rest alone */
-	  return 0;
-	}
+        {
+          /* leave the rest alone */
+          return 0;
+        }
     }
   else
     {
@@ -717,161 +703,194 @@ compute_beat (long ticks, long ticks_in_a_beat,
 /* puts an event into track if buffer contains valid midi message.
    and frees buffer. Returns the event, or NULL if invalid buffer.
  */
-static smf_event_t* put_event(gchar *buffer, gint numbytes, GList **midi_events, smf_track_t *track) {
+static smf_event_t *
+put_event (gchar * buffer, gint numbytes, GList ** midi_events, smf_track_t * track)
+{
   smf_event_t *event = NULL;
-  if(numbytes && is_status_byte(buffer[0]))
-    event = smf_event_new_from_pointer(buffer, numbytes);
-  if(event && smf_event_is_valid(event)) {
-    smf_track_add_event_delta_pulses(track, event, 0);
-    *midi_events = g_list_append(*midi_events, event);
-    //g_print("Added %x\n", event->midi_buffer[0]);
-  }
-  g_free(buffer);
+  if (numbytes && is_status_byte (buffer[0]))
+    event = smf_event_new_from_pointer (buffer, numbytes);
+  if (event && smf_event_is_valid (event))
+    {
+      smf_track_add_event_delta_pulses (track, event, 0);
+      *midi_events = g_list_append (*midi_events, event);
+      //g_print("Added %x\n", event->midi_buffer[0]);
+    }
+  g_free (buffer);
   return event;
 }
 
-static gint directive_get_midi_override(DenemoDirective *directive) {	
-  return (directive->override&DENEMO_OVERRIDE_HIDDEN) | (directive->override&DENEMO_MIDI_MASK);
+static gint
+directive_get_midi_override (DenemoDirective * directive)
+{
+  return (directive->override & DENEMO_OVERRIDE_HIDDEN) | (directive->override & DENEMO_MIDI_MASK);
 }
-static gint directive_get_midi_interpretation(DenemoDirective *directive) {	
-  return directive->override&DENEMO_MIDI_INTERPRETATION_MASK;
+
+static gint
+directive_get_midi_interpretation (DenemoDirective * directive)
+{
+  return directive->override & DENEMO_MIDI_INTERPRETATION_MASK;
 }
-static gint directive_get_midi_action(DenemoDirective *directive) {	
-  return directive->override&DENEMO_MIDI_ACTION_MASK;
+
+static gint
+directive_get_midi_action (DenemoDirective * directive)
+{
+  return directive->override & DENEMO_MIDI_ACTION_MASK;
 }
-gchar *substitute_midi_values(gchar* str, gint channel, gint volume) {
-  gchar *bytes = g_strdup(str);
+
+gchar *
+substitute_midi_values (gchar * str, gint channel, gint volume)
+{
+  gchar *bytes = g_strdup (str);
   gchar *c;
-  for(c=bytes;*c;c++) {
-    if(*c=='$')
-      *c = '0'+channel;
-    if(*c=='%' && *(c+1)=='%' && *(c+2)=='%')
-      sprintf(c, "%3d", volume);//*c = itoa(volume);
-  }
+  for (c = bytes; *c; c++)
+    {
+      if (*c == '$')
+        *c = '0' + channel;
+      if (*c == '%' && *(c + 1) == '%' && *(c + 2) == '%')
+        sprintf (c, "%3d", volume);     //*c = itoa(volume);
+    }
   //  g_print("We have transformed %s to %s\n", str, bytes);
   return bytes;
 }
-static gchar *directive_get_midi_buffer(DenemoDirective *directive, gint *pnumbytes, gint channel, gint volume) {		    
-  if(directive->midibytes) {
-    gchar *bytes;
-    bytes = substitute_midi_values(directive->midibytes->str, channel, volume);
-    //g_print("Got %s as midi bytes\n", bytes);
-    char *next;
-    char val;
-    gint i, numbytes;
-    errno = 0;
-    for(i=0, next=bytes;*next; next++){ 
-      val = strtol(next, &next, 0);
+
+static gchar *
+directive_get_midi_buffer (DenemoDirective * directive, gint * pnumbytes, gint channel, gint volume)
+{
+  if (directive->midibytes)
+    {
+      gchar *bytes;
+      bytes = substitute_midi_values (directive->midibytes->str, channel, volume);
+      //g_print("Got %s as midi bytes\n", bytes);
+      char *next;
+      char val;
+      gint i, numbytes;
+      errno = 0;
+      for (i = 0, next = bytes; *next; next++)
+        {
+          val = strtol (next, &next, 0);
 #if 0
-      if(i==0 && val==0)
-	errno = EINVAL;
+          if (i == 0 && val == 0)
+            errno = EINVAL;
 #endif
-      if(errno) {
-	g_warning("Bytes %s bad format for MIDI\n", bytes);
-	return NULL;
-      }
-      i++;
-      if(*next==0)
-	break;
+          if (errno)
+            {
+              g_warning ("Bytes %s bad format for MIDI\n", bytes);
+              return NULL;
+            }
+          i++;
+          if (*next == 0)
+            break;
+        }
+      if (errno)
+        return NULL;
+      numbytes = i;
+      gchar *buffer = (gchar *) g_malloc0 (numbytes);
+      for (i = 0, next = bytes; i < numbytes; i++, next++)
+        {
+          buffer[i] = (char) strtol (next, &next, 0);
+          //g_print("byte %x\n", buffer[i]);
+        }
+      *pnumbytes = numbytes;
+      g_free (bytes);
+      return buffer;
     }
-    if(errno)
-      return NULL;
-    numbytes = i;
-    gchar *buffer = (gchar*) g_malloc0(numbytes);
-    for(i=0, next=bytes;i<numbytes;i++, next++){ 
-      buffer[i] = (char) strtol(next, &next, 0);
-      //g_print("byte %x\n", buffer[i]);
-    }
-    *pnumbytes = numbytes;
-    g_free(bytes);
-    return buffer;
-  }
   return NULL;
 }
 
-static gint directive_get_midi_val(DenemoDirective *directive) {
-  gint val = 0;		    
-  if(directive->midibytes) {
-    gchar *bytes;
-    bytes = directive->midibytes->str;
-    errno = 0;
-    val = strtol(bytes, NULL, 0);
-    if(errno) {
-      g_warning("String %s is bad format for MIDI value\n", bytes);
-      return 0;
+static gint
+directive_get_midi_val (DenemoDirective * directive)
+{
+  gint val = 0;
+  if (directive->midibytes)
+    {
+      gchar *bytes;
+      bytes = directive->midibytes->str;
+      errno = 0;
+      val = strtol (bytes, NULL, 0);
+      if (errno)
+        {
+          g_warning ("String %s is bad format for MIDI value\n", bytes);
+          return 0;
+        }
     }
-  }
   return val;
 }
 
 /* change the volume according to the values passed in */
-static void 
-change_volume(gint *volume, gint midi_val, gint  midi_interpretation,gint  midi_action)
+static void
+change_volume (gint * volume, gint midi_val, gint midi_interpretation, gint midi_action)
 {
   gdouble val;
   // g_print("midi_val %d cur_volume %d\n", midi_val, cur_volume);
   val = (gdouble) midi_val;
-  if(midi_interpretation & DENEMO_OVERRIDE_PERCENT)
-    val = *volume * (midi_val/100.0);
-  if(midi_action == DENEMO_OVERRIDE_ONCE)
-    g_warning("Scripting error, ONCE for standalone directive is meaningless");
-  if(midi_action == DENEMO_OVERRIDE_RAMP)
-    g_warning("Not implemented ramp yet");
-  if(midi_action == DENEMO_OVERRIDE_STEP) {
-    if(midi_interpretation & DENEMO_OVERRIDE_RELATIVE)
-      *volume += val;
-    else
-      *volume = val;
-  }  
-  if(*volume>127) *volume=127;
-  if(*volume<0) *volume=0;
+  if (midi_interpretation & DENEMO_OVERRIDE_PERCENT)
+    val = *volume * (midi_val / 100.0);
+  if (midi_action == DENEMO_OVERRIDE_ONCE)
+    g_warning ("Scripting error, ONCE for standalone directive is meaningless");
+  if (midi_action == DENEMO_OVERRIDE_RAMP)
+    g_warning ("Not implemented ramp yet");
+  if (midi_action == DENEMO_OVERRIDE_STEP)
+    {
+      if (midi_interpretation & DENEMO_OVERRIDE_RELATIVE)
+        *volume += val;
+      else
+        *volume = val;
+    }
+  if (*volume > 127)
+    *volume = 127;
+  if (*volume < 0)
+    *volume = 0;
 }
 
 
 /* change the channel according to the values passed in */
-static void 
-change_channel(gint *channel, gint midi_val, gint  midi_interpretation,gint  midi_action)
+static void
+change_channel (gint * channel, gint midi_val, gint midi_interpretation, gint midi_action)
 {
   gdouble val;
   // g_print("midi_val %d cur_channel %d\n", midi_val, cur_channel);
   val = (gdouble) midi_val;
-  if(midi_interpretation & DENEMO_OVERRIDE_PERCENT)
-    g_warning("Percent meaningless with channel change");
-  if(midi_action == DENEMO_OVERRIDE_ONCE)
-    g_warning("Scripting error, ONCE for standalone directive is meaningless");
-  if(midi_action == DENEMO_OVERRIDE_RAMP)
-    g_warning("Ramp meaningless with channel change");
-  if(midi_action == DENEMO_OVERRIDE_STEP) {
+  if (midi_interpretation & DENEMO_OVERRIDE_PERCENT)
+    g_warning ("Percent meaningless with channel change");
+  if (midi_action == DENEMO_OVERRIDE_ONCE)
+    g_warning ("Scripting error, ONCE for standalone directive is meaningless");
+  if (midi_action == DENEMO_OVERRIDE_RAMP)
+    g_warning ("Ramp meaningless with channel change");
+  if (midi_action == DENEMO_OVERRIDE_STEP)
+    {
       *channel = val;
-  }  
-  if(*channel>127) *channel=127;
-  if(*channel<0) *channel=0;
-  g_print("After channel change channel = %d\n", *channel);
+    }
+  if (*channel > 127)
+    *channel = 127;
+  if (*channel < 0)
+    *channel = 0;
+  g_print ("After channel change channel = %d\n", *channel);
 }
 
 
 
 
 /* change the tempo according to the values passed in */
-static void 
-change_tempo(gint *tempo, gint midi_val, gint  midi_interpretation,gint  midi_action)
+static void
+change_tempo (gint * tempo, gint midi_val, gint midi_interpretation, gint midi_action)
 {
   gdouble val;
   val = (gdouble) midi_val;
-  if(midi_interpretation & DENEMO_OVERRIDE_PERCENT)
-    val = *tempo * (midi_val/100.0);
-  if(midi_action == DENEMO_OVERRIDE_ONCE)
-    g_warning("Not implemented change of tempo for one chord");
-  if(midi_action == DENEMO_OVERRIDE_RAMP)
-    g_warning("Not implemented ramp yet");
-  if(midi_action == DENEMO_OVERRIDE_STEP) {
-    if(midi_interpretation & DENEMO_OVERRIDE_RELATIVE)
-      *tempo += val;
-    else
-      *tempo = val;
-  }
+  if (midi_interpretation & DENEMO_OVERRIDE_PERCENT)
+    val = *tempo * (midi_val / 100.0);
+  if (midi_action == DENEMO_OVERRIDE_ONCE)
+    g_warning ("Not implemented change of tempo for one chord");
+  if (midi_action == DENEMO_OVERRIDE_RAMP)
+    g_warning ("Not implemented ramp yet");
+  if (midi_action == DENEMO_OVERRIDE_STEP)
+    {
+      if (midi_interpretation & DENEMO_OVERRIDE_RELATIVE)
+        *tempo += val;
+      else
+        *tempo = val;
+    }
 }
-  
+
 /*
  * the main midi output system (somewhat large)
  */
@@ -913,7 +932,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
   long ticks_at_bar = 0;
   int cur_volume;
   gdouble master_volume;
-	gboolean override_volume;
+  gboolean override_volume;
   int cur_transposition;
 
   int midi_channel = (-1);
@@ -945,7 +964,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
   int pref_staccatissimo = 10;
 
   /* tuplets */
-  int tuplet = 0;//level of tuplet nesting only 0 and 1 are supported
+  int tuplet = 0;               //level of tuplet nesting only 0 and 1 are supported
   tupopen tupletnums;
   tupopen savedtuplet;
 
@@ -957,33 +976,29 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
   time_t starttime;
   time_t endtime;
 
-  call_out_to_guile("(InitializeMidiGeneration)");
+  call_out_to_guile ("(InitializeMidiGeneration)");
 
   /* get user preferences, if any */
   envp = getenv ("EXP_MIDI_VEL");
   if (envp)
     {
       sscanf (envp, "%d %d", &vel_randfact, &vel_beatfact);
-      fprintf (stderr, "VELOCITY parameters are: %d %d\n",
-	       vel_randfact, vel_beatfact);
+      fprintf (stderr, "VELOCITY parameters are: %d %d\n", vel_randfact, vel_beatfact);
     }
 
   envp = getenv ("EXP_MIDI_PERCENT");
   if (envp)
     {
-      sscanf (envp, "%d %d %d",
-	      &pref_width, &pref_staccato, &pref_staccatissimo);
+      sscanf (envp, "%d %d %d", &pref_width, &pref_staccato, &pref_staccatissimo);
 
-      fprintf (stderr,
-	       "PERCENT parameters are: normal=%d staccato=%d %d\n",
-	       pref_width, pref_staccato, pref_staccatissimo);
+      fprintf (stderr, "PERCENT parameters are: normal=%d staccato=%d %d\n", pref_width, pref_staccato, pref_staccatissimo);
     }
 
   /* just curious */
   time (&starttime);
 
-  smf_t *smf = smf_new();
-  int dummy1 = smf_set_ppqn(smf, MIDI_RESOLUTION);
+  smf_t *smf = smf_new ();
+  int dummy1 = smf_set_ppqn (smf, MIDI_RESOLUTION);
 
 /*
  * end of headers and meta events, now for some real actions
@@ -998,7 +1013,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
     {
       int z = si->stafftoplay;
       while (--z)
-	curstaff = curstaff->next;
+        curstaff = curstaff->next;
     }
   //for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
   while (curstaff)
@@ -1008,40 +1023,42 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 
       /* select a suitable track number */
       tracknumber++;
-      smf_track_t *track = smf_track_new();
-      smf_add_track(smf, track);
+      smf_track_t *track = smf_track_new ();
+      smf_add_track (smf, track);
 
       /* track name */
       event = midi_meta_text (3, curstaffstruct->lily_name->str);
-      smf_track_add_event_delta_pulses(track, event, 0);
+      smf_track_add_event_delta_pulses (track, event, 0);
 
       /* tempo */
       gint cur_tempo = si->tempo;
 
-      if(tracknumber==1) {//Do not set the tempo for later tracks as there may be tempo directives at the start of the first measure which libsmf will muddle up with any done here
-	event = midi_tempo (cur_tempo);
-	smf_track_add_event_delta_pulses(track, event, 0);
-      }
+      if (tracknumber == 1)
+        {                       //Do not set the tempo for later tracks as there may be tempo directives at the start of the first measure which libsmf will muddle up with any done here
+          event = midi_tempo (cur_tempo);
+          smf_track_add_event_delta_pulses (track, event, 0);
+        }
       /* Midi Client/Port */
 //      track->user_pointer = (DevicePort *) device_manager_get_DevicePort(curstaffstruct->device_port->str); 
 
       /* The midi instrument */
-      if(curstaffstruct->midi_instrument && curstaffstruct->midi_instrument->len) {
-	event = midi_meta_text (4, curstaffstruct->midi_instrument->str);
-	smf_track_add_event_delta_pulses(track, event, 0);
-      }
+      if (curstaffstruct->midi_instrument && curstaffstruct->midi_instrument->len)
+        {
+          event = midi_meta_text (4, curstaffstruct->midi_instrument->str);
+          smf_track_add_event_delta_pulses (track, event, 0);
+        }
       midi_channel = curstaffstruct->midi_channel;
       prognum = curstaffstruct->midi_prognum;
 
       /* set selected midi program */
-      g_print("Using channel %d prognum %d\n", midi_channel, prognum);
+      g_print ("Using channel %d prognum %d\n", midi_channel, prognum);
       event = midi_change_event (MIDI_PROG_CHANGE, midi_channel, prognum);
-      smf_track_add_event_delta_pulses(track, event, 0);
+      smf_track_add_event_delta_pulses (track, event, 0);
 
       /*key signature */
 
       event = midi_keysig (curstaffstruct->keysig.number, curstaffstruct->keysig.isminor);
-      smf_track_add_event_delta_pulses(track, event, 0);
+      smf_track_add_event_delta_pulses (track, event, 0);
 
       /* Time signature */
       timesigupper = curstaffstruct->timesig.time1;
@@ -1050,71 +1067,78 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
       timesiglower = curstaffstruct->timesig.time2;
       //printf("\nstime2 = %i\n", timesiglower);
 
-       event = midi_timesig (timesigupper, timesiglower);
-       smf_track_add_event_delta_pulses(track, event, 0);
+      event = midi_timesig (timesigupper, timesiglower);
+      smf_track_add_event_delta_pulses (track, event, 0);
 
       /* set a default velocity value */
       cur_volume = curstaffstruct->volume;
-     
-      master_volume = curstaffstruct->volume/127.0; /* new semantic for staff volume as fractional master volume */
-			override_volume = curstaffstruct->override_volume; /* force full volume output if set */
+
+      master_volume = curstaffstruct->volume / 127.0;   /* new semantic for staff volume as fractional master volume */
+      override_volume = curstaffstruct->override_volume;        /* force full volume output if set */
       cur_transposition = curstaffstruct->transposition;
 
 
-      if(tuplet>0)
-	g_print("Unterminated tuplet at end of voice %d\n", tracknumber-1);
+      if (tuplet > 0)
+        g_print ("Unterminated tuplet at end of voice %d\n", tracknumber - 1);
       //Reset to  tuplets nesting level 0, in case unbalanced tuplet start end in last staff
       tuplet = 0;
       //Now that we have the channel and volume we can interpret any score and staff-wide directives for midi
-      if(curstaffstruct->staff_directives) {
-	GList *g=curstaffstruct->staff_directives;
-	DenemoDirective *directive = NULL;	
-	  for(;g;g=g->next){
-	    gint numbytes;
-	    directive = (DenemoDirective *)g->data;
-	    gint midi_override = directive_get_midi_override(directive);
-	    gchar *buffer = directive_get_midi_buffer(directive, &numbytes, midi_channel, cur_volume);
-	    if(!(midi_override&DENEMO_OVERRIDE_HIDDEN))
-	      if(buffer) 
-		if(NULL==put_event(buffer, numbytes, &curstaffstruct->midi_events, track))
-		  g_warning("Invalid midi bytes in staff directive\n");
-	  }
-      }
-      
-      if(tracknumber==1) {
-	if (Denemo.gui->lilycontrol.directives) {
-	  //FIXME repeated code
-	  GList *g=Denemo.gui->lilycontrol.directives;
-	  DenemoDirective *directive = NULL;
+      if (curstaffstruct->staff_directives)
+        {
+          GList *g = curstaffstruct->staff_directives;
+          DenemoDirective *directive = NULL;
+          for (; g; g = g->next)
+            {
+              gint numbytes;
+              directive = (DenemoDirective *) g->data;
+              gint midi_override = directive_get_midi_override (directive);
+              gchar *buffer = directive_get_midi_buffer (directive, &numbytes, midi_channel, cur_volume);
+              if (!(midi_override & DENEMO_OVERRIDE_HIDDEN))
+                if (buffer)
+                  if (NULL == put_event (buffer, numbytes, &curstaffstruct->midi_events, track))
+                    g_warning ("Invalid midi bytes in staff directive\n");
+            }
+        }
 
-	  for(;g;g=g->next){
-	    gint numbytes;
-	    directive = (DenemoDirective *)g->data;
-	    gint midi_override = directive_get_midi_override(directive);
-	    gchar *buffer = directive_get_midi_buffer(directive, &numbytes, midi_channel, cur_volume);
-	    if(!(midi_override&DENEMO_OVERRIDE_HIDDEN))
-	    if(buffer) 
-	      if(NULL==put_event(buffer, numbytes, &Denemo.gui->midi_events, track))
-		g_warning("Invalid midi bytes in score directive\n");
-	  }
-	}
+      if (tracknumber == 1)
+        {
+          if (Denemo.gui->lilycontrol.directives)
+            {
+              //FIXME repeated code
+              GList *g = Denemo.gui->lilycontrol.directives;
+              DenemoDirective *directive = NULL;
 
-	if (Denemo.gui->si->movementcontrol.directives) {
-	  GList *g=Denemo.gui->si->movementcontrol.directives;
-	  DenemoDirective *directive = NULL;
-	  for(;g;g=g->next){
-	    gint numbytes;
-	    directive = (DenemoDirective *)g->data;
-	    gint midi_override = directive_get_midi_override(directive);
-	    gchar *buffer = directive_get_midi_buffer(directive, &numbytes, midi_channel, cur_volume);
-	    if(!(midi_override&DENEMO_OVERRIDE_HIDDEN))
-	    if(buffer) 
-	      if(NULL==put_event(buffer, numbytes, &Denemo.gui->si->midi_events, track))
-		g_warning("Invalid midi bytes in movement directive\n");
-	  }
-	}
+              for (; g; g = g->next)
+                {
+                  gint numbytes;
+                  directive = (DenemoDirective *) g->data;
+                  gint midi_override = directive_get_midi_override (directive);
+                  gchar *buffer = directive_get_midi_buffer (directive, &numbytes, midi_channel, cur_volume);
+                  if (!(midi_override & DENEMO_OVERRIDE_HIDDEN))
+                    if (buffer)
+                      if (NULL == put_event (buffer, numbytes, &Denemo.gui->midi_events, track))
+                        g_warning ("Invalid midi bytes in score directive\n");
+                }
+            }
 
-      }
+          if (Denemo.gui->si->movementcontrol.directives)
+            {
+              GList *g = Denemo.gui->si->movementcontrol.directives;
+              DenemoDirective *directive = NULL;
+              for (; g; g = g->next)
+                {
+                  gint numbytes;
+                  directive = (DenemoDirective *) g->data;
+                  gint midi_override = directive_get_midi_override (directive);
+                  gchar *buffer = directive_get_midi_buffer (directive, &numbytes, midi_channel, cur_volume);
+                  if (!(midi_override & DENEMO_OVERRIDE_HIDDEN))
+                    if (buffer)
+                      if (NULL == put_event (buffer, numbytes, &Denemo.gui->si->midi_events, track))
+                        g_warning ("Invalid midi bytes in movement directive\n");
+                }
+            }
+
+        }
 
 
 
@@ -1133,628 +1157,590 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 
       /* set boundries */
       if (!end)
-	last = g_list_length (curmeasure);
+        last = g_list_length (curmeasure);
       else
-	last = end;
+        last = end;
       if (start)
-	curmeasure = g_list_nth (curmeasure, start - 1);
+        curmeasure = g_list_nth (curmeasure, start - 1);
       /* iterate for over measures in track */
-      for (measurenum = MAX (start, 1); curmeasure && measurenum <= last;
-	   curmeasure = curmeasure->next, measurenum++)
-	{
-	  //printf
-	  //  ("\nMAX start,1, curmeasurenum, last in export midi is = %i, %i, %i\n",
-	  //   MAX (start, 1), curmeasurenum, last);
-	  //printf("\ncurmeasure && measurenum in export midi is = %i\n", (curmeasure && measurenum));
-	  //printf("\ncurmeasurenum in export midi is = %i\n", curmeasurenum);
-	  /* start of measure */
-	  curmeasurenum++;
-	  measure_is_empty = 1;
-	  measure_has_odd_tuplet = 0;
-	  ticks_at_bar = ticks_read;
+      for (measurenum = MAX (start, 1); curmeasure && measurenum <= last; curmeasure = curmeasure->next, measurenum++)
+        {
+          //printf
+          //  ("\nMAX start,1, curmeasurenum, last in export midi is = %i, %i, %i\n",
+          //   MAX (start, 1), curmeasurenum, last);
+          //printf("\ncurmeasure && measurenum in export midi is = %i\n", (curmeasure && measurenum));
+          //printf("\ncurmeasurenum in export midi is = %i\n", curmeasurenum);
+          /* start of measure */
+          curmeasurenum++;
+          measure_is_empty = 1;
+          measure_has_odd_tuplet = 0;
+          ticks_at_bar = ticks_read;
 
-	  /* iterate over objects in measure */
-	  for (curobjnode = (objnode *) curmeasure->data; curobjnode;
-	       curobjnode = curobjnode->next)
-	    {
-	      curobj = (DenemoObject *) curobjnode->data;
-	      if(curobj->midi_events)
-		g_list_free(curobj->midi_events);//data belongs to libsmf
-	      curobj->midi_events = NULL;
-	      curobj->earliest_time = ticks_read*60.0/(cur_tempo*MIDI_RESOLUTION);//smf_get_length_seconds(smf);
+          /* iterate over objects in measure */
+          for (curobjnode = (objnode *) curmeasure->data; curobjnode; curobjnode = curobjnode->next)
+            {
+              curobj = (DenemoObject *) curobjnode->data;
+              if (curobj->midi_events)
+                g_list_free (curobj->midi_events);      //data belongs to libsmf
+              curobj->midi_events = NULL;
+              curobj->earliest_time = ticks_read * 60.0 / (cur_tempo * MIDI_RESOLUTION);        //smf_get_length_seconds(smf);
 
 
-	/*******************************************
+        /*******************************************
 	 *	huge switch:
 	 * 	here we handle every kind of object
 	 * 	that seems relevant to us
 	 *******************************************/
-	      int tmpstaccato = 0, tmpstaccatissimo = 0;
-	      gboolean skip_midi = FALSE;
-	      GList *tmp;
+              int tmpstaccato = 0, tmpstaccatissimo = 0;
+              gboolean skip_midi = FALSE;
+              GList *tmp;
 
-	      switch (curobj->type)
-		{
-		case CHORD:
-	  /******************** 
+              switch (curobj->type)
+                {
+                case CHORD:
+          /******************** 
 	   * one or more notes
 	   ********************/
-		  
-		 
-		  measure_is_empty = 0;
-		  if (debug)
-		    fprintf (stderr,
-			     "=============================== chord at %s\n",
-			     fmt_ticks (ticks_read));
-		  chordval = *(chord *) curobj->object;
-		  if(chordval.directives) {
-		        GList *g=chordval.directives;
-			DenemoDirective *directive = NULL;
-			for(;g;g=g->next){
-			  gint numbytes;
-			  directive = (DenemoDirective *)g->data;
-			  gchar *buffer = directive_get_midi_buffer(directive, &numbytes, midi_channel, cur_volume);
-			  gint midi_override = directive_get_midi_override(directive);
-			  gint midi_interpretation = directive_get_midi_interpretation(directive);
-			  gint midi_action = directive_get_midi_action(directive);
-			  gint midi_val = directive_get_midi_val(directive);
-			  /* handle all types of MIDI overrides attached to chord here */
-			  switch(midi_override) 
-			    {
-			    case DENEMO_OVERRIDE_VOLUME:
-			      if(midi_val)
-				change_volume(&cur_volume, midi_val, midi_interpretation, midi_action);
-				else
-				  skip_midi = TRUE;
-			      break;
-			    case DENEMO_OVERRIDE_TRANSPOSITION:
-				cur_transposition = midi_val;
-			      break;
 
-			    case DENEMO_OVERRIDE_CHANNEL:
-				change_channel(&midi_channel, midi_val, midi_interpretation, midi_action);
-			      break;
-			    case DENEMO_OVERRIDE_TEMPO:
-			      change_tempo(&cur_tempo, midi_val, midi_interpretation, midi_action);
-			      if(cur_tempo) {
-				event = midi_tempo (cur_tempo);
-				smf_track_add_event_delta_pulses(track, event, 0);
-			      } else
-				g_warning("Tempo change to 0 bpm is illegal");
-			      break;
-			      //etc			      
-			    default:
-			      if(!(midi_override&DENEMO_OVERRIDE_HIDDEN))
-			      if(buffer) {
-				if(NULL==put_event(buffer, numbytes, &curobj->midi_events, track))
-				  g_warning("Invalid midi bytes in chord directive\n");
-			      } 
-			      break;
-			    }
-			}//for each directive attached to the chord
-		  }//if there are directives
-		  /* FIXME sound grace notes either simultaneously for shorter duration or steal time .... */
-		  if(chordval.is_grace)
-		    break;
 
-	  /***********************************
+                  measure_is_empty = 0;
+                  if (debug)
+                    fprintf (stderr, "=============================== chord at %s\n", fmt_ticks (ticks_read));
+                  chordval = *(chord *) curobj->object;
+                  if (chordval.directives)
+                    {
+                      GList *g = chordval.directives;
+                      DenemoDirective *directive = NULL;
+                      for (; g; g = g->next)
+                        {
+                          gint numbytes;
+                          directive = (DenemoDirective *) g->data;
+                          gchar *buffer = directive_get_midi_buffer (directive, &numbytes, midi_channel, cur_volume);
+                          gint midi_override = directive_get_midi_override (directive);
+                          gint midi_interpretation = directive_get_midi_interpretation (directive);
+                          gint midi_action = directive_get_midi_action (directive);
+                          gint midi_val = directive_get_midi_val (directive);
+                          /* handle all types of MIDI overrides attached to chord here */
+                          switch (midi_override)
+                            {
+                            case DENEMO_OVERRIDE_VOLUME:
+                              if (midi_val)
+                                change_volume (&cur_volume, midi_val, midi_interpretation, midi_action);
+                              else
+                                skip_midi = TRUE;
+                              break;
+                            case DENEMO_OVERRIDE_TRANSPOSITION:
+                              cur_transposition = midi_val;
+                              break;
+
+                            case DENEMO_OVERRIDE_CHANNEL:
+                              change_channel (&midi_channel, midi_val, midi_interpretation, midi_action);
+                              break;
+                            case DENEMO_OVERRIDE_TEMPO:
+                              change_tempo (&cur_tempo, midi_val, midi_interpretation, midi_action);
+                              if (cur_tempo)
+                                {
+                                  event = midi_tempo (cur_tempo);
+                                  smf_track_add_event_delta_pulses (track, event, 0);
+                                }
+                              else
+                                g_warning ("Tempo change to 0 bpm is illegal");
+                              break;
+                              //etc                           
+                            default:
+                              if (!(midi_override & DENEMO_OVERRIDE_HIDDEN))
+                                if (buffer)
+                                  {
+                                    if (NULL == put_event (buffer, numbytes, &curobj->midi_events, track))
+                                      g_warning ("Invalid midi bytes in chord directive\n");
+                                  }
+                              break;
+                            }
+                        }       //for each directive attached to the chord
+                    }           //if there are directives
+                  /* FIXME sound grace notes either simultaneously for shorter duration or steal time .... */
+                  if (chordval.is_grace)
+                    break;
+
+          /***********************************
 	   * compute nominal duration of note 
 	   ***********************************/
 
-		  numdots = chordval.numdots;
-		  duration = 0;
-		  if(chordval.baseduration>=0) {
-		    for (d = 0; d <= numdots; d++)
-		      {
+                  numdots = chordval.numdots;
+                  duration = 0;
+                  if (chordval.baseduration >= 0)
+                    {
+                      for (d = 0; d <= numdots; d++)
+                        {
 
-			
-			duration +=
-			  internaltoticks (chordval.baseduration) >> d;
-		      }
-		    if (tuplet >= 1)
-		      {
-			duration *= tupletnums.numerator;
-			duration /= tupletnums.denominator;
-			if (MIDI_RESOLUTION % tupletnums.denominator)
-			  {
-			    measure_has_odd_tuplet = 1;
-			  }
-		      }
 
-		    if (tuplet >= 2)
-		      {
-			if (MIDI_RESOLUTION % tupletnums.denominator *
-			    savedtuplet.denominator)
-			  {
-			    measure_has_odd_tuplet = 1;
-			  }
-			duration *= savedtuplet.numerator;
-			duration /= savedtuplet.denominator;
-		      }
-		  }
-		  else 
-		    duration = curobj->durinticks;
+                          duration += internaltoticks (chordval.baseduration) >> d;
+                        }
+                      if (tuplet >= 1)
+                        {
+                          duration *= tupletnums.numerator;
+                          duration /= tupletnums.denominator;
+                          if (MIDI_RESOLUTION % tupletnums.denominator)
+                            {
+                              measure_has_odd_tuplet = 1;
+                            }
+                        }
 
-	  /********************************
+                      if (tuplet >= 2)
+                        {
+                          if (MIDI_RESOLUTION % tupletnums.denominator * savedtuplet.denominator)
+                            {
+                              measure_has_odd_tuplet = 1;
+                            }
+                          duration *= savedtuplet.numerator;
+                          duration /= savedtuplet.denominator;
+                        }
+                    }
+                  else
+                    duration = curobj->durinticks;
+
+          /********************************
 	   * compute real duration of note
 	   ********************************/
 #if 0
-		  //this is not working - it causes the delta to be -ve later
-		  for (tmp = chordval.ornamentlist; tmp; tmp = tmp->next)
-		    {
-		      if (*(enum ornament *) tmp->data ==
-			  (enum ornament) STACCATISSIMO)
-			{
-			  tmpstaccatissimo = 1;
-			  width = percent (duration, pref_staccatissimo);
-			}
-		      else if (*(enum ornament *) tmp->data ==
-			       (enum ornament) STACCATO)
-			{
-			  width = percent (duration, pref_staccato);
-			  tmpstaccato = 1;
-			}
+                  //this is not working - it causes the delta to be -ve later
+                  for (tmp = chordval.ornamentlist; tmp; tmp = tmp->next)
+                    {
+                      if (*(enum ornament *) tmp->data == (enum ornament) STACCATISSIMO)
+                        {
+                          tmpstaccatissimo = 1;
+                          width = percent (duration, pref_staccatissimo);
+                        }
+                      else if (*(enum ornament *) tmp->data == (enum ornament) STACCATO)
+                        {
+                          width = percent (duration, pref_staccato);
+                          tmpstaccato = 1;
+                        }
 
-		      else
-			{
-			  width = percent (duration, pref_width);
-			}
+                      else
+                        {
+                          width = percent (duration, pref_width);
+                        }
 
-		    }
-		  if (debug)
-		    fprintf (stderr, "duration is %s\n",
-			     fmt_ticks (duration));
+                    }
+                  if (debug)
+                    fprintf (stderr, "duration is %s\n", fmt_ticks (duration));
 #else
-		  width = 0;
+                  width = 0;
 #endif
 
-		  if (!chordval.notes) {
-		    //MUST GIVE OFF TIME FOR RESTS HERE
-		    curobj->latest_time = curobj->earliest_time + duration*60.0/(cur_tempo*MIDI_RESOLUTION);
-		    //g_print("Adding Dummy event for rest %d %d %d\n", duration, ticks_read, ticks_written); 
-		    event = midi_meta_text (1/* comment*/, "rest");
-		    smf_track_add_event_delta_pulses(track, event, duration);
-		    curobj->midi_events = g_list_append(curobj->midi_events, event);
-		    ticks_written += duration;
-		    event->user_pointer = curobj;
-		    //g_print("rest of %f seconds at %f\n", duration/(double)MIDI_RESOLUTION, curobj->latest_time);
-		  }
+                  if (!chordval.notes)
+                    {
+                      //MUST GIVE OFF TIME FOR RESTS HERE
+                      curobj->latest_time = curobj->earliest_time + duration * 60.0 / (cur_tempo * MIDI_RESOLUTION);
+                      //g_print("Adding Dummy event for rest %d %d %d\n", duration, ticks_read, ticks_written); 
+                      event = midi_meta_text (1 /* comment */ , "rest");
+                      smf_track_add_event_delta_pulses (track, event, duration);
+                      curobj->midi_events = g_list_append (curobj->midi_events, event);
+                      ticks_written += duration;
+                      event->user_pointer = curobj;
+                      //g_print("rest of %f seconds at %f\n", duration/(double)MIDI_RESOLUTION, curobj->latest_time);
+                    }
 
-		  if (chordval.notes)
-		    {
+                  if (chordval.notes)
+                    {
 
-		      gint tmp_channel = midi_channel;
-		      if (curobj->isinvisible)
-			midi_channel = 9;
+                      gint tmp_channel = midi_channel;
+                      if (curobj->isinvisible)
+                        midi_channel = 9;
 
-	    /**************************
+            /**************************
 	     * prepare for note output
 	     **************************/
 
-		      notes_in_chord = 0;
-		      if (debug)
-			fprintf (stderr, "this is a chord\n");
+                      notes_in_chord = 0;
+                      if (debug)
+                        fprintf (stderr, "this is a chord\n");
 
-		      slur_update (&slur_status,
-				   chordval.slur_begin_p,
-				   chordval.slur_end_p);
+                      slur_update (&slur_status, chordval.slur_begin_p, chordval.slur_end_p);
 
-		      /* compute beat to add to note velocity */
-		      beat = compute_beat (ticks_read - ticks_at_bar,
-					   beats2ticks (1, timesigupper,
-							timesiglower),
-					   bars2ticks (1, timesigupper,
-						       timesiglower),
-					   duration, vel_beatfact);
+                      /* compute beat to add to note velocity */
+                      beat = compute_beat (ticks_read - ticks_at_bar, beats2ticks (1, timesigupper, timesiglower), bars2ticks (1, timesigupper, timesiglower), duration, vel_beatfact);
 
-	    /************************
+            /************************
 	     * begin chord read loop 
 	     ************************/
 
-		      for (curtone = chordval.notes; curtone;
-			   curtone = curtone->next)
-			{
-			  note *thenote = (note *)curtone->data;
-			  GList *g;
-			  
+                      for (curtone = chordval.notes; curtone; curtone = curtone->next)
+                        {
+                          note *thenote = (note *) curtone->data;
+                          GList *g;
+
 #ifdef NOTE_MIDI_OVERRIDES_IMPLEMENTED
-			  for(g = thenote->directives; g ; g=g->next) {
-			    DenemoDirective *directive = g->data;
-			    gint midi_override = directive_get_midi_override(directive);
-			    if(midi_override)
-			      skip_midi = TRUE;//TODO if it *is* overriden take action e.g. increase volume etc. For now we just drop it
-			  }
+                          for (g = thenote->directives; g; g = g->next)
+                            {
+                              DenemoDirective *directive = g->data;
+                              gint midi_override = directive_get_midi_override (directive);
+                              if (midi_override)
+                                skip_midi = TRUE;       //TODO if it *is* overriden take action e.g. increase volume etc. For now we just drop it
+                            }
 #endif
-			  if(!skip_midi) {
-			    if (chordval.has_dynamic){
-			      g_debug("\nThis chord has a dynamic marking attatched\n");
-			      GList *dynamic = g_list_first(chordval.dynamics);	
-			      cur_volume =
-		              string_to_vol (((GString *) dynamic->data)->str,
-				   cur_volume);
-			    }
-			    mid_c_offset = thenote->mid_c_offset;
-			    enshift = thenote->enshift;			  
-			    notenumber = dia_to_midinote (mid_c_offset) + enshift;			  
-			    notenumber += cur_transposition;
-			  
-			    if(notenumber>127) {
-			      g_warning("Note out of range\n", notenumber = 60);
-			    }
-			    slur_note (note_status,
-				     slur_status,
-				     notenumber,
-				     tmpstaccato,
-				     tmpstaccatissimo, chordval.is_tied);
-			  }
-			  
-			}
-		      /* End chord read loop */
+                          if (!skip_midi)
+                            {
+                              if (chordval.has_dynamic)
+                                {
+                                  g_debug ("\nThis chord has a dynamic marking attatched\n");
+                                  GList *dynamic = g_list_first (chordval.dynamics);
+                                  cur_volume = string_to_vol (((GString *) dynamic->data)->str, cur_volume);
+                                }
+                              mid_c_offset = thenote->mid_c_offset;
+                              enshift = thenote->enshift;
+                              notenumber = dia_to_midinote (mid_c_offset) + enshift;
+                              notenumber += cur_transposition;
+
+                              if (notenumber > 127)
+                                {
+                                  g_warning ("Note out of range\n", notenumber = 60);
+                                }
+                              slur_note (note_status, slur_status, notenumber, tmpstaccato, tmpstaccatissimo, chordval.is_tied);
+                            }
+
+                        }
+                      /* End chord read loop */
 #if slurdebug
-		      print_slurs (stderr,
-				   note_status, slur_status,
-				   ticks_read, ticks_written,
-				   "after chord read");
+                      print_slurs (stderr, note_status, slur_status, ticks_read, ticks_written, "after chord read");
 #endif
-	    /****************************
+            /****************************
 	     * start note-on output loop
 	     ****************************/
 
-		      /* kill old slurs and ties */
-		      /* start new notes */
+                      /* kill old slurs and ties */
+                      /* start new notes */
 
-		      notes_in_chord = 0;
-		      /* write delta */
-		      for (n = 0; n < 128; n++)
-			{
-			  gint mididelta;
-			  if (slur_on_p (note_status, n)
-			      || slur_kill_p (note_status, n))
-			    {
-			      if (notes_in_chord++ == 0)
-				{
-				  mididelta = ticks_read - ticks_written;
-				  ticks_written = ticks_read;
-				}
-			      else
-				{
-				  mididelta = 0;
-				}
-			    }
+                      notes_in_chord = 0;
+                      /* write delta */
+                      for (n = 0; n < 128; n++)
+                        {
+                          gint mididelta;
+                          if (slur_on_p (note_status, n) || slur_kill_p (note_status, n))
+                            {
+                              if (notes_in_chord++ == 0)
+                                {
+                                  mididelta = ticks_read - ticks_written;
+                                  ticks_written = ticks_read;
+                                }
+                              else
+                                {
+                                  mididelta = 0;
+                                }
+                            }
 
-			  /* compute velocity delta */
-			  rand_delta = i_random (&rand_sigma, vel_randfact);
-			  /* write note on/off */
-			  if (slur_on_p (note_status, n))
-			    {
-			      // int mix = cur_volume? compress(128, cur_volume + rand_delta + beat) : 0;
-			      // FIXME the function compress is returning large values.
-			      event = smf_event_new_from_bytes (MIDI_NOTE_ON | midi_channel, n, override_volume?127:(gint)(master_volume*cur_volume/*FIXME as above, mix*/));
-			      smf_track_add_event_delta_pulses(track, event, mididelta);
-			      event->user_pointer = curobj;
-			      curobj->midi_events = g_list_append(curobj->midi_events, event);
-			      curobj->earliest_time = event->time_seconds;
-			      curobj->latest_time = curobj->earliest_time + duration*60.0/(cur_tempo*MIDI_RESOLUTION);
+                          /* compute velocity delta */
+                          rand_delta = i_random (&rand_sigma, vel_randfact);
+                          /* write note on/off */
+                          if (slur_on_p (note_status, n))
+                            {
+                              // int mix = cur_volume? compress(128, cur_volume + rand_delta + beat) : 0;
+                              // FIXME the function compress is returning large values.
+                              event = smf_event_new_from_bytes (MIDI_NOTE_ON | midi_channel, n, override_volume ? 127 : (gint) (master_volume * cur_volume /*FIXME as above, mix */ ));
+                              smf_track_add_event_delta_pulses (track, event, mididelta);
+                              event->user_pointer = curobj;
+                              curobj->midi_events = g_list_append (curobj->midi_events, event);
+                              curobj->earliest_time = event->time_seconds;
+                              curobj->latest_time = curobj->earliest_time + duration * 60.0 / (cur_tempo * MIDI_RESOLUTION);
 
 
 #if DEBUG
-			      g_print("'%d len %d'", event->event_number, event->midi_buffer_length);
-			      //printf ("volume = %i\n", (override_volume ? 0:mix));
+                              g_print ("'%d len %d'", event->event_number, event->midi_buffer_length);
+                              //printf ("volume = %i\n", (override_volume ? 0:mix));
 #endif
-			    }
-			  else if (slur_kill_p (note_status, n))
-			    {
-			      event = smf_event_new_from_bytes ( MIDI_NOTE_OFF | midi_channel, n, 0);
-			      //g_print("{%d}", event->event_number);
-			      smf_track_add_event_delta_pulses(track, event, mididelta);
-			      //g_print("Note  off for track %x at delta (%d) %.1f for cur_tempo %d\n", track, mididelta, event->time_seconds, cur_tempo);
-			      event->user_pointer = curobj;
-			      curobj->midi_events = g_list_append(curobj->midi_events, event);
-			      
-			      curobj->latest_time = event->time_seconds;
-			      curobj->earliest_time = curobj->latest_time - duration*60.0/(cur_tempo*MIDI_RESOLUTION);
-			      // g_print("event off lur kill %f\n", event->time_seconds);
-			    }
-			}
-		      /* end of first chord output loop */
+                            }
+                          else if (slur_kill_p (note_status, n))
+                            {
+                              event = smf_event_new_from_bytes (MIDI_NOTE_OFF | midi_channel, n, 0);
+                              //g_print("{%d}", event->event_number);
+                              smf_track_add_event_delta_pulses (track, event, mididelta);
+                              //g_print("Note  off for track %x at delta (%d) %.1f for cur_tempo %d\n", track, mididelta, event->time_seconds, cur_tempo);
+                              event->user_pointer = curobj;
+                              curobj->midi_events = g_list_append (curobj->midi_events, event);
+
+                              curobj->latest_time = event->time_seconds;
+                              curobj->earliest_time = curobj->latest_time - duration * 60.0 / (cur_tempo * MIDI_RESOLUTION);
+                              // g_print("event off lur kill %f\n", event->time_seconds);
+                            }
+                        }
+                      /* end of first chord output loop */
 
 #if slurdebug
-		      print_slurs (stderr,
-				   note_status, slur_status,
-				   ticks_read, ticks_written, "after loop1");
+                      print_slurs (stderr, note_status, slur_status, ticks_read, ticks_written, "after loop1");
 #endif
-	    /*****************************
+            /*****************************
 	     * start note-off output loop
 	     *****************************/
 
-		      /* kill untied notes */
+                      /* kill untied notes */
 
-		      notes_in_chord = 0;
+                      notes_in_chord = 0;
 
-		      /* start second chord output loop */
+                      /* start second chord output loop */
 
-		      /* write delta */
-		      for (n = 0; n < 128; n++)
-			{
-			  if (slur_off_p (note_status, n))
-			    {
-			      gint mididelta;
-			      if (notes_in_chord++ == 0)
-				{
-				  width += ticks_read - ticks_written;
-				  mididelta = duration + width;
-				  ticks_written += duration + width;
-				  if (ticks_written > ticks_read + duration)
-				    {
-				      fprintf (stderr, "BAD WIDTH %d so delta %d\n"
-					       "(should not happen!)", width, mididelta);
-				      mididelta = 0;
-				    }
-				}
-			      else
-				{
-				  mididelta = 0;
-				}
-			      /* write note off */
-			      event = smf_event_new_from_bytes ( MIDI_NOTE_OFF | midi_channel, n, 60);
-			      //g_print("smf length before %d %f mididelta %d",smf_get_length_pulses(smf), smf_get_length_seconds(smf),mididelta);
-			      smf_track_add_event_delta_pulses(track, event, mididelta);
-			      //g_print("Note  off for track %x at delta (%d) %.1f for cur_tempo %d\n", track, mididelta, event->time_seconds, cur_tempo);
-			      //g_print("smf length after %d %f mididelta %d", smf_get_length_pulses(smf), smf_get_length_seconds(smf),mididelta);
-			      event->user_pointer = curobj;
-			      curobj->midi_events = g_list_append(curobj->midi_events, event);
-			      curobj->latest_time = event->time_seconds;
-			      curobj->earliest_time = curobj->latest_time - duration*60.0/(cur_tempo*MIDI_RESOLUTION);
-			      //g_print("event off %f mididelta %d duration %d for curobj->type = %d\n", event->time_seconds, mididelta, duration, curobj->type);
+                      /* write delta */
+                      for (n = 0; n < 128; n++)
+                        {
+                          if (slur_off_p (note_status, n))
+                            {
+                              gint mididelta;
+                              if (notes_in_chord++ == 0)
+                                {
+                                  width += ticks_read - ticks_written;
+                                  mididelta = duration + width;
+                                  ticks_written += duration + width;
+                                  if (ticks_written > ticks_read + duration)
+                                    {
+                                      fprintf (stderr, "BAD WIDTH %d so delta %d\n" "(should not happen!)", width, mididelta);
+                                      mididelta = 0;
+                                    }
+                                }
+                              else
+                                {
+                                  mididelta = 0;
+                                }
+                              /* write note off */
+                              event = smf_event_new_from_bytes (MIDI_NOTE_OFF | midi_channel, n, 60);
+                              //g_print("smf length before %d %f mididelta %d",smf_get_length_pulses(smf), smf_get_length_seconds(smf),mididelta);
+                              smf_track_add_event_delta_pulses (track, event, mididelta);
+                              //g_print("Note  off for track %x at delta (%d) %.1f for cur_tempo %d\n", track, mididelta, event->time_seconds, cur_tempo);
+                              //g_print("smf length after %d %f mididelta %d", smf_get_length_pulses(smf), smf_get_length_seconds(smf),mididelta);
+                              event->user_pointer = curobj;
+                              curobj->midi_events = g_list_append (curobj->midi_events, event);
+                              curobj->latest_time = event->time_seconds;
+                              curobj->earliest_time = curobj->latest_time - duration * 60.0 / (cur_tempo * MIDI_RESOLUTION);
+                              //g_print("event off %f mididelta %d duration %d for curobj->type = %d\n", event->time_seconds, mididelta, duration, curobj->type);
 
-			    }
-			}
-		      /* end of second chord output loop */
-		      midi_channel = tmp_channel;
-		    }//end of for notes in chord. Note that rests have no MIDI representation, of course.
-		  width = 0;
+                            }
+                        }
+                      /* end of second chord output loop */
+                      midi_channel = tmp_channel;
+                    }           //end of for notes in chord. Note that rests have no MIDI representation, of course.
+                  width = 0;
 #if slurdebug
-		  print_slurs (stderr,
-			       note_status, slur_status,
-			       ticks_read, ticks_written, "after loop2");
+                  print_slurs (stderr, note_status, slur_status, ticks_read, ticks_written, "after loop2");
 #endif
-		  /* prepare for next event */
+                  /* prepare for next event */
 
-		  ticks_read += duration;
-		  slur_shift (note_status);
+                  ticks_read += duration;
+                  slur_shift (note_status);
 #if slurdebug
-		  print_slurs (stderr,
-			       note_status, slur_status,
-			       ticks_read, ticks_written, "after shift");
+                  print_slurs (stderr, note_status, slur_status, ticks_read, ticks_written, "after shift");
 #endif
-		  if (debug)
-		    fprintf (stderr, "chord end\n");
-		  break;
+                  if (debug)
+                    fprintf (stderr, "chord end\n");
+                  break;
 
-		case TIMESIG:
+                case TIMESIG:
 
-	  /************************
+          /************************
 	   * time signature change
 	   ************************/
 
-		  if (ticks_read != ticks_at_bar)
-		    {
-		      fprintf (stderr, "error: can only change time"
-			       " signature at beginning of a measure\n");
-		    }
-		  timesigupper = ((timesig *) curobj->object)->time1;
-		  timesiglower = ((timesig *) curobj->object)->time2;
-		  if (debug)
-		    {
-		      fprintf (stderr, "timesig change to %d:%d\n",
-			       timesigupper, timesiglower);
-		    }
+                  if (ticks_read != ticks_at_bar)
+                    {
+                      fprintf (stderr, "error: can only change time" " signature at beginning of a measure\n");
+                    }
+                  timesigupper = ((timesig *) curobj->object)->time1;
+                  timesiglower = ((timesig *) curobj->object)->time2;
+                  if (debug)
+                    {
+                      fprintf (stderr, "timesig change to %d:%d\n", timesigupper, timesiglower);
+                    }
 
-		  event = midi_timesig (timesigupper, timesiglower);
-		  smf_track_add_event_delta_pulses(track, event, 0);
-		  event->user_pointer = curobj;
-		  curobj->midi_events = g_list_append(curobj->midi_events, event);
-		  curobj->earliest_time = curobj->latest_time  = event->time_seconds;//= smf_get_length_seconds(smf);
-		  break;
+                  event = midi_timesig (timesigupper, timesiglower);
+                  smf_track_add_event_delta_pulses (track, event, 0);
+                  event->user_pointer = curobj;
+                  curobj->midi_events = g_list_append (curobj->midi_events, event);
+                  curobj->earliest_time = curobj->latest_time = event->time_seconds;    //= smf_get_length_seconds(smf);
+                  break;
 
-		case TUPOPEN:
+                case TUPOPEN:
 
-	  /***************
+          /***************
 	   * tuplet begin
 	   ***************/
 
-		  switch (tuplet)
-		    {
-		    default:
-		      fprintf (stderr, "too complicated tuplets\n");
-		      break;
-		    case 1:
-		      savedtuplet.numerator = tupletnums.numerator;
-		      savedtuplet.denominator = tupletnums.denominator;
-		      tupletnums.numerator =
-			((tupopen *) curobj->object)->numerator;
-		      tupletnums.denominator =
-			((tupopen *) curobj->object)->denominator;
-		      break;
-		    case 0:
-		      tupletnums.numerator =
-			((tupopen *) curobj->object)->numerator;
-		      tupletnums.denominator =
-			((tupopen *) curobj->object)->denominator;
-		      break;
-		    }
-		  tuplet++;
-		  curobj->earliest_time = curobj->latest_time  = event->time_seconds;//the last event
-		  break;
-		case TUPCLOSE:
+                  switch (tuplet)
+                    {
+                    default:
+                      fprintf (stderr, "too complicated tuplets\n");
+                      break;
+                    case 1:
+                      savedtuplet.numerator = tupletnums.numerator;
+                      savedtuplet.denominator = tupletnums.denominator;
+                      tupletnums.numerator = ((tupopen *) curobj->object)->numerator;
+                      tupletnums.denominator = ((tupopen *) curobj->object)->denominator;
+                      break;
+                    case 0:
+                      tupletnums.numerator = ((tupopen *) curobj->object)->numerator;
+                      tupletnums.denominator = ((tupopen *) curobj->object)->denominator;
+                      break;
+                    }
+                  tuplet++;
+                  curobj->earliest_time = curobj->latest_time = event->time_seconds;    //the last event
+                  break;
+                case TUPCLOSE:
 
-	  /*************
+          /*************
 	   * tuplet end
 	   *************/
 
-		  tuplet--;
-		  switch (tuplet)
-		    {
-		    case 2:
-		    case 3:
-		    case 4:
-		    case 5:
-		    case 6:
-		    case -1:
-		      fprintf (stderr, "too complicated tuplets\n");
-		      break;
-		    case 1:
-		      tupletnums.numerator = savedtuplet.numerator;
-		      tupletnums.denominator = savedtuplet.denominator;
-		      break;
-		    case 0:
-		      break;
-		    }
-		  curobj->earliest_time = curobj->latest_time  = event->time_seconds;//the last event
-		  break;
+                  tuplet--;
+                  switch (tuplet)
+                    {
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                    case -1:
+                      fprintf (stderr, "too complicated tuplets\n");
+                      break;
+                    case 1:
+                      tupletnums.numerator = savedtuplet.numerator;
+                      tupletnums.denominator = savedtuplet.denominator;
+                      break;
+                    case 0:
+                      break;
+                    }
+                  curobj->earliest_time = curobj->latest_time = event->time_seconds;    //the last event
+                  break;
 
-		case DYNAMIC:
+                case DYNAMIC:
 
-	  /********************
+          /********************
 	   * dynamic directive
 	   ********************/
 
-		  cur_volume =
-		    string_to_vol (((dynamic *) curobj->object)->type->str,
-				   cur_volume);
-		  curobj->earliest_time = curobj->latest_time  = event->time_seconds;//the last event
-		  break;
+                  cur_volume = string_to_vol (((dynamic *) curobj->object)->type->str, cur_volume);
+                  curobj->earliest_time = curobj->latest_time = event->time_seconds;    //the last event
+                  break;
 
-		case KEYSIG:
-		  // curobj->object
-		  //  ((keysig *) theobj->object)->number; referenced in src/measureops.cpp       
-		  //printf("\nKEYSIG type = %d\n", ((keysig *) curobj->object)->number);
-		  event = midi_keysig ((((keysig *) curobj->object)->number),
-			       curstaffstruct->keysig.isminor);
-		  smf_track_add_event_delta_pulses(track, event, 0);
-		  event->user_pointer = curobj;
-		  curobj->midi_events = g_list_append(curobj->midi_events, event);
-		  curobj->earliest_time = curobj->latest_time  = event->time_seconds;//= smf_get_length_seconds(smf);
-		  break;
+                case KEYSIG:
+                  // curobj->object
+                  //  ((keysig *) theobj->object)->number; referenced in src/measureops.cpp       
+                  //printf("\nKEYSIG type = %d\n", ((keysig *) curobj->object)->number);
+                  event = midi_keysig ((((keysig *) curobj->object)->number), curstaffstruct->keysig.isminor);
+                  smf_track_add_event_delta_pulses (track, event, 0);
+                  event->user_pointer = curobj;
+                  curobj->midi_events = g_list_append (curobj->midi_events, event);
+                  curobj->earliest_time = curobj->latest_time = event->time_seconds;    //= smf_get_length_seconds(smf);
+                  break;
 
-		case CLEF:
+                case CLEF:
 
-	  /***********
+          /***********
 	   * ignored!
 	   ***********/
 
-		  break;
+                  break;
 
-		case LILYDIRECTIVE:
-		  {
-		  gint theduration = curobj->durinticks;
-		  if(!(((DenemoDirective *)curobj->object)->override & DENEMO_OVERRIDE_HIDDEN)) {
-		    gint numbytes;
-		    gchar *buffer = directive_get_midi_buffer(curobj->object, &numbytes, midi_channel, cur_volume);
-		    gint midi_override = directive_get_midi_override(curobj->object);
-		    gint midi_interpretation = directive_get_midi_interpretation(curobj->object);
-		    gint midi_action = directive_get_midi_action(curobj->object);
-		    gint midi_val = directive_get_midi_val(curobj->object);
-		    switch(midi_override) 
-		      {
-		      case  DENEMO_OVERRIDE_VOLUME:
-			change_volume(&cur_volume, midi_val, midi_interpretation, midi_action);
-			break;
-		      case DENEMO_OVERRIDE_TRANSPOSITION:
-			cur_transposition = midi_val;
-			break;
+                case LILYDIRECTIVE:
+                  {
+                    gint theduration = curobj->durinticks;
+                    if (!(((DenemoDirective *) curobj->object)->override & DENEMO_OVERRIDE_HIDDEN))
+                      {
+                        gint numbytes;
+                        gchar *buffer = directive_get_midi_buffer (curobj->object, &numbytes, midi_channel, cur_volume);
+                        gint midi_override = directive_get_midi_override (curobj->object);
+                        gint midi_interpretation = directive_get_midi_interpretation (curobj->object);
+                        gint midi_action = directive_get_midi_action (curobj->object);
+                        gint midi_val = directive_get_midi_val (curobj->object);
+                        switch (midi_override)
+                          {
+                          case DENEMO_OVERRIDE_VOLUME:
+                            change_volume (&cur_volume, midi_val, midi_interpretation, midi_action);
+                            break;
+                          case DENEMO_OVERRIDE_TRANSPOSITION:
+                            cur_transposition = midi_val;
+                            break;
 
-		      case  DENEMO_OVERRIDE_CHANNEL:
-			change_channel(&midi_channel, midi_val, midi_interpretation, midi_action);
-			break;
-		      case DENEMO_OVERRIDE_TEMPO:
-			change_tempo(&cur_tempo, midi_val, midi_interpretation, midi_action);
-			if(cur_tempo) {
-			  event = midi_tempo (cur_tempo);
-			  smf_track_add_event_delta_pulses(track, event, 0);//!!!!!!!!!! if rests precede this it is not at the right time...
-			} else {
-			  g_warning("Tempo change to 0 bpm is illegal - re-setting.");
-			  cur_tempo = 120;
-			}
-			break;
-		      case DENEMO_OVERRIDE_DURATION:
-			theduration = midi_interpretation;
-			g_print("duration is %d\n", theduration);
-			break;
-		      default:
-			if(!(midi_override&DENEMO_OVERRIDE_HIDDEN))
-			if(buffer) {
-			  if(NULL==put_event(buffer, numbytes,  &curobj->midi_events, track))
-			    g_warning("Directive has invalid MIDI bytes\n");
-			}
-			break;
-		      }
-		  }
+                          case DENEMO_OVERRIDE_CHANNEL:
+                            change_channel (&midi_channel, midi_val, midi_interpretation, midi_action);
+                            break;
+                          case DENEMO_OVERRIDE_TEMPO:
+                            change_tempo (&cur_tempo, midi_val, midi_interpretation, midi_action);
+                            if (cur_tempo)
+                              {
+                                event = midi_tempo (cur_tempo);
+                                smf_track_add_event_delta_pulses (track, event, 0);     //!!!!!!!!!! if rests precede this it is not at the right time...
+                              }
+                            else
+                              {
+                                g_warning ("Tempo change to 0 bpm is illegal - re-setting.");
+                                cur_tempo = 120;
+                              }
+                            break;
+                          case DENEMO_OVERRIDE_DURATION:
+                            theduration = midi_interpretation;
+                            g_print ("duration is %d\n", theduration);
+                            break;
+                          default:
+                            if (!(midi_override & DENEMO_OVERRIDE_HIDDEN))
+                              if (buffer)
+                                {
+                                  if (NULL == put_event (buffer, numbytes, &curobj->midi_events, track))
+                                    g_warning ("Directive has invalid MIDI bytes\n");
+                                }
+                            break;
+                          }
+                      }
 
-		 
 
-		  curobj->earliest_time   = event->time_seconds;// taking the last one...
-		  curobj->latest_time = curobj->earliest_time + theduration*60.0/(cur_tempo*MIDI_RESOLUTION);
-		  ticks_read += theduration;
-		  }
-		  break;
-		default:
+
+                    curobj->earliest_time = event->time_seconds;        // taking the last one...
+                    curobj->latest_time = curobj->earliest_time + theduration * 60.0 / (cur_tempo * MIDI_RESOLUTION);
+                    ticks_read += theduration;
+                  }
+                  break;
+                default:
 #if DEBUG
-		  fprintf (stderr, "midi ignoring type %d\n", curobj->type);
+                  fprintf (stderr, "midi ignoring type %d\n", curobj->type);
 #endif
-		  break;
-		}
-	      
-	      //g_print("Object type  0x%x Starts at %f Finishes %f\n",curobj->type, curobj->earliest_time, curobj->latest_time);
-	    } // end of objects
+                  break;
+                }
+
+              //g_print("Object type  0x%x Starts at %f Finishes %f\n",curobj->type, curobj->earliest_time, curobj->latest_time);
+            }                   // end of objects
 
       /*******************
        * Do some checking
        *******************/
 
-	    
-	  measurewidth = bars2ticks (1, timesigupper, timesiglower);
 
-	  if(curmeasure->data == NULL)//An empty measure - treat as whole measure silence
-	    ticks_read = ticks_at_bar + measurewidth;
-	  if (ticks_at_bar + measurewidth != ticks_read)
-	    {
-	      if ((!measure_is_empty) && curmeasure->next)
-		{
-		  g_warning(
-			   "warning: overfull measure in %s "
-			   "measure %d from %ld to %ld "
-			   "\n%sdifference is %ld, measure began at %ld)\n",
-			   curstaffstruct->lily_name->str,
-			   measurenum,
-			   ticks_read,
-			   ticks_at_bar + measurewidth,
-			   measure_has_odd_tuplet ?
-			   "(after unusual tuplet: " : "(",
-			   ticks_at_bar + measurewidth - ticks_read,
-			   ticks_at_bar);
-		}
- 		if(debug){
-		  printf("\nmeasure is empty = %d", measure_is_empty);
-		  printf("\nticks_at_bar %ld  + measurewidth %d != ticks_read %ld\n",
-				  ticks_at_bar, measurewidth, ticks_read);
-		  printf("\ninternal ticks = %d\n", internaltoticks(0));
-		}
+          measurewidth = bars2ticks (1, timesigupper, timesiglower);
 
-		//ticks_read = ticks_at_bar + measurewidth;//+ internaltoticks (0);
-	    }
-	  else
-	    {
-	      ;//fprintf (stderr, "[%d]", measurenum);
-	    }
-	  fflush (stdout);
+          if (curmeasure->data == NULL) //An empty measure - treat as whole measure silence
+            ticks_read = ticks_at_bar + measurewidth;
+          if (ticks_at_bar + measurewidth != ticks_read)
+            {
+              if ((!measure_is_empty) && curmeasure->next)
+                {
+                  g_warning ("warning: overfull measure in %s " "measure %d from %ld to %ld " "\n%sdifference is %ld, measure began at %ld)\n", curstaffstruct->lily_name->str, measurenum, ticks_read, ticks_at_bar + measurewidth, measure_has_odd_tuplet ? "(after unusual tuplet: " : "(", ticks_at_bar + measurewidth - ticks_read, ticks_at_bar);
+                }
+              if (debug)
+                {
+                  printf ("\nmeasure is empty = %d", measure_is_empty);
+                  printf ("\nticks_at_bar %ld  + measurewidth %d != ticks_read %ld\n", ticks_at_bar, measurewidth, ticks_read);
+                  printf ("\ninternal ticks = %d\n", internaltoticks (0));
+                }
+
+              //ticks_read = ticks_at_bar + measurewidth;//+ internaltoticks (0);
+            }
+          else
+            {
+              ;                 //fprintf (stderr, "[%d]", measurenum);
+            }
+          fflush (stdout);
 
       /*************************
        * Done with this measure
        *************************/
 
 
-	}			/* Done with this staff */
+        }                       /* Done with this staff */
 
     /***********************
      * Done with this track
@@ -1765,62 +1751,70 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
       /*gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(si->progressbar), fraction + 
          gtk_progress_bar_get_fraction(GTK_PROGRESS_BAR(si->progressbar))); */
       if (si->stafftoplay == 0)
-	curstaff = curstaff->next;
+        curstaff = curstaff->next;
       else
-	break;
+        break;
     }
 
   /********
    * Done!
    ********/
-  if(thefilename) {
-    int dummy2;
-    if(Denemo.gui->si->recorded_midi_track)
-      smf_add_track(smf, Denemo.gui->si->recorded_midi_track);
-    dummy2 = smf_save(smf, (const char*)thefilename);
-    if(Denemo.gui->si->recorded_midi_track)
-      smf_track_remove_from_smf(Denemo.gui->si->recorded_midi_track);
-  }
-  /* we are done */
-  {gboolean midi_track = FALSE;
-  
-  
-g_static_mutex_lock (&smfmutex);
-    if(Denemo.gui->si->recorded_midi_track) {
-      if(si->smf && (((smf_track_t*)Denemo.gui->si->recorded_midi_track)->smf==si->smf)) {
-	smf_track_remove_from_smf(Denemo.gui->si->recorded_midi_track);
-	midi_track = TRUE;
-      }
+  if (thefilename)
+    {
+      int dummy2;
+      if (Denemo.gui->si->recorded_midi_track)
+        smf_add_track (smf, Denemo.gui->si->recorded_midi_track);
+      dummy2 = smf_save (smf, (const char *) thefilename);
+      if (Denemo.gui->si->recorded_midi_track)
+        smf_track_remove_from_smf (Denemo.gui->si->recorded_midi_track);
     }
-    free_midi_data(si);  
+  /* we are done */
+  {
+    gboolean midi_track = FALSE;
+
+
+    g_static_mutex_lock (&smfmutex);
+    if (Denemo.gui->si->recorded_midi_track)
+      {
+        if (si->smf && (((smf_track_t *) Denemo.gui->si->recorded_midi_track)->smf == si->smf))
+          {
+            smf_track_remove_from_smf (Denemo.gui->si->recorded_midi_track);
+            midi_track = TRUE;
+          }
+      }
+    free_midi_data (si);
     si->smf = smf;
-    if(midi_track)
-      smf_add_track(smf, Denemo.gui->si->recorded_midi_track);
+    if (midi_track)
+      smf_add_track (smf, Denemo.gui->si->recorded_midi_track);
 
-  
+
     si->smfsync = si->changecount;
-g_static_mutex_unlock (&smfmutex);
+    g_static_mutex_unlock (&smfmutex);
   }
 
-  if(start || end)
-    return exportmidi(NULL, si, 0, 0);// recurse if we have not generated all the MIDI for si
-  else {
-    if(si->start_time<0.0)
-      si->start_time = 0.0;
-    if(si->end_time<0.0)
-      si->end_time = smf_get_length_seconds(smf);
-    g_print("Start time %f end time %f\n", si->start_time, si->end_time);
-  }
-  call_out_to_guile("(FinalizeMidiGeneration)");
-  return smf_get_length_seconds(smf);
+  if (start || end)
+    return exportmidi (NULL, si, 0, 0); // recurse if we have not generated all the MIDI for si
+  else
+    {
+      if (si->start_time < 0.0)
+        si->start_time = 0.0;
+      if (si->end_time < 0.0)
+        si->end_time = smf_get_length_seconds (smf);
+      g_print ("Start time %f end time %f\n", si->start_time, si->end_time);
+    }
+  call_out_to_guile ("(FinalizeMidiGeneration)");
+  return smf_get_length_seconds (smf);
 }
 
-void free_midi_data(DenemoScore *si) {
-  if(si->smf) {
-    smf_t *temp = si->smf;
-    si->smf = NULL;
-    smf_delete(temp);
-  }
+void
+free_midi_data (DenemoScore * si)
+{
+  if (si->smf)
+    {
+      smf_t *temp = si->smf;
+      si->smf = NULL;
+      smf_delete (temp);
+    }
 }
 
 

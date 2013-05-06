@@ -87,9 +87,7 @@ firstobjnodeinstaff (staffnode * thestaff)
 void
 setcurrentprimarystaff (DenemoScore * si)
 {
-  for (si->currentprimarystaff = si->currentstaff;
-       !((DenemoStaff *) si->currentprimarystaff->data)->voicecontrol&DENEMO_PRIMARY;
-       si->currentprimarystaff = si->currentprimarystaff->prev)
+  for (si->currentprimarystaff = si->currentstaff; !((DenemoStaff *) si->currentprimarystaff->data)->voicecontrol & DENEMO_PRIMARY; si->currentprimarystaff = si->currentprimarystaff->prev)
     ;
 }
 
@@ -102,7 +100,7 @@ setcurrentprimarystaff (DenemoScore * si)
 static void
 copy_staff_bits (DenemoStaff * src, DenemoStaff * dest)
 {
-  dest->clef.type = src->clef.type;//other fields - take care if dynamic
+  dest->clef.type = src->clef.type;     //other fields - take care if dynamic
   dest->keysig.number = src->keysig.number;
   dest->keysig.isminor = src->keysig.isminor;
   memcpy (dest->keysig.accs, src->keysig.accs, SEVENGINTS);
@@ -147,8 +145,8 @@ copy_staff_properties (DenemoStaff * src, DenemoStaff * dest)
 void
 copy_staff (DenemoStaff * src, DenemoStaff * dest)
 {
-  dest->denemo_name = g_string_new(src->denemo_name->str);
-  dest->lily_name = g_string_new(src->lily_name->str);
+  dest->denemo_name = g_string_new (src->denemo_name->str);
+  dest->lily_name = g_string_new (src->lily_name->str);
   dest->midi_instrument = g_string_new (src->midi_instrument->str);
   dest->transposition = src->transposition;
 
@@ -156,12 +154,12 @@ copy_staff (DenemoStaff * src, DenemoStaff * dest)
   dest->voicecontrol = src->voicecontrol;
   dest->clef.type = src->clef.type;
   dest->leftmost_clefcontext = &dest->clef;
- 
-  dest->staff_directives = clone_directives(src->staff_directives);
-  dest->voice_directives = clone_directives(src->voice_directives);
-  dest->clef.directives = clone_directives(src->clef.directives);
-  dest->keysig.directives = clone_directives(src->keysig.directives);
-  dest->timesig.directives = clone_directives(src->timesig.directives);
+
+  dest->staff_directives = clone_directives (src->staff_directives);
+  dest->voice_directives = clone_directives (src->voice_directives);
+  dest->clef.directives = clone_directives (src->clef.directives);
+  dest->keysig.directives = clone_directives (src->keysig.directives);
+  dest->timesig.directives = clone_directives (src->timesig.directives);
 
 
   dest->keysig.number = src->keysig.number;
@@ -178,6 +176,7 @@ copy_staff (DenemoStaff * src, DenemoStaff * dest)
   dest->space_below = 0;
   dest->context = src->context;
 }
+
 /**
  * Insert a new staff into the score
  * @param si the scoreinfo structure
@@ -187,18 +186,18 @@ copy_staff (DenemoStaff * src, DenemoStaff * dest)
  * @return none
  */
 static void
-insert_staff (DenemoScore * si, DenemoStaff * thestaffstruct,
-	      enum newstaffcallbackaction action, gint addat)
+insert_staff (DenemoScore * si, DenemoStaff * thestaffstruct, enum newstaffcallbackaction action, gint addat)
 {
   si->thescore = g_list_insert (si->thescore, thestaffstruct, addat - 1);
   if (action != BEFORE)
-    if (action != AFTER) {
-      si->currentstaff = g_list_nth (si->thescore, addat - 1);
-      si->currentstaffnum = addat;
-      setcurrentprimarystaff (si);
-      find_leftmost_staffcontext (thestaffstruct, si);
-    }
-	set_staff_transition(20);
+    if (action != AFTER)
+      {
+        si->currentstaff = g_list_nth (si->thescore, addat - 1);
+        si->currentstaffnum = addat;
+        setcurrentprimarystaff (si);
+        find_leftmost_staffcontext (thestaffstruct, si);
+      }
+  set_staff_transition (20);
 }
 
 
@@ -211,30 +210,28 @@ insert_staff (DenemoScore * si, DenemoStaff * thestaffstruct,
  * @return none
  */
 void
-newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
-	  DenemoContext context)
+newstaff (DenemoGUI * gui, enum newstaffcallbackaction action, DenemoContext context)
 {
   DenemoScore *si = gui->si;
   g_assert (si != NULL);
   /* What gets added */
   gint ret = -1, err;
-  take_snapshot();
-  DenemoStaff *thestaffstruct =
-    (DenemoStaff *) g_malloc (sizeof (DenemoStaff));
+  take_snapshot ();
+  DenemoStaff *thestaffstruct = (DenemoStaff *) g_malloc (sizeof (DenemoStaff));
 
 
 
- 
-  thestaffstruct->staffmenu = (GtkMenu *)gtk_menu_new();
-  thestaffstruct->voicemenu = (GtkMenu *)gtk_menu_new();
+
+  thestaffstruct->staffmenu = (GtkMenu *) gtk_menu_new ();
+  thestaffstruct->voicemenu = (GtkMenu *) gtk_menu_new ();
 
 
   struct newstaffinfotopass itp;
-  measurenode *themeasures = NULL;	/* Initial set of measures in staff */
+  measurenode *themeasures = NULL;      /* Initial set of measures in staff */
   gint numstaffs = g_list_length (si->thescore);
   gint i, n, addat = 1;
   if (si->lily_file)
-    return;			/* no code for this yet - just edit textually */
+    return;                     /* no code for this yet - just edit textually */
 #ifdef DEBUG
   g_print ("newstaff: Num staffs %d\n", numstaffs);
 #endif
@@ -258,25 +255,23 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
       thestaffstruct->nummeasures = 1;
       thestaffstruct->midi_channel = 0;
 #if 0
-      si->measurewidths = g_list_append (si->measurewidths,
-					 GINT_TO_POINTER (si->measurewidth));
+      si->measurewidths = g_list_append (si->measurewidths, GINT_TO_POINTER (si->measurewidth));
 #else
-      si->measurewidths = g_list_append (NULL,  GINT_TO_POINTER (si->measurewidth));//FIXME free old measurewidths
+      si->measurewidths = g_list_append (NULL, GINT_TO_POINTER (si->measurewidth));     //FIXME free old measurewidths
 #endif
     }
-  else {
+  else
+    {
       /* how did this work before? a new staff must have the same number of measures as the present one(s) */
       thestaffstruct->nummeasures = g_list_length (firstmeasurenode (si->thescore));
-      copy_staff_bits ((DenemoStaff *) si->currentstaff->data,
-		       thestaffstruct);
-      thestaffstruct->midi_channel = (numstaffs<9?numstaffs:numstaffs+1)&0xF;
+      copy_staff_bits ((DenemoStaff *) si->currentstaff->data, thestaffstruct);
+      thestaffstruct->midi_channel = (numstaffs < 9 ? numstaffs : numstaffs + 1) & 0xF;
     }
 
   if (action == NEWVOICE)
     {
       thestaffstruct->voicecontrol = DENEMO_SECONDARY;
-      thestaffstruct->nummeasures =
-	g_list_length (firstmeasurenode (si->currentstaff));//FIXME redundant
+      thestaffstruct->nummeasures = g_list_length (firstmeasurenode (si->currentstaff));        //FIXME redundant
     }
   else
     {
@@ -295,8 +290,9 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
 
 #if 0
   // always go home for new staffs.
- else {
-      si->currentmeasure = g_list_nth(themeasures, si->currentmeasurenum - 1);
+  else
+    {
+      si->currentmeasure = g_list_nth (themeasures, si->currentmeasurenum - 1);
 
     }
 #endif
@@ -315,13 +311,11 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
   //thestaffstruct->fakechords_prolog = NULL;
   thestaffstruct->context = context;
   if (action == NEWVOICE)
-    g_string_sprintf (thestaffstruct->denemo_name, _("poly voice %d"),
-		      numstaffs + 1);
+    g_string_sprintf (thestaffstruct->denemo_name, _("poly voice %d"), numstaffs + 1);
   else if (action == INITIAL)
     g_string_sprintf (thestaffstruct->denemo_name, _("unnamed"));
   else
-    g_string_sprintf (thestaffstruct->denemo_name, _("voice %d"),
-		      numstaffs + 1);
+    g_string_sprintf (thestaffstruct->denemo_name, _("voice %d"), numstaffs + 1);
   set_lily_name (thestaffstruct->denemo_name, thestaffstruct->lily_name);
   thestaffstruct->midi_instrument = g_string_new ("");
   thestaffstruct->device_port = g_string_new ("NONE");
@@ -356,45 +350,44 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
   itp.gui = gui;
   itp.staff = thestaffstruct;
   itp.addat = addat;
-  
+
   if (action != INITIAL && action != ADDFROMLOAD)
     {
       if (action == NEWVOICE)
-	{
-	  copy_staff_properties ((DenemoStaff *) si->currentstaff->data,
-				 thestaffstruct);
-    set_lily_name (thestaffstruct->denemo_name, thestaffstruct->lily_name);//this should be re-done if the denemo_name is reset.
-	  insert_staff (si, thestaffstruct, action, addat);
-	}
+        {
+          copy_staff_properties ((DenemoStaff *) si->currentstaff->data, thestaffstruct);
+          set_lily_name (thestaffstruct->denemo_name, thestaffstruct->lily_name);       //this should be re-done if the denemo_name is reset.
+          insert_staff (si, thestaffstruct, action, addat);
+        }
       else
-	{
-	  //	  ret = staff_properties_change (&itp);
-	  //	  if (ret)
-	    {
-	      /* 
-	         If staff_properties_change returns false,
-	         then the staff should probably be removed
-	         Fixed 09042005 Adam Tee 
-	       */
-	      insert_staff (si, thestaffstruct, action, addat);
-	      si->currentmeasurenum = 1;
-	      /*
-	         Reset leftmeasure num to 1 to be at the start of 
-	         the next staff. 
-	       */
-	      si->leftmeasurenum = 1;
-	    }
-	    //	  else
-	    //	    {
-	      	      /*
-	       *  Free the staff struct as it has not been inserted 
-	       *  into the score
-	       */
-	    //     g_free (thestaffstruct);
-	    //  }
-	}
+        {
+          //      ret = staff_properties_change (&itp);
+          //      if (ret)
+          {
+            /* 
+               If staff_properties_change returns false,
+               then the staff should probably be removed
+               Fixed 09042005 Adam Tee 
+             */
+            insert_staff (si, thestaffstruct, action, addat);
+            si->currentmeasurenum = 1;
+            /*
+               Reset leftmeasure num to 1 to be at the start of 
+               the next staff. 
+             */
+            si->leftmeasurenum = 1;
+          }
+          //    else
+          //      {
+          /*
+           *  Free the staff struct as it has not been inserted 
+           *  into the score
+           */
+          //     g_free (thestaffstruct);
+          //  }
+        }
     }
-  else // is INITIAL or ADDFROMLOAD
+  else                          // is INITIAL or ADDFROMLOAD
     {
       insert_staff (si, thestaffstruct, action, addat);
       si->leftmeasurenum = 1;
@@ -404,7 +397,9 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
 }
 
 
-gboolean signal_structural_change(DenemoGUI *gui) {
+gboolean
+signal_structural_change (DenemoGUI * gui)
+{
   gui->layout_sync = gui->changecount;
   return TRUE;
 }
@@ -422,75 +417,77 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
 {
   DenemoScore *si = gui->si;
   DenemoStaff *curstaffstruct = si->currentstaff->data;
- 
-  (void)signal_structural_change(gui);
-  if(si->currentstaff==NULL)
+
+  (void) signal_structural_change (gui);
+  if (si->currentstaff == NULL)
     return;
-  
-  gboolean give_info=FALSE;//give info about removing matching context
-  if(interactive && (curstaffstruct->context!=DENEMO_NONE) &&
-     (!confirm("A context is set on this staff", "You will need to alter/delete the matching staff; Proceed?")))
+
+  gboolean give_info = FALSE;   //give info about removing matching context
+  if (interactive && (curstaffstruct->context != DENEMO_NONE) && (!confirm ("A context is set on this staff", "You will need to alter/delete the matching staff; Proceed?")))
     return;
-  if(interactive &&  (curstaffstruct->context!=DENEMO_NONE))
+  if (interactive && (curstaffstruct->context != DENEMO_NONE))
     give_info = TRUE;
-  take_snapshot();
-  gboolean isprimary = (gboolean)(curstaffstruct->voicecontrol & DENEMO_PRIMARY);
+  take_snapshot ();
+  gboolean isprimary = (gboolean) (curstaffstruct->voicecontrol & DENEMO_PRIMARY);
   //FIXME free_staff()
 
-  free_directives(curstaffstruct->staff_directives);
-  free_directives(curstaffstruct->timesig.directives);
-  free_directives(curstaffstruct->keysig.directives);
+  free_directives (curstaffstruct->staff_directives);
+  free_directives (curstaffstruct->timesig.directives);
+  free_directives (curstaffstruct->keysig.directives);
 
-  gtk_widget_destroy((GtkWidget *)(curstaffstruct->staffmenu));
-  gtk_widget_destroy((GtkWidget *)(curstaffstruct->voicemenu));
+  gtk_widget_destroy ((GtkWidget *) (curstaffstruct->staffmenu));
+  gtk_widget_destroy ((GtkWidget *) (curstaffstruct->voicemenu));
 
 
   g_list_foreach (curstaffstruct->measures, freeobjlist, NULL);
   g_list_free (curstaffstruct->measures);
-  g_string_free (curstaffstruct->denemo_name, FALSE);//FIXME these should all be TRUE??
+  g_string_free (curstaffstruct->denemo_name, FALSE);   //FIXME these should all be TRUE??
   g_string_free (curstaffstruct->lily_name, FALSE);
   g_string_free (curstaffstruct->midi_instrument, FALSE);
- // g_list_foreach (curstaffstruct->verses, (GFunc)destroy_parent, NULL);//FIXME it is enough to destroy the notebook, here we are only destroying the GtkTextViews
-  if(curstaffstruct->verses) 
-		gtk_widget_destroy(gtk_widget_get_parent(gtk_widget_get_parent(curstaffstruct->verses->data)));
-  
+  // g_list_foreach (curstaffstruct->verses, (GFunc)destroy_parent, NULL);//FIXME it is enough to destroy the notebook, here we are only destroying the GtkTextViews
+  if (curstaffstruct->verses)
+    gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (curstaffstruct->verses->data)));
+
   g_free (curstaffstruct);
 
 
 
 
-  if(si->currentstaff==g_list_last(si->thescore))
-    si->currentstaffnum--;//deleting the last, so the currentstaffnum must decrease
+  if (si->currentstaff == g_list_last (si->thescore))
+    si->currentstaffnum--;      //deleting the last, so the currentstaffnum must decrease
   else
-  	set_staff_transition(20);
+    set_staff_transition (20);
   si->thescore = g_list_delete_link (si->thescore, si->currentstaff);
-  if(si->thescore==NULL) {
-    newstaff (gui, INITIAL, DENEMO_NONE);
-  }
+  if (si->thescore == NULL)
+    {
+      newstaff (gui, INITIAL, DENEMO_NONE);
+    }
   si->currentstaff = g_list_nth (si->thescore, si->currentstaffnum - 1);
 
 
-  if (isprimary) // we deleted the primary, so the next one must become the primary
+  if (isprimary)                // we deleted the primary, so the next one must become the primary
     {
       ((DenemoStaff *) si->currentstaff->data)->voicecontrol = DENEMO_PRIMARY;
       si->currentprimarystaff = si->currentstaff;
-    } else {
+    }
+  else
+    {
       setcurrentprimarystaff (si);
     }
   setcurrents (si);
-  if(si->markstaffnum)
+  if (si->markstaffnum)
     calcmarkboundaries (si);
-  if(gui->si->currentstaffnum < gui->si->top_staff)
-    gui->si->top_staff = gui->si->currentstaffnum; 
-  show_lyrics();
+  if (gui->si->currentstaffnum < gui->si->top_staff)
+    gui->si->top_staff = gui->si->currentstaffnum;
+  show_lyrics ();
   update_vscrollbar (gui);
 
   displayhelper (gui);
-  score_status(gui,TRUE);
-  if(give_info)
+  score_status (gui, TRUE);
+  if (give_info)
     infodialog ("The staff deleted had a start/end context; if you still have the staff with the matching end/start context\n then you should remove it (or its context) now.\nSee Staff->properties->context\nYou will not be able to print with miss-matched contexts.");
   return;
-}	
+}
 
 /**
  * Sets the beams and stem directions across the given staff
@@ -508,11 +505,9 @@ beamsandstemdirswholestaff (DenemoStaff * thestaff)
   time2 = thestaff->timesig.time2;
   stem_directive = DENEMO_STEMBOTH;
 
-  for (curmeasure = thestaff->measures; curmeasure;
-       curmeasure = curmeasure->next)
+  for (curmeasure = thestaff->measures; curmeasure; curmeasure = curmeasure->next)
     {
-      calculatebeamsandstemdirs ((objnode *) curmeasure->data, &nclef, &time1,
-				 &time2, &stem_directive);
+      calculatebeamsandstemdirs ((objnode *) curmeasure->data, &nclef, &time1, &time2, &stem_directive);
     }
 }
 
@@ -530,10 +525,8 @@ showwhichaccidentalswholestaff (DenemoStaff * thestaff)
 
   memcpy (feed, thestaff->keysig.accs, SEVENGINTS);
   feednum = thestaff->keysig.number;
-  for (curmeasure = thestaff->measures; curmeasure;
-       curmeasure = curmeasure->next)
-    feednum =
-      showwhichaccidentals ((objnode *) curmeasure->data, feednum, feed);
+  for (curmeasure = thestaff->measures; curmeasure; curmeasure = curmeasure->next)
+    feednum = showwhichaccidentals ((objnode *) curmeasure->data, feednum, feed);
 }
 
 /**
@@ -552,31 +545,29 @@ fixnoteheights (DenemoStaff * thestaff)
   objnode *curobj;
   DenemoObject *theobj;
 
-  for (curmeasure = thestaff->measures; curmeasure;
-       curmeasure = curmeasure->next)
+  for (curmeasure = thestaff->measures; curmeasure; curmeasure = curmeasure->next)
     {
       //initialclef = nclef;
-      for (curobj = (objnode *) curmeasure->data; curobj;
-	   curobj = curobj->next)
-	{
-	  theobj = (DenemoObject *) curobj->data;
-	  switch (theobj->type)
-	    {
-	    case CHORD:
-	      newclefify (theobj, nclef);
-	      break;
-	    case TIMESIG://USELESS
-	      //time1 = ((timesig *) theobj->object)->time1;
-	      // time2 = ((timesig *) theobj->object)->time2;
-	      break;
-	    case CLEF:
-	      nclef = ((clef *) theobj->object)->type;
-	      break;
-	    default:
-	      break;
-	    }
-	}			/* End for */
-    }				/* End for */
+      for (curobj = (objnode *) curmeasure->data; curobj; curobj = curobj->next)
+        {
+          theobj = (DenemoObject *) curobj->data;
+          switch (theobj->type)
+            {
+            case CHORD:
+              newclefify (theobj, nclef);
+              break;
+            case TIMESIG:      //USELESS
+              //time1 = ((timesig *) theobj->object)->time1;
+              // time2 = ((timesig *) theobj->object)->time2;
+              break;
+            case CLEF:
+              nclef = ((clef *) theobj->object)->type;
+              break;
+            default:
+              break;
+            }
+        }                       /* End for */
+    }                           /* End for */
   beamsandstemdirswholestaff (thestaff);
 }
 
@@ -589,11 +580,11 @@ fixnoteheights (DenemoStaff * thestaff)
  * @return none
  */
 void
-newstaffinitial (GtkAction *action, gpointer param)
+newstaffinitial (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  while(gui->si->currentstaff && gui->si->currentstaff->prev)
-    movetostaffup(param);
+  while (gui->si->currentstaff && gui->si->currentstaff->prev)
+    movetostaffup (param);
   newstaffbefore (action, NULL);
 }
 
@@ -604,14 +595,14 @@ newstaffinitial (GtkAction *action, gpointer param)
  * @return none
  */
 void
-newstaffbefore (GtkAction *action, gpointer param)
+newstaffbefore (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  (void)signal_structural_change(gui);
-   
-  movetostart(NULL, NULL);
+  (void) signal_structural_change (gui);
+
+  movetostart (NULL, NULL);
   newstaff (gui, BEFORE, DENEMO_NONE);
-  if(gui->si->currentstaffnum>= gui->si->top_staff)
+  if (gui->si->currentstaffnum >= gui->si->top_staff)
     gui->si->top_staff++;
   gui->si->currentstaffnum++;
   gui->si->bottom_staff++;
@@ -630,12 +621,12 @@ newstaffbefore (GtkAction *action, gpointer param)
  * @return none
  */
 void
-dnm_newstaffafter (GtkAction *action, gpointer param)
+dnm_newstaffafter (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  if(!signal_structural_change(gui))
+  if (!signal_structural_change (gui))
     return;
-  movetostart(NULL, NULL);
+  movetostart (NULL, NULL);
   newstaff (gui, AFTER, DENEMO_NONE);
   set_bottom_staff (gui);
   update_vscrollbar (gui);
@@ -650,12 +641,12 @@ dnm_newstaffafter (GtkAction *action, gpointer param)
  * @return none
  */
 void
-newstafflast (GtkAction *action, gpointer param)
+newstafflast (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  while(gui->si->currentstaff && gui->si->currentstaff->next)
-    movetostaffdown(param);
-  dnm_newstaffafter(action, param);
+  while (gui->si->currentstaff && gui->si->currentstaff->next)
+    movetostaffdown (param);
+  dnm_newstaffafter (action, param);
 }
 
 /**
@@ -665,15 +656,14 @@ newstafflast (GtkAction *action, gpointer param)
  * @return none
  */
 void
-dnm_newstaffvoice (GtkAction *action, gpointer param)
+dnm_newstaffvoice (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   newstaff (gui, NEWVOICE, DENEMO_NONE);
   set_bottom_staff (gui);
   update_vscrollbar (gui);
-  setcurrents(gui->si);
-  if(gui->si->markstaffnum)
+  setcurrents (gui->si);
+  if (gui->si->markstaffnum)
     calcmarkboundaries (gui->si);
   displayhelper (gui);
 }
-

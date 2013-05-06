@@ -20,7 +20,8 @@
 /**
  * The common interface for all audio and MIDI backends.
  */
-typedef struct backend_t {
+typedef struct backend_t
+{
   /**
    * Initializes the backend with the given configuration.
    *
@@ -32,14 +33,14 @@ typedef struct backend_t {
    *
    * @return        zero on success, a negative error code on failure
    */
-  int (*initialize)(DenemoPrefs *config);
+  int (*initialize) (DenemoPrefs * config);
 
   /**
    * Destroys the backend and cleans up all its resources.
    *
    * @return        zero on success, a negative error code on failure
    */
-  int (*destroy)();
+  int (*destroy) ();
 
   /**
    * Changes the backend's configuration, if possible without destroying and
@@ -50,28 +51,28 @@ typedef struct backend_t {
    *
    * @return        zero on success, a negative error code on failure
    */
-  int (*reconfigure)(DenemoPrefs *config);
+  int (*reconfigure) (DenemoPrefs * config);
 
   /**
    * Called when playback is started.
    *
    * @return        zero on success, a negative error code on failure
    */
-  int (*start_playing)();
+  int (*start_playing) ();
 
   /**
    * Called when playback is stopped.
    *
    * @return        zero on success, a negative error code on failure
    */
-  int (*stop_playing)();
+  int (*stop_playing) ();
 
   /**
    * Sends a MIDI panic CC and/or resets the synth engine.
    *
    * @return        zero on success, a negative error code on failure
    */
-  int (*panic)();
+  int (*panic) ();
 
 } backend_t;
 
@@ -79,7 +80,8 @@ typedef struct backend_t {
 /**
  * An enum that identifies a backend's type.
  */
-typedef enum backend_type_t {
+typedef enum backend_type_t
+{
   /**
    * The default backend (either audio or MIDI)
    */
@@ -102,7 +104,8 @@ typedef enum backend_type_t {
 /**
  * An enum that specifies a backend's priority regarding the playback time.
  */
-typedef enum backend_timebase_prio_t {
+typedef enum backend_timebase_prio_t
+{
   /**
    * The backend synchronizes to an external sample clock
    */
@@ -118,7 +121,8 @@ typedef enum backend_timebase_prio_t {
 } backend_timebase_prio_t;
 
 
-typedef struct midi_event_t {
+typedef struct midi_event_t
+{
   backend_type_t backend;
   int port;
   int length;
@@ -131,30 +135,29 @@ typedef struct midi_event_t {
  *
  * @return        zero on success, a negative error code on failure
  */
-int audio_initialize(DenemoPrefs *config);
+int audio_initialize (DenemoPrefs * config);
 
 /**
  * Destroys and cleans up the audio/MIDI subsystem.
  *
  * @return        zero on success, a negative error code on failure
  */
-int audio_shutdown();
+int audio_shutdown ();
 
 /**
  * Starts playing the current movement.
  */
-void midi_play(gchar *callback);
+void midi_play (gchar * callback);
 
 /**
  * Starts playing the current movements source audio.
  */
-void
-audio_play(void);
+void audio_play (void);
 
 /**
  * Stops playing the current movement.
  */
-void midi_stop();
+void midi_stop ();
 
 /**
  * Plays a single MIDI event.
@@ -164,7 +167,7 @@ void midi_stop();
  *                  by most backends.
  * @param buffer    the MIDI data to be sent
  */
-int play_midi_event(backend_type_t backend, int port, unsigned char *buffer);
+int play_midi_event (backend_type_t backend, int port, unsigned char *buffer);
 
 /**
  * Plays a single note.
@@ -177,7 +180,7 @@ int play_midi_event(backend_type_t backend, int port, unsigned char *buffer);
  * @param duration  the note's duration in milliseconds
  * @param volume    the note's volume (1-127)
  */
-int play_note(backend_type_t backend, int port, int channel, int key, int duration, int volume);
+int play_note (backend_type_t backend, int port, int channel, int key, int duration, int volume);
 
 /**
  * Plays a chord.
@@ -188,25 +191,25 @@ int play_note(backend_type_t backend, int port, int channel, int key, int durati
  * @param channel   the note's MIDI channel
  * @param chord     the chord structure containing the individual notes to be played
  */
-int play_notes(backend_type_t backend, int port, int channel, chord *chord_to_play);
+int play_notes (backend_type_t backend, int port, int channel, chord * chord_to_play);
 
 /**
  * Not yet implemented.
  */
-int rhythm_feedback(backend_type_t backend, int duration, gboolean rest, gboolean dot);
+int rhythm_feedback (backend_type_t backend, int duration, gboolean rest, gboolean dot);
 
 /**
  * Sends a MIDI panic CC and/or resets the synth engine.
  *
  * @param backend   the backend to be reset
  */
-int panic(backend_type_t backend);
+int panic (backend_type_t backend);
 
 /**
  * Sends a MIDI panic CC and/or resets the synth engine for all active
  * backends.
  */
-int panic_all();
+int panic_all ();
 
 
 
@@ -225,10 +228,8 @@ int panic_all();
  *                            parameters, FALSE if there is no event to be
  *                            played
  */
-gboolean read_event_from_queue(backend_type_t backend, unsigned char *event_buffer, size_t *event_length,
-                               double *event_time, double until_time);
-gboolean read_event_from_mixer_queue(backend_type_t backend, unsigned char *event_buffer, size_t *event_length,
-                               double *event_time, double until_time);
+gboolean read_event_from_queue (backend_type_t backend, unsigned char *event_buffer, size_t * event_length, double *event_time, double until_time);
+gboolean read_event_from_mixer_queue (backend_type_t backend, unsigned char *event_buffer, size_t * event_length, double *event_time, double until_time);
 /**
  * Called by a backend to notify the audio subsystem that the current playback
  * time changed. Usually this is called once per period during playback.
@@ -236,12 +237,12 @@ gboolean read_event_from_mixer_queue(backend_type_t backend, unsigned char *even
  * @param prio        the backend's timebase priority
  * @param new_time    the new playback time in milliseconds
  */
-void update_playback_time(backend_timebase_prio_t prio, double new_time);
+void update_playback_time (backend_timebase_prio_t prio, double new_time);
 
 /**
  * Returns the current playback time in milliseconds.
  */
-double get_playback_time();
+double get_playback_time ();
 
 /**
  * Called by a backend when an incoming MIDI event was received.
@@ -251,22 +252,22 @@ double get_playback_time();
  *                  one port)
  * @param buffer    the MIDI event data
  */
-void input_midi_event(backend_type_t backend, int port, unsigned char *buffer);
+void input_midi_event (backend_type_t backend, int port, unsigned char *buffer);
 
 
 
 /**
  * Queues a full redraw of the GUI.
  */
-void queue_redraw_all();
+void queue_redraw_all ();
 
 /**
  * Queues a redraw of the playhead.
  */
-void queue_redraw_playhead();
+void queue_redraw_playhead ();
 
 extern GStaticMutex smfmutex;
 
-gboolean have_midi(void);
+gboolean have_midi (void);
 
 #endif // AUDIOINTERFACE_H

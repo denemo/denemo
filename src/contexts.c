@@ -35,16 +35,16 @@ find_measure_context (measurenode * curmeasure, gint thetype)
   while (1)
     {
       while (!curobj)
-	{			/* Cycle back to preceding measure */
-	  if (!curmeasure->prev)
-	    return NULL;	/* That is, we've fallen off the beginnig */
-	  curmeasure = curmeasure->prev;
-	  curobj = lastobjnode (curmeasure);
-	}
+        {                       /* Cycle back to preceding measure */
+          if (!curmeasure->prev)
+            return NULL;        /* That is, we've fallen off the beginnig */
+          curmeasure = curmeasure->prev;
+          curobj = lastobjnode (curmeasure);
+        }
       if (((DenemoObject *) curobj->data)->type == thetype)
-	return (DenemoObject *) curobj->data;
+        return (DenemoObject *) curobj->data;
       else
-	curobj = curobj->prev;
+        curobj = curobj->prev;
     }
 }
 
@@ -58,75 +58,87 @@ find_measure_context (measurenode * curmeasure, gint thetype)
  * @return the first DenemoObject of type thetype
  */
 static DenemoObject *
-find_context_of_object (DenemoScore *si, gint thetype)
+find_context_of_object (DenemoScore * si, gint thetype)
 {
   objnode *curobj = si->currentobject;
   measurenode *curmeasure = si->currentmeasure;
-  if(curobj==NULL || curmeasure==NULL)
+  if (curobj == NULL || curmeasure == NULL)
     return NULL;
   while (curobj)
     {
       if (((DenemoObject *) curobj->data)->type == thetype)
-	return (DenemoObject *) curobj->data;
+        return (DenemoObject *) curobj->data;
       else
-	curobj = curobj->prev;
-     if (curobj==NULL)
-	{			/* go back to preceding measure */
-	  while(curmeasure = curmeasure->prev) 	{  
-	    curobj = lastobjnode (curmeasure);
-	    if(curobj)
-		break;
-	  }
-	}
+        curobj = curobj->prev;
+      if (curobj == NULL)
+        {                       /* go back to preceding measure */
+          while (curmeasure = curmeasure->prev)
+            {
+              curobj = lastobjnode (curmeasure);
+              if (curobj)
+                break;
+            }
+        }
     }
   return NULL;
 }
 
 
-DenemoObject *get_clef_before_object(objnode *obj) {
+DenemoObject *
+get_clef_before_object (objnode * obj)
+{
   DenemoObject *ret;
   objnode *curobj = Denemo.gui->si->currentobject;
   Denemo.gui->si->currentobject = obj;
-  ret = find_context_of_object(Denemo.gui->si, CLEF);
+  ret = find_context_of_object (Denemo.gui->si, CLEF);
   Denemo.gui->si->currentobject = curobj;
   return ret;
 }
 
 /* find the clef in which the currentobject lies */
-gint 
-find_prevailing_clef(DenemoScore *si) {
-DenemoStaff *curstaff = ((DenemoStaff*)si->currentstaff->data);
-DenemoObject *obj= find_context_of_object (si, CLEF);
+gint
+find_prevailing_clef (DenemoScore * si)
+{
+  DenemoStaff *curstaff = ((DenemoStaff *) si->currentstaff->data);
+  DenemoObject *obj = find_context_of_object (si, CLEF);
 // g_print("prevailing clef %d\n",  obj? ((clef *) obj->object)->type:curstaff->clef.type);
-return obj? ((clef *) obj->object)->type:
-  curstaff->clef.type;
+  return obj ? ((clef *) obj->object)->type : curstaff->clef.type;
 }
 
 /* returns a pointer to a CLEF TIMESIG or KEYSIG structure which holds the information on the prevailing context for the current object */
-gpointer get_prevailing_context(DenemoObjType type) {
-  DenemoStaff *curstaff = ((DenemoStaff*)Denemo.gui->si->currentstaff->data);
-  DenemoObject* obj;
-  switch(type) {
-  case CLEF:
-    obj = find_context_of_object(Denemo.gui->si, CLEF);
-    if(obj==NULL) obj = (DenemoObject *) &curstaff->clef;
-    else obj = obj->object;
-    break;
-  case KEYSIG:
-    obj = find_context_of_object(Denemo.gui->si, KEYSIG);
-    if(obj==NULL) obj = (DenemoObject *) &curstaff->keysig;
-else obj = obj->object;
-    break;
-  case TIMESIG:
-    obj = find_context_of_object(Denemo.gui->si, TIMESIG);
-    if(obj==NULL) obj = (DenemoObject *) &curstaff->timesig;
-else obj = obj->object;
-    break;
-  default:
-    g_critical("Wrong type in call to get_prevailing_context");
-    obj = NULL;
-    break;
-  }
+gpointer
+get_prevailing_context (DenemoObjType type)
+{
+  DenemoStaff *curstaff = ((DenemoStaff *) Denemo.gui->si->currentstaff->data);
+  DenemoObject *obj;
+  switch (type)
+    {
+    case CLEF:
+      obj = find_context_of_object (Denemo.gui->si, CLEF);
+      if (obj == NULL)
+        obj = (DenemoObject *) & curstaff->clef;
+      else
+        obj = obj->object;
+      break;
+    case KEYSIG:
+      obj = find_context_of_object (Denemo.gui->si, KEYSIG);
+      if (obj == NULL)
+        obj = (DenemoObject *) & curstaff->keysig;
+      else
+        obj = obj->object;
+      break;
+    case TIMESIG:
+      obj = find_context_of_object (Denemo.gui->si, TIMESIG);
+      if (obj == NULL)
+        obj = (DenemoObject *) & curstaff->timesig;
+      else
+        obj = obj->object;
+      break;
+    default:
+      g_critical ("Wrong type in call to get_prevailing_context");
+      obj = NULL;
+      break;
+    }
   return obj;
 }
 
@@ -142,7 +154,7 @@ void
 find_leftmost_staffcontext (DenemoStaff * curstaffstruct, DenemoScore * si)
 {
   measurenode *leftmeasure = g_list_nth (curstaffstruct->measures,
-					 si->leftmeasurenum - 1);
+                                         si->leftmeasurenum - 1);
   DenemoObject *obj;
 
   if ((obj = find_measure_context (leftmeasure, CLEF)))
@@ -155,23 +167,19 @@ find_leftmost_staffcontext (DenemoStaff * curstaffstruct, DenemoScore * si)
     curstaffstruct->leftmost_keysig = &curstaffstruct->keysig;
 
   // initkeyaccs (curstaffstruct->leftmost_keysig->accs,
-  //	       curstaffstruct->leftmost_keysig->number);
+  //           curstaffstruct->leftmost_keysig->number);
 
-      si->maxkeywidth = MAX (si->maxkeywidth, 
-			     draw_key (NULL, 0, 0, curstaffstruct->leftmost_keysig->number,
-	      0, 0, FALSE, curstaffstruct->leftmost_keysig));
+  si->maxkeywidth = MAX (si->maxkeywidth, draw_key (NULL, 0, 0, curstaffstruct->leftmost_keysig->number, 0, 0, FALSE, curstaffstruct->leftmost_keysig));
   if ((obj = find_measure_context (leftmeasure, TIMESIG)))
     {
-      curstaffstruct->leftmost_timesig =
-	(timesig *) obj->object;
+      curstaffstruct->leftmost_timesig = (timesig *) obj->object;
     }
   else
     {
       curstaffstruct->leftmost_timesig = &curstaffstruct->timesig;
     }
   if ((obj = find_measure_context (leftmeasure, STEMDIRECTIVE)))
-    curstaffstruct->leftmost_stem_directive =
-      ((stemdirective *) obj->object)->type;
+    curstaffstruct->leftmost_stem_directive = ((stemdirective *) obj->object)->type;
   else
     curstaffstruct->leftmost_stem_directive = DENEMO_STEMBOTH;
 }

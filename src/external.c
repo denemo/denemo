@@ -27,7 +27,7 @@ gchar *
 get_temp_filename (const gchar * name)
 {
   gchar *path = NULL;
-  if(locatedotdenemo()==NULL)
+  if (locatedotdenemo () == NULL)
     return NULL;
   if (name != NULL)
     path = g_build_filename (locatedotdenemo (), name, NULL);
@@ -43,7 +43,7 @@ get_temp_filename (const gchar * name)
 gchar *
 dnm_get_temp_filename (const gchar * name)
 {
-	return get_temp_filename (name);
+  return get_temp_filename (name);
 }
 
 
@@ -59,7 +59,7 @@ dnm_get_temp_filename (const gchar * name)
 GPid
 spawn_external (const GString * cmdline)
 {
-  GError *err = NULL; /* force implicit g_malloc */
+  GError *err = NULL;           /* force implicit g_malloc */
   gchar **argv;
   GPid pid = GPID_UNREF;
   gboolean ok;
@@ -67,21 +67,20 @@ spawn_external (const GString * cmdline)
   if (!cmdline->str)
     return GPID_UNREF;
 
-  /*  argv = build_argv (cmdline->str);*/
-  if(!g_shell_parse_argv(cmdline->str, NULL, &argv, &err))
+  /*  argv = build_argv (cmdline->str); */
+  if (!g_shell_parse_argv (cmdline->str, NULL, &argv, &err))
     {
-      g_message(_("Could not parse command line: %s\n"),
-		err->message);
-      g_error_free(err);
+      g_message (_("Could not parse command line: %s\n"), err->message);
+      g_error_free (err);
       return pid;
     }
-  ok = g_spawn_async (NULL,	/* dir */
-		      argv, NULL,	/* env */
-		      G_SPAWN_SEARCH_PATH,  /* | G_SPAWN_DO_NOT_REAP_CHILD, */
-		      NULL,	/* child setup func */
-		      NULL,	/* user data passed to setup */
-		      &pid,	/* child pid */
-		      &err);
+  ok = g_spawn_async (NULL,     /* dir */
+                      argv, NULL,       /* env */
+                      G_SPAWN_SEARCH_PATH,      /* | G_SPAWN_DO_NOT_REAP_CHILD, */
+                      NULL,     /* child setup func */
+                      NULL,     /* user data passed to setup */
+                      &pid,     /* child pid */
+                      &err);
 
   if (!ok)
     {
@@ -89,6 +88,6 @@ spawn_external (const GString * cmdline)
       g_error_free (err);
     }
   /*  free_argv (argv); */
-  g_strfreev(argv);
+  g_strfreev (argv);
   return pid;
 }

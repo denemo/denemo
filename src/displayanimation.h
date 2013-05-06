@@ -11,22 +11,17 @@
 #ifndef DISPLAYANIMATION_H
 #define DISPLAYANIMATION_H
 
-void set_viewport_transition(gint amount);
-void set_staff_transition(gint amount);
-void set_movmement_transition(gint amount);
-void set_measure_transition(gint amount, gboolean all);
-void set_cursor_transition(void);
+void set_viewport_transition (gint amount);
+void set_staff_transition (gint amount);
+void set_movmement_transition (gint amount);
+void set_measure_transition (gint amount, gboolean all);
+void set_cursor_transition (void);
 
-gdouble 
-transition_offset(void);
-gdouble 
-transition_cursor_scale(void);
+gdouble transition_offset (void);
+gdouble transition_cursor_scale (void);
 
-gdouble
-measure_transition_offset(gboolean current);
+gdouble measure_transition_offset (gboolean current);
 
-gdouble 
-staff_transition_offset(void);
-gdouble 
-movement_transition_offset(void);
+gdouble staff_transition_offset (void);
+gdouble movement_transition_offset (void);
 #endif

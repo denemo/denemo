@@ -20,5 +20,3 @@ extern backend_t portmidi_backend;
 
 
 #endif // PORTMIDIBACKEND_H
-
-

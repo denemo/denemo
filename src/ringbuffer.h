@@ -22,7 +22,8 @@
 #define _RINGBUFFER_H
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #include <sys/types.h>
@@ -41,23 +42,23 @@ extern "C" {
  * identities cannot be interchanged.
  */
 
-typedef struct  
-{
-  char  *buf;
-  size_t len;
-} 
-jack_ringbuffer_data_t ;
+  typedef struct
+  {
+    char *buf;
+    size_t len;
+  }
+  jack_ringbuffer_data_t;
 
-typedef struct
-{
-  char		 *buf;
-  volatile size_t write_ptr;
-  volatile size_t read_ptr;
-  size_t	  size;
-  size_t	  size_mask;
-  int		  mlocked;
-} 
-jack_ringbuffer_t ;
+  typedef struct
+  {
+    char *buf;
+    volatile size_t write_ptr;
+    volatile size_t read_ptr;
+    size_t size;
+    size_t size_mask;
+    int mlocked;
+  }
+  jack_ringbuffer_t;
 
 /**
  * Allocates a ringbuffer data structure of a specified size. The
@@ -69,7 +70,7 @@ jack_ringbuffer_t ;
  * @return a pointer to a new jack_ringbuffer_t, if successful; NULL
  * otherwise.
  */
-jack_ringbuffer_t *jack_ringbuffer_create(size_t sz);
+  jack_ringbuffer_t *jack_ringbuffer_create (size_t sz);
 
 /**
  * Frees the ringbuffer data structure allocated by an earlier call to
@@ -77,7 +78,7 @@ jack_ringbuffer_t *jack_ringbuffer_create(size_t sz);
  *
  * @param rb a pointer to the ringbuffer structure.
  */
-void jack_ringbuffer_free(jack_ringbuffer_t *rb);
+  void jack_ringbuffer_free (jack_ringbuffer_t * rb);
 
 /**
  * Fill a data structure with a description of the current readable
@@ -99,8 +100,7 @@ void jack_ringbuffer_free(jack_ringbuffer_t *rb);
  * @param vec a pointer to a 2 element array of jack_ringbuffer_data_t.
  *
  */
-void jack_ringbuffer_get_read_vector(const jack_ringbuffer_t *rb,
-				     jack_ringbuffer_data_t *vec);
+  void jack_ringbuffer_get_read_vector (const jack_ringbuffer_t * rb, jack_ringbuffer_data_t * vec);
 
 /**
  * Fill a data structure with a description of the current writable
@@ -121,8 +121,7 @@ void jack_ringbuffer_get_read_vector(const jack_ringbuffer_t *rb,
  * @param rb a pointer to the ringbuffer structure.
  * @param vec a pointer to a 2 element array of jack_ringbuffer_data_t.
  */
-void jack_ringbuffer_get_write_vector(const jack_ringbuffer_t *rb,
-				      jack_ringbuffer_data_t *vec);
+  void jack_ringbuffer_get_write_vector (const jack_ringbuffer_t * rb, jack_ringbuffer_data_t * vec);
 
 /**
  * Read data from the ringbuffer.
@@ -134,7 +133,7 @@ void jack_ringbuffer_get_write_vector(const jack_ringbuffer_t *rb,
  *
  * @return the number of bytes read, which may range from 0 to cnt.
  */
-size_t jack_ringbuffer_read(jack_ringbuffer_t *rb, char *dest, size_t cnt);
+  size_t jack_ringbuffer_read (jack_ringbuffer_t * rb, char *dest, size_t cnt);
 
 /**
  * Read data from the ringbuffer. Opposed to jack_ringbuffer_read()
@@ -151,7 +150,7 @@ size_t jack_ringbuffer_read(jack_ringbuffer_t *rb, char *dest, size_t cnt);
  *
  * @return the number of bytes read, which may range from 0 to cnt.
  */
-size_t jack_ringbuffer_peek(jack_ringbuffer_t *rb, char *dest, size_t cnt);
+  size_t jack_ringbuffer_peek (jack_ringbuffer_t * rb, char *dest, size_t cnt);
 
 /**
  * Advance the read pointer.
@@ -164,7 +163,7 @@ size_t jack_ringbuffer_peek(jack_ringbuffer_t *rb, char *dest, size_t cnt);
  * @param rb a pointer to the ringbuffer structure.
  * @param cnt the number of bytes read.
  */
-void jack_ringbuffer_read_advance(jack_ringbuffer_t *rb, size_t cnt);
+  void jack_ringbuffer_read_advance (jack_ringbuffer_t * rb, size_t cnt);
 
 /**
  * Return the number of bytes available for reading.
@@ -173,7 +172,7 @@ void jack_ringbuffer_read_advance(jack_ringbuffer_t *rb, size_t cnt);
  *
  * @return the number of bytes available to read.
  */
-size_t jack_ringbuffer_read_space(const jack_ringbuffer_t *rb);
+  size_t jack_ringbuffer_read_space (const jack_ringbuffer_t * rb);
 
 /**
  * Lock a ringbuffer data block into memory.
@@ -182,7 +181,7 @@ size_t jack_ringbuffer_read_space(const jack_ringbuffer_t *rb);
  *
  * @param rb a pointer to the ringbuffer structure.
  */
-int jack_ringbuffer_mlock(jack_ringbuffer_t *rb);
+  int jack_ringbuffer_mlock (jack_ringbuffer_t * rb);
 
 /**
  * Reset the read and write pointers, making an empty buffer.
@@ -191,7 +190,7 @@ int jack_ringbuffer_mlock(jack_ringbuffer_t *rb);
  *
  * @param rb a pointer to the ringbuffer structure.
  */
-void jack_ringbuffer_reset(jack_ringbuffer_t *rb);
+  void jack_ringbuffer_reset (jack_ringbuffer_t * rb);
 
 /**
  * Write data into the ringbuffer.
@@ -202,8 +201,7 @@ void jack_ringbuffer_reset(jack_ringbuffer_t *rb);
  *
  * @return the number of bytes write, which may range from 0 to cnt
  */
-size_t jack_ringbuffer_write(jack_ringbuffer_t *rb, const char *src,
-			     size_t cnt);
+  size_t jack_ringbuffer_write (jack_ringbuffer_t * rb, const char *src, size_t cnt);
 
 /**
  * Advance the write pointer.
@@ -216,7 +214,7 @@ size_t jack_ringbuffer_write(jack_ringbuffer_t *rb, const char *src,
  * @param rb a pointer to the ringbuffer structure.
  * @param cnt the number of bytes written.
  */
-void jack_ringbuffer_write_advance(jack_ringbuffer_t *rb, size_t cnt);
+  void jack_ringbuffer_write_advance (jack_ringbuffer_t * rb, size_t cnt);
 
 /**
  * Return the number of bytes available for writing.
@@ -225,7 +223,7 @@ void jack_ringbuffer_write_advance(jack_ringbuffer_t *rb, size_t cnt);
  *
  * @return the amount of free space (in bytes) available for writing.
  */
-size_t jack_ringbuffer_write_space(const jack_ringbuffer_t *rb);
+  size_t jack_ringbuffer_write_space (const jack_ringbuffer_t * rb);
 
 
 #ifdef __cplusplus

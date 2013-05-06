@@ -6,7 +6,7 @@
  * (c) 1999, 2000, 2001, 2002 Matthew Hiller
  */
 
-#include "utils.h"		/* Includes <gdk.h> */
+#include "utils.h"              /* Includes <gdk.h> */
 #include <denemo/denemo.h>
 
 
@@ -15,8 +15,7 @@
  *
  */
 void
-draw_stem_directive (cairo_t *cr,
-		     gint xx, gint y, DenemoObject * theobj)
+draw_stem_directive (cairo_t * cr, gint xx, gint y, DenemoObject * theobj)
 {
 
   gchar *text = NULL;
@@ -33,8 +32,8 @@ draw_stem_directive (cairo_t *cr,
       text = _("⬆stems");
       break;
     }
-  if(((stemdirective *) theobj->object)->directives)
-    draw_for_directives(cr, ((stemdirective *) theobj->object)->directives, xx, y-4, TRUE);
+  if (((stemdirective *) theobj->object)->directives)
+    draw_for_directives (cr, ((stemdirective *) theobj->object)->directives, xx, y - 4, TRUE);
   else
-    drawnormaltext_cr( cr, text, xx, y - 4);
+    drawnormaltext_cr (cr, text, xx, y - 4);
 }

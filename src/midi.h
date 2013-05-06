@@ -27,42 +27,42 @@
 #define SYS_EXCLUSIVE_MESSAGE1  0xF0
 
 
-void generate_midi(void);
-gdouble get_time(void);
-gdouble get_playuntil(void);
-void adjust_midi_velocity(gchar *buf, gint percent);
-void change_tuning(gdouble *cents);
-gdouble get_midi_on_time(GList *events);
-gdouble get_midi_off_time(GList *events);
-DenemoObject *get_obj_for_start_time(smf_t *smf, gdouble time);
-DenemoObject *get_obj_for_end_time(smf_t *smf, gdouble time);
+void generate_midi (void);
+gdouble get_time (void);
+gdouble get_playuntil (void);
+void adjust_midi_velocity (gchar * buf, gint percent);
+void change_tuning (gdouble * cents);
+gdouble get_midi_on_time (GList * events);
+gdouble get_midi_off_time (GList * events);
+DenemoObject *get_obj_for_start_time (smf_t * smf, gdouble time);
+DenemoObject *get_obj_for_end_time (smf_t * smf, gdouble time);
 
 
-void update_position(smf_event_t *event);
+void update_position (smf_event_t * event);
 
-void start_playing(gchar *callback);
-void pause_playing();
+void start_playing (gchar * callback);
+void pause_playing ();
 
-void stop_playing();
-gboolean is_playing();
-gboolean is_paused();
-double get_start_time();
-double get_end_time();
-void update_start_time(double adjust);
-void initialize_until_time(void);
-smf_event_t *get_smf_event(double until_time);
-
-
-void handle_midi_event(gchar *buf);
+void stop_playing ();
+gboolean is_playing ();
+gboolean is_paused ();
+double get_start_time ();
+double get_end_time ();
+void update_start_time (double adjust);
+void initialize_until_time (void);
+smf_event_t *get_smf_event (double until_time);
 
 
-gboolean intercept_midi_event(gint *midi);
+void handle_midi_event (gchar * buf);
 
-gint get_midi_channel(DenemoStaff *staff);
-gint get_midi_prognum(DenemoStaff *staff);
-gint get_midi_port(DenemoStaff *staff);
 
-void change_tuning(gdouble *cents);
-int noteon_key(smf_event_t *event);
+gboolean intercept_midi_event (gint * midi);
+
+gint get_midi_channel (DenemoStaff * staff);
+gint get_midi_prognum (DenemoStaff * staff);
+gint get_midi_port (DenemoStaff * staff);
+
+void change_tuning (gdouble * cents);
+int noteon_key (smf_event_t * event);
 
 #endif // MIDI_H

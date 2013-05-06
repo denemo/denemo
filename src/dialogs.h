@@ -15,61 +15,50 @@
 
 
 typedef enum actiontype
-{ CHANGEINITIAL, INSERT } 
+{ CHANGEINITIAL, INSERT }
 actiontype;
 
-void clef_change_initial(GtkAction *action, DenemoScriptParam * param);
-void clef_change_insert(GtkAction *action, DenemoScriptParam * param);
+void clef_change_initial (GtkAction * action, DenemoScriptParam * param);
+void clef_change_insert (GtkAction * action, DenemoScriptParam * param);
 
-void key_change_initial(GtkAction *action, DenemoScriptParam * param);
-void key_change_insert(GtkAction *action, DenemoScriptParam * param);
+void key_change_initial (GtkAction * action, DenemoScriptParam * param);
+void key_change_insert (GtkAction * action, DenemoScriptParam * param);
 
-void timesig_change_initial(GtkAction *action, DenemoScriptParam * param);
-void timesig_change_insert(GtkAction *action, DenemoScriptParam * param);
+void timesig_change_initial (GtkAction * action, DenemoScriptParam * param);
+void timesig_change_insert (GtkAction * action, DenemoScriptParam * param);
 
-void
-clef_change (DenemoGUI *gui,actiontype action);
+void clef_change (DenemoGUI * gui, actiontype action);
 
-void
-key_change (DenemoGUI *gui,  actiontype action);
+void key_change (DenemoGUI * gui, actiontype action);
 
-void
-timesig_change (DenemoGUI *gui, actiontype action);
+void timesig_change (DenemoGUI * gui, actiontype action);
 
-void
-score_mwidth_change (GtkAction *action, gpointer callback_data);
+void score_mwidth_change (GtkAction * action, gpointer callback_data);
 
-void
-score_staffspace_change (GtkAction *action, gpointer callback_data);
+void score_staffspace_change (GtkAction * action, gpointer callback_data);
 
 
 
 
-void 
-staff_properties_change_cb (GtkAction * action, DenemoScriptParam *param);
+void staff_properties_change_cb (GtkAction * action, DenemoScriptParam * param);
 
 
 
 
-void
-playback_properties_change (GtkAction *action, gpointer param);
+void playback_properties_change (GtkAction * action, gpointer param);
 
 
 
-void
-tomeasurenum (GtkAction *action, gpointer param);
+void tomeasurenum (GtkAction * action, gpointer param);
 
-void
-preferences_change (GtkAction *action, gpointer param);
+void preferences_change (GtkAction * action, gpointer param);
 
-void
-header_change (GtkAction *action, gpointer param);
+void header_change (GtkAction * action, gpointer param);
 
-void
-score_properties_dialog(GtkAction *action, DenemoScriptParam *param);
+void score_properties_dialog (GtkAction * action, DenemoScriptParam * param);
 
-void export_pdf_action (GtkAction *action, DenemoScriptParam *param);
+void export_pdf_action (GtkAction * action, DenemoScriptParam * param);
 
-const gchar *get_clef_name(gint type);
+const gchar *get_clef_name (gint type);
 
 #endif /* __DIALOGS_H__ */

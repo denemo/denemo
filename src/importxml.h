@@ -29,63 +29,62 @@ typedef struct _DenemoImportXMLNSHandler
    * The XML namespace URI handled by this handler (e.g.
    * "http://www.denemo.sourceforge.net/Denemo/Lilypond")
    */
-  gchar * xmlnsURI;
+  gchar *xmlnsURI;
 
   /*
    * Create and return user data necessary for importing the given score.  If
    * no user data is required, set this startScore function to NULL.
    */
-  gpointer (* startScore) (xmlDocPtr doc);
+    gpointer (*startScore) (xmlDocPtr doc);
 
   /*
    * Delete the given user data.  If no user data is required, set this
    * endScore function to NULL.
    */
-  void (* endScore) (xmlDocPtr doc, gpointer userData);
+  void (*endScore) (xmlDocPtr doc, gpointer userData);
 
   /*
    * Import the given score-level XML element into the given score.
    */
-  void (* importScoreInfo) (DenemoScore* si, xmlNodePtr elem);
+  void (*importScoreInfo) (DenemoScore * si, xmlNodePtr elem);
 
   /*
    * Import the given staff-level XML element into the "primary" staff located
    * in the given score (si->currentprimarystaff).
    */
-  void (* importStaffInfo) (DenemoScore * si, xmlNodePtr elem);
+  void (*importStaffInfo) (DenemoScore * si, xmlNodePtr elem);
 
   /*
    * Import the given voice-level XML element into the voice located in the
    * given score (si->currentstaff).  Note that elem may be a child of
    * <voice-info> or <voice-init-params>.
    */
-  void (* importVoiceInfo) (DenemoScore * si, xmlNodePtr elem);
+  void (*importVoiceInfo) (DenemoScore * si, xmlNodePtr elem);
 
   /*
    * Import the given measure-level XML element into the measure located in
    * the given score (si->currentmeasure).
    */
-  void (* importMeasure) (DenemoScore * si, xmlNodePtr elem);
+  void (*importMeasure) (DenemoScore * si, xmlNodePtr elem);
 
   /*
    * Import the given object-level XML element into the DenemoObject located
    * in the given score (si->currentobj).  Note that this function is only
    * called for built-in object types, not custom types.
    */
-  void (* importObjectInfo) (DenemoScore * si, xmlNodePtr elem);
+  void (*importObjectInfo) (DenemoScore * si, xmlNodePtr elem);
 
   /*
    * Import the given note-level XML element into the note located in the
    * given score (N.B.: not yet implemented!).
    */
-  void (* importNoteInfo) (DenemoScore * si, xmlNodePtr elem);
+  void (*importNoteInfo) (DenemoScore * si, xmlNodePtr elem);
 
   /*
    * Create a new DenemoObject from the given object-level XML element and
    * return it.  Return NULL if no object should be created.
    */
-  DenemoObject * (* importCustomObject) (DenemoScore * si,
-                                         xmlNodePtr         elem);
+  DenemoObject *(*importCustomObject) (DenemoScore * si, xmlNodePtr elem);
 } DenemoImportXMLNSHandler;
 
 
@@ -94,7 +93,7 @@ typedef struct _DenemoImportXMLNSHandler
  * Import the given file in Denemo's "native" XML file format into the given
  * score.  Return TRUE if the file was imported successfully, FALSE otherwise.
  */
-gboolean importXML (gchar * filename, DenemoGUI *gui, ImportType type);
+gboolean importXML (gchar * filename, DenemoGUI * gui, ImportType type);
 
 void registerImportXMLNSHandler (DenemoImportXMLNSHandler * handler);
 

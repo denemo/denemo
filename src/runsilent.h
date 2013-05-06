@@ -8,4 +8,4 @@
 #include <stdio.h>
 #include <denemo/denemo.h>
 
-void silentconversion(char *file_in,  DenemoGUI *gui);
+void silentconversion (char *file_in, DenemoGUI * gui);

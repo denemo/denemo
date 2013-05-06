@@ -3,11 +3,11 @@
 
 
 #include <denemo/denemo.h>
-void insert_barline (GtkAction *action, gpointer param);
+void insert_barline (GtkAction * action, gpointer param);
 
-DenemoObject *newbarline(enum barline_type type);
+DenemoObject *newbarline (enum barline_type type);
 
-void add_barline(GtkWidget *widget, gpointer data);
+void add_barline (GtkWidget * widget, gpointer data);
 enum barline_type barlinefromname (gchar * thetext);
-	
+
 #endif

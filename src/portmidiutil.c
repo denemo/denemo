@@ -25,106 +25,133 @@
 static int init_count = 0;
 
 
-PmError Pm_InitializeWrapper() {
-  if (init_count++ == 0) {
-    return Pm_Initialize();
-  } else {
-    return pmNoError;
-  }
+PmError
+Pm_InitializeWrapper ()
+{
+  if (init_count++ == 0)
+    {
+      return Pm_Initialize ();
+    }
+  else
+    {
+      return pmNoError;
+    }
 }
 
-PmError Pm_TerminateWrapper() {
-  if (--init_count == 0) {
-    return Pm_Terminate();
-  } else {
-    return pmNoError;
-  }
+PmError
+Pm_TerminateWrapper ()
+{
+  if (--init_count == 0)
+    {
+      return Pm_Terminate ();
+    }
+  else
+    {
+      return pmNoError;
+    }
 }
 
 
-GList *get_portmidi_devices(gboolean output) {
+GList *
+get_portmidi_devices (gboolean output)
+{
   GList *list = NULL;
 
-  PmError err = Pm_InitializeWrapper();
-  if (err != pmNoError) {
-    return NULL;
-  }
-
-  list = g_list_append(list, g_strdup("none"));
-  list = g_list_append(list, g_strdup("default"));
-
-  int num = Pm_CountDevices();
-
-  int i;
-  for (i = 0; i < num; ++i) {
-    PmDeviceInfo const *info = Pm_GetDeviceInfo(i);
-
-    // skip inputs if we're looking for outputs, skip outputs if we're looking
-    // for inputs
-    if ((output && !info->output) || (!output && !info->input)) {
-      continue;
+  PmError err = Pm_InitializeWrapper ();
+  if (err != pmNoError)
+    {
+      return NULL;
     }
 
-    char *s = g_strdup_printf("%s: %s", info->interf, info->name);
+  list = g_list_append (list, g_strdup ("none"));
+  list = g_list_append (list, g_strdup ("default"));
 
-    list = g_list_append(list, s);
-  }
+  int num = Pm_CountDevices ();
 
-  Pm_TerminateWrapper();
+  int i;
+  for (i = 0; i < num; ++i)
+    {
+      PmDeviceInfo const *info = Pm_GetDeviceInfo (i);
+
+      // skip inputs if we're looking for outputs, skip outputs if we're looking
+      // for inputs
+      if ((output && !info->output) || (!output && !info->input))
+        {
+          continue;
+        }
+
+      char *s = g_strdup_printf ("%s: %s", info->interf, info->name);
+
+      list = g_list_append (list, s);
+    }
+
+  Pm_TerminateWrapper ();
 
   return list;
 }
 
 
-void free_portmidi_devices(GList *list) {
+void
+free_portmidi_devices (GList * list)
+{
   GList *p = list;
-  while (p) {
-    g_free(p->data);
-    p = g_list_next(p);
-  }
+  while (p)
+    {
+      g_free (p->data);
+      p = g_list_next (p);
+    }
 
-  g_list_free(list);
+  g_list_free (list);
 }
 
 
-PmDeviceID get_portmidi_device_id(char const *name, gboolean output) {
-  PmError err = Pm_InitializeWrapper();
-  if (err != pmNoError) {
-    return pmNoDevice;
-  }
+PmDeviceID
+get_portmidi_device_id (char const *name, gboolean output)
+{
+  PmError err = Pm_InitializeWrapper ();
+  if (err != pmNoError)
+    {
+      return pmNoDevice;
+    }
 
   PmDeviceID ret = pmNoDevice;
 
-  if (g_strcmp0(name, "default") == 0) {
-    if (output) {
-      ret = Pm_GetDefaultOutputDeviceID();
-      goto out;
-    } else {
-      ret = Pm_GetDefaultInputDeviceID();
-      goto out;
+  if (g_strcmp0 (name, "default") == 0)
+    {
+      if (output)
+        {
+          ret = Pm_GetDefaultOutputDeviceID ();
+          goto out;
+        }
+      else
+        {
+          ret = Pm_GetDefaultInputDeviceID ();
+          goto out;
+        }
     }
-  }
 
-  int num = Pm_CountDevices();
+  int num = Pm_CountDevices ();
 
   int i;
-  for (i = 0; i < num; ++i) {
-    PmDeviceInfo const *info = Pm_GetDeviceInfo(i);
+  for (i = 0; i < num; ++i)
+    {
+      PmDeviceInfo const *info = Pm_GetDeviceInfo (i);
 
-    char *s = g_strdup_printf("%s: %s", info->interf, info->name);
+      char *s = g_strdup_printf ("%s: %s", info->interf, info->name);
 
-    // check if the device type (input/output) and name matches
-    if (((output && info->output) || (!output && info->input)) && g_strcmp0(name, s) == 0) {
-      ret = i;
-      g_free(s);
-      break;
+      // check if the device type (input/output) and name matches
+      if (((output && info->output) || (!output && info->input)) && g_strcmp0 (name, s) == 0)
+        {
+          ret = i;
+          g_free (s);
+          break;
+        }
+
+      g_free (s);
     }
 
-    g_free(s);
-  }
-
 out:
-  Pm_TerminateWrapper();
+  Pm_TerminateWrapper ();
 
   return ret;
 }

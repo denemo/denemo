@@ -27,19 +27,20 @@ static char *roms[ROWS][COLS] = { {"M", "M", "M", "M"},
 {"XC", "L", "XL", "X"},
 {"IX", "V", "IV", "I"}
 };
+
 static void
 to_roman (guint decimal, GString * lily_name)
 {
-  guint power;			/* current power of 10 */
-  guint indx;			/* indexes through values to subtract */
+  guint power;                  /* current power of 10 */
+  guint indx;                   /* indexes through values to subtract */
 
   for (power = 0; power < ROWS; power++)
     for (indx = 0; indx < COLS; indx++)
       while (decimal >= pows[power][indx])
-	{
-	  g_string_append (lily_name, roms[power][indx]);
-	  decimal -= pows[power][indx];
-	}
+        {
+          g_string_append (lily_name, roms[power][indx]);
+          decimal -= pows[power][indx];
+        }
 }
 
 /* make an acceptable lily name from denemo_name: FIXME - check for anything other than alphaword */
@@ -55,37 +56,37 @@ set_lily_name (GString * denemo_name, GString * lily_name)
     {
       c = denemo_name->str[i];
       if (c == ' ')
-	last_char_was_space = TRUE;
+        last_char_was_space = TRUE;
       else
-	{
-	  guint decimal;
-	  int numchars;
-	  if (c == '0')		/* character 0 that is */
-	    g_string_append (lily_name, "O");	/* replace with upper case o */
-	  else
-	    if ((sscanf (&denemo_name->str[i], "%u%n", &decimal, &numchars))
-		== 1)
-	    {
-	      i += numchars;	/* move over digits that have been converted by sscanf */
-	      to_roman (decimal, lily_name);
-	    }
-	  else
-	    {
-	      if (last_char_was_space && 'a' <= c && c <= 'z')
-		{
-		  /* Make the character uppercase */
-		  c -= ('a' - 'A');
-		}
-	      g_string_append_c (lily_name, c);
-	      last_char_was_space = FALSE;
-	    }
+        {
+          guint decimal;
+          int numchars;
+          if (c == '0')         /* character 0 that is */
+            g_string_append (lily_name, "O");   /* replace with upper case o */
+          else if ((sscanf (&denemo_name->str[i], "%u%n", &decimal, &numchars)) == 1)
+            {
+              i += numchars;    /* move over digits that have been converted by sscanf */
+              to_roman (decimal, lily_name);
+            }
+          else
+            {
+              if (last_char_was_space && 'a' <= c && c <= 'z')
+                {
+                  /* Make the character uppercase */
+                  c -= ('a' - 'A');
+                }
+              g_string_append_c (lily_name, c);
+              last_char_was_space = FALSE;
+            }
 
-	}
+        }
     }
 }
+
 void
-dnm_set_lily_name (GString *denemo_name, GString * lily_name){
-	set_lily_name (denemo_name,lily_name);
+dnm_set_lily_name (GString * denemo_name, GString * lily_name)
+{
+  set_lily_name (denemo_name, lily_name);
 }
 
 /* This function accepts a Lilypond voice name lily_name and calculates
@@ -104,13 +105,13 @@ set_denemo_name (GString * lily_name, GString * denemo_name)
     {
       c = lily_name->str[i];
       if ('A' <= c && c <= 'Z')
-	{
-	  /* Need to make the character lowercase and insert a space */
-	  c += ('a' - 'A');
-	  if (i)
-	    /* insert a space before it as well */
-	    g_string_append_c (denemo_name, ' ');
-	}
+        {
+          /* Need to make the character lowercase and insert a space */
+          c += ('a' - 'A');
+          if (i)
+            /* insert a space before it as well */
+            g_string_append_c (denemo_name, ' ');
+        }
       g_string_append_c (denemo_name, c);
     }
 }
@@ -123,8 +124,7 @@ set_denemo_name (GString * lily_name, GString * denemo_name)
 gint
 canonicalize_denemo_name (gchar * proposal, GString * denemo_name)
 {
-  gchar *accept =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 ";
+  gchar *accept = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 ";
   guint i;
   gchar c;
   gboolean last_char_was_space = FALSE;
@@ -136,24 +136,24 @@ canonicalize_denemo_name (gchar * proposal, GString * denemo_name)
       /* Okay; we have only acceptable characters. Let's boogie */
       g_string_assign (denemo_name, proposal);
       for (i = 0; i < denemo_name->len;)
-	{
-	  c = denemo_name->str[i];
-	  if (c == ' ')
-	    {
-	      if (last_char_was_space)
-		g_string_erase (denemo_name, i, 1);
-	      else
-		{
-		  last_char_was_space = TRUE;
-		  i++;
-		}
-	    }
-	  else
-	    {
-	      last_char_was_space = FALSE;
-	      i++;
-	    }
-	}
+        {
+          c = denemo_name->str[i];
+          if (c == ' ')
+            {
+              if (last_char_was_space)
+                g_string_erase (denemo_name, i, 1);
+              else
+                {
+                  last_char_was_space = TRUE;
+                  i++;
+                }
+            }
+          else
+            {
+              last_char_was_space = FALSE;
+              i++;
+            }
+        }
       return 0;
     }
   return -1;

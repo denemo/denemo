@@ -13,8 +13,7 @@
 #include "staffops.h"
 #include <string.h>
 
-void
-initkeyaccs (gint * accs, gint number);
+void initkeyaccs (gint * accs, gint number);
 /**
  * Free the given object
  * @param mudobj the DenemoObject to free
@@ -23,43 +22,43 @@ FIXME is this failing to free the object field???
 void
 freeobject (DenemoObject * mudobj)
 {
-  if (mudobj==NULL)
+  if (mudobj == NULL)
     return;
-  if(mudobj->midi_events)
-    g_list_free(mudobj->midi_events);//do not free the data it belongs to libsmf
-  if(mudobj->lilypond)
-		g_free(mudobj->lilypond);
+  if (mudobj->midi_events)
+    g_list_free (mudobj->midi_events);  //do not free the data it belongs to libsmf
+  if (mudobj->lilypond)
+    g_free (mudobj->lilypond);
   switch (mudobj->type)
     {
     case CHORD:
-      freechord (mudobj);	/* Which also frees mudobj itself */
+      freechord (mudobj);       /* Which also frees mudobj itself */
       break;
     case CLEF:
-      free_directives(((clef*)mudobj->object)->directives);
+      free_directives (((clef *) mudobj->object)->directives);
       g_free (mudobj->object);
       g_free (mudobj);
-      break; 
+      break;
     case KEYSIG:
-      free_directives(((keysig*)mudobj->object)->directives);
+      free_directives (((keysig *) mudobj->object)->directives);
       g_free (mudobj->object);
       g_free (mudobj);
-      break; 
+      break;
     case TIMESIG:
-      free_directives(((timesig*)mudobj->object)->directives);
+      free_directives (((timesig *) mudobj->object)->directives);
       g_free (mudobj->object);
       g_free (mudobj);
-      break; 
+      break;
 
     case TUPOPEN:
     case TUPCLOSE:
-      free_directives(((tuplet*)mudobj->object)->directives);
+      free_directives (((tuplet *) mudobj->object)->directives);
       g_free (mudobj->object);
       g_free (mudobj);
-      break; 
+      break;
     default:
       g_free (mudobj);
       break;
-    } 
+    }
 }
 
 /**
@@ -95,7 +94,7 @@ DenemoObject *
 dnm_newclefobj (enum clefs type)
 {
   DenemoStaff *thestaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
-  gboolean invisible = (thestaff->voicecontrol&DENEMO_SECONDARY);
+  gboolean invisible = (thestaff->voicecontrol & DENEMO_SECONDARY);
   DenemoObject *ret;
   clef *newclef = (clef *) g_malloc (sizeof (clef));
   ret = (DenemoObject *) g_malloc (sizeof (DenemoObject));
@@ -117,11 +116,11 @@ set_modeaccs (gint * accs, gint number, gint mode)
   if (mode == 0)
     {
       switch (number)
-	{
-	case 11:
-	  number -= 7;
-	  break;
-	}
+        {
+        case 11:
+          number -= 7;
+          break;
+        }
       initkeyaccs (accs, number);
 
     }
@@ -225,78 +224,94 @@ newstaffbreakobject ()
 }
 
 /* clone the directive, excluding the widget */
-DenemoDirective *clone_directive(DenemoDirective *directive) {
-  DenemoDirective *ret = (DenemoDirective *)g_malloc0(sizeof(DenemoDirective));
-  memcpy(ret, directive, sizeof(DenemoDirective));//BEWARE all pointers in DenemoDirective require code, as follows:
+DenemoDirective *
+clone_directive (DenemoDirective * directive)
+{
+  DenemoDirective *ret = (DenemoDirective *) g_malloc0 (sizeof (DenemoDirective));
+  memcpy (ret, directive, sizeof (DenemoDirective));    //BEWARE all pointers in DenemoDirective require code, as follows:
 #define CLONE(field) \
       if(directive->field && directive->field->len)\
         ret->field = g_string_new(directive->field->str);\
       else\
         ret->field = NULL;
-  CLONE(tag);
-  CLONE(prefix);
-  CLONE(postfix);
-  CLONE(display);
-  CLONE(graphic_name);
-  CLONE(grob);
-  CLONE(midibytes);
+  CLONE (tag);
+  CLONE (prefix);
+  CLONE (postfix);
+  CLONE (display);
+  CLONE (graphic_name);
+  CLONE (grob);
+  CLONE (midibytes);
 #undef CLONE
-  if(directive->graphic) {
-    ret->graphic = directive->graphic;//alternatively could load it via loadGraphicItem, is the same
-  }
- if(directive->widget) {
-   //  gpointer fn = g_object_get_data(G_OBJECT(directive->widget), "fn");
-   ret->widget = NULL;//FIXME call widget_for_directive here???
-   //   widget_for_directive(ret, fn);
- }
+  if (directive->graphic)
+    {
+      ret->graphic = directive->graphic;        //alternatively could load it via loadGraphicItem, is the same
+    }
+  if (directive->widget)
+    {
+      //  gpointer fn = g_object_get_data(G_OBJECT(directive->widget), "fn");
+      ret->widget = NULL;       //FIXME call widget_for_directive here???
+      //   widget_for_directive(ret, fn);
+    }
   return ret;
 }
 
 
-GList *clone_directives(GList *directives) {
-  GList *ret=NULL;
-  for(;directives;directives=directives->next)
-    ret = g_list_append(ret, clone_directive(directives->data));
+GList *
+clone_directives (GList * directives)
+{
+  GList *ret = NULL;
+  for (; directives; directives = directives->next)
+    ret = g_list_append (ret, clone_directive (directives->data));
   return ret;
 }
+
 void
-free_directive_data(DenemoDirective *directive) {
+free_directive_data (DenemoDirective * directive)
+{
 #define DFREE(field) if(directive->field) g_string_free(directive->field, TRUE);
-    DFREE(tag);
-    DFREE(display);
-    DFREE(prefix);
-    DFREE(postfix);
-    DFREE(graphic_name);
-    DFREE(grob);    
+  DFREE (tag);
+  DFREE (display);
+  DFREE (prefix);
+  DFREE (postfix);
+  DFREE (graphic_name);
+  DFREE (grob);
 #undef DFREE
-  
-    if(directive->widget && !G_IS_OBJECT(directive->widget)) {
-      g_debug("Found non-gobject widget %p\n", directive->widget);
+
+  if (directive->widget && !G_IS_OBJECT (directive->widget))
+    {
+      g_debug ("Found non-gobject widget %p\n", directive->widget);
     }
-    if(directive->widget && G_IS_OBJECT(directive->widget)) {
+  if (directive->widget && G_IS_OBJECT (directive->widget))
+    {
       //g_print("We should destroy the widget now ");
-      GtkWidget *texteditor =  (GtkWidget*)g_object_get_data(G_OBJECT(directive->widget), DENEMO_TEXTEDITOR_TAG);
-      if(texteditor)
-	gtk_widget_destroy(texteditor);//FIXME we may need to destroy its parents
-      gtk_widget_destroy((GtkWidget *)directive->widget);
+      GtkWidget *texteditor = (GtkWidget *) g_object_get_data (G_OBJECT (directive->widget), DENEMO_TEXTEDITOR_TAG);
+      if (texteditor)
+        gtk_widget_destroy (texteditor);        //FIXME we may need to destroy its parents
+      gtk_widget_destroy ((GtkWidget *) directive->widget);
     }
 
 
 
 }
+
 void
-free_directive(DenemoDirective *directive) {
-  free_directive_data(directive);
-  g_free(directive);
+free_directive (DenemoDirective * directive)
+{
+  free_directive_data (directive);
+  g_free (directive);
 }
+
 void
-free_directives(GList *directives) {
-  for(;directives;directives=directives->next) {
-    DenemoDirective *directive = directives->data;
-    free_directive(directive);
-  } 
-  g_list_free(directives);
+free_directives (GList * directives)
+{
+  for (; directives; directives = directives->next)
+    {
+      DenemoDirective *directive = directives->data;
+      free_directive (directive);
+    }
+  g_list_free (directives);
 }
+
 /**
  * Create a clone of the given object
  * @param orig the object to clone
@@ -305,66 +320,69 @@ free_directives(GList *directives) {
 DenemoObject *
 dnm_clone_object (DenemoObject * orig)
 {
-  DenemoObject *ret=NULL;
-  if (orig != NULL) {
-	  switch (orig->type)
-	    {
-	    case CHORD:
-	      ret = clone_chord (orig);
-	      break;
-	    
-	    case TUPOPEN:
-	      ret  = (DenemoObject *)newtupopen(((tupopen*)orig->object)->numerator, ((tupopen*)orig->object)->denominator);	  	      ((tupopen *)ret->object)->directives = clone_directives(((tupopen *)orig->object)->directives);
+  DenemoObject *ret = NULL;
+  if (orig != NULL)
+    {
+      switch (orig->type)
+        {
+        case CHORD:
+          ret = clone_chord (orig);
+          break;
 
-	      break;
-	    case TUPCLOSE:
-	      ret  = (DenemoObject *)newtupclose();
-	      ((tupopen *)ret->object)->directives = clone_directives(((tupopen *)orig->object)->directives);
-	      
-	      break;
-	    case CLEF:
-	      ret = dnm_newclefobj (((clef *)orig->object)->type);
-	      ((clef *)ret->object)->directives = clone_directives(((clef *)orig->object)->directives);
-	      break;
-	    case TIMESIG:
-	      ret = dnm_newtimesigobj (((timesig *)orig->object)->time1,((timesig *)orig->object)->time2 );
-	      ((timesig *)ret->object)->directives = clone_directives(((timesig *)orig->object)->directives);
+        case TUPOPEN:
+          ret = (DenemoObject *) newtupopen (((tupopen *) orig->object)->numerator, ((tupopen *) orig->object)->denominator);
+          ((tupopen *) ret->object)->directives = clone_directives (((tupopen *) orig->object)->directives);
 
-	      break;
-	    case KEYSIG:
-	      ret = dnm_newkeyobj (((keysig *)orig->object)->number,((keysig *)orig->object)->isminor,((keysig *)orig->object)->mode);
-	      ((keysig *)ret->object)->directives = clone_directives(((keysig *)orig->object)->directives);
+          break;
+        case TUPCLOSE:
+          ret = (DenemoObject *) newtupclose ();
+          ((tupopen *) ret->object)->directives = clone_directives (((tupopen *) orig->object)->directives);
 
-	      break;
-	      break;
-	    case STEMDIRECTIVE:
-	      ret = dnm_stem_directive_new  (((stemdirective *)orig->object)->type);
+          break;
+        case CLEF:
+          ret = dnm_newclefobj (((clef *) orig->object)->type);
+          ((clef *) ret->object)->directives = clone_directives (((clef *) orig->object)->directives);
+          break;
+        case TIMESIG:
+          ret = dnm_newtimesigobj (((timesig *) orig->object)->time1, ((timesig *) orig->object)->time2);
+          ((timesig *) ret->object)->directives = clone_directives (((timesig *) orig->object)->directives);
 
-	      ((stemdirective *)ret->object)->directives = clone_directives(((stemdirective *)orig->object)->directives);
+          break;
+        case KEYSIG:
+          ret = dnm_newkeyobj (((keysig *) orig->object)->number, ((keysig *) orig->object)->isminor, ((keysig *) orig->object)->mode);
+          ((keysig *) ret->object)->directives = clone_directives (((keysig *) orig->object)->directives);
 
-	      break;
-	    case MEASUREBREAK:
-	      ret = newmeasurebreakobject ();
-	      break;
-	    case STAFFBREAK:
-	      ret = newstaffbreakobject ();
-	      break;
-	    case LILYDIRECTIVE: {
-	      lilydirective *curlily = (lilydirective*)orig->object;
-	      ret = directive_object_new(clone_directive(curlily));
-	      ret->durinticks = orig->durinticks;
-	      ret->basic_durinticks = orig->basic_durinticks;
-	      
-	    }
-	      break;
-	    default:
-	      g_warning("Unknown object type %x", orig->type); 
-	      ret = lily_directive_new ("%unknown object\n");
-	      break;
-	    }
-		}
-		ret->lilypond = NULL;
-		ret->midi_events = NULL;
+          break;
+          break;
+        case STEMDIRECTIVE:
+          ret = dnm_stem_directive_new (((stemdirective *) orig->object)->type);
+
+          ((stemdirective *) ret->object)->directives = clone_directives (((stemdirective *) orig->object)->directives);
+
+          break;
+        case MEASUREBREAK:
+          ret = newmeasurebreakobject ();
+          break;
+        case STAFFBREAK:
+          ret = newstaffbreakobject ();
+          break;
+        case LILYDIRECTIVE:
+          {
+            lilydirective *curlily = (lilydirective *) orig->object;
+            ret = directive_object_new (clone_directive (curlily));
+            ret->durinticks = orig->durinticks;
+            ret->basic_durinticks = orig->basic_durinticks;
+
+          }
+          break;
+        default:
+          g_warning ("Unknown object type %x", orig->type);
+          ret = lily_directive_new ("%unknown object\n");
+          break;
+        }
+    }
+  ret->lilypond = NULL;
+  ret->midi_events = NULL;
   return ret;
 }
 
@@ -377,8 +395,7 @@ DenemoObject *
 dnm_stem_directive_new (enum stemdirections type)
 {
   DenemoObject *ret;
-  stemdirective *newstemdir =
-    (stemdirective *) g_malloc (sizeof (stemdirective));
+  stemdirective *newstemdir = (stemdirective *) g_malloc (sizeof (stemdirective));
   ret = (DenemoObject *) g_malloc (sizeof (DenemoObject));
   ret->type = STEMDIRECTIVE;
   ret->isinvisible = FALSE;
@@ -400,8 +417,7 @@ DenemoObject *
 lily_directive_new (gchar * type)
 {
   DenemoObject *ret;
-  lilydirective *newlily =
-    (lilydirective *) g_malloc0 (sizeof (lilydirective));
+  lilydirective *newlily = (lilydirective *) g_malloc0 (sizeof (lilydirective));
   ret = (DenemoObject *) g_malloc0 (sizeof (DenemoObject));
   ret->type = LILYDIRECTIVE;
   newlily->postfix = g_string_new (type);
@@ -412,7 +428,8 @@ lily_directive_new (gchar * type)
 }
 
 DenemoObject *
-directive_object_new(DenemoDirective *directive) {
+directive_object_new (DenemoDirective * directive)
+{
   DenemoObject *ret;
   ret = (DenemoObject *) g_malloc0 (sizeof (DenemoObject));
   ret->type = LILYDIRECTIVE;
@@ -480,10 +497,10 @@ dnm_newobj (DenemoObjType type)
   DenemoObject *ret = (DenemoObject *) g_malloc0 (sizeof (DenemoObject));;
   ret->type = type;
   set_basic_numticks (ret);
-  setpixelmin (ret);  /* these do nothing at present - but if we introduce
-			 a show markers option then we will want to allot 
-			 some space
-		      */
+  setpixelmin (ret);            /* these do nothing at present - but if we introduce
+                                   a show markers option then we will want to allot 
+                                   some space
+                                 */
   return ret;
 }
 
@@ -496,7 +513,7 @@ dnm_newobj (DenemoObjType type)
 void
 dnm_setinitialkeysig (DenemoStaff * curstaff, gint tokey, gint type)
 {
-  take_snapshot();
+  take_snapshot ();
   curstaff->keysig.number = tokey;
   curstaff->keysig.isminor = type;
 
@@ -504,5 +521,5 @@ dnm_setinitialkeysig (DenemoStaff * curstaff, gint tokey, gint type)
   //memcpy (curstaff->keysig.keyaccs, curstaff->leftmost_keyaccs, SEVENGINTS);
   curstaff->leftmost_keysig = &curstaff->keysig;
   showwhichaccidentalswholestaff (curstaff);
-  adjust_tonal_center(curstaff->keysig.accs);
+  adjust_tonal_center (curstaff->keysig.accs);
 }

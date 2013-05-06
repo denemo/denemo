@@ -7,11 +7,10 @@
  *
  */
 void
-draw_fakechord (cairo_t *cr,
-	     gint xx, gint y, DenemoObject * theobj)
+draw_fakechord (cairo_t * cr, gint xx, gint y, DenemoObject * theobj)
 {
   gchar *text = NULL;
-  GString *temp = g_string_new("");
+  GString *temp = g_string_new ("");
   gint length = 0;
   chord *ch;
   if (theobj->type == FAKECHORD)
@@ -21,8 +20,6 @@ draw_fakechord (cairo_t *cr,
   else if (theobj->type == CHORD)
     {
       ch = (chord *) theobj->object;
-      drawnormaltext_cr( cr,  ((GString *) ch->fakechord)->str, xx, y + STAFF_HEIGHT - 10 );
+      drawnormaltext_cr (cr, ((GString *) ch->fakechord)->str, xx, y + STAFF_HEIGHT - 10);
     }
 }
-
-

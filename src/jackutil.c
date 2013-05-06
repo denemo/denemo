@@ -17,48 +17,56 @@
 #include <jack/jack.h>
 
 
-GList *get_jack_ports(gboolean midi, gboolean output) {
+GList *
+get_jack_ports (gboolean midi, gboolean output)
+{
   GList *list = NULL;
 
   // open a temporary connection to the JACK server
-  jack_client_t *client = jack_client_open("denemo", JackNoStartServer, NULL);
+  jack_client_t *client = jack_client_open ("denemo", JackNoStartServer, NULL);
 
-  if (!client) {
-    return NULL;
-  }
+  if (!client)
+    {
+      return NULL;
+    }
 
   char const *type = midi ? JACK_DEFAULT_MIDI_TYPE : JACK_DEFAULT_AUDIO_TYPE;
   unsigned long flags = output ? JackPortIsOutput : JackPortIsInput;
 
   // get all input port names of the given type
-  char const **ports = jack_get_ports(client, NULL, type, flags);
+  char const **ports = jack_get_ports (client, NULL, type, flags);
 
-  if (!ports) {
-    return NULL;
-  }
+  if (!ports)
+    {
+      return NULL;
+    }
 
   // copy all port names to our own list
   char const **p = ports;
-  while (*p) {
-    char *s = g_strdup(*p++);
-    list = g_list_append(list, s);
-  }
+  while (*p)
+    {
+      char *s = g_strdup (*p++);
+      list = g_list_append (list, s);
+    }
 
-  jack_free(ports);
-  jack_client_close(client);
+  jack_free (ports);
+  jack_client_close (client);
 
   return list;
 }
 
 
-void free_jack_ports(GList *list) {
+void
+free_jack_ports (GList * list)
+{
   GList *p = list;
-  while (p) {
-    g_free(p->data);
-    p = g_list_next(p);
-  }
+  while (p)
+    {
+      g_free (p->data);
+      p = g_list_next (p);
+    }
 
-  g_list_free(list);
+  g_list_free (list);
 }
 
 #endif //_HAVE_JACK_

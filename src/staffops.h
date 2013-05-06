@@ -10,53 +10,53 @@
 #include <denemo/denemo.h>
 
 enum newstaffcallbackaction
-  { INITIAL, FIRST, LAST, ADDFROMLOAD, BEFORE, AFTER, CURRENT,
-  NEWVOICE,LYRICSTAFF, FIGURESTAFF, CHORDSTAFF
+{ INITIAL, FIRST, LAST, ADDFROMLOAD, BEFORE, AFTER, CURRENT,
+  NEWVOICE, LYRICSTAFF, FIGURESTAFF, CHORDSTAFF
 };
 
-struct newstaffinfotopass {
+struct newstaffinfotopass
+{
   DenemoGUI *gui;
   DenemoStaff *staff;
   guint addat;
 };
 
-objnode *firstobjnode (measurenode *mnode);
+objnode *firstobjnode (measurenode * mnode);
 
-objnode *lastobjnode (measurenode *mnode);
+objnode *lastobjnode (measurenode * mnode);
 
-measurenode *firstmeasurenode (staffnode *thestaff);
+measurenode *firstmeasurenode (staffnode * thestaff);
 
-measurenode *
-nth_measure_node_in_staff (staffnode *thestaff, gint n);
+measurenode *nth_measure_node_in_staff (staffnode * thestaff, gint n);
 
-objnode *firstobjnodeinstaff (staffnode *thestaff);
+objnode *firstobjnodeinstaff (staffnode * thestaff);
 
 //void initkeysig (gint *accs, gint number);
 
-void setcurrentprimarystaff (DenemoScore *si);
+void setcurrentprimarystaff (DenemoScore * si);
 
-void newstaff (DenemoGUI *gui, enum newstaffcallbackaction action, DenemoContext context); /* default context shall be DENEMO_NONE */
+void newstaff (DenemoGUI * gui, enum newstaffcallbackaction action, DenemoContext context);     /* default context shall be DENEMO_NONE */
 
-void deletestaff (DenemoGUI *gui, gboolean interactive);
+void deletestaff (DenemoGUI * gui, gboolean interactive);
 
-void beamsandstemdirswholestaff (DenemoStaff *thestaff);
+void beamsandstemdirswholestaff (DenemoStaff * thestaff);
 
-void showwhichaccidentalswholestaff (DenemoStaff *thestaff);
+void showwhichaccidentalswholestaff (DenemoStaff * thestaff);
 
-void fixnoteheights (DenemoStaff *thestaff);
+void fixnoteheights (DenemoStaff * thestaff);
 
-void newstaffinitial(GtkAction *action, gpointer param);
+void newstaffinitial (GtkAction * action, gpointer param);
 
-void newstaffbefore(GtkAction *action, gpointer param);
+void newstaffbefore (GtkAction * action, gpointer param);
 
-void dnm_newstaffafter(GtkAction *action, gpointer param);
+void dnm_newstaffafter (GtkAction * action, gpointer param);
 
 
-void dnm_newstaffvoice(GtkAction *action, gpointer param);
+void dnm_newstaffvoice (GtkAction * action, gpointer param);
 
-void newstafflast(GtkAction *action, gpointer param);
+void newstafflast (GtkAction * action, gpointer param);
 
-gboolean signal_structural_change(DenemoGUI *gui);
+gboolean signal_structural_change (DenemoGUI * gui);
 
 void copy_staff (DenemoStaff * src, DenemoStaff * dest);
 

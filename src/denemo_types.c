@@ -18,8 +18,7 @@
 
 
 /* keep the numeration ordered to allow access by array index. */
-gchar *DenemoObjTypeNames[18] =
-{
+gchar *DenemoObjTypeNames[18] = {
   "CHORD",
   "TUPOPEN",
   "TUPCLOSE",
@@ -39,4 +38,3 @@ gchar *DenemoObjTypeNames[18] =
   "FAKECHORD",
   "PARTIAL"
 };
-

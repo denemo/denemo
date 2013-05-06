@@ -51,8 +51,7 @@ texttohead (gchar * text)
 void
 insertnotehead (DenemoScore * si, gchar * notehead_string)
 {
-  DenemoObject *obj = (DenemoObject *)
-    (si->currentobject ? si->currentobject->data : NULL);
+  DenemoObject *obj = (DenemoObject *) (si->currentobject ? si->currentobject->data : NULL);
 
 
   if (obj != NULL && obj->type == CHORD)
@@ -60,8 +59,7 @@ insertnotehead (DenemoScore * si, gchar * notehead_string)
       /* Lilypond's behavior is a bit anomalous here. It doesn't seem
        * to like giving chords non-standard noteheads. This is
        * just a default behavior for the time being. */
-      ((note *) ((chord *) obj->object)->notes->data)->noteheadtype =
-	texttohead (notehead_string);
+      ((note *) ((chord *) obj->object)->notes->data)->noteheadtype = texttohead (notehead_string);
     }
 
 }
@@ -72,43 +70,41 @@ insertnotehead (DenemoScore * si, gchar * notehead_string)
  * Callback - insert_notehead
  */
 void
-set_notehead (GtkAction *action, gpointer param)
+set_notehead (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   GtkWidget *dialog;
   GtkWidget *label;
   GtkWidget *combo;
   GtkWidget *content_area;
-  static GList *list = NULL; //NOTE required for gtk<2.24
-  
- gint i;
-  if(!action) {
-    if(  ((DenemoScriptParam *)param)->string && ((DenemoScriptParam *)param)->string->len) {
-      insertnotehead (gui->si, ((DenemoScriptParam *)param)->string->str);
-      ((DenemoScriptParam *)param)->status = TRUE;
-      return;
-    } else {
-      if(param)
-	((DenemoScriptParam *)param)->status = FALSE;
-      return;
+  static GList *list = NULL;    //NOTE required for gtk<2.24
+
+  gint i;
+  if (!action)
+    {
+      if (((DenemoScriptParam *) param)->string && ((DenemoScriptParam *) param)->string->len)
+        {
+          insertnotehead (gui->si, ((DenemoScriptParam *) param)->string->str);
+          ((DenemoScriptParam *) param)->status = TRUE;
+          return;
+        }
+      else
+        {
+          if (param)
+            ((DenemoScriptParam *) param)->status = FALSE;
+          return;
+        }
     }
-  }
 
   if (!list)
     {
       for (i = 0; i < 4; i++)
-	{
-	  list = g_list_append (list, _(notehead[i]));
-	}
+        {
+          list = g_list_append (list, _(notehead[i]));
+        }
     }
-    
-  dialog =
-    gtk_dialog_new_with_buttons (_("Change Notehead"),
-				 GTK_WINDOW (Denemo.window),
-				 (GtkDialogFlags) (GTK_DIALOG_MODAL |
-						   GTK_DIALOG_DESTROY_WITH_PARENT),
-				 GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-				 GTK_STOCK_CANCEL, GTK_STOCK_CANCEL, NULL);
+
+  dialog = gtk_dialog_new_with_buttons (_("Change Notehead"), GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_STOCK_CANCEL, NULL);
 
 
   content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
@@ -116,35 +112,33 @@ set_notehead (GtkAction *action, gpointer param)
   gtk_container_add (GTK_CONTAINER (content_area), label);
 #if GTK_MAJOR_VERSION==3
   combo = gtk_combo_box_text_new ();
-  for(i=0;i<G_N_ELEMENTS(notehead);i++)
-    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(combo), notehead[i]);
-  gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);  
+  for (i = 0; i < G_N_ELEMENTS (notehead); i++)
+    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo), notehead[i]);
+  gtk_combo_box_set_active (GTK_COMBO_BOX (combo), 0);
 #else
   combo = gtk_combo_new ();
   gtk_combo_set_popdown_strings (GTK_COMBO (combo), list);
   gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (combo)->entry), _(notehead[0]));
-  gtk_combo_box_set_active(GTK_COMBO (combo), 0);
+  gtk_combo_box_set_active (GTK_COMBO (combo), 0);
 #endif
   gtk_container_add (GTK_CONTAINER (content_area), combo);
   gtk_widget_grab_focus (combo);
   gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
-  
+
   gtk_widget_show_all (dialog);
 
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
 #if GTK_MAJOR_VERSION==3
-      gint num =     
-	gtk_combo_box_get_active (GTK_COMBO_BOX (combo));
+      gint num = gtk_combo_box_get_active (GTK_COMBO_BOX (combo));
       insertnotehead (gui->si, notehead[num]);
 #else
-      gchar *noteheadstring =
-	(gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (combo)->entry));
+      gchar *noteheadstring = (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (combo)->entry));
       insertnotehead (gui->si, noteheadstring);
 #endif
     }
-  gtk_widget_destroy(dialog);
+  gtk_widget_destroy (dialog);
   displayhelper (gui);
 }

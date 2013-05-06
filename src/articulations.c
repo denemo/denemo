@@ -39,13 +39,12 @@ insert_ornament_list (enum ornament orn, GList * list)
   for (tmp = list; tmp; tmp = tmp->next)
     {
       if (*(enum ornament *) tmp->data == (enum ornament) orn)
-	return (g_list_remove (list, tmp->data));
+        return (g_list_remove (list, tmp->data));
     }
   /*
    * Insert new ornament into the list.
    */
-  enum ornament *tmporn =
-    (enum ornament *) g_malloc0 (sizeof (enum ornament));
+  enum ornament *tmporn = (enum ornament *) g_malloc0 (sizeof (enum ornament));
   *tmporn = orn;
   list = g_list_append (list, tmporn);
 #ifdef DEBUG
@@ -196,9 +195,7 @@ insert_artic_cb (GtkWidget * widget, DenemoGUI * gui)
 
   g_assert (gui != NULL);
 
-  tmp =
-    g_strdup ((gchar *)
-	      g_object_get_data (G_OBJECT (widget), "articulation"));
+  tmp = g_strdup ((gchar *) g_object_get_data (G_OBJECT (widget), "articulation"));
 
   // Convert stock name to articulation name
   articulation = tmp;
@@ -208,16 +205,15 @@ insert_artic_cb (GtkWidget * widget, DenemoGUI * gui)
 
       articulation += 7;
       for (c = articulation; *c != '\0'; c++)
-	{
-	  if (*c == '-')
-	    {
-	      *c = ' ';
-	    }
-	}
+        {
+          if (*c == '-')
+            {
+              *c = ' ';
+            }
+        }
     }
 
-  mudelaobj = (DenemoObject *)
-    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
+  mudelaobj = (DenemoObject *) (gui->si->currentobject ? gui->si->currentobject->data : NULL);
 
   if (mudelaobj)
     {
@@ -228,6 +224,7 @@ insert_artic_cb (GtkWidget * widget, DenemoGUI * gui)
   gtk_widget_grab_focus (Denemo.window);
   g_free (tmp);
 }
+
 #if 0
 /**
  * Creates button for the articulation palette 
@@ -241,9 +238,7 @@ insert_artic_cb (GtkWidget * widget, DenemoGUI * gui)
  *
  */
 static GtkWidget *
-create_articulation_button (const gchar * stock_id, 
-  GtkTooltip * tips, GtkWidget * table, gint col, gint row,
-			    DenemoGUI * si)
+create_articulation_button (const gchar * stock_id, GtkTooltip * tips, GtkWidget * table, gint col, gint row, DenemoGUI * si)
 {
   GtkWidget *button;
   GtkStockItem stock;
@@ -261,9 +256,7 @@ create_articulation_button (const gchar * stock_id,
       gtk_container_add (GTK_CONTAINER (button), image);
     }
 
-  gtk_table_attach (GTK_TABLE (table), button, col, col + 1, row, row + 1,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
+  gtk_table_attach (GTK_TABLE (table), button, col, col + 1, row, row + 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 
   g_signal_connect (button, "clicked", G_CALLBACK (insert_artic_cb), si);
 
@@ -284,7 +277,7 @@ create_articulation_widget (DenemoGUI * si)
   GtkWidget *table;
   GtkWidget *spacer;
   GtkTooltip *tips;
-  
+
   vbox = gtk_vbox_new (FALSE, 8);
   gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
 
@@ -297,9 +290,7 @@ create_articulation_widget (DenemoGUI * si)
   gtk_box_pack_start (GTK_BOX (vbox), table, FALSE, TRUE, 0);
 
   spacer = gtk_label_new ("");
-  gtk_table_attach (GTK_TABLE (table), spacer, 0, 1, 0, 2,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
+  gtk_table_attach (GTK_TABLE (table), spacer, 0, 1, 0, 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_widget_set_size_request (spacer, 8, -1);
 
   create_articulation_button ("denemo-staccato", tips, table, 1, 0, si);
@@ -337,9 +328,7 @@ create_articulation_widget (DenemoGUI * si)
   gtk_box_pack_start (GTK_BOX (vbox), table, FALSE, TRUE, 0);
 
   spacer = gtk_label_new ("");
-  gtk_table_attach (GTK_TABLE (table), spacer, 0, 1, 0, 1,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
+  gtk_table_attach (GTK_TABLE (table), spacer, 0, 1, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_widget_set_size_request (spacer, 8, -1);
 
   create_articulation_button ("denemo-up-bow", tips, table, 1, 0, si);
@@ -354,9 +343,7 @@ create_articulation_widget (DenemoGUI * si)
   gtk_box_pack_start (GTK_BOX (vbox), table, FALSE, TRUE, 0);
 
   spacer = gtk_label_new ("");
-  gtk_table_attach (GTK_TABLE (table), spacer, 0, 1, 0, 1,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
+  gtk_table_attach (GTK_TABLE (table), spacer, 0, 1, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_widget_set_size_request (spacer, 12, -1);
 
   create_articulation_button ("denemo-rheel", tips, table, 1, 0, si);
@@ -375,9 +362,7 @@ create_articulation_widget (DenemoGUI * si)
   gtk_box_pack_start (GTK_BOX (vbox), table, FALSE, TRUE, 0);
 
   spacer = gtk_label_new ("");
-  gtk_table_attach (GTK_TABLE (table), spacer, 0, 1, 0, 1,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
+  gtk_table_attach (GTK_TABLE (table), spacer, 0, 1, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_widget_set_size_request (spacer, 8, -1);
 
   label = gtk_label_new (_("<b>Woodwind</b>"));
@@ -389,9 +374,7 @@ create_articulation_widget (DenemoGUI * si)
   gtk_box_pack_start (GTK_BOX (vbox), table, FALSE, TRUE, 0);
 
   spacer = gtk_label_new ("");
-  gtk_table_attach (GTK_TABLE (table), spacer, 0, 1, 0, 1,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
+  gtk_table_attach (GTK_TABLE (table), spacer, 0, 1, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_widget_set_size_request (spacer, 8, -1);
 
 #endif
@@ -410,10 +393,8 @@ hide_palette (GtkWidget * widget, GdkEvent * event, DenemoGUI * gui)
 
   if (gui->articulation_palette)
     {
-      toggle_palette = gtk_ui_manager_get_widget (Denemo.ui_manager,
-						  "/MainMenu/ViewMenu/ToggleArticulationPalette");
-      gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (toggle_palette),
-				      FALSE);
+      toggle_palette = gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleArticulationPalette");
+      gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (toggle_palette), FALSE);
     }
   return TRUE;
 }
@@ -425,7 +406,7 @@ hide_palette (GtkWidget * widget, GdkEvent * event, DenemoGUI * gui)
  * @return none
  */
 void
-toggle_articulation_palette (GtkAction *action, gpointer param)
+toggle_articulation_palette (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   GtkWidget *window;
@@ -436,18 +417,17 @@ toggle_articulation_palette (GtkAction *action, gpointer param)
   if (gui->articulation_palette)
     {
       if (gtk_widget_get_visible (gui->articulation_palette))
-	{
-	  gtk_widget_hide (gui->articulation_palette);
-	}
-      else if (Denemo.prefs.articulation_palette == FALSE
-	       && gtk_widget_get_visible (gui->articulation_palette))
-	{
-	  gtk_widget_hide (gui->articulation_palette);
-	}
+        {
+          gtk_widget_hide (gui->articulation_palette);
+        }
+      else if (Denemo.prefs.articulation_palette == FALSE && gtk_widget_get_visible (gui->articulation_palette))
+        {
+          gtk_widget_hide (gui->articulation_palette);
+        }
       else
-	{
-	  gtk_widget_show (gui->articulation_palette);
-	}
+        {
+          gtk_widget_show (gui->articulation_palette);
+        }
       return;
     }
 
@@ -457,8 +437,7 @@ toggle_articulation_palette (GtkAction *action, gpointer param)
   gtk_window_set_focus_on_map (GTK_WINDOW (window), FALSE);
   //GTK_WIDGET_UNSET_FLAGS(window, GTK_CAN_FOCUS);
   gtk_window_set_transient_for (GTK_WINDOW (window), GTK_WINDOW (Denemo.window));
-  gtk_window_set_type_hint (GTK_WINDOW (window),
-			    GDK_WINDOW_TYPE_HINT_UTILITY);
+  gtk_window_set_type_hint (GTK_WINDOW (window), GDK_WINDOW_TYPE_HINT_UTILITY);
   gtk_window_set_resizable (GTK_WINDOW (window), FALSE);
   gtk_window_set_role (GTK_WINDOW (window), "articulation-toolbox");
 

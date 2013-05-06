@@ -54,7 +54,7 @@ _br_find_exe (GbrInitError * error)
     {
       /* Cannot allocate memory. */
       if (error)
-	*error = GBR_INIT_ERROR_NOMEM;
+        *error = GBR_INIT_ERROR_NOMEM;
       return NULL;
     }
   path2 = (char *) g_try_malloc (buf_size);
@@ -62,7 +62,7 @@ _br_find_exe (GbrInitError * error)
     {
       /* Cannot allocate memory. */
       if (error)
-	*error = GBR_INIT_ERROR_NOMEM;
+        *error = GBR_INIT_ERROR_NOMEM;
       g_free (path);
       return NULL;
     }
@@ -75,11 +75,11 @@ _br_find_exe (GbrInitError * error)
 
       size = readlink (path2, path, buf_size - 1);
       if (size == -1)
-	{
-	  /* Error. */
-	  g_free (path2);
-	  break;
-	}
+        {
+          /* Error. */
+          g_free (path2);
+          break;
+        }
 
       /* readlink() success. */
       path[size] = '\0';
@@ -88,19 +88,19 @@ _br_find_exe (GbrInitError * error)
        * We want to get the final target. */
       i = stat (path, &stat_buf);
       if (i == -1)
-	{
-	  /* Error. */
-	  g_free (path2);
-	  break;
-	}
+        {
+          /* Error. */
+          g_free (path2);
+          break;
+        }
 
       /* stat() success. */
       if (!S_ISLNK (stat_buf.st_mode))
-	{
-	  /* path is not a symlink. Done. */
-	  g_free (path2);
-	  return path;
-	}
+        {
+          /* path is not a symlink. Done. */
+          g_free (path2);
+          return path;
+        }
 
       /* path is a symlink. Continue loop and resolve this. */
       strncpy (path, path2, buf_size - 1);
@@ -117,7 +117,7 @@ _br_find_exe (GbrInitError * error)
       /* Cannot allocate memory. */
       g_free (path);
       if (error)
-	*error = GBR_INIT_ERROR_NOMEM;
+        *error = GBR_INIT_ERROR_NOMEM;
       return NULL;
     }
 
@@ -126,7 +126,7 @@ _br_find_exe (GbrInitError * error)
     {
       g_free (line);
       if (error)
-	*error = GBR_INIT_ERROR_OPEN_MAPS;
+        *error = GBR_INIT_ERROR_OPEN_MAPS;
       return NULL;
     }
 
@@ -137,7 +137,7 @@ _br_find_exe (GbrInitError * error)
       fclose (f);
       g_free (line);
       if (error)
-	*error = GBR_INIT_ERROR_READ_MAPS;
+        *error = GBR_INIT_ERROR_READ_MAPS;
       return NULL;
     }
 
@@ -149,7 +149,7 @@ _br_find_exe (GbrInitError * error)
       fclose (f);
       g_free (line);
       if (error)
-	*error = GBR_INIT_ERROR_INVALID_MAPS;
+        *error = GBR_INIT_ERROR_INVALID_MAPS;
       return NULL;
     }
   if (line[buf_size - 1] == 10)
@@ -164,7 +164,7 @@ _br_find_exe (GbrInitError * error)
       fclose (f);
       g_free (line);
       if (error)
-	*error = GBR_INIT_ERROR_INVALID_MAPS;
+        *error = GBR_INIT_ERROR_INVALID_MAPS;
       return NULL;
     }
 
@@ -211,11 +211,11 @@ _br_find_exe_for_symbol (const void *symbol, GbrInitError * error)
       size_t len;
 
       if (fgets (line, SIZE, f) == NULL)
-	break;
+        break;
 
       /* Sanity check. */
       if (strstr (line, " r-xp ") == NULL || strchr (line, '/') == NULL)
-	continue;
+        continue;
 
       /* Parse line. */
       start_addr = line;
@@ -224,40 +224,39 @@ _br_find_exe_for_symbol (const void *symbol, GbrInitError * error)
 
       /* More sanity check. */
       if (!(file > end_addr && end_addr != NULL && end_addr[0] == '-'))
-	continue;
+        continue;
 
       end_addr[0] = '\0';
       end_addr++;
       end_addr_end = strchr (end_addr, ' ');
       if (end_addr_end == NULL)
-	continue;
+        continue;
 
       end_addr_end[0] = '\0';
       len = strlen (file);
       if (len == 0)
-	continue;
+        continue;
       if (file[len - 1] == '\n')
-	file[len - 1] = '\0';
+        file[len - 1] = '\0';
 
       /* Get rid of "(deleted)" from the filename. */
       len = strlen (file);
       if (len > 10 && strcmp (file + len - 10, " (deleted)") == 0)
-	file[len - 10] = '\0';
+        file[len - 10] = '\0';
 
       /* I don't know whether this can happen but better safe than sorry. */
       len = strlen (start_addr);
       if (len != strlen (end_addr))
-	continue;
+        continue;
 
 
       /* Transform the addresses into a string in the form of 0xdeadbeef,
        * then transform that into a pointer. */
       if (address_string_len < len + 3)
-	{
-	  address_string_len = len + 3;
-	  address_string =
-	    (char *) g_try_realloc (address_string, address_string_len);
-	}
+        {
+          address_string_len = len + 3;
+          address_string = (char *) g_try_realloc (address_string, address_string_len);
+        }
 
       memcpy (address_string, "0x", 2);
       memcpy (address_string + 2, start_addr, len);
@@ -271,10 +270,10 @@ _br_find_exe_for_symbol (const void *symbol, GbrInitError * error)
 
 
       if (symbol >= start_addr_p && symbol < end_addr_p)
-	{
-	  found = file;
-	  break;
-	}
+        {
+          found = file;
+          break;
+        }
     }
 
   g_free (address_string);
@@ -384,8 +383,7 @@ set_gerror (GError ** error, GbrInitError errcode)
       error_message = "Unknown error.";
       break;
     };
-  g_set_error (error, g_quark_from_static_string ("GBinReloc"),
-	       errcode, "%s", error_message);
+  g_set_error (error, g_quark_from_static_string ("GBinReloc"), errcode, "%s", error_message);
 }
 
 
@@ -405,9 +403,9 @@ gbr_find_exe (const gchar * default_exe)
     {
       /* BinReloc is not initialized. */
       if (default_exe != NULL)
-	return g_strdup (default_exe);
+        return g_strdup (default_exe);
       else
-	return NULL;
+        return NULL;
     }
   return g_strdup (exe);
 }
@@ -434,9 +432,9 @@ gbr_find_exe_dir (const gchar * default_dir)
     {
       /* BinReloc not initialized. */
       if (default_dir != NULL)
-	return g_strdup (default_dir);
+        return g_strdup (default_dir);
       else
-	return NULL;
+        return NULL;
     }
 
   return g_path_get_dirname (exe);
@@ -466,9 +464,9 @@ gbr_find_prefix (const gchar * default_prefix)
     {
       /* BinReloc not initialized. */
       if (default_prefix != NULL)
-	return g_strdup (default_prefix);
+        return g_strdup (default_prefix);
       else
-	return NULL;
+        return NULL;
     }
 
   dir1 = g_path_get_dirname (exe);
@@ -501,9 +499,9 @@ gbr_find_bin_dir (const gchar * default_bin_dir)
     {
       /* BinReloc not initialized. */
       if (default_bin_dir != NULL)
-	return g_strdup (default_bin_dir);
+        return g_strdup (default_bin_dir);
       else
-	return NULL;
+        return NULL;
     }
 
   dir = g_build_filename (prefix, "bin", NULL);
@@ -535,9 +533,9 @@ gbr_find_sbin_dir (const gchar * default_sbin_dir)
     {
       /* BinReloc not initialized. */
       if (default_sbin_dir != NULL)
-	return g_strdup (default_sbin_dir);
+        return g_strdup (default_sbin_dir);
       else
-	return NULL;
+        return NULL;
     }
 
   dir = g_build_filename (prefix, "sbin", NULL);
@@ -570,9 +568,9 @@ gbr_find_data_dir (const gchar * default_data_dir)
     {
       /* BinReloc not initialized. */
       if (default_data_dir != NULL)
-	return g_strdup (default_data_dir);
+        return g_strdup (default_data_dir);
       else
-	return NULL;
+        return NULL;
     }
 
   dir = g_build_filename (prefix, "share", NULL);
@@ -590,9 +588,9 @@ gbr_find_pkg_data_dir (const gchar * default_pkg_data_dir, const gchar * pkg_nam
     {
       /* BinReloc not initialized. */
       if (default_pkg_data_dir != NULL)
-	return g_strdup (default_pkg_data_dir);
+        return g_strdup (default_pkg_data_dir);
       else
-	return NULL;
+        return NULL;
     }
 
   dir = g_build_filename (prefix, "share", pkg_name, NULL);
@@ -623,9 +621,9 @@ gbr_find_locale_dir (const gchar * default_locale_dir)
     {
       /* BinReloc not initialized. */
       if (default_locale_dir != NULL)
-	return g_strdup (default_locale_dir);
+        return g_strdup (default_locale_dir);
       else
-	return NULL;
+        return NULL;
     }
 
   dir = g_build_filename (data_dir, "locale", NULL);
@@ -657,9 +655,9 @@ gbr_find_lib_dir (const gchar * default_lib_dir)
     {
       /* BinReloc not initialized. */
       if (default_lib_dir != NULL)
-	return g_strdup (default_lib_dir);
+        return g_strdup (default_lib_dir);
       else
-	return NULL;
+        return NULL;
     }
 
   dir = g_build_filename (prefix, "lib", NULL);
@@ -691,9 +689,9 @@ gbr_find_libexec_dir (const gchar * default_libexec_dir)
     {
       /* BinReloc not initialized. */
       if (default_libexec_dir != NULL)
-	return g_strdup (default_libexec_dir);
+        return g_strdup (default_libexec_dir);
       else
-	return NULL;
+        return NULL;
     }
 
   dir = g_build_filename (prefix, "libexec", NULL);
@@ -725,9 +723,9 @@ gbr_find_etc_dir (const gchar * default_etc_dir)
     {
       /* BinReloc not initialized. */
       if (default_etc_dir != NULL)
-	return g_strdup (default_etc_dir);
+        return g_strdup (default_etc_dir);
       else
-	return NULL;
+        return NULL;
     }
 
   dir = g_build_filename (prefix, "etc", NULL);

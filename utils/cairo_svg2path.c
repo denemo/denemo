@@ -30,12 +30,7 @@ typedef struct
 } ParseData;
 
 static void
-start_element (GMarkupParseContext  *context,
-	       const gchar          *element_name,
-	       const gchar         **attribute_names,
-	       const gchar         **attribute_values,
-	       gpointer              user_data,
-	       GError              **error)
+start_element (GMarkupParseContext * context, const gchar * element_name, const gchar ** attribute_names, const gchar ** attribute_values, gpointer user_data, GError ** error)
 {
   ParseData *state = user_data;
 
@@ -64,20 +59,15 @@ start_element (GMarkupParseContext  *context,
             id = attribute_values[i];
         }
 
-      if ((state->id && !g_strcmp0 (id, state->id)) ||
-          state->path == NULL)
+      if ((state->id && !g_strcmp0 (id, state->id)) || state->path == NULL)
         state->path = g_strdup (path);
-        
+
       return;
     }
 }
 
 gchar *
-parse_svg_file (const gchar *filename,
-                const gchar *path,
-                gdouble *width,
-                gdouble *height,
-                GError **error)
+parse_svg_file (const gchar * filename, const gchar * path, gdouble * width, gdouble * height, GError ** error)
 {
   GMarkupParser parser = { start_element };
   ParseData state = { path, NULL };
@@ -88,17 +78,15 @@ parse_svg_file (const gchar *filename,
   if (!g_file_get_contents (filename, &contents, &size, error))
     return NULL;
 
-  context = g_markup_parse_context_new (&parser,
-                                        G_MARKUP_TREAT_CDATA_AS_TEXT |
-                                        G_MARKUP_PREFIX_ERROR_POSITION,
-                                        &state, NULL);
+  context = g_markup_parse_context_new (&parser, G_MARKUP_TREAT_CDATA_AS_TEXT | G_MARKUP_PREFIX_ERROR_POSITION, &state, NULL);
 
-  if (g_markup_parse_context_parse (context, contents, size, error) &&
-      g_markup_parse_context_end_parse (context, error))
+  if (g_markup_parse_context_parse (context, contents, size, error) && g_markup_parse_context_end_parse (context, error))
     {
       retval = state.path;
-      if (width) *width = state.width;
-      if (height) *height = state.height;
+      if (width)
+        *width = state.width;
+      if (height)
+        *height = state.height;
     }
   else
     {
@@ -115,19 +103,23 @@ parse_svg_file (const gchar *filename,
 /*
  * These two data structures are taken from cairo 
  */
-typedef enum {
+typedef enum
+{
   CAIRO_PATH_MOVE_TO,
   CAIRO_PATH_LINE_TO,
   CAIRO_PATH_CURVE_TO,
   CAIRO_PATH_CLOSE_PATH
 } cairo_path_data_type_t;
 
-typedef union  {
-  struct {
+typedef union
+{
+  struct
+  {
     cairo_path_data_type_t type;
     int length;
   } header;
-  struct {
+  struct
+  {
     double x, y;
   } point;
 } cairo_path_data_t;
@@ -144,20 +136,20 @@ typedef union  {
 typedef struct
 {
   cairo_path_data_t *path;
-  gint               size;
-  gint               alloc_size;
-  gdouble      cpx, cpy;  /* current point                               */
-  gdouble      rpx, rpy;  /* reflection point (for 's' and 't' commands) */
-  gchar        cmd;       /* current command (lowercase)                 */
-  gint         param;     /* number of parameters                        */
-  gboolean     rel;       /* true if relative coords                     */
-  gdouble      params[7]; /* parameters that have been parsed            */
+  gint size;
+  gint alloc_size;
+  gdouble cpx, cpy;             /* current point                               */
+  gdouble rpx, rpy;             /* reflection point (for 's' and 't' commands) */
+  gchar cmd;                    /* current command (lowercase)                 */
+  gint param;                   /* number of parameters                        */
+  gboolean rel;                 /* true if relative coords                     */
+  gdouble params[7];            /* parameters that have been parsed            */
 } ParsePathContext;
 
 static inline void
-ctx_realloc_path (ParsePathContext *ctx)
+ctx_realloc_path (ParsePathContext * ctx)
 {
-  if ((ctx->size+1) >= ctx->alloc_size)
+  if ((ctx->size + 1) >= ctx->alloc_size)
     {
       ctx->alloc_size += N_ELEMENTS;
       ctx->path = g_realloc_n (ctx->path, ctx->alloc_size, sizeof (cairo_path_data_t));
@@ -165,7 +157,7 @@ ctx_realloc_path (ParsePathContext *ctx)
 }
 
 static inline void
-ctx_point_append (ParsePathContext *ctx, double x, double y)
+ctx_point_append (ParsePathContext * ctx, double x, double y)
 {
   cairo_path_data_t *data = &ctx->path[ctx->size];
 
@@ -176,9 +168,7 @@ ctx_point_append (ParsePathContext *ctx, double x, double y)
 }
 
 static inline void
-ctx_header_append (ParsePathContext *ctx,
-                   cairo_path_data_type_t type, int length,
-                   double x, double y)
+ctx_header_append (ParsePathContext * ctx, cairo_path_data_type_t type, int length, double x, double y)
 {
   cairo_path_data_t *data = &ctx->path[ctx->size];
 
@@ -187,13 +177,14 @@ ctx_header_append (ParsePathContext *ctx,
   ctx->size++;
   ctx_realloc_path (ctx);
 
-  if (length > 1) ctx_point_append (ctx, x, y);
+  if (length > 1)
+    ctx_point_append (ctx, x, y);
 }
 
 /* supply defaults for missing parameters, assuming relative coordinates
    are to be interpreted as x,y */
 static void
-parse_path_default_xy (ParsePathContext *ctx, gint n_params)
+parse_path_default_xy (ParsePathContext * ctx, gint n_params)
 {
   gint i;
 
@@ -218,7 +209,7 @@ parse_path_default_xy (ParsePathContext *ctx, gint n_params)
 }
 
 static void
-parse_path_do_cmd (ParsePathContext *ctx, gboolean final)
+parse_path_do_cmd (ParsePathContext * ctx, gboolean final)
 {
   switch (ctx->cmd)
     {
@@ -260,8 +251,8 @@ parse_path_do_cmd (ParsePathContext *ctx, gboolean final)
 
           parse_path_default_xy (ctx, 6);
 
-          x        = ctx->params[0];
-          y        = ctx->params[1];
+          x = ctx->params[0];
+          y = ctx->params[1];
           ctx->rpx = ctx->params[2];
           ctx->rpy = ctx->params[3];
           ctx->cpx = ctx->params[4];
@@ -400,27 +391,27 @@ parse_path_do_cmd (ParsePathContext *ctx, gboolean final)
 }
 
 static cairo_path_data_t *
-parse_path_data (const gchar *data, gint *n_elements)
+parse_path_data (const gchar * data, gint * n_elements)
 {
-  ParsePathContext ctx = {0, };
+  ParsePathContext ctx = { 0, };
 
-  gboolean  in_num        = FALSE;
-  gboolean  in_frac       = FALSE;
-  gboolean  in_exp        = FALSE;
-  gboolean  exp_wait_sign = FALSE;
-  gdouble   val           = 0.0;
-  gchar     c             = 0;
-  gint      sign          = 0;
-  gint      exp           = 0;
-  gint      exp_sign      = 0;
-  gdouble   frac          = 0.0;
-  gint      i;
+  gboolean in_num = FALSE;
+  gboolean in_frac = FALSE;
+  gboolean in_exp = FALSE;
+  gboolean exp_wait_sign = FALSE;
+  gdouble val = 0.0;
+  gchar c = 0;
+  gint sign = 0;
+  gint exp = 0;
+  gint exp_sign = 0;
+  gdouble frac = 0.0;
+  gint i;
 
   ctx.alloc_size = N_ELEMENTS;
   ctx.size = 0;
   ctx.path = g_try_malloc0_n (ctx.alloc_size, sizeof (cairo_path_data_t));
 
-  for (i = 0; ; i++)
+  for (i = 0;; i++)
     {
       c = data[i];
       if (c >= '0' && c <= '9')
@@ -558,63 +549,45 @@ parse_path_data (const gchar *data, gint *n_elements)
       /* else c _should_ be whitespace or , */
     }
 
-  if (n_elements) *n_elements = ctx.size;
+  if (n_elements)
+    *n_elements = ctx.size;
 
   return ctx.path;
 }
 
 static gchar *
-path_data_append_csource (GString *string,
-                          gchar *name,
-                          cairo_path_data_t *path_data,
-                          gint size,
-                          gdouble width,
-                          gdouble height)
+path_data_append_csource (GString * string, gchar * name, cairo_path_data_t * path_data, gint size, gdouble width, gdouble height)
 {
   gint i;
 
   g_string_append_printf (string, "static cairo_path_data_t %s_data[] = {\n", name);
-                 
+
   for (i = 0; i < size; i += path_data[i].header.length)
     {
       cairo_path_data_t *data = &path_data[i];
-      gboolean not_last = i+1 < size;
-      
-      g_string_append_printf (string, "\t{.header.type = %d, .header.length = %d}%s",
-                               data->header.type, data->header.length,
-                              (not_last) ? ",\n" : "");
+      gboolean not_last = i + 1 < size;
+
+      g_string_append_printf (string, "\t{.header.type = %d, .header.length = %d}%s", data->header.type, data->header.length, (not_last) ? ",\n" : "");
 
       switch (data->header.type)
         {
-          case CAIRO_PATH_MOVE_TO:
-          case CAIRO_PATH_LINE_TO:
-            g_string_append_printf (string, "\t{.point.x = %lf, .point.y = %lf}%s",
-                                     data[1].point.x, data[1].point.y,
-                                    (not_last) ? ",\n" : "");
-            break;
-          case CAIRO_PATH_CURVE_TO:
-            g_string_append_printf (string,
-                                     "\t{.point.x = %lf, .point.y = %lf},\n"
-                                     "\t{.point.x = %lf, .point.y = %lf},\n"
-                                     "\t{.point.x = %lf, .point.y = %lf}%s",
-                                     data[1].point.x, data[1].point.y,
-                                     data[2].point.x, data[2].point.y,
-                                     data[3].point.x, data[3].point.y,
-                                    (not_last) ? ",\n" : "");
-            break;
-          case CAIRO_PATH_CLOSE_PATH:
-            break;
+        case CAIRO_PATH_MOVE_TO:
+        case CAIRO_PATH_LINE_TO:
+          g_string_append_printf (string, "\t{.point.x = %lf, .point.y = %lf}%s", data[1].point.x, data[1].point.y, (not_last) ? ",\n" : "");
+          break;
+        case CAIRO_PATH_CURVE_TO:
+          g_string_append_printf (string, "\t{.point.x = %lf, .point.y = %lf},\n" "\t{.point.x = %lf, .point.y = %lf},\n" "\t{.point.x = %lf, .point.y = %lf}%s", data[1].point.x, data[1].point.y, data[2].point.x, data[2].point.y, data[3].point.x, data[3].point.y, (not_last) ? ",\n" : "");
+          break;
+        case CAIRO_PATH_CLOSE_PATH:
+          break;
         }
     }
 
-  g_string_append_printf (string,
-                           "\n};\n\n"
-                           "cairo_path_t %s_path = {0, %s_data, %d};\n\n",
-                           name, name, size);
+  g_string_append_printf (string, "\n};\n\n" "cairo_path_t %s_path = {0, %s_data, %d};\n\n", name, name, size);
 }
 
 static gchar *
-path_data_append_cheader_start (GString *string, gchar *name)
+path_data_append_cheader_start (GString * string, gchar * name)
 {
   gchar *NAME = g_utf8_strup (name, -1);
   g_string_printf (string, "#ifndef __%s_H__\n#define __%s_H__\n\n", NAME, NAME);
@@ -622,7 +595,7 @@ path_data_append_cheader_start (GString *string, gchar *name)
 }
 
 static gchar *
-path_data_append_cheader_end (GString *string, gchar *name)
+path_data_append_cheader_end (GString * string, gchar * name)
 {
   gchar *NAME = g_utf8_strup (name, -1);
   g_string_append_printf (string, "\n#endif /* __%s_H__ */\n", NAME);
@@ -630,18 +603,11 @@ path_data_append_cheader_end (GString *string, gchar *name)
 }
 
 static gchar *
-path_data_append_cheader (GString *string,
-                          gchar *name,
-                          gdouble width,
-                          gdouble height)
+path_data_append_cheader (GString * string, gchar * name, gdouble width, gdouble height)
 {
   gchar *NAME = g_utf8_strup (name, -1);
 
-  g_string_append_printf (string,
-                          "#define %s_WIDTH %lf\n"
-                          "#define %s_HEIGHT %lf\n"
-                          "extern cairo_path_t %s_path;\n\n",
-                          NAME, width, NAME, height, name);
+  g_string_append_printf (string, "#define %s_WIDTH %lf\n" "#define %s_HEIGHT %lf\n" "extern cairo_path_t %s_path;\n\n", NAME, width, NAME, height, name);
 
   g_free (NAME);
 }
@@ -652,12 +618,11 @@ int
 main (int argc, char **argv)
 {
   static gchar **filenames, *target;
-  static GOptionEntry entries[] =
-    {
-        { "target", 't', 0, G_OPTION_ARG_FILENAME, &target, "name of the output file", NULL },
-        { G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_FILENAME_ARRAY, &filenames, "A SVG file to convert", NULL },
-        { NULL }
-    };
+  static GOptionEntry entries[] = {
+    {"target", 't', 0, G_OPTION_ARG_FILENAME, &target, "name of the output file", NULL},
+    {G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_FILENAME_ARRAY, &filenames, "A SVG file to convert", NULL},
+    {NULL}
+  };
   GOptionContext *context;
   GError *error = NULL;
   gchar *basename;
@@ -675,10 +640,10 @@ main (int argc, char **argv)
 
   if (!target || !filenames)
     {
-      g_print (g_option_context_get_help (context, TRUE, NULL));        
+      g_print (g_option_context_get_help (context, TRUE, NULL));
       return 1;
     }
-  
+
   basename = g_path_get_basename (target);
   g_strdelimit (basename, ".", '\0');
   dump_header = g_str_has_suffix (target, ".h");
@@ -690,14 +655,14 @@ main (int argc, char **argv)
     }
   else
     string = g_string_new ("#include <cairo.h>\n\n");
-              
+
   for (i = 0; filenames[i]; i++)
     {
       gdouble width, height;
       gchar *path;
 
       path = parse_svg_file (filenames[i], NULL, &width, &height, &error);
-      
+
       if (path)
         {
           cairo_path_data_t *path_data;
@@ -708,18 +673,19 @@ main (int argc, char **argv)
           if (dump_header)
             path_data_append_cheader (string, basename, width, height);
           else
-            path_data_append_csource (string, basename, path_data, size, width, height);            
+            path_data_append_csource (string, basename, path_data, size, width, height);
         }
       else
         g_printerr ("Could not parse SVG file %s", filenames[i]);
     }
 
-  if (dump_header) path_data_append_cheader_end (string, basename);
+  if (dump_header)
+    path_data_append_cheader_end (string, basename);
 
   g_file_set_contents (target, string->str, -1, NULL);
 
   g_free (basename);
   g_string_free (string, TRUE);
-  
+
   return 0;
 }

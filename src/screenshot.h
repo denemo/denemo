@@ -17,10 +17,7 @@
  * License along with this program; if not, write to the
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  */
-GdkPixbuf *
-screenshot_get_pixbuf (GdkWindow    *window,
-                       GdkRectangle *rectangle);
-GdkRectangle *
-screenshot_find_rectangle (void);
+GdkPixbuf *screenshot_get_pixbuf (GdkWindow * window, GdkRectangle * rectangle);
+GdkRectangle *screenshot_find_rectangle (void);
 
 #endif //_HAVE_X11_

@@ -6,22 +6,17 @@
  */
 
 #include <gtk/gtk.h>
-#include <denemo/denemo.h> 
+#include <denemo/denemo.h>
 
-void
-region_playhead();
+void region_playhead ();
 
-void
-initialize_playhead();
+void initialize_playhead ();
 
-gint
-scorearea_configure_event (GtkWidget * widget, GdkEventConfigure * event);
+gint scorearea_configure_event (GtkWidget * widget, GdkEventConfigure * event);
 
 #if GTK_MAJOR_VERSION == 3
-gint
-scorearea_draw_event (GtkWidget *widget, cairo_t *cr);
+gint scorearea_draw_event (GtkWidget * widget, cairo_t * cr);
 #else
-gint
-scorearea_draw_event (GtkWidget * widget, GdkEventExpose * event);
+gint scorearea_draw_event (GtkWidget * widget, GdkEventExpose * event);
 #endif
 void update_drawing_cache (void);

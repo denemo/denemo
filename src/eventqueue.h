@@ -27,7 +27,8 @@
 /**
  * Event queue structure for input/output of MIDI events to/from backends.
  */
-typedef struct event_queue_t {
+typedef struct event_queue_t
+{
   /**
    * The playback queue. Events from the SMF structure are written to this
    * queue a few seconds in advance to ensure precise timing with no dropouts.
@@ -42,10 +43,10 @@ typedef struct event_queue_t {
    * The input queue.
    */
   jack_ringbuffer_t *input;
-  
+
   /* mixer queue - audio for mixing with playback output */
   jack_ringbuffer_t *mixer;
-  
+
 } event_queue_t;
 
 
@@ -61,21 +62,21 @@ typedef struct event_queue_t {
  *
  * @return                      the new event queue
  */
-event_queue_t *event_queue_new(size_t playback_queue_size, size_t immediate_queue_size, size_t input_queue_size, size_t mixer_queue_size);
+event_queue_t *event_queue_new (size_t playback_queue_size, size_t immediate_queue_size, size_t input_queue_size, size_t mixer_queue_size);
 
 /**
  * Frees the given queue.
  */
-void event_queue_free(event_queue_t *queue);
+void event_queue_free (event_queue_t * queue);
 
 /**
  * Clears the playback queue.
  */
-void event_queue_reset_playback(event_queue_t *queue);
+void event_queue_reset_playback (event_queue_t * queue);
 /**
  * Clears the mixer queue.
  */
-void event_queue_reset_mixer(event_queue_t *queue);
+void event_queue_reset_mixer (event_queue_t * queue);
 
 /**
  * Writes an SMF event to the playback queue.
@@ -85,7 +86,7 @@ void event_queue_reset_mixer(event_queue_t *queue);
  *
  * @return        TRUE if the event was successfully written to the queue
  */
-gboolean event_queue_write_playback(event_queue_t *queue, smf_event_t *event);
+gboolean event_queue_write_playback (event_queue_t * queue, smf_event_t * event);
 
 /**
  * Writes an event to the immmediate playback queue.
@@ -96,7 +97,7 @@ gboolean event_queue_write_playback(event_queue_t *queue, smf_event_t *event);
  *
  * @return        TRUE if the event was successfully written to the queue
  */
-gboolean event_queue_write_immediate(event_queue_t *queue, guchar *data, guint length);
+gboolean event_queue_write_immediate (event_queue_t * queue, guchar * data, guint length);
 
 
 /**
@@ -106,7 +107,7 @@ gboolean event_queue_write_immediate(event_queue_t *queue, guchar *data, guint l
  *
  * @return        TRUE if the sample was successfully written to the queue
  */
-gboolean event_queue_write_mixer(event_queue_t *queue, float *sample);
+gboolean event_queue_write_mixer (event_queue_t * queue, float *sample);
 
 
 /**
@@ -122,12 +123,10 @@ gboolean event_queue_write_mixer(event_queue_t *queue, float *sample);
  * @return                    TRUE if an event was written to the output
  *                            parameters
  */
-gboolean event_queue_read_output(event_queue_t *queue, unsigned char *event_buffer, size_t *event_length,
-                                 double *event_time, double until_time);
+gboolean event_queue_read_output (event_queue_t * queue, unsigned char *event_buffer, size_t * event_length, double *event_time, double until_time);
 
 
-gboolean mixer_queue_read_output(event_queue_t *queue, unsigned char *event_buffer, size_t *event_length,
-                                 double *event_time, double until_time);
+gboolean mixer_queue_read_output (event_queue_t * queue, unsigned char *event_buffer, size_t * event_length, double *event_time, double until_time);
 
 /**
  * Writes an event to the input queue.
@@ -137,7 +136,7 @@ gboolean mixer_queue_read_output(event_queue_t *queue, unsigned char *event_buff
  *
  * @return        TRUE if the event was successfully written to the queue
  */
-gboolean event_queue_write_input(event_queue_t *queue, midi_event_t const *event);
+gboolean event_queue_write_input (event_queue_t * queue, midi_event_t const *event);
 
 /**
  * Reads an event from the input queue.
@@ -145,7 +144,7 @@ gboolean event_queue_write_input(event_queue_t *queue, midi_event_t const *event
  * @return  a pointer to a newly allocated structure containing the event data.
  *          The caller is responsible for calling g_free() on this pointer.
  */
-midi_event_t *event_queue_read_input(event_queue_t *queue);
+midi_event_t *event_queue_read_input (event_queue_t * queue);
 
 
 #endif // EVENTQUEUE_H

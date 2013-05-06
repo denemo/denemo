@@ -10,8 +10,8 @@
 #ifndef CHANGENOTEHEAD_H
 #define CHANGENOTEHEAD_H
 
-void insertnotehead(DenemoScore *si,gchar *noteheadstring);
-gint texttohead(gchar *text);
-void set_notehead (GtkAction *action, gpointer param);
+void insertnotehead (DenemoScore * si, gchar * noteheadstring);
+gint texttohead (gchar * text);
+void set_notehead (GtkAction * action, gpointer param);
 
 #endif

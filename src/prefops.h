@@ -16,14 +16,14 @@ const gchar *locatedotdenemo (void);
 const gchar *locateprintdir (void);
 void initprefs (void);
 gint readxmlprefsString (gchar * xmlprefs);
-gint writeXMLPrefs( DenemoPrefs *prefs);
-void writeHistory(void);
-gint readHistory(void);
+gint writeXMLPrefs (DenemoPrefs * prefs);
+void writeHistory (void);
+gint readHistory (void);
 void storeWindowState (void);
 void loadWindowState (void);
 
-gboolean get_bool_pref(gchar *prefname);
-gint get_int_pref(gchar *prefname);
-gchar* get_string_pref(gchar *prefname);
+gboolean get_bool_pref (gchar * prefname);
+gint get_int_pref (gchar * prefname);
+gchar *get_string_pref (gchar * prefname);
 
 #endif

@@ -16,8 +16,8 @@
 #define DENEMO_REMINDER (2)
 #define DENEMO_CAUTIONARY (3)
 
-#define HIGHLIGHT_OFFSET (20) /* Fairly arbitrary value to transform codes '0', '1' ... to a new range with the meaning highlight the whole-note, half-note, ..., glyph */ 
-#define MAXEXTRASPACE (150) /* maximum space for ledger lines, for sanity */
+#define HIGHLIGHT_OFFSET (20)   /* Fairly arbitrary value to transform codes '0', '1' ... to a new range with the meaning highlight the whole-note, half-note, ..., glyph */
+#define MAXEXTRASPACE (150)     /* maximum space for ledger lines, for sanity */
 
 #define LINE_SPACE 10
 #define HALF_LINE_SPACE 5
@@ -46,91 +46,65 @@
     g_signal_connect_object (G_OBJECT (entry), "activate", \
 	  		       G_CALLBACK(gtk_widget_destroy), \
 			       G_OBJECT (dialog), G_CONNECT_AFTER)
-  
 
-void
-drawbitmapinverse_cr (cairo_t * cr, DenemoGraphic * mask, gint x,
-		   gint y, gboolean invert);
 
-void
-drawfetachar_cr (cairo_t * cr, gunichar uc, double x, double y);
+void drawbitmapinverse_cr (cairo_t * cr, DenemoGraphic * mask, gint x, gint y, gboolean invert);
+
+void drawfetachar_cr (cairo_t * cr, gunichar uc, double x, double y);
 
 //void
 //setcairocolor (cairo_t * cr, GdkGC * gc);
 
-void 
-drawnormaltext_cr (cairo_t *cr, const char *text, double x, double y);
+void drawnormaltext_cr (cairo_t * cr, const char *text, double x, double y);
 
-void 
-drawlargetext_cr (cairo_t *cr, const char *text, double x, double y);
+void drawlargetext_cr (cairo_t * cr, const char *text, double x, double y);
 
-void 
-drawtext_cr (cairo_t *cr, const char *text, double x, double y, double size);
+void drawtext_cr (cairo_t * cr, const char *text, double x, double y, double size);
 
-gint draw_for_directives(cairo_t *cr, GList *directives, gint x, gint y, gboolean at_cursor);
+gint draw_for_directives (cairo_t * cr, GList * directives, gint x, gint y, gboolean at_cursor);
 
 /* Gives space after a note or rest */
 
-gint
-space_after (gint numticks, gint wholenotewidth);
+gint space_after (gint numticks, gint wholenotewidth);
 
 /* Returns height of a note based on what the note is and and the current
  * clef context */
 
-gint
-calculateheight (gint mid_c_offset, gint dclef);
+gint calculateheight (gint mid_c_offset, gint dclef);
 
 /* Translates a mid_c_offset into 0 (c) through 6 (b). Useful for
  * getting accidentals to persist */
 
-gint
-offsettonumber (gint n);
+gint offsettonumber (gint n);
 
-gchar *
-mid_c_offsettolily (int mid_c_offset, int enshift);
+gchar *mid_c_offsettolily (int mid_c_offset, int enshift);
 
-gchar
-mid_c_offsettoname (gint mid_c_offset);
+gchar mid_c_offsettoname (gint mid_c_offset);
 
-gint
-mid_c_offsettooctave (gint mid_c_offset);
+gint mid_c_offsettooctave (gint mid_c_offset);
 
-void 
-set_grace_numticks(DenemoObject *theobj, gint multiplier);
+void set_grace_numticks (DenemoObject * theobj, gint multiplier);
 
-void
-set_tuplefied_numticks (DenemoObject *theobj, gint numerator,
-			 gint denominator);
+void set_tuplefied_numticks (DenemoObject * theobj, gint numerator, gint denominator);
 
-void
-set_basic_numticks (DenemoObject *theobj);
+void set_basic_numticks (DenemoObject * theobj);
 
-void
-setpixelmin (DenemoObject *theobj);
+void setpixelmin (DenemoObject * theobj);
 
-void
-freeit (gpointer data, gpointer user_data);
+void freeit (gpointer data, gpointer user_data);
 
-void 
-popup_menu(gchar *name);
+void popup_menu (gchar * name);
 
-void
-warningmessage (gchar * msg);
+void warningmessage (gchar * msg);
 
-void
-warningdialog(gchar *msg);
+void warningdialog (gchar * msg);
 
-GtkWidget *
-infodialog(gchar *msg);
+GtkWidget *infodialog (gchar * msg);
 
-void
-progressbar(gchar *msg);
-void
-progressbar_stop(void);
+void progressbar (gchar * msg);
+void progressbar_stop (void);
 
-void 
-headerfields(GtkWidget *dialog, GtkListStore *list_store, 
-	     GtkTreeIter* iter, DenemoScore *si, gboolean isdialog); 
+void headerfields (GtkWidget * dialog, GtkListStore * list_store, GtkTreeIter * iter, DenemoScore * si, gboolean isdialog);
 /* default isdialog shall be TRUE */
 
 
@@ -141,33 +115,26 @@ const gchar *get_locale_dir (void);
 const gchar *get_bin_dir (void);
 void kill_process (GPid pid);
 
-gchar * music_font(gchar *str);
+gchar *music_font (gchar * str);
 
-void  set_title_bar(DenemoGUI *gui);
-void score_status(DenemoGUI *gui, gboolean change);
-void      write_status(DenemoGUI *gui);
-gboolean
-confirm (gchar *primary, gchar *secondary);
-void 
-nullify_gstring (GString **s);
+void set_title_bar (DenemoGUI * gui);
+void score_status (DenemoGUI * gui, gboolean change);
+void write_status (DenemoGUI * gui);
+gboolean confirm (gchar * primary, gchar * secondary);
+void nullify_gstring (GString ** s);
 
-gchar *
-string_dialog_entry (DenemoGUI *gui, gchar *title, gchar *instruction, gchar *initial_value);
+gchar *string_dialog_entry (DenemoGUI * gui, gchar * title, gchar * instruction, gchar * initial_value);
 
-gchar *
-string_dialog_entry_with_widget (DenemoGUI *gui, gchar *title, gchar *instruction, gchar *initial_value, GtkWidget *extra_widget);
-gchar *
-string_dialog_editor_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *direction, gchar *PreValue, GtkWidget *widget);
-gchar *
-string_dialog_entry_with_widget_opt (DenemoGUI *gui, gchar *wlabel, gchar *direction, gchar *PreValue, GtkWidget *widget, gboolean modal);
-gchar *
-string_dialog_editor_with_widget_opt (DenemoGUI *gui, gchar *wlabel, gchar *direction, gchar *PreValue, GtkWidget *widget, gboolean modal);
-void note2lilynotename(struct note *noteobject, GString *ret);
-void note2lilyaccidental(struct note *noteobject, GString *ret);
-void note2lilyoctave(struct note* noteobject, GString *ret);
-void chord2lilybaseduration(struct chord *chordobject, GString *ret);
-void chord2lilyduration(struct chord *chordobject, GString *ret);
-void chord2lilynumdots(struct chord *chordobject, GString *ret);
+gchar *string_dialog_entry_with_widget (DenemoGUI * gui, gchar * title, gchar * instruction, gchar * initial_value, GtkWidget * extra_widget);
+gchar *string_dialog_editor_with_widget (DenemoGUI * gui, gchar * wlabel, gchar * direction, gchar * PreValue, GtkWidget * widget);
+gchar *string_dialog_entry_with_widget_opt (DenemoGUI * gui, gchar * wlabel, gchar * direction, gchar * PreValue, GtkWidget * widget, gboolean modal);
+gchar *string_dialog_editor_with_widget_opt (DenemoGUI * gui, gchar * wlabel, gchar * direction, gchar * PreValue, GtkWidget * widget, gboolean modal);
+void note2lilynotename (struct note *noteobject, GString * ret);
+void note2lilyaccidental (struct note *noteobject, GString * ret);
+void note2lilyoctave (struct note *noteobject, GString * ret);
+void chord2lilybaseduration (struct chord *chordobject, GString * ret);
+void chord2lilyduration (struct chord *chordobject, GString * ret);
+void chord2lilynumdots (struct chord *chordobject, GString * ret);
 
 #define UTILS_H_PARAM_ASSIGN(param_name) if( (str = g_strstr_len(values->str+i,strlen(values->str+i), #param_name)))\
 nothing=FALSE,param_name = (*(str+strlen(#param_name))=='=')?str+strlen(#param_name)+1:NULL;
@@ -274,27 +241,27 @@ if(!action && param){\
       param_name1=values?values->str:NULL;\
 }
 
-gchar * get_option(gchar *str, gint length);
-void console_output(gchar *text);
+gchar *get_option (gchar * str, gint length);
+void console_output (gchar * text);
 
-gint get_override(GList *g);
+gint get_override (GList * g);
 
-void add_font_directory(gchar *fontpath);
-void add_font_file(gchar *fontpath);
+void add_font_directory (gchar * fontpath);
+void add_font_file (gchar * fontpath);
 const gchar *get_prefix_dir (void);
-gboolean run_file_association(gchar *filenam);
-gchar *make_temp_dir(void);
-gchar *remove_extension(gchar *name);
-gchar *substitute_extension(gchar *name, gchar *extension);
-void init_denemo_notenames(void);
-gint get_widget_height(GtkWidget *w);
-gint get_widget_width(GtkWidget *w);
-void switch_back_to_main_window(void);
-void use_markup(GtkWidget *widget);
+gboolean run_file_association (gchar * filenam);
+gchar *make_temp_dir (void);
+gchar *remove_extension (gchar * name);
+gchar *substitute_extension (gchar * name, gchar * extension);
+void init_denemo_notenames (void);
+gint get_widget_height (GtkWidget * w);
+gint get_widget_width (GtkWidget * w);
+void switch_back_to_main_window (void);
+void use_markup (GtkWidget * widget);
 
-void initialize_keystroke_help(void);
-void KeyStrokeAwait(gchar *first_keypress);
-void KeyStrokeDecline(gchar *first_keypress);
-void KeyStrokeShow(gchar *str, gint command_idx, gboolean single);
+void initialize_keystroke_help (void);
+void KeyStrokeAwait (gchar * first_keypress);
+void KeyStrokeDecline (gchar * first_keypress);
+void KeyStrokeShow (gchar * str, gint command_idx, gboolean single);
 
 #endif /* UTILS_H */

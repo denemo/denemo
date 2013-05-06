@@ -50,8 +50,7 @@ char *synonym_table[] = {
   "piano", "pno", "pi", "",
   "guitar", "guit", "gui", "gtr", "gt", "",
   "electric", "electr", "elect", "ele", "el", "",
-  "distorted", "distort", "disted", "dist", "dis", ""
-    "synthetic", "synth", "synt", "syn", "sy", "",
+  "distorted", "distort", "disted", "dist", "dis", "" "synthetic", "synth", "synt", "syn", "sy", "",
   "overdriven", "overdrive", "ovrdrv", "ovrdr", "over", "",
   "oohs", "oos", "ohs", "oo", "o", "",
   "aahs", "aas", "ahs", "aa", "a", "",
@@ -66,9 +65,9 @@ char *synonym_table[] = {
 
 typedef struct instrname
 {
-  char *text;			/* word to match */
-  int gsprogram;		/* timidity program number */
-  int matchpoints;		/* score to compare */
+  char *text;                   /* word to match */
+  int gsprogram;                /* timidity program number */
+  int matchpoints;              /* score to compare */
 }
 instrname_t;
 
@@ -327,10 +326,10 @@ match (instrname_t * keywords, char *name, int *score_table)
   for (i = 0; keywords[i].text[0]; i++)
     {
       if (!strcmp (keywords[i].text, name))
-	{
-	  instr = keywords[i].gsprogram;
-	  score_table[instr] += keywords[i].matchpoints;
-	}
+        {
+          instr = keywords[i].gsprogram;
+          score_table[instr] += keywords[i].matchpoints;
+        }
     }
 }
 
@@ -348,17 +347,17 @@ synonym (char **tab, char *txt)
   for (; *tab; tab++)
     {
       if (!saved)
-	{
-	  saved = *tab;
-	}
+        {
+          saved = *tab;
+        }
       if (!strcmp (txt, *tab))
-	{
-	  return saved;
-	}
+        {
+          return saved;
+        }
       if (**tab == 0)
-	{
-	  saved = NULL;
-	}
+        {
+          saved = NULL;
+        }
     }
 
   return txt;
@@ -388,20 +387,20 @@ select_program (char *instr)
     {
       namepointer = name;
       while (isalpha (*instr))
-	{
-	  /* copy a word */
-	  *namepointer++ = tolower (*instr++);
-	}
+        {
+          /* copy a word */
+          *namepointer++ = tolower (*instr++);
+        }
       *namepointer = 0;
       if (name[0])
-	{
-	  /* it was a word: match it */
-	  match (keywords, synonym (synonym_table, name), score);
-	}
+        {
+          /* it was a word: match it */
+          match (keywords, synonym (synonym_table, name), score);
+        }
       if (*instr)
-	{
-	  instr++;
-	}
+        {
+          instr++;
+        }
     }
 
   /* then select the best match */
@@ -410,13 +409,13 @@ select_program (char *instr)
   for (i = 0; i < 128; i++)
     {
       if (score[i] > score[winner])
-	{
-	  winner = i;
-	}
+        {
+          winner = i;
+        }
     }
 
 #ifdef DEBUG
-  g_print("For %s choose prog %d\n", input_instr, winner&127);
+  g_print ("For %s choose prog %d\n", input_instr, winner & 127);
 #endif
   return winner & 127;
 }

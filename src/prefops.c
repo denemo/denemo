@@ -29,8 +29,7 @@
 
 
 
-static gint
-readxmlprefsFile (gchar * filename);
+static gint readxmlprefsFile (gchar * filename);
 
 /**
  * This checks to see if there's a .denemo/ directory in the user's
@@ -50,14 +49,15 @@ locatedotdenemo ()
   gboolean err;
   if (!dotdenemo)
     {
-      dotdenemo = g_build_filename (g_get_home_dir(), ".denemo-"PACKAGE_VERSION, NULL);
+      dotdenemo = g_build_filename (g_get_home_dir (), ".denemo-" PACKAGE_VERSION, NULL);
     }
-  err = g_mkdir_with_parents(dotdenemo, 0770);
-  if(err) {
-    warningdialog("Could not create .denemo for you personal settings");
-    g_free(dotdenemo);
-    dotdenemo = NULL;
-  }
+  err = g_mkdir_with_parents (dotdenemo, 0770);
+  if (err)
+    {
+      warningdialog ("Could not create .denemo for you personal settings");
+      g_free (dotdenemo);
+      dotdenemo = NULL;
+    }
 
   return dotdenemo;
 }
@@ -68,7 +68,7 @@ locateprintdir (void)
 {
   static gchar *printdir = NULL;
   if (!printdir)
-    printdir = make_temp_dir();
+    printdir = make_temp_dir ();
   return printdir;
 }
 
@@ -82,38 +82,38 @@ void
 initprefs ()
 {
   gchar *systemwide = g_build_filename (get_conf_dir (), "denemo.conf", NULL);
-  #define ret (&Denemo.prefs)
-  gchar * dotdenemo = (gchar*)locatedotdenemo ();
-  gchar *localrc = dotdenemo?g_build_filename (dotdenemo, PREFS_FILE, NULL):NULL;
+#define ret (&Denemo.prefs)
+  gchar *dotdenemo = (gchar *) locatedotdenemo ();
+  gchar *localrc = dotdenemo ? g_build_filename (dotdenemo, PREFS_FILE, NULL) : NULL;
 
   /* Reasonable default values */
 
-  ret->mode = INPUTEDIT|INPUTRHYTHM|INPUTNORMAL;
+  ret->mode = INPUTEDIT | INPUTRHYTHM | INPUTNORMAL;
 
-  const gchar *name = g_get_user_name();
-  ret->username = g_string_new (name?name:"DenemoUser");
+  const gchar *name = g_get_user_name ();
+  ret->username = g_string_new (name ? name : "DenemoUser");
   ret->password = g_string_new ("");
 
   ret->fontspec = g_string_new ("Denemo 9");
 
 #ifdef G_OS_WIN32
-  ret->browser = g_string_new ("");//use file association
+  ret->browser = g_string_new ("");     //use file association
   ret->audioplayer = g_string_new ("");
-  ret->lilypath = g_string_new (g_build_filename(get_bin_dir(), "lilypond-windows.exe", NULL));//We don't assume the file assoc works - we are installing this anyway to a known place,the option  neither lilypond-windows.exe nor the -dgui option are used
+  ret->lilypath = g_string_new (g_build_filename (get_bin_dir (), "lilypond-windows.exe", NULL));       //We don't assume the file assoc works - we are installing this anyway to a known place,the option  neither lilypond-windows.exe nor the -dgui option are used
   ret->pdfviewer = g_string_new ("");
   ret->imageviewer = g_string_new ("");
 #else /* !G_OS_WIN32 */
   ret->browser = g_string_new ("firefox");
   ret->audioplayer = g_string_new ("play");
-  ret->lilypath = g_string_new (g_build_filename(get_bin_dir(), "lilypond", NULL));
+  ret->lilypath = g_string_new (g_build_filename (get_bin_dir (), "lilypond", NULL));
   ret->pdfviewer = g_string_new ("evince");
   ret->imageviewer = g_string_new ("eog");
 #endif /* !G_OS_WIN32 */
 
-  ret->profile = g_string_new("Arranger");
-  ret->denemopath = g_string_new (g_get_home_dir());
-  ret->lilyversion = g_string_new ("");//meaning use installed LilyPond version
-  ret->temperament = g_string_new("Equal");
+  ret->profile = g_string_new ("Arranger");
+  ret->denemopath = g_string_new (g_get_home_dir ());
+  ret->lilyversion = g_string_new (""); //meaning use installed LilyPond version
+  ret->temperament = g_string_new ("Equal");
   ret->strictshortcuts = FALSE;
   ret->resolution = 300;
   ret->display_refresh = 0.01;
@@ -132,28 +132,28 @@ initprefs ()
   ret->firststaff = 4;
   ret->lastmeasure = 4;
   ret->laststaff = 4;
-  
-  
-  ret->audio_driver = g_string_new("default");
-  ret->midi_driver = g_string_new("default");
-#ifdef _HAVE_PORTAUDIO_
-  ret->audio_driver = g_string_new("portaudio");
-  ret->midi_driver = g_string_new("portmidi");
-#endif
-  ret->jack_connect_ports_l = g_string_new("system:playback_1");
-  ret->jack_connect_ports_r = g_string_new("system:playback_2");
-  ret->jack_connect_midi_in_port = g_string_new("");
-  ret->jack_connect_midi_out_port = g_string_new("");
 
-  ret->portaudio_device = g_string_new("default");
+
+  ret->audio_driver = g_string_new ("default");
+  ret->midi_driver = g_string_new ("default");
+#ifdef _HAVE_PORTAUDIO_
+  ret->audio_driver = g_string_new ("portaudio");
+  ret->midi_driver = g_string_new ("portmidi");
+#endif
+  ret->jack_connect_ports_l = g_string_new ("system:playback_1");
+  ret->jack_connect_ports_r = g_string_new ("system:playback_2");
+  ret->jack_connect_midi_in_port = g_string_new ("");
+  ret->jack_connect_midi_out_port = g_string_new ("");
+
+  ret->portaudio_device = g_string_new ("default");
   ret->portaudio_sample_rate = 44100;
   ret->portaudio_period_size = 256;
 
-  ret->portmidi_input_device = g_string_new("default");
-  ret->portmidi_output_device = g_string_new("default");
+  ret->portmidi_input_device = g_string_new ("default");
+  ret->portmidi_output_device = g_string_new ("default");
 
   gchar *soundfontpath = g_build_filename (get_data_dir (), "soundfonts", "A320U.sf2", NULL);
-  ret->fluidsynth_soundfont = g_string_new(soundfontpath);
+  ret->fluidsynth_soundfont = g_string_new (soundfontpath);
   ret->pitchspellingchannel = 15;
   ret->pitchspellingprogram = 17;
 
@@ -181,18 +181,19 @@ initprefs ()
   ret->quickshortcuts = TRUE;
   ret->progressbardecorations = TRUE;
   /* Read values from systemwide preferences file */
-  printf("\nsystemwide == %s\n", systemwide);
+  printf ("\nsystemwide == %s\n", systemwide);
   readxmlprefsFile (systemwide);
 
   /* Read values from personal preferences file */
 
   //readpreffile (localrc, ret);
-  if(localrc) {
-    if(g_file_test(localrc,  G_FILE_TEST_EXISTS))
-      readxmlprefsFile (localrc);
-    else
-      writeXMLPrefs(ret);
-  }
+  if (localrc)
+    {
+      if (g_file_test (localrc, G_FILE_TEST_EXISTS))
+        readxmlprefsFile (localrc);
+      else
+        writeXMLPrefs (ret);
+    }
   g_free (systemwide);
   g_free (localrc);
 #undef ret
@@ -271,145 +272,115 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 
 
       if (0 == xmlStrcmp (cur->name, (const xmlChar *) "lilypath"))
-	{
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-	  if(tmp)
-	    {
-	      gchar *curname = g_strdup_printf("DenemoPref_%s", cur->name);
-	      define_scheme_variable(curname, tmp, NULL); 
-	      g_free(curname);
-	      prefs->lilypath = 
-		g_string_assign (prefs->lilypath, (gchar *) tmp);
-	      //g_print ("Lilypond Path %s\n", tmp);
-	      xmlFree (tmp);
-	    }
-	}
+        {
+          xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+          if (tmp)
+            {
+              gchar *curname = g_strdup_printf ("DenemoPref_%s", cur->name);
+              define_scheme_variable (curname, tmp, NULL);
+              g_free (curname);
+              prefs->lilypath = g_string_assign (prefs->lilypath, (gchar *) tmp);
+              //g_print ("Lilypond Path %s\n", tmp);
+              xmlFree (tmp);
+            }
+        }
 
-      READXMLENTRY(audioplayer)
-      READXMLENTRY(fontspec)
-
-      READXMLENTRY(browser)
+      READXMLENTRY (audioplayer) READXMLENTRY (fontspec) READXMLENTRY (browser)
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "autosavetimeout"))
-	{
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-	  if(tmp)
-	    {
-	      gchar *curname = g_strdup_printf("DenemoPref_%s", cur->name);
-	      define_scheme_int_variable(curname, atoi(tmp), NULL); 
-	      g_free(curname);
-	      prefs->autosave_timeout = atoi ((gchar *) tmp);
-	      if(prefs->autosave_timeout <1) prefs->autosave_timeout = 1;
-	      //g_print ("Autosave Timeout %s\n", tmp);
-	      xmlFree (tmp);
-	    }
-	}
+        {
+          xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+          if (tmp)
+            {
+              gchar *curname = g_strdup_printf ("DenemoPref_%s", cur->name);
+              define_scheme_int_variable (curname, atoi (tmp), NULL);
+              g_free (curname);
+              prefs->autosave_timeout = atoi ((gchar *) tmp);
+              if (prefs->autosave_timeout < 1)
+                prefs->autosave_timeout = 1;
+              //g_print ("Autosave Timeout %s\n", tmp);
+              xmlFree (tmp);
+            }
+        }
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "maxhistory"))
-	{
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-	  if(tmp)
-	    {
-	      gchar *curname = g_strdup_printf("DenemoPref_%s", cur->name);
-	      define_scheme_int_variable(curname, atoi(tmp), NULL); 
-	      g_free(curname);
-	      prefs->maxhistory = atoi ((gchar *) tmp);
-	      if(prefs->maxhistory <1) prefs->maxhistory = 1;
-	      xmlFree (tmp);
-	    }
-	}
-	
-      READBOOLXMLENTRY(autosave)
-      READXMLENTRY(pdfviewer) 
-      READXMLENTRY(imageviewer) 
-         
-      READXMLENTRY(profile) 
-	
-      READXMLENTRY(username)    
-      READXMLENTRY(password)           
-      READXMLENTRY(denemopath)          
-      READXMLENTRY(temperament)
-      
-      READBOOLXMLENTRY(createclones)
-      READBOOLXMLENTRY(immediateplayback)
-      READBOOLXMLENTRY(manualtypeset)
-      READINTXMLENTRY(typesetrefresh)
-      READINTXMLENTRY(typesettype)
-      READINTXMLENTRY(firstmeasure)
-      READINTXMLENTRY(firststaff)
-      READINTXMLENTRY(lastmeasure)
-      READINTXMLENTRY(laststaff)
-      
-      READINTXMLENTRY(pitchspellingchannel)
-      READINTXMLENTRY(pitchspellingprogram)
-      READBOOLXMLENTRY(modal) 
-      READBOOLXMLENTRY(persistence) 
-      READBOOLXMLENTRY(cursor_highlight) 
+        {
+          xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+          if (tmp)
+            {
+              gchar *curname = g_strdup_printf ("DenemoPref_%s", cur->name);
+              define_scheme_int_variable (curname, atoi (tmp), NULL);
+              g_free (curname);
+              prefs->maxhistory = atoi ((gchar *) tmp);
+              if (prefs->maxhistory < 1)
+                prefs->maxhistory = 1;
+              xmlFree (tmp);
+            }
+        }
 
-      READBOOLXMLENTRY(return_key_is_special) 
-      READBOOLXMLENTRY(newbie)  
-      READBOOLXMLENTRY(learning)  
-      READBOOLXMLENTRY(applytoselection) 
-      READBOOLXMLENTRY(quickshortcuts) 
-      READBOOLXMLENTRY(startmidiin) 
-      READINTXMLENTRY(mode) 
-  
-      READBOOLXMLENTRY(strictshortcuts)
-      READBOOLXMLENTRY(menunavigation)
-      READINTXMLENTRY(resolution)
-      READDOUBLEXMLENTRY(display_refresh)
-      READINTXMLENTRY(animation_steps)
-      READINTXMLENTRY(tooltip_timeout)
-      READINTXMLENTRY(tooltip_browse_timeout)
-      READINTXMLENTRY(tooltip_browse_mode_timeout)
-      READBOOLXMLENTRY(overlays)
-      READBOOLXMLENTRY(enable_thumbnails)
-      
-      READBOOLXMLENTRY(continuous)
-      READBOOLXMLENTRY(lilyentrystyle)
-      READBOOLXMLENTRY(toolbar)
-      READBOOLXMLENTRY(notation_palette)
-	    READBOOLXMLENTRY(midi_in_controls)
-	    READBOOLXMLENTRY(playback_controls)
-      READBOOLXMLENTRY(console_pane)
-      READBOOLXMLENTRY(lyrics_pane)
-      READBOOLXMLENTRY(visible_directive_buttons)
-      READBOOLXMLENTRY(rhythm_palette)
-      READBOOLXMLENTRY(object_palette)
-      READBOOLXMLENTRY(autoupdate)
-
-
-      READXMLENTRY(audio_driver)
-      READXMLENTRY(midi_driver)
-
-      READBOOLXMLENTRY(jacktransport)
-      READBOOLXMLENTRY(jacktransport_start_stopped)
-      READXMLENTRY(jack_connect_ports_l)
-      READXMLENTRY(jack_connect_ports_r)
-      READXMLENTRY(jack_connect_midi_in_port)
-      READXMLENTRY(jack_connect_midi_out_port)
-
-      READXMLENTRY(portaudio_device)
-      READINTXMLENTRY(portaudio_sample_rate)
-      READINTXMLENTRY(portaudio_period_size)
-
-      READXMLENTRY(portmidi_input_device)
-      READXMLENTRY(portmidi_output_device)
-
-      READXMLENTRY(fluidsynth_soundfont)
-      READBOOLXMLENTRY(fluidsynth_reverb)
-      READBOOLXMLENTRY(fluidsynth_chorus)
-      READINTXMLENTRY(zoom)
-      READINTXMLENTRY(dynamic_compression)
-      READINTXMLENTRY(system_height)
-      READBOOLXMLENTRY(progressbardecorations)
-
-
-      READBOOLXMLENTRY(saveparts)
-      
-      cur = cur->next;
+      READBOOLXMLENTRY (autosave)
+        READXMLENTRY (pdfviewer)
+        READXMLENTRY (imageviewer)
+        READXMLENTRY (profile)
+        READXMLENTRY (username)
+        READXMLENTRY (password)
+        READXMLENTRY (denemopath)
+        READXMLENTRY (temperament)
+        READBOOLXMLENTRY (createclones)
+        READBOOLXMLENTRY (immediateplayback)
+        READBOOLXMLENTRY (manualtypeset)
+        READINTXMLENTRY (typesetrefresh)
+        READINTXMLENTRY (typesettype)
+        READINTXMLENTRY (firstmeasure)
+        READINTXMLENTRY (firststaff)
+        READINTXMLENTRY (lastmeasure)
+        READINTXMLENTRY (laststaff)
+        READINTXMLENTRY (pitchspellingchannel)
+        READINTXMLENTRY (pitchspellingprogram)
+        READBOOLXMLENTRY (modal)
+        READBOOLXMLENTRY (persistence)
+        READBOOLXMLENTRY (cursor_highlight)
+        READBOOLXMLENTRY (return_key_is_special)
+        READBOOLXMLENTRY (newbie)
+        READBOOLXMLENTRY (learning)
+        READBOOLXMLENTRY (applytoselection)
+        READBOOLXMLENTRY (quickshortcuts)
+        READBOOLXMLENTRY (startmidiin)
+        READINTXMLENTRY (mode)
+        READBOOLXMLENTRY (strictshortcuts)
+        READBOOLXMLENTRY (menunavigation)
+        READINTXMLENTRY (resolution)
+        READDOUBLEXMLENTRY (display_refresh)
+        READINTXMLENTRY (animation_steps)
+        READINTXMLENTRY (tooltip_timeout)
+        READINTXMLENTRY (tooltip_browse_timeout)
+        READINTXMLENTRY (tooltip_browse_mode_timeout)
+        READBOOLXMLENTRY (overlays)
+        READBOOLXMLENTRY (enable_thumbnails)
+        READBOOLXMLENTRY (continuous)
+        READBOOLXMLENTRY (lilyentrystyle)
+        READBOOLXMLENTRY (toolbar)
+        READBOOLXMLENTRY (notation_palette)
+        READBOOLXMLENTRY (midi_in_controls)
+        READBOOLXMLENTRY (playback_controls)
+        READBOOLXMLENTRY (console_pane)
+        READBOOLXMLENTRY (lyrics_pane)
+        READBOOLXMLENTRY (visible_directive_buttons)
+        READBOOLXMLENTRY (rhythm_palette)
+        READBOOLXMLENTRY (object_palette)
+        READBOOLXMLENTRY (autoupdate)
+        READXMLENTRY (audio_driver)
+        READXMLENTRY (midi_driver)
+        READBOOLXMLENTRY (jacktransport)
+        READBOOLXMLENTRY (jacktransport_start_stopped)
+        READXMLENTRY (jack_connect_ports_l)
+        READXMLENTRY (jack_connect_ports_r)
+        READXMLENTRY (jack_connect_midi_in_port)
+        READXMLENTRY (jack_connect_midi_out_port)
+        READXMLENTRY (portaudio_device) READINTXMLENTRY (portaudio_sample_rate) READINTXMLENTRY (portaudio_period_size) READXMLENTRY (portmidi_input_device) READXMLENTRY (portmidi_output_device) READXMLENTRY (fluidsynth_soundfont) READBOOLXMLENTRY (fluidsynth_reverb) READBOOLXMLENTRY (fluidsynth_chorus) READINTXMLENTRY (zoom) READINTXMLENTRY (dynamic_compression) READINTXMLENTRY (system_height) READBOOLXMLENTRY (progressbardecorations) READBOOLXMLENTRY (saveparts) cur = cur->next;
     }
 
   return;
 }
+
 #undef READXMLENTRY
 #undef READBOOLXMLENTRY
 #undef READINTXMLENTRY
@@ -422,101 +393,63 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
     return Denemo.prefs.field;
 
 
-gboolean get_bool_pref(gchar *prefname) {
-  if(*prefname == 0)
+gboolean
+get_bool_pref (gchar * prefname)
+{
+  if (*prefname == 0)
     return FALSE;
-      GETBOOLPREF(autosave)
-      GETBOOLPREF(createclones)
-      GETBOOLPREF(immediateplayback)
-			GETBOOLPREF(manualtypeset)
-      GETBOOLPREF(modal) 
-      GETBOOLPREF(persistence) 
-      GETBOOLPREF(cursor_highlight) 
-      GETBOOLPREF(return_key_is_special) 
-      GETBOOLPREF(newbie) 
-      GETBOOLPREF(learning) 
-      GETBOOLPREF(applytoselection) 
-      GETBOOLPREF(quickshortcuts) 
-      GETBOOLPREF(startmidiin) 
-      GETBOOLPREF(strictshortcuts)
-      GETBOOLPREF(menunavigation)
-      GETBOOLPREF(overlays)
-      GETBOOLPREF(enable_thumbnails)
-      GETBOOLPREF(continuous)
-      GETBOOLPREF(lilyentrystyle)
-      GETBOOLPREF(toolbar)
-      GETBOOLPREF(notation_palette)
-      GETBOOLPREF(midi_in_controls)
-      GETBOOLPREF(playback_controls)
-      GETBOOLPREF(console_pane)
-      GETBOOLPREF(lyrics_pane)
-      GETBOOLPREF(visible_directive_buttons)
-      GETBOOLPREF(rhythm_palette)
-      GETBOOLPREF(object_palette)
-      GETBOOLPREF(autoupdate)
-      GETBOOLPREF(jacktransport_start_stopped)
-      GETBOOLPREF(fluidsynth_reverb)
-      GETBOOLPREF(fluidsynth_chorus)
-      GETBOOLPREF(progressbardecorations)
-return FALSE;
+  GETBOOLPREF (autosave)
+    GETBOOLPREF (createclones)
+    GETBOOLPREF (immediateplayback)
+    GETBOOLPREF (manualtypeset)
+    GETBOOLPREF (modal)
+    GETBOOLPREF (persistence)
+    GETBOOLPREF (cursor_highlight)
+    GETBOOLPREF (return_key_is_special)
+    GETBOOLPREF (newbie)
+    GETBOOLPREF (learning)
+    GETBOOLPREF (applytoselection)
+    GETBOOLPREF (quickshortcuts)
+    GETBOOLPREF (startmidiin)
+    GETBOOLPREF (strictshortcuts)
+    GETBOOLPREF (menunavigation)
+    GETBOOLPREF (overlays)
+    GETBOOLPREF (enable_thumbnails)
+    GETBOOLPREF (continuous)
+    GETBOOLPREF (lilyentrystyle) GETBOOLPREF (toolbar) GETBOOLPREF (notation_palette) GETBOOLPREF (midi_in_controls) GETBOOLPREF (playback_controls) GETBOOLPREF (console_pane) GETBOOLPREF (lyrics_pane) GETBOOLPREF (visible_directive_buttons) GETBOOLPREF (rhythm_palette) GETBOOLPREF (object_palette) GETBOOLPREF (autoupdate) GETBOOLPREF (jacktransport_start_stopped) GETBOOLPREF (fluidsynth_reverb) GETBOOLPREF (fluidsynth_chorus) GETBOOLPREF (progressbardecorations) return FALSE;
 }
+
 #undef GETBOOLPREF
 #define GETINTPREF(field) \
   else if (!strcmp(prefname, #field))\
     return Denemo.prefs.field;
 
-gint get_int_pref(gchar *prefname) {
-  if(*prefname == 0)
+gint
+get_int_pref (gchar * prefname)
+{
+  if (*prefname == 0)
     return 0;
-      GETINTPREF(typesettype)
-      GETINTPREF(typesetrefresh)
-      GETINTPREF(firstmeasure)
-      GETINTPREF(firststaff)
-      GETINTPREF(lastmeasure)
-      GETINTPREF(laststaff)
-      GETINTPREF(pitchspellingchannel)
-      GETINTPREF(pitchspellingprogram)
-      GETINTPREF(mode) 
-      GETINTPREF(resolution)
-      GETINTPREF(animation_steps)
-            GETINTPREF(tooltip_timeout)
-	    GETINTPREF(tooltip_browse_timeout)
-	    GETINTPREF(tooltip_browse_timeout)
-      GETINTPREF(portaudio_sample_rate)
-      GETINTPREF(portaudio_period_size)
-      GETINTPREF(zoom)
-      GETINTPREF(dynamic_compression)
-      GETINTPREF(system_height)
-return 0;
+  GETINTPREF (typesettype)
+    GETINTPREF (typesetrefresh)
+    GETINTPREF (firstmeasure) GETINTPREF (firststaff) GETINTPREF (lastmeasure) GETINTPREF (laststaff) GETINTPREF (pitchspellingchannel) GETINTPREF (pitchspellingprogram) GETINTPREF (mode) GETINTPREF (resolution) GETINTPREF (animation_steps) GETINTPREF (tooltip_timeout) GETINTPREF (tooltip_browse_timeout) GETINTPREF (tooltip_browse_timeout) GETINTPREF (portaudio_sample_rate) GETINTPREF (portaudio_period_size) GETINTPREF (zoom) GETINTPREF (dynamic_compression) GETINTPREF (system_height) return 0;
 }
+
 #undef GETINTPREF
 #define GETSTRINGPREF(field) \
   else if (!strcmp(prefname, #field))\
     return Denemo.prefs.field->str;
 
-gchar* get_string_pref(gchar *prefname) {
-  if(*prefname == 0)
+gchar *
+get_string_pref (gchar * prefname)
+{
+  if (*prefname == 0)
     return NULL;
-      GETSTRINGPREF(pdfviewer) 
-      GETSTRINGPREF(imageviewer) 
-      GETSTRINGPREF(profile) 
-      GETSTRINGPREF(username)    
-      GETSTRINGPREF(password)           
-      GETSTRINGPREF(denemopath)          
-      GETSTRINGPREF(temperament)
-      GETSTRINGPREF(audio_driver)
-      GETSTRINGPREF(midi_driver)
-      GETSTRINGPREF(jack_connect_ports_l)
-      GETSTRINGPREF(jack_connect_ports_r)
-      GETSTRINGPREF(jack_connect_midi_in_port)
-      GETSTRINGPREF(jack_connect_midi_out_port)
-      GETSTRINGPREF(portaudio_device)
-      GETSTRINGPREF(portmidi_input_device)
-      GETSTRINGPREF(portmidi_output_device)
-      GETSTRINGPREF(fluidsynth_soundfont)
-       
-return NULL;
+  GETSTRINGPREF (pdfviewer)
+    GETSTRINGPREF (imageviewer)
+    GETSTRINGPREF (profile)
+    GETSTRINGPREF (username) GETSTRINGPREF (password) GETSTRINGPREF (denemopath) GETSTRINGPREF (temperament) GETSTRINGPREF (audio_driver) GETSTRINGPREF (midi_driver) GETSTRINGPREF (jack_connect_ports_l) GETSTRINGPREF (jack_connect_ports_r) GETSTRINGPREF (jack_connect_midi_in_port) GETSTRINGPREF (jack_connect_midi_out_port) GETSTRINGPREF (portaudio_device) GETSTRINGPREF (portmidi_input_device) GETSTRINGPREF (portmidi_output_device) GETSTRINGPREF (fluidsynth_soundfont) return NULL;
 }
+
 /**
  * writeHistoryEntry - adds history entry to the denemohistory file
  * @param data - pointer to the filename to add
@@ -526,8 +459,7 @@ static void
 writeHistoryEntry (gpointer data, gpointer user_data)
 {
   //g_print ("filename %s\n", (gchar *) data);
-  xmlNewTextChild ((xmlNodePtr) user_data, NULL, (xmlChar *) "file",
-		   (xmlChar *) data);
+  xmlNewTextChild ((xmlNodePtr) user_data, NULL, (xmlChar *) "file", (xmlChar *) data);
 }
 
 
@@ -549,30 +481,29 @@ parseHistory (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
   while (cur != NULL)
     {
       if (xmlStrcmp (cur->name, (const xmlChar *) "file") == 0)
-	{
-	  gsize read = 0, written = 0;
-	  GError *err = NULL;
-	  gchar *tmp = NULL;
-	  tmp = (gchar *) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-	  if (tmp)
-	    {
-	      gchar *file =
-		g_filename_to_utf8 (tmp, -1, &read, &written, &err);
-	      if (err != NULL)
-		{
-		  file = "Unknown file name";
-		  g_warning ("%s", err->message);
-		  g_error_free (err);
-		}
+        {
+          gsize read = 0, written = 0;
+          GError *err = NULL;
+          gchar *tmp = NULL;
+          tmp = (gchar *) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+          if (tmp)
+            {
+              gchar *file = g_filename_to_utf8 (tmp, -1, &read, &written, &err);
+              if (err != NULL)
+                {
+                  file = "Unknown file name";
+                  g_warning ("%s", err->message);
+                  g_error_free (err);
+                }
 #ifdef DEBUG
-	      g_print ("Filename %s\n", tmp);
+              g_print ("Filename %s\n", tmp);
 #endif
 
-	      g_queue_push_tail (prefs->history, g_strdup(file));
-	      g_free (tmp);
-	      g_free (file);
-	    }
-	}
+              g_queue_push_tail (prefs->history, g_strdup (file));
+              g_free (tmp);
+              g_free (file);
+            }
+        }
 
       cur = cur->next;
     }
@@ -580,8 +511,7 @@ parseHistory (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 }
 
 
-static gint
-readxmlprefs (gchar * xmlsource, gboolean from_file);
+static gint readxmlprefs (gchar * xmlsource, gboolean from_file);
 
 /**
  * Read a denemo preferences xml file.
@@ -591,8 +521,9 @@ readxmlprefs (gchar * xmlsource, gboolean from_file);
  */
 
 static gint
-readxmlprefsFile (gchar * filename) {
-  return readxmlprefs(filename,  TRUE);
+readxmlprefsFile (gchar * filename)
+{
+  return readxmlprefs (filename, TRUE);
 }
 
 /**
@@ -601,31 +532,32 @@ readxmlprefsFile (gchar * filename) {
  *
  */
 gint
-readxmlprefsString (gchar * content) {
-  gchar *xml = g_strconcat("<?xml version=\"1.0\"?><Denemo><Config>", content, "</Config></Denemo>", NULL);
-  gint ret= readxmlprefs(xml, FALSE);
-  g_free(xml);
+readxmlprefsString (gchar * content)
+{
+  gchar *xml = g_strconcat ("<?xml version=\"1.0\"?><Denemo><Config>", content, "</Config></Denemo>", NULL);
+  gint ret = readxmlprefs (xml, FALSE);
+  g_free (xml);
   return ret;
 }
 
 
 
 static gint
-readxmlprefs (gchar * xmlsource,  gboolean from_file)
+readxmlprefs (gchar * xmlsource, gboolean from_file)
 {
-  DenemoPrefs * prefs = &Denemo.prefs;
+  DenemoPrefs *prefs = &Denemo.prefs;
   gint ret = -1;
   xmlDocPtr doc = NULL;
   xmlNodePtr rootElem;
   if (from_file)
-    printf("\nxmlsource == %s\n", xmlsource);
-  if(from_file) 
+    printf ("\nxmlsource == %s\n", xmlsource);
+  if (from_file)
     doc = xmlParseFile (xmlsource);
   else
-    doc = xmlReadMemory(xmlsource, strlen(xmlsource), "noname.xml", NULL, 0);
+    doc = xmlReadMemory (xmlsource, strlen (xmlsource), "noname.xml", NULL, 0);
   if (doc == NULL)
     {
-      g_warning ("Could not read XML %s %s\n", from_file?"File: ":":\n", xmlsource);
+      g_warning ("Could not read XML %s %s\n", from_file ? "File: " : ":\n", xmlsource);
       return ret;
     }
 
@@ -651,10 +583,10 @@ readxmlprefs (gchar * xmlsource,  gboolean from_file)
 #endif
 
       if (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "Config"))
-	{
-	  
-	    parseConfig (doc, rootElem, prefs);
-	}
+        {
+
+          parseConfig (doc, rootElem, prefs);
+        }
 
       rootElem = rootElem->next;
 
@@ -676,7 +608,7 @@ readxmlprefs (gchar * xmlsource,  gboolean from_file)
 static xmlNodePtr
 newXMLIntChild (xmlNodePtr parent, const xmlChar * name, gint content)
 {
-  static gchar sIntBuf[12];	/* enough for -2000000000 + '\0' */
+  static gchar sIntBuf[12];     /* enough for -2000000000 + '\0' */
   sprintf (sIntBuf, "%d", content);
   return xmlNewChild (parent, NULL, name, (xmlChar *) sIntBuf);
 }
@@ -691,10 +623,10 @@ newXMLIntChild (xmlNodePtr parent, const xmlChar * name, gint content)
 static xmlNodePtr
 newXMLDoubleChild (xmlNodePtr parent, const xmlChar * name, gdouble content)
 {
-  static GString* str;
-  if(str==NULL)
-    str = g_string_new("");
-  g_string_printf(str, "%f", content);
+  static GString *str;
+  if (str == NULL)
+    str = g_string_new ("");
+  g_string_printf (str, "%f", content);
   return xmlNewChild (parent, NULL, name, (xmlChar *) str->str);
 }
 
@@ -708,12 +640,11 @@ writeXMLPrefs (DenemoPrefs * prefs)
   static GString *localrc = NULL;
   if (!localrc)
     {
-      localrc = g_string_new (g_build_filename(locatedotdenemo (), PREFS_FILE, NULL));
+      localrc = g_string_new (g_build_filename (locatedotdenemo (), PREFS_FILE, NULL));
     }
 
   doc = xmlNewDoc ((xmlChar *) "1.0");
-  doc->xmlRootNode = parent =
-    xmlNewDocNode (doc, NULL, (xmlChar *) "Denemo", NULL);
+  doc->xmlRootNode = parent = xmlNewDocNode (doc, NULL, (xmlChar *) "Denemo", NULL);
   child = xmlNewChild (parent, NULL, (xmlChar *) "Config", NULL);
 
 #define WRITEXMLENTRY(field) \
@@ -726,7 +657,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
     xmlNewChild (child, NULL, (xmlChar *) #field,\
 		 (xmlChar *) prefs->field->str);}
 
- #define WRITEXMLENTRY2(field) \
+#define WRITEXMLENTRY2(field) \
   if (prefs->field){\
     gchar *def = g_strdup("Holds the value of the user's " #field " preference");\
     gchar *curname = g_strdup_printf("DenemoPref_%s", #field);\
@@ -735,20 +666,9 @@ writeXMLPrefs (DenemoPrefs * prefs)
     g_free(def);\
     xmlNewChild (child, NULL, (xmlChar *) #field,\
 		 (xmlChar *) prefs->field);}
-   
 
-  WRITEXMLENTRY(lilypath)
 
-  WRITEXMLENTRY(audioplayer)
-  WRITEXMLENTRY(fontspec)
-  WRITEXMLENTRY(pdfviewer)
-  WRITEXMLENTRY(imageviewer)
-  WRITEXMLENTRY(profile)
-  WRITEXMLENTRY(username)
-  WRITEXMLENTRY(password)
-  WRITEXMLENTRY(denemopath)
-  WRITEXMLENTRY(temperament)
-
+  WRITEXMLENTRY (lilypath) WRITEXMLENTRY (audioplayer) WRITEXMLENTRY (fontspec) WRITEXMLENTRY (pdfviewer) WRITEXMLENTRY (imageviewer) WRITEXMLENTRY (profile) WRITEXMLENTRY (username) WRITEXMLENTRY (password) WRITEXMLENTRY (denemopath) WRITEXMLENTRY (temperament)
 #define WRITEINTXMLENTRY(field){ \
     gchar *def = g_strdup("Holds the interger value of the user's " #field " preference");\
     gint value = prefs->field;\
@@ -758,7 +678,6 @@ writeXMLPrefs (DenemoPrefs * prefs)
     g_free(def);\
   newXMLIntChild (child, (xmlChar *) #field,\
 		  prefs->field);}
-
 #define WRITEDOUBLEXMLENTRY(field){ \
     gchar *def = g_strdup("Holds the interger value of the user's " #field " preference");\
     gdouble value = prefs->field;\
@@ -768,11 +687,6 @@ writeXMLPrefs (DenemoPrefs * prefs)
     g_free(def);\
   newXMLDoubleChild (child, (xmlChar *) #field,\
 		  prefs->field);}
-
-
-
-
-
 #define WRITEBOOLXMLENTRY(field){ \
     gchar *def = g_strdup("Holds #t or #f, the user's " #field " preference");\
     gboolean value = prefs->field;\
@@ -782,84 +696,63 @@ writeXMLPrefs (DenemoPrefs * prefs)
     g_free(def);\
   newXMLIntChild (child, (xmlChar *) #field,\
 		  prefs->field);}
-
-  WRITEBOOLXMLENTRY(autosave)
-  WRITEINTXMLENTRY(autosave_timeout)
-  WRITEINTXMLENTRY(maxhistory)
-  WRITEBOOLXMLENTRY(saveparts)
-  WRITEBOOLXMLENTRY(createclones)
-  WRITEBOOLXMLENTRY(lilyentrystyle)
-  WRITEBOOLXMLENTRY(immediateplayback)
-  WRITEBOOLXMLENTRY(manualtypeset)
-  WRITEINTXMLENTRY(typesetrefresh)
-  WRITEINTXMLENTRY(typesettype)
-  WRITEINTXMLENTRY(firstmeasure)
-  WRITEINTXMLENTRY(firststaff)
-  WRITEINTXMLENTRY(lastmeasure)
-  WRITEINTXMLENTRY(laststaff)
-  
-  WRITEINTXMLENTRY(pitchspellingchannel)
-  WRITEINTXMLENTRY(pitchspellingprogram)
-  WRITEBOOLXMLENTRY(modal)
-  WRITEBOOLXMLENTRY(persistence)
-  WRITEBOOLXMLENTRY(cursor_highlight)
-  WRITEBOOLXMLENTRY(return_key_is_special)
-  WRITEBOOLXMLENTRY(newbie)
-  WRITEBOOLXMLENTRY(learning)
-  WRITEBOOLXMLENTRY(applytoselection)
-  WRITEBOOLXMLENTRY(quickshortcuts)
-  WRITEBOOLXMLENTRY(startmidiin)
-  WRITEINTXMLENTRY(mode)
-  WRITEBOOLXMLENTRY(strictshortcuts)
-  WRITEBOOLXMLENTRY(menunavigation)
-  WRITEINTXMLENTRY(resolution)
-  WRITEDOUBLEXMLENTRY(display_refresh)
-  WRITEINTXMLENTRY(animation_steps)
-  WRITEINTXMLENTRY(tooltip_timeout)
-  WRITEINTXMLENTRY(tooltip_browse_timeout)
-  WRITEINTXMLENTRY(tooltip_browse_mode_timeout)
-  WRITEBOOLXMLENTRY(overlays)
-  WRITEBOOLXMLENTRY(enable_thumbnails)
-  WRITEBOOLXMLENTRY(continuous)
-  WRITEBOOLXMLENTRY(toolbar)
-  WRITEBOOLXMLENTRY(notation_palette)
-  WRITEBOOLXMLENTRY(midi_in_controls)
-  WRITEBOOLXMLENTRY(playback_controls)
-  WRITEBOOLXMLENTRY(console_pane)
-  WRITEBOOLXMLENTRY(lyrics_pane)
-  WRITEBOOLXMLENTRY(visible_directive_buttons)
-  WRITEBOOLXMLENTRY(autoupdate)
-  WRITEBOOLXMLENTRY(rhythm_palette)
-  WRITEBOOLXMLENTRY(object_palette)
-
-
-  WRITEXMLENTRY(audio_driver)
-  WRITEXMLENTRY(midi_driver)
-
-  WRITEBOOLXMLENTRY(jacktransport)
-  WRITEBOOLXMLENTRY(jacktransport_start_stopped)
-  WRITEXMLENTRY(jack_connect_ports_l)
-  WRITEXMLENTRY(jack_connect_ports_r)
-  WRITEXMLENTRY(jack_connect_midi_in_port)
-  WRITEXMLENTRY(jack_connect_midi_out_port)
-
-  WRITEXMLENTRY(portaudio_device)
-  WRITEINTXMLENTRY(portaudio_sample_rate)
-  WRITEINTXMLENTRY(portaudio_period_size)
-
-  WRITEXMLENTRY(portmidi_input_device)
-  WRITEXMLENTRY(portmidi_output_device)
-
-  WRITEXMLENTRY(fluidsynth_soundfont)
-  WRITEBOOLXMLENTRY(fluidsynth_reverb)
-  WRITEBOOLXMLENTRY(fluidsynth_chorus)
-  WRITEINTXMLENTRY(dynamic_compression)
-  WRITEINTXMLENTRY(zoom)
-  WRITEINTXMLENTRY(system_height)
-  WRITEBOOLXMLENTRY(progressbardecorations)
-  WRITEXMLENTRY(browser) 
-  
-  xmlSaveFormatFile (localrc->str, doc, 1);
+    WRITEBOOLXMLENTRY (autosave)
+    WRITEINTXMLENTRY (autosave_timeout)
+    WRITEINTXMLENTRY (maxhistory)
+    WRITEBOOLXMLENTRY (saveparts)
+    WRITEBOOLXMLENTRY (createclones)
+    WRITEBOOLXMLENTRY (lilyentrystyle)
+    WRITEBOOLXMLENTRY (immediateplayback)
+    WRITEBOOLXMLENTRY (manualtypeset)
+    WRITEINTXMLENTRY (typesetrefresh)
+    WRITEINTXMLENTRY (typesettype)
+    WRITEINTXMLENTRY (firstmeasure)
+    WRITEINTXMLENTRY (firststaff)
+    WRITEINTXMLENTRY (lastmeasure)
+    WRITEINTXMLENTRY (laststaff)
+    WRITEINTXMLENTRY (pitchspellingchannel)
+    WRITEINTXMLENTRY (pitchspellingprogram)
+    WRITEBOOLXMLENTRY (modal)
+    WRITEBOOLXMLENTRY (persistence)
+    WRITEBOOLXMLENTRY (cursor_highlight)
+    WRITEBOOLXMLENTRY (return_key_is_special)
+    WRITEBOOLXMLENTRY (newbie)
+    WRITEBOOLXMLENTRY (learning)
+    WRITEBOOLXMLENTRY (applytoselection)
+    WRITEBOOLXMLENTRY (quickshortcuts)
+    WRITEBOOLXMLENTRY (startmidiin)
+    WRITEINTXMLENTRY (mode)
+    WRITEBOOLXMLENTRY (strictshortcuts)
+    WRITEBOOLXMLENTRY (menunavigation)
+    WRITEINTXMLENTRY (resolution)
+    WRITEDOUBLEXMLENTRY (display_refresh)
+    WRITEINTXMLENTRY (animation_steps)
+    WRITEINTXMLENTRY (tooltip_timeout)
+    WRITEINTXMLENTRY (tooltip_browse_timeout)
+    WRITEINTXMLENTRY (tooltip_browse_mode_timeout)
+    WRITEBOOLXMLENTRY (overlays)
+    WRITEBOOLXMLENTRY (enable_thumbnails)
+    WRITEBOOLXMLENTRY (continuous)
+    WRITEBOOLXMLENTRY (toolbar)
+    WRITEBOOLXMLENTRY (notation_palette)
+    WRITEBOOLXMLENTRY (midi_in_controls)
+    WRITEBOOLXMLENTRY (playback_controls)
+    WRITEBOOLXMLENTRY (console_pane)
+    WRITEBOOLXMLENTRY (lyrics_pane)
+    WRITEBOOLXMLENTRY (visible_directive_buttons)
+    WRITEBOOLXMLENTRY (autoupdate)
+    WRITEBOOLXMLENTRY (rhythm_palette)
+    WRITEBOOLXMLENTRY (object_palette)
+    WRITEXMLENTRY (audio_driver)
+    WRITEXMLENTRY (midi_driver)
+    WRITEBOOLXMLENTRY (jacktransport)
+    WRITEBOOLXMLENTRY (jacktransport_start_stopped)
+    WRITEXMLENTRY (jack_connect_ports_l)
+    WRITEXMLENTRY (jack_connect_ports_r)
+    WRITEXMLENTRY (jack_connect_midi_in_port)
+    WRITEXMLENTRY (jack_connect_midi_out_port)
+    WRITEXMLENTRY (portaudio_device)
+    WRITEINTXMLENTRY (portaudio_sample_rate) WRITEINTXMLENTRY (portaudio_period_size) WRITEXMLENTRY (portmidi_input_device) WRITEXMLENTRY (portmidi_output_device) WRITEXMLENTRY (fluidsynth_soundfont) WRITEBOOLXMLENTRY (fluidsynth_reverb) WRITEBOOLXMLENTRY (fluidsynth_chorus) WRITEINTXMLENTRY (dynamic_compression) WRITEINTXMLENTRY (zoom) WRITEINTXMLENTRY (system_height) WRITEBOOLXMLENTRY (progressbardecorations) WRITEXMLENTRY (browser) xmlSaveFormatFile (localrc->str, doc, 1);
   xmlFreeDoc (doc);
   ret = 0;
   return ret;
@@ -884,7 +777,7 @@ readHistory ()
       filename = g_string_new (locatedotdenemo ());
       g_string_append (filename, "/denemohistory");
     }
-  if(g_file_test(filename->str, G_FILE_TEST_EXISTS))
+  if (g_file_test (filename->str, G_FILE_TEST_EXISTS))
     doc = xmlParseFile (filename->str);
   else
     return ret;
@@ -919,9 +812,9 @@ readHistory ()
       g_print ("RootElem 2 %s\n", rootElem->name);
 #endif
       if (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "History"))
-	{
-	  parseHistory (doc, rootElem, &Denemo.prefs);
-	}
+        {
+          parseHistory (doc, rootElem, &Denemo.prefs);
+        }
 
       rootElem = rootElem->next;
 
@@ -955,8 +848,7 @@ writeHistory (void)
     }
 
   doc = xmlNewDoc ((xmlChar *) "1.0");
-  doc->xmlRootNode = parent =
-    xmlNewDocNode (doc, NULL, (xmlChar *) "Denemo", NULL);
+  doc->xmlRootNode = parent = xmlNewDocNode (doc, NULL, (xmlChar *) "Denemo", NULL);
   child = xmlNewChild (parent, NULL, (xmlChar *) "History", NULL);
   g_queue_foreach (Denemo.prefs.history, writeHistoryEntry, child);
   xmlSaveFormatFile (filename->str, doc, 0);
@@ -969,22 +861,23 @@ writeHistory (void)
  *
  *
  */
-void storeWindowState (void)
+void
+storeWindowState (void)
 {
-   GKeyFile *keyfile;
-   gchar *contents;
-   gchar *filename;
-   gtk_window_get_size ( GTK_WINDOW (Denemo.window), &(Denemo.width), &(Denemo.height));
-   keyfile = g_key_file_new ();
-   g_key_file_set_integer (keyfile, "State", "width", Denemo.width);
-   g_key_file_set_integer (keyfile, "State", "height", Denemo.height);
-   g_key_file_set_boolean (keyfile, "State", "maximized", Denemo.maximized);
-   contents = g_key_file_to_data (keyfile, NULL, NULL);
-   g_key_file_free (keyfile);
-   filename = g_build_filename (locatedotdenemo (), "state.ini", NULL);
-   g_file_set_contents (filename, contents, -1, NULL);
-   g_free (filename);
-   g_free (contents); 
+  GKeyFile *keyfile;
+  gchar *contents;
+  gchar *filename;
+  gtk_window_get_size (GTK_WINDOW (Denemo.window), &(Denemo.width), &(Denemo.height));
+  keyfile = g_key_file_new ();
+  g_key_file_set_integer (keyfile, "State", "width", Denemo.width);
+  g_key_file_set_integer (keyfile, "State", "height", Denemo.height);
+  g_key_file_set_boolean (keyfile, "State", "maximized", Denemo.maximized);
+  contents = g_key_file_to_data (keyfile, NULL, NULL);
+  g_key_file_free (keyfile);
+  filename = g_build_filename (locatedotdenemo (), "state.ini", NULL);
+  g_file_set_contents (filename, contents, -1, NULL);
+  g_free (filename);
+  g_free (contents);
 }
 
 /**
@@ -993,48 +886,57 @@ void storeWindowState (void)
  * @param the denemo gui
  *
  */
-void loadWindowState (void)
+void
+loadWindowState (void)
 {
-    gchar *filename;
-    GKeyFile *keyfile;
-    gint w,h;
-    gboolean maximized=FALSE;
-    GError *err=NULL;
-    filename = g_build_filename (locatedotdenemo (), "state.ini", NULL);
-    keyfile = g_key_file_new ();
-    if (g_key_file_load_from_file (keyfile, filename, G_KEY_FILE_NONE, NULL) == FALSE) {
-        g_free (filename);
-        w = INITIAL_WIDTH;
-        h = INITIAL_HEIGHT;
-	maximized = FALSE;
-    } else {
-        g_free (filename);
-        w = g_key_file_get_integer (keyfile, "State", "width", &err);
-        if (err != NULL) {
-            w = INITIAL_WIDTH;
-            g_error_free (err);
-            err = NULL;
+  gchar *filename;
+  GKeyFile *keyfile;
+  gint w, h;
+  gboolean maximized = FALSE;
+  GError *err = NULL;
+  filename = g_build_filename (locatedotdenemo (), "state.ini", NULL);
+  keyfile = g_key_file_new ();
+  if (g_key_file_load_from_file (keyfile, filename, G_KEY_FILE_NONE, NULL) == FALSE)
+    {
+      g_free (filename);
+      w = INITIAL_WIDTH;
+      h = INITIAL_HEIGHT;
+      maximized = FALSE;
+    }
+  else
+    {
+      g_free (filename);
+      w = g_key_file_get_integer (keyfile, "State", "width", &err);
+      if (err != NULL)
+        {
+          w = INITIAL_WIDTH;
+          g_error_free (err);
+          err = NULL;
         }
-        h = g_key_file_get_integer (keyfile, "State", "height", &err);
-        if (err != NULL) {
-            h = INITIAL_HEIGHT;
-            g_error_free (err);
-            err = NULL;
+      h = g_key_file_get_integer (keyfile, "State", "height", &err);
+      if (err != NULL)
+        {
+          h = INITIAL_HEIGHT;
+          g_error_free (err);
+          err = NULL;
         }
-        maximized = g_key_file_get_boolean (keyfile, "State", "maximized", &err);
-        if (err != NULL) {
-	  maximized = FALSE;
-	  g_error_free (err);
-	  err = NULL;
+      maximized = g_key_file_get_boolean (keyfile, "State", "maximized", &err);
+      if (err != NULL)
+        {
+          maximized = FALSE;
+          g_error_free (err);
+          err = NULL;
         }
 
-        g_key_file_free (keyfile);
-	Denemo.width = (w<=0?INITIAL_WIDTH:w);
-	Denemo.height = (h<=0?INITIAL_HEIGHT:h);
-	gtk_window_set_default_size (GTK_WINDOW (Denemo.window), Denemo.width, Denemo.height);
-        if ((Denemo.maximized=maximized)) {
-	  gtk_window_maximize (GTK_WINDOW (Denemo.window));
-        } else
-	  gtk_window_unmaximize (GTK_WINDOW (Denemo.window));
+      g_key_file_free (keyfile);
+      Denemo.width = (w <= 0 ? INITIAL_WIDTH : w);
+      Denemo.height = (h <= 0 ? INITIAL_HEIGHT : h);
+      gtk_window_set_default_size (GTK_WINDOW (Denemo.window), Denemo.width, Denemo.height);
+      if ((Denemo.maximized = maximized))
+        {
+          gtk_window_maximize (GTK_WINDOW (Denemo.window));
+        }
+      else
+        gtk_window_unmaximize (GTK_WINDOW (Denemo.window));
     }
 }

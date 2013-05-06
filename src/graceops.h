@@ -10,12 +10,12 @@
 #define GRACEOPS_H
 
 #include <glib.h>
-#include <denemo/denemo.h> 
+#include <denemo/denemo.h>
 
 
-DenemoObject* newgracestart();
-DenemoObject *newgraceend();
-void toggle_grace  (GtkAction *action, DenemoScriptParam * param);
-void toggle_acciaccatura  (GtkAction *action, DenemoScriptParam * param);
+DenemoObject *newgracestart ();
+DenemoObject *newgraceend ();
+void toggle_grace (GtkAction * action, DenemoScriptParam * param);
+void toggle_acciaccatura (GtkAction * action, DenemoScriptParam * param);
 
 #endif //GRACEOPS_H

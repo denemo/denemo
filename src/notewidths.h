@@ -25,7 +25,7 @@
 #define HARMONIC_HEIGHT 10
 #define HARMONIC_SEMI_HEIGHT 5
 #define STEM_HEIGHT 44
-#define EXTRA_STEM_HEIGHT 49	/* A bad hack */
+#define EXTRA_STEM_HEIGHT 49    /* A bad hack */
 #define STEM_WIDTH 11
 #define EIGHTHSTEM_HEIGHT 29
 #define SIXTEENTHSTEM_HEIGHT 30
@@ -80,11 +80,11 @@
 #define STACATTO 3
 #define TENUTO_WIDTH 12
 #define TENUTO_HEIGHT 1
-#define MARCATO_WIDTH 10 
+#define MARCATO_WIDTH 10
 #define MARCATO_HEIGHT 11
 
 #define CODA_WIDTH 21
-#define CODA_HEIGHT 27 
+#define CODA_HEIGHT 27
 
 #define TRILL_WIDTH 30
 #define TRILL_HEIGHT 23
@@ -123,11 +123,11 @@
 #define PRALLMORDENT_WIDTH 32
 #define PRALLMORDENT_HEIGHT 12
 #define OPEN_WIDTH 8
-#define OPEN_HEIGHT 10 
+#define OPEN_HEIGHT 10
 
 #define FLAGEOLET_SIZE 10
 
-#define HEEL_WIDTH 10 
+#define HEEL_WIDTH 10
 #define HEEL_HEIGHT 12
 #define TOE_WIDTH 10
 #define TOE_HEIGHT 15

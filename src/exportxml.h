@@ -8,7 +8,7 @@
 #ifndef EXPORTXML_H
 #define EXPORTXML_H
 
-#include <denemo/denemo.h> 
+#include <denemo/denemo.h>
 #include "xmldefs.h"
 
 #include <glib.h>
@@ -28,98 +28,82 @@ typedef struct _DenemoExportXMLNSHandler
   /*
    * The prefix of the XML namespace (e.g. "lily")
    */
-  gchar * xmlnsPrefix;
+  gchar *xmlnsPrefix;
 
   /*
    * The actual XML namespace URI (e.g.
    * "http://www.denemo.sourceforge.net/Denemo/Lilypond")
    */
-  gchar * xmlnsURI;
+  gchar *xmlnsURI;
 
   /*
    * The DenemoObject types for which to call this structure's exportObjectInfo
    * and createXMLObject callbacks
    */
-  gint    numHandlerObjectTypes;
-  gint *  handlerObjectTypes;
+  gint numHandlerObjectTypes;
+  gint *handlerObjectTypes;
 
   /*
    * Create and return user data necessary for importing the given score.  If
    * no user data is required, set this startScore function to NULL.
    */
-  gpointer (* startScore) (DenemoScore* si);
+    gpointer (*startScore) (DenemoScore * si);
 
   /*
    * Delete the given user data.  If no user data is required, set this
    * endScore function to NULL.
    */
-  void (* endScore) (DenemoScore * si, gpointer userData);
+  void (*endScore) (DenemoScore * si, gpointer userData);
 
   /*
    * Export any information related to this score as children of
    * scoreInfoElem.  All XML elements should be in the given namespace.
    */
-  void (* exportScoreInfo) (DenemoScore * si,
-                            xmlNsPtr           ns,
-                            xmlNodePtr         scoreInfoElem);
+  void (*exportScoreInfo) (DenemoScore * si, xmlNsPtr ns, xmlNodePtr scoreInfoElem);
 
   /*
    * Export any information related to this staff as children of
    * staffInfoElem.  All XML elements should be in the given namespace.
    */
-  void (* exportStaffInfo) (DenemoScore * si,
-                            xmlNsPtr           ns,
-                            xmlNodePtr         staffInfoElem);
+  void (*exportStaffInfo) (DenemoScore * si, xmlNsPtr ns, xmlNodePtr staffInfoElem);
 
   /*
    * Export any metadata about this voice as children of voiceInfoElem.  All
    * XML elements should be in the given namespace.
    */
-  void (* exportVoiceInfo) (DenemoScore * si,
-                            xmlNsPtr           ns,
-                            xmlNodePtr         voiceInfoElem);
+  void (*exportVoiceInfo) (DenemoScore * si, xmlNsPtr ns, xmlNodePtr voiceInfoElem);
 
   /*
    * Export any non-built-in initial parameters for this voice as children of
    * voiceInitParamsElem.  All XML elements should be in the given namespace.
    */
-  void (* exportVoiceInitParams) (DenemoScore * si,
-                                  xmlNsPtr           ns,
-                                  xmlNodePtr         voiceInitParamsElem);
+  void (*exportVoiceInitParams) (DenemoScore * si, xmlNsPtr ns, xmlNodePtr voiceInitParamsElem);
 
   /*
    * Export any information related to this measure as children of measureElem.
    * All XML elements should be in the given namespace.
    */
-  void (* exportMeasure) (DenemoScore * si,
-                          xmlNsPtr           ns,
-                          xmlNodePtr         measureElem);
+  void (*exportMeasure) (DenemoScore * si, xmlNsPtr ns, xmlNodePtr measureElem);
 
   /*
    * Export any information related to this built-in type DenemoObject as
    * children of objectElem.  All XML elements should be in the given
    * namespace.
    */
-  void (* exportObjectInfo) (DenemoScore * si,
-                             xmlNsPtr           ns,
-                             xmlNodePtr         objectElem);
+  void (*exportObjectInfo) (DenemoScore * si, xmlNsPtr ns, xmlNodePtr objectElem);
 
   /*
    * Export any information related to this note as children of chordElem.
    * All XML elements should be in the given namespace.
    */
-  void (* exportNoteInfo) (DenemoScore * si,
-                           xmlNsPtr           ns,
-                           xmlNodePtr         chordElem);
+  void (*exportNoteInfo) (DenemoScore * si, xmlNsPtr ns, xmlNodePtr chordElem);
 
   /*
    * Create a new XML element or multiple elements corresponding to the given
    * custom type DenemoObject, as children of measureElem.  All XML elements
    * should be in the given namespace.
    */
-  void (* exportCustomObject) (DenemoScore * si,
-                               xmlNsPtr           ns,
-                               xmlNodePtr         measureElem);
+  void (*exportCustomObject) (DenemoScore * si, xmlNsPtr ns, xmlNodePtr measureElem);
 } DenemoExportXMLNSHandler;
 
 
@@ -128,8 +112,7 @@ typedef struct _DenemoExportXMLNSHandler
  * filename.  The file will be exported from the measures numbered start to
  * end.
  */
-gint exportXML (gchar * thefilename, DenemoGUI *gui, gint start,
-		gint end);
+gint exportXML (gchar * thefilename, DenemoGUI * gui, gint start, gint end);
 
 void registerExportXMLNSHandler (DenemoExportXMLNSHandler * handler);
 

@@ -11,8 +11,7 @@
 
 #include <denemo/denemo.h>
 
-void exportabc (gchar * thefilename, DenemoGUI *gui, gint start,
-		gint end);
+void exportabc (gchar * thefilename, DenemoGUI * gui, gint start, gint end);
 
 
 #endif

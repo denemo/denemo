@@ -26,12 +26,12 @@
  * @param midi    if TRUE returns MIDI ports, otherwise audio ports.
  * @param output  if TRUE returns output ports, otherwise input ports.
  */
-GList *get_jack_ports(gboolean midi, gboolean output);
+GList *get_jack_ports (gboolean midi, gboolean output);
 
 /**
  * Frees a list returned by get_jack_ports()
  */
-void free_jack_ports(GList *list);
+void free_jack_ports (GList * list);
 
 
 #endif // JACKUTIL_H

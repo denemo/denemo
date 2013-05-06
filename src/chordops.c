@@ -35,12 +35,9 @@ calcheight (gpointer data, gpointer user_data)
 void
 newclefify (DenemoObject * thechord, gint dclef)
 {
-  g_list_foreach (((chord *) thechord->object)->notes, calcheight,
-		  GINT_TO_POINTER (dclef));
-  ((chord *) thechord->object)->highesty =
-    calculateheight (((chord *) thechord->object)->highestpitch, dclef);
-  ((chord *) thechord->object)->lowesty =
-    calculateheight (((chord *) thechord->object)->lowestpitch, dclef);
+  g_list_foreach (((chord *) thechord->object)->notes, calcheight, GINT_TO_POINTER (dclef));
+  ((chord *) thechord->object)->highesty = calculateheight (((chord *) thechord->object)->highestpitch, dclef);
+  ((chord *) thechord->object)->lowesty = calculateheight (((chord *) thechord->object)->lowestpitch, dclef);
 }
 
 /**
@@ -62,52 +59,46 @@ findreversealigns (DenemoObject * thechord)
   ((chord *) thechord->object)->is_reversealigned = FALSE;
   if (((chord *) thechord->object)->notes)
     {
-    if (((chord *) thechord->object)->is_stemup)
-      {
-	/* note clusters are painted left-right from bottom to top */
-	previous = ((chord *) thechord->object)->notes;
-	current = previous->next;
-	prevnote = (note *) previous->data;
-	prevnote->reversealign = FALSE;
-	for (;
-	     current;
-	     previous = current, prevnote = curnote, current = current->next)
-	  {
-	    curnote = (note *) current->data;
-	    if ((prevnote->mid_c_offset == curnote->mid_c_offset - 1) ||
-		(prevnote->mid_c_offset == curnote->mid_c_offset))
-	      {
-		((chord *) thechord->object)->is_reversealigned = TRUE;
-		curnote->reversealign = !prevnote->reversealign;
-	      }
-	    else
-	      curnote->reversealign = FALSE;
-	  }			/* End for */
-      }
-    else
-      {
-	/* the stem's down
-	 * note clusters are painted right-left from top to bottom */
-	previous = g_list_last (((chord *) thechord->object)->notes);
-	current = previous->prev;
-	prevnote = (note *) previous->data;
-	prevnote->reversealign = FALSE;
-	for (;
-	     current;
-	     previous = current, prevnote = curnote, current = current->prev)
-	  {
-	    curnote = (note *) current->data;
-	    if ((prevnote->mid_c_offset == curnote->mid_c_offset + 1)||
-		(prevnote->mid_c_offset == curnote->mid_c_offset))
-	      {
-		curnote->reversealign = !prevnote->reversealign;
-		((chord *) thechord->object)->is_reversealigned = TRUE;
-	      }
-	    else
-	      curnote->reversealign = FALSE;
-	  }			/* End for */
-      }				/* End else */
-  }
+      if (((chord *) thechord->object)->is_stemup)
+        {
+          /* note clusters are painted left-right from bottom to top */
+          previous = ((chord *) thechord->object)->notes;
+          current = previous->next;
+          prevnote = (note *) previous->data;
+          prevnote->reversealign = FALSE;
+          for (; current; previous = current, prevnote = curnote, current = current->next)
+            {
+              curnote = (note *) current->data;
+              if ((prevnote->mid_c_offset == curnote->mid_c_offset - 1) || (prevnote->mid_c_offset == curnote->mid_c_offset))
+                {
+                  ((chord *) thechord->object)->is_reversealigned = TRUE;
+                  curnote->reversealign = !prevnote->reversealign;
+                }
+              else
+                curnote->reversealign = FALSE;
+            }                   /* End for */
+        }
+      else
+        {
+          /* the stem's down
+           * note clusters are painted right-left from top to bottom */
+          previous = g_list_last (((chord *) thechord->object)->notes);
+          current = previous->prev;
+          prevnote = (note *) previous->data;
+          prevnote->reversealign = FALSE;
+          for (; current; previous = current, prevnote = curnote, current = current->prev)
+            {
+              curnote = (note *) current->data;
+              if ((prevnote->mid_c_offset == curnote->mid_c_offset + 1) || (prevnote->mid_c_offset == curnote->mid_c_offset))
+                {
+                  curnote->reversealign = !prevnote->reversealign;
+                  ((chord *) thechord->object)->is_reversealigned = TRUE;
+                }
+              else
+                curnote->reversealign = FALSE;
+            }                   /* End for */
+        }                       /* End else */
+    }
   setpixelmin (thechord);
 }
 
@@ -160,11 +151,13 @@ newchord (gint baseduration, gint numdots, int tied)
 
   return thechord;
 }
+
 DenemoObject *
 dnm_newchord (gint baseduration, gint numdots, int tied)
 {
   return newchord (baseduration, numdots, tied);
 }
+
 /**
  * Set the invisible flag for the DenemoObject
  * @param thechord object to make invisible
@@ -192,9 +185,9 @@ findcomparefunc (gconstpointer a, gconstpointer b)
   const int bnum = GPOINTER_TO_INT (b);
 
   if (anote->mid_c_offset == bnum)
-    return 0;			/* Identical */
+    return 0;                   /* Identical */
   else
-    return 1;			/* Not identical */
+    return 1;                   /* Not identical */
 }
 #endif
 
@@ -216,35 +209,41 @@ insertcomparefunc (gconstpointer a, gconstpointer b)
    (for multi-note chords delete and add a note, do not use this).
 FIXME repeated calls to calculateheight
 */
-void modify_note(chord *thechord, gint mid_c_offset, gint enshift, gint dclef) {
-  note *thenote = (note*)(thechord->notes->data);
+void
+modify_note (chord * thechord, gint mid_c_offset, gint enshift, gint dclef)
+{
+  note *thenote = (note *) (thechord->notes->data);
   thenote->mid_c_offset = mid_c_offset;
   thenote->enshift = enshift;
   thenote->y = calculateheight (mid_c_offset, dclef);
-  thechord->sum_mid_c_offset = mid_c_offset;//Damned difficult to track this down - will not work if there are >1 notes in chord
+  thechord->sum_mid_c_offset = mid_c_offset;    //Damned difficult to track this down - will not work if there are >1 notes in chord
   thechord->highestpitch = mid_c_offset;
-  thechord->highesty =
-    calculateheight (mid_c_offset, dclef);
+  thechord->highesty = calculateheight (mid_c_offset, dclef);
   thechord->lowestpitch = mid_c_offset;
-  thechord->lowesty =
-    calculateheight (mid_c_offset, dclef);
-  if(Denemo.gui->last_source==INPUTKEYBOARD) {
-      DenemoStaff *curstaffstruct = (DenemoStaff *)  Denemo.gui->si->currentstaff->data;
-      if (Denemo.prefs.immediateplayback) {
-        play_notes(DEFAULT_BACKEND, curstaffstruct->midi_port, curstaffstruct->midi_channel, thechord);
-      }
-  }
-  displayhelper(Denemo.gui);
+  thechord->lowesty = calculateheight (mid_c_offset, dclef);
+  if (Denemo.gui->last_source == INPUTKEYBOARD)
+    {
+      DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
+      if (Denemo.prefs.immediateplayback)
+        {
+          play_notes (DEFAULT_BACKEND, curstaffstruct->midi_port, curstaffstruct->midi_channel, thechord);
+        }
+    }
+  displayhelper (Denemo.gui);
 }
 
 /* Allocate a new note structure initializing the fields
  * caller must g_free
  */
 
-static note *new_note(gint mid_c_offset, gint enshift, gint dclef) {
+static note *
+new_note (gint mid_c_offset, gint enshift, gint dclef)
+{
   note *newnote;
-  if(enshift>2) enshift = 2;
-  if(enshift<-2) enshift = -2;
+  if (enshift > 2)
+    enshift = 2;
+  if (enshift < -2)
+    enshift = -2;
   newnote = (note *) g_malloc0 (sizeof (note));
   newnote->mid_c_offset = mid_c_offset;
   newnote->enshift = enshift;
@@ -253,6 +252,7 @@ static note *new_note(gint mid_c_offset, gint enshift, gint dclef) {
   newnote->noteheadtype = DENEMO_NORMAL_NOTEHEAD;
   return newnote;
 }
+
 /** 
  * Add note to the current chord
  * The note *will* get added if it is
@@ -262,32 +262,31 @@ static note *new_note(gint mid_c_offset, gint enshift, gint dclef) {
 note *
 addtone (DenemoObject * thechord, gint mid_c_offset, gint enshift, gint dclef)
 {
-  note *newnote  = new_note(mid_c_offset, Denemo.gui->si->pending_enshift+enshift, dclef);
+  note *newnote = new_note (mid_c_offset, Denemo.gui->si->pending_enshift + enshift, dclef);
   Denemo.gui->si->pending_enshift = 0;
-  ((chord *) thechord->object)->notes =
-    g_list_insert_sorted (((chord *) thechord->object)->notes, newnote,
-			  insertcomparefunc);
+  ((chord *) thechord->object)->notes = g_list_insert_sorted (((chord *) thechord->object)->notes, newnote, insertcomparefunc);
   if (mid_c_offset > ((chord *) thechord->object)->highestpitch)
     {
       ((chord *) thechord->object)->highestpitch = mid_c_offset;
-      ((chord *) thechord->object)->highesty =
-	calculateheight (mid_c_offset, dclef);
+      ((chord *) thechord->object)->highesty = calculateheight (mid_c_offset, dclef);
     }
   if (mid_c_offset < ((chord *) thechord->object)->lowestpitch)
     {
       ((chord *) thechord->object)->lowestpitch = mid_c_offset;
-      ((chord *) thechord->object)->lowesty =
-	calculateheight (mid_c_offset, dclef);
+      ((chord *) thechord->object)->lowesty = calculateheight (mid_c_offset, dclef);
     }
   ((chord *) thechord->object)->sum_mid_c_offset += mid_c_offset;
   ((chord *) thechord->object)->numnotes++;
-    
+
   return newnote;
 }
 
-void dnm_addtone (DenemoObject * thechord, gint mid_c_offset, gint enshift, gint dclef) {
-	addtone (thechord, mid_c_offset, enshift,dclef);
+void
+dnm_addtone (DenemoObject * thechord, gint mid_c_offset, gint enshift, gint dclef)
+{
+  addtone (thechord, mid_c_offset, enshift, dclef);
 }
+
 /** 
  * This function finds the node of the closest chord tone to n; in the
  * case of equally distant chord notes, it'll select the higher notes
@@ -309,33 +308,35 @@ findclosest (GList * notes, gint n)
 
   if (!cur_tnode)
     return NULL;
-  for (next_tnode = cur_tnode->next;;
-       cur_tnode = next_tnode, next_tnode = cur_tnode->next)
+  for (next_tnode = cur_tnode->next;; cur_tnode = next_tnode, next_tnode = cur_tnode->next)
     {
       cur_tone = (note *) cur_tnode->data;
       if (n <= cur_tone->mid_c_offset || !next_tnode)
-	/* Aha! We have no other options */
-	return cur_tnode;
+        /* Aha! We have no other options */
+        return cur_tnode;
       else
-	{
-	  next_tone = (note *) next_tnode->data;
-	  if (cur_tone->mid_c_offset < n && n < next_tone->mid_c_offset)
-	    {
-	      distance_from_cur = n - cur_tone->mid_c_offset;
-	      distance_from_next = next_tone->mid_c_offset - n;
-	      if (distance_from_cur < distance_from_next)
-		return cur_tnode;
-	      else
-		return next_tnode;
-	    }
-	}
-    }				/* End for loop */
+        {
+          next_tone = (note *) next_tnode->data;
+          if (cur_tone->mid_c_offset < n && n < next_tone->mid_c_offset)
+            {
+              distance_from_cur = n - cur_tone->mid_c_offset;
+              distance_from_next = next_tone->mid_c_offset - n;
+              if (distance_from_cur < distance_from_next)
+                return cur_tnode;
+              else
+                return next_tnode;
+            }
+        }
+    }                           /* End for loop */
 }
 
-objnode *nearestnote (DenemoObject * thechord, gint mid_c_offset) {
-  if( thechord && thechord->object  && thechord->type==CHORD && ((chord *) thechord->object)->notes)
+objnode *
+nearestnote (DenemoObject * thechord, gint mid_c_offset)
+{
+  if (thechord && thechord->object && thechord->type == CHORD && ((chord *) thechord->object)->notes)
     return findclosest (((chord *) thechord->object)->notes, mid_c_offset);
-  else return NULL;
+  else
+    return NULL;
 }
 
 /**
@@ -346,61 +347,54 @@ objnode *nearestnote (DenemoObject * thechord, gint mid_c_offset) {
 gboolean
 removetone (DenemoObject * thechord, gint mid_c_offset, gint dclef)
 {
-  GList *tnode;			/* Tone node to remove */
+  GList *tnode;                 /* Tone node to remove */
   note *tone;
 
   tnode = findclosest (((chord *) thechord->object)->notes, mid_c_offset);
   if (tnode)
     {
       tone = (note *) tnode->data;
-      if (!tnode->next)		/* That is, we're removing the highest pitch */
-	{
-	if (tnode->prev)
-	  {
-	    ((chord *) thechord->object)->highestpitch =
-	      ((note *) tnode->prev->data)->mid_c_offset;
-	    ((chord *) thechord->object)->highesty =
-	      calculateheight (((chord *) thechord->object)->highestpitch,
-			       dclef);
-	  }
-	else
-	  {
-	    ((chord *) thechord->object)->highestpitch = G_MININT;
-	    /* Had to take care of this somewhere - perhaps not needed - when passing through an edit with no notes...
-	    ((chord *) thechord->object)->is_tied = FALSE; */
-	  }
-	}
-      if (!tnode->prev)		/* That is, we're removing the lowest pitch */
-	{
-	  if (tnode->next)
-	  {
-	    ((chord *) thechord->object)->lowestpitch =
-	      ((note *) tnode->next->data)->mid_c_offset;
-	    ((chord *) thechord->object)->lowesty =
-	      calculateheight (((chord *) thechord->object)->lowestpitch,
-			       dclef);
-	  }
-	else
-	  ((chord *) thechord->object)->lowestpitch = G_MAXINT;
-	}
+      if (!tnode->next)         /* That is, we're removing the highest pitch */
+        {
+          if (tnode->prev)
+            {
+              ((chord *) thechord->object)->highestpitch = ((note *) tnode->prev->data)->mid_c_offset;
+              ((chord *) thechord->object)->highesty = calculateheight (((chord *) thechord->object)->highestpitch, dclef);
+            }
+          else
+            {
+              ((chord *) thechord->object)->highestpitch = G_MININT;
+              /* Had to take care of this somewhere - perhaps not needed - when passing through an edit with no notes...
+                 ((chord *) thechord->object)->is_tied = FALSE; */
+            }
+        }
+      if (!tnode->prev)         /* That is, we're removing the lowest pitch */
+        {
+          if (tnode->next)
+            {
+              ((chord *) thechord->object)->lowestpitch = ((note *) tnode->next->data)->mid_c_offset;
+              ((chord *) thechord->object)->lowesty = calculateheight (((chord *) thechord->object)->lowestpitch, dclef);
+            }
+          else
+            ((chord *) thechord->object)->lowestpitch = G_MAXINT;
+        }
       ((chord *) thechord->object)->sum_mid_c_offset -= tone->mid_c_offset;
 
       /* Now that we no longer need any info in tnode or tone, 
        * actually free stuff */
 
       g_free (tone);
-      ((chord *) thechord->object)->notes =
-	g_list_remove_link (((chord *) thechord->object)->notes, tnode);
+      ((chord *) thechord->object)->notes = g_list_remove_link (((chord *) thechord->object)->notes, tnode);
       g_list_free_1 (tnode);
     }
 
-    return (gboolean)(intptr_t)tnode;
+  return (gboolean) (intptr_t) tnode;
 }
 
 //void
 //removeallnotes(DenemoObject * thechord) {
 //  while(removetone(thechord, 0, 0))
-//	;
+//      ;
 //}
 
 /**
@@ -410,14 +404,14 @@ removetone (DenemoObject * thechord, gint mid_c_offset, gint dclef)
 void
 changeenshift (DenemoObject * thechord, gint mid_c_offset, gint accidental)
 {
-  GList *tnode;			/* note node to inflect */
+  GList *tnode;                 /* note node to inflect */
   note *tone;
   tnode = findclosest (((chord *) thechord->object)->notes, mid_c_offset);
   if (tnode)
     {
       tone = (note *) tnode->data;
       tone->enshift = accidental;
-      displayhelper(Denemo.gui);
+      displayhelper (Denemo.gui);
     }
 }
 
@@ -431,7 +425,7 @@ changeenshift (DenemoObject * thechord, gint mid_c_offset, gint accidental)
 void
 shiftpitch (DenemoObject * thechord, gint mid_c_offset, gint is_sharpening)
 {
-  GList *tnode;			/* Tone node to inflect */
+  GList *tnode;                 /* Tone node to inflect */
   note *tone;
 
   tnode = findclosest (((chord *) thechord->object)->notes, mid_c_offset);
@@ -439,9 +433,9 @@ shiftpitch (DenemoObject * thechord, gint mid_c_offset, gint is_sharpening)
     {
       tone = (note *) tnode->data;
       if (is_sharpening)
-	tone->enshift = MIN (tone->enshift + 1, 2);
+        tone->enshift = MIN (tone->enshift + 1, 2);
       else
-	tone->enshift = MAX (tone->enshift - 1, -2);
+        tone->enshift = MAX (tone->enshift - 1, -2);
     }
 }
 
@@ -453,23 +447,27 @@ shiftpitch (DenemoObject * thechord, gint mid_c_offset, gint is_sharpening)
 void
 changedur (DenemoObject * thechord, gint baseduration, gint numdots)
 {
-  gint current =  ((chord *) thechord->object)->baseduration;
-  if(current<0) {
-    if(((chord*)thechord->object)->directives) {
-      GList *g;
-      for(g=((chord*)thechord->object)->directives;g;g=g->next) {
-	DenemoDirective *directive = g->data;
-	if(directive->prefix && (0==(directive->override&DENEMO_OVERRIDE_AFFIX))) {
-	  free_directive(directive);
-	  ((chord*)thechord->object)->directives = g_list_remove(((chord*)thechord->object)->directives, directive);
-	  break;//there can only be one prefix replacing the duration, it would be tricky to remove more than one anyway as continuing the loop would be trick...
-	}	
-      }	
-    }  
-  } 
+  gint current = ((chord *) thechord->object)->baseduration;
+  if (current < 0)
+    {
+      if (((chord *) thechord->object)->directives)
+        {
+          GList *g;
+          for (g = ((chord *) thechord->object)->directives; g; g = g->next)
+            {
+              DenemoDirective *directive = g->data;
+              if (directive->prefix && (0 == (directive->override & DENEMO_OVERRIDE_AFFIX)))
+                {
+                  free_directive (directive);
+                  ((chord *) thechord->object)->directives = g_list_remove (((chord *) thechord->object)->directives, directive);
+                  break;        //there can only be one prefix replacing the duration, it would be tricky to remove more than one anyway as continuing the loop would be trick...
+                }
+            }
+        }
+    }
   ((chord *) thechord->object)->baseduration = baseduration;
   ((chord *) thechord->object)->numdots = numdots;
-  
+
   set_basic_numticks (thechord);
 }
 
@@ -480,20 +478,21 @@ changedur (DenemoObject * thechord, gint baseduration, gint numdots)
 void
 changenumdots (DenemoObject * thechord, gint number)
 {
-  ((chord *) thechord->object)->numdots =
-    MAX (((chord *) thechord->object)->numdots + number, 0);
+  ((chord *) thechord->object)->numdots = MAX (((chord *) thechord->object)->numdots + number, 0);
   set_basic_numticks (thechord);
 }
 
 
 
-static void 
-freenote(gpointer thenote) {
-  if(((note *)thenote)->directives) {
-    free_directives(((note *)thenote)->directives);
-    //g_list_free(thenote->directives);
-  }
-  g_free(thenote);
+static void
+freenote (gpointer thenote)
+{
+  if (((note *) thenote)->directives)
+    {
+      free_directives (((note *) thenote)->directives);
+      //g_list_free(thenote->directives);
+    }
+  g_free (thenote);
 }
 
 
@@ -503,19 +502,20 @@ freenote(gpointer thenote) {
 void
 freechord (DenemoObject * thechord)
 {
-  g_list_foreach (((chord *) thechord->object)->notes, (GFunc)freenote, NULL);
+  g_list_foreach (((chord *) thechord->object)->notes, (GFunc) freenote, NULL);
   g_list_free (((chord *) thechord->object)->notes);
-  g_list_free(((chord *) thechord->object)->dynamics);
-  if(((chord *) thechord->object)->lyric)
-    g_string_free(((chord *) thechord->object)->lyric, FALSE);//FIXME memory leak???? 
+  g_list_free (((chord *) thechord->object)->dynamics);
+  if (((chord *) thechord->object)->lyric)
+    g_string_free (((chord *) thechord->object)->lyric, FALSE); //FIXME memory leak???? 
   /* tone_node does not belong to the chord but belongs instead to the pitch recognition system */
-  if(((chord *) thechord->object)->is_figure && ((chord *) thechord->object)->figure)
-    g_string_free(((chord *) thechord->object)->figure, FALSE);//FIXME memory leak???? 
+  if (((chord *) thechord->object)->is_figure && ((chord *) thechord->object)->figure)
+    g_string_free (((chord *) thechord->object)->figure, FALSE);        //FIXME memory leak???? 
 
-  if(((chord *) thechord->object)->directives) {
-    free_directives(((chord *) thechord->object)->directives);
-    //g_list_free(((chord *) thechord->object)->directives);
-  }
+  if (((chord *) thechord->object)->directives)
+    {
+      free_directives (((chord *) thechord->object)->directives);
+      //g_list_free(((chord *) thechord->object)->directives);
+    }
 //FIXME we should free thechord->directives too if scripts fail to delete them
   g_free (thechord);
 }
@@ -536,22 +536,21 @@ clone_chord (DenemoObject * thechord)
   chord *clonedchord = (chord *) g_malloc0 (sizeof (chord));
   /* I'd use a g_list_copy here, only that won't do the deep copy of
    * the list data that I'd want it to */
-  memcpy ((DenemoObject *) ret, (DenemoObject *) thechord,
-	  sizeof (DenemoObject));
+  memcpy ((DenemoObject *) ret, (DenemoObject *) thechord, sizeof (DenemoObject));
 
   ret->object = NULL;
-  ret->directives = NULL;//currently the only pointers in DenemoObject
+  ret->directives = NULL;       //currently the only pointers in DenemoObject
   memcpy ((chord *) clonedchord, curchord, sizeof (chord));
   clonedchord->directives = NULL;
   clonedchord->dynamics = NULL;
   clonedchord->tone_node = NULL;
-  if(curchord->figure)
-    clonedchord->figure = g_string_new(((GString*)curchord->figure)->str);
+  if (curchord->figure)
+    clonedchord->figure = g_string_new (((GString *) curchord->figure)->str);
   else
     clonedchord->figure = NULL;
   clonedchord->is_figure = curchord->is_figure;
-  if(curchord->fakechord)
-    clonedchord->fakechord = g_string_new(((GString*)curchord->fakechord)->str);
+  if (curchord->fakechord)
+    clonedchord->fakechord = g_string_new (((GString *) curchord->fakechord)->str);
   else
     clonedchord->fakechord = NULL;
   clonedchord->is_fakechord = curchord->is_fakechord;
@@ -568,16 +567,15 @@ clone_chord (DenemoObject * thechord)
 /*       g_warning("A Chord Directive list with NULL directive"); */
 /*   } */
 
-  clonedchord->directives = clone_directives(curchord->directives);
+  clonedchord->directives = clone_directives (curchord->directives);
 
   clonedchord->notes = NULL;
-  for (curtone = ((chord *) thechord->object)->notes;
-       curtone; curtone = curtone->next)
+  for (curtone = ((chord *) thechord->object)->notes; curtone; curtone = curtone->next)
     {
       newnote = (note *) g_malloc0 (sizeof (note));
       note *curnote = (note *) curtone->data;
       memcpy (newnote, curnote, sizeof (note));
-      newnote->directives = clone_directives(curnote->directives);    
+      newnote->directives = clone_directives (curnote->directives);
       clonedchord->notes = g_list_append (clonedchord->notes, newnote);
     }
   ret->object = (chord *) clonedchord;

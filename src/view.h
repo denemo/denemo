@@ -10,7 +10,7 @@
 #define VIEW_H
 #include "commandfuncs.h"
 #include "config.h"
-#include "draw.h"		/* Which includes gtk.h */
+#include "draw.h"               /* Which includes gtk.h */
 #include <denemo/denemo.h>
 #include "dialogs.h"
 #include "exportlilypond.h"
@@ -41,9 +41,9 @@
 #define EXTRA_ACCELS "extra.accels"
 
 
-void newview (GtkAction *action, gpointer param);
-void free_movements(DenemoGUI *gui);/* frees all movement data (i.e. the DenemoScore objects) from gui, leaving gui interface intact */
-void addhistorymenuitem(gchar *filename);
+void newview (GtkAction * action, gpointer param);
+void free_movements (DenemoGUI * gui);  /* frees all movement data (i.e. the DenemoScore objects) from gui, leaving gui interface intact */
+void addhistorymenuitem (gchar * filename);
 
 //TODO Fix for automatic updating during operation
 //
@@ -52,69 +52,53 @@ void addhistorymenuitem(gchar *filename);
  Unfortunately, this lead to problems on some builds, so it has been dropped and the macro re-defined.*/
 #define LABEL(a) (gtk_tool_button_get_label_widget((a)))
 
-void	  highlight_rhythm(RhythmPattern *r);
+void highlight_rhythm (RhythmPattern * r);
 
 
-void	  unhighlight_rhythm(RhythmPattern *r);
-void	  highlight_duration(DenemoGUI *gui, gint dur);
-void	  highlight_rest(DenemoGUI *gui, gint dur);
+void unhighlight_rhythm (RhythmPattern * r);
+void highlight_duration (DenemoGUI * gui, gint dur);
+void highlight_rest (DenemoGUI * gui, gint dur);
 
-gboolean loadGraphicItem(gchar *name, DenemoGraphic **pgraphic);
+gboolean loadGraphicItem (gchar * name, DenemoGraphic ** pgraphic);
 
 
-GtkAction *activate_action(gchar *path);
+GtkAction *activate_action (gchar * path);
 
-GError *execute_script_file(gchar *filename);
+GError *execute_script_file (gchar * filename);
 
-gboolean
-activate_script (GtkAction *action, DenemoScriptParam *param);
-void 
-create_scheme_function_for_script(gchar *name);
-void 
-inner_main(void*closure, int argc, char **argv);
+gboolean activate_script (GtkAction * action, DenemoScriptParam * param);
+void create_scheme_function_for_script (gchar * name);
+void inner_main (void *closure, int argc, char **argv);
 
-gchar *
-create_xbm_data_from_pixbuf (GdkPixbuf *pixbuf, int lox, int loy, int hix, int hiy);
-gchar *
-get_icon_for_name(gchar *name, gchar *label);
+gchar *create_xbm_data_from_pixbuf (GdkPixbuf * pixbuf, int lox, int loy, int hix, int hiy);
+gchar *get_icon_for_name (gchar * name, gchar * label);
 
-void
-upload_edit_script(gchar *tag, gchar *script);
-void 
-execute_init_scripts(gchar *menupath);
+void upload_edit_script (gchar * tag, gchar * script);
+void execute_init_scripts (gchar * menupath);
 
-void
-denemo_scheme_init(void);
+void denemo_scheme_init (void);
 
-void 
-execute_scheme(GtkAction *action, DenemoScriptParam *param);
+void execute_scheme (GtkAction * action, DenemoScriptParam * param);
 
-gchar
-modifier_code(gpointer fn);
-gboolean
-code_is_a_duration(gchar code);
+gchar modifier_code (gpointer fn);
+gboolean code_is_a_duration (gchar code);
 
-gint
-call_out_to_guile (const char *script);
+gint call_out_to_guile (const char *script);
 
-void
-set_playbutton(gboolean pause);
+void set_playbutton (gboolean pause);
 
-void 
-set_master_volume(DenemoScore *si, gdouble volume);
+void set_master_volume (DenemoScore * si, gdouble volume);
 
-void 
-set_master_tempo(DenemoScore *si, gdouble tempo);
+void set_master_tempo (DenemoScore * si, gdouble tempo);
 
-void 
-toggle_to_drawing_area(gboolean show);
+void toggle_to_drawing_area (gboolean show);
 
-void ToggleReduceToDrawingArea (GtkAction * action, DenemoScriptParam *param);
+void ToggleReduceToDrawingArea (GtkAction * action, DenemoScriptParam * param);
 
-gchar *get_midi_control_command(guchar type, guchar value);
-gchar *get_midi_pitch_bend_command(gint value);
-gint hide_printarea_on_delete(void);
-void set_midi_in_status(void);
-void set_meantone_tuning(gint step);
-void update_leadin_widget(gdouble secs);
+gchar *get_midi_control_command (guchar type, guchar value);
+gchar *get_midi_pitch_bend_command (gint value);
+gint hide_printarea_on_delete (void);
+void set_midi_in_status (void);
+void set_meantone_tuning (gint step);
+void update_leadin_widget (gdouble secs);
 #endif

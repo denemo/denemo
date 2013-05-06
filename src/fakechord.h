@@ -5,10 +5,8 @@
 
 #include <denemo/denemo.h>
 
-void
-separate_fakechord_elements (gchar *fakechord, DenemoObject *curObj);
+void separate_fakechord_elements (gchar * fakechord, DenemoObject * curObj);
 
-void 
-fakechord_insert(GtkAction *action, gpointer param);
+void fakechord_insert (GtkAction * action, gpointer param);
 
 //#endif

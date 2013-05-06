@@ -10,11 +10,11 @@
 #include <string.h>
 
 void
-silentconversion (char *file_in, DenemoGUI *gui)
+silentconversion (char *file_in, DenemoGUI * gui)
 {
   int result;
   char *file_out;
-  DenemoScore *si=gui->si;
+  DenemoScore *si = gui->si;
 
   if (strcmp (file_in + strlen (file_in) - 7, ".denemo") == 0)
     {

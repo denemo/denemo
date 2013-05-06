@@ -21,8 +21,8 @@ struct callbackdata
 static void
 set_preferences (struct callbackdata *cbdata)
 {
-  DenemoPrefs *prefs =  &Denemo.prefs;
-  
+  DenemoPrefs *prefs = &Denemo.prefs;
+
 #define ASSIGNTEXT(field) \
     g_string_assign (prefs->field,\
     gtk_entry_get_text (GTK_ENTRY (cbdata->field)));
@@ -35,15 +35,14 @@ set_preferences (struct callbackdata *cbdata)
     prefs->field =\
     gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(cbdata->field));
 
-Denemo.gui->si->tempo =
-        gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (cbdata->tempo));
+  Denemo.gui->si->tempo = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (cbdata->tempo));
 
   writeXMLPrefs (prefs);
 }
 
 
 void
-playback_properties_change (GtkAction *action, gpointer param)
+playback_properties_change (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   GtkWidget *dialog;
@@ -56,13 +55,7 @@ playback_properties_change (GtkAction *action, gpointer param)
 
   static struct callbackdata cbdata;
 
-  dialog = gtk_dialog_new_with_buttons (_("Playback properties"), NULL,
-					(GtkDialogFlags) 
-					(GTK_DIALOG_MODAL |
-					GTK_DIALOG_DESTROY_WITH_PARENT),
-					GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-					GTK_STOCK_CANCEL, GTK_STOCK_CANCEL,
-					NULL);
+  dialog = gtk_dialog_new_with_buttons (_("Playback properties"), NULL, (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_STOCK_CANCEL, NULL);
 
   //gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
   notebook = gtk_notebook_new ();
@@ -103,14 +96,13 @@ playback_properties_change (GtkAction *action, gpointer param)
   GtkWidget *field = gtk_spin_button_new_with_range (min, max, 1.0);\
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (field), gui->si->field);\
   gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
-  cbdata.field = field;  
+  cbdata.field = field;
 
-  NEWPAGE("Playback")
-  INTENTRY_LIMITS("Tempo", tempo, 10, 250);
-   
+  NEWPAGE ("Playback") INTENTRY_LIMITS ("Tempo", tempo, 10, 250);
+
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
- 
-  gtk_widget_show_all(dialog);
+
+  gtk_widget_show_all (dialog);
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
       set_preferences (&cbdata);
