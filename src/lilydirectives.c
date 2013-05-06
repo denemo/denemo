@@ -2663,7 +2663,10 @@ edit_object_directive (GtkAction * action, DenemoScriptParam * param)
   //g_print("Got directive %p in list %p\n", directive, directives);
   if (directive == NULL)
     {
-      warningdialog (_("Use the ObjectMenu to modify this object - there are no directives here"));
+			if(*directives!=NULL)
+				infodialog(_("Cancelled"));
+			else
+				warningdialog(_("Use the ObjectMenu to modify this object - there are no directives here"));
       return;
     }
   if (directive->tag == NULL)
