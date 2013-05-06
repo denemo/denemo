@@ -38,7 +38,7 @@
 	    (d-SetSaved #f))
   	(begin
    	   (d-PopPosition)
-   	   (d-WarningDialog  (_ "The cursor is not on a grace note after a main note or chord\nFirst create the main note, then then follow it with the grace note(s) then invoke this command with the cursor on the grace note")))))
+   	   (d-WarningDialog  (_ "The cursor is not on a grace note after a main note or chord\nFirst create the main note, then follow it with the grace note(s) then invoke this command with the cursor on the grace note")))))
 	(begin
    	  	 (d-PopPosition)
    	  	 (d-WarningDialog  (_ "The cursor is not on a grace note after a main note or chord\nFirst create the main note, then then follow it with the grace note(s) then invoke this command with the cursor on the grace note"))))

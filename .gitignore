@@ -39,4 +39,4 @@ po/*.gmo
 *~
 src/*.cDEV
 utils/a.out
-
+utils/generate_commands

@@ -684,9 +684,10 @@ else
  * Export the given score (from measure start to measure end) as a "native"
  * Denemo XML file to the given file.
  */
-void
+gint 
 exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 {
+	gint ret=0;
   GString *filename = g_string_new (thefilename);
   xmlDocPtr doc;
   xmlNodePtr scoreElem, mvmntElem, stavesElem, voicesElem, voiceElem;
@@ -1449,13 +1450,12 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
     }				/* end for each voice in score */
   }// for each movement
   /* Save the file. */
-#if 0
-  if (xmlSaveFile (filename->str, doc) < 0)
+
+  if (xmlSaveFormatFile (filename->str, doc, 1) < 0) {
     g_warning ("Could not save file %s", filename->str);
-#else
-  if (xmlSaveFormatFile (filename->str, doc, 1) < 0)
-    g_warning ("Could not save file %s", filename->str);
-#endif
+    ret = -1;
+	} 
+
   /* Clean up all the memory we've allocated. */
 
   xmlFreeDoc (doc);
@@ -1464,4 +1464,5 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   sNextXMLID = 0;
 
   g_string_free (filename, TRUE);
+  return ret;
   }

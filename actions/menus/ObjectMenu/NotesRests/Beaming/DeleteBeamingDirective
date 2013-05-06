@@ -8,7 +8,9 @@
         <after>EndBeam</after>
         <action>DeleteBeamingDirective</action>
         <scheme>;;; DeleteBeamingDirective
-(d-DirectiveDelete-chord "Beam")</scheme>
+(d-DirectiveDelete-chord "Beam")
+(d-DirectiveDelete-chord "BeamLeft")
+(d-DirectiveDelete-chord "BeamRight")</scheme>
         <label>Delete Beaming Directive</label>
         <tooltip>Deletes a ] or [ (end or start beam) directive on the current chord.</tooltip>
       </row>

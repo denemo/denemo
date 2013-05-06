@@ -389,8 +389,8 @@ parseWidgetDirectives (xmlNodePtr parentElem, xmlNsPtr ns, gpointer fn, GtkMenu*
     DenemoDirective *directive = (DenemoDirective*)g_malloc0(sizeof(DenemoDirective));
     parseWidgetDirective(childElem, ns, fn, directive, menu);
     directives = g_list_append(directives, directive);
-    if(menu)
-	g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", (gpointer)directives_pointer);//FIXME this const string has to match with lilydirectives.c
+    if(directives_pointer)
+			g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", (gpointer)directives_pointer);//FIXME this const string has to match with lilydirectives.c
   }
   return directives;
 }
@@ -2830,15 +2830,15 @@ parseScore (xmlNodePtr scoreElem, xmlNsPtr ns, DenemoGUI * gui, ImportType type)
 
   childElem = getXMLChild (scoreElem, "header-directives", ns);
   if (childElem != 0)
-    si->header.directives = parseWidgetDirectives(childElem, ns, (gpointer)header_directive_put_graphic, NULL, NULL);
+    si->header.directives = parseWidgetDirectives(childElem, ns, (gpointer)header_directive_put_graphic, NULL, &(si->header.directives));
 
   childElem = getXMLChild (scoreElem, "layout-directives", ns);
   if (childElem != 0)
-    si->layout.directives = parseWidgetDirectives(childElem, ns, (gpointer)layout_directive_put_graphic, NULL, NULL);
+    si->layout.directives = parseWidgetDirectives(childElem, ns, (gpointer)layout_directive_put_graphic, NULL, &(si->layout.directives));
 
   childElem = getXMLChild (scoreElem, "movementcontrol-directives", ns);
   if (childElem != 0)
-    si->movementcontrol.directives = parseWidgetDirectives(childElem, ns, (gpointer)movementcontrol_directive_put_graphic, NULL, NULL);
+    si->movementcontrol.directives = parseWidgetDirectives(childElem, ns, (gpointer)movementcontrol_directive_put_graphic, NULL, &(si->movementcontrol.directives));
 
   childElem = getXMLChild (scoreElem, "sources", ns);
   if (childElem != 0)
@@ -2956,6 +2956,8 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
   xmlNsPtr ns;
   /*  xmlNodePtr rootElem, childElem; */
   xmlNodePtr rootElem;
+  /* ignore blanks between nodes that appear as "text" */
+  xmlKeepBlanksDefault(0);
   gchar *version = NULL;
   current_movement = 0, current_staff=0, current_measure=0, current_position = 0;//0 means is not set.
 
@@ -3050,88 +3052,71 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
     case REPLACE_SCORE:
       free_movements(gui);
       deleteSchemeText();
+      gui->has_script = FALSE;
       /* this is dependent on the order of elements, which is not strictly correct */
       FOREACH_CHILD_ELEM(childElem, rootElem){
-	
-	if (ELEM_NAME_EQ (childElem, "scheme")) {
-	  gchar *tmp = (gchar *) xmlNodeListGetString (childElem->doc,
+				if (ELEM_NAME_EQ (childElem, "scheme")) {
+					gchar *tmp = (gchar *) xmlNodeListGetString (childElem->doc,
 						       childElem->
 						       xmlChildrenNode, 1);
-	  if (tmp != NULL) {
-	    appendSchemeText(tmp);
-	    g_free (tmp);
-	  }
-	}  else if (ELEM_NAME_EQ (childElem, "movement-number")){
-	  current_movement = getXMLIntChild (childElem);
-	} else 
-	  if (ELEM_NAME_EQ (childElem, "custom_prolog")){
-	    gchar *tmp = (gchar *) xmlNodeListGetString (childElem->doc,
-							 childElem->
-							 xmlChildrenNode, 1);
-	    //gui->custom_prolog = g_string_new(tmp);
-	    g_print("The custom prolog \n\"%s\"\n is being ignored\n", tmp);
-	    warningdialog("custom prolog no longer supported. Use score directive prefix instead");
-	    g_free (tmp);
-	  } else
-	    if (ELEM_NAME_EQ (childElem, "lilycontrol")){
-	      parseSetupInfo(childElem, ns, gui);
-	    } else
-	      if (ELEM_NAME_EQ (childElem, "thumbnail")){
-	      parseThumbElem (childElem, ns, &gui->thumbnail);
-	    } else
-	      if (ELEM_NAME_EQ (childElem, "sourcefile")){
-	      parseSourceFileElem (childElem, ns, gui);
-	    } else
-	      if (ELEM_NAME_EQ (childElem, "scoreheader-directives")){
-		gui->scoreheader.directives = parseWidgetDirectives(childElem, ns, (gpointer)scoreheader_directive_put_graphic, NULL, NULL);
-	      } else
-		if (ELEM_NAME_EQ (childElem, "paper-directives")){
-		  gui->paper.directives = parseWidgetDirectives(childElem, ns, (gpointer)paper_directive_put_graphic, NULL, NULL);
-		} else
-		  if (ELEM_NAME_EQ (childElem, "custom_scoreblock")){
-		    gchar *tmp = (gchar *) xmlNodeListGetString (childElem->doc,
-								 childElem->
-								 xmlChildrenNode, 1);
-		    gchar *uri = (gchar *) xmlGetProp (childElem, (xmlChar *) "scoreblock_uri");
-		    if (tmp != NULL)
-		      {
-			DenemoScoreblock *sb = get_scoreblock_for_lilypond(tmp); 
-			GtkWidget *notebook = get_score_layout_notebook(gui);
-			GtkWidget *label = gtk_label_new(sb->name);
-			gtk_notebook_prepend_page(GTK_NOTEBOOK(notebook), sb->widget, label);
-			gtk_widget_show_all(notebook);
-			gui->custom_scoreblocks = g_list_prepend(gui->custom_scoreblocks, sb);
-			sb->uri = uri;//do not free uri
-			g_free (tmp);
-		      }
-		  } else
-		    if (ELEM_NAME_EQ (childElem, "visible_scoreblock")){
-		      {
-			if (gui->custom_scoreblocks)
-			  {
-			    DenemoScoreblock *sb =  (DenemoScoreblock*)gui->custom_scoreblocks->data;
-			    sb->visible = TRUE;
-			  }
-		      }
-		    }  else 
-		      if (ELEM_NAME_EQ (childElem, "movement")){
-			point_to_empty_movement (gui);
-			ret |=  parseMovement(childElem, ns, gui, type);
-		      } else 
-			{
-			  g_warning("unrecognized element in score -assuming movement");
-			  point_to_empty_movement(gui);
-			  ret |=  parseMovement(childElem, ns, gui, type);
-			}
-  if(gui->si && gui->si->lyricsbox)
-    gtk_widget_hide(gui->si->lyricsbox);
-      }
-	
-
-	break;
+					if (tmp != NULL) {
+						appendSchemeText(tmp);
+					g_free (tmp);
+					}
+				}  else if (ELEM_NAME_EQ (childElem, "movement-number")){
+						current_movement = getXMLIntChild (childElem);
+						} else if (ELEM_NAME_EQ (childElem, "custom_prolog")){
+							gchar *tmp = (gchar *) xmlNodeListGetString (childElem->doc,
+													childElem->xmlChildrenNode, 1);
+							//gui->custom_prolog = g_string_new(tmp);
+							g_print("The custom prolog \n\"%s\"\n is being ignored\n", tmp);
+							warningdialog("custom prolog no longer supported. Use score directive prefix instead");
+							g_free (tmp);
+							} else if (ELEM_NAME_EQ (childElem, "lilycontrol")){
+							parseSetupInfo(childElem, ns, gui);
+							} else if (ELEM_NAME_EQ (childElem, "thumbnail")){
+								parseThumbElem (childElem, ns, &gui->thumbnail);
+							} else if (ELEM_NAME_EQ (childElem, "sourcefile")){
+								parseSourceFileElem (childElem, ns, gui);
+							} else	if (ELEM_NAME_EQ (childElem, "scoreheader-directives")){
+								gui->scoreheader.directives = parseWidgetDirectives(childElem, ns, (gpointer)scoreheader_directive_put_graphic, NULL, &(gui->scoreheader.directives));
+							} else if (ELEM_NAME_EQ (childElem, "paper-directives")){
+								gui->paper.directives = parseWidgetDirectives(childElem, ns, (gpointer)paper_directive_put_graphic, NULL, &(gui->paper.directives));
+							} else if (ELEM_NAME_EQ (childElem, "custom_scoreblock")){
+								gchar *tmp = (gchar *) xmlNodeListGetString (childElem->doc,
+								childElem->xmlChildrenNode, 1);
+								gchar *uri = (gchar *) xmlGetProp (childElem, (xmlChar *) "scoreblock_uri");
+								if (tmp != NULL)	{
+										DenemoScoreblock *sb = get_scoreblock_for_lilypond(tmp); 
+										GtkWidget *notebook = get_score_layout_notebook(gui);
+										GtkWidget *label = gtk_label_new(sb->name);
+										gtk_notebook_prepend_page(GTK_NOTEBOOK(notebook), sb->widget, label);
+										gtk_widget_show_all(notebook);
+										gui->custom_scoreblocks = g_list_prepend(gui->custom_scoreblocks, sb);
+										sb->uri = uri;//do not free uri
+										g_free (tmp);
+							}
+						} else if (ELEM_NAME_EQ (childElem, "visible_scoreblock")){
+							if (gui->custom_scoreblocks)
+								{
+									DenemoScoreblock *sb =  (DenemoScoreblock*)gui->custom_scoreblocks->data;
+									sb->visible = TRUE;
+								}
+						}  else if (ELEM_NAME_EQ (childElem, "movement")){
+							point_to_empty_movement (gui);
+							ret |=  parseMovement(childElem, ns, gui, type);
+						} else {
+							g_warning("unrecognized element in score %s - abandoning file", childElem->name);
+							point_to_empty_movement(gui);
+							ret |=  parseMovement(childElem, ns, gui, type);
+						}
+						if(gui->si && gui->si->lyricsbox)
+							gtk_widget_hide(gui->si->lyricsbox);
+				}
+				break;
       default:
-	warningdialog("Erroneous call");
-	goto cleanup;
+				warningdialog("Erroneous call");
+				goto cleanup;
       } 
     } else {//version 1
     switch(type) {

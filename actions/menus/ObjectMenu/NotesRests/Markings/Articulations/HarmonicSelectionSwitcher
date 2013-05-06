@@ -10,7 +10,7 @@
         <scheme>(SingleAndSelectionSwitcher d-ToggleHarmonic)
 		</scheme>
         <label>Harmonic (Off/On)</label>
-        <tooltip>Mark/Unmark current selection of object with a harmonic</tooltip>
+        <tooltip>Mark/Unmark current selection or object with a harmonic</tooltip>
       </row>
     </map>
   </merge>

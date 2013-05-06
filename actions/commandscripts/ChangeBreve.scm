@@ -7,7 +7,9 @@
 		(d-DirectivePut-chord-graphic "Duration" "rests_M1neomensural")  ;rest	
 		(begin ;note
 			(d-Change0) ; Change to a full note first to get rid of note-stems 
-			(d-DirectivePut-chord-graphic "Duration" "noteheads_sM1neomensural")
+			(d-DirectivePut-chord-graphic "Duration" "
+
+emmentaler")
 		)	
 	)
 	(d-DirectivePut-chord-override "Duration" (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_ALT_OVERRIDE))

@@ -25,15 +25,6 @@
 <menuitem action="Insert6"/>
 <menuitem action="Insert7"/>
 <menuitem action="Insert8"/>
-<menuitem action="ChangeRest0"/>
-<menuitem action="ChangeRest1"/>
-<menuitem action="ChangeRest2"/>
-<menuitem action="ChangeRest3"/>
-<menuitem action="ChangeRest4"/>
-<menuitem action="ChangeRest5"/>
-<menuitem action="ChangeRest6"/>
-<menuitem action="ChangeRest7"/>
-<menuitem action="ChangeRest8"/>
 <menuitem action="InsertRest0"/>
 <menuitem action="InsertRest1"/>
 <menuitem action="InsertRest2"/>

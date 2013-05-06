@@ -360,9 +360,9 @@ HYPHEN
 )
 
  (tempo_event
-	(TEMPO steno_duration EQUAL bare_unsigned) : (cons 'x_TEMPO $2);(lyimport::error "TEMPO dur = number")  ;	$$ = MAKE_SYNTAX ("tempo", @$, SCM_BOOL_F, $2, scm_int2num ($4));
-	(TEMPO string steno_duration EQUAL bare_unsigned) : (lyimport::error "TEMPO strin dur = number") ; $$ = MAKE_SYNTAX ("tempo", @$, make_simple_markup($2), $3, scm_int2num ($5));
-	;(TEMPO full_markup steno_duration EQUAL bare_unsigned) : "" ;	$$ = MAKE_SYNTAX ("tempo", @$, $2, $3, scm_int2num ($5));
+	(TEMPO steno_duration EQUAL bare_unsigned) : (cons 'x_TEMPO $2);(lyimport::error "TEMPO dur = number")  ;	$$ = MAKE_SYNTAX ("tempo", @$, SCM_BOOL_F, $2, scm_from_int ($4));
+	(TEMPO string steno_duration EQUAL bare_unsigned) : (lyimport::error "TEMPO strin dur = number") ; $$ = MAKE_SYNTAX ("tempo", @$, make_simple_markup($2), $3, scm_from_int ($5));
+	;(TEMPO full_markup steno_duration EQUAL bare_unsigned) : "" ;	$$ = MAKE_SYNTAX ("tempo", @$, $2, $3, scm_from_int ($5));
 	(TEMPO string) : "" ;	$$ = MAKE_SYNTAX ("tempoText", @$, make_simple_markup($2) );
 	;(TEMPO full_markup) : "" ; $$ = MAKE_SYNTAX ("tempoText", @$, $2 );
   ) 

@@ -6,7 +6,7 @@
     <map>
       <row>
         <scheme>;;;Ltoe
-(ToggleChordDirective "Ltoe" LG-Ltoe "\\ltoe" DENEMO_ALT_OVERRIDE)
+        (ChordAnnotation "ToggleLtoe" "\\ltoe"    ToggleLtoe::params    LG-Ltoe)
 </scheme>
         <label>Ltoe (Off/On)</label>
         <tooltip>Mark/Unmark the current note ltoe</tooltip>

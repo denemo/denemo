@@ -6,8 +6,8 @@
     <map>
       <row>
         <action>ToggleMordent</action>
-        <scheme>;;;Mordent
-(ToggleChordDirective "Mordent" LG-Mordent "\\mordent" DENEMO_OVERRIDE_ABOVE)
+        <scheme>;;;ToggleMordent
+				(ChordAnnotation "ToggleMordent" "\\mordent"    ToggleMordent::params    LG-Mordent)
 </scheme>
         <label>Mordent (Off/On)</label>
         <tooltip>Adds/Removes a Mordent to the note</tooltip>

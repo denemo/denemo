@@ -1,7 +1,5 @@
 ;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;;ToggleTripleting
-(if (not (defined? 'ToggleTripleting::InsideTriplet))
-    (define ToggleTripleting::InsideTriplet #t))
 (if  ToggleTripleting::InsideTriplet
        (begin 
        		(d-PendingMidi 72)

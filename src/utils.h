@@ -291,4 +291,10 @@ gint get_widget_height(GtkWidget *w);
 gint get_widget_width(GtkWidget *w);
 void switch_back_to_main_window(void);
 void use_markup(GtkWidget *widget);
+
+void initialize_keystroke_help(void);
+void KeyStrokeAwait(gchar *first_keypress);
+void KeyStrokeDecline(gchar *first_keypress);
+void KeyStrokeShow(gchar *str, gint command_idx, gboolean single);
+
 #endif /* UTILS_H */

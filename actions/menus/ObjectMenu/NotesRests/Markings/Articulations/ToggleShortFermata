@@ -6,8 +6,8 @@
     <map>
       <row>
         <action>ToggleShortFermata</action>
-        <scheme>;;;ShortFermata
-(ToggleChordDirective "ShortFermata" LG-ShortFermata "\\shortfermata" DENEMO_ALT_OVERRIDE)
+        <scheme>;;;ToggleShortFermata
+        (ChordAnnotation "ToggleShortFermata" "\\shortfermata"    ToggleShortFermata::params    LG-ShortFermata)
 </scheme>
         <label>ShortFermata (Off/On)</label>
         <tooltip>Mark/Unmark the current chord shortfermata</tooltip>

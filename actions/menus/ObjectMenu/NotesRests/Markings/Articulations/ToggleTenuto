@@ -8,7 +8,7 @@
         <after>ToggleFermata</after>
         <action>ToggleTenuto</action>
         <scheme>;;;ToggleTenuto
-(ToggleChordDirective "Tenuto" LG-Tenuto "\\tenuto" DENEMO_ALT_OVERRIDE)
+        (ChordAnnotation "ToggleTenuto" "\\tenuto"    ToggleTenuto::params    LG-Tenuto)
 </scheme>
         <label>Tenuto (Off/On)</label>
         <tooltip>Mark/Unmark the chord Tenuto</tooltip>

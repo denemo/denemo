@@ -8,6 +8,44 @@
 		"")))
 
 
+;;BeamCount
+(define (BeamCount direction n)
+	(define tag (string-append "Beam" direction))
+	(if n
+		(begin
+			(set! n (number->string n))
+			(d-DirectivePut-chord-prefix tag (string-append "\\set stem" direction "BeamCount = #" n " "))
+			(d-DirectivePut-chord-override tag DENEMO_OVERRIDE_AFFIX)
+			(d-DirectivePut-chord-display tag  (string-append (if (equal? direction "Left") "[" "]") n )))
+		(d-DirectiveDelete-chord tag))
+	(d-RefreshDisplay)
+	(d-SetSaved #f))
+
+
+;;ChopBeaming
+(define (ChopBeaming n)
+	(define (chop-beam-right)
+		(if (and (Music?) (not (Rest?)))
+			(if (> (d-GetNoteBaseDuration) (+ 2 0))
+				(begin
+					(BeamCount "Left" n)
+					#t)
+			(if (and (not (Music?)) (d-MoveCursorRight))
+				(chop-beam-right)
+				#f))
+			(if (and (not (Music?)) (d-MoveCursorRight))
+				(chop-beam-right)
+				#f)))
+ (if (and (Music?) (not (Rest?)) (> (d-GetNoteBaseDuration) (+ 2 0)))
+	(begin
+		(d-PushPosition)
+		(d-MoveCursorRight)
+		(if (chop-beam-right)
+			(begin
+				(d-PopPosition)
+				(BeamCount "Right" n))
+			(d-PopPosition)))))
+
 
 	
 (define (TweakRelativeOffset tag offsetx offsety)
@@ -111,7 +149,7 @@
 	(xval 0)
 	(yval 0)
 	(xy (string-append " " (car offset) " . " (cdr offset) " ")))
-	(disp "Change offset")
+	;(disp "Change offset")
     (begin
       (if (boolean? oldstr)
 	  (set! oldstr (string-append prefixstring " 0.0 . 0.0 " postfixstring)))
@@ -131,7 +169,7 @@
       (set! yold (string->number oldy))
 ;;;add two values
       ;;;(set! offset (d-GetOffset))
-      (disp "Starting with " offset " which is a pair " (pair? offset) " ok?")
+      ;(disp "Starting with " offset " which is a pair " (pair? offset) " ok?")
       (if (pair? offset)
 				(begin
 					(set! xnew (car offset))
@@ -142,33 +180,47 @@
 					(set! ynew (number->string (+ yval yold)))
 					(set! xy (string-append xnew " . " ynew)))
 				(set! xy " 0.0 . 0.0 "))
-				(disp "the new offset will be " xy " ok?")
+				;(disp "the new offset will be " xy " ok?")
 	  (regexp-substitute #f thematch 'pre (string-append prefixstring xy postfixstring) 'post))    
     ))));;;; end of function change offset
 	
 ;;;; TweakOffset
 ;;;Changes the offset of the something at the cursor - at the moment assume standalone or rest
-(define (TweakOffset offsetx offsety)
-	(define tag (d-DirectiveGetForTag-standalone ""))
-	(if tag		
-			(let ((grob (d-DirectiveGet-standalone-grob tag)))
+(define (TweakOffset grob tag offsetx offsety)
+	(define sa-tag (d-DirectiveGetForTag-standalone ""))
+	(if sa-tag		
+		(let ((grob (d-DirectiveGet-standalone-grob sa-tag))) ;;; FIXME can we just use the passed in grob
 				(if grob
 					(cond ((or (equal? grob "RehearsalMark") (equal? grob "BreathingSign")   (equal? grob "MetronomeMark")    )
-							(ExtraOffset tag tag "standalone" "Score." (cons offsetx offsety)))
+							(ExtraOffset sa-tag sa-tag "standalone" "Score." (cons offsetx offsety)))
 						(#t
-							(TweakRelativeOffset tag offsetx offsety)))
-					(TweakRelativeOffset tag offsetx offsety))
-			
-			)
+							(TweakRelativeOffset sa-tag offsetx offsety)))
+					(TweakRelativeOffset sa-tag offsetx offsety)))
 		;;; not a standalone directive				
 		(begin
+			(if tag
+				(eval-string (string-append "(d-" tag "  (list (cons 'offsetx \"" offsetx "\")  (cons 'offsety \"" offsety "\")))")))
 			(if (Rest?)
 				(ExtraOffset "RestOffset" "Rest" "chord" "Voice." (cons offsetx offsety) DENEMO_OVERRIDE_AFFIX)
-				(disp "Doing Nothing") ;;(AlterPositions "Slur" "chord" "" (cons offsetx offsety) DENEMO_OVERRIDE_AFFIX)	
-				)))
+				(disp "Doing Nothing"))))
 	(d-SetSaved #f))
-
 ;;;;;;;;;;;
+(define (SetSlur control-points)
+	(define x1 (number->string (car (list-ref control-points 0))))
+	(define y1 (number->string (cdr (list-ref control-points 0))))
+	(define x2 (number->string (car (list-ref control-points 1))))
+	(define y2 (number->string (cdr (list-ref control-points 1))))
+	(define x3 (number->string (car (list-ref control-points 2))))
+	(define y3 (number->string (cdr (list-ref control-points 2))))
+	(define x4 (number->string (car (list-ref control-points 3))))
+	(define y4 (number->string (cdr (list-ref control-points 3))))
+	(d-DirectivePut-chord-prefix "Slur" 			
+					(string-append "\\once \\override Slur
+      #'control-points = #'((" x1 " . " y1 ") (" x2 " . " y2 ") (" x3 " . " y3 ") (" x4 " . " y4 ")) "))
+  (d-DirectivePut-chord-display "Slur" "(")    
+  (d-DirectivePut-chord-override "Slur" DENEMO_OVERRIDE_AFFIX)    
+)
+;;;;;;;;;
 (define (GetSlurPositions)
 (let ((yvals #f))
 			(set! yvals (d-GetPositions #t))
@@ -181,25 +233,99 @@
 			(if yvals
 				(SetBeamPositions (number->string (car yvals)) (number->string (cdr yvals))))))
 
-(define (GetSlurStart)
- 	(d-InfoDialog (_"First click on the notehead of the note where the slur starts"))
-	(if (d-GetNewTarget) 
-		(if (d-IsSlurStart)
-			(begin 
-				(d-InfoDialog "") 
-				(GetSlurPositions))
-			(d-InfoDialog (_ "Not a slur start - cancelled")))
-		(d-InfoDialog (_ "Cancelled"))))
+(define (ReshapeSlur)
+	(let ((vals #f))
+						(d-InfoDialog (_"Now drag the control points to make the shape desired - when finished click away from a control point"))
+						(set! vals (d-GetCurve)) 
+							(if vals
+									(begin
+										(d-InfoDialog (_"Slur Re-shaped"))
+										(SetSlur vals)
+										(d-SetSaved #f)))))
+				
+(define (GetSlurShape)
+		(let ()
+			(define (get-control-point n)
+				(case n
+					((1) (d-InfoDialog (_"Now click on the control point at the left end of the slur\nControl points are marked by red crosses"))(d-GetControlPoint 1) )
+					((2) (d-InfoDialog (_"Now click second control point of the slur, the next red cross to the right"))(d-GetControlPoint 2))
+					((3) (d-InfoDialog (_"Now click third control point of the slur, the next red cross to the right"))(d-GetControlPoint 3))
+					((4) (d-InfoDialog (_"Now click last control point at the end of the slur, the last red cross to the right"))(d-GetControlPoint 4))))
+			(if (d-Directive-score? "ToggleCurveControl")
+					(begin
+						(d-InfoDialog (_"First click on the center line of the staff aligning with notehead/rest\n(Positioning will be done with respect to this height)"))
+						(if (d-GetReferencePoint)
+							(begin		
+								(if (and (get-control-point 1)
+										(get-control-point 2)
+										(get-control-point 3)
+										(get-control-point 4))
+										(ReshapeSlur)))))
+					(d-WarningDialog (_"To re-shape slurs you need to have the control points marked.
+Use the right click menu to turn these on before invoking this command")))))
+				
 
+(define RestoreSlurPrompt (cons	(_ "Restore Default Slur Shape/Position")	(_"Removes your customization of this slur")))
+
+(define (EditSlur)
+	(let ((choice #f) (menu #f))
+		(set! menu (list 
+							(cons (_ "Hint Slur Position")  'position) (cons (_ "Edit Slur Shape") 'shape)))
+		(if (d-Directive-chord? "Slur")
+			(set! menu (cons (cons RestoreSlurPrompt 'restore) menu)))	
+		(set! choice (d-PopupMenu menu))
+		(case choice 
+			((restore)
+				(d-DirectiveDelete-chord "Slur"))
+			((position)
+				(d-InfoDialog (_"First click on the notehead of the note where the slur starts"))
+				(if (d-GetNewTarget) 
+					(if (d-IsSlurStart)
+						(begin 
+							(d-InfoDialog "") 
+							(GetSlurPositions))
+							(d-InfoDialog (_ "Not a slur start - cancelled")))
+							(d-InfoDialog (_ "Cancelled"))))
+			((shape) (GetSlurShape)))))
+			
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (define (EditTarget)
-	(let ((target (d-GetTargetInfo)) (target-type #f)(grob #f))	
+	(let ((target (d-GetTargetInfo)) (target-type #f)(grob #f)(tag #f))	
 	(define ta-tag "TextAnnotation")
+
 	(define (do-offset)
 		(let ((offset #f))
 					(set! offset (d-GetOffset))
 					(if offset
 						(begin
-							(TweakOffset (number->string (car offset)) (number->string (cdr offset)))))))
+							(TweakOffset grob tag (number->string (car offset)) (number->string (cdr offset)))))))
+							
+							
+	(define (do-center-relative-offset)
+		(let ((offset #f))
+			(if (d-Directive-score? "ToggleWysiwygMarks")
+				(begin
+					(d-InfoDialog (_"First click on the center line of the staff aligning with notehead/rest\n(Positioning will be done with respect to this height)"))
+					(d-GetReferencePoint)
+					(d-InfoDialog (_"Now click on the position desired for the object"))
+					(set! offset (d-GetOffset))
+					(if offset
+						(begin
+							(d-InfoDialog (_ "Re-positioned"))
+							(TweakOffset grob tag (number->string (car offset)) (number->string (cdr offset))))))
+				(d-WarningDialog (_"To re-position stuff attached to notes you need to have the locations of the notes marked with red dots.
+Use the right click menu to turn these on before invoking this command")))))
+							
+	(define (do-direction)
+		(let ((direction #f)
+				(choice #f)
+				(menu (list (cons (_ "Up")  "^")  (cons (_ "Down")  "_") (cons (_ "Auto")  "-") )) )
+						 (set! choice (d-PopupMenu menu))
+						  (if choice
+								(eval-string (string-append "(d-" tag " (list (cons 'direction \"" choice "\")))")))))
+	
+							
+							
 	(define (alter-text)
 				(d-TextAnnotation 'edit))
 	(define (alter-font-size)
@@ -207,27 +333,20 @@
 			(if size
 					(d-TextAnnotation (cons 'fontsize size))))
 				
-	(define (chop-beam)
-				(if (d-MoveCursorLeft)
-					(if (> (d-GetNoteBaseDuration) 2)
-						(if (d-MoveCursorRight)
-							(if (d-MoveCursorRight)
-								(if (> (d-GetNoteBaseDuration) 2)
-									(if (d-MoveCursorRight)
-										(if (> (d-GetNoteBaseDuration) 2)
-											(if (d-MoveCursorLeft)
-												(begin
-													(d-BeamLeftOne)
-													(d-MoveCursorLeft)
-													(d-BeamRightOne)))))))))))
+	(define (chop-beam0)
+				(ChopBeaming 0))
+	(define (chop-beam1)
+				(ChopBeaming 1))
+	(define (remove-slur-shaping)
+						(d-DirectiveDelete-chord "Slur"))
 				
-				
-;;; the procedure starts here			
+	;;; the procedure starts here			
 	(if target
 		(let ((choice #f))
 			(set! target-type (list-ref target 0))
 			(set! grob (list-ref target 1))
-			(disp "Looking at target " target-type " on grob " grob " ok?")
+			(set! tag (list-ref target 2))
+			(disp "Looking at target " target-type " on grob " grob "with tag " tag " ok?")
 			(cond 
 				((equal? target-type "Object")
 					(if (d-Directive-standalone?)
@@ -245,9 +364,14 @@
 								(choice)
 								(disp "cancelled")))))
 								
-					((equal? target-type "Chord")			
+					((equal? target-type "Chord")
 							(let ((menu ""))
-								(set! menu (list (cons "Offset Position" do-offset)))
+								(set! menu (list  (cons (_ "Up/Down") do-direction) (cons (_ "Offset Position") do-center-relative-offset)))   
+								;;; FIXME the value is relative to the centre line of the staff, this gets relative to the tr sign.
+								;;;need to use d-GetNewTarget to find the notehead position, then use its mid_c_offset to get the centre line value
+								;;; beaming does this
+								
+								
 								(set! choice (d-PopupMenu menu))
 								(if choice
 										(choice)
@@ -256,17 +380,15 @@
 								
 								
 				((equal? target-type "Note")
-					(if grob
+					(if grob   ;;; is grob defined for Fingering, or should this be tag? FIXME
 						(cond ((equal? grob "Fingering")
 							(set! choice (d-PopupMenu (list (cons (cons "Control Fingerings Positions" 
 									"Creates a directive before this chord which can be edited to position the finger indications for each note in the chord") 
 										d-FingeringPosition))))
 							(if choice
 								(choice)
-								(disp "cancelled"))		
-
-										))
-						(let ((menu '()) (base-duration (d-GetNoteBaseDuration)))
+								(disp "cancelled"))))
+							(let ((menu '()) (base-duration (d-GetNoteBaseDuration)))
 									(set! menu (cons (cons (cons (_ "Line Break") (_ "Start a new line here"))	d-LineBreak) menu))
 									(set! menu (cons (cons (cons (_"Page Break") (_"Start a new page here"))	d-PageBreak) menu))
 									(if (> base-duration 5)
@@ -276,38 +398,72 @@
 									(if (> base-duration 4)
 										(begin
 											(set! menu (cons (cons (cons (_"Two Beams Right (Off/On)") (_"Put just two beams to the right or undo a previous invocation of this command")) d-BeamRightTwo) menu))
-											(set! menu (cons (cons (cons (_"Two Beams Left (Off/On)") (_"Put just two beams to the left or undo a previous invocation of this command")) d-BeamLeftTwo) menu))))
+											(set! menu (cons (cons (cons (_"Two Beams Left (Off/On)") (_"Put just two beams to the left or undo a previous invocation of this command")) d-BeamLeftTwo) menu))					
+										))
 																					
 									(if (> base-duration 3)
 										(begin
 											(set! menu (cons (cons (cons (_"One Beam Right (Off/On)") (_"Put just one beam to the right or undo a previous invocation of this command")) d-BeamRightOne) menu))
-											(set! menu (cons (cons (cons (_"One Beam Left (Off/On)") (_"Put just one beam to the left or undo a previous invocation of this command")) d-BeamLeftOne) menu))))
-									(if (> base-duration 2)
-									  (begin
+											(set! menu (cons (cons (cons (_"One Beam Left (Off/On)") (_"Put just one beam to the left or undo a previous invocation of this command")) d-BeamLeftOne) menu))
+											(set! menu (cons (cons (cons (_"Chop to One Beam") (_"Reduce the beaming between this and the next note to just one beam")) chop-beam1) menu))
 											
-									   (set! menu (cons (cons (cons (_"Chop to One Beam") (_"Reduce the beaming between this and the next note to just one beam")) chop-beam) menu))
+											))
+									(if (> base-duration 2)
+									  (begin 
+									   (set! menu (cons (cons (cons (_"Chop Gap in Beam") (_"Remove the beaming between this and the next note")) chop-beam0) menu))
 									   (set! menu (cons (cons (cons (_"No Beam (Off/On)") (_"Leave note/chord un-beamed or undo a previous invocation of this command")) d-NoBeam) menu))
 										 (set! menu (cons (cons (cons (_"Change beam angle/position") (_"Allows you to drag the ends of the beam")) GetBeamPositions) menu))))
 			
 									(if (d-IsSlurStart)
-										(set! menu (cons (cons (cons (_"Hint Slur Angle/Position") (_"Allows you to drag the ends of the slur")) GetSlurPositions) menu )))
-									
-										
-										
-										
-										
+										(begin
+											(set! menu (cons (cons (cons (_"Hint Slur Angle/Position") (_"Allows you to drag the ends of the slur")) GetSlurPositions) menu ))
+											(set! menu (cons (cons (cons (_"Change Slur Shape") (_"Allows you to drag the control points of the slur")) GetSlurShape) menu ))
+											(if (d-Directive-chord? "Slur")										
+												(set! menu (cons (cons RestoreSlurPrompt 
+																									remove-slur-shaping) menu )))))
 									(set! choice (d-PopupMenu menu))
 									(if choice
 										(choice)
-										(disp "cancelled"))))))))))		
-										
-						
-										
-										
-										;)))))))
-			
-			
+										(disp "cancelled"))))))))))  ;EditTarget end		
+											
+;;;; Toggles a postfix annotation on a chord, with editing for direction or offset
+(define (ChordAnnotation tag lilypond params graphic)
+	(define (set-option option)
+					(case (car option)
+							((direction) (cdr option))
+							((offsetx) (string-append " ^\\tweak #'X-offset #'" (cdr option)))
+							((offsety)  (string-append " ^\\tweak #'Y-offset #'" (cdr option)))))
+	(define (direction-edit)
+		(let ((choice #f))
+		(set! choice (d-GetOption  (string-append (_ "Up") stop (_ "Down") stop (_ "Auto") stop)))
+		(if choice
+				(begin
+					(set! choice (cond 	((equal? choice (_ "Up")) "^")
+															((equal? choice (_ "Down")) "_")
+															((equal? choice (_ "Auto")) "-")))
+					(d-DirectivePut-chord-postfix tag (string-append  (string-append choice " " lilypond " ")))
+					(d-SetSaved #f)))))
 					
+	(if (and (d-Directive-chord? tag) (equal? params "edit"))
+						(case (GetEditOption)
+								((edit) (direction-edit))
+								((cancel) #f)
+								((advanced) (d-DirectiveTextEdit-chord tag))
+								((delete) (d-DirectiveDelete-chord tag))
+								(else #f))
+						(if params
+							(begin 
+								(if (and (d-Directive-chord? tag) (list? params))
+									(begin
+										(d-SetSaved #f)
+										(d-DirectivePut-chord-postfix tag (string-append  (string-join (map set-option params)) " " lilypond " ")))
+									(d-WarningDialog "Cannot complete operation - cursor moved or bad parameter list")))
+							(begin  ;;;no parameters, toggle annotation off/on
+											
+											(ToggleChordDirective tag graphic lilypond DENEMO_OVERRIDE_ABOVE)))))
+											
+											
+																
 ; SetSlurPositions
 (define (SetSlurPositions near far)
 	(d-DirectivePut-chord-override "Slur" DENEMO_OVERRIDE_AFFIX)
@@ -376,3 +532,4 @@
 	    (string-append oldstr prefixstring val postfixstring))
 	  (regexp-substitute #f thematch 'pre (string-append prefixstring val postfixstring) 'post))    
     )));;;; end of function change value
+

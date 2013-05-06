@@ -15,4 +15,4 @@
       	(begin 
       		(d-DirectivePut-scoreheader-display tag  chapter)
       		(d-DirectivePut-scoreheader-override tag  (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
-      		(d-DirectivePut-scoreheader-postfix tag (string-append lilyfield " = \"" chapter "\"\n"))))))))
+      		(d-DirectivePut-scoreheader-postfix tag (string-append lilyfield " = \\markup { \\with-url #'\"scheme:(d-Book" field   ")\" "  "\"" chapter "\"}\n"))))))))

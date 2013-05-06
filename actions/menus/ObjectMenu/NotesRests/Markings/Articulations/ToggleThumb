@@ -5,8 +5,8 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <scheme>;;;Thumb
-(ToggleChordDirective "Thumb" LG-Thumb "\\thumb" DENEMO_ALT_OVERRIDE)
+        <scheme>;;;ToggleThumb
+        (ChordAnnotation "ToggleThumb" "\\thumb"    ToggleThumb::params    LG-Thumb)
 </scheme>
         <label>Thumb (Off/On)</label>
         <tooltip>Mark/Unmark the current chord thumb</tooltip>

@@ -188,11 +188,11 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
   DenemoObject *mudelaitem = (DenemoObject *) curobj->data;
 
   //g_print("draw obj %d %d\n", mudelaitem->x, y);
-  //this is the selection being given a green background
+  //this is the selection being given a colored background
   if(cr) if(itp->mark) {
     cairo_save(cr);
-    cairo_set_source_rgb( cr, 0.5, 1.0, 0.5 );
-    cairo_rectangle (cr, x+mudelaitem->x, y, 20, 80 );
+    cairo_set_source_rgba( cr, 0.8, 0.8, 0.4, 0.7);
+    cairo_rectangle (cr, x+mudelaitem->x, y, mudelaitem->minpixelsalloted, 80 );
     cairo_fill(cr);
     cairo_restore(cr);
   }
@@ -261,41 +261,37 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 			  y - 45,
 			  mudelaitem);
 	
-       if (si->currentstaffnum==itp->staffnum 
+  if (si->currentstaffnum==itp->staffnum 
 	   && itp->verse && thechord->notes   
 	   && !itp->slur_stack
-	   && !thechord->is_tied)
-	{
-	  gchar *syllable = (gchar *) next_syllable(0);
-	  	if(cr) if(syllable)
-	    draw_lyric (cr,
-			x + mudelaitem->x,
-			y + itp->in_lowy,
-			syllable);
-	}
+	   && !thechord->is_tied)	{
+			gchar *syllable = (gchar *) next_syllable(0);
+				if(cr) if(syllable)
+				draw_lyric (cr,
+				x + mudelaitem->x,
+				y + itp->in_lowy,
+				syllable);
+		}
 
-      	if(cr) if (thechord->dynamics)
-	draw_dynamic (cr,
-		      x + mudelaitem->x, y, mudelaitem);
+   if(cr) if (thechord->dynamics)
+			draw_dynamic (cr, x + mudelaitem->x, y, mudelaitem);
 
-      	if(cr) if (thechord->slur_end_p)
-	draw_slur (cr, &(itp->slur_stack),
-		   x + mudelaitem->x, y);
-      if (thechord->slur_begin_p)
-	itp->slur_stack =
-	  push_slur_stack (itp->slur_stack, x + mudelaitem->x);
+   if(cr) if (thechord->slur_end_p)
+					draw_slur (cr, &(itp->slur_stack), x + mudelaitem->x, y);
+   if (thechord->slur_begin_p)
+				itp->slur_stack =
+					push_slur_stack (itp->slur_stack, x + mudelaitem->x);
 
-      if (thechord->crescendo_begin_p)
-	itp->hairpin_stack =
-	  push_hairpin_stack (itp->hairpin_stack, x + mudelaitem->x);
-      else if (thechord->diminuendo_begin_p)
-	itp->hairpin_stack =
-	  push_hairpin_stack (itp->hairpin_stack, x + mudelaitem->x);
-      if(cr) {
-      if (thechord->crescendo_end_p)
-	{
-	  if (top_hairpin_stack (itp->hairpin_stack) <= -1)
-	    {
+   if (thechord->crescendo_begin_p) {
+				itp->hairpin_stack =	push_hairpin_stack (itp->hairpin_stack, x + mudelaitem->x);
+      } else if (thechord->diminuendo_begin_p) {
+									itp->hairpin_stack =
+									push_hairpin_stack (itp->hairpin_stack, x + mudelaitem->x);
+			}
+			
+   if(cr) {
+      if (thechord->crescendo_end_p) {
+				if (top_hairpin_stack (itp->hairpin_stack) <= -1) {
 #if 0
 	      //this is only the visible part of the cresc, the start may be off screen
 	      thechord->crescendo_end_p = FALSE;
@@ -304,13 +300,9 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 		 "removing the crescendo end");
 #endif
 	    }
-	  draw_hairpin (cr, &(itp->hairpin_stack),
-			x + mudelaitem->x, y, 1);
-	}
-      else if (thechord->diminuendo_end_p)
-	{
-	  if (top_hairpin_stack (itp->hairpin_stack) <= -1)
-	    {
+	  draw_hairpin (cr, &(itp->hairpin_stack), x + mudelaitem->x, y, 1);
+		} else if (thechord->diminuendo_end_p) {
+	  if (top_hairpin_stack (itp->hairpin_stack) <= -1) {
 #if 0
 	      //this is only the visible part of the dim, the start may be off screen
 	      thechord->diminuendo_end_p = FALSE;
@@ -318,11 +310,13 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 		("Diminuendo end without a corresponding start\n"
 		 "removing the diminuendo end");
 #endif
-	    }
-	  draw_hairpin (cr, &(itp->hairpin_stack),
-			x + mudelaitem->x, y, 0);
+	  }
+	  draw_hairpin (cr, &(itp->hairpin_stack), x + mudelaitem->x, y, 0);
 	}
-      } // if cr
+  } // if cr
+  
+  
+  
 	/* notice the following does not check is_figure but checks if figure is not VOID) */      
       //if (!thechord->is_figure && thechord->figure)
       	if(cr) if (thechord->figure)
@@ -420,21 +414,21 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
     {				/* Draw the cursor */
       /* Determine if it needs to be red or not */
       if (si->cursor_appending || mudelaitem->type != CHORD)
-	si->cursoroffend =
-	  (mudelaitem->starttickofnextnote >= itp->tickspermeasure);
+				si->cursoroffend =
+						(mudelaitem->starttickofnextnote >= itp->tickspermeasure);
       else
-	si->cursoroffend =
-	  (mudelaitem->starttickofnextnote > itp->tickspermeasure);
+				si->cursoroffend =
+						(mudelaitem->starttickofnextnote > itp->tickspermeasure);
       if (si->cursor_appending)
-	{
-	  draw_cursor (cr, si, x + mudelaitem->x + extra, y, ((itp->curmeasure->next!=NULL) && (objnode *) itp->curmeasure->next->data)?-1:0 /*itp->last_gap */, gui->mode, si->cursorclef);
-	  memcpy (si->cursoraccs, itp->curaccs, SEVENGINTS);
-	}
+				{
+					draw_cursor (cr, si, x + mudelaitem->x + extra, y, ((itp->curmeasure->next!=NULL) && (objnode *) itp->curmeasure->next->data)?-1:0 /*itp->last_gap */, 0, si->cursorclef);
+					memcpy (si->cursoraccs, itp->curaccs, SEVENGINTS);
+				}
       else
-	{
-	  draw_cursor (cr, si, x + mudelaitem->x, y, itp->last_gap, gui->mode,
+				{
+					draw_cursor (cr, si, x + mudelaitem->x, y, itp->last_gap, mudelaitem->type == CHORD?0:mudelaitem->minpixelsalloted,
 		       si->cursorclef);
-	}
+				}
     }
       /* End cursor drawing */
 
@@ -506,12 +500,14 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
        */
 
   if(cr) {
-    g_string_sprintf (mstring, "%d", itp->measurenum);
-    drawnormaltext_cr (cr, mstring->str, x - SPACE_FOR_BARLINE - 5, y - 3);
+		if(itp->measurenum>1) {//don't draw meassure number 1, as it collides and is obvious anyway and is never typeset thus
+			g_string_sprintf (mstring, "%d", itp->measurenum);
+			drawnormaltext_cr (cr, mstring->str, x - SPACE_FOR_BARLINE - 5, y - 3);
+		}
   }
 
 
-  // draw the cursor and set the side effects up if this didn't happen when drawing the currentobject
+  // draw the cursor and set the side effects up if this didn't happen when drawing the currentobject because there isn't one - a blank measure
   if (!si->currentobject && (si->currentstaffnum == itp->staffnum && si->currentmeasurenum == itp->measurenum))
     {
       /* That is, the cursor's at the beginning of this blank measure */
@@ -596,8 +592,8 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
        (si->selection.laststaffmarked >= itp->staffnum) &&
        (si->selection.firstmeasuremarked <= itp->measurenum) &&
        (si->selection.lastmeasuremarked > itp->measurenum))      {
-	  cairo_set_source_rgb( cr, 0.5, 0.5, 1.0 );
-	  cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y, 20, STAFF_HEIGHT+1); 
+	  cairo_set_source_rgba( cr, 0.8, 0.8, 0.4, 0.7);
+	  cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data) - 10, y, 20, STAFF_HEIGHT+1); 
 	  
 	  cairo_fill(cr);
     } 
@@ -958,6 +954,7 @@ print_system_separator (cairo_t *cr, gdouble position){
 
 typedef enum colors {BLACK, RED, GREEN} colors;
 static void draw_playback_marker(cairo_t *cr, gint color, gint pos, gint yy, gint line_height) {
+	if(!Denemo.prefs.playback_controls) return;
   //g_print("drawing marker %x at %d %d %d\n", color, pos, yy, line_height);
   cairo_save(cr);
   cairo_set_line_width( cr, 4.0 );

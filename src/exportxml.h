@@ -128,7 +128,7 @@ typedef struct _DenemoExportXMLNSHandler
  * filename.  The file will be exported from the measures numbered start to
  * end.
  */
-void exportXML (gchar * thefilename, DenemoGUI *gui, gint start,
+gint exportXML (gchar * thefilename, DenemoGUI *gui, gint start,
 		gint end);
 
 void registerExportXMLNSHandler (DenemoExportXMLNSHandler * handler);

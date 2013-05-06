@@ -18,6 +18,7 @@
 #include "utils.h"
 #include "smf.h"
 #include "print.h"
+#include "kbd-custom.h"
 #include <signal.h> /*for SIGTERM */
 
 #include "config.h"
@@ -28,7 +29,7 @@
 #endif
 #include "pitchentry.h"
 
-#ifdef UNUSED__APPLE
+#ifdef _MACH_O_
 #include <mach-o/dyld.h>
 #endif
 
@@ -62,7 +63,7 @@ make_temp_dir(void) {
   gchar buf[1024] = "C:\\TMP\\\0";
   gint length = 1024;
   (void) GetTempPath(length, buf);
-  gint integer = g_rand_int(g_rand_new());
+  gint integer = 0;//Windows does not delete the temp directory, use a constant one. g_rand_int(g_rand_new());
   ret = g_strdup_printf("%sDenemo%d", buf, integer);
   
   gint fail = g_mkdir_with_parents(ret, 0700);
@@ -142,7 +143,9 @@ infodialog (gchar * msg)
   dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window),
 				   GTK_DIALOG_DESTROY_WITH_PARENT,
 				   GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, "%s", msg);
-				   
+#ifdef G_OS_WIN32
+	gtk_window_set_resizable(GTK_WINDOW(dialog), TRUE);	//needed on windows because of a bug, not all text can be seen.	
+#endif	   
   g_signal_connect_swapped (dialog, "response",
 			    G_CALLBACK (gtk_widget_hide),
 			    dialog);
@@ -917,7 +920,7 @@ get_data_dir ()
     g_free (rootdir);
 #else /* not G_OS_WIN32 */
 
-#ifdef UNUSED__APPLE
+#ifdef _MACH_O_
      
       {char path[1024];
        guint size = sizeof(path);
@@ -937,7 +940,7 @@ get_data_dir ()
     datadir = gbr_find_pkg_data_dir (PKGDATADIR, PKGNAME);
 #endif //ENABLE_BINRELOC
 
-#endif //UNUSED__APPLE
+#endif //_MACH_O_
 #endif /* not G_OS_WIN32 */
   }
   return datadir;
@@ -946,17 +949,32 @@ get_data_dir ()
 const gchar *
 get_prefix_dir (void)
 {
-#ifdef G_OS_WIN32 //THis is going to need to be tested
-    gchar *prefix = g_win32_get_package_installation_directory (NULL, NULL);
+  gchar *prefix;
+#ifdef G_OS_WIN32
+  prefix  = g_win32_get_package_installation_directory (NULL, NULL);
 #else /* not G_OS_WIN32 */
-
-#ifndef ENABLE_BINRELOC
-  gchar *prefix = g_strdup (PREFIX);
+#ifdef _MACH_O_
+      {char path[1024];
+       guint size = sizeof(path);
+       _NSGetExecutablePath(path, &size);
+       gchar * bindir = (gchar*)g_malloc(size);
+       if (_NSGetExecutablePath(bindir, &size) == 0){
+	 prefix = g_build_filename (bindir, "..", "..", NULL);
+	 g_print("OSX set data prefix to %s\n", prefix);
+       }
+	else
+	 g_critical("Cannot get bin dir\n");
+      }
 #else
-  gchar *prefix = gbr_find_prefix (PREFIX);
-#endif //ENABLE_BINRELOC
+
+ #ifndef ENABLE_BINRELOC
+   prefix = g_strdup (PREFIX);
+ #else
+  prefix = gbr_find_prefix (PREFIX);
+ #endif //ENABLE_BINRELOC
+
+#endif //_MACH_O_
 #endif //G_OS_WIN32
-  g_print ("prefix=%s\n", prefix);
   return prefix;
 }
 
@@ -974,14 +992,16 @@ get_bin_dir (void)
     g_free (rootdir);
 #else /* not G_OS_WIN32 */
 
-#ifdef UNUSED__APPLE
+#ifdef _MACH_O_
      
       {char path[1024];
        guint size = sizeof(path);
        _NSGetExecutablePath(path, &size);
-       bindir = (gchar*)g_malloc(size);
-       if (_NSGetExecutablePath(bindir, &size) == 0)
+       gchar * bin = (gchar*)g_malloc(size);
+       if (_NSGetExecutablePath(bin, &size) == 0){
+	 bindir = g_build_filename (bin, "..", NULL);
 	 g_print("using bin path %s\n", bindir);
+       }
        else
 	 g_critical("Cannot get bin dir\n");
        
@@ -995,7 +1015,7 @@ get_bin_dir (void)
   bindir = gbr_find_bin_dir (BINDIR);
 #endif //ENABLE_BINRELOC
 
-#endif //UNUSED__APPLE
+#endif //_MACH_O_
 #endif /* not G_OS_WIN32 */
   }
   return bindir;
@@ -1012,7 +1032,7 @@ get_conf_dir ()
   confdir = g_build_filename (rootdir, "etc", "denemo", NULL);
   g_free (rootdir);
 #else /* not G_OS_WIN32 */
-#ifdef UNUSED__APPLE
+#ifdef _MACH_O_
      
       {char path[1024];
        guint size = sizeof(path);
@@ -1033,7 +1053,7 @@ get_conf_dir ()
   confdir = g_build_filename (gbr_find_etc_dir(SYSCONFDIR), "denemo", NULL);
 #endif //ENABLE_BINRELOC
 
-#endif //UNUSED__APPLE
+#endif //_MACH_O_
 #endif /* not G_OS_WIN32 */
   }
   return confdir;
@@ -1050,7 +1070,7 @@ get_locale_dir ()
     localedir = g_build_filename (rootdir, "share", "locale", NULL);
     g_free (rootdir);
 #else /* not G_OS_WIN32 */
-#ifdef UNUSED__APPLE
+#ifdef _MACH_O_
      
       {char path[1024];
        guint size = sizeof(path);
@@ -1497,7 +1517,6 @@ string_dialog_entry_with_widget_opt (DenemoGUI *gui, gchar *wlabel, gchar *direc
                                         (GtkDialogFlags) (GTK_DIALOG_DESTROY_WITH_PARENT),
                                         GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
                                         NULL);
-
 	label = gtk_label_new (direction);
 	GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 	gtk_container_add(GTK_CONTAINER(content_area), label);
@@ -1520,24 +1539,25 @@ string_dialog_entry_with_widget_opt (DenemoGUI *gui, gchar *wlabel, gchar *direc
   
   if(modal) {
     gtk_widget_grab_focus (entry);
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT){ 
-		entry_string = (gchar *) gtk_entry_get_text (GTK_ENTRY (entry));
-		string = g_string_new(entry_string);
-		gtk_widget_destroy (dialog);
-		return g_string_free(string, FALSE);
-	}
-	else {  
-		gtk_widget_destroy (dialog);
+		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT){ 
+			entry_string = (gchar *) gtk_entry_get_text (GTK_ENTRY (entry));
+			string = g_string_new(entry_string);
+			gtk_widget_destroy (dialog);
+			return g_string_free(string, FALSE);
+		}	else {  
+			gtk_widget_destroy (dialog);
+			return NULL;
+		}
 		return NULL;
-	}
-  return NULL;
   } else {
     g_signal_connect_swapped (dialog,"response", G_CALLBACK (gtk_main_quit), entry);
     gtk_main();
-    entry_string = (gchar *) gtk_entry_get_text (GTK_ENTRY (entry));
-		string = g_string_new(entry_string);
-    gtk_widget_destroy (dialog);
-		return g_string_free(string, FALSE);
+    if( GTK_IS_WIDGET(entry)) {
+			entry_string = GTK_IS_WIDGET(entry)?	g_strdup((gchar *) gtk_entry_get_text (GTK_ENTRY (entry))):NULL;
+			gtk_widget_destroy (dialog);
+			return entry_string;
+		}
+		return NULL;
   }
 }
 
@@ -1587,30 +1607,35 @@ string_dialog_editor_with_widget_opt (DenemoGUI *gui, gchar *wlabel, gchar *dire
   
 	gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER);
 	gtk_window_set_keep_above(GTK_WINDOW (dialog), TRUE);
-  gtk_widget_show_all (dialog);
+  gtk_widget_show_all (dialog); 
+  gtk_widget_grab_focus (textview);  
   if(modal) {
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT){
+		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT){
       GtkTextIter startiter, enditer;
       gtk_text_buffer_get_start_iter (textbuffer, &startiter);
       gtk_text_buffer_get_end_iter (textbuffer, &enditer);
       gchar *text = gtk_text_buffer_get_text (textbuffer, &startiter, &enditer, FALSE);
       gtk_widget_destroy (dialog);
       return  text;
-	}
-	else {  
+		}
+		else {  
 		gtk_widget_destroy (dialog);
 		return NULL;
-	}
-  return NULL;
+		}
+		return NULL;
   } else {
     g_signal_connect_swapped (dialog,"response", G_CALLBACK (gtk_main_quit), NULL);
     gtk_main();
-    GtkTextIter startiter, enditer;
-    gtk_text_buffer_get_start_iter (textbuffer, &startiter);
-    gtk_text_buffer_get_end_iter (textbuffer, &enditer);
-    gchar *text = gtk_text_buffer_get_text (textbuffer, &startiter, &enditer, FALSE);
-    gtk_widget_destroy (dialog);
-		return text;
+    if(GTK_IS_TEXT_BUFFER(textbuffer)) {
+			GtkTextIter startiter, enditer;
+			gtk_text_buffer_get_start_iter (textbuffer, &startiter);
+			gtk_text_buffer_get_end_iter (textbuffer, &enditer);
+			gchar *text = gtk_text_buffer_get_text (textbuffer, &startiter, &enditer, FALSE);
+			gtk_widget_destroy (dialog);
+			return text;
+		} else {
+			return NULL;
+		}
   }
 }
 
@@ -1771,3 +1796,72 @@ void use_markup(GtkWidget *widget)
     }
  }
 }
+
+// Help for beginners using keyboard shortcuts
+static GtkWidget *KeyStrokes;
+static GtkWidget *KeyStrokeLabel;
+static GtkWidget *KeyStrokeHelp;
+extern void KeyStrokeShow(gchar *str, gint command_idx, gboolean single);
+
+void KeyStrokeAwait(gchar *first_keypress) {
+	KeyStrokeShow(first_keypress, 0, 0);
+}
+void KeyStrokeDecline(gchar *first_keypress) {
+	KeyStrokeShow(first_keypress, 0, 1);
+}
+void KeyStrokeShow(gchar *str, gint command_idx, gboolean single) {
+	if(str!=NULL) {
+			gchar *text;
+			if(command_idx) {
+				const gchar *label = lookup_label_from_idx(Denemo.map, command_idx);
+				const gchar *tooltip = lookup_tooltip_from_idx(Denemo.map, command_idx);
+				if(single) {
+					text = g_strdup_printf(_("Key Press <span font_desc=\"40\" foreground=\"blue\">%s</span>"
+									" invokes command <span font_desc=\"40\" foreground=\"dark red\">%s</span>"), str, label);
+
+				} else {
+					text = g_strdup_printf(_("Key Presses <span font_desc=\"40\" foreground=\"blue\">%s</span>"
+						" invoke command <span font_desc=\"40\" foreground=\"dark red\">%s</span>"), str, label);
+				}
+				gtk_window_set_title(GTK_WINDOW(KeyStrokes), single?_("Single Key Press"):_("Two Key Presses"));
+				gtk_label_set_markup(GTK_LABEL(KeyStrokeLabel), text);
+				gtk_label_set_text(GTK_LABEL(KeyStrokeHelp), tooltip);
+				g_free(text);
+			} else {
+				if(single)
+					text = g_strdup_printf(_("Key Press <span font_desc=\"40\" foreground=\"blue\">%s</span>"
+									" Is not a shortcut."), str);
+				else
+					text = g_strdup_printf(_("Key Press <span font_desc=\"40\" foreground=\"blue\">%s</span>"
+									" Awaiting continuation"), str);
+				gtk_window_set_title(GTK_WINDOW(KeyStrokes), _("First Key Press"));
+				gtk_label_set_markup(GTK_LABEL(KeyStrokeLabel), text);
+				gtk_label_set_text(GTK_LABEL(KeyStrokeHelp), "");
+				g_free(text);
+			}
+
+	}
+}
+static gboolean toggle_show_keystroke_preference(void) {
+	Denemo.prefs.learning = FALSE;
+	gtk_widget_hide(KeyStrokes);// = NULL;
+	return TRUE;
+}
+void initialize_keystroke_help(void) {
+	if(KeyStrokes==NULL) {
+					KeyStrokes = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+					g_signal_connect (G_OBJECT (KeyStrokes), "delete-event", G_CALLBACK (toggle_show_keystroke_preference), NULL);
+					gtk_window_set_keep_above(GTK_WINDOW(KeyStrokes), TRUE);
+					gtk_window_set_accept_focus(GTK_WINDOW(KeyStrokes), FALSE);
+					KeyStrokeLabel = gtk_label_new("");
+					KeyStrokeHelp = gtk_label_new("");
+					GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
+					gtk_container_add (GTK_CONTAINER(KeyStrokes), vbox);
+					gtk_box_pack_start (GTK_BOX(vbox), KeyStrokeLabel, FALSE, TRUE, 0);
+					gtk_box_pack_start (GTK_BOX(vbox), KeyStrokeHelp, FALSE, TRUE, 0);
+					gtk_label_set_use_markup(GTK_LABEL(KeyStrokeLabel), TRUE);
+					gtk_widget_show_all(KeyStrokes);
+	} else
+	gtk_widget_show(KeyStrokes);
+}
+

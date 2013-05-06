@@ -1,5 +1,5 @@
 ;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;ToggleArpeggio
-(ToggleChordDirective "Arpeggio" LG-Arpeggio "\\arpeggio" DENEMO_OVERRIDE_ABOVE)
-(if (d-Directive-chord? "Arpeggio")
-    (d-DirectivePut-chord-gx "Arpeggio" -5))
+        (ChordAnnotation "ToggleArpeggio" "\\arpeggio"    ToggleArpeggio::params    LG-Arpeggio)
+				(if (d-Directive-chord? "ToggleArpeggio")
+						(d-DirectivePut-chord-gx "ToggleArpeggio" -5))

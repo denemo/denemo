@@ -5,9 +5,18 @@
 (use-modules (ice-9 optargs)) ; optional (define* ) arguments
 (use-modules (ice-9 q)) ; queue module
 
+;;; for guile 2.0 compatibility define the define-once procedure to work in guile 1.8
+(cond-expand
+   (guile-2) ; nothing
+   (else ; guile < 2.0
+    (define-macro (define-once sym exp)
+      `(define ,sym
+         (if (module-locally-bound? (current-module) ',sym)
+             ,sym
+             ,exp)))))
+             
 (define (use-denemo string)
-	;(use-modules (actions denemo-modules (string->symbol string)))) ; maybe not (string->symbol) but (eval)
-	(load (string-append "denemo-modules/" string ".scm")))
+	(load-from-path (string-append string ".scm")))
 
 
 ;(bindtextdomain "denemo" "/usr/local/share/locale") find prefix!!!
@@ -141,6 +150,7 @@
 (define cue-EditText (_ "Edit Text"))
 (define cue-SetPadding (_ "Set Padding"))
 (define cue-Delete (_ "Delete"))
+(define cue-Edit (_ "Edit"))
 (define cue-RestorePosition (_ "Restore Position")) 
 ;(define cue- "")
 
@@ -246,70 +256,58 @@
      (begin
        (set! type "Movement")
        (if (equal? field "subtitle")
-	   (set! fieldname "Title"))
-        (if (equal? field "subsubtitle")
-	   (set! fieldname "Subtitle"))
-	(if (equal? field "piece")
-	   (set! fieldname "Piece")))
+					(set! fieldname "Title"))
+       (if (equal? field "subsubtitle")
+					(set! fieldname "Subtitle"))
+			 (if (equal? field "piece")
+					(set! fieldname "Piece")))
      (begin
        (set! type "Score")
        (set! fieldname (string-capitalize field))))
      
     (set! tag (string-append type fieldname)) 
-    (set! current (d-DirectiveGet-header-postfix tag))
-    (if (boolean? current)
-	(set! current "") 
-	(begin
-	  ;;(display current)
-	  (set! thematch (string-match (string-append field " = \"([^\"]*)\"\n") current))
-	  ;;(display thematch)
-	  (if (regexp-match? thematch)
-	      (set! current (match:substring thematch 1)))))
+
+    (set! current (d-DirectiveGet-header-display tag))
+    (if (not current)
+			(set! current ""))		
+					
     (if (not title)
-	(set! title (d-GetUserInput (string-append type " " fieldname)
+			(set! title (d-GetUserInput (string-append type " " fieldname)
 				    (string-append "Give a name for the " fieldname " of the " type) current #f)))
     (if title
       (begin
-	  (d-SetSaved #f)
-	  (if (string-null? title)
-	      (d-DirectiveDelete-header tag)
-	      (begin
-		(if escape (set! title (scheme-escape title )))
-		(d-DirectivePut-header-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
-		(d-DirectivePut-header-display tag (string-append type " " fieldname ": " (html-escape title)))
-		(d-DirectivePut-header-postfix tag (string-append field " = \"" title "\"\n")))))
-      (disp "Cancelled\n"))))
+				(d-SetSaved #f)
+				(if (string-null? title)
+					(d-DirectiveDelete-header tag)
+					(let ((movement (number->string (d-GetMovement))))
+						(if escape (set! title (scheme-escape title )))
+							(d-DirectivePut-header-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
+							(d-DirectivePut-header-display tag (html-escape title))
+							(d-DirectivePut-header-postfix tag (string-append field " = \\markup { \\with-url #'\"scheme:(d-GoToPosition " movement " 1 1 1)(d-" type fieldname ")\" "  "\"" title "\"}\n")))))
+			(disp "Cancelled\n"))))
 
 ; SetScoreHeaderField sets a field in the score header
-(define* (SetScoreHeaderField field  #:optional (title #f) (escape #t))
-(let ((current "") (thematch #f) (tag ""))
+(define* (SetScoreHeaderField field  #:optional (title #f) (escape #t) (full-title #f))
+(let ((current "") (tag ""))
   (set! tag (string-append "Score" (string-capitalize field)))
-  (set! current (d-DirectiveGet-scoreheader-postfix tag))
-  (if (boolean? current)
-      (set! current "") 
-      (begin
-	;;(display current)
-	(set! thematch (string-match (string-append field " = \"([^\"]*)\"\n") current))
-	;;(display thematch)
-	(if (regexp-match? thematch)
-	    (set! current (match:substring thematch 1)))))
+  (set! current (d-DirectiveGet-scoreheader-display tag))
+  (if (not current)
+      (set! current ""))
   (if (not title)
-    (begin 
       (set! title  (d-GetUserInput (string-append "Score " field) 
-			      (string-append "Give a name for the " field " of the whole score") current #f))
-      (if title
-	(set! title (string-append "\"" title "\"")))))
+			      (_ "Give a name applying to the whole score") current #f)))
   (if title
     (begin
-      (d-SetSaved #f)
-      (if (string-null? title)
-	      (d-DirectiveDelete-scoreheader tag)
-	      (begin
-		(if escape (set! title (scheme-escape title )))
-		(d-DirectivePut-scoreheader-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
-		(d-DirectivePut-scoreheader-display tag (string-append field ": " (html-escape title)))
-		(d-DirectivePut-scoreheader-postfix tag (string-append field " = " title "\n")))))
-	(disp "Cancelled\n"))))	
+      (d-SetSaved #f)	   
+			(if escape (set! title (scheme-escape title )))
+			(if (string-null? title)
+					(d-DirectivePut-scoreheader-override tag 0)
+					(begin
+							(d-DirectivePut-scoreheader-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
+							(d-DirectivePut-scoreheader-display tag (html-escape title))))
+			(if (not full-title)
+				(set! full-title (string-append " \\markup { \\with-url #'\"scheme:(d-" tag ")\"  "  "\"" title "\"}\n")))
+			(d-DirectivePut-scoreheader-postfix tag (string-append field " = " full-title "\n"))))))
 
 (define (CreateButton tag label)
   (d-DirectivePut-score-override tag (logior DENEMO_OVERRIDE_MARKUP DENEMO_OVERRIDE_GRAPHIC))
@@ -569,9 +567,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (DenemoPrintAllHeaders)
-  (let ((lily "printallheaders"))
+  (let ((lily "\nprintallheaders"))
     (if (d-CheckLilyVersion "2.11.59")
-	(set! lily "print-all-headers"))
+	(set! lily "\nprint-all-headers"))
      (d-DirectivePut-paper-postfix "PrintAllHeaders" (string-append lily " = ##t\n"))))
      
 (define* (SetQuarterCommaMeanTone #:optional (thestep 0))
@@ -902,4 +900,23 @@
 
 (define (DenemoAudioAnnotate)
     (DenemoAudioAnnotation  (d-NextAudioTiming)))
-;;;;
+;;;; Updates a standalone directive at the cursor if it is marked as DYNAMIC. Updating is by running the tag with parameter 'recalculate
+(define (UpdateStandaloneDirective)
+   (define tag (d-DirectiveGetTag-standalone))
+	(if tag 
+	    (let ((override
+		(d-DirectiveGet-standalone-override tag)))
+		(if (not (zero? (logand override DENEMO_OVERRIDE_DYNAMIC)))
+		    (eval-string (string-append "(d-" tag " 'recalculate)"))))))
+;;;;;;
+(define (GetEditOption)
+	(define  choice (d-GetOption  (string-append cue-Edit stop  cue-Delete stop cue-Advanced stop)))
+   (cond
+     ((boolean? choice)
+      'cancel)
+     ((equal? choice  cue-Advanced)
+      'advanced)
+     ((equal? choice cue-Delete)
+      'delete)
+     ((equal? choice cue-Edit)
+      'edit)))

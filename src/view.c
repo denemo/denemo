@@ -42,7 +42,7 @@
 #include "audiointerface.h"
 #include "sourceaudio.h"
 #include "scorelayout.h"
-
+#include "libguile.h"
 #define INIT_SCM "init.scm"
 
 //#include "pathconfig.h"
@@ -205,11 +205,11 @@ void define_scheme_literal_variable(gchar *varname, gchar *value, gchar *tooltip
   scm_c_define(varname, scm_from_locale_string(value));
 }
 void define_scheme_int_variable(gchar *varname, gint value, gchar *tooltip) {
-  scm_c_define(varname, scm_int2num(value));
+  scm_c_define(varname, scm_from_int(value));
 }
 
 void define_scheme_double_variable(gchar *varname, gdouble value, gchar *tooltip) {
-  scm_c_define(varname, scm_double2num(value));
+  scm_c_define(varname, scm_from_double(value));
 }
 
 
@@ -380,9 +380,9 @@ static SCM scheme_popup_menu(SCM list) {
   set_return_value(SCM_BOOL_F);
 	if(scm_is_list(list)) {
 		gint i;
-		gint length = scm_num2int(scm_length(list), 0, 0);
+		gint length = scm_to_int(scm_length(list));
 		for(i=0;i<length;i++) {
-			SCM el = scm_list_ref(list, scm_int2num(i));
+			SCM el = scm_list_ref(list, scm_from_int(i));
 			if(scm_is_pair(el)) {
 				gchar *label=NULL;
 				gchar *tooltip=NULL;
@@ -430,26 +430,65 @@ static SCM scheme_popup_menu(SCM list) {
 static SCM scheme_get_offset(void) {
 	gdouble offsetx, offsety;
 	if(get_offset(&offsetx, &offsety)) {
-		return scm_cons(scm_double2num(offsetx), scm_double2num(offsety));
+		offsetx *= 100;
+		offsety *= 100;
+		offsetx = floor(offsetx);
+		offsety = floor(offsety);
+		offsetx /=100;
+		offsety /=100;
+		
+		return scm_cons(scm_from_double(offsetx), scm_from_double(offsety));
 	} else
 	return SCM_BOOL_F;
 }
+
+static SCM scheme_get_control_point(SCM pt) {
+	if(scm_is_integer(pt)) {
+		gint which = scm_to_int(pt);
+		if(which>0 && which<5)
+			return SCM_BOOL(get_control_point(which));
+	}
+	return SCM_BOOL_F;
+}
+static void prec(gdouble *val) {
+	*val = round((*val)*100.0)/100;
+}
+static SCM scheme_get_curve(void) {
+	gdouble x1, y1, x2, y2, x3, y3, x4, y4;
+	if(get_curve(&x1, &y1, &x2, &y2, &x3, &y3, &x4, &y4))
+		{
+			prec(&x1);prec(&y1);prec(&x2);prec(&y2);prec(&x3);prec(&y3);prec(&x4);prec(&y4);
+			return scm_list_n (scm_cons(scm_from_double(x1), scm_from_double(y1)),
+													scm_cons(scm_from_double(x2), scm_from_double(y2)),
+													scm_cons(scm_from_double(x3), scm_from_double(y3)),
+													scm_cons(scm_from_double(x4), scm_from_double(y4)),
+													SCM_UNDEFINED);
+		}
+	return SCM_BOOL_F;
+}
+
 static SCM scheme_get_positions(SCM is_slur) {
 	gdouble neary, fary;
 	if(get_positions(&neary, &fary, scm_is_true(is_slur))) {
-		return  scm_cons(scm_double2num(neary), scm_double2num(fary));
+		return  scm_cons(scm_from_double(neary), scm_from_double(fary));
 	} else
 	return SCM_BOOL_F;
 }
 static SCM scheme_get_new_target(void) {
 	return scm_from_bool(get_new_target());
 }
+static SCM scheme_get_new_point(void) {
+	return scm_from_bool(get_new_point());
+}
+static SCM scheme_get_reference_point(void) {
+	return scm_from_bool(get_reference_point());
+}
 
 static SCM scheme_get_target_info(void) {
 	DenemoScore *si = Denemo.gui->si;
 	if(Denemo.gui->si->currentobject==NULL)
 		return SCM_BOOL_F;
-	SCM type=SCM_BOOL_F, grob=SCM_BOOL_F;
+	SCM type=SCM_BOOL_F, grob=SCM_BOOL_F, tag=SCM_BOOL_F;
 	switch(si->target.type) {
 		case TARGET_NONE:
 			type=SCM_BOOL_F;
@@ -497,14 +536,14 @@ static SCM scheme_get_target_info(void) {
 		if(directive) {
 			if(directive->grob) {
 					grob = scm_from_locale_string(directive->grob->str);
-				} else if(directive->tag) {
-					grob =  scm_from_locale_string(directive->tag->str);
 				} else
 				grob = SCM_BOOL_F;
-		} else 
-			grob = SCM_BOOL_F;
+		}
+		if(directive->tag) {
+					tag =  scm_from_locale_string(directive->tag->str);
+				} 
 	}
-	return scm_list_n (type, grob, SCM_UNDEFINED);
+	return scm_list_n (type, grob, tag, SCM_UNDEFINED);
 }
 
 static SCM scheme_http(SCM hname, SCM page, SCM other, SCM poststr) {
@@ -794,7 +833,7 @@ void toggle_to_drawing_area(gboolean show) {
   TOG2("/EntryToolBar", entrymenu);
   TOG2("/MainMenu", mainmenu);
 
-  TOG3(gtk_widget_get_parent(Denemo.console), console_view, "/MainMenu/ViewMenu/"ToggleConsoleView_STRING);
+ // TOG3(gtk_widget_get_parent(Denemo.console), console_view, "/MainMenu/ViewMenu/"ToggleConsoleView_STRING);
   //TOG3(gtk_widget_get_parent(gtk_widget_get_parent(Denemo.printarea)), print_view, "/MainMenu/ViewMenu/"TogglePrintView_STRING);
   TOG3(Denemo.gui->buttonboxes, scoretitles, "/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
   TOG3(Denemo.playback_control, playback_control, "/MainMenu/ViewMenu/"TogglePlaybackControls_STRING);
@@ -877,19 +916,19 @@ static SCM scheme_script_callback(SCM script, SCM params) {
      if(name) {
        GtkAction *action = lookup_action_from_name (name);
        if(action){
-	 gchar *paramvar = g_strdup_printf("%s::params", name);
-	 scm_c_define(paramvar, params);
+					gchar *paramvar = g_strdup_printf("%s::params", name);
+					scm_c_define(paramvar, params);
 	 
-	 gchar *text = g_object_get_data(G_OBJECT(action), "scheme");
-	 if(text && *text) {
-	   stage_undo(Denemo.gui->si, ACTION_STAGE_END);//undo is a queue so this is the end :)
-	   ret= SCM_BOOL(!call_out_to_guile(text));
-	   stage_undo(Denemo.gui->si, ACTION_STAGE_START);
-	 }
-	 else
-	   ret= SCM_BOOL(activate_script(action, NULL));
-	 scm_c_define(paramvar, SCM_BOOL_F);
-	 g_free(paramvar);
+					gchar *text = g_object_get_data(G_OBJECT(action), "scheme");
+					if(text && *text) {
+						stage_undo(Denemo.gui->si, ACTION_STAGE_END);//undo is a queue so this is the end :)
+						ret= SCM_BOOL(!call_out_to_guile(text));
+						stage_undo(Denemo.gui->si, ACTION_STAGE_START);
+					}
+						else
+					ret= SCM_BOOL(activate_script(action, NULL));
+					scm_c_define(paramvar, SCM_BOOL_F);
+					g_free(paramvar);
        }
        if(name) free(name);
      }
@@ -994,7 +1033,7 @@ SCM scheme_user_screenshot(SCM type, SCM position) {
   SCM ret = SCM_BOOL_F;
   gint pos = -1;
   if((!SCM_UNBNDP(position)) && scm_is_integer(position))
-    pos = scm_num2int(position,0,0);
+    pos = scm_to_int(position);
 
   if(scm_is_false(type))
    sources = &Denemo.gui->si->sources;
@@ -1101,21 +1140,49 @@ static SCM scheme_exit(SCM optional) {
 exit(0);
 }
 
-static SCM scheme_create_layout(SCM name) {
+static SCM scheme_create_layout(SCM name, SCM force) {
 if(scm_is_string(name)) {
   gchar *layout_name = scm_to_locale_string(name);
- if(create_custom_scoreblock(layout_name))
+ if(create_custom_scoreblock(layout_name, scm_is_true(force)))
   return SCM_BOOL_T;
   }
 return SCM_BOOL_F;
+}
+static SCM scheme_lilypond_for_part(void) {
+	gint save = Denemo.gui->si->markstaffnum;
+	Denemo.gui->si->markstaffnum = 0;
+	if(!select_custom_layout_for_name(((DenemoStaff*)(Denemo.gui->si->currentstaff->data))->lily_name->str))
+		generate_lilypond_part();
+	Denemo.gui->si->markstaffnum = save;
+	return SCM_BOOL_T;
+}
+static SCM scheme_typeset_part(void) {
+	typeset_part();
+	return SCM_BOOL_T;
+}
+static SCM scheme_reduce_layout_to_lilypond(void) {
+	make_scoreblock_editable();
+	return SCM_BOOL_T;
 }
 
 static SCM scheme_get_layout_id(void) {
 DenemoScoreblock *sb = selected_scoreblock();
   if(sb)
-    return scm_int2num(sb->id);
+    return scm_from_int(sb->id);
 return SCM_BOOL_F;
 }
+static SCM scheme_select_layout_id(SCM the_id) {
+if(scm_is_integer(the_id)) {
+	gint id = scm_to_int(the_id);
+	return SCM_BOOL(select_layout_id(id));
+}
+return SCM_BOOL_F;
+}
+static SCM scheme_select_default_layout(void) {
+	select_default_scoreblock();
+return SCM_BOOL_T;
+}
+
 static SCM scheme_get_layout_name(void) {
 DenemoScoreblock *sb = selected_scoreblock();
   if(sb && sb->name)
@@ -1137,6 +1204,15 @@ static SCM scheme_select_first_layout(void) {
     return sb? SCM_BOOL_T: SCM_BOOL_F;
   }
 return SCM_BOOL_F;
+}
+
+
+static SCM scheme_select_next_custom_layout(void) {
+	return SCM_BOOL( iterate_custom_layout(FALSE));	
+}
+
+static SCM scheme_select_first_custom_layout(void) {	
+	return SCM_BOOL( iterate_custom_layout(TRUE));
 }
 
 static SCM scheme_open_source (SCM link) {   
@@ -1203,7 +1279,7 @@ static SCM scheme_next_audio_timing(SCM optional) {
   if(Denemo.gui->si->audio) {    
     gdouble timing = get_audio_timing();
     if(timing>0.0)
-    return scm_double2num(timing);
+    return scm_from_double(timing);
   }
 return SCM_BOOL_F;
 }
@@ -1274,11 +1350,11 @@ static SCM scheme_zoom (SCM factor) {
       free(name);
     }
   } else {
-    return scm_double2num(Denemo.gui->si->zoom);
+    return scm_from_double(Denemo.gui->si->zoom);
   }   
   scorearea_configure_event(Denemo.scorearea, NULL);
   if(Denemo.gui->si->zoom > 0.01){
-    return  scm_int2num(Denemo.gui->si->zoom);
+    return  scm_from_int(Denemo.gui->si->zoom);
   }
   Denemo.gui->si->zoom =  1.0;
   return SCM_BOOL_F;
@@ -1300,13 +1376,13 @@ static SCM scheme_master_tempo (SCM factor) {
      free(name);
     }
   } else {
-      return scm_double2num(si->master_tempo);
+      return scm_from_double(si->master_tempo);
     }
   if(si->master_tempo < 0.0)
     si->master_tempo =  1.0;
   
   si->tempo_change_time = request_time;
-  return scm_double2num(si->master_tempo);
+  return scm_from_double(si->master_tempo);
 }
 
 static SCM scheme_movement_tempo (SCM bpm) {
@@ -1324,7 +1400,7 @@ static SCM scheme_movement_tempo (SCM bpm) {
 
   if(si->tempo < 1)
     si->tempo =  120;
-  return scm_int2num(si->tempo);
+  return scm_from_int(si->tempo);
 }
 
 static SCM scheme_master_volume (SCM factor) {
@@ -1341,30 +1417,43 @@ static SCM scheme_master_volume (SCM factor) {
   }
   if(si->master_volume < 0.0)
     si->master_volume =  1.0;
-  return scm_double2num(si->master_volume);
+  return scm_from_double(si->master_volume);
+}
+
+static SCM scheme_staff_master_volume (SCM level) {
+	DenemoStaff *thestaff = (DenemoStaff*)Denemo.gui->si->currentstaff->data;
+  if(scm_is_real(level)) {
+		gdouble master_volume = scm_to_double(level);
+		thestaff->volume = (gint)(master_volume * 127);
+		if(thestaff->volume>127)
+			thestaff->volume = 127;
+		if(thestaff->volume<0)
+			thestaff->volume = 0;
+	}
+	return scm_from_double(thestaff->volume/127.0);
 }
 
 static SCM scheme_get_midi_tuning(void) {
   gchar *cents = get_cents_string();
-  SCM ret = scm_makfrom0str (cents);
+  SCM ret = scm_from_locale_string (cents);
   g_free(cents);
   return ret;
 }
 static SCM scheme_get_sharpest(void) {
   gchar *name = get_sharpest();
-  SCM ret = scm_makfrom0str (name);
+  SCM ret = scm_from_locale_string (name);
   g_free(name);
   return ret;
 }
 static SCM scheme_get_flattest(void) {
   gchar *name = get_flattest();
-  SCM ret = scm_makfrom0str (name);
+  SCM ret = scm_from_locale_string (name);
   g_free(name);
   return ret;
 }
 static SCM scheme_get_temperament(void) {
   gchar *name = get_temperament_name();
-  SCM ret = scm_makfrom0str (name);
+  SCM ret = scm_from_locale_string (name);
   g_free(name);
   return ret;
 }
@@ -1377,7 +1466,7 @@ ignore_handler (gchar *data SCM_UNUSED, SCM tag, SCM throw_args SCM_UNUSED)
 }
 void
 set_meantone_tuning(gint step) {
-SCM thestep = scm_int2num(step);
+SCM thestep = scm_from_int(step);
 if(SCM_BOOL_F == scm_internal_catch (SCM_BOOL_T,
                       (scm_t_catch_body)  scm_c_lookup, (void *) "SetQuarterCommaMeanTone",
                       (scm_t_catch_handler) ignore_handler, (void *) "whoops"))
@@ -1389,7 +1478,7 @@ scm_call_1(func, thestep);
 
 static SCM scheme_set_enharmonic_position(SCM position) {
   if(scm_is_integer(position)) {
-     gint pos = scm_num2int(position, 0, 0);
+     gint pos = scm_to_int(position);
      set_enharmonic_position(pos);
      return SCM_BOOL_T;
     }
@@ -1430,7 +1519,7 @@ static SCM scheme_next_midi_notes(SCM interval) {
             start = event->time_seconds;
           if( (event->time_seconds-start) < margin) {
             event = smf_get_next_event(si->smf);
-            scm = scm_cons(scm_int2num(key), scm);
+            scm = scm_cons(scm_from_int(key), scm);
           } else {
             break;
           }
@@ -1439,7 +1528,7 @@ static SCM scheme_next_midi_notes(SCM interval) {
         }        
       }
     }
-    scm = scm_cons(scm, scm_double2num(start));  
+    scm = scm_cons(scm, scm_from_double(start));
     return scm;
   }
   return SCM_BOOL_F;
@@ -1451,7 +1540,7 @@ static SCM scheme_get_midi_on_time(void) {
   DenemoObject *curobj = Denemo.gui->si->currentobject->data;
   if(!curobj->midi_events)
     return SCM_BOOL_F;
-  return scm_double2num(get_midi_on_time(curobj->midi_events));
+  return scm_from_double(get_midi_on_time(curobj->midi_events));
 }
 
 static SCM scheme_get_midi_off_time(void) {
@@ -1460,7 +1549,7 @@ static SCM scheme_get_midi_off_time(void) {
   DenemoObject *curobj = Denemo.gui->si->currentobject->data;
   if(!curobj->midi_events)
     return SCM_BOOL_F;
-  return scm_double2num(get_midi_off_time(curobj->midi_events));
+  return scm_from_double(get_midi_off_time(curobj->midi_events));
 }
 
 static SCM scheme_restart_play(void) {
@@ -1567,12 +1656,12 @@ static SCM scheme_get_help(SCM command) {
     return SCM_BOOL_F;
 #endif
   }
-  return scm_makfrom0str ((gchar*)lookup_tooltip_from_idx(Denemo.map, idx));
+  return scm_from_locale_string ((gchar*)lookup_tooltip_from_idx(Denemo.map, idx));
 }
 
 static SCM scheme_get_lily_version(SCM optional) {
   gchar *version = get_lily_version_string ();
-  return scm_makfrom0str (version);
+  return scm_from_locale_string (version);
 }
 
 static SCM scheme_check_lily_version(SCM check_version) {
@@ -1603,7 +1692,7 @@ static SCM scheme_get_id(SCM command) {
     if (name)
       free(name);
     if(id!=-1){
-      return scm_int2num (id);
+      return scm_from_int (id);
     }
   }
   return SCM_BOOL_F;
@@ -1629,7 +1718,7 @@ static SCM scheme_add_keybinding (SCM command, SCM binding) {
       free(name);
   }
   if(old_id>=0){
-    return scm_int2num(old_id);
+    return scm_from_int(old_id);
   }
   else {
     return SCM_BOOL_F;
@@ -1653,7 +1742,7 @@ static SCM scheme_get_label(SCM command) {
   if(idx<0) {
     return SCM_BOOL_F;
   }
-  return scm_makfrom0str ((gchar*)lookup_label_from_idx(Denemo.map, idx));
+  return scm_from_locale_string ((gchar*)lookup_label_from_idx(Denemo.map, idx));
 }
 
 static SCM scheme_get_menu_path(SCM command) {
@@ -1680,7 +1769,7 @@ static SCM scheme_get_menu_path(SCM command) {
   if(menupath==NULL) {
     return SCM_BOOL_F;
   }
-  return scm_makfrom0str (menupath);
+  return scm_from_locale_string (menupath);
 }
 
 static SCM scheme_get_verse(SCM number) {
@@ -1694,7 +1783,7 @@ static SCM scheme_get_verse(SCM number) {
    text = get_lyrics_for_current_verse(staff);
   }
   if(text) {
-    SCM scm = scm_makfrom0str (text);
+    SCM scm = scm_from_locale_string (text);
     //wrong!! g_free(text);
     return scm;
   }
@@ -1820,7 +1909,7 @@ SCM scheme_goto_position (SCM movement, SCM staff, SCM measure, SCM object) {
 SCM scheme_shift_cursor (SCM value) {
   if(!scm_is_integer(value))
     return SCM_BOOL_F;
-  gint shift = scm_num2int(value, 0, 0);
+  gint shift = scm_to_int(value);
   Denemo.gui->si->cursor_y += shift;
   Denemo.gui->si->staffletter_y = offsettonumber(Denemo.gui->si->staffletter_y + shift);
   return SCM_BOOL_T;
@@ -1831,28 +1920,43 @@ SCM scheme_shift_cursor (SCM value) {
 
 static SCM scheme_mid_c_offsettoname(gint offset) { 
  gchar *notename = g_strdup_printf("%c", mid_c_offsettoname (offset));
- SCM scm = scm_makfrom0str (notename);
+ SCM scm = scm_from_locale_string (notename);
  g_free(notename);
  return scm;
 }
 
 static SCM scheme_get_horizontal_position(void) {
-return  scm_int2num(1 + Denemo.gui->si->cursor_x);
+return  scm_from_int(1 + Denemo.gui->si->cursor_x);
 }
+
+static SCM scheme_set_object_display_width(SCM value) {
+	 if(!scm_is_integer(value))
+    return SCM_BOOL_F;
+	if(Denemo.gui->si->currentobject) {
+		DenemoObject *obj = Denemo.gui->si->currentobject->data;
+		gint minpixels = scm_to_int(value);
+		obj->minpixelsalloted = minpixels;
+		return  SCM_BOOL_T;
+	}
+return  SCM_BOOL_F;
+}
+
+
+
 
 static SCM scheme_get_movement(void) {
   gint num = g_list_index(Denemo.gui->movements, Denemo.gui->si)+1;
-  return  scm_int2num(num);
+  return  scm_from_int(num);
 }
 
 static SCM scheme_get_staff(void) {
   gint num = Denemo.gui->si->currentstaffnum;
-  return  scm_int2num(num);
+  return  scm_from_int(num);
 }
 
 static SCM scheme_get_measure(void) {
   gint num = Denemo.gui->si->currentmeasurenum;
-  return  scm_int2num(num);
+  return  scm_from_int(num);
 }
 
 static SCM scheme_get_cursor_note (SCM optional) {
@@ -1862,7 +1966,8 @@ static SCM scheme_get_cursor_note (SCM optional) {
 
 static SCM scheme_get_cursor_note_with_octave (SCM optional) {
   DenemoGUI *gui = Denemo.gui;
-  scm_makfrom0str(mid_c_offsettolily(gui->si->cursor_y, 0));
+  scm_from_locale_string(mid_c_offsettolily(gui->si->cursor_y, 0));
+  return SCM_BOOL_T;
 }
 
 
@@ -1898,7 +2003,7 @@ static SCM scheme_get_int_pref(SCM pref) {
     prefname = scm_to_locale_string(pref);
     val = get_int_pref(prefname);
     free(prefname);    
-    return scm_int2num (val);
+    return scm_from_int (val);
   }   
  return SCM_BOOL_F;
 }
@@ -1910,7 +2015,7 @@ static SCM scheme_get_string_pref(SCM pref) {
     val = get_string_pref(prefname);
     free(prefname);
     if(val)   
-      return scm_makfrom0str (val);
+      return scm_from_locale_string (val);
   }
  return SCM_BOOL_F;
 }
@@ -2035,7 +2140,7 @@ SCM scheme_get_dots(void){
  gchar *str;
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object))
    return  SCM_BOOL_F;
- return scm_int2num(thechord->numdots);
+ return scm_from_int(thechord->numdots);
 }
 SCM scheme_get_note_base_duration(void){
  DenemoGUI *gui = Denemo.gui;
@@ -2045,7 +2150,7 @@ SCM scheme_get_note_base_duration(void){
  gint duration;
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object))
    return  SCM_BOOL_F;
- scm_int2num(thechord->baseduration);
+ return scm_from_int(thechord->baseduration);
 }
 
 SCM scheme_get_note_duration(void){
@@ -2066,7 +2171,7 @@ SCM scheme_get_note_duration(void){
      while (numdots++ < thechord->numdots)
        str = g_strdup_printf("%s""%c", str, '.');
    
-   SCM scm = scm_makfrom0str (str);
+   SCM scm = scm_from_locale_string (str);
    g_free(str);
    return  scm;
  }
@@ -2106,7 +2211,7 @@ static SCM scheme_get_onset_time(void){
      if(curObj->midi_events) {
        smf_event_t *event = (smf_event_t*)curObj->midi_events->data;
        gdouble time = event->time_seconds;
-       return scm_double2num(time);
+       return scm_from_double(time);
      }
    }
  return SCM_BOOL_F;
@@ -2121,7 +2226,7 @@ static SCM scheme_get_duration_in_ticks(void){
  chord *thechord;
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data))
    return SCM_BOOL(FALSE);
- return scm_int2num(curObj->durinticks);
+ return scm_from_int(curObj->durinticks);
 }
 
 static SCM scheme_get_base_duration_in_ticks(void){
@@ -2131,7 +2236,7 @@ static SCM scheme_get_base_duration_in_ticks(void){
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data))
    return SCM_BOOL(FALSE);
  if(curObj->type==CHORD)
-   return scm_int2num(  ((chord *)curObj->object)->baseduration>=0? /* (* (expt 2 (- 8 number)) 6) */
+   return scm_from_int(  ((chord *)curObj->object)->baseduration>=0? /* (* (expt 2 (- 8 number)) 6) */
 			(int)pow(2.0, (8.0-((chord *)curObj->object)->baseduration))*6: ((chord *)curObj->object)->baseduration
  );
  return SCM_BOOL(FALSE);
@@ -2144,7 +2249,7 @@ SCM scheme_get_end_tick(void){
  chord *thechord;
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data))
    return SCM_BOOL(FALSE);
- return scm_int2num(curObj->starttickofnextnote);
+ return scm_from_int(curObj->starttickofnextnote);
 }
 
 
@@ -2153,7 +2258,7 @@ SCM scheme_get_end_tick(void){
 
 SCM scheme_get_measure_number(void){
  DenemoGUI *gui = Denemo.gui;
- return scm_int2num(Denemo.gui->si->currentmeasurenum);
+ return scm_from_int(Denemo.gui->si->currentmeasurenum);
 }
 
 
@@ -2174,7 +2279,7 @@ SCM scheme_get_note (SCM count) {
     return SCM_BOOL_F;
   else {
     gchar *str = g_strdup_printf("%s",  mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift));
-    SCM scm = scm_makfrom0str (str);
+    SCM scm = scm_from_locale_string (str);
     g_free(str);
     return scm;
  }
@@ -2202,7 +2307,7 @@ SCM scheme_get_note_from_top (SCM count) {
     else {
       thenote = (note *) g_list_nth_data(thechord->notes, index);
       gchar *str = g_strdup_printf("%s",  mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift));
-      scm = scm_makfrom0str (str);
+      scm = scm_from_locale_string (str);
       g_free(str);
     }
     return scm;
@@ -2232,7 +2337,7 @@ SCM scheme_get_note_from_top_as_midi (SCM count) {
     else {
       thenote = (note *) g_list_nth_data(thechord->notes, index);
       gint midi = dia_to_midinote (thenote->mid_c_offset) + thenote->enshift;
-			scm = scm_int2num (midi);
+			scm = scm_from_int (midi);
     }
     return scm;
  }
@@ -2246,7 +2351,7 @@ SCM scheme_spell_check_midi_chord (SCM list) {
   gboolean status;
   if(scm_is_list(list)) {
   for(scm = list; !scm_is_null(scm); scm = scm_cdr(scm)) {
-   gint note = scm_num2int(scm_car(scm), 0, 0);
+   gint note = scm_to_int(scm_car(scm));
    notes = g_list_prepend(notes, GINT_TO_POINTER(note));
   }
  status = check_midi_intervals(notes);
@@ -2263,7 +2368,7 @@ SCM scheme_get_cursor_note_as_midi (SCM optional) {
 
  DenemoGUI *gui = Denemo.gui;
  gint midi = dia_to_midinote (gui->si->cursor_y);
-   SCM scm = scm_int2num (midi);
+   SCM scm = scm_from_int (midi);
    return scm;
 }
 
@@ -2274,10 +2379,10 @@ SCM scheme_get_note_as_midi(void) {
  chord *thechord;
  note *thenote;
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
-   return scm_int2num (0);
+   return scm_from_int (0);
  else {
    gint midi = dia_to_midinote (thenote->mid_c_offset) + thenote->enshift;
-   SCM scm = scm_int2num (midi);
+   SCM scm = scm_from_int (midi);
    return scm;
    }
 }
@@ -2342,7 +2447,7 @@ SCM scheme_get_prevailing_timesig_as_lilypond(SCM optional) {
 }
 
 SCM scheme_get_prevailing_duration(SCM optional) {
-  return scm_int2num(get_prevailing_duration());
+  return scm_from_int(get_prevailing_duration());
 }
 
 SCM scheme_get_prevailing_timesig(SCM optional) {
@@ -2382,7 +2487,22 @@ SCM scheme_set_prevailing_keysig(SCM keyaccs) {
   return SCM_BOOL_T;
 }
 
-
+SCM scheme_increment_initial_keysig(SCM amount) {
+  DenemoStaff *curstaff = Denemo.gui->si->currentstaff->data;
+  DenemoObject *curObj = NULL;
+  SCM ret = SCM_BOOL_F;
+  gint inc=1;
+  if(scm_is_integer(amount))
+    inc = scm_to_int(amount);
+  keysig *sig = &curstaff->keysig;
+  inc += sig->number;
+	if(inc<8 && inc>-8) {
+    dnm_setinitialkeysig (curstaff, inc,  curstaff->keysig.isminor);
+    score_status(Denemo.gui, TRUE);
+    ret = SCM_BOOL_T;
+  }
+  return ret;
+}
 
 SCM scheme_increment_keysig(SCM amount) {
   DenemoStaff *curstaff = Denemo.gui->si->currentstaff->data;
@@ -2390,11 +2510,11 @@ SCM scheme_increment_keysig(SCM amount) {
   SCM ret = SCM_BOOL_F;
   gint inc=1;
   if(scm_is_integer(amount))
-    inc = scm_num2int(amount, 0, 0);
+    inc = scm_to_int(amount);
   keysig *sig = &curstaff->keysig;
- if((Denemo.gui->si->currentobject) && (curObj = Denemo.gui->si->currentobject->data) && (curObj->type==KEYSIG)) {
-  sig = curObj->object;
- }
+	if((Denemo.gui->si->currentobject) && (curObj = Denemo.gui->si->currentobject->data) && (curObj->type==KEYSIG)) {
+		sig = curObj->object;
+	}
     
   inc += sig->number;
   if(inc<8 && inc>-8) {
@@ -2510,7 +2630,7 @@ SCM scheme_get_user_input(SCM label, SCM prompt, SCM init, SCM modal) {
  else initial_value = strdup(" ");
  
  gchar * ret =  string_dialog_entry_with_widget_opt (Denemo.gui, title, instruction, initial_value, NULL, (modal==SCM_UNDEFINED)||scm_is_true(modal));
- SCM scm = scm_makfrom0str (ret);
+ SCM scm = ret?scm_from_locale_string (ret):SCM_BOOL_F;
 
  if (title) free(title);
  if (instruction) free(instruction);
@@ -2610,7 +2730,7 @@ SCM scheme_get_user_input_with_snippets(SCM label, SCM prompt, SCM init, SCM mod
  gchar * text = string_dialog_editor_with_widget_opt (Denemo.gui, title, instruction, initial_value, hbox, (modal==SCM_UNDEFINED)||scm_is_true(modal));
  if(text) {
   gchar *lilypond = create_lilypond_from_text(text);
-  scm = scm_cons (scm_makfrom0str(text), scm_makfrom0str(lilypond));
+  scm = scm_cons (scm_from_locale_string(text), scm_from_locale_string(lilypond));
   g_free(lilypond);
  } else
   scm = SCM_BOOL_F;
@@ -2708,7 +2828,7 @@ SCM scheme_get_char(void) {
  gboolean success = intercept_scorearea_keypress(&event);
  if(success) {
  gchar *str = g_strdup_printf("%c", success?event.keyval:0);
- SCM scm = scm_makfrom0str (str);
+ SCM scm = scm_from_locale_string (str);
  g_free(str);
  return  scm;
  }
@@ -2721,7 +2841,7 @@ SCM scheme_get_keypress(void) {
  gboolean success =  intercept_scorearea_keypress(&event);
  if(success) {
  gchar *str = dnm_accelerator_name(event.keyval, event.state);
- SCM scm = scm_makfrom0str (str);
+ SCM scm = scm_from_locale_string (str);
  g_free(str);
  return  scm;
  }
@@ -2732,7 +2852,7 @@ SCM scheme_get_keypress(void) {
 /* get last keypress that successfully invoked a command */
 SCM scheme_get_command_keypress(void) {
  gchar *str = dnm_accelerator_name(Denemo.last_keyval, Denemo.last_keystate);
- SCM scm = scm_makfrom0str (str);
+ SCM scm = scm_from_locale_string (str);
  g_free(str);
  return  scm;
 }
@@ -2750,7 +2870,7 @@ SCM scheme_get_command(void) {
      name = g_string_append(name, lookup_name_from_idx (Denemo.map, cmd));//FIXME NULL?, memory leaks
    name = g_string_prepend (name, DENEMO_SCHEME_PREFIX);
   }
- SCM scm = success? scm_makfrom0str (name->str): SCM_BOOL(FALSE);
+ SCM scm = success? scm_from_locale_string (name->str): SCM_BOOL(FALSE);
  g_string_free(name, TRUE);
  return  scm;
 }
@@ -2777,7 +2897,7 @@ SCM scheme_get_command_from_user(void) {
 	return SCM_BOOL_F;
     }
     write_status(Denemo.gui);
-    SCM scm =  scm_makfrom0str (command);//command is from lookup_name_from... functions, do not free.
+    SCM scm =  scm_from_locale_string (command);//command is from lookup_name_from... functions, do not free.
     return scm;
   }
   return SCM_BOOL_F;
@@ -2887,7 +3007,7 @@ SCM scheme_get_padding(void) {
   gtk_widget_destroy(dialog);
   if(val == GTK_RESPONSE_ACCEPT) {
     gchar *pad = g_strdup_printf("%d", padding/10);
-    ret = scm_makfrom0str (pad);
+    ret = scm_from_locale_string (pad);
     g_free(pad);
   } else
     ret = SCM_BOOL(FALSE);
@@ -2926,8 +3046,21 @@ SCM scheme_get_option(SCM options) {
 
 
 /* Scheme interface to DenemoDirectives (formerly LilyPond directives attached to notes/chords) */
+
+
+static SCM scheme_lock_directive(SCM lock) {
+	 DenemoObject *curObj;
+	 DenemoDirective *directive;
+	if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data)
+	 || (curObj->type!=LILYDIRECTIVE) || !(directive = (DenemoDirective *)  curObj->object))
+		return SCM_BOOL(FALSE);
+	 directive->locked = scm_is_true(lock);
+	 return SCM_BOOL_T;
+}
+
+
 /* store the script to be invoked as an action for a directive tagged with tag */
-SCM scheme_set_action_script_for_tag(SCM tag, SCM script) {
+static SCM scheme_set_action_script_for_tag(SCM tag, SCM script) {
   if(scm_is_string(tag)){
     char *the_tag; 
     the_tag = scm_to_locale_string(tag);    
@@ -3082,7 +3215,7 @@ static SCM scheme_##what##_directive_get_##field(SCM tag) {\
   gchar *value = (gchar*)what##_directive_get_##field((gchar*)tagname);\
   if(tagname) free(tagname);\
   if(value){\
-    return scm_makfrom0str(value);\
+    return scm_from_locale_string(value);\
   }\
   return SCM_BOOL(FALSE);\
 }
@@ -3206,7 +3339,7 @@ static SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
   }\
   char *tagname;\
   tagname = scm_to_locale_string(tag);\
-  gint valuename = scm_num2int(value, 0, 0);\
+  gint valuename = scm_to_int(value);\
   extern  gboolean  what##_directive_put_##field (gchar *tag, gint value);\
   gboolean ret = what##_directive_put_##field ((gchar*)tagname, valuename);\
   if(tagname) free(tagname);\
@@ -3222,7 +3355,7 @@ static SCM scheme_##what##_directive_get_##field(SCM tag) {\
   extern gint what##_directive_get_##field (gchar *tag);\
   gint ret = what##_directive_get_##field ((gchar*)tagname);\
   if(tagname) free(tagname);\
-  return scm_int2num(ret);\
+  return scm_from_int(ret);\
 }
 
 
@@ -3662,11 +3795,11 @@ SCM scheme_put_text_clipboard(SCM optional) {
 
 static
 SCM scheme_get_username(void) {
-  return scm_makfrom0str(Denemo.prefs.username->str);
+  return scm_from_locale_string(Denemo.prefs.username->str);
 }
 static
 SCM scheme_get_password(void) {
-  return scm_makfrom0str(Denemo.prefs.password->str);
+  return scm_from_locale_string(Denemo.prefs.password->str);
 }
 
 static
@@ -3678,12 +3811,12 @@ SCM scheme_set_midi_capture(SCM setting) {
 
 static
 SCM scheme_get_keyboard_state(void) {
- return scm_int2num (Denemo.keyboard_state);
+ return scm_from_int (Denemo.keyboard_state);
 }
 
 static
 SCM scheme_set_midi_thru(SCM set) {
-  SCM ret = scm_int2num(Denemo.keyboard_state);
+  SCM ret = scm_from_int(Denemo.keyboard_state);
   if(scm_is_true(set))
     Denemo.keyboard_state = GDK_SHIFT_MASK;
   else
@@ -3702,9 +3835,9 @@ SCM scheme_get_recorded_midi_on_tick(void) {
     if(event)
       switch ( event->midi_buffer[0] & 0xF0) {
       case MIDI_NOTEON: 
-	return scm_int2num(event->time_pulses);
+	return scm_from_int(event->time_pulses);
       case MIDI_NOTEOFF:
-	return scm_int2num(-event->time_pulses);
+	return scm_from_int(-event->time_pulses);
       default: 
 	return SCM_BOOL_F;
       }
@@ -3722,7 +3855,7 @@ SCM scheme_get_recorded_midi_note(void) {
       switch ( event->midi_buffer[0] & 0xF0) {
       case MIDI_NOTEON: 
       case MIDI_NOTEOFF:
-	return scm_int2num(event->midi_buffer[1]);
+	return scm_from_int(event->midi_buffer[1]);
       default: 
 	return SCM_BOOL_F;
       }
@@ -3750,7 +3883,7 @@ SCM scheme_rewind_recorded_midi(void) {
 static SCM scheme_get_note_for_midi_key (SCM scm) {
   gint notenum = 0, offset, enshift, octave;      
   if(scm_is_integer(scm))
-      notenum = scm_num2int(scm, 0, 0);
+      notenum = scm_to_int(scm);
   if(notenum>0 && notenum<256) {
     notenum2enharmonic (notenum, &offset, &enshift, &octave);
     gchar *name =  mid_c_offsettolily (offset+7*octave, enshift);
@@ -3770,14 +3903,14 @@ SCM scheme_get_midi(void) {
  gchar *buf = (gchar*)&midi;
  *buf &=0xF0;//do not return channel info
 
- SCM scm = scm_int2num (midi);
+ SCM scm = scm_from_int (midi);
  return  scm;
 }
 
 //Simulates a midi event, with no capture by any calling scheme script unless midi==0
 static SCM scheme_put_midi (SCM scm) {
   gchar buf[3];
-  gint midi = scm_num2int(scm, 0, 0);
+  gint midi = scm_to_int(scm);
 
   buf[0] = midi & 0xFF;
   buf[1] = (midi>>8)&0xFF;
@@ -3794,7 +3927,7 @@ static SCM scheme_put_midi (SCM scm) {
 
 static SCM scheme_output_midi(SCM scm) {
   gchar buf[3];
-  gint midi = scm_num2int(scm, 0, 0);
+  gint midi = scm_to_int(scm);
 
   buf[0] = midi & 0xFF;
   buf[1] = (midi>>8)&0xFF;
@@ -3850,22 +3983,26 @@ static SCM scheme_create_timebase(SCM optional) {
 }
 
 static SCM scheme_pending_midi(SCM scm) {
-  guint key = scm_num2int(scm, 0, 0);
-  g_queue_push_head(Denemo.gui->pending_midi, GINT_TO_POINTER(key));
+	if(scm_is_integer(scm)) {
+		guint key = scm_to_int(scm);
+		g_queue_push_head(Denemo.gui->pending_midi, GINT_TO_POINTER(key));
+		return SCM_BOOL_T;
+	} else 
+	return SCM_BOOL_F;
 }
 
 static SCM scheme_play_midi_note(SCM note, SCM volume, SCM channel, SCM duration) {
-    guint vol = scm_num2int(volume, 0, 0);
-    gint key =  scm_num2int(note, 0, 0);
-    gint chan = scm_num2int(channel, 0, 0);
-    gint dur = scm_num2int(duration, 0, 0);
+    guint vol = scm_to_int(volume);
+    gint key =  scm_to_int(note);
+    gint chan = scm_to_int(channel);
+    gint dur = scm_to_int(duration);
     
     //g_print("Playing %x at %f volume, %d channel for %dms\n", key, vol/255.0, channel, dur);
     play_note(DEFAULT_BACKEND, 0 /*port*/, chan, key, dur, vol);
  return SCM_BOOL(TRUE);
 }
 static SCM scheme_play_midikey(SCM scm) {
-    guint midi = scm_num2int(scm, 0, 0);
+    guint midi = scm_to_int(scm);
     gint key =  (midi>>8)&0xFF;
     gint channel = midi&0xF;
     gint volume = ((midi>>16)&0x7F);
@@ -3879,7 +4016,7 @@ static SCM scheme_play_midikey(SCM scm) {
 SCM scheme_put_rest (SCM optional_duration) {
   gint duration;
   if(scm_is_integer(optional_duration)) {
-    duration = scm_num2int(optional_duration, 0, 0);
+    duration = scm_to_int(optional_duration);
   } else {
     duration = get_prevailing_duration();
   }
@@ -3894,7 +4031,7 @@ SCM scheme_put_rest (SCM optional_duration) {
 static SCM scheme_insert_rest(SCM optional) {
   SCM ret = scheme_put_rest(optional);
   if(scm_is_integer(optional)) {
-   gint duration = scm_num2int(optional, 0, 0);
+   gint duration = scm_to_int(optional);
    highlight_duration(Denemo.gui, duration);
   }
   return ret;
@@ -3931,7 +4068,7 @@ static gboolean scheme_callback_one_shot_timer(cb_scheme_and_id *scheme){
 static SCM scheme_one_shot_timer(SCM duration_amount, SCM callback) {
   char *scheme_code; 
   scheme_code = scm_to_locale_string(callback);  
-  gint duration = scm_num2int(duration_amount, 0, 0);
+  gint duration = scm_to_int(duration_amount);
   cb_scheme_and_id *scheme = g_malloc(sizeof(cb_scheme_and_id));
   scheme->scheme_code = scheme_code;
   scheme->id = Denemo.gui->id;
@@ -3954,21 +4091,21 @@ static SCM scheme_timer(SCM duration_amount, SCM callback) {
   char *scheme_code;
   if(scm_is_string(callback)) {
     scheme_code = scm_to_locale_string(callback);  //FIXME check that type of callback is tring
-    gint duration = scm_num2int(duration_amount, 0, 0);
+    gint duration = scm_to_int(duration_amount);
     //g_print("setting timer for %s after %d ms", scheme_code, duration);
     cb_scheme_and_id *scheme = g_malloc(sizeof(cb_scheme_and_id));
     scheme->scheme_code = scheme_code;
     scheme->id = Denemo.gui->id;
     g_timeout_add(duration, (GSourceFunc)scheme_callback_timer, GINT_TO_POINTER( scheme));
     //if(scheme_code) free(scheme_code);
-    return scm_int2num(GPOINTER_TO_INT(scheme));//FIXME pointer may not fit in int
+    return scm_from_int(GPOINTER_TO_INT(scheme));//FIXME pointer may not fit in int
   } else
   return SCM_BOOL_F;
 }
 
 static SCM scheme_kill_timer(SCM id) {
   if(scm_is_integer(id)) {
-    cb_scheme_and_id *scheme = (cb_scheme_and_id *)scm_num2int(id, 0, 0);//FIXME the int may not be large enough for a pointer
+    cb_scheme_and_id *scheme = (cb_scheme_and_id *)scm_to_int(id);//FIXME the int may not be large enough for a pointer
     if(scheme) {
       g_source_remove_by_user_data(scheme);
       free(scheme->scheme_code);
@@ -3985,11 +4122,11 @@ static SCM scheme_kill_timer(SCM id) {
 static SCM scheme_bass_figure(SCM bass, SCM harmony) {
   SCM ret = SCM_BOOL_F;
   gboolean status=FALSE;
-  gint bassnum = scm_num2int(bass, 0, 0);
-  gint harmonynum = scm_num2int(harmony, 0, 0);
+  gint bassnum = scm_to_int(bass);
+  gint harmonynum = scm_to_int(harmony);
   gchar *interval = determine_interval(bassnum, harmonynum, &status);
   if(interval) {
-    ret= scm_cons(status?SCM_BOOL_T:SCM_BOOL_F, scm_makfrom0str(interval));
+    ret= scm_cons(status?SCM_BOOL_T:SCM_BOOL_F, scm_from_locale_string(interval));
     g_free(interval);
   }
   return ret;
@@ -4100,30 +4237,30 @@ static SCM scheme_insert_note_in_chord (SCM lily) {
 
 //return the number of objects in the copybuffer at staff m
 static SCM scheme_get_clip_objects(SCM m) {
- gint staff = scm_num2int(m, 0, 0);
+ gint staff = scm_to_int(m);
  gint num = get_clip_objs(staff);
  if(num==-1)
    return SCM_BOOL_F;
  else
-   return  scm_int2num(num);
+   return  scm_from_int(num);
 }
 
 //return the type of the nth object in the copybuffer
 static SCM scheme_get_clip_obj_type(SCM m, SCM n) {
- gint value = scm_num2int(n, 0, 0); 
- gint staff = scm_num2int(m, 0, 0);
+ gint value = scm_to_int(n); 
+ gint staff = scm_to_int(m);
  DenemoObjType type = get_clip_obj_type(staff, value);
  if(type==-1)
    return SCM_BOOL_F;
  else
-   return  scm_int2num(type);
+   return  scm_from_int(type);
 }
 
 
 //insert the nth object from the denemo copybuffer
 static SCM scheme_put_clip_obj(SCM m, SCM n) {
- gint value = scm_num2int(n, 0, 0);
- gint staff = scm_num2int(m, 0, 0);
+ gint value = scm_to_int(n);
+ gint staff = scm_to_int(m);
  return SCM_BOOL(insert_clip_obj(staff, value));
 }
 
@@ -4154,10 +4291,10 @@ static SCM scheme_get_type (SCM optional) {
  DenemoGUI *gui = Denemo.gui;
  DenemoObject *curObj;
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || !(DENEMO_OBJECT_TYPE_NAME(curObj)))
-   return scm_makfrom0str("None");
+   return scm_from_locale_string("None");
  if(Denemo.gui->si->cursor_appending)
-    return  scm_makfrom0str("Appending");
- return  scm_makfrom0str(DENEMO_OBJECT_TYPE_NAME(curObj));
+    return  scm_from_locale_string("Appending");
+ return  scm_from_locale_string(DENEMO_OBJECT_TYPE_NAME(curObj));
 }
 
 static SCM scheme_get_lilypond (SCM optional) {
@@ -4171,7 +4308,7 @@ static SCM scheme_get_lilypond (SCM optional) {
     refresh_lily_cb(NULL, Denemo.gui);
 //g_print("After %d %d\n", gui->lilysync, gui->changecount);
  if(curObj->lilypond)
-  return  scm_makfrom0str(curObj->lilypond);
+  return  scm_from_locale_string(curObj->lilypond);
  return SCM_BOOL_F;
 }
 
@@ -4182,7 +4319,7 @@ static SCM scheme_get_tuplet (SCM optional) {
    return SCM_BOOL_F;
  GString *ratio = g_string_new("");
  g_string_printf(ratio, "%d/%d", ((tupopen*)curObj->object)->numerator, ((tupopen*)curObj->object)->denominator);
- return  scm_makfrom0str(g_string_free(ratio, FALSE));
+ return  scm_from_locale_string(g_string_free(ratio, FALSE));
 }
 
 static SCM scheme_set_tuplet (SCM ratio) {
@@ -4204,7 +4341,7 @@ static SCM scheme_set_tuplet (SCM ratio) {
 }
 static SCM scheme_set_background (SCM color) {
   if(scm_is_integer(color)) {
-   gint value = scm_num2int(color, 0, 0);
+   gint value = scm_to_int(color);
    Denemo.color = value;
    gtk_widget_queue_draw (Denemo.scorearea);
    draw_score(NULL);
@@ -4256,7 +4393,8 @@ static SCM scheme_is_slur_start (SCM optional) {
   DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   chord *thechord;
-  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD)  || !(thechord = (chord *)  curObj->object) || !(thechord->slur_begin_p))
+  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD)  || !(thechord = (chord *)  curObj->object) ||
+   !(thechord->slur_begin_p))
     return SCM_BOOL_F;
   return SCM_BOOL_T;
 }
@@ -4266,6 +4404,43 @@ static SCM scheme_is_slur_end (SCM optional) {
   DenemoObject *curObj;
   chord *thechord;
   if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD)  || !(thechord = (chord *)  curObj->object) || !(thechord->slur_end_p))
+    return SCM_BOOL_F;
+  return SCM_BOOL_T;
+}
+
+static SCM scheme_is_cresc_start (SCM optional) {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoObject *curObj;
+  chord *thechord;
+  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD)  || !(thechord = (chord *)  curObj->object) ||
+   !(thechord->crescendo_begin_p))
+    return SCM_BOOL_F;
+  return SCM_BOOL_T;
+}
+static SCM scheme_is_cresc_end (SCM optional) {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoObject *curObj;
+  chord *thechord;
+  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD)  || !(thechord = (chord *)  curObj->object) ||
+   !(thechord->crescendo_end_p))
+    return SCM_BOOL_F;
+  return SCM_BOOL_T;
+}
+static SCM scheme_is_dim_start (SCM optional) {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoObject *curObj;
+  chord *thechord;
+  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD)  || !(thechord = (chord *)  curObj->object) ||
+   !(thechord->diminuendo_begin_p))
+    return SCM_BOOL_F;
+  return SCM_BOOL_T;
+}
+static SCM scheme_is_dim_end (SCM optional) {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoObject *curObj;
+  chord *thechord;
+  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD)  || !(thechord = (chord *)  curObj->object) ||
+   !(thechord->diminuendo_end_p))
     return SCM_BOOL_F;
   return SCM_BOOL_T;
 }
@@ -4289,14 +4464,14 @@ static SCM scheme_clear_clipboard(SCM optional) {
 static SCM scheme_get_staffs_in_clipboard(SCM optional) {
   gint num = get_staffs_in_clipboard();
   if(num)
-    return scm_int2num(num);
+    return scm_from_int(num);
   return SCM_BOOL_F;
 }
 
 
 static SCM scheme_get_measures_in_staff(SCM optional) {
   gint num = g_list_length(((DenemoStaff*)Denemo.gui->si->currentstaff->data)->measures);
-    return scm_int2num(num);
+    return scm_from_int(num);
 }
 
 static SCM scheme_staff_to_voice(SCM optional) {
@@ -4306,6 +4481,7 @@ static SCM scheme_staff_to_voice(SCM optional) {
     setcurrentprimarystaff(Denemo.gui->si);
     ret = SCM_BOOL_T;
     gtk_widget_queue_draw(Denemo.scorearea);
+    score_status(Denemo.gui, TRUE);
     draw_score(NULL);
   }
   return ret;
@@ -4316,6 +4492,7 @@ static SCM scheme_voice_to_staff(SCM optional) {
     ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->voicecontrol = DENEMO_PRIMARY;
     setcurrentprimarystaff(Denemo.gui->si);
     ret = SCM_BOOL_T;
+    score_status(Denemo.gui, TRUE);
     gtk_widget_queue_draw(Denemo.scorearea);
   }
   return ret;
@@ -4512,7 +4689,7 @@ static SCM scheme_create_snippet_from_object (SCM name) {
     r->name = str;
     r->rsteps = g_list_append(NULL, relement);
     r->rsteps->prev=r->rsteps->next = r->rsteps;//make list circular
-    SCM ret = scm_int2num( insert_pattern_in_toolbar(r));
+    SCM ret = scm_from_int( insert_pattern_in_toolbar(r));
     update_scheme_snippet_ids();
     if(str) free(str);
     return ret;
@@ -4524,7 +4701,7 @@ static SCM scheme_create_snippet_from_object (SCM name) {
 
 static SCM scheme_select_snippet (SCM number) {
   if(scm_is_integer(number)) {
-     gint position = scm_num2int(number, 0, 0);
+     gint position = scm_to_int(number);
      GList *g = g_list_nth(Denemo.gui->rhythms, position-1);
      if(g) {
        RhythmPattern *r = g->data;
@@ -4542,7 +4719,7 @@ static SCM scheme_select_snippet (SCM number) {
 
 static SCM scheme_insert_snippet (SCM number) {
   if(scm_is_integer(number)) {
-     gint position = scm_num2int(number, 0, 0);
+     gint position = scm_to_int(number);
      GList *g = g_list_nth(Denemo.gui->rhythms, position-1);
      if(g) {
        RhythmPattern *r = g->data;
@@ -4564,7 +4741,7 @@ SCM scheme_locate_dotdenemo (SCM optional) {
   const gchar *dotdenemo = locatedotdenemo();
   if (!dotdenemo)
     return SCM_BOOL(FALSE);
-  SCM scm = scm_makfrom0str (dotdenemo);
+  SCM scm = scm_from_locale_string (dotdenemo);
   return scm;
 }
 //returns newly allocated string. FIXME use proper scm_xxx calls not strings
@@ -4881,6 +5058,14 @@ static void create_scheme_identfiers(void) {
 
   INSTALL_SCM_FUNCTION ("Returns #t if there is a chord with slur ending at cursor, else #f",DENEMO_SCHEME_PREFIX"IsSlurEnd",  scheme_is_slur_end);
 
+  INSTALL_SCM_FUNCTION ("Returns #t if there is a chord with crescendo starting at cursor, else #f",DENEMO_SCHEME_PREFIX"IsCrescStart",  scheme_is_cresc_start);
+  INSTALL_SCM_FUNCTION ("Returns #t if there is a chord with crescendo ending at cursor, else #f",DENEMO_SCHEME_PREFIX"IsCrescEnd",  scheme_is_cresc_end);
+
+  INSTALL_SCM_FUNCTION ("Returns #t if there is a chord with diminuendo starting at cursor, else #f",DENEMO_SCHEME_PREFIX"IsDimStart",  scheme_is_dim_start);
+  INSTALL_SCM_FUNCTION ("Returns #t if there is a chord with diminuendo ending at cursor, else #f",DENEMO_SCHEME_PREFIX"IsDimEnd",  scheme_is_dim_end);
+
+
+
   INSTALL_SCM_FUNCTION ("Returns #t if the cursor is in the selection area, else #f",DENEMO_SCHEME_PREFIX"IsInSelection",  scheme_is_in_selection);
 
   INSTALL_SCM_FUNCTION ("Returns #t if the cursor is in the appending position, else #f",DENEMO_SCHEME_PREFIX"IsAppending",  scheme_is_appending);
@@ -4891,6 +5076,7 @@ static void create_scheme_identfiers(void) {
   INSTALL_SCM_FUNCTION ("Returns the movement number counting from 1",DENEMO_SCHEME_PREFIX"GetMovement",  scheme_get_movement);
   INSTALL_SCM_FUNCTION ("Returns the staff/voice number counting from 1",DENEMO_SCHEME_PREFIX"GetStaff",  scheme_get_staff);
   INSTALL_SCM_FUNCTION ("Returns the measure number counting from 1",DENEMO_SCHEME_PREFIX"GetMeasure",  scheme_get_measure);
+  INSTALL_SCM_FUNCTION ("Sets the display width of the object at the cursor to the value passed (in pixels)",DENEMO_SCHEME_PREFIX"SetObjectDisplayWidth",  scheme_set_object_display_width);
   INSTALL_SCM_FUNCTION ("Returns the cursor horizontal position in current measure.\n 1 = first position in measure, n+1 is appending position where n is the number of objects in current measure",DENEMO_SCHEME_PREFIX"GetHorizontalPosition",  scheme_get_horizontal_position);
 
   INSTALL_SCM_FUNCTION ("Returns the note name for the line or space where the cursor is",DENEMO_SCHEME_PREFIX"GetCursorNote",  scheme_get_cursor_note);
@@ -4936,7 +5122,8 @@ static void create_scheme_identfiers(void) {
  
  //more work needed, see above INSTALL_SCM_FUNCTION ("Sets the prevailing keysignature at the cursor to the string of 7 steps passed. Each step can be -1, 0 or 1",DENEMO_SCHEME_PREFIX"SetPrevailingKeysig", scheme_set_prevailing_keysig);
 
-  INSTALL_SCM_FUNCTION ("Makes the keysig sharper/flatter, affects keysig change when cursor is on one, otherwise affects initial keysig",DENEMO_SCHEME_PREFIX"IncrementKeysig", scheme_increment_keysig);
+  INSTALL_SCM_FUNCTION ("Makes the initial keysig sharper/flatter",DENEMO_SCHEME_PREFIX"IncrementInitialKeysig", scheme_increment_initial_keysig);
+  INSTALL_SCM_FUNCTION ("Makes the keysig sharper/flatter, affects keysig change when cursor is on one or appending after one, otherwise affects initial keysig",DENEMO_SCHEME_PREFIX"IncrementKeysig", scheme_increment_keysig);
   INSTALL_SCM_FUNCTION ("Appends a new movement without copying staff structure.",DENEMO_SCHEME_PREFIX"AddMovement", scheme_add_movement);
  
 
@@ -4993,8 +5180,12 @@ static void create_scheme_identfiers(void) {
   INSTALL_SCM_FUNCTION ("Removes a callback from the current musical score",DENEMO_SCHEME_PREFIX"DetachQuitCallback",  scheme_detach_quit_callback);
   INSTALL_SCM_FUNCTION ("Pops up a menu given by the list of pairs in the argument. Each pair should be a label string and an expression, the expression for the chosen label is returned. Alternatively the label string can be replaced by a pair of strings, label . tooltip. The third syntax is just a list of string labels, the chosen string is returned.",DENEMO_SCHEME_PREFIX"PopupMenu",  scheme_popup_menu);
   INSTALL_SCM_FUNCTION ("Returns a list of the target type and grob (if a directive). Target is set by clicking on the typeset version of the score at a link that LilyPond has inserted.",DENEMO_SCHEME_PREFIX"GetTargetInfo",  scheme_get_target_info);
-  INSTALL_SCM_FUNCTION ("Interactively gets a target (a click on a LilyPond link in the printview window) from the user ",DENEMO_SCHEME_PREFIX"GetNewTarget",  scheme_get_new_target);
-  INSTALL_SCM_FUNCTION ("Interactively gets an offset from the user in the print view window. Returns pair of numbers.",DENEMO_SCHEME_PREFIX"GetOffset",  scheme_get_offset);
+  INSTALL_SCM_FUNCTION ("Interactively sets a target (a click on a LilyPond link in the printview window) from the user ",DENEMO_SCHEME_PREFIX"GetNewTarget",  scheme_get_new_target);
+  INSTALL_SCM_FUNCTION ("Interactively sets a point in the printview window from the user",DENEMO_SCHEME_PREFIX"GetNewPoint",  scheme_get_new_point);
+  INSTALL_SCM_FUNCTION ("Interactively sets a reference point (a click on a point in the printview window) from the user showing a cross hairs prompt ",DENEMO_SCHEME_PREFIX"GetReferencePoint",  scheme_get_reference_point);
+  INSTALL_SCM_FUNCTION ("Interactively gets an offset from the user in the print view window. The offset is from the last clicked object in the print view window. Returns pair of numbers x is positive to the right, y is positive upwards.",DENEMO_SCHEME_PREFIX"GetOffset",  scheme_get_offset);
+  INSTALL_SCM_FUNCTION ("Interactively sets a control point for a curve in the print view window. Takes one parameter the number 1-4 of the control point to set.",DENEMO_SCHEME_PREFIX"GetControlPoint",  scheme_get_control_point);
+  INSTALL_SCM_FUNCTION ("Interactively gets a curve from the user in the print view window. Returns a list of pairs of numbers, the control points of the curve.",DENEMO_SCHEME_PREFIX"GetCurve",  scheme_get_curve);
   INSTALL_SCM_FUNCTION ("Interactively gets two positions from the user in the print view window. Returns pair of pairs numbers.",DENEMO_SCHEME_PREFIX"GetPositions",  scheme_get_positions);
   
   INSTALL_SCM_FUNCTION4 ("Takes 4 parameters and makes http transaction with www.denemo.org", DENEMO_SCHEME_PREFIX"HTTP", scheme_http);
@@ -5018,6 +5209,7 @@ static void create_scheme_identfiers(void) {
 
   INSTALL_SCM_FUNCTION ("Intercepts the next keypress and returns the name of the command invoked, before invoking the command. Returns #f if the keypress is not a shortcut for any command",DENEMO_SCHEME_PREFIX"GetCommand", scheme_get_command);
   INSTALL_SCM_FUNCTION ("Intercepts the next keyboard shortcut and returns the name of the command invoked, before invoking the command. Returns #f if the keypress(es) are not a shortcut for any command",DENEMO_SCHEME_PREFIX"GetCommandFromUser", scheme_get_command_from_user);
+  INSTALL_SCM_FUNCTION ("Locks the standalone directive at the cursor so that it runs its delete action when deleted. The tag should be the name of a command that responds to the delete parameter.",DENEMO_SCHEME_PREFIX"LockDirective", scheme_lock_directive);
 
   INSTALL_SCM_FUNCTION2("Sets an \"action script\" on the directive of the given tag", DENEMO_SCHEME_PREFIX"SetDirectiveTagActionScript", scheme_set_action_script_for_tag);
 
@@ -5770,6 +5962,7 @@ INSTALL_SCM_FUNCTION ("Generates the MIDI timings for the music of the current m
 
 
   INSTALL_SCM_FUNCTION ("Takes a double or string and scales the volume; returns the volume set ", DENEMO_SCHEME_PREFIX"MasterVolume", scheme_master_volume);
+  INSTALL_SCM_FUNCTION ("Takes a double 0-1 and sets the staff master volume for the current staff, returns the value. With no (or bad) parameter returns the current value.", DENEMO_SCHEME_PREFIX"StaffMasterVolume", scheme_staff_master_volume);
 
   INSTALL_SCM_FUNCTION ("Takes a integer sets the enharmonic range to use 0 = E-flat to G-sharp ", DENEMO_SCHEME_PREFIX"SetEnharmonicPosition", scheme_set_enharmonic_position);
 
@@ -5810,12 +6003,19 @@ INSTALL_SCM_FUNCTION ("Generates the MIDI timings for the music of the current m
 
   INSTALL_SCM_FUNCTION ("Snapshots the current movement putting it in the undo queue returns #f if no snapshot was taken because of a guard", DENEMO_SCHEME_PREFIX"TakeSnapshot", scheme_take_snapshot);
 
-  INSTALL_SCM_FUNCTION ("Creates a custom layout from the currently selected (standard) layout if the score layouts window is open. Uses the passed name for the new layout. Returns #f if nothing happened.", DENEMO_SCHEME_PREFIX"CreateLayout", scheme_create_layout);
+  INSTALL_SCM_FUNCTION ("Creates the default layout.", DENEMO_SCHEME_PREFIX"SelectDefaultLayout", scheme_select_default_layout);
+  INSTALL_SCM_FUNCTION1 ("Creates a custom layout from the currently selected (standard) layout if the score layouts window is open. Uses the passed name for the new layout. Returns #f if nothing happened. An additional parameter #t can force creation of the layout while score layout window is closed.", DENEMO_SCHEME_PREFIX"CreateLayout", scheme_create_layout);
   INSTALL_SCM_FUNCTION ("Returns the id of the currently selected score layout (see View->Score Layout). Returns #f if no layout is selected.", DENEMO_SCHEME_PREFIX"GetLayoutId", scheme_get_layout_id);
+  INSTALL_SCM_FUNCTION ("Selects the score layout with the passed id. Returns #f if there is no such layout.", DENEMO_SCHEME_PREFIX"SelectLayoutId", scheme_select_layout_id);
+  INSTALL_SCM_FUNCTION ("Generates LilyPond layout for the current part (ie staffs with the name of the staff with the cursor), all movements and staffs with that staff name are generated.", DENEMO_SCHEME_PREFIX"LilyPondForPart", scheme_lilypond_for_part);
+  INSTALL_SCM_FUNCTION ("Typesets the current part (ie the staff with the cursor), all movements and staffs with that staff name are typeset.", DENEMO_SCHEME_PREFIX"TypesetPart", scheme_typeset_part);
+  INSTALL_SCM_FUNCTION ("Converts the current score layout to editable LilyPond text. After this the score layout is only affected by editing the LilyPond syntax.", DENEMO_SCHEME_PREFIX"ReduceLayoutToLilyPond", scheme_reduce_layout_to_lilypond);
   INSTALL_SCM_FUNCTION ("Returns the name of the currently selected score layout (see View->Score Layout). Returns #f if no layout is selected.", DENEMO_SCHEME_PREFIX"GetLayoutName", scheme_get_layout_name);
   INSTALL_SCM_FUNCTION ("Selects the next score layout. If the current layout is the last, returns #f otherwise #t.", DENEMO_SCHEME_PREFIX"SelectNextLayout", scheme_select_next_layout);
   INSTALL_SCM_FUNCTION ("Selects the first score layout.", DENEMO_SCHEME_PREFIX"SelectFirstLayout", scheme_select_first_layout);
-  
+    INSTALL_SCM_FUNCTION ("Selects the next custom score layout. If the current layout is the last, returns #f otherwise #t.", DENEMO_SCHEME_PREFIX"SelectNextCustomLayout", scheme_select_next_custom_layout);
+  INSTALL_SCM_FUNCTION ("Selects the first custom score layout.", DENEMO_SCHEME_PREFIX"SelectFirstCustomLayout", scheme_select_first_custom_layout);
+ 
 
   INSTALL_SCM_FUNCTION ("Follows a link to a source file of form string \"filename:x:y:page\". It opens the file and places a marker there. ", DENEMO_SCHEME_PREFIX"OpenSource", scheme_open_source);
 
@@ -5826,7 +6026,7 @@ INSTALL_SCM_FUNCTION ("Generates the MIDI timings for the music of the current m
 
   INSTALL_SCM_FUNCTION ("Plays audio allowing timings to be entered via keypresses if passed #t as parameter. ", DENEMO_SCHEME_PREFIX"StartAudioPlay", scheme_start_audio_play);
   INSTALL_SCM_FUNCTION ("Stops audio playback", DENEMO_SCHEME_PREFIX"StopAudioPlay", scheme_stop_audio_play);
-    INSTALL_SCM_FUNCTION ("Takes a number of seconds to be used as lead-in for audio. If negative clips that much from the start of the audio. ", DENEMO_SCHEME_PREFIX"SetAudioLeadIn", scheme_set_audio_lead_in);
+  INSTALL_SCM_FUNCTION ("Takes a number of seconds to be used as lead-in for audio. If negative clips that much from the start of the audio. ", DENEMO_SCHEME_PREFIX"SetAudioLeadIn", scheme_set_audio_lead_in);
   INSTALL_SCM_FUNCTION ("returns #f if audio is not playing else #t", DENEMO_SCHEME_PREFIX"AudioIsPlaying", scheme_audio_is_playing);
 
   INSTALL_SCM_FUNCTION ("Returns the next in the list of timings registered by the user during audio play.", DENEMO_SCHEME_PREFIX"NextAudioTiming", scheme_next_audio_timing);
@@ -5872,10 +6072,6 @@ INSTALL_SCM_FUNCTION ("return a string giving the latest step available for Undo
 
   }
 
-
-
-
-
 /* Called from main for scheme initialization reasons.
    calls back to finish command line processing
 */
@@ -5897,7 +6093,7 @@ void inner_main(void*closure, int argc, char **argv){
       scm_variable_set_x(load_path, 
                          scm_cons(scm_from_locale_string(DENEMO_LOAD_PATH), 
                                     scm_variable_ref(load_path)));
-      
+ 
       /* consider user-specified path extension */
       user_path = getenv("DENEMO_LOAD_PATH");
       if (user_path) {
@@ -5908,12 +6104,13 @@ void inner_main(void*closure, int argc, char **argv){
   }
 #endif
 
+
   rsvg_init();
 
 
   /* Initialize preferences */
   initprefs();
-
+	initialize_keystroke_help();
 
   gchar *initial_file = process_command_line(argc, argv);
 
@@ -6034,7 +6231,7 @@ void inner_main(void*closure, int argc, char **argv){
    (void)open_for_real (initial_file, Denemo.gui, FALSE, REPLACE_SCORE);
    else {
       if(!Denemo.scheme_commands) {
-        call_out_to_guile("(d-InstrumentName \"Violino\")");
+        call_out_to_guile("(d-InstrumentName  (_ \"Unnamed\"))");
         denemo_scheme_init();
       }
    }
@@ -6166,7 +6363,7 @@ close_gui (void)
     g_source_remove(Denemo.autosaveid);
     Denemo.autosaveid = 0;
   }
-  if(Denemo.gui->textwindow && gtk_widget_get_visible(Denemo.gui->textwindow)) {
+  if(Denemo.textwindow && gtk_widget_get_visible(Denemo.textwindow)) {
     activate_action("/MainMenu/ViewMenu/"ToggleLilyText_STRING);
     //FIXME there is a handler in exportlilypond.c for the delete signal. It would need to be disabled to get the memory freed.
   }
@@ -6378,9 +6575,12 @@ close_gui_with_check (GtkAction *action, gpointer param)
     writeXMLPrefs(&Denemo.prefs);
 #ifdef G_OS_WIN32
     CoUninitialize();
+    g_print("\n\n\nWindows - Exiting without shutting down audio\n\n\n");
+    if(gui->input_source==INPUTMIDI) {
+			if(confirm(_("MIDI Controller Active?"), _("Please turn off your MIDI keyboard\nif you have not already done so")))
+				_exit(0);//audio shutdown can hang
+		} else _exit(0);
 #endif
-
-    /* ext_quit ();  clean players pidfiles (see external.c) DISUSED */
 
     audio_shutdown();
 
@@ -6477,13 +6677,13 @@ static void pb_tempo (GtkAdjustment *adjustment) {
   gdouble bpm =  gtk_adjustment_get_value(adjustment);
   tempo = (Denemo.gui->si->tempo>0)?
     bpm/Denemo.gui->si->tempo:1.0;
-  scm_c_define("DenemoTempo::Value", scm_double2num(tempo));
+  scm_c_define("DenemoTempo::Value", scm_from_double(tempo));
   call_out_to_guile("(DenemoTempo)");
  
 }
 static void pb_volume (GtkAdjustment *adjustment) {
   gdouble volume = gtk_adjustment_get_value(adjustment);
-  scm_c_define("DenemoVolume::Value", scm_double2num(volume));
+  scm_c_define("DenemoVolume::Value", scm_from_double(volume));
   call_out_to_guile("(DenemoVolume)");
 }
 static void audio_volume_cut (GtkAdjustment *adjustment) {
@@ -6628,22 +6828,23 @@ select_rhythm_pattern(RhythmPattern *r) {
   if(gui->currhythm && (CURRP != r)) {//Change the highlighting
     if(CURRP)
       unhighlight_rhythm(CURRP);
-    else
-      if(gui->rstep)
-	unhighlight_rhythm(((RhythmElement*)gui->rstep->data)->rhythm_pattern);
+    else if(gui->rstep)
+			unhighlight_rhythm(((RhythmElement*)gui->rstep->data)->rhythm_pattern);
   }
   
   gui->currhythm = g_list_find(gui->rhythms, r);
-  gui->rstep = r->rsteps;
-  gui->cstep = r->clipboard->data;
+  if(gui->currhythm != NULL) {
+		gui->rstep = r->rsteps;
+		gui->cstep = r->clipboard->data;
   
-  gchar *text = ((RhythmElement*)gui->rstep->data)->icon;
-  if(text) {
-    GtkWidget *label = LABEL(CURRP->button);
-    //g_print("markup is %s\n", ((RhythmElement*)g->data)->icon);
-    gtk_label_set_markup(GTK_LABEL(label), text);
-  }
-  highlight_rhythm(CURRP);
+		gchar *text = ((RhythmElement*)gui->rstep->data)->icon;
+		if(text) {
+			GtkWidget *label = LABEL(CURRP->button);
+			//g_print("markup is %s\n", ((RhythmElement*)g->data)->icon);
+			gtk_label_set_markup(GTK_LABEL(label), text);
+		}
+		highlight_rhythm(CURRP);
+	}
 #undef CURRP
 }
 
@@ -7210,32 +7411,40 @@ The script may be empty, in which case it is fetched from actions/menus...
 This call also ensures that the right-click callback is attached to all the proxies of the action, as there are problems trying to do this earlier, and it defines a scheme variable to give the name of the script being executed.
 */
 gboolean
-activate_script (GtkAction *action, gpointer param)
+activate_script (GtkAction *action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
+  gboolean ret = FALSE;
   // the proxy list is NULL until the menu item is first called...
   //BUT if you first activate it with right button ....
   if(GTK_IS_ACTION(action)) {
     if(!g_object_get_data(G_OBJECT(action), "signal_attached")) {
       GSList *h = gtk_action_get_proxies (action);
       for(;h;h=h->next) {
-	attach_right_click_callback(h->data, action);
-	show_type(h->data, "type is ");
+				attach_right_click_callback(h->data, action);
+				show_type(h->data, "type is ");
       }
     }
     gchar *text = (gchar*)g_object_get_data(G_OBJECT(action), "scheme");
 
-
     //FIXME use define_scheme_variable for this
     //define a global variable in Scheme (CurrentScript) to give the name of the currently executing script
-    gchar *current_script = g_strdup_printf("(define CurrentScript \"%s\")\n", gtk_action_get_name(action));
+    const gchar *name = gtk_action_get_name(action);
+    gchar *current_script = g_strdup_printf("(define CurrentScript \"%s\")\n", name);
+    
     /*note that scripts must copy their name from CurrentScript into local storage before calling other scripts if they
       need it */
+    gchar *paramvar = NULL;
+    if(param && param->string) {
+			paramvar = g_strdup_printf("%s::params", name);
+			scm_c_define(paramvar, scm_from_locale_string(param->string->str));
+		}
+
     scm_c_eval_string(current_script);
     g_free(current_script);
 
    if(text) {
-      gboolean ret;
+      
       if(*text==0)
         text = instantiate_script(action);
       if(text && *text) {
@@ -7246,12 +7455,14 @@ activate_script (GtkAction *action, gpointer param)
         g_warning("Could not get script for %s\n", gtk_action_get_name(action));
         ret = FALSE;
       }
-      return ret; 
-    }
+   }
+   if(paramvar)
+			scm_c_define(paramvar, SCM_BOOL_F);
+	 g_free(paramvar);
   }
   else
     warningdialog("Have no way of getting the script, sorry");
-  return FALSE;
+  return ret;
 }
 
 
@@ -7848,7 +8059,7 @@ loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm) {
       graphic->type = DENEMO_PATTERN;
       graphic->width = thesize.width;
       graphic->height = thesize.height;
-      g_print("size %d x %d", thesize.width, thesize.height);
+      //g_print("size %d x %d", thesize.width, thesize.height);
 
       graphic->graphic = pattern;
       bitmap_table_insert(basename, graphic);
@@ -8111,15 +8322,15 @@ static gboolean menu_click (GtkWidget      *widget,
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   }//idx!=-1
 
-  gchar *myposition = g_object_get_data(G_OBJECT(widget), "menupath");// applies if it is a built-in command
- g_print("position from built in is %s\n", myposition);
+  gchar *myposition = g_object_get_data(G_OBJECT(widget), "menupath");// applies if it is a built-in command: FIXME not set for the popup menus though
+ //g_print("position from built in is %s\n", myposition);
   if(!myposition)
     myposition = g_object_get_data(G_OBJECT(action), "menupath");//menu item runs a script
   //g_print("Connecting to %s\n", g_object_get_data(G_OBJECT(widget), "menupath"));
 
   //g_print("position is %s\n", myposition);
   if(myposition == NULL) {
-    g_warning("Cannot find the position of this menu item %s in the menu system\n", func_name);
+   // g_warning("Cannot find the position of this menu item %s in the menu system\n", func_name);
     return TRUE;
   }
   static gchar *filepath;// static so that we can free it next time we are here.
@@ -8402,12 +8613,14 @@ GtkAction *activate_action(gchar *path) {
 static void
 change_input_type (GtkRadioAction * action, GtkRadioAction * current) {
   DenemoGUI *gui = Denemo.gui;
-  if(gui->notsaved) {
-      warningdialog(_("You have unsaved work. Hardware problems may cause the program to exit during this task.\nPlease save first."));
-      return;
-  }
+
  gint val = gtk_radio_action_get_current_value (current);
  gboolean fail=FALSE;
+ if(gui->notsaved) {
+      warningdialog(_("You have unsaved work. Hardware problems may cause the program to exit during this task.\nPlease save first."));
+      gtk_radio_action_set_current_value(current, gui->input_source);
+     return;
+ }
  switch(val) {
  case INPUTKEYBOARD:
    if(gui->input_source==INPUTAUDIO) {
@@ -8416,10 +8629,11 @@ change_input_type (GtkRadioAction * action, GtkRadioAction * current) {
    }
    if(gui->input_source==INPUTMIDI) {
      // g_print("Stopping midi\n");
-     stop_pitch_input();
+     stop_pitch_input(); 
    }
    gui->input_source=INPUTKEYBOARD;
-   g_print("Input keyboard");
+   Denemo.gui->last_source=INPUTKEYBOARD;
+   g_print("Input keyboard %d", Denemo.gui->last_source);
    break;
  case INPUTAUDIO:
    //g_print("Starting audio\n");
@@ -8571,10 +8785,10 @@ toggle_lilytext (GtkAction * action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   //if(!gui->textview)
    refresh_lily_cb(action, gui);
- if(!gtk_widget_get_visible(gui->textwindow))
-   gtk_widget_show/*_all*/(gui->textwindow);
+ if(!gtk_widget_get_visible(Denemo.textwindow))
+   gtk_widget_show/*_all*/(Denemo.textwindow);
  else
-   gtk_widget_hide(gui->textwindow);
+   gtk_widget_hide(Denemo.textwindow);
  //g_print("toggling lily window");
 }
 
@@ -8924,7 +9138,7 @@ GtkToggleActionEntry toggle_menu_entries[] = {
    {ToggleLyricsView_STRING, NULL, N_("Lyrics"), NULL, NULL,
    G_CALLBACK (toggle_lyrics_view), TRUE},
 
-  {ToggleConsoleView_STRING, NULL, N_("Console"), NULL, NULL,
+  {ToggleConsoleView_STRING, NULL, N_("LilyPond Errors"), NULL, NULL,
    G_CALLBACK (toggle_console_view), TRUE},
 
   {ToggleScoreView_STRING, NULL, N_("Score"), NULL, NULL,
@@ -9019,7 +9233,7 @@ populate_opened_recent (void)
 static gchar *get_most_recent_file(void) {
   if(Denemo.prefs.history) {
     gchar *filename = (gchar *) g_queue_peek_tail(Denemo.prefs.history);
-    if(g_file_test(filename, G_FILE_TEST_EXISTS))
+    if(filename && g_file_test(filename, G_FILE_TEST_EXISTS))
       return filename;
   }
   return NULL;
@@ -9067,7 +9281,7 @@ switch_page (GtkNotebook *notebook, GtkWidget *page,  guint pagenum) {
    it would be nice to keep a record of whether it was open for re-opening
    on return to this tab FIXME*/
    
-   if(Denemo.gui->textwindow && gtk_widget_get_visible(Denemo.gui->textwindow))
+   if(Denemo.textwindow && gtk_widget_get_visible(Denemo.textwindow))
     activate_action("/MainMenu/ViewMenu/"ToggleLilyText_STRING);
   
   if(gtk_widget_get_visible( Denemo.gui->score_layout))
@@ -9187,21 +9401,7 @@ static void  proxy_connected (GtkUIManager *uimanager, GtkAction *action, GtkWid
 
 
 
-static void create_console(GtkBox *box) {
-  //GtkWidget *vpaned = gtk_vpaned_new ();
-  //gtk_container_set_border_width (GTK_CONTAINER(vpaned), 5);
-  //gtk_box_pack_start (GTK_BOX (box), vpaned, FALSE, TRUE, 0);
-  Denemo.console = gtk_text_view_new ();
-  GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
-  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
-				  GTK_POLICY_AUTOMATIC,
-				  GTK_POLICY_AUTOMATIC);
-  //gtk_paned_add1 (GTK_PANED (vpaned), sw);
-gtk_box_pack_start (GTK_BOX (box), sw, FALSE, TRUE, 0);
-  gtk_container_add (GTK_CONTAINER (sw), Denemo.console);
-  // gtk_widget_show_all(vpaned);
- gtk_widget_show_all(sw);
-}
+
 
 static GtkWidget* create_playbutton(GtkWidget *box, gchar *thelabel, gpointer callback, gchar *image, gchar *tooltip) {
   GtkWidget *button;
@@ -9265,11 +9465,13 @@ create_window(void) {
   gtk_window_set_title (GTK_WINDOW (Denemo.window), _("Denemo Main Window"));
   loadWindowState(/* it accesses Denemo.window */);
 #ifdef G_OS_WIN32
-  data_file = g_build_filename (get_data_dir (), "icons","denemo.png", NULL);
+		g_print("Denemo icon not used");
+  //not installed on windows ... data_file = g_build_filename (get_data_dir (), "icons","denemo.png", NULL);
 #else
   data_file = g_strconcat (get_data_dir (), "/../pixmaps/denemo.png", NULL);//FIXME installed in wrong place?
-#endif
   gtk_window_set_default_icon_from_file (data_file, NULL);
+#endif
+
   g_signal_connect (G_OBJECT (Denemo.window), "delete_event",
 		    G_CALLBACK (delete_callback), NULL);
   g_free (data_file);
@@ -9415,21 +9617,21 @@ get_data_dir (),
 
     //create_playbutton(inner,NULL, pb_forward, GTK_STOCK_MEDIA_FORWARD);
  
-    create_playbutton(inner,"Loop", pb_loop, NULL, _("The music between the red and green bars is played in a loop.\nYou can edit the music while it is playing\nmonitoring your changes."));
+    create_playbutton(inner, _("Loop"), pb_loop, NULL, _("The music between the red and green bars is played in a loop.\nYou can edit the music while it is playing\nmonitoring your changes."));
     
-    midiconductbutton = create_playbutton(inner,"Conductor", pb_conduct, NULL, _("With the mouse conductor once you press play the playback progresses as you move the mouse around\nWith this you can speed up and slow down the playback to listen in detail to a certain passage\n"));
+    midiconductbutton = create_playbutton(inner, _("Conductor"), pb_conduct, NULL, _("With the mouse conductor once you press play the playback progresses as you move the mouse around\nWith this you can speed up and slow down the playback to listen in detail to a certain passage\n"));
     
     create_playbutton(inner,
 #ifdef _HAVE_JACK_
-    "Panic"
+     _("Panic")
 #else
-    "Reset"
+     _("Reset")
 #endif
     , pb_panic, NULL, _("Resets the synthesizer, on JACK it sends a JACK panic."));
 
       
-    create_playbutton(inner, "Set From Selection", pb_set_range, NULL, _("Sets the playback range (green and red bars) to the current selection."));
-    create_playbutton(inner, "Playback Range", pb_range, NULL, _("Pops up a dialog to get timings for start and end of playback."));
+    create_playbutton(inner,  _("Set From Selection"), pb_set_range, NULL, _("Sets the playback range (green and red bars) to the current selection."));
+    create_playbutton(inner,  _("Playback Range"), pb_range, NULL, _("Pops up a dialog to get timings for start and end of playback."));
     GtkWidget *temperament_control = get_temperament_combo();
     if(!gtk_widget_get_parent(temperament_control))
       //gtk_container_add (GTK_CONTAINER (inner), temperament_control);
@@ -9588,7 +9790,15 @@ get_data_dir (),
  {
   Denemo.scorearea = gtk_drawing_area_new ();
   if(Denemo.prefs.newbie)
-    gtk_widget_set_tooltip_text(Denemo.scorearea, _("This is the Denemo Display for the music you have entered. It doesn't show how the music will look when printed - to typeset the music really well without you having to make adjustments is a time-consuming task. The green box is the Denemo Cursor - it turns Red when when the bar is full or blue if you are appending at the end of an underfull bar. Many commands operate on the object at the Denemo cursor\nOverfull/Underfull bars are colored red/blue, use the Upbeat (Anacrusis, Pickup) command if that is intentional.\nYou can switch to a menu-less view or a page-view using the Esc key. For the paged view you drag the red bar up the page to set how many systems you want showing.\nFor the paged view you will probably want a smaller zoom - use Control+scroll-wheel on your mouse to zoom the display."));
+    gtk_widget_set_tooltip_text(Denemo.scorearea, _("This is the Denemo Display for the music you have entered."
+    " See the print view window for the typeset appearance. "
+    " The blue lozenge is the Denemo Cursor - it turns Red when when the bar is full or green if you are inserting in a bar."
+    " Many commands operate on the object at the Denemo cursor\nOverfull/Underfull bars are colored red/blue,"
+    " use the Upbeat (Anacrusis, Pickup) command if that is intentional."
+    "\nYou can switch to a menu-less view or a page-view using the Esc key."
+    " For the paged view you drag the red bar up the page to set how many systems you want showing."
+    "\nFor the paged view you will probably want a smaller zoom - use Control+scroll-wheel on your mouse to zoom the display."
+    "Right-click on an object to get a short menu of actions or set the mouse input mode."));
   GtkWidget *scorearea_topbox = gtk_vbox_new(FALSE, 1);
   gtk_container_add (GTK_CONTAINER(main_vbox), scorearea_topbox);
   
@@ -9653,8 +9863,8 @@ get_data_dir (),
   }
 
 
-
-  create_console(GTK_BOX(main_vbox));
+	create_lilywindow();
+ // create_console(GTK_BOX(main_vbox));
   Denemo.statusbar = gtk_statusbar_new ();
   gtk_widget_set_tooltip_text(Denemo.statusbar, _("This bar shows:\nPending ♯ or ♭ sign (if the next note entered will be sharpened or flattened)\nThe movement number\nDescription of the object at the Denemo cursor\nPosition and status (appending or inserting) of the cursor.\nIf the Playback Controls are visible then the timing of the object at the cursor is shown.\nWhen the first key of a two-key shortcut is pressed the possible continuations are shown here."));
   hbox = gtk_hbox_new (FALSE, 1);
@@ -9724,7 +9934,8 @@ void new_score_cb(GtkAction * action, DenemoScriptParam *param)
     param = &dummy;
   file_newwrapper (action, param);
   if(param->status) {
-    call_out_to_guile("(d-InstrumentName)");
+    call_out_to_guile("(d-InstrumentName  (_ \"Unnamed\"))");
+    call_out_to_guile("(d-ScoreTitle (_ \"Click Title\"))");
     denemo_scheme_init();
   }
 }
@@ -9738,7 +9949,7 @@ static void
 newtab (GtkAction *action, gpointer param) {
   if(Denemo.gui && gtk_widget_get_visible( Denemo.gui->score_layout))
     activate_action("/MainMenu/ViewMenu/"ToggleScoreLayout_STRING);
-  if(Denemo.gui && gtk_widget_get_visible( Denemo.gui->textwindow))
+  if(Denemo.gui && gtk_widget_get_visible( Denemo.textwindow))
     activate_action("/MainMenu/ViewMenu/"ToggleLilyText_STRING);
     
   static gint id=1;

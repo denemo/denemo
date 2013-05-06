@@ -8,7 +8,7 @@
         <after>ToggleReverseTurn</after>
         <action>ToggleSegno</action>
         <scheme>;;;ToggleSegno
-(ToggleChordDirective "Segno" LG-Segno "\\segno" DENEMO_OVERRIDE_ABOVE)
+        (ChordAnnotation "ToggleSegno" "\\segno"    ToggleSegno::params    LG-Segno)
 </scheme>
         <label>Segno (Off/On)</label>
         <tooltip>Adds/Removes a Segno to the note</tooltip>

@@ -19,5 +19,5 @@
   (set! lily (string-append (d-GetPrevailingClefAsLilyPond) " "  (d-GetPrevailingTimesigAsLilyPond) " "  (d-GetPrevailingKeysigAsLilyPond) " " lily))
   (set! lily (string-append "\n\\markup \\score {\n{" lily "\n}\n\\layout {indent = 0.0\\cm }\n}"))
 
-  (SetScoreHeaderField "incipit" lily #f))
+  (SetScoreHeaderField "incipit" (_ "Incipit") #f lily))
   

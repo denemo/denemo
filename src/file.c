@@ -307,8 +307,7 @@ lyinput(gchar *filename, DenemoGUI *gui) {
  * @return 0 for success non zero for failure
  */
 gint
-open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, ImportType type)
-{
+open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, ImportType type) {
   g_signal_handlers_block_by_func(G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
   gint result;
   gboolean xml = FALSE;
@@ -333,51 +332,51 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
 #undef EXISTS
     }
   //printf("\nResult == %d type == %d template == %d xml == %d\n",result,type,template,(int)xml);
-  if (result == 0)
-    {
-      if(!template) 
-	{// not a template
-	  update_file_selection_path (filename);
-	  if(type==REPLACE_SCORE)
-	    {
-	      if (xml)
-	        set_gui_filename (gui, filename);
-	      else 
-	        {
-		  gchar *sname = strip_path_and_extension (filename);
-		  set_gui_tabname (gui, sname);
-		  g_free(sname);
-	        }
-	    }
-
-	  if(type==ADD_STAFFS || type==ADD_MOVEMENTS)
-	    score_status(gui, TRUE);
-        } else 
-	  g_string_assign (gui->filename, "");
+  if (result == 0) {
+      if(!template) {// not a template
+					update_file_selection_path (filename);
+					if(type==REPLACE_SCORE) {
+						if (xml)
+							set_gui_filename (gui, filename);
+						else 
+							{
+								gchar *sname = strip_path_and_extension (filename);
+								set_gui_tabname (gui, sname);
+								g_free(sname);
+							}
+					}
+					if(type==ADD_STAFFS || type==ADD_MOVEMENTS)
+						score_status(gui, TRUE);						
+			} else {
+				g_string_assign (gui->filename, "");
+			}
       if(Denemo.printarea) 
-	g_object_set_data(G_OBJECT(Denemo.printarea), "printviewupdate", (gpointer)G_MAXUINT);
+				g_object_set_data(G_OBJECT(Denemo.printarea), "printviewupdate", (gpointer)G_MAXUINT);
       if(!xml)
-	updatescoreinfo (gui);
-      set_rightmeasurenum (gui->si);
-      select_lyrics();
-      set_bottom_staff (gui);
-      update_hscrollbar (gui);
-      update_vscrollbar (gui);
-      gtk_widget_queue_draw (Denemo.scorearea);
-      g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
-      g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
-      force_lily_refresh(gui);
-    } else /*file load failed - gui may not be valid */
+				updatescoreinfo (gui);
+			else {
+				if(getNumCharsSchemeText()) {
+						gui->has_script = TRUE;
+						executeScript();
+				}
+			}
+			set_rightmeasurenum (gui->si);
+			select_lyrics();
+			set_bottom_staff (gui);
+			update_hscrollbar (gui);
+			update_vscrollbar (gui);
+			gtk_widget_queue_draw (Denemo.scorearea);
+			g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
+			g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
+			force_lily_refresh(gui);
+  } else /*file load failed - gui may not be valid */ {
     deletescore(NULL, gui);
-      
+  }   
   g_signal_handlers_unblock_by_func(G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
   gui->si->undo_guard=1;
-
-
   denemo_scheme_init();//to re-instate any user defined directives for whole score
   if(!(type==ADD_STAFFS || type==ADD_MOVEMENTS))
 	    score_status(gui, FALSE);
-
   rewind_audio();
   gui->si->undo_guard=Denemo.prefs.disable_undo;//user pref to (dis)allow undo information to be collected
   return result;
@@ -423,69 +422,72 @@ strip_filename_ext (const gchar * file_name, gint format_id)
    if filename is NULL)
    If there is a scheme script, offers to save that with the file.
  */
-static void 
+static gint 
 save_in_format(gint format_id, DenemoGUI * gui, gchar *filename) {
+	gint ret = 0;
   gchar *file = filename? filename:gui->filename->str;
   switch (format_id)
     {
     case DENEMO_FORMAT:
     case DNM_FORMAT:
       {
-	/* HERE examine Denemo.Script and 
+			/* HERE examine Denemo.Script and 
          * if present ask it it should be 
          * saved with the file, if not 
          * delete the script.
-	 */
+			*/
 	    
-	if(getNumCharsSchemeText())
-	  if(!confirm("You have a Script defined", 
+			if((!gui->has_script) && getNumCharsSchemeText())
+				if(!confirm("You have a Script defined", 
 		      "Use this script every time this file is opened?")) 
-	  {
-	    deleteSchemeText();
-	  }										 
-	exportXML (file, gui, 0, 0);
-	break;
+				{
+				deleteSchemeText();
+				}										 
+				ret = exportXML (file, gui, 0, 0);
+				break;
       };
     case MUDELA_FORMAT:
       {
-	gui->si->markstaffnum = 0;
-	exportlilypond (file, gui, TRUE);
-	break;
+				gui->si->markstaffnum = 0;
+				exportlilypond (file, gui, TRUE);
+				break;
       };
     case PDF_FORMAT:
       {
-	gui->si->markstaffnum = 0;
+				gui->si->markstaffnum = 0;
         export_pdf (file, gui);
         break;
       };
     case PNG_FORMAT:
       {
-	gui->si->markstaffnum = 0;
-	export_png (file, (GChildWatchFunc)printpng_finished, gui);
+				gui->si->markstaffnum = 0;
+				export_png (file, (GChildWatchFunc)printpng_finished, gui);
         break;
       };
     case ABC_FORMAT:
       {
-	exportabc (file, gui, 0, 0);
-	break;
+				exportabc (file, gui, 0, 0);
+				break;
       };
     case MIDI_FORMAT:
       {
-	exportmidi (file, gui->si, 0, 0);
-	break;
+				exportmidi (file, gui->si, 0, 0);
+				break;
       };
     default:
       break;
     };
+ return ret;
 }
 
 /**
  * File save called by fileselsave callback
  * param file_name is full path to file possibly with extension
  */
-static void
+static gint
 filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, DenemoSaveType template)
 {
+	gint ret = 0;
   g_assert (gui != NULL);
   g_assert (file_name != NULL);
   g_assert (format_id >= 0 && format_id <
@@ -504,9 +506,9 @@ filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, DenemoSa
   if (basename[0] != '.') // avoids empty filename
     {
       if (FORMAT_ASYNC(format_id))
-        save_in_format(format_id, gui, strip_filename_ext(file_name, format_id));//FIXME strip_filename is not freed
+        ret = save_in_format(format_id, gui, strip_filename_ext(file_name, format_id));//FIXME strip_filename is not freed
       else
-        save_in_format(format_id, gui, file);
+        ret = save_in_format(format_id, gui, file);
  
       /*export parts as lilypond files*/
       if(Denemo.prefs.saveparts)
@@ -515,6 +517,7 @@ filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, DenemoSa
     }
   g_free(basename);
   g_free(file);
+  return ret;
 }
 
 /* set local_template_path up */
@@ -842,8 +845,7 @@ static gint
 file_open (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *filename)
 {
   FILE_OPEN_DIALOG("Open", denemo, DENEMO_FORMAT)
-  if(getNumCharsSchemeText())
-	  executeScript(); 
+
 }
 
 gint open_source_file(void){
@@ -896,9 +898,12 @@ file_saveaswrapper (GtkAction * action, DenemoScriptParam *param)
   GET_1PARAM(action, param, filename);
   DenemoGUI *gui = Denemo.gui;
   if(filename==NULL) {
-    file_saveas (gui, FALSE);
-  } else {
-      filesel_save (gui, filename, DENEMO_FORMAT, FALSE);
+			file_saveas (gui, FALSE);
+		} else {    
+      gint status =
+				filesel_save (gui, filename, DENEMO_FORMAT, FALSE);
+			if(status==0)
+				 score_status(gui, FALSE);
       force_lily_refresh(gui);
     }
 }
@@ -935,29 +940,40 @@ void
 file_savewrapper (GtkAction * action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
-  file_save (NULL, gui);
+  
+	if(file_save (NULL, gui)) {
+		if(action) {
+			warningdialog("File Save **FAILED**");
+			score_status(gui, TRUE);
+		}	else {
+				if(param)
+					param->status = FALSE;
+			}	
+	}	
 }
 
 /**
  * if gui->filename exists saves gui to the filename  based on its extension
  * otherwise call saveas routine
  */
-void
+gint
 file_save (GtkWidget * widget, DenemoGUI * gui)
 {
+	gint ret;
   DenemoScore *si = gui->si;
   g_print ("READONLY %d\n", si->readonly);
   if ((gui->filename->len == 0)/* || (si->readonly == TRUE)*/)
     /* No filename's been given or is opened from template */
     file_saveas (gui, FALSE);
   else
-    save_in_format(DENEMO_FORMAT, gui, NULL);
+    ret = save_in_format(DENEMO_FORMAT, gui, NULL);
   
   /*Save parts as lilypond files*/   
   if(Denemo.prefs.saveparts)
     export_lilypond_parts(gui->filename->str,gui);
   
   score_status(gui, FALSE);
+  return ret;
 }
 
 static void
@@ -968,9 +984,12 @@ file_dialog_response(GtkWidget *dialog, gint response_id, struct FileDialogData 
     gchar *file_name =
       gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
     if (replace_existing_file_dialog
-          (file_name, GTK_WINDOW (Denemo.window), data->format_id)){
-      filesel_save (gui, file_name, data->format_id, data->template);
-      force_lily_refresh(gui);
+          (file_name, GTK_WINDOW (Denemo.window), data->format_id)) {
+			gint status =
+				filesel_save (gui, file_name, data->format_id, data->template);
+			if(status==0)
+				 score_status(gui, FALSE);
+      force_lily_refresh(gui);//FIXME why is this here???
     }
     g_free (file_name);
   }
@@ -979,7 +998,7 @@ file_dialog_response(GtkWidget *dialog, gint response_id, struct FileDialogData 
 }
 
 
-#define FILE_SAVE_DIALOG(description)\
+#define FILE_SAVE_DIALOG(description, template)\
   GtkWidget *file_selection;\
   GtkFileFilter *filter;\
   file_selection = gtk_file_chooser_dialog_new (description,\
@@ -990,7 +1009,7 @@ file_dialog_response(GtkWidget *dialog, gint response_id, struct FileDialogData 
 						GTK_STOCK_SAVE,\
 						GTK_RESPONSE_ACCEPT, NULL);\
   /*set default folder for saving */\
-  set_current_folder(file_selection, gui, SAVE_NORMAL);\
+  set_current_folder(file_selection, gui, template?SAVE_TEMPLATE:SAVE_NORMAL);\
   \
   /* assign title */ \
   gchar *title = get_scoretitle();\
@@ -1021,7 +1040,7 @@ file_export (DenemoGUI * gui, FileFormatNames format_id)
 {
   gchar *description = g_strconcat(_("Export As "), FORMAT_DESCRIPTION(format_id), NULL);
   DenemoSaveType  template = FALSE;
-  FILE_SAVE_DIALOG(description)
+  FILE_SAVE_DIALOG(description, template)
   g_free(description);
 }
 
@@ -1034,7 +1053,7 @@ void
 file_saveas (DenemoGUI * gui, DenemoSaveType  template)
 {
   gint format_id = DENEMO_FORMAT;
-  FILE_SAVE_DIALOG(_("Save As"))
+  FILE_SAVE_DIALOG(_("Save As"), template)
 }
 
 /**
@@ -1057,12 +1076,15 @@ file_newwrapper (GtkAction * action, DenemoScriptParam *param)
       }
       else {
         param->status = FALSE;
+        g_signal_handlers_unblock_by_func(G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
         return;
       }
     }
   else {
       deletescore(NULL, gui);
   }
+  deleteSchemeText();
+  gui->has_script = FALSE;
   set_enharmonic_position(0);
   if(Denemo.printarea) 
     g_object_set_data(G_OBJECT(Denemo.printarea), "printviewupdate", (gpointer)G_MAXUINT);
@@ -1157,7 +1179,7 @@ selection_received (GtkClipboard *clipboard, const gchar *text, gpointer data) {
       return;
     }
     dnm_setinitialclef(Denemo.gui->si, (DenemoStaff*)Denemo.gui->si->currentstaff->data, theclef);
-    call_out_to_guile("(while (None?) (d-DeleteStaff))");
+    call_out_to_guile("(while (and (None?) (d-MoveToStaffDown)) (begin (d-MoveToStaffUp)(d-DeleteStaff)))");
     if(confirm("Paste from Selection", "Paste this music into your score?")) {
       DenemoGUI *gui = Denemo.gui;
       tohome(NULL, NULL);
@@ -1190,7 +1212,7 @@ paste_clipboard(GtkAction * action, DenemoScriptParam *param) {
   if (filename==NULL) \
     file_export(gui, format_id); \
   else \
-    if (replace_existing_file_dialog \
+    if (action==NULL || replace_existing_file_dialog \
        (filename, GTK_WINDOW (Denemo.window), format_id)){ \
       filesel_save (gui, filename, format_id, SAVE_COPY); \
       force_lily_refresh(gui); \

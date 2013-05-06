@@ -58,6 +58,7 @@ struct callbackdata
   GtkWidget *cursor_highlight;
   GtkWidget *return_key_is_special;
   GtkWidget *newbie;
+  GtkWidget *learning;
   GtkWidget *persistence;
   GtkWidget *startmidiin;
   GtkWidget *applytoselection;
@@ -296,6 +297,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNBOOLEAN(cursor_highlight)
   ASSIGNBOOLEAN(return_key_is_special)
   ASSIGNBOOLEAN(newbie)
+  ASSIGNBOOLEAN(learning)
   ASSIGNBOOLEAN(startmidiin)
   ASSIGNBOOLEAN(applytoselection)
   ASSIGNBOOLEAN(quickshortcuts)
@@ -318,6 +320,8 @@ set_preferences (struct callbackdata *cbdata)
     Denemo.gui->input_source = INPUTMIDI;
     prefs->startmidiin = TRUE;
   }
+  if(prefs->learning)
+		initialize_keystroke_help();
   /* Now write it all to denemorc */
   writeXMLPrefs (prefs);
 }
@@ -544,7 +548,7 @@ preferences_change (GtkAction *action, gpointer param)
 
   BOOLEANENTRY(_("Display console pane"), console_pane);
   BOOLEANENTRY(_("Display lyrics pane"), lyrics_pane);
-  BOOLEANENTRY(_("Display Titles. Controls etc"), visible_directive_buttons);
+  BOOLEANENTRY(_("Display titles, controls etc"), visible_directive_buttons);
 
   BOOLEANENTRY(_("Display Music Snippets"), rhythm_palette);
   BOOLEANENTRY(_("Display menu of objects toolbar"), object_palette);
@@ -574,8 +578,9 @@ preferences_change (GtkAction *action, gpointer param)
 
   BOOLEANENTRY(_("Strict Shortcuts"), strictshortcuts);
   BOOLEANENTRY(_("Menu Navigation by Keypress"), menunavigation);
-  BOOLEANENTRY(_("Treat Return key as movable shortcut"), return_key_is_special);
-  BOOLEANENTRY(_("Turn on all tooltips"), newbie);
+  BOOLEANENTRY(_("Treat Return key as Movable Shortcut"), return_key_is_special);
+  BOOLEANENTRY(_("Turn on all Tooltips"), newbie);
+  BOOLEANENTRY(_("Show Shortcuts Used"), learning);
   INTENTRY_LIMITS(_("Tooltip timeout in ms. (0 to use system preference)"), tooltip_timeout, 0, 1000000);
   INTENTRY_LIMITS(_("Tooltip browse timeout in ms"), tooltip_browse_timeout, 0, 1000000);
   INTENTRY_LIMITS(_("Tooltip browse mode timeout in ms"), tooltip_browse_mode_timeout, 0, 1000000);
@@ -604,7 +609,7 @@ preferences_change (GtkAction *action, gpointer param)
   
   BOOLEANENTRY(_("Manually update the typeset score"), manualtypeset);
   INTENTRY_LIMITS(_("Rate of re-typeset in ms"), typesetrefresh, 0, 10000);
-  INTENTRY_LIMITS(_("Type: (0=Range, 1=Movement, 2=Whole Score"), typesettype, TYPESET_EXCERPT, TYPESET_ALL_MOVEMENTS);
+  INTENTRY_LIMITS(_("Type: (0=Range, 1=Movement, 2=Whole Score)"), typesettype, TYPESET_EXCERPT, TYPESET_ALL_MOVEMENTS);
   INTENTRY_LIMITS(_("Measures before cursor"), firstmeasure, 0, 100);
   INTENTRY_LIMITS(_("Measures after cursor"), lastmeasure, 0, 100);
   INTENTRY_LIMITS(_("Staffs before cursor"), firststaff, 0, 100);
@@ -700,10 +705,12 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_box_pack_start(GTK_BOX(main_vbox), portaudio_settings, FALSE, TRUE, 0);
 
   GList *devices = get_portaudio_devices();
+  
+#ifndef G_OS_WIN32  
   /* if default is requested choose first in portaudio list, rather than rely on portaudio which fails to select a default */
   if((!strcmp(Denemo.prefs.portaudio_device->str, "default")) && (g_list_length(devices)>1))
     g_string_assign(Denemo.prefs.portaudio_device, (gchar*)(devices->next->data));
-    
+#endif    
   COMBOBOX(_("Output device"), portaudio_device, devices, Denemo.prefs.portaudio_device->str, FALSE);
   free_portaudio_devices(devices);
 

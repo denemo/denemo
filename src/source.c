@@ -16,7 +16,7 @@
 //      along with this program; if not, write to the Free Software
 //      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //      MA 02110-1301, USA.
-
+#include <string.h>
 #include "source.h"
 #include <evince-view.h>
 
@@ -43,6 +43,7 @@ static void get_window_position(EvView *view, gint*x, gint* y, gint *page, gdoub
 
 #define MARKER (24)
 static GdkRectangle Mark;
+static GdkRectangle OldMark;
 static gboolean overdraw(cairo_t *cr, EvView *view) {
   gint x, y, page;
   gdouble scale;
@@ -52,6 +53,11 @@ static gboolean overdraw(cairo_t *cr, EvView *view) {
   if(Mark.width) {
     cairo_set_source_rgba( cr, 0.5, 0.5, 1.0 , 0.5);
     cairo_rectangle (cr, Mark.x*scale, Mark.y*scale, MARKER, MARKER );//this is not right once there is space outside the document visible inside the window.
+    cairo_fill(cr);
+  }
+    if(OldMark.width) {
+    cairo_set_source_rgba( cr, 1, 0.5, 0.5 , 0.5);
+    cairo_rectangle (cr, OldMark.x*scale, OldMark.y*scale, MARKER, MARKER );//this is not right once there is space outside the document visible inside the window.
     cairo_fill(cr);
   }
 return TRUE;
@@ -74,6 +80,9 @@ draw_event (EvView * widget, GdkEventExpose * event)
   return TRUE;
 }
 #endif
+
+
+
 static gint
 button_press (EvView *view, GdkEventButton * event)
 {
@@ -82,6 +91,8 @@ button_press (EvView *view, GdkEventButton * event)
   else {
     gint x, y, page;
     gdouble scale;
+    GdkRectangle candidate;
+    candidate = Mark;
     get_window_position(view, &x, &y, &page, &scale);
     gchar *filename = g_object_get_data(G_OBJECT(view), "filename");
     x += event->x;
@@ -90,6 +101,8 @@ button_press (EvView *view, GdkEventButton * event)
     Mark.x = (x-MARKER/2)/scale;
     Mark.y = (y-MARKER/2)/scale;
     Mark.width = Mark.height = MARKER;
+    if(!gdk_rectangle_intersect(&Mark, &candidate, NULL))
+			OldMark = candidate;
     gtk_widget_queue_draw(GTK_WIDGET(view));
     call_out_to_guile(text);
     switch_back_to_main_window();
@@ -133,7 +146,7 @@ static EvView *get_view(gchar *filename) {
   EvDocument *doc = ev_document_factory_get_document (uri, &err);
   if(err)
       return NULL;
-  Mark.width = 0;
+  OldMark.width = Mark.width = 0;
   view = (EvView*)ev_view_new();
   EvDocumentModel  *model = ev_document_model_new_with_document(doc);
   //ev_document_model_set_continuous(model, FALSE);
@@ -225,7 +238,7 @@ static gboolean position_view(EvView* eview, gint x, gint y, gint page) {
   Mark.width = Mark.height = MARKER;
   Mark.x = x-MARKER/2;
   Mark.y = y-MARKER/2;
-  
+  OldMark.width = 0;
   gtk_widget_show(gtk_widget_get_toplevel(GTK_WIDGET(eview)));
   gtk_window_present(GTK_WINDOW(gtk_widget_get_toplevel(GTK_WIDGET(eview))));
   return TRUE;

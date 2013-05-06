@@ -66,7 +66,7 @@
  * only for developers
  */
 
-int debug = 0;
+static int debug = 0;
 
 /****************************************************************/
 
@@ -103,7 +103,7 @@ enum dynamics
   DYN_MAX
 };
 
-char *dyn_strings[DYN_MAX] = {
+static char *dyn_strings[DYN_MAX] = {
   "tacet",
   "ppp",
   "pp",
@@ -115,13 +115,13 @@ char *dyn_strings[DYN_MAX] = {
   "fff",
 };
 
-int dyn_vol[DYN_MAX] = { 1, 16, 32, 48, 64, 80, 96, 112, 127 };
+static int dyn_vol[DYN_MAX] = { 1, 16, 32, 48, 64, 80, 96, 112, 127 };
 
 /**
  * convert dynamic string to midi velocity 0 .. 127
  */
 
-int
+static int
 string_to_vol (char *dynamic, int default_vol)
 {
   int i;
@@ -144,7 +144,7 @@ string_to_vol (char *dynamic, int default_vol)
  *	returns a value within +- maxdev
  */
 
-int
+static int
 i_random (int *accumulate, int maxdev)
 {
   int rnd;
@@ -168,7 +168,7 @@ i_random (int *accumulate, int maxdev)
  *	(simple first approach)
  */
 
-int
+static int
 compress (int range, int invalue)
 {
   int outvalue;
@@ -194,7 +194,7 @@ compress (int range, int invalue)
  * integer base 2 logarithm used in time-sig code
  */
 
-int
+static int
 twolog (int x)
 {
   int answer = 0;
@@ -212,184 +212,9 @@ twolog (int x)
   return answer;
 }
 
-/****************************************************************/
 
-/*
- * midi file basic output functions
- */
-
-/**
- * Output a byte to the file
- */
-void
-midi_byte (FILE * fd, int c0)
-{
-  putc (c0, fd);
-}
-
-/**
- * Output a 2 bytes to the file
- */
-void
-midi_2_bytes (FILE * fd, int c0, int c1)
-{
-  putc (c0, fd);
-  putc (c1, fd);
-}
-
-/**
- * Output a three bytes to the file
- */
-void
-midi_3_bytes (FILE * fd, int c0, int c1, int c2)
-{
-  putc (c0, fd);
-  putc (c1, fd);
-  putc (c2, fd);
-}
-
-/**
- * Output a four bytes to the file
- */
-void
-midi_4_bytes (FILE * fd, int c0, int c1, int c2, int c3)
-{
-  putc (c0, fd);
-  putc (c1, fd);
-  putc (c2, fd);
-  putc (c3, fd);
-}
-
-/**
- * Output short int to the file
- */
-void
-midi_short (FILE * fd, int amount)
-{
-  midi_2_bytes (fd, (amount >> 8) & 255, (amount >> 0) & 255);
-}
-
-/**
- *
- */
-void
-midi_medium (FILE * fd, long amount)
-{
-  midi_3_bytes (fd,
-		(amount >> 16) & 255,
-		(amount >> 8) & 255, (amount >> 0) & 255);
-}
-
-/**
- * Output long int to the file
- */
-void
-midi_long (FILE * fd, long amount)
-{
-  if (amount > 4000)
-    fprintf (stderr, "[midilong:%ld=%lx]", amount, amount);
-
-  midi_4_bytes (fd,
-		(amount >> 24) & 255,
-		(amount >> 16) & 255,
-		(amount >> 8) & 255, (amount >> 0) & 255);
-}
-
-/****************************************************************/
-
-/*
- * now some complex midi output functions
- *
- * most meta event functions write their own
- * (zero) delta time code
- */
-
-/**
- * standard midi file specific variable length time diff encoding
- *
- * one delta is required before each event
- *
- * the lower seven bits is a number 0 .. 127
- * the high bit means the are bytes more to come
- */
-
-int
-midi_delta (FILE * fd, long delta, int more)
-{
-  char x;
-  int sz = 0;
-
-  if (delta < 0)
-    {
-      fprintf (stderr, " Error: negative delta! (%ld)\n", delta);
-      midi_byte (fd, 0);
-      return 0;
-    };
-
-  if (delta > 127)
-    {
-      sz += midi_delta (fd, delta / 128, 1);
-    }
-
-  x = (more ? 128 : 0) | (delta % 128);
-
-  midi_byte (fd, x);
-  sz++;
-
-  return sz;
-}
 #define midi_meta_text(a,b) smf_event_new_textual(a,b)
 
-/**
- * put two strings and a number in a midi comment (debug)
- */
-
-void
-midi_comment (FILE * fd, char *txt1, long number, char *txt2)
-{
-#if 0
-  //disabled: size not checked
-  char buf[200];
-  if (number)
-    {
-      sprintf (buf, "%s %ld %s", txt1, number, txt2);
-      midi_meta_text (fd, 1, buf);
-    }
-  else
-    {
-      sprintf (buf, "%s%s", txt1, txt2);
-      midi_meta_text (fd, 1, buf);
-    }
-#endif
-}
-
-/**
- *  put a string and two numbers in a midi comment (debug)
- */
-
-void
-midi_com2 (FILE * fd, char *txt1, long number1, long number2)
-{
-#if 0
-  char buf[200];
-
-  sprintf (buf, "%s %ld %ld", txt1, number1, number2);
-  midi_meta_text (fd, 1, buf);
-#endif
-}
-
-/**
- * used for most midi events: note on, note off, aftertouch ...
- */
-
-void
-midi_channel_event (FILE * fd, int type, int chan, int note, int val)
-{
-  midi_3_bytes (fd, type | chan, note, val);
-  if (debug)
-    printf ("mchev: %x %d %d %d\n", type, chan + 1, note + 1, val);
-
-}
 
 /**
  * almost only used for program change
@@ -407,15 +232,6 @@ midi_change_event (int type, int chan, int val)
   return event;
 }
 
-/**
- * meta event: required after every track
- */
-
-void
-midi_end_of_track (FILE * fd)
-{
-  midi_4_bytes (fd, 0, 0xff, 0x2f, 0);
-}
 
 /**
  * meta event: set time signature, time scale and metronome FF 58 04 nn dd cc bb Time Signature
@@ -533,7 +349,7 @@ dia_to_midinote (int offs)
  * debug print-out of slur table
  */
 
-char *
+static char *
 fmt_ticks (long t)
 {
   static char answer[12];
@@ -551,7 +367,7 @@ fmt_ticks (long t)
  * Output slur descriptions to the given file
  * 
  */
-int
+static int
 print_slurs (FILE * fd, int *tab, int status,
 	     int t_read, int t_written, char *txt)
 {
@@ -595,7 +411,7 @@ print_slurs (FILE * fd, int *tab, int status,
  * called once before each track
  */
 
-void
+static void
 slur_erase (int *table, int *state)
 {
   int i;
@@ -615,7 +431,7 @@ slur_erase (int *table, int *state)
  * called once after each chord
  */
 
-void
+static void
 slur_shift (int *table)
 {
   int i;
@@ -646,7 +462,7 @@ slur_shift (int *table)
  * update slur status (begin/middle/end of slurs, or no slur)
  */
 
-void
+static void
 slur_update (int *state, int begin, int end)
 {
   /* prepare flag bits */
@@ -732,7 +548,7 @@ slur_update (int *state, int begin, int end)
  * insert a note and its properties in the table
  */
 
-void
+static void
 slur_note (int *table, int state, int notenum,
 	   int staccato, int staccatissimo, int tied)
 {
@@ -810,13 +626,13 @@ slur_note (int *table, int state, int notenum,
  * some predicates used in exportmidi
  */
 
-int
+static int
 slur_on_p (int *table, int notenum)
 {
   return (table[notenum] & FLG_NOTE_ON) && !(table[notenum] & FLG_TIED_B);
 }
 
-int
+static int
 slur_kill_p (int *table, int notenum)
 {
   return
@@ -824,19 +640,19 @@ slur_kill_p (int *table, int notenum)
     || ((table[notenum] & FLG_TIED_B) && !(table[notenum] & FLG_NOTE_ON));
 }
 
-int
+static int
 slur_off_p (int *table, int notenum)
 {
   return (table[notenum] & FLG_NOTE_OFF);
 }
 
-int
+static int
 slur_staccato_p (int *table, int notenum)
 {
   return !(table[notenum] & FLG_STACCATO);
 }
 
-int
+static int
 slur_staccatissimo_p (int *table, int notenum)
 {
   return !(table[notenum] & FLG_STACCATISSIMO);
@@ -848,7 +664,7 @@ slur_staccatissimo_p (int *table, int notenum)
  * compute the amount of extra velocity to be added to a note
  */
 
-int
+static int
 compute_beat (long ticks, long ticks_in_a_beat,
 	      long ticks_in_a_measure, int length, int factor)
 {
@@ -1096,8 +912,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
   long ticks_written;
   long ticks_at_bar = 0;
   int cur_volume;
-  gboolean mute_volume;
-
+  gdouble master_volume;
+	gboolean override_volume;
   int cur_transposition;
 
   int midi_channel = (-1);
@@ -1239,12 +1055,9 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 
       /* set a default velocity value */
       cur_volume = curstaffstruct->volume;
-      /* mute output if set */
-      mute_volume = curstaffstruct->mute_volume;
-      if(cur_volume==0 && mute_volume!=TRUE) {
-	g_warning("volume set to zero but not muted\nResetting volume\n");
-	cur_volume = 65;
-      }
+     
+      master_volume = curstaffstruct->volume/127.0; /* new semantic for staff volume as fractional master volume */
+			override_volume = curstaffstruct->override_volume; /* force full volume output if set */
       cur_transposition = curstaffstruct->transposition;
 
 
@@ -1616,11 +1429,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			    {
 			      // int mix = cur_volume? compress(128, cur_volume + rand_delta + beat) : 0;
 			      // FIXME the function compress is returning large values.
-			      event = smf_event_new_from_bytes (MIDI_NOTE_ON | midi_channel, n, (mute_volume ? 0:cur_volume/*FIXME as above, mix*/));
+			      event = smf_event_new_from_bytes (MIDI_NOTE_ON | midi_channel, n, override_volume?127:(gint)(master_volume*cur_volume/*FIXME as above, mix*/));
 			      smf_track_add_event_delta_pulses(track, event, mididelta);
-			      //g_print("Note  on for track %x at delta (%d) %.1f for cur_tempo %d\n", track, mididelta, event->time_seconds, cur_tempo);
-			      //g_print("Note on %x %x %x\n", MIDI_NOTE_ON | midi_channel, n, (mute_volume ? 0:cur_volume/*FIXME as above, mix*/));
-			      //g_print("event on %f\n", event->time_seconds);
 			      event->user_pointer = curobj;
 			      curobj->midi_events = g_list_append(curobj->midi_events, event);
 			      curobj->earliest_time = event->time_seconds;
@@ -1629,7 +1439,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 
 #if DEBUG
 			      g_print("'%d len %d'", event->event_number, event->midi_buffer_length);
-			      //printf ("volume = %i\n", (mute_volume ? 0:mix));
+			      //printf ("volume = %i\n", (override_volume ? 0:mix));
 #endif
 			    }
 			  else if (slur_kill_p (note_status, n))

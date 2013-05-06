@@ -67,7 +67,7 @@ GtkAction *activate_action(gchar *path);
 GError *execute_script_file(gchar *filename);
 
 gboolean
-activate_script (GtkAction *action, gpointer param);
+activate_script (GtkAction *action, DenemoScriptParam *param);
 void 
 create_scheme_function_for_script(gchar *name);
 void 

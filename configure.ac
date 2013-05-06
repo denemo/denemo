@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script. 
-AC_INIT([denemo], [1.0.0~rc2], [denemo-devel@gnu.org])
+AC_INIT([denemo], [1.0.3], [denemo-devel@gnu.org])
 AC_CONFIG_SRCDIR([src/main.c])
 AM_INIT_AUTOMAKE([tar-pax]) 
 dnl AM_INIT_AUTOMAKE([foreign -Wall -Werror gnu tar-pax])
@@ -26,10 +26,43 @@ GUILE_FLAGS
 
 AM_PROG_LIBTOOL
 
+AC_ARG_ENABLE(
+  guile_1_8,
+  AC_HELP_STRING([--enable-guile_1_8], [use GUILE_1_8 @<:@default=no@:>@]),
+  [
+    if test "x$enableval" != "xno"; then
+      useguile_1_8=yes
+      PKG_CHECK_MODULES(GUILE_1_8, guile-1.8 >= 1.8)
+      LIBS="$LIBS $GUILE_1_8_LIBS"
+      CFLAGS="$CFLAGS $GUILE_1_8_CFLAGS"
+    fi
+  ], [ useguile_1_8=no ])
 
-PKG_CHECK_MODULES(GUILE, guile-1.8 >= 1.8)
-LIBS="$LIBS $GUILE_LIBS"
-CFLAGS="$CFLAGS $GUILE_CFLAGS"
+AC_ARG_ENABLE(
+  guile_2_0,
+  AC_HELP_STRING([--enable-guile_2_0], [use GUILE_2_0 @<:@default=no@:>@]),
+  [
+    if test "x$enableval" != "xno"; then
+      useguile_2_0=yes
+      PKG_CHECK_MODULES([GUILE_2], [guile-2.0])
+      LIBS="$LIBS $GUILE_2_LIBS"
+      CFLAGS="$CFLAGS $GUILE_2_CFLAGS"
+    fi
+  ], [ useguile_2_0=no ])
+
+if [test "x$useguile_1_8" = "xno"] && [test "x$useguile_2_0" = "xno"]; then
+  PKG_CHECK_MODULES([GUILE_2], [guile-2.0], useguile_2_0=yes, useguile_2_0=no)
+  LIBS="$LIBS $GUILE_2_LIBS"
+  CFLAGS="$CFLAGS $GUILE_2_CFLAGS"
+  if test "x$useguile_2_0" = "xno"; then
+    PKG_CHECK_MODULES(GUILE_1_8, guile-1.8 >= 1.8)
+    LIBS="$LIBS $GUILE_1_8_LIBS"
+    CFLAGS="$CFLAGS $GUILE_1_8_CFLAGS"
+    useguile_1_8=yes
+  else
+    useguile_2_0=yes
+  fi
+fi
 
 PKG_CHECK_MODULES(XML2, libxml-2.0 >= 2.3.10)
 CFLAGS="$CFLAGS $XML2_CFLAGS"
@@ -70,41 +103,6 @@ fi
   AC_SUBST([WHICH_SMF])
   AC_SUBST([SMF_LDD])
   AC_SUBST([SMF_INCLUDE])
-
-dnl Options for configuration
-AC_ARG_WITH([pmidi-platform],
-	[AC_HELP_STRING([--with-pmidi-platform=linux|mingw|darwin|none],
-	[Setting up a static portmidi, Argument is the target platform::linux|mingw|darwin|none (default: none)])],
- 
-   [case "$withval" in
-     linux|mingw|darwin|none) ;;
-     *) AC_MSG_ERROR([invalid argument "$withval" for --with-pmidi-platform]) ;;
-    esac],
-   [case "$host" in
-      *-*-linux*) with_pmidi_platform="linux" ;;
-      *-*-mingw*) with_pmidi_platform="mingw" ;;
-      *-*-darwin*) with_pmidi_platform="darwin" ;;
-      *-*-none*) with_pmidi_platform="none" ;;
-      *) with_platform=none ;;
-    esac])
-
-dnl maybe use later for debug/feedback AC_MSG_RESULT([$with_pmidi_platform])
-AM_CONDITIONAL([LINUX], [test "$with_pmidi_platform" = "linux"])
-AM_CONDITIONAL([MINGW], [test "$with_pmidi_platform" = "mingw"])
-AM_CONDITIONAL([DARWIN], [test "$with_pmidi_platform" = "darwin"])
-
-if test "$with_pmidi_platform" != "none"; then
-  LIBS="$LIBS -D_HAVE_PORTMIDI_"
-  WHICH_PORTMIDI='portmidi'
-  PORTMIDI_LDD='../portmidi/libportmidi.a'
-else
-  WHICH_PORTMIDI=''
-  PORTMIDI_LDD=''
-  PORTMIDI_INCLUDE=''
-fi
-  AC_SUBST([WHICH_PORTMIDI])
-  AC_SUBST([PORTMIDI_LDD])
-  AC_SUBST([PORTMIDI_INCLUDE])
 
 AC_ARG_ENABLE(
   jack,
@@ -165,9 +163,14 @@ if test "x$usegtk2" = "xyes"; then
   LIBS="$LIBS $EVINCE_2_0_LIBS"
   
   if test "x$have_evince2" = "xno"; then
-    PKG_CHECK_MODULES(EVINCE_2_30, evince-view-2.30 >= 2.0)
+    PKG_CHECK_MODULES(EVINCE_2_30, evince-view-2.30 >= 2.0, have_evince2_3=yes, have_evince2_3=no)
     CFLAGS="$CFLAGS $EVINCE_2_30_CFLAGS"
     LIBS="$LIBS $EVINCE_2_30_LIBS"
+  fi
+  if test "x$have_evince2_3" = "xno"; then
+    PKG_CHECK_MODULES(EVINCE_2_32, evince-view-2.32 >= 2.0)
+    CFLAGS="$CFLAGS $EVINCE_2_32_CFLAGS"
+    LIBS="$LIBS $EVINCE_2_32_LIBS"
   fi
 fi
 
@@ -254,16 +257,16 @@ AC_ARG_ENABLE(
 AM_CONDITIONAL(HAVE_PORTMIDI, [test x$useportmidi = xyes])
 
 if test "x$useportmidi" = "xyes"; then
-  AC_SEARCH_LIBS([Pm_Initialize], [portmidi], [],
+  AC_CHECK_HEADER([portmidi.h], [],
   [
     AC_MSG_ERROR([Library 'portmidi' not found])
   ])
   CFLAGS="$CFLAGS -D_HAVE_PORTMIDI_"
-  LIBS="$LIBS -lportmidi"
+  LIBS="$LIBS -lportmidi -lporttime"
 
-  AC_SEARCH_LIBS([Pt_Start], [portmidi porttime], [],
+  AC_CHECK_HEADER([porttime.h], [],
   [
-    AC_MSG_ERROR([Library containing function 'Pt_Start' not found])
+    AC_MSG_ERROR([Library 'porttime' not found])
   ])
 fi
 
@@ -401,9 +404,5 @@ AC_OUTPUT(
   fonts/Makefile
   soundfonts/Makefile
   libsmf/Makefile
-  portmidi/Makefile
-  portmidi/pm_win/Makefile
-  portmidi/pm_linux/Makefile
-  portmidi/pm_mac/Makefile
   libsffile/Makefile
 ])

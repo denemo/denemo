@@ -6,8 +6,8 @@
     <map>
       <row>
         <action>ToggleSignumcongruentiae</action>
-        <scheme>;;;Signumcongruentiae
-(ToggleChordDirective "Signumcongruentiae" LG-Signumcongruentiae "\\signumcongruentiae" DENEMO_ALT_OVERRIDE)
+        <scheme>;;;ToggleSignumcongruentiae
+        (ChordAnnotation "ToggleSignumcongruentiae" "\\signumcongruentiae"    ToggleSignumcongruentiae::params    LG-Signumcongruentiae)
 </scheme>
         <label>Signumcongruentiae (Off/On)</label>
         <tooltip>Mark/Unmark the current chord signumcongruentiae</tooltip>

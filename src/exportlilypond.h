@@ -10,12 +10,15 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
 #define TAB "        "
-
+void create_lilywindow(void);
 void exportlilypond (gchar * thefilename,  DenemoGUI *gui, gboolean all_movements);
 
 void export_lilypond_parts(char *filename, DenemoGUI *gui);
 void export_lilypond_part(char *filename, DenemoGUI *gui, gboolean all_movements);
 
+/* generate the LilyPond for the current part, all movements, into the LilyPond textview window */
+void generate_lilypond_part(void);
+void make_scoreblock_editable(void);
 /* generate lilypond text for the object passed in - the string should
    be g_freed by the caller when finished with*/
 gchar *generate_lily (objnode *obj);
@@ -39,4 +42,7 @@ gchar *get_lilypond_paper(void);
 const gchar *get_prevailing_clef_as_lilypond(void);
 const gchar *get_prevailing_keysig_as_lilypond(void);
 const gchar *get_prevailing_timesig_as_lilypond(void);
+void set_voice_termination(GString *str, DenemoStaff *curstaffstruct);
+void set_staff_termination(GString *str, DenemoStaff *curstaffstruct);
+
 #endif

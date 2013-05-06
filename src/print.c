@@ -61,7 +61,7 @@ static gint changecount = -1;//changecount when the printfile was last created F
 #define GPID_NONE (-1)
 
 static GPid previewerpid = GPID_NONE;
-static GPid get_lily_version_pid = GPID_NONE;
+
 
 typedef enum { STATE_NONE = 0, //not a background typeset
 							 STATE_OFF = 1<<0, //background typeset complete
@@ -89,8 +89,11 @@ gchar *printname_ly[2];
 
 static printstatus PrintStatus = {GPID_NONE, 0, 0, 4, 4, 4, 4, TYPESET_ALL_MOVEMENTS};
 typedef struct Rectangle {
-	gdouble x, y, width, height;} Rectangle;
+	gdouble x, y, width, height;} Rectangle; //Width=0 means no rectangle set
 	
+typedef struct Curve {
+	GdkPoint p1, p2, p3, p4;} Curve;
+		
 typedef enum {STAGE_NONE,
 							Offsetting, 
 							Selecting, 
@@ -100,22 +103,34 @@ typedef enum {STAGE_NONE,
 							DraggingNearEnd,
 							DraggingFarEnd,
 							WaitingForDrag,
+							SelectingReference,
+							WaitingForCurveDrag,
+							SelectingPoint,
+							Dragging1,
+							Dragging2,
+							Dragging3,
+							Dragging4,
+							
+							
 							
 							} WwStage;
 							
 typedef enum {TASK_NONE,
 							Positions, 
 							Padding,
-							Offset,
-											
+							Offset,	
+							Shape		
 							} WwTask;
 							
 typedef enum {OBJ_NONE,
 							Beam,
 							Slur,
+							Articulation,
 						} WwGrob;
 typedef struct ww {
 	Rectangle Mark;
+	Rectangle Reference; //reference is origin for LilyPond offsets, set by the user with blue cross wires.
+	Curve Curve;
 	gdouble curx, cury;// position of mouse pointer during motion
 	//gdouble pointx, pointy; becomes near.x,y
   gboolean ObjectLocated;//TRUE when an external-link has just been followed back to a Denemo object
@@ -136,7 +151,7 @@ typedef struct ww {
 
 static ww Ww; //Wysywyg information
 
-static gint errors=-1;
+static gint LilyPond_stderr=-1; //A file descriptor to pipe for LilyPond's stderr
 static   GError *lily_err = NULL;
 
 static
@@ -213,7 +228,7 @@ string_to_lilyversion(char *string)
   lilyversion version = { 2, 0};
   char **token;
   const char delimiters[] = ".";
-  if(string==NULL)
+  if(string==NULL || *string==0)
     return version;
   /* split string */
   token = g_strsplit(string, delimiters, 2);
@@ -248,41 +263,10 @@ regex_parse_version_number (const gchar *str)
   g_regex_unref (regex);
   return g_string_free(lilyversion, FALSE); 	  
 }
-#define INSTALLED_LILYPOND_VERSION "2.13" /* FIXME set via gub */
+#define INSTALLED_LILYPOND_VERSION "2.16" /* FIXME set via gub */
 gchar *
 get_lily_version_string (void)
 {
-#ifndef G_OS_WIN32
-  GError *error = NULL;
-  int standard_output;
-#define NUMBER_OF_PARSED_CHAR 30
-  gchar buf[NUMBER_OF_PARSED_CHAR]; /* characters needed to parse */
-
-  gchar *arguments[] = {
-  "lilypond",
-  "-v",
-  NULL
-  };
-  g_spawn_async_with_pipes (NULL,            /* dir */
-  arguments, NULL,       /* env */
-  G_SPAWN_SEARCH_PATH | G_SPAWN_DO_NOT_REAP_CHILD, NULL, /* child setup func */
-  NULL,          /* user data */
-  &get_lily_version_pid,	/*pid*/
-  NULL, 	/*standard_input*/
-  &standard_output,	/*standard output*/
-  NULL,	/*standard error*/
-  &error);
-  if(error==NULL) {
-		gint num = read(standard_output, buf, sizeof(buf));
-		if(num)
-			return regex_parse_version_number(buf);
-		else
-			g_warning ("Could not read stdout of lilypond -v call\n");
-  } else {
-    g_warning ("%s", error->message);
-    g_error_free (error);
-  }
-#endif
 return INSTALLED_LILYPOND_VERSION;
 }
 int
@@ -365,7 +349,7 @@ static void
 process_lilypond_errors(gchar *filename){
   DenemoGUI *gui = Denemo.gui;
   PrintStatus.invalid = 0;
-  if (errors == -1)
+  if (LilyPond_stderr == -1)
     return;
   gchar *basename = g_path_get_basename(filename);
   gchar *filename_colon = g_strdup_printf("%s.ly%s", basename, ":");
@@ -373,16 +357,16 @@ process_lilypond_errors(gchar *filename){
   gchar *epoint = NULL;
 #define bufsize (100000)
   gchar *bytes = g_malloc0(bufsize);
-  gint numbytes = read(errors, bytes, bufsize-1);
-  close(errors);
-  errors = -1;
+  gint numbytes = read(LilyPond_stderr, bytes, bufsize-1);
+  close(LilyPond_stderr);
+  LilyPond_stderr = -1;
 #undef bufsize
 
   if(numbytes==-1) {
     g_free(bytes);
     return;
   }
-  g_print("\nLilyPond error messages\n8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8>< %s \n8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><\n", bytes);
+  //g_print("\nLilyPond error messages\n8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8>< %s \n8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><\n", bytes);
   epoint = g_strstr_len (bytes, strlen(bytes), filename_colon);
   if(epoint) {
     gint line, column;
@@ -390,12 +374,12 @@ process_lilypond_errors(gchar *filename){
     truncate_lines(epoint);/* truncate epoint if it has too many lines */
     if(cnv==2) {
       line--;/* make this 0 based */
-      if(line >= gtk_text_buffer_get_line_count(gui->textbuffer))
+      if(line >= gtk_text_buffer_get_line_count(Denemo.textbuffer))
 	warningdialog("Spurious line number"), line = 0;
       /* gchar *errmsg = g_strdup_printf("Error at line %d column %d %d", line,column, cnv); */
       /*     warningdialog(errmsg); */
       console_output(epoint);
-      if(gui->textbuffer) {
+      if(Denemo.textbuffer) {
         set_lily_error(line+1, column, gui);
       }
       goto_lilypond_position (line+1, column);
@@ -525,8 +509,6 @@ run_lilypond(gchar **arguments) {
   gint error = 0;
   if(PrintStatus.background==STATE_NONE)
 		progressbar("Denemo Typesetting");
-  g_spawn_close_pid (get_lily_version_pid);
-  get_lily_version_pid = GPID_NONE;
 
   if(PrintStatus.printpid!=GPID_NONE) {
     if(confirm("Already doing a print", "Kill that one off and re-start?")) {
@@ -560,7 +542,7 @@ run_lilypond(gchar **arguments) {
 #ifdef G_OS_WIN32
 		NULL,
 #else
-		&errors,	/* stderr */
+		&LilyPond_stderr,	/* stderr */
 #endif
 		&lily_err);
   if(lily_err) {
@@ -570,7 +552,7 @@ run_lilypond(gchar **arguments) {
     error = -1;
   }
   if(!lilypond_launch_success) {
-    warningdialog("Error executing lilypond. Perhaps Lilypond is not installed");
+    g_warning("Error executing lilypond. Perhaps Lilypond is not installed");
     error = -1;
   }
   if(error)
@@ -724,7 +706,7 @@ void print_finished(GPid pid, gint status, GList *filelist) {
   open_pdfviewer (pid,status, (gchar *) get_printfile_pathbasename());
   g_debug("print finished\n");
   changecount = Denemo.gui->changecount;
-  progressbar_stop();
+  progressbar_stop();//FIXME this is already done in open_pdfviewer()
 }
 
 
@@ -910,9 +892,9 @@ void print_lily_cb (GtkWidget *item, DenemoGUI *gui){
   FILE *fp = fopen(lilyfile, "w");
   if(fp){
     GtkTextIter startiter, enditer;
-    gtk_text_buffer_get_start_iter (gui->textbuffer, &startiter);
-    gtk_text_buffer_get_end_iter (gui->textbuffer, &enditer);
-    gchar *lily = gtk_text_buffer_get_text (gui->textbuffer, &startiter, &enditer, FALSE);
+    gtk_text_buffer_get_start_iter (Denemo.textbuffer, &startiter);
+    gtk_text_buffer_get_end_iter (Denemo.textbuffer, &enditer);
+    gchar *lily = gtk_text_buffer_get_text (Denemo.textbuffer, &startiter, &enditer, FALSE);
     fprintf(fp, "%s", lily);
     fclose(fp);
     /* create arguments to pass to lilypond to create a pdf for printing */
@@ -1035,47 +1017,93 @@ static void get_window_position(gint*x, gint* y) {
   *y = gtk_adjustment_get_value(adjust);
 }
 
-   
 //setting up Denemo.pixbuf so that parts of the pdf can be dragged etc.
-static void set_denemo_pixbuf(void)  {
-			GdkWindow *window;
-			if(!GTK_IS_LAYOUT(Denemo.printarea))
+static void get_window_size(gint *w, gint *h)  {
+	GdkWindow *window;
+	if(!GTK_IS_LAYOUT(Denemo.printarea))
 					window = gtk_widget_get_window (GTK_WIDGET(Denemo.printarea));
-			else 
+	else 
 					window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
-      if(window) {
-      gint width, height;
+  if(window) {
+		EvDocumentModel  *model;
+		model = g_object_get_data(G_OBJECT(Denemo.printarea), "model");//there is no ev_view_get_model(), when there is use it
+		gdouble scale = ev_document_model_get_scale(model);
+	//	gdouble staffsize = atof(Denemo.gui->lilycontrol.staffsize->str);
+	//	if(staffsize<1) staffsize = 20.0;
+	//	scale *= (staffsize/4);//Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit	
 #if GTK_MAJOR_VERSION==2
-      gdk_drawable_get_size(window, &width, &height);
+			gdk_drawable_get_size(window, w, h);
+#else		
+     *w = gdk_window_get_width(window);
+     *h = gdk_window_get_height(window);
+#endif 
+		*w *= scale;
+		*h *= scale;
+		
+}    
+}  
       
-      Denemo.pixbuf = gdk_pixbuf_get_from_drawable(NULL, window, 
-                                                   NULL/*gdk_colormap_get_system ()*/, 0, 0, 0, 0,
-                                                  width, height);
+//setting up Denemo.pixbuf so that parts of the pdf can be dragged etc.
+static void set_denemo_pixbuf(gint x, gint y)  {
+	GdkWindow *window;
+	GdkPixbuf *pixbuf;
+	if(!GTK_IS_LAYOUT(Denemo.printarea))
+					window = gtk_widget_get_window (GTK_WIDGET(Denemo.printarea));
+	else 
+					window = gtk_layout_get_bin_window (GTK_LAYOUT(Denemo.printarea));
+  if(window) {
+      gint width, height;
+     	gint xx, yy;
+			get_window_position(&xx, &yy);
+			x -= xx;
+			y -= yy;
+#define GROB_SIZE 20 // a rough amount to drag grobs around recognizably
+    EvDocumentModel  *model;
+		model = g_object_get_data(G_OBJECT(Denemo.printarea), "model");//there is no ev_view_get_model(), when there is use it
+		gdouble scale = ev_document_model_get_scale(model);
+		gdouble staffsize = atof(Denemo.gui->lilycontrol.staffsize->str);
+		if(staffsize<1) staffsize = 20.0;
+		gint grob_size = GROB_SIZE * (staffsize/20.0);
+		x -= scale*grob_size/2;
+		y -= scale*grob_size/2;
+		if(x<0) x = 0;
+		if(y<0) y = 0;
+#if GTK_MAJOR_VERSION==2
+    gdk_drawable_get_size(window, &width, &height);
+    pixbuf = gdk_pixbuf_get_from_drawable(NULL, window, 
+                                                   NULL/*gdk_colormap_get_system ()*/, 
+                                                   (gint)(x), (gint)(y), 0, 0, scale*grob_size, scale*grob_size);
 #else
       width = gdk_window_get_width(window);
       height = gdk_window_get_height(window);
-      Denemo.pixbuf = gdk_pixbuf_get_from_window(window, 0,0, width,height);
+      pixbuf = gdk_pixbuf_get_from_window(window, (gint)(x), (gint)(y), scale*grob_size, scale*grob_size);
 #endif
+		if(Denemo.pixbuf)
+			g_object_unref(Denemo.pixbuf);
+		Denemo.pixbuf = gdk_pixbuf_add_alpha (pixbuf, TRUE, 255, 255, 255);
+		g_object_unref(pixbuf);
 	}
 }
- 
+
+//draw a circle to mark a dragging point
+static	void	place_spot(cairo_t *cr, gint x, gint y) {
+			cairo_move_to(cr, x, y);
+			cairo_arc( cr, x, y, MARKER/4, 0.0, 2*M_PI );
+			cairo_fill(cr);
+		}		
 //over-draw the evince widget with padding etc ...
 static gboolean overdraw_print(cairo_t *cr) {
-   if(Denemo.pixbuf==NULL)
-    set_denemo_pixbuf();
-   if(Denemo.pixbuf==NULL)
-    return FALSE;
   gint x, y;
 
   get_window_position(&x, &y);
 
-  gint width, height;
-  width = gdk_pixbuf_get_width( GDK_PIXBUF(Denemo.pixbuf));
-  height = gdk_pixbuf_get_height( GDK_PIXBUF(Denemo.pixbuf));
+ // gint width, height;
+//  width = gdk_pixbuf_get_width( GDK_PIXBUF(Denemo.pixbuf));
+ // height = gdk_pixbuf_get_height( GDK_PIXBUF(Denemo.pixbuf));
 
  // cairo_scale( cr, Denemo.gui->si->preview_zoom, Denemo.gui->si->preview_zoom );
   cairo_translate( cr, -x, -y );
-  gdk_cairo_set_source_pixbuf( cr, GDK_PIXBUF(Denemo.pixbuf), -x, -y);
+//  gdk_cairo_set_source_pixbuf( cr, GDK_PIXBUF(Denemo.pixbuf), -x, -y);
   cairo_save(cr);
   
   if((Ww.Mark.width>0.0) &&  (Ww.stage!=WaitingForDrag) && (Ww.stage!=DraggingNearEnd) && (Ww.stage!=DraggingFarEnd)){
@@ -1107,7 +1135,7 @@ static gboolean overdraw_print(cairo_t *cr) {
   cairo_move_to( cr, 50,80 );
 	cairo_show_text( cr,explanation);
   }
-  	if(PrintStatus.updating_id && (PrintStatus.background!=STATE_NONE)) {
+  if(PrintStatus.updating_id && (PrintStatus.background!=STATE_NONE)) {
 		cairo_set_source_rgba( cr, 0.5, 0.0, 0.5 , 0.3);
 		cairo_set_font_size( cr, 64.0 );
 		cairo_move_to( cr, 0, 0);
@@ -1128,32 +1156,74 @@ static gboolean overdraw_print(cairo_t *cr) {
 		 cairo_arc( cr, Ww.near.x, Ww.near.y, 1.5, 0.0, 2*M_PI );
 		 cairo_fill(cr);
 	}
-		if(Ww.stage == WaitingForDrag) {
+	if(Ww.stage == WaitingForDrag) {
 		 cairo_set_source_rgba( cr, 0.3, 0.3, 0.7, 0.9);
-			//cairo_rectangle (cr, Ww.far.x-MARKER/2, Ww.far.y-MARKER/2, MARKER, MARKER );
-			//cairo_rectangle (cr, Ww.near.x-MARKER/2, Ww.near.y-MARKER/2, MARKER, MARKER );
-			cairo_move_to(cr, Ww.far.x, Ww.far.y);
-			cairo_arc( cr, Ww.far.x, Ww.far.y, MARKER/4, 0.0, 2*M_PI );
-			cairo_move_to(cr, Ww.near.x, Ww.near.y);
-			cairo_arc( cr, Ww.near.x, Ww.near.y, MARKER/4, 0.0, 2*M_PI );
-			cairo_fill(cr);
+			place_spot(cr, Ww.far.x, Ww.far.y);
+
+			place_spot(cr, Ww.near.x, Ww.near.y);
+		
 	}
-	 if((Ww.stage==WaitingForDrag) || (Ww.stage==DraggingNearEnd) || (Ww.stage==DraggingFarEnd)) {
+	if((Ww.stage==WaitingForDrag) || (Ww.stage==DraggingNearEnd) || (Ww.stage==DraggingFarEnd)) {
 			cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 0.7);
 			cairo_move_to(cr, Ww.near.x, Ww.near.y);
 			cairo_line_to(cr, Ww.far.x, Ww.far.y); 
 			cairo_stroke(cr);
 			return TRUE;
-	 }
-	
-	
+	}
 
+	if((Ww.stage==SelectingPoint) || (Ww.stage==WaitingForCurveDrag) || (Ww.stage==Dragging1)||(Ww.stage==Dragging2)||(Ww.stage==Dragging3)||(Ww.stage==Dragging4)) {	
+		//place_spot for all non-null points Curve.p1...
+		if( Ww.Curve.p1.x) {
+					place_spot(cr, Ww.Curve.p1.x, Ww.Curve.p1.y);
+			}
+		if( Ww.Curve.p2.x) {
+					place_spot(cr, Ww.Curve.p2.x, Ww.Curve.p2.y);
+			}
+		if( Ww.Curve.p1.x) {
+					place_spot(cr, Ww.Curve.p3.x, Ww.Curve.p3.y);
+			}
+		
+		if( Ww.Curve.p4.x) {//all control points initialized
+			place_spot(cr, Ww.Curve.p4.x, Ww.Curve.p4.y);
+		
+			cairo_set_source_rgba( cr, 0.5, 0.8, 0.0, 0.7);
+			cairo_move_to(cr, Ww.Curve.p1.x, Ww.Curve.p1.y);
+			cairo_curve_to (cr, 
+				Ww.Curve.p2.x, Ww.Curve.p2.y,
+				Ww.Curve.p3.x, Ww.Curve.p3.y,
+				Ww.Curve.p4.x, Ww.Curve.p4.y);
+			cairo_stroke(cr);
+		}
+    return TRUE;
+	}
+    
+	 if(Ww.stage==SelectingReference) {gint w, h;
+		get_window_size(&w, &h);	
+		cairo_set_source_rgba( cr, 0.0, 0.0, 1.0, 0.7);
+		cairo_move_to(cr, Ww.curx, 0);
+    cairo_line_to(cr, Ww.curx, h); 
+    cairo_move_to(cr, 0, Ww.cury);
+    cairo_line_to(cr, w, Ww.cury);   
+    cairo_stroke(cr);
+	 }                                             
   if(Ww.stage==Offsetting)
     {
     cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 0.7);
     cairo_move_to(cr, Ww.Mark.x, Ww.Mark.y);
     cairo_line_to(cr, Ww.curx, Ww.cury);   
     cairo_stroke(cr);
+ 
+		if(Denemo.pixbuf) {  
+    	  guint width = gdk_pixbuf_get_width( GDK_PIXBUF(Denemo.pixbuf));
+				guint height = gdk_pixbuf_get_height( GDK_PIXBUF(Denemo.pixbuf));
+				cairo_save( cr );	
+				gdk_cairo_set_source_pixbuf( cr, GDK_PIXBUF(Denemo.pixbuf), Ww.curx-width/2, Ww.cury-height/2);
+				cairo_rectangle( cr, Ww.curx-width/2, Ww.cury-height/2, width, height);
+				
+				cairo_fill( cr );
+				cairo_restore( cr );
+    } else 
+    g_warning("No pixbuf");   
     }
   if(Ww.stage==Padding)
     {
@@ -1210,22 +1280,26 @@ set_printarea(GError **err) {
 	}
   else
     set_printarea_doc(doc);
-	//this will fail if the printarea is not visible, so it would need to be re-triggered on showing the printarea  
-   set_denemo_pixbuf();
+   static gboolean shown_once = FALSE;//Make sure the user knows that the printarea is on screen
+   if(!shown_once) { 
+		 shown_once = TRUE;
+    gtk_window_present(GTK_WINDOW(gtk_widget_get_toplevel(Denemo.printarea)));
+	}
   return;
 }
 
 static void
 printview_finished(GPid pid, gint status, gboolean print) {
   progressbar_stop();
+  g_spawn_close_pid(PrintStatus.printpid);
   //g_print("background %d\n", PrintStatus.background);
   if(PrintStatus.background==STATE_NONE) {
 		call_out_to_guile("(FinalizeTypesetting)");
 		process_lilypond_errors((gchar *) get_printfile_pathbasename());
   } else {
-			if(errors != -1)
-				close(errors);
-			errors = -1;
+			if(LilyPond_stderr != -1)
+				close(LilyPond_stderr);
+			LilyPond_stderr = -1;
 	}
   PrintStatus.printpid = GPID_NONE;
   GError *err = NULL;
@@ -1521,6 +1595,8 @@ printmovement_cb (GtkAction *action, gpointer param) {
     changecount = Denemo.gui->changecount;
 }
 
+//This gets an offset relative to Ww.Mark which must be already setup on entry.
+//A patch of the score around the target is dragged over the image with white showing as transparent and a line connects the original and new positions.
 gboolean get_offset(gdouble *offsetx, gdouble *offsety) {
 	Ww.stage = Offsetting;
 	gtk_main();
@@ -1531,7 +1607,7 @@ gboolean get_offset(gdouble *offsetx, gdouble *offsety) {
 		gdouble staffsize = atof(Denemo.gui->lilycontrol.staffsize->str);
 		if(staffsize<1) staffsize = 20.0;
 		scale *= (staffsize/4);//Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
-		*offsetx = (Ww.curx - Ww.Mark.x)/scale;
+		*offsetx = (Ww.curx - Ww.Mark.x)/scale; //Could/Should this better be Ww.Reference????
     *offsety = -(Ww.cury - Ww.Mark.y)/scale; 
     Ww.stage = STAGE_NONE;
     gtk_widget_queue_draw(Denemo.printarea);
@@ -1541,7 +1617,12 @@ gboolean get_offset(gdouble *offsetx, gdouble *offsety) {
 }
 static void start_seeking_end(gboolean slur);
 static gdouble get_center_staff_offset(void);
+
+// get_postions gets two y-heights interactively, giving prompts either for slur or beam
+// 
+ 
 gboolean get_positions(gdouble *neary, gdouble *fary, gboolean for_slur) {
+	Ww.task = Positions;
 	start_seeking_end(for_slur);//goes to WaitingForDrag
 	gtk_main();
 	if(Ww.stage==WaitingForDrag) {
@@ -1558,21 +1639,117 @@ gboolean get_positions(gdouble *neary, gdouble *fary, gboolean for_slur) {
     Ww.stage = STAGE_NONE;  
 		gtk_widget_hide(Ww.dialog);
     gtk_widget_queue_draw (Denemo.printarea);
-	return TRUE;	
+		return TRUE;	
 	} else {
-	return FALSE;
+		return FALSE;
 	}
 }
 
+gboolean get_curve(gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2, gdouble *x3, gdouble *y3, gdouble *x4, gdouble *y4) {
+	//FIXME check for stage, to avoid re-entering
+	Ww.task = Shape;
+	Ww.stage = WaitingForCurveDrag;
+	gtk_main();
+	if(Ww.stage==WaitingForCurveDrag) {
+		EvDocumentModel  *model = g_object_get_data(G_OBJECT(Denemo.printarea), "model");//there is no ev_view_get_model(), when there is use it
+		gdouble scale = ev_document_model_get_scale(model);
+		gdouble staffsize = atof(Denemo.gui->lilycontrol.staffsize->str);
+		if(staffsize<1) staffsize = 20.0;
+		scale *= (staffsize/4);//Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
+		goto_movement_staff_obj(NULL, -1, Ww.pos.staff, Ww.pos.measure, Ww.pos.object);//the cursor to the slur-begin note.
+		//!!! is pos set up?
+		g_print("Reference is %f %f %d %d\n", Ww.Reference.x, Ww.Reference.y, Ww.Curve.p4.x, Ww.Curve.p4.y);
+		*x1 = (Ww.Curve.p1.x - Ww.Reference.x)/scale;
+		*y1 = -(Ww.Curve.p1.y - Ww.Reference.y)/scale;
+    
+  	*x2 = (Ww.Curve.p2.x - Ww.Reference.x)/scale;
+		*y2 = -(Ww.Curve.p2.y - Ww.Reference.y)/scale;
+		*x3 = (Ww.Curve.p3.x - Ww.Reference.x)/scale;
+		*y3 = -(Ww.Curve.p3.y - Ww.Reference.y)/scale;
+		*x4 = (Ww.Curve.p4.x - Ww.Reference.x)/scale;
+		*y4 = -(Ww.Curve.p4.y - Ww.Reference.y)/scale;
+  
+    
+    Ww.repeatable = TRUE;
+    
+    Ww.stage = STAGE_NONE;  
+		gtk_widget_hide(Ww.dialog);
+    gtk_widget_queue_draw (Denemo.printarea);
+		return TRUE;	
+	} else {
+		return FALSE;
+	}
+}
+
+
+//Gets a new value into Ww.Mark.x,y and changes to SelectingFarEnd
 gboolean get_new_target(void) {
 	Ww.stage = SelectingNearEnd;
 	g_print("Starting main");
 	gtk_main();
-	if(Ww.stage==SelectingFarEnd)
-		return TRUE;
-	else
+	if(Ww.stage==SelectingNearEnd) //should have changed, but user cancelled
 		return FALSE;
+	else
+		return TRUE;
 }
+
+//Gets a new value into Ww.Mark.x,y and changes to STAGE_NONE
+gboolean get_new_point(void) {
+	Ww.stage = SelectingPoint;
+	g_print("Starting main");
+	gtk_main();
+	if(Ww.stage==SelectingPoint) //should have changed, but user cancelled
+		return FALSE;
+	else
+		return TRUE;
+}
+
+
+gboolean get_reference_point(void) {
+	Ww.stage = SelectingReference;
+	memset(&Ww.Curve, 0, sizeof(Curve));
+	gtk_main();
+	if(Ww.stage==SelectingReference) {//should have changed, but the user cancelled
+		return FALSE;
+	}
+	else {
+		Ww.Reference = Ww.Mark;
+		return TRUE;
+	}
+}
+
+gboolean get_control_point(gint which) {
+	gboolean ret = TRUE;
+	if(get_new_point()) {//FIXME ... instead make purpose of get_new_target() the argument to it, and use that in the call
+		switch (which) {
+			case 1:
+			Ww.Curve.p1.x = Ww.Mark.x;
+			Ww.Curve.p1.y = Ww.Mark.y;
+			break;
+			case 2:
+			Ww.Curve.p2.x = Ww.Mark.x;
+			Ww.Curve.p2.y = Ww.Mark.y;
+			break;
+			case 3:
+			Ww.Curve.p3.x = Ww.Mark.x;
+			Ww.Curve.p3.y = Ww.Mark.y;
+			break;
+			case 4:
+			Ww.Curve.p4.x = Ww.Mark.x;
+			Ww.Curve.p4.y = Ww.Mark.y;
+			break;
+			default:
+				g_warning("Wrong call to get_control_point, no point %d possible", which);
+				ret = FALSE;
+				break;
+			}
+			
+	}	else ret = FALSE;
+	gtk_widget_queue_draw (Denemo.printarea);
+	Ww.stage = (ret? WaitingForCurveDrag:STAGE_NONE);
+	return ret;
+}
+
 
 static gint 
 start_stage(GtkWidget *widget, WwStage stage) {
@@ -1581,11 +1758,67 @@ start_stage(GtkWidget *widget, WwStage stage) {
 }
 
 static void create_all_pdf(void) {
-
 busy_cursor();
 create_pdf(FALSE, TRUE);
 g_child_watch_add(PrintStatus.printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
 }
+static void create_full_score_pdf(void) {
+busy_cursor();
+create_default_scoreblock();
+create_pdf(FALSE, TRUE); 
+g_child_watch_add(PrintStatus.printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
+}
+
+static void copy_pdf(void) {
+	//copy file PrintStatus.printname_pdf[PrintStatus.cycle] to user pdf name 
+	//use get_output_uri_from_scoreblock() as default name.
+	//use a gtk_file_chooser like this:
+	gchar *filename;
+	gchar *outuri = get_output_uri_from_scoreblock();
+	gchar *outpath;
+	gchar *outname;
+	outuri += strlen("file://");//skip the uri bit of it
+	outpath = g_path_get_dirname(outuri);
+	outname = g_path_get_basename(outuri);
+	GtkWidget *chooser = gtk_file_chooser_dialog_new (_("PDF creation"),
+						GTK_WINDOW (Denemo.window),
+						GTK_FILE_CHOOSER_ACTION_SAVE,
+						GTK_STOCK_CANCEL,
+						GTK_RESPONSE_REJECT,
+						GTK_STOCK_SAVE,
+						GTK_RESPONSE_ACCEPT, NULL);
+	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (chooser), outpath );
+  gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (chooser),  outname);
+  gtk_widget_show_all (chooser);
+  if (gtk_dialog_run (GTK_DIALOG (chooser)) == GTK_RESPONSE_ACCEPT)
+    filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (chooser));
+  else
+    filename = NULL;
+  gtk_widget_destroy (chooser);
+  
+  if(filename) {
+		gchar *contents;	
+    gssize length;
+		if(g_file_get_contents (PrintStatus.printname_pdf[PrintStatus.cycle], &contents,&length, NULL)) {	
+			if(!g_file_set_contents (filename, contents, length, NULL)) {
+			gchar *msg = g_strdup_printf(_("Errno %d:\nCould not copy %s to %s. Perhaps because some other process is using the destination file. Try again with a new location\n"), 
+			errno,
+			PrintStatus.printname_pdf[PrintStatus.cycle],
+			filename);
+			warningdialog(msg);
+			g_free(msg);
+			} else {
+				g_print("I have copied %s to %s (default was %s)\n",PrintStatus.printname_pdf[PrintStatus.cycle], filename, outname);
+			}
+			g_free(contents);
+		}
+		g_free(outpath);
+		g_free(outname);
+		g_free(filename);
+	}	
+  
+}
+
 static void create_movement_pdf(void) {
 
 busy_cursor();
@@ -1598,40 +1831,10 @@ busy_cursor();
 create_pdf(TRUE, TRUE);
 g_child_watch_add(PrintStatus.printpid, (GChildWatchFunc)printview_finished, (gpointer)(FALSE));
 }
-#if 0
-static gint 
-popup_print_preview_menu(void) {
-  GtkWidget *menu = gtk_menu_new();
-  GtkWidget *item = gtk_menu_item_new_with_label("Print");
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect_swapped(G_OBJECT(item), "activate", G_CALLBACK(print_from_print_view), GINT_TO_POINTER(TRUE));
-  item = gtk_menu_item_new_with_label("Refresh Typesetting");
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(force_typeset),NULL);
 
-  item = gtk_menu_item_new_with_label("Typeset Score");
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(create_all_pdf),NULL);
-  item = gtk_menu_item_new_with_label("Typeset Part");
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(create_part_pdf),NULL);
-
-#if 1
-  item = gtk_menu_item_new_with_label(_("Drag to desired offset"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(start_stage), (GINT_TO_POINTER)Offsetting);
-
-  item = gtk_menu_item_new_with_label("Drag a space for padding");
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(start_stage), (GINT_TO_POINTER)Padding);
-#endif
-
-  gtk_widget_show_all(menu);
-  gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
-  return TRUE;
-}
-#endif
-
+// start_seeking_end 
+//if repeatable and grob is slur or beam and request matches gives prompt for slur or beam and goes to Waiting for drag
+//else sets up near point to last button press and goes to selecting far end.
 static void start_seeking_end(gboolean slur) {
 	gchar *msg = (slur)?_("Now select the notehead of the note where the slur ends"):_("Now select the notehead of the note where the beam ends");
 
@@ -1669,24 +1872,37 @@ static gboolean same_target(DenemoTarget *pos1, DenemoTarget *pos2) {
 
 static gint
 action_for_link (EvView* view, EvLinkAction *obj) {
+	mswin("Signal from evince widget received %d %d\n", Ww.grob, Ww.stage);
 	//g_print("Link action Mark at %f, %f\n", Ww.Mark.x, Ww.Mark.y);
   gchar *uri = (gchar*)ev_link_action_get_uri(obj);
   //g_print("Stage %d\n", Ww.stage);
-
+	if((Ww.stage == SelectingPoint) ||
+		 (Ww.stage == Dragging1) ||
+		 (Ww.stage == Dragging2) ||
+		 (Ww.stage == Dragging3) ||
+		 (Ww.stage == Dragging4))
+		return TRUE;
   if((Ww.stage == WaitingForDrag) ||    
-   
-   (Ww.grob==Slur && (Ww.stage == SelectingFarEnd))) {
+			(Ww.grob==Slur && (Ww.stage == SelectingFarEnd))) {
 			return TRUE;
 	}
+	if(Ww.stage == WaitingForCurveDrag || (Ww.stage == SelectingReference))
+	  return TRUE;
+	
   if(Ww.stage==Offsetting) {
 		return TRUE;//?Better take over motion notify so as not to get this while working ...
 	}
+	mswin("action_for_link: uri %s\n", uri);
 	//g_print("acting on external signal %s type=%d directivenum=%d\n", uri, Denemo.gui->si->target.type, Denemo.gui->si->target.directivenum);
   if(uri) {
-		gchar **vec = g_strsplit (uri, ":",5);
-		if(!strcmp(vec[0], "textedit") && vec[1] && vec[2] && vec[3]) {
+		gchar **orig_vec = g_strsplit (uri, ":",6);
+		gchar **vec = orig_vec;
+		if(vec[0] && vec[1] && vec[2] && vec[3] && vec[4] && vec[5] && *vec[5])
+			vec++;
+		if(g_str_has_prefix(uri, "textedit:") && vec[1] && vec[2] && vec[3]) {
 			DenemoTarget old_target = Denemo.gui->si->target;
       Ww.ObjectLocated = goto_lilypond_position(atoi(vec[2]), atoi(vec[3]));//sets si->target
+      mswin("action_for_link: object located %d\n", Ww.ObjectLocated);
       if(Ww.ObjectLocated) { 
 				if(!(Ww.grob==Beam && (Ww.stage == SelectingFarEnd))) {
 					get_position(Denemo.gui->si, &Ww.pos);
@@ -1698,7 +1914,7 @@ action_for_link (EvView* view, EvLinkAction *obj) {
 			Ww.repeatable = FALSE;
      //g_print("Target type %d\n", Denemo.gui->si->target.type); 
      
-    if (Ww.stage == SelectingNearEnd)
+    if ((Ww.stage == SelectingNearEnd))
 			return TRUE;
    
     if(Ww.ObjectLocated && Denemo.gui->si->currentobject) {
@@ -1718,34 +1934,73 @@ action_for_link (EvView* view, EvLinkAction *obj) {
 							}
 							break;	
 							case TARGET_CHORD:
-								g_print("Chord directives not done");
+								g_print("Chord directives may be not done");
+								if(Denemo.gui->si->target.directivenum) {
+									//directive = get_chord_directive_number(Denemo.gui->si->target.directivenum);
+									if(obj->type == CHORD) {
+										chord *thechord = (chord *) obj->object;
+										directive = (DenemoDirective*)g_list_nth_data(thechord->directives, Denemo.gui->si->target.directivenum - 1);
+										if(directive && directive->tag) {
+											g_print("Found %s\n", directive->tag->str);
+											//This is things like ToggleTrill ToggleCoda which require different offsets to their center
+											Ww.grob = Articulation;
+										}
+									
+									}
+								}
+					
 								break;
 							case TARGET_SLUR:
 									//g_print("taking action on slur...");
 									if(Ww.repeatable && Ww.task==Positions) {
-										Ww.stage = WaitingForDrag;
-										call_out_to_guile("(GetSlurPositions)");
+										if(confirm(_("Slur Angle/Position"), _("Repeat Slur Positioning Hint?"))) {		
+												Ww.stage = WaitingForDrag;
+												gtk_widget_queue_draw(Denemo.printarea);
+												call_out_to_guile("(GetSlurPositions)");
+											} else 
+										Ww.task=TASK_NONE;
+									}	else 	if(Ww.stage==STAGE_NONE && Ww.repeatable && Ww.task==Shape) {		
+										if(confirm(_("Slur Shape"), _("Repeat Shaping Slur?")))	{
+											Ww.stage = WaitingForCurveDrag;
+											gtk_widget_queue_draw(Denemo.printarea);
+											call_out_to_guile("(ReshapeSlur)");
+										} else
+										Ww.task=TASK_NONE;
 									}	else {
-									Ww.task = Positions;
-									Ww.stage = TargetEstablished;
-									if(Ww.grob!=Slur)
+										Ww.stage = TargetEstablished;
 										Ww.repeatable = FALSE;
-									}
-									
-									
-								  break;
-									
+									}	
+								  break;	
+							case TARGET_TIE:
+								g_warning("Not yet done!!");
+								break;
+							default:
+								g_warning("Target type %d not yet done!!", Denemo.gui->si->target.type);
+								break;
 						}			
 		}
       
       
       
-		} else {
-			g_warning ("Cannot follow external link type %s\n", vec[0]);
+		} else 	if(g_str_has_prefix(uri, "http:")) {
+						gchar *text = g_strdup_printf("(d-Help \"%s\")", uri);
+						call_out_to_guile(text);
+						g_free(text);
+						}
+		 else if(g_str_has_prefix(uri, "scheme:")) {
+						gchar *text = uri+strlen("scheme:");
+						if(*text)
+							call_out_to_guile(text);
+						else g_warning("No script given after scheme:");
+						} else {
+				g_warning ("Cannot follow link type %s\n", orig_vec[0]);
 		}
-		g_strfreev(vec);
+		g_strfreev(orig_vec);
 	} 
-	return TRUE;//we do not want the evince widget to handle this. (chord*)
+	//!!!! do we want to set_denemo_pixbuf() here if the object is located ???? that is what we are going to drag ....
+	g_print("Have Ww.ObjectLocated (%.2f, %.2f) (%.2f, %.2f)\n", Ww.Mark.x, Ww.Mark.y, Ww.curx, Ww.cury);
+	set_denemo_pixbuf((gint) Ww.curx, (gint)Ww.cury);
+	return TRUE;//we do not want the evince widget to handle this.
 }
 static gint adjust_x=0;
 static gint adjust_y=0;
@@ -1757,7 +2012,9 @@ static gboolean in_selected_object(gint x, gint y) {
     y += (yy+MARKER/2);
 	return (x>Ww.Mark.x && y>Ww.Mark.y && x<(Ww.Mark.x+Ww.Mark.width) && y<(Ww.Mark.y+Ww.Mark.height));
 }
-gboolean is_near(gint x, gint y, GdkPoint p) {
+
+
+static gboolean is_near(gint x, gint y, GdkPoint p) {
 	gint xx, yy;
 	get_window_position(&xx, &yy);
   x += (xx+MARKER/2);
@@ -1769,12 +2026,7 @@ printarea_motion_notify (GtkWidget * widget, GdkEventMotion * event)
 {
 	gint state = event->state;
   Ww.ObjectLocated = FALSE;
-  if(Denemo.pixbuf==NULL)
-    set_denemo_pixbuf();
-  if(Denemo.pixbuf==NULL)
-    return FALSE;
-  
-     
+
    if(Ww.stage == WaitingForDrag) {
 			if( (is_near((gint)event->x, (gint)event->y, Ww.far)) ||(is_near((gint)event->x, (gint)event->y, Ww.near))) { 		
 			gtk_widget_queue_draw (Denemo.printarea);
@@ -1800,17 +2052,57 @@ printarea_motion_notify (GtkWidget * widget, GdkEventMotion * event)
 		return TRUE;
 	} 
  
+  if(Ww.stage == Dragging1) {
+		gint xx, yy;
+    get_window_position(&xx, &yy);  
+    Ww.Curve.p1.x = xx + (gint)event->x;
+    Ww.Curve.p1.y = yy + (gint)event->y;
+    gtk_widget_queue_draw (Denemo.printarea);
+		return TRUE;
+	} 
+ 
+  if(Ww.stage == Dragging2) {
+		gint xx, yy;
+    get_window_position(&xx, &yy);  
+    Ww.Curve.p2.x = xx + (gint)event->x;
+    Ww.Curve.p2.y = yy + (gint)event->y;
+    gtk_widget_queue_draw (Denemo.printarea);
+		return TRUE;
+	} 
+ 
+  if(Ww.stage == Dragging3) {
+		gint xx, yy;
+    get_window_position(&xx, &yy);  
+    Ww.Curve.p3.x = xx + (gint)event->x;
+    Ww.Curve.p3.y = yy + (gint)event->y;
+    gtk_widget_queue_draw (Denemo.printarea);
+		return TRUE;
+	} 
+ 
+  if(Ww.stage == Dragging4) {
+		gint xx, yy;
+    get_window_position(&xx, &yy);  
+    Ww.Curve.p4.x = xx + (gint)event->x;
+    Ww.Curve.p4.y = yy + (gint)event->y;
+    gtk_widget_queue_draw (Denemo.printarea);
+		return TRUE;
+	} 
+ 
+ 
+ 
+ 
+ 
   gint xx, yy;
   get_window_position(&xx, &yy);
   Ww.curx = xx + (gint)event->x;
-  Ww.cury = yy + (gint)event->y;  
-  if((Ww.stage==Offsetting)) {
-
+  Ww.cury = yy + (gint)event->y; 
+  
+   
+  if((Ww.stage==Offsetting) ||(Ww.stage==SelectingReference) ) {
     gtk_widget_queue_draw (Denemo.printarea);
     return TRUE;
   }
-
- 
+  
 	if(in_selected_object((int)event->x, (int)event->x)) { 
 			return TRUE;//we have handled this.
 	}
@@ -1861,7 +2153,7 @@ static gdouble get_center_staff_offset(void) {
 }
 
 static void apply_tweak(void) {
-	g_print("Apply tweak Quitting with %d %d", Ww.stage, Ww.grob);
+	//g_print("Apply tweak Quitting with %d %d", Ww.stage, Ww.grob);
 		gtk_main_quit();
 		return;
 	if(Ww.stage==Offsetting) {
@@ -1903,21 +2195,30 @@ static void cancel_tweak(void) {
 }
 static void repeat_tweak(void) {
 	if(Ww.grob==Slur)           //if(Ww.repeatable && Ww.grob==(slur?Slur:Beam))
-		call_out_to_guile("(GetSlurPositions)");
+		//call_out_to_guile("(GetSlurPositions)");
+		call_out_to_guile("(EditSlur)");
 	else if(Ww.grob==Beam)           //if(Ww.repeatable && Ww.grob==(slur?Slur:Beam))
 		call_out_to_guile("(GetBeamPositions)");
 		else
 			warningdialog("Do not know what to repeat");
 }
+static void set_score_size(void) {
+	call_out_to_guile("(d-SetFontSize)");
+}
 static void help_tweak(void) {
 	gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(Ww.dialog), _("To tweak the positions of objects (and more) move the mouse until the hand pointer appears\nClick on the object and follow the prompts.\nFor beams, click on the notehead of the note where the beam starts."));
 	gtk_widget_show(Ww.dialog);
 }
+static void toggle_lilypond_structure_markers(void) {
+	call_out_to_guile("(d-ToggleWysiwygMarks)");
+	call_out_to_guile("(d-ToggleCurveControl)");
+}
+
 static gint
 popup_tweak_menu(void) {
   GtkWidget *menu = gtk_menu_new();
   GtkWidget *item;
-  if(Ww.stage==WaitingForDrag || Ww.stage==Offsetting) {
+  if(Ww.stage==WaitingForDrag || Ww.stage==WaitingForCurveDrag || Ww.stage==Offsetting) {
 		item = gtk_menu_item_new_with_label(_("Apply"));
 		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 		g_signal_connect_swapped(G_OBJECT(item), "activate", G_CALLBACK(apply_tweak), NULL);
@@ -1929,8 +2230,19 @@ popup_tweak_menu(void) {
 	
 	if(Ww.stage == STAGE_NONE) {
 		item = gtk_menu_item_new_with_label(_("Help for Tweaks"));
+		gtk_widget_set_tooltip_markup(item, _("This window can be used to tweak the typesetting that LilyPond does in the case that it is not optimal"));
 		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(help_tweak),NULL);
+		
+		item = gtk_menu_item_new_with_label(_("Red dots and crosses (Off/On)"));
+		gtk_widget_set_tooltip_markup(item, _("The exact positions of the graphical components of the score will be labelled with red dots\n"
+		"and the control points for curves with red crosses for accurate tweaks\nTurn these off before printing!"));
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(toggle_lilypond_structure_markers),NULL);
+	
+		item = gtk_menu_item_new_with_label(_("Score Size"));
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(set_score_size),NULL);
 		
 		if(Ww.repeatable) {//never true 
 		item = gtk_menu_item_new_with_label(_("Repeat"));
@@ -1968,19 +2280,39 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 	return TRUE;
  }
 
- 
+ if(Ww.stage==WaitingForCurveDrag) {
+		if(is_near((gint)event->x, (gint)event->y, Ww.Curve.p1)) {
+			Ww.stage=Dragging1;//gtk_widget_queue_draw (Denemo.printarea);
+			return TRUE;
+		} else if(is_near((gint)event->x, (gint)event->y, Ww.Curve.p2)) {
+			Ww.stage=Dragging2;
+			return TRUE;
+		} else if(is_near((gint)event->x, (gint)event->y, Ww.Curve.p3)) {
+			Ww.stage=Dragging3;
+			return TRUE;
+		} else if(is_near((gint)event->x, (gint)event->y, Ww.Curve.p4)) {
+			Ww.stage=Dragging4;
+			return TRUE;
+		}
+		popup_tweak_menu();
+		return TRUE;
+ }
  if(right && Ww.stage==WaitingForDrag && !hotspot) {
 	 apply_tweak();
  }
- if( /* left && */ Ww.stage==SelectingNearEnd) {
+ if((Ww.stage == SelectingNearEnd) || (Ww.stage == SelectingReference)) {
 			Ww.near_i = Ww.near = Ww.last_button_press;//struct copy
 			return TRUE;
  }
- if( /* left && */ Ww.stage==SelectingFarEnd) {//handle on release, after cursor has moved to note
+  if( Ww.stage==SelectingPoint) {//handle on release as user may move before releasing
+	 return TRUE;
+ }
+ 
+ if( Ww.stage==SelectingFarEnd) {//handle on release, after cursor has moved to note
 	 return TRUE;
  }
 
- if( /* left && */ Ww.stage==WaitingForDrag) {
+ if( Ww.stage==WaitingForDrag) {
 		 if(is_near((gint)event->x, (gint)event->y, Ww.near)) { 
 			 Ww.stage = DraggingNearEnd;
 		 } else
@@ -1991,6 +2323,9 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 	gtk_widget_queue_draw (Denemo.printarea);
 	return TRUE; 
  }
+ 
+ 
+ 
  
  if(in_selected_object((gint)event->x, (gint)event->y)) {
 	//g_print("Popping up menu");
@@ -2019,36 +2354,78 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
  get_window_position(&xx, &yy);
  Ww.last_button_release.x = xx + event->x;
  Ww.last_button_release.y = yy + event->y;
-
+ if(left && Ww.ObjectLocated)
+	gtk_window_present(GTK_WINDOW(gtk_widget_get_toplevel(Denemo.scorearea)));
 	//g_print("Button release %d, %d\n",(int)event->x , (int)event->y);
-	if(Denemo.pixbuf==NULL)
-    set_denemo_pixbuf();
-  if(Denemo.pixbuf==NULL)
-    return TRUE;
 
-  
-  if( /* left && */ Ww.ObjectLocated || (Ww.stage==SelectingNearEnd)) {   
+  if(Ww.stage==Dragging1) {
+		Ww.Curve.p1.x = Ww.last_button_release.x;
+		Ww.Curve.p1.y = Ww.last_button_release.y;
+		Ww.stage=WaitingForCurveDrag;gtk_widget_queue_draw (Denemo.printarea);
+		return TRUE;
+	} else  if(Ww.stage==Dragging2) {
+		Ww.Curve.p2.x = Ww.last_button_release.x;
+		Ww.Curve.p2.y = Ww.last_button_release.y;
+		Ww.stage=WaitingForCurveDrag;gtk_widget_queue_draw (Denemo.printarea);
+		return TRUE;
+	} else  if(Ww.stage==Dragging3) {
+		Ww.Curve.p3.x = Ww.last_button_release.x;
+		Ww.Curve.p3.y = Ww.last_button_release.y;
+		Ww.stage=WaitingForCurveDrag;gtk_widget_queue_draw (Denemo.printarea);
+		return TRUE;
+	} else  if(Ww.stage==Dragging4) {
+		Ww.Curve.p4.x = Ww.last_button_release.x;
+		Ww.Curve.p4.y = Ww.last_button_release.y;
+		Ww.stage=WaitingForCurveDrag;gtk_widget_queue_draw (Denemo.printarea);
+		return TRUE;
+	}
+	
+  if(Ww.stage==WaitingForCurveDrag) {
+		g_print("End of curve drag - should give menu if right click\n");
+		g_print("Check level > 1  %d", gtk_main_level());
+		gtk_main_quit();
+		return TRUE;
+	}
+	
+	
+  if( Ww.ObjectLocated || (Ww.stage == SelectingNearEnd) || (Ww.stage == SelectingReference)) {   
     Ww.Mark.width = Ww.Mark.height = MARKER;
 		gtk_widget_queue_draw (Denemo.printarea);
     Ww.Mark.x = event->x + xx;
     Ww.Mark.y = event->y + yy;
-    switch_back_to_main_window();
+   // switch_back_to_main_window();
     Ww.ObjectLocated = FALSE;
   }
 
-  if( /* left && */ Ww.stage==TargetEstablished) { 
-		Ww.grob=Slur;
-		call_out_to_guile("(GetSlurStart)");
-		Ww.stage=STAGE_NONE;
-  	return TRUE;
+  if( /* left && */ Ww.stage==TargetEstablished) {
+		if(Denemo.gui->si->target.type==TARGET_SLUR) {
+			Ww.grob=Slur;
+			call_out_to_guile("(EditSlur)");
+			Ww.stage=STAGE_NONE;
+			return TRUE;
+		}
  }  
-  if( /* left && */ Ww.stage==SelectingNearEnd) {
+  if( Ww.stage == SelectingNearEnd) {
      Ww.stage=SelectingFarEnd; 
      gtk_main_quit();
    	return TRUE;
  }  
-     
-  if( /* left && */ Ww.stage==SelectingFarEnd) {
+
+  if( Ww.stage == SelectingReference) {
+     Ww.stage=STAGE_NONE; 
+     gtk_main_quit();
+   	return TRUE;
+ }  
+  if(Ww.stage==SelectingPoint) {
+		Ww.stage=STAGE_NONE;   
+		Ww.Mark.width = Ww.Mark.height = MARKER;//width=0 means no mark
+		Ww.Mark.x = event->x + xx;
+    Ww.Mark.y = event->y + yy;
+		g_print("Selected point, %f %f \n", Ww.Mark.x, Ww.Mark.y);
+		gtk_main_quit();
+		return TRUE;
+	}
+  if(Ww.stage==SelectingFarEnd) {
 			Ww.far_i = Ww.far = Ww.last_button_release;
 			Ww.stage=WaitingForDrag;
 			//first post-insert a \stemNeutral if beaming
@@ -2078,17 +2455,23 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 		if(right)
 			popup_tweak_menu();
 		else {
-			g_print("Offsetting quitting with %d %d", Ww.stage, Ww.grob);
+		g_print("Offsetting quitting with %d %d", Ww.stage, Ww.grob);
+					//The offset depends on the object being dragged. ToogleTrill sign uses bottom right, ToggleCoda uses center left.
+	//	Ww.curx +=18;//for trill
+	//	Ww.cury +=18;//for coda, mordent ...
+	//	???
+		
+
 			gtk_main_quit();
 		}
    return TRUE;
-  } 
+  }
   
   // \once \override DynamicLineSpanner #'padding = #10 setting padding for cresc and dimin
   // \once \override DynamicLineSpanner #'Y-offset = #-10 to move a cresc or dimin vertically downwards.
   // \once \override DynamicLineSpanner #'direction = #1 to place above/below (-1)
-	g_print("Stage %d object loc %d left %d", Ww.stage, object_located_on_entry, left);
- if( (Ww.stage==STAGE_NONE)) {
+	//g_print("Stage %d object loc %d left %d", Ww.stage, object_located_on_entry, left);
+ if(right &&  (Ww.stage==STAGE_NONE)) {
 	if(object_located_on_entry) //set by action_for_link
 	 popup_object_edit_menu();
 	else
@@ -2147,13 +2530,19 @@ void typeset_control(GtkWidget*dummy, gpointer data) {
   static GString *last_script=NULL;
   gint markstaff = Denemo.gui->si->markstaffnum;
   Denemo.gui->si->markstaffnum = 0;
+  
+  //g_print("typeset control with %d : print view is %d\n",  Denemo.gui->textwindow && gtk_widget_get_visible(Denemo.gui->textwindow), PrintStatus.background==STATE_ON);
+//  if(Denemo.gui->textwindow && gtk_widget_get_visible(Denemo.gui->textwindow) && (PrintStatus.background==STATE_ON) && PrintStatus.typeset_type!=TYPESET_ALL_MOVEMENTS)
+//			return;
  	if(PrintStatus.background!=STATE_ON)
 		PrintStatus.background=0; //STATE_NONE
   if(last_script==NULL)
     last_script=g_string_new("(d-PrintView)");
    
   if(data==create_all_pdf)
-    create_all_pdf();
+    create_all_pdf();  
+  else if(data==create_full_score_pdf)
+    create_full_score_pdf();
   else if(data==create_movement_pdf)
     create_movement_pdf();
   else if(data==create_part_pdf)
@@ -2231,12 +2620,14 @@ void show_print_view(GtkAction *action, gpointer param) {
   else
     gtk_widget_show(w);
   if(action && (changecount!=Denemo.gui->changecount || Denemo.gui->lilysync != Denemo.gui->changecount) ) {
-
     if(!initialize_typesetting())
       typeset_control(NULL, create_all_pdf);	
   }
 }
 
+void typeset_current_layout(void) {
+	typeset_control(NULL, create_all_pdf);	
+}
 /* typeset the score, and store the passed script for refresh purposes*/
 gboolean typeset_for_script(gchar *script) {
 typeset_control(NULL, script);
@@ -2282,6 +2673,10 @@ static void typeset_action(GtkWidget *button, gpointer data) {
     g_warning("InitializeTypesetting failed\n");
   } else
   typeset_control(NULL, data);
+}
+
+void typeset_part(void) {
+	typeset_control(NULL,create_part_pdf);
 }
 
 static gboolean retypeset(void) {
@@ -2481,6 +2876,10 @@ static GtkWidget *get_updates_button(void) {
   return button;	
 }
 
+static popup_layouts_menu(){
+	GtkWidget *menu = GetLayoutMenu();
+	gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL, 0,  GDK_CURRENT_TIME);
+}
 void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){ 
   if(Denemo.printarea)
     return;
@@ -2498,17 +2897,22 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
   gtk_box_pack_start (GTK_BOX (main_vbox), main_hbox,FALSE, TRUE, 0);
   GtkWidget *hbox =  gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (main_hbox), hbox,FALSE, TRUE, 0);
-  GtkWidget *button = gtk_button_new_with_label(_("Typeset"));
-  gtk_widget_set_tooltip_text(button, _("Typesets the music using the current score layout. See View->Score Layouts to see which layouts you have created and which is currently selected."));
-  g_signal_connect(button, "clicked", G_CALLBACK(typeset_action), create_all_pdf);
-  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-
-  button = gtk_button_new_with_label(_("Print"));
+  GtkWidget *  button = gtk_button_new_with_label(_("Print"));
   gtk_widget_set_tooltip_text(button, _("Pops up a Print dialog. From this you can send your typeset score to a printer or to a PDF file."));
   g_signal_connect(button, "clicked", G_CALLBACK(libevince_print), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
-    
+  button = gtk_button_new_with_label(_("PDF"));
+  gtk_widget_set_tooltip_text(button, _("Exports a pdf file for this layout"));
+  g_signal_connect(button, "clicked", G_CALLBACK(copy_pdf), NULL);
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+
+  button = gtk_button_new_with_label(_("Typeset"));
+  
+	gtk_widget_set_tooltip_text(button, _("Typesets the music using the one of the created layouts. See View->Score Layouts to see the layouts you have created."));
+	g_signal_connect(button, "clicked", G_CALLBACK(popup_layouts_menu), NULL);
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+
 
   button = gtk_button_new_with_label(_("Movement"));
   gtk_widget_set_tooltip_text(button, _("Typesets the music from the current movement. This creates a score layout comprising one movement."));
@@ -2548,8 +2952,8 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
 
   
   top_vbox = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  if(!Denemo.prefs.manualtypeset)
-		gtk_window_set_transient_for (GTK_WINDOW(top_vbox), GTK_WINDOW(Denemo.window));
+ // if(!Denemo.prefs.manualtypeset)
+	//	gtk_window_set_urgency_hint (GTK_WINDOW(Denemo.window), TRUE);//gtk_window_set_transient_for (GTK_WINDOW(top_vbox), GTK_WINDOW(Denemo.window));
   gtk_window_set_title(GTK_WINDOW(top_vbox),_( "Denemo Print View"));
   gtk_window_set_default_size(GTK_WINDOW(top_vbox), 600, 750);
   g_signal_connect (G_OBJECT (top_vbox), "delete-event",
@@ -2620,6 +3024,8 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){
 	gtk_widget_hide(Ww.dialog);
 }
 
-
+gboolean continuous_typesetting(void) {
+	return (PrintStatus.background==STATE_ON);
+}
 
 #endif /* PRINT_H */

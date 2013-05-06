@@ -249,7 +249,7 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
       memset (thestaffstruct->keysig.accs, 0, SEVENGINTS);
       thestaffstruct->timesig.time1 = 4;
       thestaffstruct->timesig.time2 = 4;
-      thestaffstruct->volume = 65;
+      thestaffstruct->volume = 127;
       thestaffstruct->no_of_lines = 5;
       thestaffstruct->transposition = 0;
 

@@ -5,19 +5,24 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after/>
         <action>ScoreTitle</action>
         <scheme>;;;ScoreTitle
-	(if (d-PreviousMovement)
-		(d-WarningDialog (_ "Returning to the first Movement to set this title")))
-	(while (d-PreviousMovement)
-		(display "Seeking first movement"))
-        (SetHeaderField "title")
-        (DenemoPrintAllHeaders)
-        (d-RefreshDisplay)
-        </scheme>
+(let ((tag "ScoreTitle") (title ScoreTitle::params))
+	(define (blank-title)
+			(if (not (d-DirectiveGet-header-postfix tag))
+				(begin 
+					(d-DirectivePut-header-override tag 0) 
+					(d-DirectivePut-header-postfix tag "title = \"\""))))
+	(SetScoreHeaderField "title" title)
+	(DenemoPrintAllHeaders)		
+	(d-PushPosition)
+	(blank-title)
+	(while (d-NextMovement)
+		(blank-title))
+	(d-PopPosition))
+		</scheme>
         <label>Title</label>
-        <tooltip>The title of the music, centered just below the dedication.</tooltip>
+        <tooltip>Prints the name given as a title centered at the start of the score.</tooltip>
       </row>
     </map>
   </merge>

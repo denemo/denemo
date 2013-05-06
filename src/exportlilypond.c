@@ -30,7 +30,7 @@
 #define ENTER_NOTIFY_EVENT "focus-in-event"
 #define LEAVE_NOTIFY_EVENT "focus-out-event"
 
-#define SIGNAL_WIDGET gui->textwindow /* Denemo.window */
+#define SIGNAL_WIDGET Denemo.textwindow /* Denemo.window */
 
 #define GSTRINGP "gstring"
 #define MUSIC "music"
@@ -53,10 +53,8 @@
 #define ERRORTEXT "error text"
 
 
-
  gchar *get_postfix(GList *g);
-static void 
-create_lilywindow(DenemoGUI *gui);
+
 static void
 output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname);
 static GtkTextTagTable *tagtable;
@@ -67,8 +65,8 @@ static void	place_navigation_anchor(GtkTextMark *curmark, gpointer curobjnode, g
 															//GtkTextIter iter = *piter; 
 	  //put in an ineditable anchor to mark the start of the object
 	  GtkTextIter iter;
-	  gtk_text_buffer_get_iter_at_mark (Denemo.gui->textbuffer, &iter, curmark);
-	  GtkTextChildAnchor *objanc = gtk_text_buffer_create_child_anchor (Denemo.gui->textbuffer, &iter);
+	  gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, curmark);
+	  GtkTextChildAnchor *objanc = gtk_text_buffer_create_child_anchor (Denemo.textbuffer, &iter);
 	  g_object_set_data(G_OBJECT(objanc), OBJECTNODE, curobjnode);//store objnode here
 	  g_object_set_data(G_OBJECT(objanc), MOVEMENTNUM, GINT_TO_POINTER(movement_count));
 	  g_object_set_data(G_OBJECT(objanc), MEASURENUM, GINT_TO_POINTER(measurenum));
@@ -82,34 +80,34 @@ static void	place_navigation_anchor(GtkTextMark *curmark, gpointer curobjnode, g
 	  GtkTextIter back;
 	  back = iter;
 	  (void)gtk_text_iter_backward_char(&back);
-	  gtk_text_buffer_apply_tag_by_name(Denemo.gui->textbuffer, INEDITABLE, &back, &iter);
+	  gtk_text_buffer_apply_tag_by_name(Denemo.textbuffer, INEDITABLE, &back, &iter);
 #if 1 //0 makes anchors visible - but throws out locations
-	  gtk_text_buffer_apply_tag_by_name(Denemo.gui->textbuffer, "system_invisible", &back, &iter);
+	  gtk_text_buffer_apply_tag_by_name(Denemo.textbuffer, "system_invisible", &back, &iter);
 #endif
 	}
 
 void
 highlight_lily_error(DenemoGUI *gui) {
-  if(gui->textbuffer==NULL)
+  if(Denemo.textbuffer==NULL)
     return;
   GtkTextIter enditer, iter;
-  gtk_text_buffer_get_end_iter (gui->textbuffer, &enditer);
-  gtk_text_buffer_get_start_iter (gui->textbuffer, &iter);
-  gtk_text_buffer_remove_tag_by_name(gui->textbuffer, ERRORTEXT, &enditer, &iter);
+  gtk_text_buffer_get_end_iter (Denemo.textbuffer, &enditer);
+  gtk_text_buffer_get_start_iter (Denemo.textbuffer, &iter);
+  gtk_text_buffer_remove_tag_by_name(Denemo.textbuffer, ERRORTEXT, &enditer, &iter);
   gint line, column;
-  line = (intptr_t)g_object_get_data(G_OBJECT(gui->textbuffer), "error line");
-  column = (intptr_t)g_object_get_data(G_OBJECT(gui->textbuffer), "error column");
+  line = (intptr_t)g_object_get_data(G_OBJECT(Denemo.textbuffer), "error line");
+  column = (intptr_t)g_object_get_data(G_OBJECT(Denemo.textbuffer), "error column");
   line--;
   if(line>0) {
 #ifdef BUG_COLUMN_OFFSET_TOO_LARGE_FIXED
     gtk_text_buffer_get_iter_at_line_offset
-      (gui->textbuffer,
+      (Denemo.textbuffer,
        &iter,
        line,
        column);
 #else
     gtk_text_buffer_get_iter_at_line_offset
-      (gui->textbuffer,
+      (Denemo.textbuffer,
        &iter,
        line,
        0);
@@ -122,24 +120,68 @@ highlight_lily_error(DenemoGUI *gui) {
     /*     gtk_text_iter_set_line(&iter, line); */
     /*     gtk_text_iter_set_visible_line_offset(&iter, column); */
 
-    gtk_text_buffer_apply_tag_by_name(gui->textbuffer, ERRORTEXT, &enditer, &iter);
+    gtk_text_buffer_apply_tag_by_name(Denemo.textbuffer, ERRORTEXT, &enditer, &iter);
   }
 }
 
 
 /*  set_lily_error() 
- *  set line, column as the current line and column in gui->textbuffer where an error has been found
+ *  set line, column as the current line and column in Denemo.textbuffer where an error has been found
  *  in the LilyPond interpreter. line starts from 1, column starts from 0
  *  line=0 means no error
  */
 void
 set_lily_error(gint line, gint column, DenemoGUI *gui) {
-  if(gui->textbuffer){
-    g_object_set_data(G_OBJECT(gui->textbuffer),"error line", (gpointer)(intptr_t)line);
-    g_object_set_data(G_OBJECT(gui->textbuffer),"error column", (gpointer)(intptr_t)column);
+  if(Denemo.textbuffer){
+    g_object_set_data(G_OBJECT(Denemo.textbuffer),"error line", (gpointer)(intptr_t)line);
+    g_object_set_data(G_OBJECT(Denemo.textbuffer),"error column", (gpointer)(intptr_t)column);
   }
 }
 
+static void explain_temporary_scoreblock(void) {
+	infodialog("This scorelayout is purely for continuous typesetting, and will change as you edit the score");
+}
+static void popup_score_layout_options(void) {
+	GtkWidget *menu =  gtk_menu_new();
+	GtkWidget *item;
+	GList *g;
+	for(g=Denemo.gui->standard_scoreblocks;g;g=g->next) {
+			DenemoScoreblock *sb = g->data;
+			gchar *text = g_strdup_printf (_("Switch to Layout \"%s\""), sb->name);
+			item = gtk_menu_item_new_with_label(text);
+			g_free(text);
+			gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+			g_signal_connect_swapped(G_OBJECT(item), "activate", G_CALLBACK(select_standard_layout), sb);
+	}
+		for(g=Denemo.gui->custom_scoreblocks;g;g=g->next) {
+			DenemoScoreblock *sb = g->data;
+			gchar *text = g_strdup_printf (_("Switch to Layout \"%s\""), sb->name);
+			item = gtk_menu_item_new_with_label(text);
+			g_free(text);
+			gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+			g_signal_connect_swapped(G_OBJECT(item), "activate", G_CALLBACK(select_custom_layout), sb);
+	}
+	
+	
+  if(Denemo.gui->standard_scoreblocks==NULL) {
+			item = gtk_menu_item_new_with_label(_("Create Standard Score Layout"));
+			gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+			g_signal_connect_swapped(G_OBJECT(item), "activate", G_CALLBACK(select_standard_layout), NULL);
+	}
+  item = gtk_menu_item_new_with_label("Customize Score Layout");
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  g_signal_connect_swapped(G_OBJECT(item), "activate", G_CALLBACK(make_scoreblock_editable), NULL);
+  gtk_widget_show_all(menu);
+  
+  gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+}
+
+void make_scoreblock_editable(void) {
+	if(!gtk_widget_get_visible(Denemo.gui->score_layout))
+			activate_action("/MainMenu/ViewMenu/ToggleScoreLayout");
+		create_custom_lilypond_scoreblock();
+		force_lily_refresh(Denemo.gui);
+}
 
 /* insert a pair of anchors and a mark to denote a section.
    if str is non-null it is a target for saving edited versions of the section to, in this
@@ -149,40 +191,52 @@ set_lily_error(gint line, gint column, DenemoGUI *gui) {
 static GtkTextChildAnchor * insert_section(GString **str, gchar *markname, gchar *name, GtkTextIter *iter, DenemoGUI *gui)
 {
   GtkTextIter back;
-  GtkTextChildAnchor *objanc = gtk_text_buffer_create_child_anchor (gui->textbuffer, iter);
+  GtkTextChildAnchor *objanc = gtk_text_buffer_create_child_anchor (Denemo.textbuffer, iter);
   back = *iter;
   (void)gtk_text_iter_backward_char(&back);
-  gtk_text_buffer_apply_tag_by_name(gui->textbuffer, INEDITABLE, &back, iter);
+  gtk_text_buffer_apply_tag_by_name(Denemo.textbuffer, INEDITABLE, &back, iter);
   if(name==NULL)
-    gtk_text_buffer_apply_tag_by_name(gui->textbuffer, "system_invisible", &back, iter);
-  gtk_text_buffer_insert (gui->textbuffer, iter, "\n", -1);
-  GtkTextChildAnchor *endanc = gtk_text_buffer_create_child_anchor (gui->textbuffer, iter);
+    gtk_text_buffer_apply_tag_by_name(Denemo.textbuffer, "system_invisible", &back, iter);
+  gtk_text_buffer_insert (Denemo.textbuffer, iter, "\n", -1);
+  GtkTextChildAnchor *endanc = gtk_text_buffer_create_child_anchor (Denemo.textbuffer, iter);
   back = *iter;
   (void)gtk_text_iter_backward_char(&back);
-  gtk_text_buffer_apply_tag_by_name(gui->textbuffer, INEDITABLE, &back, iter);
+  gtk_text_buffer_apply_tag_by_name(Denemo.textbuffer, INEDITABLE, &back, iter);
 
-  gtk_text_buffer_apply_tag_by_name(gui->textbuffer, "system_invisible", &back, iter); 
+  gtk_text_buffer_apply_tag_by_name(Denemo.textbuffer, "system_invisible", &back, iter); 
   g_object_set_data(G_OBJECT(objanc), "end", (gpointer)endanc);
   g_object_set_data(G_OBJECT(objanc), GSTRINGP, (gpointer)str);
   if(str)
     gui->anchors = g_list_prepend(gui->anchors, objanc);
 
   if(name) {
-    GtkWidget *button = gtk_button_new ();
-    char *markup = g_markup_printf_escaped ("<tt>%s</tt>", name);//monospace label to get serifs
-    GtkWidget *label = gtk_label_new ("");
-    gtk_label_set_markup (GTK_LABEL (label), markup);
-    g_free (markup);
-    gtk_container_add (GTK_CONTAINER(button), label);
-    gtk_text_view_add_child_at_anchor (GTK_TEXT_VIEW(gui->textview), button, objanc);
-    g_object_set_data(G_OBJECT(button), "anchor", (gpointer)objanc);
-   // g_signal_connect (G_OBJECT (button), "button-press-event",
-//		      G_CALLBACK (popup_menu_for_button), gui);
-    gtk_widget_show_all(button);
+		 if(!strcmp(markname, "standard scoreblock")) {
+			GtkWidget *button = gtk_button_new();
+			gtk_button_set_label (GTK_BUTTON(button), _("Score Layout Options"));
+			
+			g_signal_connect (G_OBJECT (button), "button-press-event",
+						G_CALLBACK (popup_score_layout_options), NULL);
+			gtk_widget_show_all(button);
+			gtk_text_view_add_child_at_anchor (GTK_TEXT_VIEW(Denemo.textview), button, objanc);
+		} else 		 if(!strcmp(markname, "temporary scoreblock")) {
+			GtkWidget *button = gtk_button_new();
+			gtk_button_set_label (GTK_BUTTON(button), _("Temporary Score Layout"));
+			
+			g_signal_connect (G_OBJECT (button), "button-press-event",
+						G_CALLBACK (explain_temporary_scoreblock), NULL);
+			gtk_widget_show_all(button);
+			gtk_text_view_add_child_at_anchor (GTK_TEXT_VIEW(Denemo.textview), button, objanc);
+		} else {
+			char *markup = g_markup_printf_escaped ("<tt><big>%% %s</big></tt>\n", name);//monospace label to get serifs
+			GtkWidget *label = gtk_label_new ("");
+			gtk_label_set_markup (GTK_LABEL (label), markup);
+			gtk_text_view_add_child_at_anchor (GTK_TEXT_VIEW(Denemo.textview), label, objanc);
+			gtk_widget_show_all(label);
+		}
   }
   (void)gtk_text_iter_backward_char(iter);
   (void)gtk_text_iter_backward_char(iter);
-  gtk_text_buffer_create_mark (gui->textbuffer, markname, iter, FALSE);
+  gtk_text_buffer_create_mark (Denemo.textbuffer, markname, iter, FALSE);
   return objanc;
 }
 
@@ -746,7 +800,7 @@ output_fakechord (DenemoScore * si, GString *fakechord, chord * pchord)
  * ORIGINAL: string containing text to initialize with: the caller owns this string
  * DIRECTIVE: pointer to a target GString where changes should be stored,
  *            or NULL if editable text is to be allowed here (an editable space is inserted in this case)
- * ITER: the current iter in gui->textbuffer
+ * ITER: the current iter in Denemo.textbuffer
  
  * GUI: the gui with the textbuffer
  * 
@@ -757,12 +811,12 @@ insert_editable (GString **pdirective, gchar *original, GtkTextIter *iter, Denem
   GString *directive;
   gint directivenum = directive_index + 1;
   if(pdirective) directive = *pdirective;
-  GtkTextChildAnchor *lilyanc = gtk_text_buffer_create_child_anchor (gui->textbuffer, iter);
+  GtkTextChildAnchor *lilyanc = gtk_text_buffer_create_child_anchor (Denemo.textbuffer, iter);
   GtkTextIter back;
   back = *iter;
   (void)gtk_text_iter_backward_char(&back);
-  gtk_text_buffer_apply_tag_by_name(gui->textbuffer, INEDITABLE, &back, iter);
-  gtk_text_buffer_apply_tag_by_name(gui->textbuffer, "system_invisible", &back, iter);
+  gtk_text_buffer_apply_tag_by_name(Denemo.textbuffer, INEDITABLE, &back, iter);
+  gtk_text_buffer_apply_tag_by_name(Denemo.textbuffer, "system_invisible", &back, iter);
   g_object_set_data(G_OBJECT(lilyanc), GSTRINGP, (gpointer)pdirective);
   g_object_set_data(G_OBJECT(lilyanc), ORIGINAL, original);
   
@@ -781,16 +835,16 @@ insert_editable (GString **pdirective, gchar *original, GtkTextIter *iter, Denem
 			g_object_set_data(G_OBJECT(lilyanc), TARGETTYPE, GINT_TO_POINTER(type));
 	//g_print("marked anchor %p as %d %d %d %d type %d\n", lilyanc, movement_count, measurenum, voice_count, objnum, type);
   gui->anchors = g_list_prepend(gui->anchors, lilyanc);
-  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, g_strdup(original), -1, "bold", NULL);
+  gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, iter, g_strdup(original), -1, "bold", NULL);
   if(lily_for_obj) g_string_append(lily_for_obj, original);
-  GtkTextChildAnchor *endanc  = gtk_text_buffer_create_child_anchor (gui->textbuffer, iter);
+  GtkTextChildAnchor *endanc  = gtk_text_buffer_create_child_anchor (Denemo.textbuffer, iter);
   back = *iter;
   (void)gtk_text_iter_backward_char(&back);
-  gtk_text_buffer_apply_tag_by_name(gui->textbuffer, INEDITABLE, &back, iter);
-  gtk_text_buffer_apply_tag_by_name(gui->textbuffer, "system_invisible", &back, iter);
+  gtk_text_buffer_apply_tag_by_name(Denemo.textbuffer, INEDITABLE, &back, iter);
+  gtk_text_buffer_apply_tag_by_name(Denemo.textbuffer, "system_invisible", &back, iter);
   g_object_set_data(G_OBJECT(lilyanc), "end", (gpointer)endanc);
   if((*pdirective)==NULL || (*pdirective)->len==0)
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, " ", -1, HIGHLIGHT, NULL);
+    gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, iter, " ", -1, HIGHLIGHT, NULL);
 }
 
 static gint
@@ -913,11 +967,11 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 {
   GString *lily_for_obj = g_string_new("");
   GString *ret = g_string_new ("");//no longer returned, instead put into *music
-#define outputret gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, ret->str, -1, INEDITABLE, NULL), \
+#define outputret gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, iter, ret->str, -1, INEDITABLE, NULL), \
     g_string_append(lily_for_obj, ret->str);\
     open_braces +=  brace_count(ret->str), \
     g_string_assign(ret, "")
-#define output(astring) (gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, astring, -1, INEDITABLE, NULL));\
+#define output(astring) (gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, iter, astring, -1, INEDITABLE, NULL));\
 			g_string_append(lily_for_obj, astring);
   gint prevduration = *pprevduration;
   gint prevnumdots = *pprevnumdots;
@@ -937,12 +991,12 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 
   GString *dynamic_string = NULL;
 
-  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, " ", -1, INEDITABLE, HIGHLIGHT, NULL);//A gray blank between objects
+  gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, iter, " ", -1, INEDITABLE, HIGHLIGHT, NULL);//A gray blank between objects
   g_string_append(lily_for_obj, " ");
   
   
 #define NAVANC(type, offset)  place_navigation_anchor(curmark, (gpointer)curobjnode, movement_count, measurenum, voice_count, objnum, type, offset);\
-								gtk_text_buffer_get_iter_at_mark (Denemo.gui->textbuffer, iter, curmark);
+								gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, iter, curmark);
   
   
   switch (curobj->type) {
@@ -1113,6 +1167,12 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 											prevnumdots = numdots;
 											for (j = 0; j < numdots; j++)
 											g_string_append_printf (ret, ".");
+											outputret;
+										} else {
+											outputret;
+											directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, lily_for_obj
+											, TARGET_CHORD, movement_count, measurenum, voice_count, objnum, 0
+											);
 											outputret;
 										}
 
@@ -1358,8 +1418,8 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, DenemoObject * curobj,
 /* create and insertion point and button for the next piece of music */
 static void insert_music_section(DenemoGUI *gui, gchar *name) {
   GtkTextIter iter;
-  gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, MUSIC));
-  gtk_text_buffer_insert (gui->textbuffer, &iter, "\n", -1);
+  gtk_text_buffer_get_iter_at_mark(Denemo.textbuffer, &iter, gtk_text_buffer_get_mark(Denemo.textbuffer, MUSIC));
+  gtk_text_buffer_insert (Denemo.textbuffer, &iter, "\n", -1);
   (void)gtk_text_iter_backward_char(&iter);
   insert_section(NULL, name, name, &iter, gui);
 }
@@ -1369,8 +1429,8 @@ static GtkTextChildAnchor * insert_scoreblock_section(DenemoGUI *gui, gchar *nam
   GString** target = sb?&sb->lilypond:NULL;
   GtkTextChildAnchor *anchor;
   GtkTextIter iter;
-  gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, SCOREBLOCK));
-  gtk_text_buffer_insert (gui->textbuffer, &iter, "\n", -1);
+  gtk_text_buffer_get_iter_at_mark(Denemo.textbuffer, &iter, gtk_text_buffer_get_mark(Denemo.textbuffer, SCOREBLOCK));
+  gtk_text_buffer_insert (Denemo.textbuffer, &iter, "\n", -1);
   (void)gtk_text_iter_backward_char(&iter);
   if(sb && *target) {// custom scoreblock
     if((*target)->len && *(*target)->str=='%'){
@@ -1396,10 +1456,10 @@ static GtkTextChildAnchor * insert_scoreblock_section(DenemoGUI *gui, gchar *nam
 /* gets the text for the section that starts at anchor */
 static gchar *get_text(DenemoGUI *gui, GtkTextChildAnchor *anchor) {
   GtkTextIter start, end;
-  gtk_text_buffer_get_iter_at_child_anchor(gui->textbuffer, &start, anchor);
+  gtk_text_buffer_get_iter_at_child_anchor(Denemo.textbuffer, &start, anchor);
   GtkTextChildAnchor *endanc = g_object_get_data(G_OBJECT(anchor), "end");
-  gtk_text_buffer_get_iter_at_child_anchor(gui->textbuffer, &end, endanc);
-  return gtk_text_buffer_get_text (gui->textbuffer, &start, &end, FALSE/* get only visible text */);
+  gtk_text_buffer_get_iter_at_child_anchor(Denemo.textbuffer, &end, endanc);
+  return gtk_text_buffer_get_text (Denemo.textbuffer, &start, &end, FALSE/* get only visible text */);
 }
 
 /**
@@ -1536,7 +1596,7 @@ gchar *get_lilypond_for_clef(clef *theclef) {
 	
 /**
  * Output a Denemo Staff in Lilypond syntax
- * A section is created in the gui->textbuffer and the music inserted into it.
+ * A section is created in the Denemo.textbuffer and the music inserted into it.
  * each DenemoObject is given an anchor and a pointer to the object is stored with the anchor,
  * so that it will be possible to create LilyPond directives from within the buffer (not yet
  * implemented FIXME).
@@ -1579,8 +1639,8 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   g_string_append_printf(voice_name, " Voice %d",/* ABS*/(voice_count));
   //g_print("making %s\n", voice_name->str);
   insert_music_section(gui, voice_name->str);
-  gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, voice_name->str));
-  curmark = gtk_text_buffer_create_mark (gui->textbuffer, NULL, &iter, FALSE);//FIXME remove this mark at the end of the output of this staff...
+  gtk_text_buffer_get_iter_at_mark(Denemo.textbuffer, &iter, gtk_text_buffer_get_mark(Denemo.textbuffer, voice_name->str));
+  curmark = gtk_text_buffer_create_mark (Denemo.textbuffer, NULL, &iter, FALSE);//FIXME remove this mark at the end of the output of this staff...
   
   /* a button and mark for the lyrics of this staff */
   GString *lyrics_name = g_string_new(movement);
@@ -1611,7 +1671,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     g_string_append(fakechords, "%chord symbols follow\n");
   }
 
-  gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, curmark);
+  gtk_text_buffer_get_iter_at_mark(Denemo.textbuffer, &iter, curmark);
 
  {/* standard staff-prolog */
     /* Determine the key signature */
@@ -1631,8 +1691,8 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   g_string_append_printf(staff_str, "%s%s = {\n",
 			   movement, voice);
 
-    gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, staff_str->str, -1, INEDITABLE, NULL);
+    gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, curmark);
+    gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter, staff_str->str, -1, INEDITABLE, NULL);
   } /*end standard staff-prolog */
 
   g_string_assign(staff_str,"");
@@ -1661,8 +1721,8 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 					g_string_append_printf(fakechords, "\n%%%d\n", curmeasurenum);
       }
       g_string_append_printf(staff_str,  "%s",TAB);
-      gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, staff_str->str, -1, INEDITABLE, NULL);
+      gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, curmark);
+      gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter, staff_str->str, -1, INEDITABLE, NULL);
       g_string_assign(staff_str,"");
       gint firstobj=1, lastobj= G_MAXINT-1;
       if(start && gui->si->markstaffnum) {//markstaffnum==0 means not set
@@ -1687,8 +1747,8 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 							empty_measure=FALSE; 
 						//Print rhythm notes with cross head. We ignore the case where someone reverts to real notes after rhythm only notes
 						if(curobj->type== CHORD && ((chord*)curobj->object)->notes && curobj->isinvisible && !nonprintingnotes) {
-								gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
-								gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter,  "\n"TAB"\\override NoteHead #'style = #'cross"
+								gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, curmark);
+								gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter,  "\n"TAB"\\override NoteHead #'style = #'cross"
 								"\n\\override NoteHead #'color = #darkyellow"
 								"\n\\override Stem #'color = #darkyellow"
 								"\n\\override Flag #'color = #darkyellow"
@@ -1706,8 +1766,8 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   if(directive->what && directive->what->len && ((directive->x == 0 || (directive->x!=sb->id))) && ((directive->y == 0 || (directive->y==sb->id))) \
      && (!(directive->override & DENEMO_OVERRIDE_HIDDEN)) \
      ) {								\
-	  gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);\
-	  GtkTextChildAnchor *objanc = gtk_text_buffer_create_child_anchor (gui->textbuffer, &iter);\
+	  gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, curmark);\
+	  GtkTextChildAnchor *objanc = gtk_text_buffer_create_child_anchor (Denemo.textbuffer, &iter);\
 	  g_object_set_data(G_OBJECT(objanc), OBJECTNODE, (gpointer)curobjnode);\
 	  g_object_set_data(G_OBJECT(objanc), MOVEMENTNUM, (gpointer)(intptr_t)ABS(movement_count));\
 	  g_object_set_data(G_OBJECT(objanc), MEASURENUM, (gpointer)(intptr_t)measurenum);\
@@ -1717,17 +1777,17 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	  GtkTextIter back;\
 	  back = iter;\
 	  (void)gtk_text_iter_backward_char(&back);\
-	  gtk_text_buffer_apply_tag_by_name(gui->textbuffer, INEDITABLE, &back, &iter);\
-	  gtk_text_buffer_apply_tag_by_name(gui->textbuffer, "system_invisible", &back, &iter);\
+	  gtk_text_buffer_apply_tag_by_name(Denemo.textbuffer, INEDITABLE, &back, &iter);\
+	  gtk_text_buffer_apply_tag_by_name(Denemo.textbuffer, "system_invisible", &back, &iter);\
     open_braces += brace_count( ((lilydirective *) curobj->object)->what->str);\
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter,  ((lilydirective *) curobj->object)->what->str, -1, "bold", NULL); \
+    gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter,  ((lilydirective *) curobj->object)->what->str, -1, "bold", NULL); \
     g_free(curobj->lilypond);\
     curobj->lilypond = g_strdup(((lilydirective *) curobj->object)->what->str);\
-    GtkTextChildAnchor *endanc  = gtk_text_buffer_create_child_anchor (gui->textbuffer, &iter);\
+    GtkTextChildAnchor *endanc  = gtk_text_buffer_create_child_anchor (Denemo.textbuffer, &iter);\
     back = iter;\
     (void)gtk_text_iter_backward_char(&back);\
-    gtk_text_buffer_apply_tag_by_name(gui->textbuffer, INEDITABLE, &back, &iter);\
-    gtk_text_buffer_apply_tag_by_name(gui->textbuffer, "system_invisible", &back, &iter);\
+    gtk_text_buffer_apply_tag_by_name(Denemo.textbuffer, INEDITABLE, &back, &iter);\
+    gtk_text_buffer_apply_tag_by_name(Denemo.textbuffer, "system_invisible", &back, &iter);\
     g_object_set_data(G_OBJECT(objanc), "end", (gpointer)endanc);\
     g_object_set_data(G_OBJECT(objanc), GSTRINGP, (gpointer)&((lilydirective *) curobj->object)->what);\
     gui->anchors = g_list_prepend(gui->anchors, objanc);\
@@ -1735,7 +1795,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 
 
  OUTPUT_LILY(prefix);
- gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, " ", -1, INEDITABLE, HIGHLIGHT, NULL);
+ gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter, " ", -1, INEDITABLE, HIGHLIGHT, NULL);
  OUTPUT_LILY(postfix);
 
 #undef OUTPUT_LILY
@@ -1772,8 +1832,8 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	    if (empty_measure)// measure has nothing to use up the duration, assume  SKIP 
 	      {
 		g_string_append_printf(endstr, " s1*%d/%d ", cur_stime1, cur_stime2);
-		gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
-		gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, endstr->str, -1, NULL, NULL);
+		gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, curmark);
+		gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter, endstr->str, -1, NULL, NULL);
 		g_string_assign(endstr,"");
 		prevduration = -1;
 	      }
@@ -1790,8 +1850,8 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 		g_string_append_printf(endstr, "%s"," \\AutoEndMovementBarline\n");
 	    }
 	    
-	    gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
-	    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, endstr->str, -1, INEDITABLE, NULL);
+	    gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, curmark);
+	    gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter, endstr->str, -1, INEDITABLE, NULL);
 	  }   //if end of measure
 
 	  if(curobjnode) {
@@ -1832,9 +1892,9 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 
 
   g_free(voice_prolog_insert);
-  gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
+  gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, curmark);
   
-  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, staff_str->str, -1, INEDITABLE, NULL);
+  gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter, staff_str->str, -1, INEDITABLE, NULL);
   
 
   if (lyrics)
@@ -1846,11 +1906,11 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	GString *temp = g_string_new("");
 	g_string_printf(temp, "Verse%d", versenum);
 	set_lily_name(temp, versename);
-	gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, lyrics_name->str));
+	gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, gtk_text_buffer_get_mark(Denemo.textbuffer, lyrics_name->str));
 	g_string_printf(temp, "%s%sLyrics%s = \\lyricmode { \n", movement,
 			voice, versename->str);
 	g_string_append_printf(temp, "%s \n}\n", (char *)g->data);
-	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, NULL);
+	gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter, temp->str, -1, INEDITABLE, NULL);
 	g_string_free(temp, TRUE);
 	g_string_free(versename, TRUE);
 	g_free(g->data);
@@ -1861,7 +1921,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   if (figures->len)
     {
       GString *temp = g_string_new("");
-      gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, figures_name->str));
+      gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, gtk_text_buffer_get_mark(Denemo.textbuffer, figures_name->str));
       /* output figures prolog */
 
 	g_string_printf(temp,  "%s%sBassFiguresLine = \\figuremode {\n"
@@ -1870,10 +1930,10 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 			"\\override FiguredBass.BassFigure "
 			"#'font-size = #-1\n",movement, voice);
 	
-	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, NULL);
+	gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter, temp->str, -1, INEDITABLE, NULL);
 	
       g_string_printf(temp, "%s \n}\n", figures->str);
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, NULL);
+      gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter, temp->str, -1, INEDITABLE, NULL);
       g_string_free(temp, TRUE);
     }
   g_string_free(figures_name, TRUE);
@@ -1881,15 +1941,15 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   if (fakechords->len)
     {
       GString *temp = g_string_new("");
-      gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, fakechords_name->str));
+      gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, gtk_text_buffer_get_mark(Denemo.textbuffer, fakechords_name->str));
       /* output fakechords prolog */
       
 	g_string_append_printf(temp, "%s%sChords = \\new ChordNames \\chordmode {\n", movement, voice);
 	
-	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, NULL);
+	gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter, temp->str, -1, INEDITABLE, NULL);
 	
       g_string_printf(temp, "%s \n}\n"/* another definition here */, fakechords->str);
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, NULL);
+      gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter, temp->str, -1, INEDITABLE, NULL);
       g_string_free(temp, TRUE);
     }
   g_string_free(fakechords_name, TRUE);
@@ -1906,7 +1966,7 @@ void merge_lily_strings (DenemoGUI *gui) {
   GList *g;
   if(gui==Denemo.gui)
     write_status(gui);
-  if(!gtk_text_buffer_get_modified(gui->textbuffer)) {
+  if(!gtk_text_buffer_get_modified(Denemo.textbuffer)) {
     // g_print("not modified\n");
     return;
   }
@@ -1950,7 +2010,7 @@ void merge_lily_strings (DenemoGUI *gui) {
     }
 
   }
-  gtk_text_buffer_set_modified(gui->textbuffer, FALSE);
+  gtk_text_buffer_set_modified(Denemo.textbuffer, FALSE);
 }
 
 void merge_lily_cb (GtkAction *action, DenemoGUI *gui) {
@@ -1963,18 +2023,18 @@ void merge_lily_cb (GtkAction *action, DenemoGUI *gui) {
    conditions (see output_score_to_buffer()).
 */
 void refresh_lily_cb (GtkAction *action, DenemoGUI *gui) {
-  if(gui->textbuffer) {
+  if(Denemo.textbuffer) {
   GtkTextIter iter;
-  GtkTextMark *cursor = gtk_text_buffer_get_insert(gui->textbuffer);
-  gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, cursor);
+  GtkTextMark *cursor = gtk_text_buffer_get_insert(Denemo.textbuffer);
+  gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, cursor);
   gint offset = gtk_text_iter_get_offset (&iter);
-  //  g_print("Offset %d for %p\n", offset, gui->textbuffer);
+  //  g_print("Offset %d for %p\n", offset, Denemo.textbuffer);
   output_score_to_buffer (gui, TRUE, NULL);
-  gtk_text_buffer_get_iter_at_offset (gui->textbuffer, &iter, offset);
-  gtk_text_buffer_place_cursor(gui->textbuffer, &iter);
-  // gtk_text_view_scroll_mark_onscreen(GTK_TEXT_VIEW(gui->textview), gtk_text_buffer_get_insert(gui->textbuffer));
-  gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW(gui->textview), 
-			      gtk_text_buffer_get_insert(gui->textbuffer), 0.0, TRUE, 0.5, 0.5);
+  gtk_text_buffer_get_iter_at_offset (Denemo.textbuffer, &iter, offset);
+  gtk_text_buffer_place_cursor(Denemo.textbuffer, &iter);
+  // gtk_text_view_scroll_mark_onscreen(GTK_TEXT_VIEW(Denemo.textview), gtk_text_buffer_get_insert(Denemo.textbuffer));
+  gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW(Denemo.textview), 
+			      gtk_text_buffer_get_insert(Denemo.textbuffer), 0.0, TRUE, 0.5, 0.5);
   } else 
     output_score_to_buffer (gui, TRUE, NULL);
 }
@@ -1988,15 +2048,15 @@ void delete_lily_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   GtkTextChildAnchor *anchor = gui->lilystart;
   GtkTextIter start, end;
-  gtk_text_buffer_get_iter_at_child_anchor(gui->textbuffer, &start, anchor);
+  gtk_text_buffer_get_iter_at_child_anchor(Denemo.textbuffer, &start, anchor);
   GtkTextChildAnchor *endanc = g_object_get_data(G_OBJECT(anchor), "end");
-  gtk_text_buffer_get_iter_at_child_anchor(gui->textbuffer, &end, endanc);
+  gtk_text_buffer_get_iter_at_child_anchor(Denemo.textbuffer, &end, endanc);
   gpointer sb = g_object_get_data(G_OBJECT(anchor), CUSTOM);
   gui->anchors = g_list_remove(gui->anchors, anchor);
   gui->custom_scoreblocks = g_list_remove(gui->custom_scoreblocks, sb);
 
 
-  gtk_text_buffer_delete(gui->textbuffer, &start, &end);
+  gtk_text_buffer_delete(Denemo.textbuffer, &start, &end);
 }
 
 
@@ -2005,23 +2065,23 @@ void toggle_lily_visible_cb (GtkAction *action, gpointer param) {
   GtkTextIter start, end;
   GtkTextChildAnchor *anchor = gui->lilystart;
   DenemoScoreblock *sb = g_object_get_data(G_OBJECT(anchor), CUSTOM);
-  gtk_text_buffer_get_iter_at_child_anchor(gui->textbuffer, &start, anchor);
+  gtk_text_buffer_get_iter_at_child_anchor(Denemo.textbuffer, &start, anchor);
   (void)gtk_text_iter_forward_char(&start);
   GtkTextChildAnchor *endanc = g_object_get_data(G_OBJECT(anchor), "end");
 
-  gtk_text_buffer_get_iter_at_child_anchor(gui->textbuffer, &end, endanc);
+  gtk_text_buffer_get_iter_at_child_anchor(Denemo.textbuffer, &end, endanc);
 
   GtkTextTag *tag = gtk_text_tag_table_lookup(tagtable, "invisible");
   /*   GtkTextTag *systemtag = gtk_text_tag_table_lookup(tagtable, "system_invisible"); */
   if(gtk_text_iter_has_tag(&start,tag)) {
     if(sb)
       sb->visible = TRUE;
-    gtk_text_buffer_remove_tag_by_name (gui->textbuffer,  "invisible", &start, &end);
+    gtk_text_buffer_remove_tag_by_name (Denemo.textbuffer,  "invisible", &start, &end);
   }
   else {
     if(sb)
       sb->visible = FALSE;
-    gtk_text_buffer_apply_tag_by_name (gui->textbuffer,  "invisible", &start, &end);
+    gtk_text_buffer_apply_tag_by_name (Denemo.textbuffer,  "invisible", &start, &end);
   }
   //g_print("visible %d\n", sb?sb->visible:-1);
 }
@@ -2032,16 +2092,16 @@ static void  place_cursor_cb(GtkAction *action, DenemoGUI *gui) {
     DenemoObject *targetobj = gui->si->currentobject->data;
     GList *curobjnode;
     GtkTextIter iter;
-    gtk_text_buffer_get_start_iter (gui->textbuffer, &iter);
+    gtk_text_buffer_get_start_iter (Denemo.textbuffer, &iter);
     while (gtk_text_iter_forward_char (&iter)) {
 			GtkTextChildAnchor *anchor;
 			anchor = gtk_text_iter_get_child_anchor(&iter);
 			if (anchor && (curobjnode = g_object_get_data(G_OBJECT(anchor), OBJECTNODE)) &&
 								curobjnode->data == targetobj) {
-				gtk_text_buffer_place_cursor(gui->textbuffer, &iter);
-				gtk_text_view_scroll_mark_onscreen(GTK_TEXT_VIEW(gui->textview), gtk_text_buffer_get_insert(gui->textbuffer));
-				gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW(gui->textview), 
-			  gtk_text_buffer_get_insert(gui->textbuffer), 0.0, TRUE, 0.5, 0.5);
+				gtk_text_buffer_place_cursor(Denemo.textbuffer, &iter);
+				gtk_text_view_scroll_mark_onscreen(GTK_TEXT_VIEW(Denemo.textview), gtk_text_buffer_get_insert(Denemo.textbuffer));
+				gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW(Denemo.textview), 
+			  gtk_text_buffer_get_insert(Denemo.textbuffer), 0.0, TRUE, 0.5, 0.5);
 				//g_print("placed cursor\n"); FIXME as well color in relevant objects
 			}
      }
@@ -2052,7 +2112,7 @@ static void  place_cursor_cb(GtkAction *action, DenemoGUI *gui) {
 static void  print_cursor_cb(void) {
  GtkTextIter iter;
  DenemoGUI *gui = Denemo.gui;
-    gtk_text_buffer_get_iter_at_mark (gui->textbuffer , &iter, gtk_text_buffer_get_insert(gui->textbuffer));
+    gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer , &iter, gtk_text_buffer_get_insert(Denemo.textbuffer));
     g_print("Char is %c at bytes=%d chars=%d\n", gtk_text_iter_get_char (&iter), gtk_text_iter_get_visible_line_index (&iter),gtk_text_iter_get_visible_line_offset (&iter)  );
     
 }
@@ -2093,10 +2153,25 @@ void set_voice_termination(GString *str, DenemoStaff *curstaffstruct){
 		if(voice_override) {
 		  g_string_append_printf(str, "%s", voice_epilog_insert);
 		} else {
-		g_string_assign(str, TAB TAB"} %End of voice\n");
+			g_string_assign(str, TAB TAB"} %End of voice\n");
 		}
 }
-	    
+	 
+void set_staff_termination(GString *str, DenemoStaff *curstaffstruct){
+		gint staff_override = (DENEMO_OVERRIDE_LILYPOND|DENEMO_OVERRIDE_AFFIX) == 
+			(get_override(curstaffstruct->staff_directives)&(DENEMO_OVERRIDE_LILYPOND|DENEMO_OVERRIDE_AFFIX));
+		gchar *staff_epilog_insert =  get_postfix(curstaffstruct->staff_directives);		
+		if(staff_override) {
+		  g_string_append_printf(str, "%s", staff_epilog_insert);
+		} else {
+			g_string_assign(str, TAB TAB"\n>>\n%End of Staff\n");
+		}
+}
+	 
+void generate_lilypond_part(void) {
+	output_score_to_buffer(Denemo.gui,  TRUE, ((DenemoStaff*)(Denemo.gui->si->currentstaff->data))->lily_name->str);	
+}	 
+   
 /*
  *writes the current score in LilyPond format to the textbuffer.
  *sets gui->lilysync equal to gui->changecount
@@ -2126,8 +2201,8 @@ static void output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gcha
   else
     namespec = g_strdup_printf("%s all parts", movementname);
   g_free(movementname);
-  if(gui->textview==NULL)
-    create_lilywindow(gui);
+  //if(Denemo.textview==NULL)
+ //  create_lilywindow();
 
 
   DenemoScoreblock *sb = select_layout(all_movements, partname);//FIXME gui->namespec mechanism is probably redundant, and could well cause trouble...
@@ -2140,7 +2215,7 @@ static void output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gcha
   DenemoContext curcontext = DENEMO_NONE;
 //  if(Denemo.gui->custom_scoreblocks==NULL)
  //   create_default_scoreblock();
-  if((gui->si->markstaffnum==0) && gui->textbuffer && (gui->changecount==gui->lilysync)
+  if((gui->si->markstaffnum==0) && Denemo.textbuffer && (gui->changecount==gui->lilysync)
      && !strcmp(gui->namespec, namespec)) {
     g_free(gui->namespec);
     gui->namespec = namespec;
@@ -2151,8 +2226,8 @@ static void output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gcha
   gui->namespec = namespec;
   //g_print("actually refreshing %d %d", gui->lilysync, gui->changecount);
   gui->lilysync = gui->changecount;
-  if(gui->textbuffer)
-    gtk_text_buffer_set_text(gui->textbuffer,"",-1);
+  if(Denemo.textbuffer)
+    gtk_text_buffer_set_text(Denemo.textbuffer,"",-1);
   else
     warningdialog("trouble - no textbuffer");
   if(gui->anchors) {
@@ -2166,26 +2241,26 @@ static void output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gcha
   /* divide up the buffer for the various parts of the lily file */
   GtkTextIter iter;
 
-  gtk_text_buffer_get_start_iter (gui->textbuffer, &iter);
+  gtk_text_buffer_get_start_iter (Denemo.textbuffer, &iter);
 
   insert_section(NULL, START, "Prolog", &iter, gui);
 
-  gtk_text_buffer_get_end_iter (gui->textbuffer, &iter);
+  gtk_text_buffer_get_end_iter (Denemo.textbuffer, &iter);
 
   insert_section(NULL, MUSIC, NULL, &iter, gui);
-  gtk_text_buffer_get_end_iter (gui->textbuffer, &iter);
+  gtk_text_buffer_get_end_iter (Denemo.textbuffer, &iter);
 
   insert_section(NULL, SCOREBLOCK, NULL, &iter, gui);
 
-  gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, START));
-  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\n", -1, "bold", NULL);
+  gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, gtk_text_buffer_get_mark(Denemo.textbuffer, START));
+  gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter, "\n", -1, "bold", NULL);
  
   
     {//no custom prolog
 
     GString *header = g_string_new("");
     outputHeader (header, gui);
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, header->str, -1,  INEDITABLE, NULL);
+    gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter, header->str, -1,  INEDITABLE, NULL);
     g_string_free(header, TRUE);
     
   }//end of standard prolog
@@ -2195,7 +2270,7 @@ static void output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gcha
 //    change this script to have DENEMO_OVERRIDE_AFFIX set and then move all others to the score layout section
     
       //Default value for barline = barline check
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter,  "\nAutoBarline = |\nAutoEndMovementBarline = \\bar \"|.\"\n", -1, INEDITABLE, NULL, NULL);
+      gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter,  "\nAutoBarline = {}\nAutoEndMovementBarline = \\bar \"|.\"\n", -1, INEDITABLE, NULL, NULL);
   GList *g = gui->lilycontrol.directives;
   /* num is not needed, as at the moment we can never get this location from LilyPond */
   for(;g;g=g->next) {
@@ -2208,18 +2283,25 @@ static void output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gcha
   }
   }
 
-  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\n% The music follows\n", -1, INEDITABLE, NULL);
+  gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter, "\n% The music follows\n", -1, INEDITABLE, NULL);
   
-  gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, SCOREBLOCK));
-  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "% The scoreblocks follow\n", -1, "bold","system_invisible", NULL); 
+  gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, gtk_text_buffer_get_mark(Denemo.textbuffer, SCOREBLOCK));
+  gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter, "% The scoreblocks follow\n", -1, "bold","system_invisible", NULL); 
   
   /* output scoreblock */
   {
-	insert_scoreblock_section(gui, "standard scoreblock", sb);
-	gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, "standard scoreblock"));
-/* FIXME make the text editable if the custom scoreblock has been reduced to text */
-	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, (sb->lilypond)->str, -1, INEDITABLE, NULL);
+			gchar * scoreblock_tag;
+		if (continuous_typesetting())
+			scoreblock_tag = "temporary scoreblock";
+		else
+			scoreblock_tag = "standard scoreblock";
 
+	insert_scoreblock_section(gui, scoreblock_tag, sb);
+	gtk_text_buffer_get_iter_at_mark(Denemo.textbuffer, &iter, gtk_text_buffer_get_mark(Denemo.textbuffer, scoreblock_tag));
+	if(sb->text_only)
+		insert_editable( &sb->lilypond, (sb->lilypond)->str, &iter, gui, 0,0,0,0,0,0,0,0);
+	else 
+		gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter, (sb->lilypond)->str, -1, INEDITABLE, NULL);
   }
   /* insert standard scoreblock section*/
   //insert_scoreblock_section(gui, STANDARD_SCOREBLOCK, NULL);
@@ -2344,12 +2426,12 @@ static void output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gcha
       GtkTextMark *curmark;
       gchar *name = g_strdup_printf("%s Definitions", movement_name->str);
       insert_music_section(gui, name);
-      gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, name));
-      curmark = gtk_text_buffer_create_mark (gui->textbuffer, NULL, &iter, FALSE);
-      gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, curmark);
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, definitions->str, -1, INEDITABLE, NULL);
+      gtk_text_buffer_get_iter_at_mark(Denemo.textbuffer, &iter, gtk_text_buffer_get_mark(Denemo.textbuffer, name));
+      curmark = gtk_text_buffer_create_mark (Denemo.textbuffer, NULL, &iter, FALSE);
+      gtk_text_buffer_get_iter_at_mark(Denemo.textbuffer, &iter, curmark);
+      gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter, definitions->str, -1, INEDITABLE, NULL);
 
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, staffdefinitions->str, -1, INEDITABLE, NULL);
+      gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter, staffdefinitions->str, -1, INEDITABLE, NULL);
 
       g_free(name);
       g_string_assign(definitions, "");
@@ -2388,12 +2470,12 @@ static void output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gcha
 
 {
   GtkTextIter startiter, enditer;
-  gtk_text_buffer_get_start_iter (gui->textbuffer, &startiter);
-  gtk_text_buffer_get_end_iter (gui->textbuffer, &enditer);
-  gtk_text_buffer_apply_tag_by_name (gui->textbuffer,  "monospace", &startiter, &enditer);
+  gtk_text_buffer_get_start_iter (Denemo.textbuffer, &startiter);
+  gtk_text_buffer_get_end_iter (Denemo.textbuffer, &enditer);
+  gtk_text_buffer_apply_tag_by_name (Denemo.textbuffer,  "monospace", &startiter, &enditer);
 }
 
-  gtk_text_buffer_set_modified (gui->textbuffer, FALSE);
+  gtk_text_buffer_set_modified (Denemo.textbuffer, FALSE);
   
 } /* output_score_to_buffer */
 
@@ -2417,9 +2499,9 @@ export_lilypond (gchar * thefilename, DenemoGUI *gui, gboolean all_movements, gc
   output_score_to_buffer (gui, all_movements, partname);
   GString *filename = g_string_new (thefilename);
   if(filename) {
-    gtk_text_buffer_get_start_iter (gui->textbuffer, &startiter);
-    gtk_text_buffer_get_end_iter (gui->textbuffer, &enditer);
-    gchar *lily = gtk_text_buffer_get_text (gui->textbuffer, &startiter, &enditer, FALSE);
+    gtk_text_buffer_get_start_iter (Denemo.textbuffer, &startiter);
+    gtk_text_buffer_get_end_iter (Denemo.textbuffer, &enditer);
+    gchar *lily = gtk_text_buffer_get_text (Denemo.textbuffer, &startiter, &enditer, FALSE);
     /* Append .ly onto the filename if necessary */
     if (strcmp (filename->str + filename->len - 3, ".ly"))
       g_string_append (filename, ".ly");
@@ -2488,33 +2570,33 @@ export_lilypond_parts (char *filename, DenemoGUI *gui)
 }
 
 /* callback on closing lilypond window */
-static gboolean lilywindow_closed(GObject *object, DenemoGUI *gui) {
+static gboolean lilywindow_closed() {
   activate_action("/MainMenu/ViewMenu/ToggleLilyText");
   return TRUE;
 }
 
 
 static gboolean 
-lily_refresh(GtkWidget *item, GdkEventCrossing *e, DenemoGUI *gui);
+lily_refresh(GtkWidget *item, GdkEventCrossing *e);
 
 static gboolean 
-lily_save(GtkWidget *item, GdkEventCrossing *e, DenemoGUI *gui){
+lily_save(GtkWidget *item, GdkEventCrossing *e){
+	DenemoGUI *gui = Denemo.gui;
   //g_print("Consider Save ... %d %d", gui->lilysync, gui->changecount);
-  g_signal_handlers_block_by_func (SIGNAL_WIDGET, G_CALLBACK (lily_save), gui);
-  if(gui->textwindow) {
-    g_signal_handlers_unblock_by_func (G_OBJECT (gui->textwindow), G_CALLBACK (lily_refresh), gui);
-    merge_lily_strings(gui);
-    if(gui->si)
-      update_drawing_cache();;//!gtk_widget_queue_draw (gui->scorearea);
-  }
+ // g_signal_handlers_block_by_func (G_OBJECT (SIGNAL_WIDGET), G_CALLBACK (lily_save), NULL);
+ // g_signal_handlers_unblock_by_func (G_OBJECT (SIGNAL_WIDGET), G_CALLBACK (lily_refresh), gui);
+  merge_lily_strings(gui);
+  if(gui->si)
+      update_drawing_cache();
   return FALSE;
 }
 static gboolean 
-lily_refresh(GtkWidget *item, GdkEventCrossing *e, DenemoGUI *gui){
+lily_refresh(GtkWidget *item, GdkEventCrossing *e){
+	DenemoGUI *gui = Denemo.gui;
   //g_print("Consider Refresh ... %d %d", gui->lilysync, gui->changecount);
-  if(gui->textwindow)
-    g_signal_handlers_block_by_func(gui->textwindow, G_CALLBACK (lily_refresh), gui);
-  g_signal_handlers_unblock_by_func (G_OBJECT (SIGNAL_WIDGET), G_CALLBACK (lily_save), gui);
+
+  //g_signal_handlers_block_by_func(G_OBJECT (SIGNAL_WIDGET), G_CALLBACK (lily_refresh), NULL);
+  //g_signal_handlers_unblock_by_func (G_OBJECT (SIGNAL_WIDGET), G_CALLBACK (lily_save), NULL);
   
   if( gui->si->markstaffnum || (gui->lilysync!=gui->changecount)) {
     gui->si->markstaffnum =  0;//remove selection, else we will only see that bit in LilyText   
@@ -2532,7 +2614,8 @@ prepend_menu_item(GtkMenuShell *menu, DenemoGUI *gui, gchar *text, gpointer call
   gtk_menu_shell_prepend(menu,GTK_WIDGET( item));
   gtk_widget_show(GTK_WIDGET(item));
 }
-static gboolean populate_called(GtkWidget *view, GtkMenuShell *menu, DenemoGUI *gui){
+static gboolean populate_called(GtkWidget *view, GtkMenuShell *menu){
+  DenemoGUI *gui = Denemo.gui;
   //g_print("populate called with %p\n", menu);
   prepend_menu_item(menu, gui, "Find Current Object", (gpointer) place_cursor_cb);
   prepend_menu_item(menu, gui, "Print from visible LilyPond text", (gpointer) print_lily_cb);
@@ -2543,15 +2626,16 @@ static gboolean populate_called(GtkWidget *view, GtkMenuShell *menu, DenemoGUI *
 gboolean goto_lilypond_position(gint line, gint column) {
   DenemoGUI *gui = Denemo.gui;
   GtkTextIter enditer, iter;
-  gtk_text_buffer_get_end_iter (gui->textbuffer, &enditer);
-  gtk_text_buffer_get_start_iter (gui->textbuffer, &iter);
+  mswin("goto_lilypond_position called for line %d column %d\n", line, column);
+  gtk_text_buffer_get_end_iter (Denemo.textbuffer, &enditer);
+  gtk_text_buffer_get_start_iter (Denemo.textbuffer, &iter);
 
   line--;
  
 	column++; //needed to avoid stepping back after anchor on directives
   if(column>0 && line>0) {
     gtk_text_buffer_get_iter_at_line_offset
-      (gui->textbuffer,
+      (Denemo.textbuffer,
        &iter,
        line,
        0);
@@ -2559,7 +2643,7 @@ gboolean goto_lilypond_position(gint line, gint column) {
     //g_print("line %d column %d\n", line, column);
     //g_print("line has %d chars\n", maxcol);
 		gtk_text_iter_set_visible_line_offset (&iter, MIN(maxcol, column));
-		gtk_text_buffer_place_cursor (gui->textbuffer, &iter);
+		gtk_text_buffer_place_cursor (Denemo.textbuffer, &iter);
 		GtkTextChildAnchor *anchor = gtk_text_iter_get_child_anchor(&iter);
 		//if(anchor) g_print("At anchor %x <%c> ", anchor, gtk_text_iter_get_char (&iter));
 		//else g_print("Not at anchor <%c> ", gtk_text_iter_get_char (&iter));
@@ -2579,12 +2663,13 @@ gboolean goto_lilypond_position(gint line, gint column) {
 			gint directivenum =  (intptr_t) g_object_get_data(G_OBJECT(anchor), DIRECTIVENUM);
 			gint mid_c_offset = (intptr_t) g_object_get_data(G_OBJECT(anchor), MIDCOFFSET);
 			//g_print("location %d %d %d %d\n", objnum, measurenum, staffnum, movementnum);
-			DenemoTargetType type = (intptr_t) g_object_get_data(G_OBJECT(anchor), TARGETTYPE);g_print("getting %d\n", type);
+			DenemoTargetType type = (intptr_t) g_object_get_data(G_OBJECT(anchor), TARGETTYPE);
 			gui->si->target.objnum = objnum;
 			gui->si->target.measurenum = measurenum;
 			gui->si->target.staffnum = staffnum;
 			gui->si->target.type = type;
 			gui->si->target.directivenum = directivenum;
+			mswin("goto_lilypond_position: anchor located and target set %d %d\n", measurenum, objnum);
 
 			if(movementnum<1)  {
 				g_warning("Object %p has no location data\n", g_object_get_data(G_OBJECT(anchor), OBJECTNODE));
@@ -2604,6 +2689,7 @@ gboolean goto_lilypond_position(gint line, gint column) {
 				}
 				gui->si->target.mid_c_offset = midcoffset;
 			}
+			mswin("goto_lilypond_position: Success\n");
 			return TRUE;
 		} else 
 		g_warning("Anchor not found\n");
@@ -2611,9 +2697,10 @@ gboolean goto_lilypond_position(gint line, gint column) {
   return FALSE;
 }
 
-static gboolean lily_keypress(GtkWidget *w, GdkEventKey *event, DenemoGUI *gui) {
+static gboolean lily_keypress(GtkWidget *w, GdkEventKey *event) {
+	DenemoGUI *gui = Denemo.gui;
   GtkTextIter cursor;
-  gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &cursor, gtk_text_buffer_get_insert(gui->textbuffer));
+  gtk_text_buffer_get_iter_at_mark(Denemo.textbuffer, &cursor, gtk_text_buffer_get_insert(Denemo.textbuffer));
 
 
 #ifndef TEXTBUFFER_BUG_FIXED
@@ -2621,14 +2708,14 @@ static gboolean lily_keypress(GtkWidget *w, GdkEventKey *event, DenemoGUI *gui) 
   if((event->keyval==65361) && (gtk_text_iter_get_line_offset(&cursor)<2)){
     g_print("avoiding gtk bug...\n");
     GtkTextTag *tag = gtk_text_tag_table_lookup(tagtable, "invisible");
-    if(gtk_text_iter_has_tag(&cursor,tag)) {
+    if(tag && gtk_text_iter_has_tag(&cursor,tag)) {
       while(gtk_text_iter_backward_cursor_position(&cursor) && gtk_text_iter_has_tag(&cursor,tag))
-	gtk_text_buffer_place_cursor(gui->textbuffer, &cursor);
+	gtk_text_buffer_place_cursor(Denemo.textbuffer, &cursor);
       g_print("backed up\n");
       return TRUE;
     }
     if(gtk_text_iter_backward_cursor_position(&cursor))
-      gtk_text_buffer_place_cursor(gui->textbuffer, &cursor);
+      gtk_text_buffer_place_cursor(Denemo.textbuffer, &cursor);
     return TRUE;
   }
 #endif
@@ -2671,9 +2758,9 @@ static gboolean lily_keypress(GtkWidget *w, GdkEventKey *event, DenemoGUI *gui) 
 				}
 				score_status(gui, TRUE);
 				refresh_lily_cb(NULL, gui);
-				gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &cursor, gtk_text_buffer_get_insert(gui->textbuffer));
+				gtk_text_buffer_get_iter_at_mark(Denemo.textbuffer, &cursor, gtk_text_buffer_get_insert(Denemo.textbuffer));
 				if(gtk_text_iter_forward_char (&cursor))
-					gtk_text_buffer_place_cursor(gui->textbuffer, &cursor);
+					gtk_text_buffer_place_cursor(Denemo.textbuffer, &cursor);
 				g_free(key);
 				return TRUE;
       case CHORD:
@@ -2685,9 +2772,9 @@ static gboolean lily_keypress(GtkWidget *w, GdkEventKey *event, DenemoGUI *gui) 
 					object_insert (gui, lilyobj);
 					displayhelper(gui);
 					refresh_lily_cb(NULL, gui);
-					gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &cursor, gtk_text_buffer_get_insert(gui->textbuffer));
+					gtk_text_buffer_get_iter_at_mark(Denemo.textbuffer, &cursor, gtk_text_buffer_get_insert(Denemo.textbuffer));
 					if(gtk_text_iter_forward_char (&cursor) && gtk_text_iter_forward_char (&cursor))
-						gtk_text_buffer_place_cursor(gui->textbuffer, &cursor);
+						gtk_text_buffer_place_cursor(Denemo.textbuffer, &cursor);
 					g_free(key);
 					return TRUE;
 				}
@@ -2698,17 +2785,41 @@ static gboolean lily_keypress(GtkWidget *w, GdkEventKey *event, DenemoGUI *gui) 
   }//if cursor is at anchor
   return FALSE;//let the normal handler have the keypress
 }
-static void create_lilywindow(DenemoGUI *gui) {
-  gui->textwindow = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  //gtk_window_set_position (GTK_WINDOW (gui->textwindow), GTK_WIN_POS_NONE);
-  gtk_window_set_default_size (GTK_WINDOW (gui->textwindow), 800, 600);
-  gtk_window_set_title(GTK_WINDOW (gui->textwindow), "LilyPond Text - Denemo");
-  g_signal_connect (G_OBJECT (gui->textwindow), "delete-event",
-		    G_CALLBACK (lilywindow_closed), gui); 
+
+static void create_console(GtkWidget *box) {
+  //GtkWidget *vpaned = gtk_vpaned_new ();
+  //gtk_container_set_border_width (GTK_CONTAINER(vpaned), 5);
+  //gtk_box_pack_start (GTK_BOX (box), vpaned, FALSE, TRUE, 0);
+  if(Denemo.console)
+		return;
+  Denemo.console = gtk_text_view_new ();
+  GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+				  GTK_POLICY_AUTOMATIC,
+				  GTK_POLICY_AUTOMATIC);
+  //gtk_paned_add1 (GTK_PANED (vpaned), sw);
+gtk_box_pack_start (GTK_BOX (box), sw, FALSE, TRUE, 0);
+  gtk_container_add (GTK_CONTAINER (sw), Denemo.console);
+  // gtk_widget_show_all(vpaned);
+ gtk_widget_show_all(sw);
+}
+
+
+void create_lilywindow(void) {
+  Denemo.textwindow = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  //gtk_window_set_position (GTK_WINDOW (Denemo.textwindow), GTK_WIN_POS_NONE);
+  gtk_window_set_default_size (GTK_WINDOW (Denemo.textwindow), 800, 600);
+  gtk_window_set_title(GTK_WINDOW (Denemo.textwindow), "LilyPond Text - Denemo");
+  g_signal_connect (G_OBJECT (Denemo.textwindow), "delete-event",
+		    G_CALLBACK (lilywindow_closed), NULL); 
+	GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
+	gtk_container_add (GTK_CONTAINER (Denemo.textwindow), vbox);
   GtkWidget *vpaned = gtk_vpaned_new ();
   gtk_container_set_border_width (GTK_CONTAINER(vpaned), 5);
-
-  gtk_container_add (GTK_CONTAINER (gui->textwindow), vpaned);
+	gtk_box_pack_start (GTK_BOX (vbox), vpaned, TRUE, TRUE, 0);
+  //gtk_container_add (GTK_CONTAINER (Denemo.textwindow), vpaned);
+  create_console(vbox);
+  
   GtkWidget *view = gtk_text_view_new ();
   GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
@@ -2716,18 +2827,18 @@ static void create_lilywindow(DenemoGUI *gui) {
 				  GTK_POLICY_AUTOMATIC);
   gtk_paned_add1 (GTK_PANED (vpaned), sw);
   gtk_container_add (GTK_CONTAINER (sw), view);
-  gtk_widget_show_all(vpaned);
+  gtk_widget_show_all(vbox);
 
   tagtable =  (GtkTextTagTable *)gtk_text_tag_table_new();
-  gui->textview = (GtkTextView *)view;
+  Denemo.textview = (GtkTextView *)view;
 
 #if 1
-  g_signal_connect (G_OBJECT (gui->textview), "key-press-event",
-		    G_CALLBACK (lily_keypress), gui);
+  g_signal_connect (G_OBJECT (Denemo.textview), "key-press-event",
+		    G_CALLBACK (lily_keypress), NULL);
 #endif
 
-  g_signal_connect (G_OBJECT (gui->textview), "populate-popup",
-		    G_CALLBACK (populate_called), gui);
+  g_signal_connect (G_OBJECT (Denemo.textview), "populate-popup",
+		    G_CALLBACK (populate_called), NULL);
 
 
 
@@ -2760,21 +2871,14 @@ static void create_lilywindow(DenemoGUI *gui) {
   gtk_text_tag_table_add (tagtable, t);
 
   
-  gui->textbuffer = gtk_text_buffer_new(tagtable);
-  gtk_text_view_set_buffer (GTK_TEXT_VIEW(gui->textview), gui->textbuffer);
-  gui->lilysync = G_MAXUINT;//buffer not yet up to date
+  Denemo.textbuffer = gtk_text_buffer_new(tagtable);
+  gtk_text_view_set_buffer (GTK_TEXT_VIEW(Denemo.textview), Denemo.textbuffer);
+  //gui->lilysync = G_MAXUINT;//buffer not yet up to date
 
-  gboolean has_signal = (gboolean)(intptr_t)g_object_get_data(G_OBJECT (SIGNAL_WIDGET),"has signal");
-  if(has_signal)     
-    g_signal_handlers_unblock_by_func (G_OBJECT (SIGNAL_WIDGET), G_CALLBACK (lily_save), gui);//FIXME is it blocked?
-  else {
-    g_signal_connect (G_OBJECT (SIGNAL_WIDGET), LEAVE_NOTIFY_EVENT ,
-		      G_CALLBACK (lily_save), gui);
-    g_object_set_data(G_OBJECT (SIGNAL_WIDGET),"has signal", (gpointer)TRUE);
-  }
-  g_signal_connect (G_OBJECT (gui->textwindow), ENTER_NOTIFY_EVENT,
-		    G_CALLBACK (lily_refresh), gui);
-  g_signal_handlers_block_by_func(gui->textwindow, G_CALLBACK (lily_refresh), gui);
-  //g_signal_handlers_block_by_func (SIGNAL_WIDGET, G_CALLBACK (lily_save), gui);
 
+  g_signal_connect (G_OBJECT (SIGNAL_WIDGET), LEAVE_NOTIFY_EVENT ,
+		      G_CALLBACK (lily_save), NULL);
+  g_signal_connect (G_OBJECT (SIGNAL_WIDGET), ENTER_NOTIFY_EVENT,
+		    G_CALLBACK (lily_refresh), NULL);
+  //g_signal_handlers_block_by_func(G_OBJECT (SIGNAL_WIDGET), G_CALLBACK (lily_refresh), NULL);
 }

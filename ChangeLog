@@ -1,3 +1,36 @@
+2013-04-24 Release 1.0.2
+			Wysiwyg Improvements
+				Dragging now shows the object as you drag moving over the score
+				Dragging of objects attached to notes can now be done
+				Slurs can be re-shaped
+			Chord Symbols
+				Place chords on a separate staff and have them automatically typeset as Chord Symbols
+			Bug Fixes
+				Octave playback bug fixed
+
+2013-01-04 Release 1.0
+   WYSIWYG
+      Positioning of elements can be fine-tuned by dragging in the final typeset view.
+      Slur angle and placement can likewise be altered by dragging to avoid occasional problems
+      Beaming angle can be altered using this wysiwyg interface.
+   Continuous Typesetting Option
+      A continuously updated score can be kept visible
+      Option to re-typeset only a few bars/staffs around the current position
+   Animated Display
+      No more losing the cursor when stepping off the side of the screen.
+      Transition when deleting measures or staffs makes it clear what you just did
+   Example of Features
+      Sample pdf output: click on a feature to get instructions on how to create the feature
+   More commands
+      Single command to generate complete set of score and parts
+      Textual Annotations, draggable to any position
+      Lyric verses at end of piece.
+      Acciaccatura built in, with display. 
+      Dal Segno
+      Whole Measure Repeats
+      Beaming commands controlling left and right beam numbers
+   LilyPond definitions can be created for a score and immediately appear in a menu
+
 2012-07-08 Release 0.9.6:
 
   Tooltips

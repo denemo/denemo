@@ -276,8 +276,8 @@ typedef struct
   gint no_of_lines; /**< Number of lines on the staff */
   gint transposition; /**< Determines if the notes are to be played back at pitch or not */
 
-  gint volume;	/**< Volume used for midi playback */
-  gboolean mute_volume; /**< mute Volume of voices playback */
+  gint volume;	/**< Master Volume used to scale midi playback */
+  gboolean override_volume; /**< when true staff plays full Volume always */
   /* Back to Hiller stuff */
   //  GString *staff_name;
 
@@ -389,6 +389,7 @@ typedef struct DenemoPrefs
   gboolean cursor_highlight; /** Should the cursor be highlighted */
   gboolean return_key_is_special; /** Should the Return key be treated as movable shortcut */
   gboolean newbie; /** Give maximum help */
+  gboolean learning; /** Show which keypresses have been used */
   gboolean progressbardecorations; /** TRUE if you want window decorations on progressbar */
   gboolean toolbar; /**< makes the toolbar visible */
   gboolean playback_controls; /**< makes the playback controls visible */
@@ -690,6 +691,7 @@ typedef struct DenemoScoreblock {
   guint32 id;/**< an id for this scoreblock generated from name, as a quick identifier */
   gint movement;/**< Which movement the scoreblock outputs, 0 = all movements. Only used for standard scoreblocks */
   gchar *partname; /**< Which part the scoreblock outputs, NULL = all parts. Only used for standard scoreblocks */
+  gboolean text_only;/**< TRUE if only the lilypond text exists for this widget - no widget structure to be refreshed */
 } DenemoScoreblock;
 
 
@@ -904,9 +906,8 @@ typedef struct DenemoGUI
 
   gchar *xbm; /**< xbm representation of graphic bitmap from selected rectangle in print preview area*/
   gint xbm_width, xbm_height;/**< width and height of the xbm data */
-  GtkWidget *textwindow; /**< LilyPond output window */
-  GtkTextBuffer *textbuffer;   /**< buffer for LilyPond text */
-  GtkTextView *textview; /**< LilyPond output text view */
+
+  
   gchar *namespec;/**< A spec of which parts/movements to print */
   
 
@@ -925,7 +926,7 @@ typedef struct DenemoGUI
   scoreheader scoreheader;/*< Directives for the header block at the start of the score */
   paper paper;/*< Directives for the paper block of the score */
   GList *midi_events;/*< midi_events to be output at start of first track of each movement */
-
+	gboolean has_script;/*< true if there is a script to be run on loading the DenemoGUI from disk */
   GList *standard_scoreblocks; /**< List of automatically generated \score blocks for LilyPond output elements are DenemoScoreblock * */
   GList *custom_scoreblocks; /**< List of customized  \score blocks for LilyPond output, elements are DenemoScoreblock * */
   GtkWidget *score_layout; /**< The window in which custom_scoreblock widgets are placed */
@@ -1022,6 +1023,9 @@ struct DenemoRoot
   GtkWidget *printvscrollbar;/**< scrollbar widget for printarea */
   GtkWidget *printhscrollbar;/**< scrollbar widget for printarea */
   GdkPixbuf *pixbuf;/**< print preview pixbuf */
+  GtkWidget *textwindow; /**< LilyPond output window */
+  GtkTextView *textview; /**< LilyPond output text view */
+  GtkTextBuffer *textbuffer;   /**< buffer for LilyPond text */
   /* window state */
   gint width;
   gint height;

@@ -151,3 +151,13 @@
 	(Probe test d-NextNote))
 (define (ProbePreviousNote test)
 	(Probe test d-PreviousNote))
+
+(define (MoveDownStaffOrVoice)
+	(if (d-MoveToVoiceDown)
+		#t
+		(d-MoveToStaffDown)))
+		
+(define (MoveUpStaffOrVoice)
+	(if (d-MoveToVoiceUp)
+		#t
+		(d-MoveToStaffUp)))		

@@ -117,42 +117,49 @@
       <row>
         <action>MoveToMeasureRight</action>
         <label>Move to Measure Right</label>
-        <tooltip>Moves the cursor to the first object in the previous measureleaving selection, if any, unchanged</tooltip>
+        <tooltip>Moves the cursor to the first object in the previous measure leaving selection, if any, unchanged</tooltip>
       </row>
       <row>
         <action>A</action>
         <label>A</label>
-        <tooltip>Append/Edit  A</tooltip>
+        <tooltip>Changes the note the cursor is on to the note A.
+If the cursor is in the appending position, appends a note using the prevailing duration.</tooltip>
       </row>
       <row>
         <action>B</action>
         <label>B</label>
-        <tooltip>Append/Edit  B</tooltip>
+        <tooltip>Changes the note the cursor is on to the note B.
+If the cursor is in the appending position, appends a note using the prevailing duration.</tooltip>
       </row>
       <row>
         <action>C</action>
         <label>C</label>
-        <tooltip>Append/Edit  C</tooltip>
+        <tooltip>Changes the note the cursor is on to the note C.
+If the cursor is in the appending position, appends a note using the prevailing duration.</tooltip>
       </row>
       <row>
         <action>D</action>
         <label>D</label>
-        <tooltip>Append/Edit  D</tooltip>
+        <tooltip>Changes the note the cursor is on to the note D.
+If the cursor is in the appending position, appends a note using the prevailing duration.</tooltip>
       </row>
       <row>
         <action>E</action>
         <label>E</label>
-        <tooltip>Append/Edit  E</tooltip>
+        <tooltip>Changes the note the cursor is on to the note E.
+If the cursor is in the appending position, appends a note using the prevailing duration.</tooltip>
       </row>
       <row>
         <action>F</action>
         <label>F</label>
-        <tooltip>Append/Edit  F</tooltip>
+        <tooltip>Changes the note the cursor is on to the note F.
+If the cursor is in the appending position, appends a note using the prevailing duration.</tooltip>
       </row>
       <row>
         <action>G</action>
         <label>G</label>
-        <tooltip>Append/Edit  G</tooltip>
+        <tooltip>Changes the note the cursor is on to the note G.
+If the cursor is in the appending position, appends a note using the prevailing duration.</tooltip>
       </row>
       <row>
         <action>OctaveUp</action>
@@ -246,47 +253,47 @@
       </row>
       <row>
         <action>InsertBlankWholeNote</action>
-        <label>InsertBlankWholeNote</label>
+        <label>&#x1D13B; Spacer</label>
         <tooltip>Insert a non-printing &#x1D13B; rest</tooltip>
       </row>
       <row>
         <action>InsertBlankHalfNote</action>
-        <label>InsertBlankHalfNote</label>
+        <label>&#x1D13C; Spacer</label>
         <tooltip>Insert a non-printing &#x1D13C; rest</tooltip>
       </row>
       <row>
         <action>InsertBlankQuarterNote</action>
-        <label>InsertBlankQuarterNote</label>
+        <label>&#x1D13D; Spacer</label>
         <tooltip>Insert a non-printing &#x1D13D; rest</tooltip>
       </row>
       <row>
         <action>InsertBlankEighthNote</action>
-        <label>InsertBlankEighthNote</label>
+        <label>&#x1D13E; Spacer</label>
         <tooltip>Insert a non-printing &#x1D13E; rest</tooltip>
       </row>
       <row>
         <action>InsertBlankSixteenthNote</action>
-        <label>InsertBlankSixteenthNote</label>
+        <label>&#x1D13F; Spacer</label>
         <tooltip>Insert a non-printing &#x1D13F; rest</tooltip>
       </row>
       <row>
         <action>InsertBlankThirtysecondNote</action>
-        <label>InsertBlankThirtysecondNote</label>
+        <label>&#x1D140; Spacer</label>
         <tooltip>Insert a non-printing &#x1D140; rest</tooltip>
       </row>
       <row>
         <action>InsertBlankSixtyfourthNote</action>
-        <label>InsertBlankSixtyfourthNote</label>
+        <label>&#x1D141; Spacer</label>
         <tooltip>Insert a non-printing &#x1D141; rest</tooltip>
       </row>
       <row>
         <action>InsertBlankOneHundredTwentyEighthNote</action>
-        <label>InsertBlankOneHundredTwentyEighthNote</label>
+        <label>&#x1D142; Spacer</label>
         <tooltip>Insert a non-printing &#x1D142; rest</tooltip>
       </row>
       <row>
         <action>InsertBlankTwoHundredFiftySixthNote</action>
-        <label>InsertBlankTwoHundredFiftySixthNote</label>
+        <label>&#x1D143; Spacer</label>
         <tooltip>Insert a non-printing &#x1D143; rest</tooltip>
       </row>
       <row>
@@ -321,7 +328,7 @@
       </row>
       <row>
         <action>InsertQuadtuplet</action>
-        <label>Insert Quadtuplet</label>
+        <label>Insert Quadruplet</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
@@ -1081,7 +1088,7 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
       <row>
         <action>OpenNewWindow</action>
         <label>Open In New</label>
-        <tooltip>Open a file containing a music score for editing in a separate working area (tab</tooltip>
+        <tooltip>Open a file containing a music score for editing in a separate working area (tab)</tooltip>
       </row>
       <row>
         <action>Save</action>
@@ -1166,7 +1173,7 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
       <row>
         <action>PrintPreview</action>
         <label>Print Preview</label>
-        <tooltip>Displays the final finished score in your pd viewer</tooltip>
+        <tooltip>Displays the final finished score in your PDF viewer</tooltip>
       </row>
       <row>
         <action>PrintView</action>
@@ -2710,13 +2717,6 @@ for second and subsequent systems</tooltip>
         <tooltip>Inserts a start triplet or end tuple alternately.</tooltip>
       </row>
       <row>
-        <action>NonPrintingStaff</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
-        <label>Non-Printing Staff</label>
-        <tooltip>Hides the staff in LilyPond print out.</tooltip>
-      </row>
-      <row>
         <action>Largo</action>
         <after>Andante</after>
         <scheme></scheme>
@@ -2904,14 +2904,6 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/ClefMenu</menupath>
         <label>Clef Chooser</label>
         <tooltip>Choose any sort of clef. If the cursor is at the start change initial clef, else insert chosen clef.</tooltip>
-      </row>
-      <row>
-        <action>HideLilyPond</action>
-        <after>ParenthesizeChord</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/ChordMenu</menupath>
-        <label>Hide on Printing</label>
-        <tooltip>Comments out the chord in the LilyPond output.</tooltip>
       </row>
       <row>
         <action>MezzoPiano</action>
@@ -3109,7 +3101,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/MIDI</menupath>
         <label>11 Expression</label>
-        <tooltip>Aka "Sub Volume" or "Percent Volume". The "real" volume. Use Volume as initial value for each staff/channel and change further cresc/desc with expression. </tooltip>
+        <tooltip>Aka "Sub Volume" or "Percent Volume". The "real" volume. Use Volume as initial value for each staff/channel and change further cresc/dim with expression. </tooltip>
       </row>
       <row>
         <action>ChangeHoldPedal</action>
@@ -3132,8 +3124,8 @@ for second and subsequent systems</tooltip>
         <after>ChangePortamento</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/MIDI</menupath>
-        <label>66 Sustenuto Pedal (On/Off) (Middle Grand Piano Pedal)</label>
-        <tooltip>Middle Grand Piano Pedal. All Notes currently active (without a note off) will not have a note-off until Sustenuto Off.</tooltip>
+        <label>66 Sostenuto Pedal (On/Off) (Middle Grand Piano Pedal)</label>
+        <tooltip>Middle Grand Piano Pedal. All Notes currently active (without a note off) will not have a note-off until Sostenuto Off.</tooltip>
       </row>
       <row>
         <action>ChangeSoftPedal</action>
@@ -4022,14 +4014,6 @@ for second and subsequent systems</tooltip>
         <tooltip>Sets Longa as the prevailing duration, installing it as a musical snippet.</tooltip>
       </row>
       <row>
-        <action>SetInitialVolumeToZero</action>
-        <after>MoveToVoiceDown</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu/Playback</menupath>
-        <label>Mute</label>
-        <tooltip>Mutes playback on this staff by placing a volume=zero directive at the start.</tooltip>
-      </row>
-      <row>
         <action>TinyStaff</action>
         <after>SmallerStaff</after>
         <scheme></scheme>
@@ -4322,7 +4306,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/MainMenu/PlaybackMenu</menupath>
         <label>Record and Convert</label>
-        <tooltip>Starts playing the score and recording from MIDI in, When finished it converts the recording to notation.</tooltip>
+        <tooltip>Starts playing the score and recording from MIDI-in. When finished it converts the recording to notation.</tooltip>
       </row>
       <row>
         <action>CreateIntro</action>
@@ -4812,7 +4796,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests</menupath>
         <label>Join music objects to new chord</label>
-        <tooltip>Joins all notes, chords and rests in the selection and inserts a all selected notes as chord. May create tied notes.</tooltip>
+        <tooltip>Joins all notes, chords and rests in the selection and inserts all selected notes as chord. May create tied notes.</tooltip>
       </row>
       <row>
         <action>NotationMagick-ReverseSelectedObjects</action>
@@ -4858,7 +4842,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/MainMenu/Educational/MIDI</menupath>
         <label>Handel's Figured Bass Exercises</label>
-        <tooltip>Allows you to play in chords to Handel's continuo practice material</tooltip>
+        <tooltip>Allows you to play in chords - a continuo realization - to Handel's continuo-practice exercises. Your continuo realization can optionally be marked to show consecutives.</tooltip>
       </row>
       <row>
         <action>CreateParts</action>
@@ -5147,13 +5131,6 @@ for second and subsequent systems</tooltip>
         <tooltip>Inserts an 8va mark (transposing the notes accordingly) or terminates one already started.</tooltip>
       </row>
       <row>
-        <action>Upprall</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
-        <label>Up Prall</label>
-        <tooltip>Adds/Removes Up Prall ornament</tooltip>
-      </row>
-      <row>
         <action>MoveRest</action>
         <after>InsertLongaRest</after>
         <scheme></scheme>
@@ -5278,7 +5255,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/Score</menupath>
         <label>Point and Click (Off/On)</label>
-        <tooltip>When on, clicking on a note in the Print Preview window takes the cursor to that note. This works also for Rehearsal Marks and many other objects in the score. The only reason to turn it off is for export to PDF file via the Export menu. However, using print to file is a better way of doing this as thenit is not needed.</tooltip>
+        <tooltip>When on, clicking on a note in the Print Preview window takes the cursor to that note. This works also for Rehearsal Marks and many other objects in the score. The only reason to turn it off is for export to PDF file via the Export menu. However, using print to file is a better way of doing this as then it is not needed.</tooltip>
       </row>
       <row>
         <action>ShiftNext</action>
@@ -5390,7 +5367,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/ClefMenu</menupath>
         <label>Display Only Clef</label>
-        <tooltip>Inserts a clef that affects only the display, not the printed form. Use this after ChangeStaff in the staff the voice will be on is in a different clef. Also useful to display in a familiar clef music which you want to be printed in a less familiar one (e.g. display in treble or bass music to be printed for viola</tooltip>
+        <tooltip>Inserts a clef that affects only the display, not the printed form. Use this if, after a Change Staff, the staff the voice will be on is in a different clef (avoiding too many ledger lines in the display, making it hard to read). Also useful to display in a familiar clef music which you want to be printed in a less familiar one (e.g. display in treble or bass clef music to be printed for viola).</tooltip>
       </row>
       <row>
         <action>CriticalCommentary</action>
@@ -5682,7 +5659,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
         <label>Harmonic (Off/On)</label>
-        <tooltip>Mark/Unmark current selection of object with a harmonic</tooltip>
+        <tooltip>Mark/Unmark current selection or object with a harmonic</tooltip>
       </row>
       <row>
         <action>FermataSelectionSwitcher</action>
@@ -5721,7 +5698,7 @@ for second and subsequent systems</tooltip>
         <tooltip>Adds/Removes a prall to the note</tooltip>
       </row>
       <row>
-        <action>ToggleUpprall</action>
+        <action>ToggleUpPrall</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
         <label>Up Prall (Off/On)</label>
@@ -5863,7 +5840,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/MainMenu/PlaybackMenu/Audio</menupath>
         <label>Synchronize Audio</label>
-        <tooltip>Plays the audio attached to the current movment. Creates a timing bar for each space bar press. Music written in the staffs below will synchronize with the audio.</tooltip>
+        <tooltip>Plays the audio attached to the current movement. Creates a timing bar for each space bar press. Music written in the staffs below will synchronize with the audio.</tooltip>
       </row>
       <row>
         <action>CloseSourceAudioFile</action>
@@ -5887,7 +5864,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/MainMenu/InputMenu/MIDI</menupath>
         <label>Chords for Bar</label>
-        <tooltip>Plays the context of the current bar. Then listens for you to play each note in current bar the bar with added chord(s), notates the chords on a staff above. When finished re-plays the bar. Allows you to repeat (pitch bend down) or go on to next bar (pitch bend up).</tooltip>
+        <tooltip>Plays the context of the current bar. Then listens for you to play each note in current bar with added chord(s). As you do this it notates the chords on a staff above. When the bar is finished it re-plays the bar. Allows you to repeat (pitch bend down) or go on to next bar (pitch bend up).</tooltip>
       </row>
       <row>
         <action>MakeGrace</action>
@@ -6257,6 +6234,189 @@ accidentals are usually printed over the note.</tooltip>
         <menupath>/ObjectMenu/NotesRests/Markings/FiguredBass</menupath>
         <label>Heights of Groups</label>
         <tooltip>Allows several groups of figures to be individually adjusted for height.</tooltip>
+      </row>
+      <row>
+        <action>TimesigWithBeatStructure</action>
+        <after>InsertTimeSig</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/TimeSig</menupath>
+        <label>Time Signature with Beat Structure</label>
+        <tooltip>Inserts a time signature with indication for how to beam the notes. Insert at beginning of staff in order to replace the initial time signature.</tooltip>
+      </row>
+      <row>
+        <action>HelpAllFeatures</action>
+        <after>Help</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/HelpMenu</menupath>
+        <label>Help for All Features</label>
+        <tooltip>Opens a score with examples of many things you can create with Denemo with Explanations attached. Click on the explanations in the Print View window.</tooltip>
+      </row>
+      <row>
+        <action>PrintScoreAndParts</action>
+        <after>Print</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
+        <label>Print Score and Parts</label>
+        <tooltip>Creates score layouts for the current layout (full score) and parts (named after instrument name). Set instrument names before use.</tooltip>
+      </row>
+      <row>
+        <action>AttachedText</action>
+        <after>TextAbove</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings</menupath>
+        <label>Text with Positioning</label>
+        <tooltip>Prints text you give above/below/auto-positioned.</tooltip>
+      </row>
+      <row>
+        <action>MovementComposer</action>
+        <after>MovementPiece</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/Titles/Simple Titles</menupath>
+        <label>Composer</label>
+        <tooltip>Prints a composer name for current movement.</tooltip>
+      </row>
+      <row>
+        <action>BeamRightNone</action>
+        <after>NoBeam</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
+        <label>No Beam Right</label>
+        <tooltip>Typeset the note at the cursor with no beam to the right.</tooltip>
+      </row>
+      <row>
+        <action>BeamLeftNone</action>
+        <after>BeamRightNone</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
+        <label>No Beam Left</label>
+        <tooltip>Typeset the note at the cursor with no beam to the left.</tooltip>
+      </row>
+      <row>
+        <action>ToggleTupletBracketsIfBeamed</action>
+        <after>ToggleTupletNumbering</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
+        <label>Tuplet Brackets (On/Off)</label>
+        <tooltip>Turns tuplet brackets off/on for beamed notes (when printed)</tooltip>
+      </row>
+      <row>
+        <action>PartCombine</action>
+        <after>InitialVoice</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>Part Combine Two Voices</label>
+        <tooltip>The two voices will be printed only once when they are the same, otherwise they will be printed as parts. (Off/On)</tooltip>
+      </row>
+      <row>
+        <action>SharpenInitialKeysigs</action>
+        <after>InitialKey</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Key</menupath>
+        <label>&#x266F; Initial</label>
+        <tooltip>Sharpens the inital key signature by one degree on all staffs/voices.</tooltip>
+      </row>
+      <row>
+        <action>FlattenInitialKeysigs</action>
+        <after>SharpenInitialKeysigs</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Key</menupath>
+        <label>&#x266D; Initial</label>
+        <tooltip>Flattens the inital key signature by one degree on all staffs/voices.</tooltip>
+      </row>
+      <row>
+        <action>TrillIsPlus</action>
+        <after>LilyPondDefinition</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>Set Trill Style as +</label>
+        <tooltip>Prints trills with the common 18th c. notation: a plus sign.</tooltip>
+      </row>
+      <row>
+        <action>Footnote</action>
+        <after>D.C.AlFine</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/TextMarks</menupath>
+        <label>Footnote</label>
+        <tooltip>Prints a footnote at the bottom of the current page. The mark is placed above the note at the cursor.</tooltip>
+      </row>
+      <row>
+        <action>ScoreVersion</action>
+        <after>ScoreTagline</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles</menupath>
+        <label>Score Version</label>
+        <tooltip>Prints a tiny text in top right corner of the first page.</tooltip>
+      </row>
+      <row>
+        <action>HideAccidental</action>
+        <after>Ficta</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
+        <label>Hide Accidental</label>
+        <tooltip>Hides the accidental on the note at the cursor on printing. Does not affect the pitch.</tooltip>
+      </row>
+      <row>
+        <action>MuteStaff</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Playback</menupath>
+        <label>Mute</label>
+        <tooltip>Mutes the current staff. Affects only playback.</tooltip>
+      </row>
+      <row>
+        <action>ToggleNoteUpTie</action>
+        <after>ToggleNoteTie</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/TiedNotes</menupath>
+        <label>Individual Note Up-Tie (Off/On)</label>
+        <tooltip>Ties the individual note in a chord the tie being above; repeat command to remove.</tooltip>
+      </row>
+      <row>
+        <action>ToggleNoteDownTie</action>
+        <after>ToggleNoteTie</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/TiedNotes</menupath>
+        <label>Individual Note Down-Tie (Off/On)</label>
+        <tooltip>Ties the individual note at the cursor the tie going down; repeat to remove.</tooltip>
+      </row>
+      <row>
+        <action>ToggleWysiwygMarks</action>
+        <after>LilyPondDefinition</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>Typeset Red Dots (Off/On)</label>
+        <tooltip>Typesets with red dots on the graphical objects. Use these for accurate tweaking of positions via clicking and dragging with mouse on final typeset score.</tooltip>
+      </row>
+      <row>
+        <action>ToggleCurveControl</action>
+        <after>LilyPondDefinition</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>Typeset Curve Control Points (Off/On)</label>
+        <tooltip>Typesets with curve control points marked. Use these for accurate tweaking of shape via clicking and dragging with mouse on final typeset score.</tooltip>
+      </row>
+      <row>
+        <action>PianoStaffName</action>
+        <after>DeleteStaffGroupings</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
+        <label>Piano Staff Name</label>
+        <tooltip>Prints the name given at the start of the Piano staff which must be where the cursor is. Remove instrument names on the individual staffs by setting them blank.</tooltip>
+      </row>
+      <row>
+        <action>PianoStaff</action>
+        <after>NewStaffBefore</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/InsertStaff</menupath>
+        <label>Add Piano Staff</label>
+        <tooltip>Adds two staff braced together for keyboard instrument.</tooltip>
+      </row>
+      <row>
+        <action>ChordStaff</action>
+        <after>TabStaff</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Chord Symbols</label>
+        <tooltip>Typesets the music on this staff as chord symbols. Normally you will use this on a voice, so that the chord symbols print on the melody staff.</tooltip>
       </row>
     </map>
   </merge>

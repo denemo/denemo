@@ -472,28 +472,27 @@ swapstaffs (GtkAction *action, gpointer param)
       //if this is a staff with no voices extra voices on it then swap
       if( ((DenemoStaff *)gui->si->currentstaff->data)->voicecontrol==DENEMO_PRIMARY &&
 	  ( (gui->si->currentstaff->next==NULL) || 
-	    !((DenemoStaff *)gui->si->currentstaff->next->data)->voicecontrol&DENEMO_SECONDARY)) {
-
-	temp = gui->si->currentstaff->data;
-	if(temp->context==DENEMO_NONE ||
-	   confirm(_("A context is set on this staff"), _("You will need to alter the staff->properties->context of this and the previous staff; Proceed?"))) {
-	  take_snapshot();
-	  gui->si->currentstaff->data = gui->si->currentstaff->prev->data;
-	  gui->si->currentstaff->prev->data = temp;
-	  gui->si->currentstaffnum--;
-	  gui->si->currentstaff = gui->si->currentstaff->prev;
-	  setcurrentprimarystaff (gui->si);
-	  setcurrents (gui->si);
-	  move_viewport_up (gui);
-	  score_status(gui, TRUE);
-	  displayhelper(gui);
-	  return TRUE;
-	}
+	    !(((DenemoStaff *)gui->si->currentstaff->next->data)->voicecontrol&DENEMO_SECONDARY))) {
+				temp = gui->si->currentstaff->data;
+				if(temp->context==DENEMO_NONE ||
+					confirm(_("A context is set on this staff"), 
+					_("You will need to alter the staff->properties->context of this and the previous staff; Proceed?"))) {
+					take_snapshot();
+					gui->si->currentstaff->data = gui->si->currentstaff->prev->data;
+					gui->si->currentstaff->prev->data = temp;
+					gui->si->currentstaffnum--;
+					gui->si->currentstaff = gui->si->currentstaff->prev;
+					setcurrentprimarystaff (gui->si);
+					setcurrents (gui->si);
+					move_viewport_up (gui);
+					score_status(gui, TRUE);
+					displayhelper(gui);
+					return TRUE;
+				}
       }
       else
-	warningdialog(_("Split off voices from this staff first"));
-    }
-  else
+			warningdialog(_("Split off voices from this staff first"));
+    } else
     warningdialog(_("There is no previous staff to swap with"));
   return FALSE;
 }
@@ -1468,6 +1467,7 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
   int prognum;
 
   if((mode & INPUTEDIT) && !si->cursor_appending && !(mode & INPUTRHYTHM) ) {
+		highlight_duration(gui, duration);
     changeduration(si, duration);
     return;
   }
@@ -1490,22 +1490,19 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
      don't need to invoke that here.  */
   gboolean was_appending = si->cursor_appending;
   object_insert (gui, mudela_obj_new);
- 
-  if (gui->mode&(INPUTRHYTHM)) {
+
+  if (Denemo.gui->input_source == INPUTMIDI && (gui->mode&(INPUTRHYTHM))) {
       if(Denemo.prefs.immediateplayback) {
         rhythm_feedback(DEFAULT_BACKEND, duration, rest, FALSE);
       }
     if(!was_appending)
       movecursorleft(NULL);
-
   } else {
     if(Denemo.gui->last_source==INPUTKEYBOARD) {
       DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
       if (Denemo.prefs.immediateplayback) {
         play_notes(DEFAULT_BACKEND, curstaffstruct->midi_port, curstaffstruct->midi_channel, (chord *) mudela_obj_new->object);
       }
-    } else {
-      //Denemo.gui->last_source = INPUTKEYBOARD;
     }
   }
 }
@@ -2091,20 +2088,25 @@ dnm_deleteobject (DenemoScore * si)
     }
   }
 #endif
-  if(curmudelaobj->type==LILYDIRECTIVE && ((lilydirective *)curmudelaobj->object)->locked)
-    if(!confirm(_("This LilyPond insert is locked"),_("Really delete it?")))
-      return;
+  if(curmudelaobj->type==LILYDIRECTIVE && ((lilydirective *)curmudelaobj->object)->locked) {	
+		DenemoDirective *directive = (lilydirective *)curmudelaobj->object;
+		DenemoScriptParam param;
+		param.string = g_string_new("delete");
+    GtkAction *action = lookup_action_from_name (directive->tag->str);
+    if(action && (Denemo.keyboard_state!=GDK_MOD2_MASK/*NumLock */))
+      {
+				activate_script(action, &param);
+				g_string_free(param.string, TRUE);
+				return;
+			}
+		}
   DenemoUndoData *undo;
-
   if (!si->undo_guard)
     {
       undo = (DenemoUndoData *) g_malloc (sizeof (DenemoUndoData));      
       undo->object = dnm_clone_object (curmudelaobj);
       //get position after delete
     }
-
-
-
   if (!si->cursor_appending)
     {
       switch (curmudelaobj->type)

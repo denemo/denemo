@@ -99,18 +99,18 @@ initprefs ()
 #ifdef G_OS_WIN32
   ret->browser = g_string_new ("");//use file association
   ret->audioplayer = g_string_new ("");
-  ret->lilypath = g_string_new ("lilypond.exe");//We don't assume the file assoc works - we are installing this anyway to a known place,the option  neither lilypond-windows.exe nor the -dgui option are used
+  ret->lilypath = g_string_new (g_build_filename(get_bin_dir(), "lilypond-windows.exe", NULL));//We don't assume the file assoc works - we are installing this anyway to a known place,the option  neither lilypond-windows.exe nor the -dgui option are used
   ret->pdfviewer = g_string_new ("");
   ret->imageviewer = g_string_new ("");
-  ret->profile = g_string_new("Simple");
 #else /* !G_OS_WIN32 */
   ret->browser = g_string_new ("firefox");
   ret->audioplayer = g_string_new ("play");
-  ret->lilypath = g_string_new ("lilypond");
+  ret->lilypath = g_string_new (g_build_filename(get_bin_dir(), "lilypond", NULL));
   ret->pdfviewer = g_string_new ("evince");
   ret->imageviewer = g_string_new ("eog");
-  ret->profile = g_string_new("Arranger");
 #endif /* !G_OS_WIN32 */
+
+  ret->profile = g_string_new("Arranger");
   ret->denemopath = g_string_new (g_get_home_dir());
   ret->lilyversion = g_string_new ("");//meaning use installed LilyPond version
   ret->temperament = g_string_new("Equal");
@@ -123,6 +123,7 @@ initprefs ()
   ret->cursor_highlight = TRUE;
   ret->return_key_is_special = TRUE;
   ret->newbie = TRUE;
+  ret->learning = TRUE;
   ret->immediateplayback = TRUE;
   ret->manualtypeset = FALSE;
   ret->typesetrefresh = 10;
@@ -344,7 +345,8 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READBOOLXMLENTRY(cursor_highlight) 
 
       READBOOLXMLENTRY(return_key_is_special) 
-      READBOOLXMLENTRY(newbie) 
+      READBOOLXMLENTRY(newbie)  
+      READBOOLXMLENTRY(learning)  
       READBOOLXMLENTRY(applytoselection) 
       READBOOLXMLENTRY(quickshortcuts) 
       READBOOLXMLENTRY(startmidiin) 
@@ -432,6 +434,7 @@ gboolean get_bool_pref(gchar *prefname) {
       GETBOOLPREF(cursor_highlight) 
       GETBOOLPREF(return_key_is_special) 
       GETBOOLPREF(newbie) 
+      GETBOOLPREF(learning) 
       GETBOOLPREF(applytoselection) 
       GETBOOLPREF(quickshortcuts) 
       GETBOOLPREF(startmidiin) 
@@ -802,6 +805,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEBOOLXMLENTRY(cursor_highlight)
   WRITEBOOLXMLENTRY(return_key_is_special)
   WRITEBOOLXMLENTRY(newbie)
+  WRITEBOOLXMLENTRY(learning)
   WRITEBOOLXMLENTRY(applytoselection)
   WRITEBOOLXMLENTRY(quickshortcuts)
   WRITEBOOLXMLENTRY(startmidiin)

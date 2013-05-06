@@ -12,7 +12,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 cursorleft_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_MoveCursorLeft (SCM optional) {
@@ -29,7 +29,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 movecursorleft_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_CursorDown (SCM optional) {
@@ -46,7 +46,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 cursordown_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_CursorUp (SCM optional) {
@@ -63,7 +63,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 cursorup_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_CursorRight (SCM optional) {
@@ -80,7 +80,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 cursorright_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_MoveCursorRight (SCM optional) {
@@ -97,7 +97,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 movecursorright_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_GoToMark (SCM optional) {
@@ -114,7 +114,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 goto_mark (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SwapPointAndMark (SCM optional) {
@@ -131,7 +131,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 swap_point_and_mark (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_GoToSelectionStart (SCM optional) {
@@ -148,7 +148,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 goto_selection_start (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_PushPosition (SCM optional) {
@@ -165,7 +165,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 PushPosition (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_PopPosition (SCM optional) {
@@ -182,7 +182,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 PopPosition (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_PopPushPosition (SCM optional) {
@@ -199,7 +199,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 PopPushPosition (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ToggleReduceToDrawingArea (SCM optional) {
@@ -216,7 +216,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 ToggleReduceToDrawingArea (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_StaffUp (SCM optional) {
@@ -233,7 +233,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 staffup_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_StaffDown (SCM optional) {
@@ -250,7 +250,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 staffdown_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_MoveToStaffUp (SCM optional) {
@@ -267,7 +267,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 movetostaffup_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_MoveToStaffDown (SCM optional) {
@@ -284,7 +284,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 movetostaffdown_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_MeasureLeft (SCM optional) {
@@ -301,7 +301,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 measureleft_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_MeasureRight (SCM optional) {
@@ -318,7 +318,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 measureright_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_MoveToMeasureLeft (SCM optional) {
@@ -335,7 +335,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 movetomeasureleft_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_MoveToMeasureRight (SCM optional) {
@@ -352,7 +352,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 movetomeasureright_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_A (SCM optional) {
@@ -369,7 +369,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 go_to_A_key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_B (SCM optional) {
@@ -386,7 +386,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 go_to_B_key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_C (SCM optional) {
@@ -403,7 +403,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 go_to_C_key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_D (SCM optional) {
@@ -420,7 +420,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 go_to_D_key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_E (SCM optional) {
@@ -437,7 +437,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 go_to_E_key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_F (SCM optional) {
@@ -454,7 +454,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 go_to_F_key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_G (SCM optional) {
@@ -471,7 +471,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 go_to_G_key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_OctaveUp (SCM optional) {
@@ -488,7 +488,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 octave_up_key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_OctaveDown (SCM optional) {
@@ -505,7 +505,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 octave_down_key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_WholeNote (SCM optional) {
@@ -522,7 +522,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_chord_0key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_HalfNote (SCM optional) {
@@ -539,7 +539,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_chord_1key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_QuarterNote (SCM optional) {
@@ -556,7 +556,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_chord_2key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_EighthNote (SCM optional) {
@@ -573,7 +573,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_chord_3key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SixteenthNote (SCM optional) {
@@ -590,7 +590,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_chord_4key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ThirtysecondNote (SCM optional) {
@@ -607,7 +607,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_chord_5key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SixtyfourthNote (SCM optional) {
@@ -624,7 +624,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_chord_6key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_OneHundredTwentyEighthNote (SCM optional) {
@@ -641,7 +641,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_chord_7key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_TwoHundredFiftySixthNote (SCM optional) {
@@ -658,7 +658,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_chord_8key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertWholeRest (SCM optional) {
@@ -675,7 +675,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_rest_0key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertHalfRest (SCM optional) {
@@ -692,7 +692,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_rest_1key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertQuarterRest (SCM optional) {
@@ -709,7 +709,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_rest_2key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertEighthRest (SCM optional) {
@@ -726,7 +726,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_rest_3key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertSixteenthRest (SCM optional) {
@@ -743,7 +743,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_rest_4key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertThirtysecondRest (SCM optional) {
@@ -760,7 +760,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_rest_5key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertSixtyfourthRest (SCM optional) {
@@ -777,7 +777,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_rest_6key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertBlankWholeNote (SCM optional) {
@@ -794,7 +794,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_blankchord_0key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertBlankHalfNote (SCM optional) {
@@ -811,7 +811,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_blankchord_1key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertBlankQuarterNote (SCM optional) {
@@ -828,7 +828,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_blankchord_2key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertBlankEighthNote (SCM optional) {
@@ -845,7 +845,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_blankchord_3key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertBlankSixteenthNote (SCM optional) {
@@ -862,7 +862,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_blankchord_4key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertBlankThirtysecondNote (SCM optional) {
@@ -879,7 +879,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_blankchord_5key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertBlankSixtyfourthNote (SCM optional) {
@@ -896,7 +896,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_blankchord_6key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertBlankOneHundredTwentyEighthNote (SCM optional) {
@@ -913,7 +913,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_blankchord_7key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertBlankTwoHundredFiftySixthNote (SCM optional) {
@@ -930,7 +930,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_blankchord_8key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ToggleRestMode (SCM optional) {
@@ -947,7 +947,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 rest_toggle_key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ToggleBlankMode (SCM optional) {
@@ -964,7 +964,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 toggle_blank_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertDuplet (SCM optional) {
@@ -981,7 +981,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_duplet_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertTriplet (SCM optional) {
@@ -998,7 +998,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_triplet_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_StartTriplet (SCM optional) {
@@ -1015,7 +1015,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 start_triplet_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_EndTuplet (SCM optional) {
@@ -1032,7 +1032,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 end_tuplet_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertQuadtuplet (SCM optional) {
@@ -1049,7 +1049,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_quadtuplet_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertQuintuplet (SCM optional) {
@@ -1066,7 +1066,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_quintuplet_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertSextuplet (SCM optional) {
@@ -1083,7 +1083,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_sextuplet_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertSeptuplet (SCM optional) {
@@ -1100,7 +1100,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_septuplet_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_AddNoteToChord (SCM optional) {
@@ -1117,7 +1117,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 add_tone_key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_RemoveNoteFromChord (SCM optional) {
@@ -1134,7 +1134,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 remove_tone_key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Sharpen (SCM optional) {
@@ -1151,7 +1151,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 sharpen_key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Flatten (SCM optional) {
@@ -1168,7 +1168,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 flatten_key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_PendingSharpen (SCM optional) {
@@ -1185,7 +1185,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 pending_sharpen_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_PendingFlatten (SCM optional) {
@@ -1202,7 +1202,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 pending_flatten_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_StemUp (SCM optional) {
@@ -1219,7 +1219,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 stem_up_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_StemDown (SCM optional) {
@@ -1236,7 +1236,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 stem_down_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_AddDot (SCM optional) {
@@ -1253,7 +1253,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 add_dot_key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_RemoveDot (SCM optional) {
@@ -1270,7 +1270,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 remove_dot_key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertTiedNote (SCM optional) {
@@ -1287,7 +1287,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 tie_notes_key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ToggleTie (SCM optional) {
@@ -1304,7 +1304,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 toggle_tie (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_DeleteObject (SCM optional) {
@@ -1321,7 +1321,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 deleteobject_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_DeletePreviousObject (SCM optional) {
@@ -1338,7 +1338,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 deletepreviousobject_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertMeasure (SCM optional) {
@@ -1355,7 +1355,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_measure_key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_AddMeasure (SCM optional) {
@@ -1372,7 +1372,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 addmeasureafter_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertMeasureBefore (SCM optional) {
@@ -1389,7 +1389,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insertmeasurebefore_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertMeasureAfter (SCM optional) {
@@ -1406,7 +1406,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insertmeasureafter_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_AppendMeasure (SCM optional) {
@@ -1423,7 +1423,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 append_measure_key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_DeleteMeasure (SCM optional) {
@@ -1440,7 +1440,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 deletemeasure_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_DeleteMeasureAllStaffs (SCM optional) {
@@ -1457,7 +1457,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 deletemeasureallstaffs_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ShrinkMeasures (SCM optional) {
@@ -1474,7 +1474,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 adjust_measure_less_width_key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_WidenMeasures (SCM optional) {
@@ -1491,7 +1491,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 adjust_measure_more_width_key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ShorterStaffs (SCM optional) {
@@ -1508,7 +1508,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 adjust_staff_less_height_key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_TallerStaffs (SCM optional) {
@@ -1525,7 +1525,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 adjust_staff_more_height_key_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertTrebleClef (SCM optional) {
@@ -1542,7 +1542,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newcleftreble_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertBassClef (SCM optional) {
@@ -1559,7 +1559,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newclefbass_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Insertg8clef (SCM optional) {
@@ -1576,7 +1576,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newclefg8_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertAltoClef (SCM optional) {
@@ -1593,7 +1593,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newclefalto_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertTenorClef (SCM optional) {
@@ -1610,7 +1610,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newcleftenor_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertSopranoClef (SCM optional) {
@@ -1627,7 +1627,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newclefsoprano_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialTrebleClef (SCM optional) {
@@ -1644,7 +1644,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setcleftreble_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialBassClef (SCM optional) {
@@ -1661,7 +1661,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setclefbass_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialg8clef (SCM optional) {
@@ -1678,7 +1678,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setclefg8_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialAltoClef (SCM optional) {
@@ -1695,7 +1695,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setclefalto_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialTenorClef (SCM optional) {
@@ -1712,7 +1712,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setcleftenor_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialSopranoClef (SCM optional) {
@@ -1729,7 +1729,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setclefsoprano_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Insert22Time (SCM optional) {
@@ -1746,7 +1746,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newtimesig22_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Insert32Time (SCM optional) {
@@ -1763,7 +1763,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newtimesig32_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Insert42Time (SCM optional) {
@@ -1780,7 +1780,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newtimesig42_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Insert44Time (SCM optional) {
@@ -1797,7 +1797,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newtimesig44_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Insert34Time (SCM optional) {
@@ -1814,7 +1814,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newtimesig34_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Insert24Time (SCM optional) {
@@ -1831,7 +1831,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newtimesig24_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Insert64Time (SCM optional) {
@@ -1848,7 +1848,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newtimesig64_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Insert38Time (SCM optional) {
@@ -1865,7 +1865,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newtimesig38_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Insert68Time (SCM optional) {
@@ -1882,7 +1882,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newtimesig68_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Insert128Time (SCM optional) {
@@ -1899,7 +1899,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newtimesig128_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Insert98Time (SCM optional) {
@@ -1916,7 +1916,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newtimesig98_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Set22Time (SCM optional) {
@@ -1933,7 +1933,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 settimesig22_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Set32Time (SCM optional) {
@@ -1950,7 +1950,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 settimesig32_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Set42Time (SCM optional) {
@@ -1967,7 +1967,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 settimesig42_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Set44Time (SCM optional) {
@@ -1984,7 +1984,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 settimesig44_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Set34Time (SCM optional) {
@@ -2001,7 +2001,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 settimesig34_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Set24Time (SCM optional) {
@@ -2018,7 +2018,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 settimesig24_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Set64Time (SCM optional) {
@@ -2035,7 +2035,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 settimesig64_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Set38Time (SCM optional) {
@@ -2052,7 +2052,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 settimesig38_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Set68Time (SCM optional) {
@@ -2069,7 +2069,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 settimesig68_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Set128Time (SCM optional) {
@@ -2086,7 +2086,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 settimesig128_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Set98Time (SCM optional) {
@@ -2103,7 +2103,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 settimesig98_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertCmaj (SCM optional) {
@@ -2120,7 +2120,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysigcmaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertGmaj (SCM optional) {
@@ -2137,7 +2137,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysiggmaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertDmaj (SCM optional) {
@@ -2154,7 +2154,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysigdmaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertAmaj (SCM optional) {
@@ -2171,7 +2171,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysigamaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertEmaj (SCM optional) {
@@ -2188,7 +2188,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysigemaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertBmaj (SCM optional) {
@@ -2205,7 +2205,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysigbmaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertFSharpmaj (SCM optional) {
@@ -2222,7 +2222,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysigfsharpmaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertCSharpmaj (SCM optional) {
@@ -2239,7 +2239,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysigcsharpmaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertFmaj (SCM optional) {
@@ -2256,7 +2256,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysigfmaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertBflatmaj (SCM optional) {
@@ -2273,7 +2273,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysigbflatmaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertEflatmaj (SCM optional) {
@@ -2290,7 +2290,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysigeflatmaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertAflatmaj (SCM optional) {
@@ -2307,7 +2307,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysigaflatmaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertDflatmaj (SCM optional) {
@@ -2324,7 +2324,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysigdflatmaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertGflatmaj (SCM optional) {
@@ -2341,7 +2341,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysiggflatmaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertCflatmaj (SCM optional) {
@@ -2358,7 +2358,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysigcflatmaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertAmin (SCM optional) {
@@ -2375,7 +2375,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysigamin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertEmin (SCM optional) {
@@ -2392,7 +2392,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysigemin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertBmin (SCM optional) {
@@ -2409,7 +2409,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysigbmin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertFSharpmin (SCM optional) {
@@ -2426,7 +2426,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysigfsharpmin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertCSharpmin (SCM optional) {
@@ -2443,7 +2443,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysigcsharpmin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertGSharpmin (SCM optional) {
@@ -2460,7 +2460,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysiggsharpmin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertDSharpmin (SCM optional) {
@@ -2477,7 +2477,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysigdsharpmin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertASharpmin (SCM optional) {
@@ -2494,7 +2494,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysigasharpmin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertDmin (SCM optional) {
@@ -2511,7 +2511,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysigdmin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertGmin (SCM optional) {
@@ -2528,7 +2528,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysiggmin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertCmin (SCM optional) {
@@ -2545,7 +2545,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysigcmin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertFmin (SCM optional) {
@@ -2562,7 +2562,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysigfmin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertBflatmin (SCM optional) {
@@ -2579,7 +2579,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysigbflatmin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertEflatmin (SCM optional) {
@@ -2596,7 +2596,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysigeflatmin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertAflatmin (SCM optional) {
@@ -2613,7 +2613,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newkeysigaflatmin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialCmaj (SCM optional) {
@@ -2630,7 +2630,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysigcmaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialGmaj (SCM optional) {
@@ -2647,7 +2647,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysiggmaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialDmaj (SCM optional) {
@@ -2664,7 +2664,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysigdmaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialAmaj (SCM optional) {
@@ -2681,7 +2681,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysigamaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialEmaj (SCM optional) {
@@ -2698,7 +2698,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysigemaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialBmaj (SCM optional) {
@@ -2715,7 +2715,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysigbmaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialFSharpmaj (SCM optional) {
@@ -2732,7 +2732,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysigfsharpmaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialCSharpmaj (SCM optional) {
@@ -2749,7 +2749,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysigcsharpmaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialFmaj (SCM optional) {
@@ -2766,7 +2766,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysigfmaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialBflatmaj (SCM optional) {
@@ -2783,7 +2783,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysigbflatmaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialEflatmaj (SCM optional) {
@@ -2800,7 +2800,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysigeflatmaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialAflatmaj (SCM optional) {
@@ -2817,7 +2817,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysigaflatmaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialDflatmaj (SCM optional) {
@@ -2834,7 +2834,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysigdflatmaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialGflatmaj (SCM optional) {
@@ -2851,7 +2851,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysiggflatmaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialCflatmaj (SCM optional) {
@@ -2868,7 +2868,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysigcflatmaj_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialAmin (SCM optional) {
@@ -2885,7 +2885,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysigamin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialEmin (SCM optional) {
@@ -2902,7 +2902,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysigemin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialBmin (SCM optional) {
@@ -2919,7 +2919,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysigbmin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialFSharpmin (SCM optional) {
@@ -2936,7 +2936,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysigfsharpmin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialCSharpmin (SCM optional) {
@@ -2953,7 +2953,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysigcsharpmin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialGSharpmin (SCM optional) {
@@ -2970,7 +2970,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysiggsharpmin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialDSharpmin (SCM optional) {
@@ -2987,7 +2987,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysigdsharpmin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialASharpmin (SCM optional) {
@@ -3004,7 +3004,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysigasharpmin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialDmin (SCM optional) {
@@ -3021,7 +3021,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysigdmin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialGmin (SCM optional) {
@@ -3038,7 +3038,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysiggmin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialCmin (SCM optional) {
@@ -3055,7 +3055,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysigcmin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialFmin (SCM optional) {
@@ -3072,7 +3072,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysigfmin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialBflatmin (SCM optional) {
@@ -3089,7 +3089,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysigbflatmin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialEflatmin (SCM optional) {
@@ -3106,7 +3106,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysigeflatmin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetInitialAflatmin (SCM optional) {
@@ -3123,7 +3123,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 setkeysigaflatmin_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetMark (SCM optional) {
@@ -3140,7 +3140,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 set_mark_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_UnsetMark (SCM optional) {
@@ -3157,7 +3157,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 unset_mark_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SetPoint (SCM optional) {
@@ -3174,7 +3174,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 set_point_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ToggleBeginSlur (SCM optional) {
@@ -3191,7 +3191,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 toggle_begin_slur_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ToggleEndSlur (SCM optional) {
@@ -3208,7 +3208,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 toggle_end_slur_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ToggleStartCrescendo (SCM optional) {
@@ -3225,7 +3225,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 toggle_start_crescendo_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ToggleEndCrescendo (SCM optional) {
@@ -3242,7 +3242,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 toggle_end_crescendo_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ToggleStartDiminuendo (SCM optional) {
@@ -3259,7 +3259,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 toggle_start_diminuendo_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ToggleEndDiminuendo (SCM optional) {
@@ -3276,7 +3276,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 toggle_end_diminuendo_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ToggleGrace (SCM optional) {
@@ -3293,7 +3293,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 toggle_grace (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ToggleAcciaccatura (SCM optional) {
@@ -3310,7 +3310,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 toggle_acciaccatura (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ForceCaution (SCM optional) {
@@ -3327,7 +3327,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 force_cautionary_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ChangePitch (SCM optional) {
@@ -3344,7 +3344,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 change_pitch_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertRhythm (SCM optional) {
@@ -3361,7 +3361,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_rhythm_pattern_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_NextRhythm (SCM optional) {
@@ -3378,7 +3378,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 nextrhythm_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_AppendMeasureAllStaffs (SCM optional) {
@@ -3395,7 +3395,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 append_measure_score_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ExecuteScheme (SCM optional) {
@@ -3412,7 +3412,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 execute_scheme (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SharpenEnharmonicSet (SCM optional) {
@@ -3429,7 +3429,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 set_sharper (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_FlattenEnharmonicSet (SCM optional) {
@@ -3446,7 +3446,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 set_flatter (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_New (SCM optional) {
@@ -3463,7 +3463,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 file_newwrapper (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_NewScore (SCM optional) {
@@ -3480,7 +3480,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 new_score_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Open (SCM optional) {
@@ -3497,7 +3497,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 file_open_with_check (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ImportLilypond (SCM optional) {
@@ -3514,7 +3514,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 file_import_lilypond_with_check (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ImportMidi (SCM optional) {
@@ -3531,7 +3531,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 file_import_midi_with_check (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ImportMusicXml (SCM optional) {
@@ -3548,7 +3548,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 file_import_musicxml_with_check (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_AddStaffs (SCM optional) {
@@ -3565,7 +3565,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 file_add_staffs (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_AddMovements (SCM optional) {
@@ -3582,7 +3582,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 file_add_movements (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_MovementProps (SCM optional) {
@@ -3599,7 +3599,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 movement_props_dialog (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_OpenNewWindow (SCM optional) {
@@ -3616,7 +3616,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 openinnew (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Save (SCM optional) {
@@ -3633,7 +3633,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 file_savewrapper (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SaveAs (SCM optional) {
@@ -3650,7 +3650,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 file_saveaswrapper (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SaveCopy (SCM optional) {
@@ -3667,7 +3667,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 file_copy_save (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_OpenTemplate (SCM optional) {
@@ -3684,7 +3684,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 system_template_open_with_check (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_OpenExample (SCM optional) {
@@ -3701,7 +3701,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 system_example_open_with_check (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_OpenMyTemplate (SCM optional) {
@@ -3718,7 +3718,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 local_template_open_with_check (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SaveTemplate (SCM optional) {
@@ -3735,7 +3735,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 template_save (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_NewWindow (SCM optional) {
@@ -3752,7 +3752,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newview (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertMovementBefore (SCM optional) {
@@ -3769,7 +3769,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_movement_before (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertMovementAfter (SCM optional) {
@@ -3786,7 +3786,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_movement_after (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_NewMovement (SCM optional) {
@@ -3803,7 +3803,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 append_new_movement (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SaveParts (SCM optional) {
@@ -3820,7 +3820,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 file_savepartswrapper (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ExportMUDELA (SCM optional) {
@@ -3837,7 +3837,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 export_mudela_action (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ExportPDF (SCM optional) {
@@ -3854,7 +3854,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 export_pdf_action (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ExportPNG (SCM optional) {
@@ -3871,7 +3871,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 export_png_action (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ExportMIDI (SCM optional) {
@@ -3888,7 +3888,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 export_midi_action (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_PrintPreview (SCM optional) {
@@ -3905,7 +3905,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 printpreview_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_PrintView (SCM optional) {
@@ -3922,7 +3922,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 show_print_view (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_PrintSelection (SCM optional) {
@@ -3939,7 +3939,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 printselection_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_PrintExcerptPreview (SCM optional) {
@@ -3956,7 +3956,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 printexcerptpreview_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_PrintMovement (SCM optional) {
@@ -3973,7 +3973,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 printmovement_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Print (SCM optional) {
@@ -3990,7 +3990,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 printall_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_PrintPart (SCM optional) {
@@ -4007,7 +4007,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 printpart_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Close (SCM optional) {
@@ -4024,7 +4024,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 close_gui_with_check (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Quit (SCM optional) {
@@ -4041,7 +4041,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 closewrapper (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Undo (SCM optional) {
@@ -4058,7 +4058,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 undowrapper (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Redo (SCM optional) {
@@ -4075,7 +4075,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 redowrapper (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Copy (SCM optional) {
@@ -4092,7 +4092,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 copywrapper (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Cut (SCM optional) {
@@ -4109,7 +4109,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 cutwrapper (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Paste (SCM optional) {
@@ -4126,7 +4126,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 pastewrapper (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_PasteClipboard (SCM optional) {
@@ -4143,7 +4143,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 paste_clipboard (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ScoreProperties (SCM optional) {
@@ -4160,7 +4160,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 score_properties_dialog (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SaveSelection (SCM optional) {
@@ -4177,7 +4177,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 saveselwrapper (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Preferences (SCM optional) {
@@ -4194,7 +4194,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 preferences_change (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SaveAccels (SCM optional) {
@@ -4211,7 +4211,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 save_default_keymap_file_wrapper (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_CommandManagement (SCM optional) {
@@ -4228,7 +4228,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 configure_keyboard_dialog (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SwapStaffs (SCM optional) {
@@ -4245,7 +4245,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 swapstaffs (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SplitVoices (SCM optional) {
@@ -4262,7 +4262,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 splitstaffs (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_JoinVoices (SCM optional) {
@@ -4279,7 +4279,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 joinstaffs (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_SwapMovements (SCM optional) {
@@ -4296,7 +4296,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 swapmovements (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_VoiceUp (SCM optional) {
@@ -4313,7 +4313,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 voiceup_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_VoiceDown (SCM optional) {
@@ -4330,7 +4330,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 voicedown_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_MoveToVoiceUp (SCM optional) {
@@ -4347,7 +4347,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 movetovoiceup_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_MoveToVoiceDown (SCM optional) {
@@ -4364,7 +4364,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 movetovoicedown_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_AddBefore (SCM optional) {
@@ -4381,7 +4381,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newstaffbefore (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_AddAfter (SCM optional) {
@@ -4398,7 +4398,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 dnm_newstaffafter (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_AddInitial (SCM optional) {
@@ -4415,7 +4415,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newstaffinitial (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_AddLast (SCM optional) {
@@ -4432,7 +4432,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 newstafflast (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_DeleteBefore (SCM optional) {
@@ -4449,7 +4449,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 delete_staff_before (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_DeleteStaff (SCM optional) {
@@ -4466,7 +4466,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 delete_staff_current (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_DeleteAfter (SCM optional) {
@@ -4483,7 +4483,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 delete_staff_after (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_AddVoice (SCM optional) {
@@ -4500,7 +4500,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 dnm_newstaffvoice (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_StaffProperties (SCM optional) {
@@ -4517,7 +4517,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 staff_properties_change_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InitialClef (SCM optional) {
@@ -4534,7 +4534,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 clef_change_initial (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertClef (SCM optional) {
@@ -4551,7 +4551,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 clef_change_insert (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InitialKey (SCM optional) {
@@ -4568,7 +4568,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 key_change_initial (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertKey (SCM optional) {
@@ -4585,7 +4585,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 key_change_insert (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InitialTimeSig (SCM optional) {
@@ -4602,7 +4602,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 timesig_change_initial (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertTimeSig (SCM optional) {
@@ -4619,7 +4619,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 timesig_change_insert (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ChangeNotehead (SCM optional) {
@@ -4636,7 +4636,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 set_notehead (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertStem (SCM optional) {
@@ -4653,7 +4653,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 stem_directive_insert (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_AddVerse (SCM optional) {
@@ -4670,7 +4670,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 add_verse (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_DeleteVerse (SCM optional) {
@@ -4687,7 +4687,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 delete_verse (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_EditFiguredBass (SCM optional) {
@@ -4704,7 +4704,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 figure_insert (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_DeleteFiguredBass (SCM optional) {
@@ -4721,7 +4721,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 delete_figured_bass (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_HideFiguredBass (SCM optional) {
@@ -4738,7 +4738,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 hide_figured_bass (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ShowFiguredBass (SCM optional) {
@@ -4755,7 +4755,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 show_figured_bass (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_EditChords (SCM optional) {
@@ -4772,7 +4772,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 fakechord_insert (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertDynamic (SCM optional) {
@@ -4789,7 +4789,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_dynamic (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_EditObject (SCM optional) {
@@ -4806,7 +4806,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 edit_object (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_EditDirective (SCM optional) {
@@ -4823,7 +4823,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 edit_object_directive (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_EditStaffDirective (SCM optional) {
@@ -4840,7 +4840,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 edit_staff_directive (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_EditVoiceDirective (SCM optional) {
@@ -4857,7 +4857,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 edit_voice_directive (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_EditScoreDirective (SCM optional) {
@@ -4874,7 +4874,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 edit_score_directive (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_EditMovementDirective (SCM optional) {
@@ -4891,7 +4891,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 edit_movement_directive (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_EditClefDirective (SCM optional) {
@@ -4908,7 +4908,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 edit_clef_directive (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_EditTimesigDirective (SCM optional) {
@@ -4925,7 +4925,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 edit_timesig_directive (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_EditKeysigDirective (SCM optional) {
@@ -4942,7 +4942,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 edit_keysig_directive (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_DeleteDirective (SCM optional) {
@@ -4959,7 +4959,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 delete_chord_or_note_directive (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_AttachLilyToNote (SCM optional) {
@@ -4976,7 +4976,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 note_directive (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_AttachLilyToChord (SCM optional) {
@@ -4993,7 +4993,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 chord_directive (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertBarline (SCM optional) {
@@ -5010,7 +5010,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_barline (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_GoToMeasure (SCM optional) {
@@ -5027,7 +5027,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 tomeasurenum (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_GoToBeginning (SCM optional) {
@@ -5044,7 +5044,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 tohome (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_GoToEnd (SCM optional) {
@@ -5061,7 +5061,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 toend (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_MoveToBeginning (SCM optional) {
@@ -5078,7 +5078,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 movetostart (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_MoveToEnd (SCM optional) {
@@ -5095,7 +5095,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 movetoend (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_NextMovement (SCM optional) {
@@ -5112,7 +5112,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 next_movement (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_PreviousMovement (SCM optional) {
@@ -5129,7 +5129,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 prev_movement (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_DeleteMovement (SCM optional) {
@@ -5146,7 +5146,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 delete_movement (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Play (SCM optional) {
@@ -5163,7 +5163,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 ext_midi_playback (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Stop (SCM optional) {
@@ -5180,7 +5180,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 stop_midi_playback (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_PlaybackProperties (SCM optional) {
@@ -5197,7 +5197,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 playback_properties_change (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_Help (SCM optional) {
@@ -5214,7 +5214,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 browse_manual (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_About (SCM optional) {
@@ -5231,7 +5231,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 about (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_MoreCommands (SCM optional) {
@@ -5248,7 +5248,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 morecommands (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_MyCommands (SCM optional) {
@@ -5265,7 +5265,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 mycommands (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_FetchCommands (SCM optional) {
@@ -5282,7 +5282,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 fetchcommands (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ToggleEdit (SCM optional) {
@@ -5299,7 +5299,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 toggle_edit_mode (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ToggleRest (SCM optional) {
@@ -5316,7 +5316,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 toggle_rest_mode (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ToggleRhythm (SCM optional) {
@@ -5333,7 +5333,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 toggle_rhythm_mode (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_ClearOverlay (SCM optional) {
@@ -5350,7 +5350,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 clear_overlay (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_CreateRhythm (SCM optional) {
@@ -5367,7 +5367,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 create_rhythm_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_DeleteRhythm (SCM optional) {
@@ -5384,7 +5384,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 delete_rhythm_cb (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+         if(param.status && query) return scm_from_locale_string (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
 SCM scheme_InsertA (SCM optional) {
@@ -5547,10 +5547,6 @@ SCM scheme_InsertRest0 (SCM optional) {
 InsertRest0 (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
-SCM scheme_ChangeRest0 (SCM optional) {
-ChangeRest0 (NULL, NULL);
-return SCM_BOOL(TRUE);
-}
 SCM scheme_1 (SCM optional) {
 Dur1 (NULL, NULL);
 return SCM_BOOL(TRUE);
@@ -5569,10 +5565,6 @@ return SCM_BOOL(TRUE);
 }
 SCM scheme_InsertRest1 (SCM optional) {
 InsertRest1 (NULL, NULL);
-return SCM_BOOL(TRUE);
-}
-SCM scheme_ChangeRest1 (SCM optional) {
-ChangeRest1 (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
 SCM scheme_2 (SCM optional) {
@@ -5595,10 +5587,6 @@ SCM scheme_InsertRest2 (SCM optional) {
 InsertRest2 (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
-SCM scheme_ChangeRest2 (SCM optional) {
-ChangeRest2 (NULL, NULL);
-return SCM_BOOL(TRUE);
-}
 SCM scheme_3 (SCM optional) {
 Dur3 (NULL, NULL);
 return SCM_BOOL(TRUE);
@@ -5617,10 +5605,6 @@ return SCM_BOOL(TRUE);
 }
 SCM scheme_InsertRest3 (SCM optional) {
 InsertRest3 (NULL, NULL);
-return SCM_BOOL(TRUE);
-}
-SCM scheme_ChangeRest3 (SCM optional) {
-ChangeRest3 (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
 SCM scheme_4 (SCM optional) {
@@ -5643,10 +5627,6 @@ SCM scheme_InsertRest4 (SCM optional) {
 InsertRest4 (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
-SCM scheme_ChangeRest4 (SCM optional) {
-ChangeRest4 (NULL, NULL);
-return SCM_BOOL(TRUE);
-}
 SCM scheme_5 (SCM optional) {
 Dur5 (NULL, NULL);
 return SCM_BOOL(TRUE);
@@ -5665,10 +5645,6 @@ return SCM_BOOL(TRUE);
 }
 SCM scheme_InsertRest5 (SCM optional) {
 InsertRest5 (NULL, NULL);
-return SCM_BOOL(TRUE);
-}
-SCM scheme_ChangeRest5 (SCM optional) {
-ChangeRest5 (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
 SCM scheme_6 (SCM optional) {
@@ -5691,10 +5667,6 @@ SCM scheme_InsertRest6 (SCM optional) {
 InsertRest6 (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
-SCM scheme_ChangeRest6 (SCM optional) {
-ChangeRest6 (NULL, NULL);
-return SCM_BOOL(TRUE);
-}
 SCM scheme_7 (SCM optional) {
 Dur7 (NULL, NULL);
 return SCM_BOOL(TRUE);
@@ -5715,10 +5687,6 @@ SCM scheme_InsertRest7 (SCM optional) {
 InsertRest7 (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
-SCM scheme_ChangeRest7 (SCM optional) {
-ChangeRest7 (NULL, NULL);
-return SCM_BOOL(TRUE);
-}
 SCM scheme_8 (SCM optional) {
 Dur8 (NULL, NULL);
 return SCM_BOOL(TRUE);
@@ -5737,9 +5705,5 @@ return SCM_BOOL(TRUE);
 }
 SCM scheme_InsertRest8 (SCM optional) {
 InsertRest8 (NULL, NULL);
-return SCM_BOOL(TRUE);
-}
-SCM scheme_ChangeRest8 (SCM optional) {
-ChangeRest8 (NULL, NULL);
 return SCM_BOOL(TRUE);
 }

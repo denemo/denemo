@@ -144,7 +144,6 @@
       <menuitem action="TogglePrintView"/>
       <menuitem action="ToggleScoreLayout"/>
       <menuitem action="ToggleLyricsView"/>
-      <menuitem action="ToggleConsoleView"/>
       <menuitem action="ToggleRhythmToolbar"/>
       <menuitem action="ToggleEntryToolbar"/>
       <menuitem action="ToggleToolbar"/>
@@ -153,6 +152,7 @@
       <menuitem action="ToggleScoreTitles"/>
       <menuitem action="ToggleObjectMenu"/>
       <menuitem action="ToggleLilyText"/>
+      <menuitem action="ToggleConsoleView"/>
       <menuitem action="ToggleScript"/>
       <menuitem action="ToggleScoreView"/>
     </menu>

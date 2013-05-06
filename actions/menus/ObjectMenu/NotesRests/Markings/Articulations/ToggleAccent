@@ -8,7 +8,7 @@
         <after>Marcato</after>
         <action>ToggleAccent</action>
         <scheme>;;;ToggleAccent
-	(ToggleChordDirective "Accent" LG-Accent "\\accent" DENEMO_ALT_OVERRIDE)
+        (ChordAnnotation "ToggleAccent" "\\accent"    ToggleAccent::params    LG-Accent)
 </scheme>
         <label>Accent (Off/On)</label>
         <tooltip>Mark/Unmark the current chord accented</tooltip>

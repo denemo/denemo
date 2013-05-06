@@ -1903,6 +1903,11 @@ tag_choice(GtkWidget *widget, DenemoDirective **response) {
     *response = g_object_get_data(G_OBJECT(widget), "choice");
   return TRUE;
 }
+
+static void
+tag_none(GtkWidget *widget, DenemoDirective **response) {
+    *response = NULL;
+}
 #define UNKNOWN_TAG "<Unknown Tag>"
 
 /* pack radio buttons for directive choice */
@@ -1919,14 +1924,14 @@ pack_buttons(GtkWidget *vbox, GList *directives, DenemoDirective **response) {
     if(*response==NULL)
       *response = directive;
     if(widget==NULL) {
-      widget =   gtk_radio_button_new_with_label(NULL, directive->tag->str);
+      widget =   gtk_radio_button_new_with_label(NULL, directive->tag->str); //FIXME get_label_for_tag() and get_tooltip_for_tag() here!!!
       g_object_set_data(G_OBJECT(widget), "choice", directive);
       g_signal_connect(G_OBJECT(widget), "toggled", G_CALLBACK(tag_choice), response);
       gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
     } else {
       widget2  =   gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON (widget), directive->tag->str);
       g_object_set_data(G_OBJECT(widget2), "choice", directive);
-      g_signal_connect(G_OBJECT(widget2), "toggled", G_CALLBACK(tag_choice), response);
+      g_signal_connect(G_OBJECT(widget2), "toggled", G_CALLBACK(tag_none), response);
       gtk_box_pack_start (GTK_BOX (vbox), widget2, FALSE, TRUE, 0);
     }
   }
@@ -1945,11 +1950,24 @@ DenemoDirective *select_directive(gchar *instr, GList *directives) {
                                         GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
                                         GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
                                         NULL);
+                             
+                                        
   GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
   GtkWidget *content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
   gtk_container_add (GTK_CONTAINER (content_area), vbox);
 
   DenemoDirective *response = NULL;
+  
+/*                                 
+	void                user_function                      (GtkDialog *arg0,
+                                                        gpointer   user_data)      : Action
+	The ::close signal is a keybinding signal which gets emitted when the user uses a keybinding to close the dialog.
+	The default binding for this signal is the Escape key. 
+*/
+	g_signal_connect(G_OBJECT(dialog), "close", G_CALLBACK(tag_none), &response);
+        
+        
+        
   GList *g;
   gint count;//count tagged directives
   GtkWidget *widget, *widget2;
@@ -1964,8 +1982,8 @@ DenemoDirective *select_directive(gchar *instr, GList *directives) {
     }
   }
   gtk_widget_destroy (dialog);
-  if(response && response->tag)
-    ;//g_print("Came back with response %s\n", response->tag->str);
+  //if(response && response->tag)
+  //g_print("Came back with response %s\n", response->tag->str);
   return response;
 }
 
@@ -2475,8 +2493,13 @@ edit_directive(DenemoDirective *directive, gchar *what) {
   gchar* filename = get_editscript_filename(directive->tag->str);
   if(filename == NULL) {
     GtkAction *action = lookup_action_from_name (directive->tag->str);
-    if(action && (Denemo.keyboard_state!=GDK_MOD2_MASK/*NumLock */))
-      activate_script(action, NULL);
+    if(action && (Denemo.keyboard_state!=GDK_MOD2_MASK/*NumLock */)) {//FIXME this should be detecting shift click surely????
+				DenemoScriptParam param;
+				gchar *paramvar;
+				param.string = g_string_new("edit");g_print("Script can look for params \"edit\" - a string to catch this\n");
+				activate_script(action, &param); 
+				g_string_free(param.string, TRUE);
+		}
     else {
       ret =( text_edit_directive(directive, what)  || !confirm(_("Directive Delete"), _("Are you sure you want to delete the directive?")));
       score_status (Denemo.gui, TRUE);

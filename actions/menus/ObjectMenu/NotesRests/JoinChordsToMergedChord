@@ -16,7 +16,7 @@
 
 </scheme>
         <label>Join music objects to new chord</label>
-        <tooltip>Joins all notes, chords and rests in the selection and inserts a all selected notes as chord. May create tied notes.</tooltip>
+        <tooltip>Joins all notes, chords and rests in the selection and inserts all selected notes as chord. May create tied notes.</tooltip>
       </row>
     </map>
   </merge>

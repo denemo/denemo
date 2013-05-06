@@ -19,7 +19,7 @@
 (d-MoveCursorRight)
 (d-RefreshDisplay)</scheme>
         <label>Close Second Time Bar</label>
-        <tooltip>Closes the second time bar peviously opened (printing)</tooltip>
+        <tooltip>Closes the second time bar previously opened (printing)</tooltip>
       </row>
     </map>
   </merge>

@@ -173,7 +173,6 @@ gchar *  process_key_event(GdkEventKey * event, gchar* perform_command()) {
   if (isModifier(event))
     return NULL;
 
-
   /* Look up the keystroke in the keymap and execute the appropriate
    * function */
   static GString *prefix_store = NULL;
@@ -185,6 +184,12 @@ gchar *  process_key_event(GdkEventKey * event, gchar* perform_command()) {
     const gchar *command_name =
       lookup_name_from_idx (the_keymap, command_idx);
     if (command_name) {
+			if(Denemo.prefs.learning) {
+				gchar *name = dnm_accelerator_name(event->keyval, event->state);
+				KeyStrokeShow(name, command_idx, TRUE);
+				g_free(name);
+			}
+			//g_print("Single Key shortcut %s invokes %s\n", dnm_accelerator_name(event->keyval, event->state), command_name);
       return perform_command(command_name, event);
     } else {
       g_warning("Error: action %i has no name", command_idx);
@@ -200,42 +205,52 @@ gchar *  process_key_event(GdkEventKey * event, gchar* perform_command()) {
     //g_print("second key %s\n", name);
     g_string_append_printf(prefix_store, "%c%s", ',', name);
     command_idx = lookup_command_for_keybinding_name(Denemo.map, prefix_store->str);
-    //g_print("we get %d for %s\n", command_idx, prefix_store->str);
+    
     if(command_idx != -1) {
-      const gchar *command_name =
-	lookup_name_from_idx (the_keymap, command_idx);
-      if (command_name) {
-	ret = perform_command(command_name, event);
-      }
-    } else { //Two key name was not a binding
-      ret = NULL;
-      write_status(Denemo.gui);
-      toggle_to_drawing_area(TRUE);//restore menus, in case the user is lost and needs to look up a keypress
-    }
+				const gchar *command_name =
+				lookup_name_from_idx (the_keymap, command_idx);
+				if (command_name) {
+						if(Denemo.prefs.learning) {
+								KeyStrokeShow(prefix_store->str, command_idx, FALSE);
+						}		
+				ret = perform_command(command_name, event);
+				}
+			} else { //Two key name was not a binding
+					ret = NULL;
+					write_status(Denemo.gui);
+					toggle_to_drawing_area(TRUE);//restore menus, in case the user is lost and needs to look up a keypress
+			}
     g_string_assign(prefix_store, "");
     Denemo.continuations = NULL;
     return ret;
   } else { //no prefix stored 
-    gchar *name = dnm_accelerator_name(event->keyval, event->state);
+    gchar *name = dnm_accelerator_name(event->keyval, event->state);//FIXME free name
+   
     if((Denemo.continuations=(GList *)g_hash_table_lookup(Denemo.map->continuations_table, name))) {
       GList *g;
       GString *continuations = g_string_new("");
       for(g=Denemo.continuations;g;g=g->next) 
-	g_string_append_printf(continuations, "%s%s", (gchar *) g->data, ", or ");
-      g_string_printf(prefix_store, "Prefix Key %s, waiting for key %stype Esc to abort", name, continuations->str);
-      g_string_free(continuations, TRUE);
-      gtk_statusbar_pop(GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id);
-      gtk_statusbar_push(GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id,
-			 prefix_store->str);
-      g_string_assign(prefix_store, name);
-      return ""; //continuation available
-    } else {
-      write_status(Denemo.gui);//WHY FIXME
-     toggle_to_drawing_area(TRUE);//restore menus, in case the user is lost and needs to look up a keypress
-    }
-    return NULL;
+				g_string_append_printf(continuations, "%s%s", (gchar *) g->data, ", or ");
+			g_string_printf(prefix_store, "Prefix Key %s, waiting for key %stype Esc to abort", name, continuations->str);
+			g_string_free(continuations, TRUE);
+			gtk_statusbar_pop(GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id);
+			gtk_statusbar_push(GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id,
+														prefix_store->str);
+			g_string_assign(prefix_store, name);
+			if(Denemo.prefs.learning) {
+				KeyStrokeAwait(name);			
+			}
+			return ""; //continuation available
+		} else {
+						if(Denemo.prefs.learning) {
+							KeyStrokeDecline(name);			
+						}
+						write_status(Denemo.gui);//WHY FIXME
+						toggle_to_drawing_area(TRUE);//restore menus, in case the user is lost and needs to look up a keypress
+		}
+		return NULL;
   }
-  return NULL;
+ return NULL;
 }
 
 

@@ -8,6 +8,14 @@ page-limit-inter-system-space = ##t
 page-limit-inter-system-space-factor = 1.2</postfix>
     </directive>
   </paper-directives>
+  <thumbnail>
+    <first-staff>1</first-staff>
+    <last-staff>3</last-staff>
+    <first-measure>1</first-measure>
+    <last-measure>3</last-measure>
+    <first-obj>0</first-obj>
+    <last-obj>2147483647</last-obj>
+  </thumbnail>
   <lilycontrol>
     <papersize>a4</papersize>
     <fontsize>16</fontsize>
@@ -23,8 +31,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
   <movement>
     <edit-info>
       <staffno>1</staffno>
-      <measureno>3</measureno>
-      <cursorposition>0</cursorposition>
+      <measureno>1</measureno>
+      <cursorposition>3</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -85,7 +93,6 @@ page-limit-inter-system-space-factor = 1.2</postfix>
         </voice-props>
         <measures>
           <measure>
-            <lily-directive override="32"> \override Score.RehearsalMark #'padding = #2.5</lily-directive>
             <chord show="true" id="id2">
               <duration base="quarter"/>
               <notes>
@@ -118,9 +125,9 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
+            <lily-directive tag="RehearsalMark" grob="RehearsalMark" graphic_name="RehearsalMark" gx="14" gy="-35" minpixels="30"> \mark \default</lily-directive>
           </measure>
           <measure>
-            <lily-directive tag="RehearsalMark" graphic_name="RehearsalMark" gx="14" gy="-35" minpixels="30"> \mark \default</lily-directive>
             <chord show="true" id="id10">
               <duration base="quarter"/>
               <notes>
@@ -153,9 +160,9 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
+            <lily-directive tag="RehearsalMark" grob="RehearsalMark" graphic_name="RehearsalMark" gx="14" gy="-35" minpixels="30"> \mark \default</lily-directive>
           </measure>
           <measure>
-            <lily-directive tag="RehearsalMark" graphic_name="RehearsalMark" gx="14" gy="-35" minpixels="30"> \mark \default</lily-directive>
             <chord show="true" id="id18">
               <duration base="quarter"/>
               <notes>
@@ -190,7 +197,6 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="RehearsalMark" graphic_name="RehearsalMark" gx="14" gy="-35" minpixels="30"> \mark \default</lily-directive>
             <chord show="true" id="id26">
               <duration base="quarter"/>
               <notes>
@@ -207,6 +213,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
+            <lily-directive tag="RehearsalMark" grob="RehearsalMark" graphic_name="RehearsalMark" gx="14" gy="-35" minpixels="30"> \mark \default</lily-directive>
             <chord show="true" id="id30">
               <duration base="quarter"/>
               <notes>

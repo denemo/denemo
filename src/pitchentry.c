@@ -6,13 +6,14 @@
  */
 #include <math.h>
 #include <string.h> /* for strcmp() */
+#include <stdlib.h> /* for abs() */
 #include "audio.h"
 #include "pitchentry.h"
 #include "view.h"
 #include "audiointerface.h"
 
 
-#define  DEFAULT_HIGH (4500.0)
+#define  DEFAULT_HIGH (1400.0)
 #define  DEFAULT_LOW (60.0)
 #define DEFAULT_TIMER_RATE (50)
 #define QUARTER_COMMA_MEAN_TONE "Quarter comma meantone"
@@ -779,7 +780,7 @@ static void display_pitch(double note, DenemoGUI *gui) {
 	gtk_widget_queue_draw(PR_indicator);
       }
     }
-/*     fprintf(stderr, "Pitch is %d %d\t", (int)(Freq2Pitch(note)+0.5), (int)note); */
+     //fprintf(stderr, "Pitch is %0.2f\t", note);
   }
 
 static gint measure_pitch_accurately (DenemoGUI *gui) {
@@ -1017,11 +1018,10 @@ static gint draw_indicator (GtkWidget * widget, GdkEventExpose * event, gpointer
     
     if(iCent<380)
       cairo_set_source_rgb (cr, 1, 0, 0);
+    else if(iCent>420)
+			cairo_set_source_rgb (cr, 0, 0, 1);
     else
-      if(iCent>420)
-	cairo_set_source_rgb (cr, 0, 1, 0);
-      else
-	cairo_set_source_rgb (cr, 0, 0, 1);
+			cairo_set_source_rgb (cr, 0, 1, 0);
     cairo_rectangle (cr, iCent-barwidth/2,0,barwidth,320);
     cairo_fill(cr);
     cairo_set_source_rgb (cr, 0, 0, 0);
@@ -1182,9 +1182,9 @@ GtkWidget *get_temperament_combo(void) {
 		    G_CALLBACK (temperament_changed_callback), list_store);
   //set_tuning();
   }
-  GtkWidget *cont = gtk_widget_get_parent(combobox);
-  if(cont)
-    gtk_container_remove(GTK_CONTAINER(cont), combobox);
+//  GtkWidget *cont = gtk_widget_get_parent(combobox);
+ // if(cont)
+ //   gtk_container_remove(GTK_CONTAINER(cont), combobox);
   return combobox;
 }
 

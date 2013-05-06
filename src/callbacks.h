@@ -1319,7 +1319,7 @@ static void InsertRest0(GtkAction *action, gpointer param){
   score_status(gui, TRUE);
   displayhelper(gui);
 }
-static void ChangeRest0(GtkAction *action, gpointer param){
+static void Dummy0(GtkAction *action, gpointer param){
   DenemoGUI *gui = Denemo.gui;
   gint mode = gui->mode;
   gboolean appending = gui->si->cursor_appending;
@@ -1386,7 +1386,7 @@ static void InsertRest1(GtkAction *action, gpointer param){
   score_status(gui, TRUE);
   displayhelper(gui);
 }
-static void ChangeRest1(GtkAction *action, gpointer param){
+static void Dummy1(GtkAction *action, gpointer param){
   DenemoGUI *gui = Denemo.gui;
   gint mode = gui->mode;
   gboolean appending = gui->si->cursor_appending;
@@ -1453,7 +1453,7 @@ static void InsertRest2(GtkAction *action, gpointer param){
   score_status(gui, TRUE);
   displayhelper(gui);
 }
-static void ChangeRest2(GtkAction *action, gpointer param){
+static void Dummy2(GtkAction *action, gpointer param){
   DenemoGUI *gui = Denemo.gui;
   gint mode = gui->mode;
   gboolean appending = gui->si->cursor_appending;
@@ -1520,7 +1520,7 @@ static void InsertRest3(GtkAction *action, gpointer param){
   score_status(gui, TRUE);
   displayhelper(gui);
 }
-static void ChangeRest3(GtkAction *action, gpointer param){
+static void Dummy3(GtkAction *action, gpointer param){
   DenemoGUI *gui = Denemo.gui;
   gint mode = gui->mode;
   gboolean appending = gui->si->cursor_appending;
@@ -1587,7 +1587,7 @@ static void InsertRest4(GtkAction *action, gpointer param){
   score_status(gui, TRUE);
   displayhelper(gui);
 }
-static void ChangeRest4(GtkAction *action, gpointer param){
+static void Dummy4(GtkAction *action, gpointer param){
   DenemoGUI *gui = Denemo.gui;
   gint mode = gui->mode;
   gboolean appending = gui->si->cursor_appending;
@@ -1654,7 +1654,7 @@ static void InsertRest5(GtkAction *action, gpointer param){
   score_status(gui, TRUE);
   displayhelper(gui);
 }
-static void ChangeRest5(GtkAction *action, gpointer param){
+static void Dummy5(GtkAction *action, gpointer param){
   DenemoGUI *gui = Denemo.gui;
   gint mode = gui->mode;
   gboolean appending = gui->si->cursor_appending;
@@ -1721,7 +1721,7 @@ static void InsertRest6(GtkAction *action, gpointer param){
   score_status(gui, TRUE);
   displayhelper(gui);
 }
-static void ChangeRest6(GtkAction *action, gpointer param){
+static void Dummy6(GtkAction *action, gpointer param){
   DenemoGUI *gui = Denemo.gui;
   gint mode = gui->mode;
   gboolean appending = gui->si->cursor_appending;
@@ -1788,7 +1788,7 @@ static void InsertRest7(GtkAction *action, gpointer param){
   score_status(gui, TRUE);
   displayhelper(gui);
 }
-static void ChangeRest7(GtkAction *action, gpointer param){
+static void Dummy7(GtkAction *action, gpointer param){
   DenemoGUI *gui = Denemo.gui;
   gint mode = gui->mode;
   gboolean appending = gui->si->cursor_appending;
@@ -1855,7 +1855,7 @@ static void InsertRest8(GtkAction *action, gpointer param){
   score_status(gui, TRUE);
   displayhelper(gui);
 }
-static void ChangeRest8(GtkAction *action, gpointer param){
+static void Dummy8(GtkAction *action, gpointer param){
   DenemoGUI *gui = Denemo.gui;
   gint mode = gui->mode;
   gboolean appending = gui->si->cursor_appending;

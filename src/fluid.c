@@ -18,7 +18,7 @@
 
 #include <fluidsynth.h>
 #include <glib.h>
-
+#include "utils.h"
 
 static fluid_settings_t* settings = NULL;
 static fluid_synth_t* synth = NULL;
@@ -131,23 +131,29 @@ void fluidsynth_feed_midi(unsigned char *event_data, size_t event_length) {
 }
 
 
-//void fluid_all_notes_off_channel(gint chan) {
-//  fluid_synth_cc(synth, chan, 123, 0);
-//}
-//
-//void fluid_all_notes_off(void) {
-//  gint chan;
-//  for(chan=0;chan<16;chan++)
-//  fluid_all_notes_off_channel(chan);
-//}
+static void fluid_all_notes_off_channel(gint chan) {
+//	fluid_event_all_sounds_off (fluid_event_t *evt, int channel)!!!!!!!!!!!
+//	fluid_event_t evt;
+//	fluid_event_all_notes_off (&evt, chan)
+gint i;
+		for(i=0;i<128;i++) 
+			fluid_synth_noteoff(synth, chan, i);
+}
+
+static void fluid_all_notes_off(void) {
+  gint chan;
+  for(chan=0;chan<16;chan++)
+  fluid_all_notes_off_channel(chan);
+}
 
 
 void fluidsynth_all_notes_off() {
   // FIXME: this call has the potential to cause an xrun and/or disconnect us from JACK
   //FIXME: this unsets the channel settings for immediate playback (fixed below) and more ...????
-  fluid_synth_system_reset(synth);
-  if(Denemo.prefs.pitchspellingchannel)
-    fluid_synth_program_change(synth, Denemo.prefs.pitchspellingchannel, Denemo.prefs.pitchspellingprogram);
+  //fluid_synth_system_reset(synth);
+  fluid_all_notes_off();
+ // if(Denemo.prefs.pitchspellingchannel)
+  //  fluid_synth_program_change(synth, Denemo.prefs.pitchspellingchannel, Denemo.prefs.pitchspellingprogram);
 }
 
 void fluidsynth_render_audio(unsigned int nframes, float *left_channel, float *right_channel) {

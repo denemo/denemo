@@ -5,8 +5,8 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <scheme>;;;Rheel
-(ToggleChordDirective "Rheel" LG-Rheel "\\rheel" DENEMO_ALT_OVERRIDE)
+        <scheme>;;;ToggleRheel
+        (ChordAnnotation "ToggleRheel" "\\rheel"    ToggleRheel::params    LG-Rheel)
 </scheme>
         <label>Rheel (Off/On)</label>
         <tooltip>Mark/Unmark the current note rheel</tooltip>

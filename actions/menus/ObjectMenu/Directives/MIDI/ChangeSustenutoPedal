@@ -8,8 +8,8 @@
         <after>ChangePortamento</after>
         <action>ChangeSustenutoPedal</action>
         <scheme>(ChangeSustenutoPedal::Set)</scheme>
-        <label>66 Sustenuto Pedal On/Off (Middle Grand Piano Pedal)</label>
-        <tooltip>Middle Grand Piano Pedal. All Notes currently active (without a note off) will not have a note-off until Sustenuto Off.</tooltip>
+        <label>66 Sostenuto Pedal On/Off (Middle Grand Piano Pedal)</label>
+        <tooltip>Middle Grand Piano Pedal. All Notes currently active (without a note off) will not have a note-off until Sostenuto Off.</tooltip>
       </row>
     </map>
   </merge>

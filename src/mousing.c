@@ -247,7 +247,8 @@ pi->measure_number >= rightmeasurenum);
 		  /* The below makes clicking to get the object at the end of
 		     a measure (instead of appending after it) require
 		     precision.  This may be bad; tweak me if necessary.  */
-		  if (x_to_explain > current->x + current->minpixelsalloted)
+		  if ((x_to_explain > current->x + current->minpixelsalloted) ||
+			(x_to_explain > GPOINTER_TO_INT (mwidthiterator->data) - current->minpixelsalloted/3))//if closer to barline than object center
 		    pi->offend = TRUE, pi->cursor_x++;
 		}
 	    }
@@ -444,19 +445,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     return TRUE;
 
 
-  if(event->x<LEFT_MARGIN) {
-    struct placement_info pi; //FIXME duplicate code
-    get_placement_from_coordinates (&pi, event->x, event->y, gui->lefts[line_num],gui->rights[line_num],gui->scales[line_num]);
-    if(pi.staff_number==gui->si->currentstaffnum) {
-      gint offset = (gint)get_click_height(gui, event->y);
-      if(offset<STAFF_HEIGHT/2) {
-	if(((DenemoStaff*)gui->si->currentstaff->data)->staff_directives)
-	  gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->staffmenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
-      } else
-	  if(((DenemoStaff*)gui->si->currentstaff->data)->voice_directives)
-	    gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->voicemenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
-    }
-  }
+
 
     if (lh_down || (selecting && gui->si->markstaffnum)){
       struct placement_info pi;
@@ -578,34 +567,43 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 
 
   gint offset = (gint)get_click_height(gui, event->y);
-  if(gui->si->leftmeasurenum==1) {
+  if((gui->si->leftmeasurenum==1) && (event->x>LEFT_MARGIN)) {
     if(event->x<KEY_MARGIN-cmajor) {
       popup_menu("/InitialClefEditPopup");
       return TRUE;
     }  else  if(event->x<KEY_MARGIN+key+cmajor) {
       if(left) {
-	if(offset<STAFF_HEIGHT/2)
-	  call_out_to_guile("(d-IncrementKeysig 1)");
-	else
-	  call_out_to_guile("(d-IncrementKeysig -1)");
-      } else
-      popup_menu("/InitialKeyEditPopup");
-      return TRUE;
-    } else  if(event->x<KEY_MARGIN+SPACE_FOR_TIME+key) {
-      popup_menu("/InitialTimeEditPopup");
-      return TRUE;
+								if(offset<STAFF_HEIGHT/2)
+										call_out_to_guile("(d-SharpenInitialKeysigs)");
+								else
+										call_out_to_guile("(d-FlattenInitialKeysigs)");
+								} else
+								popup_menu("/InitialKeyEditPopup");
+								return TRUE;
+			} else  if(event->x<KEY_MARGIN+SPACE_FOR_TIME+key) {
+				popup_menu("/InitialTimeEditPopup");
+				return TRUE;
+			}
+		}
+
+  if(event->x<LEFT_MARGIN) {
+    if(pi.staff_number==gui->si->currentstaffnum) {
+      gint offset = (gint)get_click_height(gui, event->y);
+      if(offset<STAFF_HEIGHT/2) {
+																	if(((DenemoStaff*)gui->si->currentstaff->data)->staff_directives)
+																			gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->staffmenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time());
+																	return TRUE;
+																} else	if(((DenemoStaff*)gui->si->currentstaff->data)->voice_directives) {
+																			gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->voicemenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time());
+																			return TRUE;
+																}	
     }
   }
 
-
-
   if(left) {
-    // if(!(GDK_CONTROL_MASK&event->state))
+     if(!(GDK_SHIFT_MASK&event->state))
       gui->si->markstaffnum = 0;
-    //    else
-    //  calcmarkboundaries (gui->si);
      lh_down = TRUE;
- 
   } else {
     if(gui->si->cursor_appending) {
 			popup_menu("/NoteAppendPopup");

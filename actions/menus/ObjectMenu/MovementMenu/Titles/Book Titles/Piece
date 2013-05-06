@@ -7,7 +7,7 @@
       <row>
         <action>Piece</action>
         <scheme>;;;Piece
-          (MovementBookTitles::Do "Piece" "piece \\markup" "My Piece"  (_ "Give name for this piece of the current movement or blank out to delete: "))
+          (MovementBookTitles::Do "Piece" "piece " "My Piece"  (_ "Give name for this piece of the current movement or blank out to delete: "))
         </scheme>
         <label>Piece</label>
         <tooltip>Prints a piece name for the Movement</tooltip>
