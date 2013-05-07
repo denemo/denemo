@@ -125,7 +125,6 @@ src/objops.c
 src/objops.h
 src/parseinstruments.c
 src/parseinstruments.h
-src/pathconfig.h
 src/pitchentry.c
 src/pitchentry.h
 src/pitchrecog.c
