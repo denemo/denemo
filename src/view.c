@@ -86,6 +86,8 @@ static void create_window (void);
 static gint dnm_key_snooper (GtkWidget * grab_widget, GdkEventKey * event);
 static void populate_opened_recent (void);
 static gchar *get_most_recent_file (void);
+static void toggle_record_script (GtkAction * action, gpointer param);
+
 #ifdef DEVELOPER
 #define MUSIC_FONT(a) "music-sign ("a")"
 #else
@@ -222,11 +224,7 @@ execute_script_file (gchar * filename)
   return error;
 }
 
-void
-execute_scheme (GtkAction * action, DenemoScriptParam * param)
-{
-  executeScript ();
-}
+
 
 /***************** definitions to implement calling radio/check items from scheme *******************/
 #define MODELESS_STRING "Modeless"
@@ -260,6 +258,17 @@ execute_scheme (GtkAction * action, DenemoScriptParam * param)
 
 
 #define ReadOnly_STRING  "ReadOnly"
+
+
+void
+execute_scheme (GtkAction * action, DenemoScriptParam * param)
+{
+	if(Denemo.ScriptRecording)
+		gtk_action_activate(gtk_action_group_get_action(Denemo.action_group, RecordScript_STRING));
+	//Denemo.ScriptRecording = FALSE;
+  executeScript ();
+}
+
 
 
 #define FN_DEF(X) void X##_CB(void) {\
@@ -8236,17 +8245,19 @@ insertScript (GtkWidget * widget, gchar * insertion_point)
 
 
 
-static void
+void
 append_scheme_call (gchar * func)
 {
-  GtkTextIter enditer;
-  GtkTextBuffer *buffer = gtk_text_view_get_buffer ((GtkTextView *) (Denemo.ScriptView));
-  //gtk_text_buffer_set_text(buffer,"",-1);
-  gtk_text_buffer_get_end_iter (buffer, &enditer);
-  gchar *text = g_strdup_printf ("(d-%s)\n", func);     //prefix dnm_!!!!!!!
-  gtk_text_buffer_insert (buffer, &enditer, text, -1);
-  //g_print("Added %s\n", text);
-  g_free (text);
+	if(strcmp(func, "ExecuteScheme")) {
+		GtkTextIter enditer;
+		GtkTextBuffer *buffer = gtk_text_view_get_buffer ((GtkTextView *) (Denemo.ScriptView));
+		//gtk_text_buffer_set_text(buffer,"",-1);
+		gtk_text_buffer_get_end_iter (buffer, &enditer);
+		gchar *text = g_strdup_printf ("(d-%s)\n", func);     //prefix dnm_!!!!!!!
+		gtk_text_buffer_insert (buffer, &enditer, text, -1);
+		//g_print("Added %s\n", text);
+		g_free (text);
+	}
 }
 
 
@@ -9956,7 +9967,7 @@ GtkToggleActionEntry toggle_menu_entries[] = {
   {QuickEdits_STRING, NULL, N_("Allow Quick Shortcut Edits"), NULL, "Enable editing keybindings by pressing a key while hovering over the menu item",
    G_CALLBACK (toggle_quick_edits), TRUE}
   ,
-  {RecordScript_STRING, NULL, N_("Record Scheme Script"), NULL, "Start recording menu clicks into the Scheme script text window",
+  {RecordScript_STRING, NULL, N_("Record Scheme Script"), NULL, "Start recording commands into the Scheme script text window",
    G_CALLBACK (toggle_record_script), FALSE}
   ,
 

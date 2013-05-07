@@ -198,6 +198,11 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
               KeyStrokeShow (name, command_idx, TRUE);
               g_free (name);
             }
+          if (Denemo.ScriptRecording)
+						if (idx_has_callback (the_keymap, command_idx))
+							{
+								append_scheme_call ((gchar *) command_name);
+							}  
           //g_print("Single Key shortcut %s invokes %s\n", dnm_accelerator_name(event->keyval, event->state), command_name);
           return perform_command (command_name, event);
         }
@@ -227,6 +232,11 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
                 {
                   KeyStrokeShow (prefix_store->str, command_idx, FALSE);
                 }
+					if (Denemo.ScriptRecording)
+							if (idx_has_callback (the_keymap, command_idx))
+								{
+									append_scheme_call ((gchar *) command_name);
+								}            
               ret = perform_command (command_name, event);
             }
         }

@@ -101,4 +101,6 @@ gint hide_printarea_on_delete (void);
 void set_midi_in_status (void);
 void set_meantone_tuning (gint step);
 void update_leadin_widget (gdouble secs);
+void
+append_scheme_call (gchar * str);
 #endif
