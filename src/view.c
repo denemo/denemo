@@ -111,11 +111,11 @@ typedef enum
 
 static void save_accels (void);
 
-#include "callbacks.h"          /* callback functions menuitems that can be called by scheme */
+#include "generated/callbacks.h"          /* callback functions menuitems that can be called by scheme */
 #include <libguile.h>
 //#include <guile/gh.h>
 
-#include "scheme_cb.h"
+#include "generated/scheme_cb.h"
 
 
 static gboolean
@@ -5617,7 +5617,7 @@ init_keymap (void)
     free_keymap (Denemo.map);
   Denemo.map = allocate_keymap ();
   GtkActionGroup *action_group = Denemo.action_group;
-#include "register_commands.h"
+#include "generated/register_commands.h"
 }
 
 static void
@@ -5635,7 +5635,7 @@ create_scheme_identfiers (void)
      not necessarily null terminated, which is then passed as a GString * to the callback routines (with the first parameter, the GtkAction*, passed as NULL.
      Note that all such actions (that may be called back by scheme directly in this fashion) are given the attribute "scm" with value 1; I do not think this is being exploited in the code at present, and is perhaps not needed.
    */
-#include "scheme.h"
+#include "generated/scheme.h"
   init_denemo_notenames ();
 
   INSTALL_SCM_FUNCTION ("Hides all the menus", DENEMO_SCHEME_PREFIX "HideMenus", scheme_hide_menus);
@@ -9309,7 +9309,7 @@ dummy (void)
  * Menu entries with no shortcut keys, tooltips, and callback functions
  */
 GtkActionEntry menu_entries[] = {
-#include "entries.h"
+#include "generated/entries.h"
   {"Browse", NULL, N_("Browse"), NULL, N_("Opens a dialog for a new file"), G_CALLBACK (file_open_with_check)}
 
 };
@@ -10305,7 +10305,7 @@ create_window (void)
   GtkAccelGroup *accel_group;
   GError *error;
   GtkWidget *widget;
-  gchar *data_file;
+  gchar *denemoui_path = NULL, *data_file = NULL;
 
   Denemo.window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (Denemo.window), _("Denemo Main Window"));
@@ -10364,26 +10364,39 @@ create_window (void)
   //accel_group = gtk_ui_manager_get_accel_group (ui_manager);
   //gtk_window_add_accel_group (GTK_WINDOW (Denemo.window), accel_group);
 
+  
+  data_file = g_build_filename (get_data_dir (), "denemoui.xml", NULL);
+  if(g_file_test (data_file, G_FILE_TEST_EXISTS))
+    denemoui_path = data_file;
+  else
+    g_free(data_file);
 
-  data_file = g_build_filename (
-#ifndef USE_LOCAL_DENEMOUI
-                                 get_data_dir (),
-#endif
-                                 "denemoui.xml", NULL);
-  error = NULL;
-  if (!gtk_ui_manager_add_ui_from_file (ui_manager, data_file, &error))
+  if(!denemoui_path)
     {
-      g_message ("building menu failed: %s", error->message);
-      g_error_free (error);
-      gchar *message = g_strdup_printf ("The denemoui.xml %s file could not be used - exiting", data_file);
-      warningdialog (message);
-      g_free (message);
+      data_file = g_build_filename ("denemoui.xml", NULL);
+      if(g_file_test (data_file, G_FILE_TEST_EXISTS))
+        denemoui_path = data_file;
+      else
+        g_free(data_file);
+    }
+  
+  if (!denemoui_path)
+    {
+      g_error ("denemoui.xml could not be found, exiting");
       exit (EXIT_FAILURE);
     }
-  g_free (data_file);
+
+  error = NULL;
+  if(!gtk_ui_manager_add_ui_from_file (ui_manager, data_file, &error))
+    {
+      g_error ("Could not load %s: %s", denemoui_path, error->message);
+      g_error_free (error);
+      exit (EXIT_FAILURE);
+    }
 
 
-  {                             //pops up with menu items for the directives attached to the current note
+  {                             
+    //pops up with menu items for the directives attached to the current note
     GtkWidget *menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/NoteEditPopupDirectives");
     g_signal_connect (menu, "deactivate", G_CALLBACK (unpopulate_menu), NULL);
   }
@@ -10704,13 +10717,8 @@ create_window (void)
     gtk_widget_show (Denemo.window);
   /* Now that the window is shown, initialize the gcs */
   // gcs_init (Denemo.window->window);
-
-  data_file = g_build_filename (
-#ifndef USE_LOCAL_DENEMOUI
-                                 get_data_dir (),
-#endif
-                                 "denemoui.xml", NULL);
-  parse_paths (data_file, Denemo.gui);
+    
+  parse_paths (denemoui_path, Denemo.gui);
   g_free (data_file);
 
   use_markup (Denemo.window);   /* set all the labels to use markup so that we can use the music font. Be aware this means you cannot use labels involving "&" "<" and ">" and so on without escaping them 
@@ -10730,6 +10738,7 @@ create_window (void)
 
 
   g_signal_connect (G_OBJECT (Denemo.notebook), "switch_page", G_CALLBACK (switch_page), NULL);
+  g_free(denemoui_path);
 }                               /* create window */
 
 
