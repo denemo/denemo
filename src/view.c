@@ -111,11 +111,11 @@ typedef enum
 
 static void save_accels (void);
 
-#include "callbacks.h"          /* callback functions menuitems that can be called by scheme */
+#include "generated/callbacks.h"          /* callback functions menuitems that can be called by scheme */
 #include <libguile.h>
 //#include <guile/gh.h>
 
-#include "scheme_cb.h"
+#include "generated/scheme_cb.h"
 
 
 static gboolean
@@ -5617,7 +5617,7 @@ init_keymap (void)
     free_keymap (Denemo.map);
   Denemo.map = allocate_keymap ();
   GtkActionGroup *action_group = Denemo.action_group;
-#include "register_commands.h"
+#include "generated/register_commands.h"
 }
 
 static void
@@ -5635,7 +5635,7 @@ create_scheme_identfiers (void)
      not necessarily null terminated, which is then passed as a GString * to the callback routines (with the first parameter, the GtkAction*, passed as NULL.
      Note that all such actions (that may be called back by scheme directly in this fashion) are given the attribute "scm" with value 1; I do not think this is being exploited in the code at present, and is perhaps not needed.
    */
-#include "scheme.h"
+#include "generated/scheme.h"
   init_denemo_notenames ();
 
   INSTALL_SCM_FUNCTION ("Hides all the menus", DENEMO_SCHEME_PREFIX "HideMenus", scheme_hide_menus);
@@ -9309,7 +9309,7 @@ dummy (void)
  * Menu entries with no shortcut keys, tooltips, and callback functions
  */
 GtkActionEntry menu_entries[] = {
-#include "entries.h"
+#include "generated/entries.h"
   {"Browse", NULL, N_("Browse"), NULL, N_("Opens a dialog for a new file"), G_CALLBACK (file_open_with_check)}
 
 };

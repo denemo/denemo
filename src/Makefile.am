@@ -1,7 +1,7 @@
 bin_PROGRAMS = denemo
 dist_pkgdata_DATA = denemoui.xml instruments.xml
 denemo_SOURCES = denemo_types.c \
-	commands.c commands.h calculatepositions.c changenotehead.c \
+	generated/commands.c commands.h calculatepositions.c changenotehead.c \
 	chordops.c clefdialog.c commandfuncs.c contexts.c draw.c \
 	drawaccidentals.c drawclefs.c drawcursor.c drawkey.c drawdynamic.c \
 	drawnotes.c drawselection.c drawstemdir.c drawtimesig.c drawtuplets.c \
@@ -42,8 +42,8 @@ denemo_SOURCES = denemo_types.c \
 	parseinstruments.c parseinstruments.h keyboard.c \
 	pitchentry.c pitchrecog.c pitchentry.h audio.h \
 	drawlilydir.c lilydirectives.h lilydirectives.c displayanimation.c displayanimation.h keysigdialog.h \
-	callbacks.h entries.h \
-	scheme_cb.h scheme.h register_commands.h \
+	generated/callbacks.h generated/entries.h \
+	generated/scheme_cb.h generated/scheme.h generated/register_commands.h \
 	pathconfig.h \
 	midi.c audiocapture.c \
 	audiointerface.h eventqueue.h dummybackend.h portaudiobackend.h \
