@@ -586,7 +586,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 
 
   gint offset = (gint) get_click_height (gui, event->y);
-  if ((gui->si->leftmeasurenum == 1) && (event->x > LEFT_MARGIN))
+  if ((((DenemoStaff *) gui->si->currentstaff->data)->voicecontrol == DENEMO_PRIMARY) && (gui->si->leftmeasurenum == 1) && (event->x > LEFT_MARGIN))
     {
       if (event->x < KEY_MARGIN - cmajor)
         {
