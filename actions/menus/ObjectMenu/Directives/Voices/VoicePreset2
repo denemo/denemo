@@ -11,8 +11,9 @@
 (if (string=? (d-GetType) "Appending")
   (d-MoveCursorLeft))
 (if (string=? (d-GetType) "STEMDIRECTIVE")
-    (d-DeleteObject)
-    (d-MoveCursorRight))
+    (begin 
+    	(d-MoveCursorRight)
+    	(d-DeletePreviousObject)))
 (d-StartDownStems)
 (d-MoveCursorLeft)
 (d-DirectivePut-stemdirective-graphic "VoiceSetting" "
@@ -26,7 +27,7 @@ Serif
 (d-MoveCursorRight)
 (d-RefreshDisplay)
 </scheme>
-        <label>Voice 2</label>
+        <label>Voice Preset 2 (Stems Down)</label>
         <tooltip>Preset for second voice. Stems down.</tooltip>
       </row>
     </map>
