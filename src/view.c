@@ -6559,7 +6559,8 @@ inner_main (void *closure, int argc, char **argv)
 
   /* Initialize preferences */
   initprefs ();
-  initialize_keystroke_help ();
+  if(Denemo.prefs.learning)
+		initialize_keystroke_help ();
 
   gchar *initial_file = process_command_line (argc, argv);
 

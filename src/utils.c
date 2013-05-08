@@ -1982,13 +1982,14 @@ KeyStrokeShow (gchar * str, gint command_idx, gboolean single)
         }
 
     }
+  gtk_widget_show (KeyStrokes);
 }
 
 static gboolean
 toggle_show_keystroke_preference (void)
 {
   Denemo.prefs.learning = FALSE;
-  gtk_widget_hide (KeyStrokes); // = NULL;
+  gtk_widget_hide (KeyStrokes);
   return TRUE;
 }
 
@@ -2010,6 +2011,5 @@ initialize_keystroke_help (void)
       gtk_label_set_use_markup (GTK_LABEL (KeyStrokeLabel), TRUE);
       gtk_widget_show_all (KeyStrokes);
     }
-  else
-    gtk_widget_show (KeyStrokes);
+    gtk_widget_hide (KeyStrokes);
 }
