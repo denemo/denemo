@@ -1427,111 +1427,122 @@ score_status (DenemoGUI * gui, gboolean change)
 
 
 /* display full information about the object at the cursor */
-GtkWidget *ObjectInfo=NULL;
-static gboolean drop_object_info(void) {
-	if(ObjectInfo)
-		gtk_widget_hide(ObjectInfo);
-	return TRUE;
+GtkWidget *ObjectInfo = NULL;
+static gboolean
+drop_object_info (void)
+{
+  if (ObjectInfo)
+    gtk_widget_hide (ObjectInfo);
+  return TRUE;
 }
 
 
-void display_current_object(void) {
-	DenemoGUI *gui = Denemo.gui;
-	if (ObjectInfo==NULL)
-		{
-			ObjectInfo = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-			g_signal_connect (G_OBJECT (ObjectInfo), "delete-event", G_CALLBACK (drop_object_info), NULL);
-			gtk_window_set_keep_above (GTK_WINDOW (ObjectInfo), TRUE);
-			gtk_window_set_accept_focus (GTK_WINDOW (ObjectInfo), FALSE);
-  	}
-  	else
-  	{
-			gtk_widget_destroy(gtk_bin_get_child(GTK_BIN(ObjectInfo)));
-		}
-  		
+void
+display_current_object (void)
+{
+  DenemoGUI *gui = Denemo.gui;
+  if (ObjectInfo == NULL)
+    {
+      ObjectInfo = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+      g_signal_connect (G_OBJECT (ObjectInfo), "delete-event", G_CALLBACK (drop_object_info), NULL);
+      gtk_window_set_keep_above (GTK_WINDOW (ObjectInfo), TRUE);
+      gtk_window_set_accept_focus (GTK_WINDOW (ObjectInfo), FALSE);
+    }
+  else
+    {
+      gtk_widget_destroy (gtk_bin_get_child (GTK_BIN (ObjectInfo)));
+    }
+
   GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
   gtk_container_add (GTK_CONTAINER (ObjectInfo), vbox);
 
-	if (gui->si->currentobject==NULL) {
-		GtkWidget *label = gtk_label_new("The cursor is in an empty measure.\n"
-		"As a special case this will be typeset as a non-printing whole measure rest.\n"
-		"Note that if you put anything at all in this measure\n"
-		"you must insert a real whole measure rest if that is what you want.");
-		gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
-	}
-	else
-	{
-		DenemoObject *curObj = gui->si->currentobject->data;
-		GString *selection=g_string_new( gui->si->cursor_appending?_("The cursor is in the appending position after "): _("The cursor is on "));
-		switch (curObj->type)
+  if (gui->si->currentobject == NULL)
+    {
+      GtkWidget *label = gtk_label_new ("The cursor is in an empty measure.\n" "As a special case this will be typeset as a non-printing whole measure rest.\n" "Note that if you put anything at all in this measure\n" "you must insert a real whole measure rest if that is what you want.");
+      gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
+    }
+  else
+    {
+      DenemoObject *curObj = gui->si->currentobject->data;
+      GString *selection = g_string_new (gui->si->cursor_appending ? _("The cursor is in the appending position after ") : _("The cursor is on "));
+      GString *warning = g_string_new ("");
+      switch (curObj->type)
         {
         case CHORD:
-					{
-						selection = g_string_append(selection, _("a rest, note or chord."));
-						GtkWidget *label = gtk_label_new(selection->str);
-						gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
-					}
-					break;
-				case TUPOPEN:
-					{
-						g_string_append_printf (selection, "Tuplet %d/%d", ((tupopen *) curObj->object)->numerator, ((tupopen *) curObj->object)->denominator);
-          	GtkWidget *label = gtk_label_new(selection->str);
-						gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
-					}
+          {
+            chord *thechord = ((chord *) curObj->object);
+            if (thechord->notes)
+              {
+                if (thechord->notes->next)
+                  selection = g_string_append (selection, _("a chord."));
+                else
+                  selection = g_string_append (selection, _("a note."));
+              }
+            else
+              selection = g_string_append (selection, _("a rest."));
+          }
+          break;
+        case TUPOPEN:
+          {
+            g_string_append_printf (selection, _(" a Start Tuplet object\n" "Meaning %d notes will take the time of %d notes\n" "until an End Tuplet object"), ((tupopen *) curObj->object)->denominator, ((tupopen *) curObj->object)->numerator);
+          }
           break;
         case TUPCLOSE:
-					{
-						g_string_append_printf (selection, "End tuplet");
-          	GtkWidget *label = gtk_label_new(selection->str);
-						gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
-					}
+          {
+            g_string_append_printf (selection, _("an End Tuplet object\n" "Note: the Start Tuplet must be in the same measure"));
+          }
           break;
         case CLEF:
           {
-						g_string_append_printf (selection, "clef change");
-						GtkWidget *label = gtk_label_new(selection->str);
-						gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
-					}
+            g_string_append_printf (selection, _("a Clef Change object"));
+          }
           break;
         case TIMESIG:
-					{
-						g_string_append_printf (selection, "time signature change");
-          	GtkWidget *label = gtk_label_new(selection->str);
-						gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
-					}
+          {
+            g_string_append_printf (selection, _("a Time Signature Change object"));
+            if (gui->si->currentobject->prev)
+              g_string_append_printf (warning, _("A Time Signature Change should be the first object in a measure\n" "unless you are trying to do something unusual"));
+          }
           break;
         case KEYSIG:
           {
-	          g_string_append_printf (selection, "key signature change");
-          	GtkWidget *label = gtk_label_new(selection->str);
-						gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
-					}
+            g_string_append_printf (selection, _("a Key Signature Change object"));
+          }
           break;
         case STEMDIRECTIVE:
-					{
-						g_string_append_printf (selection, "stem directive: %s", ((stemdirective *) curObj->object)->type == DENEMO_STEMDOWN ? "stem down" : ((stemdirective *) curObj->object)->type == DENEMO_STEMUP ? "stem up" : "normal stemming");
-          	GtkWidget *label = gtk_label_new(selection->str);
-						gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
-					}
+          {
+            g_string_append_printf (selection, _("a Stem Directive, the notes after the cursor %s"), ((stemdirective *) curObj->object)->type == DENEMO_STEMDOWN ? _("will have stems downwards") : ((stemdirective *) curObj->object)->type == DENEMO_STEMUP ? _("will have stems upwards") : _("will have stems up or down as needed"));
+          }
           break;
         case LILYDIRECTIVE:
           {
             DenemoDirective *directive = (DenemoDirective *) curObj->object;
-            g_string_append_printf (selection, "Directive:(%.20s) %.20s%.50s", directive->tag ? directive->tag->str : "Unknown Tag", directive->x ? "Not all layouts" : directive->y ? "Only for one Layout" : "", directive->postfix ? directive->postfix->str : directive->prefix ? directive->prefix->str : directive->graphic_name ? directive->graphic_name->str : directive->display ? directive->display->str : "empty");
-						GtkWidget *label = gtk_label_new(selection->str);
-						gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
+            g_string_append_printf (selection, _("a Denemo Directive: (%s)%s\nThe LilyPond text inserted is %s"), directive->tag ? directive->tag->str : "Unknown Tag", directive->x ? _("\nNot all layouts") : directive->y ? _("\nOnly for one Layout") : "", directive->postfix ? directive->postfix->str : directive->prefix ? directive->prefix->str : directive->graphic_name ? directive->graphic_name->str : directive->display ? directive->display->str : "empty");
+            if (gui->si->currentobject->next == NULL && (gui->si->currentmeasure->next == NULL))
+              g_string_assign (warning, _("This Directive is at the end of the music" "\nYou may need a closing double bar line - see Directives->barlines"));
           }
           break;
-				default:
-					{
-						GtkWidget *label = gtk_label_new("The cursor is on an unknown object type. Please report how this happened!");
-						gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
-					}
-				break;
-				}
-				g_string_free(selection, TRUE);
-	}
-	gtk_widget_show_all (ObjectInfo); 
+        default:
+          {
+            g_string_append (selection, _("The cursor is on an unknown object type. Please report how this happened!"));
+          }
+          break;
+        }
+
+      if (warning->len)
+        {
+          GtkWidget *label = gtk_label_new (warning->str);
+          gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
+        }
+      if (selection->len)
+        {
+          GtkWidget *label = gtk_label_new (selection->str);
+          gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
+        }
+      g_string_free (warning, TRUE);
+      g_string_free (selection, TRUE);
+    }
+  gtk_widget_show_all (ObjectInfo);
 }
 
 /****************
@@ -1649,7 +1660,7 @@ write_status (DenemoGUI * gui)
   gtk_statusbar_pop (GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id);
   gtk_statusbar_push (GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id, status->str);
   g_string_free (status, TRUE);
-  drop_object_info();
+  drop_object_info ();
 }
 
 void
@@ -2121,5 +2132,5 @@ initialize_keystroke_help (void)
       gtk_label_set_use_markup (GTK_LABEL (KeyStrokeLabel), TRUE);
       gtk_widget_show_all (KeyStrokes);
     }
-    gtk_widget_hide (KeyStrokes);
+  gtk_widget_hide (KeyStrokes);
 }
