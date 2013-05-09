@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>SplitChord</after>
+        <action>JoinChords</action>
+        <scheme>(if (d-MarkStatus)
+	(let ()
+		(define basedurationlist (duration::SplitTicksToBaseDurations (duration::GetSelectionDurationInTicks)))
+		(d-DeleteSelectionLeaveEmpty)
+		(duration::InsertBaseDurationList basedurationlist (ANS::GetDiatonic (ANS::Ly2Ans (string-&gt;symbol (GetCursorNoteAsLilypond)))))))</scheme>
+        <_label>Join music objects</_label>
+        <_tooltip>Joins all notes, chords and rests in the selection and inserts a new, longer note instead. May create tied notes. Uses the cursor position as pitch.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>BreathMark</after>
+        <action>Ottava</action>
+        <scheme>;;;OttavaStart
+(let ( (val (d-GetUserInput "Ottava" (_ "Give -1 for ottava bassa, 1 for ottava alta and 0 for end ottava") "0")))
+	(if val
+		(StandAloneDirectiveProto (cons "Ottava"   (string-append "\\ottava #" val " " )))))
+		</scheme>
+        <_label>Ottava</_label>
+        <_tooltip>Inserts an 8va mark (transposing the notes accordingly) or terminates one already started. Combine with a Print Transposition if you want to see the notes as typeset.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

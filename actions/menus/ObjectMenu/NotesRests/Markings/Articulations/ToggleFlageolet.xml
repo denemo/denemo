@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ToggleFlageolet</action>
+        <scheme>;;;ToggleFlageolet
+(ChordAnnotation "ToggleFlageolet" "\\flageolet"    ToggleFlageolet::params    LG-Flageolet)
+;(d-DirectivePut-chord-gy "Flageolet" 12)
+</scheme>
+        <_label>Flageolet (Off/On)</_label>
+        <_tooltip>Mark/Unmark chord with a Flageolet</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

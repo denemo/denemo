@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>GoToEmptyMeasure</after>
+        <action>MoveToPreviousEmptyMeasure</action>
+        <scheme>(RepeatUntilFail (lambda () (and (not (None?)) (d-MoveToMeasureLeft))))</scheme>
+        <_label>Move To Previous Empty Measure</_label>
+        <_tooltip>Move the cursor left until it finds an empty measure or the staffs beginning</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

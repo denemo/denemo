@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after/>
+        <action>ScoreSubsubtitle</action>
+        <scheme>;;;ScoreSubsubtitle
+	(if (d-PreviousMovement)
+		(d-WarningDialog "Returning to the first Movement to set this."))
+	(while (d-PreviousMovement)
+		(display "Seeking first movement"))
+        (SetHeaderField "subsubtitle")
+        (DenemoPrintAllHeaders)
+        (d-RefreshDisplay)
+        </scheme>
+        <_label>Subsubtitle</_label>
+        <_tooltip>Subsubtitle, centered below the subtitle.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

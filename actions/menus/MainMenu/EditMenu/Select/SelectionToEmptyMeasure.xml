@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>SelectionToEmptyMeasure</action>
+        <scheme>;;;SelectionToEmptyMeasure
+(if (not (None?))
+(begin
+	(d-CursorRight)
+	(let gotoEnd ()
+ 	(if  (and (d-CursorRight) (not (None?)))
+		(gotoEnd)))
+	(d-RefreshDisplay)))</scheme>
+        <_label>Selection to Next Empty Measure</_label>
+        <_tooltip>Creates a selection to the next empty measure in the current staff</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>InitialVoiceThree</after>
+        <action>InitialVoiceFour</action>
+        <scheme>;;;InitialVoiceFour
+(let ((tag "InitialVoice") (move-right #f))
+(d-PushPosition)
+(d-DirectivePut-voice-display tag (_ "Voice Four"))
+(d-DirectivePut-voice-postfix tag "\\voiceFour")
+(d-DirectivePut-voice-override tag DENEMO_OVERRIDE_GRAPHIC)
+(d-MoveToBeginning)
+(if (StemDirective?) (d-DeleteObject) (set! move-right #t))
+(d-StartDownStems)
+(d-MoveCursorLeft)
+(d-DirectivePut-stemdirective-graphic tag "
+v4
+Serif
+24
+1
+1")
+(d-PopPosition)
+(if move-right
+  (d-MoveCursorRight));;to compensate for the insertion of the stem directive
+(d-SetSaved #f))</scheme>
+        <_label>Initial Voice Four</_label>
+        <_tooltip>Sets the (initial) voice of the staff to be voice four (this affects stems down, slurs etc on printing)</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

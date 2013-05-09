@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>NonPrintingStaff</after>
+        <action>StaffComment</action>
+        <scheme>;;;;;;;;;;;;;;;;;;
+(d-DirectivePut-staff-override "StaffComment" (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_EDITOR))
+(d-DirectivePut-staff-display "StaffComment" (_ "Click to edit comment"))
+(d-RefreshDisplay)
+</scheme>
+        <_label>Comment</_label>
+        <_tooltip>Saves textual comments for this staff</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ShiftRealHalfDown</after>
+        <action>ShiftRealDialogUp</action>
+        <scheme>(let ()
+(define interval (AskForInterval))
+(SingleAndSelectionSwitcher 
+	(lambda ()
+		(if (Note?) 
+			(ANS::ChangeChordNotes (map (lambda (x) (ANS::IntervalCalcUp x interval)) (ANS::GetChordNotes)))
+			#f)))) </scheme>
+        <_label>Arbitrary transpose up</_label>
+        <_tooltip>Transpose/shift the cursor note or selection an arbitrary number of tones up. User can specify interval through a dialog.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

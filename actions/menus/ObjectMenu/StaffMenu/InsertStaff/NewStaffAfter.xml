@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>NewStaffAfter</action>
+        <scheme>;;;NewStaffAfter
+(let ((name #f))
+	(d-AddAfter)
+	(d-InstrumentName)
+	(set! name (d-DirectiveGet-staff-display "InstrumentName"))
+	(if name	
+			(d-StaffProperties (string-append "denemo_name=" name))))</scheme>
+        <_label>New Staff After Current</_label>
+        <_tooltip>Creates a new staff with the given name, after the current staff. Use the staff to voice command if you want to make this staff a voice on the previous staff.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>InitialKey</after>
+        <action>SharpenKeysig</action>
+        <scheme>(d-IncrementKeysig)</scheme>
+        <_label>&#x266F;</_label>
+        <_tooltip>Sharpens the key signature by one degree. If no key signature at cursor, sharpens the initial key signature.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

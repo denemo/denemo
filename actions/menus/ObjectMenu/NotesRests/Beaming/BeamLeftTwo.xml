@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>BeamLeftTwo</action>
+        <scheme>;;; BeamLeftTwo
+(BeamCount "Left" 2)</scheme>
+        <_label>Two Beams Left</_label>
+        <_tooltip>Prints with just two beams linking to the left.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

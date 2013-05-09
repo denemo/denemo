@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ToggleStaccatissimo</after>
+        <action>StaccatissimoSelectionSwitcher</action>
+        <scheme>(SingleAndSelectionSwitcher  d-ToggleStaccatissimo)
+		</scheme>
+        <_label>Staccatissimo (Off/On)</_label>
+        <_tooltip>Toggles Staccatissimo</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

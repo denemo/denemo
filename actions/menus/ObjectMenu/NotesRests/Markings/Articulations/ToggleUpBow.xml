@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ToggleTenuto</after>
+        <action>ToggleUpBow</action>
+        <scheme>;;;ToggleUpBow
+        (ChordAnnotation "ToggleUpBow" "\\upbow"    ToggleUpBow::params    LG-UpBow)
+</scheme>
+        <_label>UpBow (Off/On)</_label>
+        <_tooltip>Mark/Unmark chord with an Up Bow</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

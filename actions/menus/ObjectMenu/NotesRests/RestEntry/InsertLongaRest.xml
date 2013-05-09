@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>InsertLongaRest</action>
+        <scheme>(d-InsertWholeRest)
+(if (Appending?)
+	(d-MoveCursorLeft))
+(d-ChangeLonga)
+(d-MoveCursorRight)</scheme>
+        <_label>Longa Rest</_label>
+        <_tooltip>Insert a rest with longa duration</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

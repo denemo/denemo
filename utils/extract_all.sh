@@ -20,5 +20,6 @@ find actions/menus -name "init.scm" -exec cat '{}' \; >> actions/commandscripts/
 echo "actions/commandscripts/init.scm" >>  po/SCHEME_POTFILES.in
 
 ls -A1 src/*.[ch] > po/POTFILES.in.in
+find actions/menus -name "*\.xml" -type f -exec echo "{}" \; >> po/POTFILES.in.in
 cd po
 cat POTFILES.in.in SCHEME_POTFILES.in > POTFILES.in

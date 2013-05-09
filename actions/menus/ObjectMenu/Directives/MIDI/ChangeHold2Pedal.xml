@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ChangeLegatoPedal</after>
+        <action>ChangeHold2Pedal</action>
+        <scheme>(ChangeHold2Pedal::Set)</scheme>
+        <_label>69 Hold Pedal #2 On/Off</_label>
+        <_tooltip>Longer release time but notes will fade out eventually.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

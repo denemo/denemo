@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ChangeModwheel</after>
+        <action>ChangeBalance</action>
+        <scheme>(ChangeBalance::Set)</scheme>
+        <_label>8 Balance</_label>
+        <_tooltip>Balance. Typically used for a stereo signal tweak without changing the pan itself. Like a CD player. </_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

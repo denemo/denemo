@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>MovementNoteheadsDefault</after>
+        <action>MovementNoteheadsBaroque</action>
+        <scheme>(AttachDirective "layout" "postfix" "MovementNoteheads" "\t\\context {
+\t\\Score		   
+\t\\override NoteHead  #'style = #'baroque }\n")</scheme>
+        <_label>Baroque</_label>
+        <_tooltip>Baroque note head style for the current movement.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

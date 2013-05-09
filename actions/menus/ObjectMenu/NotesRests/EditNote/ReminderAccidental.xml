@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ReminderAccidental</action>
+        <scheme>;;;ReminderAccidental
+(if (d-DirectiveGet-note-postfix "WarnAccidental")
+	(d-DirectiveDelete-note "WarnAccidental")
+	(d-DirectivePut-note-postfix "WarnAccidental" "?"))
+(d-RefreshDisplay)
+(d-SetSaved #f)
+</scheme>
+        <_label>Reminder Accidental</_label>
+        <_tooltip>Shows the accidental in the print out inside (). Display shows accidental but plain.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

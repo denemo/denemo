@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>InsertBreveRest</action>
+        <scheme>(d-InsertWholeRest)
+(if (Appending?)
+	(d-MoveCursorLeft))
+(d-ChangeBreve)
+(d-MoveCursorRight)</scheme>
+        <_label>Breve Rest</_label>
+        <_tooltip>Insert a rest with breve duration</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

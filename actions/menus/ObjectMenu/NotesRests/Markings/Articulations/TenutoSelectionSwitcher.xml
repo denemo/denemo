@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ToggleTenuto</after>
+        <action>TenutoSelectionSwitcher</action>
+        <scheme>(SingleAndSelectionSwitcher d-ToggleTenuto )
+		</scheme>
+        <_label>Tenuto (Off/On)</_label>
+        <_tooltip>Toggles the Tenuto Line _ On/Off</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

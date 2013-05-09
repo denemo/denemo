@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>BeamRightNone</after>
+        <action>BeamLeftNone</action>
+        <scheme>;;; BeamLeftNone
+(BeamCount "Left" 0)</scheme>
+        <_label>No Beam Left</_label>
+        <_tooltip>Typeset the note at the cursor with no beam to the left.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

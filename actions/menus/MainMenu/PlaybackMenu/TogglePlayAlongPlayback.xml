@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>Stop</after>
+        <action>TogglePlayAlongPlayback</action>
+        <scheme>;;;TogglePlayAlongPlayback
+(d-TogglePlayAlong)</scheme>
+        <_label>Play Along Playback (Off/On)</_label>
+        <_tooltip>Turns off play along playback: when this is on the playback does not advance past the cursor unless you play along the correct note via Midi In.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

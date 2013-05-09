@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ZoomReset</action>
+        <scheme>(d-Zoom 1)
+</scheme>
+        <_label>Zoom to 100%</_label>
+        <_tooltip>Zoom to 100%, restore the original size</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

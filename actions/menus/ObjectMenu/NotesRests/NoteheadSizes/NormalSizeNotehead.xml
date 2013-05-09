@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>NormalSizeNotehead</action>
+        <scheme>(d-InsertLilyDirective "directive=\\normalsize\0display=NormalSize")
+</scheme>
+        <_label>(Print) Normal  Size</_label>
+        <_tooltip>Prints out note heads in normal size</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

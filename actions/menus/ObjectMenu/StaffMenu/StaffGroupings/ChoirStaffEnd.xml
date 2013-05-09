@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ChoirStaffStart</after>
+        <action>ChoirStaffEnd</action>
+        <scheme>(AttachDirective "staff" "postfix" "ContextChoirStaff" " &gt;&gt;\n" DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_AFFIX)</scheme>
+        <_label>ChoirStaff End</_label>
+        <_tooltip>Stop ChoirStaff multi-stave system.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

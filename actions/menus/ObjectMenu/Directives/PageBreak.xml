@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>LineBreak</after>
+        <action>PageBreak</action>
+        <scheme>;;;;;;;;PageBreak
+(if (d-Directive-standalone?  "PageBreak")
+	(d-InfoDialog "This sign denotes a Page Break. The music after this point will start on new page. This page break must be on a bar line. Use the Conditional Directives menu to make the page break applicable only to specific layouts. Delete using Del or Backspace key.")
+	(begin
+	(d-DirectivePut-standalone "PageBreak")
+	(d-DirectivePut-standalone-postfix "PageBreak" "\\pageBreak")
+	(d-DirectivePut-standalone-minpixels "PageBreak" 50)
+		(d-DirectivePut-standalone-gy "PageBreak" -40)
+	(d-DirectivePut-standalone-graphic "PageBreak" "
+&#x204B;
+Denemo
+36")
+	(d-DirectivePut-standalone-minpixels "PageBreak" 10)))
+(d-SetSaved #f)
+(d-RefreshDisplay)
+</scheme>
+        <_label>Page Break</_label>
+        <_tooltip>(Print) Forces a new page at this barline.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>StoppedSelectionSwitcher</action>
+        <scheme>(SingleAndSelectionSwitcher d-ToggleStopped)
+		</scheme>
+        <_label>Stopped (Off/On)</_label>
+        <_tooltip>Mark/Unmark the selected notes stopped</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

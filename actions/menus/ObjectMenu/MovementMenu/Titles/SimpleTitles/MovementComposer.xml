@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>MovementPiece</after>
+        <action>MovementComposer</action>
+        <scheme>(SetHeaderField "composer")
+(DenemoPrintAllHeaders)
+(d-SetSaved #f)</scheme>
+        <_label>Composer</_label>
+        <_tooltip>Prints a composer name for current movement.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

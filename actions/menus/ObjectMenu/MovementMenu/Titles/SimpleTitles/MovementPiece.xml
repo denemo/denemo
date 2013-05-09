@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>MovementPiece</action>
+        <scheme>(SetHeaderField "piece")
+(DenemoPrintAllHeaders)
+(d-RefreshDisplay)</scheme>
+        <_label>Piece</_label>
+        <_tooltip>Prints the name given above and to the left at the start of the movement.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

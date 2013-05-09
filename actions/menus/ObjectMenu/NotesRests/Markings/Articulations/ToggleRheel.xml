@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <scheme>;;;ToggleRheel
+        (ChordAnnotation "ToggleRheel" "\\rheel"    ToggleRheel::params    LG-Rheel)
+</scheme>
+        <_label>Rheel (Off/On)</_label>
+        <_tooltip>Mark/Unmark the current note rheel</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

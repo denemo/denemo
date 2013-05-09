@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ShiftRealHalfUp</after>
+        <action>ShiftRealHalfDown</action>
+        <scheme>(SingleAndSelectionSwitcher (lambda () 
+	(ShiftProto ANS::CalculateHalfRealStepDown)))
+
+
+</scheme>
+        <_label>Half tone down</_label>
+        <_tooltip>Transpose/shift the cursor note or selection one half tone down</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

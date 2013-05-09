@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>TinyStaff</after>
+        <action>TabStaff</action>
+        <scheme>(ToggleDirective "staff" "postfix" "TabStaff" " \\new TabStaff &lt;&lt;\n"  DENEMO_OVERRIDE_LILYPOND)
+(ToggleDirective "voice" "postfix" "TabStaff" "\n"  DENEMO_OVERRIDE_LILYPOND)
+(ToggleDirective "clef" "postfix" "TabStaff" "{} \n"  (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_LILYPOND))
+</scheme>
+        <_label>Tablature</_label>
+        <_tooltip>Converts to tablature notation (print only)</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ToggleStopped</action>
+        <scheme>;;;ToggleStopped
+        (ChordAnnotation "ToggleStopped" "\\stopped"    ToggleStopped::params    LG-Stopped)
+</scheme>
+        <_label>Stopped (Off/On)</_label>
+        <_tooltip>Mark/Unmark the current chord stopped</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

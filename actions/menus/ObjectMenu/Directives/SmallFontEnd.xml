@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>SmallFontStart</after>
+        <action>SmallFontEnd</action>
+        <scheme>;;;SmallFontEnd
+     (StandAloneDirectiveProto (cons "SmallFontEnd" "%Restore normal note size
+        	\\revert NoteHead #'font-size 
+        	\\revert Accidental #'font-size
+") #t "\ns")
+		</scheme>
+        <_label>End Small Size</_label>
+        <_tooltip>Printing resumes normal size music.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

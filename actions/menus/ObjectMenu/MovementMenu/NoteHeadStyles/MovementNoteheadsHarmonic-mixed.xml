@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>MovementNoteheadsHarmonic-black</after>
+        <action>MovementNoteheadsHarmonic-mixed</action>
+        <scheme>(AttachDirective "layout" "postfix" "MovementNoteheads" "\t\\context {
+\t\\Score		   
+\t\\override NoteHead  #'style = #'harmonic-mixed }\n")</scheme>
+        <_label>Harmonic-black</_label>
+        <_tooltip>Harmonic-black note head style for the current movement.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

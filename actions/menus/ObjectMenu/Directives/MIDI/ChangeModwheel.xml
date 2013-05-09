@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ChangeVolume</after>
+        <action>ChangeModwheel</action>
+        <scheme>(ChangeModwheel::Set)</scheme>
+        <_label>1 Modwheel</_label>
+        <_tooltip>Change the Modwheel value of a channel/staff</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

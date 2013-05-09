@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ScoreIndent</after>
+        <action>PaperSize</action>
+        <scheme> ;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;; PaperSize
+(let ((size "A4") (orientation "portrait"))
+  (set! size (d-GetOption  (string-append "a4" stop "letter" stop)))
+  (set! orientation (d-GetOption  (string-append (_ "Portrait") stop (_ "Landscape") stop)))
+  (if (equal? orientation (_ "Portrait"))
+      (set! orientation " ")
+      (set! orientation " 'landscape"))
+  (d-DirectivePut-score-prefix "PaperSize" (string-append "#(set-default-paper-size \"" size "\"" orientation")\n"))
+  (d-DirectivePut-score-override "PaperSize"	DENEMO_OVERRIDE_GRAPHIC)
+  (d-DirectivePut-score-display "PaperSize" (string-append (_ "Paper Size =") size orientation))
+  (d-RefreshDisplay))
+</scheme>
+        <_label>Paper Size and Orientation</_label>
+        <_tooltip>Specifies how the printed page should be.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

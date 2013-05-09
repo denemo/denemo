@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ScoreCopyright</action>
+        <scheme>;ScoreCopyright
+		(SetScoreHeaderField "copyright" #f #f)
+		(DenemoPrintAllHeaders)
+		(d-SetSaved #f)
+		(d-RefreshDisplay)
+	</scheme>
+        <_label>Copyright</_label>
+        <_tooltip>Copyright notice, centered at the bottom of the first page. To insert the copyright symbol, see Lilypond Text encoding.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

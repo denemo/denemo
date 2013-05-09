@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>IntelligentDelete</action>
+        <scheme>;;;;Intelligent Delete. If selection present it deletes the whole selection. For single notes it deletes the note on the cursor
+		(SingleAndSelectionSwitcher d-DeleteObject d-DeleteSelectionLeaveEmpty)
+		</scheme>
+        <_label>Delete Selection</_label>
+        <_tooltip>Deletes a single object at the cursor, an empty measure or the complete selection.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

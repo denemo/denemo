@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>CreateOssiaStaff</after>
+        <action>ShowOssia</action>
+        <scheme>  ;;; ShowOssia
+(d-Directive-standalone "StartStaff")
+(d-DirectivePut-standalone-postfix "StartStaff" "\\startStaff ")
+(d-DirectivePut-standalone-display "StartStaff" (_ "Show"))
+(d-DirectivePut-standalone-ty "StartStaff" 40)
+(d-RefreshDisplay)</scheme>
+        <_label>Show Ossia</_label>
+        <_tooltip>Place this at the start of the music to be printed from the Ossia staff</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

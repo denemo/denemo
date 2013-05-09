@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>SlurThree</action>
+        <scheme>
+(d-ToggleBeginSlur)
+(d-MoveCursorRight)
+(d-MoveCursorRight)
+(d-ToggleEndSlur)
+(d-MoveCursorRight)
+</scheme>
+        <_label>Slur with Next Two Notes</_label>
+        <_tooltip>Slur over next two notes.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

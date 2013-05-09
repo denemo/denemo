@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>InsertTiedNoteDuration</action>
+        <scheme>;InsertTiedNoteDuration 
+; Toggles a tie and moves right for insert with duration key. Gives audible feedback
+(d-ToggleTie)
+(if (d-IsTied)
+	(d-PendingMidi 75)
+	(d-PlayMidiNote 35 255 9 100))
+(if (not (d-IsAppending))
+	(d-MoveCursorRight))</scheme>
+        <_label>Attach Tied Note</_label>
+        <_tooltip>Toggles a tie on the note at the cursor and moves right for inserting a note to tie to with duration key. Gives audible feedback.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

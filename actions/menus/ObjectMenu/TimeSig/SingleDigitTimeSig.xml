@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>HideTimesig</after>
+        <action>SingleDigitTimeSig</action>
+        <scheme>;;;SingleDigitTimeSig
+
+  (if (d-Directive-timesig? "SingleDigitTimeSig")
+	(d-DirectiveDelete-timesig "SingleDigitTimeSig")
+	(begin
+	  (d-DirectivePut-timesig-prefix "SingleDigitTimeSig" "\\once \\override Staff.TimeSignature  #'style = #'single-digit\n")
+	  (d-DirectivePut-timesig-graphic "SingleDigitTimeSig" "\n1-Digit\nDenemo\n12")
+	  (d-DirectivePut-timesig-gy "SingleDigitTimeSig" 0)
+	  (d-DirectivePut-timesig-minpixels "SingleDigitTimeSig" 30)))
+  
+(d-SetSaved #f)
+(d-RefreshDisplay)</scheme>
+        <_label>(Print) Single Digit (On/Off)</_label>
+        <_tooltip>Makes the time signature at the cursor single digit; if no time signature at cursor applies to initial timesig of staff. Operates as On/Off toggle.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

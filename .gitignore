@@ -34,7 +34,6 @@ mkinstalldirs
 po/POTFILES
 po/notexist
 po/Makefile.in.in
-po/POTFILES.in.in
 po/stamp-it
 po/*.pot
 src/denemo

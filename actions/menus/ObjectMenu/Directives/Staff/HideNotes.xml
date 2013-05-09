@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>HideNotes</action>
+        <scheme>(StandAloneDirectiveProto (cons "HideNotes" "\\hideNotes" ))</scheme>
+        <_label>(Print) Stop Drawing Notes</_label>
+        <_tooltip>Stops the Lilypond engraving of notes</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

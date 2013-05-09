@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>InstrumentName</after>
+        <action>ShortInstrumentName</action>
+        <scheme>;ShortInstrumentName
+(let ((current "") (thematch ""))
+  (set! current (d-DirectiveGet-staff-postfix "ShortInstrumentName" ))
+  (if (boolean? current)
+      (set! current "Vln")
+      (begin
+	(set! thematch (string-match "\\\\set Staff.shortInstrumentName = \"([^\"]*)\"" current))
+	(if (regexp-match? thematch)
+	    (set! current (match:substring thematch 1))
+	    (set! current "Vln"))))
+  (set! current (d-GetUserInput (_ "Short Instrument Name") (_ "Give Short Instrument Name:") current))
+  (if current
+  	(begin 
+  		(d-DirectivePut-staff-display "ShortInstrumentName" current)
+  		(d-DirectivePut-staff-override "ShortInstrumentName"  DENEMO_OVERRIDE_GRAPHIC)
+  		(d-DirectivePut-staff-postfix "ShortInstrumentName"  (string-append "\\set Staff.shortInstrumentName = \"" current "\""))
+  		(d-SetSaved #f))))
+</scheme>
+        <_label>Short Instrument Name</_label>
+        <_tooltip>Prints shortened form of instrument name before this staff
+for second and subsequent systems</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

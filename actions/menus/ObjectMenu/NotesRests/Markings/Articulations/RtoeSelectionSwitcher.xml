@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>RtoeSelectionSwitcher</action>
+        <scheme>(SingleAndSelectionSwitcher d-ToggleRtoe )
+		</scheme>
+        <_label>Rtoe (Off/On)</_label>
+        <_tooltip>Marks/Unmaks the selection with the Rtoe</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

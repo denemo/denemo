@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>MoveToVoiceDown</after>
+        <action>SetCurrentStaffAsVoice</action>
+        <scheme>;;;SetCurrentStaffAsVoice
+(if
+ (not (d-StaffToVoice))
+ (d-WarningDialog (_ "The current staff is already a voice")))</scheme>
+        <_label>Staff to Voice</_label>
+        <_tooltip>The current staff will be typeset as a voice on the staff above.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>SuggestNatural</after>
+        <action>Ficta</action>
+        <scheme>;;;Ficta
+(let ((tag "Ficta"))
+(if (d-Directive-chord? tag)
+        (d-DirectiveDelete-chord tag)
+        (begin
+        (d-DirectivePut-chord-prefix tag "\\once \\set suggestAccidentals = ##t")
+        (d-DirectivePut-chord-override tag DENEMO_OVERRIDE_AFFIX)
+        (d-DirectivePut-chord-minpixels  "Ficta" 20)
+        (d-DirectivePut-chord-display tag  "Ficta")))
+(d-RefreshDisplay)
+(d-SetSaved #f))</scheme>
+        <_label>Ficta Accidental</_label>
+        <_tooltip>Prints the accidental above rather than before the note.
+        In European music from before about 1600, singers were expected to
+chromatically alter notes at their own initiative according to certain
+rules. This is called musica ficta. In modern transcriptions, these
+accidentals are usually printed over the note.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

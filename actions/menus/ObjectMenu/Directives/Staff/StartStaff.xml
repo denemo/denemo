@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>StopStaff</after>
+        <action>StartStaff</action>
+        <scheme>(StandAloneDirectiveProto (cons "StartStaff" "\\startStaff" ))</scheme>
+        <_label>(Print) Start Drawing Staff (Again)</_label>
+        <_tooltip>Reverts the "Stop Drawing Staff" command</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>Piece</action>
+        <scheme>;;;Piece
+          (MovementBookTitles::Do "Piece" "piece " "My Piece"  (_ "Give name for this piece of the current movement or blank out to delete: "))
+        </scheme>
+        <_label>Piece</_label>
+        <_tooltip>Prints a piece name for the Movement</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

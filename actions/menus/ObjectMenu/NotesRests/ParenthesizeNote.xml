@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ParenthesizeNote</action>
+        <scheme> ;;; ParenthesizeNote
+ (if (d-Directive-note? "Parenthesize")
+ 	(d-DirectiveDelete-note  "Parenthesize")
+ 	(begin
+		(d-DirectivePut-note-prefix "Parenthesize" "\\parenthesize ")
+		(d-DirectivePut-note-display "Parenthesize" "()")))
+(d-SetSaved #f)</scheme>
+        <_label>Parenthesize Note</_label>
+        <_tooltip>Enclose the note at the cursor in ( ) when printed.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

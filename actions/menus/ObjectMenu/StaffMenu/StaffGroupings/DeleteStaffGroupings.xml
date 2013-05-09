@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>GrandStaffEnd</after>
+        <action>DeleteStaffGroupings</action>
+        <scheme>(d-DirectiveDelete-staff "ContextGroupStaff")
+(d-DirectiveDelete-staff "ContextPianoStaff")
+(d-DirectiveDelete-staff "ContextChoirStaff")
+(d-DirectiveDelete-staff "ContextGrandStaff")</scheme>
+        <_label>Delete all staff groupings</_label>
+        <_tooltip>Clear the staff from all groupings</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

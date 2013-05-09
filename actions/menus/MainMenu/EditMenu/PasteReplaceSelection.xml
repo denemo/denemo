@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>Paste</after>
+        <action>PasteReplaceSelection</action>
+        <scheme>(if (d-MarkStatus) (d-DeleteSelectionLeaveEmpty)) ;; Goes to the beginning of the selection afterwards
+(DenemoPaste #t)</scheme>
+        <_label>Paste and Replace Selection</_label>
+        <_tooltip>Paste the clipboard. Replace any selected objects. This paste-version also creates new barlines instead of strictly using the copied ones.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

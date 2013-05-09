@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>AddLowestUpMajor3</after>
+        <action>AddLowestUpMinor3</action>
+        <scheme>(ANS::AddIntervalAsChordnoteFromLowestUp 'm3)</scheme>
+        <_label>Add Minor 3rd above base </_label>
+        <_tooltip>Add a minor third as chordnote relative to the lowest note upwards.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

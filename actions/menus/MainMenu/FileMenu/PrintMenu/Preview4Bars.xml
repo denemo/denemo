@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>Preview4Bars</action>
+        <scheme>
+(let ((N 4)(Extra? #t)) ;set N to be number of bars to preview
+(define (MoveRightNBars NumBars)
+	(if (&gt; NumBars 0)
+		(begin 	
+			(d-MoveToMeasureRight)
+			(MoveRightNBars (- NumBars 1)))
+))
+(d-PushPosition)
+(while (d-MoveToStaffUp))	
+(while (d-PrevObjectInMeasure))	;make sure we get to start o' bar.
+(d-TypesettingOn)
+ (d-MoveCursorLeft)	;get on the typesetting directive
+(d-PushPosition)
+(MoveRightNBars N)
+(d-TypesettingOff)
+(d-MoveCursorLeft)
+(d-PushPosition)
+(d-MoveToBeginning)
+(if (d-DirectiveGet-standalone-postfix "TypesetOn") (set! Extra? #f)) ;if going to the beginning, we ended up on top of the TypesettingOn, we don't do this TypeOff:
+(if Extra? (begin (d-TypesettingOff) (d-MoveCursorLeft)))
+(d-PrintPreview)
+(d-DirectiveDelete-standalone "TypesetOff")	
+(d-PopPosition)
+(d-DirectiveDelete-standalone "TypesetOff")	
+(d-PopPosition)
+(d-DirectiveDelete-standalone "TypesetOn")	
+(d-PopPosition)
+) ;let</scheme>
+        <_label>Preview Four Measures</_label>
+        <_tooltip>Print preview of current bar and the next three.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>NotationMagick-ShuffleSelectedObjects</after>
+        <action>NotationMagick-SortSelectionAscending</action>
+        <scheme>(NotationMagick::ModifySelectedObjects
+	 (lambda (selection) 
+	 	(sort-list selection (lambda (x y) (&lt; (list-ref (musobj.pitch x) 0) (list-ref (musobj.pitch y) 0))))))</scheme>
+        <_label>Sort Selection (Ascending)</_label>
+        <_tooltip>Sort all notes in the selection, ascending order.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

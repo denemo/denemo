@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>TransposeScorePrint</after>
+        <action>AutoAccidentals</action>
+        <scheme>;;AutomaticAccidentals
+             (StandAloneDirectiveProto (cons "AutomaticAccidentals" "
+        	#(set-accidental-style 'modern 'Score)        	
+"))
+</scheme>
+        <_label>(Print) Accidental Printing</_label>
+        <_tooltip>Prints accidentals accoring to a chosen style</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

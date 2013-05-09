@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>TinyStaff</after>
+        <action>StaffSize</action>
+        <scheme>;;;StaffSize
+(let ((tag "StaffSize") (size (d-GetUserInput (_ "Setting Staff Size") (_ "Give Staff Size (for printing), 0 for default") "0")))
+(if (and size (string-&gt;number size))
+  (begin
+    (if (d-Directive-staff? tag)
+      (d-DirectiveDelete-staff tag))
+    (ToggleDirective "staff" "prefix" tag (string-append "\\with {
+     		   fontSize = #" size "
+     		   \\override VerticalAxisGroup #'minimum-Y-extent = #'(0 . 0)
+     		   \\override StaffSymbol #'staff-space = #(magstep " size ")\n}\n ")))))</scheme>
+        <_label>Set Staff Size</_label>
+        <_tooltip>Sets the size of the staff on printing relative to the default 0. Value -3 is tiny 3 is large.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

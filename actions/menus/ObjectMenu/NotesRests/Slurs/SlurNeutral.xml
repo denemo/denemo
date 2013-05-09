@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>SlurUp</after>
+        <action>SlurNeutral</action>
+        <scheme> ;SlurNeutral:
+(d-DirectivePut-standalone-display "SlurDirection" "Auto Slur Direction")
+(d-MoveCursorLeft)
+(d-DirectivePut-standalone-postfix "SlurDirection" " \\slurNeutral" )
+(d-DirectivePut-standalone-minpixels "SlurDirection" 75)
+(d-MoveCursorRight)
+(d-RefreshDisplay)</scheme>
+        <_label>Auto Slur Directions</_label>
+        <_tooltip>Prints slurs as normal</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

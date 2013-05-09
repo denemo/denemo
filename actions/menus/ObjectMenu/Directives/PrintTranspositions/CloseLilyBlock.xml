@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>CloseLilyBlock</action>
+        <scheme>;;;;CloseLilyBlock
+ (d-Directive-standalone "CloseLilyBlock")
+ (d-DirectivePut-standalone-postfix "CloseLilyBlock" "}")
+(d-DirectivePut-standalone-display "CloseLilyBlock" "}")
+(d-DirectivePut-standalone-minpixels "CloseLilyBlock" 20)
+(d-RefreshDisplay)</scheme>
+        <_label>(Print) Close } a LilyPond Block</_label>
+        <_tooltip>Closes a LilyPond Block (there must be a matching open, {, earlier)</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

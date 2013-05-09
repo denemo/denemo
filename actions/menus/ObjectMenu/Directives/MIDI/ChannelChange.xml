@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>MidiTempo</after>
+        <action>ChannelChange</action>
+        <scheme>(ChangeChannel::Set)</scheme>
+        <_label>Change Midi Channel</_label>
+        <_tooltip>Changes the MIDI channel of a staff </_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

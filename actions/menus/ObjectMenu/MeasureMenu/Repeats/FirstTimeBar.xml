@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>CloseRepeat</after>
+        <action>FirstTimeBar</action>
+        <scheme> ;;;FirstTimeBar
+ (d-Directive-standalone "Repeat")
+(d-DirectivePut-standalone-minpixels "Repeat" 30)
+(d-DirectivePut-standalone-postfix "Repeat" "
+} \\alternative{{
+	")
+(d-DirectivePut-standalone-graphic "Repeat" "FirstTimeBar")
+(d-DirectivePut-standalone-gx  "Repeat" 32)
+(d-DirectivePut-standalone-gy  "Repeat" -34)
+(d-MoveCursorRight)
+(d-RefreshDisplay)</scheme>
+        <_label>First Time Bar</_label>
+        <_tooltip>Closes a repeated section and starts a first time bar (printing)</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

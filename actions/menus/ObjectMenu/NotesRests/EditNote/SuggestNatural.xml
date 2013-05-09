@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>SuggestFlat</after>
+        <action>SuggestNatural</action>
+        <scheme>(d-DirectivePut-chord-postfix "SuggestedAccidental" "^\\markup \\natural")
+(d-DirectivePut-chord-gy "SuggestedAccidental" -100)
+(d-DirectivePut-chord-graphic "SuggestedAccidental" "
+\xE2\x99\xAE
+Sans
+30")</scheme>
+        <_label>Suggest Natural</_label>
+        <_tooltip>Prints a natural over the note at the cursor</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

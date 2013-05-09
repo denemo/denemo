@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>MovementPageBreak</after>
+        <action>Custos</action>
+        <scheme>;;;Custos
+(let ((tag "Custos"))
+ 	(if (d-Directive-layout? tag)
+ 		(begin
+ 			(d-DirectiveDelete-layout tag)
+ 			(d-InfoDialog "Custos now turned off"))
+ 		(begin
+ 		(d-DirectivePut-layout-postfix tag 
+" \\context {
+      \\Staff
+      \\consists \"Custos_engraver\"
+      \\override Custos #'style = #'mensural
+    }"))))</scheme>
+        <_label>Custos (On/Off)</_label>
+        <_tooltip>Prints a custos at the end of each line for the current movement. Repeat command to turn custos off.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

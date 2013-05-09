@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>SmallerStaff</after>
+        <action>TinyStaff</action>
+        <scheme>;;;TinyStaff
+(ToggleDirective "staff" "prefix" "StaffSize" "\\with {
+     		   fontSize = #-7
+     		   \\override VerticalAxisGroup #'minimum-Y-extent = #'(0 . 0)
+     		   \\override StaffSymbol #'staff-space = #(magstep -7)\n}\n ")</scheme>
+        <_label>Tiny Staff</_label>
+        <_tooltip>Prints current staff in a tiny font.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

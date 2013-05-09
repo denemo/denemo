@@ -260,7 +260,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
           menupath = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
           menupaths = g_list_append (menupaths, menupath);
         }
-      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "label"))
+      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "_label"))
         {
           label = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
         }
@@ -268,7 +268,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
         {
           after = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
         }
-      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "tooltip"))
+      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "_tooltip"))
         {
           tooltip = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
           /* by convention this is the last of the fields defining a scheme script menu item */
@@ -799,12 +799,12 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
 
       gchar *label = (gchar *) lookup_label_from_idx (the_keymap, i);
       if (label)
-        xmlNewTextChild (child, NULL, (xmlChar *) "label", (xmlChar *) label);
+        xmlNewTextChild (child, NULL, (xmlChar *) "_label", (xmlChar *) label);
 
 
       gchar *tooltip = (gchar *) lookup_tooltip_from_idx (the_keymap, i);
       if (tooltip)
-        xmlNewTextChild (child, NULL, (xmlChar *) "tooltip", (xmlChar *) tooltip);
+        xmlNewTextChild (child, NULL, (xmlChar *) "_tooltip", (xmlChar *) tooltip);
 
       //  keymap_foreach_command_binding (the_keymap, i,
       //                                      (GFunc) write_xml_keybinding_info, child);
@@ -1011,10 +1011,10 @@ save_script_as_xml (gchar * filename, gchar * myname, gchar * myscheme, gchar * 
 
   xmlNewTextChild (child, NULL, (xmlChar *) "scheme", (xmlChar *) myscheme);
 
-  xmlNewTextChild (child, NULL, (xmlChar *) "label", (xmlChar *) mylabel);
+  xmlNewTextChild (child, NULL, (xmlChar *) "_label", (xmlChar *) mylabel);
 
 
-  xmlNewTextChild (child, NULL, (xmlChar *) "tooltip", (xmlChar *) mytooltip);
+  xmlNewTextChild (child, NULL, (xmlChar *) "_tooltip", (xmlChar *) mytooltip);
   xmlSaveFormatFile (filename, doc, 1);
 
   xmlFreeDoc (doc);

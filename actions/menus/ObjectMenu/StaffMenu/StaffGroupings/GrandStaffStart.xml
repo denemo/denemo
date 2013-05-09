@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ChoirStaffEnd</after>
+        <action>GrandStaffStart</action>
+        <scheme>(AttachDirective "staff" "prefix" "ContextGrandStaff"  " \\new GrandStaff &lt;&lt;\n" DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_AFFIX)</scheme>
+        <_label>GrandStaff Start</_label>
+        <_tooltip>Start grouping single staves together in order to form multi-stave systems. In a GrandStaff, the group begins with a brace, and bar lines are connected between the staves.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

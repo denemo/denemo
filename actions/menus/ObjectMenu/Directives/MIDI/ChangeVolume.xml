@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ChangeProgram</after>
+        <action>ChangeVolume</action>
+        <scheme>(ChangeVolume::Set)</scheme>
+        <_label>Volume</_label>
+        <_tooltip>Change the Volume of a channel/staff</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

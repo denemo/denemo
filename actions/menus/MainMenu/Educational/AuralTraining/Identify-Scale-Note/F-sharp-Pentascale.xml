@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>F-sharp-Pentascale</action>
+        <scheme>(IdentifyScaleNote::IdentifyScaleNotes (cons "F# G# A# B C#" "fis' gis' ais' b' cis''"))</scheme>
+        <_label>F# Pentascale</_label>
+        <_tooltip>Identify Scale Notes that are sounded</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

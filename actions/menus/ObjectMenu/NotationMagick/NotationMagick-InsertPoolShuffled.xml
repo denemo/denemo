@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>NotationMagick-InsertPoolShuffled</action>
+        <scheme>;;; Part of NotationMagick 
+				(let ((return (NotationMagick::AskNewNotationstring)))
+					(if return
+						 (NotationMagick::InsertListRandomlyLy return)
+						#f))
+		</scheme>
+        <_label>Insert Shuffled Pool</_label>
+        <_tooltip>Inserts all notes, shuffled, from a user-specified pool of notes in Lilypond syntax</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

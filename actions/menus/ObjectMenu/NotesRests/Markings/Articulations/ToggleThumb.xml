@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <scheme>;;;ToggleThumb
+        (ChordAnnotation "ToggleThumb" "\\thumb"    ToggleThumb::params    LG-Thumb)
+</scheme>
+        <_label>Thumb (Off/On)</_label>
+        <_tooltip>Mark/Unmark the current chord thumb</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

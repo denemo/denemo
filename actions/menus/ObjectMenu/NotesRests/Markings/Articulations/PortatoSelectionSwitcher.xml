@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>TogglePortato</after>
+        <action>PortatoSelectionSwitcher</action>
+        <scheme>(SingleAndSelectionSwitcher d-TogglePortato )
+		</scheme>
+        <_label>Portato (Off/On)</_label>
+        <_tooltip>Marks/Unmaks the selection with the Portato</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

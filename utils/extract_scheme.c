@@ -27,6 +27,7 @@
 #include <glib.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
+#include <string.h>
 static void
 extract_scheme (xmlDocPtr doc, xmlNodePtr cur, gchar * filename)
 {
@@ -100,7 +101,17 @@ main (int argc, char **argv)
       return ret;
     }
   rootElem = rootElem->xmlChildrenNode;
-  filename = g_strconcat (commandscripts, "/", g_path_get_basename (filename), ".scm", NULL);
+
+  size_t s = strlen(filename);
+  if(filename[s - 3] == 'x' && filename[s - 2 ] == 'm' && filename[s - 1] == 'l')
+  {
+    filename[s - 3] = 's';
+    filename[s - 2] = 'c';
+    filename[s - 1] = 'm';
+  }
+  else
+    filename = g_strconcat(g_path_get_basename (filename), ".scm", NULL);
+  filename = g_strconcat (commandscripts, "/", filename, NULL);
   while (rootElem != NULL)
     {
       if ((0 == xmlStrcmp (rootElem->name, (const xmlChar *) "merge")))

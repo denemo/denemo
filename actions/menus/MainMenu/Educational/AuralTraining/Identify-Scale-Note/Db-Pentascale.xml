@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>Db-Pentascale</action>
+        <scheme>(IdentifyScaleNote::IdentifyScaleNotes (cons "Db Eb F Gb Ab" "des' ees' f' ges' aes'"))</scheme>
+        <_label>Db Pentascale</_label>
+        <_tooltip>Identify Scale Notes that are sounded</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>AddLowestUpMinor3</after>
+        <action>AddLowestUpPerfect4</action>
+        <scheme>(ANS::AddIntervalAsChordnoteFromLowestUp 'p4)</scheme>
+        <_label>Add Perfect 4th above base</_label>
+        <_tooltip>Add a perfect fourth as chordnote relative to the lowest note upwards.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

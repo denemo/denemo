@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>Finger1</action>
+        <scheme>(ToggleDirective "note" "postfix" "Fingering" "-1 ")
+(if (d-Directive-note? "Fingering")
+	(d-DirectivePut-note-display"Fingering" "1"))
+(d-Chordize #t)
+</scheme>
+        <_label>Finger 1</_label>
+        <_tooltip>Inserts fingering for finger 1</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

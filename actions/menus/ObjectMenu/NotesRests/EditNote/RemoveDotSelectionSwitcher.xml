@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>RemoveDotSelectionSwitcher</action>
+        <scheme>(SingleAndSelectionSwitcher d-RemoveDot)		</scheme>
+        <_label>Remove Dot</_label>
+        <_tooltip>Remove one dot for each note in the selection or single note</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

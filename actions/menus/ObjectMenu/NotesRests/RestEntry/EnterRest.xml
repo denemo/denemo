@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>EnterRest</action>
+        <scheme>(d-InsertA)
+(d-RemoveNoteFromChord)
+</scheme>
+        <_label>Insert Rest</_label>
+        <_tooltip>Inserts a rest in the prevailing duration</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

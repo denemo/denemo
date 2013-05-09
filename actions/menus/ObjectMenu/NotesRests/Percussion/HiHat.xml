@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>HiHatFoot</action>
+        <scheme>
+
+		(d-InsertG)
+		(d-PutNoteName "d''")
+		(d-ChangeNotehead "Cross")
+	</scheme>
+        <_label>Hi Hat with Foot</_label>
+        <_tooltip>Insert HiHat with foot in the prevailing duration.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

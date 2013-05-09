@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ChangeSustenutoPedal</after>
+        <action>ChangeSoftPedal</action>
+        <scheme>(ChangeSoftPedal::Set)</scheme>
+        <_label>67 Soft Pedal On/Off (Left Piano Pedal)</_label>
+        <_tooltip>Left Piano Pedal. Lowers the volume of any notes played.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>MajorOrAugmented</after>
+        <action>MajorMinorAugmentedOrDiminished</action>
+        <scheme>
+
+(ChordComparison::ChordComparison (list ChordComparison::Major ChordComparison::Minor ChordComparison::Augmented ChordComparison::Diminished))
+
+</scheme>
+        <_label>MajorMinorAugmentedDiminished</_label>
+        <_tooltip>Determine if the chord sounded is Major Minor Augmented or Diminished</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

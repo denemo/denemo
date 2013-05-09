@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after/>
+        <action>TransposeOctaveUp</action>
+        <scheme>(d-DirectivePut-score-postfix  "TransposeScore" "\\transpose c c' ")
+(d-DirectivePut-score-display  "TransposeScorePrint" (_ "Print out 8va up"))
+(d-DirectivePut-score-override  "TransposeScorePrint" DENEMO_OVERRIDE_GRAPHIC)
+
+(d-RefreshDisplay)
+</scheme>
+        <_label>(Print) Transpose Octave Up</_label>
+        <_tooltip>Instructs the LilyPond Engraver to transpose this score one octave up.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

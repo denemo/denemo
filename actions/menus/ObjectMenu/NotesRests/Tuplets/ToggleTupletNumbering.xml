@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ToggleTupletNumbering</action>
+        <scheme>;;;tuplet numbering toggle
+(let ((current ""))
+  (set! current (d-DirectiveGet-standalone-postfix "ToggleTupletNumbering"))
+  (if (boolean? current)
+      (begin
+	(d-DirectivePut-standalone-minpixels "ToggleTupletNumbering" 20)
+	(d-MoveCursorLeft)
+	(set! current  "\\override TupletNumber #'transparent = ##f ")
+	(d-DirectivePut-standalone-postfix "ToggleTupletNumbering" "\\override TupletNumber #'transparent = ##f ")
+	))
+  
+  (if (equal? current "\\override TupletNumber #'transparent = ##t ")
+      (begin
+	(d-DirectivePut-standalone-postfix "ToggleTupletNumbering" "\\override TupletNumber #'transparent = ##f ")
+	(d-DirectivePut-standalone-gx "ToggleTupletNumbering" 3)
+	(d-DirectivePut-standalone-gy "ToggleTupletNumbering" -40)
+        (d-DirectivePut-standalone-graphic "ToggleTupletNumbering" "StartTupletNumbering"))
+      (begin
+	(d-DirectivePut-standalone-postfix "ToggleTupletNumbering" "\\override TupletNumber #'transparent = ##t ")
+	(d-DirectivePut-standalone-gx "ToggleTupletNumbering" 3)
+	(d-DirectivePut-standalone-gy "ToggleTupletNumbering" -40)
+	(d-DirectivePut-standalone-graphic "ToggleTupletNumbering" "StopTupletNumbering")))
+;;  (d-MoveCursorRight)
+  (d-RefreshDisplay))
+</scheme>
+        <_label>Tuplet Numbering On/Off</_label>
+        <_tooltip>Control whether tuplet numbers will be printed over tuplets.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

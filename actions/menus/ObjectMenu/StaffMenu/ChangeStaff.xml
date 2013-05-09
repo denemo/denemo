@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ChangeStaff</action>
+        <scheme>;Change staff-by DRW modified to avoid use of aliases by RTS
+(if (d-Directive-standalone? "StaffChange")
+	(d-DirectiveDelete-standalone "StaffChange")
+	(let ((Choices  "")(Dummy "") (Name #f ))
+
+( define (GetNames) 
+	(begin
+		(set! Dummy  (d-StaffProperties "query=denemo_name"))
+		(if Dummy (set! Choices (string-append Choices Dummy stop)))
+		(if (d-MoveToStaffDown) (GetNames))))
+
+(d-PushPosition)
+(while (d-MoveToStaffUp))
+(GetNames)
+(d-PopPosition)
+(set! Name (d-GetOption Choices ))
+(if Name 
+	(begin
+		(d-DirectivePut-standalone  "StaffChange")
+		(d-DirectivePut-standalone-minpixels  "StaffChange" 50)
+		(d-DirectivePut-standalone-postfix "StaffChange" (string-append "\\change Staff=\"" Name "\" " ))
+		(d-DirectivePut-standalone-graphic "StaffChange" (string-append 
+		"\n&#x21D2;" Name "\nDenemo\n12"))
+		(d-DirectivePut-standalone-gy  "StaffChange" -1)))
+(d-RefreshDisplay)))</scheme>
+        <_label>Change Staff</_label>
+        <_tooltip>(Print) the current voice moves to the staff you name.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

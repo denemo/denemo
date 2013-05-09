@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>HideMovement</after>
+        <action>HideBarlines</action>
+        <scheme>;;HideBarlines
+    (if (d-Directive-score? "HideBarlines")
+    	(d-DirectiveDelete-score "HideBarlines")
+    	(begin
+     	 (d-SetSaved #f)
+     	 (d-DirectivePut-score-postfix "HideBarlines" "\\override Score.BarLine #'stencil = ##f")
+     	 (d-DirectivePut-score-display "HideBarlines" (_ "Hide Barlines"))))
+  </scheme>
+        <_label>(Print) Hide Barlines</_label>
+        <_tooltip>Omits barlines when printing.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>Import-Midi</after>
+        <action>Import-Lilypond</action>
+        <scheme>(d-NewWindow)
+(d-ImportLilypond)</scheme>
+        <_label>Import Lilypond</_label>
+        <_tooltip>Try to Import a Lilypond File</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

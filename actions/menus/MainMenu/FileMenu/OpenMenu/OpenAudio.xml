@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>OpenSourceDialog</after>
+        <action>OpenAudio</action>
+        <scheme>(d-OpenSourceAudioFile)</scheme>
+        <_label>Open Source Audio</_label>
+        <_tooltip>Opens an audio file which will be mixed with the current movement.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>BookArranger</action>
+        <scheme>;;BookArranger
+        (BookTitles::Do "Arranger" "arranger" "My Arranger"  (_ "Give name for arranger etc or blank out to delete: "))
+        </scheme>
+        <_label>Arranger</_label>
+        <_tooltip>Prints the arranger name on title page</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

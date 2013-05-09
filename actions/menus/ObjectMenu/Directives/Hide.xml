@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>Hide</action>
+        <scheme>(let ()
+(define lilytype (GetTypeAsLilypond))  
+(define lilycontext  (GetContextAsLilypond))
+(if lilytype
+  (StandAloneDirectiveProto (cons "HideNext" (string-append  "\\once \\override " lilycontext "." lilytype " #'stencil = ##f"  )))
+  #f
+)
+)</scheme>
+        <_label>(Print) Hide object</_label>
+        <_tooltip>Hides the object at cursor position with a lilypond directive. Currently only Notes and the three Signatures. No rests!</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

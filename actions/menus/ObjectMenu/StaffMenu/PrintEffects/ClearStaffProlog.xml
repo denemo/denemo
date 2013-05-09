@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ClearStaffProlog</action>
+        <scheme>;;clears any extras in the staff-prolog
+(d-StaffProperties "staff-prolog-insert=\n")</scheme>
+        <_label>Normal Staff</_label>
+        <_tooltip>Deletes the extra staff prolog - restoring the normal staff settings.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

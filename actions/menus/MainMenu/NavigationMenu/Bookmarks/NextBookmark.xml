@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>NextBookmark</action>
+        <scheme>(FindNextObjectAllColumns (lambda () (d-DirectiveGet-standalone-display "RehearsalMark")))</scheme>
+        <_label>Next Bookmark</_label>
+        <_tooltip>Seach forward for bookmarks in the current staff.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

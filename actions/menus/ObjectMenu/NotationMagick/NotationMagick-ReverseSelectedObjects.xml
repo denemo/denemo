@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>NotationMagick-ReverseSelectedObjects</action>
+        <scheme>(NotationMagick::ModifySelectedObjects NotationMagick::ReverseCopyBuffer)</scheme>
+        <_label>Reverse Selected Objects</_label>
+        <_tooltip>Revert selected objects</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

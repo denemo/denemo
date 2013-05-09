@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>PrintAccompanistsScore</after>
+        <action>PrintTwoReduced</action>
+        <scheme>;;;PrintTwoReduced
+(d-PushPosition)
+(let ((saved (d-GetSaved)))
+	(ForAllMovements "(d-GoToPosition #f 1 1 1) (d-SmallerStaff) (d-InitialVoiceOne)
+			  (d-GoToPosition #f 2 1 1) (d-SmallerStaff) (d-InitialVoiceTwo)  (d-SetCurrentStaffAsVoice)")
+	
+	(d-TypesetForScript "(d-PrintTwoReduced)")
+	
+	(ForAllMovements  "(d-GoToPosition #f 1 1 1)  (d-SmallerStaff) (d-InitialVoiceAuto) (if (StemDirective?) (d-DeleteObject))	
+	  (d-GoToPosition #f 2 1 1) (d-SmallerStaff) (d-InitialVoiceAuto) (if (StemDirective?) (d-DeleteObject))  (d-SetCurrentVoiceAsStaff)")
+	(d-SetSaved saved))
+(d-PopPosition)</scheme>
+        <_label>Print Two Parts as Cue for Accompanist</_label>
+        <_tooltip>Prints the top two staffs on a single staff as cue.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

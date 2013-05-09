@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ScoreTagline</action>
+        <scheme>;ScoreTagline
+		(SetScoreHeaderField "tagline" #f #f)
+		(DenemoPrintAllHeaders)
+		(d-SetSaved #f)
+		(d-RefreshDisplay)</scheme>
+        <_label>Tagline</_label>
+        <_tooltip> Centered at the bottom of the last page.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

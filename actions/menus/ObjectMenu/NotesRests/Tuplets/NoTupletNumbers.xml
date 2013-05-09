@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>NoTupletNumbers</action>
+        <scheme>(d-DirectivePut-standalone-postfix "NoTupletNumbers" "\\override TupletNumber #'transparent = ##t")</scheme>
+        <_label>No Tuplet Numbers</_label>
+        <_tooltip>Stop the printing of tuplet numbers from this point.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

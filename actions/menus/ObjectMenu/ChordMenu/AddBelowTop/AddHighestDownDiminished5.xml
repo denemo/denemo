@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>AddHighestDownAugmented4</after>
+        <action>AddHighestDownDiminished5</action>
+        <scheme>(ANS::AddIntervalAsChordnoteFromHighestDown 'd5)</scheme>
+        <_label>Add Diminished 5th below top</_label>
+        <_tooltip>Add a tritone/diminished fifth as chordnote relative to the highest note downwards.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

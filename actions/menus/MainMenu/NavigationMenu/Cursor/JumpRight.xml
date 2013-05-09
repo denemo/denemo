@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>JumpLeft</after>
+        <action>JumpRight</action>
+        <scheme>(if (not (d-MoveToMeasureRight)) (d-MoveToEnd))</scheme>
+        <_label>JumpRight</_label>
+        <_tooltip>Moves cursor to start of next bar or to end.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

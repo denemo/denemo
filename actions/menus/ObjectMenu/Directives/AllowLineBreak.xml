@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>LineBreak</after>
+        <action>AllowLineBreak</action>
+        <scheme>;;AllowLineBreak
+(StandAloneSelfEditDirective (cons "AllowLineBreak" "\\bar \"\"") #f "AllowLineBreak")
+(d-DirectivePut-standalone-graphic "AllowLineBreak" "\n|\nDenemo\n24")
+</scheme>
+        <_label>Allow Line Break</_label>
+        <_tooltip>Permits the typesetter to break the line at this point.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

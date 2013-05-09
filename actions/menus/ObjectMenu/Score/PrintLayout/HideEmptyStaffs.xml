@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ScoreIndent</after>
+        <action>HideEmptyStaffs</action>
+        <scheme>  ;;;;;;;;;;;;;;;Toggle HideEmptyStaffs
+(let ((current "0.0"))
+  (set! current (d-DirectiveGet-score-prefix "HideEmptyStaffs"))
+  (if (boolean? current)
+      (begin
+	(d-DirectiveDelete-score "HideEmptyStaffs")
+	(d-DirectivePut-score-prefix "HideEmptyStaffs" 
+				     "\\layout {
+                                     \\context { \\RemoveEmptyStaffContext }
+                                     }"
+				     )
+         (d-DirectivePut-score-override  "HideEmptyStaffs" DENEMO_OVERRIDE_GRAPHIC)
+	(d-DirectivePut-score-display  "HideEmptyStaffs" (_ "Hide Empty Staffs")))
+      (d-DirectiveDelete-score "HideEmptyStaffs"))
+  (d-RefreshDisplay))
+
+</scheme>
+        <_label>Hide Empty Staffs (Off/On)</_label>
+        <_tooltip>Controls whether staffs containing only rests for a whole line are printed.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

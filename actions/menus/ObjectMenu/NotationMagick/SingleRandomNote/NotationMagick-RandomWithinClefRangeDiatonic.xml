@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>NotationMagick-RandomWithinClefRangeDiatonic</action>
+        <scheme>;Part of NotationMagick
+(NotationMagick::RandomWithinClefRangeDiatonic)</scheme>
+        <_label>asd</_label>
+        <_tooltip>Insert a random note within clef range, only diatonic notes according to current keysignature.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

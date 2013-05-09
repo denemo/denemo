@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>JumpUpOctave</after>
+        <action>JumpDownOctave</action>
+        <scheme>(Navigation::CursorUpN -7)</scheme>
+        <_label>Octave Down</_label>
+        <_tooltip>Moves cursor down an octave.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

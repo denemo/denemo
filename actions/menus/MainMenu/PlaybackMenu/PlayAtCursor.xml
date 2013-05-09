@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>DenemoPlayCursorToEnd</after>
+        <action>PlayAtCursor</action>
+        <scheme>;;;;;;;;;;;;PlayAtCursor
+(let ((channel (d-StaffProperties "query=midi_channel"))
+ 	  (prognum (d-StaffProperties "query=midi_prognum")))
+ 	  (define command (number-&gt;string (logior (string-&gt;number channel) #xC0)))
+		(d-OutputMidiBytes (string-append command  " " prognum))
+		(let loop ((count 1))
+			(define key (d-GetNoteFromTopAsMidi count))
+				(if key
+					(begin
+						(d-PlayMidiNote key 127 (string-&gt;number channel)  1000)
+						(loop (+ count 1))))))</scheme>
+        <_label>Play Chord at Cursor</_label>
+        <_tooltip>Sounds the note or chord at the cursor, using the current staffs instrument.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

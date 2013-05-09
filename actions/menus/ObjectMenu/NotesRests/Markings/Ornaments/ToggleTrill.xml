@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ToggleTrill</action>
+        <scheme>;;;Trill                   
+					(let ((tag "ToggleTrill"))
+						(ChordAnnotation tag "\\trill"    ToggleTrill::params    LG-Trill)
+					(d-PlayMidiNote 78  255 9 100))
+	</scheme>
+        <_label>Trill (Off/On)</_label>
+        <_tooltip>Adds/Removes a trill to the note</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

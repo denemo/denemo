@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ToggleFermata</after>
+        <action>MarcatoSelectionSwitcher</action>
+        <scheme>(SingleAndSelectionSwitcher d-ToggleMarcato)
+		</scheme>
+        <_label>Marcato (Off/On)</_label>
+        <_tooltip>Mark/Unmark the selected notes marcato</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ChangePrintDuration0</after>
+        <action>ChangePrintDurationBreve</action>
+        <scheme>(ChangePrintDuration -1 0)</scheme>
+        <_label>Change chord-member to breve</_label>
+        <_tooltip>Change one chord member to appear like a breve duration without changing the original logic like measure calculation or the duration of newly added chord members.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

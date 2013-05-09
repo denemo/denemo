@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>InitialKey</after>
+        <action>SharpenInitialKeysigs</action>
+        <scheme>;;;SharpenInitialKeysigs
+		(d-PushPosition)
+		(while (MoveUpStaffOrVoice))
+		(d-IncrementInitialKeysig)
+		(while (MoveDownStaffOrVoice)
+			(d-IncrementInitialKeysig))
+		(d-PopPosition)
+        </scheme>
+        <_label>&#x266F; Initial</_label>
+        <_tooltip>Sharpens the inital key signature by one degree on all staffs/voices.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

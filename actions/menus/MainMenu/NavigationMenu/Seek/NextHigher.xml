@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>FindNextLowerNote</after>
+        <action>NextHigher</action>
+        <scheme> ;;;;;;;; FindNextNoteHigher
+ (d-MoveCursorRight)
+(let loop ((lowest (d-GetCursorNoteAsMidi)) (current 0))
+  (set! current (d-GetNoteAsMidi))
+  (if (or (zero? current) (&lt;= current lowest))
+      (begin
+	(if (d-MoveCursorRight)
+	    (loop lowest current)
+	    #t))))
+      
+
+  </scheme>
+        <_label>Next Higher</_label>
+        <_tooltip>Move cursor to next note higher than cursor posiiton</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

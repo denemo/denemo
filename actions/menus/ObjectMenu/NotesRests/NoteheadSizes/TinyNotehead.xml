@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>TinyNotehead</action>
+        <scheme>(d-InsertLilyDirective "directive=\\tiny\0display=TinyNoteheads")
+</scheme>
+        <_label>(Print) Tiny Size</_label>
+        <_tooltip>Prints out note heads in tiny size</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

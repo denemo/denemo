@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>MajorOrMinor</action>
+        <scheme>
+(define ChordComparison::Major (cons "Major" "c e g"))
+(define ChordComparison::Minor (cons "Minor" "c ees g"))
+
+(ChordComparison::ChordComparison (list ChordComparison::Major ChordComparison::Minor))
+
+</scheme>
+        <_label>MajorMinor</_label>
+        <_tooltip>Determine if the chord played is major or minor</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

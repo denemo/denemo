@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>TogglePrall</action>
+        <scheme>;;;TogglePrall
+        (ChordAnnotation "TogglePrall" "\\prall"    TogglePrall::params    LG-Prall)
+</scheme>
+        <_label>Prall (Off/On)</_label>
+        <_tooltip>Adds/Removes a prall to the note</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

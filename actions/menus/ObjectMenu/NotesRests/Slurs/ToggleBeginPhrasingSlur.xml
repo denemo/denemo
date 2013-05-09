@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ReduceSlur</after>
+        <action>ToggleBeginPhrasingSlur</action>
+        <scheme>(ToggleDirective "chord" "postfix" (cons "PhrasingSlur"  "(phr") "\\(" )</scheme>
+        <_label>Begin Phrasing Slur</_label>
+        <_tooltip>Begin a phrasing slur on the current note. You can have normal slurs (partially) inside a phrasing slur.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

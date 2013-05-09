@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>NormalBeamEndings</after>
+        <action>ReduceSystemSpacing</action>
+        <scheme>;;;ReduceSystemSpacing
+(if (or ReduceSystemSpacing::params  (not (d-Directive-layout? "ReduceSystemSpacing")))
+	(d-DirectivePut-layout-postfix "ReduceSystemSpacing" "
+  between-system-padding = #0.1
+  between-system-space = #0.1
+  ragged-last-bottom = ##f
+  ragged-bottom = ##f
+")
+	(d-DirectiveDelete-layout  "ReduceSystemSpacing"))
+(d-SetSaved #f)
+</scheme>
+        <_label>Reduce Space Between Systems</_label>
+        <_tooltip>Reduces the gap between the systems of staffs on a page.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

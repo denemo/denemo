@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>DeleteLilyPondOnNote</action>
+        <scheme>(d-AttachLilyToNote "prefix= \0postfix= \0display= ")
+</scheme>
+        <_label>Delete LilyPond on Note</_label>
+        <_tooltip>Deletes the LilyPond attached to the note where the cursor is.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

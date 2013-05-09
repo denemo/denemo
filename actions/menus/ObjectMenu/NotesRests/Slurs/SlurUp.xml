@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>SlurDown</after>
+        <action>SlurUp</action>
+        <scheme>;SlurUp
+(d-DirectivePut-standalone-display "SlurDirection" "SlurUp")
+(d-MoveCursorLeft)
+(d-DirectivePut-standalone-postfix "SlurDirection" " \\slurUp" )
+(d-DirectivePut-standalone-minpixels "SlurDirection" 40)
+(d-MoveCursorRight)
+(d-RefreshDisplay) </scheme>
+        <_label>Slur Up</_label>
+        <_tooltip>Prints slurs up</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>Glissando</action>
+        <scheme>;;;Glissando
+(d-DirectivePut-chord-display "Glissando"  "Gliss" )
+(d-DirectivePut-chord-postfix "Glissando"  "\\glissando")
+(d-DirectivePut-chord-minpixels  "Glissando" 20)
+(d-SetSaved #f)
+(d-RefreshDisplay)</scheme>
+        <_label>Glissando</_label>
+        <_tooltip>Inserts a glissando</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

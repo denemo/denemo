@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>DuplicateChord</action>
+        <scheme> ;;;Duplicate Note or Chord, not for rests
+(if (Note?) 
+	(begin
+	(d-PushClipboard) 
+	(d-SetMark)
+	(d-Copy)
+	(d-Paste)
+	(d-PopClipboard)))
+	
+(d-RefreshDisplay)</scheme>
+        <_label>Duplicate Note/Chord</_label>
+        <_tooltip>Duplicates the current note or chord at the cursor. Not for rests.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

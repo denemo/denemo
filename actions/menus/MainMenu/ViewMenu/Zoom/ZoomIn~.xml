@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ZoomIn</action>
+        <scheme>(d-Zoom (+ (d-Zoom) 0.2 ))
+</scheme>
+        
+        <tooltip translatable="yes">Zoom In</tooltip>
+      <_label>Zoom In</_label></row>
+    </map>
+  </merge>
+</Denemo>

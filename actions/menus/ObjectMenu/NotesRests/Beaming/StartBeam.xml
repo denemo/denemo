@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>StartBeam</action>
+        <scheme>;;; StartBeam
+(let ((tag "Beam"))
+	(if (d-Directive-chord? tag)
+		(d-DirectiveDelete-chord tag)
+		(begin
+			(d-DirectivePut-chord-postfix tag "[")
+			(d-DirectivePut-chord-display tag  "[")
+			(d-RefreshDisplay)
+			(d-SetSaved #f))))
+</scheme>
+        <_label>Start Beam</_label>
+        <_tooltip>Instructs the LilyPond engraver to start a beam here. (Print effect only)</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

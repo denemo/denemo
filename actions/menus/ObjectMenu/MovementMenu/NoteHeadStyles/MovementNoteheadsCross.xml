@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>MovementNoteheadsDiamond</after>
+        <action>MovementNoteheadsCross</action>
+        <scheme>(AttachDirective "layout" "postfix" "MovementNoteheads" "\t\\context {
+\t\\Score		   
+\t\\override NoteHead  #'style = #'cross }\n")</scheme>
+        <_label>Cross</_label>
+        <_tooltip>Cross note head style for the current movement.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

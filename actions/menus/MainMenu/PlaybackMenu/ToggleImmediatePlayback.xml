@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ToggleImmediatePlayback</action>
+        <scheme>(if DenemoPref_immediateplayback
+(d-SetPrefs "&lt;immediateplayback&gt;0&lt;/immediateplayback&gt;")
+(d-SetPrefs "&lt;immediateplayback&gt;1&lt;/immediateplayback&gt;"))
+</scheme>
+        <_label>Toggle Immediate Playback</_label>
+        <_tooltip>Toggle on/off if you want to hear the note directly after inserting/changing.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

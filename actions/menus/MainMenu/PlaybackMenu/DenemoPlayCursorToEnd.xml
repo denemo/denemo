@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>DenemoPlayCursorToEnd</action>
+        <scheme>;Play from Cusor to End
+(d-PushPosition)
+(DenemoSetPlaybackStart)
+(d-MoveToEnd)
+(DenemoSetPlaybackEnd)
+(d-PopPosition)
+(d-Play)</scheme>
+        <_label>Play from Cursor to End</_label>
+        <_tooltip>Playback all staffs from the current cursor position to the end of the movement.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

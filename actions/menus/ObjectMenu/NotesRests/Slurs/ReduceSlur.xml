@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ExtendSlur</after>
+        <action>ReduceSlur</action>
+        <scheme> ;;;ReduceSlur
+  (if (d-IsSlurEnd)
+    (begin 	
+	(d-ToggleEndSlur)
+	(d-PrevChord)
+	(if (d-IsSlurStart)
+		(d-ToggleBeginSlur)
+	(d-ToggleEndSlur)))
+   (begin
+   	(if (d-PrevChord)
+   		(if (d-IsSlurEnd)
+   			(begin 	
+				(d-ToggleEndSlur)
+				(d-PrevChord)
+				(if (d-IsSlurStart)
+				(d-ToggleBeginSlur)
+				(d-ToggleEndSlur)))))))
+
+
+
+</scheme>
+        <_label>Shorten Slur from End</_label>
+        <_tooltip>Shorten a slur that ends at the cursor.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

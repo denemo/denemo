@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>EndBeam</action>
+        <scheme>;;; EndBeam
+(let ((tag "Beam"))
+	(if (d-Directive-chord? tag)
+		(d-DirectiveDelete-chord tag)
+		(begin
+			(d-DirectivePut-chord-postfix tag "]")
+			(d-DirectivePut-chord-display tag  "]")
+			(d-RefreshDisplay)
+			(d-SetSaved #f))))
+</scheme>
+        <_label>End Beam</_label>
+        <_tooltip>Instructs LilyPond engraver to stop previously started manual beaming. Print effect only.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

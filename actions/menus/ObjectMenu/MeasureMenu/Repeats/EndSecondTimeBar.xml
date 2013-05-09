@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>SecondTimeBar</after>
+        <action>EndSecondTimeBar</action>
+        <scheme>;;;EndSecondTimeBar
+(d-DirectivePut-standalone "Repeat")
+(d-DirectivePut-standalone-minpixels "Repeat" 30)
+(d-DirectivePut-standalone-postfix "Repeat" "
+}}
+	")
+ (d-DirectivePut-standalone-graphic "Repeat" "EndSecondTimeBar")
+ (d-DirectivePut-standalone-gy  "Repeat" -15)
+ (d-DirectivePut-standalone-gy  "Repeat" -36)
+(d-MoveCursorRight)
+(d-RefreshDisplay)</scheme>
+        <_label>Close Second Time Bar</_label>
+        <_tooltip>Closes the second time bar previously opened (printing)</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

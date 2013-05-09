@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>SelectStaff</after>
+        <action>SelectAllStaffs</action>
+        <scheme>(d-PushPosition)
+(d-MoveToMovementBeginning)
+(d-UnsetMark)
+(let laststaff ()
+(if (d-StaffDown)	 
+	(laststaff)))
+(d-GoToEnd)
+(d-PopPosition)</scheme>
+        <_label>Select All Staffs</_label>
+        <_tooltip>Selects the whole movement / All staffs</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

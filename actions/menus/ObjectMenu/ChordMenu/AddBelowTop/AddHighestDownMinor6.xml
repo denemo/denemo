@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>AddHighestDownMajor6</after>
+        <action>AddHighestDownMinor6</action>
+        <scheme>(ANS::AddIntervalAsChordnoteFromHighestDown 'm6)</scheme>
+        <_label>Add Minor 6th below top</_label>
+        <_tooltip>Add a minor sixth as chordnote relative to the highest note downwards.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

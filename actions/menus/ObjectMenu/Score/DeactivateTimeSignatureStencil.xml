@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>DeactivateTimeSignatureStencil</action>
+        <scheme>  (d-DirectivePut-score-postfix "DeactivateTimeSigStencil"  "\\override Score.TimeSignature #'stencil = ##f
+  ")
+</scheme>
+        <_label>(Print) Don't Engrave Time Signatures</_label>
+        <_tooltip>Deactivates the stencil for Time Signatures for the whole score, which prevents them from getting drawn and taking space. But the logic is still active.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

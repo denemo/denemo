@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>BarNumbers</action>
+        <scheme>(ToggleDirective "staff" "postfix" "BarNumbers" "\\context Score \\applyContext #(set-bar-number-visibility 4000)" )</scheme>
+        <_label>Bar Numbers On/Off</_label>
+        <_tooltip>Turns bar numbering on/off in print out.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

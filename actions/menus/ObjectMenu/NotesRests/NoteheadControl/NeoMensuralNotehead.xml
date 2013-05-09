@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ChangeNotehead</after>
+        <action>NeoMensuralNotehead</action>
+        <scheme>(d-DirectivePut-chord-prefix "NoteHead" "\\once \\override NoteHead #'style = #'neomensural ")
+(d-DirectivePut-chord-display "NoteHead" "nm")
+(d-DirectivePut-chord-override "NoteHead" DENEMO_OVERRIDE_AFFIX)
+(d-SetSaved #f)</scheme>
+        <_label>Neo-mensural</_label>
+        <_tooltip>Prints note with neomensural style notehead.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>GoToMeasure</after>
+        <action>GoToEmptyMeasure</action>
+        <scheme>;;;GoToEmptyMeasure
+(RepeatUntilFail (lambda () (and (not (None?)) (d-MoveToMeasureRight))))</scheme>
+        <_label>Go To Next Empty Measure</_label>
+        <_tooltip>Move cursor to the next point in the current staff where the music ends.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

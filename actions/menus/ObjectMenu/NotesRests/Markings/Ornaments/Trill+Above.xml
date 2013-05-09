@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>Trill+Above</action>
+        <scheme>(d-InsertLilyDirective "directive=^\"+\"\0display=Tr+Above")
+</scheme>
+        <_label>18th c. Trill Above</_label>
+        <_tooltip>Inserts 18th c style trill above note</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

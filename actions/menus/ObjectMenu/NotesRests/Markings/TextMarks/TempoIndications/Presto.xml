@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>Presto</action>
+        <scheme>;;; Presto
+(d-DirectivePut-chord-postfix "Tempo" "^\\markup \\italic \\bold {Presto}")
+(d-DirectivePut-chord-display "Tempo" "Presto")
+(d-RefreshDisplay)</scheme>
+        <_label>Presto</_label>
+        <_tooltip>Print Presto in bold italics above the chord.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

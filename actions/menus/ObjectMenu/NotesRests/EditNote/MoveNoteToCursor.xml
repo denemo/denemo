@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>MoveNoteToCursor</action>
+        <scheme>(define cursor (string-upcase (d-GetCursorNote)))
+(define command (string-append "(d-ChangeTo" cursor ")"))
+(eval-string command)</scheme>
+        <_label>To Cursor</_label>
+        <_tooltip>Moves the nearest note to join the cursor</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

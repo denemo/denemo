@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>SimplifyTies</after>
+        <action>FixSlursInStaff</action>
+        <scheme>;;;FixSlursInStaff
+(d-PushPosition)
+(d-MoveToBeginning)
+(let ()
+  (define start #f)
+  (let loop ()
+    (if (d-IsSlurStart)
+      (if start
+	(d-ToggleBeginSlur)
+	(set! start (GetPosition))))
+    (if (d-IsSlurEnd)
+      (if start
+	(begin
+	  (set! start #f)
+	  (if (d-IsSlurStart)
+	    (begin
+	      (d-ToggleBeginSlur)
+	      (d-ToggleEndSlur))))
+	(d-ToggleEndSlur)))
+	
+    (if (d-NextChord)
+      (loop)))
+  (if start
+    (begin
+      (apply d-GoToPosition start)
+      (d-ToggleBeginSlur))))
+(d-PopPosition)</scheme>
+        <_label>Fix Slurs</_label>
+        <_tooltip>Removes incorrectly placed slur start/end markers on current voice/staff.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

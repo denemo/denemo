@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>StartEmacs2KeyShortcut</action>
+        <scheme>;;;;;;;;;;;;;; emacs commands
+
+(define first (d-GetCommandKeypress))
+(define second (d-GetKeypress))
+(define command (lambda ()
+            (d-GetUserInput (string-append first ", " second) "Undefined combination." "OK")
+	    ))
+
+(define cancel  (lambda ()
+            (d-GetUserInput first "Cancelled." "OK")
+	    ))
+
+(cond
+ ((equal? first "&lt;Control&gt;x") (cond
+  ((equal? second "s") (set! command d-Save))
+ ((equal? second "k") (set! command d-Close))
+ ((equal? second "&lt;Control&gt;g") (set! command cancel))
+ ))
+ ((equal? first "&lt;Control&gt;c") (cond
+ ((equal? second "&lt;Contro&gt;g") (set! command cancel))
+ ))
+ )	  
+(command)
+</scheme>
+        <bind>Control+x</bind>
+        <bind>Control+c</bind>
+        <_label>Start Emacs 2-key Shortcut</_label>
+        <_tooltip>Initiates a 2-key sequence, emacs style.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

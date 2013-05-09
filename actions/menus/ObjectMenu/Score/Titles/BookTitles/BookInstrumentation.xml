@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>BookComposer</after>
+        <action>BookInstrumentation</action>
+        <scheme>;;BookInstrumentation
+(if BookInstrumentation::params
+ 	(BookTitles::Do "Instrumentation" "instrumentation" BookInstrumentation::params #f)
+        (BookTitles::Do "Instrumentation" "instrumentation" "Full Score"  (_ "Give instrumentation for the default layout or blank out to delete: ")))
+</scheme>
+        <_label>Instrumentation</_label>
+        <_tooltip>Prints the instrumentation on the title page. This can be edited for layouts that print just one part or section.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

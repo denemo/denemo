@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>FlageoletSelectionSwitcher</action>
+        <scheme>(SingleAndSelectionSwitcher d-ToggleFlageolet)
+		</scheme>
+        <_label>Flageolet (Off/On)</_label>
+        <_tooltip>Mark/Unmark current selection of object with a Flageolet</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

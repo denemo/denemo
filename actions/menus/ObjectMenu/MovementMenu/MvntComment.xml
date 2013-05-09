@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>SwapMovements</after>
+        <action>MvntComment</action>
+        <scheme>  ;;;;;;;;;;;;;;
+(d-DirectivePut-movementcontrol-override "MvntComment" (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_EDITOR))
+(d-DirectivePut-movementcontrol-display "MvntComment" (_ "Click to edit comment"))
+
+</scheme>
+        <_label>Comment</_label>
+        <_tooltip>Stores textual comments for this movement</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

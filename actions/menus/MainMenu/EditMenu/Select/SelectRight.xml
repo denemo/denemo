@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>SelectRight</action>
+        <scheme>(if (and (not (d-MarkStatus)) (not (Appending?)))
+	(d-SetMark)
+	(d-CursorRight))</scheme>
+        <_label>Select Right</_label>
+        <_tooltip>Create a selection, move the cursor right.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

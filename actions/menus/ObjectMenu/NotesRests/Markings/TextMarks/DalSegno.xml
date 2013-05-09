@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>D.C.AlFine</after>
+        <action>DalSegno</action>
+        <scheme>;;;DalSegno
+(if (d-Directive-chord? "DalSegno")
+	(d-DirectiveDelete-chord  "DalSegno")
+	(begin 
+	(d-DirectivePut-chord-postfix "DalSegno" "-\\markup {  \\italic \"D.S. \"  \\tiny \\raise #1  \\musicglyph #\"scripts.segno\"}")
+	(d-DirectivePut-chord-display "DalSegno" "D.S.")))
+	(d-SetSaved #f)
+;;;End of scheme script</scheme>
+        <_label>Dal Segno</_label>
+        <_tooltip>Prints Dal Segno below the chord at the cursor.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

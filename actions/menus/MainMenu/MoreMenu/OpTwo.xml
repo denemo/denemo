@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>OpTwo</action>
+        <scheme>((cdr wrap:Op2))</scheme>
+        <_label>OpTwo</_label>
+        <_tooltip>Wrapper/Dummy for Keypress</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

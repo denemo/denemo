@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>GroupStaffStart</action>
+        <scheme>(AttachDirective "staff" "prefix" "ContextGroupStaff" " \\new StaffGroup &lt;&lt;\n" DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_AFFIX)</scheme>
+        <_label>GroupStaff Start</_label>
+        <_tooltip>Start grouping single staves together in order to form multi-stave systems. In the StaffGroup context, the group is started with a bracket and bar lines are drawn through all the staves. </_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

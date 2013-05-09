@@ -7995,7 +7995,8 @@ gchar *
 instantiate_script (GtkAction * action)
 {
   gchar *menupath = (gchar *) g_object_get_data (G_OBJECT (action), "menupath");
-  const gchar *name = gtk_action_get_name (action);
+  const gchar *basename = gtk_action_get_name (action);
+  const gchar* name = g_strconcat(basename, ".xml", NULL);
   gchar *path = g_build_filename (locatedotdenemo (), "actions", "menus", menupath, NULL);
   gchar *filename = g_build_filename (path, name, NULL);
   //  g_print("Filename %s\n", filename);
@@ -8013,9 +8014,9 @@ instantiate_script (GtkAction * action)
           filename = g_build_filename (path, name, NULL);
           if (load_xml_keymap (filename, TRUE) == -1)
             {
+              warningdialog ("Unable to load the script");
               g_free (path);
               g_free (filename);
-              warningdialog ("Unable to load the script");
               return NULL;
             }
         }
@@ -8197,6 +8198,7 @@ insertScript (GtkWidget * widget, gchar * insertion_point)
   gchar *myname, *mylabel, *myscheme, *mytooltip, *submenu;
   gchar *myposition = g_path_get_dirname (insertion_point);
   gchar *after = g_path_get_basename (insertion_point);
+  gchar* myfilename;
   gint idx = lookup_command_from_name (Denemo.map, after);
   //g_print("Saving with %s after %s\n", myposition, after);
   myname = string_dialog_entry (gui, "Create a new menu item", "Give item name (avoid clashes): ", "MyName");
@@ -8205,6 +8207,7 @@ insertScript (GtkWidget * widget, gchar * insertion_point)
   if (myname == NULL)
     return;
   subst_illegals (myname);
+  myfilename = g_strconcat(myname, ".xml", NULL);
   mylabel = string_dialog_entry (gui, _("Create a new menu item"), _("Give menu label: "), _("My Label"));
   if (mylabel == NULL)
     return;
@@ -8225,7 +8228,8 @@ insertScript (GtkWidget * widget, gchar * insertion_point)
   myscheme = getSchemeText ();
 
   //FIXME G_DIR_SEPARATOR in myposition???
-  gchar *filename = g_build_filename (locatedotdenemo (), "actions", "menus", myposition, myname, NULL);
+  gchar *filename = g_build_filename (locatedotdenemo (), "actions", "menus", myposition, myfilename, NULL);
+  g_free(myfilename);
   g_print ("The filename built is %s from %s", filename, myposition);
   if ((!g_file_test (filename, G_FILE_TEST_EXISTS)) || (g_file_test (filename, G_FILE_TEST_EXISTS) && confirm (_("Duplicate Name"), _("A command of this name is already available in your custom menus; Overwrite?"))))
     {
@@ -8493,9 +8497,11 @@ saveMenuItem (GtkWidget * widget, GtkAction * action)
   gint idx = lookup_command_from_name (Denemo.map, name);
   gchar *tooltip = (gchar *) lookup_tooltip_from_idx (Denemo.map, idx);
   gchar *label = (gchar *) lookup_label_from_idx (Denemo.map, idx);
+  gchar *fullname = g_strconcat(name, ".xml", NULL);
 
-  gchar *filename = g_build_filename (locatedotdenemo (), "actions", "menus", menupath, name,
+  gchar *filename = g_build_filename (locatedotdenemo (), "actions", "menus", menupath, fullname,
                                       NULL);
+  g_free(fullname);
   gchar *scheme = getSchemeText ();
   if (scheme && *scheme && confirm (_("Save Script"), g_strconcat (_("Over-write previous version of the script for "), name, _(" ?"), NULL)))
     {
