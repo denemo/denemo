@@ -580,8 +580,15 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
       gui->si->cursor_x = pi.cursor_x;
       gui->si->cursor_appending = (gui->si->cursor_x == (gint) (g_list_length ((objnode *) gui->si->currentmeasure->data)));
       set_cursor_y_from_click (gui, event->y);
-
-      write_status (gui);
+      if (event->type==GDK_2BUTTON_PRESS) 
+				{
+					display_current_object();
+					return TRUE;
+				}
+			else 
+				{
+					write_status (gui);
+				}
     }
 
 
