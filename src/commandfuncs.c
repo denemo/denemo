@@ -355,6 +355,7 @@ gomeasureleft (DenemoScriptParam * param, gboolean extend_selection)
       if (!gui->si->playingnow) //during playback cursor moves should not affect viewport
         isoffleftside (gui);
       param->status = TRUE;
+      write_status (gui);
     }
   setcurrents (gui->si);
   if (extend_selection)
@@ -395,6 +396,7 @@ gomeasureright (DenemoScriptParam * param, gboolean extend_selection)
       param->status = TRUE;
       if (extend_selection)
         calcmarkboundaries (gui->si);
+			write_status (gui);
     }
 }
 
@@ -565,7 +567,7 @@ govoiceup (DenemoScriptParam * param, gboolean extend_selection)
     param = &dummy;
   param->status = FALSE;
   if (!gui->si->currentstaff)
-    return param->status = FALSE;
+    return param->status = FALSE;//should never happen
   if (extend_selection && !si->markstaffnum)
     set_mark (gui);
   if (gui->si->currentstaff && (((DenemoStaff *) (gui->si->currentstaff->data))->voicecontrol & DENEMO_SECONDARY))
@@ -578,11 +580,12 @@ govoiceup (DenemoScriptParam * param, gboolean extend_selection)
       show_lyrics ();
       move_viewport_down (gui);
       set_cursor_transition ();
-      return param->status = TRUE;
+      param->status = TRUE;
     }
   else if (param == &dummy)     //is interactive
     warningmessage (_("This is the first voice"));
-  return param->status = FALSE;
+  write_status(gui);
+  return param->status;
 }
 
 /**
@@ -599,7 +602,7 @@ gostaffup (DenemoScriptParam * param, gboolean extend_selection)
     param = &dummy;
   param->status = FALSE;
   if (!gui->si->currentstaff)
-    return param->status = FALSE;
+    return param->status = FALSE;//should never happen
   if (extend_selection && !si->markstaffnum)
     set_mark (gui);
   while (((DenemoStaff *) (gui->si->currentstaff->data))->voicecontrol != DENEMO_PRIMARY)
@@ -618,11 +621,12 @@ gostaffup (DenemoScriptParam * param, gboolean extend_selection)
       update_drawing_cache ();;
       move_viewport_up (gui);
       set_cursor_transition ();
-      return param->status = TRUE;
+      param->status = TRUE;
     }
   else if (param == &dummy)     //is interactive
     warningmessage (_("This is the first staff"));
-  return param->status = FALSE;
+  write_status(gui);
+  return param->status;
 }
 
 
@@ -655,12 +659,12 @@ govoicedown (DenemoScriptParam * param, gboolean extend_selection)
       show_lyrics ();
       move_viewport_down (gui);
       set_cursor_transition ();
-      return param->status = TRUE;
+      param->status = TRUE;
     }
   else if (param == &dummy)     //is interactive
     warningmessage (_("This is the last voice"));
-
-  return param->status = FALSE;
+  write_status(gui);
+  return param->status;
 }
 
 gboolean
@@ -728,12 +732,12 @@ gostaffdown (DenemoScriptParam * param, gboolean extend_selection)
       update_drawing_cache ();;
       move_viewport_down (gui);
       set_cursor_transition ();
-      return param->status = TRUE;
+      param->status = TRUE;
     }
   else if (param == &dummy)     //is interactive
     warningmessage (_("This is the last staff"));
-
-  return param->status = FALSE;
+  write_status(gui);
+  return param->status;
 }
 
 gboolean
@@ -1082,6 +1086,7 @@ to_standalone_directive_direction (gboolean right)
   gboolean ret = to_object_direction (FALSE, right, FALSE);
   if (!ret)
     return ret;
+    write_status(Denemo.gui);
   if (Denemo.gui->si->currentobject && Denemo.gui->si->currentobject->data && ((DenemoObject *) Denemo.gui->si->currentobject->data)->type == LILYDIRECTIVE)
     return TRUE;
   else
@@ -1101,12 +1106,10 @@ to_selected_object_direction (gboolean right)
   note *thenote;
   if (!Denemo.gui || !(Denemo.gui->si))
     return FALSE;
-  // save_selection(Denemo.gui->si);
   gboolean success = to_object_direction (FALSE, right, FALSE);
   if (!success)
     success = to_object_direction (FALSE, right, FALSE);
-  // restore_selection(Denemo.gui->si);
-  //g_print("success %d\n", success);
+  write_status(Denemo.gui);
   if ((success) && in_selection (Denemo.gui->si))
     return TRUE;
   if (success)
@@ -1120,6 +1123,7 @@ to_chord_direction (gboolean right, gboolean stopping)
   gboolean ret = to_object_direction (FALSE, right, stopping);
   if (!ret)
     return ret;
+  write_status(Denemo.gui);
   if (Denemo.gui->si->currentobject && Denemo.gui->si->currentobject->data && ((DenemoObject *) Denemo.gui->si->currentobject->data)->type == CHORD)
     return TRUE;
   else
@@ -1132,6 +1136,7 @@ to_chord_direction_in_measure (gboolean right)
   gboolean ret = to_object_direction (TRUE, right, TRUE);
   if (!ret)
     return ret;
+  write_status(Denemo.gui);
   if (Denemo.gui->si->currentobject && Denemo.gui->si->currentobject->data && ((DenemoObject *) Denemo.gui->si->currentobject->data)->type == CHORD)
     return TRUE;
   else
@@ -1144,6 +1149,7 @@ to_standalone_direction_in_measure (gboolean right)
   gboolean ret = to_object_direction (TRUE, right, TRUE);
   if (!ret)
     return ret;
+  write_status(Denemo.gui);
   if (Denemo.gui->si->currentobject && Denemo.gui->si->currentobject->data && ((DenemoObject *) Denemo.gui->si->currentobject->data)->type == LILYDIRECTIVE)
     return TRUE;
   else
@@ -1159,6 +1165,7 @@ to_note_direction (gboolean right, gboolean stopping)
   gboolean ret = to_chord_direction (right, stopping);
   if (!ret)
     return ret;
+  write_status(Denemo.gui);
   if (Denemo.gui->si->currentobject && Denemo.gui->si->currentobject->data && ((DenemoObject *) Denemo.gui->si->currentobject->data)->type == CHORD && ((((chord *) (((DenemoObject *) Denemo.gui->si->currentobject->data)->object))->notes)) && (!Denemo.gui->si->cursor_appending))
     return TRUE;
   else
@@ -1177,6 +1184,8 @@ next_editable_note (void)
     }
   if (!ret)
     movecursorright (NULL);
+  else
+    write_status(Denemo.gui);
   return ret;
 }
 
