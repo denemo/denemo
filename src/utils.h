@@ -264,4 +264,7 @@ void KeyStrokeAwait (gchar * first_keypress);
 void KeyStrokeDecline (gchar * first_keypress);
 void KeyStrokeShow (gchar * str, gint command_idx, gboolean single);
 void display_current_object(void);
+
+note *
+findnote (DenemoObject * curObj, gint cursory);
 #endif /* UTILS_H */

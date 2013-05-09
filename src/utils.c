@@ -1425,6 +1425,29 @@ score_status (DenemoGUI * gui, gboolean change)
   write_status (gui);
 }
 
+/**
+ * If the curObj is a chord with a note(s)
+ * return the first note at or below cursory, or the last note 
+ * else return NULL
+ */
+note *
+findnote (DenemoObject * curObj, gint cursory)
+{
+  note *curnote = NULL;
+  if (curObj && curObj->type == CHORD && ((chord *) curObj->object)->notes)
+    {
+      GList *notes = ((chord *) curObj->object)->notes;
+      for (; notes; notes = notes->next)
+        {
+          curnote = (note *) notes->data;
+          //g_print("comparing %d and %d\n", cursory, curnote->y);
+          if (cursory <= curnote->mid_c_offset)
+            break;
+        }
+
+    }
+  return curnote;
+}
 
 /* display full information about the object at the cursor */
 GtkWidget *ObjectInfo = NULL;
@@ -1436,6 +1459,16 @@ drop_object_info (void)
   return TRUE;
 }
 
+static
+append_directives_information (GString * selection, GList * directives)
+{
+  do
+    {
+      DenemoDirective *directive = directives->data;
+      g_string_append_printf (selection, _("\nDirective tagged: \"%s\""), directive->tag->str);
+    }
+  while (directives = directives->next);
+}
 
 void
 display_current_object (void)
@@ -1474,12 +1507,44 @@ display_current_object (void)
             if (thechord->notes)
               {
                 if (thechord->notes->next)
-                  selection = g_string_append (selection, _("a chord."));
+                  {
+                    selection = g_string_append (selection, _("a chord."));
+                  }
                 else
-                  selection = g_string_append (selection, _("a note."));
+                  {
+                    selection = g_string_append (selection, _("a note."));
+                  }
+                if (thechord->slur_begin_p)
+                  selection = g_string_append (selection, _("\nA slur starts from here.\n" "There should be a matching end slur later."));
+                if (thechord->slur_end_p)
+                  selection = g_string_append (selection, _("\nA slur ends here\n" "There should be a matching start slur earlier."));
+                if (thechord->is_tied)
+                  selection = g_string_append (selection, _("\nThis is tied to the following note or chord.\n" "The following note or chord should have the same pitch"));
+
+                note *thenote = findnote (curObj, gui->si->cursor_y);
+                if (thenote)
+                  {
+                    if (thenote->directives)
+                      {
+                        g_string_append_printf (selection, _("\nGiving information for the note \"%s\""), mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift));
+                        append_directives_information (selection, thenote->directives);
+                      }
+                  }
               }
             else
-              selection = g_string_append (selection, _("a rest."));
+              {
+                selection = g_string_append (selection, _("a rest."));
+                if (thechord->slur_begin_p)
+                  warning = g_string_append (warning, _("This rest has a slur start on it, use the Notes/Rests-&gt;Slurs menu to remove it"));
+                if (thechord->slur_end_p)
+                  warning = g_string_append (warning, _("This rest has a slur end on it, use the Notes/Rests-&gt;Slurs menu to remove it"));
+                if (thechord->is_tied)
+                  warning = g_string_append (warning, _("This rest has a tie starting on it, use the Notes/Rests-&gt;Ties menu to remove it"));
+
+              }
+            if (thechord->directives)
+              append_directives_information (selection, thechord->directives);
+
           }
           break;
         case TUPOPEN:
@@ -1531,7 +1596,9 @@ display_current_object (void)
 
       if (warning->len)
         {
-          GtkWidget *label = gtk_label_new (warning->str);
+          GtkWidget *label = gtk_label_new ("");
+          warning = g_string_prepend (warning, _("<span font-desc=\"30\">Warning</span> "));
+          gtk_label_set_markup (GTK_LABEL (label), warning->str);
           gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
         }
       if (selection->len)
