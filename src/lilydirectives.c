@@ -62,29 +62,7 @@ gtk_menu_item_set_label_text (GtkMenuItem * item, gchar * text)
 }
 
 
-/**
- * If the curObj is a chord with a note(s)
- * return the first note at or below cursory, or the last note 
- * else return NULL
- */
-static note *
-findnote (DenemoObject * curObj, gint cursory)
-{
-  note *curnote = NULL;
-  if (curObj && curObj->type == CHORD && ((chord *) curObj->object)->notes)
-    {
-      GList *notes = ((chord *) curObj->object)->notes;
-      for (; notes; notes = notes->next)
-        {
-          curnote = (note *) notes->data;
-          //g_print("comparing %d and %d\n", cursory, curnote->y);
-          if (cursory <= curnote->mid_c_offset)
-            break;
-        }
 
-    }
-  return curnote;
-}
 
 static void
 toggle_locked (GtkWidget * widget, gboolean * locked)
