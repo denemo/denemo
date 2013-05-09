@@ -15,7 +15,7 @@ src/bookmarks.c
 src/bookmarks.h
 src/calculatepositions.c
 src/calculatepositions.h
-src/callbacks.h
+src/generated/callbacks.h
 src/changenotehead.c
 src/changenotehead.h
 src/chordops.c
@@ -23,7 +23,7 @@ src/chordops.h
 src/clefdialog.c
 src/commandfuncs.c
 src/commandfuncs.h
-src/commands.c
+src/generated/commands.c
 src/commands.h
 src/contexts.c
 src/contexts.h
@@ -54,7 +54,7 @@ src/dummybackend.c
 src/dummybackend.h
 src/dynamic.c
 src/dynamic.h
-src/entries.h
+src/generated/entries.h
 src/eventqueue.c
 src/eventqueue.h
 src/exportabc.c
@@ -63,7 +63,6 @@ src/exportlilypond.c
 src/exportlilypond.h
 src/exportmidi.c
 src/exportmidi.h
-src/exportmidiPROPERVOLUMEONTOPSTAFF.c
 src/exportxml.c
 src/exportxml.h
 src/external.c
@@ -148,13 +147,13 @@ src/print.h
 src/processstaffname.c
 src/processstaffname.h
 src/redefs.h
-src/register_commands.h
+src/generated/register_commands.h
 src/ringbuffer.c
 src/ringbuffer.h
 src/runsilent.c
 src/runsilent.h
-src/scheme.h
-src/scheme_cb.h
+src/generated/scheme.h
+src/generated/scheme_cb.h
 src/scorelayout.c
 src/scorelayout.h
 src/scoreops.c

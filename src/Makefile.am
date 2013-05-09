@@ -68,7 +68,6 @@ libaudiobackend_a_SOURCES += alsabackend.c alsabackend.h
 libaudiobackend_a_SOURCES += fluid.c fluid.h
 
 
-localedir = $(datadir)/locale
 AM_CPPFLAGS = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
  $(BINRELOC_CFLAGS) \
  $(SMF_INCLUDE) \
@@ -77,7 +76,7 @@ AM_CPPFLAGS = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
 -I$(top_srcdir)/pixmaps \
 -DPREFIX=\"$(prefix)\" \
 -DBINDIR=\"$(exec_prefix)/bin\" \
--DLOCALEDIR=\"$(localedir)\" \
+-DDENEMO_LOCALEDIR=\"${DENEMO_LOCALEDIR}\"\
 -DSYSCONFDIR=\"$(sysconfdir)/\" \
 -DPKGDATADIR=\"$(pkgdatadir)/\" \
 -DDATAROOTDIR=\"$(datarootdir)/\" \

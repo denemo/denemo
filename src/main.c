@@ -387,9 +387,10 @@ main (int argc, char *argv[])
   //setlocale (LC_MESSAGES, "");
   setlocale (LC_ALL, "");
   //gtk_set_locale ();
-  bindtextdomain (PACKAGE, get_locale_dir ());
-  bind_textdomain_codeset (PACKAGE, "UTF-8");
-  textdomain (PACKAGE);
+
+  bindtextdomain(GETTEXT_PACKAGE, get_locale_dir ());
+  bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
+  textdomain(GETTEXT_PACKAGE);
 
   //register_stock_items ();
 
