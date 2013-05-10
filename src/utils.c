@@ -1465,7 +1465,11 @@ append_directives_information (GString * selection, GList * directives)
   do
     {
       DenemoDirective *directive = directives->data;
-      g_string_append_printf (selection, _("\nDirective tagged: \"%s\""), directive->tag->str);
+      g_string_append_printf (selection, _("\nDirective tagged: \"%s\"\n"), directive->tag->str);
+      if(directive->prefix)
+				 g_string_append_printf (selection, _("LilyPond inserted in prefix to this note is \"%s\"\n"), directive->prefix->str);
+			if(directive->postfix)
+				 g_string_append_printf (selection, _("LilyPond inserted in postfix to this note is \"%s\"\n"), directive->postfix->str);
     }
   while (directives = directives->next);
 }
@@ -1508,11 +1512,11 @@ display_current_object (void)
               {
                 if (thechord->notes->next)
                   {
-                    selection = g_string_append (selection, _("a chord."));
+                    selection = g_string_append (selection, _("a chord.\n"));
                   }
                 else
                   {
-                    selection = g_string_append (selection, _("a note."));
+                    selection = g_string_append (selection, _("a one-note chord."));
                   }
                 if (thechord->slur_begin_p)
                   selection = g_string_append (selection, _("\nA slur starts from here.\n" "There should be a matching end slur later."));
@@ -1522,11 +1526,13 @@ display_current_object (void)
                   selection = g_string_append (selection, _("\nThis is tied to the following note or chord.\n" "The following note or chord should have the same pitch"));
 
                 note *thenote = findnote (curObj, gui->si->cursor_y);
-                if (thenote)
+                if (thenote && gui->si->cursor_y==thenote->mid_c_offset)
                   {
+										g_string_append_printf (selection, _("\nWithin the chord the cursor is on the note %s \n"),
+											mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift));
                     if (thenote->directives)
                       {
-                        g_string_append_printf (selection, _("\nGiving information for the note \"%s\""), mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift));
+                        selection = g_string_append (selection, _("Attached to this note:"));
                         append_directives_information (selection, thenote->directives);
                       }
                   }
@@ -1542,8 +1548,10 @@ display_current_object (void)
                   warning = g_string_append (warning, _("This rest has a tie starting on it, use the Notes/Rests-&gt;Ties menu to remove it"));
 
               }
-            if (thechord->directives)
+            if (thechord->directives) {
+							selection = g_string_append (selection, _("Attached to the chord:"));
               append_directives_information (selection, thechord->directives);
+						}
 
           }
           break;
