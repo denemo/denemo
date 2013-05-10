@@ -203,13 +203,6 @@ parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menup
 {
   xmlNodePtr ncur = cur->xmlChildrenNode;
   int i;
-  static commands_installed = FALSE;
-
-  if (!commands_installed)
-    {
-      install_commands ();
-      commands_installed = TRUE;
-    }
 
   for (i = 0; i < 2; i++)
     {                           //Two passes, as all Commands have to be added before bindings

@@ -1,7 +1,7 @@
 bin_PROGRAMS = denemo
 dist_pkgdata_DATA = denemoui.xml instruments.xml
 denemo_SOURCES = denemo_types.c \
-	generated/commands.c commands.h calculatepositions.c changenotehead.c \
+	calculatepositions.c changenotehead.c \
 	chordops.c clefdialog.c commandfuncs.c contexts.c draw.c \
 	drawaccidentals.c drawclefs.c drawcursor.c drawkey.c drawdynamic.c \
 	drawnotes.c drawselection.c drawstemdir.c drawtimesig.c drawtuplets.c \
