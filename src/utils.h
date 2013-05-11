@@ -270,5 +270,5 @@ findnote (DenemoObject * curObj, gint cursory);
 
 #define get_label_for_command(name) lookup_label_from_idx(Denemo.map, lookup_command_from_name(Denemo.map, name))
 #define get_tooltip_for_command(name) lookup_tooltip_from_idx(Denemo.map, lookup_command_from_name(Denemo.map, name))
-
+#define get_menu_path_for_command(name) lookup_menu_path_from_idx(Denemo.map, lookup_command_from_name(Denemo.map, name))
 #endif /* UTILS_H */
