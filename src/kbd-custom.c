@@ -890,8 +890,10 @@ lookup_command_from_name (keymap * keymap, const gchar * command_name)
 //do not free the result
 //returns NULL if not found
 const GtkAction *
-lookup_action_from_idx (keymap * keymap, guint command_idx)
+lookup_action_from_idx (keymap * keymap, gint command_idx)
 {
+	if (command_idx == -1)
+		return NULL;	
   command_row row;
   if (!keymap_get_command_row (keymap, &row, command_idx))
     return NULL;
@@ -902,8 +904,10 @@ lookup_action_from_idx (keymap * keymap, guint command_idx)
 //do not free the result
 //returns NULL if not found
 gpointer
-lookup_callback_from_idx (keymap * keymap, guint command_idx)
+lookup_callback_from_idx (keymap * keymap, gint command_idx)
 {
+	if (command_idx == -1)
+		return NULL;
   command_row row;
   if (!keymap_get_command_row (keymap, &row, command_idx))
     return NULL;
@@ -914,9 +918,11 @@ lookup_callback_from_idx (keymap * keymap, guint command_idx)
 //do not free the result
 //returns NULL if not found
 const gchar *
-lookup_name_from_idx (keymap * keymap, guint command_idx)
+lookup_name_from_idx (keymap * keymap, gint command_idx)
 {
   const gchar *res = NULL;
+	if (command_idx == -1)
+		return NULL;
   command_row row;
   if (!keymap_get_command_row (keymap, &row, command_idx))
     return NULL;
@@ -928,9 +934,11 @@ lookup_name_from_idx (keymap * keymap, guint command_idx)
 //do not free the result
 //returns NULL if not found
 const gchar *
-lookup_tooltip_from_idx (keymap * keymap, guint command_idx)
+lookup_tooltip_from_idx (keymap * keymap, gint command_idx)
 {
   const gchar *res = NULL;
+  if (command_idx == -1)
+		return NULL;
   command_row row;
   if (!keymap_get_command_row (keymap, &row, command_idx))
     return NULL;
@@ -969,9 +977,11 @@ lookup_deleted_from_idx (keymap * keymap, guint command_idx)
 //do not free the result
 //returns NULL if not found
 const gchar *
-lookup_label_from_idx (keymap * keymap, guint command_idx)
+lookup_label_from_idx (keymap * keymap, gint command_idx)
 {
-  const gchar *res = NULL;
+  const gchar *res = NULL;	
+  if (command_idx == -1)
+		return NULL;
   command_row row;
   if (!keymap_get_command_row (keymap, &row, command_idx))
     return NULL;
@@ -980,7 +990,17 @@ lookup_label_from_idx (keymap * keymap, guint command_idx)
   g_object_unref (row.bindings);
   return res;
 }
-
+const gchar *
+lookup_menu_path_from_idx (keymap * keymap, gint command_idx)
+{
+	gchar *menupath = NULL;
+	if (command_idx == -1)
+		return NULL;
+  GtkAction *action = (GtkAction *) lookup_action_from_idx (keymap, command_idx);
+	if (action)
+		menupath = g_object_get_data (G_OBJECT (action), "menupath");
+	return menupath;
+}
 //returns the accel, "" if no accel defined. free the result
 //the accel is the first keybinding of the list
 #if 0

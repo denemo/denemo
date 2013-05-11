@@ -88,15 +88,15 @@ gint lookup_command_for_keybinding_name (keymap * the_keymap, const gchar * bind
 
 gint lookup_command_from_name (keymap * keymap, const gchar * command_name);
 
-const gchar *lookup_name_from_idx (keymap * keymap, guint command_idx);
+const gchar *lookup_name_from_idx (keymap * keymap, gint command_idx);
 
-const gchar *lookup_label_from_idx (keymap * keymap, guint command_idx);
+const gchar *lookup_label_from_idx (keymap * keymap, gint command_idx);
 
-const gchar *lookup_tooltip_from_idx (keymap * keymap, guint command_idx);
+const gchar *lookup_tooltip_from_idx (keymap * keymap, gint command_idx);
 
 gboolean lookup_hidden_from_idx (keymap * keymap, guint command_idx);
 
-gpointer lookup_callback_from_idx (keymap * keymap, guint command_idx);
+gpointer lookup_callback_from_idx (keymap * keymap, gint command_idx);
 
 void remove_keybinding (keymap * the_keymap, gint keyval, GdkModifierType state);
 
@@ -117,7 +117,9 @@ gint keymap_accel_quick_edit_snooper (GtkWidget * grab_widget, GdkEventKey * eve
 
 GtkAction *lookup_action_from_name (gchar * command_name);
 #define action_of_name(a,b) lookup_action_from_name(b)
-const GtkAction *lookup_action_from_idx (keymap * keymap, guint command_idx);
+const GtkAction *lookup_action_from_idx (keymap * keymap, gint command_idx);
+const gchar *lookup_menu_path_from_idx (keymap * keymap, gint command_idx);
+
 gboolean execute_callback_from_idx (keymap * the_keymap, guint command_idx);
 gboolean execute_callback_from_name (keymap * the_keymap, const gchar * command_name);
 
