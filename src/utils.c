@@ -1465,7 +1465,11 @@ append_directives_information (GString * selection, GList * directives)
   do
     {
       DenemoDirective *directive = directives->data;
-      g_string_append_printf (selection, _("\nDirective tagged: \"%s\"\n"), directive->tag->str);
+      const gchar *label = get_label_for_command (directive->tag->str);
+      if(label)
+				g_string_append_printf (selection, _("\nDirective for command: \"%s\"\n"), label);
+      else
+				g_string_append_printf (selection, _("\nDirective tagged: \"%s\"\n"), directive->tag->str);
       if(directive->prefix)
 				 g_string_append_printf (selection, _("LilyPond inserted in prefix to this note is \"%s\"\n"), directive->prefix->str);
 			if(directive->postfix)

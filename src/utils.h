@@ -267,4 +267,8 @@ void display_current_object(void);
 
 note *
 findnote (DenemoObject * curObj, gint cursory);
+
+#define get_label_for_command(name) lookup_label_from_idx(Denemo.map, lookup_command_from_name(Denemo.map, name))
+#define get_tooltip_for_command(name) lookup_tooltip_from_idx(Denemo.map, lookup_command_from_name(Denemo.map, name))
+
 #endif /* UTILS_H */
