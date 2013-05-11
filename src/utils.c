@@ -1523,7 +1523,7 @@ display_current_object (void)
                   }
                 else
                   {
-                    selection = g_string_append (selection, _("a one-note chord."));
+                    selection = g_string_append (selection, _("a one-note chord.\n"));
                   }
                 if (thechord->slur_begin_p)
                   selection = g_string_append (selection, _("\nA slur starts from here.\n" "There should be a matching end slur later."));
@@ -1563,42 +1563,92 @@ display_current_object (void)
           }
           break;
         case TUPOPEN:
-          {
-            g_string_append_printf (selection, _(" a Start Tuplet object\n" "Meaning %d notes will take the time of %d notes\n" "until an End Tuplet object"), ((tupopen *) curObj->object)->denominator, ((tupopen *) curObj->object)->numerator);
-          }
+          { tuplet *thetup = ((tuplet *) curObj->object);
+            g_string_append_printf (selection, _(" a Start Tuplet object\n""Meaning %d notes will take the time of %d notes\n" "until an End Tuplet object.\n"), thetup->denominator, thetup->numerator);
+						if (thetup->directives) 
+							{
+								selection = g_string_append (selection, _("Attached to the Start Tuplet:"));
+								append_directives_information (selection, thetup->directives);
+							}
+					}
           break;
         case TUPCLOSE:
-          {
-            g_string_append_printf (selection, _("an End Tuplet object\n" "Note: the Start Tuplet must be in the same measure"));
+          { tuplet *thetup = ((tuplet *) curObj->object);
+            g_string_append_printf (selection, _("an End Tuplet object\n" "Note: the Start Tuplet must be in the same measure.\n"));
+            if (thetup->directives) 
+							{
+								selection = g_string_append (selection, _("Attached to the End Tuplet:"));
+								append_directives_information (selection, thetup->directives);
+							}
           }
           break;
         case CLEF:
           {
-            g_string_append_printf (selection, _("a Clef Change object"));
+						clef *theclef = ((clef *) curObj->object);
+            g_string_append_printf (selection, _("a Clef Change object.\n"));   
+						if (theclef->directives) 
+							{
+								selection = g_string_append (selection, _("Attached to the Clef Change:"));
+								append_directives_information (selection, theclef->directives);
+							}
           }
           break;
         case TIMESIG:
           {
-            g_string_append_printf (selection, _("a Time Signature Change object"));
+						timesig *thetime = ((timesig *) curObj->object);
+            g_string_append_printf (selection, _("a Time Signature Change object.\n"));
+						if (thetime->directives) 
+							{
+								selection = g_string_append (selection, _("Attached to the Time Signature Change:"));
+								append_directives_information (selection, thetime->directives);
+							}           
             if (gui->si->currentobject->prev)
               g_string_append_printf (warning, _("A Time Signature Change should be the first object in a measure\n" "unless you are trying to do something unusual"));
           }
           break;
         case KEYSIG:
           {
-            g_string_append_printf (selection, _("a Key Signature Change object"));
+						keysig *thekey = ((keysig *) curObj->object);
+            g_string_append_printf (selection, _("a Key Signature Change object.\n"));
+						if (thekey->directives) 
+							{
+								selection = g_string_append (selection, _("Attached to the Key Signature Change:"));
+								append_directives_information (selection, thekey->directives);
+							}
           }
           break;
         case STEMDIRECTIVE:
           {
+						stemdirective *thestem = ((stemdirective *) curObj->object);
             g_string_append_printf (selection, _("a Stem Directive, the notes after the cursor %s"), ((stemdirective *) curObj->object)->type == DENEMO_STEMDOWN ? _("will have stems downwards") : ((stemdirective *) curObj->object)->type == DENEMO_STEMUP ? _("will have stems upwards") : _("will have stems up or down as needed"));
+						if (thestem->directives) 
+							{
+								selection = g_string_append (selection, _("Attached to the Stemming Change:"));
+								append_directives_information (selection, thestem->directives);
+							}
           }
           break;
         case LILYDIRECTIVE:
           {
             DenemoDirective *directive = (DenemoDirective *) curObj->object;
-            g_string_append_printf (selection, _("a Denemo Directive: (%s)%s\nThe LilyPond text inserted is %s"), directive->tag ? directive->tag->str : "Unknown Tag", directive->x ? _("\nNot all layouts") : directive->y ? _("\nOnly for one Layout") : "", directive->postfix ? directive->postfix->str : directive->prefix ? directive->prefix->str : directive->graphic_name ? directive->graphic_name->str : directive->display ? directive->display->str : "empty");
-            if (gui->si->currentobject->next == NULL && (gui->si->currentmeasure->next == NULL))
+            if(directive->tag==NULL)
+							directive->tag = g_string_new("<Unknown Tag>");//shouldn't happen
+            const gchar *label = get_label_for_command(directive->tag->str);
+            const gchar *menupath = get_menu_path_for_command(directive->tag->str);
+            if(label)
+               g_string_append_printf (selection, _("a Denemo Directive: (%s)"), label);
+            else
+							g_string_append_printf (selection, _("a Denemo Directive: (%s)"), directive->tag->str);
+            
+           g_string_append_printf (selection, _("%s"), directive->x ? _("\nNot all layouts\n") : directive->y ? _("\nOnly for one Layout\n"): "\n");
+           if(menupath)
+						g_string_append_printf (selection, _("Menu location for this command: \"%s\"\n"), menupath);
+						
+						g_string_append_printf (selection, _("The LilyPond text inserted is %s%s\n"),  
+							directive->prefix?directive->prefix->str:"",
+							directive->postfix?directive->postfix->str:"");
+						
+           if (gui->si->currentobject->next == NULL && (gui->si->currentmeasure->next == NULL))
               g_string_assign (warning, _("This Directive is at the end of the music" "\nYou may need a closing double bar line - see Directives->barlines"));
           }
           break;
