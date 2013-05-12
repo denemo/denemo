@@ -1550,7 +1550,15 @@ widget_for_directive_menu (DenemoDirective * directive, void fn (), GtkMenu * me
         {
           //g_print("Doing the score and movement cases starting from %p", directive->widget);
           directive->widget = GTK_WIDGET (gtk_button_new_with_label (value));
-          gchar *tooltip = g_strdup_printf (_("This button was created for the Denemo Directive whose tag is %s. Usually you click on it to alter the setting made or perform the action it is labelled with"), directive->tag->str);   //FIXME enable scripters to pass a tooltip in???
+          gchar *tooltip;
+          const gchar *label = get_label_for_command(directive->tag->str);
+          const gchar *help = get_tooltip_for_command(directive->tag->str);
+          if(label)
+          tooltip = g_strdup_printf (_("Command: %s.\n(%s)"
+          "\nLeft click to run the command or right click for further options"), label, help?help:"");
+          else
+						tooltip = g_strdup_printf (_("This button was created for the Denemo Directive whose tag is %s."
+          " Usually you click on it to alter the setting made or perform the action it is labelled with"), directive->tag->str);   //FIXME enable scripters to pass a tooltip in???
           gtk_widget_set_tooltip_text (directive->widget, tooltip);
           g_free (tooltip);
 
