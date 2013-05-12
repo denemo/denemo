@@ -121,55 +121,55 @@
       </row>
       <row>
         <action>A</action>
-        <_label>A</_label>
+        <_label>Change/Append A</_label>
         <_tooltip>Changes the note the cursor is on to the note A.
 If the cursor is in the appending position, appends a note using the prevailing duration.</_tooltip>
       </row>
       <row>
         <action>B</action>
-        <_label>B</_label>
+        <_label>Change/Append B</_label>
         <_tooltip>Changes the note the cursor is on to the note B.
 If the cursor is in the appending position, appends a note using the prevailing duration.</_tooltip>
       </row>
       <row>
         <action>C</action>
-        <_label>C</_label>
+        <_label>Change/Append C</_label>
         <_tooltip>Changes the note the cursor is on to the note C.
 If the cursor is in the appending position, appends a note using the prevailing duration.</_tooltip>
       </row>
       <row>
         <action>D</action>
-        <_label>D</_label>
+        <_label>Change/Append D</_label>
         <_tooltip>Changes the note the cursor is on to the note D.
 If the cursor is in the appending position, appends a note using the prevailing duration.</_tooltip>
       </row>
       <row>
         <action>E</action>
-        <_label>E</_label>
+        <_label>Change/Append E</_label>
         <_tooltip>Changes the note the cursor is on to the note E.
 If the cursor is in the appending position, appends a note using the prevailing duration.</_tooltip>
       </row>
       <row>
         <action>F</action>
-        <_label>F</_label>
+        <_label>Change/Append F</_label>
         <_tooltip>Changes the note the cursor is on to the note F.
 If the cursor is in the appending position, appends a note using the prevailing duration.</_tooltip>
       </row>
       <row>
         <action>G</action>
-        <_label>G</_label>
+        <_label>Change/Append G</_label>
         <_tooltip>Changes the note the cursor is on to the note G.
 If the cursor is in the appending position, appends a note using the prevailing duration.</_tooltip>
       </row>
       <row>
         <action>OctaveUp</action>
         <_label>Octave Up</_label>
-        <_tooltip>Octave Up</_tooltip>
+        <_tooltip>Changes the note at the cursor to an octave higher</_tooltip>
       </row>
       <row>
         <action>OctaveDown</action>
         <_label>Octave Down</_label>
-        <_tooltip>Octave Down</_tooltip>
+        <_tooltip>Changes the note at the cursor to an octave lower</_tooltip>
       </row>
       <row>
         <action>WholeNote</action>
@@ -218,82 +218,82 @@ If the cursor is in the appending position, appends a note using the prevailing 
       </row>
       <row>
         <action>InsertWholeRest</action>
-        <_label>&lt;span font_desc="Denemo"&gt;&#x1D13B;&lt;/span&gt;</_label>
+        <_label>Insert a &lt;span font_desc="Denemo"&gt;&#x1D13B;&lt;/span&gt;</_label>
         <_tooltip>Insert &#x1D13B; rest</_tooltip>
       </row>
       <row>
         <action>InsertHalfRest</action>
-        <_label>&lt;span font_desc="Denemo"&gt;&#x1D13C;&lt;/span&gt;</_label>
+        <_label>Insert a &lt;span font_desc="Denemo"&gt;&#x1D13C;&lt;/span&gt;</_label>
         <_tooltip>Insert &#x1D13C; rest</_tooltip>
       </row>
       <row>
         <action>InsertQuarterRest</action>
-        <_label>&lt;span font_desc="Denemo"&gt;&#x1D13D;&lt;/span&gt;</_label>
+        <_label>Insert a &lt;span font_desc="Denemo"&gt;&#x1D13D;&lt;/span&gt;</_label>
         <_tooltip>Insert &#x1D13D; rest</_tooltip>
       </row>
       <row>
         <action>InsertEighthRest</action>
-        <_label>&lt;span font_desc="Denemo"&gt;&#x1D13E;&lt;/span&gt;</_label>
+        <_label>Insert a &lt;span font_desc="Denemo"&gt;&#x1D13E;&lt;/span&gt;</_label>
         <_tooltip>Insert &#x1D13E; rest</_tooltip>
       </row>
       <row>
         <action>InsertSixteenthRest</action>
-        <_label>&lt;span font_desc="Denemo"&gt;&#x1D13F;&lt;/span&gt;</_label>
+        <_label>Insert a &lt;span font_desc="Denemo"&gt;&#x1D13F;&lt;/span&gt;</_label>
         <_tooltip>Insert &#x1D13F; rest</_tooltip>
       </row>
       <row>
         <action>InsertThirtysecondRest</action>
-        <_label>&lt;span font_desc="Denemo"&gt;&#x1D140;&lt;/span&gt;</_label>
+        <_label>Insert a &lt;span font_desc="Denemo"&gt;&#x1D140;&lt;/span&gt;</_label>
         <_tooltip>Insert &#x1D140; rest</_tooltip>
       </row>
       <row>
         <action>InsertSixtyfourthRest</action>
-        <_label>&lt;span font_desc="Denemo"&gt;&#x1D141;&lt;/span&gt;</_label>
+        <_label>Insert a &lt;span font_desc="Denemo"&gt;&#x1D141;&lt;/span&gt;</_label>
         <_tooltip>Insert &#x1D141; rest</_tooltip>
       </row>
       <row>
         <action>InsertBlankWholeNote</action>
-        <_label>&#x1D13B; Spacer</_label>
+        <_label>Insert a &#x1D13B; Spacer</_label>
         <_tooltip>Insert a non-printing &#x1D13B; rest</_tooltip>
       </row>
       <row>
         <action>InsertBlankHalfNote</action>
-        <_label>&#x1D13C; Spacer</_label>
+        <_label>Insert a &#x1D13C; Spacer</_label>
         <_tooltip>Insert a non-printing &#x1D13C; rest</_tooltip>
       </row>
       <row>
         <action>InsertBlankQuarterNote</action>
-        <_label>&#x1D13D; Spacer</_label>
+        <_label>Insert a &#x1D13D; Spacer</_label>
         <_tooltip>Insert a non-printing &#x1D13D; rest</_tooltip>
       </row>
       <row>
         <action>InsertBlankEighthNote</action>
-        <_label>&#x1D13E; Spacer</_label>
+        <_label>Insert a &#x1D13E; Spacer</_label>
         <_tooltip>Insert a non-printing &#x1D13E; rest</_tooltip>
       </row>
       <row>
         <action>InsertBlankSixteenthNote</action>
-        <_label>&#x1D13F; Spacer</_label>
+        <_label>Insert a &#x1D13F; Spacer</_label>
         <_tooltip>Insert a non-printing &#x1D13F; rest</_tooltip>
       </row>
       <row>
         <action>InsertBlankThirtysecondNote</action>
-        <_label>&#x1D140; Spacer</_label>
+        <_label>Insert a &#x1D140; Spacer</_label>
         <_tooltip>Insert a non-printing &#x1D140; rest</_tooltip>
       </row>
       <row>
         <action>InsertBlankSixtyfourthNote</action>
-        <_label>&#x1D141; Spacer</_label>
+        <_label>Insert a &#x1D141; Spacer</_label>
         <_tooltip>Insert a non-printing &#x1D141; rest</_tooltip>
       </row>
       <row>
         <action>InsertBlankOneHundredTwentyEighthNote</action>
-        <_label>&#x1D142; Spacer</_label>
+        <_label>Insert a &#x1D142; Spacer</_label>
         <_tooltip>Insert a non-printing &#x1D142; rest</_tooltip>
       </row>
       <row>
         <action>InsertBlankTwoHundredFiftySixthNote</action>
-        <_label>&#x1D143; Spacer</_label>
+        <_label>Insert a &#x1D143; Spacer</_label>
         <_tooltip>Insert a non-printing &#x1D143; rest</_tooltip>
       </row>
       <row>
@@ -314,17 +314,17 @@ If the cursor is in the appending position, appends a note using the prevailing 
       <row>
         <action>InsertTriplet</action>
         <_label>Insert Triplet</_label>
-        <_tooltip>No Tooltip yet</_tooltip>
+        <_tooltip>Inserts a Start Triplet object and an End Tuplet object and places the cursor between these two</_tooltip>
       </row>
       <row>
         <action>StartTriplet</action>
         <_label>Start Triplet</_label>
-        <_tooltip>No Tooltip yet</_tooltip>
+        <_tooltip>Inserts an Start Triplet object, which makes the notes following take 2/3 of their written duration. Later in this measure there should be an End Tuplet object.</_tooltip>
       </row>
       <row>
         <action>EndTuplet</action>
         <_label>End Tuplet</_label>
-        <_tooltip>No Tooltip yet</_tooltip>
+        <_tooltip>Inserts an End Tuplet object, which terminates a tuplet started earlier in this measure.</_tooltip>
       </row>
       <row>
         <action>InsertQuadtuplet</action>
@@ -355,17 +355,17 @@ The cursor position determines which note to add</_tooltip>
       <row>
         <action>RemoveNoteFromChord</action>
         <_label>Remove note</_label>
-        <_tooltip>Remove a note from the current chord</_tooltip>
+        <_tooltip>Remove a note from the current chord, based on the cursor position</_tooltip>
       </row>
       <row>
         <action>Sharpen</action>
         <_label>Sharpen</_label>
-        <_tooltip>No Tooltip yet</_tooltip>
+        <_tooltip>Sharpen the note at the cursor</_tooltip>
       </row>
       <row>
         <action>Flatten</action>
         <_label>Flatten</_label>
-        <_tooltip>No Tooltip yet</_tooltip>
+        <_tooltip>Flatten the note at the cursor</_tooltip>
       </row>
       <row>
         <action>PendingSharpen</action>
@@ -390,12 +390,12 @@ The cursor position determines which note to add</_tooltip>
       <row>
         <action>AddDot</action>
         <_label>Add Dot</_label>
-        <_tooltip>No Tooltip yet</_tooltip>
+        <_tooltip>Lengthen the chord, note or rest at the cursor by dotting it.</_tooltip>
       </row>
       <row>
         <action>RemoveDot</action>
         <_label>Remove Dot</_label>
-        <_tooltip>No Tooltip yet</_tooltip>
+        <_tooltip>Reduce the dotting of the chord note or rest at the cursor.</_tooltip>
       </row>
       <row>
         <action>InsertTiedNote</action>
@@ -440,7 +440,7 @@ The cursor position determines which note to add</_tooltip>
       <row>
         <action>AppendMeasure</action>
         <_label>Staff Append Measure</_label>
-        <_tooltip>No Tooltip yet</_tooltip>
+        <_tooltip>Append an empty measure at the end of the current staff</_tooltip>
       </row>
       <row>
         <action>DeleteMeasure</action>
@@ -970,23 +970,23 @@ the end point of the selection is unaltered</_tooltip>
       </row>
       <row>
         <action>ToggleStartCrescendo</action>
-        <_label>Start Crescendo</_label>
-        <_tooltip>No Tooltip yet</_tooltip>
+        <_label>Start Crescendo (Off/On)</_label>
+        <_tooltip>Marks/Unmarks the chord or note at the cursor as the start of a crescendo.</_tooltip>
       </row>
       <row>
         <action>ToggleEndCrescendo</action>
-        <_label>End Crescendo</_label>
-        <_tooltip>No Tooltip yet</_tooltip>
+        <_label>End Crescendo (Off/On)</_label>
+        <_tooltip>Marks/Unmarks the chord or note at the cursor as the end of a crescendo.</_tooltip>
       </row>
       <row>
         <action>ToggleStartDiminuendo</action>
-        <_label>Start Diminuendo</_label>
-        <_tooltip>No Tooltip yet</_tooltip>
+        <_label>Start Diminuendo (Off/On)</_label>
+        <_tooltip>Marks/Unmarks the chord or note at the cursor as the start of a diminuendo.</_tooltip>
       </row>
       <row>
         <action>ToggleEndDiminuendo</action>
-        <_label>End Diminuendo</_label>
-        <_tooltip>No Tooltip yet</_tooltip>
+        <_label>End Diminuendo (Off/On)</_label>
+        <_tooltip>Marks/Unmarks the chord or note at the cursor as the end of a diminuendo.</_tooltip>
       </row>
       <row>
         <action>ToggleGrace</action>
@@ -1001,12 +1001,12 @@ the end point of the selection is unaltered</_tooltip>
       <row>
         <action>ForceCaution</action>
         <_label>Force Cautionary Accidental</_label>
-        <_tooltip>No Tooltip yet</_tooltip>
+        <_tooltip>Give a cautionary accidental to the note at the cursor</_tooltip>
       </row>
       <row>
         <action>ChangePitch</action>
         <_label>Change Pitch</_label>
-        <_tooltip>No Tooltip yet</_tooltip>
+        <_tooltip>Changes the pitch of the note at the cursor to the cursor height</_tooltip>
       </row>
       <row>
         <action>InsertRhythm</action>
@@ -1839,15 +1839,15 @@ Rhythm is unchanged</_tooltip>
       </row>
       <row>
         <action>0</action>
-        <_label>&#x1D15D;</_label>
+        <_label>Insert/Append a &#x1D15D;</_label>
         <_tooltip>When appending, appends a &#x1D15D; 
 With the cursor on a note inserts a &#x1D15D;  before the current note
-The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
- - the MIDI keyboard will provide the pitch</_tooltip>
+If MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)
+ - the MIDI keyboard will provide the pitch. Changes prevailing duration.</_tooltip>
       </row>
       <row>
         <action>Change0</action>
-        <_label>&#x1D15D;</_label>
+        <_label>Change to &#x1D15D;</_label>
         <_tooltip>Change the current note to a &#x1D15D;</_tooltip>
       </row>
       <row>
@@ -1862,27 +1862,21 @@ The note will be pitchless (displays yellow, non-printing, percussion-sounding) 
 Sets prevailing rhythm to &#x1D15D;</_tooltip>
       </row>
       <row>
-        <action>ChangeRest0</action>
-        <_label>Change a &#x1D13B;</_label>
-        <_tooltip>Changes a rest at cursor position
-Sets prevailing rhythm to &#x1D15D;</_tooltip>
-      </row>
-      <row>
         <action>Set0</action>
-        <_label>&#x1D15D;</_label>
-        <_tooltip>Set the prevailing duration to &#x1D15D;</_tooltip>
+        <_label>Set Prevailing Duration to &#x1D15D;</_label>
+        <_tooltip>Set the prevailing duration to &#x1D15D; (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row>
         <action>1</action>
-        <_label>&#x1D15E;</_label>
+        <_label>Insert/Append a &#x1D15E;</_label>
         <_tooltip>When appending, appends a &#x1D15E; 
 With the cursor on a note inserts a &#x1D15E;  before the current note
-The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
- - the MIDI keyboard will provide the pitch</_tooltip>
+If MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)
+ - the MIDI keyboard will provide the pitch. Changes prevailing duration.</_tooltip>
       </row>
       <row>
         <action>Change1</action>
-        <_label>&#x1D15E;</_label>
+        <_label>Change to &#x1D15E;</_label>
         <_tooltip>Change the current note to a &#x1D15E;</_tooltip>
       </row>
       <row>
@@ -1897,27 +1891,21 @@ The note will be pitchless (displays yellow, non-printing, percussion-sounding) 
 Sets prevailing rhythm to &#x1D15E;</_tooltip>
       </row>
       <row>
-        <action>ChangeRest1</action>
-        <_label>Change a &#x1D13C;</_label>
-        <_tooltip>Changes a rest at cursor position
-Sets prevailing rhythm to &#x1D15E;</_tooltip>
-      </row>
-      <row>
         <action>Set1</action>
-        <_label>&#x1D15E;</_label>
-        <_tooltip>Set the prevailing duration to &#x1D15E;</_tooltip>
+        <_label>Set Prevailing Duration to &#x1D15E;</_label>
+        <_tooltip>Set the prevailing duration to &#x1D15E; (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row>
         <action>2</action>
-        <_label>&#x1D15F;</_label>
+        <_label>Insert/Append a &#x1D15F;</_label>
         <_tooltip>When appending, appends a &#x1D15F; 
 With the cursor on a note inserts a &#x1D15F;  before the current note
-The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
- - the MIDI keyboard will provide the pitch</_tooltip>
+If MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)
+ - the MIDI keyboard will provide the pitch. Changes prevailing duration.</_tooltip>
       </row>
       <row>
         <action>Change2</action>
-        <_label>&#x1D15F;</_label>
+        <_label>Change to &#x1D15F;</_label>
         <_tooltip>Change the current note to a &#x1D15F;</_tooltip>
       </row>
       <row>
@@ -1932,27 +1920,21 @@ The note will be pitchless (displays yellow, non-printing, percussion-sounding) 
 Sets prevailing rhythm to &#x1D15F;</_tooltip>
       </row>
       <row>
-        <action>ChangeRest2</action>
-        <_label>Change a &#x1D13D;</_label>
-        <_tooltip>Changes a rest at cursor position
-Sets prevailing rhythm to &#x1D15F;</_tooltip>
-      </row>
-      <row>
         <action>Set2</action>
-        <_label>&#x1D15F;</_label>
-        <_tooltip>Set the prevailing duration to &#x1D15F;</_tooltip>
+        <_label>Set Prevailing Duration to &#x1D15F;</_label>
+        <_tooltip>Set the prevailing duration to &#x1D15F; (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row>
         <action>3</action>
-        <_label>&#x1D160;</_label>
+        <_label>Insert/Append a &#x1D160;</_label>
         <_tooltip>When appending, appends a &#x1D160; 
 With the cursor on a note inserts a &#x1D160;  before the current note
-The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
- - the MIDI keyboard will provide the pitch</_tooltip>
+If MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)
+ - the MIDI keyboard will provide the pitch. Changes prevailing duration.</_tooltip>
       </row>
       <row>
         <action>Change3</action>
-        <_label>&#x1D160;</_label>
+        <_label>Change to &#x1D160;</_label>
         <_tooltip>Change the current note to a &#x1D160;</_tooltip>
       </row>
       <row>
@@ -1967,27 +1949,21 @@ The note will be pitchless (displays yellow, non-printing, percussion-sounding) 
 Sets prevailing rhythm to &#x1D160;</_tooltip>
       </row>
       <row>
-        <action>ChangeRest3</action>
-        <_label>Change a &#x1D13E;</_label>
-        <_tooltip>Changes a rest at cursor position
-Sets prevailing rhythm to &#x1D160;</_tooltip>
-      </row>
-      <row>
         <action>Set3</action>
-        <_label>&#x1D160;</_label>
-        <_tooltip>Set the prevailing duration to &#x1D160;</_tooltip>
+        <_label>Set Prevailing Duration to &#x1D160;</_label>
+        <_tooltip>Set the prevailing duration to &#x1D160; (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row>
         <action>4</action>
-        <_label>&#x1D161;</_label>
+        <_label>Insert/Append a &#x1D161;</_label>
         <_tooltip>When appending, appends a &#x1D161; 
 With the cursor on a note inserts a &#x1D161;  before the current note
-The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
- - the MIDI keyboard will provide the pitch</_tooltip>
+If MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)
+ - the MIDI keyboard will provide the pitch. Changes prevailing duration.</_tooltip>
       </row>
       <row>
         <action>Change4</action>
-        <_label>&#x1D161;</_label>
+        <_label>Change to &#x1D161;</_label>
         <_tooltip>Change the current note to a &#x1D161;</_tooltip>
       </row>
       <row>
@@ -2002,27 +1978,21 @@ The note will be pitchless (displays yellow, non-printing, percussion-sounding) 
 Sets prevailing rhythm to &#x1D161;</_tooltip>
       </row>
       <row>
-        <action>ChangeRest4</action>
-        <_label>Change a &#x1D13F;</_label>
-        <_tooltip>Changes a rest at cursor position
-Sets prevailing rhythm to &#x1D161;</_tooltip>
-      </row>
-      <row>
         <action>Set4</action>
-        <_label>&#x1D161;</_label>
-        <_tooltip>Set the prevailing duration to &#x1D161;</_tooltip>
+        <_label>Set Prevailing Duration to &#x1D161;</_label>
+        <_tooltip>Set the prevailing duration to &#x1D161; (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row>
         <action>5</action>
-        <_label>&#x1D162;</_label>
+        <_label>Insert/Append a &#x1D162;</_label>
         <_tooltip>When appending, appends a &#x1D162; 
 With the cursor on a note inserts a &#x1D162;  before the current note
-The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
- - the MIDI keyboard will provide the pitch</_tooltip>
+If MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)
+ - the MIDI keyboard will provide the pitch. Changes prevailing duration.</_tooltip>
       </row>
       <row>
         <action>Change5</action>
-        <_label>&#x1D162;</_label>
+        <_label>Change to &#x1D162;</_label>
         <_tooltip>Change the current note to a &#x1D162;</_tooltip>
       </row>
       <row>
@@ -2037,27 +2007,21 @@ The note will be pitchless (displays yellow, non-printing, percussion-sounding) 
 Sets prevailing rhythm to &#x1D162;</_tooltip>
       </row>
       <row>
-        <action>ChangeRest5</action>
-        <_label>Change a &#x1D140;</_label>
-        <_tooltip>Changes a rest at cursor position
-Sets prevailing rhythm to &#x1D162;</_tooltip>
-      </row>
-      <row>
         <action>Set5</action>
-        <_label>&#x1D162;</_label>
-        <_tooltip>Set the prevailing duration to &#x1D162;</_tooltip>
+        <_label>Set Prevailing Duration to &#x1D162;</_label>
+        <_tooltip>Set the prevailing duration to &#x1D162; (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row>
         <action>6</action>
-        <_label>&#x1D163;</_label>
+        <_label>Insert/Append a &#x1D163;</_label>
         <_tooltip>When appending, appends a &#x1D163; 
 With the cursor on a note inserts a &#x1D163;  before the current note
-The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
- - the MIDI keyboard will provide the pitch</_tooltip>
+If MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)
+ - the MIDI keyboard will provide the pitch. Changes prevailing duration.</_tooltip>
       </row>
       <row>
         <action>Change6</action>
-        <_label>&#x1D163;</_label>
+        <_label>Change to &#x1D163;</_label>
         <_tooltip>Change the current note to a &#x1D163;</_tooltip>
       </row>
       <row>
@@ -2072,27 +2036,21 @@ The note will be pitchless (displays yellow, non-printing, percussion-sounding) 
 Sets prevailing rhythm to &#x1D163;</_tooltip>
       </row>
       <row>
-        <action>ChangeRest6</action>
-        <_label>Change a &#x1D141;</_label>
-        <_tooltip>Changes a rest at cursor position
-Sets prevailing rhythm to &#x1D163;</_tooltip>
-      </row>
-      <row>
         <action>Set6</action>
-        <_label>&#x1D163;</_label>
-        <_tooltip>Set the prevailing duration to &#x1D163;</_tooltip>
+        <_label>Set Prevailing Duration to &#x1D163;</_label>
+        <_tooltip>Set the prevailing duration to &#x1D163; (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row>
         <action>7</action>
-        <_label>&#x1D164;</_label>
+        <_label>Insert/Append a &#x1D164;</_label>
         <_tooltip>When appending, appends a &#x1D164; 
 With the cursor on a note inserts a &#x1D164;  before the current note
-The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
- - the MIDI keyboard will provide the pitch</_tooltip>
+If MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)
+ - the MIDI keyboard will provide the pitch. Changes prevailing duration.</_tooltip>
       </row>
       <row>
         <action>Change7</action>
-        <_label>&#x1D164;</_label>
+        <_label>Change to &#x1D164;</_label>
         <_tooltip>Change the current note to a &#x1D164;</_tooltip>
       </row>
       <row>
@@ -2107,27 +2065,21 @@ The note will be pitchless (displays yellow, non-printing, percussion-sounding) 
 Sets prevailing rhythm to &#x1D164;</_tooltip>
       </row>
       <row>
-        <action>ChangeRest7</action>
-        <_label>Change a &#x1D142;</_label>
-        <_tooltip>Changes a rest at cursor position
-Sets prevailing rhythm to &#x1D164;</_tooltip>
-      </row>
-      <row>
         <action>Set7</action>
-        <_label>&#x1D164;</_label>
-        <_tooltip>Set the prevailing duration to &#x1D164;</_tooltip>
+        <_label>Set Prevailing Duration to &#x1D164;</_label>
+        <_tooltip>Set the prevailing duration to &#x1D164; (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row>
         <action>8</action>
-        <_label>&#x1D165;</_label>
+        <_label>Insert/Append a &#x1D165;</_label>
         <_tooltip>When appending, appends a &#x1D165; 
 With the cursor on a note inserts a &#x1D165;  before the current note
-The note will be pitchless (displays yellow, non-printing, percussion-sounding) if MIDI-in is active
- - the MIDI keyboard will provide the pitch</_tooltip>
+If MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)
+ - the MIDI keyboard will provide the pitch. Changes prevailing duration.</_tooltip>
       </row>
       <row>
         <action>Change8</action>
-        <_label>&#x1D165;</_label>
+        <_label>Change to &#x1D165;</_label>
         <_tooltip>Change the current note to a &#x1D165;</_tooltip>
       </row>
       <row>
@@ -2142,15 +2094,9 @@ The note will be pitchless (displays yellow, non-printing, percussion-sounding) 
 Sets prevailing rhythm to &#x1D165;</_tooltip>
       </row>
       <row>
-        <action>ChangeRest8</action>
-        <_label>Change a &#x1D143;</_label>
-        <_tooltip>Changes a rest at cursor position
-Sets prevailing rhythm to &#x1D165;</_tooltip>
-      </row>
-      <row>
         <action>Set8</action>
-        <_label>&#x1D165;</_label>
-        <_tooltip>Set the prevailing duration to &#x1D165;</_tooltip>
+        <_label>Set Prevailing Duration to &#x1D165;</_label>
+        <_tooltip>Set the prevailing duration to &#x1D165; (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row>
         <action>ToggleStopped</action>
@@ -6417,6 +6363,14 @@ accidentals are usually printed over the note.</_tooltip>
         <menupath>/ObjectMenu/StaffMenu</menupath>
         <_label>Chord Symbols</_label>
         <_tooltip>Typesets the music on this staff as chord symbols. Normally you will use this on a voice, so that the chord symbols print on the melody staff.</_tooltip>
+      </row>
+      <row>
+        <action>RemoveEmptyStaves</action>
+        <after>LilyPondDefinition</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <_label>(Print) Drop Empty Staves</_label>
+        <_tooltip>Drops staves which have no music on any line after the first.</_tooltip>
       </row>
     </map>
   </merge>
