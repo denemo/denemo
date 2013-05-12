@@ -854,7 +854,7 @@
 ;;; The tag name is a command to open the file containing that source
 (define (InsertLink filepos)
   (d-Directive-standalone  "DenemoLink")
-  (d-DirectivePut-standalone-postfix "DenemoLink" (string-append "%{" filepos "%}"))
+  (d-DirectivePut-standalone-postfix "DenemoLink" (string-append "%{" (scheme-escape filepos) "%}"))
   (d-DirectivePut-standalone-minpixels "DenemoLink" 30)
   (d-DirectivePut-standalone-graphic "DenemoLink" "\n⬏\n\n36")
   (d-MoveCursorRight)
