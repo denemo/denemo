@@ -6364,14 +6364,6 @@ accidentals are usually printed over the note.</_tooltip>
         <_label>Chord Symbols</_label>
         <_tooltip>Typesets the music on this staff as chord symbols. Normally you will use this on a voice, so that the chord symbols print on the melody staff.</_tooltip>
       </row>
-      <row>
-        <action>RemoveEmptyStaves</action>
-        <after>LilyPondDefinition</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Score</menupath>
-        <_label>(Print) Drop Empty Staves</_label>
-        <_tooltip>Drops staves which have no music on any line after the first.</_tooltip>
-      </row>
     </map>
   </merge>
 </Denemo>
