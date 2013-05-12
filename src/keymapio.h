@@ -1,12 +1,14 @@
 #ifndef KEYMAPIO_H
 #define KEYMAPIO_H
 
+#include <string.h>
 #include <denemo/denemo.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include "utils.h"
 #include "prefops.h"
 #include "kbd-custom.h"
+#include "keyboard.h"
 
 gint load_xml_keymap (gchar * filename, gboolean interactive);
 gint save_xml_keymap (gchar * filename);

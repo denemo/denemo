@@ -22,4 +22,5 @@ void show_action_of_name (gchar * name);
 void hide_action_of_name (gchar * name);
 gchar * translate_binding_dnm_to_gtk (const gchar * dnm_binding);
 gchar* translate_binding_gtk_to_dnm (const gchar * gtk_binding);
+gchar *extract_menupath (gchar * filename);
 #endif //KEYBOARDH
