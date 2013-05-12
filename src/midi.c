@@ -655,18 +655,23 @@ set_midi_capture (gboolean set)
 void
 adjust_midi_velocity (gchar * buf, gint percent)
 {
-	static gdouble times[0x7F];
-	 if (command == MIDI_NOTE_ON) {
-		 times[notenumber] = get_time();
-	 }
-	if (command == MIDI_NOTE_OFF) {
-		 //g_print("after %f seconds\n", get_time()-times[notenumber]);
-		 
-		 buf[0] = MIDI_NOTE_ON;//or the channel here
-		 buf[2] = 60/exp((get_time()-times[notenumber])/4);//scale according to the time
-		 return;
-	 }
-	
+  if (Denemo.prefs.dynamic_compression == 100)
+    {
+      static gdouble times[0x7F];
+      if (command == MIDI_NOTE_ON)
+        {
+          times[notenumber] = get_time ();
+        }
+      if (command == MIDI_NOTE_OFF)
+        {
+          //g_print("after %f seconds\n", get_time()-times[notenumber]);
+
+          buf[0] = MIDI_NOTE_ON;        //or the channel here
+          buf[2] = 60 / exp ((get_time () - times[notenumber]) / 4);    //scale according to the time
+          return;
+        }
+    }
+
   if (command == MIDI_NOTE_ON)
     buf[2] = 127 - (gint) ((127 - buf[2]) * percent / 100.0);
 }
