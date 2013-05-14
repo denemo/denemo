@@ -455,12 +455,15 @@ do_one_note (gint mid_c_offset, gint enshift, gint notenum)
             {
               if (!curobj->isinvisible)
                 cursor_to_next_note ();
-              pop_position ();
+              (void)pop_position ();//Discard the pushed position
             }
           else
-            PopPosition (NULL, NULL);
-        }
+            PopPosition (NULL, NULL);// go to where we started, as there are no non-printing notes
+        }          
+       else
+				PopPosition (NULL, NULL);// go to where we started, as there are no non-printing notes		
       action_note_into_score (mid_c_offset, enshift, notenum);
+      
       if (Denemo.keyboard_state & ADDING_MASK)
         Denemo.keyboard_state |= CHORD_MASK;
       set_midi_in_status ();
@@ -536,7 +539,6 @@ midiaction (gint notenum)
   gboolean have_previous;
   //g_print("Keyboard state %x, mask %x %x %x\n", Denemo.keyboard_state, CHECKING_MASK, GDK_CONTROL_MASK, GDK_MOD2_MASK);
   notenum2enharmonic (notenum, &enote.mid_c_offset, &enote.enshift, &enote.octave);
-
   if (Denemo.gui->si->cursor_appending)
     have_previous = get_current (&prevenote);
   else
@@ -591,10 +593,12 @@ midiaction (gint notenum)
                 }
               while ((!(Denemo.keyboard_state & ADDING_MASK)) && next_editable_note () && is_tied);
             }
-          else
+          else //there is a current object that is not a chord
             {
-              if (gui->si->cursor_appending)
+              if (gui->si->cursor_appending) {
                 do_one_note (enote.mid_c_offset, enote.enshift, enote.octave);
+                next_editable_note ();//if we have gone back from an appending position after a non-chord we need this
+							}
               else
                 gdk_beep ();
             }
@@ -610,6 +614,7 @@ midiaction (gint notenum)
       else
         {                       // no current object
           do_one_note (enote.mid_c_offset, enote.enshift, enote.octave);
+          next_editable_note ();//if we have gone back from an empty measure we need this.
         }
     }
   else
