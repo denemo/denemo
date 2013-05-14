@@ -247,7 +247,7 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
           if ((Denemo.gui->view != DENEMO_MENU_VIEW) || Denemo.prefs.learning)
             {
 							Denemo.prefs.learning = TRUE;
-              KeyStrokeDecline (prefix_store->str);//FIXME show ,name
+              KeyStrokeDecline (prefix_store->str);
             }
           toggle_to_drawing_area (TRUE);        //restore menus, in case the user is lost and needs to look up a keypress
           if (Denemo.gui->view != DENEMO_MENU_VIEW)
