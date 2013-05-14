@@ -7,6 +7,7 @@
 
 
 #include <denemo/denemo.h>
+#include "playback.h"
 #include "exportlilypond.h"
 #include "exportmidi.h"
 #include "staffops.h"
@@ -16,6 +17,9 @@
 #include "utils.h"
 #include "external.h"
 #include "audiointerface.h"
+#include "midi.h"
+#include "view.h"
+#include "sourceaudio.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -29,10 +33,6 @@
 #include <wait.h>
 #endif
 #include <errno.h>
-
-static gint timeout_id = 0, kill_id = 0;
-static gdouble duration = 0.0;
-
 
 void
 set_tempo (void)

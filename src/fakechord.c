@@ -38,6 +38,7 @@ newfakechord (gint baseduration, gint numdots, gchar * figs)
  * Apply the fakechord to the given chord if it does not already have one
  * otherwise assign to the chords existing fakechord
  */
+/* UNUSED
 static void
 apply_fakechord (chord * ch, gchar * fig)
 {
@@ -52,15 +53,16 @@ apply_fakechord (chord * ch, gchar * fig)
       DenemoObject *mud = (DenemoObject *) (((GList *) ch->fakechord)->data);
       chord *mych = (chord *) mud->object;
       GString *mygstr = (GString *) mych->fakechord;
-      g_string_assign (mygstr, fig);    /* FIXME g_free(mygstr->str) first ? */
+      g_string_assign (mygstr, fig);    // FIXME g_free(mygstr->str) first ?
     }
 }
-
+*/
 
 /**
  * Get the fakechords if it has one
  *
  */
+/* UNUSED
 static GString *
 get_fakechord (chord * ch)
 {
@@ -78,13 +80,11 @@ get_fakechord (chord * ch)
   g_assert (mych);
   return (GString *) mych->fakechord;
 }
-
+*/
 void
 separate_fakechord_elements (gchar * fakechord, DenemoObject * curObj)
 {
   gboolean has_extension = FALSE;
-  gboolean has_pedal_bass = FALSE;
-  gchar tmp2;
 
   GString *base = g_string_new ("");
   GString *extension = g_string_new ("");
@@ -97,8 +97,8 @@ separate_fakechord_elements (gchar * fakechord, DenemoObject * curObj)
         has_extension = TRUE;
       if (has_extension)
         g_string_sprintfa (extension, "%c", *fakechord);
-      if (*fakechord = '/')
-        has_pedal_bass = TRUE;  // not used!!!
+      //if (*fakechord == '/')
+      //  has_pedal_bass = TRUE;  // not used!!!
     }
   while (*++fakechord);
 
@@ -131,8 +131,6 @@ insertfakechord (GtkWidget * widget, gpointer data)
   struct callbackdata *cbdata = (struct callbackdata *) data;
   DenemoGUI *gui = cbdata->gui;
   DenemoScore *si = gui->si;
-  static staff_info null_info;
-  GString *current_fakechord;
   if (cbdata->string == NULL)
     return FALSE;
   if (si->currentobject != NULL)

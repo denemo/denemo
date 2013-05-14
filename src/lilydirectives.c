@@ -21,6 +21,7 @@
 #include "utils.h"
 #include "prefops.h"
 #include "view.h"
+#include "texteditors.h"
 #if GTK_MAJOR_VERSION==3
 #include <gdk/gdkkeysyms-compat.h>      //FIXME Look for something more gtk3 like
 #endif
@@ -199,7 +200,6 @@ attach_directive (attach_type attach, gchar * postfix, gchar * prefix, gchar * d
 {
   gchar *prefixstring = NULL, *postfixstring = NULL, *displaystring = NULL;
   DenemoGUI *gui = Denemo.gui;
-  DenemoScore *si = gui->si;
   note *curnote = NULL;
   DenemoObject *curObj = get_object ();
   if (curObj == NULL)
@@ -472,7 +472,6 @@ standalone_directive (GtkAction * action, DenemoScriptParam * param)
 void
 note_directive (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
   GET_4PARAMS (action, param, postfix, display, prefix, tag);
   attach_directive (ATTACH_NOTE, postfix, prefix, display, tag, action != NULL);
 }
@@ -487,7 +486,6 @@ note_directive (GtkAction * action, DenemoScriptParam * param)
 void
 chord_directive (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
   GET_4PARAMS (action, param, postfix, display, prefix, tag);
   attach_directive (ATTACH_CHORD, postfix, prefix, display, tag, action != NULL);
 }
@@ -497,11 +495,9 @@ chord_directive (GtkAction * action, DenemoScriptParam * param)
 static DenemoObject *
 get_chordobject (void)
 {
-  chord *thechord = NULL;
   DenemoObject *curObj = get_object ();
   if (curObj == NULL)
     return NULL;
-  thechord = (chord *) curObj->object;
   if (curObj->type != CHORD)
     {
       return NULL;
@@ -512,7 +508,6 @@ get_chordobject (void)
 static chord *
 get_chord (void)
 {
-  chord *thechord = NULL;
   DenemoObject *curObj = get_chordobject ();
   if (curObj == NULL)
     return NULL;
@@ -530,8 +525,6 @@ static note *
 get_note (void)
 {
   DenemoGUI *gui = Denemo.gui;
-  note *curnote = NULL;
-  chord *thechord = NULL;
   DenemoObject *curObj = get_chordobject ();
   if (curObj == NULL)
     return NULL;
@@ -1447,7 +1440,7 @@ set_directive_graphic_label (DenemoDirective * directive)
 
 static gboolean text_edit_directive (DenemoDirective * directive, gchar * what);
 
-static
+static gboolean
 editor_keypress (GtkWidget * w, GdkEventKey * event, DenemoDirective * directive)
 {
   GtkTextIter startiter, enditer;
@@ -1820,7 +1813,14 @@ PUT_GRAPHIC_WIDGET_INT (gy, layout, directives)
 PUT_GRAPHIC_WIDGET_INT (gy, movementcontrol, directives)
 PUT_GRAPHIC_WIDGET_INT (gy, staff, staff_directives)
 PUT_GRAPHIC_WIDGET_INT (gy, voice, voice_directives)
-PUT_GRAPHIC_WIDGET_INT (override, score, directives) PUT_GRAPHIC_WIDGET_INT (override, scoreheader, directives) PUT_GRAPHIC_WIDGET_INT (override, header, directives) PUT_GRAPHIC_WIDGET_INT (override, paper, directives) PUT_GRAPHIC_WIDGET_INT (override, layout, directives) PUT_GRAPHIC_WIDGET_INT (override, movementcontrol, directives) PUT_GRAPHIC_WIDGET_INT (override, staff, staff_directives) PUT_GRAPHIC_WIDGET_INT (override, voice, voice_directives)
+PUT_GRAPHIC_WIDGET_INT (override, score, directives);
+PUT_GRAPHIC_WIDGET_INT (override, scoreheader, directives);
+PUT_GRAPHIC_WIDGET_INT (override, header, directives);
+PUT_GRAPHIC_WIDGET_INT (override, paper, directives);
+PUT_GRAPHIC_WIDGET_INT (override, layout, directives);
+PUT_GRAPHIC_WIDGET_INT (override, movementcontrol, directives);
+PUT_GRAPHIC_WIDGET_INT (override, staff, staff_directives);
+PUT_GRAPHIC_WIDGET_INT (override, voice, voice_directives);
 #undef PUT_GRAPHIC_WIDGET_STR
 #undef PUT_GRAPHIC_WIDGET_INT
   gboolean
@@ -2021,9 +2021,8 @@ select_directive (gchar * instr, GList * directives)
 
 
 
-  GList *g;
   gint count;                   //count tagged directives
-  GtkWidget *widget, *widget2;
+  GtkWidget *widget;
   widget = gtk_label_new (instr);
   gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
   count = pack_buttons (vbox, directives, &response);
@@ -2334,6 +2333,7 @@ if(directive->field)\
 
 
 /* callback to get an upload script of name tag */
+#ifdef UPLOAD_TO_DENEMO_DOT_ORG
 static void
 upload_edit_script_cb (GtkWidget * widget, gchar * tag)
 {
@@ -2348,6 +2348,7 @@ upload_edit_script_cb (GtkWidget * widget, gchar * tag)
       g_free (filename);
     }
 }
+#endif
 
 /* callback to get an edit script of name tag into the Scheme Script window */
 static void
@@ -2396,7 +2397,6 @@ put_edit_script (GtkWidget * widget, gchar * tag)
 static gboolean
 activate_directive (DenemoDirective * directive, gchar * what)
 {
-  gboolean ret = TRUE;
   if (directive->widget && GTK_IS_WIDGET (directive->widget))
     {
       g_print ("activate\n");
@@ -2614,7 +2614,6 @@ edit_directive (DenemoDirective * directive, gchar * what)
       if (action && (Denemo.keyboard_state != GDK_MOD2_MASK /*NumLock */ ))
         {                       //FIXME this should be detecting shift click surely????
           DenemoScriptParam param;
-          gchar *paramvar;
           param.string = g_string_new ("edit");
           g_print ("Script can look for params \"edit\" - a string to catch this\n");
           activate_script (action, &param);

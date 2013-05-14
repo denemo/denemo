@@ -30,4 +30,9 @@ gboolean get_curve (gdouble * x1, gdouble * y1, gdouble * x2, gdouble * y2, gdou
 
 void typeset_part (void);
 gboolean continuous_typesetting (void);
+gboolean get_new_point (void);
+int check_lily_version (gchar * version);
+gboolean typeset_for_script (gchar * script);
+gboolean print_typeset_pdf (void);
+void typeset_current_layout (void);
 #endif /*PRINT_H */

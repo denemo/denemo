@@ -139,7 +139,7 @@ fluidsynth_feed_midi (unsigned char *event_data, size_t event_length)
       break;
     case SYS_EXCLUSIVE_MESSAGE1:
       // g_print("length %d\n", event_length);
-      fluid_synth_sysex (synth, event_data + 1, event_length - 1, NULL, 0, NULL, FALSE);
+      fluid_synth_sysex (synth, (const char*) event_data + 1, event_length - 1, NULL, 0, NULL, FALSE);
       break;
     default:
       g_warning ("MIDI message type %x not handled", type);
@@ -192,7 +192,7 @@ void
 choose_sound_font (GtkWidget * widget, GtkWidget * fluidsynth_soundfont)
 {
   GtkWidget *sf;
-  GtkFileFilter *filter;
+  //GtkFileFilter *filter;
 
   sf = gtk_file_chooser_dialog_new (_("Choose SoundFont File"), GTK_WINDOW (Denemo.window), GTK_FILE_CHOOSER_ACTION_OPEN, GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
 

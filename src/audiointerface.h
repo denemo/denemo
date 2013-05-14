@@ -270,4 +270,6 @@ extern GStaticMutex smfmutex;
 
 gboolean have_midi (void);
 
+void advance_time (gdouble seconds);
+
 #endif // AUDIOINTERFACE_H

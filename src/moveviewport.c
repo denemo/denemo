@@ -12,6 +12,7 @@
 #include "staffops.h"
 #include "utils.h"
 #include "displayanimation.h"
+#include "selectops.h"
 
 /**
  * update_hscrollbar should be called as a cleanup whenever

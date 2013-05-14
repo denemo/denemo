@@ -17,6 +17,7 @@
 #include "kbd-custom.h"
 #include "prefops.h"
 #include "mousing.h"
+#include "utils.h"
 
 #if 0
 static void
@@ -261,10 +262,10 @@ void
 set_cursor_number (GtkSpinButton * widget, gint * number)
 {
   *number = gtk_spin_button_get_value_as_int (widget);
-  static GdkCursor *cursor;
+  //static GdkCursor *cursor;
   //  if(cursor)
   //  g_object_unref(cursor);
-  cursor = gdk_cursor_new (*number);
+  /*cursor = */gdk_cursor_new (*number);
   //gdk_window_set_cursor(widget->window, cursor);   
 }
 

@@ -667,7 +667,6 @@ main ()
   int i, j;
   int n_denemo_commands = (sizeof (denemo_commands) / sizeof (struct name_and_function));
 
-  fprintf (scheme, "gchar *text;\n");
   for (i = 0; i < n_denemo_commands; i++)
     {
       if (fi != NULL)
@@ -743,7 +742,7 @@ main ()
                "  score_status(gui, TRUE);\n"
                "  displayhelper(gui);\n"
                "}\n"
-               "void InsertDur%d(GtkAction *action, gpointer param){\n"
+               "static void InsertDur%d(GtkAction *action, gpointer param){\n"
                "  DenemoGUI *gui = Denemo.gui;\n"
                "  highlight_duration(gui, %d);\n"
                "  gint mode = gui->mode;\n"

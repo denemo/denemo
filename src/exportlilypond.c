@@ -812,10 +812,7 @@ output_fakechord (DenemoScore * si, GString * fakechord, chord * pchord)
 static void
 insert_editable (GString ** pdirective, gchar * original, GtkTextIter * iter, DenemoGUI * gui, GString * lily_for_obj, DenemoTargetType type, gint movement_count, gint measurenum, gint voice_count, gint objnum, gint directive_index, gint midcoffset)
 {
-  GString *directive;
   gint directivenum = directive_index + 1;
-  if (pdirective)
-    directive = *pdirective;
   GtkTextChildAnchor *lilyanc = gtk_text_buffer_create_child_anchor (Denemo.textbuffer, iter);
   GtkTextIter back;
   back = *iter;
@@ -1035,7 +1032,6 @@ generate_lily_for_obj (DenemoGUI * gui, GtkTextIter * iter, DenemoObject * curob
                 g_string_append_printf (fakechords, "\\grace {");
             }
         /* prefix is before duration unless AFFIX override is set */
-        GList *g;
         directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, !lily_override, lily_for_obj, TARGET_CHORD, movement_count, measurenum, voice_count, objnum, 0);
 
         if (!lily_override)
@@ -2311,7 +2307,6 @@ output_score_to_buffer (DenemoGUI * gui, gboolean all_movements, gchar * partnam
 
   staffnode *curstaff;
   DenemoStaff *curstaffstruct;
-  DenemoContext curcontext = DENEMO_NONE;
 //  if(Denemo.gui->custom_scoreblocks==NULL)
   //   create_default_scoreblock();
   if ((gui->si->markstaffnum == 0) && Denemo.textbuffer && (gui->changecount == gui->lilysync) && !strcmp (gui->namespec, namespec))
@@ -2420,7 +2415,6 @@ output_score_to_buffer (DenemoGUI * gui, gboolean all_movements, gchar * partnam
       set_lily_name (name, movement_name);
       g_string_free (name, TRUE);
       //context = FALSE;
-      curcontext = DENEMO_NONE;
 
 
 
@@ -2747,7 +2741,9 @@ goto_lilypond_position (gint line, gint column)
 {
   DenemoGUI *gui = Denemo.gui;
   GtkTextIter enditer, iter;
+#ifdef G_OS_WIN32
   mswin ("goto_lilypond_position called for line %d column %d\n", line, column);
+#endif
   gtk_text_buffer_get_end_iter (Denemo.textbuffer, &enditer);
   gtk_text_buffer_get_start_iter (Denemo.textbuffer, &iter);
 
@@ -2789,8 +2785,9 @@ goto_lilypond_position (gint line, gint column)
           gui->si->target.staffnum = staffnum;
           gui->si->target.type = type;
           gui->si->target.directivenum = directivenum;
-          mswin ("goto_lilypond_position: anchor located and target set %d %d\n", measurenum, objnum);
-
+#ifdef G_OS_WIN32
+          g_print ("goto_lilypond_position: anchor located and target set %d %d\n", measurenum, objnum);
+#endif
           if (movementnum < 1)
             {
               g_warning ("Object %p has no location data\n", g_object_get_data (G_OBJECT (anchor), OBJECTNODE));
@@ -2811,7 +2808,9 @@ goto_lilypond_position (gint line, gint column)
               }
               gui->si->target.mid_c_offset = midcoffset;
             }
-          mswin ("goto_lilypond_position: Success\n");
+#ifdef G_OS_WIN32
+          g_print ("goto_lilypond_position: Success\n");
+#endif
           return TRUE;
         }
       else

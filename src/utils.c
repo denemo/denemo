@@ -12,6 +12,7 @@
 #include <fontconfig/fontconfig.h>
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
+#include <stdlib.h>
 #include "accwidths.h"
 #include <denemo/denemo.h>
 #include "notewidths.h"
@@ -19,6 +20,7 @@
 #include "smf.h"
 #include "print.h"
 #include "kbd-custom.h"
+#include "view.h"
 #include <signal.h>             /*for SIGTERM */
 
 #include "config.h"
@@ -554,7 +556,7 @@ setpixelmin (DenemoObject * theobj)
             if (thetone->showaccidental)
               theobj->space_before = MAX (theobj->space_before, thetone->position_of_accidental);
           }
-      if (chordval.is_reversealigned)
+      if (chordval.is_reversealigned){
         if (chordval.is_stemup)
           theobj->minpixelsalloted += headwidths[headtype];
         else if (!chordval.hasanacc)
@@ -564,6 +566,7 @@ setpixelmin (DenemoObject * theobj)
              remark upon noteheads to the left of the stem if there weren't
              any accidentals to position.  */
           theobj->space_before += headwidths[headtype];
+      }
       theobj->minpixelsalloted += EXTRAWIDTH;
       break;
     case TUPOPEN:
@@ -1445,7 +1448,7 @@ drop_object_info (void)
   return TRUE;
 }
 
-static
+static void
 append_directives_information (GString * selection, GList * directives)
 {
   do
@@ -1464,7 +1467,7 @@ append_directives_information (GString * selection, GList * directives)
 			if(directive->postfix)
 				 g_string_append_printf (selection, _("LilyPond inserted in postfix to this note is \"%s\"\n"), directive->postfix->str);
     }
-  while (directives = directives->next);
+  while (directives->next && (directives = directives->next));
 }
 
 void
@@ -1784,7 +1787,6 @@ write_status (DenemoGUI * gui)
 void
 write_input_status (void)
 {
-  DenemoGUI *gui = Denemo.gui;
   gtk_label_set_text (GTK_LABEL (Denemo.input_source), Denemo.input_filters->str);
 }
 
@@ -1830,13 +1832,6 @@ gchar *
 string_dialog_entry (DenemoGUI * gui, gchar * title, gchar * instruction, gchar * initial_value)
 {
   return string_dialog_entry_with_widget (gui, title, instruction, initial_value, NULL);
-}
-
-static void
-get_entry (GtkWidget * dialog, gint response, GtkWidget * entry)
-{
-
-
 }
 
 /* as string_dialog_entry() but with extra widget */
@@ -2015,7 +2010,6 @@ get_option (gchar * str, gint length)
   gtk_container_add (GTK_CONTAINER (content_area), vbox);
 
   gchar *opt;
-  gint i;
   GtkWidget *widget1, *widget;
   for (opt = str; (opt - str) < length; opt += strlen (opt) + 1)
     {

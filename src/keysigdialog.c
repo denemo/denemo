@@ -18,6 +18,7 @@
 #include "staffops.h"
 #include "utils.h"
 #include "keysigdialog.h"
+#include "pitchentry.h"
 
 #define KEYNAME_ARRAY_OFFSET 7
 
@@ -37,11 +38,11 @@ static gchar *uminorkeys[15] = { "A FLAT", "E FLAT", "B FLAT", "F", "C", "G", "D
 static gchar *umajorkeys[15] = { "C FLAT", "G FLAT", "D FLAT", "A FLAT", "E FLAT", "B FLAT", "F",
   "C", "G", "D", "A", "E", "B", "F SHARP", "C SHARP"
 };
-
+/* UNUSED
 static gchar *modes[7] = { "lydian", "ionian", "mixolydian", "dorian", "aeolian", "phrygian",
   "locrain"
 };
-
+*/
 typedef struct keysig_data
 {
   GtkWidget *checkbutton;
@@ -349,10 +350,8 @@ key_change (DenemoGUI * gui, actiontype action)
 
   keysig_data *keysig_widgets = (keysig_data *) g_malloc0 (sizeof (keysig_data));
   GtkWidget *label;
-  GtkWidget *radiobutton1, *radiobutton2, *radiobutton3;
+  GtkWidget *radiobutton1, *radiobutton2;
   GtkWidget *checkbutton;
-  DenemoScore *si = Denemo.gui->si;
-  DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
 
   static GList *majorlist = NULL;
   static GList *minorlist = NULL;

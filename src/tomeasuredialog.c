@@ -42,7 +42,6 @@ tomeasurenum (GtkAction * action, gpointer param)
     {
       GtkWidget *dialog;
       GtkWidget *label;
-      GtkWidget *box;
       GtkWidget *measure;
       static gint last_measure = 1;
 

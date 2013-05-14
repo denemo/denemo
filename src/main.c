@@ -143,7 +143,8 @@ segdialog (gchar * sigtype, gchar * message)
   gtk_widget_destroy (dialog);
 }
 #endif /* GTK_MAJOR_VERSION > 1 */
-static gchar *pidfile;
+
+/*UNUSED
 static void
 remove_pid_file (void)
 {
@@ -154,7 +155,7 @@ remove_pid_file (void)
       fclose (fp);
     }
 }
-
+*/
 /**
  * SIGUSR1 Handler to record the LilyPond text position the user has clicked on
  *
@@ -185,7 +186,7 @@ check_for_position (void)
       if (fp)
         {
           gint line, col;
-          gint error = fscanf (fp, "%d %d", &line, &col);
+          fscanf (fp, "%d %d", &line, &col);
           fclose (fp);
           g_print ("line %d column %d\n", line, col);
           position_data = FALSE;
@@ -368,7 +369,6 @@ main (int argc, char *argv[])
 #endif /* end of else not windows */
 
   g_setenv ("LYEDITOR", "denemoclient %(line)s %(column)s", FALSE);
-  GError *error = NULL;
   /* glib/gtk initialization */
   if (!g_thread_supported ())
     {
@@ -409,10 +409,6 @@ process_command_line (int argc, char **argv)
 {
 
   gint opts;
-  GDir *dir = NULL;
-  gchar *filename;
-  GError *error = NULL;
-  gchar *commandsetfile = NULL;
   /* parse command line and display help messages */
   gchar *helptext = g_strconcat (_("\nGNU Denemo version "), VERSION, ".\n\n",
                                  _("\
@@ -473,10 +469,8 @@ Report bugs to http://www.denemo.org\n"), NULL);
           Denemo.scheme_file = g_strdup (optarg);
           break;
         case 'c':
-          commandsetfile = g_build_filename (get_data_dir (), "actions", optarg, NULL);
           break;
         case 'k':
-          commandsetfile = g_build_filename (locatedotdenemo (), "actions", optarg, NULL);
           break;
         case 'n':
           Denemo.non_interactive = TRUE;

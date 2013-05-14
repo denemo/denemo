@@ -21,7 +21,6 @@ void
 about (GtkAction * action, gpointer callback_data)
 {
   GtkWidget *dialog;
-  DenemoGUI *gui = (DenemoGUI *) callback_data;
   const char *authors[] = { "Richard Shann", "Jeremiah Benham", "Matthew Hiller", "Adam Tee", "Nils Gey", NULL };
 
   dialog = gtk_about_dialog_new ();
@@ -53,7 +52,6 @@ void
 browse_manual (GtkAction * action, DenemoScriptParam * param)
 {
   GET_1PARAM (action, param, url);
-  DenemoGUI *gui = Denemo.gui;
   gboolean retval;
   GError *error = NULL;
 

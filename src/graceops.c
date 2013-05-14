@@ -7,6 +7,8 @@
  *
  */
 #include "graceops.h"
+#include "selectops.h"
+#include "commandfuncs.h"
 #include <denemo/denemo.h>
 #include <string.h>
 #include "utils.h"

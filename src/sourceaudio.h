@@ -41,4 +41,5 @@ void stop_audio_playing (void);
 //get the timing of the next measure, removing it from the list
 gdouble get_audio_timing (void);
 gboolean set_lead_in (gdouble secs);
+gboolean open_source_audio_file (void);
 #endif

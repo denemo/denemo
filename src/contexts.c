@@ -72,8 +72,9 @@ find_context_of_object (DenemoScore * si, gint thetype)
         curobj = curobj->prev;
       if (curobj == NULL)
         {                       /* go back to preceding measure */
-          while (curmeasure = curmeasure->prev)
+          while (curmeasure->prev)
             {
+              curmeasure = curmeasure->prev;
               curobj = lastobjnode (curmeasure);
               if (curobj)
                 break;

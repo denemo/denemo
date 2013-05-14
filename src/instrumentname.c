@@ -38,6 +38,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <glib/gprintf.h>
 #include "ctype.h"
 
 /****************************************************************/
@@ -415,7 +416,7 @@ select_program (char *instr)
     }
 
 #ifdef DEBUG
-  g_print ("For %s choose prog %d\n", input_instr, winner & 127);
+  g_printf ("For %s choose prog %d\n", input_instr, winner & 127);
 #endif
   return winner & 127;
 }

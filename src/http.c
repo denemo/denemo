@@ -66,14 +66,20 @@ static gchar *
 process_http (int sockfd, char *host, char *page, gchar * other, char *poststr)
 {
   GString *gstr = g_string_new ("");
-  char sendline[MAXLINE + 1], recvline[MAXLINE + 1];
+  char recvline[MAXLINE + 1];
   ssize_t n;
 
   GString *out = g_string_new ("");
-  g_string_append_printf (out, "POST %s HTTP/1.0\r\n" "Host: %s\r\n%s" "Content-type: application/x-www-form-urlencoded\r\n" "Content-length: %d\r\n\r\n" "%s", page, host, other, strlen (poststr), poststr);
+  g_string_append_printf (out, 
+                          "POST %s HTTP/1.0\r\n" 
+                          "Host: %s\r\n%s" 
+                          "Content-type: application/x-www-form-urlencoded\r\n" 
+                          "Content-length: %zu\r\n\r\n" 
+                          "%s", 
+                          page, host, other, strlen (poststr), poststr);
 
   //g_print("about to write %s\n", out->str);
-  gint error = write (sockfd, out->str, out->len);
+  write (sockfd, out->str, out->len);
   g_string_free (out, TRUE);
 
   while ((n = read (sockfd, recvline, MAXLINE)) > 0)

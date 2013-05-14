@@ -23,13 +23,14 @@
 #include "lyric.h"
 #include "midi.h"
 #include "displayanimation.h"
+#include "moveviewport.h"
 
 #define EXCL_WIDTH 3
 #define EXCL_HEIGHT 13
 
 static GdkPixbuf *StaffPixbuf, *StaffPixbufSmall, *StaffGoBack, *StaffGoForward;
 static DenemoObject *Startobj, *Endobj;
-static layout_needed = TRUE;    //Set FALSE when further call to draw_score(NULL) is not needed.
+static gboolean layout_needed = TRUE;    //Set FALSE when further call to draw_score(NULL) is not needed.
 void
 initialize_playhead (void)
 {

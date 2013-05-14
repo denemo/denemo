@@ -81,4 +81,5 @@ DECL_PUT_FIELD (chord, prefix) DECL_PUT_FIELD (chord, postfix) DECL_PUT_FIELD (c
 #undef DECL_GET_FIELD
 #undef DECL_PUT_INT
 #undef DECL_GET_INT
+void widget_for_directive_menu (DenemoDirective * directive, void fn (), GtkMenu * menu);
 #endif

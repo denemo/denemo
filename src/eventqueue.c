@@ -195,9 +195,9 @@ event_queue_read_output (event_queue_t * queue, unsigned char *event_buffer, siz
       if (vec[0].len)
         {
           guchar length;
-          jack_ringbuffer_read (queue->immediate, (char *) &length, 1);
+          jack_ringbuffer_read (queue->immediate, (char*) &length, 1);
           g_assert (length < 255);
-          jack_ringbuffer_read (queue->immediate, event_buffer, length);
+          jack_ringbuffer_read (queue->immediate, (char*) event_buffer, length);
           *event_length = length;
           *event_time = 0.0;
           return TRUE;

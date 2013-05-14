@@ -214,7 +214,7 @@ select_area_motion_action (GtkWidget * window, GdkRectangle * rect, GdkRectangle
 
 }
 
-
+gboolean
 select_area_button_press (GtkWidget * window, GdkEventButton * event, select_area_filter_data * data)
 {
   gdouble xroot, yroot;
@@ -383,7 +383,7 @@ screenshot_get_pixbuf (GdkWindow * window, GdkRectangle * rectangle)
   GdkWindow *root;
   GdkPixbuf *screenshot = NULL;
   gint x_orig, y_orig;
-  gint width, real_width, height, real_height;
+  gint width, height;
   root = gdk_get_default_root_window ();
 
   if (rectangle)

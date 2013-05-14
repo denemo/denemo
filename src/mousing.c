@@ -15,6 +15,9 @@
 #include "moveviewport.h"
 #include "mousing.h"
 #include "fluid.h"
+#include "draw.h"
+#include "view.h"
+#include "audiointerface.h"
 
 static gboolean lh_down;
 
@@ -561,7 +564,6 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
     }
   else if (pi.nextmeasure && pi.the_obj)
     {
-      DenemoObject *theobj = pi.the_obj->data;
       if ((pi.the_obj->next == NULL) && (pi.offend))
         {
           moveto_currentmeasurenum (gui, gui->si->rightmeasurenum + 1);
@@ -753,7 +755,8 @@ scorearea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
         warningmessage ("This is the last measure");
       break;
 
-
+    default:
+      break;
     }
   displayhelper (Denemo.gui);
   return FALSE;

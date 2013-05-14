@@ -11,6 +11,9 @@
 #include "commandfuncs.h"
 #include "objops.h"
 #include "staffops.h"
+#include "tupletops.h"
+#include "selectops.h"
+#include "pitchentry.h"
 #include <string.h>
 
 void initkeyaccs (gint * accs, gint number);
@@ -148,7 +151,6 @@ void
 initkeyaccs (gint * accs, gint number)
 {
   int index;
-  guint i;
   memset (accs, 0, SEVENGINTS);
   if (number > 0)
     for (index = 3; number; number--, index = (index + 4) % 7)

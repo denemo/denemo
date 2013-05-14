@@ -39,7 +39,7 @@ typedef struct papersetupcb
   GtkWidget *fontsize;
   GtkWidget *lilypond;
 } papersetupcb;
-
+/* UNUSED
 static void
 cell_edited (GtkCellRendererText * cellrenderertext, gchar * path_string, gchar * new_text, GtkTreeModel * model)
 {
@@ -50,7 +50,7 @@ cell_edited (GtkCellRendererText * cellrenderertext, gchar * path_string, gchar 
   gtk_list_store_set (GTK_LIST_STORE (model), &iter, COL_VALUE, new_text, -1);
   gtk_tree_path_free (path);
 }
-
+*/
 static gboolean
 abandon_editprops_custom_scoreblock (DenemoGUI * gui)
 {
@@ -120,13 +120,7 @@ score_properties_dialog (GtkAction * action, DenemoScriptParam * param)
     return;
   GtkWidget *dialog;
   GtkWidget *notebook;
-  GtkWidget *scrolled_window;
   GtkWidget *label;
-  GtkWidget *table;
-  GtkWidget *list;
-  GtkListStore *list_store = NULL;
-  GtkTreeIter iter;
-  GtkCellRenderer *renderer;
   GtkWidget *measure_width;
   GtkWidget *staff_spacing;
   gint i;
@@ -310,18 +304,6 @@ struct callbackdata
   // GtkWidget *layout;
   // GtkWidget *extra;  
 };
-
-/**
- * Function to set the properties
- *
- */
-static void
-set_movement_props (gpointer data)
-{
-
-}
-
-
 
 /**
  * Creates a dialog for setting properties of current movement gui->si

@@ -18,6 +18,8 @@
 //      MA 02110-1301, USA.
 #include <string.h>
 #include "source.h"
+#include "view.h"
+#include "utils.h"
 #include <evince-view.h>
 
 typedef struct fileview
@@ -223,10 +225,10 @@ get_view (gchar * filename)
 
 
   GtkAdjustment *viewvadjustment = GTK_ADJUSTMENT (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
-  GtkWidget *viewvscrollbar = gtk_vscrollbar_new (GTK_ADJUSTMENT (viewvadjustment));
+  gtk_vscrollbar_new (GTK_ADJUSTMENT (viewvadjustment));
 
   GtkAdjustment *viewhadjustment = GTK_ADJUSTMENT (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
-  GtkWidget *viewhscrollbar = gtk_hscrollbar_new (GTK_ADJUSTMENT (viewhadjustment));
+  gtk_hscrollbar_new (GTK_ADJUSTMENT (viewhadjustment));
 
   GtkWidget *score_and_scroll_hbox = gtk_scrolled_window_new (viewhadjustment, viewvadjustment);
   gtk_box_pack_start (GTK_BOX (main_vbox), score_and_scroll_hbox, TRUE, TRUE, 0);

@@ -131,7 +131,6 @@ void
 add_barline (GtkWidget * widget, gpointer data)
 {
   struct callbackdata *cbdata = (struct callbackdata *) data;
-  DenemoScore *si = cbdata->gui->si;
 #if GTK_MAJOR_VERSION==3
   gchar *thetext = (gchar *) (GTK_COMBO_BOX_TEXT (cbdata->combo));
 #else

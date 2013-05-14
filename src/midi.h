@@ -64,5 +64,8 @@ gint get_midi_port (DenemoStaff * staff);
 
 void change_tuning (gdouble * cents);
 int noteon_key (smf_event_t * event);
-
+void toggle_paused ();
+void play_adjusted_midi_event (gchar * buf);
+gboolean set_midi_capture (gboolean set);
+void process_midi_event (gchar * buf);
 #endif // MIDI_H

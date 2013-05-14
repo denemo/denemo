@@ -8,7 +8,6 @@
 #define DENEMO_MERGING (1<<0)
 #define DENEMO_INTERACTIVE (1<<1)
 
-static void show_type (GtkWidget * widget, gchar * message);
 /*
  * translate a keybinding from the format used in denemo keymaprc file to the
  * format understood by gtk_accelerator_parse. The output is an allocated string
@@ -101,7 +100,7 @@ translate_binding_gtk_to_dnm (const gchar * gtk_binding)
       return res;
     }
 }
-
+/* UNUSED
 static gint
 get_state (gchar * key)
 {
@@ -123,7 +122,7 @@ get_state (gchar * key)
 
   return ret;
 }
-
+*/
 /* add ui elements for menupath if missing */
 static void
 instantiate_menus (gchar * menupath)

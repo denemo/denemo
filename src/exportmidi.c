@@ -59,8 +59,10 @@
 #include <denemo/denemo.h>
 #include "exportmidi.h"
 #include "smf.h"
+#include "smf_private.h"
 #include "instrumentname.h"
 #include "audiointerface.h"
+#include "view.h"
 
 /* 
  * only for developers
@@ -143,7 +145,7 @@ string_to_vol (char *dynamic, int default_vol)
  *	
  *	returns a value within +- maxdev
  */
-
+/* UNUSED
 static int
 i_random (int *accumulate, int maxdev)
 {
@@ -160,14 +162,14 @@ i_random (int *accumulate, int maxdev)
 
   return rnd / 2;
 }
-
+*/
 /****************************************************************/
 
 /**
  *	limit a value to be within limits
  *	(simple first approach)
  */
-
+/* UNUSED
 static int
 compress (int range, int invalue)
 {
@@ -187,7 +189,7 @@ compress (int range, int invalue)
 
   return outvalue & 0x7F;
 }
-
+*/
 /****************************************************************/
 
 /**
@@ -224,7 +226,7 @@ static smf_event_t *
 midi_change_event (int type, int chan, int val)
 {
   smf_event_t *event = smf_event_new ();
-  gchar *buffer = malloc (2);
+  guchar *buffer = malloc (2);
   event->midi_buffer = buffer;
   event->midi_buffer_length = 2;
   *buffer++ = type | chan;
@@ -241,7 +243,7 @@ static smf_event_t *
 midi_timesig (int upper, int lower)
 {
   smf_event_t *event = smf_event_new ();
-  gchar *buffer = malloc (7);
+  guchar *buffer = malloc (7);
   event->midi_buffer = buffer;
   event->midi_buffer_length = 7;
   div_t n;
@@ -266,7 +268,7 @@ static smf_event_t *
 midi_keysig (gint key, gint isminor)
 {
   smf_event_t *event = smf_event_new ();
-  gchar *buffer = malloc (5);
+  guchar *buffer = malloc (5);
   event->midi_buffer = buffer;
   event->midi_buffer_length = 5;
   *buffer++ = 0xff;
@@ -286,7 +288,7 @@ midi_tempo (long tempo)
 {
   long midi_tempo;
   smf_event_t *event = smf_event_new ();
-  gchar *buffer = malloc (6);
+  guchar *buffer = malloc (6);
   event->midi_buffer = buffer;
   event->midi_buffer_length = 6;
   if (tempo == 0)
@@ -298,7 +300,7 @@ midi_tempo (long tempo)
   *buffer++ = 3;
   midi_tempo = 60000000 / tempo;
   *buffer++ = (midi_tempo >> 16) & 255;
-  *buffer++ = (midi_tempo >> 8) & 255, (midi_tempo >> 0) & 255;
+  *buffer++ = (midi_tempo >> 8) & 255/*, (midi_tempo >> 0) & 255*/;
   return event;
 }
 
@@ -364,6 +366,7 @@ fmt_ticks (long t)
   return answer;
 }
 
+#if slurdebug
 /**
  * Output slur descriptions to the given file
  * 
@@ -389,6 +392,7 @@ print_slurs (FILE * fd, int *tab, int status, int t_read, int t_written, char *t
   /* not used */
   return 0;
 }
+#endif
 
 #define STATE_NONE	0
 #define STATE_FIRST	1
@@ -632,7 +636,7 @@ slur_off_p (int *table, int notenum)
 {
   return (table[notenum] & FLG_NOTE_OFF);
 }
-
+/* UNUSED
 static int
 slur_staccato_p (int *table, int notenum)
 {
@@ -644,32 +648,32 @@ slur_staccatissimo_p (int *table, int notenum)
 {
   return !(table[notenum] & FLG_STACCATISSIMO);
 }
-
+*/
 /****************************************************************/
 
 /**
  * compute the amount of extra velocity to be added to a note
  */
-
+/* UNUSED
 static int
 compute_beat (long ticks, long ticks_in_a_beat, long ticks_in_a_measure, int length, int factor)
 {
-  /* give extra beat only to short notes */
+  // give extra beat only to short notes
   if (length < ticks_in_a_measure / 2)
     {
       if (ticks == 0)
         {
-          /* put more emphasis on the first beat */
+          // put more emphasis on the first beat
           return factor;
         }
       else if (ticks % ticks_in_a_beat)
         {
-          /* put less emphasis on off beat notes */
+          // put less emphasis on off beat notes
           return -factor;
         }
       else
         {
-          /* leave the rest alone */
+          // leave the rest alone
           return 0;
         }
     }
@@ -678,7 +682,7 @@ compute_beat (long ticks, long ticks_in_a_beat, long ticks_in_a_measure, int len
       return 0;
     }
 }
-
+*/
 /****************************************************************/
 
 /**
@@ -762,16 +766,10 @@ directive_get_midi_buffer (DenemoDirective * directive, gint * pnumbytes, gint c
       bytes = substitute_midi_values (directive->midibytes->str, channel, volume);
       //g_print("Got %s as midi bytes\n", bytes);
       char *next;
-      char val;
       gint i, numbytes;
       errno = 0;
       for (i = 0, next = bytes; *next; next++)
         {
-          val = strtol (next, &next, 0);
-#if 0
-          if (i == 0 && val == 0)
-            errno = EINVAL;
-#endif
           if (errno)
             {
               g_warning ("Bytes %s bad format for MIDI\n", bytes);
@@ -919,12 +917,12 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
   gint enshift;
   gint mid_c_offset;
   GList *curtone;
-  gdouble fraction;
+  //gdouble fraction;
 
   gint measurenum, last = 0;
 
   /* variables for generating music */
-  int i;
+  //int i;
   int d, n;
 
   long ticks_read;
@@ -951,9 +949,9 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
   int measurewidth;
 
   /* output velocity and timing modulation */
-  int rand_sigma = 0;
-  int rand_delta;
-  int beat = 0;
+  //int rand_sigma = 0;
+  //int rand_delta;
+  //int beat = 0;
 
   /* to handle user preferences */
   char *envp;
@@ -969,12 +967,12 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
   tupopen savedtuplet;
 
   /* used to insert track sizes in the midi file */
-  long track_start_pos[MAX_TRACKS];
-  long track_end_pos[MAX_TRACKS];
+  //long track_start_pos[MAX_TRACKS];
+  //long track_end_pos[MAX_TRACKS];
 
   /* statistics */
   time_t starttime;
-  time_t endtime;
+  //time_t endtime;
 
   call_out_to_guile ("(InitializeMidiGeneration)");
 
@@ -998,13 +996,13 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
   time (&starttime);
 
   smf_t *smf = smf_new ();
-  int dummy1 = smf_set_ppqn (smf, MIDI_RESOLUTION);
+  smf_set_ppqn (smf, MIDI_RESOLUTION);
 
 /*
  * end of headers and meta events, now for some real actions
  */
 
-  fraction = 1 / g_list_length (si->thescore);
+  //fraction = 1 / g_list_length (si->thescore);
 
   /* iterate over all tracks in file */
   printf ("\nsi->stafftoplay in exportmidi = %i", si->stafftoplay);
@@ -1193,7 +1191,6 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 	 *******************************************/
               int tmpstaccato = 0, tmpstaccatissimo = 0;
               gboolean skip_midi = FALSE;
-              GList *tmp;
 
               switch (curobj->type)
                 {
@@ -1360,7 +1357,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
                       slur_update (&slur_status, chordval.slur_begin_p, chordval.slur_end_p);
 
                       /* compute beat to add to note velocity */
-                      beat = compute_beat (ticks_read - ticks_at_bar, beats2ticks (1, timesigupper, timesiglower), bars2ticks (1, timesigupper, timesiglower), duration, vel_beatfact);
+                      //beat = compute_beat (ticks_read - ticks_at_bar, beats2ticks (1, timesigupper, timesiglower), bars2ticks (1, timesigupper, timesiglower), duration, vel_beatfact);
 
             /************************
 	     * begin chord read loop 
@@ -1369,7 +1366,6 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
                       for (curtone = chordval.notes; curtone; curtone = curtone->next)
                         {
                           note *thenote = (note *) curtone->data;
-                          GList *g;
 
 #ifdef NOTE_MIDI_OVERRIDES_IMPLEMENTED
                           for (g = thenote->directives; g; g = g->next)
@@ -1395,7 +1391,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 
                               if (notenumber > 127)
                                 {
-                                  g_warning ("Note out of range\n", notenumber = 60);
+                                  g_warning ("Note out of range: %d\n", notenumber = 60);
                                 }
                               slur_note (note_status, slur_status, notenumber, tmpstaccato, tmpstaccatissimo, chordval.is_tied);
                             }
@@ -1431,7 +1427,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
                             }
 
                           /* compute velocity delta */
-                          rand_delta = i_random (&rand_sigma, vel_randfact);
+                          //rand_delta = i_random (&rand_sigma, vel_randfact);
                           /* write note on/off */
                           if (slur_on_p (note_status, n))
                             {
@@ -1761,10 +1757,9 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
    ********/
   if (thefilename)
     {
-      int dummy2;
       if (Denemo.gui->si->recorded_midi_track)
         smf_add_track (smf, Denemo.gui->si->recorded_midi_track);
-      dummy2 = smf_save (smf, (const char *) thefilename);
+      smf_save (smf, (const char *) thefilename);
       if (Denemo.gui->si->recorded_midi_track)
         smf_track_remove_from_smf (Denemo.gui->si->recorded_midi_track);
     }

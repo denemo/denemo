@@ -53,7 +53,6 @@ insert_dynamic (GtkAction * action, gpointer param)
   GtkWidget *combo;
   GtkWidget *label;
   GtkWidget *content;
-  GList *directivelist = NULL;
   gint i;
 
   dialog = gtk_dialog_new_with_buttons (_("Insert Dynamic"), NULL, (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_STOCK_CANCEL, NULL);
@@ -69,6 +68,7 @@ insert_dynamic (GtkAction * action, gpointer param)
 
   gtk_combo_box_set_active (GTK_COMBO_BOX (combo), 0);
 #else
+  GList *directivelist = NULL;
   combo = gtk_combo_new ();
   if (!directivelist)
     for (i = 0; i < 15; i++)

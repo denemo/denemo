@@ -22,6 +22,7 @@
 #include "lilydirectives.h"
 #include "calculatepositions.h"
 #include "scorelayout.h"
+#include "pitchentry.h"
 #include <string.h>
 
 
@@ -232,7 +233,6 @@ addContext (gchar * string)
 {
   if (string == NULL)
     return;
-  static gboolean pianostaff = FALSE, groupstaff = FALSE, choirstaff = FALSE;
   if ((!strcmp (string, "PianoStaff")) || (!strcmp (string, "ChoirStaff")) || (!strcmp (string, "GroupStaff")))
     {
       g_warning ("Old context specs found - no longer supported. You will have to reset the Staff contexts\n");
@@ -768,7 +768,6 @@ parseNote (xmlNodePtr noteElem, xmlNsPtr ns, DenemoScore * si, DenemoObject * ch
 {
   xmlNodePtr childElem;
   gint middleCOffset = 0, accidental = 0, noteHeadType = DENEMO_NORMAL_NOTEHEAD;
-  gboolean showAccidental = FALSE;
   gchar *accidentalName, *showAccidentalProp, *noteHeadName;
   GList *directives = NULL;
 
@@ -813,11 +812,7 @@ parseNote (xmlNodePtr noteElem, xmlNsPtr ns, DenemoScore * si, DenemoObject * ch
             showAccidentalProp = (gchar *) xmlGetProp (childElem, (xmlChar *) "show");
             if (showAccidentalProp != NULL)
               {
-                if (strcmp (showAccidentalProp, "true") == 0)
-                  showAccidental = TRUE;
-                else if (strcmp (showAccidentalProp, "false") == 0)
-                  showAccidental = FALSE;
-                else
+                if (strcmp (showAccidentalProp, "true") != 0 && strcmp (showAccidentalProp, "false") != 0)
                   {
                     g_warning ("Unknown show accidental attribute value " "\"%s\" (should be true or false); " "defaulting to false", showAccidentalProp);
                   }
@@ -900,7 +895,7 @@ parseBaseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoScore * si)
           show = FALSE;
         }
     }
-  gchar *grace_type = xmlGetProp (chordElem, (xmlChar *) "grace");
+  gchar *grace_type = (gchar*) xmlGetProp (chordElem, (xmlChar *) "grace");
   gint grace = (grace_type ? (strcmp (grace_type, "true") ? ACCIACCATURA : GRACED_NOTE) : 0);   //we only store this for grace notes
   g_free (grace_type);
 
@@ -1044,7 +1039,7 @@ static GdkPixbuf *
 parseSource (xmlNodePtr parentElem, xmlNsPtr ns)
 {
   GError *error = NULL;
-  gchar *cdata = xmlNodeListGetString (parentElem->doc, parentElem->xmlChildrenNode, 1);
+  gchar *cdata = (gchar*) xmlNodeListGetString (parentElem->doc, parentElem->xmlChildrenNode, 1);
   gsize len;
   guchar *buf = g_base64_decode (cdata, &len);
 // xml free(cdata);
@@ -2387,7 +2382,7 @@ static gint
 parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
 {
   xmlNodePtr childElem, objElem, notesElem = NULL;
-  DenemoObject *curObj, *prevChord = NULL;
+  DenemoObject *curObj;
   gboolean startedBeam = FALSE;
   gint currentClef = ((DenemoStaff *) si->currentstaff->data)->clef.type;
   GList *slurEndChordElems = NULL;
@@ -2459,7 +2454,6 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
                       curObj->isend_beamgroup = FALSE;
                       startedBeam = FALSE;
                     }
-                  prevChord = curObj;
                 }
               else if (ELEM_NAME_EQ (objElem, "clef"))
                 {
@@ -2528,7 +2522,6 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
                           curObj->isend_beamgroup = FALSE;
                           startedBeam = FALSE;
                         }
-                      prevChord = curObj;
                     }
                 }
               else if (ELEM_NAME_EQ (objElem, "stem-directive"))

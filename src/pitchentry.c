@@ -11,7 +11,9 @@
 #include "pitchentry.h"
 #include "view.h"
 #include "audiointerface.h"
-
+#include "measureops.h"
+#include "pitchrecog.h"
+#include "audiocapture.h"
 
 #define  DEFAULT_HIGH (1400.0)
 #define  DEFAULT_LOW (60.0)
@@ -47,7 +49,7 @@ static gdouble highest_pitch = DEFAULT_HIGH;
 static gboolean repeated_notes_allowed;
 static gdouble transposition_required = 1.0;
 
-static enharmonic_position = 0;
+static int enharmonic_position = 0;
 
 typedef struct notespec
 {
@@ -321,8 +323,6 @@ notenames (gpointer p)
 gchar *
 determine_interval (gint bass, gint harmony, gboolean * status)
 {
-  gint bass_octave, harmony_octave;
-  gdouble deviation;
   gint semitones = harmony - bass;
   gint *accs = ((DenemoStaff *) Denemo.gui->si->currentstaff->data)->keysig.accs;
   notepitch bassnote = PR_temperament->notepitches[bass % 12];
@@ -757,6 +757,7 @@ clear_overlay (GtkAction * action, gpointer param)
 /*
  * clear the references to tones (ie any overlay) in the currentmeasure
  */
+/* UNUSED
 static void
 clear_tone_nodes_currentmeasure (DenemoScore * si)
 {
@@ -771,7 +772,7 @@ clear_tone_nodes_currentmeasure (DenemoScore * si)
         }
     }
 }
-
+*/
 
 
 gboolean
@@ -964,7 +965,7 @@ pitchentry (DenemoGUI * gui)
                   enter_note_in_score (gui, found, octave);
                   if (gui->mode & INPUTRHYTHM)
                     {
-                      static beep = FALSE;
+                      static gboolean beep = FALSE;
                       gint measure = gui->si->currentmeasurenum;
                       scheme_next_note (NULL);
                       if (measure != gui->si->currentmeasurenum)
@@ -1110,7 +1111,7 @@ window_destroy_callback (void)
   return FALSE;
 }
 
-static
+static gboolean
 stop_tuning_callback ()
 {
   PR_tuning = FALSE;

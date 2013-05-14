@@ -49,7 +49,7 @@ score_mwidth_change (GtkAction * action, gpointer param)
   GtkWidget *dialog;
   GtkWidget *label;
   GtkWidget *textentry;
-  GtkWidget *okbutton;
+//  GtkWidget *okbutton;
 //  GtkWidget *cancelbutton;
   static GString *entrycontent = NULL;
   static struct callbackdata cbdata;

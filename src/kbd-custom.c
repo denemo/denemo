@@ -31,6 +31,9 @@
 #include "playback.h"
 #include "keyboard.h"
 #include "file.h"
+#include "view.h"
+#include "keymapio.h"
+#include "utils.h"
 
 #define DENEMO_TWO_KEY_SEPARATOR ","
 #if 0                           //GTK_MINOR_VERSION < 10
@@ -546,6 +549,7 @@ dnm_accelerator_name (guint accelerator_key, GdkModifierType accelerator_mods)
  * Warns user that there was no keymap available to load  
  *
  */
+/* UNUSED
 static void
 no_map_dialog ()
 {
@@ -559,7 +563,7 @@ no_map_dialog ()
   gtk_dialog_run (GTK_DIALOG (dialog));
   gtk_widget_destroy (dialog);
 }
-
+*/
 /*
  * Allocates a keymap.
  * action_group_name is the name of the group of actions for the commands
@@ -610,7 +614,6 @@ free_keymap (keymap * the_keymap)
 void
 register_command (keymap * the_keymap, GtkAction * action, const gchar * name, const gchar * label, const gchar * tooltip, gpointer callback)
 {
-  guint i;
   guint *value;
   GtkTreeIter iter = { 0, NULL, NULL, NULL };
   GtkListStore *bindings;
@@ -798,7 +801,6 @@ keymap_foreach_command_binding (keymap * the_keymap, guint command_idx, GFunc fu
   command_row row;
   gchar *binding;
   GtkTreeIter iter;
-  GtkListStore *bindings;
   GtkTreeModel *model_bind;
   if (!keymap_get_command_row (the_keymap, &row, command_idx))
     return;
@@ -1045,8 +1047,6 @@ void
 update_accel_labels (keymap * the_keymap, guint command_idx)
 {
   GtkAction *action;
-  GtkActionGroup *action_group;
-  GList *guis;
 
   //Getting the accel
   const gchar *command_name = lookup_name_from_idx (the_keymap, command_idx);
@@ -1212,7 +1212,6 @@ add_keybinding_bindings_helper (keymap * the_keymap, guint command_idx, const gc
 
   if (!keymap_get_command_row (the_keymap, &row, command_idx))
     return;
-  GtkTreeModel *model_bind = GTK_TREE_MODEL (row.bindings);
 
   if (pos == POS_FIRST)
     gtk_list_store_prepend (row.bindings, &iter);
@@ -1303,9 +1302,7 @@ gint
 add_keybinding_to_idx (keymap * the_keymap, gint keyval, GdkModifierType state, guint command_idx, ListPosition pos)
 {
   gint old_command_idx;
-  gpointer value;
   gchar *kb_name;
-  gboolean flag_update_accel;
   kb_name = dnm_accelerator_name (keyval, state);
   old_command_idx = add_named_binding_to_idx (the_keymap, kb_name, command_idx, pos);
   g_free (kb_name);
@@ -1317,9 +1314,7 @@ gint
 add_twokeybinding_to_idx (keymap * the_keymap, gint first_keyval, GdkModifierType first_state, gint keyval, GdkModifierType state, guint command_idx, ListPosition pos)
 {
   gint old_command_idx;
-  gpointer value;
   gchar *kb_name;
-  gboolean flag_update_accel;
   kb_name = g_strdup_printf ("%s" DENEMO_TWO_KEY_SEPARATOR "%s", dnm_accelerator_name (first_keyval, first_state), dnm_accelerator_name (keyval, state));
   old_command_idx = add_named_binding_to_idx (the_keymap, kb_name, command_idx, pos);
   g_free (kb_name);
@@ -1625,36 +1620,37 @@ load_default_keymap_file (void)
   g_free (systemwide);
 }
 
+/* UNUSED
 static GScannerConfig scanner_config_template = {
-  (" \t\r\n") /* cset_skip_characters */ ,
-  (G_CSET_a_2_z "_0123456789/." G_CSET_A_2_Z) /* cset_identifier_first */ ,
-  (G_CSET_a_2_z "_0123456789/." G_CSET_A_2_Z G_CSET_LATINS G_CSET_LATINC) /* cset_identifier_nth */ ,
-  ("#\n") /* cpair_comment_single */ ,
+  (" \t\r\n") // cset_skip_characters
+  ,(G_CSET_a_2_z "_0123456789/." G_CSET_A_2_Z) // cset_identifier_first
+  ,(G_CSET_a_2_z "_0123456789/." G_CSET_A_2_Z G_CSET_LATINS G_CSET_LATINC) // cset_identifier_nth
+  ,("#\n") // cpair_comment_single
 
-  FALSE /* case_sensitive */ ,
+  ,FALSE // case_sensitive
 
-  TRUE /* skip_comment_multi */ ,
-  TRUE /* skip_comment_single */ ,
-  TRUE /* scan_comment_multi */ ,
-  TRUE /* scan_identifier */ ,
-  TRUE /* scan_identifier_1char */ ,
-  FALSE /* scan_identifier_NULL */ ,
-  TRUE /* scan_symbols */ ,
-  FALSE /* scan_binary */ ,
-  FALSE /* scan_octal */ ,
-  FALSE /* scan_float */ ,
-  FALSE /* scan_hex */ ,
-  FALSE /* scan_hex_dollar */ ,
-  TRUE /* scan_string_sq */ ,
-  TRUE /* scan_string_dq */ ,
-  FALSE /* numbers_2_int */ ,
-  FALSE /* int_2_float */ ,
-  TRUE /* identifier_2_string */ ,
-  TRUE /* char_2_token */ ,
-  TRUE /* symbol_2_token */ ,
-  FALSE                         /* scope_0_fallback */
+  ,TRUE // skip_comment_multi
+  ,TRUE // skip_comment_single
+  ,TRUE // scan_comment_multi
+  ,TRUE // scan_identifier
+  ,TRUE // scan_identifier_1char
+  ,FALSE //scan_identifier_NULL
+  ,TRUE // scan_symbols
+  ,FALSE // scan_binary
+  ,FALSE // scan_octal
+  ,FALSE // scan_float
+  ,FALSE // scan_hex
+  ,FALSE // scan_hex_dollar
+  ,TRUE // scan_string_sq
+  ,TRUE // scan_string_dq
+  ,FALSE // numbers_2_int
+  ,FALSE // int_2_float
+  ,TRUE // identifier_2_string
+  ,TRUE // char_2_token
+  ,TRUE // symbol_2_token
+  ,FALSE                         // scope_0_fallback
 };
-
+*/
 /**
  * Callback for saving the keymap to a given file
  *
@@ -1774,6 +1770,7 @@ command_hidden_data_function (GtkTreeViewColumn * col, GtkCellRenderer * rendere
   g_object_set (renderer, "active", hidden, NULL);
 }
 
+/* UNUSED
 static void
 command_deleted_data_function (GtkTreeViewColumn * col, GtkCellRenderer * renderer, GtkTreeModel * model, GtkTreeIter * iter, gpointer user_data)
 {
@@ -1784,7 +1781,7 @@ command_deleted_data_function (GtkTreeViewColumn * col, GtkCellRenderer * render
   deleted = g_object_get_data (G_OBJECT (action), "deleted") ? TRUE : FALSE;
   g_object_set (renderer, "active", deleted, NULL);
 }
-
+*/
 static gboolean
 search_equal_func (GtkTreeModel * model, gint column, const gchar * key, GtkTreeIter * iter, gpointer search_data)
 {
@@ -1816,6 +1813,7 @@ toggle_hidden_on_action (GtkCellRendererToggle * cell_renderer, gchar * path)
 }
 
 /*toggle deleted on action at row in command list */
+/* UNUSED
 static void
 toggle_deleted_on_action (GtkCellRendererToggle * cell_renderer, gchar * path)
 {
@@ -1828,7 +1826,7 @@ toggle_deleted_on_action (GtkCellRendererToggle * cell_renderer, gchar * path)
       g_object_set_data (G_OBJECT (action), "deleted", (gboolean *) (intptr_t) ! deleted);
     }
 }
-
+*/
 GtkWidget *
 keymap_get_command_view (keymap * the_keymap)
 {
@@ -1837,7 +1835,6 @@ keymap_get_command_view (keymap * the_keymap)
   GtkTreeViewColumn *col;
   GtkCellRenderer *renderer;
   GtkTreeSelection *selection;
-  GtkTreeIter iter;
   GtkTreeModel *model;
 
   model = GTK_TREE_MODEL (the_keymap->commands);
@@ -1929,7 +1926,6 @@ keymap_change_binding_view_on_command_selection (GtkTreeSelection * selection, G
   GtkTreeView *binding_view;
   GtkListStore *bindings;
   GtkTreeIter iter;
-  GtkTreeModel *command_model;
   GtkTreeModel *old_binding_model;
   GtkTextBuffer *text_buffer;
   KeymapCommandType type;
@@ -1989,8 +1985,6 @@ keymap_get_binding_view ()
   GtkTreeView *res;
   GtkTreeViewColumn *col;
   GtkCellRenderer *renderer;
-  GtkTreeModel *model;
-  GtkTreeIter iter;
   GtkTreeSelection *selection;
 
   //setting up the tree view

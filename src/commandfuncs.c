@@ -30,7 +30,7 @@
 #include "view.h"
 #include "pitchentry.h"
 #include "audiointerface.h"
-
+#include "displayanimation.h"
 
 /**
  * Macro to get the current DenemoObject
@@ -272,8 +272,6 @@ void
 object_insert (DenemoGUI * gui, DenemoObject * mudela_obj_new)
 {
   DenemoScore *si = gui->si;
-
-  declarecurmudelaobj;
 
   /* update undo information */
   DenemoUndoData *undo;
@@ -537,7 +535,6 @@ joinstaffs (GtkAction * action, gpointer param)
     {
       take_snapshot ();
       DenemoStaff *thestaff = (DenemoStaff *) gui->si->currentstaff->data;
-      DenemoStaff *prevstaff = (DenemoStaff *) gui->si->currentstaff->prev->data;
       thestaff->voicecontrol = DENEMO_SECONDARY;
       setcurrentprimarystaff (gui->si);
       setcurrents (gui->si);
@@ -978,7 +975,6 @@ cursor_to_next_chord (DenemoScriptParam * param)
 static gboolean
 to_object_direction (gboolean within_measure, gboolean right, gboolean stopping)
 {
-  DenemoGUI *gui = Denemo.gui;
   if (!Denemo.gui || !(Denemo.gui->si))
     return FALSE;
   GList *start_obj = Denemo.gui->si->currentobject;
@@ -1010,11 +1006,12 @@ to_object_direction (gboolean within_measure, gboolean right, gboolean stopping)
       if (start_measure->prev)
         {
           movecursorleft (NULL);
-          if (Denemo.gui->si->currentobject == NULL)
+          if (Denemo.gui->si->currentobject == NULL){
             if (stopping)
               return FALSE;
             else
               return to_object_direction (within_measure, right, stopping);
+          }
           movecursorleft (NULL);
           return TRUE;
         }
@@ -1049,11 +1046,12 @@ to_object_direction (gboolean within_measure, gboolean right, gboolean stopping)
       if (start_measure->next)
         {
           movetomeasureright (NULL);
-          if (Denemo.gui->si->currentobject == NULL)
+          if (Denemo.gui->si->currentobject == NULL){
             if (stopping)
               return FALSE;
             else
               return to_object_direction (within_measure, right, stopping);
+          }
           return TRUE;
         }
       if (was_appending)
@@ -1069,11 +1067,12 @@ to_object_direction (gboolean within_measure, gboolean right, gboolean stopping)
   if (start_measure->prev)
     {
       movecursorleft (NULL);
-      if (Denemo.gui->si->currentobject == NULL)
+      if (Denemo.gui->si->currentobject == NULL){
         if (stopping)
           return FALSE;
         else
           return to_object_direction (within_measure, right, stopping);
+      }
       movecursorleft (NULL);
       return TRUE;
     }
@@ -1100,10 +1099,6 @@ to_standalone_directive_direction (gboolean right)
 static gboolean
 to_selected_object_direction (gboolean right)
 {
-  DenemoGUI *gui = Denemo.gui;
-  DenemoObject *curObj;
-  chord *thechord;
-  note *thenote;
   if (!Denemo.gui || !(Denemo.gui->si))
     return FALSE;
   gboolean success = to_object_direction (FALSE, right, FALSE);
@@ -1284,7 +1279,6 @@ void
 cursorup (DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
-  DenemoScore *si = gui->si;
   DenemoScriptParam dummy;
   if (param == NULL)
     param = &dummy;
@@ -1302,7 +1296,6 @@ void
 cursordown (DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
-  DenemoScore *si = gui->si;
   DenemoScriptParam dummy;
   if (param == NULL)
     param = &dummy;
@@ -1331,7 +1324,6 @@ insert_note_following_pattern (DenemoGUI * gui)
 #define g  (gui->rstep)
   if ((gui->mode & (INPUTEDIT | INPUTINSERT)) && g)
     {
-      GList *start = g;
       GList *h;
       gint mode = gui->mode;
       gui->mode = mode & ~INPUTRHYTHM;
@@ -1403,7 +1395,6 @@ get_prevailing_duration (void)
   gint duration = 0;
   if ((gui->mode & (INPUTEDIT | INPUTINSERT)) && gui->rstep)
     {
-      GList *start = (gui->rstep);
       if (gui->currhythm && gui->cstep)
         {
           GList *objs;
@@ -1493,6 +1484,8 @@ insertion_point_for_type (DenemoScore * si, DenemoObjType type)
     {
     case TUPCLOSE:
       return;
+    default:
+      break;
     }
   insertion_point (si);
 }
@@ -1561,7 +1554,6 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode, gboolean rest)
 {
   DenemoScore *si = gui->si;
   DenemoObject *mudela_obj_new;
-  int prognum;
 
   if ((mode & INPUTEDIT) && !si->cursor_appending && !(mode & INPUTRHYTHM))
     {
@@ -1691,7 +1683,6 @@ static gboolean
 notechange (DenemoScore * si, gboolean remove)
 {
   declarecurmudelaobj;
-  int prognum;
   gboolean ret = FALSE;
 
   if (curmudelaobj && curmudelaobj->type == CHORD)
@@ -1784,7 +1775,6 @@ incrementenshift (DenemoGUI * gui, gint direction)
 {
   DenemoScore *si = gui->si;
   declarecurmudelaobj;
-  int prognum;
 
   if (curmudelaobj && curmudelaobj->type == CHORD)
     {
@@ -1822,7 +1812,6 @@ void
 setenshift (DenemoScore * si, gint enshift)
 {
   declarecurmudelaobj;
-  int prognum;
   if (curmudelaobj && curmudelaobj->type == CHORD)
     {
       store_for_undo_change (si, curmudelaobj);
@@ -2027,7 +2016,6 @@ void
 delete_staff_before (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  DenemoScore *si = gui->si;
   if (staffup (param))
     {
       deletestaff (gui, TRUE);
@@ -2044,7 +2032,6 @@ void
 delete_staff_after (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  DenemoScore *si = gui->si;
   if (staffdown (param))
     {
       deletestaff (gui, TRUE);
@@ -2061,7 +2048,6 @@ void
 delete_staff_current (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  DenemoScore *si = gui->si;
   deletestaff (gui, TRUE);
 }
 
@@ -2183,8 +2169,8 @@ void
 dnm_deleteobject (DenemoScore * si)
 {
   declarecurmudelaobj;
-  staffnode *curstaff;
-  measurenode *curmeasure;
+  //staffnode *curstaff;
+  //measurenode *curmeasure;
   //g_print ("dnm_deleteobject undo/redo mode %d\n", si->undo_redo_mode);
   if (curmudelaobj == NULL)
     return;
