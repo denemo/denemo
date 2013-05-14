@@ -1167,25 +1167,25 @@ kill_process (GPid pid)
 
 
 
-#define NOTE0 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x9D</span>"
-#define NOTE1 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x9E</span>"
-#define NOTE2 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x9F</span>"
-#define NOTE3 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA0</span>"
-#define NOTE4 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA1</span>"
-#define NOTE5 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA2</span>"
-#define NOTE6 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA3</span>"
-#define NOTE7 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA4</span>"
-#define NOTE8 "<span font_desc=\"Denemo\">\xF0\x9D\x85\xA5</span>"
+#define NOTE0 "\xF0\x9D\x85\x9D"
+#define NOTE1 "\xF0\x9D\x85\x9E"
+#define NOTE2 "\xF0\x9D\x85\x9F"
+#define NOTE3 "\xF0\x9D\x85\xA0"
+#define NOTE4 "\xF0\x9D\x85\xA1"
+#define NOTE5 "\xF0\x9D\x85\xA2"
+#define NOTE6 "\xF0\x9D\x85\xA3"
+#define NOTE7 "\xF0\x9D\x85\xA4"
+#define NOTE8 "\xF0\x9D\x85\xA5"
 
-#define REST0 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBB</span>"
-#define REST1 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBC</span>"
-#define REST2 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBD</span>"
-#define REST3 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBE</span>"
-#define REST4 "<span font_desc=\"Denemo\">\xF0\x9D\x84\xBF</span>"
-#define REST5 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x80</span>"
-#define REST6 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x81</span>"
-#define REST7 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x82</span>"
-#define REST8 "<span font_desc=\"Denemo\">\xF0\x9D\x85\x83</span>"
+#define REST0 "\xF0\x9D\x84\xBB"
+#define REST1 "\xF0\x9D\x84\xBC"
+#define REST2 "\xF0\x9D\x84\xBD"
+#define REST3 "\xF0\x9D\x84\xBE"
+#define REST4 "\xF0\x9D\x84\xBF"
+#define REST5 "\xF0\x9D\x85\x80"
+#define REST6 "\xF0\x9D\x85\x81"
+#define REST7 "\xF0\x9D\x85\x82"
+#define REST8 "\xF0\x9D\x85\x83"
 
 void
 init_denemo_notenames (void)
@@ -1225,7 +1225,6 @@ music_font (gchar * str)
   for (c = *str; c; c = *++str)
     switch (c)
       {
-
       case '0':
         g_string_append (s, " " NOTE0 " ");
         break;
@@ -1282,7 +1281,6 @@ music_font (gchar * str)
         g_string_append (s, HIGHLIGHT NOTE8 " </span>");
         break;
 
-
       case 'r':
         g_string_append (s, " " REST0 " ");
         break;
@@ -1338,18 +1336,6 @@ music_font (gchar * str)
       case HIGHLIGHT_OFFSET + 'z':
         g_string_append (s, HIGHLIGHT REST8 " </span>");
         break;
-
-
-
-
-
-
-
-
-
-
-
-
       default:
         g_string_append_c (s, c);
       }

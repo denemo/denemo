@@ -88,16 +88,6 @@ static void populate_opened_recent (void);
 static gchar *get_most_recent_file (void);
 static void toggle_record_script (GtkAction * action, gpointer param);
 
-#ifdef DEVELOPER
-#define MUSIC_FONT(a) "music-sign ("a")"
-#else
-#ifdef G_OS_WIN32
-#define MUSIC_FONT(a) "<span face=\"Denemo\">"a"</span>"
-#else
-#define MUSIC_FONT(a) a
-#endif
-#endif
-
 static GtkAction *sharpaction, *flataction;
 
 typedef enum
