@@ -59,7 +59,6 @@
 #include <denemo/denemo.h>
 #include "exportmidi.h"
 #include "smf.h"
-#include "smf_private.h"
 #include "instrumentname.h"
 #include "audiointerface.h"
 #include "view.h"
