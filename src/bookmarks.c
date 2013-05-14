@@ -131,6 +131,7 @@ gotobookmark (GtkAction * action, gpointer param)
                                          bm->id, bm->staff, bm->bar);
       gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combobox), tmpstring);
 #else
+	GList* tmp;
   GList *strings = NULL;
   combobox = gtk_combo_new ();
   for (tmp = gui->si->bookmarks; tmp; tmp = tmp->next)
