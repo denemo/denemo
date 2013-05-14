@@ -7530,7 +7530,12 @@ attach_clipboard (RhythmPattern * r)
 static gint
 insert_pattern_in_toolbar (RhythmPattern * r)
 {
-  DenemoGUI *gui = Denemo.gui;
+	DenemoGUI *gui = Denemo.gui;
+	if(r->clipboard==NULL)
+	{
+		g_warning("No clipboard for this pattern, cannot add\n");
+		return gui->rhythms;
+	}
   GtkWidget *toolbar = gtk_ui_manager_get_widget (Denemo.ui_manager, "/RhythmToolBar");
   gtk_toolbar_insert (GTK_TOOLBAR (toolbar), GTK_TOOL_ITEM (r->button), -1);
   gtk_widget_show_all (GTK_WIDGET (r->button));
