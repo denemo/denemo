@@ -4374,7 +4374,7 @@ static SCM
 scheme_create_timebase (SCM optional)
 {
   DenemoScore *si = Denemo.gui->si;
-  if (si->smfsync = si->changecount)
+  if (si->smfsync != si->changecount)
     {
       exportmidi (NULL, si, 0, 0);
       return SCM_BOOL_T;
