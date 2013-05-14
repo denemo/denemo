@@ -1921,7 +1921,7 @@ Dummy0 (GtkAction * action, gpointer param)
   displayhelper (gui);
 }
 
-void
+static void
 InsertDur0 (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
@@ -2006,7 +2006,7 @@ Dummy1 (GtkAction * action, gpointer param)
   displayhelper (gui);
 }
 
-void
+static void
 InsertDur1 (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
@@ -2091,7 +2091,7 @@ Dummy2 (GtkAction * action, gpointer param)
   displayhelper (gui);
 }
 
-void
+static void
 InsertDur2 (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
@@ -2176,7 +2176,7 @@ Dummy3 (GtkAction * action, gpointer param)
   displayhelper (gui);
 }
 
-void
+static void
 InsertDur3 (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
@@ -2261,7 +2261,7 @@ Dummy4 (GtkAction * action, gpointer param)
   displayhelper (gui);
 }
 
-void
+static void
 InsertDur4 (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
@@ -2346,7 +2346,7 @@ Dummy5 (GtkAction * action, gpointer param)
   displayhelper (gui);
 }
 
-void
+static void
 InsertDur5 (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
@@ -2431,7 +2431,7 @@ Dummy6 (GtkAction * action, gpointer param)
   displayhelper (gui);
 }
 
-void
+static void
 InsertDur6 (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
@@ -2516,7 +2516,7 @@ Dummy7 (GtkAction * action, gpointer param)
   displayhelper (gui);
 }
 
-void
+static void
 InsertDur7 (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
@@ -2601,7 +2601,8 @@ Dummy8 (GtkAction * action, gpointer param)
   displayhelper (gui);
 }
 
-void
+
+static void
 InsertDur8 (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;

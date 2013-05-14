@@ -10,6 +10,7 @@
 #include "drawingprims.h"
 #include "notewidths.h"
 #include <math.h>
+#include "slurs.h"
 
 gint restwidths[SMALLESTDURATION + 1] = { WHOLEREST_WIDTH, HALFREST_WIDTH, QUARTERREST_WIDTH, EIGHTHREST_WIDTH,
   SIXTEENTHREST_WIDTH, THIRTYSECONDREST_WIDTH, SIXTYFOURTHREST_WIDTH, HUNDREDTWENTYEIGHTHREST_WIDTH, TWOHUNDREDFIFTYSIXTHREST_WIDTH
@@ -27,8 +28,6 @@ gint headwidths[3] = { WHOLEHEAD_WIDTH, HALFHEAD_WIDTH, NOTEHEAD_WIDTH
 static void
 draw_dots (cairo_t * cr, gint xstart, gint ystart, gint numdots)
 {
-  gint thinrecty = ystart - 2, shortrecty = ystart - 1;
-
   xstart += 4;
   for (; numdots; numdots--, xstart += 6)
     {

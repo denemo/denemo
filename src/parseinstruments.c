@@ -160,7 +160,7 @@ parseInstruments (GList * instruments)
     }
 
   g_print ("RootElem: %s\n", rootElem->name);
-  if (0 != xmlStrcmp (rootElem->name, "Instruments"))
+  if (0 != xmlStrcmp (rootElem->name, (xmlChar*) "Instruments"))
     {
       g_warning ("Document has wrong type\n");
       xmlFreeDoc (doc);

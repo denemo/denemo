@@ -218,7 +218,7 @@ printchord (FILE * fp, chord * chordptr, gint octaveshift, gint defaultlength)
       /* If there's only one note, it's a note, not a chord. */
 
       gboolean ischord = chordptr->notes->next != NULL;
-      GList *curnotenode, *tmp;
+      GList *curnotenode;
       note *curnote;
       gchar notename;
       gint octave;

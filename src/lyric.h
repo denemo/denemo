@@ -22,4 +22,5 @@ void select_lyrics (void);
 gchar *get_lyrics_for_current_verse (DenemoStaff * thestaff);
 gboolean put_lyrics_for_current_verse (DenemoStaff * staff, gchar * text);
 gchar *get_lyrics_for_verse_num (gint number);
+gboolean append_lyrics_for_current_verse (DenemoStaff * thestaff, gchar * text);
 #endif

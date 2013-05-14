@@ -43,13 +43,15 @@
 #include <math.h>
 #include <audio.h>
 #include <portaudio.h>
+#include <glib.h>
+#include "audiocapture.h"
 #ifndef paNonInterleaved
 #undef PA_VERSION_19
 #else
 #define PA_VERSION_19
 #endif
 
-/* #define SAMPLE_RATE  (17932) /* Test failure to open with this value. */
+// #define SAMPLE_RATE  (17932) // Test failure to open with this value. 
 #define SAMPLE_RATE  DENEMO_SAMPLE_RATE
 #define NUM_SECONDS     (10)
 
@@ -96,6 +98,30 @@ PaStreamParameters inputParameters, outputParameters;
 #define StreamActive Pa_IsStreamActive
 #endif
 
+static int
+init_audio_out (void)
+{
+  PaError err;
+  int i;
+  err = Pa_Initialize ();
+  if (err != paNoError)
+    {
+      g_print ("Error initializing portaudio library\n");
+      return 0;
+    }
+  out_data.frameIndex = 0;
+  out_data.recordedSamples = (SAMPLE *) malloc (TABLE_SIZE * sizeof (SAMPLE));
+  if (out_data.recordedSamples == NULL)
+    {
+      printf ("Could not allocate record array.\n");
+      return 0;
+    }
+  for (i = 0; i < TABLE_SIZE; i++)
+    out_data.recordedSamples[i] = sin (2.0 * M_PI * i / (double) TABLE_SIZE);
+  play_pitch (440.0, 0.0, 0.0, 0);      /* to start the stream */
+  return 1;
+}
+
 /* This routine will be called by the PortAudio engine when audio is needed.
 ** It may be called at interrupt level on some machines so don't do anything
 ** that could mess up the system like calling malloc() or free().
@@ -110,10 +136,8 @@ playCallback (void *inputBuffer, void *outputBuffer, unsigned long framesPerBuff
               void *userData)
 {
 
-  SAMPLE *rptr = &out_data.recordedSamples[out_data.frameIndex % TABLE_SIZE];
   SAMPLE *wptr = (SAMPLE *) outputBuffer;
   unsigned int i;
-  int finished;
 
   (void) inputBuffer;           /* Prevent unused variable warnings. */
   (void) outTime;
@@ -211,32 +235,6 @@ stop_audio (void)
   out_stream = NULL;
 }
 
-int
-init_audio_out (void)
-{
-  PaError err;
-  int i;
-  err = Pa_Initialize ();
-  if (err != paNoError)
-    {
-      g_print ("Error initializing portaudio library\n");
-      return 0;
-    }
-  out_data.frameIndex = 0;
-  out_data.recordedSamples = (SAMPLE *) malloc (TABLE_SIZE * sizeof (SAMPLE));
-  if (out_data.recordedSamples == NULL)
-    {
-      printf ("Could not allocate record array.\n");
-      return 0;
-    }
-  for (i = 0; i < TABLE_SIZE; i++)
-    out_data.recordedSamples[i] = sin (2.0 * M_PI * i / (double) TABLE_SIZE);
-  play_pitch (440.0, 0.0, 0.0, 0);      /* to start the stream */
-  return 1;
-}
-
-
-
 /* This routine will be called by the PortAudio engine when audio is needed.
 ** It may be called at interrupt level on some machines so don't do anything
 ** that could mess up the system like calling malloc() or free().
@@ -261,7 +259,6 @@ recordCallback (const void *inputBuffer, const void *outputBuffer, unsigned long
       float *wptr = &data.recordedSamples[data.frameIndex * data.samplesPerFrame];
       long framesToCalc;
       long i;
-      int finished;
       unsigned long framesLeft = data.maxFrameIndex - data.frameIndex;
 
       (void) outputBuffer;      /* Prevent unused variable warnings. */
@@ -270,12 +267,10 @@ recordCallback (const void *inputBuffer, const void *outputBuffer, unsigned long
       if (framesLeft < framesPerBuffer)
         {
           framesToCalc = framesLeft;
-          finished = 1;
         }
       else
         {
           framesToCalc = framesPerBuffer;
-          finished = 0;
         }
       if (inputBuffer == NULL)
         {
@@ -322,12 +317,9 @@ pa_main (AubioCallback * fn)
 #endif
   PaError err = -1;
   static int last_tried;
-  static int succeeded = 0;
-  int i;
   int totalFrames;
   int numSamples;
   int numBytes;
-  SAMPLE max, average, val;
 
   if ((fn == NULL) && (stream))
     {
@@ -394,7 +386,6 @@ pa_main (AubioCallback * fn)
   err = Pa_StartStream (stream);
   if (err != paNoError)
     goto error;
-  succeeded = 1;
   last_tried--;
   printf ("Now recording!!\n");
   fflush (stdout);
@@ -507,9 +498,7 @@ determine_frequency (void)
       *average_abs += val;
     }
   *average_abs /= numSamples;
-  /* performa autocorrelation */
-  int autocorrLen = 0;
-  int gotSound = (numSamples > 0) && (*average_abs > 0) && Autocorrelation (data.recordedSamples, numSamples, &autocorr /*, &autocorrLen */ );
+  int gotSound = (numSamples > 0) && (*average_abs > 0) && Autocorrelation (data.recordedSamples, numSamples, &autocorr);
   /* Reset the frame index to 0, so we keep going with only new sound */
   data.frameIndex = 0;
   /* smooth the autocorrelation */
@@ -987,7 +976,6 @@ bestPeak2 (float *mProcessed,   // IN
   )
 {
   float highestpeak_y = 0;
-  float highestpeak_x = 0;
   int iMaxX = 0;
   int bin;
 

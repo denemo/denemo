@@ -675,7 +675,7 @@ static gint rhythm_sounds[] = { 41, 48, 64, 62, 60, 70, 81, 69, 79 };
 int
 rhythm_feedback (backend_type_t backend, gint duration, gboolean rest, gboolean dot)
 {
-  gint key;
+  int key;
   if (dot)
     play_note (backend, 0, 9, 67, 100, 60 * Denemo.gui->si->master_volume);
   else

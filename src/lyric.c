@@ -161,7 +161,6 @@ lyric_iterator (GtkWidget * textview, gint count)
   static const gchar *next;
   static gchar *lyrics;
   static GString *gs;
-  static gint start_count;
   if (gs == NULL)
     gs = g_string_new ("");
   if (textview == NULL)
@@ -178,7 +177,6 @@ lyric_iterator (GtkWidget * textview, gint count)
         g_free (lyrics);
       lyrics = get_text_from_view (textview);
       next = lyrics;
-      start_count = count;
       while (count--)
         scan_syllable ((gchar **) & next, gs);
     }

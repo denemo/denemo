@@ -53,4 +53,5 @@ gint open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, 
 gchar *file_dialog (gchar * message, gboolean type, gchar * location);
 
 gint lyinput (gchar * filename, DenemoGUI * gui);
+gint open_source_file (void);
 #endif /*FILE_H */

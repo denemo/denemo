@@ -1,5 +1,7 @@
 #include "keymapio.h"
-
+#include "kbd-custom.h"
+#include "view.h"
+#include "mousing.h"
 
 static void
 parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
@@ -53,7 +55,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_TOOLTIP))
         {
           tooltip = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-          create_command(is_script, name, label, scheme, tooltip, hidden, after, menupath, fallback, menupaths, merge);
+          create_command(is_script, (gchar*) name, (gchar*) label, (gchar*) scheme, (gchar*) tooltip, hidden, (gchar*) after, (gchar*) menupath, fallback, menupaths, merge);
 
         }                       // tooltip found, assumed last field
     }                           // for all nodes
@@ -84,7 +86,7 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
           else
             {
               name = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-              show_action_of_name (name);
+              show_action_of_name ((gchar*) name);
 #ifdef DEBUG
               g_print ("Action %s\n", (gchar *) name);
 #endif         /*DEBUG*/
@@ -93,7 +95,7 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_HIDDEN))
         {
           if (name)
-            hide_action_of_name (name);
+            hide_action_of_name ((gchar*) name);
 
         }
       else if (0 == xmlStrcmp (cur->name, BINDINGXML_TAG_BIND))
@@ -135,7 +137,7 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
                           if (keyval)
                             add_keybinding_to_idx (the_keymap, keyval, state, command_number, POS_LAST);
                           else
-                            add_named_binding_to_idx (the_keymap, tmp, command_number, POS_LAST);
+                            add_named_binding_to_idx (the_keymap, (gchar*) tmp, command_number, POS_LAST);
                         }
                       g_free (gtk_binding);
                     }
@@ -163,7 +165,7 @@ parseCursorBinding (xmlDocPtr doc, xmlNodePtr cur)
           tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
           if (tmp)
             {
-              sscanf (tmp, "%x", &state);       // = atoi(tmp);
+              sscanf ((char*) tmp, "%x", &state);       // = atoi(tmp);
               xmlFree (tmp);
             }
 
@@ -173,7 +175,7 @@ parseCursorBinding (xmlDocPtr doc, xmlNodePtr cur)
           tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
           if (tmp)
             {
-              cursor_num = atoi (tmp);
+              cursor_num = atoi ((char*) tmp);
               xmlFree (tmp);
             }
           assign_cursor (state, cursor_num);
@@ -407,8 +409,8 @@ output_pointer_shortcut (gint * state, GdkCursor * cursor, xmlNodePtr parent)
 #endif
   gchar *numstr = g_strdup_printf ("%d", cursor_num);
   xmlNodePtr child = xmlNewTextChild (parent, NULL, (xmlChar *) "cursor-binding", NULL);
-  xmlNewChild (child, NULL, "state", statestr);
-  xmlNewChild (child, NULL, "cursor", numstr);
+  xmlNewChild (child, NULL, (xmlChar*) "state", (xmlChar*) statestr);
+  xmlNewChild (child, NULL, (xmlChar*) "cursor", (xmlChar*) numstr);
   g_free (statestr);
   g_free (numstr);
 }
@@ -460,7 +462,7 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
       if (after)
         xmlNewTextChild (child, NULL, COMMANDXML_TAG_AFTER, (xmlChar *) after);
       if (deleted)              //store as hidden in commands file
-        xmlNewTextChild (child, NULL, COMMANDXML_TAG_HIDDEN, "true");
+        xmlNewTextChild (child, NULL, COMMANDXML_TAG_HIDDEN, (xmlChar *) "true");
 
       if (scheme)
         xmlNewTextChild (child, NULL, COMMANDXML_TAG_SCHEME,
@@ -531,7 +533,7 @@ save_xml_keybindings (gchar * filename)
 #endif
           xmlNewTextChild (child, NULL, COMMANDXML_TAG_ACTION, (xmlChar *) name);
           if (hidden)
-            xmlNewTextChild (child, NULL, COMMANDXML_TAG_HIDDEN, "true");
+            xmlNewTextChild (child, NULL, COMMANDXML_TAG_HIDDEN, (xmlChar *) "true");
 
           keymap_foreach_command_binding (the_keymap, i, (GFunc) write_xml_keybinding_info, child);
         }
@@ -543,12 +545,13 @@ save_xml_keybindings (gchar * filename)
   return ret;
 }
 
+/*
 static void
 show_type (GtkWidget * widget, gchar * message)
 {
   g_print ("%s%s\n", message, widget ? g_type_name (G_TYPE_FROM_INSTANCE (widget)) : "NULL widget");
 }
-
+*/
 /* not used */
 /*
 static gint

@@ -24,4 +24,5 @@ gdouble measure_transition_offset (gboolean current);
 
 gdouble staff_transition_offset (void);
 gdouble movement_transition_offset (void);
+void set_movement_transition (gint amount);
 #endif

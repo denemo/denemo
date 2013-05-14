@@ -37,6 +37,7 @@
 #include "print.h"
 #include "barline.h"
 #include "runsilent.h"
+#include "libguile.h"
 
 #define EXTRA_ACCELS "extra.accels"
 
@@ -101,6 +102,13 @@ gint hide_printarea_on_delete (void);
 void set_midi_in_status (void);
 void set_meantone_tuning (gint step);
 void update_leadin_widget (gdouble secs);
-void
-append_scheme_call (gchar * str);
+void append_scheme_call (gchar * str);
+SCM scheme_set_enharmonic_position (SCM position);
+void define_scheme_variable (gchar * varname, gchar * value, gchar * tooltip);
+void define_scheme_int_variable (gchar * varname, gint value, gchar * tooltip);
+void define_scheme_double_variable (gchar * varname, gdouble value, gchar * tooltip);
+void define_scheme_bool_variable (gchar * varname, gint value, gchar * tooltip);
+SCM scheme_next_note (SCM optional);
+void finish_recording(void);
+void define_scheme_literal_variable (gchar * varname, gchar * value, gchar * tooltip);
 #endif

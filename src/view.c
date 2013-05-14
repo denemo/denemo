@@ -42,7 +42,8 @@
 #include "audiointerface.h"
 #include "sourceaudio.h"
 #include "scorelayout.h"
-#include "libguile.h"
+#include "keymapio.h"
+#include "measureops.h"
 #define INIT_SCM "init.scm"
 
 //#include "pathconfig.h"
@@ -87,8 +88,6 @@ static gint dnm_key_snooper (GtkWidget * grab_widget, GdkEventKey * event);
 static void populate_opened_recent (void);
 static gchar *get_most_recent_file (void);
 static void toggle_record_script (GtkAction * action, gpointer param);
-
-static GtkAction *sharpaction, *flataction;
 
 typedef enum
 {
@@ -332,6 +331,7 @@ install_scm_function2 (gchar * name, gpointer callback)
 
 }
 
+/*UNUSED
 static void
 install_scm_function3 (gchar * name, gpointer callback)
 {
@@ -343,7 +343,7 @@ install_scm_function3 (gchar * name, gpointer callback)
   scm_c_define_gsubr (name, 0, 3, 0, callback);
 
 }
-
+*/
 static void
 install_scm_function4 (gchar * name, gpointer callback)
 {
@@ -368,9 +368,11 @@ install_scm_function4 (gchar * name, gpointer callback)
 #define INSTALL_SCM_FUNCTION2(tooltip, name, callback)\
   install_scm_function2(name, callback);\
   define_scheme_variable("Help-"name, tooltip, "Value is the help string of the variable");
+/*UNUSED
 #define INSTALL_SCM_FUNCTION3(tooltip, name, callback)\
   install_scm_function3(name, callback);\
   define_scheme_variable("Help-"name, tooltip, "Value is the help string of the variable");
+*/
 #define INSTALL_SCM_FUNCTION4(tooltip, name, callback)\
   install_scm_function4(name, callback);\
   define_scheme_variable("Help-"name, tooltip, "Value is the help string of the variable");
@@ -755,7 +757,6 @@ static SCM
 scheme_initialize_script (SCM action_name)
 {
   SCM ret;
-  gint length;
   char *name;
   name = scm_to_locale_string (action_name);
   GtkAction *action = lookup_action_from_name (name);
@@ -829,7 +830,9 @@ static void toggle_rhythm_toolbar (GtkAction * action, gpointer param);
 static void toggle_entry_toolbar (GtkAction * action, gpointer param);
 static void toggle_object_menu (GtkAction * action, gpointer param);
 
+/* UNUSED
 static void toggle_main_menu (GtkAction * action, gpointer param);
+*/
 static void toggle_console_view (GtkAction * action, gpointer param);
 static void toggle_print_view (GtkAction * action, gpointer param);
 static void toggle_score_layout (GtkAction * action, gpointer param);
@@ -1045,7 +1048,6 @@ scheme_hide_window (SCM hide)
 static SCM
 scheme_script_callback (SCM script, SCM params)
 {
-  int length;
   char *name = NULL;
   SCM ret = SCM_BOOL_F;
   if (scm_is_string (script))
@@ -1098,7 +1100,6 @@ create_scheme_function_for_script (gchar * name)
 static SCM
 scheme_debug_object (SCM optional)
 {
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
 
   if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data))
@@ -1779,7 +1780,7 @@ set_meantone_tuning (gint step)
   scm_call_1 (func, thestep);
 }
 
-static SCM
+SCM
 scheme_set_enharmonic_position (SCM position)
 {
   if (scm_is_integer (position))
@@ -2218,7 +2219,6 @@ scheme_append_to_verse (SCM verse)
 static SCM
 scheme_input_filter_names (SCM filtername)
 {
-  int length;
   char *name = NULL;
 
   if (scm_is_string (filtername))
@@ -2244,7 +2244,6 @@ scheme_input_filter_names (SCM filtername)
 static SCM
 scheme_write_status (SCM filtername)
 {
-  int length;
   char *name = NULL;
 
   if (scm_is_string (filtername))
@@ -2303,7 +2302,7 @@ scheme_goto_position (SCM movement, SCM staff, SCM measure, SCM object)
   return SCM_BOOL (result);
 #endif
   gint origmvt = g_list_index (Denemo.gui->movements, Denemo.gui->si) + 1, origstaff = Denemo.gui->si->currentstaffnum, origmeas = Denemo.gui->si->currentmeasurenum, origpos = 1 + Denemo.gui->si->cursor_x;
-  gboolean result = goto_movement_staff_obj (NULL, movementnum, staffnum, measurenum, objectnum);
+  goto_movement_staff_obj (NULL, movementnum, staffnum, measurenum, objectnum);
   if ((movementnum == g_list_index (Denemo.gui->movements, Denemo.gui->si) + 1) && (staffnum == Denemo.gui->si->currentstaffnum) && (measurenum == Denemo.gui->si->currentmeasurenum) && (objectnum == 1 + Denemo.gui->si->cursor_x))
     return SCM_BOOL_T;
   else
@@ -2399,7 +2398,6 @@ scheme_get_cursor_note_with_octave (SCM optional)
 static SCM
 scheme_set_prefs (SCM xml)
 {
-  DenemoGUI *gui = Denemo.gui;
   if (scm_is_string (xml))
     {
       char *xmlprefs;
@@ -2515,12 +2513,10 @@ scheme_chordize (SCM setting)
 SCM
 scheme_get_note_name (SCM optional)
 {
-  int length;
   //char *str=NULL;
   //if(scm_is_string(optional)){
   //str = scm_to_locale_stringn(optional, &length);
   //  }
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   chord *thechord;
   note *thenote;
@@ -2545,7 +2541,6 @@ scheme_put_whole_measure_rests (void)
     return SCM_MAKINUM (0);
   else
     {
-      DenemoStaff *staff = (DenemoStaff *) gui->si->currentstaff->data;
       gint numerator = gui->si->cursortime1;    // staff->timesig.time1;
       gint denominator = gui->si->cursortime2;  //staff->timesig.time2;
       gboolean dot = TRUE;
@@ -2592,13 +2587,8 @@ scheme_put_whole_measure_rests (void)
 SCM
 scheme_get_dots (void)
 {
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   chord *thechord;
-  note *thenote;
-  gint duration;
-  gint numdots = 0;
-  gchar *str;
   if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object))
     return SCM_BOOL_F;
   return scm_from_int (thechord->numdots);
@@ -2607,11 +2597,8 @@ scheme_get_dots (void)
 SCM
 scheme_get_note_base_duration (void)
 {
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   chord *thechord;
-  note *thenote;
-  gint duration;
   if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object))
     return SCM_BOOL_F;
   return scm_from_int (thechord->baseduration);
@@ -2620,10 +2607,8 @@ scheme_get_note_base_duration (void)
 SCM
 scheme_get_note_duration (void)
 {
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   chord *thechord;
-  note *thenote;
   gint duration;
   gint numdots = 0;
   gchar *str;
@@ -2648,9 +2633,7 @@ scheme_get_note_duration (void)
 static SCM
 scheme_set_duration_in_ticks (SCM duration)
 {
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
-  chord *thechord;
   gint thedur = 0;
   if (scm_is_integer (duration))
     {
@@ -2680,7 +2663,6 @@ scheme_get_onset_time (void)
 {
   DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
-  chord *thechord;
   if ((Denemo.gui->si->currentobject) && (curObj = Denemo.gui->si->currentobject->data))
     if ((gui->si->smfsync == gui->si->changecount))
       {
@@ -2700,9 +2682,7 @@ scheme_get_onset_time (void)
 static SCM
 scheme_get_duration_in_ticks (void)
 {
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
-  chord *thechord;
   if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data))
     return SCM_BOOL (FALSE);
   return scm_from_int (curObj->durinticks);
@@ -2711,9 +2691,7 @@ scheme_get_duration_in_ticks (void)
 static SCM
 scheme_get_base_duration_in_ticks (void)
 {
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
-  chord *thechord;
   if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data))
     return SCM_BOOL (FALSE);
   if (curObj->type == CHORD)
@@ -2726,9 +2704,7 @@ scheme_get_base_duration_in_ticks (void)
 SCM
 scheme_get_end_tick (void)
 {
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
-  chord *thechord;
   if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data))
     return SCM_BOOL (FALSE);
   return scm_from_int (curObj->starttickofnextnote);
@@ -2741,7 +2717,6 @@ scheme_get_end_tick (void)
 SCM
 scheme_get_measure_number (void)
 {
-  DenemoGUI *gui = Denemo.gui;
   return scm_from_int (Denemo.gui->si->currentmeasurenum);
 }
 
@@ -2752,7 +2727,6 @@ SCM
 scheme_get_note (SCM count)
 {
   gint index = 0;
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   chord *thechord;
   note *thenote;
@@ -2778,7 +2752,6 @@ SCM
 scheme_get_note_from_top (SCM count)
 {
   gint index = 1;
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   chord *thechord;
   note *thenote;
@@ -2813,7 +2786,6 @@ SCM
 scheme_get_note_from_top_as_midi (SCM count)
 {
   gint index = 1;
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   chord *thechord;
   note *thenote;
@@ -2883,7 +2855,6 @@ scheme_get_cursor_note_as_midi (SCM optional)
 SCM
 scheme_get_note_as_midi (void)
 {
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   chord *thechord;
   note *thenote;
@@ -2901,7 +2872,6 @@ scheme_get_note_as_midi (void)
 SCM
 scheme_get_notes (SCM optional)
 {
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   chord *thechord;
   note *thenote;
@@ -3031,7 +3001,6 @@ SCM
 scheme_increment_initial_keysig (SCM amount)
 {
   DenemoStaff *curstaff = Denemo.gui->si->currentstaff->data;
-  DenemoObject *curObj = NULL;
   SCM ret = SCM_BOOL_F;
   gint inc = 1;
   if (scm_is_integer (amount))
@@ -3090,13 +3059,11 @@ scheme_cursor_to_note (SCM lilyname)
   gint mid_c_offset;
   gint enshift;
   char *notename;
-  gint dclef;
 
   if (scm_is_string (lilyname))
     {
       notename = scm_to_locale_string (lilyname);
       interpret_lilypond_notename (notename, &mid_c_offset, &enshift);
-      dclef = find_prevailing_clef (gui->si);
       gui->si->cursor_y = mid_c_offset;
       gui->si->staffletter_y = offsettonumber (gui->si->cursor_y);
       displayhelper (gui);
@@ -3177,7 +3144,6 @@ SCM
 scheme_get_user_input (SCM label, SCM prompt, SCM init, SCM modal)
 {
   char *title, *instruction, *initial_value;
-  gint length;
 
   if (scm_is_string (label))
     {
@@ -3283,7 +3249,6 @@ SCM
 scheme_get_user_input_with_snippets (SCM label, SCM prompt, SCM init, SCM modal)
 {
   char *title, *instruction, *initial_value;
-  gint length;
   SCM scm;
   if (scm_is_string (label))
     {
@@ -3348,7 +3313,6 @@ SCM
 scheme_warningdialog (SCM msg)
 {
   char *title;
-  gint length;
   if (scm_is_string (msg))
     {
       title = scm_to_locale_string (msg);
@@ -3366,7 +3330,6 @@ SCM
 scheme_infodialog (SCM msg)
 {
   char *title;
-  gint length;
   if (scm_is_string (msg))
     {
       title = scm_to_locale_string (msg);
@@ -3547,7 +3510,7 @@ scheme_get_command_from_user (void)
 }
 
 
-
+/*UNUSED
 static void
 get_drag_offset (GtkWidget * dialog, gint response_id, GtkLabel * label)
 {
@@ -3560,7 +3523,7 @@ get_drag_offset (GtkWidget * dialog, gint response_id, GtkLabel * label)
   gchar *text = g_strdup_printf ("Offset now %d %d. Drag again in the print window to change\nOr click OK to apply the position shift", offsetx, offsety);
   gtk_label_set_text (label, text);
   g_free (text);
-}
+}*/
 
 static void
 get_drag_pad (GtkWidget * dialog, gint response_id, GtkLabel * label)
@@ -3623,7 +3586,7 @@ scheme_get_text_selection (void)
 SCM
 scheme_get_padding (void)
 {
-  SCM pad, ret;
+  SCM ret;
   if (Denemo.printarea == NULL)
     return SCM_BOOL (FALSE);
   if (g_object_get_data (G_OBJECT (Denemo.printarea), "pad-dialog"))
@@ -3896,9 +3859,38 @@ static SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
   return SCM_BOOL(ret);\
 }
 //block to clone for new GString entries in DenemoDirective
-  GETFUNC_DEF (note, display) GETFUNC_DEF (chord, display) GETFUNC_DEF (standalone, display) GETFUNC_DEF (staff, display) GETFUNC_DEF (voice, display) GETFUNC_DEF (score, display) GETFUNC_DEF (movementcontrol, display) PUTFUNC_DEF (note, display) PUTFUNC_DEF (chord, display) PUTFUNC_DEF (standalone, display) PUTFUNC_DEF (staff, display) PUTFUNC_DEF (voice, display) PUTFUNC_DEF (score, display) PUTFUNC_DEF (movementcontrol, display)
+  GETFUNC_DEF (note, display); 
+  GETFUNC_DEF (chord, display);
+  GETFUNC_DEF (standalone, display); 
+  GETFUNC_DEF (staff, display);
+  GETFUNC_DEF (voice, display);
+  GETFUNC_DEF (score, display);
+  GETFUNC_DEF (movementcontrol, display); 
+  PUTFUNC_DEF (note, display);
+  PUTFUNC_DEF (chord, display);
+  PUTFUNC_DEF (standalone, display); 
+  PUTFUNC_DEF (staff, display);
+  PUTFUNC_DEF (voice, display);
+  PUTFUNC_DEF (score, display);
+  PUTFUNC_DEF (movementcontrol, display);
 // end of block to clone ??? there are now stem tuplet and keysigs as well - see grob
-  GETFUNC_DEF (note, grob) GETFUNC_DEF (chord, grob) GETFUNC_DEF (standalone, grob) GETFUNC_DEF (staff, grob) GETFUNC_DEF (voice, grob) GETFUNC_DEF (score, grob) GETFUNC_DEF (movementcontrol, grob) GETFUNC_DEF (clef, grob) GETFUNC_DEF (timesig, grob) GETFUNC_DEF (tuplet, grob) GETFUNC_DEF (stemdirective, grob) GETFUNC_DEF (keysig, grob) PUTFUNC_DEF (note, grob) PUTFUNC_DEF (chord, grob) PUTFUNC_DEF (standalone, grob)
+  GETFUNC_DEF (note, grob); 
+  GETFUNC_DEF (chord, grob);
+  GETFUNC_DEF (standalone, grob);
+  GETFUNC_DEF (staff, grob);
+  GETFUNC_DEF (voice, grob);
+  GETFUNC_DEF (score, grob);
+/*UNUSED
+  GETFUNC_DEF (movementcontrol, grob);
+  */
+  GETFUNC_DEF (clef, grob);
+  GETFUNC_DEF (timesig, grob);
+  GETFUNC_DEF (tuplet, grob);
+  GETFUNC_DEF (stemdirective, grob);
+  GETFUNC_DEF (keysig, grob);
+  PUTFUNC_DEF (note, grob);
+  PUTFUNC_DEF (chord, grob);
+  PUTFUNC_DEF (standalone, grob);
 //PUTFUNC_DEF(staff, grob)
 //PUTFUNC_DEF(voice, grob)
   PUTFUNC_DEF (score, grob)
@@ -4333,11 +4325,9 @@ SCM
 scheme_output_midi_bytes (SCM input)
 {
   char *next;
-  char val;
   gint i, numbytes;
   gint channel;
   gint volume;
-  gint tracknumber;
   if (!scm_is_string (input))
     {
       return SCM_BOOL_F;
@@ -4351,7 +4341,6 @@ scheme_output_midi_bytes (SCM input)
 
   for (i = 0, next = bytes; *next; next++)
     {
-      val = strtol (next, &next, 0);
       i++;
       if (*next == 0)
         break;
@@ -4547,7 +4536,8 @@ scheme_kill_timer (SCM id)
 {
   if (scm_is_integer (id))
     {
-      cb_scheme_and_id *scheme = (cb_scheme_and_id *) scm_to_int (id);  //FIXME the int may not be large enough for a pointer
+      //FIXME the int may not be large enough for a pointer
+      cb_scheme_and_id *scheme = (cb_scheme_and_id *) scm_to_int (id);  
       if (scheme)
         {
           g_source_remove_by_user_data (scheme);
@@ -4590,7 +4580,6 @@ scheme_has_figures (SCM optional)
 static SCM
 scheme_put_note_name (SCM optional)
 {
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   chord *thechord;
   note *thenote;
@@ -4618,7 +4607,6 @@ scheme_put_note_name (SCM optional)
 static SCM
 scheme_set_accidental (SCM optional)
 {
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   chord *thechord;
   note *thenote;
@@ -4673,8 +4661,6 @@ scheme_insert_note_in_chord (SCM lily)
 {
   DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
-  chord *thechord;
-  note *thenote;
   if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD))
     return SCM_BOOL (FALSE);
 
@@ -4767,7 +4753,6 @@ scheme_highlight_cursor (SCM optional)
 static SCM
 scheme_get_type (SCM optional)
 {
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || !(DENEMO_OBJECT_TYPE_NAME (curObj)))
     return scm_from_locale_string ("None");
@@ -4796,7 +4781,6 @@ scheme_get_lilypond (SCM optional)
 static SCM
 scheme_get_tuplet (SCM optional)
 {
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != TUPOPEN))
     return SCM_BOOL_F;
@@ -4808,7 +4792,6 @@ scheme_get_tuplet (SCM optional)
 static SCM
 scheme_set_tuplet (SCM ratio)
 {
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != TUPOPEN))
     {
@@ -4846,7 +4829,6 @@ scheme_set_background (SCM color)
 static SCM
 scheme_get_nonprinting (SCM optional)
 {
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || curObj->isinvisible)
     return SCM_BOOL_T;
@@ -4856,7 +4838,6 @@ scheme_get_nonprinting (SCM optional)
 static SCM
 scheme_set_nonprinting (SCM optional)
 {
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data))
     return SCM_BOOL_F;
@@ -4870,7 +4851,6 @@ scheme_set_nonprinting (SCM optional)
 static SCM
 scheme_is_grace (SCM optional)
 {
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   chord *thechord;
   if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->is_grace))
@@ -4881,7 +4861,6 @@ scheme_is_grace (SCM optional)
 static SCM
 scheme_is_tied (SCM optional)
 {
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   chord *thechord;
   if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->is_tied))
@@ -4893,7 +4872,6 @@ scheme_is_tied (SCM optional)
 static SCM
 scheme_is_slur_start (SCM optional)
 {
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   chord *thechord;
   if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->slur_begin_p))
@@ -4904,7 +4882,6 @@ scheme_is_slur_start (SCM optional)
 static SCM
 scheme_is_slur_end (SCM optional)
 {
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   chord *thechord;
   if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->slur_end_p))
@@ -4915,7 +4892,6 @@ scheme_is_slur_end (SCM optional)
 static SCM
 scheme_is_cresc_start (SCM optional)
 {
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   chord *thechord;
   if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->crescendo_begin_p))
@@ -4926,7 +4902,6 @@ scheme_is_cresc_start (SCM optional)
 static SCM
 scheme_is_cresc_end (SCM optional)
 {
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   chord *thechord;
   if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->crescendo_end_p))
@@ -4937,7 +4912,6 @@ scheme_is_cresc_end (SCM optional)
 static SCM
 scheme_is_dim_start (SCM optional)
 {
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   chord *thechord;
   if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->diminuendo_begin_p))
@@ -4948,7 +4922,6 @@ scheme_is_dim_start (SCM optional)
 static SCM
 scheme_is_dim_end (SCM optional)
 {
-  DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   chord *thechord;
   if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->diminuendo_end_p))
@@ -5384,8 +5357,6 @@ gchar *process_command_line (int argc, char **argv);    //back in main
 static void
 define_scheme_constants (void)
 {
-  gchar *tmp;
-
   gint major = 0, minor = 0, micro = 0;
   sscanf (VERSION, "%d.%d.%d", &major, &minor, &micro);
   gchar *denemo_version = g_strdup_printf ("%d_%d_%d%s", major, minor, micro,
@@ -6521,7 +6492,7 @@ inner_main (void *closure, int argc, char **argv)
   //g_print("Got inner main with  %d and %p\n", argc, argv);
 
   gint i;
-  GError *error = NULL;
+//  GError *error = NULL;
 #if 0
   //disabled pending appearance of pathconfig.h 
   /* initialize guile core */
@@ -7094,12 +7065,13 @@ singleton_callback (GtkToolButton * toolbutton, RhythmPattern * r)
 #undef MODE
 }
 
-
+/*UNUSED
 static void
 pb_first (GtkWidget * button)
 {
   call_out_to_guile ("(DenemoFirst)");
 }
+*/
 
 static void
 pb_go_back (GtkWidget * button)
@@ -7112,13 +7084,13 @@ pb_previous (GtkWidget * button)
 {
   call_out_to_guile ("(DenemoPrevious)");
 }
-
+/*UNUSED
 static void
 pb_rewind (GtkWidget * button)
 {
   call_out_to_guile ("(DenemoRewind)");
 }
-
+*/
 static void
 pb_stop (GtkWidget * button)
 {
@@ -7130,19 +7102,20 @@ pb_play (GtkWidget * button)
 {
   call_out_to_guile ("(DenemoPlay)");
 }
-
+/*UNUSED
 static void
 pb_pause (GtkWidget * button)
 {
   call_out_to_guile ("(DenemoPause)");
 }
-
+*/
+/*UNUSED
 static void
 pb_forward (GtkWidget * button)
 {
   call_out_to_guile ("(DenemoForward)");
 }
-
+*/
 static void
 pb_next (GtkWidget * button)
 {
@@ -7154,13 +7127,13 @@ pb_go_forward (GtkWidget * button)
 {
   call_out_to_guile ("(DenemoGoForward)");
 }
-
+/*UNUSED
 static void
 pb_last (GtkWidget * button)
 {
   call_out_to_guile ("(DenemoLast)");
 }
-
+*/
 static void
 pb_start_to_cursor (GtkWidget * button)
 {
@@ -7669,7 +7642,7 @@ create_rhythm_cb (GtkAction * action, gpointer param)
       singleton = TRUE;
     }
   else
-    pattern = g_strdup_printf ("");
+    pattern = g_strdup ("");
   if (!already_done)
     install_button_for_pattern (r, NULL);
 
@@ -7696,7 +7669,6 @@ create_rhythm_cb (GtkAction * action, gpointer param)
                    curobj && (j < si->selection.lastmeasuremarked || k <= si->selection.lastobjmarked); curobj = curobj->next, k++)
                 {
                   gpointer fn;
-                  gchar *temp;
                   DenemoObject *obj = (DenemoObject *) curobj->data;
                   switch (obj->type)
                     {
@@ -8424,7 +8396,6 @@ get_initialization_script (GtkWidget * widget, gchar * directory)
 static void
 put_initialization_script (GtkWidget * widget, gchar * directory)
 {
-  gchar *scheme;
   gchar *filename = g_build_filename (locatedotdenemo (), "actions", "menus", directory, INIT_SCM, NULL);
   if ((!g_file_test (filename, G_FILE_TEST_EXISTS)) || confirm (_("There is already an initialization script here"), _("Do you want to replace it?")))
     {
@@ -8510,6 +8481,7 @@ saveMenuItem (GtkWidget * widget, GtkAction * action)
 /* upload the action,
    from the user's menu hierarchy on disk, along with initialization script and menu item xml etc
 */
+#ifdef UPLOAD_TO_DENEMO_DOT_ORG
 static void
 uploadMenuItem (GtkWidget * widget, GtkAction * action)
 {
@@ -8541,7 +8513,7 @@ uploadMenuItem (GtkWidget * widget, GtkAction * action)
   upload_scripts (name, script, init_script, xml, menupath, label, tooltip, after);
 
 }
-
+#endif
 
 /* upload editscript for tag */
 void
@@ -8636,7 +8608,7 @@ gchar *
 create_xbm_data_from_pixbuf (GdkPixbuf * pixbuf, int lox, int loy, int hix, int hiy)
 {
   int width, height, rowstride, n_channels;
-  guchar *pixels, *p;
+  guchar *pixels;
 
   n_channels = gdk_pixbuf_get_n_channels (pixbuf);
 
@@ -8652,8 +8624,8 @@ create_xbm_data_from_pixbuf (GdkPixbuf * pixbuf, int lox, int loy, int hix, int 
   pixels = gdk_pixbuf_get_pixels (pixbuf);
   int x, y, i;
 
-  unsigned char *chars = g_malloc0 (sizeof (char) * width * height);    //about 8 times too big!
-  unsigned char *this = chars;
+  char *chars = g_malloc0 (sizeof (char) * width * height);    //about 8 times too big!
+  char *this = chars;
   for (i = 0, y = loy; y < hiy; y++)
     {
       for (x = lox; x < hix; x++, i++)
@@ -8855,7 +8827,6 @@ loadGraphicItem (gchar * name, DenemoGraphic ** xbm)
 static void
 saveGraphicItem (GtkWidget * widget, GtkAction * action)
 {
-  GError *error = NULL;
   gchar *name = (gchar *) gtk_action_get_name (action);
   gchar *pngname = g_strconcat (name, ".png", NULL);
   gchar *filename = g_build_filename (locatebitmapsdir (), pngname,
@@ -8868,7 +8839,7 @@ saveGraphicItem (GtkWidget * widget, GtkAction * action)
       guint height = Denemo.gui->xbm_height;
 
 
-      DenemoGraphic *bitmap = create_bitmap_from_data (Denemo.gui->xbm, width, height);
+      /*DenemoGraphic *bitmap =*/ create_bitmap_from_data (Denemo.gui->xbm, width, height);
 
 #if 0
 
@@ -9218,7 +9189,7 @@ static void
 delete_rhythm_cb (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  if (gui->mode & (INPUTEDIT) == 0)
+  if ((gui->mode & (INPUTEDIT)) == 0)
     return;
   if (gui->currhythm == NULL)
     return;
@@ -9266,12 +9237,13 @@ delete_rhythm_cb (GtkAction * action, gpointer param)
 /*
  * workaround for glib<2.10
  */
+/* UNUSED
 static void
 attach_action_to_widget (GtkWidget * widget, GtkAction * action, DenemoGUI * gui)
 {
   g_object_set_data (G_OBJECT (widget), "action", action);
 }
-
+*/
 /* attaches a button-press-event signal to the widget with the action as data
    for use in the callback */
 static void
@@ -9290,7 +9262,7 @@ attach_right_click_callback (GtkWidget * widget, GtkAction * action)
 }
 
 
-
+/* UNUSED
 static void
 dummy (void)
 {
@@ -9301,7 +9273,7 @@ dummy (void)
   call_out_to_guile ("(d-Insert2)");
   return;
 }
-
+*/
 /**
  * Menu entries with no shortcut keys, tooltips, and callback functions
  */
@@ -9586,7 +9558,6 @@ toggle_lilytext (GtkAction * action, gpointer param)
 static void
 toggle_scheme (GtkAction * action, gpointer param)
 {
-  DenemoGUI *gui = Denemo.gui;
   GtkWidget *textwindow = gtk_widget_get_toplevel (Denemo.ScriptView);
   if (!gtk_widget_get_visible (textwindow))
     gtk_widget_show_all (textwindow);
@@ -9708,7 +9679,7 @@ toggle_quick_edits (GtkAction * action, gpointer param)
 }
 
 
-
+/*UNUSED
 static void
 toggle_main_menu (GtkAction * action, gpointer param)
 {
@@ -9719,12 +9690,13 @@ toggle_main_menu (GtkAction * action, gpointer param)
   else
     gtk_widget_show (widget);
 }
-
+*/
 /**
  *  Function to toggle whether action menubar is visible 
  *  
  *  
  */
+/* UNUSED
 static void
 toggle_action_menu (GtkAction * action, gpointer param)
 {
@@ -9741,7 +9713,7 @@ toggle_action_menu (GtkAction * action, gpointer param)
     {
       gtk_widget_show (widget);
     }
-}
+}*/
 
 /**
  *  Function to toggle visibility of print preview pane of current gui
@@ -10022,7 +9994,6 @@ struct cbdata
 void
 addhistorymenuitem (gchar * filename)
 {
-  GList *g;
   if (!g_file_test (filename, G_FILE_TEST_EXISTS))
     return;
   GtkWidget *item = gtk_ui_manager_get_widget (Denemo.ui_manager,
@@ -10299,9 +10270,7 @@ create_window (void)
   GtkWidget *main_vbox, *menubar, *toolbar, *hbox;
   GtkActionGroup *action_group;
   GtkUIManager *ui_manager;
-  GtkAccelGroup *accel_group;
   GError *error;
-  GtkWidget *widget;
   gchar *denemoui_path = NULL, *data_file = NULL;
 
   Denemo.window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -10437,7 +10406,6 @@ create_window (void)
 
     //gtk_box_pack_start (GTK_BOX (main_vbox), inner, FALSE, TRUE, 0);
     gtk_widget_set_can_focus (inner, FALSE);
-    GtkWidget *button;
     GtkWidget *label;
 
 
@@ -10447,7 +10415,7 @@ create_window (void)
 
     //create_playbutton(inner,NULL, pb_rewind, GTK_STOCK_MEDIA_REWIND);
 
-    button = create_playbutton (inner, NULL, pb_go_back, GTK_STOCK_GO_BACK, _("Moves the playback start point (which shows as a green bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+    create_playbutton (inner, NULL, pb_go_back, GTK_STOCK_GO_BACK, _("Moves the playback start point (which shows as a green bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
 
     create_playbutton (inner, NULL, pb_start_to_cursor, GTK_STOCK_GO_DOWN, _("Sets the playback start point (green bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
     create_playbutton (inner, NULL, pb_next, GTK_STOCK_GO_FORWARD, _("Moves the playback start point (which shows as a green bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));

@@ -156,4 +156,7 @@ gboolean command_has_binding (guint command_idx);
 gint add_keybinding_for_name (gchar * name, gchar * binding);
 gint add_keybinding_for_command (gint idx, gchar * binding);
 
+void update_all_labels (keymap * the_keymap);
+void dnm_clean_event (GdkEventKey * event);
+gint add_twokeybinding_to_idx (keymap * the_keymap, gint first_keyval, GdkModifierType first_state, gint keyval, GdkModifierType state, guint command_idx, ListPosition pos);
 #endif

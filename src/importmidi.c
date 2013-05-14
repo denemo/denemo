@@ -25,6 +25,7 @@
 #include "file.h"
 #include "commandfuncs.h"
 #include "processstaffname.h"
+#include "generated/callbacks.h"
 
 #define TEXT			0x01
 #define COPYRIGHT		0X02
@@ -280,6 +281,22 @@ insert_rest_into_score (notetype length)
     add_dot_key (gui);
 }
 
+static gint
+ConvertNoteType2ticks (gint ppqn, notetype * gnotetype)
+{
+  gint ticks;
+  gint notetype = (int) gnotetype->notetype;
+  gint numofdots = (int) gnotetype->numofdots;
+  gint dsq = (4 * ppqn);
+  gint i = 0;
+
+  ticks = dsq >> notetype;
+  while (i++ < numofdots)
+    ticks += dsq >> (notetype + 1);
+
+  return ticks;
+}
+
 static void
 AddRest (gint ppqn, gint duration)
 {
@@ -390,7 +407,7 @@ decode_metadata (const smf_event_t * event)
 {
   int off = 0, mspqn, flats, isminor;
   char *buf;
-
+/*
   static const char *const major_keys[] = { "Fb", "Cb", "Gb", "Db", "Ab",
     "Eb", "Bb", "F", "C", "G", "D", "A", "E", "B", "F#", "C#", "G#"
   };
@@ -398,7 +415,7 @@ decode_metadata (const smf_event_t * event)
   static const char *const minor_keys[] = { "Dbm", "Abm", "Ebm", "Bbm", "Fm",
     "Cm", "Gm", "Dm", "Am", "Em", "Bm", "F#m", "C#m", "G#m", "D#m", "A#m", "E#m"
   };
-
+*/
   //assert(smf_event_is_metadata(event));
 
   switch (event->midi_buffer[1])
@@ -572,7 +589,7 @@ donoteon (const smf_event_t * event)
 void
 decode_midi_event (const smf_event_t * event)
 {
-  gint off = 0, channel;
+  gint channel;
   gchar note[5];
 
   /* + 1, because user-visible channels used to be in range <1-16>. */
@@ -646,7 +663,7 @@ process_track (smf_track_t * track)
       smf_add_track (smf, track);
       smf_rewind (smf);
     }
-  while (event = smf_track_get_next_event (track))
+  while ((event = smf_track_get_next_event (track)) && event)
     process_midi (event);
   if (delete_smf_after)
     {
@@ -665,7 +682,6 @@ AddStaff ()
 static gint
 readtrack (smf_t * smf)
 {
-  smf_event_t *event;
   smf_track_t *selected_track;
   gint track;
 
@@ -679,22 +695,6 @@ readtrack (smf_t * smf)
         AddStaff ();
     }
   return 0;
-}
-
-gint
-ConvertNoteType2ticks (gint ppqn, notetype * gnotetype)
-{
-  gint ticks;
-  gint notetype = (int) gnotetype->notetype;
-  gint numofdots = (int) gnotetype->numofdots;
-  gint dsq = (4 * ppqn);
-  gint i = 0;
-
-  ticks = dsq >> notetype;
-  while (i++ < numofdots)
-    ticks += dsq >> (notetype + 1);
-
-  return ticks;
 }
 
 gint

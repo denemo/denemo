@@ -19,6 +19,7 @@
 #include "objops.h"
 #include "staffops.h"
 #include "utils.h"
+#include "selectops.h"
 
 /**
  * Is the integer a power of 2, or the value 1

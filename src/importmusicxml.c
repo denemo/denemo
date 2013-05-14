@@ -10,6 +10,7 @@
  */
 #include <denemo/denemo.h>
 #include "prefops.h"            //for locatedotdenemo()
+#include "file.h"
 gint
 mxmlinput (gchar * filename, DenemoGUI * gui)
 {

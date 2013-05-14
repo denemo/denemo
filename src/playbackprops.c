@@ -50,7 +50,6 @@ playback_properties_change (GtkAction * action, gpointer param)
   GtkWidget *hbox;
   GtkWidget *main_vbox;
   GtkWidget *notebook;
-  GtkWidget *button;
 
 
   static struct callbackdata cbdata;

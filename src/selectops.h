@@ -84,4 +84,8 @@ gint get_staffs_in_clipboard (void);
 
 gchar *get_last_change (DenemoScore * si);
 
+void insert_clipboard (GList * clipboard);
+gint get_clip_objs (gint m);
+void insert_object (DenemoObject * clonedobj);
+void store_for_undo_measure_insert (DenemoScore * si, gint staffnum, gint measurenum);
 #endif

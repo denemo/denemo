@@ -5,6 +5,8 @@
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 1999-2005 Matthew Hiller */
 
+#include <glib.h>
+#include <glib/gprintf.h>
 #include <gtk/gtk.h>
 #include "calculatepositions.h"
 #include "chordops.h"
@@ -171,7 +173,6 @@ staff_properties_change (void)
     {
       gint i;
       gchar *name;
-      gint preset;
       gint npresets = ParseSoundfont (Denemo.prefs.fluidsynth_soundfont->str, 0, NULL, NULL);
       if (npresets)
         {

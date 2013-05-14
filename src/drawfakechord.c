@@ -9,9 +9,6 @@
 void
 draw_fakechord (cairo_t * cr, gint xx, gint y, DenemoObject * theobj)
 {
-  gchar *text = NULL;
-  GString *temp = g_string_new ("");
-  gint length = 0;
   chord *ch;
   if (theobj->type == FAKECHORD)
     {

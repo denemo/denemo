@@ -10,4 +10,5 @@ void stop_midi_playback (GtkAction * action, gpointer param);
 void playback_panic (void);
 void PlaybackRangeDialog ();
 void MasterVolumeDialog ();
+void restart_play();
 #endif //PLAYBACKH

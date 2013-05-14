@@ -64,12 +64,6 @@ extern "C" {
 #define g_string_free
 #endif
 
-#ifdef G_OS_WIN32
-#define mswin g_print
-#else
-#define mswin
-#endif
-
 extern const gchar *None;
 extern const gchar *Jack;
 extern const gchar *Portaudio;

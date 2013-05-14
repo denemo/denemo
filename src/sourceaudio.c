@@ -86,7 +86,11 @@ open_source_audio (gchar * filename)
           temp->filename = g_strdup (filename);
           temp->samplerate = sfinfo.samplerate;
           temp->channels = sfinfo.channels;
-          g_print ("sndfile: %s sample rate is %d channels %d containing %d \n", sf_strerror (temp->sndfile), sfinfo.samplerate, sfinfo.channels, sf_seek (temp->sndfile, -1, SEEK_END));
+          g_print ("sndfile: %s sample rate is %d channels %d containing %d \n", 
+                   sf_strerror (temp->sndfile), 
+                   sfinfo.samplerate, 
+                   sfinfo.channels, 
+                   (int) sf_seek (temp->sndfile, -1, SEEK_END));
           //FIXME warn if samplerate != Denemo.prefs.samplerate
           temp->volume = 1.0;
           g_static_mutex_lock (&smfmutex);

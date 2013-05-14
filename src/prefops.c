@@ -20,6 +20,7 @@
 #include "utils.h"
 #include "prefops.h"
 #include "playback.h"
+#include "view.h"
 
 #ifdef G_OS_WIN32
 #define PREFS_FILE "denemorcV2"
@@ -235,7 +236,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
 	  if(tmp)\
 	    {\
-              define_scheme_int_variable("DenemoPref_" #field, atoi(tmp), NULL); \
+              define_scheme_int_variable("DenemoPref_" #field, atoi((gchar *) tmp), NULL); \
 	      prefs->field = atoi ((gchar *) tmp);\
 	      xmlFree (tmp);\
 	    }\
@@ -248,7 +249,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
 	  if(tmp)\
 	    {\
-              define_scheme_int_variable("DenemoPref_" #field, atof(tmp), NULL); \
+              define_scheme_int_variable("DenemoPref_" #field, atof((gchar *) tmp), NULL); \
 	      prefs->field = atof ((gchar *) tmp);\
 	      xmlFree (tmp);\
 	    }\
@@ -262,7 +263,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
 	  if(tmp)\
 	    {\
-              define_scheme_bool_variable("DenemoPref_" #field, atoi(tmp), NULL); \
+              define_scheme_bool_variable("DenemoPref_" #field, atoi((gchar *) tmp), NULL); \
 	      prefs->field = atoi ((gchar *) tmp);\
 	      xmlFree (tmp);\
 	    }\
@@ -292,7 +293,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
           if (tmp)
             {
               gchar *curname = g_strdup_printf ("DenemoPref_%s", cur->name);
-              define_scheme_int_variable (curname, atoi (tmp), NULL);
+              define_scheme_int_variable (curname, atoi ((char*) tmp), NULL);
               g_free (curname);
               prefs->autosave_timeout = atoi ((gchar *) tmp);
               if (prefs->autosave_timeout < 1)
@@ -307,7 +308,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
           if (tmp)
             {
               gchar *curname = g_strdup_printf ("DenemoPref_%s", cur->name);
-              define_scheme_int_variable (curname, atoi (tmp), NULL);
+              define_scheme_int_variable (curname, atoi ((char*) tmp), NULL);
               g_free (curname);
               prefs->maxhistory = atoi ((gchar *) tmp);
               if (prefs->maxhistory < 1)

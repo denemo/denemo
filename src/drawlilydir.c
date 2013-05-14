@@ -7,6 +7,7 @@
  */
 
 #include "utils.h"              /* Includes <gdk.h> */
+#include "scorelayout.h"
 #include <denemo/denemo.h>
 #include <string.h>
 /**
@@ -28,8 +29,6 @@ draw_lily_dir (cairo_t * cr, gint xx, gint y, gint highy, gint lowy, DenemoObjec
   selected ? cairo_set_source_rgba (cr, 0.0, 0.0, 1.0, at_cursor ? 1.0 : 0.5) : lily->graphic ? cairo_set_source_rgb (cr, 0.0 + exclude, 0.0 + only, 0.0) : cairo_set_source_rgba (cr, 0.4 + exclude, 0.5 + only, 0.4, at_cursor ? 1.0 : 0.5);
   if (lily->graphic)
     {
-      gint width = lily->graphic->width;
-      gint height = lily->graphic->height;
       //FIXME there may be scripts expecting a different positioning code
       drawbitmapinverse_cr (cr, (DenemoGraphic *) lily->graphic, xx + lily->gx - (((DenemoGraphic *) lily->graphic)->width) / 2, y + MID_STAFF_HEIGHT + lily->gy - (((DenemoGraphic *) lily->graphic)->height) / 2, FALSE);
     }

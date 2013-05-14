@@ -47,7 +47,6 @@ draw_timesig (cairo_t * cr, gint xx, gint y, gint time1, gint time2, timesig * t
     }
   if (!(DENEMO_OVERRIDE_GRAPHIC & override))
     {
-      gint extra = LINE_SPACE / 2;
       cairo_select_font_face (cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL);
       cairo_set_font_size (cr, 24.0);
 

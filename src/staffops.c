@@ -20,7 +20,10 @@
 #include "calculatepositions.h"
 #include "commandfuncs.h"
 #include "lilydirectives.h"
-
+#include "displayanimation.h"
+#include "selectops.h"
+#include "utils.h"
+#include "lyric.h"
 
 /**
  * Return the first object node of the given measure
@@ -214,8 +217,6 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action, DenemoContext con
 {
   DenemoScore *si = gui->si;
   g_assert (si != NULL);
-  /* What gets added */
-  gint ret = -1, err;
   take_snapshot ();
   DenemoStaff *thestaffstruct = (DenemoStaff *) g_malloc (sizeof (DenemoStaff));
 
@@ -226,10 +227,9 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action, DenemoContext con
   thestaffstruct->voicemenu = (GtkMenu *) gtk_menu_new ();
 
 
-  struct newstaffinfotopass itp;
   measurenode *themeasures = NULL;      /* Initial set of measures in staff */
   gint numstaffs = g_list_length (si->thescore);
-  gint i, n, addat = 1;
+  gint i, addat = 1;
   if (si->lily_file)
     return;                     /* no code for this yet - just edit textually */
 #ifdef DEBUG
@@ -238,7 +238,6 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action, DenemoContext con
   if (numstaffs == 0)
     {
       action = INITIAL;
-      n = 1;
 
       thestaffstruct->clef.type = DENEMO_TREBLE_CLEF;
       thestaffstruct->keysig.number = 0;
@@ -346,10 +345,9 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action, DenemoContext con
     case FIRST:
       addat = 1;
       break;
+    default:
+      break;
     }
-  itp.gui = gui;
-  itp.staff = thestaffstruct;
-  itp.addat = addat;
 
   if (action != INITIAL && action != ADDFROMLOAD)
     {

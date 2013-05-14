@@ -416,7 +416,6 @@ search_dialog (GtkWidget * widget, gboolean replace, char **what_p, char **repla
 {
   GtkWidget *dialog;
   GtkEntry *entry1, *entry2;
-  GtkToggleButton *case_sensitive;
 
   dialog = gtk_dialog_new_with_buttons (replace ? "Replace" : "Find", GTK_WINDOW (gtk_widget_get_toplevel (widget)), GTK_DIALOG_MODAL, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
@@ -430,6 +429,7 @@ search_dialog (GtkWidget * widget, gboolean replace, char **what_p, char **repla
   gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (entry2), TRUE, TRUE, 0);
 
 #if GTK_MAJOR_VERSION==2
+  GtkToggleButton *case_sensitive;
   case_sensitive = g_object_new (GTK_TYPE_CHECK_BUTTON, "visible", TRUE, "label", "Case sensitive", "active", !(search_data.flags & GTK_SOURCE_SEARCH_CASE_INSENSITIVE), NULL);
 
   gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (case_sensitive), FALSE, FALSE, 0);

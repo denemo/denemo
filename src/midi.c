@@ -18,6 +18,8 @@
 #include "exportmidi.h"
 #include "draw.h"
 #include "view.h"
+#include "pitchentry.h"
+#include "instrumentname.h"
 
 #include <glib.h>
 #include <math.h>
@@ -118,7 +120,7 @@ start_playing (gchar * callback)
   set_start_and_end_objects_for_draw ();
   smf_rewind (smf);
 
-  int r = smf_seek_to_seconds (smf, Denemo.gui->si->start_time);
+  smf_seek_to_seconds (smf, Denemo.gui->si->start_time);
 
   initialize_until_time ();
 
@@ -328,14 +330,14 @@ get_obj_for_start_time (smf_t * smf, gdouble time)
   smf_event_t *initial = smf_peek_next_event (smf);
   gdouble total = smf_get_length_seconds (smf);
   time = (time > total ? total : time);
-  gint error = smf_seek_to_seconds (smf, time);
+  smf_seek_to_seconds (smf, time);
   do
     {
       event = smf_get_next_event (smf);
     }
   while (event && (((event->midi_buffer[0] & 0xF0) == MIDI_NOTE_OFF) || !event->user_pointer));
   if (initial)
-    error = smf_seek_to_event (smf, initial);
+    smf_seek_to_event (smf, initial);
   if (event)
     return (DenemoObject *) (event->user_pointer);
   return NULL;
@@ -350,14 +352,14 @@ get_obj_for_end_time (smf_t * smf, gdouble time)
   smf_event_t *initial = smf_peek_next_event (smf);
   gdouble total = smf_get_length_seconds (smf);
   time = (time > total ? total : time);
-  gint error = smf_seek_to_seconds (smf, time);
+  smf_seek_to_seconds (smf, time);
   do
     {
       event = smf_get_next_event (smf);
     }
   while (event && (((event->midi_buffer[0] & 0xF0) == MIDI_NOTE_ON) || !event->user_pointer));
   if (initial)
-    error = smf_seek_to_event (smf, initial);
+    smf_seek_to_event (smf, initial);
   if (event)
     return (DenemoObject *) (event->user_pointer);
   return NULL;
@@ -428,7 +430,6 @@ record_midi (gchar * buf, gdouble time)
 static void
 do_one_note (gint mid_c_offset, gint enshift, gint notenum)
 {
-  DenemoGUI *gui = Denemo.gui;
   if ((Denemo.keyboard_state & ADDING_MASK) && (Denemo.keyboard_state & CHORD_MASK))
     {
 
@@ -765,7 +766,6 @@ initialize_until_time (void)
           chord *thechord = obj->object;
           if (thechord->notes)
             {
-              note *thenote = thechord->notes->data;
               play_until = obj->earliest_time - SHAVING;        //g_print("initial until %f\n", play_until);
             }
         }

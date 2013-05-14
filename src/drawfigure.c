@@ -17,7 +17,6 @@
 void
 draw_figure (cairo_t * cr, gint xx, gint y, DenemoObject * theobj)
 {
-  gchar *text = NULL;
   chord *ch;
   if (theobj->type == CHORD)
     {

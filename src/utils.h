@@ -140,8 +140,8 @@ void chord2lilynumdots (struct chord *chordobject, GString * ret);
 nothing=FALSE,param_name = (*(str+strlen(#param_name))=='=')?str+strlen(#param_name)+1:NULL;
 
 #define GET_1PARAM(action, param, param_name) \
-gchar * query = NULL;\
-gchar * param_name = NULL;\
+  gchar * query = NULL;\
+  gchar * param_name = NULL;\
   DenemoScriptParam dummy;\
   dummy.string=NULL;\
   if(param==NULL)\
@@ -271,4 +271,7 @@ findnote (DenemoObject * curObj, gint cursory);
 #define get_label_for_command(name) lookup_label_from_idx(Denemo.map, lookup_command_from_name(Denemo.map, name))
 #define get_tooltip_for_command(name) lookup_tooltip_from_idx(Denemo.map, lookup_command_from_name(Denemo.map, name))
 #define get_menu_path_for_command(name) lookup_menu_path_from_idx(Denemo.map, lookup_command_from_name(Denemo.map, name))
+
+void write_input_status();
+enum clefs cleftypefromname (gchar * str);
 #endif /* UTILS_H */

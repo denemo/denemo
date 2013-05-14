@@ -21,6 +21,7 @@
 #include "utils.h"
 #include "playback.h"
 #include "fluid.h"
+#include "audiointerface.h"
 
 #ifdef _HAVE_JACK_
 #include "jackutil.h"
@@ -294,8 +295,10 @@ midi_audio_tab_update (GtkWidget * box, gpointer data)
   struct audio_callback_data *cbdata = (struct audio_callback_data *) data;
 
   gchar const *audio_driver = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->audio_driver));
+#if (defined _HAVE_JACK_) || (defined _HAVE_PORTMIDI_)  
   gchar const *midi_driver = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->midi_driver));
-
+#endif
+  
 #ifdef _HAVE_JACK_
   gtk_widget_set_visible (cbdata->jack_audio_settings, strcmp (audio_driver, "JACK") == 0);
   gtk_widget_set_visible (cbdata->jack_midi_settings, strcmp (midi_driver, "JACK") == 0);

@@ -183,7 +183,7 @@ advance_printname ()
     }
 
   PrintStatus.cycle = !PrintStatus.cycle;
-  gint success = g_unlink (PrintStatus.printname_pdf[PrintStatus.cycle]);
+  /*gint success =*/ g_unlink (PrintStatus.printname_pdf[PrintStatus.cycle]);
   //g_print("Removed old pdf file %s %d\n",PrintStatus.printname_pdf[PrintStatus.cycle], success);
 }
 
@@ -256,6 +256,7 @@ string_to_lilyversion (char *string)
   return version;
 }
 
+/* UNUSED
 static gchar *
 regex_parse_version_number (const gchar * str)
 {
@@ -275,7 +276,7 @@ regex_parse_version_number (const gchar * str)
   g_regex_unref (regex);
   return g_string_free (lilyversion, FALSE);
 }
-
+*/
 #define INSTALLED_LILYPOND_VERSION "2.16"       /* FIXME set via gub */
 gchar *
 get_lily_version_string (void)
@@ -976,10 +977,6 @@ print_lily_cb (GtkWidget * item, DenemoGUI * gui)
 // Displaying Print Preview
 
 
-
-
-static gint marky;              //coordinates defining a selected region in print preview pane. These are set by left button press/release, with pointx, pointy being set to top left
-
 static GdkCursor *busycursor;
 static GdkCursor *dragcursor;
 static GdkCursor *arrowcursor;
@@ -990,12 +987,14 @@ busy_cursor (void)
     gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), busycursor);
 }
 
+/*UNUSED
 static void
 drag_cursor (void)
 {
   if (gtk_widget_get_window (Denemo.printarea))
     gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), dragcursor);
 }
+*/
 
 static void
 normal_cursor (void)
@@ -1148,7 +1147,6 @@ set_denemo_pixbuf (gint x, gint y)
     window = gtk_layout_get_bin_window (GTK_LAYOUT (Denemo.printarea));
   if (window)
     {
-      gint width, height;
       gint xx, yy;
       get_window_position (&xx, &yy);
       x -= xx;
@@ -1168,12 +1166,11 @@ set_denemo_pixbuf (gint x, gint y)
       if (y < 0)
         y = 0;
 #if GTK_MAJOR_VERSION==2
+      gint width, height;
       gdk_drawable_get_size (window, &width, &height);
       pixbuf = gdk_pixbuf_get_from_drawable (NULL, window, NULL /*gdk_colormap_get_system () */ ,
                                              (gint) (x), (gint) (y), 0, 0, scale * grob_size, scale * grob_size);
 #else
-      width = gdk_window_get_width (window);
-      height = gdk_window_get_height (window);
       pixbuf = gdk_pixbuf_get_from_window (window, (gint) (x), (gint) (y), scale * grob_size, scale * grob_size);
 #endif
       if (Denemo.pixbuf)
@@ -1349,7 +1346,7 @@ overdraw_print (cairo_t * cr)
       cairo_set_source_rgb (cr, 0.5, 0.5, 0.5);
       cairo_rectangle (cr, Ww.Mark.x - pad / 2, Ww.Mark.y - pad / 2, w + pad, h + pad);
 
-      GdkWindow *window = gtk_layout_get_bin_window (GTK_LAYOUT (Denemo.printarea));
+      /*GdkWindow *window =*/ gtk_layout_get_bin_window (GTK_LAYOUT (Denemo.printarea));
       // gdk_draw_pixbuf(window, NULL, GDK_PIXBUF(Denemo.pixbuf),
       //    Ww.Mark.x+x, Ww.Mark.y+y, Ww.Mark.x, Ww.Mark.y,/* x, y in pixbuf, x,y in window */
       //    w,  h, GDK_RGB_DITHER_NONE,0,0);
@@ -1680,13 +1677,13 @@ create_thumbnail (gboolean async)
         }
 //check if thumbnail is newer than file
       struct stat thebuf;
-      gint status = g_stat (Denemo.gui->filename->str, &thebuf);
+      g_stat (Denemo.gui->filename->str, &thebuf);
       unsigned mtime = thebuf.st_mtime;
       gchar *uri = g_strdup_printf ("file://%s", Denemo.gui->filename->str);
       gchar *thumbname = get_thumbname (uri);
       gchar *thumbpathN = g_build_filename (thumbnailsdirN, thumbname, NULL);
       thebuf.st_mtime = 0;
-      status = g_stat (thumbpathN, &thebuf);
+      g_stat (thumbpathN, &thebuf);
       unsigned mtime_thumb = thebuf.st_mtime;
       if (mtime_thumb < mtime)
         {
@@ -1948,13 +1945,13 @@ get_control_point (gint which)
   return ret;
 }
 
-
+/*UNUSED
 static gint
 start_stage (GtkWidget * widget, WwStage stage)
 {
   Ww.stage = stage;
   return TRUE;
-}
+}*/
 
 static void
 create_all_pdf (void)
@@ -2005,7 +2002,7 @@ copy_pdf (void)
   if (filename)
     {
       gchar *contents;
-      gssize length;
+      gsize length;
       if (g_file_get_contents (PrintStatus.printname_pdf[PrintStatus.cycle], &contents, &length, NULL))
         {
           if (!g_file_set_contents (filename, contents, length, NULL))
@@ -2081,11 +2078,12 @@ popup_object_edit_menu (void)
   return TRUE;
 }
 
+/*UNUSED
 static gboolean
 same_position (DenemoPosition * pos1, DenemoPosition * pos2)
 {
   return pos1->movement == pos2->movement && pos1->staff == pos2->staff && pos1->measure == pos2->measure && pos1->object == pos2->object;
-}
+}*/
 
 static gboolean
 same_target (DenemoTarget * pos1, DenemoTarget * pos2)
@@ -2096,7 +2094,9 @@ same_target (DenemoTarget * pos1, DenemoTarget * pos2)
 static gint
 action_for_link (EvView * view, EvLinkAction * obj)
 {
-  mswin ("Signal from evince widget received %d %d\n", Ww.grob, Ww.stage);
+#ifdef G_OS_WIN32
+  g_print ("Signal from evince widget received %d %d\n", Ww.grob, Ww.stage);
+#endif
   //g_print("Link action Mark at %f, %f\n", Ww.Mark.x, Ww.Mark.y);
   gchar *uri = (gchar *) ev_link_action_get_uri (obj);
   //g_print("Stage %d\n", Ww.stage);
@@ -2113,7 +2113,9 @@ action_for_link (EvView * view, EvLinkAction * obj)
     {
       return TRUE;              //?Better take over motion notify so as not to get this while working ...
     }
-  mswin ("action_for_link: uri %s\n", uri);
+#ifdef G_OS_WIN32
+  g_print ("action_for_link: uri %s\n", uri);
+#endif
   //g_print("acting on external signal %s type=%d directivenum=%d\n", uri, Denemo.gui->si->target.type, Denemo.gui->si->target.directivenum);
   if (uri)
     {
@@ -2125,7 +2127,9 @@ action_for_link (EvView * view, EvLinkAction * obj)
         {
           DenemoTarget old_target = Denemo.gui->si->target;
           Ww.ObjectLocated = goto_lilypond_position (atoi (vec[2]), atoi (vec[3]));     //sets si->target
-          mswin ("action_for_link: object located %d\n", Ww.ObjectLocated);
+#ifdef G_OS_WIN32
+          g_print ("action_for_link: object located %d\n", Ww.ObjectLocated);
+#endif
           if (Ww.ObjectLocated)
             {
               if (!(Ww.grob == Beam && (Ww.stage == SelectingFarEnd)))
@@ -2253,8 +2257,6 @@ action_for_link (EvView * view, EvLinkAction * obj)
   return TRUE;                  //we do not want the evince widget to handle this.
 }
 
-static gint adjust_x = 0;
-static gint adjust_y = 0;
 static gboolean
 in_selected_object (gint x, gint y)
 {
@@ -2280,7 +2282,6 @@ is_near (gint x, gint y, GdkPoint p)
 static gboolean
 printarea_motion_notify (GtkWidget * widget, GdkEventMotion * event)
 {
-  gint state = event->state;
   Ww.ObjectLocated = FALSE;
 
   if (Ww.stage == WaitingForDrag)
@@ -2377,7 +2378,7 @@ printarea_motion_notify (GtkWidget * widget, GdkEventMotion * event)
 
 
 
-
+/* UNUSED
 static void
 normalize (void)
 {
@@ -2399,7 +2400,7 @@ normalize (void)
     Ww.near.y++;
 
 }
-
+*/
 static gdouble
 get_center_staff_offset (void)
 {
@@ -2665,7 +2666,6 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 //g_print("stage %d\n", Ww.stage);
   gboolean left = (event->button == 1);
   gboolean right = !left;
-  gboolean hotspot = is_near ((gint) event->x, (gint) event->y, Ww.near) || (is_near ((gint) event->x, (gint) event->y, Ww.far));
   gboolean object_located_on_entry = Ww.ObjectLocated;
   gint xx, yy;
   get_window_position (&xx, &yy);
@@ -3286,7 +3286,7 @@ get_updates_button (void)
   return button;
 }
 
-static
+static void
 popup_layouts_menu ()
 {
   GtkWidget *menu = GetLayoutMenu ();

@@ -39,8 +39,6 @@ insertfigure (gboolean filter, gpointer data)
   struct callbackdata *cbdata = (struct callbackdata *) data;
   DenemoGUI *gui = cbdata->gui;
   DenemoScore *si = gui->si;
-  static staff_info null_info;
-  GString *current_figure;
   gchar filter_sep = filter ? '/' : '|';
   gchar filter_spc = filter ? '*' : ' ';
   if (si->measurewidth == DENEMO_INITIAL_MEASURE_WIDTH)

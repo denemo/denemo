@@ -16,6 +16,7 @@
 #include "utils.h"
 #include "articulations.h"
 #include "audiointerface.h"
+#include "commandfuncs.h"
 
 /* Calculates the height of a notehead */
 static void

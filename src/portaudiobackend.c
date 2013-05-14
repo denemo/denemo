@@ -91,7 +91,7 @@ stream_callback (const void *input_buffer, void *output_buffer, unsigned long fr
 
 // Now get any audio to mix - dump it in the left hand channel for now
   event_length = frames_per_buffer;
-  read_event_from_mixer_queue (AUDIO_BACKEND, buffers[1], &event_length, &event_time, until_time);
+  read_event_from_mixer_queue (AUDIO_BACKEND, (void*) buffers[1], &event_length, &event_time, until_time);
 
 
   if (until_time < get_playuntil ())

@@ -9,11 +9,14 @@
 #include "config.h"
 #include <denemo/denemo.h>
 #include "exportxml.h"
+#include "source.h"
 #include "utils.h"
 #include "lyric.h"
 #include "lilydirectives.h"
 #include "texteditors.h"
 #include "xmldefs.h"
+#include "scorelayout.h"
+#include "pitchentry.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -479,6 +482,7 @@ newXMLTimeSignature (xmlNodePtr parent, xmlNsPtr ns, timesig * timesig)
  *
  * as a child of the given node.
  */
+/*UNUSED
 static xmlNodePtr
 newXMLDecoration (xmlNodePtr parent, xmlNsPtr ns, gchar * decorationName)
 {
@@ -486,7 +490,7 @@ newXMLDecoration (xmlNodePtr parent, xmlNsPtr ns, gchar * decorationName)
   xmlSetProp (decorationElem, (xmlChar *) "type", (xmlChar *) decorationName);
   return decorationElem;
 }
-
+*/
 
 /**
  * Output an accidental of the form:
@@ -643,7 +647,7 @@ outputSources (xmlNodePtr mvmntElem, xmlNsPtr ns, GList * sources)
       gdk_pixbuf_save_to_buffer (g->data, &buf, &len, "png", &error, NULL);
       gchar *cdata = g_base64_encode (buf, len);
       g_free (buf);
-      xmlNewChild (curElem, ns, (xmlChar *) "pixbuf", cdata);
+      xmlNewChild (curElem, ns, (xmlChar*) "pixbuf", (xmlChar*) cdata);
       g_free (cdata);
       //??? xmlNodePtr xmlNewCDataBlock       (xmlDocPtr doc, const xmlChar *content, int len);
 
@@ -659,7 +663,7 @@ static void
 outputAudio (xmlNodePtr mvmntElem, xmlNsPtr ns, DenemoAudio * audio)
 {
   xmlNodePtr curElem = xmlNewChild (mvmntElem, ns, (xmlChar *) "audio", NULL);
-  xmlNewChild (curElem, ns, (xmlChar *) "filename", audio->filename);
+  xmlNewChild (curElem, ns, (xmlChar *) "filename", (xmlChar*) audio->filename);
   newXMLIntChild (curElem, ns, (xmlChar *) "lead-in", audio->leadin);
 }
 
@@ -692,7 +696,7 @@ exportXML (gchar * thefilename, DenemoGUI * gui, gint start, gint end)
   DenemoStaff *curStaffStruct;
   gchar *staffXMLID = 0, *voiceXMLID;
   gchar *lastBeamStartXMLID, *chordXMLID, *noteXMLID;
-  gchar *lastTupletStartXMLID, *lastGraceStartXMLID;
+  gchar *lastTupletStartXMLID;
   //gchar *clefname, *baseKeyName, *accidental;
   measurenode *curMeasure;
   objnode *curObjNode;
@@ -702,7 +706,6 @@ exportXML (gchar * thefilename, DenemoGUI * gui, gint start, gint end)
   GList *slurElemStack;
   GList *crescElemStack;
   GList *diminElemStack;
-  gint curTime1, curTime2;
   //gint numerator, denominator;
   gchar *durationType;
   gdouble fraction = 0.0;
@@ -874,7 +877,6 @@ exportXML (gchar * thefilename, DenemoGUI * gui, gint start, gint end)
           diminElemStack = NULL;
           lastBeamStartXMLID = NULL;
           lastTupletStartXMLID = NULL;
-          lastGraceStartXMLID = NULL;
 
           /*
            * If this is a primary voice, find the ID of its staff, which applies
@@ -916,8 +918,6 @@ exportXML (gchar * thefilename, DenemoGUI * gui, gint start, gint end)
           xmlSetProp (curElem, (xmlChar *) "staff", (xmlChar *) staffXMLID);
           newXMLClef (parentElem, ns, &curStaffStruct->clef);
           newXMLKeySignature (parentElem, ns, &curStaffStruct->keysig);
-          curTime1 = curStaffStruct->timesig.time1;
-          curTime2 = curStaffStruct->timesig.time2;
           newXMLTimeSignature (parentElem, ns, &curStaffStruct->timesig);
 // output here the stuff like device-port which are currently being done on the staff, because that staff is just a container, not a real Denemo staff
           newVoiceProps (voiceElem, ns, curStaffStruct);
@@ -1318,7 +1318,7 @@ exportXML (gchar * thefilename, DenemoGUI * gui, gint start, gint end)
                       SETINT_PROP (override);
 #undef SETINT_PROP
                       if (curObj->durinticks)
-                        newXMLIntProp (objElem, "ticks", curObj->durinticks);
+                        newXMLIntProp (objElem, (xmlChar*) "ticks", curObj->durinticks);
                       break;
                     case BARLINE:
                     case MEASUREBREAK:

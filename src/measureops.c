@@ -16,6 +16,8 @@
 #include "string.h"
 #include "utils.h"
 #include "barline.h"
+#include "selectops.h"
+#include "displayanimation.h"
 
 #define STEMDIFFERENCE 6
 #define HALFSTEMDIFFERENCE 3
@@ -163,7 +165,6 @@ removemeasures (DenemoScore * si, guint pos, guint nummeasures, gboolean all)
 {
   staffnode *curstaff;
   measurenode *firstmeasure;
-  measurenode *delmeasure;
   GList *temp;
   guint totalmeasures = 0;
   guint i;
@@ -276,7 +277,6 @@ settickvalsinmeasure (objnode * theobjs)
   gint ticks_so_far = 0;
   gint basic_ticks_in_tuplet_group = 0;
   gboolean in_tuplet = FALSE;
-  gboolean in_grace = FALSE;
 
   for (curobjnode = theobjs; curobjnode; curobjnode = curobjnode->next)
     {
@@ -300,7 +300,6 @@ settickvalsinmeasure (objnode * theobjs)
 
               if (((chord *) theobj->object)->is_grace)
                 {
-                  ((chord *) theobj->object)->is_grace & ~ENDGRACE;     //clear any old ENDGRACE marker
                   ((chord *) theobj->object)->is_grace |= is_end_grace (curobjnode);    //and re-instate if needed
                   theobj->durinticks = 0;
                 }

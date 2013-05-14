@@ -30,7 +30,7 @@ static gint staff_transition_amount = 0;
 static gint staff_transition_steps = 0;
 static gint movement_transition_amount = 0;
 static gint movement_transition_steps = 0;
-static
+static gint
 cursor_transition (void)
 {
   gtk_widget_queue_draw (Denemo.scorearea);

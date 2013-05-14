@@ -1,4 +1,3 @@
-gchar *text;
 /*CursorLeft cursorleft*/
 SCM scheme_CursorLeft (SCM optional);
 install_scm_function ("d-CursorLeft", scheme_CursorLeft);

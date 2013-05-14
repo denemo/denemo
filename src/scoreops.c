@@ -15,9 +15,19 @@
 #include "objops.h"
 #include "lyric.h"
 #include "audiointerface.h"
+#include "sourceaudio.h"
+#include "utils.h"
+#include "view.h"
+#include "commandfuncs.h"
+#include "moveviewport.h"
+#include "contexts.h"
+#include "midi.h"
+#include "displayanimation.h"
+#include "lilydirectives.h"
+#include "exportmidi.h"
+#include "calculatepositions.h"
 
 #define MOVEMENT_WIDTH (10)
-static remove_all_staffs (DenemoScore * si);
 
 
 /**
@@ -505,7 +515,7 @@ init_score (DenemoScore * si, DenemoGUI * gui)
   //GTK_WIDGET_UNSET_FLAGS(si->buttonbox, GTK_CAN_FOCUS);
 }
 
-static
+static gboolean
 delete_all_staffs (DenemoGUI * gui)
 {
   DenemoScore *si = gui->si;

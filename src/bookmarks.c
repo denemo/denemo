@@ -8,7 +8,7 @@
 
 #include "bookmarks.h"
 #include "moveviewport.h"
-
+#include "utils.h"
 
 
 /**
@@ -117,12 +117,12 @@ gotobookmark (GtkAction * action, gpointer param)
     }
   GtkWidget *dialog;
   GtkWidget *combobox;
-  GList *strings = NULL, *tmp;
   dialog = gtk_dialog_new_with_buttons (_("Goto Bookmark"), GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
 
   //g_print ("List length %d\n", g_list_length (gui->si->bookmarks));
 #define FORMAT "%d : Staff %d : Bar %d"
 #if GTK_MAJOR_VERSION==3
+  GList* tmp;
   combobox = gtk_combo_box_text_new ();
   for (tmp = gui->si->bookmarks; tmp; tmp = tmp->next)
     {
@@ -131,6 +131,7 @@ gotobookmark (GtkAction * action, gpointer param)
                                          bm->id, bm->staff, bm->bar);
       gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combobox), tmpstring);
 #else
+  GList *strings = NULL;
   combobox = gtk_combo_new ();
   for (tmp = gui->si->bookmarks; tmp; tmp = tmp->next)
     {

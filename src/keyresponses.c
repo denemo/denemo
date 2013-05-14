@@ -12,6 +12,7 @@
 #include "tupletops.h"
 #include "view.h"
 #include "commandfuncs.h"
+#include "kbd-custom.h"
 #if GTK_MAJOR_VERSION==3
 #include <gdk/gdkkeysyms-compat.h>      //FIXME Look for something more gtk3 like
 #endif
@@ -165,7 +166,6 @@ perform_command (const gchar * command_name, GdkEventKey * event)
 gchar *
 process_key_event (GdkEventKey * event, gchar * perform_command ())
 {
-  DenemoGUI *gui = Denemo.gui;
   keymap *the_keymap = Denemo.map;
   // g_print("\n********\nCaps Lock %x?\n\n********\nShifted %x?\n", event->state&GDK_LOCK_MASK,          event->state&GDK_SHIFT_MASK     );
   {
@@ -303,9 +303,6 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
 gint
 scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
 {
-  DenemoGUI *gui = Denemo.gui;
-  keymap *the_keymap = Denemo.map;
-
   Denemo.keyboard_state |= (0xf & klock_mask (event->keyval));
   Denemo.keyboard_state ^= llock_mask (event->keyval);
   // if((event->keyval==GDK_Alt_L)||(event->keyval==GDK_Alt_R))

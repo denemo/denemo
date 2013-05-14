@@ -21,6 +21,9 @@
 #include "lyric.h"
 #include "lilydirectives.h"
 #include "scoreops.h"
+#include "view.h"
+#include "contexts.h"
+#include "moveviewport.h"
 /*For save selection function*/
 #include "utils.h"
 /**
@@ -519,7 +522,6 @@ gboolean
 insert_clip_obj (gint m, gint n)
 {
   DenemoScore *si = Denemo.gui->si;
-  staffnode *curstaff = si->currentstaff;
   if (copybuffer == NULL)
     return FALSE;
   GList *stafflist = g_list_nth (copybuffer, m);
@@ -922,9 +924,8 @@ delete_selection (void)
 void
 pastewrapper (GtkAction * action, DenemoScriptParam * param)
 {
-  gboolean success;
   stage_undo (Denemo.gui->si, ACTION_STAGE_END);        //undo is a queue (ie stack) so we push the end first
-  success = !call_out_to_guile ("(DenemoPaste)");
+  call_out_to_guile ("(DenemoPaste)");
   //FIXME if not success a ACTION_SCRIPT_ERROR will have been put in the undo queue...
   stage_undo (Denemo.gui->si, ACTION_STAGE_START);
 
@@ -1137,10 +1138,10 @@ get_last_change (DenemoScore * si)
       return g_strdup_printf ("Change %s at staff %d measure %d position %d; ", DenemoObjTypeNames[((DenemoObject *) last->object)->type], last->position.staff, last->position.measure, last->position.object);
       break;
     case ACTION_MEASURE_CREATE:
-      return g_strdup_printf ("Create; at staff %d measure %d position %d; ", DenemoObjTypeNames[((DenemoObject *) last->object)->type], last->position.staff, last->position.measure, last->position.object);
+      return g_strdup_printf ("Create %s; at staff %d measure %d position %d; ", DenemoObjTypeNames[((DenemoObject *) last->object)->type], last->position.staff, last->position.measure, last->position.object);
       break;
     case ACTION_MEASURE_REMOVE:
-      return g_strdup_printf ("Remove; at staff %d measure %d position %d; ", DenemoObjTypeNames[((DenemoObject *) last->object)->type], last->position.staff, last->position.measure, last->position.object);
+      return g_strdup_printf ("Remove %s; at staff %d measure %d position %d; ", DenemoObjTypeNames[((DenemoObject *) last->object)->type], last->position.staff, last->position.measure, last->position.object);
     case ACTION_NOOP:
       return g_strdup_printf ("No-op; ");
       break;
@@ -1641,7 +1642,6 @@ redo (DenemoGUI * gui)
 void
 update_undo_info (DenemoScore * si, DenemoUndoData * undo)
 {
-  DenemoUndoData *tmp = NULL;
 
 
   //g_print ("Adding: Action %d at pos %d appending %d\n",  undo->action, undo->position.object, undo->position.appending); 
@@ -1670,7 +1670,6 @@ g */
 void
 update_redo_info (DenemoScore * si, DenemoUndoData * redo)
 {
-  DenemoUndoData *tmp = NULL;
   //print_queue("Update redo ******************\nUndo queue:\n", si->undodata);
   //print_queue("Update redo ******************\nredo queue:\n", si->redodata);
 
