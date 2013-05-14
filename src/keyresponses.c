@@ -244,7 +244,14 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
         {                       //Two key name was not a binding
           ret = NULL;
           write_status (Denemo.gui);
+          if ((Denemo.gui->view != DENEMO_MENU_VIEW) || Denemo.prefs.learning)
+            {
+							Denemo.prefs.learning = TRUE;
+              KeyStrokeDecline (prefix_store->str);//FIXME show ,name
+            }
           toggle_to_drawing_area (TRUE);        //restore menus, in case the user is lost and needs to look up a keypress
+          if (Denemo.gui->view != DENEMO_MENU_VIEW)
+						toggle_to_drawing_area (TRUE);
         }
       g_string_assign (prefix_store, "");
       Denemo.continuations = NULL;
@@ -273,12 +280,14 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
         }
       else
         {
-          if (Denemo.prefs.learning)
+          if ((Denemo.gui->view != DENEMO_MENU_VIEW) || Denemo.prefs.learning)
             {
+							Denemo.prefs.learning = TRUE;
               KeyStrokeDecline (name);
             }
-          write_status (Denemo.gui);    //WHY FIXME
-          toggle_to_drawing_area (TRUE);        //restore menus, in case the user is lost and needs to look up a keypress
+          toggle_to_drawing_area (TRUE);  //restore menus, in case the user is lost and needs to look up a keypress
+          if (Denemo.gui->view != DENEMO_MENU_VIEW)
+						toggle_to_drawing_area (TRUE);
         }
       return NULL;
     }

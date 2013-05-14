@@ -2211,7 +2211,9 @@ KeyStrokeShow (gchar * str, gint command_idx, gboolean single)
       else
         {
           if (single)
-            text = g_strdup_printf (_("Key Press <span font_desc=\"40\" foreground=\"blue\">%s</span>" " Is not a shortcut."), str);
+            text = g_strdup_printf (_("Key Press <span font_desc=\"40\" foreground=\"blue\">%s</span>" " Is not a shortcut.\n%s"), str,
+            (Denemo.gui->view != DENEMO_MENU_VIEW)?
+            _("(The menus are now restored in case you are lost.)"):"");
           else
             text = g_strdup_printf (_("Key Press <span font_desc=\"40\" foreground=\"blue\">%s</span>" " Awaiting continuation"), str);
           gtk_window_set_title (GTK_WINDOW (KeyStrokes), _("First Key Press"));
