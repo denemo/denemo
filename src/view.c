@@ -7963,7 +7963,7 @@ instantiate_script (GtkAction * action)
 {
   gchar *menupath = (gchar *) g_object_get_data (G_OBJECT (action), "menupath");
   const gchar *basename = gtk_action_get_name (action);
-  const gchar* name = g_strconcat(basename, ".xml", NULL);
+  gchar* name = g_strconcat(basename, ".xml", NULL);
   gchar *path = g_build_filename (locatedotdenemo (), "actions", "menus", menupath, NULL);
   gchar *filename = g_build_filename (path, name, NULL);
   //  g_print("Filename %s\n", filename);
@@ -7984,6 +7984,7 @@ instantiate_script (GtkAction * action)
               warningdialog ("Unable to load the script");
               g_free (path);
               g_free (filename);
+              g_free (name);
               return NULL;
             }
         }
@@ -7994,6 +7995,7 @@ instantiate_script (GtkAction * action)
     eval_file_with_catch (filename);    //scm_c_primitive_load(filename);Use scm_c_primitive_load together with scm_internal_catch and scm_handle_by_message_no_exit instead. 
   g_free (filename);
   g_free (path);
+  g_free (name);
   //g_print("Command loaded is following script:\n%s\n;;; end of loaded command script.\n", (gchar*)g_object_get_data(G_OBJECT(action), "scheme"));
   return (gchar *) g_object_get_data (G_OBJECT (action), "scheme");
 }
