@@ -92,10 +92,10 @@ typedef struct printstatus
 
 static printstatus PrintStatus = { GPID_NONE, 0, 0, 4, 4, 4, 4, TYPESET_ALL_MOVEMENTS };
 
-typedef struct Rectangle
+typedef struct WwRectangle
 {
   gdouble x, y, width, height;
-} Rectangle;                    //Width=0 means no rectangle set
+} WwRectangle;                    //Width=0 means no rectangle set
 
 typedef struct Curve
 {
@@ -140,8 +140,8 @@ typedef enum
 } WwGrob;
 typedef struct ww
 {
-  Rectangle Mark;
-  Rectangle Reference;          //reference is origin for LilyPond offsets, set by the user with blue cross wires.
+  WwRectangle Mark;
+  WwRectangle Reference;          //reference is origin for LilyPond offsets, set by the user with blue cross wires.
   Curve Curve;
   gdouble curx, cury;           // position of mouse pointer during motion
   //gdouble pointx, pointy; becomes near.x,y
