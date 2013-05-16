@@ -8167,7 +8167,6 @@ insertScript (GtkWidget * widget, gchar * insertion_point)
   gchar *myname, *mylabel, *myscheme, *mytooltip, *submenu;
   gchar *myposition = g_path_get_dirname (insertion_point);
   gchar *after = g_path_get_basename (insertion_point);
-  gchar* myfilename;
   gint idx = lookup_command_from_name (Denemo.map, after);
   //g_print("Saving with %s after %s\n", myposition, after);
   myname = string_dialog_entry (gui, "Create a new menu item", "Give item name (avoid clashes): ", "MyName");
@@ -8176,7 +8175,6 @@ insertScript (GtkWidget * widget, gchar * insertion_point)
   if (myname == NULL)
     return;
   subst_illegals (myname);
-  myfilename = g_strconcat(myname, ".xml", NULL);
   mylabel = string_dialog_entry (gui, _("Create a new menu item"), _("Give menu label: "), _("My Label"));
   if (mylabel == NULL)
     return;
@@ -8190,16 +8188,16 @@ insertScript (GtkWidget * widget, gchar * insertion_point)
       if (submenu)
         {
           subst_illegals (submenu);
-          myposition = g_strdup_printf ("%s/%s", myposition, submenu);
+          myposition = g_strdup_printf ("%s/%s", myposition, submenu);  //FIXME G_DIR_SEPARATOR in myposition???
         }
     }
 
   myscheme = getSchemeText ();
 
-  //FIXME G_DIR_SEPARATOR in myposition???
+  gchar *myfilename = g_strconcat(myname, ".xml", NULL);
+  g_print ("The filename built is %s from %s", myfilename, myposition);
   gchar *filename = g_build_filename (locatedotdenemo (), "actions", "menus", myposition, myfilename, NULL);
   g_free(myfilename);
-  g_print ("The filename built is %s from %s", filename, myposition);
   if ((!g_file_test (filename, G_FILE_TEST_EXISTS)) || (g_file_test (filename, G_FILE_TEST_EXISTS) && confirm (_("Duplicate Name"), _("A command of this name is already available in your custom menus; Overwrite?"))))
     {
       gchar *dirpath = g_path_get_dirname (filename);
