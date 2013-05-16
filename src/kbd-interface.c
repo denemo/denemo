@@ -397,7 +397,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui, gint co
   //gtk_widget_set_sensitive (delbutton, FALSE);
   gtk_table_attach (GTK_TABLE (table), delbutton, 4, 5, 5, 6, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 
-  lookbutton = gtk_button_new_from_stock (GTK_STOCK_FIND);
+  //lookbutton = gtk_button_new_from_stock (GTK_STOCK_FIND);
   // gtk_table_attach (GTK_TABLE (table), lookbutton, 5, 6, 5, 6,
 //                  (GtkAttachOptions) (GTK_FILL),
 //                  (GtkAttachOptions) (0), 0, 0);

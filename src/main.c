@@ -330,7 +330,7 @@ main (int argc, char *argv[])
   g_print ("Setting FONTCONFIG_FILE=%s\n", fc_file);
 
 
-  gchar *program_files = g_getenv ("PROGRAMFILES");
+  //gchar *program_files = g_getenv ("PROGRAMFILES");
   gchar *path = g_getenv ("PATH");
   gchar *lilypond_path = g_build_filename (prefix, "bin", NULL);
   gchar *lib_path = g_build_filename (prefix, "lib", NULL);

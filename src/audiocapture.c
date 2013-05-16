@@ -796,7 +796,6 @@ Autocorrelation (float mData[], // In
   int half = WindowSize / 2;
 
   float *in = malloc (sizeof (float) * WindowSize);
-  float *in2 = malloc (sizeof (float) * WindowSize);
   float *out = malloc (sizeof (float) * WindowSize);
   float *out2 = malloc (sizeof (float) * WindowSize);
 
@@ -868,7 +867,6 @@ Autocorrelation (float mData[], // In
   /*  *mProcessedSize = half; */
 
   free (in);
-  free (in2);
   free (out);
   free (out2);
 
@@ -939,7 +937,7 @@ Parabole (float *y, int nb, float *maxyVal)
 {
   int i;
   float mx4 = 0, mx3 = 0, mx2 = 0, mx = 0;
-  float mx3y = 0, mx2y = 0, mxy = 0, my = 0;
+  float mx2y = 0, mxy = 0, my = 0;
   float a, b, c;
   float highX;
   for (i = 0; i < nb; i++)
@@ -950,7 +948,6 @@ Parabole (float *y, int nb, float *maxyVal)
       mx4 += i * i * i * i;
       mxy += i * y[i];
       mx2y += i * i * y[i];
-      mx3y += i * i * i * y[i];
       my += y[i];
     }
   mx /= nb;
@@ -960,7 +957,6 @@ Parabole (float *y, int nb, float *maxyVal)
   my /= nb;
   mxy /= nb;
   mx2y /= nb;
-  mx3y /= nb;
   a = ((mx2y - mx2 * my) * (mx2 - mx * mx) - (mxy - mx * my) * (mx3 - mx2 * mx)) / ((mx4 - mx2 * mx2) * (mx2 - mx * mx) - (mx3 - mx * mx2) * (mx3 - mx * mx2));
   b = (mxy - mx * my - a * (mx3 - mx * mx2)) / (mx2 - mx * mx);
   c = my - a * mx2 - b * mx;

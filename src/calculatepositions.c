@@ -173,7 +173,9 @@ allocate_xes (objnode ** block_start_obj_nodes, objnode ** block_end_obj_nodes, 
   /* Set the block width */
 
   ticks_in_block = furthest_tick_advance - *base_tick;
-  shortest_chords_in_block = ticks_in_block % shortest_chord_duration ? ticks_in_block / shortest_chord_duration + 1 : ticks_in_block / shortest_chord_duration;
+  shortest_chords_in_block = (ticks_in_block % shortest_chord_duration)
+    ? (ticks_in_block / shortest_chord_duration + 1)
+    : (ticks_in_block / shortest_chord_duration);
   block_width = MAX (shortest_chords_in_block * shortest_chord_pixels, ticks_in_block * whole_note_width / WHOLE_NUMTICKS);
 
   /* Now go through staff-by-staff and set the xes within the block

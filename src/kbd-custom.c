@@ -359,7 +359,7 @@ dnm_accelerator_parse (const gchar * accelerator, guint * accelerator_key, GdkMo
         {
           keyval = gdk_keyval_from_name (accelerator);
           accelerator += len;
-          len -= len;
+          len = 0;
         }
     }
 

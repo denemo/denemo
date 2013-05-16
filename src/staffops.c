@@ -231,7 +231,7 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action, DenemoContext con
   gint numstaffs = g_list_length (si->thescore);
   gint i, addat = 1;
   if (si->lily_file){
-    free (thestaffstruct);
+    g_free (thestaffstruct);
     return;          /* no code for this yet - just edit textually */
   }
 #ifdef DEBUG
