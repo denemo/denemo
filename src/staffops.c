@@ -230,8 +230,10 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action, DenemoContext con
   measurenode *themeasures = NULL;      /* Initial set of measures in staff */
   gint numstaffs = g_list_length (si->thescore);
   gint i, addat = 1;
-  if (si->lily_file)
-    return;                     /* no code for this yet - just edit textually */
+  if (si->lily_file){
+    free (thestaffstruct);
+    return;          /* no code for this yet - just edit textually */
+  }
 #ifdef DEBUG
   g_print ("newstaff: Num staffs %d\n", numstaffs);
 #endif

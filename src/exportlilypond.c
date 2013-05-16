@@ -1584,8 +1584,10 @@ get_lilypond_for_timesig (timesig * time)
   gboolean override = get_lily_override (time->directives);
   gchar *timesig_string = get_postfix (time->directives);
   gchar *time_prefix = get_prefix (time->directives);
-  if (override)
+  if (override){
+    g_free (time_prefix);
     return timesig_string;
+  }
 
   gchar *ret = g_strdup_printf ("{%s \\time %d/%d %s}\n", time_prefix, time->time1,
                                 time->time2, timesig_string);
@@ -1602,8 +1604,10 @@ get_lilypond_for_keysig (struct keysig * key)
   gboolean override = get_lily_override (key->directives);
   gchar *keysig_string = get_postfix (key->directives);
   gchar *key_prefix = get_prefix (key->directives);
-  if (override)
+  if (override){
+    g_free (key_prefix);
     return keysig_string;
+  }
   determinekey (key->isminor ? key->number + 3 : key->number, &keyname);
   gchar *ret = g_strdup_printf ("{%s \\key %s%s\n%s", key_prefix, keyname, (key->isminor) ? " \\minor}" : " \\major}", keysig_string);
   g_free (keysig_string);
@@ -1631,13 +1635,16 @@ do_clef (GString * definitions, DenemoStaff * curstaffstruct, gchar * movement, 
 gchar *
 get_lilypond_for_clef (clef * theclef)
 {
-  gchar *clefname;
+  gchar *clefname = NULL;
   determineclef (theclef->type, &clefname);
   gboolean clef_override = get_lily_override (theclef->directives);
   gchar *clef_postfix_insert = get_postfix (theclef->directives);
   gchar *clef_prefix = get_prefix (theclef->directives);
-  if (clef_override)
+  if (clef_override){
+    g_free (clef_prefix);
     return clef_postfix_insert;
+
+  }
   gchar *ret = g_strdup_printf ("%s \\clef %s %s\n", clef_prefix, clefname, clef_postfix_insert);
   g_free (clef_postfix_insert);
   g_free (clef_prefix);
@@ -2900,7 +2907,6 @@ lily_keypress (GtkWidget * w, GdkEventKey * event)
               {
                 DenemoObject *lilyobj = lily_directive_new (key);
                 //g_print("inserted a lilydirective  %s (%x)\n", key, *key);
-                g_free (key);
                 object_insert (gui, lilyobj);
                 displayhelper (gui);
                 refresh_lily_cb (NULL, gui);

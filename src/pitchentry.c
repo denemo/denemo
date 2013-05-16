@@ -595,7 +595,7 @@ apply_tones (DenemoScore * si)
       objnode *curobj = curmeasure->data;
       while (curobj)
         {
-          tone *thetone;
+          tone *thetone = NULL;
           //skip over invalid tones
           while (store_el && (thetone = (tone *) store_el->data) && !thetone->valid)
             store_el = store_el->next;

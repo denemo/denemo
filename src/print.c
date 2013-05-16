@@ -389,6 +389,7 @@ process_lilypond_errors (gchar * filename)
 
   if (numbytes == -1)
     {
+      g_free(filename_colon);
       g_free (bytes);
       return;
     }

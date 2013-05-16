@@ -1109,7 +1109,7 @@ file_newwrapper (GtkAction * action, DenemoScriptParam * param)
 gint
 open_user_default_template (ImportType type)
 {
-  gint ret;
+  gint ret = -1;
   gchar *filename = g_build_filename (locatedotdenemo (), "templates", "default.denemo", NULL);
   if (g_file_test (filename, G_FILE_TEST_EXISTS))
     {

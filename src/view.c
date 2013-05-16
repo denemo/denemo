@@ -1208,7 +1208,6 @@ scheme_user_screenshot (SCM type, SCM position)
   GdkRectangle *rect = screenshot_find_rectangle ();
   if (rect)
     {
-      GError *error = NULL;
       //g_print("%d %d %d %d\n", rect->x, rect->y, rect->width, rect->height);
       GdkPixbuf *screenshot = screenshot_get_pixbuf (gdk_get_default_root_window (), rect);
       if (screenshot)
@@ -1987,7 +1986,7 @@ scheme_adjust_playback_end (SCM adj)
 static SCM
 scheme_get_help (SCM command)
 {
-  char *name;
+  char *name = NULL;
   if (scm_is_string (command))
     name = scm_to_locale_string (command);
   if (name == NULL)
@@ -2495,15 +2494,14 @@ scheme_chordize (SCM setting)
   note *thenote;
   if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
     return SCM_BOOL (FALSE);
-  gboolean val;
   if (SCM_BOOLP (setting))
     {
-      val = scm_to_bool (setting);
-    }
-  if (thechord->chordize != val)
-    {
-      thechord->chordize = val;
-      score_status (gui, TRUE);
+      gboolean val = scm_to_bool (setting);
+      if (thechord->chordize != val)
+        {
+          thechord->chordize = val;
+          score_status (gui, TRUE);
+        }
     }
   return SCM_BOOL (TRUE);
 }
@@ -2618,10 +2616,15 @@ scheme_get_note_duration (void)
     {
       duration = 1 << thechord->baseduration;
       str = g_strdup_printf ("%d", duration);
-      if (thechord->numdots)
-        while (numdots++ < thechord->numdots)
-          str = g_strdup_printf ("%s" "%c", str, '.');
-
+      if (thechord->numdots){
+        gchar* tmp = NULL;
+        while (numdots++ < thechord->numdots){
+          tmp = g_strdup_printf ("%s" "%c", str, '.');
+          g_free(str);
+          str = tmp;  
+        }
+      }
+      
       SCM scm = scm_from_locale_string (str);
       g_free (str);
       return scm;
@@ -3367,7 +3370,7 @@ scheme_infodialog (SCM msg)
 SCM
 scheme_progressbar (SCM msg)
 {
-  char *title;
+  char *title = NULL;
   if (scm_is_string (msg))
     {
       title = scm_to_locale_string (msg);

@@ -514,6 +514,7 @@ clone_scoreblock (DenemoScoreblock * sb, gchar * name)
       gtk_window_present (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (Denemo.gui->score_layout))));
       return newsb;
 #else
+      g_free (partname);
       return sb;
 #endif
     }

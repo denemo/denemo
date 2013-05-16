@@ -306,9 +306,6 @@ get_current_verse_number (void)
     }
 }
 
-return 0;
-}
-
 gboolean
 set_current_verse (gint number)
 {
@@ -322,9 +319,11 @@ set_current_verse (gint number)
           if (g)
             {
               thestaff->currentverse = g;
-            emit_signal ("switch-page", ....return TRUE;}
-                         }
-                         }
+            emit_signal ("switch-page", ....return TRUE;
+            }
+        }
+    }
+}
 #endif
 
                          gchar * get_lyrics_for_verse_num (gint number)
