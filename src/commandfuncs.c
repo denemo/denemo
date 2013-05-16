@@ -422,7 +422,7 @@ movetomeasureleft (DenemoScriptParam * param)
  * return TRUE if movements are swapped
  */
 gboolean
-swapmovements (GtkAction * action, gpointer param)
+swapmovements (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   (void) signal_structural_change (gui);
@@ -457,7 +457,7 @@ swapmovements (GtkAction * action, gpointer param)
  *
  */
 gboolean
-swapstaffs (GtkAction * action, gpointer param)
+swapstaffs (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   (void) signal_structural_change (gui);
@@ -496,7 +496,7 @@ swapstaffs (GtkAction * action, gpointer param)
  *
  */
 gboolean
-splitstaffs (GtkAction * action, gpointer param)
+splitstaffs (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
 
@@ -527,7 +527,7 @@ splitstaffs (GtkAction * action, gpointer param)
  *
  */
 gboolean
-joinstaffs (GtkAction * action, gpointer param)
+joinstaffs (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
 
@@ -1919,7 +1919,7 @@ dnm_insertmeasures (DenemoScore * si, gint number)
  
  */
 void
-insertmeasureafter (DenemoGUI * gui)
+insertmeasureafter (G_GNUC_UNUSED DenemoGUI * gui)
 {
   DenemoScore *si = Denemo.gui->si;
   take_snapshot ();
@@ -1938,7 +1938,7 @@ insertmeasureafter (DenemoGUI * gui)
  
  */
 void
-addmeasureafter (DenemoGUI * gui)
+addmeasureafter (G_GNUC_UNUSED DenemoGUI * gui)
 {
   DenemoScore *si = Denemo.gui->si;
   take_snapshot ();
@@ -1957,7 +1957,7 @@ addmeasureafter (DenemoGUI * gui)
  
  */
 void
-insertmeasurebefore (DenemoGUI * gui)
+insertmeasurebefore (G_GNUC_UNUSED DenemoGUI * gui)
 {
   DenemoScore *si = Denemo.gui->si;
   si->currentmeasure = addmeasures (si, si->currentmeasurenum - 1, 1, 0);
@@ -2013,7 +2013,7 @@ appendmeasurestoentirescore (DenemoScore * si, gint number)
  * @param gui pointer to the DenemoGUI structure
  */
 void
-delete_staff_before (GtkAction * action, gpointer param)
+delete_staff_before (G_GNUC_UNUSED GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   if (staffup (param))
@@ -2029,7 +2029,7 @@ delete_staff_before (GtkAction * action, gpointer param)
  * @param gui pointer to the DenemoGUI structure
  */
 void
-delete_staff_after (GtkAction * action, gpointer param)
+delete_staff_after (G_GNUC_UNUSED GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   if (staffdown (param))
@@ -2045,7 +2045,7 @@ delete_staff_after (GtkAction * action, gpointer param)
  * @param gui pointer to the DenemoGUI structure
  */
 void
-delete_staff_current (GtkAction * action, gpointer param)
+delete_staff_current (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   deletestaff (gui, TRUE);
@@ -2335,7 +2335,7 @@ tolastobject (DenemoGUI * gui)
 
 /* Make note tied/untied */
 void
-toggle_tie (GtkAction * action, gpointer param)
+toggle_tie (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   DenemoScore *si = gui->si;
@@ -2383,7 +2383,7 @@ gotoend (gpointer param, gboolean extend_selection)
  * @return none
 */
 static void
-gotohome (gpointer param, gboolean extend_selection)
+gotohome (gboolean extend_selection)
 {
   DenemoGUI *gui = Denemo.gui;
   if (extend_selection && !gui->si->markstaffnum)
@@ -2405,9 +2405,9 @@ gotohome (gpointer param, gboolean extend_selection)
  * @return none
 */
 void
-tohome (GtkAction * action, gpointer param)
+tohome (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
-  gotohome (param, TRUE);
+  gotohome (TRUE);
 }
 
 
@@ -2418,7 +2418,7 @@ tohome (GtkAction * action, gpointer param)
  * @return none
 */
 void
-toend (GtkAction * action, gpointer param)
+toend (G_GNUC_UNUSED GtkAction * action, gpointer param)
 {
   gotoend (param, TRUE);
 }
@@ -2433,9 +2433,9 @@ toend (GtkAction * action, gpointer param)
  * @return none
 */
 void
-movetostart (GtkAction * action, DenemoScriptParam * param)
+movetostart (G_GNUC_UNUSED GtkAction * action, DenemoScriptParam * param)
 {
-  gotohome (param, FALSE);
+  gotohome (FALSE);
   if (param)
     param->status = TRUE;
 }
@@ -2447,7 +2447,7 @@ movetostart (GtkAction * action, DenemoScriptParam * param)
  * @return none
 */
 void
-movetoend (GtkAction * action, DenemoScriptParam * param)
+movetoend (G_GNUC_UNUSED GtkAction * action, DenemoScriptParam * param)
 {
   gotoend (param, FALSE);
   if (param)
@@ -2465,7 +2465,7 @@ movetoend (GtkAction * action, DenemoScriptParam * param)
  * @return none
  */
 void
-stem_directive_insert (GtkAction * action, gpointer param)
+stem_directive_insert (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   object_insert (gui, dnm_stem_directive_new (DENEMO_STEMBOTH));

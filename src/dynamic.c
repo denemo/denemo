@@ -46,14 +46,14 @@ insert_it (gint num)
 }
 
 void
-insert_dynamic (GtkAction * action, gpointer param)
+insert_dynamic (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   GtkWidget *dialog;
   GtkWidget *combo;
   GtkWidget *label;
   GtkWidget *content;
-  gint i;
+  guint i;
 
   dialog = gtk_dialog_new_with_buttons (_("Insert Dynamic"), NULL, (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_STOCK_CANCEL, NULL);
 

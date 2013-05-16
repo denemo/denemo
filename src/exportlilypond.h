@@ -29,8 +29,8 @@ void toggle_lily_visible_cb (GtkAction * action, gpointer param);
 void custom_lily_cb (GtkAction * action, gpointer param);
 
 void delete_lily_cb (GtkAction * action, gpointer param);
-void set_lily_error (gint line, gint column, DenemoGUI * gui);
-void highlight_lily_error (DenemoGUI * gui);
+void set_lily_error (gint line, gint column);
+void highlight_lily_error ();
 gboolean goto_lilypond_position (gint line, gint column);
 
 

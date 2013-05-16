@@ -409,7 +409,7 @@ process_lilypond_errors (gchar * filename)
           console_output (epoint);
           if (Denemo.textbuffer)
             {
-              set_lily_error (line + 1, column, gui);
+              set_lily_error (line + 1, column);
             }
           goto_lilypond_position (line + 1, column);
           PrintStatus.invalid = 2;      //print_is_valid = FALSE;
@@ -419,13 +419,13 @@ process_lilypond_errors (gchar * filename)
         }
       else
         {
-          set_lily_error (0, 0, gui);
+          set_lily_error (0, 0);
           warningdialog (epoint);
         }
     }
   else
-    set_lily_error (0, 0, gui); /* line 0 meaning no line */
-  highlight_lily_error (gui);
+    set_lily_error (0, 0); /* line 0 meaning no line */
+  highlight_lily_error ();
   g_free (filename_colon);
   if (lily_err != NULL)
     {

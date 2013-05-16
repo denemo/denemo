@@ -152,7 +152,7 @@ if(!action && param){\
     GString *values = ((DenemoScriptParam *)param)->string;\
     if(values) {\
       gchar *str;\
-      gint i;\
+      guint i;\
       for(i=0;i<values->len;i+=strlen(values->str+i)+1) {\
          UTILS_H_PARAM_ASSIGN(query)\
          UTILS_H_PARAM_ASSIGN(param_name)\
@@ -176,7 +176,7 @@ if(!action && param){\
     GString *values = ((DenemoScriptParam *)param)->string;\
     if(values) {\
      gchar *str;\
-     gint i;\
+     guint i;\
        for(i=0;i<values->len;i+=strlen(values->str+i)+1) {\
           UTILS_H_PARAM_ASSIGN(query)\
           UTILS_H_PARAM_ASSIGN(param_name1)\
@@ -201,7 +201,7 @@ if(!action && param){\
     GString *values = ((DenemoScriptParam *)param)->string;\
     if(values) {\
      gchar *str;\
-     gint i;\
+     guint i;\
        for(i=0;i<values->len;i+=strlen(values->str+i)+1) {\
           UTILS_H_PARAM_ASSIGN(query)\
           UTILS_H_PARAM_ASSIGN(param_name1)\
@@ -228,7 +228,7 @@ if(!action && param){\
     gboolean nothing=TRUE;\
     if(values) {\
      gchar *str;\
-     gint i;\
+     guint i;\
        for(i=0;i<values->len;i+=strlen(values->str+i)+1) {\
           UTILS_H_PARAM_ASSIGN(query)\
           UTILS_H_PARAM_ASSIGN(param_name1)\
