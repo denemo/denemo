@@ -1524,7 +1524,7 @@ insertion_point (DenemoScore * si)
           g_debug ("Appending a new measure\n");
 
           /* Add a measure and make it currentmeasure */
-          if (!(all && si->currentstaff && si->currentstaff && g_list_length (((DenemoStaff *) si->currentstaff->data)->measures) == g_list_length (si->measurewidths)))
+          if (!(all && si->currentstaff && g_list_length (((DenemoStaff *) si->currentstaff->data)->measures) == g_list_length (si->measurewidths)))
             all = FALSE;        // add only to current staff if it is shorter than some other staff
           si->currentmeasure = dnm_addmeasures (si, si->currentmeasurenum, 1, all);
         }

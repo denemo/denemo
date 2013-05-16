@@ -143,7 +143,7 @@ _br_find_exe (GbrInitError * error)
 
   /* Get rid of newline character. */
   buf_size = strlen (line);
-  if (buf_size <= 0)
+  if (buf_size == 0)
     {
       /* Huh? An empty string? */
       fclose (f);

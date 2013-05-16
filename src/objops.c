@@ -74,8 +74,8 @@ DenemoObject *
 dnm_newtimesigobj (gint time1, gint time2)
 {
   DenemoObject *ret;
-  timesig *newtimesig = (timesig *) g_malloc (sizeof (timesig));
-  ret = (DenemoObject *) g_malloc (sizeof (DenemoObject));
+  timesig *newtimesig = (timesig *) g_malloc0 (sizeof (timesig));
+  ret = (DenemoObject *) g_malloc0 (sizeof (DenemoObject));
   ret->type = TIMESIG;
   newtimesig->time1 = time1;
   newtimesig->time2 = time2;
@@ -131,16 +131,6 @@ set_modeaccs (gint * accs, gint number, gint mode)
     initkeyaccs (accs, 0);
   else if (number == 1 && mode == 1)
     initkeyaccs (accs, 0);
-  else if (number == 1 && mode == 1)
-    initkeyaccs (accs, 0);
-  else if (number == 1 && mode == 1)
-    initkeyaccs (accs, 0);
-  else if (number == 1 && mode == 1)
-    initkeyaccs (accs, 0);
-  else if (number == 1 && mode == 1)
-    initkeyaccs (accs, 0);
-  else if (number == 1 && mode == 1)
-    initkeyaccs (accs, 0);
 }
 
 /** 
@@ -174,7 +164,7 @@ dnm_newkeyobj (gint number, gint isminor, gint mode)
 {
   DenemoObject *ret;
   keysig *newkeysig = (keysig *) g_malloc (sizeof (keysig));
-  ret = (DenemoObject *) g_malloc (sizeof (DenemoObject));
+  ret = (DenemoObject *) g_malloc0 (sizeof (DenemoObject));
   ret->type = KEYSIG;
   ret->isinvisible = FALSE;
 #ifdef DEBUG
@@ -207,7 +197,7 @@ newmeasurebreakobject ()
 {
   DenemoObject *ret;
 
-  ret = (DenemoObject *) g_malloc (sizeof (DenemoObject));
+  ret = (DenemoObject *) g_malloc0 (sizeof (DenemoObject));
   ret->type = MEASUREBREAK;
   return ret;
 }
@@ -220,7 +210,7 @@ DenemoObject *
 newstaffbreakobject ()
 {
   DenemoObject *ret;
-  ret = (DenemoObject *) g_malloc (sizeof (DenemoObject));
+  ret = (DenemoObject *) g_malloc0 (sizeof (DenemoObject));
   ret->type = STAFFBREAK;
   return ret;
 }
@@ -398,7 +388,7 @@ dnm_stem_directive_new (enum stemdirections type)
 {
   DenemoObject *ret;
   stemdirective *newstemdir = (stemdirective *) g_malloc (sizeof (stemdirective));
-  ret = (DenemoObject *) g_malloc (sizeof (DenemoObject));
+  ret = (DenemoObject *) g_malloc0 (sizeof (DenemoObject));
   ret->type = STEMDIRECTIVE;
   ret->isinvisible = FALSE;
   newstemdir->type = type;
@@ -450,8 +440,8 @@ DenemoObject *
 dynamic_new (gchar * type)
 {
   DenemoObject *ret;
-  dynamic *newdyn = (dynamic *) g_malloc (sizeof (dynamic));
-  ret = (DenemoObject *) g_malloc (sizeof (DenemoObject));
+  dynamic *newdyn = (dynamic *) g_malloc0 (sizeof (dynamic));
+  ret = (DenemoObject *) g_malloc0 (sizeof (DenemoObject));
   ret->type = DYNAMIC;
   ret->isinvisible = FALSE;
   newdyn->type = g_string_new (type);
@@ -472,8 +462,8 @@ DenemoObject *
 dnm_lyric_new (gchar * type, gint position, gboolean syllable)
 {
   DenemoObject *ret;
-  lyric *newlyric = (lyric *) g_malloc (sizeof (lyric));
-  ret = (DenemoObject *) g_malloc (sizeof (DenemoObject));
+  lyric *newlyric = (lyric *) g_malloc0 (sizeof (lyric));
+  ret = (DenemoObject *) g_malloc0 (sizeof (DenemoObject));
   ret->type = LYRIC;
   ret->isinvisible = FALSE;
 

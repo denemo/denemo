@@ -708,7 +708,6 @@ exportXML (gchar * thefilename, DenemoGUI * gui, gint start, gint end)
   GList *diminElemStack;
   //gint numerator, denominator;
   gchar *durationType;
-  gdouble fraction = 0.0;
   static gchar *version_string;
   if (version_string == NULL)
     version_string = g_strdup_printf ("%d", CURRENT_XML_VERSION);
@@ -834,13 +833,6 @@ exportXML (gchar * thefilename, DenemoGUI * gui, gint start, gint end)
       curElem = xmlNewChild (parentElem, ns, (xmlChar *) "tempo", NULL);
       newXMLFraction (xmlNewChild (curElem, ns, (xmlChar *) "duration", NULL), ns, 1, 4);
       newXMLIntChild (curElem, ns, (xmlChar *) "bpm", si->tempo * si->master_tempo);
-
-
-
-      /* Output each (primary) staff, as a structure to hold the DenemoStaffs, which are thought of as voices in this xml format; and store the IDs in a hash table. */
-      fraction = 1.0 / (gdouble) g_list_length (si->thescore);
-      fraction /= 3;
-
 
       stavesElem = xmlNewChild (mvmntElem, ns, (xmlChar *) "staves", NULL);
       for (curStaff = si->thescore; curStaff != NULL; curStaff = curStaff->next)

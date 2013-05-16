@@ -2957,11 +2957,10 @@ scheme_get_prevailing_duration (SCM optional)
 SCM
 scheme_get_prevailing_timesig (SCM optional)
 {
-  SCM ret = SCM_BOOL_F;
   timesig *timesig = get_prevailing_context (TIMESIG);
   //FIXME look at directives to see if it is overridden, e.g. drum clef
   gchar *name = g_strdup_printf ("%d/%d", timesig->time1, timesig->time2);
-  ret = scm_from_locale_string (name);
+  SCM ret = scm_from_locale_string (name);
   g_free (name);
   return ret;
 }
@@ -2993,8 +2992,7 @@ scheme_set_prevailing_keysig (SCM keyaccs)
   keysig *keysig = get_prevailing_context (KEYSIG);
   sscanf (accs, "%d%d%d%d%d%d%d", keysig->accs + 0, keysig->accs + 1, keysig->accs + 2, keysig->accs + 3, keysig->accs + 4, keysig->accs + 5, keysig->accs + 6);
   showwhichaccidentalswholestaff ((DenemoStaff *) Denemo.gui->si->currentstaff->data);
-  if (accs)
-    free (accs);
+  free (accs);
   displayhelper (Denemo.gui);   //score_status(Denemo.gui, TRUE);
   return SCM_BOOL_T;
 }
@@ -4803,8 +4801,7 @@ scheme_set_tuplet (SCM ratio)
   theratio = scm_to_locale_string (ratio);
   sscanf (theratio, "%d/%d", &((tupopen *) curObj->object)->numerator, &((tupopen *) curObj->object)->denominator);
   //g_print("Set %d/%d\n", (((tupopen*)curObj->object)->numerator), (((tupopen*)curObj->object)->denominator));
-  if (theratio)
-    free (theratio);
+  free (theratio);
   if (((tupopen *) curObj->object)->denominator)
     {
       return SCM_BOOL_T;
@@ -5026,8 +5023,7 @@ scheme_diatonic_shift (SCM optional)
           sscanf (str, "%d", &shift);
 //     g_print("note shift %s ie %d\n", str, shift);
           modify_note (thechord, thenote->mid_c_offset + shift, gui->si->curmeasureaccs[offsettonumber (thenote->mid_c_offset + shift)], find_prevailing_clef (Denemo.gui->si));
-          if (str)
-            free (str);
+          free (str);
         }
     }
   return SCM_BOOL (FALSE);
@@ -7764,8 +7760,10 @@ create_rhythm_cb (GtkAction * action, gpointer param)
                               case 6:
                                 fn = insert_rest_6key;
                                 break;
+                              case 7:
                                 fn = insert_rest_7key;
                                 break;
+                              case 8:
                                 fn = insert_rest_8key;
                                 break;
                               default:
@@ -8686,7 +8684,6 @@ static gboolean
 loadGraphicFromFormat (gchar * basename, gchar * name, DenemoGraphic ** xbm)
 {
   RsvgDimensionData thesize;
-  GError *error = NULL;
   gchar *filename = g_strconcat (name, ".png", NULL);
   thesize.width = 40;
   thesize.height = 40;
@@ -8698,6 +8695,7 @@ loadGraphicFromFormat (gchar * basename, gchar * name, DenemoGraphic ** xbm)
       if (g_file_test (filename, G_FILE_TEST_EXISTS))
         {
 #ifdef CAIRO_HAS_SVG_SURFACE
+          GError *error = NULL;
           RsvgHandle *handle = rsvg_handle_new_from_file (filename, &error);
           if (handle == NULL)
             {
@@ -9063,7 +9061,7 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
       g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (saveMenuItem), action);
       if (Denemo.gui->xbm)
         {
-          item = gtk_menu_item_new_with_label (_("Save Graphic"));
+          //item = gtk_menu_item_new_with_label (_("Save Graphic"));
           // GtkSettings* settings = gtk_settings_get_default();
           // gtk_settings_set_long_property  (settings,"gtk-menu-images",(glong)TRUE, "XProperty");
           //item = gtk_image_menu_item_new_from_stock("Save Graphic", gtk_accel_group_new());
