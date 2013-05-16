@@ -65,7 +65,7 @@ set_properties (struct callbackdata *cbdata)
 #define ASSIGNTEXT(field) \
   if(cbdata->field)\
     g_string_assign (staffstruct->field,\
-    gtk_combo_box_text_get_active_text (GTK_COMBO_BOX (cbdata->field)))
+    gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->field)))
 #else
 #define ASSIGNTEXT(field) \
   if(cbdata->field)\
@@ -272,7 +272,7 @@ staff_properties_change (void)
   while (thelist){\
     gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(field), (gchar *) thelist->data);\
       if (!g_strcmp0 (thelist->data, setstring->str))\
-	gtk_combo_box_set_active(GTK_COMBO_BOX_TEXT (field),i);\
+	gtk_combo_box_set_active(GTK_COMBO_BOX (field),i);\
     i++;\
     thelist=thelist->next;\
   }\

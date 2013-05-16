@@ -77,6 +77,13 @@ DECL_PUT_FIELD (chord, prefix) DECL_PUT_FIELD (chord, postfix) DECL_PUT_FIELD (c
   // end of block to copy
   DECL_PUT_FIELD (header, postfix) DECL_PUT_FIELD (header, display) DECL_PUT_FIELD (paper, postfix) DECL_PUT_FIELD (scoreheader, postfix) DECL_PUT_GRAPHIC (score) DECL_PUT_GRAPHIC (staff) DECL_PUT_GRAPHIC (voice) DECL_PUT_GRAPHIC (scoreheader) DECL_PUT_GRAPHIC (header) DECL_PUT_GRAPHIC (paper) DECL_PUT_GRAPHIC (layout) DECL_PUT_GRAPHIC (movementcontrol)
   //FIXME x,y,tx,ty,gx,gy
+DECL_PUT_FIELD(staff, prefix)
+DECL_PUT_INT(staff, override)
+DECL_PUT_FIELD(staff, postfix)
+DECL_PUT_GRAPHIC(timesig)
+DECL_PUT_GRAPHIC(tuplet)
+DECL_PUT_GRAPHIC(stemdirective)
+DECL_PUT_GRAPHIC(keysig)
 #undef DECL_PUT_FIELD
 #undef DECL_GET_FIELD
 #undef DECL_PUT_INT

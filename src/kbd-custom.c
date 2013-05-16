@@ -1383,7 +1383,7 @@ keymap_accel_quick_edit_snooper (GtkWidget * grab_widget, GdkEventKey * event)
 #if GTK_MAJOR_VERSION == 3
 //JEREMIAH PLEASE TEST!!        
   if (GTK_IS_ACTIVATABLE (gtk_menu_shell_get_selected_item (GTK_MENU_SHELL (menu))))
-    action = gtk_activatable_get_related_action (gtk_menu_shell_get_selected_item (GTK_MENU_SHELL (menu)));
+    action = gtk_activatable_get_related_action ((GtkActivatable*) gtk_menu_shell_get_selected_item (GTK_MENU_SHELL (menu)));
 #else
   if (GTK_MENU_SHELL (menu)->active_menu_item)
     action = gtk_widget_get_action (GTK_MENU_SHELL (menu)->active_menu_item);   //note this is not gtk_menu_get_active(menu) except after a selection has been made, we want the menu item that the pointer has moved to before it is selected.

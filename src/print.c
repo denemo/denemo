@@ -1338,7 +1338,7 @@ overdraw_print (cairo_t * cr)
       else
         g_warning ("No pixbuf");
     }
-  if (Ww.stage == Padding)
+  if (Ww.stage == (unsigned int) Padding)
     {
       gint pad = ABS (Ww.Mark.x - Ww.curx);
       gint w = Ww.near.x - Ww.Mark.x;

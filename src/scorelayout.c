@@ -2022,7 +2022,7 @@ refresh_lilypond (DenemoScoreblock * sb)
           //g_free(sb->name);
           //sb->name = g_strdup(scoreblock_name(sb));
           //g_print("To new value %s\n", sb->name);
-          sb->id = crc32 (sb->name);
+          sb->id = crc32 ((guchar*) sb->name);
           if (sb->lilypond == NULL)
             sb->lilypond = g_string_new (sb->name);
           else
@@ -2752,12 +2752,12 @@ get_scoreblock_for_lilypond (gchar * lily)
     {
       name = g_strndup (lily, newline - lily);
       sb->name = g_strdup (name + 1);
-      sb->id = crc32 (sb->name);
+      sb->id = crc32 ((guchar*) sb->name);
       g_free (name);
     }
   else
     sb->name = g_strdup (_("Custom Scoreblock"));
-  sb->id = crc32 (sb->name);
+  sb->id = crc32 ((guchar*) sb->name);
   sb->lilypond = g_string_new (lily);
 
 

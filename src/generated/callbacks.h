@@ -1903,7 +1903,7 @@ InsertRest0 (GtkAction * action, gpointer param)
   score_status (gui, TRUE);
   displayhelper (gui);
 }
-
+/* UNUSED
 static void
 Dummy0 (GtkAction * action, gpointer param)
 {
@@ -1920,7 +1920,7 @@ Dummy0 (GtkAction * action, gpointer param)
   score_status (gui, TRUE);
   displayhelper (gui);
 }
-
+*/
 static void
 InsertDur0 (GtkAction * action, gpointer param)
 {
@@ -1965,7 +1965,7 @@ Dur0 (GtkAction * action, gpointer param)
   DenemoGUI *gui = Denemo.gui;
   if (gui->mode & INPUTINSERT)
     highlight_duration (gui, 0);
-  else if ((!gui->mode & INPUTRHYTHM) && (gui->mode & INPUTEDIT) && (!gui->si->cursor_appending))
+  else if (!(gui->mode & INPUTRHYTHM) && (gui->mode & INPUTEDIT) && (!gui->si->cursor_appending))
     ChangeDur0 (action, param);
   else
     {
@@ -1988,7 +1988,7 @@ InsertRest1 (GtkAction * action, gpointer param)
   score_status (gui, TRUE);
   displayhelper (gui);
 }
-
+/* UNUSED
 static void
 Dummy1 (GtkAction * action, gpointer param)
 {
@@ -2005,7 +2005,7 @@ Dummy1 (GtkAction * action, gpointer param)
   score_status (gui, TRUE);
   displayhelper (gui);
 }
-
+*/
 static void
 InsertDur1 (GtkAction * action, gpointer param)
 {
@@ -2050,7 +2050,7 @@ Dur1 (GtkAction * action, gpointer param)
   DenemoGUI *gui = Denemo.gui;
   if (gui->mode & INPUTINSERT)
     highlight_duration (gui, 1);
-  else if ((!gui->mode & INPUTRHYTHM) && (gui->mode & INPUTEDIT) && (!gui->si->cursor_appending))
+  else if (!(gui->mode & INPUTRHYTHM) && (gui->mode & INPUTEDIT) && (!gui->si->cursor_appending))
     ChangeDur1 (action, param);
   else
     {
@@ -2073,7 +2073,7 @@ InsertRest2 (GtkAction * action, gpointer param)
   score_status (gui, TRUE);
   displayhelper (gui);
 }
-
+/* UNUSED
 static void
 Dummy2 (GtkAction * action, gpointer param)
 {
@@ -2090,7 +2090,7 @@ Dummy2 (GtkAction * action, gpointer param)
   score_status (gui, TRUE);
   displayhelper (gui);
 }
-
+*/
 static void
 InsertDur2 (GtkAction * action, gpointer param)
 {
@@ -2135,7 +2135,7 @@ Dur2 (GtkAction * action, gpointer param)
   DenemoGUI *gui = Denemo.gui;
   if (gui->mode & INPUTINSERT)
     highlight_duration (gui, 2);
-  else if ((!gui->mode & INPUTRHYTHM) && (gui->mode & INPUTEDIT) && (!gui->si->cursor_appending))
+  else if (!(gui->mode & INPUTRHYTHM) && (gui->mode & INPUTEDIT) && (!gui->si->cursor_appending))
     ChangeDur2 (action, param);
   else
     {
@@ -2158,7 +2158,7 @@ InsertRest3 (GtkAction * action, gpointer param)
   score_status (gui, TRUE);
   displayhelper (gui);
 }
-
+/* UNUSED
 static void
 Dummy3 (GtkAction * action, gpointer param)
 {
@@ -2175,7 +2175,7 @@ Dummy3 (GtkAction * action, gpointer param)
   score_status (gui, TRUE);
   displayhelper (gui);
 }
-
+*/
 static void
 InsertDur3 (GtkAction * action, gpointer param)
 {
@@ -2220,7 +2220,7 @@ Dur3 (GtkAction * action, gpointer param)
   DenemoGUI *gui = Denemo.gui;
   if (gui->mode & INPUTINSERT)
     highlight_duration (gui, 3);
-  else if ((!gui->mode & INPUTRHYTHM) && (gui->mode & INPUTEDIT) && (!gui->si->cursor_appending))
+  else if (!(gui->mode & INPUTRHYTHM) && (gui->mode & INPUTEDIT) && (!gui->si->cursor_appending))
     ChangeDur3 (action, param);
   else
     {
@@ -2243,7 +2243,7 @@ InsertRest4 (GtkAction * action, gpointer param)
   score_status (gui, TRUE);
   displayhelper (gui);
 }
-
+/* UNUSED
 static void
 Dummy4 (GtkAction * action, gpointer param)
 {
@@ -2260,7 +2260,7 @@ Dummy4 (GtkAction * action, gpointer param)
   score_status (gui, TRUE);
   displayhelper (gui);
 }
-
+*/
 static void
 InsertDur4 (GtkAction * action, gpointer param)
 {
@@ -2305,7 +2305,7 @@ Dur4 (GtkAction * action, gpointer param)
   DenemoGUI *gui = Denemo.gui;
   if (gui->mode & INPUTINSERT)
     highlight_duration (gui, 4);
-  else if ((!gui->mode & INPUTRHYTHM) && (gui->mode & INPUTEDIT) && (!gui->si->cursor_appending))
+  else if (!(gui->mode & INPUTRHYTHM) && (gui->mode & INPUTEDIT) && (!gui->si->cursor_appending))
     ChangeDur4 (action, param);
   else
     {
@@ -2328,7 +2328,7 @@ InsertRest5 (GtkAction * action, gpointer param)
   score_status (gui, TRUE);
   displayhelper (gui);
 }
-
+/* UNUSED
 static void
 Dummy5 (GtkAction * action, gpointer param)
 {
@@ -2345,7 +2345,7 @@ Dummy5 (GtkAction * action, gpointer param)
   score_status (gui, TRUE);
   displayhelper (gui);
 }
-
+*/
 static void
 InsertDur5 (GtkAction * action, gpointer param)
 {
@@ -2390,7 +2390,7 @@ Dur5 (GtkAction * action, gpointer param)
   DenemoGUI *gui = Denemo.gui;
   if (gui->mode & INPUTINSERT)
     highlight_duration (gui, 5);
-  else if ((!gui->mode & INPUTRHYTHM) && (gui->mode & INPUTEDIT) && (!gui->si->cursor_appending))
+  else if (!(gui->mode & INPUTRHYTHM) && (gui->mode & INPUTEDIT) && (!gui->si->cursor_appending))
     ChangeDur5 (action, param);
   else
     {
@@ -2413,7 +2413,7 @@ InsertRest6 (GtkAction * action, gpointer param)
   score_status (gui, TRUE);
   displayhelper (gui);
 }
-
+/* UNUSED
 static void
 Dummy6 (GtkAction * action, gpointer param)
 {
@@ -2430,7 +2430,7 @@ Dummy6 (GtkAction * action, gpointer param)
   score_status (gui, TRUE);
   displayhelper (gui);
 }
-
+*/
 static void
 InsertDur6 (GtkAction * action, gpointer param)
 {
@@ -2475,7 +2475,7 @@ Dur6 (GtkAction * action, gpointer param)
   DenemoGUI *gui = Denemo.gui;
   if (gui->mode & INPUTINSERT)
     highlight_duration (gui, 6);
-  else if ((!gui->mode & INPUTRHYTHM) && (gui->mode & INPUTEDIT) && (!gui->si->cursor_appending))
+  else if (!(gui->mode & INPUTRHYTHM) && (gui->mode & INPUTEDIT) && (!gui->si->cursor_appending))
     ChangeDur6 (action, param);
   else
     {
@@ -2498,7 +2498,7 @@ InsertRest7 (GtkAction * action, gpointer param)
   score_status (gui, TRUE);
   displayhelper (gui);
 }
-
+/* UNUSED
 static void
 Dummy7 (GtkAction * action, gpointer param)
 {
@@ -2515,7 +2515,7 @@ Dummy7 (GtkAction * action, gpointer param)
   score_status (gui, TRUE);
   displayhelper (gui);
 }
-
+*/
 static void
 InsertDur7 (GtkAction * action, gpointer param)
 {
@@ -2560,7 +2560,7 @@ Dur7 (GtkAction * action, gpointer param)
   DenemoGUI *gui = Denemo.gui;
   if (gui->mode & INPUTINSERT)
     highlight_duration (gui, 7);
-  else if ((!gui->mode & INPUTRHYTHM) && (gui->mode & INPUTEDIT) && (!gui->si->cursor_appending))
+  else if (!(gui->mode & INPUTRHYTHM) && (gui->mode & INPUTEDIT) && (!gui->si->cursor_appending))
     ChangeDur7 (action, param);
   else
     {
@@ -2583,7 +2583,7 @@ InsertRest8 (GtkAction * action, gpointer param)
   score_status (gui, TRUE);
   displayhelper (gui);
 }
-
+/* UNUSED
 static void
 Dummy8 (GtkAction * action, gpointer param)
 {
@@ -2600,7 +2600,7 @@ Dummy8 (GtkAction * action, gpointer param)
   score_status (gui, TRUE);
   displayhelper (gui);
 }
-
+*/
 
 static void
 InsertDur8 (GtkAction * action, gpointer param)
@@ -2646,7 +2646,7 @@ Dur8 (GtkAction * action, gpointer param)
   DenemoGUI *gui = Denemo.gui;
   if (gui->mode & INPUTINSERT)
     highlight_duration (gui, 8);
-  else if ((!gui->mode & INPUTRHYTHM) && (gui->mode & INPUTEDIT) && (!gui->si->cursor_appending))
+  else if (!(gui->mode & INPUTRHYTHM) && (gui->mode & INPUTEDIT) && (!gui->si->cursor_appending))
     ChangeDur8 (action, param);
   else
     {

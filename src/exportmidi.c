@@ -702,6 +702,11 @@ compute_beat (long ticks, long ticks_in_a_beat, long ticks_in_a_measure, int len
 
 #define percent(t,p)	((t*p)/100)
 
+static int
+is_status_byte(const unsigned char status)
+{
+	return (status & 0x80);
+}
 
 /* puts an event into track if buffer contains valid midi message.
    and frees buffer. Returns the event, or NULL if invalid buffer.
@@ -995,7 +1000,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
   time (&starttime);
 
   smf_t *smf = smf_new ();
-  smf_set_ppqn (smf, MIDI_RESOLUTION);
+  if(smf_set_ppqn (smf, MIDI_RESOLUTION))
+    g_debug("smf_set_ppqn failed");
 
 /*
  * end of headers and meta events, now for some real actions
@@ -1758,7 +1764,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
     {
       if (Denemo.gui->si->recorded_midi_track)
         smf_add_track (smf, Denemo.gui->si->recorded_midi_track);
-      smf_save (smf, (const char *) thefilename);
+      if(smf_save (smf, (const char *) thefilename))
+        g_debug("smf_save failed");
       if (Denemo.gui->si->recorded_midi_track)
         smf_track_remove_from_smf (Denemo.gui->si->recorded_midi_track);
     }

@@ -645,7 +645,7 @@ outputSources (xmlNodePtr mvmntElem, xmlNsPtr ns, GList * sources)
       GError *error = NULL;
       gchar *buf;
       gdk_pixbuf_save_to_buffer (g->data, &buf, &len, "png", &error, NULL);
-      gchar *cdata = g_base64_encode (buf, len);
+      gchar *cdata = g_base64_encode ((guchar*) buf, len);
       g_free (buf);
       xmlNewChild (curElem, ns, (xmlChar*) "pixbuf", (xmlChar*) cdata);
       g_free (cdata);

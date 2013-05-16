@@ -1714,7 +1714,7 @@ what##_directive_put_graphic(gchar *tag, gchar *value) {\
     g_string_assign(directive->graphic_name, value);\
   widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
   g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", &current->name);\
-  return (gboolean)directive;\
+  return directive != NULL;\
 }
 
 PUT_GRAPHIC_WIDGET_GRAPHIC (score, directives)
@@ -2439,7 +2439,7 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
   GtkWidget *label;
   GtkWidget *button;
 #define TEXTENTRY(thelabel, field) \
-  GtkWidget *field;\
+  G_GNUC_UNUSED GtkWidget *field;\
   hbox = gtk_hbox_new (FALSE, 8);\
   gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);\
   label = gtk_label_new (_(thelabel));\

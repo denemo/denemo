@@ -222,7 +222,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
 	  if(tmp)\
 	    {\
-              define_scheme_variable("DenemoPref_" #field, tmp, NULL);\
+              define_scheme_variable("DenemoPref_" #field, (gchar*) tmp, NULL);\
 	      prefs->field =\
 		g_string_assign (prefs->field, (gchar *) tmp);\
 	      xmlFree (tmp);\
@@ -278,7 +278,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
           if (tmp)
             {
               gchar *curname = g_strdup_printf ("DenemoPref_%s", cur->name);
-              define_scheme_variable (curname, tmp, NULL);
+              define_scheme_variable (curname, (gchar*) tmp, NULL);
               g_free (curname);
               prefs->lilypath = g_string_assign (prefs->lilypath, (gchar *) tmp);
               //g_print ("Lilypond Path %s\n", tmp);

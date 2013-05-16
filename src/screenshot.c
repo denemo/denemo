@@ -219,7 +219,7 @@ select_area_button_press (GtkWidget * window, GdkEventButton * event, select_are
 {
   gdouble xroot, yroot;
   gint x_root, y_root;
-  gdk_event_get_root_coords (event, &xroot, &yroot);
+  gdk_event_get_root_coords ((GdkEvent*) event, &xroot, &yroot);
   x_root = (gint) xroot;
   y_root = (gint) yroot;
   gboolean left = (event->button != 3);
@@ -254,7 +254,7 @@ select_area_motion_notify (GtkWidget * window, GdkEventMotion * event, select_ar
 {
   gdouble xroot, yroot;
   gint x_root, y_root;
-  gdk_event_get_root_coords (event, &xroot, &yroot);
+  gdk_event_get_root_coords ((GdkEvent*) event, &xroot, &yroot);
   x_root = (gint) xroot;
   y_root = (gint) yroot;
   select_area_motion_action (window, &data->rect, &data->draw_rect, x_root, y_root);    //draws the rectangle

@@ -19,7 +19,6 @@
 #include <cairo.h>
 #include <cairo-svg.h>
 #include <librsvg/rsvg.h>
-#include <librsvg/rsvg-cairo.h>
 
 #include "playback.h"
 #include "pitchentry.h"
@@ -4537,7 +4536,7 @@ scheme_kill_timer (SCM id)
   if (scm_is_integer (id))
     {
       //FIXME the int may not be large enough for a pointer
-      cb_scheme_and_id *scheme = (cb_scheme_and_id *) scm_to_int (id);  
+      cb_scheme_and_id *scheme = GINT_TO_POINTER (scm_to_int (id));  
       if (scheme)
         {
           g_source_remove_by_user_data (scheme);
@@ -7534,7 +7533,7 @@ insert_pattern_in_toolbar (RhythmPattern * r)
 	if(r->clipboard==NULL)
 	{
 		g_warning("No clipboard for this pattern, cannot add\n");
-		return gui->rhythms;
+		return -1;
 	}
   GtkWidget *toolbar = gtk_ui_manager_get_widget (Denemo.ui_manager, "/RhythmToolBar");
   gtk_toolbar_insert (GTK_TOOLBAR (toolbar), GTK_TOOL_ITEM (r->button), -1);
@@ -7633,15 +7632,15 @@ create_rhythm_cb (GtkAction * action, gpointer param)
   if (pattern)
     {                           /* if we already have it globally we don't need it again
                                    note we never delete the singleton rhythms */
-      if (Denemo.singleton_rhythms[*pattern])
+      if (Denemo.singleton_rhythms[(unsigned int) *pattern])
         {
           g_free (r);
-          r = Denemo.singleton_rhythms[*pattern];
+          r = Denemo.singleton_rhythms[(unsigned int) *pattern];
           already_done = TRUE;
         }
       else
         {
-          Denemo.singleton_rhythms[*pattern] = r;
+          Denemo.singleton_rhythms[(unsigned int) *pattern] = r;
           already_done = FALSE;
         }
       singleton = TRUE;
