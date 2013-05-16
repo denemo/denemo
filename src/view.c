@@ -10691,7 +10691,7 @@ create_window (void)
   // gcs_init (Denemo.window->window);
     
   parse_paths (denemoui_path, Denemo.gui);
-  g_free (data_file);
+  g_free (denemoui_path);
 
   use_markup (Denemo.window);   /* set all the labels to use markup so that we can use the music font. Be aware this means you cannot use labels involving "&" "<" and ">" and so on without escaping them 
                                    FIXME labels in toolitems are not correct until you do NewWindow.
@@ -10710,7 +10710,6 @@ create_window (void)
 
 
   g_signal_connect (G_OBJECT (Denemo.notebook), "switch_page", G_CALLBACK (switch_page), NULL);
-  g_free(denemoui_path);
 }                               /* create window */
 
 
