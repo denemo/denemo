@@ -82,7 +82,9 @@ insertfigure (gboolean filter, gpointer data)
 
       if (curObj && curObj->type == CHORD)
         ((chord *) curObj->object)->is_figure = TRUE;
-      ((chord *) curObj->object)->figure = g_string_new (f->str);       //FIXME memory leak of old figure
+			if(((chord *) curObj->object)->figure)
+				g_string_free (((chord *) curObj->object)->figure, TRUE);
+      ((chord *) curObj->object)->figure = g_string_new (f->str);
       g_string_free (f, TRUE);
       do
         {
