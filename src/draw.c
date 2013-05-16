@@ -73,7 +73,7 @@ create_tool_pixbuf (void)
  * the display, and returns 
  */
 gint
-scorearea_configure_event (GtkWidget * widget, GdkEventConfigure * event)
+scorearea_configure_event (G_GNUC_UNUSED GtkWidget * widget, G_GNUC_UNUSED GdkEventConfigure * event)
 {
   DenemoGUI *gui = Denemo.gui;
   static gboolean init = FALSE;
@@ -1251,7 +1251,10 @@ draw_score (cairo_t * cr)
 
         si->rightmost_time = itp.rightmosttime;
 
-        if ((system_num > 2) && Denemo.gui->si->playingnow && (si->playhead > leftmost) && itp.measurenum <= g_list_length (((DenemoStaff *) curstaff->data)->measures) /*(itp.measurenum > (si->rightmeasurenum+1)) */ )
+        if ((system_num > 2) && 
+            Denemo.gui->si->playingnow && 
+            (si->playhead > leftmost) && 
+            itp.measurenum <= g_list_length (((DenemoStaff *) curstaff->data)->measures) /*(itp.measurenum > (si->rightmeasurenum+1)) */ )
           {
             //put the next line of music at the top with a break marker
             itp.left = &gui->lefts[0];
@@ -1384,7 +1387,7 @@ update_drawing_cache (void)
  */
 #if GTK_MAJOR_VERSION==3
 gint
-scorearea_draw_event (GtkWidget * w, cairo_t * cr)
+scorearea_draw_event (G_GNUC_UNUSED GtkWidget * w, cairo_t * cr)
 {
   return draw_callback (cr);
 }

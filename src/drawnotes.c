@@ -69,7 +69,18 @@ draw_rest (cairo_t * cr, gint duration, gint numdots, gint xx, gint y, DenemoGra
  *
  */
 static void
-draw_notehead (cairo_t * cr, note * thenote, gint duration, gint numdots, gint xx, gint y, gint * accs, gint is_stemup, gboolean invisible, DenemoGraphic * override_notehead, gint gx, gint gy, gboolean at_cursor)
+draw_notehead (cairo_t * cr, 
+               note * thenote, 
+               gint duration, 
+               gint numdots, 
+               gint xx, 
+               gint y, 
+               gint * accs, 
+               gint is_stemup, 
+               DenemoGraphic * override_notehead, 
+               gint gx, 
+               gint gy, 
+               gboolean at_cursor)
 {
   /* Adam's changed this code; it used to be that these arrays only had
      three elements.  The change has defeated what had been semi-elegance;
@@ -363,7 +374,7 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
           for (curnode = thechord.notes; curnode; curnode = curnode->next)
             {
               note *thenote = (note *) curnode->data;
-              draw_notehead (cr, thenote, duration, thechord.numdots, xx, y, accs, thechord.is_stemup, mudelaitem->isinvisible, override_notehead, gx, gy, at_cursor);
+              draw_notehead (cr, thenote, duration, thechord.numdots, xx, y, accs, thechord.is_stemup, override_notehead, gx, gy, at_cursor);
             }
         }
     }

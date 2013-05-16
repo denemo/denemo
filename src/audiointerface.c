@@ -683,7 +683,7 @@ rhythm_feedback (backend_type_t backend, gint duration, gboolean rest, gboolean 
   //add extra sound effect for rests
   if (rest)
     play_note (backend, 0, 9, 46, 300, 127 * Denemo.gui->si->master_volume);
-  while ((key = g_queue_pop_head (Denemo.gui->pending_midi)))
+  while ((key = GPOINTER_TO_INT( g_queue_pop_head (Denemo.gui->pending_midi)) ))
     play_note (backend, 0, 9, key, 300, 127 * Denemo.gui->si->master_volume);
   //g_print("playing %d %d\n", rhythm_sounds[duration], (60/(4*Denemo.gui->si->tempo*(1<<duration)))*1000);
 

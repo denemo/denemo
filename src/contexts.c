@@ -23,7 +23,7 @@
  * @return the first DenemoObject of type the type
  */
 static DenemoObject *
-find_measure_context (measurenode * curmeasure, gint thetype)
+find_measure_context (measurenode * curmeasure, DenemoObjType thetype)
 {
   objnode *curobj;
   if (curmeasure && curmeasure->prev)
@@ -58,7 +58,7 @@ find_measure_context (measurenode * curmeasure, gint thetype)
  * @return the first DenemoObject of type thetype
  */
 static DenemoObject *
-find_context_of_object (DenemoScore * si, gint thetype)
+find_context_of_object (DenemoScore * si, DenemoObjType thetype)
 {
   objnode *curobj = si->currentobject;
   measurenode *curmeasure = si->currentmeasure;

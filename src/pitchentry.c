@@ -288,7 +288,7 @@ check_midi_intervals (GList * midichord)
   for (; g; g = g->next)
     {
       gint offset, enshift, octave, value;
-      notenum2enharmonic ((gint) g->data, &offset, &enshift, &octave);
+      notenum2enharmonic (GPOINTER_TO_INT (g->data), &offset, &enshift, &octave);
       value = fifths[offset] + 7 * enshift;
       most = MAX (most, value);
       least = MIN (least, value);
@@ -585,7 +585,7 @@ apply_tones (DenemoScore * si)
   // move cursor to start of current measure
   si->currentobject = (objnode *) si->currentmeasure->data;
   si->cursor_x = 0;
-  si->cursor_appending = !(gboolean) si->currentobject;
+  si->cursor_appending = !GPOINTER_TO_INT (si->currentobject);
   //calcmarkboundaries (si);
   measurenum = si->currentmeasurenum - 1;
   curmeasure = si->currentmeasure;

@@ -728,6 +728,7 @@ main ()
                "  score_status(gui, TRUE);\n"
                "  displayhelper(gui);\n"
                "}\n"
+               "/* UNUSED\n"
                "static void Dummy%d(GtkAction *action, gpointer param){\n"
                "  DenemoGUI *gui = Denemo.gui;\n"
                "  gint mode = gui->mode;\n"
@@ -742,6 +743,7 @@ main ()
                "  score_status(gui, TRUE);\n"
                "  displayhelper(gui);\n"
                "}\n"
+               "*/\n"
                "static void InsertDur%d(GtkAction *action, gpointer param){\n"
                "  DenemoGUI *gui = Denemo.gui;\n"
                "  highlight_duration(gui, %d);\n"
@@ -760,7 +762,7 @@ main ()
 
 
       /* callbacks for mode sensitive  duration actions, Dur0,1,2 ... */
-      fprintf (callbacks, "static void Dur%d  (GtkAction *action, gpointer param) {\n" "  DenemoGUI *gui = Denemo.gui;\n" " if(gui->mode&INPUTINSERT)\n" "   highlight_duration(gui, %d);\n" " else \n" " if( (!gui->mode&INPUTRHYTHM) && (gui->mode&INPUTEDIT) && (!gui->si->cursor_appending))\n" "   ChangeDur%d (action, param);\n" "else {\n" " insert_chord_%dkey(gui);\n" "   highlight_duration(gui, %d);\n" "  score_status(gui, TRUE);\n" " displayhelper(gui);\n" " }\n" "}\n", i, i, i, i, i);
+      fprintf (callbacks, "static void Dur%d  (GtkAction *action, gpointer param) {\n" "  DenemoGUI *gui = Denemo.gui;\n" " if(gui->mode&INPUTINSERT)\n" "   highlight_duration(gui, %d);\n" " else \n" " if( !(gui->mode&INPUTRHYTHM) && (gui->mode&INPUTEDIT) && (!gui->si->cursor_appending))\n" "   ChangeDur%d (action, param);\n" "else {\n" " insert_chord_%dkey(gui);\n" "   highlight_duration(gui, %d);\n" "  score_status(gui, TRUE);\n" " displayhelper(gui);\n" " }\n" "}\n", i, i, i, i, i);
 
       // fprintf(entries, "\n#define NOTECHAR%d \"%s\"\n", i,  NOTECHARS[i]);
       // fprintf(entries, "\n#define RESTCHAR%d \"%s\"\n", i, RESTCHARS[i]);

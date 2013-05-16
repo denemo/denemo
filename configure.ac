@@ -287,8 +287,8 @@ AC_ARG_ENABLE(
   [
     if test "x$enableval" != "xno"; then
       build_debug=yes
-      CFLAGS="$CFLAGS -DDEBUG -g -Wall"
-      CXXFLAGS="$CXXFLAGS -DDEBUG -g -Wall"
+      CFLAGS="$CFLAGS -DDEBUG -g"
+      CXXFLAGS="$CXXFLAGS -DDEBUG -g"
     fi
   ])
 

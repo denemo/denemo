@@ -79,7 +79,7 @@ set_notehead (GtkAction * action, gpointer param)
   GtkWidget *content_area;
   static GList *list = NULL;    //NOTE required for gtk<2.24
 
-  gint i;
+  guint i;
   if (!action)
     {
       if (((DenemoScriptParam *) param)->string && ((DenemoScriptParam *) param)->string->len)

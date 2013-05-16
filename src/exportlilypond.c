@@ -87,7 +87,7 @@ place_navigation_anchor (GtkTextMark * curmark, gpointer curobjnode, gint moveme
 }
 
 void
-highlight_lily_error (DenemoGUI * gui)
+highlight_lily_error ()
 {
   if (Denemo.textbuffer == NULL)
     return;
@@ -125,7 +125,7 @@ highlight_lily_error (DenemoGUI * gui)
  *  line=0 means no error
  */
 void
-set_lily_error (gint line, gint column, DenemoGUI * gui)
+set_lily_error (gint line, gint column)
 {
   if (Denemo.textbuffer)
     {
@@ -408,7 +408,7 @@ output_figured_bass_prefix (GString * figures, DenemoDirective * directive)
  * add figures to *pfigures for *pchord  
  */
 static void
-output_figured_bass (DenemoScore * si, GString * figures, chord * pchord, gint time1, gint time2)
+output_figured_bass (GString * figures, chord * pchord)
 {
   static gboolean continuation = FALSE;
   gboolean continuation_finishing = FALSE;
@@ -675,7 +675,7 @@ parse_extension (gchar * input)
  * add figures to *pfigures for *pchord  
  */
 static void
-output_fakechord (DenemoScore * si, GString * fakechord, chord * pchord)
+output_fakechord (GString * fakechord, chord * pchord)
 {
   gint duration = internaltomuduration (pchord->baseduration);
   gint numdots = pchord->numdots;
@@ -1488,7 +1488,7 @@ insert_scoreblock_section (DenemoGUI * gui, gchar * name, DenemoScoreblock * sb)
 
 /* gets the text for the section that starts at anchor */
 static gchar *
-get_text (DenemoGUI * gui, GtkTextChildAnchor * anchor)
+get_text (GtkTextChildAnchor * anchor)
 {
   GtkTextIter start, end;
   gtk_text_buffer_get_iter_at_child_anchor (Denemo.textbuffer, &start, anchor);
@@ -1908,10 +1908,10 @@ outputStaff (DenemoGUI * gui, DenemoScore * si, DenemoStaff * curstaffstruct, gi
 
 
                       if (curstaffstruct->hasfigures)
-                        output_figured_bass (si, figures, pchord, cur_stime1, cur_stime2);
+                        output_figured_bass (figures, pchord);
 
                       if (curstaffstruct->hasfakechords)
-                        output_fakechord (si, fakechords, pchord);
+                        output_fakechord (fakechords, pchord);
                       if ((pchord->is_grace & ENDGRACE))
                         {
                           if (figures->len)
@@ -2028,7 +2028,7 @@ merge_lily_strings (DenemoGUI * gui)
       GString **gstringp = g_object_get_data (G_OBJECT (anchor), GSTRINGP);
       if (gstringp)
         {
-          gchar *lily = get_text (gui, anchor);
+          gchar *lily = get_text (anchor);
           if (strcmp (lily, g_object_get_data (G_OBJECT (anchor), ORIGINAL)))
             {
               //      g_print("Compare %s\nwith %s for gstringp %p\n", lily, g_object_get_data(anchor,ORIGINAL), *gstringp);
@@ -2051,7 +2051,7 @@ merge_lily_strings (DenemoGUI * gui)
 #endif
               /* this is    ((DenemoDirective*)((DenemoObject*)(Denemo.gui->si->currentobject->data))->object)->postfix */
               g_free (g_object_get_data (G_OBJECT (anchor), ORIGINAL));
-              g_object_set_data (G_OBJECT (anchor), ORIGINAL, get_text (gui, anchor));
+              g_object_set_data (G_OBJECT (anchor), ORIGINAL, get_text (anchor));
 
 
               score_status (gui, TRUE);
@@ -2556,7 +2556,7 @@ output_score_to_buffer (DenemoGUI * gui, gboolean all_movements, gchar * partnam
         GtkTextChildAnchor *anchor = g->data;
         GString **target = g_object_get_data (G_OBJECT (anchor), GSTRINGP);
         if (target)
-          g_object_set_data (G_OBJECT (anchor), ORIGINAL, get_text (gui, anchor));
+          g_object_set_data (G_OBJECT (anchor), ORIGINAL, get_text (anchor));
       }
 
 
@@ -2880,12 +2880,12 @@ lily_keypress (GtkWidget * w, GdkEventKey * event)
                 }
               else
                 {
-                  gchar *lily = get_text (gui, anchor);
+                  gchar *lily = get_text (anchor);
                   g_string_assign (*target, lily);      //FIXME free original
 
                   g_free (lily);
                   g_string_prepend (*target, key);
-                  g_object_set_data (G_OBJECT (anchor), ORIGINAL, get_text (gui, anchor));
+                  g_object_set_data (G_OBJECT (anchor), ORIGINAL, get_text (anchor));
                   //g_print("prepended %s (%x)\n", key, *key);
                 }
               score_status (gui, TRUE);

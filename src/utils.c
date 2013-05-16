@@ -40,9 +40,9 @@ add_font_directory (gchar * fontpath)
 {
 #ifdef G_OS_WIN32
   AddFontResource (fontpath);
-  FcConfigAppFontAddDir (NULL, fontpath);
+  FcConfigAppFontAddDir (NULL, (FcChar8*) fontpath);
 #else
-  FcConfigAppFontAddDir (NULL, fontpath);
+  FcConfigAppFontAddDir (NULL, (FcChar8*) fontpath);
 #endif
 }
 
@@ -51,10 +51,10 @@ add_font_file (gchar * fontname)
 {
 #ifdef G_OS_WIN32
   AddFontResource (fontname);
-  FcConfigAppFontAddFile (NULL, fontname);
+  FcConfigAppFontAddFile (NULL, (FcChar8*) fontname);
 
 #else
-  FcConfigAppFontAddFile (NULL, fontname);
+  FcConfigAppFontAddFile (NULL, (FcChar8*) fontname);
 #endif
 }
 

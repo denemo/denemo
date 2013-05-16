@@ -52,7 +52,7 @@ put_get_midiqueue (gint midi)
   if (g_queue_is_empty (&midi_queue))
     return midi;
   g_queue_push_tail (&midi_queue, GINT_TO_POINTER (midi));
-  return (gint) g_queue_pop_head (&midi_queue);
+  return GPOINTER_TO_INT( g_queue_pop_head (&midi_queue) );
 }
 
 static void
@@ -64,7 +64,7 @@ put_midiqueue (gint midi)
 static gint
 get_midiqueue (void)
 {
-  return (gint) g_queue_pop_head (&midi_queue);
+  return GPOINTER_TO_INT( g_queue_pop_head (&midi_queue) );
 }
 
 /*End of MIDI in handling diversion to scheme scripts of MIDI in data */
@@ -120,7 +120,8 @@ start_playing (gchar * callback)
   set_start_and_end_objects_for_draw ();
   smf_rewind (smf);
 
-  smf_seek_to_seconds (smf, Denemo.gui->si->start_time);
+  if(smf_seek_to_seconds (smf, Denemo.gui->si->start_time))
+    g_debug("smf_seek_to_seconds failed");
 
   initialize_until_time ();
 
@@ -330,14 +331,15 @@ get_obj_for_start_time (smf_t * smf, gdouble time)
   smf_event_t *initial = smf_peek_next_event (smf);
   gdouble total = smf_get_length_seconds (smf);
   time = (time > total ? total : time);
-  smf_seek_to_seconds (smf, time);
+  if(smf_seek_to_seconds (smf, time))
+    g_debug("smf_seek_to_seconds failed");
   do
     {
       event = smf_get_next_event (smf);
     }
   while (event && (((event->midi_buffer[0] & 0xF0) == MIDI_NOTE_OFF) || !event->user_pointer));
-  if (initial)
-    smf_seek_to_event (smf, initial);
+  if (initial && smf_seek_to_event (smf, initial))
+      g_debug("smf_seek_to_event failed");
   if (event)
     return (DenemoObject *) (event->user_pointer);
   return NULL;
@@ -352,14 +354,15 @@ get_obj_for_end_time (smf_t * smf, gdouble time)
   smf_event_t *initial = smf_peek_next_event (smf);
   gdouble total = smf_get_length_seconds (smf);
   time = (time > total ? total : time);
-  smf_seek_to_seconds (smf, time);
+  if(smf_seek_to_seconds (smf, time))
+    g_debug("smf_seek_to_seconds failed");
   do
     {
       event = smf_get_next_event (smf);
     }
   while (event && (((event->midi_buffer[0] & 0xF0) == MIDI_NOTE_ON) || !event->user_pointer));
-  if (initial)
-    smf_seek_to_event (smf, initial);
+  if (initial && smf_seek_to_event (smf, initial))
+      g_debug("smf_seek_to_event failed");
   if (event)
     return (DenemoObject *) (event->user_pointer);
   return NULL;
@@ -850,7 +853,7 @@ play_adjusted_midi_event (gchar * buf)
 {
   adjust_midi_velocity (buf, 100 - Denemo.prefs.dynamic_compression);
   adjust_midi_channel (buf);
-  play_midi_event (DEFAULT_BACKEND, 0, buf);
+  play_midi_event (DEFAULT_BACKEND, 0, (guchar*) buf);
 }
 
 #define EDITING_MASK (GDK_SHIFT_MASK)
@@ -880,7 +883,7 @@ handle_midi_event (gchar * buf)
       if (Denemo.gui->midi_destination & (MIDIPLAYALONG))
         advance_until_time (buf);
       else
-        play_midi_event (DEFAULT_BACKEND, 0, buf);
+        play_midi_event (DEFAULT_BACKEND, 0, (guchar *) buf);
     }
   else
     {
@@ -967,7 +970,7 @@ get_midi_port (DenemoStaff * staff)
 void
 change_tuning (gdouble * cents)
 {
-  gchar buffer[] = {
+  guchar buffer[] = {
     0xF0, 0x7F,                 //               Universal Real-Time SysEx header
 
     0x7F,                       //<device ID>         ID of target device (7F = all devices)

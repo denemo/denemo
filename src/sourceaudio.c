@@ -183,7 +183,7 @@ record_timing (GtkWidget * widget, GdkEventKey * event)
     }
   else
     {
-      g_queue_push_tail (timings, (gpointer) ((gint) (1000000 * get_playback_time ())));
+      g_queue_push_tail (timings, GINT_TO_POINTER ((gint) (1000000 * get_playback_time ())));
       call_out_to_guile ("(DenemoAudioAnnotate)");
     }
   return TRUE;
@@ -195,7 +195,7 @@ get_audio_timing (void)
   gdouble ret = -1.0;
   if (!g_queue_is_empty (timings))
     {
-      ret = ((gint) (g_queue_pop_head (timings))) / 1000000.0;
+      ret = (GPOINTER_TO_INT (g_queue_pop_head (timings))) / 1000000.0;
     }
   return ret;
 }

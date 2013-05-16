@@ -140,7 +140,7 @@ void chord2lilynumdots (struct chord *chordobject, GString * ret);
 nothing=FALSE,param_name = (*(str+strlen(#param_name))=='=')?str+strlen(#param_name)+1:NULL;
 
 #define GET_1PARAM(action, param, param_name) \
-  gchar * query = NULL;\
+  G_GNUC_UNUSED gchar * query = NULL;\
   gchar * param_name = NULL;\
   DenemoScriptParam dummy;\
   dummy.string=NULL;\
@@ -148,11 +148,11 @@ nothing=FALSE,param_name = (*(str+strlen(#param_name))=='=')?str+strlen(#param_n
     param = &dummy;\
   param->status = FALSE;\
 if(!action && param){\
-    gboolean nothing=TRUE;\
+    G_GNUC_UNUSED gboolean nothing=TRUE;\
     GString *values = ((DenemoScriptParam *)param)->string;\
     if(values) {\
       gchar *str;\
-      gint i;\
+      guint i;\
       for(i=0;i<values->len;i+=strlen(values->str+i)+1) {\
          UTILS_H_PARAM_ASSIGN(query)\
          UTILS_H_PARAM_ASSIGN(param_name)\
@@ -176,7 +176,7 @@ if(!action && param){\
     GString *values = ((DenemoScriptParam *)param)->string;\
     if(values) {\
      gchar *str;\
-     gint i;\
+     guint i;\
        for(i=0;i<values->len;i+=strlen(values->str+i)+1) {\
           UTILS_H_PARAM_ASSIGN(query)\
           UTILS_H_PARAM_ASSIGN(param_name1)\
@@ -201,7 +201,7 @@ if(!action && param){\
     GString *values = ((DenemoScriptParam *)param)->string;\
     if(values) {\
      gchar *str;\
-     gint i;\
+     guint i;\
        for(i=0;i<values->len;i+=strlen(values->str+i)+1) {\
           UTILS_H_PARAM_ASSIGN(query)\
           UTILS_H_PARAM_ASSIGN(param_name1)\
@@ -213,7 +213,7 @@ if(!action && param){\
       param_name1=values?values->str:NULL;\
 }
 #define GET_4PARAMS(action, param, param_name1, param_name2, param_name3, param_name4) \
-gchar * query = NULL;\
+G_GNUC_UNUSED gchar * query = NULL;\
 gchar * param_name1 = NULL;\
 gchar * param_name2 = NULL;\
 gchar * param_name3 = NULL;\
@@ -228,7 +228,7 @@ if(!action && param){\
     gboolean nothing=TRUE;\
     if(values) {\
      gchar *str;\
-     gint i;\
+     guint i;\
        for(i=0;i<values->len;i+=strlen(values->str+i)+1) {\
           UTILS_H_PARAM_ASSIGN(query)\
           UTILS_H_PARAM_ASSIGN(param_name1)\

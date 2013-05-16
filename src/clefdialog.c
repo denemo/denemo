@@ -43,7 +43,7 @@ static ClefInfo clef_info[] = {
 };
 
 const gchar *
-get_clef_name (gint type)
+get_clef_name (guint type)
 {
   if (type >= 0 && (type < G_N_ELEMENTS (clef_info)))
     return clef_info[type].name;
@@ -53,7 +53,7 @@ get_clef_name (gint type)
 static enum clefs
 get_clef_from_name (gchar * name)
 {
-  gint i;
+  guint i;
   for (i = 0; i < G_N_ELEMENTS (clef_info); i++)
     {
       if (!g_ascii_strcasecmp (name, clef_info[i].name))

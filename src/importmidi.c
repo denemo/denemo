@@ -25,7 +25,6 @@
 #include "file.h"
 #include "commandfuncs.h"
 #include "processstaffname.h"
-#include "generated/callbacks.h"
 
 #define TEXT			0x01
 #define COPYRIGHT		0X02
@@ -171,7 +170,7 @@ ConvertLength (gint ppqn, gint duration, notetype * pnotetype)
     notetype++;
 
   leftover = duration - (dsq >> notetype);
-  if ((dsq >> notetype + 1) > 0)
+  if ((dsq >> (notetype + 1)) > 0)
     while (leftover >= (dsq >> (notetype + 1)))
       {
         leftover -= (dsq >> (notetype + 1));
@@ -325,37 +324,46 @@ insert_note_into_score (gint pitch, notetype length)
 
   /* 0-8 accepted bellow */
   DenemoScriptParam param;
+  highlight_duration (gui, length.notetype);
+  gint mode = gui->mode;
+  gui->mode = INPUTINSERT | INPUTNORMAL;
+  
   switch (length.notetype)
     {
     case 0:
-      InsertDur0 (NULL, &param);
+      insert_chord_0key (gui);
       break;
     case 1:
-      InsertDur1 (NULL, &param);
+      insert_chord_1key (gui);
       break;
     case 2:
-      InsertDur2 (NULL, &param);
+      insert_chord_2key (gui);
       break;
     case 3:
-      InsertDur3 (NULL, &param);
+      insert_chord_3key (gui);
       break;
     case 4:
-      InsertDur4 (NULL, &param);
+      insert_chord_4key (gui);
       break;
     case 5:
-      InsertDur5 (NULL, &param);
+      insert_chord_5key (gui);
       break;
     case 6:
-      InsertDur6 (NULL, &param);
+      insert_chord_6key (gui);
       break;
     case 7:
-      InsertDur7 (NULL, &param);
+      insert_chord_7key (gui);
       break;
     default:
-      InsertDur2 (NULL, &param);
+      insert_chord_8key (gui);
       g_warning ("Cannot handle size %d", length.notetype);
       break;
     }
+  
+  gui->mode = mode;
+  score_status (gui, TRUE);
+  displayhelper (gui);
+  
   g_debug ("DenemoScriptParam = %d", param.status);
   /* get correct note name */
   gint key = curstaffstruct->keysig.number;
