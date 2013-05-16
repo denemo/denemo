@@ -96,10 +96,14 @@ typedef struct WwRectangle
 {
   gdouble x, y, width, height;
 } WwRectangle;                    //Width=0 means no rectangle set
+typedef struct WwPoint
+{
+  gint x, y;
+} WwPoint;                    //Width=0 means no rectangle set
 
 typedef struct Curve
 {
-  GdkPoint p1, p2, p3, p4;
+  WwPoint p1, p2, p3, p4;
 } Curve;
 
 typedef enum
@@ -147,12 +151,12 @@ typedef struct ww
   //gdouble pointx, pointy; becomes near.x,y
   gboolean ObjectLocated;       //TRUE when an external-link has just been followed back to a Denemo object
   gint button;                  //which mouse button was last pressed
-  GdkPoint near;                //left hand end of slur, beam etc
-  GdkPoint far;                 //right hand end of slur, beam etc
-  GdkPoint near_i;              //initial left hand end of slur, beam etc
-  GdkPoint far_i;               //initial right hand end of slur, beam etc
-  GdkPoint last_button_press;
-  GdkPoint last_button_release;
+  WwPoint near;                //left hand end of slur, beam etc
+  WwPoint far;                 //right hand end of slur, beam etc
+  WwPoint near_i;              //initial left hand end of slur, beam etc
+  WwPoint far_i;               //initial right hand end of slur, beam etc
+  WwPoint last_button_press;
+  WwPoint last_button_release;
   WwStage stage;
   WwGrob grob;
   WwTask task;
@@ -2271,7 +2275,7 @@ in_selected_object (gint x, gint y)
 
 
 static gboolean
-is_near (gint x, gint y, GdkPoint p)
+is_near (gint x, gint y, WwPoint p)
 {
   gint xx, yy;
   get_window_position (&xx, &yy);
