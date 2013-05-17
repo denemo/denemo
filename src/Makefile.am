@@ -77,7 +77,7 @@ AM_CPPFLAGS = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
 -I$(top_srcdir)/pixmaps \
 -DPREFIX=\"$(prefix)\" \
 -DBINDIR=\"$(exec_prefix)/bin\" \
--DDENEMO_LOCALEDIR=\"${DENEMO_LOCALEDIR}\"\
+-DLOCALEDIR=\"${LOCALEDIR}\"\
 -DSYSCONFDIR=\"$(sysconfdir)/\" \
 -DPKGDATADIR=\"$(pkgdatadir)/\" \
 -DDATAROOTDIR=\"$(datarootdir)/\" \

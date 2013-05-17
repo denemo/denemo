@@ -22,8 +22,8 @@ AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], ["$GETTEXT_PACKAGE"],
                    [The domain to use with gettext])
 AM_GLIB_GNU_GETTEXT
-DENEMO_LOCALEDIR=[${datadir}/locale]
-AC_SUBST(DENEMO_LOCALEDIR)
+LOCALEDIR=[${datadir}/locale]
+AC_SUBST(LOCALEDIR)
 
 dnl Checks for programs.
 AC_PROG_CPP

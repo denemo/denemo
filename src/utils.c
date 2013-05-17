@@ -1143,13 +1143,13 @@ get_locale_dir ()
        * to set the path of translations this way:
        * messages are in $LOCALEDIR/$LANG/denemo
        */
-      localedir = g_strdup (DENEMO_LOCALEDIR);
+      localedir = g_strdup (LOCALEDIR);
 #else /* ENABLE_BINRELOC */
       /* binreloc says it is disabled even with built thanks to
        * --enable-binreloc... So, searhing falls back to
        *  $LOCALEDIR/denemo/$LANG which is not a valid path
        */
-      localedir = gbr_find_locale_dir (DENEMO_LOCALEDIR);
+      localedir = gbr_find_locale_dir (LOCALEDIR);
 #endif /* ENABLE_BINRELOC */
 #endif
 #endif /* not G_OS_WIN32 */
