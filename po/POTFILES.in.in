@@ -23,8 +23,6 @@ src/chordops.h
 src/clefdialog.c
 src/commandfuncs.c
 src/commandfuncs.h
-src/generated/commands.c
-src/commands.h
 src/contexts.c
 src/contexts.h
 src/denemo_types.c
@@ -95,6 +93,8 @@ src/jackbackend.c
 src/jackbackend.h
 src/jackutil.c
 src/jackutil.h
+src/keymapio.c
+src/keymapio.h
 src/kbd-custom.c
 src/kbd-custom.h
 src/kbd-interface.c
