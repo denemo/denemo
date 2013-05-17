@@ -50,34 +50,6 @@
 #define DEFAULT_COMMANDS "Default.commands"
 #define DEFAULT_KEYBINDINGS "Default.shortcuts"
 
-//index of columns in the keymap command list store FIXME if you add columns you must add them in keymap_get_command_row and allocate_keymap !!!!
-enum
-{
-  COL_TYPE = 0,
-  COL_ACTION,
-  COL_NAME,
-  COL_LABEL,
-  COL_TOOLTIP,
-  COL_CALLBACK,
-  COL_BINDINGS,
-  COL_HIDDEN,
-  COL_DELETED,
-  N_COLUMNS
-};
-
-typedef struct command_row
-{
-  KeymapCommandType type;
-  GtkAction *action;
-  gchar *name;
-  gchar *label;
-  gchar *tooltip;
-  gpointer callback;
-  GtkListStore *bindings;
-  gboolean hidden;
-  gboolean deleted;
-} command_row;
-
 static void load_keymap_files (gchar * keymapfile, gchar * fallback);
 
 
@@ -572,22 +544,17 @@ no_map_dialog ()
 keymap *
 allocate_keymap (void)
 {
-
   keymap *the_keymap = (keymap *) g_malloc (sizeof (keymap));
-
-  //empty list store of commands
-  //3 columns :
-  //- type of action, a KeymapCommandType
-  //- pointedr to action, name, label, tooltip, callback
-  //- pointer to a list store for storing the bindings of a command
-  the_keymap->commands = gtk_list_store_new (N_COLUMNS, G_TYPE_INT, G_TYPE_POINTER,     //action
-                                             G_TYPE_POINTER,    //name
-                                             G_TYPE_POINTER,    //label
-                                             G_TYPE_POINTER,    //tooltip
-                                             G_TYPE_POINTER,    //callback
+  the_keymap->commands = gtk_list_store_new (N_COLUMNS,
+                                             G_TYPE_INT,                //type
+                                             G_TYPE_POINTER,            //action
+                                             G_TYPE_POINTER,            //name
+                                             G_TYPE_POINTER,            //label
+                                             G_TYPE_POINTER,            //tooltip
+                                             G_TYPE_POINTER,            //callback
                                              GTK_TYPE_LIST_STORE,       //bindings
-                                             G_TYPE_BOOLEAN,    //hidden
-                                             G_TYPE_BOOLEAN     //deleted
+                                             G_TYPE_BOOLEAN,            //hidden
+                                             G_TYPE_BOOLEAN             //deleted
     );
 
   //empty index reference
@@ -639,7 +606,15 @@ register_command (keymap * the_keymap, GtkAction * action, const gchar * name, c
     }
 #endif
   //insert the information in the list store
-  gtk_list_store_set (the_keymap->commands, &iter, COL_TYPE, type, COL_ACTION, action, COL_NAME, name, COL_LABEL, label, COL_TOOLTIP, tooltip, COL_CALLBACK, callback, COL_BINDINGS, bindings, -1);
+  gtk_list_store_set (the_keymap->commands, &iter,
+                      COL_TYPE, type,
+                      COL_ACTION, action,
+                      COL_NAME, name,
+                      COL_LABEL, label,
+                      COL_TOOLTIP, tooltip,
+                      COL_CALLBACK, callback,
+                      COL_BINDINGS, bindings,
+                      -1);
   //insert the command name in the index reference
   g_hash_table_insert (the_keymap->idx_from_name, g_strdup (name), value);
 
@@ -712,7 +687,17 @@ keymap_get_command_row (keymap * the_keymap, command_row * row, guint command_id
   GtkTreeIter iter;
   if (!gtk_tree_model_iter_nth_child (model, &iter, NULL, command_idx))
     return FALSE;
-  gtk_tree_model_get (model, &iter, COL_TYPE, &row->type, COL_ACTION, &row->action, COL_NAME, &row->name, COL_LABEL, &row->label, COL_CALLBACK, &row->callback, COL_TOOLTIP, &row->tooltip, COL_BINDINGS, &row->bindings, COL_HIDDEN, &row->hidden, COL_DELETED, &row->deleted, -1);
+  gtk_tree_model_get (model, &iter,
+                      COL_TYPE, &row->type,
+                      COL_ACTION, &row->action,
+                      COL_NAME, &row->name,
+                      COL_LABEL, &row->label,
+                      COL_CALLBACK, &row->callback,
+                      COL_TOOLTIP, &row->tooltip,
+                      COL_BINDINGS, &row->bindings,
+                      COL_HIDDEN, &row->hidden,
+                      COL_DELETED, &row->deleted,
+                      -1);
   return TRUE;
 }
 

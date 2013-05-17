@@ -23,10 +23,8 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
           else
             {
               name = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-              menupaths = NULL; //We allow multiple menupaths for a given action, all are added to the gtk_ui when this command is processed after the tooltip node. This is very bad xml, as the action should have all the others as children, and not depend on the order.FIXME
-#if 0
-              g_print ("Action %s\n", (gchar *) name);
-#endif
+              //We allow multiple menupaths for a given action, all are added to the gtk_ui when this command is processed after the tooltip node. This is very bad xml, as the action should have all the others as children, and not depend on the order.FIXME
+              menupaths = NULL;
             }
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_SCHEME))
@@ -38,7 +36,6 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
         {
           hidden = TRUE;
         }
-
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_MENUPATH))
         {
           menupath = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
@@ -56,14 +53,9 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
         {
           tooltip = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
           create_command(is_script, (gchar*) name, (gchar*) label, (gchar*) scheme, (gchar*) tooltip, hidden, (gchar*) after, (gchar*) menupath, fallback, menupaths, merge);
-
-        }                       // tooltip found, assumed last field
-    }                           // for all nodes
-  //alphabeticalize_commands(Denemo.map);
-
-
-
-}                               /* end of parseScripts */
+        }
+    }
+}
 
 
 static void

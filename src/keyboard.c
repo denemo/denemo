@@ -240,24 +240,24 @@ create_command(gboolean is_script,
     tooltip = tooltip ? tooltip : _("No indication what this done beyond the name and label :(");
     GtkAction *action;
     gboolean new_command = FALSE;
-    action = lookup_action_from_name ((gchar *) name);
+    action = lookup_action_from_name (name);
     if (action == NULL)
     {
       new_command = TRUE;
-      gchar *icon_name = get_icon_for_name ((gchar *) name, (gchar *) label);
-      action = gtk_action_new ((const gchar *) name, (const gchar *) label, (const gchar *) tooltip, icon_name);
+      gchar *icon_name = get_icon_for_name (name, label);
+      action = gtk_action_new (name, label, tooltip, icon_name);
 
       if (hidden)
         g_object_set_data (G_OBJECT (action), "hidden", (gpointer) TRUE);
       if (after)
         g_object_set_data (G_OBJECT (action), "after", (gpointer) after);
-      register_command (Denemo.map, action, (const gchar *) name, (const gchar *) label, (const gchar *) tooltip, activate_script);
+      register_command (Denemo.map, action, name, label, tooltip, activate_script);
       GtkActionGroup *action_group;
       //GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
       action_group = Denemo.action_group;
       gtk_action_group_add_action (action_group, action);
       /* create a scheme function to call this script */
-      create_scheme_function_for_script ((gchar *) name);
+      create_scheme_function_for_script (name);
     }
     if (menupath)
     {
@@ -266,7 +266,7 @@ create_command(gboolean is_script,
       {
         menupath = (gchar *) g->data;
         menupath = menupath ? menupath : (gchar *) "/MainMenu/Other";
-        add_ui ((gchar *) menupath, (gchar *) after, (gchar *) name);
+        add_ui (menupath, after, name);
 
       }
     }
@@ -274,8 +274,8 @@ create_command(gboolean is_script,
     {
       if (fallback)
       {           /* no path given, use fallback */
-        menupath = (gchar *) fallback;
-        add_ui ((gchar *) menupath, (gchar *) after, (gchar *) name);
+        menupath = fallback;
+        add_ui (menupath, after, name);
       }
     }
     if ((merge & DENEMO_INTERACTIVE) && (merge & DENEMO_MERGING) && new_command)
@@ -306,7 +306,7 @@ create_command(gboolean is_script,
   else if (hidden)
   {
 
-    hide_action_of_name ((gchar *) name);
+    hide_action_of_name (name);
     hidden = FALSE;
     g_print ("Hiding Builtin %s\n", name);
   }
