@@ -52,9 +52,9 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_TOOLTIP))
         {
           tooltip = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-          create_command(is_script, (gchar*) name, (gchar*) label, (gchar*) scheme, (gchar*) tooltip, hidden, (gchar*) after, (gchar*) menupath, fallback, menupaths, merge);
         }
     }
+  create_command(is_script, (gchar*) name, (gchar*) label, (gchar*) scheme, (gchar*) tooltip, hidden, (gchar*) after, (gchar*) menupath, fallback, menupaths, merge);
 }
 
 
