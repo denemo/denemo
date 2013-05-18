@@ -676,7 +676,7 @@ adjust_midi_velocity (gchar * buf, gint percent)
           //g_print("after %f seconds\n", get_time()-times[notenumber]);
 
           buf[0] = MIDI_NOTE_ON;        //or the channel here
-          buf[2] = 60 / exp ((get_time () - times[notenumber]) / 4);    //scale according to the time
+          buf[2] = 60 / exp ((get_time () - times[notenumber]) * 1);    //scale according to the time
           return;
         }
     }
