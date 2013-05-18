@@ -1,5 +1,5 @@
 ; Prototype to insert Lilypond Standalone Directives. Wants a pair with car Tag and cdr lilypond: (cons "BreathMark" "\\breathe")
-(define* (StandAloneDirectiveProto pair #:optional (step? #t) (graphic #f) (displaytext #f))
+(define* (StandAloneDirectiveProto pair #:optional (step? #t) (graphic #f) (displaytext #f) (minpixels #f))
 	(d-Directive-standalone (car pair))
 	(d-DirectivePut-standalone-postfix (car pair) (cdr pair))
 	(d-DirectivePut-standalone-minpixels (car pair) 30)
@@ -10,16 +10,18 @@
 		  (d-DirectivePut-standalone-display (car pair) displaytext)
 		  (d-DirectivePut-standalone-display (car pair) (cdr pair)))
 		)
+    (if minpixels
+      (d-DirectivePut-standalone-minpixels (car pair) minpixels))
 	(if step?
 		(d-MoveCursorRight))
 	(d-RefreshDisplay))
 
 
 ; Procedure to insert Self-Editing Lilypond Standalone Directives. Takes a pair with car Tag and cdr lilypond: (cons "BreathMark" "\\breathe") with optional boolean to step right after insertion and graphic
-(define* (StandAloneSelfEditDirective pair #:optional (step? #t) (graphic #f))
+(define* (StandAloneSelfEditDirective pair #:optional (step? #t) (graphic #f) (displaytext #f) (minpixels #f))
 	(if (d-Directive-standalone? (car pair))
 	  (d-DirectiveTextEdit-standalone (car pair))
-	  (StandAloneDirectiveProto pair step? graphic)))
+	  (StandAloneDirectiveProto pair step? graphic displaytext minpixels)))
 
 ;Wrapper to attach any lilypond directive anywhere.
 ;;Wants four strings and an arbitrary number of tags (numbers) for overrides.
