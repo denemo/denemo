@@ -58,6 +58,36 @@ stream_callback (const void *input_buffer, void *output_buffer, unsigned long fr
       return paContinue;
     }
 #endif
+
+#ifdef RECORDING_MIDI
+  {static FILE *fp=NULL;
+    if (Denemo.keyboard_state == (GDK_SHIFT_MASK) || Denemo.keyboard_state == (GDK_LOCK_MASK))
+      {
+        if (fp==NULL)
+          {
+            extern const gchar *locatedotdenemo(void);
+            gchar *filename = g_build_filename (locatedotdenemo(), "denemo-output.1channel-floats", NULL);
+            fp=fopen(filename, "wb");
+            g_free(filename);
+            if (fp==NULL)
+                g_warning("Could not open denemo-output");
+            else
+                g_print("Opened output file");
+          }
+        if (fp)
+          fwrite(buffers[0], sizeof(float), frames_per_buffer, fp);
+      }
+    else
+    {
+      if(fp)
+        {
+          fclose(fp);
+          fp=NULL;
+          g_print("File closed samples are raw data, Little Endian (? or architecture dependent), mono");
+        }
+    }
+  }
+#endif
   size_t i;
   for (i = 0; i < 2; ++i)
     {
