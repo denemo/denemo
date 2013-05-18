@@ -1474,6 +1474,14 @@ scheme_open_source_file (SCM optional)
 }
 
 static SCM
+scheme_export_recorded_audio (void)
+{
+
+  return SCM_BOOL (export_recorded_audio ());
+
+}
+
+static SCM
 scheme_open_source_audio_file (SCM optional)
 {
   return SCM_BOOL (open_source_audio_file ());
@@ -6428,6 +6436,7 @@ create_scheme_identfiers (void)
 
   INSTALL_SCM_FUNCTION ("Follows a link to a source file of form string \"filename:x:y:page\". It opens the file and places a marker there. ", DENEMO_SCHEME_PREFIX "OpenSource", scheme_open_source);
 
+  INSTALL_SCM_FUNCTION ("Converts the recorded audio to user chosen audio file.", DENEMO_SCHEME_PREFIX "ExportRecordedAudio", scheme_export_recorded_audio);
   INSTALL_SCM_FUNCTION ("Opens a source file for transcribing from. Links to this source file can be placed by shift-clicking on its contents", DENEMO_SCHEME_PREFIX "OpenSourceFile", scheme_open_source_file);
 
   INSTALL_SCM_FUNCTION ("Opens a source audio file for transcribing from. ", DENEMO_SCHEME_PREFIX "OpenSourceAudioFile", scheme_open_source_audio_file);
@@ -9076,9 +9085,11 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
       g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (uploadMenuItem), action);
 #endif
     }
-  if (gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.ScriptView)))
+
     {
+      gboolean sensitive = gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.ScriptView));
       item = gtk_menu_item_new_with_label (_("Save Script as New Menu Item"));
+      gtk_widget_set_sensitive(item, sensitive);
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
       static gchar *insertion_point;
       if (insertion_point)
@@ -9086,20 +9097,24 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
       insertion_point = g_build_filename (myposition, func_name, NULL);
       //g_print("using %p %s for %d %s %s\n", insertion_point, insertion_point, idx, myposition, func_name);
       g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (insertScript), insertion_point);
-    }
+
 
 
   /* options for getting/putting init.scm */
 
   item = gtk_menu_item_new_with_label (_("Get Initialization Script for this Menu"));
+        gtk_widget_set_sensitive(item, sensitive);
+
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (get_initialization_script), myposition);
 
   item = gtk_menu_item_new_with_label (_("Put Script as Initialization Script for this Menu"));
+        gtk_widget_set_sensitive(item, sensitive);
+
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (put_initialization_script), myposition);
 
-
+  }
 
   /* a check item for showing script window */
   item = gtk_check_menu_item_new_with_label (_("Show Current Script"));

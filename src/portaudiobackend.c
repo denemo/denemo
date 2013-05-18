@@ -21,6 +21,7 @@
 #include <portaudio.h>
 #include <glib.h>
 #include <string.h>
+#include "audiofile.h"
 
 
 static PaStream *stream;
@@ -66,9 +67,9 @@ stream_callback (const void *input_buffer, void *output_buffer, unsigned long fr
         if (fp==NULL)
           {
             extern const gchar *locatedotdenemo(void);
-            gchar *filename = g_build_filename (locatedotdenemo(), "denemo-output.1channel-floats", NULL);
+            const gchar *filename = recorded_audio_filename();
             fp=fopen(filename, "wb");
-            g_free(filename);
+            
             if (fp==NULL)
                 g_warning("Could not open denemo-output");
             else

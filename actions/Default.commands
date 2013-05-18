@@ -6364,6 +6364,14 @@ accidentals are usually printed over the note.</_tooltip>
         <_label>Chord Symbols</_label>
         <_tooltip>Typesets the music on this staff as chord symbols. Normally you will use this on a voice, so that the chord symbols print on the melody staff.</_tooltip>
       </row>
+      <row>
+        <action>ExportAudio</action>
+        <after>ExportMIDI</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/FileMenu/Export</menupath>
+        <_label>Export Audio</_label>
+        <_tooltip>Exports recorded audio output.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
