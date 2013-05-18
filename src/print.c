@@ -151,7 +151,7 @@ typedef struct ww
   //gdouble pointx, pointy; becomes near.x,y
   gboolean ObjectLocated;       //TRUE when an external-link has just been followed back to a Denemo object
   gint button;                  //which mouse button was last pressed
-  WwPoint near_;                //left hand end of slur, beam etc
+  WwPoint near;                //left hand end of slur, beam etc
   WwPoint far_;                 //right hand end of slur, beam etc
   WwPoint near_i;              //initial left hand end of slur, beam etc
   WwPoint far_i;               //initial right hand end of slur, beam etc
@@ -1262,8 +1262,8 @@ overdraw_print (cairo_t * cr)
     {
       cairo_set_source_rgba (cr, 0.3, 0.3, 0.7, 0.9);
       //cairo_rectangle (cr, Ww.near.x-MARKER/2, Ww.near.y-MARKER/2, MARKER, MARKER );
-      cairo_move_to (cr, Ww.near_.x, Ww.near_.y);
-      cairo_arc (cr, Ww.near_.x, Ww.near_.y, 1.5, 0.0, 2 * M_PI);
+      cairo_move_to (cr, Ww.near.x, Ww.near.y);
+      cairo_arc (cr, Ww.near.x, Ww.near.y, 1.5, 0.0, 2 * M_PI);
       cairo_fill (cr);
     }
   if (Ww.stage == WaitingForDrag)
@@ -1271,13 +1271,13 @@ overdraw_print (cairo_t * cr)
       cairo_set_source_rgba (cr, 0.3, 0.3, 0.7, 0.9);
       place_spot (cr, Ww.far_.x, Ww.far_.y);
 
-      place_spot (cr, Ww.near_.x, Ww.near_.y);
+      place_spot (cr, Ww.near.x, Ww.near.y);
 
     }
   if ((Ww.stage == WaitingForDrag) || (Ww.stage == DraggingNearEnd) || (Ww.stage == DraggingFarEnd))
     {
       cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.7);
-      cairo_move_to (cr, Ww.near_.x, Ww.near_.y);
+      cairo_move_to (cr, Ww.near.x, Ww.near.y);
       cairo_line_to (cr, Ww.far_.x, Ww.far_.y);
       cairo_stroke (cr);
       return TRUE;
@@ -1346,8 +1346,8 @@ overdraw_print (cairo_t * cr)
   if (Ww.stage == (unsigned int) Padding)
     {
       gint pad = ABS (Ww.Mark.x - Ww.curx);
-      gint w = Ww.near_.x - Ww.Mark.x;
-      gint h = Ww.near_.y - Ww.Mark.y;
+      gint w = Ww.near.x - Ww.Mark.x;
+      gint h = Ww.near.y - Ww.Mark.y;
       cairo_set_source_rgb (cr, 0.5, 0.5, 0.5);
       cairo_rectangle (cr, Ww.Mark.x - pad / 2, Ww.Mark.y - pad / 2, w + pad, h + pad);
 
@@ -1812,7 +1812,7 @@ get_positions (gdouble * neary, gdouble * fary, gboolean for_slur)
       goto_movement_staff_obj (NULL, -1, Ww.pos.staff, Ww.pos.measure, Ww.pos.object);  //the cursor to the slur-begin note.
       gdouble nearadjust = get_center_staff_offset ();
 
-      *neary = -(Ww.near_.y - Ww.near_i.y + nearadjust) / scale;
+      *neary = -(Ww.near.y - Ww.near_i.y + nearadjust) / scale;
       *fary = -(Ww.far_.y - Ww.near_i.y + nearadjust) / scale;   //sic! the value of far_i.y is irrelevant
       Ww.stage = STAGE_NONE;
       gtk_widget_hide (Ww.dialog);
@@ -2065,7 +2065,7 @@ start_seeking_end (gboolean slur)
     }
   else
     {
-      Ww.near_ = Ww.near_i = Ww.last_button_press;
+      Ww.near = Ww.near_i = Ww.last_button_press;
       Ww.stage = SelectingFarEnd;
     }
   if (Ww.grob != (slur ? Slur : Beam))
@@ -2291,7 +2291,7 @@ printarea_motion_notify (GtkWidget * widget, GdkEventMotion * event)
 
   if (Ww.stage == WaitingForDrag)
     {
-      if ((is_near ((gint) event->x, (gint) event->y, Ww.far_)) || (is_near ((gint) event->x, (gint) event->y, Ww.near_)))
+      if ((is_near ((gint) event->x, (gint) event->y, Ww.far_)) || (is_near ((gint) event->x, (gint) event->y, Ww.near)))
         {
           gtk_widget_queue_draw (Denemo.printarea);
         }
@@ -2303,7 +2303,7 @@ printarea_motion_notify (GtkWidget * widget, GdkEventMotion * event)
       gint xx, yy;
       get_window_position (&xx, &yy);
       // Ww.near.x = xx + (gint)event->x;
-      Ww.near_.y = yy + (gint) event->y; //g_print("near y becomes %d\n", Ww.near.y);
+      Ww.near.y = yy + (gint) event->y; //g_print("near y becomes %d\n", Ww.near.y);
       gtk_widget_queue_draw (Denemo.printarea);
       return TRUE;
     }
@@ -2457,7 +2457,7 @@ apply_tweak (void)
       goto_movement_staff_obj (NULL, -1, Ww.pos.staff, Ww.pos.measure, Ww.pos.object);  //the cursor to the slur-begin note.
       gdouble nearadjust = get_center_staff_offset ();
 
-      gdouble neary = -(Ww.near_.y - Ww.near_i.y + nearadjust) / scale;
+      gdouble neary = -(Ww.near.y - Ww.near_i.y + nearadjust) / scale;
       gdouble fary = -(Ww.far_.y - Ww.near_i.y + nearadjust) / scale;    //sic! the value of far_i.y is irrelevant
       //g_print("near %d %d far %d %d\n", Ww.near.y, Ww.near_i.y, Ww.far.y, Ww.far_i.y);
       gchar *script = (Ww.grob == Slur) ? g_strdup_printf ("(SetSlurPositions \"%.1f\" \"%.1f\")", neary, fary) : g_strdup_printf ("(SetBeamPositions \"%.1f\" \"%.1f\")", neary, fary);
@@ -2578,7 +2578,7 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
   get_window_position (&xx, &yy);
   Ww.last_button_press.x = xx + event->x;
   Ww.last_button_press.y = yy + event->y;
-  gboolean hotspot = is_near ((gint) event->x, (gint) event->y, Ww.near_) || (is_near ((gint) event->x, (gint) event->y, Ww.far_));
+  gboolean hotspot = is_near ((gint) event->x, (gint) event->y, Ww.near) || (is_near ((gint) event->x, (gint) event->y, Ww.far_));
   //g_print("stage %d hotspot %d", Ww.stage, hotspot);
   if (left && (Ww.stage == WaitingForDrag) && !hotspot)
     {
@@ -2617,7 +2617,7 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
     }
   if ((Ww.stage == SelectingNearEnd) || (Ww.stage == SelectingReference))
     {
-      Ww.near_i = Ww.near_ = Ww.last_button_press;       //struct copy
+      Ww.near_i = Ww.near = Ww.last_button_press;       //struct copy
       return TRUE;
     }
   if (Ww.stage == SelectingPoint)
@@ -2632,7 +2632,7 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 
   if (Ww.stage == WaitingForDrag)
     {
-      if (is_near ((gint) event->x, (gint) event->y, Ww.near_))
+      if (is_near ((gint) event->x, (gint) event->y, Ww.near))
         {
           Ww.stage = DraggingNearEnd;
         }
