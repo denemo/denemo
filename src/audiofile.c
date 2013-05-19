@@ -85,6 +85,11 @@ export_recorded_audio ()
             }
           sf_close (sndfile);
         }
+        else
+        {
+          warningdialog (_("No audio recording has been made.\nSee Playback Controls - Record Button"));
+
+        }
     }
   return FALSE;
 }

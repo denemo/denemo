@@ -49,11 +49,13 @@
 
 
 static GtkWidget *playbutton;
-static GtkWidget *recordbutton;
+static GtkWidget *midirecordbutton;
+static GtkWidget *audiorecordbutton;
 static GtkWidget *midi_in_status;
 static GtkWidget *midiplayalongbutton;
 static GtkWidget *midiconductbutton;
 static GtkWidget *deletebutton;
+static GtkWidget *exportbutton;
 static GtkWidget *convertbutton;
 static GtkSpinButton *leadin;
 static GtkAdjustment *master_vol_adj;
@@ -62,6 +64,8 @@ static GtkAdjustment *master_tempo_adj;
 static void pb_playalong (GtkWidget * button);
 static void pb_conduct (GtkWidget * button);
 static void pb_record (GtkWidget * button);
+static void pb_audiorecord (GtkWidget * button);
+static void pb_exportaudio (GtkWidget * button);
 static void select_rhythm_pattern (RhythmPattern * r);
 static gint insert_pattern_in_toolbar (RhythmPattern * r);
 static gboolean append_rhythm (RhythmPattern * r, gpointer fn);
@@ -4473,7 +4477,7 @@ scheme_toggle_conduct (void)
 static SCM
 scheme_midi_record (void)
 {
-  pb_record (recordbutton);
+  pb_record (midirecordbutton);
   return SCM_BOOL (Denemo.gui->midi_destination | MIDIRECORD);
 }
 
@@ -7344,7 +7348,27 @@ pb_record (GtkWidget * button)
   return;
 }
 
+static void
+pb_audiorecord (GtkWidget * button)
+{
+  gtk_button_set_image (GTK_BUTTON (audiorecordbutton),
+    gtk_image_new_from_stock (GTK_STOCK_MEDIA_RECORD, GTK_ICON_SIZE_BUTTON));//highlighting may have turned it off
+  Denemo.gui->audio_recording = !Denemo.gui->audio_recording;
+  
+  if(!Denemo.gui->audio_recording) gtk_widget_show(exportbutton);
+}
+static void
+pb_exportaudio (GtkWidget * button)
+{
+  export_recorded_audio ();
+}
 
+void highlight_audio_record(void) {
+  static gboolean on;
+  on = !on;
+  gtk_button_set_image (GTK_BUTTON (audiorecordbutton),
+    gtk_image_new_from_stock (on?GTK_STOCK_MEDIA_RECORD:GTK_STOCK_MEDIA_STOP, GTK_ICON_SIZE_BUTTON));
+}
 static void
 pb_midi_delete (GtkWidget * button)
 {
@@ -10448,7 +10472,9 @@ create_window (void)
     create_playbutton (inner, NULL, pb_next, GTK_STOCK_GO_FORWARD, _("Moves the playback start point (which shows as a green bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
     create_playbutton (inner, NULL, pb_stop, GTK_STOCK_MEDIA_STOP, _("Stops the playback. On pressing play after this playback will start where the green bar is, not where you stopped. Use the Play/Pause button for that."));
     playbutton = create_playbutton (inner, NULL, pb_play, GTK_STOCK_MEDIA_PLAY, _("Starts playing back from the playback start (green bar) until the playback end (red bar).\nWhen playing it pauses the play, and continues when pressed again."));
-    recordbutton = create_playbutton (inner, NULL, pb_record, GTK_STOCK_MEDIA_RECORD, _("Starts playing and simultaneously records from MIDI in.\nOnce a recording is made it is played back with the score when you press Play.\nIt can be deleted with the Delete button or converted to notation with Convert\n.A MIDI recording is not saved with the Denemo score."));
+    audiorecordbutton = create_playbutton (inner, NULL, pb_audiorecord, GTK_STOCK_MEDIA_RECORD, _("Starts/Stops recording the audio output from Denemo.\nRecords live performance and/or playback,\nsave to disk to avoid overwriting previous recordings."));
+    exportbutton =  create_playbutton (inner, NULL, pb_exportaudio, GTK_STOCK_SAVE, _("Exports the audio recorded to disk"));
+    
     create_playbutton (inner, NULL, pb_previous, GTK_STOCK_GO_BACK, _("Moves the playback end point (which shows as a red bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
     create_playbutton (inner, NULL, pb_end_to_cursor, GTK_STOCK_GO_UP, _("Sets the playback end point (red bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
 
@@ -10567,7 +10593,6 @@ create_window (void)
     //inner = gtk_hbox_new(FALSE, 1);
     //gtk_box_pack_start (GTK_BOX (inner1), inner, FALSE, TRUE, 0);
 
-
     GtkWidget *enharmonic_control = get_enharmonic_frame ();
     if (!gtk_widget_get_parent (enharmonic_control))
       gtk_container_add (GTK_CONTAINER (inner1), enharmonic_control);
@@ -10587,17 +10612,15 @@ create_window (void)
       deletebutton = create_playbutton (hbox, "Delete", pb_midi_delete, NULL, _("Delete the MIDI recording you have made."));
 
       convertbutton = create_playbutton (hbox, "Convert", pb_midi_convert, NULL, _("Convert the MIDI recording you have made to notation."));
+      midirecordbutton = create_playbutton (hbox, NULL, pb_record, GTK_STOCK_MEDIA_RECORD, _("Starts playing and simultaneously records from MIDI in.\nOnce a recording is made it is played back with the score when you press Play.\nIt can be deleted with the Delete button or converted to notation with Convert\n.A MIDI recording is not saved with the Denemo score."));
 
       gtk_widget_show_all (Denemo.midi_in_control);
       gtk_widget_show_all (Denemo.playback_control);
       gtk_widget_hide (deletebutton);
       gtk_widget_hide (convertbutton);
+      gtk_widget_hide (exportbutton);
       gtk_widget_hide (Denemo.audio_vol_control);
     }
-
-
-
-
   }
 
 

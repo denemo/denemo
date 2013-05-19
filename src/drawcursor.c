@@ -8,6 +8,7 @@
 #include "drawingprims.h"
 #include "utils.h"
 #include "displayanimation.h"
+#include "view.h"
 
 #define CURSOR_WIDTH (10*scale)
 #define CURSOR_HEIGHT (6*scale)
@@ -80,6 +81,8 @@ draw_cursor (cairo_t * cr, DenemoScore * si, gint xx, gint y, gint insert_contro
             cairo_arc (cr, xx + CURSOR_WIDTH / 2, height + y, length, 0, 2 * M_PI);
             cairo_stroke (cr);
           }
+        if(Denemo.gui->audio_recording)
+            highlight_audio_record();
       }
   }
   cairo_restore (cr);

@@ -948,6 +948,7 @@ typedef struct DenemoGUI
   InputSource last_source;/**< Where the last input came from */
   MidiDestination midi_destination;/**< Where MIDI in should go */
   GQueue *pending_midi;/**< a MIDI effect to be output with the next note */
+  gboolean audio_recording;
   input_mode mode; /**< Input mode for Score */
   GtkWidget *progressbar;
 

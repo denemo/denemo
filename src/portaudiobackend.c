@@ -11,7 +11,7 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  */
-
+#include <glib/gstdio.h>
 #include "portaudiobackend.h"
 #include "portaudioutil.h"
 #include "midi.h"
@@ -60,47 +60,50 @@ stream_callback (const void *input_buffer, void *output_buffer, unsigned long fr
     }
 #endif
 
-  if(Denemo.prefs.maxrecordingtime)
-    {static FILE *fp=NULL;
-      if (Denemo.keyboard_state == (GDK_SHIFT_MASK) || Denemo.keyboard_state == (GDK_LOCK_MASK))
-        {static guint recorded_frames;
-        if (fp==NULL)
-          {
-            extern const gchar *locatedotdenemo(void);
-            const gchar *filename = recorded_audio_filename();
-            fp=fopen(filename, "wb");
-            recorded_frames=0;
-            if (fp==NULL)
-                g_warning("Could not open denemo-output");
-            else
-                g_print("Opened output file");
-          }
-        if (fp) {
-          if (recorded_frames/44100 < Denemo.prefs.maxrecordingtime)
-            {
-              fwrite(buffers[0], sizeof(float), frames_per_buffer, fp);
-              recorded_frames += frames_per_buffer;
-            }
-          else
-            { //only warn once, don't spew out warnings...
-            if (recorded_frames<G_MAXINT)
-              {
-                recorded_frames=G_MAXINT;
-                g_warning("Recording length exceeded preference (%d seconds); use the Change Preferences dialog to alter this", Denemo.prefs.maxrecordingtime);
-              }
-            }
-          }
-        }
-    else
+  if (Denemo.prefs.maxrecordingtime)
     {
-      if(fp)
+      static FILE *fp = NULL;
+      if (Denemo.gui && Denemo.gui->audio_recording)
         {
-          fclose(fp);
-          fp=NULL;
-          g_print("File closed samples are raw data, Little Endian (? or architecture dependent), mono");
+          static guint recorded_frames;
+          if (fp == NULL)
+            {
+              extern const gchar *locatedotdenemo (void);
+              const gchar *filename = recorded_audio_filename ();
+              fp = fopen (filename, "wb");
+              recorded_frames = 0;
+              if (fp == NULL)
+                g_warning ("Could not open denemo-output");
+              else
+                g_print ("Opened output file");
+            }
+          if (fp)
+            {
+              if (recorded_frames / 44100 < Denemo.prefs.maxrecordingtime)
+                {
+                  fwrite (buffers[0], sizeof (float), frames_per_buffer, fp);
+                  recorded_frames += frames_per_buffer;
+                }
+              else
+                {               //only warn once, don't spew out warnings...
+                  if (recorded_frames < G_MAXINT)
+                    {
+                      recorded_frames = G_MAXINT;
+                      g_warning ("Recording length exceeded preference (%d seconds); use the Change Preferences dialog to alter this", Denemo.prefs.maxrecordingtime);
+                    }
+                }
+            }
+        }
+      else
+        {
+          if (fp)
+            {
+              fclose (fp);
+              fp = NULL;
+              g_print ("File closed samples are raw data, Little Endian (? or architecture dependent), mono");
+            }
         }
     }
-  }
 
   size_t i;
   for (i = 0; i < 2; ++i)
@@ -135,7 +138,7 @@ stream_callback (const void *input_buffer, void *output_buffer, unsigned long fr
 
 // Now get any audio to mix - dump it in the left hand channel for now
   event_length = frames_per_buffer;
-  read_event_from_mixer_queue (AUDIO_BACKEND, (void*) buffers[1], &event_length, &event_time, until_time);
+  read_event_from_mixer_queue (AUDIO_BACKEND, (void *) buffers[1], &event_length, &event_time, until_time);
 
 
   if (until_time < get_playuntil ())
@@ -165,8 +168,9 @@ actual_portaudio_initialize (DenemoPrefs * config)
     }
 #endif
 
+  g_unlink (recorded_audio_filename ());
 
-  g_print ("initializing PortAudio backend\n");
+  g_print ("Initializing PortAudio backend\n");
 
   PaStreamParameters output_parameters;
   PaError err;
