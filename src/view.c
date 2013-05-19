@@ -99,7 +99,7 @@ typedef enum
 
 static void save_accels (void);
 
-#include "generated/callbacks.h"          /* callback functions menuitems that can be called by scheme */
+#include "generated/callbacks.h"        /* callback functions menuitems that can be called by scheme */
 #include <libguile.h>
 //#include <guile/gh.h>
 
@@ -251,9 +251,9 @@ execute_script_file (gchar * filename)
 void
 execute_scheme (GtkAction * action, DenemoScriptParam * param)
 {
-	if(Denemo.ScriptRecording)
-		gtk_action_activate(gtk_action_group_get_action(Denemo.action_group, RecordScript_STRING));
-	//Denemo.ScriptRecording = FALSE;
+  if (Denemo.ScriptRecording)
+    gtk_action_activate (gtk_action_group_get_action (Denemo.action_group, RecordScript_STRING));
+  //Denemo.ScriptRecording = FALSE;
   executeScript ();
 }
 
@@ -2624,15 +2624,17 @@ scheme_get_note_duration (void)
     {
       duration = 1 << thechord->baseduration;
       str = g_strdup_printf ("%d", duration);
-      if (thechord->numdots){
-        gchar* tmp = NULL;
-        while (numdots++ < thechord->numdots){
-          tmp = g_strdup_printf ("%s" "%c", str, '.');
-          g_free(str);
-          str = tmp;  
+      if (thechord->numdots)
+        {
+          gchar *tmp = NULL;
+          while (numdots++ < thechord->numdots)
+            {
+              tmp = g_strdup_printf ("%s" "%c", str, '.');
+              g_free (str);
+              str = tmp;
+            }
         }
-      }
-      
+
       SCM scm = scm_from_locale_string (str);
       g_free (str);
       return scm;
@@ -3867,41 +3869,41 @@ static SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
   return SCM_BOOL(ret);\
 }
 //block to clone for new GString entries in DenemoDirective
-  GETFUNC_DEF (note, display); 
-  GETFUNC_DEF (chord, display);
-  GETFUNC_DEF (standalone, display); 
-  GETFUNC_DEF (staff, display);
-  GETFUNC_DEF (voice, display);
-  GETFUNC_DEF (score, display);
-  GETFUNC_DEF (movementcontrol, display); 
-  PUTFUNC_DEF (note, display);
-  PUTFUNC_DEF (chord, display);
-  PUTFUNC_DEF (standalone, display); 
-  PUTFUNC_DEF (staff, display);
-  PUTFUNC_DEF (voice, display);
-  PUTFUNC_DEF (score, display);
-  PUTFUNC_DEF (movementcontrol, display);
+  GETFUNC_DEF (note, display);
+GETFUNC_DEF (chord, display);
+GETFUNC_DEF (standalone, display);
+GETFUNC_DEF (staff, display);
+GETFUNC_DEF (voice, display);
+GETFUNC_DEF (score, display);
+GETFUNC_DEF (movementcontrol, display);
+PUTFUNC_DEF (note, display);
+PUTFUNC_DEF (chord, display);
+PUTFUNC_DEF (standalone, display);
+PUTFUNC_DEF (staff, display);
+PUTFUNC_DEF (voice, display);
+PUTFUNC_DEF (score, display);
+PUTFUNC_DEF (movementcontrol, display);
 // end of block to clone ??? there are now stem tuplet and keysigs as well - see grob
-  GETFUNC_DEF (note, grob); 
-  GETFUNC_DEF (chord, grob);
-  GETFUNC_DEF (standalone, grob);
-  GETFUNC_DEF (staff, grob);
-  GETFUNC_DEF (voice, grob);
-  GETFUNC_DEF (score, grob);
+GETFUNC_DEF (note, grob);
+GETFUNC_DEF (chord, grob);
+GETFUNC_DEF (standalone, grob);
+GETFUNC_DEF (staff, grob);
+GETFUNC_DEF (voice, grob);
+GETFUNC_DEF (score, grob);
 /*UNUSED
   GETFUNC_DEF (movementcontrol, grob);
   */
-  GETFUNC_DEF (clef, grob);
-  GETFUNC_DEF (timesig, grob);
-  GETFUNC_DEF (tuplet, grob);
-  GETFUNC_DEF (stemdirective, grob);
-  GETFUNC_DEF (keysig, grob);
-  PUTFUNC_DEF (note, grob);
-  PUTFUNC_DEF (chord, grob);
-  PUTFUNC_DEF (standalone, grob);
+GETFUNC_DEF (clef, grob);
+GETFUNC_DEF (timesig, grob);
+GETFUNC_DEF (tuplet, grob);
+GETFUNC_DEF (stemdirective, grob);
+GETFUNC_DEF (keysig, grob);
+PUTFUNC_DEF (note, grob);
+PUTFUNC_DEF (chord, grob);
+PUTFUNC_DEF (standalone, grob);
 //PUTFUNC_DEF(staff, grob)
 //PUTFUNC_DEF(voice, grob)
-  PUTFUNC_DEF (score, grob)
+PUTFUNC_DEF (score, grob)
 //PUTFUNC_DEF(movementcontrol, grob)
   PUTFUNC_DEF (clef, grob)
 PUTFUNC_DEF (timesig, grob)
@@ -4137,7 +4139,8 @@ INT_PUTFUNC_DEF (movementcontrol, tx)
 INT_PUTFUNC_DEF (movementcontrol, ty)
 INT_PUTFUNC_DEF (movementcontrol, gx)
 INT_PUTFUNC_DEF (movementcontrol, gy) INT_PUTFUNC_DEF (movementcontrol, override) INT_GETFUNC_DEF (movementcontrol, x) INT_GETFUNC_DEF (movementcontrol, y) INT_GETFUNC_DEF (movementcontrol, tx) INT_GETFUNC_DEF (movementcontrol, ty) INT_GETFUNC_DEF (movementcontrol, gx) INT_GETFUNC_DEF (movementcontrol, gy) INT_GETFUNC_DEF (movementcontrol, override) INT_GETFUNC_DEF (movementcontrol, width) INT_GETFUNC_DEF (movementcontrol, height) EDIT_DELETE_FN_DEF (movementcontrol)
-     static SCM
+     static
+       SCM
      scheme_put_text_clipboard (SCM optional)
 {
   size_t length;
@@ -4545,7 +4548,7 @@ scheme_kill_timer (SCM id)
   if (scm_is_integer (id))
     {
       //FIXME the int may not be large enough for a pointer
-      cb_scheme_and_id *scheme = GINT_TO_POINTER (scm_to_int (id));  
+      cb_scheme_and_id *scheme = GINT_TO_POINTER (scm_to_int (id));
       if (scheme)
         {
           g_source_remove_by_user_data (scheme);
@@ -6528,7 +6531,7 @@ inner_main (void *closure, int argc, char **argv)
   /* Initialize preferences */
   initprefs ();
   //if(Denemo.prefs.learning)
-	initialize_keystroke_help ();
+  initialize_keystroke_help ();
 
   gchar *initial_file = process_command_line (argc, argv);
 
@@ -7091,6 +7094,7 @@ pb_previous (GtkWidget * button)
 {
   call_out_to_guile ("(DenemoPrevious)");
 }
+
 /*UNUSED
 static void
 pb_rewind (GtkWidget * button)
@@ -7109,6 +7113,7 @@ pb_play (GtkWidget * button)
 {
   call_out_to_guile ("(DenemoPlay)");
 }
+
 /*UNUSED
 static void
 pb_pause (GtkWidget * button)
@@ -7134,6 +7139,7 @@ pb_go_forward (GtkWidget * button)
 {
   call_out_to_guile ("(DenemoGoForward)");
 }
+
 /*UNUSED
 static void
 pb_last (GtkWidget * button)
@@ -7537,12 +7543,12 @@ attach_clipboard (RhythmPattern * r)
 static gint
 insert_pattern_in_toolbar (RhythmPattern * r)
 {
-	DenemoGUI *gui = Denemo.gui;
-	if(r->clipboard==NULL)
-	{
-		g_warning("No clipboard for this pattern, cannot add\n");
-		return -1;
-	}
+  DenemoGUI *gui = Denemo.gui;
+  if (r->clipboard == NULL)
+    {
+      g_warning ("No clipboard for this pattern, cannot add\n");
+      return -1;
+    }
   GtkWidget *toolbar = gtk_ui_manager_get_widget (Denemo.ui_manager, "/RhythmToolBar");
   gtk_toolbar_insert (GTK_TOOLBAR (toolbar), GTK_TOOL_ITEM (r->button), -1);
   gtk_widget_show_all (GTK_WIDGET (r->button));
@@ -7972,7 +7978,7 @@ instantiate_script (GtkAction * action)
 {
   gchar *menupath = (gchar *) g_object_get_data (G_OBJECT (action), "menupath");
   const gchar *basename = gtk_action_get_name (action);
-  gchar* name = g_strconcat(basename, ".xml", NULL);
+  gchar *name = g_strconcat (basename, ".xml", NULL);
   gchar *path = g_build_filename (locatedotdenemo (), "actions", "menus", menupath, NULL);
   gchar *filename = g_build_filename (path, name, NULL);
   //  g_print("Filename %s\n", filename);
@@ -8203,10 +8209,10 @@ insertScript (GtkWidget * widget, gchar * insertion_point)
 
   myscheme = getSchemeText ();
 
-  gchar *myfilename = g_strconcat(myname, ".xml", NULL);
+  gchar *myfilename = g_strconcat (myname, ".xml", NULL);
   g_print ("The filename built is %s from %s", myfilename, myposition);
   gchar *filename = g_build_filename (locatedotdenemo (), "actions", "menus", myposition, myfilename, NULL);
-  g_free(myfilename);
+  g_free (myfilename);
   if ((!g_file_test (filename, G_FILE_TEST_EXISTS)) || (g_file_test (filename, G_FILE_TEST_EXISTS) && confirm (_("Duplicate Name"), _("A command of this name is already available in your custom menus; Overwrite?"))))
     {
       gchar *dirpath = g_path_get_dirname (filename);
@@ -8229,16 +8235,17 @@ insertScript (GtkWidget * widget, gchar * insertion_point)
 void
 append_scheme_call (gchar * func)
 {
-	if(strcmp(func, "ExecuteScheme")) {
-		GtkTextIter enditer;
-		GtkTextBuffer *buffer = gtk_text_view_get_buffer ((GtkTextView *) (Denemo.ScriptView));
-		//gtk_text_buffer_set_text(buffer,"",-1);
-		gtk_text_buffer_get_end_iter (buffer, &enditer);
-		gchar *text = g_strdup_printf ("(d-%s)\n", func);     //prefix dnm_!!!!!!!
-		gtk_text_buffer_insert (buffer, &enditer, text, -1);
-		//g_print("Added %s\n", text);
-		g_free (text);
-	}
+  if (strcmp (func, "ExecuteScheme"))
+    {
+      GtkTextIter enditer;
+      GtkTextBuffer *buffer = gtk_text_view_get_buffer ((GtkTextView *) (Denemo.ScriptView));
+      //gtk_text_buffer_set_text(buffer,"",-1);
+      gtk_text_buffer_get_end_iter (buffer, &enditer);
+      gchar *text = g_strdup_printf ("(d-%s)\n", func); //prefix dnm_!!!!!!!
+      gtk_text_buffer_insert (buffer, &enditer, text, -1);
+      //g_print("Added %s\n", text);
+      g_free (text);
+    }
 }
 
 
@@ -8472,11 +8479,11 @@ saveMenuItem (GtkWidget * widget, GtkAction * action)
   gint idx = lookup_command_from_name (Denemo.map, name);
   gchar *tooltip = (gchar *) lookup_tooltip_from_idx (Denemo.map, idx);
   gchar *label = (gchar *) lookup_label_from_idx (Denemo.map, idx);
-  gchar *fullname = g_strconcat(name, ".xml", NULL);
+  gchar *fullname = g_strconcat (name, ".xml", NULL);
 
   gchar *filename = g_build_filename (locatedotdenemo (), "actions", "menus", menupath, fullname,
                                       NULL);
-  g_free(fullname);
+  g_free (fullname);
   gchar *scheme = getSchemeText ();
   if (scheme && *scheme && confirm (_("Save Script"), g_strconcat (_("Over-write previous version of the script for "), name, _(" ?"), NULL)))
     {
@@ -8638,7 +8645,7 @@ create_xbm_data_from_pixbuf (GdkPixbuf * pixbuf, int lox, int loy, int hix, int 
   pixels = gdk_pixbuf_get_pixels (pixbuf);
   int x, y, i;
 
-  char *chars = g_malloc0 (sizeof (char) * width * height);    //about 8 times too big!
+  char *chars = g_malloc0 (sizeof (char) * width * height);     //about 8 times too big!
   char *this = chars;
   for (i = 0, y = loy; y < hiy; y++)
     {
@@ -8853,7 +8860,7 @@ saveGraphicItem (GtkWidget * widget, GtkAction * action)
       guint height = Denemo.gui->xbm_height;
 
 
-      /*DenemoGraphic *bitmap =*/ create_bitmap_from_data (Denemo.gui->xbm, width, height);
+      /*DenemoGraphic *bitmap = */ create_bitmap_from_data (Denemo.gui->xbm, width, height);
 
 #if 0
 
@@ -9086,33 +9093,33 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
 #endif
     }
 
-    {
-      gboolean sensitive = gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.ScriptView));
-      item = gtk_menu_item_new_with_label (_("Save Script as New Menu Item"));
-      gtk_widget_set_sensitive(item, sensitive);
-      gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-      static gchar *insertion_point;
-      if (insertion_point)
-        g_free (insertion_point);
-      insertion_point = g_build_filename (myposition, func_name, NULL);
-      //g_print("using %p %s for %d %s %s\n", insertion_point, insertion_point, idx, myposition, func_name);
-      g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (insertScript), insertion_point);
+  {
+    gboolean sensitive = gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.ScriptView));
+    item = gtk_menu_item_new_with_label (_("Save Script as New Menu Item"));
+    gtk_widget_set_sensitive (item, sensitive);
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+    static gchar *insertion_point;
+    if (insertion_point)
+      g_free (insertion_point);
+    insertion_point = g_build_filename (myposition, func_name, NULL);
+    //g_print("using %p %s for %d %s %s\n", insertion_point, insertion_point, idx, myposition, func_name);
+    g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (insertScript), insertion_point);
 
 
 
-  /* options for getting/putting init.scm */
+    /* options for getting/putting init.scm */
 
-  item = gtk_menu_item_new_with_label (_("Get Initialization Script for this Menu"));
-        gtk_widget_set_sensitive(item, sensitive);
+    item = gtk_menu_item_new_with_label (_("Get Initialization Script for this Menu"));
+    gtk_widget_set_sensitive (item, sensitive);
 
-  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-  g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (get_initialization_script), myposition);
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+    g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (get_initialization_script), myposition);
 
-  item = gtk_menu_item_new_with_label (_("Put Script as Initialization Script for this Menu"));
-        gtk_widget_set_sensitive(item, sensitive);
+    item = gtk_menu_item_new_with_label (_("Put Script as Initialization Script for this Menu"));
+    gtk_widget_set_sensitive (item, sensitive);
 
-  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-  g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (put_initialization_script), myposition);
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+    g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (put_initialization_script), myposition);
 
   }
 
@@ -10350,22 +10357,22 @@ create_window (void)
   //accel_group = gtk_ui_manager_get_accel_group (ui_manager);
   //gtk_window_add_accel_group (GTK_WINDOW (Denemo.window), accel_group);
 
-  
+
   data_file = g_build_filename (get_data_dir (), "denemoui.xml", NULL);
-  if(g_file_test (data_file, G_FILE_TEST_EXISTS))
+  if (g_file_test (data_file, G_FILE_TEST_EXISTS))
     denemoui_path = data_file;
   else
-    g_free(data_file);
+    g_free (data_file);
 
-  if(!denemoui_path)
+  if (!denemoui_path)
     {
       data_file = g_build_filename ("denemoui.xml", NULL);
-      if(g_file_test (data_file, G_FILE_TEST_EXISTS))
+      if (g_file_test (data_file, G_FILE_TEST_EXISTS))
         denemoui_path = data_file;
       else
-        g_free(data_file);
+        g_free (data_file);
     }
-  
+
   if (!denemoui_path)
     {
       g_error ("denemoui.xml could not be found, exiting");
@@ -10373,7 +10380,7 @@ create_window (void)
     }
 
   error = NULL;
-  if(!gtk_ui_manager_add_ui_from_file (ui_manager, data_file, &error))
+  if (!gtk_ui_manager_add_ui_from_file (ui_manager, data_file, &error))
     {
       g_error ("Could not load %s: %s", denemoui_path, error->message);
       g_error_free (error);
@@ -10381,7 +10388,7 @@ create_window (void)
     }
 
 
-  {                             
+  {
     //pops up with menu items for the directives attached to the current note
     GtkWidget *menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/NoteEditPopupDirectives");
     g_signal_connect (menu, "deactivate", G_CALLBACK (unpopulate_menu), NULL);
@@ -10702,7 +10709,7 @@ create_window (void)
     gtk_widget_show (Denemo.window);
   /* Now that the window is shown, initialize the gcs */
   // gcs_init (Denemo.window->window);
-    
+
   parse_paths (denemoui_path, Denemo.gui);
   g_free (denemoui_path);
 
