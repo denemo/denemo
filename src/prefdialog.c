@@ -108,6 +108,7 @@ struct callbackdata
   GtkWidget *portaudio_device;
   GtkWidget *portaudio_sample_rate;
   GtkWidget *portaudio_period_size;
+  GtkWidget *maxrecordingtime;
 #endif
 #ifdef _HAVE_PORTMIDI_
   GtkWidget *portmidi_input_device;
@@ -237,6 +238,7 @@ set_preferences (struct callbackdata *cbdata)
 #endif
 #ifdef _HAVE_PORTAUDIO_
     ASSIGNCOMBO (portaudio_device) ASSIGNINT (portaudio_sample_rate) ASSIGNINT (portaudio_period_size)
+    ASSIGNINT (maxrecordingtime)
 #endif
 #ifdef _HAVE_PORTMIDI_
     ASSIGNCOMBO (portmidi_input_device) ASSIGNCOMBO (portmidi_output_device)
@@ -660,6 +662,7 @@ preferences_change (GtkAction * action, gpointer param)
 
   INTENTRY_LIMITS (_("Sample rate"), portaudio_sample_rate, 0, 96000);
   INTENTRY_LIMITS (_("Period size"), portaudio_period_size, 0, 2048);
+  INTENTRY_LIMITS (_("Maximum Recording Time (Secs)"), maxrecordingtime, 0, G_MAXINT);
 
 #undef VBOX
 #define VBOX main_vbox

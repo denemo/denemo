@@ -376,7 +376,20 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
         READXMLENTRY (jack_connect_ports_r)
         READXMLENTRY (jack_connect_midi_in_port)
         READXMLENTRY (jack_connect_midi_out_port)
-        READXMLENTRY (portaudio_device) READINTXMLENTRY (portaudio_sample_rate) READINTXMLENTRY (portaudio_period_size) READXMLENTRY (portmidi_input_device) READXMLENTRY (portmidi_output_device) READXMLENTRY (fluidsynth_soundfont) READBOOLXMLENTRY (fluidsynth_reverb) READBOOLXMLENTRY (fluidsynth_chorus) READINTXMLENTRY (zoom) READINTXMLENTRY (dynamic_compression) READINTXMLENTRY (system_height) READBOOLXMLENTRY (progressbardecorations) READBOOLXMLENTRY (saveparts) cur = cur->next;
+        READXMLENTRY (portaudio_device)
+        READINTXMLENTRY (portaudio_sample_rate)
+        READINTXMLENTRY (portaudio_period_size)
+        READINTXMLENTRY (maxrecordingtime)
+        READXMLENTRY (portmidi_input_device)
+        READXMLENTRY (portmidi_output_device)
+        READXMLENTRY (fluidsynth_soundfont)
+        READBOOLXMLENTRY (fluidsynth_reverb)
+        READBOOLXMLENTRY (fluidsynth_chorus)
+        READINTXMLENTRY (zoom)
+        READINTXMLENTRY (dynamic_compression)
+        READINTXMLENTRY (system_height)
+        READBOOLXMLENTRY (progressbardecorations)
+        READBOOLXMLENTRY (saveparts) cur = cur->next;
     }
 
   return;
@@ -753,7 +766,10 @@ writeXMLPrefs (DenemoPrefs * prefs)
     WRITEXMLENTRY (jack_connect_midi_in_port)
     WRITEXMLENTRY (jack_connect_midi_out_port)
     WRITEXMLENTRY (portaudio_device)
-    WRITEINTXMLENTRY (portaudio_sample_rate) WRITEINTXMLENTRY (portaudio_period_size) WRITEXMLENTRY (portmidi_input_device) WRITEXMLENTRY (portmidi_output_device) WRITEXMLENTRY (fluidsynth_soundfont) WRITEBOOLXMLENTRY (fluidsynth_reverb) WRITEBOOLXMLENTRY (fluidsynth_chorus) WRITEINTXMLENTRY (dynamic_compression) WRITEINTXMLENTRY (zoom) WRITEINTXMLENTRY (system_height) WRITEBOOLXMLENTRY (progressbardecorations) WRITEXMLENTRY (browser) xmlSaveFormatFile (localrc->str, doc, 1);
+    WRITEINTXMLENTRY (portaudio_sample_rate)
+    WRITEINTXMLENTRY (portaudio_period_size)
+    WRITEINTXMLENTRY (maxrecordingtime)
+    WRITEXMLENTRY (portmidi_input_device) WRITEXMLENTRY (portmidi_output_device) WRITEXMLENTRY (fluidsynth_soundfont) WRITEBOOLXMLENTRY (fluidsynth_reverb) WRITEBOOLXMLENTRY (fluidsynth_chorus) WRITEINTXMLENTRY (dynamic_compression) WRITEINTXMLENTRY (zoom) WRITEINTXMLENTRY (system_height) WRITEBOOLXMLENTRY (progressbardecorations) WRITEXMLENTRY (browser) xmlSaveFormatFile (localrc->str, doc, 1);
   xmlFreeDoc (doc);
   ret = 0;
   return ret;

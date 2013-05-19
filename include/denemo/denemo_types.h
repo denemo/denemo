@@ -459,6 +459,7 @@ typedef struct DenemoPrefs
   GString *portaudio_device;
   unsigned int portaudio_sample_rate;/**< sample rate in Hz > */
   unsigned int portaudio_period_size;/**< The size of the audio buffers (in frames).> */
+  unsigned int maxrecordingtime;/**< The maximum time a recording can be in seconds.> */
 
   // PortMidi options
   GString *portmidi_input_device;

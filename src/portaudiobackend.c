@@ -60,24 +60,37 @@ stream_callback (const void *input_buffer, void *output_buffer, unsigned long fr
     }
 #endif
 
-#ifdef RECORDING_MIDI
-  {static FILE *fp=NULL;
-    if (Denemo.keyboard_state == (GDK_SHIFT_MASK) || Denemo.keyboard_state == (GDK_LOCK_MASK))
-      {
+  if(Denemo.prefs.maxrecordingtime)
+    {static FILE *fp=NULL;
+      if (Denemo.keyboard_state == (GDK_SHIFT_MASK) || Denemo.keyboard_state == (GDK_LOCK_MASK))
+        {static guint recorded_frames;
         if (fp==NULL)
           {
             extern const gchar *locatedotdenemo(void);
             const gchar *filename = recorded_audio_filename();
             fp=fopen(filename, "wb");
-            
+            recorded_frames=0;
             if (fp==NULL)
                 g_warning("Could not open denemo-output");
             else
                 g_print("Opened output file");
           }
-        if (fp)
-          fwrite(buffers[0], sizeof(float), frames_per_buffer, fp);
-      }
+        if (fp) {
+          if (recorded_frames/44100 < Denemo.prefs.maxrecordingtime)
+            {
+              fwrite(buffers[0], sizeof(float), frames_per_buffer, fp);
+              recorded_frames += frames_per_buffer;
+            }
+          else
+            { //only warn once, don't spew out warnings...
+            if (recorded_frames<G_MAXINT)
+              {
+                recorded_frames=G_MAXINT;
+                g_warning("Recording length exceeded preference (%d seconds); use the Change Preferences dialog to alter this", Denemo.prefs.maxrecordingtime);
+              }
+            }
+          }
+        }
     else
     {
       if(fp)
@@ -88,7 +101,7 @@ stream_callback (const void *input_buffer, void *output_buffer, unsigned long fr
         }
     }
   }
-#endif
+
   size_t i;
   for (i = 0; i < 2; ++i)
     {
