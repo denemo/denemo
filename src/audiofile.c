@@ -49,7 +49,7 @@ export_recorded_audio ()
       gpointer sndfile = sf_open (filename, SFM_READ, &sfinfo);
       if (sndfile)
         {
-          gchar *outfile = file_dialog ("Give output audio file name, with .ogg or .wav extension", TRUE, (gchar *) locatedotdenemo ());
+          gchar *outfile = file_dialog ("Give output audio file name, with .ogg or .wav extension", FALSE, Denemo.prefs.denemopath->str);
           if (outfile)
             {
               float data;
