@@ -1,3 +1,18 @@
+2013-05-19 Release 1.0.4
+        Double-Clicking for Help
+          Explore the object at the cursor
+        Learner Mode
+          key presses are shown as you make them
+          the command and its tooltip is explained
+        Note Entry by PC-keyboard Improved
+          The duration keys sound the note entered
+          They simultaneous set the prevailing duration
+        Audio Recording
+          Export to .ogg or .wav files
+          Live performance also recorded
+        Bug Fixes
+          Layout blocks properly supported
+
 2013-04-24 Release 1.0.2
 			Wysiwyg Improvements
 				Dragging now shows the object as you drag moving over the score
