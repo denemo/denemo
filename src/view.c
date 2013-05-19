@@ -7353,13 +7353,21 @@ pb_audiorecord (GtkWidget * button)
 {
   gtk_button_set_image (GTK_BUTTON (audiorecordbutton),
     gtk_image_new_from_stock (GTK_STOCK_MEDIA_RECORD, GTK_ICON_SIZE_BUTTON));//highlighting may have turned it off
-  Denemo.gui->audio_recording = !Denemo.gui->audio_recording;
-  
-  if(!Denemo.gui->audio_recording) gtk_widget_show(exportbutton);
+  if (Denemo.prefs.maxrecordingtime)
+  {
+    Denemo.gui->audio_recording = !Denemo.gui->audio_recording;
+    if(!Denemo.gui->audio_recording) gtk_widget_show(exportbutton);
+  }
+  else
+  {
+    warningdialog (_("The preference set for recording time is 0 - nothing can be recorded.\nSee Edit->Change Preferences Audio/Midi Tab"));
+  }
 }
 static void
 pb_exportaudio (GtkWidget * button)
 {
+  if(!Denemo.gui->audio_recording)
+    Denemo.gui->audio_recording = FALSE;
   export_recorded_audio ();
 }
 
