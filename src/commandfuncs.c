@@ -586,8 +586,8 @@ govoiceup (DenemoScriptParam * param, gboolean extend_selection)
 }
 
 /**
- * Move si->currentstaff up an one staff, return TRUE if successful
- *
+ * Move si->currentstaff up an one staff, not skipping voices unless displayed on same staff, return TRUE if successful
+ * alter selection if extend_selection
  */
 static gboolean
 gostaffup (DenemoScriptParam * param, gboolean extend_selection)
@@ -602,8 +602,9 @@ gostaffup (DenemoScriptParam * param, gboolean extend_selection)
     return param->status = FALSE;//should never happen
   if (extend_selection && !si->markstaffnum)
     set_mark (gui);
-  while (((DenemoStaff *) (gui->si->currentstaff->data))->voicecontrol != DENEMO_PRIMARY)
-    govoiceup (param, extend_selection);        //FIXME check param->status
+  while ((((DenemoStaff *) (gui->si->currentstaff->data))->voicecontrol == DENEMO_SECONDARY) &&
+    govoiceup (param, extend_selection))
+      ;/* do nothing */
   if (gui->si->currentstaff->prev)
     {
       hide_lyrics ();
@@ -628,7 +629,7 @@ gostaffup (DenemoScriptParam * param, gboolean extend_selection)
 
 
 /**
- * Move si->currentstaff down one voice, return TRUE if successful
+ * Move si->currentstaff down one voice, skipping voices, return TRUE if successful
  * alter selection if extend_selection
  */
 static gboolean
@@ -695,8 +696,8 @@ voiceup (DenemoScriptParam * param)
 
 
 /**
- * Move si->currentstaff down one staff/voice, return TRUE if successful
- *
+ * Move si->currentstaff down one staff/voice,  not skipping voices unless displayed on same staff, return TRUE if successful
+ * alter selection if extend_selection
  */
 static gboolean
 gostaffdown (DenemoScriptParam * param, gboolean extend_selection)
@@ -712,8 +713,9 @@ gostaffdown (DenemoScriptParam * param, gboolean extend_selection)
     return param->status = FALSE;
   if (extend_selection && !si->markstaffnum)
     set_mark (gui);
-  while (gui->si->currentstaff->next && ((DenemoStaff *) (gui->si->currentstaff->next->data))->voicecontrol & DENEMO_SECONDARY)
-    govoicedown (param, extend_selection);      //FIXME
+  while (gui->si->currentstaff->next && (((DenemoStaff *) (gui->si->currentstaff->next->data))->voicecontrol == DENEMO_SECONDARY)
+    && govoicedown (param, extend_selection))
+      ;     /* do nothing */
   if (gui->si->currentstaff->next)
     {
       hide_lyrics ();
