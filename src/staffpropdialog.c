@@ -21,7 +21,7 @@
 #include "xmldefs.h"
 #include "midi.h"
 #include "selectops.h"
-
+#include "audiointerface.h"
 
 extern int ParseSoundfont (gchar * soundfont, gint index, gchar ** name, gint * preset);        //in "external" code libsffile/sfile.c
 
@@ -138,7 +138,14 @@ set_properties (struct callbackdata *cbdata)
       ASSIGNNUMBER_1 (midi_prognum);
       ASSIGNNUMBER_1 (midi_channel);
     }
-
+    {
+      unsigned char buffer[3];/* third byte is unused but is put into the queue so must be accessible */
+      /* set selected midi program on the synthesizer so that users can play MIDI controller with current staff instrument without having to do playback first*/
+      g_print ("Using channel %d port %d prognum %d\n",  staffstruct->midi_channel, staffstruct->midi_port, staffstruct->midi_prognum);
+      buffer[0] = 0xC0 /*MIDI_PROG_CHANGE*/ | staffstruct->midi_channel;
+      buffer[1] = staffstruct->midi_prognum;
+      play_midi_event (DEFAULT_BACKEND, staffstruct->midi_port, buffer);
+    }
 #ifdef DEBUG
   g_printf ("Staff Transposition %d\n", staffstruct->transposition);
 #endif
