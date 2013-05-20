@@ -6372,6 +6372,14 @@ accidentals are usually printed over the note.</_tooltip>
         <_label>Export Audio</_label>
         <_tooltip>Exports recorded audio output.</_tooltip>
       </row>
+      <row>
+        <action>PlayAll</action>
+        <after>Play</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/PlaybackMenu</menupath>
+        <_label>Play All</_label>
+        <_tooltip>Plays the current movement from the start, observing any mute objects placed in the staffs.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
