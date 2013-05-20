@@ -39,20 +39,16 @@ gboolean
 export_recorded_audio ()
 {
   const gchar *filename = recorded_audio_filename ();
-  SF_INFO sfinfo;
   SF_INFO out;
-  sfinfo.channels = 1;
-  sfinfo.format = SF_FORMAT_RAW | SF_FORMAT_FLOAT | SF_ENDIAN_LITTLE;
-  sfinfo.samplerate = 44100;
   if (filename)
     {
-      gpointer sndfile = sf_open (filename, SFM_READ, &sfinfo);
-      if (sndfile)
+      gsize length;
+      float *data;
+      if (g_file_get_contents (filename, (gchar **)&data, &length, NULL))
         {
           gchar *outfile = file_dialog ("Give output audio file name, with .ogg or .wav extension", FALSE, Denemo.prefs.denemopath->str);
           if (outfile)
             {
-              float data;
               gint len = strlen (outfile);
               if (len > 4)
                 {
@@ -67,13 +63,11 @@ export_recorded_audio ()
                   out.channels = 1;
                   out.samplerate = 44100;
                   gpointer outsnd = sf_open (outfile, SFM_WRITE, &out);
-                  g_print ("Returned with %p\n", outsnd);
                   if (outsnd)
                     {
-                      while (sf_read_float (sndfile, &data, 1) == 1)
-                        sf_write_float (outsnd, &data, 1);
+                      sf_write_float (outsnd, data, length/sizeof(float));
+                      g_free(data);
                       sf_close (outsnd);
-                      sf_close (sndfile);
                       return TRUE;
                     }
                   else
@@ -83,7 +77,7 @@ export_recorded_audio ()
                   g_free (outfile);
                 }
             }
-          sf_close (sndfile);
+          
         }
         else
         {
