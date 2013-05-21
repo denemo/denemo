@@ -376,7 +376,6 @@ convert_ly (gchar * lilyfile)
 static void
 process_lilypond_errors (gchar * filename)
 {
-  DenemoGUI *gui = Denemo.gui;
   PrintStatus.invalid = 0;
   if (LilyPond_stderr == -1)
     return;

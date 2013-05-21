@@ -43,6 +43,7 @@
 #include "scorelayout.h"
 #include "keymapio.h"
 #include "measureops.h"
+#include "audiofile.h"
 #define INIT_SCM "init.scm"
 
 //#include "pathconfig.h"

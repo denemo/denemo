@@ -287,8 +287,8 @@ AC_ARG_ENABLE(
   [
     if test "x$enableval" != "xno"; then
       build_debug=yes
-      CFLAGS="$CFLAGS -DDEBUG -g"
-      CXXFLAGS="$CXXFLAGS -DDEBUG -g"
+      CFLAGS="$CFLAGS -DDEBUG -g -Wall -Wno-deprecated-declarations"
+      CXXFLAGS="$CXXFLAGS -DDEBUG -g -Wall -Wno-deprecated-declarations"
     fi
   ])
 
