@@ -87,7 +87,7 @@ static xmlNodePtr sPrevStaffElem = NULL;
  * g_hash_table_foreach.
  */
 static void
-freeHashTableKey (gpointer key, gpointer value, gpointer userData)
+freeHashTableKey (gpointer key, G_GNUC_UNUSED gpointer value, G_GNUC_UNUSED gpointer userData)
 {
   g_free (key);
 }
@@ -255,7 +255,7 @@ addContext (gchar * string)
          directive->field = getXMLIntChild(childElem);
 
 static void
-parseDirective (xmlNodePtr parentElem, xmlNsPtr ns, DenemoDirective * directive)
+parseDirective (xmlNodePtr parentElem, DenemoDirective * directive)
 {
   xmlNodePtr childElem;
   FOREACH_CHILD_ELEM (childElem, parentElem)
@@ -287,7 +287,7 @@ parseDirective (xmlNodePtr parentElem, xmlNsPtr ns, DenemoDirective * directive)
 }
 
 static gint
-parseWidgetDirective (xmlNodePtr parentElem, xmlNsPtr ns, gpointer fn, DenemoDirective * directive, GtkMenu * menu)
+parseWidgetDirective (xmlNodePtr parentElem, gpointer fn, DenemoDirective * directive, GtkMenu * menu)
 {
   xmlNodePtr childElem;
 
@@ -326,7 +326,7 @@ parseWidgetDirective (xmlNodePtr parentElem, xmlNsPtr ns, gpointer fn, DenemoDir
 #undef DO_INTDIREC
 
 static void
-parseVerse (xmlNodePtr parentElem, xmlNsPtr ns, GtkWidget * verse)
+parseVerse (xmlNodePtr parentElem, GtkWidget * verse)
 {
   gchar *text = (gchar *) xmlNodeListGetString (parentElem->doc, parentElem->xmlChildrenNode, 1);
 
@@ -337,13 +337,13 @@ parseVerse (xmlNodePtr parentElem, xmlNsPtr ns, GtkWidget * verse)
 }
 
 static void
-parseVerses (DenemoScore * si, DenemoStaff * staff, xmlNodePtr parentElem, xmlNsPtr ns)
+parseVerses (DenemoScore * si, DenemoStaff * staff, xmlNodePtr parentElem)
 {
   xmlNodePtr childElem;
   FOREACH_CHILD_ELEM (childElem, parentElem)
   {
     GtkWidget *verse = add_verse_to_staff (si, staff);
-    parseVerse (childElem, ns, verse);
+    parseVerse (childElem, verse);
   }
 }
 
@@ -366,28 +366,28 @@ fix_prefix_use (GList * directives)
 }
 
 static GList *
-parseDirectives (xmlNodePtr parentElem, xmlNsPtr ns)
+parseDirectives (xmlNodePtr parentElem)
 {
   GList *directives = NULL;
   xmlNodePtr childElem;
   FOREACH_CHILD_ELEM (childElem, parentElem)
   {
     DenemoDirective *directive = (DenemoDirective *) g_malloc0 (sizeof (DenemoDirective));
-    parseDirective (childElem, ns, directive);
+    parseDirective (childElem, directive);
     directives = g_list_append (directives, directive);
   }
   return directives;
 }
 
 static GList *
-parseWidgetDirectives (xmlNodePtr parentElem, xmlNsPtr ns, gpointer fn, GtkMenu * menu, GList ** directives_pointer)
+parseWidgetDirectives (xmlNodePtr parentElem, gpointer fn, GtkMenu * menu, GList ** directives_pointer)
 {
   GList *directives = NULL;
   xmlNodePtr childElem;
   FOREACH_CHILD_ELEM (childElem, parentElem)
   {
     DenemoDirective *directive = (DenemoDirective *) g_malloc0 (sizeof (DenemoDirective));
-    parseWidgetDirective (childElem, ns, fn, directive, menu);
+    parseWidgetDirective (childElem, fn, directive, menu);
     directives = g_list_append (directives, directive);
     if (directives_pointer)
       g_object_set_data (G_OBJECT (directive->widget), "directives-pointer", (gpointer) directives_pointer);    //FIXME this const string has to match with lilydirectives.c
@@ -494,7 +494,7 @@ determineAccidentalShift (gchar * accidentalName)
  * Parse the given <clef> element into a numeric clef type.
  */
 static void
-parseClef (xmlNodePtr clefElem, xmlNsPtr ns, clef * clef)
+parseClef (xmlNodePtr clefElem, clef * clef)
 {
   gchar *clefTypeName = (gchar *) xmlGetProp (clefElem, (xmlChar *) "name");
   if (clefTypeName == NULL)
@@ -529,7 +529,7 @@ parseClef (xmlNodePtr clefElem, xmlNsPtr ns, clef * clef)
   {
     if (ELEM_NAME_EQ (childElem, "directives"))
       {
-        clef->directives = parseDirectives (childElem, ns);
+        clef->directives = parseDirectives (childElem);
       }
   }
 }
@@ -540,7 +540,7 @@ parseClef (xmlNodePtr clefElem, xmlNsPtr ns, clef * clef)
  * given number of sharps plus whether it's minor or not).
  */
 static void
-parseKeySignature (xmlNodePtr keySigElem, xmlNsPtr ns, keysig * keysig)
+parseKeySignature (xmlNodePtr keySigElem, keysig * keysig)
 {
   gint *keySig = &keysig->number;
   gboolean *isMinor = &keysig->isminor;
@@ -645,7 +645,7 @@ parseKeySignature (xmlNodePtr keySigElem, xmlNsPtr ns, keysig * keysig)
       }
     if (ELEM_NAME_EQ (childElem, "directives"))
       {
-        keysig->directives = parseDirectives (childElem, ns);
+        keysig->directives = parseDirectives (childElem);
       }
   }
   if (!successful)
@@ -683,7 +683,7 @@ parseTimeSignature (xmlNodePtr timeSigElem, xmlNsPtr ns, timesig * timesig)
 
     if (ELEM_NAME_EQ (childElem, "directives"))
       {
-        timesig->directives = parseDirectives (childElem, ns);
+        timesig->directives = parseDirectives (childElem);
       }
     /*
      * Note: We can ignore other namespaces because the generic "parse this
@@ -706,7 +706,7 @@ parseTimeSignature (xmlNodePtr timeSigElem, xmlNsPtr ns, timesig * timesig)
 static GString *Lyric = NULL;
 
 static void
-parseLyric (xmlNodePtr lyricElem, DenemoObject * curobj)
+parseLyric (xmlNodePtr lyricElem)
 {
   gchar *lyric = (gchar *) xmlNodeListGetString (lyricElem->doc,
                                                  lyricElem->xmlChildrenNode,
@@ -764,7 +764,7 @@ parseFakechord (xmlNodePtr fakechordElem, DenemoObject * curobj)
  * given chord.
  */
 static void
-parseNote (xmlNodePtr noteElem, xmlNsPtr ns, DenemoScore * si, DenemoObject * chordObj, gint currentClef)
+parseNote (xmlNodePtr noteElem, xmlNsPtr ns, DenemoObject * chordObj, gint currentClef)
 {
   xmlNodePtr childElem;
   gint middleCOffset = 0, accidental = 0, noteHeadType = DENEMO_NORMAL_NOTEHEAD;
@@ -821,7 +821,7 @@ parseNote (xmlNodePtr noteElem, xmlNsPtr ns, DenemoScore * si, DenemoObject * ch
           }
         else if (ELEM_NAME_EQ (childElem, "directives"))
           {
-            directives = parseDirectives (childElem, ns);
+            directives = parseDirectives (childElem);
           }
         else if (ELEM_NAME_EQ (childElem, "note-head"))
           {
@@ -969,7 +969,7 @@ parseBaseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoScore * si)
       {
         if (ELEM_NAME_EQ (childElem, "directives"))
           {
-            ((chord *) chordObj->object)->directives = parseDirectives (childElem, ns);
+            ((chord *) chordObj->object)->directives = parseDirectives (childElem);
             if (version_number < 3)
               fix_prefix_use (((chord *) chordObj->object)->directives);
           }
@@ -1036,7 +1036,7 @@ parseDynamic (xmlNodePtr dynamicElem, DenemoObject * curobj)
 
 
 static GdkPixbuf *
-parseSource (xmlNodePtr parentElem, xmlNsPtr ns)
+parseSource (xmlNodePtr parentElem)
 {
   GError *error = NULL;
   gchar *cdata = (gchar*) xmlNodeListGetString (parentElem->doc, parentElem->xmlChildrenNode, 1);
@@ -1053,19 +1053,18 @@ parseSource (xmlNodePtr parentElem, xmlNsPtr ns)
  * Parse the given sources element.
  * 
  * @param chordElem the XML node to process
- * @param ns the Denemo XML namespaces
  * @param sources the GList* to populate  */
 static GList *
-parseSources (xmlNodePtr parentElem, xmlNsPtr ns)
+parseSources (xmlNodePtr parentElem)
 {
   GList *sources = NULL;
   xmlNodePtr childElem;
-  FOREACH_CHILD_ELEM (childElem, parentElem) sources = g_list_append (sources, parseSource (childElem, ns));
+  FOREACH_CHILD_ELEM (childElem, parentElem) sources = g_list_append (sources, parseSource (childElem));
   return sources;
 }
 
 static void
-parseAudio (xmlNodePtr parentElem, xmlNsPtr ns, DenemoScore * si)
+parseAudio (xmlNodePtr parentElem, DenemoScore * si)
 {
   xmlNodePtr childElem;
 
@@ -1295,7 +1294,7 @@ parseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoScore * si, gint currentCle
             {
               if (grandchildElem->ns == ns && ELEM_NAME_EQ (grandchildElem, "note"))
                 {
-                  parseNote (grandchildElem, ns, si, chordObj, currentClef);
+                  parseNote (grandchildElem, ns, chordObj, currentClef);
                 }
               else
                 {
@@ -1305,7 +1304,7 @@ parseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoScore * si, gint currentCle
           }
         else if (ELEM_NAME_EQ (childElem, "lyric"))
           {
-            parseLyric (childElem, chordObj);
+            parseLyric (childElem);
           }
 
 
@@ -1360,7 +1359,7 @@ parseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoScore * si, gint currentCle
  * Parse the given <lily:directive> element into a DenemoObject.
  */
 static DenemoObject *
-parseLilyDir (xmlNodePtr LilyDirectiveElem, xmlNsPtr ns, DenemoScore * si)
+parseLilyDir (xmlNodePtr LilyDirectiveElem)
 {
   gchar *directive = (gchar *) xmlNodeListGetString (LilyDirectiveElem->doc,
                                                      LilyDirectiveElem->xmlChildrenNode,
@@ -1424,7 +1423,7 @@ parseLilyDir (xmlNodePtr LilyDirectiveElem, xmlNsPtr ns, DenemoScore * si)
  * 
  */
 static void
-parseStemDirective (xmlNodePtr stemDirectiveElem, xmlNsPtr ns, stemdirective * stem)
+parseStemDirective (xmlNodePtr stemDirectiveElem, stemdirective * stem)
 {
   xmlNodePtr childElem;
   gchar *stemDirName = (gchar *) xmlGetProp (stemDirectiveElem, (xmlChar *) "type");
@@ -1446,7 +1445,7 @@ parseStemDirective (xmlNodePtr stemDirectiveElem, xmlNsPtr ns, stemdirective * s
 
     if (ELEM_NAME_EQ (childElem, "directives"))
       {
-        stem->directives = parseDirectives (childElem, ns);
+        stem->directives = parseDirectives (childElem);
       }
   }
   stem->type = stemDir;
@@ -1492,7 +1491,7 @@ parseTupletStart (xmlNodePtr tupletStartElem, xmlNsPtr ns, tuplet * tup)
 
     if (ELEM_NAME_EQ (childElem, "directives"))
       {
-        tup->directives = parseDirectives (childElem, ns);
+        tup->directives = parseDirectives (childElem);
       }
   }
   if (!successful)
@@ -1509,7 +1508,7 @@ parseTupletStart (xmlNodePtr tupletStartElem, xmlNsPtr ns, tuplet * tup)
 
 /* tupet end  */
 static void
-parseTupletEnd (xmlNodePtr tupletStartElem, xmlNsPtr ns, tuplet * tup)
+parseTupletEnd (xmlNodePtr tupletStartElem, tuplet * tup)
 {
   xmlNodePtr childElem;
 
@@ -1518,7 +1517,7 @@ parseTupletEnd (xmlNodePtr tupletStartElem, xmlNsPtr ns, tuplet * tup)
 
     if (ELEM_NAME_EQ (childElem, "directives"))
       {
-        tup->directives = parseDirectives (childElem, ns);
+        tup->directives = parseDirectives (childElem);
       }
   }
 
@@ -1538,7 +1537,7 @@ parseTupletEnd (xmlNodePtr tupletStartElem, xmlNsPtr ns, tuplet * tup)
  * @return 
  */
 static void
-parseThumbElem (xmlNodePtr thumbElem, xmlNsPtr ns, DenemoSelection * selection)
+parseThumbElem (xmlNodePtr thumbElem, DenemoSelection * selection)
 {
   xmlNodePtr childElem;
   FOREACH_CHILD_ELEM (childElem, thumbElem)
@@ -1567,7 +1566,7 @@ parseThumbElem (xmlNodePtr thumbElem, xmlNsPtr ns, DenemoSelection * selection)
  * @return 
  */
 static void
-parseSourceFileElem (xmlNodePtr sElem, xmlNsPtr ns, DenemoGUI * gui)
+parseSourceFileElem (xmlNodePtr sElem, DenemoGUI * gui)
 {
   xmlNodePtr childElem;
   FOREACH_CHILD_ELEM (childElem, sElem)
@@ -1657,7 +1656,7 @@ parseSetupInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoGUI * gui)
           }
         else if (ELEM_NAME_EQ (childElem, "score-directives"))
           {
-            gui->lilycontrol.directives = parseWidgetDirectives (childElem, ns, (gpointer) score_directive_put_graphic, NULL, NULL);
+            gui->lilycontrol.directives = parseWidgetDirectives (childElem, (gpointer) score_directive_put_graphic, NULL, NULL);
           }
 
 
@@ -1990,7 +1989,7 @@ parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoScore * si)
         else if (ELEM_NAME_EQ (childElem, "verses"))
           {
 
-            parseVerses (si, curStaff, childElem, ns);
+            parseVerses (si, curStaff, childElem);
           }
         else if (ELEM_NAME_EQ (childElem, "instrument"))
           {
@@ -2061,15 +2060,15 @@ parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoScore * si)
           }
         else if (ELEM_NAME_EQ (childElem, "staff-directives"))
           {
-            curStaff->staff_directives = parseWidgetDirectives (childElem, ns, (gpointer) staff_directive_put_graphic, curStaff->staffmenu, &curStaff->staff_directives);
+            curStaff->staff_directives = parseWidgetDirectives (childElem, (gpointer) staff_directive_put_graphic, curStaff->staffmenu, &curStaff->staff_directives);
           }
         else if (ELEM_NAME_EQ (childElem, "voice-directives"))
           {
-            curStaff->voice_directives = parseWidgetDirectives (childElem, ns, (gpointer) voice_directive_put_graphic, curStaff->voicemenu, &curStaff->voice_directives);
+            curStaff->voice_directives = parseWidgetDirectives (childElem, (gpointer) voice_directive_put_graphic, curStaff->voicemenu, &curStaff->voice_directives);
           }
         else if (ELEM_NAME_EQ (childElem, "clef-directives"))
           {
-            curStaff->clef.directives = parseDirectives (childElem, ns);
+            curStaff->clef.directives = parseDirectives (childElem);
           }
 
 
@@ -2118,7 +2117,7 @@ parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoScore * si)
  * @return 0 on success, -1 on failure
  */
 static gint
-parseVoiceProps (xmlNodePtr voicePropElem, xmlNsPtr ns, DenemoScore * si)
+parseVoiceProps (xmlNodePtr voicePropElem, DenemoScore * si)
 {
   DenemoStaff *curStaff = (DenemoStaff *) si->currentstaff->data;
   xmlNodePtr childElem;
@@ -2175,7 +2174,7 @@ parseVoiceProps (xmlNodePtr voicePropElem, xmlNsPtr ns, DenemoScore * si)
       }
     else if (ELEM_NAME_EQ (childElem, "verses"))
       {
-        parseVerses (si, curStaff, childElem, ns);
+        parseVerses (si, curStaff, childElem);
       }
     else if (ELEM_NAME_EQ (childElem, "instrument"))
       {
@@ -2197,15 +2196,15 @@ parseVoiceProps (xmlNodePtr voicePropElem, xmlNsPtr ns, DenemoScore * si)
       }
     else if (ELEM_NAME_EQ (childElem, "staff-directives"))
       {
-        curStaff->staff_directives = parseWidgetDirectives (childElem, ns, (gpointer) staff_directive_put_graphic, curStaff->staffmenu, &curStaff->staff_directives);
+        curStaff->staff_directives = parseWidgetDirectives (childElem, (gpointer) staff_directive_put_graphic, curStaff->staffmenu, &curStaff->staff_directives);
       }
     else if (ELEM_NAME_EQ (childElem, "voice-directives"))
       {
-        curStaff->voice_directives = parseWidgetDirectives (childElem, ns, (gpointer) voice_directive_put_graphic, curStaff->voicemenu, &curStaff->voice_directives);
+        curStaff->voice_directives = parseWidgetDirectives (childElem, (gpointer) voice_directive_put_graphic, curStaff->voicemenu, &curStaff->voice_directives);
       }
     else if (ELEM_NAME_EQ (childElem, "clef-directives"))
       {
-        curStaff->clef.directives = parseDirectives (childElem, ns);
+        curStaff->clef.directives = parseDirectives (childElem);
       }
     else
       {
@@ -2335,11 +2334,11 @@ parseInitVoiceParams (xmlNodePtr initVoiceParamsElem, xmlNsPtr ns, DenemoScore *
           }
         else if (ELEM_NAME_EQ (childElem, "clef"))
           {
-            parseClef (childElem, ns, &curVoice->clef);
+            parseClef (childElem, &curVoice->clef);
           }
         else if (ELEM_NAME_EQ (childElem, "key-signature"))
           {
-            parseKeySignature (childElem, ns, &(curVoice->keysig));
+            parseKeySignature (childElem, &(curVoice->keysig));
             initkeyaccs (curVoice->keysig.accs, curVoice->keysig.number);
             //dnm_setinitialkeysig(curVoice, curVoice->skey, curVoice->skey_isminor);
           }
@@ -2350,7 +2349,7 @@ parseInitVoiceParams (xmlNodePtr initVoiceParamsElem, xmlNsPtr ns, DenemoScore *
 
         else if (ELEM_NAME_EQ (childElem, "sources"))
           {
-            curVoice->sources = parseSources (childElem, ns);
+            curVoice->sources = parseSources (childElem);
           }
 
 
@@ -2458,7 +2457,7 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
               else if (ELEM_NAME_EQ (objElem, "clef"))
                 {
                   curObj = dnm_newclefobj (DENEMO_TREBLE_CLEF);
-                  parseClef (objElem, ns, curObj->object);
+                  parseClef (objElem, curObj->object);
                   gchar *showProp = (gchar *) xmlGetProp (objElem, (xmlChar *) "show");
                   if (showProp)
                     curObj->isinvisible = !strcmp (showProp, "false");
@@ -2475,7 +2474,7 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
                 }
               else if (ELEM_NAME_EQ (objElem, "lily-directive"))
                 {
-                  curObj = parseLilyDir (objElem, ns, si);
+                  curObj = parseLilyDir (objElem);
                 }
 
               /* else if (ELEM_NAME_EQ (objElem, "dynamic"))
@@ -2494,13 +2493,13 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
                 {
 #if 1
                   curObj = dnm_newkeyobj (0, 0, 0);
-                  parseKeySignature (objElem, ns, curObj->object);
+                  parseKeySignature (objElem, curObj->object);
 
                   initkeyaccs (((keysig *) curObj->object)->accs, ((keysig *) curObj->object)->number);
                   //dnm_setinitialkeysig(((keysig *) curObj->object), keySig, isMinor);
 #else
                   //warningdialog("Dodgy code");
-                  parseKeySignature (objElem, ns, &keySig, &isMinor);
+                  parseKeySignature (objElem, &keySig, &isMinor);
                   //curObj = dnm_newkeyobj (keySig, isMinor, 0);
                   //initkeyaccs (((keysig *) curObj->object)->accs, keySig);
                   dnm_setinitialkeysig ((DenemoStaff *) si->currentstaff->data, keySig, isMinor);
@@ -2527,7 +2526,7 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
               else if (ELEM_NAME_EQ (objElem, "stem-directive"))
                 {
                   curObj = dnm_stem_directive_new (DENEMO_STEMBOTH);
-                  parseStemDirective (objElem, ns, curObj->object);
+                  parseStemDirective (objElem, curObj->object);
                 }
               else if (ELEM_NAME_EQ (objElem, "time-signature"))
                 {
@@ -2537,7 +2536,7 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
               else if (ELEM_NAME_EQ (objElem, "tuplet-end"))
                 {
                   curObj = newtupclose ();
-                  parseTupletEnd (objElem, ns, curObj->object);
+                  parseTupletEnd (objElem, curObj->object);
                 }
               else if (ELEM_NAME_EQ (objElem, "tuplet-start"))
                 {
@@ -2656,7 +2655,7 @@ parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoGUI * gui)
 
   childElem = getXMLChild (voiceElem, "voice-props", ns);
   if (childElem)                //older files will not have this
-    if (parseVoiceProps (childElem, ns, si) != 0)
+    if (parseVoiceProps (childElem, si) != 0)
       return -1;
 
   childElem = getXMLChild (voiceElem, "measures", ns);
@@ -2703,25 +2702,25 @@ parseScore (xmlNodePtr scoreElem, xmlNsPtr ns, DenemoGUI * gui, ImportType type)
 
   childElem = getXMLChild (scoreElem, "header-directives", ns);
   if (childElem != 0)
-    si->header.directives = parseWidgetDirectives (childElem, ns, (gpointer) header_directive_put_graphic, NULL, &(si->header.directives));
+    si->header.directives = parseWidgetDirectives (childElem, (gpointer) header_directive_put_graphic, NULL, &(si->header.directives));
 
   childElem = getXMLChild (scoreElem, "layout-directives", ns);
   if (childElem != 0)
-    si->layout.directives = parseWidgetDirectives (childElem, ns, (gpointer) layout_directive_put_graphic, NULL, &(si->layout.directives));
+    si->layout.directives = parseWidgetDirectives (childElem, (gpointer) layout_directive_put_graphic, NULL, &(si->layout.directives));
 
   childElem = getXMLChild (scoreElem, "movementcontrol-directives", ns);
   if (childElem != 0)
-    si->movementcontrol.directives = parseWidgetDirectives (childElem, ns, (gpointer) movementcontrol_directive_put_graphic, NULL, &(si->movementcontrol.directives));
+    si->movementcontrol.directives = parseWidgetDirectives (childElem, (gpointer) movementcontrol_directive_put_graphic, NULL, &(si->movementcontrol.directives));
 
   childElem = getXMLChild (scoreElem, "sources", ns);
   if (childElem != 0)
-    si->sources = parseSources (childElem, ns); //puts the pixbufs after decode_base64 into a GList* at this location
+    si->sources = parseSources (childElem); //puts the pixbufs after decode_base64 into a GList* at this location
 
   childElem = getXMLChild (scoreElem, "audio", ns);
   if (childElem != 0)
     {
       si->audio = (DenemoAudio *) g_malloc (sizeof (DenemoAudio));
-      parseAudio (childElem, ns, si);
+      parseAudio (childElem, si);
     }
 
   childElem = getXMLChild (scoreElem, "score-info", ns);
@@ -2968,19 +2967,19 @@ importXML (gchar * filename, DenemoGUI * gui, ImportType type)
               }
             else if (ELEM_NAME_EQ (childElem, "thumbnail"))
               {
-                parseThumbElem (childElem, ns, &gui->thumbnail);
+                parseThumbElem (childElem, &gui->thumbnail);
               }
             else if (ELEM_NAME_EQ (childElem, "sourcefile"))
               {
-                parseSourceFileElem (childElem, ns, gui);
+                parseSourceFileElem (childElem, gui);
               }
             else if (ELEM_NAME_EQ (childElem, "scoreheader-directives"))
               {
-                gui->scoreheader.directives = parseWidgetDirectives (childElem, ns, (gpointer) scoreheader_directive_put_graphic, NULL, &(gui->scoreheader.directives));
+                gui->scoreheader.directives = parseWidgetDirectives (childElem, (gpointer) scoreheader_directive_put_graphic, NULL, &(gui->scoreheader.directives));
               }
             else if (ELEM_NAME_EQ (childElem, "paper-directives"))
               {
-                gui->paper.directives = parseWidgetDirectives (childElem, ns, (gpointer) paper_directive_put_graphic, NULL, &(gui->paper.directives));
+                gui->paper.directives = parseWidgetDirectives (childElem, (gpointer) paper_directive_put_graphic, NULL, &(gui->paper.directives));
               }
             else if (ELEM_NAME_EQ (childElem, "custom_scoreblock"))
               {

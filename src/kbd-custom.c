@@ -629,7 +629,7 @@ register_command (keymap * the_keymap, GtkAction * action, const gchar * name, c
 
 
 static gint
-command_iter_sort (GtkTreeModel * model, GtkTreeIter * a, GtkTreeIter * b, gpointer user_data)
+command_iter_sort (GtkTreeModel * model, GtkTreeIter * a, GtkTreeIter * b, G_GNUC_UNUSED gpointer user_data)
 {
   GtkTreeIter *iters[2];
   KeymapCommandType type;
@@ -704,7 +704,7 @@ keymap_get_command_row (keymap * the_keymap, command_row * row, guint command_id
 
 
 static gboolean
-keymap_clear_bindings_in_row (GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data)
+keymap_clear_bindings_in_row (GtkTreeModel * model, G_GNUC_UNUSED GtkTreePath * path, GtkTreeIter * iter, G_GNUC_UNUSED gpointer data)
 {
   GtkListStore *bindings;
   gtk_tree_model_get (model, iter, COL_BINDINGS, &bindings, -1);
@@ -1424,11 +1424,11 @@ execute_callback_from_idx (keymap * the_keymap, guint command_idx)
 {
   const gchar *command_name;
   command_name = lookup_name_from_idx (the_keymap, command_idx);
-  return execute_callback_from_name (the_keymap, command_name);
+  return execute_callback_from_name (command_name);
 }
 
 gboolean
-execute_callback_from_name (keymap * the_keymap, const gchar * command_name)
+execute_callback_from_name (const gchar * command_name)
 {
   gboolean res = TRUE;
   gchar *text = NULL;
@@ -1733,7 +1733,7 @@ set_state (gint state, gchar ** value)
 }
 
 static void
-command_name_data_function (GtkTreeViewColumn * col, GtkCellRenderer * renderer, GtkTreeModel * model, GtkTreeIter * iter, gpointer user_data)
+command_name_data_function (G_GNUC_UNUSED GtkTreeViewColumn * col, GtkCellRenderer * renderer, GtkTreeModel * model, GtkTreeIter * iter, G_GNUC_UNUSED gpointer user_data)
 {
   KeymapCommandType type;
   gpointer action;
@@ -1745,7 +1745,7 @@ command_name_data_function (GtkTreeViewColumn * col, GtkCellRenderer * renderer,
 }
 
 static void
-command_hidden_data_function (GtkTreeViewColumn * col, GtkCellRenderer * renderer, GtkTreeModel * model, GtkTreeIter * iter, gpointer user_data)
+command_hidden_data_function (G_GNUC_UNUSED GtkTreeViewColumn * col, GtkCellRenderer * renderer, GtkTreeModel * model, GtkTreeIter * iter, G_GNUC_UNUSED gpointer user_data)
 {
   KeymapCommandType type;
   gpointer action;
@@ -1768,7 +1768,7 @@ command_deleted_data_function (GtkTreeViewColumn * col, GtkCellRenderer * render
 }
 */
 static gboolean
-search_equal_func (GtkTreeModel * model, gint column, const gchar * key, GtkTreeIter * iter, gpointer search_data)
+search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar * key, GtkTreeIter * iter, G_GNUC_UNUSED gpointer search_data)
 {
   KeymapCommandType type;
   gpointer action;
@@ -1786,7 +1786,7 @@ search_equal_func (GtkTreeModel * model, gint column, const gchar * key, GtkTree
 
 /*toggle hidden on action at row in command list */
 static void
-toggle_hidden_on_action (GtkCellRendererToggle * cell_renderer, gchar * path)
+toggle_hidden_on_action (G_GNUC_UNUSED GtkCellRendererToggle * cell_renderer, gchar * path)
 {
   gint command_idx = atoi (path);
   GtkAction *action = (GtkAction *) lookup_action_from_idx (Denemo.map, command_idx);

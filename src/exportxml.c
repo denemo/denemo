@@ -47,7 +47,7 @@ static GHashTable *sStructToXMLIDMap = NULL;
  * g_hash_table_foreach.
  */
 static void
-freeHashTableValue (gpointer key, gpointer value, gpointer userData)
+freeHashTableValue (G_GNUC_UNUSED gpointer key, gpointer value, G_GNUC_UNUSED gpointer userData)
 {
   g_free (value);
 }
@@ -683,7 +683,7 @@ set_invisible (xmlNodePtr objElem, DenemoObject * curObj)
  * Denemo XML file to the given file.
  */
 gint
-exportXML (gchar * thefilename, DenemoGUI * gui, gint start, gint end)
+exportXML (gchar * thefilename, DenemoGUI * gui)
 {
   gint ret = 0;
   GString *filename = g_string_new (thefilename);

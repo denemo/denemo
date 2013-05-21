@@ -3298,7 +3298,7 @@ popup_layouts_menu ()
 }
 
 void
-install_printpreview (DenemoGUI * gui, GtkWidget * top_vbox)
+install_printpreview (GtkWidget * top_vbox)
 {
   if (Denemo.printarea)
     return;

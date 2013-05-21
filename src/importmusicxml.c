@@ -12,7 +12,7 @@
 #include "prefops.h"            //for locatedotdenemo()
 #include "file.h"
 gint
-mxmlinput (gchar * filename, DenemoGUI * gui)
+mxmlinput (gchar * filename)
 {
   GError *err = NULL;
 #ifdef G_OS_WIN32
@@ -48,7 +48,7 @@ mxmlinput (gchar * filename, DenemoGUI * gui)
     }
   gchar *output;
   output = g_build_filename (locatedotdenemo (), "denemoconvert.ly", NULL);
-  gboolean ret = lyinput (output, gui);
+  gboolean ret = lyinput (output);
   g_free (output);
   return ret;
 }

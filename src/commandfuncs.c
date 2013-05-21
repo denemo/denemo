@@ -2650,7 +2650,7 @@ auto_save_document_timeout (DenemoGUI * gui)
     }
   else
     {
-      exportXML (gui->autosavename->str, gui, 0, 0);
+      exportXML (gui->autosavename->str, gui);
     }
 
   return TRUE;

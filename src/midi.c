@@ -723,7 +723,7 @@ process_midi_event (gchar * buf)
           gchar *command_name = get_midi_control_command (notenumber, velocity);
           if (command_name)
             {
-              execute_callback_from_name (Denemo.map, command_name);
+              execute_callback_from_name (command_name);
               g_free (command_name);
             }
           else
@@ -749,7 +749,7 @@ process_midi_event (gchar * buf)
           gchar *command_name = get_midi_pitch_bend_command ((notenumber << 8) + velocity);
           if (command_name)
             {
-              execute_callback_from_name (Denemo.map, command_name);
+              execute_callback_from_name (command_name);
               g_free (command_name);
             }
         }

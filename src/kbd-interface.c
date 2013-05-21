@@ -161,7 +161,7 @@ capture_look_binding (GtkWidget * widget, GdkEventKey * event, gpointer user_dat
 }
 
 static gboolean
-stop_capture_binding (GtkWidget * widget, GdkEventFocus * event, gpointer user_data)
+stop_capture_binding (GtkWidget * widget, G_GNUC_UNUSED GdkEventFocus * event, gpointer user_data)
 {
   keyboard_dialog_data *cbdata = (keyboard_dialog_data *) user_data;
   gtk_statusbar_pop (cbdata->statusbar, cbdata->context_id);
@@ -206,7 +206,7 @@ kbd_interface_look_binding (GtkButton * button, gpointer user_data)
 }
 
 static void
-kbd_interface_del_binding (GtkButton * button, gpointer user_data)
+kbd_interface_del_binding (G_GNUC_UNUSED GtkButton * button, gpointer user_data)
 {
   GtkTreeSelection *selection;
   gchar *binding;
@@ -295,7 +295,7 @@ load_keymap_dialog_response (GtkButton * button, GtkWidget * dialog)
 
 
 void
-configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui, gint command_idx)
+configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
 {
   GtkWidget *dialog;
   GtkWidget *frame;
@@ -525,12 +525,12 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui, gint co
   if (val == RESPONSE_LOADED)
     {
       // test for if load has been performed i.e. finished, if so
-      // configure_keyboard_dialog_init_idx (action, gui, command_idx);
+      // configure_keyboard_dialog_init_idx (action, command_idx);
     }
 }
 
 void
 configure_keyboard_dialog (GtkAction * action, DenemoGUI * gui)
 {
-  configure_keyboard_dialog_init_idx (action, gui, -1);
+  configure_keyboard_dialog_init_idx (action, -1);
 }

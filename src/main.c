@@ -222,7 +222,7 @@ denemo_signal_handler (int sig)
       if (gui->si->lily_file)
         exportlilypond (filename, gui, TRUE);
       else
-        exportXML (filename, gui, 0, 0);
+        exportXML (filename, gui);
 
 
     }
@@ -242,7 +242,7 @@ denemo_signal_handler (int sig)
           if (gui->si->lily_file)
             exportlilypond (filename, gui, TRUE);
           else
-            exportXML (filename, gui, 0, 0);
+            exportXML (filename, gui);
           i++;
         }
     }
