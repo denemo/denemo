@@ -61,7 +61,8 @@ keymap *allocate_keymap (void);
 
 void free_keymap (keymap * the_keymap);
 
-void register_command (keymap * the_keymap, GtkAction * action, const gchar * name, const gchar * label, const gchar * tooltip, gpointer callback);
+void register_command (keymap * the_keymap, GtkAction * action, gchar * name, gchar * label, gchar * tooltip, gpointer callback);
+void register_command_row(keymap* the_keymap, command_row* command);
 
 void alphabeticalize_commands (keymap * the_keymap);
 
@@ -159,4 +160,6 @@ gint add_keybinding_for_command (gint idx, gchar * binding);
 void update_all_labels (keymap * the_keymap);
 void dnm_clean_event (GdkEventKey * event);
 gint add_twokeybinding_to_idx (keymap * the_keymap, gint first_keyval, GdkModifierType first_state, gint keyval, GdkModifierType state, guint command_idx, ListPosition pos);
+
+void command_row_init(command_row *command);
 #endif
