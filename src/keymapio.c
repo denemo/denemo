@@ -6,11 +6,12 @@
 static void
 parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
 {
-  xmlChar *name = NULL, *menupath = NULL, *label = NULL, *tooltip = NULL, *scheme = NULL, *after = NULL;
+  command_row command;
+  command_row_init(&command);
+  xmlChar *menupath = NULL, *scheme = NULL, *after = NULL;
   GList *menupaths = NULL;
   cur = cur->xmlChildrenNode;
   gboolean is_script = FALSE;
-  gboolean hidden = FALSE;
 
   for (; cur; cur = cur->next)
     {
@@ -22,7 +23,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
             }
           else
             {
-              name = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+              command.name = (gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
               //We allow multiple menupaths for a given action, all are added to the gtk_ui when this command is processed after the tooltip node. This is very bad xml, as the action should have all the others as children, and not depend on the order.FIXME
               menupaths = NULL;
             }
@@ -34,7 +35,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_HIDDEN))
         {
-          hidden = TRUE;
+          command.hidden = TRUE;
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_MENUPATH))
         {
@@ -43,7 +44,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_LABEL))
         {
-          label = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+          command.label = (gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_AFTER))
         {
@@ -51,10 +52,10 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_TOOLTIP))
         {
-          tooltip = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+          command.tooltip = (gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
         }
     }
-  create_command(is_script, (gchar*) name, (gchar*) label, (gchar*) scheme, (gchar*) tooltip, hidden, (gchar*) after, (gchar*) menupath, fallback, menupaths, merge);
+  create_command(is_script, (gchar*) scheme, (gchar*) after, (gchar*) menupath, fallback, menupaths, merge, &command);
 }
 
 

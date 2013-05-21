@@ -220,44 +220,38 @@ add_ui (gchar * menupath, gchar * after, gchar * name)
 
 void
 create_command(gboolean is_script,
-               gchar* name,
-               gchar* label,
                gchar* scheme,
-               gchar* tooltip,
-               gboolean hidden,
                gchar* after,
                gchar* menupath,
                gchar* fallback,
                GList* menupaths,
-               gint merge)
+               gint merge,
+               command_row *command)
 {
   /* by convention this is the last of the fields defining a scheme script menu item */
   if (is_script)
   {
-    name = name ? name : "NoName";
-    label = label ? label : "No label";
     scheme = scheme ? scheme : "";
-    tooltip = tooltip ? tooltip : _("No indication what this done beyond the name and label :(");
-    GtkAction *action;
     gboolean new_command = FALSE;
-    action = lookup_action_from_name (name);
-    if (action == NULL)
+    command->action = lookup_action_from_name (command->name);
+    if (command->action == NULL)
     {
       new_command = TRUE;
-      gchar *icon_name = get_icon_for_name (name, label);
-      action = gtk_action_new (name, label, tooltip, icon_name);
+      gchar *icon_name = get_icon_for_name (command->name, command->label);
+      command->action = gtk_action_new (command->name, command->label, command->tooltip, icon_name);
+      command->callback = activate_script;
 
-      if (hidden)
-        g_object_set_data (G_OBJECT (action), "hidden", (gpointer) TRUE);
+      if (command->hidden)
+        g_object_set_data (G_OBJECT (command->action), "hidden", (gpointer) TRUE);
       if (after)
-        g_object_set_data (G_OBJECT (action), "after", (gpointer) after);
-      register_command (Denemo.map, action, name, label, tooltip, activate_script);
+        g_object_set_data (G_OBJECT (command->action), "after", (gpointer) after);
+      register_command_row (Denemo.map, command);
       GtkActionGroup *action_group;
       //GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
       action_group = Denemo.action_group;
-      gtk_action_group_add_action (action_group, action);
+      gtk_action_group_add_action (action_group, command->action);
       /* create a scheme function to call this script */
-      create_scheme_function_for_script (name);
+      create_scheme_function_for_script (command->name);
     }
     if (menupath)
     {
@@ -266,7 +260,7 @@ create_command(gboolean is_script,
       {
         menupath = (gchar *) g->data;
         menupath = menupath ? menupath : (gchar *) "/MainMenu/Other";
-        add_ui (menupath, after, name);
+        add_ui (menupath, after, command->name);
 
       }
     }
@@ -275,7 +269,7 @@ create_command(gboolean is_script,
       if (fallback)
       {           /* no path given, use fallback */
         menupath = fallback;
-        add_ui (menupath, after, name);
+        add_ui (menupath, after, command->name);
       }
     }
     if ((merge & DENEMO_INTERACTIVE) && (merge & DENEMO_MERGING) && new_command)
@@ -286,11 +280,11 @@ create_command(gboolean is_script,
     }
     /*FIXME free?     gchar *old_scheme = (gchar *)g_object_get_data(G_OBJECT(action), "scheme"); */
     //g_print("Setting scheme %s\n", scheme);
-    g_object_set_data (G_OBJECT (action), "scheme", scheme);
-    g_object_set_data (G_OBJECT (action), "menupath", menupath);
+    g_object_set_data (G_OBJECT (command->action), "scheme", scheme);
+    g_object_set_data (G_OBJECT (command->action), "menupath", menupath);
     if (new_command)
     {
-      g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
+      g_signal_connect (G_OBJECT (command->action), "activate", G_CALLBACK (activate_script), NULL);
       //g_print("Signal activate is set on action %p %s scheme is %s\n", action, name, scheme);
     }
 
@@ -299,16 +293,16 @@ create_command(gboolean is_script,
     // to delay loading it, but we should set the signal initally and we should not repeat setting the signal later.
     // the signal does not specify which script will be run, that is decided lazily, when the action is invoked for the first time
 
-    if (hidden)
-      g_object_set_data (G_OBJECT (action), "deleted", (gpointer) TRUE);      //Mark hidden items as deleted on loading them
+    if (command->hidden)
+      g_object_set_data (G_OBJECT (command->action), "deleted", (gpointer) TRUE);      //Mark hidden items as deleted on loading them
   }                   // is_script
   // we are not as yet re-writing tooltips etc on builtin commands
-  else if (hidden)
+  else if (command->hidden)
   {
 
-    hide_action_of_name (name);
-    hidden = FALSE;
-    g_print ("Hiding Builtin %s\n", name);
+    hide_action_of_name (command->name);
+    command->hidden = FALSE;
+    g_print ("Hiding Builtin %s\n", command->name);
   }
 }
 
