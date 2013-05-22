@@ -603,7 +603,7 @@ run_lilypond (gchar ** arguments)
     }
   if (!lilypond_launch_success)
     {
-      g_warning ("Error executing lilypond. Perhaps Lilypond is not installed");
+      g_warning ("Error executing lilypond. Perhaps Lilypond is not installed or its path is not correctly configured.");
       error = -1;
     }
   if (error)
