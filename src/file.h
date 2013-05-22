@@ -38,7 +38,7 @@ void new_score_cb (GtkAction * action, DenemoScriptParam * param);
 
 gint file_save (GtkWidget * widget, DenemoGUI * gui);
 
-void file_saveas (DenemoGUI * gui, DenemoSaveType as_template);
+void file_saveas (DenemoSaveType as_template);
 
 void template_save (GtkAction * action, DenemoScriptParam * param);
 void file_copy_save (GtkAction * action, DenemoScriptParam * param);
@@ -52,6 +52,6 @@ gint open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, 
 
 gchar *file_dialog (gchar * message, gboolean type, gchar * location);
 
-gint lyinput (gchar * filename, DenemoGUI * gui);
+gint lyinput (gchar * filename);
 gint open_source_file (void);
 #endif /*FILE_H */

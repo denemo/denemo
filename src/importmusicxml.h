@@ -10,4 +10,4 @@
  */
 
 
-gint mxmlinput (gchar * filename, DenemoGUI * gui);
+gint mxmlinput (gchar * filename);

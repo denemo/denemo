@@ -66,6 +66,9 @@ extern "C" {
 #define g_string_free
 #endif
 
+#define DEFAULT_COMMANDS "Default.commands"
+#define DEFAULT_KEYBINDINGS "Default.shortcuts"
+
 #ifdef G_OS_WIN32
 #define mswin g_print
 #else

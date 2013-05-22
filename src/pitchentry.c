@@ -103,18 +103,18 @@ Pythagorean
 static temperament Rameau = {
   "Rameau", 8, 3,
   {
-   {261.6, {0, 0}},
-   {276.9, {0, 1}},
-   {293.3, {1, 0}},
-   {309.7, {2, -1}},
-   {330.4, {2, 0}},
-   {348.8, {3, 0}},
-   {369.2, {3, 1}},
-   {391.1, {4, 0}},
-   {413.9, {4, 1}},
-   {438.5, {5, 0}},
-   {463.0, {6, -1}},
-   {493.9, {6, 0}}
+   {261.6, {0, 0, 0}},
+   {276.9, {0, 1, 0}},
+   {293.3, {1, 0, 0}},
+   {309.7, {2, -1,0}},
+   {330.4, {2, 0, 0}},
+   {348.8, {3, 0, 0}},
+   {369.2, {3, 1, 0}},
+   {391.1, {4, 0, 0}},
+   {413.9, {4, 1, 0}},
+   {438.5, {5, 0, 0}},
+   {463.0, {6, -1,0}},
+   {493.9, {6, 0, 0}}
    }
 };
 
@@ -122,67 +122,54 @@ static temperament Rameau = {
 static temperament Equal = {
   "Equal", 8, 3,
   {
-   {261.6, {0, 0}},
-   {277.2, {0, 1}},
-   {293.7, {1, 0}},
-   {311.1, {2, -1}},
-   {329.6, {2, 0}},
-   {349.2, {3, 0}},
-   {370.0, {3, 1}},
-   {392.0, {4, 0}},
-   {415.3, {4, 1}},
-   {440.0, {5, 0}},
-   {466.2, {6, -1}},
-   {493.9, {6, 0}}
+   {261.6, {0, 0, 0}},
+   {277.2, {0, 1, 0}},
+   {293.7, {1, 0, 0}},
+   {311.1, {2, -1, 0}},
+   {329.6, {2, 0, 0}},
+   {349.2, {3, 0, 0}},
+   {370.0, {3, 1, 0}},
+   {392.0, {4, 0, 0}},
+   {415.3, {4, 1, 0}},
+   {440.0, {5, 0, 0}},
+   {466.2, {6, -1, 0}},
+   {493.9, {6, 0, 0}}
    }
 };
 
 static temperament Lehman = {
   "Lehman", 8, 3,
   {
-   {262.37 * 1, {0, 0}},
-   {262.37 * 1.0590, {0, 1}},
-   {262.37 * 1.1203, {1, 0}},
-   {262.37 * 1.1889, {2, -1}},
-   {262.37 * 1.2551, {2, 0}},
-   {262.37 * 1.3360, {3, 0}},
-   {262.37 * 1.4120, {3, 1}},
-   {262.37 * 1.4968, {4, 0}},
-   {262.37 * 1.5869, {4, 1}},
-   {262.37 * 1.6770, {5, 0}},
-   {262.37 * 1.7816, {6, -1}},
-   {262.37 * 1.8827, {6, 0}}
+   {262.37 * 1, {0, 0, 0}},
+   {262.37 * 1.0590, {0, 1, 0}},
+   {262.37 * 1.1203, {1, 0, 0}},
+   {262.37 * 1.1889, {2, -1, 0}},
+   {262.37 * 1.2551, {2, 0, 0}},
+   {262.37 * 1.3360, {3, 0, 0}},
+   {262.37 * 1.4120, {3, 1, 0}},
+   {262.37 * 1.4968, {4, 0, 0}},
+   {262.37 * 1.5869, {4, 1, 0}},
+   {262.37 * 1.6770, {5, 0, 0}},
+   {262.37 * 1.7816, {6, -1, 0}},
+   {262.37 * 1.8827, {6, 0, 0}}
    }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 static temperament Meantone = {
   QUARTER_COMMA_MEAN_TONE, 8, 3,
   {
-   {261.6, {0, 0}},
-   {272.8, {0, 1}},
-   {292.3, {1, 0}},
-   {313.2, {2, -1}},
-   {326.7, {2, 0}},
-   {350.0, {3, 0}},
-   {365.0, {3, 1}},
-   {391.1, {4, 0}},
-   {407.9, {4, 1}},
-   {437.0, {5, 0}},
-   {468.3, {6, -1}},
-   {488.3, {6, 0}}
+   {261.6, {0, 0, 0}},
+   {272.8, {0, 1, 0}},
+   {292.3, {1, 0, 0}},
+   {313.2, {2, -1, 0}},
+   {326.7, {2, 0, 0}},
+   {350.0, {3, 0, 0}},
+   {365.0, {3, 1, 0}},
+   {391.1, {4, 0, 0}},
+   {407.9, {4, 1, 0}},
+   {437.0, {5, 0, 0}},
+   {468.3, {6, -1, 0}},
+   {488.3, {6, 0, 0}}
    }
 };
 
@@ -190,18 +177,18 @@ static temperament Meantone = {
 static temperament WerckmeisterIV = {
   "Werckmeister IV", 8, 3,
   {
-   {263.11, {0, 0}},            /* c */
-   {275.93, {0, 1}},
-   {294.66, {1, 0}},            /* d */
-   {311.83, {2, -1}},           /* Eb */
-   {330.00, {2, 0}},            /* e */
-   {350.81, {3, 0}},            /* f */
-   {369.58, {3, 1}},
-   {392.88, {4, 0}},            /* g */
-   {413.90, {4, 1}},            /* g# */
-   {440.00, {5, 0}},            /* a */
-   {469.86, {6, -1}},           /* Bb */
-   {492.77, {6, 0}}             /* b */
+   {263.11, {0, 0, 0}},            /* c */
+   {275.93, {0, 1, 0}},
+   {294.66, {1, 0, 0}},            /* d */
+   {311.83, {2, -1, 0}},           /* Eb */
+   {330.00, {2, 0, 0}},            /* e */
+   {350.81, {3, 0, 0}},            /* f */
+   {369.58, {3, 1, 0}},
+   {392.88, {4, 0, 0}},            /* g */
+   {413.90, {4, 1, 0}},            /* g# */
+   {440.00, {5, 0, 0}},            /* a */
+   {469.86, {6, -1, 0}},           /* Bb */
+   {492.77, {6, 0, 0}}             /* b */
    }
 };
 
@@ -214,7 +201,7 @@ static temperament *temperaments[] = { &Equal, &Meantone, &WerckmeisterIV, &Lehm
 
 
 static void
-pr_display_note (DenemoGUI * gui, gchar * notename)
+pr_display_note (gchar * notename)
 {
   gchar *labelstr = g_strdup_printf ("<span foreground=\"black\" font_desc=\"48\">%s</span>", notename);
   //printf("string is %s\n", labelstr);
@@ -223,7 +210,7 @@ pr_display_note (DenemoGUI * gui, gchar * notename)
 }
 
 static void
-pr_display_pitch_deviation (DenemoGUI * gui, double deviation)
+pr_display_pitch_deviation (double deviation)
 {
   gchar *labelstr = g_strdup_printf ("<span foreground=\"%s\" font_desc=\"48\">%2.1f</span>", deviation > 0.0 ? "blue" : deviation < 0.0 ? "red" : "black", deviation);
   gtk_label_set_markup (GTK_LABEL (PR_deviation), labelstr);
@@ -389,7 +376,7 @@ default_temperament ()
 
 
 static void
-sharpen (GtkButton * button, GtkWidget * label)
+sharpen (GtkWidget * label)
 {
   enharmonic_position++;
 #define f  (PR_temperament->notepitches[flat_degree].spec)
@@ -425,7 +412,7 @@ sharpen (GtkButton * button, GtkWidget * label)
 
 
 static void
-flatten (GtkButton * button, GtkWidget * label)
+flatten (GtkWidget * label)
 {
   enharmonic_position--;
 #define s (PR_temperament->notepitches[sharp_degree].spec)
@@ -488,9 +475,9 @@ enharmonic_step (gboolean sharp)
 {
   gchar *sharpestname, *flattestname;
   if (sharp)
-    sharpen (NULL, PR_label);
+    sharpen (PR_label);
   else
-    flatten (NULL, PR_label);
+    flatten (PR_label);
   GtkAction *sharpaction = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/MIDI/SharpenEnharmonicSet");
   GtkAction *flataction = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/MIDI/FlattenEnharmonicSet");
 
@@ -511,13 +498,13 @@ enharmonic_step (gboolean sharp)
 }
 
 void
-set_sharper (GtkAction * action, gpointer param)
+set_sharper (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
   enharmonic_step (TRUE);
 }
 
 void
-set_flatter (GtkAction * action, gpointer param)
+set_flatter (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
   enharmonic_step (FALSE);
 }
@@ -734,7 +721,7 @@ free_tones (GList * tones)
 
   // clear gui->si->currentstaff->data->tone_store and the references to it
 static void
-clear_tone_store (GtkButton * button, DenemoGUI * gui)
+clear_tone_store (G_GNUC_UNUSED GtkButton * button, DenemoGUI * gui)
 {
 #define store  (((DenemoStaff*)gui->si->currentstaff->data)->tone_store)
   g_list_foreach (store, (GFunc) free_tones, NULL);
@@ -748,7 +735,7 @@ clear_tone_store (GtkButton * button, DenemoGUI * gui)
 }
 
 void
-clear_overlay (GtkAction * action, gpointer param)
+clear_overlay (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   clear_tone_store (NULL, gui);
@@ -844,7 +831,7 @@ determine_note (gdouble pitch, temperament * t, gint * which_octave, double *dev
 
 
 static void
-display_pitch (double note, DenemoGUI * gui)
+display_pitch (double note)
 {
   gint octave;
   double deviation;
@@ -868,9 +855,9 @@ display_pitch (double note, DenemoGUI * gui)
           g_free (octstr);
           octstr = str;
         }
-      pr_display_note (gui, g_strdup_printf ("%c%s%s", step_name (found->spec.step), alteration_name (found->spec.alteration), octstr));
+      pr_display_note (g_strdup_printf ("%c%s%s", step_name (found->spec.step), alteration_name (found->spec.alteration), octstr));
       g_free (octstr);
-      pr_display_pitch_deviation (gui, deviation);
+      pr_display_pitch_deviation (deviation);
       // FIXME if tuning display a graphic for how far note is from target_note
       if (PR_tuning)
         {
@@ -885,12 +872,12 @@ display_pitch (double note, DenemoGUI * gui)
 }
 
 static gint
-measure_pitch_accurately (DenemoGUI * gui)
+measure_pitch_accurately (G_GNUC_UNUSED gpointer data)
 {
   double note = determine_frequency ();
   //g_print("returned %f\n", note);
   if (note > 0.0)
-    display_pitch (note, gui);
+    display_pitch (note);
 
   return TRUE;
 }
@@ -951,7 +938,7 @@ pitchentry (DenemoGUI * gui)
           // Enter the note in the score
           if (!PR_tuning)
             {
-              display_pitch (note, gui);
+              display_pitch (note);
               if (gui->input_source == INPUTMIDI)
                 {
                   gint key = (gint) (Freq2Pitch (found->pitch * (pow (2, (octave)))));
@@ -988,14 +975,14 @@ pitchentry (DenemoGUI * gui)
 
   // toggle continuous advance to next measure or not
 static void
-toggle_continuous (GtkButton * button, DenemoGUI * gui)
+toggle_continuous (G_GNUC_UNUSED GtkButton * button, G_GNUC_UNUSED gpointer data)
 {
   Denemo.prefs.continuous = !Denemo.prefs.continuous;
   switch_back_to_main_window ();
 }
 
 static void
-change_silence (GtkSpinButton * widget, gpointer data)
+change_silence (GtkSpinButton * widget, G_GNUC_UNUSED gpointer data)
 {
   double silence = gtk_spin_button_get_value (widget);
   set_silence (silence);
@@ -1003,7 +990,7 @@ change_silence (GtkSpinButton * widget, gpointer data)
 }
 
 static void
-change_threshold (GtkSpinButton * widget, gpointer data)
+change_threshold (GtkSpinButton * widget, G_GNUC_UNUSED gpointer data)
 {
   double t = gtk_spin_button_get_value (widget);
   set_threshold (t);
@@ -1011,7 +998,7 @@ change_threshold (GtkSpinButton * widget, gpointer data)
 }
 
 static void
-change_smoothing (GtkSpinButton * widget, gpointer data)
+change_smoothing (GtkSpinButton * widget, G_GNUC_UNUSED gpointer data)
 {
   double m = gtk_spin_button_get_value (widget);
   set_smoothing (m);
@@ -1019,7 +1006,7 @@ change_smoothing (GtkSpinButton * widget, gpointer data)
 }
 
 static void
-change_onset_detection (GtkSpinButton * widget, gpointer data)
+change_onset_detection (GtkSpinButton * widget, G_GNUC_UNUSED gpointer data)
 {
   guint m = gtk_spin_button_get_value (widget);
   set_onset_type (m);
@@ -1028,28 +1015,28 @@ change_onset_detection (GtkSpinButton * widget, gpointer data)
 
 
 static void
-change_lowest_pitch (GtkSpinButton * widget, gpointer data)
+change_lowest_pitch (GtkSpinButton * widget, G_GNUC_UNUSED gpointer data)
 {
   lowest_pitch = gtk_spin_button_get_value (widget);
   switch_back_to_main_window ();
 }
 
 static void
-change_highest_pitch (GtkSpinButton * widget, gpointer data)
+change_highest_pitch (GtkSpinButton * widget, G_GNUC_UNUSED gpointer data)
 {
   highest_pitch = gtk_spin_button_get_value (widget);
   switch_back_to_main_window ();
 }
 
 static void
-change_greatest_interval (GtkSpinButton * widget, gpointer data)
+change_greatest_interval (GtkSpinButton * widget, G_GNUC_UNUSED gpointer data)
 {
   greatest_interval = gtk_spin_button_get_value_as_int (widget);
   switch_back_to_main_window ();
 }
 
 static void
-change_transposition (GtkSpinButton * widget, gpointer data)
+change_transposition (GtkSpinButton * widget, G_GNUC_UNUSED gpointer data)
 {
   gdouble power = gtk_spin_button_get_value_as_int (widget);
   transposition_required = pow (2.0, power);
@@ -1059,7 +1046,7 @@ change_transposition (GtkSpinButton * widget, gpointer data)
 
 
 static void
-frequency_smoothing (GtkSpinButton * widget, gpointer data)
+frequency_smoothing (GtkSpinButton * widget, G_GNUC_UNUSED gpointer data)
 {
   double m = gtk_spin_button_get_value (widget);
   set_frequency_smoothing (m);
@@ -1142,7 +1129,7 @@ change_click_volume (GtkSpinButton * widget)
 
 
 static void
-change_timer_rate (GtkSpinButton * widget, DenemoGUI * gui)
+change_timer_rate (GtkSpinButton * widget, G_GNUC_UNUSED gpointer data)
 {
   PR_time = (guint) gtk_spin_button_get_value (widget);
   start_pitch_input ();         //FIXME do not call the whole of start_pitch_recognition, just the timer setting bit???
@@ -1151,7 +1138,7 @@ change_timer_rate (GtkSpinButton * widget, DenemoGUI * gui)
 
   // toggle Denemo.prefs.overlays to show where the notes detected should go
 static void
-toggle_insert (GtkButton * button, DenemoGUI * gui)
+toggle_insert (G_GNUC_UNUSED GtkButton * button, G_GNUC_UNUSED gpointer data)
 {
   Denemo.prefs.overlays = !Denemo.prefs.overlays;
   clear_tone_store (NULL, Denemo.gui);
@@ -1159,7 +1146,7 @@ toggle_insert (GtkButton * button, DenemoGUI * gui)
 }
 
 static gint
-draw_indicator (GtkWidget * widget, GdkEventExpose * event, gpointer data)
+draw_indicator (GtkWidget * widget, G_GNUC_UNUSED GdkEventExpose * event, G_GNUC_UNUSED gpointer data)
 {
   int barwidth = 20;
   int centre = 400;
@@ -1213,7 +1200,7 @@ toggle_tuning (GtkToggleButton * button, DenemoGUI * gui)
           gtk_widget_show_all (widget);
         }
       gtk_window_present (GTK_WINDOW (widget));
-      id = g_timeout_add (200, (GSourceFunc) measure_pitch_accurately, gui);
+      id = g_timeout_add (200, (GSourceFunc) measure_pitch_accurately, NULL);
     }
   else if (id)
     {
@@ -1401,7 +1388,7 @@ create_pitch_recognition_window (DenemoGUI * gui)
       gtk_box_pack_start (GTK_BOX (hbox), vbox, TRUE, TRUE, 0);
       GtkWidget *radio_button = gtk_radio_button_new_with_label (NULL, "Overlay Pitches");
 
-      g_signal_connect (G_OBJECT (radio_button), "toggled", G_CALLBACK (toggle_insert), gui);
+      g_signal_connect (G_OBJECT (radio_button), "toggled", G_CALLBACK (toggle_insert), NULL);
       button = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (radio_button), "Insert Notes");
 
       //g_print("Overlays %d\n", Denemo.prefs.overlays);
@@ -1447,7 +1434,7 @@ create_pitch_recognition_window (DenemoGUI * gui)
       button = gtk_check_button_new_with_label ("Continuous");
       gtk_box_pack_start (GTK_BOX (hbox2), button, TRUE, TRUE, 0);
 
-      g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (toggle_continuous), gui);
+      g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (toggle_continuous), NULL);
       if (Denemo.prefs.continuous)
         {
           Denemo.prefs.continuous = !Denemo.prefs.continuous;
@@ -1598,7 +1585,7 @@ create_pitch_recognition_window (DenemoGUI * gui)
       spinner_adj = (GtkAdjustment *) gtk_adjustment_new (DEFAULT_TIMER_RATE, 1.0, 500.0, 10.0, 1.0, 1.0);
       spinner = gtk_spin_button_new (spinner_adj, 10.0, 0);
       gtk_box_pack_start (GTK_BOX (hbox), spinner, TRUE, TRUE, 0);
-      g_signal_connect (G_OBJECT (spinner), "value-changed", G_CALLBACK (change_timer_rate), gui);
+      g_signal_connect (G_OBJECT (spinner), "value-changed", G_CALLBACK (change_timer_rate), NULL);
 
       frame = gtk_frame_new ("Frequency Measurement");
       gtk_container_add (GTK_CONTAINER (main_vbox), frame);
@@ -1667,7 +1654,7 @@ setup_pitch_input (void)
 
 
 static void
-scorearea_set_active (GtkWidget * widget, GdkEventCrossing * event, DenemoGUI * gui)
+scorearea_set_active (G_GNUC_UNUSED GtkWidget * widget, G_GNUC_UNUSED GdkEventCrossing * event, G_GNUC_UNUSED gpointer data)
 {
   PR_enable = TRUE;
   //gtk_widget_draw(Denemo.scorearea, NULL);
@@ -1676,7 +1663,7 @@ scorearea_set_active (GtkWidget * widget, GdkEventCrossing * event, DenemoGUI * 
 }
 
 static void
-scorearea_set_inactive (GtkWidget * widget, GdkEventCrossing * event, DenemoGUI * gui)
+scorearea_set_inactive (G_GNUC_UNUSED GtkWidget * widget, G_GNUC_UNUSED GdkEventCrossing * event, G_GNUC_UNUSED gpointer data)
 {
   PR_enable = FALSE;
   //gtk_widget_draw(Denemo.scorearea, NULL);
@@ -1698,8 +1685,8 @@ start_pitch_input (void)
   if (gui->input_source == INPUTAUDIO)
     {                           /* for input from microphone avoid accidental activation by insisting on pointer being in the score drawing area */
       gtk_widget_add_events (Denemo.scorearea, GDK_LEAVE_NOTIFY_MASK | GDK_ENTER_NOTIFY_MASK);
-      PR_enter = g_signal_connect (G_OBJECT (Denemo.scorearea), "enter-notify-event", G_CALLBACK (scorearea_set_active), (gpointer) gui);
-      PR_leave = g_signal_connect (G_OBJECT (Denemo.scorearea), "leave-notify-event", G_CALLBACK (scorearea_set_inactive), (gpointer) gui);
+      PR_enter = g_signal_connect (G_OBJECT (Denemo.scorearea), "enter-notify-event", G_CALLBACK (scorearea_set_active), NULL);
+      PR_leave = g_signal_connect (G_OBJECT (Denemo.scorearea), "leave-notify-event", G_CALLBACK (scorearea_set_inactive), NULL);
     }
   else
     PR_enable = TRUE;           /* for midi input you are unlikely to enter notes by accident */

@@ -152,7 +152,7 @@ perform_command (const gchar * command_name, GdkEventKey * event)
   Denemo.last_keyval = event->keyval;
   Denemo.last_keystate = dnm_sanitize_key_state (event);
   call_out_to_guile ("(define DenemoKeypressActivatedCommand #t)");
-  execute_callback_from_name (Denemo.map, command_name);
+  execute_callback_from_name (command_name);
   call_out_to_guile ("(define DenemoKeypressActivatedCommand #f)");
   // note gui = Denemo.gui; may have changed as a result of executing the command
 #ifdef TESTING_REPEATED_XPOSITION_UPDATE

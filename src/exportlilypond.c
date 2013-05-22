@@ -1666,7 +1666,7 @@ get_lilypond_for_clef (clef * theclef)
  * 
  */
 static void
-outputStaff (DenemoGUI * gui, DenemoScore * si, DenemoStaff * curstaffstruct, gint start, gint end, gchar * movement, gchar * voice, gint movement_count, gint voice_count, GString * definitions, DenemoScoreblock * sb)
+outputStaff (DenemoGUI * gui, DenemoStaff * curstaffstruct, gint start, gint end, gchar * movement, gchar * voice, gint movement_count, gint voice_count, DenemoScoreblock * sb)
 {
   gint cur_stime1 = curstaffstruct->timesig.time1;
   gint cur_stime2 = curstaffstruct->timesig.time2;
@@ -2070,13 +2070,13 @@ merge_lily_strings (DenemoGUI * gui)
     }
   gtk_text_buffer_set_modified (Denemo.textbuffer, FALSE);
 }
-
+/* UNUSED
 void
 merge_lily_cb (GtkAction * action, DenemoGUI * gui)
 {
   merge_lily_strings (gui);
 }
-
+*/
 /* if there is not yet a textbuffer for the passed gui, it creates and populates one,
    if there is it finds the offset of the current point in the buffer, refreshes it from 
    the Denemo data and then repositions the cursor at that offset. The refresh is subject to
@@ -2451,7 +2451,7 @@ output_score_to_buffer (DenemoGUI * gui, gboolean all_movements, gchar * partnam
               end = gui->si->selection.lastmeasuremarked;
             }
           if (visible_part > 0 && visible_movement > 0)
-            outputStaff (gui, si, curstaffstruct, start, end, movement_name->str, voice_name->str, movement_count * visible_movement, voice_count * visible_part, definitions, sb);
+            outputStaff (gui, curstaffstruct, start, end, movement_name->str, voice_name->str, movement_count * visible_movement, voice_count * visible_part, sb);
           //g_print("Music for staff is \n%s\n", visible_part>0?"visible":"NOT visible");
 
           //FIXME amalgamate movement and voice names below here...
@@ -2692,7 +2692,7 @@ lilywindow_closed ()
 static gboolean lily_refresh (GtkWidget * item, GdkEventCrossing * e);
 
 static gboolean
-lily_save (GtkWidget * item, GdkEventCrossing * e)
+lily_save (G_GNUC_UNUSED GtkWidget * item, G_GNUC_UNUSED GdkEventCrossing * e)
 {
   DenemoGUI *gui = Denemo.gui;
   //g_print("Consider Save ... %d %d", gui->lilysync, gui->changecount);
@@ -2705,7 +2705,7 @@ lily_save (GtkWidget * item, GdkEventCrossing * e)
 }
 
 static gboolean
-lily_refresh (GtkWidget * item, GdkEventCrossing * e)
+lily_refresh (G_GNUC_UNUSED GtkWidget * item, G_GNUC_UNUSED GdkEventCrossing * e)
 {
   DenemoGUI *gui = Denemo.gui;
   //g_print("Consider Refresh ... %d %d", gui->lilysync, gui->changecount);
@@ -2733,7 +2733,7 @@ prepend_menu_item (GtkMenuShell * menu, DenemoGUI * gui, gchar * text, gpointer 
 }
 
 static gboolean
-populate_called (GtkWidget * view, GtkMenuShell * menu)
+populate_called (G_GNUC_UNUSED GtkWidget * view, GtkMenuShell * menu)
 {
   DenemoGUI *gui = Denemo.gui;
   //g_print("populate called with %p\n", menu);
@@ -2827,7 +2827,7 @@ goto_lilypond_position (gint line, gint column)
 }
 
 static gboolean
-lily_keypress (GtkWidget * w, GdkEventKey * event)
+lily_keypress (G_GNUC_UNUSED GtkWidget * w, GdkEventKey * event)
 {
   DenemoGUI *gui = Denemo.gui;
   GtkTextIter cursor;

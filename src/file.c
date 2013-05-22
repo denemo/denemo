@@ -44,7 +44,7 @@ static gint file_open (DenemoGUI * gui, DenemoSaveType template, ImportType type
 static gint file_import_lilypond (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar * filename);
 static gint file_import_midi (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar * filename);
 static gint file_import_musicxml (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar * filename);
-static gboolean replace_existing_file_dialog (const gchar * filename, GtkWindow * parent_window, gint format_id);
+static gboolean replace_existing_file_dialog (const gchar * filename, gint format_id);
 
 typedef enum
 { DENEMO_FORMAT = 0,
@@ -145,7 +145,7 @@ confirm_save (DenemoGUI * gui, gchar * primary, gchar * secondary)
   if (response == GTK_RESPONSE_YES)
     {
       gtk_widget_destroy (dialog);
-      file_saveas (gui, SAVE_NORMAL);
+      file_saveas (SAVE_NORMAL);
       if (gui->notsaved)
         r = FALSE;
       else
@@ -199,7 +199,7 @@ history_compare (gconstpointer a, gconstpointer b)
  * opens the selected file
  */
 void
-openrecent (GtkWidget * widget, gchar * filename)
+openrecent (G_GNUC_UNUSED GtkWidget * widget, gchar * filename)
 {
   DenemoGUI *gui = Denemo.gui;
   if (!gui->notsaved || (gui->notsaved && confirmbox (gui)))
@@ -269,7 +269,7 @@ update_file_selection_path (gchar * file)
 }
 
 gint
-lyinput (gchar * filename, DenemoGUI * gui)
+lyinput (gchar * filename)
 {
   gchar *path = g_path_get_dirname (filename);
   gchar *base = g_path_get_basename (filename);
@@ -311,11 +311,11 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
       else if (EXISTS (".dnm"))
         xml = TRUE, result = importXML (filename, gui, type);
       else if (EXISTS (".ly"))
-        result = lyinput (filename, gui);
+        result = lyinput (filename);
       else if (EXISTS (".mxml") || EXISTS (".xml"))
-        result = mxmlinput (filename, gui);
+        result = mxmlinput (filename);
       else if (EXISTS (".mid") || EXISTS (".midi"))
-        result = importMidi (filename, gui);
+        result = importMidi (filename);
       else if (EXISTS (".pdf") || EXISTS (".PDF"))
         {                       // a .pdf file for transcribing from, does not affect the current score.
           g_signal_handlers_unblock_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
@@ -445,7 +445,7 @@ save_in_format (gint format_id, DenemoGUI * gui, gchar * filename)
             {
               deleteSchemeText ();
             }
-        ret = exportXML (file, gui, 0, 0);
+        ret = exportXML (file, gui);
         break;
       };
     case MUDELA_FORMAT:
@@ -715,7 +715,7 @@ file_add_staffs (GtkAction * action, DenemoScriptParam * param)
 ADD (ADD_STAFFS)}
 
 static void
-set_current_folder (GtkWidget * file_selection, DenemoGUI * gui, DenemoSaveType template)
+set_current_folder (GtkWidget * file_selection, DenemoSaveType template)
 {
   gchar *path, *fallback;
   if (template == SAVE_TEMPLATE)
@@ -808,7 +808,7 @@ update_preview_cb (GtkFileChooser * file_chooser, gpointer data)
 						GTK_STOCK_OPEN,\
 						GTK_RESPONSE_ACCEPT, NULL);\
   /* Open the last visited directory, if any. */\
-  set_current_folder(file_selection, gui, template);\
+  set_current_folder(file_selection, template);\
   \
   filter = gtk_file_filter_new ();\
   gtk_file_filter_set_name (filter, FORMAT_DESCRIPTION(save_type));\
@@ -900,7 +900,7 @@ file_saveaswrapper (GtkAction * action, DenemoScriptParam * param)
   DenemoGUI *gui = Denemo.gui;
   if (filename == NULL)
     {
-      file_saveas (gui, FALSE);
+      file_saveas (FALSE);
     }
   else
     {
@@ -915,12 +915,11 @@ file_saveaswrapper (GtkAction * action, DenemoScriptParam * param)
  * Wrapper function to save the current file as template
  */
 void
-template_save (GtkAction * action, DenemoScriptParam * param)
+template_save (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
   init_local_path ();
   default_template_path = local_template_path;
-  file_saveas (gui, SAVE_TEMPLATE);
+  file_saveas (SAVE_TEMPLATE);
 }
 
 
@@ -928,11 +927,10 @@ template_save (GtkAction * action, DenemoScriptParam * param)
  * Wrapper function to save the current file as a copy
  */
 void
-file_copy_save (GtkAction * action, DenemoScriptParam * param)
+file_copy_save (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
   init_local_path ();
-  file_saveas (gui, SAVE_COPY);
+  file_saveas (SAVE_COPY);
 }
 
 /**
@@ -971,7 +969,7 @@ file_save (GtkWidget * widget, DenemoGUI * gui)
   g_print ("READONLY %d\n", si->readonly);
   if ((gui->filename->len == 0) /* || (si->readonly == TRUE) */ )
     /* No filename's been given or is opened from template */
-    file_saveas (gui, FALSE);
+    file_saveas (FALSE);
   else
     ret = save_in_format (DENEMO_FORMAT, gui, NULL);
 
@@ -990,7 +988,7 @@ file_dialog_response (GtkWidget * dialog, gint response_id, struct FileDialogDat
   if (response_id == GTK_RESPONSE_ACCEPT)
     {
       gchar *file_name = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
-      if (replace_existing_file_dialog (file_name, GTK_WINDOW (Denemo.window), data->format_id))
+      if (replace_existing_file_dialog (file_name, data->format_id))
         {
           gint status = filesel_save (gui, file_name, data->format_id, data->template);
           if (status == 0)
@@ -1015,7 +1013,7 @@ file_dialog_response (GtkWidget * dialog, gint response_id, struct FileDialogDat
 						GTK_STOCK_SAVE,\
 						GTK_RESPONSE_ACCEPT, NULL);\
   /*set default folder for saving */\
-  set_current_folder(file_selection, gui, template?SAVE_TEMPLATE:SAVE_NORMAL);\
+  set_current_folder(file_selection, template?SAVE_TEMPLATE:SAVE_NORMAL);\
   \
   /* assign title */ \
   gchar *title = get_scoretitle();\
@@ -1041,8 +1039,8 @@ file_dialog_response (GtkWidget * dialog, gint response_id, struct FileDialogDat
  *
  *
  */
-void
-file_export (DenemoGUI * gui, FileFormatNames format_id)
+static void
+file_export (FileFormatNames format_id)
 {
   gchar *description = g_strconcat (_("Export As "), FORMAT_DESCRIPTION (format_id), NULL);
   DenemoSaveType template = FALSE;
@@ -1055,7 +1053,7 @@ file_export (DenemoGUI * gui, FileFormatNames format_id)
  *
  */
 void
-file_saveas (DenemoGUI * gui, DenemoSaveType template)
+file_saveas (DenemoSaveType template)
 {
   gint format_id = DENEMO_FORMAT;
 FILE_SAVE_DIALOG (_("Save As"), template)}
@@ -1126,7 +1124,7 @@ open_user_default_template (ImportType type)
  *
  */
 static gboolean
-replace_existing_file_dialog (const gchar * filename, GtkWindow * parent_window, gint format_id)
+replace_existing_file_dialog (const gchar * filename, gint format_id)
 {
   gboolean ret;
   gchar *file = create_filename (filename, format_id);
@@ -1154,7 +1152,7 @@ file_savepartswrapper (GtkAction * action, DenemoScriptParam * param)
   DenemoGUI *gui = Denemo.gui;
   if (gui->filename->len == 0)
     {
-      file_saveas (gui, FALSE);
+      file_saveas (FALSE);
     }
 
   export_lilypond_parts (gui->filename->str, gui);
@@ -1162,7 +1160,7 @@ file_savepartswrapper (GtkAction * action, DenemoScriptParam * param)
 
 
 static void
-selection_received (GtkClipboard * clipboard, const gchar * text, gpointer data)
+selection_received (G_GNUC_UNUSED GtkClipboard * clipboard, const gchar * text, G_GNUC_UNUSED gpointer data)
 {
   if (!text)
     {
@@ -1225,10 +1223,10 @@ paste_clipboard (GtkAction * action, DenemoScriptParam * param)
   GET_1PARAM(action, param, filename); \
   DenemoGUI *gui = Denemo.gui; \
   if (filename==NULL) \
-    file_export(gui, format_id); \
+    file_export(format_id); \
   else \
     if (action==NULL || replace_existing_file_dialog \
-       (filename, GTK_WINDOW (Denemo.window), format_id)){ \
+       (filename, format_id)){ \
       filesel_save (gui, filename, format_id, SAVE_COPY); \
       force_lily_refresh(gui); \
     }

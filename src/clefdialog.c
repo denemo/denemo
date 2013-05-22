@@ -45,7 +45,7 @@ static ClefInfo clef_info[] = {
 const gchar *
 get_clef_name (guint type)
 {
-  if (type >= 0 && (type < G_N_ELEMENTS (clef_info)))
+  if (type < G_N_ELEMENTS (clef_info))
     return clef_info[type].name;
   return NULL;
 }

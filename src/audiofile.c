@@ -21,10 +21,11 @@
 #include <stdio.h>
 #include <sndfile.h>
 #include <fcntl.h>
+#include <string.h>
 #include "audiofile.h"
 #include "file.h"
 #include "prefops.h"
-#include <string.h>
+#include "utils.h"
 
 const gchar *
 recorded_audio_filename (void)

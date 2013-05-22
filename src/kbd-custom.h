@@ -121,7 +121,7 @@ const GtkAction *lookup_action_from_idx (keymap * keymap, gint command_idx);
 const gchar *lookup_menu_path_from_idx (keymap * keymap, gint command_idx);
 
 gboolean execute_callback_from_idx (keymap * the_keymap, guint command_idx);
-gboolean execute_callback_from_name (keymap * the_keymap, const gchar * command_name);
+gboolean execute_callback_from_name (const gchar * command_name);
 
 gboolean idx_has_callback (keymap * the_keymap, guint command_idx);
 

@@ -43,6 +43,7 @@
 #include "scorelayout.h"
 #include "keymapio.h"
 #include "measureops.h"
+#include "audiofile.h"
 #define INIT_SCM "init.scm"
 
 //#include "pathconfig.h"
@@ -7967,8 +7968,7 @@ static void show_type (GtkWidget * widget, gchar * message);
 static void
 configure_keyboard_idx (GtkWidget * w, gint idx)
 {
-  DenemoGUI *gui = Denemo.gui;
-  configure_keyboard_dialog_init_idx (NULL, gui, idx);
+  configure_keyboard_dialog_init_idx (NULL, idx);
 }
 
 //static void toggleRecording (GtkWidget*w, gboolean *record) {
@@ -10876,7 +10876,7 @@ newtab (GtkAction * action, gpointer param)
 #endif
 
 
-  install_printpreview (gui, main_vbox);
+  install_printpreview (main_vbox);
 
   //FIXME populate_opened_recent (gui);
 

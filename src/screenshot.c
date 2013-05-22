@@ -48,7 +48,7 @@ typedef struct
 
 static select_area_filter_data the_data;
 static gboolean
-select_window_draw (GtkWidget * window, cairo_t * cr, gpointer unused)
+select_window_draw (GtkWidget * window, cairo_t * cr, G_GNUC_UNUSED gpointer unused)
 {
   GtkAllocation allocation;
   GtkStyle *style;

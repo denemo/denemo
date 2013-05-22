@@ -706,7 +706,7 @@ readtrack (smf_t * smf)
 }
 
 gint
-importMidi (gchar * filename, DenemoGUI * gui)
+importMidi (gchar * filename)
 {
   smf_t *smf;
   gint ret = 0;                 // (-1 on failure)

@@ -59,7 +59,7 @@ first_time_user (void)
 gboolean
 uses_default_commandset (void)
 {
-  gchar *filename = g_build_filename (locatedotdenemo (), "actions", "Default.commands", NULL);
+  gchar *filename = g_build_filename (locatedotdenemo (), "actions", DEFAULT_COMMANDS, NULL);
   gboolean ret = !g_file_test (filename, G_FILE_TEST_EXISTS);
   g_free (filename);
   return ret;
@@ -222,7 +222,7 @@ denemo_signal_handler (int sig)
       if (gui->si->lily_file)
         exportlilypond (filename, gui, TRUE);
       else
-        exportXML (filename, gui, 0, 0);
+        exportXML (filename, gui);
 
 
     }
@@ -242,7 +242,7 @@ denemo_signal_handler (int sig)
           if (gui->si->lily_file)
             exportlilypond (filename, gui, TRUE);
           else
-            exportXML (filename, gui, 0, 0);
+            exportXML (filename, gui);
           i++;
         }
     }
