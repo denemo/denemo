@@ -30,7 +30,7 @@
 
 static GdkPixbuf *StaffPixbuf, *StaffPixbufSmall, *StaffGoBack, *StaffGoForward;
 static DenemoObject *Startobj, *Endobj;
-static gboolean layout_needed = TRUE;    //Set FALSE when further call to draw_score(NULL) is not needed.
+static gboolean layout_needed = TRUE;   //Set FALSE when further call to draw_score(NULL) is not needed.
 void
 initialize_playhead (void)
 {
@@ -1251,10 +1251,7 @@ draw_score (cairo_t * cr)
 
         si->rightmost_time = itp.rightmosttime;
 
-        if ((system_num > 2) && 
-            Denemo.gui->si->playingnow && 
-            (si->playhead > leftmost) && 
-            itp.measurenum <= g_list_length (((DenemoStaff *) curstaff->data)->measures) /*(itp.measurenum > (si->rightmeasurenum+1)) */ )
+        if ((system_num > 2) && Denemo.gui->si->playingnow && (si->playhead > leftmost) && itp.measurenum <= g_list_length (((DenemoStaff *) curstaff->data)->measures) /*(itp.measurenum > (si->rightmeasurenum+1)) */ )
           {
             //put the next line of music at the top with a break marker
             itp.left = &gui->lefts[0];
@@ -1360,11 +1357,16 @@ draw_callback (cairo_t * cr)
     }
   else if (gtk_widget_has_focus (Denemo.scorearea))
     {
-      cairo_set_source_rgb (cr, ((0xFF0000 & Denemo.color) >> 16) / 255.0, ((0xFF00 & Denemo.color) >> 8) / 255.0, ((0xFF & Denemo.color)) / 255.0);
+      if (Denemo.gui->input_source == INPUTMIDI && (Denemo.keyboard_state == GDK_LOCK_MASK || Denemo.keyboard_state == GDK_SHIFT_MASK))      //listening to MIDI-in
+        cairo_set_source_rgb (cr, 0.6, 0.6, 1.0);
+      else if (Denemo.gui->input_source == INPUTMIDI && Denemo.keyboard_state == GDK_CONTROL_MASK)      //checking pitches
+        cairo_set_source_rgb (cr, 0.6, 1.0, 0.6);
+      else
+        cairo_set_source_rgb (cr, ((0xFF0000 & Denemo.color) >> 16) / 255.0, ((0xFF00 & Denemo.color) >> 8) / 255.0, ((0xFF & Denemo.color)) / 255.0);
     }
   else
     {
-      cairo_set_source_rgb (cr, 0.9, 0.9, 0.9);
+      cairo_set_source_rgb (cr, 0.9, 0.9, 0.9); //gray background when key strokes are not being received.
     }
   cairo_paint (cr);
 
