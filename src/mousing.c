@@ -354,8 +354,7 @@ perform_command (gint modnum, mouse_gesture press, gboolean left)
     {
 
       if (Denemo.prefs.learning)
-        MouseGestureShow(_("mouse gesture name here."), _("this needs to pass the command idx."),
-          KeyPlusMouse);
+        KeyPlusMouseGestureShow(modname->str, command_idx);
       
       execute_callback_from_idx (Denemo.map, command_idx);
       displayhelper (Denemo.gui);

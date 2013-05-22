@@ -271,6 +271,7 @@ void KeyStrokeAwait (gchar * first_keypress);
 void KeyStrokeDecline (gchar * first_keypress);
 void KeyStrokeShow (gchar * str, gint command_idx, DenemoShortcutType type);
 void MouseGestureShow (gchar *str, gchar *help, DenemoShortcutType type);
+void KeyPlusMouseGestureShow(gchar *str, gint command_idx);
 void display_current_object(void);
 
 note *
