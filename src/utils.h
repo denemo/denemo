@@ -259,10 +259,18 @@ gint get_widget_width (GtkWidget * w);
 void switch_back_to_main_window (void);
 void use_markup (GtkWidget * widget);
 
+typedef enum
+{
+  TwoKey=0,
+  SingleKey=1,
+  MouseGesture=2,
+  KeyPlusMouse=3
+} DenemoShortcutType;
 void initialize_keystroke_help (void);
 void KeyStrokeAwait (gchar * first_keypress);
 void KeyStrokeDecline (gchar * first_keypress);
-void KeyStrokeShow (gchar * str, gint command_idx, gboolean single);
+void KeyStrokeShow (gchar * str, gint command_idx, DenemoShortcutType type);
+void MouseGestureShow (gchar *str, gchar *help, DenemoShortcutType type);
 void display_current_object(void);
 
 note *
@@ -274,4 +282,6 @@ findnote (DenemoObject * curObj, gint cursory);
 
 void write_input_status();
 enum clefs cleftypefromname (gchar * str);
+
+
 #endif /* UTILS_H */

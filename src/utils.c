@@ -2164,31 +2164,36 @@ use_markup (GtkWidget * widget)
 static GtkWidget *KeyStrokes;
 static GtkWidget *KeyStrokeLabel;
 static GtkWidget *KeyStrokeHelp;
-extern void KeyStrokeShow (gchar * str, gint command_idx, gboolean single);
+
 
 void
 KeyStrokeAwait (gchar * first_keypress)
 {
-  KeyStrokeShow (first_keypress, 0, 0);
+  KeyStrokeShow (first_keypress, DENEMO_NO_COMMAND, TwoKey);
 }
 
 void
 KeyStrokeDecline (gchar * first_keypress)
 {
-  KeyStrokeShow (first_keypress, 0, 1);
+  KeyStrokeShow (first_keypress, DENEMO_NO_COMMAND, SingleKey);
+}
+
+void MouseGestureShow (gchar *str, gchar *help, DenemoShortcutType type) {
+  gtk_label_set_text (GTK_LABEL (KeyStrokeHelp), help);
+  KeyStrokeShow (str, DENEMO_NO_COMMAND, type);
 }
 
 void
-KeyStrokeShow (gchar * str, gint command_idx, gboolean single)
+KeyStrokeShow (gchar * str, gint command_idx, DenemoShortcutType type)
 {
   if (str != NULL)
     {
       gchar *text;
-      if (command_idx)
+      if (command_idx != DENEMO_NO_COMMAND)
         {
           const gchar *label = lookup_label_from_idx (Denemo.map, command_idx);
           const gchar *tooltip = lookup_tooltip_from_idx (Denemo.map, command_idx);
-          if (single)
+          if (type)
             {
               text = g_strdup_printf (_("Key Press <span font_desc=\"40\" foreground=\"blue\">%s</span>" " invokes command <span font_desc=\"40\" foreground=\"dark red\">%s</span>"), str, label);
 
@@ -2197,25 +2202,41 @@ KeyStrokeShow (gchar * str, gint command_idx, gboolean single)
             {
               text = g_strdup_printf (_("Key Presses <span font_desc=\"40\" foreground=\"blue\">%s</span>" " invoke command <span font_desc=\"40\" foreground=\"dark red\">%s</span>"), str, label);
             }
-          gtk_window_set_title (GTK_WINDOW (KeyStrokes), single ? _("Single Key Press") : _("Two Key Presses"));
+          gtk_window_set_title (GTK_WINDOW (KeyStrokes), type==SingleKey ? _("Single Key Press") : _("Two Key Presses"));
           gtk_label_set_markup (GTK_LABEL (KeyStrokeLabel), text);
           gtk_label_set_text (GTK_LABEL (KeyStrokeHelp), tooltip);
           g_free (text);
         }
-      else
+      else // no command
         {
-          if (single)
-            text = g_strdup_printf (_("Key Press <span font_desc=\"40\" foreground=\"blue\">%s</span>" " Is not a shortcut.\n%s"), str,
-            (Denemo.gui->view != DENEMO_MENU_VIEW)?
-            _("(The menus are now restored in case you are lost.)"):"");
-          else
-            text = g_strdup_printf (_("Key Press <span font_desc=\"40\" foreground=\"blue\">%s</span>" " Awaiting continuation"), str);
-          gtk_window_set_title (GTK_WINDOW (KeyStrokes), _("First Key Press"));
+          switch (type) {
+            case SingleKey:
+              gtk_window_set_title (GTK_WINDOW (KeyStrokes), _("Key Press"));
+              gtk_label_set_text (GTK_LABEL (KeyStrokeHelp), "");
+              text = g_strdup_printf (_("Key Press <span font_desc=\"40\" foreground=\"blue\">%s</span>" " Is not a shortcut.\n%s"), str,
+              (Denemo.gui->view != DENEMO_MENU_VIEW)?
+              _("(The menus are now restored in case you are lost.)"):"");
+              break;
+            case TwoKey:
+              gtk_window_set_title (GTK_WINDOW (KeyStrokes), _("First Key Press"));
+              gtk_label_set_text (GTK_LABEL (KeyStrokeHelp), "");
+              text = g_strdup_printf (_("Key Press <span font_desc=\"40\" foreground=\"blue\">%s</span>" " Awaiting continuation"), str);
+              break;
+            case MouseGesture:
+              gtk_window_set_title (GTK_WINDOW (KeyStrokes), _("Mouse"));
+              text = g_strdup_printf (_("Mouse <span font_desc=\"40\" foreground=\"blue\">%s</span>"), str);
+              break;
+            case KeyPlusMouse:
+              gtk_window_set_title (GTK_WINDOW (KeyStrokes), _("Key + Mouse"));
+              text = g_strdup_printf (_("Key Press <span font_desc=\"40\" foreground=\"blue\">%s</span>"), str);
+              break;
+            default:
+              g_warning("bad call");
+              return;
+          }
           gtk_label_set_markup (GTK_LABEL (KeyStrokeLabel), text);
-          gtk_label_set_text (GTK_LABEL (KeyStrokeHelp), "");
           g_free (text);
         }
-
     }
   gtk_widget_show (KeyStrokes);
 }

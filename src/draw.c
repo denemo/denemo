@@ -1171,7 +1171,7 @@ draw_score (cairo_t * cr)
                 cairo_rectangle (cr, KEY_MARGIN + key + cmajor, y, SPACE_FOR_TIME - cmajor, STAFF_HEIGHT);      /*timesig edit */
                 cairo_fill (cr);
 
-                cairo_set_source_rgb (cr, 0.5, 1, 0.5);
+                cairo_set_source_rgb (cr, 0.5, 0.5, 1.0);
                 cairo_rectangle (cr, KEY_MARGIN - cmajor, y, key + 2 * cmajor, STAFF_HEIGHT / 2);       /*keysig sharpen edit */
                 cairo_fill (cr);
                 cairo_set_source_rgb (cr, 1, 0.5, 0.5);

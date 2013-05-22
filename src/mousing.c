@@ -352,6 +352,11 @@ perform_command (gint modnum, mouse_gesture press, gboolean left)
 
   if (command_idx >= 0)
     {
+
+      if (Denemo.prefs.learning)
+        MouseGestureShow(_("mouse gesture name here."), _("this needs to pass the command idx."),
+          KeyPlusMouse);
+      
       execute_callback_from_idx (Denemo.map, command_idx);
       displayhelper (Denemo.gui);
     }
@@ -528,6 +533,9 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   if (dragging_separator == FALSE)
     if (line_height - ((int) event->y - 8) % line_height < 12)
       {
+        if (Denemo.prefs.learning)
+          MouseGestureShow(_("Dragging line separator."), _("This will allow the display to show more music, split into lines. The typeset score is not affected."),
+            MouseGesture);
         dragging_separator = TRUE;
         return TRUE;
       }
@@ -557,6 +565,9 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 
   if (left && (gui->si->leftmeasurenum > 1) && (event->x < KEY_MARGIN + SPACE_FOR_TIME + key) && (event->x > LEFT_MARGIN))
     {
+      if (Denemo.prefs.learning)
+        MouseGestureShow(_("Press Left."), _("This moved the cursor to the meassure offscreen left. The display is shifted to place that measure on screen."),
+          MouseGesture);
       moveto_currentmeasurenum (gui, gui->si->leftmeasurenum - 1);
       write_status (gui);
       gtk_widget_queue_draw (Denemo.scorearea);
@@ -567,7 +578,12 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
       if ((pi.the_obj->next == NULL) && (pi.offend))
         {
           moveto_currentmeasurenum (gui, gui->si->rightmeasurenum + 1);
+          if(gui->si->currentmeasurenum != gui->si->rightmeasurenum)
+            if (Denemo.prefs.learning)
+              MouseGestureShow(_("Press Left."), _("This moved the cursor to the measure off-screen right. The display is shifted to move the cursor to the middle."),
+                MouseGesture);
           write_status (gui);
+          return TRUE;
         }
     }
 
@@ -584,11 +600,17 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
       set_cursor_y_from_click (gui, event->y);
       if (event->type==GDK_2BUTTON_PRESS) 
 				{
+          if (Denemo.prefs.learning)
+            MouseGestureShow(_("Double Click."), _("This gives information about the object at the cursor. Click on a notehead for information about a note in a chord."),
+              MouseGesture);
 					display_current_object();
 					return TRUE;
 				}
 			else 
 				{
+          if (Denemo.prefs.learning)
+            MouseGestureShow(_("Press Left."), _("This moved the cursor to the object position clicked. The cursor height becomes the clicked point."),
+              MouseGesture);
 					write_status (gui);
 				}
     }
@@ -599,6 +621,9 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
     {
       if (event->x < KEY_MARGIN - cmajor)
         {
+          if (Denemo.prefs.learning)
+            MouseGestureShow(_("Left on initial Clef."), _("This pops up the initial clef menu."),
+              MouseGesture);
           popup_menu ("/InitialClefEditPopup");
           return TRUE;
         }
@@ -607,16 +632,34 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
           if (left)
             {
               if (offset < STAFF_HEIGHT / 2)
-                call_out_to_guile ("(d-SharpenInitialKeysigs)");
+                {
+                  if (Denemo.prefs.learning)
+                    MouseGestureShow(_("Left Click on blue."), _("This adds one sharp."),
+                      MouseGesture);
+                  call_out_to_guile ("(d-SharpenInitialKeysigs)");
+                }
               else
-                call_out_to_guile ("(d-FlattenInitialKeysigs)");
+                {
+                  if (Denemo.prefs.learning)
+                    MouseGestureShow(_("Left Click on red."), _("This adds one flat."),
+                      MouseGesture);                                  
+                  call_out_to_guile ("(d-FlattenInitialKeysigs)");
+                }
             }
           else
-            popup_menu ("/InitialKeyEditPopup");
+            {
+              if (Denemo.prefs.learning)
+                MouseGestureShow(_("Right Click on key."), _("This pops up the key signature menu."),
+                    MouseGesture);  
+              popup_menu ("/InitialKeyEditPopup");
+            }
           return TRUE;
         }
       else if (event->x < KEY_MARGIN + SPACE_FOR_TIME + key)
         {
+          if (Denemo.prefs.learning)
+            MouseGestureShow(_("Click on Time."), _("This pops up the time signature menu."),
+                    MouseGesture); 
           popup_menu ("/InitialTimeEditPopup");
           return TRUE;
         }
@@ -630,11 +673,18 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
           if (offset < STAFF_HEIGHT / 2)
             {
               if (((DenemoStaff *) gui->si->currentstaff->data)->staff_directives)
-                gtk_menu_popup (((DenemoStaff *) gui->si->currentstaff->data)->staffmenu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
+                {
+                  MouseGestureShow(_("Click on Staff Directives."), _("This pops up the staff directives menu for editing"),
+                    MouseGesture);                  
+                  gtk_menu_popup (((DenemoStaff *) gui->si->currentstaff->data)->staffmenu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
+                }
               return TRUE;
             }
           else if (((DenemoStaff *) gui->si->currentstaff->data)->voice_directives)
             {
+              if (Denemo.prefs.learning)
+                MouseGestureShow(_("Click on Voice Directives."), _("This pops up the voice directives menu for editing"),
+                    MouseGesture);  
               gtk_menu_popup (((DenemoStaff *) gui->si->currentstaff->data)->voicemenu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
               return TRUE;
             }
@@ -651,6 +701,10 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
     {
       if (gui->si->cursor_appending)
         {
+          if (Denemo.prefs.learning)
+            MouseGestureShow(_("Right Click Appending."), _("This pops up the append menu"),
+                    MouseGesture);  
+          
           popup_menu ("/NoteAppendPopup");
           return TRUE;
         }
@@ -680,6 +734,9 @@ scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
 
   if (dragging_separator)
     {
+      if (Denemo.prefs.learning)
+        MouseGestureShow(_("Dragged line separator."), _("This allows the display to show more music, split into lines. The typeset score is not affected."),
+          MouseGesture);
       dragging_separator = FALSE;
       return TRUE;
     }
@@ -706,19 +763,28 @@ scorearea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
     case GDK_SCROLL_UP:
       if (event->state & GDK_CONTROL_MASK)
         {
+          if (Denemo.prefs.learning) {
+            gint command_idx = lookup_command_from_name(Denemo.map, "ZoomIn");
+            KeyStrokeShow (_("Ctrl + Mouse Wheel Up"), command_idx, TRUE);
+          }
           Denemo.gui->si->zoom *= 1.1;
           scorearea_configure_event (Denemo.scorearea, NULL);
-          // displayhelper(gui);
-          //update_vscrollbar (gui); these do not seem to work ...
-          //update_hscrollbar (gui);
         }
       else if (event->state & GDK_SHIFT_MASK)
         {
-          scroll_left ();
+          gint command_idx = lookup_command_from_name(Denemo.map, "MoveToMeasureLeft");
+          if (Denemo.prefs.learning) {
+            KeyStrokeShow (_("Shift + Mouse Wheel Up"), command_idx, TRUE);
+          }
+          execute_callback_from_idx(Denemo.map, command_idx);//scroll_left ();
 
         }
       else
         {
+          if (Denemo.prefs.learning) {
+            gint command_idx = lookup_command_from_name(Denemo.map, "MoveToStaffUp");
+            KeyStrokeShow (_("Unshifted + Mouse Wheel Up"), command_idx, TRUE);
+          }
           movetostaffup (&param);
           if (!param.status)
             warningmessage ("This is the top staff");
@@ -727,6 +793,10 @@ scorearea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
     case GDK_SCROLL_DOWN:
       if (event->state & GDK_CONTROL_MASK)
         {
+          if (Denemo.prefs.learning) {
+            gint command_idx = lookup_command_from_name(Denemo.map, "ZoomOut");
+            KeyStrokeShow (_("Ctrl + Mouse Wheel Down"), command_idx, TRUE);
+          }
           Denemo.gui->si->zoom /= 1.1;
           if (Denemo.gui->si->zoom < 0.01)
             Denemo.gui->si->zoom = 0.01;
@@ -735,10 +805,18 @@ scorearea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
         }
       else if (event->state & GDK_SHIFT_MASK)
         {
-          scroll_right ();
+          gint command_idx = lookup_command_from_name(Denemo.map, "MoveToMeasureRight");
+          if (Denemo.prefs.learning) {
+            KeyStrokeShow (_("Shift + Mouse Wheel Down"), command_idx, TRUE);
+          }
+          execute_callback_from_idx(Denemo.map, command_idx);//scroll_right ();
         }
       else
         {
+          if (Denemo.prefs.learning) {
+            gint command_idx = lookup_command_from_name(Denemo.map, "MoveToStaffDown");
+            KeyStrokeShow (_("Unshifted + Mouse Wheel Down"), command_idx, TRUE);
+          }
           movetostaffdown (&param);
           if (!param.status)
             warningmessage ("This is the bottom staff");

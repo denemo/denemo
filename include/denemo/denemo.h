@@ -46,6 +46,8 @@ extern "C" {
 
 #define DENEMO_FILE_SUFFIX ".denemo"
 
+#define DENEMO_NO_COMMAND (-1) /* command id for no command */
+
 #define g_malloc(a) g_malloc0(a) /* for extensible debuggable code */
 #if 0
   //use this to detect bad access to G_OBJECT
