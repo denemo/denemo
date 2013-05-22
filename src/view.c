@@ -1293,6 +1293,7 @@ scheme_set_newbie (SCM optional)
   if (scm_is_true (optional))
     {
       Denemo.prefs.tooltip_timeout = Denemo.prefs.tooltip_browse_timeout = 0;
+      Denemo.prefs.learning = 1;
       Denemo.prefs.newbie = 1;
     }
   else
@@ -9446,8 +9447,11 @@ change_input_type (GtkRadioAction * action, GtkRadioAction * current)
     case INPUTMIDI:
       midi_stop ();
       audio_shutdown ();
-      audio_initialize (&Denemo.prefs);
-      gui->input_source = INPUTMIDI;
+      (void)audio_initialize (&Denemo.prefs);
+      if(have_midi())
+        gui->input_source = INPUTMIDI;
+      else
+        fail = TRUE;
       break;
     default:
       g_warning ("Bad Value\n");
