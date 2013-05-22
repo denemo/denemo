@@ -47,9 +47,6 @@
 
 #define DEFAULT_KEYMAP Denemo.prefs.profile->str
 
-#define DEFAULT_COMMANDS "Default.commands"
-#define DEFAULT_KEYBINDINGS "Default.shortcuts"
-
 static void load_keymap_files (gchar * keymapfile, gchar * fallback);
 
 
@@ -1599,7 +1596,7 @@ load_default_keymap_file (void)
   gchar *systemwide = g_build_filename (get_data_dir (), "actions", g_strconcat (DEFAULT_KEYMAP, ".commands", NULL), NULL);
   //g_print ("systemwide = %s\n", systemwide);
   if (keymapdir)
-    localrc = g_build_filename (keymapdir, "Default.commands", NULL);
+    localrc = g_build_filename (keymapdir, DEFAULT_COMMANDS, NULL);
   load_keymap_files (localrc, systemwide);
   g_free (localrc);
   g_free (systemwide);
