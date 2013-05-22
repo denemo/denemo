@@ -185,6 +185,7 @@ src/utils.h
 src/view.c
 src/view.h
 src/xmldefs.h
+src/audiofile.c
 actions/menus/ObjectMenu/ClefMenu/ClefChooser.xml
 actions/menus/ObjectMenu/ClefMenu/HideClef.xml
 actions/menus/ObjectMenu/ClefMenu/SetDisplayClef.xml
@@ -822,6 +823,7 @@ actions/menus/MainMenu/NavigationMenu/Cursor/CursorToLowestNote.xml
 actions/menus/MainMenu/NavigationMenu/Cursor/JumpDownOctave.xml
 actions/menus/MainMenu/NavigationMenu/Cursor/MoveToMovementBeginning.xml
 actions/menus/MainMenu/NavigationMenu/Cursor/JumpRight.xml
+actions/menus/MainMenu/PlaybackMenu/PlayAll.xml
 #Automaticallygeneratedbyextract_all.sh
 actions/denemo.scm
 actions/denemo-modules/abstractionmovement.scm
