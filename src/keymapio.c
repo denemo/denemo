@@ -196,21 +196,29 @@ parseCursors (xmlDocPtr doc, xmlNodePtr cur)
 static void
 parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menupath, gint merge)
 {
-  xmlNodePtr ncur = cur->xmlChildrenNode;
-  int i;
+  xmlNodePtr ncur;
 
-  for (i = 0; i < 2; i++)
-    {                           //Two passes, as all Commands have to be added before bindings
-      for (ncur = cur->xmlChildrenNode; ncur; ncur = ncur->next)
+  //Parse commands first
+  ncur = cur->xmlChildrenNode;
+  for (ncur = cur->xmlChildrenNode; ncur; ncur = ncur->next)
+    {
+      if ((0 == xmlStrcmp (ncur->name, COMMANDXML_TAG_ROW)))
         {
-          if ((0 == xmlStrcmp (ncur->name, COMMANDXML_TAG_ROW)))
-            {
-              i ? parseBindings (doc, ncur, the_keymap) : parseScripts (doc, ncur, menupath, merge);
-            }
-          else if (i && (0 == xmlStrcmp (ncur->name, COMMANDXML_TAG_CURSORS)))
-            {
-              parseCursors (doc, ncur);
-            }
+          parseScripts (doc, ncur, menupath, merge);
+        }
+    }
+
+  //Then parse bindings
+  ncur = cur->xmlChildrenNode;
+  for (ncur = cur->xmlChildrenNode; ncur; ncur = ncur->next)
+    {
+      if ((0 == xmlStrcmp (ncur->name, COMMANDXML_TAG_ROW)))
+        {
+          parseBindings (doc, ncur, the_keymap);
+        }
+      else if (0 == xmlStrcmp (ncur->name, COMMANDXML_TAG_CURSORS))
+        {
+          parseCursors (doc, ncur);
         }
     }
 }
