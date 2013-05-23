@@ -565,7 +565,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   if (left && (gui->si->leftmeasurenum > 1) && (event->x < KEY_MARGIN + SPACE_FOR_TIME + key) && (event->x > LEFT_MARGIN))
     {
       if (Denemo.prefs.learning)
-        MouseGestureShow(_("Press Left."), _("This moved the cursor to the meassure offscreen left. The display is shifted to place that measure on screen."),
+        MouseGestureShow(_("Press Left."), _("This moved the cursor to the measure offscreen left. The display is shifted to place that measure on screen."),
           MouseGesture);
       moveto_currentmeasurenum (gui, gui->si->leftmeasurenum - 1);
       write_status (gui);
@@ -576,14 +576,17 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
     {
       if ((pi.the_obj==NULL) || ((pi.the_obj->next == NULL) && (pi.offend)))
         {
-          if (!moveto_currentmeasurenum (gui, gui->si->rightmeasurenum + 1))
-            moveto_currentmeasurenum (gui, gui->si->rightmeasurenum);
-          if (gui->si->currentmeasurenum != gui->si->rightmeasurenum)
+          if ((gui->si->currentmeasurenum != gui->si->rightmeasurenum) &&
+                (!moveto_currentmeasurenum (gui, gui->si->rightmeasurenum + 1)))
+              moveto_currentmeasurenum (gui, gui->si->rightmeasurenum);
+
+          if (gui->si->currentmeasurenum != gui->si->rightmeasurenum) {
             if (Denemo.prefs.learning)
               MouseGestureShow(_("Press Left."), _("This moved the cursor to the measure off-screen right. The display is shifted to move the cursor to the middle."),
                 MouseGesture);
           write_status (gui);
           return TRUE;
+        }
         }
     }
 
