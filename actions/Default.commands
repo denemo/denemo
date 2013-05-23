@@ -2794,7 +2794,7 @@ for second and subsequent systems</_tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <_label>Insert Whole Measure Rest</_label>
-        <_tooltip>Inserts/Appends a rest measure; if the current measure is empty, it simply places the whole measure rest in it. Do not invoke in a populated measure preceding an empty measure.</_tooltip>
+        <_tooltip>Inserts/Appends a rest measure; if the current measure is empty, it simply places the whole measure rest in it.</_tooltip>
       </row>
       <row>
         <action>MultiMeasureRests</action>
