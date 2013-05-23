@@ -68,7 +68,12 @@ extern "C" {
 
 #define DEFAULT_COMMANDS "Default.commands"
 #define DEFAULT_KEYBINDINGS "Default.shortcuts"
-
+#ifdef G_OS_WIN32
+#define PREFS_FILE "denemorcV2"
+#else
+#define PREFS_FILE "denemorc"
+#endif
+  
 #ifdef G_OS_WIN32
 #define mswin g_print
 #else
