@@ -49,6 +49,19 @@
 
 static void load_keymap_files (gchar * keymapfile, gchar * fallback);
 
+void
+command_row_init(command_row *command)
+{
+  command->name = _("No name");
+  command->label = _("No label");
+  command->tooltip = _("No indication what this done beyond the name and label");
+  command->hidden = FALSE;
+  command->deleted = FALSE;
+  command->bindings = gtk_list_store_new (1, G_TYPE_STRING);
+  command->callback = NULL;
+  command->action = NULL;
+  command->type = KeymapEntry;
+}
 
 void
 dnm_clean_event (GdkEventKey * event)
@@ -575,53 +588,62 @@ free_keymap (keymap * the_keymap)
   g_hash_table_destroy (the_keymap->continuations_table);
 }
 
-void
-register_command (keymap * the_keymap, GtkAction * action, const gchar * name, const gchar * label, const gchar * tooltip, gpointer callback)
-{
+
+void register_command_row(keymap* the_keymap, command_row* command){
   guint *value;
   GtkTreeIter iter = { 0, NULL, NULL, NULL };
-  GtkListStore *bindings;
-  KeymapCommandType type = 0;   //We may need to use this to distinguish scheme scripts from built ins.
+
   //get the index of the new row
   value = (guint *) g_malloc (sizeof (guint));
   *value = gtk_tree_model_iter_n_children (GTK_TREE_MODEL (the_keymap->commands), NULL);
 
   //add a new row
   gtk_list_store_append (the_keymap->commands, &iter);
-  //action = action_of_name(the_keymap, name);
 
-  //allocate a new bindings list store
-  bindings = gtk_list_store_new (1, G_TYPE_STRING);
 #if DEBUG
   //This code is only relevant to developers, to check that no action
   //entry masks another. Users cannot add actions. THIS IS CHANGING NOW...
-  gint idx = lookup_command_from_name (the_keymap, name);
+  gint idx = lookup_command_from_name (the_keymap, command->name);
   if (idx != -1)
     {
-      g_warning ("Command %s is inserted more than once, aborting...\n", name);
+      g_warning ("Command %s is inserted more than once, aborting...\n", command->name);
       // exit(2);FIXME dirty
     }
 #endif
   //insert the information in the list store
   gtk_list_store_set (the_keymap->commands, &iter,
-                      COL_TYPE, type,
-                      COL_ACTION, action,
-                      COL_NAME, name,
-                      COL_LABEL, label,
-                      COL_TOOLTIP, tooltip,
-                      COL_CALLBACK, callback,
-                      COL_BINDINGS, bindings,
+                      COL_TYPE, command->type,
+                      COL_ACTION, command->action,
+                      COL_NAME, command->name,
+                      COL_LABEL, command->label,
+                      COL_TOOLTIP, command->tooltip,
+                      COL_CALLBACK, command->callback,
+                      COL_BINDINGS, command->bindings,
                       -1);
   //insert the command name in the index reference
-  g_hash_table_insert (the_keymap->idx_from_name, g_strdup (name), value);
+  g_hash_table_insert (the_keymap->idx_from_name, g_strdup (command->name), value);
 
   //drop the reference to the bindings list store, so that it is freed
   //with the command list store
-  g_object_unref (bindings);
+  g_object_unref (command->bindings);
 
 #if DEBUG
-  g_print ("Inserting command %s %s %s %p  -> %d\n", name, label, tooltip, callback, *value);
+  g_print ("Inserting command %s %s %s %p  -> %d\n", command->name, command->label, command->tooltip, command->callback, *value);
 #endif
+}
+
+/* Used for compatibility with register_command.h */
+void
+register_command (keymap * the_keymap, GtkAction * action, gchar * name, gchar * label, gchar * tooltip, gpointer callback)
+{
+  command_row command;
+  command_row_init(&command);
+  command.name = name;
+  command.label = label;
+  command.tooltip = tooltip;
+  command.callback = callback;
+  command.action = action;
+  register_command_row(the_keymap, &command);
 }
 
 
