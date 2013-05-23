@@ -14,17 +14,23 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
-
 #include <glib/gstdio.h>
+
 #ifdef HAVE_SYS_WAIT_H
 #include <sys/wait.h>
 #endif
+
 #ifdef HAVE_WAIT_H
 #include <wait.h>
 #endif
+
+#ifdef HAVE_EVINCE
+#include <evince-view.h>
+#endif
+
 #include <errno.h>
 #include <denemo/denemo.h>
-#include <evince-view.h>
+
 #include "print.h"
 #include "prefops.h"
 #include "exportlilypond.h"
@@ -95,7 +101,8 @@ static printstatus PrintStatus = { GPID_NONE, 0, 0, 4, 4, 4, 4, TYPESET_ALL_MOVE
 typedef struct WwRectangle
 {
   gdouble x, y, width, height;
-} WwRectangle;                    //Width=0 means no rectangle set
+} WwRectangle;        //Width=0 means no rectangle set
+
 typedef struct WwPoint
 {
   gint x, y;
@@ -123,9 +130,6 @@ typedef enum
   Dragging2,
   Dragging3,
   Dragging4,
-
-
-
 } WwStage;
 
 typedef enum
@@ -142,6 +146,7 @@ typedef enum
   Slur,
   Articulation,
 } WwGrob;
+
 typedef struct ww
 {
   WwRectangle Mark;
@@ -1010,7 +1015,7 @@ normal_cursor (void)
 /*void                user_function                      (EvPrintOperation       *evprintoperation,
                                                         GtkPrintOperationResult arg1,
                                                         gpointer                user_data)             : Run Last */
-void
+static void
 printop_done (EvPrintOperation * printop, GtkPrintOperationResult arg1, GtkPrintSettings ** psettings)
 {
   if (*psettings)
