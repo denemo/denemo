@@ -579,6 +579,12 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
           if ((gui->si->currentmeasurenum != gui->si->rightmeasurenum) &&
                 (!moveto_currentmeasurenum (gui, gui->si->rightmeasurenum + 1)))
               moveto_currentmeasurenum (gui, gui->si->rightmeasurenum);
+          else if ((gui->si->cursor_appending) &&
+                (!moveto_currentmeasurenum (gui, gui->si->rightmeasurenum + 1)))
+              moveto_currentmeasurenum (gui, gui->si->rightmeasurenum);
+
+
+          
 
           if (gui->si->currentmeasurenum != gui->si->rightmeasurenum) {
             if (Denemo.prefs.learning)
