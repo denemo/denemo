@@ -144,7 +144,7 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
         }
 
     }
-}                               // parseBindings
+}
 
 static void
 parseCursorBinding (xmlDocPtr doc, xmlNodePtr cur)
@@ -323,10 +323,6 @@ load_xml_keymap (gchar * filename, gboolean interactive)
   }
   return ret;
 }
-
-
-
-
 
 gint
 load_xml_keybindings (gchar * filename)

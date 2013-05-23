@@ -22,14 +22,6 @@
 #include "playback.h"
 #include "view.h"
 
-#ifdef G_OS_WIN32
-#define PREFS_FILE "denemorcV2"
-#else
-#define PREFS_FILE "denemorc"
-#endif
-
-
-
 static gint readxmlprefsFile (gchar * filename);
 
 /**
