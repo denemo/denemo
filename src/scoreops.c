@@ -268,18 +268,8 @@ goto_movement_staff_obj (DenemoGUI * possible_gui, gint movementnum, gint staffn
       gui->si->cursor_appending = TRUE;
     }
   write_status (gui);
-  //g_print("%s and %d\n", gui->si->currentobject?"Obj":"noObj", gui->si->cursor_x);
-#if 0
-  //something bad here re-sets the staff to 1
-  updatescoreinfo (gui);
-  set_rightmeasurenum (gui->si);
-  find_leftmost_allcontexts (gui->si);
-  set_bottom_staff (gui);
-#endif
-  update_hscrollbar (gui);
-  update_vscrollbar (gui);
-  g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
-  g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
+  move_viewport_up (gui);
+  move_viewport_down (gui);
   gtk_widget_queue_draw (Denemo.scorearea);
   return TRUE;
 }
