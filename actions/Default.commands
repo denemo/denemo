@@ -6380,6 +6380,14 @@ accidentals are usually printed over the note.</_tooltip>
         <_label>Play All</_label>
         <_tooltip>Plays the current movement from the start, observing any mute objects placed in the staffs.</_tooltip>
       </row>
+      <row>
+        <action>MarkupAtEnd</action>
+        <after>MovementPageBreak</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <_label>LilyPond After Movement</_label>
+        <_tooltip>Inserts the given Lilypond syntax after the current movement.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
