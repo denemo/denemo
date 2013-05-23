@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ChangeBreve</after>
+        <action>DottedRhythm</action>
+        <scheme>(d-MoveCursorLeft)
+(d-MoveCursorLeft)
+(d-AddDot)
+(d-MoveCursorRight)
+(d-Diminish)
+(d-MoveCursorRight)
+</scheme>
+        <_label>Make Dotted Rhythm</_label>
+        <_tooltip>Dots the previous note and halves the duration of the current one to create a dotted rhythm. Use on second of two equal notes, usually.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

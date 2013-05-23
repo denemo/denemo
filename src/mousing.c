@@ -572,12 +572,13 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
       gtk_widget_queue_draw (Denemo.scorearea);
       return TRUE;
     }
-  else if (pi.nextmeasure && pi.the_obj)
+  else if (pi.nextmeasure)
     {
-      if ((pi.the_obj->next == NULL) && (pi.offend))
+      if ((pi.the_obj==NULL) || ((pi.the_obj->next == NULL) && (pi.offend)))
         {
-          moveto_currentmeasurenum (gui, gui->si->rightmeasurenum + 1);
-          if(gui->si->currentmeasurenum != gui->si->rightmeasurenum)
+          if (!moveto_currentmeasurenum (gui, gui->si->rightmeasurenum + 1))
+            moveto_currentmeasurenum (gui, gui->si->rightmeasurenum);
+          if (gui->si->currentmeasurenum != gui->si->rightmeasurenum)
             if (Denemo.prefs.learning)
               MouseGestureShow(_("Press Left."), _("This moved the cursor to the measure off-screen right. The display is shifted to move the cursor to the middle."),
                 MouseGesture);
