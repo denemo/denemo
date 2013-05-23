@@ -7,7 +7,8 @@
       <row>
         <after>ChangeBreve</after>
         <action>DottedRhythm</action>
-        <scheme>(d-MoveCursorLeft)
+        <scheme>(if (Appending?)
+	(d-MoveCursorLeft))
 (d-MoveCursorLeft)
 (d-AddDot)
 (d-MoveCursorRight)
