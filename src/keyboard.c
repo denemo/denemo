@@ -228,7 +228,6 @@ create_command(gboolean is_script,
                gint merge,
                command_row *command)
 {
-  /* by convention this is the last of the fields defining a scheme script menu item */
   if (is_script)
   {
     scheme = scheme ? scheme : "";
@@ -296,10 +295,10 @@ create_command(gboolean is_script,
     if (command->hidden)
       g_object_set_data (G_OBJECT (command->action), "deleted", (gpointer) TRUE);      //Mark hidden items as deleted on loading them
   }                   // is_script
+  
   // we are not as yet re-writing tooltips etc on builtin commands
   else if (command->hidden)
   {
-
     hide_action_of_name (command->name);
     command->hidden = FALSE;
     g_print ("Hiding Builtin %s\n", command->name);
