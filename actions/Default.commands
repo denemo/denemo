@@ -6404,6 +6404,22 @@ accidentals are usually printed over the note.</_tooltip>
         <_label>Begin Slur Below (Off/On)</_label>
         <_tooltip>Starts (or deletes) a slur below the chord at the cursor. If deleting be sure to delete the end slur as well.</_tooltip>
       </row>
+      <row>
+        <action>ToggleTieDown</action>
+        <after>ToggleTie</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/TiedNotes</menupath>
+        <_label>Down Tie (Off/On)</_label>
+        <_tooltip>Ties to the following note/chord with tie downwards.</_tooltip>
+      </row>
+      <row>
+        <action>ToggleTieUp</action>
+        <after>ToggleTieDown</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/TiedNotes</menupath>
+        <_label>Up Tie (Off/On)</_label>
+        <_tooltip>Ties to next note, tie upwards, or removes tie.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
