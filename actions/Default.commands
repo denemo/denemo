@@ -6388,6 +6388,22 @@ accidentals are usually printed over the note.</_tooltip>
         <_label>LilyPond After Movement</_label>
         <_tooltip>Inserts the given Lilypond syntax after the current movement.</_tooltip>
       </row>
+      <row>
+        <action>ToggleBeginUpSlur</action>
+        <after>ToggleEndPhrasingSlur</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
+        <_label>Begin Slur Up (Off/On)</_label>
+        <_tooltip>Starts (or deletes) a slur above the chord at the cursor. Follow with End Slur on a later chord.</_tooltip>
+      </row>
+      <row>
+        <action>ToggleBeginDownSlur</action>
+        <after>ToggleBeginUpSlur</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
+        <_label>Begin Slur Below (Off/On)</_label>
+        <_tooltip>Starts (or deletes) a slur below the chord at the cursor. If deleting be sure to delete the end slur as well.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
