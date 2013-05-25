@@ -5,26 +5,26 @@
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 2001-2005 Adam Tee, 2009, 2010, 2011 Richard Shann
  */
-#ifndef PRINT_H
 
-#define PRINT_H
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
-
 #include <glib/gstdio.h>
-#ifdef HAVE_SYS_WAIT_H
-#include <sys/wait.h>
-#endif
-#ifdef HAVE_WAIT_H
-#include <wait.h>
-#endif
 #include <errno.h>
 #include <denemo/denemo.h>
 #include <evince-view.h>
+
+#ifdef HAVE_SYS_WAIT_H
+#include <sys/wait.h>
+#endif
+
+#ifdef HAVE_WAIT_H
+#include <wait.h>
+#endif
+
 #include "print.h"
 #include "prefops.h"
 #include "exportlilypond.h"
@@ -34,7 +34,14 @@
 #include "scorelayout.h"
 #include "lilydirectives.h"
 
-static gboolean retypeset (void);
+#define MARKER (22)
+#define GREATER 2
+#define SAME 1
+#define LESSER 0
+#define GPID_NONE (-1)
+#define INSTALLED_LILYPOND_VERSION "2.16"       /* FIXME set via gub */
+#define MANUAL _("Manual Updates")
+#define CONTINUOUS _("Continuous")
 
 #if GTK_MAJOR_VERSION==3
 typedef enum
@@ -45,24 +52,11 @@ typedef enum
 } GdkRgbDither;
 #endif
 
-#define MARKER (22)
-
-#define GREATER 2
-#define SAME 1
-#define LESSER 0
-
 typedef struct lilyversion
 {
   gint major;
   gint minor;
 } lilyversion;
-
-
-static gint changecount = -1;   //changecount when the printfile was last created FIXME multiple tabs are muddled
-#define GPID_NONE (-1)
-
-static GPid previewerpid = GPID_NONE;
-
 
 typedef enum
 { STATE_NONE = 0,               //not a background typeset
@@ -70,8 +64,6 @@ typedef enum
   STATE_ON = 1 << 1,            //background typeset in progress
   STATE_PAUSED = 1 << 2         //background typesetting turned off to allow printing
 } background_state;
-
-
 
 typedef struct printstatus
 {
@@ -90,12 +82,11 @@ typedef struct printstatus
   gchar *printname_ly[2];
 } printstatus;
 
-static printstatus PrintStatus = { GPID_NONE, 0, 0, 4, 4, 4, 4, TYPESET_ALL_MOVEMENTS };
-
 typedef struct WwRectangle
 {
   gdouble x, y, width, height;
 } WwRectangle;                    //Width=0 means no rectangle set
+
 typedef struct WwPoint
 {
   gint x, y;
@@ -107,7 +98,8 @@ typedef struct Curve
 } Curve;
 
 typedef enum
-{ STAGE_NONE,
+{ 
+  STAGE_NONE,
   Offsetting,
   Selecting,
   TargetEstablished,            //the Ww.grob has been set
@@ -123,13 +115,11 @@ typedef enum
   Dragging2,
   Dragging3,
   Dragging4,
-
-
-
 } WwStage;
 
 typedef enum
-{ TASK_NONE,
+{ 
+  TASK_NONE,
   Positions,
   Padding,
   Offset,
@@ -137,12 +127,14 @@ typedef enum
 } WwTask;
 
 typedef enum
-{ OBJ_NONE,
+{ 
+  OBJ_NONE,
   Beam,
   Slur,
   Articulation,
 } WwGrob;
-typedef struct ww
+
+typedef struct WysiwygInfo
 {
   WwRectangle Mark;
   WwRectangle Reference;          //reference is origin for LilyPond offsets, set by the user with blue cross wires.
@@ -163,15 +155,26 @@ typedef struct ww
   DenemoPosition pos;
   gboolean repeatable;          //if pos is still the same, and the same edit parameters, just continue editing.
   GtkWidget *dialog;            //an info dialog to tell the user what to do next...
-} ww;
+} WysiwygInfo;
 
-static ww Ww;                   //Wysywyg information
-
+static WysiwygInfo Ww;                   //Wysywyg information
 static gint LilyPond_stderr = -1;       //A file descriptor to pipe for LilyPond's stderr
 static GError *lily_err = NULL;
+static gint changecount = -1;   //changecount when the printfile was last created FIXME multiple tabs are muddled
+static GPid previewerpid = GPID_NONE;
+static printstatus PrintStatus = { GPID_NONE, 0, 0, 4, 4, 4, 4, TYPESET_ALL_MOVEMENTS, 0, 0, {NULL, NULL} , {NULL, NULL}, {NULL, NULL} };
 
+static GdkCursor *busycursor;
+static GdkCursor *dragcursor;
+static GdkCursor *arrowcursor;
+
+static gchar *thumbnailsdirN = NULL;
+static gchar *thumbnailsdirL = NULL;
+
+static gboolean retypeset (void);
 static void print_finished (GPid pid, gint status, GList * filelist);
-
+static void start_seeking_end (gboolean slur);
+static gdouble get_center_staff_offset (void);
 
 static void
 advance_printname ()
@@ -195,6 +198,7 @@ advance_printname ()
 /*** 
  * make sure lilypond is in the path defined in the preferences
  */
+/* UNUSED
 gboolean
 check_lilypond_path (DenemoGUI * gui)
 {
@@ -202,7 +206,7 @@ check_lilypond_path (DenemoGUI * gui)
   gchar *lilypath = g_find_program_in_path (Denemo.prefs.lilypath->str);
   if (lilypath == NULL)
     {
-      /* show a warning dialog */
+      // show a warning dialog
       GtkWidget *dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window),
                                                   GTK_DIALOG_DESTROY_WITH_PARENT,
                                                   GTK_MESSAGE_WARNING,
@@ -212,15 +216,16 @@ check_lilypond_path (DenemoGUI * gui)
       gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog), _("Please edit lilypond path " "in the preferences."));
       gtk_dialog_run (GTK_DIALOG (dialog));
 
-      /* free the memory and return */
+      // free the memory and return
       gtk_widget_destroy (dialog);
       return 0;
     }
   else
     return 1;
 }
+*/
 
-int
+static int
 version_check (lilyversion base, lilyversion installed)
 {
   if (base.major > installed.major)
@@ -238,7 +243,7 @@ version_check (lilyversion base, lilyversion installed)
   return -1;
 }
 
-lilyversion
+static lilyversion
 string_to_lilyversion (char *string)
 {
   lilyversion version = { 2, 0 };
@@ -281,7 +286,7 @@ regex_parse_version_number (const gchar * str)
   return g_string_free (lilyversion, FALSE);
 }
 */
-#define INSTALLED_LILYPOND_VERSION "2.16"       /* FIXME set via gub */
+
 gchar *
 get_lily_version_string (void)
 {
@@ -336,7 +341,7 @@ truncate_lines (gchar * epoint)
  * current with the version running on the users computer
  *
  */
-
+/* UNUSED
 void
 convert_ly (gchar * lilyfile)
 {
@@ -356,12 +361,12 @@ convert_ly (gchar * lilyfile)
     NULL
   };
 #endif
-  g_spawn_sync (locateprintdir (),      /* dir */
-                conv_argv, NULL,        /* env */
-                G_SPAWN_SEARCH_PATH, NULL,      /* child setup func */
-                NULL,           /* user data */
-                NULL,           /* stdout */
-                NULL,           /* stderr */
+  g_spawn_sync (locateprintdir (),      // dir 
+                conv_argv, NULL,        // env 
+                G_SPAWN_SEARCH_PATH, NULL,      // child setup func 
+                NULL,           // user data 
+                NULL,           // stdout 
+                NULL,           // stderr 
                 NULL, &err);
 
   if (err != NULL)
@@ -372,7 +377,8 @@ convert_ly (gchar * lilyfile)
       err = NULL;
     }
 }
-
+*/
+                                                  
 static void
 process_lilypond_errors (gchar * filename)
 {
@@ -445,7 +451,7 @@ process_lilypond_errors (gchar * filename)
 }
 
 static void
-open_viewer (GPid pid, gint status, gchar * filename, gboolean is_png)
+open_viewer (gint status, gchar * filename, gboolean is_png)
 {
   if (PrintStatus.printpid == GPID_NONE)
     return;
@@ -539,15 +545,15 @@ open_viewer (GPid pid, gint status, gchar * filename, gboolean is_png)
 
 
 static void
-open_pngviewer (GPid pid, gint status, gchar * filename)
+open_pngviewer (G_GNUC_UNUSED GPid pid, gint status, gchar * filename)
 {
-  open_viewer (pid, status, filename, TRUE);
+  open_viewer (status, filename, TRUE);
 }
 
 static void
-open_pdfviewer (GPid pid, gint status, gchar * filename)
+open_pdfviewer (G_GNUC_UNUSED GPid pid, gint status, gchar * filename)
 {
-  open_viewer (pid, status, filename, FALSE);
+  open_viewer (status, filename, FALSE);
 }
 
 static gint
@@ -749,7 +755,7 @@ rm_temp_files (gchar * file, gpointer free_only)
 }
 
 static void
-print_finished (GPid pid, gint status, GList * filelist)
+print_finished (GPid pid, gint status, G_GNUC_UNUSED GList * filelist)
 {
   if (PrintStatus.printpid == GPID_NONE)
     return;
@@ -761,7 +767,7 @@ print_finished (GPid pid, gint status, GList * filelist)
 
 
 void
-printpng_finished (GPid pid, gint status, GList * filelist)
+printpng_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, GList * filelist)
 {
   g_debug ("printpng_finished\n");
   g_list_foreach (filelist, (GFunc) rm_temp_files, FALSE);
@@ -773,7 +779,7 @@ printpng_finished (GPid pid, gint status, GList * filelist)
 }
 
 static void
-printpdf_finished (GPid pid, gint status, GList * filelist)
+printpdf_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, GList * filelist)
 {
   if (filelist)
     {
@@ -945,7 +951,7 @@ initialize_typesetting (void)
 
 //callback to print the LilyPond text in the LilyPond View window
 void
-print_lily_cb (GtkWidget * item, DenemoGUI * gui)
+print_lily_cb (G_GNUC_UNUSED GtkWidget * item, G_GNUC_UNUSED DenemoGUI * gui)
 {
 
   if (initialize_typesetting ())
@@ -980,10 +986,6 @@ print_lily_cb (GtkWidget * item, DenemoGUI * gui)
 
 // Displaying Print Preview
 
-
-static GdkCursor *busycursor;
-static GdkCursor *dragcursor;
-static GdkCursor *arrowcursor;
 static void
 busy_cursor (void)
 {
@@ -1010,8 +1012,8 @@ normal_cursor (void)
 /*void                user_function                      (EvPrintOperation       *evprintoperation,
                                                         GtkPrintOperationResult arg1,
                                                         gpointer                user_data)             : Run Last */
-void
-printop_done (EvPrintOperation * printop, GtkPrintOperationResult arg1, GtkPrintSettings ** psettings)
+static void
+printop_done (EvPrintOperation * printop, G_GNUC_UNUSED GtkPrintOperationResult arg1, GtkPrintSettings ** psettings)
 {
   if (*psettings)
     g_object_unref (*psettings);
@@ -1359,13 +1361,13 @@ overdraw_print (cairo_t * cr)
 }
 
 #if GTK_MAJOR_VERSION==3
-gint
-printarea_draw_event (GtkWidget * w, cairo_t * cr)
+static gint
+printarea_draw_event (G_GNUC_UNUSED GtkWidget * w, cairo_t * cr)
 {
   return overdraw_print (cr);
 }
 #else
-gint
+static gint
 printarea_draw_event (GtkWidget * widget, GdkEventExpose * event)
 {
   /* Setup a cairo context for rendering and clip to the exposed region. */
@@ -1411,7 +1413,7 @@ set_printarea (GError ** err)
 }
 
 static void
-printview_finished (GPid pid, gint status, gboolean print)
+printview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboolean print)
 {
   progressbar_stop ();
   g_spawn_close_pid (PrintStatus.printpid);
@@ -1439,7 +1441,7 @@ printview_finished (GPid pid, gint status, gboolean print)
 
 /* callback to print current part (staff) of score */
 void
-printpart_cb (GtkAction * action, gpointer param)
+printpart_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
 
 
@@ -1500,14 +1502,14 @@ typeset_movement (gboolean force)
 }
 
 void
-printpreview_cb (GtkAction * action, DenemoScriptParam * param)
+printpreview_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
   (void) typeset (TRUE);
   g_child_watch_add (PrintStatus.printpid, (GChildWatchFunc) print_finished, NULL);
 }
 
 void
-refresh_print_view (void)
+refresh_print_view (G_GNUC_UNUSED gboolean interactive)
 {
   busy_cursor ();
   if (typeset (FALSE))
@@ -1533,7 +1535,7 @@ print_from_print_view (gboolean all_movements)
 }
 
 void
-printselection_cb (GtkAction * action, gpointer param)
+printselection_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   if (gui->si->markstaffnum)
@@ -1545,7 +1547,7 @@ printselection_cb (GtkAction * action, gpointer param)
 }
 
 void
-printexcerptpreview_cb (GtkAction * action, gpointer param)
+printexcerptpreview_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   if (!gui->si->markstaffnum)   //If no selection has been made 
@@ -1581,12 +1583,9 @@ get_thumbname (gchar * uri)
   return thumbname;
 }
 
-static gchar *thumbnailsdirN = NULL;
-static gchar *thumbnailsdirL = NULL;
-
 /*call back to finish thumbnail processing. */
 static void
-thumb_finished (GPid pid, gint status)
+thumb_finished ()
 {
   GError *err = NULL;
   g_spawn_close_pid (PrintStatus.printpid);
@@ -1734,7 +1733,7 @@ create_thumbnail (gboolean async)
           else
             {
               export_png (printname, NULL, Denemo.gui);
-              thumb_finished (PrintStatus.printpid, 0);
+              thumb_finished ();
             }
 
           g_free (printname);
@@ -1748,14 +1747,14 @@ create_thumbnail (gboolean async)
 
 /* callback to print whole of score */
 void
-printall_cb (GtkAction * action, gpointer param)
+printall_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
   print_from_print_view (TRUE);
 }
 
 /* callback to print movement of score */
 void
-printmovement_cb (GtkAction * action, gpointer param)
+printmovement_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
   changecount = -1;
   print_from_print_view (FALSE);
@@ -1788,8 +1787,6 @@ get_offset (gdouble * offsetx, gdouble * offsety)
     return FALSE;
 }
 
-static void start_seeking_end (gboolean slur);
-static gdouble get_center_staff_offset (void);
 
 // get_postions gets two y-heights interactively, giving prompts either for slur or beam
 // 
@@ -2096,7 +2093,7 @@ same_target (DenemoTarget * pos1, DenemoTarget * pos2)
 }
 
 static gint
-action_for_link (EvView * view, EvLinkAction * obj)
+action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
 {
 #ifdef G_OS_WIN32
   g_print ("Signal from evince widget received %d %d\n", Ww.grob, Ww.stage);
@@ -2284,7 +2281,7 @@ is_near (gint x, gint y, WwPoint p)
 }
 
 static gboolean
-printarea_motion_notify (GtkWidget * widget, GdkEventMotion * event)
+printarea_motion_notify (G_GNUC_UNUSED GtkWidget * widget, GdkEventMotion * event)
 {
   Ww.ObjectLocated = FALSE;
 
@@ -2566,7 +2563,7 @@ popup_tweak_menu (void)
 
 
 static gint
-printarea_button_press (GtkWidget * widget, GdkEventButton * event)
+printarea_button_press (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * event)
 {
   //DenemoTargetType type = Denemo.gui->si->target.type;
   gboolean left = (event->button == 1);
@@ -2665,7 +2662,7 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 }
 
 static gint
-printarea_button_release (GtkWidget * widget, GdkEventButton * event)
+printarea_button_release (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * event)
 {
 //g_print("stage %d\n", Ww.stage);
   gboolean left = (event->button == 1);
@@ -2871,7 +2868,7 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 // PrintStatus.mtime = file_get_mtime(filename); use in get_printfile_pathbasename
 
 static void
-typeset_control (GtkWidget * dummy, gpointer data)
+typeset_control (gpointer data)
 {
   static gpointer last_data = NULL;
   static GString *last_script = NULL;
@@ -2981,7 +2978,7 @@ typeset_control (GtkWidget * dummy, gpointer data)
 //Ensures the print view window is visible.
 //when called back as an action it calls create_all_pdf() provided the score has changed
 void
-show_print_view (GtkAction * action, gpointer param)
+show_print_view (GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
   GtkWidget *w = gtk_widget_get_toplevel (Denemo.printarea);
   if (gtk_widget_get_visible (w))
@@ -2991,28 +2988,28 @@ show_print_view (GtkAction * action, gpointer param)
   if (action && (changecount != Denemo.gui->changecount || Denemo.gui->lilysync != Denemo.gui->changecount))
     {
       if (!initialize_typesetting ())
-        typeset_control (NULL, create_all_pdf);
+        typeset_control (create_all_pdf);
     }
 }
 
 void
 typeset_current_layout (void)
 {
-  typeset_control (NULL, create_all_pdf);
+  typeset_control (create_all_pdf);
 }
 
 /* typeset the score, and store the passed script for refresh purposes*/
 gboolean
 typeset_for_script (gchar * script)
 {
-  typeset_control (NULL, script);
+  typeset_control (script);
   busy_cursor ();
   show_print_view (NULL, NULL);
   return TRUE;
 }
 
 static void
-page_display (GtkWidget * button, gint page_increment)
+page_display (G_GNUC_UNUSED GtkWidget * button, gint page_increment)
 {
   gint i;
   for (i = 0; i < page_increment; i++)
@@ -3022,7 +3019,7 @@ page_display (GtkWidget * button, gint page_increment)
 }
 
 static void
-dual_page (GtkWidget * button)
+dual_page (G_GNUC_UNUSED GtkWidget * button)
 {
   GError *err = NULL;
   g_object_set_data (G_OBJECT (Denemo.printarea), "Duplex", GINT_TO_POINTER (!g_object_get_data (G_OBJECT (Denemo.printarea), "Duplex")));
@@ -3048,23 +3045,21 @@ printarea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
   return FALSE;
 }
 #endif
-#define MANUAL _("Manual Updates")
-#define CONTINUOUS _("Continuous")
 static void
-typeset_action (GtkWidget * button, gpointer data)
+typeset_action (G_GNUC_UNUSED GtkWidget * button, gpointer data)
 {
   if (initialize_typesetting ())
     {
       g_warning ("InitializeTypesetting failed\n");
     }
   else
-    typeset_control (NULL, data);
+    typeset_control (data);
 }
 
 void
 typeset_part (void)
 {
-  typeset_control (NULL, create_part_pdf);
+  typeset_control (create_part_pdf);
 }
 
 static gboolean
@@ -3079,7 +3074,7 @@ retypeset (void)
           if (changecount != Denemo.gui->changecount)
             {
               PrintStatus.background = STATE_ON;
-              typeset_control (NULL, "(disp \"This is called when hitting the refresh button while in continuous re-typeset\")(d-PrintView)");
+              typeset_control ("(disp \"This is called when hitting the refresh button while in continuous re-typeset\")(d-PrintView)");
               PrintStatus.background = STATE_OFF;
               changecount = Denemo.gui->changecount;
             }
@@ -3096,7 +3091,7 @@ retypeset (void)
           laststaff = si->currentstaffnum + PrintStatus.last_staff;
           movementnum = si->currentmovementnum;
           PrintStatus.background = STATE_ON;
-          typeset_control (NULL, "(disp \"This is called when hitting the refresh button while in continuous re-typeset\")(d-PrintView)");
+          typeset_control ("(disp \"This is called when hitting the refresh button while in continuous re-typeset\")(d-PrintView)");
           PrintStatus.background = STATE_OFF;
           changecount = Denemo.gui->changecount;
         }
@@ -3106,7 +3101,7 @@ retypeset (void)
 
 //turn the continuous update off and on
 static void
-toggle_updates (GtkWidget * menu_item, GtkWidget * button)
+toggle_updates (G_GNUC_UNUSED GtkWidget * menu_item, GtkWidget * button)
 {
   if (PrintStatus.updating_id)
     {
@@ -3444,5 +3439,3 @@ continuous_typesetting (void)
 {
   return (PrintStatus.background == STATE_ON);
 }
-
-#endif /* PRINT_H */
