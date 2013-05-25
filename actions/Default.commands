@@ -2794,7 +2794,7 @@ for second and subsequent systems</_tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <_label>Insert Whole Measure Rest</_label>
-        <_tooltip>Inserts/Appends a rest measure; if the current measure is empty, it simply places the whole measure rest in it. Do not invoke in a populated measure preceding an empty measure.</_tooltip>
+        <_tooltip>Inserts/Appends a rest measure; if the current measure is empty, it simply places the whole measure rest in it.</_tooltip>
       </row>
       <row>
         <action>MultiMeasureRests</action>
@@ -6379,6 +6379,46 @@ accidentals are usually printed over the note.</_tooltip>
         <menupath>/MainMenu/PlaybackMenu</menupath>
         <_label>Play All</_label>
         <_tooltip>Plays the current movement from the start, observing any mute objects placed in the staffs.</_tooltip>
+      </row>
+      <row>
+        <action>MarkupAtEnd</action>
+        <after>MovementPageBreak</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <_label>LilyPond After Movement</_label>
+        <_tooltip>Inserts the given Lilypond syntax after the current movement.</_tooltip>
+      </row>
+      <row>
+        <action>ToggleBeginUpSlur</action>
+        <after>ToggleEndPhrasingSlur</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
+        <_label>Begin Slur Up (Off/On)</_label>
+        <_tooltip>Starts (or deletes) a slur above the chord at the cursor. Follow with End Slur on a later chord.</_tooltip>
+      </row>
+      <row>
+        <action>ToggleBeginDownSlur</action>
+        <after>ToggleBeginUpSlur</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
+        <_label>Begin Slur Below (Off/On)</_label>
+        <_tooltip>Starts (or deletes) a slur below the chord at the cursor. If deleting be sure to delete the end slur as well.</_tooltip>
+      </row>
+      <row>
+        <action>ToggleTieDown</action>
+        <after>ToggleTie</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/TiedNotes</menupath>
+        <_label>Down Tie (Off/On)</_label>
+        <_tooltip>Ties to the following note/chord with tie downwards.</_tooltip>
+      </row>
+      <row>
+        <action>ToggleTieUp</action>
+        <after>ToggleTieDown</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/TiedNotes</menupath>
+        <_label>Up Tie (Off/On)</_label>
+        <_tooltip>Ties to next note, tie upwards, or removes tie.</_tooltip>
       </row>
     </map>
   </merge>

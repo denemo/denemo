@@ -5257,7 +5257,7 @@ scheme_create_snippet_from_object (SCM name)
           r->clipboard = g_list_append (NULL, g_list_append (NULL, clonedobj));
           append_rhythm (r, NULL);
           RhythmElement *relement = (RhythmElement *) g_malloc0 (sizeof (RhythmElement));
-          relement->icon = str;
+          //relement->icon = str; was wrong, must be NULL for a singleton.
           r->name = str;
           r->rsteps = g_list_append (NULL, relement);
           r->rsteps->prev = r->rsteps->next = r->rsteps;        //make list circular

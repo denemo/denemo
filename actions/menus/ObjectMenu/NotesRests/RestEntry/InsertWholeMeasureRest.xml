@@ -21,7 +21,7 @@
 (d-MoveCursorRight)
 (d-Set2)</scheme>
         <_label>Insert Whole Measure Rest</_label>
-        <_tooltip>Inserts/Appends a rest measure; if the current measure is empty, it simply places the whole measure rest in it. Do not invoke in a populated measure preceding an empty measure.</_tooltip>
+        <_tooltip>Inserts/Appends a rest measure; if the current measure is empty, it simply places the whole measure rest in it.</_tooltip>
       </row>
     </map>
   </merge>

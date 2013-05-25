@@ -12,7 +12,8 @@
 	(if (d-Directive-note? tag)
 		(d-DirectiveDelete-note tag)
 		(begin
-			(d-DirectivePut-note-postfix tag "-\\tweak #'direction #-1 ~")
+			(d-DirectivePut-note-postfix tag "_~ ")
+			(d-Chordize #t)
 			;;for some reason we do not have &#x23DD; in the font
 			(d-DirectivePut-note-graphic tag "\n~
 			Denemo
