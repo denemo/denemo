@@ -5,9 +5,10 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>D.C.AlFine</action>
-        <scheme>;;D.C al fine
-(let ((tag "TextScript"))
+        <after>Glissando</after>
+        <action>DCAlFine</action>
+        <scheme>;;DCAlFine
+(let ((tag "DCAlFine"))
 (if (d-Directive-chord? tag)
 	(begin
 	 (let ((choice #f) (edit-text #f) (newtext "") (place-above ""))
@@ -56,11 +57,9 @@
 				(d-SetSaved #f)
 				(d-RefreshDisplay))
 		(begin
-			(d-WarningDialog (_ "No note or rest at cursor")))))))
-		
-</scheme>
-        <label>D.C. al fine</label>
-        <tooltip>Puts a da capo in the score. Position is adjusted via the numbers in the script.</tooltip>
+			(d-WarningDialog (_ "No note or rest at cursor")))))))</scheme>
+        <_label>D. C. al fine</_label>
+        <_tooltip>Puts Da Capo al fine over the chord at the cursor.</_tooltip>
       </row>
     </map>
   </merge>

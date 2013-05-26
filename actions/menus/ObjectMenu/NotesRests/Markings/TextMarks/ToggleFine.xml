@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>DCAlFine</after>
+        <action>ToggleFine</action>
+        <scheme>;;ToggleFine
+        (ChordAnnotation "ToggleFine" "-\\markup \\italic \"fine\""    ToggleFine::params   #f "fine")
+</scheme>
+        <_label>Fine (end). (Off/On)</_label>
+        <_tooltip>Prints the musical instruction "fine", in italics.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

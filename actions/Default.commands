@@ -2108,14 +2108,14 @@ Sets prevailing rhythm to &#x1D165;</_tooltip>
       <row>
         <action>ToggleCoda</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/TextMarks</menupath>
         <_label>Coda (Off/On)</_label>
         <_tooltip>No Tooltip yet</_tooltip>
       </row>
       <row>
         <action>ToggleSegno</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/TextMarks</menupath>
         <_label>Segno  (Off/On)</_label>
         <_tooltip>No Tooltip yet</_tooltip>
       </row>
@@ -2210,13 +2210,6 @@ Sets prevailing rhythm to &#x1D165;</_tooltip>
         <menupath>/ObjectMenu/Score</menupath>
         <_label>(Print) Transpose Octave Up</_label>
         <_tooltip>Instructs the LilyPond Engraver to transpose this score one octave up.</_tooltip>
-      </row>
-      <row>
-        <action>D.C.AlFine</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Markings/TextMarks</menupath>
-        <_label>D.C. al fine</_label>
-        <_tooltip>Puts a da capo in the score. Position is adjusted via the numbers in the script.</_tooltip>
       </row>
       <row>
         <action>Allegro</action>
@@ -6419,6 +6412,30 @@ accidentals are usually printed over the note.</_tooltip>
         <menupath>/ObjectMenu/NotesRests/TiedNotes</menupath>
         <_label>Up Tie (Off/On)</_label>
         <_tooltip>Ties to next note, tie upwards, or removes tie.</_tooltip>
+      </row>
+      <row>
+        <action>DCAlFine</action>
+        <after>Glissando</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/TextMarks</menupath>
+        <_label>D. C. al fine</_label>
+        <_tooltip>Puts Da Capo al fine over the chord at the cursor.</_tooltip>
+      </row>
+      <row>
+        <action>ToggleFine</action>
+        <after>DCAlFine</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/TextMarks</menupath>
+        <_label>Fine (end). (Off/On)</_label>
+        <_tooltip>Prints the musical instruction "fine", in italics.</_tooltip>
+      </row>
+      <row>
+        <action>Performance</action>
+        <after>Play</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/PlaybackMenu</menupath>
+        <_label>Performance</_label>
+        <_tooltip>Plays the current movement, observing repeats, Da Capo, fine and Dal Segno.</_tooltip>
       </row>
     </map>
   </merge>
