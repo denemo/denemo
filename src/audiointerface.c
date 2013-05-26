@@ -377,11 +377,11 @@ write_sample_to_mixer_queue (backend_type_t backend, float *sample)
 gboolean
 read_event_from_queue (backend_type_t backend, unsigned char *event_buffer, size_t * event_length, double *event_time, double until_time)
 {
-  double playback_time = get_playback_time ();
+  double thetime = get_playback_time (); // this is the value of the global playback_time which is volatile
 
-  if (playback_time > get_end_time ())
+  if (thetime > get_end_time ())
     {
-      if (is_playing () && playback_time > 0.0)
+      if (is_playing () && thetime > 0.0) // this is the same value rather than the global, but what the check is for I do not know
         {
           midi_stop ();
         }
