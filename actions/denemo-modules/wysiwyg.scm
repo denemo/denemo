@@ -427,7 +427,7 @@ Use the right click menu to turn these on before invoking this command")))))
 										(disp "cancelled"))))))))))  ;EditTarget end		
 											
 ;;;; Toggles a postfix annotation on a chord, with editing for direction or offset
-(define (ChordAnnotation tag lilypond params graphic)
+(define* (ChordAnnotation tag lilypond params graphic #:optional display)
 	(define (set-option option)
 					(case (car option)
 							((direction) (cdr option))
@@ -460,7 +460,7 @@ Use the right click menu to turn these on before invoking this command")))))
 									(d-WarningDialog "Cannot complete operation - cursor moved or bad parameter list")))
 							(begin  ;;;no parameters, toggle annotation off/on
 											
-											(ToggleChordDirective tag graphic lilypond DENEMO_OVERRIDE_ABOVE)))))
+											(ToggleChordDirective tag graphic lilypond DENEMO_OVERRIDE_ABOVE display)))))
 											
 											
 																

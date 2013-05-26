@@ -198,12 +198,15 @@
 	(begin (d-DeleteObject) #t)
 	#f))
 
-(define* (ToggleChordDirective tag fontname lilypond #:optional (override #f))
+(define* (ToggleChordDirective tag fontname lilypond #:optional (override #f) (display #f))
 	(if (d-Directive-chord? tag)
           (d-DirectiveDelete-chord tag)
           (begin
-	    (d-SetSaved #f)
-            (d-DirectivePut-chord-graphic tag fontname)
+            (d-SetSaved #f)
+            (if fontname
+              (d-DirectivePut-chord-graphic tag fontname))
+            (if display
+              (d-DirectivePut-chord-display tag display))
             (d-DirectivePut-chord-postfix tag lilypond)
             (if override
 	      (d-DirectivePut-chord-override tag override)))))
