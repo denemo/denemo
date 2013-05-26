@@ -1,4 +1,6 @@
-2013-05-19 Release 1.0.4
+2013-05-26 Release 1.0.4
+        Playing back repeats in MIDI
+          Da Capo and Dal Segno also supported
         Double-Clicking for Help
           Explore the object at the cursor
         Learner Mode
