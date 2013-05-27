@@ -187,7 +187,7 @@ get_placement_from_coordinates (struct placement_info *pi, gdouble x, gdouble y,
   objnode *obj_iterator;
   gint x_to_explain = (gint) (x);
   pi->offend = FALSE;
-
+  pi->the_obj = NULL;
   if (mwidthiterator == NULL)
     {
       g_critical ("Array of measurewidths too small for leftmeasure %d\n", leftmeasurenum);
@@ -574,7 +574,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
     }
   else if (pi.nextmeasure)
     {
-      if ((pi.the_obj==NULL) || ((pi.the_obj->next == NULL) && (pi.offend)))
+      if ((pi.the_obj==NULL) || ((pi.the_obj->next == NULL) && (pi.offend)))//crashed here with the_obj 0x131 !!!
         {
           if ((gui->si->currentmeasurenum != gui->si->rightmeasurenum) &&
                 (!moveto_currentmeasurenum (gui, gui->si->rightmeasurenum + 1)))
