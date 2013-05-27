@@ -393,7 +393,12 @@ staff_properties_change_cb (GtkAction * action, DenemoScriptParam * param)
             g_string_printf (param->string, "%d", staff->midi_prognum);
             param->status = TRUE;
           }
-
+      if (*query)
+        if (!strcmp ("lily_name", query))
+          {
+             g_string_assign (param->string, staff->lily_name->str);
+            param->status = TRUE;
+          }
 
       return;
     }

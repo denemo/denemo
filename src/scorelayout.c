@@ -2214,7 +2214,11 @@ iterate_custom_layout (gboolean init)
     }
 }
 
-
+guint
+get_layout_id_for_name (gchar *name)
+{
+return crc32(name);
+}
 
 guint
 selected_layout_id (void)

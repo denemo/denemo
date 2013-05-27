@@ -46,4 +46,6 @@ gboolean select_custom_layout_for_name (gchar * name);
 GtkWidget *GetLayoutMenu (void);
 void refresh_lilypond (DenemoScoreblock * sb);
 gboolean select_layout_id (gint id);
+guint
+get_layout_id_for_name (gchar *name);
 #endif

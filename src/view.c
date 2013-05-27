@@ -1375,6 +1375,17 @@ scheme_reduce_layout_to_lilypond (void)
 }
 
 static SCM
+scheme_get_current_staff_layout_id (void)
+{
+  guint id;
+  if (((DenemoStaff *) (Denemo.gui->si->currentstaff->data))->voicecontrol == DENEMO_PRIMARY)
+  {
+    id = get_layout_id_for_name(((DenemoStaff *) (Denemo.gui->si->currentstaff->data))->lily_name->str);
+    return scm_from_int(id);
+  }
+  return SCM_BOOL_F;
+}
+static SCM
 scheme_get_layout_id (void)
 {
   DenemoScoreblock *sb = selected_scoreblock ();
@@ -1382,7 +1393,6 @@ scheme_get_layout_id (void)
     return scm_from_int (sb->id);
   return SCM_BOOL_F;
 }
-
 static SCM
 scheme_select_layout_id (SCM the_id)
 {
@@ -6432,6 +6442,7 @@ create_scheme_identfiers (void)
   INSTALL_SCM_FUNCTION ("Creates the default layout.", DENEMO_SCHEME_PREFIX "SelectDefaultLayout", scheme_select_default_layout);
   INSTALL_SCM_FUNCTION1 ("Creates a custom layout from the currently selected (standard) layout if the score layouts window is open. Uses the passed name for the new layout. Returns #f if nothing happened. An additional parameter #t can force creation of the layout while score layout window is closed.", DENEMO_SCHEME_PREFIX "CreateLayout", scheme_create_layout);
   INSTALL_SCM_FUNCTION ("Returns the id of the currently selected score layout (see View->Score Layout). Returns #f if no layout is selected.", DENEMO_SCHEME_PREFIX "GetLayoutId", scheme_get_layout_id);
+  INSTALL_SCM_FUNCTION ("Returns the id of a score layout for typesetting the part for the current staff. Returns #f if not a primary voice.", DENEMO_SCHEME_PREFIX "GetCurrentStaffLayoutId", scheme_get_current_staff_layout_id);
   INSTALL_SCM_FUNCTION ("Selects the score layout with the passed id. Returns #f if there is no such layout.", DENEMO_SCHEME_PREFIX "SelectLayoutId", scheme_select_layout_id);
   INSTALL_SCM_FUNCTION ("Generates LilyPond layout for the current part (ie staffs with the name of the staff with the cursor), all movements and staffs with that staff name are generated.", DENEMO_SCHEME_PREFIX "LilyPondForPart", scheme_lilypond_for_part);
   INSTALL_SCM_FUNCTION ("Typesets the current part (ie the staff with the cursor), all movements and staffs with that staff name are typeset.", DENEMO_SCHEME_PREFIX "TypesetPart", scheme_typeset_part);
