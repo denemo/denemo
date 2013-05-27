@@ -683,8 +683,9 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
             {
               if (((DenemoStaff *) gui->si->currentstaff->data)->staff_directives)
                 {
-                  MouseGestureShow(_("Click on Staff Directives."), _("This pops up the staff directives menu for editing"),
-                    MouseGesture);                  
+                  if (Denemo.prefs.learning)
+                    MouseGestureShow(_("Click on Staff Directives."), _("This pops up the staff directives menu for editing"),
+                      MouseGesture);                  
                   gtk_menu_popup (((DenemoStaff *) gui->si->currentstaff->data)->staffmenu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
                 }
               return TRUE;
