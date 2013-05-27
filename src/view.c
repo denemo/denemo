@@ -5025,9 +5025,11 @@ scheme_voice_to_staff (SCM optional)
   return ret;
 }
 
-
-
-
+static SCM
+scheme_is_voice (void)
+{
+return SCM_BOOL ((((DenemoStaff *) Denemo.gui->si->currentstaff->data)->voicecontrol & DENEMO_SECONDARY));
+}
 /* shifts the note at the cursor by the number of diatonic steps passed in */
 SCM
 scheme_diatonic_shift (SCM optional)
@@ -5665,6 +5667,7 @@ create_scheme_identfiers (void)
   INSTALL_SCM_FUNCTION ("Makes the current staff a voice belonging to the staff above", DENEMO_SCHEME_PREFIX "StaffToVoice", scheme_staff_to_voice);
 
   INSTALL_SCM_FUNCTION ("Makes the current voice a independent staff", DENEMO_SCHEME_PREFIX "VoiceToStaff", scheme_voice_to_staff);
+  INSTALL_SCM_FUNCTION ("Returns #f if the current staff is not a voice else true", DENEMO_SCHEME_PREFIX "IsVoice", scheme_is_voice);
 
   INSTALL_SCM_FUNCTION ("Adjusts the horizontal (x-) positioning of notes etc after paste", DENEMO_SCHEME_PREFIX "AdjustXes", scheme_adjust_xes);
 
