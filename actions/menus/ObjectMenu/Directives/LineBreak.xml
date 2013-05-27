@@ -14,19 +14,20 @@
 		(if (d-IsVoice)
 			(begin
 				(d-WarningDialog "The cursor is on a voice. Put line breaks in the main staff that the voice belongs to."))
+
 			(let ((choice #f))
 				(d-DirectivePut-standalone tag)
 				(d-DirectivePut-standalone-postfix tag "\\break")
-				(d-DirectivePut-standalone-gy tag -40)
+				(d-DirectivePut-standalone-gy tag -25)
 				(d-DirectivePut-standalone-graphic tag "
 L
 Denemo
-36")
-				(d-DirectivePut-standalone-minpixels tag 10)
-				(set! choice (d-GetUserInput (_ "Line Break") (_ "Should this line break apply only when printing the current part?") (_ "y")))
-				(if (and choice (equal? choice (_ "y")))
-					(begin
-					(d-OnlyForLayout   (cons (d-StaffProperties "query=lily_name") (d-GetCurrentStaffLayoutId)))))
+26")
+				(d-DirectivePut-standalone-minpixels tag 10)		
+				(set! choice (d-PopupMenu
+					 (list (cons (_ "Only for this Part")   'only)  (cons (_ "For all Layouts") 'all))))
+				(case choice
+					((only) (d-OnlyForLayout   (cons (d-StaffProperties "query=lily_name") (d-GetCurrentStaffLayoutId)))))
 				(d-SetSaved #f)
 				(d-RefreshDisplay))))))
 </scheme>
