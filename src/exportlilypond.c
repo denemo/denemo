@@ -137,7 +137,9 @@ set_lily_error (gint line, gint column)
 static void
 explain_temporary_scoreblock (void)
 {
-  infodialog ("This scorelayout is purely for continuous typesetting, and will change as you edit the score");
+  infodialog (_("This scorelayout is purely for continuous typesetting, and will change as you edit the score.\n"
+    "To get a real score layout turn off continuous typesetting in the Print View and "
+    "typeset using Part, Movement or Typeset (Default Layout) buttons."));
 }
 
 static void
