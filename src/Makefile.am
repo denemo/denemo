@@ -49,14 +49,11 @@ denemo_SOURCES = denemo_types.c \
 	audiointerface.h eventqueue.h dummybackend.h portaudiobackend.h \
 	portmidibackend.h midi.h ringbuffer.h portaudioutil.h \
 	fluid.h portmidiutil.h \
-  keymapio.c keymapio.h
+  keymapio.c keymapio.h \
+  source.c source.h
 
 if WITH_X11
   denemo_SOURCES += screenshot.c screenshot.h
-endif
-
-if HAVE_EVINCE
-  denemo_SOURCES += source.c source.h
 endif
 
 noinst_LIBRARIES = libaudiobackend.a

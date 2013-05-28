@@ -159,16 +159,6 @@ if [test "x$usegtk2" = "xno"] && [test "x$usegtk3" = "xno"]; then
   fi
 fi
 
-AC_ARG_ENABLE(
-  evince,
-  AC_HELP_STRING([--enable-evince], [use EVINCE @<:@default=yes@:>@]),
-  [ 
-    if test "x$enableval" != "xno"; then
-      useevince=yes
-    fi 
-  ], [ useevince=yes ])
-AM_CONDITIONAL(HAVE_EVINCE, [test x$useevince = xyes])
-
 if test "x$usegtk2" = "xyes"; then
   CFLAGS="$CFLAGS $GTK2_CFLAGS"
   LIBS="$LIBS $GTK2_LIBS"
@@ -177,23 +167,19 @@ if test "x$usegtk2" = "xyes"; then
   CFLAGS="$CFLAGS $GTKSOURCEVIEW_CFLAGS"
   LIBS="$LIBS $GTKSOURCEVIEW_LIBS"
 
-  if test "x$useevince"= "xyes"; then
-
-    PKG_CHECK_MODULES(EVINCE_2_0, evince-view-2.0 >= 2.0, have_evince2=yes, have_evince2=no)
-    CFLAGS="$CFLAGS $EVINCE_2_0_CFLAGS -D_HAVE_EVINCE_"
-    LIBS="$LIBS $EVINCE_2_0_LIBS"
-    
-    if test "x$have_evince2" = "xno"; then
-      PKG_CHECK_MODULES(EVINCE_2_30, evince-view-2.30 >= 2.0, have_evince2_3=yes, have_evince2_3=no)
-      CFLAGS="$CFLAGS $EVINCE_2_30_CFLAGS -D_HAVE_EVINCE_"
-      LIBS="$LIBS $EVINCE_2_30_LIBS"
-    fi
-    if test "x$have_evince2_3" = "xno"; then
-      PKG_CHECK_MODULES(EVINCE_2_32, evince-view-2.32 >= 2.0)
-      CFLAGS="$CFLAGS $EVINCE_2_32_CFLAGS -D_HAVE_EVINCE_"
-      LIBS="$LIBS $EVINCE_2_32_LIBS"
-    fi
-
+  PKG_CHECK_MODULES(EVINCE_2_0, evince-view-2.0 >= 2.0, have_evince2=yes, have_evince2=no)
+  CFLAGS="$CFLAGS $EVINCE_2_0_CFLAGS"
+  LIBS="$LIBS $EVINCE_2_0_LIBS"
+  
+  if test "x$have_evince2" = "xno"; then
+    PKG_CHECK_MODULES(EVINCE_2_30, evince-view-2.30 >= 2.0, have_evince2_3=yes, have_evince2_3=no)
+    CFLAGS="$CFLAGS $EVINCE_2_30_CFLAGS"
+    LIBS="$LIBS $EVINCE_2_30_LIBS"
+  fi
+  if test "x$have_evince2_3" = "xno"; then
+    PKG_CHECK_MODULES(EVINCE_2_32, evince-view-2.32 >= 2.0)
+    CFLAGS="$CFLAGS $EVINCE_2_32_CFLAGS"
+    LIBS="$LIBS $EVINCE_2_32_LIBS"
   fi
 fi
 
@@ -205,12 +191,11 @@ if test "x$usegtk3" = "xyes"; then
   CFLAGS="$CFLAGS $GTKSOURCEVIEW_CFLAGS"
   LIBS="$LIBS $GTKSOURCEVIEW_LIBS"
 
-  if test "x$useevince" = "xyes"; then
-    PKG_CHECK_MODULES(EVINCE, evince-view-3.0 >= 3.0)
-    CFLAGS="$CFLAGS $EVINCE_CFLAGS -D_HAVE_EVINCE_"
-    LIBS="$LIBS $EVINCE_LIBS"  
-  fi
+  PKG_CHECK_MODULES(EVINCE, evince-view-3.0 >= 3.0)
+  CFLAGS="$CFLAGS $EVINCE_CFLAGS"
+  LIBS="$LIBS $EVINCE_LIBS"  
 fi
+
 
 AC_ARG_ENABLE(
   alsa,

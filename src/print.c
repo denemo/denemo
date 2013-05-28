@@ -85,7 +85,7 @@ typedef struct printstatus
 typedef struct WwRectangle
 {
   gdouble x, y, width, height;
-} WwRectangle;        //Width=0 means no rectangle set
+} WwRectangle;                    //Width=0 means no rectangle set
 
 typedef struct WwPoint
 {
@@ -1015,7 +1015,7 @@ normal_cursor (void)
 static void
 printop_done (EvPrintOperation * printop, G_GNUC_UNUSED GtkPrintOperationResult arg1, GtkPrintSettings ** psettings)
 {
-  if (*psettings) 
+  if (*psettings)
     g_object_unref (*psettings);
   *psettings = ev_print_operation_get_print_settings (printop);
   g_object_ref (*psettings);
