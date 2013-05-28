@@ -6445,6 +6445,16 @@ accidentals are usually printed over the note.</_tooltip>
         <_label>Choose Condition</_label>
         <_tooltip>Gives a menu for choosing whether the directive at the cursor should apply to the current part only or the default score or all layouts,</_tooltip>
       </row>
+      <row>
+        <action>RaggedBottom</action>
+        <after>LimitInterSystemSpace</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/PrintLayout</menupath>
+        <_label>Ragged Bottom</_label>
+        <_tooltip>This turns ragged bottom off/on. If set, systems will not spread vertically down the page. This does not
+affect the last page. This should be set for pieces that have only two
+or three systems per page, for example orchestral scores.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
