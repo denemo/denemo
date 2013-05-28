@@ -611,8 +611,8 @@ actions/menus/ObjectMenu/NotesRests/Markings/Articulations/SignumcongruentiaeSel
 actions/menus/ObjectMenu/NotesRests/Markings/Articulations/DownbowSelectionSwitcher.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/TogglePrallPrall.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleReverseTurn.xml
-actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleSegno.xml
-actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleCoda.xml
+actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ToggleSegno.xml
+actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ToggleCoda.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Trill+Above.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleMordent.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/TogglePrall.xml
@@ -824,6 +824,15 @@ actions/menus/MainMenu/NavigationMenu/Cursor/JumpDownOctave.xml
 actions/menus/MainMenu/NavigationMenu/Cursor/MoveToMovementBeginning.xml
 actions/menus/MainMenu/NavigationMenu/Cursor/JumpRight.xml
 actions/menus/MainMenu/PlaybackMenu/PlayAll.xml
+actions/menus/MainMenu/PlaybackMenu/Performance.xml
+actions/menus/ObjectMenu/MovementMenu/MarkupAtEnd.xml
+actions/menus/ObjectMenu/NotesRests/ChangeDuration/DottedRhythm.xml
+actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DCAlFine.xml
+actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ToggleFine.xml
+actions/menus/ObjectMenu/NotesRests/Slurs/ToggleBeginDownSlur.xml
+actions/menus/ObjectMenu/NotesRests/Slurs/ToggleBeginUpSlur.xml
+actions/menus/ObjectMenu/NotesRests/TiedNotes/ToggleTieDown.xml
+actions/menus/ObjectMenu/NotesRests/TiedNotes/ToggleTieUp.xml
 #Automaticallygeneratedbyextract_all.sh
 actions/denemo.scm
 actions/denemo-modules/abstractionmovement.scm
