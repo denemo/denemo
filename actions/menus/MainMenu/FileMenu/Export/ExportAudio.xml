@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ExportMIDI</after>
+        <action>ExportAudio</action>
+        <scheme>(d-ExportRecordedAudio)</scheme>
+        <_label>Export Audio</_label>
+        <_tooltip>Exports recorded audio output.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
