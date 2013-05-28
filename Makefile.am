@@ -33,10 +33,10 @@ install-data-hook:
 dist-hook: @PACKAGE@.spec
 	cp $(srcdir)/@PACKAGE@.spec $(distdir)
 update-potfiles:
-	rm po/POTFILES.in
+	rm -f po/POTFILES.in
 	find src -name '*.c' -o -name '*.h' | sort >> po/POTFILES.in
 	find actions -name '*.xml' -o -name '*.scm' | sort >> po/POTFILES.in
-	rm po/POTFILES.skip
+	rm -f po/POTFILES.skip
 	find tools -name '*.c' -o -name '*.h' | sort >> po/POTFILES.skip
 all:update-potfiles
 
