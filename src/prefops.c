@@ -98,7 +98,11 @@ initprefs ()
 #else /* !G_OS_WIN32 */
   ret->browser = g_string_new ("firefox");
   ret->audioplayer = g_string_new ("play");
+ #ifdef _GUB_BUILD_
   ret->lilypath = g_string_new (g_build_filename (get_bin_dir (), "lilypond", NULL));
+ #else
+  ret->lilypath = g_string_new ("lilypond");
+ #endif
   ret->pdfviewer = g_string_new ("evince");
   ret->imageviewer = g_string_new ("eog");
 #endif /* !G_OS_WIN32 */
