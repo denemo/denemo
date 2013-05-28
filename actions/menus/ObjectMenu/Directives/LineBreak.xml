@@ -23,13 +23,11 @@
 L
 Denemo
 26")
-				(d-DirectivePut-standalone-minpixels tag 10)		
-				(set! choice (d-PopupMenu
-					 (list (cons (_ "Only for this Part")   'only)  (cons (_ "For all Layouts") 'all))))
-				(case choice
-					((only) (d-OnlyForLayout   (cons (d-StaffProperties "query=lily_name") (d-GetCurrentStaffLayoutId)))))
+				(d-DirectivePut-standalone-minpixels tag 10)	
+				(d-RefreshDisplay)	
+				(SetDirectiveConditional)
 				(d-SetSaved #f)
-				(d-RefreshDisplay))))))
+				)))))
 </scheme>
         <_label>Line Break</_label>
         <_tooltip>(Print) Start a new line (i.e. system) at this measure.</_tooltip>

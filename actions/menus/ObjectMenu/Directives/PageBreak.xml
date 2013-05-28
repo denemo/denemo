@@ -26,11 +26,8 @@ Denemo
 26")
 				(d-DirectivePut-standalone-minpixels "PageBreak" 10)
 				(d-RefreshDisplay)
-				(set! choice (d-PopupMenu
-					 (list (cons (_ "Only for this Part")   'only)  (cons (_ "For all Layouts") 'all))))
-				(case choice
-					((only) (d-OnlyForLayout   (cons (d-StaffProperties "query=lily_name") (d-GetCurrentStaffLayoutId)))))
-			(d-SetSaved #f)))))
+				(SetDirectiveConditional)
+				(d-SetSaved #f)))))
 </scheme>
         <_label>Page Break</_label>
         <_tooltip>(Print) Forces a new page at this barline.</_tooltip>

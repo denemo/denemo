@@ -6437,6 +6437,14 @@ accidentals are usually printed over the note.</_tooltip>
         <_label>Performance</_label>
         <_tooltip>Plays the current movement, observing repeats, Da Capo, fine and Dal Segno.</_tooltip>
       </row>
+      <row>
+        <action>ChooseCondition</action>
+        <after>ForAllLayouts</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/Conditional-Directives</menupath>
+        <_label>Choose Condition</_label>
+        <_tooltip>Gives a menu for choosing whether the directive at the cursor should apply to the current part only or the default score or all layouts,</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

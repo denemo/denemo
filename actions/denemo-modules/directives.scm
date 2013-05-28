@@ -210,3 +210,15 @@
             (d-DirectivePut-chord-postfix tag lilypond)
             (if override
 	      (d-DirectivePut-chord-override tag override)))))
+
+(define (SetDirectiveConditional)
+(define choice #f)
+(set! choice (d-PopupMenu
+					 (list (cons (string-append (_ "Only for the Layout for Part \"") (d-StaffProperties "query=lily_name") "\"")   'only)   
+					 	(cons (string-append (_ "Only for Layout \"") (d-GetLayoutName) "\"") 'default)
+					 	(cons (_ "For all Layouts") 'all))))
+				(case choice
+					((all) (d-ForAllLayouts))
+					((default) (d-OnlyForLayout (cons (d-GetLayoutName) (d-GetLayoutId))))
+					((only) (d-OnlyForLayout   (cons (d-StaffProperties "query=lily_name") (d-GetCurrentStaffLayoutId))))))
+          
