@@ -39,6 +39,7 @@ update-potfiles:
 	rm -f po/POTFILES.skip
 	find tools -name '*.c' -o -name '*.h' | sort >> po/POTFILES.skip
 all:update-potfiles
+check:update-potfiles
 
 ACLOCAL_AMFLAGS = -I m4
 
