@@ -32,14 +32,21 @@ install-data-hook:
 	find $(DESTDIR)$(datadir)/${PACKAGE}/templates -type d -exec chmod 755 '{}' \;
 dist-hook: @PACKAGE@.spec
 	cp $(srcdir)/@PACKAGE@.spec $(distdir)
+
+clean-potfiles:
+	@rm -f po/POTFILES.in
+	@rm -f po/POTFILES.skip
 update-potfiles:
-	rm -f po/POTFILES.in
-	find src -name '*.c' -o -name '*.h' | sort >> po/POTFILES.in
-	find actions -name '*.xml' -o -name '*.scm' | sort >> po/POTFILES.in
-	rm -f po/POTFILES.skip
-	find tools -name '*.c' -o -name '*.h' | sort >> po/POTFILES.skip
+	@echo Generating POTFILES...
+	@find src -name '*.c' -o -name '*.h' | sort >> po/POTFILES.in
+	@find actions -name '*.xml' -o -name '*.scm' | sort >> po/POTFILES.in
+	@find tools -name '*.c' -o -name '*.h' | sort >> po/POTFILES.skip
+
 all:update-potfiles
 check:update-potfiles
+clean:clean-potfiles
+dist-clean:clean-potfiles
+
 
 ACLOCAL_AMFLAGS = -I m4
 
