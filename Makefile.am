@@ -30,23 +30,36 @@ install-data-hook:
 	find $(DESTDIR)$(datadir)/${PACKAGE}/examples -type d -exec chmod 755 '{}' \;
 	cp -r $(srcdir)/templates ${DESTDIR}/$(datadir)/${PACKAGE}/
 	find $(DESTDIR)$(datadir)/${PACKAGE}/templates -type d -exec chmod 755 '{}' \;
-dist-hook: @PACKAGE@.spec
-	cp $(srcdir)/@PACKAGE@.spec $(distdir)
 
-clean-potfiles:
+pot:
+	@echo Generating POT...
+	$(MAKE) -C "$(srcdir)/po" "$(GETTEXT_PACKAGE).pot"
+
+update-po:
+	@echo Get po files from translationproject.org
+	rsync -Lrtvz translationproject.org::tp/latest/denemo/ po
+
+dist-hook: @PACKAGE@.spec pot
+	cp $(srcdir)/@PACKAGE@.spec $(distdir)
+	cp "$(srcdir)/po/$(GETTEXT_PACKAGE).pot" "$(distdir)/po/"
+
+clean-potfile:
 	@rm -f po/POTFILES.in
 	@rm -f po/POTFILES.skip
-update-potfiles:
+
+send-pot:dist
+	echo "You can find in attachment the latest version of denemo.pot. This is an automatic message, but someone should answer you if you reply." | mailx -v -r denemo-devel@gnu.org -s "$(GETTEXT_PACKAGE)-$(VERSION).pot" -a $(GETTEXT_PACKAGE)-$(VERSION).tar.gz coordinator@translationproject.org
+
+potfile:
 	@echo Generating POTFILES...
 	@find src -name '*.c' -o -name '*.h' | sort >> po/POTFILES.in
 	@find actions -name '*.xml' -o -name '*.scm' | sort >> po/POTFILES.in
 	@find tools -name '*.c' -o -name '*.h' | sort >> po/POTFILES.skip
 
-all:update-potfiles
-check:update-potfiles
-clean:clean-potfiles
-dist-clean:clean-potfiles
-
+all:potfile
+check:potfile
+clean:clean-potfile
+dist-clean:clean-potfile
 
 ACLOCAL_AMFLAGS = -I m4
 
