@@ -640,14 +640,14 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
         {
           if (left)
             {
-              if (offset < STAFF_HEIGHT / 2)
+              if (offset > 0 && (offset < STAFF_HEIGHT / 2))
                 {
                   if (Denemo.prefs.learning)
                     MouseGestureShow(_("Left Click on blue."), _("This adds one sharp."),
                       MouseGesture);
                   call_out_to_guile ("(d-SharpenInitialKeysigs)");
                 }
-              else
+              else if (offset > 0 && (offset < STAFF_HEIGHT))
                 {
                   if (Denemo.prefs.learning)
                     MouseGestureShow(_("Left Click on red."), _("This adds one flat."),
