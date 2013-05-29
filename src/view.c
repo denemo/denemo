@@ -10469,6 +10469,10 @@ create_window (void)
 
   {
     Denemo.playback_control = gtk_vbox_new (FALSE, 1);
+    gtk_widget_set_tooltip_text (Denemo.playback_control,
+                                 _
+                                 ("Controls for playback. The arrows on either side of the PLAY and STOP buttons move the playback start"
+                                 " and playback end markers. Loop plays in a loop - you can edit while it plays. You can also record the output and save it as .ogg or .wav file. The temperament used for playing back can be set here."));
     gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.playback_control, FALSE, TRUE, 0);
     GtkFrame *frame = (GtkFrame *) gtk_frame_new (_("Playback Control"));
     gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
