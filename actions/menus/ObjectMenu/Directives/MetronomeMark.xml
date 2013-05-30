@@ -207,7 +207,7 @@
 				)
 				(d-SetSaved #f)
 				(d-RefreshDisplay)
-				;(d-ChooseCondition) ;;; this does not fire... why not???
+				(d-ChooseCondition) ;;; this did not fire using d-PopUpMenu so changed to RadioBoxMenu
 				(d-MoveCursorRight))))))</scheme>
         <_label>Tempi and Metronome Marks</_label>
         <_tooltip>Insert tempi and/or metronome marks, printed or not, adjust playback tempo to suit</_tooltip>
