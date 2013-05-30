@@ -7,15 +7,15 @@
       <row>
         <action>Upbeat</action>
         <scheme>;;;Upbeat
-(disp "Entered with Upbeat::params "  Upbeat::params " now")
-(let script ((upbeat "Upbeat"))
-
+(disp "have " Upbeat::params " on entry")
+(let  ((upbeat "Upbeat") (ok #t))
   ; How many ticks are in a 100% filled measure?
   (define MaxTicks (* 1536 (GetPrevailingTimeSig #t) )) 
   (define EndTick #f)
   ;Upbeat is only for underful measures
   (define (warning)
-   (d-InfoDialog (_ "Upbeat/Short Measure can only be used in an underfull, non-empty measures"))   
+   (d-InfoDialog (_ "Upbeat/Short Measure can only be used in an underfull, non-empty measure"))
+   (set! ok #f)   
    #f)
  
  ; Define Upbeat-Directive Subprogram
@@ -82,9 +82,14 @@
 		(loop)))
 (d-PopPosition)
  (d-RefreshDisplay)
- (GoToMeasureEnd)
- (if  (not (d-MoveToMeasureRight))
-	(d-AddMeasure)))		
+ (if Upbeat::params 
+ 	(disp "Upbeat recalculated\n")
+ 	(begin
+ 		(if ok
+ 		(begin 
+ 			(GoToMeasureEnd)
+		 	(if  (not (d-MoveToMeasureRight))
+				(d-AddMeasure)))))))	
 		
 
 </scheme>
