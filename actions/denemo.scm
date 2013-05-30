@@ -169,19 +169,9 @@
 			 (gui-version)
 			 (begin FallBack ; create a gui from the given parameters, test for cancel-button #f
 				(set! gui-version (apply RadioBoxMenu (delete (cons "" False) 
-					(list first second third fourth fifth sixth seventh eighth ninth tenth (cons "Lock in" 
-					(lambda ()
-						(doublestroke::showhelp #t) 					
-						(Bind wrap:Op1 first)
-						(Bind wrap:Op2 second)
-						(Bind wrap:Op3 third)
-						(Bind wrap:Op4 fourth)
-						(Bind wrap:Op5 fifth)
-						(Bind wrap:Op6 sixth)
-						(Bind wrap:Op7 seventh)
-						(Bind wrap:Op8 eighth)
-						(Bind wrap:Op9 ninth)
-						(Bind wrap:Op0 tenth)))))))
+					(list first second third fourth fifth sixth seventh eighth ninth tenth 
+
+            ))))
 				 (if gui-version 
 					(gui-version) ; execute the returned command
 					#f)))) ; cancel-button, abort the process					
@@ -212,38 +202,8 @@
 			(Help::Push (cons 'doublestroketemp helpstring))))
 				
 	; The real action. Wait for a keypress and decide what do with it afterwards, UnsetMark triggers the GUI, AddNoteToChord locks-in the commands and makes them permanent keybindings.
-	(if DenemoKeypressActivatedCommand
-	  (begin
-		(doublestroke::showhelp #f) 
-		(case (string->symbol (d-GetCommand))
-			((d-OpOne)  (begin ((cdr first)) (Help::Pop))) ; Execute command then remove help-text and show the one before it.
-			((d-OpTwo) (begin ((cdr second))(Help::Pop)))
-			((d-OpThree)  (begin ((cdr third))(Help::Pop)))
-			((d-OpFour)  (begin ((cdr fourth))(Help::Pop)))
-			((d-OpFive)  (begin ((cdr fifth))(Help::Pop)))
-			((d-OpSix)  (begin ((cdr sixth))(Help::Pop)))
-			((d-OpSeven)  (begin ((cdr seventh))(Help::Pop)))
-			((d-OpEight)  (begin ((cdr eighth))(Help::Pop)))
-			((d-OpNine)  (begin ((cdr ninth))(Help::Pop)))
-			((d-OpZero)  (begin ((cdr tenth))(Help::Pop)))
-			((d-UnsetMark)  (begin  (doublestroke::invokegui)(Help::Pop)))
-			((d-AddNoteToChord) (begin
-					(Help::RemoveTag 'doublestroketemp) ; Remove help message from temp system.
-					(doublestroke::showhelp #t) 					
-					(Bind wrap:Op1 first)
-					(Bind wrap:Op2 second)
-					(Bind wrap:Op3 third)
-					(Bind wrap:Op4 fourth)
-					(Bind wrap:Op5 fifth)
-					(Bind wrap:Op6 sixth)
-					(Bind wrap:Op7 seventh)
-					(Bind wrap:Op8 eighth)
-					(Bind wrap:Op9 ninth)
-					(Bind wrap:Op0 tenth)
-					))
-			(else (begin (Help::Pop) #f)))		  
-		  (set! DenemoKeypressActivatedCommand #f))		  
-		 (doublestroke::invokegui))) ; if not DenemoKeypressActivated
+	
+		 (doublestroke::invokegui)) ;  DenemoKeypressActivated has been dropped as it is not working
 
 
 
@@ -779,7 +739,7 @@
 ;;Wants pairs, car is a string to show as radio-option, cdr is a return value and can be any data type, for example a function.
 (define (RadioBoxMenu . parameters)
 	(define answer #f)
-	(define radiostring (string-join (map (lambda (x) (car x)) parameters) stop)) 
+	(define radiostring (string-append (string-join (map (lambda (x) (car x)) parameters) stop) stop))
 	(set! answer (d-GetOption radiostring))
 	(if answer
 		(cdr	(list-ref  parameters (list-index (lambda (x) (equal?  answer (car x))) parameters)))
