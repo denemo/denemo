@@ -482,6 +482,7 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoGUI 
   gint extra_ticks = 0;         //number of ticks by which measure is over-full
   DenemoScore *si = gui->si;
   objnode *curobj;
+  gboolean has_cursor = FALSE;
   /* initialization */
   if (!mstring)
     mstring = g_string_new (NULL);
@@ -519,6 +520,7 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoGUI 
     {
       /* That is, the cursor's at the beginning of this blank measure */
       si->cursoroffend = FALSE;
+      has_cursor = TRUE;
       draw_cursor (cr, si, x, y, 0, gui->mode, itp->clef->type);
       memcpy (si->cursoraccs, itp->curaccs, SEVENGINTS);
       si->cursorclef = itp->clef->type;
@@ -592,10 +594,12 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoGUI 
         {
           if (extra_ticks > 0)
             cairo_set_source_rgba (cr, 1.0, 0.6, 0.6, OPACITY);
-          else if ((extra_ticks < 0) && curmeasure->next)
+          else if ((extra_ticks < 0)/* && curmeasure->next*/)
             cairo_set_source_rgba (cr, 0.6, 0.6, 1, OPACITY);
 #undef OPACITY
-          if ((extra_ticks > 0) || ((extra_ticks < 0) && (curmeasure->next) && curmeasure->next->data))
+          if (((extra_ticks > 0) || (extra_ticks < 0)) &&
+            ((curmeasure->next && curmeasure->next->data) || ((curmeasure->next!= NULL) && (!has_cursor))))
+              
             {
               cairo_rectangle (cr, x, y, GPOINTER_TO_INT (itp->mwidthiterator->data), STAFF_HEIGHT + 1);
               cairo_fill (cr);
