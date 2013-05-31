@@ -724,6 +724,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   gtk_widget_queue_draw (Denemo.scorearea);
   //draw_score(NULL);
   set_cursor_for (event->state | (left ? GDK_BUTTON1_MASK : GDK_BUTTON3_MASK));
+  displayhelper(Denemo.gui);//this is needed to refresh cached values such as the prevailing time signature, before the command is invoked
   perform_command (event->state | (left ? GDK_BUTTON1_MASK : GDK_BUTTON3_MASK), GESTURE_PRESS, left);
 
   return TRUE;
