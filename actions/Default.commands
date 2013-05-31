@@ -3428,8 +3428,9 @@ for second and subsequent systems</_tooltip>
         <after>DeletePreviousObject</after>
         <scheme></scheme>
         <menupath>/MainMenu/EditMenu</menupath>
-        <_label>Delete</_label>
-        <_tooltip>Deletes the object at the cursor. For Chords it deletes the chord stage by stage.</_tooltip>
+        <_label>Delete in Stages</_label>
+        <_tooltip>Deletes the object at/before the cursor. For Notes/Chords/Rests it deletes stage by stage.
+First it removes notes until just a non-printing rest remains, then deletes that.</_tooltip>
       </row>
       <row>
         <action>OpenMyDefaultTemplate</action>

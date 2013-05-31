@@ -7,7 +7,9 @@
       <row>
         <after>DeletePreviousObject</after>
         <action>StagedDelete</action>
-        <scheme>;;;;StagedDelete Deletes a chord one note at a time, finally ending at non-printing rest and then deleting that
+        <scheme>;;;;StagedDelete
+(if (Appending?)
+	(d-MoveCursorLeft))
 (if (Music?)
     (if (d-GetNonprinting)
 	;;; non-printing
@@ -21,10 +23,11 @@
 	    (d-SetNonprinting)))
 	;;; not a music object
     (d-DeleteObject))	
-
+(d-SetSaved #f)
 (d-RefreshDisplay)</scheme>
-        <_label>Delete</_label>
-        <_tooltip>Deletes the object at the cursor. For Chords it deletes the chord stage by stage.</_tooltip>
+        <_label>Delete in Stages</_label>
+        <_tooltip>Deletes the object at/before the cursor. For Notes/Chords/Rests it deletes stage by stage.
+First it removes notes until just a non-printing rest remains, then deletes that.</_tooltip>
       </row>
     </map>
   </merge>
