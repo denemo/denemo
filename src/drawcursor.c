@@ -39,7 +39,7 @@ draw_cursor (cairo_t * cr, DenemoScore * si, gint xx, gint y, gint insert_contro
       cairo_set_line_width (cr, 4);
 
       cairo_rectangle (cr, xx, y, minpixels, STAFF_HEIGHT);
-      cairo_move_to (cr, xx + CURSOR_WIDTH, height + y - 2 * CURSOR_HEIGHT);
+      cairo_move_to (cr, xx + CURSOR_WIDTH, height + y - CURSOR_HEIGHT);
 
       cairo_rel_line_to (cr, -CURSOR_WIDTH, CURSOR_HEIGHT);
       cairo_rel_line_to (cr, CURSOR_WIDTH, CURSOR_HEIGHT);
