@@ -2739,8 +2739,8 @@ populate_called (G_GNUC_UNUSED GtkWidget * view, GtkMenuShell * menu)
 {
   DenemoGUI *gui = Denemo.gui;
   //g_print("populate called with %p\n", menu);
-  prepend_menu_item (menu, gui, "Find Current Object", (gpointer) place_cursor_cb);
-  prepend_menu_item (menu, gui, "Print from visible LilyPond text", (gpointer) print_lily_cb);
+  prepend_menu_item (menu, gui, _("Find Current Object"), (gpointer) place_cursor_cb);
+  prepend_menu_item (menu, gui, _("Print from visible LilyPond text"), (gpointer) print_lily_cb);
   return FALSE;
 }
 

@@ -406,7 +406,7 @@ process_lilypond_errors (gchar * filename)
         {
           line--;               /* make this 0 based */
           if (line >= gtk_text_buffer_get_line_count (Denemo.textbuffer))
-            warningdialog ("Spurious line number"), line = 0;
+            warningdialog (_("Spurious line number")), line = 0;
           /* gchar *errmsg = g_strdup_printf("Error at line %d column %d %d", line,column, cnv); */
           /*     warningdialog(errmsg); */
           console_output (epoint);
@@ -434,7 +434,7 @@ process_lilypond_errors (gchar * filename)
     {
       if (*bytes)
         console_output (bytes);
-      warningdialog ("Could not execute lilypond - check Edit->preferences->externals->lilypond setting\nand lilypond installation");
+      warningdialog (_("Could not execute lilypond - check Edit->preferences->externals->lilypond setting\nand lilypond installation"));
       g_warning ("%s", lily_err->message);
       if (lily_err)
         g_error_free (lily_err);
@@ -523,7 +523,7 @@ open_viewer (gint status, gchar * filename, gboolean is_png)
           if (Denemo.prefs.pdfviewer->len)
             {
               g_warning ("Failed to find %s", Denemo.prefs.pdfviewer->str);
-              warningdialog ("Cannot display: Check Edit->Preferences->externals\nfor your PDF viewer");
+              warningdialog (_("Cannot display: Check Edit->Preferences->externals\nfor your PDF viewer"));
             }
           else
             warningdialog (err->message);
@@ -558,7 +558,7 @@ run_lilypond (gchar ** arguments)
 
   if (PrintStatus.printpid != GPID_NONE)
     {
-      if (confirm ("Already doing a print", "Kill that one off and re-start?"))
+      if (confirm (_("Already doing a print"), _("Kill that one off and re-start?")))
         {
           if (PrintStatus.printpid != GPID_NONE)        //It could have died while the user was making up their mind...
             kill_process (PrintStatus.printpid);
@@ -566,7 +566,7 @@ run_lilypond (gchar ** arguments)
         }
       else
         {
-          warningdialog ("Cancelled");
+          warningdialog (_("Cancelled"));
           error = -1;
           return error;
         }
@@ -1449,11 +1449,11 @@ printpart_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 
   DenemoGUI *gui = Denemo.gui;
   if (gui->si->markstaffnum)
-    if (confirm ("A range of music is selected", "Print whole file?"))
+    if (confirm (_("A range of music is selected"), _("Print whole file?")))
       {
         gui->si->markstaffnum = 0;
       }
-  if ((gui->movements && g_list_length (gui->movements) > 1) && (confirm ("This piece has several movements", "Print this part from all of them?")))
+  if ((gui->movements && g_list_length (gui->movements) > 1) && (confirm (_("This piece has several movements"), _("Print this part from all of them?"))))
     create_pdf (TRUE, TRUE);
   else
     create_pdf (TRUE, FALSE);
@@ -2492,7 +2492,7 @@ repeat_tweak (void)
   else if (Ww.grob == Beam)     //if(Ww.repeatable && Ww.grob==(slur?Slur:Beam))
     call_out_to_guile ("(GetBeamPositions)");
   else
-    warningdialog ("Do not know what to repeat");
+    warningdialog (_("Do not know what to repeat"));
 }
 
 static void
