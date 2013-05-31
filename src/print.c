@@ -164,10 +164,6 @@ static gint changecount = -1;   //changecount when the printfile was last create
 static GPid previewerpid = GPID_NONE;
 static printstatus PrintStatus = { GPID_NONE, 0, 0, 4, 4, 4, 4, TYPESET_ALL_MOVEMENTS, 0, 0, {NULL, NULL} , {NULL, NULL}, {NULL, NULL} };
 
-static GdkCursor *busycursor;
-static GdkCursor *dragcursor;
-static GdkCursor *arrowcursor;
-
 static gchar *thumbnailsdirN = NULL;
 static gchar *thumbnailsdirL = NULL;
 
@@ -989,6 +985,9 @@ print_lily_cb (G_GNUC_UNUSED GtkWidget * item, G_GNUC_UNUSED DenemoGUI * gui)
 static void
 busy_cursor (void)
 {
+  static GdkCursor *busycursor = NULL;
+  if(!busycursor)
+    busycursor = gdk_cursor_new (GDK_WATCH);
   if (gtk_widget_get_window (Denemo.printarea))
     gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), busycursor);
 }
@@ -997,6 +996,9 @@ busy_cursor (void)
 static void
 drag_cursor (void)
 {
+  static GdkCursor *dragcursor = NULL;
+  if(!dragcursor)  
+    dragcursor = gdk_cursor_new (GDK_CROSS);
   if (gtk_widget_get_window (Denemo.printarea))
     gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), dragcursor);
 }
@@ -1005,6 +1007,9 @@ drag_cursor (void)
 static void
 normal_cursor (void)
 {
+  static GdkCursor *arrowcursor = NULL;
+  if(!arrowcursor)
+    arrowcursor = gdk_cursor_new (GDK_RIGHT_PTR);
   if (gtk_widget_get_window (Denemo.printarea))
     gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), arrowcursor);
 }
@@ -3302,9 +3307,6 @@ install_printpreview (GtkWidget * top_vbox)
   PrintStatus.last_measure = Denemo.prefs.lastmeasure;
   PrintStatus.first_staff = Denemo.prefs.firststaff;
   PrintStatus.last_staff = Denemo.prefs.laststaff;
-  busycursor = gdk_cursor_new (GDK_WATCH);
-  dragcursor = gdk_cursor_new (GDK_CROSS);
-  arrowcursor = gdk_cursor_new (GDK_RIGHT_PTR);
 
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
   GtkWidget *main_hbox = gtk_hbox_new (FALSE, 1);
