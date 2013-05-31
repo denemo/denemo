@@ -7,7 +7,6 @@
       <row>
         <action>Upbeat</action>
         <scheme>;;;Upbeat
-(disp "have " Upbeat::params " on entry")
 (let  ((upbeat "Upbeat") (ok #t))
   ; How many ticks are in a 100% filled measure?
   (define MaxTicks (* 1536 (GetPrevailingTimeSig #t) )) 
