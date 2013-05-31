@@ -168,9 +168,6 @@ static gchar *thumbnailsdirN = NULL;
 static gchar *thumbnailsdirL = NULL;
 
 static gboolean retypeset (void);
-static void print_finished (GPid pid, gint status, GList * filelist);
-static void start_seeking_end (gboolean slur);
-static gdouble get_center_staff_offset (void);
 
 static void
 advance_printname ()
@@ -1793,6 +1790,60 @@ get_offset (gdouble * offsetx, gdouble * offsety)
 }
 
 
+// start_seeking_end 
+//if repeatable and grob is slur or beam and request matches gives prompt for slur or beam and goes to Waiting for drag
+//else sets up near point to last button press and goes to selecting far end.
+static void
+start_seeking_end (gboolean slur)
+{
+  gchar *msg = (slur) ? _("Now select the notehead of the note where the slur ends") : _("Now select the notehead of the note where the beam ends");
+
+  if (Ww.repeatable && Ww.grob == (slur ? Slur : Beam))
+    {
+      Ww.stage = WaitingForDrag;
+      msg = (Ww.grob == Slur) ? _("Now drag the begin/end markers to suggest slur position/angle\nRight click when done.") : _("Now drag the begin/end markers to set position/angle of beam\nRight click when done."); //FIXME repeated text
+    }
+  else
+    {
+      Ww.nearpoint = Ww.near_i = Ww.last_button_press;
+      Ww.stage = SelectingFarEnd;
+    }
+  if (Ww.grob != (slur ? Slur : Beam))
+    Ww.repeatable = FALSE;
+  Ww.grob = slur ? Slur : Beam;
+  gtk_widget_show (Ww.dialog);
+  gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (Ww.dialog), msg);
+  gtk_widget_queue_draw (Denemo.printarea);
+}
+
+static gdouble
+get_center_staff_offset (void)
+{
+  gdouble yadjust = 0.0;
+  if (Denemo.gui->si->currentobject)
+    {
+      DenemoObject *obj = (DenemoObject *) Denemo.gui->si->currentobject->data;
+      if (obj->type == CHORD)
+        {
+          chord *thechord = (chord *) obj->object;
+          beamandstemdirhelper (Denemo.gui->si);
+          if (thechord->notes)
+            {
+              note *thenote = (note *) (thechord->notes->data);
+              gdouble staffsize = atof (Denemo.gui->lilycontrol.staffsize->str);
+              if (staffsize < 1)
+                staffsize = 20.0;
+              yadjust = -(4 - thenote->y / 5) * staffsize / 8;
+              EvDocumentModel *model;
+              model = g_object_get_data (G_OBJECT (Denemo.printarea), "model"); //there is no ev_view_get_model(), when there is use it
+              gdouble scale = ev_document_model_get_scale (model);
+              yadjust *= scale;
+            }
+        }
+    }
+  return yadjust;
+}
+
 // get_postions gets two y-heights interactively, giving prompts either for slur or beam
 // 
 
@@ -2049,32 +2100,6 @@ create_part_pdf (void)
   busy_cursor ();
   create_pdf (TRUE, TRUE);
   g_child_watch_add (PrintStatus.printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
-}
-
-// start_seeking_end 
-//if repeatable and grob is slur or beam and request matches gives prompt for slur or beam and goes to Waiting for drag
-//else sets up near point to last button press and goes to selecting far end.
-static void
-start_seeking_end (gboolean slur)
-{
-  gchar *msg = (slur) ? _("Now select the notehead of the note where the slur ends") : _("Now select the notehead of the note where the beam ends");
-
-  if (Ww.repeatable && Ww.grob == (slur ? Slur : Beam))
-    {
-      Ww.stage = WaitingForDrag;
-      msg = (Ww.grob == Slur) ? _("Now drag the begin/end markers to suggest slur position/angle\nRight click when done.") : _("Now drag the begin/end markers to set position/angle of beam\nRight click when done."); //FIXME repeated text
-    }
-  else
-    {
-      Ww.nearpoint = Ww.near_i = Ww.last_button_press;
-      Ww.stage = SelectingFarEnd;
-    }
-  if (Ww.grob != (slur ? Slur : Beam))
-    Ww.repeatable = FALSE;
-  Ww.grob = slur ? Slur : Beam;
-  gtk_widget_show (Ww.dialog);
-  gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (Ww.dialog), msg);
-  gtk_widget_queue_draw (Denemo.printarea);
 }
 
 static gint
@@ -2407,33 +2432,6 @@ normalize (void)
 
 }
 */
-static gdouble
-get_center_staff_offset (void)
-{
-  gdouble yadjust = 0.0;
-  if (Denemo.gui->si->currentobject)
-    {
-      DenemoObject *obj = (DenemoObject *) Denemo.gui->si->currentobject->data;
-      if (obj->type == CHORD)
-        {
-          chord *thechord = (chord *) obj->object;
-          beamandstemdirhelper (Denemo.gui->si);
-          if (thechord->notes)
-            {
-              note *thenote = (note *) (thechord->notes->data);
-              gdouble staffsize = atof (Denemo.gui->lilycontrol.staffsize->str);
-              if (staffsize < 1)
-                staffsize = 20.0;
-              yadjust = -(4 - thenote->y / 5) * staffsize / 8;
-              EvDocumentModel *model;
-              model = g_object_get_data (G_OBJECT (Denemo.printarea), "model"); //there is no ev_view_get_model(), when there is use it
-              gdouble scale = ev_document_model_get_scale (model);
-              yadjust *= scale;
-            }
-        }
-    }
-  return yadjust;
-}
 
 static void
 apply_tweak (void)
