@@ -438,18 +438,12 @@ open_viewer (gint status, gchar * filename, gboolean is_png)
     }
 }
 
-
 static void
 open_pngviewer (G_GNUC_UNUSED GPid pid, gint status, gchar * filename)
 {
   open_viewer (status, filename, TRUE);
 }
 
-static void
-open_pdfviewer (G_GNUC_UNUSED GPid pid, gint status, gchar * filename)
-{
-  open_viewer (status, filename, FALSE);
-}
 
 static gint
 run_lilypond (gchar ** arguments)
@@ -649,16 +643,7 @@ rm_temp_files (gchar * file, gpointer free_only)
   g_free (file);
 }
 
-static void
-print_finished (GPid pid, gint status, G_GNUC_UNUSED GList * filelist)
-{
-  if (get_print_status()->printpid == GPID_NONE)
-    return;
-  open_pdfviewer (pid, status, (gchar *) get_printfile_pathbasename ());
-  g_debug ("print finished\n");
-  changecount = Denemo.gui->changecount;
-  progressbar_stop ();          //FIXME this is already done in open_pdfviewer()
-}
+
 
 
 void
@@ -1364,12 +1349,6 @@ typeset_movement (gboolean force)
   return FALSE;
 }
 
-void
-printpreview_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
-{
-  (void) typeset (TRUE);
-  g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) print_finished, NULL);
-}
 
 void
 refresh_print_view (G_GNUC_UNUSED gboolean interactive)

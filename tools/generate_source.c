@@ -406,7 +406,6 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Export the score as a PNG image file", N_("ExportPNG"), "export_png_action", N_("Export PNG")},
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Export the score as a MIDI file", N_("ExportMIDI"), "export_midi_action", N_("Export MIDI")},
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT", "Menu:\\nCommands for typesetting and then printing the music.\\nA part, movement, full score or various reduced scores can be typeset.\\n See also the Score Layout view for further options.", N_("PrintMenu"), NULL, N_("Print")},
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT_PREVIEW", "Displays the final finished score in your PDF viewer", N_("PrintPreview"), "printpreview_cb", N_("Print Preview")},
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT_PREVIEW", "Typesets the score\\nIf you have a score layout selected it will use that\\notherwise all movements staffs and lyrics are typeset by default.\\nBe patient! It takes time to create a beautifully laid out score.\\nOnce complete you can view and then send to your printer or to a file as a .pdf document.", N_("PrintView"), "show_print_view", N_("Print Preview")},
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT", "Displays selected music from score in your pdf viewer", N_("PrintSelection"), "printselection_cb", N_("Print Selection")},
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT_PREVIEW", "Displays a musical excerpt in your image viewer", N_("PrintExcerptPreview"), "printexcerptpreview_cb", N_("Print Excerpt")},
