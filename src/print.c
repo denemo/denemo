@@ -844,40 +844,7 @@ initialize_typesetting (void)
   return call_out_to_guile ("(InitializeTypesetting)");
 }
 
-//callback to print the LilyPond text in the LilyPond View window
-void
-print_lily_cb (G_GNUC_UNUSED GtkWidget * item, G_GNUC_UNUSED DenemoGUI * gui)
-{
 
-  if (initialize_typesetting ())
-    {
-      g_warning ("InitializeTypesetting failed\n");
-      return;
-    }
-  gchar *filename = get_printfile_pathbasename ();
-  gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
-
-  FILE *fp = fopen (lilyfile, "w");
-  if (fp)
-    {
-      GtkTextIter startiter, enditer;
-      gtk_text_buffer_get_start_iter (Denemo.textbuffer, &startiter);
-      gtk_text_buffer_get_end_iter (Denemo.textbuffer, &enditer);
-      gchar *lily = gtk_text_buffer_get_text (Denemo.textbuffer, &startiter, &enditer, FALSE);
-      fprintf (fp, "%s", lily);
-      fclose (fp);
-      /* create arguments to pass to lilypond to create a pdf for printing */
-      gchar *arguments[] = {
-        Denemo.prefs.lilypath->str,
-        "--pdf",
-        "-o",
-        filename,
-        lilyfile,
-        NULL
-      };
-      print_and_view (arguments);
-    }
-}
 
 // Displaying Print Preview
 
