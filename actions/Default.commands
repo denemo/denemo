@@ -2120,13 +2120,6 @@ Sets prevailing rhythm to &#x1D165;</_tooltip>
         <_tooltip>No Tooltip yet</_tooltip>
       </row>
       <row>
-        <action>Preview4Bars</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
-        <_label>Preview Four Bars</_label>
-        <_tooltip>Print preview of current bar and the next three.</_tooltip>
-      </row>
-      <row>
         <action>MoveNoteToCursor</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
