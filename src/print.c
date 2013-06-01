@@ -346,7 +346,7 @@ process_lilypond_errors (gchar * filename)
 }
 
 static void
-open_viewer (gint status, gchar * filename, gboolean is_png)
+open_viewer (gint status, gchar * filename)
 {
   if (get_print_status()->printpid == GPID_NONE)
     return;
@@ -368,10 +368,9 @@ open_viewer (gint status, gchar * filename, gboolean is_png)
 #endif
     {
 
-      if (is_png)
-        printfile = g_strconcat (filename, ".png", NULL);
-      else
-        printfile = g_strconcat (filename, ".pdf", NULL);
+   
+      printfile = g_strconcat (filename, ".png", NULL);
+ 
 
 
       if (!g_file_test (printfile, G_FILE_TEST_EXISTS))
@@ -386,28 +385,17 @@ open_viewer (gint status, gchar * filename, gboolean is_png)
         printfile,
         NULL
       };
-      gchar *pdf[] = {
-        Denemo.prefs.pdfviewer->str,
-        printfile,
-        NULL
-      };
-      if (is_png)
-        {
 
-          arguments = png;
-        }
-      else
-        {
-
-          arguments = pdf;
-        }
-      if ((!is_png && (Denemo.prefs.pdfviewer->len == 0)) || (is_png && (Denemo.prefs.imageviewer->len == 0)))
+ 
+      arguments = png;
+ 
+      if (Denemo.prefs.imageviewer->len == 0)
         {
           gboolean ok = run_file_association (printfile);
           if (!ok)
             {
-              err = g_error_new (G_FILE_ERROR, -1, "Could not run file assoc for %s", is_png ? ".png" : ".pdf");
-              g_warning ("Could not run the file association for a %s file\n", is_png ? ".png" : ".pdf");
+              err = g_error_new (G_FILE_ERROR, -1, "Could not run file assoc for %s", ".png");
+              g_warning ("Could not run the file association for a %s file\n", ".png");
             }
         }
       else
@@ -422,13 +410,7 @@ open_viewer (gint status, gchar * filename, gboolean is_png)
         }
       if (err != NULL)
         {
-          if (Denemo.prefs.pdfviewer->len)
-            {
-              g_warning ("Failed to find %s", Denemo.prefs.pdfviewer->str);
-              warningdialog (_("Cannot display: Check Edit->Preferences->externals\nfor your PDF viewer"));
-            }
-          else
-            warningdialog (err->message);
+          warningdialog (err->message);
           g_warning ("%s", err->message);
           if (err)
             g_error_free (err);
@@ -441,7 +423,7 @@ open_viewer (gint status, gchar * filename, gboolean is_png)
 static void
 open_pngviewer (G_GNUC_UNUSED GPid pid, gint status, gchar * filename)
 {
-  open_viewer (status, filename, TRUE);
+  open_viewer (status, filename);
 }
 
 
