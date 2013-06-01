@@ -1952,10 +1952,18 @@ recreate_standard_scoreblock (DenemoScoreblock ** psb)
   gint movement = (*psb)->movement;
   gchar *partname = (*psb)->partname ? g_strdup ((*psb)->partname) : NULL;
   gboolean visible = (*psb)->visible;
+  GtkNotebook *notebook = GTK_NOTEBOOK (get_score_layout_notebook (Denemo.gui));
+  if((*psb)->widget)
+    set_notebook_page((*psb)->widget);
+  gint position = gtk_notebook_get_current_page(notebook);
   free_scoreblock ((*psb));     //this changes the page in the notebook if it was selected before. So if sb->visible then re-select this page after reconstruction
   create_standard_scoreblock (psb, movement, partname);
-  if (visible)
-    gtk_notebook_set_current_page (GTK_NOTEBOOK (get_score_layout_notebook (Denemo.gui)), 0);
+  gtk_notebook_reorder_child (notebook, (*psb)->widget, position);
+//alternatively pass in desired position to create_standard_scoreblock....
+
+                                                    
+ // if (visible)
+  //  gtk_notebook_set_current_page (GTK_NOTEBOOK (get_score_layout_notebook (Denemo.gui)), 0);
 }
 
 //return value must not be freed
@@ -2520,7 +2528,8 @@ selection_layout (void)
   return sb;
 }
 
-//if no custom scoreblock is selected, selects or creates a standard one for the given 
+//if the call is all_movements is current (1) and no partname ie default, then current layout is returned, re-created (if need be) if it is a standard one
+//otherwise selects or creates a standard layout for the given spec: all_movements (0=all, 1 = current) and part (NULL is all parts, otherwise parts with partname).
 DenemoScoreblock *
 select_layout (gboolean all_movements, gchar * partname)
 {
@@ -2528,25 +2537,10 @@ select_layout (gboolean all_movements, gchar * partname)
   DenemoScoreblock *sb;
   if (Denemo.gui->si->markstaffnum)
     return selection_layout ();
-  //make sure at least the default scoreblock has been created, this can now be a custom version named with default scoreblock name
-  if (Denemo.gui->standard_scoreblocks == NULL)
-    {
-      create_default_scoreblock ();
-      if (Denemo.gui->standard_scoreblocks)
-        sb = (DenemoScoreblock *) (Denemo.gui->standard_scoreblocks->data);
-      else if (Denemo.gui->custom_scoreblocks)
-        sb = (DenemoScoreblock *) (Denemo.gui->custom_scoreblocks->data);
-      else
-        {
-          g_critical ("No score layout available");
-          return NULL;
-        }
-      refresh_lilypond (sb);    //creating a scoreblock does *not* include generating the lilypond from its widgets.
-    }
 
-  gboolean layout_selected = 1; //gtk_widget_get_visible(Denemo.gui->score_layout);
+  
 
-  if (layout_selected && (all_movements && partname == NULL))
+  if (all_movements && partname == NULL)
     {
       sb = selected_scoreblock ();
       if (sb)
@@ -2563,6 +2557,24 @@ select_layout (gboolean all_movements, gchar * partname)
 
 
 //otherwise return a standard scoreblock recreating it - though this should only need doing if changecount has moved on
+
+  //make sure at least the default scoreblock has been created, this can now be a custom version named with default scoreblock name
+  if (Denemo.gui->standard_scoreblocks == NULL)
+    {
+      create_default_scoreblock ();
+      if (Denemo.gui->standard_scoreblocks)
+        sb = (DenemoScoreblock *) (Denemo.gui->standard_scoreblocks->data);
+      else if (Denemo.gui->custom_scoreblocks)
+        sb = (DenemoScoreblock *) (Denemo.gui->custom_scoreblocks->data);
+      else
+        {
+          g_critical ("No score layout available");
+          return NULL;
+        }
+      refresh_lilypond (sb);    //creating a scoreblock does *not* include generating the lilypond from its widgets.
+    }
+
+
 
 //first recreate all the standard scoreblocks and set them not visible
   for (g = Denemo.gui->standard_scoreblocks; g; g = g->next)
