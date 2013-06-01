@@ -477,8 +477,6 @@ typedef struct DenemoPrefs
   gint tooltip_browse_timeout;/** < timeout before a tooltip appears in tooltip browse mode */
   gint tooltip_browse_mode_timeout;/** < timeout before a tooltip browse mode is dropped*/
 
-    
-  GString *pdfviewer; /**< PDF viewer */
   GString *imageviewer; /**< Image Viewer */
   GString *username; /**< Username for use on denemo.org website */
   GString *password; /**< password  for use on denemo.org website (blank means prompt for username) */

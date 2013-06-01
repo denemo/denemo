@@ -103,7 +103,7 @@ initprefs ()
  #else
   ret->lilypath = g_string_new ("lilypond");
  #endif
-  ret->pdfviewer = g_string_new ("evince");
+  
   ret->imageviewer = g_string_new ("eog");
 #endif /* !G_OS_WIN32 */
 
@@ -314,7 +314,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
         }
 
       READBOOLXMLENTRY (autosave)
-        READXMLENTRY (pdfviewer)
+        
         READXMLENTRY (imageviewer)
         READXMLENTRY (profile)
         READXMLENTRY (username)
@@ -454,7 +454,7 @@ get_string_pref (gchar * prefname)
 {
   if (*prefname == 0)
     return NULL;
-  GETSTRINGPREF (pdfviewer)
+  
     GETSTRINGPREF (imageviewer)
     GETSTRINGPREF (profile)
     GETSTRINGPREF (username) GETSTRINGPREF (password) GETSTRINGPREF (denemopath) GETSTRINGPREF (temperament) GETSTRINGPREF (audio_driver) GETSTRINGPREF (midi_driver) GETSTRINGPREF (jack_connect_ports_l) GETSTRINGPREF (jack_connect_ports_r) GETSTRINGPREF (jack_connect_midi_in_port) GETSTRINGPREF (jack_connect_midi_out_port) GETSTRINGPREF (portaudio_device) GETSTRINGPREF (portmidi_input_device) GETSTRINGPREF (portmidi_output_device) GETSTRINGPREF (fluidsynth_soundfont) return NULL;
@@ -678,7 +678,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
 		 (xmlChar *) prefs->field);}
 
 
-  WRITEXMLENTRY (lilypath) WRITEXMLENTRY (audioplayer) WRITEXMLENTRY (fontspec) WRITEXMLENTRY (pdfviewer) WRITEXMLENTRY (imageviewer) WRITEXMLENTRY (profile) WRITEXMLENTRY (username) WRITEXMLENTRY (password) WRITEXMLENTRY (denemopath) WRITEXMLENTRY (temperament)
+  WRITEXMLENTRY (lilypath) WRITEXMLENTRY (audioplayer) WRITEXMLENTRY (fontspec) WRITEXMLENTRY (imageviewer) WRITEXMLENTRY (profile) WRITEXMLENTRY (username) WRITEXMLENTRY (password) WRITEXMLENTRY (denemopath) WRITEXMLENTRY (temperament)
 #define WRITEINTXMLENTRY(field){ \
     gchar *def = g_strdup("Holds the interger value of the user's " #field " preference");\
     gint value = prefs->field;\
