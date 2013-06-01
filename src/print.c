@@ -1296,15 +1296,18 @@ printview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboolean 
 
 }
 
-/* callback to print current part (staff) of score */
-void
-printpart_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
-{
-  GtkWidget *w = gtk_widget_get_toplevel (Denemo.printarea);
+static present_print_view_window(void) {
+ GtkWidget *w = gtk_widget_get_toplevel (Denemo.printarea);
   if (gtk_widget_get_visible (w))
     gtk_window_present (GTK_WINDOW (w));
   else
     gtk_widget_show (w);
+}
+/* callback to print current part (staff) of score */
+void
+printpart_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
+{
+  present_print_view_window();
   DenemoGUI *gui = Denemo.gui;
   if (gui->si->markstaffnum)
     if (confirm (_("A range of music is selected"), _("Print whole file?")))
@@ -1397,13 +1400,8 @@ print_from_print_view (gboolean all_movements)
 void
 printselection_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
-  DenemoGUI *gui = Denemo.gui;
-  GtkWidget *w = gtk_widget_get_toplevel (Denemo.printarea);
-  if (gtk_widget_get_visible (w))
-    gtk_window_present (GTK_WINDOW (w));
-  else
-    gtk_widget_show (w);
-  if (gui->si->markstaffnum) {
+  if (Denemo.gui->si->markstaffnum) {
+    present_print_view_window();
     create_pdf (FALSE, FALSE);
     g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (TRUE));
   }
@@ -2847,10 +2845,7 @@ void
 show_print_view (GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
   GtkWidget *w = gtk_widget_get_toplevel (Denemo.printarea);
-  if (gtk_widget_get_visible (w))
-    gtk_window_present (GTK_WINDOW (w));
-  else
-    gtk_widget_show (w);
+  present_print_view_window();
   if (action && (changecount != Denemo.gui->changecount || Denemo.gui->lilysync != Denemo.gui->changecount))
     {
       if (!initialize_typesetting ())
