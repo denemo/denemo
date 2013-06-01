@@ -35,7 +35,8 @@
 (d-PrintAllLayouts) ;; this works asynchronously
 (if initial
 	(d-BookInstrumentation initial))
-(d-PopPosition))</scheme>
+(d-PopPosition))
+(d-WarningDialog "A set of custom layouts was created for this command.\nYou can continue to use these if you do not make structural changes to the layout. Otherwise, once you have finished printing from these layouts delete them so that you can alter the titles, add new staffs etc.")</scheme>
         <_label>Print Score and Parts</_label>
         <_tooltip>Creates score layouts for the current layout (full score) and parts (named after instrument name). Set instrument names before use.</_tooltip>
       </row>
