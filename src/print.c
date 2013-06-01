@@ -823,20 +823,6 @@ export_pdf (gchar * filename, DenemoGUI * gui)
   g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printpdf_finished, filelist);
 }
 
-static void
-print_and_view (gchar ** arguments)
-{
-
-  run_lilypond (arguments);
-  if (get_print_status()->printpid != GPID_NONE)
-    {
-      g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) open_pdfviewer, (gchar *) get_printfile_pathbasename ());
-      while (get_print_status()->printpid != GPID_NONE)
-        {
-          gtk_main_iteration_do (FALSE);
-        }
-    }
-}
 
 static gboolean
 initialize_typesetting (void)
@@ -1314,8 +1300,11 @@ printview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboolean 
 void
 printpart_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
-
-
+  GtkWidget *w = gtk_widget_get_toplevel (Denemo.printarea);
+  if (gtk_widget_get_visible (w))
+    gtk_window_present (GTK_WINDOW (w));
+  else
+    gtk_widget_show (w);
   DenemoGUI *gui = Denemo.gui;
   if (gui->si->markstaffnum)
     if (confirm (_("A range of music is selected"), _("Print whole file?")))
@@ -1326,8 +1315,8 @@ printpart_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
     create_pdf (TRUE, TRUE);
   else
     create_pdf (TRUE, FALSE);
-  g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) open_pdfviewer /*  GChildWatchFunc function */ ,
-                     (gchar *) get_printfile_pathbasename ());
+  g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (TRUE));
+                     
 }
 
 
@@ -1409,12 +1398,17 @@ void
 printselection_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  if (gui->si->markstaffnum)
+  GtkWidget *w = gtk_widget_get_toplevel (Denemo.printarea);
+  if (gtk_widget_get_visible (w))
+    gtk_window_present (GTK_WINDOW (w));
+  else
+    gtk_widget_show (w);
+  if (gui->si->markstaffnum) {
     create_pdf (FALSE, FALSE);
+    g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (TRUE));
+  }
   else
     warningdialog (_("No selection to print"));
-  g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) open_pdfviewer /*  GChildWatchFunc function */ ,
-                     (gchar *) get_printfile_pathbasename ());
 }
 
 void
