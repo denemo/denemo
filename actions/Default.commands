@@ -6456,6 +6456,14 @@ accidentals are usually printed over the note.</_tooltip>
 affect the last page. This should be set for pieces that have only two
 or three systems per page, for example orchestral scores.</_tooltip>
       </row>
+      <row>
+        <action>TabFull</action>
+        <after>UnHideNotes</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/Staff</menupath>
+        <_label>Full Tab Notation On</_label>
+        <_tooltip>Typeset beaming etc with Tablature from the cursor position on.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
