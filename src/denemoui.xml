@@ -34,15 +34,15 @@
       <menu action="Export"> 
 	<menuitem action="ExportMUDELA"/> 
       	<menuitem action="ExportPDF"/> 
-        <menuitem action="ExportPNG"/> 
+        <menuitem action="ExportPNG"/>
+        <menuitem action="PrintExcerptPreview"/>
 	<menuitem action="ExportMIDI"/> 
       </menu>
       <separator/>
       <menu action="PrintMenu">
         <menuitem action="Print"/>
         <menuitem action="PrintView"/>
-	<menuitem action="PrintMovement"/>
-        <menuitem action="PrintExcerptPreview"/>
+        <menuitem action="PrintMovement"/>
         <menuitem action="PrintPart"/>
         <menuitem action="PrintSelection"/>
       </menu>
