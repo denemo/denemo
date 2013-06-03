@@ -1984,7 +1984,7 @@ pack_buttons (GtkWidget * vbox, GList * directives, DenemoDirective ** response)
         {
           widget2 = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (widget), directive->tag->str);
           g_object_set_data (G_OBJECT (widget2), "choice", directive);
-          g_signal_connect (G_OBJECT (widget2), "toggled", G_CALLBACK (tag_none), response);
+          g_signal_connect (G_OBJECT (widget2), "toggled", G_CALLBACK (tag_choice), response);
           gtk_box_pack_start (GTK_BOX (vbox), widget2, FALSE, TRUE, 0);
         }
     }
