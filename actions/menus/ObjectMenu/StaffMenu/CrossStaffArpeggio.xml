@@ -8,6 +8,7 @@
         <after>TabStaff</after>
         <action>CrossStaffArpeggio</action>
         <scheme>;;CrossStaffArpeggio
+(disp "Entered with " CrossStaffArpeggio::params " ok")
 (let ((tag "CrossStaffArpeggio"))
  (if (d-Directive-staff? tag)
  	(begin
