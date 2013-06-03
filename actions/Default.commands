@@ -1162,18 +1162,13 @@ Notes entered will follow the rhythmic pattern of this snippet</_tooltip>
       </row>
       <row>
         <action>ExportPNG</action>
-        <_label>Export PNG</_label>
+        <_label>Export Score as PNG</_label>
         <_tooltip>Export the score as a PNG image file</_tooltip>
       </row>
       <row>
         <action>ExportMIDI</action>
         <_label>Export MIDI</_label>
         <_tooltip>Export the score as a MIDI file</_tooltip>
-      </row>
-      <row>
-        <action>PrintPreview</action>
-        <_label>Print Preview</_label>
-        <_tooltip>Displays the final finished score in your PDF viewer</_tooltip>
       </row>
       <row>
         <action>PrintView</action>
@@ -1191,7 +1186,7 @@ Once complete you can view and then send to your printer or to a file as a .pdf 
       </row>
       <row>
         <action>PrintExcerptPreview</action>
-        <_label>Print Excerpt</_label>
+        <_label>Export Selection as PNG</_label>
         <_tooltip>Displays a musical excerpt in your image viewer</_tooltip>
       </row>
       <row>
@@ -6456,6 +6451,14 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <menupath>/ObjectMenu/Directives/Staff</menupath>
         <_label>Full Tab Notation On</_label>
         <_tooltip>Typeset beaming etc with Tablature from the cursor position on.</_tooltip>
+      </row>
+      <row>
+        <action>QuickLilyPondExport</action>
+        <after>ExportMUDELA</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/FileMenu/Export</menupath>
+        <_label>Quick LilyPond Export#</_label>
+        <_tooltip>Exports as LilyPond to a file named the same as the .denemo file but with .ly suffix.</_tooltip>
       </row>
     </map>
   </merge>
