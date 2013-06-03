@@ -6460,6 +6460,14 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <_label>Quick LilyPond Export#</_label>
         <_tooltip>Exports as LilyPond to a file named the same as the .denemo file but with .ly suffix.</_tooltip>
       </row>
+      <row>
+        <action>CrossStaffArpeggio</action>
+        <after>TabStaff</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <_label>Cross Staff Arpeggio</_label>
+        <_tooltip>(Print) Allow arpeggio sign to extend across staffs. Piano staffs obey this by default, other staff groups need the Span_arpeggio_engraver including in the Score context for it to work.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
