@@ -16,6 +16,7 @@
 #include <fcntl.h>
 #include "exportlilypond.h"
 #include "print.h"
+#include "printview.h"
 #include "scoreops.h"
 #include "objops.h"
 #include "xmldefs.h"
@@ -2394,11 +2395,14 @@ output_score_to_buffer (DenemoGUI * gui, gboolean all_movements, gchar * partnam
   /* output scoreblock */
   {
     gchar *scoreblock_tag;
+#ifdef USE_EVINCE  
     if (continuous_typesetting ())
       scoreblock_tag = "temporary scoreblock";
     else
       scoreblock_tag = "standard scoreblock";
-
+#else
+      scoreblock_tag = "standard scoreblock";
+#endif
     insert_scoreblock_section (gui, scoreblock_tag, sb);
     gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, gtk_text_buffer_get_mark (Denemo.textbuffer, scoreblock_tag));
     if (sb->text_only)
@@ -2740,7 +2744,11 @@ populate_called (G_GNUC_UNUSED GtkWidget * view, GtkMenuShell * menu)
   DenemoGUI *gui = Denemo.gui;
   //g_print("populate called with %p\n", menu);
   prepend_menu_item (menu, gui, _("Find Current Object"), (gpointer) place_cursor_cb);
+  
+#ifdef USE_EVINCE  
   prepend_menu_item (menu, gui, _("Print from visible LilyPond text"), (gpointer) typeset_current_layout);
+#endif
+  
   return FALSE;
 }
 

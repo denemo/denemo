@@ -326,6 +326,9 @@ newThumbnailElem (xmlNodePtr curElem, xmlNsPtr ns, DenemoSelection * thumbnail, 
 static void
 newSourceFileElem (xmlNodePtr curElem, xmlNsPtr ns, DenemoGUI * gui)
 {
+#ifndef USE_EVINCE  
+  g_debug("This feature requires denemo to be built with evince");
+#else
   if (source_position (&gui->source_x, &gui->source_y, &gui->source_width, &gui->source_height, &gui->source_scale))
     {
       xmlNodePtr sourceElem = xmlNewChild (curElem, ns, (xmlChar *) "sourcefile", NULL);
@@ -335,6 +338,7 @@ newSourceFileElem (xmlNodePtr curElem, xmlNsPtr ns, DenemoGUI * gui)
       newXMLIntChild (sourceElem, ns, (xmlChar *) "height", gui->source_height);
       newXMLIntChild (sourceElem, ns, (xmlChar *) "scale", gui->source_scale);
     }
+#endif
 }
 
 static void

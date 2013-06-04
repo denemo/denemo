@@ -24,6 +24,7 @@
 #include "pitchentry.h"
 #include "exportlilypond.h"
 #include "print.h"
+#include "printview.h"
 #include "graceops.h"
 #include "kbd-custom.h"
 #include "keyboard.h"
@@ -462,6 +463,9 @@ scheme_popup_menu (SCM list)
 static SCM
 scheme_get_offset (void)
 {
+#ifndef USE_EVINCE
+  g_debug("This feature requires denemo to be built with evince");
+#else
   gdouble offsetx, offsety;
   if (get_offset (&offsetx, &offsety))
     {
@@ -474,19 +478,23 @@ scheme_get_offset (void)
 
       return scm_cons (scm_from_double (offsetx), scm_from_double (offsety));
     }
-  else
-    return SCM_BOOL_F;
+#endif
+  return SCM_BOOL_F;
 }
 
 static SCM
 scheme_get_control_point (SCM pt)
 {
+#ifndef USE_EVINCE
+  g_debug("This feature requires denemo to be built with evince");
+#else
   if (scm_is_integer (pt))
     {
       gint which = scm_to_int (pt);
       if (which > 0 && which < 5)
         return SCM_BOOL (get_control_point (which));
     }
+#endif
   return SCM_BOOL_F;
 }
 
@@ -499,6 +507,9 @@ prec (gdouble * val)
 static SCM
 scheme_get_curve (void)
 {
+#ifndef USE_EVINCE
+  g_debug("This feature requires denemo to be built with evince");
+#else
   gdouble x1, y1, x2, y2, x3, y3, x4, y4;
   if (get_curve (&x1, &y1, &x2, &y2, &x3, &y3, &x4, &y4))
     {
@@ -512,37 +523,56 @@ scheme_get_curve (void)
       prec (&y4);
       return scm_list_n (scm_cons (scm_from_double (x1), scm_from_double (y1)), scm_cons (scm_from_double (x2), scm_from_double (y2)), scm_cons (scm_from_double (x3), scm_from_double (y3)), scm_cons (scm_from_double (x4), scm_from_double (y4)), SCM_UNDEFINED);
     }
+#endif
   return SCM_BOOL_F;
 }
 
 static SCM
 scheme_get_positions (SCM is_slur)
 {
+#ifndef USE_EVINCE
+  g_debug("This feature requires denemo to be built with evince");
+#else
   gdouble neary, fary;
   if (get_positions (&neary, &fary, scm_is_true (is_slur)))
     {
       return scm_cons (scm_from_double (neary), scm_from_double (fary));
     }
-  else
-    return SCM_BOOL_F;
+#endif
+  return SCM_BOOL_F;
 }
 
 static SCM
 scheme_get_new_target (void)
 {
+#ifndef USE_EVINCE
+  g_debug("This feature requires denemo to be built with evince");
+  return SCM_BOOL_F;
+#else
   return scm_from_bool (get_new_target ());
+#endif
 }
 
 static SCM
 scheme_get_new_point (void)
 {
+#ifndef USE_EVINCE
+  g_debug("This feature requires denemo to be built with evince");
+  return SCM_BOOL_F;
+#else
   return scm_from_bool (get_new_point ());
+#endif
 }
 
 static SCM
 scheme_get_reference_point (void)
 {
+#ifndef USE_EVINCE
+  g_debug("This feature requires denemo to be built with evince");
+  return SCM_BOOL_F;
+#else
   return scm_from_bool (get_reference_point ());
+#endif
 }
 
 static SCM
@@ -1323,12 +1353,17 @@ scheme_get_checksum (SCM str)
 static SCM
 scheme_create_thumbnail (SCM optional)
 {
+#ifndef USE_EVINCE
+  g_debug("This feature requires denemo to be built with evince");
+  return SCM_BOOL_F;
+#else
   gboolean ret;
   if ((!SCM_UNBNDP (optional)) && scm_is_true (optional))
     ret = create_thumbnail (TRUE);
   else
     ret = create_thumbnail (FALSE);
   return SCM_BOOL (ret);
+#endif
 }
 
 static SCM
@@ -1363,8 +1398,13 @@ scheme_lilypond_for_part (void)
 static SCM
 scheme_typeset_part (void)
 {
+#ifndef USE_EVINCE
+  g_debug("This feature requires denemo to be built with evince");
+  return SCM_BOOL_F;
+#else
   typeset_part ();
   return SCM_BOOL_T;
+#endif
 }
 
 static SCM
@@ -1459,6 +1499,9 @@ static SCM
 scheme_open_source (SCM link)
 {
   SCM ret = SCM_BOOL_F;
+#ifndef USE_EVINCE
+  g_debug("This feature requires denemo to be built with evince");
+#else
   if (scm_is_string (link))
     {
       gchar *thestring = scm_to_locale_string (link);
@@ -1478,6 +1521,7 @@ scheme_open_source (SCM link)
       if (thestring)
         free (thestring);
     }
+#endif
   return ret;
 }
 
@@ -3419,19 +3463,28 @@ static SCM
 scheme_typeset_for_script (SCM thescript)
 {
   SCM ret = SCM_BOOL_F;
+#ifndef USE_EVINCE
+  g_debug("This feature requires denemo to be built with evince");
+#else  
   if (scm_is_string (thescript))
     {
       gchar *script = scm_to_locale_string (thescript);
       if (typeset_for_script (script))
         ret = SCM_BOOL_T;
     }
+#endif
   return ret;
 }
 
 static SCM
 scheme_print_typeset_pdf (void)
 {
+#ifndef USE_EVINCE
+  g_debug("This feature requires denemo to be built with evince");
+  return SCM_BOOL_F;
+#else
   return print_typeset_pdf ()? SCM_BOOL_F : SCM_BOOL_T;
+#endif
 }
 
 SCM
@@ -6815,8 +6868,10 @@ close_gui (void)
   g_signal_handlers_block_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);       // turn of refresh of display before destroying the data
   stop_midi_playback (NULL, NULL);      // if you do not do this, there is a timer moving the score on which will hang
   //FIXME why was this here??? activate_action("/MainMenu/InputMenu/KeyboardOnly");
+#ifdef USE_EVINCE  
   if (Denemo.prefs.enable_thumbnails)
     create_thumbnail (TRUE);
+#endif
   if (Denemo.autosaveid)
     {
       if (g_list_length (Denemo.guis) > 1)
@@ -9800,6 +9855,9 @@ toggle_action_menu (GtkAction * action, gpointer param)
 static void
 toggle_print_view (GtkAction * action, gpointer param)
 {
+#ifndef USE_EVINCE  
+  g_debug("This feature requires denemo to be built with evince");
+#else
   GtkWidget *w = gtk_widget_get_toplevel (Denemo.printarea);
   if ((!action) || gtk_widget_get_visible (w))
     gtk_widget_hide (w);
@@ -9809,7 +9867,7 @@ toggle_print_view (GtkAction * action, gpointer param)
       if (GPOINTER_TO_INT (g_object_get_data (G_OBJECT (Denemo.printarea), "printviewupdate")) < Denemo.gui->changecount)
         refresh_print_view (TRUE);
     }
-  return;
+#endif
 }
 
 /**
@@ -9820,6 +9878,9 @@ toggle_print_view (GtkAction * action, gpointer param)
 static void
 toggle_score_layout (GtkAction * action, gpointer param)
 {
+#ifndef USE_EVINCE  
+  g_debug("This feature requires denemo to be built with evince");
+#else
   DenemoGUI *gui = Denemo.gui;
   GtkWidget *w = gui->score_layout;
   GList *g = gtk_container_get_children (GTK_CONTAINER (w));
@@ -9833,7 +9894,7 @@ toggle_score_layout (GtkAction * action, gpointer param)
     {
       gtk_widget_show (w);
     }
-  return;
+#endif
 }
 
 /**
@@ -9844,6 +9905,9 @@ toggle_score_layout (GtkAction * action, gpointer param)
 void
 toggle_lyrics_view (GtkAction * action, gpointer param)
 {
+#ifndef USE_EVINCE  
+  g_debug("This feature requires denemo to be built with evince");
+#else
   GtkWidget *widget = Denemo.gui->si->lyricsbox;
   if (!widget)
     g_warning ("No lyrics");
@@ -9858,7 +9922,7 @@ toggle_lyrics_view (GtkAction * action, gpointer param)
       if (Denemo.prefs.persistence && (Denemo.gui->view == DENEMO_MENU_VIEW))
         Denemo.prefs.lyrics_pane = gtk_widget_get_visible (widget);
     }
-  return;
+#endif
 }
 
 /**
@@ -9869,6 +9933,9 @@ toggle_lyrics_view (GtkAction * action, gpointer param)
 static void
 toggle_console_view (GtkAction * action, gpointer param)
 {
+#ifndef USE_EVINCE  
+  g_debug("This feature requires denemo to be built with evince");
+#else
   GtkWidget *widget = gtk_widget_get_parent (Denemo.console);
   if (!widget)
     g_warning ("Internal Error");
@@ -9889,7 +9956,7 @@ toggle_console_view (GtkAction * action, gpointer param)
     }
   if (Denemo.prefs.persistence && (Denemo.gui->view == DENEMO_MENU_VIEW))
     Denemo.prefs.console_pane = gtk_widget_get_visible (widget);
-  return;
+#endif
 }
 
 
@@ -9901,6 +9968,9 @@ toggle_console_view (GtkAction * action, gpointer param)
 void
 toggle_score_view (GtkAction * action, gpointer param)
 {
+#ifndef USE_EVINCE  
+  g_debug("This feature requires denemo to be built with evince");
+#else
   GtkWidget *w = gtk_widget_get_parent (gtk_widget_get_parent (Denemo.scorearea));
   if ((!action) || gtk_widget_get_visible (w))
     gtk_widget_hide (w);
@@ -9909,7 +9979,7 @@ toggle_score_view (GtkAction * action, gpointer param)
       gtk_widget_show (w);
       gtk_widget_grab_focus (Denemo.scorearea);
     }
-  return;
+#endif
 }
 
 /**
@@ -9920,6 +9990,9 @@ toggle_score_view (GtkAction * action, gpointer param)
 static void
 toggle_scoretitles (GtkAction * action, gpointer param)
 {
+#ifndef USE_EVINCE  
+  g_debug("This feature requires denemo to be built with evince");
+#else
   GtkWidget *widget = Denemo.gui->buttonboxes;
   if ((!action) || gtk_widget_get_visible (widget))
     gtk_widget_hide (widget);
@@ -9927,8 +10000,7 @@ toggle_scoretitles (GtkAction * action, gpointer param)
     gtk_widget_show (widget);
   if (Denemo.prefs.persistence && (Denemo.gui->view == DENEMO_MENU_VIEW))
     Denemo.prefs.visible_directive_buttons = gtk_widget_get_visible (widget);
-
-  return;
+#endif
 }
 
 /**
@@ -9939,6 +10011,9 @@ toggle_scoretitles (GtkAction * action, gpointer param)
 static void
 toggle_object_menu (GtkAction * action, gpointer param)
 {
+#ifndef USE_EVINCE  
+  g_debug("This feature requires denemo to be built with evince");
+#else
   GtkWidget *widget;
   widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu");
   if (!widget)
@@ -9952,6 +10027,7 @@ toggle_object_menu (GtkAction * action, gpointer param)
     {
       gtk_widget_show (widget);
     }
+#endif
 }
 
 
@@ -10897,9 +10973,10 @@ newtab (GtkAction * action, gpointer param)
   gtk_widget_show (hbox);
 #endif
 
-
+#ifdef USE_EVINCE  
   install_printpreview (main_vbox);
-
+#endif
+  
   //FIXME populate_opened_recent (gui);
 
   /* create the first movement now because showing the window causes it to try to draw the scorearea

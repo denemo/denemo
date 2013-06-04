@@ -317,9 +317,14 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
       else if (EXISTS (".mid") || EXISTS (".midi"))
         result = importMidi (filename);
       else if (EXISTS (".pdf") || EXISTS (".PDF"))
-        {                       // a .pdf file for transcribing from, does not affect the current score.
+        {                       
+#ifndef USE_EVINCE  
+  g_debug("This feature requires denemo to be built with evince");
+#else
+          // a .pdf file for transcribing from, does not affect the current score.
           g_signal_handlers_unblock_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
           return !open_source (filename, 0, 0, 0);
+#endif
         }
 #undef EXISTS
     }
@@ -765,12 +770,14 @@ file_dialog (gchar * message, gboolean type, gchar * location)
 static void
 update_preview_cb (GtkFileChooser * file_chooser, gpointer data)
 {
-
-  GtkWidget *preview;
-  gchar *thumb_filename;
-  gchar *selection_filename;
-  GdkPixbuf *pixbuf;
-  gboolean have_preview;
+#ifndef USE_EVINCE  
+  g_debug("This feature requires denemo to be built with evince");
+#else
+  GtkWidget *preview = NULL;
+  gchar *thumb_filename = NULL;
+  gchar *selection_filename = NULL;
+  GdkPixbuf *pixbuf = NULL;
+  gboolean have_preview = FALSE;
 
   preview = GTK_WIDGET (data);
   selection_filename = gtk_file_chooser_get_preview_filename (file_chooser);
@@ -788,6 +795,7 @@ update_preview_cb (GtkFileChooser * file_chooser, gpointer data)
     gdk_pixbuf_unref (pixbuf);
 
   gtk_file_chooser_set_preview_widget_active (file_chooser, have_preview);
+#endif
 }
 
 

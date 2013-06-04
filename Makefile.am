@@ -32,6 +32,7 @@ install-data-hook:
 	find $(DESTDIR)$(datadir)/${PACKAGE}/templates -type d -exec chmod 755 '{}' \;
 
 clean-potfile:
+	@echo Cleaning POTFILES...
 	@rm -f po/POTFILES.in
 	@rm -f po/POTFILES.skip
 
@@ -60,7 +61,7 @@ dist-hook: @PACKAGE@.spec pot
 	cp "$(srcdir)/po/$(GETTEXT_PACKAGE).pot" "$(distdir)/po/"
 
 send-pot:dist
-	echo "You can find in attachment the latest version of denemo.pot. This is an automatic message, but someone should answer you if you reply." | mailx -v -r denemo-devel@gnu.org -s "$(GETTEXT_PACKAGE)-$(VERSION).pot" -a $(GETTEXT_PACKAGE)-$(VERSION).tar.gz -a po/$(GETTEXT_PACKAGE)-$(VERSION).pot coordinator@translationproject.org 
+	echo "You can find in attachment the latest version of denemo.pot. This is an automatic message, but someone should answer you if you reply." | mailx -v -S from=denemo-devel@gnu.org denemo-devel@gnu.org -s "$(GETTEXT_PACKAGE)-$(VERSION).pot" -a $(GETTEXT_PACKAGE)-$(VERSION).tar.gz -a po/$(GETTEXT_PACKAGE)-$(VERSION).pot coordinator@translationproject.org 
 
 ACLOCAL_AMFLAGS = -I m4
 
