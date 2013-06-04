@@ -1,4 +1,4 @@
-SUBDIRS = $(WHICH_SMF) libsffile m4 doc actions pixmaps po src \
+SUBDIRS = $(WHICH_SMF) tools libsffile m4 doc actions pixmaps po src \
 	  fonts soundfonts 
 
 INTLTOOL_FILES = intltool-extract.in \

@@ -401,6 +401,7 @@ AC_OUTPUT(
   m4/Makefile 
   Makefile 
   denemo.spec
+  tools/Makefile
   src/Makefile 
   pixmaps/Makefile 
   doc/Makefile

@@ -43,6 +43,7 @@ po/POTFILES.*
 
 src/denemo
 src/lyparser.c
+src/pathconfig.h
 stamp-h1
 tags
 actions/mxml2ly2denemo/mxml2ly2denemo.l.scm
