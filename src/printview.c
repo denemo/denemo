@@ -1970,7 +1970,7 @@ typeset_control (gpointer data)
 //Ensures the print view window is visible.
 //when called back as an action it calls create_all_pdf() provided the score has changed
 void
-show_print_view (GtkAction * action, G_GNUC_UNUSED gpointer param)
+_show_print_view (GtkAction * action)
 {
   present_print_view_window();
   if (action && (changecount != Denemo.gui->changecount || Denemo.gui->lilysync != Denemo.gui->changecount))

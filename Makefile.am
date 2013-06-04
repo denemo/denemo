@@ -38,6 +38,7 @@ potfile:
 	@find tools -name '*.c' -o -name '*.h' | sort >> po/POTFILES.skip
 
 clean-potfile:
+	@echo Cleaning POTFILES...
 	@rm -f po/POTFILES.in
 	@rm -f po/POTFILES.skip
 

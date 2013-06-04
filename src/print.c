@@ -774,6 +774,9 @@ export_pdf (gchar * filename, DenemoGUI * gui)
 void
 printpart_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
+#ifndef USE_EVINCE  
+  g_debug("This feature requires denemo to be built with evince");
+#else
   present_print_view_window();
   DenemoGUI *gui = Denemo.gui;
   if (gui->si->markstaffnum)
@@ -785,12 +788,16 @@ printpart_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
     create_pdf (TRUE, TRUE);
   else
     create_pdf (TRUE, FALSE);
-  g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (TRUE));                   
+  g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (TRUE));
+#endif
 }
 
 void
 printselection_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
+#ifndef USE_EVINCE  
+  g_debug("This feature requires denemo to be built with evince");
+#else
   if (Denemo.gui->si->markstaffnum) {
     present_print_view_window();
     create_pdf (FALSE, FALSE);
@@ -798,6 +805,7 @@ printselection_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer para
   }
   else
     warningdialog (_("No selection to print"));
+#endif
 }
 
 void
@@ -818,14 +826,31 @@ printexcerptpreview_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer
 void
 printall_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
+#ifndef USE_EVINCE  
+  g_debug("This feature requires denemo to be built with evince");
+#else
   print_from_print_view (TRUE);
+#endif
 }
 
 /* callback to print movement of score */
 void
 printmovement_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
+#ifndef USE_EVINCE  
+  g_debug("This feature requires denemo to be built with evince");
+#else
   changecount = -1;
   print_from_print_view (FALSE);
   changecount = Denemo.gui->changecount;
+#endif
+}
+
+void
+show_print_view (GtkAction * action, G_GNUC_UNUSED gpointer param){
+#ifndef USE_EVINCE  
+  g_debug("This feature requires denemo to be built with evince");
+#else
+  _show_print_view(action);
+#endif
 }

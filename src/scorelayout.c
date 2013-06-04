@@ -559,7 +559,9 @@ get_options_button (DenemoScoreblock * sb, gboolean custom)
   GtkWidget *button = gtk_button_new_with_label (_("Typeset"));
   gtk_widget_set_tooltip_text (button, _("Typeset the score using this layout to determine which movements, parts, titles, page breaks etc should be used"));
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+#ifdef USE_EVINCE  
   g_signal_connect (button, "clicked", G_CALLBACK (show_print_view), NULL);
+#endif
   if (custom)
     {
       if (sb->text_only)
@@ -2847,10 +2849,13 @@ static GtkWidget *LayoutMenu;   //a menu for the default layout and all created 
 static void
 typeset_layout (DenemoScoreblock * sb)
 {
-
+#ifndef USE_EVINCE  
+  g_debug("This feature requires denemo to be built with evince");
+#else
   set_notebook_page (sb->widget);
   g_print ("Switched to %s\n", sb->name);
   typeset_current_layout ();
+#endif
 }
 
 static void

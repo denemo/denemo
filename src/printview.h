@@ -18,7 +18,7 @@ int check_lily_version (gchar * version);
 gboolean typeset_for_script (gchar * script);
 gboolean print_typeset_pdf (void);
 void typeset_current_layout (void);
-void show_print_view (GtkAction * action, gpointer param);
+void _show_print_view (GtkAction * action);
 void install_printpreview (GtkWidget * vbox);
 void refresh_print_view (gboolean interactive);
 void printview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboolean print);
