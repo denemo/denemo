@@ -11,9 +11,6 @@
 #ifndef __DIALOGS_H__
 #define __DIALOGS_H__
 
-
-
-
 typedef enum actiontype
 { CHANGEINITIAL, INSERT }
 actiontype;

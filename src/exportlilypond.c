@@ -16,6 +16,7 @@
 #include <fcntl.h>
 #include "exportlilypond.h"
 #include "print.h"
+#include "printview.h"
 #include "scoreops.h"
 #include "objops.h"
 #include "xmldefs.h"

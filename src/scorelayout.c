@@ -22,6 +22,7 @@
 #include "exportlilypond.h"
 #include "utils.h"
 #include "print.h"
+#include "printview.h"
 #include "scoreops.h"
 #include "processstaffname.h"
 #include "view.h"
