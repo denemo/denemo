@@ -6468,6 +6468,22 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <_label>Cross Staff Arpeggio</_label>
         <_tooltip>(Print) Allow arpeggio sign to extend across staffs. Piano staffs obey this by default, other staff groups need the Span_arpeggio_engraver including in the Score context for it to work.</_tooltip>
       </row>
+      <row>
+        <action>MinimumFret</action>
+        <after>DynamicText</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/Tablature</menupath>
+        <_label>Minimum Fret Number Allowed</_label>
+        <_tooltip>In a Tab staff, restrict the frets available to larger than the given value.</_tooltip>
+      </row>
+      <row>
+        <action>RestrainOpenStrings</action>
+        <after>MinimumFret</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/Tablature</menupath>
+        <_label>Restrain Open Strings</_label>
+        <_tooltip>Restrains the use of open strings in Tablature.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
