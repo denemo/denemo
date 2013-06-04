@@ -31,25 +31,25 @@ install-data-hook:
 	cp -r $(srcdir)/templates ${DESTDIR}/$(datadir)/${PACKAGE}/
 	find $(DESTDIR)$(datadir)/${PACKAGE}/templates -type d -exec chmod 755 '{}' \;
 
-potfile:
+clean-potfile:
+	@rm -f po/POTFILES.in
+	@rm -f po/POTFILES.skip
+
+potfile:clean-potfile
 	@echo Generating POTFILES...
 	@find src -name '*.c' -o -name '*.h' | sort >> po/POTFILES.in
 	@find actions -name '*.xml' -o -name '*.scm' | sort >> po/POTFILES.in
 	@find tools -name '*.c' -o -name '*.h' | sort >> po/POTFILES.skip
 
-clean-potfile:
-	@rm -f po/POTFILES.in
-	@rm -f po/POTFILES.skip
+pot:potfile
+	@echo Generating POT...
+	$(MAKE) -C "$(srcdir)/po" "$(GETTEXT_PACKAGE).pot"
+	cd po && ln -f -s "$(GETTEXT_PACKAGE).pot" "$(GETTEXT_PACKAGE)-$(VERSION).pot"
 
 all:potfile
 check:potfile
 clean:clean-potfile
 dist-clean:clean-potfile
-
-pot:potfile
-	@echo Generating POT...
-	$(MAKE) -C "$(srcdir)/po" "$(GETTEXT_PACKAGE).pot"
-	cd po && ln -f -s "$(GETTEXT_PACKAGE).pot" "$(GETTEXT_PACKAGE)-$(VERSION).pot"
 
 update-po:
 	@echo Get po files from translationproject.org
