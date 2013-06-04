@@ -49,8 +49,11 @@ tags
 actions/mxml2ly2denemo/mxml2ly2denemo.l.scm
 *~
 src/*.cDEV
-utils/a.out
-utils/generate_commands
+
+# Tools directory
+tools/cairo_svg2path
+tools/extract_scheme
+tools/generate_source
 
 # Anjuta ignores
 Debug
