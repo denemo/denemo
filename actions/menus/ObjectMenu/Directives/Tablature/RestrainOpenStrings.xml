@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>MinimumFret</after>
+        <action>RestrainOpenStrings</action>
+        <scheme>;;;RestrainOpenStrings
+(let ((tag "RestrainOpenStrings"))
+	(StandAloneDirectiveProto (cons tag "\\set TabVoice.restrainOpenStrings = ##t ") #f "\n&#x2A02;\nDenemo\n30"))
+</scheme>
+        <_label>Restrain Open Strings</_label>
+        <_tooltip>Restrains the use of open strings in Tablature.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
