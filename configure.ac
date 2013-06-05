@@ -90,6 +90,11 @@ PKG_CHECK_MODULES(GTHREAD, gthread-2.0 >= 2.21.0)
 CFLAGS="$CFLAGS $GTHREAD_LIBS"
 LIBS="$LIBS $GTHREAD_LIBS"
 
+dnl The following is needed for glade ui files callbacks
+PKG_CHECK_MODULES(GMODULE, gmodule-2.0 >= 2.0)
+CFLAGS="$CFLAGS $GMODULE_CFLAGS"
+LIBS="$LIBS $GMODULE_LIBS"
+
 dnl The following is needed for source audio files
 PKG_CHECK_MODULES(SNDFILE, sndfile >= 1.0)
 CFLAGS="$CFLAGS $SNDFILE_LIBS"

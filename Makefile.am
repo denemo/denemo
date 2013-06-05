@@ -10,7 +10,8 @@ bin_SCRIPTS = denemo_file_update.sh
 EXTRA_DIST = actions/menus doc/DESIGN doc/GOALS @PACKAGE@.spec.in  \
 	     doc/DESIGN.lilypond actions include \
 	     guile-1.8.pc libsmf libsffile \
-	     examples templates denemo_file_update.sh $(INTLTOOL_FILES)
+	     examples templates denemo_file_update.sh $(INTLTOOL_FILES) \
+       ui
 
 MAINTAINERCLEANFILES =  Makefile.in aclocal.m4 configure config.h.in \
 	stamp-h.in \
@@ -40,6 +41,7 @@ potfile:clean-potfile
 	@echo Generating POTFILES...
 	@find src -name '*.c' -o -name '*.h' | sort >> po/POTFILES.in
 	@find actions -name '*.xml' -o -name '*.scm' | sort >> po/POTFILES.in
+	@find ui -name '*.xml' -o -name '*.glade' | sort >> po/POTFILES.in
 	@find tools -name '*.c' -o -name '*.h' | sort >> po/POTFILES.skip
 
 pot:potfile

@@ -293,10 +293,71 @@ load_keymap_dialog_response (GtkButton * button, GtkWidget * dialog)
   gtk_dialog_response (GTK_DIALOG (dialog), RESPONSE_LOADED);
 }
 
+/*******************************************************************************
+ * GLADE CALLBACKS
+ ******************************************************************************/
+
+G_MODULE_EXPORT void
+SaveButton_clicked_cb(G_GNUC_UNUSED GtkButton *button, G_GNUC_UNUSED gpointer data){
+  g_print("SaveButton\n");
+}
+
+G_MODULE_EXPORT void
+LoadDefaultButton_clicked_cb(G_GNUC_UNUSED GtkButton *button, G_GNUC_UNUSED gpointer data){
+  g_print("LoadDefaultButton\n");
+}
+
+G_MODULE_EXPORT void
+IdentifyKeboardButton_clicked_cb(G_GNUC_UNUSED GtkButton *button, G_GNUC_UNUSED gpointer data){
+  g_print("IdentifyKeboardButton\n");
+}
+
+G_MODULE_EXPORT void
+SearchEntry_changed_cb(G_GNUC_UNUSED GtkButton *button, G_GNUC_UNUSED gpointer data){
+  g_print("SearchEntry\n");
+}
+
+G_MODULE_EXPORT void
+FileComboBox_changed_cb(G_GNUC_UNUSED GtkButton *button, G_GNUC_UNUSED gpointer data){
+  g_print("FileComboBox\n");
+}
+
+G_MODULE_EXPORT void
+OpenButton_clicked_cb(G_GNUC_UNUSED GtkButton *button, G_GNUC_UNUSED gpointer data){
+  g_print("OpenButton\n");
+}
+
+G_MODULE_EXPORT void
+CommandListTreeView_move_cursor_cb(G_GNUC_UNUSED GtkButton *button, G_GNUC_UNUSED gpointer data){
+  g_print("CommandListTreeView\n");
+}
+
+G_MODULE_EXPORT void
+CategoryTreeView_move_cursor_cb(G_GNUC_UNUSED GtkButton *button, G_GNUC_UNUSED gpointer data){
+  g_print("CategoryTreeView\n");
+}
+
 
 void
 configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
 {
+  GError     *error = NULL;
+  GtkBuilder *builder = NULL;
+  GtkWidget  *window = NULL;
+
+  builder = gtk_builder_new();
+  if( !gtk_builder_add_from_file( builder, "ui/command_manager.glade", &error ) )
+  {
+      g_warning( "%s", error->message );
+      return;
+  }
+
+  window = GTK_WIDGET( gtk_builder_get_object( builder, "CommandManagerWindow" ) );
+  gtk_builder_connect_signals( builder, NULL );
+  g_object_unref( G_OBJECT( builder ) );
+  gtk_widget_show( window );
+  
+  /*
   GtkWidget *dialog;
   GtkWidget *frame;
   GtkWidget *vbox, *outer_hbox;
@@ -388,10 +449,10 @@ configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
 
   gtk_table_attach (GTK_TABLE (table), binding_view, 3, 6, 0, 5, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (GTK_FILL), 0, 0);
 
-/*   addbutton = gtk_button_new_from_stock (GTK_STOCK_ADD); */
-/*   gtk_table_attach (GTK_TABLE (table), addbutton, 3, 4, 5, 6, */
-/* 		    (GtkAttachOptions) (GTK_FILL), */
-/* 		    (GtkAttachOptions) (0), 0, 0); */
+//   addbutton = gtk_button_new_from_stock (GTK_STOCK_ADD); 
+//   gtk_table_attach (GTK_TABLE (table), addbutton, 3, 4, 5, 6, 
+// 		    (GtkAttachOptions) (GTK_FILL), 
+// 		    (GtkAttachOptions) (0), 0, 0); 
 
   delbutton = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
   //gtk_widget_set_sensitive (delbutton, FALSE);
@@ -527,10 +588,11 @@ configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
       // test for if load has been performed i.e. finished, if so
       // configure_keyboard_dialog_init_idx (action, command_idx);
     }
+*/
 }
 
 void
-configure_keyboard_dialog (GtkAction * action, DenemoGUI * gui)
+configure_keyboard_dialog (GtkAction * action, G_GNUC_UNUSED DenemoGUI * gui)
 {
   configure_keyboard_dialog_init_idx (action, -1);
 }
