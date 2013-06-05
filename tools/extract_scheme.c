@@ -17,17 +17,12 @@
 //      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //      MA 02110-1301, USA.
 
-//gcc extract_scheme.c -o extract_scheme -pthread -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/gio-unix-2.0/ -I/usr/include/pixman-1 -I/usr/include/freetype2 -I/usr/include/libpng12 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/libxml2 -lxml2 -lglib-2.0 -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lpangoft2-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lcairo -lgio-2.0 -lpango-1.0 -lfreetype -lfontconfig -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lrt -lglib-2.0
-
-//pkg-config --cflags glib-2.0
-//pkg-config --libs glib-2.0
-//pkg-config --libs libxml-2.0
-//pkg-config --cflags libxml-2.0
 #include <stdio.h>
 #include <glib.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <string.h>
+
 static void
 extract_scheme (xmlDocPtr doc, xmlNodePtr cur, gchar * filename)
 {
@@ -36,7 +31,7 @@ extract_scheme (xmlDocPtr doc, xmlNodePtr cur, gchar * filename)
     {
       if (0 == xmlStrcmp (cur->name, (const xmlChar *) "scheme"))
         {
-          gchar *scheme = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+          gchar *scheme = (gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
           if (scheme && *scheme)
             {
               scheme = g_strdup_printf (";;; Warning!!! This file is derived from those in actions/menus/... do not edit here\n%s", scheme);
