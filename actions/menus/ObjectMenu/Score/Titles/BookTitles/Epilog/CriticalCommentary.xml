@@ -22,8 +22,11 @@
     (let loop ((count 0))
       (if (&lt; count (length thelist))
 	(begin
-	  (set! ret (string-append ret "\n\\markup { \\wordwrap-string #\"" (number-&gt;string (+ 1 count)) ". \""
-	    (list-ref thelist count) "}\n"))
+		(if (= count 0)
+			 (set! ret (string-append ret " \\markup { \\vspace #1 }\n\\markup {\"" (number-&gt;string (+ 1 count)) ". \"}"
+	    			(list-ref thelist count) "\n"))
+	  		(set! ret (string-append ret " \\markup { \\vspace #0.5 }\n\\markup { \"" (number-&gt;string (+ 1 count)) ". \"}"
+	    			(list-ref thelist count) "\n")))
 	  (loop (+ 1 count)))))
    ret)
    (define thecomments '())
@@ -44,7 +47,12 @@
 	    (begin
 	      (set! ok #t)
 	      (set! thecomment (d-DirectiveGet-standalone-postfix tag))
-	      (set! thecomments (cons* (string-append "\\wordwrap-string #\"At m" movement-number " v" (number-&gt;string voice) " b" measure-number ": \"" thecomment) thecomments))))
+	      (if (equal? (string-ref thecomment 0) #\\)
+	      		(begin 
+	      			(set! thecomment (substring thecomment 19))
+	      			(set! thecomment (string-drop-right thecomment 1))))
+	      	
+	      (set! thecomments (cons* (string-append "\\markup { \\hspace #1  \\wordwrap-string #\"   At m" movement-number " v" (number-&gt;string voice) " b" measure-number ":  " thecomment "\"}\n") thecomments))))
 	    (if (NextDirectiveOfTagInMeasure tag)
 	      (loop)))	     
 	(if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
@@ -67,7 +75,7 @@
 		(d-LilyPondInclude "book-titling.ily")
 		(d-LilyPondInclude "simplified-book-titling.ily")
 		(d-DirectivePut-score-override "CriticalCommentary" DENEMO_OVERRIDE_AFFIX)
-		(d-DirectivePut-score-postfix "CriticalCommentary" (string-append "\\pageBreak\n\\titledPiece \\markup \"" (scheme-escape Title) "\"\n\\markup { \\fill-line {\\postscript #\"-12 3 moveto 24 0 rlineto stroke\"}}\n\\markup {\\italic \\wordwrap-string #\"" (scheme-escape Prolog) "\"}\n"  (format-commentary (reverse thecomments)))))
+		(d-DirectivePut-score-postfix "CriticalCommentary" (string-append "\\pageBreak\n\\titledPiece \\markup \"" (scheme-escape Title) "\"\n\\markup { \\vspace #0.8 \\fill-line {\\postscript #\"-16 3 moveto 24 0 rlineto stroke\"}}\n\\markup {\\italic \\wordwrap-string #\"" (scheme-escape Prolog) "\" \\vspace #1 }\n"  (format-commentary (reverse thecomments)))))
 	      (begin
 		(d-SetSaved #f) 
 		(d-LilyPondInclude "book-titling.ily")
