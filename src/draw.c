@@ -716,7 +716,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoGUI * gui, struct 
       if (cr && !(thestaff->voicecontrol & DENEMO_SECONDARY))
         {
           if (si->leftmeasurenum == 1)
-            draw_timesig (cr, x, y, itp->time1, itp->time2, thestaff->leftmost_timesig);
+            draw_timesig (cr, x + 5, y, itp->time1, itp->time2, thestaff->leftmost_timesig);
           else
             {
               guint width = gdk_pixbuf_get_width (GDK_PIXBUF (StaffGoBack));
@@ -1143,6 +1143,12 @@ draw_score (cairo_t * cr)
                 gdk_cairo_set_source_pixbuf (cr, GDK_PIXBUF (StaffDirectivesPixbuf), 0, y);
                 cairo_rectangle (cr, 0, y, width, height);
                 cairo_fill (cr);
+
+                cairo_set_source_rgb (cr, 0, 0, 0);
+                cairo_rectangle (cr, 0, y, width, height);
+                cairo_stroke (cr);
+
+ 
                 cairo_restore (cr);
                 //gdk_draw_pixbuf(Denemo.pixmap, NULL, StaffDirectivesPixbuf,  0,0, 0,y, width, height, GDK_RGB_DITHER_NONE,0,0/*staff edit*/);
               }
@@ -1155,6 +1161,11 @@ draw_score (cairo_t * cr)
                 gdk_cairo_set_source_pixbuf (cr, GDK_PIXBUF (StaffDirectivesPixbuf), 0, y + STAFF_HEIGHT / 2);
                 cairo_rectangle (cr, 0, y + STAFF_HEIGHT / 2, width, height);
                 cairo_fill (cr);
+
+                cairo_set_source_rgb (cr, 0, 0, 0);
+                cairo_rectangle (cr, 0, y + STAFF_HEIGHT / 2, width, height);
+                cairo_stroke (cr);
+                
                 cairo_restore (cr);
                 //gdk_draw_pixbuf(Denemo.pixmap, NULL, StaffDirectivesPixbuf,  0,0, 0,y + STAFF_HEIGHT/2, width, height, GDK_RGB_DITHER_NONE,0,0/*staff edit*/);
               }
@@ -1178,9 +1189,21 @@ draw_score (cairo_t * cr)
                 cairo_set_source_rgb (cr, 0.5, 0.5, 1.0);
                 cairo_rectangle (cr, KEY_MARGIN - cmajor, y, key + 2 * cmajor, STAFF_HEIGHT / 2);       /*keysig sharpen edit */
                 cairo_fill (cr);
+                cairo_set_source_rgb (cr, 0, 0, 1);
+                cairo_set_line_width (cr, 3);
+                cairo_rectangle (cr, KEY_MARGIN - cmajor, y, key + 2 * cmajor, STAFF_HEIGHT / 2);      
+                cairo_stroke (cr);
+
+                
                 cairo_set_source_rgb (cr, 1, 0.5, 0.5);
                 cairo_rectangle (cr, KEY_MARGIN - cmajor, y + STAFF_HEIGHT / 2, key + 2 * cmajor, STAFF_HEIGHT / 2);    /*keysig flatten edit */
                 cairo_fill (cr);
+                cairo_set_source_rgb (cr, 1, 0, 0);
+                cairo_set_line_width (cr, 3);
+                cairo_rectangle (cr, KEY_MARGIN - cmajor, y + STAFF_HEIGHT / 2, key + 2 * cmajor, STAFF_HEIGHT / 2);    
+                cairo_stroke (cr);
+
+                
 
                 cairo_restore (cr);
               }
