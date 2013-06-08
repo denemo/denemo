@@ -719,12 +719,14 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
           return TRUE;
         }
     }
-  /* Redraw to show new cursor position, note a real draw is needed because of side effects on display */
-  //gtk_widget_draw (Denemo.scorearea, NULL);
-  gtk_widget_queue_draw (Denemo.scorearea);
-  //draw_score(NULL);
   set_cursor_for (event->state | (left ? GDK_BUTTON1_MASK : GDK_BUTTON3_MASK));
-  displayhelper(Denemo.gui);//this is needed to refresh cached values such as the prevailing time signature, before the command is invoked
+
+
+
+  
+  //displayhelper(Denemo.gui);
+  draw_score(NULL);//this is needed to refresh cached values such as the prevailing time signature, before the command is invoked
+
   perform_command (event->state | (left ? GDK_BUTTON1_MASK : GDK_BUTTON3_MASK), GESTURE_PRESS, left);
 
   return TRUE;
@@ -757,6 +759,8 @@ scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
     lh_down = FALSE;
   selecting = FALSE;
   set_cursor_for (event->state & DENEMO_MODIFIER_MASK);
+  set_cursor_y_from_click (gui, event->y);
+  gtk_widget_queue_draw(Denemo.scorearea);
   perform_command (event->state, GESTURE_RELEASE, left);
 
   return TRUE;
@@ -797,8 +801,11 @@ scorearea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
             KeyStrokeShow (_("Unshifted + Mouse Wheel Up"), command_idx, TRUE);
           }
           movetostaffup (&param);
-          if (!param.status)
-            warningmessage ("This is the top staff");
+          if (!param.status) {
+            DenemoStaff *thestaff = (DenemoStaff*)(Denemo.gui->si->currentstaff->data);
+            thestaff->space_above++;
+            warningmessage ("Increasing the height of the top staff");
+          }
         }
       break;
     case GDK_SCROLL_DOWN:
@@ -829,8 +836,11 @@ scorearea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
             KeyStrokeShow (_("Unshifted + Mouse Wheel Down"), command_idx, TRUE);
           }
           movetostaffdown (&param);
-          if (!param.status)
-            warningmessage ("This is the bottom staff");
+          if (!param.status) {
+            DenemoStaff *thestaff = (DenemoStaff*)(Denemo.gui->si->currentstaff->data);
+           // thestaff->space_below++; This doesn't help, because the viewport does not change.
+           // warningmessage ("Increasing the space below the bottom staff");
+          }
         }
       break;
     case GDK_SCROLL_LEFT:
