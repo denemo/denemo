@@ -242,7 +242,7 @@
 										(d-InfoDialog (_"Slur Re-shaped"))
 										(SetSlur vals)
 										(d-SetSaved #f)))))
-				
+(define GetSlurShape::WarningGiven #f)				
 (define (GetSlurShape)
 		(let ()
 			(define (get-control-point n)
@@ -251,12 +251,14 @@
 					((2) (d-InfoDialog (_"Now click second control point of the slur, the next red cross to the right"))(d-GetControlPoint 2))
 					((3) (d-InfoDialog (_"Now click third control point of the slur, the next red cross to the right"))(d-GetControlPoint 3))
 					((4) (d-InfoDialog (_"Now click last control point at the end of the slur, the last red cross to the right"))(d-GetControlPoint 4))))
-			(if (not (d-Directive-score? "ToggleCurveControl"))
-        (d-WarningDialog (_"To re-shape slurs it is better to have the control points marked.
+			(if (and (not GetSlurShape::WarningGiven) (not (d-Directive-score? "ToggleCurveControl")))
+        (begin
+          (set! GetSlurShape::WarningGiven #t)
+          (d-WarningDialog (_"To re-shape slurs it is better to have the control points marked.
 Use the right click menu to turn these on before invoking this command.
 However, as this is not working well for multiple staffs, you can do without -
 dismiss this dialog and
-simply guess at suitable points.")))
+simply guess at suitable points."))))
       
 					(begin
 						(d-InfoDialog (_"First click on the center line of the staff aligning with notehead/rest\n(Positioning will be done with respect to this height)"))
@@ -293,6 +295,7 @@ simply guess at suitable points.")))
 			((shape) (GetSlurShape)))))
 			
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(define EditTarget::WarningGiven #f)
 (define (EditTarget)
 	(let ((target (d-GetTargetInfo)) (target-type #f)(grob #f)(tag #f))	
 	(define ta-tag "TextAnnotation")
@@ -307,19 +310,21 @@ simply guess at suitable points.")))
 							
 	(define (do-center-relative-offset)
 		(let ((offset #f))
-			(if (not (d-Directive-score? "ToggleWysiwygMarks"))
-        (d-WarningDialog (_"To re-position stuff attached to notes accurately you need to have the locations of the objects marked with red dots.
-You can use the right click menu to turn these on before invoking this command. However, since this marking code is only working well for single staffs, you can go ahead without.
-To do this dismiss this dialog and guess at where the red spot is on the object.")))
+			(if (and (not EditTarget::WarningGiven) (not (d-Directive-score? "ToggleWysiwygMarks")))
         (begin
-					(d-InfoDialog (_"First click on the center line of the staff aligning with notehead/rest\n(Positioning will be done with respect to this height)"))
-					(d-GetReferencePoint)
-					(d-InfoDialog (_"Now click on the position desired for the object"))
-					(set! offset (d-GetOffset))
-					(if offset
-						(begin
-							(d-InfoDialog (_ "Re-positioned"))
-							(TweakOffset grob tag (number->string (car offset)) (number->string (cdr offset))))))))
+          (set! EditTarget::WarningGiven #t)
+          (d-WarningDialog (_"To re-position stuff attached to notes accurately you need to have the locations of the objects marked with red dots.
+You can use the right click menu to turn these on before invoking this command. However, since this marking code is only working well for single staffs, you can go ahead without.
+To do this dismiss this dialog and guess at where the red spot is on the object."))))
+
+        (d-InfoDialog (_"First click on the center line of the staff aligning with notehead/rest\n(Positioning will be done with respect to this height)"))
+        (d-GetReferencePoint)
+        (d-InfoDialog (_"Now click on the position desired for the object"))
+        (set! offset (d-GetOffset))
+        (if offset
+          (begin
+            (d-InfoDialog (_ "Re-positioned"))
+            (TweakOffset grob tag (number->string (car offset)) (number->string (cdr offset)))))))
 							
 	(define (do-direction)
 		(let ((direction #f)
