@@ -803,8 +803,11 @@ scorearea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
           movetostaffup (&param);
           if (!param.status) {
             DenemoStaff *thestaff = (DenemoStaff*)(Denemo.gui->si->currentstaff->data);
-            thestaff->space_above++;
-            warningmessage ("Increasing the height of the top staff");
+            if(thestaff->space_above < MAXEXTRASPACE)
+              {
+                thestaff->space_above++;
+                g_debug ("Increasing the height of the top staff");
+              } 
           }
         }
       break;
@@ -837,9 +840,11 @@ scorearea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
           }
           movetostaffdown (&param);
           if (!param.status) {
-            DenemoStaff *thestaff = (DenemoStaff*)(Denemo.gui->si->currentstaff->data);
-           // thestaff->space_below++; This doesn't help, because the viewport does not change.
+            warningmessage ("This is the bottom staff");
+           // DenemoStaff *thestaff = (DenemoStaff*)(Denemo.gui->si->currentstaff->data);
+           // thestaff->space_below++; //This doesn't help, because the viewport does not change.
            // warningmessage ("Increasing the space below the bottom staff");
+           //move_viewport_down(Denemo.gui);
           }
         }
       break;
