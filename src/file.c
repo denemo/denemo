@@ -952,7 +952,7 @@ file_savewrapper (GtkAction * action, DenemoScriptParam * param)
 
   if (file_save (NULL, gui))
     {
-      if (action)
+      if (action && Denemo.gui->filename && Denemo.gui->filename->len)
         {
           warningdialog ("File Save **FAILED**");
           score_status (gui, TRUE);
