@@ -314,7 +314,7 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action, DenemoContext con
   if (action == NEWVOICE)
     g_string_sprintf (thestaffstruct->denemo_name, _("poly voice %d"), numstaffs + 1);
   else if (action == INITIAL)
-    g_string_sprintf (thestaffstruct->denemo_name, _("unnamed"));
+    g_string_sprintf (thestaffstruct->denemo_name, _("Unnamed"));
   else
     g_string_sprintf (thestaffstruct->denemo_name, _("voice %d"), numstaffs + 1);
   set_lily_name (thestaffstruct->denemo_name, thestaffstruct->lily_name);
