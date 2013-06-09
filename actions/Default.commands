@@ -2750,14 +2750,14 @@ for second and subsequent systems</_tooltip>
       <row>
         <action>Diminish</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests</menupath>
+        <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
         <_label>Diminish</_label>
         <_tooltip>Diminishs the note/chord/rest. Quarter Note becomes Eight Note. </_tooltip>
       </row>
       <row>
         <action>Augment</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests</menupath>
+        <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
         <_label>Augment</_label>
         <_tooltip>Augments the current Note/Chord/Rest. Quarter Note becomes Half Note.</_tooltip>
       </row>
@@ -3486,14 +3486,14 @@ First it removes notes until just a non-printing rest remains, then deletes that
       <row>
         <action>DuplicateChord</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests</menupath>
+        <menupath>/ObjectMenu/NotesRests/InsertNote</menupath>
         <_label>Duplicate Note/Chord</_label>
         <_tooltip>Duplicate a note or chord. Not for rests.</_tooltip>
       </row>
       <row>
         <action>SplitChord</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests</menupath>
+        <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
         <_label>Split Note/Chord</_label>
         <_tooltip>Split a chord into a specific amount of smaller notes while preserving original duration, generating tuplets if necessary. Not for rests.</_tooltip>
       </row>
@@ -4477,7 +4477,7 @@ First it removes notes until just a non-printing rest remains, then deletes that
         <action>JoinChords</action>
         <after>SplitChord</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests</menupath>
+        <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
         <_label>Join music objects</_label>
         <_tooltip>Joins all notes, chords and rests in the selection and inserts a new, longer note instead. May create tied notes. Uses the cursor position as pitch.</_tooltip>
       </row>
@@ -4722,7 +4722,7 @@ First it removes notes until just a non-printing rest remains, then deletes that
         <action>JoinChordsToMergedChord</action>
         <after>JoinChords</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests</menupath>
+        <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
         <_label>Join music objects to new chord</_label>
         <_tooltip>Joins all notes, chords and rests in the selection and inserts all selected notes as chord. May create tied notes.</_tooltip>
       </row>
