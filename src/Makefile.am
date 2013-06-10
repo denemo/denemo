@@ -40,7 +40,7 @@ denemo_SOURCES = denemo_types.c \
 	bookmarks.c bookmarks.h \
 	external.h sourceaudio.h audiofile.h scorelayout.h fakechord.h \
 	parseinstruments.c parseinstruments.h keyboard.c \
-	pitchentry.c pitchrecog.c pitchentry.h audio.h \
+	pitchentry.c pitchrecog.c pitchrecog.h pitchentry.h audio.h \
 	drawlilydir.c lilydirectives.h lilydirectives.c displayanimation.c displayanimation.h keysigdialog.h \
 	generated/callbacks.h generated/entries.h \
 	generated/scheme_cb.h generated/scheme.h generated/register_commands.h \
