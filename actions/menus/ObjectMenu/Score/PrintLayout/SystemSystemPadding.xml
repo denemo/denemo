@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ScoreIndent</after>
+        <action>SystemSystemPadding</action>
+        <scheme>;;;SystemSystemPadding
+(let ((tag "SystemSystemPadding") (value #f))
+(define (SystemSystemPadding::set value)
+	(d-DirectivePut-paper-display tag value)
+	(d-DirectivePut-paper-postfix tag (string-append "
+system-system-spacing #'padding = #" value "\n")))
+(if (or (not SystemSystemPadding::params) (equal? SystemSystemPadding::params "edit"))
+	(begin
+		(set! SystemSystemPadding::params #f)
+		(set! value (d-DirectiveGet-paper-display tag))))
+(if SystemSystemPadding::params
+	(begin
+		(SystemSystemPadding::set (number-&gt;string  SystemSystemPadding::params)))
+  (begin
+    (if (not value)
+      (set! value "1.2"))
+		(set! value (d-GetUserInput (_ "Padding Between Systems") (_ "Give extra padding (1=no extra space, staff units)") value))))
+(disp "value is " value "\n")
+(if (and (string? value) (string-&gt;number value))
+		 (SystemSystemPadding::set  value)))	
+(d-SetSaved #f)
+</scheme>
+        <_label>System to System Padding</_label>
+        <_tooltip>Allows control over the padding between successive systems down the page. (A system is all the staffs representing the music at one time, sometimes called a "line" of music).</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
