@@ -44,7 +44,10 @@ extern "C" {
 #define DENEMO_INITIAL_MEASURE_WIDTH 160
 #define DENEMO_INITIAL_STAFF_HEIGHT 100
 
-#define DENEMO_FILE_SUFFIX ".denemo"
+#define DENEMO_FILE_SUFFIX  ".denemo"
+#define XML_EXT             ".xml"
+#define SCM_EXT             ".scm"
+#define LILYPOND_EXT        ".ly"
 
 #define DENEMO_NO_COMMAND (-1) /* command id for no command */
 

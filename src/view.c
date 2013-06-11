@@ -8080,7 +8080,7 @@ instantiate_script (GtkAction * action)
 {
   gchar *menupath = (gchar *) g_object_get_data (G_OBJECT (action), "menupath");
   const gchar *basename = gtk_action_get_name (action);
-  gchar *name = g_strconcat (basename, ".xml", NULL);
+  gchar *name = g_strconcat (basename, XML_EXT, NULL);
   gchar *path = g_build_filename (locatedotdenemo (), "actions", "menus", menupath, NULL);
   gchar *filename = g_build_filename (path, name, NULL);
   //  g_print("Filename %s\n", filename);
@@ -8311,7 +8311,7 @@ insertScript (GtkWidget * widget, gchar * insertion_point)
 
   myscheme = getSchemeText ();
 
-  gchar *myfilename = g_strconcat (myname, ".xml", NULL);
+  gchar *myfilename = g_strconcat (myname, XML_EXT, NULL);
   g_print ("The filename built is %s from %s", myfilename, myposition);
   gchar *filename = g_build_filename (locatedotdenemo (), "actions", "menus", myposition, myfilename, NULL);
   g_free (myfilename);
@@ -8581,7 +8581,7 @@ saveMenuItem (GtkWidget * widget, GtkAction * action)
   gint idx = lookup_command_from_name (Denemo.map, name);
   gchar *tooltip = (gchar *) lookup_tooltip_from_idx (Denemo.map, idx);
   gchar *label = (gchar *) lookup_label_from_idx (Denemo.map, idx);
-  gchar *fullname = g_strconcat (name, ".xml", NULL);
+  gchar *fullname = g_strconcat (name, XML_EXT, NULL);
 
   gchar *filename = g_build_filename (locatedotdenemo (), "actions", "menus", menupath, fullname,
                                       NULL);
