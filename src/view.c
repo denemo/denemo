@@ -8321,7 +8321,8 @@ insertScript (GtkWidget * widget, gchar * insertion_point)
       g_mkdir_with_parents (dirpath, 0770);
       g_free (dirpath);
       //g_file_set_contents(filename, text, -1, NULL);
-      save_script_as_xml (filename, myname, myscheme, mylabel, mytooltip, idx < 0 ? NULL : after);
+      save_command_metadata (filename, myname, mylabel, mytooltip, idx < 0 ? NULL : after);
+      save_command_data(filename, myscheme);
       load_xml_keymap (filename, TRUE);
       if (confirm (_("New Command Added"), _("Do you want to save this with your default commands?")))
         save_accels ();
@@ -8592,8 +8593,9 @@ saveMenuItem (GtkWidget * widget, GtkAction * action)
       gchar *dirpath = g_path_get_dirname (filename);
       g_mkdir_with_parents (dirpath, 0770);
       g_free (dirpath);
-      save_script_as_xml (filename, name, scheme, label, tooltip, after);
-      g_object_set_data (G_OBJECT (action), "scheme", (gpointer) "");   //
+      save_command_metadata (filename, name, label, tooltip, after);
+      save_command_data(filename, scheme);
+      g_object_set_data (G_OBJECT (action), "scheme", (gpointer) "");
       instantiate_script (action);
     }
   else

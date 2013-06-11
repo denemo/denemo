@@ -24,7 +24,8 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
           else
             {
               command.name = (gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-              //We allow multiple menupaths for a given action, all are added to the gtk_ui when this command is processed after the tooltip node. This is very bad xml, as the action should have all the others as children, and not depend on the order.FIXME
+              // We allow multiple menupaths for a given action, all are added to the gtk_ui when this command is processed after the tooltip node. 
+              // This is very bad xml, as the action should have all the others as children, and not depend on the order.FIXME
               menupaths = NULL;
             }
         }
@@ -57,7 +58,6 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
     }
   create_command(is_script, (gchar*) scheme, (gchar*) after, (gchar*) menupath, fallback, menupaths, merge, &command);
 }
-
 
 static void
 parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
@@ -142,7 +142,6 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
                 }
             }
         }
-
     }
 }
 
@@ -178,7 +177,6 @@ parseCursorBinding (xmlDocPtr doc, xmlNodePtr cur)
     }
 }
 
-
 static void
 parseCursors (xmlDocPtr doc, xmlNodePtr cur)
 {
@@ -190,8 +188,6 @@ parseCursors (xmlDocPtr doc, xmlNodePtr cur)
         }
     }
 }
-
-
 
 static void
 parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menupath, gint merge)
@@ -251,7 +247,6 @@ load_xml_keymap (gchar * filename, gboolean interactive)
 {
   gint ret = -1;
   xmlDocPtr doc;
-  //xmlNsPtr ns;
   xmlNodePtr rootElem;
   if (filename == NULL)
     return ret;
@@ -293,7 +288,6 @@ load_xml_keymap (gchar * filename, gboolean interactive)
       g_print ("RootElem %s\n", rootElem->name);
 #endif
 
-
       parseKeymap (doc, rootElem, Denemo.map, menupath, interactive);
 
       if (Denemo.last_merged_command)
@@ -310,7 +304,8 @@ load_xml_keymap (gchar * filename, gboolean interactive)
 
   xmlFreeDoc (doc);
 
-  {                             //if this is a new-style .commands file, we need to load the keybindings separately
+  {
+    //if this is a new-style .commands file, we need to load the keybindings separately
     gchar *name = g_strdup (filename);
     gchar *ext = remove_extension (name);
     if (ext && !strcmp (ext, "commands"))
@@ -382,7 +377,6 @@ load_xml_keybindings (gchar * filename)
   return ret;
 }
 
-
 static void
 write_xml_keybinding_info (gchar * kb_name, xmlNodePtr node)
 {
@@ -418,7 +412,6 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
   keymap *the_keymap = Denemo.map;
   gint i, ret = -1;
   xmlDocPtr doc;
-  //xmlNsPtr ns;
   xmlNodePtr parent, child;
 
   doc = xmlNewDoc ((xmlChar *) "1.0");
@@ -439,8 +432,6 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
 
   for (i = 0; i < keymap_size (the_keymap); i++)
     {
-
-
       gpointer action = (gpointer) lookup_action_from_idx (the_keymap, i);
       gchar *scheme = action ? g_object_get_data (action, "scheme") : NULL;
       gchar *after = action ? g_object_get_data (action, "after") : NULL;
@@ -661,13 +652,10 @@ parse_paths (gchar * filename, DenemoGUI * gui)
   return ret;
 }
 
-
-
 gint
-save_script_as_xml (gchar * filename, gchar * myname, gchar * myscheme, gchar * mylabel, gchar * mytooltip, gchar * after)
+save_command_metadata (gchar * filename, gchar * myname, gchar * mylabel, gchar * mytooltip, gchar * after)
 {
   xmlDocPtr doc;
-  //xmlNsPtr ns;
   xmlNodePtr parent, child;
 
   doc = xmlNewDoc ((xmlChar *) "1.0");
@@ -685,14 +673,57 @@ save_script_as_xml (gchar * filename, gchar * myname, gchar * myscheme, gchar * 
 
   xmlNewTextChild (child, NULL, COMMANDXML_TAG_ACTION, (xmlChar *) myname);
 
-  xmlNewTextChild (child, NULL, COMMANDXML_TAG_SCHEME, (xmlChar *) myscheme);
-
   xmlNewTextChild (child, NULL, COMMANDXML_TAG_LABEL, (xmlChar *) mylabel);
 
-
   xmlNewTextChild (child, NULL, COMMANDXML_TAG_TOOLTIP, (xmlChar *) mytooltip);
-  xmlSaveFormatFile (filename, doc, 1);
 
+  xmlSaveFormatFile (filename, doc, 1);
+  xmlFreeDoc (doc);
+  return 0;
+}
+
+gint
+save_command_data (gchar * filename, gchar * myscheme)
+{
+  xmlDocPtr doc;
+  xmlNodePtr rootElem, cur;
+
+  doc = xmlParseFile (filename);
+  if (doc == NULL){
+    g_print ("Could not read XML file %s", filename);
+    return -1;
+  }
+
+  rootElem = xmlDocGetRootElement (doc);
+  if (rootElem == NULL){
+    g_print ("Empty Document\n");
+    xmlFreeDoc (doc);
+    return -1;
+  }
+
+  if (xmlStrcmp (rootElem->name, (const xmlChar *) "Denemo"))
+  {
+    g_print ("Document has wrong type\n");
+    xmlFreeDoc (doc);
+    return -1;
+  }
+
+  for(cur = rootElem->xmlChildrenNode; cur; cur = cur->next)
+    if(0 == xmlStrcmp (cur->name, COMMANDXML_TAG_MERGE))
+      break;
+
+  for(cur = cur->xmlChildrenNode; cur; cur = cur->next)
+    if(0 == xmlStrcmp (cur->name, COMMANDXML_TAG_MAP))
+      break;
+
+  for(cur = cur->xmlChildrenNode; cur; cur = cur->next)
+    if(0 == xmlStrcmp (cur->name, COMMANDXML_TAG_ROW))
+      break;
+
+  xmlNewTextChild (cur, NULL, COMMANDXML_TAG_SCHEME, (xmlChar*) myscheme);
+
+  xmlKeepBlanksDefault(0);
+  xmlSaveFormatFile (filename, doc, 1);
   xmlFreeDoc (doc);
   return 0;
 }
