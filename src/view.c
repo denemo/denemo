@@ -8080,7 +8080,7 @@ instantiate_script (GtkAction * action)
 {
   gchar *menupath = (gchar *) g_object_get_data (G_OBJECT (action), "menupath");
   const gchar *basename = gtk_action_get_name (action);
-  gchar *name = g_strconcat (basename, ".xml", NULL);
+  gchar *name = g_strconcat (basename, XML_EXT, NULL);
   gchar *path = g_build_filename (locatedotdenemo (), "actions", "menus", menupath, NULL);
   gchar *filename = g_build_filename (path, name, NULL);
   //  g_print("Filename %s\n", filename);
@@ -8311,7 +8311,7 @@ insertScript (GtkWidget * widget, gchar * insertion_point)
 
   myscheme = getSchemeText ();
 
-  gchar *myfilename = g_strconcat (myname, ".xml", NULL);
+  gchar *myfilename = g_strconcat (myname, XML_EXT, NULL);
   g_print ("The filename built is %s from %s", myfilename, myposition);
   gchar *filename = g_build_filename (locatedotdenemo (), "actions", "menus", myposition, myfilename, NULL);
   g_free (myfilename);
@@ -8321,7 +8321,8 @@ insertScript (GtkWidget * widget, gchar * insertion_point)
       g_mkdir_with_parents (dirpath, 0770);
       g_free (dirpath);
       //g_file_set_contents(filename, text, -1, NULL);
-      save_script_as_xml (filename, myname, myscheme, mylabel, mytooltip, idx < 0 ? NULL : after);
+      save_command_metadata (filename, myname, mylabel, mytooltip, idx < 0 ? NULL : after);
+      save_command_data(filename, myscheme);
       load_xml_keymap (filename, TRUE);
       if (confirm (_("New Command Added"), _("Do you want to save this with your default commands?")))
         save_accels ();
@@ -8581,7 +8582,7 @@ saveMenuItem (GtkWidget * widget, GtkAction * action)
   gint idx = lookup_command_from_name (Denemo.map, name);
   gchar *tooltip = (gchar *) lookup_tooltip_from_idx (Denemo.map, idx);
   gchar *label = (gchar *) lookup_label_from_idx (Denemo.map, idx);
-  gchar *fullname = g_strconcat (name, ".xml", NULL);
+  gchar *fullname = g_strconcat (name, XML_EXT, NULL);
 
   gchar *filename = g_build_filename (locatedotdenemo (), "actions", "menus", menupath, fullname,
                                       NULL);
@@ -8592,8 +8593,9 @@ saveMenuItem (GtkWidget * widget, GtkAction * action)
       gchar *dirpath = g_path_get_dirname (filename);
       g_mkdir_with_parents (dirpath, 0770);
       g_free (dirpath);
-      save_script_as_xml (filename, name, scheme, label, tooltip, after);
-      g_object_set_data (G_OBJECT (action), "scheme", (gpointer) "");   //
+      save_command_metadata (filename, name, label, tooltip, after);
+      save_command_data(filename, scheme);
+      g_object_set_data (G_OBJECT (action), "scheme", (gpointer) "");
       instantiate_script (action);
     }
   else

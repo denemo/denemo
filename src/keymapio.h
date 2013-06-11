@@ -14,7 +14,8 @@ gint load_xml_keymap (gchar * filename, gboolean interactive);
 gint save_xml_keymap (gchar * filename);
 gint save_xml_keybindings (gchar * filename);
 gint load_xml_keybindings (gchar * filename);
-gint save_script_as_xml (gchar * filename, gchar * myname, gchar * myscheme, gchar * mylabel, gchar * mytooltip, gchar * after);
+gint save_command_metadata (gchar * filename, gchar * myname, gchar * mylabel, gchar * mytooltip, gchar * after);
+gint save_command_data (gchar * filename, gchar * myscheme);
 
 #define COMMANDXML_TAG_ROOT          (const xmlChar *) "Denemo"
 #define COMMANDXML_TAG_MERGE         (const xmlChar *) "merge"

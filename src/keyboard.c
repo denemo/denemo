@@ -260,13 +260,13 @@ create_command(gboolean is_script,
         menupath = (gchar *) g->data;
         menupath = menupath ? menupath : (gchar *) "/MainMenu/Other";
         add_ui (menupath, after, command->name);
-
       }
     }
     else
     {
       if (fallback)
-      {           /* no path given, use fallback */
+      {           
+        /* no path given, use fallback */
         menupath = fallback;
         add_ui (menupath, after, command->name);
       }
