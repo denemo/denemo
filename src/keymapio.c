@@ -3,6 +3,12 @@
 #include "view.h"
 #include "mousing.h"
 
+static int
+get_command_type(xmlChar* type)
+{
+  return 0 == xmlStrcmp (type, COMMAND_TYPE_SCHEME) ? COMMAND_SCHEME : COMMAND_BUILTIN;
+}
+
 static void
 parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
 {
@@ -10,11 +16,10 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
   command_row_init(&command);
   xmlChar *scheme = NULL, *after = NULL, *type = NULL;
   GList *menupaths = NULL;
-  gboolean is_script = FALSE;
 
   type = xmlGetProp(cur, COMMANDXML_TAG_TYPE);
   if(type && 0 == xmlStrcmp (type, COMMAND_TYPE_SCHEME))
-    is_script = TRUE;
+    command.script_type = get_command_type(type);
   xmlFree(type);
 
   for (cur = cur->xmlChildrenNode; cur; cur = cur->next)
@@ -58,7 +63,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
           command.tooltip = (gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
         }
     }
-  create_command(is_script, (gchar*) scheme, (gchar*) after, fallback, menupaths, merge, &command);
+  create_command((gchar*) scheme, (gchar*) after, fallback, menupaths, merge, &command);
 }
 
 static void

@@ -219,8 +219,7 @@ add_ui (gchar * menupath, gchar * after, gchar * name)
 }
 
 void
-create_command(gboolean is_script,
-               gchar* scheme,
+create_command(gchar* scheme,
                gchar* after,
                gchar* fallback,
                GList* menupaths,
@@ -228,7 +227,7 @@ create_command(gboolean is_script,
                command_row *command)
 {
   gchar* menupath = NULL;
-  if (is_script)
+  if (command->script_type == COMMAND_SCHEME)
   {
     scheme = scheme ? scheme : "";
     gboolean new_command = FALSE;
@@ -293,7 +292,7 @@ create_command(gboolean is_script,
 
     if (command->hidden)
       g_object_set_data (G_OBJECT (command->action), "deleted", (gpointer) TRUE);      //Mark hidden items as deleted on loading them
-  }                   // is_script
+  }
   
   // we are not as yet re-writing tooltips etc on builtin commands
   else if (command->hidden)
