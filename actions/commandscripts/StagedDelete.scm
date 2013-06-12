@@ -1,5 +1,7 @@
 ;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
-;;;;StagedDelete Deletes a chord one note at a time, finally ending at non-printing rest and then deleting that
+;;;;StagedDelete
+(if (Appending?)
+	(d-MoveCursorLeft))
 (if (Music?)
     (if (d-GetNonprinting)
 	;;; non-printing
@@ -13,5 +15,5 @@
 	    (d-SetNonprinting)))
 	;;; not a music object
     (d-DeleteObject))	
-
+(d-SetSaved #f)
 (d-RefreshDisplay)

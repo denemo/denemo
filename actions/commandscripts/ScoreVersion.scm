@@ -13,7 +13,7 @@
   (if current
   	(begin 
   		(d-DirectivePut-score-display tag current)
-  		;;(d-DirectivePut-score-override tag  DENEMO_OVERRIDE_GRAPHIC)
+  		(d-DirectivePut-score-override tag  DENEMO_OVERRIDE_AFFIX)
   		(d-DirectivePut-score-prefix tag  (string-append "\\markup \\teeny \"" current "\""))
   		(d-SetSaved #f))
   	(d-DirectiveDelete-score tag)))

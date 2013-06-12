@@ -1,7 +1,11 @@
 ;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
-;;;PianoStaff
+(d-SelectFirstCustomLayout);;;PianoStaff
 (let ((name #f) (del (and (None?)
 	(equal? (d-StaffProperties "query=denemo_name") "Unnamed"))))
+	(if del
+		(set! del (RadioBoxMenu
+					 (cons (_ "Replace Current Staff?")   'replace)
+					 (cons (_ "Keep Current Staff") #f))))				
 	(d-AddAfter)
 	(d-StaffProperties (_ "RH"))
 	(d-PianoStaffStart)
