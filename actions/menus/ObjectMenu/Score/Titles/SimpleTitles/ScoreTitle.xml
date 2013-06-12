@@ -8,18 +8,9 @@
         <action>ScoreTitle</action>
         <scheme>;;;ScoreTitle
 (let ((tag "ScoreTitle") (title ScoreTitle::params))
-	(define (blank-title)
-			(if (not (d-DirectiveGet-header-postfix tag))
-				(begin 
-					(d-DirectivePut-header-override tag 0) 
-					(d-DirectivePut-header-postfix tag "title = \"\""))))
 	(SetScoreHeaderField "title" title)
-	(DenemoPrintAllHeaders)		
-	(d-PushPosition)
-	(blank-title)
-	(while (d-NextMovement)
-		(blank-title))
-	(d-PopPosition))
+  (d-DirectivePut-header-postfix "SuppressTitleRepeats" "title = ##f\ninstrument = ##f\n")
+	(DenemoPrintAllHeaders))		
 		</scheme>
         <_label>Title</_label>
         <_tooltip>Prints the name given as a title centered at the start of the score.</_tooltip>

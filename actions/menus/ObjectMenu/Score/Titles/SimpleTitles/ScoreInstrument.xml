@@ -8,13 +8,10 @@
         <after/>
         <action>ScoreInstrument</action>
         <scheme>;;;ScoreInstrument
-	(if (d-PreviousMovement)
-		(d-WarningDialog "Returning to the first Movement to set this."))
-	(while (d-PreviousMovement)
-		(display "Seeking first movement"))
-        (SetHeaderField "instrument")
-        (DenemoPrintAllHeaders)
-        (d-RefreshDisplay)
+        		(SetScoreHeaderField "instrument" #f #f)
+		(DenemoPrintAllHeaders)
+		(d-SetSaved #f)
+		(d-RefreshDisplay)
         </scheme>
         <_label>Instrument</_label>
         <_tooltip>Name of the instrument, centered below the subsubtitle. Also centered at the top of pages (other than the first page).</_tooltip>
