@@ -8,13 +8,14 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
 {
   command_row command;
   command_row_init(&command);
-  xmlChar *menupath = NULL, *scheme = NULL, *after = NULL, *type = NULL;
+  xmlChar *scheme = NULL, *after = NULL, *type = NULL;
   GList *menupaths = NULL;
   gboolean is_script = FALSE;
 
   type = xmlGetProp(cur, COMMANDXML_TAG_TYPE);
   if(type && 0 == xmlStrcmp (type, COMMAND_TYPE_SCHEME))
     is_script = TRUE;
+  xmlFree(type);
 
   for (cur = cur->xmlChildrenNode; cur; cur = cur->next)
     {
@@ -42,8 +43,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_MENUPATH))
         {
-          menupath = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-          menupaths = g_list_append (menupaths, menupath);
+          menupaths = g_list_append (menupaths, xmlNodeListGetString (doc, cur->xmlChildrenNode, 1));
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_LABEL))
         {
@@ -58,7 +58,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
           command.tooltip = (gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
         }
     }
-  create_command(is_script, (gchar*) scheme, (gchar*) after, (gchar*) menupath, fallback, menupaths, merge, &command);
+  create_command(is_script, (gchar*) scheme, (gchar*) after, fallback, menupaths, merge, &command);
 }
 
 static void
@@ -232,7 +232,6 @@ parseKeymap (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menupat
         }
     }
 }
-
 
 /* 
  * load a command from filename. 

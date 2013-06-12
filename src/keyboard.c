@@ -222,12 +222,12 @@ void
 create_command(gboolean is_script,
                gchar* scheme,
                gchar* after,
-               gchar* menupath,
                gchar* fallback,
                GList* menupaths,
                gint merge,
                command_row *command)
 {
+  gchar* menupath = NULL;
   if (is_script)
   {
     scheme = scheme ? scheme : "";
@@ -252,9 +252,10 @@ create_command(gboolean is_script,
       /* create a scheme function to call this script */
       create_scheme_function_for_script (command->name);
     }
-    if (menupath)
+
+    if(g_list_length(menupaths) > 0)
     {
-      GList *g;
+      GList *g = NULL;
       for (g = menupaths; g; g = g->next)
       {
         menupath = (gchar *) g->data;
@@ -262,15 +263,13 @@ create_command(gboolean is_script,
         add_ui (menupath, after, command->name);
       }
     }
-    else
-    {
-      if (fallback)
-      {           
-        /* no path given, use fallback */
-        menupath = fallback;
-        add_ui (menupath, after, command->name);
-      }
+    else if (fallback)
+    {           
+      /* no path given, use fallback */
+      menupath = fallback;
+      add_ui (menupath, after, command->name);
     }
+    
     if ((merge & DENEMO_INTERACTIVE) && (merge & DENEMO_MERGING) && new_command)
     {
       gchar *msg = g_strdup_printf ("Installed a command in the menu system\nat %s\n", menupath);
