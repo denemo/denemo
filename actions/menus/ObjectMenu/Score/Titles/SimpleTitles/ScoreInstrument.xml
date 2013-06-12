@@ -14,7 +14,7 @@
 		(d-RefreshDisplay)
         </scheme>
         <_label>Instrument</_label>
-        <_tooltip>Name of the instrument, centered below the subsubtitle. Also centered at the top of pages (other than the first page).</_tooltip>
+        <_tooltip>Name of the instrument, centered below the score title. Also centered at the top of pages (other than the first page).</_tooltip>
       </row>
     </map>
   </merge>
