@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <after>MovementNoteheadsHarmonic-black</after>
         <action>MovementNoteheadsHarmonic-mixed</action>
         <scheme>(AttachDirective "layout" "postfix" "MovementNoteheads" "\t\\context {

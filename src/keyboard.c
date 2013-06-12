@@ -4,10 +4,6 @@
 #include <stdio.h>
 #include <string.h>
 
-/* merge types for command sets */
-#define DENEMO_MERGING (1<<0)
-#define DENEMO_INTERACTIVE (1<<1)
-
 /*
  * translate a keybinding from the format used in denemo keymaprc file to the
  * format understood by gtk_accelerator_parse. The output is an allocated string
@@ -219,16 +215,13 @@ add_ui (gchar * menupath, gchar * after, gchar * name)
 }
 
 void
-create_command(gboolean is_script,
-               gchar* scheme,
+create_command(gchar* scheme,
                gchar* after,
-               gchar* menupath,
                gchar* fallback,
-               GList* menupaths,
-               gint merge,
                command_row *command)
 {
-  if (is_script)
+  gchar* menupath = NULL;
+  if (command->script_type == COMMAND_SCHEME)
   {
     scheme = scheme ? scheme : "";
     gboolean new_command = FALSE;
@@ -252,31 +245,24 @@ create_command(gboolean is_script,
       /* create a scheme function to call this script */
       create_scheme_function_for_script (command->name);
     }
-    if (menupath)
+
+    if(g_list_length(command->locations) > 0)
     {
-      GList *g;
-      for (g = menupaths; g; g = g->next)
+      GList *g = NULL;
+      for (g = command->locations; g; g = g->next)
       {
         menupath = (gchar *) g->data;
         menupath = menupath ? menupath : (gchar *) "/MainMenu/Other";
         add_ui (menupath, after, command->name);
       }
     }
-    else
-    {
-      if (fallback)
-      {           
-        /* no path given, use fallback */
-        menupath = fallback;
-        add_ui (menupath, after, command->name);
-      }
+    else if (fallback)
+    {           
+      /* no path given, use fallback */
+      menupath = fallback;
+      add_ui (menupath, after, command->name);
     }
-    if ((merge & DENEMO_INTERACTIVE) && (merge & DENEMO_MERGING) && new_command)
-    {
-      gchar *msg = g_strdup_printf ("Installed a command in the menu system\nat %s\n", menupath);
-      infodialog (msg);
-      g_free (msg);
-    }
+    
     /*FIXME free?     gchar *old_scheme = (gchar *)g_object_get_data(G_OBJECT(action), "scheme"); */
     //g_print("Setting scheme %s\n", scheme);
     g_object_set_data (G_OBJECT (command->action), "scheme", scheme);
@@ -294,7 +280,7 @@ create_command(gboolean is_script,
 
     if (command->hidden)
       g_object_set_data (G_OBJECT (command->action), "deleted", (gpointer) TRUE);      //Mark hidden items as deleted on loading them
-  }                   // is_script
+  }
   
   // we are not as yet re-writing tooltips etc on builtin commands
   else if (command->hidden)

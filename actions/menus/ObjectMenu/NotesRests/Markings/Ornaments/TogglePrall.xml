@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>TogglePrall</action>
         <scheme>;;;TogglePrall
         (ChordAnnotation "TogglePrall" "\\prall"    TogglePrall::params    LG-Prall)

@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>SetBarNumber</action>
         <scheme>(let ()
 (define result (d-GetUserInput (_ "Change Barnumber in typeset score") (_ "Please enter a number to set the current bar number. The typeset score will continue to count up from there.") "1"))

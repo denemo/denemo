@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <after>ScoreProlog</after>
         <action>SetThumbnail</action>
         <scheme>;;;ThumbnailSelection

@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <after>ToggleImmediatePlayback</after>
         <action>ConvertMidiForBass</action>
         <scheme>;;;;;;;;;DenemoConvertForBass

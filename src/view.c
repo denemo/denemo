@@ -820,18 +820,18 @@ scheme_load_command (SCM command)
   char *name;
   name = scm_to_locale_string (command);
   gchar *filename = g_build_filename (locatedotdenemo (), "actions", "menus", name, NULL);
-  ret = load_xml_keymap (filename, FALSE);
+  ret = load_xml_keymap (filename);
   if (ret == FALSE)
     {
       g_free (filename);
       filename = g_build_filename (locatedotdenemo (), "download", "actions", name, NULL);
-      ret = load_xml_keymap (filename, FALSE);
+      ret = load_xml_keymap (filename);
     }
   if (ret == FALSE)
     {
       g_free (filename);
       filename = g_build_filename (get_data_dir (), "actions", name, NULL);
-      ret = load_xml_keymap (filename, FALSE);
+      ret = load_xml_keymap (filename);
     }
   if (name)
     free (name);
@@ -1214,7 +1214,7 @@ scheme_load_commandset (SCM name)
   if (scm_is_string (name))
     {
       filename = scm_to_locale_string (name);
-      if (load_xml_keymap (filename, FALSE) == 0)
+      if (load_xml_keymap (filename) == 0)
         {
           if (filename)
             free (filename);
@@ -8084,19 +8084,19 @@ instantiate_script (GtkAction * action)
   gchar *path = g_build_filename (locatedotdenemo (), "actions", "menus", menupath, NULL);
   gchar *filename = g_build_filename (path, name, NULL);
   //  g_print("Filename %s\n", filename);
-  if (load_xml_keymap (filename, TRUE) == -1)
+  if (load_xml_keymap (filename) == -1)
     {
       g_free (filename);
       g_free (path);
       path = g_build_filename (locatedotdenemo (), "download", "actions", "menus", menupath, NULL);
       filename = g_build_filename (path, name, NULL);
-      if (load_xml_keymap (filename, TRUE) == -1)
+      if (load_xml_keymap (filename) == -1)
         {
           g_free (filename);
           g_free (path);
           path = g_build_filename (get_data_dir (), "actions", "menus", menupath, NULL);
           filename = g_build_filename (path, name, NULL);
-          if (load_xml_keymap (filename, TRUE) == -1)
+          if (load_xml_keymap (filename) == -1)
             {
               warningdialog ("Unable to load the script");
               g_free (path);
@@ -8323,7 +8323,7 @@ insertScript (GtkWidget * widget, gchar * insertion_point)
       //g_file_set_contents(filename, text, -1, NULL);
       save_command_metadata (filename, myname, mylabel, mytooltip, idx < 0 ? NULL : after);
       save_command_data(filename, myscheme);
-      load_xml_keymap (filename, TRUE);
+      load_xml_keymap (filename);
       if (confirm (_("New Command Added"), _("Do you want to save this with your default commands?")))
         save_accels ();
     }

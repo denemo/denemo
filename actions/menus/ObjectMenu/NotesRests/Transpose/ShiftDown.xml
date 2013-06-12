@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <after>ShiftUp</after>
         <action>ShiftDown</action>
         <scheme>(SingleAndSelectionSwitcher (lambda () 

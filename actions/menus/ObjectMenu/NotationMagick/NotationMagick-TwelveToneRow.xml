@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>NotationMagick-TwelveToneRow</action>
         <scheme> 
 		(NotationMagick::InsertListRandomlyLy (list 'c' 'des' 'd' 'ees' 'e' 'f' 'fis' 'g' 'aes' 'a' 'bes' 'b'))		

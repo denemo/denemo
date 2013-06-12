@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>BeamRightThree</action>
         <scheme>;;; BeamRightThree
 (BeamCount "Right" 3)</scheme>

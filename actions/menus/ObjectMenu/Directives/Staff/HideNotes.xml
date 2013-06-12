@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>HideNotes</action>
         <scheme>(StandAloneDirectiveProto (cons "HideNotes" "\\hideNotes" ))</scheme>
         <_label>(Print) Stop Drawing Notes</_label>

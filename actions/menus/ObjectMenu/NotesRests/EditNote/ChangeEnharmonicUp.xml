@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>ChangeEnharmonicUp</action>
         <scheme>;enharmonic +
 ;; This script switches through enharmonic variants of the same in the direction of higher diatonic base notes

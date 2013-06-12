@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <after>ReminderAccidental</after>
         <action>SuggestSharp</action>
         <scheme>(d-DirectivePut-chord-postfix "SuggestedAccidental" "^\\markup \\sharp")

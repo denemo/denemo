@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>BeamLeftTwo</action>
         <scheme>;;; BeamLeftTwo
 (BeamCount "Left" 2)</scheme>

@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>Beam1234</action>
         <scheme>;;;;;;;;Beam1234
 (if (d-Directive-standalone? "Beam1234")

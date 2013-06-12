@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>ToggleStopped</action>
         <scheme>;;;ToggleStopped
         (ChordAnnotation "ToggleStopped" "\\stopped"    ToggleStopped::params    LG-Stopped)

@@ -364,7 +364,14 @@ typedef struct command_row
   GtkListStore *bindings;
   gboolean hidden;
   gboolean deleted;
+  gint script_type;
+  GList* locations;
 } command_row;
+
+typedef enum{
+  COMMAND_BUILTIN,
+  COMMAND_SCHEME
+} SCRIPT_TYPE;
 
 //index of columns in the keymap command list store FIXME if you add columns you must add them in keymap_get_command_row and allocate_keymap !!!!
 enum
@@ -378,6 +385,8 @@ enum
   COL_BINDINGS,
   COL_HIDDEN,
   COL_DELETED,
+  COL_SCRIPTTYPE,
+  COL_LOCATIONS,
   N_COLUMNS
 } COMMAND_COLS;
 
@@ -401,8 +410,7 @@ typedef struct DenemoPrefs
   gint firststaff;/**< first staff to typeset relative to the cursor when not manual typset */
   gint lastmeasure;/**< last measure to typeset relative to the cursor when not manual typset */
   gint laststaff;/**< last staff to typeset relative to the cursor when not manual typset */
-  gboolean immediateplayback; /**< This options sends audio directly to synth as notes 
-				are being entered */
+  gboolean immediateplayback; /**< This options sends audio directly to synth as notes are being entered */
   gint pitchspellingchannel; /**< channel to use for feedback when entering extreme intervals via MIDI in, that may indicate an enharmonic error, 0 means no pitch spelling*/
   gint pitchspellingprogram; /**< program to set pitchspellingchannel to on startup */
   gboolean startmidiin; /**< try to start midi in on startup */

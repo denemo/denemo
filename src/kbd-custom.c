@@ -61,6 +61,8 @@ command_row_init(command_row *command)
   command->callback = NULL;
   command->action = NULL;
   command->type = KeymapEntry;
+  command->script_type = COMMAND_BUILTIN;
+  command->locations = NULL;
 }
 
 void
@@ -564,7 +566,9 @@ allocate_keymap (void)
                                              G_TYPE_POINTER,            //callback
                                              GTK_TYPE_LIST_STORE,       //bindings
                                              G_TYPE_BOOLEAN,            //hidden
-                                             G_TYPE_BOOLEAN             //deleted
+                                             G_TYPE_BOOLEAN,            //deleted
+                                             G_TYPE_INT,                //type
+                                             G_TYPE_POINTER
     );
 
   //empty index reference
@@ -619,6 +623,8 @@ void register_command_row(keymap* the_keymap, command_row* command){
                       COL_TOOLTIP, command->tooltip,
                       COL_CALLBACK, command->callback,
                       COL_BINDINGS, command->bindings,
+                      COL_SCRIPTTYPE, command->script_type,
+                      COL_LOCATIONS, command->locations,
                       -1);
   //insert the command name in the index reference
   g_hash_table_insert (the_keymap->idx_from_name, g_strdup (command->name), value);
@@ -716,6 +722,8 @@ keymap_get_command_row (keymap * the_keymap, command_row * row, guint command_id
                       COL_BINDINGS, &row->bindings,
                       COL_HIDDEN, &row->hidden,
                       COL_DELETED, &row->deleted,
+                      COL_SCRIPTTYPE, &row->script_type,
+                      COL_LOCATIONS, &row->locations,
                       -1);
   return TRUE;
 }
@@ -1599,11 +1607,9 @@ static void
 load_keymap_files (gchar * localrc, gchar * systemwide)
 {
 
-  if (localrc && (0 == load_xml_keymap (localrc, TRUE)))
+  if (localrc && (0 == load_xml_keymap (localrc)))
     return;
-  load_xml_keymap (systemwide, TRUE);
-  return;
-
+  load_xml_keymap (systemwide);
 }
 
 /**

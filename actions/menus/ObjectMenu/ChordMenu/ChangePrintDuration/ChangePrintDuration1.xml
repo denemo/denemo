@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <after>ChangePrintDuration2</after>
         <action>ChangePrintDuration1</action>
         <scheme>(ChangePrintDuration 1 0)</scheme>

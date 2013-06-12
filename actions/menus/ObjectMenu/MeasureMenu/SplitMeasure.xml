@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>SplitMeasure</action>
         <scheme>;SplitMeasure:splits a measure 
 ;leave cursor at the beginning of the new measure (after the barline)

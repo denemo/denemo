@@ -3,17 +3,25 @@
 #include "view.h"
 #include "mousing.h"
 
+static int
+get_command_type(xmlChar* type)
+{
+  return 0 == xmlStrcmp (type, COMMAND_TYPE_SCHEME) ? COMMAND_SCHEME : COMMAND_BUILTIN;
+}
+
 static void
-parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
+parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
 {
   command_row command;
   command_row_init(&command);
-  xmlChar *menupath = NULL, *scheme = NULL, *after = NULL;
-  GList *menupaths = NULL;
-  cur = cur->xmlChildrenNode;
-  gboolean is_script = FALSE;
+  xmlChar *scheme = NULL, *after = NULL, *type = NULL;
 
-  for (; cur; cur = cur->next)
+  type = xmlGetProp(cur, COMMANDXML_TAG_TYPE);
+  if(type && 0 == xmlStrcmp (type, COMMAND_TYPE_SCHEME))
+    command.script_type = get_command_type(type);
+  xmlFree(type);
+
+  for (cur = cur->xmlChildrenNode; cur; cur = cur->next)
     {
       if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_ACTION))
         {
@@ -24,15 +32,14 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
           else
             {
               command.name = (gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-              // We allow multiple menupaths for a given action, all are added to the gtk_ui when this command is processed after the tooltip node. 
+              // We allow multiple locations for a given action, all are added to the gtk_ui when this command is processed after the tooltip node. 
               // This is very bad xml, as the action should have all the others as children, and not depend on the order.FIXME
-              menupaths = NULL;
+              command.locations = NULL;
             }
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_SCHEME))
         {
           scheme = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-          is_script = TRUE;
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_HIDDEN))
         {
@@ -40,8 +47,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_MENUPATH))
         {
-          menupath = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-          menupaths = g_list_append (menupaths, menupath);
+          command.locations = g_list_append (command.locations, xmlNodeListGetString (doc, cur->xmlChildrenNode, 1));
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_LABEL))
         {
@@ -56,7 +62,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
           command.tooltip = (gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
         }
     }
-  create_command(is_script, (gchar*) scheme, (gchar*) after, (gchar*) menupath, fallback, menupaths, merge, &command);
+  create_command((gchar*) scheme, (gchar*) after, fallback, &command);
 }
 
 static void
@@ -190,7 +196,7 @@ parseCursors (xmlDocPtr doc, xmlNodePtr cur)
 }
 
 static void
-parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menupath, gint merge)
+parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menupath)
 {
   xmlNodePtr ncur;
 
@@ -200,7 +206,7 @@ parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menup
     {
       if ((0 == xmlStrcmp (ncur->name, COMMANDXML_TAG_ROW)))
         {
-          parseScripts (doc, ncur, menupath, merge);
+          parseScripts (doc, ncur, menupath);
         }
     }
 
@@ -220,17 +226,16 @@ parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menup
 }
 
 static void
-parseKeymap (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menupath, gint merge)
+parseKeymap (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menupath)
 {
   for (cur = cur->xmlChildrenNode; cur != NULL; cur = cur->next)
     {
       if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_MAP))
         {
-          parseCommands (doc, cur, the_keymap, menupath, merge);
+          parseCommands (doc, cur, the_keymap, menupath);
         }
     }
 }
-
 
 /* 
  * load a command from filename. 
@@ -243,7 +248,7 @@ parseKeymap (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menupat
  * negative on failure
  */
 gint
-load_xml_keymap (gchar * filename, gboolean interactive)
+load_xml_keymap (gchar * filename)
 {
   gint ret = -1;
   xmlDocPtr doc;
@@ -288,7 +293,7 @@ load_xml_keymap (gchar * filename, gboolean interactive)
       g_print ("RootElem %s\n", rootElem->name);
 #endif
 
-      parseKeymap (doc, rootElem, Denemo.map, menupath, interactive);
+      parseKeymap (doc, rootElem, Denemo.map, menupath);
 
       if (Denemo.last_merged_command)
         g_free (Denemo.last_merged_command);
@@ -453,8 +458,9 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
         xmlNewTextChild (child, NULL, COMMANDXML_TAG_HIDDEN, (xmlChar *) "true");
 
       if (scheme)
-        xmlNewTextChild (child, NULL, COMMANDXML_TAG_SCHEME,
-                         /* (xmlChar *) scheme */ (xmlChar *) "");
+          xmlNewProp(child, COMMANDXML_TAG_TYPE, COMMAND_TYPE_SCHEME);
+      else
+          xmlNewProp(child, COMMANDXML_TAG_TYPE, COMMAND_TYPE_BUILTIN);
 
       gchar *menupath = action ? g_object_get_data (action, "menupath") : NULL;
       if (menupath)
@@ -668,6 +674,8 @@ save_command_metadata (gchar * filename, gchar * myname, gchar * mylabel, gchar 
   parent = xmlNewChild (child, NULL, COMMANDXML_TAG_MAP, NULL);
 
   child = xmlNewChild (parent, NULL, COMMANDXML_TAG_ROW, NULL);
+  xmlNewProp(child, COMMANDXML_TAG_TYPE, COMMAND_TYPE_SCHEME);
+
   if (after)
     xmlNewTextChild (child, NULL, COMMANDXML_TAG_AFTER, (xmlChar *) after);
 

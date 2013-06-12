@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>OpEight</action>
         <scheme>((cdr wrap:Op8))</scheme>
         <_label>OpEight</_label>

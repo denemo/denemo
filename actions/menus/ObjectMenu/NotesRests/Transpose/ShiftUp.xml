@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>ShiftUp</action>
         <scheme>(SingleAndSelectionSwitcher (lambda () 
 	(ShiftProto ANS::CalculateDiatonicStepUp)))

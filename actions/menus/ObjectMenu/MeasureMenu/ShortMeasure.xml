@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>ShortMeasure</action>
         <scheme>(d-Upbeat "Short")</scheme>
         <_label>Short Measure</_label>

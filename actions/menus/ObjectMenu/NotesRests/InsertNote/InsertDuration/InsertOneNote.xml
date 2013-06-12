@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>InsertOneNote</action>
         <scheme>;;;InsertOneNote
 (if (and (Appending?) (d-GetNonprinting))

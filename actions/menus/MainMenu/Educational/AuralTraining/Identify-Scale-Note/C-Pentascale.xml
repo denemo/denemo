@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>C-Pentascale</action>
         <scheme>(IdentifyScaleNote::IdentifyScaleNotes (cons "C D E F G" "c' d' e' f' g'"))</scheme>
         <_label>C-Pentascale</_label>

@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <after>OpenSourceDialog</after>
         <action>OpenAudio</action>
         <scheme>(d-OpenSourceAudioFile)</scheme>

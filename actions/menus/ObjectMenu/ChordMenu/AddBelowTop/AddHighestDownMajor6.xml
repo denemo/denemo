@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <after>AddHighestDownPerfect5</after>
         <action>AddHighestDownMajor6</action>
         <scheme>(ANS::AddIntervalAsChordnoteFromHighestDown 'M6)</scheme>

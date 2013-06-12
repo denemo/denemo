@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>ZoomDialog</action>
         <scheme>(let ((scale "100"))
 	(set! scale		

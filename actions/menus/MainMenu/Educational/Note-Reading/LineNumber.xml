@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <after>LineOrSpace</after>
         <action>LineNumber</action>
         <scheme>(define LineNumber::Scale (cons "1 2 3 4 5" "e' g' b' d'' f''"))

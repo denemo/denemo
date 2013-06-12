@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>Db-Major</action>
         <scheme>(IdentifyScaleNote::IdentifyScaleNotes (cons "Db Eb F Gb Ab Bb C" "des' ees' f' ges' aes' bes' c'"))</scheme>
         <_label>Db Major</_label>

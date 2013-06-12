@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>F-sharp-Major</action>
         <scheme>(IdentifyScaleNote::IdentifyScaleNotes (cons "F# G# A# B C# D# E#" "fis' gis' ais' b' cis'' dis'' eis''"))</scheme>
         <_label>F# Major</_label>
