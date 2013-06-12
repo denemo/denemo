@@ -1,5 +1,4 @@
-echo extracting scheme scripts
-cd utils
+cd tools
 export PATH=$PATH:`pwd`
 echo $PATH
 cd ../actions/commandscripts

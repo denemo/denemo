@@ -31,23 +31,23 @@ m4/lt~obsolete.m4
 m4/intltool.m4
 missing
 mkinstalldirs
+stamp-h1
+tags
+*~
 
 # Translation directory
 po/POTFILES
 po/notexist
 po/Makefile.in.in
 po/stamp-it
-po/*.pot
 po/*.gmo
 po/POTFILES.*
+po/*-*.pot
 
+# Source files
 src/denemo
 src/lyparser.c
 src/pathconfig.h
-stamp-h1
-tags
-actions/mxml2ly2denemo/mxml2ly2denemo.l.scm
-*~
 src/*.cDEV
 
 # Tools directory

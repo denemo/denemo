@@ -28,3 +28,4 @@
 (if initial
 	(d-BookInstrumentation initial))
 (d-PopPosition))
+(d-WarningDialog "A set of custom layouts was created for this command.\nYou can continue to use these if you do not make structural changes to the layout. Otherwise, once you have finished printing from these layouts delete them so that you can alter the titles, add new staffs etc.")

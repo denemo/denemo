@@ -7,7 +7,7 @@
 		(if (d-Directive-timesig? "HideTimesig")
  			(d-DirectiveDelete-timesig "HideTimesig")
  			(begin
- 				(d-DirectivePut-timesig-prefix "HideTimesig"  (string-append  "\\once \\override " lilycontext ".TimeSignature #'stencil = ##f"  ))
+ 				(d-DirectivePut-timesig-prefix "HideTimesig"  (string-append  "\\once \\override " lilycontext ".TimeSignature #'stencil = ##f "  ))
  				(d-DirectivePut-timesig-gy "HideTimesig" -10)
  				(d-DirectivePut-timesig-graphic "HideTimesig" "\n⋂\nDenemo\n24")))
  			(d-SetSaved #f))))

@@ -4,7 +4,10 @@
 	(d-DirectivePut-paper-postfix "LimitInterSystemSpace" (string-append "
 page-limit-inter-system-space = ##t
 page-limit-inter-system-space-factor = " value)))
-
+(if (equal? LimitInterSystemSpace::params "edit")
+	(begin
+		(set! LimitInterSystemSpace::params #f)
+		(d-DirectiveDelete-paper "LimitInterSystemSpace")))
 (if LimitInterSystemSpace::params
 	(begin
 		(LimitInterSystemSpace::set (number->string LimitInterSystemSpace::params)))
