@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>BarNumbers</action>
         <scheme>(ToggleDirective "staff" "postfix" "BarNumbers" "\\context Score \\applyContext #(set-bar-number-visibility 4000)" )</scheme>
         <_label>Bar Numbers On/Off</_label>

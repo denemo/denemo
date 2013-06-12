@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>CursorToLowestNote</action>
         <scheme>(d-CursorToNote (GetLowestNote))</scheme>
         <_label>Cursor to Lowest Note</_label>

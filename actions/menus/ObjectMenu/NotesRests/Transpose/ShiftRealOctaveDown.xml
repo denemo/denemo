@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>ShiftRealOctaveDown</action>
         <scheme>;in reality this is not shift but transpose. But there are too many functions with the name transpose already...
 (SingleAndSelectionSwitcher (lambda () 

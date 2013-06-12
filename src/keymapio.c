@@ -8,12 +8,15 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
 {
   command_row command;
   command_row_init(&command);
-  xmlChar *menupath = NULL, *scheme = NULL, *after = NULL;
+  xmlChar *menupath = NULL, *scheme = NULL, *after = NULL, *type = NULL;
   GList *menupaths = NULL;
-  cur = cur->xmlChildrenNode;
   gboolean is_script = FALSE;
 
-  for (; cur; cur = cur->next)
+  type = xmlGetProp(cur, COMMANDXML_TAG_TYPE);
+  if(type && 0 == xmlStrcmp (type, COMMAND_TYPE_SCHEME))
+    is_script = TRUE;
+
+  for (cur = cur->xmlChildrenNode; cur; cur = cur->next)
     {
       if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_ACTION))
         {
@@ -32,7 +35,6 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_SCHEME))
         {
           scheme = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-          is_script = TRUE;
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_HIDDEN))
         {
@@ -453,8 +455,9 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
         xmlNewTextChild (child, NULL, COMMANDXML_TAG_HIDDEN, (xmlChar *) "true");
 
       if (scheme)
-        xmlNewTextChild (child, NULL, COMMANDXML_TAG_SCHEME,
-                         /* (xmlChar *) scheme */ (xmlChar *) "");
+          xmlNewProp(child, COMMANDXML_TAG_TYPE, COMMAND_TYPE_SCHEME);
+      else
+          xmlNewProp(child, COMMANDXML_TAG_TYPE, COMMAND_TYPE_BUILTIN);
 
       gchar *menupath = action ? g_object_get_data (action, "menupath") : NULL;
       if (menupath)
@@ -668,6 +671,8 @@ save_command_metadata (gchar * filename, gchar * myname, gchar * mylabel, gchar 
   parent = xmlNewChild (child, NULL, COMMANDXML_TAG_MAP, NULL);
 
   child = xmlNewChild (parent, NULL, COMMANDXML_TAG_ROW, NULL);
+  xmlNewProp(child, COMMANDXML_TAG_TYPE, COMMAND_TYPE_SCHEME);
+
   if (after)
     xmlNewTextChild (child, NULL, COMMANDXML_TAG_AFTER, (xmlChar *) after);
 

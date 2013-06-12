@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>VoicesDoublestroke</action>
         <scheme>(Doublestroke #f
 (cons "Voice one preset" d-VoicePreset1) ;1

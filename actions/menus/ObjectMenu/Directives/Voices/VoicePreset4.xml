@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <after>VoicePreset3</after>
         <action>VoicePreset4</action>
         <scheme>;;;VoicePreset4

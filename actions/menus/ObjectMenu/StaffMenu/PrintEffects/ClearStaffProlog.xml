@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>ClearStaffProlog</action>
         <scheme>;;clears any extras in the staff-prolog
 (d-StaffProperties "staff-prolog-insert=\n")</scheme>

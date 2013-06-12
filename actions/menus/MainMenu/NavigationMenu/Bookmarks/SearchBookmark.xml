@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>SearchBookmark</action>
         <scheme>(let ((user-input (d-GetUserInput "Find Bookmark" "What are you after? Case insensitive" "X")))
 	(define start (GetPosition))

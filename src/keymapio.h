@@ -29,8 +29,12 @@ gint save_command_data (gchar * filename, gchar * myscheme);
 #define COMMANDXML_TAG_SCHEME        (const xmlChar *) "scheme"
 #define COMMANDXML_TAG_HIDDEN        (const xmlChar *) "hidden"
 #define COMMANDXML_TAG_MENUPATH      (const xmlChar *) "menupath"
+#define COMMANDXML_TAG_TYPE          (const xmlChar *) "type"
 #define COMMANDXML_TAG_LABEL         (const xmlChar *) "_label"
 #define COMMANDXML_TAG_TOOLTIP       (const xmlChar *) "_tooltip"
+
+#define COMMAND_TYPE_SCHEME          (const xmlChar *) "scheme"
+#define COMMAND_TYPE_BUILTIN         (const xmlChar *) "builtin"
 
 #define MENUXML_TAG_MENU             (const xmlChar *) "menu"
 #define MENUXML_TAG_MENUBAR          (const xmlChar *) "menubar"

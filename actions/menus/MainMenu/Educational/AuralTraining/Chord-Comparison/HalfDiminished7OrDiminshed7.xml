@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <after>Major7Minor7OrDominant7</after>
         <action>HalfDiminished7OrDiminshed7</action>
         <scheme>

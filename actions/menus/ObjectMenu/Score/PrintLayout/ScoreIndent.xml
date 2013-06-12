@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>ScoreIndent</action>
         <scheme>;;;;;;;;;;;;;;; ScoreIndent Set indent
 (let ((amount "0.0") (current "0.0")(thematch #f))

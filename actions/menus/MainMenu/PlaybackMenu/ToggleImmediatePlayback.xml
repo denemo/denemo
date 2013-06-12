@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>ToggleImmediatePlayback</action>
         <scheme>(if DenemoPref_immediateplayback
 (d-SetPrefs "&lt;immediateplayback&gt;0&lt;/immediateplayback&gt;")

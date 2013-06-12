@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <after>VoicesDoublestroke</after>
         <action>ShiftOff</action>
         <scheme>;;;ShiftOff

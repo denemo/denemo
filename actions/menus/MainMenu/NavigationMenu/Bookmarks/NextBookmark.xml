@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>NextBookmark</action>
         <scheme>(FindNextObjectAllColumns (lambda () (d-DirectiveGet-standalone-display "RehearsalMark")))</scheme>
         <_label>Next Bookmark</_label>

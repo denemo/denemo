@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <after>ChangeLegatoPedal</after>
         <action>ChangeHold2Pedal</action>
         <scheme>(ChangeHold2Pedal::Set)</scheme>

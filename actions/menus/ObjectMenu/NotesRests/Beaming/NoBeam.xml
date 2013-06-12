@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <after>Beam1234</after>
         <action>NoBeam</action>
         <scheme>;;;NoBeam

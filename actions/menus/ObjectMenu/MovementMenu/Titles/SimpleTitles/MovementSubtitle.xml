@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>MovementSubtitle</action>
         <scheme>(SetHeaderField "subsubtitle")
 (DenemoPrintAllHeaders)

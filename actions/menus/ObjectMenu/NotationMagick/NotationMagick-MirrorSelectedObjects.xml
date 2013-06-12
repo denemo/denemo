@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <after>NotationMagick-ReverseSelectedObjects</after>
         <action>NotationMagick-MirrorSelectedObjects</action>
         <scheme>(NotationMagick::MirrorSelection (ANS::Ly2Ans (string-&gt;symbol (GetCursorNoteAsLilypond))))</scheme>

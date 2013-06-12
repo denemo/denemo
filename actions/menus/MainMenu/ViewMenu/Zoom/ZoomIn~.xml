@@ -4,10 +4,10 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>ZoomIn</action>
         <scheme>(d-Zoom (+ (d-Zoom) 0.2 ))</scheme>
-	<_tooltip>Zoom In</_tooltip>
+        <_tooltip>Zoom In</_tooltip>
         <_label>Zoom In</_label>
       </row>
     </map>

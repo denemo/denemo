@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>Chapter</action>
         <scheme>;;;Chapter
          (MovementBookTitles::Do "Chapter" "chapter" "My Heading"  (_ "Give heading or blank out to delete: "))

@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>TimbalesStyle</action>
         <scheme>;;;;;;;;;; TimbalesStyle
 (d-DirectivePut-staff-prefix "TimbalesStyle" "&lt;&lt; { \\new DrumStaff \\with {\n

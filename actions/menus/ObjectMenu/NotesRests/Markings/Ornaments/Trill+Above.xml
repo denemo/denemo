@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>Trill+Above</action>
         <scheme>(d-InsertLilyDirective "directive=^\"+\"\0display=Tr+Above")
 </scheme>

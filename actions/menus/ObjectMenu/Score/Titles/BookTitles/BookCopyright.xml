@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>BookCopyright</action>
         <scheme>;;BookCopyright
         (BookTitles::Do "Copyright" "copyright" (string-append "Copyright &#xA9; "  (if (getlogin) (getlogin) "") " " (strftime "%Y" (localtime (current-time))))  (_ "Give copyright notice or blank out to delete: "))

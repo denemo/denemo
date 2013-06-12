@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <after>GroupStaffEnd</after>
         <action>PianoStaffStart</action>
         <scheme>(AttachDirective "staff" "prefix" "ContextPianoStaff" " \\new PianoStaff &lt;&lt;\n" DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_AFFIX)</scheme>

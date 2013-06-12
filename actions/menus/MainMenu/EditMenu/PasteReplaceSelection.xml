@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <after>Paste</after>
         <action>PasteReplaceSelection</action>
         <scheme>(if (d-MarkStatus) (d-DeleteSelectionLeaveEmpty)) ;; Goes to the beginning of the selection afterwards

@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>NormalSizeNotehead</action>
         <scheme>(d-InsertLilyDirective "directive=\\normalsize\0display=NormalSize")
 </scheme>

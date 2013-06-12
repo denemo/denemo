@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>BookComposer</action>
         <scheme>;;BookComposer
         (BookTitles::Do "Composer" "composer" "My Composer"  (_ "Give name for composer or blank out to delete: "))

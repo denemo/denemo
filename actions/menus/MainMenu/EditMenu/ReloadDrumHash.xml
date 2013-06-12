@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>ReloadDrumHash</action>
         <scheme>;;;;Prepares a Hash Table from a .denemo file where a user can put his own drum notation. 
 ;;;;Format: Each drum instrument has its own staff. Two notes in each: First note/value=GM-note, second user-note

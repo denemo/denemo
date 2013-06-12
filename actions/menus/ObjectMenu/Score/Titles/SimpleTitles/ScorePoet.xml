@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <action>ScorePoet</action>
         <scheme>	(if (d-PreviousMovement)
 		(d-WarningDialog "Returning to the first Movement to set the Poet"))
