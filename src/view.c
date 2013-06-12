@@ -8083,9 +8083,7 @@ instantiate_script (GtkAction * action)
   gchar *name = g_strconcat (basename, XML_EXT, NULL);
   gchar *path = g_build_filename (locatedotdenemo (), "actions", "menus", menupath, NULL);
   gchar *filename = g_build_filename (path, name, NULL);
-  gchar* scheme = NULL;
   //  g_print("Filename %s\n", filename);
-  
   if (load_xml_keymap (filename) == -1)
     {
       g_free (filename);
@@ -8116,8 +8114,7 @@ instantiate_script (GtkAction * action)
   g_free (path);
   g_free (name);
   //g_print("Command loaded is following script:\n%s\n;;; end of loaded command script.\n", (gchar*)g_object_get_data(G_OBJECT(action), "scheme"));
-  scheme = (gchar *) g_object_get_data (G_OBJECT (action), "scheme");
-  return scheme;
+  return (gchar *) g_object_get_data (G_OBJECT (action), "scheme");
 }
 
 
@@ -8145,6 +8142,7 @@ activate_script (GtkAction * action, DenemoScriptParam * param)
               show_type (h->data, "type is ");
             }
         }
+      gchar *text = (gchar *) g_object_get_data (G_OBJECT (action), "scheme");
 
       //FIXME use define_scheme_variable for this
       //define a global variable in Scheme (CurrentScript) to give the name of the currently executing script
@@ -8163,7 +8161,6 @@ activate_script (GtkAction * action, DenemoScriptParam * param)
       scm_c_eval_string (current_script);
       g_free (current_script);
 
-      gchar *text = (gchar *) g_object_get_data (G_OBJECT (action), "scheme");
       if (text)
         {
 

@@ -223,6 +223,7 @@ create_command(gchar* scheme,
   gchar* menupath = NULL;
   if (command->script_type == COMMAND_SCHEME)
   {
+    scheme = scheme ? scheme : "";
     gboolean new_command = FALSE;
     command->action = lookup_action_from_name (command->name);
     if (command->action == NULL)
@@ -263,17 +264,22 @@ create_command(gchar* scheme,
     }
     
     /*FIXME free?     gchar *old_scheme = (gchar *)g_object_get_data(G_OBJECT(action), "scheme"); */
+    //g_print("Setting scheme %s\n", scheme);
     g_object_set_data (G_OBJECT (command->action), "scheme", scheme);
     g_object_set_data (G_OBJECT (command->action), "menupath", menupath);
     if (new_command)
+    {
       g_signal_connect (G_OBJECT (command->action), "activate", G_CALLBACK (activate_script), NULL);
+      //g_print("Signal activate is set on action %p %s scheme is %s\n", action, name, scheme);
+    }
 
+    //g_print("scheme now %s", scheme);
     // Note the script should *not* be in Default.cmdset
     // to delay loading it, but we should set the signal initally and we should not repeat setting the signal later.
     // the signal does not specify which script will be run, that is decided lazily, when the action is invoked for the first time
+
     if (command->hidden)
-      //Mark hidden items as deleted on loading them
-      g_object_set_data (G_OBJECT (command->action), "deleted", (gpointer) TRUE);
+      g_object_set_data (G_OBJECT (command->action), "deleted", (gpointer) TRUE);      //Mark hidden items as deleted on loading them
   }
   
   // we are not as yet re-writing tooltips etc on builtin commands
