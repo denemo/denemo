@@ -365,6 +365,7 @@ typedef struct command_row
   gboolean hidden;
   gboolean deleted;
   gint script_type;
+  GList* locations;
 } command_row;
 
 typedef enum{
@@ -385,6 +386,7 @@ enum
   COL_HIDDEN,
   COL_DELETED,
   COL_SCRIPTTYPE,
+  COL_LOCATIONS,
   N_COLUMNS
 } COMMAND_COLS;
 

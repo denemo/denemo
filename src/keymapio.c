@@ -15,7 +15,6 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
   command_row command;
   command_row_init(&command);
   xmlChar *scheme = NULL, *after = NULL, *type = NULL;
-  GList *menupaths = NULL;
 
   type = xmlGetProp(cur, COMMANDXML_TAG_TYPE);
   if(type && 0 == xmlStrcmp (type, COMMAND_TYPE_SCHEME))
@@ -33,9 +32,9 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
           else
             {
               command.name = (gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-              // We allow multiple menupaths for a given action, all are added to the gtk_ui when this command is processed after the tooltip node. 
+              // We allow multiple locations for a given action, all are added to the gtk_ui when this command is processed after the tooltip node. 
               // This is very bad xml, as the action should have all the others as children, and not depend on the order.FIXME
-              menupaths = NULL;
+              command.locations = NULL;
             }
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_SCHEME))
@@ -48,7 +47,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_MENUPATH))
         {
-          menupaths = g_list_append (menupaths, xmlNodeListGetString (doc, cur->xmlChildrenNode, 1));
+          command.locations = g_list_append (command.locations, xmlNodeListGetString (doc, cur->xmlChildrenNode, 1));
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_LABEL))
         {
@@ -63,7 +62,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
           command.tooltip = (gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
         }
     }
-  create_command((gchar*) scheme, (gchar*) after, fallback, menupaths, &command);
+  create_command((gchar*) scheme, (gchar*) after, fallback, &command);
 }
 
 static void

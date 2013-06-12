@@ -218,7 +218,6 @@ void
 create_command(gchar* scheme,
                gchar* after,
                gchar* fallback,
-               GList* menupaths,
                command_row *command)
 {
   gchar* menupath = NULL;
@@ -247,10 +246,10 @@ create_command(gchar* scheme,
       create_scheme_function_for_script (command->name);
     }
 
-    if(g_list_length(menupaths) > 0)
+    if(g_list_length(command->locations) > 0)
     {
       GList *g = NULL;
-      for (g = menupaths; g; g = g->next)
+      for (g = command->locations; g; g = g->next)
       {
         menupath = (gchar *) g->data;
         menupath = menupath ? menupath : (gchar *) "/MainMenu/Other";
