@@ -1,17 +1,11 @@
 ;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
   ;;;;;;;;;;;;;;;Toggle HideEmptyStaffs
-(let ((current "0.0"))
-  (set! current (d-DirectiveGet-score-prefix "HideEmptyStaffs"))
-  (if (boolean? current)
+(let ((tag "HideEmptyStaffs"))
+  (if (d-Directive-layout? tag)
+      (d-DirectiveDelete-layout tag)
       (begin
-	(d-DirectiveDelete-score "HideEmptyStaffs")
-	(d-DirectivePut-score-prefix "HideEmptyStaffs" 
-				     "\\layout {
-                                     \\context { \\RemoveEmptyStaffContext }
-                                     }"
-				     )
-         (d-DirectivePut-score-override  "HideEmptyStaffs" DENEMO_OVERRIDE_GRAPHIC)
-	(d-DirectivePut-score-display  "HideEmptyStaffs" (_ "Hide Empty Staffs")))
-      (d-DirectiveDelete-score "HideEmptyStaffs"))
-  (d-RefreshDisplay))
-
+	  (d-DirectivePut-layout-postfix tag 
+				     " \\context { \\Staff \\RemoveEmptyStaves } ")
+          (d-DirectivePut-layout-override  tag DENEMO_OVERRIDE_GRAPHIC)
+	  (d-DirectivePut-layout-display  tag (_ "Hide Empty Staffs"))))
+  (d-SetSaved #f))

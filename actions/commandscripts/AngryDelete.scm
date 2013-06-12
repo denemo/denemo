@@ -13,9 +13,12 @@
 		  (set! velocity (bit-extract midi 16 24))
 		  (set! command (bit-extract midi 0 8))
 		  
-		  (if (and (= command #x90)(> velocity 80))
-		       (begin (d-PlayMidiKey #xF06001)
-                              (d-DeletePreviousObject)))
+		  (if (and (= command #x90)(> velocity 90))
+		       (begin 
+		       		(d-PlayMidiKey #xF06001)
+		       		(if (d-GetNonprinting)
+                              		(d-PrevNote)
+                              		(d-DeletePreviousObject))))
 		  (d-PutMidi midi)
 		  (if (= command 0)
 		      (display "Filter stopping")

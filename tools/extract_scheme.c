@@ -103,6 +103,7 @@ main (int argc, char **argv)
     filename[s - 3] = 's';
     filename[s - 2] = 'c';
     filename[s - 1] = 'm';
+    filename = g_path_get_basename (filename);
   }
   else
     filename = g_strconcat(g_path_get_basename (filename), ".scm", NULL);

@@ -188,7 +188,8 @@
 				(if (not replace) (d-DirectivePut-standalone tag ) )
 				(if LilyString (d-DirectivePut-standalone-postfix tag LilyString ) )
 				(d-DirectivePut-standalone-grob  tag "MetronomeMark")
-				(d-DirectivePut-standalone-display  tag DisplayString)
+				(d-DirectivePut-standalone-graphic  tag (string-append "\n" DisplayString "\nDenemo\n12"))
+				(d-DirectivePut-standalone-gy tag -25)
 				(d-DirectivePut-standalone-minpixels tag 10 )
 				(d-DirectivePut-standalone-ty tag 85 ) ;;try -40 instead of 85 for above-the-staff
 				(if (equal? ValidBPM? #t)
@@ -199,4 +200,5 @@
 				)
 				(d-SetSaved #f)
 				(d-RefreshDisplay)
+				(d-ChooseCondition) ;;; this did not fire using d-PopUpMenu so changed to RadioBoxMenu
 				(d-MoveCursorRight))))))

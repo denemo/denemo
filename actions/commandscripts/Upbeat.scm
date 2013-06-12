@@ -1,13 +1,13 @@
 ;;; Warning!!! This file is derived from those in actions/menus/... do not edit here
 ;;;Upbeat
-(let script ((upbeat "Upbeat"))
-
+(let  ((upbeat "Upbeat") (ok #t))
   ; How many ticks are in a 100% filled measure?
   (define MaxTicks (* 1536 (GetPrevailingTimeSig #t) )) 
   (define EndTick #f)
   ;Upbeat is only for underful measures
   (define (warning)
-   (Help::TimedNotice (_ "Upbeat/Short Measure can only be used in an underful, non-empty measures"))   
+   (d-InfoDialog (_ "Upbeat/Short Measure can only be used in an underfull, non-empty measure"))
+   (set! ok #f)   
    #f)
  
  ; Define Upbeat-Directive Subprogram
@@ -18,10 +18,9 @@
    (StandAloneDirectiveProto (cons upbeat (string-append "\\partial 256*" partialDuration 	" "))  #f #f upbeat)
    (d-SetDurationInTicks remainingTicks)
    (d-DirectivePut-standalone-override upbeat (logior DENEMO_OVERRIDE_DURATION  DENEMO_OVERRIDE_DYNAMIC))
-   (d-RefreshDisplay)
-   (GoToMeasureEnd)
-   (if  (not (d-MoveToMeasureRight))
-	(d-AddMeasure)))
+   (d-DirectivePut-standalone-graphic upbeat "\n\nemmentaler\n62")
+   (d-DirectivePut-standalone-gx upbeat 20)
+    (d-DirectivePut-standalone-gy upbeat 15))
 	
 (define (ComputeAndCreate)
       	(begin	
@@ -61,7 +60,27 @@
 	 				(d-DirectiveDelete-standalone upbeat))
 	 			)))
 	 	;;;if upbeat not already present
-		(ComputeAndCreate)))
-	 		
+		(ComputeAndCreate))
+(d-SetMark)
+(d-Copy)
+(d-UnsetMark)
+(d-PushPosition)		
+(while (d-MoveToStaffUp))
+(let loop ()	
+	(if (d-Directive-standalone? upbeat)
+		(d-DirectiveDelete-standalone upbeat))
+	(d-Paste)
+	(if (d-MoveToStaffDown)
+		(loop)))
+(d-PopPosition)
+ (d-RefreshDisplay)
+ (if Upbeat::params 
+ 	(disp "Upbeat recalculated\n")
+ 	(begin
+ 		(if ok
+ 		(begin 
+ 			(GoToMeasureEnd)
+		 	(if  (not (d-MoveToMeasureRight))
+				(d-AddMeasure)))))))	
 		
 

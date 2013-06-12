@@ -3,8 +3,9 @@
 (if (string=? (d-GetType) "Appending")
   (d-MoveCursorLeft))
 (if (string=? (d-GetType) "STEMDIRECTIVE")
-    (d-DeleteObject)
-    (d-MoveCursorRight))
+    (begin 
+    	(d-MoveCursorRight)
+    	(d-DeletePreviousObject)))
 (d-StartUpStems)
 (d-MoveCursorLeft)
 (d-DirectivePut-stemdirective-graphic "VoiceSetting" "

@@ -37,7 +37,7 @@ po/POTFILES
 po/notexist
 po/Makefile.in.in
 po/stamp-it
-po/*.pot
+po/*-*.pot
 po/*.gmo
 po/POTFILES.*
 
