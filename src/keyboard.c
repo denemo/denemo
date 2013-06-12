@@ -4,10 +4,6 @@
 #include <stdio.h>
 #include <string.h>
 
-/* merge types for command sets */
-#define DENEMO_MERGING (1<<0)
-#define DENEMO_INTERACTIVE (1<<1)
-
 /*
  * translate a keybinding from the format used in denemo keymaprc file to the
  * format understood by gtk_accelerator_parse. The output is an allocated string
@@ -223,7 +219,6 @@ create_command(gchar* scheme,
                gchar* after,
                gchar* fallback,
                GList* menupaths,
-               gint merge,
                command_row *command)
 {
   gchar* menupath = NULL;
@@ -269,12 +264,6 @@ create_command(gchar* scheme,
       add_ui (menupath, after, command->name);
     }
     
-    if ((merge & DENEMO_INTERACTIVE) && (merge & DENEMO_MERGING) && new_command)
-    {
-      gchar *msg = g_strdup_printf ("Installed a command in the menu system\nat %s\n", menupath);
-      infodialog (msg);
-      g_free (msg);
-    }
     /*FIXME free?     gchar *old_scheme = (gchar *)g_object_get_data(G_OBJECT(action), "scheme"); */
     //g_print("Setting scheme %s\n", scheme);
     g_object_set_data (G_OBJECT (command->action), "scheme", scheme);

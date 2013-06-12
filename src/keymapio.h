@@ -10,7 +10,7 @@
 #include "kbd-custom.h"
 #include "keyboard.h"
 
-gint load_xml_keymap (gchar * filename, gboolean interactive);
+gint load_xml_keymap (gchar * filename);
 gint save_xml_keymap (gchar * filename);
 gint save_xml_keybindings (gchar * filename);
 gint load_xml_keybindings (gchar * filename);

@@ -10,7 +10,7 @@ get_command_type(xmlChar* type)
 }
 
 static void
-parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
+parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
 {
   command_row command;
   command_row_init(&command);
@@ -63,7 +63,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback, gint merge)
           command.tooltip = (gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
         }
     }
-  create_command((gchar*) scheme, (gchar*) after, fallback, menupaths, merge, &command);
+  create_command((gchar*) scheme, (gchar*) after, fallback, menupaths, &command);
 }
 
 static void
@@ -197,7 +197,7 @@ parseCursors (xmlDocPtr doc, xmlNodePtr cur)
 }
 
 static void
-parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menupath, gint merge)
+parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menupath)
 {
   xmlNodePtr ncur;
 
@@ -207,7 +207,7 @@ parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menup
     {
       if ((0 == xmlStrcmp (ncur->name, COMMANDXML_TAG_ROW)))
         {
-          parseScripts (doc, ncur, menupath, merge);
+          parseScripts (doc, ncur, menupath);
         }
     }
 
@@ -227,13 +227,13 @@ parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menup
 }
 
 static void
-parseKeymap (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menupath, gint merge)
+parseKeymap (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menupath)
 {
   for (cur = cur->xmlChildrenNode; cur != NULL; cur = cur->next)
     {
       if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_MAP))
         {
-          parseCommands (doc, cur, the_keymap, menupath, merge);
+          parseCommands (doc, cur, the_keymap, menupath);
         }
     }
 }
@@ -249,7 +249,7 @@ parseKeymap (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menupat
  * negative on failure
  */
 gint
-load_xml_keymap (gchar * filename, gboolean interactive)
+load_xml_keymap (gchar * filename)
 {
   gint ret = -1;
   xmlDocPtr doc;
@@ -294,7 +294,7 @@ load_xml_keymap (gchar * filename, gboolean interactive)
       g_print ("RootElem %s\n", rootElem->name);
 #endif
 
-      parseKeymap (doc, rootElem, Denemo.map, menupath, interactive);
+      parseKeymap (doc, rootElem, Denemo.map, menupath);
 
       if (Denemo.last_merged_command)
         g_free (Denemo.last_merged_command);

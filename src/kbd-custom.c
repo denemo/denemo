@@ -1603,11 +1603,9 @@ static void
 load_keymap_files (gchar * localrc, gchar * systemwide)
 {
 
-  if (localrc && (0 == load_xml_keymap (localrc, TRUE)))
+  if (localrc && (0 == load_xml_keymap (localrc)))
     return;
-  load_xml_keymap (systemwide, TRUE);
-  return;
-
+  load_xml_keymap (systemwide);
 }
 
 /**

@@ -23,6 +23,5 @@ void hide_action_of_name (gchar * name);
 gchar * translate_binding_dnm_to_gtk (const gchar * dnm_binding);
 gchar* translate_binding_gtk_to_dnm (const gchar * gtk_binding);
 gchar *extract_menupath (gchar * filename);
-void create_command(gchar* scheme, gchar* after,
-               gchar* fallback, GList* menupaths, gint merge, command_row *command);
+void create_command(gchar* scheme, gchar* after, gchar* fallback, GList* menupaths, command_row *command);
 #endif //KEYBOARDH
