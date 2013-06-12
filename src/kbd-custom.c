@@ -568,7 +568,7 @@ allocate_keymap (void)
                                              G_TYPE_BOOLEAN,            //hidden
                                              G_TYPE_BOOLEAN,            //deleted
                                              G_TYPE_INT,                //type
-                                             G_TYPE_POINTER
+                                             G_TYPE_POINTER             //locations
     );
 
   //empty index reference
@@ -700,7 +700,7 @@ alphabeticalize_commands (keymap * the_keymap)
 
 //False if command_idx is an invalid index or keymap is null, true otherwise
 //TODO keymap should not be NULL
-static gboolean
+gboolean
 keymap_get_command_row (keymap * the_keymap, command_row * row, guint command_idx)
 {
   if (!the_keymap)
