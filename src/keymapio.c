@@ -437,11 +437,12 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
 
   for (i = 0; i < keymap_size (the_keymap); i++)
     {
-      command_row command;
-      keymap_get_command_row (the_keymap, &command, i);
       gpointer action = (gpointer) lookup_action_from_idx (the_keymap, i);
+      gchar *scheme = action ? g_object_get_data (action, "scheme") : NULL;
       gchar *after = action ? g_object_get_data (action, "after") : NULL;
       gboolean deleted = (gboolean) (action ? GPOINTER_TO_INT (g_object_get_data (action, "deleted")) : 0);
+      //  if(deleted && scheme)
+      //        continue;
 
       child = xmlNewChild (parent, NULL, COMMANDXML_TAG_ROW, NULL);
 
@@ -456,8 +457,11 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
       if (deleted)              //store as hidden in commands file
         xmlNewTextChild (child, NULL, COMMANDXML_TAG_HIDDEN, (xmlChar *) "true");
 
-      xmlNewProp(child, COMMANDXML_TAG_TYPE, command.script_type == COMMAND_SCHEME ? COMMAND_TYPE_SCHEME : COMMAND_TYPE_BUILTIN);
-      
+      if (scheme)
+          xmlNewProp(child, COMMANDXML_TAG_TYPE, COMMAND_TYPE_SCHEME);
+      else
+          xmlNewProp(child, COMMANDXML_TAG_TYPE, COMMAND_TYPE_BUILTIN);
+
       gchar *menupath = action ? g_object_get_data (action, "menupath") : NULL;
       if (menupath)
         xmlNewTextChild (child, NULL, COMMANDXML_TAG_MENUPATH, (xmlChar *) menupath);
@@ -465,6 +469,7 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
       gchar *label = (gchar *) lookup_label_from_idx (the_keymap, i);
       if (label)
         xmlNewTextChild (child, NULL, COMMANDXML_TAG_LABEL, (xmlChar *) label);
+
 
       gchar *tooltip = (gchar *) lookup_tooltip_from_idx (the_keymap, i);
       if (tooltip)
@@ -487,6 +492,7 @@ save_xml_keybindings (gchar * filename)
   keymap *the_keymap = Denemo.map;
   gint i, ret = -1;
   xmlDocPtr doc;
+  //xmlNsPtr ns;
   xmlNodePtr parent, child;
 
   doc = xmlNewDoc ((xmlChar *) "1.0");
@@ -505,13 +511,11 @@ save_xml_keybindings (gchar * filename)
 
   for (i = 0; i < keymap_size (the_keymap); i++)
     {
-      command_row command;
-      keymap_get_command_row (the_keymap, &command, i);
-
       gpointer action = (gpointer) lookup_action_from_idx (the_keymap, i);
+      gchar *scheme = action ? g_object_get_data (action, "scheme") : NULL;
       gboolean deleted = (gboolean) (action ? GPOINTER_TO_INT (g_object_get_data (action, "deleted")) : 0);
       gboolean hidden = (gboolean) (action ? GPOINTER_TO_INT (g_object_get_data (action, "hidden")) : 0);
-      if (deleted && command.script_type == COMMAND_SCHEME)
+      if (deleted && scheme)
         continue;
       if (hidden || command_has_binding (i))
         {
