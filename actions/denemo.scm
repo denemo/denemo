@@ -527,10 +527,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (DenemoPrintAllHeaders)
-  (let ((lily "\nprintallheaders"))
-    (if (d-CheckLilyVersion "2.11.59")
-	(set! lily "\nprint-all-headers"))
-     (d-DirectivePut-paper-postfix "PrintAllHeaders" (string-append lily " = ##t\n"))))
+  (if (or (d-Directive-score? "LilyPondInclude:book-titling.ily") (d-Directive-score? "LilyPondInclude:simplified-book-titling.ily"))
+    (begin
+      (d-WarningDialog "You had book titles for this score. These are being dropped. To re-instate them, re-set the title as a book title.")
+      (d-DirectiveDelete-score "LilyPondInclude:book-titling.ily")
+      (d-DirectiveDelete-score "LilyPondInclude:simplified-book-titling.ily")))
+  (d-DirectivePut-paper-postfix "PrintAllHeaders" "\nprint-all-headers = ##t\n"))
      
 (define* (SetQuarterCommaMeanTone #:optional (thestep 0))
   (let ((C     "67 ")
