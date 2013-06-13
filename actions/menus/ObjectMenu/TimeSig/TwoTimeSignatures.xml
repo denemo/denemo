@@ -4,7 +4,7 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <row>
+      <row type="scheme">
         <after>TimesigWithBeatStructure</after>
         <action>TwoTimeSignatures</action>
         <scheme>(let ((tag "TwoTimeSignatures") (num1 #f) (den1 #f) (text ""))

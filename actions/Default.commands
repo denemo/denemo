@@ -5907,21 +5907,19 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <_label>Restrain Open Strings</_label>
         <_tooltip>Restrains the use of open strings in Tablature.</_tooltip>
       </row>
-      <row>
-        <action>SystemSystemPadding</action>
-        <after>ScoreIndent</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Score/PrintLayout</menupath>
-        <_label>System to System Padding</_label>
-        <_tooltip>Allows control over the padding between successive systems down the page. (A system is all the staffs representing the music at one time, sometimes called a "line" of music).</_tooltip>
-      </row>
-      <row>
+      <row type="scheme">
         <action>TwoTimeSignatures</action>
         <after>TimesigWithBeatStructure</after>
-        <scheme></scheme>
         <menupath>/ObjectMenu/TimeSig</menupath>
         <_label>Two Time Signatures</_label>
         <_tooltip>Prints two time-signatures, the second is active.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>SystemSystemPadding</action>
+        <after>ScoreIndent</after>
+        <menupath>/ObjectMenu/Score/PrintLayout</menupath>
+        <_label>System to System Padding</_label>
+        <_tooltip>Allows control over the padding between successive systems down the page. (A system is all the staffs representing the music at one time, sometimes called a "line" of music).</_tooltip>
       </row>
     </map>
   </merge>
