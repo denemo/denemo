@@ -1463,9 +1463,9 @@ append_directives_information (GString * selection, GList * directives)
 			if(menupath)
 				g_string_append_printf (selection, _("Menu location for this command: \"%s\"\n"), menupath);
       if(directive->prefix)
-				 g_string_append_printf (selection, _("LilyPond inserted in prefix to this note is \"%s\"\n"), directive->prefix->str);
+				 g_string_append_printf (selection, _("LilyPond inserted in prefix to this object is \"%s\"\n"), directive->prefix->str);
 			if(directive->postfix)
-				 g_string_append_printf (selection, _("LilyPond inserted in postfix to this note is \"%s\"\n"), directive->postfix->str);
+				 g_string_append_printf (selection, _("LilyPond inserted in postfix to this object is \"%s\"\n"), directive->postfix->str);
     }
   while (directives->next && (directives = directives->next));
 }
