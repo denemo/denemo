@@ -759,6 +759,7 @@ scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
     lh_down = FALSE;
   selecting = FALSE;
   set_cursor_for (event->state & DENEMO_MODIFIER_MASK);
+  transform_coords (&event->x, &event->y);
   set_cursor_y_from_click (gui, event->y);
   gtk_widget_queue_draw(Denemo.scorearea);
   perform_command (event->state, GESTURE_RELEASE, left);
