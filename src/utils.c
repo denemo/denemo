@@ -1456,6 +1456,7 @@ append_directives_information (GString * selection, GList * directives)
       DenemoDirective *directive = directives->data;
       const gchar *label = get_label_for_command (directive->tag->str);
       const gchar *menupath = get_menu_path_for_command (directive->tag->str);
+      const gchar *tooltip = get_tooltip_for_command (directive->tag->str);
       if(label)
 				g_string_append_printf (selection, _("Directive for command: \"%s\"\n"), label);
       else
@@ -1466,6 +1467,8 @@ append_directives_information (GString * selection, GList * directives)
 				 g_string_append_printf (selection, _("LilyPond inserted in prefix to this object is \"%s\"\n"), directive->prefix->str);
 			if(directive->postfix)
 				 g_string_append_printf (selection, _("LilyPond inserted in postfix to this object is \"%s\"\n"), directive->postfix->str);
+      if(tooltip)
+        g_string_append_printf (selection, _("The help for the command that created this directive is:\n\"%s\""), tooltip);
     }
   while (directives->next && (directives = directives->next));
 }
@@ -1624,11 +1627,15 @@ display_current_object (void)
 							directive->tag = g_string_new("<Unknown Tag>");//shouldn't happen
             const gchar *label = get_label_for_command(directive->tag->str);
             const gchar *menupath = get_menu_path_for_command(directive->tag->str);
+            const gchar *tooltip = get_tooltip_for_command (directive->tag->str);
+
             if(label)
                g_string_append_printf (selection, _("a Denemo Directive: (%s)"), label);
             else
 							g_string_append_printf (selection, _("a Denemo Directive: (%s)"), directive->tag->str);
-            
+            if(tooltip)
+                g_string_append_printf (selection, _("\nThe help for the command that created this directive is \"%s\""), tooltip);
+
            g_string_append_printf (selection, _("%s"), directive->x ? _("\nNot all layouts\n") : directive->y ? _("\nOnly for one Layout\n"): "\n");
            if(menupath)
 						g_string_append_printf (selection, _("Menu location for this command: \"%s\"\n"), menupath);
