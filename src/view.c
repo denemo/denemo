@@ -8348,6 +8348,8 @@ append_scheme_call (gchar * func)
       gtk_text_buffer_insert (buffer, &enditer, text, -1);
       //g_print("Added %s\n", text);
       g_free (text);
+      if (Denemo.prefs.immediateplayback)
+        play_note (DEFAULT_BACKEND, 0, 9, 58, 300, 127 * Denemo.gui->si->master_volume);
     }
 }
 
