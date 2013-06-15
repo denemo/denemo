@@ -2554,6 +2554,13 @@ scheme_detach_quit_callback (void)
 }
 
 SCM
+scheme_get_input_source (void)
+{
+  return scm_from_int (Denemo.gui->input_source);
+}
+
+
+SCM
 scheme_chordize (SCM setting)
 {
   DenemoGUI *gui = Denemo.gui;
@@ -5464,7 +5471,12 @@ define_scheme_constants (void)
 #define DEF_SCHEME_CONST(which, what)\
   define_scheme_int_variable(which, what, "See documentation elsewhere");
 
+  DEF_SCHEME_CONST ("DENEMO_INPUTMIDI", INPUTMIDI);
+  DEF_SCHEME_CONST ("DENEMO_INPUTKEYBOARD", INPUTKEYBOARD);
+  DEF_SCHEME_CONST ("DENEMO_INPUTAUDIO", INPUTAUDIO);
 
+
+  
   DEF_SCHEME_CONST ("DENEMO_OVERRIDE_LILYPOND", DENEMO_OVERRIDE_LILYPOND);
   DEF_SCHEME_CONST ("DENEMO_ALT_OVERRIDE", DENEMO_ALT_OVERRIDE);
   DEF_SCHEME_CONST ("DENEMO_OVERRIDE_GRAPHIC", DENEMO_OVERRIDE_GRAPHIC);
@@ -5857,6 +5869,7 @@ create_scheme_identfiers (void)
 
   INSTALL_SCM_FUNCTION ("Takes a script as a string, which will be stored. All the callbacks are called when the musical score is closed", DENEMO_SCHEME_PREFIX "AttachQuitCallback", scheme_attach_quit_callback);
   INSTALL_SCM_FUNCTION ("Removes a callback from the current musical score", DENEMO_SCHEME_PREFIX "DetachQuitCallback", scheme_detach_quit_callback);
+  INSTALL_SCM_FUNCTION ("Returns DENEMO_INPUTMIDI, DENEMO_INPUTKEYBOARD, DENEMO_INPUTAUDIO depending on the source of input to Denemo.", DENEMO_SCHEME_PREFIX "GetInputSource", scheme_get_input_source);
   INSTALL_SCM_FUNCTION ("Pops up a menu given by the list of pairs in the argument. Each pair should be a label string and an expression, the expression for the chosen label is returned. Alternatively the label string can be replaced by a pair of strings, label . tooltip. The third syntax is just a list of string labels, the chosen string is returned.", DENEMO_SCHEME_PREFIX "PopupMenu", scheme_popup_menu);
   INSTALL_SCM_FUNCTION ("Returns a list of the target type and grob (if a directive). Target is set by clicking on the typeset version of the score at a link that LilyPond has inserted.", DENEMO_SCHEME_PREFIX "GetTargetInfo", scheme_get_target_info);
   INSTALL_SCM_FUNCTION ("Interactively sets a target (a click on a LilyPond link in the printview window) from the user ", DENEMO_SCHEME_PREFIX "GetNewTarget", scheme_get_new_target);

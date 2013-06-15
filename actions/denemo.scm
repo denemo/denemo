@@ -882,3 +882,9 @@
       'delete)
      ((equal? choice cue-Edit)
       'edit)))
+
+;;;;
+(define (MidiInput?) (= (d-GetInputSource) DENEMO_INPUTMIDI))
+(define (AudioInput?) (= (d-GetInputSource) DENEMO_INPUTAUDIO))
+(define (KeyboardInput?) (= (d-GetInputSource) DENEMO_INPUTKEYBOARD))
+
