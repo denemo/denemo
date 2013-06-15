@@ -5,18 +5,23 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row type="scheme">
-        <after>ChangeBreve</after>
+        <after>RemoveDot</after>
         <action>DottedRhythm</action>
-        <scheme>(if (Appending?)
-	(d-MoveCursorLeft))
-(d-MoveCursorLeft)
-(d-AddDot)
-(d-MoveCursorRight)
-(d-Diminish)
-(d-MoveCursorRight)
+        <_label>Convert to Dotted Rhythm</_label>
+        <_tooltip>In appending position, dots the note or rest at the cursor and appends a note of half the duration so as to create a dotted rhythm.</_tooltip>
+        <scheme>;;DottedRhythm
+(if (Appending?)
+  (let ((duration (d-GetNoteBaseDuration)) (nonprinting (MidiInput?)))
+    (if duration
+      (begin
+        (d-AddDot)
+        (eval-string (string-append "(d-" (number-&gt;string duration) ")"))
+        (d-MoveCursorLeft)
+        (d-Diminish)
+        (if nonprinting
+        	(d-SetNonprinting))
+        (d-MoveCursorRight)))))
 </scheme>
-        <_label>Make Dotted Rhythm</_label>
-        <_tooltip>Dots the previous note and halves the duration of the current one to create a dotted rhythm. Use on second of two equal notes, usually.</_tooltip>
       </row>
     </map>
   </merge>

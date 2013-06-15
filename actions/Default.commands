@@ -5942,6 +5942,13 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <_label>Triplet-ize (Slurred)</_label>
         <_tooltip>Turns the note at or before the cursor into a triplet of the same total duration, slurring the triplet.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>DottedRhythm</action>
+        <after>RemoveDot</after>
+        <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
+        <_label>Convert to Dotted Rhythm</_label>
+        <_tooltip>In appending position, dots the note or rest at the cursor and appends a note of half the duration so as to create a dotted rhythm.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

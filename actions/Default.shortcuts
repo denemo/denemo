@@ -1933,6 +1933,10 @@
         <action>ToggleArpeggio</action>
         <hidden>true</hidden>
       </row>
+      <row>
+        <action>DottedRhythm</action>
+        <bind>Multiply</bind>
+      </row>
     </map>
   </merge>
 </Denemo>

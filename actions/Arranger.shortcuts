@@ -992,6 +992,10 @@
         <action>DotDoubleDotNoDot</action>
         <bind>Decimal</bind>
       </row>
+      <row>
+        <action>DottedRhythm</action>
+        <bind>Multiply</bind>
+      </row>
     </map>
   </merge>
 </Denemo>
