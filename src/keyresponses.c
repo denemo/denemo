@@ -13,6 +13,7 @@
 #include "view.h"
 #include "commandfuncs.h"
 #include "kbd-custom.h"
+#include "audiointerface.h"
 #if GTK_MAJOR_VERSION==3
 #include <gdk/gdkkeysyms-compat.h>      //FIXME Look for something more gtk3 like
 #endif
@@ -269,6 +270,8 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
             g_string_append_printf (continuations, "%s%s", (gchar *) g->data, ", or ");
           g_string_printf (prefix_store, "Prefix Key %s, waiting for key %stype Esc to abort", name, continuations->str);
           g_string_free (continuations, TRUE);
+          if (Denemo.prefs.immediateplayback)
+              play_note (DEFAULT_BACKEND, 0, 9, 61, 300, 127 * Denemo.gui->si->master_volume);
           gtk_statusbar_pop (GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id);
           gtk_statusbar_push (GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id, prefix_store->str);
           g_string_assign (prefix_store, name);
