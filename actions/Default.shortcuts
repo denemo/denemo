@@ -504,7 +504,6 @@
       <row>
         <action>EditObject</action>
         <hidden>true</hidden>
-        <bind>Tab</bind>
         <bind>PrsR</bind>
       </row>
       <row>
@@ -1936,6 +1935,14 @@
       <row>
         <action>DottedRhythm</action>
         <bind>Multiply</bind>
+      </row>
+      <row>
+        <action>CreateTriplet</action>
+        <bind>Tab,Tab</bind>
+      </row>
+      <row>
+        <action>CreateTripletSlurred</action>
+        <bind>Ctrl+Tab,Ctrl+Tab</bind>
       </row>
     </map>
   </merge>

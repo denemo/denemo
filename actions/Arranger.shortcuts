@@ -603,10 +603,6 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>ToggleTripleting</action>
-        <bind>Tab</bind>
-      </row>
-      <row>
         <action>Largo</action>
         <hidden>true</hidden>
       </row>
@@ -995,6 +991,14 @@
       <row>
         <action>DottedRhythm</action>
         <bind>Multiply</bind>
+      </row>
+      <row>
+        <action>CreateTriplet</action>
+        <bind>Tab,Tab</bind>
+      </row>
+      <row>
+        <action>CreateTripletSlurred</action>
+        <bind>Ctrl+Tab,Ctrl+Tab</bind>
       </row>
     </map>
   </merge>
