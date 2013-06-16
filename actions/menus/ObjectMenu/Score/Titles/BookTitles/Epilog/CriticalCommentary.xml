@@ -6,16 +6,30 @@
     <map>
       <row type="scheme">
         <action>CriticalCommentary</action>
+        <_label>(Re)Create Epilog - Critical Commentary</_label>
+        <_tooltip>Collects together any critical comments from the score and places them in an epilog at the end of the music. The Title and text of the Epilog are created with the CriticalCommentaryIntro command, and critical comments are added with the CriticalComment command.</_tooltip>
         <scheme>;;CriticalCommentary
-(let ((intro (d-DirectiveGet-score-display "CriticalCommentaryIntro")))
-  (define Title "Critical Commentary")
-  (define Prolog "Key: m = Movement, v = voice, b = bar")
-  (if intro
-    (begin
+(if CriticalCommentary::params
+  (begin
+		(if (equal? CriticalCommentary::params "edit")
+			(let ((choice #f))
+				(set! choice (RadioBoxMenu
+					(cons (_ "Advanced") 'advanced)
+					(cons (_ "Delete") 'delete)))
+				(case choice
+					((advanced) 
+						(d-DirectiveTextEdit-score "CriticalCommentary"))
+					((delete) 
+						(d-DirectiveDelete-score "CriticalCommentary"))))))
+  (let ((intro (d-DirectiveGet-score-display "CriticalCommentaryIntro")))
+    (define Title "Critical Commentary")
+    (define Prolog "Key: m = Movement, v = voice, b = bar")
+    (if intro
+     (begin
       (set! Title (substring  intro 0 (string-index intro #\nl)))
       (set! Prolog (substring  intro (string-index intro #\nl)))))
-  (d-PushPosition)
-  (while (d-PreviousMovement))
+   (d-PushPosition)
+   (while (d-PreviousMovement))
 
   ;;;
   (let ((thecomments '())  (tag "CriticalComment"))
@@ -85,12 +99,10 @@
               (scheme-escape Title) "\"\n\\markup { \\vspace #0.8 \\fill-line {\\postscript #\"-16 3 moveto 24 0 rlineto stroke\"}}\n\\markup {\\italic \\wordwrap-string #\""
               (scheme-escape Prolog) "\" \\vspace #1 }\n"
               (format-commentary (reverse thecomments))))))))))				
-   (d-PopPosition))
-   (d-DirectiveDelete-score "CriticalCommentsAmended")
+   (d-PopPosition)
+   (d-DirectiveDelete-score "CriticalCommentsAmended")))
  
 </scheme>
-        <_label>(Re)Create Epilog - Critical Commentary</_label>
-        <_tooltip>Collects together any critical comments from the score and places them in an epilog at the end of the music. The Title and text of the Epilog are created with the CriticalCommentaryIntro command, and critical comments are added with the CriticalComment command.</_tooltip>
       </row>
     </map>
   </merge>
