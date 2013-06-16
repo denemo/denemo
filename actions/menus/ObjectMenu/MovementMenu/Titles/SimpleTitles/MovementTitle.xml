@@ -6,11 +6,13 @@
     <map>
       <row type="scheme">
         <action>MovementTitle</action>
-        <scheme>(SetHeaderField "subtitle")
-(DenemoPrintAllHeaders)
-(d-SetSaved #f)</scheme>
         <_label>Title</_label>
         <_tooltip>Prints the name given as a title above the current movement.</_tooltip>
+        <scheme>;;;MovementTitle		
+(SetHeaderField "subtitle")
+(d-DirectivePut-header-postfix "SuppressTitleRepeats" "title = ##f\ninstrument = ##f\n")
+(DenemoPrintAllHeaders)
+(d-SetSaved #f)</scheme>
       </row>
     </map>
   </merge>
