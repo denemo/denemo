@@ -8,12 +8,11 @@
         <after>ToggleTupletBracketsIfBeamed</after>
         <action>CreateTriplet</action>
         <_label>Create Triplet</_label>
-        <_tooltip>If MIDI input is active, duplicates the current note twice making all three a triplet, otherwise runs the ToggleTripleting command which alternately inserts start and end triplet objects.</_tooltip>
-        <scheme>;;CreateTriplet
-(if  (MidiInput?)
-	(begin
-	    (if (Appending?)
-			(d-MoveCursorLeft))
+        <_tooltip>Takes the current note and appends two more making all three a triplet.</_tooltip>
+        <scheme>;;;CreateTriplet
+(if  (and (MidiInput?) (Appending?))
+	(begin  
+	    (d-MoveCursorLeft)
 	    (if (Music?)
    		(let ((duration (d-GetNoteBaseDuration)))
 			(d-StartTriplet)
@@ -22,7 +21,10 @@
         		(d-SetNonprinting)
    			(eval-string (string-append "(d-" (number-&gt;string duration) ")"))
         		(d-SetNonprinting)  			
-			(d-EndTuplet))))
+			(d-EndTuplet))
+		 (begin
+		 	(d-MoveCursorRight)
+		 	(d-ToggleTripleting))))
 	(d-ToggleTripleting))
 </scheme>
       </row>

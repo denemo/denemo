@@ -998,7 +998,7 @@
       </row>
       <row>
         <action>CreateTripletSlurred</action>
-        <bind>Ctrl+Tab,Ctrl+Tab</bind>
+        <bind>Tab,7</bind>
       </row>
     </map>
   </merge>

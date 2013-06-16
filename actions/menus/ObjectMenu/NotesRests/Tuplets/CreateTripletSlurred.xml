@@ -8,12 +8,11 @@
         <after>CreateTriplet</after>
         <action>CreateTripletSlurred</action>
         <_label>Create Slurred Triplet</_label>
-        <_tooltip>If MIDI input is active, duplicates the current note twice making a triplet and slurring all three notes, otherwise runs the ToggleTripleting command which alternately inserts start and end triplet objects.</_tooltip>
-        <scheme>;;CreateTripletSlurred
-(if  (MidiInput?)
+        <_tooltip>Duplicates the current note twice making a triplet and slurring all three notes.</_tooltip>
+        <scheme>;;;CreateTripletSlurred
+(if (and (MidiInput?) (Appending?))
 	(begin
-	    (if (Appending?)
-			(d-MoveCursorLeft))
+	    (d-MoveCursorLeft)
 	    (if (Music?)
    		(let ((duration (d-GetNoteBaseDuration)))
 			(d-StartTriplet)
@@ -24,7 +23,10 @@
    			(eval-string (string-append "(d-" (number-&gt;string duration) ")"))
         		(d-SetNonprinting)    
         		(d-ToggleEndSlur)		
-			(d-EndTuplet))))
+			(d-EndTuplet))
+		 (begin
+		 	(d-MoveCursorRight)
+		 	(d-ToggleTripleting))))
 	(d-ToggleTripleting))
 </scheme>
       </row>
