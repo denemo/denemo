@@ -18,7 +18,8 @@
 					(cons (_ "Delete") 'delete)))
 				(case choice
 					((advanced) 
-						(d-DirectiveTextEdit-score "CriticalCommentary"))
+						(if (not (d-DirectiveTextEdit-score "CriticalCommentary"))
+							(d-DirectiveDelete-score "CriticalCommentary")))
 					((delete) 
 						(d-DirectiveDelete-score "CriticalCommentary"))))))
   (let ((intro (d-DirectiveGet-score-display "CriticalCommentaryIntro")))
@@ -28,25 +29,20 @@
      (begin
       (set! Title (substring  intro 0 (string-index intro #\nl)))
       (set! Prolog (substring  intro (string-index intro #\nl)))))
-   (d-PushPosition)
-   (while (d-PreviousMovement))
+    (d-PushPosition)
+    (while (d-PreviousMovement))
 
-  ;;;
-  (let ((thecomments '())  (tag "CriticalComment"))
-  
-   ;;;format-commentary numbers the strings in the list
-   (define (format-commentary thelist)
-    (define ret " \\markup { \\vspace #1 }\n")
-    (let loop ((count 0))
-      (if (&lt; count (length thelist))
-        (begin
-          
+    (let ((thecomments '())  (tag "CriticalComment"))
+     ;;;format-commentary numbers the strings in the list
+     (define (format-commentary thelist)
+      (define ret " \\markup { \\vspace #1 }\n")
+      (let loop ((count 0))
+        (if (&lt; count (length thelist))
+          (begin         
             (set! ret (string-append ret " \\markup { \\vspace #0.5 }\n\\markup {  \\wordwrap-string #\"" (number-&gt;string (+ 1 count)) ".  "
               (list-ref thelist count) "\"}\n"))
           (loop (+ 1 count)))))
-    ret)
-    
-  
+     ret)
    (let movement ()
     (define movement-number (number-&gt;string (d-GetMovement)))
     (define voice 1)

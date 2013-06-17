@@ -73,7 +73,7 @@
 );define GetBPM
 
 
-;Tempo script begins here.
+;procedure begins here.
 
 ;see if there's already one there:
 (if (d-Directive-standalone?  tag)
@@ -87,7 +87,8 @@
 			((equal? choice "Change")
 				(set! replace #t ))
 			((equal? choice  cue-Advanced)
-				(d-DirectiveTextEdit-standalone tag))
+				(if (not (d-DirectiveTextEdit-standalone tag))
+          (d-DirectiveDelete-standalone tag)))
 			((equal? choice "Delete")
 				(d-DirectiveDelete-standalone tag))
 		)
