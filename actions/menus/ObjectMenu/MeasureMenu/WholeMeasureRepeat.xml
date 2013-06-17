@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Denemo>
   <merge>
     <title>A Denemo Keymap</title>
@@ -11,7 +11,7 @@
  (d-DirectivePut-chord-gx "WholeMeasureRest" 40)
  (d-DirectivePut-chord-gy "WholeMeasureRest" 15)
 (d-DirectivePut-chord-graphic "WholeMeasureRest" "
-&#x1D10E;
+𝄎
 Denemo
 48")
 

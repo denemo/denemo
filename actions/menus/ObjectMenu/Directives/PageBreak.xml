@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Denemo>
   <merge>
     <title>A Denemo Keymap</title>
@@ -21,7 +21,7 @@
 				(d-DirectivePut-standalone-minpixels "PageBreak" 50)
 				(d-DirectivePut-standalone-gy "PageBreak" -25)
 				(d-DirectivePut-standalone-graphic "PageBreak" "
-&#x204B;
+⁋
 Denemo
 26")
 				(d-DirectivePut-standalone-minpixels "PageBreak" 10)

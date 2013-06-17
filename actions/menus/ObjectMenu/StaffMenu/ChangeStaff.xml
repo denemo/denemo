@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Denemo>
   <merge>
     <title>A Denemo Keymap</title>
@@ -28,7 +28,7 @@
 		(d-DirectivePut-standalone-minpixels  "StaffChange" 50)
 		(d-DirectivePut-standalone-postfix "StaffChange" (string-append "\\change Staff=\"" Name "\" " ))
 		(d-DirectivePut-standalone-graphic "StaffChange" (string-append 
-		"\n&#x21D2;" Name "\nDenemo\n12"))
+		"\n⇒" Name "\nDenemo\n12"))
 		(d-DirectivePut-standalone-gy  "StaffChange" -1)))
 (d-RefreshDisplay)))</scheme>
         <_label>Change Staff</_label>

@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Denemo>
   <merge>
     <title>A Denemo Keymap</title>
@@ -9,7 +9,7 @@
         <action>RestrainOpenStrings</action>
         <scheme>;;;RestrainOpenStrings
 (let ((tag "RestrainOpenStrings"))
-	(StandAloneDirectiveProto (cons tag "\\set TabVoice.restrainOpenStrings = ##t ") #f "\n&#x2A02;\nDenemo\n30"))
+	(StandAloneDirectiveProto (cons tag "\\set TabVoice.restrainOpenStrings = ##t ") #f "\n⨂\nDenemo\n30"))
 </scheme>
         <_label>Restrain Open Strings</_label>
         <_tooltip>Restrains the use of open strings in Tablature.</_tooltip>

@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Denemo>
   <merge>
     <title>A Denemo Keymap</title>
@@ -18,11 +18,11 @@
    	  (set! duration (d-GetCommand))
           (set! dur #f)
    	  (cond
-		 ((equal? duration "d-3") (set! dur ":8")(set! stripes "&#x1D16A;"))
-		 ((equal? duration "d-4") (set! dur ":16")(set! stripes "&#x1D16B;"))
-		 ((equal? duration "d-5") (set! dur ":32")(set! stripes "&#x1D16C;"))
-		 ((equal? duration "d-6") (set! dur ":64")(set! stripes "&#x1D16A;&#x1D16B;"))
-		 ((equal? duration "d-7") (set! dur ":128")(set! stripes "&#x1D16B;&#x1D16B;"))
+		 ((equal? duration "d-3") (set! dur ":8")(set! stripes "𝅪"))
+		 ((equal? duration "d-4") (set! dur ":16")(set! stripes "𝅫"))
+		 ((equal? duration "d-5") (set! dur ":32")(set! stripes "𝅬"))
+		 ((equal? duration "d-6") (set! dur ":64")(set! stripes "𝅪𝅫"))
+		 ((equal? duration "d-7") (set! dur ":128")(set! stripes "𝅫𝅫"))
  	     )
           (if (string? dur)
          	 (begin		

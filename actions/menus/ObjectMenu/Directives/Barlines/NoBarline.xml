@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Denemo>
   <merge>
     <title>A Denemo Keymap</title>
@@ -9,7 +9,7 @@
         <action>NoBarline</action>
         <scheme>;;NoBarline
 (StandAloneSelfEditDirective (cons "NoBarline" "\\bar \"\"") #t "NoBarline")
-(d-DirectivePut-standalone-graphic "NoBarline" "\n&#x22C2;\nDenemo\n24")
+(d-DirectivePut-standalone-graphic "NoBarline" "\n⋂\nDenemo\n24")
 (d-DirectivePut-standalone-gx "NoBarline" 20)
 (d-DirectivePut-standalone-gy "NoBarline" -20)</scheme>
         <_label>(Print) Omit Barline</_label>

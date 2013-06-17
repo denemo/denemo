@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Denemo>
   <merge>
     <title>A Denemo Keymap</title>
@@ -7,7 +7,7 @@
       <row>
         <action>ZoomIn</action>
         <scheme>(d-Zoom (+ (d-Zoom) 0.2 ))</scheme>
-	<_tooltip>Zoom In</_tooltip>
+        <_tooltip>Zoom In</_tooltip>
         <_label>Zoom In</_label>
       </row>
     </map>

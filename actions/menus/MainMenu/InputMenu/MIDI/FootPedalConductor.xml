@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Denemo>
   <merge>
     <title>A Denemo Keymap</title>
@@ -24,7 +24,7 @@
 (d-DirectivePut-standalone-gy "Conductor" 480)
 (d-MoveCursorLeft)
 (let loop ((number -1))
- (FootPedalConductor::display (string-append (number-&gt;string number) " &#x2B07;"))
+ (FootPedalConductor::display (string-append (number-&gt;string number) " ⬇"))
  (let ((midi (d-GetMidi)))  
  (disp midi)
     (if (pedalDown? midi)
@@ -35,27 +35,27 @@
 		(begin
 		  (set! start now)
 		    (if (&gt; number -1)
-		      (let ( (at #f) (text (string-append (number-&gt;string (+ 1 number)) " " "&#x2B06;")))
+		      (let ( (at #f) (text (string-append (number-&gt;string (+ 1 number)) " " "⬆")))
 		      (cond ((or (= numerator 2) (= numerator 6))
-			      (set! text (string-append (number-&gt;string (+ 1 number)) " " "&#x2B06;"))
+			      (set! text (string-append (number-&gt;string (+ 1 number)) " " "⬆"))
 			      (set! at (round (* interval 500)))
 			      (d-OneShotTimer at (string-append "(FootPedalConductor::display \"" text "\")")))
 			    ((or (= numerator 3) (= numerator 9))
-				(set! text (string-append (number-&gt;string (+ 1 number)) " " " &#x27A8;"))
+				(set! text (string-append (number-&gt;string (+ 1 number)) " " " ➨"))
 				(set! at (round (* interval 333)))
 				(d-OneShotTimer at (string-append "(FootPedalConductor::display \"" text "\")"))
-				(set! text (string-append (number-&gt;string (+ 1 number)) " " " &#x21D6;"))
+				(set! text (string-append (number-&gt;string (+ 1 number)) " " " ⇖"))
 				(set! at (round (* interval 666)))
 				(d-OneShotTimer at (string-append "(FootPedalConductor::display \"" text "\")")))
 
 			    ((or (= numerator 4) (= numerator 12))
-			      (set! text (string-append (number-&gt;string (+ 1 number)) " " "&#x21A9;"))
+			      (set! text (string-append (number-&gt;string (+ 1 number)) " " "↩"))
 			      (set! at (round (* interval 250)))
 			      (d-OneShotTimer at (string-append "(FootPedalConductor::display \"" text "\")"))
-			      (set! text (string-append (number-&gt;string (+ 1 number)) " " " &#x27A8;"))
+			      (set! text (string-append (number-&gt;string (+ 1 number)) " " " ➨"))
 			      (set! at (round (* interval 500)))
 			      (d-OneShotTimer at (string-append "(FootPedalConductor::display \"" text "\")"))
-			      (set! text (string-append (number-&gt;string (+ 1 number)) " " "&#x21D6;"))
+			      (set! text (string-append (number-&gt;string (+ 1 number)) " " "⇖"))
 			      (set! at (round (* interval 750)))
 			      (d-OneShotTimer at (string-append "(FootPedalConductor::display \"" text "\")"))
 			      ))))

@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Denemo>
   <merge>
     <title>A Denemo Keymap</title>
@@ -8,7 +8,7 @@
         <after>InitialKey</after>
         <action>SharpenKeysig</action>
         <scheme>(d-IncrementKeysig)</scheme>
-        <_label>&#x266F;</_label>
+        <_label>♯</_label>
         <_tooltip>Sharpens the key signature by one degree. If no key signature at cursor, sharpens the initial key signature.</_tooltip>
       </row>
     </map>
