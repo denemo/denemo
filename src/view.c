@@ -3354,7 +3354,7 @@ scheme_get_user_input_with_snippets (SCM label, SCM prompt, SCM init, SCM modal)
   g_signal_connect (button, "clicked", G_CALLBACK (paste_snippet_lilypond), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
   button = gtk_button_new_with_label (_("Next Snippet"));
-  gtk_widget_set_tooltip_text (button, _("Makes the next Snippet the one that can be pasted. To see the music snippets you need to check View->Snippets\nThe one selected is in bold black."));
+  gtk_widget_set_tooltip_text (button, _("Makes the next Snippet the one that can be pasted. To see the music snippets you need to check View → Snippets\nThe one selected is in bold black."));
   GtkAction *action = gtk_ui_manager_get_action (Denemo.ui_manager, "/ObjectMenu/NotesRests/SelectDuration/NextRhythm");
   if (action)
     g_signal_connect_swapped (button, "clicked", G_CALLBACK (gtk_action_activate), action);
@@ -7444,7 +7444,7 @@ pb_audiorecord (GtkWidget * button)
   }
   else
   {
-    warningdialog (_("The preference set for recording time is 0 - nothing can be recorded.\nSee Edit->Change Preferences Audio/Midi Tab"));
+    warningdialog (_("The preference set for recording time is 0 - nothing can be recorded.\nSee Edit → Change Preferences Audio/Midi Tab"));
   }
 }
 static void
@@ -10149,7 +10149,7 @@ static GtkRadioActionEntry input_menu_entries[] = {
   {"Microphone", NULL, N_("Audio Input"), NULL, N_("Enable pitch entry from microphone"), INPUTAUDIO
    /*  G_CALLBACK (toggle_pitch_recognition), FALSE */ }
   ,
-  {"JackMidi", NULL, N_("Midi Input"), NULL, N_("Input from a MIDI source. Set up the source first using Edit->Change Preferences->Audio/Midi\nUse View->MIDI In Control to control what the input does.\n"), INPUTMIDI /*G_CALLBACK (jackmidi) */ }
+  {"JackMidi", NULL, N_("Midi Input"), NULL, N_("Input from a MIDI source. Set up the source first using Edit → Change Preferences → Audio/Midi\nUse View → MIDI In Control to control what the input does.\n"), INPUTMIDI /*G_CALLBACK (jackmidi) */ }
 };
 
 struct cbdata
@@ -10544,16 +10544,16 @@ create_window (void)
   gtk_widget_show (Denemo.menubar);
 
   gtk_widget_set_tooltip_text (gtk_ui_manager_get_widget (ui_manager, "/ObjectMenu"), _("This is the Object Menu bar, where menus for the commands that edit music live. They are arranged in a hierarchy Score, Movement, Staff (which contains Voices) and then the things that go on a staff, notes, clefs etc. Directives covers everything else that you can put in amongst the notes to change the behavior from that point in the music."));
-  gtk_widget_set_tooltip_markup (gtk_ui_manager_get_widget (ui_manager, "/EntryToolBar"), _("This bar has buttons for entering notes and rests. The highlighted duration is the <i>prevailing duration</i>, that is the duration which will be applied to the next note entered. You can hide this bar (to make more room on the screen) using the View menu. You can make it your preference to hide it using MainMenu->Edit->Change Preferences->Display Note/Rest entry toolbar"));
+  gtk_widget_set_tooltip_markup (gtk_ui_manager_get_widget (ui_manager, "/EntryToolBar"), _("This bar has buttons for entering notes and rests. The highlighted duration is the <i>prevailing duration</i>, that is the duration which will be applied to the next note entered. You can hide this bar (to make more room on the screen) using the View menu. You can make it your preference to hide it using MainMenu → Edit → Change Preferences → Display Note/Rest entry toolbar"));
 
   gtk_widget_set_tooltip_markup (gtk_ui_manager_get_widget (ui_manager, "/RhythmToolBar"),
                                  _
-                                 ("You can populate this bar with buttons holding a snippet of music. The highlighted snippet is the <i>prevailing duration</i>, that is the next note entered will follow the rhythmic pattern of this snippet.\nYou can enter the whole snippet by clicking on it, or using the command under ObjectMenu->Notes/Rests->Append/InsertDuration->Insert Snippet. You can also select the <i>prevailing snippet</i> using  ObjectMenu->Notes/Rests->Select Duration->Next Snippet.\nYou can hide this bar (to make more room on the screen) using the View menu. You can make it your preference to hide it using MainMenu->Edit->Change Preferences->Display Note/Rest entry toolbar"));
+                                 ("You can populate this bar with buttons holding a snippet of music. The highlighted snippet is the <i>prevailing duration</i>, that is the next note entered will follow the rhythmic pattern of this snippet.\nYou can enter the whole snippet by clicking on it, or using the command under ObjectMenu → Notes/Rests → Append/InsertDuration → Insert Snippet. You can also select the <i>prevailing snippet</i> using  ObjectMenu → Notes/Rests → Select Duration → Next Snippet.\nYou can hide this bar (to make more room on the screen) using the View menu. You can make it your preference to hide it using MainMenu → Edit → Change Preferences → Display Note/Rest entry toolbar"));
 
   toolbar = gtk_ui_manager_get_widget (ui_manager, "/ToolBar");
   // The user should be able to decide toolbar style.
   // But without gnome, there is no (ui) to set this option.
-  gtk_widget_set_tooltip_text (toolbar, _("This tool bar contains a few conventional commands. You can hide it (to make more room on the screen) using the View menu. You can make it your preference to hide it using MainMenu->Edit->Change Preferences->Display general toolbar"));
+  gtk_widget_set_tooltip_text (toolbar, _("This tool bar contains a few conventional commands. You can hide it (to make more room on the screen) using the View menu. You can make it your preference to hide it using MainMenu → Edit → Change Preferences → Display general toolbar"));
   gtk_toolbar_set_style (GTK_TOOLBAR (toolbar), GTK_TOOLBAR_BOTH_HORIZ);
   gtk_box_pack_start (GTK_BOX (main_vbox), toolbar, FALSE, TRUE, 0);
   gtk_widget_set_can_focus (toolbar, FALSE);
@@ -10705,7 +10705,7 @@ create_window (void)
     Denemo.midi_in_control = gtk_vbox_new (FALSE, 1);
     gtk_widget_set_tooltip_text (Denemo.midi_in_control,
                                  _
-                                 ("Controls for managing input from a MIDI controller (e.g. keyboard) attached to the computer. You may need to select your MIDI device first using MainMenu->Edit->Change Preferences->MIDI looking for MIDI in devices (turn your device on first). When you have a MIDI controller durations are inserted without any pitch (they appear in brown) playing on the controller puts the pitches onto the durations. The Shift and Control and ALT keys can also be used for listening without entering notes, checking pitches entered and entering chords. The foot pedal can also be used for chords. Release the ALT key and re-press to start a new chord - timing is unimportant, play the chord fast or slow."));
+                                 ("Controls for managing input from a MIDI controller (e.g. keyboard) attached to the computer. You may need to select your MIDI device first using MainMenu → Edit → Change Preferences → MIDI looking for MIDI in devices (turn your device on first). When you have a MIDI controller durations are inserted without any pitch (they appear in brown) playing on the controller puts the pitches onto the durations. The Shift and Control and ALT keys can also be used for listening without entering notes, checking pitches entered and entering chords. The foot pedal can also be used for chords. Release the ALT key and re-press to start a new chord - timing is unimportant, play the chord fast or slow."));
     gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.midi_in_control, FALSE, TRUE, 0);
     frame = (GtkFrame *) gtk_frame_new (_("Midi In Control"));
     gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);

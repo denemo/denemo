@@ -468,7 +468,7 @@ swapstaffs (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
       if (((DenemoStaff *) gui->si->currentstaff->data)->voicecontrol == DENEMO_PRIMARY && ((gui->si->currentstaff->next == NULL) || !(((DenemoStaff *) gui->si->currentstaff->next->data)->voicecontrol & DENEMO_SECONDARY)))
         {
           temp = gui->si->currentstaff->data;
-          if (temp->context == DENEMO_NONE || confirm (_("A context is set on this staff"), _("You will need to alter the staff->properties->context of this and the previous staff; Proceed?")))
+          if (temp->context == DENEMO_NONE || confirm (_("A context is set on this staff"), _("You will need to alter the staff → properties → context of this and the previous staff; Proceed?")))
             {
               take_snapshot ();
               gui->si->currentstaff->data = gui->si->currentstaff->prev->data;

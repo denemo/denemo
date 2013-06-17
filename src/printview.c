@@ -2308,7 +2308,7 @@ install_printpreview (GtkWidget * top_vbox)
 
   button = gtk_button_new_with_label (_("Typeset"));
 
-  gtk_widget_set_tooltip_text (button, _("Typesets the music using the one of the created layouts. See View->Score Layouts to see the layouts you have created."));
+  gtk_widget_set_tooltip_text (button, _("Typesets the music using the one of the created layouts. See View → Score Layouts to see the layouts you have created."));
   g_signal_connect (button, "clicked", G_CALLBACK (popup_layouts_menu), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 

@@ -327,7 +327,7 @@ process_lilypond_errors (gchar * filename)
     {
       if (*bytes)
         console_output (bytes);
-      warningdialog (_("Could not execute lilypond - check Edit->preferences->externals->lilypond setting\nand lilypond installation"));
+      warningdialog (_("Could not execute lilypond - check Edit->preferences → externals → lilypond setting\nand lilypond installation"));
       g_warning ("%s", lily_err->message);
       if (lily_err)
         g_error_free (lily_err);
@@ -608,7 +608,7 @@ void
 printpng_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, GList * filelist)
 {
   gchar *pngfile = g_strconcat((gchar *) get_printfile_pathbasename (), ".png", NULL);
-  gchar *message = g_strdup_printf(_("A PNG file has been created at: %s\nIf you have an external viewer available (see Edit->Change Preferences->Externals->Image Viewer)\nthen it will be displayed with that program."), pngfile);
+  gchar *message = g_strdup_printf(_("A PNG file has been created at: %s\nIf you have an external viewer available (see Edit → Change Preferences → Externals → Image Viewer)\nthen it will be displayed with that program."), pngfile);
   g_debug ("printpng_finished\n");
   g_list_foreach (filelist, (GFunc) rm_temp_files, FALSE);
   g_list_free (filelist);

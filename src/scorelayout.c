@@ -2752,7 +2752,7 @@ get_scoreblock_for_lilypond (gchar * lily)
   DenemoScoreblock *sb = g_malloc0 (sizeof (DenemoScoreblock));
   sb->text_only = TRUE;
   sb->widget = frame;
-  gtk_widget_set_tooltip_text (frame, _("This is a customized layout, which has been transformed into instructions for the LilyPond music typesetter.\nThis is the form in which customized layouts are stored in a Denemo score on disk - the graphical interface is no longer available. You can, however still edit the layout with care (and some understanding of LilyPond).\nUse the View->LilyPond window to do this.\nOtherwise you can delete it and create a new one from a standard layout."));
+  gtk_widget_set_tooltip_text (frame, _("This is a customized layout, which has been transformed into instructions for the LilyPond music typesetter.\nThis is the form in which customized layouts are stored in a Denemo score on disk - the graphical interface is no longer available. You can, however still edit the layout with care (and some understanding of LilyPond).\nUse the View → LilyPond window to do this.\nOtherwise you can delete it and create a new one from a standard layout."));
   GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
   gtk_container_add (GTK_CONTAINER (sb->widget), vbox);
   GtkWidget *options = get_options_button (sb, TRUE);

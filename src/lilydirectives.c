@@ -2233,17 +2233,17 @@ edit_object (GtkAction * action, DenemoScriptParam * param)
           }
         else
           {
-            infodialog (_("Nothing to edit on this stem directive - use controls in Staffs->Voices menu"));
+            infodialog (_("Nothing to edit on this stem directive - use controls in Staffs → Voices menu"));
           }
       }
       return;
     case TUPOPEN:
       popup_menu ("/TupletPopup");
-      infodialog (_("This marks the start of a tuplet (that is triplets etc) - after the notes there should be a corresponding end of tuplet object.\nSee the Notes/Rests->Tuplets for control over how tuplets print"));
+      infodialog (_("This marks the start of a tuplet (that is triplets etc) - after the notes there should be a corresponding end of tuplet object.\nSee the Notes/Rests → Tuplets for control over how tuplets print"));
       return;
     case TUPCLOSE:
       popup_menu ("/TupletPopup");
-      infodialog (_("This marks the end of a tuplet (that is triplets etc) - it should come in the same measure as the tuplet start marker.\nSee the Notes/Rests->Tuplets for control over how tuplets print"));
+      infodialog (_("This marks the end of a tuplet (that is triplets etc) - it should come in the same measure as the tuplet start marker.\nSee the Notes/Rests → Tuplets for control over how tuplets print"));
       return;
     default:
       warningdialog (_("No method for editing this type of object"));
