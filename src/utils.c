@@ -1638,7 +1638,7 @@ display_current_object (void)
 							directive->postfix?directive->postfix->str:"");
 						
            if (gui->si->currentobject->next == NULL && (gui->si->currentmeasure->next == NULL))
-              g_string_assign (warning, _("This Directive is at the end of the music" "\nYou may need a closing double bar line - see Directives->barlines"));
+              g_string_assign (warning, _("This Directive is at the end of the music" "\nYou may need a closing double bar line - see Directives → barlines"));
           }
           break;
         default:

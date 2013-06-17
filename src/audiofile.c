@@ -85,7 +85,7 @@ export_recorded_audio ()
           if (Denemo.prefs.maxrecordingtime)
             warningdialog (_("No audio recording has been made.\nSee Playback Controls - Record Button"));
           else
-            warningdialog (_("The preference set for recording time is 0 - nothing is recorded.\nSee Edit->Change Preferences Audio/Midi Tab"));
+            warningdialog (_("The preference set for recording time is 0 - nothing is recorded.\nSee Edit → Change Preferences Audio/Midi Tab"));
         }
     }
   return FALSE;
