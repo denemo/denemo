@@ -438,11 +438,8 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
   for (i = 0; i < keymap_size (the_keymap); i++)
     {
       gpointer action = (gpointer) lookup_action_from_idx (the_keymap, i);
-      gchar *scheme = action ? g_object_get_data (action, "scheme") : NULL;
       gchar *after = action ? g_object_get_data (action, "after") : NULL;
       gboolean deleted = (gboolean) (action ? GPOINTER_TO_INT (g_object_get_data (action, "deleted")) : 0);
-      //  if(deleted && scheme)
-      //        continue;
 
       child = xmlNewChild (parent, NULL, COMMANDXML_TAG_ROW, NULL);
 
@@ -457,7 +454,7 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
       if (deleted)              //store as hidden in commands file
         xmlNewTextChild (child, NULL, COMMANDXML_TAG_HIDDEN, (xmlChar *) "true");
 
-      if (scheme)
+      if(!is_action_name_builtin(name))
           xmlNewProp(child, COMMANDXML_TAG_TYPE, COMMAND_TYPE_SCHEME);
       else
           xmlNewProp(child, COMMANDXML_TAG_TYPE, COMMAND_TYPE_BUILTIN);

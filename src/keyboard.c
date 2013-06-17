@@ -263,8 +263,7 @@ create_command(gchar* scheme,
       add_ui (menupath, after, command->name);
     }
     
-    /*FIXME free?     gchar *old_scheme = (gchar *)g_object_get_data(G_OBJECT(action), "scheme"); */
-    //g_print("Setting scheme %s\n", scheme);
+    //FIXME free old data?
     g_object_set_data (G_OBJECT (command->action), "scheme", scheme);
     g_object_set_data (G_OBJECT (command->action), "menupath", menupath);
     if (new_command)

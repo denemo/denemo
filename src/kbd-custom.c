@@ -49,6 +49,29 @@
 
 static void load_keymap_files (gchar * keymapfile, gchar * fallback);
 
+gboolean
+is_action_id_builtin(gint id)
+{
+  command_row command;
+  keymap_get_command_row(Denemo.map, &command, id);
+  return command.script_type == COMMAND_BUILTIN;
+}
+
+gboolean
+is_action_name_builtin(gchar* command_name)
+{
+  gint* id = NULL;
+
+  id = g_hash_table_lookup (Denemo.map->idx_from_name, command_name);
+  if(!id)
+  {
+    g_debug("Requesting a invalid action name");
+    return TRUE;
+  }
+  
+  return is_action_id_builtin(*id);
+}
+
 void
 command_row_init(command_row *command)
 {
@@ -700,7 +723,7 @@ alphabeticalize_commands (keymap * the_keymap)
 
 //False if command_idx is an invalid index or keymap is null, true otherwise
 //TODO keymap should not be NULL
-static gboolean
+gboolean
 keymap_get_command_row (keymap * the_keymap, command_row * row, guint command_idx)
 {
   if (!the_keymap)
@@ -1457,7 +1480,6 @@ execute_callback_from_idx (keymap * the_keymap, guint command_idx)
 gboolean
 execute_callback_from_name (const gchar * command_name)
 {
-  gboolean res = TRUE;
   gchar *text = NULL;
   GtkAction *action = action_of_name (the_keymap, (gchar *) command_name);
   text = (gchar *) g_object_get_data (G_OBJECT (action), "scheme");
@@ -1465,7 +1487,7 @@ execute_callback_from_name (const gchar * command_name)
     call_out_to_guile (text);
   else
     gtk_action_activate (action);
-  return res;
+  return TRUE;
 }
 
 //prints info on the data of the keymap relative to a command
