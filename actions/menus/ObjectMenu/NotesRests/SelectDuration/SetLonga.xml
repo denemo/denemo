@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Denemo>
   <merge>
     <title>A Denemo Keymap</title>
@@ -15,7 +15,7 @@
 (d-InsertMeasureBefore)
 (d-Insert0)
 (d-DirectivePut-chord-graphic "Duration" "
-&#xE20C;
+
 emmentaler")
 	(d-DirectivePut-chord-override "Duration" (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_ALT_OVERRIDE))
 	(d-DirectivePut-chord-prefix "Duration" "\\longa ")		

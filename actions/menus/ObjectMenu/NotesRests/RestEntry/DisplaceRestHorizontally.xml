@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Denemo>
   <merge>
     <title>A Denemo Keymap</title>
@@ -10,7 +10,7 @@
         <scheme>;;DisplaceRestHorizontally
 (let	( (X (d-GetUserInput (_ "Horizontal shift") (_ "Give horizontal shift required") "1.5")))
 (if  X 
-  (StandAloneDirectiveProto (cons "DisplaceRestHorizontally" (string-append  "\\once \\override Voice.Rest #'extra-offset = #'(" X " . 0.0)"  )) #t "\n&#x2B0C;\nDenemo\n24")
+  (StandAloneDirectiveProto (cons "DisplaceRestHorizontally" (string-append  "\\once \\override Voice.Rest #'extra-offset = #'(" X " . 0.0)"  )) #t "\n⬌\nDenemo\n24")
   #f))
 </scheme>
         <_label>Displace Rest Horizontally</_label>

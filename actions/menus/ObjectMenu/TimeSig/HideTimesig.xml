@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Denemo>
   <merge>
     <title>A Denemo Keymap</title>
@@ -17,7 +17,7 @@
  			(begin
  				(d-DirectivePut-timesig-prefix "HideTimesig"  (string-append  "\\once \\override " lilycontext ".TimeSignature #'stencil = ##f "  ))
  				(d-DirectivePut-timesig-gy "HideTimesig" -10)
- 				(d-DirectivePut-timesig-graphic "HideTimesig" "\n&#x22C2;\nDenemo\n24")))
+ 				(d-DirectivePut-timesig-graphic "HideTimesig" "\n⋂\nDenemo\n24")))
  			(d-SetSaved #f))))
  			</scheme>
         <_label>(Print) Hide</_label>

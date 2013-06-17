@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Denemo>
   <merge>
     <title>A Denemo Command Set</title>
@@ -174,127 +174,127 @@ If the cursor is in the appending position, appends a note using the prevailing 
       <row type="builtin">
         <action>WholeNote</action>
         <_label>WholeNote</_label>
-        <_tooltip>Insert &#x1D15D;</_tooltip>
+        <_tooltip>Insert 𝅝</_tooltip>
       </row>
       <row type="builtin">
         <action>HalfNote</action>
         <_label>HalfNote</_label>
-        <_tooltip>Insert &#x1D15E;</_tooltip>
+        <_tooltip>Insert 𝅗𝅥</_tooltip>
       </row>
       <row type="builtin">
         <action>QuarterNote</action>
         <_label>QuarterNote</_label>
-        <_tooltip>Insert &#x1D15F;</_tooltip>
+        <_tooltip>Insert 𝅘𝅥</_tooltip>
       </row>
       <row type="builtin">
         <action>EighthNote</action>
         <_label>EighthNote</_label>
-        <_tooltip>Insert &#x1D160;</_tooltip>
+        <_tooltip>Insert 𝅘𝅥𝅮</_tooltip>
       </row>
       <row type="builtin">
         <action>SixteenthNote</action>
         <_label>SixteenthNote</_label>
-        <_tooltip>Insert &#x1D161;</_tooltip>
+        <_tooltip>Insert 𝅘𝅥𝅯</_tooltip>
       </row>
       <row type="builtin">
         <action>ThirtysecondNote</action>
         <_label>ThirtysecondNote</_label>
-        <_tooltip>Insert &#x1D162;</_tooltip>
+        <_tooltip>Insert 𝅘𝅥𝅰</_tooltip>
       </row>
       <row type="builtin">
         <action>SixtyfourthNote</action>
         <_label>SixtyfourthNote</_label>
-        <_tooltip>Insert &#x1D163;</_tooltip>
+        <_tooltip>Insert 𝅘𝅥𝅱</_tooltip>
       </row>
       <row type="builtin">
         <action>OneHundredTwentyEighthNote</action>
         <_label>OneHundredTwentyEighthNote</_label>
-        <_tooltip>Insert &#x1D164;</_tooltip>
+        <_tooltip>Insert 𝅘𝅥𝅲</_tooltip>
       </row>
       <row type="builtin">
         <action>TwoHundredFiftySixthNote</action>
         <_label>TwoHundredFiftySixthNote</_label>
-        <_tooltip>Insert &#x1D165;</_tooltip>
+        <_tooltip>Insert 𝅥</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertWholeRest</action>
-        <_label>Insert a &lt;span font_desc="Denemo"&gt;&#x1D13B;&lt;/span&gt;</_label>
-        <_tooltip>Insert &#x1D13B; rest</_tooltip>
+        <_label>Insert a &lt;span font_desc="Denemo"&gt;𝄻&lt;/span&gt;</_label>
+        <_tooltip>Insert 𝄻 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertHalfRest</action>
-        <_label>Insert a &lt;span font_desc="Denemo"&gt;&#x1D13C;&lt;/span&gt;</_label>
-        <_tooltip>Insert &#x1D13C; rest</_tooltip>
+        <_label>Insert a &lt;span font_desc="Denemo"&gt;𝄼&lt;/span&gt;</_label>
+        <_tooltip>Insert 𝄼 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertQuarterRest</action>
-        <_label>Insert a &lt;span font_desc="Denemo"&gt;&#x1D13D;&lt;/span&gt;</_label>
-        <_tooltip>Insert &#x1D13D; rest</_tooltip>
+        <_label>Insert a &lt;span font_desc="Denemo"&gt;𝄽&lt;/span&gt;</_label>
+        <_tooltip>Insert 𝄽 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertEighthRest</action>
-        <_label>Insert a &lt;span font_desc="Denemo"&gt;&#x1D13E;&lt;/span&gt;</_label>
-        <_tooltip>Insert &#x1D13E; rest</_tooltip>
+        <_label>Insert a &lt;span font_desc="Denemo"&gt;𝄾&lt;/span&gt;</_label>
+        <_tooltip>Insert 𝄾 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertSixteenthRest</action>
-        <_label>Insert a &lt;span font_desc="Denemo"&gt;&#x1D13F;&lt;/span&gt;</_label>
-        <_tooltip>Insert &#x1D13F; rest</_tooltip>
+        <_label>Insert a &lt;span font_desc="Denemo"&gt;𝄿&lt;/span&gt;</_label>
+        <_tooltip>Insert 𝄿 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertThirtysecondRest</action>
-        <_label>Insert a &lt;span font_desc="Denemo"&gt;&#x1D140;&lt;/span&gt;</_label>
-        <_tooltip>Insert &#x1D140; rest</_tooltip>
+        <_label>Insert a &lt;span font_desc="Denemo"&gt;𝅀&lt;/span&gt;</_label>
+        <_tooltip>Insert 𝅀 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertSixtyfourthRest</action>
-        <_label>Insert a &lt;span font_desc="Denemo"&gt;&#x1D141;&lt;/span&gt;</_label>
-        <_tooltip>Insert &#x1D141; rest</_tooltip>
+        <_label>Insert a &lt;span font_desc="Denemo"&gt;𝅁&lt;/span&gt;</_label>
+        <_tooltip>Insert 𝅁 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertBlankWholeNote</action>
-        <_label>Insert a &#x1D13B; Spacer</_label>
-        <_tooltip>Insert a non-printing &#x1D13B; rest</_tooltip>
+        <_label>Insert a 𝄻 Spacer</_label>
+        <_tooltip>Insert a non-printing 𝄻 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertBlankHalfNote</action>
-        <_label>Insert a &#x1D13C; Spacer</_label>
-        <_tooltip>Insert a non-printing &#x1D13C; rest</_tooltip>
+        <_label>Insert a 𝄼 Spacer</_label>
+        <_tooltip>Insert a non-printing 𝄼 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertBlankQuarterNote</action>
-        <_label>Insert a &#x1D13D; Spacer</_label>
-        <_tooltip>Insert a non-printing &#x1D13D; rest</_tooltip>
+        <_label>Insert a 𝄽 Spacer</_label>
+        <_tooltip>Insert a non-printing 𝄽 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertBlankEighthNote</action>
-        <_label>Insert a &#x1D13E; Spacer</_label>
-        <_tooltip>Insert a non-printing &#x1D13E; rest</_tooltip>
+        <_label>Insert a 𝄾 Spacer</_label>
+        <_tooltip>Insert a non-printing 𝄾 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertBlankSixteenthNote</action>
-        <_label>Insert a &#x1D13F; Spacer</_label>
-        <_tooltip>Insert a non-printing &#x1D13F; rest</_tooltip>
+        <_label>Insert a 𝄿 Spacer</_label>
+        <_tooltip>Insert a non-printing 𝄿 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertBlankThirtysecondNote</action>
-        <_label>Insert a &#x1D140; Spacer</_label>
-        <_tooltip>Insert a non-printing &#x1D140; rest</_tooltip>
+        <_label>Insert a 𝅀 Spacer</_label>
+        <_tooltip>Insert a non-printing 𝅀 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertBlankSixtyfourthNote</action>
-        <_label>Insert a &#x1D141; Spacer</_label>
-        <_tooltip>Insert a non-printing &#x1D141; rest</_tooltip>
+        <_label>Insert a 𝅁 Spacer</_label>
+        <_tooltip>Insert a non-printing 𝅁 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertBlankOneHundredTwentyEighthNote</action>
-        <_label>Insert a &#x1D142; Spacer</_label>
-        <_tooltip>Insert a non-printing &#x1D142; rest</_tooltip>
+        <_label>Insert a 𝅂 Spacer</_label>
+        <_tooltip>Insert a non-printing 𝅂 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertBlankTwoHundredFiftySixthNote</action>
-        <_label>Insert a &#x1D143; Spacer</_label>
-        <_tooltip>Insert a non-printing &#x1D143; rest</_tooltip>
+        <_label>Insert a 𝅃 Spacer</_label>
+        <_tooltip>Insert a non-printing 𝅃 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>ToggleRestMode</action>
@@ -1834,264 +1834,264 @@ Rhythm is unchanged</_tooltip>
       </row>
       <row type="builtin">
         <action>0</action>
-        <_label>Insert/Append a &#x1D15D;</_label>
-        <_tooltip>When appending, appends a &#x1D15D; 
-With the cursor on a note inserts a &#x1D15D;  before the current note
+        <_label>Insert/Append a 𝅝</_label>
+        <_tooltip>When appending, appends a 𝅝 
+With the cursor on a note inserts a 𝅝  before the current note
 If MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)
  - the MIDI keyboard will provide the pitch. Changes prevailing duration.</_tooltip>
       </row>
       <row type="builtin">
         <action>Change0</action>
-        <_label>Change to &#x1D15D;</_label>
-        <_tooltip>Change the current note to a &#x1D15D;</_tooltip>
+        <_label>Change to 𝅝</_label>
+        <_tooltip>Change the current note to a 𝅝</_tooltip>
       </row>
       <row type="builtin">
         <action>Insert0</action>
-        <_label>&#x1D15D;</_label>
-        <_tooltip>Insert a &#x1D15D;</_tooltip>
+        <_label>𝅝</_label>
+        <_tooltip>Insert a 𝅝</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertRest0</action>
-        <_label>Insert a &#x1D13B;</_label>
+        <_label>Insert a 𝄻</_label>
         <_tooltip>Inserts a rest at cursor position
-Sets prevailing rhythm to &#x1D15D;</_tooltip>
+Sets prevailing rhythm to 𝅝</_tooltip>
       </row>
       <row type="builtin">
         <action>Set0</action>
-        <_label>Set Prevailing Duration to &#x1D15D;</_label>
-        <_tooltip>Set the prevailing duration to &#x1D15D; (subsequent notes entered will have this duration)</_tooltip>
+        <_label>Set Prevailing Duration to 𝅝</_label>
+        <_tooltip>Set the prevailing duration to 𝅝 (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row type="builtin">
         <action>1</action>
-        <_label>Insert/Append a &#x1D15E;</_label>
-        <_tooltip>When appending, appends a &#x1D15E; 
-With the cursor on a note inserts a &#x1D15E;  before the current note
+        <_label>Insert/Append a 𝅗𝅥</_label>
+        <_tooltip>When appending, appends a 𝅗𝅥 
+With the cursor on a note inserts a 𝅗𝅥  before the current note
 If MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)
  - the MIDI keyboard will provide the pitch. Changes prevailing duration.</_tooltip>
       </row>
       <row type="builtin">
         <action>Change1</action>
-        <_label>Change to &#x1D15E;</_label>
-        <_tooltip>Change the current note to a &#x1D15E;</_tooltip>
+        <_label>Change to 𝅗𝅥</_label>
+        <_tooltip>Change the current note to a 𝅗𝅥</_tooltip>
       </row>
       <row type="builtin">
         <action>Insert1</action>
-        <_label>&#x1D15E;</_label>
-        <_tooltip>Insert a &#x1D15E;</_tooltip>
+        <_label>𝅗𝅥</_label>
+        <_tooltip>Insert a 𝅗𝅥</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertRest1</action>
-        <_label>Insert a &#x1D13C;</_label>
+        <_label>Insert a 𝄼</_label>
         <_tooltip>Inserts a rest at cursor position
-Sets prevailing rhythm to &#x1D15E;</_tooltip>
+Sets prevailing rhythm to 𝅗𝅥</_tooltip>
       </row>
       <row type="builtin">
         <action>Set1</action>
-        <_label>Set Prevailing Duration to &#x1D15E;</_label>
-        <_tooltip>Set the prevailing duration to &#x1D15E; (subsequent notes entered will have this duration)</_tooltip>
+        <_label>Set Prevailing Duration to 𝅗𝅥</_label>
+        <_tooltip>Set the prevailing duration to 𝅗𝅥 (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row type="builtin">
         <action>2</action>
-        <_label>Insert/Append a &#x1D15F;</_label>
-        <_tooltip>When appending, appends a &#x1D15F; 
-With the cursor on a note inserts a &#x1D15F;  before the current note
+        <_label>Insert/Append a 𝅘𝅥</_label>
+        <_tooltip>When appending, appends a 𝅘𝅥 
+With the cursor on a note inserts a 𝅘𝅥  before the current note
 If MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)
  - the MIDI keyboard will provide the pitch. Changes prevailing duration.</_tooltip>
       </row>
       <row type="builtin">
         <action>Change2</action>
-        <_label>Change to &#x1D15F;</_label>
-        <_tooltip>Change the current note to a &#x1D15F;</_tooltip>
+        <_label>Change to 𝅘𝅥</_label>
+        <_tooltip>Change the current note to a 𝅘𝅥</_tooltip>
       </row>
       <row type="builtin">
         <action>Insert2</action>
-        <_label>&#x1D15F;</_label>
-        <_tooltip>Insert a &#x1D15F;</_tooltip>
+        <_label>𝅘𝅥</_label>
+        <_tooltip>Insert a 𝅘𝅥</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertRest2</action>
-        <_label>Insert a &#x1D13D;</_label>
+        <_label>Insert a 𝄽</_label>
         <_tooltip>Inserts a rest at cursor position
-Sets prevailing rhythm to &#x1D15F;</_tooltip>
+Sets prevailing rhythm to 𝅘𝅥</_tooltip>
       </row>
       <row type="builtin">
         <action>Set2</action>
-        <_label>Set Prevailing Duration to &#x1D15F;</_label>
-        <_tooltip>Set the prevailing duration to &#x1D15F; (subsequent notes entered will have this duration)</_tooltip>
+        <_label>Set Prevailing Duration to 𝅘𝅥</_label>
+        <_tooltip>Set the prevailing duration to 𝅘𝅥 (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row type="builtin">
         <action>3</action>
-        <_label>Insert/Append a &#x1D160;</_label>
-        <_tooltip>When appending, appends a &#x1D160; 
-With the cursor on a note inserts a &#x1D160;  before the current note
+        <_label>Insert/Append a 𝅘𝅥𝅮</_label>
+        <_tooltip>When appending, appends a 𝅘𝅥𝅮 
+With the cursor on a note inserts a 𝅘𝅥𝅮  before the current note
 If MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)
  - the MIDI keyboard will provide the pitch. Changes prevailing duration.</_tooltip>
       </row>
       <row type="builtin">
         <action>Change3</action>
-        <_label>Change to &#x1D160;</_label>
-        <_tooltip>Change the current note to a &#x1D160;</_tooltip>
+        <_label>Change to 𝅘𝅥𝅮</_label>
+        <_tooltip>Change the current note to a 𝅘𝅥𝅮</_tooltip>
       </row>
       <row type="builtin">
         <action>Insert3</action>
-        <_label>&#x1D160;</_label>
-        <_tooltip>Insert a &#x1D160;</_tooltip>
+        <_label>𝅘𝅥𝅮</_label>
+        <_tooltip>Insert a 𝅘𝅥𝅮</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertRest3</action>
-        <_label>Insert a &#x1D13E;</_label>
+        <_label>Insert a 𝄾</_label>
         <_tooltip>Inserts a rest at cursor position
-Sets prevailing rhythm to &#x1D160;</_tooltip>
+Sets prevailing rhythm to 𝅘𝅥𝅮</_tooltip>
       </row>
       <row type="builtin">
         <action>Set3</action>
-        <_label>Set Prevailing Duration to &#x1D160;</_label>
-        <_tooltip>Set the prevailing duration to &#x1D160; (subsequent notes entered will have this duration)</_tooltip>
+        <_label>Set Prevailing Duration to 𝅘𝅥𝅮</_label>
+        <_tooltip>Set the prevailing duration to 𝅘𝅥𝅮 (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row type="builtin">
         <action>4</action>
-        <_label>Insert/Append a &#x1D161;</_label>
-        <_tooltip>When appending, appends a &#x1D161; 
-With the cursor on a note inserts a &#x1D161;  before the current note
+        <_label>Insert/Append a 𝅘𝅥𝅯</_label>
+        <_tooltip>When appending, appends a 𝅘𝅥𝅯 
+With the cursor on a note inserts a 𝅘𝅥𝅯  before the current note
 If MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)
  - the MIDI keyboard will provide the pitch. Changes prevailing duration.</_tooltip>
       </row>
       <row type="builtin">
         <action>Change4</action>
-        <_label>Change to &#x1D161;</_label>
-        <_tooltip>Change the current note to a &#x1D161;</_tooltip>
+        <_label>Change to 𝅘𝅥𝅯</_label>
+        <_tooltip>Change the current note to a 𝅘𝅥𝅯</_tooltip>
       </row>
       <row type="builtin">
         <action>Insert4</action>
-        <_label>&#x1D161;</_label>
-        <_tooltip>Insert a &#x1D161;</_tooltip>
+        <_label>𝅘𝅥𝅯</_label>
+        <_tooltip>Insert a 𝅘𝅥𝅯</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertRest4</action>
-        <_label>Insert a &#x1D13F;</_label>
+        <_label>Insert a 𝄿</_label>
         <_tooltip>Inserts a rest at cursor position
-Sets prevailing rhythm to &#x1D161;</_tooltip>
+Sets prevailing rhythm to 𝅘𝅥𝅯</_tooltip>
       </row>
       <row type="builtin">
         <action>Set4</action>
-        <_label>Set Prevailing Duration to &#x1D161;</_label>
-        <_tooltip>Set the prevailing duration to &#x1D161; (subsequent notes entered will have this duration)</_tooltip>
+        <_label>Set Prevailing Duration to 𝅘𝅥𝅯</_label>
+        <_tooltip>Set the prevailing duration to 𝅘𝅥𝅯 (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row type="builtin">
         <action>5</action>
-        <_label>Insert/Append a &#x1D162;</_label>
-        <_tooltip>When appending, appends a &#x1D162; 
-With the cursor on a note inserts a &#x1D162;  before the current note
+        <_label>Insert/Append a 𝅘𝅥𝅰</_label>
+        <_tooltip>When appending, appends a 𝅘𝅥𝅰 
+With the cursor on a note inserts a 𝅘𝅥𝅰  before the current note
 If MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)
  - the MIDI keyboard will provide the pitch. Changes prevailing duration.</_tooltip>
       </row>
       <row type="builtin">
         <action>Change5</action>
-        <_label>Change to &#x1D162;</_label>
-        <_tooltip>Change the current note to a &#x1D162;</_tooltip>
+        <_label>Change to 𝅘𝅥𝅰</_label>
+        <_tooltip>Change the current note to a 𝅘𝅥𝅰</_tooltip>
       </row>
       <row type="builtin">
         <action>Insert5</action>
-        <_label>&#x1D162;</_label>
-        <_tooltip>Insert a &#x1D162;</_tooltip>
+        <_label>𝅘𝅥𝅰</_label>
+        <_tooltip>Insert a 𝅘𝅥𝅰</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertRest5</action>
-        <_label>Insert a &#x1D140;</_label>
+        <_label>Insert a 𝅀</_label>
         <_tooltip>Inserts a rest at cursor position
-Sets prevailing rhythm to &#x1D162;</_tooltip>
+Sets prevailing rhythm to 𝅘𝅥𝅰</_tooltip>
       </row>
       <row type="builtin">
         <action>Set5</action>
-        <_label>Set Prevailing Duration to &#x1D162;</_label>
-        <_tooltip>Set the prevailing duration to &#x1D162; (subsequent notes entered will have this duration)</_tooltip>
+        <_label>Set Prevailing Duration to 𝅘𝅥𝅰</_label>
+        <_tooltip>Set the prevailing duration to 𝅘𝅥𝅰 (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row type="builtin">
         <action>6</action>
-        <_label>Insert/Append a &#x1D163;</_label>
-        <_tooltip>When appending, appends a &#x1D163; 
-With the cursor on a note inserts a &#x1D163;  before the current note
+        <_label>Insert/Append a 𝅘𝅥𝅱</_label>
+        <_tooltip>When appending, appends a 𝅘𝅥𝅱 
+With the cursor on a note inserts a 𝅘𝅥𝅱  before the current note
 If MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)
  - the MIDI keyboard will provide the pitch. Changes prevailing duration.</_tooltip>
       </row>
       <row type="builtin">
         <action>Change6</action>
-        <_label>Change to &#x1D163;</_label>
-        <_tooltip>Change the current note to a &#x1D163;</_tooltip>
+        <_label>Change to 𝅘𝅥𝅱</_label>
+        <_tooltip>Change the current note to a 𝅘𝅥𝅱</_tooltip>
       </row>
       <row type="builtin">
         <action>Insert6</action>
-        <_label>&#x1D163;</_label>
-        <_tooltip>Insert a &#x1D163;</_tooltip>
+        <_label>𝅘𝅥𝅱</_label>
+        <_tooltip>Insert a 𝅘𝅥𝅱</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertRest6</action>
-        <_label>Insert a &#x1D141;</_label>
+        <_label>Insert a 𝅁</_label>
         <_tooltip>Inserts a rest at cursor position
-Sets prevailing rhythm to &#x1D163;</_tooltip>
+Sets prevailing rhythm to 𝅘𝅥𝅱</_tooltip>
       </row>
       <row type="builtin">
         <action>Set6</action>
-        <_label>Set Prevailing Duration to &#x1D163;</_label>
-        <_tooltip>Set the prevailing duration to &#x1D163; (subsequent notes entered will have this duration)</_tooltip>
+        <_label>Set Prevailing Duration to 𝅘𝅥𝅱</_label>
+        <_tooltip>Set the prevailing duration to 𝅘𝅥𝅱 (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row type="builtin">
         <action>7</action>
-        <_label>Insert/Append a &#x1D164;</_label>
-        <_tooltip>When appending, appends a &#x1D164; 
-With the cursor on a note inserts a &#x1D164;  before the current note
+        <_label>Insert/Append a 𝅘𝅥𝅲</_label>
+        <_tooltip>When appending, appends a 𝅘𝅥𝅲 
+With the cursor on a note inserts a 𝅘𝅥𝅲  before the current note
 If MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)
  - the MIDI keyboard will provide the pitch. Changes prevailing duration.</_tooltip>
       </row>
       <row type="builtin">
         <action>Change7</action>
-        <_label>Change to &#x1D164;</_label>
-        <_tooltip>Change the current note to a &#x1D164;</_tooltip>
+        <_label>Change to 𝅘𝅥𝅲</_label>
+        <_tooltip>Change the current note to a 𝅘𝅥𝅲</_tooltip>
       </row>
       <row type="builtin">
         <action>Insert7</action>
-        <_label>&#x1D164;</_label>
-        <_tooltip>Insert a &#x1D164;</_tooltip>
+        <_label>𝅘𝅥𝅲</_label>
+        <_tooltip>Insert a 𝅘𝅥𝅲</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertRest7</action>
-        <_label>Insert a &#x1D142;</_label>
+        <_label>Insert a 𝅂</_label>
         <_tooltip>Inserts a rest at cursor position
-Sets prevailing rhythm to &#x1D164;</_tooltip>
+Sets prevailing rhythm to 𝅘𝅥𝅲</_tooltip>
       </row>
       <row type="builtin">
         <action>Set7</action>
-        <_label>Set Prevailing Duration to &#x1D164;</_label>
-        <_tooltip>Set the prevailing duration to &#x1D164; (subsequent notes entered will have this duration)</_tooltip>
+        <_label>Set Prevailing Duration to 𝅘𝅥𝅲</_label>
+        <_tooltip>Set the prevailing duration to 𝅘𝅥𝅲 (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row type="builtin">
         <action>8</action>
-        <_label>Insert/Append a &#x1D165;</_label>
-        <_tooltip>When appending, appends a &#x1D165; 
-With the cursor on a note inserts a &#x1D165;  before the current note
+        <_label>Insert/Append a 𝅥</_label>
+        <_tooltip>When appending, appends a 𝅥 
+With the cursor on a note inserts a 𝅥  before the current note
 If MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)
  - the MIDI keyboard will provide the pitch. Changes prevailing duration.</_tooltip>
       </row>
       <row type="builtin">
         <action>Change8</action>
-        <_label>Change to &#x1D165;</_label>
-        <_tooltip>Change the current note to a &#x1D165;</_tooltip>
+        <_label>Change to 𝅥</_label>
+        <_tooltip>Change the current note to a 𝅥</_tooltip>
       </row>
       <row type="builtin">
         <action>Insert8</action>
-        <_label>&#x1D165;</_label>
-        <_tooltip>Insert a &#x1D165;</_tooltip>
+        <_label>𝅥</_label>
+        <_tooltip>Insert a 𝅥</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertRest8</action>
-        <_label>Insert a &#x1D143;</_label>
+        <_label>Insert a 𝅃</_label>
         <_tooltip>Inserts a rest at cursor position
-Sets prevailing rhythm to &#x1D165;</_tooltip>
+Sets prevailing rhythm to 𝅥</_tooltip>
       </row>
       <row type="builtin">
         <action>Set8</action>
-        <_label>Set Prevailing Duration to &#x1D165;</_label>
-        <_tooltip>Set the prevailing duration to &#x1D165; (subsequent notes entered will have this duration)</_tooltip>
+        <_label>Set Prevailing Duration to 𝅥</_label>
+        <_tooltip>Set the prevailing duration to 𝅥 (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row type="scheme">
         <action>ToggleStopped</action>
@@ -5041,62 +5041,62 @@ First it removes notes until just a non-printing rest remains, then deletes that
       <row type="scheme">
         <action>Slur0</action>
         <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
-        <_label> &#x23DC; &#x1D15D;</_label>
-        <_tooltip>Inserts a &#x1D15D; and slurs to it, extending previous slur.</_tooltip>
+        <_label> ⏜ 𝅝</_label>
+        <_tooltip>Inserts a 𝅝 and slurs to it, extending previous slur.</_tooltip>
       </row>
       <row type="scheme">
         <action>Slur1</action>
         <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
-        <_label> &#x23DC; &#x1D15E;</_label>
-        <_tooltip>Inserts a &#x1D15E; and slurs to it, extending previous slur.</_tooltip>
+        <_label> ⏜ 𝅗𝅥</_label>
+        <_tooltip>Inserts a 𝅗𝅥 and slurs to it, extending previous slur.</_tooltip>
       </row>
       <row type="scheme">
         <action>Slur2</action>
         <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
-        <_label> &#x23DC; &#x1D15F;</_label>
-        <_tooltip>Inserts a &#x1D15F; and slurs to it, extending previous slur.</_tooltip>
+        <_label> ⏜ 𝅘𝅥</_label>
+        <_tooltip>Inserts a 𝅘𝅥 and slurs to it, extending previous slur.</_tooltip>
       </row>
       <row type="scheme">
         <action>Slur3</action>
         <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
-        <_label> &#x23DC; &#x1D160;</_label>
-        <_tooltip>Inserts a &#x1D160; and slurs to it, extending previous slur.</_tooltip>
+        <_label> ⏜ 𝅘𝅥𝅮</_label>
+        <_tooltip>Inserts a 𝅘𝅥𝅮 and slurs to it, extending previous slur.</_tooltip>
       </row>
       <row type="scheme">
         <action>Slur4</action>
         <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
-        <_label> &#x23DC; &#x1D161;</_label>
-        <_tooltip>Inserts a &#x1D161; and slurs to it, extending previous slur.</_tooltip>
+        <_label> ⏜ 𝅘𝅥𝅯</_label>
+        <_tooltip>Inserts a 𝅘𝅥𝅯 and slurs to it, extending previous slur.</_tooltip>
       </row>
       <row type="scheme">
         <action>Slur5</action>
         <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
-        <_label> &#x23DC; &#x1D162;</_label>
-        <_tooltip>Inserts a &#x1D162; and slurs to it, extending previous slur.</_tooltip>
+        <_label> ⏜ 𝅘𝅥𝅰</_label>
+        <_tooltip>Inserts a 𝅘𝅥𝅰 and slurs to it, extending previous slur.</_tooltip>
       </row>
       <row type="scheme">
         <action>Slur6</action>
         <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
-        <_label> &#x23DC; &#x1D163;</_label>
-        <_tooltip>Inserts a &#x1D163; and slurs to it, extending previous slur.</_tooltip>
+        <_label> ⏜ 𝅘𝅥𝅱</_label>
+        <_tooltip>Inserts a 𝅘𝅥𝅱 and slurs to it, extending previous slur.</_tooltip>
       </row>
       <row type="scheme">
         <action>Slur7</action>
         <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
-        <_label> &#x23DC; &#x1D164;</_label>
-        <_tooltip>Inserts a &#x1D164; and slurs to it, extending previous slur.</_tooltip>
+        <_label> ⏜ 𝅘𝅥𝅲</_label>
+        <_tooltip>Inserts a 𝅘𝅥𝅲 and slurs to it, extending previous slur.</_tooltip>
       </row>
       <row type="scheme">
         <action>SlurBreve</action>
         <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
-        <_label> &#x23DC; &#x1D15C;</_label>
-        <_tooltip>Inserts a &#x1D15C; and slurs to it, extending previous slur.</_tooltip>
+        <_label> ⏜ 𝅜</_label>
+        <_tooltip>Inserts a 𝅜 and slurs to it, extending previous slur.</_tooltip>
       </row>
       <row type="scheme">
         <action>SlurLonga</action>
         <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
-        <_label> &#x23DC; &#x1D15B;</_label>
-        <_tooltip>Inserts a &#x1D15B; and slurs to it, extending previous slur.</_tooltip>
+        <_label> ⏜ 𝅛</_label>
+        <_tooltip>Inserts a 𝅛 and slurs to it, extending previous slur.</_tooltip>
       </row>
       <row type="scheme">
         <action>MarcatoSelectionSwitcher</action>
@@ -5218,14 +5218,14 @@ First it removes notes until just a non-printing rest remains, then deletes that
         <action>SharpenKeysig</action>
         <after>InitialKey</after>
         <menupath>/ObjectMenu/Key</menupath>
-        <_label>&#x266F;</_label>
+        <_label>♯</_label>
         <_tooltip>Sharpens the key signature by one degree. If no key signature at cursor, sharpens the initial key signature.</_tooltip>
       </row>
       <row type="scheme">
         <action>FlattenKeysig</action>
         <after>SharpenKeysig</after>
         <menupath>/ObjectMenu/Key</menupath>
-        <_label>&#x266D;</_label>
+        <_label>♭</_label>
         <_tooltip>Flattens the key signature by one degree. If no key signature at the cursor, operates on the initial key signature.</_tooltip>
       </row>
       <row type="scheme">
@@ -5693,14 +5693,14 @@ accidentals are usually printed over the note.</_tooltip>
         <action>SharpenInitialKeysigs</action>
         <after>InitialKey</after>
         <menupath>/ObjectMenu/Key</menupath>
-        <_label>&#x266F; Initial</_label>
+        <_label>♯ Initial</_label>
         <_tooltip>Sharpens the inital key signature by one degree on all staffs/voices.</_tooltip>
       </row>
       <row type="scheme">
         <action>FlattenInitialKeysigs</action>
         <after>SharpenInitialKeysigs</after>
         <menupath>/ObjectMenu/Key</menupath>
-        <_label>&#x266D; Initial</_label>
+        <_label>♭ Initial</_label>
         <_tooltip>Flattens the inital key signature by one degree on all staffs/voices.</_tooltip>
       </row>
       <row type="scheme">

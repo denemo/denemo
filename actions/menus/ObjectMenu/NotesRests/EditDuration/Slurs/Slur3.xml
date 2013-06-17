@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Denemo>
   <merge>
     <title>A Denemo Keymap</title>
@@ -8,8 +8,8 @@
         <action>Slur3</action>
         <scheme>(d-3)
 (SlurToCurrentChord)</scheme>
-        <_label> &#x23DC; &#x1D160;</_label>
-        <_tooltip>Inserts a &#x1D160; and slurs to it, extending previous slur.</_tooltip>
+        <_label> ⏜ 𝅘𝅥𝅮</_label>
+        <_tooltip>Inserts a 𝅘𝅥𝅮 and slurs to it, extending previous slur.</_tooltip>
       </row>
     </map>
   </merge>

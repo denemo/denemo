@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Denemo>
   <merge>
     <title>A Denemo Keymap</title>
@@ -15,7 +15,7 @@
 		(begin ;note
 			(d-Change0) ; Change to a full note first to get rid of note-stems 
 			(d-DirectivePut-chord-graphic "Duration" "
-&#xE1D3;
+
 emmentaler")
 		)	
 	)

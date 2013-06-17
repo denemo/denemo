@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Denemo>
   <merge>
     <title>A Denemo Keymap</title>
@@ -15,7 +15,7 @@
 			(d-IncrementInitialKeysig))
 		(d-PopPosition)
         </scheme>
-        <_label>&#x266F; Initial</_label>
+        <_label>♯ Initial</_label>
         <_tooltip>Sharpens the inital key signature by one degree on all staffs/voices.</_tooltip>
       </row>
     </map>

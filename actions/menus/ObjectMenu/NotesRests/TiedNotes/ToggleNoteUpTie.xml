@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Denemo>
   <merge>
     <title>A Denemo Keymap</title>
@@ -14,7 +14,7 @@
 		(begin
 			(d-DirectivePut-note-postfix tag "^~ ")
 			(d-Chordize)
-			;;for some reason we do not have &#x23DD; in the font
+			;;for some reason we do not have ⏝ in the font
 			(d-DirectivePut-note-graphic tag "\n~
 			Denemo
 			30")))

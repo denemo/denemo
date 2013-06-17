@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Denemo>
   <merge>
     <title>A Denemo Keymap</title>
@@ -17,7 +17,7 @@
  			(begin
  				(d-DirectivePut-keysig-prefix "HideKeysig"  (string-append  "\\once \\override " lilycontext ".KeySignature #'stencil = ##f"  ))
  				(d-DirectivePut-keysig-gy "HideKeysig" -10)
- 				(d-DirectivePut-keysig-graphic "HideKeysig" "\n&#x22C2;\nDenemo\n24")))
+ 				(d-DirectivePut-keysig-graphic "HideKeysig" "\n⋂\nDenemo\n24")))
  			(d-SetSaved #f))))
  			</scheme>
         <_label>(Print) Hide</_label>
