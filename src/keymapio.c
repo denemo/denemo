@@ -51,7 +51,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_LABEL))
         {
-          command.label = (gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+          command.label = _((gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1));
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_AFTER))
         {
@@ -59,7 +59,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_TOOLTIP))
         {
-          command.tooltip = (gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+          command.tooltip = _((gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1));
         }
     }
   create_command((gchar*) scheme, (gchar*) after, fallback, &command);
