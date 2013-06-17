@@ -480,7 +480,7 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
 
     }
 
-  xmlSaveFormatFile (filename, doc, 1);
+  xmlSaveFormatFileEnc (filename, doc, XML_ENCODING, 1);
 
   xmlFreeDoc (doc);
   return ret;
@@ -533,7 +533,7 @@ save_xml_keybindings (gchar * filename)
         }
     }
 
-  xmlSaveFormatFile (filename, doc, 1);
+  xmlSaveFormatFileEnc (filename, doc, XML_ENCODING, 1);
 
   xmlFreeDoc (doc);
   return ret;
@@ -625,7 +625,6 @@ parse_paths (gchar * filename, DenemoGUI * gui)
 {
   gint ret = -1;
   xmlDocPtr doc;
-  //xmlNsPtr ns;
   xmlNodePtr rootElem;
   if (filename == NULL)
     return ret;
@@ -644,15 +643,15 @@ parse_paths (gchar * filename, DenemoGUI * gui)
       xmlFreeDoc (doc);
       return ret;
     }
-  //g_print ("RootElem %s\n", rootElem->name);
+
   if (xmlStrcmp (rootElem->name, (const xmlChar *) "ui"))
     {
       g_warning ("Document has wrong type\n");
       xmlFreeDoc (doc);
       return ret;
     }
-  gchar *path = "";
-  parseMenu (rootElem, path, gui);
+
+  parseMenu (rootElem, "", gui);
   ret = 0;
   xmlFreeDoc (doc);
   return ret;
@@ -685,7 +684,7 @@ save_command_metadata (gchar * filename, gchar * myname, gchar * mylabel, gchar 
 
   xmlNewTextChild (child, NULL, COMMANDXML_TAG_TOOLTIP, (xmlChar *) mytooltip);
 
-  xmlSaveFormatFile (filename, doc, 1);
+  xmlSaveFormatFileEnc (filename, doc, XML_ENCODING, 1);
   xmlFreeDoc (doc);
   return 0;
 }
@@ -731,7 +730,7 @@ save_command_data (gchar * filename, gchar * myscheme)
   xmlNewTextChild (cur, NULL, COMMANDXML_TAG_SCHEME, (xmlChar*) myscheme);
 
   xmlKeepBlanksDefault(0);
-  xmlSaveFormatFile (filename, doc, 1);
+  xmlSaveFormatFileEnc (filename, doc, XML_ENCODING, 1);
   xmlFreeDoc (doc);
   return 0;
 }

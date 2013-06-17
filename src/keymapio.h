@@ -17,6 +17,8 @@ gint load_xml_keybindings (gchar * filename);
 gint save_command_metadata (gchar * filename, gchar * myname, gchar * mylabel, gchar * mytooltip, gchar * after);
 gint save_command_data (gchar * filename, gchar * myscheme);
 
+#define XML_ENCODING "UTF-8"
+
 #define COMMANDXML_TAG_ROOT          (const xmlChar *) "Denemo"
 #define COMMANDXML_TAG_MERGE         (const xmlChar *) "merge"
 #define COMMANDXML_TAG_TITLE         (const xmlChar *) "title"
