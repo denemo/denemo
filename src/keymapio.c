@@ -483,7 +483,7 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
 
     }
 
-  xmlSaveFormatFile (filename, doc, 1);
+  xmlSaveFormatFileEnc (filename, doc, "UTF-8", 1);
 
   xmlFreeDoc (doc);
   return ret;
@@ -536,7 +536,7 @@ save_xml_keybindings (gchar * filename)
         }
     }
 
-  xmlSaveFormatFile (filename, doc, 1);
+  xmlSaveFormatFileEnc (filename, doc, "UTF-8", 1);
 
   xmlFreeDoc (doc);
   return ret;
@@ -691,7 +691,7 @@ save_script_as_xml (gchar * filename, gchar * myname, gchar * myscheme, gchar * 
 
 
   xmlNewTextChild (child, NULL, COMMANDXML_TAG_TOOLTIP, (xmlChar *) mytooltip);
-  xmlSaveFormatFile (filename, doc, 1);
+  xmlSaveFormatFileEnc (filename, doc, "UTF-8", 1);
 
   xmlFreeDoc (doc);
   return 0;

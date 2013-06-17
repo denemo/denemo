@@ -1537,11 +1537,11 @@ display_current_object (void)
               {
                 selection = g_string_append (selection, _("a rest."));
                 if (thechord->slur_begin_p)
-                  warning = g_string_append (warning, _("This rest has a slur start on it, use the Notes/Rests-&gt;Slurs menu to remove it"));
+                  warning = g_string_append (warning, _("This rest has a slur start on it, use the Notes/Rests → Slurs menu to remove it"));
                 if (thechord->slur_end_p)
-                  warning = g_string_append (warning, _("This rest has a slur end on it, use the Notes/Rests-&gt;Slurs menu to remove it"));
+                  warning = g_string_append (warning, _("This rest has a slur end on it, use the Notes/Rests → Slurs menu to remove it"));
                 if (thechord->is_tied)
-                  warning = g_string_append (warning, _("This rest has a tie starting on it, use the Notes/Rests-&gt;Ties menu to remove it"));
+                  warning = g_string_append (warning, _("This rest has a tie starting on it, use the Notes/Rests → Ties menu to remove it"));
 
               }
             if (thechord->directives) {
