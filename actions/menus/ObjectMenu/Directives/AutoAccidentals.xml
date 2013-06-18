@@ -13,7 +13,7 @@
 "))
 </scheme>
         <_label>(Print) Accidental Printing</_label>
-        <_tooltip>Prints accidentals accoring to a chosen style</_tooltip>
+        <_tooltip>Prints accidentals according to a chosen style</_tooltip>
       </row>
     </map>
   </merge>
