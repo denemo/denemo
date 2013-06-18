@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-12 09:49+0200\n"
+"POT-Creation-Date: 2013-06-18 11:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,7 +50,7 @@ msgstr ""
 #: ../src/audiofile.c:88
 msgid ""
 "The preference set for recording time is 0 - nothing is recorded.\n"
-"See Edit->Change Preferences Audio/Midi Tab"
+"See Edit → Change Preferences Audio/Midi Tab"
 msgstr ""
 
 #: ../src/barline.c:36
@@ -186,7 +186,7 @@ msgstr ""
 
 #: ../src/commandfuncs.c:471
 msgid ""
-"You will need to alter the staff->properties->context of this and the "
+"You will need to alter the staff → properties → context of this and the "
 "previous staff; Proceed?"
 msgstr ""
 
@@ -5090,21 +5090,21 @@ msgstr ""
 
 #: ../src/lilydirectives.c:2236
 msgid ""
-"Nothing to edit on this stem directive - use controls in Staffs->Voices menu"
+"Nothing to edit on this stem directive - use controls in Staffs → Voices menu"
 msgstr ""
 
 #: ../src/lilydirectives.c:2242
 msgid ""
 "This marks the start of a tuplet (that is triplets etc) - after the notes "
 "there should be a corresponding end of tuplet object.\n"
-"See the Notes/Rests->Tuplets for control over how tuplets print"
+"See the Notes/Rests → Tuplets for control over how tuplets print"
 msgstr ""
 
 #: ../src/lilydirectives.c:2246
 msgid ""
 "This marks the end of a tuplet (that is triplets etc) - it should come in "
 "the same measure as the tuplet start marker.\n"
-"See the Notes/Rests->Tuplets for control over how tuplets print"
+"See the Notes/Rests → Tuplets for control over how tuplets print"
 msgstr ""
 
 #: ../src/lilydirectives.c:2249
@@ -5927,7 +5927,7 @@ msgstr ""
 
 #: ../src/print.c:330
 msgid ""
-"Could not execute lilypond - check Edit->preferences->externals->lilypond "
+"Could not execute lilypond - check Edit->preferences → externals → lilypond "
 "setting\n"
 "and lilypond installation"
 msgstr ""
@@ -5952,8 +5952,8 @@ msgstr ""
 #, c-format
 msgid ""
 "A PNG file has been created at: %s\n"
-"If you have an external viewer available (see Edit->Change Preferences-"
-">Externals->Image Viewer)\n"
+"If you have an external viewer available (see Edit → Change Preferences → "
+"Externals → Image Viewer)\n"
 "then it will be displayed with that program."
 msgstr ""
 
@@ -6198,7 +6198,7 @@ msgstr ""
 
 #: ../src/printview.c:2311
 msgid ""
-"Typesets the music using the one of the created layouts. See View->Score "
+"Typesets the music using the one of the created layouts. See View → Score "
 "Layouts to see the layouts you have created."
 msgstr ""
 
@@ -6786,7 +6786,7 @@ msgid ""
 "This is the form in which customized layouts are stored in a Denemo score on "
 "disk - the graphical interface is no longer available. You can, however "
 "still edit the layout with care (and some understanding of LilyPond).\n"
-"Use the View->LilyPond window to do this.\n"
+"Use the View → LilyPond window to do this.\n"
 "Otherwise you can delete it and create a new one from a standard layout."
 msgstr ""
 
@@ -7067,19 +7067,18 @@ msgstr ""
 
 #: ../src/utils.c:1540
 msgid ""
-"This rest has a slur start on it, use the Notes/Rests-&gt;Slurs menu to "
-"remove it"
+"This rest has a slur start on it, use the Notes/Rests → Slurs menu to remove "
+"it"
 msgstr ""
 
 #: ../src/utils.c:1542
 msgid ""
-"This rest has a slur end on it, use the Notes/Rests-&gt;Slurs menu to remove "
-"it"
+"This rest has a slur end on it, use the Notes/Rests → Slurs menu to remove it"
 msgstr ""
 
 #: ../src/utils.c:1544
 msgid ""
-"This rest has a tie starting on it, use the Notes/Rests-&gt;Ties menu to "
+"This rest has a tie starting on it, use the Notes/Rests → Ties menu to "
 "remove it"
 msgstr ""
 
@@ -7195,7 +7194,7 @@ msgstr ""
 #: ../src/utils.c:1641
 msgid ""
 "This Directive is at the end of the music\n"
-"You may need a closing double bar line - see Directives->barlines"
+"You may need a closing double bar line - see Directives → barlines"
 msgstr ""
 
 #: ../src/utils.c:1646
@@ -7298,7 +7297,7 @@ msgstr ""
 #: ../src/view.c:3350
 msgid ""
 "Makes the next Snippet the one that can be pasted. To see the music snippets "
-"you need to check View->Snippets\n"
+"you need to check View → Snippets\n"
 "The one selected is in bold black."
 msgstr ""
 
@@ -7363,7 +7362,7 @@ msgstr ""
 #: ../src/view.c:7434
 msgid ""
 "The preference set for recording time is 0 - nothing can be recorded.\n"
-"See Edit->Change Preferences Audio/Midi Tab"
+"See Edit → Change Preferences Audio/Midi Tab"
 msgstr ""
 
 #: ../src/view.c:8295 ../src/view.c:8299 ../src/view.c:8302 ../src/view.c:8304
@@ -7761,9 +7760,9 @@ msgstr ""
 
 #: ../src/view.c:10135
 msgid ""
-"Input from a MIDI source. Set up the source first using Edit->Change "
-"Preferences->Audio/Midi\n"
-"Use View->MIDI In Control to control what the input does.\n"
+"Input from a MIDI source. Set up the source first using Edit → Change "
+"Preferences → Audio/Midi\n"
+"Use View → MIDI In Control to control what the input does.\n"
 msgstr ""
 
 #: ../src/view.c:10319
@@ -7811,7 +7810,8 @@ msgid ""
 "is the <i>prevailing duration</i>, that is the duration which will be "
 "applied to the next note entered. You can hide this bar (to make more room "
 "on the screen) using the View menu. You can make it your preference to hide "
-"it using MainMenu->Edit->Change Preferences->Display Note/Rest entry toolbar"
+"it using MainMenu → Edit → Change Preferences → Display Note/Rest entry "
+"toolbar"
 msgstr ""
 
 #: ../src/view.c:10534
@@ -7820,12 +7820,12 @@ msgid ""
 "highlighted snippet is the <i>prevailing duration</i>, that is the next note "
 "entered will follow the rhythmic pattern of this snippet.\n"
 "You can enter the whole snippet by clicking on it, or using the command "
-"under ObjectMenu->Notes/Rests->Append/InsertDuration->Insert Snippet. You "
-"can also select the <i>prevailing snippet</i> using  ObjectMenu->Notes/Rests-"
-">Select Duration->Next Snippet.\n"
+"under ObjectMenu → Notes/Rests → Append/InsertDuration → Insert Snippet. You "
+"can also select the <i>prevailing snippet</i> using  ObjectMenu → Notes/"
+"Rests → Select Duration → Next Snippet.\n"
 "You can hide this bar (to make more room on the screen) using the View menu. "
-"You can make it your preference to hide it using MainMenu->Edit->Change "
-"Preferences->Display Note/Rest entry toolbar"
+"You can make it your preference to hide it using MainMenu → Edit → Change "
+"Preferences → Display Note/Rest entry toolbar"
 msgstr ""
 
 #. The user should be able to decide toolbar style.
@@ -7834,7 +7834,7 @@ msgstr ""
 msgid ""
 "This tool bar contains a few conventional commands. You can hide it (to make "
 "more room on the screen) using the View menu. You can make it your "
-"preference to hide it using MainMenu->Edit->Change Preferences->Display "
+"preference to hide it using MainMenu → Edit → Change Preferences → Display "
 "general toolbar"
 msgstr ""
 
@@ -8006,8 +8006,8 @@ msgstr ""
 msgid ""
 "Controls for managing input from a MIDI controller (e.g. keyboard) attached "
 "to the computer. You may need to select your MIDI device first using "
-"MainMenu->Edit->Change Preferences->MIDI looking for MIDI in devices (turn "
-"your device on first). When you have a MIDI controller durations are "
+"MainMenu → Edit → Change Preferences → MIDI looking for MIDI in devices "
+"(turn your device on first). When you have a MIDI controller durations are "
 "inserted without any pitch (they appear in brown) playing on the controller "
 "puts the pitches onto the durations. The Shift and Control and ALT keys can "
 "also be used for listening without entering notes, checking pitches entered "
@@ -10516,7 +10516,7 @@ msgstr ""
 msgid ""
 "Sets your status as a newbie on or off. This affects the tooltips. Note you "
 "can also independently delay tooltips, indefinitely if you wish, via the "
-"preferences dialog. See Edit-&gt;Change Preferences-&gt;Command Behavior"
+"preferences dialog. See Edit->Change Preferences->Command Behavior"
 msgstr ""
 
 #: ../actions/menus/MainMenu/HelpMenu/Tutorial.xml.h:1
@@ -10921,7 +10921,7 @@ msgstr ""
 
 #: ../actions/menus/MainMenu/PlaybackMenu/Audio/AudioPlay.xml.h:2
 msgid ""
-"Plays the audio attached to the current movement. Use File-&gt;Open Audio to "
+"Plays the audio attached to the current movement. Use File->Open Audio to "
 "attach audio."
 msgstr ""
 
@@ -11423,7 +11423,7 @@ msgid "(Print) Accidental Printing"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/Directives/AutoAccidentals.xml.h:2
-msgid "Prints accidentals accoring to a chosen style"
+msgid "Prints accidentals according to a chosen style"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/Directives/Barlines/ChooseBarline.xml.h:1
@@ -11563,7 +11563,7 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.xml.h:2
 msgid ""
 "The Denemo Directive at the cursor will be ignored when printing from the "
-"current score layout (See View-&gt;Score Layout)"
+"current score layout (See View->Score Layout)"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/OnlyForLayout.xml.h:1
@@ -11573,7 +11573,7 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/OnlyForLayout.xml.h:2
 msgid ""
 "The Denemo Directive at the cursor will only apply to the current Score "
-"Layout (see View-&gt;Score Layout)"
+"Layout (see View->Score Layout)"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/Directives/CriticalComment.xml.h:2
@@ -11639,7 +11639,7 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/Directives/InsertDefinedLilyPond.xml.h:2
 msgid ""
 "Gives a menu of previously created LilyPondDefinition commands (see Score-"
-"&gt;LilyPond Definition menu for this)"
+">LilyPond Definition menu for this)"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/Directives/InsertStandaloneDirective.xml.h:1
@@ -12112,7 +12112,7 @@ msgid ""
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/Key/FlattenInitialKeysigs.xml.h:1
-msgid "&#x266D; Initial"
+msgid "♭ Initial"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/Key/FlattenInitialKeysigs.xml.h:2
@@ -12120,7 +12120,7 @@ msgid "Flattens the inital key signature by one degree on all staffs/voices."
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/Key/FlattenKeysig.xml.h:1
-msgid "&#x266D;"
+msgid "♭"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/Key/FlattenKeysig.xml.h:2
@@ -12136,7 +12136,7 @@ msgid ""
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/Key/SharpenInitialKeysigs.xml.h:1
-msgid "&#x266F; Initial"
+msgid "♯ Initial"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/Key/SharpenInitialKeysigs.xml.h:2
@@ -12144,7 +12144,7 @@ msgid "Sharpens the inital key signature by one degree on all staffs/voices."
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/Key/SharpenKeysig.xml.h:1
-msgid "&#x266F;"
+msgid "♯"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/Key/SharpenKeysig.xml.h:2
@@ -12914,83 +12914,83 @@ msgid "Append/Insert Longa duration"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/Slur0.xml.h:1
-msgid "&#x23DC; &#x1D15D;"
+msgid "⏜ 𝅝"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/Slur0.xml.h:2
-msgid "Inserts a &#x1D15D; and slurs to it, extending previous slur."
+msgid "Inserts a 𝅝 and slurs to it, extending previous slur."
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/Slur1.xml.h:1
-msgid "&#x23DC; &#x1D15E;"
+msgid "⏜ 𝅗𝅥"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/Slur1.xml.h:2
-msgid "Inserts a &#x1D15E; and slurs to it, extending previous slur."
+msgid "Inserts a 𝅗𝅥 and slurs to it, extending previous slur."
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/Slur2.xml.h:1
-msgid "&#x23DC; &#x1D15F;"
+msgid "⏜ 𝅘𝅥"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/Slur2.xml.h:2
-msgid "Inserts a &#x1D15F; and slurs to it, extending previous slur."
+msgid "Inserts a 𝅘𝅥 and slurs to it, extending previous slur."
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/Slur3.xml.h:1
-msgid "&#x23DC; &#x1D160;"
+msgid "⏜ 𝅘𝅥𝅮"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/Slur3.xml.h:2
-msgid "Inserts a &#x1D160; and slurs to it, extending previous slur."
+msgid "Inserts a 𝅘𝅥𝅮 and slurs to it, extending previous slur."
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/Slur4.xml.h:1
-msgid "&#x23DC; &#x1D161;"
+msgid "⏜ 𝅘𝅥𝅯"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/Slur4.xml.h:2
-msgid "Inserts a &#x1D161; and slurs to it, extending previous slur."
+msgid "Inserts a 𝅘𝅥𝅯 and slurs to it, extending previous slur."
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/Slur5.xml.h:1
-msgid "&#x23DC; &#x1D162;"
+msgid "⏜ 𝅘𝅥𝅰"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/Slur5.xml.h:2
-msgid "Inserts a &#x1D162; and slurs to it, extending previous slur."
+msgid "Inserts a 𝅘𝅥𝅰 and slurs to it, extending previous slur."
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/Slur6.xml.h:1
-msgid "&#x23DC; &#x1D163;"
+msgid "⏜ 𝅘𝅥𝅱"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/Slur6.xml.h:2
-msgid "Inserts a &#x1D163; and slurs to it, extending previous slur."
+msgid "Inserts a 𝅘𝅥𝅱 and slurs to it, extending previous slur."
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/Slur7.xml.h:1
-msgid "&#x23DC; &#x1D164;"
+msgid "⏜ 𝅘𝅥𝅲"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/Slur7.xml.h:2
-msgid "Inserts a &#x1D164; and slurs to it, extending previous slur."
+msgid "Inserts a 𝅘𝅥𝅲 and slurs to it, extending previous slur."
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/SlurBreve.xml.h:1
-msgid "&#x23DC; &#x1D15C;"
+msgid "⏜ 𝅜"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/SlurBreve.xml.h:2
-msgid "Inserts a &#x1D15C; and slurs to it, extending previous slur."
+msgid "Inserts a 𝅜 and slurs to it, extending previous slur."
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/SlurLonga.xml.h:1
-msgid "&#x23DC; &#x1D15B;"
+msgid "⏜ 𝅛"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/SlurLonga.xml.h:2
-msgid "Inserts a &#x1D15B; and slurs to it, extending previous slur."
+msgid "Inserts a 𝅛 and slurs to it, extending previous slur."
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/AddDotSelectionSwitcher.xml.h:2
@@ -13173,7 +13173,7 @@ msgid "Accent (Off/On)"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/AccentSelectionSwitcher.xml.h:2
-msgid "Adds the &gt; accent"
+msgid "Adds the > accent"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ArpeggioSelectionSwitcher.xml.h:1
@@ -15155,7 +15155,7 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/InitialVoice.xml.h:2
 msgid ""
 "Choose which voice this staff will initially be set to. To change voice "
-"during music see the Directives-&gt;Voices menu."
+"during music see the Directives->Voices menu."
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/MergeRests.xml.h:2
