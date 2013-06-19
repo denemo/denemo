@@ -45,10 +45,6 @@
 #include "keymapio.h"
 #include "measureops.h"
 #include "audiofile.h"
-#define INIT_SCM "init.scm"
-
-//#include "pathconfig.h"
-
 
 static GtkWidget *playbutton;
 static GtkWidget *midirecordbutton;
@@ -8086,51 +8082,6 @@ load_command_from_location (GtkWidget * w, gchar * filepath)
 
 static void attach_right_click_callback (GtkWidget * widget, GtkAction * action);
 
-/* get the script for action from disk; 
- *   action an action loaded via load_xml_keymap() contains the menupath but no scheme script,
- */
-gchar *
-instantiate_script (GtkAction * action)
-{
-  gchar *menupath = (gchar *) g_object_get_data (G_OBJECT (action), "menupath");
-  const gchar *basename = gtk_action_get_name (action);
-  gchar *name = g_strconcat (basename, XML_EXT, NULL);
-  gchar *path = g_build_filename (locatedotdenemo (), "actions", "menus", menupath, NULL);
-  gchar *filename = g_build_filename (path, name, NULL);
-  //  g_print("Filename %s\n", filename);
-  if (load_xml_keymap (filename) == -1)
-    {
-      g_free (filename);
-      g_free (path);
-      path = g_build_filename (locatedotdenemo (), "download", "actions", "menus", menupath, NULL);
-      filename = g_build_filename (path, name, NULL);
-      if (load_xml_keymap (filename) == -1)
-        {
-          g_free (filename);
-          g_free (path);
-          path = g_build_filename (get_data_dir (), "actions", "menus", menupath, NULL);
-          filename = g_build_filename (path, name, NULL);
-          if (load_xml_keymap (filename) == -1)
-            {
-              warningdialog (_("Unable to load the script"));
-              g_free (path);
-              g_free (filename);
-              g_free (name);
-              return NULL;
-            }
-        }
-    }
-  g_free (filename);
-  filename = g_build_filename (path, INIT_SCM, NULL);
-  if (g_file_test (filename, G_FILE_TEST_EXISTS))
-    eval_file_with_catch (filename);    //scm_c_primitive_load(filename);Use scm_c_primitive_load together with scm_internal_catch and scm_handle_by_message_no_exit instead. 
-  g_free (filename);
-  g_free (path);
-  g_free (name);
-  return (gchar *) g_object_get_data (G_OBJECT (action), "scheme");
-}
-
-
 /* the callback for menu items that are scripts. The script is attached to the action,
 tagged as "scheme".
 The script may be empty, in which case it is fetched from actions/menus...
@@ -8177,7 +8128,7 @@ activate_script (GtkAction * action, DenemoScriptParam * param)
       if (!is_action_name_builtin((gchar*) gtk_action_get_name(action)))
         {
           if (!text || !*text)
-            text = instantiate_script (action);
+            text = load_command_data (action);
           if (text && *text)
             {
               stage_undo (gui->si, ACTION_STAGE_END);   //undo is a queue so this is the end :)
@@ -8610,7 +8561,7 @@ saveMenuItem (GtkWidget * widget, GtkAction * action)
       save_command_metadata (filename, name, label, tooltip, after);
       save_command_data(filename, scheme);
       g_object_set_data (G_OBJECT (action), "scheme", (gpointer) "");
-      instantiate_script (action);
+      load_command_data (action);
     }
   else
     warningdialog (_("No script saved"));
@@ -9183,7 +9134,7 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
     {
       gchar *scheme = g_object_get_data (G_OBJECT (action), "scheme");
       if (!scheme || !*scheme)
-        scheme = instantiate_script (action);
+        scheme = load_command_data (action);
       if (!scheme)
         g_warning ("Could not get script for %s\n", gtk_action_get_name (action));
       else

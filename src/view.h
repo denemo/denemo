@@ -40,7 +40,7 @@
 #include "libguile.h"
 
 #define EXTRA_ACCELS "extra.accels"
-
+#define INIT_SCM "init.scm"
 
 void newview (GtkAction * action, gpointer param);
 void free_movements (DenemoGUI * gui);  /* frees all movement data (i.e. the DenemoScore objects) from gui, leaving gui interface intact */
@@ -112,4 +112,5 @@ void define_scheme_bool_variable (gchar * varname, gint value, gchar * tooltip);
 SCM scheme_next_note (SCM optional);
 void finish_recording(void);
 void define_scheme_literal_variable (gchar * varname, gchar * value, gchar * tooltip);
+gint eval_file_with_catch (gchar * filename);
 #endif

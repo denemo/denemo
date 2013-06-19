@@ -2287,3 +2287,32 @@ initialize_keystroke_help (void)
     }
   gtk_widget_hide (KeyStrokes);
 }
+
+/**
+ * find_dir_for_file:
+ * @filename: The file to search
+ * @dirs: A dir paths array, ending by NULL, where to search.
+ *
+ * Finds the firs dir in the list that contains 'filename', and free the array.
+ *
+ * Returns: The dir path if found, NULL either
+ **/
+gchar*
+find_dir_for_file(gchar* filename, gchar* dirs[])
+{
+  gchar *dir = NULL;
+  gchar *path = NULL;
+  gint i;
+  for(i = 0; dirs[i]; i++)
+  {
+    if(!dir)
+    {
+      path = g_build_filename (dirs[i], filename, NULL);
+      if(g_file_test (path, G_FILE_TEST_EXISTS))
+        dir = g_strdup(dirs[i]);
+      g_free(path);
+    }
+    g_free(dirs[i]);
+  }
+  return dir;
+}

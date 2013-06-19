@@ -283,6 +283,6 @@ findnote (DenemoObject * curObj, gint cursory);
 
 void write_input_status();
 enum clefs cleftypefromname (gchar * str);
-
+gchar* find_dir_for_file(gchar* filename, gchar* dirs[]);
 
 #endif /* UTILS_H */

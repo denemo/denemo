@@ -717,3 +717,50 @@ save_command_data (gchar * filename, gchar * myscheme)
   xmlFreeDoc (doc);
   return 0;
 }
+
+gchar *
+load_command_data (GtkAction * action)
+{
+  gchar *menupath = (gchar *) g_object_get_data (G_OBJECT (action), "menupath");
+  const gchar *basename = gtk_action_get_name (action);
+  gchar *filename = g_strconcat (basename, XML_EXT, NULL);
+  gchar* path = NULL;
+
+  gchar* dirs[] = {
+      g_build_filename (locatedotdenemo (), "actions", "menus", menupath, NULL),
+      g_build_filename (locatedotdenemo (), "download", "actions", "menus", menupath, NULL),
+      g_build_filename (get_data_dir (), "actions", "menus", menupath, NULL),
+      NULL
+  };
+
+  // Locate the script
+  gchar* dir = find_dir_for_file (filename, dirs);
+  if(!dir)
+  {
+    g_free(filename);
+    warningdialog (_("Unable to load the script"));
+    return NULL;
+  }
+
+  // Load the script
+  path = g_build_filename(dir, filename, NULL);
+  g_free(filename);
+  if(load_xml_keymap(path) == -1)
+  {
+    g_free(path);
+    warningdialog (_("Unable to load the script"));
+    return NULL;
+  }
+  g_free(path);
+
+  // Load the init script if there is one
+  path = g_build_filename (dir, INIT_SCM, NULL);
+  if (g_file_test (path, G_FILE_TEST_EXISTS))
+    //scm_c_primitive_load(path);Use scm_c_primitive_load together with scm_internal_catch and scm_handle_by_message_no_exit instead. 
+    eval_file_with_catch (path);
+  g_free (path);
+
+  g_free (dir);
+
+  return (gchar *) g_object_get_data (G_OBJECT (action), "scheme");
+}
