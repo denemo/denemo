@@ -7,7 +7,7 @@
       <row type="scheme">
         <after>RemoveDot</after>
         <action>DottedRhythm</action>
-        <_label>Convert to Dotted Rhythm</_label>
+        <_label>Create Dotted Rhythm</_label>
         <_tooltip>In appending position, dots the note or rest at the cursor and appends a note of half the duration so as to create a dotted rhythm.</_tooltip>
         <scheme>;;DottedRhythm
 (if (Appending?)
