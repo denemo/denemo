@@ -2029,7 +2029,7 @@ merge_lily_strings (DenemoGUI * gui)
     }
   if (gui->lilysync != gui->changecount)
     {
-      warningdialog ("The score has been altered so that this LilyPond text is out of date - ignoring request");
+      warningdialog (_("The score has been altered so that this LilyPond text is out of date - ignoring request"));
       return;
     }
   for (g = gui->anchors; g; g = g->next)
@@ -2333,7 +2333,7 @@ output_score_to_buffer (DenemoGUI * gui, gboolean all_movements, gchar * partnam
   if (Denemo.textbuffer)
     gtk_text_buffer_set_text (Denemo.textbuffer, "", -1);
   else
-    warningdialog ("trouble - no textbuffer");
+    warningdialog (_("No textbuffer"));
   if (gui->anchors)
     {
       //FIXME  the working curmark at the end of the creation of the text
@@ -2624,7 +2624,7 @@ export_lilypond (gchar * thefilename, DenemoGUI * gui, gboolean all_movements, g
       fp = fopen (filename->str, "w");
       if (!fp)
         {
-          warningdialog ("Could not open output file for writing");
+          warningdialog (_("Could not open output file for writing"));
           g_warning ("Cannot open %s \n", filename->str);
           return;
         }
@@ -2673,7 +2673,7 @@ export_lilypond_parts (char *filename, DenemoGUI * gui)
         *c = '\0';
       else
         {
-          warningdialog ("Filename does not have extension");
+          warningdialog (_("Filename does not have extension"));
           return;
         }
       staff_filename = g_strconcat (filename, "_", curstaffstruct->lily_name->str, ".ly", NULL);

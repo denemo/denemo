@@ -29,7 +29,7 @@ intercept_scorearea_keypress (GdkEventKey * pevent)
 {
   if (divert_key_event)
     {
-      warningdialog ("Recursive key capture not possible!");    /* we could make a stack of them instead ... */
+      warningdialog (_("Recursive key capture not possible!"));    /* we could make a stack of them instead ... */
       return FALSE;
     }
   GdkEventKey *event;

@@ -47,7 +47,7 @@ locatedotdenemo ()
   err = g_mkdir_with_parents (dotdenemo, 0770);
   if (err)
     {
-      warningdialog ("Could not create .denemo for you personal settings");
+      warningdialog (_("Could not create .denemo for you personal settings"));
       g_free (dotdenemo);
       dotdenemo = NULL;
     }

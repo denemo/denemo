@@ -2628,7 +2628,7 @@ auto_save_document_timeout (DenemoGUI * gui)
   /* first check that this timer has not been left running after destruction of the gui */
   if (g_list_find (Denemo.guis, gui) == NULL)
     {
-      warningdialog ("Timer left running");
+      warningdialog (_("Timer left running"));
       return FALSE;             /* turns off the timer */
     }
   DenemoScore *si = gui->si;

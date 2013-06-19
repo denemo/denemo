@@ -58,7 +58,7 @@ capture_add_binding (GtkWidget * widget, GdkEventKey * event, gpointer user_data
       else
         {
           cbdata->two_key = 0;
-          gchar *msg = g_strdup_printf ("The command %s has the shortcut: %s\nDelete it first or start again selecting an unused keypress.", lookup_name_from_idx (Denemo.map, command_idx), name);
+          gchar *msg = g_strdup_printf (_("The command %s has the shortcut: %s\nDelete it first or start again selecting an unused keypress."), lookup_name_from_idx (Denemo.map, command_idx), name);
           warningdialog (msg);
           g_free (msg);
           g_free (name);
@@ -78,7 +78,7 @@ capture_add_binding (GtkWidget * widget, GdkEventKey * event, gpointer user_data
   if (cbdata->two_key == 0 && (GList *) g_hash_table_lookup (Denemo.map->continuations_table, name))
     {
       //g_warning("There is a two key binding starting with this\n");
-      gchar *msg = g_strdup_printf ("There is at least one two-key shortcut that starts with: %s\nFind them using the Find button\nDelete it/those first or start again selecting an unused keypress.", name);
+      gchar *msg = g_strdup_printf (_("There is at least one two-key shortcut that starts with: %s\nFind them using the Find button\nDelete it/those first or start again selecting an unused keypress."), name);
       warningdialog (msg);
       g_free (msg);
       g_free (name);

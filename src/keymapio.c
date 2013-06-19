@@ -257,7 +257,7 @@ load_xml_keymap (gchar * filename)
     return ret;
   if (g_file_test (filename, G_FILE_TEST_IS_DIR))
     {
-      warningdialog ("There is no support for loading whole folders of commands yet, sorry");
+      warningdialog (_("There is no support for loading whole folders of commands yet, sorry"));
       return ret;
     }
   if (!g_file_test (filename, G_FILE_TEST_EXISTS))

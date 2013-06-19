@@ -314,7 +314,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 #if 0
                     //this is only the visible part of the cresc, the start may be off screen
                     thechord->crescendo_end_p = FALSE;
-                    warningdialog ("Crescendo end without a corresponding start\n" "removing the crescendo end");
+                    warningdialog (_("Crescendo end without a corresponding start\n" "removing the crescendo end"));
 #endif
                   }
                 draw_hairpin (cr, &(itp->hairpin_stack), x + mudelaitem->x, y, 1);
@@ -326,7 +326,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 #if 0
                     //this is only the visible part of the dim, the start may be off screen
                     thechord->diminuendo_end_p = FALSE;
-                    warningdialog ("Diminuendo end without a corresponding start\n" "removing the diminuendo end");
+                    warningdialog (_("Diminuendo end without a corresponding start\n" "removing the diminuendo end"));
 #endif
                   }
                 draw_hairpin (cr, &(itp->hairpin_stack), x + mudelaitem->x, y, 0);

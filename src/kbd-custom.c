@@ -728,7 +728,7 @@ keymap_get_command_row (keymap * the_keymap, command_row * row, guint command_id
 {
   if (!the_keymap)
     {
-      warningdialog ("This should not happen...");
+      warningdialog (_("This should not happen..."));
       return FALSE;
     }
   GtkTreeModel *model = GTK_TREE_MODEL (the_keymap->commands);
@@ -1546,7 +1546,7 @@ locatekeymapdir ()
   err = g_mkdir_with_parents (keymapdir, 0770);
   if (err)
     {
-      warningdialog ("Could not create .denemo/actions for your customized commands");
+      warningdialog (_("Could not create .denemo/actions for your customized commands"));
       g_free (keymapdir);
       keymapdir = NULL;
     }
@@ -1602,7 +1602,7 @@ load_keymap_dialog (GtkWidget * widget)
   if (keymapdir)
     load_keymap_dialog_location (widget, keymapdir);
   else
-    warningdialog ("Cannot access your local .denemo");
+    warningdialog (_("Cannot access your local .denemo"));
   g_free (keymapdir);
 }
 
@@ -1614,7 +1614,7 @@ load_system_keymap_dialog (GtkWidget * widget)
   if (systemwide)
     load_keymap_dialog_location (widget, systemwide);
   else
-    warningdialog ("Installation error");
+    warningdialog (_("Installation error"));
   g_free (systemwide);
 }
 

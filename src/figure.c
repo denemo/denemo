@@ -104,7 +104,7 @@ insertfigure (gboolean filter, gpointer data)
     }                           // if currentobject not null
   else
     {
-      warningdialog ("No current object to attach a figure to");
+      warningdialog (_("No current object to attach a figure to"));
     }
 }
 

@@ -3415,7 +3415,7 @@ scheme_infodialog (SCM msg)
     }
   else
     {
-      title = strdup ("Script error, wrong parameter type to d-InfoDialog");
+      title = strdup (_("Script error, wrong parameter type to d-InfoDialog"));
       msg = SCM_BOOL (FALSE);
     }
   static GtkWidget *dialog;
@@ -3678,7 +3678,7 @@ scheme_get_padding (void)
     return SCM_BOOL (FALSE);
   if (g_object_get_data (G_OBJECT (Denemo.printarea), "pad-dialog"))
     {
-      warningdialog ("Already in a padding dialog");
+      warningdialog (_("Already in a padding dialog"));
       return SCM_BOOL_F;
     }
 
@@ -6819,7 +6819,7 @@ selection_received (GtkClipboard * clipboard, const gchar * text, DenemoScriptPa
 {
   if (!text)
     {
-      warningdialog ("No selection text available");
+      warningdialog (_("No selection text available"));
       param->status = FALSE;
       return;
     }
@@ -6996,7 +6996,7 @@ fetchcommands (GtkAction * action, gpointer param)
   gboolean err = g_mkdir_with_parents (location, 0770);
   if (err)
     {
-      gchar *message = g_strdup_printf ("Could not make folder %s for the downloaded commands", location);
+      gchar *message = g_strdup_printf (_("Could not make folder %s for the downloaded commands"), location);
       warningdialog (message);
       g_free (message);
       return;
@@ -7940,7 +7940,7 @@ create_rhythm_cb (GtkAction * action, gpointer param)
 
       if ((strlen (pattern) == 0))
         {                       // no selection
-          warningdialog ("No selection to create a music snippet from\nSee Edit->Select menu for selecting music to snip");
+          warningdialog (_("No selection to create a music snippet from\nSee Edit → Select menu for selecting music to snip"));
           gtk_widget_destroy (GTK_WIDGET (r->button));
           g_free (pattern);
           g_free (r);
@@ -8112,7 +8112,7 @@ instantiate_script (GtkAction * action)
           filename = g_build_filename (path, name, NULL);
           if (load_xml_keymap (filename) == -1)
             {
-              warningdialog ("Unable to load the script");
+              warningdialog (_("Unable to load the script"));
               g_free (path);
               g_free (filename);
               g_free (name);
@@ -8212,7 +8212,7 @@ popup_help (GtkWidget * widget, GtkAction * action)
   gint idx = lookup_command_from_name (Denemo.map, name);
   gchar *tooltip = idx >= 0 ? (gchar *) lookup_tooltip_from_idx (Denemo.map, idx) : "A menu for ...";
 
-  tooltip = g_strdup_printf ("Command: %s\n\nInformation:\n%s", name, tooltip);
+  tooltip = g_strdup_printf (_("Command: %s\n\nInformation:\n%s"), name, tooltip);
   infodialog (tooltip);
   g_free (tooltip);
 }
@@ -8281,7 +8281,7 @@ placeOnButtonBar (GtkWidget * widget, GtkAction * action)
       if (!call_out_to_guile (scheme))
         append_to_local_scheme_init (scheme);
       else
-        warningdialog ("Could not create button");
+        warningdialog (_("Could not create button"));
       g_free (scheme);
     }
 }
@@ -8675,7 +8675,7 @@ locatebitmapsdir (void)
   err = g_mkdir_with_parents (bitmapsdir, 0770);
   if (err)
     {
-      warningdialog ("Could not create .denemo/actions/bitmaps for your graphics for customized commands");
+      warningdialog (_("Could not create .denemo/actions/bitmaps for your graphics for customized commands"));
       g_free (bitmapsdir);
       bitmapsdir = g_strdup ("");       //FIXME
     }

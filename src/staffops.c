@@ -485,7 +485,7 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
   displayhelper (gui);
   score_status (gui, TRUE);
   if (give_info)
-    infodialog ("The staff deleted had a start/end context; if you still have the staff with the matching end/start context\n then you should remove it (or its context) now.\nSee Staff->properties->context\nYou will not be able to print with miss-matched contexts.");
+    infodialog (_("The staff deleted had a start/end context; if you still have the staff with the matching end/start context\n then you should remove it (or its context) now.\nSee Staff->properties->context\nYou will not be able to print with miss-matched contexts."));
   return;
 }
 

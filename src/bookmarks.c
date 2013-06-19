@@ -112,7 +112,7 @@ gotobookmark (GtkAction * action, gpointer param)
   g_assert (gui != NULL);
   if (gui->si->bookmarks == NULL)
     {
-      warningdialog ("No bookmarks are present in this movement");
+      warningdialog (_("No bookmarks are present in this movement"));
       return;
     }
   GtkWidget *dialog;

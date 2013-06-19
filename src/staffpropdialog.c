@@ -198,9 +198,9 @@ staff_properties_change (void)
     si = gui->si;
     staffstruct = (DenemoStaff *) si->currentstaff->data;
     /*  if(staffstruct->staff_prolog && staffstruct->staff_prolog->len) { */
-/* 	warningdialog("This staff has a custom prolog for the staff.\n" */
+/* 	warningdialog(_("This staff has a custom prolog for the staff.\n" */
 /* 		      "You will need to make your edits in the LilyPond window\n" */
-/* 		      "to see them in the print-out."); */
+/* 		      "to see them in the print-out.")); */
 /*       } */
   }
 

@@ -535,7 +535,7 @@ init_local_path (void)
   gboolean err = g_mkdir_with_parents (local_template_path, 0770);
   if (err)
     {
-      warningdialog ("Could not create .denemo/templates for you personal templates");
+      warningdialog (_("Could not create .denemo/templates for you personal templates"));
       g_free (local_template_path);
       local_template_path = NULL;
     }
@@ -575,7 +575,7 @@ template_open (DenemoGUI * gui, TemplateType local, gchar * filename)
           GDir *denemo_path = g_dir_open (system_example_path, 0, NULL);
           if (denemo_path == NULL)
             {
-              warningdialog ("No examples directory in installation");
+              warningdialog (_("No examples directory in installation"));
               system_example_path = NULL;
             }
         }
@@ -589,7 +589,7 @@ template_open (DenemoGUI * gui, TemplateType local, gchar * filename)
           GDir *denemo_path = g_dir_open (system_template_path, 0, NULL);
           if (denemo_path == NULL)
             {
-              warningdialog ("No templates directory in installation");
+              warningdialog (_("No templates directory in installation"));
               system_template_path = NULL;
             }
         }
@@ -838,7 +838,7 @@ update_preview_cb (GtkFileChooser * file_chooser, gpointer data)
       gchar *name =\
 	gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_selection));\
       if((ret=open_for_real (name, gui, template, type))) {\
-	gchar *warning = g_strdup_printf("Load of file %s failed", name);\
+	gchar *warning = g_strdup_printf(_("Load of file %s failed"), name);\
 	warningdialog(warning);\
 	g_free(warning);\
       }\
@@ -954,7 +954,7 @@ file_savewrapper (GtkAction * action, DenemoScriptParam * param)
     {
       if (action && Denemo.gui->filename && Denemo.gui->filename->len)
         {
-          warningdialog ("File Save **FAILED**");
+          warningdialog (_("File save failed"));
           score_status (gui, TRUE);
         }
       else
@@ -1172,7 +1172,7 @@ selection_received (G_GNUC_UNUSED GtkClipboard * clipboard, const gchar * text, 
 {
   if (!text)
     {
-      warningdialog ("No selection text available");
+      warningdialog (_("No selection text available"));
       return;
     }
   gchar *filename = g_build_filename (locatedotdenemo (), "denemopaste.ly", NULL);
@@ -1193,7 +1193,7 @@ selection_received (G_GNUC_UNUSED GtkClipboard * clipboard, const gchar * text, 
           gtk_widget_destroy (Denemo.page);
           Denemo.guis = g_list_remove (Denemo.guis, gui);
           g_free (gui);
-          warningdialog ("Could not interpret selection as LilyPond notes");
+          warningdialog (_("Could not interpret selection as LilyPond notes"));
           return;
         }
       dnm_setinitialclef (Denemo.gui->si, (DenemoStaff *) Denemo.gui->si->currentstaff->data, theclef);
@@ -1219,7 +1219,7 @@ paste_clipboard (GtkAction * action, DenemoScriptParam * param)
 {
   if (Denemo.gui != g_list_last (Denemo.guis)->data)
     {
-      warningdialog ("Can only paste LilyPond text into the last tab, sorry");
+      warningdialog (_("Can only paste LilyPond text into the last tab, sorry"));
       return;
     }
   GtkClipboard *clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
