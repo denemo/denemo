@@ -62,7 +62,11 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
           command.tooltip = _((gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1));
         }
     }
-  create_command((gchar*) scheme, (gchar*) after, fallback, &command);
+
+  create_command((gchar*) after, fallback, &command);
+  if (command.script_type == COMMAND_SCHEME && scheme)
+    //FIXME free old data?
+    g_object_set_data (G_OBJECT (command.action), "scheme", scheme);
 }
 
 static void

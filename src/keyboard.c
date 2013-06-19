@@ -215,8 +215,7 @@ add_ui (gchar * menupath, gchar * after, gchar * name)
 }
 
 void
-create_command(gchar* scheme,
-               gchar* after,
+create_command(gchar* after,
                gchar* fallback,
                command_row *command)
 {
@@ -261,9 +260,7 @@ create_command(gchar* scheme,
       menupath = fallback;
       add_ui (menupath, after, command->name);
     }
-    
-    //FIXME free old data?
-    g_object_set_data (G_OBJECT (command->action), "scheme", scheme);
+
     g_object_set_data (G_OBJECT (command->action), "menupath", menupath);
 
     if (new_command)
