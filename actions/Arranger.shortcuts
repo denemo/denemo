@@ -603,6 +603,10 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>ToggleTripleting</action>
+        <bind>Tab</bind>
+      </row>
+      <row>
         <action>Largo</action>
         <hidden>true</hidden>
       </row>
@@ -990,15 +994,19 @@
       </row>
       <row>
         <action>DottedRhythm</action>
-        <bind>Multiply</bind>
+        <bind>KP_9</bind>
       </row>
       <row>
         <action>CreateTriplet</action>
-        <bind>Tab,Tab</bind>
+        <bind>KP_7,KP_7</bind>
       </row>
       <row>
         <action>CreateTripletSlurred</action>
-        <bind>Tab,7</bind>
+        <bind>Ctrl+KP_7,Ctrl+KP_7</bind>
+      </row>
+      <row>
+        <action>DottedRhythmSlurred</action>
+        <bind>Ctrl+KP_9</bind>
       </row>
     </map>
   </merge>
