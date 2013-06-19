@@ -7,6 +7,8 @@
       <row type="scheme">
         <after>EditScoreDirective</after>
         <action>CheckScore</action>
+        <_label>Check Score</_label>
+        <_tooltip>Checks score for wrong measure durations, unterminated tuplets, slurs, wrong ties etc.</_tooltip>
         <scheme>;;;;;;;;;CheckScore
 (define CheckScore::return #t)
 
@@ -32,6 +34,10 @@
  			(d-CheckTupletsInMeasure)			
  			(set! CheckScore::return CheckTupletsInMeasure::return)
  			(if CheckScore::return
+ 				(begin
+ 					(d-CheckBeams)
+ 					(set! CheckScore::return CheckBeamsInMeasure::return)))
+ 			(if CheckScore::return
  				(if (d-MoveToMeasureRight)
  					(measure))
   				 (if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
@@ -43,12 +49,11 @@
       	    (if CheckScore::return
       			(begin 
 				(if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
-				(staff))))
-				(if (d-NextMovement)
-	  				(movement)))))))
+				(staff))
+	  			(if (d-NextMovement)
+	  				(movement)))
+	  		(d-InfoDialog (_ "Over/Under full bar"))))))))
 </scheme>
-        <_label>Check Score</_label>
-        <_tooltip>Checks score for wrong measure durations, unterminated tuplets, slurs, wrong ties etc.</_tooltip>
       </row>
     </map>
   </merge>
