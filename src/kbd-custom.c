@@ -395,8 +395,10 @@ dnm_accelerator_name (guint accelerator_key, GdkModifierType accelerator_mods)
 
       name = g_string_new (gdk_keyval_name (accelerator_key));
       if (name->len > 3 && (*name->str == 'K') && (*(name->str + 1) == 'P') && (*(name->str + 2) == '_'))
-        g_string_erase (name, 0, 3);    //force numeric keypad KP_ names to normal
-
+        {
+          if((*(name->str + 3) !='7') && (*(name->str + 3) !='8') && (*(name->str + 3) !='9'))
+            g_string_erase (name, 0, 3);    //force numeric keypad KP_ names to normal except for 7 8 9 which are not needed for duration entry
+        }
       //g_print("label %s\nname %s\n", gtk_accelerator_get_label(accelerator_key, 0), gdk_keyval_name(accelerator_key));
       // g_print("mods were %x\n", accelerator_mods);
 #if 0
