@@ -47,10 +47,7 @@ insert_ornament_list (enum ornament orn, GList * list)
   enum ornament *tmporn = (enum ornament *) g_malloc0 (sizeof (enum ornament));
   *tmporn = orn;
   list = g_list_append (list, tmporn);
-#ifdef DEBUG
-
-  g_print ("Inserted ORNAMENT %d into list \n", *tmporn);
-#endif
+  g_debug ("Inserted ORNAMENT %d into list \n", *tmporn);
 
   return list;
 }

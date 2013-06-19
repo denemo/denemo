@@ -34,9 +34,7 @@ get_temp_filename (const gchar * name)
   else
     path = g_build_filename (locatedotdenemo (), "bla", NULL);
 
-#ifdef DEBUG
-  fprintf (stderr, "temp filename: %s\n", path);
-#endif
+  g_debug ("temp filename: %s\n", path);
   return path;
 }
 

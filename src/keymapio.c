@@ -86,9 +86,7 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
             {
               name = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
               show_action_of_name ((gchar*) name);
-#ifdef DEBUG
-              g_print ("Action %s\n", (gchar *) name);
-#endif         /*DEBUG*/
+              g_debug ("Action %s\n", (gchar *) name);
             }
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_HIDDEN))
@@ -118,9 +116,7 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
                       keyval = 0;
                       if (Denemo.prefs.strictshortcuts)
                         dnm_accelerator_parse (gtk_binding, &keyval, &state);
-#ifdef DEBUG
-                      g_print ("binding %s, keyval %d, state %d, Command Number %d\n", gtk_binding, keyval, state, command_number);
-#endif
+                      g_debug ("binding %s, keyval %d, state %d, Command Number %d\n", gtk_binding, keyval, state, command_number);
                       {
                         gchar *comma;
                         comma = strtok (gtk_binding, ",");
@@ -289,10 +285,7 @@ load_xml_keymap (gchar * filename)
 
   while (rootElem != NULL)
     {
-#ifdef DEBUG
-      g_print ("RootElem %s\n", rootElem->name);
-#endif
-
+      g_debug ("RootElem %s\n", rootElem->name);
       parseKeymap (doc, rootElem, Denemo.map, menupath);
 
       if (Denemo.last_merged_command)
@@ -386,9 +379,7 @@ static void
 write_xml_keybinding_info (gchar * kb_name, xmlNodePtr node)
 {
   gchar *dnm_binding = translate_binding_gtk_to_dnm (kb_name);
-#ifdef DEBUG
-  g_print ("binding is : (dnm) %s, (gtk) %s \n", dnm_binding, kb_name);
-#endif
+  g_debug ("binding is : (dnm) %s, (gtk) %s \n", dnm_binding, kb_name);
   if (!(Denemo.prefs.return_key_is_special && !strcmp (dnm_binding, N_("Return"))))
     xmlNewTextChild (node, NULL, (xmlChar *) "bind", (xmlChar *) dnm_binding);
   g_free (dnm_binding);
@@ -445,9 +436,7 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
 
 
       gchar *name = (gchar *) lookup_name_from_idx (the_keymap, i);
-#ifdef DEBUG
-      g_print ("%s \n", name);
-#endif
+      g_debug ("%s \n", name);
       xmlNewTextChild (child, NULL, COMMANDXML_TAG_ACTION, (xmlChar *) name);
       if (after)
         xmlNewTextChild (child, NULL, COMMANDXML_TAG_AFTER, (xmlChar *) after);
@@ -518,9 +507,7 @@ save_xml_keybindings (gchar * filename)
           child = xmlNewChild (parent, NULL, COMMANDXML_TAG_ROW, NULL);
 
           gchar *name = (gchar *) lookup_name_from_idx (the_keymap, i);
-#ifdef DEBUG
-          g_print ("%s %s binding(s) \n", name, command_has_binding (i) ? "has" : "does not have");
-#endif
+          g_debug ("%s %s binding(s) \n", name, command_has_binding (i) ? "has" : "does not have");
           xmlNewTextChild (child, NULL, COMMANDXML_TAG_ACTION, (xmlChar *) name);
           if (hidden)
             xmlNewTextChild (child, NULL, COMMANDXML_TAG_HIDDEN, (xmlChar *) "true");

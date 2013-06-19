@@ -146,9 +146,7 @@ set_properties (struct callbackdata *cbdata)
       buffer[1] = staffstruct->midi_prognum;
       play_midi_event (DEFAULT_BACKEND, staffstruct->midi_port, buffer);
     }
-#ifdef DEBUG
-  g_printf ("Staff Transposition %d\n", staffstruct->transposition);
-#endif
+  g_debug ("Staff Transposition %d\n", staffstruct->transposition);
   score_status (cbdata->gui, TRUE);
 }
 

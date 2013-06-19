@@ -132,9 +132,7 @@ setcurrents (DenemoScore * si)
     }
   else
     {
-#ifdef DEBUG
-      g_print ("Setting measure to %d which is last in Staff\n", ((DenemoStaff *) si->currentstaff->data)->nummeasures);
-#endif
+      g_debug ("Setting measure to %d which is last in Staff\n", ((DenemoStaff *) si->currentstaff->data)->nummeasures);
       si->currentmeasure = g_list_nth (firstmeasurenode (si->currentstaff), ((DenemoStaff *) si->currentstaff->data)->nummeasures - 1);
       si->currentmeasurenum = ((DenemoStaff *) si->currentstaff->data)->nummeasures;
 

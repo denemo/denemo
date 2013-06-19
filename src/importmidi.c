@@ -206,9 +206,7 @@ dokeysig (gint isminor, gint key)
   DenemoGUI *gui = Denemo.gui;
   if (key > 7)
     key = key - 256;            /*get flat key num, see keysigdialog.cpp */
-#ifdef DEBUG
-  g_print ("\nkey = %d\n", key);
-#endif
+  g_debug ("\nkey = %d\n", key);
   DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
   curstaffstruct->keysig.number = key;
   curstaffstruct->keysig.isminor = isminor;

@@ -415,9 +415,7 @@ select_program (char *instr)
         }
     }
 
-#ifdef DEBUG
-  g_printf ("For %s choose prog %d\n", input_instr, winner & 127);
-#endif
+  g_debug ("For %s choose prog %d\n", input_instr, winner & 127);
   return winner & 127;
 }
 

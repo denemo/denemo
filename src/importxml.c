@@ -2396,9 +2396,7 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
           {
 
             si->currentmeasure = dnm_addmeasures (si, si->currentmeasurenum - 1, 1, FALSE);
-#ifdef DEBUG
-            g_print ("ImportXML Adding Measure \n currentmeasurenum %d", si->currentmeasurenum);
-#endif
+            g_debug ("ImportXML Adding Measure \n currentmeasurenum %d", si->currentmeasurenum);
           }
 
         FOREACH_CHILD_ELEM (objElem, childElem)

@@ -146,10 +146,7 @@ newchord (gint baseduration, gint numdots, int tied)
 
   set_basic_numticks (thechord);
 
-#ifdef DEBUG
-  printf ("Chord %d \n", ((chord *) (thechord->object))->baseduration);
-#endif
-
+  g_debug ("Chord %d \n", ((chord *) (thechord->object))->baseduration);
   return thechord;
 }
 
@@ -580,10 +577,10 @@ clone_chord (DenemoObject * thechord)
       clonedchord->notes = g_list_append (clonedchord->notes, newnote);
     }
   ret->object = (chord *) clonedchord;
-  /*#ifdef DEBUG
-     g_print ("Chord Base dur %d \tCloned Note base dur %d\n",
+  /*
+     g_debug ("Chord Base dur %d \tCloned Note base dur %d\n",
      ((chord *) thechord->object)->baseduration,
      ((chord *) ret->object)->baseduration);
-     #endif */
+     */
   return ret;
 }
