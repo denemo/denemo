@@ -6,8 +6,6 @@
     <map>
       <row type="scheme">
         <action>ZoomIn</action>
-        <scheme>(d-Zoom (+ (d-Zoom) 0.2 ))
-</scheme>
         <_label>Zoom In</_label>
         <_tooltip>Zoom In</_tooltip>
       </row>

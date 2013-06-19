@@ -6,9 +6,6 @@
     <map>
       <row type="scheme">
         <action>EnterRest</action>
-        <scheme>(d-InsertA)
-(d-RemoveNoteFromChord)
-</scheme>
         <_label>Insert Rest</_label>
         <_tooltip>Inserts a rest in the prevailing duration</_tooltip>
       </row>

@@ -6,7 +6,6 @@
     <map>
       <row type="scheme">
         <action>RemoveDotSelectionSwitcher</action>
-        <scheme>(SingleAndSelectionSwitcher d-RemoveDot)		</scheme>
         <_label>Remove Dot</_label>
         <_tooltip>Remove one dot for each note in the selection or single note</_tooltip>
       </row>

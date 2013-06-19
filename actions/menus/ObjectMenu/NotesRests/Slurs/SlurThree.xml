@@ -6,13 +6,6 @@
     <map>
       <row type="scheme">
         <action>SlurThree</action>
-        <scheme>
-(d-ToggleBeginSlur)
-(d-MoveCursorRight)
-(d-MoveCursorRight)
-(d-ToggleEndSlur)
-(d-MoveCursorRight)
-</scheme>
         <_label>Slur with Next Two Notes</_label>
         <_tooltip>Slur over next two notes.</_tooltip>
       </row>

@@ -6,11 +6,6 @@
     <map>
       <row type="scheme">
         <action>AllegroAssai</action>
-        <scheme>;;;Tempo
-(d-DirectivePut-chord-postfix "Tempo" "^\\markup \\italic \\bold {Allegro Assai}")
-(d-DirectivePut-chord-display "Tempo" "Allegro Assai")
-(d-RefreshDisplay)
-;;;End of scheme script</scheme>
         <_label>Allegro Assai</_label>
         <_tooltip>Gives Allegro Assai tempo indication</_tooltip>
       </row>

@@ -6,8 +6,6 @@
     <map>
       <row type="scheme">
         <action>DoubleBarline</action>
-        <scheme>;;;DoubleBarline
-(StandAloneSelfEditDirective (cons "DoubleBarline" "\\bar \"||\"") #t "DoubleBarline")</scheme>
         <_label>Double Bar</_label>
         <_tooltip>Insert a double barline at cursor position.</_tooltip>
       </row>

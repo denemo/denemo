@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>Tempo</after>
         <action>CadenzaOn</action>
-        <scheme>;;; StartCadenza
-			(StandAloneDirectiveProto (cons "Cadenza" "\\cadenzaOn s8*0^\\markup \\bold {Cadenza ad lib.}" ))           
-		</scheme>
         <_label>Start Cadenza</_label>
         <_tooltip>Turns off barlines etc for cadenza</_tooltip>
       </row>

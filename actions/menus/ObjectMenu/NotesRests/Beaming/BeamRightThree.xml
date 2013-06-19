@@ -6,8 +6,6 @@
     <map>
       <row type="scheme">
         <action>BeamRightThree</action>
-        <scheme>;;; BeamRightThree
-(BeamCount "Right" 3)</scheme>
         <_label>Three Beams Right</_label>
         <_tooltip>Prints with just three beams linking to the right.</_tooltip>
       </row>

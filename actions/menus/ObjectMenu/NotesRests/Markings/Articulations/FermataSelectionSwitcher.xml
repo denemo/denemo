@@ -7,8 +7,6 @@
       <row type="scheme">
         <after>ToggleAccent</after>
         <action>FermataSelectionSwitcher</action>
-        <scheme>(SingleAndSelectionSwitcher d-ToggleFermata)
-		</scheme>
         <_label>Fermata (Off/On)</_label>
         <_tooltip>Mark/Unmark current selection or object with a fermata</_tooltip>
       </row>

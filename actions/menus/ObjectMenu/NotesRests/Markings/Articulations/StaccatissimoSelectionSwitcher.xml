@@ -7,8 +7,6 @@
       <row type="scheme">
         <after>ToggleStaccatissimo</after>
         <action>StaccatissimoSelectionSwitcher</action>
-        <scheme>(SingleAndSelectionSwitcher  d-ToggleStaccatissimo)
-		</scheme>
         <_label>Staccatissimo (Off/On)</_label>
         <_tooltip>Toggles Staccatissimo</_tooltip>
       </row>

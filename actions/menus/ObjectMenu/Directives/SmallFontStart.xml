@@ -6,12 +6,6 @@
     <map>
       <row type="scheme">
         <action>SmallFontStart</action>
-        <scheme>;;;SmallFontStart
-(StandAloneDirectiveProto (cons "SmallFontStart" "% Start small notes		
-		\\override NoteHead #'font-size = #-4
-		\\override Accidental #'font-size = #-4
-") #t "\nt")
-</scheme>
         <_label>Small Size</_label>
         <_tooltip>Music after this is printed in a small size.</_tooltip>
       </row>

@@ -6,9 +6,6 @@
     <map>
       <row type="scheme">
         <action>TogglePortato</action>
-        <scheme>;;;TogglePortato
-        (ChordAnnotation "TogglePortato" "\\portato"    TogglePortato::params    LG-Portato)
-</scheme>
         <_label>Portato (Off/On)</_label>
         <_tooltip>Mark/Unmark the chord Portato</_tooltip>
       </row>

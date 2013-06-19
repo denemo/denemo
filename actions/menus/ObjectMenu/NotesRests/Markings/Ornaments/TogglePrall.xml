@@ -6,9 +6,6 @@
     <map>
       <row type="scheme">
         <action>TogglePrall</action>
-        <scheme>;;;TogglePrall
-        (ChordAnnotation "TogglePrall" "\\prall"    TogglePrall::params    LG-Prall)
-</scheme>
         <_label>Prall (Off/On)</_label>
         <_tooltip>Adds/Removes a prall to the note</_tooltip>
       </row>

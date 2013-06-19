@@ -7,8 +7,6 @@
       <row type="scheme">
         <after>OctaveDown</after>
         <action>ToggleCursorHighlight</action>
-        <scheme>;;ToggleCursorHighlight
-(d-HighlightCursor)</scheme>
         <_label>Cursor Highlighting Off/On</_label>
         <_tooltip>Shows up the position of the cursor more clearly (off/on)</_tooltip>
       </row>

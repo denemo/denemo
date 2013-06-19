@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>MovementNoteheadsHarmonic</after>
         <action>MovementNoteheadsHarmonic-black</action>
-        <scheme>(AttachDirective "layout" "postfix" "MovementNoteheads" "\t\\context {
-\t\\Score		   
-\t\\override NoteHead  #'style = #'harmonic-black }\n")</scheme>
         <_label>Harmonic-black</_label>
         <_tooltip>Harmonic-black note head style for the current movement.</_tooltip>
       </row>

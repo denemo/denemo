@@ -1,0 +1,2 @@
+(d-MoveToBeginning)
+(d-DenemoPlayCursorToEnd)

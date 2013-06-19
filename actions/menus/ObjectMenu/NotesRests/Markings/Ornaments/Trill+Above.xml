@@ -6,8 +6,6 @@
     <map>
       <row type="scheme">
         <action>Trill+Above</action>
-        <scheme>(d-InsertLilyDirective "directive=^\"+\"\0display=Tr+Above")
-</scheme>
         <_label>18th c. Trill Above</_label>
         <_tooltip>Inserts 18th c style trill above note</_tooltip>
       </row>

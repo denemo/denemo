@@ -6,18 +6,6 @@
     <map>
       <row type="scheme">
         <action>LoadSelectDurationComposerNumberkeys</action>
-        <scheme>	
-	(set-cdr! wrap:Op0 d-Set0)
-	(set-cdr! wrap:Op1 d-Set1)
-	(set-cdr! wrap:Op2 d-Set2)
-	(set-cdr! wrap:Op3 d-Set3)
-	(set-cdr! wrap:Op4 d-Set4)
-	(set-cdr! wrap:Op5 d-Set5)
-	(set-cdr! wrap:Op6 d-Set6)
-	(set-cdr! wrap:Op7 d-Set7)
-	(set-cdr! wrap:Op8 d-SetBreve)
-	(set-cdr! wrap:Op9 d-SetLonga)
-	(Help::RemoveTag 'doublestroke)</scheme>
         <_label>Change to 'Select Duration' Number Keys in Composer Mode</_label>
         <_tooltip>Change the number keys to select the prevailing duration in composer mode.</_tooltip>
       </row>

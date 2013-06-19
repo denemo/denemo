@@ -7,8 +7,6 @@
       <row type="scheme">
         <after>Stop</after>
         <action>TogglePlayAlongPlayback</action>
-        <scheme>;;;ToggleConduct
-(d-ToggleConduct)</scheme>
         <_label>Mouse Conductor (Off/On)</_label>
         <_tooltip>Turns on/off moving the playback on by moving the mouse over the score area.</_tooltip>
       </row>

@@ -6,12 +6,6 @@
     <map>
       <row type="scheme">
         <action>GoToMeasureEnd</action>
-        <scheme>
-(let loop ()
-    (if  (or (None?) (Appending?))
-	#t
-	(begin (d-MoveCursorRight) (loop))))
-		</scheme>
         <_label>Go To End of Measure</_label>
         <_tooltip/>
       </row>

@@ -7,18 +7,6 @@
       <row type="scheme">
         <after>DeleteStaffGroupings</after>
         <action>PianoStaffName</action>
-        <scheme>;;;PianoStaffName
-(let ((tag "ContextPianoStaff") (name "Piano"))
-	(if (d-DirectiveGet-staff-prefix tag)
-		(begin
-		    (set! name (d-GetUserInput (_ "Instrument Name") (_ "Give name of instrument for staff group starting here:") name))
-		    (if name
-			(set! name (string-append "\\set PianoStaff.instrumentName = #\"" name "\" "))
-			(set! name ""))
-		    (AttachDirective "staff"  "prefix"  "ContextPianoStaff" (string-append " \\new PianoStaff &lt;&lt; " name " \n") DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_AFFIX))
-		  (begin
-		  	(d-WarningDialog "This command must be issued on the first staff of a piano staff group"))))
-</scheme>
         <_label>Piano Staff Name</_label>
         <_tooltip>Prints the name given at the start of the Piano staff which must be where the cursor is. Remove instrument names on the individual staffs by setting them blank.</_tooltip>
       </row>

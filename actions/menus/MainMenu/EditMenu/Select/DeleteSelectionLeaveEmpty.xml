@@ -6,7 +6,6 @@
     <map>
       <row type="scheme">
         <action>DeleteSelectionLeaveEmpty</action>
-        <scheme>(ApplyToTaggedSelection d-DeleteObject)</scheme>
         <_label>Delete Selected Objects</_label>
         <_tooltip>Delete all selected objects and leave empty measures behind</_tooltip>
       </row>

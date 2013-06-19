@@ -6,13 +6,6 @@
     <map>
       <row type="scheme">
         <action>NewStaffBefore</action>
-        <scheme>;;;NewStaffBefore
-(let ((name #f))
-	(d-AddBefore)
-	(d-InstrumentName)
-	(set! name (d-DirectiveGet-staff-display "InstrumentName"))
-	(if name	
-			(d-StaffProperties (string-append "denemo_name=" name))))</scheme>
         <_label>New Staff Before Current</_label>
         <_tooltip>Creates a new staff with the given name, before the current staff.</_tooltip>
       </row>

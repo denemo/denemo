@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>ToggleStaccato</after>
         <action>ToggleFermata</action>
-        <scheme>;;;ToggleFermata
-        (ChordAnnotation "ToggleFermata" "\\fermata"    ToggleFermata::params    LG-Fermata)
-</scheme>
         <_label>Fermata (Off/On)</_label>
         <_tooltip>Mark/Unmark the chord with a fermata</_tooltip>
       </row>

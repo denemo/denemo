@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>ChangeVolume</after>
         <action>ChangeModwheel</action>
-        <scheme>(ChangeModwheel::Set)</scheme>
         <_label>1 Modwheel</_label>
         <_tooltip>Change the Modwheel value of a channel/staff</_tooltip>
       </row>

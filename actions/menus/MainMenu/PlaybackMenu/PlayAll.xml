@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>Play</after>
         <action>PlayAll</action>
-        <scheme>(d-MoveToBeginning)
-(d-DenemoPlayCursorToEnd)
-</scheme>
         <_label>Play All</_label>
         <_tooltip>Plays the current movement from the start, observing any mute objects placed in the staffs.</_tooltip>
       </row>

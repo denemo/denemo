@@ -6,8 +6,6 @@
     <map>
       <row type="scheme">
         <action>DeleteLilyPondOnNote</action>
-        <scheme>(d-AttachLilyToNote "prefix= \0postfix= \0display= ")
-</scheme>
         <_label>Delete LilyPond on Note</_label>
         <_tooltip>Deletes the LilyPond attached to the note where the cursor is.</_tooltip>
       </row>

@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>ChangeChannel</after>
         <action>ChangeGeneric</action>
-        <scheme>(ChangeGeneric::Set)</scheme>
         <_label>Generic Control Change</_label>
         <_tooltip>Generic 0xB Control Change - User can give the midi bytes, too. </_tooltip>
       </row>

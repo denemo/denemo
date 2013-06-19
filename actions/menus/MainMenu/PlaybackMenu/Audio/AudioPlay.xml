@@ -7,10 +7,6 @@
       <row type="scheme">
         <after>SynchronizeAudio</after>
         <action>AudioPlay</action>
-        <scheme>;;AudioPlay
-  (d-StartAudioPlay)
-
-</scheme>
         <_label>Play</_label>
         <_tooltip>Plays the audio attached to the current movement. Use File-&gt;Open Audio to attach audio.</_tooltip>
       </row>

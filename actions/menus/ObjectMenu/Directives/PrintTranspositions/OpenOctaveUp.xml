@@ -6,14 +6,6 @@
     <map>
       <row type="scheme">
         <action>OpenOctaveUp</action>
-        <scheme> ;;;;OpenOctaveUp
- (d-Directive-standalone "OpenPrintTransposed")
-(d-DirectivePut-standalone-postfix "OpenPrintTransposed" "\\transpose c c' {")
-(d-DirectivePut-standalone-display "OpenPrintTransposed" (_ "Up8va"))
-(d-DirectivePut-standalone-minpixels "OpenPrintTransposed" 20)
-(d-RefreshDisplay)  
-
-</scheme>
         <_label>(Print) Open { Octave Up</_label>
         <_tooltip>Opens a block to be transposed up one octave
 	This must be followed by a CloseBlock "}" to end the transposed section.</_tooltip>

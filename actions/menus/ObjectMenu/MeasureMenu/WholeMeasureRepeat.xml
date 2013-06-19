@@ -6,18 +6,6 @@
     <map>
       <row type="scheme">
         <action>WholeMeasureRepeat</action>
-        <scheme>;;;WholeMeasureRepeat
-(d-WholeMeasureRest)
- (d-DirectivePut-chord-gx "WholeMeasureRest" 40)
- (d-DirectivePut-chord-gy "WholeMeasureRest" 15)
-(d-DirectivePut-chord-graphic "WholeMeasureRest" "
-𝄎
-Denemo
-48")
-
-(d-DirectivePut-chord-prefix "WholeMeasureRepeat" "\\override MultiMeasureRest #'stencil  = #ly:multi-measure-rest::percent  \\override MultiMeasureRest #'thickness = #0.48 ")
-(d-SetSaved #f)
-;;;End of scheme script</scheme>
         <_label>Whole Measure Repeat</_label>
         <_tooltip>Inserts a whole measure repeat sign.</_tooltip>
       </row>

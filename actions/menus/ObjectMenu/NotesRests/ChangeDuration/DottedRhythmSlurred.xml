@@ -10,21 +10,6 @@
         <_label>Create Slurred, Dotted Rhythm</_label>
         <_tooltip>In appending position, dots the note or rest at the cursor and appends a note of half the duration so as to create a dotted rhythm. Slurs the two notes together.
         </_tooltip>
-        <scheme>;;DottedRhythmSlurred
-(if (Appending?)
-  (let ((duration (d-GetNoteBaseDuration)) (nonprinting (MidiInput?)))
-    (if duration
-      (begin
-        (d-AddDot)
-        (d-ToggleBeginSlur)
-        (eval-string (string-append "(d-" (number-&gt;string duration) ")"))
-        (d-MoveCursorLeft)
-        (d-Diminish)
-        (d-ToggleEndSlur)
-        (if nonprinting
-        	(d-SetNonprinting))
-        (d-MoveCursorRight)))))
-</scheme>
       </row>
     </map>
   </merge>

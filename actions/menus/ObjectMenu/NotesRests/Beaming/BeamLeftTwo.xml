@@ -6,8 +6,6 @@
     <map>
       <row type="scheme">
         <action>BeamLeftTwo</action>
-        <scheme>;;; BeamLeftTwo
-(BeamCount "Left" 2)</scheme>
         <_label>Two Beams Left</_label>
         <_tooltip>Prints with just two beams linking to the left.</_tooltip>
       </row>

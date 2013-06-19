@@ -7,39 +7,6 @@
       <row type="scheme">
         <after>SplitMeasure</after>
         <action>CheckTupletsInMeasure</action>
-        <scheme>;;;CheckTupletsInMeasure
-(define CheckTupletsInMeasure::return #t)
-(let ()
- (define (get-pos)
-	(string-append "\nAt movement " (number-&gt;string (d-GetMovement)) ",  voice " (number-&gt;string (d-GetStaff)) ", measure " (number-&gt;string (d-GetMeasure)) "."))
-  (define start '())
-  (let loop ()
-  (disp "loop\n")
-    (if (TupletOpen?)
-      (begin
-	(if (not (null? start))
-	  (disp "Nested Tuplets"))
-      (set! start (cons (GetPosition) start))))
-	
-    (if (TupletClose?)
-      (if (null? start)
-	    (begin
-	      (set! CheckTupletsInMeasure::return #f)
-	      (d-InfoDialog (string-append (_ "End Tuplet with no start") (get-pos)))    
-	      )
-	    (begin
-	      (set! start (cdr start))
-	      (if (d-NextObjectInMeasure)
-		(loop))))
-	      
-      (if (d-NextObjectInMeasure)
-	(loop))))
-  (if (not (null? start))
-    (begin
-      (apply d-GoToPosition (car start))
-      (set! CheckTupletsInMeasure::return #f)
-      (d-InfoDialog (string-append (_ "Start Tuplet with no end")  (get-pos))))))
-    </scheme>
         <_label>Check Tuplets</_label>
         <_tooltip>Checks that start/end tuplets match in the current measure.</_tooltip>
       </row>

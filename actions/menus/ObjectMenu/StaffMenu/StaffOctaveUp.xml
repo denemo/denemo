@@ -7,10 +7,6 @@
       <row type="scheme">
         <after>SmallerStaff</after>
         <action>StaffOctaveUp</action>
-        <scheme> ;;;StaffOctaveUp
-(d-DirectivePut-staff-prefix "StaffOctaveUp" "\\transpose c c'")
-(d-DirectivePut-staff-graphic "StaffOctaveUp" "StaffOctaveUp")
-(d-RefreshDisplay)</scheme>
         <_label>(Print) Octave Up</_label>
         <_tooltip>Prints out the music of this staff one octave higher.</_tooltip>
       </row>

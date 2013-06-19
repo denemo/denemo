@@ -7,19 +7,6 @@
       <row type="scheme">
         <after>AddMeasure</after>
         <action>AddDuplicateMeasure</action>
-        <scheme>;;;AddDuplicateMeasure
-(d-PushClipboard)
-(d-SelectMeasure)
-(d-Copy)
-(if (d-MoveToMeasureRight)
-	(if (None?)
-		#t ; Empty measure
-		(d-AddMeasure)) ; create empty measure
-	(begin ; End of staff
-		(d-AppendMeasureAllStaffs)
-		(d-MoveToMeasureRight)))
-(d-Paste)
-(d-PopClipboard)</scheme>
         <_label>Insert Duplicate Measure After</_label>
         <_tooltip>Inserts a copy of the current measure after the present measure.</_tooltip>
       </row>

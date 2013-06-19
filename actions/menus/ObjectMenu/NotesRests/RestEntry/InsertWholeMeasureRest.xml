@@ -7,19 +7,6 @@
       <row type="scheme">
         <after>WholeMeasureRest</after>
         <action>InsertWholeMeasureRest</action>
-        <scheme>;;;;InsertWholeMeasureRest
- (if (or (None?)  (zero? (d-GetDurationInTicks)))
- 	(begin
- 		(d-WholeMeasureRest))
- 	(begin	
- 		(if (d-MoveToMeasureRight)
- 			(d-WholeMeasureRest)
- 			(begin
-          			 (d-AppendMeasureAllStaffs)	
-          			 (d-MoveCursorRight)
-	  			  (d-WholeMeasureRest)))))
-(d-MoveCursorRight)
-(d-Set2)</scheme>
         <_label>Insert Whole Measure Rest</_label>
         <_tooltip>Inserts/Appends a rest measure; if the current measure is empty, it simply places the whole measure rest in it.</_tooltip>
       </row>

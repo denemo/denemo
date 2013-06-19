@@ -7,8 +7,6 @@
       <row type="scheme">
         <after>DeactivateTimeSignatureStencil</after>
         <action>AccompanistsScore</action>
-        <scheme>;;;;;;;AccompanistsScore
-(ForAllMovements "(while (d-StaffUp) #t) (d-TinyStaff)")</scheme>
         <_label>(Print) Accompanist's Score</_label>
         <_tooltip>Sets/Unsets the top staff of each movement to a tiny font, with the lower staffs - the accompaniment - at the normal font. Print effect only.</_tooltip>
       </row>

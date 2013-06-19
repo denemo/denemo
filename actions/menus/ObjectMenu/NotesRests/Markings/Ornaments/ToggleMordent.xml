@@ -6,9 +6,6 @@
     <map>
       <row type="scheme">
         <action>ToggleMordent</action>
-        <scheme>;;;ToggleMordent
-				(ChordAnnotation "ToggleMordent" "\\mordent"    ToggleMordent::params    LG-Mordent)
-</scheme>
         <_label>Mordent (Off/On)</_label>
         <_tooltip>Adds/Removes a Mordent to the note</_tooltip>
       </row>

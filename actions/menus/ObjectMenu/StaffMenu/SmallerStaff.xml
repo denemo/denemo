@@ -6,11 +6,6 @@
     <map>
       <row type="scheme">
         <action>SmallerStaff</action>
-        <scheme>;;;SmallerStaff
-(ToggleDirective "staff" "prefix" "StaffSize" "\\with {\n
-     		   fontSize = #-3\n
-     		   \\override StaffSymbol #'staff-space = #(magstep -3)\n}\n " )
-          		   </scheme>
         <_label>Smaller Staff</_label>
         <_tooltip>The current staff will print in a smaller size. Use this for the solo part above a piano accompaniment</_tooltip>
       </row>

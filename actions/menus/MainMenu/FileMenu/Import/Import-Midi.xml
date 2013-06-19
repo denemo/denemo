@@ -7,8 +7,6 @@
       <row type="scheme">
         <after>ImportMusicXml</after>
         <action>Import-Midi</action>
-        <scheme>(d-NewWindow)
-(d-ImportMidi)</scheme>
         <_label>Import Midi</_label>
         <_tooltip>Try to Imports a Midi File</_tooltip>
       </row>

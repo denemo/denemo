@@ -6,9 +6,6 @@
     <map>
       <row type="scheme">
         <action>ToggleCoda</action>
-        <scheme>;;;ToggleCoda
-        (ChordAnnotation "ToggleCoda" "\\coda"    ToggleCoda::params    LG-Coda)
-</scheme>
         <_label>Coda (Off/On)</_label>
         <_tooltip>Adds/Removes a Coda to the note</_tooltip>
       </row>

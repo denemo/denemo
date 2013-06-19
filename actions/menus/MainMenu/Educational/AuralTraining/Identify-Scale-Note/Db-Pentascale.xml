@@ -6,7 +6,6 @@
     <map>
       <row type="scheme">
         <action>Db-Pentascale</action>
-        <scheme>(IdentifyScaleNote::IdentifyScaleNotes (cons "Db Eb F Gb Ab" "des' ees' f' ges' aes'"))</scheme>
         <_label>Db Pentascale</_label>
         <_tooltip>Identify Scale Notes that are sounded</_tooltip>
       </row>

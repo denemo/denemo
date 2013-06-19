@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>ChangeBalance</after>
         <action>ChangePan</action>
-        <scheme>(ChangePan::Set)</scheme>
         <_label>10 Pan</_label>
         <_tooltip>Where in the stereo field the channel sound will be placed.</_tooltip>
       </row>

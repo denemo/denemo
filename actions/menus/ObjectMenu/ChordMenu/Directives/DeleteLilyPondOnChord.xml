@@ -6,9 +6,6 @@
     <map>
       <row type="scheme">
         <action>DeleteLilyPondOnChord</action>
-        <scheme>(d-AttachLilyToChord "prefix= \0postfix= \0display= ")
-
-</scheme>
         <_label>Delete LilyPond on Chord</_label>
         <_tooltip>Deletes the LilyPond attached to the chord at the cursor.</_tooltip>
       </row>

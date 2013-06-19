@@ -6,9 +6,6 @@
     <map>
       <row type="scheme">
         <action>BookComposer</action>
-        <scheme>;;BookComposer
-        (BookTitles::Do "Composer" "composer" "My Composer"  (_ "Give name for composer or blank out to delete: "))
-</scheme>
         <_label>Composer</_label>
         <_tooltip>Prints a composer name on title page</_tooltip>
       </row>

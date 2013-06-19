@@ -7,16 +7,6 @@
       <row type="scheme">
         <after>ToggleTupletNumbering</after>
         <action>ToggleTripleting</action>
-        <scheme>;;;;ToggleTripleting
-(if  ToggleTripleting::InsideTriplet
-       (begin 
-       		(d-PendingMidi 72)
-       		(d-StartTriplet))
-       	(begin
-       		(d-PlayMidiNote 77 255 9 100)
-      	 	(d-EndTuplet)))
-(set! ToggleTripleting::InsideTriplet (not ToggleTripleting::InsideTriplet))
-</scheme>
         <_label>Toggle Triplet Entry (Off/On)</_label>
         <_tooltip>Inserts a start triplet or end tuplet alternately.</_tooltip>
       </row>

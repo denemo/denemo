@@ -6,13 +6,6 @@
     <map>
       <row type="scheme">
         <action>CautionaryAccidental</action>
-        <scheme>;;;CautionaryAccidental
-(if (d-DirectiveGet-note-postfix "WarnAccidental")
-	(d-DirectiveDelete-note "WarnAccidental")
-(d-DirectivePut-note-postfix "WarnAccidental" "!"))
-(d-SetSaved #f)
-(d-RefreshDisplay)
-</scheme>
         <_label>Cautionary Accidental</_label>
         <_tooltip>Forces the accidental on the note to be printed.</_tooltip>
       </row>

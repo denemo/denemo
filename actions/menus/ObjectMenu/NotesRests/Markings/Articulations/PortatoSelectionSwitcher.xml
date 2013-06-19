@@ -7,8 +7,6 @@
       <row type="scheme">
         <after>TogglePortato</after>
         <action>PortatoSelectionSwitcher</action>
-        <scheme>(SingleAndSelectionSwitcher d-TogglePortato )
-		</scheme>
         <_label>Portato (Off/On)</_label>
         <_tooltip>Marks/Unmaks the selection with the Portato</_tooltip>
       </row>

@@ -6,15 +6,6 @@
     <map>
       <row type="scheme">
         <action>SlurTwo</action>
-        <scheme>;;;SlurTwo
-(if (Music?)
-(begin
-	(d-ToggleBeginSlur)
-	(if (d-NextChord)
-		(d-ToggleEndSlur)
-		(d-ToggleBeginSlur))
-	(d-NextChord)))
-</scheme>
         <_label>Slur with Next Note</_label>
         <_tooltip>Creates a slur from current note to next note.</_tooltip>
       </row>

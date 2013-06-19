@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>OpenSourceDialog</after>
         <action>OpenAudio</action>
-        <scheme>(d-OpenSourceAudioFile)</scheme>
         <_label>Open Source Audio</_label>
         <_tooltip>Opens an audio file which will be mixed with the current movement.</_tooltip>
       </row>

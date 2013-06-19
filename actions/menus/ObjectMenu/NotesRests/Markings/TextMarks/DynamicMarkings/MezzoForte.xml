@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>Fortissimo</after>
         <action>MezzoForte</action>
-        <scheme> ;;; mf
-(Dynamics::Put "MezzoForte" "\\mf" "80")
-</scheme>
         <_label>Mezzo Forte</_label>
         <_tooltip>Attach mf indication to a chord.</_tooltip>
       </row>

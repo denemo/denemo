@@ -6,8 +6,6 @@
     <map>
       <row type="scheme">
         <action>ZoomReset</action>
-        <scheme>(d-Zoom 1)
-</scheme>
         <_label>Zoom to 100%</_label>
         <_tooltip>Zoom to 100%, restore the original size</_tooltip>
       </row>

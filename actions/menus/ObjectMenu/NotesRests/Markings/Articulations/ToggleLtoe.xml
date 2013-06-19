@@ -5,9 +5,6 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row type="scheme">
-        <scheme>;;;Ltoe
-        (ChordAnnotation "ToggleLtoe" "\\ltoe"    ToggleLtoe::params    LG-Ltoe)
-</scheme>
         <_label>Ltoe (Off/On)</_label>
         <_tooltip>Mark/Unmark the current note ltoe</_tooltip>
       </row>

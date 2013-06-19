@@ -1,0 +1,1 @@
+(AttachDirective "staff" "prefix" "ContextChoirStaff" " \\new ChoirStaff <<\n" DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_AFFIX)

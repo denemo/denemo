@@ -6,7 +6,6 @@
     <map>
       <row type="scheme">
         <action>Eb-Major</action>
-        <scheme>(IdentifyScaleNote::IdentifyScaleNotes (cons "Eb F G Ab Bb C D" "ees' f' g' aes' bes' c'' d'' ees''"))</scheme>
         <_label>Eb Major</_label>
         <_tooltip>Identify Scale Notes that are sounded</_tooltip>
       </row>

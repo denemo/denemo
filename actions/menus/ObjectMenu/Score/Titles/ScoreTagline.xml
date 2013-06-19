@@ -6,11 +6,6 @@
     <map>
       <row type="scheme">
         <action>ScoreTagline</action>
-        <scheme>;ScoreTagline
-		(SetScoreHeaderField "tagline" #f #f)
-		(DenemoPrintAllHeaders)
-		(d-SetSaved #f)
-		(d-RefreshDisplay)</scheme>
         <_label>Tagline</_label>
         <_tooltip> Centered at the bottom of the last page.</_tooltip>
       </row>

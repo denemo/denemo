@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>ChangeExpression</after>
         <action>ChangeHoldPedal</action>
-        <scheme>(ChangeHoldPedal::Set)</scheme>
         <_label>64 Hold Pedal (Right Piano Pedal)</_label>
         <_tooltip>Hold Pedal On/Off (Right Piano Pedal). Deactivates Note-Off until set to "Off"</_tooltip>
       </row>

@@ -6,8 +6,6 @@
     <map>
       <row type="scheme">
         <action>LtoeSelectionSwitcher</action>
-        <scheme>(SingleAndSelectionSwitcher d-ToggleLtoe )
-		</scheme>
         <_label>Ltoe (Off/On)</_label>
         <_tooltip>Marks/Unmaks the selection with the Ltoe</_tooltip>
       </row>

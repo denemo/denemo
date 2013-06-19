@@ -7,24 +7,6 @@
       <row type="scheme">
         <after>Tremolo</after>
         <action>ReplaceChord</action>
-        <scheme>;;;;ReplaceChord
-(let ((tag "ReplaceChord")
-  (lily #f))
-  (set! lily (d-DirectiveGet-chord-prefix tag))
-  (if  lily
-    (begin
-      (if (&gt; (string-length lily) 2)
-	(set! lily (string-drop-right lily 2))))
-    (set! lily "r"))
-  (set! lily (d-GetUserInput "Replace Note/Rest" "Give LilyPond syntax to replace the note or rest at the cursor or blank to delete" lily))
-  (if (and lily (&gt; (string-length lily) 0))
-    (begin
-      (d-DirectivePut-chord-prefix tag (string-append lily "%{"))
-      (d-DirectivePut-chord-postfix tag " %}\n")
-      (d-DirectivePut-chord-override tag  DENEMO_OVERRIDE_AFFIX)
-      (d-DirectivePut-chord-display tag "customized"))
-    (d-DirectiveDelete-chord tag)))
-(d-SetSaved #f)</scheme>
         <_label>Replace LilyPond</_label>
         <_tooltip>Suppresses the normal LilyPond typetting for the current note/chord/rest replacing it with syntax provided by user.</_tooltip>
       </row>

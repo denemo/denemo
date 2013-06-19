@@ -6,13 +6,6 @@
     <map>
       <row type="scheme">
         <action>DenemoPlayCursorToEnd</action>
-        <scheme>;Play from Cusor to End
-(d-PushPosition)
-(DenemoSetPlaybackStart)
-(d-MoveToEnd)
-(DenemoSetPlaybackEnd)
-(d-PopPosition)
-(d-Play)</scheme>
         <_label>Play from Cursor to End</_label>
         <_tooltip>Playback all staffs from the current cursor position to the end of the movement.</_tooltip>
       </row>

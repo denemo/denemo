@@ -6,7 +6,6 @@
     <map>
       <row type="scheme">
         <action>PrevBookmark</action>
-        <scheme>(FindPrevObjectAllColumns (lambda () (d-DirectiveGet-standalone-display "RehearsalMark")))</scheme>
         <_label>Prev Bookmark</_label>
         <_tooltip>Seach backward for bookmarks in the current staff.</_tooltip>
       </row>

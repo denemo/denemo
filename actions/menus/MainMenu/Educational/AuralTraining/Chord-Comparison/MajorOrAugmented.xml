@@ -7,11 +7,6 @@
       <row type="scheme">
         <after>DiminishedOrMinor</after>
         <action>MajorOrAugmented</action>
-        <scheme>
-
-(ChordComparison::ChordComparison (list ChordComparison::Major ChordComparison::Augmented))
-
-</scheme>
         <_label>MajorAugmented</_label>
         <_tooltip>Determine if chord sounded is Major or Augmented</_tooltip>
       </row>

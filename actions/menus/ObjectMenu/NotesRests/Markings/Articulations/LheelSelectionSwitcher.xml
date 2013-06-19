@@ -6,8 +6,6 @@
     <map>
       <row type="scheme">
         <action>LheelSelectionSwitcher</action>
-        <scheme>(SingleAndSelectionSwitcher d-ToggleLheel )
-		</scheme>
         <_label>Lheel (Off/On)</_label>
         <_tooltip>Marks/Unmaks the selection with the Lheel</_tooltip>
       </row>

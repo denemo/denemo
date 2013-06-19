@@ -7,17 +7,6 @@
       <row type="scheme">
         <after>NextHigher</after>
         <action>FindEditPoint</action>
-        <scheme>  ;;;;;; FindEditPoint
-(let loop ( )
-  (define current (d-PrevNote))
-  (if (and current (d-GetNonprinting))
-      (loop)))
- (if (not (d-GetNonprinting))
-(d-NextNote))
-(d-RefreshDisplay)
-;;;;;;;;;;;;;;;;;
-
-</scheme>
         <_label>Find Edit Point</_label>
         <_tooltip>Searches backward for the start of non-printing notes.</_tooltip>
       </row>

@@ -7,14 +7,6 @@
       <row type="scheme">
         <after>InitialKey</after>
         <action>SharpenInitialKeysigs</action>
-        <scheme>;;;SharpenInitialKeysigs
-		(d-PushPosition)
-		(while (MoveUpStaffOrVoice))
-		(d-IncrementInitialKeysig)
-		(while (MoveDownStaffOrVoice)
-			(d-IncrementInitialKeysig))
-		(d-PopPosition)
-        </scheme>
         <_label>♯ Initial</_label>
         <_tooltip>Sharpens the inital key signature by one degree on all staffs/voices.</_tooltip>
       </row>

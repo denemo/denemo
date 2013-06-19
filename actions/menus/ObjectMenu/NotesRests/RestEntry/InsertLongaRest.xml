@@ -6,11 +6,6 @@
     <map>
       <row type="scheme">
         <action>InsertLongaRest</action>
-        <scheme>(d-InsertWholeRest)
-(if (Appending?)
-	(d-MoveCursorLeft))
-(d-ChangeLonga)
-(d-MoveCursorRight)</scheme>
         <_label>Longa Rest</_label>
         <_tooltip>Insert a rest with longa duration</_tooltip>
       </row>

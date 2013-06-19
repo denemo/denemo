@@ -29,7 +29,6 @@ gchar* load_command_data (GtkAction * action);
 #define COMMANDXML_TAG_AFTER         (const xmlChar *) "after"
 #define COMMANDXML_TAG_CURSORS       (const xmlChar *) "cursors"
 #define COMMANDXML_TAG_ACTION        (const xmlChar *) "action"
-#define COMMANDXML_TAG_SCHEME        (const xmlChar *) "scheme"
 #define COMMANDXML_TAG_HIDDEN        (const xmlChar *) "hidden"
 #define COMMANDXML_TAG_MENUPATH      (const xmlChar *) "menupath"
 #define COMMANDXML_TAG_TYPE          (const xmlChar *) "type"

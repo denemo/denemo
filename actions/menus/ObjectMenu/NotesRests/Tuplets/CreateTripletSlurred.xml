@@ -9,26 +9,6 @@
         <action>CreateTripletSlurred</action>
         <_label>Create Slurred Triplet</_label>
         <_tooltip>Duplicates the current note twice making a triplet and slurring all three notes.</_tooltip>
-        <scheme>;;;CreateTripletSlurred
-(if (and (MidiInput?) (Appending?))
-	(begin
-	    (d-MoveCursorLeft)
-	    (if (Music?)
-   		(let ((duration (d-GetNoteBaseDuration)))
-			(d-StartTriplet)
-			(d-MoveCursorRight)
-			(d-ToggleBeginSlur)
-  			(eval-string (string-append "(d-" (number-&gt;string duration) ")"))
-        		(d-SetNonprinting)
-   			(eval-string (string-append "(d-" (number-&gt;string duration) ")"))
-        		(d-SetNonprinting)    
-        		(d-ToggleEndSlur)		
-			(d-EndTuplet))
-		 (begin
-		 	(d-MoveCursorRight)
-		 	(d-ToggleTripleting))))
-	(d-ToggleTripleting))
-</scheme>
       </row>
     </map>
   </merge>

@@ -6,10 +6,6 @@
     <map>
       <row type="scheme">
         <action>RecreateTimebase</action>
-        <scheme>(d-UnsetMark)
-(d-CreateTimebase)
-
-</scheme>
         <_label>Create Timebase</_label>
         <_tooltip>Recalculates the timing of each note.</_tooltip>
       </row>

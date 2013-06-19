@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>MovementNoteheadsXcircle</after>
         <action>MovementNoteheadsSlash</action>
-        <scheme>(AttachDirective "layout" "postfix" "MovementNoteheads" "\t\\context {
-\t\\Score		   
-\t\\override NoteHead  #'style = #'slash }\n")</scheme>
         <_label>Slash</_label>
         <_tooltip>Slash note head style for the current movement.</_tooltip>
       </row>

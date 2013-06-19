@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>JumpUpOctave</after>
         <action>JumpDownOctave</action>
-        <scheme>(Navigation::CursorUpN -7)</scheme>
         <_label>Octave Down</_label>
         <_tooltip>Moves cursor down an octave.</_tooltip>
       </row>

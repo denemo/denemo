@@ -6,10 +6,6 @@
     <map>
       <row type="scheme">
         <action>Diminish</action>
-        <scheme>(SingleAndSelectionSwitcher  (lambda ()
-(if (duration::GetBaseDurationInTicks)
- (duration::ChangeNoteDurationInTicks (/ (duration::GetBaseDurationInTicks) 2) (d-GetDots)))))
-	</scheme>
         <_label>Diminish</_label>
         <_tooltip>Diminishs the note/chord/rest. Quarter Note becomes Eight Note. </_tooltip>
       </row>

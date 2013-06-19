@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>ChangeModwheel</after>
         <action>ChangeBalance</action>
-        <scheme>(ChangeBalance::Set)</scheme>
         <_label>8 Balance</_label>
         <_tooltip>Balance. Typically used for a stereo signal tweak without changing the pan itself. Like a CD player. </_tooltip>
       </row>

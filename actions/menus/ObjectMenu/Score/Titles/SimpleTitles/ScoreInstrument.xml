@@ -7,12 +7,6 @@
       <row type="scheme">
         <after/>
         <action>ScoreInstrument</action>
-        <scheme>;;;ScoreInstrument
-        		(SetScoreHeaderField "instrument" #f #f)
-		(DenemoPrintAllHeaders)
-		(d-SetSaved #f)
-		(d-RefreshDisplay)
-        </scheme>
         <_label>Instrument</_label>
         <_tooltip>Name of the instrument, centered below the score title. Also centered at the top of pages (other than the first page).</_tooltip>
       </row>

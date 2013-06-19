@@ -6,7 +6,6 @@
     <map>
       <row type="scheme">
         <action>F-sharp-Major</action>
-        <scheme>(IdentifyScaleNote::IdentifyScaleNotes (cons "F# G# A# B C# D# E#" "fis' gis' ais' b' cis'' dis'' eis''"))</scheme>
         <_label>F# Major</_label>
         <_tooltip>Identify Scale Notes that are sounded</_tooltip>
       </row>

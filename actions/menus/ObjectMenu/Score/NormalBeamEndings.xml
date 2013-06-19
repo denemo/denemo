@@ -7,12 +7,6 @@
       <row type="scheme">
         <after>AccompanistsScore</after>
         <action>NormalBeamEndings</action>
-        <scheme>;;;;;;;; NormalBeamEndings
-        ;;removes old syntax no longer valid for current LilyPond version
-(d-ScoreBlockProlog "")
-(d-SetSaved #f)
-
-</scheme>
         <_label>Use Normal Beam Endings</_label>
         <_tooltip>Ends beams in the expected places (print).</_tooltip>
       </row>

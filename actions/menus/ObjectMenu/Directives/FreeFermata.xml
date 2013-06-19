@@ -6,14 +6,6 @@
     <map>
       <row type="scheme">
         <action>FreeFermata</action>
-        <scheme>;;;Fermata attached to the next object, for example a barline. But shown between notes
-(let ((tag "FreeFermata"))
-   (if (d-Directive-standalone? tag)
-    (if (not (d-DirectiveTextEdit-standalone tag))
-     (d-DirectiveDelete-standalone tag))
-    (StandAloneDirectiveProto (cons tag "\\once \\override Score.RehearsalMark #'break-visibility =
-#begin-of-line-invisible \\mark \\markup { \\musicglyph #\"scripts.ufermata\" } "))))
-		</scheme>
         <_label>(Print) Standalone Fermata (for Barlines)</_label>
         <_tooltip>Adds a standalone fermata which has no playback effect. Can be used to place a Fermata on a barline.</_tooltip>
       </row>

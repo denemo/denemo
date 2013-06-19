@@ -7,8 +7,6 @@
       <row type="scheme">
         <after>ToggleAccent</after>
         <action>AccentSelectionSwitcher</action>
-        <scheme>(SingleAndSelectionSwitcher d-ToggleAccent)
-		</scheme>
         <_label>Accent (Off/On)</_label>
         <_tooltip>Adds the &gt; accent</_tooltip>
       </row>

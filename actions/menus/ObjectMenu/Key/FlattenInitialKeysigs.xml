@@ -7,14 +7,6 @@
       <row type="scheme">
         <after>SharpenInitialKeysigs</after>
         <action>FlattenInitialKeysigs</action>
-        <scheme>;;;FlattenInitialKeysigs
-		(d-PushPosition)
-		(while (MoveUpStaffOrVoice))
-		(d-IncrementInitialKeysig -1)
-		(while (MoveDownStaffOrVoice)
-			(d-IncrementInitialKeysig -1))
-		(d-PopPosition)
-        </scheme>
         <_label>♭ Initial</_label>
         <_tooltip>Flattens the inital key signature by one degree on all staffs/voices.</_tooltip>
       </row>

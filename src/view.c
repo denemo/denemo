@@ -8248,7 +8248,6 @@ insertScript (GtkWidget * widget, gchar * insertion_point)
   gchar *myposition = g_path_get_dirname (insertion_point);
   gchar *after = g_path_get_basename (insertion_point);
   gint idx = lookup_command_from_name (Denemo.map, after);
-  //g_print("Saving with %s after %s\n", myposition, after);
   myname = string_dialog_entry (gui, "Create a new menu item", "Give item name (avoid clashes): ", "MyName");
   //FIXME check for name clashes
 
@@ -8274,19 +8273,24 @@ insertScript (GtkWidget * widget, gchar * insertion_point)
 
   myscheme = getSchemeText ();
 
-  gchar *myfilename = g_strconcat (myname, XML_EXT, NULL);
-  g_print ("The filename built is %s from %s", myfilename, myposition);
-  gchar *filename = g_build_filename (locatedotdenemo (), "actions", "menus", myposition, myfilename, NULL);
-  g_free (myfilename);
-  if ((!g_file_test (filename, G_FILE_TEST_EXISTS)) || (g_file_test (filename, G_FILE_TEST_EXISTS) && confirm (_("Duplicate Name"), _("A command of this name is already available in your custom menus; Overwrite?"))))
+  gchar *xml_filename = g_strconcat (myname, XML_EXT, NULL);
+  gchar *scm_filename = g_strconcat (myname, SCM_EXT, NULL);
+  g_print ("The filename built is %s from %s", xml_filename, myposition);
+  gchar *xml_path = g_build_filename (locatedotdenemo (), "actions", "menus", myposition, xml_filename, NULL);
+  gchar *scm_path = g_build_filename (locatedotdenemo (), "actions", "menus", myposition, scm_filename, NULL);
+  g_free (xml_filename);
+  if ((!g_file_test (xml_path, G_FILE_TEST_EXISTS)) || (g_file_test (xml_path, G_FILE_TEST_EXISTS) && confirm (_("Duplicate Name"), _("A command of this name is already available in your custom menus; Overwrite?"))))
     {
-      gchar *dirpath = g_path_get_dirname (filename);
+      gchar *dirpath = g_path_get_dirname (xml_path);
       g_mkdir_with_parents (dirpath, 0770);
       g_free (dirpath);
-      //g_file_set_contents(filename, text, -1, NULL);
-      save_command_metadata (filename, myname, mylabel, mytooltip, idx < 0 ? NULL : after);
-      save_command_data(filename, myscheme);
-      load_xml_keymap (filename);
+      //g_file_set_contents(xml_path, text, -1, NULL);
+      save_command_metadata (xml_path, myname, mylabel, mytooltip, idx < 0 ? NULL : after);
+      save_command_data(scm_path, myscheme);
+      load_xml_keymap (xml_path);
+      GtkAction* action = lookup_action_from_name (myname);
+      load_command_data (action);
+
       if (confirm (_("New Command Added"), _("Do you want to save this with your default commands?")))
         save_accels ();
     }
@@ -8547,19 +8551,23 @@ saveMenuItem (GtkWidget * widget, GtkAction * action)
   gint idx = lookup_command_from_name (Denemo.map, name);
   gchar *tooltip = (gchar *) lookup_tooltip_from_idx (Denemo.map, idx);
   gchar *label = (gchar *) lookup_label_from_idx (Denemo.map, idx);
-  gchar *fullname = g_strconcat (name, XML_EXT, NULL);
+  
+  gchar *xml_filename = g_strconcat (name, XML_EXT, NULL);
+  gchar *xml_path = g_build_filename (locatedotdenemo (), "actions", "menus", menupath, xml_filename, NULL);
+  g_free (xml_filename);
 
-  gchar *filename = g_build_filename (locatedotdenemo (), "actions", "menus", menupath, fullname,
-                                      NULL);
-  g_free (fullname);
+  gchar *scm_filename = g_strconcat (name, SCM_EXT, NULL);
+  gchar *scm_path = g_build_filename (locatedotdenemo (), "actions", "menus", menupath, scm_filename, NULL);
+  g_free (scm_filename);
+  
   gchar *scheme = getSchemeText ();
   if (scheme && *scheme && confirm (_("Save Script"), g_strconcat (_("Over-write previous version of the script for "), name, _(" ?"), NULL)))
     {
-      gchar *dirpath = g_path_get_dirname (filename);
+      gchar *dirpath = g_path_get_dirname (xml_path);
       g_mkdir_with_parents (dirpath, 0770);
       g_free (dirpath);
-      save_command_metadata (filename, name, label, tooltip, after);
-      save_command_data(filename, scheme);
+      save_command_metadata (xml_filename, name, label, tooltip, after);
+      save_command_data(scm_path, scheme);
       g_object_set_data (G_OBJECT (action), "scheme", (gpointer) "");
       load_command_data (action);
     }

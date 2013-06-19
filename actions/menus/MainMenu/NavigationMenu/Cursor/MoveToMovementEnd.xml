@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>MoveToMovementBeginning</after>
         <action>MoveToMovementEnd</action>
-        <scheme>(RepeatUntilFail d-MoveToStaffDown)			
-(d-MoveToEnd)
-		</scheme>
         <_label>Move To Movement End</_label>
         <_tooltip>Move the cursor to last measure, last staff without altering the selection.</_tooltip>
       </row>

@@ -6,10 +6,6 @@
     <map>
       <row type="scheme">
         <action>BassDrum</action>
-        <scheme>
-		(d-InsertF)
-		(d-PutNoteName "f''")
-	</scheme>
         <_label>Bass Drum</_label>
         <_tooltip>Insert Bass Drum in the prevailing duration.</_tooltip>
       </row>

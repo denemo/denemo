@@ -6,9 +6,6 @@
     <map>
       <row type="scheme">
         <action>ShiftUp</action>
-        <scheme>(SingleAndSelectionSwitcher (lambda () 
-	(ShiftProto ANS::CalculateDiatonicStepUp)))
-</scheme>
         <_label>Tonal step up</_label>
         <_tooltip>Transpose/shift the cursor note or selection one step up, stay in the keysignature.</_tooltip>
       </row>

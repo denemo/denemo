@@ -7,15 +7,6 @@
       <row type="scheme">
         <after/>
         <action>ScoreBreakbefore</action>
-        <scheme>;;;ScoreBreakbefore
-	(if (d-PreviousMovement)
-		(d-WarningDialog "Returning to the first Movement to set this."))
-	(while (d-PreviousMovement)
-		(display "Seeking first movement"))
-        (SetHeaderField "opus")
-        (DenemoPrintAllHeaders)
-        (d-RefreshDisplay)
-        </scheme>
         <_label>Breakbefore</_label>
         <_tooltip>This forces the title to start on a new page (set to ##t or ##f).</_tooltip>
       </row>

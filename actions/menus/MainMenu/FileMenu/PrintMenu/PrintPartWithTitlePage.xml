@@ -7,20 +7,6 @@
       <row type="scheme">
         <after>PrintPart</after>
         <action>PrintPartWithTitlePage</action>
-        <scheme>;;;PrintPartWithTitlePage
-(if  (and (d-Directive-scoreheader? "BookTitle") (d-Directive-staff? "InstrumentName"))
-  (let ((saved (d-GetSaved))
-	(datefield (d-DirectiveGet-scoreheader-display "BookDate"))
-	(instrument (d-DirectiveGet-staff-display "InstrumentName")))
-    (d-BookDate instrument)
-    (d-PrintPart)
-    (if datefield
-      (d-BookDate datefield)
-      (d-DirectiveDelete-scoreheader "BookDate"))
-  (d-SetSaved saved))
-  (begin
-    (d-WarningDialog (_ "No Book Title, see Score-&gt;Titles-&gt;Book Titles"))))
-  </scheme>
         <_label>Print Part with Title Page</_label>
         <_tooltip>Prints part with part name on title page</_tooltip>
       </row>

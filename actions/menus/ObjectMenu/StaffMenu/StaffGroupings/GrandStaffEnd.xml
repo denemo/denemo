@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>GrandStaffStart</after>
         <action>GrandStaffEnd</action>
-        <scheme>(AttachDirective "staff" "postfix" "ContextGrandStaff"  " &gt;&gt;\n" DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_AFFIX)</scheme>
         <_label>GrandStaff End</_label>
         <_tooltip>Stop GrandStaff multi-stave system.</_tooltip>
       </row>

@@ -6,12 +6,6 @@
     <map>
       <row type="scheme">
         <action>StartDownStems</action>
-        <scheme>
-		(d-InsertStem)
-		(d-MoveCursorLeft)
-		(d-StemDown)
-		(d-MoveCursorRight)
-	</scheme>
         <_label>Stems Down</_label>
         <_tooltip>Stems from now on point downward.</_tooltip>
       </row>

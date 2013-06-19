@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>ChangeLegatoPedal</after>
         <action>ChangeHold2Pedal</action>
-        <scheme>(ChangeHold2Pedal::Set)</scheme>
         <_label>69 Hold Pedal #2 On/Off</_label>
         <_tooltip>Longer release time but notes will fade out eventually.</_tooltip>
       </row>

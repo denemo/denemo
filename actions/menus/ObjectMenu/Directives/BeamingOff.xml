@@ -7,13 +7,6 @@
       <row type="scheme">
         <after>PageBreak</after>
         <action>BeamingOff</action>
-        <scheme> ;;;;;;;;BeamingOff
-(d-DirectivePut-standalone "BeamingOff")
-(d-DirectivePut-standalone-postfix "BeamingOff" "\\autoBeamOff")
-(d-DirectivePut-standalone-display "BeamingOff" (_ "No Beaming"))
-(d-DirectivePut-standalone-minpixels "BeamingOff" 10)
-(d-RefreshDisplay)
-</scheme>
         <_label>Stop Beaming</_label>
         <_tooltip>(Print)Stop automatic beaming from current position in score.</_tooltip>
       </row>

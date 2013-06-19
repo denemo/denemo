@@ -6,7 +6,6 @@
     <map>
       <row type="scheme">
         <action>OpEight</action>
-        <scheme>((cdr wrap:Op8))</scheme>
         <_label>OpEight</_label>
         <_tooltip>Wrapper/Dummy for Keypress</_tooltip>
       </row>

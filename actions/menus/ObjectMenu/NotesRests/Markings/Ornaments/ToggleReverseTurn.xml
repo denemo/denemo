@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>TogglePrallPrall</after>
         <action>ToggleReverseTurn</action>
-        <scheme>;;;ToggleReverseTurn
-        (ChordAnnotation "ToggleReverseTurn" "\\reverseturn"    ToggleReverseTurn::params    LG-ReverseTurn)
-</scheme>
         <_label>Reverse Turn (Off/On)</_label>
         <_tooltip>Add/Removes a Reverse Turn to the note</_tooltip>
       </row>

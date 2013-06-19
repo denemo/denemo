@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>DCAlFine</after>
         <action>ToggleFine</action>
-        <scheme>;;ToggleFine
-        (ChordAnnotation "ToggleFine" "-\\markup \\italic \"fine\""    ToggleFine::params   #f "fine")
-</scheme>
         <_label>Fine (end). (Off/On)</_label>
         <_tooltip>Prints the musical instruction "fine", in italics.</_tooltip>
       </row>

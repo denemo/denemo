@@ -6,10 +6,6 @@
     <map>
       <row type="scheme">
         <action>ToggleFlageolet</action>
-        <scheme>;;;ToggleFlageolet
-(ChordAnnotation "ToggleFlageolet" "\\flageolet"    ToggleFlageolet::params    LG-Flageolet)
-;(d-DirectivePut-chord-gy "Flageolet" 12)
-</scheme>
         <_label>Flageolet (Off/On)</_label>
         <_tooltip>Mark/Unmark chord with a Flageolet</_tooltip>
       </row>

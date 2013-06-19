@@ -7,21 +7,6 @@
       <row type="scheme">
         <after>ToggleTieDown</after>
         <action>ToggleTieUp</action>
-        <scheme>;;ToggleTieUp
-(let ((tag "Tie"))
-	(if (d-IsTied)
-		(begin
-			(d-DirectiveDelete-chord tag)
-			(d-ToggleTie))
-		(begin
-			(d-ToggleTie)
-			(d-DirectivePut-chord-postfix tag "^")
-			(d-DirectivePut-chord-graphic tag "\n^
-			Denemo
-			30")))
-	(d-RefreshDisplay)
-	(d-SetSaved #f))
-</scheme>
         <_label>Up Tie (Off/On)</_label>
         <_tooltip>Ties to next note, tie upwards, or removes tie.</_tooltip>
       </row>

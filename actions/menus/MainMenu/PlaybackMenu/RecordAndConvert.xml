@@ -7,29 +7,6 @@
       <row type="scheme">
         <after>MouseOrMidiDrivenPlayback</after>
         <action>RecordAndConvert</action>
-        <scheme>;;;RecordAndConvert
-(define (DenemoPlay)
-
-  (d-Play "
-  (let ()
-  (define response #f)
-  (d-PopPosition)
-  
-  (set! response (d-GetUserInput\"Recording Finished\" \"Convert to notation?\" \"y\"))
-  
-  (if (equal? response \"y\")
- 	 (d-ConvertMidiForBass))
-  
-  )
-  (d-TogglePlayAlong)
-  (define (DenemoPlay) (DefaultDenemoPlay))
-  "))
-  (d-CreateIntro)
-  (d-PushPosition)
-  (if (not (d-TogglePlayAlong))
-  	 (d-TogglePlayAlong))	
-  (d-MidiRecord)
-</scheme>
         <_label>Record and Convert</_label>
         <_tooltip>Starts playing the score and recording from MIDI in, When finished it converts the recording to notation.</_tooltip>
       </row>

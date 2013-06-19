@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>GroupStaffEnd</after>
         <action>PianoStaffStart</action>
-        <scheme>(AttachDirective "staff" "prefix" "ContextPianoStaff" " \\new PianoStaff &lt;&lt;\n" DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_AFFIX)</scheme>
         <_label>PianoStaff Start</_label>
         <_tooltip>Start grouping single staves together in order to form multi-stave systems. The PianoStaff is identical to a GrandStaff, except that it supports printing the instrument name directly.</_tooltip>
       </row>

@@ -7,18 +7,6 @@
       <row type="scheme">
         <after>OpenFirstTimeBar</after>
         <action>OpenSecondTimeBar</action>
-        <scheme> ;;;OpenSecondTimeBar
-(d-Directive-standalone "Volta")
-(d-DirectivePut-standalone-minpixels  "Volta" 50)
-(d-DirectivePut-standalone-postfix "Volta" "
-\\set Score.repeatCommands = #'((volta \"2\"))
-")
-(d-DirectivePut-standalone-gx  "Volta" 37)
-(d-DirectivePut-standalone-gy  "Volta" -34)
-(d-DirectivePut-standalone-graphic "Volta" "SecondTimeBar")
-(d-MoveCursorRight)
-(d-RefreshDisplay)
- </scheme>
         <_label>Start a Second Time Bar</_label>
         <_tooltip>(Print) start a second time bar, must be followed by EndVolta</_tooltip>
       </row>

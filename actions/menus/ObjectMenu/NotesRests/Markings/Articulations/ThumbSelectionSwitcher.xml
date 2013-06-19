@@ -6,8 +6,6 @@
     <map>
       <row type="scheme">
         <action>ThumbSelectionSwitcher</action>
-        <scheme>(SingleAndSelectionSwitcher d-ToggleThumb )
-		</scheme>
         <_label>Thumb (Off/On)</_label>
         <_tooltip>Marks/Unmaks the selection with the Thumb</_tooltip>
       </row>

@@ -6,12 +6,6 @@
     <map>
       <row type="scheme">
         <action>StartUpStems</action>
-        <scheme>
-		(d-InsertStem)
-		(d-MoveCursorLeft)
-		(d-StemUp)
-		(d-MoveCursorRight)
-	</scheme>
         <_label>Stems Up</_label>
         <_tooltip>Stems from now on point upward.</_tooltip>
       </row>

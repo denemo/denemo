@@ -6,13 +6,6 @@
     <map>
       <row type="scheme">
         <action>MajorOrMinor</action>
-        <scheme>
-(define ChordComparison::Major (cons "Major" "c e g"))
-(define ChordComparison::Minor (cons "Minor" "c ees g"))
-
-(ChordComparison::ChordComparison (list ChordComparison::Major ChordComparison::Minor))
-
-</scheme>
         <_label>MajorMinor</_label>
         <_tooltip>Determine if the chord played is major or minor</_tooltip>
       </row>

@@ -6,13 +6,6 @@
     <map>
       <row type="scheme">
         <action>HideMovement</action>
-        <scheme>;;;HideMovement
-;delete obsolete directives
-(d-DirectiveDelete-movementcontrol "HideMovement")
-(d-DirectiveDelete-layout "HideMovement")
-(d-DirectiveDelete-header "HideMovement")
-(d-InfoDialog "Use the Score Layout view to create a typeset with movements omitted.\nUse the \"X\" button on the movements to be dropped.\nSee the View Menu, Score Layout")
-</scheme>
         <_label>(Print) Hide Movement</_label>
         <_tooltip>Explains how to hide a movement when printing. Removes obsolete directives for this.</_tooltip>
       </row>

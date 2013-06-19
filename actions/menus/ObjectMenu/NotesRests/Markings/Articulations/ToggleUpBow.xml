@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>ToggleTenuto</after>
         <action>ToggleUpBow</action>
-        <scheme>;;;ToggleUpBow
-        (ChordAnnotation "ToggleUpBow" "\\upbow"    ToggleUpBow::params    LG-UpBow)
-</scheme>
         <_label>UpBow (Off/On)</_label>
         <_tooltip>Mark/Unmark chord with an Up Bow</_tooltip>
       </row>

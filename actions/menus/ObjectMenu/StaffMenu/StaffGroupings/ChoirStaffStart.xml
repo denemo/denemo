@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>PianoStaffEnd</after>
         <action>ChoirStaffStart</action>
-        <scheme>(AttachDirective "staff" "prefix" "ContextChoirStaff" " \\new ChoirStaff &lt;&lt;\n" DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_AFFIX)</scheme>
         <_label>ChoirStaff Start</_label>
         <_tooltip>Start grouping single staves together in order to form multi-stave systems. In a ChoirStaff, the group starts with a bracket, but bar lines are not connected. </_tooltip>
       </row>

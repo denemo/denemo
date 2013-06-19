@@ -6,9 +6,6 @@
     <map>
       <row type="scheme">
         <action>Chapter</action>
-        <scheme>;;;Chapter
-         (MovementBookTitles::Do "Chapter" "chapter" "My Heading"  (_ "Give heading or blank out to delete: "))
-</scheme>
         <_label>Heading</_label>
         <_tooltip>Prints a heading the current movement</_tooltip>
       </row>

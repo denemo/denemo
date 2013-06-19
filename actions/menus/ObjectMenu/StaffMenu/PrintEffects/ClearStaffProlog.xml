@@ -6,8 +6,6 @@
     <map>
       <row type="scheme">
         <action>ClearStaffProlog</action>
-        <scheme>;;clears any extras in the staff-prolog
-(d-StaffProperties "staff-prolog-insert=\n")</scheme>
         <_label>Normal Staff</_label>
         <_tooltip>Deletes the extra staff prolog - restoring the normal staff settings.</_tooltip>
       </row>

@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>MovementNoteheadsBaroque</after>
         <action>MovementNoteheadsNeomensural</action>
-        <scheme>(AttachDirective "layout" "postfix" "MovementNoteheads" "\t\\context {
-\t\\Score		   
-\t\\override NoteHead  #'style = #'neomensural }\n")</scheme>
         <_label>Neomensural</_label>
         <_tooltip>Neomensural note head style for the current movement.</_tooltip>
       </row>

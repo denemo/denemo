@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>SelectRight</after>
         <action>SelectLeft</action>
-        <scheme>(if (and (not (d-MarkStatus)) (not (Appending?)))
-	(begin (d-MoveCursorLeft) (d-SetMark))
-	(d-CursorLeft))</scheme>
         <_label>Select Left</_label>
         <_tooltip>Create a selection, move cursor left.</_tooltip>
       </row>

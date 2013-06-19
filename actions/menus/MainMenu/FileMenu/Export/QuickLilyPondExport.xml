@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>ExportMUDELA</after>
         <action>QuickLilyPondExport</action>
-        <scheme>;;QuickLilyPondExport
-(d-ExportMUDELA (let ((f (d-Open "query=filename"))) 
-	 (substring f 0 (- (string-length f) 7))))</scheme>
         <_label>Quick LilyPond Export#</_label>
         <_tooltip>Exports as LilyPond to a file named the same as the .denemo file but with .ly suffix.</_tooltip>
       </row>

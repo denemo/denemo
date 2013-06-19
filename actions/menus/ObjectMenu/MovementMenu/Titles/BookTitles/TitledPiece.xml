@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>Piece</after>
         <action>TitledPiece</action>
-        <scheme>;;;TitledPiece
-         (MovementBookTitles::Do "TitledPiece" "titledPiece" "My Movement Title"  (_ "Give title for the movement or blank out to delete: "))
-        </scheme>
         <_label>Title</_label>
         <_tooltip>Prints title for the current movement</_tooltip>
       </row>

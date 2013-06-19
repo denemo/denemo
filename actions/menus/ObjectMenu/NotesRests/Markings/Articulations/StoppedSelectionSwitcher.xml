@@ -6,8 +6,6 @@
     <map>
       <row type="scheme">
         <action>StoppedSelectionSwitcher</action>
-        <scheme>(SingleAndSelectionSwitcher d-ToggleStopped)
-		</scheme>
         <_label>Stopped (Off/On)</_label>
         <_tooltip>Mark/Unmark the selected notes stopped</_tooltip>
       </row>

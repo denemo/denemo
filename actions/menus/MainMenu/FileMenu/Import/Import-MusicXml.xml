@@ -7,8 +7,6 @@
       <row type="scheme">
         <after>Import-Lilypond</after>
         <action>Import-MusicXml</action>
-        <scheme>(d-NewWindow)
-(d-ImportMusicXml)</scheme>
         <_label>Import MusicXml</_label>
         <_tooltip>Try to Import a MusicXml file</_tooltip>
       </row>

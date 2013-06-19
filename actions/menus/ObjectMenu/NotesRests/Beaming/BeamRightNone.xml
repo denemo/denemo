@@ -7,8 +7,6 @@
       <row type="scheme">
         <after>NoBeam</after>
         <action>BeamRightNone</action>
-        <scheme>;;; BeamRightNone
-(BeamCount "Right" 0)</scheme>
         <_label>No Beam Right</_label>
         <_tooltip>Typeset the note at the cursor with no beam to the right.</_tooltip>
       </row>

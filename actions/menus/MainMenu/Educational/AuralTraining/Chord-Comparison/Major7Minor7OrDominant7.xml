@@ -7,11 +7,6 @@
       <row type="scheme">
         <after>MajorMinorAugmentedOrDiminished</after>
         <action>Major7Minor7OrDominant7</action>
-        <scheme>
-
-(ChordComparison::ChordComparison (list ChordComparison::Major7 ChordComparison::Minor7 ChordComparison::Dominant7))
-
-</scheme>
         <_label>Major7Minor7Dominant7</_label>
         <_tooltip>Determine which seventh chord is sounded</_tooltip>
       </row>

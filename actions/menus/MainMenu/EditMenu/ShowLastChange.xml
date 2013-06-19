@@ -7,12 +7,6 @@
       <row type="scheme">
         <after>Undo</after>
         <action>ShowLastChange</action>
-        <scheme>;;;;ShowLastChange
-(let ((last (d-GetLastChange)))
-  (if last
-    (d-InfoDialog (string-append (_ "The last change was:\n") last))
-    (d-InfoDialog (_ "No change recorded in Undo stack"))))
-</scheme>
         <_label>Show Last Change</_label>
         <_tooltip>Shows the last change recorded on the Undo stack.</_tooltip>
       </row>

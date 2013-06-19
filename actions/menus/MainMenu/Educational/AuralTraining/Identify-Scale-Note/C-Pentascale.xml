@@ -6,7 +6,6 @@
     <map>
       <row type="scheme">
         <action>C-Pentascale</action>
-        <scheme>(IdentifyScaleNote::IdentifyScaleNotes (cons "C D E F G" "c' d' e' f' g'"))</scheme>
         <_label>C-Pentascale</_label>
         <_tooltip>Identify Scale Notes that are sounded</_tooltip>
       </row>

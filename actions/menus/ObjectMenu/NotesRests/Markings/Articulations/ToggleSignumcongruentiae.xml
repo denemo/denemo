@@ -6,9 +6,6 @@
     <map>
       <row type="scheme">
         <action>ToggleSignumcongruentiae</action>
-        <scheme>;;;ToggleSignumcongruentiae
-        (ChordAnnotation "ToggleSignumcongruentiae" "\\signumcongruentiae"    ToggleSignumcongruentiae::params    LG-Signumcongruentiae)
-</scheme>
         <_label>Signumcongruentiae (Off/On)</_label>
         <_tooltip>Mark/Unmark the current chord signumcongruentiae</_tooltip>
       </row>

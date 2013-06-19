@@ -7,19 +7,6 @@
       <row type="scheme">
         <after>CheckTiesInStaff</after>
         <action>CaptureMeasuresForStaff</action>
-        <scheme>;;;CaptureMeasuresForStaff
-(d-PushPosition)
-(let loop ((measure-created #f))
-	(if (d-UserScreenshot #t)
-		(begin
-			(d-AppendMeasure)			
-			(loop #t))
-		(begin
-			(d-MoveToEnd)
-			(if measure-created
-			(d-DeleteMeasure)))))
-(d-PopPosition)			
-		</scheme>
         <_label>Capture Measures (one staff)</_label>
         <_tooltip>Creates blank measures one for each measure captured as a screenshot from one of a set of parts. Display the source score on the screen using any program. Click on opposite corners of each measure in turn to capture that measure as an image into Denemo. Right-click or scroll-wheel to switch corners to adjust. Press any key to finish. This command is for capturing in parts form; to capture in full score use  CaptureMeasures command</_tooltip>
       </row>

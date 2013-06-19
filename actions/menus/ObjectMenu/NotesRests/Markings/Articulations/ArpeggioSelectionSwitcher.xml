@@ -6,8 +6,6 @@
     <map>
       <row type="scheme">
         <action>ArpeggioSelectionSwitcher</action>
-        <scheme>(SingleAndSelectionSwitcher d-ToggleArpeggio)
-		</scheme>
         <_label>Arpeggio (Off/On)</_label>
         <_tooltip>Mark/Unmark the selected notes arpeggio</_tooltip>
       </row>

@@ -7,12 +7,6 @@
       <row type="scheme">
         <after>SwapMovements</after>
         <action>SetMovementTempo</action>
-        <scheme>;;;SetMovementTempo
-(define MovementTempo:value (number-&gt;string (d-MovementTempo)))
-(set! MovementTempo:value (d-GetUserInput (_ "Tempo of Movement") (_ "Give quarter notes per minute:") MovementTempo:value))
-(set!  MovementTempo:value (number-&gt;string (d-MovementTempo MovementTempo:value)))
-(d-RefreshDisplay)
-</scheme>
         <_label>MIDI Tempo</_label>
         <_tooltip>Sets the (initial) tempo in quarter notes per minute.</_tooltip>
       </row>

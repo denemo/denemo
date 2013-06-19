@@ -6,8 +6,6 @@
     <map>
       <row type="scheme">
         <action>RheelSelectionSwitcher</action>
-        <scheme>(SingleAndSelectionSwitcher d-ToggleRheel )
-		</scheme>
         <_label>Rheel (Off/On)</_label>
         <_tooltip>Marks/Unmaks the selection with the Rheel</_tooltip>
       </row>

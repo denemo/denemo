@@ -7,8 +7,6 @@
       <row type="scheme">
         <after>ToggleFermata</after>
         <action>MarcatoSelectionSwitcher</action>
-        <scheme>(SingleAndSelectionSwitcher d-ToggleMarcato)
-		</scheme>
         <_label>Marcato (Off/On)</_label>
         <_tooltip>Mark/Unmark the selected notes marcato</_tooltip>
       </row>

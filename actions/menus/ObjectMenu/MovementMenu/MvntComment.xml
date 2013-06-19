@@ -7,11 +7,6 @@
       <row type="scheme">
         <after>SwapMovements</after>
         <action>MvntComment</action>
-        <scheme>  ;;;;;;;;;;;;;;
-(d-DirectivePut-movementcontrol-override "MvntComment" (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_EDITOR))
-(d-DirectivePut-movementcontrol-display "MvntComment" (_ "Click to edit comment"))
-
-</scheme>
         <_label>Comment</_label>
         <_tooltip>Stores textual comments for this movement</_tooltip>
       </row>

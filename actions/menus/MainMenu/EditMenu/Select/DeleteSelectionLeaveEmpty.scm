@@ -1,0 +1,1 @@
+(ApplyToTaggedSelection d-DeleteObject)

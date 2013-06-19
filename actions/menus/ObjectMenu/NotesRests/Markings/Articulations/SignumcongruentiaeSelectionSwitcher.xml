@@ -6,8 +6,6 @@
     <map>
       <row type="scheme">
         <action>SignumcongruentiaeSelectionSwitcher</action>
-        <scheme>(SingleAndSelectionSwitcher d-ToggleSignumcongruentiae)
-		</scheme>
         <_label>Signumcongruentiae (Off/On)</_label>
         <_tooltip>Mark/Unmark the selected notes signumcongruentiae</_tooltip>
       </row>

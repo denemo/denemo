@@ -6,13 +6,6 @@
     <map>
       <row type="scheme">
         <action>SetFontSize</action>
-        <scheme>;;; d-SetFontSize
-(define SetScoreSize::Size (d-ScoreProperties "query=fontsize"))	
-(set! SetScoreSize::Size  (d-GetUserInput "Overall Score Sizing"  "Give font size to use" SetScoreSize::Size))
-(if (boolean? SetScoreSize::Size)		
-	(set! SetScoreSize::Size (d-ScoreProperties "query=fontsize")))						       
-(d-ScoreProperties (string-append "fontsize="   SetScoreSize::Size))		
-(d-SetSaved #f)</scheme>
         <_label>(Print)Set Overall Score Size</_label>
         <_tooltip>Choose the font size of for the score, and hence how much space it takes up.</_tooltip>
       </row>

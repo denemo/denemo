@@ -7,11 +7,6 @@
       <row type="scheme">
         <after>TransposeScorePrint</after>
         <action>AutoAccidentals</action>
-        <scheme>;;AutomaticAccidentals
-             (StandAloneDirectiveProto (cons "AutomaticAccidentals" "
-        	#(set-accidental-style 'modern 'Score)        	
-"))
-</scheme>
         <_label>(Print) Accidental Printing</_label>
         <_tooltip>Prints accidentals according to a chosen style</_tooltip>
       </row>

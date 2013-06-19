@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>InitialKey</after>
         <action>SharpenKeysig</action>
-        <scheme>(d-IncrementKeysig)</scheme>
         <_label>♯</_label>
         <_tooltip>Sharpens the key signature by one degree. If no key signature at cursor, sharpens the initial key signature.</_tooltip>
       </row>

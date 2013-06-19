@@ -6,11 +6,6 @@
     <map>
       <row type="scheme">
         <action>ShiftRealWholeUp</action>
-        <scheme>(SingleAndSelectionSwitcher (lambda () 
-	(ShiftProto ANS::CalculateWholeRealStepUp)))
-
-
-</scheme>
         <_label>Whole tone up</_label>
         <_tooltip>Transpose/shift the cursor note or selection one whole tone up</_tooltip>
       </row>

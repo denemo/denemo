@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>MezzoForte</after>
         <action>DeleteDynamic</action>
-        <scheme> ;;; delete a dynamic
-(d-DirectiveDelete-chord "Dynamic")
-(d-RefreshDisplay)</scheme>
         <_label>Delete</_label>
         <_tooltip>Deletes a dynamic attached to the chord at the cursor.</_tooltip>
       </row>

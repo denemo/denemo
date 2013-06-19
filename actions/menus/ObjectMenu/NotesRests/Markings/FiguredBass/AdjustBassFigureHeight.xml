@@ -7,22 +7,6 @@
       <row type="scheme">
         <after>EditFiguredBass</after>
         <action>AdjustBassFigureHeight</action>
-        <scheme>;;;AdjustBassFigureHeight
-(let ((tag "AdjustBassFigureHeight"))
-	(define offset #f)
-	(if (defined? 'AdjustBassFigureHeight::params)
-		(set! offset AdjustBassFigureHeight::params))
-	(if (not offset)
-		(set! offset (d-GetUserInput (_ "Figured Bass Height") (_ "Give height adjustment (unit = staff space): ") "1.0")))
-	(if (and (string? offset) (string-&gt;number offset))
-		(begin
-			(d-DirectivePut-note-prefix tag (string-append "\\once \\override Staff.BassFigureAlignmentPositioning #'Y-offset = #'" offset " "))
-			(d-DirectivePut-note-override tag DENEMO_ALT_OVERRIDE)
-			(d-DirectivePut-note-display tag "^")
-			(d-DirectivePut-note-ty tag -10))	
-		(d-DirectiveDelete-note tag))	
-	(d-RefreshDisplay)
-	(d-SetSaved #f))</scheme>
         <_label>Height of Bass Figure</_label>
         <_tooltip>Sets the height of the bass figure above the note. The unit is the distance between adjacent lines in the staff.</_tooltip>
       </row>

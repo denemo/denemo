@@ -6,14 +6,6 @@
     <map>
       <row type="scheme">
         <action>NoteNamesMove</action>
-        <scheme>;;NoteNamesMove
-(d-AddKeybinding "MoveToA" "a")
-(d-AddKeybinding "MoveToB" "b")
-(d-AddKeybinding "MoveToC" "c")
-(d-AddKeybinding "MoveToD" "d")
-(d-AddKeybinding "MoveToE" "e")
-(d-AddKeybinding "MoveToF" "f")
-(d-AddKeybinding "MoveToG" "g")</scheme>
         <_label>Note Names Move Cursor</_label>
         <_tooltip>Changes the shortcuts for note names a, b, c, d, e, f, g so that they move the cursor to the nearest note of that name.</_tooltip>
       </row>

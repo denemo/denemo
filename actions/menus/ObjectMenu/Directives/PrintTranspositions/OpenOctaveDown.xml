@@ -7,12 +7,6 @@
       <row type="scheme">
         <after>OpenOctaveUp</after>
         <action>OpenOctaveDown</action>
-        <scheme>;;;;OpenOctaveDown
- (d-Directive-standalone "OpenPrintTransposed")
- (d-DirectivePut-standalone-postfix "OpenPrintTransposed" "\\transpose c c,{")
-(d-DirectivePut-standalone-display "OpenPrintTransposed" (_ "Down8va"))
-(d-DirectivePut-standalone-minpixels "OpenPrintTransposed" 20)
-(d-RefreshDisplay)</scheme>
         <_label>(Print) Open { Octave Down</_label>
         <_tooltip>Opens a block printing an octave lower: must be terminated with CloseLilyBlock</_tooltip>
       </row>

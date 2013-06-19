@@ -6,10 +6,6 @@
     <map>
       <row type="scheme">
         <action>ShiftRealOctaveDown</action>
-        <scheme>;in reality this is not shift but transpose. But there are too many functions with the name transpose already...
-(SingleAndSelectionSwitcher (lambda () 
-	(ShiftProto ANS::CalculateRealOctaveDown)))
-</scheme>
         <_label>Octave Down</_label>
         <_tooltip>Shifts current notes/selection down one octave while preserving accidental status. This means real transposition</_tooltip>
       </row>

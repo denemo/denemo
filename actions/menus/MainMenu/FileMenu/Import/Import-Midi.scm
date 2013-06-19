@@ -1,0 +1,2 @@
+(d-NewWindow)
+(d-ImportMidi)

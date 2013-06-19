@@ -6,9 +6,6 @@
     <map>
       <row type="scheme">
         <action>RepeatEndStart</action>
-        <scheme>;;;RepeatEndStart
-(StandAloneSelfEditDirective (cons "RepeatEndStart" "\\bar \":|:\"") #t "RepeatEndStart" #f 50)
-</scheme>
         <_label>Repeat End-Start</_label>
         <_tooltip>Inserts a barline ending one repeated section and starting another</_tooltip>
       </row>

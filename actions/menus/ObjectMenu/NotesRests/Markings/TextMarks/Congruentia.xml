@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>ToggleFermata</after>
         <action>Congruentia</action>
-        <scheme>(if (Music?)
- (ToggleDirective "chord" "postfix" "Congruentia" "^\\markup { \\musicglyph #\"scripts.usignumcongruentiae\"  }\n")
- #f)</scheme>
         <_label>Congruentia</_label>
         <_tooltip>Print congruentia / canon symbol</_tooltip>
       </row>

@@ -6,19 +6,6 @@
     <map>
       <row type="scheme">
         <action>Beam1234</action>
-        <scheme>;;;;;;;;Beam1234
-(if (d-Directive-standalone? "Beam1234")
-	(d-DirectiveDelete-standalone "Beam1234")
-	(StandAloneDirectiveProto (cons "Beam1234"  
-  "
-#(override-auto-beam-setting '(end * * * *) 1 4)
-#(override-auto-beam-setting '(end * * * *) 2 4)
-#(override-auto-beam-setting '(end * * * *) 3 4)
-#(override-auto-beam-setting '(end * * * *) 4 4)")))
-
-;;(d-MoveCursorRight)
-;;(d-RefreshDisplay)))
-</scheme>
         <_label>Beam 4 Beats</_label>
         <_tooltip>Beams end on each quarter note (up to 4).</_tooltip>
       </row>

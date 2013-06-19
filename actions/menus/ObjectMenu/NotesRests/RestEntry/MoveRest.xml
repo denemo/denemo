@@ -7,20 +7,6 @@
       <row type="scheme">
         <after>InsertLongaRest</after>
         <action>MoveRest</action>
-        <scheme>;;;MoveRest
-(if (d-Directive-chord? "PolyphonicRest")
-	(begin
-		(d-DirectiveDelete-chord "PolyphonicRest")
-		(d-StagedDelete)))
-(if (Rest?)
-  (let ((which  (duration::lilypond-&gt;denemo (string-&gt;number (d-GetNoteDuration)))))
-    (d-AddNoteToChord)
-    (d-DirectivePut-chord-postfix "PolyphonicRest" "\\rest")
-    (d-DirectivePut-chord-graphic  "PolyphonicRest" (vector-ref Rests which))
-    (d-DirectivePut-chord-override "PolyphonicRest" (logior DENEMO_OVERRIDE_VOLUME DENEMO_OVERRIDE_GRAPHIC DENEMO_ALT_OVERRIDE))
-  ))
-(d-SetSaved #f)
-</scheme>
         <_label>Displace Rest Vertically</_label>
         <_tooltip>Turns the rest at the cursor into a polyphonic rest at the cursor height.</_tooltip>
       </row>

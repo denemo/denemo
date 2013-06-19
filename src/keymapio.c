@@ -14,7 +14,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
 {
   command_row command;
   command_row_init(&command);
-  xmlChar *scheme = NULL, *after = NULL, *type = NULL;
+  xmlChar *after = NULL, *type = NULL;
 
   type = xmlGetProp(cur, COMMANDXML_TAG_TYPE);
   if(type && 0 == xmlStrcmp (type, COMMAND_TYPE_SCHEME))
@@ -37,10 +37,6 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
               command.locations = NULL;
             }
         }
-      else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_SCHEME))
-        {
-          scheme = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-        }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_HIDDEN))
         {
           command.hidden = TRUE;
@@ -62,11 +58,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
           command.tooltip = _((gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1));
         }
     }
-
   create_command((gchar*) after, fallback, &command);
-  if (command.script_type == COMMAND_SCHEME && scheme)
-    //FIXME free old data?
-    g_object_set_data (G_OBJECT (command.action), "scheme", scheme);
 }
 
 static void
@@ -679,46 +671,7 @@ save_command_metadata (gchar * filename, gchar * myname, gchar * mylabel, gchar 
 gint
 save_command_data (gchar * filename, gchar * myscheme)
 {
-  xmlDocPtr doc;
-  xmlNodePtr rootElem, cur;
-
-  doc = xmlParseFile (filename);
-  if (doc == NULL){
-    g_print ("Could not read XML file %s", filename);
-    return -1;
-  }
-
-  rootElem = xmlDocGetRootElement (doc);
-  if (rootElem == NULL){
-    g_print ("Empty Document\n");
-    xmlFreeDoc (doc);
-    return -1;
-  }
-
-  if (xmlStrcmp (rootElem->name, (const xmlChar *) "Denemo"))
-  {
-    g_print ("Document has wrong type\n");
-    xmlFreeDoc (doc);
-    return -1;
-  }
-
-  for(cur = rootElem->xmlChildrenNode; cur; cur = cur->next)
-    if(0 == xmlStrcmp (cur->name, COMMANDXML_TAG_MERGE))
-      break;
-
-  for(cur = cur->xmlChildrenNode; cur; cur = cur->next)
-    if(0 == xmlStrcmp (cur->name, COMMANDXML_TAG_MAP))
-      break;
-
-  for(cur = cur->xmlChildrenNode; cur; cur = cur->next)
-    if(0 == xmlStrcmp (cur->name, COMMANDXML_TAG_ROW))
-      break;
-
-  xmlNewTextChild (cur, NULL, COMMANDXML_TAG_SCHEME, (xmlChar*) myscheme);
-
-  xmlKeepBlanksDefault(0);
-  xmlSaveFormatFileEnc (filename, doc, XML_ENCODING, 1);
-  xmlFreeDoc (doc);
+  g_file_set_contents (filename, myscheme, -1, NULL);
   return 0;
 }
 
@@ -727,8 +680,10 @@ load_command_data (GtkAction * action)
 {
   gchar *menupath = (gchar *) g_object_get_data (G_OBJECT (action), "menupath");
   const gchar *basename = gtk_action_get_name (action);
-  gchar *filename = g_strconcat (basename, XML_EXT, NULL);
+  gchar *filename = g_strconcat (basename, SCM_EXT, NULL);
   gchar* path = NULL;
+  gchar* scheme = NULL;
+  GError* error = NULL;
 
   gchar* dirs[] = {
       g_build_filename (locatedotdenemo (), "actions", "menus", menupath, NULL),
@@ -741,22 +696,28 @@ load_command_data (GtkAction * action)
   gchar* dir = find_dir_for_file (filename, dirs);
   if(!dir)
   {
+    gchar* msg = g_strdup_printf(_("Unable to locate the script %s"), filename);
+    warningdialog (msg);
+    g_free(msg);
     g_free(filename);
-    warningdialog (_("Unable to load the script"));
     return NULL;
   }
 
   // Load the script
   path = g_build_filename(dir, filename, NULL);
   g_free(filename);
-  if(load_xml_keymap(path) == -1)
+  if(!g_file_get_contents (path, &scheme, NULL, &error))
   {
+    gchar* msg = g_strdup_printf(_("Unable to load the script %s"), path);
+    warningdialog (msg);
+    g_free(msg);
     g_free(path);
-    warningdialog (_("Unable to load the script"));
     return NULL;
   }
   g_free(path);
 
+  g_object_set_data (G_OBJECT (action), "scheme", scheme);
+  
   // Load the init script if there is one
   path = g_build_filename (dir, INIT_SCM, NULL);
   if (g_file_test (path, G_FILE_TEST_EXISTS))

@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>ToggleAccent</after>
         <action>ToggleStaccato</action>
-        <scheme>;;;ToggleStaccato
-        (ChordAnnotation "ToggleStaccato" "\\staccato"    ToggleStaccato::params    LG-Staccato)
-</scheme>
         <_label>Staccato (Off/On)</_label>
         <_tooltip>Mark/Unmark the chord staccato</_tooltip>
       </row>

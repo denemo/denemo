@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>AddLowestUpMinor2</after>
         <action>AddLowestUpMajor3</action>
-        <scheme>(ANS::AddIntervalAsChordnoteFromLowestUp 'M3)</scheme>
         <_label>Add Major 3rd above base</_label>
         <_tooltip>Add a major third as chordnote relative to the lowest note upwards.</_tooltip>
       </row>

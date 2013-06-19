@@ -7,8 +7,6 @@
       <row type="scheme">
         <after>NoBeam</after>
         <action>BeamRightOne</action>
-        <scheme>;;; BeamRightOne
-(BeamCount "Right" 1)</scheme>
         <_label>One Beam Right</_label>
         <_tooltip>Prints with just one beam linking to the right.</_tooltip>
       </row>

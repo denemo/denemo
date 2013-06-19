@@ -7,8 +7,6 @@
       <row type="scheme">
         <after>UpBowSelectionSwitcher</after>
         <action>DownbowSelectionSwitcher</action>
-        <scheme>(SingleAndSelectionSwitcher d-ToggleDownBow)
-		</scheme>
         <_label>DownBow (Off/On)</_label>
         <_tooltip>Mark/Unmark selection or current object</_tooltip>
       </row>

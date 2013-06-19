@@ -7,14 +7,6 @@
       <row type="scheme">
         <after>SelectColumn</after>
         <action>SelectMeasure</action>
-        <scheme>(if (None?)
-	(d-SetMark)
-	(begin
-		(d-PushPosition)
-		(d-UnsetMark)
-		(GoToMeasureBeginning)
-		(RepeatProcWhileTest d-CursorRight (lambda () (not (Appending?))))
-		(d-PopPosition)))</scheme>
         <_label>Select Measure</_label>
         <_tooltip>Create a selection for the entire current measure</_tooltip>
       </row>

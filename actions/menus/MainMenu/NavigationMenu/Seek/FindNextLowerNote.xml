@@ -6,18 +6,6 @@
     <map>
       <row type="scheme">
         <action>FindNextLowerNote</action>
-        <scheme> ;;;;;;;; FindNextNoteLower
- (d-MoveCursorRight)
-(let loop ((lowest (d-GetCursorNoteAsMidi)) (current 0))
-  (set! current (d-GetNoteAsMidi))
-  (if (or (zero? current) (&gt;= current lowest))
-      (begin
-	(if (d-MoveCursorRight)
-	    (loop lowest current)
-	    #t))))
-      
-
-  </scheme>
         <_label>Next Lower</_label>
         <_tooltip>Moves cursor to next note that is lower than the cursor.</_tooltip>
       </row>

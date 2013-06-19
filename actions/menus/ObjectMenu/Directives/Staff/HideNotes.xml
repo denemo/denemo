@@ -6,7 +6,6 @@
     <map>
       <row type="scheme">
         <action>HideNotes</action>
-        <scheme>(StandAloneDirectiveProto (cons "HideNotes" "\\hideNotes" ))</scheme>
         <_label>(Print) Stop Drawing Notes</_label>
         <_tooltip>Stops the Lilypond engraving of notes</_tooltip>
       </row>

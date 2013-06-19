@@ -7,19 +7,6 @@
       <row type="scheme">
         <after>TabStaff</after>
         <action>CrossStaffArpeggio</action>
-        <scheme>;;CrossStaffArpeggio
-(disp "Entered with " CrossStaffArpeggio::params " ok")
-(let ((tag "CrossStaffArpeggio"))
- (if (d-Directive-staff? tag)
- 	(begin
- 		(d-DirectiveDelete-staff tag)
- 		(d-InfoDialog (_ "Arpeggios will not cross staffs")))
- 	(begin
- 		(d-InfoDialog (_ "Arpeggios will cross staffs"))
- 		(d-DirectivePut-staff-display tag (_ " Cross Staff Arpeggios "))
- 		(d-DirectivePut-staff-override tag  DENEMO_OVERRIDE_GRAPHIC)
-		(d-DirectivePut-staff-postfix tag " \\set Score.connectArpeggios = ##t "))))
-(d-SetSaved #f)</scheme>
         <_label>Cross Staff Arpeggio</_label>
         <_tooltip>(Print) Allow arpeggio sign to extend across staffs. Piano staffs obey this by default, other staff groups need the Span_arpeggio_engraver including in the Score context for it to work.</_tooltip>
       </row>

@@ -9,21 +9,6 @@
         <action>Tripletize</action>
         <_label>Triplet-ize</_label>
         <_tooltip>Turns the note on or before the cursor into a triplet of notes with the same total duration.</_tooltip>
-        <scheme>;;;Tripletize
-(if (Appending?)
-	(d-MoveCursorLeft))
-(if (Note?)
-	(begin
-		(d-StartTriplet)
-		(d-Diminish)
-		(d-SetMark)
-		(d-Copy)
-		(d-Paste)
-		(d-Paste)
-		(d-MoveCursorRight)
-		(d-EndTuplet))
-	(d-WarningDialog (_ "This command needs a note or chord to turn into a triplet")))
-</scheme>
       </row>
     </map>
   </merge>

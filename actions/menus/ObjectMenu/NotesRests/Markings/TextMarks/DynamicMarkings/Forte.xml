@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>Fortissimo</after>
         <action>Forte</action>
-        <scheme>    ;;; f
-(Dynamics::Put "Forte" "\\f" "100")
-</scheme>
         <_label>Forte</_label>
         <_tooltip>Attaches Forte to chord and MIDI volume</_tooltip>
       </row>

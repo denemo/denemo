@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>PianoStaffStart</after>
         <action>PianoStaffEnd</action>
-        <scheme>(AttachDirective "staff" "postfix" "ContextPianoStaff" " &gt;&gt;\n" DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_AFFIX)</scheme>
         <_label>PianoStaff End</_label>
         <_tooltip>Stop PianoStaff multi-stave system.</_tooltip>
       </row>

@@ -6,8 +6,6 @@
     <map>
       <row type="scheme">
         <action>NotationMagick-RandomWithinClefRangeDiatonic</action>
-        <scheme>;Part of NotationMagick
-(NotationMagick::RandomWithinClefRangeDiatonic)</scheme>
         <_label>asd</_label>
         <_tooltip>Insert a random note within clef range, only diatonic notes according to current keysignature.</_tooltip>
       </row>

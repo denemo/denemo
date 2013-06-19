@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>ChangeHoldPedal</after>
         <action>ChangePortamento</action>
-        <scheme>(ChangePortamento::Set)</scheme>
         <_label>65 Portamento On/Off</_label>
         <_tooltip>Slides between 2 notes. Can be adjusted with 5 - Portamento Time</_tooltip>
       </row>

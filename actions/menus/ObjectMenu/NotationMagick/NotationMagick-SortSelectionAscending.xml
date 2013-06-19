@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>NotationMagick-ShuffleSelectedObjects</after>
         <action>NotationMagick-SortSelectionAscending</action>
-        <scheme>(NotationMagick::ModifySelectedObjects
-	 (lambda (selection) 
-	 	(sort-list selection (lambda (x y) (&lt; (list-ref (musobj.pitch x) 0) (list-ref (musobj.pitch y) 0))))))</scheme>
         <_label>Sort Selection (Ascending)</_label>
         <_tooltip>Sort all notes in the selection, ascending order.</_tooltip>
       </row>

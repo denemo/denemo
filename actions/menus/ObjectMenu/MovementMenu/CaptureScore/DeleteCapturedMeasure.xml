@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>CaptureMeasures</after>
         <action>DeleteCapturedMeasure</action>
-        <scheme>(d-DeleteScreenshot #f)
-(d-RefreshDisplay)
-</scheme>
         <_label>Delete Captured Measure</_label>
         <_tooltip>Deletes the captured image of the source measure for the current measure.</_tooltip>
       </row>

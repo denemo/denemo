@@ -7,21 +7,6 @@
       <row type="scheme">
         <after>ToggleBeginUpSlur</after>
         <action>ToggleBeginDownSlur</action>
-        <scheme>;;ToggleNoteDownSlur
-(let ((tag "Slur"))
-	(if (d-IsSlurStart)
-		(d-ToggleBeginSlur)
-		(begin
-			(d-ToggleBeginSlur)
-			(d-DirectivePut-chord-postfix tag "_")
-			
-			;;for some reason we do not have ⏝ in the font
-			(d-DirectivePut-note-graphic tag "\n_
-			Denemo
-			30")))
-	(d-RefreshDisplay)
-	(d-SetSaved #f))
-</scheme>
         <_label>Begin Slur Below (Off/On)</_label>
         <_tooltip>Starts (or deletes) a slur below the chord at the cursor. If deleting be sure to delete the end slur as well.</_tooltip>
       </row>

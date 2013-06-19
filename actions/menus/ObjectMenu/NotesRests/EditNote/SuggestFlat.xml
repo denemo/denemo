@@ -7,12 +7,6 @@
       <row type="scheme">
         <after>SuggestSharp</after>
         <action>SuggestFlat</action>
-        <scheme>(d-DirectivePut-chord-postfix "SuggestedAccidental" "^\\markup \\flat")
-(d-DirectivePut-chord-gy "SuggestedAccidental" -100)
-(d-DirectivePut-chord-graphic "SuggestedAccidental" "
-\xE2\x99\xAD
-Sans
-30")</scheme>
         <_label>Suggest Flat</_label>
         <_tooltip>Prints flat sign over note</_tooltip>
       </row>

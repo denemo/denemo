@@ -1,0 +1,1 @@
+(SingleAndSelectionSwitcher d-RemoveDot)		

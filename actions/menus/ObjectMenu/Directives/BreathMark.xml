@@ -6,23 +6,6 @@
     <map>
       <row type="scheme">
         <action>BreathMark</action>
-        <scheme>;;;BreathMark
-(let ((tag "BreathingSign"))
- (if (d-Directive-standalone? tag)
-	(d-DirectiveDelete-standalone tag)
-	(begin
-		(if (d-MoveCursorLeft)
-			(if (d-Directive-standalone? tag)
-			  (d-DirectiveDelete-standalone tag)
-				(d-MoveCursorRight)))
-	(StandAloneDirectiveProto (cons "BreathingSign" "\\breathe") #f "\n,\nDenemo\n48")
-	(d-DirectivePut-standalone-gy tag -44)
-	(d-DirectivePut-standalone-grob tag tag)
-	(d-MoveCursorRight)))
-(d-RefreshDisplay)
-(d-SetSaved #f))
-		
-</scheme>
         <_label>Breath Mark</_label>
         <_tooltip>Inserts a Breath Mark</_tooltip>
       </row>

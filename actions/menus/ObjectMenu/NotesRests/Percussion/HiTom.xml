@@ -6,10 +6,6 @@
     <map>
       <row type="scheme">
         <action>HiTom</action>
-        <scheme>
-		(d-InsertF)
-		(d-PutNoteName "e''")
-	</scheme>
         <_label>Hi Tom</_label>
         <_tooltip>Insert Hi Tom in the prevailing duration.</_tooltip>
       </row>

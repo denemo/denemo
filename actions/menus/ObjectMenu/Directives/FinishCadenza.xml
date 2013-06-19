@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>CadenzaOn</after>
         <action>FinishCadenza</action>
-        <scheme>;;; FinishCadenza
-        	(StandAloneDirectiveProto (cons "CadenzaOff" "\\cadenzaOff" )) 
-	</scheme>
         <_label>End Cadenza</_label>
         <_tooltip>Returns to normal barlines etc after a cadenza</_tooltip>
       </row>

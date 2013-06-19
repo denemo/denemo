@@ -6,9 +6,6 @@
     <map>
       <row type="scheme">
         <action>MovementNoteheadsDefault</action>
-        <scheme>(AttachDirective "layout" "postfix" "MovementNoteheads" "\t\\context {
-\t\\Score		   
-\t\\override NoteHead  #'style = #'default }\n")</scheme>
         <_label>Default</_label>
         <_tooltip>Default note head style for the current movement.</_tooltip>
       </row>

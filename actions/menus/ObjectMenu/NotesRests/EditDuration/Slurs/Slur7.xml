@@ -6,8 +6,6 @@
     <map>
       <row type="scheme">
         <action>Slur7</action>
-        <scheme>(d-7)
-(SlurToCurrentChord)</scheme>
         <_label> ⏜ 𝅘𝅥𝅲</_label>
         <_tooltip>Inserts a 𝅘𝅥𝅲 and slurs to it, extending previous slur.</_tooltip>
       </row>

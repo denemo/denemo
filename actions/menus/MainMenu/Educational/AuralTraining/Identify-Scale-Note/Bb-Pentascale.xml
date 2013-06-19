@@ -6,7 +6,6 @@
     <map>
       <row type="scheme">
         <action>Bb-Pentascale</action>
-        <scheme>(IdentifyScaleNote::IdentifyScaleNotes (cons "Bb C D Eb F" "bes' c'' d'' ees'' f''"))</scheme>
         <_label>Bb Pentascale</_label>
         <_tooltip>Identify Scale Notes that are sounded</_tooltip>
       </row>

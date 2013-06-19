@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>AddHighestDownPerfect4</after>
         <action>AddHighestDownAugmented4</action>
-        <scheme>(ANS::AddIntervalAsChordnoteFromHighestDown 'a4)</scheme>
         <_label>Add Augmented 4th below top</_label>
         <_tooltip>Add a augmented fourth as chordnote relative to the highest note downwards.</_tooltip>
       </row>

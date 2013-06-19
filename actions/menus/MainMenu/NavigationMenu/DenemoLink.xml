@@ -6,12 +6,6 @@
     <map>
       <row type="scheme">
         <action>DenemoLink</action>
-        <scheme>;;;DenemoLink
-(if (d-Directive-standalone? "DenemoLink")
-	(begin
-		(FollowLink)
-		(d-MoveCursorRight))
-	(d-WarningDialog (_ "There is no link here, open the source document and click on it to place one.")))</scheme>
         <_label>Follow Link to Source</_label>
         <_tooltip>Follows the link at the cursor to a source document.</_tooltip>
       </row>

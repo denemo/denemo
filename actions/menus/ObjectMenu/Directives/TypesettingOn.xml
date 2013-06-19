@@ -7,11 +7,6 @@
       <row type="scheme">
         <after>TypesettingOff</after>
         <action>TypesettingOn</action>
-        <scheme>
-  (StandAloneDirectiveProto (cons "TypesetOn" "
-        	\\set Score.skipTypesetting =  ##f       	
-"))
-</scheme>
         <_label>TypesettingOn</_label>
         <_tooltip>Turns on typesetting from this point forward in all staffs.</_tooltip>
       </row>

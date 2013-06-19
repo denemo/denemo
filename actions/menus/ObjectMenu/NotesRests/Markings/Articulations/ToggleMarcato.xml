@@ -6,10 +6,6 @@
     <map>
       <row type="scheme">
         <action>ToggleMarcato</action>
-        <scheme>;;;Marcato
-        (ChordAnnotation "ToggleMarcato" "\\marcato"    ToggleMarcato::params    LG-Marcato)
-
-</scheme>
         <_label>Marcato (Off/On)</_label>
         <_tooltip>Mark/Unmark the current chord marcato</_tooltip>
       </row>

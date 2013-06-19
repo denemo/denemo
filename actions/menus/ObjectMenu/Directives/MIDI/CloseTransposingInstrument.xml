@@ -7,13 +7,6 @@
       <row type="scheme">
         <after>ClarinetInA</after>
         <action>CloseTransposingInstrument</action>
-        <scheme>;;;CloseTransposingInstrument
-(d-Directive-standalone "transposing")
-(d-DirectivePut-standalone-postfix "transposing" "}")
-(d-DirectivePut-standalone-display "transposing" "End Transposing")
-(d-DirectivePut-standalone-override "transposing" DENEMO_OVERRIDE_TRANSPOSITION)
-(d-DirectivePut-standalone-midibytes "transposing"  (d-StaffProperties "query=transposition"))
-(d-DirectivePut-standalone-minpixels "transposing" 15)</scheme>
         <_label>Close Transposing Instrument</_label>
         <_tooltip>Returns MIDI output to transposition set on staff properties.</_tooltip>
       </row>

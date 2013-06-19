@@ -7,8 +7,6 @@
       <row type="scheme">
         <after>DownbowSelectionSwitcher</after>
         <action>HarmonicSelectionSwitcher</action>
-        <scheme>(SingleAndSelectionSwitcher d-ToggleHarmonic)
-		</scheme>
         <_label>Harmonic (Off/On)</_label>
         <_tooltip>Mark/Unmark current selection or object with a harmonic</_tooltip>
       </row>

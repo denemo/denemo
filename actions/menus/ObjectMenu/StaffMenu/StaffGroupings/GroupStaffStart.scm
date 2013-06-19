@@ -1,0 +1,1 @@
+(AttachDirective "staff" "prefix" "ContextGroupStaff" " \\new StaffGroup <<\n" DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_AFFIX)

@@ -6,10 +6,6 @@
     <map>
       <row type="scheme">
         <action>Andante</action>
-        <scheme>;;; Andante
-(d-DirectivePut-chord-postfix "Tempo" "^\\markup \\italic \\bold {Andante}")
-(d-DirectivePut-chord-display "Tempo" "Andante")
-(d-RefreshDisplay)</scheme>
         <_label>Andante</_label>
         <_tooltip>Print Andante in bold italics above the chord.</_tooltip>
       </row>

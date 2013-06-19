@@ -6,7 +6,6 @@
     <map>
       <row type="scheme">
         <action>CursorToHighestNote</action>
-        <scheme>(d-CursorToNote (GetHighestNote))</scheme>
         <_label>Cursor to Highest Note</_label>
         <_tooltip>Moves the cursor to the highest note on current horizontal position (in a chord or on a single note)</_tooltip>
       </row>

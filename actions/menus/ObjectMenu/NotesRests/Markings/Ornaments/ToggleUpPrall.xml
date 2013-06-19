@@ -6,10 +6,6 @@
     <map>
       <row type="scheme">
         <action>ToggleUpPrall</action>
-        <scheme>;;;ToggleUpPrall
-        (ChordAnnotation "ToggleUpPrall" "\\upprall"    ToggleUpPrall::params    LG-UpPrall)
-;;(d-DirectivePut-chord-gy "UpPrall" -100)
-</scheme>
         <_label>Up Prall (Off/On)</_label>
         <_tooltip>Adds/Removes Up Prall ornament</_tooltip>
       </row>

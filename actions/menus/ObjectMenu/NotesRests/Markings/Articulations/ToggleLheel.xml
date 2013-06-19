@@ -5,9 +5,6 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row type="scheme">
-        <scheme>;;;ToggleLheel
-        (ChordAnnotation "ToggleLheel" "\\lheel"    ToggleLheel::params    LG-Lheel)
-</scheme>
         <_label>Lheel (Off/On)</_label>
         <_tooltip>Mark/Unmark the current note lheel</_tooltip>
       </row>

@@ -7,11 +7,6 @@
       <row type="scheme">
         <after>ShiftRealHalfUp</after>
         <action>ShiftRealHalfDown</action>
-        <scheme>(SingleAndSelectionSwitcher (lambda () 
-	(ShiftProto ANS::CalculateHalfRealStepDown)))
-
-
-</scheme>
         <_label>Half tone down</_label>
         <_tooltip>Transpose/shift the cursor note or selection one half tone down</_tooltip>
       </row>

@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>MovementPiece</after>
         <action>MovementComposer</action>
-        <scheme>(SetHeaderField "composer")
-(DenemoPrintAllHeaders)
-(d-SetSaved #f)</scheme>
         <_label>Composer</_label>
         <_tooltip>Prints a composer name for current movement.</_tooltip>
       </row>

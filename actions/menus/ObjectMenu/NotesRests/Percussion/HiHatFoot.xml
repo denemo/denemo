@@ -6,11 +6,6 @@
     <map>
       <row type="scheme">
         <action>HiHatFoot</action>
-        <scheme>
-		(d-InsertG)
-		(d-PutNoteName "d''")
-		(d-ChangeNotehead "Cross")
-	</scheme>
         <_label>Hi Hat with Foot</_label>
         <_tooltip>Insert HiHat with foot in the prevailing duration.</_tooltip>
       </row>

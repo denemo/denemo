@@ -6,8 +6,6 @@
     <map>
       <row type="scheme">
         <action>FlageoletSelectionSwitcher</action>
-        <scheme>(SingleAndSelectionSwitcher d-ToggleFlageolet)
-		</scheme>
         <_label>Flageolet (Off/On)</_label>
         <_tooltip>Mark/Unmark current selection of object with a Flageolet</_tooltip>
       </row>

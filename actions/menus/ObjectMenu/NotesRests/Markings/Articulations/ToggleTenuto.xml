@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>ToggleFermata</after>
         <action>ToggleTenuto</action>
-        <scheme>;;;ToggleTenuto
-        (ChordAnnotation "ToggleTenuto" "\\tenuto"    ToggleTenuto::params    LG-Tenuto)
-</scheme>
         <_label>Tenuto (Off/On)</_label>
         <_tooltip>Mark/Unmark the chord Tenuto</_tooltip>
       </row>

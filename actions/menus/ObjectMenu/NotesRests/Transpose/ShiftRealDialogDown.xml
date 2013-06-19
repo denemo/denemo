@@ -7,13 +7,6 @@
       <row type="scheme">
         <after>ShiftRealDialogUp</after>
         <action>ShiftRealDialogDown</action>
-        <scheme>(let ()
-(define interval (AskForInterval))
-(SingleAndSelectionSwitcher 
-	(lambda ()
-		(if (Note?) 
-			(ANS::ChangeChordNotes (map (lambda (x) (ANS::IntervalCalcDown x interval)) (ANS::GetChordNotes)))
-			#f)))) </scheme>
         <_label>Arbitrary transpose down</_label>
         <_tooltip>Transpose/shift the cursor note or selection an arbitrary number of tones down. User can specify interval through a dialog.</_tooltip>
       </row>

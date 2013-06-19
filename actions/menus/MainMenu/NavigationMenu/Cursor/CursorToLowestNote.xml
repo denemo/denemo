@@ -6,7 +6,6 @@
     <map>
       <row type="scheme">
         <action>CursorToLowestNote</action>
-        <scheme>(d-CursorToNote (GetLowestNote))</scheme>
         <_label>Cursor to Lowest Note</_label>
         <_tooltip>Moves the cursor to the lowest note on current horizontal position (in a chord or on a single note)</_tooltip>
       </row>

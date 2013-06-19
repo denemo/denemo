@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>AddHighestDownMajor3</after>
         <action>AddHighestDownMinor3</action>
-        <scheme>(ANS::AddIntervalAsChordnoteFromHighestDown 'm3)</scheme>
         <_label>Add Minor 3rd below top</_label>
         <_tooltip>Add a minor third as chordnote relative to the highest note downwards.</_tooltip>
       </row>

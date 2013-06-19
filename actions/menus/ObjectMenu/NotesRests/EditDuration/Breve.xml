@@ -7,16 +7,6 @@
       <row type="scheme">
         <after>InsertRhythm</after>
         <action>Breve</action>
-        <scheme>;;Breve
-(d-0)
-(d-MoveCursorLeft)
-(d-ChangeBreve)
-(d-MoveCursorRight)
-(if (and (defined? 'Snippet::Breve) (&gt; Snippet::Breve 0))
-    (d-SelectSnippet Snippet::Breve)
-    (d-CreateSnippetFromObject "Breve"))
-
-</scheme>
         <_label>Breve</_label>
         <_tooltip>Append/Insert Breve</_tooltip>
       </row>

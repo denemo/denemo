@@ -7,21 +7,6 @@
       <row type="scheme">
         <after>StringNum</after>
         <action>ToggleStemSupport</action>
-        <scheme>;;;ToggleStemSupport
-(let ((tag "StemSupport"))
-(if (d-Directive-voice? tag)
-	(begin
-		(d-InfoDialog "Collisions of fingerings etc with stems allowed")
-		(d-DirectiveDelete-voice tag))
-	(begin
-	(d-DirectivePut-voice-postfix tag
-	"\\override Fingering #'add-stem-support = ##t
- 	 \\override StringNumber #'add-stem-support = ##t
- 	 \\override StrokeFinger #'add-stem-support = ##t
-	"))))
-(d-SetSaved #f)
-
-</scheme>
         <_label>Avoid Collisions with Stems</_label>
         <_tooltip>Fingerings and String numbers will be moved to avoid colliding with stems on typesetting.</_tooltip>
       </row>

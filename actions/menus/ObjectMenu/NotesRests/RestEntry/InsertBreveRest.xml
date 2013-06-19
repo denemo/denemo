@@ -6,11 +6,6 @@
     <map>
       <row type="scheme">
         <action>InsertBreveRest</action>
-        <scheme>(d-InsertWholeRest)
-(if (Appending?)
-	(d-MoveCursorLeft))
-(d-ChangeBreve)
-(d-MoveCursorRight)</scheme>
         <_label>Breve Rest</_label>
         <_tooltip>Insert a rest with breve duration</_tooltip>
       </row>

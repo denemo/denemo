@@ -6,9 +6,6 @@
     <map>
       <row type="scheme">
         <action>EndPhrasingSlur</action>
-        <scheme>(d-MoveCursorRight)
-(d-InsertLilyDirective "directive=\\)")
-</scheme>
         <_label>End Phrasing Slur</_label>
         <_tooltip>Ends a phrasing slur (which can have slurs within it)</_tooltip>
       </row>

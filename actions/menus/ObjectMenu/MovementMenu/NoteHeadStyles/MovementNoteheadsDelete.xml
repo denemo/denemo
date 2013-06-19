@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>MovementNoteheadsSlash</after>
         <action>MovementNoteheadsDelete</action>
-        <scheme>(d-DirectiveDelete-layout "MovementNoteheads")</scheme>
         <_label>Delete Movement Notehead Settings</_label>
         <_tooltip>Delete note head style of this movement. Reset to whatever Score or Lilypond has set as default.</_tooltip>
       </row>

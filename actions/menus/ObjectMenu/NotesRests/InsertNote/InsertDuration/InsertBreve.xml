@@ -6,10 +6,6 @@
     <map>
       <row type="scheme">
         <action>InsertBreve</action>
-        <scheme>(d-Insert0)
-(d-MoveCursorLeft)
-(d-ChangeBreve)
-(d-MoveCursorRight)</scheme>
         <_label>Breve</_label>
         <_tooltip>Insert Breve</_tooltip>
       </row>

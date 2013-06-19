@@ -6,9 +6,6 @@
     <map>
       <row type="scheme">
         <action>NotationMagick-TwelveToneRow</action>
-        <scheme> 
-		(NotationMagick::InsertListRandomlyLy (list 'c' 'des' 'd' 'ees' 'e' 'f' 'fis' 'g' 'aes' 'a' 'bes' 'b'))		
-		</scheme>
         <_label>Twelve Tone Row</_label>
         <_tooltip>Generates twelve notes of the prevailing duration, each is unique so the whole chromatic range gets inserted in a random manner. </_tooltip>
       </row>

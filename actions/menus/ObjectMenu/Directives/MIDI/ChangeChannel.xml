@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>MidiTempo</after>
         <action>ChangeChannel</action>
-        <scheme>(ChangeChannel::Set)</scheme>
         <_label>Channel</_label>
         <_tooltip>Change the Channel of a staff</_tooltip>
       </row>

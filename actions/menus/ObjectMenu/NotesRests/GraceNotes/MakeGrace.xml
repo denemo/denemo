@@ -7,11 +7,6 @@
       <row type="scheme">
         <after>ToggleGrace</after>
         <action>MakeGrace</action>
-        <scheme>;MakeGrace
-(d-ToggleGrace)
-(if (d-IsGrace)
- 	(d-PlayMidiNote 84 255 9 100)
- 	(d-PlayMidiNote 35 255 9 100))</scheme>
         <_label>Grace/UnGrace</_label>
         <_tooltip>Changes the note at the cursor to/from being a grace note. Gives audio feedback.</_tooltip>
       </row>

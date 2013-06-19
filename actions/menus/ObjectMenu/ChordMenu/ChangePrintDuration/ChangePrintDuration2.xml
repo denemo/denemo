@@ -6,7 +6,6 @@
     <map>
       <row type="scheme">
         <action>ChangePrintDuration2</action>
-        <scheme>(ChangePrintDuration 2 0)</scheme>
         <_label>Change chord-member to quarter note</_label>
         <_tooltip>Change one chord member to appear like a quarter-note duration without changing the original logic like measure calculation or the duration of newly added chord members.</_tooltip>
       </row>

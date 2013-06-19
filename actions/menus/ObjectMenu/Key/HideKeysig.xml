@@ -7,19 +7,6 @@
       <row type="scheme">
         <after>InsertKey</after>
         <action>HideKeysig</action>
-        <scheme>;;;HideKeysig
-;(let ((lilycontext (d-GetOption  (string-append "Score" stop "Staff" stop "Voice" stop))))
-(let ((lilycontext "Staff"))
-(if lilycontext
-	(begin 
-		(if (d-Directive-keysig? "HideKeysig")
- 			(d-DirectiveDelete-keysig "HideKeysig")
- 			(begin
- 				(d-DirectivePut-keysig-prefix "HideKeysig"  (string-append  "\\once \\override " lilycontext ".KeySignature #'stencil = ##f"  ))
- 				(d-DirectivePut-keysig-gy "HideKeysig" -10)
- 				(d-DirectivePut-keysig-graphic "HideKeysig" "\n⋂\nDenemo\n24")))
- 			(d-SetSaved #f))))
- 			</scheme>
         <_label>(Print) Hide</_label>
         <_tooltip>On printing, omit the key signature change at the cursor, or the initial key signature if the cursor is not on a key signature change.</_tooltip>
       </row>

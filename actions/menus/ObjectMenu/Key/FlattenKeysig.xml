@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>SharpenKeysig</after>
         <action>FlattenKeysig</action>
-        <scheme>(d-IncrementKeysig -1)</scheme>
         <_label>♭</_label>
         <_tooltip>Flattens the key signature by one degree. If no key signature at the cursor, operates on the initial key signature.</_tooltip>
       </row>

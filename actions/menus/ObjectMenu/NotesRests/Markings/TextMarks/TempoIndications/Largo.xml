@@ -7,10 +7,6 @@
       <row type="scheme">
         <after>Andante</after>
         <action>Largo</action>
-        <scheme>;;; Largo
-(d-DirectivePut-chord-postfix "Tempo" "^\\markup \\italic \\bold {Largo}")
-(d-DirectivePut-chord-display "Tempo" "Largo")
-(d-RefreshDisplay)</scheme>
         <_label>Largo</_label>
         <_tooltip>Attaches Largo to chord</_tooltip>
       </row>

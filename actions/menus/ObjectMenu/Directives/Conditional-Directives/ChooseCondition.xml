@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>ForAllLayouts</after>
         <action>ChooseCondition</action>
-        <scheme>;;;ChooseCondition
-(SetDirectiveConditional)
-</scheme>
         <_label>Choose Condition</_label>
         <_tooltip>Gives a menu for choosing whether the directive at the cursor should apply to the current part only or the default score or all layouts,</_tooltip>
       </row>

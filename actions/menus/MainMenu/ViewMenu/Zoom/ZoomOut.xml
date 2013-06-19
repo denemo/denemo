@@ -6,8 +6,6 @@
     <map>
       <row type="scheme">
         <action>ZoomOut</action>
-        <scheme>(d-Zoom (- (d-Zoom) 0.2 ))
-</scheme>
         <_label>Zoom Out</_label>
         <_tooltip>Zoom Out</_tooltip>
       </row>

@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>MidiTempo</after>
         <action>ChannelChange</action>
-        <scheme>(ChangeChannel::Set)</scheme>
         <_label>Change Midi Channel</_label>
         <_tooltip>Changes the MIDI channel of a staff </_tooltip>
       </row>

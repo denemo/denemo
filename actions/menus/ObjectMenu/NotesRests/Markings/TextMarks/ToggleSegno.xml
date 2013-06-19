@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>ToggleReverseTurn</after>
         <action>ToggleSegno</action>
-        <scheme>;;;ToggleSegno
-        (ChordAnnotation "ToggleSegno" "\\segno"    ToggleSegno::params    LG-Segno)
-</scheme>
         <_label>Segno (Off/On)</_label>
         <_tooltip>Adds/Removes a Segno to the note</_tooltip>
       </row>

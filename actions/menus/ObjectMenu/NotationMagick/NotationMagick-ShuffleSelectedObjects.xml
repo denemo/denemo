@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>NotationMagick-MirrorSelectedObjects</after>
         <action>NotationMagick-ShuffleSelectedObjects</action>
-        <scheme>(NotationMagick::ModifySelectedObjects Merge-shuffle-list)</scheme>
         <_label>Shuffle Selected Objects</_label>
         <_tooltip>Shuffle the selected objects</_tooltip>
       </row>

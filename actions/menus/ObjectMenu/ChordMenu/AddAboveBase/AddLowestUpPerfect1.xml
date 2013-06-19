@@ -6,7 +6,6 @@
     <map>
       <row type="scheme">
         <action>AddLowestUpPerfect1</action>
-        <scheme>(ANS::AddIntervalAsChordnoteFromLowestUp 'p1)</scheme>
         <_label>Add Perfect 1st above base</_label>
         <_tooltip>Add a perfect prime as chordnote relative to the lowest note upwards.</_tooltip>
       </row>

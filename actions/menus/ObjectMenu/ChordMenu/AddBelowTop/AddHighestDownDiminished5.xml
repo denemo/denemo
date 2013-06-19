@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>AddHighestDownAugmented4</after>
         <action>AddHighestDownDiminished5</action>
-        <scheme>(ANS::AddIntervalAsChordnoteFromHighestDown 'd5)</scheme>
         <_label>Add Diminished 5th below top</_label>
         <_tooltip>Add a tritone/diminished fifth as chordnote relative to the highest note downwards.</_tooltip>
       </row>

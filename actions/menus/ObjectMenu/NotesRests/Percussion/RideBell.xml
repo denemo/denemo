@@ -6,11 +6,6 @@
     <map>
       <row type="scheme">
         <action>RideBell</action>
-        <scheme>
-		(d-InsertG)
-		(d-PutNoteName "f''")
-		(d-ChangeNotehead "Diamond")
-	</scheme>
         <_label>Ride Bell</_label>
         <_tooltip>Insert Ride Bell in the prevailing duration.</_tooltip>
       </row>

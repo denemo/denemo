@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>ChoirStaffStart</after>
         <action>ChoirStaffEnd</action>
-        <scheme>(AttachDirective "staff" "postfix" "ContextChoirStaff" " &gt;&gt;\n" DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_AFFIX)</scheme>
         <_label>ChoirStaff End</_label>
         <_tooltip>Stop ChoirStaff multi-stave system.</_tooltip>
       </row>

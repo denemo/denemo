@@ -7,17 +7,6 @@
       <row type="scheme">
         <after>ScoreIndent</after>
         <action>HideEmptyStaffs</action>
-        <scheme>  ;;;;;;;;;;;;;;;Toggle HideEmptyStaffs
-(let ((tag "HideEmptyStaffs"))
-  (if (d-Directive-layout? tag)
-      (d-DirectiveDelete-layout tag)
-      (begin
-	  (d-DirectivePut-layout-postfix tag 
-				     " \\context { \\Staff \\RemoveEmptyStaves } ")
-          (d-DirectivePut-layout-override  tag DENEMO_OVERRIDE_GRAPHIC)
-	  (d-DirectivePut-layout-display  tag (_ "Hide Empty Staffs"))))
-  (d-SetSaved #f))
-</scheme>
         <_label>Hide Empty Staffs (Off/On)</_label>
         <_tooltip>Controls whether staffs containing only rests are printed.</_tooltip>
       </row>

@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>MovementNoteheadsXcircle</after>
         <action>MovementNoteheadsXcircle</action>
-        <scheme>(AttachDirective "layout" "postfix" "MovementNoteheads" "\t\\context {
-\t\\Score		   
-\t\\override NoteHead  #'style = #'triangle }\n")</scheme>
         <_label>Triangle</_label>
         <_tooltip>Triangle note head style for the current movement.</_tooltip>
       </row>

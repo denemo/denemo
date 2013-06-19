@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>MezzoForte</after>
         <action>MezzoPiano</action>
-        <scheme> ;;; mp
-(Dynamics::Put "MezzoPiano" "\\mp" "30")
-</scheme>
         <_label>Mezzo Piano</_label>
         <_tooltip>prints mp and outputs MIDI vol change#</_tooltip>
       </row>

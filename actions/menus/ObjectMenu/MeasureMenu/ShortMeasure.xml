@@ -6,7 +6,6 @@
     <map>
       <row type="scheme">
         <action>ShortMeasure</action>
-        <scheme>(d-Upbeat "Short")</scheme>
         <_label>Short Measure</_label>
         <_tooltip>Allow too few notes/rests in this measure. LilyPond will engrave this measure (in all staffs) with the short duration given by notes already present when this command was issued.</_tooltip>
       </row>

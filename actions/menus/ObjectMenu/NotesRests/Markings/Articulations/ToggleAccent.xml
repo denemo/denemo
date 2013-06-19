@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>Marcato</after>
         <action>ToggleAccent</action>
-        <scheme>;;;ToggleAccent
-        (ChordAnnotation "ToggleAccent" "\\accent"    ToggleAccent::params    LG-Accent)
-</scheme>
         <_label>Accent (Off/On)</_label>
         <_tooltip>Mark/Unmark the current chord accented</_tooltip>
       </row>

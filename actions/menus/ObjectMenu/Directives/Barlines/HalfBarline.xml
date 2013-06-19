@@ -6,8 +6,6 @@
     <map>
       <row type="scheme">
         <action>HalfBarline</action>
-        <scheme>;;;Half Barline
-(StandAloneDirectiveProto (cons "HalfBarline" "\\once \\override Staff . BarLine #'bar-size = #2 \\bar \"|\""))</scheme>
         <_label>Half Barline</_label>
         <_tooltip>Insert a barline with only half of its original size</_tooltip>
       </row>

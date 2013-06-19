@@ -6,9 +6,6 @@
     <map>
       <row type="scheme">
         <action>ClosingBarline</action>
-        <scheme>;;;ClosingBarline
-(StandAloneSelfEditDirective (cons "ClosingBarline" "\\bar \"|.\"") #t "ClosingBarline")
-</scheme>
         <_label>Closing Barline</_label>
         <_tooltip>Inserts a closing barline (a double bar with last one thicker).</_tooltip>
       </row>

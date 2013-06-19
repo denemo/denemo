@@ -6,12 +6,6 @@
     <map>
       <row type="scheme">
         <action>NotationMagick-InsertNoteFromPool</action>
-        <scheme>;;; Part of NotationMagick 
-				(let ((return (NotationMagick::AskNewNotationstring)))
-					(if return
-						 (NotationMagick::InsertMemberRandomlyLy return)
-						#f))
-		</scheme>
         <_label>Note from Pool</_label>
         <_tooltip>Inserts one note from a user-specified pool of notes in Lilypond syntax</_tooltip>
       </row>

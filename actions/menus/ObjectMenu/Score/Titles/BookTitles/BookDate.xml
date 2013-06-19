@@ -7,11 +7,6 @@
       <row type="scheme">
         <after>BookPoet</after>
         <action>BookDate</action>
-        <scheme>;;BookDate
-(if BookDate::params
- 	(BookTitles::Do "Date" "date" BookDate::params #f)
-        (BookTitles::Do "Date" "date" (strftime "%Y" (localtime (current-time)))  (_ "Give date for score or blank out to delete: ")))
-</scheme>
         <_label>Date</_label>
         <_tooltip>Prints a date on the title page.</_tooltip>
       </row>

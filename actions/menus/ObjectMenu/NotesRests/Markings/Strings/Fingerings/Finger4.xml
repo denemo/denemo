@@ -6,11 +6,6 @@
     <map>
       <row type="scheme">
         <action>Finger4</action>
-        <scheme>(ToggleDirective "note" "postfix" "Fingering" "-4 ")
-(if (d-Directive-note? "Fingering")
-	(d-DirectivePut-note-display"Fingering" "4"))
-(d-Chordize #t)
-</scheme>
         <_label>Finger 4</_label>
         <_tooltip>Inserts fingering for finger 4</_tooltip>
       </row>

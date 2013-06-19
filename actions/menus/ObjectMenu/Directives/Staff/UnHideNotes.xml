@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>HideNotes</after>
         <action>UnHideNotes</action>
-        <scheme>(StandAloneDirectiveProto (cons "UnHideNotes" "\\unHideNotes" ))</scheme>
         <_label>(Print) Start Drawing Notes (Again)</_label>
         <_tooltip>Reverts the "Stop drawing notes" command</_tooltip>
       </row>

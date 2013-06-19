@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>ChangeProgram</after>
         <action>ChangeVolume</action>
-        <scheme>(ChangeVolume::Set)</scheme>
         <_label>Volume</_label>
         <_tooltip>Change the Volume of a channel/staff</_tooltip>
       </row>

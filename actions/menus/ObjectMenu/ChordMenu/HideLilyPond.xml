@@ -7,12 +7,6 @@
       <row type="scheme">
         <after>ParenthesizeChord</after>
         <action>HideLilyPond</action>
-        <scheme>;;;;;;HideLilyPond
-(d-DirectivePut-chord-prefix "HideLilyPond" "%{")
-(d-DirectivePut-chord-postfix "HideLilyPond" "%}")
-(d-DirectivePut-chord-display "HideLilyPond" (_ "hide"))
-(d-DirectivePut-chord-override "HideLilyPond" DENEMO_OVERRIDE_AFFIX)
-(d-SetSaved #f)</scheme>
         <_label>Hide on Printing</_label>
         <_tooltip>Comments out the chord in the LilyPond output.</_tooltip>
       </row>

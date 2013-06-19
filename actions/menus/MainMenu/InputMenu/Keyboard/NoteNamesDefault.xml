@@ -6,14 +6,6 @@
     <map>
       <row type="scheme">
         <action>NoteNamesDefault</action>
-        <scheme>;;NoteNamesDefault
-(d-AddKeybinding "A" "a")
-(d-AddKeybinding "B" "b")
-(d-AddKeybinding "C" "c")
-(d-AddKeybinding "D" "d")
-(d-AddKeybinding "E" "e")
-(d-AddKeybinding "F" "f")
-(d-AddKeybinding "G" "g")</scheme>
         <_label>Note Names Default Action</_label>
         <_tooltip>Changes the shortcuts for note names a, b, c, d, e, f, g so that they edit the note at the cursor, or append a note when in the appending position.</_tooltip>
       </row>

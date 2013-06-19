@@ -7,8 +7,6 @@
       <row type="scheme">
         <after>MarcatoSelectionSwitcher</after>
         <action>UpBowSelectionSwitcher</action>
-        <scheme>(SingleAndSelectionSwitcher d-ToggleUpBow)
-		</scheme>
         <_label>UpBow (Off/On)</_label>
         <_tooltip>Mark/Unmark current selection or note with UpBow</_tooltip>
       </row>

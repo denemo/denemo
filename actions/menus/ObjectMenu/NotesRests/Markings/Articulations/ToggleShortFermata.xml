@@ -6,9 +6,6 @@
     <map>
       <row type="scheme">
         <action>ToggleShortFermata</action>
-        <scheme>;;;ToggleShortFermata
-        (ChordAnnotation "ToggleShortFermata" "\\shortfermata"    ToggleShortFermata::params    LG-ShortFermata)
-</scheme>
         <_label>ShortFermata (Off/On)</_label>
         <_tooltip>Mark/Unmark the current chord shortfermata</_tooltip>
       </row>

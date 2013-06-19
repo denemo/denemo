@@ -7,12 +7,6 @@
       <row type="scheme">
         <after>MezzoForte</after>
         <action>Largo</action>
-        <scheme>;;;Tempo
-(d-DirectivePut-chord-postfix "Tempo" "^\\markup \\italic \\bold {Largo}")
-(d-DirectivePut-chord-display "Tempo" "Largo")
-(d-DirectivePut-chord-midibytes "Tempo" "")
-(d-RefreshDisplay)
-;;;End of scheme script</scheme>
         <_label>Largo</_label>
         <_tooltip>Print Largo above note at cursor</_tooltip>
       </row>

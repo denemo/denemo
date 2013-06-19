@@ -6,9 +6,6 @@
     <map>
       <row type="scheme">
         <action>MovementPiece</action>
-        <scheme>(SetHeaderField "piece")
-(DenemoPrintAllHeaders)
-(d-RefreshDisplay)</scheme>
         <_label>Piece</_label>
         <_tooltip>Prints the name given above and to the left at the start of the movement.</_tooltip>
       </row>

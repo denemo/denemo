@@ -6,10 +6,6 @@
     <map>
       <row type="scheme">
         <action>InsertLonga</action>
-        <scheme>(d-Insert0)
-(d-MoveCursorLeft)
-(d-ChangeLonga)
-(d-MoveCursorRight)</scheme>
         <_label>Longa</_label>
         <_tooltip>Insert a Longa</_tooltip>
       </row>

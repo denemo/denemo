@@ -7,10 +7,6 @@
       <row type="scheme">
         <after>MinimumFret</after>
         <action>RestrainOpenStrings</action>
-        <scheme>;;;RestrainOpenStrings
-(let ((tag "RestrainOpenStrings"))
-	(StandAloneDirectiveProto (cons tag "\\set TabVoice.restrainOpenStrings = ##t ") #f "\n⨂\nDenemo\n30"))
-</scheme>
         <_label>Restrain Open Strings</_label>
         <_tooltip>Restrains the use of open strings in Tablature.</_tooltip>
       </row>

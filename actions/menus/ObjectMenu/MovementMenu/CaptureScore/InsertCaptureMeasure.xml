@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>CaptureMeasures</after>
         <action>InsertCaptureMeasure</action>
-        <scheme>;;;InsertCaptureMeasure
-(d-UserScreenshot #f (- (d-GetMeasure) 1))
-</scheme>
         <_label>Capture and Insert One Measure</_label>
         <_tooltip>Capture the image of a single measure (as screenshot) inserting at the current measure.</_tooltip>
       </row>

@@ -7,15 +7,6 @@
       <row type="scheme">
         <after/>
         <action>ScoreOpus</action>
-        <scheme>;;;ScoreOpus
-	(if (d-PreviousMovement)
-		(d-WarningDialog "Returning to the first Movement to set this."))
-	(while (d-PreviousMovement)
-		(display "Seeking first movement"))
-        (SetHeaderField "opus")
-        (DenemoPrintAllHeaders)
-        (d-RefreshDisplay)
-        </scheme>
         <_label>Opus</_label>
         <_tooltip>Name of the opus, flush-right below the arranger.</_tooltip>
       </row>

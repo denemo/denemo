@@ -6,9 +6,6 @@
     <map>
       <row type="scheme">
         <action>ToggleLongFermata</action>
-        <scheme>;;;LongFermata
-        (ChordAnnotation "ToggleLongFermata" "\\longfermata"    ToggleLongFermata::params    LG-LongFermata)
-</scheme>
         <_label>LongFermata (Off/On)</_label>
         <_tooltip>Mark/Unmark the current chord longfermata</_tooltip>
       </row>

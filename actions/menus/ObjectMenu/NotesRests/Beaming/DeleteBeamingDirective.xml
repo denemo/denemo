@@ -7,10 +7,6 @@
       <row type="scheme">
         <after>EndBeam</after>
         <action>DeleteBeamingDirective</action>
-        <scheme>;;; DeleteBeamingDirective
-(d-DirectiveDelete-chord "Beam")
-(d-DirectiveDelete-chord "BeamLeft")
-(d-DirectiveDelete-chord "BeamRight")</scheme>
         <_label>Delete Beaming Directive</_label>
         <_tooltip>Deletes a ] or [ (end or start beam) directive on the current chord.</_tooltip>
       </row>

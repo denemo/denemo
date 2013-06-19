@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>CursorUp</after>
         <action>JumpLeft</action>
-        <scheme>(if (d-PrevObjectInMeasure) 
-	(if (d-MoveToMeasureLeft) (d-MoveToMeasureRight))
-	(d-MoveToMeasureLeft))</scheme>
         <_label>JumpLeft</_label>
         <_tooltip>Jumps to beginning of this measure or previous measure.</_tooltip>
       </row>

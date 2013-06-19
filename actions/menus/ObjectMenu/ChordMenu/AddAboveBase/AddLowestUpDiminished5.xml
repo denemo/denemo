@@ -7,7 +7,6 @@
       <row type="scheme">
         <after>AddLowestUpAugmented4</after>
         <action>AddLowestUpDiminished5</action>
-        <scheme>(ANS::AddIntervalAsChordnoteFromLowestUp 'd5)</scheme>
         <_label>Add Diminished 5th above base</_label>
         <_tooltip>Add a diminished fifth as chordnote relative to the lowest note upwards.</_tooltip>
       </row>

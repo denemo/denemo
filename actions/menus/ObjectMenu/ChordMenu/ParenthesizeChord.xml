@@ -6,14 +6,6 @@
     <map>
       <row type="scheme">
         <action>ParenthesizeChord</action>
-        <scheme> ;;; ParenthesizeChord
- (if (d-Directive-chord? "Parenthesize")
- 	(d-DirectiveDelete-chord  "Parenthesize")
- 	(begin
-		(d-DirectivePut-chord-prefix "Parenthesize" "\\parenthesize ")
-		(d-DirectivePut-chord-override "Parenthesize" DENEMO_OVERRIDE_AFFIX)
-		(d-DirectivePut-chord-display "Parenthesize" "()")))
-(d-SetSaved #f)</scheme>
         <_label>Parenthesize Chord</_label>
         <_tooltip>Enclose the chord in ( ) on printing.</_tooltip>
       </row>

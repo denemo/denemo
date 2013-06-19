@@ -6,14 +6,6 @@
     <map>
       <row type="scheme">
         <action>ScorePoet</action>
-        <scheme>	(if (d-PreviousMovement)
-		(d-WarningDialog "Returning to the first Movement to set the Poet"))
-	(while (d-PreviousMovement)
-		(display "Seeking first movement"))
-        (SetHeaderField "poet")
-        (DenemoPrintAllHeaders)
-        (d-RefreshDisplay)        
-</scheme>
         <_label>Poet</_label>
         <_tooltip>Name of the poet, flush-left below the subsubtitle.</_tooltip>
       </row>

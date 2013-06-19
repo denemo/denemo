@@ -7,9 +7,6 @@
       <row type="scheme">
         <after>ShiftUp</after>
         <action>ShiftDown</action>
-        <scheme>(SingleAndSelectionSwitcher (lambda () 
-	(ShiftProto ANS::CalculateDiatonicStepDown)))
-</scheme>
         <_label>Tonal step down</_label>
         <_tooltip>Transpose/shift the cursor note or selection one step down, stay in the keysignature.</_tooltip>
       </row>
