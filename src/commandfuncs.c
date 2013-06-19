@@ -132,9 +132,7 @@ setcurrents (DenemoScore * si)
     }
   else
     {
-#ifdef DEBUG
-      g_print ("Setting measure to %d which is last in Staff\n", ((DenemoStaff *) si->currentstaff->data)->nummeasures);
-#endif
+      g_debug ("Setting measure to %d which is last in Staff\n", ((DenemoStaff *) si->currentstaff->data)->nummeasures);
       si->currentmeasure = g_list_nth (firstmeasurenode (si->currentstaff), ((DenemoStaff *) si->currentstaff->data)->nummeasures - 1);
       si->currentmeasurenum = ((DenemoStaff *) si->currentstaff->data)->nummeasures;
 
@@ -2628,7 +2626,7 @@ auto_save_document_timeout (DenemoGUI * gui)
   /* first check that this timer has not been left running after destruction of the gui */
   if (g_list_find (Denemo.guis, gui) == NULL)
     {
-      warningdialog ("Timer left running");
+      warningdialog (_("Timer left running"));
       return FALSE;             /* turns off the timer */
     }
   DenemoScore *si = gui->si;

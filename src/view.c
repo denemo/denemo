@@ -1090,7 +1090,7 @@ scheme_script_callback (SCM script, SCM params)
       if (name)
         {
           GtkAction *action = lookup_action_from_name (name);
-          if (action)
+          if (action && !is_action_name_builtin(name))
             {
               gchar *paramvar = g_strdup_printf ("%s::params", name);
               scm_c_define (paramvar, params);
@@ -1098,7 +1098,8 @@ scheme_script_callback (SCM script, SCM params)
               gchar *text = g_object_get_data (G_OBJECT (action), "scheme");
               if (text && *text)
                 {
-                  stage_undo (Denemo.gui->si, ACTION_STAGE_END);        //undo is a queue so this is the end :)
+                  //undo is a queue so this is the end :)
+                  stage_undo (Denemo.gui->si, ACTION_STAGE_END);
                   ret = SCM_BOOL (!call_out_to_guile (text));
                   stage_undo (Denemo.gui->si, ACTION_STAGE_START);
                 }
@@ -3414,7 +3415,7 @@ scheme_infodialog (SCM msg)
     }
   else
     {
-      title = strdup ("Script error, wrong parameter type to d-InfoDialog");
+      title = strdup (_("Script error, wrong parameter type to d-InfoDialog"));
       msg = SCM_BOOL (FALSE);
     }
   static GtkWidget *dialog;
@@ -3677,7 +3678,7 @@ scheme_get_padding (void)
     return SCM_BOOL (FALSE);
   if (g_object_get_data (G_OBJECT (Denemo.printarea), "pad-dialog"))
     {
-      warningdialog ("Already in a padding dialog");
+      warningdialog (_("Already in a padding dialog"));
       return SCM_BOOL_F;
     }
 
@@ -6818,7 +6819,7 @@ selection_received (GtkClipboard * clipboard, const gchar * text, DenemoScriptPa
 {
   if (!text)
     {
-      warningdialog ("No selection text available");
+      warningdialog (_("No selection text available"));
       param->status = FALSE;
       return;
     }
@@ -6995,7 +6996,7 @@ fetchcommands (GtkAction * action, gpointer param)
   gboolean err = g_mkdir_with_parents (location, 0770);
   if (err)
     {
-      gchar *message = g_strdup_printf ("Could not make folder %s for the downloaded commands", location);
+      gchar *message = g_strdup_printf (_("Could not make folder %s for the downloaded commands"), location);
       warningdialog (message);
       g_free (message);
       return;
@@ -7939,7 +7940,7 @@ create_rhythm_cb (GtkAction * action, gpointer param)
 
       if ((strlen (pattern) == 0))
         {                       // no selection
-          warningdialog ("No selection to create a music snippet from\nSee Edit->Select menu for selecting music to snip");
+          warningdialog (_("No selection to create a music snippet from\nSee Edit → Select menu for selecting music to snip"));
           gtk_widget_destroy (GTK_WIDGET (r->button));
           g_free (pattern);
           g_free (r);
@@ -8111,7 +8112,7 @@ instantiate_script (GtkAction * action)
           filename = g_build_filename (path, name, NULL);
           if (load_xml_keymap (filename) == -1)
             {
-              warningdialog ("Unable to load the script");
+              warningdialog (_("Unable to load the script"));
               g_free (path);
               g_free (filename);
               g_free (name);
@@ -8126,7 +8127,6 @@ instantiate_script (GtkAction * action)
   g_free (filename);
   g_free (path);
   g_free (name);
-  //g_print("Command loaded is following script:\n%s\n;;; end of loaded command script.\n", (gchar*)g_object_get_data(G_OBJECT(action), "scheme"));
   return (gchar *) g_object_get_data (G_OBJECT (action), "scheme");
 }
 
@@ -8155,7 +8155,6 @@ activate_script (GtkAction * action, DenemoScriptParam * param)
               show_type (h->data, "type is ");
             }
         }
-      gchar *text = (gchar *) g_object_get_data (G_OBJECT (action), "scheme");
 
       //FIXME use define_scheme_variable for this
       //define a global variable in Scheme (CurrentScript) to give the name of the currently executing script
@@ -8174,10 +8173,10 @@ activate_script (GtkAction * action, DenemoScriptParam * param)
       scm_c_eval_string (current_script);
       g_free (current_script);
 
-      if (text)
+      gchar *text = (gchar *) g_object_get_data (G_OBJECT (action), "scheme");
+      if (!is_action_name_builtin((gchar*) gtk_action_get_name(action)))
         {
-
-          if (*text == 0)
+          if (!text || !*text)
             text = instantiate_script (action);
           if (text && *text)
             {
@@ -8196,7 +8195,7 @@ activate_script (GtkAction * action, DenemoScriptParam * param)
       g_free (paramvar);
     }
   else
-    warningdialog ("Have no way of getting the script, sorry");
+    warningdialog (_("Have no way of getting the script, sorry"));
   return ret;
 }
 
@@ -8212,7 +8211,7 @@ popup_help (GtkWidget * widget, GtkAction * action)
   gint idx = lookup_command_from_name (Denemo.map, name);
   gchar *tooltip = idx >= 0 ? (gchar *) lookup_tooltip_from_idx (Denemo.map, idx) : "A menu for ...";
 
-  tooltip = g_strdup_printf ("Command: %s\n\nInformation:\n%s", name, tooltip);
+  tooltip = g_strdup_printf (_("Command: %s\n\nInformation:\n%s"), name, tooltip);
   infodialog (tooltip);
   g_free (tooltip);
 }
@@ -8281,7 +8280,7 @@ placeOnButtonBar (GtkWidget * widget, GtkAction * action)
       if (!call_out_to_guile (scheme))
         append_to_local_scheme_init (scheme);
       else
-        warningdialog ("Could not create button");
+        warningdialog (_("Could not create button"));
       g_free (scheme);
     }
 }
@@ -8675,7 +8674,7 @@ locatebitmapsdir (void)
   err = g_mkdir_with_parents (bitmapsdir, 0770);
   if (err)
     {
-      warningdialog ("Could not create .denemo/actions/bitmaps for your graphics for customized commands");
+      warningdialog (_("Could not create .denemo/actions/bitmaps for your graphics for customized commands"));
       g_free (bitmapsdir);
       bitmapsdir = g_strdup ("");       //FIXME
     }
@@ -9180,12 +9179,14 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
       g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (load_command_from_location), (gpointer) filepath);
     }
 
-  gchar *scheme = g_object_get_data (G_OBJECT (action), "scheme");
-  if (scheme)
+  if (!is_action_id_builtin(idx))
     {
-      if (*scheme == 0)
+      gchar *scheme = g_object_get_data (G_OBJECT (action), "scheme");
+      if (!scheme || !*scheme)
         scheme = instantiate_script (action);
-      if (scheme)
+      if (!scheme)
+        g_warning ("Could not get script for %s\n", gtk_action_get_name (action));
+      else
         {
           item = gtk_menu_item_new_with_label (_("Get Script"));
           gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);

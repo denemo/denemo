@@ -311,7 +311,7 @@ main (int argc, char *argv[])
       g_print ("Setting GUILE_LOAD_PATH=%s\n", guile_path);
     }
   else
-    warningdialog ("You may need to set GUILE_LOAD_PATH to the directory where you have ice9 installed\n");
+    warningdialog (_("You may need to set GUILE_LOAD_PATH to the directory where you have ice9 installed\n"));
   g_setenv ("PANGO_PREFIX", prefix, TRUE);
   g_setenv ("PANGO_MODULE_VERSION", "1.6.0", TRUE);
   g_setenv ("PANGO_SO_EXTENSION", ".dll", TRUE);

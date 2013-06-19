@@ -2396,9 +2396,7 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
           {
 
             si->currentmeasure = dnm_addmeasures (si, si->currentmeasurenum - 1, 1, FALSE);
-#ifdef DEBUG
-            g_print ("ImportXML Adding Measure \n currentmeasurenum %d", si->currentmeasurenum);
-#endif
+            g_debug ("ImportXML Adding Measure \n currentmeasurenum %d", si->currentmeasurenum);
           }
 
         FOREACH_CHILD_ELEM (objElem, childElem)
@@ -2498,7 +2496,7 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
                   initkeyaccs (((keysig *) curObj->object)->accs, ((keysig *) curObj->object)->number);
                   //dnm_setinitialkeysig(((keysig *) curObj->object), keySig, isMinor);
 #else
-                  //warningdialog("Dodgy code");
+                  //warningdialog(_("Dodgy code"));
                   parseKeySignature (objElem, &keySig, &isMinor);
                   //curObj = dnm_newkeyobj (keySig, isMinor, 0);
                   //initkeyaccs (((keysig *) curObj->object)->accs, keySig);
@@ -2958,7 +2956,7 @@ importXML (gchar * filename, DenemoGUI * gui, ImportType type)
                                                              childElem->xmlChildrenNode, 1);
                 //gui->custom_prolog = g_string_new(tmp);
                 g_print ("The custom prolog \n\"%s\"\n is being ignored\n", tmp);
-                warningdialog ("custom prolog no longer supported. Use score directive prefix instead");
+                warningdialog (_("Custom prolog is no longer supported. Use score directive prefix instead"));
                 g_free (tmp);
               }
             else if (ELEM_NAME_EQ (childElem, "lilycontrol"))
@@ -3022,7 +3020,7 @@ importXML (gchar * filename, DenemoGUI * gui, ImportType type)
           }
           break;
         default:
-          warningdialog ("Erroneous call");
+          warningdialog (_("Erroneous call"));
           goto cleanup;
         }
     }
@@ -3047,7 +3045,7 @@ importXML (gchar * filename, DenemoGUI * gui, ImportType type)
           ret = parseMovement (rootElem, ns, gui, type);
           break;
         default:
-          warningdialog ("Erroneous call");
+          warningdialog (_("Erroneous call"));
           goto cleanup;
         }
     }

@@ -163,7 +163,7 @@ insertfakechord (GtkWidget * widget, gpointer data)
     }
   else
     {
-      warningdialog ("There is no object here to attach a fakechord to.");
+      warningdialog (_("There is no object here to attach a fakechord to."));
     }
   return FALSE;
 }

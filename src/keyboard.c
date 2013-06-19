@@ -223,7 +223,6 @@ create_command(gchar* scheme,
   gchar* menupath = NULL;
   if (command->script_type == COMMAND_SCHEME)
   {
-    scheme = scheme ? scheme : "";
     gboolean new_command = FALSE;
     command->action = lookup_action_from_name (command->name);
     if (command->action == NULL)
@@ -239,10 +238,10 @@ create_command(gchar* scheme,
         g_object_set_data (G_OBJECT (command->action), "after", (gpointer) after);
       register_command_row (Denemo.map, command);
       GtkActionGroup *action_group;
-      //GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
+      // GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
       action_group = Denemo.action_group;
       gtk_action_group_add_action (action_group, command->action);
-      /* create a scheme function to call this script */
+      // create a scheme function to call this script
       create_scheme_function_for_script (command->name);
     }
 
@@ -263,17 +262,13 @@ create_command(gchar* scheme,
       add_ui (menupath, after, command->name);
     }
     
-    /*FIXME free?     gchar *old_scheme = (gchar *)g_object_get_data(G_OBJECT(action), "scheme"); */
-    //g_print("Setting scheme %s\n", scheme);
+    //FIXME free old data?
     g_object_set_data (G_OBJECT (command->action), "scheme", scheme);
     g_object_set_data (G_OBJECT (command->action), "menupath", menupath);
-    if (new_command)
-    {
-      g_signal_connect (G_OBJECT (command->action), "activate", G_CALLBACK (activate_script), NULL);
-      //g_print("Signal activate is set on action %p %s scheme is %s\n", action, name, scheme);
-    }
 
-    //g_print("scheme now %s", scheme);
+    if (new_command)
+      g_signal_connect (G_OBJECT (command->action), "activate", G_CALLBACK (activate_script), NULL);
+
     // Note the script should *not* be in Default.cmdset
     // to delay loading it, but we should set the signal initally and we should not repeat setting the signal later.
     // the signal does not specify which script will be run, that is decided lazily, when the action is invoked for the first time

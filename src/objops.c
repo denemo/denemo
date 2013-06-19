@@ -167,9 +167,7 @@ dnm_newkeyobj (gint number, gint isminor, gint mode)
   ret = (DenemoObject *) g_malloc0 (sizeof (DenemoObject));
   ret->type = KEYSIG;
   ret->isinvisible = FALSE;
-#ifdef DEBUG
-  g_print ("Number %d \t IsMinor %d \t Mode %d\n", number, isminor, mode);
-#endif
+  g_debug ("Number %d \t IsMinor %d \t Mode %d\n", number, isminor, mode);
 
   newkeysig->mode = mode;
   newkeysig->number = number;

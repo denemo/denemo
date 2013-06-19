@@ -86,9 +86,7 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
             {
               name = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
               show_action_of_name ((gchar*) name);
-#ifdef DEBUG
-              g_print ("Action %s\n", (gchar *) name);
-#endif         /*DEBUG*/
+              g_debug ("Action %s\n", (gchar *) name);
             }
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_HIDDEN))
@@ -118,9 +116,7 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
                       keyval = 0;
                       if (Denemo.prefs.strictshortcuts)
                         dnm_accelerator_parse (gtk_binding, &keyval, &state);
-#ifdef DEBUG
-                      g_print ("binding %s, keyval %d, state %d, Command Number %d\n", gtk_binding, keyval, state, command_number);
-#endif
+                      g_debug ("binding %s, keyval %d, state %d, Command Number %d\n", gtk_binding, keyval, state, command_number);
                       {
                         gchar *comma;
                         comma = strtok (gtk_binding, ",");
@@ -257,7 +253,7 @@ load_xml_keymap (gchar * filename)
     return ret;
   if (g_file_test (filename, G_FILE_TEST_IS_DIR))
     {
-      warningdialog ("There is no support for loading whole folders of commands yet, sorry");
+      warningdialog (_("There is no support for loading whole folders of commands yet, sorry"));
       return ret;
     }
   if (!g_file_test (filename, G_FILE_TEST_EXISTS))
@@ -289,10 +285,7 @@ load_xml_keymap (gchar * filename)
 
   while (rootElem != NULL)
     {
-#ifdef DEBUG
-      g_print ("RootElem %s\n", rootElem->name);
-#endif
-
+      g_debug ("RootElem %s\n", rootElem->name);
       parseKeymap (doc, rootElem, Denemo.map, menupath);
 
       if (Denemo.last_merged_command)
@@ -386,9 +379,7 @@ static void
 write_xml_keybinding_info (gchar * kb_name, xmlNodePtr node)
 {
   gchar *dnm_binding = translate_binding_gtk_to_dnm (kb_name);
-#ifdef DEBUG
-  g_print ("binding is : (dnm) %s, (gtk) %s \n", dnm_binding, kb_name);
-#endif
+  g_debug ("binding is : (dnm) %s, (gtk) %s \n", dnm_binding, kb_name);
   if (!(Denemo.prefs.return_key_is_special && !strcmp (dnm_binding, N_("Return"))))
     xmlNewTextChild (node, NULL, (xmlChar *) "bind", (xmlChar *) dnm_binding);
   g_free (dnm_binding);
@@ -438,26 +429,21 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
   for (i = 0; i < keymap_size (the_keymap); i++)
     {
       gpointer action = (gpointer) lookup_action_from_idx (the_keymap, i);
-      gchar *scheme = action ? g_object_get_data (action, "scheme") : NULL;
       gchar *after = action ? g_object_get_data (action, "after") : NULL;
       gboolean deleted = (gboolean) (action ? GPOINTER_TO_INT (g_object_get_data (action, "deleted")) : 0);
-      //  if(deleted && scheme)
-      //        continue;
 
       child = xmlNewChild (parent, NULL, COMMANDXML_TAG_ROW, NULL);
 
 
       gchar *name = (gchar *) lookup_name_from_idx (the_keymap, i);
-#ifdef DEBUG
-      g_print ("%s \n", name);
-#endif
+      g_debug ("%s \n", name);
       xmlNewTextChild (child, NULL, COMMANDXML_TAG_ACTION, (xmlChar *) name);
       if (after)
         xmlNewTextChild (child, NULL, COMMANDXML_TAG_AFTER, (xmlChar *) after);
       if (deleted)              //store as hidden in commands file
         xmlNewTextChild (child, NULL, COMMANDXML_TAG_HIDDEN, (xmlChar *) "true");
 
-      if (scheme)
+      if(!is_action_name_builtin(name))
           xmlNewProp(child, COMMANDXML_TAG_TYPE, COMMAND_TYPE_SCHEME);
       else
           xmlNewProp(child, COMMANDXML_TAG_TYPE, COMMAND_TYPE_BUILTIN);
@@ -512,19 +498,16 @@ save_xml_keybindings (gchar * filename)
   for (i = 0; i < keymap_size (the_keymap); i++)
     {
       gpointer action = (gpointer) lookup_action_from_idx (the_keymap, i);
-      gchar *scheme = action ? g_object_get_data (action, "scheme") : NULL;
       gboolean deleted = (gboolean) (action ? GPOINTER_TO_INT (g_object_get_data (action, "deleted")) : 0);
       gboolean hidden = (gboolean) (action ? GPOINTER_TO_INT (g_object_get_data (action, "hidden")) : 0);
-      if (deleted && scheme)
+      if (deleted && !is_action_id_builtin(i))
         continue;
       if (hidden || command_has_binding (i))
         {
           child = xmlNewChild (parent, NULL, COMMANDXML_TAG_ROW, NULL);
 
           gchar *name = (gchar *) lookup_name_from_idx (the_keymap, i);
-#ifdef DEBUG
-          g_print ("%s %s binding(s) \n", name, command_has_binding (i) ? "has" : "does not have");
-#endif
+          g_debug ("%s %s binding(s) \n", name, command_has_binding (i) ? "has" : "does not have");
           xmlNewTextChild (child, NULL, COMMANDXML_TAG_ACTION, (xmlChar *) name);
           if (hidden)
             xmlNewTextChild (child, NULL, COMMANDXML_TAG_HIDDEN, (xmlChar *) "true");

@@ -234,9 +234,7 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action, DenemoContext con
     g_free (thestaffstruct);
     return;          /* no code for this yet - just edit textually */
   }
-#ifdef DEBUG
-  g_print ("newstaff: Num staffs %d\n", numstaffs);
-#endif
+  g_debug ("newstaff: Num staffs %d\n", numstaffs);
   if (numstaffs == 0)
     {
       action = INITIAL;
@@ -485,7 +483,7 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
   displayhelper (gui);
   score_status (gui, TRUE);
   if (give_info)
-    infodialog ("The staff deleted had a start/end context; if you still have the staff with the matching end/start context\n then you should remove it (or its context) now.\nSee Staff->properties->context\nYou will not be able to print with miss-matched contexts.");
+    infodialog (_("The staff deleted had a start/end context; if you still have the staff with the matching end/start context\n then you should remove it (or its context) now.\nSee Staff->properties->context\nYou will not be able to print with miss-matched contexts."));
   return;
 }
 

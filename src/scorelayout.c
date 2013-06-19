@@ -204,7 +204,7 @@ popup_staff_groups_menu (GtkWidget * button)
         g_warning ("No such menu path");
     }
   else
-    warningdialog ("This button is for changing the score itself, it will not affect this custom layout");
+    warningdialog (_("This button is for changing the score itself, it will not affect this custom layout"));
 }
 
 static void
@@ -1119,7 +1119,7 @@ popup_score_titles_menu (GtkWidget * button)
         g_warning ("No such menu path");
     }
   else
-    warningdialog ("This button is for changing the score itself, it will not affect this custom layout");
+    warningdialog (_("This button is for changing the score itself, it will not affect this custom layout"));
 }
 
 
@@ -1994,7 +1994,7 @@ check_for_update (void)
           recreate_standard_scoreblock (&sb);
         }
       //if(gui->custom_scoreblocks)
-      //      warningdialog("You have customized layouts which may not work with the new structure of your score.");
+      //      warningdialog(_("You have customized layouts which may not work with the new structure of your score."));
     }
   return TRUE;
 }

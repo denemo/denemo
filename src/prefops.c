@@ -47,7 +47,7 @@ locatedotdenemo ()
   err = g_mkdir_with_parents (dotdenemo, 0770);
   if (err)
     {
-      warningdialog ("Could not create .denemo for you personal settings");
+      warningdialog (_("Could not create .denemo for you personal settings"));
       g_free (dotdenemo);
       dotdenemo = NULL;
     }
@@ -504,10 +504,7 @@ parseHistory (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
                   g_warning ("%s", err->message);
                   g_error_free (err);
                 }
-#ifdef DEBUG
-              g_print ("Filename %s\n", tmp);
-#endif
-
+              g_debug ("Filename %s\n", tmp);
               g_queue_push_tail (prefs->history, g_strdup (file));
               g_free (tmp);
               g_free (file);
@@ -587,9 +584,7 @@ readxmlprefs (gchar * xmlsource, gboolean from_file)
   rootElem = rootElem->xmlChildrenNode;
   while (rootElem != NULL)
     {
-#ifdef DEBUG
-      g_print ("RootElem 2 %s\n", rootElem->name);
-#endif
+      g_debug ("RootElem 2 %s\n", rootElem->name);
 
       if (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "Config"))
         {
@@ -808,9 +803,7 @@ readHistory ()
       xmlFreeDoc (doc);
       return ret;
     }
-#ifdef DEBUG
-  g_print ("RootElem %s\n", rootElem->name);
-#endif
+  g_debug ("RootElem %s\n", rootElem->name);
   if (xmlStrcmp (rootElem->name, (const xmlChar *) "Denemo"))
     {
       g_warning ("Document has wrong type\n");
@@ -820,9 +813,7 @@ readHistory ()
   rootElem = rootElem->xmlChildrenNode;
   while (rootElem != NULL)
     {
-#ifdef DEBUG
-      g_print ("RootElem 2 %s\n", rootElem->name);
-#endif
+      g_debug ("RootElem 2 %s\n", rootElem->name);
       if (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "History"))
         {
           parseHistory (doc, rootElem, &Denemo.prefs);

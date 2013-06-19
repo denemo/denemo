@@ -311,7 +311,7 @@ process_lilypond_errors (gchar * filename)
           get_print_status()->invalid = 2;      //print_is_valid = FALSE;
           if (Denemo.printarea)
             gtk_widget_queue_draw (Denemo.printarea);
-          // FIXME this causes a lock-up     warningdialog("Typesetter detected errors. Cursor is position on the error point.\nIf in doubt delete and re-enter the measure.");
+          // FIXME this causes a lock-up     warningdialog(_("Typesetter detected errors. Cursor is position on the error point.\nIf in doubt delete and re-enter the measure."));
         }
       else
         {

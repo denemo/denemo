@@ -939,14 +939,12 @@ initdir ()
   GError *error = NULL;
   if (!gbr_init (&error) && (error != (GError *) GBR_INIT_ERROR_DISABLED))
     {
-#ifdef DEBUG
-      g_print ("BinReloc failed to initialize:\n");
-      g_print ("Domain: %d (%s)\n", (int) error->domain, g_quark_to_string (error->domain));
-      g_print ("Code: %d\n", error->code);
-      g_print ("Message: %s\n", error->message);
+      g_debug ("BinReloc failed to initialize:\n");
+      g_debug ("Domain: %d (%s)\n", (int) error->domain, g_quark_to_string (error->domain));
+      g_debug ("Code: %d\n", error->code);
+      g_debug ("Message: %s\n", error->message);
       g_error_free (error);
-      g_print ("----------------\n");
-#endif
+      g_debug ("----------------\n");
     }
 #endif /* not G_OS_WIN32 */
 }
