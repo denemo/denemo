@@ -8176,8 +8176,7 @@ activate_script (GtkAction * action, DenemoScriptParam * param)
       gchar *text = (gchar *) g_object_get_data (G_OBJECT (action), "scheme");
       if (!is_action_name_builtin((gchar*) gtk_action_get_name(action)))
         {
-
-          if (*text == 0)
+          if (!text || !*text)
             text = instantiate_script (action);
           if (text && *text)
             {
@@ -9183,7 +9182,7 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
   if (!is_action_id_builtin(idx))
     {
       gchar *scheme = g_object_get_data (G_OBJECT (action), "scheme");
-      if (*scheme == 0)
+      if (!scheme || !*scheme)
         scheme = instantiate_script (action);
       if (!scheme)
         g_warning ("Could not get script for %s\n", gtk_action_get_name (action));

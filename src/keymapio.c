@@ -509,10 +509,9 @@ save_xml_keybindings (gchar * filename)
   for (i = 0; i < keymap_size (the_keymap); i++)
     {
       gpointer action = (gpointer) lookup_action_from_idx (the_keymap, i);
-      gchar *scheme = action ? g_object_get_data (action, "scheme") : NULL;
       gboolean deleted = (gboolean) (action ? GPOINTER_TO_INT (g_object_get_data (action, "deleted")) : 0);
       gboolean hidden = (gboolean) (action ? GPOINTER_TO_INT (g_object_get_data (action, "hidden")) : 0);
-      if (deleted && scheme)
+      if (deleted && !is_action_id_builtin(i))
         continue;
       if (hidden || command_has_binding (i))
         {
