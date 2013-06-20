@@ -40,10 +40,8 @@ add_font_directory (gchar * fontpath)
 {
 #ifdef G_OS_WIN32
   AddFontResource (fontpath);
-  FcConfigAppFontAddDir (NULL, (FcChar8*) fontpath);
-#else
-  FcConfigAppFontAddDir (NULL, (FcChar8*) fontpath);
 #endif
+  FcConfigAppFontAddDir (NULL, (FcChar8*) fontpath);
 }
 
 void
@@ -51,11 +49,8 @@ add_font_file (gchar * fontname)
 {
 #ifdef G_OS_WIN32
   AddFontResource (fontname);
-  FcConfigAppFontAddFile (NULL, (FcChar8*) fontname);
-
-#else
-  FcConfigAppFontAddFile (NULL, (FcChar8*) fontname);
 #endif
+  FcConfigAppFontAddFile (NULL, (FcChar8*) fontname);
 }
 
 #ifdef G_OS_WIN32
@@ -2303,6 +2298,7 @@ find_dir_for_file(gchar* filename, gchar* dirs[])
   gchar *dir = NULL;
   gchar *path = NULL;
   gint i;
+
   for(i = 0; dirs[i]; i++)
   {
     if(!dir)
@@ -2335,4 +2331,5 @@ find_path_for_file(gchar* filename, gchar* dirs[])
     g_free(dir);
     return path;
   }
+  return NULL;
 }

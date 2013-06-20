@@ -298,7 +298,7 @@ append_to_path (gchar * path, gchar * extra, ...)
 int
 main (int argc, char *argv[])
 {
-
+  gchar *fontpath = NULL;
 //#ifdef G_OS_WIN32
 //  /* workaround necessary for compilation on Cygwin */
 //  g_set_print_handler ((GPrintFunc)printf);
@@ -355,7 +355,7 @@ main (int argc, char *argv[])
   gchar *lilypond_data_path = g_build_filename (prefix, "share", "lilypond", "current", NULL);
   g_setenv ("LILYPOND_DATA_PATH", lilypond_data_path, FALSE);
   g_print ("LILYPOND_DATA_PATH will be %s if not already set", lilypond_data_path);
-  gchar *fontpath = g_build_filename (prefix, "share", "fonts", "truetype", "denemo", "feta.ttf", NULL);
+  g_build_filename (prefix, "share", "fonts", "truetype", "denemo", "feta.ttf", NULL);
   g_setenv ("LILYPOND_VERBOSE", "1", FALSE);
   add_font_file (fontpath);
   fontpath = g_build_filename (prefix, "share", "fonts", "truetype", "denemo", "Denemo.ttf", NULL);
@@ -366,16 +366,21 @@ main (int argc, char *argv[])
   append_to_path ("GUILE_LOAD_PATH", g_build_filename (prefix, "share", "denemo", NULL), NULL);
 
 #else
-  gchar *prefix = g_build_filename (get_prefix_dir (), NULL);
-  add_font_directory (g_build_filename (get_data_dir (), "/fonts", NULL));
-
-  gchar *fontpath = g_build_filename (prefix, "share", "fonts", "truetype", "denemo", "feta.ttf", NULL);
   g_setenv ("LILYPOND_VERBOSE", "1", FALSE);
+  gchar *prefix = g_build_filename (get_prefix_dir (), NULL);
+  add_font_directory (g_build_filename (get_data_dir (), "fonts", NULL));
+
+  fontpath = g_build_filename (prefix, "share", "fonts", "truetype", "denemo", "feta.ttf", NULL);
   add_font_file (fontpath);
+  g_free(fontpath);
+
   fontpath = g_build_filename (prefix, "share", "fonts", "truetype", "denemo", "Denemo.ttf", NULL);
   add_font_file (fontpath);
+  g_free(fontpath);
+
   fontpath = g_build_filename (prefix, "share", "fonts", "truetype", "denemo", "emmentaler.ttf", NULL);
   add_font_file (fontpath);
+  g_free(fontpath);
 
   append_to_path ("GUILE_LOAD_PATH",
                   g_build_filename (prefix, "share", "denemo", "actions", NULL),
@@ -385,33 +390,26 @@ main (int argc, char *argv[])
 #endif /* end of else not windows */
 
   g_setenv ("LYEDITOR", "denemoclient %(line)s %(column)s", FALSE);
+
   /* glib/gtk initialization */
   if (!g_thread_supported ())
     {
       g_thread_init (NULL);
     }
   gdk_threads_init ();
-
   /* acquire gdk lock */
   gdk_threads_enter ();
 
   gtk_init (&argc, &argv);
 
-
   /* locale initialization */
-  //setlocale (LC_CTYPE, "");
-  //setlocale (LC_MESSAGES, "");
   setlocale (LC_ALL, "");
-  //gtk_set_locale ();
-
   bindtextdomain(GETTEXT_PACKAGE, get_locale_dir ());
   bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
   textdomain(GETTEXT_PACKAGE);
 
   //register_stock_items ();
 
-
-  //g_print("Calling scm boot guile with %d and %p\n", argc, argv);
   scm_boot_guile (argc, argv, inner_main, NULL);
 
   /* release gdk lock */
