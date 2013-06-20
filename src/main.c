@@ -260,19 +260,33 @@ debug_handler (const gchar * log_domain, GLogLevelFlags log_level, const gchar *
 }
 
 static void
-append_to_path (gchar * path, gchar * extra)
+append_to_path (gchar * path, gchar * extra, ...)
 {
-  gchar *the_path = (gchar *) g_getenv (path);
-  if (the_path)
+  va_list ap;
+  va_start(ap, extra);
+
+  gchar *path_string = (gchar *) g_getenv (path);
+  if (!path_string){
+    if(extra){
+      path_string = g_strdup (extra);
+      g_free(extra);
+      extra = va_arg(ap, gchar*);
+    }
+  }
+
+  while(extra){
 #ifdef G_OS_WIN32
-    the_path = g_strconcat (the_path, ";", extra, NULL);
+  path_string = g_strconcat (path_string, ";", extra, NULL);
 #else
-    the_path = g_strconcat (the_path, ":", extra, NULL);
+  path_string = g_strconcat (path_string, ":", extra, NULL);
 #endif
-  else
-    the_path = g_strdup (extra);
-  g_setenv (path, the_path, TRUE);
-  g_print ("%s is %s\n", path, the_path);
+    g_free(extra);
+    extra = va_arg(ap, gchar*);
+  }
+
+  g_setenv (path, path_string, TRUE);
+  g_print ("%s is %s\n", path, path_string);
+  va_end(ap);
 }
 
 
@@ -349,7 +363,7 @@ main (int argc, char *argv[])
   fontpath = g_build_filename (prefix, "share", "fonts", "truetype", "denemo", "emmentaler.ttf", NULL);
   add_font_file (fontpath);
 
-  append_to_path ("GUILE_LOAD_PATH", g_build_filename (prefix, "share", "denemo", NULL));
+  append_to_path ("GUILE_LOAD_PATH", g_build_filename (prefix, "share", "denemo", NULL), NULL);
 
 #else
   gchar *prefix = g_build_filename (get_prefix_dir (), NULL);
@@ -363,8 +377,10 @@ main (int argc, char *argv[])
   fontpath = g_build_filename (prefix, "share", "fonts", "truetype", "denemo", "emmentaler.ttf", NULL);
   add_font_file (fontpath);
 
-  append_to_path ("GUILE_LOAD_PATH", g_build_filename (prefix, "share", "denemo", "actions", NULL));
-  append_to_path ("GUILE_LOAD_PATH", g_build_filename (prefix, "share", "denemo", "actions", "denemo-modules", NULL));
+  append_to_path ("GUILE_LOAD_PATH",
+                  g_build_filename (prefix, "share", "denemo", "actions", NULL),
+                  g_build_filename (prefix, "share", "denemo", "actions", "denemo-modules", NULL),
+                  NULL);
 
 #endif /* end of else not windows */
 

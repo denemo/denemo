@@ -2293,7 +2293,7 @@ initialize_keystroke_help (void)
  * @filename: The file to search
  * @dirs: A dir paths array, ending by NULL, where to search.
  *
- * Finds the firs dir in the list that contains 'filename', and free the array.
+ * Finds the first dir in the list that contains 'filename', and free the array.
  *
  * Returns: The dir path if found, NULL either
  **/
@@ -2315,4 +2315,24 @@ find_dir_for_file(gchar* filename, gchar* dirs[])
     g_free(dirs[i]);
   }
   return dir;
+}
+
+/**
+ * find_path_for_file:
+ * @filename: The file to search
+ * @dirs: A dir paths array, ending by NULL, where to search.
+ *
+ * Finds the first dir in the list that contains 'filename', and free the array.
+ *
+ * Returns: The file path if found, NULL either
+ **/
+gchar*
+find_path_for_file(gchar* filename, gchar* dirs[])
+{
+  gchar* dir = find_dir_for_file (filename, dirs);
+  if(dir){
+    gchar* path = g_build_filename(dir, filename, NULL);
+    g_free(dir);
+    return path;
+  }
 }
