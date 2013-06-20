@@ -3,6 +3,19 @@
 #include "view.h"
 #include "mousing.h"
 
+static gchar*
+find_command_dir(GtkAction* action, gchar* filename)
+{
+  gchar *menupath = (gchar *) g_object_get_data (G_OBJECT (action), "menupath");
+  gchar* dirs[] = {
+      g_build_filename (locatedotdenemo (), "actions", "menus", menupath, NULL),
+      g_build_filename (locatedotdenemo (), "download", "actions", "menus", menupath, NULL),
+      g_build_filename (get_data_dir (), "actions", "menus", menupath, NULL),
+      NULL
+  };
+  return find_dir_for_file (filename, dirs);
+}
+
 static int
 get_command_type(xmlChar* type)
 {
@@ -405,10 +418,12 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
   gint i, ret = -1;
   xmlDocPtr doc;
   xmlNodePtr parent, child;
+  gchar* cfilename = NULL;
+  const gchar *basename = NULL;
+  gchar* dir = NULL;
 
   doc = xmlNewDoc ((xmlChar *) "1.0");
   doc->xmlRootNode = parent = xmlNewDocNode (doc, NULL, COMMANDXML_TAG_ROOT, NULL);
-
 
   child = xmlNewChild (parent, NULL, COMMANDXML_TAG_MERGE, NULL);
 
@@ -427,12 +442,35 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
       gpointer action = (gpointer) lookup_action_from_idx (the_keymap, i);
       gchar *after = action ? g_object_get_data (action, "after") : NULL;
       gboolean deleted = (gboolean) (action ? GPOINTER_TO_INT (g_object_get_data (action, "deleted")) : 0);
+      gchar *name = (gchar *) lookup_name_from_idx (the_keymap, i);
+
+      basename = gtk_action_get_name (action);
+
+      if(!is_action_name_builtin(name))
+      {
+        // Check if the command metada file exists
+        cfilename = g_strconcat (basename, XML_EXT, NULL);
+        dir = find_command_dir(action, cfilename);
+        g_free(cfilename);
+        if(!dir)
+        {
+          g_warning("Unable to find metadata file for script %s", name);
+          continue;
+        }
+
+        // Check if the command data file exists
+        cfilename = g_strconcat (basename, SCM_EXT, NULL);
+        dir = find_command_dir(action, cfilename);
+        g_free(cfilename);
+        if(!dir)
+        {
+          g_warning("Unable to find data file for script %s", name);
+          continue;
+        }
+      }
 
       child = xmlNewChild (parent, NULL, COMMANDXML_TAG_ROW, NULL);
 
-
-      gchar *name = (gchar *) lookup_name_from_idx (the_keymap, i);
-      g_debug ("%s \n", name);
       xmlNewTextChild (child, NULL, COMMANDXML_TAG_ACTION, (xmlChar *) name);
       if (after)
         xmlNewTextChild (child, NULL, COMMANDXML_TAG_AFTER, (xmlChar *) after);
@@ -678,22 +716,14 @@ save_command_data (gchar * filename, gchar * myscheme)
 gchar *
 load_command_data (GtkAction * action)
 {
-  gchar *menupath = (gchar *) g_object_get_data (G_OBJECT (action), "menupath");
   const gchar *basename = gtk_action_get_name (action);
   gchar *filename = g_strconcat (basename, SCM_EXT, NULL);
   gchar* path = NULL;
   gchar* scheme = NULL;
   GError* error = NULL;
 
-  gchar* dirs[] = {
-      g_build_filename (locatedotdenemo (), "actions", "menus", menupath, NULL),
-      g_build_filename (locatedotdenemo (), "download", "actions", "menus", menupath, NULL),
-      g_build_filename (get_data_dir (), "actions", "menus", menupath, NULL),
-      NULL
-  };
-
   // Locate the script
-  gchar* dir = find_dir_for_file (filename, dirs);
+  gchar* dir = find_command_dir(action, filename);
   if(!dir)
   {
     gchar* msg = g_strdup_printf(_("Unable to locate the script %s"), filename);
@@ -727,5 +757,5 @@ load_command_data (GtkAction * action)
 
   g_free (dir);
 
-  return (gchar *) g_object_get_data (G_OBJECT (action), "scheme");
+  return scheme;
 }

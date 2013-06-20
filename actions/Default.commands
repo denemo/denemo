@@ -2317,12 +2317,6 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_tooltip>The current staff will print in a smaller size. Use this for the solo part above a piano accompaniment</_tooltip>
       </row>
       <row type="scheme">
-        <action>TmbalesStyle</action>
-        <menupath>/MainMenu/EditMenu/MIDI</menupath>
-        <_label>Tmbales Style Staff</_label>
-        <_tooltip>Changes to a drum staff</_tooltip>
-      </row>
-      <row type="scheme">
         <action>Fortissimo</action>
         <menupath>/ObjectMenu/NotesRests/Markings/TextMarks/DynamicMarkings</menupath>
         <_label>Fortissimo</_label>
@@ -2572,19 +2566,6 @@ for second and subsequent systems</_tooltip>
         <menupath>/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications</menupath>
         <_label>Largo</_label>
         <_tooltip>Attaches Largo to chord</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>Adagio</action>
-        <after>Largo</after>
-        <menupath>/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications</menupath>
-        <_label>Adagio</_label>
-        <_tooltip>Attaches tempo marking to chord at cursor</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>DrumGM2Custom</action>
-        <menupath>/MainMenu/EditMenu/MIDI</menupath>
-        <_label>Drum GM2 Custom</_label>
-        <_tooltip>Convert General Midi drum-staffs to user-notation drum-staffs. Please edit the script to enter your own values.</_tooltip>
       </row>
       <row type="scheme">
         <action>ScoreComment</action>
@@ -3208,11 +3189,6 @@ for second and subsequent systems</_tooltip>
         <_tooltip>Deletes a single object at the cursor, an empty measure or the complete selection.</_tooltip>
       </row>
       <row type="scheme">
-        <action>GoToMeasureEnd</action>
-        <_label>Go To Measure End</_label>
-        <_tooltip>Move the Cursor to the end of the measure</_tooltip>
-      </row>
-      <row type="scheme">
         <action>SlurTwo</action>
         <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
         <_label>Slur with Next Note</_label>
@@ -3711,13 +3687,6 @@ First it removes notes until just a non-printing rest remains, then deletes that
         <_tooltip>Adds a standalone fermata which has no playback effect. Can be used to place a Fermata on a barline.</_tooltip>
       </row>
       <row type="scheme">
-        <action>SetPitchBendActions</action>
-        <after>AngryDelete</after>
-        <menupath>/MainMenu/InputMenu/MIDI</menupath>
-        <_label>Set Pitch Bend Controller</_label>
-        <_tooltip>Takes two keyboard shortcuts and sets the commands as the actions for Pitch Bend controller wheel up/down</_tooltip>
-      </row>
-      <row type="scheme">
         <action>ZoomIn</action>
         <menupath>/MainMenu/ViewMenu/Zoom</menupath>
         <_label>Zoom In</_label>
@@ -3931,13 +3900,6 @@ First it removes notes until just a non-printing rest remains, then deletes that
         <menupath>/MainMenu/PlaybackMenu</menupath>
         <_label>Convert MIDI Chords Over Bass</_label>
         <_tooltip>Takes a MIDI recording over a bass line and inserts the chords by matching the bass notes. Each chord must include the bass note.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>MouseOrMidiDrivenPlayback</action>
-        <after>Stop</after>
-        <menupath>/MainMenu/PlaybackMenu</menupath>
-        <_label>Play Along Playback (Off/On)</_label>
-        <_tooltip>Turns off play along playback: when this is on the playback does not advance past the cursor unless you play along the correct note via Midi In, or move the mouse over the music to drive the score along.</_tooltip>
       </row>
       <row type="scheme">
         <action>RecordAndConvert</action>
@@ -5138,12 +5100,6 @@ First it removes notes until just a non-printing rest remains, then deletes that
         <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
         <_label>Trill (Off/On)</_label>
         <_tooltip>Adds/Removes a trill to the note</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>ToggleTurn</action>
-        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
-        <_label>Turn (Off/On)</_label>
-        <_tooltip>Adds/Removes a turn to the note</_tooltip>
       </row>
       <row type="scheme">
         <action>ToggleMordent</action>
