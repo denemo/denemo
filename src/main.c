@@ -41,6 +41,7 @@
 #include "runsilent.h"
 #include "utils.h"
 #include "keyboard.h"
+#include "main.h"
 
 struct DenemoRoot Denemo;
 
@@ -418,122 +419,67 @@ main (int argc, char *argv[])
   return 0;
 }
 
-gchar *
+gchar **
 process_command_line (int argc, char **argv)
 {
+  GError *error = NULL;
+  GOptionContext *context;
+  gchar* scheme_script_name = NULL;
+  gboolean version = FALSE;
+  gchar **filenames = NULL;
 
-  gint opts;
-  /* parse command line and display help messages */
-  gchar *helptext = g_strconcat (_("\nGNU Denemo version "), VERSION, ".\n\n",
-                                 _("\
-Usage: denemo [OPTION]... [FILE]\n\n\
-Run denemo, optionally starting with FILE\n\n\
-Denemo is a graphical music notation editor.\n\
-It uses GNU Lilypond for music typesetting\n\
-Denemo is part of the GNU project.\n\n\
-Options:\n\
-  -h,--help             print this help and exit\n\
-  -c file               use commandset found in system file\n\
-  -k file               use commandset found in local file (in ~/.denemo)\n\
-  -i pathtofile         process scheme commands in pathtofile on file open\n\
-  -s filename           process scheme commands from system file on file open\n\
-  -a scheme             process the scheme on startup\n\
-  -n                    non-interactive. No GUI.\n\
-  -v,--version          print version number and exit\n\n\n\
-Report bugs to http://www.denemo.org\n"), NULL);
-
-  gchar *copytext = _("(c) 1999-2005, 2009 Matthew Hiller, Adam Tee, and others, 2010-2011 Richard Shann, Jeremiah Benham, Nils Gey and others.\n\n\n" "This program is provided with absolutely NO WARRANTY; see\n" "the file COPYING for details.\n\n" "This software may be redistributed and modified under the\n" "terms of the GNU General Public License; again, see the file\n" "COPYING for details.\n\n");
-
-
-#ifdef HAVE_GETOPT_H
-  static struct option long_options[] = {
-    {"help", no_argument, NULL, 'h'},
-    {"version", no_argument, NULL, 'v'},
-    {NULL, 0, NULL, 0}
+  GOptionEntry entries[] =
+  {
+    { "scheme-path",       'i', 0, G_OPTION_ARG_FILENAME, &Denemo.scheme_file, _("Process scheme commands in pathtofile on file open"), _("path") },
+    { "scheme-script-name",'s', 0, G_OPTION_ARG_STRING, &scheme_script_name, _("Process scheme commands from system file on file open"), _("file")  },
+    { "scheme",            'a', 0, G_OPTION_ARG_STRING, &Denemo.scheme_commands, _("Process the scheme on startup"), _("scheme") },
+    { "non-interactive",   'n', 0, G_OPTION_ARG_NONE, &Denemo.non_interactive, _("The program is launched without GUI"), NULL },
+    { "version",           'v', 0, G_OPTION_ARG_NONE, &version,  _("Print version information and exit"), NULL },
+    { "audio-options",     'A', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &Denemo.prefs.audio_driver,_("Audio driver options"), _("options") },
+    { "midi-options",      'M', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &Denemo.prefs.midi_driver, _("Midi driver options"), _("options") },
+    { G_OPTION_REMAINING,  0,   0, G_OPTION_ARG_STRING_ARRAY, &filenames, NULL, _("[FILE]...") },
+    { NULL }
   };
-#endif
+  const gchar* subtitle = _(" ");
+  gchar *header = g_strconcat (_("GNU Denemo version"), " ", VERSION, "\n",
+                        _("Denemo is a graphical music notation editor.\n"
+                          "It uses GNU Lilypond for music typesetting.\n"
+                          "Denemo is part of the GNU project."), NULL);
+  const gchar* footer = _("Report bugs to http://www.denemo.org\n"
+                          "GNU Denemo, a free and open music notation editor");
 
-  char const *optstring = "s:hi:vc:k:a:nA:M:";
-
-#ifdef HAVE_GETOPT_H
-  while ((opts = getopt_long (argc, argv, optstring, long_options, NULL)) != -1)
-#else
-  while ((opts = getopt (argc, argv, optstring)) != -1)
-#endif
+  context = g_option_context_new (subtitle);
+  g_option_context_set_summary (context, header);
+  g_free(header);
+  g_option_context_set_description (context, footer);
+  g_option_context_add_main_entries (context, entries, GETTEXT_PACKAGE);
+  g_option_context_add_group (context, gtk_get_option_group (TRUE));
+  if (!g_option_context_parse (context, &argc, &argv, &error))
     {
-//      g_print("opt %c has %s\n", opts, argv[optind]);
-
-      switch (opts)
-        {
-        case 'h':
-          g_print ("%s", helptext);
-          exit (0);
-        case 'v':
-          g_print (_("\nGNU Denemo version "));
-          g_print (VERSION ".\n\n");
-          g_print ("%s", copytext);
-          exit (0);
-        case 's':
-          Denemo.scheme_file = g_build_filename (get_data_dir (), "actions", optarg, NULL);
-          break;
-        case 'a':
-          Denemo.scheme_commands = g_strdup (optarg);
-          break;
-        case 'i':
-          Denemo.scheme_file = g_strdup (optarg);
-          break;
-        case 'c':
-          break;
-        case 'k':
-          break;
-        case 'n':
-          Denemo.non_interactive = TRUE;
-          break;
-        case 'A':
-          g_string_assign (Denemo.prefs.audio_driver, optarg);
-          g_string_ascii_down (Denemo.prefs.audio_driver);
-          break;
-        case 'M':
-          g_string_assign (Denemo.prefs.midi_driver, optarg);
-          g_string_ascii_down (Denemo.prefs.midi_driver);
-          break;
-        }
+      g_print ("Option parsing failed: %s\n", error->message);
+      exit (EXIT_FAILURE);
     }
 
-  g_print (_("\nGNU Denemo, a free and open music notation editor\n"));
-  g_print ("%s", copytext);
-
-  g_free (helptext);
-
-
-  /* Set up the signal handlers */
-
-  //  signal (SIGSEGV, denemo_signal_handler);
-#if 0
-//it seems that GtkPrintOperation uses this signal (SIGUSR1) so this code interferes with printing
+  if(version)
   {
-    __pid_t pid = getpid ();
-    pidfile = g_build_filename (locatedotdenemo (), "pid", NULL);
-    FILE *fp = fopen (pidfile, "w");
-    if (fp)
-      {
-        fprintf (fp, "%d\n", pid);
-        fclose (fp);
-        g_atexit ((GVoidFunc) remove_pid_file);
-        struct sigaction act = { denemo_client, 0, SA_SIGINFO };
-        sigaction (SIGUSR1, &act, NULL);
-        g_idle_add ((GSourceFunc) check_for_position, NULL);
-      }
+    g_print (_("© 1999-2005, 2009 Matthew Hiller, Adam Tee, and others, 2010-2011 Richard Shann, Jeremiah Benham, Nils Gey and others.\n" 
+               "This program is provided with absolutely NO WARRANTY; see the file COPYING for details.\n" 
+               "This software may be redistributed and modified under the terms of the GNU General Public License; again, see the file COPYING for details.\n"));
+    exit(EXIT_SUCCESS);
   }
-#endif
+
+  if(scheme_script_name)
+    Denemo.scheme_file = g_build_filename (get_data_dir (), "actions", scheme_script_name, NULL);
+
+  if(Denemo.prefs.audio_driver)
+    g_string_ascii_down (Denemo.prefs.audio_driver);
+
+  if(Denemo.prefs.midi_driver)
+    g_string_ascii_down (Denemo.prefs.midi_driver);
+
 #ifdef HAVE_SIGCHLD
   signal (SIGCHLD, sigchld_handler);
 #endif
 
-  if (optind < argc)
-    return argv[optind];
-  else
-    return NULL;
-
-
+  return filenames;
 }

@@ -45,6 +45,7 @@
 #include "keymapio.h"
 #include "measureops.h"
 #include "audiofile.h"
+#include "main.h"
 
 static GtkWidget *playbutton;
 static GtkWidget *midirecordbutton;
@@ -5436,8 +5437,6 @@ get_midi_pitch_bend_command (gint value)
 }
 
 
-gchar *process_command_line (int argc, char **argv);    //back in main
-
 static void
 define_scheme_constants (void)
 {
@@ -6616,7 +6615,12 @@ inner_main (void *closure, int argc, char **argv)
   //if(Denemo.prefs.learning)
   initialize_keystroke_help ();
 
-  gchar *initial_file = process_command_line (argc, argv);
+  gchar** files = process_command_line (argc, argv);
+  gchar *initial_file = NULL;
+
+  // TODO: Maybe handle multiple files ?
+  if(files)
+    initial_file = files[0];
 
   // initialize the audio subsystem
   if (audio_initialize (&Denemo.prefs))
