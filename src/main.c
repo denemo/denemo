@@ -36,18 +36,18 @@
 #include <glib.h>
 #include <glib/gstdio.h>
 #include <libguile.h>
+#include <librsvg/rsvg.h>
 #include "view.h"
 #include "exportxml.h"
 #include "runsilent.h"
 #include "utils.h"
 #include "keyboard.h"
-#include "main.h"
 
 struct DenemoRoot Denemo;
 
-
 /* just a simple check, if the user has never run denemo before
    better, keep this for whole first session? */
+
 gboolean
 first_time_user (void)
 {
@@ -66,12 +66,6 @@ uses_default_commandset (void)
   return ret;
 }
 
-
-
-
-
-
-
 #ifdef HAVE_SIGCHLD
 /* Code by Erik Mouw, taken directly from the gtk+ FAQ */
 
@@ -80,7 +74,7 @@ uses_default_commandset (void)
  * having to wait for them 
  */
 static void
-sigchld_handler (gint num)
+sigchld_handler (G_GNUC_UNUSED gint num)
 {
   sigset_t set, oldset;
   pid_t pid;
@@ -254,7 +248,7 @@ denemo_signal_handler (int sig)
 /**
  * Handler used to print debug messages.
  */
-void
+static void
 debug_handler (const gchar * log_domain, GLogLevelFlags log_level, const gchar * message, gpointer user_data)
 {
   //g_debug ("%s",message);
@@ -286,7 +280,70 @@ append_to_path (gchar * path, gchar * extra, ...)
   va_end(ap);
 }
 
+static gchar **
+process_command_line (int argc, char **argv)
+{
+  GError *error = NULL;
+  GOptionContext *context;
+  gchar* scheme_script_name = NULL;
+  gboolean version = FALSE;
+  gchar **filenames = NULL;
 
+  GOptionEntry entries[] =
+  {
+    { "scheme-path",       'i', 0, G_OPTION_ARG_FILENAME, &Denemo.scheme_file, _("Process scheme commands in pathtofile on file open"), _("path") },
+    { "scheme-script-name",'s', 0, G_OPTION_ARG_STRING, &scheme_script_name, _("Process scheme commands from system file on file open"), _("file")  },
+    { "scheme",            'a', 0, G_OPTION_ARG_STRING, &Denemo.scheme_commands, _("Process the scheme on startup"), _("scheme") },
+    { "non-interactive",   'n', 0, G_OPTION_ARG_NONE, &Denemo.non_interactive, _("The program is launched without GUI"), NULL },
+    { "version",           'v', 0, G_OPTION_ARG_NONE, &version,  _("Print version information and exit"), NULL },
+    { "audio-options",     'A', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &Denemo.prefs.audio_driver,_("Audio driver options"), _("options") },
+    { "midi-options",      'M', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &Denemo.prefs.midi_driver, _("Midi driver options"), _("options") },
+    { G_OPTION_REMAINING,  0,   0, G_OPTION_ARG_FILENAME_ARRAY, &filenames, NULL, _("[FILE]...") },
+    { NULL }
+  };
+  const gchar* subtitle = _(" ");
+  gchar *header = g_strconcat (_("GNU Denemo version"), " ", VERSION, "\n",
+                        _("Denemo is a graphical music notation editor.\n"
+                          "It uses GNU Lilypond for music typesetting.\n"
+                          "Denemo is part of the GNU project."), NULL);
+  const gchar* footer = _("Report bugs to http://www.denemo.org\n"
+                          "GNU Denemo, a free and open music notation editor");
+
+  context = g_option_context_new (subtitle);
+  g_option_context_set_summary (context, header);
+  g_free(header);
+  g_option_context_set_description (context, footer);
+  g_option_context_add_main_entries (context, entries, GETTEXT_PACKAGE);
+  g_option_context_add_group (context, gtk_get_option_group (TRUE));
+  if (!g_option_context_parse (context, &argc, &argv, &error))
+    {
+      g_print ("Option parsing failed: %s\n", error->message);
+      exit (EXIT_FAILURE);
+    }
+
+  if(version)
+  {
+    g_print (_("© 1999-2005, 2009 Matthew Hiller, Adam Tee, and others, 2010-2011 Richard Shann, Jeremiah Benham, Nils Gey and others.\n" 
+               "This program is provided with absolutely NO WARRANTY; see the file COPYING for details.\n" 
+               "This software may be redistributed and modified under the terms of the GNU General Public License; again, see the file COPYING for details.\n"));
+    exit(EXIT_SUCCESS);
+  }
+
+  if(scheme_script_name)
+    Denemo.scheme_file = g_build_filename (get_data_dir (), "actions", scheme_script_name, NULL);
+
+  if(Denemo.prefs.audio_driver)
+    g_string_ascii_down (Denemo.prefs.audio_driver);
+
+  if(Denemo.prefs.midi_driver)
+    g_string_ascii_down (Denemo.prefs.midi_driver);
+
+#ifdef HAVE_SIGCHLD
+  signal (SIGCHLD, sigchld_handler);
+#endif
+
+  return filenames;
+}
 
 /**
  * Main function
@@ -296,6 +353,8 @@ int
 main (int argc, char *argv[])
 {
   gchar *fontpath = NULL;
+  gchar** files = process_command_line (argc, argv);
+
 //#ifdef G_OS_WIN32
 //  /* workaround necessary for compilation on Cygwin */
 //  g_set_print_handler ((GPrintFunc)printf);
@@ -399,6 +458,8 @@ main (int argc, char *argv[])
 
   gtk_init (&argc, &argv);
 
+  rsvg_init ();
+  
   /* locale initialization */
   setlocale (LC_ALL, "");
   bindtextdomain(GETTEXT_PACKAGE, get_locale_dir ());
@@ -407,7 +468,7 @@ main (int argc, char *argv[])
 
   //register_stock_items ();
 
-  scm_boot_guile (argc, argv, inner_main, NULL);
+  scm_with_guile (inner_main, files);
 
   /* release gdk lock */
   gdk_threads_leave ();
@@ -415,67 +476,3 @@ main (int argc, char *argv[])
   return 0;
 }
 
-gchar **
-process_command_line (int argc, char **argv)
-{
-  GError *error = NULL;
-  GOptionContext *context;
-  gchar* scheme_script_name = NULL;
-  gboolean version = FALSE;
-  gchar **filenames = NULL;
-
-  GOptionEntry entries[] =
-  {
-    { "scheme-path",       'i', 0, G_OPTION_ARG_FILENAME, &Denemo.scheme_file, _("Process scheme commands in pathtofile on file open"), _("path") },
-    { "scheme-script-name",'s', 0, G_OPTION_ARG_STRING, &scheme_script_name, _("Process scheme commands from system file on file open"), _("file")  },
-    { "scheme",            'a', 0, G_OPTION_ARG_STRING, &Denemo.scheme_commands, _("Process the scheme on startup"), _("scheme") },
-    { "non-interactive",   'n', 0, G_OPTION_ARG_NONE, &Denemo.non_interactive, _("The program is launched without GUI"), NULL },
-    { "version",           'v', 0, G_OPTION_ARG_NONE, &version,  _("Print version information and exit"), NULL },
-    { "audio-options",     'A', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &Denemo.prefs.audio_driver,_("Audio driver options"), _("options") },
-    { "midi-options",      'M', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &Denemo.prefs.midi_driver, _("Midi driver options"), _("options") },
-    { G_OPTION_REMAINING,  0,   0, G_OPTION_ARG_STRING_ARRAY, &filenames, NULL, _("[FILE]...") },
-    { NULL }
-  };
-  const gchar* subtitle = _(" ");
-  gchar *header = g_strconcat (_("GNU Denemo version"), " ", VERSION, "\n",
-                        _("Denemo is a graphical music notation editor.\n"
-                          "It uses GNU Lilypond for music typesetting.\n"
-                          "Denemo is part of the GNU project."), NULL);
-  const gchar* footer = _("Report bugs to http://www.denemo.org\n"
-                          "GNU Denemo, a free and open music notation editor");
-
-  context = g_option_context_new (subtitle);
-  g_option_context_set_summary (context, header);
-  g_free(header);
-  g_option_context_set_description (context, footer);
-  g_option_context_add_main_entries (context, entries, GETTEXT_PACKAGE);
-  g_option_context_add_group (context, gtk_get_option_group (TRUE));
-  if (!g_option_context_parse (context, &argc, &argv, &error))
-    {
-      g_print ("Option parsing failed: %s\n", error->message);
-      exit (EXIT_FAILURE);
-    }
-
-  if(version)
-  {
-    g_print (_("© 1999-2005, 2009 Matthew Hiller, Adam Tee, and others, 2010-2011 Richard Shann, Jeremiah Benham, Nils Gey and others.\n" 
-               "This program is provided with absolutely NO WARRANTY; see the file COPYING for details.\n" 
-               "This software may be redistributed and modified under the terms of the GNU General Public License; again, see the file COPYING for details.\n"));
-    exit(EXIT_SUCCESS);
-  }
-
-  if(scheme_script_name)
-    Denemo.scheme_file = g_build_filename (get_data_dir (), "actions", scheme_script_name, NULL);
-
-  if(Denemo.prefs.audio_driver)
-    g_string_ascii_down (Denemo.prefs.audio_driver);
-
-  if(Denemo.prefs.midi_driver)
-    g_string_ascii_down (Denemo.prefs.midi_driver);
-
-#ifdef HAVE_SIGCHLD
-  signal (SIGCHLD, sigchld_handler);
-#endif
-
-  return filenames;
-}

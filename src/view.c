@@ -45,7 +45,6 @@
 #include "keymapio.h"
 #include "measureops.h"
 #include "audiofile.h"
-#include "main.h"
 
 static GtkWidget *playbutton;
 static GtkWidget *midirecordbutton;
@@ -6578,12 +6577,17 @@ create_scheme_identfiers (void)
 /* Called from main for scheme initialization reasons.
    calls back to finish command line processing
 */
-void
-inner_main (void *closure, int argc, char **argv)
+void*
+inner_main (void *data)
 {
-  //g_print("Got inner main with  %d and %p\n", argc, argv);
-
   gint i;
+  gchar** files = (gchar**) data;
+  gchar *initial_file = NULL;
+
+  // TODO: Maybe handle multiple files ?
+  if(files)
+    initial_file = files[0];
+  
 //  GError *error = NULL;
 #if 0
   //disabled pending appearance of pathconfig.h 
@@ -6606,21 +6610,10 @@ inner_main (void *closure, int argc, char **argv)
   }
 #endif
 
-
-  rsvg_init ();
-
-
   /* Initialize preferences */
   initprefs ();
   //if(Denemo.prefs.learning)
   initialize_keystroke_help ();
-
-  gchar** files = process_command_line (argc, argv);
-  gchar *initial_file = NULL;
-
-  // TODO: Maybe handle multiple files ?
-  if(files)
-    initial_file = files[0];
 
   // initialize the audio subsystem
   if (audio_initialize (&Denemo.prefs))
@@ -6810,7 +6803,7 @@ inner_main (void *closure, int argc, char **argv)
 /* Now launch into the main gtk event loop and we're all set */
 
   gtk_main ();
-
+  return NULL;
 }
 
 
