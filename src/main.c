@@ -276,11 +276,7 @@ append_to_path (gchar * path, gchar * extra, ...)
   }
 
   while(extra){
-#ifdef G_OS_WIN32
-  path_string = g_strconcat (path_string, ";", extra, NULL);
-#else
-  path_string = g_strconcat (path_string, ":", extra, NULL);
-#endif
+    path_string = g_strconcat (path_string, G_SEARCHPATH_SEPARATOR_S, extra, NULL);
     g_free(extra);
     extra = va_arg(ap, gchar*);
   }
