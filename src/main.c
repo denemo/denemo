@@ -45,27 +45,6 @@
 
 struct DenemoRoot Denemo;
 
-/* just a simple check, if the user has never run denemo before
-   better, keep this for whole first session? */
-
-gboolean
-first_time_user (void)
-{
-  gchar *filename = g_build_filename (locatedotdenemo (), "actions", NULL);
-  gboolean ret = !g_file_test (filename, G_FILE_TEST_EXISTS);
-  g_free (filename);
-  return ret;
-}
-
-gboolean
-uses_default_commandset (void)
-{
-  gchar *filename = g_build_filename (locatedotdenemo (), "actions", DEFAULT_COMMANDS, NULL);
-  gboolean ret = !g_file_test (filename, G_FILE_TEST_EXISTS);
-  g_free (filename);
-  return ret;
-}
-
 #ifdef HAVE_SIGCHLD
 /* Code by Erik Mouw, taken directly from the gtk+ FAQ */
 
@@ -124,126 +103,6 @@ sigchld_handler (G_GNUC_UNUSED gint num)
 }
 #endif /* HAVE_SIGCHLD */
 
-#if GTK_MAJOR_VERSION > 1
-/**
- * Segmentation fault dialog warning the cannot continue
- *
- */
-void
-segdialog (gchar * sigtype, gchar * message)
-{
-  GtkWidget *dialog;
-  dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, "%s : %s", sigtype, message);
-  gtk_dialog_run (GTK_DIALOG (dialog));
-  gtk_widget_destroy (dialog);
-}
-#endif /* GTK_MAJOR_VERSION > 1 */
-
-/*UNUSED
-static void
-remove_pid_file (void)
-{
-  FILE *fp = fopen (pidfile, "w");
-  if (fp)
-    {
-      fprintf (fp, "%d", 0);
-      fclose (fp);
-    }
-}
-*/
-/**
- * SIGUSR1 Handler to record the LilyPond text position the user has clicked on
- *
- */
-static volatile gboolean position_data;
-
-void
-denemo_client (int sig)
-{
-//register that a new location is available, to be picked up in an idle callback
-  position_data = TRUE;
-}
-
-/**
- * SIGSEGV Handler to do nice things if denemo bombs
- *
- */
-
-gboolean
-check_for_position (void)
-{
-  if (position_data)
-    {
-      static gchar *filename = NULL;
-      if (filename == NULL)
-        filename = g_build_filename (locatedotdenemo (), "lylocation.txt", NULL);
-      FILE *fp = fopen (filename, "r");
-      if (fp)
-        {
-          gint line, col;
-          fscanf (fp, "%d %d", &line, &col);
-          fclose (fp);
-          g_print ("line %d column %d\n", line, col);
-          position_data = FALSE;
-          //set_lily_error(line, col, Denemo.gui);
-          //highlight_lily_error(Denemo.gui);
-          goto_lilypond_position (line, col);
-        }
-    }
-  return TRUE;                  //keep going
-}
-
-void
-denemo_signal_handler (int sig)
-{
-  GList *tmp = NULL;
-  DenemoGUI *gui;
-  static int already_in_segfault = 0;
-  if (already_in_segfault)
-    exit (1);
-  else
-    already_in_segfault = 1;
-
-
-  g_print ("\nNo of tabs : %d this code only saves one of them however\n", g_list_length (Denemo.guis));
-
-  if (g_list_length (Denemo.guis) == 1)
-    {
-      gui = (DenemoGUI *) Denemo.guis->data;
-      g_debug ("si is %p", gui);
-      gchar *filename = g_build_filename (locatedotdenemo (),
-                                          "crashrecovery.denemo", NULL);
-      gui->si->markstaffnum = 0;
-      if (gui->si->lily_file)
-        exportlilypond (filename, gui, TRUE);
-      else
-        exportXML (filename, gui);
-
-
-    }
-  else
-    {
-      int i = 0;
-      for (tmp = Denemo.guis; tmp && g_list_length (tmp) > 1; tmp = tmp->next)
-        {
-          gui = (DenemoGUI *) tmp->data;
-          gchar *filename = g_build_filename (locatedotdenemo (),
-                                              "crashrecovery", NULL);
-          char t[5];
-          sprintf (t, "%d", i);
-          strncat (filename, t, strlen (t));
-          strcat (filename, ".denemo");
-          gui->si->markstaffnum = 0;
-          if (gui->si->lily_file)
-            exportlilypond (filename, gui, TRUE);
-          else
-            exportXML (filename, gui);
-          i++;
-        }
-    }
-
-  exit (1);
-}
 
 /**
  * Handler used to print debug messages.
@@ -475,4 +334,3 @@ main (int argc, char *argv[])
 
   return 0;
 }
-
