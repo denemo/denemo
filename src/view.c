@@ -6626,8 +6626,6 @@ inner_main (void *data)
 
   create_scheme_identfiers ();
 
-
-
   /* create the first tab */
   newtab (NULL, NULL);
   if (Denemo.prefs.tooltip_timeout)
@@ -6650,14 +6648,12 @@ inner_main (void *data)
 
   gboolean save_default_keymap_file_on_entry = FALSE;
 
-
-
-
-
   /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
   for (i = 0; i < G_N_ELEMENTS (activatable_commands); i++)
     {
-      install_scm_function (g_strdup_printf (DENEMO_SCHEME_PREFIX "%s", activatable_commands[i].str), activatable_commands[i].p);       //FIXME possible memeory leak
+      gchar* function = g_strdup_printf (DENEMO_SCHEME_PREFIX "%s", activatable_commands[i].str);
+      install_scm_function (function, activatable_commands[i].p);
+      g_free(function);
     }
   //ensure (use-modules (ice-9 optargs)) is loaded first #:optional params
   call_out_to_guile ("(use-modules (ice-9 optargs))");

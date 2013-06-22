@@ -182,9 +182,15 @@ process_command_line (int argc, char **argv)
 
   if(version)
   {
-    g_print (_("© 1999-2005, 2009 Matthew Hiller, Adam Tee, and others, 2010-2011 Richard Shann, Jeremiah Benham, Nils Gey and others.\n" 
-               "This program is provided with absolutely NO WARRANTY; see the file COPYING for details.\n" 
-               "This software may be redistributed and modified under the terms of the GNU General Public License; again, see the file COPYING for details.\n"));
+    gchar *message = g_strconcat (
+    _("GNU Denemo version"), " ", VERSION, "\n",
+    _("Gtk version") , " %u.%u.%u\n",
+    _("© 1999-2005, 2009 Matthew Hiller, Adam Tee, and others, 2010-2013 Richard Shann, Jeremiah Benham, Nils Gey and others.\n"),
+    _("This program is provided with absolutely NO WARRANTY; see the file COPYING for details.\n"),
+    _("This software may be redistributed and modified under the terms of the GNU General Public License; again, see the file COPYING for details.\n"),
+    NULL);
+    g_print(message, gtk_major_version, gtk_minor_version, gtk_micro_version);
+    g_free(message);
     exit(EXIT_SUCCESS);
   }
 
@@ -202,6 +208,15 @@ process_command_line (int argc, char **argv)
 #endif
 
   return filenames;
+}
+
+static void
+localization_init()
+{
+  setlocale (LC_ALL, "");
+  bindtextdomain(GETTEXT_PACKAGE, get_locale_dir ());
+  bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
+  textdomain(GETTEXT_PACKAGE);
 }
 
 /**
@@ -308,9 +323,8 @@ main (int argc, char *argv[])
 
   /* glib/gtk initialization */
   if (!g_thread_supported ())
-    {
       g_thread_init (NULL);
-    }
+    
   gdk_threads_init ();
   /* acquire gdk lock */
   gdk_threads_enter ();
@@ -318,12 +332,8 @@ main (int argc, char *argv[])
   gtk_init (&argc, &argv);
 
   rsvg_init ();
-  
-  /* locale initialization */
-  setlocale (LC_ALL, "");
-  bindtextdomain(GETTEXT_PACKAGE, get_locale_dir ());
-  bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
-  textdomain(GETTEXT_PACKAGE);
+
+  localization_init();
 
   //register_stock_items ();
 

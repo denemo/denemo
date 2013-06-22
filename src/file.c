@@ -306,9 +306,7 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
 #define EXISTS(extension) (strcmp (filename + strlen (filename) - strlen(extension), extension) == 0)
   if (g_file_test (filename, G_FILE_TEST_EXISTS))
     {
-      if (EXISTS (".denemo"))
-        xml = TRUE, result = importXML (filename, gui, type);
-      else if (EXISTS (".dnm"))
+      if (EXISTS (".denemo") || EXISTS (".dnm"))
         xml = TRUE, result = importXML (filename, gui, type);
       else if (EXISTS (".ly"))
         result = lyinput (filename);
