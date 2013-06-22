@@ -153,7 +153,7 @@ process_command_line (int argc, char **argv)
     { "scheme-path",       'i', 0, G_OPTION_ARG_FILENAME, &Denemo.scheme_file, _("Process scheme commands in pathtofile on file open"), _("path") },
     { "scheme-script-name",'s', 0, G_OPTION_ARG_STRING, &scheme_script_name, _("Process scheme commands from system file on file open"), _("file")  },
     { "scheme",            'a', 0, G_OPTION_ARG_STRING, &Denemo.scheme_commands, _("Process the scheme on startup"), _("scheme") },
-    { "non-interactive",   'n', 0, G_OPTION_ARG_NONE, &Denemo.non_interactive, _("The program is launched without GUI"), NULL },
+    { "non-interactive",   'n', 0, G_OPTION_ARG_NONE, &Denemo.non_interactive, _("Launch Denemo without GUI"), NULL },
     { "version",           'v', 0, G_OPTION_ARG_NONE, &version,  _("Print version information and exit"), NULL },
     { "audio-options",     'A', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &Denemo.prefs.audio_driver,_("Audio driver options"), _("options") },
     { "midi-options",      'M', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &Denemo.prefs.midi_driver, _("Midi driver options"), _("options") },
@@ -219,28 +219,10 @@ localization_init()
   textdomain(GETTEXT_PACKAGE);
 }
 
-/**
- * Main function
- *
- */
-int
-main (int argc, char *argv[])
+static void
+init_environment()
 {
   gchar *fontpath = NULL;
-  gchar** files = process_command_line (argc, argv);
-
-//#ifdef G_OS_WIN32
-//  /* workaround necessary for compilation on Cygwin */
-//  g_set_print_handler ((GPrintFunc)printf);
-//#endif
-
-  /* set the default handler for debug messages */
-  //FIXME this does not work
-  g_log_set_handler (NULL, G_LOG_LEVEL_DEBUG, debug_handler, NULL);
-
-
-  /* initialization of directory relocatability */
-  initdir ();
 #ifdef G_OS_WIN32
   gchar *prefix = g_win32_get_package_installation_directory (NULL, NULL);
   gchar *guile = g_build_filename (prefix, "share", "guile", NULL);
@@ -320,6 +302,30 @@ main (int argc, char *argv[])
 #endif /* end of else not windows */
 
   g_setenv ("LYEDITOR", "denemoclient %(line)s %(column)s", FALSE);
+}
+
+/**
+ * Main function
+ *
+ */
+int
+main (int argc, char *argv[])
+{
+  gchar** files = process_command_line (argc, argv);
+
+//#ifdef G_OS_WIN32
+//  /* workaround necessary for compilation on Cygwin */
+//  g_set_print_handler ((GPrintFunc)printf);
+//#endif
+
+  /* set the default handler for debug messages */
+  //FIXME this does not work
+  g_log_set_handler (NULL, G_LOG_LEVEL_DEBUG, debug_handler, NULL);
+
+  /* initialization of directory relocatability */
+  initdir ();
+
+  init_environment();
 
   /* glib/gtk initialization */
   if (!g_thread_supported ())

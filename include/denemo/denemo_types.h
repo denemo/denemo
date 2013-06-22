@@ -1037,7 +1037,6 @@ struct cs_callback
 	GtkWidget *entry;
 	GtkWidget *dialog;
 	DenemoGUI *gui;
-	
 };
 
 

@@ -86,7 +86,7 @@ static void mycommands (GtkAction * action, gpointer param);
 static void create_window (void);
 
 static gint dnm_key_snooper (GtkWidget * grab_widget, GdkEventKey * event);
-static void populate_opened_recent (void);
+static void populate_opened_recent_menu (void);
 static gchar *get_most_recent_file (void);
 static void toggle_record_script (GtkAction * action, gpointer param);
 
@@ -5553,7 +5553,6 @@ denemo_scheme_init (void)
         g_warning ("Cannot find your scheme initialization file %s", initscheme);
     }
 
-
   if (Denemo.prefs.profile->len)
     {
       gchar *name = g_strconcat (Denemo.prefs.profile->str, ".scm", NULL);
@@ -5590,7 +5589,7 @@ append_to_local_scheme_init (gchar * scheme)
 static void
 load_scheme_init (void)
 {
-  Denemo.gui->si->undo_guard++;
+  //Denemo.gui->si->undo_guard++;
   gchar *filename = g_build_filename (get_data_dir (), "actions", "denemo.scm", NULL);
   g_debug ("System wide denemo.scm %s\n", filename);
   if (g_file_test (filename, G_FILE_TEST_EXISTS))
@@ -5599,13 +5598,62 @@ load_scheme_init (void)
     g_warning ("Cannot find Denemo's scheme initialization file denemo.scm");
   g_free (filename);
 
-  Denemo.gui->si->undo_guard--;
+  //Denemo.gui->si->undo_guard--;
 }
 
 /* show the user's preferred view. Assumes all hidden on entry */
 void
-show_preferred_view (void)
+load_preferences (void)
 {
+    switch (Denemo.prefs.mode & ~MODE_MASK)
+    {
+    case INPUTINSERT:
+      activate_action ("/MainMenu/ModeMenu/InsertMode");
+      break;
+    case INPUTEDIT:
+      activate_action ("/MainMenu/ModeMenu/EditMode");
+      break;
+    case INPUTCLASSIC:
+      activate_action ("/MainMenu/ModeMenu/ClassicMode");
+      break;
+    case 0:
+      activate_action ("/MainMenu/ModeMenu/Modeless");
+      break;
+    default:
+      activate_action ("/MainMenu/ModeMenu/Modeless");
+      break;
+    }
+
+  switch (Denemo.prefs.mode & ~ENTRY_TYPE_MASK)
+    {
+    case INPUTNORMAL:
+      activate_action ("/MainMenu/ModeMenu/Note");
+      break;
+    case INPUTBLANK:
+      activate_action ("/MainMenu/ModeMenu/Blank");
+      break;
+    case INPUTREST:
+      activate_action ("/MainMenu/ModeMenu/Rest");
+      break;
+    default:
+      break;
+    }
+
+  switch (Denemo.prefs.mode & ~ENTRY_FEEDBACK_MASK)
+    {
+    case INPUTRHYTHM:
+      activate_action ("/MainMenu/ModeMenu/Rhythm");
+      break;
+    default:
+      break;
+    }
+
+  Denemo.gui->mode = Denemo.prefs.mode;
+  // if (Denemo.prefs.startmidiin)
+  // activate_action("/MainMenu/InputMenu/JackMidi");
+  // if(!have_midi())
+  //  activate_action("/MainMenu/InputMenu/KeyboardOnly");
+  
   if (!Denemo.prefs.playback_controls)
     activate_action ("/MainMenu/ViewMenu/" TogglePlaybackControls_STRING);
   if (!Denemo.prefs.midi_in_controls)
@@ -5626,20 +5674,17 @@ show_preferred_view (void)
   if (!Denemo.prefs.lyrics_pane)
     activate_action ("/MainMenu/ViewMenu/" ToggleLyricsView_STRING);
 
-
   if (!Denemo.prefs.rhythm_palette)
     activate_action ("/MainMenu/ViewMenu/" ToggleRhythmToolbar_STRING);
 
   if (!Denemo.prefs.manualtypeset)
     activate_action ("/MainMenu/ViewMenu/" TogglePrintView_STRING);
 
-
   if (!Denemo.prefs.object_palette)
     activate_action ("/MainMenu/ViewMenu/" ToggleObjectMenu_STRING);
 
   if (!Denemo.prefs.visible_directive_buttons)
     activate_action ("/MainMenu/ViewMenu/" ToggleScoreTitles_STRING);
-
 
   if (!Denemo.prefs.modal)
     gtk_widget_hide (gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu/ModeMenu"));
@@ -5653,6 +5698,12 @@ show_preferred_view (void)
 
   if (!Denemo.prefs.toolbar)
     toggle_toolbar (NULL, NULL);
+
+  if (Denemo.prefs.cursor_highlight)
+    {
+      Denemo.prefs.cursor_highlight = FALSE;
+      scheme_highlight_cursor (SCM_BOOL_T);
+    }
 }
 
 /* 
@@ -6574,21 +6625,75 @@ create_scheme_identfiers (void)
 
 }
 
+static gboolean
+load_files(gchar** files)
+{
+  gboolean ret = FALSE;
+  gint i = 0;
+  
+  if(!files){
+    newtab (NULL, NULL);
+    open_for_real (get_most_recent_file (), Denemo.gui, FALSE, REPLACE_SCORE);
+    return TRUE;
+  }
+
+  for(i=0; files[i]; i++)
+    {
+      g_print("---%s---\n", files[i]);
+      newtab (NULL, NULL);
+      open_for_real (files[i], Denemo.gui, FALSE, REPLACE_SCORE);
+      ret = TRUE;
+    }
+  return ret;
+}
+
+static void
+crash_recovery_check()
+{
+  gchar *crash_file = g_build_filename (locatedotdenemo (), "crashrecovery.denemo", NULL);
+  if (g_file_test (crash_file, G_FILE_TEST_EXISTS))
+    {
+      GtkWidget *dialog = gtk_dialog_new_with_buttons (NULL,
+                                                       NULL,
+                                                       GTK_DIALOG_DESTROY_WITH_PARENT,
+                                                       GTK_STOCK_YES,
+                                                       GTK_RESPONSE_ACCEPT,
+                                                       GTK_STOCK_DELETE,
+                                                       GTK_RESPONSE_REJECT,
+                                                       NULL);
+      GtkWidget *label = gtk_label_new ("Denemo crashed, The open file has been recovered\n" "do you want to continue editing your work?");
+
+      GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+      gtk_container_add (GTK_CONTAINER (content_area), label);
+
+      gtk_widget_show_all (dialog);
+      gint result = gtk_dialog_run (GTK_DIALOG (dialog));
+      g_debug ("Dialog result is %d\n", result);
+
+      switch (result)
+        {
+        case GTK_RESPONSE_ACCEPT:
+          open_for_real (crash_file, Denemo.gui, TRUE, REPLACE_SCORE);
+          score_status (Denemo.gui, TRUE);
+          g_remove (crash_file);
+          break;
+        case GTK_RESPONSE_CANCEL:
+          break;
+        case GTK_RESPONSE_REJECT:
+          g_remove (crash_file);
+          break;
+        }
+      gtk_widget_destroy (dialog);
+    }
+}
+
+
 /* Called from main for scheme initialization reasons.
    calls back to finish command line processing
 */
 void*
-inner_main (void *data)
+inner_main (void *files)
 {
-  gint i;
-  gchar** files = (gchar**) data;
-  gchar *initial_file = NULL;
-
-  // TODO: Maybe handle multiple files ?
-  if(files)
-    initial_file = files[0];
-  
-//  GError *error = NULL;
 #if 0
   //disabled pending appearance of pathconfig.h 
   /* initialize guile core */
@@ -6612,42 +6717,32 @@ inner_main (void *data)
 
   /* Initialize preferences */
   initprefs ();
-  //if(Denemo.prefs.learning)
+
   initialize_keystroke_help ();
 
   // initialize the audio subsystem
   if (audio_initialize (&Denemo.prefs))
-    {
       g_error ("Failed to initialize audio or MIDI backends\n");
-    }
 
-  //create window system
   create_window ();
 
   create_scheme_identfiers ();
 
-  /* create the first tab */
-  newtab (NULL, NULL);
   if (Denemo.prefs.tooltip_timeout)
     {
       g_object_set (gtk_widget_get_settings (Denemo.window), "gtk-tooltip-timeout", Denemo.prefs.tooltip_timeout, NULL);
       g_object_set (gtk_widget_get_settings (Denemo.window), "gtk-tooltip-browse-timeout", Denemo.prefs.tooltip_browse_timeout, NULL);
       g_object_set (gtk_widget_get_settings (Denemo.window), "gtk-tooltip-browse-mode-timeout", Denemo.prefs.tooltip_browse_mode_timeout, NULL);
     }
+
   /*ignore setting of mode unless user has explicitly asked for modal use */
   if (!Denemo.prefs.modal)
     Denemo.prefs.mode = INPUTEDIT | INPUTRHYTHM | INPUTNORMAL;  //FIXME must correspond with default in prefops.c
-  readHistory ();
-  populate_opened_recent ();
-  if (!initial_file)
-    initial_file = get_most_recent_file ();
-  g_print ("recent %s\n", initial_file);
-  //  g_print("init prefs run");
+
   if (Denemo.prefs.autoupdate)
     fetchcommands (NULL, NULL);
 
-  gboolean save_default_keymap_file_on_entry = FALSE;
-
+  gint i;
   /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
   for (i = 0; i < G_N_ELEMENTS (activatable_commands); i++)
     {
@@ -6655,148 +6750,48 @@ inner_main (void *data)
       install_scm_function (function, activatable_commands[i].p);
       g_free(function);
     }
+
   //ensure (use-modules (ice-9 optargs)) is loaded first #:optional params
   call_out_to_guile ("(use-modules (ice-9 optargs))");
   init_keymap ();
 
   load_default_keymap_file ();
 
-  if (save_default_keymap_file_on_entry)
-    save_default_keymap_file ();
-
-  switch (Denemo.prefs.mode & ~MODE_MASK)
-    {
-    case INPUTINSERT:
-      activate_action ("/MainMenu/ModeMenu/InsertMode");
-      break;
-    case INPUTEDIT:
-      activate_action ("/MainMenu/ModeMenu/EditMode");
-      break;
-    case INPUTCLASSIC:
-      activate_action ("/MainMenu/ModeMenu/ClassicMode");
-      break;
-    case 0:
-      activate_action ("/MainMenu/ModeMenu/Modeless");
-      break;
-    default:
-      activate_action ("/MainMenu/ModeMenu/Modeless");
-      break;
-    }
-
-  switch (Denemo.prefs.mode & ~ENTRY_TYPE_MASK)
-    {
-    case INPUTNORMAL:
-      activate_action ("/MainMenu/ModeMenu/Note");
-      break;
-    case INPUTBLANK:
-      activate_action ("/MainMenu/ModeMenu/Blank");
-      break;
-    case INPUTREST:
-      activate_action ("/MainMenu/ModeMenu/Rest");
-      break;
-
-    default:
-      break;
-    }
-  switch (Denemo.prefs.mode & ~ENTRY_FEEDBACK_MASK)
-    {
-
-    case INPUTRHYTHM:
-      //g_print("Activating rhythm Mode\n");
-      activate_action ("/MainMenu/ModeMenu/Rhythm");
-      break;
-
-    default:
-      break;
-    }
-  Denemo.gui->mode = Denemo.prefs.mode;
-  // if (Denemo.prefs.startmidiin)
-  // activate_action("/MainMenu/InputMenu/JackMidi");
-  // if(!have_midi())
-  //  activate_action("/MainMenu/InputMenu/KeyboardOnly");
-  show_preferred_view ();
-  if (Denemo.prefs.cursor_highlight)
-    {
-      Denemo.prefs.cursor_highlight = FALSE;
-      scheme_highlight_cursor (SCM_BOOL_T);
-      //g_print("Cursor highlight is %d\n",Denemo.prefs.cursor_highlight);
-    }
-  gtk_key_snooper_install ((GtkKeySnoopFunc) dnm_key_snooper, NULL);
   Denemo.accelerator_status = FALSE;
-
-
-
-
 
   define_scheme_constants ();
 
+  readHistory ();
+  populate_opened_recent_menu ();
+
   load_scheme_init ();
 
-  if (initial_file)
-    (void) open_for_real (initial_file, Denemo.gui, FALSE, REPLACE_SCORE);
-  else
+  gboolean file_loaded = load_files(files);
+
+  load_preferences ();
+
+  if (!file_loaded && !Denemo.scheme_commands)
     {
-      if (!Denemo.scheme_commands)
-        {
-          call_out_to_guile ("(d-InstrumentName  (_ \"Unnamed\"))");
-          denemo_scheme_init ();
-        }
+      gchar* code = g_strdup_printf("(d-InstrumentName \"%s\")", _("Unnamed"));
+      call_out_to_guile (code);
+      g_free(code);
+      denemo_scheme_init ();
     }
 
-  {
-    gchar *crash_file = g_build_filename (locatedotdenemo (), "crashrecovery.denemo", NULL);
-    if (g_file_test (crash_file, G_FILE_TEST_EXISTS))
-      {
-        GtkWidget *dialog = gtk_dialog_new_with_buttons (NULL,
-                                                         NULL,
-                                                         GTK_DIALOG_DESTROY_WITH_PARENT,
-                                                         GTK_STOCK_YES,
-                                                         GTK_RESPONSE_ACCEPT,
-
-                                                         GTK_STOCK_DELETE,
-                                                         GTK_RESPONSE_REJECT,
-                                                         NULL);
-        GtkWidget *label = gtk_label_new ("\nDenemo crashed, The open file has been recovered\n" "do you want to continue editing your work?\n");
-
-        GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-        gtk_container_add (GTK_CONTAINER (content_area), label);
-
-        gtk_widget_show_all (dialog);
-        gint result = gtk_dialog_run (GTK_DIALOG (dialog));
-        g_debug ("Dialog result is %d\n", result);
-
-        switch (result)
-          {
-          case GTK_RESPONSE_ACCEPT:
-            open_for_real (crash_file, Denemo.gui, TRUE, REPLACE_SCORE);
-            score_status (Denemo.gui, TRUE);
-            g_remove (crash_file);
-            break;
-          case GTK_RESPONSE_CANCEL:
-            break;
-          case GTK_RESPONSE_REJECT:
-            g_remove (crash_file);
-            break;
-          }
-        gtk_widget_destroy (dialog);
-      }
-  }
-
-  score_status (Denemo.gui, FALSE);     //How come the code worked without this?
-
-
+  gtk_key_snooper_install ((GtkKeySnoopFunc) dnm_key_snooper, NULL);
+  
+  crash_recovery_check();
+  
+  score_status (Denemo.gui, FALSE);
+  
   if (Denemo.scheme_commands)
     call_out_to_guile (Denemo.scheme_commands);
 
-  g_print ("Gtk version %u.%u.%u\n", gtk_major_version, gtk_minor_version, gtk_micro_version);
-//#ifndef G_OS_WIN32
   if (Denemo.prefs.fontspec->len)
     {
       GtkSettings *settings = gtk_settings_get_default ();
       gtk_settings_set_string_property (settings, "gtk-font-name", Denemo.prefs.fontspec->str, "denemo");
     }
-//#endif
-/* Now launch into the main gtk event loop and we're all set */
 
   gtk_main ();
   return NULL;
@@ -10134,7 +10129,7 @@ addhistorymenuitem (gchar * filename)
  * with elements read from the denemohistory file
  */
 static void
-populate_opened_recent (void)
+populate_opened_recent_menu (void)
 {
   g_queue_foreach (Denemo.prefs.history, (GFunc) addhistorymenuitem, NULL);
 }
@@ -10864,7 +10859,7 @@ new_score_cb (GtkAction * action, DenemoScriptParam * param)
  * 
  */
 static void
-newtab (GtkAction * action, gpointer param)
+newtab (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
 {
   if (Denemo.gui && gtk_widget_get_visible (Denemo.gui->score_layout))
     activate_action ("/MainMenu/ViewMenu/" ToggleScoreLayout_STRING);
@@ -10873,7 +10868,8 @@ newtab (GtkAction * action, gpointer param)
 
   static gint id = 1;
   DenemoGUI *gui = (DenemoGUI *) g_malloc0 (sizeof (DenemoGUI));
-  gui->id = id++;               //uniquely identifies this musical score editor for duration of program.
+  //uniquely identifies this musical score editor for duration of program.
+  gui->id = id++;
   gui->mode = Denemo.prefs.mode;
   gui->pending_midi = g_queue_new ();
   gui->score_layout = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -10947,7 +10943,7 @@ newtab (GtkAction * action, gpointer param)
   install_printpreview (main_vbox);
 #endif
   
-  //FIXME populate_opened_recent (gui);
+  //FIXME populate_opened_recent_menu (gui);
 
   /* create the first movement now because showing the window causes it to try to draw the scorearea
      which it cannot do before there is a score. FIXME use signal blocking to control this - see importxml.c */
@@ -10995,7 +10991,7 @@ newtab (GtkAction * action, gpointer param)
     {
       if (Denemo.autosaveid)
         {
-          g_print ("No autosave on new tab");
+          g_print ("No autosave on new tab.\n");
         }
       else
         {
