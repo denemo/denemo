@@ -6639,7 +6639,6 @@ load_files(gchar** files)
 
   for(i=0; files[i]; i++)
     {
-      g_print("---%s---\n", files[i]);
       newtab (NULL, NULL);
       open_for_real (files[i], Denemo.gui, FALSE, REPLACE_SCORE);
       ret = TRUE;
