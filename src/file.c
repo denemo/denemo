@@ -444,7 +444,7 @@ save_in_format (gint format_id, DenemoGUI * gui, gchar * filename)
          */
 
         if ((!gui->has_script) && getNumCharsSchemeText ())
-          if (!confirm ("You have a Script defined", "Use this script every time this file is opened?"))
+          if (!confirm (_("You have a Script defined"), _("Use this script every time this file is opened?")))
             {
               deleteSchemeText ();
             }
@@ -1194,7 +1194,7 @@ selection_received (G_GNUC_UNUSED GtkClipboard * clipboard, const gchar * text, 
         }
       dnm_setinitialclef (Denemo.gui->si, (DenemoStaff *) Denemo.gui->si->currentstaff->data, theclef);
       call_out_to_guile ("(while (and (None?) (d-MoveToStaffDown)) (begin (d-MoveToStaffUp)(d-DeleteStaff)))");
-      if (confirm ("Paste from Selection", "Paste this music into your score?"))
+      if (confirm (_("Paste from Selection"), _("Paste this music into your score?")))
         {
           DenemoGUI *gui = Denemo.gui;
           tohome (NULL, NULL);

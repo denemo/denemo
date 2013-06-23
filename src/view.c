@@ -6944,7 +6944,7 @@ closewrapper (GtkAction * action, gpointer param)
 
   if (Denemo.accelerator_status)
     {
-      if (confirm ("You have made changes to the commands you have", "Do you want to save the changes?"))
+      if (confirm (_("You have made changes to the commands you have"), _("Do you want to save the changes?")))
         save_accels ();
     }
   for (display = Denemo.guis; display != NULL; display = g_list_next (display))
@@ -7400,7 +7400,7 @@ pb_playalong (GtkWidget * button)
 static void
 pb_record (GtkWidget * button)
 {
-  if (Denemo.gui->si->recorded_midi_track && !confirm ("MIDI Recording", "Delete last recording?"))
+  if (Denemo.gui->si->recorded_midi_track && !confirm (_("MIDI Recording"), _("Delete last recording?")))
     {
       return;
     }
@@ -8187,8 +8187,8 @@ setMouseAction (ModifierAction * info)
   if (command_idx >= 0)
     {
       current_action = (GtkAction *) lookup_action_from_idx (Denemo.map, command_idx);
-      title = g_strdup_printf ("The Command %s Responds to this Shortcut", lookup_name_from_idx (Denemo.map, command_idx));
-      prompt = g_strdup_printf ("Lose the shortcut %s for this?", modname->str);
+      title = g_strdup_printf (_("The Command %s Responds to this Shortcut"), lookup_name_from_idx (Denemo.map, command_idx));
+      prompt = g_strdup_printf (_("Lose the shortcut %s for this?"), modname->str);
     }
   if (current_action == NULL || confirm (title, prompt))
     {
@@ -8917,8 +8917,8 @@ saveGraphicItem (GtkWidget * widget, GtkAction * action)
   gchar *filename = g_build_filename (locatebitmapsdir (), pngname,
                                       NULL);
   //FIXME allow fileselector here to change the name
-  gchar *msg = g_strdup_printf ("Saving a graphic for use in the %s script", name);
-  if (!g_file_test (filename, G_FILE_TEST_EXISTS) || confirm (msg, "Replace current graphic?"))
+  gchar *msg = g_strdup_printf (_("Saving a graphic for use in the %s script"), name);
+  if (!g_file_test (filename, G_FILE_TEST_EXISTS) || confirm (msg, _("Replace current graphic?")))
     {
       guint width = Denemo.gui->xbm_width;
       guint height = Denemo.gui->xbm_height;

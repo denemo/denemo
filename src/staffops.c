@@ -421,7 +421,7 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
     return;
 
   gboolean give_info = FALSE;   //give info about removing matching context
-  if (interactive && (curstaffstruct->context != DENEMO_NONE) && (!confirm ("A context is set on this staff", "You will need to alter/delete the matching staff; Proceed?")))
+  if (interactive && (curstaffstruct->context != DENEMO_NONE) && (!confirm (_("A context is set on this staff"), _("You will need to alter/delete the matching staff; Proceed?"))))
     return;
   if (interactive && (curstaffstruct->context != DENEMO_NONE))
     give_info = TRUE;

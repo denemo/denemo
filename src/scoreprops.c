@@ -55,7 +55,7 @@ static gboolean
 abandon_editprops_custom_scoreblock (DenemoGUI * gui)
 {
   if (gui->custom_scoreblocks)
-    return confirm ("Custom LilyPond Score Block", "You will need to edit the LilyPond text to copy these edits from the standard scoreblock.\nIt might be easier to edit your custom scoreblock directly. Abandon?");
+    return confirm (_("Custom LilyPond Score Block"), _("You will need to edit the LilyPond text to copy these edits from the standard scoreblock.\nIt might be easier to edit your custom scoreblock directly. Abandon?"));
   return FALSE;
 }
 
