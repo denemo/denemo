@@ -45,7 +45,7 @@ a bug in LilyPond.
     <edit-info>
       <staffno>2</staffno>
       <measureno>2</measureno>
-      <cursorposition>7</cursorposition>
+      <cursorposition>-1</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>80</zoom>
       <system-height>100</system-height>
@@ -284,74 +284,69 @@ a bug in LilyPond.
             <lily-directive tag="RepeatEnd" graphic_name="RepeatEnd" minpixels="30" override="4">\bar ":|"</lily-directive>
           </measure>
           <measure>
-            <chord show="false" id="id38" grace="true">
+            <rest show="false" id="id38" grace="true">
+              <duration base="eighth"/>
+            </rest>
+            <chord show="true" id="id39">
               <duration base="eighth"/>
               <notes>
-                <note id="id39">
-                  <middle-c-offset>9</middle-c-offset>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id40">
-              <duration base="eighth"/>
-              <notes>
-                <note id="id41">
+                <note id="id40">
                   <middle-c-offset>10</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id42">
+            <chord show="true" id="id41">
               <duration base="eighth"/>
               <notes>
-                <note id="id43">
+                <note id="id42">
                   <middle-c-offset>11</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id44">
+            <chord show="true" id="id43">
               <duration base="eighth"/>
               <notes>
-                <note id="id45">
+                <note id="id44">
                   <middle-c-offset>12</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id46">
+            <chord show="true" id="id45">
               <duration base="eighth"/>
               <notes>
-                <note id="id47">
+                <note id="id46">
                   <middle-c-offset>13</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id48">
+            <chord show="true" id="id47">
               <duration base="eighth"/>
               <notes>
-                <note id="id49">
+                <note id="id48">
                   <middle-c-offset>14</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id50">
+            <chord show="true" id="id49">
               <duration base="eighth"/>
               <notes>
-                <note id="id51">
+                <note id="id50">
                   <middle-c-offset>16</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id52">
+            <chord show="true" id="id51">
               <duration base="eighth"/>
               <notes>
-                <note id="id53">
+                <note id="id52">
                   <middle-c-offset>16</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id54">
+            <chord show="true" id="id53">
               <duration base="eighth"/>
               <notes>
-                <note id="id55">
+                <note id="id54">
                   <middle-c-offset>17</middle-c-offset>
                 </note>
               </notes>
