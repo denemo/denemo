@@ -415,7 +415,7 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
 {
   DenemoScore *si = gui->si;
   DenemoStaff *curstaffstruct = si->currentstaff->data;
-
+  gboolean has_next = (si->currentstaff->next != NULL);
   (void) signal_structural_change (gui);
   if (si->currentstaff == NULL)
     return;
@@ -463,7 +463,7 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
   si->currentstaff = g_list_nth (si->thescore, si->currentstaffnum - 1);
 
 
-  if (isprimary)                // we deleted the primary, so the next one must become the primary
+  if (isprimary && has_next)                // we deleted the primary, so the next one (which is present) must become the primary
     {
       ((DenemoStaff *) si->currentstaff->data)->voicecontrol = DENEMO_PRIMARY;
       si->currentprimarystaff = si->currentstaff;
