@@ -291,7 +291,13 @@ settickvalsinmeasure (objnode * theobjs)
                 {
                   set_tuplefied_numticks (theobj, numerator, denominator);
                   basic_ticks_in_tuplet_group += theobj->basic_durinticks;
-                }               //FIXME set up endgrace as needed for grace notes inside tuplets
+                }  else
+                {
+                  ((chord *) theobj->object)->is_grace |= is_end_grace (curobjnode);    //and re-instate if needed
+                  theobj->durinticks = 0;
+                }
+
+                
             }
           else
             {
