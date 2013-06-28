@@ -76,7 +76,7 @@ getXMLIntChild (xmlNodePtr elem)
 #define INSERT_REST(num, den, rest) \
 if(duration >= (num*divisions)/den)\
   {\
-    g_string_append (script, "(d-InsertRest " rest ")(d-SetNonprinting)");\
+    g_string_append (script, "(d-InsertRest" rest ")(d-SetNonprinting)");\
     return insert_invisible_rest (script, duration - (num*divisions)/den, divisions);\
   } else 
   
@@ -359,15 +359,15 @@ static gchar *add_rest (gchar *type)
 {
   gchar *duration_text="";
   if(!strcmp(type, "whole"))
-  duration_text = "(d-InsertRest 0)"; else if(!strcmp(type, "half"))
-  duration_text = "(d-InsertRest 1)"; else if(!strcmp(type, "quarter"))
-  duration_text = "(d-InsertRest 2)"; else if(!strcmp(type, "eighth"))
-  duration_text = "(d-InsertRest 3)"; else if(!strcmp(type, "16th"))
-  duration_text = "(d-InsertRest 4)"; else if(!strcmp(type, "32nd"))
-  duration_text = "(d-InsertRest 5)"; else if(!strcmp(type, "64th"))
-  duration_text = "(d-InsertRest 6)"; else if(!strcmp(type, "128th"))
-  duration_text = "(d-InsertRest 7)"; else if(!strcmp(type, "256th"))
-  duration_text = "(d-InsertRest 8)"; else if(!strcmp(type, "breve"))
+  duration_text = "(d-InsertRest0)"; else if(!strcmp(type, "half"))
+  duration_text = "(d-InsertRest1)"; else if(!strcmp(type, "quarter"))
+  duration_text = "(d-InsertRest2)"; else if(!strcmp(type, "eighth"))
+  duration_text = "(d-InsertRest3)"; else if(!strcmp(type, "16th"))
+  duration_text = "(d-InsertRest4)"; else if(!strcmp(type, "32nd"))
+  duration_text = "(d-InsertRest5)"; else if(!strcmp(type, "64th"))
+  duration_text = "(d-InsertRest6)"; else if(!strcmp(type, "128th"))
+  duration_text = "(d-InsertRest7)"; else if(!strcmp(type, "256th"))
+  duration_text = "(d-InsertRest8)"; else if(!strcmp(type, "breve"))
   duration_text = "(d-InsertBreveRest)"; else if(!strcmp(type, "longa"))
   duration_text = "(d-InsertLongaRest)"; else
   g_warning("Restduration %s not implemented\n", type);
@@ -565,6 +565,41 @@ static gint parse_attributes(xmlNodePtr rootElem, GString **scripts, gint numvoi
 
 }
 
+
+
+static gint parse_barline(xmlNodePtr rootElem, GString **scripts, gint numvoices)
+{
+  xmlNodePtr childElem;
+  gchar *text = NULL;
+  gchar *style = NULL, *repeat = NULL;
+  gint i;
+  FOREACH_CHILD_ELEM (childElem, rootElem)
+          { //g_print("attribute %s at division %d\n", childElem->name, division);
+            if (ELEM_NAME_EQ (childElem, "bar-style"))
+              style = xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+           if (ELEM_NAME_EQ (childElem, "repeat"))
+              repeat = xmlGetProp (childElem, "direction");
+          }
+  if(repeat)
+    {
+    if ((!strcmp(repeat, "backward")))
+      text = "(d-RepeatEnd)"; else
+    if ((!strcmp(repeat, "forward")))
+     text = "(d-RepeatStart)"; else
+    if ((!strcmp(repeat, "forward-backward")))
+      text = "(d-RepeatEndStart)"; 
+    } else if (style)
+    {
+    if ((!strcmp(style, "light-light")))
+      text = "(d-DoubleBarline)"; else
+    if ((!strcmp(style, "light-heavy")))
+      text = "(d-ClosingBarline)";
+    }
+  if(text)
+  for(i=0;i<numvoices;i++)
+      g_string_append(scripts[i+1], text);
+}
+
 static gint get_staff_for_voice_measure(xmlNodePtr rootElem, gint *staff_for_voice)
 {
   xmlNodePtr childElem;
@@ -602,7 +637,10 @@ static gint parse_measure(xmlNodePtr rootElem, GString **scripts, gint *staff_fo
         if(printing && !strcmp(printing, "no"))
           is_nonprinting = TRUE;
         parse_note(childElem, scripts, staff_for_voice, &division, *divisions, voice_timings, &current_voice, &actual_notes, &normal_notes, is_nonprinting);
-      }                
+      }
+      if (ELEM_NAME_EQ (childElem, "barline")) {
+        parse_barline(childElem, scripts, numvoices);
+      }              
     }
   if((actual_notes != 1) || (normal_notes != 1))
      g_string_append(scripts[current_voice], "(d-EndTuplet)");
