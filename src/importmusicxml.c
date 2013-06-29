@@ -398,9 +398,25 @@ static gboolean  parse_end_tuplet(xmlNodePtr rootElem) {
   }
 return FALSE;
 }
-
+static void parse_slur(xmlNodePtr rootElem, gint *is_slur_start, gint *is_slur_end)
+{
+ xmlNodePtr childElem;
+  FOREACH_CHILD_ELEM (childElem, rootElem)
+  {
+    if (ELEM_NAME_EQ (childElem, "slur"))
+    {
+      gchar *type = xmlGetProp(childElem, (xmlChar *)"type");
+      
+      if(type && (!strcmp(type, "start")))
+        *is_slur_start = TRUE;
+      if(type && (!strcmp(type, "stop")))
+        *is_slur_end = TRUE;
+      
+    }
+  }
+}
 static gchar *get_rest_for_duration(GString *ret, gint duration, gint divisions) {
-  g_print("Rest duration %d, divisions %d\n", duration, divisions);
+  //g_print("Rest duration %d, divisions %d\n", duration, divisions);
   if(duration >= 4*divisions) {
     g_string_append(ret, "(d-InsertRest0)");
     duration -= 4*divisions;
@@ -446,7 +462,8 @@ static gint parse_note(xmlNodePtr rootElem, GString **scripts, gint *staff_for_v
   gint octave, alter = 0;
   gchar *step = NULL;
   gchar *type = NULL;
-  gboolean in_chord = FALSE, is_dotted = FALSE, is_double_dotted = FALSE, is_rest = FALSE, is_grace = FALSE, is_tied = FALSE, end_tuplet = FALSE;
+  gboolean in_chord = FALSE, is_dotted = FALSE, is_double_dotted = FALSE, is_rest = FALSE, is_grace = FALSE, is_tied = FALSE,
+   end_tuplet = FALSE, is_slur_start = FALSE, is_slur_end = FALSE;
   gint voicenum = 1, staffnum = 1;
   gint duration = 0;
   gint initial_actual_notes = *actual_notes;
@@ -505,6 +522,7 @@ static gint parse_note(xmlNodePtr rootElem, GString **scripts, gint *staff_for_v
 */
               if (ELEM_NAME_EQ (childElem, "notations")) {
                 end_tuplet = parse_end_tuplet(childElem);
+                parse_slur(childElem, &is_slur_start, &is_slur_end);
               }
  
               if (ELEM_NAME_EQ (childElem, "time-modification")) {
@@ -569,7 +587,8 @@ static gint parse_note(xmlNodePtr rootElem, GString **scripts, gint *staff_for_v
           g_free(str);
         }
 
-     
+    
+      
  g_string_append(scripts[voicenum], text->str);
     g_string_free(text, TRUE);
 
@@ -582,6 +601,12 @@ static gint parse_note(xmlNodePtr rootElem, GString **scripts, gint *staff_for_v
          //WARNING this was *current_voice instead of voicenum but that is surely wrong???
         }
 */
+ if((!in_chord) && is_slur_start)
+    g_string_append(scripts[voicenum],"(d-ToggleBeginSlur)");
+ if((!in_chord) && is_slur_end)
+    g_string_append(scripts[voicenum],"(d-ToggleEndSlur)");
+
+    
     if(!(in_chord || is_grace))
       *division = *division + duration;
     *current_voice = voicenum;       
