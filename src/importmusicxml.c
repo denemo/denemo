@@ -412,7 +412,7 @@ static gint parse_note(xmlNodePtr rootElem, GString **scripts, gint *staff_for_v
   gint initial_actual_notes = *actual_notes;
   gint initial_normal_notes = *normal_notes;
   gboolean timing_set = FALSE;//for case where one voice ends during a tuplet and the next one starts during a tuplet
-  
+  GString *text = g_string_new("");
   FOREACH_CHILD_ELEM (childElem, rootElem)
           {
              if (ELEM_NAME_EQ (childElem, "pitch"))
@@ -482,51 +482,67 @@ static gint parse_note(xmlNodePtr rootElem, GString **scripts, gint *staff_for_v
     }
   if(type)
     {
-      gchar *text;
-      if ((!end_tuplet) && ((*current_voice != voicenum) && !(((initial_actual_notes)==1) && (initial_normal_notes==1))))
-        {/* an unterminated tuplet in the last voice */
-            g_string_append(scripts[*current_voice], "(d-EndTuplet)");
-            if(!timing_set) {
-              *actual_notes = 1;
-              *normal_notes = 1;
-            }
-            initial_actual_notes = 1;
-            initial_normal_notes = 1;
-        }
-      if ((!end_tuplet) && ((initial_actual_notes != *actual_notes) || (initial_normal_notes != *normal_notes)))
-        {
-          if ((initial_actual_notes)==1 && (initial_normal_notes==1))
-           text = g_strdup_printf("(d-StartTuplet \"%d/%d\")", *normal_notes, *actual_notes);
-          else
-            text = g_strdup("(d-EndTuplet)");
-          g_string_append(scripts[voicenum], text);
-          g_free(text);
-        }
-      text = in_chord? add_note(octave, step, alter):(is_rest?add_rest(type):insert_note(type, octave, step, alter));
-      g_string_append(scripts[voicenum], text);
-      g_free(text);
+      g_string_append(text, in_chord? add_note(octave, step, alter):(is_rest?add_rest(type):insert_note(type, octave, step, alter)));
+
       if(is_nonprinting)
-        g_string_append(scripts[voicenum], "(d-SetNonprinting)");
+        g_string_append(text, "(d-SetNonprinting)");
       if(!(in_chord || is_grace))
         voice_timings[voicenum-1] += duration;
       if(is_tied && !in_chord)
-         g_string_append(scripts[voicenum], "(d-ToggleTie)");
+         g_string_append(text, "(d-ToggleTie)");
       if(is_grace)
-        g_string_append(scripts[voicenum], "(d-ToggleGrace)");
+        g_string_append(text, "(d-ToggleGrace)");
       if( (!in_chord) && is_dotted)
-        g_string_append(scripts[voicenum], "(d-AddDot)");
+        g_string_append(text, "(d-AddDot)");
       if(is_double_dotted)
-        g_string_append(scripts[voicenum], "(d-AddDot)");
-      if(end_tuplet)
-        {
-          *actual_notes = 1;
-          *normal_notes = 1;
-          g_string_append(scripts[*current_voice], "(d-EndTuplet)");
-        }
+        g_string_append(text, "(d-AddDot)");
+
       if (staff_for_voice[voicenum-1] != staffnum)
         g_warning("Voice %d in staff %d need a staff change directive\n", voicenum, staffnum);
-
     }
+
+   
+{
+  
+
+      if(!timing_set) {
+        *actual_notes = 1;
+        *normal_notes = 1;
+      }
+  
+      if (/* (!end_tuplet) && */ ((*current_voice != voicenum) && !(((initial_actual_notes)==1) && (initial_normal_notes==1))))
+        {/* an unterminated tuplet in the last voice */
+            g_string_append(scripts[*current_voice], "(d-EndTuplet)");
+ 
+            initial_actual_notes = 1;
+            initial_normal_notes = 1;
+        }
+
+      if (/*  (!end_tuplet) &&  */ ((initial_actual_notes != *actual_notes) || (initial_normal_notes != *normal_notes)))
+        {gchar *str;
+          if ((initial_actual_notes)==1 && (initial_normal_notes==1))
+           //str = g_strdup_printf("(d-StartTuplet \"%d/%d\")", *normal_notes, *actual_notes);
+           str = g_strdup_printf("\n;not end tuplet and entered with normal timings %d  \n(d-StartTuplet \"%d/%d\")", in_chord, *normal_notes, *actual_notes);
+          else
+            str = g_strdup("\n;Changed timings\n(d-EndTuplet)");
+          g_string_append(scripts[voicenum], str);
+          g_free(str);
+        }
+}
+
+     
+ g_string_append(scripts[voicenum], text->str);
+    g_string_free(text, TRUE);
+
+ /*      
+    if(end_tuplet)
+        {
+         *actual_notes = 1;
+         *normal_notes = 1;
+         g_string_append(scripts[voicenum], "\n;end tuplet marked\n(d-EndTuplet)");// outside note loop because it can come before the chord is finished
+         //WARNING this was *current_voice instead of voicenum but that is surely wrong???
+        }
+*/
     if(!(in_chord || is_grace))
       *division = *division + duration;
     *current_voice = voicenum;       
@@ -643,7 +659,7 @@ static gint parse_measure(xmlNodePtr rootElem, GString **scripts, gint *staff_fo
       }              
     }
   if((actual_notes != 1) || (normal_notes != 1))
-     g_string_append(scripts[current_voice], "(d-EndTuplet)");
+     g_string_append(scripts[current_voice], "\n;measure end with tuplet still active\n(d-EndTuplet)");
 }
 static gchar *parse_part(xmlNodePtr rootElem)
 {
@@ -771,7 +787,7 @@ mxmlinput (gchar * filename)
               g_string_append(script, parse_part(childElem));
             }
           }
- g_string_append(script, "(d-DeleteStaff)(d-MoveToEnd)(if (None?) (d-DeleteMeasureAllStaffs))(d-MasterVolume 1)");
+ g_string_append(script, "(d-DeleteStaff)(d-MoveToEnd)(if (None?) (d-DeleteMeasureAllStaffs))(d-MasterVolume 1)(d-MoveToEnd)");
 #ifdef DEVELOPER
  {FILE *fp = fopen("/home/rshann/junk.scm", "w");
     if(fp) {
