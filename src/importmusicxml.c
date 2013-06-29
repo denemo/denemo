@@ -398,6 +398,46 @@ static gboolean  parse_end_tuplet(xmlNodePtr rootElem) {
   }
 return FALSE;
 }
+
+static gchar *get_rest_for_duration(GString *ret, gint duration, gint divisions) {
+  g_print("Rest duration %d, divisions %d\n", duration, divisions);
+  if(duration >= 4*divisions) {
+    g_string_append(ret, "(d-InsertRest0)");
+    duration -= 4*divisions;
+    return get_rest_for_duration(ret, duration, divisions);
+  } else if (duration >= 2*divisions) {
+    g_string_append(ret, "(d-InsertRest1)");
+    duration -= 2*divisions;
+    return get_rest_for_duration(ret, duration, divisions);
+  } else if (duration >= 1*divisions) {
+    g_string_append(ret, "(d-InsertRest2)");
+    duration -= 1*divisions;
+    return get_rest_for_duration(ret, duration, divisions);
+  } else if (2*duration >= divisions && (divisions/2)) {
+    g_string_append(ret, "(d-InsertRest3)");
+    duration -= divisions/2;
+    return get_rest_for_duration(ret, duration, divisions);
+  } else if (4*duration >= divisions && (divisions/4)) {
+    g_string_append(ret, "(d-InsertRest4)");
+    duration -= divisions/4;
+    return get_rest_for_duration(ret, duration, divisions);
+  } else if (8*duration >= divisions && (divisions/8)) {
+    g_string_append(ret, "(d-InsertRest5)");
+    duration -= divisions/8;
+    return get_rest_for_duration(ret, duration, divisions);
+  } else if (16*duration >= divisions && (divisions/16)) {
+    g_string_append(ret, "(d-InsertRest6)");
+    duration -= divisions/16;
+    return get_rest_for_duration(ret, duration, divisions);
+  } else if (32*duration >= divisions && (divisions/32)) {
+    g_string_append(ret, "(d-InsertRest7)");
+    duration -= divisions/32;
+    return get_rest_for_duration(ret, duration, divisions);
+  } else if (duration==0)
+    return;
+
+  g_string_append(ret, "\n;Duration of rest not recognized\n");
+}
 // *division is the current position of the tick counter from the start of the measure
 static gint parse_note(xmlNodePtr rootElem, GString **scripts, gint *staff_for_voice,
   gint *division, gint divisions, gint *voice_timings, gint *current_voice, gint *actual_notes, gint *normal_notes, gboolean is_nonprinting)
@@ -499,11 +539,11 @@ static gint parse_note(xmlNodePtr rootElem, GString **scripts, gint *staff_for_v
 
       if (staff_for_voice[voicenum-1] != staffnum)
         g_warning("Voice %d in staff %d need a staff change directive\n", voicenum, staffnum);
+    } else  if(is_rest)
+    {//for the case where a rest is given without a type, just a duration.
+        get_rest_for_duration(text, duration, divisions);
     }
-
    
-{
-  
 
       if(!timing_set) {
         *actual_notes = 1;
@@ -528,7 +568,6 @@ static gint parse_note(xmlNodePtr rootElem, GString **scripts, gint *staff_for_v
           g_string_append(scripts[voicenum], str);
           g_free(str);
         }
-}
 
      
  g_string_append(scripts[voicenum], text->str);
