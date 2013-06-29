@@ -168,7 +168,7 @@ static gint parse_key(GString **scripts, gint numvoices, gint measurenum, xmlNod
 if(mode)
   for(i=0;i<numvoices;i++)
     if(measurenum==1)
-      g_string_append_printf(scripts[i+1], "(d-IncrementKeysig %d)", fifths);
+      g_string_append_printf(scripts[i+1], "(d-InitialKey \"C major\")(d-IncrementKeysig %d)", fifths);
     else
       g_string_append_printf(scripts[i+1], "(d-InsertKey \"C major\")(d-IncrementKeysig %d)", fifths);
 }
@@ -559,7 +559,6 @@ static gint get_staff_for_voice_note(xmlNodePtr rootElem, gint *staff_for_voice)
               if (ELEM_NAME_EQ (childElem, "staff"))
                 staffnum = getXMLIntChild (childElem);
           }
-
           if( staff_for_voice[voicenum-1] == 0)
             staff_for_voice[voicenum-1] = staffnum;
 }
@@ -681,6 +680,7 @@ static gchar *parse_part(xmlNodePtr rootElem)
           }
   g_print("Number of staffs %d, voices %d\n", numstaffs, numvoices);
   gint *staff_for_voice = (gint *)g_malloc0(numvoices*sizeof(gint));
+
   GString **scripts = (GString **)g_malloc0((1+numvoices)*sizeof(GString *));
   for(i=0;i<=numvoices;i++)
     scripts[i] = g_string_new("\n");
@@ -694,7 +694,12 @@ static gchar *parse_part(xmlNodePtr rootElem)
               get_staff_for_voice_measure(childElem, staff_for_voice);
             }            
           }
-
+  for(i=0;i<numvoices;i++)
+   if(staff_for_voice[i]==0)
+    {
+      g_print("Voicenum %d was not actually used\n", i+1);
+      staff_for_voice[i] = 1;//if a voice was not actually used, assign it to the first staff
+    }
 
   gint *numvoices_for_staff = (gint *)g_malloc0(numstaffs*sizeof(gint)); 
  
@@ -706,11 +711,12 @@ static gchar *parse_part(xmlNodePtr rootElem)
 /* create script to make enough staffs and voices, we are already in staff 1 voice 1 */
   g_string_append(scripts[0], "(d-PushPosition)");
   for(i=0;i<numstaffs;i++)
-    {g_print("Staff %d\n", i);
+    {
+      //g_print("Staff %d with %d voices\n", i, numvoices_for_staff[i]);
       if(i>0)/*already have first staff*/
        g_string_append(scripts[0], "(d-AddAfter)");
       for(j=1/*already have first voice*/; j<numvoices_for_staff[i]; j++) {
-        g_print("Voice %d\n", j);
+        //g_print("Voice %d on Staff %d\n", j, i);
         g_string_append(scripts[0], "(d-AddAfter)(d-SetCurrentStaffAsVoice)");
       }
     }
