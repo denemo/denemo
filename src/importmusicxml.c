@@ -832,7 +832,7 @@ mxmlinput (gchar * filename)
               g_string_append(script, parse_part(childElem));
             }
           }
- g_string_append(script, "(d-DeleteStaff)(d-MoveToEnd)(if (None?) (d-DeleteMeasureAllStaffs))(d-MasterVolume 1)(d-MoveToEnd)");
+ g_string_append(script, "(d-DeleteStaff)(d-MoveToEnd)(if (None?) (d-DeleteMeasureAllStaffs))(d-MasterVolume 1)(d-MoveToBeginning)(if (UnderfullMeasure?)(d-Upbeat))");
 #ifdef DEVELOPER
  {FILE *fp = fopen("/home/rshann/junk.scm", "w");
     if(fp) {
