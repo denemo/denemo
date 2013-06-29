@@ -293,8 +293,11 @@ settickvalsinmeasure (objnode * theobjs)
                   basic_ticks_in_tuplet_group += theobj->basic_durinticks;
                 }  else
                 {
-                  ((chord *) theobj->object)->is_grace |= is_end_grace (curobjnode);    //and re-instate if needed
-                  theobj->durinticks = 0;
+                    if(is_end_grace (curobjnode))
+                      ((chord *) theobj->object)->is_grace |= ENDGRACE;
+                    else
+                      ((chord *) theobj->object)->is_grace &= (~ENDGRACE);    //and re-instate if needed
+                    theobj->durinticks = 0;
                 }
 
                 
@@ -306,8 +309,11 @@ settickvalsinmeasure (objnode * theobjs)
 
               if (((chord *) theobj->object)->is_grace)
                 {
-                  ((chord *) theobj->object)->is_grace |= is_end_grace (curobjnode);    //and re-instate if needed
-                  theobj->durinticks = 0;
+                    if(is_end_grace (curobjnode))
+                      ((chord *) theobj->object)->is_grace |= ENDGRACE;
+                    else
+                      ((chord *) theobj->object)->is_grace &= (~ENDGRACE);    //and re-instate if needed
+                    theobj->durinticks = 0;
                 }
               else
                 theobj->durinticks = theobj->basic_durinticks;
