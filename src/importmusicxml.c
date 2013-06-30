@@ -560,24 +560,26 @@ static gint parse_note(xmlNodePtr rootElem, GString **scripts, gint *staff_for_v
     } else  if(is_rest)
     {//for the case where a rest is given without a type, just a duration.
         get_rest_for_duration(text, duration, divisions);
+        voice_timings[voicenum-1] += duration;
     }
    
 
-      if(!timing_set) {
+  if(!timing_set)
+   {
         *actual_notes = 1;
         *normal_notes = 1;
-      }
+   }
   
-      if (/* (!end_tuplet) && */ ((*current_voice != voicenum) && !(((initial_actual_notes)==1) && (initial_normal_notes==1))))
-        {/* an unterminated tuplet in the last voice */
+  if (/* (!end_tuplet) && */ ((*current_voice != voicenum) && !(((initial_actual_notes)==1) && (initial_normal_notes==1))))
+    {/* an unterminated tuplet in the last voice */
             g_string_append(scripts[*current_voice], "(d-EndTuplet)");
  
             initial_actual_notes = 1;
             initial_normal_notes = 1;
-        }
+    }
 
-      if (/*  (!end_tuplet) &&  */ ((initial_actual_notes != *actual_notes) || (initial_normal_notes != *normal_notes)))
-        {gchar *str;
+  if (/*  (!end_tuplet) &&  */ ((initial_actual_notes != *actual_notes) || (initial_normal_notes != *normal_notes)))
+    {gchar *str;
           if ((initial_actual_notes)==1 && (initial_normal_notes==1))
            //str = g_strdup_printf("(d-StartTuplet \"%d/%d\")", *normal_notes, *actual_notes);
            str = g_strdup_printf("\n;not end tuplet and entered with normal timings %d  \n(d-StartTuplet \"%d/%d\")", in_chord, *normal_notes, *actual_notes);
@@ -585,12 +587,12 @@ static gint parse_note(xmlNodePtr rootElem, GString **scripts, gint *staff_for_v
             str = g_strdup("\n;Changed timings\n(d-EndTuplet)");
           g_string_append(scripts[voicenum], str);
           g_free(str);
-        }
+    }
 
     
       
  g_string_append(scripts[voicenum], text->str);
-    g_string_free(text, TRUE);
+ g_string_free(text, TRUE);
 
  /*      
     if(end_tuplet)
@@ -698,6 +700,7 @@ static gint parse_measure(xmlNodePtr rootElem, GString **scripts, gint *staff_fo
   gint division = 0;
   gint current_voice = 1;
   gint actual_notes = 1, normal_notes = 1; /* for tuplets */
+  gint last_voice_with_notes = 1;/* in case a voice with not "note" elements moves the current voice on while unfinished stuff in last voice */
   FOREACH_CHILD_ELEM (childElem, rootElem)
     {
       //g_print("name %s at voicenumber %d at division %d\n", childElem->name, current_voice, division);
@@ -716,13 +719,14 @@ static gint parse_measure(xmlNodePtr rootElem, GString **scripts, gint *staff_fo
         if(printing && !strcmp(printing, "no"))
           is_nonprinting = TRUE;
         parse_note(childElem, scripts, staff_for_voice, &division, *divisions, voice_timings, &current_voice, &actual_notes, &normal_notes, is_nonprinting);
+        last_voice_with_notes = current_voice;
       }
       if (ELEM_NAME_EQ (childElem, "barline")) {
         parse_barline(childElem, scripts, numvoices);
       }              
     }
   if((actual_notes != 1) || (normal_notes != 1))
-     g_string_append(scripts[current_voice], "\n;measure end with tuplet still active\n(d-EndTuplet)");
+     g_string_append_printf(scripts[last_voice_with_notes], "\n;measure end with tuplet still active in voice %d\n(d-EndTuplet)", current_voice);
 }
 static gchar *parse_part(xmlNodePtr rootElem)
 {
@@ -807,7 +811,7 @@ static gchar *parse_part(xmlNodePtr rootElem)
                     }
                   g_string_append (scripts[0], scripts[i+1]->str);
                   g_string_assign(scripts[i+1], "");
-                  g_string_append(scripts[0], "(d-MoveToStaffDown)");
+                  g_string_append_printf(scripts[0],"%s\n;;;;;;;finished voice %d\n", "(d-MoveToStaffDown)", i+1);
                   voice_timings[i] = 0;
                 }
               g_string_append_printf(scripts[0],
@@ -858,7 +862,7 @@ mxmlinput (gchar * filename)
             }
           }
  g_string_append(script, "(d-DeleteStaff)(d-MoveToEnd)(if (None?) (d-DeleteMeasureAllStaffs))(d-MasterVolume 1)(d-MoveToBeginning)(if (UnderfullMeasure?)(d-Upbeat))");
-#ifdef DEVELOPER
+#ifndef DEVELOPER
  {FILE *fp = fopen("/home/rshann/junk.scm", "w");
     if(fp) {
       fprintf(fp, ";Parser not yet finished:\n %s", script->str);
