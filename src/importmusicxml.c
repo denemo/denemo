@@ -16,6 +16,11 @@
 /* libxml includes: for libxml2 this should be <libxml.h> */
 #include <libxml/parser.h>
 #include <libxml/tree.h>
+
+gint InitialVoiceNum = 0;
+
+GString *Warnings;
+
 /* Defines for making traversing XML trees easier */
 
 #define FOREACH_CHILD_ELEM(childElem, parentElem) \
@@ -184,7 +189,7 @@ static gint parse_clef(GString **scripts, gint division, gint *voice_timings, gi
   if(staffnum==0)
     staffnum = 1;
   FOREACH_CHILD_ELEM (childElem, rootElem)
-          {g_print("clef change %s \n", childElem->name);
+          {//g_print("clef change %s \n", childElem->name);
             if (ELEM_NAME_EQ (childElem, "line"))
               line = getXMLIntChild(childElem);
             if (ELEM_NAME_EQ (childElem, "sign"))
@@ -276,17 +281,17 @@ static gchar *insert_note(gchar* type, gint octave, gchar* step, gint alter)
     }
   gchar *duration_text="";
   if(!strcmp(type, "whole"))
-  duration_text = "(d-Set0)"; else if(!strcmp(type, "half"))
-  duration_text = "(d-Set1)"; else if(!strcmp(type, "quarter"))
-  duration_text = "(d-Set2)"; else if(!strcmp(type, "eighth"))
-  duration_text = "(d-Set3)"; else if(!strcmp(type, "16th"))
-  duration_text = "(d-Set4)"; else if(!strcmp(type, "32nd"))
-  duration_text = "(d-Set5)"; else if(!strcmp(type, "64th"))
-  duration_text = "(d-Set6)"; else if(!strcmp(type, "128th"))
-  duration_text = "(d-Set7)"; else if(!strcmp(type, "256th"))
-  duration_text = "(d-Set8)"; else if(!strcmp(type, "breve"))
-  duration_text = "(d-SetBreve)"; else if(!strcmp(type, "longa"))
-  duration_text = "(d-SetLonga)"; else
+  duration_text = "\n(d-Set0)"; else if(!strcmp(type, "half"))
+  duration_text = "\n(d-Set1)"; else if(!strcmp(type, "quarter"))
+  duration_text = "\n(d-Set2)"; else if(!strcmp(type, "eighth"))
+  duration_text = "\n(d-Set3)"; else if(!strcmp(type, "16th"))
+  duration_text = "\n(d-Set4)"; else if(!strcmp(type, "32nd"))
+  duration_text = "\n(d-Set5)"; else if(!strcmp(type, "64th"))
+  duration_text = "\n(d-Set6)"; else if(!strcmp(type, "128th"))
+  duration_text = "\n(d-Set7)"; else if(!strcmp(type, "256th"))
+  duration_text = "\n(d-Set8)"; else if(!strcmp(type, "breve"))
+  duration_text = "\n(d-SetBreve)"; else if(!strcmp(type, "longa"))
+  duration_text = "\n(d-SetLonga)"; else
   g_warning("Note duration %s not implemented\n", type);
   const gchar *octavation = octave_string(octave);
   gchar *put_text = g_strdup_printf("(d-InsertC)(d-PutNoteName \"%c%s%s\")", g_ascii_tolower(*step), alteration (alter), octavation);
@@ -385,36 +390,55 @@ static void modify_time(xmlNodePtr rootElem, gint *actual_notes, gint *normal_no
           }
 }
 
-static gboolean  parse_end_tuplet(xmlNodePtr rootElem) {
+
+
+
+static void  parse_ornaments(GString *notations, xmlNodePtr rootElem) {
  xmlNodePtr childElem;
   FOREACH_CHILD_ELEM (childElem, rootElem)
   {
-    if (ELEM_NAME_EQ (childElem, "tuplet"))
+    if (ELEM_NAME_EQ (childElem, "trill-mark"))
     {
-              gchar *type = xmlGetProp(childElem, (xmlChar *)"type");
-             if(type)
-              return !strcmp(type, "stop");
+      g_string_append(notations, "(d-ToggleTrill)");
     }
   }
-return FALSE;
 }
-static void parse_slur(xmlNodePtr rootElem, gint *is_slur_start, gint *is_slur_end)
-{
+
+static void parse_articulations(GString *notations, xmlNodePtr rootElem){
  xmlNodePtr childElem;
   FOREACH_CHILD_ELEM (childElem, rootElem)
   {
+       if (ELEM_NAME_EQ (childElem, "staccato"))
+        g_string_append(notations, "(d-ToggleStaccato)");
+    if (ELEM_NAME_EQ (childElem, "staccatissimo"))
+        g_string_append(notations, "(d-ToggleStaccatissimo)");
+  }
+}
+static void parse_notations(GString *notations, xmlNodePtr rootElem){
+ xmlNodePtr childElem;
+  FOREACH_CHILD_ELEM (childElem, rootElem)
+  {
+  if (ELEM_NAME_EQ (childElem, "articulations"))
+    {
+      parse_articulations(notations, childElem);
+    }
     if (ELEM_NAME_EQ (childElem, "slur"))
     {
       gchar *type = xmlGetProp(childElem, (xmlChar *)"type");
       
       if(type && (!strcmp(type, "start")))
-        *is_slur_start = TRUE;
+        g_string_append(notations, "(d-ToggleBeginSlur)");
       if(type && (!strcmp(type, "stop")))
-        *is_slur_end = TRUE;
-      
+        g_string_append(notations, "(d-ToggleEndSlur)");
     }
+  //  I think we need functions to apply that aren't toggles.
+//note tuplets will be ignored, we will depend on the timing changes (as at present), since tuplet start/end is a separate object which once inserted prevents us seeing the note/chord
+    
+    if (ELEM_NAME_EQ (childElem, "ornaments"))
+        parse_ornaments (notations, childElem);
   }
 }
+
 static gchar *get_rest_for_duration(GString *ret, gint duration, gint divisions) {
   //g_print("Rest duration %d, divisions %d\n", duration, divisions);
   if(duration >= 4*divisions) {
@@ -455,15 +479,16 @@ static gchar *get_rest_for_duration(GString *ret, gint duration, gint divisions)
   g_string_append(ret, "\n;Duration of rest not recognized\n");
 }
 // *division is the current position of the tick counter from the start of the measure
-static gint parse_note(xmlNodePtr rootElem, GString **scripts, gint *staff_for_voice,
+static gchar *parse_note(xmlNodePtr rootElem, GString **scripts, gint *staff_for_voice,
   gint *division, gint divisions, gint *voice_timings, gint *current_voice, gint *actual_notes, gint *normal_notes, gboolean is_nonprinting)
 {
+  GString *ret = g_string_new("");
   xmlNodePtr childElem;
   gint octave, alter = 0;
   gchar *step = NULL;
   gchar *type = NULL;
-  gboolean in_chord = FALSE, is_dotted = FALSE, is_double_dotted = FALSE, is_rest = FALSE, is_grace = FALSE, is_tied = FALSE,
-   end_tuplet = FALSE, is_slur_start = FALSE, is_slur_end = FALSE;
+  gboolean in_chord = FALSE, is_dotted = FALSE, is_double_dotted = FALSE, is_rest = FALSE, is_grace = FALSE, is_tied = FALSE;
+  GString *notations = g_string_new("");
   gint voicenum = 1, staffnum = 1;
   gint duration = 0;
   gint initial_actual_notes = *actual_notes;
@@ -521,8 +546,7 @@ static gint parse_note(xmlNodePtr rootElem, GString **scripts, gint *staff_for_v
                 </notations>
 */
               if (ELEM_NAME_EQ (childElem, "notations")) {
-                end_tuplet = parse_end_tuplet(childElem);
-                parse_slur(childElem, &is_slur_start, &is_slur_end);
+                parse_notations(notations, childElem);
               }
  
               if (ELEM_NAME_EQ (childElem, "time-modification")) {
@@ -533,11 +557,28 @@ static gint parse_note(xmlNodePtr rootElem, GString **scripts, gint *staff_for_v
 
   if( staff_for_voice[voicenum-1] == 0)
             staff_for_voice[voicenum-1] = staffnum;
+
+#ifdef FIXED_PROBLEM_WITH_VOICE_CHANGE_IN_CHORDS
+// PROBLEM - this inserts an object which will come before inserting notes in a chord...
+// Do we need a command to add a note to a chord which works in this position???? otherwise it's like tuplets.
+   if (!in_chord && (staff_for_voice[voicenum-1] != staffnum)) {
+        g_string_append_printf(scripts[voicenum], "(d-ChangeStaff \"voice %d\")(d-MoveCursorRight)", staffnum + InitialVoiceNum); //always at end of bar !!!!!!!!!!! voice 1 staff 1 in debmand example.
+        staff_for_voice[voicenum-1] = staffnum;
+       // g_warning("Voice %d in staff %d + %d need a staff change directive\n", voicenum, staffnum, InitialVoiceNum);
+      }
+#else
+ if (!in_chord && (staff_for_voice[voicenum-1] != staffnum)) {
+   g_string_append(ret, "Change Staff Omitted ");
+ }
+#endif
+
+            
   if(*division > voice_timings[voicenum-1])
     {
             insert_invisible_rest(scripts[voicenum], *division - voice_timings[voicenum-1], divisions);
             voice_timings[voicenum-1] = *division;
     }
+    
   if(type)
     {
       g_string_append(text, in_chord? add_note(octave, step, alter):(is_rest?add_rest(type):insert_note(type, octave, step, alter)));
@@ -555,8 +596,7 @@ static gint parse_note(xmlNodePtr rootElem, GString **scripts, gint *staff_for_v
       if(is_double_dotted)
         g_string_append(text, "(d-AddDot)");
 
-      if (staff_for_voice[voicenum-1] != staffnum)
-        g_warning("Voice %d in staff %d need a staff change directive\n", voicenum, staffnum);
+
     } else  if(is_rest)
     {//for the case where a rest is given without a type, just a duration.
         get_rest_for_duration(text, duration, divisions);
@@ -570,7 +610,7 @@ static gint parse_note(xmlNodePtr rootElem, GString **scripts, gint *staff_for_v
         *normal_notes = 1;
    }
   
-  if (/* (!end_tuplet) && */ ((*current_voice != voicenum) && !(((initial_actual_notes)==1) && (initial_normal_notes==1))))
+  if (((*current_voice != voicenum) && !(((initial_actual_notes)==1) && (initial_normal_notes==1))))
     {/* an unterminated tuplet in the last voice */
             g_string_append(scripts[*current_voice], "(d-EndTuplet)");
  
@@ -578,11 +618,11 @@ static gint parse_note(xmlNodePtr rootElem, GString **scripts, gint *staff_for_v
             initial_normal_notes = 1;
     }
 
-  if (/*  (!end_tuplet) &&  */ ((initial_actual_notes != *actual_notes) || (initial_normal_notes != *normal_notes)))
+  if (((initial_actual_notes != *actual_notes) || (initial_normal_notes != *normal_notes)))
     {gchar *str;
           if ((initial_actual_notes)==1 && (initial_normal_notes==1))
-           //str = g_strdup_printf("(d-StartTuplet \"%d/%d\")", *normal_notes, *actual_notes);
-           str = g_strdup_printf("\n;not end tuplet and entered with normal timings %d  \n(d-StartTuplet \"%d/%d\")", in_chord, *normal_notes, *actual_notes);
+           str = g_strdup_printf("(d-StartTuplet \"%d/%d\")", *normal_notes, *actual_notes);
+           //str = g_strdup_printf("\n;not end tuplet and entered with normal timings %d  \n(d-StartTuplet \"%d/%d\")", in_chord, *normal_notes, *actual_notes);
           else
             str = g_strdup("\n;Changed timings\n(d-EndTuplet)");
           g_string_append(scripts[voicenum], str);
@@ -591,27 +631,15 @@ static gint parse_note(xmlNodePtr rootElem, GString **scripts, gint *staff_for_v
 
     
       
- g_string_append(scripts[voicenum], text->str);
- g_string_free(text, TRUE);
+  g_string_append(scripts[voicenum], text->str);
+  g_string_append(scripts[voicenum], notations->str);
+  g_string_free(notations, TRUE);
+  g_string_free(text, TRUE);
 
- /*      
-    if(end_tuplet)
-        {
-         *actual_notes = 1;
-         *normal_notes = 1;
-         g_string_append(scripts[voicenum], "\n;end tuplet marked\n(d-EndTuplet)");// outside note loop because it can come before the chord is finished
-         //WARNING this was *current_voice instead of voicenum but that is surely wrong???
-        }
-*/
- if((!in_chord) && is_slur_start)
-    g_string_append(scripts[voicenum],"(d-ToggleBeginSlur)");
- if((!in_chord) && is_slur_end)
-    g_string_append(scripts[voicenum],"(d-ToggleEndSlur)");
-
-    
-    if(!(in_chord || is_grace))
+  if(!(in_chord || is_grace))
       *division = *division + duration;
-    *current_voice = voicenum;       
+  *current_voice = voicenum;
+  return g_string_free(ret, FALSE);     
 }
 
 static gint get_staff_for_voice_note(xmlNodePtr rootElem, gint *staff_for_voice)
@@ -681,6 +709,49 @@ static gint parse_barline(xmlNodePtr rootElem, GString **scripts, gint numvoices
       g_string_append(scripts[i+1], text);
 }
 
+
+
+ /*          <direction placement="above">
+        <direction-type>
+          <wedge default-y="34" spread="0" type="crescendo"/>
+        </direction-type>
+      </direction>
+*/
+static gint parse_direction_type(xmlNodePtr rootElem, GString *script)
+{
+  xmlNodePtr childElem;
+  FOREACH_CHILD_ELEM (childElem, rootElem)
+          {
+            if (ELEM_NAME_EQ (childElem, "wedge")) {
+                  gchar *type = xmlGetProp(childElem, (xmlChar *)"type");
+                  gchar *spread = xmlGetProp(childElem, (xmlChar *)"spread");
+                if(type && spread) {
+                  if(!strcmp(type, "crescendo"))
+                    g_string_append(script, "(d-ToggleStartCrescendo)");
+                  if(!strcmp(type, "diminuendo"))
+                    g_string_append(script, "(d-ToggleStartDiminuendo)");
+
+                  if(!strcmp(type, "stop"))
+                    {
+                      if(!strcmp(spread, "0"))
+                        g_string_append(script, "(d-ToggleEndDiminuendo)");
+                      else
+                      g_string_append(script, "(d-ToggleEndCrescendo)");
+                    }
+                }
+            }
+          }
+}
+static gint parse_direction(xmlNodePtr rootElem, GString *script)
+{
+  xmlNodePtr childElem;
+  FOREACH_CHILD_ELEM (childElem, rootElem)
+          {
+            if (ELEM_NAME_EQ (childElem, "direction-type"))
+             parse_direction_type (childElem, script);
+          }
+}
+
 static gint get_staff_for_voice_measure(xmlNodePtr rootElem, gint *staff_for_voice)
 {
   xmlNodePtr childElem;
@@ -694,8 +765,10 @@ static gint get_staff_for_voice_measure(xmlNodePtr rootElem, gint *staff_for_voi
     }
 }
 
-static gint parse_measure(xmlNodePtr rootElem, GString **scripts, gint *staff_for_voice, gint *divisions, gint *voice_timings, gint numvoices, gint measurenum)
+static gchar *parse_measure(xmlNodePtr rootElem, GString **scripts, gint *staff_for_voice, gint *divisions, gint *voice_timings, gint numvoices, gint measurenum)
 {
+  GString *ret = g_string_new("");
+  gint note_count = 0;
   xmlNodePtr childElem;
   gint division = 0;
   gint current_voice = 1;
@@ -708,28 +781,39 @@ static gint parse_measure(xmlNodePtr rootElem, GString **scripts, gint *staff_fo
           parse_attributes(childElem, scripts, numvoices, staff_for_voice, division, voice_timings, divisions, &current_voice, measurenum);
           
       if (ELEM_NAME_EQ (childElem, "backup")) {
-         division -= parseDuration(&current_voice, childElem);g_print("backward arrives at %d\n", division);
+         division -= parseDuration(&current_voice, childElem);//g_print("backward arrives at %d\n", division);
       }
       if (ELEM_NAME_EQ (childElem, "forward")) {
-         division += parseDuration(&current_voice, childElem);g_print("forward arrives at %d\n", division);
+         division += parseDuration(&current_voice, childElem);//g_print("forward arrives at %d\n", division);
       }
       if (ELEM_NAME_EQ (childElem, "note")) {
         gchar *printing = xmlGetProp (childElem, "print-object");
         gboolean is_nonprinting = FALSE;
         if(printing && !strcmp(printing, "no"))
           is_nonprinting = TRUE;
-        parse_note(childElem, scripts, staff_for_voice, &division, *divisions, voice_timings, &current_voice, &actual_notes, &normal_notes, is_nonprinting);
+        gchar *warning =
+          parse_note(childElem, scripts, staff_for_voice, &division, *divisions, voice_timings, &current_voice, &actual_notes, &normal_notes, is_nonprinting);
+        note_count++;
+        if(*warning)
+          g_string_append_printf(ret, "%s at note number %d, ", warning, note_count);
         last_voice_with_notes = current_voice;
       }
+
+       
+      if (ELEM_NAME_EQ (childElem, "direction")) {
+        parse_direction(childElem, scripts[current_voice]);
+      }       
       if (ELEM_NAME_EQ (childElem, "barline")) {
         parse_barline(childElem, scripts, numvoices);
       }              
     }
   if((actual_notes != 1) || (normal_notes != 1))
      g_string_append_printf(scripts[last_voice_with_notes], "\n;measure end with tuplet still active in voice %d\n(d-EndTuplet)", current_voice);
+  return g_string_free (ret, FALSE);
 }
 static gchar *parse_part(xmlNodePtr rootElem)
 {
+  GString *warnings = g_string_new("");
   gint i, j;
   xmlNodePtr childElem;
   gint numstaffs = 1, numvoices = 1;
@@ -799,7 +883,9 @@ static gchar *parse_part(xmlNodePtr rootElem)
             {
               gint maxduration=0;
               memset(voice_timings, 0, numvoices*sizeof(gint));
-              parse_measure(childElem, scripts, staff_for_voice, &divisions, voice_timings, numvoices, measure_count);
+              gchar *warning = parse_measure(childElem, scripts, staff_for_voice, &divisions, voice_timings, numvoices, measure_count);
+              if(*warning)
+                g_string_append_printf (warnings, "%s in bar %d.\n", warning, measure_count);
               for (i=0;i<numvoices;i++)
                 if(maxduration < voice_timings[i])
                   maxduration = voice_timings[i];
@@ -827,6 +913,10 @@ static gchar *parse_part(xmlNodePtr rootElem)
       g_string_append(scripts[0], "(d-MoveToBeginning)(d-MoveToStaffDown)");
     }
   g_string_append(scripts[0], "(d-AddAfter)(d-InitialKey \"C major\")");
+  if(warnings->len)
+    g_warning("Parsing MusicXML gave these warnings:\n%s\n", warnings->str);
+  g_string_free(warnings, TRUE);
+  InitialVoiceNum += numvoices;
   return g_string_free(scripts[0], FALSE);
 }
 
@@ -852,8 +942,13 @@ mxmlinput (gchar * filename)
 
   rootElem = xmlDocGetRootElement (doc);
   xmlNodePtr childElem;
-  GString *script = g_string_new(";Score\n\n(d-MasterVolume 0)");
+  GString *script = g_string_new(";Score\n\n(d-MasterVolume 0) (d-StaffProperties \"denemo_name=voice 1\")");
   gint part_count = 1;
+  InitialVoiceNum = 0;
+  if(Warnings==NULL)
+    Warnings = g_string_new("");
+  else
+    g_string_assign(Warnings, "");
   FOREACH_CHILD_ELEM (childElem, rootElem)
           {
             if (ELEM_NAME_EQ (childElem, "part")) {
