@@ -4745,9 +4745,26 @@ scheme_insert_note_in_chord (SCM lily)
 {
   DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD))
-    return SCM_BOOL (FALSE);
-
+  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) )
+    return SCM_BOOL_F;
+#ifdef INSERT_NOTE_IN_CHORD_WORKS_ON_PREVIOUS_CHORD
+  if(curObj->type != CHORD) {
+    objnode *theobj = Denemo.gui->si->currentobject;
+    while(theobj->prev)
+      {
+        theobj = theobj->prev;
+        curObj = theobj->data;
+        if(curObj->type ==CHORD)
+          break;
+      }
+    if(curObj->type !=CHORD)
+      return SCM_BOOL_F;
+  }
+#else
+   if(curObj->type !=CHORD)
+      return SCM_BOOL_F;
+#endif
+      
   char *str = NULL;
   if (scm_is_string (lily))
     {
