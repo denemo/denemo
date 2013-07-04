@@ -613,6 +613,12 @@
 				<menuitem action="ToggleBeginSlur"/>
 				<menuitem action="ToggleEndSlur"/>
     </menu>
+    <menu action="Dynamics">
+      <menuitem action="ToggleStartCrescendo"/>
+      <menuitem action="ToggleEndCrescendo"/>
+      <menuitem action="ToggleStartDiminuendo"/>
+      <menuitem action="ToggleEndDiminuendo"/>
+    </menu>
       <menuitem action="ToggleTie"/>
   </popup>
   <popup name="NoteEditPopup">
@@ -659,6 +665,12 @@
     <menu action="Slurs">
 				<menuitem action="ToggleBeginSlur"/>
 				<menuitem action="ToggleEndSlur"/>
+    </menu>
+    <menu action="Dynamics">
+      <menuitem action="ToggleStartCrescendo"/>
+      <menuitem action="ToggleEndCrescendo"/>
+      <menuitem action="ToggleStartDiminuendo"/>
+      <menuitem action="ToggleEndDiminuendo"/>
     </menu>
     <menuitem action="ToggleTie"/>
   </popup>
