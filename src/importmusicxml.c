@@ -357,14 +357,62 @@ static gint parseDuration (gint *current_voice, xmlNodePtr rootElem)
           }
 return duration;
 }
+static gchar *get_rest_for_duration(GString *ret, gint duration, gint divisions) {
+  //g_print("Rest duration %d, divisions %d\n", duration, divisions);
+  if(duration >= 4*divisions) {
+    g_string_append(ret, "(d-InsertRest0)");
+    duration -= 4*divisions;
+    return get_rest_for_duration(ret, duration, divisions);
+  } else if (duration >= 2*divisions) {
+    g_string_append(ret, "(d-InsertRest1)");
+    duration -= 2*divisions;
+    return get_rest_for_duration(ret, duration, divisions);
+  } else if (duration >= 1*divisions) {
+    g_string_append(ret, "(d-InsertRest2)");
+    duration -= 1*divisions;
+    return get_rest_for_duration(ret, duration, divisions);
+  } else if (2*duration >= divisions && (divisions/2)) {
+    g_string_append(ret, "(d-InsertRest3)");
+    duration -= divisions/2;
+    return get_rest_for_duration(ret, duration, divisions);
+  } else if (4*duration >= divisions && (divisions/4)) {
+    g_string_append(ret, "(d-InsertRest4)");
+    duration -= divisions/4;
+    return get_rest_for_duration(ret, duration, divisions);
+  } else if (8*duration >= divisions && (divisions/8)) {
+    g_string_append(ret, "(d-InsertRest5)");
+    duration -= divisions/8;
+    return get_rest_for_duration(ret, duration, divisions);
+  } else if (16*duration >= divisions && (divisions/16)) {
+    g_string_append(ret, "(d-InsertRest6)");
+    duration -= divisions/16;
+    return get_rest_for_duration(ret, duration, divisions);
+  } else if (32*duration >= divisions && (divisions/32)) {
+    g_string_append(ret, "(d-InsertRest7)");
+    duration -= divisions/32;
+    return get_rest_for_duration(ret, duration, divisions);
+  } else if (duration==0)
+    return;
+
+  g_string_append(ret, "\n;Duration of rest not recognized\n");
+}
 
 
-
-static gchar *add_rest (gchar *type)
+static gchar *add_rest (gchar *type, gint duration, gint divisions)
 {
   gchar *duration_text="";
   if(!strcmp(type, "whole"))
-  duration_text = "(d-InsertRest0)"; else if(!strcmp(type, "half"))
+  {
+    if(4*divisions == duration)
+      duration_text = "(d-InsertRest0)";
+    else
+    {
+      GString *ret = g_string_new("");
+      get_rest_for_duration (ret, duration, divisions);
+      return g_string_free(ret, FALSE);
+    }
+  }
+   else if(!strcmp(type, "half"))
   duration_text = "(d-InsertRest1)"; else if(!strcmp(type, "quarter"))
   duration_text = "(d-InsertRest2)"; else if(!strcmp(type, "eighth"))
   duration_text = "(d-InsertRest3)"; else if(!strcmp(type, "16th"))
@@ -439,45 +487,7 @@ static void parse_notations(GString *notations, xmlNodePtr rootElem){
   }
 }
 
-static gchar *get_rest_for_duration(GString *ret, gint duration, gint divisions) {
-  //g_print("Rest duration %d, divisions %d\n", duration, divisions);
-  if(duration >= 4*divisions) {
-    g_string_append(ret, "(d-InsertRest0)");
-    duration -= 4*divisions;
-    return get_rest_for_duration(ret, duration, divisions);
-  } else if (duration >= 2*divisions) {
-    g_string_append(ret, "(d-InsertRest1)");
-    duration -= 2*divisions;
-    return get_rest_for_duration(ret, duration, divisions);
-  } else if (duration >= 1*divisions) {
-    g_string_append(ret, "(d-InsertRest2)");
-    duration -= 1*divisions;
-    return get_rest_for_duration(ret, duration, divisions);
-  } else if (2*duration >= divisions && (divisions/2)) {
-    g_string_append(ret, "(d-InsertRest3)");
-    duration -= divisions/2;
-    return get_rest_for_duration(ret, duration, divisions);
-  } else if (4*duration >= divisions && (divisions/4)) {
-    g_string_append(ret, "(d-InsertRest4)");
-    duration -= divisions/4;
-    return get_rest_for_duration(ret, duration, divisions);
-  } else if (8*duration >= divisions && (divisions/8)) {
-    g_string_append(ret, "(d-InsertRest5)");
-    duration -= divisions/8;
-    return get_rest_for_duration(ret, duration, divisions);
-  } else if (16*duration >= divisions && (divisions/16)) {
-    g_string_append(ret, "(d-InsertRest6)");
-    duration -= divisions/16;
-    return get_rest_for_duration(ret, duration, divisions);
-  } else if (32*duration >= divisions && (divisions/32)) {
-    g_string_append(ret, "(d-InsertRest7)");
-    duration -= divisions/32;
-    return get_rest_for_duration(ret, duration, divisions);
-  } else if (duration==0)
-    return;
 
-  g_string_append(ret, "\n;Duration of rest not recognized\n");
-}
 // *division is the current position of the tick counter from the start of the measure
 static gchar *parse_note(xmlNodePtr rootElem, GString **scripts, gint *staff_for_voice,
   gint *division, gint divisions, gint *voice_timings, gint *current_voice, gint *actual_notes, gint *normal_notes, gboolean is_nonprinting)
@@ -581,7 +591,7 @@ static gchar *parse_note(xmlNodePtr rootElem, GString **scripts, gint *staff_for
     
   if(type)
     {
-      g_string_append(text, in_chord? add_note(octave, step, alter):(is_rest?add_rest(type):insert_note(type, octave, step, alter)));
+      g_string_append(text, in_chord? add_note(octave, step, alter):(is_rest?add_rest(type, duration, divisions):insert_note(type, octave, step, alter)));
 
       if(is_nonprinting)
         g_string_append(text, "(d-SetNonprinting)");
@@ -956,7 +966,7 @@ mxmlinput (gchar * filename)
               g_string_append(script, parse_part(childElem));
             }
           }
- g_string_append(script, "(d-DeleteStaff)(d-MoveToEnd)(if (None?) (d-DeleteMeasureAllStaffs))(d-MasterVolume 1)(d-MoveToBeginning)(if (UnderfullMeasure?)(d-Upbeat))");
+ g_string_append(script, "(d-DeleteStaff)(d-MoveToEnd)(if (None?) (d-DeleteMeasureAllStaffs))(d-MasterVolume 1)(d-MoveToBeginning)(if (and (not (None?))(UnderfullMeasure?))(d-Upbeat))");
 #ifndef DEVELOPER
  {FILE *fp = fopen("/home/rshann/junk.scm", "w");
     if(fp) {
