@@ -967,7 +967,7 @@ mxmlinput (gchar * filename)
             }
           }
  g_string_append(script, "(d-DeleteStaff)(d-MoveToEnd)(if (None?) (d-DeleteMeasureAllStaffs))(d-MasterVolume 1)(d-MoveToBeginning)(if (and (not (None?))(UnderfullMeasure?))(d-Upbeat))");
-#ifndef DEVELOPER
+#ifdef DEVELOPER
  {FILE *fp = fopen("/home/rshann/junk.scm", "w");
     if(fp) {
       fprintf(fp, ";Parser not yet finished:\n %s", script->str);
