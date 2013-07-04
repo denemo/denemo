@@ -119,6 +119,7 @@ initprefs ()
   ret->cursor_highlight = TRUE;
   ret->return_key_is_special = TRUE;
   ret->newbie = TRUE;
+  ret->persistence = TRUE;
   ret->learning = TRUE;
   ret->immediateplayback = TRUE;
   ret->manualtypeset = FALSE;
