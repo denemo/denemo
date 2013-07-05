@@ -449,6 +449,10 @@ static void  parse_ornaments(GString *notations, xmlNodePtr rootElem) {
     {
       g_string_append(notations, "(d-ToggleTrill)");
     }
+    if (ELEM_NAME_EQ (childElem, "turn"))
+    {
+      g_string_append(notations, "(d-ToggleTurn)");
+    }
   }
 }
 
@@ -478,6 +482,11 @@ static void parse_notations(GString *notations, xmlNodePtr rootElem){
         g_string_append(notations, "(d-ToggleBeginSlur)");
       if(type && (!strcmp(type, "stop")))
         g_string_append(notations, "(d-ToggleEndSlur)");
+    }
+
+  if (ELEM_NAME_EQ (childElem, "fermata"))
+    {
+      g_string_append(notations, "(d-ToggleFermata)");
     }
   //  I think we need functions to apply that aren't toggles.
 //note tuplets will be ignored, we will depend on the timing changes (as at present), since tuplet start/end is a separate object which once inserted prevents us seeing the note/chord
@@ -967,7 +976,7 @@ mxmlinput (gchar * filename)
             }
           }
  g_string_append(script, "(d-DeleteStaff)(d-MoveToEnd)(if (None?) (d-DeleteMeasureAllStaffs))(d-MasterVolume 1)(d-MoveToBeginning)(if (and (not (None?))(UnderfullMeasure?))(d-Upbeat))");
-#ifdef DEVELOPER
+#ifndef DEVELOPER
  {FILE *fp = fopen("/home/rshann/junk.scm", "w");
     if(fp) {
       fprintf(fp, ";Parser not yet finished:\n %s", script->str);

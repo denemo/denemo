@@ -5126,8 +5126,15 @@ First it removes notes until just a non-printing rest remains, then deletes that
         <_tooltip>Adds/Removes a PrallPrall to the note</_tooltip>
       </row>
       <row type="scheme">
-        <action>ToggleReverseTurn</action>
+        <action>ToggleTurn</action>
         <after>TogglePrallPrall</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <_label>Turn (Off/On)</_label>
+        <_tooltip>Add/Removes a Turn to the note</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ToggleReverseTurn</action>
+        <after>ToggleTurn</after>
         <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
         <_label>Reverse Turn (Off/On)</_label>
         <_tooltip>Add/Removes a Reverse Turn to the note</_tooltip>
