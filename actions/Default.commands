@@ -5940,6 +5940,20 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <_label>Check Beaming</_label>
         <_tooltip>Checks the current measure for beaming errors.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>FindNextSimilar</action>
+        <after>NextHigher</after>
+        <menupath>/MainMenu/NavigationMenu/Seek</menupath>
+        <_label>Find Next Similar</_label>
+        <_tooltip>Finds the next object similar to the one at the cursor.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>EditSimilar</action>
+        <after>EditObject</after>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <_label>Edit Similar</_label>
+        <_tooltip>Interactively edit all succeeding objects similar to the one at the cursor</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <after>NextHigher</after>
+        <action>FindNextSimilar</action>
+        <_label>Find Next Similar</_label>
+        <_tooltip>Finds the next object similar to the one at the cursor.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
