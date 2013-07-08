@@ -73,7 +73,7 @@ toggle_locked (GtkWidget * widget, gboolean * locked)
 }
 
 /* lookup a directive tagged with TAG in a list DIRECTIVES and return it.
-   if TAG is NULL return the first directive
+   if TAG is NULL or "" return the first directive
    else return NULL
    * If TAG has two lines the first only is matched, while the second is
    * interpreted as a number selecting which matching directive to return */
@@ -81,7 +81,7 @@ static DenemoDirective *
 find_directive (GList * directives, gchar * tag)
 {
   DenemoDirective *directive = NULL;
-  if (tag)
+  if (tag && *tag)
     {
       GList *g;
       gchar *newline;
