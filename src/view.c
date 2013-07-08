@@ -9142,7 +9142,7 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
       g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (load_command_from_location), (gpointer) filepath);
     }
 
-  if (!is_action_id_builtin(idx))
+  if (!is_action_name_builtin(func_name))
     {
       gchar *scheme = g_object_get_data (G_OBJECT (action), "scheme");
       if (!scheme || !*scheme)
