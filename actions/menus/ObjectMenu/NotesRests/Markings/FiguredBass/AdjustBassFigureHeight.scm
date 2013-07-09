@@ -1,7 +1,7 @@
 ;;;AdjustBassFigureHeight
 (let ((tag "AdjustBassFigureHeight"))
 	(define offset #f)
-	(if (defined? 'AdjustBassFigureHeight::params)
+	(if (not (equal? AdjustBassFigureHeight::params "edit"))
 		(set! offset AdjustBassFigureHeight::params))
 	(if (not offset)
 		(set! offset (d-GetUserInput (_ "Figured Bass Height") (_ "Give height adjustment (unit = staff space): ") "1.0")))

@@ -87,6 +87,7 @@ typedef enum
   Beam,
   Slur,
   Articulation,
+  BassFigure,
 } WwGrob;
 
 typedef struct WysiwygInfo

@@ -609,6 +609,15 @@ scheme_get_target_info (void)
       type = SCM_BOOL_F;
       break;
     }
+
+  if (si->target.type == TARGET_NOTE) {
+    DenemoObject *obj = si->currentobject->data;
+    chord *thechord = ((chord *) ((DenemoObject *) obj->object));
+    if(thechord->figure)
+      grob = scm_from_locale_string ("BassFigure");
+  }
+
+            
   if (si->target.directivenum || (si->target.type == TARGET_OBJECT))
     {
       DenemoDirective *directive = NULL;

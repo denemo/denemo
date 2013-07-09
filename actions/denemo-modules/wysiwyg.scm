@@ -198,11 +198,15 @@
 					(TweakRelativeOffset sa-tag offsetx offsety)))
 		;;; not a standalone directive				
 		(begin
+      ;;(if (equal? grob "BassFigure")
+        ;;(d-AdjustBassFigureHeight offsety))
+        
 			(if tag
 				(eval-string (string-append "(d-" tag "  (list (cons 'offsetx \"" offsetx "\")  (cons 'offsety \"" offsety "\")))")))
 			(if (Rest?)
 				(ExtraOffset "RestOffset" "Rest" "chord" "Voice." (cons offsetx offsety) DENEMO_OVERRIDE_AFFIX)
-				(disp "Doing Nothing"))))
+				(if (equal? grob "BassFigure")
+          (d-AdjustBassFigureHeight offsety)))))
 	(d-SetSaved #f))
 ;;;;;;;;;;;
 (define (SetSlur control-points)
@@ -391,14 +395,23 @@ To do this dismiss this dialog and guess at where the red spot is on the object.
 								
 				((equal? target-type "Note")
 					(if grob   ;;; is grob defined for Fingering, or should this be tag? FIXME
-						(cond ((equal? grob "Fingering")
-							(set! choice (d-PopupMenu (list (cons (cons "Control Fingerings Positions" 
+						(cond
+              ((equal? grob "Fingering")
+                (set! choice (d-PopupMenu (list (cons (cons "Control Fingerings Positions" 
 									"Creates a directive before this chord which can be edited to position the finger indications for each note in the chord") 
 										d-FingeringPosition))))
-							(if choice
-								(choice)
-								(disp "cancelled"))))
-							(let ((menu '()) (base-duration (d-GetNoteBaseDuration)))
+                (if choice
+                  (choice)
+                  (disp "cancelled")))
+              ((equal? grob "BassFigure")
+                  (set! choice (d-PopupMenu (list (cons (cons "Offset Figure" 
+									"Choose position for this bass figure") 
+										do-center-relative-offset))))
+                  (if choice
+                    (choice)
+                    (disp "cancelled")))
+                  )
+            (let ((menu '()) (base-duration (d-GetNoteBaseDuration)))
 									(set! menu (cons (cons (cons (_ "Line Break") (_ "Start a new line here"))	d-LineBreak) menu))
 									(set! menu (cons (cons (cons (_"Page Break") (_"Start a new page here"))	d-PageBreak) menu))
 									(if (> base-duration 5)

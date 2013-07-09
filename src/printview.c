@@ -13,7 +13,7 @@ static gchar *thumbnailsdirN = NULL;
 static gchar *thumbnailsdirL = NULL;
 
 static gboolean retypeset (void);
-
+static gdouble get_center_staff_offset (void);
 static unsigned
 file_get_mtime (gchar * filename)
 {
@@ -378,17 +378,19 @@ overdraw_print (cairo_t * cr)
       cairo_move_to (cr, get_wysiwig_info()->Mark.x, get_wysiwig_info()->Mark.y);
       cairo_line_to (cr, get_wysiwig_info()->curx, get_wysiwig_info()->cury);
       cairo_stroke (cr);
-
+      //g_print("grob is %d %d\n\n\n\n", get_wysiwig_info()->grob, OBJ_NONE);
       if (Denemo.pixbuf)
         {
-          guint width = gdk_pixbuf_get_width (GDK_PIXBUF (Denemo.pixbuf));
-          guint height = gdk_pixbuf_get_height (GDK_PIXBUF (Denemo.pixbuf));
-          cairo_save (cr);
-          gdk_cairo_set_source_pixbuf (cr, GDK_PIXBUF (Denemo.pixbuf), get_wysiwig_info()->curx - width / 2, get_wysiwig_info()->cury - height / 2);
-          cairo_rectangle (cr, get_wysiwig_info()->curx - width / 2, get_wysiwig_info()->cury - height / 2, width, height);
+          if(get_wysiwig_info()->grob==OBJ_NONE) {
+            guint width = gdk_pixbuf_get_width (GDK_PIXBUF (Denemo.pixbuf));
+            guint height = gdk_pixbuf_get_height (GDK_PIXBUF (Denemo.pixbuf));
+            cairo_save (cr);
+            gdk_cairo_set_source_pixbuf (cr, GDK_PIXBUF (Denemo.pixbuf), get_wysiwig_info()->curx - width / 2, get_wysiwig_info()->cury - height / 2);
+            cairo_rectangle (cr, get_wysiwig_info()->curx - width / 2, get_wysiwig_info()->cury - height / 2, width, height);
 
-          cairo_fill (cr);
-          cairo_restore (cr);
+            cairo_fill (cr);
+            cairo_restore (cr);
+          }
         }
       else
         g_warning ("No pixbuf");
@@ -770,6 +772,18 @@ get_offset (gdouble * offsetx, gdouble * offsety)
       scale *= (staffsize / 4); //Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
       *offsetx = (get_wysiwig_info()->curx - get_wysiwig_info()->Mark.x) / scale; //Could/Should this better be get_wysiwig_info()->Reference????
       *offsety = -(get_wysiwig_info()->cury - get_wysiwig_info()->Mark.y) / scale;
+
+
+#if 0
+
+//here if figured bass adjust for center
+//get_center_staff_offset. Instead in wysiwyg.scm I have used do-center-relative-offset
+     gdouble nearadjust = get_center_staff_offset ();
+g_print("Adjusting %f by %f\n", *offsety, (nearadjust / scale));
+      *offsety -= (nearadjust / scale);
+
+#endif
+      
       get_wysiwig_info()->stage = STAGE_NONE;
       gtk_widget_queue_draw (Denemo.printarea);
       return TRUE;
@@ -1169,8 +1183,9 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
 
           if (get_wysiwig_info()->ObjectLocated && Denemo.gui->si->currentobject)
             {
-              DenemoDirective *directive = NULL;
+              DenemoDirective *directive = NULL; //this information is collected but not used FIXME
               DenemoObject *obj = (DenemoObject *) Denemo.gui->si->currentobject->data;
+              get_wysiwig_info()->grob = OBJ_NONE;
               if (obj->type == LILYDIRECTIVE)
                 {
                   directive = ((lilydirective *) obj->object);
@@ -1187,6 +1202,11 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
                           {
                             directive = get_note_directive_number (Denemo.gui->si->target.directivenum);
                           }
+                      }
+                      {
+                        chord *thechord = (chord *) obj->object;
+                        if(thechord->figure)
+                            get_wysiwig_info()->grob = BassFigure;
                       }
                     break;
                   case TARGET_CHORD:
