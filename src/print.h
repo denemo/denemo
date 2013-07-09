@@ -57,7 +57,7 @@ typedef enum
   STAGE_NONE,
   Offsetting,
   Selecting,
-  TargetEstablished,            //the get_wysiwig_info()->grob has been set
+  TargetEstablished,            //the get_wysiwyg_info()->grob has been set
   SelectingNearEnd,
   SelectingFarEnd,
   DraggingNearEnd,
@@ -118,7 +118,7 @@ GError *lily_err;
 gint changecount;   //changecount when the printfile was last created FIXME multiple tabs are muddled
 GPid previewerpid;
 
-WysiwygInfo* get_wysiwig_info();
+WysiwygInfo* get_wysiwyg_info();
 printstatus* get_print_status();
 void printall_cb (GtkAction * action, gpointer param);
 void printmovement_cb (GtkAction * action, gpointer param);

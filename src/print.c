@@ -57,7 +57,7 @@ get_print_status(){
 }
 
 WysiwygInfo*
-get_wysiwig_info(){
+get_wysiwyg_info(){
   static WysiwygInfo Ww;                   //Wysywyg information
   return &Ww;
 }

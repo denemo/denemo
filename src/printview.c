@@ -149,7 +149,7 @@ set_printarea_doc (EvDocument * doc)
       ev_document_model_set_document (model, doc);
     }
   ev_document_model_set_dual_page (model, GPOINTER_TO_INT (g_object_get_data (G_OBJECT (Denemo.printarea), "Duplex")));
-  get_wysiwig_info()->Mark.width = 0;            //indicate that there should no longer be any Mark placed on the score
+  get_wysiwyg_info()->Mark.width = 0;            //indicate that there should no longer be any Mark placed on the score
 }
 
 static void
@@ -261,10 +261,10 @@ overdraw_print (cairo_t * cr)
 //  gdk_cairo_set_source_pixbuf( cr, GDK_PIXBUF(Denemo.pixbuf), -x, -y);
   cairo_save (cr);
 
-  if ((get_wysiwig_info()->Mark.width > 0.0) && (get_wysiwig_info()->stage != WaitingForDrag) && (get_wysiwig_info()->stage != DraggingNearEnd) && (get_wysiwig_info()->stage != DraggingFarEnd))
+  if ((get_wysiwyg_info()->Mark.width > 0.0) && (get_wysiwyg_info()->stage != WaitingForDrag) && (get_wysiwyg_info()->stage != DraggingNearEnd) && (get_wysiwyg_info()->stage != DraggingFarEnd))
     {
       cairo_set_source_rgba (cr, 0.5, 0.5, 1.0, 0.5);
-      cairo_rectangle (cr, get_wysiwig_info()->Mark.x - PRINTMARKER / 2, get_wysiwig_info()->Mark.y - PRINTMARKER / 2, PRINTMARKER, PRINTMARKER);
+      cairo_rectangle (cr, get_wysiwyg_info()->Mark.x - PRINTMARKER / 2, get_wysiwyg_info()->Mark.y - PRINTMARKER / 2, PRINTMARKER, PRINTMARKER);
       cairo_fill (cr);
     }
   if (get_print_status()->invalid /*!print_is_valid */ )
@@ -308,85 +308,85 @@ overdraw_print (cairo_t * cr)
 
   cairo_restore (cr);
 
-  if (get_wysiwig_info()->stage == SelectingFarEnd)
+  if (get_wysiwyg_info()->stage == SelectingFarEnd)
     {
       cairo_set_source_rgba (cr, 0.3, 0.3, 0.7, 0.9);
-      //cairo_rectangle (cr, get_wysiwig_info()->near.x-PRINTMARKER/2, get_wysiwig_info()->near.y-PRINTMARKER/2, PRINTMARKER, PRINTMARKER );
-      cairo_move_to (cr, get_wysiwig_info()->nearpoint.x, get_wysiwig_info()->nearpoint.y);
-      cairo_arc (cr, get_wysiwig_info()->nearpoint.x, get_wysiwig_info()->nearpoint.y, 1.5, 0.0, 2 * M_PI);
+      //cairo_rectangle (cr, get_wysiwyg_info()->near.x-PRINTMARKER/2, get_wysiwyg_info()->near.y-PRINTMARKER/2, PRINTMARKER, PRINTMARKER );
+      cairo_move_to (cr, get_wysiwyg_info()->nearpoint.x, get_wysiwyg_info()->nearpoint.y);
+      cairo_arc (cr, get_wysiwyg_info()->nearpoint.x, get_wysiwyg_info()->nearpoint.y, 1.5, 0.0, 2 * M_PI);
       cairo_fill (cr);
     }
-  if (get_wysiwig_info()->stage == WaitingForDrag)
+  if (get_wysiwyg_info()->stage == WaitingForDrag)
     {
       cairo_set_source_rgba (cr, 0.3, 0.3, 0.7, 0.9);
-      place_spot (cr, get_wysiwig_info()->farpoint.x, get_wysiwig_info()->farpoint.y);
+      place_spot (cr, get_wysiwyg_info()->farpoint.x, get_wysiwyg_info()->farpoint.y);
 
-      place_spot (cr, get_wysiwig_info()->nearpoint.x, get_wysiwig_info()->nearpoint.y);
+      place_spot (cr, get_wysiwyg_info()->nearpoint.x, get_wysiwyg_info()->nearpoint.y);
 
     }
-  if ((get_wysiwig_info()->stage == WaitingForDrag) || (get_wysiwig_info()->stage == DraggingNearEnd) || (get_wysiwig_info()->stage == DraggingFarEnd))
+  if ((get_wysiwyg_info()->stage == WaitingForDrag) || (get_wysiwyg_info()->stage == DraggingNearEnd) || (get_wysiwyg_info()->stage == DraggingFarEnd))
     {
       cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.7);
-      cairo_move_to (cr, get_wysiwig_info()->nearpoint.x, get_wysiwig_info()->nearpoint.y);
-      cairo_line_to (cr, get_wysiwig_info()->farpoint.x, get_wysiwig_info()->farpoint.y);
+      cairo_move_to (cr, get_wysiwyg_info()->nearpoint.x, get_wysiwyg_info()->nearpoint.y);
+      cairo_line_to (cr, get_wysiwyg_info()->farpoint.x, get_wysiwyg_info()->farpoint.y);
       cairo_stroke (cr);
       return TRUE;
     }
 
-  if ((get_wysiwig_info()->stage == SelectingPoint) || (get_wysiwig_info()->stage == WaitingForCurveDrag) || (get_wysiwig_info()->stage == Dragging1) || (get_wysiwig_info()->stage == Dragging2) || (get_wysiwig_info()->stage == Dragging3) || (get_wysiwig_info()->stage == Dragging4))
+  if ((get_wysiwyg_info()->stage == SelectingPoint) || (get_wysiwyg_info()->stage == WaitingForCurveDrag) || (get_wysiwyg_info()->stage == Dragging1) || (get_wysiwyg_info()->stage == Dragging2) || (get_wysiwyg_info()->stage == Dragging3) || (get_wysiwyg_info()->stage == Dragging4))
     {
       //place_spot for all non-null points Curve.p1...
-      if (get_wysiwig_info()->Curve.p1.x)
+      if (get_wysiwyg_info()->Curve.p1.x)
         {
-          place_spot (cr, get_wysiwig_info()->Curve.p1.x, get_wysiwig_info()->Curve.p1.y);
+          place_spot (cr, get_wysiwyg_info()->Curve.p1.x, get_wysiwyg_info()->Curve.p1.y);
         }
-      if (get_wysiwig_info()->Curve.p2.x)
+      if (get_wysiwyg_info()->Curve.p2.x)
         {
-          place_spot (cr, get_wysiwig_info()->Curve.p2.x, get_wysiwig_info()->Curve.p2.y);
+          place_spot (cr, get_wysiwyg_info()->Curve.p2.x, get_wysiwyg_info()->Curve.p2.y);
         }
-      if (get_wysiwig_info()->Curve.p1.x)
+      if (get_wysiwyg_info()->Curve.p1.x)
         {
-          place_spot (cr, get_wysiwig_info()->Curve.p3.x, get_wysiwig_info()->Curve.p3.y);
+          place_spot (cr, get_wysiwyg_info()->Curve.p3.x, get_wysiwyg_info()->Curve.p3.y);
         }
 
-      if (get_wysiwig_info()->Curve.p4.x)
+      if (get_wysiwyg_info()->Curve.p4.x)
         {                       //all control points initialized
-          place_spot (cr, get_wysiwig_info()->Curve.p4.x, get_wysiwig_info()->Curve.p4.y);
+          place_spot (cr, get_wysiwyg_info()->Curve.p4.x, get_wysiwyg_info()->Curve.p4.y);
 
           cairo_set_source_rgba (cr, 0.5, 0.8, 0.0, 0.7);
-          cairo_move_to (cr, get_wysiwig_info()->Curve.p1.x, get_wysiwig_info()->Curve.p1.y);
-          cairo_curve_to (cr, get_wysiwig_info()->Curve.p2.x, get_wysiwig_info()->Curve.p2.y, get_wysiwig_info()->Curve.p3.x, get_wysiwig_info()->Curve.p3.y, get_wysiwig_info()->Curve.p4.x, get_wysiwig_info()->Curve.p4.y);
+          cairo_move_to (cr, get_wysiwyg_info()->Curve.p1.x, get_wysiwyg_info()->Curve.p1.y);
+          cairo_curve_to (cr, get_wysiwyg_info()->Curve.p2.x, get_wysiwyg_info()->Curve.p2.y, get_wysiwyg_info()->Curve.p3.x, get_wysiwyg_info()->Curve.p3.y, get_wysiwyg_info()->Curve.p4.x, get_wysiwyg_info()->Curve.p4.y);
           cairo_stroke (cr);
         }
       return TRUE;
     }
 
-  if (get_wysiwig_info()->stage == SelectingReference)
+  if (get_wysiwyg_info()->stage == SelectingReference)
     {
       gint w, h;
       get_window_size (&w, &h);
       cairo_set_source_rgba (cr, 0.0, 0.0, 1.0, 0.7);
-      cairo_move_to (cr, get_wysiwig_info()->curx, 0);
-      cairo_line_to (cr, get_wysiwig_info()->curx, h);
-      cairo_move_to (cr, 0, get_wysiwig_info()->cury);
-      cairo_line_to (cr, w, get_wysiwig_info()->cury);
+      cairo_move_to (cr, get_wysiwyg_info()->curx, 0);
+      cairo_line_to (cr, get_wysiwyg_info()->curx, h);
+      cairo_move_to (cr, 0, get_wysiwyg_info()->cury);
+      cairo_line_to (cr, w, get_wysiwyg_info()->cury);
       cairo_stroke (cr);
     }
-  if (get_wysiwig_info()->stage == Offsetting)
+  if (get_wysiwyg_info()->stage == Offsetting)
     {
       cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.7);
-      cairo_move_to (cr, get_wysiwig_info()->Mark.x, get_wysiwig_info()->Mark.y);
-      cairo_line_to (cr, get_wysiwig_info()->curx, get_wysiwig_info()->cury);
+      cairo_move_to (cr, get_wysiwyg_info()->Mark.x, get_wysiwyg_info()->Mark.y);
+      cairo_line_to (cr, get_wysiwyg_info()->curx, get_wysiwyg_info()->cury);
       cairo_stroke (cr);
-      //g_print("grob is %d %d\n\n\n\n", get_wysiwig_info()->grob, OBJ_NONE);
+      //g_print("grob is %d %d\n\n\n\n", get_wysiwyg_info()->grob, OBJ_NONE);
       if (Denemo.pixbuf)
         {
-          if(get_wysiwig_info()->grob==OBJ_NONE) {
+          if(get_wysiwyg_info()->grob==OBJ_NONE) {
             guint width = gdk_pixbuf_get_width (GDK_PIXBUF (Denemo.pixbuf));
             guint height = gdk_pixbuf_get_height (GDK_PIXBUF (Denemo.pixbuf));
             cairo_save (cr);
-            gdk_cairo_set_source_pixbuf (cr, GDK_PIXBUF (Denemo.pixbuf), get_wysiwig_info()->curx - width / 2, get_wysiwig_info()->cury - height / 2);
-            cairo_rectangle (cr, get_wysiwig_info()->curx - width / 2, get_wysiwig_info()->cury - height / 2, width, height);
+            gdk_cairo_set_source_pixbuf (cr, GDK_PIXBUF (Denemo.pixbuf), get_wysiwyg_info()->curx - width / 2, get_wysiwyg_info()->cury - height / 2);
+            cairo_rectangle (cr, get_wysiwyg_info()->curx - width / 2, get_wysiwyg_info()->cury - height / 2, width, height);
 
             cairo_fill (cr);
             cairo_restore (cr);
@@ -395,17 +395,17 @@ overdraw_print (cairo_t * cr)
       else
         g_warning ("No pixbuf");
     }
-  if (get_wysiwig_info()->stage == (unsigned int) Padding)
+  if (get_wysiwyg_info()->stage == (unsigned int) Padding)
     {
-      gint pad = ABS (get_wysiwig_info()->Mark.x - get_wysiwig_info()->curx);
-      gint w = get_wysiwig_info()->nearpoint.x - get_wysiwig_info()->Mark.x;
-      gint h = get_wysiwig_info()->nearpoint.y - get_wysiwig_info()->Mark.y;
+      gint pad = ABS (get_wysiwyg_info()->Mark.x - get_wysiwyg_info()->curx);
+      gint w = get_wysiwyg_info()->nearpoint.x - get_wysiwyg_info()->Mark.x;
+      gint h = get_wysiwyg_info()->nearpoint.y - get_wysiwyg_info()->Mark.y;
       cairo_set_source_rgb (cr, 0.5, 0.5, 0.5);
-      cairo_rectangle (cr, get_wysiwig_info()->Mark.x - pad / 2, get_wysiwig_info()->Mark.y - pad / 2, w + pad, h + pad);
+      cairo_rectangle (cr, get_wysiwyg_info()->Mark.x - pad / 2, get_wysiwyg_info()->Mark.y - pad / 2, w + pad, h + pad);
 
       /*GdkWindow *window =*/ gtk_layout_get_bin_window (GTK_LAYOUT (Denemo.printarea));
       // gdk_draw_pixbuf(window, NULL, GDK_PIXBUF(Denemo.pixbuf),
-      //    get_wysiwig_info()->Mark.x+x, get_wysiwig_info()->Mark.y+y, get_wysiwig_info()->Mark.x, get_wysiwig_info()->Mark.y,/* x, y in pixbuf, x,y in window */
+      //    get_wysiwyg_info()->Mark.x+x, get_wysiwyg_info()->Mark.y+y, get_wysiwyg_info()->Mark.x, get_wysiwyg_info()->Mark.y,/* x, y in pixbuf, x,y in window */
       //    w,  h, GDK_RGB_DITHER_NONE,0,0);
     }
   return TRUE;
@@ -754,14 +754,14 @@ create_thumbnail (gboolean async)
   return TRUE;
 }
 
-//This gets an offset relative to get_wysiwig_info()->Mark which must be already setup on entry.
+//This gets an offset relative to get_wysiwyg_info()->Mark which must be already setup on entry.
 //A patch of the score around the target is dragged over the image with white showing as transparent and a line connects the original and new positions.
 gboolean
 get_offset (gdouble * offsetx, gdouble * offsety)
 {
-  get_wysiwig_info()->stage = Offsetting;
+  get_wysiwyg_info()->stage = Offsetting;
   gtk_main ();
-  if (get_wysiwig_info()->stage == Offsetting)
+  if (get_wysiwyg_info()->stage == Offsetting)
     {
       EvDocumentModel *model;
       model = g_object_get_data (G_OBJECT (Denemo.printarea), "model"); //there is no ev_view_get_model(), when there is use it
@@ -770,8 +770,8 @@ get_offset (gdouble * offsetx, gdouble * offsety)
       if (staffsize < 1)
         staffsize = 20.0;
       scale *= (staffsize / 4); //Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
-      *offsetx = (get_wysiwig_info()->curx - get_wysiwig_info()->Mark.x) / scale; //Could/Should this better be get_wysiwig_info()->Reference????
-      *offsety = -(get_wysiwig_info()->cury - get_wysiwig_info()->Mark.y) / scale;
+      *offsetx = (get_wysiwyg_info()->curx - get_wysiwyg_info()->Mark.x) / scale; //Could/Should this better be get_wysiwyg_info()->Reference????
+      *offsety = -(get_wysiwyg_info()->cury - get_wysiwyg_info()->Mark.y) / scale;
 
 
 #if 0
@@ -784,7 +784,7 @@ g_print("Adjusting %f by %f\n", *offsety, (nearadjust / scale));
 
 #endif
       
-      get_wysiwig_info()->stage = STAGE_NONE;
+      get_wysiwyg_info()->stage = STAGE_NONE;
       gtk_widget_queue_draw (Denemo.printarea);
       return TRUE;
     }
@@ -801,21 +801,21 @@ start_seeking_end (gboolean slur)
 {
   gchar *msg = (slur) ? _("Now select the notehead of the note where the slur ends") : _("Now select the notehead of the note where the beam ends");
 
-  if (get_wysiwig_info()->repeatable && get_wysiwig_info()->grob == (slur ? Slur : Beam))
+  if (get_wysiwyg_info()->repeatable && get_wysiwyg_info()->grob == (slur ? Slur : Beam))
     {
-      get_wysiwig_info()->stage = WaitingForDrag;
-      msg = (get_wysiwig_info()->grob == Slur) ? _("Now drag the begin/end markers to suggest slur position/angle\nRight click when done.") : _("Now drag the begin/end markers to set position/angle of beam\nRight click when done."); //FIXME repeated text
+      get_wysiwyg_info()->stage = WaitingForDrag;
+      msg = (get_wysiwyg_info()->grob == Slur) ? _("Now drag the begin/end markers to suggest slur position/angle\nRight click when done.") : _("Now drag the begin/end markers to set position/angle of beam\nRight click when done."); //FIXME repeated text
     }
   else
     {
-      get_wysiwig_info()->nearpoint = get_wysiwig_info()->near_i = get_wysiwig_info()->last_button_press;
-      get_wysiwig_info()->stage = SelectingFarEnd;
+      get_wysiwyg_info()->nearpoint = get_wysiwyg_info()->near_i = get_wysiwyg_info()->last_button_press;
+      get_wysiwyg_info()->stage = SelectingFarEnd;
     }
-  if (get_wysiwig_info()->grob != (slur ? Slur : Beam))
-    get_wysiwig_info()->repeatable = FALSE;
-  get_wysiwig_info()->grob = slur ? Slur : Beam;
-  gtk_widget_show (get_wysiwig_info()->dialog);
-  gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (get_wysiwig_info()->dialog), msg);
+  if (get_wysiwyg_info()->grob != (slur ? Slur : Beam))
+    get_wysiwyg_info()->repeatable = FALSE;
+  get_wysiwyg_info()->grob = slur ? Slur : Beam;
+  gtk_widget_show (get_wysiwyg_info()->dialog);
+  gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (get_wysiwyg_info()->dialog), msg);
   gtk_widget_queue_draw (Denemo.printarea);
 }
 
@@ -853,10 +853,10 @@ get_center_staff_offset (void)
 gboolean
 get_positions (gdouble * neary, gdouble * fary, gboolean for_slur)
 {
-  get_wysiwig_info()->task = Positions;
+  get_wysiwyg_info()->task = Positions;
   start_seeking_end (for_slur); //goes to WaitingForDrag
   gtk_main ();
-  if (get_wysiwig_info()->stage == WaitingForDrag)
+  if (get_wysiwyg_info()->stage == WaitingForDrag)
     {
       EvDocumentModel *model = g_object_get_data (G_OBJECT (Denemo.printarea), "model");        //there is no ev_view_get_model(), when there is use it
       gdouble scale = ev_document_model_get_scale (model);
@@ -864,13 +864,13 @@ get_positions (gdouble * neary, gdouble * fary, gboolean for_slur)
       if (staffsize < 1)
         staffsize = 20.0;
       scale *= (staffsize / 4); //Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
-      goto_movement_staff_obj (NULL, -1, get_wysiwig_info()->pos.staff, get_wysiwig_info()->pos.measure, get_wysiwig_info()->pos.object);  //the cursor to the slur-begin note.
+      goto_movement_staff_obj (NULL, -1, get_wysiwyg_info()->pos.staff, get_wysiwyg_info()->pos.measure, get_wysiwyg_info()->pos.object);  //the cursor to the slur-begin note.
       gdouble nearadjust = get_center_staff_offset ();
 
-      *neary = -(get_wysiwig_info()->nearpoint.y - get_wysiwig_info()->near_i.y + nearadjust) / scale;
-      *fary = -(get_wysiwig_info()->farpoint.y - get_wysiwig_info()->near_i.y + nearadjust) / scale;   //sic! the value of far_i.y is irrelevant
-      get_wysiwig_info()->stage = STAGE_NONE;
-      gtk_widget_hide (get_wysiwig_info()->dialog);
+      *neary = -(get_wysiwyg_info()->nearpoint.y - get_wysiwyg_info()->near_i.y + nearadjust) / scale;
+      *fary = -(get_wysiwyg_info()->farpoint.y - get_wysiwyg_info()->near_i.y + nearadjust) / scale;   //sic! the value of far_i.y is irrelevant
+      get_wysiwyg_info()->stage = STAGE_NONE;
+      gtk_widget_hide (get_wysiwyg_info()->dialog);
       gtk_widget_queue_draw (Denemo.printarea);
       return TRUE;
     }
@@ -884,10 +884,10 @@ gboolean
 get_curve (gdouble * x1, gdouble * y1, gdouble * x2, gdouble * y2, gdouble * x3, gdouble * y3, gdouble * x4, gdouble * y4)
 {
   //FIXME check for stage, to avoid re-entering
-  get_wysiwig_info()->task = Shape;
-  get_wysiwig_info()->stage = WaitingForCurveDrag;
+  get_wysiwyg_info()->task = Shape;
+  get_wysiwyg_info()->stage = WaitingForCurveDrag;
   gtk_main ();
-  if (get_wysiwig_info()->stage == WaitingForCurveDrag)
+  if (get_wysiwyg_info()->stage == WaitingForCurveDrag)
     {
       EvDocumentModel *model = g_object_get_data (G_OBJECT (Denemo.printarea), "model");        //there is no ev_view_get_model(), when there is use it
       gdouble scale = ev_document_model_get_scale (model);
@@ -895,24 +895,24 @@ get_curve (gdouble * x1, gdouble * y1, gdouble * x2, gdouble * y2, gdouble * x3,
       if (staffsize < 1)
         staffsize = 20.0;
       scale *= (staffsize / 4); //Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
-      goto_movement_staff_obj (NULL, -1, get_wysiwig_info()->pos.staff, get_wysiwig_info()->pos.measure, get_wysiwig_info()->pos.object);  //the cursor to the slur-begin note.
+      goto_movement_staff_obj (NULL, -1, get_wysiwyg_info()->pos.staff, get_wysiwyg_info()->pos.measure, get_wysiwyg_info()->pos.object);  //the cursor to the slur-begin note.
       //!!! is pos set up?
-      g_print ("Reference is %f %f %d %d\n", get_wysiwig_info()->Reference.x, get_wysiwig_info()->Reference.y, get_wysiwig_info()->Curve.p4.x, get_wysiwig_info()->Curve.p4.y);
-      *x1 = (get_wysiwig_info()->Curve.p1.x - get_wysiwig_info()->Reference.x) / scale;
-      *y1 = -(get_wysiwig_info()->Curve.p1.y - get_wysiwig_info()->Reference.y) / scale;
+      g_print ("Reference is %f %f %d %d\n", get_wysiwyg_info()->Reference.x, get_wysiwyg_info()->Reference.y, get_wysiwyg_info()->Curve.p4.x, get_wysiwyg_info()->Curve.p4.y);
+      *x1 = (get_wysiwyg_info()->Curve.p1.x - get_wysiwyg_info()->Reference.x) / scale;
+      *y1 = -(get_wysiwyg_info()->Curve.p1.y - get_wysiwyg_info()->Reference.y) / scale;
 
-      *x2 = (get_wysiwig_info()->Curve.p2.x - get_wysiwig_info()->Reference.x) / scale;
-      *y2 = -(get_wysiwig_info()->Curve.p2.y - get_wysiwig_info()->Reference.y) / scale;
-      *x3 = (get_wysiwig_info()->Curve.p3.x - get_wysiwig_info()->Reference.x) / scale;
-      *y3 = -(get_wysiwig_info()->Curve.p3.y - get_wysiwig_info()->Reference.y) / scale;
-      *x4 = (get_wysiwig_info()->Curve.p4.x - get_wysiwig_info()->Reference.x) / scale;
-      *y4 = -(get_wysiwig_info()->Curve.p4.y - get_wysiwig_info()->Reference.y) / scale;
+      *x2 = (get_wysiwyg_info()->Curve.p2.x - get_wysiwyg_info()->Reference.x) / scale;
+      *y2 = -(get_wysiwyg_info()->Curve.p2.y - get_wysiwyg_info()->Reference.y) / scale;
+      *x3 = (get_wysiwyg_info()->Curve.p3.x - get_wysiwyg_info()->Reference.x) / scale;
+      *y3 = -(get_wysiwyg_info()->Curve.p3.y - get_wysiwyg_info()->Reference.y) / scale;
+      *x4 = (get_wysiwyg_info()->Curve.p4.x - get_wysiwyg_info()->Reference.x) / scale;
+      *y4 = -(get_wysiwyg_info()->Curve.p4.y - get_wysiwyg_info()->Reference.y) / scale;
 
 
-      get_wysiwig_info()->repeatable = TRUE;
+      get_wysiwyg_info()->repeatable = TRUE;
 
-      get_wysiwig_info()->stage = STAGE_NONE;
-      gtk_widget_hide (get_wysiwig_info()->dialog);
+      get_wysiwyg_info()->stage = STAGE_NONE;
+      gtk_widget_hide (get_wysiwyg_info()->dialog);
       gtk_widget_queue_draw (Denemo.printarea);
       return TRUE;
     }
@@ -923,27 +923,27 @@ get_curve (gdouble * x1, gdouble * y1, gdouble * x2, gdouble * y2, gdouble * x3,
 }
 
 
-//Gets a new value into get_wysiwig_info()->Mark.x,y and changes to SelectingFarEnd
+//Gets a new value into get_wysiwyg_info()->Mark.x,y and changes to SelectingFarEnd
 gboolean
 get_new_target (void)
 {
-  get_wysiwig_info()->stage = SelectingNearEnd;
+  get_wysiwyg_info()->stage = SelectingNearEnd;
   g_print ("Starting main");
   gtk_main ();
-  if (get_wysiwig_info()->stage == SelectingNearEnd)     //should have changed, but user cancelled
+  if (get_wysiwyg_info()->stage == SelectingNearEnd)     //should have changed, but user cancelled
     return FALSE;
   else
     return TRUE;
 }
 
-//Gets a new value into get_wysiwig_info()->Mark.x,y and changes to STAGE_NONE
+//Gets a new value into get_wysiwyg_info()->Mark.x,y and changes to STAGE_NONE
 gboolean
 get_new_point (void)
 {
-  get_wysiwig_info()->stage = SelectingPoint;
+  get_wysiwyg_info()->stage = SelectingPoint;
   g_print ("Starting main");
   gtk_main ();
-  if (get_wysiwig_info()->stage == SelectingPoint)       //should have changed, but user cancelled
+  if (get_wysiwyg_info()->stage == SelectingPoint)       //should have changed, but user cancelled
     return FALSE;
   else
     return TRUE;
@@ -953,16 +953,16 @@ get_new_point (void)
 gboolean
 get_reference_point (void)
 {
-  get_wysiwig_info()->stage = SelectingReference;
-  memset (&get_wysiwig_info()->Curve, 0, sizeof (Curve));
+  get_wysiwyg_info()->stage = SelectingReference;
+  memset (&get_wysiwyg_info()->Curve, 0, sizeof (Curve));
   gtk_main ();
-  if (get_wysiwig_info()->stage == SelectingReference)
+  if (get_wysiwyg_info()->stage == SelectingReference)
     {                           //should have changed, but the user cancelled
       return FALSE;
     }
   else
     {
-      get_wysiwig_info()->Reference = get_wysiwig_info()->Mark;
+      get_wysiwyg_info()->Reference = get_wysiwyg_info()->Mark;
       return TRUE;
     }
 }
@@ -976,20 +976,20 @@ get_control_point (gint which)
       switch (which)
         {
         case 1:
-          get_wysiwig_info()->Curve.p1.x = get_wysiwig_info()->Mark.x;
-          get_wysiwig_info()->Curve.p1.y = get_wysiwig_info()->Mark.y;
+          get_wysiwyg_info()->Curve.p1.x = get_wysiwyg_info()->Mark.x;
+          get_wysiwyg_info()->Curve.p1.y = get_wysiwyg_info()->Mark.y;
           break;
         case 2:
-          get_wysiwig_info()->Curve.p2.x = get_wysiwig_info()->Mark.x;
-          get_wysiwig_info()->Curve.p2.y = get_wysiwig_info()->Mark.y;
+          get_wysiwyg_info()->Curve.p2.x = get_wysiwyg_info()->Mark.x;
+          get_wysiwyg_info()->Curve.p2.y = get_wysiwyg_info()->Mark.y;
           break;
         case 3:
-          get_wysiwig_info()->Curve.p3.x = get_wysiwig_info()->Mark.x;
-          get_wysiwig_info()->Curve.p3.y = get_wysiwig_info()->Mark.y;
+          get_wysiwyg_info()->Curve.p3.x = get_wysiwyg_info()->Mark.x;
+          get_wysiwyg_info()->Curve.p3.y = get_wysiwyg_info()->Mark.y;
           break;
         case 4:
-          get_wysiwig_info()->Curve.p4.x = get_wysiwig_info()->Mark.x;
-          get_wysiwig_info()->Curve.p4.y = get_wysiwig_info()->Mark.y;
+          get_wysiwyg_info()->Curve.p4.x = get_wysiwyg_info()->Mark.x;
+          get_wysiwyg_info()->Curve.p4.y = get_wysiwyg_info()->Mark.y;
           break;
         default:
           g_warning ("Wrong call to get_control_point, no point %d possible", which);
@@ -1001,7 +1001,7 @@ get_control_point (gint which)
   else
     ret = FALSE;
   gtk_widget_queue_draw (Denemo.printarea);
-  get_wysiwig_info()->stage = (ret ? WaitingForCurveDrag : STAGE_NONE);
+  get_wysiwyg_info()->stage = (ret ? WaitingForCurveDrag : STAGE_NONE);
   return ret;
 }
 
@@ -1009,7 +1009,7 @@ get_control_point (gint which)
 static gint
 start_stage (GtkWidget * widget, WwStage stage)
 {
-  get_wysiwig_info()->stage = stage;
+  get_wysiwyg_info()->stage = stage;
   return TRUE;
 }*/
 
@@ -1129,21 +1129,21 @@ static gint
 action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
 {
 #ifdef G_OS_WIN32
-  g_print ("Signal from evince widget received %d %d\n", get_wysiwig_info()->grob, get_wysiwig_info()->stage);
+  g_print ("Signal from evince widget received %d %d\n", get_wysiwyg_info()->grob, get_wysiwyg_info()->stage);
 #endif
-  //g_print("Link action Mark at %f, %f\n", get_wysiwig_info()->Mark.x, get_wysiwig_info()->Mark.y);
+  //g_print("Link action Mark at %f, %f\n", get_wysiwyg_info()->Mark.x, get_wysiwyg_info()->Mark.y);
   gchar *uri = (gchar *) ev_link_action_get_uri (obj);
-  //g_print("Stage %d\n", get_wysiwig_info()->stage);
-  if ((get_wysiwig_info()->stage == SelectingPoint) || (get_wysiwig_info()->stage == Dragging1) || (get_wysiwig_info()->stage == Dragging2) || (get_wysiwig_info()->stage == Dragging3) || (get_wysiwig_info()->stage == Dragging4))
+  //g_print("Stage %d\n", get_wysiwyg_info()->stage);
+  if ((get_wysiwyg_info()->stage == SelectingPoint) || (get_wysiwyg_info()->stage == Dragging1) || (get_wysiwyg_info()->stage == Dragging2) || (get_wysiwyg_info()->stage == Dragging3) || (get_wysiwyg_info()->stage == Dragging4))
     return TRUE;
-  if ((get_wysiwig_info()->stage == WaitingForDrag) || (get_wysiwig_info()->grob == Slur && (get_wysiwig_info()->stage == SelectingFarEnd)))
+  if ((get_wysiwyg_info()->stage == WaitingForDrag) || (get_wysiwyg_info()->grob == Slur && (get_wysiwyg_info()->stage == SelectingFarEnd)))
     {
       return TRUE;
     }
-  if (get_wysiwig_info()->stage == WaitingForCurveDrag || (get_wysiwig_info()->stage == SelectingReference))
+  if (get_wysiwyg_info()->stage == WaitingForCurveDrag || (get_wysiwyg_info()->stage == SelectingReference))
     return TRUE;
 
-  if (get_wysiwig_info()->stage == Offsetting)
+  if (get_wysiwyg_info()->stage == Offsetting)
     {
       return TRUE;              //?Better take over motion notify so as not to get this while working ...
     }
@@ -1160,32 +1160,32 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
       if (g_str_has_prefix (uri, "textedit:") && vec[1] && vec[2] && vec[3])
         {
           DenemoTarget old_target = Denemo.gui->si->target;
-          get_wysiwig_info()->ObjectLocated = goto_lilypond_position (atoi (vec[2]), atoi (vec[3]));     //sets si->target
+          get_wysiwyg_info()->ObjectLocated = goto_lilypond_position (atoi (vec[2]), atoi (vec[3]));     //sets si->target
 #ifdef G_OS_WIN32
-          g_print ("action_for_link: object located %d\n", get_wysiwig_info()->ObjectLocated);
+          g_print ("action_for_link: object located %d\n", get_wysiwyg_info()->ObjectLocated);
 #endif
-          if (get_wysiwig_info()->ObjectLocated)
+          if (get_wysiwyg_info()->ObjectLocated)
             {
-              if (!(get_wysiwig_info()->grob == Beam && (get_wysiwig_info()->stage == SelectingFarEnd)))
+              if (!(get_wysiwyg_info()->grob == Beam && (get_wysiwyg_info()->stage == SelectingFarEnd)))
                 {
-                  get_position (Denemo.gui->si, &get_wysiwig_info()->pos);
-                  get_wysiwig_info()->repeatable = same_target (&old_target, &Denemo.gui->si->target);
+                  get_position (Denemo.gui->si, &get_wysiwyg_info()->pos);
+                  get_wysiwyg_info()->repeatable = same_target (&old_target, &Denemo.gui->si->target);
                 }
               else
                 Denemo.gui->si->target = old_target;    //undo the change of target when getting the end of beam note
             }
           else
-            get_wysiwig_info()->repeatable = FALSE;
+            get_wysiwyg_info()->repeatable = FALSE;
           //g_print("Target type %d\n", Denemo.gui->si->target.type); 
 
-          if ((get_wysiwig_info()->stage == SelectingNearEnd))
+          if ((get_wysiwyg_info()->stage == SelectingNearEnd))
             return TRUE;
 
-          if (get_wysiwig_info()->ObjectLocated && Denemo.gui->si->currentobject)
+          if (get_wysiwyg_info()->ObjectLocated && Denemo.gui->si->currentobject)
             {
               DenemoDirective *directive = NULL; //this information is collected but not used FIXME
               DenemoObject *obj = (DenemoObject *) Denemo.gui->si->currentobject->data;
-              get_wysiwig_info()->grob = OBJ_NONE;
+              get_wysiwyg_info()->grob = OBJ_NONE;
               if (obj->type == LILYDIRECTIVE)
                 {
                   directive = ((lilydirective *) obj->object);
@@ -1206,7 +1206,7 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
                       {
                         chord *thechord = (chord *) obj->object;
                         if(thechord->figure)
-                            get_wysiwig_info()->grob = BassFigure;
+                            get_wysiwyg_info()->grob = BassFigure;
                       }
                     break;
                   case TARGET_CHORD:
@@ -1222,7 +1222,7 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
                               {
                                 g_print ("Found %s\n", directive->tag->str);
                                 //This is things like ToggleTrill ToggleCoda which require different offsets to their center
-                                get_wysiwig_info()->grob = Articulation;
+                                get_wysiwyg_info()->grob = Articulation;
                               }
 
                           }
@@ -1231,32 +1231,32 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
                     break;
                   case TARGET_SLUR:
                     //g_print("taking action on slur...");
-                    if (get_wysiwig_info()->repeatable && get_wysiwig_info()->task == Positions)
+                    if (get_wysiwyg_info()->repeatable && get_wysiwyg_info()->task == Positions)
                       {
                         if (confirm (_("Slur Angle/Position"), _("Repeat Slur Positioning Hint?")))
                           {
-                            get_wysiwig_info()->stage = WaitingForDrag;
+                            get_wysiwyg_info()->stage = WaitingForDrag;
                             gtk_widget_queue_draw (Denemo.printarea);
                             call_out_to_guile ("(GetSlurPositions)");
                           }
                         else
-                          get_wysiwig_info()->task = TASK_NONE;
+                          get_wysiwyg_info()->task = TASK_NONE;
                       }
-                    else if (get_wysiwig_info()->stage == STAGE_NONE && get_wysiwig_info()->repeatable && get_wysiwig_info()->task == Shape)
+                    else if (get_wysiwyg_info()->stage == STAGE_NONE && get_wysiwyg_info()->repeatable && get_wysiwyg_info()->task == Shape)
                       {
                         if (confirm (_("Slur Shape"), _("Repeat Shaping Slur?")))
                           {
-                            get_wysiwig_info()->stage = WaitingForCurveDrag;
+                            get_wysiwyg_info()->stage = WaitingForCurveDrag;
                             gtk_widget_queue_draw (Denemo.printarea);
                             call_out_to_guile ("(ReshapeSlur)");
                           }
                         else
-                          get_wysiwig_info()->task = TASK_NONE;
+                          get_wysiwyg_info()->task = TASK_NONE;
                       }
                     else
                       {
-                        get_wysiwig_info()->stage = TargetEstablished;
-                        get_wysiwig_info()->repeatable = FALSE;
+                        get_wysiwyg_info()->stage = TargetEstablished;
+                        get_wysiwyg_info()->repeatable = FALSE;
                       }
                     break;
                   case TARGET_TIE:
@@ -1292,8 +1292,8 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
       g_strfreev (orig_vec);
     }
   //!!!! do we want to set_denemo_pixbuf() here if the object is located ???? that is what we are going to drag ....
-  g_print ("Have get_wysiwig_info()->ObjectLocated (%.2f, %.2f) (%.2f, %.2f)\n", get_wysiwig_info()->Mark.x, get_wysiwig_info()->Mark.y, get_wysiwig_info()->curx, get_wysiwig_info()->cury);
-  set_denemo_pixbuf ((gint) get_wysiwig_info()->curx, (gint) get_wysiwig_info()->cury);
+  g_print ("Have get_wysiwyg_info()->ObjectLocated (%.2f, %.2f) (%.2f, %.2f)\n", get_wysiwyg_info()->Mark.x, get_wysiwyg_info()->Mark.y, get_wysiwyg_info()->curx, get_wysiwyg_info()->cury);
+  set_denemo_pixbuf ((gint) get_wysiwyg_info()->curx, (gint) get_wysiwyg_info()->cury);
   return TRUE;                  //we do not want the evince widget to handle this.
 }
 
@@ -1305,7 +1305,7 @@ in_selected_object (gint x, gint y)
   get_window_position (&xx, &yy);
   x += (xx + PRINTMARKER / 2);
   y += (yy + PRINTMARKER / 2);
-  return (x > get_wysiwig_info()->Mark.x && y > get_wysiwig_info()->Mark.y && x < (get_wysiwig_info()->Mark.x + get_wysiwig_info()->Mark.width) && y < (get_wysiwig_info()->Mark.y + get_wysiwig_info()->Mark.height));
+  return (x > get_wysiwyg_info()->Mark.x && y > get_wysiwyg_info()->Mark.y && x < (get_wysiwyg_info()->Mark.x + get_wysiwyg_info()->Mark.width) && y < (get_wysiwyg_info()->Mark.y + get_wysiwyg_info()->Mark.height));
 }
 
 
@@ -1322,73 +1322,73 @@ is_near (gint x, gint y, WwPoint p)
 static gboolean
 printarea_motion_notify (G_GNUC_UNUSED GtkWidget * widget, GdkEventMotion * event)
 {
-  get_wysiwig_info()->ObjectLocated = FALSE;
+  get_wysiwyg_info()->ObjectLocated = FALSE;
 
-  if (get_wysiwig_info()->stage == WaitingForDrag)
+  if (get_wysiwyg_info()->stage == WaitingForDrag)
     {
-      if ((is_near ((gint) event->x, (gint) event->y, get_wysiwig_info()->farpoint)) || (is_near ((gint) event->x, (gint) event->y, get_wysiwig_info()->nearpoint)))
+      if ((is_near ((gint) event->x, (gint) event->y, get_wysiwyg_info()->farpoint)) || (is_near ((gint) event->x, (gint) event->y, get_wysiwyg_info()->nearpoint)))
         {
           gtk_widget_queue_draw (Denemo.printarea);
         }
       return TRUE;
     }
 
-  if (get_wysiwig_info()->stage == DraggingNearEnd)
+  if (get_wysiwyg_info()->stage == DraggingNearEnd)
     {
       gint xx, yy;
       get_window_position (&xx, &yy);
-      // get_wysiwig_info()->near.x = xx + (gint)event->x;
-      get_wysiwig_info()->nearpoint.y = yy + (gint) event->y; //g_print("near y becomes %d\n", get_wysiwig_info()->near.y);
+      // get_wysiwyg_info()->near.x = xx + (gint)event->x;
+      get_wysiwyg_info()->nearpoint.y = yy + (gint) event->y; //g_print("near y becomes %d\n", get_wysiwyg_info()->near.y);
       gtk_widget_queue_draw (Denemo.printarea);
       return TRUE;
     }
 
-  if (get_wysiwig_info()->stage == DraggingFarEnd)
+  if (get_wysiwyg_info()->stage == DraggingFarEnd)
     {
       gint xx, yy;
       get_window_position (&xx, &yy);
-      // get_wysiwig_info()->far.x = xx + (gint)event->x;
-      get_wysiwig_info()->farpoint.y = yy + (gint) event->y;
+      // get_wysiwyg_info()->far.x = xx + (gint)event->x;
+      get_wysiwyg_info()->farpoint.y = yy + (gint) event->y;
       gtk_widget_queue_draw (Denemo.printarea);
       return TRUE;
     }
 
-  if (get_wysiwig_info()->stage == Dragging1)
+  if (get_wysiwyg_info()->stage == Dragging1)
     {
       gint xx, yy;
       get_window_position (&xx, &yy);
-      get_wysiwig_info()->Curve.p1.x = xx + (gint) event->x;
-      get_wysiwig_info()->Curve.p1.y = yy + (gint) event->y;
+      get_wysiwyg_info()->Curve.p1.x = xx + (gint) event->x;
+      get_wysiwyg_info()->Curve.p1.y = yy + (gint) event->y;
       gtk_widget_queue_draw (Denemo.printarea);
       return TRUE;
     }
 
-  if (get_wysiwig_info()->stage == Dragging2)
+  if (get_wysiwyg_info()->stage == Dragging2)
     {
       gint xx, yy;
       get_window_position (&xx, &yy);
-      get_wysiwig_info()->Curve.p2.x = xx + (gint) event->x;
-      get_wysiwig_info()->Curve.p2.y = yy + (gint) event->y;
+      get_wysiwyg_info()->Curve.p2.x = xx + (gint) event->x;
+      get_wysiwyg_info()->Curve.p2.y = yy + (gint) event->y;
       gtk_widget_queue_draw (Denemo.printarea);
       return TRUE;
     }
 
-  if (get_wysiwig_info()->stage == Dragging3)
+  if (get_wysiwyg_info()->stage == Dragging3)
     {
       gint xx, yy;
       get_window_position (&xx, &yy);
-      get_wysiwig_info()->Curve.p3.x = xx + (gint) event->x;
-      get_wysiwig_info()->Curve.p3.y = yy + (gint) event->y;
+      get_wysiwyg_info()->Curve.p3.x = xx + (gint) event->x;
+      get_wysiwyg_info()->Curve.p3.y = yy + (gint) event->y;
       gtk_widget_queue_draw (Denemo.printarea);
       return TRUE;
     }
 
-  if (get_wysiwig_info()->stage == Dragging4)
+  if (get_wysiwyg_info()->stage == Dragging4)
     {
       gint xx, yy;
       get_window_position (&xx, &yy);
-      get_wysiwig_info()->Curve.p4.x = xx + (gint) event->x;
-      get_wysiwig_info()->Curve.p4.y = yy + (gint) event->y;
+      get_wysiwyg_info()->Curve.p4.x = xx + (gint) event->x;
+      get_wysiwyg_info()->Curve.p4.y = yy + (gint) event->y;
       gtk_widget_queue_draw (Denemo.printarea);
       return TRUE;
     }
@@ -1399,11 +1399,11 @@ printarea_motion_notify (G_GNUC_UNUSED GtkWidget * widget, GdkEventMotion * even
 
   gint xx, yy;
   get_window_position (&xx, &yy);
-  get_wysiwig_info()->curx = xx + (gint) event->x;
-  get_wysiwig_info()->cury = yy + (gint) event->y;
+  get_wysiwyg_info()->curx = xx + (gint) event->x;
+  get_wysiwyg_info()->cury = yy + (gint) event->y;
 
 
-  if ((get_wysiwig_info()->stage == Offsetting) || (get_wysiwig_info()->stage == SelectingReference))
+  if ((get_wysiwyg_info()->stage == Offsetting) || (get_wysiwyg_info()->stage == SelectingReference))
     {
       gtk_widget_queue_draw (Denemo.printarea);
       return TRUE;
@@ -1422,22 +1422,22 @@ printarea_motion_notify (G_GNUC_UNUSED GtkWidget * widget, GdkEventMotion * even
 static void
 normalize (void)
 {
-  if (get_wysiwig_info()->near.x < get_wysiwig_info()->Mark.x)
+  if (get_wysiwyg_info()->near.x < get_wysiwyg_info()->Mark.x)
     {
-      gdouble temp = get_wysiwig_info()->near.x;
-      get_wysiwig_info()->near.x = get_wysiwig_info()->Mark.x;
-      get_wysiwig_info()->Mark.x = temp;
+      gdouble temp = get_wysiwyg_info()->near.x;
+      get_wysiwyg_info()->near.x = get_wysiwyg_info()->Mark.x;
+      get_wysiwyg_info()->Mark.x = temp;
     }
-  if (get_wysiwig_info()->near.y < get_wysiwig_info()->Mark.y)
+  if (get_wysiwyg_info()->near.y < get_wysiwyg_info()->Mark.y)
     {
-      gdouble temp = get_wysiwig_info()->near.y;
-      get_wysiwig_info()->near.y = get_wysiwig_info()->Mark.y;
-      get_wysiwig_info()->Mark.y = temp;
+      gdouble temp = get_wysiwyg_info()->near.y;
+      get_wysiwyg_info()->near.y = get_wysiwyg_info()->Mark.y;
+      get_wysiwyg_info()->Mark.y = temp;
     }
-  if (get_wysiwig_info()->Mark.x == get_wysiwig_info()->near.x)
-    get_wysiwig_info()->near.x++;
-  if (get_wysiwig_info()->Mark.y == get_wysiwig_info()->near.y)
-    get_wysiwig_info()->near.y++;
+  if (get_wysiwyg_info()->Mark.x == get_wysiwyg_info()->near.x)
+    get_wysiwyg_info()->near.x++;
+  if (get_wysiwyg_info()->Mark.y == get_wysiwyg_info()->near.y)
+    get_wysiwyg_info()->near.y++;
 
 }
 */
@@ -1445,10 +1445,10 @@ normalize (void)
 static void
 apply_tweak (void)
 {
-  //g_print("Apply tweak Quitting with %d %d", get_wysiwig_info()->stage, get_wysiwig_info()->grob);
+  //g_print("Apply tweak Quitting with %d %d", get_wysiwyg_info()->stage, get_wysiwyg_info()->grob);
   gtk_main_quit ();
   return;
-  if (get_wysiwig_info()->stage == Offsetting)
+  if (get_wysiwyg_info()->stage == Offsetting)
     {
       gtk_main_quit ();
     }
@@ -1462,19 +1462,19 @@ apply_tweak (void)
       if (staffsize < 1)
         staffsize = 20.0;
       scale *= (staffsize / 4); //Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
-      goto_movement_staff_obj (NULL, -1, get_wysiwig_info()->pos.staff, get_wysiwig_info()->pos.measure, get_wysiwig_info()->pos.object);  //the cursor to the slur-begin note.
+      goto_movement_staff_obj (NULL, -1, get_wysiwyg_info()->pos.staff, get_wysiwyg_info()->pos.measure, get_wysiwyg_info()->pos.object);  //the cursor to the slur-begin note.
       gdouble nearadjust = get_center_staff_offset ();
 
-      gdouble neary = -(get_wysiwig_info()->nearpoint.y - get_wysiwig_info()->near_i.y + nearadjust) / scale;
-      gdouble fary = -(get_wysiwig_info()->farpoint.y - get_wysiwig_info()->near_i.y + nearadjust) / scale;    //sic! the value of far_i.y is irrelevant
-      //g_print("near %d %d far %d %d\n", get_wysiwig_info()->near.y, get_wysiwig_info()->near_i.y, get_wysiwig_info()->far.y, get_wysiwig_info()->far_i.y);
-      gchar *script = (get_wysiwig_info()->grob == Slur) ? g_strdup_printf ("(SetSlurPositions \"%.1f\" \"%.1f\")", neary, fary) : g_strdup_printf ("(SetBeamPositions \"%.1f\" \"%.1f\")", neary, fary);
+      gdouble neary = -(get_wysiwyg_info()->nearpoint.y - get_wysiwyg_info()->near_i.y + nearadjust) / scale;
+      gdouble fary = -(get_wysiwyg_info()->farpoint.y - get_wysiwyg_info()->near_i.y + nearadjust) / scale;    //sic! the value of far_i.y is irrelevant
+      //g_print("near %d %d far %d %d\n", get_wysiwyg_info()->near.y, get_wysiwyg_info()->near_i.y, get_wysiwyg_info()->far.y, get_wysiwyg_info()->far_i.y);
+      gchar *script = (get_wysiwyg_info()->grob == Slur) ? g_strdup_printf ("(SetSlurPositions \"%.1f\" \"%.1f\")", neary, fary) : g_strdup_printf ("(SetBeamPositions \"%.1f\" \"%.1f\")", neary, fary);
       //Move back to the correct place in the score
-      goto_movement_staff_obj (NULL, -1, get_wysiwig_info()->pos.staff, get_wysiwig_info()->pos.measure, get_wysiwig_info()->pos.object);
+      goto_movement_staff_obj (NULL, -1, get_wysiwyg_info()->pos.staff, get_wysiwyg_info()->pos.measure, get_wysiwyg_info()->pos.object);
       call_out_to_guile (script);
       g_free (script);
-      get_wysiwig_info()->stage = STAGE_NONE;
-      gtk_widget_hide (get_wysiwig_info()->dialog);
+      get_wysiwyg_info()->stage = STAGE_NONE;
+      gtk_widget_hide (get_wysiwyg_info()->dialog);
       gtk_widget_queue_draw (Denemo.printarea);
     }
 
@@ -1485,9 +1485,9 @@ cancel_tweak (void)
 {
   //gtk_widget_set_tooltip_markup(gtk_widget_get_parent(Denemo.printarea), standard_tooltip);
   gtk_widget_set_tooltip_markup (gtk_widget_get_parent (Denemo.printarea), NULL);
-  gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (get_wysiwig_info()->dialog), _("Operation Cancelled"));
-  gtk_widget_show (get_wysiwig_info()->dialog);
-  get_wysiwig_info()->stage = STAGE_NONE;
+  gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (get_wysiwyg_info()->dialog), _("Operation Cancelled"));
+  gtk_widget_show (get_wysiwyg_info()->dialog);
+  get_wysiwyg_info()->stage = STAGE_NONE;
   gtk_widget_queue_draw (Denemo.printarea);
   gtk_main_quit ();
 }
@@ -1495,10 +1495,10 @@ cancel_tweak (void)
 static void
 repeat_tweak (void)
 {
-  if (get_wysiwig_info()->grob == Slur)          //if(get_wysiwig_info()->repeatable && get_wysiwig_info()->grob==(slur?Slur:Beam))
+  if (get_wysiwyg_info()->grob == Slur)          //if(get_wysiwyg_info()->repeatable && get_wysiwyg_info()->grob==(slur?Slur:Beam))
     //call_out_to_guile("(GetSlurPositions)");
     call_out_to_guile ("(EditSlur)");
-  else if (get_wysiwig_info()->grob == Beam)     //if(get_wysiwig_info()->repeatable && get_wysiwig_info()->grob==(slur?Slur:Beam))
+  else if (get_wysiwyg_info()->grob == Beam)     //if(get_wysiwyg_info()->repeatable && get_wysiwyg_info()->grob==(slur?Slur:Beam))
     call_out_to_guile ("(GetBeamPositions)");
   else
     warningdialog (_("Do not know what to repeat"));
@@ -1513,8 +1513,8 @@ set_score_size (void)
 static void
 help_tweak (void)
 {
-  gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (get_wysiwig_info()->dialog), _("To tweak the positions of objects (and more) move the mouse until the hand pointer appears\nClick on the object and follow the prompts.\nFor beams, click on the notehead of the note where the beam starts."));
-  gtk_widget_show (get_wysiwig_info()->dialog);
+  gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (get_wysiwyg_info()->dialog), _("To tweak the positions of objects (and more) move the mouse until the hand pointer appears\nClick on the object and follow the prompts.\nFor beams, click on the notehead of the note where the beam starts."));
+  gtk_widget_show (get_wysiwyg_info()->dialog);
 }
 
 static void
@@ -1529,7 +1529,7 @@ popup_tweak_menu (void)
 {
   GtkWidget *menu = gtk_menu_new ();
   GtkWidget *item;
-  if (get_wysiwig_info()->stage == WaitingForDrag || get_wysiwig_info()->stage == WaitingForCurveDrag || get_wysiwig_info()->stage == Offsetting)
+  if (get_wysiwyg_info()->stage == WaitingForDrag || get_wysiwyg_info()->stage == WaitingForCurveDrag || get_wysiwyg_info()->stage == Offsetting)
     {
       item = gtk_menu_item_new_with_label (_("Apply"));
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
@@ -1540,7 +1540,7 @@ popup_tweak_menu (void)
     }
 
 
-  if (get_wysiwig_info()->stage == STAGE_NONE)
+  if (get_wysiwyg_info()->stage == STAGE_NONE)
     {
       item = gtk_menu_item_new_with_label (_("Help for Tweaks"));
       gtk_widget_set_tooltip_markup (item, _("This window can be used to tweak the typesetting that LilyPond does in the case that it is not optimal"));
@@ -1556,7 +1556,7 @@ popup_tweak_menu (void)
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
       g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (set_score_size), NULL);
 
-      if (get_wysiwig_info()->repeatable)
+      if (get_wysiwyg_info()->repeatable)
         {                       //never true 
           item = gtk_menu_item_new_with_label (_("Repeat"));
           gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
@@ -1581,72 +1581,72 @@ printarea_button_press (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * event
   gboolean left = (event->button == 1);
   gboolean right = !left;
   //g_print("Button press %d, %d %d\n",(int)event->x , (int)event->y, left);
-  get_wysiwig_info()->button = event->button;
+  get_wysiwyg_info()->button = event->button;
   gint xx, yy;
   get_window_position (&xx, &yy);
-  get_wysiwig_info()->last_button_press.x = xx + event->x;
-  get_wysiwig_info()->last_button_press.y = yy + event->y;
-  gboolean hotspot = is_near ((gint) event->x, (gint) event->y, get_wysiwig_info()->nearpoint) || (is_near ((gint) event->x, (gint) event->y, get_wysiwig_info()->farpoint));
-  //g_print("stage %d hotspot %d", get_wysiwig_info()->stage, hotspot);
-  if (left && (get_wysiwig_info()->stage == WaitingForDrag) && !hotspot)
+  get_wysiwyg_info()->last_button_press.x = xx + event->x;
+  get_wysiwyg_info()->last_button_press.y = yy + event->y;
+  gboolean hotspot = is_near ((gint) event->x, (gint) event->y, get_wysiwyg_info()->nearpoint) || (is_near ((gint) event->x, (gint) event->y, get_wysiwyg_info()->farpoint));
+  //g_print("stage %d hotspot %d", get_wysiwyg_info()->stage, hotspot);
+  if (left && (get_wysiwyg_info()->stage == WaitingForDrag) && !hotspot)
     {
       popup_tweak_menu ();      //other stages STAGE_NONE for example. And make the offer of Repeat if appropriate...
       return TRUE;
     }
 
-  if (get_wysiwig_info()->stage == WaitingForCurveDrag)
+  if (get_wysiwyg_info()->stage == WaitingForCurveDrag)
     {
-      if (is_near ((gint) event->x, (gint) event->y, get_wysiwig_info()->Curve.p1))
+      if (is_near ((gint) event->x, (gint) event->y, get_wysiwyg_info()->Curve.p1))
         {
-          get_wysiwig_info()->stage = Dragging1; //gtk_widget_queue_draw (Denemo.printarea);
+          get_wysiwyg_info()->stage = Dragging1; //gtk_widget_queue_draw (Denemo.printarea);
           return TRUE;
         }
-      else if (is_near ((gint) event->x, (gint) event->y, get_wysiwig_info()->Curve.p2))
+      else if (is_near ((gint) event->x, (gint) event->y, get_wysiwyg_info()->Curve.p2))
         {
-          get_wysiwig_info()->stage = Dragging2;
+          get_wysiwyg_info()->stage = Dragging2;
           return TRUE;
         }
-      else if (is_near ((gint) event->x, (gint) event->y, get_wysiwig_info()->Curve.p3))
+      else if (is_near ((gint) event->x, (gint) event->y, get_wysiwyg_info()->Curve.p3))
         {
-          get_wysiwig_info()->stage = Dragging3;
+          get_wysiwyg_info()->stage = Dragging3;
           return TRUE;
         }
-      else if (is_near ((gint) event->x, (gint) event->y, get_wysiwig_info()->Curve.p4))
+      else if (is_near ((gint) event->x, (gint) event->y, get_wysiwyg_info()->Curve.p4))
         {
-          get_wysiwig_info()->stage = Dragging4;
+          get_wysiwyg_info()->stage = Dragging4;
           return TRUE;
         }
       popup_tweak_menu ();
       return TRUE;
     }
-  if (right && get_wysiwig_info()->stage == WaitingForDrag && !hotspot)
+  if (right && get_wysiwyg_info()->stage == WaitingForDrag && !hotspot)
     {
       apply_tweak ();
     }
-  if ((get_wysiwig_info()->stage == SelectingNearEnd) || (get_wysiwig_info()->stage == SelectingReference))
+  if ((get_wysiwyg_info()->stage == SelectingNearEnd) || (get_wysiwyg_info()->stage == SelectingReference))
     {
-      get_wysiwig_info()->near_i = get_wysiwig_info()->nearpoint = get_wysiwig_info()->last_button_press;       //struct copy
+      get_wysiwyg_info()->near_i = get_wysiwyg_info()->nearpoint = get_wysiwyg_info()->last_button_press;       //struct copy
       return TRUE;
     }
-  if (get_wysiwig_info()->stage == SelectingPoint)
+  if (get_wysiwyg_info()->stage == SelectingPoint)
     {                           //handle on release as user may move before releasing
       return TRUE;
     }
 
-  if (get_wysiwig_info()->stage == SelectingFarEnd)
+  if (get_wysiwyg_info()->stage == SelectingFarEnd)
     {                           //handle on release, after cursor has moved to note
       return TRUE;
     }
 
-  if (get_wysiwig_info()->stage == WaitingForDrag)
+  if (get_wysiwyg_info()->stage == WaitingForDrag)
     {
-      if (is_near ((gint) event->x, (gint) event->y, get_wysiwig_info()->nearpoint))
+      if (is_near ((gint) event->x, (gint) event->y, get_wysiwyg_info()->nearpoint))
         {
-          get_wysiwig_info()->stage = DraggingNearEnd;
+          get_wysiwyg_info()->stage = DraggingNearEnd;
         }
-      else if (is_near ((gint) event->x, (gint) event->y, get_wysiwig_info()->farpoint))
+      else if (is_near ((gint) event->x, (gint) event->y, get_wysiwyg_info()->farpoint))
         {
-          get_wysiwig_info()->stage = DraggingFarEnd;
+          get_wysiwyg_info()->stage = DraggingFarEnd;
         }
       //???text dialog
       gtk_widget_queue_draw (Denemo.printarea);
@@ -1663,12 +1663,12 @@ printarea_button_press (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * event
       return TRUE;
     }
 
-  if (get_wysiwig_info()->stage != Offsetting)
+  if (get_wysiwyg_info()->stage != Offsetting)
     {
       gint xx, yy;
       get_window_position (&xx, &yy);
-      get_wysiwig_info()->curx = xx + event->x;
-      get_wysiwig_info()->cury = yy + event->y;
+      get_wysiwyg_info()->curx = xx + event->x;
+      get_wysiwyg_info()->cury = yy + event->y;
     }
   return TRUE;
 }
@@ -1676,52 +1676,52 @@ printarea_button_press (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * event
 static gint
 printarea_button_release (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * event)
 {
-//g_print("stage %d\n", get_wysiwig_info()->stage);
+//g_print("stage %d\n", get_wysiwyg_info()->stage);
   gboolean left = (event->button == 1);
   gboolean right = !left;
-  gboolean object_located_on_entry = get_wysiwig_info()->ObjectLocated;
+  gboolean object_located_on_entry = get_wysiwyg_info()->ObjectLocated;
   gint xx, yy;
   get_window_position (&xx, &yy);
-  get_wysiwig_info()->last_button_release.x = xx + event->x;
-  get_wysiwig_info()->last_button_release.y = yy + event->y;
-  if (left && get_wysiwig_info()->ObjectLocated)
+  get_wysiwyg_info()->last_button_release.x = xx + event->x;
+  get_wysiwyg_info()->last_button_release.y = yy + event->y;
+  if (left && get_wysiwyg_info()->ObjectLocated)
     gtk_window_present (GTK_WINDOW (gtk_widget_get_toplevel (Denemo.scorearea)));
   //g_print("Button release %d, %d\n",(int)event->x , (int)event->y);
 
-  if (get_wysiwig_info()->stage == Dragging1)
+  if (get_wysiwyg_info()->stage == Dragging1)
     {
-      get_wysiwig_info()->Curve.p1.x = get_wysiwig_info()->last_button_release.x;
-      get_wysiwig_info()->Curve.p1.y = get_wysiwig_info()->last_button_release.y;
-      get_wysiwig_info()->stage = WaitingForCurveDrag;
+      get_wysiwyg_info()->Curve.p1.x = get_wysiwyg_info()->last_button_release.x;
+      get_wysiwyg_info()->Curve.p1.y = get_wysiwyg_info()->last_button_release.y;
+      get_wysiwyg_info()->stage = WaitingForCurveDrag;
       gtk_widget_queue_draw (Denemo.printarea);
       return TRUE;
     }
-  else if (get_wysiwig_info()->stage == Dragging2)
+  else if (get_wysiwyg_info()->stage == Dragging2)
     {
-      get_wysiwig_info()->Curve.p2.x = get_wysiwig_info()->last_button_release.x;
-      get_wysiwig_info()->Curve.p2.y = get_wysiwig_info()->last_button_release.y;
-      get_wysiwig_info()->stage = WaitingForCurveDrag;
+      get_wysiwyg_info()->Curve.p2.x = get_wysiwyg_info()->last_button_release.x;
+      get_wysiwyg_info()->Curve.p2.y = get_wysiwyg_info()->last_button_release.y;
+      get_wysiwyg_info()->stage = WaitingForCurveDrag;
       gtk_widget_queue_draw (Denemo.printarea);
       return TRUE;
     }
-  else if (get_wysiwig_info()->stage == Dragging3)
+  else if (get_wysiwyg_info()->stage == Dragging3)
     {
-      get_wysiwig_info()->Curve.p3.x = get_wysiwig_info()->last_button_release.x;
-      get_wysiwig_info()->Curve.p3.y = get_wysiwig_info()->last_button_release.y;
-      get_wysiwig_info()->stage = WaitingForCurveDrag;
+      get_wysiwyg_info()->Curve.p3.x = get_wysiwyg_info()->last_button_release.x;
+      get_wysiwyg_info()->Curve.p3.y = get_wysiwyg_info()->last_button_release.y;
+      get_wysiwyg_info()->stage = WaitingForCurveDrag;
       gtk_widget_queue_draw (Denemo.printarea);
       return TRUE;
     }
-  else if (get_wysiwig_info()->stage == Dragging4)
+  else if (get_wysiwyg_info()->stage == Dragging4)
     {
-      get_wysiwig_info()->Curve.p4.x = get_wysiwig_info()->last_button_release.x;
-      get_wysiwig_info()->Curve.p4.y = get_wysiwig_info()->last_button_release.y;
-      get_wysiwig_info()->stage = WaitingForCurveDrag;
+      get_wysiwyg_info()->Curve.p4.x = get_wysiwyg_info()->last_button_release.x;
+      get_wysiwyg_info()->Curve.p4.y = get_wysiwyg_info()->last_button_release.y;
+      get_wysiwyg_info()->stage = WaitingForCurveDrag;
       gtk_widget_queue_draw (Denemo.printarea);
       return TRUE;
     }
 
-  if (get_wysiwig_info()->stage == WaitingForCurveDrag)
+  if (get_wysiwyg_info()->stage == WaitingForCurveDrag)
     {
       g_print ("End of curve drag - should give menu if right click\n");
       g_print ("Check level > 1  %d", gtk_main_level ());
@@ -1730,86 +1730,86 @@ printarea_button_release (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * eve
     }
 
 
-  if (get_wysiwig_info()->ObjectLocated || (get_wysiwig_info()->stage == SelectingNearEnd) || (get_wysiwig_info()->stage == SelectingReference))
+  if (get_wysiwyg_info()->ObjectLocated || (get_wysiwyg_info()->stage == SelectingNearEnd) || (get_wysiwyg_info()->stage == SelectingReference))
     {
-      get_wysiwig_info()->Mark.width = get_wysiwig_info()->Mark.height = PRINTMARKER;
+      get_wysiwyg_info()->Mark.width = get_wysiwyg_info()->Mark.height = PRINTMARKER;
       gtk_widget_queue_draw (Denemo.printarea);
-      get_wysiwig_info()->Mark.x = event->x + xx;
-      get_wysiwig_info()->Mark.y = event->y + yy;
+      get_wysiwyg_info()->Mark.x = event->x + xx;
+      get_wysiwyg_info()->Mark.y = event->y + yy;
       // switch_back_to_main_window();
-      get_wysiwig_info()->ObjectLocated = FALSE;
+      get_wysiwyg_info()->ObjectLocated = FALSE;
     }
 
-  if ( /* left && */ get_wysiwig_info()->stage == TargetEstablished)
+  if ( /* left && */ get_wysiwyg_info()->stage == TargetEstablished)
     {
       if (Denemo.gui->si->target.type == TARGET_SLUR)
         {
-          get_wysiwig_info()->grob = Slur;
+          get_wysiwyg_info()->grob = Slur;
           call_out_to_guile ("(EditSlur)");
-          get_wysiwig_info()->stage = STAGE_NONE;
+          get_wysiwyg_info()->stage = STAGE_NONE;
           return TRUE;
         }
     }
-  if (get_wysiwig_info()->stage == SelectingNearEnd)
+  if (get_wysiwyg_info()->stage == SelectingNearEnd)
     {
-      get_wysiwig_info()->stage = SelectingFarEnd;
+      get_wysiwyg_info()->stage = SelectingFarEnd;
       gtk_main_quit ();
       return TRUE;
     }
 
-  if (get_wysiwig_info()->stage == SelectingReference)
+  if (get_wysiwyg_info()->stage == SelectingReference)
     {
-      get_wysiwig_info()->stage = STAGE_NONE;
+      get_wysiwyg_info()->stage = STAGE_NONE;
       gtk_main_quit ();
       return TRUE;
     }
-  if (get_wysiwig_info()->stage == SelectingPoint)
+  if (get_wysiwyg_info()->stage == SelectingPoint)
     {
-      get_wysiwig_info()->stage = STAGE_NONE;
-      get_wysiwig_info()->Mark.width = get_wysiwig_info()->Mark.height = PRINTMARKER;  //width=0 means no mark
-      get_wysiwig_info()->Mark.x = event->x + xx;
-      get_wysiwig_info()->Mark.y = event->y + yy;
-      g_print ("Selected point, %f %f \n", get_wysiwig_info()->Mark.x, get_wysiwig_info()->Mark.y);
+      get_wysiwyg_info()->stage = STAGE_NONE;
+      get_wysiwyg_info()->Mark.width = get_wysiwyg_info()->Mark.height = PRINTMARKER;  //width=0 means no mark
+      get_wysiwyg_info()->Mark.x = event->x + xx;
+      get_wysiwyg_info()->Mark.y = event->y + yy;
+      g_print ("Selected point, %f %f \n", get_wysiwyg_info()->Mark.x, get_wysiwyg_info()->Mark.y);
       gtk_main_quit ();
       return TRUE;
     }
-  if (get_wysiwig_info()->stage == SelectingFarEnd)
+  if (get_wysiwyg_info()->stage == SelectingFarEnd)
     {
-      get_wysiwig_info()->far_i = get_wysiwig_info()->farpoint = get_wysiwig_info()->last_button_release;
-      get_wysiwig_info()->stage = WaitingForDrag;
+      get_wysiwyg_info()->far_i = get_wysiwyg_info()->farpoint = get_wysiwyg_info()->last_button_release;
+      get_wysiwyg_info()->stage = WaitingForDrag;
       //first post-insert a \stemNeutral if beaming
-      if (get_wysiwig_info()->grob == Beam)
+      if (get_wysiwyg_info()->grob == Beam)
         {
           call_out_to_guile ("(d-MoveCursorRight)(if (not (StemDirective?)) (begin   (d-InfoDialog (_ \"Note that a Directive to revert to automatic stems is now placed after the beamed notes. Edit this as needed for the voice you are using.\")) (d-InsertStem)))");
         }
       //g_print("yadjust %f %f\n", nearadjust, faradjust);
       //here we move the cursor back to the beam/slur start
-      goto_movement_staff_obj (NULL, -1, get_wysiwig_info()->pos.staff, get_wysiwig_info()->pos.measure, get_wysiwig_info()->pos.object);
+      goto_movement_staff_obj (NULL, -1, get_wysiwyg_info()->pos.staff, get_wysiwyg_info()->pos.measure, get_wysiwyg_info()->pos.object);
       gtk_widget_queue_draw (Denemo.printarea);
-      gchar *msg = (get_wysiwig_info()->grob == Slur) ? _("Now drag the begin/end markers to suggest slur position/angle\nRight click when done.") : _("Now drag the begin/end markers to set position/angle of beam\nRight click when done.");
+      gchar *msg = (get_wysiwyg_info()->grob == Slur) ? _("Now drag the begin/end markers to suggest slur position/angle\nRight click when done.") : _("Now drag the begin/end markers to set position/angle of beam\nRight click when done.");
 
-      gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (get_wysiwig_info()->dialog), msg);
-      gtk_widget_show (get_wysiwig_info()->dialog);
+      gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (get_wysiwyg_info()->dialog), msg);
+      gtk_widget_show (get_wysiwyg_info()->dialog);
       return TRUE;
     }
-  if ((get_wysiwig_info()->stage == DraggingNearEnd) || (get_wysiwig_info()->stage == DraggingFarEnd))
+  if ((get_wysiwyg_info()->stage == DraggingNearEnd) || (get_wysiwyg_info()->stage == DraggingFarEnd))
     {
-      get_wysiwig_info()->stage = WaitingForDrag;
+      get_wysiwyg_info()->stage = WaitingForDrag;
       return TRUE;
     }
 
 
 
-  if (get_wysiwig_info()->stage == Offsetting)
+  if (get_wysiwyg_info()->stage == Offsetting)
     {
       if (right)
         popup_tweak_menu ();
       else
         {
-          g_print ("Offsetting quitting with %d %d", get_wysiwig_info()->stage, get_wysiwig_info()->grob);
+          g_print ("Offsetting quitting with %d %d", get_wysiwyg_info()->stage, get_wysiwyg_info()->grob);
           //The offset depends on the object being dragged. ToogleTrill sign uses bottom right, ToggleCoda uses center left.
-          //      get_wysiwig_info()->curx +=18;//for trill
-          //      get_wysiwig_info()->cury +=18;//for coda, mordent ...
+          //      get_wysiwyg_info()->curx +=18;//for trill
+          //      get_wysiwyg_info()->cury +=18;//for coda, mordent ...
           //      ???
 
 
@@ -1821,8 +1821,8 @@ printarea_button_release (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * eve
   // \once \override DynamicLineSpanner #'padding = #10 setting padding for cresc and dimin
   // \once \override DynamicLineSpanner #'Y-offset = #-10 to move a cresc or dimin vertically downwards.
   // \once \override DynamicLineSpanner #'direction = #1 to place above/below (-1)
-  //g_print("Stage %d object loc %d left %d", get_wysiwig_info()->stage, object_located_on_entry, left);
-  if (right && (get_wysiwig_info()->stage == STAGE_NONE))
+  //g_print("Stage %d object loc %d left %d", get_wysiwyg_info()->stage, object_located_on_entry, left);
+  if (right && (get_wysiwyg_info()->stage == STAGE_NONE))
     {
       if (object_located_on_entry)      //set by action_for_link
         popup_object_edit_menu ();
@@ -1835,21 +1835,21 @@ printarea_button_release (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * eve
   return TRUE;
 #if 0
 //This code for use later when dragging an object
-  g_print ("get_wysiwig_info()->selecting %d\n", get_wysiwig_info()->selecting);
+  g_print ("get_wysiwyg_info()->selecting %d\n", get_wysiwyg_info()->selecting);
 
-  if (get_wysiwig_info()->selecting)
+  if (get_wysiwyg_info()->selecting)
     {
-      get_wysiwig_info()->near.x = event->x;
-      get_wysiwig_info()->near.y = event->y;
+      get_wysiwyg_info()->near.x = event->x;
+      get_wysiwyg_info()->near.y = event->y;
       gint width, height;
       normalize ();
 
-      width = get_wysiwig_info()->near.x - get_wysiwig_info()->Mark.x;
-      height = get_wysiwig_info()->near.y - get_wysiwig_info()->Mark.y;
+      width = get_wysiwyg_info()->near.x - get_wysiwyg_info()->Mark.x;
+      height = get_wysiwyg_info()->near.y - get_wysiwyg_info()->Mark.y;
       GtkIconFactory *icon_factory = gtk_icon_factory_new ();
-      if (marky + adjust_y < 0 || (get_wysiwig_info()->Mark.y + adjust_y + height > gdk_pixbuf_get_height (Denemo.pixbuf)))
+      if (marky + adjust_y < 0 || (get_wysiwyg_info()->Mark.y + adjust_y + height > gdk_pixbuf_get_height (Denemo.pixbuf)))
         return TRUE;
-      GdkPixbuf *sub_pixbuf = gdk_pixbuf_new_subpixbuf (Denemo.pixbuf, get_wysiwig_info()->Mark.x + adjust_x, get_wysiwig_info()->Mark.y + adjust_y, width, height);
+      GdkPixbuf *sub_pixbuf = gdk_pixbuf_new_subpixbuf (Denemo.pixbuf, get_wysiwyg_info()->Mark.x + adjust_x, get_wysiwyg_info()->Mark.y + adjust_y, width, height);
 
       GdkPixbuf *alphapixbuf = gdk_pixbuf_add_alpha (sub_pixbuf, TRUE, 255, 255, 255);
       GdkPixbuf *scaledpixbuf = gdk_pixbuf_scale_simple (alphapixbuf, width, height, GDK_INTERP_BILINEAR);
@@ -1872,7 +1872,7 @@ printarea_button_release (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * eve
             }
         }
     }
-  get_wysiwig_info()->selecting = FALSE;
+  get_wysiwyg_info()->selecting = FALSE;
 #endif
   return TRUE;
 }
@@ -2433,10 +2433,10 @@ install_printpreview (GtkWidget * top_vbox)
   gtk_widget_show_all (main_vbox);
   gtk_widget_hide (top_vbox);
 
-  get_wysiwig_info()->dialog = infodialog ("");
-  g_signal_connect (get_wysiwig_info()->dialog, "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
-  g_signal_handlers_block_by_func (get_wysiwig_info()->dialog, G_CALLBACK (gtk_widget_destroy), get_wysiwig_info()->dialog);
-  gtk_widget_hide (get_wysiwig_info()->dialog);
+  get_wysiwyg_info()->dialog = infodialog ("");
+  g_signal_connect (get_wysiwyg_info()->dialog, "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
+  g_signal_handlers_block_by_func (get_wysiwyg_info()->dialog, G_CALLBACK (gtk_widget_destroy), get_wysiwyg_info()->dialog);
+  gtk_widget_hide (get_wysiwyg_info()->dialog);
 }
 
 gboolean
