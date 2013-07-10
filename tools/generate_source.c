@@ -508,8 +508,8 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Delete the current movement", N_("DeleteMovement"), "delete_movement", N_("Delete Movement"), NULL},
 
 
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_MEDIA_PLAY", "Play", N_("Play"), "ext_midi_playback", N_("Play"), NULL},
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_MEDIA_STOP", "Stop", N_("Stop"), "stop_midi_playback", N_("Stop"), NULL},
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_MEDIA_PLAY", "Playback from start marker to end marker (Set these markers in the playback controls)", N_("Play"), "ext_midi_playback", N_("Play"), NULL},
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_MEDIA_STOP", "Stop Playback", N_("Stop"), "stop_midi_playback", N_("Stop"), NULL},
 
 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PROPERTIES", "Allows you to specify properties used in playing back (midi)", N_("PlaybackProperties"), "playback_properties_change", "Playback Properties", N_("Playback Properties")},

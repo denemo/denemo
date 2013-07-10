@@ -300,8 +300,8 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "MoveToEn
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "NextMovement"), "NextMovement", _("Next Movement"), _("Go to the next movement"), next_movement);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PreviousMovement"), "PreviousMovement", _("Previous Movement"), _("Go to the previous movement"), prev_movement);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "DeleteMovement"), "DeleteMovement", _("Delete Movement"), _("Delete the current movement"), delete_movement);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Play"), "Play", _("Play"), _("Play"), ext_midi_playback);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Stop"), "Stop", _("Stop"), _("Stop"), stop_midi_playback);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Play"), "Play", _("Play"), _("Playback from start marker to end marker (Set these markers in the playback controls)"), ext_midi_playback);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "Stop"), "Stop", _("Stop"), _("Stop Playback"), stop_midi_playback);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PlaybackProperties"), "PlaybackProperties", _("Playback Properties"), _("Allows you to specify properties used in playing back (midi)"), playback_properties_change);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Help"), "Help", _("Browse Manual"), _("Opens a browser on the user manual"), browse_manual);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "About"), "About", _("About"), _("Gives the version number etc of this program"), about);
