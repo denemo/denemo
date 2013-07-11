@@ -1520,14 +1520,17 @@ display_current_object (void)
                   selection = g_string_append (selection, _("This is an acciacatura note\n"));
                 if (thechord->is_grace & GRACED_NOTE)
                   selection = g_string_append (selection, _("This is an appogiatura note\n"));
-                
+                if (curObj->isinvisible)
+                  selection = g_string_append (selection, _("This note denotes a rhythm - use a MIDI keyboard to add pitches by playing.\n"));
+
 
 
 
                 note *thenote = findnote (curObj, gui->si->cursor_y);
                 if (thenote && gui->si->cursor_y==thenote->mid_c_offset)
                   {
-										g_string_append_printf (selection, _("\nWithin the chord the cursor is on the note %s \n"),
+  
+										g_string_append_printf (selection, _("Within the chord the cursor is on the note %s \n"),
 											mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift));
                     if (thenote->directives)
                       {
@@ -1535,17 +1538,25 @@ display_current_object (void)
                         append_directives_information (selection, thenote->directives);
                       }
                   }
+                if ((thechord->notes->next) && curObj->isinvisible)
+                        warning = g_string_append (warning, _("This rhythm has extra notes added to it, delete them and use the foot-pedal or Alt key to enter chords with the MIDI controller.\n"));
 
               }
             else
               {
-                selection = g_string_append (selection, _("a rest."));
+                selection = g_string_append (selection, _("a rest.\n"));
                 if (thechord->slur_begin_p)
                   warning = g_string_append (warning, _("This rest has a slur start on it, use the Notes/Rests → Slurs menu to remove it"));
                 if (thechord->slur_end_p)
                   warning = g_string_append (warning, _("This rest has a slur end on it, use the Notes/Rests → Slurs menu to remove it"));
                 if (thechord->is_tied)
                   warning = g_string_append (warning, _("This rest has a tie starting on it, use the Notes/Rests → Ties menu to remove it"));
+
+                  
+                if (curObj->isinvisible)
+                  selection = g_string_append (selection, _("This rest will not print, just act as a spacer.\n"));
+                if (thechord->is_grace && curObj->isinvisible)
+                  warning = g_string_append (warning, _("This rest has the grace attribute set: this can be used to avoid a bug in the print view.\n"));
 
               }
             if (thechord->directives) {
