@@ -1511,11 +1511,18 @@ display_current_object (void)
                     selection = g_string_append (selection, _("a one-note chord.\n"));
                   }
                 if (thechord->slur_begin_p)
-                  selection = g_string_append (selection, _("\nA slur starts from here.\n" "There should be a matching end slur later."));
+                  selection = g_string_append (selection, _("A slur starts from here.\n" "There should be a matching end slur later.\n"));
                 if (thechord->slur_end_p)
-                  selection = g_string_append (selection, _("\nA slur ends here\n" "There should be a matching start slur earlier."));
+                  selection = g_string_append (selection, _("A slur ends here\n" "There should be a matching start slur earlier.\n"));
                 if (thechord->is_tied)
-                  selection = g_string_append (selection, _("\nThis is tied to the following note or chord.\n" "The following note or chord should have the same pitch"));
+                  selection = g_string_append (selection, _("This is tied to the following note or chord.\n" "The following note or chord should have the same pitch"));
+                if (thechord->is_grace && !(thechord->is_grace & GRACED_NOTE))
+                  selection = g_string_append (selection, _("This is an acciacatura note\n"));
+                if (thechord->is_grace & GRACED_NOTE)
+                  selection = g_string_append (selection, _("This is an appogiatura note\n"));
+                
+
+
 
                 note *thenote = findnote (curObj, gui->si->cursor_y);
                 if (thenote && gui->si->cursor_y==thenote->mid_c_offset)
@@ -1528,6 +1535,7 @@ display_current_object (void)
                         append_directives_information (selection, thenote->directives);
                       }
                   }
+
               }
             else
               {
@@ -1544,6 +1552,7 @@ display_current_object (void)
 							selection = g_string_append (selection, _("Attached to the chord:"));
               append_directives_information (selection, thechord->directives);
 						}
+          g_string_append_printf (selection, _("This starts %d/384 quarter notes into the measure and lasts %d/384 quarter notes.\n"), curObj->starttick, curObj->durinticks);
 
           }
           break;
