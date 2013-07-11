@@ -10,7 +10,7 @@
       (begin
         (set! bottom (d-GetUserInput (_ "Enter tuplet denominator") (_ "Enter the fraction's denominator:") "3" ))
         (if bottom
-          (set directiveText (string-append top "/" bottom )))))))
+          (set! directiveText (string-append top "/" bottom )))))))
 
 (if directiveText
   (begin
