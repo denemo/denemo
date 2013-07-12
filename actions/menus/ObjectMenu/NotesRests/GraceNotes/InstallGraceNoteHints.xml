@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <after>UnGraceAfter</after>
+        <action>InstallGraceNoteHints</action>
+        <_label>Install Grace Note Hints</_label>
+        <_tooltip>Where a grace note occurs at a boundary the LilyPond typesetter requires extra hints about positioning. This command installs them for the whole movement. It is usually run in the Check Score routine.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

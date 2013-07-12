@@ -7,6 +7,7 @@
 (while (d-PreviousMovement))
 (let movement ()
   (d-EvenOutStaffLengths)
+  (d-InstallGraceNoteHints)
   (let staff ()
    	(d-FixSlursInStaff)   	
    	(d-CheckTiesInStaff)
