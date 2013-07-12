@@ -2796,7 +2796,14 @@ scheme_get_end_tick (void)
 }
 
 
-
+SCM
+scheme_get_start_tick (void)
+{
+  DenemoObject *curObj;
+  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data))
+    return SCM_BOOL (FALSE);
+  return scm_from_int (curObj->starttick);
+}
 
 
 SCM
@@ -5866,6 +5873,7 @@ create_scheme_identfiers (void)
   INSTALL_SCM_FUNCTION ("Returns the number of ticks (PPQN) for the chord without dots or tuplet effects at the cursor, or #f if not a chord. The value is -ve for special durations (i.e. non-standard notes)", DENEMO_SCHEME_PREFIX "GetBaseDurationInTicks", scheme_get_base_duration_in_ticks);
 
   INSTALL_SCM_FUNCTION ("Returns the tick count (PPQN) for the end of the object at the cursor, or #f if none", DENEMO_SCHEME_PREFIX "GetEndTick", scheme_get_end_tick);
+  INSTALL_SCM_FUNCTION ("Returns the tick count (PPQN) for the start of the object at the cursor, or #f if none", DENEMO_SCHEME_PREFIX "GetStartTick", scheme_get_start_tick);
 
   INSTALL_SCM_FUNCTION ("Returns the measure number at cursor position.", DENEMO_SCHEME_PREFIX "GetMeasureNumber", scheme_get_measure_number);
 
