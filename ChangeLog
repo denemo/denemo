@@ -1,3 +1,17 @@
+2013-07-13 Release 1.0.6
+      Import MusicXML
+          Direct import of music XML.
+      Improved Rhythm Entry
+          Dotted rhythms in two keypresses
+          Triplets in three keypresses
+          Slurred versions of these too.
+      Combined Key Signatures
+          Search and Edit
+          Seek a selected type of item
+      Edit or continue seeking
+          Applies to ornaments, Rehearsal Marks, barlines ...
+      Grace Note Hints
+          works around the long-standing LilyPond "feature"
 2013-05-26 Release 1.0.4
         Playing back repeats in MIDI
           Da Capo and Dal Segno also supported
