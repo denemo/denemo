@@ -1,12 +1,13 @@
 ;;InsertGraceNoteHints
 (let ((last-object 'none))
-  (define (clean-measure)
+   (define (clean-measure)
     (let loop ()
       (if (and (Rest?) (d-IsGrace))
-        (d-DeleteObject))
+        (begin
+          (d-DeleteObject)
+          (loop)))
       (if (d-NextObjectInMeasure)
           (loop))))
-          
 
   (define (get-grace)
     (define str "(d-InsertBlankWholeNote)(d-ToggleGrace)")
