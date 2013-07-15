@@ -454,12 +454,15 @@ To do this dismiss this dialog and guess at where the red spot is on the object.
 											
 ;;;; Toggles a postfix annotation on a chord, with editing for direction or offset
 (define* (ChordAnnotation tag lilypond params graphic #:optional display)
+  (define current-direction "^")
 	(define (set-option option)
+          (if (not (or (equal? current-direction "^") (equal? current-direction "-") (equal? current-direction "_")))
+            (set! current-direction "-"))
 					(case (car option)
-              ((padding) (string-append " ^\\tweak #'padding #" (cdr option)))
+              ((padding) (string-append " " current-direction "\\tweak #'padding #" (cdr option)))
 							((direction) (cdr option))
-							((offsetx) (string-append " ^\\tweak #'X-offset #'" (cdr option)))
-							((offsety)  (string-append " ^\\tweak #'Y-offset #'" (cdr option)))))
+							((offsetx) (string-append " " current-direction "\\tweak #'X-offset #'" (cdr option)))
+							((offsety)  (string-append " " current-direction "\\tweak #'Y-offset #'" (cdr option)))))
 	(define (direction-edit)
 		(let ((choice #f))
 		(set! choice (d-GetOption  (string-append (_ "Up") stop (_ "Down") stop (_ "Auto") stop)))
@@ -482,7 +485,8 @@ To do this dismiss this dialog and guess at where the red spot is on the object.
 							(begin 
 								(if (and (d-Directive-chord? tag) (list? params))
 									(begin
-										(d-SetSaved #f)		
+										(d-SetSaved #f)
+                    (set! current-direction (substring (string-trim (d-DirectiveGet-chord-postfix tag)) 0 1))
 										(d-DirectivePut-chord-postfix tag (string-append  (string-join (map set-option params)) " " lilypond " ")))
 									(d-WarningDialog "Cannot complete operation - cursor moved or bad parameter list")))
 							(begin  ;;;no parameters, toggle annotation off/on
