@@ -338,6 +338,9 @@ To do this dismiss this dialog and guess at where the red spot is on the object.
 						  (if choice
 								(eval-string (string-append "(d-" tag " (list (cons 'direction \"" choice "\")))")))))
 	
+  (define (do-padding)
+		(let ((padding (d-GetUserInput (_ "Padding") (_ "Give amount of padding required around this item (in staff spaces)") "2")))
+								(eval-string (string-append "(d-" tag " (list (cons 'padding \"" padding "\")))"))))
 							
 							
 	(define (alter-text)
@@ -380,7 +383,7 @@ To do this dismiss this dialog and guess at where the red spot is on the object.
 								
 					((equal? target-type "Chord")
 							(let ((menu ""))
-								(set! menu (list  (cons (_ "Up/Down") do-direction) (cons (_ "Offset Position") do-center-relative-offset)))   
+								(set! menu (list  (cons (_ "Up/Down") do-direction) (cons (_ "Padding") do-padding) (cons (_ "Offset Position") do-center-relative-offset)))   
 								;;; FIXME the value is relative to the centre line of the staff, this gets relative to the tr sign.
 								;;;need to use d-GetNewTarget to find the notehead position, then use its mid_c_offset to get the centre line value
 								;;; beaming does this
@@ -453,6 +456,7 @@ To do this dismiss this dialog and guess at where the red spot is on the object.
 (define* (ChordAnnotation tag lilypond params graphic #:optional display)
 	(define (set-option option)
 					(case (car option)
+              ((padding) (string-append " ^\\tweak #'padding #" (cdr option)))
 							((direction) (cdr option))
 							((offsetx) (string-append " ^\\tweak #'X-offset #'" (cdr option)))
 							((offsety)  (string-append " ^\\tweak #'Y-offset #'" (cdr option)))))
@@ -466,7 +470,7 @@ To do this dismiss this dialog and guess at where the red spot is on the object.
 															((equal? choice (_ "Auto")) "-")))
 					(d-DirectivePut-chord-postfix tag (string-append  (string-append choice " " lilypond " ")))
 					(d-SetSaved #f)))))
-					
+  
 	(if (and (d-Directive-chord? tag) (equal? params "edit"))
 						(case (GetEditOption)
 								((edit) (direction-edit))
@@ -478,7 +482,7 @@ To do this dismiss this dialog and guess at where the red spot is on the object.
 							(begin 
 								(if (and (d-Directive-chord? tag) (list? params))
 									(begin
-										(d-SetSaved #f)
+										(d-SetSaved #f)		
 										(d-DirectivePut-chord-postfix tag (string-append  (string-join (map set-option params)) " " lilypond " ")))
 									(d-WarningDialog "Cannot complete operation - cursor moved or bad parameter list")))
 							(begin  ;;;no parameters, toggle annotation off/on
