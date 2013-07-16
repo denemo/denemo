@@ -173,6 +173,7 @@ removemeasures (DenemoScore * si, guint pos, guint nummeasures, gboolean all)
     {
       for (i = 0; i < nummeasures; i++)
         {
+          totalmeasures = 0;
           for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
             {
               if (curstaff == si->currentstaff || all)
