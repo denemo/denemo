@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <after>SustainOn</after>
+        <action>SustainOff</action>
+        <_label>Sustain Off</_label>
+        <_tooltip>Prints a Sustain Off Mark</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

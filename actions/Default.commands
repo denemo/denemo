@@ -5975,6 +5975,20 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <_label>Add a Staff for Dynamics</_label>
         <_tooltip>Adds a staff to be used purely for dynamic markings, insert after right hand piano staff</_tooltip>
       </row>
+      <row type="scheme">
+        <action>SustainOn</action>
+        <after>BreathMark</after>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <_label>Sustain On</_label>
+        <_tooltip>Prints a Sustain Pedal On Mark</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>SustainOff</action>
+        <after>SustainOn</after>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <_label>Sustain Off</_label>
+        <_tooltip>Prints a Sustain Off Mark</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
