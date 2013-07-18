@@ -5968,6 +5968,13 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <_label>Select All Music In Movement</_label>
         <_tooltip>Creates a selection for all the music in the current movement.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>DynamicsStaff</action>
+        <after>PianoStaff</after>
+        <menupath>/ObjectMenu/StaffMenu/InsertStaff</menupath>
+        <_label>Add a Staff for Dynamics</_label>
+        <_tooltip>Adds a staff to be used purely for dynamic markings, insert after right hand piano staff</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
