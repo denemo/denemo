@@ -1645,11 +1645,14 @@ load_default_keymap_file (void)
 {
   gchar *localrc = NULL;
   const gchar *keymapdir = locatekeymapdir ();
-  gchar *systemwide = g_build_filename (get_data_dir (), "actions", g_strconcat (DEFAULT_KEYMAP, ".commands", NULL), NULL);
+  gchar* keymap_file = g_strconcat (DEFAULT_KEYMAP, ".commands", NULL);
+  gchar *systemwide = g_build_filename (get_data_dir (), "actions", keymap_file, NULL);
   //g_print ("systemwide = %s\n", systemwide);
   if (keymapdir)
     localrc = g_build_filename (keymapdir, DEFAULT_COMMANDS, NULL);
   load_keymap_files (localrc, systemwide);
+
+  g_free (keymap_file);
   g_free (localrc);
   g_free (systemwide);
 }
