@@ -10482,21 +10482,12 @@ create_window (void)
   //accel_group = gtk_ui_manager_get_accel_group (ui_manager);
   //gtk_window_add_accel_group (GTK_WINDOW (Denemo.window), accel_group);
 
-
-  data_file = g_build_filename (get_system_data_dir (), "denemoui.xml", NULL);
-  if (g_file_test (data_file, G_FILE_TEST_EXISTS))
-    denemoui_path = data_file;
-  else
-    g_free (data_file);
-
-  if (!denemoui_path)
-    {
-      data_file = g_build_filename ("denemoui.xml", NULL);
-      if (g_file_test (data_file, G_FILE_TEST_EXISTS))
-        denemoui_path = data_file;
-      else
-        g_free (data_file);
-    }
+  gchar* dirs[] = {
+    g_build_filename(UI_DIR, NULL),
+    g_build_filename(get_system_data_dir (), UI_DIR, NULL),
+    NULL
+  };
+  denemoui_path = find_path_for_file("denemoui.xml", dirs);
 
   if (!denemoui_path)
     {
@@ -10505,7 +10496,7 @@ create_window (void)
     }
 
   error = NULL;
-  if (!gtk_ui_manager_add_ui_from_file (ui_manager, data_file, &error))
+  if (!gtk_ui_manager_add_ui_from_file (ui_manager, denemoui_path, &error))
     {
       g_error ("Could not load %s: %s", denemoui_path, error->message);
       g_error_free (error);

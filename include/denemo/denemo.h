@@ -90,6 +90,7 @@ extern const gchar *Portaudio;
 extern const gchar *Fluidsynth;
 
 #define COMMANDS_DIR "actions"
+#define UI_DIR       "ui"
 
 
 #ifdef __cplusplus

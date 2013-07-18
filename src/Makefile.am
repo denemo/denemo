@@ -1,5 +1,5 @@
 bin_PROGRAMS = denemo
-dist_pkgdata_DATA = denemoui.xml instruments.xml
+dist_pkgdata_DATA = instruments.xml
 denemo_SOURCES = denemo_types.c \
 	calculatepositions.c changenotehead.c \
 	chordops.c clefdialog.c commandfuncs.c contexts.c draw.c \
