@@ -89,8 +89,10 @@ extern const gchar *Jack;
 extern const gchar *Portaudio;
 extern const gchar *Fluidsynth;
 
-#define COMMANDS_DIR "actions"
-#define UI_DIR       "ui"
+#define COMMANDS_DIR   "actions"
+#define UI_DIR         "ui"
+#define SOUNDFONTS_DIR "soundfonts"
+#define PIXMAPS_DIR    "pixmaps"
 
 
 #ifdef __cplusplus

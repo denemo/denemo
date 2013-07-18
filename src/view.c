@@ -10432,7 +10432,12 @@ create_window (void)
   g_print ("Denemo icon not used");
   //not installed on windows ... data_file = g_build_filename (get_system_data_dir (), "icons","denemo.png", NULL);
 #else
-  data_file = g_strconcat (get_system_data_dir (), "/../pixmaps/denemo.png", NULL);    //FIXME installed in wrong place?
+  gchar* icon_dirs[] = {
+    g_build_filename(g_get_current_dir (), PIXMAPS_DIR, NULL),
+    g_strconcat (get_system_data_dir (), "/../pixmaps", NULL), //FIXME installed in wrong place?
+    NULL
+  };
+  data_file = find_path_for_file("denemo.png", icon_dirs);
   gtk_window_set_default_icon_from_file (data_file, NULL);
 #endif
 

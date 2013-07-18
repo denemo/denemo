@@ -74,7 +74,7 @@ locateprintdir (void)
 void
 initprefs ()
 {
-  gchar *systemwide = g_build_filename (get_conf_dir (), "denemo.conf", NULL);
+  gchar *systemwide = find_file ("denemo.conf");
 #define ret (&Denemo.prefs)
   gchar *dotdenemo = (gchar *) get_user_data_dir ();
   gchar *localrc = dotdenemo ? g_build_filename (dotdenemo, PREFS_FILE, NULL) : NULL;
@@ -149,7 +149,10 @@ initprefs ()
   ret->portmidi_input_device = g_string_new ("default");
   ret->portmidi_output_device = g_string_new ("default");
 
-  gchar *soundfontpath = g_build_filename (get_system_data_dir (), "soundfonts", "A320U.sf2", NULL);
+  gchar* file_path = g_build_filename (SOUNDFONTS_DIR, "A320U.sf2", NULL);
+  gchar *soundfontpath = find_file(file_path);
+  g_free(file_path);
+
   ret->fluidsynth_soundfont = g_string_new (soundfontpath);
   ret->pitchspellingchannel = 15;
   ret->pitchspellingprogram = 17;

@@ -2353,3 +2353,24 @@ find_path_for_file(gchar* filename, gchar* dirs[])
   }
   return NULL;
 }
+
+/**
+ * find_file:
+ * @filename: The file to search
+ *
+ * Finds a file by searching:
+ *  - in the local directory
+ *  - in the user directory
+ *  - in the system directory
+ **/
+gchar*
+find_file(gchar* filename)
+{
+  gchar* dirs[] = {
+    g_get_current_dir (),
+    g_strdup(get_user_data_dir ()),
+    g_strdup(get_system_data_dir ()),
+    NULL
+  };
+  return find_path_for_file (filename, dirs);
+}
