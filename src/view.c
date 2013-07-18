@@ -10422,7 +10422,8 @@ create_window (void)
   GtkActionGroup *action_group;
   GtkUIManager *ui_manager;
   GError *error;
-  gchar *denemoui_path = NULL, *data_file = NULL;
+  gchar *denemoui_path = NULL;
+  gchar* data_file = NULL;
 
   Denemo.window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (Denemo.window), _("Denemo Main Window"));

@@ -1643,10 +1643,6 @@ load_system_keymap_dialog (GtkWidget * widget)
   g_free (systemwide);
 }
 
-/**
- * Load the  the global default keymap
- and merge the user's version keymap 
- */
 void
 load_default_keymap_file ()
 {
@@ -1726,7 +1722,7 @@ save_keymap_dialog (GtkWidget * widget)
 {
   gchar *keymapdir = NULL;
   keymapdir = g_build_filename (get_user_keymap_dir (), NULL);
-  gchar *filename = file_dialog ("Save Command Set", FALSE, keymapdir);
+  gchar *filename = file_dialog (_("Save Command Set"), FALSE, keymapdir);
   if (filename)
     save_keymap_from_dialog (filename);
   g_free (keymapdir);
