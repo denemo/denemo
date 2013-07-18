@@ -8,9 +8,9 @@ find_command_dir(GtkAction* action, gchar* filename)
 {
   gchar *menupath = (gchar *) g_object_get_data (G_OBJECT (action), "menupath");
   gchar* dirs[] = {
-      g_build_filename (locatedotdenemo (), "actions", "menus", menupath, NULL),
-      g_build_filename (locatedotdenemo (), "download", "actions", "menus", menupath, NULL),
-      g_build_filename (get_data_dir (), "actions", "menus", menupath, NULL),
+      g_build_filename (get_user_data_dir (), COMMANDS_DIR, "menus", menupath, NULL),
+      g_build_filename (get_user_data_dir (), "download", COMMANDS_DIR, "menus", menupath, NULL),
+      g_build_filename (get_system_data_dir (), COMMANDS_DIR, "menus", menupath, NULL),
       NULL
   };
   return find_dir_for_file (filename, dirs);
@@ -258,15 +258,18 @@ load_xml_keymap (gchar * filename)
   gint ret = -1;
   xmlDocPtr doc;
   xmlNodePtr rootElem;
+  
   if (filename == NULL)
     return ret;
+  
+  if (!g_file_test (filename, G_FILE_TEST_EXISTS))
+    return ret;
+  
   if (g_file_test (filename, G_FILE_TEST_IS_DIR))
     {
       warningdialog (_("There is no support for loading whole folders of commands yet, sorry"));
       return ret;
     }
-  if (!g_file_test (filename, G_FILE_TEST_EXISTS))
-    return ret;
   doc = xmlParseFile (filename);
   gchar *menupath = extract_menupath (filename);
   if (doc == NULL)
@@ -282,7 +285,7 @@ load_xml_keymap (gchar * filename)
       xmlFreeDoc (doc);
       return ret;
     }
-  //g_print ("RootElem %s\n", rootElem->name);
+
   if (xmlStrcmp (rootElem->name, COMMANDXML_TAG_ROOT))
     {
       g_warning ("Document has wrong type\n");
@@ -568,7 +571,7 @@ show_type (GtkWidget * widget, gchar * message)
 static gint
 create_dir_for_menu (gchar * str)
 {
-  gchar *thismenu = g_build_filename (locatedotdenemo (), "actions", "menus", str, NULL);
+  gchar *thismenu = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "menus", str, NULL);
   if (!g_file_test (thismenu, G_FILE_TEST_IS_DIR))
     {
       return g_mkdir_with_parents (thismenu, 0770);

@@ -428,7 +428,7 @@ prev_movement (GtkAction * action, DenemoScriptParam * param)
 void
 init_score (DenemoScore * si, DenemoGUI * gui)
 {
-  gchar *dir = (gchar *) locatedotdenemo ();
+  gchar *dir = (gchar *) get_user_data_dir ();
 
   si->readonly = 0;
   si->leftmeasurenum = si->rightmeasurenum = 1;

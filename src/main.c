@@ -195,7 +195,7 @@ process_command_line (int argc, char **argv)
   }
 
   if(scheme_script_name)
-    Denemo.scheme_file = g_build_filename (get_data_dir (), "actions", scheme_script_name, NULL);
+    Denemo.scheme_file = g_build_filename (get_system_data_dir (), COMMANDS_DIR, scheme_script_name, NULL);
 
   if(Denemo.prefs.audio_driver)
     g_string_ascii_down (Denemo.prefs.audio_driver);
@@ -228,8 +228,8 @@ init_environment()
   gchar *guile = g_build_filename (prefix, "share", "guile", NULL);
   gchar *guile_1_8 = g_build_filename (guile, "1.8", NULL);
   gchar *lilypond_current_scm = g_build_filename (prefix, "share", "lilypond", "current", "scm", NULL);
-  gchar *denemo_scm = g_build_filename (prefix, "share", "denemo", "actions", NULL);
-  gchar *denemo_modules_scm = g_build_filename (prefix, "share", "denemo", "actions", "denemo-modules", NULL);
+  gchar *denemo_scm = g_build_filename (prefix, "share", "denemo", COMMANDS_DIR, NULL);
+  gchar *denemo_modules_scm = g_build_filename (prefix, "share", "denemo", COMMANDS_DIR, "denemo-modules", NULL);
   if (g_file_test (guile, G_FILE_TEST_EXISTS))
     {
       gchar *guile_path = g_strconcat (guile, ";", guile_1_8, ";", denemo_scm, ";", denemo_modules_scm, ";", lilypond_current_scm, NULL);
@@ -280,7 +280,7 @@ init_environment()
 #else
   g_setenv ("LILYPOND_VERBOSE", "1", FALSE);
   gchar *prefix = g_build_filename (get_prefix_dir (), NULL);
-  add_font_directory (g_build_filename (get_data_dir (), "fonts", NULL));
+  add_font_directory (g_build_filename (get_system_data_dir (), "fonts", NULL));
 
   fontpath = g_build_filename (prefix, "share", "fonts", "truetype", "denemo", "feta.ttf", NULL);
   add_font_file (fontpath);
@@ -295,8 +295,8 @@ init_environment()
   g_free(fontpath);
 
   append_to_path ("GUILE_LOAD_PATH",
-                  g_build_filename (prefix, "share", "denemo", "actions", NULL),
-                  g_build_filename (prefix, "share", "denemo", "actions", "denemo-modules", NULL),
+                  g_build_filename (prefix, "share", "denemo", COMMANDS_DIR, NULL),
+                  g_build_filename (prefix, "share", "denemo", COMMANDS_DIR, "denemo-modules", NULL),
                   NULL);
 
 #endif /* end of else not windows */

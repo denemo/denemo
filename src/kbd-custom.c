@@ -45,9 +45,31 @@
 
 
 
-#define DEFAULT_KEYMAP Denemo.prefs.profile->str
+#define USER_KEYMAP Denemo.prefs.profile->str
 
-static void load_keymap_files (gchar * keymapfile, gchar * fallback);
+/**
+ * load_keymap_files:
+ * @files: The files to test. Must end with NULL. String are freed.
+ *
+ * Takes a list of keymap and try to load them until one is loaded successfully.
+ *
+ * Returns: FALSE if no keymap has been loaded, TRUE either.
+ **/
+
+static gboolean
+load_keymap_files(gchar* files[])
+{
+  gboolean ret = FALSE;
+  gint i;
+
+  for(i = 0; files[i]; i++)
+    {
+      if(!ret && load_xml_keymap(files[i]) == 0)
+        ret = TRUE;
+      g_free(files[i]);
+    }
+  return ret;
+}
 
 gboolean
 is_action_id_builtin(gint id)
@@ -1536,14 +1558,14 @@ dump_command_info (keymap * the_keymap, gint command_idx)
  */
 
 const gchar *
-locatekeymapdir ()
+get_user_keymap_dir ()
 {
   static gchar *keymapdir = NULL;
 
   gboolean err;
   if (!keymapdir)
     {
-      keymapdir = g_build_filename (locatedotdenemo (), "actions", NULL);
+      keymapdir = g_build_filename (get_user_data_dir (), COMMANDS_DIR, NULL);
     }
   err = g_mkdir_with_parents (keymapdir, 0770);
   if (err)
@@ -1571,8 +1593,9 @@ locatekeymapdir ()
 void
 load_keymap_from_dialog (gchar * filename)
 {
+  gchar* files[] = { g_strdup(filename), NULL };
   if (g_file_test (filename, G_FILE_TEST_EXISTS))
-    load_keymap_files (NULL, filename);
+    load_keymap_files (files);
   g_free (filename);
   Denemo.accelerator_status = TRUE;
 }
@@ -1600,7 +1623,7 @@ load_keymap_dialog_location (GtkWidget * widget, gchar * location)
 void
 load_keymap_dialog (GtkWidget * widget)
 {
-  gchar *keymapdir = g_strdup_printf ("%s%c", locatekeymapdir (), G_DIR_SEPARATOR);
+  gchar *keymapdir = g_strdup_printf ("%s%c", get_user_keymap_dir (), G_DIR_SEPARATOR);
   if (keymapdir)
     load_keymap_dialog_location (widget, keymapdir);
   else
@@ -1611,7 +1634,7 @@ load_keymap_dialog (GtkWidget * widget)
 void
 load_system_keymap_dialog (GtkWidget * widget)
 {
-  gchar *systemwide = g_build_filename (get_data_dir (), "actions", DEFAULT_KEYMAP, ".commands",
+  gchar *systemwide = g_build_filename (get_system_data_dir (), COMMANDS_DIR, USER_KEYMAP, KEYMAP_EXT,
                                         NULL);
   if (systemwide)
     load_keymap_dialog_location (widget, systemwide);
@@ -1620,38 +1643,25 @@ load_system_keymap_dialog (GtkWidget * widget)
   g_free (systemwide);
 }
 
-
-
-
-/*
- * load_keymap_files: load a  localrc if it exists or systemwide keymap
-
- */
-static void
-load_keymap_files (gchar * localrc, gchar * systemwide)
-{
-
-  if (localrc && (0 == load_xml_keymap (localrc)))
-    return;
-  load_xml_keymap (systemwide);
-}
-
-/**
- * Load the  the global default keymap
- and merge the user's version keymap 
- */
 void
-load_default_keymap_file (void)
+load_default_keymap_file ()
 {
-  gchar *localrc = NULL;
-  const gchar *keymapdir = locatekeymapdir ();
-  gchar *systemwide = g_build_filename (get_data_dir (), "actions", g_strconcat (DEFAULT_KEYMAP, ".commands", NULL), NULL);
-  //g_print ("systemwide = %s\n", systemwide);
-  if (keymapdir)
-    localrc = g_build_filename (keymapdir, DEFAULT_COMMANDS, NULL);
-  load_keymap_files (localrc, systemwide);
-  g_free (localrc);
-  g_free (systemwide);
+  gchar* user_keymap_file = g_strconcat (USER_KEYMAP, KEYMAP_EXT, NULL);
+  gchar* default_keymap_file = g_strconcat (DEFAULT_KEYMAP, KEYMAP_EXT, NULL);
+
+  gchar* files[] = {
+    g_build_filename (get_user_keymap_dir (), user_keymap_file, NULL),
+    g_build_filename (get_system_data_dir (), COMMANDS_DIR, user_keymap_file, NULL),
+    g_build_filename (get_user_keymap_dir (), default_keymap_file, NULL),
+    g_build_filename (get_system_data_dir (), COMMANDS_DIR, default_keymap_file, NULL),
+    NULL
+  };
+
+  if(!load_keymap_files (files))
+    g_warning ("Unable to load default keymap");
+  
+  g_free(default_keymap_file);
+  g_free (user_keymap_file);
 }
 
 /* UNUSED
@@ -1711,8 +1721,8 @@ void
 save_keymap_dialog (GtkWidget * widget)
 {
   gchar *keymapdir = NULL;
-  keymapdir = g_build_filename (locatekeymapdir (), NULL);
-  gchar *filename = file_dialog ("Save Command Set", FALSE, keymapdir);
+  keymapdir = g_build_filename (get_user_keymap_dir (), NULL);
+  gchar *filename = file_dialog (_("Save Command Set"), FALSE, keymapdir);
   if (filename)
     save_keymap_from_dialog (filename);
   g_free (keymapdir);
@@ -1736,10 +1746,10 @@ void
 save_default_keymap_file (void)
 {
   gchar *localrc = NULL;
-  const gchar *keymapdir = locatekeymapdir ();
+  const gchar *keymapdir = get_user_keymap_dir ();
   if (keymapdir)
     {
-      localrc = g_build_filename (keymapdir, DEFAULT_COMMANDS, NULL);
+      localrc = g_build_filename (keymapdir, DEFAULT_KEYMAP, NULL);
       save_xml_keymap (localrc);        //no longer saves keybindings
       g_free (localrc);
       localrc = g_build_filename (keymapdir, DEFAULT_KEYBINDINGS, NULL);

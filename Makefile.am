@@ -1,5 +1,5 @@
 SUBDIRS = $(WHICH_SMF) tools libsffile m4 doc actions pixmaps po src \
-	  fonts soundfonts 
+	  fonts soundfonts ui
 
 INTLTOOL_FILES = intltool-extract.in \
                  intltool-merge.in \

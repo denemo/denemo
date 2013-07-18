@@ -35,7 +35,7 @@ static gint readxmlprefsFile (gchar * filename);
  */
 
 const gchar *
-locatedotdenemo ()
+get_user_data_dir ()
 {
   static gchar *dotdenemo = NULL;
 
@@ -74,9 +74,9 @@ locateprintdir (void)
 void
 initprefs ()
 {
-  gchar *systemwide = g_build_filename (get_conf_dir (), "denemo.conf", NULL);
+  gchar *systemwide = find_file ("denemo.conf");
 #define ret (&Denemo.prefs)
-  gchar *dotdenemo = (gchar *) locatedotdenemo ();
+  gchar *dotdenemo = (gchar *) get_user_data_dir ();
   gchar *localrc = dotdenemo ? g_build_filename (dotdenemo, PREFS_FILE, NULL) : NULL;
 
   /* Reasonable default values */
@@ -106,7 +106,7 @@ initprefs ()
   ret->imageviewer = g_string_new ("eog");
 #endif /* !G_OS_WIN32 */
 
-  ret->profile = g_string_new ("Arranger");
+  ret->profile = g_string_new ("Default");
   ret->denemopath = g_string_new (g_get_home_dir ());
   ret->lilyversion = g_string_new (""); //meaning use installed LilyPond version
   ret->temperament = g_string_new ("Equal");
@@ -149,7 +149,10 @@ initprefs ()
   ret->portmidi_input_device = g_string_new ("default");
   ret->portmidi_output_device = g_string_new ("default");
 
-  gchar *soundfontpath = g_build_filename (get_data_dir (), "soundfonts", "A320U.sf2", NULL);
+  gchar* file_path = g_build_filename (SOUNDFONTS_DIR, "A320U.sf2", NULL);
+  gchar *soundfontpath = find_file(file_path);
+  g_free(file_path);
+
   ret->fluidsynth_soundfont = g_string_new (soundfontpath);
   ret->pitchspellingchannel = 15;
   ret->pitchspellingprogram = 17;
@@ -645,7 +648,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   static GString *localrc = NULL;
   if (!localrc)
     {
-      localrc = g_string_new (g_build_filename (locatedotdenemo (), PREFS_FILE, NULL));
+      localrc = g_string_new (g_build_filename (get_user_data_dir (), PREFS_FILE, NULL));
     }
 
   doc = xmlNewDoc ((xmlChar *) "1.0");
@@ -782,7 +785,7 @@ readHistory ()
   static GString *filename = NULL;
   if (!filename)
     {
-      filename = g_string_new (locatedotdenemo ());
+      filename = g_string_new (get_user_data_dir ());
       g_string_append (filename, "/denemohistory");
     }
   if (g_file_test (filename->str, G_FILE_TEST_EXISTS))
@@ -847,7 +850,7 @@ writeHistory (void)
   static GString *filename = NULL;
   if (!filename)
     {
-      filename = g_string_new (locatedotdenemo ());
+      filename = g_string_new (get_user_data_dir ());
       g_string_append (filename, "/denemohistory");
     }
 
@@ -878,7 +881,7 @@ storeWindowState (void)
   g_key_file_set_boolean (keyfile, "State", "maximized", Denemo.maximized);
   contents = g_key_file_to_data (keyfile, NULL, NULL);
   g_key_file_free (keyfile);
-  filename = g_build_filename (locatedotdenemo (), "state.ini", NULL);
+  filename = g_build_filename (get_user_data_dir (), "state.ini", NULL);
   g_file_set_contents (filename, contents, -1, NULL);
   g_free (filename);
   g_free (contents);
@@ -898,7 +901,7 @@ loadWindowState (void)
   gint w, h;
   gboolean maximized = FALSE;
   GError *err = NULL;
-  filename = g_build_filename (locatedotdenemo (), "state.ini", NULL);
+  filename = g_build_filename (get_user_data_dir (), "state.ini", NULL);
   keyfile = g_key_file_new ();
   if (g_key_file_load_from_file (keyfile, filename, G_KEY_FILE_NONE, NULL) == FALSE)
     {

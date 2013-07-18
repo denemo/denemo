@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script. 
-AC_INIT([denemo], [1.0.5], [denemo-devel@gnu.org])
+AC_INIT([denemo], [1.0.7], [denemo-devel@gnu.org])
 AC_CONFIG_SRCDIR([src/main.c])
 AM_INIT_AUTOMAKE([tar-pax]) 
 dnl AM_INIT_AUTOMAKE([foreign -Wall -Werror gnu tar-pax])
@@ -434,4 +434,5 @@ AC_OUTPUT(
   soundfonts/Makefile
   libsmf/Makefile
   libsffile/Makefile
+  ui/Makefile
 ])

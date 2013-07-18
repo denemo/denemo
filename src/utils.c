@@ -947,7 +947,7 @@ initdir ()
 extern gchar *gbr_find_pkg_data_dir (const gchar * default_pkg_data_dir, const gchar * pkg_name);
 
 const gchar *
-get_data_dir ()
+get_system_data_dir ()
 {
   static gchar *datadir = NULL;
   if (datadir == NULL)
@@ -2352,4 +2352,25 @@ find_path_for_file(gchar* filename, gchar* dirs[])
     return path;
   }
   return NULL;
+}
+
+/**
+ * find_file:
+ * @filename: The file to search
+ *
+ * Finds a file by searching:
+ *  - in the local directory
+ *  - in the user directory
+ *  - in the system directory
+ **/
+gchar*
+find_file(gchar* filename)
+{
+  gchar* dirs[] = {
+    g_get_current_dir (),
+    g_strdup(get_user_data_dir ()),
+    g_strdup(get_system_data_dir ()),
+    NULL
+  };
+  return find_path_for_file (filename, dirs);
 }
