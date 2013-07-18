@@ -27,12 +27,12 @@ gchar *
 get_temp_filename (const gchar * name)
 {
   gchar *path = NULL;
-  if (locatedotdenemo () == NULL)
+  if (get_user_data_dir () == NULL)
     return NULL;
   if (name != NULL)
-    path = g_build_filename (locatedotdenemo (), name, NULL);
+    path = g_build_filename (get_user_data_dir (), name, NULL);
   else
-    path = g_build_filename (locatedotdenemo (), "bla", NULL);
+    path = g_build_filename (get_user_data_dir (), "bla", NULL);
 
   g_debug ("temp filename: %s\n", path);
   return path;

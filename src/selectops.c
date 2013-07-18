@@ -201,7 +201,7 @@ saveselection (DenemoScore * si)
   /* Test code for save selection
      FILE *fp;
      GString *file = NULL; 
-     file = g_string_new(locatedotdenemo());
+     file = g_string_new(get_user_data_dir());
      g_string_append(file, "/denemoanalysispattern");
 
      filesaveselection(file->str, si);

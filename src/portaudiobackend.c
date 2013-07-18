@@ -68,7 +68,7 @@ stream_callback (const void *input_buffer, void *output_buffer, unsigned long fr
           static guint recorded_frames;
           if (fp == NULL)
             {
-              extern const gchar *locatedotdenemo (void);
+              extern const gchar *get_user_data_dir (void);
               const gchar *filename = recorded_audio_filename ();
               fp = fopen (filename, "wb");
               recorded_frames = 0;

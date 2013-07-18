@@ -947,7 +947,7 @@ initdir ()
 extern gchar *gbr_find_pkg_data_dir (const gchar * default_pkg_data_dir, const gchar * pkg_name);
 
 const gchar *
-get_data_dir ()
+get_system_data_dir ()
 {
   static gchar *datadir = NULL;
   if (datadir == NULL)

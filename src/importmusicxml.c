@@ -10,7 +10,7 @@
  */
 #include <string.h>
 #include <denemo/denemo.h>
-#include "prefops.h"            //for locatedotdenemo()
+#include "prefops.h"            //for get_user_data_dir()
 #include "file.h"
 
 /* libxml includes: for libxml2 this should be <libxml.h> */

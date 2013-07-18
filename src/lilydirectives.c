@@ -1257,15 +1257,15 @@ GET_INT_GRAPHIC_FIELD_FUNC (chord, width) GET_INT_GRAPHIC_FIELD_FUNC (staff, wid
      get_editscript_filename (gchar * tag)
 {
   gchar *basename = g_strconcat (tag, ".scm", NULL);
-  gchar *filename = g_build_filename (locatedotdenemo (), "actions", "editscripts", basename, NULL);
+  gchar *filename = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "editscripts", basename, NULL);
   if (!g_file_test (filename, G_FILE_TEST_EXISTS))
     {
       g_free (filename);
-      filename = g_build_filename (get_data_dir (), "actions", "editscripts", basename, NULL);
+      filename = g_build_filename (get_system_data_dir (), COMMANDS_DIR, "editscripts", basename, NULL);
       if (!g_file_test (filename, G_FILE_TEST_EXISTS))
         {
           g_free (filename);
-          filename = g_build_filename (locatedotdenemo (), "download", "actions", "editscripts", basename, NULL);
+          filename = g_build_filename (get_user_data_dir (), "download", COMMANDS_DIR, "editscripts", basename, NULL);
           if (!g_file_test (filename, G_FILE_TEST_EXISTS))
             {
               g_free (filename);
@@ -2374,7 +2374,7 @@ static void
 put_edit_script (GtkWidget * widget, gchar * tag)
 {
   gchar *tagscm = g_strconcat (tag, ".scm", NULL);
-  gchar *filename = g_build_filename (locatedotdenemo (), "actions", "editscripts", tagscm, NULL);
+  gchar *filename = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "editscripts", tagscm, NULL);
   if ((!g_file_test (filename, G_FILE_TEST_EXISTS)) || confirm (_("There is already an edit script for this tag"), _("Do you want to replace it?")))
     {
       gchar *scheme = (gchar *) getSchemeText ();

@@ -56,7 +56,7 @@ browse_manual (GtkAction * action, DenemoScriptParam * param)
   GError *error = NULL;
 
   /* get the uri to the manual */
-  gchar *manualpath = g_build_filename (get_data_dir (), "manual",
+  gchar *manualpath = g_build_filename (get_system_data_dir (), "manual",
                                         "denemo-manual.html", NULL);
   gchar *manualuri = url ? g_strdup (url) : g_filename_to_uri (manualpath, NULL, NULL);
 

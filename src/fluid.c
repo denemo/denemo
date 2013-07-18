@@ -56,7 +56,7 @@ fluidsynth_init (DenemoPrefs * config, unsigned int samplerate)
   if (sfont_id == -1)
     {
       g_warning ("\nFailed to load the soundfont. Now trying the default soundfont\n");
-      gchar *default_soundfont = g_build_filename (get_data_dir (), "soundfonts", "A320U.sf2", NULL);
+      gchar *default_soundfont = g_build_filename (get_system_data_dir (), "soundfonts", "A320U.sf2", NULL);
       sfont_id = fluid_synth_sfload (synth, default_soundfont, FALSE);
       g_free (default_soundfont);
     }

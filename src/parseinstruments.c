@@ -142,7 +142,7 @@ parseInstruments (GList * instruments)
 
   static gchar *filename = NULL;
   if (filename == NULL)
-    filename = g_build_filename (get_data_dir (), "instruments.xml", NULL);
+    filename = g_build_filename (get_system_data_dir (), "instruments.xml", NULL);
 
   doc = xmlParseFile (filename);
   if (doc == NULL)

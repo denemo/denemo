@@ -48,6 +48,7 @@ extern "C" {
 #define XML_EXT             ".xml"
 #define SCM_EXT             ".scm"
 #define LILYPOND_EXT        ".ly"
+#define KEYMAP_EXT          ".commands"
 
 #define DENEMO_NO_COMMAND (-1) /* command id for no command */
 
@@ -69,7 +70,7 @@ extern "C" {
 #define g_string_free
 #endif
 
-#define DEFAULT_COMMANDS "Default.commands"
+#define DEFAULT_KEYMAP "Default"
 #define DEFAULT_KEYBINDINGS "Default.shortcuts"
 #ifdef G_OS_WIN32
 #define PREFS_FILE "denemorcV2"
@@ -87,6 +88,9 @@ extern const gchar *None;
 extern const gchar *Jack;
 extern const gchar *Portaudio;
 extern const gchar *Fluidsynth;
+
+#define COMMANDS_DIR "actions"
+
 
 #ifdef __cplusplus
 }

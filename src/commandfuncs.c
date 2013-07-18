@@ -2635,7 +2635,7 @@ auto_save_document_timeout (DenemoGUI * gui)
     {
       g_warning ("gui->autosavename not set\n");
       /*gui->autosavename = g_string_new (dir); */
-      gui->autosavename = g_string_new (locatedotdenemo ());
+      gui->autosavename = g_string_new (get_user_data_dir ());
       if (si->lily_file)
         gui->autosavename = g_string_append (gui->autosavename, "/autosave.ly");
       else
