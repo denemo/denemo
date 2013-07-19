@@ -110,9 +110,11 @@ void headerfields (GtkWidget * dialog, GtkListStore * list_store, GtkTreeIter * 
 
 void initdir (void);
 const gchar *get_system_data_dir (void);
-const gchar *get_conf_dir (void);
-const gchar *get_locale_dir (void);
-const gchar *get_bin_dir (void);
+/* UNUSED
+const gchar *get_system_conf_dir (void);
+*/
+const gchar *get_system_locale_dir (void);
+const gchar *get_system_bin_dir (void);
 void kill_process (GPid pid);
 
 gchar *music_font (gchar * str);

@@ -723,7 +723,7 @@ create_thumbnail (gboolean async)
           if (async)
             {
               gchar *arguments[] = {
-                g_build_filename (get_bin_dir (), "denemo", NULL),
+                g_build_filename (get_system_bin_dir (), "denemo", NULL),
                 "-n", "-a", "(d-CreateThumbnail #f)(d-Exit)",
                 Denemo.gui->filename->str,
                 NULL

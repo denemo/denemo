@@ -214,7 +214,7 @@ static void
 localization_init()
 {
   setlocale (LC_ALL, "");
-  bindtextdomain(GETTEXT_PACKAGE, get_locale_dir ());
+  bindtextdomain(GETTEXT_PACKAGE, get_system_locale_dir ());
   bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
   textdomain(GETTEXT_PACKAGE);
 }

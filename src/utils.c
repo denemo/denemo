@@ -1022,7 +1022,7 @@ get_prefix_dir (void)
 }
 
 const gchar *
-get_bin_dir (void)
+get_system_bin_dir (void)
 {
   static gchar *bindir = NULL;
   if (bindir == NULL)
@@ -1066,8 +1066,9 @@ get_bin_dir (void)
   return bindir;
 }
 
+/** UNUSED
 const gchar *
-get_conf_dir ()
+get_system_conf_dir ()
 {
   static gchar *confdir = NULL;
   if (confdir == NULL)
@@ -1076,7 +1077,7 @@ get_conf_dir ()
       gchar *rootdir = g_win32_get_package_installation_directory (NULL, NULL);
       confdir = g_build_filename (rootdir, "etc", "denemo", NULL);
       g_free (rootdir);
-#else /* not G_OS_WIN32 */
+#else // not G_OS_WIN32 
 #ifdef _MACH_O_
 
       {
@@ -1100,13 +1101,14 @@ get_conf_dir ()
 #endif //ENABLE_BINRELOC
 
 #endif //_MACH_O_
-#endif /* not G_OS_WIN32 */
+#endif // not G_OS_WIN32
     }
   return confdir;
 }
+*/
 
 const gchar *
-get_locale_dir ()
+get_system_locale_dir ()
 {
   static gchar *localedir = NULL;
   if (localedir == NULL)

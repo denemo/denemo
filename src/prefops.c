@@ -91,13 +91,13 @@ initprefs ()
 #ifdef G_OS_WIN32
   ret->browser = g_string_new ("");     //use file association
   ret->audioplayer = g_string_new ("");
-  ret->lilypath = g_string_new (g_build_filename (get_bin_dir (), "lilypond-windows.exe", NULL));       //We don't assume the file assoc works - we are installing this anyway to a known place,the option  neither lilypond-windows.exe nor the -dgui option are used
+  ret->lilypath = g_string_new (g_build_filename (get_system_bin_dir (), "lilypond-windows.exe", NULL));       //We don't assume the file assoc works - we are installing this anyway to a known place,the option  neither lilypond-windows.exe nor the -dgui option are used
   ret->imageviewer = g_string_new ("");
 #else /* !G_OS_WIN32 */
   ret->browser = g_string_new ("firefox");
   ret->audioplayer = g_string_new ("play");
  #ifdef _GUB_BUILD_
-  ret->lilypath = g_string_new (g_build_filename (get_bin_dir (), "lilypond", NULL));
+  ret->lilypath = g_string_new (g_build_filename (get_system_bin_dir (), "lilypond", NULL));
  #else
   ret->lilypath = g_string_new ("lilypond");
  #endif
