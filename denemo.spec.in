@@ -49,7 +49,6 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}.lang
 %defattr(-,root,root)
 %dir %{_sysconfdir}/denemo
-%config(noreplace) %{_sysconfdir}/denemo/denemo.conf
 %{_datadir}/denemo
 %{_datadir}/icons/denemo.png
 %{_datadir}/fonts/truetype/denemo

@@ -74,7 +74,6 @@ locateprintdir (void)
 void
 initprefs ()
 {
-  gchar *systemwide = find_file ("denemo.conf");
 #define ret (&Denemo.prefs)
   gchar *dotdenemo = (gchar *) get_user_data_dir ();
   gchar *localrc = dotdenemo ? g_build_filename (dotdenemo, PREFS_FILE, NULL) : NULL;
@@ -180,9 +179,6 @@ initprefs ()
   ret->applytoselection = TRUE;
   ret->quickshortcuts = TRUE;
   ret->progressbardecorations = TRUE;
-  /* Read values from systemwide preferences file */
-  printf ("\nsystemwide == %s\n", systemwide);
-  readxmlprefsFile (systemwide);
 
   /* Read values from personal preferences file */
 
@@ -194,7 +190,6 @@ initprefs ()
       else
         writeXMLPrefs (ret);
     }
-  g_free (systemwide);
   g_free (localrc);
 #undef ret
 

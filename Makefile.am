@@ -5,7 +5,6 @@ INTLTOOL_FILES = intltool-extract.in \
                  intltool-merge.in \
                  intltool-update.in
 
-dist_sysconf_DATA = denemo.conf 
 bin_SCRIPTS = denemo_file_update.sh
 EXTRA_DIST = actions/menus doc/DESIGN doc/GOALS @PACKAGE@.spec.in  \
 	     doc/DESIGN.lilypond actions include \
