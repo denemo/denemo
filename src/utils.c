@@ -41,7 +41,8 @@ add_font_directory (gchar * fontpath)
 #ifdef G_OS_WIN32
   AddFontResource (fontpath);
 #endif
-  FcConfigAppFontAddDir (NULL, (FcChar8*) fontpath);
+  if(FcConfigAppFontAddDir (NULL, (FcChar8*) fontpath) == FcFalse)
+    g_warning("Failed to add font dir %s.", fontpath);
 }
 
 void
@@ -50,7 +51,8 @@ add_font_file (gchar * fontname)
 #ifdef G_OS_WIN32
   AddFontResource (fontname);
 #endif
-  FcConfigAppFontAddFile (NULL, (FcChar8*) fontname);
+  if(FcConfigAppFontAddFile (NULL, (FcChar8*) fontname) == FcFalse)
+    g_warning("Failed to add font file %s.", fontname);
 }
 
 #ifdef G_OS_WIN32
@@ -1150,6 +1152,21 @@ get_system_locale_dir ()
 #endif /* not G_OS_WIN32 */
     }
   return localedir;
+}
+
+const gchar*
+get_system_font_dir(){
+  static gchar* fontdir = NULL;
+  if(fontdir == NULL)
+  {
+#ifdef G_OS_WIN32
+    gchar *prefix = g_win32_get_package_installation_directory (NULL, NULL);
+#else
+    gchar *prefix = g_build_filename (get_prefix_dir (), NULL);
+#endif
+    fontdir = g_build_filename (prefix, "share", "fonts", "truetype", "denemo", NULL);
+  }
+  return fontdir;
 }
 
 void

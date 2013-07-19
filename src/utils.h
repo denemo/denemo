@@ -115,6 +115,8 @@ const gchar *get_system_conf_dir (void);
 */
 const gchar *get_system_locale_dir (void);
 const gchar *get_system_bin_dir (void);
+const gchar *get_system_font_dir();
+
 void kill_process (GPid pid);
 
 gchar *music_font (gchar * str);

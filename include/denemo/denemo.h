@@ -93,7 +93,7 @@ extern const gchar *Fluidsynth;
 #define UI_DIR         "ui"
 #define SOUNDFONTS_DIR "soundfonts"
 #define PIXMAPS_DIR    "pixmaps"
-
+#define FONTS_DIR      "fonts"
 
 #ifdef __cplusplus
 }

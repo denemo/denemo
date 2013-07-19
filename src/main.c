@@ -135,7 +135,7 @@ append_to_path (gchar * path, gchar * extra, ...)
   }
 
   g_setenv (path, path_string, TRUE);
-  g_print ("%s is %s\n", path, path_string);
+  g_debug ("%s is %s\n", path, path_string);
   va_end(ap);
 }
 
@@ -228,12 +228,13 @@ init_environment()
   gchar *guile = g_build_filename (prefix, "share", "guile", NULL);
   gchar *guile_1_8 = g_build_filename (guile, "1.8", NULL);
   gchar *lilypond_current_scm = g_build_filename (prefix, "share", "lilypond", "current", "scm", NULL);
-  gchar *denemo_scm = g_build_filename (prefix, "share", "denemo", COMMANDS_DIR, NULL);
-  gchar *denemo_modules_scm = g_build_filename (prefix, "share", "denemo", COMMANDS_DIR, "denemo-modules", NULL);
+  gchar *denemo_scm = g_build_filename (get_system_data_dir (), COMMANDS_DIR, NULL);
+  gchar *denemo_modules_scm = g_build_filename (get_system_data_dir (), COMMANDS_DIR, "denemo-modules", NULL);
   if (g_file_test (guile, G_FILE_TEST_EXISTS))
     {
       gchar *guile_path = g_strconcat (guile, ";", guile_1_8, ";", denemo_scm, ";", denemo_modules_scm, ";", lilypond_current_scm, NULL);
-      g_setenv ("GUILE_LOAD_PATH", guile_path, TRUE);   //FIXME TRUE means we overwrite any installed version of lilyponds scm, FALSE risks not putting denemos scm in the path...
+      //FIXME TRUE means we overwrite any installed version of lilyponds scm, FALSE risks not putting denemos scm in the path...
+      g_setenv ("GUILE_LOAD_PATH", guile_path, TRUE);
       g_print ("Setting GUILE_LOAD_PATH=%s\n", guile_path);
     }
   else
@@ -267,40 +268,32 @@ init_environment()
   gchar *lilypond_data_path = g_build_filename (prefix, "share", "lilypond", "current", NULL);
   g_setenv ("LILYPOND_DATA_PATH", lilypond_data_path, FALSE);
   g_print ("LILYPOND_DATA_PATH will be %s if not already set", lilypond_data_path);
-  g_build_filename (prefix, "share", "fonts", "truetype", "denemo", "feta.ttf", NULL);
-  g_setenv ("LILYPOND_VERBOSE", "1", FALSE);
-  add_font_file (fontpath);
-  fontpath = g_build_filename (prefix, "share", "fonts", "truetype", "denemo", "Denemo.ttf", NULL);
-  add_font_file (fontpath);
-  fontpath = g_build_filename (prefix, "share", "fonts", "truetype", "denemo", "emmentaler.ttf", NULL);
-  add_font_file (fontpath);
 
-  append_to_path ("GUILE_LOAD_PATH", g_build_filename (prefix, "share", "denemo", NULL), NULL);
+  append_to_path ("GUILE_LOAD_PATH", get_system_data_dir (), NULL);
 
 #else
-  g_setenv ("LILYPOND_VERBOSE", "1", FALSE);
-  gchar *prefix = g_build_filename (get_prefix_dir (), NULL);
   add_font_directory (g_build_filename (get_system_data_dir (), "fonts", NULL));
 
-  fontpath = g_build_filename (prefix, "share", "fonts", "truetype", "denemo", "feta.ttf", NULL);
-  add_font_file (fontpath);
-  g_free(fontpath);
-
-  fontpath = g_build_filename (prefix, "share", "fonts", "truetype", "denemo", "Denemo.ttf", NULL);
-  add_font_file (fontpath);
-  g_free(fontpath);
-
-  fontpath = g_build_filename (prefix, "share", "fonts", "truetype", "denemo", "emmentaler.ttf", NULL);
-  add_font_file (fontpath);
-  g_free(fontpath);
-
   append_to_path ("GUILE_LOAD_PATH",
-                  g_build_filename (prefix, "share", "denemo", COMMANDS_DIR, NULL),
-                  g_build_filename (prefix, "share", "denemo", COMMANDS_DIR, "denemo-modules", NULL),
+                  g_build_filename (get_system_data_dir (), COMMANDS_DIR, NULL),
+                  g_build_filename (get_system_data_dir (), COMMANDS_DIR, "denemo-modules", NULL),
                   NULL);
 
 #endif /* end of else not windows */
+  g_setenv ("LILYPOND_VERBOSE", "1", FALSE);
 
+  fontpath = g_build_filename (get_system_font_dir(), "feta.ttf", NULL);
+  add_font_file (fontpath);
+  g_free(fontpath);
+
+  fontpath = g_build_filename (get_system_font_dir(), "Denemo.ttf", NULL);
+  add_font_file (fontpath);
+  g_free(fontpath);
+
+  fontpath = g_build_filename (get_system_font_dir(), "emmentaler.ttf", NULL);
+  add_font_file (fontpath);
+  g_free(fontpath);
+  
   g_setenv ("LYEDITOR", "denemoclient %(line)s %(column)s", FALSE);
 }
 
