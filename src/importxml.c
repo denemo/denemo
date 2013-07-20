@@ -2787,7 +2787,8 @@ parseMovement (xmlNodePtr childElem, xmlNsPtr ns, DenemoGUI * gui, ImportType ty
     }
   find_xes_in_all_measures (si);
   find_leftmost_allcontexts (si);
-
+  if(current_staff==0)
+	current_staff=1;
   si->currentstaffnum = current_staff ? current_staff : 1;
 
   si->currentmeasurenum = current_measure ? current_measure : 1;
