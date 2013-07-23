@@ -7,7 +7,7 @@
       <row type="scheme">
         <after>ExportMUDELA</after>
         <action>QuickLilyPondExport</action>
-        <_label>Quick LilyPond Export#</_label>
+        <_label>Quick LilyPond Export</_label>
         <_tooltip>Exports as LilyPond to a file named the same as the .denemo file but with .ly suffix.</_tooltip>
       </row>
     </map>

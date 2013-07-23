@@ -5846,7 +5846,7 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <action>QuickLilyPondExport</action>
         <after>ExportMUDELA</after>
         <menupath>/MainMenu/FileMenu/Export</menupath>
-        <_label>Quick LilyPond Export#</_label>
+        <_label>Quick LilyPond Export</_label>
         <_tooltip>Exports as LilyPond to a file named the same as the .denemo file but with .ly suffix.</_tooltip>
       </row>
       <row type="scheme">

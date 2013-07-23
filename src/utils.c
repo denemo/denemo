@@ -1536,9 +1536,9 @@ display_current_object (void)
                 if (thechord->is_tied)
                   selection = g_string_append (selection, _("This is tied to the following note or chord.\n" "The following note or chord should have the same pitch"));
                 if (thechord->is_grace && !(thechord->is_grace & GRACED_NOTE))
-                  selection = g_string_append (selection, _("This is an acciacatura note\n"));
+                  selection = g_string_append (selection, _("This is an acciaccatura note\n"));
                 if (thechord->is_grace & GRACED_NOTE)
-                  selection = g_string_append (selection, _("This is an appogiatura note\n"));
+                  selection = g_string_append (selection, _("This is an appoggiatura note\n"));
                 if (curObj->isinvisible)
                   selection = g_string_append (selection, _("This note denotes a rhythm - use a MIDI keyboard to add pitches by playing.\n"));
 
