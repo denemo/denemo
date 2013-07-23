@@ -265,7 +265,7 @@ dismiss this dialog and
 simply guess at suitable points."))))
       
 					(begin
-						(d-InfoDialog (_"First click on the center line of the staff aligning with notehead/rest\n(Positioning will be done with respect to this height)"))
+						(d-InfoDialog (_"First click on the center line of the staff aligning with notehead/rest (Positioning will be done with respect to this height)"))
 						(if (d-GetReferencePoint)
 							(begin		
 								(if (and (get-control-point 1)
