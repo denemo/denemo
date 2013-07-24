@@ -1,7 +1,7 @@
 ;TextAnnotation
 (let ((tag "TextAnnotation") (text "pizz.") (oldtext #f) (oldtag #f))
-	(if (not (defined? 'TextAnnotation::params))
-		(define TextAnnotation::params #f))
+	(if (equal? "edit" TextAnnotation::params)
+		(set! TextAnnotation::params 'edit))
 		
 	(cond ((string? TextAnnotation::params)
 						(let ((text  TextAnnotation::params))
