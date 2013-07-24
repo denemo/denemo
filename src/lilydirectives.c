@@ -2610,7 +2610,19 @@ edit_directive (DenemoDirective * directive, gchar * what)
   gchar *filename = get_editscript_filename (directive->tag->str);
   if (filename == NULL)
     {
-      GtkAction *action = lookup_action_from_name (directive->tag->str);
+      GtkAction *action;
+      gchar *eol;
+      gboolean chopped = FALSE;
+      for(eol=directive->tag->str;*eol;eol++) {
+		  if(*eol == '\n') {
+			  *eol = 0;
+			  chopped = TRUE;
+			  break;
+		  } 
+	  }
+      
+      action = lookup_action_from_name (directive->tag->str);
+      if(chopped) *eol = '\n';
       if (action && (Denemo.keyboard_state != GDK_MOD2_MASK /*NumLock */ ))
         {                       //FIXME this should be detecting shift click surely????
           DenemoScriptParam param;
