@@ -45,7 +45,7 @@
 
 
 
-#define USER_KEYMAP Denemo.prefs.profile->str
+#define USER_KEYMAP "Default"
 
 /**
  * load_keymap_files:
