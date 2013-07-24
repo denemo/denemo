@@ -7,7 +7,7 @@
       <row type="scheme">
         <action>Augment</action>
         <_label>Augment</_label>
-        <_tooltip>Augments the current Note/Chord/Rest. Quarter Note becomes Half Note.</_tooltip>
+        <_tooltip>Doubles the duration of the note/chord/rest at the cursor or the selection. E.g. Quarter Note becomes Half Note.</_tooltip>
       </row>
     </map>
   </merge>

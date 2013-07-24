@@ -7,7 +7,7 @@
       <row type="scheme">
         <action>Diminish</action>
         <_label>Diminish</_label>
-        <_tooltip>Diminishs the note/chord/rest. Quarter Note becomes Eight Note. </_tooltip>
+        <_tooltip>Halves the duration of the note/chord/rest at the cursor or the selection. E.g. Quarter Note becomes Eighth Note. </_tooltip>
       </row>
     </map>
   </merge>

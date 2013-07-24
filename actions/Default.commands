@@ -2641,13 +2641,13 @@ for second and subsequent systems</_tooltip>
         <action>Diminish</action>
         <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
         <_label>Diminish</_label>
-        <_tooltip>Diminishs the note/chord/rest. Quarter Note becomes Eight Note. </_tooltip>
+        <_tooltip>Halves the duration of the note/chord/rest at the cursor or the selection. E.g. Quarter Note becomes Eighth Note. </_tooltip>
       </row>
       <row type="scheme">
         <action>Augment</action>
         <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
         <_label>Augment</_label>
-        <_tooltip>Augments the current Note/Chord/Rest. Quarter Note becomes Half Note.</_tooltip>
+        <_tooltip>Doubles the duration of the note/chord/rest at the cursor or the selection. E.g. Quarter Note becomes Half Note.</_tooltip>
       </row>
       <row type="scheme">
         <action>WholeMeasureRest</action>
