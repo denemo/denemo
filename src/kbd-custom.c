@@ -1749,7 +1749,9 @@ save_default_keymap_file (void)
   const gchar *keymapdir = get_user_keymap_dir ();
   if (keymapdir)
     {
-      localrc = g_build_filename (keymapdir, DEFAULT_KEYMAP, NULL);
+	  gchar* default_keymap_file = g_strconcat (DEFAULT_KEYMAP, KEYMAP_EXT, NULL);
+      localrc = g_build_filename (keymapdir, default_keymap_file, NULL); 
+      g_free(default_keymap_file);
       save_xml_keymap (localrc);        //no longer saves keybindings
       g_free (localrc);
       localrc = g_build_filename (keymapdir, DEFAULT_KEYBINDINGS, NULL);
