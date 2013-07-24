@@ -1,17 +1,33 @@
 ;TextAnnotation
 (let ((tag "TextAnnotation") (text "pizz.") (oldtext #f) (oldtag #f))
+	(define (do-direction)
+		(let ()					 
+          (define choice (RadioBoxMenu (cons (_ "Up") 'up)  (cons (_ "Down")  'down) (cons (_ "Auto")  'auto)))
+           (case choice
+            ((up)  "^")
+            ((down) "_")
+            ((auto) "-"))))
+ 	(define (do-bold)
+		(let ()					 
+          (define choice (RadioBoxMenu (cons (_ "Bold") 'bold)  (cons (_ "Light")  'light)))
+           (case choice
+            ((bold)  "\\bold ")
+            ((light) ""))))         
+   	(define (do-italic)
+		(let ()					 
+          (define choice (RadioBoxMenu (cons (_ "Italic") 'italic)  (cons (_ "Normal")  'normal)))
+           (case choice
+            ((italic)  "\\italic ")
+            ((normal) ""))))         
+            
+   						
 	(if (equal? "edit" TextAnnotation::params)
 		(set! TextAnnotation::params 'edit))
 		
 	(cond ((string? TextAnnotation::params)
 						(let ((text  TextAnnotation::params))
-							(set! tag (string-append tag "\n" text))
-							(d-Directive-standalone tag)
-							(d-DirectivePut-standalone-prefix tag "<>")
-							(d-DirectivePut-standalone-postfix tag (string-append "-\\markup {" (scheme-escape text) " }"))
-							(d-DirectivePut-standalone-grob tag "Text")
-							(d-DirectivePut-standalone-display tag text)
-							(d-DirectivePut-standalone-minpixels tag 30)
+							(StandaloneText tag text)
+							
 							))
 		
 					((and (pair? TextAnnotation::params) (equal? (car TextAnnotation::params) 'fontsize))
@@ -30,7 +46,10 @@
 							(set! text (d-GetUserInput (_ "Text Annotation") 
 														(_ "Give text to be placed in score at cursor\n(it can be dragged in the typeset view)") 
 														(cdr  TextAnnotation::params)))
-							(if text (d-TextAnnotation text)))
+							(if text 
+								
+							
+								(StandaloneText tag text (do-direction) (do-bold) (do-italic))))
 								
 					((not TextAnnotation::params)
 							(d-TextAnnotation (cons 'default "pizz."))))						

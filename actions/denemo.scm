@@ -888,3 +888,12 @@
 (define (AudioInput?) (= (d-GetInputSource) DENEMO_INPUTAUDIO))
 (define (KeyboardInput?) (= (d-GetInputSource) DENEMO_INPUTKEYBOARD))
 
+;;;;;
+(define* (StandaloneText tag text #:optional (direction "-") (italic "\\italic ") (bold "\\bold "))
+	(set! tag (string-append tag "\n" text))
+	(d-Directive-standalone tag)
+	(d-DirectivePut-standalone-prefix tag "<>")
+	(d-DirectivePut-standalone-postfix tag (string-append direction "\\markup " italic bold "{" (scheme-escape text) " }"))
+	(d-DirectivePut-standalone-grob tag "Text")
+	(d-DirectivePut-standalone-display tag text)
+	(d-DirectivePut-standalone-minpixels tag 30))
