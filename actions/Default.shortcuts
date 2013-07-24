@@ -949,14 +949,6 @@
         <bind>F10</bind>
       </row>
       <row>
-        <action>Diminish</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>Augment</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
         <action>WholeMeasureRest</action>
         <hidden>true</hidden>
       </row>
