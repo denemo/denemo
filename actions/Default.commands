@@ -5989,6 +5989,13 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <_label>Sustain Off</_label>
         <_tooltip>Prints a Sustain Off Mark</_tooltip>
       </row>
+      <row type="scheme">
+        <action>AvoidSlurAccidentalCollision</action>
+        <after>ToggleBeginDownSlur</after>
+        <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
+        <_label>Avoid Slur Collision</_label>
+        <_tooltip>Avoids slur colliding with accidental (Print)</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
