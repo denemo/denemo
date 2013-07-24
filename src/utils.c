@@ -1480,7 +1480,7 @@ append_directives_information (GString * selection, GList * directives)
 			if(directive->postfix)
 				 g_string_append_printf (selection, _("LilyPond inserted in postfix to this object is \"%s\"\n"), directive->postfix->str);
       if(tooltip)
-        g_string_append_printf (selection, _("The help for the command that created this directive is:\n\"%s\""), tooltip);
+        g_string_append_printf (selection, _("The help for the command that created this directive is:\n\"%s\"\n"), tooltip);
     }
   while (directives->next && (directives = directives->next));
 }
