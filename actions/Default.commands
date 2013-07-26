@@ -6003,6 +6003,13 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <_label>Text Inside Slur</_label>
         <_tooltip>(Print) Next text marking will be placed inside the slur.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>MarkingInsideSlur</action>
+        <after>MarkingInsideSlur</after>
+        <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
+        <_label>Marking Inside Slur</_label>
+        <_tooltip>(Print) Next marking will be placed inside the slur.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

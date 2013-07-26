@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <after>MarkingInsideSlur</after>
+        <action>MarkingInsideSlur</action>
+        <_label>Marking Inside Slur</_label>
+        <_tooltip>(Print) Next marking will be placed inside the slur.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
