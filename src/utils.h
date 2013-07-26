@@ -116,6 +116,7 @@ const gchar *get_system_conf_dir (void);
 const gchar *get_system_locale_dir (void);
 const gchar *get_system_bin_dir (void);
 const gchar *get_system_font_dir();
+const gchar *get_executable_dir();
 
 void kill_process (GPid pid);
 
@@ -289,4 +290,5 @@ void write_input_status();
 enum clefs cleftypefromname (gchar * str);
 gchar* find_dir_for_file(gchar* filename, gchar* dirs[]);
 gchar* find_path_for_file(gchar* filename, gchar* dirs[]);
+gchar* find(DenemoDirectory dir, gchar* filename);
 #endif /* UTILS_H */

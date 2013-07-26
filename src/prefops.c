@@ -148,9 +148,7 @@ initprefs ()
   ret->portmidi_input_device = g_string_new ("default");
   ret->portmidi_output_device = g_string_new ("default");
 
-  gchar* file_path = g_build_filename (SOUNDFONTS_DIR, "A320U.sf2", NULL);
-  gchar *soundfontpath = find_file(file_path);
-  g_free(file_path);
+  gchar *soundfontpath = find(SOUNDFONTS, "A320U.sf2");
 
   ret->fluidsynth_soundfont = g_string_new (soundfontpath);
   ret->pitchspellingchannel = 15;
