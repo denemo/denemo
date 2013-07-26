@@ -5996,6 +5996,13 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <_label>Avoid Slur Collision</_label>
         <_tooltip>Avoids slur colliding with accidental (Print)</_tooltip>
       </row>
+      <row type="scheme">
+        <action>TextInsideSlur</action>
+        <after>AvoidSlurAccidentalCollision</after>
+        <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
+        <_label>Text Inside Slur</_label>
+        <_tooltip>(Print) Next text marking will be placed inside the slur.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
