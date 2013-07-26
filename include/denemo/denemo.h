@@ -94,6 +94,17 @@ extern const gchar *Fluidsynth;
 #define SOUNDFONTS_DIR "soundfonts"
 #define PIXMAPS_DIR    "pixmaps"
 #define FONTS_DIR      "fonts"
+#define LOCALE_DIR     "po"
+
+typedef enum{
+  COMMANDS,
+  UI,
+  SOUNDFONTS,
+  PIXMAPS,
+  FONTS,
+  LOCALE,
+  BIN
+} DenemoDirectory;
 
 #ifdef __cplusplus
 }

@@ -2373,23 +2373,93 @@ find_path_for_file(gchar* filename, gchar* dirs[])
   return NULL;
 }
 
+const gchar*
+get_local_dir(DenemoDirectory dir)
+{
+  switch(dir)
+  {
+    case COMMANDS:   return COMMANDS_DIR;
+    case UI:         return UI_DIR;
+    case SOUNDFONTS: return SOUNDFONTS_DIR;
+    case PIXMAPS:    return PIXMAPS_DIR;
+    case FONTS:      return FONTS_DIR;
+    case LOCALE:     return LOCALE_DIR;
+    default:         return NULL;
+  }
+}
+
+gchar*
+get_system_dir(DenemoDirectory dir)
+{
+  switch(dir)
+  {
+    case COMMANDS:
+    case UI:
+    case SOUNDFONTS:
+    case FONTS:
+      return g_build_filename(get_system_data_dir (), get_local_dir(dir), NULL);
+#ifndef G_OS_WIN32
+    case PIXMAPS:
+      return g_build_filename(get_system_data_dir (), "..", PIXMAPS_DIR, NULL);
+      break;
+#endif
+    case LOCALE:
+      return g_strdup(get_system_locale_dir ());
+      break;
+    case BIN:
+      return g_strdup(get_system_bin_dir ());
+      break;
+    default:
+      return NULL;
+  }
+}
+
+const gchar*
+get_executable_dir ()
+{
+  static const gchar* dir = NULL;
+  if(dir == NULL)
+  {
+    char path[1024];
+
+#ifdef G_OS_WIN32
+    GetModuleFileNameW(NULL, path, MAX_PATH);
+
+#elif defined _MACH_O_
+    char path[1024];
+    guint size = sizeof (path);
+    _NSGetExecutablePath (path, &size);
+
+#else
+   readlink("/proc/self/exe", path, sizeof(path));
+
+#endif
+    dir = g_path_get_dirname(path);
+  }
+  return dir;
+}
 /**
- * find_file:
+ * find:
+ * @dir: The denemo directory where to search
  * @filename: The file to search
  *
  * Finds a file by searching:
  *  - in the local directory
+ *  - in the executable parent directory
  *  - in the user directory
  *  - in the system directory
  **/
 gchar*
-find_file(gchar* filename)
+find(DenemoDirectory dir, gchar* filename)
 {
+  gchar* current = g_get_current_dir ();
   gchar* dirs[] = {
-    g_get_current_dir (),
-    g_strdup(get_user_data_dir ()),
-    g_strdup(get_system_data_dir ()),
+    //g_build_filename(current, get_local_dir (dir), NULL),
+    g_build_filename(get_executable_dir (), "..", get_local_dir (dir), NULL),
+    g_build_filename(get_user_data_dir(), get_local_dir (dir), NULL),
+    g_build_filename(get_system_dir(dir), NULL),
     NULL
   };
+  g_free(current);
   return find_path_for_file (filename, dirs);
 }
