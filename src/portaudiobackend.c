@@ -14,6 +14,9 @@
 #include <glib/gstdio.h>
 #include "portaudiobackend.h"
 #include "portaudioutil.h"
+#ifdef _HAVE_RUBBERBAND_
+	#include <rubberband-c.h>
+#endif
 #include "midi.h"
 #include "fluid.h"
 #include "audiointerface.h"

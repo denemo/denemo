@@ -129,6 +129,26 @@ if test "x$usejack" = "xyes"; then
   LIBS="$LIBS -D_HAVE_JACK_ $JACK_LIBS"
 fi
 
+
+AC_ARG_ENABLE(
+  rubberband,
+  AC_HELP_STRING([--enable-rubberband], [use RUBBERBAND @<:@default=no@:>@]),
+  [
+    if test "x$enableval" != "xno"; then
+      userubberband=yes
+    fi
+  ])
+AM_CONDITIONAL(HAVE_RUBBERBAND, [test x$userubberband = xyes])
+
+if test "x$userubberband" = "xyes"; then
+  PKG_CHECK_MODULES(RUBBERBAND, rubberband >= 1.2)
+  CFLAGS="$CFLAGS -D_HAVE_RUBBERBAND_ $RUBBERBAND_CFLAGS"
+  LIBS="$LIBS -D_HAVE_RUBBERBAND_ $RUBBERBAND_LIBS"
+fi
+
+
+
+
 AC_ARG_ENABLE(
   evince,
   AC_HELP_STRING([--enable-evince], [use EVINCE @<:@default=yes@:>@]),
